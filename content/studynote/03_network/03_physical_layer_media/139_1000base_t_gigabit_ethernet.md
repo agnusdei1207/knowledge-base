@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-**1000BASE-T (IEEE 802.3ab)**는 데스크톱 및 서버의 기본 유선 네트워크 속도를 기가비트(1 Gbps) 단위로 격상시킨 역사적인 표준입니다. 
+<strong>1000BASE-T (IEEE 802.3ab)</strong>는 데스크톱 및 서버의 기본 유선 네트워크 속도를 기가비트(1 Gbps) 단위로 격상시킨 역사적인 표준입니다. 
 
-[Fast Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)(100BASE-TX)까지는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 4쌍 중 2쌍만 송신/수신용으로 나누어 썼지만, 기가비트로 넘어가면서 구리선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 물리적 한계에 부딪혔습니다. 이를 극복하기 위해 케이블의 구조를 바꾸는 대신(하위 호환성을 위해 Cat 5e 사용), **랜카드 내부의 통신 칩(PHY)의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 알고리즘을 비약적으로 발전**시켰습니다.
+[Fast Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)(100BASE-TX)까지는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 4쌍 중 2쌍만 송신/수신용으로 나누어 썼지만, 기가비트로 넘어가면서 구리선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 물리적 한계에 부딪혔습니다. 이를 극복하기 위해 케이블의 구조를 바꾸는 대신(하위 호환성을 위해 Cat 5e 사용), <strong>랜카드 내부의 통신 칩(PHY)의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리 알고리즘을 비약적으로 발전</strong>시켰습니다.
 
-```text
-[10BASE-T, 100BASE-TX]
-    │
-    ▼
-[1000BASE-T]
-    │
-    └──▶ [10GBASE-T / 10GBASE-SR /…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">10BASE-T, 100BASE-TX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 1000BASE-T는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,39 +45,44 @@ tags = ["studynote-network"]
 1000BASE-T는 주파수를 무작정 높이는 대신, 수학과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 기술로 속도를 높였습니다.
 
 ### 1. 4 Pairs (8가닥) 전체 동시 양방향 사용 (Full Duplex on all pairs)
-[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/100BASE에서는 송신 선(Tx)과 수신 선(Rx)이 독립되어 있었습니다. 하지만 1000BASE-T는 놀고 있던 나머지 2쌍을 포함해 **총 4쌍의 선을 모두 사용**하며, 각 쌍이 **송신과 수신을 동시에** 수행합니다.
+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/100BASE에서는 송신 선(Tx)과 수신 선(Rx)이 독립되어 있었습니다. 하지만 1000BASE-T는 놀고 있던 나머지 2쌍을 포함해 <strong>총 4쌍의 선을 모두 사용</strong>하며, 각 쌍이 **송신과 수신을 동시에** 수행합니다.
 
-```text
-[100BASE-TX]            [1000BASE-T]
- Pair 1: 송신 (Tx) ──▶   Pair 1: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 2: 수신 (Rx) ◀──   Pair 2: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 3: (미사용)        Pair 3: 송수신 동시 ◀──▶ (250 Mbps)
- Pair 4: (미사용)        Pair 4: 송수신 동시 ◀──▶ (250 Mbps)
-                        ------------------------------------
-                                            Total: 1,000 Mbps
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">100BASE-TX</div><div class="kb-diagram-node">1000BASE-T</div></div>
+<div class="kb-diagram-note">Pair 1: 송신 (Tx) ──▶ Pair 1: 송수신 동시 ◀──▶ (250 Mbps)</div>
+<div class="kb-diagram-note">Pair 2: 수신 (Rx) ◀── Pair 2: 송수신 동시 ◀──▶ (250 Mbps)</div>
+<div class="kb-diagram-note">Pair 3: (미사용) Pair 3: 송수신 동시 ◀──▶ (250 Mbps)</div>
+<div class="kb-diagram-note">Pair 4: (미사용) Pair 4: 송수신 동시 ◀──▶ (250 Mbps)</div>
+<div class="kb-diagram-note">Total: 1,000 Mbps</div>
+</div>
+</div>
+
+
 하나의 쌍에서 250Mbps씩 처리하여 4쌍 합계 1Gbps를 만들어냅니다.
 
 ### 2. [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 상쇄 (Echo Cancellation)
 하나의 구리 선에서 송신과 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 동시에 달리면 파동이 충돌하여 엉망이 됩니다([에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 현상). 
-1000BASE-T의 PHY 칩 내부에는 고도의 **DSP(Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)**가 탑재되어 있습니다. 이 칩은 자신이 송신한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 패턴을 정확히 기억하고 있다가, 혼합되어 들어오는 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 **자신의 송신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 성분을 수학적으로 빼버림(상쇄)**으로써 상대방이 보낸 순수한 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 걸러냅니다. 이는 '노이즈 캔슬링 이어폰'의 원리와 정확히 같습니다.
+1000BASE-T의 PHY 칩 내부에는 고도의 <strong>DSP(Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> Processor)</strong>가 탑재되어 있습니다. 이 칩은 자신이 송신한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 패턴을 정확히 기억하고 있다가, 혼합되어 들어오는 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 <strong>자신의 송신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 성분을 수학적으로 빼버림(상쇄)</strong>으로써 상대방이 보낸 순수한 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 걸러냅니다. 이는 '노이즈 캔슬링 이어폰'의 원리와 정확히 같습니다.
 
 ### 3. PAM-5 (Pulse Amplitude Modulation 5) 변조
 데이터를 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꿀 때, 기존 0과 1의 두 가지 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 쓰면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 너무 많이 깜빡여야 해서 주파수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 모자랍니다.
-1000BASE-T는 **PAM-5**를 사용하여 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 5단계(-2, -1, 0, +1, +2)로 쪼개어 전송합니다.
+1000BASE-T는 <strong>PAM-5</strong>를 사용하여 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 5단계(-2, -1, 0, +1, +2)로 쪼개어 전송합니다.
 - [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 5단계이므로 한 번의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(심볼)로 더 많은 비트를 전송할 수 있습니다. (실제로는 4단계를 이용해 데이터를 인코딩하고, 1단계는 에러 정정(FEC) 등의 여분으로 사용합니다.)
 - 덕분에 250Mbps의 데이터를 보내기 위해 클럭 속도를 125MHz로 낮게 유지할 수 있어, 저렴한 Cat 5e 케이블로도 전송이 가능해집니다.
 
-- **📢 섹션 요약 비유**: ** 1000BASE-T는 놀고 있던 **나머지 2개의 차선을 모두 개통**하고(4 Pairs), 왕복 1차선에서 사고 없이 차가 교행하도록 **고도의 자율주행 AI를 탑재([에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 상쇄)**했으며, 트럭의 짐칸을 위로 5층으로 쌓아(PAM-5) **한 번에 엄청난 짐을 실어 나르는 도로 혁신**입니다.
+- **📢 섹션 요약 비유**: <strong> 1000BASE-T는 놀고 있던 </strong>나머지 2개의 차선을 모두 개통<strong>하고(4 Pairs), 왕복 1차선에서 사고 없이 차가 교행하도록 </strong>고도의 자율주행 AI를 탑재([에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 상쇄)<strong>했으며, 트럭의 짐칸을 위로 5층으로 쌓아(PAM-5) </strong>한 번에 엄청난 짐을 실어 나르는 도로 혁신**입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-기가비트 네트워크 환경에서 흔히 겪는 실무 장애는 **"랜선을 꽂았는데 1Gbps가 아니라 100Mbps로 연결돼요"**라는 문제입니다.
+기가비트 네트워크 환경에서 흔히 겪는 실무 장애는 <strong>"랜선을 꽂았는데 1Gbps가 아니라 100Mbps로 연결돼요"</strong>라는 문제입니다.
 
 100BASE-TX는 1, 2, 3, 6번 핀만 사용하므로, 케이블이 낡거나 커넥터 압착 불량으로 4, 5, 7, 8번 선 중 하나라도 끊어지면 100Mbps 환경에서는 증상이 나타나지 않고 멀쩡히 동작합니다.
-하지만 1000BASE-T는 8가닥을 모두 완벽하게 사용해야 하므로, **한 가닥이라도 단선되거나 저항이 높으면 Auto-Negotiation에 의해 자동으로 100Mbps로 속도가 강등([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))** 됩니다.
+하지만 1000BASE-T는 8가닥을 모두 완벽하게 사용해야 하므로, <strong>한 가닥이라도 단선되거나 저항이 높으면 Auto-Negotiation에 의해 자동으로 100Mbps로 속도가 강등(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>)</strong> 됩니다.
 따라서 기가비트망 장애 조치 시, 랜 테스터기로 8가닥 모두 정상 결선되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 첫 번째 단계입니다.
 
 1000BASE-T를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 10BASE-T, 100BASE-TX가 기반 조건을 만든다면, 1000BASE-T는 그 위에서 핵심 메커니즘을 구현하고, 10GBASE-T / 10GBASE-SR /…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -126,15 +135,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 10BASE-T, 100BASE-TX]
-    │
-    ▼
-[현재 개념: 1000BASE-T]
-    │
-    ├──▶ [확장 A: 10GBASE-T / 10GBASE-SR /…]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 10BASE-T, 100BASE-TX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 1000BASE-T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 1000BASE-T는 10BASE-T, 100BASE-TX에서 출발해 현재 메커니즘을 정교화하고, 이후 10GBASE-T / 10GBASE-SR /…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

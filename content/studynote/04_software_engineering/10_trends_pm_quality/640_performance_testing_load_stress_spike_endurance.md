@@ -22,22 +22,22 @@ tags = ["studynote-software-engineering"]
 - **개념**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스팅은 4가지의 강력한 서브 무기로 나뉜다.
   ① **부하(Load)**: 평소 예상되는 최대 유저(1,000명)를 넣어놓고 시스템이 정상 작동하는지 보는 '기본 체력 검사'.
   ② **스트레스(Stress)**: 한계치(3,000명) 이상의 미친 트래픽을 때려 넣고, 서버가 언제/어떻게 부서지는지(Crash Point) 확인하는 '한계 돌파 검사'.
-  ③ **[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))**: 10명에서 갑자기 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명으로 1초 만에 수직 상승시켰다가 빼는 '수강 신청/티켓 예매 충격 검사'.
+  ③ <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a>)</strong>: 10명에서 갑자기 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명으로 1초 만에 수직 상승시켰다가 빼는 '수강 신청/티켓 예매 충격 검사'.
   ④ **인듀어런스/내구성(Endurance/Soak)**: 적당한 부하(500명)를 3일 밤낮으로 끄지 않고 계속 줘서, 서서히 램(RAM)이 새는 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))를 잡는 '마라톤 검사'.
 
-- **필요성**: 명절 기차표 예매 사이트가 열렸다. 개발망에서 혼자 테스트할 때는 0.1초 만에 예매가 잘 됐다. 하지만 10만 명이 동시에 클릭 버튼을 누른 순간, 서버 CPU가 100%를 치고 DB 커넥션 풀(Connection Pool)이 말라붙으며 화면이 뻗었다. 이런 대장애가 터지면 뉴스를 타고 기업 이미지가 산산조각 난다. **소프트웨어의 기능(Logic)은 1명일 때와 1만 명일 때 완전히 다르게 작동한다([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 이슈, 데드락).** 이 재앙을 사전에 똑같이 모의실험(Simulation)하여 인프라를 증설([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하고 튜닝하기 위해 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)가 절대적으로 필요하다.
+- **필요성**: 명절 기차표 예매 사이트가 열렸다. 개발망에서 혼자 테스트할 때는 0.1초 만에 예매가 잘 됐다. 하지만 10만 명이 동시에 클릭 버튼을 누른 순간, 서버 CPU가 100%를 치고 DB 커넥션 풀(Connection Pool)이 말라붙으며 화면이 뻗었다. 이런 대장애가 터지면 뉴스를 타고 기업 이미지가 산산조각 난다. <strong>소프트웨어의 기능(Logic)은 1명일 때와 1만 명일 때 완전히 다르게 작동한다(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 이슈, 데드락).</strong> 이 재앙을 사전에 똑같이 모의실험(Simulation)하여 인프라를 증설([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하고 튜닝하기 위해 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)가 절대적으로 필요하다.
 
 - **💡 비유**: 자동차가 고속도로를 달릴 준비가 되었는지 검사하는 방법입니다.
   - **기능 테스트**: 시동 켜고, 핸들 돌리고, 브레이크 밟아서 차가 잘 서는지(동작) 봅니다.
-  - **[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) (Load)**: 트렁크에 규정된 짐(500kg)을 다 싣고 시속 100km로 정상적으로 달릴 수 있는지 봅니다.
-  - **[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) (Stress)**: 트렁크에 짐 2톤(한계 초과)을 싣고 풀악셀을 밟아서, 바퀴가 먼저 터지는지 엔진이 먼저 터지는지(약점) 봅니다.
-  - **[스파이크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/) ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))**: 차를 타고 가다 갑자기 시속 200km로 1초 만에 급가속할 때 엔진이 꺼지는지 봅니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> (Load)</strong>: 트렁크에 규정된 짐(500kg)을 다 싣고 시속 100km로 정상적으로 달릴 수 있는지 봅니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a> (Stress)</strong>: 트렁크에 짐 2톤(한계 초과)을 싣고 풀악셀을 밟아서, 바퀴가 먼저 터지는지 엔진이 먼저 터지는지(약점) 봅니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/">스파이크 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a>)</strong>: 차를 타고 가다 갑자기 시속 200km로 1초 만에 급가속할 때 엔진이 꺼지는지 봅니다.
   - **인듀어런스 테스트 (Endurance)**: 에어컨과 오디오를 다 켜고 부산까지 10시간 동안 한 번도 안 쉬고 달렸을 때, 나사나 엔진오일이 서서히 새어 나오지([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)) 않는지 봅니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수동 테스트 시대**: 사람들이 모여서 일제히 F5(새로고침)를 연타하던 무식한 시대.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 수동 테스트 시대</strong>: 사람들이 모여서 일제히 F5(새로고침)를 연타하던 무식한 시대.
   2. **가상 유저(VUser) 자동화 도구 도입**: HP LoadRunner, Apache JMeter 등 하나의 PC에서 수천 명의 가짜 쓰레드를 만들어 트래픽을 쏘는 상용/[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 툴이 표준이 됨.
-  3. **클라우드 스케일의 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) (현재)**: K6, Gatling, nGrinder 등이 결합하여, 단순히 패킷을 쏘는 걸 넘어 클라우드의 오토스케일링(Auto-scaling) 임계점이 제때 터지는지를 검증하는 인프라 융합 테스팅으로 진화함.
+  3. <strong>클라우드 스케일의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/">성능 테스트</a> (현재)</strong>: K6, Gatling, nGrinder 등이 결합하여, 단순히 패킷을 쏘는 걸 넘어 클라우드의 오토스케일링(Auto-scaling) 임계점이 제때 터지는지를 검증하는 인프라 융합 테스팅으로 진화함.
 
 - **📢 섹션 요약 비유**: 평소 잔잔하던 댐(서버)이 잘 버티는지 보기 위해, 일부러 상류에서 홍수 물(가상 트래픽)을 한계치까지 콸콸 쏟아부어 보면서, 댐의 어느 시멘트 벽(병목 코드)에 제일 먼저 금이 가는지 목숨 걸고 찾아내는 최악의 모의 재난 훈련입니다.
 
@@ -45,18 +45,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 부하/스트레스/[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)/의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  성능 테스트 부하/스트레스/스파이크/                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 테스트 부하/스트레스/스파이크/</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 부하/스트레스/[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)/가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 부하/스트레스/[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)/인듀어런스의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 부하/스트레스/[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)/인듀어런스의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 부하/스트레스/[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)/인듀어런스의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -153,21 +152,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-성능 테스트 부하/스트레스/스파이크/인듀어런스 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 테스트 부하/스트레스/스파이크/인듀어런스 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

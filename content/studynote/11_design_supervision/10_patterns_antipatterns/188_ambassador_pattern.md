@@ -21,20 +21,22 @@ tags = ["studynote-design-supervision"]
 
 레거시 애플리케이션은 대개 원격 호출을 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 수준으로 구현해 두었기 때문에, 클라우드 환경에서 요구되는 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 관리, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적을 코드에 다시 넣기가 어렵다. 특히 소스 수정이 어렵거나 여러 언어 클라이언트가 섞여 있으면 공통 기능이 중복된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 레거시 클라이언트의 직접 호출 문제                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Legacy App ───────────────▶ Cloud Service                            │
-│    │                                                                 │
-│    ├── 재시도 없음                                                   │
-│    ├── TLS / 인증 직접 처리 부담                                     │
-│    ├── 장애 시 연쇄 실패 가능                                        │
-│    └── 로깅/추적 구현이 언어별로 흩어짐                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-앰배서더 패턴은 이 문제를 **클라이언트 옆의 대리 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**로 해결한다. 클라이언트는 로컬 주소만 호출하고, 실제 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 복잡한 통신 책임은 앰배서더가 맡는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 클라이언트의 직접 호출 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy App ▶ Cloud Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 재시도 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TLS / 인증 직접 처리 부담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 장애 시 연쇄 실패 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 로깅/추적 구현이 언어별로 흩어짐</div></div>
+</div>
+</div>
+
+
+
+앰배서더 패턴은 이 문제를 <strong>클라이언트 옆의 대리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>로 해결한다. 클라이언트는 로컬 주소만 호출하고, 실제 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 복잡한 통신 책임은 앰배서더가 맡는다.
 
 - **📢 섹션 요약 비유**: 외국어를 못하는 대표 대신 통역사와 수행비서가 해외 미팅을 챙겨 주는 구조가 앰배서더 패턴이다.
 
@@ -42,20 +44,22 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-앰배서더는 보통 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 컨테이너나 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 형태로 배치된다. 핵심은 **클라이언트의 outbound 호출을 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)로 우회시키고**, 그 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 후 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전달하는 것이다. 이 구조 덕분에 애플리케이션 코드는 비즈니스 호출만 유지한다.
+앰배서더는 보통 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 컨테이너나 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 형태로 배치된다. 핵심은 <strong>클라이언트의 outbound 호출을 로컬 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>로 우회시키고</strong>, 그 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 후 원격 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전달하는 것이다. 이 구조 덕분에 애플리케이션 코드는 비즈니스 호출만 유지한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Ambassador 패턴의 호출 흐름                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client App ──localhost──▶ Ambassador Proxy ──▶ Remote Service        │
-│                         │                                             │
-│                         ├── Retry / Timeout                           │
-│                         ├── mTLS / Auth                               │
-│                         ├── Protocol Transform                        │
-│                         └── Logging / Trace                           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambassador 패턴의 호출 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client App ──localhost──▶ Ambassador Proxy ──▶ Remote Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Retry / Timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── mTLS / Auth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Protocol Transform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Logging / Trace</div></div>
+</div>
+</div>
+
+
 
 | 기능 | Ambassador 역할 | 대표 구현 |
 |:---|:---|:---|
@@ -65,7 +69,7 @@ tags = ["studynote-design-supervision"]
 | 관측성 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 전파 | [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/), Jaeger |
 | 속도 제한 | 호출 폭주 차단과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | Rate limit filter |
 
-앰배서더는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)이지만 모든 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 같지 않다. 주 목적은 **클라이언트 아웃바운드 호출의 공통 기능 외부화**이며, 인바운드 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이나 전사 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 제어와는 초점이 다르다.
+앰배서더는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)이지만 모든 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 같지 않다. 주 목적은 <strong>클라이언트 아웃바운드 호출의 공통 기능 외부화</strong>이며, 인바운드 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이나 전사 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 제어와는 초점이 다르다.
 
 - **📢 섹션 요약 비유**: 출장 담당 비서가 항공권, 통역, 통행증, 회의 일정, 통화 기록까지 대신 챙겨 주면 당사자는 회의 내용만 신경 쓰면 되는 것과 같다.
 
@@ -115,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 앰배서더 패턴을 적절히 쓰면 레거시 코드 무수정, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 중앙화, 언어 독립성, 운영 가시성 향상이라는 효과를 얻는다. 특히 점진적 현대화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 큰 장점이 있다. 거대한 레거시를 한 번에 고치지 않고도 클라우드 요구사항을 외부에서 흡수할 수 있기 때문이다.
 
-결론적으로 앰배서더는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 하나 더 두는 것이 아니라 **클라이언트 통신 책임을 비침습적으로 분리하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다. 따라서 코드 변경 비용이 높고 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통일이 중요할수록 선택 가치가 커진다.
+결론적으로 앰배서더는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 하나 더 두는 것이 아니라 <strong>클라이언트 통신 책임을 비침습적으로 분리하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 따라서 코드 변경 비용이 높고 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통일이 중요할수록 선택 가치가 커진다.
 
 | 기대효과 | 구체적 내용 |
 |:---|:---|
@@ -140,23 +144,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-레거시 클라이언트 직접 호출
-    │
-    ▼
-정책 중복 · 인증 부담 · 장애 전파
-    │
-    ▼
-Ambassador Pattern
-    │
-    ├──▶ Retry / Timeout
-    ├──▶ Auth / mTLS
-    ├──▶ Trace / Logging
-    └──▶ Protocol Transform
-            │
-            ▼
-비침습적 현대화 · 공통 정책 중앙화 · 운영 가시성 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 클라이언트 직접 호출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정책 중복 · 인증 부담 · 장애 전파</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ambassador Pattern</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Retry / Timeout</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Auth / mTLS</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Trace / Logging</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Protocol Transform</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비침습적 현대화 · 공통 정책 중앙화 · 운영 가시성 향상</div>
+</div>
+</div>
+
+
 
 이 흐름은 앰배서더가 네트워크 호출 주변의 공통 관심사를 코드 밖으로 이동시키는 패턴임을 보여 준다.
 

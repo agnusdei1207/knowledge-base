@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)을 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 설계 개념으로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·이기종 환경 전반에 걸쳐 유연하고 탄력적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합을 가능하게 하는 아키텍처"** 로 정의한다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모으지 않고, 있는 자리에서 연결하는 것이다.
+Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)을 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 관리 설계 개념으로, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>·이기종 환경 전반에 걸쳐 유연하고 탄력적인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합을 가능하게 하는 아키텍처"</strong> 로 정의한다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모으지 않고, 있는 자리에서 연결하는 것이다.
 
 ### 등장 배경
 
@@ -37,34 +37,26 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 ### 2-1. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 아키텍처 전체 구조
 
-```
-        애플리케이션 / 분석 / AI·ML 소비자
-              │          │          │
-              ▼          ▼          ▼
-┌──────────────────────────────────────────────────┐
-│           Unified Data Access Layer              │
-│        (통합 데이터 접근 레이어)                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Data Virtualization Engine               │  │
-│  │   (데이터 가상화 엔진, 물리 이동 없이 쿼리) │  │
-│  └────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Intelligent Metadata Layer               │  │
-│  │   (AI 기반 메타데이터 자동 탐색·분류·추천)  │  │
-│  └────────────────────────────────────────────┘  │
-│  ┌────────────────────────────────────────────┐  │
-│  │   Federated Governance & Security          │  │
-│  │   (접근제어·마스킹·감사 로그 통합 관리)     │  │
-│  └────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────┘
-          │         │         │         │
-          ▼         ▼         ▼         ▼
-    ┌──────┐   ┌──────┐  ┌──────┐  ┌──────┐
-    │Oracle│   │ S3   │  │Kafka │  │SAP   │
-    │ DB   │   │Lake  │  │Stream│  │ERP   │
-    └──────┘   └──────┘  └──────┘  └──────┘
-     온프레미스    AWS       이벤트    SaaS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애플리케이션 / 분석 / AI·ML 소비자</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Data Access Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합 데이터 접근 레이어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Virtualization Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 가상화 엔진, 물리 이동 없이 쿼리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intelligent Metadata Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AI 기반 메타데이터 자동 탐색·분류·추천)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Federated Governance &amp; Security</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(접근제어·마스킹·감사 로그 통합 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">S3</div><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">SAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB</div><div class="kb-diagram-cell">Lake</div><div class="kb-diagram-cell">Stream</div><div class="kb-diagram-cell">ERP</div></div>
+<div class="kb-diagram-note">온프레미스 AWS 이벤트 SaaS</div>
+</div>
+</div>
+
+
 
 ### 2-2. 핵심 구성 요소
 
@@ -78,28 +70,27 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 ### 2-3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자동화 흐름
 
-```
-데이터 소스 연결
-      │
-      ▼
-┌─────────────────────────────────────┐
-│  Metadata Crawler (자동 탐색 봇)    │
-│  - 스키마 자동 감지                  │
-│  - PII (개인식별정보) 자동 태그      │
-│  - 데이터 분류 (민감도 레벨)         │
-└─────────────────────────────────────┘
-      │
-      ▼
-┌─────────────────────────────────────┐
-│  Active Metadata Engine             │
-│  - 사용 패턴 학습 → 연관 데이터 추천 │
-│  - 품질 이상 자동 감지               │
-│  - 리니지 자동 생성                  │
-└─────────────────────────────────────┘
-      │
-      ▼
-   데이터 소비자에게 "검색 → 이해 → 신뢰" 경험 제공
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 소스 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata Crawler (자동 탐색 봇)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마 자동 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PII (개인식별정보) 자동 태그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 분류 (민감도 레벨)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Metadata Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용 패턴 학습 → 연관 데이터 추천</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질 이상 자동 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리니지 자동 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 소비자에게 "검색 → 이해 → 신뢰" 경험 제공</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 엔진은 "도서관 사서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"다. 새 책이 들어오면 자동으로 제목·저자·장르를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, 이 책을 좋아하는 독자에게 추천까지 한다.
 
@@ -124,7 +115,7 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 - **Push-Down Optimization (푸시다운 최적화)**: 필터·집계 연산을 원본 소스에서 실행해 네트워크 전송량 최소화
 - **Semantic Layer (시맨틱 레이어)**: 비즈니스 용어로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 가능하게 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)
-- **[Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) (연합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))**: 여러 소스를 단일 SQL로 조회
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/">Federated Query</a> (연합 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>)</strong>: 여러 소스를 단일 SQL로 조회
 
 📢 **섹션 요약 비유**: [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 "여러 은행 잔액을 하나의 금융 앱에서 보는 것"이다. 돈을 한 은행으로 옮기지 않아도 전체 자산 현황을 즉시 볼 수 있다.
 
@@ -136,12 +127,18 @@ Gartner는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_s
 
 **시나리오: 금융그룹 멀티클라우드 통합**
 
-```
-온프레미스 Oracle ERP ─┐
-AWS S3 데이터 레이크   ─┤  Data Fabric Layer  ─→  통합 BI·AI 분석
-Azure Synapse DW      ─┤  (Denodo + Atlan)
-GCP BigQuery          ─┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 Oracle ERP ─</div>
+<div class="kb-diagram-note">AWS S3 데이터 레이크 ─ Data Fabric Layer ─→ 통합 BI·AI 분석</div>
+<div class="kb-diagram-note">Azure Synapse DW ─ (Denodo + Atlan)</div>
+<div class="kb-diagram-note">GCP BigQuery ─</div>
+</div>
+</div>
+
+
 
 | 단계 | 작업 | 기술 |
 |:---|:---|:---|
@@ -153,11 +150,11 @@ GCP BigQuery          ─┘
 
 ### 4-2. Gartner [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 구성 요소 (2023 정의 기준)
 
-1. **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Integration & Transformation** — 통합 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 파이프라인
-2. **[Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) & [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)** — 능동 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)
-3. **[Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/)** — 물리 이동 없는 가상 통합
-4. **[Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)** — 자동화된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리
-5. **Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) ([MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/), [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/))** — 단일 진실 소스 유지
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Integration &amp; Transformation</strong> — 통합 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 파이프라인
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a> &amp; <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a></strong> — 능동 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/">Data Virtualization</a></strong> — 물리 이동 없는 가상 통합
+4. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">Data Governance</a> &amp; <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a></strong> — 자동화된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리
+5. <strong>Master <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> (<a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a>, <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/">마스터 데이터 관리</a>)</strong> — 단일 진실 소스 유지
 6. **Analytics & Insights** — 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 레이어
 
 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 도입은 "여러 나라 전화망을 하나의 국제전화 시스템으로 연결하는 것"이다. 각 나라 망은 그대로지만 어디서나 통화할 수 있게 된다.
@@ -177,7 +174,7 @@ GCP BigQuery          ─┘
 | 거버넌스 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 컴플라이언스 대응 속도 80% 향상 |
 | 시간 절감 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색·이해 시간 70% 단축 |
 
-기술사 시험에서 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 **"능동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))와 [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)([Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/))가 핵심 차별점"** 임을 중심으로 설명해야 한다.
+기술사 시험에서 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 <strong>"능동 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>)와 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/">데이터 가상화</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/">Data Virtualization</a>)가 핵심 차별점"</strong> 임을 중심으로 설명해야 한다.
 
 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 최종 목표는 "모든 직원이 회사 어딘 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 구글 검색하듯 찾아 쓸 수 있는 세상"을 만드는 것이다.
 
@@ -206,18 +203,22 @@ GCP BigQuery          ─┘
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 사일로 (시스템 간 단절)
-    │
-    ▼
-Data Fabric: 메타데이터 기반 통합 · 가상화
-    ├─► 메타데이터 자동 수집 · AI 기반 추천
-    ├─► 데이터 가상화: 물리 이동 없이 접근
-    └─► 통합 거버넌스 · 보안 정책
-    │
-    ▼
-Data Mesh와 상호 보완 관계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 사일로 (시스템 간 단절)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Fabric: 메타데이터 기반 통합 · 가상화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">메타데이터 자동 수집 · AI 기반 추천</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 가상화: 물리 이동 없이 접근</div>
+<div class="kb-diagram-tree-item" style="--depth:2">통합 거버넌스 · 보안 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Mesh와 상호 보완 관계</div>
+</div>
+</div>
+
+
 2. 앱이 새 책을 자동으로 인식하고 장르·내용을 AI가 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 주는 것이 능동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기능이다.
 3. 각 도서관의 규칙(거버넌스)은 그대로지만, 앱이 어느 책이 어린이용인지 성인용인지 자동으로 알아서 접근을 통제해준다.
 

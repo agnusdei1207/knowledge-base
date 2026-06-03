@@ -37,27 +37,25 @@ tags = ["studynote-database"]
 
 아래 그림은 프로시저와 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가까이에서 어떻게 다른 방식으로 개입하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ DB-side program flow                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Application -> CALL proc_transfer(10000)                           │
-│                 │                                                  │
-│                 ▼                                                  │
-│            Stored Procedure                                        │
-│            ├─ validate account / balance                           │
-│            ├─ update source and target rows                        │
-│            ├─ insert ledger history                                │
-│            └─ COMMIT or ROLLBACK                                   │
-│                                                                    │
-│ INSERT / UPDATE / DELETE on table                                  │
-│                 │                                                  │
-│                 ▼                                                  │
-│            Trigger                                                 │
-│            ├─ BEFORE : normalize / reject bad data                 │
-│            └─ AFTER  : audit log / derived update                  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB-side program flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application -&gt; CALL proc_transfer(10000)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stored Procedure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validate account / balance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ update source and target rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ insert ledger history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ COMMIT or ROLLBACK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT / UPDATE / DELETE on table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ BEFORE : normalize / reject bad data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AFTER : audit log / derived update</div></div>
+</div>
+</div>
+
+
 
 | 구분 | 스토어드 프로시저 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 | :--- | :--- | :--- |
@@ -127,7 +125,7 @@ tags = ["studynote-database"]
 
 하지만 이 장점은 로직 비대화와 DB 집중이라는 부작용을 동반한다. 프로시저가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층을 대체하기 시작하면 DB 서버가 연산 병목이 되고, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 많아질수록 변경 영향 범위와 디버깅 비용이 커진다. 또한 오라클 PL/SQL, PostgreSQL PL/pgSQL 같은 벤더별 문법 차이는 장기적인 이식성 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 된다.
 
-따라서 이 주제는 "DB 안에 로직을 넣을 것인가"라는 흑백 문제가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 붙어 있어야 하는 최소 규칙을 어디까지 맡길 것인가**의 문제로 기억하는 것이 정확하다. 프로시저는 명시적 업무 단위, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 최소 자동화 장치라는 원칙을 지키면 가장 효과적이다.
+따라서 이 주제는 "DB 안에 로직을 넣을 것인가"라는 흑백 문제가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 붙어 있어야 하는 최소 규칙을 어디까지 맡길 것인가</strong>의 문제로 기억하는 것이 정확하다. 프로시저는 명시적 업무 단위, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 최소 자동화 장치라는 원칙을 지키면 가장 효과적이다.
 
 - **📢 섹션 요약 비유**: 은행 금고 안에는 꼭 필요한 자동 잠금장치와 입출금 절차만 두는 것이 좋다. 안내 방송, 마케팅 행사, 외부 전화 연결까지 다 금고 안에 넣으면 금고는 안전해도 은행 전체가 답답해진다.
 
@@ -146,22 +144,25 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-반복 SQL과 공통 규칙 증가
-        │
-        ▼
-스토어드 프로시저 (Stored Procedure)
-        │
-        ├──────────────► 트랜잭션 절차 묶음
-        ├──────────────► 권한 캡슐화
-        ▼
-트리거 (Trigger)
-        │
-        ├──────────────► BEFORE / AFTER 자동화
-        ├──────────────► 감사 로그 · 무결성 보조
-        ▼
-CDC · 이벤트 기반 후처리 분리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">반복 SQL과 공통 규칙 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토어드 프로시저 (Stored Procedure)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">트랜잭션 절차 묶음</div>
+<div class="kb-diagram-tree-item" style="--depth:4">권한 캡슐화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트리거 (Trigger)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">BEFORE / AFTER 자동화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">감사 로그 · 무결성 보조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDC · 이벤트 기반 후처리 분리</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접 로직이 재사용에서 자동화로 확장되고, 이후에는 더 느슨한 이벤트 기반 구조와 역할을 나누는 방향으로 성숙해 간다는 점을 보여 준다.
 

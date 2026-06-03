@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - IP 주소(`192.168.1.10`)는 32비트짜리 긴 숫자입니다. 이 숫자는 항상 두 동강으로 나뉩니다.
   1. **네트워크 ID (동네 주소)**: "우리는 서초구 삼성동이야" (라우터가 길을 찾을 때 보는 주소)
   2. **호스트 ID (집 주소)**: "나는 삼성동 10번지 컴퓨터야"
-- 이 긴 숫자 중 도대체 **"어디서부터 어디까지가 동네 주소이고, 어디부터가 집 주소냐?"**를 끊어주는(가위질) 도구가 바로 **서브넷 마스크(Subnet Mask)**입니다.
+- 이 긴 숫자 중 도대체 <strong>"어디서부터 어디까지가 동네 주소이고, 어디부터가 집 주소냐?"</strong>를 끊어주는(가위질) 도구가 바로 <strong>서브넷 마스크(Subnet Mask)</strong>입니다.
 
-```text
-[BGP AS-Path]
-    │
-    ▼
-[서브넷 마스크 / CIDR]
-    │
-    └──▶ [IPv6 헤더 압축 / SLAAC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,17 +46,21 @@ tags = ["studynote-network"]
 - **구형 클래스 방식**: 첫 8자리 자르면 A클래스, 16자리 자르면 B, 24자리 자르면 C클래스. 무조건 이 3개로만 잘랐습니다. (주소 낭비 폭발)
 - **서브넷 마스크의 등판**: IP 주소 밑에 `255.255.255.0` 같은 숫자를 깔아둡니다.
   - 마스크를 이진수로 풀면 `11111111.11111111.11111111.00000000` 입니다.
-  - **규칙**: 마스크의 **`1`이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"** 이고, **`0`이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"**라는 선 긋기 룰입니다. 
+  - **규칙**: 마스크의 <strong><code>1</code>이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"</strong> 이고, <strong><code>0</code>이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"</strong>라는 선 긋기 룰입니다. 
   - 이를 통해 큰 덩어리의 네트워크를 작은 부서별(영업팀, 인사팀) 네트워크(Subnet)로 잘게 쪼개어 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(소음)을 완벽히 차단합니다.
 
-```text
-[BGP AS-Path]
-    │
-    ▼
-[서브넷 마스크 / CIDR]
-    │
-    └──▶ [IPv6 헤더 압축 / SLAAC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,21 +68,21 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-서브넷 마스크가 A,B,C 클래스의 틀 안에서 쪼개는 짓이었다면, **CIDR(사이더)**는 아예 A,B,C 클래스라는 개념 자체를 폭파([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))해 버린 현대 인터넷 주소의 헌법입니다.
+서브넷 마스크가 A,B,C 클래스의 틀 안에서 쪼개는 짓이었다면, <strong>CIDR(사이더)</strong>는 아예 A,B,C 클래스라는 개념 자체를 폭파([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))해 버린 현대 인터넷 주소의 헌법입니다.
 
 ### 1. 가변 길이 슬래시(/) 표기법 (VLSM의 응용)
-- 무식한 `255.255.255.0` 대신, **`192.168.1.10/24`** 처럼 뒤에 슬래시(`/`)를 긋고 숫자를 씁니다.
-- **`/24`의 의미**: "앞에서부터 딱 **24개**의 비트만 동네 주소(Network ID)로 묶어버려라!"는 뜻입니다. 나머지는 8비트($32-24=8$)니까, $2^8 = 256$개의 컴퓨터를 꽂을 수 있는 네트워크가 탄생합니다.
+- 무식한 `255.255.255.0` 대신, <strong><code>192.168.1.10/24</code></strong> 처럼 뒤에 슬래시(`/`)를 긋고 숫자를 씁니다.
+- <strong><code>/24</code>의 의미</strong>: "앞에서부터 딱 <strong>24개</strong>의 비트만 동네 주소(Network ID)로 묶어버려라!"는 뜻입니다. 나머지는 8비트($32-24=8$)니까, $2^8 = 256$개의 컴퓨터를 꽂을 수 있는 네트워크가 탄생합니다.
 
 ### 2. 칼 같은 맞춤 재단 (주소 낭비 제로) 🌟
 - 컴퓨터 100대만 있는 부서가 IP를 달라고 합니다.
 - 옛날엔 256개짜리(C클래스)를 줘서 156개를 낭비했습니다.
-- CIDR 시대: 관리자가 펜을 들고 **`/25`**로 자릅니다. 앞에서 25칸을 막아버렸으니, 뒤에 남은 공간은 7칸($32-25=7$). 즉, $2^7 = 128$개의 IP가 담긴 초미니 맞춤형 네트워크를 잘라서 줍니다! 주소 낭비가 156개에서 28개로 극단적으로 줄어듭니다.
+- CIDR 시대: 관리자가 펜을 들고 <strong><code>/25</code></strong>로 자릅니다. 앞에서 25칸을 막아버렸으니, 뒤에 남은 공간은 7칸($32-25=7$). 즉, $2^7 = 128$개의 IP가 담긴 초미니 맞춤형 네트워크를 잘라서 줍니다! 주소 낭비가 156개에서 28개로 극단적으로 줄어듭니다.
 
 ### 3. [슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) ([Supernetting](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / Route Summarization) - 라우터 숨통 트이기
 - CIDR은 쪼개는 것만 하는 게 아니라, 자잘한 부서 주소들을 큰 거 하나로 뭉치는(병합) 짓도 기가 막히게 합니다.
 - 강남지사 밑에 `/24`짜리 잘게 쪼개진 자잘한 네트워크 장부가 100개 있습니다. 이걸 본사 코어 라우터에 다 올리면 라우터 뇌가 터집니다.
-- CIDR은 이 자잘한 100개의 주소를 수학적으로 공통된 앞자리로 딱 묶어서, **`10.0.0.0/16`이라는 단 하나의 거대한 뭉칫덩어리 주소(요약본)**로 덮어버린 뒤 위로 올려보냅니다. 글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 사이즈를 1/100로 줄여 인터넷 코어망 폭파를 막아낸 일등 공신입니다.
+- CIDR은 이 자잘한 100개의 주소를 수학적으로 공통된 앞자리로 딱 묶어서, <strong><code>10.0.0.0/16</code>이라는 단 하나의 거대한 뭉칫덩어리 주소(요약본)</strong>로 덮어버린 뒤 위로 올려보냅니다. 글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 사이즈를 1/100로 줄여 인터넷 코어망 폭파를 막아낸 일등 공신입니다.
 
 서브넷 마스크 / CIDR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path가 기반 조건을 만든다면, 서브넷 마스크 / CIDR는 그 위에서 핵심 메커니즘을 구현하고, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 옛날 IP 주소 배분(클래스풀)은 아파트 계약할 때 평수가 '10평(C), 100평(B), 1만 평(A)' 딱 세 가지밖에 없는 부동산이었습니다. 나는 15평만 필요한데 억지로 100평을 계약해서 빈방 85평의 월세(IP 주소 고갈)를 낭비해야 했습니다. **CIDR과 서브넷 마스크(/24)**는 건물주가 '이동식 가벽([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'을 마음대로 세울 수 있는 맞춤형 조립 아파트를 지은 것입니다. 내가 건물주에게 "나 15평만 쓸게!" 하면, 건물주가 줄자로 거리를 잰 뒤, 15평 크기 딱 맞는 위치에 슬래시 가벽(`/28` 서브넷 마스크)을 콱 세워버립니다. 주소의 낭비 공간이 0으로 수렴하게 되며, 건물(네트워크) 전체를 수백 개의 자잘하고 효율적인 부서별 벌집 모양([Subnetting](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/))으로 완벽하게 통제하고 쪼개 쓸 수 있는 극강의 재단 기술입니다.
+- **📢 섹션 요약 비유**: 옛날 IP 주소 배분(클래스풀)은 아파트 계약할 때 평수가 '10평(C), 100평(B), 1만 평(A)' 딱 세 가지밖에 없는 부동산이었습니다. 나는 15평만 필요한데 억지로 100평을 계약해서 빈방 85평의 월세(IP 주소 고갈)를 낭비해야 했습니다. <strong>CIDR과 서브넷 마스크(/24)</strong>는 건물주가 '이동식 가벽([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'을 마음대로 세울 수 있는 맞춤형 조립 아파트를 지은 것입니다. 내가 건물주에게 "나 15평만 쓸게!" 하면, 건물주가 줄자로 거리를 잰 뒤, 15평 크기 딱 맞는 위치에 슬래시 가벽(`/28` 서브넷 마스크)을 콱 세워버립니다. 주소의 낭비 공간이 0으로 수렴하게 되며, 건물(네트워크) 전체를 수백 개의 자잘하고 효율적인 부서별 벌집 모양([Subnetting](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/))으로 완벽하게 통제하고 쪼개 쓸 수 있는 극강의 재단 기술입니다.
 
 ---
 
@@ -126,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BGP AS-Path]
-    │
-    ▼
-[현재 개념: 서브넷 마스크 / CIDR]
-    │
-    ├──▶ [확장 A: IPv6 헤더 압축 / SLAAC]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP AS-Path</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 서브넷 마스크 / CIDR는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

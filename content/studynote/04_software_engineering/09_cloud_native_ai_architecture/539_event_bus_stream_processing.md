@@ -20,38 +20,37 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))**: 컴퓨터 안에서 부품([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))들이 대화할 때 쓰는 공용 중앙 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/). A가 "나 이거 했다!" 이벤트를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 던지면, 관심 있는 B와 C가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 뽑아간다. (예: AWS EventBridge, Guava EventBus)
-  - **스트림 프로세싱 ([Stream Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/))**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 타고 1초에 10만 개씩 미친 듯이 쏟아져 들어오는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 컵(DB)에 담아서 기다리지 않고! 허공에서 휙휙 낚아채서 실시간으로 덧셈, 뺄셈, [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)(Aggregation)를 때려버리는 초능력.
+  - <strong>이벤트 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> (Event <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>)</strong>: 컴퓨터 안에서 부품([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))들이 대화할 때 쓰는 공용 중앙 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/). A가 "나 이거 했다!" 이벤트를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 던지면, 관심 있는 B와 C가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 뽑아간다. (예: AWS EventBridge, Guava EventBus)
+  - <strong>스트림 프로세싱 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong>: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 타고 1초에 10만 개씩 미친 듯이 쏟아져 들어오는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 컵(DB)에 담아서 기다리지 않고! 허공에서 휙휙 낚아채서 실시간으로 덧셈, 뺄셈, [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)(Aggregation)를 때려버리는 초능력.
 
-- **필요성**: 쿠팡에 1,000만 명이 접속해서 장바구니 버튼을 1초에 10만 번씩 누른다. 옛날에는 이 클릭 로그를 몽땅 하드디스크(DB)에 예쁘게 쌓아놨다가, 밤 12시 정각에 배치(Batch) 프로그램을 윙 돌렸다. "오늘 제일 많이 팔린 물건은 사과입니다!"라고 다음 날 아침에 사장님께 보고했다. 그런데 넷플릭스와 유튜브의 시대가 왔다. **고객이 지금 1초 전에 액션 영화를 클릭했다면, 0.1초 뒤 화면 하단에는 무조건 악당 영화 추천이 떠야 돈(매출)을 번다. 내일 아침 통계는 썩은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.** 쌓아두고 돌려보는 무거운 DB의 족쇄를 찢어버리고, 날아다니는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Motion)를 공중에서 씹어 먹는 스트리밍 엔진이 필수 생존 요건이 되었다.
+- **필요성**: 쿠팡에 1,000만 명이 접속해서 장바구니 버튼을 1초에 10만 번씩 누른다. 옛날에는 이 클릭 로그를 몽땅 하드디스크(DB)에 예쁘게 쌓아놨다가, 밤 12시 정각에 배치(Batch) 프로그램을 윙 돌렸다. "오늘 제일 많이 팔린 물건은 사과입니다!"라고 다음 날 아침에 사장님께 보고했다. 그런데 넷플릭스와 유튜브의 시대가 왔다. <strong>고객이 지금 1초 전에 액션 영화를 클릭했다면, 0.1초 뒤 화면 하단에는 무조건 악당 영화 추천이 떠야 돈(매출)을 번다. 내일 아침 통계는 썩은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>다.</strong> 쌓아두고 돌려보는 무거운 DB의 족쇄를 찢어버리고, 날아다니는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Motion)를 공중에서 씹어 먹는 스트리밍 엔진이 필수 생존 요건이 되었다.
 
 - **💡 비유**: 
-  - **배치(Batch) 처리**: 강물을 **'물탱크(DB)'**에 밤새도록 10만 리터를 꽉꽉 모아둔 다음, 다음 날 아침 정수기 필터를 한 번에 쾅! 씌워서 깨끗한 물을 뽑아내는 방식입니다. 물을 마시려면 하루를 꼬박 기다려야 합니다.
-  - **스트림 프로세싱([Stream Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/))**: 콸콸콸 쏟아지는 강물 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 **'[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 회전하는 터빈 믹서기'**를 그대로 냅다 꽂아버리는 겁니다. 물이 물탱크에 고일 틈도 없이, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 스쳐 지나가는 0.001초의 찰나에 믹서기가 실시간으로 이물질을 갈아버리고 소독 약(비즈니스 로직)을 타서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 반대편으로 100% 무균수(실시간 통계)를 뿜어냅니다. 1초도 안 기다리고 즉각 마실 수 있습니다.
+  - **배치(Batch) 처리**: 강물을 <strong>'물탱크(DB)'</strong>에 밤새도록 10만 리터를 꽉꽉 모아둔 다음, 다음 날 아침 정수기 필터를 한 번에 쾅! 씌워서 깨끗한 물을 뽑아내는 방식입니다. 물을 마시려면 하루를 꼬박 기다려야 합니다.
+  - <strong>스트림 프로세싱(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong>: 콸콸콸 쏟아지는 강물 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 회전하는 터빈 믹서기'</strong>를 그대로 냅다 꽂아버리는 겁니다. 물이 물탱크에 고일 틈도 없이, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 스쳐 지나가는 0.001초의 찰나에 믹서기가 실시간으로 이물질을 갈아버리고 소독 약(비즈니스 로직)을 타서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 반대편으로 100% 무균수(실시간 통계)를 뿜어냅니다. 1초도 안 기다리고 즉각 마실 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **배치(Batch)와 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))의 시대 (2000s)**: 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싸게 보관하려고 HDFS에 쌓아두고, [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))로 밤새워 계산했다. 며칠 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석엔 좋았지만 1초 뒤 주식 시세를 맞출 순 없었다.
-  2. **[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처 (스피드와 배치의 짬뽕)**: 빠른 건 스트림(Storm, [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))으로 찌끔 처리하고, 완벽한 통계는 배치([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))로 밤에 처리해서 둘을 합쳐봤다. 개발자가 코드를 두 번씩 짜느라 미쳐 죽으려 했다.
-  3. **카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처와 Flink의 천하통일 (현재)**: "야! 무거운 배치 다 갖다 버려! [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 7일 치 다 모아두고, 걍 스트림 프로세싱 엔진 1개(Flink)로 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 1초 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 한방에 다 씹어 먹어!" 가장 단순하고 극단적인 실시간 100% 아키텍처가 전 세계 인프라를 평정했다.
+  1. <strong>배치(Batch)와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">하둡</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a>)의 시대 (2000s)</strong>: 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싸게 보관하려고 HDFS에 쌓아두고, [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/))로 밤새워 계산했다. 며칠 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석엔 좋았지만 1초 뒤 주식 시세를 맞출 순 없었다.
+  2. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a> 아키텍처 (스피드와 배치의 짬뽕)</strong>: 빠른 건 스트림(Storm, [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))으로 찌끔 처리하고, 완벽한 통계는 배치([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))로 밤에 처리해서 둘을 합쳐봤다. 개발자가 코드를 두 번씩 짜느라 미쳐 죽으려 했다.
+  3. <strong>카파(<a href="/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/">Kappa</a>) 아키텍처와 Flink의 천하통일 (현재)</strong>: "야! 무거운 배치 다 갖다 버려! [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 7일 치 다 모아두고, 걍 스트림 프로세싱 엔진 1개(Flink)로 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 1초 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 한방에 다 씹어 먹어!" 가장 단순하고 극단적인 실시간 100% 아키텍처가 전 세계 인프라를 평정했다.
 
-- **📢 섹션 요약 비유**: 일반 DB 처리가 **'도둑이 어제 우리 집에 들어온 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 화면을 다음 날 경찰서에서 팝콘 먹으며 돌려보는 것(이미 털린 사후 약방문)'**이라면, 스트림 프로세싱은 **'[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 렌즈 자체에 안면 인식 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 센서를 달아서, 도둑이 담장을 넘는 0.1초의 찰나에 레이저 포탑(차단 룰)을 발사해버리는 초현실적 실시간 자가 면역 방어 체계'**입니다.
+- **📢 섹션 요약 비유**: 일반 DB 처리가 <strong>'도둑이 어제 우리 집에 들어온 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 화면을 다음 날 경찰서에서 팝콘 먹으며 돌려보는 것(이미 털린 사후 약방문)'</strong>이라면, 스트림 프로세싱은 <strong>'<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 렌즈 자체에 안면 인식 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 센서를 달아서, 도둑이 담장을 넘는 0.1초의 찰나에 레이저 포탑(차단 룰)을 발사해버리는 초현실적 실시간 자가 면역 방어 체계'</strong>입니다.
 
 ---
 
 다음은 이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 버스 (Event Bus) 및                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 버스 (Event Bus) 및</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및 스트림 프로세싱의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및 스트림 프로세싱의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 이벤트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Event [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 및 스트림 프로세싱의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 버스 (Event Bus) 및 스트림 프로세싱 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 버스 (Event Bus) 및 스트림 프로세싱 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

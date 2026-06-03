@@ -30,11 +30,17 @@ tags = ["software_engineering"]
 
 리드 타임은 보통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time + Cycle Time으로 쪼갤 수 있다. 사이클 타임은 실제 작업 구간의 길이이므로, 코드 작성·테스트·병합 같은 실행 시간을 본다. 흐름 효율(Flow Efficiency)은 `Cycle Time / Lead Time`으로 표현할 수 있어, 전체 시간 중 실제 일한 비율을 보여 준다.
 
-```text
-요청 ───── 대기 ───── 착수 ── 작업 ── 완료
- |<----------- Lead Time ------------>|
-              |<----- Cycle Time ----->|
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요청 대기 착수 ── 작업 ── 완료</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------- Lead Time ------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----- Cycle Time -----&gt;</div></div>
+</div>
+</div>
+
+
 
 | 지표 | 시작 | 종료 | 본질 |
 | --- | --- | --- | --- |
@@ -98,19 +104,25 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요청 접수
-   ↓
-대기열 / 우선순위 조정
-   ↓
-작업 착수
-   ↓
-실행 / 검증 / 병합
-   ↓
-완료 인도
-   ↓
-Lead Time / Cycle Time 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요청 접수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">대기열 / 우선순위 조정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">작업 착수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">실행 / 검증 / 병합</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">완료 인도</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Lead Time / Cycle Time 분석</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

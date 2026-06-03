@@ -10,8 +10,8 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [시계열 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)(Time Series [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 뼈대를 오직 **'시간(Timestamp)'**이라는 단일 축으로 고정시키고, 초당 수백만 건씩 쏟아지는 연속된 숫자([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쇳덩어리에 순차적으로 기록하는 데 미쳐있는 특수 목적 NoSQL이다.
-> 2. **가치**: 기존 관계형 DB(RDBMS)가 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `UPDATE`하고 `DELETE`하는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 집착하여 서버가 뻗어버리는 반면, TSDB는 **"과거의 시간은 바뀔 수 없다"**는 철학 하에 오직 미친 듯한 속도로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끝에 가져다 붙이는(Append-only) 압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
+> 1. **본질**: [시계열 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/)(Time Series [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 뼈대를 오직 <strong>'시간(Timestamp)'</strong>이라는 단일 축으로 고정시키고, 초당 수백만 건씩 쏟아지는 연속된 숫자([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쇳덩어리에 순차적으로 기록하는 데 미쳐있는 특수 목적 NoSQL이다.
+> 2. **가치**: 기존 관계형 DB(RDBMS)가 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `UPDATE`하고 `DELETE`하는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 집착하여 서버가 뻗어버리는 반면, TSDB는 <strong>"과거의 시간은 바뀔 수 없다"</strong>는 철학 하에 오직 미친 듯한 속도로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끝에 가져다 붙이는(Append-only) 압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 > 3. **판단 포인트**: 서버의 CPU/메모리 모니터링이나 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서에서 1초마다 들어오는 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할 때는 신(God)적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘하지만, 고객의 주소지가 바뀌거나 주문 내역을 수정해야 하는 '상태 변경([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Mutation)' 비즈니스 로직에 도입하면 시스템이 붕괴하는 극단적 양날의 검이다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-cloud-architecture"]
 
 수천 대의 서버를 굴리는 클라우드 환경에서 아키텍트는 서버들의 건강 상태(CPU 사용률, 남은 메모리, 네트워크 트래픽)를 1초 단위로 감시해야 한다. 서버가 1,000대면 1초에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아진다.
 
-이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전통적인 오라클이나 MySQL에 집어넣어 보자. RDBMS는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 유지하며 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남의 외래키를 건드리지 않나?"를 검사하느라 디스크 I/O가 폭발해 5분 만에 DB가 뻗어버린다. 게다가 모니터링 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한 달만 지나면 해상도를 낮춰서(초 단위 ➔ 일 단위 평균) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하거나 아예 버려야([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) 하는데, RDBMS의 `DELETE` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 가장 무거운 쇳덩어리 연산이다. 아키텍트들은 "어차피 어제 오후 2시의 CPU 사용률(과거)은 절대 변경(Update)될 일이 없다. 그렇다면 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진을 다 뜯어내고 오직 **시간 순서대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미친 듯이 쌓기만 하는(Append-only)** 시계열 전용 엔진을 만들자!"라고 결단했다. 이것이 InfluxDB와 Prometheus로 대표되는 TSDB 아키텍처의 탄생이다.
+이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전통적인 오라클이나 MySQL에 집어넣어 보자. RDBMS는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 유지하며 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남의 외래키를 건드리지 않나?"를 검사하느라 디스크 I/O가 폭발해 5분 만에 DB가 뻗어버린다. 게다가 모니터링 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한 달만 지나면 해상도를 낮춰서(초 단위 ➔ 일 단위 평균) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하거나 아예 버려야([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) 하는데, RDBMS의 `DELETE` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 가장 무거운 쇳덩어리 연산이다. 아키텍트들은 "어차피 어제 오후 2시의 CPU 사용률(과거)은 절대 변경(Update)될 일이 없다. 그렇다면 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진을 다 뜯어내고 오직 <strong>시간 순서대로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 미친 듯이 쌓기만 하는(Append-only)</strong> 시계열 전용 엔진을 만들자!"라고 결단했다. 이것이 InfluxDB와 Prometheus로 대표되는 TSDB 아키텍처의 탄생이다.
 
 - **📢 섹션 요약 비유**: RDBMS가 '도서관 사서'라면(책이 들어오면 색인 카드에 적고 가나다순으로 책꽂이에 정교하게 꽂고, 찢어진 페이지를 보수함), TSDB는 공장의 '컨베이어 벨트 작업자'다. 1초마다 쏟아지는 부품(시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 도장만 찍어서 뒤로 미친 듯이 던져 쌓는 역할만 한다. 수정(Update)은 불가능하지만 속도는 수만 배 빠르다.
 
@@ -31,32 +31,30 @@ tags = ["studynote-cloud-architecture"]
 ### Append-only Write와 무자비한 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)(Downsampling)
 TSDB는 디스크 헤드를 이리저리 움직이지 않고(Random Access 제거), 무조건 끝에 가져다 붙이는 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Write)로 I/O 병목을 박살 낸다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           TSDB (Time Series Database) 핵심 데이터 아키텍처      │
-├────────────────────────────────────────────────────────┤
-│   [ 1. 데이터 모델 (Data Model) ]                         │
-│    - Timestamp (절대 시간 축): 2026-05-05 10:00:01         │
-│    - Tags (메타데이터/인덱싱 축): host=server01, region=us  │
-│    - Field (실제 숫자값 축) : cpu_usage = 85.4            │
-│                                                        │
-│   [ 2. 쇳덩어리 스토리지 엔진 (Append-only & Retention) ]   │
-│                                                        │
-│   (현재 ~ 7일 전 데이터)  ──▶ 초 단위 저장 (원시 데이터, 용량 폭발)│
-│            │ (시간이 지나면 자동 Downsampling 발동!)          │
-│            ▼                                           │
-│   (7일 전 ~ 30일 전)     ──▶ 1시간 단위 평균값으로 뭉뚱그려 압축  │
-│            │ (Retention Policy 발동!)                   │
-│            ▼                                           │
-│   (30일 경과 데이터)       ──▶ 하드디스크에서 자동 폭파 (Drop)     │
-│                                                        │
-│ * 핵심 논리: 과거 데이터 수정(UPDATE) 기능 자체를 아키텍처에서   │
-│   삭제해 버렸기 때문에, 락(Lock) 경합 없이 수백만 개의 데이터를 │
-│   동시에 파일 끝에 써버리는 극한의 Write 속도를 달성한다.       │
-└────────────────────────────────────────────────────────┘
-```
 
-TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 **[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**와 **Downsampling(다운샘플링)**을 세팅한다. "최근 1주일 치는 초 단위로 보여주되, 1주일이 지나면 1시간 평균값으로 찌그러뜨려 용량을 1/3600로 줄이고, 한 달 지나면 아예 지워버려라!" RDBMS라면 테이블 풀스캔이 돌며 서버가 터질 작업을 TSDB는 백그라운드에서 숨 쉬듯 가볍게 처리한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSDB (Time Series Database) 핵심 데이터 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 모델 (Data Model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Timestamp (절대 시간 축): 2026-05-05 10:00:01</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tags (메타데이터/인덱싱 축): host=server01, region=us</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Field (실제 숫자값 축) : cpu_usage = 85.4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 쇳덩어리 스토리지 엔진 (Append-only &amp; Retention)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 ~ 7일 전 데이터) ──▶ 초 단위 저장 (원시 데이터, 용량 폭발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시간이 지나면 자동 Downsampling 발동!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(7일 전 ~ 30일 전) ──▶ 1시간 단위 평균값으로 뭉뚱그려 압축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Retention Policy 발동!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(30일 경과 데이터) ──▶ 하드디스크에서 자동 폭파 (Drop)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 과거 데이터 수정(UPDATE) 기능 자체를 아키텍처에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삭제해 버렸기 때문에, 락(Lock) 경합 없이 수백만 개의 데이터를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에 파일 끝에 써버리는 극한의 Write 속도를 달성한다.</div></div>
+</div>
+</div>
+
+
+
+TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>(보존 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)</strong>와 <strong>Downsampling(다운샘플링)</strong>을 세팅한다. "최근 1주일 치는 초 단위로 보여주되, 1주일이 지나면 1시간 평균값으로 찌그러뜨려 용량을 1/3600로 줄이고, 한 달 지나면 아예 지워버려라!" RDBMS라면 테이블 풀스캔이 돌며 서버가 터질 작업을 TSDB는 백그라운드에서 숨 쉬듯 가볍게 처리한다.
 
 - **📢 섹션 요약 비유**: TSDB의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Downsampling) 로직은 '추억의 사진첩 정리'다. 어제 간 여행(최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 사진 1,000장을 다 남겨두지만, 10년 전 여행(과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 제일 잘 나온 사진 10장(평균값)만 남기고 나머지는 다 지워버려 앨범 용량을 최적화하는 것과 완벽히 동일하다.
 
@@ -69,12 +67,12 @@ TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 **[Retention](/kn
 
 | 비교 항목 | RDBMS (MySQL, PostgreSQL) | TSDB ([InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) |
 |:---|:---|:---|
-| **최우선 목적** | **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(ACID)과 복잡한 관계형 조인** | **시간 순서에 따른 엄청난 속도의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 및 집계** |
-| **핵심 연산** | CRUD ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 읽기, 수정, 삭제) 모두 중요 | **오직 Insert([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))와 Read(범위 검색)에 몰빵** |
+| **최우선 목적** | <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(ACID)과 복잡한 관계형 조인</strong> | <strong>시간 순서에 따른 엄청난 속도의 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 및 집계</strong> |
+| **핵심 연산** | CRUD ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 읽기, 수정, 삭제) 모두 중요 | <strong>오직 Insert(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>)와 Read(범위 검색)에 몰빵</strong> |
 | **Update / Delete**| 언제든 자유롭게 가능 (락 발생) | **원칙적으로 불가능하거나 극도로 제한됨 (비권장)** |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폐기** | 무거운 `DELETE` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 인한 DB 부하 발생 | **오래된 시계열 청크(Chunk)를 통째로 날림 (부하 0)** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 폐기</strong> | 무거운 `DELETE` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 인한 DB 부하 발생 | **오래된 시계열 청크(Chunk)를 통째로 날림 (부하 0)** |
 | **질의어 (Query)** | SQL (테이블 구조적) | **PromQL, Flux** (시간 범위, 이동 평균 함수 특화) |
-| **활용처** | 은행 계좌, 쇼핑몰 회원 정보, 게시판 | **서버 모니터링, 스마트팩토리 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, 주식 틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** |
+| **활용처** | 은행 계좌, 쇼핑몰 회원 정보, 게시판 | <strong>서버 모니터링, 스마트팩토리 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서, 주식 틱 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> |
 
 어제 오후 3시의 강남역 온도가 28도였다는 사실은, 내일이 된다고 해서 절대 29도로 바뀌지 않는다(불변성, Immutability). TSDB는 이 불변성을 믿고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 복잡한 쇳덩어리 기어([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 외래키 체크)를 전부 빼버려 스포츠카(TSDB)를 만든 것이다.
 
@@ -85,11 +83,11 @@ TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 **[Retention](/kn
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 융합 클라우드 모니터링 (Pull 방식)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터 아키텍트. 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들이 쏟아내는 CPU/메모리 메트릭을 수집해야 한다. 쇳덩어리 구조상 K8s의 절대 표준이 된 프로메테우스([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) TSDB를 박아넣는다. 프로메테우스는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들에게 "너 지금 상태 어때?"라고 10초마다 물어보고(Pull 방식) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어와(Scrape) 시계열로 쌓는다. 그리고 그라파나([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)) 대시보드는 `PromQL( rate(http_requests_total[5m]) )` 같은 시계열 전용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려 초당 트래픽 변화율(미분값)을 화려한 꺾은선 그래프로 그려낸다.
-2. **InfluxDB를 활용한 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 (Push 방식)**: 공장 라인의 로봇 팔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개에서 온도, 진동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0.1초마다 쏟아진다. 프로메테우스의 Pull 방식으로는 감당이 안 된다(센서가 응답을 못 버팀). 아키텍트는 봇들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 능동적으로 쏴버리는(Push 방식) [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 클러스터를 구축한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지는 족족 디스크에 Append 시킨 뒤, 실시간으로 "온도가 최근 5분 이동평균(Moving Average) 대비 10도 이상 튀면 즉시 알람!"이라는 Continuous Query를 돌려 로봇 팔의 화재를 막아낸다.
+1. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a> + <a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a> 융합 클라우드 모니터링 (Pull 방식)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터 아키텍트. 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들이 쏟아내는 CPU/메모리 메트릭을 수집해야 한다. 쇳덩어리 구조상 K8s의 절대 표준이 된 프로메테우스([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) TSDB를 박아넣는다. 프로메테우스는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들에게 "너 지금 상태 어때?"라고 10초마다 물어보고(Pull 방식) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어와(Scrape) 시계열로 쌓는다. 그리고 그라파나([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)) 대시보드는 `PromQL( rate(http_requests_total[5m]) )` 같은 시계열 전용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려 초당 트래픽 변화율(미분값)을 화려한 꺾은선 그래프로 그려낸다.
+2. <strong>InfluxDB를 활용한 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 (Push 방식)</strong>: 공장 라인의 로봇 팔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개에서 온도, 진동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0.1초마다 쏟아진다. 프로메테우스의 Pull 방식으로는 감당이 안 된다(센서가 응답을 못 버팀). 아키텍트는 봇들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 능동적으로 쏴버리는(Push 방식) [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 클러스터를 구축한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지는 족족 디스크에 Append 시킨 뒤, 실시간으로 "온도가 최근 5분 이동평균(Moving Average) 대비 10도 이상 튀면 즉시 알람!"이라는 Continuous Query를 돌려 로봇 팔의 화재를 막아낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **카디널리티 폭발(High Cardinality)을 유발하는 태그(Tag) 남용 설계**: TSDB 아키텍트 초보자들이 겪는 가장 끔찍한 재앙. 모니터링 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 검색을 빨리하려고 태그(Tag)를 단다. `host=서버1` (좋음), `region=서울` (좋음). 그런데 여기에 미쳐서 **`user_id=1029384`** 처럼 수천만 명의 유저 ID나 난수로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 태그 축(Tag)에 박아버리는 순간 쇳덩어리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 폭발한다. TSDB는 태그 조합의 수만큼 내부적으로 시계열 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리를 무한대로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하기 때문에, 몇 시간 만에 RAM 128GB를 다 씹어먹고 메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 시스템이 장렬히 산화한다. 고유값(무한한 값)은 절대 Tag가 아닌 Field(숫자/텍스트 값)에 넣어야 한다.
+- **카디널리티 폭발(High Cardinality)을 유발하는 태그(Tag) 남용 설계**: TSDB 아키텍트 초보자들이 겪는 가장 끔찍한 재앙. 모니터링 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 검색을 빨리하려고 태그(Tag)를 단다. `host=서버1` (좋음), `region=서울` (좋음). 그런데 여기에 미쳐서 <strong><code>user_id=1029384</code></strong> 처럼 수천만 명의 유저 ID나 난수로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 태그 축(Tag)에 박아버리는 순간 쇳덩어리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 폭발한다. TSDB는 태그 조합의 수만큼 내부적으로 시계열 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리를 무한대로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하기 때문에, 몇 시간 만에 RAM 128GB를 다 씹어먹고 메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 시스템이 장렬히 산화한다. 고유값(무한한 값)은 절대 Tag가 아닌 Field(숫자/텍스트 값)에 넣어야 한다.
 
 - **📢 섹션 요약 비유**: 카디널리티 폭발은 우편물을 정리할 때, '국가별', '도시별(태그)'로 바구니를 나누면 100개면 충분하지만, 미련하게 '사람 이름별(고유값 태그)'로 바구니를 5천만 개 만들어 놓으려다가 우체국 창고(메모리)가 터져버리는 멍청한 짓이다. 태그는 반드시 유한한 집합(서버 100대, 지역 5개 등)이어야만 한다.
 
@@ -111,25 +109,27 @@ TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 **[Retention](/kn
 |:---|:---|
 | **카디널리티 (Cardinality)** | TSDB 아키텍트의 수명을 깎아 먹는 가장 무서운 단어. 태그(Tag) 조합의 경우의 수. 이게 폭발하면 프로메테우스나 인플럭스DB는 메모리를 토해내며 죽는다. |
 | **다운샘플링 (Downsampling)** | 초 단위의 빽빽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 시간이 지나면 1시간/1일 단위 평균값이나 최대/최솟값으로 뭉뚱그려 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 디스크 용량과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도를 구원하는 TSDB의 핵심 기능 |
-| **그라파나 ([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/))** | TSDB(프로메테우스, [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/))라는 쇳덩어리 엔진이 쌓아둔 숫자 더미를, 인간의 눈이 볼 수 있는 화려하고 섹시한 꺾은선 대시보드로 렌더링해 주는 최고의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 짝꿍 |
+| <strong>그라파나 (<a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a>)</strong> | TSDB(프로메테우스, [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/))라는 쇳덩어리 엔진이 쌓아둔 숫자 더미를, 인간의 눈이 볼 수 있는 화려하고 섹시한 꺾은선 대시보드로 렌더링해 주는 최고의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 짝꿍 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클라우드 팽창 및 서버/컨테이너(마이크로서비스) 수의 폭발적 증가
-    │
-    ▼
-기존 RDBMS 및 로깅 시스템으로 초당 수십만 건의 메트릭(Metric) 쓰기 감당 불가
-    │
-    ▼
-업데이트(Update)와 락(Lock)을 제거한 Append-only 기반의 시계열 전용 저장소(TSDB) 개발
-    │
-    ▼
-시간 축 기반의 압축(Downsampling) 및 폐기(Retention) 자동화 메커니즘 확립
-    │
-    ▼
-K8s 환경의 Prometheus (Pull), IoT 환경의 InfluxDB (Push)로 클라우드/AI 인프라 모니터링 천하통일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라우드 팽창 및 서버/컨테이너(마이크로서비스) 수의 폭발적 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기존 RDBMS 및 로깅 시스템으로 초당 수십만 건의 메트릭(Metric) 쓰기 감당 불가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">업데이트(Update)와 락(Lock)을 제거한 Append-only 기반의 시계열 전용 저장소(TSDB) 개발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시간 축 기반의 압축(Downsampling) 및 폐기(Retention) 자동화 메커니즘 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s 환경의 Prometheus (Pull), IoT 환경의 InfluxDB (Push)로 클라우드/AI 인프라 모니터링 천하통일</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "인프라 규모 폭발 → 범용 DB(RDBMS)의 한계 노출 → 시간(Time)이라는 단일 축으로 최적화된 극단적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엔진(TSDB)의 아키텍처적 승리"를 보여준다.
 

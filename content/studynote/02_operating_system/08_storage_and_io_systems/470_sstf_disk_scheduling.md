@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SSTF(Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) First) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 큐에 쌓인 수많은 I/O 요청 중에서, **"현재 디스크 헤드(바늘) 위치로부터 가장 가까운(이동 거리가 가장 짧은) 트랙의 요청부터 우선적으로 쓱싹 처리"**하는 극단적 근거리 우대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 미친 듯이 널뛰기하던 이전 세대 FCFS의 비효율을 비웃으며, 디스크 쇳덩어리의 기계적 이동 거리([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))를 비약적으로 단축시켜 **전체 디스크 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 시스템 반응 속도를 순간적으로 2~3배 뻥튀기**시킨다.
-> 3. **융합(한계)**: 현재 위치 근처에만 새 요청이 계속 들어오면 바늘이 그 동네에만 갇혀버려, 디스크 양 끝단에 있는 요청은 영원히 처리되지 못하고 굶어 죽는 **'기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'을 필연적으로 유발하므로, 엘리베이터(SCAN) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화하기 위한 징검다리**로 역사에 남았다.
+> 1. **본질**: SSTF(Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) First) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 큐에 쌓인 수많은 I/O 요청 중에서, <strong>"현재 디스크 헤드(바늘) 위치로부터 가장 가까운(이동 거리가 가장 짧은) 트랙의 요청부터 우선적으로 쓱싹 처리"</strong>하는 극단적 근거리 우대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 미친 듯이 널뛰기하던 이전 세대 FCFS의 비효율을 비웃으며, 디스크 쇳덩어리의 기계적 이동 거리([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))를 비약적으로 단축시켜 <strong>전체 디스크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)과 시스템 반응 속도를 순간적으로 2~3배 뻥튀기</strong>시킨다.
+> 3. **융합(한계)**: 현재 위치 근처에만 새 요청이 계속 들어오면 바늘이 그 동네에만 갇혀버려, 디스크 양 끝단에 있는 요청은 영원히 처리되지 못하고 굶어 죽는 <strong>'기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)'을 필연적으로 유발하므로, 엘리베이터(SCAN) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 진화하기 위한 징검다리</strong>로 역사에 남았다.
 
 ---
 
@@ -22,36 +22,33 @@ tags = ["studynote-operating-system"]
 - **개념**: 우리말로는 '최단 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 우선' 방식이다. CPU 스케줄링에서 짧은 작업부터 쳐내는 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))의 하드디스크 물리 버전이다. 바늘이 현재 50번에 있는데, 큐에 52번, 10번, 100번 요청이 있다면 무조건 가장 거리가 가까운 `52번(거리 2)`부터 찌르고 본다. 그다음 52번 위치에서 다시 계산해 가까운 곳을 찾아 뱀처럼 스멀스멀 기어가는 탐욕적(Greedy) 구조다.
 - **필요성**: 들어온 순서대로 바늘을 10번 -> 900번 -> 20번으로 와이퍼처럼 흔들어대던 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) 방식은 하드디스크 모터를 타버리게 만들었다(지옥의 Seek 렉). OS 공학자들은 빡쳤다. "아니, 10번지 긁었으면 20번지를 바로 긁으면 되지 왜 900번까지 갔다 오냐? 상식이 없냐?" 당장 눈앞에 있는 쓰레기부터 줍고 넘어가면 전체 청소 시간이 절반으로 준다는 지극히 합리적인 '인간의 직관'이 컴퓨터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 처음으로 도입된 순간이다.
 
-- **등장 배경 및 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)의 유혹**:
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/">탐욕 알고리즘</a>의 유혹</strong>:
   1. **FCFS의 헤드 널뛰기 재앙**: 순서 지키려다 디스크 I/O가 멈추는 물리적 병목을 체감.
-  2. **[Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 철학의 이식**: CPU가 하던 "짧은 거 먼저" 방식을, 물리적 '거리(Distance)'로 치환하여 디스크에 때려 박음.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/">Shortest Job First</a> 철학의 이식</strong>: CPU가 하던 "짧은 거 먼저" 방식을, 물리적 '거리(Distance)'로 치환하여 디스크에 때려 박음.
   3. **Greedy(탐욕)의 한계 봉착**: 당장 눈앞의 이익만 쫓다가 전체 생태계(구석진 곳의 기아)가 박살 나는 부작용이 터짐.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화                │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124        │
-│ [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                           │
-│                                                                        │
-│ ▶ SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"      │
-│                                                                        │
-│   14   37     53     98    122 124        183                          │
-│   │    │      [시작]  │      │  │          │                           │
-│   │    │◀──────┘      │      │  │          │                           │
-│   │◀───┘              │      │  │          │                           │
-│   └───────────────────▶①    │  │          │                            │
-│                          └──────▶②  │          │                       │
-│                                 └──▶③          │                       │
-│                                        └──────────▶④                   │
-│                                                                        │
-│ ✅ 총 헤드 이동 거리 연산:                                             │
-│ 53에서 37(16) -> 14(23) -> 98(84) -> 122(24) -> 124(2) -> 183(59)      │
-│ = 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!                    │
-│ (앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)│
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">큐에 쌓인 요청 순서 (트랙 번호)</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 바늘(Head)의 현재 위치</div><div class="kb-diagram-note">: 53번 트랙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">│ │ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶①</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶②</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶③</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶④</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 총 헤드 이동 거리 연산:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">53에서 37(16) -&gt; 14(23) -&gt; 98(84) -&gt; 122(24) -&gt; 124(2) -&gt; 183(59)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 Z자 없는 스무스한 동선을 보라. 53에서 출발한 바늘은 왼쪽으로 살짝 꺾어 가까운 37과 14를 쓱쓱 주워 담은 뒤, 방향을 틀어 오른쪽의 98, 122, 124, 183을 도미노처럼 차례대로 부수며 나아간다. 이동 거리 579가 208로 줄었다는 것은, 디스크의 모터가 헛도는 시간을 3분의 1로 압축하여 남는 시간에 유저의 파일을 3배 더 많이 퍼 나를 수 있게 되었다는 위대한 공학적 승리다.
 
 - **📢 섹션 요약 비유**: 택시 기사가 콜 들어온 순서를 다 씹고, "내 차 바로 옆 1km 반경에 있는 콜만 무조건 먼저 잡아서 태우겠다(SSTF)"고 선언한 겁니다. 택시는 길에서 빈 차로 헤매는 시간([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 없이 1초도 안 쉬고 손님을 태울 수 있어 기사의 하루 매출([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 그날 우주 최고를 찍습니다.
@@ -62,19 +59,19 @@ tags = ["studynote-operating-system"]
 
 ### 절대적 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 발생 
 
-"눈앞에 있는 것만 주워 먹는다." 이 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)(Greedy)은 필연적으로 **[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**라는 최악의 버그를 낳는다.
+"눈앞에 있는 것만 주워 먹는다." 이 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)(Greedy)은 필연적으로 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>라는 최악의 버그를 낳는다.
 - 디스크 바늘이 50번 트랙 근처에서 52, 48, 55번 요청을 처리하고 있다.
 - 저기 구석 999번 트랙에서 어떤 엑셀 앱이 "나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 좀 읽어줘..."라고 큐에 요청을 넣었다.
 - 바늘이 999번 쪽으로 가려고 고개를 돌리려는 찰나! 갑자기 51번, 49번 트랙에서 새로운 I/O 요청이 우수수 쏟아져 들어왔다.
 - SSTF [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/): "어? 999번은 머니까 놔두고, 방금 들어온 51번이 더 가깝네? 51번부터 처리하자!"
-- **재앙의 결과**: 50번대 근처에 인기 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(핫스팟)가 몰려있어 요청이 끊임없이 쏟아지면, 바늘은 평생 50번대 주위를 맴돌며 벗어나질 못한다. 저 멀리 구석 999번을 요청한 엑셀 앱은 1시간이 지나도 응답을 못 받아 **화면이 하얗게 굳어버리며 무한 대기([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))** 늪에 빠져 서서히 죽어간다.
+- **재앙의 결과**: 50번대 근처에 인기 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(핫스팟)가 몰려있어 요청이 끊임없이 쏟아지면, 바늘은 평생 50번대 주위를 맴돌며 벗어나질 못한다. 저 멀리 구석 999번을 요청한 엑셀 앱은 1시간이 지나도 응답을 못 받아 <strong>화면이 하얗게 굳어버리며 무한 대기(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong> 늪에 빠져 서서히 죽어간다.
 
 ---
 
 ### 스케줄러의 무거운 수학 연산 (O(N) 갱신 오버헤드)
 
 FCFS는 큐에 넣고 빼기만 하면 되서 오버헤드가 $O(1)$ 이었다. SSTF는 뇌를 굴려야 한다.
-- 디스크 처리가 하나 끝날 때마다, 스케줄러는 큐에 쌓인 1만 개의 I/O 요청들을 싹 다 끄집어내서 **"현재 내 바늘 위치(예: 50)에서 뺄셈 절댓값을 1만 번 돌려, 가장 차이가 적은(Min) 놈"**을 수학적으로 찾아내야 한다.
+- 디스크 처리가 하나 끝날 때마다, 스케줄러는 큐에 쌓인 1만 개의 I/O 요청들을 싹 다 끄집어내서 <strong>"현재 내 바늘 위치(예: 50)에서 뺄셈 절댓값을 1만 번 돌려, 가장 차이가 적은(Min) 놈"</strong>을 수학적으로 찾아내야 한다.
 - 최악인 점은, 이 최소 거리(Min) 놈이 고정된 게 아니라 바늘이 한 칸 움직일 때마다 1만 개의 거리값이 실시간으로 다 바뀐다는 것이다.
 - 즉, I/O 1개를 처리할 때마다 무거운 검색 루프를 돌려야 하는 CPU 파먹기 렉이 생긴다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입장에선 똑똑한 척하려다 칩셋이 불타오르는 기현상을 겪게 된다.
 
@@ -91,25 +88,28 @@ FCFS는 큐에 넣고 빼기만 하면 되서 오버헤드가 $O(1)$ 이었다. 
 | 평가 지표 | [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (먼저 온 순서) | SSTF (가까운 순서) |
 |:---|:---|:---|
 | **총 바늘 이동 거리** | ☠️ 우주 끝까지 감 (최악) | **🚀 획기적으로 짧음 (최상)** |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**| 바닥을 기어다님 | **극강으로 솟구침** |
-| **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**| 편차가 적음 (예측 가능) | **☠️ 로또급 기복 (1초 or 평생)** |
-| **기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**| 절대 없음 (공평함의 끝) | **☠️ 구석진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 영원히 굶어죽음**|
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>| 바닥을 기어다님 | **극강으로 솟구침** |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>| 편차가 적음 (예측 가능) | **☠️ 로또급 기복 (1초 or 평생)** |
+| <strong>기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>| 절대 없음 (공평함의 끝) | <strong>☠️ 구석진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 영원히 굶어죽음</strong>|
 | **실무 채택 여부** | 버림받음 | 너무 치명적인 단점 때문에 **버림받음** |
 
 ### 왜 '[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))'이 치명적일까?
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 평가할 때 평균(Average) 처리 속도보다 중요한 게 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**이다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 평가할 때 평균(Average) 처리 속도보다 중요한 게 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>이다.
 - A앱은 0.1초 만에 로딩되고, B앱은 10분 뒤에 로딩된다 치자. 평균을 내면 5분이라 "괜찮네?" 싶다.
 - 하지만 유저 입장에서 어떤 폴더는 클릭하자마자 열리는데, 어떤 폴더는 누르면 10분 동안 마우스 모래시계가 뺑글뺑글 돈다면? 당장 컴퓨터를 발로 차서 부숴버릴 것이다.
-- 즉, **SSTF처럼 특정 요청이 로또에 당첨된 듯 빠르거나, 재수 없게 평생 갇히는 복불복(High [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 시스템은 범용 윈도우/리눅스 OS에서 절대로 채택할 수 없는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**이다. OS의 미덕은 "모두가 적당히 1초 안에 켜지는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Low [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))"이기 때문이다.
+- 즉, <strong>SSTF처럼 특정 요청이 로또에 당첨된 듯 빠르거나, 재수 없게 평생 갇히는 복불복(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>) 시스템은 범용 윈도우/리눅스 OS에서 절대로 채택할 수 없는 최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>이다. OS의 미덕은 "모두가 적당히 1초 안에 켜지는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Low [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))"이기 때문이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 스케줄러   │ I/O 평균 속도│ I/O 속도 편차│ 유저의 체감 반응         │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ FCFS     │ 🔴 겁나 느림 │ 🟢 아주 일정함│ 🐢 느린데 적응은 됨       │
-│ SSTF     │ 🚀 우주 최강 │ ☠️ 극악의 널뛰기│ 💥 화면 멈춰서 컴터 부숨│
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">I/O 평균 속도</div><div class="kb-diagram-cell">I/O 속도 편차</div><div class="kb-diagram-cell">유저의 체감 반응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS</div><div class="kb-diagram-cell">🔴 겁나 느림</div><div class="kb-diagram-cell">🟢 아주 일정함</div><div class="kb-diagram-cell">🐢 느린데 적응은 됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF</div><div class="kb-diagram-cell">🚀 우주 최강</div><div class="kb-diagram-cell">☠️ 극악의 널뛰기</div><div class="kb-diagram-cell">💥 화면 멈춰서 컴터 부숨</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 극단적인 효율 추구(SSTF)는 결국 시스템의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))를 무너뜨린다. 구석에 박힌 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 코어 파일이 SSTF 늪에 빠져 램에 안 올라오면, OS 전체가 뻗어버리는 데드락 스크류가 터질 수 있다. 공학자들은 이 둘의 장점만 섞은 궁극의 합의점을 갈망하게 되었다.
 
 - **📢 섹션 요약 비유**: 엘리베이터가 SSTF 방식으로 움직인다고 칩시다. 1층과 2층 사람들이 버튼을 계속 누르면 엘리베이터가 1, 2층만 무한대로 오르락내리락합니다(극강 효율). 10층에서 퇴근하려고 버튼을 누른 아저씨는 엘리베이터가 10층까지 절대 안 올라와서 3일 밤낮을 회사에 갇혀 굶어 죽게 되는([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 붕괴) 호러 영화의 주인공이 됩니다.
@@ -123,7 +123,7 @@ SSTF는 그 자체로는 실패작이지만, 후대 인류에게 가장 완벽�
 1. **문제의 본질 깨달음**: "바늘이 방향을 이리저리 휙휙 꺾으니까 50번대 늪에 빠지는구나!"
 2. **방향성(Direction) 락의 도입**:
    - 스케줄러에 규칙을 하나 강제한다. **"바늘이 일단 오른쪽으로 가기 시작했으면, 무조건 끝까지 오른쪽으로만 밀고 가라! 도중에 왼쪽 가까운 곳에 콜이 들어와도 무시하고 직진해!"**
-   - 이것이 바로 그 유명한 **SCAN ([엘리베이터 알고리즘](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/))**의 탄생이다. 
+   - 이것이 바로 그 유명한 <strong>SCAN (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>)</strong>의 탄생이다. 
 3. **결과적 대성공**:
    - 한쪽으로 쭉 밀면서 가니까(SSTF의 최단 거리 장점 흡수), 동선 낭비가 없다.
    - 끝까지 쭉 갔다가 벽을 치고 다시 반대쪽으로 오니까, 아무리 구석(999번)에 있는 요청도 바늘이 한 번은 무조건 핥고 지나간다 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 완벽 해결).
@@ -131,7 +131,7 @@ SSTF는 그 자체로는 실패작이지만, 후대 인류에게 가장 완벽�
 
 ### [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) (일괄 처리)을 통한 SSTF 변종 튜닝
 최신 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)가 직접 디스크를 긁을 때 내부적으로 SSTF 비스무리한 로직을 쓴다. 단, 맹점을 막기 위해 꼼수를 덧댄다.
-- 큐에 쌓인 요청 100개를 잘라서 **하나의 묶음(Batch)**으로 만든다.
+- 큐에 쌓인 요청 100개를 잘라서 <strong>하나의 묶음(Batch)</strong>으로 만든다.
 - 이 100개 안에서만 맘대로 SSTF(가까운 것 우선)를 쳐서 빛의 속도로 긁어모은다.
 - 100개를 다 긁기 전까지는 밖에서 아무리 새로운 요청이 들어와도 큐에 안 끼워준다(새치기 차단).
 - 이렇게 배치 단위 컷오프를 주면, 효율(SSTF)은 챙기면서 구석탱이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 평생 소외되는 일(기아 현상)은 완벽히 막아내는 실무 최고의 튜닝([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) Scheduler 류)이 된다.
@@ -146,9 +146,9 @@ SSTF는 그 자체로는 실패작이지만, 후대 인류에게 가장 완벽�
 
 | 구분 | 내용 |
 |:---|:---|
-| **디스크 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 한계 입증**| 무식한 시간순([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))을 거치지 않고 거리순(SSTF)으로 재정렬만 해도 물리 디스크의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 2배 이상 뛴다는 하드웨어 최적화의 진리를 숫자로 증명 |
-| **기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상의 무서움 각인**| 눈앞의 효율(Greedy)만 좇는 1차원적 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)이 OS의 척추인 '공평성'과 예측 가능성을 어떻게 찢어놓는지 보여준 반면교사 |
-| **[엘리베이터 알고리즘](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/)(SCAN) 산파** | SSTF의 극강의 장점(동선 최소화)을 유지하면서 방향 제어 락을 건 SCAN 아키텍처를 탄생하게 한 위대한 실패의 어머니 |
+| <strong>디스크 스루풋(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) 한계 입증</strong>| 무식한 시간순([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))을 거치지 않고 거리순(SSTF)으로 재정렬만 해도 물리 디스크의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 2배 이상 뛴다는 하드웨어 최적화의 진리를 숫자로 증명 |
+| <strong>기아(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 현상의 무서움 각인</strong>| 눈앞의 효율(Greedy)만 좇는 1차원적 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)이 OS의 척추인 '공평성'과 예측 가능성을 어떻게 찢어놓는지 보여준 반면교사 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>(SCAN) 산파</strong> | SSTF의 극강의 장점(동선 최소화)을 유지하면서 방향 제어 락을 건 SCAN 아키텍처를 탄생하게 한 위대한 실패의 어머니 |
 
 ### 결론 및 미래 전망
 
@@ -169,15 +169,19 @@ SSTF (Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_stor
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[FCFS (First-Come, First-Served) 스케줄링]
-    │
-    ▼
-[SSTF (Shortest Seek Time First)]
-    │
-    ├──▶ [SCAN 스케줄링 (엘리베이터 알고리즘)]
-    └──▶ [C-SCAN (Circular SCAN)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-SCAN (Circular SCAN)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

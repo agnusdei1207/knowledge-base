@@ -19,9 +19,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-터보부스트는 "CPU 스펙의 윗단"이 아니라, **멀티코어 시대의 낭비를 줄이기 위해 나온 동적 주파수 제어**다. 여러 코어를 가진 CPU는 모든 코어가 동시에 오래 일하는 최악의 경우에도 안전해야 하므로, 제조사는 기본 클럭을 비교적 보수적으로 정한다. 문제는 실제 사용자 작업의 상당수가 그 최악의 경우가 아니라는 점이다. 앱 실행, 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더링, 문서 편집, 게임의 일부 로직처럼 짧고 가벼우며 몇 개 코어에만 집중되는 부하가 훨씬 흔하다.
+터보부스트는 "CPU 스펙의 윗단"이 아니라, <strong>멀티코어 시대의 낭비를 줄이기 위해 나온 동적 주파수 제어</strong>다. 여러 코어를 가진 CPU는 모든 코어가 동시에 오래 일하는 최악의 경우에도 안전해야 하므로, 제조사는 기본 클럭을 비교적 보수적으로 정한다. 문제는 실제 사용자 작업의 상당수가 그 최악의 경우가 아니라는 점이다. 앱 실행, 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더링, 문서 편집, 게임의 일부 로직처럼 짧고 가벼우며 몇 개 코어에만 집중되는 부하가 훨씬 흔하다.
 
-이런 상황에서 모든 코어를 기본 클럭에 묶어 두면, 패키지 전체의 전력과 열 예산이 남아도는데도 활성 코어가 더 빨라지지 못한다. 터보부스트는 바로 이 남는 예산을 활용한다. 즉 "모든 코어를 항상 동일하게 빠르게"가 아니라, **지금 실제로 바쁜 코어가 더 높은 배수로 달릴 수 있게 하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다.
+이런 상황에서 모든 코어를 기본 클럭에 묶어 두면, 패키지 전체의 전력과 열 예산이 남아도는데도 활성 코어가 더 빨라지지 못한다. 터보부스트는 바로 이 남는 예산을 활용한다. 즉 "모든 코어를 항상 동일하게 빠르게"가 아니라, <strong>지금 실제로 바쁜 코어가 더 높은 배수로 달릴 수 있게 하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.
 
 특히 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 낮은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도의 워크로드에서는 이 차이가 사용자 체감으로 바로 이어진다. 기본 클럭만 높이는 방식은 풀로드 발열과 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 키우지만, 터보부스트는 필요한 순간에만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리므로 평균 효율과 순간 반응성을 동시에 얻기 좋다. 그래서 터보부스트는 단순 오버클러킹이 아니라, 전력 예산을 시간축과 코어축에서 재배치하는 현대 CPU 제어 기법이다.
 
@@ -43,28 +43,27 @@ tags = ["studynote-computer-architecture"]
 | PL2 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit 2) | 단기 전력 한계 | 짧은 부스트 폭 결정 |
 | 최대 접합 온도 ([TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/)) | 접합 온도 상한 | 열적 안전 경계선 |
 
-예를 들어 8코어 CPU가 기본 3.0 GHz이고 1~2코어 최대 터보가 5.0 GHz라고 하자. 문서 편집처럼 1코어 위주의 작업에서는 전력·열 여유가 충분하므로 높은 터보 빈을 사용할 수 있다. 반대로 모든 코어가 장시간 렌더링을 하면 패키지 전력이 PL1에 수렴하고 온도가 올라가므로, 실제 동작 클럭은 기본 클럭 근처나 그보다 약간 높은 수준에서 안정될 수 있다. 즉 최대 터보는 **모든 상황의 평균값**이 아니라, 조건이 맞을 때 가능한 천장값이다.
+예를 들어 8코어 CPU가 기본 3.0 GHz이고 1~2코어 최대 터보가 5.0 GHz라고 하자. 문서 편집처럼 1코어 위주의 작업에서는 전력·열 여유가 충분하므로 높은 터보 빈을 사용할 수 있다. 반대로 모든 코어가 장시간 렌더링을 하면 패키지 전력이 PL1에 수렴하고 온도가 올라가므로, 실제 동작 클럭은 기본 클럭 근처나 그보다 약간 높은 수준에서 안정될 수 있다. 즉 최대 터보는 <strong>모든 상황의 평균값</strong>이 아니라, 조건이 맞을 때 가능한 천장값이다.
 
 아래 그림은 터보부스트가 단순히 "유휴 코어 전력을 뺏어온다" 수준을 넘어, 여러 제한 조건을 동시에 통과해야 하는 제어 경로임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│               Turbo Boost decision: headroom must exist               │
-├────────────────────────────────────────────────────────────────────────┤
-│ Workload arrives                                                      │
-│    │                                                                  │
-│    ├─ active core count acceptable?                                   │
-│    ├─ package power below PL1 / PL2 window?                           │
-│    ├─ current below electrical limit?                                 │
-│    └─ temperature below TjMax?                                        │
-│                 │ yes                                                 │
-│                 ▼                                                     │
-│          raise turbo bin for active cores                             │
-│                 │                                                     │
-│                 ▼                                                     │
-│      limit hit -> step down to lower bin or base clock                │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Turbo Boost decision: headroom must exist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload arrives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ active core count acceptable?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ package power below PL1 / PL2 window?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ current below electrical limit?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ temperature below TjMax?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">raise turbo bin for active cores</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">limit hit -&gt; step down to lower bin or base clock</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 터보부스트는 "짧은 반응성"에 특히 강하다. 브라우저 탭 전환, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 코드 컴파일의 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구간, 게임의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)처럼 순간 피크가 많은 작업에서 사용자 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올린다. 하지만 냉각이 약하거나 OEM (Original Equipment Manufacturer)이 PL1/PL2를 보수적으로 잡아 두면 같은 CPU도 실제 터보 유지 폭이 크게 달라질 수 있다.
 
@@ -95,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 터보부스트를 볼 때 가장 흔한 오해는 "최대 5.2 GHz" 같은 박스 문구를 곧바로 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 받아들이는 것이다. 실제로는 노트북과 데스크톱 모두에서 냉각 구조, BIOS (Basic Input/Output System)의 전력 제한, OEM (Original Equipment Manufacturer)의 소음 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 심지어 전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 용량까지 결과에 영향을 준다. 같은 CPU도 얇은 노트북에서는 짧게만 터보가 유지되고, 큰 공랭 또는 수랭을 쓴 데스크톱에서는 훨씬 오래 높은 빈을 유지할 수 있다.
 
-특히 벤치마크를 읽을 때는 워크로드 특성을 반드시 함께 봐야 한다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 점수는 최대 터보 빈의 영향을 크게 받고, 장시간 렌더링이나 컴파일은 PL1과 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 영향을 더 크게 받는다. 따라서 설계자나 기술사는 "최대 부스트 클럭"만 비교하지 말고, **지속 부하와 순간 부하를 구분한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석**을 제시해야 한다.
+특히 벤치마크를 읽을 때는 워크로드 특성을 반드시 함께 봐야 한다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 점수는 최대 터보 빈의 영향을 크게 받고, 장시간 렌더링이나 컴파일은 PL1과 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 영향을 더 크게 받는다. 따라서 설계자나 기술사는 "최대 부스트 클럭"만 비교하지 말고, <strong>지속 부하와 순간 부하를 구분한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 해석</strong>을 제시해야 한다.
 
 ### 실무 체크포인트
 
@@ -108,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 - **최대 부스트 숫자만 보고 CPU 비교**: 실제 사용 환경과 지속 시간 조건을 무시한 해석이다.
 - **냉각을 사양표 밖 요소로 취급**: 현대 CPU에서는 쿨러와 섀시가 곧 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이다.
-- **노트북 OEM [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 무시**: 동일 모델명 CPU라도 제조사 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 다르면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라진다.
+- <strong>노트북 OEM <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 무시</strong>: 동일 모델명 CPU라도 제조사 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 다르면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라진다.
 
 기술사 답안에서는 터보부스트를 "전력·[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)·온도 헤드룸을 활용하는 하드웨어 자동 부스트"로 정의하고, Base [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)·PL1/PL2·활성 코어 수와의 관계를 함께 설명하면 설득력이 높다. 여기에 냉각 조건과 지속 시간까지 엮어 주면 단순 정의를 넘어 실제 설계 판단으로 연결된다.
 
@@ -120,9 +119,9 @@ tags = ["studynote-computer-architecture"]
 
 터보부스트의 가장 큰 효과는 멀티코어 시대에도 높은 체감 반응성을 유지하게 해 준다는 점이다. 운영체제와 애플리케이션의 많은 구간은 여전히 저병렬 또는 burst형 특성을 가지므로, 순간적으로 높은 클럭을 쓰는 능력은 사용자 경험에 직접 연결된다. 또한 기본 클럭을 과도하게 높이지 않아도 되므로, 평균 전력과 최고 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형을 잡는 데 유리하다.
 
-그러나 터보부스트는 가변성을 동반한다. 같은 칩도 온도, 전력 예산, 쿨러, BIOS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 실제 클럭이 달라지고, 장시간 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기본 클럭보다 전력 한계와 냉각 설계에 더 민감해진다. 즉 터보부스트는 단순한 "무료 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라, **헤드룸이 있을 때만 꺼내 쓰는 기회형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자원**이다.
+그러나 터보부스트는 가변성을 동반한다. 같은 칩도 온도, 전력 예산, 쿨러, BIOS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 실제 클럭이 달라지고, 장시간 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기본 클럭보다 전력 한계와 냉각 설계에 더 민감해진다. 즉 터보부스트는 단순한 "무료 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라, <strong>헤드룸이 있을 때만 꺼내 쓰는 기회형 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 자원</strong>이다.
 
-따라서 이 기술을 기억할 때는 "CPU의 진짜 속도"를 하나의 숫자로 보지 않는 관점이 중요하다. 현대 프로세서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 Base [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), Turbo Boost, 전력 제한, 냉각, 워크로드 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 조합으로 결정된다. 터보부스트는 그 조합 중에서 **남는 물리적 여유를 가장 민감하게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는 장치**로 이해하는 것이 가장 정확하다.
+따라서 이 기술을 기억할 때는 "CPU의 진짜 속도"를 하나의 숫자로 보지 않는 관점이 중요하다. 현대 프로세서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 Base [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), Turbo Boost, 전력 제한, 냉각, 워크로드 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 조합으로 결정된다. 터보부스트는 그 조합 중에서 <strong>남는 물리적 여유를 가장 민감하게 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 바꾸는 장치</strong>로 이해하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 터보부스트는 자동차의 일시적 추월 가속과 같다. 평소 연비와 안정성을 지키다가도, 조건이 맞는 순간에는 잠깐 더 강하게 밀어 주지만 그 상태를 영원히 유지할 수는 없다.
 
@@ -141,23 +140,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 클럭 CPU
-    │
-    ▼
-Advanced Configuration and Power Interface (ACPI) P-State 기반 주파수 제어
-    │
-    ▼
-Turbo Boost
-: 남는 전력·열 헤드룸을 순간 성능으로 환원
-    │
-    ▼
-하드웨어 자율 제어 강화
-: Intel Speed Shift · 더 짧은 제어 주기
-    │
-    ▼
-TVB · 플랫폼별 전력 제한 최적화 · 세대별 정교화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 클럭 CPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Advanced Configuration and Power Interface (ACPI) P-State 기반 주파수 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Turbo Boost</div>
+<div class="kb-diagram-note">: 남는 전력·열 헤드룸을 순간 성능으로 환원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 자율 제어 강화</div>
+<div class="kb-diagram-note">: Intel Speed Shift · 더 짧은 제어 주기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TVB · 플랫폼별 전력 제한 최적화 · 세대별 정교화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "정적 스펙 → 조건부 부스트 → 더 빠른 하드웨어 자율 제어"로 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리가 발전한 과정을 나타낸다.
 

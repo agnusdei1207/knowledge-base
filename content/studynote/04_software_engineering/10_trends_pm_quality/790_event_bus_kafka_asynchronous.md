@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 초창기 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 개발자들은 '주문 서버'와 '결제 서버'를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))로 직접 연결했다. 주문이 들어오면 결제 서버를 찌르고, 배송 서버를 찔렀다. 
 
-문제는 **동기식([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 통신의 재앙**이었다. 100만 명의 유저가 동시에 주문 버튼을 눌렀을 때 결제 서버가 1초 멈칫하면, 주문 서버도 1초 멈추고 결국 연쇄적으로 시스템 전체가 터져버렸다(Cascading Failure). 
+문제는 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) 통신의 재앙</strong>이었다. 100만 명의 유저가 동시에 주문 버튼을 눌렀을 때 결제 서버가 1초 멈칫하면, 주문 서버도 1초 멈추고 결국 연쇄적으로 시스템 전체가 터져버렸다(Cascading Failure). 
 
-이 끔찍한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 끊기 위해 링크드인(LinkedIn) 엔지니어들이 고안한 해결책이 **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))**다. **"서버끼리 직접 대화하지 마! 일단 모든 이벤트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 중앙에 있는 졸라 빠르고 튼튼한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))에 다 던져놓기만 해. 나머지 서버들은 시간 날 때 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 각자 알아서 주워가!"** 이것이 비동기 아키텍처의 혁명이다.
+이 끔찍한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 끊기 위해 링크드인(LinkedIn) 엔지니어들이 고안한 해결책이 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)</strong>다. <strong>"서버끼리 직접 대화하지 마! 일단 모든 이벤트(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 중앙에 있는 졸라 빠르고 튼튼한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">이벤트 버스</a>)에 다 던져놓기만 해. 나머지 서버들은 시간 날 때 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에서 각자 알아서 주워가!"</strong> 이것이 비동기 아키텍처의 혁명이다.
 
 - **📢 섹션 요약 비유**: 동기식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 통신은 전화를 거는 것이다. 상대방이 전화를 안 받으면 내 일도 멈춰야 한다. 비동기식([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 통신은 단체 카톡방에 메시지를 남기는 것이다. 내가 메시지를 던지고 폰을 꺼도, 친구들은 나중에 자기가 화장실 갈 때나 시간 날 때 언제든 카톡을 읽고 일을 처리할 수 있다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 비동의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 버스 카프카(Kafka) 비동                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 버스 카프카(Kafka) 비동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 비동가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 기존 메시지 큐 (RabbitMQ) | [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) ([Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)) |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관** | 컨슈머가 가져가면 **삭제함** | 가져가도 **하드디스크에 영구 보관함** ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) |
-| **속도 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 초당 수만 건 | **초당 수백만 건 (압도적)** |
-| **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능** | 복잡한 조건부 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능 | 무식하게 밀어 넣고 무식하게 가져감 (단순함) |
-| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 죽은 동안 날아온 메시지 유실 가능 | 언제든 1번 메시지부터 **과거로 돌아가 재실행(Replay) 가능** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보관</strong> | 컨슈머가 가져가면 **삭제함** | 가져가도 **하드디스크에 영구 보관함** ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) |
+| <strong>속도 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)</strong> | 초당 수만 건 | **초당 수백만 건 (압도적)** |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 기능</strong> | 복잡한 조건부 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능 | 무식하게 밀어 넣고 무식하게 가져감 (단순함) |
+| <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 죽은 동안 날아온 메시지 유실 가능 | 언제든 1번 메시지부터 **과거로 돌아가 재실행(Replay) 가능** |
 
 RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 '무식하고 거대한 컨베이어 벨트'다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대에는 하루에 쏟아지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 상상을 초월하므로, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 똑똑함보다는 무조건 버텨내는 무식한 속도([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))가 승리했다.
 
@@ -95,7 +94,7 @@ RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynot
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 튼튼하지만, 잘못 설계하면 **'순서 꼬임'과 '중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'**라는 지옥에 빠지게 된다.
+[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 튼튼하지만, 잘못 설계하면 <strong>'순서 꼬임'과 '중복 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>'</strong>라는 지옥에 빠지게 된다.
 
 - **📢 섹션 요약 비유**: [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 비동기 내결함성 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -109,7 +108,7 @@ RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynot
 
 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반의 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)를 조직에 심으면 시스템 간의 의존성이 완벽하게 뜯어진다(Decoupling). 추천팀이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습을 위해 1년 치 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 달라고 하면 결제팀 DB를 찌를 필요가 없다. 그냥 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 빨대를 꽂고 1년 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 다시 재생(Replay)해서 빨아먹으면 그만이다.
 
-결론적으로 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 단순한 메시지 큐를 넘어 기업의 **'중앙 신경망(Central Nervous System)'**이다. 기술 리더는 시스템들이 서로를 쳐다보게 만들지 말고, 오직 중앙의 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)만 바라보게 만드는 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))를 완성해야만 천문학적인 트래픽 폭주 앞에서도 꿀잠을 잘 수 있다.
+결론적으로 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 단순한 메시지 큐를 넘어 기업의 <strong>'중앙 신경망(Central Nervous System)'</strong>이다. 기술 리더는 시스템들이 서로를 쳐다보게 만들지 말고, 오직 중앙의 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)만 바라보게 만드는 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))를 완성해야만 천문학적인 트래픽 폭주 앞에서도 꿀잠을 잘 수 있다.
 
 - **📢 섹션 요약 비유**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 도시에 깔린 거대한 '수도관'이다. 옛날엔 집집마다 우물(DB)을 파서 물을 퍼 날랐지만, 이제는 중앙 수도관에 모든 물을 콸콸 흘려보내고, 정수기가 필요하든 세탁기가 필요하든 각자 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 수도꼭지(컨슈머)만 달아서 물을 빼 쓰면 되는 위대한 인프라 혁명이다.
 
@@ -132,21 +131,23 @@ RabbitMQ가 '똑똑한 우체국'이라면, [카프카](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 버스 카프카(Kafka) 비동기 내결함성 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 버스 카프카(Kafka) 비동기 내결함성 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

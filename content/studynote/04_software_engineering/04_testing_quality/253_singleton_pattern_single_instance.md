@@ -28,18 +28,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 싱글톤 (Singleton)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  싱글톤 (Singleton)                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글톤 (Singleton)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 싱글톤 (Singleton)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 어떤 클래스가 **애플리케이션(우주) 전체에서 오직 '단 하나의 인스턴스(객체 1개)'만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되도록 강제로 보장하고, 어디서든 그 유일한 객체에 전역적으로 접근할 수 있는 방법을 제공하는 패턴**입니다.
+- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 어떤 클래스가 <strong>애플리케이션(우주) 전체에서 오직 '단 하나의 인스턴스(객체 1개)'만 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>되도록 강제로 보장하고, 어디서든 그 유일한 객체에 전역적으로 접근할 수 있는 방법을 제공하는 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 싱글톤 (Singleton)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -71,12 +70,12 @@ tags = ["studynote-software-engineering"]
 
 어떻게 다른 개발자가 `new`를 못 치게 막을 수 있을까요?
 
-1. **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자의 모가지를 자른다 (`private` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자의 모가지를 자른다 (<code>private</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자)</strong>:
    - 클래스 안의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 함수 앞에 무조건 `private`을 박아버립니다. 
    - 이제 바깥에서 다른 개발자가 `new Singleton()`을 치는 순간 자바 컴파일러가 쌍욕을 하며 빨간 줄(에러)을 긋습니다. "야! 밖에서 붕어빵 못 구워!"
-2. **금고 안에서 자기가 스스로 1개 굽기 (`private static` 변수)**:
+2. <strong>금고 안에서 자기가 스스로 1개 굽기 (<code>private static</code> 변수)</strong>:
    - 밖에서 못 구우니, 클래스 내부 안쪽에서 자기가 스스로 자기 자신을 딱 1개 구워놓고(`new`) 금고(Static 메모리) 안에 꽁꽁 숨겨둡니다.
-3. **유일한 배급 창구 뚫기 (`public static getInstance()` 함수)**:
+3. <strong>유일한 배급 창구 뚫기 (<code>public static getInstance()</code> 함수)</strong>:
    - 밖에서 객체가 필요한 놈들은 `new`를 못 치니, 무조건 이 배급 창구 함수를 호출해야만 합니다.
    - `getInstance()` 함수는 "어? 너 왔냐? 아까 내가 만들어둔 금고 속의 그 유일한 1개, 그거 던져줄게 써라!" 하고 항상 똑같은 1개의 주소값([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))만 반환해 줍니다. 1만 명이 와도 똑같은 주소값 1개만 돌려받아 다 같이 씁니다.
 
@@ -96,7 +95,7 @@ tags = ["studynote-software-engineering"]
   - 결국 싱글톤은 예쁘게 포장한 **'전역 변수(Global Variable)'** 쓰레기에 불과합니다. 1만 개의 클래스가 이 싱글톤 1개를 다 같이 바라보고 얽혀버리기 때문에([결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 대폭발), 나중에 싱글톤을 고치면 1만 개의 클래스가 도미노처럼 다 에러가 터집니다.
   - 게다가 219번 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제! 1만 명이 싱글톤 1개에 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려고(Write) 달려들면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모순이 터지므로, 안에 자물쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/Sync)를 달아야 하는데 이게 또 병목(속도 저하)의 원흉이 됩니다. 그래서 현대의 스프링(Spring) 프레임워크는 개발자가 직접 짜는 더러운 싱글톤을 버리고, 자기가 알아서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 1개로 관리([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))해 줍니다.
 
-> 📢 **섹션 요약 비유**: **싱글톤(Singleton) 패턴**은 전교생 1,000명이 있는 학교의 **'유일한 복사기 1대 사용 룰'**입니다. 멍청한 학교([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 남발)는 학생 1,000명이 복사할 때마다 각자 자기 책상에 100만 원짜리 복사기를 1대씩 새로 사서(메모리 낭비) 올려놓고 씁니다. 교장 선생님(아키텍트)이 극대노하여 학교의 모든 복사기를 때려 부수고(private [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자로 밖에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 금지), 오직 교무실 구석 금고에 **'황금 복사기 딱 1대(private static instance)'**만 놔둡니다. 그리고 교무실 창문(getInstance() 메서드)을 딱 하나 엽니다. 학생 1,000명이 복사가 필요할 땐 자기가 복사기를 살 수 없으므로 무조건 교무실 창문으로 와야 합니다. 교무실 당번은 매번 새로운 복사기를 주는 게 아니라, "저기 구석에 있는 저 황금 복사기 1대로 다 같이 쓰고 제자리에 둬!" 라며 유일한 복사기 1대의 위치([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)값)만 똑같이 알려줍니다. 학교의 돈(메모리)은 극단적으로 절약되지만, 기말고사 때 1,000명이 동시에 복사기를 쓰겠다고 몰려들면 폭동([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 에러 및 병목)이 일어나는 극단적인 원탑 독재 인프라 패턴입니다.
+> 📢 **섹션 요약 비유**: <strong>싱글톤(Singleton) 패턴</strong>은 전교생 1,000명이 있는 학교의 <strong>'유일한 복사기 1대 사용 룰'</strong>입니다. 멍청한 학교([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 남발)는 학생 1,000명이 복사할 때마다 각자 자기 책상에 100만 원짜리 복사기를 1대씩 새로 사서(메모리 낭비) 올려놓고 씁니다. 교장 선생님(아키텍트)이 극대노하여 학교의 모든 복사기를 때려 부수고(private [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자로 밖에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 금지), 오직 교무실 구석 금고에 <strong>'황금 복사기 딱 1대(private static instance)'</strong>만 놔둡니다. 그리고 교무실 창문(getInstance() 메서드)을 딱 하나 엽니다. 학생 1,000명이 복사가 필요할 땐 자기가 복사기를 살 수 없으므로 무조건 교무실 창문으로 와야 합니다. 교무실 당번은 매번 새로운 복사기를 주는 게 아니라, "저기 구석에 있는 저 황금 복사기 1대로 다 같이 쓰고 제자리에 둬!" 라며 유일한 복사기 1대의 위치([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)값)만 똑같이 알려줍니다. 학교의 돈(메모리)은 극단적으로 절약되지만, 기말고사 때 1,000명이 동시에 복사기를 쓰겠다고 몰려들면 폭동([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 에러 및 병목)이 일어나는 극단적인 원탑 독재 인프라 패턴입니다.
 
 - **📢 섹션 요약 비유**: 싱글톤 (Singleton)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -141,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-싱글톤 (Singleton) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">싱글톤 (Singleton) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

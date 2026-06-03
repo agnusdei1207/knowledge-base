@@ -25,14 +25,18 @@ tags = ["software_engineering"]
 
 > 💡 **비유**: 건물을 지을 때 설계도면 없이 벽돌부터 쌓지 않고, 기획안 승인 → 조감도 작성 → 골조 공사 → 내부 인테리어 → 준공 검사의 순서를 엄격히 따르는 건설 공정과 같다.
 
-```text
-[Code & Fix 방식의 한계 (SDLC 도입 전)]
 
-[요구 대충 파악] ──> [즉시 코딩] ──> [운영 중 장애 펑펑]
-                         │                ▲
-                         └─(수정/땜질)────┘
-            * 병목: 아키텍처 부재로 인한 수정 비용 무한 증식
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code &amp; Fix 방식의 한계 (SDLC 도입 전)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구 대충 파악</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">즉시 코딩</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">운영 중 장애 펑펑</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">(수정/땜질)</div>
+<div class="kb-diagram-note">* 병목: 아키텍처 부재로 인한 수정 비용 무한 증식</div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 SDLC가 부재한 상태에서의 '[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) and Fix' 안티패턴을 보여준다. 명확한 분석과 설계 단계가 없기 때문에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 빠르게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 것처럼 보이지만, 운영 환경에서 발견된 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 땜질식으로 수정하면서 시스템이 급격히 스파게티 코드로 전락하는 병목을 겪게 된다.
 
@@ -49,23 +53,25 @@ SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지�
 | **4. 테스트 (Test)** | 요구사항과 일치하는지, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 없는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 보고서, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) | 안전 점검 및 품질 검사 |
 | **5. 유지보수 (Maintenance)** | 운영 환경에서 발생하는 버그 수정 및 환경 변화 적응 | 패치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 노트 | 건물 입주 후 보수 공사 |
 
-```text
-[SDLC의 선형적 데이터 흐름 및 검증 피드백 루프]
 
-[사용자]
-   │ (Needs)
-   ▼
-[요구 분석] ──(SRS 명세)──┐ 
-   ▲                      ▼
-   │(재분석)          [시스템 설계] ──(설계도)──┐
-   │                      ▲                     ▼
-   │                      │(재설계)          [구현/코딩] ──(코드)──┐
-   │                      │                     ▲                  ▼
-   └───────────(결함 피드백)────────────────────┴──────────[테스트/검증]
-                                                                   │ (패스)
-                                                                   ▼
-                                                              [운영/유지보수]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDLC의 선형적 데이터 흐름 및 검증 피드백 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자</div></div>
+<div class="kb-diagram-note">(Needs)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구 분석</div><div class="kb-diagram-note">──(SRS 명세)──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(재분석)</div><div class="kb-diagram-node">시스템 설계</div><div class="kb-diagram-note">──(설계도)──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│(재설계)</div><div class="kb-diagram-node">구현/코딩</div><div class="kb-diagram-note">──(코드)──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(결함 피드백)</div><div class="kb-diagram-node">테스트/검증</div></div>
+<div class="kb-diagram-note">(패스)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영/유지보수</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 전형적인 SDLC의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 흐름과 역방향의 '[피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)([Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/))'를 보여준다. 이상적으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 위에서 아래로 물 흐르듯 전달되어야 하지만, 현실에서는 테스트 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되면 다시 이전 단계(심지어 요구 분석 단계까지)로 거슬러 올라가야 한다. 여기서 핵심 병목은 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점이 늦을수록 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 반경이 커지고 수정 비용이 지수 함수적으로 폭증한다'는 점이다.
 
@@ -78,22 +84,25 @@ SDLC는 프로젝트의 특성(불확실성, 규모)에 따라 폭포수, 나선
 
 | 비교 항목 | 폭포수 (Waterfall) 모델 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 모델 | 판단 포인트 |
 |:---|:---|:---|:---|
-| **[SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방식** | 단 1회의 거대한 주기 (순차적) | 짧은 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 주기의 무한 반복 (반복적) | 프로젝트 요구사항의 변동성 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/">SDLC</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 방식</strong> | 단 1회의 거대한 주기 (순차적) | 짧은 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 주기의 무한 반복 (반복적) | 프로젝트 요구사항의 변동성 |
 | **산출물 중심** | 상세한 문서([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 중심 | 동작하는 소프트웨어 중심 | 컴플라이언스 및 규제 요구 수준 |
 | **위험 관리** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분석에 모든 것을 기름 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 피드백으로 위험 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 신기술 적용 등 불확실성 수준 |
 
-```text
-[SDLC 모델 선택을 위한 트레이드오프 매트릭스]
 
-높음 ┌───────────────┬───────────────┐
-     │ 나선형 모델   │ 애자일 모델   │
-위험도│ (대규모/고위험)│ (스타트업/유연)│
-     ├───────────────┼───────────────┤
-     │ 폭포수 모델   │ 프로토타입    │
-낮음 │ (국방/공공/SI)│ (UI/UX 검증)  │
-     └───────────────┴───────────────┘
-      명확함 ◄── (요구사항) ──► 불명확함
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDLC 모델 선택을 위한 트레이드오프 매트릭스</div></div>
+<div class="kb-diagram-note">높음</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나선형 모델</div><div class="kb-diagram-cell">애자일 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험도</div><div class="kb-diagram-cell">(대규모/고위험)</div><div class="kb-diagram-cell">(스타트업/유연)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭포수 모델</div><div class="kb-diagram-cell">프로토타입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">(국방/공공/SI)</div><div class="kb-diagram-cell">(UI/UX 검증)</div></div>
+<div class="kb-diagram-note">명확함 ◄── (요구사항) ──► 불명확함</div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 매트릭스는 프로젝트가 처한 상황(위험도와 요구사항의 명확성)에 따라 어떤 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 모델을 적용해야 하는지를 보여주는 의사결정 도구다. 요구사항이 명확하고 위험이 낮다면 고전적인 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)이 효율적이지만, 요구사항이 계속 변하고 기술적 위험이 높다면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이나 나선형 모델을 채택해야 한다. 실무에서 가장 큰 재앙은 우상단(요구 불명확, 위험 높음) 프로젝트에 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)을 강제 적용할 때 발생한다.
 
@@ -109,18 +118,21 @@ SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자
 | 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (운영/보안) | 판단 기준 |
 |:---|:---|
 | **보안 내재화 (SSDLC)** | 요구사항 분석 단계부터 보안 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/))을 수행하는가? |
-| **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 통제** | 각 단계가 끝날 때마다 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 승인을 거치는가? |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> 통제</strong> | 각 단계가 끝날 때마다 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 승인을 거치는가? |
 | **추적성 확보** | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 본래의 요구사항 ID와 완벽하게 맵핑(추적 매트릭스)되는가? |
 
-```text
-[보안이 융합된 실무 SSDLC (Secure SDLC) 흐름도]
 
-[요구 분석] ──> [설계] ──> [구현] ──> [테스트] ──> [운영]
-    │           │          │          │           │
-    ▼           ▼          ▼          ▼           ▼
-[위협분석]  [보안설계]  [시큐어코딩][모의해킹]  [취약점관제]
-(STRIDE)    (아키텍처)  (SAST)     (DAST)      (Patch)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안이 융합된 실무 SSDLC (Secure SDLC) 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구 분석</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">구현</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">운영</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위협분석</div><div class="kb-diagram-node">보안설계</div><div class="kb-diagram-node">시큐어코딩</div><div class="kb-diagram-node">모의해킹</div><div class="kb-diagram-node">취약점관제</div></div>
+<div class="kb-diagram-note">(STRIDE) (아키텍처) (SAST) (DAST) (Patch)</div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 흐름도는 전통적인 SDLC의 각 단계 하단에 보안 활동이 1:1로 결합된 SSDLC(보안 내재화 생명주기)를 보여준다. 과거에는 운영 단계 직전에 모의해킹만 수행했으나, 이는 병목과 엄청난 재작업을 유발한다. 따라서 설계 단계부터 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 등)을 수행하고, 구현 시 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))를 자동화하여 취약점 발생을 원천 차단하는 '[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)' 전략이 최신 실무의 핵심이다.
 
@@ -131,8 +143,8 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 
 | 지표 | [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 미준수 프로젝트 | [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 철저 준수 프로젝트 | 비고 |
 |:---|:---|:---|:---|
-| **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 비용** | 후반부 폭증 (100배) | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 발견하여 저렴함 (1배) | [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 효과 |
-| **[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 가시성** | "거의 다 됐습니다" (블랙박스) | "설계 단계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 80% 달성" | 객체적 지표 관리 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 발견 비용</strong> | 후반부 폭증 (100배) | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 발견하여 저렴함 (1배) | [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 효과 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 가시성</strong> | "거의 다 됐습니다" (블랙박스) | "설계 단계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 80% 달성" | 객체적 지표 관리 |
 | **유지보수 용이성** | 원작자 퇴사 시 코드 버림 | 산출물 연계를 통한 인수인계 원활 | 자산화 및 형상관리 |
 
 미래의 SDLC는 DevOps와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 완벽히 동기화되어, 분석-설계-구현-테스트가 명확히 분절된 단계가 아니라 하루에도 수십 번씩 톱니바퀴처럼 돌아가는 '지속적 생명주기(Continuous [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))' 형태로 발전하고 있다. 또한 ISO/IEC 12207 (소프트웨어 생명주기 공정 표준)은 조직이 SDLC를 어떻게 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하고 성숙시켜야 하는지 글로벌 가이드라인을 제시한다.
@@ -150,21 +162,23 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 공학 (Software Engineering)]
-    │
-    ▼
-[폭포수 모델 (Waterfall Model)]
-    │
-    ▼
-[애자일 방법론 (Agile)]
-    │
-    ▼
-[형상 관리 (Configuration Management)]
-    │
-    ▼
-[요구공학 (Requirements Engineering)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 공학 (Software Engineering)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델 (Waterfall Model)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 방법론 (Agile)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형상 관리 (Configuration Management)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구공학 (Requirements Engineering)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/))에서 출발해 요구공학 ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -13,7 +13,7 @@ tags = ["studynote-it-management"]
 
 > 1. **본질**: 정보보호 및 [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 관리체계 ([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P, [Personal Information](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) & [Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)는 보안 통제와 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 통제를 한 범위 안에서 운영·점검·개선하도록 요구하는 국내 통합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계다.
 > 2. **가치**: 방화벽이나 암호화 같은 개별 기술만 보는 것이 아니라, 자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 위험평가, 보호대책, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 생애주기 통제까지 연결해 "운영되는 보안"을 만들게 한다.
-> 3. **판단 포인트**: [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 성패는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 취득 여부보다 **범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 증적 운영, 책임자 지정, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 흐름 통제**가 실제 업무에 내재화됐는가에 달려 있다.
+> 3. **판단 포인트**: [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 성패는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 취득 여부보다 <strong>범위 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>, 증적 운영, 책임자 지정, <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 흐름 통제</strong>가 실제 업무에 내재화됐는가에 달려 있다.
 
 ---
 
@@ -25,18 +25,21 @@ tags = ["studynote-it-management"]
 
 아래 그림은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P가 보는 범위를 단순 기술 통제보다 넓게 잡는 이유를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why ISMS-P is broader than point security controls                   │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Point control                 │ Management system                    │
-│ - firewall                    │ - scope and asset inventory          │
-│ - encryption                  │ - risk assessment                    │
-│ - access setting              │ - operational evidence               │
-│ - patching                    │ - privacy lifecycle control          │
-│                               │ - audit and corrective action        │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why ISMS-P is broader than point security controls</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Point control</div><div class="kb-diagram-cell">Management system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- firewall</div><div class="kb-diagram-cell">- scope and asset inventory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- encryption</div><div class="kb-diagram-cell">- risk assessment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- access setting</div><div class="kb-diagram-cell">- operational evidence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- patching</div><div class="kb-diagram-cell">- privacy lifecycle control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- audit and corrective action</div></div>
+</div>
+</div>
+
+
 
 따라서 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 보안 제품 목록을 자랑하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 아니다. 범위 안의 조직, 인력, 시스템, 프로세스, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 흐름을 하나의 관리 사이클로 묶어 "지속적으로 점검되는 상태"를 만들도록 요구하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다.
 
@@ -56,28 +59,25 @@ tags = ["studynote-it-management"]
 
 아래 그림은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P의 운영 루프를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ ISMS-P operating loop                                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Scope & asset inventory                                              │
-│        │                                                             │
-│        ▼                                                             │
-│ Risk assessment -> control design -> operation & evidence            │
-│        │                                   │                         │
-│        └────────────── audit / monitoring ─┘                         │
-│                              │                                       │
-│                              ▼                                       │
-│                    corrective action & improvement                   │
-│                                                                      │
-│ Personal data lifecycle overlays all steps                           │
-│ collect -> use -> provide / entrust -> retain -> destroy             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISMS-P operating loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scope &amp; asset inventory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk assessment -&gt; control design -&gt; operation &amp; evidence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">audit / monitoring ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">corrective action &amp; improvement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Personal data lifecycle overlays all steps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">collect -&gt; use -&gt; provide / entrust -&gt; retain -&gt; destroy</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 증적 기반 운영이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서만 있으면 되는 것이 아니라, 접근권한 승인 기록, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 점검 결과, 교육 이수, 위탁 계약, 파기 이력, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 훈련 같은 "운영 흔적"이 있어야 한다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관은 보통 문서와 인터뷰, 현장 확인을 함께 통해 이 체계가 실제로 작동하는지 본다.
 
-또한 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 일회성 프로젝트가 아니라 유지 체계다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 유효기간, 사후 심사, 시정조치 대응을 고려하면, 심사 직전에만 문서를 맞추는 방식으로는 오래 버티기 어렵다. 결국 핵심은 문서화보다 **운영 리듬을 만드는 것**이다.
+또한 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 일회성 프로젝트가 아니라 유지 체계다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 유효기간, 사후 심사, 시정조치 대응을 고려하면, 심사 직전에만 문서를 맞추는 방식으로는 오래 버티기 어렵다. 결국 핵심은 문서화보다 <strong>운영 리듬을 만드는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 학교 청소 점검처럼 검사 전날 한 번 쓸고 끝나는 방식이 아니다. 청소 당번, 쓰레기 분리, 점검표, 재정비가 매일 돌아가야 계속 깨끗한 교실이 유지된다.
 
@@ -121,7 +121,7 @@ tags = ["studynote-it-management"]
 - 위탁사나 클라우드 구간을 범위 밖처럼 취급해 핵심 위험을 놓치는 것
 - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 취득 후 책임 부서를 해산해 사후 심사와 개선 활동이 끊기는 것
 
-기술사 관점에서는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 획득"보다 "위험 기반 운영체계 정착"을 강조해야 한다. 예를 들어 고객정보를 다루는 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면, 수집 최소화, 접근권한 검토, 위탁 통제, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 모니터링, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 훈련이 하나의 루프로 돌아야 한다고 설명하는 것이 좋다. 즉 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 문서 프로젝트가 아니라 **[서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 모델을 통제 가능한 상태로 만드는 경영·기술 결합 체계**다.
+기술사 관점에서는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 획득"보다 "위험 기반 운영체계 정착"을 강조해야 한다. 예를 들어 고객정보를 다루는 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면, 수집 최소화, 접근권한 검토, 위탁 통제, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 모니터링, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 훈련이 하나의 루프로 돌아야 한다고 설명하는 것이 좋다. 즉 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 문서 프로젝트가 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/">서비스 운영</a> 모델을 통제 가능한 상태로 만드는 경영·기술 결합 체계</strong>다.
 
 - **📢 섹션 요약 비유**: 건강검진을 잘 받는 비결은 검사 전날만 금식하는 것이 아니라 평소 생활습관을 관리하는 데 있다. [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P도 심사 하루가 아니라 평소 운영 습관이 성패를 가른다.
 
@@ -133,7 +133,7 @@ tags = ["studynote-it-management"]
 
 그러나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 자체가 침해사고를 막아 주는 것은 아니다. 통제가 형식화되면 증적은 많아도 실제 위험 대응은 느릴 수 있고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변화 속도를 따라가지 못하면 범위와 현실 사이에 틈이 생긴다. 따라서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 유지의 핵심은 고정 문서가 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경과 통제 변경을 함께 추적하는 운영 역량이다.
 
-결론적으로 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 **국내 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서 정보보호와 [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/)를 하나의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 루프로 묶는 통합 관리체계**로 기억하는 것이 정확하다. 보안 솔루션 목록이 아니라, 누가 무엇을 어떤 증적으로 관리하는지까지 설명할 수 있을 때 비로소 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 살아 움직인다.
+결론적으로 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P는 <strong>국내 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 환경에서 정보보호와 <a href="/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/">개인정보보호</a>를 하나의 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리 루프로 묶는 통합 관리체계</strong>로 기억하는 것이 정확하다. 보안 솔루션 목록이 아니라, 누가 무엇을 어떤 증적으로 관리하는지까지 설명할 수 있을 때 비로소 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 살아 움직인다.
 
 - **📢 섹션 요약 비유**: 좋은 안전모 하나가 공사를 끝내 주지는 않는다. 작업 순서, 출입 통제, 점검표, 교육이 함께 돌아가야 현장이 안전해지듯, [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P도 여러 통제가 함께 움직일 때 의미가 생긴다.
 
@@ -152,24 +152,25 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business service definition
-        │
-        ▼
-Scope / asset / personal data mapping
-        │
-        ▼
-Risk assessment
-        │
-        ▼
-Security & privacy controls
-        │
-        ▼
-Operation evidence + audit
-        │
-        ▼
-Certification / surveillance / improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business service definition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scope / asset / personal data mapping</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Risk assessment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Security &amp; privacy controls</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Operation evidence + audit</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Certification / surveillance / improvement</div>
+</div>
+</div>
+
+
 
 이 흐름은 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P가 "범위 정의 → 위험평가 → 통제 적용 → 증적 운영 → 심사와 개선"으로 돌아가는 관리체계임을 보여 준다.
 

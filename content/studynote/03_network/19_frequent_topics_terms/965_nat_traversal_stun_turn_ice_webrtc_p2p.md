@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **NAT의 이중성**: 가정용 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))는 부족한 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소를 아껴주지만, 밖(인터넷)에서 집 안(사설 IP)으로 들어오는 연결은 보안상 철저하게 차단(Drop)해버리는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 철문 방어막입니다.
-- **재앙의 시작**: 웹서핑(클라이언트가 먼저 밖으로 요청)은 문제없지만, 두 대의 컴퓨터가 직접 붙어야 하는 **스카이프(음성 통화), 화상 회의([WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/)), [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송** 시스템에서는 양쪽 다 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 벽 안에 갇혀 서로에게 전화를 걸 수 없는 최악의 통신 먹통 사태가 터집니다.
+- **재앙의 시작**: 웹서핑(클라이언트가 먼저 밖으로 요청)은 문제없지만, 두 대의 컴퓨터가 직접 붙어야 하는 <strong>스카이프(음성 통화), 화상 회의(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a>), <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 전송</strong> 시스템에서는 양쪽 다 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 벽 안에 갇혀 서로에게 전화를 걸 수 없는 최악의 통신 먹통 사태가 터집니다.
 
-```text
-[IPv6 헤더 압축 / SLAAC]
-    │
-    ▼
-[NAT 횡단]
-    │
-    └──▶ [멀티캐스트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 두 단말기가 모두 사설 IP 대역(공유기 밑)에 숨어 있을 때, **가운데 중계 서버(STUN/TURN)를 이용해 각자의 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 구멍을 강제로 열고 유지시켜, 두 단말 간에 직접적인([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신 세션을 강제로 관통(횡단, Traversal)시키는 릴레이 통신 기술**입니다.
-- **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 홀 펀칭 (Hole Punching)**: 안에서 밖으로 문을 밀고 나갈 때 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 잠깐 뚫리는 '임시 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑)'을 닫히기 전에 얼른 꿰뚫어 버리는 핵심 눈속임 기술입니다.
+- **개념**: 두 단말기가 모두 사설 IP 대역(공유기 밑)에 숨어 있을 때, <strong>가운데 중계 서버(STUN/TURN)를 이용해 각자의 공유기(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>) <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 구멍을 강제로 열고 유지시켜, 두 단말 간에 직접적인(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>) 통신 세션을 강제로 관통(횡단, Traversal)시키는 릴레이 통신 기술</strong>입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 홀 펀칭 (Hole Punching)</strong>: 안에서 밖으로 문을 밀고 나갈 때 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 잠깐 뚫리는 '임시 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑)'을 닫히기 전에 얼른 꿰뚫어 버리는 핵심 눈속임 기술입니다.
 
-```text
-[IPv6 헤더 압축 / SLAAC]
-    │
-    ▼
-[NAT 횡단]
-    │
-    └──▶ [멀티캐스트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,19 +68,19 @@ tags = ["studynote-network"]
 ### 1. STUN (거울아 거울아 내 공인 IP가 뭐니?) 🌟
 가장 가볍고 먼저 시도하는 기술입니다.
 - 집 안의 폰(철수)은 자기 바깥쪽 대문(공유기)의 진짜 공인 IP 주소가 뭔지 모릅니다.
-- 폰이 바깥세상 하늘에 떠 있는 **STUN 서버(거울)**에게 패킷을 쏩니다. "거울아, 방금 날아온 내 겉면 얼굴(공인 IP랑 뚫린 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))이 어떻게 생겼니?"
+- 폰이 바깥세상 하늘에 떠 있는 <strong>STUN 서버(거울)</strong>에게 패킷을 쏩니다. "거울아, 방금 날아온 내 겉면 얼굴(공인 IP랑 뚫린 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))이 어떻게 생겼니?"
 - STUN 서버가 "너네 집 공유기 공인 IP는 `1.1.1.1`이고, 뚫고 나온 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))은 `5000번`이다!"라고 알려줍니다.
 - 철수는 이 번호를 영희에게 카톡(시그널링)으로 보내고, 영희가 철수 집 `1.1.1.1:5000`으로 돌진해서 뚫려있는 구멍으로 쏙 들어가(홀 펀칭) 통화가 연결됩니다.
 
 ### 2. TURN (도저히 구멍이 안 뚫릴 때의 용병 서버) 🌟
 치명적인 한계의 구원 투수입니다. 
 - 회사(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))처럼 보안이 극도로 빡센 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은, STUN으로 알아낸 5000번 구멍으로 영희가 몰래 들어오려 하면 "이 구멍은 STUN 서버 전용 구멍이야! 다른 년(영희)이 어딜 들어와!" 하고 칼같이 모가지를 자릅니다(STUN 실패).
-- 이때 최후의 수단으로 폰은 **TURN 서버(중계 릴레이 기지국)**에게 붙습니다. 철수도 TURN 서버에 접속하고, 영희도 밖에서 TURN 서버에 접속해서, **가운데 위치한 서버가 100% 데이터를 릴레이(중계 대행)해서 토스해 줍니다.** 
+- 이때 최후의 수단으로 폰은 <strong>TURN 서버(중계 릴레이 기지국)</strong>에게 붙습니다. 철수도 TURN 서버에 접속하고, 영희도 밖에서 TURN 서버에 접속해서, **가운데 위치한 서버가 100% 데이터를 릴레이(중계 대행)해서 토스해 줍니다.** 
 - 구멍 뚫기엔 성공하지만, 중앙 서버에 미친 듯한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 트래픽 부하가 걸려서 돈이 엄청 깨집니다.
 
 ### 3. ICE (최종 조율사 마스터)
 - 개발자는 폰에 ICE 프레임워크를 심어둡니다.
-- "야, 철수야. 일단 직통 랜선(로컬)부터 찔러보고 ➜ 안 되면 STUN(홀 펀칭) 찔러봐서 뚫어보고 ➜ 도저히 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 안 뚫려서 멸망할 것 같으면 마지막에 눈물을 머금고 비싼 TURN(릴레이) 서버 써라!" 라며 **가장 빠른 직통 연결 방법을 우선순위대로 1초 만에 자동 선택해 주는 오케스트레이터(지휘자) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다.
+- "야, 철수야. 일단 직통 랜선(로컬)부터 찔러보고 ➜ 안 되면 STUN(홀 펀칭) 찔러봐서 뚫어보고 ➜ 도저히 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 안 뚫려서 멸망할 것 같으면 마지막에 눈물을 머금고 비싼 TURN(릴레이) 서버 써라!" 라며 <strong>가장 빠른 직통 연결 방법을 우선순위대로 1초 만에 자동 선택해 주는 오케스트레이터(지휘자) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC가 기반 조건을 만든다면, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 그 위에서 핵심 메커니즘을 구현하고, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 화상 통화에서 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단([NAT Traversal](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))은 '양쪽 철창 감옥에 갇힌 두 죄수의 실 전화기 연결 작전'입니다. 죄수(사설 IP)들은 창문 없는 독방에 갇혀 상대방 감옥의 주소(공인 IP)를 전혀 모릅니다(통신 단절). 이를 뚫기 위해 **STUN 서버(마법 거울)**가 등장합니다. 죄수가 환풍구 틈새로 손을 뻗어 하늘의 거울을 비춰보면 "오! 내 뻗은 손의 밖에서 본 주소는 5동 1번 창살 틈(공유기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이구나!" 하고 깨닫고, 간수 몰래 쪽지로 상대방에게 내 창살 틈 번호를 알려주어 그 구멍으로 실을 꿰어 통화합니다(홀 펀칭). 만약 감옥 경비가 너무 삼엄해 틈새로 넣은 실을 가위로 잘라버린다면(강력한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), 마지막 수단으로 두 죄수는 하늘에 떠 있는 **TURN 서버(심부름센터 드론)**에게 실을 매달아 하늘을 통해 소리를 간접적으로 중계받는 극악의 우회로를 뚫어내어 통신 단절을 완벽하게 부숴버립니다.
+- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 화상 통화에서 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단([NAT Traversal](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))은 '양쪽 철창 감옥에 갇힌 두 죄수의 실 전화기 연결 작전'입니다. 죄수(사설 IP)들은 창문 없는 독방에 갇혀 상대방 감옥의 주소(공인 IP)를 전혀 모릅니다(통신 단절). 이를 뚫기 위해 <strong>STUN 서버(마법 거울)</strong>가 등장합니다. 죄수가 환풍구 틈새로 손을 뻗어 하늘의 거울을 비춰보면 "오! 내 뻗은 손의 밖에서 본 주소는 5동 1번 창살 틈(공유기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이구나!" 하고 깨닫고, 간수 몰래 쪽지로 상대방에게 내 창살 틈 번호를 알려주어 그 구멍으로 실을 꿰어 통화합니다(홀 펀칭). 만약 감옥 경비가 너무 삼엄해 틈새로 넣은 실을 가위로 잘라버린다면(강력한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), 마지막 수단으로 두 죄수는 하늘에 떠 있는 <strong>TURN 서버(심부름센터 드론)</strong>에게 실을 매달아 하늘을 통해 소리를 간접적으로 중계받는 극악의 우회로를 뚫어내어 통신 단절을 완벽하게 부숴버립니다.
 
 ---
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv6 헤더 압축 / SLAAC]
-    │
-    ▼
-[현재 개념: NAT 횡단]
-    │
-    ├──▶ [확장 A: 멀티캐스트]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAT 횡단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

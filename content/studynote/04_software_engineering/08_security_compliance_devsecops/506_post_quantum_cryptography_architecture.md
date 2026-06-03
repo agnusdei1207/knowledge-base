@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상의 모든 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), 로그인, 공인인증서는 RSA라는 비대칭키 암호화로 잠겨있다. RSA의 원리는 "엄청나게 큰 두 소수를 곱하는 건 쉽지만, 그 결과를 다시 쪼개는 것(소인수분해)은 컴퓨터가 100만 년 걸린다"는 미친 난이도의 수학 문제다. 그런데 **'쇼어의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'**을 탑재한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 등장하면, 100만 년짜리 수학 문제를 몇 시간(혹은 1초) 만에 쓱싹 풀어버린다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)([양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 할아버지도 못 푸는 완전히 새롭고 더 더러운 수학 문제(격자, 해시 기반 등)로 기존 자물쇠를 통째로 갈아치우는 프로젝트다.
+- **개념**: 세상의 모든 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), 로그인, 공인인증서는 RSA라는 비대칭키 암호화로 잠겨있다. RSA의 원리는 "엄청나게 큰 두 소수를 곱하는 건 쉽지만, 그 결과를 다시 쪼개는 것(소인수분해)은 컴퓨터가 100만 년 걸린다"는 미친 난이도의 수학 문제다. 그런데 <strong>'쇼어의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Shor's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)'</strong>을 탑재한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 등장하면, 100만 년짜리 수학 문제를 몇 시간(혹은 1초) 만에 쓱싹 풀어버린다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)([양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 할아버지도 못 푸는 완전히 새롭고 더 더러운 수학 문제(격자, 해시 기반 등)로 기존 자물쇠를 통째로 갈아치우는 프로젝트다.
 
-- **필요성**: 개발자가 "10년 뒤 일이니까 나중에 고치자"라고 무시했다. 무서운 해킹 트렌드인 **'SNDL (Store Now, Decrypt Later: 지금 당장 훔쳐서 쟁여놓고, 나중에 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 나오면 풀기)'** 작전이 돌아가고 있다. 해커는 지금 암호문 패킷을 풀지 못해도, 그냥 외장 하드에 10년 치 은행 통신 패킷을 꾹꾹 눌러 담아 저축해 둔다. Q-Day가 오면? 쟁여둔 패킷의 자물쇠가 우르르 열리며 회사의 M&A 기밀, 대통령의 비밀 문서, 1급 영업 비밀이 한꺼번에 다크웹에 폭포수처럼 터진다. **다가올 양자 파멸의 소급 적용([Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) Attack)을 막기 위한 전 인류적 사이버 방파제** 건설이 절대적으로 시급하다.
+- **필요성**: 개발자가 "10년 뒤 일이니까 나중에 고치자"라고 무시했다. 무서운 해킹 트렌드인 <strong>'SNDL (Store Now, Decrypt Later: 지금 당장 훔쳐서 쟁여놓고, 나중에 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a> 나오면 풀기)'</strong> 작전이 돌아가고 있다. 해커는 지금 암호문 패킷을 풀지 못해도, 그냥 외장 하드에 10년 치 은행 통신 패킷을 꾹꾹 눌러 담아 저축해 둔다. Q-Day가 오면? 쟁여둔 패킷의 자물쇠가 우르르 열리며 회사의 M&A 기밀, 대통령의 비밀 문서, 1급 영업 비밀이 한꺼번에 다크웹에 폭포수처럼 터진다. <strong>다가올 양자 파멸의 소급 적용(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/">Retrospective</a> Attack)을 막기 위한 전 인류적 사이버 방파제</strong> 건설이 절대적으로 시급하다.
 
-- **💡 비유**: [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환은 **'은행 금고 다이얼 교체 공사'**와 똑같습니다. 지금까지 은행 금고([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 '덧셈 뺄셈 다이얼'로 아주 튼튼하게 잠겨 있었습니다. 세상 그 어떤 도둑도 이 다이얼을 풀려면 평생 걸렸죠. 그런데 도둑들이 덧셈 뺄셈을 1초 만에 계산해 버리는 **'슈퍼 울트라 매직 계산기([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))'**를 발명 중이라는 소문이 퍼졌습니다. 계산기가 완성되면 우리 은행은 1초 만에 다 털립니다. 그래서 은행장(아키텍트)은 당장 내일, 다이얼을 덧셈 뺄셈이 아니라 아예 계산기가 못 푸는 **'큐브 맞추기 마법 퍼즐([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))'**로 문짝 자체를 다 뜯어내서 통째로 바꿔 달아야만 밤에 두 다리 뻗고 잘 수 있습니다.
+- **💡 비유**: [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환은 <strong>'은행 금고 다이얼 교체 공사'</strong>와 똑같습니다. 지금까지 은행 금고([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 '덧셈 뺄셈 다이얼'로 아주 튼튼하게 잠겨 있었습니다. 세상 그 어떤 도둑도 이 다이얼을 풀려면 평생 걸렸죠. 그런데 도둑들이 덧셈 뺄셈을 1초 만에 계산해 버리는 <strong>'슈퍼 울트라 매직 계산기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a>)'</strong>를 발명 중이라는 소문이 퍼졌습니다. 계산기가 완성되면 우리 은행은 1초 만에 다 털립니다. 그래서 은행장(아키텍트)은 당장 내일, 다이얼을 덧셈 뺄셈이 아니라 아예 계산기가 못 푸는 <strong>'큐브 맞추기 마법 퍼즐(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>)'</strong>로 문짝 자체를 다 뜯어내서 통째로 바꿔 달아야만 밤에 두 다리 뻗고 잘 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 절대 왕정 (2000~2010s)**: 수학의 기적(소인수분해, 타원 곡선) 위에 쌓아 올린 완벽한 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 전자상거래 인터넷 평화의 시대.
+  1. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 절대 왕정 (2000~2010s)</strong>: 수학의 기적(소인수분해, 타원 곡선) 위에 쌓아 올린 완벽한 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 전자상거래 인터넷 평화의 시대.
   2. **Q-Day의 공포와 NIST의 호출 (2016)**: 미국 국립표준기술연구소(NIST)가 "비상사태! [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 나오면 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 다 박살 난다! 전 세계 천재 수학자들아, 양자도 못 푸는 새로운 수학 문제 족보 좀 빨리 발명해 와!"라며 배틀로얄 공모전을 열었다.
-  3. **[PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 글로벌 표준 확정의 시대 (2024~현재)**: 수년간의 피 터지는 심사 끝에 2024년 8월, 마침내 NIST가 `CRYSTALS-Kyber(FIPS 203)`와 `CRYSTALS-Dilithium(FIPS 204)` 등 격자 기반 수학을 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 절대 표준으로 낙점하여 세상에 쾅! 선포했다. 이제 전 세계 모든 IT 기업은 낡은 RSA를 뽑고 이 새 엔진으로 갈아타는 수조 원짜리 이주(Migration) 대장정에 오르게 되었다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> 글로벌 표준 확정의 시대 (2024~현재)</strong>: 수년간의 피 터지는 심사 끝에 2024년 8월, 마침내 NIST가 `CRYSTALS-Kyber(FIPS 203)`와 `CRYSTALS-Dilithium(FIPS 204)` 등 격자 기반 수학을 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 절대 표준으로 낙점하여 세상에 쾅! 선포했다. 이제 전 세계 모든 IT 기업은 낡은 RSA를 뽑고 이 새 엔진으로 갈아타는 수조 원짜리 이주(Migration) 대장정에 오르게 되었다.
 
-- **📢 섹션 요약 비유**: 이 전환 대비는 공상과학 영화가 아니라 **'Y2K (밀레니엄 버그) 대작전'의 현대판 초고도화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)**입니다. Y2K가 연도 표시 두 자리(99->00) 때문에 컴퓨터가 터질까 봐 온 세상 개발자가 밤새워 코드를 고쳤다면, [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 그것의 수천 배 스케일입니다. 서버, 핸드폰, 공유기, 데이터베이스에 박혀있는 수만 개의 '암호화 심장 칩([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))'을 기계가 멈추지 않는 상태에서 최신식 인공심장([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))으로 갈아 끼워야 하는 극한의 개복 수술입니다.
+- **📢 섹션 요약 비유**: 이 전환 대비는 공상과학 영화가 아니라 <strong>'Y2K (밀레니엄 버그) 대작전'의 현대판 초고도화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a></strong>입니다. Y2K가 연도 표시 두 자리(99->00) 때문에 컴퓨터가 터질까 봐 온 세상 개발자가 밤새워 코드를 고쳤다면, [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 그것의 수천 배 스케일입니다. 서버, 핸드폰, 공유기, 데이터베이스에 박혀있는 수만 개의 '암호화 심장 칩([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))'을 기계가 멈추지 않는 상태에서 최신식 인공심장([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))으로 갈아 끼워야 하는 극한의 개복 수술입니다.
 
 ---
 
 다음은 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환 대비의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  양자 내성 암호 (PQC) 전환 대비                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 내성 암호 (PQC) 전환 대비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환 대비가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환 대비 SW 아키텍처 검토의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환 대비 SW 아키텍처 검토의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환 대비 SW 아키텍처 검토의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-양자 내성 암호 (PQC) 전환 대비 SW 아키텍처 검토 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자 내성 암호 (PQC) 전환 대비 SW 아키텍처 검토 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

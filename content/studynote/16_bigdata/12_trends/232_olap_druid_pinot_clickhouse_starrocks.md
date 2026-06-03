@@ -21,11 +21,15 @@ tags = ["studynote-bigdata"]
 
 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 성장 (Druid, Pinot, ClickHouse, StarRocks)은 빅데이터 환경에서 실시간 OLAP을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -41,11 +45,15 @@ tags = ["studynote-bigdata"]
 | 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 Druid와 Pinot은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -108,21 +116,23 @@ StarRocks와도 연결해 보면, 기술 선택은 결국 [데이터](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[Druid]
-    │
-    ▼
-[Pinot]
-    │
-    ▼
-[ClickHouse]
-    │
-    ▼
-[StarRocks]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Druid</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pinot</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ClickHouse</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">StarRocks</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 StarRocks까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -22,29 +22,27 @@ tags = ["ict_convergence"]
 
 클라우드 컴퓨팅은 이러한 구조를부터 바꾼다. "IT 자원을 수도처럼하면 나오는서비스로서활용할 수 있다처럼한다면?"이라는 질문에서 출발한다. 더 이상 개별 서버가 아니라화 (Virtualization)된 컴퓨팅 자원을 필요한 만큼만 사용할 수 있으며, 사용한 만큼만 비용을 지불하는 것이다.
 
-```text
-[온프레미스 versus 클라우드 배포 모델 구조 비교]
 
-[ 온프레미스 (On-premise) 모델 ]
-┌──────────────────────────────────────────────────────────────┐
-│ ┌────────────┐ │
-│ │ 고객사 │ 직접 서버 구매/관리/운영 │
-│ │ 데이터센터 │ └─ 트래픽 Peak 에 맞춰 과잉 구매 │
-│ │ (자체 보유)│ └─ 예상치 못한 수요 변화에 취약 │
-│ └────────────┘ └─ 유지보수 인력 상시 필요 │
-└──────────────────────────────────────────────────────────────┘
 
-[ 클라우드 (Cloud) 모델 ]
-┌──────────────────────────────────────────────────────────────┐
-│ ┌────────────┐ 네트워크 ┌──────────────────────────┐ │
-│ │ 최종 사용자 │ ◀───────────▶ │ 클라우드 서비스 제공자 │ │
-│ └────────────┘ │ (AWS, Azure, GCP, NCP) │ │
-│ │ └─ 데이터센터 운영 │ │
-│ │ └─ 가상화 자원 동적 배치 │ │
-│ │ └─ 사용량 기반 과금 │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 versus 클라우드 배포 모델 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 (On-premise) 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객사</div><div class="kb-diagram-cell">직접 서버 구매/관리/운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터</div><div class="kb-diagram-cell">─ 트래픽 Peak 에 맞춰 과잉 구매</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자체 보유)</div><div class="kb-diagram-cell">─ 예상치 못한 수요 변화에 취약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 유지보수 인력 상시 필요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 (Cloud) 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 사용자</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">클라우드 서비스 제공자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AWS, Azure, GCP, NCP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터센터 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가상화 자원 동적 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용량 기반 과금</div></div>
+</div>
+</div>
+
+
 
 이 비교도에서 핵심은"On-premise는 자원이 먼저 있고 수요가 나중에 따라오지만, 클라우드는 수요가 먼저 있고 자원이 나중에 따라온다"는 점이다. 따라서 스타트업처럼 초기 수요가 불확실한 경우 클라우드의 유연성이 극대화되고, 반면 규제 산업처럼 데이터 주권 (Data Sovereignty)이 중요한 경우에는 온프레미스 또는 프라이빗 클라우드 선택이 고려될 수 있다.
 
@@ -54,30 +52,30 @@ tags = ["ict_convergence"]
 
 한국의 Nacional 클라우드 (NCP)은 공공부문 cloud 요구사항을 충족시키면서도 데이터 보관 의무를 준수한다. 금융 kliring 기관처럼 엄격한 규제 요건을 가진 기업에게는 멀티 클라우드 (Multi-Cloud) 전략이 유망한데, 하나의 클라우드에 장애가 발생해도 다른 클라우드로 failover하여 서비스 연속성을 보장하는 것이 핵심이다.
 
-```text
-[클라우드 서비스 모델: IaaS, PaaS, SaaS 계층 구조]
 
-┌─────────────────────────────────────────────────────────┐
-│ SaaS (Software as a Service) │
-│ 완전한 애플리케이션 (Salesforce, Microsoft 365, │
-│ Google Workspace) │
-│ └─ 사용자는 앱만 사용, 관리 불필요 │
-├─────────────────────────────────────────────────────────┤
-│ PaaS (Platform as a Service) │
-│ 개발 플랫폼 (AWS Elastic Beanstalk, Azure App │
-│ Service, Google App Engine, NCP App Platform) │
-│ └─ 개발자가 코드만 배포, 실행 환경 자동 관리 │
-├─────────────────────────────────────────────────────────┤
-│ IaaS (Infrastructure as a Service) │
-│ 가상 서버/스토리지/네트워크 (AWS EC2, Azure VMs, │
-│ GCP Compute Engine, NCP Compute) │
-│ └─ OS 이상은 사용자가 관리, 하드웨어 불필요 │
-├─────────────────────────────────────────────────────────┤
-│ 온프레미스 (On-premise) │
-│ 물리적 서버/네트워크/스토리지 직접 구매 및 운영 │
-│ └─ 완전한 제어권, 완전한 책임 │
-└─────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서비스 모델: IaaS, PaaS, SaaS 계층 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SaaS (Software as a Service)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전한 애플리케이션 (Salesforce, Microsoft 365,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Google Workspace)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용자는 앱만 사용, 관리 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PaaS (Platform as a Service)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 플랫폼 (AWS Elastic Beanstalk, Azure App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service, Google App Engine, NCP App Platform)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 개발자가 코드만 배포, 실행 환경 자동 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaaS (Infrastructure as a Service)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 서버/스토리지/네트워크 (AWS EC2, Azure VMs,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCP Compute Engine, NCP Compute)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ OS 이상은 사용자가 관리, 하드웨어 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스 (On-premise)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 서버/네트워크/스토리지 직접 구매 및 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 완전한 제어권, 완전한 책임</div></div>
+</div>
+</div>
+
+
 
 이 계층 구조에서 핵심은 "책임의 분할"이다. SaaS에서는 제공자가 모든 것을 관리하고 사용자는 데이터와 사용자 관리에만 집중한다. IaaS에서는 사용자가 OS, 미들웨어, 런타임, 애플리케이션까지 직접 관리해야 한다. 따라서 PaaS가 개발 생산성과 운영 제어 사이의 최적 균형점으로 평가받으며, 특히 마이크로서비스 (Microservices) 기반 개발에서 널리 채택되고 있다.
 
@@ -93,50 +91,33 @@ tags = ["ict_convergence"]
 
 이러한VM의 한계를 극복한 것이 컨테이너 기술이다. 컨테이너는 OS 수준 가상화로, 호스트 OS의 kernel을 공유하면서 프로세스 수준의 격리를 제공한다. Docker가 대표적이며, 컨테이너 이미지가 메가바이트 단위로 가볍고, 시간이 수 밀리초에 불과하여 수평 확장 (Horizontal Scaling)이 즉각적이다.
 
-```text
-[가상머신 versus 컨테이너 아키텍처 비교]
 
-┌──────────────────────────────────────────────────────────────┐
-│ 가상머신 (VM) 기반 아키텍처 │
-│ │
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │ App A │ │ App B │ │ App C │ ← 각 VM 마다 │
-│ │ + Guest │ │ + Guest │ │ + Guest │ 완전한 OS 포함 │
-│ │ OS │ │ OS │ │ OS │ │
-│ ├──────────┤ ├──────────┤ ├──────────┤ │
-│ │ Hypervisor (VMware ESXi, Hyper-V, KVM) │ ← VM 모니터 │
-│ ├─────────────────────────────────────────────────────────┤ │
-│ │ 물리적 서버 (Bare Metal) │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │
-│ - 장점: 완전한 격리, 다양한 OS 실행 가능 │
-│ - 단점: 각 VM의 OS 중복으로 스토리지/메모리, 느림 │
-└──────────────────────────────────────────────────────────────┘
 
-┌──────────────────────────────────────────────────────────────┐
-│ 컨테이너 기반 아키텍처 (Docker/OCI) │
-│ │
-│ ┌────────┐ ┌────────┐ ┌────────┐ │
-│ │Container│ │Container│ │Container│ ← 프로세스 수준 격리 │
-│ │ App A │ │ App B │ │ App C │ (경량, 빠른) │
-│ ├────────┤ ├────────┤ ├────────┤ │
-│ │ App + │ │ App + │ │ App + │ ← 필요한 library만 │
-│ │ Library│ │ Library│ │ Library│ 포함 (공유 가능) │
-│ └────────┘ └────────┘ └────────┘ │
-│ │ │
-│ ▼ │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Docker Engine / Containerd │ ← 컨테이너 런타임 │
-│ ├─────────────────────────────────────────────────────────┤ │
-│ │ 호스트 OS (Linux Kernel 공유) │ │
-│ ├─────────────────────────────────────────────────────────┤ │
-│ │ 물리적 서버 (Bare Metal) │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │
-│ - 장점: 가벼운 이미지 (~10MB), 수 밀리초, 높은 밀도 │
-│ - 단점: 같은 OS Kernel 공유 → Windows 컨테이너 등은 제한적 │
-└──────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 versus 컨테이너 아키텍처 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상머신 (VM) 기반 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A</div><div class="kb-diagram-cell">App B</div><div class="kb-diagram-cell">App C</div><div class="kb-diagram-cell">← 각 VM 마다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Guest</div><div class="kb-diagram-cell">+ Guest</div><div class="kb-diagram-cell">+ Guest</div><div class="kb-diagram-cell">완전한 OS 포함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">OS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (VMware ESXi, Hyper-V, KVM)</div><div class="kb-diagram-cell">← VM 모니터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 서버 (Bare Metal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: 완전한 격리, 다양한 OS 실행 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 각 VM의 OS 중복으로 스토리지/메모리, 느림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨테이너 기반 아키텍처 (Docker/OCI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">← 프로세스 수준 격리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A</div><div class="kb-diagram-cell">App B</div><div class="kb-diagram-cell">App C</div><div class="kb-diagram-cell">(경량, 빠른)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App +</div><div class="kb-diagram-cell">App +</div><div class="kb-diagram-cell">App +</div><div class="kb-diagram-cell">← 필요한 library만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Library</div><div class="kb-diagram-cell">Library</div><div class="kb-diagram-cell">Library</div><div class="kb-diagram-cell">포함 (공유 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Engine / Containerd</div><div class="kb-diagram-cell">← 컨테이너 런타임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 OS (Linux Kernel 공유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 서버 (Bare Metal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: 가벼운 이미지 (~10MB), 수 밀리초, 높은 밀도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 같은 OS Kernel 공유 → Windows 컨테이너 등은 제한적</div></div>
+</div>
+</div>
+
+
 
 이 비교의 핵심은 격리 수준 versus 효율성의 트레이드오프다. VM은 하드웨어 수준 격리로 보안이 뛰어나지만 리소스가 크다. 컨테이너는 리소스 효율이 높지만 OS Kernel을 공유하므로 커널 취약점의 영향이 있을 수 있다. 실무에서는 보안 중요에는 VM을, 일반 애플리케이션에는 컨테이너를 선택하는 것이 일반적이다.
 
@@ -148,45 +129,31 @@ tags = ["ict_convergence"]
 
 하지만 서비스 수가하면 통신 경로가 복잡해지고, 네트워크 지연, 서비스 발견 (Service Discovery), 분산 추적 (Distributed Tracing), 일관성 관리 등의 문제가 발생할 수 있다. 이러한 문제를 해결하기 위해 등장한 것이 서비스 메시 기술이다.
 
-```text
-[마이크로서비스 아키텍처와 Istio 기반 서비스 메시 구조]
 
-┌──────────────────────────────────────────────────────────────┐
-│ 서비스 메시 (Service Mesh) │
-│ (예: Istio, Linkerd, AWS App Mesh) │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 데이터 평면 (Data Plane) │ │
-│ │ │ │
-│ │ [서비스 A] ══╪══> [서비스 B] ══╪══> [서비스 C] │ │
-│ │ │ │ │ │ │
-│ │ ▼ ▼ ▼ │ │
-│ │ ┌──────┐ ┌──────┐ ┌──────┐ │ │
-│ │ │ Sidecar │ │ Sidecar │ │ Sidecar │ ← 각 Pod에 │ │
-│ │ │ Proxy │ │ Proxy │ │ Proxy │ 부착된 │ │
-│ │ │ (Envoy)│ │ (Envoy)│ │ (Envoy)│ 네트워크 │ │
-│ │ └──────┘ └──────┘ └──────┘ 프록시 │ │
-│ │ │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 제어 평면 (Control Plane) │ │
-│ │ │ │
-│ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ │
-│ │ │ Pilot │ │ Citadel │ │ Galley │ │ │
-│ │ │ (라우팅) │ │ (mTLS) │ │ (설정) │ │ │
-│ │ └──────────┘ └──────────┘ └──────────┘ │ │
-│ │ │ │
-│ │ - 서비스 발견 자동화 │ │
-│ │ - 상호 TLS (mTLS) 통신 암호화 │ │
-│ │ -Circuit Breaker (장애 전파 차단) │ │
-│ │ - 분산 추적 (Jaeger/Zipkin 연동) │ │
-│ │ - 메트릭 수집 (Prometheus 연동) │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로서비스 아키텍처와 Istio 기반 서비스 메시 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 (Service Mesh)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: Istio, Linkerd, AWS App Mesh)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 평면 (Data Plane)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 A</div><div class="kb-diagram-note">══╪══&gt;</div><div class="kb-diagram-node">서비스 B</div><div class="kb-diagram-note">══╪══&gt;</div><div class="kb-diagram-node">서비스 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sidecar</div><div class="kb-diagram-cell">Sidecar</div><div class="kb-diagram-cell">Sidecar</div><div class="kb-diagram-cell">← 각 Pod에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">부착된</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Envoy)</div><div class="kb-diagram-cell">(Envoy)</div><div class="kb-diagram-cell">(Envoy)</div><div class="kb-diagram-cell">네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프록시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 평면 (Control Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pilot</div><div class="kb-diagram-cell">Citadel</div><div class="kb-diagram-cell">Galley</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(라우팅)</div><div class="kb-diagram-cell">(mTLS)</div><div class="kb-diagram-cell">(설정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서비스 발견 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상호 TLS (mTLS) 통신 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-Circuit Breaker (장애 전파 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분산 추적 (Jaeger/Zipkin 연동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메트릭 수집 (Prometheus 연동)</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 서비스 간 모든 통신이 Sidecar Proxy를 경유한다는 점이다. 이를 통해 애플리케이션 코드를하지 않고도 암호화, 부하 분산, 장애 처리를 일원관리할 수 있다. 특히 mTLS (Mutual TLS)를 통해 서비스 IDs를 기반으로 한 상호 인증이 이루어지므로, 서비스 간 통신의 보안이적으로 향상된다.
 
@@ -194,46 +161,29 @@ tags = ["ict_convergence"]
 
 서버리스는 "서버가 없다"는 것이 아니라, "서버를관리할 필요가 없다"는 것이다. 개발자가 함수 (Function) 단위의 코드를 작성하여 클라우드 플랫폼에 배포하면, 클라우드 제공자가 필요할 때 자동으로 확장하고 리소스를 할당한다. AWS Lambda, Azure Functions, Google Cloud Functions, NCP Cloud Functions가 대표적인 서비스다.
 
-```text
-[서버리스 (FaaS) 실행 모델과 cold/warm 시작 동작]
 
-┌──────────────────────────────────────────────────────────────┐
-│ 서버리스 요청 처리 흐름 │
-│ │
-│ [사용자 요청] │
-│ │ │
-│ ▼ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ API Gateway / Event Source │ │
-│ │ (요청을 함수 호출로 변환, 인증, 속도 제한 관리) │ │
-│ └────────────────────────┬────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 함수 컨테이너 (Function Instance) │ │
-│ │ │ │
-│ │ ┌──────────────────────────────────────────────┐ │ │
-│ │ │ 함수 실행 환경 (보통 128MB~10GB RAM, 최대 │ │ │
-│ │ │ 실행 시간 15분 제한) │ │ │
-│ │ │ │ │ │
-│ │ │ [코드 실행] ← 개발자가 작성한 함수 로직 │ │ │
-│ │ │ │ │ │
-│ │ └──────────────────────────────────────────────┘ │ │
-│ │ │ │
-│ └────────────────────────┬────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ [응답 반환] │
-│ │
-│ Cold Start: 함수가 처음 실행되거나 미사용 기간 후 재기동 │
-│ └─ 컨테이너/패널 프로비저닝 → 함수 코드 로딩 → 실행 │
-│ └─ 지연 시간: 100ms ~ 수 초 (프로비저닝 속도에 따라) │
-│ │
-│ Warm Start: 이미 초기화된 함수 인스턴스에서 재실행 │
-│ └─ 기존 실행 환경 재사용 → 지연 시간: 1ms ~ 10ms │
-│ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 (FaaS) 실행 모델과 cold/warm 시작 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 요청 처리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway / Event Source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청을 함수 호출로 변환, 인증, 속도 제한 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 컨테이너 (Function Instance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 실행 환경 (보통 128MB~10GB RAM, 최대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 시간 15분 제한)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">코드 실행</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">개발자가 작성한 함수 로직 │ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응답 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold Start: 함수가 처음 실행되거나 미사용 기간 후 재기동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 컨테이너/패널 프로비저닝 → 함수 코드 로딩 → 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 지연 시간: 100ms ~ 수 초 (프로비저닝 속도에 따라)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm Start: 이미 초기화된 함수 인스턴스에서 재실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기존 실행 환경 재사용 → 지연 시간: 1ms ~ 10ms</div></div>
+</div>
+</div>
+
+
 
 서버리스의 가장 큰 장점은 마이크로초 단위의 세밀한 확장이 가능하다는 점이다. 실제 사용량에 비례해서만 비용이 발생하므로 사용량이 드문 워크로드에서는VM 대비 비용이대폭 절감된다. 하지만 cold start 지연,Vendor Lock-in 위험, 실행 시간 제한 (보통 15분), 디버깅의 복잡성 등의 제약도 존재한다. 실무에서는 이벤트 중심의 단순한 처리 작업(파일 변환, 웹훅 처리, 데이터 변환)에는 서버리스를, 복잡한 상태 관리나 장시간 실행이 필요한 작업에는 VM이나 컨테이너를 선택하는 것이 합리적이다.
 
@@ -247,25 +197,27 @@ tags = ["ict_convergence"]
 
 세계 4대 퍼블릭 클라우드 사업자(AWS, Microsoft Azure, Google Cloud Platform, Naver Cloud Platform)의 전략과 강점은 서로 다르다. AWS는 가장 먼저 시장에 진입하여 다양한 서비스 포트폴리오를 보유하고 있으며, Azure는 Microsoft 기업 고객 기반과의 synergy로 기업 시장 dominance를 굳혔다. Google Cloud는 데이터 분석과 AI/ML 기술적 우위로 차별화하고 있으며, NCP(Naver Cloud Platform)는 한국 밀접한 서비스로 공공과 금융 고객에게 강점이 있다.
 
-```text
-[주요 클라우드 제공자 핵심 서비스 비교]
 
-┌──────────┬───────────────────┬─────────────────┬────────────────┬────────────────┐
-│ 항목 │ AWS │ Microsoft Azure │ Google Cloud │ NCP │
-├──────────┼───────────────────┼─────────────────┼────────────────┼────────────────┤
-│ 대표 서비스│ EC2, S3, Lambda, │ Azure VMs, │ Compute Engine,│ Compute, │
-│ │ RDS, DynamoDB │ Azure SQL, │ BigQuery, │ Object Storage,│
-│ │ │ Azure Functions │ Cloud AI, │ Cloud DB │
-│ 강점 │ 서비스 다양성, market │ MS ecosystem │ 데이터 분석, │ 국내 규정 준수 │
-│ │ 점유율 1위 │ 연계 용이성 │ ML/TPU 기술력 │ 낮은 레이턴시 │
-│ 네트워크 │ Global Region │ Global Region │ Global Region │ 수 │
-│ │ 33개 Region │ 60+ Region │ 40+ Region │ 4개 Region │
-│ Hybrid │ Outposts, │ Arc (hybrid) │ Anthos │ NCP hybrid │
-│ │ Local Zones │ │ │ │
-│ 로컬│ AWS Korea (2023) │ MS Korea │ Google Korea │ NCP 자체 운영 │
-│ │ (리전 미운영) │ (리전 미운영) │ (리전 운영) │ ( 리전) │
-└──────────┴───────────────────┴─────────────────┴────────────────┴────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주요 클라우드 제공자 핵심 서비스 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">AWS</div><div class="kb-diagram-cell">Microsoft Azure</div><div class="kb-diagram-cell">Google Cloud</div><div class="kb-diagram-cell">NCP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 서비스</div><div class="kb-diagram-cell">EC2, S3, Lambda,</div><div class="kb-diagram-cell">Azure VMs,</div><div class="kb-diagram-cell">Compute Engine,</div><div class="kb-diagram-cell">Compute,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDS, DynamoDB</div><div class="kb-diagram-cell">Azure SQL,</div><div class="kb-diagram-cell">BigQuery,</div><div class="kb-diagram-cell">Object Storage,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Azure Functions</div><div class="kb-diagram-cell">Cloud AI,</div><div class="kb-diagram-cell">Cloud DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점</div><div class="kb-diagram-cell">서비스 다양성, market</div><div class="kb-diagram-cell">MS ecosystem</div><div class="kb-diagram-cell">데이터 분석,</div><div class="kb-diagram-cell">국내 규정 준수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유율 1위</div><div class="kb-diagram-cell">연계 용이성</div><div class="kb-diagram-cell">ML/TPU 기술력</div><div class="kb-diagram-cell">낮은 레이턴시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크</div><div class="kb-diagram-cell">Global Region</div><div class="kb-diagram-cell">Global Region</div><div class="kb-diagram-cell">Global Region</div><div class="kb-diagram-cell">수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">33개 Region</div><div class="kb-diagram-cell">60+ Region</div><div class="kb-diagram-cell">40+ Region</div><div class="kb-diagram-cell">4개 Region</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid</div><div class="kb-diagram-cell">Outposts,</div><div class="kb-diagram-cell">Arc (hybrid)</div><div class="kb-diagram-cell">Anthos</div><div class="kb-diagram-cell">NCP hybrid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Zones</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬</div><div class="kb-diagram-cell">AWS Korea (2023)</div><div class="kb-diagram-cell">MS Korea</div><div class="kb-diagram-cell">Google Korea</div><div class="kb-diagram-cell">NCP 자체 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리전 미운영)</div><div class="kb-diagram-cell">(리전 미운영)</div><div class="kb-diagram-cell">(리전 운영)</div><div class="kb-diagram-cell">( 리전)</div></div>
+</div>
+</div>
+
+
 
 #### 3-2. 클라우드와 타 과목 융합: 설계의 핵심 교차점
 
@@ -273,46 +225,49 @@ tags = ["ict_convergence"]
 
 보안 관점에서는 Shared Responsibility Model (공유 책임 모델)을 명확히 이해해야 한다. 클라우드 제공자는 인프라의 물리적 보안과hypervisor 수준의 격리를 책임지지만, 사용자 데이터의 암호화, 접근 통제, 애플리케이션 보안은 사용자의 책임이다. 이 경계선을 모르면"클라우드가므로 안전하다"는 잘못된 가정에서 치명적 보안 사고가 발생할 수 있다.
 
-```text
-[클라우드 보안: 공유 책임 모델 (Shared Responsibility Model)]
 
-┌─────────────────────────────────────────────────────────────┐
-│ 클라우드 제공자 책임 (Provider Responsibility)│
-│ │
-│ 물리적 데이터센터 보안 (출입 통제, 환경 관리) │
-│ 하드웨어 (서버, 스토리지, 네트워크) 가용성 │
-│ 가상화 계층 (Hypervisor, 호스트 OS 보안) │
-│ 인프라 레벨 장애 Recovery (Multi-AZ failover) │
-├─────────────────────────────────────────────────────────────┤
-│ 사용자 책임 (Customer Responsibility) │
-│ │
-│ 데이터 암호화 (저장/ 모두) │
-│ 접근 통제 및 Identity 관리 (IAM 정책) │
-│ 애플리케이션 보안 ( injection, XSS, CSRF 방어) │
-│ 네트워크 보안 (Security Group, NACL, WAF) │
-│ 운영체제 패치 (OS를 직접 관리하는 경우) │
-│ 데이터 백업 및 복구 전략 │
-└─────────────────────────────────────────────────────────────┘
 
-클라우드 제공자 (AWS, Azure, GCP) ══════════════════ 고객
-"당신의 데이터는 당신이 통제합니다" (보안의 70%는 고객에게 있다)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 보안: 공유 책임 모델 (Shared Responsibility Model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 제공자 책임 (Provider Responsibility)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 데이터센터 보안 (출입 통제, 환경 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 (서버, 스토리지, 네트워크) 가용성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화 계층 (Hypervisor, 호스트 OS 보안)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 레벨 장애 Recovery (Multi-AZ failover)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 책임 (Customer Responsibility)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 암호화 (저장/ 모두)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 통제 및 Identity 관리 (IAM 정책)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 보안 ( injection, XSS, CSRF 방어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 보안 (Security Group, NACL, WAF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 패치 (OS를 직접 관리하는 경우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 백업 및 복구 전략</div></div>
+<div class="kb-diagram-note">클라우드 제공자 (AWS, Azure, GCP) 고객</div>
+<div class="kb-diagram-note">"당신의 데이터는 당신이 통제합니다" (보안의 70%는 고객에게 있다)</div>
+</div>
+</div>
+
+
 
 #### 3-3. 네이티브 클라우드 versus 클라우드 마이그레이션 전략
 
 기존 온프레미스 시스템을 클라우드로 이전하는 전략은 크게 두 가지로 나뉜다. 리프트 앤드 시프트 (Lift and Shift)는 애플리케이션을 변경 없이 VM 단위로 그대로 이전하는 것으로 빠르지만 클라우드의 진정한 혜택을 누리기 어렵다. 반면 클라우드 네이티브 (Cloud Native) 방식은 컨테이너화, 마이크로서비스 전환, managed 서비스 활용을 통해 클라우드의 장점을 활용한다.
 
-```text
-[클라우드 이전 전략 스펙트럼]
 
-온프레미스 ── 리프트 앤드 시프트 ── 컨테이너화 ── 마이크로서비스 ── 완전 네이티브
-│ │
-│ 초기 비용: 낮음 │ 장기 비용: lowest
-│ 이동 시간: 빠름 │ 이동 시간: 오래 걸림
-│ 성능 최적화: 없음 │ 성능 최적화: 최대
-│ 조직 역량 요구: 낮음 │ 조직 역량 요구: 매우 높음
-│ 목표: 빠른 이전 목표: 장기적 최적의 cloud 이점
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 이전 전략 스펙트럼</div></div>
+<div class="kb-diagram-note">온프레미스 ── 리프트 앤드 시프트 ── 컨테이너화 ── 마이크로서비스 ── 완전 네이티브</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 비용: 낮음</div><div class="kb-diagram-cell">장기 비용: lowest</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동 시간: 빠름</div><div class="kb-diagram-cell">이동 시간: 오래 걸림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화: 없음</div><div class="kb-diagram-cell">성능 최적화: 최대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조직 역량 요구: 낮음</div><div class="kb-diagram-cell">조직 역량 요구: 매우 높음</div></div>
+<div class="kb-diagram-note">목표: 빠른 이전 목표: 장기적 최적의 cloud 이점</div>
+</div>
+</div>
+
+
 
 실무에서는 이 스펙트럼에서 어디에 위치할 것인가를 결정할 때, 비즈니스적 긴급성, 조직의 역량, 기존 시스템의 현대화 필요성을 함께 고려해야 한다. 모든 시스템을 동시에 네이티브로 전환하려는 시도는 실패하기 쉽다.
 
@@ -339,27 +294,30 @@ tags = ["ict_convergence"]
 - **의사결정**: NCP의 cloud (G-Cloud) 또는 한국전산원수를 활용하여,IaaS + PaaS 하이브리드아키텍처을 구축한다.
 - **판단 근거**:cloud는보안관리기준(ISMS-P) 인증을 받아, 데이터 국내 보관 의무를 만족한다. 또한(네트워크 VPN)를 제공하여 시스템과 신규 시스템의 연계가 가능하다. 사용량 기반 과금으로 당 인프라 비용이 0원이었으며, 서비스 이용자 증가에 따라 자동으로된다.
 
-```text
-[기업 규모별 클라우드 전략 선택 기준]
 
-[스타트업 (팀 1~10명, budget < 1억) ]
-├─ 우선순위: 속도 > 비용 효율
-├─ 추천:퍼블릭 클라우드 (AWS/NCP) + 서버리스 중심
-├─ 고려사항:Vendor Lock-in 최소화, 비용 알림 설정
-└─ 위험:비용 폭탄 (예상치 못한 사용량 증가)
 
-[중소기업 (팀 10~100명, budget 1~10억)]
-├─ 우선순위:비용 효율 + 보안/규제 준수
-├─ 추천:마이크로서비스 + container (EKS/GKE/ncloud)
-├─ 고려사항:멀티 리전 DR, 모니터링/로깅 체계 구축
-└─ 위험:운영 복잡성 증가 ()
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기업 규모별 클라우드 전략 선택 기준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스타트업 (팀 1~10명, budget &lt; 1억)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">우선순위: 속도 &gt; 비용 효율</div>
+<div class="kb-diagram-tree-item" style="--depth:0">추천:퍼블릭 클라우드 (AWS/NCP) + 서버리스 중심</div>
+<div class="kb-diagram-tree-item" style="--depth:0">고려사항:Vendor Lock-in 최소화, 비용 알림 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:0">위험:비용 폭탄 (예상치 못한 사용량 증가)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중소기업 (팀 10~100명, budget 1~10억)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">우선순위:비용 효율 + 보안/규제 준수</div>
+<div class="kb-diagram-tree-item" style="--depth:0">추천:마이크로서비스 + container (EKS/GKE/ncloud)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">고려사항:멀티 리전 DR, 모니터링/로깅 체계 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:0">위험:운영 복잡성 증가 ()</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대기업 (팀 100명+, budget 10억+)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">우선순위:안정성/가용성 + 규제 준수 + 장기 비용 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:0">추천:하이브리드 cloud + mainframe 연동 + microservices</div>
+<div class="kb-diagram-tree-item" style="--depth:0">고려사항:기존 투자 회수 (VMware, MS 환경), 조직 역량</div>
+<div class="kb-diagram-tree-item" style="--depth:0">위험:자체 DevOps 인력 확보 필요</div>
+</div>
+</div>
 
-[대기업 (팀 100명+, budget 10억+)]
-├─ 우선순위:안정성/가용성 + 규제 준수 + 장기 비용 최적화
-├─ 추천:하이브리드 cloud + mainframe 연동 + microservices
-├─ 고려사항:기존 투자 회수 (VMware, MS 환경), 조직 역량
-└─ 위험:자체 DevOps 인력 확보 필요
-```
+
 
 #### 4-2. 클라우드 도입 체크리스트
 

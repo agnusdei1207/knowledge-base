@@ -28,13 +28,19 @@ ERC-20과 ERC-721을 따로 쓰면 비효율적일 수 있다. ERC-1155는 이�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Single Contract
-  ↓
-FT + NFT
-  ↓
-Batch Transfer
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single Contract</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">FT + NFT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Batch Transfer</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -102,25 +108,37 @@ ERC-1155는 멀티 토큰 운영 효율을 높인다.
 
 ## 관련 개념 맵
 
-```text
-Multi Token
-  ↓
-ERC-1155
-  ↓
-Batch Transfer
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Multi Token</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ERC-1155</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Batch Transfer</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-ERC-20 / ERC-721
-  ↓
-ERC-1155
-  ↓
-Game Assets
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ERC-20 / ERC-721</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ERC-1155</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Game Assets</div>
+</div>
+</div>
+
+
 
 ---
 

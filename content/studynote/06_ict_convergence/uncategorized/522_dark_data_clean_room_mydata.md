@@ -19,9 +19,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **80% 이상이 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)([Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))**로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다. 수집은 했지만 분석·활용되지 않아 저장 비용만 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무작정 공유하면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 침해와 규제 위반 리스크가 따른다.
+IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>80% 이상이 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/">다크 데이터</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/">Dark Data</a>)</strong>로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다. 수집은 했지만 분석·활용되지 않아 저장 비용만 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무작정 공유하면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 침해와 규제 위반 리스크가 따른다.
 
-이 딜레마를 해결하기 위해 등장한 것이 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸([Data Clean Room](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/))**이다. 동시에 **[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))** 제도는 개인이 금융·의료·통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이동과 활용을 직접 결정하도록 권한을 부여한다.
+이 딜레마를 해결하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 클린 룸(<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/">Data Clean Room</a>)</strong>이다. 동시에 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/">MyData</a>)</strong> 제도는 개인이 금융·의료·통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이동과 활용을 직접 결정하도록 권한을 부여한다.
 
 - **📢 섹션 요약 비유**: 창고에 쌓인 물건([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))을 꺼내 쓰려면 두 창고가 서로 목록만 교환하는 공동 열람실(클린 룸)을 만들거나, 물건 주인(개인)이 직접 열쇠를 쥐는([마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) 방법이 필요하다.
 
@@ -31,21 +31,21 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸 구조
 
-```
-  기업 A (원시 데이터)          기업 B (원시 데이터)
-        │                              │
-        ▼                              ▼
-  ┌─────────────────────────────────────────┐
-  │            데이터 클린 룸               │
-  │  ┌──────────┐      ┌──────────────┐    │
-  │  │집계 엔진  │◄────►│ 쿼리 검증기  │    │
-  │  │(k-익명성)│      │(임계값 적용) │    │
-  │  └──────────┘      └──────────────┘    │
-  │        │ 집계 결과만 반환               │
-  └────────┼────────────────────────────────┘
-           ▼
-    공동 인사이트 (원시 데이터 미공유)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기업 A (원시 데이터) 기업 B (원시 데이터)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 클린 룸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 엔진</div><div class="kb-diagram-cell">◄ ►</div><div class="kb-diagram-cell">쿼리 검증기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(k-익명성)</div><div class="kb-diagram-cell">(임계값 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 결과만 반환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공동 인사이트 (원시 데이터 미공유)</div>
+</div>
+</div>
+
+
 
 | 구분 | [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸 | [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) |
 |:---|:---|:---|:---|
@@ -77,9 +77,9 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**국내 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 현황**: 2022년 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 본격 시행. 은행·카드·보험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본인 동의 하에 제3자 플랫폼(뱅크샐러드, 토스)으로 전송. 2024년 의료 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)(PHR, Personal Health Record) 시범 확대.
+<strong>국내 <a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> 현황</strong>: 2022년 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 본격 시행. 은행·카드·보험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본인 동의 하에 제3자 플랫폼(뱅크샐러드, 토스)으로 전송. 2024년 의료 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)(PHR, Personal Health Record) 시범 확대.
 
-**[다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/">다크 데이터</a> 관리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 1. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) 구축 → 태깅·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 2. ROT(Redundant, Obsolete, Trivial) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 삭제
 3. 잠재 가치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)([Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))에 보관
@@ -94,7 +94,7 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) 활용은 기업의 숨겨진 인사이트 발굴과 스토리지 비용 절감을 동시에 달성한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸은 경쟁사 간에도 프라이버시를 지키며 협업 분석을 가능하게 한다. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 개인 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 확립과 함께 핀테크·헬스케어 생태계의 혁신을 가속한다.
 
-세 패러다임의 공통 방향은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 많이 쓰되, 프라이버시를 더 철저히 지킨다"**는 역설적 목표를 기술로 실현하는 것이다.
+세 패러다임의 공통 방향은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 더 많이 쓰되, 프라이버시를 더 철저히 지킨다"</strong>는 역설적 목표를 기술로 실현하는 것이다.
 
 - **📢 섹션 요약 비유**: 잠자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깨워 안전하게 활용하는 것은, 도서관 책을 빌려주되 복사는 못 하게 하는 규칙처럼—규칙(법)과 기술(클린 룸)이 함께 있어야 가능하다.
 

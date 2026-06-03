@@ -19,16 +19,16 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 이벤트를 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 허공에 직접 쏘지 않는다. 내 로컬 DB 안에 `Outbox(보낼 편지함)`라는 테이블을 하나 만들어 두고, 본업(비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)과 편지 작성(이벤트 기록)을 **단일 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 묶어 함께 커밋(Commit)해 버린 후, 백그라운드 워커가 편지함에서 편지를 꺼내 안전하게 Kafka로 쏘는** 우회 기법이다.
+- **개념**: 이벤트를 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 허공에 직접 쏘지 않는다. 내 로컬 DB 안에 `Outbox(보낼 편지함)`라는 테이블을 하나 만들어 두고, 본업(비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)과 편지 작성(이벤트 기록)을 <strong>단일 DB <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>으로 묶어 함께 커밋(Commit)해 버린 후, 백그라운드 워커가 편지함에서 편지를 꺼내 안전하게 Kafka로 쏘는</strong> 우회 기법이다.
 
-- **필요성**: MSA에서 주문 서비스가 주문을 받았다. `1) 내 주문 DB에 저장한다.` `2) Kafka에 "주문생성됨" 메시지를 던진다.` 만약 1번이 성공했는데 2번 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 통신 직전에 서버가 정전으로 죽었다면? 내 DB엔 주문이 있지만 배송팀은 영영 모른다. 반대로 2번을 먼저 쐈는데 1번 DB 저장이 뻗어 롤백되었다면? 배송팀은 빈 박스를 포장하게 된다. 관계형 DB와 메시지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))는 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)(완벽한 글로벌 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)로 묶을 수 없기에 발생하는 이 끔찍한 **이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 문제(Dual Write Problem)**를 풀 천재적인 해법이 절실했다.
+- **필요성**: MSA에서 주문 서비스가 주문을 받았다. `1) 내 주문 DB에 저장한다.` `2) Kafka에 "주문생성됨" 메시지를 던진다.` 만약 1번이 성공했는데 2번 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 통신 직전에 서버가 정전으로 죽었다면? 내 DB엔 주문이 있지만 배송팀은 영영 모른다. 반대로 2번을 먼저 쐈는데 1번 DB 저장이 뻗어 롤백되었다면? 배송팀은 빈 박스를 포장하게 된다. 관계형 DB와 메시지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))는 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)(완벽한 글로벌 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)로 묶을 수 없기에 발생하는 이 끔찍한 <strong>이중 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 문제(Dual Write Problem)</strong>를 풀 천재적인 해법이 절실했다.
 
-- **💡 비유**: 친구에게 "돈 보냈어"라고 문자를 보내고 나서, 은행 앱을 켜서 돈을 송금하려고 했는데 폰 배터리가 꺼졌습니다. 친구는 돈이 안 왔다고 화를 냅니다. 이 불일치를 막으려면 어떻게 할까요? 은행 직원을 찾아가 내 돈을 뺄 때 직원에게 **"송금과 동시에 친구한테 갈 편지(Outbox)도 금고 안에 같이 넣어줘(단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))"**라고 부탁한 뒤, 우체부가 안전하게 금고에서 편지를 꺼내 배달해 주는 완벽한 순서 보장과 같습니다.
+- **💡 비유**: 친구에게 "돈 보냈어"라고 문자를 보내고 나서, 은행 앱을 켜서 돈을 송금하려고 했는데 폰 배터리가 꺼졌습니다. 친구는 돈이 안 왔다고 화를 냅니다. 이 불일치를 막으려면 어떻게 할까요? 은행 직원을 찾아가 내 돈을 뺄 때 직원에게 <strong>"송금과 동시에 친구한테 갈 편지(Outbox)도 금고 안에 같이 넣어줘(단일 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>)"</strong>라고 부탁한 뒤, 우체부가 안전하게 금고에서 편지를 꺼내 배달해 주는 완벽한 순서 보장과 같습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Dual Write (이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))의 공포**: 2010년대 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))가 뜨면서 개발자들은 DB에 저장하고 Kafka에 쏘는 코드를 짰다가 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 붕괴를 맛보았다.
+  1. <strong>Dual Write (이중 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>)의 공포</strong>: 2010년대 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))가 뜨면서 개발자들은 DB에 저장하고 Kafka에 쏘는 코드를 짰다가 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 붕괴를 맛보았다.
   2. **크리스 리처드슨의 패턴화**: MSA의 대가인 그가 "DB와 메시지 큐 간의 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 대신, DB 하나만의 짱짱한 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)(ACID)을 이용해 편지함을 만들자"며 패턴으로 정리했다.
-  3. **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))로의 진화**: 처음엔 앱 스레드가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 편지함을 퍼 날랐으나, 너무 무겁고 느려서 아예 DB의 바이너리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(binlog)를 직접 긁어가는 고속 Debezium 인프라 기술로 완벽하게 진화했다.
+  3. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">Change Data Capture</a>)로의 진화</strong>: 처음엔 앱 스레드가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 편지함을 퍼 날랐으나, 너무 무겁고 느려서 아예 DB의 바이너리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(binlog)를 직접 긁어가는 고속 Debezium 인프라 기술로 완벽하게 진화했다.
 
 - **📢 섹션 요약 비유**: 이 패턴은 총을 쏠 때 탄피(이벤트)가 엉뚱한 데 튀지 않게, 총알을 쏘는(DB 저장) 동시에 탄피 받이 통(Outbox 테이블)에 총알의 흔적이 100% 무조건 떨어지게끔 방아쇠 메커니즘을 하나로 묶어버린 총기 설계와 같습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 트랜잭셔널 아웃박스 (Transact의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  트랜잭셔널 아웃박스 (Transact                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭셔널 아웃박스 (Transact</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 트랜잭셔널 아웃박스 (Transact가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-트랜잭셔널 아웃박스 (Transactional Outbox) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+트랜잭셔널 아웃박스 (Transactional Outbox) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 트랜잭셔널 아웃박스 (Transactional Outbox) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-트랜잭셔널 아웃박스 (Transactional Outbox) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트랜잭셔널 아웃박스 (Transactional Outbox) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

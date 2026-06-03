@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 단일 유니캐스트 IP 주소를 지리적으로 분산된 다수의 노드(서버)에 중복 할당하고, [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(주로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))의 최적 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/))을 통해 클라이언트와 가장 논리적/지리적으로 인접한 노드와 통신하게 하는 통신 아키텍처. (IPv6에는 공식 편입되었고, IPv4에서는 꼼수로 구현).
-- **필요성**: 구글 1.1.1.1 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 미국 캘리포니아에 딱 한 대 있다고 치자. 한국 사람이 `google.com` IP 좀 알려달라고 물어보면 미국까지 핑이 200ms 걸린다. "이거 너무 느려 터졌네! 그렇다고 한국, 일본, 영국용 IP를 다 다르게 만들면 사람들이 어떻게 다 외워? **그냥 서버 100대에 IP를 전부 '1.1.1.1'로 똑같이 세팅해버려! 그리고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 통신사 라우터들이 알아서 손님이랑 제일 가까운 놈한테 배달하게 멱살 잡고 꺾어버려!!**"라는 발상의 대전환이 애니캐스트의 시작이다.
+- **필요성**: 구글 1.1.1.1 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 미국 캘리포니아에 딱 한 대 있다고 치자. 한국 사람이 `google.com` IP 좀 알려달라고 물어보면 미국까지 핑이 200ms 걸린다. "이거 너무 느려 터졌네! 그렇다고 한국, 일본, 영국용 IP를 다 다르게 만들면 사람들이 어떻게 다 외워? <strong>그냥 서버 100대에 IP를 전부 '1.1.1.1'로 똑같이 세팅해버려! 그리고 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 통신사 라우터들이 알아서 손님이랑 제일 가까운 놈한테 배달하게 멱살 잡고 꺾어버려!!</strong>"라는 발상의 대전환이 애니캐스트의 시작이다.
 
-- **💡 비유**: 애니캐스트는 전국 어디서나 똑같이 걸 수 있는 **"119 구급대 번호"**와 같습니다.
+- **💡 비유**: 애니캐스트는 전국 어디서나 똑같이 걸 수 있는 <strong>"119 구급대 번호"</strong>와 같습니다.
   - 내가 서울에서 119를 누르든, 부산에서 119를 누르든 전화번호(목적지 IP)는 완전히 똑같습니다.
   - 하지만 통신사 교환기([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)가 내 발신 위치를 파악하고, **"가장 출동이 빠른 제일 가까운 소방서"** 단 한 곳으로만 전화를 연결해 줍니다. 
   - (절대로 전국 모든 소방서에 전화가 동시에 울리지 않습니다. 이건 브로드캐스트의 영역).
 
-```text
-[IP SLA]
-    │
-    ▼
-[Anycast 라우팅 (BGP Anycast]
-    │
-    └──▶ [로케이터/ID 분리 구조 (LISP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP SLA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로케이터/ID 분리 구조 (LISP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 애니캐스트는 전 세계 수만 개의 햄버거 프랜차이즈에 **"대표 주문 번호 하나"**만 개통해 두는 시스템입니다. 고객이 아무 생각 없이 그 번호로 전화해도, 시스템이 고객의 위치를 추적해 가장 배달비가 적게 드는(가장 거리가 짧은) 동네 매장으로 자동 1:1 토스(연결)해 주는 궁극의 분산형 아키텍처입니다.
 
@@ -43,7 +47,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. BGP를 속이는(활용하는) 매직
-애니캐스트는 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 발명한 게 아니다. 기존 BGP의 **'최단 경로([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path가 가장 짧은 곳) 우선 원칙'**을 영악하게 악용(?)한 것이다.
+애니캐스트는 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 발명한 게 아니다. 기존 BGP의 <strong>'최단 경로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-Path가 가장 짧은 곳) 우선 원칙'</strong>을 영악하게 악용(?)한 것이다.
 
 1. 서울, 도쿄, 뉴욕에 똑같은 IP `8.8.8.8`을 가진 서버 3대를 켠다.
 2. 세 대의 서버는 각자의 지역 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))에게 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 엽서를 뿌린다. "야 나 8.8.8.8 여깄어!"
@@ -51,31 +55,30 @@ tags = ["studynote-network"]
    - 8.8.8.8 로 가는 길 1: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 딱 1개 (서울 놈이 보낸 거)
    - 8.8.8.8 로 가는 길 2: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 5개 (도쿄 놈이 보낸 거)
    - 8.8.8.8 로 가는 길 3: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 15개 (뉴욕 놈이 보낸 거)
-4. KT 라우터의 뇌구조: **"어? 똑같은 8.8.8.8이 3개나 있네? [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 룰에 따라 무조건 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path 도장이 제일 적게 찍힌 1번 길(서울)이 1등(Best Path)이다! 나머지는 다 삭제해!!"**
+4. KT 라우터의 뇌구조: <strong>"어? 똑같은 8.8.8.8이 3개나 있네? <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 룰에 따라 무조건 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-Path 도장이 제일 적게 찍힌 1번 길(서울)이 1등(Best Path)이다! 나머지는 다 삭제해!!"</strong>
 5. 결과: 한국의 모든 가입자 트래픽은 빨려 들어가듯 서울에 있는 8.8.8.8 서버로만 직행하게 된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                애니캐스트에 의한 지역별 트래픽 강제 격리 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 한국 유저들 ] ──▶ [ 한국 KT 망 ] ━━━━▶ [ 서울 DNS 서버 ]   │
- │                                            (IP: 8.8.8.8)  │
- │                                                             │
- │                                            (태평양 해저 케이블)│
- │                                                단절됨!        │
- │                                                             │
- │   [ 미국 유저들 ] ──▶ [ 미국 AT&T 망 ] ━━━━▶ [ 뉴욕 DNS 서버 ]  │
- │                                            (IP: 8.8.8.8)  │
- │                                                             │
- │   ▶ "태평양 한가운데 해저 케이블에 트래픽이 1바이트도 타지 않는다!"     │
- │      한국 트래픽은 한국에서, 미국 트래픽은 미국에서 100% 자체 소화됨.  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애니캐스트에 의한 지역별 트래픽 강제 격리 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">한국 유저들</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">한국 KT 망</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서울 DNS 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP: 8.8.8.8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(태평양 해저 케이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단절됨!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미국 유저들</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미국 AT&amp;T 망</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">뉴욕 DNS 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP: 8.8.8.8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "태평양 한가운데 해저 케이블에 트래픽이 1바이트도 타지 않는다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국 트래픽은 한국에서, 미국 트래픽은 미국에서 100% 자체 소화됨.</div></div>
+</div>
+</div>
+
+
 
 ### 2. 치명적인 단점 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 친화력 0%)
-애니캐스트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리처럼 "묻고 딱 대답 하나 듣고 끊는" **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 통신**에는 완벽한 신의 기술이다. 
-하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 같은 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통신**에는 쥐약이다.
+애니캐스트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 쿼리처럼 "묻고 딱 대답 하나 듣고 끊는" <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신</strong>에는 완벽한 신의 기술이다. 
+하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 같은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통신</strong>에는 쥐약이다.
 - 이유: 내가 서울 서버랑 3-Way Handshake를 맺고 다운로드를 시작했는데, 갑자기 인터넷망 상황이 살짝 흔들려서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 지도가 갱신되었다.
 - 내 트래픽이 갑자기 일본 도쿄 서버로 꺾여서 들어간다.
 - 도쿄 서버의 뇌구조: "뭐야 이 패킷은? 나랑 악수한 적([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 없는데 웬 찌꺼기가 들어와! RST(연결 끊기)!!"
@@ -86,7 +89,7 @@ tags = ["studynote-network"]
 단일 서버였다면 20만 대의 트래픽을 맞고 그 서버는 증발한다.
 하지만 애니캐스트 환경에선 **미국 좀비가 쏜 패킷은 뉴욕 서버 1대만 죽이고 끝나며, 중국 좀비가 쏜 패킷은 아시아 서버 1대만 죽이고 끝난다.** 한국에 있는 서버는 평온하게 숨을 쉬며 한국 고객의 트래픽을 정상 처리한다. (DDoS 공격의 국지화(Localization) 마법이다).
 
-- **📢 섹션 요약 비유**: ** 애니캐스트([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))는 방파제를 쪼개놓은 **"다중 격벽 시스템"**입니다. 적군(DDoS)이 침략해 들어와도, 망이 트래픽을 각 대륙별 격벽(가까운 서버)에 가둬버리기 때문에 한 격벽에 물이 차도 배(인터넷 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 절대 침몰하지 않고 항해를 계속합니다.
+- **📢 섹션 요약 비유**: <strong> 애니캐스트(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)는 방파제를 쪼개놓은 </strong>"다중 격벽 시스템"**입니다. 적군(DDoS)이 침략해 들어와도, 망이 트래픽을 각 대륙별 격벽(가까운 서버)에 가둬버리기 때문에 한 격벽에 물이 차도 배(인터넷 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 절대 침몰하지 않고 항해를 계속합니다.
 
 ---
 
@@ -142,15 +145,19 @@ Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IP SLA]
-    │
-    ▼
-[현재 개념: Anycast 라우팅 (BGP Anycast]
-    │
-    ├──▶ [확장 A: 로케이터/ID 분리 구조 (LISP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP SLA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Anycast 라우팅 (BGP Anycast</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로케이터/ID 분리 구조 (LISP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast는 IP SLA에서 출발해 현재 메커니즘을 정교화하고, 이후 로케이터/ID 분리 구조 (LISP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,18 +19,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-"고양이가 길을 건너다가 차에 치여서 병원에 실려 갔다. 수의사가 진단한 결과, **그것은** 골절이었다."에서 '그것'이 '고양이'를 지칭한다는 것을 이해하려면, 수십 단어 앞을 기억해야 한다. 이처럼 정보를 오래 유지해야 하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 **장기 의존성 (Long-term Dependency)**이라 한다.
+"고양이가 길을 건너다가 차에 치여서 병원에 실려 갔다. 수의사가 진단한 결과, **그것은** 골절이었다."에서 '그것'이 '고양이'를 지칭한다는 것을 이해하려면, 수십 단어 앞을 기억해야 한다. 이처럼 정보를 오래 유지해야 하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 <strong>장기 의존성 (Long-term Dependency)</strong>이라 한다.
 
-기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 각 시점마다 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))**이다.
+기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 각 시점마다 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 100명이 줄지어 서서 귓속말 게임을 한다. 1번이 "오늘 고양이가 다쳤다"고 속삭이면, 100번에게 도착할 때쯤 "오늘 어쩌고 저쩌고..."로 변해 핵심 내용이 사라진다. 이게 바로 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이다. 귓속말이 전달될수록 작아지고 끝에는 들리지 않는다.
 
@@ -38,28 +41,27 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         기울기 소실 (Vanishing Gradient) 수학적 메커니즘            │
-├──────────────────────────────────────────────────────────────┤
-│  순전파 (Forward Pass):                                        │
-│  h_1 ──▶ h_2 ──▶ h_3 ──▶ ... ──▶ h_T  (시간 흐름 →)          │
-│                                                              │
-│  역전파 (Backward Pass / BPTT: Backpropagation Through Time): │
-│  ∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2)) │
-│           ────────────────────────────────────────────────   │
-│           T번 반복 곱셈 → |W_h × σ'| < 1이면 → 0에 수렴 (소실)  │
-│                         |W_h × σ'| > 1이면 → ∞로 폭발 (폭발)   │
-│                                                              │
-│  예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준               │
-│       0.3 × 0.3 × 0.3 × ... × 0.3  (100번) ≈ 10^(-52) ≈ 0   │
-│       → h_1의 기울기가 사실상 0 → h_1 가중치는 전혀 업데이트 안 됨!│
-│                                                              │
-│  해결책 계보:                                                   │
-│  RNN ──(소실 문제 발견)──▶ LSTM(1997) ──▶ GRU(2014)            │
-│       ──(구조 혁신)────▶ Transformer(2017) : 소실 문제 근본 해소  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 소실 (Vanishing Gradient) 수학적 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (Forward Pass):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1 ──▶ h_2 ──▶ h_3 ──▶ ... ──▶ h_T (시간 흐름 →)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (Backward Pass / BPTT: Backpropagation Through Time):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T번 반복 곱셈 →</div><div class="kb-diagram-cell">W_h × σ'</div><div class="kb-diagram-cell">&lt; 1이면 → 0에 수렴 (소실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h × σ'</div><div class="kb-diagram-cell">&gt; 1이면 → ∞로 폭발 (폭발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.3 × 0.3 × 0.3 × ... × 0.3 (100번) ≈ 10^(-52) ≈ 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ h_1의 기울기가 사실상 0 → h_1 가중치는 전혀 업데이트 안 됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책 계보:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN ──(소실 문제 발견)──▶ LSTM(1997) ──▶ GRU(2014)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(구조 혁신) ▶ Transformer(2017) : 소실 문제 근본 해소</div></div>
+</div>
+</div>
+
+
 
 | 문제 | 원인 | 증상 | 해결책 |
 |:---|:---|:---|:---|
@@ -72,8 +74,8 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))**: CNN의 깊은 층에서도 발생하며, ResNet의 Skip Connection이 해결책이다. RNN에서는 LSTM의 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 덧셈(+) 경로를 만들어 기울기가 소실 없이 직통으로 흐르게 한다.
-- **[기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) ([Exploding Gradient](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/))**: Gradient Clipping으로 기울기의 L2-norm이 임계값(보통 1.0)을 초과하면 스케일을 강제로 줄이는 방법으로 해결한다.
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>: CNN의 깊은 층에서도 발생하며, ResNet의 Skip Connection이 해결책이다. RNN에서는 LSTM의 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 덧셈(+) 경로를 만들어 기울기가 소실 없이 직통으로 흐르게 한다.
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">기울기 폭발</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">Exploding Gradient</a>)</strong>: Gradient Clipping으로 기울기의 L2-norm이 임계값(보통 1.0)을 초과하면 스케일을 강제로 줄이는 방법으로 해결한다.
 - **Transformer의 근본 해결**: Self-Attention이 모든 위치를 직접 연결하여 거리 1홉(Hop)으로 정보를 전달하므로, 체인 곱셈이 없어 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이 근본적으로 발생하지 않는다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
@@ -88,9 +90,9 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 탐지 방법**: 훈련 중 각 레이어의 기울기 norm을 로깅하여 앞쪽 레이어 기울기가 뒤쪽보다 수십 배 작으면 소실이 발생하고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. TensorBoard의 Gradient Histogram을 통해 시각적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능하다.
+<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 탐지 방법</strong>: 훈련 중 각 레이어의 기울기 norm을 로깅하여 앞쪽 레이어 기울기가 뒤쪽보다 수십 배 작으면 소실이 발생하고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. TensorBoard의 Gradient Histogram을 통해 시각적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능하다.
 
-**실전 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong>실전 대응 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 1. [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) 교체 (게이트 기반 메모리 도입)
 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화([Weight Initialization](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 개선: Xavier, He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 3. [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 또는 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 적용
@@ -126,9 +128,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 100명이 줄 서서 **귓속말을 전달**하면 맨 마지막에는 처음 말이 완전히 바뀌어버리는데, 이게 바로 **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))**이에요!
-2. 반대로 소리가 점점 커져서 **마지막에 확성기가 폭발**해버리면 그건 **[기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)([Exploding Gradient](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/))**이고요.
-3. LSTM은 귓속말 대신 **직통 전화(셀 상태)**를 개설해서, 1번 친구 말이 100번에게 **정확히 전달**될 수 있도록 만든 특별한 신경망이에요!
+1. 100명이 줄 서서 <strong>귓속말을 전달</strong>하면 맨 마지막에는 처음 말이 완전히 바뀌어버리는데, 이게 바로 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이에요!
+2. 반대로 소리가 점점 커져서 <strong>마지막에 확성기가 폭발</strong>해버리면 그건 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">기울기 폭발</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/">Exploding Gradient</a>)</strong>이고요.
+3. LSTM은 귓속말 대신 <strong>직통 전화(셀 상태)</strong>를 개설해서, 1번 친구 말이 100번에게 <strong>정확히 전달</strong>될 수 있도록 만든 특별한 신경망이에요!
 
 ---
 

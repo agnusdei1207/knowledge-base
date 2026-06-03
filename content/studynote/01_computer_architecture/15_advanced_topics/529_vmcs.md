@@ -25,22 +25,21 @@ VMCS ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_ad
 
 이 그림은 VMCS가 왜 단순 저장 공간이 아니라 "상태 + [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"을 묶은 장부인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            VMCS가 필요한 이유: 전환 정보와 통제 규칙을 한곳에 모음         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest vCPU 실행                                                            │
-│      │                                                                     │
-│      ├─ 상태만 저장하면 ─────▶ 다음 Exit 때 무엇을 잡을지 다시 계산        │
-│      │                                                                     │
-│      └─ VMCS 사용 ─────────▶ Guest 상태 · Host 상태 · Exit 조건을 즉시 참조│
-│                                     │                                      │
-│                                     ▼                                      │
-│                           VM Entry / Exit를 하드웨어가 일관 처리           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-결국 VMCS의 필요성은 "가상 머신의 현재 상태를 기억한다"에 그치지 않는다. **어떤 행위가 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 경계를 넘는지까지 하드웨어 수준에서 정의해 두는 것**이 본질이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCS가 필요한 이유: 전환 정보와 통제 규칙을 한곳에 모음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest vCPU 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태만 저장하면 ▶ 다음 Exit 때 무엇을 잡을지 다시 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ VMCS 사용 ▶ Guest 상태 · Host 상태 · Exit 조건을 즉시 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM Entry / Exit를 하드웨어가 일관 처리</div></div>
+</div>
+</div>
+
+
+
+결국 VMCS의 필요성은 "가상 머신의 현재 상태를 기억한다"에 그치지 않는다. <strong>어떤 행위가 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 경계를 넘는지까지 하드웨어 수준에서 정의해 두는 것</strong>이 본질이다.
 
 - **📢 섹션 요약 비유**: VMCS는 비행기 교대 조종사가 함께 보는 운항 장부와 같다. 지금 속도와 고도만 적는 것이 아니라, 어떤 경고등이 켜지면 자동으로 관제실을 부를지도 미리 적어 두어야 안전하게 넘겨받을 수 있다.
 
@@ -48,7 +47,7 @@ VMCS ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_ad
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VMCS는 보통 4KB 정렬된 메모리 영역으로 준비되며, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 `VMPTRLD`로 현재 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어의 [current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) VMCS를 지정하고 `VMREAD`/`VMWRITE`로 필드를 다룬다. 첫 실행은 `VMLAUNCH`, 이후 재진입은 `VMRESUME`, 초기화는 `VMCLEAR`가 맡는다. 즉 VMCS는 일반 C 구조체처럼 마음대로 덮어쓰는 데이터가 아니라, **CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해서만 안전하게 접근하는 하드웨어 포맷**이다.
+VMCS는 보통 4KB 정렬된 메모리 영역으로 준비되며, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 `VMPTRLD`로 현재 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어의 [current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) VMCS를 지정하고 `VMREAD`/`VMWRITE`로 필드를 다룬다. 첫 실행은 `VMLAUNCH`, 이후 재진입은 `VMRESUME`, 초기화는 `VMCLEAR`가 맡는다. 즉 VMCS는 일반 C 구조체처럼 마음대로 덮어쓰는 데이터가 아니라, <strong>CPU <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 통해서만 안전하게 접근하는 하드웨어 포맷</strong>이다.
 
 핵심 필드는 다음과 같이 나뉜다.
 
@@ -63,21 +62,22 @@ VMCS는 보통 4KB 정렬된 메모리 영역으로 준비되며, [하이퍼바�
 
 이 그림은 VMCS가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry와 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 양쪽에서 각각 어떤 역할을 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    VMCS가 전환을 지휘하는 방식                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Guest-State] ──┐                                                         │
-│ [Entry Control] ├─▶ VM Entry ─▶ VMX Non-Root 실행                         │
-│ [Exec Control] ─┘                          │                              │
-│                                            ├─ 일반 경로 ─────▶ 계속 실행  │
-│                                            │                              │
-│                                            └─ 인터셉트 대상 ─▶ VM Exit    │
-│                                                                  │         │
-│ [Exit Info] ◀─────────────────────────────────────────────────────┤         │
-│ [Exit Control] ─▶ [Host-State] ─▶ VMX Root 복귀                  │         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCS가 전환을 지휘하는 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guest-State</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">VM Entry ─▶ VMX Non-Root 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exec Control</div><div class="kb-diagram-note">─ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 경로 ▶ 계속 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인터셉트 대상 ─▶ VM Exit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Info</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Host-State</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">VMX Root 복귀 │</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 점은 VMCS가 "저장소"이면서 동시에 "분기표"라는 사실이다. Guest-State와 Host-State가 전환의 내용을 담당한다면, Execution Controls는 전환의 빈도를 좌우한다. 그래서 같은 VT-x 환경이라도 어떤 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵과 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켰느냐에 따라 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 수가 크게 달라진다.
 
@@ -98,7 +98,7 @@ VMCS를 이해하려면 운영체제의 PCB ([Process](/knowledge-base/studynote
 | 상태 범위 | 일반 실행 문맥 중심 | 특권 상태, 인터셉트 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), Exit 정보 포함 | 유사하지만 AMD 형식 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향점 | 문맥 전환 빈도 | Exit 빈도와 제어 필드 설계 | Exit 빈도와 제어 필드 설계 |
 
-또한 VMCS 자체가 모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 해결하는 것은 아니다. 메모리 번역 비용은 EPT/NPT (Nested [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비용은 APICv (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))나 posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), I/O 비용은 VirtIO (Virtual I/O)나 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))와 함께 봐야 한다. VMCS는 이런 기능들을 **켜고 조합하는 중앙 제어판**에 가깝다.
+또한 VMCS 자체가 모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 해결하는 것은 아니다. 메모리 번역 비용은 EPT/NPT (Nested [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비용은 APICv (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))나 posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), I/O 비용은 VirtIO (Virtual I/O)나 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))와 함께 봐야 한다. VMCS는 이런 기능들을 <strong>켜고 조합하는 중앙 제어판</strong>에 가깝다.
 
 중첩 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 관계가 더 복잡해진다. L1 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 자신만의 VMCS가 있다고 믿지만, 실제로는 L0가 그것을 다시 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)해야 한다. 이때 `VMREAD`와 `VMWRITE`가 매번 L0로 올라가면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠지므로, Shadow VMCS가 있으면 L1이 자주 보는 필드를 하드웨어가 가까운 곳에서 대신 다뤄 주며 Exit를 줄인다.
 
@@ -108,7 +108,7 @@ VMCS를 이해하려면 운영체제의 PCB ([Process](/knowledge-base/studynote
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 VMCS는 직접 눈에 잘 보이지 않지만, `kvm_stat`, `perf kvm stat`, VTune 같은 도구를 보면 결국 Exit reason 형태로 모습을 드러낸다. 예를 들어 `CPUID`, `RDMSR/WRMSR`, I/O [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Exit가 과도하면 "가상 CPU 수가 부족하다"기보다 **VMCS의 인터셉트 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 너무 넓거나, [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 장치 경로가 부족하다**는 뜻일 수 있다. 즉 튜닝의 출발점은 코어 개수보다 Exit 분포다.
+실무에서 VMCS는 직접 눈에 잘 보이지 않지만, `kvm_stat`, `perf kvm stat`, VTune 같은 도구를 보면 결국 Exit reason 형태로 모습을 드러낸다. 예를 들어 `CPUID`, `RDMSR/WRMSR`, I/O [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Exit가 과도하면 "가상 CPU 수가 부족하다"기보다 <strong>VMCS의 인터셉트 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 너무 넓거나, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> 장치 경로가 부족하다</strong>는 뜻일 수 있다. 즉 튜닝의 출발점은 코어 개수보다 Exit 분포다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -133,9 +133,9 @@ VMCS를 이해하려면 운영체제의 PCB ([Process](/knowledge-base/studynote
 
 잘 설계된 VMCS는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 "소프트웨어 흉내"에서 "하드웨어와 협업하는 실행 환경"으로 바꾼다. Guest와 Host 상태가 명확히 분리되고, Exit 이유가 구조적으로 기록되며, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 수정하지 않은 운영체제를 훨씬 예측 가능하게 수용할 수 있다. 이것이 클라우드에서 대규모 멀티테넌시가 가능한 중요한 전제다.
 
-물론 한계도 있다. VMCS가 있어도 Exit 자체는 여전히 비싸고, I/O와 메모리 번역 병목은 별도 기능과 함께 해결해야 하며, 중첩 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 제어 구조가 다시 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)되어 복잡성이 급증한다. 앞으로는 confidential [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 더 정교한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), nested workload 가속처럼 **VMCS를 둘러싼 제어면 자체를 더 안전하고 더 얇게 만드는 방향**이 중요해질 것이다.
+물론 한계도 있다. VMCS가 있어도 Exit 자체는 여전히 비싸고, I/O와 메모리 번역 병목은 별도 기능과 함께 해결해야 하며, 중첩 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 제어 구조가 다시 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)되어 복잡성이 급증한다. 앞으로는 confidential [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 더 정교한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), nested workload 가속처럼 <strong>VMCS를 둘러싼 제어면 자체를 더 안전하고 더 얇게 만드는 방향</strong>이 중요해질 것이다.
 
-결론적으로 VMCS는 "가상 머신의 상태 저장소"가 아니라 **전환 규칙까지 포함한 하드웨어 계약서**로 기억하는 것이 정확하다. 이 관점을 잡으면 VMCS, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit, EPT, Shadow VMCS가 왜 하나의 흐름으로 묶이는지도 자연스럽게 이해된다.
+결론적으로 VMCS는 "가상 머신의 상태 저장소"가 아니라 <strong>전환 규칙까지 포함한 하드웨어 계약서</strong>로 기억하는 것이 정확하다. 이 관점을 잡으면 VMCS, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit, EPT, Shadow VMCS가 왜 하나의 흐름으로 묶이는지도 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: VMCS는 공연장 무대 전환표와 같다. 배우가 어디에 서는지만 적는 것이 아니라, 어떤 장면에서 조명을 바꾸고 어떤 순간에 무대 감독을 호출할지도 함께 적혀 있어야 공연이 끊기지 않는다.
 
@@ -154,24 +154,25 @@ VMCS를 이해하려면 운영체제의 PCB ([Process](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 중심 문맥 저장
-        │
-        ▼
-VMX Root / Non-Root 분리
-        │
-        ▼
-VMCS 기반 Guest-State · Host-State · Exit Reason 관리
-        │
-        ▼
-EPT · APICv · 비트맵 제어로 Exit 절감
-        │
-        ▼
-Shadow VMCS · 중첩 가상화 가속
-        │
-        ▼
-Confidential VM · 더 정교한 제어면 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 중심 문맥 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMX Root / Non-Root 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMCS 기반 Guest-State · Host-State · Exit Reason 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EPT · APICv · 비트맵 제어로 Exit 절감</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shadow VMCS · 중첩 가상화 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Confidential VM · 더 정교한 제어면 보호</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 상태 저장에서 출발해, 이제는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 전환 규칙과 보안 경계까지 하드웨어가 더 많이 맡는 방향으로 발전했음을 보여 준다.
 

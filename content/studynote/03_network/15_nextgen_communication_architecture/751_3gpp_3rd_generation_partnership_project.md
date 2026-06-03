@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 전 세계의 주요 통신 표준 기관(한국의 TTA, 유럽의 ETSI, 일본의 TTC 등)과 이동통신사, 통신 장비 제조사(삼성, 에릭슨, 노키아)들이 연합하여 설립한 **이동통신 기술 국제 표준화 기구**입니다.
+- **개념**: 전 세계의 주요 통신 표준 기관(한국의 TTA, 유럽의 ETSI, 일본의 TTC 등)과 이동통신사, 통신 장비 제조사(삼성, 에릭슨, 노키아)들이 연합하여 설립한 <strong>이동통신 기술 국제 표준화 기구</strong>입니다.
 - **배경**: 2G 시절에는 유럽의 GSM 방식과 한국/미국의 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 방식이 서로 달라 폰을 외국에서 쓸 수 없었습니다. 3G 시대([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))로 넘어오면서 글로벌 단일 표준을 만들기 위해 1998년에 결성되었습니다.
 
-```text
-[ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    ▼
-[3GPP 표준 개발]
-    │
-    └──▶ [LTE All-IP 패킷 교환 완전 전환,…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 3GPP 표준 개발은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,23 +41,27 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-3GPP는 한 번에 완벽한 기술을 내놓지 않고, 매년 새로운 기술을 덧붙여서 **'Release(릴리즈)'**라는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호를 달아 문서를 찍어냅니다. (애플의 iOS 15, 16, 17 업데이트와 같습니다.)
+3GPP는 한 번에 완벽한 기술을 내놓지 않고, 매년 새로운 기술을 덧붙여서 <strong>'Release(릴리즈)'</strong>라는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호를 달아 문서를 찍어냅니다. (애플의 iOS 15, 16, 17 업데이트와 같습니다.)
 
 - **Release 99**: 3G ([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)) 규격 완성
-- **Release 8 (2008년) 🌟**: 4G **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) (Long Term Evolution)**의 최초 규격 탄생. 진정한 모바일 인터넷의 시작.
-- **Release [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)**: LTE를 더욱 빠르게 개량한 **[LTE-Advanced](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/) ([LTE-A](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/))** 규격 등장. ([캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) 등)
-- **Release 15 (2018년) 🌟**: 대망의 첫 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) (NR, [New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))** 규격 완성. [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)) 통신의 뼈대 마련.
+- **Release 8 (2008년) 🌟**: 4G <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> (Long Term Evolution)</strong>의 최초 규격 탄생. 진정한 모바일 인터넷의 시작.
+- <strong>Release <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>: LTE를 더욱 빠르게 개량한 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/">LTE-Advanced</a> (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/">LTE-A</a>)</strong> 규격 등장. ([캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) 등)
+- **Release 15 (2018년) 🌟**: 대망의 첫 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> (NR, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/">New Radio</a>)</strong> 규격 완성. [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)) 통신의 뼈대 마련.
 - **Release 16**: 5G의 3대 요소([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연, 초연결) 중 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))과 자율주행([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 통신을 본격적으로 완성한 5G의 완성판.
 - **Release 18 이상**: 현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced와 차세대 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대를 위한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 접목 네트워크 및 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 통신 표준안을 치열하게 논의 중입니다.
 
-```text
-[ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    ▼
-[3GPP 표준 개발]
-    │
-    └──▶ [LTE All-IP 패킷 교환 완전 전환,…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 3GPP 표준 개발의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,9 +70,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 3GPP는 크게 3가지 부서(TSG)로 나뉘어 통신망 전체의 도면을 짭니다.
-1. **RAN (Radio Access Network)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/), 기지국, 주파수 등 **'무선 전파'**가 날아다니는 구간의 규칙을 만듭니다. (가장 치열한 특허 전쟁터)
-2. **[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) & System Aspects)**: 코어 망(Core Network) 구조, 보안, 통신망의 전체 뼈대 아키텍처와 시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 디자인합니다.
-3. **[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) (Core Network & Terminals)**: 스마트폰 단말기와 코어 망 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 패킷, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등을 상세히 짭니다.
+1. **RAN (Radio Access Network)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/), 기지국, 주파수 등 <strong>'무선 전파'</strong>가 날아다니는 구간의 규칙을 만듭니다. (가장 치열한 특허 전쟁터)
+2. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> &amp; System Aspects)</strong>: 코어 망(Core Network) 구조, 보안, 통신망의 전체 뼈대 아키텍처와 시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 디자인합니다.
+3. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a> (Core Network &amp; Terminals)</strong>: 스마트폰 단말기와 코어 망 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 패킷, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등을 상세히 짭니다.
 
 3GPP 표준 개발을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…가 기반 조건을 만든다면, 3GPP 표준 개발은 그 위에서 핵심 메커니즘을 구현하고, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 삼성이나 퀄컴 같은 기업들은 이 3GPP 회의에 자사의 기술을 '표준(Standard)'으로 채택시키기 위해 수조 원을 쏟아붓습니다. 
-- 자사의 기술이 3GPP 표준 문서에 단 한 줄이라도 들어가면, 전 세계 모든 스마트폰 제조사와 통신사는 그 기술을 써야만 하므로 어마어마한 **표준 필수 특허([SEP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/791_apple_sep/))** 로열티 수익을 영원히 앉아서 벌어들일 수 있기 때문입니다.
+- 자사의 기술이 3GPP 표준 문서에 단 한 줄이라도 들어가면, 전 세계 모든 스마트폰 제조사와 통신사는 그 기술을 써야만 하므로 어마어마한 <strong>표준 필수 특허(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/791_apple_sep/">SEP</a>)</strong> 로열티 수익을 영원히 앉아서 벌어들일 수 있기 때문입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    ▼
-[현재 개념: 3GPP 표준 개발]
-    │
-    ├──▶ [확장 A: LTE All-IP 패킷 교환 완전 전환,…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 3GPP 표준 개발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 3GPP 표준 개발는 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

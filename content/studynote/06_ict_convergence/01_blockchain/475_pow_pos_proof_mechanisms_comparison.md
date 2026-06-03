@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PoW(Proof of Work, [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/))은 연산 비용으로 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 경쟁하고, PoS(Proof of Stake, [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))은 담보 자산으로 검증자를 선정해 에너지 없이 같은 보안을 달성한다.
-> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW → PoS 전환 후 에너지 소비가 **99.95% 감소**했으며, 이는 탄소 중립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
+> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW → PoS 전환 후 에너지 소비가 <strong>99.95% 감소</strong>했으며, 이는 탄소 중립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
 > 3. **판단 포인트**: PoW는 51% 공격 비용(전기비 + 하드웨어), PoS는 33% 공격 비용(자산 담보 + 슬래싱 손실)으로 보안 모델이 근본적으로 다르며, 각각 다른 위협 시나리오에 대응한다.
 
 ---
@@ -34,41 +34,47 @@ tags = ["studynote-ict-convergence"]
 
 ### PoW 동작 구조
 
-```
-┌────────────────────────────────────────────────┐
-│          PoW 채굴 사이클                        │
-│                                                │
-│  ① 트랜잭션 수집 → 후보 블록 구성              │
-│  ② Nonce 값 0부터 증가시키며 반복:              │
-│     SHA-256(SHA-256(헤더)) < 난이도 목표값?     │
-│     YES → 블록 전파 / NO → Nonce++ 반복        │
-│  ③ 2016블록마다 난이도 조정(Difficulty Adjust) │
-│     목표: 블록 간격 10분 유지                   │
-│  ④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료    │
-└────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoW 채굴 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 트랜잭션 수집 → 후보 블록 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Nonce 값 0부터 증가시키며 반복:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHA-256(SHA-256(헤더)) &lt; 난이도 목표값?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → 블록 전파 / NO → Nonce++ 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 2016블록마다 난이도 조정(Difficulty Adjust)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 블록 간격 10분 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료</div></div>
+</div>
+</div>
+
+
 
 ### PoS 검증자 선택 구조
 
-```
-┌────────────────────────────────────────────────┐
-│          PoS 이더리움 검증 사이클               │
-│                                                │
-│  ① 검증자: 32 ETH 스테이킹 → 등록              │
-│  ② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성 │
-│  ③ 슬롯 제안자(Proposer): 블록 제안            │
-│  ④ 위원회(Committee): Attestation 투표         │
-│  ⑤ 2/3 투표 달성 → 체크포인트 최종화           │
-│  ⑥ 악의적 행동 시 슬래싱(Slashing):            │
-│     담보 ETH 일부 소각 + 네트워크 강제 퇴출    │
-└────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoS 이더리움 검증 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 검증자: 32 ETH 스테이킹 → 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 슬롯 제안자(Proposer): 블록 제안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 위원회(Committee): Attestation 투표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 2/3 투표 달성 → 체크포인트 최종화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 악의적 행동 시 슬래싱(Slashing):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">담보 ETH 일부 소각 + 네트워크 강제 퇴출</div></div>
+</div>
+</div>
+
+
 
 ### PoW vs PoS 핵심 비교
 
 | 항목 | PoW | PoS |
 |:---|:---|:---|
-| **블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 선정** | 해시 경쟁(Hashrate) | 지분 기반 무작위 |
+| <strong>블록 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 선정</strong> | 해시 경쟁(Hashrate) | 지분 기반 무작위 |
 | **에너지 소비** | 매우 높음(채굴기 24시간) | 낮음(검증자 서명만) |
 | **51% 공격 비용** | 해시레이트 51% 확보 비용 | 전체 스테이킹 33% 매입 비용 |
 | **슬래싱** | 해당 없음 | 이중 서명 시 담보 소각 |
@@ -102,10 +108,10 @@ tags = ["studynote-ict-convergence"]
 
 ### 선택 기준
 
-1. **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 극대화 필요**: PoW → 채굴 분산도 측정 지표(Nakamoto 계수) 활용
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 극대화 필요</strong>: PoW → 채굴 분산도 측정 지표(Nakamoto 계수) 활용
 2. **에너지 효율 / ESG 규제**: PoS → 탄소 발자국 최소화
 3. **빠른 최종성 필요**: PoS Tendermint/Ethereum → 결정적 최종화
-4. **하드웨어 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 집중화 위험**: PoW의 고질적 문제, PoS로 완화
+4. <strong>하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 집중화 위험</strong>: PoW의 고질적 문제, PoS로 완화
 
 ### 슬래싱(Slashing) 조건
 - 이중 제안(Double Propose): 같은 슬롯에 두 블록 제안
@@ -121,7 +127,7 @@ tags = ["studynote-ict-convergence"]
 | 효과 항목 | PoW | PoS |
 |:---|:---|:---|
 | **환경 영향** | 대규모 전력 소비 문제 | ESG 친화적 |
-| **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)** | 채굴 풀 집중화 위험 | 스테이킹 풀 집중화 가능 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong> | 채굴 풀 집중화 위험 | 스테이킹 풀 집중화 가능 |
 | **보안 모델** | 물리적 자원 의존 | 경제적 자산 의존 |
 | **진입 장벽** | [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 구매 비용 | 32 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)(≈수천만 원) |
 

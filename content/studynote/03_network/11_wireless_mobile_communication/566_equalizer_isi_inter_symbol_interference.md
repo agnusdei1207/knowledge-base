@@ -23,27 +23,25 @@ tags = ["studynote-network"]
 - **필요성**: 사람이 1초에 1단어씩 천천히 말하면 동굴에서 메아리가 쳐도 다음 단어를 알아들을 수 있다. 하지만 1초에 1,000단어씩 랩을 하면, 앞 단어의 메아리가 다음 단어와 뒤섞여 전체가 웅웅거리는 끔찍한 소음(ISI)이 된다. 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신일수록 펄스 폭이 극단적으로 좁아지므로, 메아리 꼬리에 의해 앞 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충돌하는 현상을 제거하지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 자체가 불가능하다.
 - **등장 배경**: ① 도심 환경의 다중경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/))로 인한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산(Delay Spread) 심화 → ② 고속 디지털 통신의 심볼 지속 시간(Symbol Duration)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산 시간보다 짧아지는 역전 현상 발생(ISI 폭발) → ③ 채널의 왜곡을 실시간으로 추적하여 반대로 깎아내는 적응형 등화기(Adaptive Equalizer) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발명.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             지연 확산에 의한 ISI 발생과 등화기의 복원 원리 시각화      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [송신단의 원래 신호: 뾰족하고 날씬함]                           │
-│   데이터 '1'    데이터 '0'    데이터 '1'                         │
-│     │             │             │                          │
-│     ▅             ▅             ▅                          │
-│                                                             │
-│   [무선 채널 통과 후: 메아리에 의해 뚱뚱해진 파형 (지연 확산)]          │
-│   데이터 '1'의 꼬리가 길어져 다음 시간(데이터 '0') 공간을 침범함!        │
-│     ╭─╮         ╭─╮         ╭─╮                          │
-│    /   \━━━━━━━/   \━━━━━━━/   \   <─ (서로 겹쳐서 뭉개짐 = ISI)│
-│                                                             │
-│   [수신단 등화기 (Equalizer) 통과 후: 역필터 깎아내기]               │
-│   등화기 로직: "현재 시간의 신호에서, 1초 전 놈이 남긴 꼬리만큼을 빼버리자!" │
-│     │             │             │                          │
-│     ▅             ▅             ▅   <─ (날씬하게 다시 복원됨!) │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 확산에 의한 ISI 발생과 등화기의 복원 원리 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신단의 원래 신호: 뾰족하고 날씬함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 '1' 데이터 '0' 데이터 '1'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▅ ▅ ▅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 채널 통과 후: 메아리에 의해 뚱뚱해진 파형 (지연 확산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 '1'의 꼬리가 길어져 다음 시간(데이터 '0') 공간을 침범함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ &lt;─ (서로 겹쳐서 뭉개짐 = ISI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신단 등화기 (Equalizer) 통과 후: 역필터 깎아내기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">등화기 로직: "현재 시간의 신호에서, 1초 전 놈이 남긴 꼬리만큼을 빼버리자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▅ ▅ ▅ &lt;─ (날씬하게 다시 복원됨!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 통신에서 1과 0을 쏘는 것을 펄스(Pulse)라 한다. 허공(무선 채널)을 날아가며 건물에 부딪히면 펄스는 원래보다 시간 축으로 쭉 늘어나게 된다(시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산). 고속 통신에서는 펄스와 펄스 사이의 간격이 엄청나게 좁기 때문에, 늘어난 앞 펄스의 꼬리가 뒤 펄스의 머리를 덮쳐버린다. 이를 심볼 간 간섭(ISI)이라 부른다. 폰 안의 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(등화기)은 훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Sequence)를 미리 받아보고 이 동네의 메아리가 얼마나 꼬리가 긴지 수학적으로 파악(채널 추정)한 다음, 톱(역함수 필터)을 들고 현재 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 과거 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 꼬리만큼의 강도를 싹둑 잘라내어 원래의 깨끗한 기둥 모양으로 복구해 낸다.
 
@@ -53,7 +51,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-등화기는 잡음을 깎아내는 방식에 따라 선형(Linear)과 비선형(Non-linear)으로 나뉜다. 실무에서는 비선형 방식인 **DFE**가 절대적 대세다.
+등화기는 잡음을 깎아내는 방식에 따라 선형(Linear)과 비선형(Non-linear)으로 나뉜다. 실무에서는 비선형 방식인 <strong>DFE</strong>가 절대적 대세다.
 
 | 종류 | 영문 명칭 | 동작 원리 (필터 구조) | 한계 및 부작용 |
 |:---|:---|:---|:---|
@@ -65,37 +63,25 @@ tags = ["studynote-network"]
 
 DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거름망(Filter)으로 처리한다. 하나는 앞으로 들어올 전파를 걸러주는 전방 필터(Feed-Forward)이고, 다른 하나는 방금 내가 판독을 끝낸 확실한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 뒤로 돌려보내는 후방 필터(Feedback)다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               결정 송환 등화기 (DFE)의 블록 아키텍처              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│                     [수신된 더러운 신호 $Y_k$]                     │
-│                             │                                 │
-│                             ▼                                 │
-│                 ┌───────────────────────┐                     │
-│                 │ Feed-Forward Filter   │ (미래의 꼬리 제거 시도) │
-│                 └───────────┬───────────┘                     │
-│                             │                                 │
-│                             ▼      ◀────────(ISI 빼기 연산)     │
-│                         [ 덧셈기 ]  ── ➖ ──┐                    │
-│                             │             │                    │
-│                             ▼             │                    │
-│                 ┌───────────────────────┐ │                    │
-│                 │ Decision (이건 '1'이다!) │ │                    │
-│                 └───────────┬───────────┘ │                    │
-│                             │             │                    │
-│                    [최종 복원 데이터 $X_k$]   │                    │
-│                             │             │                    │
-│                             └─────────────▼─────────────────┐  │
-│                                       │ Feedback Filter │  │
-│                                       └─────────────────┘  │
-│                                     (결정된 1이 만들 꼬리를 계산) │
-│                                                               │
-│   => 로직: "방금 앞글자가 '1'이었지? 1이라는 놈은 0.1ms 뒤에 이만큼의 꼬리(잡음)를│
-│            만든다는 걸 내가 알아! 그러니까 지금 들어오는 글자에서 그 꼬리값을 싹둑 빼자!"│
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 송환 등화기 (DFE)의 블록 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신된 더러운 신호 $Y_k$</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feed-Forward Filter</div><div class="kb-diagram-cell">(미래의 꼬리 제거 시도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ◀ (ISI 빼기 연산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">덧셈기</div><div class="kb-diagram-note">── ➖ ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decision (이건 '1'이다!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 복원 데이터 $X_k$</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feedback Filter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결정된 1이 만들 꼬리를 계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 로직: "방금 앞글자가 '1'이었지? 1이라는 놈은 0.1ms 뒤에 이만큼의 꼬리(잡음)를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만든다는 걸 내가 알아! 그러니까 지금 들어오는 글자에서 그 꼬리값을 싹둑 빼자!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 선형 등화기(ZF)는 눈감고 무식하게 더러운 물을 필터에 붓고 짜내는 방식이다. 반면 DFE는 '지능형'이다. 방금 전 0.001초에 수신기가 "이 파동은 완벽한 1이다!"라고 결정을(Decision) 내렸다면, 수신기는 "1이라는 파동이 남기는 메아리의 크기"를 아주 정확하게 알 수 있다. 그래서 그 방금 전의 1이라는 확신 찬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피드백(Feedback)으로 돌려, 지금 들어오고 있는 현재 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 그 꼬리의 찌꺼기를 아주 정밀한 덧셈기(➖)로 걷어낸다. 노이즈를 증폭시키는 부작용 없이 순수하게 메아리(ISI)만 제거하는 극강의 통신 복원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -112,32 +98,31 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 | 극복 장비 | 주요 세대 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파동(메아리)을 대하는 태도 | 적용 환경 및 한계 |
 |:---|:---|:---|:---|
 | **레이크(Rake) 수신기** | 3G [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) | 메아리를 긁어모아 더해서 내 파워를 키우는 **아군(자원) 취급** | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁아 메아리가 2~3개로 큼직하게 쪼개질 때만 갈퀴(핑거)로 주워 담을 수 있음. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 넓어지면 갈퀴 수백 개 필요. |
-| **시간 영역 등화기 (Time-[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Eq)** | 구형 2G, Wi-Fi | 꼬리를 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 덮치는 **최악의 적(간섭)으로 간주**하고 수학적으로 깎아 죽여버림 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도(Symbol Rate)가 미친 듯이 빨라지면 계산해야 할 역행렬 수식이 수만 개로 늘어나 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) CPU가 폭발함. |
-| **주파수 영역 등화기 (FDE + OFDM)** | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) | 메아리를 **주파수 축에서 단 한 번의 나눗셈으로 조용히 소멸**시킴 (궁극의 융합) | 시간 축에서 수만 번 계산할 것을 주파수 축으로 옮겨 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1Gbps 환경을 가볍게 뚫어냄. |
+| <strong>시간 영역 등화기 (Time-<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Eq)</strong> | 구형 2G, Wi-Fi | 꼬리를 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 덮치는 <strong>최악의 적(간섭)으로 간주</strong>하고 수학적으로 깎아 죽여버림 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도(Symbol Rate)가 미친 듯이 빨라지면 계산해야 할 역행렬 수식이 수만 개로 늘어나 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) CPU가 폭발함. |
+| **주파수 영역 등화기 (FDE + OFDM)** | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) | 메아리를 <strong>주파수 축에서 단 한 번의 나눗셈으로 조용히 소멸</strong>시킴 (궁극의 융합) | 시간 축에서 수만 번 계산할 것을 주파수 축으로 옮겨 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1Gbps 환경을 가볍게 뚫어냄. |
 
-스마트폰의 속도가 1Gbps에 달하는 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에, 앞 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 꼬리(ISI)는 수십 개의 뒷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 연쇄적으로 덮쳐버린다. 이걸 시간 영역 등화기(Time-[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) DFE)로 깎아내려면 단말기 칩셋([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))이 발열로 녹아내린다. 아키텍트들은 "시간 축에서 복잡한 회선 필터를 돌리지 말고, 파동을 주파수 축으로 보내서 그냥 산수 나눗셈 한 번으로 끝내자"는 기적의 수학 **FDE(Frequency [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Equalizer)**를 찾아냈고, 이것이 4G/5G의 절대 표준인 OFDMA의 핵심이 되었다.
+스마트폰의 속도가 1Gbps에 달하는 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에, 앞 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 꼬리(ISI)는 수십 개의 뒷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 연쇄적으로 덮쳐버린다. 이걸 시간 영역 등화기(Time-[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) DFE)로 깎아내려면 단말기 칩셋([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))이 발열로 녹아내린다. 아키텍트들은 "시간 축에서 복잡한 회선 필터를 돌리지 말고, 파동을 주파수 축으로 보내서 그냥 산수 나눗셈 한 번으로 끝내자"는 기적의 수학 <strong>FDE(Frequency <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Equalizer)</strong>를 찾아냈고, 이것이 4G/5G의 절대 표준인 OFDMA의 핵심이 되었다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               시간 영역의 복잡함 vs 주파수 영역 등화기(FDE)의 위대함  │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [시간 영역(Time Domain)에서의 ISI 제거 ─▶ 끔찍한 컨볼루션(Convolution)] │
-│   수신 신호 Y(t) = 원본 X(t) * 채널 왜곡 H(t)                       │
-│   복원 공식: X(t)를 찾으려면 엄청나게 복잡한 [컨볼루션 역적분]을 수만 번 해야 함! │
-│                                                               │
-│   [혁신: 퓨리에 변환(FFT)을 통한 주파수 영역(Freq Domain)으로의 도약]    │
-│   수신 신호 Y(f) = 원본 X(f) × 채널 왜곡 H(f) (단순한 곱하기로 변함!)    │
-│                                                               │
-│   [FDE (Frequency Domain Equalization) 복원 로직]             │
-│                 Y(f)   (수신된 뚱뚱한 주파수 덩어리)                 │
-│   원본 X(f) =  ──────                                        │
-│                 H(f)   (채널이 왜곡시킨 만큼 그냥 나누기!)           │
-│                                                               │
-│   => 결과: 시간 축에서는 미분/적분을 수천 번 해야 했던 지옥의 꼬리 자르기가, │
-│            주파수 축으로 오니까 초등학생도 하는 '나눗셈 한 번'으로 끝나버림!   │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 영역의 복잡함 vs 주파수 영역 등화기(FDE)의 위대함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 영역(Time Domain)에서의 ISI 제거 ─▶ 끔찍한 컨볼루션(Convolution)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 신호 Y(t) = 원본 X(t) * 채널 왜곡 H(t)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">복원 공식: X(t)를 찾으려면 엄청나게 복잡한</div><div class="kb-diagram-node">컨볼루션 역적분</div><div class="kb-diagram-note">을 수만 번 해야 함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 퓨리에 변환(FFT)을 통한 주파수 영역(Freq Domain)으로의 도약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 신호 Y(f) = 원본 X(f) × 채널 왜곡 H(f) (단순한 곱하기로 변함!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FDE (Frequency Domain Equalization) 복원 로직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y(f) (수신된 뚱뚱한 주파수 덩어리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 X(f) =</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(f) (채널이 왜곡시킨 만큼 그냥 나누기!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 시간 축에서는 미분/적분을 수천 번 해야 했던 지옥의 꼬리 자르기가,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 축으로 오니까 초등학생도 하는 '나눗셈 한 번'으로 끝나버림!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이것이 바로 수학적 퓨리에 변환([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/))이 세상을 바꾼 장면이다. 시간 축에서는 앞글자의 꼬리가 뒷글자를 덮치는 징그러운 얼룩([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))이지만, 이걸 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 칩셋을 통과시켜 주파수 그래프로 바꿔버리면 그냥 특정 주파수의 높이가 낮아지거나 높아진 단순한 곱셈(Multiplication) 결과물로 바뀐다. 수신기는 "어? 800MHz 주파수가 빌딩에 부딪혀서 힘이 절반(0.5)으로 깎였네? 그럼 나눗셈으로 0.5를 나눠버려라(즉, 2배로 뻥튀기해라)!"라고 단 한 번의 나눗셈 스케줄링으로 원래의 파동 X(f)를 완벽하게 복원해 낸다. CPU 연산량이 기하급수적으로 줄어들어 기가비트급 속도가 모바일 기기에서 가능해진 것이다.
 
@@ -148,15 +133,15 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 시속 300km로 달리는 고속철도(KTX) 안의 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 라우터망에서, 인터넷이 0.1초마다 끊겼다 붙었다를 반복하며 패킷 로스율이 30%로 치솟았다. 
-2. **원인 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 도플러 확산)**: 단말기가 빛의 속도로 이동하면 기지국에서 날아오는 주파수가 기차 앞유리에 부딪혀 찌그러지며 주파수 대역이 널뛰기하는 **도플러 쉬프트(Doppler Shift)**가 발생한다. 무선 채널 환경 H(t)가 1밀리초 단위로 수시로 변해버리는(Fast [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) 지옥이 열린 것이다. 기차 안의 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 등화기가 "아, 아까 측정한 이 동네의 채널 역함수가 이거였지"라고 역필터를 먹이는 순간, 이미 기차가 수백 미터를 이동해 버려 역함수 값이 몽땅 틀려버리며 노이즈를 오히려 증폭(Error Propagation)시켰다.
-3. **의사결정 및 조치 ([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 밀도 증가 및 Adaptive Equalizer 속도 상향)**:
-   - RF 최적화 엔지니어는 KTX 선로 기지국의 설정값을 변경하여, **훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) / Pilot)**를 쏘는 횟수를 초당 수천 번으로 대폭 촘촘하게 늘린다.
+2. <strong>원인 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 도플러 확산)</strong>: 단말기가 빛의 속도로 이동하면 기지국에서 날아오는 주파수가 기차 앞유리에 부딪혀 찌그러지며 주파수 대역이 널뛰기하는 <strong>도플러 쉬프트(Doppler Shift)</strong>가 발생한다. 무선 채널 환경 H(t)가 1밀리초 단위로 수시로 변해버리는(Fast [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) 지옥이 열린 것이다. 기차 안의 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 등화기가 "아, 아까 측정한 이 동네의 채널 역함수가 이거였지"라고 역필터를 먹이는 순간, 이미 기차가 수백 미터를 이동해 버려 역함수 값이 몽땅 틀려버리며 노이즈를 오히려 증폭(Error Propagation)시켰다.
+3. <strong>의사결정 및 조치 (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> 밀도 증가 및 Adaptive Equalizer 속도 상향)</strong>:
+   - RF 최적화 엔지니어는 KTX 선로 기지국의 설정값을 변경하여, <strong>훈련 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> / Pilot)</strong>를 쏘는 횟수를 초당 수천 번으로 대폭 촘촘하게 늘린다.
    - 단말기의 적응형 등화기(Adaptive Equalizer)가 1ms가 아니라 0.1ms 단위로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 탭(Tap) 필터 값을 업데이트하도록 튜닝한다.
    - **결과**: 등화기가 미친 듯이 변하는 기차 밖의 전파 환경을 실시간으로 쫓아가며(Tracking) 역함수를 계산해 냄으로써, 시속 300km 환경에서도 ISI를 완벽히 깎아내고 심리스(Seamless)한 4K 영상 스트리밍을 제공했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간) 길이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 망에서는 등화기의 부담을 줄여주기 위해, 심볼과 심볼 사이에 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))**라는 텅 빈 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간을 억지로 끼워 넣는다. 만약 산골짜기(반사파가 늦게 도달함) 기지국 설정을 도심지용 'Short [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)'로 세팅해버리면, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 꼬리가 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간을 넘어 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구간을 덮쳐버려(ISI 발생) 주파수 영역 등화기(FDE)마저 작동을 멈추고 에러가 터진다. 산악이나 초광역 셀(Extended Cell)에서는 전송 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 깎아 먹더라도 반드시 **'Long [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)' ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 연장)** 프로필을 적용해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (DFE 에러 전파 방치)**: 앞서 보았듯 DFE는 앞글자의 판단 결과를 뒤로 넘겨 빼준다(Feedback). 만약 전파가 최악인 셀 끄트머리에서 앞글자 '1'을 '0'으로 잘못 판독(Decision Error)해 버리면, 뒷글자의 꼬리를 빼주는 게 아니라 엉뚱한 값을 빼서 뒤의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100개가 줄줄이 폭사한다(Error Propagation). 모바일 통신 칩셋 아키텍트들은 DFE를 단독으로 쓰지 않고, 반드시 앞단에 터보 코드나 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 같은 강력한 전진 에러 정정(FEC) 모듈을 붙여, **"확실하게 100% 에러가 정정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"**만을 뒤로 피드백으로 넘기도록 칩셋 회로([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))를 격리 설계해야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">Cyclic Prefix</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구간) 길이 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 망에서는 등화기의 부담을 줄여주기 위해, 심볼과 심볼 사이에 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">Cyclic Prefix</a>)</strong>라는 텅 빈 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간을 억지로 끼워 넣는다. 만약 산골짜기(반사파가 늦게 도달함) 기지국 설정을 도심지용 'Short [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)'로 세팅해버리면, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 꼬리가 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간을 넘어 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구간을 덮쳐버려(ISI 발생) 주파수 영역 등화기(FDE)마저 작동을 멈추고 에러가 터진다. 산악이나 초광역 셀(Extended Cell)에서는 전송 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 깎아 먹더라도 반드시 <strong>'Long <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>' (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구간 연장)</strong> 프로필을 적용해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (DFE 에러 전파 방치)</strong>: 앞서 보았듯 DFE는 앞글자의 판단 결과를 뒤로 넘겨 빼준다(Feedback). 만약 전파가 최악인 셀 끄트머리에서 앞글자 '1'을 '0'으로 잘못 판독(Decision Error)해 버리면, 뒷글자의 꼬리를 빼주는 게 아니라 엉뚱한 값을 빼서 뒤의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100개가 줄줄이 폭사한다(Error Propagation). 모바일 통신 칩셋 아키텍트들은 DFE를 단독으로 쓰지 않고, 반드시 앞단에 터보 코드나 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 같은 강력한 전진 에러 정정(FEC) 모듈을 붙여, <strong>"확실하게 100% 에러가 정정된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>"</strong>만을 뒤로 피드백으로 넘기도록 칩셋 회로([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))를 격리 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 포장도로(도심)에서는 등화기가 신발 흙(메아리)을 1분에 한 번만 털어내도 깨끗하지만, 진흙탕 오프로드(시속 300km 기차)를 달릴 때는 1초마다 흙을 털어내지 않으면(훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 밀도 증가) 신발이 진흙 괴물이 되어 넘어집니다. 환경의 속도에 맞춰 등화기 업데이트 주기를 조여주는 것이 아키텍트의 핵심 튜닝입니다.
 
@@ -166,17 +151,17 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 
 | 구분 | 등화기 미적용 또는 구형 선형 등화기 | DFE 및 FDE (주파수 영역 등화기) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (전송 한계 속도)** | ISI 뭉개짐으로 인해 심볼레이트 1Mbps 한계 봉착 | 주파수 나눗셈으로 꼬리를 완벽 차단 | 모바일 기기에서의 **Gbps급 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 달성** |
+| **정량 (전송 한계 속도)** | ISI 뭉개짐으로 인해 심볼레이트 1Mbps 한계 봉착 | 주파수 나눗셈으로 꼬리를 완벽 차단 | 모바일 기기에서의 <strong>Gbps급 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 통신 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 달성</strong> |
 | **정량 (수신 에러율 / BER)**| 다중경로에 꼬리가 겹치면 패킷 손실 50% 육박 | 꼬리의 강도만큼 역산하여 빼줌 | 다중경로 극심한 도심지 빌딩 숲에서 **에러율 0.1% 이하로 극복** |
-| **정성 (디바이스 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))**| 수백 개의 시간 축 필터 연산으로 폰 발열/방전 | [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 칩을 통한 주파수 변환 연산 최적화 | [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 칩셋의 **수학적 연산량 대폭 축소 및 배터리 수명 획기적 보존** |
+| <strong>정성 (디바이스 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>)</strong>| 수백 개의 시간 축 필터 연산으로 폰 발열/방전 | [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 칩을 통한 주파수 변환 연산 최적화 | [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 칩셋의 **수학적 연산량 대폭 축소 및 배터리 수명 획기적 보존** |
 
 ### 미래 전망 및 진화 방향
-- **[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 결합 거대 시공간 등화기 (Space-Time Equalizer)**: 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 환경에서는 단일 기지국에서 쏘는 1개의 메아리가 아니라, 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 사방에서 쏘아대는 수천 개의 메아리와 간섭(Spatial Interference)이 폰에 쏟아진다. 미래의 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 등화기는 단순히 앞뒤의 시간 꼬리(ISI)를 자르는 것을 넘어, 공간적으로 옆 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 넘어온 빔(Beam)의 꼬리까지 다차원 행렬(Matrix)로 추적해서 한 방에 역함수로 날려버리는 **거대 행렬 공간-주파수 등화기**로 연산 규모가 기하급수적으로 진화하고 있다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/딥러닝 기반 신경망 등화기 (Neural Network Equalizer)**: 무선 채널 환경(H)은 비선형적이고 너무나 난잡하여, 고전적인 퓨리에 역함수 수학 공식만으로는 깎아내지 못하는 잔여물(노이즈)이 발생한다. 최근 모바일 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 제조사(퀄컴 등)는 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 안에 초소형 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 처리망)를 달아, "이 동네의 잡음 패턴은 수식으로 계산하지 말고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝 모델이 눈대중(Pattern Recognition)으로 보고 알아서 찌그러진 놈을 예쁘게 그려내라"는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)/등화기 융합 모델을 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 상용화 타겟으로 연구 중이다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> 결합 거대 시공간 등화기 (Space-Time Equalizer)</strong>: 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 환경에서는 단일 기지국에서 쏘는 1개의 메아리가 아니라, 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 사방에서 쏘아대는 수천 개의 메아리와 간섭(Spatial Interference)이 폰에 쏟아진다. 미래의 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 등화기는 단순히 앞뒤의 시간 꼬리(ISI)를 자르는 것을 넘어, 공간적으로 옆 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 넘어온 빔(Beam)의 꼬리까지 다차원 행렬(Matrix)로 추적해서 한 방에 역함수로 날려버리는 <strong>거대 행렬 공간-주파수 등화기</strong>로 연산 규모가 기하급수적으로 진화하고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/딥러닝 기반 신경망 등화기 (Neural Network Equalizer)</strong>: 무선 채널 환경(H)은 비선형적이고 너무나 난잡하여, 고전적인 퓨리에 역함수 수학 공식만으로는 깎아내지 못하는 잔여물(노이즈)이 발생한다. 최근 모바일 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 제조사(퀄컴 등)는 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 안에 초소형 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 처리망)를 달아, "이 동네의 잡음 패턴은 수식으로 계산하지 말고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝 모델이 눈대중(Pattern Recognition)으로 보고 알아서 찌그러진 놈을 예쁘게 그려내라"는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)/등화기 융합 모델을 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 상용화 타겟으로 연구 중이다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 36.211 / 38.211**: 물리 계층 스펙 ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시스템에서 등화기가 역함수를 계산할 수 있도록 기지국이 주기적으로 뿌려주는 [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))의 위치와 매핑 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 명시)
-- **IEEE 802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) ([Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/))**: 실내 극단적 다중경로 환경에서 FDE(주파수 등화)가 완벽히 동작하도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간(Guard Interval)을 어떻게 세팅해야 하는지 정의한 무선 랜 규격.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 36.211 / 38.211</strong>: 물리 계층 스펙 ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시스템에서 등화기가 역함수를 계산할 수 있도록 기지국이 주기적으로 뿌려주는 [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))의 위치와 매핑 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 명시)
+- <strong>IEEE 802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">11ax</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">Wi-Fi 6</a>)</strong>: 실내 극단적 다중경로 환경에서 FDE(주파수 등화)가 완벽히 동작하도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간(Guard Interval)을 어떻게 세팅해야 하는지 정의한 무선 랜 규격.
 
 "눈에 보이지 않는 공기 중의 찌그러짐을, 수학이라는 칼로 도려내어 진실을 조각해 낸다." 등화기(Equalizer)는 이동통신 공학이 일궈낸 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리(DSP)의 최고 걸작이다. 인간이 만들어낸 펄스가 대자연의 벽에 부딪혀 아무리 뚱뚱하게 뭉개지더라도, 수신기의 등화기가 있는 한 원본의 투명한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 반드시 부활한다. 기가비트 시대의 숨은 조각가는 오늘도 내 폰 안에서 1초에 10억 번씩 수학 공식을 풀고 있다.
 
@@ -195,15 +180,19 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 레이크 수신기]
-    │
-    ▼
-[현재 개념: 등화기]
-    │
-    ├──▶ [확장 A: 스마트 안테나]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 레이크 수신기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 등화기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 안테나</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 등화기는 [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

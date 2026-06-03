@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 해커가 공격 대상(희생자)의 IP 주소로 위장한 후, **특정 네트워크 대역 전체를 향해 "너희들 다 살아있니?"라는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request(핑, Ping) 패킷을 브로드캐스트(방송)로 쏘아, 수백 대의 컴퓨터가 희생자에게 일제히 응답(Echo Reply)하게 만들어 서버를 기절시키는 고전적인 DDoS 공격**입니다.
+- 해커가 공격 대상(희생자)의 IP 주소로 위장한 후, <strong>특정 네트워크 대역 전체를 향해 "너희들 다 살아있니?"라는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Echo Request(핑, Ping) 패킷을 브로드캐스트(방송)로 쏘아, 수백 대의 컴퓨터가 희생자에게 일제히 응답(Echo Reply)하게 만들어 서버를 기절시키는 고전적인 DDoS 공격</strong>입니다.
 - 작은 캐릭터들이 떼거지로 몰려다니는 만화 '개구쟁이 스머프'의 모습과 비슷하다고 하여 붙여진 이름입니다.
 
-```text
-[SYN Flood 대응]
-    │
-    ▼
-[ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    └──▶ [Ping of Death 대형 패킷 단편화…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 대응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,20 +44,24 @@ tags = ["studynote-network"]
 이 공격이 성립하려면 두 가지 바보 같은 네트워크 특성이 맞물려야 합니다.
 
 ### 1. 출발지 IP 조작 ([IP Spoofing](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/))
-- 해커는 `Ping` 패킷을 보낼 때, 겉면의 발신자 주소란에 자기 IP를 적지 않고 억울한 **피해자 서버의 IP (예: 네이버 IP)**를 적어서 발송합니다.
+- 해커는 `Ping` 패킷을 보낼 때, 겉면의 발신자 주소란에 자기 IP를 적지 않고 억울한 <strong>피해자 서버의 IP (예: 네이버 IP)</strong>를 적어서 발송합니다.
 
 ### 2. IP Directed Broadcast (지정 브로드캐스트)의 악용
 - 원래 브로드캐스트(255.255.255.255)는 라우터를 통과하지 못하고 우리 동네 안에서만 퍼집니다.
 - 하지만 옛날 라우터들은 외부에 있는 해커가 특정 네트워크(예: 부산대학교 네트워크 192.168.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).255)를 딱 짚어서 쏘는 **'Directed Broadcast' 패킷을 받으면, 친절하게 부산대 네트워크 내부에 있는 250대의 PC에게 핑 패킷을 쫘악 복사해서 돌려주었습니다.**
 
-```text
-[SYN Flood 대응]
-    │
-    ▼
-[ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    └──▶ [Ping of Death 대형 패킷 단편화…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 대응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,8 +90,8 @@ tags = ["studynote-network"]
 
 방어는 의외로 매우 간단하며, 오늘날에는 이 공격이 거의 통하지 않습니다.
 
-- **라우터 차단 설계 (No IP Directed-Broadcast)**: 전 세계 인터넷 라우터들의 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 뜯어고쳤습니다. 외부 인터넷에서 들어오면서 목적지가 `.255`로 끝나는 방송용 패킷(Directed Broadcast)을 보면, 라우터가 "어디 외부인이 우리 동네 전체에 함부로 방송을 때리려 해?"라며 **아예 차단(Drop)해 버리도록 기본값이 세팅([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 기준 `no ip directed-broadcast` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))**되어 있습니다.
-- **핑 무시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 개별 PC나 서버 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 알 수 없는 브로드캐스트 IP 주소로부터 온 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request에 아예 대답하지 않도록(Ignore) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)합니다.
+- **라우터 차단 설계 (No IP Directed-Broadcast)**: 전 세계 인터넷 라우터들의 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 뜯어고쳤습니다. 외부 인터넷에서 들어오면서 목적지가 `.255`로 끝나는 방송용 패킷(Directed Broadcast)을 보면, 라우터가 "어디 외부인이 우리 동네 전체에 함부로 방송을 때리려 해?"라며 <strong>아예 차단(Drop)해 버리도록 기본값이 세팅(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> 기준 <code>no ip directed-broadcast</code> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)</strong>되어 있습니다.
+- <strong>핑 무시 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 개별 PC나 서버 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 알 수 없는 브로드캐스트 IP 주소로부터 온 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request에 아예 대답하지 않도록(Ignore) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SYN Flood 대응]
-    │
-    ▼
-[현재 개념: ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ├──▶ [확장 A: Ping of Death 대형 패킷 단편화…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SYN Flood 대응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…는 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응에서 출발해 현재 메커니즘을 정교화하고, 이후 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

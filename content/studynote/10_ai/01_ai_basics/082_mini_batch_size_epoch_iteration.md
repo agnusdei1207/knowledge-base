@@ -21,24 +21,27 @@ tags = ["studynote-ai"]
 
 헷갈리기 쉬운 이 용어들은 다음의 명확한 수학적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 갖는다.
 
-1. **미니배치 사이즈 (Mini-[batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))**:
-   - [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(정답)를 1번 업데이트(채점)하기 위해, AI가 **한 번에 한 움큼씩 집어 드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 개수**다. (보통 32, 64, 128, 256 등 2의 거듭제곱을 씀)
+1. <strong>미니배치 사이즈 (Mini-<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">batch Size</a>)</strong>:
+   - [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(정답)를 1번 업데이트(채점)하기 위해, AI가 <strong>한 번에 한 움큼씩 집어 드는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 개수</strong>다. (보통 32, 64, 128, 256 등 2의 거듭제곱을 씀)
    - [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 크기에 맞춰 최대한 크게 욱여넣는 것이 연산 속도에 유리하다.
 2. **이터레이션 (Iteration = 스텝 Step)**:
    - [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 1번 업데이트하는 행위 그 자체의 횟수다.
-   - 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1,000개일 때 [배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)를 100개로 잡았다면, 100개씩 묶인 뭉텅이가 10개 만들어진다. 이 10개의 뭉텅이를 차례대로 하나씩 집어넣어 채점을 **총 10번 반복**해야 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 보게 된다. (이때 이터레이션 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))
+   - 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1,000개일 때 [배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)를 100개로 잡았다면, 100개씩 묶인 뭉텅이가 10개 만들어진다. 이 10개의 뭉텅이를 차례대로 하나씩 집어넣어 채점을 <strong>총 10번 반복</strong>해야 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 보게 된다. (이때 이터레이션 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))
 3. **에폭 (Epoch)**:
-   - 보유한 **전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음부터 끝까지 한 바퀴 다 훑어보고 학습을 1회 완료한 상태**를 뜻한다.
+   - 보유한 <strong>전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 처음부터 끝까지 한 바퀴 다 훑어보고 학습을 1회 완료한 상태</strong>를 뜻한다.
    - 모의고사 문제집 전체 1회독 = 1 에폭이다. 위 예시에서 10번의 이터레이션이 무사히 끝나면 마침내 1 에폭이 된다. 딥러닝은 보통 50~100 에폭 이상 문제집을 반복해서 푼다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 피자 100판(전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 먹어 치우는 대회입니다. 입안에 한 번에 우겨 넣을 수 있는 피자 조각 수가 10조각([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))이라면, 당신은 10번 씹어 삼키는 동작(Iteration)을 반복해야 책상 위 피자가 다 사라집니다. 피자 100판을 싹 비우고 다음 판 세트를 다시 꺼내 오는 순간이 바로 1 회독(Epoch) 달성입니다.
 
@@ -48,10 +51,10 @@ tags = ["studynote-ai"]
 
 크게 쪼갤 것인가, 잘게 쪼갤 것인가의 딜레마.
 
-1. **[배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)가 클 때 (Large Batch)**:
+1. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">배치 사이즈</a>가 클 때 (Large Batch)</strong>:
    - 한 번에 1,000개씩 모아서 평균을 내고 걷기 때문에, 모델의 기울기(방향)가 매우 안정적이고 노이즈 없이 부드럽게 하산한다. ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 효율 극대화)
    - **단점**: 일반화(Generalization) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지는 경향이 있다. 매끄럽게 내려가다가 얕은 웅덩이([Local Minima](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠졌을 때 튕겨 나갈 덜컹거림(노이즈)이 없어서 그대로 영원히 학습이 멈춰버릴 수 있다.
-2. **[배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)가 작을 때 (Small Batch)**:
+2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">배치 사이즈</a>가 작을 때 (Small Batch)</strong>:
    - 16개, 32개씩 쪼개면 엉뚱한 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))의 영향력이 커져서 기울기가 지그재그로 미친 듯이 널뛰며 걷는다.
    - **장점**: 이 덜컹거림 덕분에 웅덩이에 빠져도 퉁 튕겨져 나오며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 미세한 특징을 찰지게 잡아내어 실전 테스트에서 성적이 더 잘 나오는 경우가 많다 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과). 
    - **단점**: GPU를 효율적으로 못 써서 학습 시간이 어마어마하게 오래 걸린다.
@@ -63,13 +66,16 @@ tags = ["studynote-ai"]
 | 일반화 | 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 품질을 판단하게 만든다. |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Input → Transform → Score → Apply            │
-├──────────────────────────────────────────────┤
-│ state → update    → monitor → feedback       │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input → Transform → Score → Apply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state → update → monitor → feedback</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 바구니에 사과를 1,000개(Large Batch) 담아 무게를 재면 평균값이 항상 일정해 든든하지만 바구니가 너무 무거워 구덩이에 빠지면 못 나옵니다. 16개(Small Batch)만 담아서 재면 매번 평균이 널뛰기해서 헷갈리지만, 오히려 그 널뛰는 요동치는 힘 덕분에 함정을 폴짝 훌쩍 뛰어넘는 아이러니한 이점이 생깁니다.
 
@@ -79,12 +85,12 @@ tags = ["studynote-ai"]
 
 문제집을 많이 푼다고 무조건 서울대에 가는 것은 아니다.
 
-1. **에폭이 너무 적을 때 ([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/), 과소적합)**:
+1. <strong>에폭이 너무 적을 때 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/">Underfitting</a>, 과소적합)</strong>:
    - [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 에폭만 돌리고 끝내면, 문제집을 겉핥기로 풀다 말아서 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 점수도 엉망이고 실제 시험 점수도 엉망인 바보 모델이 나온다.
-2. **에폭이 너무 많을 때 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/), 과적합)**:
+2. <strong>에폭이 너무 많을 때 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>, 과적합)</strong>:
    - 1,000 에폭씩 무식하게 돌리면, 모델이 문제집의 원리를 깨우치는 게 아니라 **문제의 순서와 답안지 번호를 통째로 외워버리는** 사태가 터진다.
    - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(문제집)는 100점이 나오는데, 처음 보는 [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/)(수능)를 주면 다 틀리는 멍청한 암기 기계가 되어버린다.
-3. **[조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))**:
+3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>)</strong>:
    - 해결책은 학습 중간중간에 한 번도 안 본 모의고사([Validation Set](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/))를 풀려보는 것이다. 에폭이 늘어날수록 훈련 점수는 계속 오르지만, 어느 순간부터 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 점수가 떨어지기 시작한다면 "아, 지금부터 원리가 아니라 답을 외우기 시작했구나!"라고 파악하고, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 100 에폭이 안 끝났더라도 미련 없이 학습을 강제로 중단시켜 버린다.
 
 | 구분 | 핵심 초점 | 적용 상황 |

@@ -20,33 +20,33 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: MEO (중궤도 위성)는 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))의 밴 앨런 대(방사선 띠) 바깥쪽부터 정지궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)) 안쪽 사이의 공간을 비행하는 인공위성이다. 주로 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km ~ 20,000km 고도에 위치하며, 위성 하나가 지구를 덮는 범위가 꽤 넓어 20~30대의 위성 묶음(Constellation)만 띄우면 지구 표면 100%를 무결점으로 커버할 수 있다.
-- **필요성**: 전투기나 미사일이 날아갈 때, 3.6만km 상공의 [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) 위성 3대만으로는 전파가 너무 약하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길어 정밀 타격(1m 오차)이 불가능했다. 반대로 고도가 낮은 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(저궤도)는 위성을 수천 대나 쏴야 해서 당시 국방 예산으로도 감당이 안 됐다. **"딱 24대만 띄워도 지구 전역의 군인들이 머리 위에 최소 4대의 위성을 쳐다볼 수 있고, 전파도 빵빵하게 땅에 꽂히는 가장 가성비 좋은 우주 주차장"**이 절실했다. 그 타협의 산물이 바로 고도 20,000km의 MEO 궤도다.
+- **필요성**: 전투기나 미사일이 날아갈 때, 3.6만km 상공의 [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) 위성 3대만으로는 전파가 너무 약하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길어 정밀 타격(1m 오차)이 불가능했다. 반대로 고도가 낮은 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(저궤도)는 위성을 수천 대나 쏴야 해서 당시 국방 예산으로도 감당이 안 됐다. <strong>"딱 24대만 띄워도 지구 전역의 군인들이 머리 위에 최소 4대의 위성을 쳐다볼 수 있고, 전파도 빵빵하게 땅에 꽂히는 가장 가성비 좋은 우주 주차장"</strong>이 절실했다. 그 타협의 산물이 바로 고도 20,000km의 MEO 궤도다.
 - **등장 배경**: ① 미국 국방부(DoD)의 대륙 간 탄도 미사일 정밀 유도를 위한 GPS(Global Positioning System) 구축 프로젝트 개시 → ② 12시간 주기(하루 2번 지구 스캔)의 MEO 궤도 채택으로 24대(기본형) 위성 군집 아키텍처 완성 → ③ 민간 개방 이후 자율주행, 드론, 스마트폰 위치 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(LBS)의 핵심 척추로 융합 진화.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             왜 MEO(중궤도)인가? GEO와 LEO 사이의 황금 타협점 시각화      │
-├─────────────────────────────────────────────────────────────┤
-│   * 목표: 전 세계 바다와 사막 어디서든, 하늘을 보면 무조건 위성 4대가 보이게 하라! │
-│                                                             │
-│   [1. GEO (정지궤도, 36,000km)의 딜레마]                          │
-│   - 위성 3대면 끝. 가성비 최고!                                   │
-│   - 💥 문제점: 너무 멀어서 단말기 수신 안테나가 접시만큼 커야 함 (스마트폰에 못 담음).│
-│               북극/남극은 지구 곡률에 가려져 아예 안 보임 (군사 작전 불가).   │
-│                                                             │
-│   [2. LEO (저궤도, 500km)의 딜레마]                              │
-│   - 무지하게 가깝고 빠름! 스마트폰 조그만 칩셋으로도 잡힘.               │
-│   - 💥 문제점: 시야각이 너무 좁아서 전 지구를 덮으려면 위성을 4,000대를     │
-│               띄워야 함 (로켓 쏠 돈이 부족하던 1980년대엔 불가능한 미친 짓).  │
-│                                                             │
-│   [3. MEO (중궤도, 20,000km)의 황금 밸런스 - GPS의 고향]           │
-│   - 적당히 가까워서 스마트폰의 손톱만 한 안테나로도 전파가 잡힘.             │
-│   - 시야각이 꽤 넓어서 궤도에 딱 '24대'의 위성만 예쁘게 흩뿌려놓으면,        │
-│     지구 어디서든 내 머리 위에 항상 4대의 위성이 십자포화로 나를 쳐다보고 있음! │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** MEO 궤도는 철저히 **"글로벌 내비게이션(GPS)"**을 위해 선택받은 궤도다. GPS 원리상 내 위치(X, Y, Z)와 위성의 오차 시간(T)을 풀기 위해 수학적으로 방정식 4개가 필요하며, 이는 곧 **"하늘을 봤을 때 무조건 위성 4대의 전파가 동시에 잡혀야 한다"**는 가혹한 전제 조건을 만든다. 20,000km 고도의 MEO는 하루에 지구를 딱 2바퀴 도는(12시간 주기) 아름다운 리듬을 가지며, 약 24대~30대의 위성을 6개 궤도면에 겹치지 않게 뿌려놓으면 지구 표면 100%에서 언제나 4~8대의 위성이 동시에 보이는 기하학적 완벽성을 제공한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 MEO(중궤도)인가? GEO와 LEO 사이의 황금 타협점 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: 전 세계 바다와 사막 어디서든, 하늘을 보면 무조건 위성 4대가 보이게 하라!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. GEO (정지궤도, 36,000km)의 딜레마</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위성 3대면 끝. 가성비 최고!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 문제점: 너무 멀어서 단말기 수신 안테나가 접시만큼 커야 함 (스마트폰에 못 담음).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">북극/남극은 지구 곡률에 가려져 아예 안 보임 (군사 작전 불가).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. LEO (저궤도, 500km)의 딜레마</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무지하게 가깝고 빠름! 스마트폰 조그만 칩셋으로도 잡힘.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 문제점: 시야각이 너무 좁아서 전 지구를 덮으려면 위성을 4,000대를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">띄워야 함 (로켓 쏠 돈이 부족하던 1980년대엔 불가능한 미친 짓).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. MEO (중궤도, 20,000km)의 황금 밸런스 - GPS의 고향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 적당히 가까워서 스마트폰의 손톱만 한 안테나로도 전파가 잡힘.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시야각이 꽤 넓어서 궤도에 딱 '24대'의 위성만 예쁘게 흩뿌려놓으면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지구 어디서든 내 머리 위에 항상 4대의 위성이 십자포화로 나를 쳐다보고 있음!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** MEO 궤도는 철저히 <strong>"글로벌 내비게이션(GPS)"</strong>을 위해 선택받은 궤도다. GPS 원리상 내 위치(X, Y, Z)와 위성의 오차 시간(T)을 풀기 위해 수학적으로 방정식 4개가 필요하며, 이는 곧 <strong>"하늘을 봤을 때 무조건 위성 4대의 전파가 동시에 잡혀야 한다"</strong>는 가혹한 전제 조건을 만든다. 20,000km 고도의 MEO는 하루에 지구를 딱 2바퀴 도는(12시간 주기) 아름다운 리듬을 가지며, 약 24대~30대의 위성을 6개 궤도면에 겹치지 않게 뿌려놓으면 지구 표면 100%에서 언제나 4~8대의 위성이 동시에 보이는 기하학적 완벽성을 제공한다.
 
 - **📢 섹션 요약 비유**: [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) 위성은 너무 높은 가로등이라 넓게 비추지만 빛이 너무 희미해서 개미(폰)가 볼 수 없었습니다. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 코앞에 들고 있는 플래시라 너무 밝지만 전 세계를 비추려면 플래시가 수천 개 필요했죠. MEO 위성은 딱 아파트 10층 높이의 서치라이트입니다. 전 세계에 딱 24개만 세워도 구석구석을 짱짱하게 비춰주는 최고의 가성비 조명 시스템입니다.
 
@@ -66,19 +66,23 @@ tags = ["studynote-network"]
 
 ### 2. [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 융합과 노이즈 극복
 
-GPS 위성 24대가 허공에서 똑같은 주파수(L1 대역, 1.57GHz)로 냅다 소리를 치면 전파가 부딪혀 엉망이 되지 않을까? GPS 시스템의 위대한 엔진은 바로 **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** 융합 설계다. (군사/통신 580번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)).
+GPS 위성 24대가 허공에서 똑같은 주파수(L1 대역, 1.57GHz)로 냅다 소리를 치면 전파가 부딪혀 엉망이 되지 않을까? GPS 시스템의 위대한 엔진은 바로 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 융합 설계다. (군사/통신 580번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)).
 
-*   **의사 잡음 코드 (PRN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: 24대의 위성은 똑같은 L 밴드 주파수를 쓰지만, 각자 자기만의 '고유한 암호 패턴(PRN 1번~24번)'을 실어서 전파를 쏜다. 
+*   <strong>의사 잡음 코드 (PRN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 24대의 위성은 똑같은 L 밴드 주파수를 쓰지만, 각자 자기만의 '고유한 암호 패턴(PRN 1번~24번)'을 실어서 전파를 쏜다. 
 *   **스마트폰 칩셋의 마법**: 하늘에는 24개의 빔이 다 섞여 쓰레기 잡음(White Noise)처럼 웅웅거린다. 하지만 스마트폰 칩셋이 "PRN 7번 코드 나와라!" 하고 역계산 필터(Correlation)를 돌리면, 그 미친듯한 잡음 속에서 기적처럼 7번 위성의 목소리만 맑게 툭 튀어나온다. 군사 망답게 해커가 방해 전파(Jamming)를 쏴도 씹어먹어 버리는 극강의 보안과 강인함(Robustness)의 결정체다.
 
-```text
-[정지 궤도 위성]
-    │
-    ▼
-[중궤도 위성]
-    │
-    └──▶ [저궤도 위성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정지 궤도 위성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중궤도 위성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저궤도 위성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 중궤도 위성의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -88,34 +92,35 @@ GPS 위성 24대가 허공에서 똑같은 주파수(L1 대역, 1.57GHz)로 냅�
 
 ### PNT (Positioning, Navigation, Timing) 인프라의 융합 지배력
 
-GPS(MEO 위성)를 단순히 '내비게이션 위치 찾는 기계'로 착각하면 안 된다. 현대 인프라의 아키텍트들에게 MEO 위성은 위치(Positioning)보다 **초정밀 시간(Timing)**을 내려주는 신의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 장치로 군림하고 있다.
+GPS(MEO 위성)를 단순히 '내비게이션 위치 찾는 기계'로 착각하면 안 된다. 현대 인프라의 아키텍트들에게 MEO 위성은 위치(Positioning)보다 <strong>초정밀 시간(Timing)</strong>을 내려주는 신의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 장치로 군림하고 있다.
 
 | PNT 융합 분야 | 인프라적 의존성 및 시나리오 | MEO(GPS)가 파괴되었을 때의 대재앙 |
 |:---|:---|:---|
-| **이동통신 기지국망** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑 수만 대는 GPS 위성이 내려주는 나노초(ns) 단위의 원자시계 신호표를 받아 똑같이 숨을 쉰다(망 동기). | GPS 신호가 끊기면 서울 기지국과 부산 기지국의 타이밍이 어긋나 폰들이 릴레이를 못 하고 **전국 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망 전체 블랙아웃 붕괴.** |
+| **이동통신 기지국망** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑 수만 대는 GPS 위성이 내려주는 나노초(ns) 단위의 원자시계 신호표를 받아 똑같이 숨을 쉰다(망 동기). | GPS 신호가 끊기면 서울 기지국과 부산 기지국의 타이밍이 어긋나 폰들이 릴레이를 못 하고 <strong>전국 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 통신망 전체 블랙아웃 붕괴.</strong> |
 | **금융/증권망 (HFT)**| 월스트리트의 초단타 매매(HFT) 서버들은 초당 1,000번 주식을 산다. 거래 순서를 증명하는 타임스탬프를 위성 시계에 의존함. | 해커가 GPS 시간을 1밀리초 조작([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))하면, 거래 순서가 뒤섞여 전 세계 **주식 시장 거래 시스템 폭주 및 셧다운.** |
-| **전력망 ([스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/))**| 발전소에서 만든 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 전기를 도시로 보낼 때, 발전소끼리 위상의 각도를 완벽하게 맞추기 위해 위성 시간을 씀. | 발전소들끼리 박자가 어긋나는 순간, 거대한 전력 역류가 터지며 변전소가 폭발하고 **국가 전체 대정전(Blackout) 발생.** |
+| <strong>전력망 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">스마트 그리드</a>)</strong>| 발전소에서 만든 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 전기를 도시로 보낼 때, 발전소끼리 위상의 각도를 완벽하게 맞추기 위해 위성 시간을 씀. | 발전소들끼리 박자가 어긋나는 순간, 거대한 전력 역류가 터지며 변전소가 폭발하고 **국가 전체 대정전(Blackout) 발생.** |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               글로벌 항법 위성 시스템 (GNSS)의 국가별 우주 패권 지도 │
-├───────────────────────────────────────────────────────────────┤
-│   * 미국의 꽁수에 질린 전 세계 강대국들이 너도나도 MEO 궤도에 쇳덩이를 띄우는 중! │
-│                                                               │
-│   🇺🇸 미국 [GPS]: 세계 1짱. 민간에 무료로 풀었지만, 전쟁 터지면 언제든 민간 │
-│                  전파 오차를 100미터로 꼬아버릴 수 있는 군사 통제권 보유(SA).│
-│   🇪🇺 유럽 [Galileo]: 미국 놈들 못 믿겠다! 우린 순수 민간용으로 엄청나게   │
-│                      정확한 (오차 1m 이내) 명품 위성 쏠 거다!            │
-│   🇷🇺 러시아 [GLONASS]: 우린 냉전 때부터 쏴둔 우리만의 군사 위성망이 있다! │
-│   🇨🇳 중국 [BeiDou (북두)]: 우린 미국 GPS 안 써도 중국 전역을 덮는 35대의 │
-│                            자체 위성망 완성했다! 패권 독립!             │
-│                                                               │
-│   => 융합 결과: 현재 여러분의 스마트폰(아이폰/갤럭시) 속 칩셋은 미국 GPS만 │
-│                 잡는 게 아니다. 하늘에 뜬 위 4개 국의 위성 100대 전파를   │
-│                 동시에 짬뽕으로 빨아들여, 오차를 수십 센티미터 단위로 교정해 내는│
-│                 '다중 GNSS 센서 퓨전' 아키텍처로 완전 진화했다!           │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">글로벌 항법 위성 시스템 (GNSS)의 국가별 우주 패권 지도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 미국의 꽁수에 질린 전 세계 강대국들이 너도나도 MEO 궤도에 쇳덩이를 띄우는 중!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🇺🇸 미국</div><div class="kb-diagram-node">GPS</div><div class="kb-diagram-note">: 세계 1짱. 민간에 무료로 풀었지만, 전쟁 터지면 언제든 민간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전파 오차를 100미터로 꼬아버릴 수 있는 군사 통제권 보유(SA).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🇪🇺 유럽</div><div class="kb-diagram-node">Galileo</div><div class="kb-diagram-note">: 미국 놈들 못 믿겠다! 우린 순수 민간용으로 엄청나게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확한 (오차 1m 이내) 명품 위성 쏠 거다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🇷🇺 러시아</div><div class="kb-diagram-node">GLONASS</div><div class="kb-diagram-note">: 우린 냉전 때부터 쏴둔 우리만의 군사 위성망이 있다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🇨🇳 중국</div><div class="kb-diagram-node">BeiDou (북두)</div><div class="kb-diagram-note">: 우린 미국 GPS 안 써도 중국 전역을 덮는 35대의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자체 위성망 완성했다! 패권 독립!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 융합 결과: 현재 여러분의 스마트폰(아이폰/갤럭시) 속 칩셋은 미국 GPS만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잡는 게 아니다. 하늘에 뜬 위 4개 국의 위성 100대 전파를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에 짬뽕으로 빨아들여, 오차를 수십 센티미터 단위로 교정해 내는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'다중 GNSS 센서 퓨전' 아키텍처로 완전 진화했다!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** GNSS(글로벌 위성 항법 시스템)는 겉으로는 무료 공공 인프라처럼 보이지만, 본질은 국가 안보와 미사일 패권 전쟁이다. 미국이 1990년대 걸프전 당시 적군의 GPS 사용을 막기 위해 민간 GPS 전파에 고의로 오차 잡음(Selective [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 섞어버린 사건은 전 세계에 충격을 주었다(내비게이션 오차가 100미터로 튀어 차가 산으로 감). 이에 위기감을 느낀 유럽, 러시아, 중국은 수조 원을 부어 각자의 독자적인 MEO 위성 군단을 쏘아 올렸다. 오늘날의 자율주행이나 드론 시스템 아키텍트는 1개 국가의 망이 먹통(Jamming)이 되더라도 다른 나라 위성을 쥐고 생존할 수 있는 **Multi-Constellation(다중 위성군 수신)** 칩셋 설계를 무조건 채택한다.
 
@@ -126,17 +131,17 @@ GPS(MEO 위성)를 단순히 '내비게이션 위치 찾는 기계'로 착각하
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 강남 테헤란로에서 테슬라 자율주행차가 시속 60km로 달리고 있다. 차선을 정확히 지키며 우회전을 해야 하는데, 우주에서 내려오는 쌩(Pure) GPS 신호만 믿으면 오차가 5미터나 발생해서 차가 인도로 뛰어들거나 옆 차선을 침범하는 참사가 발생한다.
-2. **원인 (전리층 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 물리적 오차)**: MEO 위성이 쏜 빛(전파)은 우주 진공에서는 완벽하지만, 지구의 전리층과 대기층(수증기)을 뚫고 들어오면서 굴절되어 속도가 살짝 느려진다. 이 0.0001초의 굴절 오차 때문에 지상에서 측정한 거리가 5~10미터나 틀어져 버리는 근본적 한계가 존재한다.
+2. <strong>원인 (전리층 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 물리적 오차)</strong>: MEO 위성이 쏜 빛(전파)은 우주 진공에서는 완벽하지만, 지구의 전리층과 대기층(수증기)을 뚫고 들어오면서 굴절되어 속도가 살짝 느려진다. 이 0.0001초의 굴절 오차 때문에 지상에서 측정한 거리가 5~10미터나 틀어져 버리는 근본적 한계가 존재한다.
 3. **의사결정 및 아키텍처 조치 (RTK / DGPS 오차 보정 인프라 도입)**:
    - 인프라 아키텍트는 우주(GPS)에만 의존하지 않고 지상(Ground) 인프라를 융합하는 **RTK (Real-Time Kinematic)** 시스템을 세팅한다.
-   - 강남역 옥상에 **위치를 1mm 오차도 없이 정확히 아는 '기준국(Base [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))' [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**를 박아둔다.
-   - 기준국은 하늘의 GPS를 받아서 "어? 내 실제 위치는 여기인데, 오늘 GPS 놈들이 전리층 때문에 5미터 엇나가서 알려주네?"라며 **실시간 오차값(Correction [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**을 계산해 낸다.
+   - 강남역 옥상에 <strong>위치를 1mm 오차도 없이 정확히 아는 '기준국(Base <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/">Station</a>)' <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>를 박아둔다.
+   - 기준국은 하늘의 GPS를 받아서 "어? 내 실제 위치는 여기인데, 오늘 GPS 놈들이 전리층 때문에 5미터 엇나가서 알려주네?"라며 <strong>실시간 오차값(Correction <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>을 계산해 낸다.
    - 기준국은 이 오차값을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국([C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))을 통해 강남역 주변의 자율주행차들에게 실시간으로 빵빵 쏴준다.
-   - **결과**: 자율주행차는 하늘에서 내려온 쌩 GPS 정보에서, 기준국이 던져준 오차값을 수학적으로 빼버린다. 이로써 5미터 오차가 **'센티미터(1~2cm)' 수준의 핀포인트 초정밀 측위**로 둔갑하며, 차선을 이탈하지 않는 무결점 자율주행 인프라가 완성된다.
+   - **결과**: 자율주행차는 하늘에서 내려온 쌩 GPS 정보에서, 기준국이 던져준 오차값을 수학적으로 빼버린다. 이로써 5미터 오차가 <strong>'센티미터(1~2cm)' 수준의 핀포인트 초정밀 측위</strong>로 둔갑하며, 차선을 이탈하지 않는 무결점 자율주행 인프라가 완성된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **도심 협곡 (Urban Canyon)의 다중 경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 맹신 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 자율주행 엔지니어가 뻥 뚫린 미국 캘리포니아에서 테스트를 끝내고, 빌딩 숲이 빽빽한 서울 테헤란로 한복판에 차를 가져와 자율주행을 켜는 짓. 고층 빌딩 숲(Urban Canyon)에서는 MEO 위성의 빔이 직접 차로 꽂히지 않고, 유리 빌딩에 튕기고 튕겨서(반사파) 지그재그로 들어온다. 폰이나 자동차는 전파가 늦게 도착했으니 "아하 내가 빌딩 옥상에 있구나!"라고 미친 오해를 해버린다([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) Error). 도심지 자율주행 아키텍트는 절대 GPS만 믿으면 안 되며, 터널이나 빌딩 숲에서는 1초에 수백 번 바퀴 굴러가는 속도를 재는 **IMU(관성 측정 장치)**와 지형지물 카메라를 퓨전(Sensor Fusion)시키는 3중 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 망을 짜야만 생존할 수 있다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (GPS 재밍/[스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 무방비 설계)**: 드론으로 택배를 배달하는 회사를 차리면서, 싸구려 GPS 수신기 1개만 달아놓는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 해커가 유튜브에서 5만 원 주고 산 'GPS 재머(Jammer)'나 '[스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 교란기'를 들고 하늘을 향해 가짜 위성 신호를 쏜다. 드론의 싸구려 칩셋은 가짜 신호가 더 세니까 그걸 진짜 위성으로 착각하고, "여긴 태평양 한가운데구나!"라고 바다(사실은 강물)로 꼬라박거나 해커의 집으로 배달물을 납치당한다. 엔터프라이즈 모빌리티는 외부의 강한 가짜 신호가 들어오면 기존 관성 센서(IMU)와 대조해 이상함을 감지하고 차단하는 Anti-[Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 소프트웨어 아키텍처가 필수다.
+- <strong>도심 협곡 (Urban Canyon)의 다중 경로(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/">Multipath</a>) 맹신 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 자율주행 엔지니어가 뻥 뚫린 미국 캘리포니아에서 테스트를 끝내고, 빌딩 숲이 빽빽한 서울 테헤란로 한복판에 차를 가져와 자율주행을 켜는 짓. 고층 빌딩 숲(Urban Canyon)에서는 MEO 위성의 빔이 직접 차로 꽂히지 않고, 유리 빌딩에 튕기고 튕겨서(반사파) 지그재그로 들어온다. 폰이나 자동차는 전파가 늦게 도착했으니 "아하 내가 빌딩 옥상에 있구나!"라고 미친 오해를 해버린다([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) Error). 도심지 자율주행 아키텍트는 절대 GPS만 믿으면 안 되며, 터널이나 빌딩 숲에서는 1초에 수백 번 바퀴 굴러가는 속도를 재는 <strong>IMU(관성 측정 장치)</strong>와 지형지물 카메라를 퓨전(Sensor Fusion)시키는 3중 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 망을 짜야만 생존할 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (GPS 재밍/<a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a> 무방비 설계)</strong>: 드론으로 택배를 배달하는 회사를 차리면서, 싸구려 GPS 수신기 1개만 달아놓는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 해커가 유튜브에서 5만 원 주고 산 'GPS 재머(Jammer)'나 '[스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 교란기'를 들고 하늘을 향해 가짜 위성 신호를 쏜다. 드론의 싸구려 칩셋은 가짜 신호가 더 세니까 그걸 진짜 위성으로 착각하고, "여긴 태평양 한가운데구나!"라고 바다(사실은 강물)로 꼬라박거나 해커의 집으로 배달물을 납치당한다. 엔터프라이즈 모빌리티는 외부의 강한 가짜 신호가 들어오면 기존 관성 센서(IMU)와 대조해 이상함을 감지하고 차단하는 Anti-[Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 소프트웨어 아키텍처가 필수다.
 
 - **📢 섹션 요약 비유**: 우주에서 쏴주는 GPS는 하늘에서 쏘는 레이저 포인터입니다. 비 오고 구름 끼면(전리층) 빛이 굴절돼서 5미터 옆을 비추죠(오차 발생). RTK(차분 GPS) 기술은 땅 위에 서 있는 조교(기준국)입니다. 조교가 "야, 오늘 빛이 5미터 엇나갔어! 너희들 다 왼쪽으로 5미터 보정해서 계산해!"라고 확성기([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 소리쳐서 오차를 1cm로 깎아버리는 완벽한 교정 시스템입니다.
 
@@ -147,16 +152,16 @@ GPS(MEO 위성)를 단순히 '내비게이션 위치 찾는 기계'로 착각하
 | 구분 | MEO 위성 미존재 (지상 센서만 의존) | GNSS (MEO) 및 PNT 융합 환경 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (글로벌 측위 오차)** | 광활한 바다나 사막에서는 위치 파악 절대 불가 | 24대 위성의 교차 신호로 즉각적 좌표 계산 | 전 지구 표면 100%에서 **위도/경도/고도를 10m(일반)~수cm(RTK) 오차로 핀포인트 타격.** |
-| **정량 (글로벌 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**| 통신사 기지국마다 시계 오차가 초 단위로 누적됨 | 위성 내장 원자시계 빔으로 지상 수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 전국 10만 대 기지국과 증권사 서버의 심박수(타이밍)를 **나노초(ns) 오차 없이 단일 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/).** |
+| <strong>정량 (글로벌 시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong>| 통신사 기지국마다 시계 오차가 초 단위로 누적됨 | 위성 내장 원자시계 빔으로 지상 수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 전국 10만 대 기지국과 증권사 서버의 심박수(타이밍)를 <strong>나노초(ns) 오차 없이 단일 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>.</strong> |
 | **정성 (이동체 모빌리티 인프라)**| 드론/자율주행차가 카메라로만 길을 헤맴 | GPS 절대 좌표 위에서 웨이포인트(경유지) 자율 비행 | 인간의 개입이 전혀 필요 없는 드론 배송 및 **자율주행 Level 4/5 달성의 절대적 척추.** |
 
 ### 미래 전망 및 진화 방향
-- **MEO 통신 위성망([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망)의 부활 (O3b mPOWER)**: MEO는 오랫동안 GPS 전용 궤도였지만, 최근 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(스타링크) 열풍에 자극받아 통신 기업들(SES 등)이 MEO 고도(약 8,000km)에 엄청난 파워를 뿜어내는 '통신 전용' 군집 위성을 쏘기 시작했다. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 너무 낮아서 4,000대를 쏴야 하지만, MEO는 단 11대만 쏴도 지구를 광대역으로 덮을 수 있다. 핑 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 150ms 수준으로 [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)(500ms)의 악몽을 해소하면서도 LEO처럼 돈을 천문학적으로 쏟아붓지 않아도 되는, 클라우드 기업과 크루즈선(B2B) 전용의 가성비 미들급 우주 고속도로로 급부상하고 있다.
-- **[LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(저궤도) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 항법(Navigation)의 융합**: GPS(MEO)의 가장 무서운 적은 '전파 방해(Jamming)'다. 고도가 2만km라 땅에 도착할 때 전파 세기가 모기 숨소리보다 작아서, 해커가 10만 원짜리 장비만 켜도 반경 1km의 드론이 다 떨어지는 심각한 안보 취약점이 있다. 미래에는 500km 머리 위를 날아다니는 수천 대의 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(저궤도) 통신 위성들이 쏘는 미친 듯이 강력한 인터넷 전파를 '나침반'처럼 역이용([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) PNT)하여, 해커의 방해 전파를 물리적 힘([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))으로 짓눌러버리는 초강력 안티 재밍(Anti-Jamming) 융합 항법 시스템이 미국 국방부를 중심으로 연구되고 있다.
+- <strong>MEO 통신 위성망(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>망)의 부활 (O3b mPOWER)</strong>: MEO는 오랫동안 GPS 전용 궤도였지만, 최근 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(스타링크) 열풍에 자극받아 통신 기업들(SES 등)이 MEO 고도(약 8,000km)에 엄청난 파워를 뿜어내는 '통신 전용' 군집 위성을 쏘기 시작했다. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 너무 낮아서 4,000대를 쏴야 하지만, MEO는 단 11대만 쏴도 지구를 광대역으로 덮을 수 있다. 핑 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 150ms 수준으로 [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)(500ms)의 악몽을 해소하면서도 LEO처럼 돈을 천문학적으로 쏟아붓지 않아도 되는, 클라우드 기업과 크루즈선(B2B) 전용의 가성비 미들급 우주 고속도로로 급부상하고 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>(저궤도) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 항법(Navigation)의 융합</strong>: GPS(MEO)의 가장 무서운 적은 '전파 방해(Jamming)'다. 고도가 2만km라 땅에 도착할 때 전파 세기가 모기 숨소리보다 작아서, 해커가 10만 원짜리 장비만 켜도 반경 1km의 드론이 다 떨어지는 심각한 안보 취약점이 있다. 미래에는 500km 머리 위를 날아다니는 수천 대의 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(저궤도) 통신 위성들이 쏘는 미친 듯이 강력한 인터넷 전파를 '나침반'처럼 역이용([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) PNT)하여, 해커의 방해 전파를 물리적 힘([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))으로 짓눌러버리는 초강력 안티 재밍(Anti-Jamming) 융합 항법 시스템이 미국 국방부를 중심으로 연구되고 있다.
 
 ### 참고 표준
 - **IS-GPS-200 (미 국방부 표준)**: 하늘에 떠 있는 GPS 위성이 지상의 스마트폰에게 어떤 프레임 구조와 암호화 코드(C/A 코드, P(Y) 코드)로 시간과 위치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부을지를 정의한, 인류 내비게이션의 절대적 헌법 규격.
-- **NTRIP (Networked Transport of RTCM via Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 우주의 GPS 5미터 오차를 1cm로 깎아버리는 보정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(RTCM)를, 골치 아프게 라디오 전파로 쏘지 말고 그냥 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰의 인터넷 4G/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 타고 스트리밍으로 뿌려버리자는 현존 최고 효율의 자율주행 보정 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
+- <strong>NTRIP (Networked Transport of RTCM via Internet <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 우주의 GPS 5미터 오차를 1cm로 깎아버리는 보정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(RTCM)를, 골치 아프게 라디오 전파로 쏘지 말고 그냥 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰의 인터넷 4G/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 타고 스트리밍으로 뿌려버리자는 현존 최고 효율의 자율주행 보정 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
 
 중궤도 위성(MEO)은 인류의 시공간(Positioning and Timing)을 지배하는 보이지 않는 신(God)이다. 스마트폰 지도에서 파란 점이 내 발걸음을 따라 움직일 때, 혹은 테슬라가 차선을 칼같이 잡고 코너를 돌 때, 우리는 허공의 빈 공간을 쳐다보지만 실제로는 고도 2만 km 우주에서 내 머리통을 향해 쏟아져 내리는 4대의 원자시계 레이저 빔의 거대한 십자포화 속에 서 있는 것이다. 통신망이 마비되고 광케이블이 끊어지는 대재앙 속에서도, 이 24대의 강철 위성들이 조용히 돌아가는 한 인류의 인프라 시계는 결코 멈추지 않을 것이다.
 
@@ -175,15 +180,19 @@ GPS(MEO 위성)를 단순히 '내비게이션 위치 찾는 기계'로 착각하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 정지 궤도 위성]
-    │
-    ▼
-[현재 개념: 중궤도 위성]
-    │
-    ├──▶ [확장 A: 저궤도 위성]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정지 궤도 위성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 중궤도 위성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 저궤도 위성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 중궤도 위성는 [정지 궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

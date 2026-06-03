@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))가 기획/개발 단계로 테스트를 당겨서 예방(Prevention)에 집중했다면, 시프트 라이트(Shift-Right)는 "어차피 터질 거라면 라이브에서 테스트해 보자"는 사상이다. 배포 후 끝! 이 아니라, 실제 운영 서버에 트래픽을 흘려보고, 서버의 코드를 일부러 죽여보고, 로그를 24시간 실시간으로 감시하는 일련의 사후 행위들 전체를 '테스트'의 연장선으로 본다.
 
-- **필요성**: 쿠팡 같은 거대 시스템을 만들었다. QA 팀이 테스트 서버(Staging)에서 1달 내내 테스트를 돌려 버그 0개를 달성했다. 그런데 라이브 배포 첫날 뻗었다. 원인은 "실제 환경의 네트워크 장비(L4 로드밸런서) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 테스트 환경과 달라서"였다. 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 생태계는 외부 인프라, 타사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 결합도가 너무 심해서 **'운영 환경과 똑같은 테스트 환경'을 100% 복제하는 것이 물리적으로 불가능**해졌다. 오직 진짜 운영 서버에서만 알 수 있는 버그가 존재한다는 뼈아픈 진리가 시프트 라이트를 탄생시켰다.
+- **필요성**: 쿠팡 같은 거대 시스템을 만들었다. QA 팀이 테스트 서버(Staging)에서 1달 내내 테스트를 돌려 버그 0개를 달성했다. 그런데 라이브 배포 첫날 뻗었다. 원인은 "실제 환경의 네트워크 장비(L4 로드밸런서) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 테스트 환경과 달라서"였다. 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 생태계는 외부 인프라, 타사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 결합도가 너무 심해서 <strong>'운영 환경과 똑같은 테스트 환경'을 100% 복제하는 것이 물리적으로 불가능</strong>해졌다. 오직 진짜 운영 서버에서만 알 수 있는 버그가 존재한다는 뼈아픈 진리가 시프트 라이트를 탄생시켰다.
 
-- **💡 비유**: 시프트 라이트는 **'우주 탐사선의 궤도 수정'**과 같습니다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 우주선을 지구 랩실에서 바람을 불며(풍동 실험) 완벽하게 조립하는 것입니다. 하지만 우주(운영 환경)에 나가면 예상치 못한 운석이 날아들고, 태양풍이 붑니다. 그래서 시프트 라이트는 우주선에 센서([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 모니터링)를 잔뜩 달아 우주로 일단 쏘아 올린 뒤, 날아가는 도중에(실시간 운영 중) 흔들림을 관측하고 엔진 각도를 조금씩 고쳐가며(카오스 엔진) 생존해 나가는 실전 비행입니다.
+- **💡 비유**: 시프트 라이트는 <strong>'우주 탐사선의 궤도 수정'</strong>과 같습니다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 우주선을 지구 랩실에서 바람을 불며(풍동 실험) 완벽하게 조립하는 것입니다. 하지만 우주(운영 환경)에 나가면 예상치 못한 운석이 날아들고, 태양풍이 붑니다. 그래서 시프트 라이트는 우주선에 센서([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 모니터링)를 잔뜩 달아 우주로 일단 쏘아 올린 뒤, 날아가는 도중에(실시간 운영 중) 흔들림을 관측하고 엔진 각도를 조금씩 고쳐가며(카오스 엔진) 생존해 나가는 실전 비행입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **샌드박스의 한계**: 과거엔 라이브 서버에서 테스트를 돌리면 미친놈 취급을 받았다. 하지만 Staging 환경은 진짜 Production 환경을 100% 흉내 낼 수 없다는 것이 드러났다.
   2. **클라우드의 도래와 인프라 격리**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))가 발전하면서, 운영 서버 안에서도 트래픽을 1%만 쪼개어 특정 방([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))으로만 보내는 '안전한 실전 테스트([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))'가 가능해졌다.
-  3. **관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))의 폭발**: Datadog, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 같은 툴이 나오면서, 시스템 내부를 엑스레이처럼 24시간 까볼 수 있게 되자, 모니터링 자체가 가장 위대한 '운영 테스트'로 격상되었다.
+  3. <strong>관측성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)의 폭발</strong>: Datadog, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 같은 툴이 나오면서, 시스템 내부를 엑스레이처럼 24시간 까볼 수 있게 되자, 모니터링 자체가 가장 위대한 '운영 테스트'로 격상되었다.
 
-- **📢 섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)가 격투기 선수의 **'방어 가드 올리기 훈련'**이라면, 시프트 라이트는 **'실전 스파링(맷집 테스트)'**입니다. 샌드백을 치며 완벽하게 연습했더라도 링 위(운영 서버)에 올라가 진짜 사람(유저 트래픽)에게 턱을 한 대 맞아봐야(장애), 내 가드가 어디가 허술했는지 알고 실시간으로 방어 폼(복원력)을 수정할 수 있습니다.
+- **📢 섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)가 격투기 선수의 <strong>'방어 가드 올리기 훈련'</strong>이라면, 시프트 라이트는 <strong>'실전 스파링(맷집 테스트)'</strong>입니다. 샌드백을 치며 완벽하게 연습했더라도 링 위(운영 서버)에 올라가 진짜 사람(유저 트래픽)에게 턱을 한 대 맞아봐야(장애), 내 가드가 어디가 허술했는지 알고 실시간으로 방어 폼(복원력)을 수정할 수 있습니다.
 
 ---
 
 다음은 시프트 라이트 테스팅 (Shift-R의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시프트 라이트 테스팅 (Shift-R                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시프트 라이트 테스팅 (Shift-R</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 시프트 라이트 테스팅 (Shift-R가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-시프트 라이트 테스팅 (Shift-Right Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+시프트 라이트 테스팅 (Shift-Right Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 시프트 라이트 테스팅 (Shift-Right Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-시프트 라이트 테스팅 (Shift-Right Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시프트 라이트 테스팅 (Shift-Right Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

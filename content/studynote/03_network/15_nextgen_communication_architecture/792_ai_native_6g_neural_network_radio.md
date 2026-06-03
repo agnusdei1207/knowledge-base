@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰의 칩셋([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)) 내부에는 신호를 변조하고 복조하는 **수십 개의 고정된 수학 공식 기반 하드웨어 블록(블록 코딩, 푸리에 변환 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등)**이 줄줄이 박혀 있습니다.
+- 기존 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰의 칩셋([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)) 내부에는 신호를 변조하고 복조하는 <strong>수십 개의 고정된 수학 공식 기반 하드웨어 블록(블록 코딩, 푸리에 변환 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 등)</strong>이 줄줄이 박혀 있습니다.
 - **문제점**: 도심지에서 전파가 이중 삼중으로 반사되어 극도로 찌그러져 들어오면(심각한 [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)), 이 딱딱한 수학 공식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들은 계산에 실패하여 에러(Error)를 냅니다. 속도를 올리려면 계산식이 무지막지하게 복잡해져 폰이 불덩이가 됩니다.
 
-```text
-[자율 주행 넷망]
-    │
-    ▼
-[AI 내재화]
-    │
-    └──▶ [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 무선 통신의 뼈대인 물리 계층(PHY)의 변조, 복조, 채널 추정 등의 복잡한 수학 연산 과정을 **수학 공식이 아닌 '딥러닝 기반 인공신경망([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 등)'으로 통째로 대체해 버리는 차세대 무선 통신 모델**입니다.
+- **개념**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 무선 통신의 뼈대인 물리 계층(PHY)의 변조, 복조, 채널 추정 등의 복잡한 수학 연산 과정을 <strong>수학 공식이 아닌 '딥러닝 기반 인공신경망(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">Autoencoder</a> 등)'으로 통째로 대체해 버리는 차세대 무선 통신 모델</strong>입니다.
 
-```text
-[자율 주행 넷망]
-    │
-    ▼
-[AI 내재화]
-    │
-    └──▶ [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 어떻게 수학 공식을 AI로 대체할까요?
 
 ### 1. 딥러닝 기반 '엔드-투-엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 학습'
-- **송신기(기지국)**를 일종의 압축기([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) 신경망으로, **수신기(스마트폰)**를 해독기([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) 신경망으로 만듭니다.
+- <strong>송신기(기지국)</strong>를 일종의 압축기([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)) 신경망으로, <strong>수신기(스마트폰)</strong>를 해독기([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) 신경망으로 만듭니다.
 - 기지국과 폰 사이에 수천만 개의 찌그러진 똥파형 데이터를 계속 주고받으며 서로 학습시킵니다. "내가 이렇게 찌그러트려 보낼 테니까 너 이거 '1'인 줄 알아들어!"
 - 학습이 끝나면, 폰의 딥러닝 칩([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))은 공기 중의 노이즈가 잔뜩 낀 엉망진창의 전파를 수신해도, 복잡한 푸리에 변환 공식 없이 찰나의 순간에 **"아, 이건 100% 알파벳 A라는 데이터구나!"라고 AI가 패턴을 직감적으로 추론(해독)해 냅니다.**
 
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **한계 (AI의 무거움)**: 폰 안에서 딥러닝 모델(수백만 개 파라미터)을 실시간으로 1밀리초마다 돌리려면 엄청난 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩) 전력이 필요해 폰 배터리가 10분 만에 녹아버릴 수 있습니다.
-- **돌파구 대안 통신 기술**: 딥러닝 모델의 무게를 극한으로 깎아내는 **경량화([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/), [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** 기술과, 모든 걸 AI로 하지 않고 특정 복잡한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 한두 개만 AI로 대체하는 하이브리드 방식이 6G의 표준안으로 치열하게 연구되고 있습니다.
+- **돌파구 대안 통신 기술**: 딥러닝 모델의 무게를 극한으로 깎아내는 <strong>경량화(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>)</strong> 기술과, 모든 걸 AI로 하지 않고 특정 복잡한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 한두 개만 AI로 대체하는 하이브리드 방식이 6G의 표준안으로 치열하게 연구되고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -88,7 +96,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 무선 통신은 상대방의 악필(노이즈 낀 전파)을 해독하기 위해 '외계어 번역 사전(복잡한 수학 공식)'을 일일이 펼쳐보고 한 글자씩 대조하는 범생이 번역가입니다. 글씨가 너무 찌그러져 사전에 안 나오면(수학 계산 실패) 번역을 포기해 버립니다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Native 통신**은 수십 년간 엉망진창 악필만 1억 장 넘게 읽어본 '초능력 속독 달인(딥러닝 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))'입니다. 이 달인은 사전을 버리고, 글자가 잉크에 떡져서 형태가 안 보여도 그 특유의 삐침과 필체(패턴)만 0.1초 슥 보고 "아, 이거 '안녕하세요'라고 쓴 거네!" 하고 즉각 100% 정확하게 때려 맞춰버리는 기적의 직감 해독 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 무선 통신은 상대방의 악필(노이즈 낀 전파)을 해독하기 위해 '외계어 번역 사전(복잡한 수학 공식)'을 일일이 펼쳐보고 한 글자씩 대조하는 범생이 번역가입니다. 글씨가 너무 찌그러져 사전에 안 나오면(수학 계산 실패) 번역을 포기해 버립니다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>-Native 통신</strong>은 수십 년간 엉망진창 악필만 1억 장 넘게 읽어본 '초능력 속독 달인(딥러닝 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))'입니다. 이 달인은 사전을 버리고, 글자가 잉크에 떡져서 형태가 안 보여도 그 특유의 삐침과 필체(패턴)만 0.1초 슥 보고 "아, 이거 '안녕하세요'라고 쓴 거네!" 하고 즉각 100% 정확하게 때려 맞춰버리는 기적의 직감 해독 시스템입니다.
 
 ---
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 자율 주행 넷망]
-    │
-    ▼
-[현재 개념: AI 내재화]
-    │
-    ├──▶ [확장 A: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율 주행 넷망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AI 내재화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 [자율 주행 넷망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/791_autonomous_network_aiops_ibn_zero_touch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

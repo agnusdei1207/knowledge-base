@@ -26,32 +26,29 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/), 애자일, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 개발 lifecycle 커버 범위를 비교한 것이다.
 
-```text
-[개발 방법론별 라이프사이클 커버 범위 비교]
 
-폭포수 모델 (Waterfall)
-┌─────┬──────┬────────┬───────┬────────┬────────┐
-│plan │ code │ test │ release│ operate│ monitor│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│ (운영) │ (모니터)│
-└─────┴──────┴────────┴───────┴────────┴────────┘
-←——————— 애자일 영역 ——————————→
-←——————— 데브옵스 영역 ———————————→
-←——————— DevOps + SRE 전체 영역 ———————————→
 
-애자일 (Agile) - 개발 사이클 중심
-┌─────┬──────┬────────┬───────┐
-│plan │ code │ test │ release│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│
-└─────┴──────┴────────┴───────┘
-←——————— 애자일 핵심 영역 ——————————→
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발 방법론별 라이프사이클 커버 범위 비교</div></div>
+<div class="kb-diagram-note">폭포수 모델 (Waterfall)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plan</div><div class="kb-diagram-cell">code</div><div class="kb-diagram-cell">test</div><div class="kb-diagram-cell">release</div><div class="kb-diagram-cell">operate</div><div class="kb-diagram-cell">monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계획)</div><div class="kb-diagram-cell">(개발)</div><div class="kb-diagram-cell">(테스트)</div><div class="kb-diagram-cell">(릴리스)</div><div class="kb-diagram-cell">(운영)</div><div class="kb-diagram-cell">(모니터)</div></div>
+<div class="kb-diagram-note">←——————— 애자일 영역 ——————————→</div>
+<div class="kb-diagram-note">←——————— 데브옵스 영역 ———————————→</div>
+<div class="kb-diagram-note">←——————— DevOps + SRE 전체 영역 ———————————→</div>
+<div class="kb-diagram-note">애자일 (Agile) - 개발 사이클 중심</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plan</div><div class="kb-diagram-cell">code</div><div class="kb-diagram-cell">test</div><div class="kb-diagram-cell">release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계획)</div><div class="kb-diagram-cell">(개발)</div><div class="kb-diagram-cell">(테스트)</div><div class="kb-diagram-cell">(릴리스)</div></div>
+<div class="kb-diagram-note">←——————— 애자일 핵심 영역 ——————————→</div>
+<div class="kb-diagram-note">데브옵스 (DevOps) - 개발+운영 통합</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plan</div><div class="kb-diagram-cell">code</div><div class="kb-diagram-cell">test</div><div class="kb-diagram-cell">release</div><div class="kb-diagram-cell">operate</div><div class="kb-diagram-cell">monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계획)</div><div class="kb-diagram-cell">(개발)</div><div class="kb-diagram-cell">(테스트)</div><div class="kb-diagram-cell">(릴리스)</div><div class="kb-diagram-cell">(운영)</div><div class="kb-diagram-cell">(모니터)</div></div>
+<div class="kb-diagram-note">←——————— 데브옵스 확장 영역 ———————————→</div>
+</div>
+</div>
 
-데브옵스 (DevOps) - 개발+운영 통합
-┌─────┬──────┬────────┬───────┬────────┬────────┐
-│plan │ code │ test │ release│ operate│ monitor│
-│ (계획)│(개발)│ (테스트)│ (릴리스)│ (운영) │ (모니터)│
-└─────┴──────┴────────┴───────┴────────┴────────┘
-←——————— 데브옵스 확장 영역 ———————————→
-```
+
 
 이 그림의 핵심은 각 방법론의_library 차이에 있다. 애자일은 개발(Plan~Release) 단계의 라이프사이클을 최적화하지만, 그 이후 단계는 대부분 수동 운영 체제에 둔다. 반면 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 개발+운영 전체를 하나의 연속적로서파악하여, 자동화라는 언어로한다. 실무에서 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 차이를 이해하지 못하면, "우리 팀은 애자일이나의에，배포는 여전히 오래 걸리지?"라는 의문을 품게 된다.
 
@@ -69,42 +66,37 @@ tags = ["devops_sre"]
 | **반복 단위** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) (1~4주) | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 (수분~수시간) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서 여러 번의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 |
 | **팀 구조** | 크로스펑셔널 개발팀 | 개발+운영 통합팀 | 애자일팀에 Ops/보안 역할 통합 |
 | **품질 방법** | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 지속적 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 내 자동 테스트, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 코드 품질에 대한 |
-| **[피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)** | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 제품담당 피드백 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), 경보 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 레벨 + 실시간 레벨 이중 피드백 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong> | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 제품담당 피드백 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), 경보 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 레벨 + 실시간 레벨 이중 피드백 |
 
 아래는 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 어떻게 결합되는지를 보여주는프로세스도이다.
 
-```text
-[애자일 스프린트 + DevOps CI/CD 결합 모델]
 
-스프린트 #N (2주)
-┌────────────────────────────────────────────────────┐
-│ Day 1 │ Day 2-5 │ Day 6-9 │ Day 10-14 │
-│ 스프린트 │ 기능 개발 │ CI/CD │ 스프린트 │
-│ 계획 & │ (TDD, │ 파이프라인 │ 완료 & │
-│ 백로그 │ 리팩토링) │ 자동 실행 │ 회고 │
-│ 정리 │ │ │ │
-└────────────────────────────────────────────────────┘
-│ │ │ │
-│ │ ┌───────┴───────┐
-│ │ │ CI/CD Pipeline │
-│ │ │ │
-│ │ │ 1. 코드 병합 │
-│ │ │ 2. 빌드 │
-│ │ │ 3. 단위 테스트 │
-│ │ │ 4. 통합 테스트 │
-│ │ │ 5. 정적 분석 │
-│ │ │ 6. 아티팩트 생성 │
-│ │ │ 7. 카나리 배포 │
-│ │ │ 8. 모니터링 │
-│ │ └───────┬───────┘
-│ │ │
-▼ ▼ ▼
-┌────────┐ ┌────────┐ ┌────────────┐
-│ 프로덕션│ │ 프로덕션│ │ DORA │
-│ 배포 #1 │ │ 배포 #2 │ │ 메트릭스 │
-│ (Day 6)│ │ (Day 10)│ │ 피드백 │
-└────────┘ └────────┘ └────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 스프린트 + DevOps CI/CD 결합 모델</div></div>
+<div class="kb-diagram-note">스프린트 #N (2주)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Day 1</div><div class="kb-diagram-cell">Day 2-5</div><div class="kb-diagram-cell">Day 6-9</div><div class="kb-diagram-cell">Day 10-14</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프린트</div><div class="kb-diagram-cell">기능 개발</div><div class="kb-diagram-cell">CI/CD</div><div class="kb-diagram-cell">스프린트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획 &amp;</div><div class="kb-diagram-cell">(TDD,</div><div class="kb-diagram-cell">파이프라인</div><div class="kb-diagram-cell">완료 &amp;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백로그</div><div class="kb-diagram-cell">리팩토링)</div><div class="kb-diagram-cell">자동 실행</div><div class="kb-diagram-cell">회고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 코드 병합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 빌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 단위 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 통합 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 정적 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 아티팩트 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 카나리 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로덕션</div><div class="kb-diagram-cell">프로덕션</div><div class="kb-diagram-cell">DORA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 #1</div><div class="kb-diagram-cell">배포 #2</div><div class="kb-diagram-cell">메트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Day 6)</div><div class="kb-diagram-cell">(Day 10)</div><div class="kb-diagram-cell">피드백</div></div>
+</div>
+</div>
+
+
 
 이프로세스의 핵심은 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서수의 프로덕션 배포(CD)가 발생할 수 있다는 점이다. 전통적인 애자일에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시점에 하나의 배포를 수행했지만, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)와 결합되면 기능 완료 직후 즉시 프로덕션에 배포하여 실제 사용자 피드백을 earliest possible 시점에 얻을 수 있다. 이를 통해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서도 Build-Measure-Learn [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를시킬 수 있다.
 
@@ -126,29 +118,31 @@ tags = ["devops_sre"]
 
 애자일과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 시너지 효과는 개발tegration 수준에 따라 달라진다. [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)([Large-Scale Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/))나 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) 같은 스케일 애자일 framework를 도입한 대규모 조직에서는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 안다.
 
-```text
-[애자일-데브옵스 통합 모델]
 
-Level 1: 애자일 (Island Agile)
-애자일: ✓ 스프린드 진행
-데브옵스: ✗ 배포는 수동, 전통적 운영
-→ 개발 속도는 향상되지만 배포 병목 남음
 
-Level 2: 개발 중심 CI (Dev-led CI)
-애자일: ✓ 스프린트 + CI 도입
-데브옵스: △ CD 미비, 배포는 Ops가 수동
-→ 빌드 자동화, 하지만 배포 여전히 병목
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일-데브옵스 통합 모델</div></div>
+<div class="kb-diagram-note">Level 1: 애자일 (Island Agile)</div>
+<div class="kb-diagram-note">애자일: ✓ 스프린드 진행</div>
+<div class="kb-diagram-note">데브옵스: ✗ 배포는 수동, 전통적 운영</div>
+<div class="kb-diagram-note">→ 개발 속도는 향상되지만 배포 병목 남음</div>
+<div class="kb-diagram-note">Level 2: 개발 중심 CI (Dev-led CI)</div>
+<div class="kb-diagram-note">애자일: ✓ 스프린트 + CI 도입</div>
+<div class="kb-diagram-note">데브옵스: △ CD 미비, 배포는 Ops가 수동</div>
+<div class="kb-diagram-note">→ 빌드 자동화, 하지만 배포 여전히 병목</div>
+<div class="kb-diagram-note">Level 3:+운영 통합 (DevOps Enabled)</div>
+<div class="kb-diagram-note">애자일: ✓ 애자일 + DevOps 팀 통합</div>
+<div class="kb-diagram-note">데브옵스: ✓ Full CI/CD, 모니터링 통합</div>
+<div class="kb-diagram-note">→ 배포 빈도 향상, 빠른 피드백</div>
+<div class="kb-diagram-note">Level 4:-stack Product Team (목표)</div>
+<div class="kb-diagram-note">애자일: ✓ 스프린트 + 전체 팀 책임</div>
+<div class="kb-diagram-note">데브옵스: ✓ 셀프 서비스 CD, 피드백 자동화</div>
+<div class="kb-diagram-note">→ 최적의 애자일+데브옵스 시너지</div>
+</div>
+</div>
 
-Level 3:+운영 통합 (DevOps Enabled)
-애자일: ✓ 애자일 + DevOps 팀 통합
-데브옵스: ✓ Full CI/CD, 모니터링 통합
-→ 배포 빈도 향상, 빠른 피드백
 
-Level 4:-stack Product Team (목표)
-애자일: ✓ 스프린트 + 전체 팀 책임
-데브옵스: ✓ 셀프 서비스 CD, 피드백 자동화
-→ 최적의 애자일+데브옵스 시너지
-```
 
 > 📢 **섹션 요약 비유**: 애자일와/과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)은/는의과 같은도의이다。 애자일은(개발 속도)이고, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는(배포/운영 속도)이다. 만 전으면은/는에서는지 않고이나지 않다。이/가 은/는으로 안정적으로 도착한다.
 
@@ -163,24 +157,28 @@ Level 4:-stack Product Team (목표)
 - **상황**: 개발팀은 1주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)로 개발을 완료하지만, 운영팀의 배포 승인이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 후 3주 후에나 이루어짐.
 - **판단**: 이는 워터-[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)-폴 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 개발팀과 운영팀이 같은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 참여하고, 배포 관련 작업을 백로그에 포함시키며, CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통해 배포를 자동화해야 한다. 운영팀의 역할이 "승인자"에서 "촉진자"로 전환되어야 한다.
 
-- **시나리오 B: 애자일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내에서 운영하는 장애 대응에 시달림**
+- <strong>시나리오 B: 애자일 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 내에서 운영하는 장애 대응에 시달림</strong>
 - **상황**: [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 중에 프로덕션 장애가 발생하여 개발자 자원이 온콜 대응에 소모되고 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 미달성.
 - **판단**: 이는 운영 지식의 부족과 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링/[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 부재가 원인이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관행([토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))을 도입하여 운영 작업을 예측 가능하게 만들고, 장애 발생 시 개발자가 대응하기보다 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(self-healing) 체계를 구축해야 한다.
 
-```text
-[워터-스크럼-폴 → 진정한 애자일+DevOps 전환]
 
-전 (Water-Scrum-Fall):
-스프린트완료 → (3주 대기) → 배포 → (2주 대기) → 다음 스프린트
-문제: 배포 대기 중 개발자는, 하지만 개발 중엔 Ops는
 
-후 (Agile + DevOps):
-스프린트:
-Day 1-2: 기능 개발
-Day 3-4: CI/CD 파이프라인으로 자동 배포
-Day 5: 프로덕션에서 모니터링 → 피드백 수렴
-효과: 개발도 Ops도에이나을/를하여있다상태
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터-스크럼-폴 → 진정한 애자일+DevOps 전환</div></div>
+<div class="kb-diagram-note">전 (Water-Scrum-Fall):</div>
+<div class="kb-diagram-note">스프린트완료 → (3주 대기) → 배포 → (2주 대기) → 다음 스프린트</div>
+<div class="kb-diagram-note">문제: 배포 대기 중 개발자는, 하지만 개발 중엔 Ops는</div>
+<div class="kb-diagram-note">후 (Agile + DevOps):</div>
+<div class="kb-diagram-note">스프린트:</div>
+<div class="kb-diagram-note">Day 1-2: 기능 개발</div>
+<div class="kb-diagram-note">Day 3-4: CI/CD 파이프라인으로 자동 배포</div>
+<div class="kb-diagram-note">Day 5: 프로덕션에서 모니터링 → 피드백 수렴</div>
+<div class="kb-diagram-note">효과: 개발도 Ops도에이나을/를하여있다상태</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 애자일이 레시피 개발라면, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 그 요리를 만드는()와 고객까지 운반하는을/를통합한 것이다. 레시피만 빨리 개발하고가 비효율적이면 전체 음식는개선되지 않는다.
 
@@ -192,7 +190,7 @@ Day 5: 프로덕션에서 모니터링 → 피드백 수렴
 
 | 관점 | 애자일 온리 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 애자일 + [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
-| **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)** | 수주~수개월 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) + 배포 대기) | 수일~수주 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 배포) | 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 70% 단축 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 수주~수개월 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) + 배포 대기) | 수일~수주 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 배포) | 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 70% 단축 |
 | **배포 빈도** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 당 1회 (1~4주) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 당 수회~수십회 | 배포 빈도 10배 향상 |
 | **시장 반응 속도** | 기능 완성 후 고객 접점까지 수 주 | 기능 완성 직후 고객 접점 (A/B 테스트 등) | 사용자 피드백 수집 속도대폭개선 |
 | **팀 역량** | 개발 역량만 성장 | 개발 + 운영 역량 균형 성장 | 다능성 (T-shaped) |
@@ -216,21 +214,23 @@ Day 5: 프로덕션에서 모니터링 → 피드백 수렴
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[애자일 (Agile)]
-│
-▼
-[스프린트 (Sprint)]
-│
-▼
-[CI/CD]
-│
-▼
-[운영 통합]
-│
-▼
-[DevOps]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 (Agile)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스프린트 (Sprint)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 애자일 (Agile)에서 출발해 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 운영 통합, DevOps로 이어지는 확장 순서를 보여준다.
 

@@ -11,15 +11,15 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 0이 많은 텐서를 **값이 있는 항목과 위치 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 남는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 표현**으로 바꿔, 가속기가 의미 있는 연산만 읽고 실행하게 만드는 하드웨어 전처리 계층이다.
+> 1. **본질**: 딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 0이 많은 텐서를 <strong>값이 있는 항목과 위치 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>만 남는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 표현</strong>으로 바꿔, 가속기가 의미 있는 연산만 읽고 실행하게 만드는 하드웨어 전처리 계층이다.
 > 2. **가치**: 메모리 이동량과 곱셈-누산 ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 횟수를 함께 줄여, 같은 전력과 같은 연산기 수로 더 큰 모델이나 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 감당하게 해 준다.
-> 3. **판단 포인트**: 희소성 비율만 높다고 항상 이득이 나는 것은 아니며, **구조적 패턴, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 오버헤드, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 비용, 연산 유닛 간 부하 균형**이 맞아야 실제 가속이 성립한다.
+> 3. **판단 포인트**: 희소성 비율만 높다고 항상 이득이 나는 것은 아니며, <strong>구조적 패턴, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 오버헤드, <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> 비용, 연산 유닛 간 부하 균형</strong>이 맞아야 실제 가속이 성립한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 활성값이 0인 항목을 빼고, 실제 값과 그 위치 정보만 남도록 텐서를 다시 포장하는 장치다. 핵심은 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라, **뒤따르는 연산기가 0을 아예 읽지도 계산하지도 않게 만드는 실행 친화적 표현**으로 바꾸는 데 있다. 그래서 이 기술은 저장 효율과 연산 효율을 동시에 노린다.
+딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 활성값이 0인 항목을 빼고, 실제 값과 그 위치 정보만 남도록 텐서를 다시 포장하는 장치다. 핵심은 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라, <strong>뒤따르는 연산기가 0을 아예 읽지도 계산하지도 않게 만드는 실행 친화적 표현</strong>으로 바꾸는 데 있다. 그래서 이 기술은 저장 효율과 연산 효율을 동시에 노린다.
 
 이 기술이 필요한 이유는 최신 모델의 비용이 연산량보다 메모리 이동량에서 먼저 커지기 때문이다. 거대한 모델은 파라미터 수가 많고, 추론기와 가속기는 점점 더 많은 값을 메모리에서 끌어와야 한다. 그런데 실제로는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 정류 선형 유닛 ([Rectified Linear Unit](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)) 이후 활성값, 마스크 처리된 토큰처럼 0이 되는 항목이 적지 않다. 이 0을 계속 실어 나르고 곱하는 것은 시간과 전력을 동시에 낭비한다.
 
@@ -27,19 +27,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 밀집 텐서가 희소 표현으로 바뀌는 과정을 직관적으로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Dense tensor -> sparse values + metadata                                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Dense : [ 9 | 0 | 0 | 4 | 7 | 0 | 1 | 0 ]                                 │
-│                     │                                                      │
-│                     ▼                                                      │
-│ Encode: values=[9,4,7,1]  metadata=[1,0,0,1,1,0,1,0]                      │
-│                     │                                                      │
-│                     ▼                                                      │
-│ Decoder / scheduler sends only useful lanes to MAC array                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dense tensor -&gt; sparse values + metadata</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Dense :</div><div class="kb-diagram-node">9 | 0 | 0 | 4 | 7 | 0 | 1 | 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Encode: values=</div><div class="kb-diagram-node">9,4,7,1</div><div class="kb-diagram-note">metadata=</div><div class="kb-diagram-node">1,0,0,1,1,0,1,0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decoder / scheduler sends only useful lanes to MAC array</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 콩이 듬성듬성 들어 있는 자루를 통째로 나르지 않고, 콩만 작은 주머니에 옮겨 담고 원래 자리표만 함께 적어 두는 포장 방식과 같다.
 
@@ -61,24 +60,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)와 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 연산 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 사이에서 어떤 역할 분담을 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Sparse execution pipeline                                                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Dense weights / activations                                               │
-│          │                                                                 │
-│          ▼                                                                 │
-│   sparsity encoder -> values buffer + metadata buffer                      │
-│          │                                                                 │
-│          ▼                                                                 │
-│   sparse decoder / scheduler                                               │
-│          │                                                                 │
-│          ▼                                                                 │
-│   PE array / MAC lanes skip zero work                                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-기술적으로 중요한 함정은 "50% 희소성 = 2배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라는 점이다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 읽기, 디코딩, 불균등 분배, 메모리 정렬 손실이 있어 실제 이득은 더 낮을 수 있다. 그래서 좋은 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 자랑하지 않고, **연산 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 쉬지 않게 값 공급을 얼마나 고르게 유지하느냐**까지 함께 해결해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparse execution pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dense weights / activations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sparsity encoder -&gt; values buffer + metadata buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sparse decoder / scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE array / MAC lanes skip zero work</div></div>
+</div>
+</div>
+
+
+
+기술적으로 중요한 함정은 "50% 희소성 = 2배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라는 점이다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 읽기, 디코딩, 불균등 분배, 메모리 정렬 손실이 있어 실제 이득은 더 낮을 수 있다. 그래서 좋은 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 자랑하지 않고, <strong>연산 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>이 쉬지 않게 값 공급을 얼마나 고르게 유지하느냐</strong>까지 함께 해결해야 한다.
 
 - **📢 섹션 요약 비유**: 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 남은 학생만 태우는 통학버스를 짜는 일과 같다. 학생 수만 줄었다고 끝이 아니라, 어느 정류장에 몇 명이 남았는지 알아야 버스가 헛돌지 않는다.
 
@@ -106,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 대규모 추론 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 온디바이스 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 칩, 메모리 대역폭이 빡빡한 엣지 가속기에서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 가치가 크다. 특히 이미 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)와 재학습을 거쳐 정확도 손실을 관리할 수 있는 모델이라면, 희소 표현으로 바꾸는 이득이 분명하다. 반대로 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 조회처럼 랜덤 접근이 많거나, 희소성 패턴이 층마다 들쭉날쭉한 모델은 인코딩 이득이 약할 수 있다.
 
-또한 학습과 추론을 구분해야 한다. 추론은 정적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 반복되는 패턴이 많아 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 설계가 비교적 단순하지만, 학습은 그래디언트 갱신과 밀집 연산이 섞여 희소성 이득이 불안정할 수 있다. 그래서 많은 상용 가속기가 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 **추론 우선 기능**으로 제공하는 이유가 여기에 있다.
+또한 학습과 추론을 구분해야 한다. 추론은 정적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 반복되는 패턴이 많아 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 설계가 비교적 단순하지만, 학습은 그래디언트 갱신과 밀집 연산이 섞여 희소성 이득이 불안정할 수 있다. 그래서 많은 상용 가속기가 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 <strong>추론 우선 기능</strong>으로 제공하는 이유가 여기에 있다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -130,9 +126,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 잘 작동하면, 같은 메모리 대역폭과 같은 연산 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로도 더 큰 모델을 다루거나 더 많은 요청을 처리할 수 있다. 메모리에서 읽는 값 수가 줄고, 0과의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 연산이 사라지며, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 대비 전력이 개선된다. 특히 전용 가속기에서는 이 효과가 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다도 **와트당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 개선**으로 더 크게 체감된다.
+딥러닝 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 잘 작동하면, 같은 메모리 대역폭과 같은 연산 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로도 더 큰 모델을 다루거나 더 많은 요청을 처리할 수 있다. 메모리에서 읽는 값 수가 줄고, 0과의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 연산이 사라지며, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 대비 전력이 개선된다. 특히 전용 가속기에서는 이 효과가 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다도 <strong>와트당 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 개선</strong>으로 더 크게 체감된다.
 
-하지만 모든 모델이 희소성 친화적인 것은 아니다. 어떤 레이어는 본질적으로 밀집이고, 어떤 패턴은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용이 너무 크며, 어떤 워크로드는 부하 불균형 때문에 희소 실행이 오히려 비효율적이다. 그래서 이 기술은 "0이 많으면 무조건 빠르다"가 아니라, **0을 하드웨어가 좋아하는 규칙으로 바꿔 줄 때 비로소 빠르다**는 관점으로 기억해야 한다.
+하지만 모든 모델이 희소성 친화적인 것은 아니다. 어떤 레이어는 본질적으로 밀집이고, 어떤 패턴은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용이 너무 크며, 어떤 워크로드는 부하 불균형 때문에 희소 실행이 오히려 비효율적이다. 그래서 이 기술은 "0이 많으면 무조건 빠르다"가 아니라, <strong>0을 하드웨어가 좋아하는 규칙으로 바꿔 줄 때 비로소 빠르다</strong>는 관점으로 기억해야 한다.
 
 앞으로는 구조적 N:M 희소성, 동적 활성값 희소성, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)와의 결합, 레이어별 적응형 인코딩이 함께 발전할 가능성이 높다. 결론적으로 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)기가 아니라, 딥러닝 모델의 "쓸모없는 계산"을 실제 하드웨어 시간표에서 지워 버리는 번역기다.
 
@@ -153,24 +149,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대형 딥러닝 모델 확산
-        │
-        ▼
-가지치기 · ReLU 기반 희소성 증가
-        │
-        ▼
-값 + 메타데이터 기반 희소 인코딩
-        │
-        ▼
-구조적 2:4 · N:M 희소 실행 엔진
-        │
-        ▼
-제로 스키핑 · 양자화와 결합
-        │
-        ▼
-레이어별 적응형 희소성 스케줄링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 딥러닝 모델 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가지치기 · ReLU 기반 희소성 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">값 + 메타데이터 기반 희소 인코딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 2:4 · N:M 희소 실행 엔진</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제로 스키핑 · 양자화와 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레이어별 적응형 희소성 스케줄링</div>
+</div>
+</div>
+
+
 
 이 흐름은 희소성이 단순 모델 다이어트에서 끝나지 않고, 이제는 인코딩·스케줄링·실행 엔진까지 함께 바꾸는 하드웨어 공동 설계로 발전하고 있음을 보여 준다.
 

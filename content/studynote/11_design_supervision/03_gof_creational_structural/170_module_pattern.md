@@ -23,19 +23,22 @@ tags = ["studynote-design-supervision"]
 
 이 문제를 줄이기 위해 즉시 실행 함수 표현식 (IIFE, Immediately Invoked Function Expression)과 클로저를 이용한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 널리 쓰였다. 핵심은 단순하다. 함수 하나를 경계로 private 영역을 만든 뒤, 필요한 메서드만 객체 형태로 반환한다. 그러면 외부는 "무엇을 할 수 있는가"만 알고, "안에서 어떻게 처리하는가"는 몰라도 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Global namespace vs module boundary                                  │
-├────────────────────────────┬─────────────────────────────────────────┤
-│ window.user                │ AppModule                              │
-│ window.config              │  ├─ private state                      │
-│ window.cache               │  ├─ private helpers                    │
-│ name collision risk        │  └─ public API only                    │
-│ implementation exposed     │ implementation hidden                  │
-└────────────────────────────┴─────────────────────────────────────────┘
-```
 
-즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "코드를 예쁘게 묶는 취향"이 아니라, **전역 노출 비용을 줄이고 변경 영향을 통제하기 위한 경계 설계**에서 출발했다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global namespace vs module boundary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.user</div><div class="kb-diagram-cell">AppModule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.config</div><div class="kb-diagram-cell">─ private state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.cache</div><div class="kb-diagram-cell">─ private helpers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name collision risk</div><div class="kb-diagram-cell">─ public API only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">implementation exposed</div><div class="kb-diagram-cell">implementation hidden</div></div>
+</div>
+</div>
+
+
+
+즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "코드를 예쁘게 묶는 취향"이 아니라, <strong>전역 노출 비용을 줄이고 변경 영향을 통제하기 위한 경계 설계</strong>에서 출발했다.
 
 - **📢 섹션 요약 비유**: 물건을 거실 바닥에 다 꺼내 놓으면 누구나 건드리고 섞이기 쉽다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 서랍장을 만들어 필요한 손잡이만 밖으로 내놓는 방식이다.
 
@@ -71,21 +74,23 @@ const cartModule = (() => {
 | public [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 외부가 사용하는 진입점 | 이름과 계약을 안정적으로 유지해야 함 |
 | closure | private 상태 지속 | 함수가 끝난 뒤에도 상태가 유지되는 핵심 메커니즘 |
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Runtime structure of Module Pattern                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ IIFE / factory execution                                             │
-│   ├─ private state       : data, cache, counters                     │
-│   ├─ private helpers     : validate, normalise, format               │
-│   └─ return public API object                                        │
-│                 │                                                    │
-│ Client call ----▼------------------------------------------------┐   │
-│ api.method() -> closure -> private state read/write -> result    │   │
-└───────────────────────────────────────────────────────────────────┴───┘
-```
 
-여기서 자주 놓치는 사실이 하나 있다. IIFE 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 보통 **한 번 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 싱글턴**이다. 만약 사용자별 인스턴스를 여러 개 만들어야 한다면, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴보다 팩터리 함수나 클래스가 더 적합할 수 있다. 반대로 "애플리케이션 전체에서 하나만 있어야 하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 채널"처럼 공유 상태가 자연스러운 경우에는 장점이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime structure of Module Pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IIFE / factory execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ private state : data, cache, counters</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ private helpers : validate, normalise, format</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ return public API object</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client call ----▼------------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">api.method() -&gt; closure -&gt; private state read/write -&gt; result</div></div>
+</div>
+</div>
+
+
+
+여기서 자주 놓치는 사실이 하나 있다. IIFE 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 보통 <strong>한 번 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>된 싱글턴</strong>이다. 만약 사용자별 인스턴스를 여러 개 만들어야 한다면, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴보다 팩터리 함수나 클래스가 더 적합할 수 있다. 반대로 "애플리케이션 전체에서 하나만 있어야 하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 채널"처럼 공유 상태가 자연스러운 경우에는 장점이 된다.
 
 - **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 가게 주방을 벽으로 가리고 주문창만 내놓는 구조와 같다. 손님은 메뉴를 주문할 수 있지만, 주방 안 냉장고와 조리 순서를 직접 건드리지는 못한다.
 
@@ -102,7 +107,7 @@ const cartModule = (() => {
 | 클래스 + private 필드 | 언어 문법 | 다중 인스턴스 | 타입/상속과 궁합 좋음 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) JS 환경에는 부적합 |
 | ECMAScript [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스코프 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 캐시 기반 | import/export, 정적 의존성 분석 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위 이상 세밀한 런타임 은닉은 별도 설계 필요 |
 
-또한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템의 역사 흐름에서도 의미가 있다. 전역 변수 시대에는 이름 충돌이 가장 큰 문제였고, 이를 줄이기 위한 중간 해법이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이었다. 이후 CommonJS, AMD (Asynchronous [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Definition), UMD (Universal [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Definition), ECMAScript Module이 등장하면서 의존성 관리와 번들링은 언어·도구 차원으로 올라갔다. 즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "현대 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템 이전의 과도기적 해법"이면서도, 동시에 **클로저 기반 캡슐화의 원형**이다.
+또한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템의 역사 흐름에서도 의미가 있다. 전역 변수 시대에는 이름 충돌이 가장 큰 문제였고, 이를 줄이기 위한 중간 해법이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이었다. 이후 CommonJS, AMD (Asynchronous [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Definition), UMD (Universal [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Definition), ECMAScript Module이 등장하면서 의존성 관리와 번들링은 언어·도구 차원으로 올라갔다. 즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "현대 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템 이전의 과도기적 해법"이면서도, 동시에 <strong>클로저 기반 캡슐화의 원형</strong>이다.
 
 - **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 물건에 라벨만 붙이는 정도이고, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 자물쇠 달린 서랍장이다. ECMAScript Module은 건물 설계도 자체에 방과 문을 나눠 놓는 수준이다.
 
@@ -130,9 +135,9 @@ const cartModule = (() => {
 다음과 같은 경우가 대표적인 선택 기준이다.
 
 - **레거시 브라우저 위젯**: IIFE 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴 적합
-- **현대 프런트엔드 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)**: ECMAScript [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 우선
+- <strong>현대 프런트엔드 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a></strong>: ECMAScript [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 우선
 - **여러 독립 인스턴스가 필요한 객체**: 클래스 또는 팩터리 함수 우선
-- **민감한 내부 상태를 최소 API로 감출 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 래퍼**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴 또는 closure factory 검토
+- <strong>민감한 내부 상태를 최소 API로 감출 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 래퍼</strong>: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴 또는 closure factory 검토
 
 즉 기술사 관점에서는 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 낡았는가"보다 "이 문제가 싱글턴 은닉 문제인가, 다중 인스턴스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 문제인가"를 먼저 구분하는 판단이 중요하다.
 
@@ -146,7 +151,7 @@ const cartModule = (() => {
 
 하지만 한계도 분명하다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 간 의존성 추적이 어렵고, 정적 최적화나 tree-shaking에 불리하며, 잘못 쓰면 숨겨진 싱글턴 상태가 테스트와 유지보수를 더 어렵게 만든다. 그래서 현대 코드베이스에서는 ECMAScript Module을 기본으로 두고, 그 위에 필요할 때만 클로저 기반 은닉을 덧씌우는 방식이 더 현실적이다.
 
-결국 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "예전 자바스크립트 관용구"로만 외울 것이 아니라, **공개 계약과 내부 구현을 분리하는 클로저 기반 캡슐화 원리**로 기억해야 한다. 이 원리를 이해하면 현대 훅, 커스텀 스토어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 래퍼가 왜 그런 형태를 취하는지도 더 잘 보인다.
+결국 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "예전 자바스크립트 관용구"로만 외울 것이 아니라, <strong>공개 계약과 내부 구현을 분리하는 클로저 기반 캡슐화 원리</strong>로 기억해야 한다. 이 원리를 이해하면 현대 훅, 커스텀 스토어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 래퍼가 왜 그런 형태를 취하는지도 더 잘 보인다.
 
 - **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 오래된 공구처럼 보여도, 나사를 감추고 손잡이만 밖으로 내놓는 설계 감각은 지금도 유효하다. 도구는 바뀌어도 "무엇을 숨기고 무엇을 보여 줄지"의 원리는 남는다.
 
@@ -165,23 +170,24 @@ const cartModule = (() => {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Global variables
-      │
-      ▼
-Namespace object
-      │
-      ▼
-Module Pattern (IIFE + Closure)
-      │
-      ├─ CommonJS / AMD / UMD
-      │
-      ▼
-ECMAScript Module
-      │
-      ▼
-Modern closure-based hooks and service wrappers
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Global variables</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Namespace object</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Module Pattern (IIFE + Closure)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">CommonJS / AMD / UMD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ECMAScript Module</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Modern closure-based hooks and service wrappers</div>
+</div>
+</div>
+
+
 
 이 흐름은 전역 스크립트 시대의 충돌 문제를 줄이기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 등장했고, 이후 언어 차원의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템으로 발전했음을 보여 준다.
 

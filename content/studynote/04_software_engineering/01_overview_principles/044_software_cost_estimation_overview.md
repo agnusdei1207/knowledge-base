@@ -18,41 +18,42 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 비용 산정 개요
 
-```
-소프트웨어 비용 산정 (Cost Estimation):
 
-필요성:
-  프로젝트 승인/기각 결정
-  일정 및 인력 계획
-  계약 및 예산 편성
-  위험 관리
 
-산정 어려움:
-  비가시성: 소프트웨어는 눈에 보이지 않음
-  불확실성: 초기에 요구사항 불명확
-  창의성: 반복 생산 아닌 독자적 개발
-  복잡성: 팀 규모 증가 → 비선형 복잡도 증가
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 비용 산정 (Cost Estimation):</div>
+<div class="kb-diagram-note">필요성:</div>
+<div class="kb-diagram-note">프로젝트 승인/기각 결정</div>
+<div class="kb-diagram-note">일정 및 인력 계획</div>
+<div class="kb-diagram-note">계약 및 예산 편성</div>
+<div class="kb-diagram-note">위험 관리</div>
+<div class="kb-diagram-note">산정 어려움:</div>
+<div class="kb-diagram-note">비가시성: 소프트웨어는 눈에 보이지 않음</div>
+<div class="kb-diagram-note">불확실성: 초기에 요구사항 불명확</div>
+<div class="kb-diagram-note">창의성: 반복 생산 아닌 독자적 개발</div>
+<div class="kb-diagram-note">복잡성: 팀 규모 증가 → 비선형 복잡도 증가</div>
+<div class="kb-diagram-note">비용 구성 요소:</div>
+<div class="kb-diagram-note">인건비 (People): 60~80%</div>
+<div class="kb-diagram-note">하드웨어 (HW): 5~15%</div>
+<div class="kb-diagram-note">소프트웨어 (SW): 5~10%</div>
+<div class="kb-diagram-note">기타 (교육, 출장): 5~15%</div>
+<div class="kb-diagram-note">산정 유형:</div>
+<div class="kb-diagram-note">1. 전문가 판단 (Expert Judgment): 경험 기반</div>
+<div class="kb-diagram-note">2. 유추 산정 (Analogy): 유사 프로젝트 비교</div>
+<div class="kb-diagram-note">3. 상향식 (Bottom-Up): 작업 단위로 합산</div>
+<div class="kb-diagram-note">4. 하향식 (Top-Down): 전체 규모 → 분할</div>
+<div class="kb-diagram-note">5. 매개변수 모델 (Parametric Model): COCOMO, FP</div>
+<div class="kb-diagram-note">산정 정확도 (불확실성 콘):</div>
+<div class="kb-diagram-note">타당성 검토: ×4 ~ ×0.25</div>
+<div class="kb-diagram-note">개념 설계: ×2 ~ ×0.5</div>
+<div class="kb-diagram-note">상세 설계: ×1.5 ~ ×0.67</div>
+<div class="kb-diagram-note">코딩 시작: ×1.25 ~ ×0.8</div>
+<div class="kb-diagram-note">구현 완료: ×1.1 ~ ×0.9</div>
+</div>
+</div>
 
-비용 구성 요소:
-  인건비 (People): 60~80%
-  하드웨어 (HW): 5~15%
-  소프트웨어 (SW): 5~10%
-  기타 (교육, 출장): 5~15%
 
-산정 유형:
-  1. 전문가 판단 (Expert Judgment): 경험 기반
-  2. 유추 산정 (Analogy): 유사 프로젝트 비교
-  3. 상향식 (Bottom-Up): 작업 단위로 합산
-  4. 하향식 (Top-Down): 전체 규모 → 분할
-  5. 매개변수 모델 (Parametric Model): COCOMO, FP
-
-산정 정확도 (불확실성 콘):
-  타당성 검토:  ×4 ~ ×0.25
-  개념 설계:    ×2 ~ ×0.5
-  상세 설계:    ×1.5 ~ ×0.67
-  코딩 시작:    ×1.25 ~ ×0.8
-  구현 완료:    ×1.1 ~ ×0.9
-```
 
 > 📢 **섹션 요약 비유**: 비용 산정은 집 짓기 전 견적 — 설계도도 없을 때(타당성 검토)는 ±4배 오차, 상세 도면 완성 후(코딩 시작)는 ±25% 이내. 정보가 많을수록 견적이 정확해져요.
 
@@ -157,51 +158,45 @@ COCOMO II (개선 모델):
 
 ## Ⅳ. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 산정
 
-```
-애자일 산정 (Agile Estimation):
 
-배경:
-  전통적 방법: 상세 요구사항 없이 초기 정확 산정 불가
-  애자일: 불확실성 인정 + 반복으로 학습
 
-스토리 포인트 (Story Point):
-  절대적 시간 대신 상대적 복잡도 추정
-  
-  기준 스토리 설정 (예: 5SP = "보통 복잡도 로그인 기능")
-  
-  비교로 추정:
-  "회원가입 = 로그인의 2배" → 10SP
-  "단순 조회 = 로그인의 절반" → 2~3SP
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애자일 산정 (Agile Estimation):</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">전통적 방법: 상세 요구사항 없이 초기 정확 산정 불가</div>
+<div class="kb-diagram-note">애자일: 불확실성 인정 + 반복으로 학습</div>
+<div class="kb-diagram-note">스토리 포인트 (Story Point):</div>
+<div class="kb-diagram-note">절대적 시간 대신 상대적 복잡도 추정</div>
+<div class="kb-diagram-note">기준 스토리 설정 (예: 5SP = "보통 복잡도 로그인 기능")</div>
+<div class="kb-diagram-note">비교로 추정:</div>
+<div class="kb-diagram-note">"회원가입 = 로그인의 2배" → 10SP</div>
+<div class="kb-diagram-note">"단순 조회 = 로그인의 절반" → 2~3SP</div>
+<div class="kb-diagram-note">플래닝 포커 (Planning Poker):</div>
+<div class="kb-diagram-note">피보나치: 1, 2, 3, 5, 8, 13, 21, 40, 100</div>
+<div class="kb-diagram-note">팀원 동시에 카드 공개 → 토론 → 합의</div>
+<div class="kb-diagram-note">불일치: 가장 높은/낮은 사람이 이유 설명</div>
+<div class="kb-diagram-note">목적: 집단 지성 + 앵커링 편향 방지</div>
+<div class="kb-diagram-note">속도 (Velocity):</div>
+<div class="kb-diagram-note">이전 스프린트 처리 SP 평균</div>
+<div class="kb-diagram-note">스프린트 1: 40SP</div>
+<div class="kb-diagram-note">스프린트 2: 35SP</div>
+<div class="kb-diagram-note">스프린트 3: 42SP</div>
+<div class="kb-diagram-note">평균 속도 = 39SP/스프린트</div>
+<div class="kb-diagram-note">백로그 200SP → 예상 기간 = 200/39 ≈ 5.1 스프린트</div>
+<div class="kb-diagram-note">장단점:</div>
+<div class="kb-diagram-note">장점: 불확실성 수용, 팀 역량 반영, 빠른 갱신</div>
+<div class="kb-diagram-note">단점: 팀/프로젝트 간 비교 어려움, 초기 속도 미확정</div>
+<div class="kb-diagram-note">PERT 산정 (전통적):</div>
+<div class="kb-diagram-note">O (낙관): 10일</div>
+<div class="kb-diagram-note">M (최빈): 15일</div>
+<div class="kb-diagram-note">P (비관): 25일</div>
+<div class="kb-diagram-note">E = (O + 4M + P) / 6 = (10 + 60 + 25) / 6 ≈ 15.8일</div>
+<div class="kb-diagram-note">σ = (P - O) / 6 = (25-10)/6 = 2.5일</div>
+</div>
+</div>
 
-플래닝 포커 (Planning Poker):
-  피보나치: 1, 2, 3, 5, 8, 13, 21, 40, 100
-  
-  팀원 동시에 카드 공개 → 토론 → 합의
-  불일치: 가장 높은/낮은 사람이 이유 설명
-  
-  목적: 집단 지성 + 앵커링 편향 방지
 
-속도 (Velocity):
-  이전 스프린트 처리 SP 평균
-  
-  스프린트 1: 40SP
-  스프린트 2: 35SP
-  스프린트 3: 42SP
-  평균 속도 = 39SP/스프린트
-  
-  백로그 200SP → 예상 기간 = 200/39 ≈ 5.1 스프린트
-
-장단점:
-  장점: 불확실성 수용, 팀 역량 반영, 빠른 갱신
-  단점: 팀/프로젝트 간 비교 어려움, 초기 속도 미확정
-
-PERT 산정 (전통적):
-  O (낙관): 10일
-  M (최빈): 15일
-  P (비관): 25일
-  E = (O + 4M + P) / 6 = (10 + 60 + 25) / 6 ≈ 15.8일
-  σ = (P - O) / 6 = (25-10)/6 = 2.5일
-```
 
 > 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 산정은 상대 크기로 비교 — 특대/대/중/소로 음식 주문하듯, 스토리 포인트는 "이 기능이 저 기능의 두 배 어려워"처럼 상대적으로 크기를 측정해요.
 
@@ -209,45 +204,42 @@ PERT 산정 (전통적):
 
 ## Ⅴ. 실무 시나리오 — [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 산정
 
-```
-ERP 시스템 비용 산정 사례:
 
-프로젝트 배경:
-  중소 제조업 ERP 신규 개발
-  모듈: 생산관리, 구매, 재고, 회계, HR
-  
-FP 산정:
-  ILF: 35개 (중~복잡)  → 35×10 = 350
-  EIF: 8개 (단~보통)   → 8×6 = 48
-  EI: 65개 (단~보통)   → 65×4 = 260
-  EO: 40개 (단~보통)   → 40×5 = 200
-  EQ: 50개 (단)        → 50×3 = 150
-  
-  UFP = 350+48+260+200+150 = 1,008 FP
-  TCF = 0.65 + 0.01×32 = 0.97
-  AFP = 1,008 × 0.97 = 978 AFP
 
-공수 산정:
-  팀 생산성: 8 AFP/월 (중간 수준)
-  공수 = 978 / 8 = 122.3 PM
-  
-COCOMO II 검증:
-  LOC 추정: 978 AFP × 150 LOC/FP = 146,700 LOC
-  공수 = 3.0 × (146.7)^1.12 × ΠEM ≈ 130 PM
-  
-  FP 결과(122 PM)와 COCOMO(130 PM) 비교 → 합리적
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ERP 시스템 비용 산정 사례:</div>
+<div class="kb-diagram-note">프로젝트 배경:</div>
+<div class="kb-diagram-note">중소 제조업 ERP 신규 개발</div>
+<div class="kb-diagram-note">모듈: 생산관리, 구매, 재고, 회계, HR</div>
+<div class="kb-diagram-note">FP 산정:</div>
+<div class="kb-diagram-note">ILF: 35개 (중~복잡) → 35×10 = 350</div>
+<div class="kb-diagram-note">EIF: 8개 (단~보통) → 8×6 = 48</div>
+<div class="kb-diagram-note">EI: 65개 (단~보통) → 65×4 = 260</div>
+<div class="kb-diagram-note">EO: 40개 (단~보통) → 40×5 = 200</div>
+<div class="kb-diagram-note">EQ: 50개 (단) → 50×3 = 150</div>
+<div class="kb-diagram-note">UFP = 350+48+260+200+150 = 1,008 FP</div>
+<div class="kb-diagram-note">TCF = 0.65 + 0.01×32 = 0.97</div>
+<div class="kb-diagram-note">AFP = 1,008 × 0.97 = 978 AFP</div>
+<div class="kb-diagram-note">공수 산정:</div>
+<div class="kb-diagram-note">팀 생산성: 8 AFP/월 (중간 수준)</div>
+<div class="kb-diagram-note">공수 = 978 / 8 = 122.3 PM</div>
+<div class="kb-diagram-note">COCOMO II 검증:</div>
+<div class="kb-diagram-note">LOC 추정: 978 AFP × 150 LOC/FP = 146,700 LOC</div>
+<div class="kb-diagram-note">공수 = 3.0 × (146.7)^1.12 × ΠEM ≈ 130 PM</div>
+<div class="kb-diagram-note">FP 결과(122 PM)와 COCOMO(130 PM) 비교 → 합리적</div>
+<div class="kb-diagram-note">일정/인원:</div>
+<div class="kb-diagram-note">기간 = 2.5 × 122^0.38 ≈ 18개월</div>
+<div class="kb-diagram-note">인원 = 122 / 18 ≈ 7명</div>
+<div class="kb-diagram-note">원가:</div>
+<div class="kb-diagram-note">개발자 단가: 600만원/월</div>
+<div class="kb-diagram-note">총 인건비: 122 × 600 = 7.32억</div>
+<div class="kb-diagram-note">HW/SW/기타 30% 추가: 9.5억</div>
+<div class="kb-diagram-note">최종 견적: 10억 (리스크 버퍼 포함)</div>
+</div>
+</div>
 
-일정/인원:
-  기간 = 2.5 × 122^0.38 ≈ 18개월
-  인원 = 122 / 18 ≈ 7명
-  
-원가:
-  개발자 단가: 600만원/월
-  총 인건비: 122 × 600 = 7.32억
-  HW/SW/기타 30% 추가: 9.5억
-  
-최종 견적: 10억 (리스크 버퍼 포함)
-```
+
 
 > 📢 **섹션 요약 비유**: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 비용 산정은 건축 견적 비교 — 평면도로 평수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 계산하고, 자재 명세서로 공수([COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)) 계산해서 두 방법을 비교 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/). 둘이 비슷하면 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높아요!
 

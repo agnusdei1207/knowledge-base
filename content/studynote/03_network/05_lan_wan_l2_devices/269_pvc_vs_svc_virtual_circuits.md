@@ -12,8 +12,8 @@ tags = ["studynote-network"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 패킷 교환망(X.25, [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/), [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 등)에서 출발지와 목적지 간의 논리적인 길(가상 회선, Virtual Circuit)을 **어떻게 맺고 유지하느냐에 따라 PVC와 SVC 두 가지 방식으로 나뉜다**.
-> 2. **가치**: 통신사에 전화해서 "본사와 부산 지사를 영구적으로 연결해 주세요"라고 세팅해 두면, **24시간 내내 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)처럼 항상 길이 뚫려 있는 고정(Permanent) 접속 방식**으로, 잦은 통신에 유리하다.
-> 3. **판단 포인트**: 통신을 할 때마다 옛날 다이얼 전화기처럼 "띠띠띠" 번호를 눌러 임시로 길을 뚫고(Setup), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 끝나면 전화를 끊듯 길을 없애버리는(Teardown) **임시 접속 방식**으로, 가끔 통신할 때 비용을 아끼기에 좋다.
+> 2. **가치**: 통신사에 전화해서 "본사와 부산 지사를 영구적으로 연결해 주세요"라고 세팅해 두면, <strong>24시간 내내 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>처럼 항상 길이 뚫려 있는 고정(Permanent) 접속 방식</strong>으로, 잦은 통신에 유리하다.
+> 3. **판단 포인트**: 통신을 할 때마다 옛날 다이얼 전화기처럼 "띠띠띠" 번호를 눌러 임시로 길을 뚫고(Setup), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 끝나면 전화를 끊듯 길을 없애버리는(Teardown) <strong>임시 접속 방식</strong>으로, 가끔 통신할 때 비용을 아끼기에 좋다.
 
 ---
 
@@ -25,17 +25,21 @@ tags = ["studynote-network"]
 - **필요성**: 기업 망은 지사마다 특성이 다르다. 서울 본사와 부산 지사는 1초도 쉬지 않고 회사 인트라넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받아야 하니 '[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)' 같은 무조건적인 연결(PVC)이 필요하다. 반면, 한 달에 한 번 결산 자료만 올리는 외딴섬 출장소는 굳이 길을 24시간 열어두며 요금을 낼 필요 없이, 필요할 때만 잠시 길을 뚫어서 쓰고 버리는(SVC) 편이 경제적이다.
 
 - **💡 비유**: 
-  - **PVC**: 연인 사이에 언제든 버튼만 누르면 바로 통화가 되는 **"핫라인(직통 전화)"**입니다. 한 번 개통해 두면 매번 전화번호를 누를 필요 없이 수화기만 들면 바로 연결되어 있습니다.
-  - **SVC**: 배달 음식을 시킬 때마다 식당 전화번호를 찾아 다이얼을 누르고(Setup), 배달 주문을 한 뒤([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송), 수화기를 내려놓는(Teardown) **"일반 전화"**와 같습니다.
+  - **PVC**: 연인 사이에 언제든 버튼만 누르면 바로 통화가 되는 <strong>"핫라인(직통 전화)"</strong>입니다. 한 번 개통해 두면 매번 전화번호를 누를 필요 없이 수화기만 들면 바로 연결되어 있습니다.
+  - **SVC**: 배달 음식을 시킬 때마다 식당 전화번호를 찾아 다이얼을 누르고(Setup), 배달 주문을 한 뒤([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송), 수화기를 내려놓는(Teardown) <strong>"일반 전화"</strong>와 같습니다.
 
-```text
-[프레임 릴레이]
-    │
-    ▼
-[PVC / SVC]
-    │
-    └──▶ [DLCI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프레임 릴레이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PVC / SVC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DLCI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** PVC는 매달 월정액을 내고 24시간 내내 쓰는 **"구독형 OTT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"**이고, SVC는 영화를 보고 싶을 때만 한 편 결제해서 보고 치우는 **"건별 VOD 결제(단건 렌탈)"**입니다.
 
@@ -46,34 +50,34 @@ tags = ["studynote-network"]
 ### 1. SVC (Switched Virtual Circuit) 동작의 3단계
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 기반망이지만, 동작 방식은 아날로그 전화망(PSTN)의 회선 교환 방식을 그대로 모방했다.
 
-1. **호 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Setup)**: 라우터가 목적지 IP 주소를 기반으로 통신사 망에게 "가상 회선 좀 뚫어줘"라고 요청한다. 망 내부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 길을 찾고 논리적 터널을 뚫는 데 꽤 오랜 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Setup Delay)이 걸린다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer)**: 길이 뚫리면 그 길(가상 회선 번호)을 타고 패킷들이 쏜살같이 연달아 날아간다.
-3. **호 해제 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Teardown)**: 통신이 10분 정도 없거나 볼일이 끝나면 "수고했어, 길 없애자"라며 터널을 파기하고 자원([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 반환한다.
+1. <strong>호 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Setup)</strong>: 라우터가 목적지 IP 주소를 기반으로 통신사 망에게 "가상 회선 좀 뚫어줘"라고 요청한다. 망 내부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 길을 찾고 논리적 터널을 뚫는 데 꽤 오랜 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Setup Delay)이 걸린다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Transfer)</strong>: 길이 뚫리면 그 길(가상 회선 번호)을 타고 패킷들이 쏜살같이 연달아 날아간다.
+3. <strong>호 해제 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Teardown)</strong>: 통신이 10분 정도 없거나 볼일이 끝나면 "수고했어, 길 없애자"라며 터널을 파기하고 자원([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 반환한다.
 
 ### 2. PVC (Permanent Virtual Circuit) 동작의 단순함
-- 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))의 네트워크 엔지니어가 망 관제 센터에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 통해 **수동으로 가상 회선을 하드코딩**해 버린다.
+- 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))의 네트워크 엔지니어가 망 관제 센터에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 통해 <strong>수동으로 가상 회선을 하드코딩</strong>해 버린다.
 - 라우터를 켜자마자 호 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Setup) 절차 없이 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 가능하다.
 - 길이 영원히(Permanent) 뚫려 있으므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연결 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 제로(0)에 가깝다.
-- 실무의 99% 기업들은 언제 끊길지 모르는 SVC의 불안정성을 싫어하여 **압도적으로 PVC 방식을 선호**했고, [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 요금제도 PVC 위주로 팔렸다.
+- 실무의 99% 기업들은 언제 끊길지 모르는 SVC의 불안정성을 싫어하여 <strong>압도적으로 PVC 방식을 선호</strong>했고, [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 요금제도 PVC 위주로 팔렸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    PVC vs SVC 통신 타임라인 비교                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ SVC (교환 가상 회선) ]                                     │
- │   시간 0초: "A지사로 길 뚫어줘!" (Setup 요청)                   │
- │   시간 3초: 길이 뚫림 (지연 발생)                               │
- │   시간 4초: 데이터 전송 시작 ────▶                               │
- │   시간 10초: 전송 완료. "길 파기해!" (Teardown)                 │
- │                                                             │
- │   [ PVC (영구 가상 회선) ]                                     │
- │   통신사 직원이 어제 이미 길을 고정해 둠.                           │
- │   시간 0초: 라우터 전원 켜자마자 바로 데이터 전송 시작 ────▶         │
- │   시간 6초: 전송 완료 (하지만 길은 영원히 뚫려 있음)                 │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PVC vs SVC 통신 타임라인 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SVC (교환 가상 회선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0초: "A지사로 길 뚫어줘!" (Setup 요청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 3초: 길이 뚫림 (지연 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 4초: 데이터 전송 시작 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 10초: 전송 완료. "길 파기해!" (Teardown)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PVC (영구 가상 회선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신사 직원이 어제 이미 길을 고정해 둠.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0초: 라우터 전원 켜자마자 바로 데이터 전송 시작 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 6초: 전송 완료 (하지만 길은 영원히 뚫려 있음)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** SVC가 물을 마시고 싶을 때마다 매번 수도사업소에 전화해 파이프를 임시로 연결해 달라고 요청하는 **"임시 급수관"**이라면, PVC는 아예 우리 집에 파이프를 영구적으로 용접해 두고 수도꼭지만 틀면 언제든 물이 콸콸 나오는 **"영구 직수관"**입니다.
 
@@ -131,15 +135,19 @@ PVC / SVC는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 프레임 릴레이]
-    │
-    ▼
-[현재 개념: PVC / SVC]
-    │
-    ├──▶ [확장 A: DLCI]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프레임 릴레이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PVC / SVC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DLCI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 PVC / SVC는 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DLCI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

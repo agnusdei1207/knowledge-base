@@ -25,21 +25,23 @@ tags = ["ai"]
 
 이러한 하드코딩의 한계를 극복하기 위해 등장한 혁신적 패러다임이 바로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)와 제어의 분리다. 시스템 엔지니어들은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가의 지식을 룰(Rule)이나 온톨로지 형태로 `지식 베이스`에 분리하여 저장하고, 이 저장된 지식을 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(전향/[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/))로 탐색하는 범용 프로그램인 `추론 엔진`을 별도로 개발했다. 이 구조는 현재 비즈니스 로직을 코드에서 분리하여 관리하는 룰 엔진(Rule Engine)의 근간이 되었다.
 
-```text
-이 도식은 기존의 절차적 프로그래밍과 지식 베이스-추론 엔진 분리 아키텍처의 결합도(Coupling) 차이를 보여준다.
 
-[과거: 강결합 구조]                 [혁신: 분리형 아키텍처]
-┌──────────────────┐               ┌──────────────────┐
-│ Application Code │               │  Inference Engine│<─ (범용 논리 처리기)
-│ ├─ Data (변수)   │               └────────┬─────────┘
-│ ├─ Logic (if문)  │ <── 수정 시            │ (Match & Fire)
-│ └─ UI            │     전체 컴파일 필요   ▼
-└──────────────────┘               ┌──────────────────┐
-                                   │  Knowledge Base  │<─ (지식만 업데이트 가능)
-                                   │ ├─ Facts (사실)  │
-                                   │ └─ Rules (규칙)  │
-                                   └──────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 기존의 절차적 프로그래밍과 지식 베이스-추론 엔진 분리 아키텍처의 결합도(Coupling) 차이를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 강결합 구조</div><div class="kb-diagram-node">혁신: 분리형 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Code</div><div class="kb-diagram-cell">Inference Engine</div><div class="kb-diagram-cell">&lt;─ (범용 논리 처리기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data (변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Logic (if문)</div><div class="kb-diagram-cell">&lt;── 수정 시</div><div class="kb-diagram-cell">(Match &amp; Fire)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ UI</div><div class="kb-diagram-cell">전체 컴파일 필요 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge Base</div><div class="kb-diagram-cell">&lt;─ (지식만 업데이트 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Facts (사실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Rules (규칙)</div></div>
+</div>
+</div>
+
+
 이 도식의 핵심은 비즈니스 로직(Rules)이 애플리케이션 컴파일 영역 바깥(Knowledge Base)으로 빠져나왔다는 점이다. 이런 배치는 프로그래머가 아닌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가(의사, 변호사)도 코드 수정 없이 규칙만 텍스트로 추가/수정할 수 있게 해준다. 따라서 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)이 극대화된다. 실무에서는 이 구조가 현대의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 지점([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Decision Point, [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) 등)으로 분리하는 아키텍처 철학과 완벽히 일치한다.
 
 📢 **섹션 요약 비유**: 요리사가 뇌리에 레시피를 모두 외우고 요리(강결합)하는 대신, 범용 요리 로봇(추론 엔진)에게 그때그때 다른 레시피 북(지식 베이스)을 끼워 넣어 다양한 요리를 만들게 하는 것과 같습니다.
@@ -57,30 +59,33 @@ tags = ["ai"]
 | **추론 엔진 (IE)** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 도출 | 패턴 매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하여 WM의 사실과 KB의 규칙을 비교하고 일치하는 규칙을 실행(Fire) | Rete [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 법전을 해석하는 판사 |
 | **설명 기능 (Explainer)**| 결과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 제공 | 추론 엔진이 결론에 도달하기까지 거친 규칙의 체인(Trace)을 사용자에게 역추적하여 출력 | [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log | 판결문(근거 제시) |
 
-추론 엔진의 핵심 동작은 **Match-Resolve-Act** 사이클을 기반으로 하며, 이 과정의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 해결하기 위해 **Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이 널리 사용된다.
+추론 엔진의 핵심 동작은 **Match-Resolve-Act** 사이클을 기반으로 하며, 이 과정의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 해결하기 위해 <strong>Rete <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이 널리 사용된다.
 
 ① **Match (매칭)**: 작업 메모리의 사실(Fact)들과 지식 베이스의 모든 규칙(Rule)의 조건부(If)를 비교하여, 실행 가능한 규칙들의 집합(Conflict Set)을 만든다.
 ② **Resolve (충돌 해소)**: 여러 개의 규칙이 동시에 매칭되었을 때, 어떤 규칙을 먼저 실행할지 우선순위(우선순위 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 가장 구체적인 규칙 우선 등)를 결정한다.
 ③ **Act (실행)**: 선택된 규칙의 결론부(Then)를 실행한다. 이는 작업 메모리에 새로운 사실을 추가하거나 기존 사실을 수정/삭제한다.
 ④ **반복**: 작업 메모리의 상태가 변경되었으므로 다시 1단계로 돌아간다. (더 이상 매칭되는 규칙이 없을 때까지 정지)
 
-```text
-이 흐름도는 수천 개의 규칙을 매번 비교하는 성능 병목을 극복하기 위한 Rete 알고리즘의 트리 구조(Network) 컴파일을 시각화한 것이다.
 
-[작업 메모리에 새 Fact 입력: "온도=40도", "연기=감지됨"]
-          │
-          ▼
-    [Root Node] (트리 입구)
-      ↙      ↘
-[온도>30?]   [연기==감지?]  <-- (Alpha Node: 단일 조건 매칭 / 캐싱)
-   │ (True)     │ (True)
-   └─────┬──────┘
-         ▼
-[온도>30 AND 연기==감지?]   <-- (Beta Node: 복합 조건 조인 매칭)
-         │ (True)
-         ▼
-[Action: 화재 알람 울림]    <-- (Terminal Node: 규칙 실행 / Act)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 수천 개의 규칙을 매번 비교하는 성능 병목을 극복하기 위한 Rete 알고리즘의 트리 구조(Network) 컴파일을 시각화한 것이다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">작업 메모리에 새 Fact 입력: "온도=40도", "연기=감지됨"</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Root Node</div><div class="kb-diagram-note">(트리 입구)</div></div>
+<div class="kb-diagram-note">↙ ↘</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">온도&gt;30?</div><div class="kb-diagram-node">연기==감지?</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(Alpha Node: 단일 조건 매칭 / 캐싱)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(True)</div><div class="kb-diagram-cell">(True)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">온도&gt;30 AND 연기==감지?</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(Beta Node: 복합 조건 조인 매칭)</div></div>
+<div class="kb-diagram-note">(True)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Action: 화재 알람 울림</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(Terminal Node: 규칙 실행 / Act)</div></div>
+</div>
+</div>
+
+
 이 도식의 핵심은 Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 규칙들을 '조건들의 트리(Tree) 네트워크'로 미리 컴파일해 둔다는 점이다. 이런 배치는 새로운 Fact가 들어왔을 때 전체 규칙을 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)(O(N))하는 대신, 트리 경로를 따라 변경된 부분만 평가하여 매칭 속도를 O(1)에 가깝게 비약적으로 끌어올린다. 따라서 수만 개의 복잡한 비즈니스 룰이 있는 엔터프라이즈 환경에서도 밀리초(ms) 단위의 실시간 추론이 가능해진다. 실무의 Drools 엔진이 바로 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다.
 
 📢 **섹션 요약 비유**: 수만 명의 용의자 사진을 일일이 대조하는 대신, "안경 씀", "수염 있음"이라는 필터를 통과한 사람만 교집합으로 빠르게 찾아내는 스마트 거름망과 같습니다.
@@ -96,22 +101,23 @@ tags = ["ai"]
 | **저장 대상** | 명시적인 규칙(Rule), 개념 온톨로지, 사실 | 정형화된 행(Row)과 열(Column) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)의 다차원 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 실수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) |
 | **질의 방식** | "A이면 B인가?" ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 추론 질의) | "조건에 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반환" (SQL 조회) | "이 문장과 의미가 가장 비슷한 것은?" (유사도) |
 | **추론 능력** | 내재됨 (새로운 사실 자동 도출 가능) | 없음 (있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 반환, View는 가상표) | 없음 (거리 기반 근접성만 판단) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목** | 규칙 간 충돌 및 매칭 연산(Rete) 과부하 | 디스크 I/O, 복잡한 Table [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산 | 고차원 [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)([Approximate Nearest Neighbor](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)) 인덱싱 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목</strong> | 규칙 간 충돌 및 매칭 연산(Rete) 과부하 | 디스크 I/O, 복잡한 Table [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산 | 고차원 [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)([Approximate Nearest Neighbor](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)) 인덱싱 |
 | **시너지 융합** | RDB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Fact로 로드하여 추론 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 지식을 RDB에 영구 저장 | 벡터 검색(유연성) + 지식 베이스([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)) 결합 = [GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) |
 
-```text
-이 매트릭스 도식은 시스템 아키텍처 관점에서 상태 관리와 비즈니스 로직이 어떻게 분리/통합되는지 비교한다.
 
-┌──────────────┬────────────────────────┬────────────────────────┐
-│ 아키텍처 패턴│ 데이터/상태 저장소     │ 로직/결정 엔진         │
-├──────────────┼────────────────────────┼────────────────────────┤
-│ 전통적 3-Tier│ RDB (MySQL, Oracle)    │ App Server (Spring, Node)│
-│ (하드코딩)   │ - 정적 데이터만 보관   │ - if/else 로직 하드코딩│
-├──────────────┼────────────────────────┼────────────────────────┤
-│ Rule Engine  │ RDB + Working Memory   │ Inference Engine (Drools)│
-│ (전문가 모델)│ - Fact 로드 및 임시캐시│ - Rete 트리 기반 매칭  │
-└──────────────┴────────────────────────┴────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 매트릭스 도식은 시스템 아키텍처 관점에서 상태 관리와 비즈니스 로직이 어떻게 분리/통합되는지 비교한다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 패턴</div><div class="kb-diagram-cell">데이터/상태 저장소</div><div class="kb-diagram-cell">로직/결정 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 3-Tier</div><div class="kb-diagram-cell">RDB (MySQL, Oracle)</div><div class="kb-diagram-cell">App Server (Spring, Node)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(하드코딩)</div><div class="kb-diagram-cell">- 정적 데이터만 보관</div><div class="kb-diagram-cell">- if/else 로직 하드코딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule Engine</div><div class="kb-diagram-cell">RDB + Working Memory</div><div class="kb-diagram-cell">Inference Engine (Drools)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전문가 모델)</div><div class="kb-diagram-cell">- Fact 로드 및 임시캐시</div><div class="kb-diagram-cell">- Rete 트리 기반 매칭</div></div>
+</div>
+</div>
+
+
 이 비교표의 핵심은 시스템의 복잡도가 증가할수록 '결정 로직' 자체를 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 다루어야 한다는 아키텍처적 진화 방향을 보여준다. 기존 방식에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 바뀌면 서버를 재시작해야 하지만, 룰 엔진 구조에서는 규칙만 핫 디플로이(Hot Deploy)하여 실시간 반영이 가능하다. 실무에서는 보험금 지급 심사나 카드 승인 로직처럼 '비즈니스 부서'가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 자주 변경하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 이 구조가 필수적으로 도입된다.
 
 📢 **섹션 요약 비유**: RDB가 필요한 물건을 정확히 찾아주는 튼튼한 '창고'라면, 지식 베이스와 추론 엔진의 결합은 창고의 물건들을 조합해 새로운 발명품을 만들어내는 '마법의 작업대'입니다.
@@ -126,26 +132,28 @@ tags = ["ai"]
 수백 개의 할인 쿠폰, VIP 등급, 제휴 카드 할인 조건이 복잡하게 얽혀 있어, 앱 서버의 if-else 코드로는 결제 금액 오류(Over-discount)가 지속적으로 발생하는 상황.
 - **판단**: 프로모션 로직을 애플리케이션 코드에서 덜어내어 `추론 엔진(Drools)`으로 이관한다. '충돌 해소(Conflict Resolution)' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 통해 "할인율이 가장 높은 쿠폰 1개만 적용(우선순위 제어)" 규칙을 엔진 레벨에서 강제하여 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장한다.
 
-**실무 시나리오 2: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기반 고객 지원 챗봇의 치명적 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지**
+<strong>실무 시나리오 2: <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 기반 고객 지원 챗봇의 치명적 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> 방지</strong>
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 챗봇이 "환불 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"에 대해 과거의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이나 경쟁사의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 섞어서 잘못 답변하여 법적 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)이 발생하는 상황.
 - **판단**: LLM의 프롬프트만으로는 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 100% 제어할 수 없다. 사내의 정확한 환불 규정을 `지식 베이스(온톨로지)`로 구축한다. 사용자의 질문을 추론 엔진이 먼저 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 확정적 답변(Fact)을 도출하고, LLM은 이 도출된 답변을 부드러운 자연어로 포장(Generation)만 하도록 역할을 격리(Separation of Concerns)한다.
 
-```text
-이 도식은 룰 엔진 운영 중 흔히 발생하는 '규칙 충돌(Rule Conflict)' 장애 전파와 이를 방어하는 의사결정 흐름을 보여준다.
 
-[신규 정책 B 추가: "VIP는 무조건 배송비 무료"]
-         │
-[기존 정책 A 존재: "도서산간 지역은 무조건 배송비 5천원"]
-         │
-         ▼ (Rule Conflict 발생: VIP가 제주도에 살 경우?)
-[추론 엔진 충돌 해소 (Resolve) 단계 진입]
-         ├─ 방어기제 X: 두 규칙 모두 실행 (시스템 에러 또는 이중 과금) -> 💥 장애
-         │
-         └─ 방어기제 O: [Salience (우선순위) 가중치 평가]
-                 ├─ 정책 A 우선순위 100
-                 ├─ 정책 B 우선순위 50
-                 └─ 결론: 배송비 5천원 부과 안전 수행
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 룰 엔진 운영 중 흔히 발생하는 '규칙 충돌(Rule Conflict)' 장애 전파와 이를 방어하는 의사결정 흐름을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 정책 B 추가: "VIP는 무조건 배송비 무료"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 정책 A 존재: "도서산간 지역은 무조건 배송비 5천원"</div></div>
+<div class="kb-diagram-note">▼ (Rule Conflict 발생: VIP가 제주도에 살 경우?)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추론 엔진 충돌 해소 (Resolve) 단계 진입</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">방어기제 X: 두 규칙 모두 실행 (시스템 에러 또는 이중 과금) -&gt; 💥 장애</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 방어기제 O:</div><div class="kb-diagram-node">Salience (우선순위) 가중치 평가</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">정책 A 우선순위 100</div>
+<div class="kb-diagram-tree-item" style="--depth:8">정책 B 우선순위 50</div>
+<div class="kb-diagram-tree-item" style="--depth:8">결론: 배송비 5천원 부과 안전 수행</div>
+</div>
+</div>
+
+
 이 도식의 핵심은 지식 베이스가 커질수록 기존 규칙과 신규 규칙 간의 모순(Contradiction)을 인간이 육안으로 찾아낼 수 없다는 점이다. 이런 충돌은 컴파일 타임 에러가 아니라 런타임 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 에러를 유발하므로 시스템에 치명적이다. 따라서 실무 아키텍트는 룰을 배포하기 전에 반드시 시뮬레이션 환경에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))를 돌려 부작용을 검출하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축해야 한다.
 
 📢 **섹션 요약 비유**: 수백 명의 법률 고문(규칙)을 한 방에 모아놓으면 서로 자기 말이 맞다고 싸우게 됩니다. 반드시 가장 상위의 헌법(우선순위)을 정해주는 정리자가 있어야 시스템이 멈추지 않습니다.
@@ -176,21 +184,23 @@ tags = ["ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사실 (Fact) — 작업 메모리 (Working Memory)]
-    │
-    ▼
-[지식 베이스 (Knowledge Base) — 규칙 저장소]
-    │
-    ▼
-[추론 엔진 (Inference Engine) — Rete 알고리즘]
-    │
-    ▼
-[전문가 시스템 (Expert System) — BRMS]
-    │
-    ▼
-[뉴로-심볼릭 AI (Neuro-Symbolic AI) — 딥러닝 + 추론]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사실 (Fact) — 작업 메모리 (Working Memory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 베이스 (Knowledge Base) — 규칙 저장소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추론 엔진 (Inference Engine) — Rete 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 시스템 (Expert System) — BRMS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뉴로-심볼릭 AI (Neuro-Symbolic AI) — 딥러닝 + 추론</div></div>
+</div>
+</div>
+
+
 
 AI의 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) 기술이 규칙 기반 [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)에서 딥러닝과 결합한 뉴로-심볼릭 아키텍처로 진화한 흐름이다.
 

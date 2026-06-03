@@ -23,20 +23,22 @@ tags = ["studynote-ai"]
 
 문제는 이 작업이 팀마다 흩어져 있으면 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 여러 번 만들게 되고, 더 위험하게는 학습 코드와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드가 서로 다른 전처리 로직을 사용하게 된다는 점이다. 예를 들어 "최근 30일 구매액"을 학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 배치 SQL (Structured Query Language)로 계산하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버는 별도 애플리케이션 코드로 계산하면 미묘한 시간 기준 차이만으로도 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 실제 운영에서 무너질 수 있다.
 
-그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 단순 저장소가 아니라 **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 의미, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙, 제공 시점, 소비 경로를 표준화하는 운영 계층**으로 등장했다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 모으는 것이 아니라, 모델이 언제 어디서나 **같은 의미의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)**를 받게 하는 것이다.
+그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 단순 저장소가 아니라 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>의 의미, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 규칙, 제공 시점, 소비 경로를 표준화하는 운영 계층</strong>으로 등장했다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 모으는 것이 아니라, 모델이 언제 어디서나 <strong>같은 의미의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a></strong>를 받게 하는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why teams need a feature store                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Team A -> defines user_30d_spend in SQL                              │
-│ Team B -> redefines user_30d_spend in Python                         │
-│ Serving API -> redefines it again in application code                │
-│                                                                      │
-│ result: duplicate work + inconsistent feature meaning                │
-│ fix   : one shared feature definition and serving path               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why teams need a feature store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team A -&gt; defines user_30d_spend in SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team B -&gt; redefines user_30d_spend in Python</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serving API -&gt; redefines it again in application code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result: duplicate work + inconsistent feature meaning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fix : one shared feature definition and serving path</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 요리사마다 양파를 각자 써는 주방이 아니라, 중앙 조리실에서 재료를 같은 규격으로 손질해 두어 모든 요리가 같은 맛을 내게 하는 공용 준비실과 같다.
 
@@ -56,30 +58,26 @@ tags = ["studynote-ai"]
 
 아래 그림은 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 학습과 추론 사이에서 어떤 역할을 하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Feature Store architecture                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Raw events / DB / stream                                             │
-│        │                                                             │
-│        ▼                                                             │
-│ Feature pipelines (batch / stream transforms)                        │
-│        │                                                             │
-│        ├──────────────▶ Feature Registry                             │
-│        │                  ├─ schema / owner / version                │
-│        │                  └─ entity / freshness policy               │
-│        │                                                             │
-│        ├──────────────▶ Offline Store ──▶ training / backfill        │
-│        │                     ▲                                        │
-│        │                     └─ point-in-time join                    │
-│        │                                                             │
-│        └──────────────▶ Online Store  ──▶ low-latency inference      │
-│                              ▲                                        │
-│                              └─ materialization / stream updates      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 기술 포인트는 **Point-in-Time Correctness**다. 모델이 2026년 4월 1일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습한다면, 그 시점 이후에 들어온 이벤트가 절대 섞이면 안 된다. 이를 위해 오프라인 스토어는 과거 시점 기준으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 조회할 수 있어야 하고, 온라인 스토어는 현재 시점의 최신 값을 빠르게 제공해야 한다. 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)라도 학습과 추론이 보는 시점이 다르기 때문에, "같은 정의 + 다른 시간 축"을 제대로 다뤄야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Store architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw events / DB / stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature pipelines (batch / stream transforms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Feature Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ schema / owner / version</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ entity / freshness policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Offline Store ──▶ training / backfill</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ point-in-time join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Online Store ──▶ low-latency inference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ materialization / stream updates</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 기술 포인트는 <strong>Point-in-Time Correctness</strong>다. 모델이 2026년 4월 1일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습한다면, 그 시점 이후에 들어온 이벤트가 절대 섞이면 안 된다. 이를 위해 오프라인 스토어는 과거 시점 기준으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 조회할 수 있어야 하고, 온라인 스토어는 현재 시점의 최신 값을 빠르게 제공해야 한다. 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)라도 학습과 추론이 보는 시점이 다르기 때문에, "같은 정의 + 다른 시간 축"을 제대로 다뤄야 한다.
 
 또한 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 캐시만으로 끝나지 않는다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 엔터티 키(예: `user_id`), 신선도 기준, 누락값 처리, 소유 팀, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력을 함께 관리해야 진짜 운영 가치가 생긴다. 즉 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)가 결합된 형태에 가깝다.
 
@@ -89,7 +87,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))나 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([Model Registry](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/))와 비슷해 보이지만 책임이 다르다. [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 분석용 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이고, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)는 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 승인 상태를 관리한다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 그 사이에서 **모델 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미와 제공 경로**를 책임진다.
+[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))나 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([Model Registry](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/))와 비슷해 보이지만 책임이 다르다. [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 분석용 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이고, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)는 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 승인 상태를 관리한다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 그 사이에서 <strong>모델 입력 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 의미와 제공 경로</strong>를 책임진다.
 
 | 구분 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) | [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) |
 | :--- | :--- | :--- | :--- |
@@ -99,9 +97,9 @@ tags = ["studynote-ai"]
 | 온라인 서빙 | 보통 아님 | 핵심 기능 | 모델 자체만 제공 |
 | 주 사용층 | 분석가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트, ML 엔지니어 | 플랫폼·배포 운영자 |
 
-또한 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 드리프트 관리와도 연결된다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift와 [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift가 발생하면, 모델만 재학습할 것이 아니라 **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의 자체가 여전히 유효한지** [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 결제 패턴이 바뀌었는데 `30일 평균 구매액`만 고집하면 모델은 현실 변화를 충분히 반영하지 못할 수 있다.
+또한 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 드리프트 관리와도 연결된다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift와 [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift가 발생하면, 모델만 재학습할 것이 아니라 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 정의 자체가 여전히 유효한지</strong> [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 결제 패턴이 바뀌었는데 `30일 평균 구매액`만 고집하면 모델은 현실 변화를 충분히 반영하지 못할 수 있다.
 
-즉 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 하위 부품이 아니라, [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 전체에서 **재현성과 재사용성의 중심 축**이다. 모델을 잘 저장하는 것만으로는 부족하고, 그 모델이 어떤 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 먹고 자랐는지까지 연결되어야 운영 품질이 유지된다.
+즉 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 하위 부품이 아니라, [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 전체에서 <strong>재현성과 재사용성의 중심 축</strong>이다. 모델을 잘 저장하는 것만으로는 부족하고, 그 모델이 어떤 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 먹고 자랐는지까지 연결되어야 운영 품질이 유지된다.
 
 - **📢 섹션 요약 비유**: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 재료 창고라면, [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 로봇 셰프가 바로 집어 먹을 수 있게 손질된 재료 보관함이고, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)는 완성된 요리의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 출시 이력을 적는 메뉴 관리판에 가깝다.
 
@@ -109,7 +107,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 모든 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 팀의 필수 출발점은 아니다. 진짜 가치는 **다수 모델이 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 공유하고, 실시간 추론과 재현성이 중요할 때** 크게 드러난다. 반대로 한 개의 배치 모델을 한 팀이 관리하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계라면, 잘 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리된 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋만으로도 충분할 수 있다.
+[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 모든 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 팀의 필수 출발점은 아니다. 진짜 가치는 <strong>다수 모델이 같은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>를 공유하고, 실시간 추론과 재현성이 중요할 때</strong> 크게 드러난다. 반대로 한 개의 배치 모델을 한 팀이 관리하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계라면, 잘 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리된 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋만으로도 충분할 수 있다.
 
 | 도입 상황 | 우선순위 | 이유 |
 | :--- | :--- | :--- |
@@ -134,7 +132,7 @@ tags = ["studynote-ai"]
 - 원천 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 그대로 넣어 두고 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의와 품질 관리 없이 방치하는 저장소
 - Feature Store는 도입했지만, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 연결되지 않아 계보가 끊긴 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-기술사 답안에서는 **"[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 단순 캐시가 아니라, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의·시점 정합성·온라인 제공을 결합해 학습과 서빙의 현실을 일치시키는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 계층"**이라고 정리하면 구조 이해가 분명해진다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a>는 단순 캐시가 아니라, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 정의·시점 정합성·온라인 제공을 결합해 학습과 서빙의 현실을 일치시키는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 핵심 계층"</strong>이라고 정리하면 구조 이해가 분명해진다.
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)를 잘 도입하는 것은 냉장고를 하나 더 사는 일이 아니라, 어떤 재료를 누가 손질하고 언제까지 신선하게 유지할지 주방 운영 규칙을 함께 세우는 일과 같다.
 
@@ -144,7 +142,7 @@ tags = ["studynote-ai"]
 
 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 제대로 자리 잡으면 모델 개발은 "각자 만든 전처리 코드"에서 "공유 가능한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 자산" 중심으로 바뀐다. 그 결과 신규 모델 개발 속도가 빨라지고, 기존 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 재사용이 쉬워지며, 추론 품질 저하의 원인을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관점에서 더 빨리 추적할 수 있다. 특히 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew를 줄이는 효과가 매우 크다.
 
-하지만 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 모든 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 문제를 해결하는 것은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 나쁘거나, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의의 소유권이 불명확하거나, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 비어 있으면 플랫폼만 무거워질 수 있다. 그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 "저장소"보다 **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 운영체계**로 기억하는 것이 맞다. 핵심은 값을 모으는 것이 아니라, **같은 의미의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 올바른 시간축으로 공급하는 것**이다.
+하지만 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 모든 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 문제를 해결하는 것은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 나쁘거나, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의의 소유권이 불명확하거나, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 비어 있으면 플랫폼만 무거워질 수 있다. 그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 "저장소"보다 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 운영체계</strong>로 기억하는 것이 맞다. 핵심은 값을 모으는 것이 아니라, <strong>같은 의미의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>를 올바른 시간축으로 공급하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 레고 블록 상자처럼 여러 로봇이 같은 부품을 꺼내 쓰게 해 주지만, 블록 이름표와 조립 설명서가 정확해야만 멋진 로봇이 똑같이 다시 만들어질 수 있다.
 
@@ -163,24 +161,25 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-원천 이벤트 / 업무 데이터
-    │
-    ▼
-피처 엔지니어링
-    │
-    ▼
-Feature Registry 구축
-    │
-    ├─ Offline Store -> 학습 / 백필 / 재현성
-    └─ Online Store  -> 실시간 추론 / 최신성
-    │
-    ▼
-Point-in-Time Join · Materialization
-    │
-    ▼
-Model Registry · Monitoring과 연결된 MLOps 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원천 이벤트 / 업무 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피처 엔지니어링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Feature Registry 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Offline Store -&gt; 학습 / 백필 / 재현성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Online Store -&gt; 실시간 추론 / 최신성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Point-in-Time Join · Materialization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Model Registry · Monitoring과 연결된 MLOps 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소가 아니라, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의를 운영 자산으로 승격시키는 플랫폼이라는 점을 보여 준다.
 

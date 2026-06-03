@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 센서, 로봇, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)(제어기)부터 공장 상위의 클라우드, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(전사적 자원 관리) 서버까지 **기종과 운영체제에 상관없이 안전하고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환할 수 있도록 만들어진 차세대 산업용 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준**입니다. (IEC 62541)
+- **개념**: 센서, 로봇, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)(제어기)부터 공장 상위의 클라우드, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(전사적 자원 관리) 서버까지 <strong>기종과 운영체제에 상관없이 안전하고 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 교환할 수 있도록 만들어진 차세대 산업용 통신 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 표준</strong>입니다. (IEC 62541)
 - **배경**: 과거 OLE for [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control(Classic OPC)은 오직 윈도우(Windows) OS에서만 돌아가는 치명적인 단점이 있었습니다. 이를 극복하기 위해 OS 독립성(리눅스, 안드로이드 등)과 강력한 보안을 갖춘 통합(Unified) 아키텍처로 진화했습니다.
 
-```text
-[산업용 이더넷 표준]
-    │
-    ▼
-[OPC UA]
-    │
-    └──▶ [TSN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TSN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OPC UA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,19 +49,23 @@ tags = ["studynote-network"]
 
 ### 3. 강력한 내장 보안 (Built-in [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 - 공장 기계가 해킹당하면 물리적인 인명 사고가 발생합니다.
-- OPC UA는 통신 규격 자체에 **X.509 기반의 기기 간 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**, 패킷을 뜯어볼 수 없는 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 256 암호화(Encryption)**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조를 막는 **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)(Signing)** 기능을 완벽하게 내장하고 있습니다.
+- OPC UA는 통신 규격 자체에 <strong>X.509 기반의 기기 간 상호 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>, 패킷을 뜯어볼 수 없는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 256 암호화(Encryption)</strong>, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조를 막는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(Signing)</strong> 기능을 완벽하게 내장하고 있습니다.
 
-1. **[Client-Server](/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/) 모델 (전통적)**: 상위 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 서버가 로봇(OPC UA Server)에게 "현재 온도 내놔"라고 요구(Request)하면 로봇이 대답(Response)하는 구조.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/">Client-Server</a> 모델 (전통적)</strong>: 상위 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 서버가 로봇(OPC UA Server)에게 "현재 온도 내놔"라고 요구(Request)하면 로봇이 대답(Response)하는 구조.
 2. **Pub/Sub 모델 (현대적 도입)**: 센서가 수만 개로 늘어나자 일일이 물어보기 힘들어졌습니다. 최근에는 로봇이 허공에 "온도 25도"라고 던져놓으면, 관심 있는 다른 로봇이나 서버들이 알아서 주워가는(구독하는) [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 같은 브로커리스 Pub/Sub 구조를 추가 도입하여 확장성을 극한으로 높였습니다.
 
-```text
-[산업용 이더넷 표준]
-    │
-    ▼
-[OPC UA]
-    │
-    └──▶ [TSN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TSN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스마트 팩토리를 거대한 국제 회의장이라고 생각해보세요. 예전에는 각국 대표(지멘스, 로봇, 센서)들이 각자의 모국어로만 말해서 의사소통이 불가능했습니다(Classic OPC 한계). OPC UA는 모든 대표에게 100% 암호화가 보장되는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 무전기를 나눠주고, 서로 완벽하게 통역이 되는 '영어(만국 공용어)'로만 대화하게 규칙을 정하여 회의장 전체를 하나로 묶어버리는 시스템입니다.
 
@@ -115,15 +123,19 @@ OPC UA는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 산업용 이더넷 표준]
-    │
-    ▼
-[현재 개념: OPC UA]
-    │
-    ├──▶ [확장 A: TSN]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 산업용 이더넷 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OPC UA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TSN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 OPC UA는 [산업용 이더넷 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/630_industrial_ethernet_profinet_ethercat_modbus/)에서 출발해 현재 메커니즘을 정교화하고, 이후 TSN와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

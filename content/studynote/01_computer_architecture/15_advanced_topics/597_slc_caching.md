@@ -25,23 +25,21 @@ SLC 캐싱은 고밀도 낸드의 느린 프로그램 특성을 사용자 앞에
 
 이 그림은 SLC 캐싱의 기본 철학, 즉 fast ingest 후 background fold 구조를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           Burst writes land in pSLC first, main NAND is updated later     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host Write                                                                 │
-│    │                                                                        │
-│    ▼                                                                        │
-│ [pSLC Cache Area] ---- immediate ack ----> Host                             │
-│    │                                                                        │
-│    ├── foreground burst write                                               │
-│    └── background fold / flush                                              │
-│            ▼                                                                │
-│        [TLC / QLC Main Area]                                                │
-│                                                                            │
-│ When cache is full, native TLC/QLC speed becomes visible.                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Burst writes land in pSLC first, main NAND is updated later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Write</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">pSLC Cache Area</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── foreground burst write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── background fold / flush</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLC / QLC Main Area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When cache is full, native TLC/QLC speed becomes visible.</div></div>
+</div>
+</div>
+
+
 
 즉 SLC 캐싱은 SSD를 영구히 빠르게 만드는 기술이 아니라, 고밀도 낸드의 느린 본모습을 시간차로 가리는 기술이다. 그래서 벤치마크를 볼 때도 짧은 구간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 긴 구간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 따로 봐야 한다.
 
@@ -65,19 +63,21 @@ SLC 캐싱의 핵심은 "같은 낸드 셀을 다른 모드로 운용한다"는 
 
 아래 그림은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로가 왜 "한 번 쓰고 끝"이 아닐 수 있는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                pSLC cache often makes one fast write and one later fold    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1) Host -> pSLC write                                                      │
-│ 2) Mapping update                                                          │
-│ 3) Idle window 확보                                                        │
-│ 4) pSLC read -> TLC/QLC re-program                                         │
-│ 5) Old pSLC block erase -> cache 재사용                                    │
-│                                                                            │
-│ Fast upfront, but internal writes may happen twice for the same user data. │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pSLC cache often makes one fast write and one later fold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Host -&gt; pSLC write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Mapping update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Idle window 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) pSLC read -&gt; TLC/QLC re-program</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) Old pSLC block erase -&gt; cache 재사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast upfront, but internal writes may happen twice for the same user data.</div></div>
+</div>
+</div>
+
+
 
 그래서 SLC 캐싱은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 기술이면서 동시에 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수를 늘릴 수 있는 기술이기도 하다. 워크로드가 늘 바쁘고 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 시간이 거의 없으면, 이사 작업이 밀리면서 다음 burst에서 캐시가 충분히 비어 있지 않을 수 있다. 이런 상황에서 사용자는 "어제는 빨랐는데 오늘은 왜 느리지?" 같은 편차를 경험한다.
 
@@ -155,24 +155,25 @@ SLC 캐싱의 가장 큰 효과는 사용자 체감 품질 개선이다. 고밀�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SLC NAND
-   │
-   ▼
-MLC / TLC / QLC로 고집적화
-   │
-   ▼
-느려진 program latency 보완 필요
-   │
-   ▼
-pSLC burst cache 도입
-   │
-   ▼
-정적 + 동적 SLC 캐시 최적화
-   │
-   ▼
-지속 성능 · WAF · host-managed write 정책으로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SLC NAND</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLC / TLC / QLC로 고집적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">느려진 program latency 보완 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">pSLC burst cache 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 + 동적 SLC 캐시 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속 성능 · WAF · host-managed write 정책으로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 낸드가 고집적화될수록 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도 문제가 커졌고, 이를 감추기 위한 pSLC 완충 구조가 소비자 SSD의 표준 기법으로 자리 잡았음을 보여 준다.
 

@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 유전체 분석에서 환자 1만 명의 SNP(단일 염기 다형성) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 50만 차원이라 가정하자. 이 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에 쓰면 계산 불가능하고, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)도 불가하다. PCA는 이 50만 차원에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변동이 가장 큰 방향" 순서로 새로운 축(주성분)을 잡아, 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)개 주성분만으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 설명하도록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PCA는 "그림자 투영기"다. 3D 물체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 가장 정보가 많이 담기는 방향에서 2D 그림자로 투영한다. 물체를 옆에서 보면 넓은 그림자(높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), 앞에서 보면 좁은 그림자(낮은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 생긴다. PCA는 가장 넓은 그림자가 나오는 방향을 자동으로 찾는다.
 
@@ -36,24 +39,23 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              PCA 처리 파이프라인                         │
-├─────────────────────────────────────────────────────────┤
-│  1. 데이터 중심화: X_c = X - mean(X)                   │
-│                                                         │
-│  2. 공분산 행렬:   Σ = (1/n) · X_cᵀ · X_c            │
-│     (d×d 대칭 행렬, d = 원본 차원 수)                 │
-│                                                         │
-│  3. 고유값 분해:   Σ = V · Λ · Vᵀ                    │
-│     V = [v₁, v₂, ..., vd]  (고유벡터 = 주성분 방향)  │
-│     Λ = diag(λ₁, λ₂, ..., λd) (고유값, λ₁≥λ₂≥...)   │
-│                                                         │
-│  4. k 선택:  누적 설명 분산 = Σλᵢ/Σλⱼ ≥ 95%         │
-│                                                         │
-│  5. 투영:    Z = X_c · Vₖ  (n×k 저차원 데이터)        │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCA 처리 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 중심화: X_c = X - mean(X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 공분산 행렬: Σ = (1/n) · X_cᵀ · X_c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(d×d 대칭 행렬, d = 원본 차원 수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 고유값 분해: Σ = V · Λ · Vᵀ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">V =</div><div class="kb-diagram-node">v₁, v₂, ..., vd</div><div class="kb-diagram-note">(고유벡터 = 주성분 방향)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Λ = diag(λ₁, λ₂, ..., λd) (고유값, λ₁≥λ₂≥...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. k 선택: 누적 설명 분산 = Σλᵢ/Σλⱼ ≥ 95%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 투영: Z = X_c · Vₖ (n×k 저차원 데이터)</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 수식 | 의미 |
 |:---|:---|:---|

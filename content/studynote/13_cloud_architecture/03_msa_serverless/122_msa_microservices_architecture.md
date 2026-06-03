@@ -10,28 +10,30 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MSA는 **애플리케이션을 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위의 독립 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분리**하여, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 **자체 DB·[코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)·배포 파이프라인**을 가지고 독립적으로 개발·배포·[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 아키텍처다.
-> 2. **가치**: 모놀리식에서는 주문 기능 수정이 전체 재배포를 요구하지만, MSA에서는 **주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 독립 배포**하므로 배포 빈도↑·장애 격리↑·팀 자율성↑이 가능하다.
-> 3. **판단 포인트**: MSA의 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 복잡도([서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)·[분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)·관측성)**를 관리할 역량이 없으면 오히려 모놀리식보다 비효율적이며, **Conway's Law에 따라 팀 구조를 먼저 분리**해야 한다.
+> 1. **본질**: MSA는 <strong>애플리케이션을 비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 단위의 독립 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 분리</strong>하여, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 <strong>자체 DB·<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/">코드베이스</a>·배포 파이프라인</strong>을 가지고 독립적으로 개발·배포·[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 아키텍처다.
+> 2. **가치**: 모놀리식에서는 주문 기능 수정이 전체 재배포를 요구하지만, MSA에서는 <strong>주문 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만 독립 배포</strong>하므로 배포 빈도↑·장애 격리↑·팀 자율성↑이 가능하다.
+> 3. **판단 포인트**: MSA의 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 복잡도(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a>·<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/">분산 트랜잭션</a>·관측성)</strong>를 관리할 역량이 없으면 오히려 모놀리식보다 비효율적이며, <strong>Conway's Law에 따라 팀 구조를 먼저 분리</strong>해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    MSA 아키텍처                                       │
-├───────────────────────────────────────────────────────┤
-│  [API Gateway]                                        │
-│     ├─▶ 주문 서비스 (Order) ── DB_Order              │
-│     ├─▶ 결제 서비스 (Payment) ── DB_Payment          │
-│     ├─▶ 재고 서비스 (Inventory) ── DB_Inventory      │
-│     └─▶ 사용자 서비스 (User) ── DB_User              │
-│                                                       │
-│  각 서비스: 독립 배포·스케일링·기술 스택 자유        │
-│  서비스 간 통신: REST / gRPC / 이벤트(Kafka)         │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 주문 서비스 (Order) ── DB_Order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결제 서비스 (Payment) ── DB_Payment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 재고 서비스 (Inventory) ── DB_Inventory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 사용자 서비스 (User) ── DB_User</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 서비스: 독립 배포·스케일링·기술 스택 자유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 간 통신: REST / gRPC / 이벤트(Kafka)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 모놀리식은 대형 백화점(모든 매장이 한 건물)이고, MSA는 쇼핑몰(각 매장이 독립 건물, 독립 운영)이다.
 
@@ -43,11 +45,11 @@ tags = ["studynote-cloud-architecture"]
 
 | 패턴 | 설명 |
 |:---|:---|
-| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | 외부 요청의 단일 진입점 |
-| **[Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위치 동적 탐색 |
-| **[Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)** | 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 차단 |
-| **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)** | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) ([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) |
-| **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)** | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델 분리 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | 외부 요청의 단일 진입점 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/">Service Discovery</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위치 동적 탐색 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a></strong> | 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 차단 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a></strong> | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) ([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델 분리 |
 
 - **📢 섹션 요약 비유**: Circuit Breaker는 전기 차단기다. 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(콘센트)가 합선되면 해당 라인만 차단하여 전체 정전(장애 전파)을 방지한다.
 
@@ -57,10 +59,10 @@ tags = ["studynote-cloud-architecture"]
 
 | 비교 | 모놀리식 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 |:---|:---|:---|
-| **배포** | 전체 | **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별** |
+| **배포** | 전체 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별</strong> |
 | **장애** | 전파 | **격리** |
-| **복잡도** | 낮음 | **높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))** |
-| **팀** | 기능별 | **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 (풀스택)** |
+| **복잡도** | 낮음 | <strong>높음 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)</strong> |
+| **팀** | 기능별 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별 (풀스택)</strong> |
 
 ---
 
@@ -74,7 +76,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-MSA는 **대규모 조직의 빠른 배포·독립 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)**을 가능하게 하지만, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 복잡도를 관리할 **[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 역량**이 전제 조건이다.
+MSA는 <strong>대규모 조직의 빠른 배포·독립 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong>을 가능하게 하지만, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 복잡도를 관리할 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/">플랫폼 엔지니어링</a> 역량</strong>이 전제 조건이다.
 
 ---
 
@@ -82,33 +84,35 @@ MSA는 **대규모 조직의 빠른 배포·독립 [스케일링](/knowledge-bas
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | MSA의 단일 진입점 |
-| **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)** | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
-| **[Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) |
-| **[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계 ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | MSA의 단일 진입점 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a></strong> | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 인프라 ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계 ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) |
 | **Conway's Law** | 팀 구조 = 시스템 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모놀리식 (전통)]
-    │
-    ▼
-[SOA (2005~) — 서비스 지향, ESB 중심]
-    │
-    ▼
-[MSA (2014, Netflix·Amazon) — 경량 서비스 분리]
-    │
-    ▼
-[Service Mesh (Istio, 2018~) — 통신 인프라 표준화]
-    │
-    ▼
-[현재: Modular Monolith + MSA — 상황별 최적 선택]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 (전통)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOA (2005~) — 서비스 지향, ESB 중심</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MSA (2014, Netflix·Amazon) — 경량 서비스 분리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service Mesh (Istio, 2018~) — 통신 인프라 표준화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Modular Monolith + MSA — 상황별 최적 선택</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 모놀리식은 모든 가게가 **한 건물에 있는 백화점**이에요. 한 곳 수리하면 전체가 불편해요.
-2. MSA는 가게마다 **독립 건물인 쇼핑몰**이에요. 한 가게만 수리해도 다른 가게는 정상 영업!
+1. 모놀리식은 모든 가게가 <strong>한 건물에 있는 백화점</strong>이에요. 한 곳 수리하면 전체가 불편해요.
+2. MSA는 가게마다 <strong>독립 건물인 쇼핑몰</strong>이에요. 한 가게만 수리해도 다른 가게는 정상 영업!
 3. 하지만 가게가 너무 많으면 **관리가 복잡해지니까** 적당한 규모가 중요해요!
 
 ---

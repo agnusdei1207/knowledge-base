@@ -29,29 +29,27 @@ tags = ["software_engineering"]
 
 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Security는 사람의 수동 점검 대신, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 각 단계마다(왼쪽부터 차례대로) 보안 스캐닝 봇을 내재화(Built-in)하여 작동한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          DevSecOps 파이프라인의 Shift-Left 보안 통합 구조    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [Left: 개발 초기] ◀─────────────────────────▶ [Right: 배포]  │
-│                                                              │
-│   Plan ────▶ Code ────▶ Build ────▶ Test ────▶ Deploy ────▶│
-│                                                              │
-│  (위협 모델링) (IDE 플러그인)  (SCA/SAST)   (DAST/IAST) (CSPM)│
-│    │          │           │           │           │          │
-│  [보안] ─── [보안] ──── [보안] ──── [보안] ──── [보안]      │
-│  기획 시      코딩 중       빌드 시       테스트 시     운영 시      │
-│  보안 리뷰    빨간줄 경고   오픈소스/코드 취약점 런타임 공격 모니터링     │
-│                             자동 스캔     시뮬레이션                │
-│                                                              │
-│ * 핵심: 취약점이 오른쪽(Deploy)으로 흘러가기 전에 왼쪽에서 차단 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps 파이프라인의 Shift-Left 보안 통합 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Left: 개발 초기</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Right: 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan ▶ Code ▶ Build ▶ Test ▶ Deploy ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위협 모델링) (IDE 플러그인) (SCA/SAST) (DAST/IAST) (CSPM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 시 코딩 중 빌드 시 테스트 시 운영 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 리뷰 빨간줄 경고 오픈소스/코드 취약점 런타임 공격 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 스캔 시뮬레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 취약점이 오른쪽(Deploy)으로 흘러가기 전에 왼쪽에서 차단</div></div>
+</div>
+</div>
+
+
 
 1. **IDE 내장 검사**: 개발자가 코드를 작성하는 즉시 하드코딩된 패스워드나 민감 정보를 감지하여 에디터 내 플러그인이 보안 위반을 경고한다.
-2. **[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)**: 코드를 깃허브 등에 Commit/Push 하는 순간, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 깨어나 소스 코드의 문맥을 정적으로 분석하여 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등의 로직 결함을 1분 만에 찾아낸다.
-3. **[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/))**: 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(예: Log4j)의 버전을 스캔하여, 알려진 보안 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 포함되어 있으면 빌드를 강제로 실패(Red) 처리한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (Static Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing)</strong>: 코드를 깃허브 등에 Commit/Push 하는 순간, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 깨어나 소스 코드의 문맥을 정적으로 분석하여 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등의 로직 결함을 1분 만에 찾아낸다.
+3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/">Software Composition Analysis</a>)</strong>: 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(예: Log4j)의 버전을 스캔하여, 알려진 보안 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 포함되어 있으면 빌드를 강제로 실패(Red) 처리한다.
 
 - **📢 섹션 요약 비유**: 공항 검색대에서 비행기 탑승 직전에만 폭발물을 검사하느라 수천 명이 줄을 서는(병목) 대신, 승객이 짐을 싸는 순간과 공항 버스에 타는 순간마다 자동으로 엑스레이를 통과시켜 탑승구 프리패스를 만드는 것과 같습니다.
 
@@ -68,7 +66,7 @@ tags = ["software_engineering"]
 | **취약점 조치 비용** | 100배 (운영 환경 배포 후 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 및 재설계) | 1배 (개발 IDE 환경에서 즉시 수정) |
 | **배포 속도** | 심각한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (병목 현상 발생) | 중단 없는 고속 배포 유지 |
 
-버그나 보안 취약점은 코드에 심어지는 순간부터 배포까지 시간이 지날수록 수정 비용이 기하급수적으로 상승한다. Shift-Left는 단순히 검사를 일찍 하는 것을 넘어, "보안 책임을 보안팀에 전가하지 않고 코드를 짜는 개발자 스스로가 피드백을 받아 내재화한다"는 문화적 융합(Culture Shift)을 수반한다. 나아가 최근에는 코드를 넘어 클라우드 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 왼쪽으로 당기는 **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 보안**으로 연결되고 있다.
+버그나 보안 취약점은 코드에 심어지는 순간부터 배포까지 시간이 지날수록 수정 비용이 기하급수적으로 상승한다. Shift-Left는 단순히 검사를 일찍 하는 것을 넘어, "보안 책임을 보안팀에 전가하지 않고 코드를 짜는 개발자 스스로가 피드백을 받아 내재화한다"는 문화적 융합(Culture Shift)을 수반한다. 나아가 최근에는 코드를 넘어 클라우드 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 왼쪽으로 당기는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>) 보안</strong>으로 연결되고 있다.
 
 - **📢 섹션 요약 비유**: 암 덩어리를 말기(배포 단계)에 발견해서 대수술로 막대한 비용과 고통을 치르는 대신, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 건강검진(코드 작성 단계)에서 작은 용종을 찾아내 레이저로 5분 만에 저렴하게 떼어내는 예방 의학의 승리입니다.
 
@@ -79,9 +77,9 @@ tags = ["software_engineering"]
 DevSecOps를 도입한다고 무작정 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 도구만 파이프라인에 집어넣으면, 쏟아지는 오탐(False Positive) 알람에 지친 개발자들이 보안 도구를 꺼버리는 참사가 발생한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 포인트
-1. **차단 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) Threshold) 조절**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기를 연동할 때, 처음부터 '모든 경고 시 빌드 실패'로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 마비된다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 치명적(Critical) 등급의 명백한 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 취약점만 차단(Block)하고 나머지는 경고(Warn)로 남겨 수용성을 높여야 한다.
-2. **[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 분석) 도입의 우선순위**: 개발자가 직접 짜는 코드의 취약점보다, `npm install`로 가져다 쓰는 외부 패키지의 취약점 파급력이 훨씬 크다. 따라서 복잡한 SAST보다 깃허브 디펜다봇(Dependabot) 같은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구를 가장 먼저 연동하는 것이 투자 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 높다.
-3. **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 스캐닝 의무화**: [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 코드로 클라우드 인프라를 구성할 때, 소스 코드뿐만 아니라 'S3 버킷 퍼블릭 오픈' 같은 치명적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류가 없는지도 왼쪽에서 미리 검사해야 한다.
+1. <strong>차단 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> Threshold) 조절</strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기를 연동할 때, 처음부터 '모든 경고 시 빌드 실패'로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 마비된다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 치명적(Critical) 등급의 명백한 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 취약점만 차단(Block)하고 나머지는 경고(Warn)로 남겨 수용성을 높여야 한다.
+2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 분석) 도입의 우선순위</strong>: 개발자가 직접 짜는 코드의 취약점보다, `npm install`로 가져다 쓰는 외부 패키지의 취약점 파급력이 훨씬 크다. 따라서 복잡한 SAST보다 깃허브 디펜다봇(Dependabot) 같은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구를 가장 먼저 연동하는 것이 투자 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 높다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> 스캐닝 의무화</strong>: [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 코드로 클라우드 인프라를 구성할 때, 소스 코드뿐만 아니라 'S3 버킷 퍼블릭 오픈' 같은 치명적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류가 없는지도 왼쪽에서 미리 검사해야 한다.
 
 - **📢 섹션 요약 비유**: 보안 알람을 너무 예민하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 시도 때도 없이 사이렌이 울리면 사람들이 무시하게 되듯, 진짜 치명적인 늑대(Critical Bug)에게만 사이렌이 울리도록 보안 장비의 민감도를 튜닝하는 것이 실무의 핵심입니다.
 
@@ -101,28 +99,30 @@ DevSecOps와 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/2
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (정적 애플리케이션 보안 테스팅)** | 소스 코드 자체를 실행하지 않고 문맥만 분석하여 논리적 취약점을 찾아내는 좌측 보안의 핵심 로봇. |
-| **[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) (동적 애플리케이션 보안 테스팅)** | 배포가 완료된 테스트 환경에서 외부 공격자처럼 직접 모의 해킹을 찌르며 반응을 체크하는 스캐너. |
-| **[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([소프트웨어 구성 분석](/knowledge-base/studynote/15_devops_sre/05_devsecops/246_sca_software_composition_analysis_cve/))** | 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 알려진 해킹 취약점이 있는지 DB와 대조하여 차단하는 의존성 감시자. |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인** | 개발부터 배포까지 코드가 자동으로 흘러가는 궤도로, SAST와 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 로봇이 보안 초소로 배치되는 공간. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (정적 애플리케이션 보안 테스팅)</strong> | 소스 코드 자체를 실행하지 않고 문맥만 분석하여 논리적 취약점을 찾아내는 좌측 보안의 핵심 로봇. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (동적 애플리케이션 보안 테스팅)</strong> | 배포가 완료된 테스트 환경에서 외부 공격자처럼 직접 모의 해킹을 찌르며 반응을 체크하는 스캐너. |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/246_sca_software_composition_analysis_cve/">소프트웨어 구성 분석</a>)</strong> | 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 알려진 해킹 취약점이 있는지 DB와 대조하여 차단하는 의존성 감시자. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인</strong> | 개발부터 배포까지 코드가 자동으로 흘러가는 궤도로, SAST와 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 로봇이 보안 초소로 배치되는 공간. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Siloed Security (폭포수 모델, 개발 완료 후 수동 보안 점검 ──▶ 병목 발생)
-    │
-    ▼
-DevOps (개발과 운영의 자동화 융합, 여전히 보안은 릴리스 직전에 방치됨)
-    │
-    ▼
-Shift-Left Security (보안 점검을 기획 및 코딩 등 파이프라인 좌측으로 이동)
-    │
-    ▼
-DevSecOps (CI/CD 전 구간에 걸친 SAST/DAST/SCA 자동화 봇 내재화)
-    │
-    ▼
-Cloud Native Security (컨테이너 이미지, IaC 설정까지 모두 좌측에서 스캔)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Siloed Security (폭포수 모델, 개발 완료 후 수동 보안 점검 ──▶ 병목 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevOps (개발과 운영의 자동화 융합, 여전히 보안은 릴리스 직전에 방치됨)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shift-Left Security (보안 점검을 기획 및 코딩 등 파이프라인 좌측으로 이동)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevSecOps (CI/CD 전 구간에 걸친 SAST/DAST/SCA 자동화 봇 내재화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud Native Security (컨테이너 이미지, IaC 설정까지 모두 좌측에서 스캔)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

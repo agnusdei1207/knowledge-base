@@ -21,24 +21,23 @@ tags = ["studynote-software-engineering"]
 
 - 인간의 뇌는 한 번에 7개 이상의 복잡한 로직을 동시에 이해하지 못합니다([인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 한계).
 - 소프트웨어는 수백만 줄의 코드로 이루어져 있습니다.
-- **추상화의 목적**: 불필요한 세부 구현(Detail)이나 찌꺼기는 밑바닥에 숨겨버리고, **본질적인 핵심 개념([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/))이나 기능(Interface)만 위로 끄집어내어 전체 시스템의 큰 그림을 쉽게 이해하고 설계할 수 있게 만드는 복잡도 관리의 최강 무기**입니다.
+- **추상화의 목적**: 불필요한 세부 구현(Detail)이나 찌꺼기는 밑바닥에 숨겨버리고, <strong>본질적인 핵심 개념(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a>)이나 기능(Interface)만 위로 끄집어내어 전체 시스템의 큰 그림을 쉽게 이해하고 설계할 수 있게 만드는 복잡도 관리의 최강 무기</strong>입니다.
 
 - **📢 섹션 요약 비유**: 추상화 (Abstraction)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 추상화 (Abstraction)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  추상화 (Abstraction)                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추상화 (Abstraction)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 추상화 (Abstraction)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -55,7 +54,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-추상화 (Abstraction)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+추상화 (Abstraction)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 추상화 (Abstraction)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 - 개는 `멍멍`, 고양이는 `야옹` (세부 구현은 나중에 각자 알아서 함)
 - 메인 코드는 걔가 개인지 고양이인지 알 필요 없이, 그냥 `동물.cry()` 한 줄만 호출하면 다형성(Polymorphism)이 터지며 완벽히 동작합니다. 확장의 무한한 자유가 열립니다.
 
-> 📢 **섹션 요약 비유**: 코딩에서 **추상화(Abstraction)**가 없다면, 자동차 엑셀 페달이 없는 것과 같습니다. 운전자가 속도를 내려고 할 때, **"엔진 실린더에 휘발유를 30cc 뿜어 넣고 스파크 플러그를 초당 50번 터뜨린 뒤, 피스톤 축을 돌려 기어를 맞물리게 해라"**라는 100개의 조작 버튼(더러운 세부 코드)을 일일이 동시에 눌러야 합니다(복잡도 폭발로 사고 남). 하지만 위대한 자동차 엔지니어가 이 100개의 미친 조작들을 엔진룸(블랙박스) 안에 다 욱여넣고 뚜껑을 덮어 숨긴 다음, 발밑에 덜렁 **'엑셀 페달(추상화된 인터페이스)'** 하나만 빼놓았습니다(과정 추상화). 이제 운전자는 엔진이 어떻게 폭발하는지 알 바 없이, 그냥 페달만 꾹 밟으면 100개의 부품이 알아서 돌아가며 차가 튀어 나갑니다. 잡다한 찌꺼기는 가리고 오직 '직관적인 조작 버튼' 하나만 남겨, 멍청한 인간도 수백만 줄의 우주선 코드를 블록 조립하듯 짤 수 있게 해주는 기적의 단순화 기술입니다.
+> 📢 **섹션 요약 비유**: 코딩에서 <strong>추상화(Abstraction)</strong>가 없다면, 자동차 엑셀 페달이 없는 것과 같습니다. 운전자가 속도를 내려고 할 때, <strong>"엔진 실린더에 휘발유를 30cc 뿜어 넣고 스파크 플러그를 초당 50번 터뜨린 뒤, 피스톤 축을 돌려 기어를 맞물리게 해라"</strong>라는 100개의 조작 버튼(더러운 세부 코드)을 일일이 동시에 눌러야 합니다(복잡도 폭발로 사고 남). 하지만 위대한 자동차 엔지니어가 이 100개의 미친 조작들을 엔진룸(블랙박스) 안에 다 욱여넣고 뚜껑을 덮어 숨긴 다음, 발밑에 덜렁 **'엑셀 페달(추상화된 인터페이스)'** 하나만 빼놓았습니다(과정 추상화). 이제 운전자는 엔진이 어떻게 폭발하는지 알 바 없이, 그냥 페달만 꾹 밟으면 100개의 부품이 알아서 돌아가며 차가 튀어 나갑니다. 잡다한 찌꺼기는 가리고 오직 '직관적인 조작 버튼' 하나만 남겨, 멍청한 인간도 수백만 줄의 우주선 코드를 블록 조립하듯 짤 수 있게 해주는 기적의 단순화 기술입니다.
 
 - **📢 섹션 요약 비유**: 추상화 (Abstraction)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -93,8 +92,8 @@ tags = ["studynote-software-engineering"]
 
 ### 기술사 판단 포인트
 
-- 이 개념을 **언제 채택**해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
-- 이 개념을 **언제 회피**해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
+- 이 개념을 <strong>언제 채택</strong>해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
+- 이 개념을 <strong>언제 회피</strong>해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
 
 - **📢 섹션 요약 비유**: 추상화 (Abstraction) 적용은 요리사가 레시피를 따라 요리하는 과정과 같다. 레시피(원칙)를 완전히 무시하면 매번 결과가 들쑥날쑥하지만, 레시피를 맹목적으로 따르되 재료 상황(프로젝트 특성)에 맞게 조정하는 것이 진정한 전문가의 판단이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-추상화 (Abstraction) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상화 (Abstraction) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

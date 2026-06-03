@@ -23,11 +23,15 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
-```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│   Growth   │──▶│   Smell    │──▶│    Risk    │
-└────────────┘   └────────────┘   └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Growth</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Smell</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Risk</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
 
@@ -47,11 +51,15 @@ tags = ["studynote-design-supervision"]
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
-```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│  Module  │──▶│  Smell   │──▶│  Couple  │──▶│   Fail   │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Smell</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Couple</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Fail</div></div>
+</div>
+</div>
+
+
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) (Anti-Patterns)을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **개선된 구조** 와 **[안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) 지속 구조** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/) (Anti-Patterns)을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **개선된 구조** 와 <strong><a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">안티 패턴</a> 지속 구조</strong> 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|

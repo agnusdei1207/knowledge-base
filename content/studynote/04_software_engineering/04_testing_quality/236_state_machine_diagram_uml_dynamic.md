@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 235번 시퀀스는 A객체와 B객체의 통신(대화)에 집착합니다.
-- 반면, **상태 다이어그램([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)**은 남들과의 통신보다는, **하나의 핵심 객체(예: 엘리베이터, 주문서, 세탁기)가 홀로 자신의 일생(Life Cycle) 동안 어떤 내부 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'의 변화를 겪는가**에 광적으로 집착하는 동적(행위) 다이어그램입니다.
+- 반면, <strong>상태 다이어그램(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Machine Diagram)</strong>은 남들과의 통신보다는, <strong>하나의 핵심 객체(예: 엘리베이터, 주문서, 세탁기)가 홀로 자신의 일생(Life Cycle) 동안 어떤 내부 '상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)'의 변화를 겪는가</strong>에 광적으로 집착하는 동적(행위) 다이어그램입니다.
 - 임베디드 기기(자판기, 세탁기)나 실시간 제어 소프트웨어, 게임 캐릭터 상태(앉기 ➜ 뛰기 ➜ 공격)의 코드를 짤 때 가장 완벽한 뼈대 도면입니다.
 
 - **📢 섹션 요약 비유**: 상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Mach의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  상태 다이어그램 (State Mach                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 다이어그램 (State Mach</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Mach가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -59,7 +58,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -72,10 +71,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 둘 다 동그란 네모 상자라 시험에서 미치도록 헷갈리게 냅니다.
-- **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 다이어그램**: 주인공이 **'무슨 상태에 머물러 있는가?(명사형)'**에 집착합니다. 외부에서 버튼(이벤트)을 찔러줘야만 다음 방으로 옮겨갑니다. (수동적)
-- **액티비티(Activity) 다이어그램**: 주인공이 **'무슨 짓(행동/로직)을 빡세게 하고 있는가?(동사형)'**에 집착합니다. 계산이 다 끝나면 자동으로 척척 다음 방으로 넘어가는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 워크플로우에 가깝습니다. (능동적)
+- <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>) 다이어그램</strong>: 주인공이 <strong>'무슨 상태에 머물러 있는가?(명사형)'</strong>에 집착합니다. 외부에서 버튼(이벤트)을 찔러줘야만 다음 방으로 옮겨갑니다. (수동적)
+- **액티비티(Activity) 다이어그램**: 주인공이 <strong>'무슨 짓(행동/로직)을 빡세게 하고 있는가?(동사형)'</strong>에 집착합니다. 계산이 다 끝나면 자동으로 척척 다음 방으로 넘어가는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 워크플로우에 가깝습니다. (능동적)
 
-> 📢 **섹션 요약 비유**: **상태 다이어그램([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)**은 음료수 자판기(객체)의 뇌 속에 든 **'감정 기복(상태) 시나리오 설계도'**입니다. 처음에 전기를 꽂으면 까만 점(시작점)에서 출발해 자판기는 `[동전 대기 상태]`라는 둥근 방에 멍때리며 앉아있습니다. 아무 짓도 안 합니다. 이 멍때림을 깨부수는 건 외부의 자극(이벤트 전이)뿐입니다. 손님이 '500원'을 구멍에 쑤셔 넣는(Event 발생) 순간! 자판기는 화들짝 놀라며 1초 만에 화살표를 타고 `[음료 선택 가능 상태]`라는 다음 둥근 방으로 핑 돌변([상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Transition)합니다. 손님이 버튼을 누르면 또다시 `[음료 방출 상태]`로 핑 변합니다. 음료가 다 떨어지면 `[품절 상태]` 방으로 갑니다. 자판기라는 기계 1대는 가만히 제자리에 서 있지만, 그 기계의 뇌 속 램(RAM) 안에서는 동전, 버튼, 품절이라는 외부 자극(Event)을 맞을 때마다 수십 개의 둥근 방(상태)을 미친 듯이 텔레포트하며 널뛰기하는 내면의 상태(감정) 변화 과정(생명주기)을 한눈에 보여주는 임베디드 설계의 바이블 다이어그램입니다.
+> 📢 **섹션 요약 비유**: <strong>상태 다이어그램(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Machine Diagram)</strong>은 음료수 자판기(객체)의 뇌 속에 든 <strong>'감정 기복(상태) 시나리오 설계도'</strong>입니다. 처음에 전기를 꽂으면 까만 점(시작점)에서 출발해 자판기는 `[동전 대기 상태]`라는 둥근 방에 멍때리며 앉아있습니다. 아무 짓도 안 합니다. 이 멍때림을 깨부수는 건 외부의 자극(이벤트 전이)뿐입니다. 손님이 '500원'을 구멍에 쑤셔 넣는(Event 발생) 순간! 자판기는 화들짝 놀라며 1초 만에 화살표를 타고 `[음료 선택 가능 상태]`라는 다음 둥근 방으로 핑 돌변([상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Transition)합니다. 손님이 버튼을 누르면 또다시 `[음료 방출 상태]`로 핑 변합니다. 음료가 다 떨어지면 `[품절 상태]` 방으로 갑니다. 자판기라는 기계 1대는 가만히 제자리에 서 있지만, 그 기계의 뇌 속 램(RAM) 안에서는 동전, 버튼, 품절이라는 외부 자극(Event)을 맞을 때마다 수십 개의 둥근 방(상태)을 미친 듯이 텔레포트하며 널뛰기하는 내면의 상태(감정) 변화 과정(생명주기)을 한눈에 보여주는 임베디드 설계의 바이블 다이어그램입니다.
 
 - **📢 섹션 요약 비유**: 상태 다이어그램 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-상태 다이어그램 (State Machine Diagram) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 다이어그램 (State Machine Diagram) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

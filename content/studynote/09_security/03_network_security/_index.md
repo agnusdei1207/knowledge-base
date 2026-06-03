@@ -17,34 +17,30 @@ tags = ["security"]
 
 ### 보이지 않는 통로의 수문장: 네트워크 보안
 
-네트워크는 데이터가 이동하는 고속도로와 같다. 고속도로에 검문소가 없다면 범죄자가 자유롭게 오가며 물건을 훔치거나 테러를 저지를 수 있다. **네트워크 보안 장비**는 이 고속도로의 주요 지점에 설치된 '지능형 검문소'이자 'CCTV'이다.
+네트워크는 데이터가 이동하는 고속도로와 같다. 고속도로에 검문소가 없다면 범죄자가 자유롭게 오가며 물건을 훔치거나 테러를 저지를 수 있다. <strong>네트워크 보안 장비</strong>는 이 고속도로의 주요 지점에 설치된 '지능형 검문소'이자 'CCTV'이다.
 
-네트워크 보안이 필요한 이유는 세 가지이다. 첫째, **비인가 접근의 차단**을 위해서이다. 허락되지 않은 외부 IP가 내부 서버에 접속하는 것을 막아야 한다. 둘째, **악성 패킷의 필터링**을 위해서이며 (바이러스, 랜섬웨어 유입 방지), 셋째, **서비스 가용성 확보**를 위해서이다 (DDoS 공격으로부터 서버 보호).
+네트워크 보안이 필요한 이유는 세 가지이다. 첫째, <strong>비인가 접근의 차단</strong>을 위해서이다. 허락되지 않은 외부 IP가 내부 서버에 접속하는 것을 막아야 한다. 둘째, <strong>악성 패킷의 필터링</strong>을 위해서이며 (바이러스, 랜섬웨어 유입 방지), 셋째, <strong>서비스 가용성 확보</strong>를 위해서이다 (DDoS 공격으로부터 서버 보호).
 
 이 그림은 네트워크의 주요 지점에 배치되는 보안 장비들의 논리적 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Network Security Infrastructure             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Internet ] ──▶ [ Firewall ] ──▶ [ IPS / IDS ] ──┐       │
-│                          │                 │        │       │
-│   ┌──────────────────────┴─────────────────┴────────▼─────┐ │
-│   │                   [ DMZ Zone ]                        │ │
-│   │  (Web Server, Mail Server - Publicly Accessible)      │ │
-│   └──────────────────────┬────────────────────────────────┘ │
-│                          │                                  │
-│   [ Internal Private LAN ] ◀───── (VPN / Internal FW)       │
-│                                                             │
-│   * Firewall: IP/Port 기반의 1차 관문                       │
-│   * IPS: 패킷 내용을 분석하여 실시간 차단                  │
-│   * IDS: 침입 징후를 감시하고 알림 (Mirroring 방식)        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'DMZ (Demilitarized Zone)'의 구축이다. 외부에서 직접 접근이 필요한 서버는 별도의 격리 구역에 두어, 이 구역이 뚫리더라도 내부망 (LAN)으로 공격이 전파되는 것을 방어한다. 실무에서는 이 지점에 **WAF (Web Application Firewall)**를 추가하여 어플리케이션 계층 공격까지 막아낸다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Security Infrastructure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internet</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Firewall</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS / IDS</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMZ Zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Web Server, Mail Server - Publicly Accessible)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internal Private LAN</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(VPN / Internal FW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Firewall: IP/Port 기반의 1차 관문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IPS: 패킷 내용을 분석하여 실시간 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IDS: 침입 징후를 감시하고 알림 (Mirroring 방식)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'DMZ (Demilitarized Zone)'의 구축이다. 외부에서 직접 접근이 필요한 서버는 별도의 격리 구역에 두어, 이 구역이 뚫리더라도 내부망 (LAN)으로 공격이 전파되는 것을 방어한다. 실무에서는 이 지점에 <strong>WAF (Web Application Firewall)</strong>를 추가하여 어플리케이션 계층 공격까지 막아낸다.
 
 ### 네트워크 보안 장비의 주요 분류
 
@@ -76,22 +72,20 @@ tags = ["security"]
 
 이 구조도는 IDS와 IPS의 동작 방식 차이를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 IDS (Sniffer) vs IPS (Inline)               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ IDS Mode ]                    [ IPS Mode ]              │
-│   ┌──────────┐                    ┌──────────┐              │
-│   │ Switch   │ ──▶ [ Packet ] ──▶ │ IPS 장비 │ ──▶ [ Server ]│
-│   └────┬─────┘                    └──────────┘              │
-│        │ (Mirroring)                   (Inline)             │
-│        ▼                                                    │
-│   [ IDS 장비 ] (분석/알람)        * IPS는 패킷이 자신을     │
-│                                     직접 통과해야 함        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDS (Sniffer) vs IPS (Inline)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IDS Mode</div><div class="kb-diagram-node">IPS Mode</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Packet</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Mirroring) (Inline)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IDS 장비</div><div class="kb-diagram-note">(분석/알람) * IPS는 패킷이 자신을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 통과해야 함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '배치 위치'이다. IDS는 네트워크 옆에서 구경만 하므로 지연 시간이 없지만 공격을 못 막고, IPS는 패킷의 길목을 지키므로 직접 막을 수 있지만 장비 고장 시 전체 통신이 끊길 수 있다 (Bypass 기능 필수). 실무에서는 이 위험을 관리하기 위해 고성능 IPS 하드웨어가 필수적이다.
 
@@ -125,28 +119,28 @@ tags = ["security"]
 ### 기술사적 판단: 인프라 위협 진단 및 보안 아키텍처 설계
 
 **시나리오 1: 해외 지사와의 기밀 데이터 송수신 보안 강화**
-- **판단**: 공용 인터넷망은 위험하다. 성능과 보안성이 검증된 **IPSec VPN (사이트 간 연결)**을 구축한다. 암호 알고리즘은 **AES-256**을 표준으로 하고, 키 교환 시에는 **IKEv2** 프로토콜을 적용하여 보안성을 높인다. 또한 VPN 게이트웨이 앞단에 **DDoS 방어 장비**를 두어 터널링 세션 고갈 공격에 대비하는 입체적 방어를 설계한다.
+- **판단**: 공용 인터넷망은 위험하다. 성능과 보안성이 검증된 <strong>IPSec VPN (사이트 간 연결)</strong>을 구축한다. 암호 알고리즘은 <strong>AES-256</strong>을 표준으로 하고, 키 교환 시에는 **IKEv2** 프로토콜을 적용하여 보안성을 높인다. 또한 VPN 게이트웨이 앞단에 <strong>DDoS 방어 장비</strong>를 두어 터널링 세션 고갈 공격에 대비하는 입체적 방어를 설계한다.
 
 **시나리오 2: 내부 사용자의 무분별한 외부 웹사이트 접속 및 악성코드 유입**
-- **판단**: 단순 방화벽으로는 부족하다. 사용자의 실제 행위를 분석하는 **SWG (Secure Web Gateway)**를 도입한다. 특정 카테고리 (도박, 음란물) 사이트를 차단하고, 다운로드되는 모든 파일을 샌드박스에서 먼저 실행하여 악성 여부를 검사하는 **파일 격리 (RBI)** 기술 도입을 검토한다. 또한 내부 트래픽 분석을 위해 **SSL 가시성 장비**를 배치하여 암호화된 트래픽 속의 위협을 가시화한다.
+- **판단**: 단순 방화벽으로는 부족하다. 사용자의 실제 행위를 분석하는 <strong>SWG (Secure Web Gateway)</strong>를 도입한다. 특정 카테고리 (도박, 음란물) 사이트를 차단하고, 다운로드되는 모든 파일을 샌드박스에서 먼저 실행하여 악성 여부를 검사하는 **파일 격리 (RBI)** 기술 도입을 검토한다. 또한 내부 트래픽 분석을 위해 <strong>SSL 가시성 장비</strong>를 배치하여 암호화된 트래픽 속의 위협을 가시화한다.
 
 이 도식은 기술사가 설계하는 '심층 방어 (Defense in Depth)' 전략의 체크리스트를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Network Defense-in-Depth Checklist            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Level 1: Perimeter ] - Anti-DDoS, External Firewall     │
-│   [ Level 2: Internal  ] - IPS, WAF, Sandbox                │
-│   [ Level 3: Host/Data ] - EDR, DB Encryption               │
-│   [ Level 4: Control   ] - NAC, IAM, SIEM                   │
-│                                                             │
-│   * 기술사 제언: 한 레이어가 무너져도 다음 레이어가         │
-│     버틸 수 있는 '장애 허용 (Fault Tolerance)' 보안 설계    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Defense-in-Depth Checklist</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Perimeter</div><div class="kb-diagram-note">- Anti-DDoS, External Firewall</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Internal</div><div class="kb-diagram-note">- IPS, WAF, Sandbox</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: Host/Data</div><div class="kb-diagram-note">- EDR, DB Encryption</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: Control</div><div class="kb-diagram-note">- NAC, IAM, SIEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 제언: 한 레이어가 무너져도 다음 레이어가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버틸 수 있는 '장애 허용 (Fault Tolerance)' 보안 설계</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 설계는 '대통령의 경호 작전'과 같습니다. 공항 검문(DDoS 방어)부터, 이동 경로 차단(방화벽), 주변 감시(IDS), 근접 경호(IPS)까지 빈틈없는 동선을 짜는 전문가입니다.
 
@@ -161,7 +155,7 @@ tags = ["security"]
 
 ### 미래 전망: SASE와 제로 트러스트의 완성
 
-향후 네트워크 보안 장비는 물리적 형태를 벗어나 클라우드 서비스인 **SASE (Secure Access Service Edge)**로 완전히 흡수될 것이다. 네트워크 연결과 보안 기능이 하나로 통합되어, 사용자가 어디에 있든 동일한 보안 정책이 구름 위에서 적용될 것이다. 기술사는 개별 장비의 CLI 명령어를 넘어, 전사적 보안 정책을 코드로 관리하는 **Infrastructure as Code (IaC) 기반 보안 운영** 능력을 갖추어야 한다.
+향후 네트워크 보안 장비는 물리적 형태를 벗어나 클라우드 서비스인 <strong>SASE (Secure Access Service Edge)</strong>로 완전히 흡수될 것이다. 네트워크 연결과 보안 기능이 하나로 통합되어, 사용자가 어디에 있든 동일한 보안 정책이 구름 위에서 적용될 것이다. 기술사는 개별 장비의 CLI 명령어를 넘어, 전사적 보안 정책을 코드로 관리하는 **Infrastructure as Code (IaC) 기반 보안 운영** 능력을 갖추어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 네트워크 보안은 '스마트 홈 시스템'과 같아질 것입니다. 우리가 일일이 문을 잠그지 않아도, 시스템이 우리의 신원을 확인하고 위험을 미리 감지하여 집안 전체를 가장 편안하고 안전한 공간으로 지켜줄 것입니다.
 

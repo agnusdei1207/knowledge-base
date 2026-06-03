@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 제어 평면의 모든 구성 요소([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), [PCF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/) 등 네트워크 기능(NF))들을 단단한 하드웨어 장비가 아닌 독립적인 **마이크로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Microservice)** 형태의 소프트웨어로 쪼개고, **이들 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 방식을 현대적인 웹 프로그래밍 표준인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 및 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 호출 방식으로 완전히 뜯어고친 아키텍처 플랫폼 융합 모델**입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 릴리즈 15 표준)
+- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 제어 평면의 모든 구성 요소([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), [PCF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/) 등 네트워크 기능(NF))들을 단단한 하드웨어 장비가 아닌 독립적인 <strong>마이크로 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(Microservice)</strong> 형태의 소프트웨어로 쪼개고, <strong>이들 간의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 교환 방식을 현대적인 웹 프로그래밍 표준인 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 및 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> 호출 방식으로 완전히 뜯어고친 아키텍처 플랫폼 융합 모델</strong>입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 릴리즈 15 표준)
 
-```text
-[5GC]
-    │
-    ▼
-[SBA]
-    │
-    └──▶ [AMF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AMF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SBA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,15 +41,15 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 구시대의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 메쉬 구조
-- 4G LTE까지는 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 장비, [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) 장비, S-GW 장비 사이에 마치 복잡한 거미줄처럼 **1:1 전용 통신선([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Point)**이 얽히고설켜 있었습니다.
+- 4G LTE까지는 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 장비, [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) 장비, S-GW 장비 사이에 마치 복잡한 거미줄처럼 <strong>1:1 전용 통신선(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> Point)</strong>이 얽히고설켜 있었습니다.
 - **문제점**: 여기에 새로운 부가서비스 장비 하나를 추가하려면, 그 장비에서 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), HSS로 가는 통신선을 또 일일이 새로 뚫고 연결해야 하는 끔찍한 스파게티 코드(Spaghetti) 구조라 확장이 불가능에 가까웠습니다.
 
 ### 2. [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 구조와 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 도입 🌟
-- **소프트웨어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Based Interface)**: 5G는 이 복잡한 거미줄을 싹둑 다 잘라버리고, 가운데에 거대한 고속도로(소프트웨어 통신 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 하나만 딱 깔아두었습니다. 
+- <strong>소프트웨어 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Based Interface)</strong>: 5G는 이 복잡한 거미줄을 싹둑 다 잘라버리고, 가운데에 거대한 고속도로(소프트웨어 통신 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 하나만 딱 깔아두었습니다. 
 - 모든 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 등의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(NF)들은 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 꽂혀 있습니다. 
-- AMF가 [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/)(가입자 DB) 정보가 필요하면, 1:1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)으로 무겁게 통신(Diameter [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))하는 것이 아니라, **웹 개발자가 서버에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨올 때 쓰는 방식인 `HTTP GET /구독자정보/홍길동` 이라는 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/)**를 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(단톡방)에 가볍게 휙 던집니다. [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로 가볍게 응답해 줍니다. 
+- AMF가 [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/)(가입자 DB) 정보가 필요하면, 1:1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)으로 무겁게 통신(Diameter [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))하는 것이 아니라, <strong>웹 개발자가 서버에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 당겨올 때 쓰는 방식인 <code>HTTP GET /구독자정보/홍길동</code> 이라는 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a></strong>를 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(단톡방)에 가볍게 휙 던집니다. [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로 가볍게 응답해 줍니다. 
 
-1. **클라우드 네이티브와 마이크로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: 
+1. <strong>클라우드 네이티브와 마이크로 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>: 
    - 거대한 통신 소프트웨어를 작고 독립적인 기능([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))으로 쪼갰기 때문에, 통신사 서버([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)) 하나가 다운되어도 전체 망이 죽지 않고 옆에 켜진 새 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) 2호기)가 즉시 일을 이어받는 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Auto-scaling)이 가능해졌습니다.
 2. **NRF (Network Repository Function)를 통한 플러그 앤 플레이**:
    - 중앙에 NRF라는 특별한 '전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))' [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 있습니다. 
@@ -53,14 +57,18 @@ tags = ["studynote-network"]
 3. **IT와 통신(Telco)의 융합**:
    - 통신망이 전 세계 IT 표준인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/REST를 쓰게 되면서, 외부의 게임 개발자나 클라우드 회사들이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망(슬라이싱 등)에 직접 접속해 자기들 앱을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망과 한 몸처럼 연동하기가 미친 듯이 쉬워졌습니다.
 
-```text
-[5GC]
-    │
-    ▼
-[SBA]
-    │
-    └──▶ [AMF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AMF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 옛날 4G 구조는 회사 부서끼리 업무 연락을 할 때, 1층 영업부에서 3층 재무부 책상까지 매번 종이컵 전화기 선([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))을 수십 가닥 직접 연결해 놓고 썼던 촌스러운 아날로그 구조입니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 구조는 부서 간의 종이컵 실을 가위로 싹둑 잘라버리고, 회사 전체 '사내 슬랙(Slack/단톡방)' 하나를 판 것입니다([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)). 영업부([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/))가 단톡방에 `@재무부(HSS) 홍길동 예산 줘(REST API)`라고 카톡을 치면, 재무부가 즉각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))을 올려줍니다. 새 부서가 생겨도 단톡방에 초대(NRF 등록)만 하면 1초 만에 전사 통신이 완료되는 혁명적인 유연성입니다.
 
@@ -118,15 +126,19 @@ SBA는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 5GC]
-    │
-    ▼
-[현재 개념: SBA]
-    │
-    ├──▶ [확장 A: AMF]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 5GC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SBA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AMF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 SBA는 5GC에서 출발해 현재 메커니즘을 정교화하고, 이후 AMF와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

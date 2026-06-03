@@ -23,22 +23,21 @@ tags = ["studynote-design-supervision"]
 
 대표적인 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 활용: ① [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Fluentd, Filebeat): 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)·Loki로 전송, ② [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) Exporter): 앱 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 포맷으로 노출, ③ [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Jaeger Agent): 추적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Jaeger 서버로 전송, ④ 앰배서더 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)(Envoy): [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신 관리.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         사이드카 패턴 - Kubernetes 파드 구조                 │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Kubernetes Pod                                      │   │
-│  │  ┌─────────────────┐  ┌────────────────────────────┐ │   │
-│  │  │  Main App       │  │  Sidecar: Fluentd           │ │   │
-│  │  │  Container      │  │  (로그 수집·전송)           │ │   │
-│  │  │  /var/log/*.log ├─→│  → Elasticsearch           │ │   │
-│  │  │  (공유 볼륨)    │  │  (공유 볼륨으로 로그 읽기) │ │   │
-│  │  └─────────────────┘  └────────────────────────────┘ │   │
-│  │  공유: 네트워크(localhost), 볼륨(/var/log)           │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이드카 패턴 - Kubernetes 파드 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main App</div><div class="kb-diagram-cell">Sidecar: Fluentd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">(로그 수집·전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/log/*.log ─→</div><div class="kb-diagram-cell">→ Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유 볼륨)</div><div class="kb-diagram-cell">(공유 볼륨으로 로그 읽기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유: 네트워크(localhost), 볼륨(/var/log)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 모터사이클(주 앱)에 붙은 보조 탑승공간처럼, 주 앱을 수정하지 않고 보조 기능(로깅·모니터링)을 추가한다.
 
@@ -55,17 +54,19 @@ tags = ["studynote-design-supervision"]
 | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) | 추적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·전송 | Jaeger Agent, Zipkin |
 | 앰배서더 | 아웃바운드 통신 관리 | Envoy [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       중앙화 로깅·모니터링 스택 (ELK + Prometheus)          │
-├─────────────────────────────────────────────────────────────┤
-│  [App] → stdout → [Fluentd 사이드카] → [Elasticsearch]     │
-│                                           → [Kibana]        │
-│                                                             │
-│  [App] → /metrics → [Prometheus Exporter 사이드카]          │
-│                           → [Prometheus] → [Grafana]        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙화 로깅·모니터링 스택 (ELK + Prometheus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fluentd 사이드카</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Elasticsearch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kibana</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prometheus Exporter 사이드카</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prometheus</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 건물(앱)에 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))와 화재 감지기(모니터링 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))를 설치하면, 건물 자체를 수정하지 않고도 모든 활동을 기록하고 이상을 감지한다.
 

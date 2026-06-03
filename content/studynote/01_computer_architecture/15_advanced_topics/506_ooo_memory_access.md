@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 만약 메모리 접근을 항상 순서대로만 처리한다면, 앞선 스토어의 주소 계산이 늦거나 긴 캐시 미스를 만난 순간 뒤에 있는 수많은 독립 로드도 함께 막힌다. 이것이 헤드 오브 라인 블로킹 ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이다. 즉 문제의 본질은 "정확성을 위해 기다려야 하는 명령"과 "사실은 먼저 해도 되는 명령"을 같은 줄에 세워 둔 데 있다.
 
-현대 고성능 코어는 이 낭비를 줄이기 위해 메모리 명령도 산술 명령처럼 동적으로 재배치한다. 다만 메모리 접근은 외부 상태를 바꿀 수 있으므로, 순서를 바꾸더라도 **겉에서 본 결과는 올바르게 유지**되어야 한다. 비순차 메모리 접근은 바로 이 경계 위에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정확성을 함께 잡는 기술이다.
+현대 고성능 코어는 이 낭비를 줄이기 위해 메모리 명령도 산술 명령처럼 동적으로 재배치한다. 다만 메모리 접근은 외부 상태를 바꿀 수 있으므로, 순서를 바꾸더라도 <strong>겉에서 본 결과는 올바르게 유지</strong>되어야 한다. 비순차 메모리 접근은 바로 이 경계 위에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정확성을 함께 잡는 기술이다.
 
 - **📢 섹션 요약 비유**: 비순차 메모리 접근은 창고 정리와 서류 찾기를 동시에 처리하는 유능한 비서와 같다. 앞선 일이 오래 걸려도 뒤의 독립 업무를 먼저 해 두면 전체 일정은 빨라지지만, 같은 상자를 건드리는 일이라면 순서를 함부로 바꾸면 안 된다.
 
@@ -35,24 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프로그램 순서는 유지하되, 실행 시점은 달라질 수 있다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Same program order, different execution time                            │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Program order:   S0(addr late) -> L1 -> L2 -> S3                        │
-│                    │              │     │      │                        │
-│ Dispatch:          SQ             LQ    LQ     SQ                       │
-│                    │              │                                     │
-│                    │      older-store check                             │
-│                    │              │                                     │
-│                    │      ┌──── no conflict ────> issue to cache        │
-│                    │      │                                              │
-│                    └──── same addr + data ready ─> forward to load      │
-│                                                                          │
-│ Late conflict found -> replay younger loads                              │
-│ Stores become globally visible only at commit in original order          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same program order, different execution time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program order: S0(addr late) -&gt; L1 -&gt; L2 -&gt; S3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatch: SQ LQ LQ SQ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">older-store check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no conflict &gt; issue to cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same addr + data ready ─&gt; forward to load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late conflict found -&gt; replay younger loads</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stores become globally visible only at commit in original order</div></div>
+</div>
+</div>
+
+
 
 | 상황 | 하드웨어의 선택 | 의미 |
 | :-- | :-- | :-- |
@@ -60,7 +58,7 @@ tags = ["studynote-computer-architecture"]
 | 앞선 스토어와 같은 주소이며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 완료 | 스토어 포워딩 (Store Forwarding) | 메모리 왕복 없이 바로 값 전달 |
 | 먼저 나간 로드가 나중에 충돌로 판명됨 | 플러시 후 재실행 | 잘못된 추측 비용을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 
-결국 비순차 메모리 접근의 핵심 규칙은 세 가지다. 첫째, 로드는 가능하면 빨리 내보내되 오래된 스토어와의 충돌 가능성을 항상 감시한다. 둘째, 스토어는 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 준비할 수 있지만 **외부 메모리에 보이는 순간**은 커밋 시점까지 미룬다. 셋째, 판단이 틀렸을 때는 젊은 연산을 신속히 폐기하고 다시 실행해 아키텍처 상태를 바로잡는다.
+결국 비순차 메모리 접근의 핵심 규칙은 세 가지다. 첫째, 로드는 가능하면 빨리 내보내되 오래된 스토어와의 충돌 가능성을 항상 감시한다. 둘째, 스토어는 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 준비할 수 있지만 <strong>외부 메모리에 보이는 순간</strong>은 커밋 시점까지 미룬다. 셋째, 판단이 틀렸을 때는 젊은 연산을 신속히 폐기하고 다시 실행해 아키텍처 상태를 바로잡는다.
 
 - **📢 섹션 요약 비유**: 이 구조는 주방에서 오래 걸리는 스테이크를 굽는 동안 샐러드와 음료를 먼저 내보내는 운영과 같다. 다만 같은 접시에 올라갈 재료라면 순서를 확인해야 하고, 잘못 내보냈다면 다시 회수해 맞는 순서로 내야 한다.
 
@@ -85,11 +83,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 비순차 메모리 접근은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔, 과학 계산, 웹 서버 처리처럼 독립 로드가 많은 코드에서 큰 이득을 준다. 반대로 잠금 변수, 메모리 매핑 I/O, 장치 제어 레지스터처럼 **순서 자체가 의미인 구간**에서는 배리어와 원자 연산으로 재정렬을 명시적으로 막아야 한다. 기술사 관점에서는 "더 많이 재배치"보다 "어디서 재배치를 허용하고 어디서 끊을지"를 말할 수 있어야 한다.
+실무에서 비순차 메모리 접근은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔, 과학 계산, 웹 서버 처리처럼 독립 로드가 많은 코드에서 큰 이득을 준다. 반대로 잠금 변수, 메모리 매핑 I/O, 장치 제어 레지스터처럼 <strong>순서 자체가 의미인 구간</strong>에서는 배리어와 원자 연산으로 재정렬을 명시적으로 막아야 한다. 기술사 관점에서는 "더 많이 재배치"보다 "어디서 재배치를 허용하고 어디서 끊을지"를 말할 수 있어야 한다.
 
 1. **독립 로드 밀도**: 앞선 미스 뒤에 먼저 실행할 만한 로드가 충분한가?
 2. **포워딩 성공률**: 같은 주소 스토어의 값을 메모리 대신 직접 전달할 기회가 많은가?
-3. **위반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용**: 잘못된 추측이 발생했을 때 플러시 페널티가 얼마나 큰가?
+3. <strong>위반 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용</strong>: 잘못된 추측이 발생했을 때 플러시 페널티가 얼마나 큰가?
 4. **배리어 위치**: [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지점에 메모리 펜스가 과하거나 부족하지 않은가?
 5. **보안 통제**: 추측 실행이 캐시 기반 부채널로 이어지지 않도록 제어하는가?
 
@@ -101,11 +99,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-비순차 메모리 접근의 가장 큰 효과는 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 놀리는 시간이 아니라 **겹치는 시간**으로 바꾼다는 점이다. 그 결과 같은 캐시 구조를 가진 코어라도 메모리 병목에 덜 묶이고, 폭넓은 실행 엔진과 큰 리오더 버퍼의 가치를 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 연결할 수 있다. 특히 독립 로드가 많은 현대 서버·모바일·가속기 코어에서 이 기법은 사실상 필수다.
+비순차 메모리 접근의 가장 큰 효과는 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 놀리는 시간이 아니라 <strong>겹치는 시간</strong>으로 바꾼다는 점이다. 그 결과 같은 캐시 구조를 가진 코어라도 메모리 병목에 덜 묶이고, 폭넓은 실행 엔진과 큰 리오더 버퍼의 가치를 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 연결할 수 있다. 특히 독립 로드가 많은 현대 서버·모바일·가속기 코어에서 이 기법은 사실상 필수다.
 
 물론 대가는 분명하다. 넓은 주소 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/), 복잡한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직, 더 많은 전력 소비가 필요하고, 추측 실행은 보안 표면도 넓힌다. 그래서 최신 아키텍처는 단순한 공격적 재배치보다, 의존성 예측·선택적 스펙큘레이션·보안 완화 기법을 함께 묶어 설계하는 방향으로 발전하고 있다.
 
-결론적으로 비순차 메모리 접근은 "메모리 명령을 마음대로 섞는 기술"이 아니라 **올바른 경계 안에서만 순서를 늦추고 앞당기는 기술**이다. 기억해야 할 포인트는 실행 순서를 풀어도, 결과가 보이는 순서와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 의미는 반드시 지켜야 한다는 점이다.
+결론적으로 비순차 메모리 접근은 "메모리 명령을 마음대로 섞는 기술"이 아니라 <strong>올바른 경계 안에서만 순서를 늦추고 앞당기는 기술</strong>이다. 기억해야 할 포인트는 실행 순서를 풀어도, 결과가 보이는 순서와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 의미는 반드시 지켜야 한다는 점이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 오케스트라 연습에서 파트별로 먼저 맞춰 보되, 공연에서는 악보 순서대로 정확히 들리게 만드는 지휘와 같다. 연습은 유연하게 해도, 관객이 듣는 최종 결과는 질서정연해야 한다.
 
@@ -124,24 +122,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차적 메모리 파이프라인
-    │
-    ▼
-논블로킹 캐시
-    │
-    ▼
-로드 우회와 스토어 포워딩
-    │
-    ▼
-메모리 의존성 예측
-    │
-    ▼
-대형 LSQ 기반 비순차 메모리 접근
-    │
-    ▼
-보안 인지형 선택적 스펙큘레이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차적 메모리 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">논블로킹 캐시</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로드 우회와 스토어 포워딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 의존성 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대형 LSQ 기반 비순차 메모리 접근</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 인지형 선택적 스펙큘레이션</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은폐 → 공격적 재배치 → 예측과 통제 결합"으로 메모리 실행 엔진이 고도화되는 과정을 보여준다.
 

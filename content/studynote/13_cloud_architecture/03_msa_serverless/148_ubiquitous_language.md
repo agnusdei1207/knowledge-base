@@ -30,31 +30,28 @@ tags = ["studynote-cloud-architecture"]
 
 보편적 언어는 단순한 '용어 사전(Glossary)' 작성에 그치지 않고, 시스템의 아키텍처(소스 코드)에 물리적으로 결합되어야 완성된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│           보편적 언어(Ubiquitous Language)의 무결점 파이프라인 흐름 도해         │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 🗣️ 현업의 비즈니스 언어 ] : "고객이 상품을 '주문'하고 '결제'를 완료한다."         │
-│             │                                                          │
-│             ▼  (번역 금지! 100% 단어 그대로 코드에 융합 이식!)                  │
-│                                                                        │
-│ [ 💻 개발자의 소스 코드 ] :                                                 │
-│    public class Order {                                                │
-│        public void placeOrder(Customer customer, Product product) {  │
-│            Payment.process(this);                                    │
-│        }                                                               │
-│    }                                                                   │
-│             │                                                          │
-│             ▼  (번역 금지! 100% 그대로 DB 저장소 융합!)                        │
-│                                                                        │
-│ [ 🗄️ DBA의 데이터베이스 ] :                                                │
-│    TABLE: ORDER, CUSTOMER, PRODUCT, PAYMENT                            │
-│                                                                        │
-│ 🌟 아키텍트 핵심: 기획자, 개발자, DBA 사이의 "그게 무슨 뜻이죠?"라는 핑퐁 랙(Lag)이 │
-│ 0초로 증발한다! 비즈니스 로직(현업)이 소스 코드(IT) 그 자체로 완벽히 거울처럼 투영됨. │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보편적 언어(Ubiquitous Language)의 무결점 파이프라인 흐름 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🗣️ 현업의 비즈니스 언어</div><div class="kb-diagram-note">: "고객이 상품을 '주문'하고 '결제'를 완료한다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (번역 금지! 100% 단어 그대로 코드에 융합 이식!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💻 개발자의 소스 코드</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public class Order {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public void placeOrder(Customer customer, Product product) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payment.process(this);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (번역 금지! 100% 그대로 DB 저장소 융합!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🗄️ DBA의 데이터베이스</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TABLE: ORDER, CUSTOMER, PRODUCT, PAYMENT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 핵심: 기획자, 개발자, DBA 사이의 "그게 무슨 뜻이죠?"라는 핑퐁 랙(Lag)이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0초로 증발한다! 비즈니스 로직(현업)이 소스 코드(IT) 그 자체로 완벽히 거울처럼 투영됨.</div></div>
+</div>
+</div>
+
+
 
 보편적 언어의 핵심은 '[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Translation(번역 오차 제거)'이다. 코드를 읽으면 기획서가 보이고, 기획서를 읽으면 코드가 상상되어야 한다. 만약 비즈니스 전문가가 개발자의 변수명을 보고 "이 단어는 우리가 쓰는 말이 아닌데요?"라고 지적한다면, 그 시스템의 보편적 언어는 깨진 것이며 잠재적인 런타임 버그의 폭탄이 된다.
 
@@ -68,10 +65,10 @@ tags = ["studynote-cloud-architecture"]
 
 | 비교 잣대 | 전사 표준 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/) (Enterprise [Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)) | 보편적 언어 ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) in [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) |
 | :--- | :--- | :--- |
-| **유효 범위 ([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))** | 회사 전체 (모든 부서에서 100% 동일하게 써야 함) | **[바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) 내부에서만 유효** |
+| <strong>유효 범위 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)</strong> | 회사 전체 (모든 부서에서 100% 동일하게 써야 함) | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">바운디드 컨텍스트</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">Bounded Context</a>) 내부에서만 유효</strong> |
 | **의미의 다양성** | "상품"이라는 단어는 전사에서 1개의 의미만 가짐 (유연성 폭망) | 영업팀의 "상품"과 배송팀의 "상품"은 **서로 다른 의미로 인정됨** |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주체** | 중앙의 DBA나 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 팀의 독재 | 현업 전문가와 개발팀 간의 끊임없는 회의와 **합의(Consensus)** |
-| **코드와의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)** | 주로 DB 테이블 컬럼명 관리에만 머묾 (소극적) | **클래스, 메서드, 변수명 등 비즈니스 로직 전체를 100% 통제 (적극적)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 주체</strong> | 중앙의 DBA나 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 팀의 독재 | 현업 전문가와 개발팀 간의 끊임없는 회의와 **합의(Consensus)** |
+| <strong>코드와의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong> | 주로 DB 테이블 컬럼명 관리에만 머묾 (소극적) | **클래스, 메서드, 변수명 등 비즈니스 로직 전체를 100% 통제 (적극적)** |
 
 `상품(Product)`이라는 단어를 생각해보자. '영업팀(Sales [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'에게 상품은 "가격 5만 원, 예쁜 옷 사진"이다. 하지만 '배송팀(Shipping [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'에게 상품은 "무게 2kg, 가로세로 30cm 상자"일 뿐 옷이 얼마나 예쁜지는 관심 밖이다. 만약 전사적으로 "상품"이라는 단어의 스펙을 1개로 통일하려 들면 시스템은 무거워져 터진다. 
 따라서 보편적 언어는 "우리 배송팀([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) 안에서만 통용되는 상품의 정의"를 합의하는 국지적 표준어의 성격을 갖는다.
@@ -85,13 +82,13 @@ tags = ["studynote-cloud-architecture"]
 보편적 언어는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 찢어발기는 가장 완벽한 논리적 메스(Knife) 역할을 한다.
 
 ### 실무 판단 시나리오
-1. **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도출([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) Decomposition) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 확립**: 거대한 쇼핑몰 쇳덩이를 MSA로 쪼개야 한다. 아키텍트가 고민한다. "결제랑 배송을 분리해야 하나?" 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 도출(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> Decomposition) <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a> 확립</strong>: 거대한 쇼핑몰 쇳덩이를 MSA로 쪼개야 한다. 아키텍트가 고민한다. "결제랑 배송을 분리해야 하나?" 
    - **판단**: 보편적 언어가 갈라지는 지점(경계)이 곧 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 물리적 절취선이 된다! 회의실에서 영업팀은 '결제 완료'를 "돈이 들어왔다"고 말하고, 물류팀은 '결제 완료'를 "포장을 시작해라"라고 전혀 다르게 받아들인다(언어의 충돌). 이 단어의 의미가 쪼개지는 그 틈새([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))에 도끼를 박아 넣어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B로 물리적으로 찢어버려야([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 가장 완벽한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 독립성이 확보된다.
 2. **이벤트 스토밍(Event Storming) 융합 워크샵**: 기획자, 디자이너, 개발자 20명이 모여서 시스템을 설계한다. 
    - **판단**: 각자 자기 직군의 외계어로 떠들지 못하도록, 벽에 거대한 포스트잇을 붙이고 "오렌지색 포스트잇([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event)에는 무조건 과거 시제 동사(예: '주문이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됨')로만 적어라!"라고 룰을 강제한다. 이 워크샵 과정에서 20명이 포스트잇에 적힌 단어를 보며 핏대를 세우고 싸우고 합의하여 뽑아낸 정제된 단어들이 바로 프로젝트를 끝까지 관통할 '보편적 언어' 사전이 된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **개발자들의 오만함 (IT 기술 용어의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 침범)**: 기획자가 "고객이 VVIP 등급으로 승급하면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 할인 쿠폰을 줍니다"라고 보편적 언어로 요구사항을 정의했다. 그런데 개발자가 코드에 `UserRoleCacheUpdateService` 나 `DiscountBatchJobStrategy` 같은 IT 냄새가 진동하는 변태적인 기술 용어로 떡칠을 해놓는다. 나중에 기획자가 소스 코드를 리뷰할 때 자신이 말한 비즈니스 로직이 어디에 숨어있는지 1도 찾을 수 없다. 코드는 기술을 뽐내는 자리가 아니라 비즈니스를 기록하는 문서([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/))여야 한다.
+- <strong>개발자들의 오만함 (IT 기술 용어의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 침범)</strong>: 기획자가 "고객이 VVIP 등급으로 승급하면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 할인 쿠폰을 줍니다"라고 보편적 언어로 요구사항을 정의했다. 그런데 개발자가 코드에 `UserRoleCacheUpdateService` 나 `DiscountBatchJobStrategy` 같은 IT 냄새가 진동하는 변태적인 기술 용어로 떡칠을 해놓는다. 나중에 기획자가 소스 코드를 리뷰할 때 자신이 말한 비즈니스 로직이 어디에 숨어있는지 1도 찾을 수 없다. 코드는 기술을 뽐내는 자리가 아니라 비즈니스를 기록하는 문서([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/))여야 한다.
 
 - **📢 섹션 요약 비유**: 개발자가 기술 용어로 비즈니스 코드를 덮어버리는 것은, 의사(기획자)가 "감기약 지어주세요"라고 처방전을 냈는데, 약사(개발자)가 약봉지에 "아세트아미노펜 500mg 다이하이드로젠 복합체"라고 알 수 없는 화학 분자식만 잔뜩 적어놔서 환자가 자기가 무슨 약을 먹는지 전혀 모르게 만드는 최악의 소통 단절입니다.
 
@@ -113,32 +110,34 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))** | 보편적 언어를 낳은 위대한 소프트웨어 공학의 어머니. 기술(DB, Framework)이 아니라 비즈니스 로직([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 최우선으로 놓고 코딩하라는 사상. |
-| **[Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))** | 보편적 언어가 유효한 논리적 울타리. 이 울타리를 넘어가면 똑같은 단어도 다른 뜻이 될 수 있으므로, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분할의 가장 완벽한 절취선이 된다. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">도메인 주도 설계</a>)</strong> | 보편적 언어를 낳은 위대한 소프트웨어 공학의 어머니. 기술(DB, Framework)이 아니라 비즈니스 로직([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 최우선으로 놓고 코딩하라는 사상. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">Bounded Context</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">바운디드 컨텍스트</a>)</strong> | 보편적 언어가 유효한 논리적 울타리. 이 울타리를 넘어가면 똑같은 단어도 다른 뜻이 될 수 있으므로, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분할의 가장 완벽한 절취선이 된다. |
 | **Event Storming (이벤트 스토밍)** | 직군이 다른 사람들이 모여 포스트잇을 붙이며 보편적 언어를 멱살 잡고 끄집어내는 가장 실용적이고 폭력적인 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 도출 워크샵. |
-| **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)** | 소스 코드 자체가 완벽한 비즈니스 용어로 짜여 있어서, 주석이나 따로 엑셀 명세서를 볼 필요 없이 코드만 읽어도 회사가 어떻게 돈을 버는지 알 수 있는 경지. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/">Documentation</a></strong> | 소스 코드 자체가 완벽한 비즈니스 용어로 짜여 있어서, 주석이나 따로 엑셀 명세서를 볼 필요 없이 코드만 읽어도 회사가 어떻게 돈을 버는지 알 수 있는 경지. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 폭포수(Waterfall) 모델 / 기획서(한글) ➔ 설계서(UML) ➔ 코드(영어) 3단계 번역 랙 및 오해 폭발 💥
-    │
-    ▼
-Eric Evans의 DDD 창시 / "번역하지 마! 전 과정에 똑같은 단어 하나만 써!" (Ubiquitous Language 탄생)
-    │
-    ▼
-Bounded Context의 발견 / "근데 전사 표준어는 불가능하니까, 부서(Context)별로만 단어 통일해!"
-    │
-    ▼
-MSA (마이크로서비스) 아키텍처 대폭발 / 바운디드 컨텍스트의 경계선이 곧 서버 분할(MSA)의 완벽한 톱날이 됨
-    │
-    ▼
-Event Storming 워크샵 대세화 / 포스트잇을 붙이며 모두가 동의하는 보편적 언어를 광속으로 도출해 내는 현대 스킬
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 폭포수(Waterfall) 모델 / 기획서(한글) ➔ 설계서(UML) ➔ 코드(영어) 3단계 번역 랙 및 오해 폭발 💥</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Eric Evans의 DDD 창시 / "번역하지 마! 전 과정에 똑같은 단어 하나만 써!" (Ubiquitous Language 탄생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bounded Context의 발견 / "근데 전사 표준어는 불가능하니까, 부서(Context)별로만 단어 통일해!"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA (마이크로서비스) 아키텍처 대폭발 / 바운디드 컨텍스트의 경계선이 곧 서버 분할(MSA)의 완벽한 톱날이 됨</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Event Storming 워크샵 대세화 / 포스트잇을 붙이며 모두가 동의하는 보편적 언어를 광속으로 도출해 내는 현대 스킬</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **보편적 언어**는 유치원에서 선생님과 친구들이 다 같이 정한 '우리 반만의 약속된 암호'와 같아요.
+1. <strong>보편적 언어</strong>는 유치원에서 선생님과 친구들이 다 같이 정한 '우리 반만의 약속된 암호'와 같아요.
 2. 선생님이 기획서에 "빨간 공"이라고 적으면, 로봇을 조립하는 개발자 삼촌도 로봇 부품 이름표에 똑같이 "Red Ball"이라고 정확히 적는 거예요.
 3. 서로 다른 이름을 쓰면 엉뚱한 장난감을 만들 수 있는데, 똑같은 단어만 쓰기로 약속하니까 절대 안 헷갈리고 아주 빠르고 정확하게 로봇을 완성할 수 있답니다!
 

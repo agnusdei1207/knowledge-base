@@ -18,20 +18,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-BIP-44 파생 경로:
-  m / purpose' / coin_type' / account' / change / index
 
-  m/44'/0'/0'/0/0  → 비트코인 첫 번째 주소
-  m/44'/60'/0'/0/0 → 이더리움 첫 번째 주소
-  m/44'/501'/0'/0/0 → 솔라나 첫 번째 주소
 
-  purpose=44: BIP-44 표준
-  coin_type: SLIP-0044 등록 번호
-  ' (강화 파생): 하위키에서 상위키 역산 불가
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIP-44 파생 경로:</div>
+<div class="kb-diagram-note">m / purpose' / coin_type' / account' / change / index</div>
+<div class="kb-diagram-note">m/44'/0'/0'/0/0 → 비트코인 첫 번째 주소</div>
+<div class="kb-diagram-note">m/44'/60'/0'/0/0 → 이더리움 첫 번째 주소</div>
+<div class="kb-diagram-note">m/44'/501'/0'/0/0 → 솔라나 첫 번째 주소</div>
+<div class="kb-diagram-note">purpose=44: BIP-44 표준</div>
+<div class="kb-diagram-note">coin_type: SLIP-0044 등록 번호</div>
+<div class="kb-diagram-note">' (강화 파생): 하위키에서 상위키 역산 불가</div>
+<div class="kb-diagram-note">→ 단일 니모닉으로 모든 체인의 모든 계정 파생!</div>
+</div>
+</div>
 
-→ 단일 니모닉으로 모든 체인의 모든 계정 파생!
-```
+
 
 - **📢 섹션 요약 비유**: BIP-44 파생 경로는 은행 계좌 번호 체계다. 한 은행 코드(니모닉)에서 지점번호(coin_type)·계좌번호(account)·세부계좌([index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 체계적으로 파생된다.
 
@@ -41,27 +44,36 @@ BIP-44 파생 경로:
 
 ### PBKDF2 시드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
 
-```text
-니모닉 → PBKDF2(HMAC-SHA512, 2048 반복, 솔트="mnemonic"+패스프레이즈)
-      → 512비트 시드
 
-패스프레이즈 없음: "mnemonic" + ""
-패스프레이즈 있음: "mnemonic" + "my_secret_phrase"
 
-→ 완전히 다른 512비트 시드 → 완전히 다른 지갑 주소
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">니모닉 → PBKDF2(HMAC-SHA512, 2048 반복, 솔트="mnemonic"+패스프레이즈)</div>
+<div class="kb-diagram-note">→ 512비트 시드</div>
+<div class="kb-diagram-note">패스프레이즈 없음: "mnemonic" + ""</div>
+<div class="kb-diagram-note">패스프레이즈 있음: "mnemonic" + "my_secret_phrase"</div>
+<div class="kb-diagram-note">→ 완전히 다른 512비트 시드 → 완전히 다른 지갑 주소</div>
+</div>
+</div>
+
+
 
 ### 강화 파생(Hardened Derivation)
 
-```text
-일반 파생 (m/44/0/0):
-  자식키 = 부모 공개키 + 인덱스 → 공개키로 자식 계산 가능
-  보안 위험: 자식 개인키 노출 시 형제 키 위험
 
-강화 파생 (m/44'/0'/0') — ' 표기:
-  자식키 = 부모 개인키 + 인덱스 → 부모 개인키 없이 자식 계산 불가
-  더 안전: 자식 개인키 노출이 다른 키에 영향 없음
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 파생 (m/44/0/0):</div>
+<div class="kb-diagram-note">자식키 = 부모 공개키 + 인덱스 → 공개키로 자식 계산 가능</div>
+<div class="kb-diagram-note">보안 위험: 자식 개인키 노출 시 형제 키 위험</div>
+<div class="kb-diagram-note">강화 파생 (m/44'/0'/0') — ' 표기:</div>
+<div class="kb-diagram-note">자식키 = 부모 개인키 + 인덱스 → 부모 개인키 없이 자식 계산 불가</div>
+<div class="kb-diagram-note">더 안전: 자식 개인키 노출이 다른 키에 영향 없음</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 강화 파생은 원자 다발 단절 구조다. 일반 파생(나뭇가지)은 한 가지가 꺾이면 연쇄 영향이 있지만, 강화 파생(독립 나무 심기)은 각 나무가 완전히 독립적이다.
 
@@ -84,31 +96,40 @@ BIP-44 파생 경로:
 
 ### 멀티체인 지갑 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-```text
-시드 구문 백업 검증 방법:
-  1. 하드웨어 지갑에 시드 입력
-  2. 이더리움 첫 번째 주소 확인
-  3. 예상 주소와 일치 → 백업 유효
-  4. (오프라인 환경에서만 검증!)
 
-패스프레이즈 백업 주의:
-  니모닉 + 패스프레이즈 = 다른 지갑
-  → 니모닉과 패스프레이즈 모두 안전한 별도 장소 보관
-  → 어느 하나만 도난당해도 자산 접근 불가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시드 구문 백업 검증 방법:</div>
+<div class="kb-diagram-note">1. 하드웨어 지갑에 시드 입력</div>
+<div class="kb-diagram-note">2. 이더리움 첫 번째 주소 확인</div>
+<div class="kb-diagram-note">3. 예상 주소와 일치 → 백업 유효</div>
+<div class="kb-diagram-note">4. (오프라인 환경에서만 검증!)</div>
+<div class="kb-diagram-note">패스프레이즈 백업 주의:</div>
+<div class="kb-diagram-note">니모닉 + 패스프레이즈 = 다른 지갑</div>
+<div class="kb-diagram-note">→ 니모닉과 패스프레이즈 모두 안전한 별도 장소 보관</div>
+<div class="kb-diagram-note">→ 어느 하나만 도난당해도 자산 접근 불가</div>
+</div>
+</div>
+
+
 
 ### [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-동일 니모닉 + 다른 패스프레이즈:
 
-패스프레이즈 ""   → 지갑 A (소액 허니팟)
-패스프레이즈 "비밀" → 지갑 B (실제 자산)
 
-공격자가 니모닉 탈취 시:
-  → 지갑 A (허니팟) 발견 → 여기에 자산 있다고 착각
-  → 지갑 B는 패스프레이즈 모르면 접근 불가
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동일 니모닉 + 다른 패스프레이즈:</div>
+<div class="kb-diagram-note">패스프레이즈 "" → 지갑 A (소액 허니팟)</div>
+<div class="kb-diagram-note">패스프레이즈 "비밀" → 지갑 B (실제 자산)</div>
+<div class="kb-diagram-note">공격자가 니모닉 탈취 시:</div>
+<div class="kb-diagram-note">→ 지갑 A (허니팟) 발견 → 여기에 자산 있다고 착각</div>
+<div class="kb-diagram-note">→ 지갑 B는 패스프레이즈 모르면 접근 불가</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑은 가짜 지갑이다. 도둑에게 들킬 수 있는 지갑([허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/))에는 소액만 넣어두고, 진짜 지갑은 비밀 패스프레이즈로 숨겨둔다.
 
@@ -118,7 +139,7 @@ BIP-44 파생 경로:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **단순 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)** | 12단어로 멀티체인 전체 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| <strong>단순 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a></strong> | 12단어로 멀티체인 전체 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | **멀티체인** | BIP-44로 모든 체인 주소 파생 |
 | **패스프레이즈** | 추가 보안 레이어·[허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 활용 |
 
@@ -135,26 +156,28 @@ EIP-4337(Account [Abstraction](/knowledge-base/studynote/04_software_engineering
 | **BIP-32** | HD 지갑 키 파생 표준 |
 | **BIP-44** | 멀티체인 파생 경로 표준 |
 | **강화 파생** | 자식키 독립성 보장 |
-| **[허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/) 지갑** | 패스프레이즈 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/">허니팟</a> 지갑</strong> | 패스프레이즈 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **EIP-4337** | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단순 개인키 — 키마다 별도 백업 필요]
-    │
-    ▼
-[BIP-39 니모닉 — 단일 시드로 모든 키 백업]
-    │
-    ▼
-[BIP-32/44 HD 지갑 — 계층적 멀티체인 키 파생]
-    │
-    ▼
-[MPC 지갑 — 분산 키 관리, 기관 커스터디]
-    │
-    ▼
-[EIP-4337 AA — 스마트 컨트랙트 기반 소셜 복구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 개인키 — 키마다 별도 백업 필요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BIP-39 니모닉 — 단일 시드로 모든 키 백업</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BIP-32/44 HD 지갑 — 계층적 멀티체인 키 파생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MPC 지갑 — 분산 키 관리, 기관 커스터디</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIP-4337 AA — 스마트 컨트랙트 기반 소셜 복구</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

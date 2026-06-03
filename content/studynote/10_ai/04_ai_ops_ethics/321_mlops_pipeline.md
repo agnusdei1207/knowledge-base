@@ -24,16 +24,19 @@ tags = ["studynote-ai"]
 - 6개월 후 고객 행동 패턴 변화로 정확도 70%로 하락 ([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))
 - 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 프로덕션에 있는지 추적 불가 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 부재)
 
-**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)**는 DevOps의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포), [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 원칙을 ML 시스템에 적용해 이 문제를 해결한다. 모델 학습에서 서빙까지 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동화되고 추적 가능하게 된다.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a></strong>는 DevOps의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포), [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 원칙을 ML 시스템에 적용해 이 문제를 해결한다. 모델 학습에서 서빙까지 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동화되고 추적 가능하게 된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 없는 ML 배포는 레스토랑 주방에서 셰프가 매번 손으로 모든 레시피를 처음부터 조리하는 것이다. 메뉴가 조금 바뀌면([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) 모든 조리법을 수동으로 다시 설계해야 한다. MLOps는 자동화된 식품 공장 라인처럼, 재료가 들어오면 자동으로 가공·품질검사·포장·배송되는 시스템이다.
 
@@ -41,32 +44,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         MLOps 성숙도 레벨 및 자동화 파이프라인 구조                   │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  Level 0: 수동 ML (Script-Based)                                 │
-│  데이터 준비 → 실험 (Jupyter) → 수동 배포 → 수동 모니터링            │
-│  문제: 재현 불가, 버전 관리 없음, 확장 불가                          │
-│                                                                  │
-│  Level 1: 자동화 ML 파이프라인                                     │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 데이터 파이프라인   특징 엔지니어링   모델 학습   모델 평가   │   │
-│  │       │                  │              │           │     │   │
-│  │    자동화 ──────────────────────────────────────────     │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│  + 피처 스토어, 모델 레지스트리                                      │
-│                                                                  │
-│  Level 2: CI/CD ML 시스템 (완전 자동화)                            │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 데이터 트리거 → 자동 파이프라인 실행 → 모델 검증 → 자동 배포  │   │
-│  │       ▲                                        │         │   │
-│  │ 모니터링 ◀── 드리프트 감지 ◀──────── 서빙 모니터링          │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│  자동 재학습(CT: Continuous Training) + CD: 지속적 배포            │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 성숙도 레벨 및 자동화 파이프라인 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0: 수동 ML (Script-Based)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 준비 → 실험 (Jupyter) → 수동 배포 → 수동 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 재현 불가, 버전 관리 없음, 확장 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 자동화 ML 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 파이프라인 특징 엔지니어링 모델 학습 모델 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 피처 스토어, 모델 레지스트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: CI/CD ML 시스템 (완전 자동화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 트리거 → 자동 파이프라인 실행 → 모델 검증 → 자동 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링 ◀── 드리프트 감지 ◀ 서빙 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 재학습(CT: Continuous Training) + CD: 지속적 배포</div></div>
+</div>
+</div>
+
+
 
 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 구성 요소 | 역할 | 대표 도구 |
 |:---|:---|:---|
@@ -83,7 +80,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) vs MLOps의 차이**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> vs MLOps의 차이</strong>:
 | 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) |
 |:---|:---|:---|
 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 코드(소프트웨어) | 코드 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 모델 |
@@ -97,12 +94,12 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼 선택 기준**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 플랫폼 선택 기준</strong>:
 1. **클라우드 의존**: AWS SageMaker, GCP Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), Azure ML → 완전 관리형, 높은 비용
-2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자체 구축**: [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) + [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) + Airflow → 유연성, 구축·운영 부담
-3. **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 하이브리드**: Weights & Biases + Feast + BentoML 조합
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 자체 구축</strong>: [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) + [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) + Airflow → 유연성, 구축·운영 부담
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 하이브리드</strong>: Weights & Biases + Feast + BentoML 조합
 
-**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도입 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) (투자 대비 수익)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 도입 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> (투자 대비 수익)</strong>:
 - 모델 배포 주기: 월 1회 → 일 1회로 단축
 - 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 탐지: 수동 발견(수주) → 자동 감지(시간 내)
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자 생산성: 비기술 인프라 작업 70% 감소
@@ -137,9 +134,9 @@ MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)**는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 만들고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 올리고, 잘 작동하는지 감시하는 **전 과정을 자동으로** 처리하는 시스템이에요!
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a></strong>는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 만들고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 올리고, 잘 작동하는지 감시하는 **전 과정을 자동으로** 처리하는 시스템이에요!
 2. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 → 모델 학습 → 배포 → [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 → 다시 학습" 사이클을 사람 손 없이 **컨베이어 벨트처럼 자동으로** 돌아가게 해요.
-3. AI를 연구실에서 **실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 안정적으로 이전**하는 데 반드시 필요한, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어의 필수 기술이에요!
+3. AI를 연구실에서 <strong>실제 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 안정적으로 이전</strong>하는 데 반드시 필요한, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어의 필수 기술이에요!
 
 ---
 

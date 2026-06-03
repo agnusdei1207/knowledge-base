@@ -20,20 +20,20 @@ tags = ["studynote-design-supervision"]
 
 소프트웨어 개발 과정에서 처음 수집한 요구사항이 최종 제품에 모두 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못하면, 납품 시점에 "기능 누락"이나 "테스트 안 된 기능"이 발견되어 프로젝트가 실패할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           추적 매트릭스 방향성                              │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  순방향 추적 (Forward): 요구사항 → 설계 → 구현 → 테스트    │
-│    "이 요구사항이 어디에 구현됐고 어떻게 검증되나?"         │
-│                                                          │
-│  역방향 추적 (Backward): 테스트 → 구현 → 설계 → 요구사항  │
-│    "이 테스트가 검증하는 요구사항은 무엇인가?"               │
-│                                                          │
-│  양방향 추적 = 완전성(Completeness) + 일관성(Consistency)  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추적 매트릭스 방향성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순방향 추적 (Forward): 요구사항 → 설계 → 구현 → 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 요구사항이 어디에 구현됐고 어떻게 검증되나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역방향 추적 (Backward): 테스트 → 구현 → 설계 → 요구사항</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 테스트가 검증하는 요구사항은 무엇인가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양방향 추적 = 완전성(Completeness) + 일관성(Consistency)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 추적 매트릭스는 집 건축의 시공 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다. 설계도(요구사항)의 각 항목이 실제로 지어졌는지(구현), 준공 검사를 통과했는지(테스트)를 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 표다.
 
@@ -43,27 +43,34 @@ tags = ["studynote-design-supervision"]
 
 ### [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 예시
 
-```text
-┌─────────┬──────────┬────────────┬──────────────┬────────┐
-│ 요구사항 │  설계 문서│  소스코드  │  테스트 케이스│  상태  │
-├─────────┼──────────┼────────────┼──────────────┼────────┤
-│ REQ-001 │ DS-01    │ auth.py:45 │ TC-001       │ 완료   │
-│ REQ-002 │ DS-02    │ user.py:12 │ TC-002       │ 완료   │
-│ REQ-003 │ DS-03    │    -       │    -         │ 미구현 │
-│ REQ-004 │ DS-01    │ pay.py:78  │ TC-003,004   │ 완료   │
-└─────────┴──────────┴────────────┴──────────────┴────────┘
-REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">설계 문서</div><div class="kb-diagram-cell">소스코드</div><div class="kb-diagram-cell">테스트 케이스</div><div class="kb-diagram-cell">상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-001</div><div class="kb-diagram-cell">DS-01</div><div class="kb-diagram-cell">auth.py:45</div><div class="kb-diagram-cell">TC-001</div><div class="kb-diagram-cell">완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-002</div><div class="kb-diagram-cell">DS-02</div><div class="kb-diagram-cell">user.py:12</div><div class="kb-diagram-cell">TC-002</div><div class="kb-diagram-cell">완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-003</div><div class="kb-diagram-cell">DS-03</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">미구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-004</div><div class="kb-diagram-cell">DS-01</div><div class="kb-diagram-cell">pay.py:78</div><div class="kb-diagram-cell">TC-003,004</div><div class="kb-diagram-cell">완료</div></div>
+<div class="kb-diagram-note">REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요</div>
+</div>
+</div>
+
+
 
 ### JIRA + Confluence 기반 자동화 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)
 
-```text
-[JIRA Ticket (요구사항)] → [Pull Request (구현)] → [테스트 케이스]
-          │                      │                     │
-          └──────────────────────┴─────────────────────┘
-                            RTM 자동 생성
-                            (Traceability Plugin)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">JIRA Ticket (요구사항)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Pull Request (구현)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트 케이스</div></div>
+<div class="kb-diagram-note">RTM 자동 생성</div>
+<div class="kb-diagram-note">(Traceability Plugin)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자동화 RTM은 Amazon 주문 추적처럼, "내 주문(요구사항)이 창고 출고(구현)됐고 배송(테스트) 중인지" 실시간으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있는 시스템이다.
 
@@ -101,7 +108,7 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 | 기대효과 | 내용 |
 |:---|:---|
 | **완전성** | 모든 요구사항 구현·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보장 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 추적 근거 제공 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 대응</strong> | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 추적 근거 제공 |
 | **영향 분석** | 변경 시 영향 범위 즉시 파악 |
 
 현대 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 플랫폼(Jira, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), IBM ELM)은 요구사항-설계-코드-테스트 간 추적을 자동화하여 RTM을 수동으로 유지할 필요 없이 실시간으로 추적 가능성을 보장한다.
@@ -114,26 +121,29 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)** | RTM의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
-| **[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)** | RTM의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 연결 대상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/">요구사항 관리</a></strong> | RTM의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a></strong> | RTM의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 연결 대상 |
 | **영향 분석** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 기반 변경 영향 범위 파악 |
-| **DO-178C/[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 필수화하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준 |
-| **[ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) 도구** | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 지원 플랫폼 |
+| <strong>DO-178C/<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a></strong> | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 필수화하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/">ALM</a> 도구</strong> | [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 지원 플랫폼 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 RTM — 스프레드시트 기반 요구사항 추적]
-    │
-    ▼
-[DOORS/Polarion — 전문 요구사항 관리 도구]
-    │
-    ▼
-[ALM 통합 (Jira/Azure DevOps) — 코드·테스트 자동 연결]
-    │
-    ▼
-[AI 기반 추적 — NLP로 요구사항↔코드 자동 매핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 RTM — 스프레드시트 기반 요구사항 추적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DOORS/Polarion — 전문 요구사항 관리 도구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ALM 통합 (Jira/Azure DevOps) — 코드·테스트 자동 연결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 추적 — NLP로 요구사항↔코드 자동 매핑</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

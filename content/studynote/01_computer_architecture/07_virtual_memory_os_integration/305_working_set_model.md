@@ -25,19 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 왜 "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나"가 아니라 "작업에 필요한 묶음"으로 이해되어야 하는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        최근 참조 구간으로 보는 워킹 셋: 필요한 책 한 묶음을 남긴다       │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 시간 흐름 →                                                              │
-│ ... 4  8  4  9  8  3  8  9  3  3  9  | 현재 t                           │
-│                     <------ Δ (관찰 구간) ------>                        │
-│                                                                          │
-│ 최근 Δ 동안 등장한 페이지 = {8, 9, 3}                                   │
-│                                                                          │
-│ 의미: 지금 이 프로세스는 페이지 8·9·3이 함께 있어야 계산 흐름이 끊기지 않음 │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 참조 구간으로 보는 워킹 셋: 필요한 책 한 묶음을 남긴다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 흐름 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 4 8 4 9 8 3 8 9 3 3 9</div><div class="kb-diagram-cell">현재 t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------ Δ (관찰 구간) ------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 Δ 동안 등장한 페이지 = {8, 9, 3}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미: 지금 이 프로세스는 페이지 8·9·3이 함께 있어야 계산 흐름이 끊기지 않음</div></div>
+</div>
+</div>
+
+
 
 즉 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 "최근에 한 번이라도 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 목록"이 아니라, 현재 실행 국면을 지탱하는 최소한의 메모리 작업 공간이라는 의미를 가진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이 크기를 무시한 채 프로세스를 과도하게 메모리에 올리면, 시스템은 겉으로는 멀티태스킹이지만 실제로는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 운반만 반복하는 상태가 된다.
 
@@ -65,23 +66,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 개별 프로세스의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 계산과 시스템 수준 판단이 어떻게 연결되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 워킹 셋 모델의 시스템 제어 루프                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 프로세스 A 참조열 ─┐                                                     │
-│ 프로세스 B 참조열 ─┼─▶ 최근 Δ 구간 분석 ─▶ 각 W(t, Δ) 계산 ─┐           │
-│ 프로세스 C 참조열 ─┘                                       │           │
-│                                                            ▼           │
-│                                            Σ|W_i| 와 가용 프레임 비교    │
-│                                                            │           │
-│                           ┌────────────────────────────────┴─────────┐ │
-│                           │                                          │ │
-│                           ▼                                          ▼ │
-│                 충분함: 실행 유지, 지역성 보존         부족함: 프레임 재분배,
-│                                                  일부 프로세스 보류/Swap-out │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋 모델의 시스템 제어 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A 참조열 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B 참조열 ─ ─▶ 최근 Δ 구간 분석 ─▶ 각 W(t, Δ) 계산 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 C 참조열 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σ</div><div class="kb-diagram-cell">W_i</div><div class="kb-diagram-cell">와 가용 프레임 비교</div></div>
+<div class="kb-diagram-note">충분함: 실행 유지, 지역성 보존 부족함: 프레임 재분배,</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일부 프로세스 보류/Swap-out</div></div>
+</div>
+</div>
+
+
 
 여기서 가장 어려운 변수는 `Δ`다. `Δ`가 너무 작으면 아직 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)에서 빠져 실제 필요 메모리를 낮게 잡는다. 반대로 `Δ`가 너무 크면 이미 지나간 작업 단계의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)까지 포함되어 불필요한 프레임을 붙잡게 된다. 그래서 순수 이론형 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 정확하지만 비용이 높고, 실제 시스템은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 주기적 샘플링으로 이를 근사하는 경우가 많다.
 
@@ -119,7 +118,7 @@ tags = ["studynote-computer-architecture"]
    - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 기반 애플리케이션, 분석 배치가 동시에 돌아가면 각 프로세스의 활성 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 집합이 갑자기 커질 수 있다.
    - 이때 CPU 사용률이 낮은데 디스크 스왑 I/O만 치솟는다면, 단순 CPU 병목이 아니라 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 붕괴 가능성을 먼저 의심해야 한다.
 
-2. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경**
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>·<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 환경</strong>
    - 여러 가상 머신이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 한 호스트의 메모리를 공유할 때, 각 워크로드의 활성 구간이 겹치면 총 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 합이 물리 메모리를 넘어선다.
    - 이 경우 단순 평균 사용량보다 피크 시점의 동시 활성 집합이 더 중요하다.
 
@@ -160,19 +159,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조의 지역성 (Locality)
-        │
-        ▼
-가상 메모리 (Virtual Memory) · 페이지 교체
-        │
-        ▼
-워킹 셋 모델 (Working Set Model)
-        │
-        ├──▶ 스래싱 제어 · DoM 조절
-        │
-        └──▶ PFF (Page Fault Frequency) · 근사형 운영 정책
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조의 지역성 (Locality)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 메모리 (Virtual Memory) · 페이지 교체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워킹 셋 모델 (Working Set Model)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 스래싱 제어 · DoM 조절</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ PFF (Page Fault Frequency) · 근사형 운영 정책</div>
+</div>
+</div>
+
+
 
 이 흐름은 "지역성 이해 → [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리 → [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 기반 수요 추정 → 시스템 수준 제어"로 확장되는 맥락을 보여준다.
 

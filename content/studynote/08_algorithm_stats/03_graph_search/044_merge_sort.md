@@ -19,43 +19,38 @@ tags = ["algorithm_stats"]
 
 합병 정렬(Merge Sort)은 1945년 John von Neumann이 개발한 것으로, [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 알고리즘의 대표적 사례이다. 합병 정렬의 핵심 아이디어는 "리스트를 더 이상 나눌 수 없을 때까지(크기 1이 될 때까지) 반으로 분할하고, 분할된 각 부분을 정렬한 후, 이들을 합병하여 최종 정렬된 리스트를 만드는 것"이다.
 
-합병 정렬이 중요한 이유는 **안정성과 최악 O(N log N) 보장**이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N²)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
+합병 정렬이 중요한 이유는 <strong>안정성과 최악 O(N log N) 보장</strong>이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N²)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
 
 > 이 도식은 합병 정렬의 분할-정복-결합 과정을 보여준다.
 
-```text
-[합병 정렬: 분할 정복 과정]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [분할 (Divide)] │
-│ ──────────────────────────────────── │
-│ │
-│ [38, 27, 43, 3, 9, 82, 10] │
-│ ↓ 반으로 분할 │
-│ [38, 27, 43, 3] | [9, 82, 10] │
-│ ↓ 반으로 분할 ↓ 반으로 분할 │
-│ [38, 27] | [43, 3] | [9, 82] | [10] │
-│ ↓ 분할 ↓ 분할 ↓ 분할 ↓ 분할 │
-│ [38] [27] [43] [3] [9] [82] [10] │
-│ (기저 사례: 더 이상 분할 불가) │
-│ │
-│ [정복 (Conquer) + 결합 (Combine)] │
-│ ──────────────────────────────────── │
-│ [38] [27] → Merge → [27, 38] │
-│ [43] [3] → Merge → [3, 43] │
-│ [9] [82] → Merge → [9, 82] │
-│ [10] → 그대로 [10] │
-│ │
-│ [27, 38] [3, 43] → Merge → [3, 27, 38, 43] │
-│ [9, 82] [10] → Merge → [9, 10, 82] │
-│ │
-│ [3, 27, 38, 43] [9, 10, 82] │
-│ ↓ 최종 Merge │
-│ [3, 9, 10, 27, 38, 43, 82] │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬: 분할 정복 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 (Divide)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3, 9, 82, 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 반으로 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3</div><div class="kb-diagram-node">9, 82, 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 반으로 분할 ↓ 반으로 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27</div><div class="kb-diagram-node">43, 3</div><div class="kb-diagram-node">9, 82</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 분할 ↓ 분할 ↓ 분할 ↓ 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38</div><div class="kb-diagram-node">27</div><div class="kb-diagram-node">43</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">82</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기저 사례: 더 이상 분할 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정복 (Conquer) + 결합 (Combine)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38</div><div class="kb-diagram-node">27</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">27, 38</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">43</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 43</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">9</div><div class="kb-diagram-node">82</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9, 82</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">27, 38</div><div class="kb-diagram-node">3, 43</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 27, 38, 43</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">9, 82</div><div class="kb-diagram-node">10</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9, 10, 82</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 27, 38, 43</div><div class="kb-diagram-node">9, 10, 82</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 최종 Merge</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 9, 10, 27, 38, 43, 82</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 합병 정렬의 핵심은 "두 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 합병할 때 정렬된 상태가 유지된다"는 것이다.
 - **원인**: 각 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 현재 포인터가 가리키는 원소 중 더 작은 쪽을 선택하기 때문이다.
@@ -68,40 +63,35 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-합병 정렬의 핵심 원리는 **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)**과 **합병(Merge) 과정**이다. 분할 단계에서는 리스트를 항상 반으로 나눈다. 정복 단계에서는 각 절반을 재귀적으로 합병 정렬한다. 결합 단계에서는 두 정렬된 절반을 합병하여 하나의 정렬된 리스트를 만든다.
+합병 정렬의 핵심 원리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a></strong>과 <strong>합병(Merge) 과정</strong>이다. 분할 단계에서는 리스트를 항상 반으로 나눈다. 정복 단계에서는 각 절반을 재귀적으로 합병 정렬한다. 결합 단계에서는 두 정렬된 절반을 합병하여 하나의 정렬된 리스트를 만든다.
 
 **합병(Merge) 과정**: 두 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) A와 B가 있을 때, 각각의 현재 원소를 비교하여 더 작은 원소를 결과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고 포인터를 이동시키는 것을 반복한다. 한쪽 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 모두 소진되면 나머지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 모든 원소를 결과에 추가한다.
 
-```text
-[합병 (Merge) 과정 상세]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [두 정렬된 배열의 합병] │
-│ ──────────────────────────────────── │
-│ │
-│ Left: [3, 27, 38, 43] │
-│ Right: [9, 10, 82] │
-│ │
-│ 비교 과정: │
-│ Step 1: 3 vs 9 → 3 선택 (Left 포인터 +1) │
-│ Step 2: 27 vs 9 → 9 선택 (Right 포인터 +1) │
-│ Step 3: 27 vs 10 → 10 선택 (Right 포인터 +1) │
-│ Step 4: 27 vs 82 → 27 선택 (Left 포인터 +1) │
-│ Step 5: 38 vs 82 → 38 선택 (Left 포인터 +1) │
-│ Step 6: 43 vs 82 → 43 선택 (Left 포인터 +1) │
-│ Left 소진 → 나머지 Right 원소 일괄 추가: 82 │
-│ │
-│ 결과: [3, 9, 10, 27, 38, 43, 82] │
-│ │
-│ [시간 복잡도: T(N) = 2T(N/2) + O(N)] │
-│ ──────────────────────────────────── │
-│ 마스터 정리: a=2, b=2, f(N)=N │
-│ N^{log_b a} = N^{log_2 2} = N │
-│ f(N) = Θ(N^{log_b a}) → T(N) = Θ(N log N) │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 (Merge) 과정 상세</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">두 정렬된 배열의 합병</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Left:</div><div class="kb-diagram-node">3, 27, 38, 43</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Right:</div><div class="kb-diagram-node">9, 10, 82</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 과정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 3 vs 9 → 3 선택 (Left 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 27 vs 9 → 9 선택 (Right 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 27 vs 10 → 10 선택 (Right 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 27 vs 82 → 27 선택 (Left 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 5: 38 vs 82 → 38 선택 (Left 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 6: 43 vs 82 → 43 선택 (Left 포인터 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Left 소진 → 나머지 Right 원소 일괄 추가: 82</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">3, 9, 10, 27, 38, 43, 82</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 복잡도: T(N) = 2T(N/2) + O(N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스터 정리: a=2, b=2, f(N)=N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N^{log_b a} = N^{log_2 2} = N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(N) = Θ(N^{log_b a}) → T(N) = Θ(N log N)</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 합병 정렬의 시간 복잡도는 O(N log N)으로, 입력과 무관하게 동일하다.
 - **원인**: 매 단계에서 문제를 정확히 반으로 나누고, 결합 비용이 O(N)이기 때문이다.
@@ -114,43 +104,38 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. **대용량 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/))**: 디스크에 저장된 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후병한다. **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 정렬**: [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. **[Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)**: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
+합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. <strong>대용량 <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/">외부 정렬</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/">External Sort</a>)</strong>: 디스크에 저장된 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후병한다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 정렬</strong>: [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong>: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
 
-```text
-[합병 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ function merge_sort(A): │
-│ if length(A) <= 1: │
-│ return A │
-│ │
-│ mid = length(A) // 2 │
-│ left = merge_sort(A[0:mid]) │
-│ right = merge_sort(A[mid:]) │
-│ │
-│ return merge(left, right) │
-│ │
-│ function merge(L, R): │
-│ result = [] │
-│ i = j = 0 │
-│ │
-│ while i < len(L) and j < len(R): │
-│ if L[i] <= R[j]: │
-│ result.append(L[i]) │
-│ i += 1 │
-│ else: │
-│ result.append(R[j]) │
-│ j += 1 │
-│ │
-│ result.extend(L[i:]) // 나머지 일괄 추가 │
-│ result.extend(R[j:]) │
-│ return result │
-│ │
-│ [공간 복잡도: O(N) 추가 공간 필요] │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬 의사코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function merge_sort(A):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if length(A) &lt;= 1:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mid = length(A) // 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">left = merge_sort(A</div><div class="kb-diagram-node">0:mid</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">right = merge_sort(A</div><div class="kb-diagram-node">mid:</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return merge(left, right)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function merge(L, R):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = []</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i = j = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while i &lt; len(L) and j &lt; len(R):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">if L</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">&lt;= R</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">result.append(L</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i += 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">else:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">result.append(R</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j += 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">result.extend(L</div><div class="kb-diagram-node">i:</div><div class="kb-diagram-note">) // 나머지 일괄 추가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">result.extend(R</div><div class="kb-diagram-node">j:</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return result</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 복잡도: O(N) 추가 공간 필요</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 합병 정렬은대형의문제와/과 같습니다. 큰 문제를 작게 나누어(분할) 각 팀이 해결하고(정복), 각 팀의 해결책을 통합하면(병) 전체 문제가됩니다.
 
@@ -158,9 +143,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-합병 정렬의 품질 관리에서 가장 중요한 것은 **안정성 확보**와 **추가 공간 관리**이다.
+합병 정렬의 품질 관리에서 가장 중요한 것은 <strong>안정성 확보</strong>와 <strong>추가 공간 관리</strong>이다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는정렬([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는정렬([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
 
 📢 **섹션 요약 비유**: 합병 정렬의품질 관리는 의 품질관리와/과 같습니다. 두 묶음의 꽃을 합병할 때의을/를 저장하면(안정성) 전체 꽃다발의미적이/가하지 않습니다.
 
@@ -168,7 +153,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-합병 정렬의 최신 동향은 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬**과 **Timsort의 발전**이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+합병 정렬의 최신 동향은 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 합병 정렬</strong>과 <strong>Timsort의 발전</strong>이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 합병 정렬은 안정 정렬과 최악 O(N log N) 보장이라는 두 가지 핵심 특성으로 인해, 실무에서 필수적인 정렬 알고리즘이다.
 
@@ -181,29 +166,32 @@ tags = ["algorithm_stats"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))** | 합병 정렬의 핵심 패러다임으로, 문제를 반씩 나눠 재귀적으로 해결한 뒤 합병하는 설계 원칙 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> | 합병 정렬의 핵심 패러다임으로, 문제를 반씩 나눠 재귀적으로 해결한 뒤 합병하는 설계 원칙 |
 | **안정 정렬 (Stable Sort)** | 동일 값 간 원래 순서가 보존되어, 다중 키 정렬과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 필수적으로 활용 |
-| **[Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)** | 합병 정렬과 삽입 정렬을 혼합한 Python·Java 표준 정렬로, 실세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부분 정렬 패턴을 이용해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong> | 합병 정렬과 삽입 정렬을 혼합한 Python·Java 표준 정렬로, 실세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부분 정렬 패턴을 이용해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[삽입 정렬 (Insertion Sort) — O(N²), 소규모에 유리]
-│
-▼
-[합병 정렬 (Merge Sort) — O(N log N) 보장, 안정, O(N) 추가 공간]
-│
-▼
-[Timsort — Merge + Insertion 혼합, Python/Java 표준]
-│
-▼
-[병렬 합병 정렬 (Parallel Merge Sort) — 멀티코어 분산 정렬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — O(N²), 소규모에 유리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬 (Merge Sort) — O(N log N) 보장, 안정, O(N) 추가 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Timsort — Merge + Insertion 혼합, Python/Java 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 합병 정렬 (Parallel Merge Sort) — 멀티코어 분산 정렬</div></div>
+</div>
+</div>
+
+
 합병 정렬은 최악에도 O(N log N)을 보장하는 안정 정렬로, Timsort의 기반이 되고 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 합병 정렬은 카드 한 뭉치를 계속 반으로 나눠 혼자 풀 수 있을 만큼 작게 쪼개고, 다시 두 장씩 짝지어 작은 순서로 합치는 **놀이**예요!
+1. 합병 정렬은 카드 한 뭉치를 계속 반으로 나눠 혼자 풀 수 있을 만큼 작게 쪼개고, 다시 두 장씩 짝지어 작은 순서로 합치는 <strong>놀이</strong>예요!
 2. 두 줄로 서있는 친구들 중 키가 더 작은 친구를 번갈아 새 줄에 세우면, 어느새 전체가 키 순서대로 예쁘게 정렬돼요!
 3. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 친구와 달리 어떤 경우에도 항상 같은 빠르기(O(N log N))가 보장되어서, 안정성이 중요한 학교 성적표 정렬에 딱 맞는답니다!
 

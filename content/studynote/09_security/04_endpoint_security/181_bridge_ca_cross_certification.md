@@ -44,31 +44,30 @@ tags = ["studynote-security"]
 
 아래 그림은 브릿지 CA가 "[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)"라는 점과, 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 연결이 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·경로·폐기 정보를 함께 본다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Bridge CA federation model │
-├──────────────────────────────────────────────────────────────────────┤
-│ Domain A PKI Domain B PKI Domain C PKI │
-│ Root / PCA Root / PCA Root / PCA │
-│ │ │ │ │
-│ └────── cross-cert ──┼── cross-cert ─────┘ │
-│ │ │
-│ Bridge CA │
-│ │ │
-│ Validation on relying party │
-│ leaf cert -> local CA chain -> bridge path -> trusted anchor │
-│ │ │
-│ Governance checks │
-│ - certificate policy OID mapping │
-│ - CRL / OCSP reachability │
-│ - name constraints / path constraints │
-│ - cross-certificate validity │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bridge CA federation model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain A PKI Domain B PKI Domain C PKI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root / PCA Root / PCA Root / PCA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cross-cert ── ── cross-cert</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bridge CA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation on relying party</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">leaf cert -&gt; local CA chain -&gt; bridge path -&gt; trusted anchor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Governance checks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- certificate policy OID mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CRL / OCSP reachability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name constraints / path constraints</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- cross-certificate validity</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 "연결되었다"와 "동일한 수준으로 신뢰한다"가 다르다는 것이다. 예를 들어 한 기관은 대면 실명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급하고, 다른 기관은 약한 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 거칠 수 있다. 브릿지 CA는 이런 차이를 무시하면 안 되고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [정책 매핑](/knowledge-base/studynote/09_security/04_endpoint_security/202_policy_mapping/)으로 신뢰 수준을 구분해야 한다.
 
-또한 클라이언트 또는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모듈은 브릿지 구조를 따라 경로를 조립할 수 있어야 한다. 단순한 트리형 체인만 가정한 구현은 브릿지 환경에서 실패할 수 있다. 따라서 브릿지 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 설계는 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 한 대를 더 두는 문제가 아니라, **경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 능력과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 해석 능력을 함께 갖춘 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 연합 설계**다.
+또한 클라이언트 또는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모듈은 브릿지 구조를 따라 경로를 조립할 수 있어야 한다. 단순한 트리형 체인만 가정한 구현은 브릿지 환경에서 실패할 수 있다. 따라서 브릿지 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 설계는 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 한 대를 더 두는 문제가 아니라, <strong>경로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 능력과 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 해석 능력을 함께 갖춘 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 연합 설계</strong>다.
 
 - **📢 섹션 요약 비유**: 브릿지 CA는 단순히 다리를 놓는 공사가 아니라, 다리를 건너도 되는 차량 종류와 통행 규칙까지 함께 정하는 톨게이트 운영 체계와 같다.
 
@@ -120,7 +119,7 @@ tags = ["studynote-security"]
 - 브릿지 키 보호는 약하면서 참여 기관 수만 늘려 전체 신뢰망 위험을 키우는 운영
 - 클라이언트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 브릿지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 배포해 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 장애를 내는 배포
 
-기술사 답안에서는 **"브릿지 CA는 독립 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 간 신뢰 연동을 위한 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 구조이며, 핵심은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 수 단순화와 루트 자율성 유지이지만, [정책 매핑](/knowledge-base/studynote/09_security/04_endpoint_security/202_policy_mapping/)과 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 함께 성숙해야 실효성이 있다"**라고 정리하면 좋다.
+기술사 답안에서는 <strong>"브릿지 CA는 독립 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 간 신뢰 연동을 위한 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 구조이며, 핵심은 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 수 단순화와 루트 자율성 유지이지만, <a href="/knowledge-base/studynote/09_security/04_endpoint_security/202_policy_mapping/">정책 매핑</a>과 경로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>이 함께 성숙해야 실효성이 있다"</strong>라고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 브릿지 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 도입은 여러 회사가 같은 건물 출입증을 쓰는 일이 아니라, 각 회사 출입증을 중앙 보안실에서 읽고 어느 문까지 열어줄지 규칙을 정하는 방식과 같다.
 
@@ -130,7 +129,7 @@ tags = ["studynote-security"]
 
 브릿지 CA의 가장 큰 효과는 신뢰망을 넓히면서도 각 기관의 독립성을 보존한다는 점이다. 기존 Root CA를 폐기하지 않아도 되고, 전체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 일괄 재발급하지 않아도 되며, 참여 기관이 늘어도 직접 교차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)보다 구조적 복잡도가 덜 폭증한다. 특히 다기관 협업이 길게 이어지는 환경에서는 이 차이가 크게 드러난다.
 
-하지만 브릿지 CA는 만능 단축키가 아니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수준이 다르면 권한 부여 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 달라져야 하고, 폐기 정보가 지연되면 연합 전체의 신뢰가 흔들릴 수 있으며, 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 잘못 구현하면 연결은 해도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 실패한다. 즉 브릿지 CA의 성공 조건은 암호 알고리즘보다 **운영 거버넌스와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계의 성숙도**에 더 가깝다.
+하지만 브릿지 CA는 만능 단축키가 아니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수준이 다르면 권한 부여 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 달라져야 하고, 폐기 정보가 지연되면 연합 전체의 신뢰가 흔들릴 수 있으며, 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 잘못 구현하면 연결은 해도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 실패한다. 즉 브릿지 CA의 성공 조건은 암호 알고리즘보다 <strong>운영 거버넌스와 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계의 성숙도</strong>에 더 가깝다.
 
 결론적으로 브릿지 CA는 "하나의 거대한 루트"가 아니라 "독립된 신뢰 섬을 연결하는 중계 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)"로 기억하는 것이 맞다. 기술사 관점에서는 구조적 이점만 외울 것이 아니라, 언제 직접 교차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)보다 나은지, 그리고 [정책 매핑](/knowledge-base/studynote/09_security/04_endpoint_security/202_policy_mapping/)과 폐기 통제가 왜 필수인지까지 함께 설명할 수 있어야 한다.
 
@@ -151,24 +150,25 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-독립 PKI 도메인
-│
-▼
-직접 교차 인증
-│
-└─ 참여 기관 증가 -> 관계 폭증
-│
-▼
-Bridge CA 허브 연결
-│
-├─ certificate policy mapping
-├─ path discovery / validation
-└─ CRL / OCSP federation
-│
-▼
-다기관 신뢰 연합과 상호 운용 PKI
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">독립 PKI 도메인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">직접 교차 인증</div>
+<div class="kb-diagram-tree-item" style="--depth:0">참여 기관 증가 -&gt; 관계 폭증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bridge CA 허브 연결</div>
+<div class="kb-diagram-tree-item" style="--depth:0">certificate policy mapping</div>
+<div class="kb-diagram-tree-item" style="--depth:0">path discovery / validation</div>
+<div class="kb-diagram-tree-item" style="--depth:0">CRL / OCSP federation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다기관 신뢰 연합과 상호 운용 PKI</div>
+</div>
+</div>
+
+
 
 이 흐름은 브릿지 CA가 단순한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 종류가 아니라, 독립 신뢰 체계를 연합 구조로 확장하는 중간 단계임을 보여 준다.
 

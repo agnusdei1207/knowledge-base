@@ -24,31 +24,31 @@ tags = ["studynote-operating-system"]
 - **필요성**: 전통적인 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델에서의 락 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 데드락, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), [락 경합 등](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)의 문제를 동반한다. 액터 모델은 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)이라는 간단한 추상화를 통해 이러한 문제를 근본적으로 해결하고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 자연스럽게 제공한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델의 한계**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반으로_lock_과 _condition_variable_에 의존하여 복잡하고 오류가 쉽다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 모델의 한계</strong>: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반으로_lock_과 _condition_variable_에 의존하여 복잡하고 오류가 쉽다.
   2. **액터 모델의 formal화**: 1970년대 후반부터 수학적으로 형식화되어, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 시스템으로서의 액터가 연구되기 시작했다.
   3. **실용 구현 및 확산**: [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)(1986년)에서 액터 모델을 핵심으로 채택하여 높은 가용성의 통신 시스템을 구축하였고, 이후 Akka, Orleans 등 다양한 프레임워크에서 채택되었다.
 
 액터 모델의 기본 동작을 보여주면, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 어떻게 이루어지는지 알 수 있다.
 
-```text
-   ┌───────────────────────────────────────────────────────────────────┐
-   │                     액터 모델 기본 동작                           │
-   ├───────────────────────────────────────────────────────────────────┤
-   │                                                                   │
-   │  액터 A 상태:                                                     │
-   │    - 메일박스: [msg1, msg2]                                       │
-   │    - 내부 상태: {count: 5}                                        │
-   │                                                                   │
-   │  액터 B가 메시지 전송                                             │
-   │    - 액터 A의 메일박스에 msg3 추가                                │
-   │                                                                   │
-   │  액터 A의 메시지 처리 루프                                        │
-   │    - 메일박스에서 msg1 추출                                       │
-   │    - msg1에 따라 상태 업데이트 (count: 6)                         │
-   │    - 필요 시 다른 액터에게 메시지 전송 가능                       │
-   │    - 처리 완료 후 다음 메시지 처리 (msg2, затем msg3)             │
-   └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 모델 기본 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 A 상태:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 메일박스:</div><div class="kb-diagram-node">msg1, msg2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내부 상태: {count: 5}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 B가 메시지 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 액터 A의 메일박스에 msg3 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 A의 메시지 처리 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메일박스에서 msg1 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- msg1에 따라 상태 업데이트 (count: 6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 필요 시 다른 액터에게 메시지 전송 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리 완료 후 다음 메시지 처리 (msg2, затем msg3)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위 다이어그램은 액터가 메시지를 수신하고 상태를 업데이트하는 기본적인 흐름을 보여준다. 액터는 자신의 메일박스에서 메시지를 하나씩 꺼내어 처리하며, 처리 과정에서 내부 상태를 변경하거나 다른 액터에게 메시지를 보낼 수 있다. 중요한 점은 액터가 자신의 상태를 직접 공유하지 않고, 오직 메시지를 통해서만 상호작용한다는 것이다.
 
@@ -66,36 +66,34 @@ tags = ["studynote-operating-system"]
 | **메일박스 (Mailbox)** | 메시지 저장 큐 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 또는 우선순위 기반 큐 | 메시지 큐, 채널 | 우편함 |
 | **행동 (Behavior)** | 메시지 처리 방식 | 현재 메시지에 대한 처리 로직 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 함수 | 직원 매뉴얼 |
 - **메시지 (Message)** | 액터 간 통신 단위 | 불변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 | 시리얼라이즈 가능한 객체 | 편지
-- **[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | 액터 실행 관리 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 또는 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에 매핑 | ForkJoinPool, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) | 우체국 관리자
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 액터 실행 관리 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 또는 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에 매핑 | ForkJoinPool, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) | 우체국 관리자
 
 ### 액터 모델의 내부 동작 원리
 
 액터 모델이 어떻게 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 상태 관리를 수행하는지를 단계별로 살펴보면 다음과 같다.
 
-```text
-   ┌────────────────────────────────────────────────────────────────────┐
-   │                  액터 모델 처리 흐름도                             │
-   ├────────────────────────────────────────────────────────────────────┤
-   │                                                                    │
-   │  1. 메시지 수신                                                    │
-   │     - 액터의 메일박스에서 메시지 추출                              │
-   │     - 메일박스가 비어있으면 대기 또는 새로운 작업 처리             │
-   │                                                                    │
-   │  2. 행동 실행                                                      │
-   │     - 현재 행동에 따라 메시지 처리                                 │
-   │     - 상태 업데이트 또는 부수 효과 발생                            │
-   │                                                                    │
-   │  3. 메시지 전송                                                    │
-   │     - 처리 중에 다른 액터에게 메시지 보낼 수 있음                  │
-   │     - 메시지는 비동기적으로 전송되고 수신 액터의 메일박스에 저장   │
-   │                                                                    │
-   │  4. 행동 변경 (선택 사항)                                          │
-   │     - 다음에 처리할 메시지에 대한 행동을 동적으로 변경 가능        │
-   │                                                                    │
-   │  5. 루프 계속                                                      │
-   │     - 다음 메시지 처리 또는 종료 조건 확인                         │
-   └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 모델 처리 흐름도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메시지 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 액터의 메일박스에서 메시지 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메일박스가 비어있으면 대기 또는 새로운 작업 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 행동 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 행동에 따라 메시지 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태 업데이트 또는 부수 효과 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 메시지 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리 중에 다른 액터에게 메시지 보낼 수 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메시지는 비동기적으로 전송되고 수신 액터의 메일박스에 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 행동 변경 (선택 사항)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다음에 처리할 메시지에 대한 행동을 동적으로 변경 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 루프 계속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다음 메시지 처리 또는 종료 조건 확인</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위 다이어그램은 액터가 메시지를 처리하는 전체 주기를 보여준다. 특히 4단계에서 행동 변경을 통해 상태 기계를 구현할 수 있음을 보여주며, 이는 액터가 복잡한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 구현하는 데 유용하다. 메시지 전송은 비동기이므로 발신자는 즉시 다음 작업을 진행할 수 있다.
 
@@ -110,9 +108,9 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 액터 모델 | 전통적인 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델 (락 기반) |
 |:---|:---|:---|
 | **상태 공유** | 없음 ([메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)만) | 있음 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) |
-| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리** | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 순서 | 락, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 원리</strong> | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 순서 | 락, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등 |
 | **오류 격리** | 액터 수준 (하나의 액터 오류가 다른 액터에 직접 영향 안줌) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 오염 가능) |
-| **[위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)** | 가능 (같은 코드로 로컬/원격 액터 처리) | 어렵다 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 로컬에 한정) |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/">위치 투명성</a></strong> | 가능 (같은 코드로 로컬/원격 액터 처리) | 어렵다 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 로컬에 한정) |
 | **확장성** | 좋음 (경량 액터 수백만 개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능) | 제한적 ([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수와 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) |
 | **주 사용처** | [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/[OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/), Akka, Orleans | 일반적인 멀티스레드 애플리케이션 |
 
@@ -120,26 +118,27 @@ tags = ["studynote-operating-system"]
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))**: 액터는 경량 프로세스(LWP)와 유사하며, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 메시지 큐 등)을 추상화한 것이다. 특히 Erlang의 액터는 경량 프로세스와 직접 매핑되며, Akka는 JVM [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 사용한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a>)</strong>: 액터는 경량 프로세스(LWP)와 유사하며, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 메시지 큐 등)을 추상화한 것이다. 특히 Erlang의 액터는 경량 프로세스와 직접 매핑되며, Akka는 JVM [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 사용한다.
 - **컴퓨터 네트워크 (Computer Network)**: 액터 모델의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)을 제공하며, 이는 RPC나 메시지 지향 미들웨어(MOM)와 유사한 개념이다. 네트워크 지연과 부분 실패를 고려한 설정이 필요하다.
 
 액터 모델이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개념과 어떻게 대응되는지를 보여주면, 그 관계를 명확히 알 수 있다.
 
-```text
-   ┌────────────────────────────────────────────────────────────────────┐
-   │               액터 모델과 운영체제 개념 대응표                     │
-   ├────────────────────────────────────────────────────────────────────┤
-   │                                                                    │
-   │  운영체제 개념          │ 액터 모델에서의 역할                     │
-   ├─────────────────────────┼──────────────────────────────────────────┤
-   │  경량 프로세스 (LWP)    │ 액터의 경량 인스턴스 구현                │
-   │  메시지 큐 (IPC)        │ 액터 간 비동기 메시지 전달 메커니즘      │
-   │  이벤트 루프            │ 액터의 메시지 처리 루프 구현             │
-   │  프로세스 격리          │ 액터 간 상태 캡슐화로 인한 격리 효과     │
-   │  스케줄러               │ 액터 실행 시점과 순서 결정               │
-   │  파일 디스크립터        │ 액터가 외부 세계와 상호작용하는 수단     │
-   └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 모델과 운영체제 개념 대응표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 개념</div><div class="kb-diagram-cell">액터 모델에서의 역할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경량 프로세스 (LWP)</div><div class="kb-diagram-cell">액터의 경량 인스턴스 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 큐 (IPC)</div><div class="kb-diagram-cell">액터 간 비동기 메시지 전달 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 루프</div><div class="kb-diagram-cell">액터의 메시지 처리 루프 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 격리</div><div class="kb-diagram-cell">액터 간 상태 캡슐화로 인한 격리 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">액터 실행 시점과 순서 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 디스크립터</div><div class="kb-diagram-cell">액터가 외부 세계와 상호작용하는 수단</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위 다이어그램은 액터 모델이 어떻게 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기존 개념들을 추상화하여 구현되는지 보여준다. 액터는 경량 프로세스와 유사하게 작동하며, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 기반으로 한다. 특히 액터 모델은 상태 공유를 제거함으로써 프로세스 격리의 이점을 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 수준에서 달성한다.
 
@@ -155,42 +154,33 @@ tags = ["studynote-operating-system"]
 
 2. **시나리오 -- 웹 애플리케이션에서의 실시간 기능 채팅**: 다수의 사용자가 동시에 채팅을 하는 시스템에서는 각 사용자 연결을 별도 액터로 처리함으로써, 사용자 간 상호작용을 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 모델링할 수 있다. 이때 액터는 사용자의 상태(닉네임, 채팅방 등)를 캡슐화하고, 메시지를 통해 방 참가/퇴장 또는 메시지 전송을 처리한다.
 
-3. **시나리오 -- [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 관리 시스템에서의 디바이스 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)**: 수천 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스를 관리하는 시스템에서는 각 디바이스를 별도 액터로 모델링하여 디바이스 상태를 캡슐화하고, 명령 및 이벤트를 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 처리한다. 이는 디바이스 연결/해제나 상태 변경을 비동기적으로 처리하면서도 시스템 전체의 안정성을 유지할 수 있게 한다.
+3. <strong>시나리오 -- <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기 관리 시스템에서의 디바이스 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a></strong>: 수천 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스를 관리하는 시스템에서는 각 디바이스를 별도 액터로 모델링하여 디바이스 상태를 캡슐화하고, 명령 및 이벤트를 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 처리한다. 이는 디바이스 연결/해제나 상태 변경을 비동기적으로 처리하면서도 시스템 전체의 안정성을 유지할 수 있게 한다.
 
 실무 판단은 단순히 "액터 모델을 사용할지 말지"가 아니라, 시스템의 요구사항, 실패 모델, 확장성 필요 등을 종합적으로 고려해야 한다. 아래 의사결정 플로우는 설계자가 액터 모델을 적용할 때 고려해야 할 요소를 정리한 것이다.
 
-```text
-   ┌───────────────────────────────────────────────────────────────────────┐
-   │                 액터 모델 적용 의사결정 플로우                        │
-   ├───────────────────────────────────────────────────────────────────────┤
-   │                                                                       │
-   │   [시스템의 실패 모델은?]                                             │
-   │                │                                                      │
-   │                ▼                                                      │
-   │      높은 장애 격리가 필요한가?                                       │
-   │          ├─ 예 ─────▶ [액터 기반 격리 검토]                           │
-   │          │                     │                                      │
-   │          │                     └─▶ [감시자 패턴 적용 가능]            │
-   │          │                                                            │
-   │          └─ 아니오 ─────▶ [다른 동기화 방식 고려]                     │
-   │                                                                       │
-   │      위치 투명성이 필요한가? (분산 배포 등)                           │
-   │          ├─ 예 ─────▶ [네트워크 액터 프레임워크 검토]                 │
-   │          │                     │                                      │
-   │          │                     └─▶ [직렬화 및 네트워크 층 고려]       │
-   │          │                                                            │
-   │          └─ 아니오 ─────▶ [로컬 액터 구현 가능]                       │
-   │                                                                       │
-   │      메시지 처리 지연이 허용 가능한가?                                │
-   │          ├─ 예 ─────▶ [비동기 메시지 전달 사용]                       │
-   │          │                     │                                      │
-   │          │                     └─▶ [동기식 대안 검토]                 │
-   │          │                                                            │
-   │          └─ 아니오 ─────▶ [공유 메모리 기반 저지연 방식 고려]         │
-   │                                                                       │
-   │   최종 판단: 장애 격리 vs 위치 투명성 vs 지연 요구사항 중 최적점 찾기 │
-   └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 모델 적용 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템의 실패 모델은?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 장애 격리가 필요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">액터 기반 격리 검토</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">감시자 패턴 적용 가능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다른 동기화 방식 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치 투명성이 필요한가? (분산 배포 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 액터 프레임워크 검토</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직렬화 및 네트워크 층 고려</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 액터 구현 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 처리 지연이 허용 가능한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기 메시지 전달 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 대안 검토</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 메모리 기반 저지연 방식 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 판단: 장애 격리 vs 위치 투명성 vs 지연 요구사항 중 최적점 찾기</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 흐름의 핵심은 "액터 모델은 모든 상황에 최적의 해결책이 아니다"라는 점이다. 장애 격리와 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 중요한 경우에는 액터 모델이 적합하지만, 메시지 처리 지연이 critical한 경우나 매우 낮은 지연이 필요한 경우에는 다른 접근 방식을 고려해야 한다. 따라서 첫 번째 질문은 sempre "정말 장애 격리와 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 최우선인가?"에서 시작해야 한다.
 
@@ -201,8 +191,8 @@ tags = ["studynote-operating-system"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **동기식 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 오용**: 액터 모델의 장점인 비동기성을 살리지 못하고 동기식 호출로 구현해서 데드락 가능성이 높은 것.
-- **과도한 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 너무 세분화하여 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 관리 오버헤드가 실제 작업 비용을 초과하는 것.
+- <strong>동기식 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">메시지 전달</a> 오용</strong>: 액터 모델의 장점인 비동기성을 살리지 못하고 동기식 호출로 구현해서 데드락 가능성이 높은 것.
+- <strong>과도한 액터 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 너무 세분화하여 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 관리 오버헤드가 실제 작업 비용을 초과하는 것.
 
 - **📢 섹션 요약 비유**: 과도한 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 마치 작은 일마다 별도의 직원을 고용하는 것과 같아서, 처음에는 책임이 duidelijk해 보이지만 finalement 인력 관리 비용이 비효율적으로 증가하게 된다.
 
@@ -220,32 +210,28 @@ tags = ["studynote-operating-system"]
 
 ### 미래 전망
 
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 액터 모델의 표준화**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 제공하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 액터 모델이 표준화될 것이다(예: Orleans의 발전 형태).
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 액터 모델의 표준화</strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 제공하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 액터 모델이 표준화될 것이다(예: Orleans의 발전 형태).
 - **하드웨어 가속 액터 경로**: 네트워크 카드에서의 오프로드 가능한 액터 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)이 연구되어 CPU 사용량을 줄일 수 있다.
-- **형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통합**: 액터 모델의 수학적 형식성을 활용한 자동 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구가 개발되어 오류를 사전에 차단할 수 있다.
+- <strong>형식 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 통합</strong>: 액터 모델의 수학적 형식성을 활용한 자동 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구가 개발되어 오류를 사전에 차단할 수 있다.
 
 액터 모델의 진화 방향을 시간축으로 요약하면, 이론 모델에서 시작하여 실용 구현으로, 다시 분석 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구와의 통합으로 이동하고 있음을 확인할 수 있다.
 
-```text
-   ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-   │                     액터 모델 진화 로드맵                                                    │
-   ├──────────────────────────────────────────────────────────────────────────────────────────────┤
-   │                                                                                              │
-   │  1970년대      1980년대 중반     1990년대 후반     2020년대+                                 │
-   │      │               │                 │                  │                                  │
-   │      ▼               ▼                 ▼                  ▼                                  │
-   │ [이론 모델 제안]  → [Erlang에서의 실용화]  → [Akka 등 프레임워크 확산]  → [형식 검증 통합]   │
-   │      │               │                 │                  │                                  │
-   │      │               │                 │                │                                    │
-   │      │               │                 ├─ 분산 표준 탐색                                     │
-   │      │               │                 │                  │                                  │
-   │      │               │                 └─ 하드웨어 가속 탐색                                 │
-   │      └──── 표현력 vs 구현 난이도 균형 필수 요소 확립                                         │
-   │                                                                                              │
-   │  초점 이동:                                                                                  │
-   │  "이해와 모델링" -> "실용 구현" -> "프레임워크 확산" -> "자동 검증 및 최적화"                │
-   └──────────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 모델 진화 로드맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대 1980년대 중반 1990년대 후반 2020년대+</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이론 모델 제안</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Erlang에서의 실용화</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Akka 등 프레임워크 확산</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">형식 검증 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분산 표준 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 하드웨어 가속 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표현력 vs 구현 난이도 균형 필수 요소 확립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초점 이동:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이해와 모델링" -&gt; "실용 구현" -&gt; "프레임워크 확산" -&gt; "자동 검증 및 최적화"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 1970년대에 카를 하위트가 이론 모델을 제안한 후, 1980년대 중반에 Erlang에서 처음 실용적으로 채택되어 통신 시스템의 높은 가용성을 달성하였다. 1990년대 후반에는 Akka 등 JVM 기반 프레임워크가 등장하여 액터 모델의 확산에 기여하였다. 현재는 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 하드웨어 가속이 연구되고 있으며, 미래에는 액터 모델 자체가 더 정교해져서 자동으로 최적화되고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는 시대가 올 것이다.
 
@@ -264,15 +250,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[멀티스레드 아키텍처 오버헤드 (락 경합 등)]
-    │
-    ▼
-[액터 모델 (Actor Model)]
-    │
-    ├──▶ [고루틴 (Goroutine)]
-    └──▶ [코루틴 (Coroutine)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 아키텍처 오버헤드 (락 경합 등)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">액터 모델 (Actor Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고루틴 (Goroutine)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코루틴 (Coroutine)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

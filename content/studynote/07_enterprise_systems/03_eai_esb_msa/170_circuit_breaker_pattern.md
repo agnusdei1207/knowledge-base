@@ -21,26 +21,25 @@ tags = ["studynote-enterprise"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 가장 위험한 장애는 "하나가 죽었는데 모두가 같이 느려지는" 상황이다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 동기 호출하고, 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 카드사 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 에 묶여 있다면, 카드사 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 주문 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 붙잡고 결국 전체 시스템 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 떨어뜨릴 수 있다.
 
-문제는 실패 자체보다 **기다림의 전염성**이다. 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 5초씩 응답을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키면, 호출자는 그동안 연결과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 점유한다. 여기에 재시도까지 겹치면 부하가 더 커지고, 결국 처음에는 외부 한 지점의 문제였던 것이 애플리케이션 서버, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 풀, 게이트웨이까지 확산된다.
+문제는 실패 자체보다 <strong>기다림의 전염성</strong>이다. 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 5초씩 응답을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키면, 호출자는 그동안 연결과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 점유한다. 여기에 재시도까지 겹치면 부하가 더 커지고, 결국 처음에는 외부 한 지점의 문제였던 것이 애플리케이션 서버, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 풀, 게이트웨이까지 확산된다.
 
-[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 이 악순환을 끊기 위해 등장했다. 전기 차단기처럼 이상 징후가 반복되면 회로를 잠시 열어 두고, 그동안은 "호출해도 소용없는 곳"으로 요청을 보내지 않는다. 즉, 실패를 숨기는 패턴이 아니라 **실패를 빨리 인정해 전체를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 패턴**이다.
+[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 이 악순환을 끊기 위해 등장했다. 전기 차단기처럼 이상 징후가 반복되면 회로를 잠시 열어 두고, 그동안은 "호출해도 소용없는 곳"으로 요청을 보내지 않는다. 즉, 실패를 숨기는 패턴이 아니라 <strong>실패를 빨리 인정해 전체를 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>하는 패턴</strong>이다.
 
 아래 흐름은 연쇄 장애가 어떻게 커지는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Slow dependency can poison healthy callers            │
-├──────────────────────────────────────────────────────────────────────┤
-│ User Request -> Order Service -> Payment Service -> External API    │
-│                               │                  │                  │
-│                               │                  └─ slow / timeout  │
-│                               │                                     │
-│                               └─ waiting threads accumulate         │
-│                                                     │               │
-│                                                     ▼               │
-│                                      queue growth -> pool exhaustion│
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slow dependency can poison healthy callers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Request -&gt; Order Service -&gt; Payment Service -&gt; External API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ slow / timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ waiting threads accumulate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">queue growth -&gt; pool exhaustion</div></div>
+</div>
+</div>
+
+
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 이 경로에서 "외부 API가 이미 아픈데 왜 계속 문을 두드리느냐"를 묻는 장치다. 장애를 없애지는 못하지만, 장애 범위를 국소화해 시스템 전체 붕괴를 막는다.
 
@@ -60,21 +59,22 @@ tags = ["studynote-enterprise"]
 
 아래 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 대부분의 구현이 공유하는 기본 골격이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     Circuit Breaker state machine                    │
-├──────────────────────────────────────────────────────────────────────┤
-│   failure rate / slow calls > threshold                             │
-│  CLOSED  ------------------------------------------->  OPEN         │
-│    │                                                    │           │
-│    │ success traffic                                    │ wait time  │
-│    │                                                    ▼           │
-│    └<-----------------------  HALF-OPEN  <--------------┘           │
-│             enough probe success        any probe failure            │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 "무엇을 실패로 세느냐"다. 일반적으로 연결 실패, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 5xx 응답, 과도한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 실패로 집계하지만, 잘못된 사용자 입력으로 인한 4xx 응답까지 실패로 포함하면 브레이커가 왜곡된다. 즉 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 **비즈니스 예외**보다 **의존성 건강 상태**를 감시해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circuit Breaker state machine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure rate / slow calls &gt; threshold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSED -------------------------------------------&gt; OPEN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">success traffic</div><div class="kb-diagram-cell">wait time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------------------- HALF-OPEN &lt;--------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">enough probe success any probe failure</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 "무엇을 실패로 세느냐"다. 일반적으로 연결 실패, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 5xx 응답, 과도한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 실패로 집계하지만, 잘못된 사용자 입력으로 인한 4xx 응답까지 실패로 포함하면 브레이커가 왜곡된다. 즉 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 <strong>비즈니스 예외</strong>보다 <strong>의존성 건강 상태</strong>를 감시해야 한다.
 
 또한 최근 구현체는 단순 실패율만 보지 않고 느린 호출 비율도 함께 본다. 아직 완전히 죽지 않았더라도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))를 무너뜨릴 만큼 느려졌다면, 미리 차단해 자원 고갈을 막는 편이 더 안전하기 때문이다.
 
@@ -98,7 +98,7 @@ tags = ["studynote-enterprise"]
 
 실무에서는 이들을 조합해서 쓴다. 먼저 짧고 명확한 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 걸고, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 이 보장되는 경우에만 제한된 재시도를 허용하며, 그래도 실패가 누적되면 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)가 회로를 연다. 동시에 [벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 커넥션 풀을 분리하면 장애 확산을 더 줄일 수 있다.
 
-이 조합에서 가장 위험한 것은 "재시도가 항상 좋은 일"이라는 오해다. 이미 의존성이 과부하 상태라면 재시도는 치료제가 아니라 부하 증폭기다. 그래서 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 재시도와 경쟁하는 패턴이 아니라, **재시도가 더 이상 이롭지 않은 순간을 선언하는 패턴**으로 이해해야 한다.
+이 조합에서 가장 위험한 것은 "재시도가 항상 좋은 일"이라는 오해다. 이미 의존성이 과부하 상태라면 재시도는 치료제가 아니라 부하 증폭기다. 그래서 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 재시도와 경쟁하는 패턴이 아니라, <strong>재시도가 더 이상 이롭지 않은 순간을 선언하는 패턴</strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)은 기다릴 시간표, 재시도는 다시 문 두드리기, [벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)는 방화문, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 "이제 문 두드리는 걸 멈춰"라고 판단하는 안전 요원과 같다.
 
@@ -106,7 +106,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-대표적인 적용 지점은 결제, 재고, 추천, 외부 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)처럼 실패가 잦거나 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 흔들리는 네트워크 경계다. 예를 들어 상품 조회는 캐시 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 가능하지만, 결제 승인 API는 "일단 성공으로 간주" 같은 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 절대 허용되지 않는다. 따라서 브레이커 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 **의존성별로 분리**해야 한다.
+대표적인 적용 지점은 결제, 재고, 추천, 외부 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)처럼 실패가 잦거나 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 흔들리는 네트워크 경계다. 예를 들어 상품 조회는 캐시 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 가능하지만, 결제 승인 API는 "일단 성공으로 간주" 같은 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 절대 허용되지 않는다. 따라서 브레이커 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 <strong>의존성별로 분리</strong>해야 한다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,7 +129,7 @@ tags = ["studynote-enterprise"]
 - [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)으로 빈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 가짜 성공을 반환해 장애를 숨기는 경우
 - [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)과 알림 없이 브레이커를 켜 두고 실제 개방 상태를 모르는 경우
 
-실무에서는 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 보수적으로 시작해 트래픽 패턴을 보고 조정하는 편이 안전하다. 트래픽이 매우 적은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 과도하게 민감한 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 쓰면 작은 흔들림에도 Open 상태가 반복되고, 반대로 트래픽이 큰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)가 너무 느슨하면 차단이 늦어진다. 결국 브레이커는 코드보다 **관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 맞춘 운영 튜닝**이 중요하다.
+실무에서는 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 보수적으로 시작해 트래픽 패턴을 보고 조정하는 편이 안전하다. 트래픽이 매우 적은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 과도하게 민감한 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 쓰면 작은 흔들림에도 Open 상태가 반복되고, 반대로 트래픽이 큰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)가 너무 느슨하면 차단이 늦어진다. 결국 브레이커는 코드보다 <strong>관측 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 맞춘 운영 튜닝</strong>이 중요하다.
 
 - **📢 섹션 요약 비유**: 소방 문은 아무 때나 닫히면 곤란하지만, 불이 났는데도 안 닫히면 더 위험하듯 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)도 너무 예민하거나 너무 둔하면 둘 다 문제다.
 
@@ -139,7 +139,7 @@ tags = ["studynote-enterprise"]
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)를 잘 적용하면 장애를 없애지는 못해도, 장애가 확산되는 속도와 범위를 크게 줄일 수 있다. 사용자 입장에서는 끝없는 로딩 대신 빠른 실패와 대체 응답을 받고, 운영자 입장에서는 실패 원인을 더 분명하게 관측할 수 있다.
 
-하지만 한계도 있다. 근본 원인이 해결되지 않으면 브레이커는 계속 열리고 닫히는 증상 관리에 머문다. 또 잘못 설계된 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)은 실제 장애보다 더 큰 정합성 문제를 만들 수 있다. 따라서 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 만능 방패가 아니라, **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)·재시도·[벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)·관측성과 함께 묶여야 효과가 나는 운영 패턴**이다.
+하지만 한계도 있다. 근본 원인이 해결되지 않으면 브레이커는 계속 열리고 닫히는 증상 관리에 머문다. 또 잘못 설계된 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)은 실제 장애보다 더 큰 정합성 문제를 만들 수 있다. 따라서 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 만능 방패가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>·재시도·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">벌크헤드</a>·관측성과 함께 묶여야 효과가 나는 운영 패턴</strong>이다.
 
 결론적으로 이 패턴의 핵심은 "실패를 막는다"가 아니라 "실패를 국소화한다"이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 실패를 피할 수 없으므로, 무엇을 언제 끊을지 설계하는 쪽이 더 현실적이다. 좋은 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 장애를 숨기지 않고, 전체를 살리기 위해 일부 연결을 잠시 포기한다.
 
@@ -160,22 +160,24 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Remote call instability
-    │
-    ▼
-Timeout / Retry control
-    │
-    ▼
-Circuit Breaker state machine
-    │
-    ├─ Open  -> fail fast / fallback
-    ├─ Half-Open -> probe recovery
-    └─ Closed -> normal traffic with metrics
-    │
-    ▼
-Bulkhead · Service Mesh · Resilience operations
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Remote call instability</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Timeout / Retry control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Circuit Breaker state machine</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Open -&gt; fail fast / fallback</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Half-Open -&gt; probe recovery</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Closed -&gt; normal traffic with metrics</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bulkhead · Service Mesh · Resilience operations</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 원격 호출이 운영형 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 제어 체계로 발전하는 과정을 보여 준다.
 

@@ -22,38 +22,25 @@ tags = ["ict_convergence"]
 
 모빌리티는 이 생태계에 이동성이라는 차원을 추가한다. 스마트폰과 달리 모빌리티 디바이스는 한정된 공간에 갇히지 않고 도시와 산업 현장 전반을 이동하며 데이터를 수집한다. 이는 고정 센서 네트워크만으로는 달성할 수 없던 공간적 커버리지 확장을 가능하게 한다.
 
-```text
-[사물인터넷과 모빌리티의 데이터 흐름 구조]
 
-┌─────────────────────────────────────────────────────────────────────┐
-│ 물리 세계 (Physical Layer) │
-│ [ 공장 기기 ] [ 차량 ] [ 스마트 기기 ] [ 센서 네트워크 ] │
-│ │ │ │ │ │
-│ ▼ ▼ ▼ ▼ │
-│ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ 데이터 생성 계층 (Data Generation) │ │
-│ │ 온도/습도 │ 진동 │ 위치 │ 이미지 │ 음성 │ 환경 센서 │ │
-│ └──────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ 통신 계층 (Communication Layer) │ │
-│ │ Wi-Fi │ Bluetooth │ Zigbee │ LoRa │ NB-IoT │ 5G │ 위성 │ │
-│ └──────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ 플랫폼 계층 (Platform Layer) │ │
-│ │ 데이터 수집 │ 저장 │ 분석 │ 시각화 │ 디바이스 관리 │ │
-│ └──────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ 응용 계층 (Application Layer) │ │
-│ │ 예측 유지보수 │ 자율 제어 │ 자산 추적 │ 에너지 관리 │ 스마트 시티│ │
-│ └──────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물인터넷과 모빌리티의 데이터 흐름 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 세계 (Physical Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공장 기기</div><div class="kb-diagram-node">차량</div><div class="kb-diagram-node">스마트 기기</div><div class="kb-diagram-node">센서 네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 생성 계층 (Data Generation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도/습도</div><div class="kb-diagram-cell">진동</div><div class="kb-diagram-cell">위치</div><div class="kb-diagram-cell">이미지</div><div class="kb-diagram-cell">음성</div><div class="kb-diagram-cell">환경 센서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 계층 (Communication Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wi-Fi</div><div class="kb-diagram-cell">Bluetooth</div><div class="kb-diagram-cell">Zigbee</div><div class="kb-diagram-cell">LoRa</div><div class="kb-diagram-cell">NB-IoT</div><div class="kb-diagram-cell">5G</div><div class="kb-diagram-cell">위성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 계층 (Platform Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div><div class="kb-diagram-cell">저장</div><div class="kb-diagram-cell">분석</div><div class="kb-diagram-cell">시각화</div><div class="kb-diagram-cell">디바이스 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 계층 (Application Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 유지보수</div><div class="kb-diagram-cell">자율 제어</div><div class="kb-diagram-cell">자산 추적</div><div class="kb-diagram-cell">에너지 관리</div><div class="kb-diagram-cell">스마트 시티</div></div>
+</div>
+</div>
+
+
 
 이 구조도에서 핵심은 물리 세계의 다양한 사물이 계층화된 통신 인프라를 통해 플랫폼으로 데이터를하고, 최종적으로 응용 계층에서 비즈니스 가치를 창출한다는 점이다. 따라서 실무에서는 각 계층 간 프로토콜 호환성과 데이터 포맷 표준화가 가장 중요한 설계 고려사항이 된다.
 
@@ -65,23 +52,23 @@ tags = ["ict_convergence"]
 
 모빌리티 기술은 여기에 이동성이라는 가치를 추가한다. 연결형 차량 (Connected Vehicle)은 도로 위에서 다른 차량, 인프라, 클라우드와 실시간으로 통신하여 안전성과 효율성을 동시에 향상시킨다. 한국에서 중인 코어 자동통행 인프라 (C-ITS) 프로젝트는 이 이동성 혁신의 대표적인 사례다.
 
-```text
-[모빌리티 기술 스택의 계층적 구조]
 
-┌─────────────────────────────────────────────────────────┐
-│ 응용 및 서비스 계층 │
-│ 고속도로 자동통행 │ 공장 │ 물류 최적화 │ 긴급 대응 │
-├─────────────────────────────────────────────────────────┤
-│ 서비스 지원 계층 │
-│ 경로 안내 │ 교통 신호 제어 │ 원격 진단 │ OTA 업데이트 │
-├─────────────────────────────────────────────────────────┤
-│ 통신 계층 (Cellular V2X / DSRC) │
-│ C-V2X (3GPP) │ IEEE 802.11p (DSRC) │ 5G URLLC │ 위성 통신 │
-├─────────────────────────────────────────────────────────┤
-│ 디바이스 계층 │
-│ 차량 │ drone │ 로봇 │ AGV │ handheld 단말 │ 인프라 센서 │
-└─────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모빌리티 기술 스택의 계층적 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 및 서비스 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고속도로 자동통행</div><div class="kb-diagram-cell">공장</div><div class="kb-diagram-cell">물류 최적화</div><div class="kb-diagram-cell">긴급 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 지원 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 안내</div><div class="kb-diagram-cell">교통 신호 제어</div><div class="kb-diagram-cell">원격 진단</div><div class="kb-diagram-cell">OTA 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 계층 (Cellular V2X / DSRC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-V2X (3GPP)</div><div class="kb-diagram-cell">IEEE 802.11p (DSRC)</div><div class="kb-diagram-cell">5G URLLC</div><div class="kb-diagram-cell">위성 통신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디바이스 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차량</div><div class="kb-diagram-cell">drone</div><div class="kb-diagram-cell">로봇</div><div class="kb-diagram-cell">AGV</div><div class="kb-diagram-cell">handheld 단말</div><div class="kb-diagram-cell">인프라 센서</div></div>
+</div>
+</div>
+
+
 
 이 스택에서 핵심은 차량을 포함한 모든 이동체들이 서로 그리고 인프라와 상호작용하는 다중 접속 (Multi-Access) 구조다. 따라서 5세대 이동통신의 초저지연 (URLLC, Ultra-Reliable Low-Latency Communication) 특성이 자율주행의 안전 요건과 어떻게되는지를 이해해야 한다.
 
@@ -97,34 +84,27 @@ IoT 시스템의요소는 크게 네 가지로 나눌 수 있다. 첫째, 환경
 
 센서부터 수집된 데이터가 최종적으로 클라우드 플랫폼에 도달하기까지의 과정을 추적하면, 디바이스 드론이 데이터를 읽어 serial 통신으로 마이크로컨트롤러에 전달하고, 마이크로컨트롤러가 가벼운 전처리를 수행한 후 MQTT (Message Queuing Telemetry Transport) 프로토콜로 게이트웨이에 전송한다. 게이트웨이는 여러 디바이스의 데이터를하여 HTTPS로 클라우드에 전달하는 구조다.
 
-```text
-[IoT 디바이스 내부 아키텍처 및 데이터 흐름]
 
-┌──────────────────────────────────────────────────────────────┐
-│ IoT 디바이스 내부 구조 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ [물리적 환경] │
-│ │ │
-│ ▼ │
-│ ┌─────────┐ ┌───────┐ ┌────────────┐ ┌─────────┐ │
-│ │ 센서 │───>│ ADC │───>│ 마이크로컨트롤러 │───>│ 무선 모듈 │ │
-│ │ (온도, │ │ 변환기 │ │ (데이터 처리) │ │ (Wi-Fi, │ │
-│ │ 가속도, │ │ │ │ │ │ BLE, │ │
-│ │ 조도) │ │ │ │ - 데이터 │ │ LoRa) │ │
-│ └─────────┘ └───────┘ │ - 필터링 │ └────┬────┘ │
-│ │ - 압축 │ │ │
-│ │ - 암호화 │ │ │
-│ └───────┬────────┘ │ │
-│ │ │ │
-│ ▼ ▼ │
-│ ┌───────────────────┐ [게이트웨이] │
-│ │ OTA 업데이트 │ │ │
-│ │ (펌웨어 변경) │<─────┘ │
-│ └───────────────────┘ │
-│ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 디바이스 내부 아키텍처 및 데이터 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 디바이스 내부 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">ADC</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">마이크로컨트롤러</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">무선 모듈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(온도,</div><div class="kb-diagram-cell">변환기</div><div class="kb-diagram-cell">(데이터 처리)</div><div class="kb-diagram-cell">(Wi-Fi,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가속도,</div><div class="kb-diagram-cell">BLE,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조도)</div><div class="kb-diagram-cell">- 데이터</div><div class="kb-diagram-cell">LoRa)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 필터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 압축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게이트웨이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OTA 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(펌웨어 변경)</div><div class="kb-diagram-cell">&lt;</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램에서 가장 중요한 설계 포인트는 전력과 처리 능력의trade-off다. 센서는에 전력을 소비하므로 duty cycling (주기적으로 활성화/비활성화) 전략이 필수적이다. 또한 마이크로컨트롤러의 연산 능력이 제한적이라 복잡한 암호화나 데이터 압축은 게이트웨이 또는 클라우드에서 수행하는 것이 일반적이다. 실무에서 저전력 설계의 핵심은 데이터 전송 빈도와 단일 전송당 데이터 양을 최소화하는 데 있다.
 
@@ -132,33 +112,35 @@ IoT 시스템의요소는 크게 네 가지로 나눌 수 있다. 첫째, 환경
 
 IoT에서 사용할 수 있는 무선통신 기술은 매우 다양하며, 각각 설계 목적과 트레이드오프가 다르다. 근거리 통신인 BLE는 수미터 범위에서 극저전력 동작이 가능하지만, 원거리 통신이 필요한 용도에는 적합하지 않다. 반대로 LTE (Long-Term Evolution)나 5G는 광대역 통신이 가능하지만 전력 소비가 크다. 이 사이에서 다양한 기술이 자신의 위치를하고 있다.
 
-```text
-[IoT 무선통신 프로토콜 스펙트럼: 범위 vs 전력 vs 데이터 속도]
 
-높음│
-│ ┌──────────────── 5G NR (Ultra Reliable) ────────┐
-│ │ │ 초고속 │ 대규모 IoT (1M 디바이스/km²) │
-│ ├─────────── LTE-M / NB-IoT ─────────┤
-│ │ 중저전력 │ 중속도 │ 원거리 (10km+) │ CAT-M1 │
-전력 │ ├─────────── LoRaWAN ────────────────┤
-│ │ 전력 │ 저속도 │ 원거리 (5km+) │ Chirp Spread│
-│ ├─────────── Wi-Fi 6 (802.11ax) ─────┤
-│ │ 고전력 │ 고속도 │ 근거리 (100m) │ 고대역폭 │
-│ ├─────────── BLE 5.x ────────────────┤
-│ │ 전력 │ 저속도 │ 근거리 (50m) │ Mesh 지원 │
-│ ├─────────── Zigbee ──────────────────┤
-│ │ 저전력 │ 저속도 │ 근거리 (100m) │ Mesh 지원 │
-│ └──────────────────────────────────────────────────┘
-│
-└────────────────────────────────────────────────────────────────→ 범위
-10m 100m 1km 10km+
 
-핵심 판단 기준:
-- 배터리 10년 이상 필요 → LoRaWAN 또는 NB-IoT
-- 실시간 영상 전송 필요 → Wi-Fi 6 또는 5G
-- 대규모 센서 네트워크 (1000+ 노드) → Zigbee Mesh 또는 5G mMTC
-- 차량 통신 (V2V) 지연 10ms 이내 → C-V2X (5G) 또는 DSRC
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 무선통신 프로토콜 스펙트럼: 범위 vs 전력 vs 데이터 속도</div></div>
+<div class="kb-diagram-note">높음</div>
+<div class="kb-diagram-note">5G NR (Ultra Reliable)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초고속</div><div class="kb-diagram-cell">대규모 IoT (1M 디바이스/km²)</div></div>
+<div class="kb-diagram-note">LTE-M / NB-IoT</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중저전력</div><div class="kb-diagram-cell">중속도</div><div class="kb-diagram-cell">원거리 (10km+)</div><div class="kb-diagram-cell">CAT-M1</div></div>
+<div class="kb-diagram-note">전력 │ LoRaWAN</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력</div><div class="kb-diagram-cell">저속도</div><div class="kb-diagram-cell">원거리 (5km+)</div><div class="kb-diagram-cell">Chirp Spread</div></div>
+<div class="kb-diagram-note">Wi-Fi 6 (802.11ax)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전력</div><div class="kb-diagram-cell">고속도</div><div class="kb-diagram-cell">근거리 (100m)</div><div class="kb-diagram-cell">고대역폭</div></div>
+<div class="kb-diagram-note">BLE 5.x</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력</div><div class="kb-diagram-cell">저속도</div><div class="kb-diagram-cell">근거리 (50m)</div><div class="kb-diagram-cell">Mesh 지원</div></div>
+<div class="kb-diagram-note">Zigbee</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저전력</div><div class="kb-diagram-cell">저속도</div><div class="kb-diagram-cell">근거리 (100m)</div><div class="kb-diagram-cell">Mesh 지원</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ 범위</div>
+<div class="kb-diagram-note">10m 100m 1km 10km+</div>
+<div class="kb-diagram-note">핵심 판단 기준:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">배터리 10년 이상 필요 → LoRaWAN 또는 NB-IoT</div>
+<div class="kb-diagram-tree-item" style="--depth:0">실시간 영상 전송 필요 → Wi-Fi 6 또는 5G</div>
+<div class="kb-diagram-tree-item" style="--depth:0">대규모 센서 네트워크 (1000+ 노드) → Zigbee Mesh 또는 5G mMTC</div>
+<div class="kb-diagram-tree-item" style="--depth:0">차량 통신 (V2V) 지연 10ms 이내 → C-V2X (5G) 또는 DSRC</div>
+</div>
+</div>
+
+
 
 이 스펙트럼에서 핵심은 기술 선택이 결국 서비스 요구사항에서 출발해야 한다는 점이다. 예를 들어 스마트 농업에서 밭에 설치된 토양 센서는 1일 1회 온도/습도 데이터를 전송하면 되므로 NB-IoT가 적합하지만, 공장 품질 관리용 머시비전 카메라 시스템은 Wi-Fi 6 이상의 대역폭이 필요하다. 서로 다른 요구사항에 동일한 프로토콜을 억지로 적용하면 비용이 불필요하게 상승하거나 성능이 부족해진다.
 
@@ -166,48 +148,31 @@ IoT에서 사용할 수 있는 무선통신 기술은 매우 다양하며, 각�
 
 V2X (Vehicle-to-Everything)는 차량이 주변 모든 것과 통신하는 기술을 포괄하는 용어다. V2V (차량), V2I (차량-인프라), V2P (차량-보행자), V2N (차량-네트워크), V2C (차량-클라우드)로 구분된다. 이러한 다중 통신 경로를 통해 자율주행 시스템은 센서 퓨전 (Sensor Fusion)으로 라이다 (LiDAR), 레이다 (Radar), 카메라에서 오는 데이터를 결합하여 주변 환경을 보다 정확하게 인식한다.
 
-```text
-[자율주행차의 센서 퓨전 아키텍처 및 V2X 통신 구조]
 
-┌──────────────────────────────────────────────────────────────────┐
-│ 자율주행 시스템 전체 구조 │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌──────────────────┐ ┌──────────────────┐ ┌──────────────┐│
-│ │ 라이다 (LiDAR) │ │ 레이다 (Radar) │ │ 카메라 (Camera)││
-│ │ 3D 포인트클라우드│ │ 거리/속도 측정 │ │ 영상 인식 ││
-│ │ 각도 분해능 높음│ │ 작동 │ │ 포착 ││
-│ │ ($5,000~75,000)│ │ ($500~2,000) │ │ ($100~500) ││
-│ └────────┬─────────┘ └────────┬─────────┘ └──────┬───────┘│
-│ │ │ │ │
-│ └───────────────────────┼─────────────────────┘ │
-│ ▼ │
-│ ┌─────────────────────────┐ │
-│ │ 센서 퓨전 (Sensor Fusion) │ │
-│ │ - 데이터 시간 동기화 (±10ms) │ │
-│ │ - 좌표계 변환 (자율차 기준) │ │
-│ │ - 객체 탐지 및 추적 (Tracking)│ │
-│ │ - 신뢰도 │ │
-│ └─────────────┬───────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌─────────────────────────┐ │
-│ │ 자율주행 판단 시스템 │ │
-│ │ 상황 판단 → 경로 계획 → │ │
-│ │ 제어 명령 생성 │ │
-│ └─────────────┬───────────┘ │
-│ │ │
-│ ┌────────────────────────┼────────────────────────┐ │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ V2V 통신 │ │ V2I 통신 │ │ V2N 통신 │ │
-│ │ 차량 거리 │ │ 신호등/표지 │ │ 클라우드OTA │ │
-│ │ 정보 공유 │ │ 정보 수신 │ │ 지도 업데이트│ │
-│ └─────────────┘ └─────────────┘ └─────────────┘ │
-│ │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율주행차의 센서 퓨전 아키텍처 및 V2X 통신 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행 시스템 전체 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라이다 (LiDAR)</div><div class="kb-diagram-cell">레이다 (Radar)</div><div class="kb-diagram-cell">카메라 (Camera)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3D 포인트클라우드</div><div class="kb-diagram-cell">거리/속도 측정</div><div class="kb-diagram-cell">영상 인식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각도 분해능 높음</div><div class="kb-diagram-cell">작동</div><div class="kb-diagram-cell">포착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">($5,000~75,000)</div><div class="kb-diagram-cell">($500~2,000)</div><div class="kb-diagram-cell">($100~500)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 퓨전 (Sensor Fusion)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 시간 동기화 (±10ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 좌표계 변환 (자율차 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 객체 탐지 및 추적 (Tracking)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 신뢰도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행 판단 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 판단 → 경로 계획 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 명령 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V2V 통신</div><div class="kb-diagram-cell">V2I 통신</div><div class="kb-diagram-cell">V2N 통신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차량 거리</div><div class="kb-diagram-cell">신호등/표지</div><div class="kb-diagram-cell">클라우드OTA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 공유</div><div class="kb-diagram-cell">정보 수신</div><div class="kb-diagram-cell">지도 업데이트</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 센서 퓨전에서 시간 동기화가 가장 까다로운 문제라는 점이다. 라이다, 레이다, 카메라는 각각 수집 주기가 다르고 (예: 라이다 10Hz, 레이다 20Hz, 카메라 30Hz) 지연 시간도 다르다. 이 Disparity를 보정하지 않으면 퓨전된 환경 모델이 왜곡되어 급격한 브레이크나 스티어링 입력으로 이어질 수 있다. 실무에서는 PTP (Precision Time Protocol)나 GPS타임 스탬프를 기반으로 100나노초 이하 동기화 정밀도를 달성한다.
 
@@ -223,40 +188,44 @@ V2X (Vehicle-to-Everything)는 차량이 주변 모든 것과 통신하는 기�
 
 네트워크 관점에서는 저전력 광역망 (LPWAN, Low-Power Wide-Area Network) 기술인 NB-IoT (Narrowband IoT)와 LoRaWAN이 셀룰러 네트워크와 저전력 메쉬 네트워크의 장점을 결합한다. 보안 관점에서는 디바이스의 제한된 연산 능력을 고려한 경량 암호화 (Lightweight Cryptography)와 안전한 OTA 업데이트 메커니즘이 필수적이다.
 
-```text
-[사물인터넷과 타 과목 융합 메트릭스]
 
-┌──────────────┬──────────────────────┬──────────────────────┬────────────────────┐
-│ 분야 │ 융합 핵심 │ 시너지 효과 │ 핵심 기술 과제 │
-├──────────────┼──────────────────────┼──────────────────────┼────────────────────┤
-│ 데이터베이스 │ TSDB / edge storage │ 실시간 분석, downsampling│ 데이터 볼륨 관리 │
-│ 네트워크 │ LPWAN, 5G URLLC, MEC │ 초저지연, 대규모 연결 │ 프로토콜 상호운용성│
-│ 보안 │ 경량 암호화, TPM, Secure Boot│ 디바이스 인증, 데이터 무결성│ 제한된 연산 자원│
-│ 인공지능 │ Edge AI, TinyML, Federated Learning│ 데이터 기반 의사결정 자동화│ 모델 경량화│
-│ 운영체제 │ RTOS, Embedded Linux │ 실시간 제어, 디바이스 관리│ 자원 제약 관리│
-│ 클라우드 │ Fog/Edge computing │ 분산 처리, 데이터 현지성│ 아키텍처 복잡성│
-└──────────────┴──────────────────────┴──────────────────────┴────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물인터넷과 타 과목 융합 메트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분야</div><div class="kb-diagram-cell">융합 핵심</div><div class="kb-diagram-cell">시너지 효과</div><div class="kb-diagram-cell">핵심 기술 과제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스</div><div class="kb-diagram-cell">TSDB / edge storage</div><div class="kb-diagram-cell">실시간 분석, downsampling</div><div class="kb-diagram-cell">데이터 볼륨 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크</div><div class="kb-diagram-cell">LPWAN, 5G URLLC, MEC</div><div class="kb-diagram-cell">초저지연, 대규모 연결</div><div class="kb-diagram-cell">프로토콜 상호운용성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안</div><div class="kb-diagram-cell">경량 암호화, TPM, Secure Boot</div><div class="kb-diagram-cell">디바이스 인증, 데이터 무결성</div><div class="kb-diagram-cell">제한된 연산 자원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인공지능</div><div class="kb-diagram-cell">Edge AI, TinyML, Federated Learning</div><div class="kb-diagram-cell">데이터 기반 의사결정 자동화</div><div class="kb-diagram-cell">모델 경량화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제</div><div class="kb-diagram-cell">RTOS, Embedded Linux</div><div class="kb-diagram-cell">실시간 제어, 디바이스 관리</div><div class="kb-diagram-cell">자원 제약 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드</div><div class="kb-diagram-cell">Fog/Edge computing</div><div class="kb-diagram-cell">분산 처리, 데이터 현지성</div><div class="kb-diagram-cell">아키텍처 복잡성</div></div>
+</div>
+</div>
+
+
 
 #### 3-2. 모빌리티 기술 간 비교: C-V2X versus DSRC
 
 자율주행과 연결형 차량의 핵심 통신 기술로 C-V2X (Cellular Vehicle-to-Everything)와 DSRC (Dedicated Short-Range Communications)가 경쟁하고 있다. DSRC는 IEEE 802.11p 표준 기반으로 2000년대 초부터 미국에서 표준화가 진행되었으며, V2V 안전 메시지를 직접 통신하는 것이 핵심이다. 반면 C-V2X는 3GPP Release 14에서 시작되어 5G NR까지 진화하는 셀룰러 기반 기술이다.
 
-```text
-[C-V2X versus DSRC 기술 비교]
 
-┌──────────────┬────────────────────────────┬────────────────────────────┐
-│ 항목 │ C-V2X (3GPP 기반) │ DSRC (IEEE 802.11p) │
-├──────────────┼────────────────────────────┼────────────────────────────┤
-│ 통신 방식 │ 셀룰러 네트워크 + 직접 통신 │ 순수 직접 통신 (Ad-hoc) │
-│ 지연 시간 │ 5G에서 1ms 이하 목표 │ typical 50~100ms │
-│ 통신 거리 │ V2N 1km+, V2V 500m │ 300~1000m │
-│ 네트워크 의존성│ 네트워크 커버리지 활용 가능 │ 네트워크 불필요 (직접 통신) │
-│ 확장성 │ 5G mMTC 지원 (100K 디바이스/km²)│ 제한적 (채널 경합) │
-│ 국제 표준화 │ 3GPP (글로벌) │ IEEE (자동차업계 혼합 지원) │
-│ 실용 사례 │ 중국 (C-V2X 의무화), 한국 C-ITS│ 미국 eHorizon 등 일부 │
-└──────────────┴────────────────────────────┴────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X versus DSRC 기술 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">C-V2X (3GPP 기반)</div><div class="kb-diagram-cell">DSRC (IEEE 802.11p)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 방식</div><div class="kb-diagram-cell">셀룰러 네트워크 + 직접 통신</div><div class="kb-diagram-cell">순수 직접 통신 (Ad-hoc)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 시간</div><div class="kb-diagram-cell">5G에서 1ms 이하 목표</div><div class="kb-diagram-cell">typical 50~100ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 거리</div><div class="kb-diagram-cell">V2N 1km+, V2V 500m</div><div class="kb-diagram-cell">300~1000m</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 의존성</div><div class="kb-diagram-cell">네트워크 커버리지 활용 가능</div><div class="kb-diagram-cell">네트워크 불필요 (직접 통신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">5G mMTC 지원 (100K 디바이스/km²)</div><div class="kb-diagram-cell">제한적 (채널 경합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국제 표준화</div><div class="kb-diagram-cell">3GPP (글로벌)</div><div class="kb-diagram-cell">IEEE (자동차업계 혼합 지원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실용 사례</div><div class="kb-diagram-cell">중국 (C-V2X 의무화), 한국 C-ITS</div><div class="kb-diagram-cell">미국 eHorizon 등 일부</div></div>
+</div>
+</div>
+
+
 
 C-V2X의 가장 큰 장점은 셀룰러 네트워크 인프라를 활용할 수 있어 V2I (차량-인프라) 통신과 V2N (차량-네트워크) 통신을 하나의 모듈로 지원한다는 점이다. 반면 DSRC는 네트워크 인프라 없이 V2V 직접 통신이 가능하다는 점에서 통신가 Sparse한 지역에서 유리하다. 현재 한국과 중국은 C-V2X를, 미국은 DSRC와 C-V2X를 병행하는 전략을 취하고 있다.
 
@@ -264,40 +233,37 @@ C-V2X의 가장 큰 장점은 셀룰러 네트워크 인프라를 활용할 수 
 
 클라우드 컴퓨팅만으로는 자율주행, 산업 자동화, AR (Augmented Reality) 같은 초저지연 서비스 제공이 어렵다. 데이터센터까지의 지연이 수십에서 수백 밀리초에 달하기 때문이다. 에지 컴퓨팅 (Edge Computing)은 데이터를 발생된 장소 가까이에서 처리하여 지연 시간을 1밀리초 이하로 단축한다.
 
-```text
-[클라우드-에지-디바이스 3계층 컴퓨팅 아키텍처]
 
-┌─────────────────────────────────────────┐
-│ 클라우드 (Cloud) │
-│ (데이터센터 레벨: 제한 연산/저장) │
-│ - 대규모 배치 학습 (Training) │
-│ - 장기 데이터 아카이브 │
-│ - 글로벌 모델 업데이트 │
-└──────────────────┬────────────────────────┘
-│ 지연: 50~200ms
-│ 대역폭: 높음
-▼
-┌──────────────────────────────────────────────────────────────┐
-│ 에지 (Edge / Mobile Edge Computing) │
-│ ( 또는 지역수: 중규모 연산/저장) │
-│ - 실시간 추론 (Inference, <10ms) │
-│ - 센서 데이터 필터링 및 │
-│ - 로컬 모델 업데이트 (< 100MB) │
-│ - V2X 경로 안내 및 신호 최적화 │
-└──────┬───────────────────────┬──────────────────────┬────────┘
-│ 지연: 1~10ms │ 지연: 1~10ms │ 지연: 1~10ms
-│ 대역폭: 중간 │ 대역폭: 중간 │ 대역폭: 중간
-▼ ▼ ▼
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-│ 자율주행차 │ │ 공장 robot │ │ 스마트폰 │
-│ ( 처리) │ │ (선 에지) │ │ ( 에지) │
-└─────────────┘ └─────────────┘ └─────────────┘
 
-핵심 설계 원칙:
-- 데이터 지역성 (Data Locality): 처리를 데이터 발생한 곳에 가장 가까운 계층에서 수행
-- 자율성 (Autonomy): 에지 또는 디바이스가 클라우드 단절 시에도 독립 운영
-- 계층적 협력: 상위 계층으로 올라갈수록 더 복잡하지만 더전역적인 판단 가능
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드-에지-디바이스 3계층 컴퓨팅 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 (Cloud)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터센터 레벨: 제한 연산/저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대규모 배치 학습 (Training)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장기 데이터 아카이브</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 글로벌 모델 업데이트</div></div>
+<div class="kb-diagram-note">지연: 50~200ms</div>
+<div class="kb-diagram-note">대역폭: 높음</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에지 (Edge / Mobile Edge Computing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 또는 지역수: 중규모 연산/저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실시간 추론 (Inference, &lt;10ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 센서 데이터 필터링 및</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로컬 모델 업데이트 (&lt; 100MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- V2X 경로 안내 및 신호 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연: 1~10ms</div><div class="kb-diagram-cell">지연: 1~10ms</div><div class="kb-diagram-cell">지연: 1~10ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대역폭: 중간</div><div class="kb-diagram-cell">대역폭: 중간</div><div class="kb-diagram-cell">대역폭: 중간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행차</div><div class="kb-diagram-cell">공장 robot</div><div class="kb-diagram-cell">스마트폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 처리)</div><div class="kb-diagram-cell">(선 에지)</div><div class="kb-diagram-cell">( 에지)</div></div>
+<div class="kb-diagram-note">핵심 설계 원칙:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">데이터 지역성 (Data Locality): 처리를 데이터 발생한 곳에 가장 가까운 계층에서 수행</div>
+<div class="kb-diagram-tree-item" style="--depth:0">자율성 (Autonomy): 에지 또는 디바이스가 클라우드 단절 시에도 독립 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:0">계층적 협력: 상위 계층으로 올라갈수록 더 복잡하지만 더전역적인 판단 가능</div>
+</div>
+</div>
+
+
 
 이 아키텍처에서 핵심은 모든 것을 에지에서 처리하려고 하지 않아야 한다는 점이다. 급하게 판단해야 하는 것(긴급 제동, 충돌 회피)은 에지 또는 디바이스에서 처리하고, 장기적인 패턴 분석이나 모델 재훈련은 클라우드에서 수행하는 것이 효율적이다. 따라서 실무에서는 데이터 분류 기준(처리 위치 결정)을 미리 정의하는 것이 아키텍처 설계의 핵심이다.
 
@@ -324,21 +290,26 @@ C-V2X의 가장 큰 장점은 셀룰러 네트워크 인프라를 활용할 수 
 - **의사결정**: 도심 500개 교차점에 차량 감지 센서와 통신형 신호등(V2I)을 설치하고, AI 기반 실시간 신호 제어 시스템(에지 컴퓨팅 + 중앙 코디네이션)을 구축한다.
 - **판단 근거**:Pilots 결과 평균 통행 시간 12%, 연료 소비 8% 감소를 달성했다. 그러나 초기 투자비(500억 원 이상)와 기존 신호 시스템과의 interoperability, 그리고 개인정보 보호(차량 번호판 인식) 문제가 동반된다.
 
-```text
-[IoT/Moability 도입 여부 판별 트리]
 
-[질문 1] 문제의 핵심이 "데이터가 없어서 판단을 못 하는 것"인가?
-└─ No ──> 기존 시스템/프로세스 개선으로 충분
-└─ Yes ──> [질문 2] 해당 데이터를 사람이 수집하는 비용/시간이 감당 불가 수준인가?
-└─ No ──> 센서/작업 모니터링 검토
-└─ Yes ──> [질문 3] 실시간(1초~1분 이내) 판단이 필수적인가?
-└─ No ──> 배치 데이터 수집 (하루/주간 단위) 고려
-└─ Yes ──> [질문 4] 야외/원격 환경인가?
-└─ No ──> Wi-Fi + Ethernet IoT 고려
-└─ Yes ──> [질문 5] 전력 공급이 안정적인가?
-└─ No ──> 배터리/태하 + LPWAN 고려
-└─ Yes ──> 5G/4G LTE-M 고려
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT/Moability 도입 여부 판별 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">질문 1</div><div class="kb-diagram-note">문제의 핵심이 "데이터가 없어서 판단을 못 하는 것"인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 기존 시스템/프로세스 개선으로 충분</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 2</div><div class="kb-diagram-note">해당 데이터를 사람이 수집하는 비용/시간이 감당 불가 수준인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 센서/작업 모니터링 검토</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 3</div><div class="kb-diagram-note">실시간(1초~1분 이내) 판단이 필수적인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 배치 데이터 수집 (하루/주간 단위) 고려</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 4</div><div class="kb-diagram-note">야외/원격 환경인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; Wi-Fi + Ethernet IoT 고려</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 5</div><div class="kb-diagram-note">전력 공급이 안정적인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 배터리/태하 + LPWAN 고려</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Yes ──&gt; 5G/4G LTE-M 고려</div>
+</div>
+</div>
+
+
 
 #### 4-2. 도입 체크리스트
 

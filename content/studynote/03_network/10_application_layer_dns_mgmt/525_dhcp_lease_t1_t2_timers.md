@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 클라이언트에게 IP 주소를 영구적으로 할당하지 않고, **특정 시간(Lease Time, 예: 8시간, 24시간 등) 동안만 사용을 허락하는 개념**입니다.
+[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 클라이언트에게 IP 주소를 영구적으로 할당하지 않고, <strong>특정 시간(Lease Time, 예: 8시간, 24시간 등) 동안만 사용을 허락하는 개념</strong>입니다.
 이 임대 시간이 없다면, 폰을 끄고 퇴사한 사람의 IP가 영원히 회수되지 않아 IP 고갈(Exhaustion) 사태가 발생하게 됩니다.
 
-```text
-[DHCP Relay Agent]
-    │
-    ▼
-[DHCP Lease / DHCP 갱신]
-    │
-    └──▶ [DHCP Snooping]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP Relay Agent</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP Lease / DHCP 갱신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP Snooping</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,12 +43,17 @@ tags = ["studynote-network"]
 
 클라이언트는 IP를 계속 사용하기 위해 임대 시간이 끝나기 전에 서버에 갱신(Renewal)을 요청해야 합니다. 이때 두 번의 알람(타이머)이 작동합니다.
 
-```text
-[ 임대 시간의 흐름 (예: 24시간) ]
-0시간                  12시간(50%)              21시간(87.5%)            24시간(100%)
-  ├────────────────────────┼────────────────────────┼────────────────────────┤
-시작                     T1 (갱신)                T2 (재바인딩)            만료 (IP 회수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">임대 시간의 흐름 (예: 24시간)</div></div>
+<div class="kb-diagram-note">0시간 12시간(50%) 21시간(87.5%) 24시간(100%)</div>
+<div class="kb-diagram-note">시작 T1 (갱신) T2 (재바인딩) 만료 (IP 회수)</div>
+</div>
+</div>
+
+
 
 ### 1. T1 [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) (Renewal [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/), 임대 시간의 50%)
 - **언제?**: 전체 임대 시간의 **절반(50%)** 이 지났을 때.
@@ -53,7 +62,7 @@ tags = ["studynote-network"]
 
 ### 2. T2 [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) (Rebinding [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/), 임대 시간의 87.5%)
 - **언제?**: T1 요청이 실패한 채로 전체 임대 시간의 **87.5%** 에 도달했을 때.
-- **무엇을?**: 원래 서버가 죽었다고 판단하고, 다급해진 클라이언트는 네트워크 전체에 **브로드캐스트**로 "아무 서버나 나 이 IP 계속 쓰게 연장 좀 해줘!"라고 소리칩니다. (`DHCP Request`)
+- **무엇을?**: 원래 서버가 죽었다고 판단하고, 다급해진 클라이언트는 네트워크 전체에 <strong>브로드캐스트</strong>로 "아무 서버나 나 이 IP 계속 쓰게 연장 좀 해줘!"라고 소리칩니다. (`DHCP Request`)
 - **결과**: 다른 예비 서버가 승인(Ack)해주면 다행이지만, 여기서도 실패하고 100% 시간이 다 차버리면 클라이언트는 **즉시 IP 사용을 중지(네트워크 끊김)** 하고, 처음([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Discover)부터 빈손으로 다시 시작해야 합니다.
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -63,7 +72,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **카페, 공항 (유동 인구 많음)**: 1~2시간 (빨리 회수해야 IP 부족 사태를 막음)
-- **사무실 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (고정 인원)**: 1주~1달 (갱신 트래픽 부하를 줄임)
+- <strong>사무실 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> (고정 인원)</strong>: 1주~1달 (갱신 트래픽 부하를 줄임)
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent가 기반 조건을 만든다면, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신은 그 위에서 핵심 메커니즘을 구현하고, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -115,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DHCP Relay Agent]
-    │
-    ▼
-[현재 개념: DHCP Lease / DHCP 갱신]
-    │
-    ├──▶ [확장 A: DHCP Snooping]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP Relay Agent</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DHCP Lease / DHCP 갱신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP Snooping</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Lease / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

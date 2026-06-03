@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 평문 데이터를 1비트씩 처리하지 않고, **특정 길이(예: 64비트, 128비트)의 커다란 덩어리(Block) 단위로 뭉텅 썰어서 암호화와 복호화를 수행하는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) 방식**입니다.
+- 평문 데이터를 1비트씩 처리하지 않고, <strong>특정 길이(예: 64비트, 128비트)의 커다란 덩어리(Block) 단위로 뭉텅 썰어서 암호화와 복호화를 수행하는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">대칭키 암호화</a> 방식</strong>입니다.
 - 평문을 암호문으로 바꿀 때, 한 번만 섞는 것이 아니라 여러 번의 복잡한 섞기 과정(Round, 라운드)을 빙글빙글 돌려서 평문과 암호문 사이의 수학적 상관관계를 완전히 박살 내버립니다(혼돈과 확산 원리).
 
-```text
-[스트림 암호]
-    │
-    ▼
-[블록 암호]
-    │
-    └──▶ [AES]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AES</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 블록 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,21 +45,25 @@ tags = ["studynote-network"]
 
 ### 1. DES의 스펙과 구조 (페이스텔 구조)
 - **블록 크기**: 데이터를 **64비트** 단위 박스로 잘라서 넣습니다.
-- **키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 길이**: 64비트 키를 쓰지만 파리티 비트를 빼면 실제 **56비트** 길이의 비밀번호를 씁니다.
-- **구조**: 좌우 데이터를 반으로 쪼개서 크로스 교차시키고 함수(S-Box)를 먹이는 과정을 무려 16바퀴(16 라운드) 반복하는 **'페이스텔(Feistel)' 구조**를 발명해 내어, 당시로선 외계인도 못 푸는 철옹성을 만들었습니다.
+- <strong>키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 길이</strong>: 64비트 키를 쓰지만 파리티 비트를 빼면 실제 **56비트** 길이의 비밀번호를 씁니다.
+- **구조**: 좌우 데이터를 반으로 쪼개서 크로스 교차시키고 함수(S-Box)를 먹이는 과정을 무려 16바퀴(16 라운드) 반복하는 <strong>'페이스텔(Feistel)' 구조</strong>를 발명해 내어, 당시로선 외계인도 못 푸는 철옹성을 만들었습니다.
 
 ### 2. DES의 처참한 몰락
 - 시간이 흘러 컴퓨터의 CPU 발전 속도(무어의 법칙)가 너무 빨라졌습니다.
 - 56비트라는 키 길이는 경우의 수가 $2^{56}$(약 7경 개)인데, 1990년대 말 해커들이 만든 특수 슈퍼컴퓨터(Deep Crack)가 하루 종일 7경 개의 비밀번호를 1부터 무식하게 하나씩 다 찍어보는 '무차별 대입 공격(Brute-force)'을 돌렸더니 단 이틀 만에 금고가 덜컥 열려버렸습니다. 현재는 보안성이 0에 수렴하여 **절대 사용 금지** 권고가 내려졌습니다.
 
-```text
-[스트림 암호]
-    │
-    ▼
-[블록 암호]
-    │
-    └──▶ [AES]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AES</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 블록 암호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 
 미국 정부가 다급해졌습니다. DES가 뚫렸는데, 당장 새로운 암호 체계([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))를 만들 시간이 없었고 은행들도 기존 장비를 다 버릴 수 없었습니다.
 
-- **개념**: 기존의 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) 기계를 그대로 쓰되, 평문을 통과시킬 때 **기계 3대를 일렬로 붙여서 3번 연속으로 돌려버리는(암호화 -> 복호화 -> 암호화) 무식하지만 확실한 땜질 처방**입니다.
-- **효과**: 56비트 키를 3번 쓰니까 키 길이가 **168비트(또는 112비트)**로 늘어나는 효과가 생겨 해커가 뚫는 데 수십억 년이 걸리게 방어력을 뻥튀기했습니다.
+- **개념**: 기존의 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) 기계를 그대로 쓰되, 평문을 통과시킬 때 <strong>기계 3대를 일렬로 붙여서 3번 연속으로 돌려버리는(암호화 -> 복호화 -> 암호화) 무식하지만 확실한 땜질 처방</strong>입니다.
+- **효과**: 56비트 키를 3번 쓰니까 키 길이가 <strong>168비트(또는 112비트)</strong>로 늘어나는 효과가 생겨 해커가 뚫는 데 수십억 년이 걸리게 방어력을 뻥튀기했습니다.
 - **단점**: 기계를 3번이나 억지로 돌리니 소프트웨어 속도가 미친 듯이 느려져서 스마트폰 시대에 도저히 쓸 수 없었습니다. 차세대 AES가 나올 때까지 버틴 '임시방편' 모델이었습니다.
 
 블록 암호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)가 기반 조건을 만든다면, 블록 암호는 그 위에서 핵심 메커니즘을 구현하고, AES는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스트림 암호]
-    │
-    ▼
-[현재 개념: 블록 암호]
-    │
-    ├──▶ [확장 A: AES]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스트림 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AES</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 블록 암호는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AES와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

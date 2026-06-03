@@ -30,32 +30,29 @@ tags = ["studynote-cloud-architecture"]
 
 컨피그맵과 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 Key-Value 쌍으로 데이터를 저장하며, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 생성될 때 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) (ENV) 또는 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) ([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)) 형태로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부에 주입된다. [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)의 경우 추가적으로 데이터를 Base64로 인코딩하여 저장하며, 노드의 디스크가 아닌 휘발성 메모리 (tmpfs)에 저장되어 보안을 강화한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       쿠버네티스 파드 설정 주입 아키텍처 (Config Injection)       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ConfigMap] (일반 텍스트)       [Secret] (Base64 인코딩)    │
-│  DB_PORT=3306                 DB_PASS=cGFzc3dvcmQ=           │
-│       │                              │                       │
-│       │ (주입 방식 선택)             │ (메모리 기반 마운트)  │
-│       ▼                              ▼                       │
-│  ┌───────────────── 파드 (Pod) ───────────────────────────┐  │
-│  │                                                        │  │
-│  │ 1. 환경 변수 (ENV): OS 환경 변수로 일회성 로드         │  │
-│  │ 2. 볼륨 마운트 (Volume Mount): /etc/config/ 파일 연결  │  │
-│  │                                                        │  │
-│  │ ─────────▶ [컨테이너 프로세스 실행] ◀──────────        │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠버네티스 파드 설정 주입 아키텍처 (Config Injection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ConfigMap</div><div class="kb-diagram-note">(일반 텍스트)</div><div class="kb-diagram-node">Secret</div><div class="kb-diagram-note">(Base64 인코딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PORT=3306 DB_PASS=cGFzc3dvcmQ=</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주입 방식 선택)</div><div class="kb-diagram-cell">(메모리 기반 마운트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파드 (Pod)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 환경 변수 (ENV): OS 환경 변수로 일회성 로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 볼륨 마운트 (Volume Mount): /etc/config/ 파일 연결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 프로세스 실행</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램은 외부에 저장된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부로 전달되는 흐름을 보여준다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 방식은 주입이 간단하지만 런타임에 동적으로 값을 업데이트할 수 없고, 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 방식은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 제공되어 값이 변경되면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 없이도 실시간 갱신 (Hot Reload)이 가능하다는 차이가 있다.
 
 | 주입 방식 | 특징 | 장점 | 단점 |
 | :--- | :--- | :--- | :--- |
-| **[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) (ENV)** | OS 전역 변수로 할당 | 접근이 직관적, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 단순 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 전까지 값 갱신 불가 |
-| **볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) ([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))** | 특정 디렉터리에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 시 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 가능 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 로직 필요 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a> (ENV)</strong> | OS 전역 변수로 할당 | 접근이 직관적, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 단순 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 전까지 값 갱신 불가 |
+| <strong>볼륨 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a>)</strong> | 특정 디렉터리에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 시 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 가능 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 로직 필요 |
 
 - **📢 섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)는 출근 첫날 사원증에 직급을 적어주는 것과 같아 승진하면 사원증([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))을 새로 발급받아야 하고, 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 온라인 사내 게시판과 같아서 규정이 바뀌면 언제든 새로고침하여 최신 정보를 읽을 수 있습니다.
 
@@ -83,7 +80,7 @@ tags = ["studynote-cloud-architecture"]
 실무에서 컨피그맵과 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 설계할 때는 "[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 시 애플리케이션이 어떻게 반응할 것인가"와 "보안 사고를 어떻게 방지할 것인가"를 기준으로 판단해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: ConfigMap이 변경되었을 때 애플리케이션이 이를 감지하여 런타임에 핫 리로드 (Hot Reload)를 수행하는가? (스프링 부트의 Actuator 등 연동)
+1. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: ConfigMap이 변경되었을 때 애플리케이션이 이를 감지하여 런타임에 핫 리로드 (Hot Reload)를 수행하는가? (스프링 부트의 Actuator 등 연동)
 2. **권한 최소화**: Secret에 접근할 수 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 어카운트 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Account) 권한이 최소한으로 부여되어 있는가?
 3. **암호화 확장**: etcd에 저장된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)이 정지 상태 (At [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))에서 암호화되어 관리되고 있는가?
 
@@ -110,28 +107,30 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/)** | 코드와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 분리하여 환경 이식성을 높이는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계 원칙 |
-| **[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) ([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/))** | 한 번 생성된 이미지를 변경하지 않고 배포하는 개념으로, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리가 필수적 |
-| **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))** | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체에 무단으로 접근하지 못하도록 통제하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 권한 관리 시스템 |
-| **볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) ([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/) [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 없이 최신 값을 실시간으로 반영하기 위한 연결 방식 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a></strong> | 코드와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 분리하여 환경 이식성을 높이는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계 원칙 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>)</strong> | 한 번 생성된 이미지를 변경하지 않고 배포하는 개념으로, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리가 필수적 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">Role-Based Access Control</a>)</strong> | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체에 무단으로 접근하지 못하도록 통제하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 권한 관리 시스템 |
+| <strong>볼륨 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">Mount</a>)</strong> | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 없이 최신 값을 실시간으로 반영하기 위한 연결 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-하드코딩 (Hard-coding)
-    │
-    ▼
-환경 변수 (OS ENV) 분리 · 12-Factor App
-    │
-    ▼
-ConfigMap · Secret (쿠버네티스 네이티브 설정 주입)
-    │
-    ▼
-볼륨 마운트 (Volume Mount) · 핫 리로드 (Hot Reload)
-    │
-    ▼
-External Secrets Operator · KMS (Key Management Service) 연동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하드코딩 (Hard-coding)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">환경 변수 (OS ENV) 분리 · 12-Factor App</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ConfigMap · Secret (쿠버네티스 네이티브 설정 주입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">볼륨 마운트 (Volume Mount) · 핫 리로드 (Hot Reload)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">External Secrets Operator · KMS (Key Management Service) 연동</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 장난감 로봇(프로그램)을 만들 때, 건전지([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값)를 아예 로봇 안에 본드로 붙여버리면 나중에 고장이 나요.

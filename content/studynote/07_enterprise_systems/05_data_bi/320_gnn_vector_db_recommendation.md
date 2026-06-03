@@ -29,28 +29,24 @@ GNN은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│          GNN + 벡터 DB 기반 추천 시스템 아키텍처                    │
-├──────────────────────────────────────────────────────────────────┤
-│  오프라인 학습 파이프라인 (배치)                                     │
-│  사용자-아이템 그래프 구성 (클릭, 구매, 평점 → 엣지)                 │
-│    │                                                              │
-│    ▼                                                              │
-│  GNN 학습 (LightGCN, GraphSAGE)                                  │
-│  └─ 각 노드(사용자·아이템)에 대해 이웃 임베딩 집계                   │
-│    │                                                              │
-│    ▼                                                              │
-│  임베딩 벡터 생성 (사용자: 128d, 아이템: 128d)                      │
-│    │                                                              │
-│    ▼                                                              │
-│  벡터 DB 저장 (Milvus/Pinecone: HNSW 인덱스 구축)                  │
-│                                                                  │
-│  온라인 서빙 파이프라인 (실시간)                                     │
-│  사용자 요청 → 사용자 임베딩 조회 → ANN 검색 → Top-K 아이템 반환    │
-│  응답: 수백ms → 재랭킹 (Business Rule 필터) → 최종 추천 리스트      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GNN + 벡터 DB 기반 추천 시스템 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프라인 학습 파이프라인 (배치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자-아이템 그래프 구성 (클릭, 구매, 평점 → 엣지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GNN 학습 (LightGCN, GraphSAGE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 각 노드(사용자·아이템)에 대해 이웃 임베딩 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 벡터 생성 (사용자: 128d, 아이템: 128d)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 DB 저장 (Milvus/Pinecone: HNSW 인덱스 구축)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인 서빙 파이프라인 (실시간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 → 사용자 임베딩 조회 → ANN 검색 → Top-K 아이템 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답: 수백ms → 재랭킹 (Business Rule 필터) → 최종 추천 리스트</div></div>
+</div>
+</div>
+
+
 
 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델          | 특성                              | 추천 적합성                   |
 |:---------------|:----------------------------------|:-----------------------------|
@@ -84,14 +80,14 @@ GNN은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계 단계**:
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> 설계 단계</strong>:
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집: 사용자 행동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (클릭, 구매, 체류 시간) → 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구성
 2. [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 학습: LightGCN으로 사용자·아이템 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (주기적 배치 재학습)
 3. [벡터 인덱싱](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/300_ann_approximate_nearest_neighbor_vector_index/): Milvus에 아이템 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구축
 4. 온라인 서빙: 사용자 요청 → 사용자 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 조회 → [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/) [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 검색 → 비즈니스 필터
 5. A/B 테스트: [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) vs 기존 MF 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 ([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), CVR 지표)
 
-**[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 최신성 유지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 최신성 유지 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 - 신규 아이템 ([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)): 사이드 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) ([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 이미지) 기반 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - 온라인 업데이트: 새 상호작용 발생 시 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 점진적 업데이트 (Online [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 연구 분야)
 - 주기적 재학습: 일·주 단위 전체 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 재학습 + 벡터 DB 업데이트
@@ -122,24 +118,25 @@ GNN은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-협업 필터링 (User-Item 행렬)
-    │
-    ▼
-행렬 인수분해 (MF, SVD) → 임베딩 학습
-    │
-    ▼
-딥러닝 추천 (NCF, DeepFM)
-    │
-    ▼
-GNN 추천 (LightGCN, PinSage, NGCF)
-    │
-    ▼
-벡터 DB (Milvus, Pinecone) + ANN 실시간 서빙
-    │
-    ▼
-LLM + 벡터 DB: RAG (Retrieval-Augmented Generation) 추천
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">협업 필터링 (User-Item 행렬)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">행렬 인수분해 (MF, SVD) → 임베딩 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝 추천 (NCF, DeepFM)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GNN 추천 (LightGCN, PinSage, NGCF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벡터 DB (Milvus, Pinecone) + ANN 실시간 서빙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM + 벡터 DB: RAG (Retrieval-Augmented Generation) 추천</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

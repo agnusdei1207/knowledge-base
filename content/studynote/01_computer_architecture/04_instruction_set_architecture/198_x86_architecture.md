@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: x86 아키텍처는 8086에서 시작해 IA-32 (Intel [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 32-bit), x86-64 (AMD64, AMD 64-bit [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))로 확장된 **가변 길이 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))**다.
+> 1. **본질**: x86 아키텍처는 8086에서 시작해 IA-32 (Intel [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 32-bit), x86-64 (AMD64, AMD 64-bit [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))로 확장된 <strong>가변 길이 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/">CISC</a> (Complex <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Set Computer) <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 집합 구조 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a>, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>)</strong>다.
 > 2. **가치**: 오랜 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 덕분에 데스크톱, 서버, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 개발 도구 생태계가 매우 두텁고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 응용 소프트웨어를 끊김 없이 이어 주는 산업 표준 역할을 해 왔다.
 > 3. **판단 포인트**: 겉으로는 복잡한 CISC이지만 내부는 마이크로 연산과 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)으로 단순화해 처리하므로, x86의 핵심 이해 포인트는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)"과 "내부 실행 단순화"의 긴장 관계다.
 
@@ -31,7 +31,7 @@ x86이 없으면 어떤 문제가 생길까를 생각하면 필요성이 더 선
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 x86 프로세서는 겉으로 보이는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식과 내부 실행 방식이 다르다. 소프트웨어는 가변 길이 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 보지만, 하드웨어는 이를 잘게 나눈 마이크로 연산 ([Micro-Operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/), μop)으로 바꿔 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행한다. 즉 **외부 인터페이스는 복잡성을 유지하고, 내부 엔진은 규칙성을 되찾는 구조**가 핵심이다.
+현대 x86 프로세서는 겉으로 보이는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식과 내부 실행 방식이 다르다. 소프트웨어는 가변 길이 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 보지만, 하드웨어는 이를 잘게 나눈 마이크로 연산 ([Micro-Operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/), μop)으로 바꿔 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행한다. 즉 <strong>외부 인터페이스는 복잡성을 유지하고, 내부 엔진은 규칙성을 되찾는 구조</strong>가 핵심이다.
 
 먼저 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 1바이트에서 15바이트까지 길이가 달라 디코드 (Decode) 자체가 어렵다. 접두어, [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/), 주소 지정 정보, 즉시값이 섞여 있어 어디서 한 명령이 끝나고 다음 명령이 시작되는지부터 판별해야 한다. 그래서 현대 x86 코어는 프리디코더, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/), μop 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 같은 앞단 회로에 많은 면적과 전력을 투자한다.
 
@@ -39,34 +39,31 @@ x86이 없으면 어떤 문제가 생길까를 생각하면 필요성이 더 선
 
 아래 그림은 x86의 외부 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 내부에서 어떻게 단순화되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           x86 명령어가 내부 실행 경로로 변환되는 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로그램 코드                                                       │
-│   MOV RAX, [RBX+8]                                                  │
-│   ADD RAX, RCX                                                      │
-│   JNZ target                                                        │
-│        │                                                            │
-│        ▼                                                            │
-│ 프런트엔드 (Front-End)                                              │
-│   ├─ 분기 예측 (Branch Prediction)                                  │
-│   ├─ 프리디코드 / 디코드 (Predecode / Decode)                       │
-│   └─ μop 캐시 (Micro-Op Cache)                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ 내부 μop 변환                                                       │
-│   LOAD   p1, [RBX+8]                                                │
-│   ADD    p2, p1, RCX                                                │
-│   BRANCH if NZ                                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ 백엔드 (Back-End)                                                   │
-│   ├─ 레지스터 리네이밍 (Register Renaming)                          │
-│   ├─ 스케줄링 / 비순차 실행 (Scheduling / OoOE)                     │
-│   └─ ALU · Load/Store · SIMD 유닛                                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 명령어가 내부 실행 경로로 변환되는 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">MOV RAX,</div><div class="kb-diagram-node">RBX+8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD RAX, RCX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JNZ target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프런트엔드 (Front-End)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분기 예측 (Branch Prediction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 프리디코드 / 디코드 (Predecode / Decode)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ μop 캐시 (Micro-Op Cache)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 μop 변환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD p1,</div><div class="kb-diagram-node">RBX+8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD p2, p1, RCX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BRANCH if NZ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 (Back-End)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 레지스터 리네이밍 (Register Renaming)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스케줄링 / 비순차 실행 (Scheduling / OoOE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ALU · Load/Store · SIMD 유닛</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 x86이 단순히 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 직접 실행하는 구조"가 아니라는 점이다. 실제 병목은 대개 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 전력 예산에서 발생한다. 그래서 최신 x86 설계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체를 더 화려하게 만들기보다, 앞단 해독 비용을 줄이고 뒤단 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 높이는 데 집중한다.
 
@@ -130,7 +127,7 @@ x86 아키텍처의 가장 큰 효과는 연속성이다. 수십 년간 축적�
 
 하지만 한계도 분명하다. 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 오래 지킬수록 해독 회로와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담은 커지고, 전성비 경쟁에서는 단순한 ISA가 유리한 구간이 생긴다. 또한 보안 취약점 대응, 전력 관리, 코어 이질화 대응처럼 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 바깥의 비용도 점점 중요해지고 있다.
 
-따라서 x86은 "낡았지만 강한 구조"라고 단순 평가하기보다, **레거시 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 현대적 내부 최적화가 공존하는 현실적 타협의 산물**로 기억하는 것이 맞다. 앞으로도 x86은 서버와 PC에서 중요한 축으로 남겠지만, 그 경쟁력은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 자체보다 생태계, 툴체인, 전력·보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 최적화 능력에서 계속 판가름 날 가능성이 크다.
+따라서 x86은 "낡았지만 강한 구조"라고 단순 평가하기보다, <strong>레거시 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>과 현대적 내부 최적화가 공존하는 현실적 타협의 산물</strong>로 기억하는 것이 맞다. 앞으로도 x86은 서버와 PC에서 중요한 축으로 남겠지만, 그 경쟁력은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 자체보다 생태계, 툴체인, 전력·보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 최적화 능력에서 계속 판가름 날 가능성이 크다.
 
 - **📢 섹션 요약 비유**: x86은 오래된 철도 시스템과 같다. 선로 규격은 쉽게 못 바꾸지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계와 기관차를 계속 개선해 여전히 대규모 물류를 책임지는 방식으로 살아남는다.
 
@@ -149,27 +146,27 @@ x86 아키텍처의 가장 큰 효과는 연속성이다. 수십 년간 축적�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-8086 기반 16비트 출발
-    │
-    ▼
-IA-32 (Intel Architecture 32-bit)
-    │
-    ├─ 보호 모드 · 페이징 · PC 운영체제 확장
-    │
-    ▼
-슈퍼스칼라 · μop 변환 · 비순차 실행
-    │
-    ▼
-x86-64 (AMD64, AMD 64-bit Architecture)
-    │
-    ├─ 가상화 확장 (VT-x / AMD-V)
-    ├─ SIMD 확장 (SSE → AVX → AVX-512)
-    └─ 서버 · 클라우드 중심 최적화
-    │
-    ▼
-전력·보안·이기종 코어까지 포함한 현대 플랫폼 경쟁
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">8086 기반 16비트 출발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IA-32 (Intel Architecture 32-bit)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">보호 모드 · 페이징 · PC 운영체제 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈퍼스칼라 · μop 변환 · 비순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">x86-64 (AMD64, AMD 64-bit Architecture)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">가상화 확장 (VT-x / AMD-V)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SIMD 확장 (SSE → AVX → AVX-512)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">서버 · 클라우드 중심 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전력·보안·이기종 코어까지 포함한 현대 플랫폼 경쟁</div>
+</div>
+</div>
+
+
 
 이 흐름은 x86이 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수만 늘린 것이 아니라, PC용 ISA에서 서버·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·고성능 컴퓨팅 플랫폼으로 진화한 과정을 보여 준다.
 

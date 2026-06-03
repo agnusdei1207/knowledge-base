@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 일반 가정이나 소규모 사무실에서 사용하는 '공유기(예: 아이피타임)'는 단순한 스위치가 아닙니다.
-인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)로부터 받은 **단 1개의 공인 IP(Public IP)** 를 가지고, 집 안의 **여러 대의 기기(스마트폰, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 동시에 인터넷을 쓸 수 있게** 만들어 주는 완벽한 네트워크 복합 장비입니다.
+인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)로부터 받은 **단 1개의 공인 IP(Public IP)** 를 가지고, 집 안의 <strong>여러 대의 기기(스마트폰, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)가 동시에 인터넷을 쓸 수 있게</strong> 만들어 주는 완벽한 네트워크 복합 장비입니다.
 
-```text
-[DHCP Snooping]
-    │
-    ▼
-[NAT/DHCP 결합 환경]
-    │
-    └──▶ [SNMP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP Snooping</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT/DHCP 결합 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,24 +43,27 @@ tags = ["studynote-network"]
 
 공유기는 크게 '내부망(LAN) 관리'와 '외부망(WAN) 연결' 두 가지 작업을 동시에 수행합니다.
 
-```text
-[ 내부망 (LAN, 192.168.0.x) ]         [ 공유기 (NAT + DHCP) ]        [ 외부망 (인터넷) ]
-                                      ┌───────────────────┐
-스마트폰 ◀──(192.168.0.10 할당)──────┤ 1. DHCP Server    │
-                                      │                   │
-노트북   ◀──(192.168.0.20 할당)──────┤                   ├──(공인 IP)──▶ 구글 서버
-                                      │ 2. NAT (PAT)      │ 203.24.5.1
-PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 변환  │
-                                      └───────────────────┘
-```
 
-1. **내부망 - [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버의 역할**
-   - 가족들이 집에 와서 와이파이를 켜면, 공유기 내부의 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 작동하여 `192.168.0.x` 대역의 **사설 IP([Private IP](/knowledge-base/studynote/03_network/06_network_layer_ip/299_private_ip_ranges_10_172_192/))** 를 스마트폰과 노트북에 자동으로 뿌려줍니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부망 (LAN, 192.168.0.x)</div><div class="kb-diagram-node">공유기 (NAT + DHCP)</div><div class="kb-diagram-node">외부망 (인터넷)</div></div>
+<div class="kb-diagram-note">스마트폰 ◀──(192.168.0.10 할당) 1. DHCP Server</div>
+<div class="kb-diagram-note">노트북 ◀──(192.168.0.20 할당) ──(공인 IP)──▶ 구글 서버</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. NAT (PAT)</div><div class="kb-diagram-cell">203.24.5.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC ──(192.168.0.30 출발) ▶</div><div class="kb-diagram-cell">사설 ➔ 공인 변환</div></div>
+</div>
+</div>
+
+
+
+1. <strong>내부망 - <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 서버의 역할</strong>
+   - 가족들이 집에 와서 와이파이를 켜면, 공유기 내부의 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 작동하여 `192.168.0.x` 대역의 <strong>사설 IP(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/299_private_ip_ranges_10_172_192/">Private IP</a>)</strong> 를 스마트폰과 노트북에 자동으로 뿌려줍니다.
    - 이때 기본 게이트웨이(Gateway)와 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 주소는 '공유기 자신의 사설 IP(예: 192.168.0.1)'로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)합니다.
 
-2. **외부망 - [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(PAT) 라우터의 역할**
+2. <strong>외부망 - <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>(PAT) 라우터의 역할</strong>
    - 사설 IP(`192.168.0.x`)는 집 밖(인터넷)에서는 쓸 수 없는 가짜 주소입니다.
-   - 내부 기기가 구글에 접속하려 할 때, 공유기의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(정확히는 PAT) 기능이 동작하여 패킷의 출발지 주소를 사설 IP에서 **통신사(KT)로부터 받아온 1개의 '공인 IP'로 변환**하여 인터넷으로 내보냅니다.
+   - 내부 기기가 구글에 접속하려 할 때, 공유기의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(정확히는 PAT) 기능이 동작하여 패킷의 출발지 주소를 사설 IP에서 <strong>통신사(KT)로부터 받아온 1개의 '공인 IP'로 변환</strong>하여 인터넷으로 내보냅니다.
    - [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 다르게 매핑([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Address Translation)하여, 돌아오는 응답 패킷이 스마트폰으로 갈지 노트북으로 갈지 완벽하게 찾아줍니다.
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -65,8 +72,8 @@ PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 �
 
 ## Ⅲ. 비교 및 연결
 
-- **WAN [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 통신사 모뎀과 연결되는 선. (통신사의 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버로부터 공인 IP를 '받아옵니다')
-- **LAN [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 집 안의 PC들과 연결되는 선. (공유기가 직접 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 되어 사설 IP를 '나눠줍니다')
+- <strong>WAN <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 통신사 모뎀과 연결되는 선. (통신사의 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버로부터 공인 IP를 '받아옵니다')
+- <strong>LAN <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 집 안의 PC들과 연결되는 선. (공유기가 직접 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 되어 사설 IP를 '나눠줍니다')
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping가 기반 조건을 만든다면, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경은 그 위에서 핵심 메커니즘을 구현하고, SNMP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +125,19 @@ PC       ──(192.168.0.30 출발)──────▶│ 사설 ➔ 공인 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DHCP Snooping]
-    │
-    ▼
-[현재 개념: NAT/DHCP 결합 환경]
-    │
-    ├──▶ [확장 A: SNMP]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP Snooping</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAT/DHCP 결합 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 SNMP와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

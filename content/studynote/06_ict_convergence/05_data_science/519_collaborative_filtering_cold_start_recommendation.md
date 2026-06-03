@@ -38,24 +38,28 @@ tags = ["studynote-ict-convergence"]
 
 ### [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))
 
-```
-사용자-아이템 평점 행렬 R (희소 행렬)
-┌─────────────────────────────────┐
-│     아이템1  아이템2  아이템3   │
-│ 유저1  5       ?       3        │
-│ 유저2  ?       4       ?        │
-│ 유저3  2       ?       5        │
-└─────────────────────────────────┘
-         ↓ 행렬 분해 (k 잠재 요인)
-    R ≈ P × Qᵀ
-    P: 유저 잠재 행렬 (n×k)
-    Q: 아이템 잠재 행렬 (m×k)
-    목표: ?로 표시된 빈 셀 예측
-```
 
-- **SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))**: 관측된 평점 오차를 최소화하며 P, Q 학습.
-- **ALS ([Alternating Least Squares](/knowledge-base/studynote/06_ict_convergence/05_data_science/349_svd_als_recommendation/))**: P 고정 후 Q 최적화, Q 고정 후 P 최적화를 반복 — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리에 적합 ([Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/)).
-- **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항**: λ(‖P‖² + ‖Q‖²) 추가로 과적합 방지.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자-아이템 평점 행렬 R (희소 행렬)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아이템1 아이템2 아이템3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저1 5 ? 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저2 ? 4 ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저3 2 ? 5</div></div>
+<div class="kb-diagram-note">↓ 행렬 분해 (k 잠재 요인)</div>
+<div class="kb-diagram-note">R ≈ P × Qᵀ</div>
+<div class="kb-diagram-note">P: 유저 잠재 행렬 (n×k)</div>
+<div class="kb-diagram-note">Q: 아이템 잠재 행렬 (m×k)</div>
+<div class="kb-diagram-note">목표: ?로 표시된 빈 셀 예측</div>
+</div>
+</div>
+
+
+
+- <strong>SGD (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/">Stochastic Gradient Descent</a>)</strong>: 관측된 평점 오차를 최소화하며 P, Q 학습.
+- <strong>ALS (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/349_svd_als_recommendation/">Alternating Least Squares</a>)</strong>: P 고정 후 Q 최적화, Q 고정 후 P 최적화를 반복 — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리에 적합 ([Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/)).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 항</strong>: λ(‖P‖² + ‖Q‖²) 추가로 과적합 방지.
 
 | 방법 | 특징 | 활용 |
 |:---|:---|:---|
@@ -79,7 +83,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 딥러닝 추천 모델
 
-- **NCF (Neural [Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/))**: MF의 내적(Inner Product)을 DNN으로 대체 → 비선형 상호작용 학습.
+- <strong>NCF (Neural <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/">Collaborative Filtering</a>)</strong>: MF의 내적(Inner Product)을 DNN으로 대체 → 비선형 상호작용 학습.
 - **Two-Tower 모델**: 유저 타워 + 아이템 타워 → 각각 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/), [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 검색으로 수백만 아이템 중 후보 추출.
 - **Session-based Recommendation**: [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/), Transformer로 현재 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 내 순차적 클릭 패턴 학습.
 
@@ -89,13 +93,13 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 - OTT 플랫폼 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)**:
+<strong>시나리오 - OTT 플랫폼 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a></strong>:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 100만 유저, 10만 아이템, 5억 건 시청 이력.
 - Two-Tower 모델로 실시간 후보 추출(Retrieval) 단계: 유저당 상위 1,000개.
 - 두 번째 단계(Ranking): LightGBM으로 1,000개 중 최종 10개 재정렬.
 - 평가: NDCG@[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) = 0.73, A/B 테스트 시청 완료율 +12%.
 
-**[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 대응**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> 대응</strong>:
 - 신규 유저: 첫 3편 시청 후 클러스터 배정 → 해당 클러스터의 인기 콘텐츠 추천.
 - 신규 아이템: 출시 48시간은 장르·배우 기반 콘텐츠 필터링 → 임계 평점(100건) 도달 후 CF 전환.
 
@@ -113,7 +117,7 @@ tags = ["studynote-ict-convergence"]
 
 - **비즈니스 가치**: 아마존의 35%+ 매출이 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서 발생.
 - **사용자 경험**: 긴 탐색 없이 적합한 콘텐츠 빠른 발견.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선순환**: 추천 → 소비 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축적 → 더 나은 추천.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 선순환</strong>: 추천 → 소비 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축적 → 더 나은 추천.
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 유튜브 알고리즘이야. 내가 고양이 영상을 보면 더 많은 고양이 영상을 추천하고, 새 영상([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/))은 처음엔 비슷한 채널의 팬들에게 보여줘서 반응을 확인해.
 

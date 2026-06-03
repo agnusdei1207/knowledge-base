@@ -57,28 +57,24 @@ LIMIT 100
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 사기 링 탐지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
 
-```
-  ┌───────────────────────────────────────────────────────────────┐
-  │                    사기 링 탐지 그래프                         │
-  │                                                               │
-  │    [Account A]────REGISTERED_WITH────[Phone: 010-1234-5678]  │
-  │         │                                       │            │
-  │    TRANS_TO                           REGISTERED_WITH        │
-  │         │                                       │            │
-  │    [Account B]                        [Account C] ★의심      │
-  │         │                                       │            │
-  │    REGISTERED_WITH                SHARES_ADDRESS             │
-  │         │                                       │            │
-  │    [Email: x@fake.com]            [Address: 서울 강남구]       │
-  │         │                                       │            │
-  │    REGISTERED_WITH                    REGISTERED_WITH        │
-  │         │                                       │            │
-  │    [Account D] ★의심              [Account E] ★의심           │
-  │                                                               │
-  │  → A-B-C-D-E가 공유 식별자로 연결된 사기 링 (Ring)             │
-  │  → 4-hop: SQL JOIN 12개 vs Neo4j Cypher 단일 쿼리             │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사기 링 탐지 그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Account A</div><div class="kb-diagram-note">REGISTERED_WITH</div><div class="kb-diagram-node">Phone: 010-1234-5678</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TRANS_TO REGISTERED_WITH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Account B</div><div class="kb-diagram-node">Account C</div><div class="kb-diagram-note">★의심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REGISTERED_WITH SHARES_ADDRESS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Email: x@fake.com</div><div class="kb-diagram-node">Address: 서울 강남구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REGISTERED_WITH REGISTERED_WITH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Account D</div><div class="kb-diagram-note">★의심</div><div class="kb-diagram-node">Account E</div><div class="kb-diagram-note">★의심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ A-B-C-D-E가 공유 식별자로 연결된 사기 링 (Ring)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 4-hop: SQL JOIN 12개 vs Neo4j Cypher 단일 쿼리</div></div>
+</div>
+</div>
+
+
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -146,21 +142,23 @@ LIMIT 100
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-RDB 조인 기반 사기 탐지 - 복잡한 관계에서 성능 한계
-    │
-    ▼
-그래프 DB (Neo4j) - 노드·엣지 네이티브 저장
-    │
-    ▼
-실시간 그래프 트래버설 - 연결 관계 패턴 탐지
-    │
-    ▼
-GDS (Graph Data Science) - PageRank·커뮤니티 탐지
-    │
-    ▼
-GNN + Neo4j 하이브리드 - AI 기반 사기 예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDB 조인 기반 사기 탐지 - 복잡한 관계에서 성능 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그래프 DB (Neo4j) - 노드·엣지 네이티브 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실시간 그래프 트래버설 - 연결 관계 패턴 탐지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GDS (Graph Data Science) - PageRank·커뮤니티 탐지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GNN + Neo4j 하이브리드 - AI 기반 사기 예측</div>
+</div>
+</div>
+
+
 
 > **키워드**: Neo4j, [Graph Database](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/), [Cypher Query](/knowledge-base/studynote/16_bigdata/06_nosql/134_cypher_query/), Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), GDS, [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Traversal, Community [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)
 

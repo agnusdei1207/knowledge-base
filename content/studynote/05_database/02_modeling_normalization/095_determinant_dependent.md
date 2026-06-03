@@ -15,11 +15,11 @@ tags = ["database"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(컬럼) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악하는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 유지하는 첫걸음이다. **결정자 (Determinant)**는 특정 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에서 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 값을 유일하게 식별해 낼 수 있는 권력을 가진 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 반대로 **종속자 (Dependent)**는 스스로는 값을 확정할 수 없고 결정자의 값에 기생하여 값이 매겨지는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(컬럼) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악하는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 유지하는 첫걸음이다. <strong>결정자 (Determinant)</strong>는 특정 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에서 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 값을 유일하게 식별해 낼 수 있는 권력을 가진 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 반대로 <strong>종속자 (Dependent)</strong>는 스스로는 값을 확정할 수 없고 결정자의 값에 기생하여 값이 매겨지는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.
 
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서는 중복과 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) ([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))을 막기 위해 테이블을 쪼개야([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 하는데, 이때 "어떤 컬럼이 어떤 컬럼을 결정하는가?"라는 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency)을 정확히 파악하지 못하면 잘못된 테이블 분리가 일어난다. 따라서 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내의 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간 결정권(결정자와 종속자)을 지도처럼 그리는 작업이 필수적이다.
 
-- **📢 섹션 요약 비유**: 결정자와 종속자는 **'자판기 버튼'과 '나오는 음료수'**와 같다. 사용자가 '콜라 버튼(결정자)'을 누르면 자판기는 무조건 '콜라 캔(종속자)'을 떨어뜨려야 한다. 버튼이 음료수의 운명을 지배한다.
+- **📢 섹션 요약 비유**: 결정자와 종속자는 <strong>'자판기 버튼'과 '나오는 음료수'</strong>와 같다. 사용자가 '콜라 버튼(결정자)'을 누르면 자판기는 무조건 '콜라 캔(종속자)'을 떨어뜨려야 한다. 버튼이 음료수의 운명을 지배한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
@@ -32,22 +32,21 @@ tags = ["database"]
 
 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 결정자가 될 수도 있다. 예를 들어 수강 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)(학번, 과목코드, 성적)에서 '학번' 단독으로는 여러 과목을 수강하므로 성적을 결정할 수 없고, '과목코드' 단독으로도 수강생이 많아 성적을 결정할 수 없다. 오직 `{학번, 과목코드}`라는 복합 키가 뭉쳐야만 하나의 결정자 집합으로서 `성적`을 종속자로 거느릴 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  함수적 종속성(FD) 관계도                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ 결정자 (Determinant, X) ]      [ 종속자 (Dependent, Y) ] │
-│                                                              │
-│   단일 속성:       학번 ───────────────────▶ 이름, 학과       │
-│                                                              │
-│   복합 속성: {학번, 과목코드} ───────────────▶ 성적             │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성(FD) 관계도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정자 (Determinant, X)</div><div class="kb-diagram-node">종속자 (Dependent, Y)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 속성: 학번 ▶ 이름, 학과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복합 속성: {학번, 과목코드} ▶ 성적</div></div>
+</div>
+</div>
+
+
 이 그림은 결정자가 단일 컬럼일 수도 있고 복합 컬럼일 수도 있으며, 화살표의 방향이 곧 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 식별의 주도권임을 보여준다.
 
-- **📢 섹션 요약 비유**: 복합 결정자는 은행의 **투투 (Two-man) 룰 금고**와 같다. 지점장의 열쇠(학번)와 부지점장의 열쇠(과목코드)가 동시에 꽂혀야만 금고(성적)가 열리듯, 두 값이 합쳐져야 완전한 결정권이 생긴다.
+- **📢 섹션 요약 비유**: 복합 결정자는 은행의 <strong>투투 (Two-man) 룰 금고</strong>와 같다. 지점장의 열쇠(학번)와 부지점장의 열쇠(과목코드)가 동시에 꽂혀야만 금고(성적)가 열리듯, 두 값이 합쳐져야 완전한 결정권이 생긴다.
 
 ## Ⅲ. 비교 및 연결
 
@@ -70,8 +69,8 @@ tags = ["database"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **숨은 결정자 찾기**: 모든 일반 컬럼을 나열하고, PK 없이도 서로를 유일하게 식별하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 있는지 묻는다. (예: 우편번호 $\rightarrow$ 시/군/구)
-2. **역방향 종속 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: "이름을 알면 학번을 알 수 있는가?" 동명이인이 있다면 이는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 성립하지 않는다. 철저히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미(Semantic)를 기반으로 1:1, 1:N 방향성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
-3. **[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) 위반 방지**: 복합 키(A, B)로 이루어진 테이블에서 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) C가 복합 키의 일부인 B를 결정해버리는(역극) 상황이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. <strong>역방향 종속 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: "이름을 알면 학번을 알 수 있는가?" 동명이인이 있다면 이는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 성립하지 않는다. 철저히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미(Semantic)를 기반으로 1:1, 1:N 방향성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+3. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> 위반 방지</strong>: 복합 키(A, B)로 이루어진 테이블에서 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) C가 복합 키의 일부인 B를 결정해버리는(역극) 상황이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 ### 기술사 판단 포인트
 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) (DM)나 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 환경에서는 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 의도적으로 부분/이행 함수 종속을 허용(반정규화)하기도 한다. 즉, 결정자-종속자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 100% 분리하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 환경에서는 정답이지만, 분석([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 환경에서는 오답일 수 있음을 시스템 목적에 따라 판단해야 한다.
@@ -89,27 +88,29 @@ tags = ["database"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency)** | 결정자와 종속자 간의 $X \rightarrow Y$ 수학적 종속 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| **제2/제3 정규형 ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))** | 부분 함수 종속 및 이행 함수 종속을 제거하여 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 분리하는 과정 |
-| **보이스-코드 정규형 ([BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/))** | 모든 결정자가 후보 키가 되도록 테이블을 쪼개는 엄격한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | 결정자와 종속자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 꼬여 있을 때 발생하는 삽입/삭제/갱신 오류 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/">함수적 종속성</a> (Functional Dependency)</strong> | 결정자와 종속자 간의 $X \rightarrow Y$ 수학적 종속 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| <strong>제2/제3 정규형 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a>, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>)</strong> | 부분 함수 종속 및 이행 함수 종속을 제거하여 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 분리하는 과정 |
+| <strong>보이스-코드 정규형 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a>)</strong> | 모든 결정자가 후보 키가 되도록 테이블을 쪼개는 엄격한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 결정자와 종속자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 꼬여 있을 때 발생하는 삽입/삭제/갱신 오류 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-엔티티 및 속성 도출
-    │
-    ▼
-결정자 (Determinant) 및 종속자 (Dependent) 식별
-    │
-    ▼
-함수적 종속성 (Functional Dependency) 분석 (완전, 부분, 이행)
-    │
-    ▼
-정규화 (Normalization) 수행 (1NF ~ BCNF)
-    │
-    ▼
-반정규화 (De-normalization) 판단 (성능 요건 고려)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">엔티티 및 속성 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결정자 (Determinant) 및 종속자 (Dependent) 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 분석 (완전, 부분, 이행)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 (Normalization) 수행 (1NF ~ BCNF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반정규화 (De-normalization) 판단 (성능 요건 고려)</div>
+</div>
+</div>
+
+
 이 흐름도는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 나열한 뒤, 권력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(결정자)를 파악하고, 이를 기반으로 테이블을 쪼개고([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 합치는(반정규화) 실무 설계 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

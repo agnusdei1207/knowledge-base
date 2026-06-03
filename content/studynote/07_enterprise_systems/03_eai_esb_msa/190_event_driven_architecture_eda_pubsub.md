@@ -33,18 +33,20 @@ EDA의 핵심 구성은 생산자, 이벤트 브로커, 토픽 또는 큐, 소�
 
 아래 그림은 전형적인 퍼블리시/서브스크라이브 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Event propagation through broker                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Order Service -- publish OrderPlaced --> Broker Topic               │
-│                                         ├─ Inventory Consumer       │
-│                                         ├─ Payment Consumer         │
-│                                         └─ Notification Consumer    │
-│                                                                      │
-│ Trace ID / key / schema version travel with the event               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event propagation through broker</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Service -- publish OrderPlaced --&gt; Broker Topic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Inventory Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Payment Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Notification Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace ID / key / schema version travel with the event</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -70,7 +72,7 @@ EDA는 동기 요청-응답과 다르며, [메시](/knowledge-base/studynote/01_
 | 작업 큐 | 비동기 처리와 백프레셔 | 다중 소비자 확장성은 제한적 | 배치 작업, 단일 후속 처리 |
 | [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) Pub/Sub | 다중 소비자, 확장성, 느슨한 결합 | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 운영 복잡성 | 주문 후속 처리, 알림, 분석, 통합 이벤트 |
 
-EDA는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)), 명령 질의 책임 분리 ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)과 자주 연결된다. 예를 들어 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 이벤트를 통해 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)을 이어 가고, CQRS는 읽기 모델을 비동기 이벤트로 갱신한다. 따라서 EDA는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 기술이 아니라, **시스템을 상태 변화 중심으로 조직하는 사고방식**에 가깝다.
+EDA는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)), 명령 질의 책임 분리 ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)과 자주 연결된다. 예를 들어 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 이벤트를 통해 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)을 이어 가고, CQRS는 읽기 모델을 비동기 이벤트로 갱신한다. 따라서 EDA는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 기술이 아니라, <strong>시스템을 상태 변화 중심으로 조직하는 사고방식</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: 직접 손을 잡고 줄지어 움직이는 행진보다, 무전 방송을 듣고 각 팀이 자기 자리에서 동시에 움직이는 운영 방식에 더 가깝다.
 
@@ -105,7 +107,7 @@ EDA는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_co
 
 EDA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 결합을 줄이고, 다수의 후속 처리를 독립적으로 확장하게 해 준다. 생산자는 빠르게 업무를 마감하고, 소비자는 자신만의 속도로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 조절할 수 있으므로 대규모 트래픽과 부분 장애 상황에 특히 강하다. 또한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적과 재처리의 근거가 되어, 운영 복원력 향상에도 기여한다.
 
-하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 즉시 맞지 않을 수 있고, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중복·순서·장애 재처리를 체계적으로 관리해야 한다는 부담이 따른다. 결국 EDA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 직접 호출하지 않는다"가 핵심이 아니라, **상태 변화의 사실을 안정적으로 기록하고 해석하는 운영 체계**로 이해해야 한다. 그래서 이벤트 설계와 운영 규율이 빈약하면, EDA는 단순 결합 해소가 아니라 새로운 복잡성의 원인이 될 수 있다.
+하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 즉시 맞지 않을 수 있고, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중복·순서·장애 재처리를 체계적으로 관리해야 한다는 부담이 따른다. 결국 EDA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 직접 호출하지 않는다"가 핵심이 아니라, <strong>상태 변화의 사실을 안정적으로 기록하고 해석하는 운영 체계</strong>로 이해해야 한다. 그래서 이벤트 설계와 운영 규율이 빈약하면, EDA는 단순 결합 해소가 아니라 새로운 복잡성의 원인이 될 수 있다.
 
 - **📢 섹션 요약 비유**: 잘 운영되는 방송국은 많은 사람에게 동시에 소식을 전하지만, 녹음 보관함과 재방송 규칙이 있어야 놓친 사람도 다시 들을 수 있는 것과 같다.
 
@@ -124,21 +126,23 @@ EDA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-동기 호출 체인의 결합 증가
-        │
-        ▼
-브로커 기반 비동기 메시징 도입
-        │
-        ▼
-Publish / Subscribe 이벤트 전파
-        │
-        ▼
-멱등성 · DLQ · 추적 체계 강화
-        │
-        ▼
-Saga · CQRS · Event Sourcing 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동기 호출 체인의 결합 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브로커 기반 비동기 메시징 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Publish / Subscribe 이벤트 전파</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멱등성 · DLQ · 추적 체계 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Saga · CQRS · Event Sourcing 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)에서 출발해, 점차 이벤트 중심 운영과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 확장되는 구조를 보여 준다.
 

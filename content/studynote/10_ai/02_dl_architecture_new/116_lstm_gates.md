@@ -10,33 +10,33 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LSTM의 3개 게이트는 모두 **[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)(σ)로 0~1 사이 값을 출력**하여 정보 흐름을 조절하는 "수도꼭지"이며, 각 게이트의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($W_f, W_i, W_o$)는 **학습을 통해 자동으로 최적화**된다.
-> 2. **가치**: Forget Gate의 σ 출력이 0.9이면 "이전 기억의 90%를 유지"하고, 0.1이면 "90%를 삭제"한다. 이 세밀한 **아날로그 제어**가 바닐라 RNN의 전부-아니면-전무(all-or-nothing) 정보 흐름을 대체한다.
-> 3. **판단 포인트**: Forget Gate 바이어스를 **1로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화**하면 학습 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 기존 기억을 보존하여 안정적 학습이 가능하며(Jozefowicz et al., 2015), 이것이 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 학습의 핵심 트릭이다.
+> 1. **본질**: LSTM의 3개 게이트는 모두 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a>(σ)로 0~1 사이 값을 출력</strong>하여 정보 흐름을 조절하는 "수도꼭지"이며, 각 게이트의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($W_f, W_i, W_o$)는 <strong>학습을 통해 자동으로 최적화</strong>된다.
+> 2. **가치**: Forget Gate의 σ 출력이 0.9이면 "이전 기억의 90%를 유지"하고, 0.1이면 "90%를 삭제"한다. 이 세밀한 <strong>아날로그 제어</strong>가 바닐라 RNN의 전부-아니면-전무(all-or-nothing) 정보 흐름을 대체한다.
+> 3. **판단 포인트**: Forget Gate 바이어스를 <strong>1로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong>하면 학습 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 기존 기억을 보존하여 안정적 학습이 가능하며(Jozefowicz et al., 2015), 이것이 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 학습의 핵심 트릭이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    LSTM 게이트별 정보 흐름                             │
-├───────────────────────────────────────────────────────┤
-│  [Forget Gate] f_t = σ(W_f · [h_{t-1}, x_t] + b_f)  │
-│  → C_{t-1}에서 얼마나 삭제할지 결정 (0~1)            │
-│                                                       │
-│  [Input Gate]  i_t = σ(W_i · [h_{t-1}, x_t] + b_i)   │
-│  → 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)        │
-│  C̃_t = tanh(W_c · [h_{t-1}, x_t] + b_c)            │
-│                                                       │
-│  [Cell State Update]                                  │
-│  C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t                  │
-│                                                       │
-│  [Output Gate] o_t = σ(W_o · [h_{t-1}, x_t] + b_o)   │
-│  → Cell State에서 얼마나 출력할지 결정 (0~1)          │
-│  h_t = o_t ⊙ tanh(C_t)                              │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 게이트별 정보 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Forget Gate</div><div class="kb-diagram-note">f_t = σ(W_f ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_f)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ C_{t-1}에서 얼마나 삭제할지 결정 (0~1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input Gate</div><div class="kb-diagram-note">i_t = σ(W_i ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_i)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">C̃_t = tanh(W_c ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_c)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cell State Update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Output Gate</div><div class="kb-diagram-note">o_t = σ(W_o ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_o)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Cell State에서 얼마나 출력할지 결정 (0~1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = o_t ⊙ tanh(C_t)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 각 게이트는 댐의 수문이다. Forget은 하류 방류(삭제), Input은 상류 유입(추가), Output은 발전기(출력)에 보내는 물의 양을 조절한다.
 
@@ -67,9 +67,9 @@ tags = ["studynote-ai"]
 | 비교 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) (3 Gate) | [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) (2 Gate) |
 |:---|:---|:---|
 | **Forget+Input** | 별도 | **Reset+Update (통합)** |
-| **Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 별도 존재 | h에 통합 |
+| <strong>Cell <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 별도 존재 | h에 통합 |
 | **파라미터** | 많음 | **적음** |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 약간 우수 | 유사 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 약간 우수 | 유사 |
 
 ---
 
@@ -77,13 +77,13 @@ tags = ["studynote-ai"]
 
 ### [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 트릭
 - **Forget Gate 바이어스 = 1**: `nn.LSTM`에서 `forget_bias=1.0` → 학습 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기억 보존.
-- **Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)**: LSTM도 [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) 가능 → `clip_grad_norm_(model.parameters(), 1.0)`.
+- <strong>Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a></strong>: LSTM도 [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/) 가능 → `clip_grad_norm_(model.parameters(), 1.0)`.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트의 **아날로그(0~1) 제어**는 시퀀스 모델링에 혁명을 가져왔으며, 이 게이트 메커니즘은 Transformer의 Attention Value Weighting(0~1)에서도 개념적으로 이어진다.
+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트의 <strong>아날로그(0~1) 제어</strong>는 시퀀스 모델링에 혁명을 가져왔으며, 이 게이트 메커니즘은 Transformer의 Attention Value Weighting(0~1)에서도 개념적으로 이어진다.
 
 ---
 
@@ -91,32 +91,34 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) (σ)** | 게이트 출력을 0~1로 제한하는 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a> (σ)</strong> | 게이트 출력을 0~1로 제한하는 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) |
 | **Hadamard Product (⊙)** | 원소별 곱, 기울기 직통 전파의 핵심 |
 | **Peephole** | 게이트가 Cell State를 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 변형 |
-| **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)** | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트를 2개로 간소화한 변형 |
-| **Forget [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) = 1** | 학습 안정화를 위한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 트릭 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong> | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트를 2개로 간소화한 변형 |
+| <strong>Forget <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a> = 1</strong> | 학습 안정화를 위한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 트릭 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[LSTM 원본 (1997) — Forget Gate 없음, Input+Output만]
-    │
-    ▼
-[Forget Gate 추가 (2000, Gers) — 기억 삭제 기능]
-    │
-    ▼
-[Peephole Connection (2002) — C_{t-1} 직접 참조]
-    │
-    ▼
-[GRU (2014) — 3 Gate → 2 Gate 간소화]
-    │
-    ▼
-[현재: xLSTM (2024) — Exponential Gate + sLSTM + mLSTM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM 원본 (1997) — Forget Gate 없음, Input+Output만</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Forget Gate 추가 (2000, Gers) — 기억 삭제 기능</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Peephole Connection (2002) — C_{t-1} 직접 참조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRU (2014) — 3 Gate → 2 Gate 간소화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: xLSTM (2024) — Exponential Gate + sLSTM + mLSTM</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. LSTM의 게이트는 **수도꼭지 3개**예요. 하나는 오래된 물(기억)을 빼고, 하나는 새 물을 넣고, 하나는 필요한 만큼만 내보내요.
+1. LSTM의 게이트는 <strong>수도꼭지 3개</strong>예요. 하나는 오래된 물(기억)을 빼고, 하나는 새 물을 넣고, 하나는 필요한 만큼만 내보내요.
 2. 수도꼭지를 **얼마나 틀지(0~1)** AI가 알아서 학습해요.
 3. 덕분에 물탱크(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 넘치거나 마르지 않고 **딱 적당하게** 유지돼요!
 

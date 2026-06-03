@@ -22,23 +22,27 @@ tags = ["studynote-network"]
 NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 크게 두 가지 방식으로 나뉩니다.
 
 ### 1. 오용 탐지 (Misuse [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) / 지식 기반, 시그니처 기반)
-- **개념**: 과거에 이미 발생했던 해킹 공격들의 패턴(지문, 시그니처)을 데이터베이스에 수배 전단지처럼 쫙 저장해 두고, **새로 들어온 패킷이 이 수배 전단지와 100% 일치하면 "해커다!"라고 차단하는 방식**입니다. 백신 프로그램의 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사 원리와 같습니다.
-- **장점 ([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))**: 오탐지(정상인데 해커로 오인하는 것, False Positive) 확률이 거의 제로에 가깝습니다. 빠르고 정확합니다.
+- **개념**: 과거에 이미 발생했던 해킹 공격들의 패턴(지문, 시그니처)을 데이터베이스에 수배 전단지처럼 쫙 저장해 두고, <strong>새로 들어온 패킷이 이 수배 전단지와 100% 일치하면 "해커다!"라고 차단하는 방식</strong>입니다. 백신 프로그램의 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사 원리와 같습니다.
+- <strong>장점 (<a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>)</strong>: 오탐지(정상인데 해커로 오인하는 것, False Positive) 확률이 거의 제로에 가깝습니다. 빠르고 정확합니다.
 - **단점 (신종 해킹에 무방비)**: 세상에 처음 나온 신종 공격([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) Attack)이나, 기존 공격 코드를 살짝 변형한 돌연변이가 들어오면 수배 전단지에 없으므로 그냥 통과시켜버리는 치명적 한계(미탐, False Negative)가 있습니다.
 
 ### 2. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/) / 행위 기반, 통계 기반)
-- **개념**: 정상적인 네트워크 상태(평소 우리 회사 서버는 1초에 10명 접속함)의 통계적 평균을 인공지능이나 머신러닝으로 미리 학습해 둡니다. 그리고 **평소와 너무 다르게 갑자기 1초에 1만 명이 접속하거나, 야밤에 엄청난 트래픽이 튀는 등 '이상한 행동(비정상)'을 보이면 무조건 "해커다!"라고 잡아내는 방식**입니다.
+- **개념**: 정상적인 네트워크 상태(평소 우리 회사 서버는 1초에 10명 접속함)의 통계적 평균을 인공지능이나 머신러닝으로 미리 학습해 둡니다. 그리고 <strong>평소와 너무 다르게 갑자기 1초에 1만 명이 접속하거나, 야밤에 엄청난 트래픽이 튀는 등 '이상한 행동(비정상)'을 보이면 무조건 "해커다!"라고 잡아내는 방식</strong>입니다.
 - **장점**: 수배 전단지에 없는 완전 새로운 신종/변종 공격([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))도 패턴의 이상함만으로 기가 막히게 탐지해 냅니다.
 - **단점 (양치기 소년)**: 정상적인 이벤트(예: 수강 신청 날 갑자기 트래픽이 몰림)를 해킹으로 착각해서 "삐용삐용!" 알람을 울려대는 오탐지(False Positive)가 너무 심합니다. 관리자가 알람 끄기에 지쳐버립니다.
 
-```text
-[NIDS 공격]
-    │
-    ▼
-[스노트, Suricata 와 오용 탐지 vs…]
-    │
-    └──▶ [IPS 차단 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,24 +51,28 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. Snort (스노트) - NIDS의 영원한 할아버지
-- 1998년 마틴 로시가 개발한 **전 세계에서 가장 유명한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 네트워크 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/))**이자 사실상 표준입니다.
-- 특유의 직관적이고 쉬운 **룰(Rule) 문법**을 사용합니다. 전 세계 보안 장비들이 "[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 스노트 문법으로 맞춰줘"라고 할 정도로 생태계를 장악했습니다. (전형적인 오용 탐지, 시그니처 기반 시스템)
+- 1998년 마틴 로시가 개발한 <strong>전 세계에서 가장 유명한 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 네트워크 <a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">침입 탐지 시스템</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/">NIDS</a>)</strong>이자 사실상 표준입니다.
+- 특유의 직관적이고 쉬운 <strong>룰(Rule) 문법</strong>을 사용합니다. 전 세계 보안 장비들이 "[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 스노트 문법으로 맞춰줘"라고 할 정도로 생태계를 장악했습니다. (전형적인 오용 탐지, 시그니처 기반 시스템)
 
 ### 2. [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) ([수리카타](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/)) - [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 신흥 강자
 - 스노트의 치명적 단점은 '싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Single [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'로만 돈다는 것입니다. 10G 이상의 엄청난 트래픽이 쏟아지는 현대망에서는 혼자 패킷을 다 검사하다가 코피를 쏟고 뻗어버립니다.
-- 이를 타파하기 위해 등장한 Suricata는 **멀티 코어(Multi-threading)를 완벽히 지원하여 수십 기가의 트래픽을 여러 CPU로 쪼개어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 미친 듯이 고속 탐지해 내는 차세대 엔진**입니다. 스노트의 룰(Rule) 문법을 100% 호환해서 스노트 유저를 그대로 흡수하며 대세로 자리 잡았습니다.
+- 이를 타파하기 위해 등장한 Suricata는 <strong>멀티 코어(Multi-threading)를 완벽히 지원하여 수십 기가의 트래픽을 여러 CPU로 쪼개어 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 미친 듯이 고속 탐지해 내는 차세대 엔진</strong>입니다. 스노트의 룰(Rule) 문법을 100% 호환해서 스노트 유저를 그대로 흡수하며 대세로 자리 잡았습니다.
 
 ### 3. [Zeek](/knowledge-base/studynote/09_security/05_web_app_security/241_zeek_bro_network_traffic_metadata_analysis/) (지크, 구 Bro)
-- 위 두 개가 해커의 '지문(시그니처)'을 찾는 데 특화되었다면, Zeek는 통신의 '흐름(행위)'을 기록하고 분석하는 **[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** 및 네트워크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 분석에 훨씬 더 특화된 강력한 도구입니다.
+- 위 두 개가 해커의 '지문(시그니처)'을 찾는 데 특화되었다면, Zeek는 통신의 '흐름(행위)'을 기록하고 분석하는 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> 및 네트워크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 분석에 훨씬 더 특화된 강력한 도구입니다.
 
-```text
-[NIDS 공격]
-    │
-    ▼
-[스노트, Suricata 와 오용 탐지 vs…]
-    │
-    └──▶ [IPS 차단 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오용 탐지는 공항의 '지명 수배자 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인식 카메라'입니다. 범죄자 명단(시그니처 DB)에 있는 얼굴과 똑같은 사람이 지나가면 100% 확률로 체포하지만, 명단에 없는 처음 보는 테러범은 유유히 빠져나갑니다. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 노련한 '공항 마약 탐지견'입니다. 평범해 보여도 유독 식은땀을 많이 흘리거나 안절부절못하는 이상한 낌새([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))를 보이면 일단 짖어서 잡아 세웁니다. 신종 마약범도 기가 막히게 잡지만, 가끔 그냥 배가 아파서 땀을 흘리는 일반 여행객(False Positive)에게도 짖어대는 피곤한 부작용이 있습니다.
 
@@ -122,15 +130,19 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NIDS 공격]
-    │
-    ▼
-[현재 개념: 스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ├──▶ [확장 A: IPS 차단 아키텍처]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NIDS 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

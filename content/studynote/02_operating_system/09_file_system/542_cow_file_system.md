@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LFS](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)(541장)의 직진 사상을 극대화하여, **"어떤 경우에도 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대 제자리에서 지우거나 덮어쓰지 않는다(Never Overwrite 빔!!)!"** 는 교리를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 전체 트리에 적용한 아키텍처다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 고칠 때 무조건 '새로운 빈 공간'으로 복사본을 몰래 빼돌려 작성한 뒤, 작성이 완료되면 포인터 뼈대만 바꿔치기(Atomic Swap)하는 극한의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 록백 기전이다.
+> 1. **본질**: [LFS](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)(541장)의 직진 사상을 극대화하여, <strong>"어떤 경우에도 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 절대 제자리에서 지우거나 덮어쓰지 않는다(Never Overwrite 빔!!)!"</strong> 는 교리를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 전체 트리에 적용한 아키텍처다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 고칠 때 무조건 '새로운 빈 공간'으로 복사본을 몰래 빼돌려 작성한 뒤, 작성이 완료되면 포인터 뼈대만 바꿔치기(Atomic Swap)하는 극한의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 록백 기전이다.
 > 2. **가치**: 덮어쓰기를 안 하니 옛날 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(원본)이 디스크에 멀쩡히 고스란히 살아남는다. 이 기형적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 덕분에 "클릭 1초 만에 100TB 서버 전체의 1시간 전 과거 복원([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) & [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 제로 투 타임머신 렌더!)" 이라는, 별도의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 모터 구동 랙 없이도 기적 같은 $O(1)$ 초광속 시공간 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스왑을 쟁취했다 포팅.
 > 3. **한계**: 방어력은 신의 영역(ZFS/Btrfs 엔터프라이즈 제패)이지만 치명적 대가를 낸다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 고칠 때마다 빈 곳 찾아서 복사하고, 포인터 트리 노드를 뿌리까지 다시 타고 올라가며 죄다 고쳐야 하는 눈물의 **트리 갱신 폭포(Cascading Update 오버헤드 늪!)** 가 터져 나온다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 마비)가 극심해져 무거운 DB 엔진과 섞어 쓰면 하드디스크가 숨을 헐떡거리는 I/O 스로틀 레이턴시를 겪게 된다 결착.
 
@@ -21,43 +21,38 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **전통적 덮어쓰기 (Update-in-Place 파괴파 렌더)**: 1번 공간에 '가' 를 썼다. 수정하면 1번 공간에 지우개질하고 '나' 를 쓴다. 원본 '가' 는 이 세상에서 영원히 소멸해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)불가 파단 크래시가 된다.
-  - **COW [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (Copy-On-Write 원본 불멸 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방패!)**: 1번 공간의 '가' 를 수정하라고? 절대 안 지움! 냅다 저 멀리 빈 공간 2번을 찾아서 거기에 '나' 를 쓴다! 그리고 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 색인표(i-node)의 화살표를 2번으로 살짝 돌린다. 원본 '가' 도, 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) '나' 도 디스크에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 동시에 평화롭게 공존하는 시간 정지 록백 무기다.
+  - <strong>COW <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 (Copy-On-Write 원본 불멸 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 방패!)</strong>: 1번 공간의 '가' 를 수정하라고? 절대 안 지움! 냅다 저 멀리 빈 공간 2번을 찾아서 거기에 '나' 를 쓴다! 그리고 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 색인표(i-node)의 화살표를 2번으로 살짝 돌린다. 원본 '가' 도, 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) '나' 도 디스크에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 동시에 평화롭게 공존하는 시간 정지 록백 무기다.
 - **필요성**: 수백 TB의 클라우드 대형 스토리지를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 툴로 복사하려면 3일 내내 CPU와 네트워크가 100% 터져 무정지 서비스가 기절([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))한다. 서버를 살리면서도 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)나 휴먼 에러("앗 실수로 DB 다 날림!" 재앙 늪)를 1초 만에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하려면, "아예 수정 전 원본을 디스크 자체에서 영구 보존" 해버리는 시공간 뒤집기 타임머신([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) 스왑) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 구조 자체가 필연적으로 창조되어야만 했다 증명 도출.
 
   - (옛날 UFS 저널링 덮어쓰기 늪): 관장님이 모나리자 그림(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 마음에 안 든다고 직접 캔버스에 물감으로 덧칠해서 바꿉니다. 중간에 지진(정전) 나서 멈추면? 진짜 모나리자가 반쪽짜리 괴물 쓰레기 유물로 영구 파괴됩니다(Corruption 멸망 랙!).
-  - **(COW 복사본 포인터 바꿔치기 광속 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) 기전!)**: 똑똑한 ZFS 관장님은 원본 절대 안 건드립니다 방어! 빈 캔버스(새 블록)를 창고에서 꺼내와 거기다 모나리자 성형 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 싹 새로 그립니다(Write!). 완벽하게 다 그린 걸 확인한 다음, 전시관 액자 틀([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) i-node)에 들어있던 옛날 원본을 쓱 빼서 창고에 킵하고, 새 그림을 밀어 넣습니다(포인터 Swap 결착!). 만약 새 그림이 맘에 안 든다? 액자에 창고 그림([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 록백) 다시 끼우면 단 1초 만에 시간 여행 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 부활!
+  - <strong>(COW 복사본 포인터 바꿔치기 광속 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a> 기전!)</strong>: 똑똑한 ZFS 관장님은 원본 절대 안 건드립니다 방어! 빈 캔버스(새 블록)를 창고에서 꺼내와 거기다 모나리자 성형 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 싹 새로 그립니다(Write!). 완벽하게 다 그린 걸 확인한 다음, 전시관 액자 틀([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) i-node)에 들어있던 옛날 원본을 쓱 빼서 창고에 킵하고, 새 그림을 밀어 넣습니다(포인터 Swap 결착!). 만약 새 그림이 맘에 안 든다? 액자에 창고 그림([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 록백) 다시 끼우면 단 1초 만에 시간 여행 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 부활!
 
-- **COW 원본 보존의 시공간 화살표 스위칭 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뷰**:
+- <strong>COW 원본 보존의 시공간 화살표 스위칭 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 뷰</strong>:
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 때 왜 원본이 살아있으며, 그것이 어떻게 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 방어선으로 직결되는지 그 트리 렌더를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "원본을 지우는 자는 죽음뿐! 빈 공간에 복사 후 화살표만 돌려라!"  │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  ❌ [ 기존 덮어쓰기 FS : 1번 블록 제자리 지우개질 파괴 크래시 늪 ]               │
-  │     (유저: A문서 1쪽 고쳐!) -> [ 모터 징~ 1번 블록 위치 도달 ]                   │
-  │     [1번 블록: 철수] ──(덮어쓰기 얍)──▶ [1번 블록: 영희] (철수 데이터 영구 폭사!)│
-  │                                                                                  │
-  │  =========================▼===================================                   │
-  │                                                                                  │
-  │  ✅ [ COW (ZFS/Btrfs) : 복사본 투척 포인터 바꿔치기 타임머신 (Snapshot 빔) ]     │
-  │                                                                                  │
-  │     << 시간 T1: 수정 전 >>                                                       │
-  │     [루트(Root) 색인표] ────▶ [1번 블록: 진짜 원본 철수]                         │
-  │                                                                                  │
-  │     << 시간 T2: 수정 명령 "영희로 바꿔!" 발생 >>                                 │
-  │     ① [빈 2번 블록]에다가 '영희' 냅다 적기 (원본은 터치도 안 함 방파제!)         │
-  │     ② 다 적혔네? 그럼 [루트 색인표]의 화살표 방향을 2번으로 꺾어버려 스왑 록!    │
-  │                                                                                  │
-  │     [루트(Root) 색인표] ────▶ [2번 블록: 새버전 영희]  (유저는 이것만 보임)      │
-  │        (스냅샷 보존)    ───▶ [1번 블록: 원본 철수 생존!] (디스크에 영구 박제)    │
-  │                                                                                  │
-  │      🔥 [재앙 터짐: "앗 영희 버전 망했다 해킹당함 롤백 파이프 발동!!"]           │
-  │     ③ 관리자 "원상복구 1초 컷! 루트 화살표 뒤로 1칸 무르기 빔!"                  │
-  │     [루트(Root) 색인표] ────▶ [1번 블록: 원본 철수 컴백 복원] (광속 Recovery!)   │
-  └──────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"원본을 지우는 자는 죽음뿐! 빈 공간에 복사 후 화살표만 돌려라!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">기존 덮어쓰기 FS : 1번 블록 제자리 지우개질 파괴 크래시 늪</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">모터 징~ 1번 블록 위치 도달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1번 블록: 철수</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1번 블록: 영희</div><div class="kb-diagram-note">(철수 데이터 영구 폭사!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">COW (ZFS/Btrfs) : 복사본 투척 포인터 바꿔치기 타임머신 (Snapshot 빔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt; 시간 T1: 수정 전 &gt;&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트(Root) 색인표</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1번 블록: 진짜 원본 철수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt; 시간 T2: 수정 명령 "영희로 바꿔!" 발생 &gt;&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">①</div><div class="kb-diagram-node">빈 2번 블록</div><div class="kb-diagram-note">에다가 '영희' 냅다 적기 (원본은 터치도 안 함 방파제!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">② 다 적혔네? 그럼</div><div class="kb-diagram-node">루트 색인표</div><div class="kb-diagram-note">의 화살표 방향을 2번으로 꺾어버려 스왑 록!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트(Root) 색인표</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2번 블록: 새버전 영희</div><div class="kb-diagram-note">(유저는 이것만 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1번 블록: 원본 철수 생존!</div><div class="kb-diagram-note">(디스크에 영구 박제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">재앙 터짐: "앗 영희 버전 망했다 해킹당함 롤백 파이프 발동!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 관리자 "원상복구 1초 컷! 루트 화살표 뒤로 1칸 무르기 빔!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트(Root) 색인표</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1번 블록: 원본 철수 컴백 복원</div><div class="kb-diagram-note">(광속 Recovery!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 핵심 기전은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역이든 메타 영역이든, 변동이 생기면 무조건 Free List(디스크 빈 공간)를 긁어와 그 위치에 [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Block(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))을 안착시킨다는 강제 교리다. 그리고 맨 꼭대기 최상단 루트 포인터 뼈구조(Uberblock 혹은 Root Node)만 단 1번 원자적(Atomically 컷!)으로 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 가리키도록 스위칭 조작한다. 이 엄청난 결속 덕분에 정전이 나도 과거 렌더 트리는 우주 끝까지 망가지지 않으며([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 내성 99%), 언제든 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 앵커 포인터만 툭 쥐어주면 수천 GB의 잃어버린 시공간을 1초 만에 로드하는 기적의 아키텍처 트리 백본이다 도출.
 
@@ -72,18 +67,18 @@ tags = ["studynote-operating-system"]
 
 | 스토리지 트리 구조 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뷰 | 옛날 ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 구조 (제자리 고정 스왑) | ✨ COW (ZFS, Btrfs [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 나비효과 방어선) |
 |:---|:---|:---|
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정 시 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 타격량 렌더 (I/O 가중성)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는 바닥 블록 1개만 고치고 끝남. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(i-node) 뼈대는 가만히 둠 안변함. | 잎사귀 블록 1개를 고쳐서 딴 곳으로 튀었으니? 👉그 줄기 노드 주소 변경 👉최상위 가지 노드 주소 변경 👉루트 교체 **연쇄 트리 폭파! (Cascading Update 랙)** |
-| **디스크 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 모터 피로도 생지옥)** | 처음 집어넣은 곳에 평생 박혀있어 예쁘게 줄 서 있음 탐색 쉬움 부스트. | 글씨 한 자 고칠 때마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쪼가리들이 우주 사방 빈 공간으로 날아다니면서 찍힘. **초극악 파편화 지옥의 블랙홀 모터 피로!** |
-| **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 속도 타임라인 폭발 ([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 멸망 vs 광속)** | 10TB [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통백업하려면 서버 전송 속도로 2일 동안 I/O 마비 버벅임 데들락. | **순식간에 0.001초 소요 $O(1)$ 스피드!** 방금 전 화살표 뼈대만 메모지에 "기록 끝!" [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 완료! 저장 공간 추가 소모 0 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 기적 포팅. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 수정 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 타격량 렌더 (I/O 가중성)</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는 바닥 블록 1개만 고치고 끝남. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(i-node) 뼈대는 가만히 둠 안변함. | 잎사귀 블록 1개를 고쳐서 딴 곳으로 튀었으니? 👉그 줄기 노드 주소 변경 👉최상위 가지 노드 주소 변경 👉루트 교체 **연쇄 트리 폭파! (Cascading Update 랙)** |
+| <strong>디스크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a> 모터 피로도 생지옥)</strong> | 처음 집어넣은 곳에 평생 박혀있어 예쁘게 줄 서 있음 탐색 쉬움 부스트. | 글씨 한 자 고칠 때마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쪼가리들이 우주 사방 빈 공간으로 날아다니면서 찍힘. **초극악 파편화 지옥의 블랙홀 모터 피로!** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 속도 타임라인 폭발 (<a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 멸망 vs 광속)</strong> | 10TB [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통백업하려면 서버 전송 속도로 2일 동안 I/O 마비 버벅임 데들락. | **순식간에 0.001초 소요 $O(1)$ 스피드!** 방금 전 화살표 뼈대만 메모지에 "기록 끝!" [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 완료! 저장 공간 추가 소모 0 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 기적 포팅. |
 
 ### 2. 치명적 오버헤드 폭발: COW [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))와 DB의 만남, 거시적 클러스터 셧다운
 ZFS/Btrfs가 타임머신 우주 방어력이 있다고 무작정 DB(MariaDB, PostgreSQL) 밑바닥에 깔았다간 서버가 숨막혀 총살 당한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발작 미스터리 ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) COW 암살 데들락 랙 스로틀!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발작 미스터리 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> COW 암살 데들락 랙 스로틀!)</strong>: 
   - (DB 엔진의 극악 수정 빈도 늪 스왑): [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 하루에 똑같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(테이블 스페이스 10GB) 구역을 초당 1만 번씩 미친 듯이 덮어쓰고 수정하는 마이너스 특성을 가졌다. 
   - (COW 나비효과 파단 멸망 빔 결합): 그걸 ZFS 위에 얹었다! DB가 1KB 테이블 수정할 때마다 COW는 "덮어쓰기 안돼 복사!" 시전하며 1KB 조가리를 저 멀리 빈 곳에 투척하고, 위쪽 뼈대 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 노드 5단계를 모조리 새로 복사 빈곤 탐색 투척해서 트리 지도를 고쳐대며 I/O 폭포수([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 5배 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드 증폭)를 터뜨린다.
   - 결과 뷰: 원래 1번만 구우면 끝날 일이 내부적으로 5~8번의 우주 파편화 난사 모터 구이를 발생시켜, 잘 돌아가던 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 조차 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목 늪에 질식하며 서버 응답 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 지옥에 빠져버린다. 클러스터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 파탄 셧다운 입증!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (`nodatacow` 탈옥 비틀기 록백 렌더!!) / 전용 레코드 튜닝**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>nodatacow</code> 탈옥 비틀기 록백 렌더!!) / 전용 레코드 튜닝</strong>: 
   - 엔터프라이즈 솔루션: "야! DB 폴더만 제발 COW [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 타임머신 무기 작동 금지 꺼버려 컷!!" 
   - Btrfs [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 폴더에 `chattr +C` (nodatacow 즉, 무결 COW 기능 정지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 명령을 발포해 DB 특화 구역만 덮어쓰기 허용 변이로 스로틀을 풀어주거나, ZFS의 경우 `recordsize`를 DB 블록 사이즈 16K/8K에 칼같이 맞춰 트리 폭포수 붕괴 증폭 랙을 우주 방어하는 거시 튜닝 아키텍트 사상만이 생태계를 지배 결속한다 보장.
 
@@ -96,10 +91,10 @@ ZFS/Btrfs가 타임머신 우주 방어력이 있다고 무작정 DB(MariaDB, Po
 ### 클라우드 스토리지의 성배 볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/): ZFS [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 Send/Receive
 현대 AWS나 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 급 초정밀 스토리지가 거대한 해킹 사고에서 살아남는 유일한 백본 줄기다 팩트 록.
 
-- **[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)([Ransomware](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파괴와 불멸의 방검복 ZFS 타임머신 렌더 뷰**: 
+- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">Ransomware</a>) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 파괴와 불멸의 방검복 ZFS 타임머신 렌더 뷰</strong>: 
   - [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (Ext4 정통 저널링의 멸절 크래시): 악질 해커가 서버에 침투해 암호화 바이러스를 심었다. 1TB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 전부 ".encrypted" 로 덮어씌워져 파괴되었다! Ext4 저널링(539장)은 훌륭하게 암호화된 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열심히 디스크에 구워버려 사실상 생태계 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 영구 증발 데들락 늪!
-  - **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방검복 ZFS 락백 빔 발포 기전**: 똑같은 해커 공격! 하지만 ZFS가 돌고 있다. 매시간 00분마다 무인으로 빈 포인터 찍기([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) 봇이 가동 중이다(용량 소모 $0$).
-  - 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 암호화한다? COW 교리("덮어쓰지 마라 빈 공간에 복사해 새버전 써라!")에 따라, 해커의 깨진 암호화 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 디스크 여백에 새로 구워져 쌓인다. **내 진짜 소중한 옛날 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들(과거 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 뼈대가 가리킴)은 "무조건 안 덮어씌워지고 예전 바닥 그대로 시간 정지 생존 보존 강하!"** 되어 숨어있다. 
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 방검복 ZFS 락백 빔 발포 기전</strong>: 똑같은 해커 공격! 하지만 ZFS가 돌고 있다. 매시간 00분마다 무인으로 빈 포인터 찍기([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) 봇이 가동 중이다(용량 소모 $0$).
+  - 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 암호화한다? COW 교리("덮어쓰지 마라 빈 공간에 복사해 새버전 써라!")에 따라, 해커의 깨진 암호화 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 디스크 여백에 새로 구워져 쌓인다. <strong>내 진짜 소중한 옛날 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>들(과거 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a> 뼈대가 가리킴)은 "무조건 안 덮어씌워지고 예전 바닥 그대로 시간 정지 생존 보존 강하!"</strong> 되어 숨어있다. 
   - 관리자 1초 컷 마스킹 보복: `zfs rollback tank/data@yesterday` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 엔터 1방 타결! 즉시 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터를 도축시키고, 숨어있던 어제 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 화살표를 루트로 부활시켜 단 1초 만에 1TB [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)를 멸종 소각시키는 클라우드 서버 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 종점 구조를 달성해 냈다 통달.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -135,15 +130,19 @@ COW (Copy-On-Write) [파일](/knowledge-base/studynote/02_operating_system/09_fi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[LFS (Log-structured File System)]
-    │
-    ▼
-[COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
-    │
-    ├──▶ [NFS (Network File System)]
-    └──▶ [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LFS (Log-structured File System)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFS (Network File System)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

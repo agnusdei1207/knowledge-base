@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스풀링(Spooling)은 프린터처럼 '한 번에 한 프로세스만 써야 하는 독점 장치(Exclusive Device)'에 수십 개의 앱이 동시에 입출력을 요청할 때 생기는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 대기를 막기 위해, **디스크를 거대한 중간 버퍼(Spool)로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 쏟아버리고 OS가 백그라운드에서 순서대로 처리하는 비동기 전송 기법**이다.
-> 2. **가치**: 앱들이 프린터가 인쇄를 다 마칠 때까지 멍하니 기다리며 얼어붙는([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 최악의 병목 현상을 0초로 단축하여, **CPU는 즉시 본업(연산)으로 돌아가고 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) 시스템의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 극대화**된다.
-> 3. **융합**: 단일 프로세스의 속도 차이를 메워주는 램(RAM) 기반의 '[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))'과 달리, 스풀링은 디스크를 매개체로 삼아 **다수 프로세스(N개)의 엉킨 I/O 요청을 한 줄([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 예쁘게 줄 세워주는 OS 레벨의 스케줄링(Scheduling) 데몬과 완벽히 융합**된 기술이다.
+> 1. **본질**: 스풀링(Spooling)은 프린터처럼 '한 번에 한 프로세스만 써야 하는 독점 장치(Exclusive Device)'에 수십 개의 앱이 동시에 입출력을 요청할 때 생기는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 대기를 막기 위해, <strong>디스크를 거대한 중간 버퍼(Spool)로 삼아 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 일단 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 쏟아버리고 OS가 백그라운드에서 순서대로 처리하는 비동기 전송 기법</strong>이다.
+> 2. **가치**: 앱들이 프린터가 인쇄를 다 마칠 때까지 멍하니 기다리며 얼어붙는([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 최악의 병목 현상을 0초로 단축하여, <strong>CPU는 즉시 본업(연산)으로 돌아가고 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>) 시스템의 스루풋(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)이 극대화</strong>된다.
+> 3. **융합**: 단일 프로세스의 속도 차이를 메워주는 램(RAM) 기반의 '[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))'과 달리, 스풀링은 디스크를 매개체로 삼아 <strong>다수 프로세스(N개)의 엉킨 I/O 요청을 한 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)로 예쁘게 줄 세워주는 OS 레벨의 스케줄링(Scheduling) 데몬과 완벽히 융합</strong>된 기술이다.
 
 ---
 
@@ -27,29 +27,29 @@ tags = ["studynote-operating-system"]
   2. **디스크라는 거대 버퍼의 재발견**: 테이프 리더기가 읽은 걸 일단 디스크에 왕창 쏴버리고, CPU는 디스크에서 초고속으로 퍼가는 꼼수가 발명됨.
   3. **독점 장치(프린터)의 구원**: 이 개념이 출력 장치로 이어져, 프린터 렉을 없애는 'Print Spooler'로 현대 윈도우/리눅스에 완벽히 정착함.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        스풀링(Spooling)이 없는 지옥 vs 스풀링의 평화로운 처리 시각화   │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ ▶ 1. 스풀링 없음 (동기적 독점 지옥)                                    │
-│   앱 A ──▶ 🖨️ 프린터 (100장 징징징... 10분 소요)                       │
-│   앱 B ──▶ 💥 "에러! 프린터 바쁨!" (B는 10분간 화면 얼어붙음 🥶)       │
-│   앱 C ──▶ 💥 "에러! 대기 중!" (C도 10분간 기절 🥶)                    │
-│                                                                        │
-│ ▶ 2. 스풀링 도입 (비동기 스풀러의 마법)                                │
-│   [ 1단계: 유저들은 디스크에 짐 던지고 바로 퇴근! ]                    │
-│   앱 A ──▶ [ 디스크 Spool 폴더 ]에 A.pdf 생성! (1초 컷 🚀)             │
-│   앱 B ──▶ [ 디스크 Spool 폴더 ]에 B.pdf 생성! (1초 컷 🚀)             │
-│   앱 C ──▶ [ 디스크 Spool 폴더 ]에 C.pdf 생성! (1초 컷 🚀)             │
-│   (앱 A, B, C는 모두 인쇄 끝났다고 착각하고 쾌적하게 딴일 하러 감)     │
-│                                                                        │
-│   [ 2단계: 백그라운드 스풀러 데몬의 노가다 (유저 모르게 진행) ]        │
-│   OS의 스풀러 데몬 ──▶ 디스크에서 A.pdf 꺼내서 🖨️ 프린터로 전송        │
-│   (다 뽑으면) ──▶ B.pdf 꺼내서 🖨️ 전송 ──▶ C.pdf 🖨️ 전송               │
-└────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 스풀링의 위대함은 **'[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(Simultaneous)'의 속임수**에 있다. 물리적인 프린터 바늘은 한 번에 1개 문서밖에 못 찍는다. 하지만 스풀링 덕분에 10개의 앱은 "내가 방금 동시에 인쇄 명령을 뚫었다!"라고 착각하게 된다. 디스크라는 넉넉한 댐(Dam)이 모든 앱의 무지성 I/O 폭포수를 한 방에 받아낸 뒤, 프린터라는 작은 수로를 통해 쫄쫄 흘려보내 주는 완벽한 유량 조절 시스템이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스풀링(Spooling)이 없는 지옥 vs 스풀링의 평화로운 처리 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 스풀링 없음 (동기적 독점 지옥)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 A ──▶ 🖨️ 프린터 (100장 징징징... 10분 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 B ──▶ 💥 "에러! 프린터 바쁨!" (B는 10분간 화면 얼어붙음 🥶)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 C ──▶ 💥 "에러! 대기 중!" (C도 10분간 기절 🥶)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 스풀링 도입 (비동기 스풀러의 마법)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 유저들은 디스크에 짐 던지고 바로 퇴근!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 Spool 폴더</div><div class="kb-diagram-note">에 A.pdf 생성! (1초 컷 🚀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 Spool 폴더</div><div class="kb-diagram-note">에 B.pdf 생성! (1초 컷 🚀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 Spool 폴더</div><div class="kb-diagram-note">에 C.pdf 생성! (1초 컷 🚀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앱 A, B, C는 모두 인쇄 끝났다고 착각하고 쾌적하게 딴일 하러 감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 백그라운드 스풀러 데몬의 노가다 (유저 모르게 진행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 스풀러 데몬 ──▶ 디스크에서 A.pdf 꺼내서 🖨️ 프린터로 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다 뽑으면) ──▶ B.pdf 꺼내서 🖨️ 전송 ──▶ C.pdf 🖨️ 전송</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 스풀링의 위대함은 <strong>'<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>(Simultaneous)'의 속임수</strong>에 있다. 물리적인 프린터 바늘은 한 번에 1개 문서밖에 못 찍는다. 하지만 스풀링 덕분에 10개의 앱은 "내가 방금 동시에 인쇄 명령을 뚫었다!"라고 착각하게 된다. 디스크라는 넉넉한 댐(Dam)이 모든 앱의 무지성 I/O 폭포수를 한 방에 받아낸 뒤, 프린터라는 작은 수로를 통해 쫄쫄 흘려보내 주는 완벽한 유량 조절 시스템이다.
 
 - **📢 섹션 요약 비유**: 마트 계산대(프린터)가 1개뿐인데 손님 10명이 몰려왔습니다. 계산원이 바코드 찍을 때까지 다들 무거운 카트를 들고 30분씩 줄 서 있으면 다리가 부러집니다(앱 뻗음). 마트 주인이 "카트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 빈 창고(스풀 디스크)에 순서대로 밀어 넣고 번호표 받고 집에 가세요!" 합니다. 손님들은 홀가분하게 집에 가고(CPU 해방), 알바생(스풀러 데몬)이 밤새 창고에서 카트를 하나씩 꺼내 계산을 치는 완벽한 무인 대기 시스템입니다.
 
@@ -63,7 +63,7 @@ tags = ["studynote-operating-system"]
 - 윈도우에서는 `spoolsv.exe`, 리눅스에서는 `CUPS (Common UNIX Printing System)` 데몬이 24시간 백그라운드에서 눈을 뜨고 감시한다.
 - 큐에 문서가 쌓이면 이 데몬은 그냥 순서대로 뽑는 게 아니다.
 - 1페이지짜리 급한 사장님 문서를 먼저 뽑기 위해 큐를 조작하거나([우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)), 프린터에 잉크가 떨어지면 문서를 삭제하지 않고 대기열(Hold)에 영원히 묶어두는 등 자체적인 '스풀 큐 매니지먼트' 흑마술을 부린다.
-- 즉, 스풀 공간은 단순한 버퍼가 아니라 그 자체로 **하나의 독립된 작업 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(Job Scheduler) 생태계**를 이룬다.
+- 즉, 스풀 공간은 단순한 버퍼가 아니라 그 자체로 <strong>하나의 독립된 작업 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>(Job Scheduler) 생태계</strong>를 이룬다.
 
 ---
 
@@ -75,10 +75,10 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **저장 위치** | 램 (RAM) 내의 좁은 버퍼 공간 | 하드디스크 ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))의 넓은 폴더 공간 |
 | **참여 프로세스**| 1개의 프로세스 내의 **속도 차이 극복** | N개의 여러 프로세스가 **기계 1대를 공유(경합 방지)** |
-| **처리 단위** | 10KB 등 잘게 쪼개진 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/블록 덩어리 | A문서, B문서 등 **완전한 작업(Job) 단위 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 통째로)** |
+| **처리 단위** | 10KB 등 잘게 쪼개진 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/블록 덩어리 | A문서, B문서 등 <strong>완전한 작업(Job) 단위 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 통째로)</strong> |
 | **적용 하드웨어**| 랜카드, 디스크 헤드, 키보드 | 프린터, 플로터, 이메일 메일서버([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) |
 
-- **📢 섹션 요약 비유**: **[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)**은 내가 밥을 빨리 먹기 위해 국자에 밥을 꽉 채워(램) 입(CPU)으로 욱여넣는 '나 홀로 먹방 최적화'입니다. **스풀링**은 우리 동네 사람 100명이 붕어빵 기계 1대를 쓰려다 싸움이 날까 봐, 아예 커다란 냉동고(디스크)에 붕어빵을 수만 개 미리 찍어 얼려두고 각자 알아서 훔쳐 가게 만드는 '마을 전체의 자원 공유 평화 협정'입니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a></strong>은 내가 밥을 빨리 먹기 위해 국자에 밥을 꽉 채워(램) 입(CPU)으로 욱여넣는 '나 홀로 먹방 최적화'입니다. <strong>스풀링</strong>은 우리 동네 사람 100명이 붕어빵 기계 1대를 쓰려다 싸움이 날까 봐, 아예 커다란 냉동고(디스크)에 붕어빵을 수만 개 미리 찍어 얼려두고 각자 알아서 훔쳐 가게 만드는 '마을 전체의 자원 공유 평화 협정'입니다.
 
 ---
 
@@ -93,15 +93,18 @@ tags = ["studynote-operating-system"]
 - 디스크 공간이 0바이트가 되는 순간, OS가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스왑(Swap)도 못 하고 다른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장도 못 해서 서버(또는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 전체가 블루스크린을 띄우고 즉사해 버린다.
 - **실무의 팁**: 프린터 에러로 인쇄가 계속 안 되는데 C드라이브 용량이 미친 듯이 깎인다면, 무조건 스풀러 서비스를 강제 종료하고 저 폴더 안의 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 손으로 날려줘야 컴퓨터가 살아난다. 
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ I/O 최적화 │ 저장소 매체   │ 타겟 문제     │ 크래시(Crash) 위험도   │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ Caching  │ RAM        │ 디스크 렉 방어  │ 정전 시 파일 날아감       │
-│ Buffering│ RAM        │ 병목(속도차) 방어│ 오버플로우로 해킹당함    │
-│ Spooling │ Disk       │ 기계 독점 락 방어│ ☠️ C드라이브 꽉 차서 뻗음│
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 최적화</div><div class="kb-diagram-cell">저장소 매체</div><div class="kb-diagram-cell">타겟 문제</div><div class="kb-diagram-cell">크래시(Crash) 위험도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caching</div><div class="kb-diagram-cell">RAM</div><div class="kb-diagram-cell">디스크 렉 방어</div><div class="kb-diagram-cell">정전 시 파일 날아감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buffering</div><div class="kb-diagram-cell">RAM</div><div class="kb-diagram-cell">병목(속도차) 방어</div><div class="kb-diagram-cell">오버플로우로 해킹당함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spooling</div><div class="kb-diagram-cell">Disk</div><div class="kb-diagram-cell">기계 독점 락 방어</div><div class="kb-diagram-cell">☠️ C드라이브 꽉 차서 뻗음</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터 공학에서 '임시 저장소'를 만들면 무조건 그 공간이 꽉 찰 때의 후폭풍을 계산해야 한다. 램이 차는 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이나 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)은 그냥 램을 지우거나 앱이 죽고 마는데, 디스크가 꽉 차는 스풀링 폭주는 운영체제의 근간(C드라이브)을 말려 죽이는 아주 지독한 시스템 파괴력을 가졌다.
 
 - **📢 섹션 요약 비유**: 우체통(스풀)이 너무 편하다고 동네방네 쓰레기 전단지(악성 인쇄물)를 무한대로 집어넣으면, 결국 우체통이 터져나가고 우체국 앞마당(C드라이브) 전체가 쓰레기 산으로 뒤덮여 정작 중요한 우편 배달 업무(OS 생존)가 완전히 마비되는 도시의 재앙입니다.
@@ -111,13 +114,13 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 비동기 메일 서버(MTA)와 큐 워커([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Worker)의 원형
-스풀링의 철학은 프린터를 넘어 현대 백엔드 아키텍처를 지배하는 **'메시지 큐(Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'의 시조새**다.
+스풀링의 철학은 프린터를 넘어 현대 백엔드 아키텍처를 지배하는 <strong>'메시지 큐(Message <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)'의 시조새</strong>다.
 1. **이메일 스풀(Mail Spool)**:
    - 내가 구글 메일로 편지 1만 통을 보낸다고 치자.
    - 구글 서버가 1만 통을 상대방 네이버 서버에 1:1로 다 전송할 때까지 내 브라우저가 빙글빙글([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 돌며 멈춰있으면 나는 답답해서 죽을 것이다.
    - 메일 서버는 내 메일 1만 통을 받자마자 `/var/spool/mail` 이라는 거대한 디스크 폴더에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 퍽 던져버리고, 화면엔 즉시 "메일 전송 완료!" 뻥을 친다 (스풀링).
    - 밤새 메일 전송 데몬([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 스풀러)이 깨어나서 디스크의 편지를 1통씩 꺼내 네이버로 묵묵히 밀어 넣는다. 네이버 서버가 터지면 버리지 않고 내일 또 보낸다.
-2. **현대적 진화 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ, Celery)**:
+2. <strong>현대적 진화 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>, RabbitMQ, Celery)</strong>:
    - 이 디스크 스풀링 철학이 그대로 확장된 것이 오늘날의 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 큐나 백그라운드 Worker 시스템이다.
    - "무거운 작업(영상 인코딩, 이메일 발송)은 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잡고 멈춰있지 마라. 무조건 디스크(DB/[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 큐에 스풀(Spool) 쳐놓고, 유저에겐 성공했다고 리턴 친 뒤, 백그라운드 워커가 멱살 잡고 천천히 빼내서 처리해라!" 
    - 스풀링은 단순히 프린터 기술이 아니라, 현대 논블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 아키텍처의 근본을 잉태한 철학의 원류다.
@@ -134,7 +137,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | **CPU-디바이스 속도 비동기화**| 프린터의 느린 출력 속도(초당 몇장)에 CPU가 발목 잡히지 않고, 초당 수 기가바이트 속도로 디스크에 덤프하고 100% 본업으로 이탈 가능 |
 | **다중 프로세스 병목 분쇄** | 단일 I/O 자원(프린터)을 두고 수십 개의 앱이 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 락을 걸고 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지는 치명적 상황을 디스크 큐를 통해 원천 봉쇄 |
-| **비동기 큐(Async [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 패턴 정립**| 하드웨어 디바이스 제어를 넘어, 현대 백엔드의 대용량 이벤트 처리 아키텍처(Event-Driven)의 사상적 기반(Spooling -> MQ) 제공 |
+| <strong>비동기 큐(Async <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>) 패턴 정립</strong>| 하드웨어 디바이스 제어를 넘어, 현대 백엔드의 대용량 이벤트 처리 아키텍처(Event-Driven)의 사상적 기반(Spooling -> MQ) 제공 |
 
 ### 결론 및 미래 전망
 
@@ -155,15 +158,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[캐싱 (Caching)]
-    │
-    ▼
-[스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
-    │
-    ├──▶ [예약 및 단독 장치 접근 제어]
-    └──▶ [블로킹 I/O (Blocking I/O)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐싱 (Caching)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예약 및 단독 장치 접근 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 I/O (Blocking I/O)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **배경**: 1015번의 퀄컴발 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-U는 와이파이를 무시하는 독자 규격이라 실패했습니다. 이를 대체하기 위해 통신 세계 표준 기구인 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)(Release 13)가 직접 칼을 빼들고 제정한 **공식 글로벌 글로벌 주파수 공유 표준**이 LAA입니다.
-- **개념**: 통신사가 메인 닻인 **'면허 대역(Licensed, 요금 낸 주파수)'**의 통제를 받으면서(Assisted), 공짜 주파수인 **'비면허 대역(Unlicensed, 5GHz 와이파이 주파수)'**을 보조 차선([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 1014번)으로 끌어와 다운로드 속도를 극대화하는 통신 기술입니다.
-- 단, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대엔 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 말고 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 전파를 공터에 밀어 넣는 **NR-U (NR-Unlicensed)**로 뼈대가 똑같이 이어집니다.
+- **배경**: 1015번의 퀄컴발 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-U는 와이파이를 무시하는 독자 규격이라 실패했습니다. 이를 대체하기 위해 통신 세계 표준 기구인 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)(Release 13)가 직접 칼을 빼들고 제정한 <strong>공식 글로벌 글로벌 주파수 공유 표준</strong>이 LAA입니다.
+- **개념**: 통신사가 메인 닻인 <strong>'면허 대역(Licensed, 요금 낸 주파수)'</strong>의 통제를 받으면서(Assisted), 공짜 주파수인 <strong>'비면허 대역(Unlicensed, 5GHz 와이파이 주파수)'</strong>을 보조 차선([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 1014번)으로 끌어와 다운로드 속도를 극대화하는 통신 기술입니다.
+- 단, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대엔 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 말고 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 전파를 공터에 밀어 넣는 <strong>NR-U (NR-Unlicensed)</strong>로 뼈대가 똑같이 이어집니다.
 
-```text
-[언면허 대역망]
-    │
-    ▼
-[LAA]
-    │
-    └──▶ [와이파이 오프로딩]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LAA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,23 +46,27 @@ LAA가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
 
 ### 1. 듣기 전엔 쏘지 마라 (Listen Before Talk)
 - 원래 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국은 남이 떠들든 말든 무지성으로 자기 타이밍에 패킷을 쏴버립니다(동기식).
-- LAA 칩이 달린 기지국은 5GHz 공터(비면허 대역)에 데이터를 쏘기 직전에, **반드시 0.001초 동안 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 귀를 열고 공중의 5GHz 전파 채널의 에너지 레벨([CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/), Clear Channel Assessment)을 측정합니다.** (952번 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA와 완벽하게 100% 똑같은 원리입니다.)
+- LAA 칩이 달린 기지국은 5GHz 공터(비면허 대역)에 데이터를 쏘기 직전에, <strong>반드시 0.001초 동안 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 귀를 열고 공중의 5GHz 전파 채널의 에너지 레벨(<a href="/knowledge-base/studynote/09_security/02_crypto/093_cca/">CCA</a>, Clear Channel Assessment)을 측정합니다.</strong> (952번 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA와 완벽하게 100% 똑같은 원리입니다.)
 
 ### 2. 백오프(Backoff) 눈치 게임의 도입
-- **채널이 비어있음 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))**: 어? 주변에 떠드는 와이파이 공유기가 없네? 그제야 기지국이 채널을 콱 움켜쥐고(채널 점유) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 데이터를 신나게 쏩니다. (최대 8ms~10ms 연속 점유 제한 있음)
+- <strong>채널이 비어있음 (<a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>)</strong>: 어? 주변에 떠드는 와이파이 공유기가 없네? 그제야 기지국이 채널을 콱 움켜쥐고(채널 점유) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 데이터를 신나게 쏩니다. (최대 8ms~10ms 연속 점유 제한 있음)
 - **채널이 시끄러움 (Busy)**: 엿들어보니 1번 채널에서 동네 주민이 와이파이로 유튜브를 보고 있습니다.
-  - LAA 기지국은 "아 ㅆㅂ 겹쳤네" 하고 즉각 **전송을 포기**합니다!
-  - 그리고 마음속으로 주사위를 굴려 **랜덤한 시간(Backoff Time) 동안 강제 취침(대기)**에 들어갑니다. 잠에서 깨면 다시 귀를 대고 들어봅니다.
+  - LAA 기지국은 "아 ㅆㅂ 겹쳤네" 하고 즉각 <strong>전송을 포기</strong>합니다!
+  - 그리고 마음속으로 주사위를 굴려 <strong>랜덤한 시간(Backoff Time) 동안 강제 취침(대기)</strong>에 들어갑니다. 잠에서 깨면 다시 귀를 대고 들어봅니다.
 - **효과**: 이 LBT(Listen Before Talk) 매너 덕분에 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전파와 Wi-Fi 전파가 1개의 주파수 방안에서 서로 양보하며(Fair Coexistence) 평화롭게 100% 공존(상생)할 수 있게 되었습니다.
 
-```text
-[언면허 대역망]
-    │
-    ▼
-[LAA]
-    │
-    └──▶ [와이파이 오프로딩]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LAA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,10 +74,10 @@ LAA가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
 
 ## Ⅲ. 비교 및 연결
 
-- **치명적 단점 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 발생)**: LTE의 생명은 스케줄러가 통제하는 칼 같은 0.01초의 칼군무(저지연)입니다. 그런데 LBT 룰 때문에 "어? 와이파이가 떠드네? 나 10초 대기!" 하고 눈치 게임을 하느라 **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 지터(Jitter)가 들쭉날쭉 폭발**해버립니다.
+- <strong>치명적 단점 (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 발생)</strong>: LTE의 생명은 스케줄러가 통제하는 칼 같은 0.01초의 칼군무(저지연)입니다. 그런데 LBT 룰 때문에 "어? 와이파이가 떠드네? 나 10초 대기!" 하고 눈치 게임을 하느라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과 지터(Jitter)가 들쭉날쭉 폭발</strong>해버립니다.
 - **실무 해법 (다운로드 전용 보조망)**: 
   - 그래서 LAA 기술은 타이밍이 중요한 목소리 통화([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))나 업로드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(제어 채널)에는 절대 쓰지 못합니다. 
-  - 목숨줄(업로드, 제어)은 깨끗한 유료 도로(면허 대역)로만 쏘고, 넷플릭스 영상처럼 잠깐 1초 끊겨도 상관없는 **'무식한 용량의 순수 다운로드 찌꺼기 트래픽'을 쏟아붓는 보조 용도**로만 LAA 공터 대역폭을 200% 혹사시키는 것이 통신사의 꼼수 설계입니다.
+  - 목숨줄(업로드, 제어)은 깨끗한 유료 도로(면허 대역)로만 쏘고, 넷플릭스 영상처럼 잠깐 1초 끊겨도 상관없는 <strong>'무식한 용량의 순수 다운로드 찌꺼기 트래픽'을 쏟아붓는 보조 용도</strong>로만 LAA 공터 대역폭을 200% 혹사시키는 것이 통신사의 꼼수 설계입니다.
 
 LAA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)이 기반 조건을 만든다면, LAA는 그 위에서 핵심 메커니즘을 구현하고, [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,7 +87,7 @@ LAA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 통신사 유료 주파수(면허 대역)가 '지하철 전용차로'라면, 와이파이 공용 주파수(비면허 대역)는 누구나 달릴 수 있는 '일반 차로'입니다. 아까 배운 깡패 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-U는 전용차로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 일반 차로로 넘어오면서 경적을 미친 듯이 울리며 무조건 앞의 승용차를 밀어버리는 무법 폭주였습니다. 국제 표준 기관이 내놓은 철퇴 **LAA(면허 지원 접속)**는 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운전사에게 **LBT(Listen Before Talk, 끼어들기 전 사이드미러 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**라는 법을 족쇄처럼 채워버린 것입니다. 이제 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 일반 차로로 넘어와 꿀을 빨고 싶으면, 무조건 사이드미러(LBT 센서)를 보고 옆에 와이파이 승용차가 달리고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다. 차가 있으면 끼어들기를 멈추고 승용차가 지나갈 때까지 깜빡이를 켜고 기다려주는 신사적인 운전을 해야 합니다. 가끔 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 기다리다 늦어져 승객이 답답해([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 폭발) 하지만, 도로 위의 무법 참사(와이파이 생태계 멸종)를 완벽하게 막아내고 서로가 윈윈하는 공용 도로 공유의 절대 헌법입니다.
+- **📢 섹션 요약 비유**: 통신사 유료 주파수(면허 대역)가 '지하철 전용차로'라면, 와이파이 공용 주파수(비면허 대역)는 누구나 달릴 수 있는 '일반 차로'입니다. 아까 배운 깡패 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-U는 전용차로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 일반 차로로 넘어오면서 경적을 미친 듯이 울리며 무조건 앞의 승용차를 밀어버리는 무법 폭주였습니다. 국제 표준 기관이 내놓은 철퇴 <strong>LAA(면허 지원 접속)</strong>는 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운전사에게 <strong>LBT(Listen Before Talk, 끼어들기 전 사이드미러 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>)</strong>라는 법을 족쇄처럼 채워버린 것입니다. 이제 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 일반 차로로 넘어와 꿀을 빨고 싶으면, 무조건 사이드미러(LBT 센서)를 보고 옆에 와이파이 승용차가 달리고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다. 차가 있으면 끼어들기를 멈추고 승용차가 지나갈 때까지 깜빡이를 켜고 기다려주는 신사적인 운전을 해야 합니다. 가끔 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 기다리다 늦어져 승객이 답답해([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 폭발) 하지만, 도로 위의 무법 참사(와이파이 생태계 멸종)를 완벽하게 막아내고 서로가 윈윈하는 공용 도로 공유의 절대 헌법입니다.
 
 ---
 
@@ -121,15 +129,19 @@ LAA는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 언면허 대역망]
-    │
-    ▼
-[현재 개념: LAA]
-    │
-    ├──▶ [확장 A: 와이파이 오프로딩]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 언면허 대역망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LAA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 와이파이 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 LAA는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

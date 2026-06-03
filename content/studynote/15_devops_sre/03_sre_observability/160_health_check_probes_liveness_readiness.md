@@ -33,23 +33,22 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 세 가지 프로브와 그 결과가 어떻게 연결되는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Probe flow: startup gate, traffic gate, restart gate       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Container start                                                            │
-│      │                                                                     │
-│      ├─ Startup Probe fail ───────────────▶ keep waiting / restart later   │
-│      │                                                                     │
-│      └─ Startup Probe success                                              │
-│               │                                                            │
-│               ├─ Readiness success ───────▶ add pod to Service endpoints   │
-│               ├─ Readiness fail ─────────▶ remove from traffic only        │
-│               │                                                            │
-│               ├─ Liveness success ───────▶ keep running                    │
-│               └─ Liveness fail N times ─▶ restart container                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe flow: startup gate, traffic gate, restart gate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container start</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Startup Probe fail ▶ keep waiting / restart later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Startup Probe success</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Readiness success ▶ add pod to Service endpoints</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Readiness fail ▶ remove from traffic only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Liveness success ▶ keep running</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Liveness fail N times ─▶ restart container</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 Readiness 실패가 곧바로 재시작을 뜻하지 않는다는 것이다. 준비가 안 된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 살아 있을 수 있고, 살아 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 요청을 받아서는 안 될 수도 있다. 그래서 엔드포인트 제어와 프로세스 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 분리하는 것이 핵심 원리다.
 
@@ -126,21 +125,23 @@ Shallow Check는 가볍고 안정적이지만 실제 장애를 놓칠 수 있고
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 실행 여부 확인
-    │
-    ▼
-Startup / Readiness / Liveness 분리
-    │
-    ▼
-서비스 엔드포인트 제어 · 자동 재시작
-    │
-    ▼
-롤링 업데이트 · 오토스케일링 안정화
-    │
-    ▼
-관측성 기반 원인 분석 · 자동 치유 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 실행 여부 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Startup / Readiness / Liveness 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 엔드포인트 제어 · 자동 재시작</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">롤링 업데이트 · 오토스케일링 안정화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관측성 기반 원인 분석 · 자동 치유 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 배포 제어와 자가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 확장되는 운영 발전 경로를 보여 준다.
 

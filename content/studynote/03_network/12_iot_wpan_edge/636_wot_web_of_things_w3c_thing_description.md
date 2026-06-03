@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 월드 와이드 웹(WWW) 표준을 제정하는 **W3C(World Wide Web Consortium)가 주도하는 기술로, 세상의 수많은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기들을 기존 인터넷 웹사이트(URL/URI)와 완전히 동일한 방식으로 취급하여 통제하고 융합하려는 개념이자 표준 아키텍처**입니다.
-- **배경**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기마다 제조사 전용 앱(App)을 깔고, 전용 클라우드에 가입해야 하는 지독한 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(파편화) 현상'을 타파하기 위해, 인류 역사상 가장 성공한 통합 플랫폼인 **'웹 브라우저' 기술을 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 위로 덮어씌운 것**입니다.
+- **개념**: 월드 와이드 웹(WWW) 표준을 제정하는 <strong>W3C(World Wide Web Consortium)가 주도하는 기술로, 세상의 수많은 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기들을 기존 인터넷 웹사이트(URL/URI)와 완전히 동일한 방식으로 취급하여 통제하고 융합하려는 개념이자 표준 아키텍처</strong>입니다.
+- **배경**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기마다 제조사 전용 앱(App)을 깔고, 전용 클라우드에 가입해야 하는 지독한 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(파편화) 현상'을 타파하기 위해, 인류 역사상 가장 성공한 통합 플랫폼인 <strong>'웹 브라우저' 기술을 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a> 위로 덮어씌운 것</strong>입니다.
 
-```text
-[IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
-[W3C WoT]
-    │
-    └──▶ [IIoT 트래픽 관리 한계/QoS 이슈]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">W3C WoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: W3C WoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,25 +41,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things)**: 통신선, 주파수, 센서 배터리 등 **하드웨어와 네트워크를 "어떻게 연결(Connect)할 것인가?"**에 초점을 맞춘 1계층~3계층 관점입니다.
-- **WoT (Web of Things)**: 통신망이 어떻게 뚫려 있든 상관하지 않습니다. 연결된 사물들의 데이터를 **웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))라는 전 세계 공용 소프트웨어 언어로 "어떻게 융합하고 제어할 것인가?"**에 초점을 맞춘 최상위 7계층(응용) 관점입니다. (IoT를 포괄하는 상위 개념)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong>: 통신선, 주파수, 센서 배터리 등 <strong>하드웨어와 네트워크를 "어떻게 연결(Connect)할 것인가?"</strong>에 초점을 맞춘 1계층~3계층 관점입니다.
+- **WoT (Web of Things)**: 통신망이 어떻게 뚫려 있든 상관하지 않습니다. 연결된 사물들의 데이터를 <strong>웹 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>, <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>)라는 전 세계 공용 소프트웨어 언어로 "어떻게 융합하고 제어할 것인가?"</strong>에 초점을 맞춘 최상위 7계층(응용) 관점입니다. (IoT를 포괄하는 상위 개념)
 
 ### 1. 사물 설명서 (Thing Description, TD)
-- **개념**: 세상 모든 기기의 기능, 스펙, 접속 URL을 **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태의 텍스트 문서 1장으로 깔끔하게 통일시킨 자기소개서**입니다.
+- **개념**: 세상 모든 기기의 기능, 스펙, 접속 URL을 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 형태의 텍스트 문서 1장으로 깔끔하게 통일시킨 자기소개서</strong>입니다.
 - **예시**: LG 세탁기를 사면 그 안에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서가 들어있습니다. 그 문서를 열어보면 `"이름": "LG 통돌이", "동작": {"탈수": "http://192.168.0.5/spin"}, "현재 상태": "http://.../status"`라고 적혀있습니다.
 - 어떤 회사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이든 이 '사물 설명서(TD)'만 쓱 읽어보면, 별도의 연동 코딩 없이 즉각적으로 세탁기를 파악하고 제어할 수 있게 됩니다.
 
 ### 2. 스크립팅 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Scripting [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
 - 구글 크롬에서 자바스크립트(JavaScript)로 웹사이트를 만들 듯이, 개발자들이 자바스크립트 코드 몇 줄만 짜면 전 세계 모든 사물웹(WoT) 기기를 제어할 수 있도록 도와주는 표준 웹 프로그래밍 도구 모음입니다.
 
-```text
-[IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
-[W3C WoT]
-    │
-    └──▶ [IIoT 트래픽 관리 한계/QoS 이슈]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">W3C WoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: W3C WoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -108,15 +116,19 @@ W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/10
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IETF 산하 IoT CoRE 워킹그룹 동향]
-    │
-    ▼
-[현재 개념: W3C WoT]
-    │
-    ├──▶ [확장 A: IIoT 트래픽 관리 한계/QoS 이슈]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: W3C WoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IIoT 트래픽 관리 한계/QoS 이슈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 W3C WoT는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향에서 출발해 현재 메커니즘을 정교화하고, 이후 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -32,26 +32,26 @@ Massive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_acc
 
 Massive MIMO는 하드웨어 집적 기술과 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/))의 거대한 행렬 연산이 결합된 아키텍처다. 기지국의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수가 단말기 수보다 압도적으로 많아질 때 채널 경화 (Channel Hardening)라는 통계적 평탄화 현상이 발생하여 수신기 설계가 단순해진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Massive MIMO의 3D 빔포밍 및 송수신 아키텍처        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ AAS (Active Antenna System) 패널 ]                         │
-│  ■ ■ ■ ■ ■ ■ ■ ■    ─▶ [ 위상/진폭 미세 조절 ]               │
-│  ■ ■ ■ ■ ■ ■ ■ ■                                             │
-│  ■ ■ ■ ■ ■ ■ ■ ■    ─▶ (DSP 프론트홀 고속 연산)              │
-│  ■ ■ ■ ■ ■ ■ ■ ■                                             │
-│                                                              │
-│ [ 3D 공간 정밀 타격 ]                                        │
-│  기지국 ════════════════════▶ [ 단말 A ] (지상 보행자)        │
-│          ↘                                                  │
-│            ↘══════════════▶ [ 단말 B ] (15층 사무실)        │
-│                                                              │
-│ ※ TDD (Time Division Duplex) 환경 필수: 상향 파이롯트로        │
-│    하향 채널을 유추하여 피드백 오버헤드 폭증을 차단           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Massive MIMO의 3D 빔포밍 및 송수신 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AAS (Active Antenna System) 패널</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위상/진폭 미세 조절</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■ ■ ■ ■ ■ ■</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■ ■ ■ ■ ■ ■ ─▶ (DSP 프론트홀 고속 연산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■ ■ ■ ■ ■ ■</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3D 공간 정밀 타격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단말 A</div><div class="kb-diagram-note">(지상 보행자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단말 B</div><div class="kb-diagram-note">(15층 사무실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ TDD (Time Division Duplex) 환경 필수: 상향 파이롯트로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하향 채널을 유추하여 피드백 오버헤드 폭증을 차단</div></div>
+</div>
+</div>
+
+
 
 가장 중요한 메커니즘은 3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)(3D [Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))이다. 수평축(Azimuth)뿐만 아니라 수직축(Elevation)의 전파 위상까지 DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)가 정밀하게 계산하여 조절한다. 이를 통해 고층 빌딩과 지상의 사용자에게 동일한 주파수를 동시에 할당하면서도 상호 간섭을 0으로 만드는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 매트릭스(Precoding)를 형성해 낸다. [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할) 환경에서는 단말이 보내야 할 채널 상태 피드백 량이 폭증하므로, 주로 전파의 가역성을 활용할 수 있는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)(시분할) 주파수 대역에서 Massive MIMO가 그 진가를 발휘한다.
 
@@ -65,7 +65,7 @@ Massive MIMO는 주파수 효율과 물리적 공간 한계를 극복하는 과�
 
 | 비교 항목 | 레거시 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) | Massive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) |
 | :--- | :--- | :--- |
-| **[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 수** | 2~8개 내외 | 32T32R, 64T64R (수십~수백 개) |
+| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 수</strong> | 2~8개 내외 | 32T32R, 64T64R (수십~수백 개) |
 | **빔 형성 축** | 2D (주로 수평축 분할) | 3D (수평 + 수직 고도 동시 분할) |
 | **파장 및 장비 크기**| 저주파, 파장이 길어 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 큼 | 고주파([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 등), [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소형 집적 가능 |
 | **하드웨어 융합** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 RF 장비 분리(케이블 연결) | AAS 기반 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)+RF 일체형 패널 |
@@ -106,27 +106,29 @@ Massive MIMO는 한정된 주파수 도로 위에서 '공간'이라는 새로운
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자의 위상을 정밀하게 조절하여 전파를 타겟으로 쏘는 Massive MIMO의 작동 엔진 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자의 위상을 정밀하게 조절하여 전파를 타겟으로 쏘는 Massive MIMO의 작동 엔진 |
 | **채널 경화 (Channel Hardening)** | 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수가 폭발적으로 증가하면서 다중 경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)의 무작위성이 사라지는 통계적 안정화 현상 |
-| **AAS ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) System)** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 RF [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/), 증폭기를 하나의 패널 장비로 일체화시켜 Massive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 구현을 가능케 한 하드웨어 폼팩터 |
+| <strong>AAS (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">Antenna</a> System)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 RF [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/), 증폭기를 하나의 패널 장비로 일체화시켜 Massive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 구현을 가능케 한 하드웨어 폼팩터 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MIMO (2x2, 4x4) 도입 · 평면적 공간 다중화
-    │
-    ▼
-고주파수(mmWave) 대역 필요성 증대 · 심각한 전파 감쇠 한계 직면
-    │
-    ▼
-AAS (Active Antenna System) 및 집적도 향상 · RF 일체형 장비 등장
-    │
-    ▼
-Massive MIMO (64T64R 등) · 3D 빔포밍을 통한 Array Gain으로 도달거리 복원
-    │
-    ▼
-Cell-Free Massive MIMO · 안테나 분산형 6G 아키텍처로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MIMO (2x2, 4x4) 도입 · 평면적 공간 다중화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고주파수(mmWave) 대역 필요성 증대 · 심각한 전파 감쇠 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AAS (Active Antenna System) 및 집적도 향상 · RF 일체형 장비 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Massive MIMO (64T64R 등) · 3D 빔포밍을 통한 Array Gain으로 도달거리 복원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cell-Free Massive MIMO · 안테나 분산형 6G 아키텍처로 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

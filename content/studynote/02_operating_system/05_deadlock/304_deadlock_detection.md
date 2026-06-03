@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 탐지 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 데드락을 예방하거나 회피하기 위한 사전문지기 역할을 전면 폐기하고, "일단 자원 요구하는 대로 시원하게 막 퍼주고(사고 허용)" **주기적으로 백그라운드 탐지 데몬이 시스템 내 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)에 얽힌 사이클이 없는지 예나 지금이나 감시하는 사후 감찰 메커니즘**이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 탐지 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 데드락을 예방하거나 회피하기 위한 사전문지기 역할을 전면 폐기하고, "일단 자원 요구하는 대로 시원하게 막 퍼주고(사고 허용)" <strong>주기적으로 백그라운드 탐지 데몬이 시스템 내 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a>에 얽힌 사이클이 없는지 예나 지금이나 감시하는 사후 감찰 메커니즘</strong>이다.
 > 2. **가치**: `Max 선언` 같은 헛기침(회피 오버헤드)이나, 강제로 뺏어 버리는 압제(예방 룰) 없이도 프로세스에게 최대한 런타임 할당의 자유를 보장하여 시스템 사용률(Utilization)을 최고치로 뽑아낼 수 있다.
 > 3. **융합**: 치명적 단점인 탐색 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연산 부하 $O(n^2)$를 피하기 위해 매일 도는 게 아니라 "CPU 이용률이 이상하게 떨어질 때(Hang 의심시)"만 발동하거나 정해진 타이머 주기로만 감시하는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 기법과 융합되어 대부분의 상용 RDBMS의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 코어 심장 자리를 당당히 꿰찼다.
 
@@ -21,30 +21,31 @@ tags = ["studynote-operating-system"]
 
 꽉 막힌 톨게이트 룰(예방/회피) 대신, 교차로 신호등을 아예 꺼버리고 사거리에 차들이 자유롭게 진입하게 냅둔다면 어떨까? (방임주의). 당장은 엄청 트래픽이 시원하게 뚫리지만, 재수가 없으면 4대가 꼬리를 물고 교차로가 완전 정지해 버리는 암흑 데드락이 필연적으로 발생한다.
 
-**[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**는 이 방임 시스템 뒷면에 붙어있는 "드론 순찰대"다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>는 이 방임 시스템 뒷면에 붙어있는 "드론 순찰대"다. 
 차가 돌든지 말든지 평소에는 자원을 다 내어준다. 그러다가 드론(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 위에서 슥 내려다보다가 "어? 저기 차선 4개가 둥글게 원형 꼬리를 물어 사이클이 형성됐군(데드락 발병)" 하고 늦게나마 진단서를 끊는 것이다. 진단이 떴으니 그제야 견인차([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 불러 부수고 치우면 된다.
 
 **💡 비유**: 파티장에서 "한 사람당 고기 5점까지만!(회피)" 룰을 없애고 맘대로 퍼먹게 냅둔다. 대신 매 30분마다 매니저(탐지기)가 순환(순회)하면서, 고기 접시를 손에 꽉 쥔 채 남의 접시 김치만 내놓으라며 서로 물고 늘어져 굳어버린 진상 테이블(데드락)이 있는가 감시해 잡아내는 사후 순찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         교착 상태 탐지 모델의 느슨한(Lazy) 자원 관리망        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [시간 흐름별 시스템 상태]                                    │
-│  t0: 막 퍼줌 (자유 할당, 방어/시뮬레이션 전혀 안 함)          │
-│  t1: 막 퍼줌 (엄청나게 높은 시스템 활성화 및 자원 소진율!)    │
-│  t2: 우연의 일치로 P1, P2, P3이 꼬리를 물어버림(Deadlock 발동)│
-│  t3: 시스템 일부가 멈춰버림. But OS는 모름 대기 방치          │
-│  t4: ⏰ (백그라운드 탐지 데몬 깨어남)                         │
-│      OS가 대기 그래프(WFG) 스캔 시작. DFS 탐색.               │
-│      "P1→P2→P3→P1 사이클 1건 적발!!"                          │
-│  t5: OS는 탐지 결과(교착)를 복구 레이어에 토스(Report).       │
-│                                                               │
-│  ▶ 핵심: 방어벽을 없앤 대가로 최상 성능을,                    │
-│           사고가 나면 몰아서 찾아내는 벌금형 통제 체계.       │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 탐지 모델의 느슨한(Lazy) 자원 관리망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 흐름별 시스템 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t0: 막 퍼줌 (자유 할당, 방어/시뮬레이션 전혀 안 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t1: 막 퍼줌 (엄청나게 높은 시스템 활성화 및 자원 소진율!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t2: 우연의 일치로 P1, P2, P3이 꼬리를 물어버림(Deadlock 발동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t3: 시스템 일부가 멈춰버림. But OS는 모름 대기 방치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t4: ⏰ (백그라운드 탐지 데몬 깨어남)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 대기 그래프(WFG) 스캔 시작. DFS 탐색.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"P1→P2→P3→P1 사이클 1건 적발!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t5: OS는 탐지 결과(교착)를 복구 레이어에 토스(Report).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핵심: 방어벽을 없앤 대가로 최상 성능을,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사고가 나면 몰아서 찾아내는 벌금형 통제 체계.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 탐지 방식은 "범죄(데드락) 안 일어나게 전국민을 교도소에 가둬버리자(예방)"는 어설픈 발상을 접고, "자유롭게 살게 냅두되 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 돌려서 터진 강도 사건만 범인을 잡아 패자"는 훨씬 자유 시장적인 최신 문물입니다.
 
@@ -56,10 +57,10 @@ tags = ["studynote-operating-system"]
 
 데드락 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 모양새는 놀랍게도 예방/회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 뱅커스)의 복붙(Copy-paste)에 가깝다. 단지 쓰는 '타이밍'이 완전히 다르다.
 
-1. **단일 자원 환경 탐지 ([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))**: 
+1. <strong>단일 자원 환경 탐지 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>: 
    - 회피 때는 미래 점선(Claim)을 넣었지만, 탐지는 진짜 리얼루 막 붙어있는 지금의 "A대기→B대기→C대기" 방향 화살표만 그린다.
    - 주기적으로 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 그 안에 닫힌 폐곡선(Cycle)이 뚫리면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 확진!
-2. **다중 자원 환경 탐지 (탐지 전용 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**:
+2. <strong>다중 자원 환경 탐지 (탐지 전용 은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>:
    - 뱅커스와 달리 `Max`(미래치)라는 개소리 행렬은 찢어버린다.
    - 오로지 지금 쥔 돈(Allocation), 당장 애타게 필요한 돈(Request), 금고 현찰(Available) 3장부만 놓고 지금 당장 돌려 막기가 도저히 안 되는 놈들(데드락 조도들)이 있는지 `O(m*n^2)` 순회 검토를 때린다.
 
@@ -72,7 +73,7 @@ tags = ["studynote-operating-system"]
 | 감찰 기준 | 회피 (Avoidance) | 탐지 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) |
 |:---|:---|:---|
 | 자원 융통성 | 주면 데드락 날까 쫄아서 안 줌 | 옜다 다 가져가라 (유연/속도 최고) |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 부하 타이밍 | 자원 요청할 때**마다** 루틴 실행 (막대함) | 2시간에 1번, CPU 툭 떨어질 때만 실행 (최소화) |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 부하 타이밍 | 자원 요청할 때<strong>마다</strong> 루틴 실행 (막대함) | 2시간에 1번, CPU 툭 떨어질 때만 실행 (최소화) |
 | 필수 수반 조치 | 없음 (미리 거절하니까) | **반드시 <[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))> 모듈이 한 몸으로 필참** |
 
 **📢 섹션 요약 비유**: 탐지는 "일 터지면 그때 가서 뒷수습할게!" 의 마인드. 그래서 탐지를 채택한 시스템은 반드시 박살 난 차를 밀어버릴 불도저([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 강제 종료)가 뒤에 상주해 있어야 합니다.
@@ -82,10 +83,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **RDBMS ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL, SQL Server) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 코어**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 범용 레벨에서는 타조 방임이지만, DB 세상에서는 이 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 황제다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수백만 개가 락을 막 건다. DB 백그라운드 스레드인 `Lock Manager`가 매 주기마다 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)(WFG) 매트릭스에 찌른 뒤 고리가 보이면 즉시 에러(`단절된 교착상태 발견`)를 뱉고 한 놈의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 전체를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(희생양 탈락) 시켜 전체 디비를 구조한다. 이 사후 탐지 파워 덕택에 DB 속도가 미친 듯 방출될 수 있다.
-2. **소프트웨어 워치독 ([Watchdog Timer](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/))**: 탐지는 수식을 돌릴 필요도 없이, 락 대기 시간에 'Ping'이 10초 이상 비거나 타이머가 뜨면 "너네 사이클에 걸려 죽었구나?" 라고 퉁 쳐서 자가 탐지하는 '[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 디텍션' 구문으로 극단적 융합 및 경량화되어 실무를 제패한다.
+1. <strong>RDBMS (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, MySQL, SQL Server) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 코어</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 범용 레벨에서는 타조 방임이지만, DB 세상에서는 이 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 황제다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수백만 개가 락을 막 건다. DB 백그라운드 스레드인 `Lock Manager`가 매 주기마다 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)(WFG) 매트릭스에 찌른 뒤 고리가 보이면 즉시 에러(`단절된 교착상태 발견`)를 뱉고 한 놈의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 전체를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(희생양 탈락) 시켜 전체 디비를 구조한다. 이 사후 탐지 파워 덕택에 DB 속도가 미친 듯 방출될 수 있다.
+2. <strong>소프트웨어 워치독 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/">Watchdog Timer</a>)</strong>: 탐지는 수식을 돌릴 필요도 없이, 락 대기 시간에 'Ping'이 10초 이상 비거나 타이머가 뜨면 "너네 사이클에 걸려 죽었구나?" 라고 퉁 쳐서 자가 탐지하는 '[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 디텍션' 구문으로 극단적 융합 및 경량화되어 실무를 제패한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **자주 돌려버리는 탐지 데몬 (Over-frequent Detction)**: 데드락이 우려된다며 매 0.1초마다 이 거대한 $O(n^2)$ 탐색 커널을 돌리는 세팅. 어차피 이럴 거면 최악의 오버헤드를 자랑하는 회피(Avoidance)로 회귀하는 거나 다름없다. 데드락의 멈춤 피해액보다 쓸데없이 스캔하느라 갈려나가는 CPU 전기세가 압도적으로 크다.
 
 **📢 섹션 요약 비유**: 1년에 1번 도둑질 일어나는 동네에, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 감시원을 고용해 매 1초마다 눈 부릅뜨게 하면 월급(CPU 비용)이 도둑맞은 돈을 훨씬 넘습니다. 탐지 주기의 "게으름 조율"이 이 엔지니어링의 핵심 예술입니다.
@@ -117,15 +118,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[은행원 알고리즘 한계]
-    │
-    ▼
-[교착 상태 탐지 (Deadlock Detection)]
-    │
-    ├──▶ [대기 그래프 (Wait-for Graph)]
-    └──▶ [탐지 알고리즘의 오버헤드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 탐지 (Deadlock Detection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대기 그래프 (Wait-for Graph)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">탐지 알고리즘의 오버헤드</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

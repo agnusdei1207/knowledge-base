@@ -18,23 +18,21 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│         세그먼트 트리 구조 (배열 합)                       │
-├──────────────────────────────────────────────────────────┤
-│  배열: [1, 3, 5, 7, 9, 11]                               │
-│                                                           │
-│              [36]       ← 전체 합 (인덱스 1)             │
-│            /       \                                     │
-│         [16]       [20]  ← 좌우 절반                     │
-│        /    \     /    \                                  │
-│      [4]   [12] [9]  [11] ← 쿼터                        │
-│     /  \  /  \  /  \                                     │
-│   [1] [3][5][7][9][11] ← 리프 노드 (원소)                │
-│                                                           │
-│  구간 합 [1..4]: 루트→[16]→[4]+[12] = 16 → O(log n)      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 트리 구조 (배열 합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">1, 3, 5, 7, 9, 11</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">36</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">전체 합 (인덱스 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">16</div><div class="kb-diagram-node">20</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">좌우 절반</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">11</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">쿼터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">11</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">리프 노드 (원소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">구간 합</div><div class="kb-diagram-node">1..4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">16</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">12</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">O(log n)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 회사 조직도 합산이다. CEO(루트)는 전체 합을 알고, 부장(중간 노드)은 자기 팀 합을 알며, 직원(리프)은 자신의 값을 안다. 특정 팀 합을 알려면 최소한의 상사만 물어보면 된다.
 
@@ -69,11 +67,17 @@ class SegmentTree:
 
 ### 레이지 프로파게이션 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Propagation)
 
-```text
-문제: 구간 [l, r] 전체에 +k 업데이트 → 순진하게 하면 O(n)
-해결: 업데이트를 지연(lazy) 저장 → 필요할 때만 전파
-→ 구간 업데이트도 O(log n) 가능
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">문제: 구간</div><div class="kb-diagram-node">l, r</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">순진하게 하면 O(n)</div></div>
+<div class="kb-diagram-note">해결: 업데이트를 지연(lazy) 저장 → 필요할 때만 전파</div>
+<div class="kb-diagram-note">→ 구간 업데이트도 O(log n) 가능</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 레이지 프로파게이션은 일괄 업무 처리다. 100명 직원 급여를 일일이 바꾸는 대신, "팀 전체 +[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 인상" 메모만 남겨두고 실제 계산은 각 직원 급여를 조회할 때만 한다.
 
@@ -96,19 +100,22 @@ class SegmentTree:
 
 ### 응용 문제
 
-```text
-구간 최솟값 (Range Minimum Query):
-  세그먼트 트리 리프 = 원소, 내부 = min(자식)
-  → 구간 최솟값 O(log n), 업데이트 O(log n)
 
-구간 최솟값 + Offline: 스파스 테이블 (O(1) 쿼리, O(n log n) 전처리)
 
-구간 업데이트 + 구간 합: 레이지 프로파게이션 필수
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">구간 최솟값 (Range Minimum Query):</div>
+<div class="kb-diagram-note">세그먼트 트리 리프 = 원소, 내부 = min(자식)</div>
+<div class="kb-diagram-note">→ 구간 최솟값 O(log n), 업데이트 O(log n)</div>
+<div class="kb-diagram-note">구간 최솟값 + Offline: 스파스 테이블 (O(1) 쿼리, O(n log n) 전처리)</div>
+<div class="kb-diagram-note">구간 업데이트 + 구간 합: 레이지 프로파게이션 필수</div>
+<div class="kb-diagram-note">지속 세그먼트 트리 (Persistent Segment Tree):</div>
+<div class="kb-diagram-note">시간축 버전 관리 → 과거 시점 쿼리 O(log n)</div>
+<div class="kb-diagram-note">→ 오프라인 쿼리, K번째 원소 찾기</div>
+</div>
+</div>
 
-지속 세그먼트 트리 (Persistent Segment Tree):
-  시간축 버전 관리 → 과거 시점 쿼리 O(log n)
-  → 오프라인 쿼리, K번째 원소 찾기
-```
+
 
 - **📢 섹션 요약 비유**: 지속 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 시간 여행 가능한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 트리의 모든 과거 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 O(log n) 공간으로 유지해서 "3단계 전 상태의 구간 합이 얼마였나?"를 빠르게 조회할 수 있다.
 
@@ -118,7 +125,7 @@ class SegmentTree:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **균형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·업데이트 모두 O(log n) |
+| <strong>균형 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·업데이트 모두 O(log n) |
 | **범용성** | 합·최소·최대·[GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 등 다양한 연산 |
 | **확장성** | 레이지·지속 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)로 기능 확장 |
 
@@ -132,29 +139,31 @@ class SegmentTree:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ([BIT](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))** | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) 간소화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
-| **[스파스 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/081_sparse_table/)** | 정적 구간 최솟값 O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">펜윅 트리</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">BIT</a>)</strong> | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) 간소화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/081_sparse_table/">스파스 테이블</a></strong> | 정적 구간 최솟값 O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
 | **레이지 프로파게이션** | 구간 업데이트 최적화 |
-| **지속 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)** | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리·시간축 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
-| **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)** | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)의 설계 원리 |
+| <strong>지속 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리·시간축 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a></strong> | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)의 설계 원리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배열 선형 탐색 — 구간 쿼리 O(n)]
-    │
-    ▼
-[누적 합 — 정적 구간 합 O(1) 쿼리]
-    │
-    ▼
-[세그먼트 트리 — 동적 구간 쿼리·업데이트 O(log n)]
-    │
-    ▼
-[레이지 프로파게이션 — 구간 업데이트 O(log n)]
-    │
-    ▼
-[지속 세그먼트 트리 — 시간축 버전 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열 선형 탐색 — 구간 쿼리 O(n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">누적 합 — 정적 구간 합 O(1) 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 — 동적 구간 쿼리·업데이트 O(log n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레이지 프로파게이션 — 구간 업데이트 O(log n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속 세그먼트 트리 — 시간축 버전 관리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

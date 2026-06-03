@@ -18,26 +18,29 @@ tags = ["studynote-software-engineering"]
 
 ## I. 간트 차트 구성 요소
 
-```
-간트 차트 기본 구조:
 
-작업(Task)    3월1일  3월8일  3월15일  3월22일  3월29일
-──────────────────────────────────────────────────────
-요구사항 분석  [====]
-시스템 설계          [======]
-DB 설계              [====]
-개발 (A팀)                   [==========]
-개발 (B팀)                   [======]
-테스트                                   [======]
-배포                                             [==]
 
-구성 요소:
-  막대(Bar): 작업 기간
-  마일스톤(◆): 중요 이벤트/산출물 납기
-  의존성 화살표: 선행-후행 관계
-  진행률: 막대 채움 비율 (%)
-  크리티컬 패스: 빨간색 표시
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">간트 차트 기본 구조:</div>
+<div class="kb-diagram-note">작업(Task) 3월1일 3월8일 3월15일 3월22일 3월29일</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">요구사항 분석</div><div class="kb-diagram-node">====</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">시스템 설계</div><div class="kb-diagram-node">======</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">DB 설계</div><div class="kb-diagram-node">====</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">개발 (A팀)</div><div class="kb-diagram-node">==========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">개발 (B팀)</div><div class="kb-diagram-node">======</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">테스트</div><div class="kb-diagram-node">======</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배포</div><div class="kb-diagram-node">==</div></div>
+<div class="kb-diagram-note">구성 요소:</div>
+<div class="kb-diagram-note">막대(Bar): 작업 기간</div>
+<div class="kb-diagram-note">마일스톤(◆): 중요 이벤트/산출물 납기</div>
+<div class="kb-diagram-note">의존성 화살표: 선행-후행 관계</div>
+<div class="kb-diagram-note">진행률: 막대 채움 비율 (%)</div>
+<div class="kb-diagram-note">크리티컬 패스: 빨간색 표시</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 간트 차트는 공사 현장 전체 공정표 — 기초 완공 전에 골조를 세울 수 없고, 각 팀이 언제 어떤 일을 하는지 한눈에.
 
@@ -139,29 +142,31 @@ CPM에서 간트로:
 
 ## V. 실무 시나리오 — SI 프로젝트 간트
 
-```
-공공 SI 프로젝트 (6개월):
 
-상위 마일스톤:
-  M1 (1개월): 요구사항 분석 완료 (SRS 승인)
-  M2 (3개월): 설계 완료 (아키텍처 승인)
-  M3 (5개월): 개발 완료 (검수 시작)
-  M4 (6개월): 납기 (최종 납품)
 
-크리티컬 패스:
-  요구분석(4주) -> DB설계(3주) -> 핵심 모듈 개발(6주)
-  -> 통합 테스트(3주) -> UAT(2주) -> 배포(1주)
-  = 19주 (전체 기간)
-  
-비크리티컬 (Float 있음):
-  UI 개발: Float 2주 (늦게 시작해도 무방)
-  문서 작업: Float 3주
-  
-간트 차트 도구:
-  MS Project: 고급 의존성, 자원 레벨링
-  Jira: 에픽 타임라인 (애자일)
-  Ganttproject: 무료, 오픈소스
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공공 SI 프로젝트 (6개월):</div>
+<div class="kb-diagram-note">상위 마일스톤:</div>
+<div class="kb-diagram-note">M1 (1개월): 요구사항 분석 완료 (SRS 승인)</div>
+<div class="kb-diagram-note">M2 (3개월): 설계 완료 (아키텍처 승인)</div>
+<div class="kb-diagram-note">M3 (5개월): 개발 완료 (검수 시작)</div>
+<div class="kb-diagram-note">M4 (6개월): 납기 (최종 납품)</div>
+<div class="kb-diagram-note">크리티컬 패스:</div>
+<div class="kb-diagram-note">요구분석(4주) -&gt; DB설계(3주) -&gt; 핵심 모듈 개발(6주)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">통합 테스트(3주) -&gt; UAT(2주) -&gt; 배포(1주)</div>
+<div class="kb-diagram-note">= 19주 (전체 기간)</div>
+<div class="kb-diagram-note">비크리티컬 (Float 있음):</div>
+<div class="kb-diagram-note">UI 개발: Float 2주 (늦게 시작해도 무방)</div>
+<div class="kb-diagram-note">문서 작업: Float 3주</div>
+<div class="kb-diagram-note">간트 차트 도구:</div>
+<div class="kb-diagram-note">MS Project: 고급 의존성, 자원 레벨링</div>
+<div class="kb-diagram-note">Jira: 에픽 타임라인 (애자일)</div>
+<div class="kb-diagram-note">Ganttproject: 무료, 오픈소스</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 크리티컬 패스는 연쇄 고리 — 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발이 1주 늦으면 전체 납기가 1주 늦어지므로 PM이 최우선 관리.
 

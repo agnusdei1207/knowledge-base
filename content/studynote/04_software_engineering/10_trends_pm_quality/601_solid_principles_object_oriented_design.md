@@ -23,33 +23,32 @@ tags = ["studynote-software-engineering"]
   - 1990년대, 소프트웨어는 100만 줄의 뚱뚱한 C/C++ 덩어리였다. 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))을 쓴답시고 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)을 떡칠했다가, 부모 클래스 1줄 바꿨더니 자식 클래스 1만 개가 시뻘건 에러를 토하며 일제히 사망하는 지옥(Fragility)이 열렸다. 
   - Uncle Bob이 "이따위로 짜면 안 돼!"라며 정리한 **S, O, L, I, D** 5가지 원칙. 코드가 썩는 악취([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 도끼로 찍어내기 위한 방부제.
 
-- **필요성 (강결합과 경직성의 파국)**: 사장님이 "결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 카카오페이 1개 추가해 줘" 지시했다. 주니어가 `PaymentService.java` 파일을 열고 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번째 줄에 `if(payType == "KAKAO")` 10줄을 욱여넣고 저장했다. 다음 날 아침 쿠팡 메인 서버가 뻗었다. 카카오페이 코드 넣다가 위에 있던 '신용카드 결제' 괄호(`}`) 하나를 건드려서 카드 결제가 100% 막힌 것이다. **"아 씨발! 기능 하나 '추가(Add)'하는데 왜 멀쩡히 돌던 기존 코드를 '수정(Modify)'하려다 지뢰를 밟아야 해?! 기존 코드는 1바이트도 건드리지 않고도 새 기능을 무한대로 레고처럼 꽂을 수 있는 완벽한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 설계 없어?!"** 이 피눈물 나는 경직성(Rigidity)의 한계를 부수기 위해 SOLID가 태어났다.
+- **필요성 (강결합과 경직성의 파국)**: 사장님이 "결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 카카오페이 1개 추가해 줘" 지시했다. 주니어가 `PaymentService.java` 파일을 열고 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번째 줄에 `if(payType == "KAKAO")` 10줄을 욱여넣고 저장했다. 다음 날 아침 쿠팡 메인 서버가 뻗었다. 카카오페이 코드 넣다가 위에 있던 '신용카드 결제' 괄호(`}`) 하나를 건드려서 카드 결제가 100% 막힌 것이다. <strong>"아 씨발! 기능 하나 '추가(Add)'하는데 왜 멀쩡히 돌던 기존 코드를 '수정(Modify)'하려다 지뢰를 밟아야 해?! 기존 코드는 1바이트도 건드리지 않고도 새 기능을 무한대로 레고처럼 꽂을 수 있는 완벽한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화 설계 없어?!"</strong> 이 피눈물 나는 경직성(Rigidity)의 한계를 부수기 위해 SOLID가 태어났다.
 
-- **💡 비유**: SOLID를 안 지킨 코드는 **'벽에 시멘트로 영구 용접된 전구'**입니다. 전구(구현체)가 고장 나거나 다른 색깔로 바꾸고 싶으면, 망치로 벽을 다 부수고 전선을 뜯어내서(기존 코드 수정) 새로 공사해야 하죠. SOLID를 지킨 코드는 **'규격화된 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(인터페이스)과 돌려 끼우는 백열전구'**입니다. 벽(기존 코드)은 1mm도 안 건드립니다. 그냥 낡은 전구를 툭 돌려서 빼고, 새 파란색 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구를 찰칵 돌려 끼우기만(갈아 끼우기) 하면 1초 만에 확장(기능 추가)이 끝나는 궁극의 조립식 뼈대입니다.
+- **💡 비유**: SOLID를 안 지킨 코드는 <strong>'벽에 시멘트로 영구 용접된 전구'</strong>입니다. 전구(구현체)가 고장 나거나 다른 색깔로 바꾸고 싶으면, 망치로 벽을 다 부수고 전선을 뜯어내서(기존 코드 수정) 새로 공사해야 하죠. SOLID를 지킨 코드는 <strong>'규격화된 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(인터페이스)과 돌려 끼우는 백열전구'</strong>입니다. 벽(기존 코드)은 1mm도 안 건드립니다. 그냥 낡은 전구를 툭 돌려서 빼고, 새 파란색 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구를 찰칵 돌려 끼우기만(갈아 끼우기) 하면 1초 만에 확장(기능 추가)이 끝나는 궁극의 조립식 뼈대입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **절차 지향 시대 (C언어)**: 함수와 변수가 전역으로 날아다님. 순서가 꼬이면 다 터짐.
-  2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 객체 지향 (90년대 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 만능주의)**: 클래스를 만들고 무지성으로 `extends` ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))를 10단계로 때려 박음. 부모가 기침하면 증손자가 폐렴으로 죽는 요상한 족보(강결합)가 완성됨.
+  2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 객체 지향 (90년대 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 만능주의)</strong>: 클래스를 만들고 무지성으로 `extends` ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))를 10단계로 때려 박음. 부모가 기침하면 증손자가 폐렴으로 죽는 요상한 족보(강결합)가 완성됨.
   3. **SOLID와 디자인 패턴의 르네상스 (현재)**: "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 쓰지 마! 인터페이스(Interface) 껍데기만 바라보게 만들고 조립(Composition)해!" 객체지향의 진짜 무기는 캡슐화와 다형성(Polymorphism)이라는 진리가 천하 통일함.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'장난감 통짜 로봇'에서 '건담 합체 로봇'으로의 진화**입니다. 통짜 로봇은 팔이 부러지면 통째로 버려야 합니다(단일 책임 위반). 합체 로봇은 왼팔([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 부러지면 왼팔만 뚝 떼서 새 팔로 1초 컷 갈아 끼웁니다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)/[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)). 서로 완전히 남남(Decoupling)이지만, 합치면 하나의 완벽한 거대 시스템이 되어 괴물을 때려잡는 마술입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'장난감 통짜 로봇'에서 '건담 합체 로봇'으로의 진화</strong>입니다. 통짜 로봇은 팔이 부러지면 통째로 버려야 합니다(단일 책임 위반). 합체 로봇은 왼팔([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 부러지면 왼팔만 뚝 떼서 새 팔로 1초 컷 갈아 끼웁니다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)/[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)). 서로 완전히 남남(Decoupling)이지만, 합치면 하나의 완벽한 거대 시스템이 되어 괴물을 때려잡는 마술입니다.
 
 ---
 
 다음은 객체지향 5원칙 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 완벽 매핑의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 5원칙 SOLID 완벽 매핑                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 5원칙 SOLID 완벽 매핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 5원칙 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 완벽 매핑가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-객체지향 5원칙 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 완벽 매핑의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+객체지향 5원칙 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 완벽 매핑의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 객체지향 5원칙 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 완벽 매핑의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 5원칙 SOLID 완벽 매핑 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 5원칙 SOLID 완벽 매핑 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

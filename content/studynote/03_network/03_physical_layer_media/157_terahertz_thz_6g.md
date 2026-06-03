@@ -29,7 +29,7 @@ THz가 주목받는 이유는 단순히 속도가 빠르기 때문만이 아니�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-THz 링크의 본질은 **엄청난 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**과 **매우 좁은 빔**의 결합이다. 주파수가 높아질수록 자유공간 경로 손실 (FSPL, Free Space Path Loss)은 커지고, 공기 중 수증기와 산소에 의한 분자 흡수도 커진다. 그래서 THz 통신은 무조건 멀리 보내는 기술이 아니라, 짧은 거리에서 높은 방향성을 확보해 고속 전송을 실현하는 방식으로 접근해야 한다.
+THz 링크의 본질은 <strong>엄청난 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>과 <strong>매우 좁은 빔</strong>의 결합이다. 주파수가 높아질수록 자유공간 경로 손실 (FSPL, Free Space Path Loss)은 커지고, 공기 중 수증기와 산소에 의한 분자 흡수도 커진다. 그래서 THz 통신은 무조건 멀리 보내는 기술이 아니라, 짧은 거리에서 높은 방향성을 확보해 고속 전송을 실현하는 방식으로 접근해야 한다.
 
 ### 핵심 특성
 
@@ -42,18 +42,21 @@ THz 링크의 본질은 **엄청난 [대역폭](/knowledge-base/studynote/01_com
 
 아래 그림은 THz 링크가 왜 빔 정렬과 채널 조건에 민감한지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                       THz link budget intuition                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Baseband ─▶ THz front-end ─▶ phased array  >>> narrow beam >>>            │
-│                                              [air + molecular absorption]  │
-│                                              [blockage + misalignment]     │
-│ Receiver array ─▶ down-conversion ─▶ demodulation                         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 THz 시스템은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)), 빔 추적, 짧은 링크 거리, 그리고 특정 흡수 윈도우 선택이 모두 맞아야 한다. 이 점에서 THz는 단순한 “더 높은 주파수”가 아니라, **채널 제약을 전제로 설계해야 하는 별도의 시스템 공학 문제**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">THz link budget intuition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseband ─▶ THz front-end ─▶ phased array &gt;&gt;&gt; narrow beam &gt;&gt;&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">air + molecular absorption</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">blockage + misalignment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver array ─▶ down-conversion ─▶ demodulation</div></div>
+</div>
+</div>
+
+
+
+따라서 THz 시스템은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)), 빔 추적, 짧은 링크 거리, 그리고 특정 흡수 윈도우 선택이 모두 맞아야 한다. 이 점에서 THz는 단순한 “더 높은 주파수”가 아니라, <strong>채널 제약을 전제로 설계해야 하는 별도의 시스템 공학 문제</strong>다.
 
 - **📢 섹션 요약 비유**: THz 통신은 손전등이 아니라 레이저 포인터에 가깝다. 빛이 강하고 멀리 뻗는 듯 보여도, 정확히 맞추지 못하면 상대에게 거의 전달되지 않는다.
 
@@ -70,7 +73,7 @@ THz의 위치를 이해하려면 기존 무선 대역과 비교해야 한다.
 | 적합한 용도 | 광역 이동통신 | 도심 핫스팟, FWA | 초단거리 핫스팟, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 센싱 |
 | 설계 중심 | 셀 커버리지 | 빔 관리 | 링크 윈도우, 초정밀 빔 정렬 |
 
-이 비교에서 보이듯 THz는 mmWave의 단순 상위 버전이 아니다. 커버리지를 희생하는 대신 훨씬 더 큰 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 센싱 해상도를 얻는다. 그래서 6G에서는 THz를 Sub-6GHz나 mmWave를 대체하는 단일 계층으로 보기보다, **핫스팟·실내 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 구간·무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)·통신+센싱 융합 구간**을 담당하는 상위 계층으로 보는 것이 합리적이다.
+이 비교에서 보이듯 THz는 mmWave의 단순 상위 버전이 아니다. 커버리지를 희생하는 대신 훨씬 더 큰 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 센싱 해상도를 얻는다. 그래서 6G에서는 THz를 Sub-6GHz나 mmWave를 대체하는 단일 계층으로 보기보다, <strong>핫스팟·실내 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 구간·무선 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">백홀</a>·통신+센싱 융합 구간</strong>을 담당하는 상위 계층으로 보는 것이 합리적이다.
 
 - **📢 섹션 요약 비유**: Sub-6GHz가 넓은 국도라면, mmWave는 도심 고속도로이고, THz는 공항 활주로 같은 특수 목적 전용로다. 모두 빠르기보다 쓰는 장소가 다르다.
 
@@ -78,13 +81,13 @@ THz의 위치를 이해하려면 기존 무선 대역과 비교해야 한다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 관점에서 THz는 “전국망 이동통신”보다 **제어 가능한 공간에서의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 링크**에 먼저 적합하다. 예를 들어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 랙 간 무선 연결, 실내 XR (Extended Reality) 스트리밍, 기지국 간 초단거리 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 공장 자동화 구역, 정밀 센싱 통합 구간 등이 대표 후보이다. 반대로 빌딩 음영, 비가 많은 야외, 빠른 사용자 이동이 겹치는 환경에서는 설계 난도가 급격히 올라간다.
+실무 관점에서 THz는 “전국망 이동통신”보다 <strong>제어 가능한 공간에서의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 링크</strong>에 먼저 적합하다. 예를 들어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 랙 간 무선 연결, 실내 XR (Extended Reality) 스트리밍, 기지국 간 초단거리 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 공장 자동화 구역, 정밀 센싱 통합 구간 등이 대표 후보이다. 반대로 빌딩 음영, 비가 많은 야외, 빠른 사용자 이동이 겹치는 환경에서는 설계 난도가 급격히 올라간다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **가시선 (LoS, Line of Sight)을 확보할 수 있는가?** 장애물과 사람 이동이 많은 환경이면 성능이 급락한다.
 2. **링크 거리가 짧고 통제 가능한가?** 수 미터~수십 미터 구간이 현실적 후보이다.
-3. **빔 추적과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 제어가 가능한가?** 좁은 빔을 빠르게 유지해야 한다.
+3. <strong>빔 추적과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 제어가 가능한가?</strong> 좁은 빔을 빠르게 유지해야 한다.
 4. **습도·강우·패키징 발열을 감당할 수 있는가?** 채널뿐 아니라 하드웨어 제약도 함께 봐야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -101,7 +104,7 @@ THz의 위치를 이해하려면 기존 무선 대역과 비교해야 한다.
 
 THz가 성숙하면 6G는 단순히 더 빠른 이동통신을 넘어, 초고해상도 무선 전송과 정밀 센싱이 결합된 새로운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 열 수 있다. 실내 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 핫스팟, 산업 자동화, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 기기 간 초단거리 연결에서 큰 가치를 만들 가능성이 높다. 하지만 광역 커버리지와 안정성을 요구하는 구간에서는 여전히 Sub-6GHz와 mmWave가 함께 필요하다.
 
-결국 THz는 “6G의 전부”가 아니라 **6G를 구성하는 가장 고성능이지만 가장 까다로운 층**으로 이해하는 것이 정확하다. 앞으로의 핵심은 저손실 소자, 패키징, RIS (Reconfigurable Intelligent Surface), 초대형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 통신·센싱 통합 설계의 성숙도에 달려 있다.
+결국 THz는 “6G의 전부”가 아니라 <strong>6G를 구성하는 가장 고성능이지만 가장 까다로운 층</strong>으로 이해하는 것이 정확하다. 앞으로의 핵심은 저손실 소자, 패키징, RIS (Reconfigurable Intelligent Surface), 초대형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 통신·센싱 통합 설계의 성숙도에 달려 있다.
 
 - **📢 섹션 요약 비유**: THz는 만능 망치가 아니라 정밀 수술용 메스다. 잘 맞는 상황에서는 기존 도구가 못 하던 일을 해내지만, 아무 곳에나 쓰면 오히려 더 다루기 어렵다.
 
@@ -120,21 +123,23 @@ THz가 성숙하면 6G는 단순히 더 빠른 이동통신을 넘어, 초고해
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Sub-6GHz 스펙트럼 포화
-    │
-    ▼
-mmWave (Millimeter Wave)
-    │
-    ▼
-THz 윈도우 탐색 · 초대역폭 활용
-    │
-    ▼
-빔포밍 · 초대형 안테나 배열 · RIS
-    │
-    ▼
-6G 초고속 핫스팟 · 무선 백홀 · 통신+센싱 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sub-6GHz 스펙트럼 포화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">mmWave (Millimeter Wave)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">THz 윈도우 탐색 · 초대역폭 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빔포밍 · 초대형 안테나 배열 · RIS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">6G 초고속 핫스팟 · 무선 백홀 · 통신+센싱 융합</div>
+</div>
+</div>
+
+
 
 이 흐름은 THz가 독립적으로 갑자기 등장한 기술이 아니라, 스펙트럼 확장과 빔 기반 설계가 더 극단적으로 발전한 결과임을 보여준다.
 

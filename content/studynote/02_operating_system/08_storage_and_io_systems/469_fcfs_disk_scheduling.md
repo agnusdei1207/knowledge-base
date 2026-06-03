@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(First-Come, First-Served) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 수십 개의 디스크 I/O 요청이 큐에 쌓였을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치(트랙 번호)는 깡그리 무시하고 **오직 큐에 '먼저 도착한 순서(시간)'대로만 디스크 바늘(Head)을 움직여 처리하는 가장 원시적인 큐잉 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이다.
-> 2. **가치**: 구현이 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 하나면 끝날 정도로 극도로 단순하며, 어떤 요청이든 먼저 오기만 하면 무조건 언젠가는 처리된다는 **절대적인 '공평성(Fairness)'과 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 면제라는 훈장**을 가진다.
-> 3. **융합(한계)**: 하지만 기계식 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 환경에서 1번, 999번, 2번 등 랜덤한 주소 요청이 들어올 경우, 바늘이 디스크의 양 끝을 미친 듯이 횡단하는 끔찍한 **[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Penalty) 폭발을 유발하므로, [엘리베이터 알고리즘](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/)(SCAN)이 등장하기 전까지의 반면교사**로만 남았다.
+> 1. **본질**: [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(First-Come, First-Served) [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)은 수십 개의 디스크 I/O 요청이 큐에 쌓였을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치(트랙 번호)는 깡그리 무시하고 <strong>오직 큐에 '먼저 도착한 순서(시간)'대로만 디스크 바늘(Head)을 움직여 처리하는 가장 원시적인 큐잉 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.
+> 2. **가치**: 구현이 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 하나면 끝날 정도로 극도로 단순하며, 어떤 요청이든 먼저 오기만 하면 무조건 언젠가는 처리된다는 <strong>절대적인 '공평성(Fairness)'과 기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 면제라는 훈장</strong>을 가진다.
+> 3. **융합(한계)**: 하지만 기계식 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 환경에서 1번, 999번, 2번 등 랜덤한 주소 요청이 들어올 경우, 바늘이 디스크의 양 끝을 미친 듯이 횡단하는 끔찍한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Penalty) 폭발을 유발하므로, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>(SCAN)이 등장하기 전까지의 반면교사</strong>로만 남았다.
 
 ---
 
@@ -23,35 +23,32 @@ tags = ["studynote-operating-system"]
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 운영체제를 만들던 시절, 컴퓨터 과학자들에게는 "복잡한 연산을 하느라 CPU를 갉아먹으면 안 된다"는 강박이 있었다. 들어온 I/O 요청들의 거리를 계산하고 오름차순으로 정렬(Sorting)하는 짓 자체가 1960년대 똥컴 CPU에게는 엄청난 오버헤드였다. "그냥 은행 창구처럼 제일 먼저 줄 선 놈부터 빨리빨리 쳐내자. 그게 윤리적으로도 공평하고 프로그래밍 짜기도 제일 쉽잖아?"라는 극강의 단순성과 평등주의가 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 최초의 스탠다드로 만들었다.
 
 - **등장 배경 및 공평성의 함정**:
-  1. **단순한 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))의 시대**: 들어온 순서대로 빼내는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 큐 자료구조 하나면 모든 OS가 다 만들어졌다.
+  1. <strong>단순한 큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)의 시대</strong>: 들어온 순서대로 빼내는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 큐 자료구조 하나면 모든 OS가 다 만들어졌다.
   2. **랜덤 액세스(Random I/O)의 재앙**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 다중 프로세스가 뜨면서, 디스크 요청 주소가 1, 999, 2 로 극단적으로 널뛰기 시작함.
   3. **효율성의 붕괴**: 공평하긴 한데, 바늘이 널뛰기하느라 디스크 전체가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 급 렉에 빠져 서버가 뻗는 사태가 속출하며 퇴출 위기를 맞음.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        FCFS 디스크 스케줄링의 끔찍한 동선(바늘 이동) 시각화        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124    │
-│ [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                       │
-│                                                                    │
-│ ▶ 바늘의 실제 이동 경로 (들어온 순서 그대로 직진!)                 │
-│                                                                    │
-│   14   37     53     98    122 124        183                      │
-│   │    │      [시작]  │      │  │          │                       │
-│   │    │       └──────▶①    │  │          │                        │
-│   │    │              └─────────────────▶②                         │
-│   │    │◀───────────────────────────────────┘                      │
-│   │    ③───────────────────▶④  │                                   │
-│   │◀─────────────────────────┘  │                                  │
-│   ⑤──────────────────────────────▶⑥                                │
-│                                                                    │
-│ 💥 총 헤드 이동 거리 연산:                                         │
-│ |53-98| + |98-183| + |183-37| + |37-122| + |122-14| + |14-124|     │
-│ = 45 + 85 + 146 + 85 + 108 + 110 = 💥 총 579 트랙 이동!            │
-└────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 이 지그재그(Z-zag) 궤적을 보라. 183번에서 37번으로 디스크 끝과 끝을 풀스윙으로 되돌아오는 저 146트랙 이동 구간은, 디스크 쇳덩어리가 비명을 지르며 10밀리초 이상의 지옥 같은 Seek 딜레이를 뿜어내는 마의 구간이다. 바늘을 한쪽으로 쓱 밀면서(14->37->98->122->124->183) 훑었으면 200 이동 거리로 끝날 일을, 순서를 지키겠다는 아집 하나 때문에 **3배가 넘는 600 가까운 동선 낭비(Overhead)**를 저지르고 말았다. 기계 공학적 관점에선 최악의 테러다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS 디스크 스케줄링의 끔찍한 동선(바늘 이동) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">큐에 쌓인 요청 순서 (트랙 번호)</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 바늘(Head)의 현재 위치</div><div class="kb-diagram-note">: 53번 트랙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 바늘의 실제 이동 경로 (들어온 순서 그대로 직진!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">│ │ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶①</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶②</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ ▶④</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ ▶⑥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 총 헤드 이동 거리 연산:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">53-98</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">98-183</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">183-37</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">37-122</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">122-14</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">14-124</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 45 + 85 + 146 + 85 + 108 + 110 = 💥 총 579 트랙 이동!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 이 지그재그(Z-zag) 궤적을 보라. 183번에서 37번으로 디스크 끝과 끝을 풀스윙으로 되돌아오는 저 146트랙 이동 구간은, 디스크 쇳덩어리가 비명을 지르며 10밀리초 이상의 지옥 같은 Seek 딜레이를 뿜어내는 마의 구간이다. 바늘을 한쪽으로 쓱 밀면서(14->37->98->122->124->183) 훑었으면 200 이동 거리로 끝날 일을, 순서를 지키겠다는 아집 하나 때문에 <strong>3배가 넘는 600 가까운 동선 낭비(Overhead)</strong>를 저지르고 말았다. 기계 공학적 관점에선 최악의 테러다.
 
 - **📢 섹션 요약 비유**: 엘리베이터에 탔는데 버튼 눌린 순서대로만 움직입니다. 1층에서 탄 사람이 10층을 누르고, 나중에 탄 사람이 2층을 누르면 엘리베이터가 10층까지 쭉 올라갔다가 다시 2층으로 곤두박질치는 기괴한 놀이기구가 됩니다. 엘리베이터 모터(모터 수명)가 일주일 만에 타서 고장 나 버릴 겁니다.
 
@@ -61,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 ### 절대 기아 현상 방지 (No [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))
 
-FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 쓰레기 취급을 받으면서도 가장 강력하게 뽐내는 유일한 무기는 **'예측 가능성(Determinism)'**과 **'기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 제로'**다.
+FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 쓰레기 취급을 받으면서도 가장 강력하게 뽐내는 유일한 무기는 <strong>'예측 가능성(Determinism)'</strong>과 <strong>'기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 제로'</strong>다.
 - 뒤에 나올 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 엘리베이터(SCAN)나 최단 거리([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 "가까운 놈 먼저, 가는 길에 있는 놈 먼저" 처리한다.
 - 만약 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크 999번 구석탱이에 있는데, 10번 구역에서만 I/O 요청이 1만 번 쏟아지면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 효율 챙기겠다고 10번 구역만 빙글빙글 돈다. 내 999번 요청은 10분이 지나도 평생 처리되지 못하고 굶어 죽는다([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
 - **FCFS의 절대적 정의**: FCFS는 그딴 거 없다. 네가 999번 구석에 있든 말든, 네가 먼저 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 들어왔다면 10번 구역 놈들 다 무시하고 **하늘이 두 쪽 나도 네 것부터 먼저 꺼내준다.** 모든 I/O 요청의 대기 시간이 공평하게 수렴한다.
@@ -98,14 +95,17 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 하지만 FCFS는 그냥 큐에 집어넣고(Push), 앞에서부터 빼면([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 끝이다. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) **$O(1)$**이다.
 운영체제의 가장 큰 미덕 중 하나인 "CPU를 디스크 관리에 낭비하지 않는다"는 원칙 하나만큼은 우주에서 가장 완벽하게 지켜낸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 평가 지표  │ 디스크 바늘 동선│ CPU 연산 낭비  │ 특정 앱 굶어 죽음│
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ FCFS     │ ☠️ 최악 널뛰기 │ 🚀 0% (완벽) │ 🟢 절대 없음          │
-│ 최적화 로직│ 🟢 가장 짧음  │ 🔴 정렬 렉 심함 │ ☠️ 구석 앱 굶음   │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">디스크 바늘 동선</div><div class="kb-diagram-cell">CPU 연산 낭비</div><div class="kb-diagram-cell">특정 앱 굶어 죽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS</div><div class="kb-diagram-cell">☠️ 최악 널뛰기</div><div class="kb-diagram-cell">🚀 0% (완벽)</div><div class="kb-diagram-cell">🟢 절대 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 로직</div><div class="kb-diagram-cell">🟢 가장 짧음</div><div class="kb-diagram-cell">🔴 정렬 렉 심함</div><div class="kb-diagram-cell">☠️ 구석 앱 굶음</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** FCFS는 철저하게 기계([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 굴려서 CPU(소프트웨어)를 쉬게 하는 사상이다. 하지만 모터 달린 기계가 움직이는 8ms의 물리적 시간은 CPU가 연산하는 나노초 스피드를 도저히 이길 수 없었다. 결국 컴퓨터 공학은 "CPU가 조금 힘들게 수학(정렬)을 풀더라도, 기계식 바늘의 움직임([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))을 단 1mm라도 깎아내는 것"이 시스템 전체로 보면 1,000배 이득이라는 쓰라린 교훈을 얻고 FCFS를 버렸다.
 
 - **📢 섹션 요약 비유**: 택배 동선([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)) 짜는 데 머리를 1시간(CPU 연산) 쓰느니, 뇌를 비우고 순서대로 액셀을 밟는 게([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)) 빠를 거라고 생각했습니다. 막상 해보니 길에서 10시간(디스크 렉)을 버렸습니다. 차라리 책상에 앉아 1시간 빡세게 머리 굴려서 동선을 짠 뒤([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)/SCAN), 3시간 만에 배달을 다 끝내는 게 진짜 현명한 노동이라는 걸 깨달은 역사입니다.
@@ -115,15 +115,15 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 환경에서의 'Noop(None)' [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 부활
-놀랍게도, 버려졌던 낡은 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 2020년대 최신 100만 IOPS 급 **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 서버 환경에서 `Noop` 또는 `None` 이라는 이름표를 달고 화려하게 황제로 부활**했다.
+놀랍게도, 버려졌던 낡은 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 2020년대 최신 100만 IOPS 급 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 서버 환경에서 <code>Noop</code> 또는 <code>None</code> 이라는 이름표를 달고 화려하게 황제로 부활</strong>했다.
 1. **문제 상황**: SSD는 바늘(Head)도 없고 원판도 없다. 10번지를 찌르든 10만 번지를 찌르든 전기가 꽂히는 속도는 0.001ms로 100% 똑같다. ([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 자체가 물리적으로 0이다).
 2. **최적화 로직의 트롤링**: 
    - 멍청한 리눅스 커널이 옛날 버릇 못 버리고, 들어온 I/O 요청을 바늘 동선 아껴준답시고 열심히 `O(N log N)`으로 정렬(Sorting)을 하고 자빠졌다. 
    - SSD는 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리할 준비가 다 됐는데, OS 커널이 정렬하느라 0.1초 동안 요청을 안 주고 쥐고 있어서 서버 전체 I/O 대역폭이 반토막이 났다.
-3. **Noop ([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)) 의 재평가**:
+3. <strong>Noop (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a>) 의 재평가</strong>:
    - 실무진은 빡쳐서 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설정을 **`echo none > /sys/block/nvme0n1/queue/scheduler`**로 강제로 바꿔버렸다.
    - 이 옵션은 OS의 모든 정렬과 묶기 꼼수를 다 꺼버리고, "들어온 순서대로 0.1초의 망설임도 없이 그냥 무식하게 SSD로 쳐박아라!([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))"라는 극단적 원시 상태로 되돌리는 튜닝이다.
-   - **결과**: CPU 오버헤드가 0이 되고, SSD의 내부 6만 개 하드웨어 큐가 100% 폭발적으로 가동되며 IOPS 벤치마크가 신기록을 경신했다. **가장 멍청한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))이, 가장 똑똑한 하드웨어([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))와 만났을 때 우주 최강의 스피드를 내는 역설적 융합이 완성된 것이다.**
+   - **결과**: CPU 오버헤드가 0이 되고, SSD의 내부 6만 개 하드웨어 큐가 100% 폭발적으로 가동되며 IOPS 벤치마크가 신기록을 경신했다. <strong>가장 멍청한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a>)이, 가장 똑똑한 하드웨어(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>)와 만났을 때 우주 최강의 스피드를 내는 역설적 융합이 완성된 것이다.</strong>
 
 - **📢 섹션 요약 비유**: 낡은 자전거([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))로 심부름 갈 땐 동선을 치밀하게 안 짜면 다리에 알이 배겨([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 죽습니다. 하지만 순간이동 포탈([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))을 얻은 지금, 동선을 짠답시고 책상에서 10분 동안 고민(정렬 렉)하는 건 바보 짓입니다. 포탈 시대엔 생각할 시간에 일단 순서대로([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)) 닥치는 대로 포탈에 쑤셔 넣는 뇌 빼기 전술이 우주에서 제일 빠릅니다.
 
@@ -135,9 +135,9 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 | 구분 | 내용 |
 |:---|:---|
-| **기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 절대 방어** | 디스크 구석에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도, 요청된 순서를 절대적으로 지켜주어 무한 대기 버그로 앱이 터지는 현상을 0%로 소거 |
+| <strong>기아 현상(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 절대 방어</strong> | 디스크 구석에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도, 요청된 순서를 절대적으로 지켜주어 무한 대기 버그로 앱이 터지는 현상을 0%로 소거 |
 | **CPU 코어 연산량 0에 수렴** | 큐에 삽입/삭제만 하는 단순 링크드 리스트 조작으로, OS 커널의 I/O 블록 레이어 오버헤드를 이론적 최소치로 다이어트 |
-| **차세대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 스토리지와의 찰떡궁합**| 기계적 렉(Seek)이 소멸된 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 환경에서, 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 낭비를 벗어던진 순수 I/O 파이프라인(none)으로 부활하여 100만 IOPS 달성 |
+| <strong>차세대 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 스토리지와의 찰떡궁합</strong>| 기계적 렉(Seek)이 소멸된 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 환경에서, 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 낭비를 벗어던진 순수 I/O 파이프라인(none)으로 부활하여 100만 IOPS 달성 |
 
 ### 결론 및 미래 전망
 
@@ -158,15 +158,19 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[디스크 스케줄링 (Disk Scheduling) 목적]
-    │
-    ▼
-[FCFS (First-Come, First-Served) 스케줄링]
-    │
-    ├──▶ [SSTF (Shortest Seek Time First)]
-    └──▶ [SCAN 스케줄링 (엘리베이터 알고리즘)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

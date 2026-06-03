@@ -23,24 +23,24 @@ tags = ["studynote-design-supervision"]
 
 에그리게이트 루트는 이 에그리게이트의 진입점 역할을 하는 엔티티다. 외부에서는 에그리게이트 루트(Order)만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있고, 내부의 OrderItem에는 Order를 통해서만 접근한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 에그리게이트 구조 (Order 예시) │
-├─────────────────────────────────────────────────────────────┤
-│ 외부 서비스 / 리포지토리 │
-│ │ │
-│ ▼ (오직 루트만 참조 가능) │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ Order (에그리게이트 루트) │ │
-│ │ - orderId (식별자) │ │
-│ │ - status, totalAmount │ │
-│ │ ├── OrderItem (내부 엔티티) │ │
-│ │ │ - itemId, productId, quantity, price │ │
-│ │ └── ShippingAddress (값 객체) │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ 에그리게이트 경계: 단일 트랜잭션으로 일관성 보장 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에그리게이트 구조 (Order 예시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 서비스 / 리포지토리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오직 루트만 참조 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order (에그리게이트 루트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- orderId (식별자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- status, totalAmount</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── OrderItem (내부 엔티티)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- itemId, productId, quantity, price</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ShippingAddress (값 객체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에그리게이트 경계: 단일 트랜잭션으로 일관성 보장</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 에그리게이트는 회사 조직도처럼, 팀장(루트)을 통해서만 팀원(내부 객체)에게 업무 지시(변경)가 전달된다.
 
@@ -56,17 +56,19 @@ tags = ["studynote-design-supervision"]
 | 비즈니스 불변 조건 | 에그리게이트 내에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 규칙 | 주문 총액 = 항목 합계 |
 | 독립적 생존 불가 | 부모 없이 존재 불가한 객체 | OrderItem은 Order 없이 불가 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 에그리게이트 간 참조 패턴 (ID 참조 방식) │
-├─────────────────────────────────────────────────────────────┤
-│ [Order Aggregate] [Product Aggregate] │
-│ Order { orderId, ... } Product { productId, ... } │
-│ OrderItem { productId } ───ID만 참조──> (직접 참조 금지) │
-│ │
-│ 에그리게이트 간 직접 참조 금지 → ID 참조 → 느슨한 결합 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에그리게이트 간 참조 패턴 (ID 참조 방식)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Order Aggregate</div><div class="kb-diagram-node">Product Aggregate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order { orderId, ... } Product { productId, ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderItem { productId } ID만 참조──&gt; (직접 참조 금지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에그리게이트 간 직접 참조 금지 → ID 참조 → 느슨한 결합</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 에그리게이트는 성() 구조와 같다. 성문(루트)을 통해서만 성 안(에그리게이트)에 들어갈 수 있다.
 

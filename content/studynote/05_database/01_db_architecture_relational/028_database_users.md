@@ -18,22 +18,23 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│         DB 사용자 유형 분류                           │
-├──────────────────────────────────────────────────────┤
-│ 1. 최종 사용자 (End User)                            │
-│    - 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행│
-│    - 전문(Sophisticated): SQL 직접 작성              │
-│    - 독립형(Standalone): PC DB 단독 사용             │
-│                                                       │
-│ 2. 응용 프로그래머 (Application Programmer)          │
-│    - 호스트 언어 + 임베디드 SQL / ORM                │
-│                                                       │
-│ 3. DBA (Database Administrator)                      │
-│    - 스키마 정의, 권한 관리, 성능 튜닝               │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 사용자 유형 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최종 사용자 (End User)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전문(Sophisticated): SQL 직접 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 독립형(Standalone): PC DB 단독 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 응용 프로그래머 (Application Programmer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 호스트 언어 + 임베디드 SQL / ORM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DBA (Database Administrator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마 정의, 권한 관리, 성능 튜닝</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DB 사용자 유형은 도서관 이용 방식이다. 일반 독자(최종 사용자)는 사서 안내 창구에서 검색, 연구자(전문 사용자)는 직접 서가를 탐색, 사서([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))는 도서관 전체를 관리한다.
 
@@ -48,7 +49,7 @@ tags = ["studynote-database"]
 | **단순 최종 사용자** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) (특정 뷰) | CRUD via 앱 폼 |
 | **전문 최종 사용자** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), INSERT | 직접 SQL 작성 |
 | **응용 프로그래머** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) | ORM/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통해 CRUD |
-| **[DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)** | ALL PRIVILEGES | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/), [DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 튜닝 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | ALL PRIVILEGES | [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/), [DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 튜닝 |
 
 ### [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([Principle of Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))
 
@@ -79,10 +80,10 @@ tags = ["studynote-database"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 현대 DB 접근 패턴 확장
-- **[서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/)**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)·배치 잡이 DB에 접근하는 비인간 사용자.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트**: Jupyter Notebook에서 대용량 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 직접 실행.
-- **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터**: Debezium이 바이너리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽는 스트리밍 사용자.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Text-to-SQL로 자연어 → SQL 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행.
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/">서비스 계정</a></strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)·배치 잡이 DB에 접근하는 비인간 사용자.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 사이언티스트</strong>: Jupyter Notebook에서 대용량 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 직접 실행.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> 커넥터</strong>: Debezium이 바이너리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽는 스트리밍 사용자.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Text-to-SQL로 자연어 → SQL 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행.
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 DB 사용자는 자동 주문 봇이다. "지난 달 매출 상위 10개 제품 알려줘"라는 자연어를 SQL로 변환해서 DB에서 자동으로 결과를 가져온다.
 
@@ -93,7 +94,7 @@ tags = ["studynote-database"]
 | 기대효과 | 내용 |
 |:---|:---|
 | **보안 강화** | 사용자 유형별 최소 권한 부여 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적** | 사용자별 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 관리 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong> | 사용자별 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 관리 |
 | **효율성** | 사용자 요구에 맞는 인터페이스 제공 |
 
 Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하는 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최종 사용자" 유형이 등장하고 있으며, 이에 따라 접근 권한 관리와 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어가 새로운 보안 과제로 부상하고 있다.
@@ -106,29 +107,31 @@ Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)** | DB 관리 전문 사용자 |
-| **[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)** | 사용자 유형별 접근 제어 기준 |
-| **[DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/)** | GRANT/REVOKE — 사용자 권한 관리 언어 |
-| **[서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/)** | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 비인간 DB 사용자 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | DB 관리 전문 사용자 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a></strong> | 사용자 유형별 접근 제어 기준 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a></strong> | GRANT/REVOKE — 사용자 권한 관리 언어 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/">서비스 계정</a></strong> | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 비인간 DB 사용자 |
 | **Text-to-SQL** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자연어 DB 조회 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 DB 사용자 — 단순·전문·프로그래머·DBA 4분류]
-    │
-    ▼
-[역할 기반 접근 제어 (RBAC) — 사용자 유형별 권한 집합]
-    │
-    ▼
-[서비스 계정 — 마이크로서비스·배치 비인간 사용자]
-    │
-    ▼
-[데이터 사이언티스트 — Notebook 기반 분석 사용자]
-    │
-    ▼
-[AI 에이전트 (Text-to-SQL) — 자연어 DB 조회 사용자]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 DB 사용자 — 단순·전문·프로그래머·DBA 4분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역할 기반 접근 제어 (RBAC) — 사용자 유형별 권한 집합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 계정 — 마이크로서비스·배치 비인간 사용자</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사이언티스트 — Notebook 기반 분석 사용자</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 에이전트 (Text-to-SQL) — 자연어 DB 조회 사용자</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

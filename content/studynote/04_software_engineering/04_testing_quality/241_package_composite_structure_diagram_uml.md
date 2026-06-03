@@ -25,18 +25,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 패키지 다이어그램 / 복합 구조 다이의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  패키지 다이어그램 / 복합 구조 다이                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키지 다이어그램 / 복합 구조 다이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 패키지 다이어그램 / 복합 구조 다이가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -66,10 +65,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-- **패키지 다이어그램**: 헬기를 타고 우주로 올라가서, 회사의 1만 개 코드를 **10개의 폴더(거시적)**로 압축해서 봅니다. (나무 대신 거대한 숲을 보기 위함)
-- **복합 구조 다이어그램**: 현미경을 들이밀고, 1개의 뚱뚱한 클래스의 **뱃속 창자(미시적)**를 갈라서 부품들이 얽힌 꼴을 파헤칩니다. (나무의 세포 속을 보기 위함)
+- **패키지 다이어그램**: 헬기를 타고 우주로 올라가서, 회사의 1만 개 코드를 <strong>10개의 폴더(거시적)</strong>로 압축해서 봅니다. (나무 대신 거대한 숲을 보기 위함)
+- **복합 구조 다이어그램**: 현미경을 들이밀고, 1개의 뚱뚱한 클래스의 <strong>뱃속 창자(미시적)</strong>를 갈라서 부품들이 얽힌 꼴을 파헤칩니다. (나무의 세포 속을 보기 위함)
 
-> 📢 **섹션 요약 비유**: 소프트웨어의 코드가 쌓이면 감당 안 되는 서류 더미가 됩니다. **패키지 다이어그램**은 어지러운 책상을 치우는 **'마법의 3단 서류함 정리술'**입니다. 책상 위에 흩어진 수백 장의 자바 소스 코드(클래스) 종이들을, 펀치로 뚫어 종류별로 '빨간색 바인더(회원 패키지)', '파란색 바인더(결제 패키지)'에 철컥철컥 묶어버립니다. 그리고 바인더들끼리 "이 빨간 바인더 작업할 땐 파란 바인더도 꼭 필요해"라고 포스트잇(의존성 선)을 붙여놓으면, 사장님이 수백 장의 종이를 다 읽을 필요 없이 책상 위 바인더 3권만 쓱 보고도 "아, 우리 회사는 3개의 큰 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리로 돌아가는구나!" 하고 전체 아키텍처(구조)를 1초 만에 파악하는 조감도입니다. 반대로 **복합 구조 다이어그램**은 바인더 밖이 아니라 **'정교한 손목시계(거대 클래스)의 뒷뚜껑을 따고 현미경을 들이대는 짓'**입니다. 겉보기엔 '시계(클래스)'라는 상자 1개지만, 뚜껑을 열어보니 그 안에 태엽(Part 1), 톱니바퀴(Part 2)가 서로 맞물려(커넥터) 돌아가고 있고, 시계 바깥쪽 용두([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 통해 외부의 손가락과 맞닿아 있음을 뱃속까지 샅샅이 파헤쳐 런타임 내부 구조를 낱낱이 그려내는 내시경 도면입니다.
+> 📢 **섹션 요약 비유**: 소프트웨어의 코드가 쌓이면 감당 안 되는 서류 더미가 됩니다. <strong>패키지 다이어그램</strong>은 어지러운 책상을 치우는 <strong>'마법의 3단 서류함 정리술'</strong>입니다. 책상 위에 흩어진 수백 장의 자바 소스 코드(클래스) 종이들을, 펀치로 뚫어 종류별로 '빨간색 바인더(회원 패키지)', '파란색 바인더(결제 패키지)'에 철컥철컥 묶어버립니다. 그리고 바인더들끼리 "이 빨간 바인더 작업할 땐 파란 바인더도 꼭 필요해"라고 포스트잇(의존성 선)을 붙여놓으면, 사장님이 수백 장의 종이를 다 읽을 필요 없이 책상 위 바인더 3권만 쓱 보고도 "아, 우리 회사는 3개의 큰 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리로 돌아가는구나!" 하고 전체 아키텍처(구조)를 1초 만에 파악하는 조감도입니다. 반대로 <strong>복합 구조 다이어그램</strong>은 바인더 밖이 아니라 <strong>'정교한 손목시계(거대 클래스)의 뒷뚜껑을 따고 현미경을 들이대는 짓'</strong>입니다. 겉보기엔 '시계(클래스)'라는 상자 1개지만, 뚜껑을 열어보니 그 안에 태엽(Part 1), 톱니바퀴(Part 2)가 서로 맞물려(커넥터) 돌아가고 있고, 시계 바깥쪽 용두([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 통해 외부의 손가락과 맞닿아 있음을 뱃속까지 샅샅이 파헤쳐 런타임 내부 구조를 낱낱이 그려내는 내시경 도면입니다.
 
 - **📢 섹션 요약 비유**: 패키지 다이어그램 / 복합 구조 다이어그램은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -124,21 +123,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-패키지 다이어그램 / 복합 구조 다이어그램 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패키지 다이어그램 / 복합 구조 다이어그램 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

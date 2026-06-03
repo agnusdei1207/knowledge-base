@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)([Cross-Site Request Forgery](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))는 번역하면 '다른 사이트에서 위조된 요청'이다. 사용자가 네이버(정상)에 로그인해서 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 살아있는 상태다. 이때 해커가 보낸 "100만 원 당첨 쿠폰!" 링크(다른 사이트)를 멍청하게 클릭했다. 그 링크 안에는 숨겨진 자바스크립트로 `<form action="네이버 비밀번호 변경" ... submit()>` 이라는 투명한 폼이 0.1초 만에 실행된다. 웹 브라우저는 멍청하게도 "오, 네이버로 가는 요청이네? 그럼 내 배 속에 있는 네이버 로그인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)도 같이 담아서 쏴줘야지!" 하며 해커의 조종(위조)대로 공격을 완수해 버린다.
 
-- **필요성**: 개발자가 아무리 권한 체크([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 로직을 짜놔도 소용없다. 왜? 해커가 찌른 게 아니라 **"정상 로그인한 권한 100%의 고객 브라우저"**가 직접 찌른 요청이기 때문이다. 서버 입장에서는 진짜 고객이 마우스 클릭한 건지, 해커의 낚시 사이트에서 투명 버튼을 밟은 건지(Forged) 구분할 눈알이 없다. 이 "눈뜬장님" 상태인 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))의 태생적인 한계, 즉 **"어느 사이트에서 날아오든 도메인만 맞으면 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 무조건 자동으로 태워 보내는 브라우저의 멍청한 친절함"**을 박살 내고 시스템의 무결성을 지키기 위해 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어 메커니즘이 절대적으로 필요하다.
+- **필요성**: 개발자가 아무리 권한 체크([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 로직을 짜놔도 소용없다. 왜? 해커가 찌른 게 아니라 <strong>"정상 로그인한 권한 100%의 고객 브라우저"</strong>가 직접 찌른 요청이기 때문이다. 서버 입장에서는 진짜 고객이 마우스 클릭한 건지, 해커의 낚시 사이트에서 투명 버튼을 밟은 건지(Forged) 구분할 눈알이 없다. 이 "눈뜬장님" 상태인 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))의 태생적인 한계, 즉 <strong>"어느 사이트에서 날아오든 도메인만 맞으면 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 무조건 자동으로 태워 보내는 브라우저의 멍청한 친절함"</strong>을 박살 내고 시스템의 무결성을 지키기 위해 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어 메커니즘이 절대적으로 필요하다.
 
-- **💡 비유**: CSRF는 **'최면에 걸려 통장 비밀번호를 넘겨주는 은행 고객'**과 같습니다. 은행원(서버) 앞에는 진짜 고객(사용자)이 신분증([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 들고 앉아 있습니다. 그래서 은행원은 아무 의심을 안 합니다. 그런데 고객의 어깨 뒤에서 최면술사(해커 사이트)가 투명 실을 매달아 고객의 입을 조종(위조된 요청)하여 "내 돈 100만 원을 최면술사 통장으로 이체해 주시오"라고 말하게 시킵니다. 은행원은 고객이 진짜로 자기 의지로 말한 건지, 최면에 걸려 헛소리하는 건지 구별할 수 없어 그냥 이체해 주고 맙니다(방어 붕괴).
+- **💡 비유**: CSRF는 <strong>'최면에 걸려 통장 비밀번호를 넘겨주는 은행 고객'</strong>과 같습니다. 은행원(서버) 앞에는 진짜 고객(사용자)이 신분증([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 들고 앉아 있습니다. 그래서 은행원은 아무 의심을 안 합니다. 그런데 고객의 어깨 뒤에서 최면술사(해커 사이트)가 투명 실을 매달아 고객의 입을 조종(위조된 요청)하여 "내 돈 100만 원을 최면술사 통장으로 이체해 주시오"라고 말하게 시킵니다. 은행원은 고객이 진짜로 자기 의지로 말한 건지, 최면에 걸려 헛소리하는 건지 구별할 수 없어 그냥 이체해 주고 맙니다(방어 붕괴).
 
 - **등장 배경 및 발전 과정**:
-  1. **[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)의 자동 탑승 맹점 (과거)**: HTTP는 원래 상태가 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 놈이라 편하게 쓰라고 넷스케이프가 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))'를 만들었다. 브라우저는 목적지 주소만 맞으면 묻지도 따지지도 않고 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 배달시켰고, 해커들은 이 맹점을 파고들어 CSRF의 황금기를 열었다.
-  2. **Anti-[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰의 발명 (2000년대)**: 개발자들이 "이건 브라우저 탓이야!"라며 분노했고, 결국 폼(Form)을 그릴 때마다 해커는 절대 모르는 '1회용 비밀 난수(Token)'를 숨겨서 같이 던지게 하는 애플리케이션 레벨의 노가다 방패를 발명했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>의 자동 탑승 맹점 (과거)</strong>: HTTP는 원래 상태가 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 놈이라 편하게 쓰라고 넷스케이프가 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))'를 만들었다. 브라우저는 목적지 주소만 맞으면 묻지도 따지지도 않고 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 배달시켰고, 해커들은 이 맹점을 파고들어 CSRF의 황금기를 열었다.
+  2. <strong>Anti-<a href="/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/">CSRF</a> 토큰의 발명 (2000년대)</strong>: 개발자들이 "이건 브라우저 탓이야!"라며 분노했고, 결국 폼(Form)을 그릴 때마다 해커는 절대 모르는 '1회용 비밀 난수(Token)'를 숨겨서 같이 던지게 하는 애플리케이션 레벨의 노가다 방패를 발명했다.
   3. **브라우저의 반성과 SameSite 국룰화 (현재)**: 2020년, 마침내 구글 크롬(Chrome)을 필두로 웹 인프라 진영이 각성했다. "야, 남의 사이트에서 날아갈 때는 아예 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 안 태워 보낼게(`SameSite=Lax` 기본값 적용)!"라며 브라우저 엔진 레벨에서 선을 그어버림으로써 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 해킹 자체가 물리적으로 불가능한 시대로 패러다임이 이동했다.
 
-- **📢 섹션 요약 비유**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어는 **'경매장의 번호표(토큰) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'**입니다. 경매사(서버)가 물건을 팝니다. 갑자기 누군가 손을 듭니다(요청). 옛날엔 얼굴([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))만 보고 낙찰시켰습니다([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 털림). 지금은 손을 들었을 때 **"오늘 입장할 때 제가 몰래 나눠드린 1회용 비밀 번호표(Anti-[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰)를 보여주세요!"**라고 검사합니다. 밖에서 창문으로 손만 뻗은 도둑(해커 사이트)은 번호표가 없으니 바로 경비원한테 쫓겨나는 완벽한 검문입니다.
+- **📢 섹션 요약 비유**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어는 <strong>'경매장의 번호표(토큰) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>입니다. 경매사(서버)가 물건을 팝니다. 갑자기 누군가 손을 듭니다(요청). 옛날엔 얼굴([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))만 보고 낙찰시켰습니다([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 털림). 지금은 손을 들었을 때 <strong>"오늘 입장할 때 제가 몰래 나눠드린 1회용 비밀 번호표(Anti-<a href="/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/">CSRF</a> 토큰)를 보여주세요!"</strong>라고 검사합니다. 밖에서 창문으로 손만 뻗은 도둑(해커 사이트)은 번호표가 없으니 바로 경비원한테 쫓겨나는 완벽한 검문입니다.
 
 ---
 
 다음은 크로스 사이트 요청 위조 ([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  크로스 사이트 요청 위조 (CSRF)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크로스 사이트 요청 위조 (CSRF)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 크로스 사이트 요청 위조 ([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-크로스 사이트 요청 위조 ([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+크로스 사이트 요청 위조 ([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 크로스 사이트 요청 위조 ([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)) 방어의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-크로스 사이트 요청 위조 (CSRF) 방어 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">크로스 사이트 요청 위조 (CSRF) 방어 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

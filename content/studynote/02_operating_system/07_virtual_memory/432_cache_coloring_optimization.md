@@ -11,50 +11,48 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [캐시 컬러링](/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/)(Cache/[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 최적화는 4KB 크기의 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 물리 프레임에 매핑할 때, **하드웨어 L2/L3 캐시의 특정 '방(Set [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))'에만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비정상적으로 몰려 튕겨나가는 충돌(Conflict Miss)을 막기 위해, OS가 빈 프레임을 "색깔(캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))" 별로 골고루 섞어 배급하는 심화 매핑 기법**이다.
-> 2. **가치**: 아무리 LRU나 훌륭한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 알고리즘을 써도 막을 수 없었던 '하드웨어 캐시 구조의 맹점(Set-Associative)'을 소프트웨어(OS)의 지능적 주소 분배로 우회하여, **캐시 낭비 0%와 EAT(실질 메모리 접근 시간)의 절대적 안정성을 달성**한다.
-> 3. **융합**: 가상 주소(소프트웨어)와 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(하드웨어)가 만나는 경계선에서 작동하며, **[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))** 내부의 프리 리스트(Free List)를 색깔별로 갈기갈기 찢어 관리하는 고도화된 자료구조 융합을 통해 실현된다.
+> 1. **본질**: [캐시 컬러링](/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/)(Cache/[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 최적화는 4KB 크기의 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 물리 프레임에 매핑할 때, <strong>하드웨어 L2/L3 캐시의 특정 '방(Set <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)'에만 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 비정상적으로 몰려 튕겨나가는 충돌(Conflict Miss)을 막기 위해, OS가 빈 프레임을 "색깔(캐시 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>)" 별로 골고루 섞어 배급하는 심화 매핑 기법</strong>이다.
+> 2. **가치**: 아무리 LRU나 훌륭한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 알고리즘을 써도 막을 수 없었던 '하드웨어 캐시 구조의 맹점(Set-Associative)'을 소프트웨어(OS)의 지능적 주소 분배로 우회하여, <strong>캐시 낭비 0%와 EAT(실질 메모리 접근 시간)의 절대적 안정성을 달성</strong>한다.
+> 3. **융합**: 가상 주소(소프트웨어)와 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(하드웨어)가 만나는 경계선에서 작동하며, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">Buddy System</a>)</strong> 내부의 프리 리스트(Free List)를 색깔별로 갈기갈기 찢어 관리하는 고도화된 자료구조 융합을 통해 실현된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: CPU 안에 있는 L2 캐시는 램(RAM)의 모든 주소를 다 담지 못한다. 주소의 뒷자리([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 캐시의 "같은 칸(Set)"에 들어가야 하는 물리적 룰(Set-Associative [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))이 있다. 컬러링은 이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 "빨강, 파랑, 노랑" 등의 색깔로 은유하여, OS가 앱에게 램을 나눠줄 때 "빨간색 램 줬으니 이번엔 파란색 램 줄게!" 하고 강제로 색을 섞어주는 매핑 최적화다.
-- **필요성**: 카카오톡이 3장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(A, B, C)를 할당받았다 치자. 만약 OS가 아무 생각 없이 남는 램을 줬는데, 우연히 A, B, C의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 모두 '1번 방(빨간색)'을 가리키는 놈들이었다면? CPU가 A, B, C를 읽으려 할 때마다 넓고 넓은 L2 캐시의 다른 방들은 텅텅 비어있는데, 오직 1번 방에서만 A가 B를 쫓아내고, B가 C를 쫓아내는 끔찍한 치고받기(Conflict Miss [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 터진다. **소프트웨어적 파편화([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))가 낳은 하드웨어적 병목(캐시 충돌)을 치료할 유일한 백신**이 바로 컬러링(Coloring)이었다.
+- **필요성**: 카카오톡이 3장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(A, B, C)를 할당받았다 치자. 만약 OS가 아무 생각 없이 남는 램을 줬는데, 우연히 A, B, C의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 모두 '1번 방(빨간색)'을 가리키는 놈들이었다면? CPU가 A, B, C를 읽으려 할 때마다 넓고 넓은 L2 캐시의 다른 방들은 텅텅 비어있는데, 오직 1번 방에서만 A가 B를 쫓아내고, B가 C를 쫓아내는 끔찍한 치고받기(Conflict Miss [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 터진다. <strong>소프트웨어적 파편화(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>)가 낳은 하드웨어적 병목(캐시 충돌)을 치료할 유일한 백신</strong>이 바로 컬러링(Coloring)이었다.
 
 - **등장 배경 및 아키텍처의 배신**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 눈속임**: 가상 주소는 `0, 4K, 8K`로 예쁘게 연속되어 있지만, [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)는 `100K, 12K, 500K`로 걸레짝처럼 찢어져 매핑되었다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 눈속임</strong>: 가상 주소는 `0, 4K, 8K`로 예쁘게 연속되어 있지만, [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)는 `100K, 12K, 500K`로 걸레짝처럼 찢어져 매핑되었다.
   2. **하드웨어 캐시의 분노**: 캐시는 연속된 공간을 사랑하는데, OS가 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 뒤죽박죽 섞어버리자 캐시 방(Set) 매핑 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 붕괴하며 재수 없게 한 칸으로 쏠리는 현상 발생.
   3. **OS의 뒷수습**: "우리가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)로 장난친 거 인정할게. 미안하니까 남는 프레임 줄 때 하드웨어 캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(색깔) 계산해서 골고루 흩어줄게"라며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 패치가 들어감.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        캐시 컬러링(Page Coloring) 성공과 실패의 하드웨어 단면도      │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 상황: 2-way L2 캐시 (1방에 2개만 들어감). 앱이 3장(A,B,C) 요구 ]   │
-│                                                                      │
-│ ▶ 1. 멍청한 OS 매핑 (Coloring OFF) - 최악의 병목 터짐                │
-│   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        │
-│                │          │          │ (매핑)                        │
-│   물리 프레임: [🔴빨강]    [🔴빨강]   [🔴빨강] (우연히 다 빨강)      │
-│                                                                      │
-│   💥 L2 캐시 상태:                                                   │
-│   [ 파란색 방 ] : 텅 빔 (100% 낭비)                                  │
-│   [ 빨간색 방 ] : A와 B가 들어있음. C가 들어오려다 1놈 쫓아냄! (Miss)│
-│                                                                      │
-│ ▶ 2. 컬러링 매핑 최적화 (Coloring ON) - 평화로운 공존                │
-│   가상 주소: [ Page 0 ] [ Page 1 ] [ Page 2 ]                        │
-│                │          │          │ (컬러 계산 할당)              │
-│   물리 프레임: [🔴빨강]    [🔵파랑]   [🟡노랑] (골고루 배식)         │
-│                                                                      │
-│   ✅ L2 캐시 상태:                                                   │
-│   [ 빨간색 방 ] : A 안착!                                            │
-│   [ 파란색 방 ] : B 안착!                                            │
-│   [ 노란색 방 ] : C 안착! (충돌 0%, 캐시 활용률 100% 달성 🚀)        │
-└──────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 가상 주소는 0, 1, 2로 완벽하게 연속적(Locality)이라 하더라도, 물리 프레임 매핑이 꼬이면 하드웨어 캐시의 지역성 버프를 전혀 받지 못한다. 즉, **"[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서는 램을 그냥 비어있다고 막 주면 안 되고, 반드시 하드웨어 캐시 맵의 지형도(Color)를 머릿속에 그리고 바둑돌을 놔야 한다"**는 무시무시한 통제 기술이 컬러링의 본질이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 컬러링(Page Coloring) 성공과 실패의 하드웨어 단면도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 2-way L2 캐시 (1방에 2개만 들어감). 앱이 3장(A,B,C) 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 멍청한 OS 매핑 (Coloring OFF) - 최악의 병목 터짐</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">Page 0</div><div class="kb-diagram-node">Page 1</div><div class="kb-diagram-node">Page 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매핑)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 프레임:</div><div class="kb-diagram-node">🔴빨강</div><div class="kb-diagram-node">🔴빨강</div><div class="kb-diagram-node">🔴빨강</div><div class="kb-diagram-note">(우연히 다 빨강)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 L2 캐시 상태:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파란색 방</div><div class="kb-diagram-note">: 텅 빔 (100% 낭비)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빨간색 방</div><div class="kb-diagram-note">: A와 B가 들어있음. C가 들어오려다 1놈 쫓아냄! (Miss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 컬러링 매핑 최적화 (Coloring ON) - 평화로운 공존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">Page 0</div><div class="kb-diagram-node">Page 1</div><div class="kb-diagram-node">Page 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(컬러 계산 할당)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 프레임:</div><div class="kb-diagram-node">🔴빨강</div><div class="kb-diagram-node">🔵파랑</div><div class="kb-diagram-node">🟡노랑</div><div class="kb-diagram-note">(골고루 배식)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ L2 캐시 상태:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빨간색 방</div><div class="kb-diagram-note">: A 안착!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파란색 방</div><div class="kb-diagram-note">: B 안착!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노란색 방</div><div class="kb-diagram-note">: C 안착! (충돌 0%, 캐시 활용률 100% 달성 🚀)</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 가상 주소는 0, 1, 2로 완벽하게 연속적(Locality)이라 하더라도, 물리 프레임 매핑이 꼬이면 하드웨어 캐시의 지역성 버프를 전혀 받지 못한다. 즉, <strong>"<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 체제에서는 램을 그냥 비어있다고 막 주면 안 되고, 반드시 하드웨어 캐시 맵의 지형도(Color)를 머릿속에 그리고 바둑돌을 놔야 한다"</strong>는 무시무시한 통제 기술이 컬러링의 본질이다.
 
 - **📢 섹션 요약 비유**: 로또(램 할당)를 자동으로 살 때, 기계가 아무 생각 없이 '1, 2, 3, 4, 5, 6'만 찍어주는 멍청한 짓(Coloring OFF)을 막기 위해, 기계 프로그래머(OS)가 강제로 10번대, 20번대, 30번대에서 무조건 하나씩 뽑히도록 규칙(Coloring ON)을 넣어 당첨 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))을 통계적으로 극대화시킨 조작 기술입니다.
 
@@ -65,11 +63,11 @@ tags = ["studynote-operating-system"]
 ### [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 교집합: 색깔(Color)이 탄생하는 수학적 원리
 
 대체 컴퓨터에서 '색깔'이란 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조상 어디를 말하는 걸까?
-- **캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**: 하드웨어 캐시가 방 번호를 찾을 때 쓰는 주소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (예: 12비트~16비트 사이의 4개 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)).
-- **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 오프셋**: 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 위치를 찾는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (하위 0~11비트).
+- <strong>캐시 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: 하드웨어 캐시가 방 번호를 찾을 때 쓰는 주소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (예: 12비트~16비트 사이의 4개 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 오프셋</strong>: 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 위치를 찾는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (하위 0~11비트).
 - 4KB(12비트) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 시스템에서, L2 캐시의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 크기가 12비트를 넘어가서 16비트를 쓴다면?
-- **남아도는 4개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (12, 13, 14, 15번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))**가 발생한다.
-- 이 4개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)($2^4 = 16$가지 조합)가 바로 우리가 부르는 **16가지의 '색깔(Color)'**이다. 
+- <strong>남아도는 4개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (12, 13, 14, 15번 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong>가 발생한다.
+- 이 4개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)($2^4 = 16$가지 조합)가 바로 우리가 부르는 <strong>16가지의 '색깔(Color)'</strong>이다. 
 - 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(가상->물리) 변환 시 OS가 맘대로 바꿔치기할 수 있는 영역이므로, OS는 이 4비트 값을 `0000(빨강)`, `0001(파랑)` 등으로 세팅해 주면서 프레임을 골라 주는 것이다.
 
 ---
@@ -82,7 +80,7 @@ tags = ["studynote-operating-system"]
   `[ 🔴 빨강 프레임 큐 ]`
   `[ 🔵 파랑 프레임 큐 ]`
   `[ 🟡 노랑 프레임 큐 ]` ... (16가지 색깔의 큐로 찢어버림)
-- **할당 로직**: 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 0번을 달라고 하면 🔴빨강 큐에서 빼주고, 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1번을 달라고 하면 🔵파랑 큐에서 빼주는 식의 **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round-Robin)** 색깔 배식이 이루어진다. 이 수고로움 덕분에 CPU 하드웨어 캐시는 눈물을 흘리며 충돌 없는 100% 풀 히트율을 뽑아낸다.
+- **할당 로직**: 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 0번을 달라고 하면 🔴빨강 큐에서 빼주고, 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1번을 달라고 하면 🔵파랑 큐에서 빼주는 식의 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a>(Round-Robin)</strong> 색깔 배식이 이루어진다. 이 수고로움 덕분에 CPU 하드웨어 캐시는 눈물을 흘리며 충돌 없는 100% 풀 히트율을 뽑아낸다.
 
 - **📢 섹션 요약 비유**: 옷 가게 점원이 재고(빈 램)를 관리할 때, 그냥 큰 박스 하나에 티셔츠 수만 장을 뭉쳐놓고 팔리면 아무거나 집어주는 게 아니라, 아예 빨주노초파남보 색깔별로 서랍 7개를 만들어놓고 손님이 올 때마다 "이번엔 빨간색 줬으니, 다음 손님은 주황색 줘야지" 하며 깔맞춤 코디(캐시 충돌 방어)를 완성해 주는 장인 정신입니다.
 
@@ -104,17 +102,20 @@ tags = ["studynote-operating-system"]
 - 1990년대 ~ 2000년대 초반: L2 캐시가 1방에 2개(2-way)밖에 못 넣었다. 컬러링 최적화 코드를 짜면 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 30%씩 올랐다. OS 개발자들의 필수 스킬이었다.
 - **현대 2020년대 (Intel/AMD)**: 인텔은 이 귀찮은 문제를 돈(하드웨어 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))으로 발라버렸다.
   - L3 캐시를 무려 **16-way ~ 24-way** (한 방에 16개~24개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우겨넣기)로 만들었다. 우연히 똑같은 빨간색이 16개 연속으로 겹쳐도 1놈도 안 쫓겨나고 캐시 1방에 다 들어간다.
-  - 게다가 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 그대로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 안 쓰고, 칩셋 내부에 **비밀 해시 암호화 회로([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))**를 달아 자기들 맘대로 주소를 섞어버린다.
-- **결과**: 현대 고성능 x86 프로세서 위에서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 피땀 흘려 코딩한 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring 매핑은 **사실상 아무 효과가 없는 뻘짓**으로 전락했다. 하드웨어의 무식한 물량 공세가 소프트웨어의 우아한 튜닝을 완벽히 압살해버린 대표적 역사다.
+  - 게다가 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 그대로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 안 쓰고, 칩셋 내부에 <strong>비밀 해시 암호화 회로(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong>를 달아 자기들 맘대로 주소를 섞어버린다.
+- **결과**: 현대 고성능 x86 프로세서 위에서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 피땀 흘려 코딩한 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring 매핑은 <strong>사실상 아무 효과가 없는 뻘짓</strong>으로 전락했다. 하드웨어의 무식한 물량 공세가 소프트웨어의 우아한 튜닝을 완벽히 압살해버린 대표적 역사다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 시대/아키텍처│ 캐시 구조    │ OS의 컬러링 개입│ 성능 향상 효과  │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 구형 / ARM │ 2-way, 4-way│ 적극적으로 개입 │ 🚀 30% 이상 폭등   │
-│ 최신 x86  │ 16-way + 해시│ 무시당함 (Bypass)│ 🐢 0% (차이 없음) │
-└──────────┴────────────┴────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시대/아키텍처</div><div class="kb-diagram-cell">캐시 구조</div><div class="kb-diagram-cell">OS의 컬러링 개입</div><div class="kb-diagram-cell">성능 향상 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구형 / ARM</div><div class="kb-diagram-cell">2-way, 4-way</div><div class="kb-diagram-cell">적극적으로 개입</div><div class="kb-diagram-cell">🚀 30% 이상 폭등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 x86</div><div class="kb-diagram-cell">16-way + 해시</div><div class="kb-diagram-cell">무시당함 (Bypass)</div><div class="kb-diagram-cell">🐢 0% (차이 없음)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** "소프트웨어 최적화는 하드웨어가 가난할 때 빛을 발한다." 인텔과 AMD 데스크톱 환경에서는 컬러링 코드가 주석 처리되거나 사장되었지만, 배터리와 칩셋 면적(원가)을 쥐어짜야 하는 스마트워치, 임베디드 칩(저가형 ARM)에서는 무거운 16-way 캐시를 달 수 없으므로 여전히 이 OS 컬러링 기술이 시스템의 생사를 가르는 핵심 코어 로직으로 살아있다.
 
 - **📢 섹션 요약 비유**: 4인승 택시(구형 캐시)에 손님 5명이 타려 하면 1명은 쫓겨나니 매니저(OS 컬러링)가 줄을 철저히 서게 통제해야 했습니다. 하지만 자본주의가 발전해 40인승 대형 리무진 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(16-way 최신 캐시)가 도입되자, 매니저가 굳이 줄을 세우지 않아도 손님들이 알아서 다 타고 남으니 매니저가 실직해 버린 씁쓸한 기술 발전의 현장입니다.
@@ -124,19 +125,19 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) / [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 텐서 연산과 L3 캐시 오염 방어
-비록 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 자동 컬러링은 의미가 옅어졌지만, 극한의 실무(유저 공간)를 뛰는 최상위 개발자들은 이 컬러링 개념을 **'수동'**으로 부활시켜 코딩한다.
+비록 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 자동 컬러링은 의미가 옅어졌지만, 극한의 실무(유저 공간)를 뛰는 최상위 개발자들은 이 컬러링 개념을 <strong>'수동'</strong>으로 부활시켜 코딩한다.
 1. **상황**: GPU로 넘길 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 행렬(Matrix) 곱셈 텐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 C++로 100GB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 만들었다.
 2. **캐시 오염(Pollution)**: 행렬을 세로(Column)로 껑충껑충 뛰며 읽어대면, 100GB의 특정 주소 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(색깔)가 우연히 정확히 L3 캐시의 1번 방에만 수만 번 연속으로 겹치게([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) 꽂혀버리는 재앙이 터진다. 하드웨어 해싱(Hash)이 섞어준다고 해도, 워낙 거대한 규모의 일정한 뜀박질 앞에서는 충돌이 터지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1/10로 깎인다.
 3. **수동 컬러링 꼼수 (Padding의 미학)**:
    - 개발자는 행렬 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 `1024 x 1024`를 선언하지 않는다. 
-   - 의도적으로 `1024 x 1025` 또는 소수(Prime Number) 크기로 선언하여 맨 끝에 **의미 없는 빈 공간([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))**을 강제로 쑤셔 넣는다.
+   - 의도적으로 `1024 x 1025` 또는 소수(Prime Number) 크기로 선언하여 맨 끝에 <strong>의미 없는 빈 공간(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong>을 강제로 쑤셔 넣는다.
    - 이렇게 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 폭을 비틀어버리면? 한 줄을 내려갈 때마다 메모리 주소의 뒷자리([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 인위적으로 1칸씩 어긋나며 엇갈리게(Coloring) 된다!
    - 결국 L3 캐시의 1번 방, 2번 방, 3번 방에 골고루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩뿌려지며 100% 풀 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)를 달성해 연산 속도가 수십 배 뛰어오른다. 
 
 ### [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기에서의 컬러링 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Coloring)
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 80바이트짜리 객체를 찍어내는 붕어빵 틀([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))이 있다.
 틀 1개 안에 객체 수백 개가 들어간다. 여러 개의 틀([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 1, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 2, [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 3)이 메모리에 올라갈 때, 모든 틀의 첫 번째 객체가 `0번지`, `4096번지`, `8192번지` 등 똑같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(똑같은 빨간색 캐시)에 박히는 참사가 났다. 
-리눅스 개발자들은 두 번째 붕어빵 틀을 만들 때 시작 위치를 0번지가 아닌 `64바이트 띄운 지점`부터 시작하게 강제로 비틀어(Offset) 버렸다. 이렇게 틀마다 시작점을 다르게 틀어주는 것을 **[Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Coloring([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 컬러링)**이라 부르며, 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 캐시 충돌을 박멸한 최고의 최적화 팁으로 남아있다.
+리눅스 개발자들은 두 번째 붕어빵 틀을 만들 때 시작 위치를 0번지가 아닌 `64바이트 띄운 지점`부터 시작하게 강제로 비틀어(Offset) 버렸다. 이렇게 틀마다 시작점을 다르게 틀어주는 것을 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">Slab</a> Coloring(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">슬랩</a> 컬러링)</strong>이라 부르며, 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 캐시 충돌을 박멸한 최고의 최적화 팁으로 남아있다.
 
 - **📢 섹션 요약 비유**: 타일 바닥을 깔 때 줄눈을 십자(+) 모양으로 똑같이 맞추면 작은 압력(캐시 충돌)에도 바닥 전체가 금이 가며 박살 납니다. 하지만 줄눈을 어긋나게 벽돌 쌓기(Coloring/[Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))처럼 비틀어 쌓으면, 충격이 사방(모든 캐시 방)으로 골고루 분산되어 절대 부서지지 않는 튼튼한 요새가 완성됩니다.
 
@@ -149,7 +150,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **L2/L3 Conflict Miss 절멸**| Set-Associative 캐시 특유의 '방 쏠림 현상'을 OS 단에서 수학적으로 원천 봉쇄하여 캐시 활용률을 이론적 최대치로 펌핑 |
-| **메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 및 Jitter 제어**| 0.1초 만에 끝나야 할 작업이 캐시 충돌로 5초가 걸리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 복불복(Jitter)을 없애 RTOS급의 안정적인 레이턴시 보장 |
+| <strong>메모리 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 및 Jitter 제어</strong>| 0.1초 만에 끝나야 할 작업이 캐시 충돌로 5초가 걸리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 복불복(Jitter)을 없애 RTOS급의 안정적인 레이턴시 보장 |
 | **소프트웨어 튜닝 철학 완성** | 하드웨어 칩셋의 물리적 배선 구조([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 뚫어보고, 그 약점을 C언어 메모리 할당([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))으로 보완하는 극강의 최적화 방법론 제시 |
 
 ### 결론 및 미래 전망
@@ -171,15 +172,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
-    │
-    ▼
-[캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
-    │
-    ├──▶ [역 페이지 테이블 탐색 최적화 해시 함수]
-    └──▶ [비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -33,34 +33,31 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 
 | 구성 요소 | 역할 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 스케줄링 관점의 의미 |
 | :--- | :--- | :--- |
-| **프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (PID)** | 고유 번호, PPID, UID 저장 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 해시 테이블에서 해당 프로세스를 찾는 키 |
-| **상태 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))** | Ready, Running, Wait, Zombie 등 | 큐 정렬 및 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 선택의 기준 |
-| **CPU 문맥 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))** | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) | 다음 실행 재개 시 하드웨어에 복원할 필수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| <strong>프로세스 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a> (PID)</strong> | 고유 번호, PPID, UID 저장 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 해시 테이블에서 해당 프로세스를 찾는 키 |
+| <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> | Ready, Running, Wait, Zombie 등 | 큐 정렬 및 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 선택의 기준 |
+| <strong>CPU 문맥 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong> | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) | 다음 실행 재개 시 하드웨어에 복원할 필수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **메모리 관리 정보** | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터, 세그먼트 | 프로세스 간 메모리 침범 방지 및 주소 공간 고립 |
 | **I/O 상태 정보** | 할당된 자원, 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(FD) 목록 | 자원 반납 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 및 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 분석에 사용 |
 
 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실행 중이던 프로세스의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 자신의 PCB에 '저장(Save)'하고, 새롭게 선택된 프로세스의 PCB에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 '복원(Restore)'한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           문맥 교환 (Context Switch)과 PCB의 역할            │
-├──────────────────────────────────────────────────────────────┤
-│  [프로세스 A]                [OS 커널]                [프로세스 B] │
-│      │                          │                          │       │
-│  (실행 중) ──▶ 인터럽트 발생 ─▶│                          │       │
-│      │                   ┌──────▼──────┐                   │       │
-│      │                   │ A의 레지스터를 │                   │       │
-│      │                   │ PCB_A에 저장  │                   │       │
-│      │                   └──────┬──────┘                   │       │
-│      │                   ┌──────▼──────┐                   │       │
-│      │                   │ PCB_B에서 B의 │                   │       │
-│      │                   │ 레지스터 복원 │                   │       │
-│      │                   └──────┬──────┘                   │       │
-│      │                          │──▶ 복원 완료 ────────▶ (실행 재개)│
-│      │                          │                          ▼       │
-│ * 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문맥 교환 (Context Switch)과 PCB의 역할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A</div><div class="kb-diagram-node">OS 커널</div><div class="kb-diagram-node">프로세스 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실행 중) ──▶ 인터럽트 발생 ─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A의 레지스터를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB_A에 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB_B에서 B의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 복원 완료 ▶ (실행 재개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 CPU는 실제 애플리케이션 연산이 아닌 운영체제의 상태 저장 작업만 수행하므로, 교환 횟수가 많아질수록 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 하락한다.
 
@@ -77,7 +74,7 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 | **전환 대상** | PCB 전체와 고유 주소 공간 맵핑 | 동일 PCB 내의 TCB만 전환 |
 | **메모리 처리** | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 교체 발생 | 기존 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 유지 (공유) |
 | **캐시 (Cache)** | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 플러시 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 내용 유지 ([캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 상승) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드** | 매우 무거움 | 비교적 가벼움 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드</strong> | 매우 무거움 | 비교적 가벼움 |
 
 같은 프로세스 내에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 교체할 경우, 메모리 맵핑([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 동일하므로 캐시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 주소 변환 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))의 플러시가 발생하지 않는다. 이것이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 프로세스 교환보다 압도적으로 빠른 구조적 이유다.
 
@@ -90,7 +87,7 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 실무 환경에서 PCB는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모 공간과 시스템 안정성을 결정짓는 핵심 지표로 다뤄진다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단 포인트
-1. **[좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)) 적체 방어**: 시스템 모니터링 시 'Z' 상태의 프로세스가 수백 개 쌓이는 현상. 프로세스가 메모리를 반납하고 종료되었음에도, 부모 프로세스가 `wait()` 시스템 콜을 호출하지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 PCB 뼈대와 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PID)를 지우지 못해 발생한다. 이는 가용 PID를 고갈시켜 신규 프로세스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 막으므로, 부모 프로세스를 수정하거나 종료시켜 Init 프로세스가 회수(Reaping)하도록 조치해야 한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">Zombie Process</a>) 적체 방어</strong>: 시스템 모니터링 시 'Z' 상태의 프로세스가 수백 개 쌓이는 현상. 프로세스가 메모리를 반납하고 종료되었음에도, 부모 프로세스가 `wait()` 시스템 콜을 호출하지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 PCB 뼈대와 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PID)를 지우지 못해 발생한다. 이는 가용 PID를 고갈시켜 신규 프로세스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 막으므로, 부모 프로세스를 수정하거나 종료시켜 Init 프로세스가 회수(Reaping)하도록 조치해야 한다.
 2. **포크 폭탄 (Fork Bomb) 공격 통제**: 악의적인 스크립트가 무한정 자식 프로세스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면, 각 PCB가 차지하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리가 고갈되어 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 패닉이 발생한다. 엔지니어는 `ulimit -u` 설정을 통해 사용자당 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능한 최대 프로세스 수를 제한해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -114,28 +111,30 @@ PCB와 TCB의 정교한 관리 구조는 단일 CPU에서도 수천 개의 작�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | CPU 점유가 넘어갈 때 이전 상태를 PCB에 저장하고 새 PCB를 읽어오는 멈춤 현상 |
-| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))** | PCB 교체 시 메모리 맵핑이 달라져 플러시가 발생하며 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 떨어뜨리는 주범 |
-| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | 단일 PCB를 공유하며 독자적인 TCB만 들고 실행되는 가벼운 작업 단위 |
-| **[좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) (Zombie)** | 몸(메모리)은 죽었으나 부모가 상태를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해주지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 영혼(PCB)이 묶여있는 상태 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | CPU 점유가 넘어갈 때 이전 상태를 PCB에 저장하고 새 PCB를 읽어오는 멈춤 현상 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong> | PCB 교체 시 메모리 맵핑이 달라져 플러시가 발생하며 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 떨어뜨리는 주범 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | 단일 PCB를 공유하며 독자적인 TCB만 들고 실행되는 가벼운 작업 단위 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (Zombie)</strong> | 몸(메모리)은 죽었으나 부모가 상태를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해주지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 영혼(PCB)이 묶여있는 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-일괄 처리 (Batch Processing)
-    │
-    ▼
-PCB (Process Control Block) 도입 · 멀티태스킹 (시분할) 구현
-    │
-    ▼
-문맥 교환 (Context Switch) 오버헤드 최소화 요구
-    │
-    ▼
-TCB (Task Control Block) 분리 · 가벼운 멀티스레딩
-    │
-    ▼
-경량 사용자 스레드 (Goroutine, Virtual Thread)의 등장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일괄 처리 (Batch Processing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCB (Process Control Block) 도입 · 멀티태스킹 (시분할) 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문맥 교환 (Context Switch) 오버헤드 최소화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TCB (Task Control Block) 분리 · 가벼운 멀티스레딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경량 사용자 스레드 (Goroutine, Virtual Thread)의 등장</div>
+</div>
+</div>
+
+
 
 이 흐름도는 프로세스 관리 아키텍처가 무거운 통합 구조에서 가볍고 세분화된 계층 구조로 진화하여 응답 속도를 극대화하는 과정을 보여준다.
 

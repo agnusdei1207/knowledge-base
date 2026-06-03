@@ -36,22 +36,20 @@ tags = ["database"]
 | **부분 함수 종속 (Partial FD)** | 종속자 Y가 기본키 X의 전체가 아닌 일부에만 종속되는 상태. | `{학번, 과목} → 학생이름`<br>(학생이름은 학번에만 종속됨) | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))의 제거 대상 |
 | **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때, $X \rightarrow Z$가 성립하는 연쇄적 종속 상태. | `학번 → 학과`, `학과 → 학과장`<br>(학번 → 학과장) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))의 제거 대상 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  함수적 종속성의 3가지 구조                  │
-├──────────────────────────────────────────────────────────────┤
-│ [1] 완전 함수 종속         [2] 부분 함수 종속         [3] 이행적 함수 종속         │
-│   ┌──────┴──────┐          ┌──────┴──────┐          ┌─────────────┐        │
-│   │             │          │             │          │             │        │
-│   X1            X2         X1            X2         X             │        │
-│   └──────┬──────┘          │             │          │             │        │
-│          │                 │             │          ▼             │        │
-│          ▼                 ▼             │          Y ────────────┘        │
-│          Y                 Y (X1에만 종속)│          │                      │
-│                            └─────────────┘          ▼                      │
-│                                                     Z                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성의 3가지 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">완전 함수 종속</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">부분 함수 종속</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">이행적 함수 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X1 X2 X1 X2 X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼</div><div class="kb-diagram-cell">Y</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y Y (X1에만 종속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z</div></div>
+</div>
+</div>
+
+
 
 다이어그램에서 보듯, 부분 함수 종속과 이행적 함수 종속은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 훼손하는 우회 경로를 만든다. 이 우회 경로를 끊고 독립된 테이블로 분리하는 과정이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)다.
 
@@ -65,7 +63,7 @@ tags = ["database"]
 
 | 기준 | [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (FD) | 다중값 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)) |
 | :--- | :--- | :--- |
-| **결정 값의 수** | X값 1개에 Y값 **1개**가 결정됨 | X값 1개에 Y값 **여러 개**가 독립적으로 결정됨 |
+| **결정 값의 수** | X값 1개에 Y값 <strong>1개</strong>가 결정됨 | X값 1개에 Y값 <strong>여러 개</strong>가 독립적으로 결정됨 |
 | **제거 대상 정규형** | 제1~3정규형, [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) | [제4정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)) |
 | **표기법** | $X \rightarrow Y$ | $X \twoheadrightarrow Y$ |
 
@@ -87,7 +85,7 @@ tags = ["database"]
 
 ### 실무 판단 포인트 (반정규화와의 트레이드오프)
 
-- **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 채택**: 핵심 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)(회원 정보, 상품 정보 등)는 완전 함수 종속을 엄격히 지켜 일관성을 보호해야 한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 채택</strong>: 핵심 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)(회원 정보, 상품 정보 등)는 완전 함수 종속을 엄격히 지켜 일관성을 보호해야 한다.
 - **의도적 위반 (반정규화)**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 극도로 중요한 통계 테이블이나, 읽기 전용의 대규모 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 경우, 이행적 종속을 알면서도 조인 비용을 줄이기 위해 한 테이블에 합쳐놓는 반정규화(De-[normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 선택할 수 있다.
 
 - **📢 섹션 요약 비유**: [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거해 테이블을 쪼개는 것은 물건을 분류별로 완벽히 서랍에 넣는 것과 같다. 정리는 깔끔하지만 물건을 꺼낼 때 서랍을 여러 번 열어야 하는 불편함(조인 비용)이 생긴다. 때로는 자주 쓰는 물건을 한 바구니에 담는 타협도 필요하다.
@@ -108,28 +106,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)을 위배한 잘못된 설계로 인해 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 오류 현상 |
-| **기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에서 가장 강력한 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) ([Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)) 역할을 하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)에 따라 테이블을 무손실 분해하는 과정 ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ~ [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)) |
-| **반정규화 (De-[normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 의도적으로 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) 원칙을 일부 위배하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)을 위배한 잘못된 설계로 인해 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 오류 현상 |
+| <strong>기본키 (Primary <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에서 가장 강력한 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) ([Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)) 역할을 하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)에 따라 테이블을 무손실 분해하는 과정 ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ~ [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)) |
+| <strong>반정규화 (De-<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">normalization</a>)</strong> | 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 의도적으로 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) 원칙을 일부 위배하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규 릴레이션 (데이터 중복 및 이상 현상)
-    │
-    ▼
-부분 함수 종속 (Partial FD) 식별 및 제거
-    │
-    ▼
-제2정규형 (2NF) 달성
-    │
-    ▼
-이행적 함수 종속 (Transitive FD) 식별 및 제거
-    │
-    ▼
-제3정규형 (3NF) 및 BCNF 달성 (모든 결정자가 후보키)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규 릴레이션 (데이터 중복 및 이상 현상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부분 함수 종속 (Partial FD) 식별 및 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제2정규형 (2NF) 달성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이행적 함수 종속 (Transitive FD) 식별 및 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제3정규형 (3NF) 및 BCNF 달성 (모든 결정자가 후보키)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리 속에서 나쁜 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 차례대로 솎아내어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 높은 구조로 진화하는 과정을 보여준다.
 

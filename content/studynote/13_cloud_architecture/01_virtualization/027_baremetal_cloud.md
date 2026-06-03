@@ -18,21 +18,21 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│   베어메탈 vs. VM 클라우드 비교                           │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  베어메탈 클라우드:                                       │
-│  [물리 서버] ← 직접 사용 (OS → 하드웨어)                  │
-│                                                         │
-│  VM 클라우드:                                            │
-│  [물리 서버] → [하이퍼바이저] → [VM1][VM2][VM3]          │
-│                                                         │
-│  성능: 베어메탈 > VM (하이퍼바이저 오버헤드 없음)          │
-│  탄력성: VM > 베어메탈 (초 단위 vs. 분~시간 단위)         │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베어메탈 vs. VM 클라우드 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베어메탈 클라우드:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">직접 사용 (OS → 하드웨어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 클라우드:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">하이퍼바이저</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">VM1</div><div class="kb-diagram-node">VM2</div><div class="kb-diagram-node">VM3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능: 베어메탈 &gt; VM (하이퍼바이저 오버헤드 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탄력성: VM &gt; 베어메탈 (초 단위 vs. 분~시간 단위)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 베어메탈은 럭셔리 단독 주택이다. 공동 주택([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))보다 비싸지만 이웃 소음(노이즈 네이버) 없이 집 전체를 혼자 쓴다. 공동 주택은 더 저렴하지만 이웃이 시끄러우면 내 생활이 영향받는다.
 
@@ -42,17 +42,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 베어메탈 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 과정
 
-```text
-1. 사용자 요청 (API/포털)
-        ↓
-2. 서버 할당 (자동화 인프라 오케스트레이션)
-   - IPMI/BMC로 원격 전원·부팅 제어
-   - PXE 부팅 → OS 이미지 자동 설치
-        ↓
-3. 네트워크 설정 (VLAN, 방화벽)
-        ↓
-4. 서버 준비 완료 → 사용자 접근 (10~30분)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 사용자 요청 (API/포털)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2. 서버 할당 (자동화 인프라 오케스트레이션)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">IPMI/BMC로 원격 전원·부팅 제어</div>
+<div class="kb-diagram-tree-item" style="--depth:1">PXE 부팅 → OS 이미지 자동 설치</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">3. 네트워크 설정 (VLAN, 방화벽)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">4. 서버 준비 완료 → 사용자 접근 (10~30분)</div>
+</div>
+</div>
+
+
 
 ### 주요 [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
@@ -84,7 +90,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### 베어메탈 최적 워크로드
 - **SAP HANA 인메모리 DB**: 수 TB RAM + 빠른 I/O 요구 → 베어메탈 최적.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 클러스터**: A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(NVLink, [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) → [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 오버헤드 없음.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습 클러스터</strong>: A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(NVLink, [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) → [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 오버헤드 없음.
 - **고빈도 트레이딩(HFT)**: 마이크로초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구 → [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 제거.
 
 ### 베어메탈 + [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 조합
@@ -98,8 +104,8 @@ tags = ["studynote-cloud-architecture"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 오버헤드 제거 |
-| **예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 노이즈 네이버 없음 |
+| <strong>최고 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 오버헤드 제거 |
+| <strong>예측 가능한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 노이즈 네이버 없음 |
 | **보안 격리** | 물리 수준 하드웨어 분리 |
 
 스마트 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)(Smart [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/), [Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))의 등장으로 베어메탈 서버에서도 네트워킹·보안·스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 하드웨어 가속하여 VM에 가까운 탄력성을 제공하는 방향으로 진화하고 있다.
@@ -112,29 +118,31 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)** | 베어메탈이 제거하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a></strong> | 베어메탈이 제거하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층 |
 | **노이즈 네이버** | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 공유 환경의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 불안정 문제 |
-| **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)** | 베어메탈에서 탄력성을 더하는 스마트 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) |
-| **[HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)** | 베어메탈의 대표 적합 워크로드 |
-| **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) on Bare Metal** | 베어메탈 + [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 조합 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a></strong> | 베어메탈에서 탄력성을 더하는 스마트 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/">HPC</a></strong> | 베어메탈의 대표 적합 워크로드 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> on Bare Metal</strong> | 베어메탈 + [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 조합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전용 물리 서버 — 성능 최고, 탄력성 없음]
-    │
-    ▼
-[VM 클라우드 — 탄력성 확보, 성능 일부 손실]
-    │
-    ▼
-[베어메탈 클라우드 — 성능 + 클라우드 탄력성]
-    │
-    ▼
-[베어메탈 + Kubernetes — 성능 + 컨테이너 오케스트레이션]
-    │
-    ▼
-[DPU 기반 베어메탈 — 하드웨어 가속 가상화 기능]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전용 물리 서버 — 성능 최고, 탄력성 없음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM 클라우드 — 탄력성 확보, 성능 일부 손실</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 클라우드 — 성능 + 클라우드 탄력성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 + Kubernetes — 성능 + 컨테이너 오케스트레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPU 기반 베어메탈 — 하드웨어 가속 가상화 기능</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

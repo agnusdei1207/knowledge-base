@@ -21,36 +21,35 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Misconfiguration([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)은 코딩 버그가 아니다. 제품 매뉴얼을 안 읽어서 생기는 사고다. 
   - **톰캣(Tomcat)** 웹 서버를 처음 깔면 관리자 계정이 `admin` / `admin` 이다. 안 바꾸고 라이브 서버에 올렸다.
-  - **AWS S3 버킷**에 고객 사진을 올렸는데, 권한([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 대충 누르다 `Public Read/Write(전 우주인 공개)`로 열어버렸다.
-  - **에러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)**가 떴는데, 고객 화면에 친절하게 `java.sql.SQLException: SELECT * FROM user_db ...` 라며 서버의 속살(코드 구조)과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace)를 적나라하게 다 까발려준다.
+  - <strong>AWS S3 버킷</strong>에 고객 사진을 올렸는데, 권한([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 대충 누르다 `Public Read/Write(전 우주인 공개)`로 열어버렸다.
+  - <strong>에러 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a></strong>가 떴는데, 고객 화면에 친절하게 `java.sql.SQLException: SELECT * FROM user_db ...` 라며 서버의 속살(코드 구조)과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace)를 적나라하게 다 까발려준다.
 
-- **필요성**: 해커 입장에서 SQL 인젝션을 하거나 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점을 찾으려면 밤을 새워야 한다(가성비 최악). 하지만 구글 구석구석을 긁어 모으는 해커 봇(Bot)을 돌리면, "어? 이 회사 AWS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 빵꾸나서 S3 폴더 열려있네? 패스워드 `admin/1234`로 쳐지네?"라며 단 1초 만에 테라바이트급 고객 정보를 꿀꺽할 수 있다. **가장 흔하고, 찾기 쉽고, 가장 파괴적인 결과(DB 통째 증발)**를 낳는 이 허무한 헛발질을 막기 위해서는 '인프라 환경 굳히기(Hardening)' 룰이 절대적으로 필요하다.
+- **필요성**: 해커 입장에서 SQL 인젝션을 하거나 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점을 찾으려면 밤을 새워야 한다(가성비 최악). 하지만 구글 구석구석을 긁어 모으는 해커 봇(Bot)을 돌리면, "어? 이 회사 AWS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 빵꾸나서 S3 폴더 열려있네? 패스워드 `admin/1234`로 쳐지네?"라며 단 1초 만에 테라바이트급 고객 정보를 꿀꺽할 수 있다. <strong>가장 흔하고, 찾기 쉽고, 가장 파괴적인 결과(DB 통째 증발)</strong>를 낳는 이 허무한 헛발질을 막기 위해서는 '인프라 환경 굳히기(Hardening)' 룰이 절대적으로 필요하다.
 
-- **💡 비유**: 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류는 최첨단 군사 기지를 지어놓고 **'비밀번호 0000 놔두기'**와 같습니다. 군사 기지(코드)는 레이저 철조망과 지대공 미사일로 도배되어 천재 스파이도 못 뚫습니다. 그런데 정문 출입 카드 키 비밀번호를 공장 출고 상태인 `0000`으로 놔두고 바꾼 적이 없습니다. 지나가던 꼬마가 `0000` 치고 들어가서 미사일(고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 발사 버튼을 누르고 도망갑니다. 기지의 튼튼함이 100% 무용지물이 되는 참사입니다.
+- **💡 비유**: 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류는 최첨단 군사 기지를 지어놓고 <strong>'비밀번호 0000 놔두기'</strong>와 같습니다. 군사 기지(코드)는 레이저 철조망과 지대공 미사일로 도배되어 천재 스파이도 못 뚫습니다. 그런데 정문 출입 카드 키 비밀번호를 공장 출고 상태인 `0000`으로 놔두고 바꾼 적이 없습니다. 지나가던 꼬마가 `0000` 치고 들어가서 미사일(고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 발사 버튼을 누르고 도망갑니다. 기지의 튼튼함이 100% 무용지물이 되는 참사입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설치형 서버의 실수**: 아파치(Apache)나 리눅스(Linux)를 수동으로 설치하던 시절, 매뉴얼을 읽기 귀찮은 개발자들이 디폴트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(샘플 폴더, 불필요한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 오픈)을 켜두어 웜([Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) 바이러스의 놀이터가 되었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 설치형 서버의 실수</strong>: 아파치(Apache)나 리눅스(Linux)를 수동으로 설치하던 시절, 매뉴얼을 읽기 귀찮은 개발자들이 디폴트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(샘플 폴더, 불필요한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 오픈)을 켜두어 웜([Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) 바이러스의 놀이터가 되었다.
   2. **프레임워크의 비대화**: Spring, Django 등 프레임워크가 무거워지면서 안에 숨은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 파일이 수천 개로 늘어났다. 개발자가 실수로 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 상세 출력(Debug Mode) 스위치를 켜둔 채 배포하는 사고가 폭증했다.
   3. **클라우드 복잡성의 시대 (현재)**: AWS, Azure 시대가 열리며 100개의 클라우드 자원([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/), S3) 권한이 거미줄처럼 얽혔다. 마우스 삐끗 한 번에 전 세계로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 권한이 열리는 클라우드 특유의 폭발적 파급력이 이 취약점을 OWASP 영원한 상위권에 강제 박제시켰다.
 
-- **📢 섹션 요약 비유**: 이 취약점은 새로 이사 간 집에 **'건축업자가 놓고 간 마스터키 안 버리고 현관문 앞에 계속 놔두기'**입니다. 내가 아무리 방문(코드)을 잠그고 튼튼한 금고(DB)를 사와도, 건축업자(Apache, AWS 등 프레임워크 제조사)가 편하라고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 만들어둔 범용 마스터키(디폴트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/비번)를 쓰레기통에 버리고 나만의 새 자물쇠로 교체(Hardening)하지 않으면 결국 지나가던 도둑에게 1초 만에 털립니다.
+- **📢 섹션 요약 비유**: 이 취약점은 새로 이사 간 집에 <strong>'건축업자가 놓고 간 마스터키 안 버리고 현관문 앞에 계속 놔두기'</strong>입니다. 내가 아무리 방문(코드)을 잠그고 튼튼한 금고(DB)를 사와도, 건축업자(Apache, AWS 등 프레임워크 제조사)가 편하라고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 만들어둔 범용 마스터키(디폴트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/비번)를 쓰레기통에 버리고 나만의 새 자물쇠로 교체(Hardening)하지 않으면 결국 지나가던 도둑에게 1초 만에 털립니다.
 
 ---
 
 다음은 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Misconfigur의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Security Misconfigur                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Misconfigur</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Misconfigur가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[Security Misconfiguration](/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/) (보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[Security Misconfiguration](/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/) (보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [Security Misconfiguration](/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/) (보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Security Misconfiguration (보안 설정 오류) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Security Misconfiguration (보안 설정 오류) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

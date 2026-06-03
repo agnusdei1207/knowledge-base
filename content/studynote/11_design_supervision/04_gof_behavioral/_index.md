@@ -17,32 +17,26 @@ tags = ["design_supervision"]
 
 ### 상호작용의 미학: 행위 패턴의 역할
 
-생성 패턴이 '객체 만들기'를, 구조 패턴이 '객체 조립하기'를 담당한다면, **행위 패턴**은 '객체들끼리 어떻게 대화하고 협력할 것인가'를 다룬다. 시스템이 커질수록 객체 간의 메시지 전달 경로는 복잡하게 꼬이기 마련이다 (Spaghetti Logic). 행위 패턴은 이러한 복잡한 로직을 정형화된 틀로 정리하여, 누가 어떤 책임을 질지 명확히 정의한다.
+생성 패턴이 '객체 만들기'를, 구조 패턴이 '객체 조립하기'를 담당한다면, <strong>행위 패턴</strong>은 '객체들끼리 어떻게 대화하고 협력할 것인가'를 다룬다. 시스템이 커질수록 객체 간의 메시지 전달 경로는 복잡하게 꼬이기 마련이다 (Spaghetti Logic). 행위 패턴은 이러한 복잡한 로직을 정형화된 틀로 정리하여, 누가 어떤 책임을 질지 명확히 정의한다.
 
-행위 패턴이 필요한 이유는 세 가지이다. 첫째, **런타임 유연성 확보**를 위해서이다. 프로그램 실행 중에 알고리즘이나 상태를 자유롭게 바꿀 수 있다. 둘째, **객체 간의 느슨한 결합 (Loose Coupling)**을 위해서이며, 셋째, **복잡한 조건문 (if-else) 제거**를 통해 코드의 가독성과 유지보수성을 획기적으로 높이기 위함이다.
+행위 패턴이 필요한 이유는 세 가지이다. 첫째, <strong>런타임 유연성 확보</strong>를 위해서이다. 프로그램 실행 중에 알고리즘이나 상태를 자유롭게 바꿀 수 있다. 둘째, <strong>객체 간의 느슨한 결합 (Loose Coupling)</strong>을 위해서이며, 셋째, <strong>복잡한 조건문 (if-else) 제거</strong>를 통해 코드의 가독성과 유지보수성을 획기적으로 높이기 위함이다.
 
 이 그림은 행위 패턴이 객체 간의 통신 복잡도를 어떻게 단순화하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Behavioral Patterns Interaction Model       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Spaghetti Logic ]             [ Behavioral Pattern ]    │
-│   (직접 호출, 꼬인 관계)          (패턴을 통한 정돈된 소통) │
-│   ┌───┐ ◀───▶ ┌───┐               ┌───┐       ┌───┐         │
-│   │ A │       │ B │               │ A │ ──▶   │ B │         │
-│   └───┘ ◀───▶ └───┘               └───┘       └───┘         │
-│     ▲           ▲                   │           ▲           │
-│     │           │                   ▼           │           │
-│   ┌───┐ ◀───▶ ┌───┐               ┌───┐       ┌───┐         │
-│   │ C │       │ D │               │ C │ ──▶   │ D │         │
-│   └───┘ ◀───▶ └───┘               └───┘       └───┘         │
-│                                                              │
-│   * 핵심: 메시지 전달 규칙을 추상화하여 의존성 파단 방지    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavioral Patterns Interaction Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spaghetti Logic</div><div class="kb-diagram-node">Behavioral Pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(직접 호출, 꼬인 관계) (패턴을 통한 정돈된 소통)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">D</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 메시지 전달 규칙을 추상화하여 의존성 파단 방지</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '흐름의 제어'이다. 객체들이 서로의 내부를 알 필요 없이 약속된 인터페이스를 통해 대화하게 함으로써, 특정 객체의 로직이 바뀌어도 다른 객체는 영향을 받지 않는다. 실무에서는 이러한 패턴 적용이 대규모 프로젝트의 '변경 전파 (Ripple Effect)'를 막는 결정적 요인이 된다.
 
@@ -75,29 +69,25 @@ tags = ["design_supervision"]
 
 가장 빈번하게 사용되는 패턴으로, 상속의 한계를 극복하고 동적 구성을 실현한다.
 
-이 구조도는 **전략 패턴**이 어떻게 조건문을 제거하고 확장을 용이하게 하는지 보여준다.
+이 구조도는 <strong>전략 패턴</strong>이 어떻게 조건문을 제거하고 확장을 용이하게 하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Strategy Pattern: Algorithmic Fusion        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Context: Payment ]                                      │
-│   - setStrategy(Strategy s)                                 │
-│   - pay(amount) ──▶ strategy.execute(amount)                │
-│          │                                                  │
-│          ▼ (Dependency Injection)                           │
-│   [ Strategy (Interface) ]                                  │
-│   - execute(amount)                                         │
-│          ▲                                                  │
-│   ┌──────┴─────────────┬────────────────────────┐            │
-│   ▼                    ▼                        ▼            │
-│ [ CardStrategy ]    [ PayStrategy ]          [ CashStrategy ]│
-│                                                             │
-│   * 효과: 새로운 결제 수단 추가 시 Context 수정 없음 (OCP)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy Pattern: Algorithmic Fusion</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Context: Payment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- setStrategy(Strategy s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- pay(amount) ──▶ strategy.execute(amount)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Dependency Injection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy (Interface)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- execute(amount)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CardStrategy</div><div class="kb-diagram-node">PayStrategy</div><div class="kb-diagram-node">CashStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 새로운 결제 수단 추가 시 Context 수정 없음 (OCP)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '제어의 위임'이다. 결제 모듈 (Context)은 실제 결제가 어떻게 이루어지는지 몰라도 된다. 단지 전략 (Strategy) 객체에게 실행을 부탁할 뿐이다. 실무에서는 이 구조를 통해 복잡한 비즈니스 규칙을 독립적인 모듈로 격리하여 운영 안정성을 확보한다.
 
@@ -121,7 +111,7 @@ tags = ["design_supervision"]
 ### 옵저버 (Observer) 패턴과 이벤트 기반 설계 (EDA)
 
 - **원리**: 한 객체의 상태가 변하면 그 객체에 의존하는 다른 객체들에게 연락이 간다.
-- **융합**: 이 패턴은 현대 분산 아키텍처의 **이벤트 브로커 (Kafka, RabbitMQ)**로 확장된다. 서비스들 간의 직접적인 호출을 끊고 '이벤트'를 던지는 방식으로 발전하여 MSA의 핵심 통신 기법이 되었다.
+- **융합**: 이 패턴은 현대 분산 아키텍처의 <strong>이벤트 브로커 (Kafka, RabbitMQ)</strong>로 확장된다. 서비스들 간의 직접적인 호출을 끊고 '이벤트'를 던지는 방식으로 발전하여 MSA의 핵심 통신 기법이 되었다.
 
 📢 **섹션 요약 비유**: 옵저버 패턴은 '유튜브 구독'과 같습니다. 유튜버(발행자)가 영상을 올리면 구독자(옵저버)들은 각자의 폰으로 알림을 받고 영상을 보러 가는 원리입니다.
 
@@ -132,28 +122,26 @@ tags = ["design_supervision"]
 ### 기술사적 판단: 복잡한 로직의 파편화 및 패턴 통합 전략
 
 **시나리오 1: 수천 개의 if-else와 switch문으로 덮인 주문 승인 엔진**
-- **판단**: 유지보수가 불가능한 수준이다. 주문의 상태 (접수, 검토, 승인, 거절)를 각각의 클래스로 분리하는 **상태 (State) 패턴**을 적용한다. 각 상태 클래스 내부에 '다음 상태로 넘어가는 로직'을 캡슐화하여 승인 엔진 본체 코드를 비약적으로 단순화한다. 또한 승인 기준이 국가별로 다를 경우 **전략 (Strategy) 패턴**을 결합하여 동적으로 승인 룰을 교체한다.
+- **판단**: 유지보수가 불가능한 수준이다. 주문의 상태 (접수, 검토, 승인, 거절)를 각각의 클래스로 분리하는 <strong>상태 (State) 패턴</strong>을 적용한다. 각 상태 클래스 내부에 '다음 상태로 넘어가는 로직'을 캡슐화하여 승인 엔진 본체 코드를 비약적으로 단순화한다. 또한 승인 기준이 국가별로 다를 경우 <strong>전략 (Strategy) 패턴</strong>을 결합하여 동적으로 승인 룰을 교체한다.
 
 **시나리오 2: 전사 시스템의 모든 중요한 행위를 로깅하고 취소해야 하는 요구사항**
-- **판단**: 모든 메서드에 로그 코드를 심는 것은 안티패턴이다. 모든 요청을 **커맨드 (Command) 객체**로 래핑한다. 커맨드 객체는 `execute()`와 `undo()` 메서드를 가지며, 이를 스택 (Stack) 자료구조에 담아 관리함으로써 '무한 실행 취소' 기능을 완벽히 구현한다. 또한 로깅이나 권한 체크는 **프록시 (Proxy)** 패턴을 믹스하여 비즈니스 로직의 순수성을 보장한다.
+- **판단**: 모든 메서드에 로그 코드를 심는 것은 안티패턴이다. 모든 요청을 <strong>커맨드 (Command) 객체</strong>로 래핑한다. 커맨드 객체는 `execute()`와 `undo()` 메서드를 가지며, 이를 스택 (Stack) 자료구조에 담아 관리함으로써 '무한 실행 취소' 기능을 완벽히 구현한다. 또한 로깅이나 권한 체크는 **프록시 (Proxy)** 패턴을 믹스하여 비즈니스 로직의 순수성을 보장한다.
 
 이 도식은 기술사가 설계한 '지능형 행위 제어 아키텍처'의 판단 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Behavioral Pattern Decision Tree              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   알고리즘을 런타임에 바꿔야 하나? ──▶ [YES] ──▶ Strategy    │
-│          │                                                  │
-│   상태에 따라 행동이 완전히 변하나? ──▶ [YES] ──▶ State      │
-│          │                                                  │
-│   상태 변화를 여러 곳에 알려야 하나? ──▶ [YES] ──▶ Observer  │
-│          │                                                  │
-│   요청을 저장하거나 취소해야 하나? ──▶ [YES] ──▶ Command     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavioral Pattern Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Strategy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">State</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Observer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Command</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 행위 설계는 '회사의 업무 매뉴얼 작성'과 같습니다. 직원이 바뀌어도 매뉴얼(패턴)만 있으면 업무(프로그램)가 차질 없이 돌아가고, 상황(상태)에 따라 직원이 스스로 판단(행위 위임)하게 하여 사장님(메인 루틴)의 부담을 덜어주는 전략입니다.
 
@@ -168,7 +156,7 @@ tags = ["design_supervision"]
 
 ### 미래 전망: 리액티브 프로그래밍과 자율 행위 패턴
 
-향후 행위 패턴은 **리액티브 프로그래밍 (RxJava, WebFlux)** 패러다임에 녹아들 것이다. 데이터의 흐름 자체를 구독하고 변화에 반응하는 방식이 표준이 되며, 옵저버 패턴의 극대화된 형태가 인프라 레벨에서 구현될 것이다. 또한 AI 에이전트가 상황에 맞는 전략을 스스로 선택하는 **'Self-Optimizing Patterns'**가 부상할 것이다. 기술사는 정적인 클래스 다이어그램을 넘어, 데이터 스트림과 비동기 메시지가 춤추는 '동적 행위 지형'을 설계하는 마스터가 되어야 한다.
+향후 행위 패턴은 **리액티브 프로그래밍 (RxJava, WebFlux)** 패러다임에 녹아들 것이다. 데이터의 흐름 자체를 구독하고 변화에 반응하는 방식이 표준이 되며, 옵저버 패턴의 극대화된 형태가 인프라 레벨에서 구현될 것이다. 또한 AI 에이전트가 상황에 맞는 전략을 스스로 선택하는 <strong>'Self-Optimizing Patterns'</strong>가 부상할 것이다. 기술사는 정적인 클래스 다이어그램을 넘어, 데이터 스트림과 비동기 메시지가 춤추는 '동적 행위 지형'을 설계하는 마스터가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 프로그램 행위는 '군집 드론의 비행'과 같아질 것입니다. 중앙의 통제 없이도 각 드론(객체)이 주변 상황을 인지하고(옵저버), 최적의 비행 모드(전략)로 변신하며, 서로 충돌 없이 임무를 완수하는 완벽한 자율 협업의 세계가 열릴 것입니다.
 

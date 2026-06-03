@@ -31,22 +31,22 @@ tags = ["studynote-devops-sre"]
 
 Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'들을 조합하여, 하나의 고속도로(차선, Lane)로 이어붙이는 아키텍처다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Fastlane 기반 모바일 CI/CD 파이프라인            │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ─▶ [CI Runner (Mac/Linux)] ─▶ [App Stores]  │
-│                                                              │
-│       ┌────────── Fastfile (Lane: release) ──────────┐       │
-│       │                                              │       │
-│       │ 1. match (인증서 동기화)                     │       │
-│       │ 2. increment_build_number (버전 업)          │       │
-│       │ 3. gym (앱 빌드 & 패키징 - IPA/APK 생성)     │       │
-│       │ 4. snapshot (스크린샷 자동 캡처)             │       │
-│       │ 5. deliver / supply (스토어 및 메타 업로드)  │       │
-│       └──────────────────────────────────────────────┘       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fastlane 기반 모바일 CI/CD 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI Runner (Mac/Linux)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">App Stores</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fastfile (Lane: release)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. match (인증서 동기화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. increment_build_number (버전 업)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. gym (앱 빌드 &amp; 패키징 - IPA/APK 생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. snapshot (스크린샷 자동 캡처)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. deliver / supply (스토어 및 메타 업로드)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Git에 코드가 푸시되면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 러너가 Fastlane을 호출하여, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 처리부터 스토어 등록까지의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 끊김 없이 관통하는 흐름을 보여준다.
 
@@ -62,9 +62,9 @@ Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'�
 
 | 항목 | 수동/쉘 스크립트 기반 배포 | Fastlane 기반 배포 자동화 |
 | :--- | :--- | :--- |
-| **[코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 관리** | 개발자별 PC에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수동 의존 | Match를 통한 프라이빗 Git 중앙 관리 |
-| **스토어 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)** | 포털 웹사이트에서 직접 타이핑 | 코드로 관리 ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) 보장) |
-| **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)** | 애플/구글 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경 시 스크립트 붕괴 | Fastlane 커뮤니티가 Action 업데이트로 대응 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/">코드 서명</a> 관리</strong> | 개발자별 PC에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수동 의존 | Match를 통한 프라이빗 Git 중앙 관리 |
+| <strong>스토어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> | 포털 웹사이트에서 직접 타이핑 | 코드로 관리 ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) 보장) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong> | 애플/구글 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경 시 스크립트 붕괴 | Fastlane 커뮤니티가 Action 업데이트로 대응 |
 | **크로스 플랫폼** | iOS, Android 스크립트 완전 별도 작성 | 하나의 Fastfile 안에서 플랫폼별 Lane 분기 |
 
 Fastlane은 단독으로 돌아가기보다 GitHub Actions, Bitrise, [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 같은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 위에서 실행되는 '배포 엔진' 역할을 한다. 범용 CI가 코드 푸시를 감지해 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 당기면, 모바일의 복잡한 속사정은 Fastlane이 전담 처리하는 융합 아키텍처가 현대 모바일 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 표준이다.
@@ -111,21 +111,23 @@ Fastlane의 도입은 단순히 개발자의 귀찮음을 줄여주는 것을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 빌드 및 배포 (IDE 툴 의존, 휴먼 에러)
-    │
-    ▼
-쉘 스크립트 기반 자동화 (유지보수 지옥)
-    │
-    ▼
-도구의 표준화: Fastlane 등장 (Action 및 Lane 분리)
-    │
-    ▼
-인증서 중앙 관리: Fastlane Match 도입
-    │
-    ▼
-모바일 DevOps 플랫폼 결합: 범용 CI + Fastlane의 완전 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 빌드 및 배포 (IDE 툴 의존, 휴먼 에러)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쉘 스크립트 기반 자동화 (유지보수 지옥)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도구의 표준화: Fastlane 등장 (Action 및 Lane 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증서 중앙 관리: Fastlane Match 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모바일 DevOps 플랫폼 결합: 범용 CI + Fastlane의 완전 자동화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 개발자 개인의 로컬 PC에서 이루어지던 수동 작업이 점차 코드로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)되고, 궁극적으로 클라우드 CI와 결합하여 모바일 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)로 진화하는 과정을 보여준다.
 

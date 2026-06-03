@@ -22,13 +22,16 @@ tags = ["math-mining", "studynote-data-engineering"]
 
 이 기법이 필요한 이유는 추천과 진열이 직관만으로는 부족하기 때문이다. 어떤 상품을 가까이 두어야 하는지, 어떤 묶음 쿠폰을 설계해야 하는지, 어떤 장애 경보가 함께 뜨는지 같은 문제는 거래 단위의 관계를 찾아야 풀린다. 여기서 중요한 점은 연관이 곧 인과는 아니라는 사실이다. 규칙은 "같이 나타난다"를 말할 뿐, "원인"을 말하지 않는다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 거래 데이터 → 빈발 항목 집합 → 연관 규칙 → 추천/진열         │
-├──────────────────────────────────────────────────────────────┤
-│ T1 {빵, 우유}  T2 {빵, 계란}  T3 {우유, 기저귀}              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 데이터 → 빈발 항목 집합 → 연관 규칙 → 추천/진열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 {빵, 우유} T2 {빵, 계란} T3 {우유, 기저귀}</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 영수증 더미를 쌓아 놓고 "무엇이 같이 자주 나왔는가"를 찾는 마트 탐정이다.
 
@@ -46,12 +49,16 @@ tags = ["math-mining", "studynote-data-engineering"]
 
 Apriori 알고리즘은 빈발하지 않은 집합의 상위 집합은 빈발할 수 없다는 Apriori 원리를 쓴다. 그래서 작은 집합부터 시작해 후보를 만들고, [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)를 통과한 것만 다음 단계로 넘긴다. 이 방식은 반복 스캔이 많아도 해석이 쉽고, 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 설명하기 좋다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│ L1 빈발  ─►  C2 후보 생성  ─►  지지도 검사  ─►  L2 빈발         │
-│   │                      └── 비빈발 item 제거 → 상위집합 차단   │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 빈발 ─► C2 후보 생성 ─► 지지도 검사 ─► L2 빈발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 비빈발 item 제거 → 상위집합 차단</div></div>
+</div>
+</div>
+
+
 
 최소 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) (Min [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))와 최소 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) (Min [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))는 규칙의 문턱값이다. [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)는 "너무 희귀한 조합"을 거르고, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 "방향성이 약한 규칙"을 거른다. [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/)는 거기서 한 번 더 걸러, 그냥 많이 팔리는 상품이 섞인 착시를 줄인다. 계산 복잡도는 최악의 경우 O(2^N)에 가깝다.
 
@@ -111,21 +118,23 @@ Apriori와 FP-Growth (Frequent Pattern Growth)는 같은 목표를 향하지만,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-거래 데이터
-    │
-    ▼
-빈발 항목 집합
-    │
-    ▼
-Apriori / FP-Growth
-    │
-    ▼
-연관 규칙 (X → Y)
-    │
-    ▼
-진열 최적화 · 번들 추천 · 교차 판매
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">거래 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빈발 항목 집합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Apriori / FP-Growth</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연관 규칙 (X → Y)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">진열 최적화 · 번들 추천 · 교차 판매</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

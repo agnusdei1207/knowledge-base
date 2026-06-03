@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(2T2R 등)는 둥근 풍선 모양으로 전파를 넓게 퍼뜨렸습니다. 
 - 철수가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 옆에 있는 영희도 불필요한 전파를 맞았습니다(간섭 노이즈). 허공으로 날아가는 낭비 전력이 99%라 효율이 처참했습니다.
 
-```text
-[스몰 셀 조밀화 간섭 통제망]
-    │
-    ▼
-[Massive MIMO 빔 관리 시스템]
-    │
-    └──▶ [자율 구동 네트워크 레벨링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1대에 **수십~수백 개(64T64R 등)의 초소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자(Element)들을 바둑판 배열로 때려 박아**, 수십 명의 사용자에게 각각 독립적인 전파 통로를 동시에 뚫어주어([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/), SDMA) 기지국 용량을 10배 이상 폭발시키는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 절대 필수 하드웨어 아키텍처입니다.
+- **개념**: 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1대에 <strong>수십~수백 개(64T64R 등)의 초소형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 소자(Element)들을 바둑판 배열로 때려 박아</strong>, 수십 명의 사용자에게 각각 독립적인 전파 통로를 동시에 뚫어주어([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/), SDMA) 기지국 용량을 10배 이상 폭발시키는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 절대 필수 하드웨어 아키텍처입니다.
 
-```text
-[스몰 셀 조밀화 간섭 통제망]
-    │
-    ▼
-[Massive MIMO 빔 관리 시스템]
-    │
-    └──▶ [자율 구동 네트워크 레벨링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,14 +66,14 @@ tags = ["studynote-network"]
 
 ### 1. 3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) - "레이저 깎기"
 - **원리 (보강 간섭의 물리학)**: 128개의 미니 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 똑같은 전파를 쏠 때, 0.0001초 단위로 쏘는 타이밍(위상)을 미세하게 엇갈리게 조작합니다.
-- 그러면 전파들이 허공에서 겹쳐지고 부딪히면서, 양옆으로 퍼지던 전파는 상쇄되어 죽어버리고, **오직 정면 철수가 있는 방향으로 향하는 전파 파동만 엄청나게 증폭(보강 간섭)되어 바늘처럼 뾰족한 '레이저 빔' 형태로 모양이 변형**됩니다.
-- **3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)**: 옛날엔 좌우(수평)로만 빔을 쐈는데, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 바둑판 배열이라 위아래(수직)로도 빔 각도를 꺾을 수 있습니다. 고층 아파트 15층 베란다에 있는 철수 정수리에 빔을 조준해서 꽂아버립니다.
+- 그러면 전파들이 허공에서 겹쳐지고 부딪히면서, 양옆으로 퍼지던 전파는 상쇄되어 죽어버리고, <strong>오직 정면 철수가 있는 방향으로 향하는 전파 파동만 엄청나게 증폭(보강 간섭)되어 바늘처럼 뾰족한 '레이저 빔' 형태로 모양이 변형</strong>됩니다.
+- <strong>3D <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a></strong>: 옛날엔 좌우(수평)로만 빔을 쐈는데, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 바둑판 배열이라 위아래(수직)로도 빔 각도를 꺾을 수 있습니다. 고층 아파트 15층 베란다에 있는 철수 정수리에 빔을 조준해서 꽂아버립니다.
 
 ### 2. 빔 관리 (Beam [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 3단계 시스템 🌟 기출 🌟
 철수가 가만히 있지 않고 버스를 타고 이동합니다. 레이저 빔이 어떻게 쫓아갈까요?
 1. **빔 스위핑 (Beam Sweeping, 빗자루질)**: 기지국이 처음에 철수 위치를 모릅니다. 그래서 1번 각도 빔, 2번 각도 빔, 3번 각도 빔을 0.01초 간격으로 빗자루 쓸듯이 쫘아악~ 돌리면서 쏩니다. 철수 폰이 "어! 2번 빔이 나한테 제일 쎄게 잘 들어와!" 하고 응답을 칩니다.
 2. **빔 측정 및 결정 (Measurement & Determination)**: 기지국이 "오케이! 넌 2번 각도로 고정!" 하며 철수에게 메인 빔을 조준합니다.
-3. **빔 추적과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Beam Tracking & Failure [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 🌟**:
+3. <strong>빔 추적과 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Beam Tracking &amp; Failure <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>) 🌟</strong>:
    - 버스가 출발해 철수가 2번 각도 빔을 벗어났습니다. 철수 폰 신호가 약해집니다.
    - 기지국은 즉시 3번 각도로 레이저 빔의 모가지를 틀어서 **이동하는 폰을 저격수처럼 끝까지 쫓아갑니다(Tracking).**
    - 만약 거대한 트럭이 지나가서 빔이 완전히 차단(Blockage)되면? 폰이 0.1초 만에 "살려줘!" 구조 신호를 치고, 기지국은 반사되어 들어오는 5번 우회 빔을 즉각 찾아내어 통신을 부활([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))시킵니다. 1018번, 1019번 초고주파 통신의 생명줄입니다.
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**는 허공에 둥글게 물을 뿌려대는 **'잔디밭 멍청한 스프링클러'**입니다. 철수 한 명이 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 마시러 왔는데 사방팔방으로 물을 낭비해서 정작 철수 입에는 물이 몇 방울 들어가지도 않았습니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) **[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)([대규모 다중 안테나](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))**는 이 스프링클러를 뽑아내고 **'128개의 정밀 물총 노즐을 촘촘히 엮어 만든 캐틀링 건(Gatling Gun)'**을 세워둔 혁명입니다. 철수가 걸어오면 128개의 노즐이 수압을 계산해서 물줄기를 모아 **'단 1개의 강력하고 뾰족한 소방 호스 물줄기([빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))'**로 변형시킨 뒤 철수의 입안에만 100% 직빵으로 꽂아 넣습니다. 옆에 있는 영희에게는 물 한 방울 튀지 않습니다(간섭 제로). 심지어 철수가 달리는 버스에 타도, 기지국 레이더 센서가 철수 입술의 위치를 0.001초 단위로 쫓아가며(빔 트래킹) 물줄기 각도를 계속 꺾어 쏘기 때문에, 단 1%의 전파 낭비 없이 100명의 고객에게 100개의 독립된 고속도로를 뚫어주는 미친 용량 뻥튀기 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>4G <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>는 허공에 둥글게 물을 뿌려대는 <strong>'잔디밭 멍청한 스프링클러'</strong>입니다. 철수 한 명이 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 마시러 왔는데 사방팔방으로 물을 낭비해서 정작 철수 입에는 물이 몇 방울 들어가지도 않았습니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">대규모 다중 안테나</a>)</strong>는 이 스프링클러를 뽑아내고 <strong>'128개의 정밀 물총 노즐을 촘촘히 엮어 만든 캐틀링 건(Gatling Gun)'</strong>을 세워둔 혁명입니다. 철수가 걸어오면 128개의 노즐이 수압을 계산해서 물줄기를 모아 <strong>'단 1개의 강력하고 뾰족한 소방 호스 물줄기(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a>)'</strong>로 변형시킨 뒤 철수의 입안에만 100% 직빵으로 꽂아 넣습니다. 옆에 있는 영희에게는 물 한 방울 튀지 않습니다(간섭 제로). 심지어 철수가 달리는 버스에 타도, 기지국 레이더 센서가 철수 입술의 위치를 0.001초 단위로 쫓아가며(빔 트래킹) 물줄기 각도를 계속 꺾어 쏘기 때문에, 단 1%의 전파 낭비 없이 100명의 고객에게 100개의 독립된 고속도로를 뚫어주는 미친 용량 뻥튀기 아키텍처입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스몰 셀 조밀화 간섭 통제망]
-    │
-    ▼
-[현재 개념: Massive MIMO 빔 관리 시스템]
-    │
-    ├──▶ [확장 A: 자율 구동 네트워크 레벨링]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Massive MIMO 빔 관리 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율 구동 네트워크 레벨링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템는 스몰 셀 조밀화 간섭 통제망에서 출발해 현재 메커니즘을 정교화하고, 이후 자율 구동 네트워크 레벨링와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

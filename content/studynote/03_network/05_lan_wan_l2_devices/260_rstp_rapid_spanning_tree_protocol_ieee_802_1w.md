@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 기존의 거북이 같은 802.1D [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)를 대체하기 위해 IEEE 802.1w로 발표된 "빠른(Rapid)" [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) 규격. (현재는 802.1D 표준 자체가 802.1w로 흡수 통합됨)
-- **필요성**: 1990년대까진 50초 끊기는 건 커피 한 잔 마시고 오면 되는 일이었다. 하지만 VoIP(인터넷 전화), 실시간 온라인 게임, 화상 회의, 금융 트레이딩 서버 시대가 도래하며 단 3초의 끊김조차 회사 수억 원의 손실을 낳게 되었다. **"안전을 담보하면서도 타이머를 기다리지 않고 즉시 길을 열어야 한다"**는 강박증 수준의 고속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 니즈가 RSTP를 탄생시켰다.
+- **필요성**: 1990년대까진 50초 끊기는 건 커피 한 잔 마시고 오면 되는 일이었다. 하지만 VoIP(인터넷 전화), 실시간 온라인 게임, 화상 회의, 금융 트레이딩 서버 시대가 도래하며 단 3초의 끊김조차 회사 수억 원의 손실을 낳게 되었다. <strong>"안전을 담보하면서도 타이머를 기다리지 않고 즉시 길을 열어야 한다"</strong>는 강박증 수준의 고속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 니즈가 RSTP를 탄생시켰다.
 
-- **💡 비유**: 길을 막고 있던 톨게이트 차단기가 열리는 속도입니다. 구형 STP가 앞차가 지나간 뒤 무조건 **"속으로 50초를 센 뒤에야 수동으로 바리케이드를 올려주는 할아버지 요금소"**라면, RSTP는 차가 다가오는 즉시 센서로 인식하고 **"1초 만에 착! 하고 열리는 하이패스 요금소"**입니다.
+- **💡 비유**: 길을 막고 있던 톨게이트 차단기가 열리는 속도입니다. 구형 STP가 앞차가 지나간 뒤 무조건 <strong>"속으로 50초를 센 뒤에야 수동으로 바리케이드를 올려주는 할아버지 요금소"</strong>라면, RSTP는 차가 다가오는 즉시 센서로 인식하고 <strong>"1초 만에 착! 하고 열리는 하이패스 요금소"</strong>입니다.
 
-```text
-[포트 패스트 / BPDU Guard]
-    │
-    ▼
-[RSTP]
-    │
-    └──▶ [백업 포트, 대체 포트 추가]
-```
 
-- **📢 섹션 요약 비유**: ** RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))를 혁파하고, **"플랜 B(대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 결재 시스템"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 패스트 / BPDU Guard</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RSTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백업 포트, 대체 포트 추가</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>)를 혁파하고, </strong>"플랜 B(대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 결재 시스템"**입니다.
 
 ---
 
@@ -42,7 +46,7 @@ tags = ["studynote-network"]
 ### 1. 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 축소와 통합
 RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 상태를 3가지로 압축해 직관성을 높였다.
 - Disabled, [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/), Listening ──▶ **Discarding (차단/버림)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지도 않고, MAC도 안 배우는 그냥 차단 상태로 통폐합.
-- [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ──▶ **[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (학습)**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소만 배우는 상태 (유지).
+- [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ──▶ <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> (학습)</strong>: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소만 배우는 상태 (유지).
 - Forwarding ──▶ **Forwarding (전송)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정상 전송 (유지).
 
 ### 2. Proposal / Agreement (제안과 동의 메커니즘)
@@ -52,33 +56,30 @@ RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B: (루프 안 생기는 거 바로 계산해 봄) "ㅇㅋ! 문제없어 동의함! (Agreement)"
 - **결과**: 이 대화가 끝나자마자 타이머 대기 없이 1~2초 내에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 Forwarding으로 확 열린다(Sync).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RSTP의 Proposal/Agreement 과정                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스위치 A ]                                   [ 스위치 B ] │
- │      │ 1. 야 나랑 문 열자! (Proposal BPDU 발송)         │     │
- │      ├────────────────────────────────────────▶ │     │
- │      │                                          │     │
- │      │ 2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)     │     │
- │      │    ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)      │     │
- │      │ ◀────────────────────────────────────────┤     │
- │      │                                          │     │
- │   [ Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!) ]    │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSTP의 Proposal/Agreement 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 A</div><div class="kb-diagram-node">스위치 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 야 나랑 문 열자! (Proposal BPDU 발송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!)</div></div>
+</div>
+</div>
+
+
 
 ### 3. 플랜 B의 상시 준비: Alternate Port와 [Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/)
-구형 STP의 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 구체적으로 세분화하여 **역할(Role)**을 늘렸다.
-- **Alternate [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 대장(Root)에게 가는 1순위 문([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))이 죽었을 때, **곧바로 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 자리를 승계하기 위해 곁에서 대기 중인 2순위 문**. RP가 뽑히자마자 Alternate [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 1초 만에 차단을 풀고 Forwarding으로 바뀐다. (50초 대기 없음)
-- **[Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/) ([백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/))**: 하위 네트워크로 내려보내는 1순위 문(DP)이 죽었을 때를 대비한 2순위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 문. (실무에선 잘 쓰이지 않음)
+구형 STP의 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 구체적으로 세분화하여 <strong>역할(Role)</strong>을 늘렸다.
+- <strong>Alternate <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (대체 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 대장(Root)에게 가는 1순위 문([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))이 죽었을 때, <strong>곧바로 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/">RP</a> 자리를 승계하기 위해 곁에서 대기 중인 2순위 문</strong>. RP가 뽑히자마자 Alternate [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 1초 만에 차단을 풀고 Forwarding으로 바뀐다. (50초 대기 없음)
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/">Backup Port</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/">백업 포트</a>)</strong>: 하위 네트워크로 내려보내는 1순위 문(DP)이 죽었을 때를 대비한 2순위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 문. (실무에선 잘 쓰이지 않음)
 
 ### 4. [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 주체 변경
-기존에는 오직 대장(Root)만 2초마다 엽서([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))를 만들고 나머지는 전달만 했다. RSTP에서는 **모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 각자 능동적으로 2초마다 엽서를 만들어 뿜어낸다**. 상대가 3번(6초) 연속 엽서를 안 보내면 "죽었네!" 판단하고 즉시 플랜 B를 가동한다. (과거 20초 기다리던 답답함 해결).
+기존에는 오직 대장(Root)만 2초마다 엽서([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))를 만들고 나머지는 전달만 했다. RSTP에서는 <strong>모든 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 각자 능동적으로 2초마다 엽서를 만들어 뿜어낸다</strong>. 상대가 3번(6초) 연속 엽서를 안 보내면 "죽었네!" 판단하고 즉시 플랜 B를 가동한다. (과거 20초 기다리던 답답함 해결).
 
-- **📢 섹션 요약 비유**: ** RSTP의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 핵심은 **"스페어타이어(Alternate [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**입니다. 타이어에 펑크가 났을 때 긴급 출동을 부르고 정비소에 가서 고치는(50초) 것이 아니라, 트렁크에서 이미 빵빵하게 공기가 채워진 스페어타이어를 꺼내 1초 만에 갈아 끼우고 즉시 다시 달리는 혁신입니다.
+- **📢 섹션 요약 비유**: <strong> RSTP의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>의 핵심은 </strong>"스페어타이어(Alternate [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**입니다. 타이어에 펑크가 났을 때 긴급 출동을 부르고 정비소에 가서 고치는(50초) 것이 아니라, 트렁크에서 이미 빵빵하게 공기가 채워진 스페어타이어를 꺼내 1초 만에 갈아 끼우고 즉시 다시 달리는 혁신입니다.
 
 ---
 
@@ -134,15 +135,19 @@ RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 포트 패스트 / BPDU Guard]
-    │
-    ▼
-[현재 개념: RSTP]
-    │
-    ├──▶ [확장 A: 백업 포트, 대체 포트 추가]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 패스트 / BPDU Guard</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RSTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백업 포트, 대체 포트 추가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 RSTP는 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard에서 출발해 현재 메커니즘을 정교화하고, 이후 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

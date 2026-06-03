@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 스타트업 시절 AWS 클라우드에 푹 빠져, AWS만 제공하는 독자적인 큐(SQS)와 독자적인 DB([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)) 코드를 떡칠해서 앱을 만들었다. 3년 뒤, AWS 사용료가 월 1억 원으로 치솟아 회사가 파산할 위기다. 아키텍트가 "더 싼 네이버 클라우드나 구글(GCP)로 시스템 옮깁시다!"라고 했다. 하지만 이식성 테스트를 해보니 소스 코드가 AWS에 너무 강하게 묶여([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 있어서, 코드를 다 부수고 새로 짜는 데만 2년이 걸린다는 진단이 나왔다. **회사의 인프라 주권과 선택의 자유를 지키기 위해, 시스템은 언제든 짐을 쌀 수 있도록(이식성) 설계되고 검증되어야 한다.**
 
-- **💡 비유**: 이식성 테스트는 **'텐트 이사 테스트'**와 같습니다. 집을 시멘트로 튼튼하게 땅에 굳혀(강한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)) 지으면 이사를 갈 때 집을 다 부수고 버려야 합니다(이식성 제로). 하지만 집을 폴대와 천으로 된 텐트([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 설계했다면, 평야에 치든, 산속에 치든, 바닷가에 치든(다른 클라우드 환경) 언제든 뽑아서 툭 던지면 10분 만에 똑같은 집이 완성됩니다(이식성 100%). 이 텐트가 바닥 환경을 가리는지 안 가리는지 보는 것이 이식성 테스트입니다.
+- **💡 비유**: 이식성 테스트는 <strong>'텐트 이사 테스트'</strong>와 같습니다. 집을 시멘트로 튼튼하게 땅에 굳혀(강한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)) 지으면 이사를 갈 때 집을 다 부수고 버려야 합니다(이식성 제로). 하지만 집을 폴대와 천으로 된 텐트([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 설계했다면, 평야에 치든, 산속에 치든, 바닷가에 치든(다른 클라우드 환경) 언제든 뽑아서 툭 던지면 10분 만에 똑같은 집이 완성됩니다(이식성 100%). 이 텐트가 바닥 환경을 가리는지 안 가리는지 보는 것이 이식성 테스트입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **C언어와 컴파일 지옥**: 과거 C언어 시절에는 윈도우용으로 짠 프로그램을 리눅스용으로 이식하려면 소스코드의 메모리 포인터부터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로(`\` -> `/`)까지 수만 줄을 새로 짰다(포팅, Porting 지옥).
   2. **Java 가상 머신(JVM)의 혁명**: "한 번 짜면 어디서든 돌아간다(Write Once, Run Anywhere)." JVM이라는 중간 통역사 층이 생기며 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) 수준의 이식성이 극적으로 해결되었다.
-  3. **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 우주 대통일 (현재)**: JVM도 한계가 있었다(자바만 됨). 지금은 코드뿐만 아니라 OS와 환경 세팅까지 통째로 직육면체 쇠상자([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에 가둬버렸다. 이 쇠상자는 전 세계 어떤 항구(클라우드, 서버)에 던져놔도 1초 만에 100% 똑같이 돌아가는 이식성의 궁극적 완성을 이루었다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 우주 대통일 (현재)</strong>: JVM도 한계가 있었다(자바만 됨). 지금은 코드뿐만 아니라 OS와 환경 세팅까지 통째로 직육면체 쇠상자([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에 가둬버렸다. 이 쇠상자는 전 세계 어떤 항구(클라우드, 서버)에 던져놔도 1초 만에 100% 똑같이 돌아가는 이식성의 궁극적 완성을 이루었다.
 
-- **📢 섹션 요약 비유**: 이식성은 **'문어발 멀티탭'**입니다. 한국(윈도우)에서 220V로 살다가 미국(리눅스)으로 이사를 갔을 때 110V를 쓰게 됩니다. 내 가전제품(소스 코드) 플러그를 다 자르고 새로 납땜하는 짓(하드코딩)을 하지 않고, 그저 110V 변환 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(JVM, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))만 톡 끼워서 그대로 쓸 수 있는 자유로움이 바로 이식성입니다.
+- **📢 섹션 요약 비유**: 이식성은 <strong>'문어발 멀티탭'</strong>입니다. 한국(윈도우)에서 220V로 살다가 미국(리눅스)으로 이사를 갔을 때 110V를 쓰게 됩니다. 내 가전제품(소스 코드) 플러그를 다 자르고 새로 납땜하는 짓(하드코딩)을 하지 않고, 그저 110V 변환 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(JVM, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))만 톡 끼워서 그대로 쓸 수 있는 자유로움이 바로 이식성입니다.
 
 ---
 
 다음은 이식성 테스트 (Portability의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이식성 테스트 (Portability                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이식성 테스트 (Portability</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 이식성 테스트 (Portability가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-이식성 테스트 (Portability Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+이식성 테스트 (Portability Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 이식성 테스트 (Portability Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이식성 테스트 (Portability Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이식성 테스트 (Portability Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,25 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           IDP 아키텍처 (내부 개발자 플랫폼)             │
-├────────────────────────────────────────────────────────┤
-│  개발자 인터페이스 레이어                               │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │ 개발자 포털 (Backstage) — 카탈로그·문서·자동화  │ │
-│  └──────────────────────────────────────────────────┘ │
-│                    ↓                                   │
-│  셀프 서비스 자동화 레이어                              │
-│  ┌──────────────────────────────────────────────────┐ │
-│  │ Terraform/Crossplane — 인프라 프로비저닝          │ │
-│  │ GitHub Actions/ArgoCD — CI/CD 파이프라인          │ │
-│  │ Kubernetes Operator — 서비스 배포 자동화          │ │
-│  └──────────────────────────────────────────────────┘ │
-│                    ↓                                   │
-│  인프라 플랫폼 레이어 (Kubernetes, Cloud, 모니터링)     │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDP 아키텍처 (내부 개발자 플랫폼)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 인터페이스 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 포털 (Backstage) — 카탈로그·문서·자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프 서비스 자동화 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform/Crossplane — 인프라 프로비저닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions/ArgoCD — CI/CD 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Operator — 서비스 배포 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 플랫폼 레이어 (Kubernetes, Cloud, 모니터링)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IDP는 개발자용 자동화 마트다. 개발자가 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 하나 주세요"라고 주문하면 플랫폼이 자동으로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 완료해서 바로 사용할 수 있게 해준다.
 
@@ -49,8 +46,8 @@ tags = ["studynote-devops-sre"]
 | 구성 요소 | 도구 예시 | 역할 |
 |:---|:---|:---|
 | **개발자 포털** | Backstage, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·문서·셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)** | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Crossplane | 인프라 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD** | GitHub Actions, ArgoCD | 자동화 빌드·배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a></strong> | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Crossplane | 인프라 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | GitHub Actions, ArgoCD | 자동화 빌드·배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 | **관찰성** | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | 표준화 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·알림 |
 | **보안** | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/), [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) |
 
@@ -110,7 +107,7 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 |:---|:---|
 | **개발 속도** | 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작 시간 대폭 단축 |
 | **표준화** | 보안·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·인프라 패턴 통일 |
-| **[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소** | 개발자가 비즈니스 로직에 집중 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a> 감소</strong> | 개발자가 비즈니스 로직에 집중 |
 
 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 2023년 Gartner 하이프 사이클에 등장한 이후 대규모 엔지니어링 조직의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 자리잡았다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 플랫폼([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Assisted [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))은 개발자의 의도를 파악하여 최적 인프라를 자동으로 추천·[프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하는 방향으로 진화하고 있다.
 
@@ -124,27 +121,29 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 |:---|:---|
 | **Backstage** | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 표준 개발자 포털 플랫폼 |
 | **Golden Path** | IDP의 표준 개발 경로 |
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성과 측정 지표 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 배포 자동화 패턴 |
-| **[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)** | 플랫폼 비용 최적화 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성과 측정 지표 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 배포 자동화 패턴 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a></strong> | 플랫폼 비용 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 운영팀 — 개발자 요청 → 수동 인프라 설정]
-    │
-    ▼
-[DevOps — 개발·운영 협업, 자동화 파이프라인]
-    │
-    ▼
-[플랫폼 엔지니어링 — IDP + Golden Path + 셀프 서비스]
-    │
-    ▼
-[개발자 포털 (Backstage) — 통합 서비스 카탈로그]
-    │
-    ▼
-[AI 플랫폼 엔지니어링 — 의도 기반 자동 인프라 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 운영팀 — 개발자 요청 → 수동 인프라 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps — 개발·운영 협업, 자동화 파이프라인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 엔지니어링 — IDP + Golden Path + 셀프 서비스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 포털 (Backstage) — 통합 서비스 카탈로그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 플랫폼 엔지니어링 — 의도 기반 자동 인프라 추천</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

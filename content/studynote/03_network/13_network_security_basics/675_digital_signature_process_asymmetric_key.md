@@ -21,18 +21,22 @@ tags = ["studynote-network"]
 
 - 비대칭키(공개키) 암호화 방식을 응용하여, 전자 문서([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 송신자 고유의 수학적 꼬리표를 달아 전송하는 기술입니다.
 - **3가지 완벽한 보증 🌟**:
-  1. **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**: 문서가 전송 중 1글자도 위조/변조되지 않았음을 보증합니다.
-  2. **출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**: 진짜로 홍길동(송신자)의 컴퓨터에서 출발한 문서가 맞음을 보증합니다.
+  1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>: 문서가 전송 중 1글자도 위조/변조되지 않았음을 보증합니다.
+  2. <strong>출처 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>: 진짜로 홍길동(송신자)의 컴퓨터에서 출발한 문서가 맞음을 보증합니다.
   3. **부인 방지 (Non-Repudiation) 🌟**: 나중에 송신자가 "나 도장 찍은 적 없는데?"라고 발뺌할 수 없게 만듭니다. (MAC과의 가장 큰 차이점)
 
-```text
-[HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
-[전자서명 생성/검증 프로세스 개요]
-    │
-    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,25 +48,29 @@ tags = ["studynote-network"]
 
 ### 1. 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 (송신자 '앨리스'의 역할)
 앨리스가 부동산 계약서 PDF를 밥에게 보냅니다.
-1. **해시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**: 앨리스는 10MB짜리 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256)에 넣고 갈아서, 256비트짜리 짧은 **'해시값(메시지 다이제스트)'**으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)합니다.
-2. **개인키로 암호화 (서명 쾅!)**: 앨리스는 이 짧은 해시값을 **자신의 깊숙이 숨겨둔 '개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'**를 이용해 철컥 잠가버립니다(암호화). 이것이 바로 **'전자서명'** 꼬리표입니다.
+1. <strong>해시 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>: 앨리스는 10MB짜리 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256)에 넣고 갈아서, 256비트짜리 짧은 <strong>'해시값(메시지 다이제스트)'</strong>으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)합니다.
+2. **개인키로 암호화 (서명 쾅!)**: 앨리스는 이 짧은 해시값을 <strong>자신의 깊숙이 숨겨둔 '개인키(Private <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong>를 이용해 철컥 잠가버립니다(암호화). 이것이 바로 **'전자서명'** 꼬리표입니다.
 3. **전송**: 앨리스는 원본 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뒤에 이 '전자서명' 꼬리표를 찰싹 붙여서 밥에게 이메일로 전송합니다.
 
 ### 2. 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정 (수신자 '밥'의 역할)
 밥이 메일을 받았습니다. 진짜 앨리스가 보낸 건지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다.
-1. **해시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (밥의 믹서기)**: 밥은 이메일로 받은 원본 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자신의 해시 믹서기에 넣고 갈아서 **'방금 갓 만든 해시값'**을 하나 뽑아냅니다.
-2. **공개키로 복호화 (서명 열기)**: 밥은 인터넷 게시판에서 앨리스의 **'공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'**를 다운받습니다. 이 공개키를 이용해, 앨리스가 꼬리표로 달아놓은 '전자서명'의 자물쇠를 엽니다(복호화). 자물쇠가 풀리면 그 속에서 **'앨리스가 아까 구워놓은 원본 해시값'**이 툭 튀어나옵니다.
-3. **비교 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (진실의 순간)**: 밥이 1번에서 직접 만든 해시값과, 2번에서 자물쇠를 풀고 꺼낸 해시값이 **완벽히 일치하는지** 비교합니다.
+1. <strong>해시 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (밥의 믹서기)</strong>: 밥은 이메일로 받은 원본 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자신의 해시 믹서기에 넣고 갈아서 <strong>'방금 갓 만든 해시값'</strong>을 하나 뽑아냅니다.
+2. **공개키로 복호화 (서명 열기)**: 밥은 인터넷 게시판에서 앨리스의 <strong>'공개키(Public <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong>를 다운받습니다. 이 공개키를 이용해, 앨리스가 꼬리표로 달아놓은 '전자서명'의 자물쇠를 엽니다(복호화). 자물쇠가 풀리면 그 속에서 <strong>'앨리스가 아까 구워놓은 원본 해시값'</strong>이 툭 튀어나옵니다.
+3. <strong>비교 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (진실의 순간)</strong>: 밥이 1번에서 직접 만든 해시값과, 2번에서 자물쇠를 풀고 꺼낸 해시값이 **완벽히 일치하는지** 비교합니다.
    - 일치한다면? "1비트도 조작 안 됐고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 전 세계에서 오직 앨리스 개인키로만 이 자물쇠를 잠글 수 있으니까 앨리스가 보낸 게 100% 확실해!" ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 부인 방지 완료)
 
-```text
-[HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
-[전자서명 생성/검증 프로세스 개요]
-    │
-    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HMAC 통신 기반 IPsec 등 활용 구조]
-    │
-    ▼
-[현재 개념: 전자서명 생성/검증 프로세스 개요]
-    │
-    ├──▶ [확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HMAC 통신 기반 IPsec 등 활용 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전자서명 생성/검증 프로세스 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

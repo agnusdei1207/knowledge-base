@@ -31,7 +31,7 @@ tags = ["studynote-ai"]
 W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂) = Wx + b  ← 여전히 선형!
 ```
 
-**비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)(Non-linear [Activation Function](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/))**를 각 층에 삽입함으로써 이 한계를 극복한다:
+<strong>비선형 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>(Non-linear <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">Activation Function</a>)</strong>를 각 층에 삽입함으로써 이 한계를 극복한다:
 
 ```
 h = σ(W₁x + b₁)   ← 비선형 변환
@@ -48,44 +48,44 @@ y = σ(W₂h + b₂)   ← 비선형 함수 합성
 
 ### MLP 3층 구조
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│               다층 퍼셉트론 (MLP) 아키텍처                        │
-│                                                                  │
-│   입력층          은닉층 1          은닉층 2         출력층         │
-│  (Input)        (Hidden 1)        (Hidden 2)      (Output)       │
-│                                                                  │
-│   x₁ ─────┐                                                      │
-│           ├──► [h₁₁]──┐                                          │
-│   x₂ ─────┤    [h₁₂]──┼──► [h₂₁]──┐                            │
-│           ├──► [h₁₃]──┤    [h₂₂]──┼──► [ŷ₁]                    │
-│   x₃ ─────┘    [h₁₄]──┘    [h₂₃]──┘    [ŷ₂]                    │
-│                                                                  │
-│   각 층 연산:  z = Wx + b   →   a = f(z)  (f: 활성화 함수)        │
-│                                                                  │
-│   ┌──────────────────────────────────────────────────────────┐  │
-│   │ 완전 연결층 (FCL, Fully Connected Layer):                 │  │
-│   │ 이전 층의 모든 뉴런과 다음 층의 모든 뉴런이 연결됨         │  │
-│   └──────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다층 퍼셉트론 (MLP) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 은닉층 1 은닉층 2 출력층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Input) (Hidden 1) (Hidden 2) (Output)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₁</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">h₁₁</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₂</div><div class="kb-diagram-node">h₁₂</div><div class="kb-diagram-note">── ──►</div><div class="kb-diagram-node">h₂₁</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">h₁₃</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">h₂₂</div><div class="kb-diagram-note">── ──►</div><div class="kb-diagram-node">ŷ₁</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₃</div><div class="kb-diagram-node">h₁₄</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">h₂₃</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">ŷ₂</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 층 연산: z = Wx + b → a = f(z) (f: 활성화 함수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 연결층 (FCL, Fully Connected Layer):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 층의 모든 뉴런과 다음 층의 모든 뉴런이 연결됨</div></div>
+</div>
+</div>
+
+
 
 ### XOR 문제 MLP 해결 과정
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  MLP로 XOR 해결                               │
-│                                                              │
-│  은닉층 뉴런 1: AND 역할 (w₁=1, w₂=1, b=-1.5)               │
-│  은닉층 뉴런 2: OR 역할  (w₁=1, w₂=1, b=-0.5)               │
-│  출력층 뉴런:  NAND(h₁, h₂) → XOR = OR AND NAND(AND)         │
-│                                                              │
-│  입력 (0,0) → h₁=0, h₂=0 → 출력 0 ✓                         │
-│  입력 (0,1) → h₁=0, h₂=1 → 출력 1 ✓                         │
-│  입력 (1,0) → h₁=0, h₂=1 → 출력 1 ✓                         │
-│  입력 (1,1) → h₁=1, h₂=1 → 출력 0 ✓                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLP로 XOR 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은닉층 뉴런 1: AND 역할 (w₁=1, w₂=1, b=-1.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은닉층 뉴런 2: OR 역할 (w₁=1, w₂=1, b=-0.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력층 뉴런: NAND(h₁, h₂) → XOR = OR AND NAND(AND)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (0,0) → h₁=0, h₂=0 → 출력 0 ✓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (0,1) → h₁=0, h₂=1 → 출력 1 ✓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (1,0) → h₁=0, h₂=1 → 출력 1 ✓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (1,1) → h₁=1, h₂=1 → 출력 0 ✓</div></div>
+</div>
+</div>
+
+
 
 ### 유니버설 근사 정리 (Universal Approximation Theorem)
 
@@ -93,7 +93,7 @@ y = σ(W₂h + b₂)   ← 비선형 함수 합성
 
 > "하나의 은닉층과 충분히 많은 수의 뉴런을 가진 MLP는 임의의 연속 함수를 임의의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 근사할 수 있다."
 
-이 정리는 MLP가 **이론적으로 모든 함수를 표현 가능**함을 보장하지만, 실제로 얼마나 많은 뉴런이 필요한지는 명시하지 않는다 → 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 넓이(Width) 대신 깊이(Depth)를 선택한다.
+이 정리는 MLP가 <strong>이론적으로 모든 함수를 표현 가능</strong>함을 보장하지만, 실제로 얼마나 많은 뉴런이 필요한지는 명시하지 않는다 → 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 넓이(Width) 대신 깊이(Depth)를 선택한다.
 
 ### 층 깊이와 표현 능력
 
@@ -115,7 +115,7 @@ y = σ(W₂h + b₂)   ← 비선형 함수 합성
 | 구분 | MLP | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 |:---|:---|:---|:---|:---|
 | **주요 연산** | 완전 연결 ([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)) | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) | 순환 (Recurrent) | 자기 주의 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형** | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) | 이미지 | 시계열·텍스트 | 시퀀스 전반 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유형</strong> | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) | 이미지 | 시계열·텍스트 | 시퀀스 전반 |
 | **파라미터 공유** | 없음 | 필터 공유 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)-키-값 행렬 |
 | **위치 정보** | 없음 | 공간 구조 | 시간 순서 | 위치 인코딩 |
 | **기반** | 기본 기초 | 이미지 인식 | 음성·번역 | [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) |
@@ -132,22 +132,28 @@ MLP의 핵심 구성 요소인 FCL은 [CNN](/knowledge-base/studynote/14_data_en
 
 ### 기술사 시험 핵심 논점
 
-1. **비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 필수성**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 없이 층을 쌓는 것은 행렬 곱만 반복하여 여전히 선형 → 비선형성이 MLP의 핵심
+1. <strong>비선형 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a>의 필수성</strong>: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 없이 층을 쌓는 것은 행렬 곱만 반복하여 여전히 선형 → 비선형성이 MLP의 핵심
 2. **유니버설 근사 정리 한계**: 이론적으로 가능하지만 노드 수가 지수적으로 늘어날 수 있음 → 깊이가 효율적 해결책
-3. **완전 연결층 vs [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)층**: FCL은 모든 연결 → 파라미터 폭증, CNN은 국소 수용야(Local Receptive Field) → 파라미터 효율
-4. **과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 방지**: MLP가 깊어질수록 과적합 위험 → [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 필요
+3. <strong>완전 연결층 vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>층</strong>: FCL은 모든 연결 → 파라미터 폭증, CNN은 국소 수용야(Local Receptive Field) → 파라미터 효율
+4. <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>) 방지</strong>: MLP가 깊어질수록 과적합 위험 → [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 필요
 
 ### 실무 시나리오: [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 예측
 
-```
-[입력: 나이, 소득, 신용점수, 부채비율]
-          ↓
-[은닉층 1: 64 노드, ReLU]  ← 조합적 특징 추출
-          ↓
-[은닉층 2: 32 노드, ReLU]  ← 고차 특징 추출
-          ↓
-[출력층: 1 노드, Sigmoid]  ← 대출 승인 확률 0~1
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 나이, 소득, 신용점수, 부채비율</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉층 1: 64 노드, ReLU</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">조합적 특징 추출</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉층 2: 32 노드, ReLU</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">고차 특징 추출</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력층: 1 노드, Sigmoid</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">대출 승인 확률 0~1</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MLP 설계는 요리 레시피 — 재료(입력)를 어떤 조리 과정(은닉층)에 얼마나 거치게 할지 설계하고, 최종 완성도(출력)를 평가해 레시피를 업데이트([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))한다.
 

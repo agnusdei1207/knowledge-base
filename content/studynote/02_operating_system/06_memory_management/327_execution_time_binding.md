@@ -11,48 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 두 바인딩들의 경직된 이사 불가(고정 주소) 병크를 박살 낸 최종 진화 형태로, **프로그램이 진짜 구동되어 CPU가 전기를 쏘는 기계어 명령줄 1초의 매 순간마다, 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 가로채서 물리 주소로 번역(Translation)해주는 기적의 다이나믹 방식**이다.
-> 2. **가치**: 앱을 켜두고 웹서핑을 하거나 며칠을 방치해도, OS 뒷단에서는 그 앱의 메모리 집통을 통째로 들어서 강남에서 부산으로 수백 번 옮기거나 디스크(Swap)에 던졌다가 가져오는 **퍼펙트한 메모리 조각 맞추기(Defragment)와 무제한 위치 이동의 자유(Relocation)를 소프트웨어의 다운 없이 실현**해 냈다.
-> 3. **융합**: 하지만 1초에 이 번역 연산을 수십억 번씩 소프트웨어 코드(로더)로 돌리면 CPU가 타죽기 때문에, 메인보드에 아예 이 주소 덧셈만 미친 듯이 전담하는 비싼 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋인 **`MMU (Memory-Management Unit)` 하드웨어**와의 물아일체 융합이 현대 OS를 지탱하는 1법칙이다.
+> 1. **본질**: 앞선 두 바인딩들의 경직된 이사 불가(고정 주소) 병크를 박살 낸 최종 진화 형태로, <strong>프로그램이 진짜 구동되어 CPU가 전기를 쏘는 기계어 명령줄 1초의 매 순간마다, 하드웨어(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)가 가로채서 물리 주소로 번역(Translation)해주는 기적의 다이나믹 방식</strong>이다.
+> 2. **가치**: 앱을 켜두고 웹서핑을 하거나 며칠을 방치해도, OS 뒷단에서는 그 앱의 메모리 집통을 통째로 들어서 강남에서 부산으로 수백 번 옮기거나 디스크(Swap)에 던졌다가 가져오는 <strong>퍼펙트한 메모리 조각 맞추기(Defragment)와 무제한 위치 이동의 자유(Relocation)를 소프트웨어의 다운 없이 실현</strong>해 냈다.
+> 3. **융합**: 하지만 1초에 이 번역 연산을 수십억 번씩 소프트웨어 코드(로더)로 돌리면 CPU가 타죽기 때문에, 메인보드에 아예 이 주소 덧셈만 미친 듯이 전담하는 비싼 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋인 <strong><code>MMU (Memory-Management Unit)</code> 하드웨어</strong>와의 물아일체 융합이 현대 OS를 지탱하는 1법칙이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 절대 코드는 컴파일 때 평생 자리를 못 박았고, 재배치 코드는 빈 공터를 찾아 캠핑장을 지었지만 한 번 텐트(앱)를 치면 이사를 못 갔다.
-결율, 윈도우 OS가 크롬 탭을 100개씩 띄우거나, 오버워치를 하다가 메모리가 16GB 한계점을 돌파해 터져나갈 때, **구석구석 남은 자잘한 메모리 빈 공간 틈새로 프로그램을 테트리스처럼 몰래 이사 시켜 조각모음**을 하는 것은 불가능했다.
+결율, 윈도우 OS가 크롬 탭을 100개씩 띄우거나, 오버워치를 하다가 메모리가 16GB 한계점을 돌파해 터져나갈 때, <strong>구석구석 남은 자잘한 메모리 빈 공간 틈새로 프로그램을 테트리스처럼 몰래 이사 시켜 조각모음</strong>을 하는 것은 불가능했다.
 
-이 절망을 완전히 뜯어고친 것이 **실행 시간 바인딩 (Execution Time Binding / Dynamic Binding)**이다.
+이 절망을 완전히 뜯어고친 것이 <strong>실행 시간 바인딩 (Execution Time Binding / Dynamic Binding)</strong>이다.
 여기서 핵심은 프로그램이 메모리에 적재(Load)된 뒤에도 영원히 "나는 0번지([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))야"라고 계속 정신승리(가짜 주소 유지)를 한다는 거다!
 그러다 CPU가 "야, 0번지 명령 가져와" 하고 전극을 쏘는 **실행 도중(Execution) 그 찰나 1나노초마다**, MMU라는 첩보 요원 칩이 중간에서 스틸해 "아, 얘 방금 내가 뒤로 이사시켜서 지금 50만 번지에 숨어있지" 하고 재빠르게 덧셈을 때려 넣는다.
 
 **💡 비유**: VVIP 고객(CPU 프로그램). [1단계]: 집 살 때 주소지 한곳에만 갇혀 삼. [3단계, 실행 시간]: 이 VVIP 고객은 눈을 감고 누워있다. 호텔 스태프([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 자는 침대(메모리)를 몰래 들고 엘리베이터를 타서 3층에서 5층으로, 5층에서 지하실로 수십 번 이사(가상 스왑)시킨다. 그래도 VVIP는 눈 뜰 때마다 침대 위니까 "오, 난 역시 평생 똑같이 내 스위트룸(0번지 주소)에 있군"이라고 속으며 살아가는 엄청난 트릭 시스템!
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         [현대 OS의 표준] 실행 시간 바인딩의 엄청난 통역사 MMU 칩 │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [ Process 1 구동 중 (메모리 찰나의 순간) ]                      │
-│                                                                  │
-│  CPU: "명령어 12번지에 HP 물약 값 써놔!" (논리:12)               │
-│       │                                                          │
-│       ▼ Base 5000 + 12 = 5012 번지로!                            │
-│  [ MMU (하드웨어 칩) ]: 순식간에 물리 번지 5012번지에 저장!      │
-│                                                                  │
-│  ... (1초 뒤, OS가 메모리 넘쳐서 이 놈을 통째로 이사시킴) ...    │
-│  OS: "야 MMU, 너 쟤 방 9만 번지로 방금 이사(Relocate)시켰어.     │
-│       베이스 번호판 빨리 9만으로 갈아 끼워!"                     │
-│                                                                  │
-│  CPU: (바뀐 거 1도 모름 눈치 제로)                               │
-│       "명령어 12번지 HP 물약 읽어와!" (여전히 논리:12)           │
-│       │                                                          │
-│       ▼ Base 90000 + 12 = 90012 번지로!                          │
-│  [ MMU ]: "옛썰! 바뀐 통역표 적용해서 90012 번지에서 가져옵니다" │
-│                                                                  │
-│  ▶ 이 무한 이사(Relocation on the fly) 덕에 가상 메모리 혁명 탄생│
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대 OS의 표준</div><div class="kb-diagram-note">실행 시간 바인딩의 엄청난 통역사 MMU 칩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process 1 구동 중 (메모리 찰나의 순간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "명령어 12번지에 HP 물약 값 써놔!" (논리:12)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ Base 5000 + 12 = 5012 번지로!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MMU (하드웨어 칩)</div><div class="kb-diagram-note">: 순식간에 물리 번지 5012번지에 저장!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (1초 뒤, OS가 메모리 넘쳐서 이 놈을 통째로 이사시킴) ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 MMU, 너 쟤 방 9만 번지로 방금 이사(Relocate)시켰어.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이스 번호판 빨리 9만으로 갈아 끼워!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: (바뀐 거 1도 모름 눈치 제로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"명령어 12번지 HP 물약 읽어와!" (여전히 논리:12)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ Base 90000 + 12 = 90012 번지로!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MMU</div><div class="kb-diagram-note">: "옛썰! 바뀐 통역표 적용해서 90012 번지에서 가져옵니다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이 무한 이사(Relocation on the fly) 덕에 가상 메모리 혁명 탄생</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 이 바인딩은 마법의 텔레포트 집입니다. 도둑(메모리 충돌)이 올 때마다 방 주인이 눈치도 못 채는 0.1초 사이에 모텔(주소지)을 10번 넘게 수지로 옮기면서도, 방 안의 주인이 유튜브 보는 건 1프레임도 끊기지 않도록 밑바닥 레일([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에서 불꽃을 튀기는 방식입니다!
 
@@ -66,7 +62,7 @@ tags = ["studynote-operating-system"]
 
 1. **상대 주소 생존력의 무한대 지속**: 기계어 바이너리(.exe)가 적재되고 디스크로 튀고 램을 쪼개고 돌아다녀도, 무조건 소스 단의 `상대 주소(Logical/Virtual Offset)` 포맷 그대로를 보존한다.
 2. **소프트웨어 0%, 하드웨어 100% 매핑 연산**: 주소 더하기 빼기를 OS C언어 코드 같은 소프트웨어(로더)가 뛰는 순간, 컴퓨터는 렉 걸려 멈춘다. 메인보드에 박힌 금속 실리콘 칩 `MMU (메모리 관리 유닛)`가 이 덧셈(`베이스 레지스터 + 논리 오프셋`)을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)게이트 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속도로 패스해 내기 때문에 이 막대한 연산을 견딘다.
-3. **위치 독립 코드 (Position Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC)**: 이런 유연한 이벤트를 맞이하기 위해, `.dll` 이나 `.so` 같은 현대 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 코딩은 애초에 컴파일러가 "절대 주소를 단 1줄도 적지 않는" PIC 형식을 강제하여 황혼의 결속력을 다진다.
+3. <strong>위치 독립 코드 (Position Independent <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>, PIC)</strong>: 이런 유연한 이벤트를 맞이하기 위해, `.dll` 이나 `.so` 같은 현대 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 코딩은 애초에 컴파일러가 "절대 주소를 단 1줄도 적지 않는" PIC 형식을 강제하여 황혼의 결속력을 다진다.
 
 **📢 섹션 요약 비유**: 실행 시간 바인딩을 달리지 않은 똥컴은 차(프로그램)를 주차장에 한 번 대면 뺄 때 수리 기사를 불러야(적재 바인딩 에러) 합니다. 하지만 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩을 엑셀로 단 현대 발렛파킹 주차장은, 주인이 쇼핑하는 내내 차를 뺐다 꼈다 하면서 테트리스 주차(동적 메모리 최적화)를 가능하게 해주는 궁극의 발명입니다.
 
@@ -75,11 +71,11 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 **실무 시나리오**:
-1. **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))과 램 한계를 부순 Swap ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))**: 게임 30GB 고사양을 켰는데 내 램은 16GB다. 컴퓨터가 켜지네? 기적이다. OS가 게임 메모리를 4KB 레고 블록([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 박살 낸 뒤, 당장 안 쓰는 무기 창고 화면 블록은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(디스크 스왑)로 몰래 던져버리고 필요할 때 빈 램 구석으로 다시 불러온다(Swap In). 들어올 때마다 물리 위치가 계속 변칙으로 달라붙는데, MMU의 **실시간 맵 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 바인딩([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Translation)**이 알아서 길 안내를 해주어 게임이 끊기지 않는 흑마술이다.
-2. **[ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (보안 무작위 배치)**: 악명 높은 메모리 힙 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 악성 자바 스크립트 해킹 원천 차단. 당신이 크롬 브라우저를 켤 때, 이 실행 시간 맵핑 셔플 장치를 이용해 크롬의 V8 스크립트 위치를 램의 완전 아무 데나 난도질로 흩트려서([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)) 해커의 총알을 전부 허공의 쓰레기장에 빗나가게 만든다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)과 램 한계를 부순 Swap (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>)</strong>: 게임 30GB 고사양을 켰는데 내 램은 16GB다. 컴퓨터가 켜지네? 기적이다. OS가 게임 메모리를 4KB 레고 블록([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 박살 낸 뒤, 당장 안 쓰는 무기 창고 화면 블록은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(디스크 스왑)로 몰래 던져버리고 필요할 때 빈 램 구석으로 다시 불러온다(Swap In). 들어올 때마다 물리 위치가 계속 변칙으로 달라붙는데, MMU의 <strong>실시간 맵 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 바인딩(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Translation)</strong>이 알아서 길 안내를 해주어 게임이 끊기지 않는 흑마술이다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> (보안 무작위 배치)</strong>: 악명 높은 메모리 힙 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 악성 자바 스크립트 해킹 원천 차단. 당신이 크롬 브라우저를 켤 때, 이 실행 시간 맵핑 셔플 장치를 이용해 크롬의 V8 스크립트 위치를 램의 완전 아무 데나 난도질로 흩트려서([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)) 해커의 총알을 전부 허공의 쓰레기장에 빗나가게 만든다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 미스로 인한 파멸의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 (클라우드 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))**: "아 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어 칩이 알아서 번역 다 해주니까 연산 비용 0이네 개꿀!" 아님!. AWS EC2(가상 클라우드) 속의 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 환경에서 너무 많은 실행 바인딩 통역 맵([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 중첩되어 커지면, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩마저 통역 메모장([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시) 공간이 꽉 차서 책을 뒤지는([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk) 치명적인 폭발 병목이 생긴다. 주소 통역하느라 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리가 3배 느려지는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 병목" 현상이 이 기술의 유일한 안티 부채다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 캐시(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>) 미스로 인한 파멸의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 (클라우드 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>)</strong>: "아 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어 칩이 알아서 번역 다 해주니까 연산 비용 0이네 개꿀!" 아님!. AWS EC2(가상 클라우드) 속의 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 환경에서 너무 많은 실행 바인딩 통역 맵([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 중첩되어 커지면, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩마저 통역 메모장([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시) 공간이 꽉 차서 책을 뒤지는([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Walk) 치명적인 폭발 병목이 생긴다. 주소 통역하느라 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리가 3배 느려지는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 병목" 현상이 이 기술의 유일한 안티 부채다.
 
 **📢 섹션 요약 비유**: 호텔 보이([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 손님 몰래 짐을 빼고 넣고 해주는 건 완벽한 범죄지만, 호텔 손님이 100만 명(트래픽 초과)이 되면 호텔 보이가 머리에 쥐가 나서 장부 넘기느라 헐떡거리게 되고([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 캐시 저하), 여기서부터 엄청난 렉이 걸리는 게 요즘 클라우드의 최고 고민거리입니다.
 
@@ -93,7 +89,7 @@ tags = ["studynote-operating-system"]
 | 메모리 보안 격리 | 다른 프로그래머가 고의로 포인터 덮어씀 (해킹 오픈) | 철통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 장벽(Base / Limit Check) 덕에 다른 앱 절대 침투 불가 |
 
 `실행 시간(Execution Time) 주소 바인딩` 체제는 현대 컴퓨터 공학 교과서 전체를 집어삼킨 알파이자 오메가 매커니즘이다. 
-단지 주소 표기의 덧셈 통역(Translation)을 하드웨어 칩([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))으로 전담시켜 실행 순간의 "나노초 찰나"로 비틀어 연기한 것뿐인데, OS 커널은 이 속임수 덕분에 **[메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 해킹 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 방어, 위치 독립 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(dll) 공유, 그리고 궁극의 무제한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)/[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 테트리스**라는 거대하고 찬란한 현대 폰 노이만 소프트웨어 융합 생태계 모두를 지배하며 다스릴 수 있게 되었다.
+단지 주소 표기의 덧셈 통역(Translation)을 하드웨어 칩([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))으로 전담시켜 실행 순간의 "나노초 찰나"로 비틀어 연기한 것뿐인데, OS 커널은 이 속임수 덕분에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a>, 해킹 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> 방어, 위치 독립 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(dll) 공유, 그리고 궁극의 무제한 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>) 테트리스</strong>라는 거대하고 찬란한 현대 폰 노이만 소프트웨어 융합 생태계 모두를 지배하며 다스릴 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -118,15 +114,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[적재 시간 바인딩 (Load Time)]
-    │
-    ▼
-[실행 시간 바인딩 (Execution Time)]
-    │
-    ├──▶ [MMU (Memory-Management Unit)]
-    └──▶ [베이스 레지스터 (Base/Relocation Register)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">적재 시간 바인딩 (Load Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 시간 바인딩 (Execution Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU (Memory-Management Unit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">베이스 레지스터 (Base/Relocation Register)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

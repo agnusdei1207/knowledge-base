@@ -31,28 +31,24 @@ tags = ["studynote-operating-system"]
 ### PMU ([Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) Unit)와 eBPF의 하드웨어/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 융합
 현대 CPU 안에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)도 모르게 캐시 미스(Cache Miss)나 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 횟수를 묵묵히 세고 있는 PMU라는 하드웨어 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 쇳덩어리가 박혀있다. 리눅스의 `perf` 도구는 이 PMU의 레지스터를 직접 읽어온다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           현대 OS 트레이싱/프로파일링 스택 아키텍처 (eBPF)   │
-├────────────────────────────────────────────────────────┤
-│   [ 유저 스페이스 (User Space) ]                         │
-│     BCC / bpftrace (프론트엔드 도구) ──▶ (트레이싱 스크립트 작성)│
-│            │                                           │
-│ ═══════════▼═════════════════════════════════════════│
-│   [ 커널 스페이스 (Kernel Space) ]                       │
-│     ┌─────────────────────────────────────┐            │
-│     │          [ eBPF JIT 컴파일러 ]        │            │
-│     │   (유저의 추적 코드를 안전한 기계어로 변환) │            │
-│     └─────────────────┬───────────────────┘            │
-│                       ▼                                │
-│     Kprobes (커널 함수 추적), Tracepoints, Uprobes 연동   │
-│                       │                                │
-│                       ▼                                │
-│     [ PMU (Hardware) ] : CPU 캐시 미스, 클럭 사이클 측정   │
-└────────────────────────────────────────────────────────┘
-```
 
-특히 **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (Extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))**의 등장은 혁명이다. 과거에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 로직을 트레이싱하려면 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(C 코드)을 직접 컴파일해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입해야 했다. 하지만 eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 안전한 샌드박스 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄우고, 유저가 짠 트레이싱 코드가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 터뜨리지 않는지 검사(Verifier)한 뒤 실시간으로 이식([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(오버헤드) 0%에 수렴하는 완벽한 라이브 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해부학이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 OS 트레이싱/프로파일링 스택 아키텍처 (eBPF)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스 (User Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCC / bpftrace (프론트엔드 도구) ──▶ (트레이싱 스크립트 작성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스 (Kernel Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF JIT 컴파일러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저의 추적 코드를 안전한 기계어로 변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kprobes (커널 함수 추적), Tracepoints, Uprobes 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PMU (Hardware)</div><div class="kb-diagram-note">: CPU 캐시 미스, 클럭 사이클 측정</div></div>
+</div>
+</div>
+
+
+
+특히 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong>의 등장은 혁명이다. 과거에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 로직을 트레이싱하려면 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(C 코드)을 직접 컴파일해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입해야 했다. 하지만 eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 안전한 샌드박스 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄우고, 유저가 짠 트레이싱 코드가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 터뜨리지 않는지 검사(Verifier)한 뒤 실시간으로 이식([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(오버헤드) 0%에 수렴하는 완벽한 라이브 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해부학이다.
 
 - **📢 섹션 요약 비유**: eBPF는 수술 중인 환자([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 몸속에 넣는 '나노 로봇 카메라'다. 환자의 배를 다시 가르거나([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치) 수술을 멈출(재부팅) 필요 없이, 혈관에 로봇을 주사하면 피가 흐르는 모습(이벤트)을 실시간으로 안전하게 외부 모니터로 전송해 준다.
 
@@ -67,7 +63,7 @@ SRE와 시스템 엔지니어는 증상에 따라 메스를 다르게 든다.
 |:---|:---|:---|:---|
 | **perf** | CPU PMU 하드웨어 기반 통계 프로파일러 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공식 내장, 초당 샘플링 방식 | "어떤 함수가 CPU 점유율을 90% 먹고 있지?" |
 | **ftrace** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이서 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 함수의 진입/탈출 지점 훅(Hook) | "디스크 읽기 요청이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 어디서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되나?" |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (BCC)** | 이벤트 기반 프로그래머블 다이내믹 트레이싱 | **궁극의 자유도**, 샌드박스 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 구조 | "특정 PID가 malloc()을 호출할 때 1MB 이상인 것만 잡아라!" |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (BCC)</strong> | 이벤트 기반 프로그래머블 다이내믹 트레이싱 | **궁극의 자유도**, 샌드박스 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 구조 | "특정 PID가 malloc()을 호출할 때 1MB 이상인 것만 잡아라!" |
 
 단순히 CPU가 바쁜 이유를 찾으려면 `perf record` 후 Flame Graph를 뽑아보는 것으로 족하다. 하지만 시스템 전체가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 걸려 멈칫하는 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))' 스파이크를 잡으려면, 통계([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 방식으로는 놓치기 쉬우므로 모든 이벤트 발생 시그널을 잡아내는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반의 정밀 트레이싱으로 넘어가야 한다.
 
@@ -78,8 +74,8 @@ SRE와 시스템 엔지니어는 증상에 따라 메스를 다르게 든다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **플레임 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화**: 넷플릭스(Netflix)의 브렌던 그렉(Brendan Gregg)이 고안한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법. `perf`로 수집한 방대한 콜스택([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 데이터를 X축은 CPU 점유율, Y축은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 깊이로 불타오르는 불꽃 모양의 SVG로 렌더링한다. 수만 줄의 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 보지 않고도, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 가장 넓은 너비를 차지하는 거대한 빨간 막대(병목 함수)만 찾아내면 최적화 타겟이 1초 만에 식별된다.
-2. **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)) 추적**: 운영 서버의 메모리가 서서히 말라갈 때. `bcc-tools`의 `memleak` 스크립트를 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 로 구동시켜, `malloc()`은 호출되었으나 `free()`가 호출되지 않은 정확한 소스 코드의 라인 번호를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밖에서 실시간으로 핀셋처럼 찝어내어 프로세스 재시작 없이 버그를 찾아낸다.
+1. <strong>플레임 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (Flame <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>) 기반 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화</strong>: 넷플릭스(Netflix)의 브렌던 그렉(Brendan Gregg)이 고안한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법. `perf`로 수집한 방대한 콜스택([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 데이터를 X축은 CPU 점유율, Y축은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 깊이로 불타오르는 불꽃 모양의 SVG로 렌더링한다. 수만 줄의 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 보지 않고도, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 가장 넓은 너비를 차지하는 거대한 빨간 막대(병목 함수)만 찾아내면 최적화 타겟이 1초 만에 식별된다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 <a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">Memory Leak</a>) 추적</strong>: 운영 서버의 메모리가 서서히 말라갈 때. `bcc-tools`의 `memleak` 스크립트를 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 로 구동시켜, `malloc()`은 호출되었으나 `free()`가 호출되지 않은 정확한 소스 코드의 라인 번호를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밖에서 실시간으로 핀셋처럼 찝어내어 프로세스 재시작 없이 버그를 찾아낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **운영 환경(Production)에서 Strace 남용**: 시스템 콜을 추적하는 `strace`는 `ptrace`라는 극도로 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 인터페이스를 쓴다. 프로세스가 시스템 콜을 부를 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저 스페이스 사이를 핑퐁하며 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 유발하여 타겟 프로세스의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최대 50배 폭락시킨다. 운영 DB에 `strace`를 걸어버리면 그 즉시 서비스가 마비되는 대참사가 터진다. 현대 환경에서는 무조건 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 패밀리를 써야 한다.
@@ -102,27 +98,29 @@ SRE와 시스템 엔지니어는 증상에 따라 메스를 다르게 든다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (Extended [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 수정하지 않고도 유저가 짠 트레이싱 코드를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 이벤트에 동적으로 꽂아 넣게 해주는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 슈퍼 파워 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a>)</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 수정하지 않고도 유저가 짠 트레이싱 코드를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 이벤트에 동적으로 꽂아 넣게 해주는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 슈퍼 파워 |
 | **캐시 미스 (Cache Miss)** | CPU PMU가 카운팅하는 가장 핵심 지표. 아무리 코드가 우아해도 메모리 계층에서 캐시 미스가 폭발하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나락으로 간다. |
-| **플레임 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))** | `perf` [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 데이터의 압도적인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구. 폭이 넓을수록 CPU를 갉아먹는 악성 함수라는 직관적 렌더링 방식 |
+| <strong>플레임 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (Flame <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong> | `perf` [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 데이터의 압도적인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구. 폭이 넓을수록 CPU를 갉아먹는 악성 함수라는 직관적 렌더링 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-시스템 콜 및 성능 저하 원인의 블랙박스 현상 대두
-    │
-    ▼
-strace 및 OProfile (초기 추적 도구, 막대한 성능 오버헤드 문제)
-    │
-    ▼
-CPU 하드웨어 PMU 결합 ──▶ perf 도구의 커널 통합 (Sampling Profiling 달성)
-    │
-    ▼
-동적 추적(Dynamic Tracing) 요구 ──▶ ftrace, kprobes 도입
-    │
-    ▼
-eBPF 생태계(BCC, bpftrace) 폭발적 성장 (오버헤드 제로의 라이브 관측 시대 개막)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시스템 콜 및 성능 저하 원인의 블랙박스 현상 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">strace 및 OProfile (초기 추적 도구, 막대한 성능 오버헤드 문제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU 하드웨어 PMU 결합 ──▶ perf 도구의 커널 통합 (Sampling Profiling 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 추적(Dynamic Tracing) 요구 ──▶ ftrace, kprobes 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eBPF 생태계(BCC, bpftrace) 폭발적 성장 (오버헤드 제로의 라이브 관측 시대 개막)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "오버헤드로 인한 추적 불가 → 하드웨어 지원을 통한 병목 해소 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 안전한 샌드박스 주입 기술 발명"으로 귀결되는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관측 기술([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))의 정점 궤적을 보여준다.
 

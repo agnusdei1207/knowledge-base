@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: 워터마크(Watermark)는 스트리밍 시스템에서 "이벤트 시간 T의 워터마크 = T인 이벤트는 이제 모두 도착했다고 가정한다"는 의미의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 표시기([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) Indicator)로, `Watermark = max_event_time - allowed_lateness`로 계산되며 이 값을 초과하면 윈도우가 닫힌다.
-- **가치**: 워터마크 없이는 스트리밍 집계가 "언제 결과를 확정해야 하는지" 알 수 없어 윈도우가 영원히 닫히지 않거나 임의로 닫혀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트가 누락된다. 워터마크는 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Accuracy)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** 사이의 균형점을 명시적으로 정의한다.
+- **가치**: 워터마크 없이는 스트리밍 집계가 "언제 결과를 확정해야 하는지" 알 수 없어 윈도우가 영원히 닫히지 않거나 임의로 닫혀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트가 누락된다. 워터마크는 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(Accuracy)과 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> 사이의 균형점을 명시적으로 정의한다.
 - **판단 포인트**: 워터마크 허용 범위가 클수록 더 많은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트를 수용하지만 윈도우 결과가 늦게 나오고, 작을수록 빠른 결과를 내지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트를 놓친다. 실무에서는 P99 이벤트 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 측정 후 워터마크를 그보다 약간 크게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 
 ---
@@ -30,19 +30,23 @@ tags = ["studynote-bigdata"]
 
 ### 2. 워터마크의 정의
 
-```
-Watermark(t) = "이벤트 시간 t 이전에 발생한 모든 이벤트는 도착했다"는 주장
 
-계산식:
-  Watermark = max(observed_event_time) - max_allowed_lateness
 
-예시:
-  현재까지 본 최대 이벤트 시간: 10:05:30
-  허용 지연 시간: 30초
-  워터마크 = 10:05:00
-  → "10:05:00 이전 이벤트는 모두 도착했다고 가정"
-  → 10:00~10:05 윈도우 닫을 수 있음!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Watermark(t) = "이벤트 시간 t 이전에 발생한 모든 이벤트는 도착했다"는 주장</div>
+<div class="kb-diagram-note">계산식:</div>
+<div class="kb-diagram-note">Watermark = max(observed_event_time) - max_allowed_lateness</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">현재까지 본 최대 이벤트 시간: 10:05:30</div>
+<div class="kb-diagram-note">허용 지연 시간: 30초</div>
+<div class="kb-diagram-note">워터마크 = 10:05:00</div>
+<div class="kb-diagram-note">→ "10:05:00 이전 이벤트는 모두 도착했다고 가정"</div>
+<div class="kb-diagram-note">→ 10:00~10:05 윈도우 닫을 수 있음!</div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**
 > 워터마크는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 출발 시간"이다. "5분 지각까지 기다린다(워터마크 = 5분)"고 정하면, 정시 + 5분이 지나면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 출발(윈도우 닫힘)한다. 더 늦게 온 사람([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트)은 다음 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타야 한다.
@@ -53,22 +57,25 @@ Watermark(t) = "이벤트 시간 t 이전에 발생한 모든 이벤트는 도�
 
 ### 1. 워터마크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 전파
 
-```
-이벤트 스트림:
-──────────────────────────────────────────────
-  [이벤트 t=10:00] [이벤트 t=10:03] [이벤트 t=10:02] [이벤트 t=10:06]
-                                      ↑ 지연 이벤트
-WM 생성 (allowed_lateness = 30s):
-  After t=10:00: WM = 09:59:30
-  After t=10:03: WM = 10:02:30
-  After t=10:02: WM = 10:02:30 (최대값 유지, 감소 안 함!)
-  After t=10:06: WM = 10:05:30
 
-윈도우 10:00~10:05 닫히는 시점:
-  WM >= 10:05:00 일 때 → WM = 10:05:30 도달 시 닫힘
-  10:02 이벤트는 WM 10:02:30 때 이미 도착 → 윈도우에 포함됨 ✓
-──────────────────────────────────────────────
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이벤트 스트림:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 t=10:00</div><div class="kb-diagram-node">이벤트 t=10:03</div><div class="kb-diagram-node">이벤트 t=10:02</div><div class="kb-diagram-node">이벤트 t=10:06</div></div>
+<div class="kb-diagram-note">↑ 지연 이벤트</div>
+<div class="kb-diagram-note">WM 생성 (allowed_lateness = 30s):</div>
+<div class="kb-diagram-note">After t=10:00: WM = 09:59:30</div>
+<div class="kb-diagram-note">After t=10:03: WM = 10:02:30</div>
+<div class="kb-diagram-note">After t=10:02: WM = 10:02:30 (최대값 유지, 감소 안 함!)</div>
+<div class="kb-diagram-note">After t=10:06: WM = 10:05:30</div>
+<div class="kb-diagram-note">윈도우 10:00~10:05 닫히는 시점:</div>
+<div class="kb-diagram-note">WM &gt;= 10:05:00 일 때 → WM = 10:05:30 도달 시 닫힘</div>
+<div class="kb-diagram-note">10:02 이벤트는 WM 10:02:30 때 이미 도착 → 윈도우에 포함됨 ✓</div>
+</div>
+</div>
+
+
 
 ### 2. Flink에서 워터마크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방법
 
@@ -95,16 +102,21 @@ DataStream<Event> withWatermarks = stream
 
 ### 3. 다중 소스의 워터마크 처리
 
-```
-Source 1 파티션 A: WM = 10:05:00
-Source 1 파티션 B: WM = 10:03:00   ← 이 파티션이 느림
-Source 2:          WM = 10:06:00
 
-연산자가 받는 효과적 워터마크 = min(10:05, 10:03, 10:06) = 10:03:00
-→ 가장 느린 파티션이 전체 워터마크 진행을 막음 (Idle Source 문제)
-```
 
-**[Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Source 처리**:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Source 1 파티션 A: WM = 10:05:00</div>
+<div class="kb-diagram-note">Source 1 파티션 B: WM = 10:03:00 ← 이 파티션이 느림</div>
+<div class="kb-diagram-note">Source 2: WM = 10:06:00</div>
+<div class="kb-diagram-note">연산자가 받는 효과적 워터마크 = min(10:05, 10:03, 10:06) = 10:03:00</div>
+<div class="kb-diagram-note">→ 가장 느린 파티션이 전체 워터마크 진행을 막음 (Idle Source 문제)</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a> Source 처리</strong>:
 ```java
 WatermarkStrategy.<Event>forBoundedOutOfOrderness(Duration.ofSeconds(30))
     .withIdleness(Duration.ofMinutes(1));  // 1분 이상 이벤트 없으면 해당 파티션 무시
@@ -136,8 +148,8 @@ WatermarkStrategy.<Event>forBoundedOutOfOrderness(Duration.ofSeconds(30))
 
 ### 2. 연결 개념
 
-- **[Event Time vs Processing Time](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/)**: 워터마크가 의미 있는 이유
-- **[Window Operations](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)**: 워터마크로 닫히는 대상
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/">Event Time vs Processing Time</a></strong>: 워터마크가 의미 있는 이유
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/">Window Operations</a></strong>: 워터마크로 닫히는 대상
 - **Side Output**: 워터마크 이후 도착한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트의 대안 처리
 
 **📢 섹션 요약 비유**
@@ -191,7 +203,7 @@ Step 4: 모니터링
 
 ### 2. 결론
 
-워터마크는 이벤트 시간 스트리밍의 **"시간 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)을 정의하는 핵심 메커니즘"**이다. 기술사 답안에서는 워터마크의 수식(`WM = max_event_time - allowed_lateness`), 워터마크가 어떻게 윈도우 닫힘을 결정하는지, 다중 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에서의 min-watermark 동작, 그리고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 서술해야 완성도 높은 답안이 된다.
+워터마크는 이벤트 시간 스트리밍의 <strong>"시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>을 정의하는 핵심 메커니즘"</strong>이다. 기술사 답안에서는 워터마크의 수식(`WM = max_event_time - allowed_lateness`), 워터마크가 어떻게 윈도우 닫힘을 결정하는지, 다중 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에서의 min-watermark 동작, 그리고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 서술해야 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
 > 워터마크 없는 이벤트 시간 처리는 "도착 시간을 알 수 없는 소포를 언제까지 기다려야 하는지 모르는 상황"이다. 워터마크는 "5일이 지나면 분실 처리하겠다"는 명확한 기준을 제공하여, 배송 시스템이 멈추지 않고 돌아갈 수 있게 한다.
@@ -210,24 +222,25 @@ Step 4: 모니터링
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이벤트 시간 (Event Time) — 데이터 실제 발생 시각]
-    │
-    ▼
-[처리 시간 (Processing Time) — 시스템이 데이터를 수신한 시각]
-    │
-    ▼
-[지연 데이터 (Late Data) — 네트워크 지연으로 늦게 도착한 이벤트]
-    │
-    ▼
-[워터마크 (Watermark) — 지연 허용 임계값, 이후 데이터 무시]
-    │
-    ▼
-[윈도우 집계 (Window Aggregation) — 시간 범위별 스트리밍 집계]
-    │
-    ▼
-[상태 관리 (Stateful Processing) — 윈도우 상태 메모리 보관·정리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간 (Event Time) — 데이터 실제 발생 시각</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리 시간 (Processing Time) — 시스템이 데이터를 수신한 시각</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지연 데이터 (Late Data) — 네트워크 지연으로 늦게 도착한 이벤트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크 (Watermark) — 지연 허용 임계값, 이후 데이터 무시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 집계 (Window Aggregation) — 시간 범위별 스트리밍 집계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 관리 (Stateful Processing) — 윈도우 상태 메모리 보관·정리</div></div>
+</div>
+</div>
+
+
 워터마크는 이벤트 시간 기반 스트리밍에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 허용 한계를 정의하며, [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 간의 트레이드오프를 제어하는 핵심 메커니즘이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

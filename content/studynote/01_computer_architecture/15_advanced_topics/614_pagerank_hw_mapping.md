@@ -33,24 +33,20 @@ PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector M
 
 아래 그림은 PageRank를 스트리밍 하드웨어로 맵핑할 때의 대표 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      PageRank hardware mapping: edge stream -> accumulate -> rank   │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Rank Vector Buffer ] -> [ Edge Block Reader ] -> [ Contribution ] │
-│          │                         │                     │           │
-│          │                         │                     ▼           │
-│          │                         └──────────────> [ Accum Banks ]  │
-│          │                                           │               │
-│          └<──────────── [ Convergence Checker ] <────┘               │
-│                                  │                                   │
-│                                  ▼                                   │
-│                     [ Damping / Normalize Unit ]                     │
-│                                  │                                   │
-│                                  ▼                                   │
-│                         [ Next Rank Vector Buffer ]                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PageRank hardware mapping: edge stream -&gt; accumulate -&gt; rank</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rank Vector Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Edge Block Reader</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Contribution</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ &gt;</div><div class="kb-diagram-node">Accum Banks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">Convergence Checker</div><div class="kb-diagram-note">&lt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Damping / Normalize Unit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Next Rank Vector Buffer</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -87,7 +83,7 @@ PageRank는 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_d
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 PageRank 하드웨어 맵핑은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 상대적으로 안정적이고, 랭킹 계산을 반복 수행하며, 전력당 처리량이 중요한 환경에서 가장 효과적이다. 검색 엔진의 야간 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신, 대규모 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 추천, 금융 계정 영향력 분석처럼 **같은 구조를 여러 번 도는 업무**가 대표적이다. 반대로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조가 초 단위로 크게 바뀌거나 실험적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체가 잦다면 범용 프로세서가 더 유리할 수 있다.
+실무에서 PageRank 하드웨어 맵핑은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 상대적으로 안정적이고, 랭킹 계산을 반복 수행하며, 전력당 처리량이 중요한 환경에서 가장 효과적이다. 검색 엔진의 야간 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신, 대규모 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 추천, 금융 계정 영향력 분석처럼 <strong>같은 구조를 여러 번 도는 업무</strong>가 대표적이다. 반대로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조가 초 단위로 크게 바뀌거나 실험적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체가 잦다면 범용 프로세서가 더 유리할 수 있다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -100,8 +96,8 @@ PageRank는 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_d
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **간선 하나마다 회로를 1:1로 고정하려는 설계**: 하드웨어 맵핑은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위한 배선을 짜는 것이 아니라, 계산 패턴을 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 설계하는 것이다.
-- **목적지 정점 업데이트를 전역 메모리에 무작위로 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)**: 누산 충돌과 메모리 병목이 동시에 발생한다.
-- **필요 이상으로 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 집착**: 순위 비교가 목적이면 과도한 배정밀도는 전력과 면적만 낭비할 수 있다.
+- <strong>목적지 정점 업데이트를 전역 메모리에 무작위로 직접 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>: 누산 충돌과 메모리 병목이 동시에 발생한다.
+- <strong>필요 이상으로 높은 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 집착</strong>: 순위 비교가 목적이면 과도한 배정밀도는 전력과 면적만 낭비할 수 있다.
 
 - **📢 섹션 요약 비유**: 식당 주문이 많아졌다고 주방 한가운데서 모든 요리를 섞어 만들면 부딪치기만 한다. 메뉴별로 조리대를 나누고, 재료 흐름을 정리해야 진짜 속도가 난다.
 
@@ -111,7 +107,7 @@ PageRank는 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_d
 
 PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축과 전력 절감이다. 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 더 자주 다시 계산할 수 있으므로 검색 랭킹 갱신 주기, 추천 재학습 주기, 이상 계정 탐지 반응 시간이 짧아진다. 특히 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 `랭킹 1회 계산 비용`이 곧 운영비이므로, 전용 맵핑의 경제적 효과가 크다.
 
-다만 이 접근은 `PageRank 계산`을 빠르게 만들 뿐, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 수집 품질이나 랭킹 해석 가능성까지 자동으로 해결해 주지는 않는다. 또한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 지나치게 자주 바뀌면 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 비용이 다시 병목이 된다. 결국 기억해야 할 핵심은 **PageRank는 수학 공식이면서 동시에 매우 전형적인 스트리밍 하드웨어 문제**라는 점이다.
+다만 이 접근은 `PageRank 계산`을 빠르게 만들 뿐, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 수집 품질이나 랭킹 해석 가능성까지 자동으로 해결해 주지는 않는다. 또한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 지나치게 자주 바뀌면 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 비용이 다시 병목이 된다. 결국 기억해야 할 핵심은 <strong>PageRank는 수학 공식이면서 동시에 매우 전형적인 스트리밍 하드웨어 문제</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: 한 도시의 인기 지도를 매번 손으로 다시 그리는 대신, 교통량이 흐르는 대로 자동으로 점수를 갱신하는 전광판 시스템을 만드는 것이 PageRank 하드웨어 맵핑이다.
 
@@ -129,21 +125,23 @@ PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-웹 링크 분석
-    │
-    ▼
-PageRank 수식 · 감쇠 계수
-    │
-    ▼
-희소 행렬-벡터 곱셈 최적화
-    │
-    ▼
-스트리밍 FPGA/ASIC 하드웨어 맵핑
-    │
-    ▼
-HBM 기반 그래프 분석기 · 추천/랭킹 가속기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">웹 링크 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PageRank 수식 · 감쇠 계수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">희소 행렬-벡터 곱셈 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트리밍 FPGA/ASIC 하드웨어 맵핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HBM 기반 그래프 분석기 · 추천/랭킹 가속기</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

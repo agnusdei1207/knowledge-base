@@ -21,20 +21,24 @@ tags = ["studynote-network"]
 
 우리가 인터넷을 쓸 때는 보통 쿨하게 패킷을 버리고 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 받습니다. 하지만 세상에는 재전송을 절대로 기다려 줄 수 없는 극한의 통신 환경들이 있습니다.
 
-1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적인 경우 (실시간 방송)**: 월드컵 라이브 중계나 줌(Zoom) 화상회의 도중 패킷 하나가 깨졌다고 1초 뒤에 다시 보내달라고 하면, 화면이 버퍼링에 걸려 완전히 엉망이 됩니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 치명적인 경우 (실시간 방송)</strong>: 월드컵 라이브 중계나 줌(Zoom) 화상회의 도중 패킷 하나가 깨졌다고 1초 뒤에 다시 보내달라고 하면, 화면이 버퍼링에 걸려 완전히 엉망이 됩니다.
 2. **거리가 너무 먼 경우 (우주 통신)**: 화성 탐사선(큐리오시티)이 지구로 사진을 보냅니다. 사진 1비트가 깨졌다고 지구에서 "다시 보내!"라고 신호를 보내면, 화성까지 갔다 오는 데 수십 분이 걸립니다.
-3. **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신 (TV 방송)**: [지상파](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) TV탑은 그냥 쏘기만 할 뿐([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/)), 각 가정의 TV가 송신탑에 역으로 "나 못 받았어"라고 말할 회선 자체가 없습니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 통신 (TV 방송)</strong>: [지상파](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) TV탑은 그냥 쏘기만 할 뿐([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/)), 각 가정의 TV가 송신탑에 역으로 "나 못 받았어"라고 말할 회선 자체가 없습니다.
 
-이런 환경에서는 수신기가 **스스로 찢어진 사진을 테이프로 붙여서 복원해 내는 능력(FEC)**이 생명입니다.
+이런 환경에서는 수신기가 <strong>스스로 찢어진 사진을 테이프로 붙여서 복원해 내는 능력(FEC)</strong>이 생명입니다.
 
-```text
-[비트 에러율]
-    │
-    ▼
-[순방향 에러 수정]
-    │
-    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,20 +46,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차드 해밍이 고안한 **[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)([Hamming Code](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))**입니다.
+FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차드 해밍이 고안한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">Hamming Code</a>)</strong>입니다.
 
-- **잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 대량 투입**: 4비트의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `1011`)를 보내기 위해, 송신기는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 짝수/홀수 성질을 이리저리 꼬아서 만든 3비트짜리 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))를 추가로 붙여 **총 7비트짜리 비효율적인 블록**을 보냅니다.
+- <strong>잉여 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>의 대량 투입</strong>: 4비트의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `1011`)를 보내기 위해, 송신기는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 짝수/홀수 성질을 이리저리 꼬아서 만든 3비트짜리 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))를 추가로 붙여 <strong>총 7비트짜리 비효율적인 블록</strong>을 보냅니다.
 - **수신기의 추리**: 수신기에 1비트가 에러가 나서 `1001`로 도착했습니다. 수신기는 뒤에 달린 3비트의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 벤 다이어그램(행렬 연산)에 넣고 쓱쓱 돌려봅니다.
-- **기적의 교정**: "아하! [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)들을 조합해 보니 정확히 **'3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'**에서 모순이 발생했네. 원래 1이었는데 번개 맞고 0으로 깨졌구나!" ➔ **수신기가 스스로 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 다시 1로 휙 뒤집어 완벽한 원본으로 수리(Correction)해 냅니다.**
+- **기적의 교정**: "아하! [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)들을 조합해 보니 정확히 <strong>'3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'</strong>에서 모순이 발생했네. 원래 1이었는데 번개 맞고 0으로 깨졌구나!" ➔ <strong>수신기가 스스로 3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 다시 1로 휙 뒤집어 완벽한 원본으로 수리(Correction)해 냅니다.</strong>
 
-```text
-[비트 에러율]
-    │
-    ▼
-[순방향 에러 수정]
-    │
-    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -74,7 +82,7 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(재전송)가 글을 쓰다 틀리면 **지우개로 다 지우고 다시 써달라고 부탁하는 것**이라면, FEC는 암호 해독가입니다. 첩보원이 적진에서 보낸 암호문 글자가 비에 번져서 안 보여도(에러), 해독가는 다시 보내달라고 할 수 없으니 문장의 **앞뒤 문맥과 띄어쓰기 패턴(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 스스로 유추하여 뭉개진 글자를 완벽히 때려 맞춰 복원(수정)**해 내는 고도의 지적 작업입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>(재전송)가 글을 쓰다 틀리면 </strong>지우개로 다 지우고 다시 써달라고 부탁하는 것<strong>이라면, FEC는 암호 해독가입니다. 첩보원이 적진에서 보낸 암호문 글자가 비에 번져서 안 보여도(에러), 해독가는 다시 보내달라고 할 수 없으니 문장의 </strong>앞뒤 문맥과 띄어쓰기 패턴(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 스스로 유추하여 뭉개진 글자를 완벽히 때려 맞춰 복원(수정)**해 내는 고도의 지적 작업입니다.
 
 ---
 
@@ -116,15 +124,19 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비트 에러율]
-    │
-    ▼
-[현재 개념: 순방향 에러 수정]
-    │
-    ├──▶ [확장 A: 역방향 에러 수정 / 자동 재전송 요청]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비트 에러율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 순방향 에러 수정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 순방향 에러 수정는 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)에서 출발해 현재 메커니즘을 정교화하고, 이후 역방향 에러 수정 / 자동 재전송 요청와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

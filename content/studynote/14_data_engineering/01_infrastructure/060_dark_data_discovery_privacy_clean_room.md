@@ -13,7 +13,7 @@ tags = ["studynote-data-engineering"]
 
 > 1. **본질**: [Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))는 쌓아 두기만 하고 쓰지 못하는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 발견(Discovery)되지 않으면 비용만 늘어난다.
 > 2. **확장**: NLP (Natural Language Processing), OCR (Optical Character Recognition), [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) (Speech-to-Text)로 메타데이터를 붙여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그로 자산화한다.
-> 3. **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [Privacy Clean Room](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/400_privacy_clean_room_data_sharing/)(프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 결합하고 통계만 얻는 협업 방식이다.
+> 3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [Privacy Clean Room](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/400_privacy_clean_room_data_sharing/)(프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 결합하고 통계만 얻는 협업 방식이다.
 
 ---
 
@@ -29,15 +29,21 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-음성 / 로그 / 이미지
-        ↓
-NLP / OCR / STT
-        ↓
-태깅 / 스키마화
-        ↓
-Data Catalog
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">음성 / 로그 / 이미지</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">NLP / OCR / STT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">태깅 / 스키마화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Catalog</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -109,33 +115,45 @@ B사 데이터 -- hash/token --/
 
 ## 관련 개념 맵
 
-```text
-Dark Data
-   ↓
-Metadata / Catalog
-   ↓
-Privacy Clean Room
-   ↓
-Aggregated Insight
-   ↓
-Business Activation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Dark Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Metadata / Catalog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Privacy Clean Room</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Aggregated Insight</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Business Activation</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-음성 / 로그 / 이미지
-   ↓
-NLP / OCR / STT
-   ↓
-카탈로그 / 메타데이터
-   ↓
-Clean Room
-   ↓
-안전한 데이터 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">음성 / 로그 / 이미지</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">NLP / OCR / STT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">카탈로그 / 메타데이터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Clean Room</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">안전한 데이터 결합</div>
+</div>
+</div>
+
+
 
 ---
 

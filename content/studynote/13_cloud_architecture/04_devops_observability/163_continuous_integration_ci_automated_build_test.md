@@ -10,8 +10,8 @@ tags = ["studynote-cloud"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **코드 품질의 실시간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 즉시 발견함.
-2. **[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 및 충돌 방지**: 작게 자주 코드를 통합하여, 대규모 코드 병합 시 발생하는 '머지 지옥(Merge Hell)' 리스크를 사전에 차단함.
+1. <strong>코드 품질의 실시간 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 즉시 발견함.
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 및 충돌 방지</strong>: 작게 자주 코드를 통합하여, 대규모 코드 병합 시 발생하는 '머지 지옥(Merge Hell)' 리스크를 사전에 차단함.
 3. **신뢰 기반 개발**: 모든 변경 사항이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 상태를 유지하므로, 팀 전체가 메인 브랜치의 안전성을 신뢰하며 개발에 집중할 수 있음.
 
 ---
@@ -23,33 +23,35 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 코드 변경 감지 -> 자동 빌드 -> 자동 테스트 -> 결과 통보의 반복 루프.
 
-```text
-[ Continuous Integration (CI) Pipeline ]
 
-    Developer      Source Control (Git)       CI Server (Jenkins/Actions)
-    +-------+      +----------------+       +-------------------------+
-    | Code  |      |   Commit &     | Trigger|  (1) Build (Compile)    |
-    | Changes|---->|    Push        |------->|  (2) Unit Test          |
-    +-------+      +-------+--------+       |  (3) Static Analysis    |
-                           ^                |  (4) Artifact Packaging |
-                           | Notify Result  +------------+------------+
-                           +-----------------------------+
-                                       |
-                           (Fail) Red Alert!  (Success) Build Artifact
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Integration (CI) Pipeline</div></div>
+<div class="kb-diagram-note">Developer Source Control (Git) CI Server (Jenkins/Actions)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Commit &amp;</div><div class="kb-diagram-cell">Trigger</div><div class="kb-diagram-cell">(1) Build (Compile)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Changes</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Push</div><div class="kb-diagram-cell">-------&gt;</div><div class="kb-diagram-cell">(2) Unit Test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------+ +-------+--------+</div><div class="kb-diagram-cell">(3) Static Analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div><div class="kb-diagram-cell">(4) Artifact Packaging</div></div>
+<div class="kb-diagram-note">Notify Result +------------+------------+</div>
+<div class="kb-diagram-note">(Fail) Red Alert! (Success) Build Artifact</div>
+</div>
+</div>
+
+
 
 - **CI의 4단계 자동화**:
     1. **Build**: 소스코드를 실행 가능한 바이너리나 패키지로 컴파일.
-    2. **[Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)**: 개별 함수나 모듈이 정상 동작하는지 테스트 코드로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
-    3. **[Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)**: [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))이나 보안 취약점을 도구로 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/).
-    4. **[Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 완료된 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/), Jar 등)을 저장소에 보관.
+    2. <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a></strong>: 개별 함수나 모듈이 정상 동작하는지 테스트 코드로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
+    3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">Static Analysis</a></strong>: [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))이나 보안 취약점을 도구로 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/).
+    4. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a></strong>: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 완료된 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/), Jar 등)을 저장소에 보관.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
 | 구분 | 수동 통합 (Manual) | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) |
 | :--- | :--- | :--- |
 | **통합 주기** | 주간/월간 단위 (비정기적) | 매일 수회 (Push 시 자동) |
-| **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점** | 통합 단계 혹은 배포 후 (늦음) | 코드 작성 직후 (매우 빠름) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 발견 시점</strong> | 통합 단계 혹은 배포 후 (늦음) | 코드 작성 직후 (매우 빠름) |
 | **품질 유지** | 사람의 주의력에 의존 | 자동화된 테스트 슈트에 의존 |
 | **리소스 소모** | 통합 담당자(Build Master) 필요 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 인프라 구축 비용 발생 |
 
@@ -71,15 +73,19 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 빌드 + 수동 테스트 (통합 지옥)
-    │
-    ▼
-CI: 코드 커밋 → 자동 빌드 → 자동 테스트
-    │
-    ▼
-CD: Continuous Delivery → Continuous Deployment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 빌드 + 수동 테스트 (통합 지옥)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI: 코드 커밋 → 자동 빌드 → 자동 테스트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CD: Continuous Delivery → Continuous Deployment</div>
+</div>
+</div>
+
+
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
 3. 기계 선생님([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
 

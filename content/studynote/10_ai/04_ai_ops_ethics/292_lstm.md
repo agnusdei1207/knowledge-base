@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LSTM (Long Short-Term Memory, 장단기 기억 네트워크)은 RNN의 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 해결하기 위해 **셀 상태 (Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), C_t)**라는 별도의 정보 고속도로를 도입하고, 3가지 게이트로 정보를 선택적으로 기억·망각·출력하는 신경망이다.
+> 1. **본질**: LSTM (Long Short-Term Memory, 장단기 기억 네트워크)은 RNN의 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 해결하기 위해 <strong>셀 상태 (Cell <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, C_t)</strong>라는 별도의 정보 고속도로를 도입하고, 3가지 게이트로 정보를 선택적으로 기억·망각·출력하는 신경망이다.
 > 2. **가치**: 수십~수백 시점 이전의 장기 정보를 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 없이 현재까지 전달함으로써, 기계 번역·음성 인식·시계열 예측 등 장거리 의존성이 있는 모든 순서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작업의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 획기적으로 높인다.
-> 3. **판단 포인트**: LSTM의 핵심 혁신은 **덧셈(+) 기반의 셀 상태 업데이트**다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 곱셈이 아닌 덧셈을 통해 기울기가 소실 없이 직접 흐르는 경로(Identity Gradient Superhighway)가 확보된다.
+> 3. **판단 포인트**: LSTM의 핵심 혁신은 <strong>덧셈(+) 기반의 셀 상태 업데이트</strong>다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 곱셈이 아닌 덧셈을 통해 기울기가 소실 없이 직접 흐르는 경로(Identity Gradient Superhighway)가 확보된다.
 
 ---
 
@@ -26,14 +26,17 @@ tags = ["studynote-ai"]
 
 이 이중 메모리 구조 덕분에 LSTM은 수천 시점이 지나도 중요한 정보를 셀 상태 위에 온전히 보존할 수 있다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기본 RNN이 모든 물건을 하나의 손가방에 구겨 넣는 것이라면, LSTM은 중요한 보석(장기 기억)은 튼튼한 금고(셀 상태)에, 오늘 쓸 물건(단기 기억)은 손가방(은닉 상태)에 분리 보관하는 이중 수납 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 보석은 금고에서 절대 잃어버리지 않는다.
 
@@ -43,28 +46,26 @@ tags = ["studynote-ai"]
 
 LSTM 셀 하나는 입력 게이트(Input Gate), 삭제 게이트(Forget Gate), 출력 게이트(Output Gate)의 3개 게이트와 셀 상태(C_t)로 구성된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              LSTM 셀 내부 구조 (단일 시점 t)                     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  이전 셀상태 C_(t-1) ─────────────────────────────▶ C_t       │
-│                        ×            +                       │
-│                        ▲            ▲                       │
-│                    [삭제게이트]   [입력게이트 × 후보값]           │
-│                     f_t = σ(...)   i_t × C̃_t                │
-│                                                              │
-│  [x_t, h_(t-1)] ──▶ [삭제 게이트 f_t] ──▶ 셀상태에서 뭘 지울지  │
-│                ──▶ [입력 게이트 i_t] ──▶ 셀상태에 뭘 더할지      │
-│                ──▶ [후보값 C̃_t = tanh(...)] ──▶ 더할 내용       │
-│                ──▶ [출력 게이트 o_t] ──▶ 뭘 h_t로 내보낼지      │
-│                                                              │
-│  h_t = o_t × tanh(C_t)                                      │
-│                                                              │
-│  핵심 포인트: C_t 업데이트가 "곱셈(×f_t) + 덧셈(+i_t×C̃_t)"     │
-│  → 역전파 시 C 경로는 덧셈만 통과 → 기울기 소실 없음!            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 셀 내부 구조 (단일 시점 t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 셀상태 C_(t-1) ▶ C_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× +</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삭제게이트</div><div class="kb-diagram-node">입력게이트 × 후보값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f_t = σ(...) i_t × C̃_t</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x_t, h_(t-1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">삭제 게이트 f_t</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">셀상태에서 뭘 지울지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">입력 게이트 i_t</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">셀상태에 뭘 더할지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">후보값 C̃_t = tanh(...)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">더할 내용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력 게이트 o_t</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">뭘 h_t로 내보낼지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = o_t × tanh(C_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 포인트: C_t 업데이트가 "곱셈(×f_t) + 덧셈(+i_t×C̃_t)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 역전파 시 C 경로는 덧셈만 통과 → 기울기 소실 없음!</div></div>
+</div>
+</div>
+
+
 
 | 게이트 | 수식 | 역할 |
 |:---|:---|:---|
@@ -131,9 +132,9 @@ LSTM (Long Short-Term Memory)은 딥러닝의 언어 이해 능력을 근본적�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 기본 RNN이 모든 기억을 하나의 작은 지갑에 넣고 다니다가 자꾸 잃어버린다면, **LSTM**은 **중요한 것은 금고(셀 상태)**에 넣고 **오늘 쓸 것만 지갑(은닉 상태)**에 넣는 이중 보관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요!
-2. **삭제 게이트**는 "이 기억은 이제 필요 없어, 버려!"라고 하고, **입력 게이트**는 "이 새 정보는 금고에 넣어둬!"라고 하는 거예요.
-3. 덕분에 아주 긴 문장을 읽어도 **맨 처음 중요한 단어를 끝까지 기억**할 수 있어서, 긴 소설도 완벽히 이해하는 똑똑한 신경망이 됐어요!
+1. 기본 RNN이 모든 기억을 하나의 작은 지갑에 넣고 다니다가 자꾸 잃어버린다면, <strong>LSTM</strong>은 <strong>중요한 것은 금고(셀 상태)</strong>에 넣고 <strong>오늘 쓸 것만 지갑(은닉 상태)</strong>에 넣는 이중 보관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요!
+2. <strong>삭제 게이트</strong>는 "이 기억은 이제 필요 없어, 버려!"라고 하고, <strong>입력 게이트</strong>는 "이 새 정보는 금고에 넣어둬!"라고 하는 거예요.
+3. 덕분에 아주 긴 문장을 읽어도 <strong>맨 처음 중요한 단어를 끝까지 기억</strong>할 수 있어서, 긴 소설도 완벽히 이해하는 똑똑한 신경망이 됐어요!
 
 ---
 

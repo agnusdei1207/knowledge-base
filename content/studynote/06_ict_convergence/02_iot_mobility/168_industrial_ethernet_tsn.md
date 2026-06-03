@@ -43,18 +43,21 @@ TSN은 하나의 프로토콜이 아니라 전기전자공학회 (IEEE, Institut
 
 아래 그림은 TSN이 시간 슬롯을 어떻게 쓰는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    TSN gate schedule over one cycle                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Time slot      0~125us      125~250us      250~500us                │
-│ Queue gate     Control open  Safety open    Best-effort open         │
-│ Traffic class  Motion Ctrl   Alarm / Sync   Video / HMI / Logs       │
-│ Result         No contention Deterministic  Shared bandwidth use      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 핵심은 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 종단 장치가 같은 시간을 보고 있어야 한다는 점이다. 그래야 어떤 큐를 언제 열지, 어떤 프레임을 선점할지, 어떤 경로로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할지 계산이 맞아 떨어진다. 즉 TSN은 단일 장비의 성능보다 **전체 네트워크가 같은 시계를 보며 같은 시간표로 움직이는가**가 더 중요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSN gate schedule over one cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time slot 0~125us 125~250us 250~500us</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue gate Control open Safety open Best-effort open</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traffic class Motion Ctrl Alarm / Sync Video / HMI / Logs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result No contention Deterministic Shared bandwidth use</div></div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 종단 장치가 같은 시간을 보고 있어야 한다는 점이다. 그래야 어떤 큐를 언제 열지, 어떤 프레임을 선점할지, 어떤 경로로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할지 계산이 맞아 떨어진다. 즉 TSN은 단일 장비의 성능보다 <strong>전체 네트워크가 같은 시계를 보며 같은 시간표로 움직이는가</strong>가 더 중요하다.
 
 또한 TSN은 일반 트래픽을 배제하지 않는다. 제어 트래픽에 시간 보장을 부여하면서도, 남는 구간에는 인간-기계 인터페이스 (HMI, Human-Machine Interface), 영상, 진단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 흘려 보낼 수 있다. 이 덕분에 제어망과 정보망을 완전히 분리하지 않고도 통합 네트워크를 설계할 수 있다.
 
@@ -113,7 +116,7 @@ TSN은 오픈 플랫폼 커뮤니케이션 유니파이드 아키텍처 ([OPC UA
 
 TSN을 올바르게 적용하면 제어 트래픽의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차를 줄이면서도 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 공존하는 통합 네트워크를 만들 수 있다. 이는 케이블과 장비 이중 투자를 줄이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 제어가 분리된 구조를 하나의 표준 기반으로 묶는 데 큰 장점이 있다. 특히 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/), 차량용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 실시간 로봇 협업에서 IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 융합의 기반 인프라가 된다.
 
-하지만 TSN의 대가도 분명하다. 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패, 잘못된 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 계산, 장비 간 표준 지원 차이는 즉시 결정성 붕괴로 이어질 수 있다. 따라서 TSN은 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 좀 더 빠르게 쓰는 기술"이 아니라, **시간을 자원처럼 예약하고 관리하는 운영 체계**로 기억해야 한다.
+하지만 TSN의 대가도 분명하다. 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패, 잘못된 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 계산, 장비 간 표준 지원 차이는 즉시 결정성 붕괴로 이어질 수 있다. 따라서 TSN은 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 좀 더 빠르게 쓰는 기술"이 아니라, <strong>시간을 자원처럼 예약하고 관리하는 운영 체계</strong>로 기억해야 한다.
 
 앞으로는 TSN과 [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/), 엣지 제어, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 연동이 더 늘어나며 공장과 차량 네트워크의 통합 수준이 높아질 가능성이 크다. 그럼에도 본질은 바뀌지 않는다. TSN의 핵심은 높은 대역폭이 아니라, 중요한 프레임이 언제나 제시간에 도착하도록 전체 네트워크를 설계하는 데 있다.
 
@@ -134,23 +137,25 @@ TSN을 올바르게 적용하면 제어 트래픽의 [지연](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-필드버스 · 전용 제어망
-    │
-    ▼
-산업용 이더넷
-    │
-    ▼
-TSN (Time-Sensitive Networking)
-    │
-    ├─ 시간 동기화
-    ├─ 예약 스케줄링
-    ├─ 프레임 선점
-    └─ 경로 이중화
-    │
-    ▼
-IT/OT 통합 제어망 · 스마트 팩토리 · 차량용 이더넷
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">필드버스 · 전용 제어망</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">산업용 이더넷</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TSN (Time-Sensitive Networking)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">시간 동기화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">예약 스케줄링</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프레임 선점</div>
+<div class="kb-diagram-tree-item" style="--depth:2">경로 이중화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IT/OT 통합 제어망 · 스마트 팩토리 · 차량용 이더넷</div>
+</div>
+</div>
+
+
 
 이 흐름은 산업 네트워크가 전용 실시간 망에서 표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 기반의 결정론적 통합망으로 발전하는 과정을 보여 준다.
 

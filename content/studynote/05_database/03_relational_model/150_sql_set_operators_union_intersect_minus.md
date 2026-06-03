@@ -10,9 +10,9 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 집합 연산자(Set [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 2개 이상의 독립적인 `SELECT` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과물(Result Set)들을 위아래로 이어 붙여 **합집합(UNION), 교집합(INTERSECT), 차집합(MINUS/EXCEPT)**이라는 수학적 벤 다이어그램 형태의 1개의 거대한 테이블 덩어리로 뽑아내는 뼈대 연산자다.
+> 1. **본질**: 집합 연산자(Set [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))는 2개 이상의 독립적인 `SELECT` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과물(Result Set)들을 위아래로 이어 붙여 <strong>합집합(UNION), 교집합(INTERSECT), 차집합(MINUS/EXCEPT)</strong>이라는 수학적 벤 다이어그램 형태의 1개의 거대한 테이블 덩어리로 뽑아내는 뼈대 연산자다.
 > 2. **가치**: 서로 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))할 연결 고리(PK/FK)가 아예 없는 남남인 두 테이블(예: 작년 은퇴한 사원 테이블과 올해 신입 사원 테이블)의 명단을 한 화면에 세로로 쭉 이어서 통합 대시보드로 뽑아내야 할 때 유일무이한 구원 투수 역할을 한다.
-> 3. **판단 포인트**: `UNION`은 두 덩어리를 합칠 때 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우기 위해 미친듯한 정렬(Sort) 메모리 연산을 유발하여 DB를 박살 낼 위험이 크다. 따라서 실무 DBA는 중복을 허용하더라도 무조건 갖다 붙이는 **`UNION ALL`로 튜닝하여 I/O 병목을 0으로 만드는 아키텍처적 타협(Trade-off)**을 필수적으로 구사한다.
+> 3. **판단 포인트**: `UNION`은 두 덩어리를 합칠 때 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우기 위해 미친듯한 정렬(Sort) 메모리 연산을 유발하여 DB를 박살 낼 위험이 크다. 따라서 실무 DBA는 중복을 허용하더라도 무조건 갖다 붙이는 <strong><code>UNION ALL</code>로 튜닝하여 I/O 병목을 0으로 만드는 아키텍처적 타협(Trade-off)</strong>을 필수적으로 구사한다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-database"]
 
 회사에 '정규직 사원' 테이블 1만 명과, '계약직 사원' 테이블 5천 명이 물리적으로 분리되어 존재한다. 사장님이 "우리 회사 다니는 1만 5천 명 전체 명단 이름이랑 전화번호 좀 쭉 다 뽑아와!"라고 지시했다. 초보 개발자가 당황한다. 두 테이블을 엮어보려고 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))을 걸었더니 가로로 뚱뚱해지거나 카테시안 곱(뻥튀기)이 나버린다. "이건 엮는(가로) 게 아니라, A 표 결과물 밑에 B 표 결과물을 엑셀 복붙(Ctrl+C, Ctrl+V) 하듯 그냥 '세로'로 무식하게 냅다 덧붙이고 싶어!"라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합의 가장 원초적인 갈증이 집합 연산자를 탄생시켰다.
 
-- **📢 섹션 요약 비유**: **조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))**이 남자 명부와 여자 명부에서 커플 매칭이 되는 사람끼리 손을 잡게 해서 1줄짜리 가로(옆으로 긴) 명단을 만드는 **'소개팅 매칭'**이라면, **집합 연산자(UNION)**는 남자 명부 100장 밑에 풀을 칠해서 여자 명부 100장을 그냥 세로로 길게 척 가져다 붙여 총 200장짜리 길쭉한 **'전체 인원 출석부 1장'**을 만들어버리는 투박하지만 확실한 문서 병합기입니다.
+- **📢 섹션 요약 비유**: <strong>조인(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong>이 남자 명부와 여자 명부에서 커플 매칭이 되는 사람끼리 손을 잡게 해서 1줄짜리 가로(옆으로 긴) 명단을 만드는 <strong>'소개팅 매칭'</strong>이라면, <strong>집합 연산자(UNION)</strong>는 남자 명부 100장 밑에 풀을 칠해서 여자 명부 100장을 그냥 세로로 길게 척 가져다 붙여 총 200장짜리 길쭉한 <strong>'전체 인원 출석부 1장'</strong>을 만들어버리는 투박하지만 확실한 문서 병합기입니다.
 
 ---
 
@@ -30,35 +30,33 @@ tags = ["studynote-database"]
 
 수학적 벤 다이어그램과 SQL 집합 연산자의 매핑 구조다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          수학적 벤 다이어그램과 SQL 집합 연산자 매핑 맵 (Map)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 테이블 A (수학 90점 이상) ]       [ 테이블 B (영어 90점 이상) ]       │
-│   ( 홍길동, 이순신 )                   ( 홍길동, 강감찬 )             │
-│                                                             │
-│ 1️⃣ UNION (합집합 ∪) ➔ "수학이든 영어든 하나라도 90점 넘는 애 싹 다 와!"│
-│    결과: (홍길동, 이순신, 강감찬)                                 │
-│    🌟 특징: 홍길동이 2명이지 않고 1명으로 '중복 제거(Sort Unique)' 됨!   │
-│                                                             │
-│ 2️⃣ UNION ALL (무지성 합집합) ➔ "중복 신경 안 써! 그냥 다 쏟아부어!"    │
-│    결과: (홍길동, 이순신, 홍길동, 강감찬)                          │
-│    🌟 특징: 홍길동이 2번 나옴. 하지만 정렬(Sort) 연산을 안 해서 압도적으로 빠름!│
-│                                                             │
-│ 3️⃣ INTERSECT (교집합 ∩) ➔ "수학, 영어 둘 다 90점 넘는 완벽한 천재만!"  │
-│    결과: (홍길동)                                              │
-│                                                             │
-│ 4️⃣ MINUS / EXCEPT (차집합 -) ➔ "수학 90점 넘는 애 중에서, 영어 잘하는 애 빼!"│
-│    결과 (A MINUS B): (이순신)                                  │
-│    결과 (B MINUS A): (강감찬) ◀─ 순서 바뀌면 결과도 완전 달라짐!         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 벤 다이어그램과 SQL 집합 연산자 매핑 맵 (Map)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 A (수학 90점 이상)</div><div class="kb-diagram-node">테이블 B (영어 90점 이상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 홍길동, 이순신 ) ( 홍길동, 강감찬 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ UNION (합집합 ∪) ➔ "수학이든 영어든 하나라도 90점 넘는 애 싹 다 와!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동, 이순신, 강감찬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 특징: 홍길동이 2명이지 않고 1명으로 '중복 제거(Sort Unique)' 됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ UNION ALL (무지성 합집합) ➔ "중복 신경 안 써! 그냥 다 쏟아부어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동, 이순신, 홍길동, 강감찬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 특징: 홍길동이 2번 나옴. 하지만 정렬(Sort) 연산을 안 해서 압도적으로 빠름!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ INTERSECT (교집합 ∩) ➔ "수학, 영어 둘 다 90점 넘는 완벽한 천재만!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ MINUS / EXCEPT (차집합 -) ➔ "수학 90점 넘는 애 중에서, 영어 잘하는 애 빼!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 (A MINUS B): (이순신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 (B MINUS A): (강감찬) ◀─ 순서 바뀌면 결과도 완전 달라짐!</div></div>
+</div>
+</div>
+
+
 
 **[집합 연산자의 성립 전제 조건 (Rule of Thumb)]**
 아무 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)나 냅다 `UNION`으로 붙일 수 없다. 마치 엑셀 2장을 복붙할 때 표의 열(Column) 개수와 모양이 딱 맞아야 안 깨지는 것과 같다.
 1. **컬럼의 개수 일치**: 위쪽 `SELECT`가 3개 컬럼을 뽑았으면, 아래쪽 `SELECT`도 무조건 3개여야 한다. 위는 이름, 나이 2개인데 아래는 이름 1개면 붙이다 에러 뿜는다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입(Type)의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)**: 위쪽 첫 번째 컬럼이 숫자형(Number)이면, 아래쪽 첫 번째 컬럼도 무조건 숫자형이어야 세로로 꿰어 맞출 수 있다. 위에 숫자를 넣고 밑에 문자(Varchar)를 끼우면 파서(Parser)가 피를 토한다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 타입(Type)의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong>: 위쪽 첫 번째 컬럼이 숫자형(Number)이면, 아래쪽 첫 번째 컬럼도 무조건 숫자형이어야 세로로 꿰어 맞출 수 있다. 위에 숫자를 넣고 밑에 문자(Varchar)를 끼우면 파서(Parser)가 피를 토한다.
 3. **ORDER BY는 맨 마지막에 딱 1번만**: 집합 연산자로 다 이어 붙이기도 전에, 윗동네 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 지 혼자 `ORDER BY`로 줄을 서는 건 문법적 사형 선고다. 덩어리들을 다 뭉친 뒤(합집합 끝난 뒤) 맨 끄트머리에 딱 한 줄만 `ORDER BY`를 써서 전체 통제(Global Sort)를 해야 한다.
 
 - **📢 섹션 요약 비유**: 두 개의 레고 상자를 합칠(UNION) 때는 무조건 위 블록과 아래 블록의 '튀어나온 핀 구멍 개수(컬럼 개수)'가 똑같아야만 딸깍 하고 결합할 수 있습니다. 위는 4칸인데 아래는 3칸짜리 블록을 가져와서 억지로 누르면 찌그러져서 튕겨(에러) 나옵니다.
@@ -71,8 +69,8 @@ tags = ["studynote-database"]
 
 | 비교 항목 | `UNION` (순수 합집합) | `UNION ALL` (단순 이어 붙이기) | 튜닝 아키텍트의 타협안 |
 |:---|:---|:---|:---|
-| **작동 원리** | 두 덩어리를 합친 뒤 ➔ **숨어있던 `DISTINCT(중복 제거)` 엔진 강제 발동** ➔ 고유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 남김 | 엔진 개입 없음. 그냥 위 덩어리 뱉고 나서, 바로 밑에 덩어리 붙여서 쭉 뱉어냄 (Bypass). | 실무에서 두 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 출처가 완전히 달라 애초에 교집합(중복)이 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0%라면? 무조건 `UNION ALL`을 써야 한다! |
-| **DB 메모리 부하**| 중복을 솎아내기 위해 수억 건을 **[PGA](/knowledge-base/studynote/05_database/04_transactions_concurrency/526_first_normal_form/)(Sort Area)에 부어놓고 전체 정렬(Sort Unique)**을 때림. 💥 | 정렬 따윈 안 함. 들어온 대로 물 흐르듯 화면에 뿌림 (Streaming). | - |
+| **작동 원리** | 두 덩어리를 합친 뒤 ➔ <strong>숨어있던 <code>DISTINCT(중복 제거)</code> 엔진 강제 발동</strong> ➔ 고유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 남김 | 엔진 개입 없음. 그냥 위 덩어리 뱉고 나서, 바로 밑에 덩어리 붙여서 쭉 뱉어냄 (Bypass). | 실무에서 두 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 출처가 완전히 달라 애초에 교집합(중복)이 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0%라면? 무조건 `UNION ALL`을 써야 한다! |
+| **DB 메모리 부하**| 중복을 솎아내기 위해 수억 건을 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/526_first_normal_form/">PGA</a>(Sort Area)에 부어놓고 전체 정렬(Sort Unique)</strong>을 때림. 💥 | 정렬 따윈 안 함. 들어온 대로 물 흐르듯 화면에 뿌림 (Streaming). | - |
 | **I/O 병목** | 메모리가 부족하면 디스크의 임시(Temp) 스페이스에 쏟아내며 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 폭주. 야간 배치 실패 1순위. | 가장 가볍고 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 전혀 없음. 속도의 제왕. | 중복 제거가 진짜 꼭 필요하다면, `UNION ALL`로 일단 뭉친 뒤, 바깥에서 `ROW_NUMBER()` 윈도우 함수를 써서 1등(최신) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 우아하게 발라내는(Cleansing) 튜닝으로 우회한다. |
 
 수학의 집합(Set)은 본질적으로 중복 원소를 허용하지 않는다. 따라서 `UNION`은 두 덩어리를 합칠 때 똑같은 홍길동이 있으면 1명을 깎아낸다. 이 깎아내는 작업(Sort Unique)은 DB 엔진에게 수만 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램(RAM)에 부어 넣고 퀵 소트([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))를 치게 만드는 극악의 메모리 병목을 일으킨다. 그래서 DB 튜너들은 죽이 되든 밥이 되든 일단 빠르고 가벼운 `UNION ALL`을 쳐놓고, 정 중복이 거슬리면 바깥쪽 껍데기([인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/))에서 `DISTINCT`나 윈도우 함수로 우아하게 요리하는 아키텍처를 선호한다.
@@ -87,10 +85,10 @@ tags = ["studynote-database"]
 
 ### 실무 판단 시나리오
 1. **구시대 레거시 분할 테이블의 강제 통합 통계 리포트**: 회사의 DB가 너무 낡아 `주문_2024` 테이블과 `주문_2025` 테이블을 년도별로 찢어서 따로 만들어 두었다(수동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)). 사장님이 "최근 2년 치 총주문 건수와 매출 총합을 한 줄로 뽑아와!"라고 시켰다. 
-   - **판단**: 집합 연산자의 가장 고전적이고 아름다운 실무 활용처다. 아키텍트는 두 테이블을 **[인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/)([Inline View](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/) 괄호)** 안에서 `UNION ALL` 로 먼저 길게 위아래로 붙여서 하나의 거대한 가상 테이블(가짜 2년 치 덩어리)을 창조한다.
+   - **판단**: 집합 연산자의 가장 고전적이고 아름다운 실무 활용처다. 아키텍트는 두 테이블을 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/">인라인 뷰</a>(<a href="/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/">Inline View</a> 괄호)</strong> 안에서 `UNION ALL` 로 먼저 길게 위아래로 붙여서 하나의 거대한 가상 테이블(가짜 2년 치 덩어리)을 창조한다.
    `SELECT SUM(매출) FROM ( SELECT 매출 FROM 주문_2024 UNION ALL SELECT 매출 FROM 주문_2025 );`
    그리고 그 가상 테이블 바깥에서 `SUM` 이라는 믹서기([집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/))를 한 방 윙~ 갈아버리면, 물리적으로 찢어진 두 우주의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 완벽한 통계 숫자로 0.1초 만에 환생한다. 
-2. **`UNION` 과 다중 `OR` 조회의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝 마개조**: "A부서 직원(10명)이거나, 급여가 1억 넘는 직원(5명) 명단을 뽑아라." 주니어 개발자가 `SELECT * FROM 사원 WHERE 부서='A' OR 급여>1억;` 으로 짰다. `OR` 연산자 특성상 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 부서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 급여 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타지 못하고 혼란에 빠져 1,000만 건 사원 테이블을 무식하게 풀스캔(Full Scan) 때리며 5분이 걸렸다.
+2. <strong><code>UNION</code> 과 다중 <code>OR</code> 조회의 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 튜닝 마개조</strong>: "A부서 직원(10명)이거나, 급여가 1억 넘는 직원(5명) 명단을 뽑아라." 주니어 개발자가 `SELECT * FROM 사원 WHERE 부서='A' OR 급여>1억;` 으로 짰다. `OR` 연산자 특성상 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 부서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 급여 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타지 못하고 혼란에 빠져 1,000만 건 사원 테이블을 무식하게 풀스캔(Full Scan) 때리며 5분이 걸렸다.
    - **판단**: SQL 튜너들의 영원한 무기, **'OR 조건을 UNION으로 찢어발기기'** 비기다.
    `SELECT * FROM 사원 WHERE 부서='A'` (부서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 광속 탑승 0.01초!)
    `UNION` (이때는 두 조건에 모두 맞는 교집합 직원이 있을 수 있으니 중복 제거를 위해 UNION을 쓴다)
@@ -98,7 +96,7 @@ tags = ["studynote-database"]
    풀스캔 돌며 5분 걸리던 멍청한 `OR` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 각자 찰떡같이 타는 빠른 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 2방과 `UNION` 조합으로 마개조되며 0.1초 만에 결과가 화면에 꽂힌다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 약점(`OR`)을 찌르는 완벽한 아키텍처 수술이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **`IN` 서브쿼리를 `INTERSECT` 로 착각하고 바꾸기**: "A 부서이면서 동시에 B 동호회에 속한 놈을 찾아라(교집합)"라고 할 때, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 `SELECT * FROM A INTERSECT SELECT * FROM B` 로 멋부려 짜는 짓. `INTERSECT` 역시 `UNION` 처럼 내부적으로 숨 막히는 **중복 제거 및 정렬(Sort)** 연산을 수반한다. 똑똑한 튜너는 집합 연산자를 버리고, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이나 `WHERE EXISTS (SELECT 1 FROM B...)` 라는 세미 조인(Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 우회하여 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 해시 맵으로 부드럽게 필터링하고 빠져나가도록 유도한다. 집합 연산자는 최후의 보루여야 한다.
+- <strong><code>IN</code> 서브쿼리를 <code>INTERSECT</code> 로 착각하고 바꾸기</strong>: "A 부서이면서 동시에 B 동호회에 속한 놈을 찾아라(교집합)"라고 할 때, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 `SELECT * FROM A INTERSECT SELECT * FROM B` 로 멋부려 짜는 짓. `INTERSECT` 역시 `UNION` 처럼 내부적으로 숨 막히는 **중복 제거 및 정렬(Sort)** 연산을 수반한다. 똑똑한 튜너는 집합 연산자를 버리고, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이나 `WHERE EXISTS (SELECT 1 FROM B...)` 라는 세미 조인(Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 우회하여 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 해시 맵으로 부드럽게 필터링하고 빠져나가도록 유도한다. 집합 연산자는 최후의 보루여야 한다.
 
 - **📢 섹션 요약 비유**: 빵과 소시지(서로 다른 모양의 테이블)를 어떻게든 한 줄로 꼬챙이에 꿰어야(UNION) 하는데 모양이 안 맞습니다. 이때 "가짜 투명 젤리(NULL)"를 군데군데 끼워 넣어서 전체 모양(컬럼 규격)을 네모나게 맞춰버리는 천재적인 꼼수가 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 컬럼 융합입니다. 이렇게 하면 에러 없이 완벽한 바비큐 꼬치가 완성됩니다.
 
@@ -112,7 +110,7 @@ tags = ["studynote-database"]
 
 가로([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))로 엮이지 못하는 운명이라도, 세로(Union)로 쌓아 올려 거대한 탑을 짓는다. 집합 연산자는 10년 전 은퇴한 선배들의 먼지 쌓인 장부(Archive)와 오늘 아침 입사한 신입의 장부(Live)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면 위에서 단 하나의 완벽한 '전체 명단(Single [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))'으로 부활시키는 마법의 보자기다. 이 무식하지만 파괴적인 세로의 확장을 이해하고, `UNION`의 정렬(Sort) 독가스를 피하는 통제력을 얻었을 때 아키텍트는 비로소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 파편화를 완벽히 극복하게 된다.
 
-- **📢 섹션 요약 비유**: 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 햄버거 빵과 고기 패티를 위아래로 포개어 **'새로운 요리 1개(가로 확장)'**를 완성하는 우아한 요리법입니다. 집합 연산자(UNION)는 햄버거 상자 10개가 든 박스 밑에 햄버거 상자 10개를 겹쳐서 쌓아 올리고 테이프를 감아 **'거대한 20개짜리 탑(세로 확장)'**을 만들어 납품하는 무식하지만 확실한 화물 상하차 포장술입니다. 
+- **📢 섹션 요약 비유**: 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 햄버거 빵과 고기 패티를 위아래로 포개어 <strong>'새로운 요리 1개(가로 확장)'</strong>를 완성하는 우아한 요리법입니다. 집합 연산자(UNION)는 햄버거 상자 10개가 든 박스 밑에 햄버거 상자 10개를 겹쳐서 쌓아 올리고 테이프를 감아 <strong>'거대한 20개짜리 탑(세로 확장)'</strong>을 만들어 납품하는 무식하지만 확실한 화물 상하차 포장술입니다. 
 
 ---
 
@@ -121,34 +119,36 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **UNION ALL (무지성 합집합)** | `UNION`의 착한 동생. 중복을 검사하느라 서버 램을 태워 먹는 형(`UNION`)과 달리, 눈 딱 감고 들어오는 족족 화면에 밑장 빼기로 붙여버려 극강의 스피드를 자랑하는 빛의 연산자다. |
-| **조인 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))** | 집합 연산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '세로'로 무식하게 쌓는다면, 조인은 사원 번호라는 끈(PK/FK)을 매개로 '가로'로 우아하게 엮어서 뚱뚱한 정보를 만들어 내는 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 또 다른 심장이다. |
+| <strong>조인 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong> | 집합 연산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '세로'로 무식하게 쌓는다면, 조인은 사원 번호라는 끈(PK/FK)을 매개로 '가로'로 우아하게 엮어서 뚱뚱한 정보를 만들어 내는 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 또 다른 심장이다. |
 | **Sort Area (정렬 메모리)** | `UNION`, `INTERSECT`, `MINUS` 3형제가 중복을 깎아내기 위해 1억 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 부어놓고 미친 듯이 퀵 소트([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))를 갈겨대는 DB 내부의 뜨거운 화약고 메모리 구역이다. |
-| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 뷰 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))** | 낡은 RDBMS에서 월별로 12개의 테이블을 쪼개놓고, 겉에 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 껍데기를 하나 씌운 뒤 그 안에서 12개 테이블을 `UNION ALL`로 이어 붙여 마치 거대한 1개의 테이블인 척 뇌를 속이는 꼼수 아키텍처다. |
-| **SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) ([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/))** | 해커가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 아이디 칸에 `' UNION SELECT 비번 FROM 관리자 --` 라고 쳐서, 원래 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 밑에 자기 해킹 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 세로로 슬쩍 덧붙여 화면에 띄워 훔쳐 가는 최악의 보안 뚫림 취약점이다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 뷰 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong> | 낡은 RDBMS에서 월별로 12개의 테이블을 쪼개놓고, 겉에 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 껍데기를 하나 씌운 뒤 그 안에서 12개 테이블을 `UNION ALL`로 이어 붙여 마치 거대한 1개의 테이블인 척 뇌를 속이는 꼼수 아키텍처다. |
+| <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a> (<a href="/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/">SQL Injection</a>)</strong> | 해커가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 아이디 칸에 `' UNION SELECT 비번 FROM 관리자 --` 라고 쳐서, 원래 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 밑에 자기 해킹 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 세로로 슬쩍 덧붙여 화면에 띄워 훔쳐 가는 최악의 보안 뚫림 취약점이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수학적 집합론(Set Theory) / 벤 다이어그램의 합집합, 교집합, 차집합 개념
-    │
-    ▼
-관계 대수(Relational Algebra) / E.F. Codd가 데이터베이스 릴레이션 조작을 위해 수학적 연산을 RDBMS에 도입
-    │
-    ▼
-SQL-92 표준 UNION, INTERSECT, MINUS 확립 / 이기종 테이블의 세로 결합(Vertical Merge) 쿼리 문법 완성
-    │
-    ▼
-UNION 정렬(Sort) 병목 파국 💥 / 수억 건 중복 검사로 야간 배치 서버 셧다운 ➔ 튜너들의 UNION ALL 바이패스 스트리밍 튜닝 마개조 ✨
-    │
-    ▼
-빅데이터 및 스트리밍 아키텍처 / HDFS 리듀스 병합 및 Kafka 실시간 데이터 스트림의 무한 세로 덧붙이기(Continuous Union All) 엔진으로 철학 승화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수학적 집합론(Set Theory) / 벤 다이어그램의 합집합, 교집합, 차집합 개념</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관계 대수(Relational Algebra) / E.F. Codd가 데이터베이스 릴레이션 조작을 위해 수학적 연산을 RDBMS에 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SQL-92 표준 UNION, INTERSECT, MINUS 확립 / 이기종 테이블의 세로 결합(Vertical Merge) 쿼리 문법 완성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UNION 정렬(Sort) 병목 파국 💥 / 수억 건 중복 검사로 야간 배치 서버 셧다운 ➔ 튜너들의 UNION ALL 바이패스 스트리밍 튜닝 마개조 ✨</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅데이터 및 스트리밍 아키텍처 / HDFS 리듀스 병합 및 Kafka 실시간 데이터 스트림의 무한 세로 덧붙이기(Continuous Union All) 엔진으로 철학 승화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 1반 출석부(30명)랑 2반 출석부(30명)가 따로 종이에 적혀있어요. 이걸 하나로 합치고 싶어요!
-2. **조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))**은 1반 철수 옆에 2반 철수 짝꿍을 가로로 묶어서 표를 옆으로 길게(뚱뚱하게) 만드는 거라면, **UNION(집합 연산자)**은 1반 출석부 밑에 풀을 칠해서 2반 출석부를 세로로 길쭉하게 이어 붙여 총 60명짜리 거대한 '전체 명단'을 만드는 무식하지만 확실한 풀칠 마법이에요!
-3. 여기서 **UNION ALL**은 실수로 이름이 2번 중복해서 적힌 애가 있어도 그냥 막 넘어가서 엄청 빠른 풀칠이고, **UNION**은 똑같은 이름이 2번 나오면 지우개로 1번을 빡빡 지우느라 시간이 엄청 오래 걸리는 깐깐한 풀칠이랍니다!
+2. <strong>조인(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong>은 1반 철수 옆에 2반 철수 짝꿍을 가로로 묶어서 표를 옆으로 길게(뚱뚱하게) 만드는 거라면, <strong>UNION(집합 연산자)</strong>은 1반 출석부 밑에 풀을 칠해서 2반 출석부를 세로로 길쭉하게 이어 붙여 총 60명짜리 거대한 '전체 명단'을 만드는 무식하지만 확실한 풀칠 마법이에요!
+3. 여기서 <strong>UNION ALL</strong>은 실수로 이름이 2번 중복해서 적힌 애가 있어도 그냥 막 넘어가서 엄청 빠른 풀칠이고, <strong>UNION</strong>은 똑같은 이름이 2번 나오면 지우개로 1번을 빡빡 지우느라 시간이 엄청 오래 걸리는 깐깐한 풀칠이랍니다!
 
 ---
 

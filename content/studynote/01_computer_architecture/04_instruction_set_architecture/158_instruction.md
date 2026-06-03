@@ -29,7 +29,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-명령어는 보통 **무엇을 할지**를 나타내는 연산 코드와 **무엇을 대상으로 할지**를 나타내는 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 정보로 구성된다. 이때 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호, 즉시값, 메모리 주소, 변위 값, 분기 오프셋 등으로 표현된다. 결국 명령어 설계는 한정된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 안에 연산 의미와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치를 얼마나 효율적으로 담아내느냐의 문제다.
+명령어는 보통 <strong>무엇을 할지</strong>를 나타내는 연산 코드와 <strong>무엇을 대상으로 할지</strong>를 나타내는 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 정보로 구성된다. 이때 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호, 즉시값, 메모리 주소, 변위 값, 분기 오프셋 등으로 표현된다. 결국 명령어 설계는 한정된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 안에 연산 의미와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치를 얼마나 효율적으로 담아내느냐의 문제다.
 
 ### 명령어의 기본 구성 요소
 
@@ -42,23 +42,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 명령어 한 줄이 실제 실행 경로에서 어떻게 해석되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 instruction flow: bits become control signals             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PC (Program Counter)                                                      │
-│      │                                                                    │
-│      ▼                                                                    │
-│ Instruction Memory ──▶ Instruction Register ──▶ Decoder                   │
-│                                                     │                     │
-│                        ┌──────── register select ───┼──▶ Register File    │
-│                        ├──────── ALU op code ──────┼──▶ ALU               │
-│                        ├──────── memory control ───┼──▶ Load / Store Unit │
-│                        └──────── branch target ────┼──▶ PC update logic   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 명령어가 단순한 숫자가 아니라 **제어 신호를 생성하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 설계도**라는 점이다. 명령어가 메모리에서 인출되면 디코더가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 해석하고, 그 결과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산, 메모리 접근, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신이 연쇄적으로 일어난다. 그래서 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)이 단순하면 디코드가 빨라지고, 복잡하면 한 번의 명령이 더 많은 일을 하더라도 전단부 병목이 커질 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction flow: bits become control signals</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC (Program Counter)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instruction Memory ──▶ Instruction Register ──▶ Decoder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register select ──▶ Register File</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU op code ──▶ ALU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory control ──▶ Load / Store Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">branch target ──▶ PC update logic</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 명령어가 단순한 숫자가 아니라 <strong>제어 신호를 생성하는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 설계도</strong>라는 점이다. 명령어가 메모리에서 인출되면 디코더가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 해석하고, 그 결과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산, 메모리 접근, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신이 연쇄적으로 일어난다. 그래서 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)이 단순하면 디코드가 빨라지고, 복잡하면 한 번의 명령이 더 많은 일을 하더라도 전단부 병목이 커질 수 있다.
 
 또한 명령어는 성격에 따라 산술/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 제어 흐름, 시스템 제어, [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single Instruction Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 확장 명령 등으로 나뉜다. 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순 교과서 목록이 아니라, 실제로 어떤 워크로드가 연산 중심인지 메모리 중심인지, 분기 중심인지 판단하는 기준이 된다.
 
@@ -68,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-명령어를 이해할 때는 **고급 언어 문장**, **ISA가 보이는 명령어**, **CPU 내부 마이크로 연산**을 구분해야 한다.
+명령어를 이해할 때는 **고급 언어 문장**, **ISA가 보이는 명령어**, <strong>CPU 내부 마이크로 연산</strong>을 구분해야 한다.
 
 | 구분 | 보이는 수준 | 예시 | 중요한 차이 |
 | :--- | :--- | :--- | :--- |
@@ -76,7 +76,7 @@ tags = ["studynote-computer-architecture"]
 | 명령어 (Instruction) | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 외부 계약 | `ADD R1, R2, R3` | 소프트웨어가 기대하는 공식 실행 단위 |
 | 마이크로 연산 (Micro-Op) | CPU 내부 구현 | load, add, [write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 조각 | 같은 명령어도 구현체마다 분해 방식이 다를 수 있음 |
 
-예를 들어 x86 계열의 복합 명령어는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex Instruction Set Computer) 특성상 내부에서 여러 마이크로 연산으로 쪼개질 수 있다. 반대로 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced Instruction Set Computer) 계열은 상대적으로 단순하고 고정 길이인 명령어를 선호해 파이프라인 전단부를 단순하게 만든다. 따라서 “명령어 수가 적다/많다”보다 **한 명령어가 디코딩과 실행에서 어떤 비용을 유발하느냐**가 더 실질적인 비교 기준이다.
+예를 들어 x86 계열의 복합 명령어는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex Instruction Set Computer) 특성상 내부에서 여러 마이크로 연산으로 쪼개질 수 있다. 반대로 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced Instruction Set Computer) 계열은 상대적으로 단순하고 고정 길이인 명령어를 선호해 파이프라인 전단부를 단순하게 만든다. 따라서 “명령어 수가 적다/많다”보다 <strong>한 명령어가 디코딩과 실행에서 어떤 비용을 유발하느냐</strong>가 더 실질적인 비교 기준이다.
 
 이 연결은 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/), [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/), 파이프라인, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 캐시 구조와도 맞물린다. 즉 명령어는 고립된 개념이 아니라 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 전체와 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 사이를 이어 주는 중심축이다.
 
@@ -109,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 명령어를 정확히 이해하면 프로그램 실행을 “소스 코드”가 아니라 “하드웨어가 수행하는 실제 행동 열”로 볼 수 있게 된다. 그 결과 컴파일러 최적화, 병렬화, 분기 구조, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전력에 어떤 영향을 주는지 더 구체적으로 판단할 수 있다. 특히 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장, 벡터화, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 차이를 분석할 때 명령어 수준의 시야가 큰 힘을 발휘한다.
 
-다만 명령어는 모든 문제의 해답이 아니다. 명령어 설계가 좋아도 캐시 계층, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링, 컴파일러 품질이 받쳐 주지 않으면 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오지 않는다. 따라서 명령어는 “[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 적힌 한 줄”이 아니라 **소프트웨어 의도를 실행 가능한 전기적 행동으로 번역하는 최소 계약**으로 기억하는 것이 가장 정확하다.
+다만 명령어는 모든 문제의 해답이 아니다. 명령어 설계가 좋아도 캐시 계층, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링, 컴파일러 품질이 받쳐 주지 않으면 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오지 않는다. 따라서 명령어는 “[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 적힌 한 줄”이 아니라 <strong>소프트웨어 의도를 실행 가능한 전기적 행동으로 번역하는 최소 계약</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 명령어는 오케스트라의 한 음표와 같다. 음표 하나만 보면 작아 보이지만, 어떤 음표가 어떤 순서로 배치되느냐에 따라 전체 연주의 힘과 분위기가 완전히 달라진다.
 
@@ -128,20 +128,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 프로그램 방식
-    │
-    ▼
-명령어 (Instruction)
-    │
-    ├── Opcode · Operand · 주소 지정 방식
-    │
-    ▼
-명령어 사이클 (Fetch → Decode → Execute → Write-back)
-    │
-    ▼
-파이프라인 · 마이크로 연산 · SIMD 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 프로그램 방식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 (Instruction)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Opcode · Operand · 주소 지정 방식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 사이클 (Fetch → Decode → Execute → Write-back)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 · 마이크로 연산 · SIMD 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 명령어가 단순한 이진 코드가 아니라, 프로그램 저장 방식에서 출발해 실행 경로와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화로 확장되는 중심 개념임을 보여준다.
 

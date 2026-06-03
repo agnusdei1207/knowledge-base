@@ -30,26 +30,27 @@ tags = ["studynote-computer-architecture"]
 
 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러는 기막히게 잡지만, 이중 에러에는 눈을 감아버리는 수학적 맹점을 가진다. 송신단에서는 하드웨어의 XOR 게이트 (Exclusive-OR Gate) 연산을 통해 패리티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 수신단에서도 동일하게 검증한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         The Physics of Bit Flipping: 짝수 패리티의 한계            │
-├──────────────────────────────────────────────────────────────┤
-│  [ 송신자: ASCII 'C' (1000011) 전송 준비 ]                       │
-│   데이터: 1 0 0 0 0 1 1  (1이 3개 = 홀수)                        │
-│   ──▶ 하드웨어가 맨 앞에 패리티 비트 '1'을 강제로 푸시              │
-│   송신 패킷: [1] 1 0 0 0 0 1 1  (1이 총 4개. 짝수 패리티 완성)       │
-│                                                              │
-│  [ 1차 방어 성공: 단일 비트 에러 발생 ]                            │
-│   수신 패킷: [1] 1 0 [1] 0 0 1 1  ◀─ (3번째 비트가 0→1로 플립)    │
-│   1의 총합: 5개 (홀수로 변질!)                                   │
-│   ──▶ CPU 행동: "홀수네? 오류 발생! 패킷 즉각 폐기!" (방어 성공)     │
-│                                                              │
-│  [ 치명적 구멍: 이중 비트 에러 동시 발생 ]                          │
-│   수신 패킷: [1] 1 0 [1] [1] 0 1 1 ◀─ (2개의 비트가 동시 플립)    │
-│   1의 총합: 6개 (다시 짝수가 됨!)                                 │
-│   ──▶ CPU 행동: "완벽한 짝수다! 패스!" (사일런트 오염 발생)        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Physics of Bit Flipping: 짝수 패리티의 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자: ASCII 'C' (1000011) 전송 준비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 1 0 0 0 0 1 1 (1이 3개 = 홀수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 하드웨어가 맨 앞에 패리티 비트 '1'을 강제로 푸시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">송신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0 0 0 0 1 1 (1이 총 4개. 짝수 패리티 완성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차 방어 성공: 단일 비트 에러 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">수신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (3번째 비트가 0→1로 플립)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1의 총합: 5개 (홀수로 변질!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 행동: "홀수네? 오류 발생! 패킷 즉각 폐기!" (방어 성공)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">치명적 구멍: 이중 비트 에러 동시 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">수신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (2개의 비트가 동시 플립)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1의 총합: 6개 (다시 짝수가 됨!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 행동: "완벽한 짝수다! 패스!" (사일런트 오염 발생)</div></div>
+</div>
+</div>
+
+
 
 1개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 변형되면 홀짝 판별로 잡아내지만, 노이즈 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 튀어 2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 뒤집히면 수학적으로 짝수가 복원된다. 이 경우 수신단은 오염된 패킷을 완벽한 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 밀어넣는 치명적 오작동을 일으킨다.
 
@@ -77,11 +78,11 @@ tags = ["studynote-computer-architecture"]
 패리티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단독으로 쓰일 때는 한계가 뚜렷하지만, 하드웨어 계층과 융합될 때 강력한 1차 필터링 효과를 낸다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) RAM 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 융합**: 서버의 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리는 단일 패리티를 다차원으로 교차시킨 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) ([Hamming Code](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))를 사용한다. 방사선에 의한 [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) ([Soft Error](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)) 발생 시 오류를 검출할 뿐만 아니라 스스로 수정해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블루스크린을 막는다.
-2. **UART 시리얼 통신 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)**: 임베디드 시리얼 통신의 `8-E-1` 포맷(8비트, [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/), 1비트 정지)은 CPU가 소프트웨어로 오류를 검사하지 않고, 물리 계층 통신 칩 단에서 하드웨어적으로 패리티를 처리해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 지연을 최소화한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> RAM 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 융합</strong>: 서버의 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리는 단일 패리티를 다차원으로 교차시킨 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) ([Hamming Code](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))를 사용한다. 방사선에 의한 [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) ([Soft Error](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)) 발생 시 오류를 검출할 뿐만 아니라 스스로 수정해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블루스크린을 막는다.
+2. <strong>UART 시리얼 통신 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong>: 임베디드 시리얼 통신의 `8-E-1` 포맷(8비트, [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/), 1비트 정지)은 CPU가 소프트웨어로 오류를 검사하지 않고, 물리 계층 통신 칩 단에서 하드웨어적으로 패리티를 처리해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 지연을 최소화한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **복수 에러 통신 환경([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에 단일 패리티 적용**: 고속 네트워크 환경에서는 한 번의 노이즈로 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뭉텅이로 손상되는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) ([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))가 흔하다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 계층에서는 돌도끼 수준의 패리티 대신 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32 ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 같은 강력한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 검증을 써야만 한다.
+- <strong>복수 에러 통신 환경(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)에 단일 패리티 적용</strong>: 고속 네트워크 환경에서는 한 번의 노이즈로 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뭉텅이로 손상되는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) ([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))가 흔하다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 계층에서는 돌도끼 수준의 패리티 대신 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32 ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 같은 강력한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 검증을 써야만 한다.
 
 - **📢 섹션 요약 비유**: 복수 에러 환경에서 단일 패리티를 쓰는 건, 총알 수십 발이 쏟아지는 전장에 딱 권총 한 발만 막을 수 있는 조그만 찰흙 방패를 들고 나가는 멍청한 짓이다.
 
@@ -101,31 +102,32 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))** | 에러를 검출하고 정정하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뭉치 사이를 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)나 띄워야 하는지 측정하는 지표 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">Hamming Distance</a>)</strong> | 에러를 검출하고 정정하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뭉치 사이를 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)나 띄워야 하는지 측정하는 지표 |
 | **블록 패리티 (Block Parity)** | 단일 패리티의 한계를 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 2차원(가로/세로) 그물망으로 묶어 에러의 교차 좌표를 찾아내는 기법 |
-| **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))** | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈을 통해 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)까지 거의 100% 잡아내는 상위 검출 규약 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">Cyclic Redundancy Check</a>)</strong> | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈을 통해 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)까지 거의 100% 잡아내는 상위 검출 규약 |
 | **XOR 연산 트리** | 패리티 검사를 하드웨어 단에서 0.1초 만에 끝내주는 배타적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)합 게이트 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 에러 검출 (1차원)
-    │
-    ▼
-패리티 비트 (Parity Bit) · XOR 게이트
-    │
-    ▼
-이중 에러 극복 및 좌표 포획
-    │
-    ▼
-블록 패리티 (Block Parity / LRC)
-    │
-    ▼
-오류 검출을 넘어 복구(Correction)로
-    │
-    ▼
-해밍 코드 (Hamming Code) · ECC RAM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 에러 검출 (1차원)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패리티 비트 (Parity Bit) · XOR 게이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이중 에러 극복 및 좌표 포획</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록 패리티 (Block Parity / LRC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오류 검출을 넘어 복구(Correction)로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 코드 (Hamming Code) · ECC RAM</div>
+</div>
+</div>
+
+
 이 흐름도는 에러를 단순히 알아채는 1차원적 단계에서 다중 에러를 특정하고 자체 복원하는 계층으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

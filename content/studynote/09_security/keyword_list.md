@@ -13,7 +13,7 @@ tags = ["studynote-security"]
 # 정보보안 (Information [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 키워드 목록
 
 정보통신기술사·컴퓨터응용시스템기술사 대비 보안 전 영역 기술사 수준 핵심 키워드
-> ⚡ 기술사 보안 문제는 단순 지식이 아닌 **[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) → 아키텍처 설계 → 법적·제도적 대응**까지 통합 서술을 요구함
+> ⚡ 기술사 보안 문제는 단순 지식이 아닌 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/">위협 모델링</a> → 아키텍처 설계 → 법적·제도적 대응</strong>까지 통합 서술을 요구함
 
 ---
 

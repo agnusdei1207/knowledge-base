@@ -35,31 +35,28 @@ tags = ["cloud_architecture"]
 
 이 도식은 클라우드 기술사 시험에서 80% 이상 출제되는 핵심 개념들의 상호 관계를 보여준다. 중앙의 클라우드 서비스 모델에서 출발하여, 좌측은 인프라 단계(IaaS → PaaS → SaaS), 우측은 설계 패턴(MSA, Serverless, Event-Driven), 하단은 운영 도구(CI/CD, GitOps, SRE)를 각각 배치하였다.
 
-```
-[Cloud Service Models]
-IaaS | PaaS | SaaS
-Shared Responsibility
-┌──────────────┼──────────────────┐
-│ │ │
-[Infra Abstraction] [Design Patterns]
-┌─────┴─────┐ ┌────┴────┐
-│Virtualiza-│ │MSA|Pat- │
-│tion │ │terns │
-├───────────┤ ├────────┤
-│Containers │ │Server- │
-│K8s │ │less │
-├───────────┤ ├────────┤
-│Microserv- │ │Event │
-│ices │ │Driven │
-└─────┬─────┘ └────┬────┘
-│ │
-[Orchestration] [Data Eng]
-┌───┴───┐ ┌───┴────┐
-│K8s │ │ETL|ELT│
-│GitOps │ │DataLake│
-│SRE │ │Stream │
-└───────┘ └────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cloud Service Models</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaaS</div><div class="kb-diagram-cell">PaaS</div><div class="kb-diagram-cell">SaaS</div></div>
+<div class="kb-diagram-note">Shared Responsibility</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Infra Abstraction</div><div class="kb-diagram-node">Design Patterns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtualiza-</div><div class="kb-diagram-cell">MSA</div><div class="kb-diagram-cell">Pat-</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tion</div><div class="kb-diagram-cell">terns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Containers</div><div class="kb-diagram-cell">Server-</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s</div><div class="kb-diagram-cell">less</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microserv-</div><div class="kb-diagram-cell">Event</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ices</div><div class="kb-diagram-cell">Driven</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Orchestration</div><div class="kb-diagram-node">Data Eng</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s</div><div class="kb-diagram-cell">ETL</div><div class="kb-diagram-cell">ELT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps</div><div class="kb-diagram-cell">DataLake</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE</div><div class="kb-diagram-cell">Stream</div></div>
+</div>
+</div>
+
+
 
 이 체계도의 핵심은 각 영역이 독립적으로 존재하지 않고 좌→우, 상→하로 깊이 연결되어 있다는 점이다. 예를 들어 "Auto Scaling"이라는 키워드 하나만더라도, IaaS 층에서는 VM 수 조정이되고, PaaS 층에서는 Container Replica 수 조정으로, K8s 층에서는 HPA/CABPK 로 각기 다른 메커니즘으로 동작한다. 시험에서 이러한 대응 관계를 명확히 서술해야 가점 을 받을 수 있다.
 
@@ -67,33 +64,30 @@ Shared Responsibility
 
 이 그림은 흔히 혼동되는 기술 조합들을 각기 다른 동작 계층과 트리거 조건으로 구분하여 나타낸다. 자주 출제되는 서로 게이트웨이 패턴과 서비스 메시의 차이, Saga 패턴과 2PC의 동작 시점 차이, 그리고 스트림 처리와 배치 처리의 시간 창개념을 명확히 구분해야 한다.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 빈출 기술 동작 비교 다이어그램 │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [API Gateway] [Service Mesh] │
-│ - L7 Routing - Sidecar Proxy │
-│ - Auth/Throttle - mTLS (상호 인증) │
-│ - Rate Limit - Traffic Management │
-│ 위치: Client ↔ MS 위치: 각 Pod 옆 │
-│ │
-│ ┌─────────────────┐ ┌─────────────────────────────┐ │
-│ │ Saga Pattern │ │ 2PC (Two-Phase Commit) │ │
-│ │ Local Tx + │ │ Coordinator가 Lock 보유 │ │
-│ │ Compensation │ │ Blinding Blocking 유발 │ │
-│ │ 비동기 적 │ │ 동기적 즉시 성 │ │
-│ │ Eventual Consist- │ │ Strong Consistency │ │
-│ │ ency │ │ │ │
-│ └─────────────────┘ └─────────────────────────────┘ │
-│ │
-│ [Stream Processing] [Batch Processing] │
-│ 실시간 창(Window) 주기적 일괄 처리 │
-│ Kafka/Flink/Spark Spark/Hadoop MR │
-│ └ms~sec 지연 └min~hour 지연 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈출 기술 동작 비교 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-node">Service Mesh</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- L7 Routing - Sidecar Proxy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Auth/Throttle - mTLS (상호 인증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rate Limit - Traffic Management</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치: Client ↔ MS 위치: 각 Pod 옆</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Saga Pattern</div><div class="kb-diagram-cell">2PC (Two-Phase Commit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Tx +</div><div class="kb-diagram-cell">Coordinator가 Lock 보유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compensation</div><div class="kb-diagram-cell">Blinding Blocking 유발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기 적</div><div class="kb-diagram-cell">동기적 즉시 성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eventual Consist-</div><div class="kb-diagram-cell">Strong Consistency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ency</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stream Processing</div><div class="kb-diagram-node">Batch Processing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 창(Window) 주기적 일괄 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka/Flink/Spark Spark/Hadoop MR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ms~sec 지연 min~hour 지연</div></div>
+</div>
+</div>
+
+
 
 이 비교도의 핵심 관찰 포인트는 다음과 같다. API Gateway와 Service Mesh는 둘 다 "프록시"라는 이름을 사용하지만, 위치와 책임이 완전히 다르다. API Gateway는 Client-Ingress의에하여 공통 인증,,을 담당하고, Service Mesh는 각 서비스 Pod마다 Sidecar 형태로 배치되어 서비스 간 통신 보안(mTLS), 분산 추적, 회복탄력성(Circuit Breaker)을 담당한다. 따라서 시험에서 "Service Mesh를 도입하면 API Gateway가 불필요하다"는 답안은 correto이지만 완전한 정답이 아니다. 둘은 보완적 관계이며, API Gateway가 L7 라우팅을, Service Mesh가 L4~L7 서비스 간 통신을 담당하는 것이 바람직한 분리이다.
 
@@ -101,17 +95,19 @@ Shared Responsibility
 
 이 그림은 MSA 환경에서 하나의 DB 장애가 전체 시스템으로 전파되는 과정을 단계별로 보여준다. 기술사 시험에서는 이러한 장애 전파 경로를 분석하고, 각 단계에서 어떤 아키텍처 패턴(Circuit Breaker, Bulkhead, Fallback)을 적용해야 하는지를 서술해야 한다.
 
-```
-[Client A] --요청--> [API Gateway]
-│
-[Service A] ---조회--> [DB Master]
-│ │
-[Circuit Open] [Deadlock]
-│ │
-[Fallback Cache] ← 회복 시도 │
-│ │
-[잠금적 전파 차단] ----X-----> [Service B], [Service C]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API Gateway</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB Master</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Circuit Open</div><div class="kb-diagram-node">Deadlock</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fallback Cache</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">회복 시도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">잠금적 전파 차단</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Service B</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Service C</div></div>
+</div>
+</div>
+
+
 
 이 장애 전파도의 핵심은 ①단계에서 DB Master의 Deadlock이 서비스 A의 응답 지연으로, ②단계에서 Circuit Breaker가 Open되면서 Service B와 C로의잠금적 전파를 차단하는 메커니즘이다. 실무에서는 이 Circuit Breaker의 임계치 설정이 중요하며, 너무 짧으면 정상 트래픽도 차단하고 너무 길면 장애가 확산될 위험이 있다.
 

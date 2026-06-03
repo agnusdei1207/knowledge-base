@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 노스브리지 (Northbridge)와 사우스브리지 (Southbridge)는 메인보드의 모든 장치를 한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 몰아넣지 않고, **고속 경로와 저속 경로를 계층적으로 분리**해 병목을 줄이던 전통적 칩셋 구조다.
+> 1. **본질**: 노스브리지 (Northbridge)와 사우스브리지 (Southbridge)는 메인보드의 모든 장치를 한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 몰아넣지 않고, <strong>고속 경로와 저속 경로를 계층적으로 분리</strong>해 병목을 줄이던 전통적 칩셋 구조다.
 > 2. **가치**: 노스브리지는 CPU (Central Processing Unit)·메모리·그래픽처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 민감한 경로를 맡고, 사우스브리지는 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) ([Universal Serial Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))·[SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/))·[PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/)) 같은 주변장치를 묶어 시스템 전체를 안정적으로 조정했다.
-> 3. **판단 포인트**: 현대 PC에서는 노스브리지 기능의 상당 부분이 CPU 내부로 통합되어 사라졌지만, **"빠른 장치는 CPU에 가깝게, 느린 장치는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 뒤로"** 라는 설계 철학은 PCH (Platform Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)), [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)), 온칩 인터커넥트까지 그대로 이어진다.
+> 3. **판단 포인트**: 현대 PC에서는 노스브리지 기능의 상당 부분이 CPU 내부로 통합되어 사라졌지만, <strong>"빠른 장치는 CPU에 가깝게, 느린 장치는 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 뒤로"</strong> 라는 설계 철학은 PCH (Platform Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)), [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)), 온칩 인터커넥트까지 그대로 이어진다.
 
 ---
 
@@ -29,39 +29,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 구조의 핵심은 **CPU에 가까운 칩이 시간 민감 트래픽을 전담하고, 아래쪽 칩이 장치 다양성을 흡수한다**는 역할 분담이다. 노스브리지는 보통 MCH (Memory Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 불리며 메모리 접근, 그래픽 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 연결, 과거 [FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/) (Front Side [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 중재를 맡았다. 사우스브리지는 보통 ICH (I/O Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 불리며 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/), BIOS (Basic Input/Output System), 오디오, 저속 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 장치를 관리했다. 느린 장치의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 특성과 제어 방식이 제각각이기 때문에, 사우스브리지가 이를 한 번 정리해 상위로 넘기는 것이 전체 설계를 단순하게 만들었다.
+이 구조의 핵심은 <strong>CPU에 가까운 칩이 시간 민감 트래픽을 전담하고, 아래쪽 칩이 장치 다양성을 흡수한다</strong>는 역할 분담이다. 노스브리지는 보통 MCH (Memory Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 불리며 메모리 접근, 그래픽 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 연결, 과거 [FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/) (Front Side [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 중재를 맡았다. 사우스브리지는 보통 ICH (I/O Controller [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 불리며 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/), BIOS (Basic Input/Output System), 오디오, 저속 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 장치를 관리했다. 느린 장치의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 특성과 제어 방식이 제각각이기 때문에, 사우스브리지가 이를 한 번 정리해 상위로 넘기는 것이 전체 설계를 단순하게 만들었다.
 
 아래 그림은 전통적 2칩 구조에서 데이터가 어떤 계층을 거치는지 보여준다. 특히 저장장치나 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 요청은 사우스브리지를 거쳐 노스브리지 또는 CPU 쪽으로 올라가므로, "어디에 연결되었는가"가 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경로를 의미한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         전통적 Northbridge / Southbridge 데이터 경로 구조           │
-├──────────────────────────────────────────────────────────────────────┤
-│  CPU (Central Processing Unit)                                      │
-│            │                                                        │
-│            │ FSB (Front Side Bus)                                   │
-│            ▼                                                        │
-│  ┌──────────────────────────┐                                       │
-│  │ 노스브리지 (Northbridge) │  = 고속 경로 제어                    │
-│  │ ㆍ메모리 컨트롤러        │                                       │
-│  │ ㆍ그래픽 인터페이스      │                                       │
-│  └───────────┬──────────────┘                                       │
-│              │                           ┌──────────────────────────────┐ │
-│              ├──────────────▶ DRAM       │ AGP (Accelerated Graphics    │ │
-│              │                           │ Port) / PCI Express Graphics │ │
-│              │                           └──────────────────────────────┘ │
-│              │                                                        │
-│              │ 칩셋 내부 링크                                         │
-│              ▼                                                        │
-│  ┌──────────────────────────┐                                       │
-│  │ 사우스브리지             │  = 저속 · 다종 장치 집선               │
-│  │ (Southbridge / ICH)      │                                       │
-│  └──────┬─────────┬─────────┴──────────────┬──────────────────────┐ │
-│         │         │                        │                      │ │
-│         ▼         ▼                        ▼                      ▼ │
-│      SATA       USB                     PCI                  BIOS ROM│
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 Northbridge / Southbridge 데이터 경로 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU (Central Processing Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FSB (Front Side Bus)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노스브리지 (Northbridge)</div><div class="kb-diagram-cell">= 고속 경로 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㆍ메모리 컨트롤러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㆍ그래픽 인터페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ DRAM</div><div class="kb-diagram-cell">AGP (Accelerated Graphics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port) / PCI Express Graphics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칩셋 내부 링크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사우스브리지</div><div class="kb-diagram-cell">= 저속 · 다종 장치 집선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Southbridge / ICH)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA USB PCI BIOS ROM</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 주된 역할 | 병목/설계 포인트 |
 | :-- | :-- | :-- |
@@ -99,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 이 구조를 단순한 역사 지식으로만 보면 안 된다. 현대 보드에서도 어떤 슬롯은 CPU 직결이고, 어떤 장치는 칩셋 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 뒤에 매달린다. 따라서 GPU나 고속 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 민감한 장치는 CPU 직결 경로에 우선 배치하고, 캡처카드·추가 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 컨트롤러·저장용 SSD처럼 상대적으로 덜 민감한 장치는 칩셋 쪽에 배치하는 판단이 중요하다. "같은 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 슬롯처럼 보여도 내부 경로는 다르다"는 점이 바로 노스브리지/사우스브리지 철학의 현대적 해석이다.
 
-장애 분석에서도 이 구분은 유효하다. 예를 들어 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장치 여러 개와 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) 장치가 동시에 바쁘면 칩셋 업링크가 포화되어 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생길 수 있다. 반면 CPU 직결 그래픽카드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제는 칩셋보다 전원, 레인 구성, BIOS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 드라이버 문제가 원인일 가능성이 높다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 볼 때는 장치 자체만이 아니라 **어느 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 계층에 연결되었는지**부터 확인해야 한다.
+장애 분석에서도 이 구분은 유효하다. 예를 들어 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장치 여러 개와 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) 장치가 동시에 바쁘면 칩셋 업링크가 포화되어 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생길 수 있다. 반면 CPU 직결 그래픽카드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제는 칩셋보다 전원, 레인 구성, BIOS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 드라이버 문제가 원인일 가능성이 높다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 볼 때는 장치 자체만이 아니라 <strong>어느 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> 계층에 연결되었는지</strong>부터 확인해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -122,7 +113,7 @@ tags = ["studynote-computer-architecture"]
 
 노스브리지/사우스브리지 구조의 가장 큰 성과는 시스템 설계를 "속도 등급별 계층화"로 바꾼 데 있다. 이 구조 덕분에 메모리·그래픽 같은 민감한 경로는 짧고 빠르게 유지하고, 수많은 주변장치는 별도 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에서 흡수할 수 있었다. 결과적으로 메인보드 설계가 모듈화되고, 장치 호환성이 올라가며, 병목 위치를 더 명확히 설명할 수 있게 되었다.
 
-한계도 분명했다. 메모리 컨트롤러가 CPU 밖에 있는 한, CPU와 노스브리지 사이 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 사라지지 않았다. 멀티코어와 고성능 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 시대가 열리자 이 구조는 결국 CPU 내부 통합으로 넘어갈 수밖에 없었다. 그래서 이 개념은 "지금도 그대로 쓰이는 완제품"이라기보다, **현대 플랫폼 구조가 왜 CPU 직결 경로와 칩셋 경유 경로로 나뉘는지 설명하는 역사적 원형**으로 기억하는 것이 정확하다.
+한계도 분명했다. 메모리 컨트롤러가 CPU 밖에 있는 한, CPU와 노스브리지 사이 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 사라지지 않았다. 멀티코어와 고성능 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 시대가 열리자 이 구조는 결국 CPU 내부 통합으로 넘어갈 수밖에 없었다. 그래서 이 개념은 "지금도 그대로 쓰이는 완제품"이라기보다, <strong>현대 플랫폼 구조가 왜 CPU 직결 경로와 칩셋 경유 경로로 나뉘는지 설명하는 역사적 원형</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 노스브리지와 사우스브리지는 옛날 도시의 교통 계획도 같지만, 그 도면의 원리는 지금 지하철·고속도로·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)터미널 설계에도 남아 있다. 건물은 바뀌어도 빠른 길과 느린 길을 섞지 않는 원칙은 계속 살아남는다.
 
@@ -140,24 +131,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 공유 버스 중심 설계
-        │
-        ▼
-노스브리지 / 사우스브리지 분리
-        │
-        ├─ 고속 경로: CPU ↔ 메모리 ↔ 그래픽
-        └─ 저속 경로: USB · SATA · PCI · BIOS
-        │
-        ▼
-메모리 컨트롤러의 CPU 통합 (IMC)
-        │
-        ▼
-CPU 직결 PCIe + PCH 허브 구조
-        │
-        ▼
-SoC · 온칩 인터커넥트 · NoC 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 공유 버스 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노스브리지 / 사우스브리지 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">고속 경로: CPU ↔ 메모리 ↔ 그래픽</div>
+<div class="kb-diagram-tree-item" style="--depth:4">저속 경로: USB · SATA · PCI · BIOS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 컨트롤러의 CPU 통합 (IMC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU 직결 PCIe + PCH 허브 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SoC · 온칩 인터커넥트 · NoC 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "분리로 병목을 완화하고, 이후 핵심 경로는 더 가까이 통합한다"는 진화 방향을 보여준다.
 

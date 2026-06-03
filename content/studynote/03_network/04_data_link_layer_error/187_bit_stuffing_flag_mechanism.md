@@ -22,17 +22,21 @@ tags = ["studynote-network"]
 문자 삽입(DLE) 방식은 8비트(1바이트) 단위로 뭉텅뭉텅 글자를 쑤셔 넣어야 해서 비효율적이었습니다.
 그래서 개발자들은 아예 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위를 버리고 순수한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위(Bit-oriented)로 프레임을 자르기로 했습니다.
 
-- **프레임의 깃발 ([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))**: `01111110` (가운데 1이 정확히 연속으로 6개 있음)
-- 프레임의 맨 앞과 맨 뒤에 무조건 이 깃발을 꽂습니다. 수신기는 쏟아지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림을 보다가 **1이 연속으로 6개(01111110) 나오는 순간, 무조건 거기를 프레임의 경계선(시작 또는 끝)으로 인식**합니다.
+- <strong>프레임의 깃발 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a>)</strong>: `01111110` (가운데 1이 정확히 연속으로 6개 있음)
+- 프레임의 맨 앞과 맨 뒤에 무조건 이 깃발을 꽂습니다. 수신기는 쏟아지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림을 보다가 <strong>1이 연속으로 6개(01111110) 나오는 순간, 무조건 거기를 프레임의 경계선(시작 또는 끝)으로 인식</strong>합니다.
 
-```text
-[플래그 방식]
-    │
-    ▼
-[비트 스터핑]
-    │
-    └──▶ [오류 제어 개요]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">플래그 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 제어 개요</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,29 +44,33 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-문제는 우리가 보내는 동영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(본문) 안에 우연히 `01111110` 패턴이 들어있을 수 있다는 점입니다. 수신기가 그걸 진짜 끝나는 깃발로 착각하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘려 나갑니다. 이를 막는 완벽한 트릭이 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑**입니다.
+문제는 우리가 보내는 동영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(본문) 안에 우연히 `01111110` 패턴이 들어있을 수 있다는 점입니다. 수신기가 그걸 진짜 끝나는 깃발로 착각하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘려 나갑니다. 이를 막는 완벽한 트릭이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스터핑</strong>입니다.
 
 ### 송신기의 조작 (Stuffing)
 - 송신기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 눈에 불을 켜고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 감시합니다.
-- 만약 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중에 1이 연속으로 5개(`11111`)가 나오는 순간! 뒤에 1이 또 나올지 모르는 위험한 상황이므로, **무조건 그 5개의 1 뒤에 강제로 가짜 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) `0`을 하나 쑤셔 넣습니다(Stuffing).**
+- 만약 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중에 1이 연속으로 5개(`11111`)가 나오는 순간! 뒤에 1이 또 나올지 모르는 위험한 상황이므로, <strong>무조건 그 5개의 1 뒤에 강제로 가짜 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> <code>0</code>을 하나 쑤셔 넣습니다(Stuffing).</strong>
 - *원본 본문*: `01111110` (가짜 깃발 패턴 출현)
-- *송신 후*: `011111` + **`0(강제삽입)`** + `10` ➔ `011111010` (가짜 깃발이 부서짐!)
+- *송신 후*: `011111` + <strong><code>0(강제삽입)</code></strong> + `10` ➔ `011111010` (가짜 깃발이 부서짐!)
 - 이렇게 하면 본문 전체를 통틀어 '1이 6개 연속되는 구간'은 절대, 네버 존재할 수 없게 됩니다. 오직 진짜 양끝의 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만이 1을 6개 가질 수 있습니다.
 
 ### 수신기의 해독 (Destuffing)
 - 수신기는 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 편안하게 읽습니다. 
 - 그러다 1이 연속으로 5개(`11111`) 들어오는 것을 발견하면 바짝 긴장합니다. "송신기가 또 0을 끼워 넣었나?"
-- 만약 **그다음 6번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `0`이면?** "아, 송신기가 스터핑한 0이구나!" 하고 그 `0`을 핀셋으로 쏙 뽑아서 쓰레기통에 버려버리고(Destuffing) 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원합니다.
-- 만약 **그다음 6번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `1`이면?** "앗! 1이 6개네! 이건 진짜 프레임이 끝났다는 깃발(`01111110`)이다!"라고 판단하고 프레임을 칼같이 자릅니다.
+- 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>0</code>이면?</strong> "아, 송신기가 스터핑한 0이구나!" 하고 그 `0`을 핀셋으로 쏙 뽑아서 쓰레기통에 버려버리고(Destuffing) 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원합니다.
+- 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>1</code>이면?</strong> "앗! 1이 6개네! 이건 진짜 프레임이 끝났다는 깃발(`01111110`)이다!"라고 판단하고 프레임을 칼같이 자릅니다.
 
-```text
-[플래그 방식]
-    │
-    ▼
-[비트 스터핑]
-    │
-    └──▶ [오류 제어 개요]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">플래그 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 제어 개요</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑은 지하철의 **'빨간 모자 규칙'**입니다. 역장님(시작/끝)만 유일하게 '빨간 모자'를 쓸 수 있습니다. 만약 일반 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 중에 빨간 모자를 쓴 사람이 개찰구를 지나가려 하면, 역무원이 강제로 **'파란 스티커([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 0)'**를 모자에 붙여버립니다(Stuffing). 반대쪽 역에서는 파란 스티커가 붙은 모자를 보면 "아, 저건 일반 승객이구나" 하고 스티커를 떼서 내보내 줍니다. 오직 스티커 없는 진짜 빨간 모자만 기차의 시작과 끝을 알립니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스터핑은 지하철의 </strong>'빨간 모자 규칙'<strong>입니다. 역장님(시작/끝)만 유일하게 '빨간 모자'를 쓸 수 있습니다. 만약 일반 승객(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>) 중에 빨간 모자를 쓴 사람이 개찰구를 지나가려 하면, 역무원이 강제로 </strong>'파란 스티커([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 0)'**를 모자에 붙여버립니다(Stuffing). 반대쪽 역에서는 파란 스티커가 붙은 모자를 보면 "아, 저건 일반 승객이구나" 하고 스티커를 떼서 내보내 줍니다. 오직 스티커 없는 진짜 빨간 모자만 기차의 시작과 끝을 알립니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 플래그 방식]
-    │
-    ▼
-[현재 개념: 비트 스터핑]
-    │
-    ├──▶ [확장 A: 오류 제어 개요]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 플래그 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비트 스터핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오류 제어 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 개요와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

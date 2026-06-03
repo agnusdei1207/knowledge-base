@@ -31,10 +31,10 @@ tags = ["studynote-data-engineering"]
 
 | V | 의미 | 현재 규모 |
 |:---|:---|:---|
-| **[Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)(양)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 | 제타바이트(ZB) 시대 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a>(양)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 | 제타바이트(ZB) 시대 |
 | **Velocity(속도)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 | 마이크로초 단위 스트림 |
 | **Variety(다양성)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태 | 텍스트·이미지·영상·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
-| **Veracity([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | 품질·출처 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수 |
+| <strong>Veracity(<a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | 품질·출처 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수 |
 | **Value(가치)** | 비즈니스 가치 창출 | 핵심 목적 |
 
 📢 **섹션 요약 비유**: 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 스마트 정수 처리장이다. 강(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 물을 끌어와, 여과([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/))하고, 저장탱크([레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))에 담고, 각 가정(분석 도구)에 공급한다. 수질([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질) 관리와 배관 관리(거버넌스)가 없으면 정수장이 아무리 커도 식수를 공급할 수 없다.
@@ -45,62 +45,49 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 통합 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│         현대 클라우드 데이터 플랫폼 통합 아키텍처                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  1. 수집 계층 (Ingestion Layer)                           │   │
-│  │  배치: AWS Glue / GCP Dataflow / Azure Data Factory      │   │
-│  │  스트림: Kafka / AWS Kinesis / GCP Pub/Sub               │   │
-│  └──────────────────────────┬───────────────────────────────┘   │
-│                             │                                   │
-│  ┌──────────────────────────▼───────────────────────────────┐   │
-│  │  2. 저장 계층 (Storage Layer)                             │   │
-│  │  오브젝트: S3 / GCS / Azure Blob (원시 데이터 레이크)    │   │
-│  │  테이블: Delta Lake / Apache Iceberg / Apache Hudi       │   │
-│  │  (ACID, 타임트래블, 스키마 진화 지원)                     │   │
-│  └──────────────────────────┬───────────────────────────────┘   │
-│                             │                                   │
-│  ┌──────────────────────────▼───────────────────────────────┐   │
-│  │  3. 처리 계층 (Processing Layer)                          │   │
-│  │  배치: Apache Spark / AWS EMR / Dataproc                 │   │
-│  │  스트림: Apache Flink / Spark Streaming                   │   │
-│  │  변환: dbt(Data Build Tool) SQL 기반 ELT                  │   │
-│  └──────────────────────────┬───────────────────────────────┘   │
-│                             │                                   │
-│  ┌──────────────────────────▼───────────────────────────────┐   │
-│  │  4. 분석 계층 (Analytics Layer)                           │   │
-│  │  SQL: BigQuery / Snowflake / Redshift / Azure Synapse    │   │
-│  │  ML: SageMaker / Vertex AI / Azure ML                    │   │
-│  │  시각화: Tableau / Looker / Power BI                      │   │
-│  └──────────────────────────┬───────────────────────────────┘   │
-│                             │                                   │
-│  ┌──────────────────────────▼───────────────────────────────┐   │
-│  │  5. 서빙 계층 (Serving Layer)                             │   │
-│  │  API: REST/GraphQL 데이터 API                             │   │
-│  │  캐시: Redis / DynamoDB (실시간 피처 서빙)               │   │
-│  │  대시보드: 비즈니스 인텔리전스(BI) 시스템                  │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  ═══ 횡단 관심사 (Cross-cutting Concerns) ═══                    │
-│  데이터 카탈로그 (Data Catalog): Apache Atlas / Datahub          │
-│  데이터 계보 (Data Lineage): OpenLineage / Marquez              │
-│  데이터 품질 (Data Quality): Great Expectations / Soda          │
-│  보안·접근 제어: Apache Ranger / AWS Lake Formation             │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 클라우드 데이터 플랫폼 통합 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 수집 계층 (Ingestion Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: AWS Glue / GCP Dataflow / Azure Data Factory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림: Kafka / AWS Kinesis / GCP Pub/Sub</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 저장 계층 (Storage Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오브젝트: S3 / GCS / Azure Blob (원시 데이터 레이크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블: Delta Lake / Apache Iceberg / Apache Hudi</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ACID, 타임트래블, 스키마 진화 지원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 처리 계층 (Processing Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: Apache Spark / AWS EMR / Dataproc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림: Apache Flink / Spark Streaming</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환: dbt(Data Build Tool) SQL 기반 ELT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 분석 계층 (Analytics Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL: BigQuery / Snowflake / Redshift / Azure Synapse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML: SageMaker / Vertex AI / Azure ML</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각화: Tableau / Looker / Power BI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 서빙 계층 (Serving Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API: REST/GraphQL 데이터 API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시: Redis / DynamoDB (실시간 피처 서빙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드: 비즈니스 인텔리전스(BI) 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">횡단 관심사 (Cross-cutting Concerns)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그 (Data Catalog): Apache Atlas / Datahub</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계보 (Data Lineage): OpenLineage / Marquez</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 (Data Quality): Great Expectations / Soda</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안·접근 제어: Apache Ranger / AWS Lake Formation</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 AWS vs GCP vs Azure [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비교
 
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유형 | AWS | GCP | Azure |
 |:---|:---|:---|:---|
 | **스트리밍 수집** | Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams | Pub/Sub | Event Hubs |
-| **배치 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)** | Glue | Dataflow (Apache Beam) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory |
-| **[오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)** | S3 | GCS | Blob Storage |
-| **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)** | Redshift [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) | [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) | Synapse Analytics |
-| **[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)** | Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | Dataplex | Purview |
+| <strong>배치 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a></strong> | Glue | Dataflow (Apache Beam) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/">오브젝트 스토리지</a></strong> | S3 | GCS | Blob Storage |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a></strong> | Redshift [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) | [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) | Synapse Analytics |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | Dataplex | Purview |
 | **ML 플랫폼** | SageMaker | Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | Azure ML |
 | **실시간 분석** | Kinesis Analytics | [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) Streaming | [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Analytics |
 
@@ -112,22 +99,24 @@ tags = ["studynote-data-engineering"]
 
 ### 3.1 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)) 삼각 구도
 
-```
-           데이터 거버넌스 (Data Governance)
-                      /\
-                     /  \
-                    /    \
-                   /      \
-        데이터 품질  ──────  데이터 계보
-       (Data Quality)      (Data Lineage)
-       Great Expectations   OpenLineage
-       Soda / Monte Carlo   Apache Atlas
 
-데이터 카탈로그 (Data Catalog): 세 요소의 허브
-→ 어디 있는지 (Data Discovery)
-→ 어디서 왔는지 (Lineage)
-→ 얼마나 신뢰할 수 있는지 (Quality Score)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 거버넌스 (Data Governance)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 품질 데이터 계보</div>
+<div class="kb-diagram-note">(Data Quality) (Data Lineage)</div>
+<div class="kb-diagram-note">Great Expectations OpenLineage</div>
+<div class="kb-diagram-note">Soda / Monte Carlo Apache Atlas</div>
+<div class="kb-diagram-note">데이터 카탈로그 (Data Catalog): 세 요소의 허브</div>
+<div class="kb-diagram-note">→ 어디 있는지 (Data Discovery)</div>
+<div class="kb-diagram-note">→ 어디서 왔는지 (Lineage)</div>
+<div class="kb-diagram-note">→ 얼마나 신뢰할 수 있는지 (Quality Score)</div>
+</div>
+</div>
+
+
 
 ### 3.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 추적 레벨
 
@@ -135,7 +124,7 @@ tags = ["studynote-data-engineering"]
 |:---|:---|:---|
 | **필드 레벨(Column-level)** | 각 컬럼의 변환 이력 추적 | dbt, OpenLineage |
 | **테이블 레벨(Table-level)** | 테이블 간 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Apache Atlas, Datahub |
-| **[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 레벨** | 전체 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 흐름 | [Apache Airflow DAG](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), Marquez |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 레벨</strong> | 전체 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 흐름 | [Apache Airflow DAG](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), Marquez |
 
 ### 3.3 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)) vs 중앙화 아키텍처
 
@@ -144,7 +133,7 @@ tags = ["studynote-data-engineering"]
 | **소유권** | 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 (제품 사고방식) |
 | **확장성** | 중앙 팀 병목 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 독립 확장 |
 | **거버넌스** | 중앙 집중 | 연합 거버넌스(Federated Governance) |
-| **[데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)** | 없음 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/">데이터 제품</a></strong> | 없음 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트 |
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 회사 식당을 없애고 각 부서에 개별 냉장고와 주방을 주는 것이다. 중앙 식당은 줄이 길고 메뉴가 획일적이지만, 각 부서 주방은 빠르고 취향에 맞다. 단, 식품 안전(거버넌스) 기준은 본사가 통일 적용한다.
 
@@ -157,17 +146,17 @@ tags = ["studynote-data-engineering"]
 | 차원 | 정의 | 측정 방법 |
 |:---|:---|:---|
 | **완전성(Completeness)** | Null 비율 < 임계값 | 컬럼별 Null Count |
-| **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Accuracy)** | 실제 값과 일치 | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** | 중복·충돌 없음 | 중복 레코드 탐지 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(Accuracy)</strong> | 실제 값과 일치 | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> | 중복·충돌 없음 | 중복 레코드 탐지 |
 | **적시성(Timeliness)** | 최신성 보장 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도(Freshness) |
 | **유효성(Validity)** | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·범위 준수 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 검사 |
 | **유일성(Uniqueness)** | PK 중복 없음 | 기본키 유일성 검사 |
 
 ### 4.2 기술사 논술 핵심 포인트
 
-- **[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 핵심 가치**: 스토리지 비용(레이크) + [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(웨어하우스) 동시 달성
-- **[ELT vs ETL](/knowledge-base/studynote/16_bigdata/07_data_lake/155_elt_vs_etl/) 현대적 전환**: 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 처리 능력 향상으로 ELT가 표준 (변환을 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부에서)
-- **[데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)([Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/))**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 건강 상태 실시간 모니터링 (Monte Carlo 등)
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 아키텍처의 핵심 가치</strong>: 스토리지 비용(레이크) + [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(웨어하우스) 동시 달성
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/155_elt_vs_etl/">ELT vs ETL</a> 현대적 전환</strong>: 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 처리 능력 향상으로 ELT가 표준 (변환을 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부에서)
+- <strong><a href="/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/">데이터 옵저버빌리티</a>(<a href="/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/">Data Observability</a>)</strong>: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 건강 상태 실시간 모니터링 (Monte Carlo 등)
 
 📢 **섹션 요약 비유**: 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 설계는 도시 상수도 시스템 설계와 같다. 취수원(수집)→정수장(처리)→저수지(저장)→배관망(서빙)의 전체 그림을 그리되, 각 단계 수질 검사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 흐름 추적([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보)이 없으면 시민은 오염된 물을 마시게 된다.
 
@@ -211,19 +200,23 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스 Hadoop 클러스터
-    │
-    ▼
-클라우드 데이터 플랫폼
-    ├─► 수집: Kafka · Kinesis · Pub/Sub
-    ├─► 저장: S3 · GCS · ADLS (Lakehouse)
-    ├─► 처리: Spark · Flink · Dataflow
-    └─► 분석: BigQuery · Snowflake · Redshift
-    │
-    ▼
-통합 파이프라인: Airflow · dbt · MLOps 연동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 Hadoop 클러스터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 데이터 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">수집: Kafka · Kinesis · Pub/Sub</div>
+<div class="kb-diagram-tree-item" style="--depth:2">저장: S3 · GCS · ADLS (Lakehouse)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">처리: Spark · Flink · Dataflow</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분석: BigQuery · Snowflake · Redshift</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통합 파이프라인: Airflow · dbt · MLOps 연동</div>
+</div>
+</div>
+
+
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 "이 책이 어떤 원고에서 만들어졌고, 누가 편집했는지" 기록하는 출판 이력이에요—어디서 왔는지 모르는 책은 믿기 어려워요.
 3. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도서관 규칙이에요. 책을 무단으로 바꾸면 안 되고, 개인 정보가 담긴 책은 특별히 잠가두고, 불량 책은 자동으로 골라내는 시스템이에요.
 

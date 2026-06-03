@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 쌍을 이루어 동작하며, 참여자 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 피드백, 참가자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어 정보를 교환하는 모니터링 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 3550).
 - **필요성**: RTP는 UDP를 타고 가니까 서버(송신자)는 지가 쏜 영상이 시청자 화면에 4K로 쨍쨍하게 나오는지, 다 찢어져서 깍두기가 됐는지 알 턱이 없었다. 시청자는 화면이 멈춰서 욕을 하고 있는데 서버는 계속 고화질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부어 대역폭만 더 망가뜨린다. **"야! 시청자들이 지금 렉이 걸리는지 쾌적한지, 5초에 한 번씩 시청률과 화면 상태를 앙케트 조사(Feedback)해서 서버로 보내라! 서버가 그 앙케트 결과를 보고 화질을 올리든 내리든 판단하게 만들자!"**
 
-- **💡 비유**: RTCP는 방송국의 **"실시간 시청자 모니터링 요원"**과 같습니다.
-  - **[RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)**: 본 방송국에서 전파로 냅다 쏘는 **"드라마 본방송"** 자체입니다.
-  - **RTCP**: 시청자 거실에 숨어 있는 모니터링 요원입니다. 드라마가 나올 때 화면에 노이즈가 끼면, 요원이 즉시 본사에 전화를 걸어 **"국장님, 지금 부산 지역 화면 엄청 깨집니다!(Receiver Report)"**라고 보고합니다. 국장님은 이 보고를 받고 부산 쪽 전파 송출소의 출력을 조절합니다.
+- **💡 비유**: RTCP는 방송국의 <strong>"실시간 시청자 모니터링 요원"</strong>과 같습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a></strong>: 본 방송국에서 전파로 냅다 쏘는 **"드라마 본방송"** 자체입니다.
+  - **RTCP**: 시청자 거실에 숨어 있는 모니터링 요원입니다. 드라마가 나올 때 화면에 노이즈가 끼면, 요원이 즉시 본사에 전화를 걸어 <strong>"국장님, 지금 부산 지역 화면 엄청 깨집니다!(Receiver Report)"</strong>라고 보고합니다. 국장님은 이 보고를 받고 부산 쪽 전파 송출소의 출력을 조절합니다.
 
-```text
-[RTP]
-    │
-    ▼
-[RTCP]
-    │
-    └──▶ [XTP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">XTP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RTCP는 온라인 게임의 **"우측 상단 핑(Ping)과 FPS 표시기"**입니다. 내 총알([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 얼마나 빨리 나가는지 화면 구석에 계속 숫자로 띄워주어, 내가 게임 옵션(화질)을 타협할지 계속 진행할지를 판단하게 해주는 핵심 참고 자료입니다.
 
@@ -43,44 +47,40 @@ tags = ["studynote-network"]
 
 ### 1. 영혼의 짝꿍 (홀수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
 RTP와 RTCP는 실과 바늘이다. 통신이 시작되면 무조건 같이 열린다.
-- 영상([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 5000번(짝수)**으로 날아가면, 품질 보고서(RTCP)는 무조건 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 50001번(홀수)**으로 날아간다.
+- 영상([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 5000번(짝수)</strong>으로 날아가면, 품질 보고서(RTCP)는 무조건 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 50001번(홀수)</strong>으로 날아간다.
 - 팁: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어가 사내 인터넷 전화망(VoIP)을 뚫어줄 때, [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 10000)만 달랑 허용(Allow)해주고 RTCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(10001)를 까먹고 안 열어주면, 전화 통화는 잘 되는데 화질/음질 조절이 안 돼서 통화가 뚝뚝 끊기는 미친 장애가 터진다. 반드시 $+1$ [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 같이 열어야 한다.
 
 ### 2. RTCP의 트래픽 점유율 제한 (5% 룰)
 10만 명이 동시에 축구 중계를 보고 있다. 10만 명이 1초마다 "화질 구려요!"라고 RTCP 보고서를 서버로 쏘면? 옛날 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ACK 폭풍처럼 서버가 보고서를 받다 뻗어버린다.
 - **5% 룰의 천재성**: "모든 RTCP 보고서 트래픽의 총합은, 전체 영상([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)) 트래픽 대역폭의 **딱 5%를 절대 넘지 못하게 해라!**"
-- 10명 볼 때는 1초마다 보고서를 쓰다가, 시청자가 10만 명으로 늘어나면 스스로 눈치를 챈 시청자 PC들이 **"아, 사람 많으니까 나 혼자 보고서를 1시간에 1번씩만 써서 내야겠다"**라며 자발적으로 보고 빈도를 미친 듯이 확 늦춰버린다. 서버가 절대 죽지 않는 갓벽한 설계다.
+- 10명 볼 때는 1초마다 보고서를 쓰다가, 시청자가 10만 명으로 늘어나면 스스로 눈치를 챈 시청자 PC들이 <strong>"아, 사람 많으니까 나 혼자 보고서를 1시간에 1번씩만 써서 내야겠다"</strong>라며 자발적으로 보고 빈도를 미친 듯이 확 늦춰버린다. 서버가 절대 죽지 않는 갓벽한 설계다.
 
 ### 3. RTCP의 5대 메시지 (편지 종류)
 와이어샤크로 까보면 이 5가지 중 하나의 편지가 날아다닌다.
 1. **SR (Sender Report)**: 영상을 쏘는 쪽(서버)이 보내는 보고서. "나 여태까지 패킷 100만 개 쐈어~"
-2. **[RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Receiver Report) ★가장 중요**: 시청자([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 쏘는 보고서. **"나 100만 개 중에 90만 개밖에 못 받았어! (유실률 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) Jitter([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))는 15ms 나옴 ㅠㅠ"**
+2. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a> (Receiver Report) ★가장 중요</strong>: 시청자([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 쏘는 보고서. <strong>"나 100만 개 중에 90만 개밖에 못 받았어! (유실률 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%) Jitter(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)는 15ms 나옴 ㅠㅠ"</strong>
 3. **SDES (Source Description)**: 참가자의 신상 정보. CNAME(이름, 이메일 주소 등)이 적혀 있어, "아! 이 목소리는 김대리 목소리구나!"라고 화면에 이름을 띄워주는 역할을 한다.
 4. **BYE**: "나 이제 방송 다 봤어. 방 나갈게 ㅂㅂ" (통신 종료).
 5. **APP**: 개발자가 맘대로 만들어 쓰는 특수 기능용 엽서.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RTP와 RTCP의 실시간 대역폭 핑퐁 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 넷플릭스 서버 ]                            [ 스마트폰 ]        │
- │                                                             │
- │   (RTP) "4K 쥑이는 화질 발사!!!" ──────────(1Gbps)─────────▶ │
- │                                                             │
- │   * 스마트폰 상황: 지하실로 들어가서 전파가 구려짐. 패킷 막 터져 나감!  │
- │                                                             │
- │   (RTCP) ◀─── "국장님! 지금 패킷 20%가 증발했습니다 ㅠㅠ (RR)" ──  │
- │                                                             │
- │   * 서버의 판단 (Adaptive Bitrate):                           │
- │     "헐 길 막혔네? 야, 당장 4K 멈추고 720p로 화질 낮춰서 쏴!!"       │
- │                                                             │
- │   (RTP) "720p 찰흙 화질 발사!" ───────────(10Mbps)─────────▶ │
- │                                                             │
- │   ▶ "이 RTCP의 조언 덕분에, 우리는 지하실에 들어가도 영상이 아예      │
- │      멈추지 않고, 화질만 살짝 구려진 채로 방송을 계속 볼 수 있다!"      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTP와 RTCP의 실시간 대역폭 핑퐁 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">넷플릭스 서버</div><div class="kb-diagram-node">스마트폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RTP) "4K 쥑이는 화질 발사!!!" (1Gbps) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스마트폰 상황: 지하실로 들어가서 전파가 구려짐. 패킷 막 터져 나감!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RTCP) ◀ "국장님! 지금 패킷 20%가 증발했습니다 ㅠㅠ (RR)" ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 서버의 판단 (Adaptive Bitrate):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"헐 길 막혔네? 야, 당장 4K 멈추고 720p로 화질 낮춰서 쏴!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RTP) "720p 찰흙 화질 발사!" (10Mbps) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 RTCP의 조언 덕분에, 우리는 지하실에 들어가도 영상이 아예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멈추지 않고, 화질만 살짝 구려진 채로 방송을 계속 볼 수 있다!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RTCP는 배달앱의 **"실시간 평점 리뷰"**입니다. 배달원([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 음식을 무작정 쏟아부을 때, 손님(시청자)은 계속해서 "음식이 늦어요, 다 식었어요(Jitter)"라고 1점짜리 리뷰([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))를 남깁니다. 사장님(서버)은 리뷰를 보고 배달 방식을 오토바이에서 퀵으로 바꾸거나(화질 조절) 대처 방안을 마련합니다.
 
@@ -138,15 +138,19 @@ RTCP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RTP]
-    │
-    ▼
-[현재 개념: RTCP]
-    │
-    ├──▶ [확장 A: XTP]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RTCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: XTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 RTCP는 RTP에서 출발해 현재 메커니즘을 정교화하고, 이후 XTP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

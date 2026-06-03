@@ -23,28 +23,26 @@ tags = ["studynote-ict-convergence"]
 
 이 구조가 필요한 이유는 인체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일반 모바일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 다르게 움직이기 때문이다. 심전도, 혈당, 체온, 근전도처럼 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 작고 연속적이며, 몸의 움직임과 자세 변화에 따라 통신 조건도 시시각각 변한다. 여기에 착용감, 발열, 배터리 교체, 피부 자극, 프라이버시까지 고려해야 하므로 일반 [WLAN](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/) (Wireless Local Area Network)이나 셀룰러 링크를 그대로 붙이는 방식은 비효율적이다.
 
-특히 의료·안전 분야에서는 "하루에 한 번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보내기"보다 "늘 연결돼 있으면서도 배터리를 아껴야 함"이 더 중요하다. 심장 패치가 매번 클라우드와 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하려 들면 전력 소모가 급증하고, 작은 배터리는 두께와 무게를 키워 착용성을 해친다. 그래서 웨어러블은 대개 **센서 → 인체 근처 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) → 외부 네트워크**의 계층 구조를 택한다.
+특히 의료·안전 분야에서는 "하루에 한 번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보내기"보다 "늘 연결돼 있으면서도 배터리를 아껴야 함"이 더 중요하다. 심장 패치가 매번 클라우드와 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하려 들면 전력 소모가 급증하고, 작은 배터리는 두께와 무게를 키워 착용성을 해친다. 그래서 웨어러블은 대개 <strong>센서 → 인체 근처 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> → 외부 네트워크</strong>의 계층 구조를 택한다.
 
 아래 그림은 웨어러블 시스템이 왜 몸 중심의 다단 구조를 가지는지 보여 준다. 센서가 인터넷까지 직접 달리는 것이 아니라, 몸 가까운 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에게만 짧게 말하고 잠드는 구조가 핵심이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Body-centric wearable architecture                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ [Heart patch] [Glucose sensor] [Insole] [Earbud]                  │
-│      \            │            /            /                      │
-│       \           │           /            /                       │
-│        └────────► [Coordinator: watch / phone]                     │
-│                           │                                        │
-│                           ├─ local alarm / feedback                │
-│                           ▼                                        │
-│                  [Gateway / cloud / clinician]                     │
-│                                                                    │
-│ Tiny body nodes do not talk to WAN directly unless necessary       │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 웨어러블과 WBAN의 필요성은 "작은 스마트폰을 하나 더 만들자"가 아니다. **몸 위와 몸 안이라는 특수 환경에 맞춘 통신, 전력, 안전 설계가 따로 필요하다**는 데서 출발한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Body-centric wearable architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Heart patch</div><div class="kb-diagram-node">Glucose sensor</div><div class="kb-diagram-node">Insole</div><div class="kb-diagram-node">Earbud</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">►</div><div class="kb-diagram-node">Coordinator: watch / phone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ local alarm / feedback</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gateway / cloud / clinician</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tiny body nodes do not talk to WAN directly unless necessary</div></div>
+</div>
+</div>
+
+
+
+즉 웨어러블과 WBAN의 필요성은 "작은 스마트폰을 하나 더 만들자"가 아니다. <strong>몸 위와 몸 안이라는 특수 환경에 맞춘 통신, 전력, 안전 설계가 따로 필요하다</strong>는 데서 출발한다.
 
 - **📢 섹션 요약 비유**: 아이들이 각자 시청까지 뛰어가 보고하는 대신, 반장에게만 짧게 알려 주고 반장이 선생님께 전달하는 방식과 같다. 몸에 붙은 센서는 멀리 달릴 힘이 없기 때문에 가까운 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 역할 분담을 해야 한다.
 
@@ -52,7 +50,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-WBAN의 구성 요소는 보통 센서 노드, 코디네이터, 게이트웨이, 그리고 상위 분석 시스템으로 나뉜다. 센서 노드는 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하고, 코디네이터는 여러 노드를 묶어 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 트래픽 우선순위를 관리하며, 게이트웨이는 외부 네트워크와 연계한다. 이때 핵심 제약은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 아니라 **초저전력, 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 높은 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 인체 안전성**이다.
+WBAN의 구성 요소는 보통 센서 노드, 코디네이터, 게이트웨이, 그리고 상위 분석 시스템으로 나뉜다. 센서 노드는 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하고, 코디네이터는 여러 노드를 묶어 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 트래픽 우선순위를 관리하며, 게이트웨이는 외부 네트워크와 연계한다. 이때 핵심 제약은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 아니라 <strong>초저전력, 짧은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>, 높은 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>, 인체 안전성</strong>이다.
 
 | 구성 요소 | 역할 | 설계 포인트 | 실패 시 영향 |
 | :--- | :--- | :--- | :--- |
@@ -63,18 +61,20 @@ WBAN의 구성 요소는 보통 센서 노드, 코디네이터, 게이트웨이,
 
 [WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 표준인 IEEE 802.15.6은 이런 특성을 반영해 긴급 트래픽과 일반 트래픽을 구분한다. 예를 들어 심정지 경보처럼 즉시 전달돼야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와, 분 단위 활동량 통계는 같은 우선순위를 가질 수 없다. 따라서 맥 계층은 비콘 ([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)), [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) (Exclusive Access Phase), RAP (Random Access Phase), MAP (Managed Access Phase), [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) (Contention Access Phase) 같은 구간을 나눠 생명 직결 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 우선 보낸다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ IEEE 802.15.6 style superframe                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Beacon | EAP1 | RAP1 | MAP1 | EAP2 | RAP2 | MAP2 | CAP            │
-│   sync | emergency | random | managed | emergency | random | ctrl │
-│                                                                    │
-│ Emergency heart alarm -> EAP                                        │
-│ Routine sensor stream -> MAP                                        │
-│ Management / setup     -> CAP                                       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.15.6 style superframe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beacon</div><div class="kb-diagram-cell">EAP1</div><div class="kb-diagram-cell">RAP1</div><div class="kb-diagram-cell">MAP1</div><div class="kb-diagram-cell">EAP2</div><div class="kb-diagram-cell">RAP2</div><div class="kb-diagram-cell">MAP2</div><div class="kb-diagram-cell">CAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync</div><div class="kb-diagram-cell">emergency</div><div class="kb-diagram-cell">random</div><div class="kb-diagram-cell">managed</div><div class="kb-diagram-cell">emergency</div><div class="kb-diagram-cell">random</div><div class="kb-diagram-cell">ctrl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Emergency heart alarm -&gt; EAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Routine sensor stream -&gt; MAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Management / setup -&gt; CAP</div></div>
+</div>
+</div>
+
+
 
 물리 계층도 일반 무선과 다르게 본다. 소비자 웨어러블은 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ([Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))를 많이 쓰지만, [WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 개념 자체는 그보다 넓다. 의료급 시스템에서는 Narrowband, [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/)), HBC (Human Body Communication) 같은 방식이 상황에 따라 검토된다. HBC는 인체를 전송 경로의 일부로 활용해 짧은 거리에서 보안성과 전력 효율을 높이려는 접근이고, UWB는 위치 인식과 간섭 저항성 측면에서 장점이 있다.
 
@@ -95,11 +95,11 @@ WBAN의 구성 요소는 보통 센서 노드, 코디네이터, 게이트웨이,
 | 우선 과제 | 배터리 수명, SAR (Specific Absorption Rate), 응급 우선순위 | 페어링 편의, 범용성 | 직접 인터넷 연결 |
 | 잘 맞는 용도 | 의료, 안전, 지속 모니터링 | 소비자 헬스, 액세서리 | 독립형 워치, 광역 추적 |
 
-WBAN은 mHealth (mobile health), [Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/), Energy Harvesting과도 긴밀히 연결된다. 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 기기 안에서 이상 심박만 골라내면 무선 송신량이 줄어 배터리가 오래 간다. 에너지 하베스팅이 체열·움직임에서 미세 전력을 얻어 주면 센서 교체 주기를 늘릴 수 있다. 즉 웨어러블은 단순 센서가 아니라, **센싱-통신-전력-분석이 동시에 엮이는 융합 플랫폼**이다.
+WBAN은 mHealth (mobile health), [Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/), Energy Harvesting과도 긴밀히 연결된다. 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 기기 안에서 이상 심박만 골라내면 무선 송신량이 줄어 배터리가 오래 간다. 에너지 하베스팅이 체열·움직임에서 미세 전력을 얻어 주면 센서 교체 주기를 늘릴 수 있다. 즉 웨어러블은 단순 센서가 아니라, <strong>센싱-통신-전력-분석이 동시에 엮이는 융합 플랫폼</strong>이다.
 
 또 하나 중요한 연결은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 보호다. 건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순 위치 정보보다 민감한 경우가 많다. 그래서 웨어러블 시스템은 무선 구간 암호화뿐 아니라, 로컬 저장 최소화, 안전한 페어링, 분실 시 원격 삭제, 표준 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 연계까지 함께 고려해야 한다.
 
-정리하면 WBAN은 "작은 기기용 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)"가 아니라, **몸이라는 제약 조건 위에서 통신과 컴퓨팅을 다시 설계한 네트워크 계층**이다. 이 경계를 놓치면 소비자 액세서리 수준의 설계를 의료급 요구사항에 그대로 가져오는 오류가 생긴다.
+정리하면 WBAN은 "작은 기기용 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)"가 아니라, <strong>몸이라는 제약 조건 위에서 통신과 컴퓨팅을 다시 설계한 네트워크 계층</strong>이다. 이 경계를 놓치면 소비자 액세서리 수준의 설계를 의료급 요구사항에 그대로 가져오는 오류가 생긴다.
 
 - **📢 섹션 요약 비유**: 이어폰 연결은 친구와 음악을 듣는 문제지만, 심전도 패치 연결은 구급차 호출과 연결된 문제다. 둘 다 무선이라도 중요도와 설계 규칙은 완전히 다르다.
 
@@ -128,7 +128,7 @@ WBAN은 mHealth (mobile health), [Edge AI](/knowledge-base/studynote/06_ict_conv
 - 착용감과 피부 자극을 무시하고 기능만 추가하는 경우
 - 응급 상황까지 클라우드 판단에만 의존하는 경우
 
-기술사 답안에서는 "웨어러블 = 소형 기기"가 아니라 **몸에 닿는 네트워크**라는 관점이 중요하다. 따라서 채택 판단은 통신 속도보다 착용성, 안전성, 프라이버시, 배터리, 응급 대응을 묶어서 내려야 한다.
+기술사 답안에서는 "웨어러블 = 소형 기기"가 아니라 <strong>몸에 닿는 네트워크</strong>라는 관점이 중요하다. 따라서 채택 판단은 통신 속도보다 착용성, 안전성, 프라이버시, 배터리, 응급 대응을 묶어서 내려야 한다.
 
 - **📢 섹션 요약 비유**: 손목시계 하나를 더 파는 문제가 아니라, 몸에 붙는 작은 간호사와 안전관리자를 배치하는 문제와 같다. 똑똑한 기능보다 먼저 믿고 계속 차고 있을 수 있어야 한다.
 
@@ -140,7 +140,7 @@ WBAN은 mHealth (mobile health), [Edge AI](/knowledge-base/studynote/06_ict_conv
 
 물론 전제조건도 있다. 사용자가 계속 착용할 만큼 편해야 하고, 배터리와 충전 주기가 현실적이어야 하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 보안이 신뢰할 만해야 한다. 특히 의료급 웨어러블은 규제, 책임, 인터롭 ([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/)) 문제까지 함께 풀어야 한다.
 
-앞으로는 플렉시블 센서, 온디바이스 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 에너지 하베스팅, 표준 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계가 더 중요해질 가능성이 크다. 결론적으로 이 주제는 "몸에 차는 작은 전자제품"이 아니라, **인체 주변에서 안전하게 오래 작동해야 하는 초근거리 지능형 네트워크**로 기억하는 것이 정확하다.
+앞으로는 플렉시블 센서, 온디바이스 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 에너지 하베스팅, 표준 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계가 더 중요해질 가능성이 크다. 결론적으로 이 주제는 "몸에 차는 작은 전자제품"이 아니라, <strong>인체 주변에서 안전하게 오래 작동해야 하는 초근거리 지능형 네트워크</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 웨어러블은 몸에 붙는 작은 액세서리가 아니라, 하루 종일 조용히 건강과 안전을 살피는 경비실과 같다. 눈에 띄지 않게 오래 일할수록 진짜 가치가 커진다.
 
@@ -160,25 +160,26 @@ WBAN은 mHealth (mobile health), [Edge AI](/knowledge-base/studynote/06_ict_conv
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Biosignal / motion sensing
-        │
-        ▼
-Ultra-low-power preprocessing
-        │
-        ▼
-WBAN link to coordinator
-        │
-        ├──────────────► emergency alert / local actuation
-        ▼
-Phone or watch gateway
-        │
-        ▼
-Edge AI / cloud analytics
-        │
-        ▼
-Preventive care / safety service
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Biosignal / motion sensing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ultra-low-power preprocessing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WBAN link to coordinator</div>
+<div class="kb-diagram-tree-item" style="--depth:4">emergency alert / local actuation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Phone or watch gateway</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Edge AI / cloud analytics</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Preventive care / safety service</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 측정 → 저전력 전처리 → 몸 주변 전송 → [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 집계 → 분석 → 의료·안전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"로 이어지는 웨어러블 시스템의 가치 사슬을 보여 준다.
 

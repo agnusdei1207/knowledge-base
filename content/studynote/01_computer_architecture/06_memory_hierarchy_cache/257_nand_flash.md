@@ -19,23 +19,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-NAND 플래시 (NAND Flash)는 전원이 꺼져도 저장된 전하 상태를 유지하는 비휘발성 메모리다. 이름은 NAND 게이트와 닮은 셀 연결 구조에서 왔지만, 실질적으로 중요한 점은 **개별 셀마다 넓은 배선을 두지 않고 여러 셀을 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 묶어 면적을 절약한다**는 데 있다. 즉 NOR 플래시 ([NOR Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/258_nor_flash/))가 코드 직접 실행과 빠른 임의 접근에 유리하다면, NAND 플래시는 대용량 저장을 훨씬 싸게 구현하는 방향으로 진화했다.
+NAND 플래시 (NAND Flash)는 전원이 꺼져도 저장된 전하 상태를 유지하는 비휘발성 메모리다. 이름은 NAND 게이트와 닮은 셀 연결 구조에서 왔지만, 실질적으로 중요한 점은 <strong>개별 셀마다 넓은 배선을 두지 않고 여러 셀을 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>로 묶어 면적을 절약한다</strong>는 데 있다. 즉 NOR 플래시 ([NOR Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/258_nor_flash/))가 코드 직접 실행과 빠른 임의 접근에 유리하다면, NAND 플래시는 대용량 저장을 훨씬 싸게 구현하는 방향으로 진화했다.
 
 이 구조가 필요해진 이유는 저장 장치의 병목이 "접근 편의성"에서 "용량 대비 가격"으로 이동했기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 이미지, 사진, 동영상, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)처럼 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아야 하는 환경에서는 1바이트 단위 직접 실행보다, 더 많은 셀을 더 작게 담는 설계가 압도적으로 유리했다. 만약 NAND 플래시가 없었다면 모바일 기기와 SSD는 여전히 느리거나 비싸서 대중화 속도가 크게 늦어졌을 것이다.
 
 아래 그림은 NAND 플래시가 왜 집적도에 강한지 보여준다. 개별 문을 많이 두는 대신, 여러 방을 긴 복도 하나로 묶는 방식이라 생각하면 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                NAND 플래시의 핵심 선택: 배선 절약으로 셀 밀도 확보         │
-├───────────────────────┬───────────────────────────┬────────────────────────┤
-│ NOR 계열              │ NAND 계열                 │ 결과                   │
-├───────────────────────┼───────────────────────────┼────────────────────────┤
-│ 셀마다 접근선이 큼    │ 셀 여러 개를 직렬 연결    │ 동일 면적에 더 많은 셀 │
-│ 바이트 접근이 쉬움    │ 페이지 단위 접근 중심     │ 대용량 저장에 유리     │
-│ XIP에 적합            │ 저장 매체에 적합          │ SSD·모바일 저장소 채택 │
-└───────────────────────┴───────────────────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND 플래시의 핵심 선택: 배선 절약으로 셀 밀도 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOR 계열</div><div class="kb-diagram-cell">NAND 계열</div><div class="kb-diagram-cell">결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀마다 접근선이 큼</div><div class="kb-diagram-cell">셀 여러 개를 직렬 연결</div><div class="kb-diagram-cell">동일 면적에 더 많은 셀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 접근이 쉬움</div><div class="kb-diagram-cell">페이지 단위 접근 중심</div><div class="kb-diagram-cell">대용량 저장에 유리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XIP에 적합</div><div class="kb-diagram-cell">저장 매체에 적합</div><div class="kb-diagram-cell">SSD·모바일 저장소 채택</div></div>
+</div>
+</div>
+
+
 
 즉 NAND 플래시는 "접근 편의성을 조금 포기하고 저장 밀도를 크게 얻는 거래"의 산물이다. 이 선택이 메모리 계층에서 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)를 빠르게 대체한 핵심 이유다.
 
@@ -45,7 +47,7 @@ NAND 플래시 (NAND Flash)는 전원이 꺼져도 저장된 전하 상태를 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NAND 플래시의 기본 저장 단위는 전하를 가두는 셀(Cell)이고, 여러 셀이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)), 여러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 블록(Block), 여러 블록이 플레인(Plane), 여러 플레인이 다이(Die)를 이룬다. 여기서 중요한 점은 **읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 실질 단위는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)인데, 지우기 단위는 블록**이라는 비대칭 구조다. 이 차이 때문에 NAND는 "덮어쓰기"가 아니라 "새 곳에 쓰고 나중에 묶어서 지우기" 방식으로 동작한다.
+NAND 플래시의 기본 저장 단위는 전하를 가두는 셀(Cell)이고, 여러 셀이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)), 여러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 블록(Block), 여러 블록이 플레인(Plane), 여러 플레인이 다이(Die)를 이룬다. 여기서 중요한 점은 <strong>읽기·<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>의 실질 단위는 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>인데, 지우기 단위는 블록</strong>이라는 비대칭 구조다. 이 차이 때문에 NAND는 "덮어쓰기"가 아니라 "새 곳에 쓰고 나중에 묶어서 지우기" 방식으로 동작한다.
 
 | 계층 | 일반적 크기 범위 | 핵심 역할 | 병목 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -56,27 +58,21 @@ NAND 플래시의 기본 저장 단위는 전하를 가두는 셀(Cell)이고, �
 
 다음 흐름도는 NAND 플래시가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신할 때 왜 FTL이 필요한지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   NAND 플래시 쓰기 경로와 블록 삭제의 비대칭               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 호스트 쓰기 요청                                                           │
-│      │                                                                     │
-│      ▼                                                                     │
-│ FTL이 논리 주소를 빈 페이지로 매핑                                          │
-│      │                                                                     │
-│      ├── 기존 데이터가 있으면 → 기존 페이지를 invalid 표시                 │
-│      │                                                                     │
-│      ▼                                                                     │
-│ 새 페이지 Program                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ invalid 페이지 누적                                                        │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Garbage Collection → 유효 페이지 복사 → 블록 Erase → 재사용               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND 플래시 쓰기 경로와 블록 삭제의 비대칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 쓰기 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FTL이 논리 주소를 빈 페이지로 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 기존 데이터가 있으면 → 기존 페이지를 invalid 표시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 페이지 Program</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">invalid 페이지 누적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Garbage Collection → 유효 페이지 복사 → 블록 Erase → 재사용</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 세 가지다. 첫째, 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 연속 사용하므로 빠르다. 둘째, 임의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무효화하고 새 위치에 써야 하므로 내부 복사가 늘어난다. 셋째, 삭제는 블록 전체에 대해서만 가능하므로 작은 수정이 큰 내부 작업으로 증폭될 수 있다. 이 현상을 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))이라 하며, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 수명 단축의 직접 원인이 된다.
 
@@ -88,7 +84,7 @@ NAND 플래시의 기본 저장 단위는 전하를 가두는 셀(Cell)이고, �
 
 ## Ⅲ. 비교 및 연결
 
-NAND 플래시를 정확히 이해하려면 NOR 플래시, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), HDD와의 경계를 함께 봐야 한다. NAND는 메모리처럼 빠른 직접 접근 장치가 아니라, **[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기반 저장 장치**에 더 가깝다. 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 DRAM보다 훨씬 크지만, 비휘발성과 집적도에서는 압도적이다.
+NAND 플래시를 정확히 이해하려면 NOR 플래시, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), HDD와의 경계를 함께 봐야 한다. NAND는 메모리처럼 빠른 직접 접근 장치가 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 기반 저장 장치</strong>에 더 가깝다. 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 DRAM보다 훨씬 크지만, 비휘발성과 집적도에서는 압도적이다.
 
 | 항목 | NAND 플래시 | NOR 플래시 | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -113,9 +109,9 @@ NAND 플래시를 정확히 이해하려면 NOR 플래시, [DRAM](/knowledge-bas
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **여유 공간 확보**: SSD를 90% 이상 채우면 오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) (Over-Provisioning) 여유가 줄어 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) 비용이 커진다.
-2. **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴 정렬**: 작은 랜덤 업데이트가 많다면 캐시, 버퍼, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병합을 유도해야 한다.
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 패턴 정렬</strong>: 작은 랜덤 업데이트가 많다면 캐시, 버퍼, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병합을 유도해야 한다.
 3. **수명 모니터링**: TBW (Terabytes Written), SMART (Self-Monitoring, Analysis and Reporting Technology), P/E Cycle 지표를 함께 봐야 한다.
-4. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분리**: NAND는 충격에 강하지만 마모와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 장애에서 자유롭지 않으므로 백업과 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) 정책이 별도로 필요하다.
+4. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 분리</strong>: NAND는 충격에 강하지만 마모와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 장애에서 자유롭지 않으므로 백업과 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) 정책이 별도로 필요하다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -123,7 +119,7 @@ NAND 플래시를 정확히 이해하려면 NOR 플래시, [DRAM](/knowledge-bas
 - TRIM 미지원 환경에서 장기간 삭제/재기록을 반복해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 방치하는 운영
 - 플래시 친화적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 없이 덮어쓰기 중심 패턴을 그대로 적용하는 구성
 
-기술사 관점에서 핵심 판단 문장은 다음과 같다. **NAND 플래시는 저장 밀도와 전력 효율이 필요한 곳에는 채택하되, [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)과 마모가 지배적인 워크로드에서는 캐시, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 상위 계층 버퍼 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 함께 설계해야 한다.** 즉 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 선정은 칩 선택이 아니라 전체 I/O 경로 설계 문제다.
+기술사 관점에서 핵심 판단 문장은 다음과 같다. <strong>NAND 플래시는 저장 밀도와 전력 효율이 필요한 곳에는 채택하되, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>과 마모가 지배적인 워크로드에서는 캐시, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템, 오버 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a>, 상위 계층 버퍼 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>까지 함께 설계해야 한다.</strong> 즉 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 선정은 칩 선택이 아니라 전체 I/O 경로 설계 문제다.
 
 - **📢 섹션 요약 비유**: NAND는 대형 창고라서 물건을 많이 넣는 데는 탁월하지만, 작은 물건 하나를 계속 자리 바꾸게 하면 창고 정리 인력이 지쳐 버린다. 창고를 잘 쓰려면 통로 설계와 정리 규칙까지 같이 짜야 한다.
 
@@ -154,21 +150,23 @@ NAND 플래시가 가져온 가장 큰 효과는 저장장치를 "기계식 회�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-플로팅 게이트 셀 기반 비휘발성 저장
-    │
-    ▼
-NAND 문자열 구조 · 페이지/블록 비대칭
-    │
-    ▼
-FTL · 웨어 레벨링 · 가비지 컬렉션
-    │
-    ▼
-SSD · eMMC · UFS 대중화
-    │
-    ▼
-3D NAND · TLC/QLC · 고도화된 ECC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">플로팅 게이트 셀 기반 비휘발성 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NAND 문자열 구조 · 페이지/블록 비대칭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FTL · 웨어 레벨링 · 가비지 컬렉션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD · eMMC · UFS 대중화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3D NAND · TLC/QLC · 고도화된 ECC</div>
+</div>
+</div>
+
+
 
 이 흐름은 "물리 저장 원리 → 구조적 제약 → 제약을 숨기는 제어 기술 → 대중화 → 고집적 확장"의 순서를 보여준다.
 

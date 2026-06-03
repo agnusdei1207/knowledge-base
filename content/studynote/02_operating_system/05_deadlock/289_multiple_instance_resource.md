@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 다중 인스턴스 자원 환경은 시스템에 존재하는 특정 유형의 자원이 2개 이상(예: 3대의 동일 프린터 묶음, 100 메가바이트의 동일한 메모리 블록풀)의 동질적 군집형 재화로 구성된 생태계다.
-> 2. **가치**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) 상에 대기 고리(Cycle)가 나타나더라도, 사이클 바깥에 있는 제3의 프로세스가 남은 여분의 인스턴스를 사용한 뒤 반환하면 얽힘이 자체적으로 해소([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))될 수 있다. 즉, **"사이클은 데드락의 필요조건일 뿐, 충분조건은 아님"**을 증명하는 완충 무대다.
+> 2. **가치**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) 상에 대기 고리(Cycle)가 나타나더라도, 사이클 바깥에 있는 제3의 프로세스가 남은 여분의 인스턴스를 사용한 뒤 반환하면 얽힘이 자체적으로 해소([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))될 수 있다. 즉, <strong>"사이클은 데드락의 필요조건일 뿐, 충분조건은 아님"</strong>을 증명하는 완충 무대다.
 > 3. **융합**: 단일 인스턴스 기준의 빠른 '사이클 = 교착' 판정 공식이 통하지 않기에, 이를 타파하고자 남은 여유 자원과 각 프로세스의 최대 필요량을 행렬 수학으로 분석하는 뱅커스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 탄생하는 배경이 되었다.
 
 ---
@@ -21,37 +21,33 @@ tags = ["studynote-operating-system"]
 
 자원 타입은 하나인데 물건이 여러 개(예: 총알 100발, 프린터 5대)라면 자원 배분 역학은 극도로 모호해진다. 
 
-A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로의 자원을 물고 물리면서 원형의 덫(사이클)을 만들었다고 치자. 단일 인스턴스라면 전멸이다. 하지만 다중 인스턴스 환경에서는 **고리에 참여하지 않은 잉여 자원(혹은 엉뚱한 제3자가 잠시 들고 있는 인스턴스)**이 존재한다. D [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 인쇄를 마치고 프린터를 OS에 반납하면, A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 냅다 그 프린터를 잡아채 작업을 끝내게 되어 연쇄적으로 B와 C의 대기마저 확 풀려버리는 극적인 해소가 가능하다.
+A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로의 자원을 물고 물리면서 원형의 덫(사이클)을 만들었다고 치자. 단일 인스턴스라면 전멸이다. 하지만 다중 인스턴스 환경에서는 <strong>고리에 참여하지 않은 잉여 자원(혹은 엉뚱한 제3자가 잠시 들고 있는 인스턴스)</strong>이 존재한다. D [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 인쇄를 마치고 프린터를 OS에 반납하면, A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 냅다 그 프린터를 잡아채 작업을 끝내게 되어 연쇄적으로 B와 C의 대기마저 확 풀려버리는 극적인 해소가 가능하다.
 
 **💡 비유**: 3차선 교차로 한가운데 엉켜버린 차량 3대(사이클). 그러나 남아있는 옆 1개의 우회 차선(잉여 인스턴스)으로 오토바이 한 대가 빠져나가 빈 공간이 생기면, 엉켰던 차량들이 기적적으로 테트리스처럼 풀려나게 된다. 데드락이 빗겨간 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         다중 인스턴스 환경에서의 가짜(False) 교착 현상       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [시나리오] 자원 R1(인스턴스 2개), 자원 R2(인스턴스 2개)     │
-│                                                              │
-│       (점유)                   (요청, 0개 남음)              │
-│  P1 ──────────▶ [ R1 (•)(•) ] ───────┐ (사이클 시작)         │
-│   ▲                  │               │                       │
-│   │                  │ (점유)        ▼                       │
-│   │                  ▼               P3                      │
-│   │                 P2               │                       │
-│   │ (요청)           │ (점유)        │ (점유)                │
-│   │                  ▼               ▼                       │
-│   └────────── [ R2 (•)(•) ] ◀───────┘                        │
-│                      │                                       │
-│                      │ (점유)                                │
-│                      ▼                                       │
-│                     P4 (사이클 밖의 제3자)                   │
-│                                                              │
-│  해석: P1 → R1 → P3 → R2 → P1 원형(Cycle) 발생!              │
-│  But!! P2나 P4는 고리 밖에 있다. 이들이 자원을 다 쓰고       │
-│  R1이나 R2를 뿜어내는(반환) 순간, P1이나 P3 중 하나가 부활함!│
-│  → 사이클이 있어도 데드락은 발생하지 않았다!                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 인스턴스 환경에서의 가짜(False) 교착 현상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오</div><div class="kb-diagram-note">자원 R1(인스턴스 2개), 자원 R2(인스턴스 2개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) (요청, 0개 남음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (•)(•)</div><div class="kb-diagram-note">(사이클 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ P3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청)</div><div class="kb-diagram-cell">(점유)</div><div class="kb-diagram-cell">(점유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">R2 (•)(•)</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 (사이클 밖의 제3자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석: P1 → R1 → P3 → R2 → P1 원형(Cycle) 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">But!! P2나 P4는 고리 밖에 있다. 이들이 자원을 다 쓰고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1이나 R2를 뿜어내는(반환) 순간, P1이나 P3 중 하나가 부활함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사이클이 있어도 데드락은 발생하지 않았다!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 다중 인스턴스 사이클은 숨 구멍이 있는 뱀 허물 — 겉보기엔 뱀이 자기 꼬리를 잡아먹는 둥근 함정(사이클) 같지만, 중간중간 뚫린 여분의 구멍(여분 자원)으로 빠져나갈 희망이 충분히 있습니다.
 
@@ -63,8 +59,8 @@ A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process
 
 다중 인스턴스 자원 환경에서 운영체제가 겪는 고통은 탐지 예측의 난해함이다.
 
-1. **단순 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색 불가**: 사이클만 찾아내는 빠른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(`O(N)`)으론 데드락 판정을 내릴 수 없다.
-2. **환원 가능(Reducible) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 검토**: 지금은 막혀 보이지만, 고리에 속하지 않고 여분 자원을 든 프로세스가 정상 종료되는 미래를 시뮬레이션(가상 환원)해야 한다.
+1. <strong>단순 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> 탐색 불가</strong>: 사이클만 찾아내는 빠른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(`O(N)`)으론 데드락 판정을 내릴 수 없다.
+2. <strong>환원 가능(Reducible) <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 검토</strong>: 지금은 막혀 보이지만, 고리에 속하지 않고 여분 자원을 든 프로세스가 정상 종료되는 미래를 시뮬레이션(가상 환원)해야 한다.
 3. **가상 반납 시뮬레이션**: P4가 끝났다고 치고 가상 자원 +1, 그걸로 P1을 깨워봤다고 치고 가상 자원 추가 +1... 이렇게 행렬을 기반으로 모든 '경우의 수'가 다 죽는지를 끝까지 확인해야만 비로소 "데드락 확정" 표창을 누를 수 있다.
 
 **📢 섹션 요약 비유**: 단일 자원은 엑스레이 1장이면 골절(데드락)을 찾는데, 다중 자원은 환자가 뛸 때 뼈가 어떻게 뒤틀리는지 3D 시뮬레이션(가상 환원)을 모두 돌려봐야 수술 여부를 확정 지을 수 있어 피곤합니다.
@@ -88,10 +84,10 @@ A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process
 
 **실무 시나리오**:
 1. **커넥션 풀(Connection Pool) 마비 (Tomcat / HikariCP)**: WAS 앱에서 Max 커넥션 풀을 10개(다중 인스턴스)로 세팅했다. 코드 1번에서 DB 락을 위해 커넥션을 요청하고, 미처 못 닫은 채 2번 로직에서 커넥션을 하나 더 잡으려 할 때, 트래픽이 몰려 10개가 전부 "1번 쥔 상태로 2번 대기"에 빠지는 풀 고갈 데드락. 사이클이 생겼는데 외부 제3자(여유 커넥션)조차 0개가 되어 완벽한 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 완성.
-2. **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 인스턴스 수(N)를 제한할 때, `tryAcquire(500ms)`처럼 반드시 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 건다. 다중 환경은 언젠가 누가 뱉어내 해소될 미세한 확률을 가지므로 무조건 Abort(단일 환경식 해결)보다는 잠깐 기다려보는 백오프(재시도) 전략이 백배는 먹혀들어간다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 튜닝</strong>: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 인스턴스 수(N)를 제한할 때, `tryAcquire(500ms)`처럼 반드시 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 건다. 다중 환경은 언젠가 누가 뱉어내 해소될 미세한 확률을 가지므로 무조건 Abort(단일 환경식 해결)보다는 잠깐 기다려보는 백오프(재시도) 전략이 백배는 먹혀들어간다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **자원 고갈을 고려하지 않은 [Nested Loop](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) Threading**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 100개 만들어 뒀다고 안심하고(풀 파워 다중 자원), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내부에서 또 다른 비동기 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 작업을 `Future.get()`으로 대기 블록킹 시키는 구조. 외부 요청이 밀어닥치면 여유 인스턴스 100개가 순식간에 메말라버리고 가짜(False)가 아닌 진짜 사이클 데드락에 함락당한다. (비동기의 덫).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>자원 고갈을 고려하지 않은 <a href="/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/">Nested Loop</a> Threading</strong>: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 100개 만들어 뒀다고 안심하고(풀 파워 다중 자원), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내부에서 또 다른 비동기 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 작업을 `Future.get()`으로 대기 블록킹 시키는 구조. 외부 요청이 밀어닥치면 여유 인스턴스 100개가 순식간에 메말라버리고 가짜(False)가 아닌 진짜 사이클 데드락에 함락당한다. (비동기의 덫).
 
 **📢 섹션 요약 비유**: 물탱크(다중 자원)에 물이 많다고 마음껏 틀면 안 됩니다. 서로가 서로의 욕조가 차길 대기하며 물을 100군데서 틀어 쥐고 있으면, 댐 용량이 다하는 순간 거대한 정지 상태(풀 고갈 교착)가 옵니다.
 
@@ -122,15 +118,19 @@ A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 인스턴스 자원 환경]
-    │
-    ▼
-[다중 인스턴스 자원 환경 (Multiple Instance Resource)]
-    │
-    ├──▶ [교착 상태 처리 방법 3가지]
-    └──▶ [타조 알고리즘 (Ostrich Algorithm)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 자원 환경</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 인스턴스 자원 환경 (Multiple Instance Resource)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 처리 방법 3가지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

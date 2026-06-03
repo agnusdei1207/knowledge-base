@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 압축(Compaction)은 동적 메모리 할당 환경에서 이빨 빠진 듯 흩어져 있는 다수의 **빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))들을 메모리의 한쪽 끝으로 밀어 모아, 하나의 거대한 연속된 빈 공간(Big Hole)으로 융합**하는 수집 연산이다.
+> 1. **본질**: 압축(Compaction)은 동적 메모리 할당 환경에서 이빨 빠진 듯 흩어져 있는 다수의 <strong>빈 공간(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>)들을 메모리의 한쪽 끝으로 밀어 모아, 하나의 거대한 연속된 빈 공간(Big Hole)으로 융합</strong>하는 수집 연산이다.
 > 2. **가치**: 메모리 총량은 충분하지만 쪼개져 있어서 대형 프로세스를 올릴 수 없는 '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)'를 물리적으로 해소하여, 다중 프로그래밍의 생명력을 연장하는 최후의 보루 역할을 한다.
-> 3. **융합**: 오직 런타임에 주소가 바뀌어도 괜찮은 **[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))** 환경에서만 사용 가능하며, 메모리 전체를 복사하는 치명적인 오버헤드(Stop-The-World) 때문에 현대 물리 메모리 OS에서는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에 밀려 사장되었으나 자바(Java) [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/) 등 애플리케이션 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 관리에서는 여전히 심장부 기술로 쓰인다.
+> 3. **융합**: 오직 런타임에 주소가 바뀌어도 괜찮은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">실행 시간 바인딩</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">Execution Time Binding</a>)</strong> 환경에서만 사용 가능하며, 메모리 전체를 복사하는 치명적인 오버헤드(Stop-The-World) 때문에 현대 물리 메모리 OS에서는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에 밀려 사장되었으나 자바(Java) [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/) 등 애플리케이션 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 관리에서는 여전히 심장부 기술로 쓰인다.
 
 ---
 
@@ -27,28 +27,24 @@ tags = ["studynote-operating-system"]
   2. **물리적 재정렬 시도**: OS가 개입하여 앱들의 위치를 뒤섞기 시작함.
   3. **비용의 장벽**: 16GB의 메모리를 한쪽으로 복사해 미는 데 걸리는 시간(Memory [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소모) 동안 CPU는 다른 어떤 작업도 할 수 없어 시스템이 멈춰버리는(Freeze) 치명적 부작용이 발견됨.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        메모리 압축 (Compaction) 전후의 물리적 레이아웃 변화           │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 압축 전: 파편화 극심 (External Fragmentation) ]                     │
-│ ┌─────┬──────────┬─────┬─────────┬─────┬──────────┐                   │
-│ │ P1  │ ▒ 빈공간 ▒ │ P2  │ ▒빈공간▒ │ P3  │ ▒ 빈공간 ▒ │              │
-│ │ 10M │   15MB   │ 20M │  10MB   │ 10M │   15MB   │                   │
-│ └─────┴──────────┴─────┴─────────┴─────┴──────────┘                   │
-│  ▶ 전체 빈 공간 40MB. 하지만 새 프로세스 P4(30MB) 적재 불가!          │
-│                                                                       │
-│                    ↓↓ OS 압축 알고리즘 발동 ↓↓                        │
-│                                                                       │
-│ [ 압축 후: 거대 구멍 생성 (Defragmented) ]                            │
-│ ┌─────┬──────────┬─────┬──────────────────────────┐                   │
-│ │ P1  │    P2    │ P3  │ ▒▒▒▒ 합쳐진 거대 빈 공간 ▒▒▒▒ │              │
-│ │ 10M │    20M   │ 10M │          40MB            │                   │
-│ └─────┴──────────┴─────┴──────────────────────────┘                   │
-│  ▶ 이제 P4(30MB)가 오른쪽 40MB 빈 공간에 완벽하게 들어갈 수 있음!     │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 압축 (Compaction) 전후의 물리적 레이아웃 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축 전: 파편화 극심 (External Fragmentation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">▒ 빈공간 ▒</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">▒빈공간▒</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">▒ 빈공간 ▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">15MB</div><div class="kb-diagram-cell">20M</div><div class="kb-diagram-cell">10MB</div><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">15MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 전체 빈 공간 40MB. 하지만 새 프로세스 P4(30MB) 적재 불가!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓ OS 압축 알고리즘 발동 ↓↓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축 후: 거대 구멍 생성 (Defragmented)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">▒▒▒▒ 합쳐진 거대 빈 공간 ▒▒▒▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">20M</div><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">40MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이제 P4(30MB)가 오른쪽 40MB 빈 공간에 완벽하게 들어갈 수 있음!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 그림만 보면 마법같이 깔끔해졌지만, 그 이면에는 끔찍한 연산이 숨어 있다. P2(20MB)와 P3(10MB)는 자신들이 원래 있던 번지수에서 수십 MB 앞쪽으로 "복사-붙여넣기(Memcpy)" 되어야 한다. 이 과정에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어서 옮기는 무식한 하드웨어 부하가 발생하며, 이사 간 P2와 P3가 에러 없이 돌기 위해 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))의 주소표마저 모두 갱신해야 한다.
 
 - **📢 섹션 요약 비유**: 컴퓨터 바탕화면에 아이콘 수백 개가 이빨 빠진 채 흩어져 있을 때, 바탕화면 우클릭 후 '자동 정렬'을 누르면 왼쪽 위부터 빽빽하게 줄을 서서 오른쪽 아래에 거대한 빈 화면이 생기는 것과 완전히 똑같은 원리입니다.
@@ -60,8 +56,8 @@ tags = ["studynote-operating-system"]
 ### 압축의 전제 조건: [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) ([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))
 
 압축 기술이 동작하기 위한 절대적인 하드웨어 아키텍처 전제 조건이다.
-- 만약 프로그램이 **컴파일 시간([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/))**이나 **적재 시간([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))**에 물리 주소를 확정해 버렸다면, 압축을 위해 메모리 위치를 1mm라도 옮기는 순간 프로그램은 자기가 어딨는지 몰라 즉시 뻗어버린다(Crash).
-- 따라서 압축은 오직 **[베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)([Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))**를 통해 주소를 동적으로 더해주는 **[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))** 환경에서만 가능하다. OS가 메모리를 옮긴 뒤, 해당 프로세스의 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 값만 새 주소로 살짝 바꿔주면 프로세스는 자기가 이사 간 줄도 모르고 정상 작동한다.
+- 만약 프로그램이 <strong>컴파일 시간(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/">Compile Time</a>)</strong>이나 <strong>적재 시간(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/">Load Time</a>)</strong>에 물리 주소를 확정해 버렸다면, 압축을 위해 메모리 위치를 1mm라도 옮기는 순간 프로그램은 자기가 어딨는지 몰라 즉시 뻗어버린다(Crash).
+- 따라서 압축은 오직 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/">베이스 레지스터</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/">Base Register</a>)</strong>를 통해 주소를 동적으로 더해주는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">실행 시간 바인딩</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">Execution Time Binding</a>)</strong> 환경에서만 가능하다. OS가 메모리를 옮긴 뒤, 해당 프로세스의 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 값만 새 주소로 살짝 바꿔주면 프로세스는 자기가 이사 간 줄도 모르고 정상 작동한다.
 
 ---
 
@@ -69,26 +65,26 @@ tags = ["studynote-operating-system"]
 
 압축은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 이동시키느냐에 따라 오버헤드가 천차만별이다. 최적의 이사 동선을 짜는 것이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어의 핵심 과제였다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────────┐
-│              압축 효율성을 높이기 위한 3가지 이동 전략                         │
-├────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                │
-│ 1. 전체 밀기 (Compact All - 한쪽 벽으로)                                       │
-│    모든 프로세스를 0번지 쪽으로 쫙 밀어버림. (가장 단순, 복사량 최악)          │
-│    [P1][P2][P3][ 거대한 빈 구멍 ]                                              │
-│                                                                                │
-│ 2. 최소 이동 (Minimal Movement - 가장 적게 옮기기)                             │
-│    P1, P2는 놔두고 끝에 있는 작은 P3 하나만 빈 구멍으로 옮김.                  │
-│    복사량은 제일 적지만, 큰 구멍 하나가 나오는 대신 적당한 구멍 2개가 됨.      │
-│    [P1][빈 10M][P3][P2][빈 30M] (타협안)                                       │
-│                                                                                │
-│ 3. 스왑 아웃 활용 (Swap out)                                                   │
-│    메모리 안에서 옮기지 말고, 방해되는 P2를 통째로 하드디스크로 스왑 아웃!     │
-│    빈 공간 합쳐서 P4를 적재. 나중에 P2를 빈 공간에 다시 스왑 인.               │
-│    (디스크 I/O가 발생해 제일 느릴 수 있지만 구조는 깔끔함)                     │
-└────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압축 효율성을 높이기 위한 3가지 이동 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전체 밀기 (Compact All - 한쪽 벽으로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 프로세스를 0번지 쪽으로 쫙 밀어버림. (가장 단순, 복사량 최악)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">거대한 빈 구멍</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 최소 이동 (Minimal Movement - 가장 적게 옮기기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1, P2는 놔두고 끝에 있는 작은 P3 하나만 빈 구멍으로 옮김.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복사량은 제일 적지만, 큰 구멍 하나가 나오는 대신 적당한 구멍 2개가 됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">빈 10M</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">빈 30M</div><div class="kb-diagram-note">(타협안)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 스왑 아웃 활용 (Swap out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 안에서 옮기지 말고, 방해되는 P2를 통째로 하드디스크로 스왑 아웃!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 공간 합쳐서 P4를 적재. 나중에 P2를 빈 공간에 다시 스왑 인.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 I/O가 발생해 제일 느릴 수 있지만 구조는 깔끔함)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "어떤 블록을 어디로 옮겨야 메모리 복사량(Memory Copy [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))을 최소로 하면서 내가 원하는 30MB짜리 연속된 구멍을 뚫어낼 수 있을까?" 이 질문은 컴퓨터 과학에서 '최적화가 불가능한 [NP-Hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)' 문제로 분류된다. 최적해를 찾는 연산 자체가 메모리를 옮기는 시간보다 오래 걸릴 수 있기 때문에, 실무에서는 1번처럼 그냥 무식하게 쫙 밀어버리는 휴리스틱을 주로 사용했다.
 
@@ -106,23 +102,26 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **작동 조건** | **인접한** 빈 공간 2개가 우연히 붙어있을 때 | **떨어져 있는** 수많은 빈 공간을 합칠 때 |
 | **작업 내용** | 장부([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))의 포인터 선만 지우고 합침 | 실제 메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수십 MB)를 **물리적으로 복사/이동** |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드**| 나노초 단위 (거의 0) | 밀리초~초 단위 (시스템 멈춤, 최악의 오버헤드) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드</strong>| 나노초 단위 (거의 0) | 밀리초~초 단위 (시스템 멈춤, 최악의 오버헤드) |
 | **발생 시점** | 프로세스가 종료(Terminate)되어 나갈 때마다 수행 | 새 프로세스가 들어오려는데 공간이 쪼개져 못 들어올 때만 수행 |
 
 ### 압축 비용의 멸망과 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))의 승리
 
-- 압축의 비용은 **O(N)**이다. 16GB 메모리를 쓴다면 최악의 경우 16GB를 통째로 읽고 써야 한다. 캐시(Cache)가 모두 플러시되고, 시스템 버스가 마비된다.
+- 압축의 비용은 <strong>O(N)</strong>이다. 16GB 메모리를 쓴다면 최악의 경우 16GB를 통째로 읽고 써야 한다. 캐시(Cache)가 모두 플러시되고, 시스템 버스가 마비된다.
 - 이 문제를 해결하기 위해 천재적인 공학자들은 "왜 굳이 빈 공간을 물리적으로 합쳐야 하지? 그냥 프로그램(프로세스)을 갈기갈기 4KB로 찢어서 흩어진 빈 곳 아무 데나 쑤셔 넣으면, 굳이 압축한다고 밀어낼 필요가 없잖아?"라는 발상의 전환을 이뤄냈다.
-- 이것이 **[비연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/)(Non-contiguous Allocation)의 핵심인 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))**이며, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 등장과 함께 OS의 물리 메모리 압축 기술은 교과서 속으로 영원히 사라졌다.
+- 이것이 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/">비연속 메모리 할당</a>(Non-contiguous Allocation)의 핵심인 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>이며, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 등장과 함께 OS의 물리 메모리 압축 기술은 교과서 속으로 영원히 사라졌다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 아키텍처   │ 외부 단편화  │ 해결 방식    │ 부작용 (대가)    │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ 가변 분할  │ 치명적 발생  │ 메모리 압축  │ 시스템 일시 정지 │
-│ 페이징     │ 원천 차단    │ 4KB로 찢기  │ 페이지 테이블 낭비│
-└──────────┴────────────┴────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">외부 단편화</div><div class="kb-diagram-cell">해결 방식</div><div class="kb-diagram-cell">부작용 (대가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 분할</div><div class="kb-diagram-cell">치명적 발생</div><div class="kb-diagram-cell">메모리 압축</div><div class="kb-diagram-cell">시스템 일시 정지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">원천 차단</div><div class="kb-diagram-cell">4KB로 찢기</div><div class="kb-diagram-cell">페이지 테이블 낭비</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터 아키텍처의 패러다임 시프트다. 인류는 압축 연산의 끔찍함을 맛본 뒤, "연속적인 공간에 담아야 한다"는 강박을 버렸다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법 도입 후 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 자체가 수학적으로 멸종되었고, 따라서 흩어진 공간을 모으는 '압축' 기술도 자연스럽게 용도 폐기되었다.
 
 - **📢 섹션 요약 비유**: 어지러운 퍼즐 조각을 한쪽으로 싹 치워서(압축) 큰 도화지를 만드는 수고를 포기하고, 아예 도화지를 픽셀 단위([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 조각내버림으로써 치울 필요조차 없게 만든 혁신입니다.
@@ -132,10 +131,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 자바(Java) [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)에서의 환생
-운영체제의 물리 메모리 관리에서는 압축이 사장되었으나, 묘하게도 **애플리케이션 개발자들의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 관리**에서 압축은 가장 강력한 코어 기술로 다시 태어났다.
+운영체제의 물리 메모리 관리에서는 압축이 사장되었으나, 묘하게도 <strong>애플리케이션 개발자들의 힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 메모리 관리</strong>에서 압축은 가장 강력한 코어 기술로 다시 태어났다.
 1. **상황**: Java 어플리케이션의 힙 메모리에 수만 개의 객체가 생겼다 지워지며 힙이 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 걸레짝이 되었다. (`new Object()` 실패)
 2. **Mark and Compact GC 발동**:
-   - JVM의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)는 살아남은 유효한 객체들(Mark)을 힙 메모리의 한쪽 끝으로 차곡차곡 밀어버리는 **'압축(Compact)'**을 실행한다.
+   - JVM의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)는 살아남은 유효한 객체들(Mark)을 힙 메모리의 한쪽 끝으로 차곡차곡 밀어버리는 <strong>'압축(Compact)'</strong>을 실행한다.
 3. **Stop The World (STW)**:
    - 압축을 위해 객체들을 복사하는 동안, 자바 앱의 모든 스레드는 완전히 멈춰버린다. (Stop The World). 
    - 사용자가 클릭 버튼을 눌렀는데 서버가 이 압축을 하느라 1초 동안 응답하지 않는 렉([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes)이 발생한다.
@@ -155,9 +154,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 방어** | 총량은 충분하나 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 인해 프로세스가 죽어버리는 어처구니없는 시스템 붕괴를 최종적으로 구원 |
+| <strong>메모리 고갈(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>) 방어</strong> | 총량은 충분하나 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 인해 프로세스가 죽어버리는 어처구니없는 시스템 붕괴를 최종적으로 구원 |
 | **연속 메모리 확보** | 대용량 그래픽 버퍼나 DB 캐시처럼 반드시 연속된(Contiguous) 거대 물리 공간이 필요할 때 강제 확보 가능 |
-| **GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대** | Mark-Sweep 방식의 단점을 보완한 Mark-Compact GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 사상적 뿌리이자 근간 설계 제공 |
+| <strong>GC <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 뼈대</strong> | Mark-Sweep 방식의 단점을 보완한 Mark-Compact GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 사상적 뿌리이자 근간 설계 제공 |
 
 ### 결론 및 미래 전망
 
@@ -178,15 +177,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[최악 적합 (Worst-Fit)]
-    │
-    ▼
-[압축 (Compaction)]
-    │
-    ├──▶ [버디 시스템 (Buddy System) 할당기]
-    └──▶ [슬랩 할당기 (Slab Allocator)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">최악 적합 (Worst-Fit)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축 (Compaction)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버디 시스템 (Buddy System) 할당기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬랩 할당기 (Slab Allocator)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

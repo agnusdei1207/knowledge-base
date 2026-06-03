@@ -25,18 +25,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 모델-뷰-컨트롤러 (MVC, Mode의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  모델-뷰-컨트롤러 (MVC, Mode                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델-뷰-컨트롤러 (MVC, Mode</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 모델-뷰-컨트롤러 (MVC, Mode가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -46,7 +45,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 사용자 인터페이스(UI)가 있는 애플리케이션을 개발할 때, 시스템을 역할을 명확하게 구분한 3가지 핵심 컴포넌트인 **M(모델: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 비즈니스 로직), V(뷰: 화면과 UI), C(컨트롤러: 이 둘을 이어주는 지휘자)**로 완벽하게 쪼개어 설계하는 아키텍처 패턴입니다.
+- **개념**: 사용자 인터페이스(UI)가 있는 애플리케이션을 개발할 때, 시스템을 역할을 명확하게 구분한 3가지 핵심 컴포넌트인 <strong>M(모델: <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 비즈니스 로직), V(뷰: 화면과 UI), C(컨트롤러: 이 둘을 이어주는 지휘자)</strong>로 완벽하게 쪼개어 설계하는 아키텍처 패턴입니다.
 
 - **📢 섹션 요약 비유**: 모델-뷰-컨트롤러 (MVC, [Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -75,7 +74,7 @@ tags = ["studynote-software-engineering"]
 1. **분업의 기적**: 백엔드 자바 개발자는 Model과 Controller 폴더만 봅니다. 프론트엔드 디자이너는 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 폴더만 봅니다. 파일이 완벽히 쪼개져 있어 서로 코드 충돌(Conflict)이 나지 않습니다.
 2. **미친 재사용성**: 똑같은 장바구니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Model)를 가지고, Controller가 "웹 브라우저 View로 그려!" 하면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 홈페이지가 되고, "안드로이드 View로 그려!" 하면 모바일 앱이 됩니다. 심장(Model)은 단 1줄도 안 고치고 껍데기([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))만 무한대로 재활용할 수 있는 기적입니다.
 
-> 📢 **섹션 요약 비유**: 코딩 창에 화면과 로직을 다 섞어 짜는 짓은 식당에서 **'요리사 혼자 손님 테이블에 앉아 고기를 썰고 불판을 피우고 돈까지 받는 짓'**입니다. 테이블이 더럽고 요리도 다 태워 먹습니다. 이를 분리한 **MVC 아키텍처**는 철저하게 분업화된 **'최고급 3성급 레스토랑'**입니다. **[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)(뷰)**는 손님의 눈을 즐겁게 하는 화려한 **'인테리어와 접시 플레이팅'**입니다. 접시([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 자기가 무슨 요리를 담을지 생각하지 않고 그저 예쁘게 세팅만 준비합니다. **Model(모델)**은 주방 안쪽 보이지 않는 곳에서 고기를 굽고 육수를 끓이는 **'메인 셰프'**입니다. 셰프는 자기가 구운 고기가 금접시에 담길지 은접시에 담길지(UI) 알 바 아닙니다. 오직 완벽한 맛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에만 집중합니다. 마지막으로 **Controller(컨트롤러)**는 홀과 주방 사이를 뛰어다니는 **'수석 지배인(매니저)'**입니다. 손님이 주문을 하면 지배인(컨트롤러)이 받아 셰프(모델)에게 고기를 구우라 시키고, 다 구워진 고기를 가져다 접시(뷰) 위에 예쁘게 담아 손님 테이블에 내어줍니다. 셰프와 접시가 1도 마주칠 일 없이, 지배인의 완벽한 통제 하에 최고의 요리와 서비스가 분리되어 창출되는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 최고의 교과서 구조입니다.
+> 📢 **섹션 요약 비유**: 코딩 창에 화면과 로직을 다 섞어 짜는 짓은 식당에서 <strong>'요리사 혼자 손님 테이블에 앉아 고기를 썰고 불판을 피우고 돈까지 받는 짓'</strong>입니다. 테이블이 더럽고 요리도 다 태워 먹습니다. 이를 분리한 <strong>MVC 아키텍처</strong>는 철저하게 분업화된 <strong>'최고급 3성급 레스토랑'</strong>입니다. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>(뷰)</strong>는 손님의 눈을 즐겁게 하는 화려한 <strong>'인테리어와 접시 플레이팅'</strong>입니다. 접시([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 자기가 무슨 요리를 담을지 생각하지 않고 그저 예쁘게 세팅만 준비합니다. <strong>Model(모델)</strong>은 주방 안쪽 보이지 않는 곳에서 고기를 굽고 육수를 끓이는 <strong>'메인 셰프'</strong>입니다. 셰프는 자기가 구운 고기가 금접시에 담길지 은접시에 담길지(UI) 알 바 아닙니다. 오직 완벽한 맛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에만 집중합니다. 마지막으로 <strong>Controller(컨트롤러)</strong>는 홀과 주방 사이를 뛰어다니는 <strong>'수석 지배인(매니저)'</strong>입니다. 손님이 주문을 하면 지배인(컨트롤러)이 받아 셰프(모델)에게 고기를 구우라 시키고, 다 구워진 고기를 가져다 접시(뷰) 위에 예쁘게 담아 손님 테이블에 내어줍니다. 셰프와 접시가 1도 마주칠 일 없이, 지배인의 완벽한 통제 하에 최고의 요리와 서비스가 분리되어 창출되는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 최고의 교과서 구조입니다.
 
 - **📢 섹션 요약 비유**: 모델-뷰-컨트롤러 (MVC, [Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -116,21 +115,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-모델-뷰-컨트롤러 (MVC, Model-View-Controller) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델-뷰-컨트롤러 (MVC, Model-View-Controller) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

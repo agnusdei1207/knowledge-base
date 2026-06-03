@@ -17,29 +17,25 @@ tags = ["operating_system"]
 
 ### 메모리: 가장 바쁜 하드웨어 자원
 
-CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반드시 메모리에 로드되어 있어야 한다. 초기의 단일 프로그래밍 환경에서는 메모리 관리가 단순했으나, 여러 프로세스가 동시에 실행되는 현대의 다중 프로그래밍 환경에서는 **누가 어느 영역을 쓰고 있는지**, **빈 공간은 어디인지**를 정밀하게 관리해야 한다.
+CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반드시 메모리에 로드되어 있어야 한다. 초기의 단일 프로그래밍 환경에서는 메모리 관리가 단순했으나, 여러 프로세스가 동시에 실행되는 현대의 다중 프로그래밍 환경에서는 **누가 어느 영역을 쓰고 있는지**, <strong>빈 공간은 어디인지</strong>를 정밀하게 관리해야 한다.
 
-메모리 관리가 필요한 이유는 세 가지이다. 첫째, **한정된 물리 메모리**를 아껴서 더 많은 프로세스를 수용하기 위해서이며, 둘째, 프로세스에게 실제 물리 주소를 감추고 **논리적 주소 (Logical Address)**를 제공하여 프로그래밍의 편의성을 높이기 위해서이고, 셋째, 서로 다른 프로세스가 **상대방의 메모리 영역을 침범**하지 못하게 강제하여 보안을 유지하기 위함이다.
+메모리 관리가 필요한 이유는 세 가지이다. 첫째, <strong>한정된 물리 메모리</strong>를 아껴서 더 많은 프로세스를 수용하기 위해서이며, 둘째, 프로세스에게 실제 물리 주소를 감추고 <strong>논리적 주소 (Logical Address)</strong>를 제공하여 프로그래밍의 편의성을 높이기 위해서이고, 셋째, 서로 다른 프로세스가 <strong>상대방의 메모리 영역을 침범</strong>하지 못하게 강제하여 보안을 유지하기 위함이다.
 
 이 그림은 논리 주소가 MMU (Memory Management Unit)를 통해 물리 주소로 변환되는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Address Translation Mechanism               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU ] ──▶ [ Logical Address ] ──▶ [ MMU ] ──▶ [ Physical Address ]│
-│                                         │                   │
-│                                   ┌─────┴─────┐             │
-│                                   │ Relocation│             │
-│                                   │ Register  │             │
-│                                   └───────────┘             │
-│                                         │                   │
-│                                         ▼                   │
-│                                   [ Main Memory ]           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address Translation Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Logical Address</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Physical Address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Relocation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'MMU'라는 하드웨어 장치이다. 소프트웨어가 아닌 하드웨어 레벨에서 주소 변환이 이루어져야 연산 속도를 보장할 수 있다. 실무에서는 프로세스가 로드될 때마다 재배치 (Relocation)가 가능하도록 동적 바인딩 (Dynamic Binding)을 지원하는 것이 아키텍처의 유연성을 결정한다.
 
@@ -66,29 +62,25 @@ CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반�
 
 ### 불연속 메모리 할당: 페이징 (Paging)
 
-외부 단편화 문제를 근본적으로 해결하기 위해, 프로세스를 일정한 크기의 **페이지 (Page)**로 쪼개고, 물리 메모리도 같은 크기의 **프레임 (Frame)**으로 나누어 불연속적으로 배치하는 방식이다.
+외부 단편화 문제를 근본적으로 해결하기 위해, 프로세스를 일정한 크기의 <strong>페이지 (Page)</strong>로 쪼개고, 물리 메모리도 같은 크기의 <strong>프레임 (Frame)</strong>으로 나누어 불연속적으로 배치하는 방식이다.
 
 이 구조도는 페이지 테이블을 이용한 주소 변환 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Paging & Page Table Structure               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Logical Address ] :  [ Page # (p) ] | [ Offset (d) ]    │
-│                                │                            │
-│                                ▼                            │
-│                        [ Page Table ]                       │
-│                        ┌────────────┐                       │
-│                        │ p | Frame #│ ──▶ [ Frame # (f) ]   │
-│                        └────────────┘            │          │
-│                                                  ▼          │
-│   [ Physical Address ] : [ Frame # (f) ] | [ Offset (d) ]   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '페이지 테이블'이다. 이를 통해 프로세스는 논리적으로는 연속되어 보이지만 물리적으로는 흩어져 존재할 수 있다. 실무에서는 페이지 테이블 자체가 너무 커지는 문제를 해결하기 위해 **다단계 페이지 테이블 (Multi-level Paging)**이나 **TLB (Translation Lookaside Buffer)** 캐시를 사용하여 성능을 최적화한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Paging &amp; Page Table Structure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Logical Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Page # (p)</div><div class="kb-diagram-node">Offset (d)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page Table</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Frame # (f)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Frame # (f)</div><div class="kb-diagram-node">Offset (d)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '페이지 테이블'이다. 이를 통해 프로세스는 논리적으로는 연속되어 보이지만 물리적으로는 흩어져 존재할 수 있다. 실무에서는 페이지 테이블 자체가 너무 커지는 문제를 해결하기 위해 <strong>다단계 페이지 테이블 (Multi-level Paging)</strong>이나 **TLB (Translation Lookaside Buffer)** 캐시를 사용하여 성능을 최적화한다.
 
 📢 **섹션 요약 비유**: 페이징은 '원고지를 칸별로 나누어 쓰는 것'과 같습니다. 글자(데이터)가 많아져서 다음 장으로 넘어가도, 원고지 번호(페이지 번호)만 잘 기록해두면 나중에 순서대로 읽는 데 아무 지장이 없는 것과 같습니다.
 
@@ -119,30 +111,27 @@ CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반�
 ### 기술사적 판단: 메모리 부족 및 성능 저하 대응 전략
 
 **시나리오 1: 특정 프로세스가 과도한 메모리를 점유하여 시스템이 느려짐**
-- **판단**: 우선 **스와핑 (Swapping)**이 빈번하게 발생하는지 확인한다. 만약 물리 메모리가 부족하여 디스크와의 데이터 교환이 잦다면, 우선순위가 낮은 프로세스를 일시적으로 디스크로 쫓아내는 (Swap-out) 결단을 내린다. 장기적으로는 페이지 크기를 조정하거나 **Huge Pages** 설정을 통해 페이지 테이블 오버헤드를 줄이는 튜닝을 제안한다.
+- **판단**: 우선 <strong>스와핑 (Swapping)</strong>이 빈번하게 발생하는지 확인한다. 만약 물리 메모리가 부족하여 디스크와의 데이터 교환이 잦다면, 우선순위가 낮은 프로세스를 일시적으로 디스크로 쫓아내는 (Swap-out) 결단을 내린다. 장기적으로는 페이지 크기를 조정하거나 **Huge Pages** 설정을 통해 페이지 테이블 오버헤드를 줄이는 튜닝을 제안한다.
 
 **시나리오 2: 메모리 보호 오류 (Segmentation Fault) 빈발**
-- **판단**: 프로세스가 자신에게 할당되지 않은 영역을 참조하고 있다. 하드웨어 레벨의 **Base/Limit 레지스터**나 페이지 테이블의 **Protection Bits (R/W/X)** 설정을 검증한다. 공유 메모리 (Shared Memory) 사용 시에는 동기화 메커니즘이 메모리 보호 경계를 무너뜨리지 않는지 아키텍처를 재검토한다.
+- **판단**: 프로세스가 자신에게 할당되지 않은 영역을 참조하고 있다. 하드웨어 레벨의 <strong>Base/Limit 레지스터</strong>나 페이지 테이블의 **Protection Bits (R/W/X)** 설정을 검증한다. 공유 메모리 (Shared Memory) 사용 시에는 동기화 메커니즘이 메모리 보호 경계를 무너뜨리지 않는지 아키텍처를 재검토한다.
 
 이 도식은 메모리 압박 상황에서 OS가 수행하는 동적 메모리 회수 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Memory Reclamation Workflow                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ High Memory Pressure ] ──▶ [ Page Cache Reclaim ] ──┐   │
-│                                                         │   │
-│   ┌── [ Fail to Free ] ◀────────────────────────────────┘   │
-│   │          │                                              │
-│   │          ▼                                              │
-│   │   [ Swap-out Inactive Pages ] ──▶ [ Check Watermark ]   │
-│   │                                          │              │
-│   └──▶ [ OOM Killer Invoked ] ◀──────────────┘              │
-│          (Select & Kill Process)                            │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Reclamation Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High Memory Pressure</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page Cache Reclaim</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Fail to Free</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Swap-out Inactive Pages</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Check Watermark</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM Killer Invoked</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Select &amp; Kill Process)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 메모리 관리는 '호텔 객실 배정'과 같습니다. 단체 손님(프로그램)을 받을 때 방을 어떻게 쪼개어 줄지 결정하고, 방이 모자라면 잠시 로비(디스크)에서 기다리게 하거나, 최악의 경우 체크아웃(OOM Killer)을 시키는 결단력이 필요합니다.
 

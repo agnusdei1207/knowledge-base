@@ -18,19 +18,22 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-데이터 무결성 유형:
-  ┌─────────────────────────────────────────┐
-  │  개체 무결성:  기본키 ≠ NULL, 고유      │
-  │  참조 무결성:  외래키 → 부모 행 존재    │
-  │  도메인 무결성: 열 값이 허용 범위 내    │
-  │  사용자 정의:  비즈니스 규칙 제약       │
-  └─────────────────────────────────────────┘
 
-DB 보안 3A:
-  인증(Authentication) → 권한 부여(Authorization) → 감사(Audit)
-  "누구냐?"              "무엇을 할 수 있냐?"         "무엇을 했냐?"
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 무결성 유형:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개체 무결성: 기본키 ≠ NULL, 고유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참조 무결성: 외래키 → 부모 행 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 무결성: 열 값이 허용 범위 내</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 정의: 비즈니스 규칙 제약</div></div>
+<div class="kb-diagram-note">DB 보안 3A:</div>
+<div class="kb-diagram-note">인증(Authentication) → 권한 부여(Authorization) → 감사(Audit)</div>
+<div class="kb-diagram-note">"누구냐?" "무엇을 할 수 있냐?" "무엇을 했냐?"</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DB [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 보안은 은행 금고의 두 안전장치다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(금고 안 돈의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))은 잘못된 금액 입력을 막고, 보안(금고 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/))은 허가된 직원만 금고에 접근할 수 있게 한다.
 
@@ -116,9 +119,9 @@ DB 서버 레이어:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질** | 제약으로 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 차단 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | 제약으로 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 차단 |
 | **컴플라이언스** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적** | 누가 언제 무엇을 했는지 기록 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong> | 누가 언제 무엇을 했는지 기록 |
 
 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)) 환경에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 각각이 자체 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 가지며, 연합 거버넌스(Federated Governance)가 전사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 조율한다. 이는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·보안의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 관리 패러다임으로의 전환이다.
 
@@ -131,31 +134,32 @@ DB 서버 레이어:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ACID** | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
-| **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)** | 역할 기반 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 표준 |
-| **[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)** | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 보안·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 법규 |
-| **SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)** | DB 보안 주요 위협 |
-| **[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·보안 패러다임 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong> | 역할 기반 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 표준 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a></strong> | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 보안·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 법규 |
+| <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a></strong> | DB 보안 주요 위협 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·보안 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파일 시스템 — 무결성·보안 미흡]
-    │
-    ▼
-[RDBMS 제약 조건 — 개체·참조·도메인 무결성]
-    │
-    ▼
-[RBAC·DAC·MAC — 접근 통제 모델 표준화]
-    │
-    ▼
-[암호화·감사 — 열 수준 암호화, 감사 로그]
-    │
-    ▼
-[제로 트러스트 DB — 내부 사용자도 항상 검증]
-    │
-    ▼
-[데이터 메시 — 분산 도메인별 무결성·보안 자치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 — 무결성·보안 미흡</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS 제약 조건 — 개체·참조·도메인 무결성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RBAC·DAC·MAC — 접근 통제 모델 표준화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화·감사 — 열 수준 암호화, 감사 로그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 DB — 내부 사용자도 항상 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 — 분산 도메인별 무결성·보안 자치</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

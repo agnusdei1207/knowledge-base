@@ -18,7 +18,7 @@ tags = ["studynote-design"]
 
 ## Ⅰ. SW 개발 보안 진단의 정의와 법적 근거
 
-SW 개발 보안 진단은 **소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))에서 보안 취약점을 조기 발견·제거**하는 활동이다.
+SW 개발 보안 진단은 <strong>소프트웨어 개발 생명주기(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/">SDLC</a>)에서 보안 취약점을 조기 발견·제거</strong>하는 활동이다.
 
 ### 법적 근거 (국내)
 
@@ -30,12 +30,17 @@ SW 개발 보안 진단은 **소프트웨어 개발 생명주기([SDLC](/knowled
 
 ### 보안 진단 범위
 
-```
-요구사항 → 설계 → 구현 → 테스트 → 배포
-    ↓        ↓       ↓       ↓       ↓
-위협 모델링  보안 설계  소스코드  침투 테스트  취약점 모니터링
-              검토    정적 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 → 설계 → 구현 → 테스트 → 배포</div>
+<div class="kb-diagram-note">위협 모델링 보안 설계 소스코드 침투 테스트 취약점 모니터링</div>
+<div class="kb-diagram-note">검토 정적 분석</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: SW 보안 진단은 건물 완공 전 소방 검사다 — 완공 후 화재가 나는 것보다 공사 중 배관을 검사하는 게 훨씬 저렴하고 안전하다.
 
@@ -77,16 +82,22 @@ A03 인젝션              ── 행안부 #16~20 매핑
 | [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/)    | 런타임 계측 기반 (에이전트 삽입)   | Seeker, Contrast      |
 | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)     | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 구성 분석               | FOSSA, Snyk           |
 
-```
-CI/CD 파이프라인 통합:
-코드 커밋 → SAST 자동 스캔 → PR 차단 or 경고
-   ↓
-빌드 → SCA (종속성 취약점) → 빌드 차단
-   ↓
-스테이징 → DAST (API 퍼징) → 배포 차단
-   ↓
-프로덕션 → IAST + RASP (런타임 보호)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CI/CD 파이프라인 통합:</div>
+<div class="kb-diagram-note">코드 커밋 → SAST 자동 스캔 → PR 차단 or 경고</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">빌드 → SCA (종속성 취약점) → 빌드 차단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스테이징 → DAST (API 퍼징) → 배포 차단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프로덕션 → IAST + RASP (런타임 보호)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: SAST는 출판 전 교정 교열이고, DAST는 책이 출판된 후 독자 반응 테스트다. IAST는 독서 중 독자 눈 움직임을 실시간 추적한다.
 
@@ -121,14 +132,18 @@ CI/CD 파이프라인 통합:
 
 ## Ⅴ. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 통합과 현대화
 
-```
-DevOps 파이프라인에 Security 통합:
 
-Plan → Code → Build → Test → Release → Deploy → Operate
-  ↓      ↓      ↓       ↓       ↓         ↓        ↓
-위협  SAST   SCA    DAST  서명   RASP    취약점
-모델링                         검증           모니터링
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DevOps 파이프라인에 Security 통합:</div>
+<div class="kb-diagram-note">Plan → Code → Build → Test → Release → Deploy → Operate</div>
+<div class="kb-diagram-note">위협 SAST SCA DAST 서명 RASP 취약점</div>
+<div class="kb-diagram-note">모델링 검증 모니터링</div>
+</div>
+</div>
+
+
 
 ### 성숙도 모델 ([BSIMM](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/472_bsimm_maturity_model/) / SAMM)
 
@@ -144,49 +159,56 @@ Plan → Code → Build → Test → Release → Deploy → Operate
 
 ## 📌 관련 개념 맵
 
-```
-SW 개발 보안 진단
-├── 법적 근거
-│   ├── 전자정부법·행안부 가이드
-│   └── 43개 보안 약점 분류
-├── 진단 도구
-│   ├── SAST (정적 분석)
-│   ├── DAST (동적 분석)
-│   ├── IAST (계측 분석)
-│   └── SCA (오픈소스 분석)
-├── 기준
-│   ├── OWASP Top 10
-│   ├── CWE/CVE
-│   └── CVSS 위험도 점수
-└── 현대화
-    ├── DevSecOps 파이프라인 통합
-    ├── BSIMM / SAMM 성숙도 모델
-    └── RASP (런타임 자기 보호)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SW 개발 보안 진단</div>
+<div class="kb-diagram-tree-item" style="--depth:0">법적 근거</div>
+<div class="kb-diagram-note">── 전자정부법·행안부 가이드</div>
+<div class="kb-diagram-note">── 43개 보안 약점 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:0">진단 도구</div>
+<div class="kb-diagram-note">── SAST (정적 분석)</div>
+<div class="kb-diagram-note">── DAST (동적 분석)</div>
+<div class="kb-diagram-note">── IAST (계측 분석)</div>
+<div class="kb-diagram-note">── SCA (오픈소스 분석)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">기준</div>
+<div class="kb-diagram-note">── OWASP Top 10</div>
+<div class="kb-diagram-note">── CWE/CVE</div>
+<div class="kb-diagram-note">── CVSS 위험도 점수</div>
+<div class="kb-diagram-tree-item" style="--depth:0">현대화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">DevSecOps 파이프라인 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BSIMM / SAMM 성숙도 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RASP (런타임 자기 보호)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│           SW 개발 보안 진단 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2000년대 초  │ 사후 침투 테스트   │ 운영 중 취약점 발견·패치     │
-│ 2004년       │ OWASP Top 10 등장  │ 웹 취약점 표준 분류          │
-│ 2010년대     │ SAST 도구 성숙      │ SonarQube·Checkmarx 도입    │
-│ 2015년       │ 행안부 가이드 v2.0 │ 공공 SW 개발 보안 의무화     │
-│ 2018년       │ DAST·IAST 통합     │ CI/CD 파이프라인 보안 게이트 │
-│ 2020년대     │ DevSecOps 표준화    │ 자동화·AI 취약점 탐지       │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-SDLC → Secure SDLC → SAST/DAST → DevSecOps
-  ↓         ↓            ↓
-요구사항  위협 모델링  CI/CD 보안 게이트
-  ↓
-OWASP Top 10 → 43개 약점 → CVSS 점수 → 조치 우선순위
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SW 개발 보안 진단 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대 초</div><div class="kb-diagram-cell">사후 침투 테스트</div><div class="kb-diagram-cell">운영 중 취약점 발견·패치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2004년</div><div class="kb-diagram-cell">OWASP Top 10 등장</div><div class="kb-diagram-cell">웹 취약점 표준 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">SAST 도구 성숙</div><div class="kb-diagram-cell">SonarQube·Checkmarx 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">행안부 가이드 v2.0</div><div class="kb-diagram-cell">공공 SW 개발 보안 의무화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">DAST·IAST 통합</div><div class="kb-diagram-cell">CI/CD 파이프라인 보안 게이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">DevSecOps 표준화</div><div class="kb-diagram-cell">자동화·AI 취약점 탐지</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">SDLC → Secure SDLC → SAST/DAST → DevSecOps</div>
+<div class="kb-diagram-note">요구사항 위협 모델링 CI/CD 보안 게이트</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">OWASP Top 10 → 43개 약점 → CVSS 점수 → 조치 우선순위</div>
+</div>
+</div>
+
+
 
 ---
 

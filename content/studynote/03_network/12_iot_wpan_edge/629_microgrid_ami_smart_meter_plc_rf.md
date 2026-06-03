@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 축소판으로, 기존의 거대한 광역 전력망(한전)에서 독립하여, **마을, 섬, 대학교 캠퍼스, 군부대 등 소규모 지역 단위로 자체적인 신재생 에너지 발전원(태양광, 풍력 등)과 저장 장치([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/))를 갖추고 전력을 자급자족하는 독립형 마이크로 전력망**입니다.
+- [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 축소판으로, 기존의 거대한 광역 전력망(한전)에서 독립하여, <strong>마을, 섬, 대학교 캠퍼스, 군부대 등 소규모 지역 단위로 자체적인 신재생 에너지 발전원(태양광, 풍력 등)과 저장 장치(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/">ESS</a>)를 갖추고 전력을 자급자족하는 독립형 마이크로 전력망</strong>입니다.
 - **특징**: 평소에는 외부 한전의 메인 전력망과 연결해 부족한 전기를 사고팔다가, 대형 지진으로 국가 전력망이 셧다운(블랙아웃) 되면 재빨리 외부 연결을 끊고 고립(Islanding) 모드로 전환하여 자체 태양광과 [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 배터리만으로 마을의 전기를 완벽히 유지하는 미친 생존력을 자랑합니다.
 
-```text
-[스마트 그리드]
-│
-▼
-[마이크로 그리드 / AMI 통신 탑재 방식]
-│
-└──▶ [산업용 이더넷 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 그리드 / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,17 +45,21 @@ tags = ["studynote-network"]
 
 ### 1. AMI의 핵심 구성요소
 - **스마트 미터 (Smart Meter)**: 집집마다 달려있는 디지털 전기 계량기입니다. 전기 사용량을 15분 단위로 정밀 측정하고, 한전에서 보내는 "지금 전기요금 비싸니까 조심하세요"라는 메시지를 표시창에 띄워주며 전력 누수를 감지합니다.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집중 장치 (DCU, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Concentration Unit)**: 아파트 지하실이나 전봇대에 하나씩 달린 중계기입니다. 한 아파트 단지의 수백 개 스마트 미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 모아(집중) 한전 클라우드 서버로 쏘아 올립니다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 집중 장치 (DCU, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Concentration Unit)</strong>: 아파트 지하실이나 전봇대에 하나씩 달린 중계기입니다. 한 아파트 단지의 수백 개 스마트 미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 모아(집중) 한전 클라우드 서버로 쏘아 올립니다.
 - **통신망 (Network)**: 스마트 미터와 DCU를 연결하고, DCU와 한전 서버를 연결하는 무선/유선 인터넷 망입니다.
 
-```text
-[스마트 그리드]
-│
-▼
-[마이크로 그리드 / AMI 통신 탑재 방식]
-│
-└──▶ [산업용 이더넷 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 그리드 / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,8 +69,8 @@ tags = ["studynote-network"]
 
 집 밖의 스마트 미터기에서 전봇대의 DCU까지데이터을/를 어떻게 보낼 것인가가 딜레마입니다. 랜선을 새로 깔려면 공사비가 천문학적이기 때문입니다.
 
-1. **[PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Line Communication, [전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/))** 🌟
-- **원리**: **새로 통신선을 깔 필요 없이, 집안에 이미 깔려 있는 구리 '전기선(220V 파워선)' 위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 주파수를 얹어서 인터넷을 하는 획기적인 방식**입니다. (전기선이 곧 랜선이 됨)
+1. <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Line Communication, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/">전력선 통신</a>)</strong> 🌟
+- **원리**: <strong>새로 통신선을 깔 필요 없이, 집안에 이미 깔려 있는 구리 '전기선(220V 파워선)' 위로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 주파수를 얹어서 인터넷을 하는 획기적인 방식</strong>입니다. (전기선이 곧 랜선이 됨)
 - **장단점**: 공사비가 압도적으로 저렴하여 한국 한전(KEPCO) 주도의 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 보급에 주력으로 쓰였습니다. 하지만 믹서기나 헤어드라이어 같은 가전제품을 켤 때 전기선에 엄청난 잡음(노이즈)이 발생해 통신 속도가 떨어지고 끊기는 치명적인 약점이 있습니다.
 
 2. **RF (Radio Frequency, 무선 통신 방식)**
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스마트 그리드]
-│
-▼
-[현재 개념: 마이크로 그리드 / AMI 통신 탑재 방식]
-│
-├──▶ [확장 A: 산업용 이더넷 표준]
-└──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 그리드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 산업용 이더넷 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 마이크로 그리드 / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [산업용 이더넷 표준](/knowledge-base/studynote/03_network/12_iot_wpan_edge/630_industrial_ethernet_profinet_ethercat_modbus/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

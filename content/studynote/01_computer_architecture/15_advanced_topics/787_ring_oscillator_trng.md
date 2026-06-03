@@ -21,17 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 링 오실레이터는 인버터를 홀수 개 연결해 스스로 계속 뒤집히게 만든 발진 회로다. 이상적으로는 일정 주기로 진동하지만, 실제 실리콘에서는 열잡음·공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변동·근접 배선 간섭 때문에 에지가 조금씩 흔들린다. 바로 그 흔들림이 TRNG에서 쓸 수 있는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 된다. 별도 아날로그 소자 없이도 디지털 공정 위주로 구현할 수 있기 때문에, 현대 보안 칩에서 가장 널리 쓰이는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 중 하나다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Ring oscillator as a jitter source              │
-├──────────────────────────────────────────────────────────────┤
-│ [INV]→[INV]→[INV]                                           │
-│   ▲             │                                            │
-│   └─────────────┘   free-running oscillation                 │
-│                                                              │
-│ Ideal period T, actual period T±ΔT -> sample ΔT as entropy   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring oscillator as a jitter source</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">INV</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INV</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INV</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">free-running oscillation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ideal period T, actual period T±ΔT -&gt; sample ΔT as entropy</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 빙글빙글 도는 팽이가 완벽히 같은 속도로 돌 것 같아도 미세한 바람과 바닥 상태 때문에 조금씩 흔들리는 것과 같다. 그 흔들림이 바로 난수 재료다.
 
@@ -48,18 +49,20 @@ tags = ["studynote-computer-architecture"]
 | XOR Combiner | 다중 소스 혼합 | 단일 소스 편향 완화 |
 | Conditioner | 통계 품질 향상 | 해시·블록암호 기반 후처리 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Multi-RO TRNG reference architecture           │
-├──────────────────────────────────────────────────────────────┤
-│ RO1 ─┐                                                     │
-│ RO2 ─┼─▶ Sampler ─▶ XOR ─▶ Conditioner ─▶ Random bits       │
-│ RO3 ─┤                                                     │
-│ RO4 ─┘                                                     │
-│                                                              │
-│ Diversity in RO length/layout reduces common-mode bias      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-RO TRNG reference architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RO1 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RO2 ─ ─▶ Sampler ─▶ XOR ─▶ Conditioner ─▶ Random bits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RO3 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RO4 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diversity in RO length/layout reduces common-mode bias</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 여러 사람이 각자 다른 박자로 손뼉을 치고 그 박자를 섞으면, 한 사람만 있을 때보다 전체 리듬을 예측하기 어려워진다.
 
@@ -106,18 +109,21 @@ RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RO Jitter]
-    │
-    ▼
-[Asynchronous Sampling]
-    │
-    ▼
-[XOR Mixing]
-    │
-    ├──▶ [Conditioning]
-    └──▶ [Online Health Tests]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RO Jitter</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Asynchronous Sampling</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XOR Mixing</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Conditioning</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Online Health Tests</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 자유 진동에서 나온 지터가 샘플링과 혼합을 거쳐 실제 보안용 난수로 승격되는 과정을 보여준다. 즉 RO 자체가 아니라 전체 파이프라인이 TRNG다.
 

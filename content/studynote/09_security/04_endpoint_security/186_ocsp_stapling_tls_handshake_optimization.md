@@ -35,24 +35,26 @@ tags = ["studynote-security"]
 
 아래 그림은 일반 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의와 Stapling 방식의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ OCSP vs OCSP Stapling                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ A. Direct OCSP                                                     │
-│ Client -> Server : ClientHello                                     │
-│ Client <- Server : Certificate                                     │
-│ Client -> CA     : OCSP request                                    │
-│ Client <- CA     : signed status response                          │
-│ Client -> Server : continue handshake                              │
-│                                                                    │
-│ B. OCSP Stapling                                                   │
-│ Server <-> CA    : periodically fetch signed OCSP response         │
-│ Client -> Server : ClientHello + status_request                    │
-│ Client <- Server : Certificate + stapled OCSP response             │
-│ Client            verifies CA signature and freshness locally      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP vs OCSP Stapling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. Direct OCSP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : ClientHello</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- Server : Certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; CA : OCSP request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- CA : signed status response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : continue handshake</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. OCSP Stapling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server &lt;-&gt; CA : periodically fetch signed OCSP response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : ClientHello + status_request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- Server : Certificate + stapled OCSP response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client verifies CA signature and freshness locally</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 운영 포인트 |
 | :--- | :--- | :--- |
@@ -62,7 +64,7 @@ tags = ["studynote-security"]
 | 신뢰 체인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 서버가 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 응답을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 구성 | 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 누락 시 Stapling이 실패할 수 있다. |
 | Must-Staple | Stapling 부재 시 접속 거부를 유도 | 운영 실수 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 영향도 함께 고려해야 한다. |
 
-기술적으로 중요한 포인트는 "신선도"다. [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답에는 유효 시각과 다음 갱신 시점이 포함되므로, 서버는 만료되기 전에 새 응답을 다시 받아야 한다. 즉 Stapling은 단순 캐싱이 아니라 **짧은 수명의 서명된 상태 정보 캐시**이며, 이 갱신이 끊기면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점이 사라지거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패가 발생할 수 있다.
+기술적으로 중요한 포인트는 "신선도"다. [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답에는 유효 시각과 다음 갱신 시점이 포함되므로, 서버는 만료되기 전에 새 응답을 다시 받아야 한다. 즉 Stapling은 단순 캐싱이 아니라 <strong>짧은 수명의 서명된 상태 정보 캐시</strong>이며, 이 갱신이 끊기면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점이 사라지거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패가 발생할 수 있다.
 
 - **📢 섹션 요약 비유**: 학교 급식 검수표를 매일 새로 받아 붙여 두어야 학생들이 안심하고 먹을 수 있는 것과 같다. 어제 받은 검수표를 계속 붙여 두면 종이는 있어도 신뢰는 떨어진다.
 
@@ -80,7 +82,7 @@ tags = ["studynote-security"]
 
 이와 함께 기억해야 할 보완 축이 두 가지 있다. 첫째, [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Must-Staple은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 "Stapling 응답이 없으면 신뢰하지 말라"는 의도를 담아 다운그레이드 위험을 줄인다. 둘째, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 ([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/), [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))은 잘못 발급된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 공개 로그로 감시하는 체계로, 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과는 다른 문제를 다룬다. 즉 Stapling은 폐기 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 개선하지만, 오발급 탐지나 전체 수명 주기 통제를 모두 대신하지는 않는다.
 
-또한 최근에는 짧은 수명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 전략도 함께 검토된다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효기간 자체를 매우 짧게 줄이면 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담을 완화할 수 있기 때문이다. 결국 현대 웹 보안에서는 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Stapling, [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), 짧은 수명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 서로 대체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 **서로 다른 리스크를 보완하는 조합 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**에 가깝다.
+또한 최근에는 짧은 수명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 전략도 함께 검토된다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효기간 자체를 매우 짧게 줄이면 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담을 완화할 수 있기 때문이다. 결국 현대 웹 보안에서는 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Stapling, [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), 짧은 수명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 서로 대체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 <strong>서로 다른 리스크를 보완하는 조합 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: CRL은 폐기된 학생증 명단 전체를 들고 다니는 방식이고, OCSP는 학생 한 명씩 교무실에 전화해 묻는 방식이다. Stapling은 교실 문 앞에 오늘 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받은 명단 한 장을 붙여 두는 방식이라 더 빠르고 실용적이다.
 
@@ -119,7 +121,7 @@ tags = ["studynote-security"]
 
 그러나 Stapling은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐기 문제를 완전히 끝내는 만능 해법은 아니다. 서버가 응답을 갱신하지 못하면 오히려 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패를 일으킬 수 있고, 브라우저의 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이, soft-fail 문제, CT나 오발급 탐지 문제는 별도의 통제가 필요하다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선과 운영 규율이 함께 있어야 가치가 유지된다.
 
-따라서 이 주제는 "[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의를 서버가 대신 캐시해 준다" 정도로만 기억하면 부족하다. 더 정확한 기억법은 **폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 네트워크 비용과 프라이버시 비용을 서버 측 운영으로 전환하는 설계**라는 것이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 운영 책임이 만나는 지점으로 이해해야 한다.
+따라서 이 주제는 "[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의를 서버가 대신 캐시해 준다" 정도로만 기억하면 부족하다. 더 정확한 기억법은 <strong>폐기 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 네트워크 비용과 프라이버시 비용을 서버 측 운영으로 전환하는 설계</strong>라는 것이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 운영 책임이 만나는 지점으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 공연장 입장 줄을 빠르게 만들려면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증을 미리 준비해 두는 것이 좋다. 하지만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 날짜를 매일 새로 맞추지 않으면 줄은 빨라도 잘못된 손님을 들일 수 있다는 점까지 함께 기억해야 한다.
 
@@ -138,20 +140,23 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CRL 대용량 목록 배포
-        │
-        ▼
-OCSP (Online Certificate Status Protocol)
-        │
-        ▼
-OCSP Stapling
-        │
-        ├──────────────► 핸드셰이크 지연 감소
-        ├──────────────► 프라이버시 개선
-        ▼
-Must-Staple · CT · 짧은 수명 인증서
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CRL 대용량 목록 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCSP (Online Certificate Status Protocol)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCSP Stapling</div>
+<div class="kb-diagram-tree-item" style="--depth:4">핸드셰이크 지연 감소</div>
+<div class="kb-diagram-tree-item" style="--depth:4">프라이버시 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Must-Staple · CT · 짧은 수명 인증서</div>
+</div>
+</div>
+
+
 
 이 흐름은 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 목록 배포에서 시작해, 실시간 질의와 서버 측 최적화, 그리고 더 강한 보완 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 발전해 온 과정을 보여 준다.
 

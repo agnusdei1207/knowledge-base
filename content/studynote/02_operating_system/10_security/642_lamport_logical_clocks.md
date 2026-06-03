@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)과 각 노드의 수정 진동자(Oscillator) 오차 때문에 **물리적 시간(Physical Time)을 완벽하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 것은 불가능**하다. 레슬리 람포트(Leslie Lamport)는 이를 극복하기 위해 물리적 시간을 버리고 '사건의 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'만을 따지는 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Logical Clocks)**를 제안했다.
+> 1. **본질**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)과 각 노드의 수정 진동자(Oscillator) 오차 때문에 <strong>물리적 시간(Physical Time)을 완벽하게 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>하는 것은 불가능</strong>하다. 레슬리 람포트(Leslie Lamport)는 이를 극복하기 위해 물리적 시간을 버리고 '사건의 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'만을 따지는 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 시계(Logical Clocks)</strong>를 제안했다.
 > 2. **메커니즘**: "사건 A가 사건 B의 원인이 되었다면, A의 시계 값은 반드시 B의 시계 값보다 작아야 한다"는 **Happens-before ($a \rightarrow b$) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 정의하고, 모든 노드가 내부 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 유지하며 메시지를 주고받을 때마다 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 보정하여 시스템 전체의 인과율(Causality)을 정렬한다.
-> 3. **가치**: 람포트의 시계는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 직렬화(Serialization) 등 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 공유 자원의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 반드시 거쳐야 하는 **사건 정렬(Event [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))의 수학적 기초**를 제공했다.
+> 3. **가치**: 람포트의 시계는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 직렬화(Serialization) 등 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 공유 자원의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 반드시 거쳐야 하는 <strong>사건 정렬(Event <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)의 수학적 기초</strong>를 제공했다.
 
 ---
 
@@ -25,15 +25,15 @@ tags = ["studynote-operating-system"]
   - 한국 서버(A)와 미국 서버(B)가 공동의 은행 계좌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 관리한다. A에서 입금 버튼을 누르고, 그 소식을 들은 B가 출금 버튼을 눌렀다.
   - 그런데 미국 서버(B)의 물리적 시계가 한국 서버(A)보다 1초 느리다면? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 상으로는 "출금이 먼저 일어나고, 입금이 나중에 일어난" 것으로 기록되는 대참사가 발생한다.
   - [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)([Network Time Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))로 시계를 맞춰도 수 밀리초(ms)의 오차가 발생하며, 이 찰나의 시간에 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌은 막을 수 없다.
-  - **해결책**: "몇 시 몇 분"에 일어났는지는 버려라. 중요한 것은 **"누가 원인(Cause)이고 누가 결과(Effect)인지"**다. 이를 추적하는 꼬리표([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))가 필요했다.
+  - **해결책**: "몇 시 몇 분"에 일어났는지는 버려라. 중요한 것은 <strong>"누가 원인(Cause)이고 누가 결과(Effect)인지"</strong>다. 이를 추적하는 꼬리표([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))가 필요했다.
 
   - **물리적 시계**: 탐정들이 각자의 손목시계를 보고 사건 일지를 쓴다. "용의자가 12:00에 편지를 썼다", "피해자가 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/):59에 편지를 받았다". (시계가 틀리면 과거에서 편지가 온 모순이 발생함)
-  - **람포트 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계**: 탐정들이 시계를 부숴버리고 편지에 **일련번호([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))**만 적는다. 용의자가 편지에 '1번'이라고 적어 보냈다. 피해자는 편지를 받고 자기 일기장에 무조건 수신한 번호보다 큰 '2번'이라고 적는다. 절대 시간은 모르지만, '1번(원인)'이 '2번(결과)'보다 먼저 일어났다는 인과관계는 완벽하게 증명된다.
+  - <strong>람포트 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 시계</strong>: 탐정들이 시계를 부숴버리고 편지에 <strong>일련번호(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>)</strong>만 적는다. 용의자가 편지에 '1번'이라고 적어 보냈다. 피해자는 편지를 받고 자기 일기장에 무조건 수신한 번호보다 큰 '2번'이라고 적는다. 절대 시간은 모르지만, '1번(원인)'이 '2번(결과)'보다 먼저 일어났다는 인과관계는 완벽하게 증명된다.
 
 - **발전 과정**:
-  1. **[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)/PTP 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: 물리적 시계를 극도로 정밀하게 맞추려는 시도. (완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 물리적으로 불가)
+  1. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a>/PTP 기반 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: 물리적 시계를 극도로 정밀하게 맞추려는 시도. (완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 물리적으로 불가)
   2. **Lamport's Logical Clocks (1978)**: 단일 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 이용한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Partial Order) 증명.
-  3. **Vector Clocks ([벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/))**: 람포트 시계의 한계(인과관계가 없는 두 사건을 구별하지 못함)를 극복하기 위해, 노드 개수만큼의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 유지하는 기술. 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB(Dynamo, Riak)의 충돌 해결 코어로 쓰임.
+  3. <strong>Vector Clocks (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/">벡터 시계</a>)</strong>: 람포트 시계의 한계(인과관계가 없는 두 사건을 구별하지 못함)를 극복하기 위해, 노드 개수만큼의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 유지하는 기술. 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB(Dynamo, Riak)의 충돌 해결 코어로 쓰임.
 
 - **📢 섹션 요약 비유**: 우주 공간에서 서로 다른 속도로 흘러가는 시계(아인슈타인의 상대성 이론)를 억지로 맞추려 하지 않고, 편지가 오간 순서(인과율)만으로 역사를 완벽하게 재구성하는 우주 기록 보관소입니다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-operating-system"]
 1. **로컬 조건**: 동일한 프로세스 내에서 사건 $a$가 사건 $b$보다 먼저 실행되었다면, $a \rightarrow b$ 이다.
 2. **메시지 조건**: 프로세스 $P_1$이 메시지를 보내는 사건을 $a$, 프로세스 $P_2$가 그 메시지를 받는 사건을 $b$라고 하면, 반드시 $a \rightarrow b$ 이다. (편지는 보내기 전에 받을 수 없다)
 3. **추이율(Transitivity)**: $a \rightarrow b$ 이고 $b \rightarrow c$ 이면, $a \rightarrow c$ 이다.
-4. **[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(Concurrent)**: 위 세 조건으로 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 엮을 수 없는 두 사건 $a$와 $b$는 **동시에 일어난 것(Concurrent, $a \parallel b$)**으로 간주한다. (실제 물리적 시간이 달라도 인과관계가 없으면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이다)
+4. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>(Concurrent)</strong>: 위 세 조건으로 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 엮을 수 없는 두 사건 $a$와 $b$는 **동시에 일어난 것(Concurrent, $a \parallel b$)**으로 간주한다. (실제 물리적 시간이 달라도 인과관계가 없으면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이다)
 
 ---
 
@@ -56,34 +56,32 @@ tags = ["studynote-operating-system"]
 
 각 프로세스 $P_i$는 내부적으로 정수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) $C_i$를 유지한다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 두 가지 규칙으로 돌아간다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 람포트 논리적 시계 (Logical Clock) 동작 흐름           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [규칙 1: 내부 이벤트 (Local Event)]                                 │
-  │  프로세스 P1이 내부 연산을 수행할 때마다 자신의 카운터(C1)를 1 증가시킨다.   │
-  │  ( C1 = C1 + 1 )                                                  │
-  │                                                                   │
-  │  [규칙 2: 메시지 전송 및 수신 (Message Passing)]                      │
-  │  ① 전송(Send): P1이 P2에게 메시지(m)를 보낼 때, 갱신된 자신의 시계값      │
-  │                C1을 메시지에 붙여서(Timestamp) 보낸다. [m, C1]        │
-  │                                                                   │
-  │  ② 수신(Receive): P2가 [m, C1]을 수신하면, P2는 자신의 현재 시계값(C2)과 │
-  │                  받아온 시계값(C1) 중 [더 큰 값]을 선택하고 +1 한다.     │
-  │                  ( C2 = MAX(C2, C1) + 1 )                         │
-  │                                                                   │
-  │  [시나리오 예시]                                                    │
-  │                                                                   │
-  │    (P1의 시간)            (네트워크)             (P2의 시간)         │
-  │      C1 = 1                                       C2 = 1          │
-  │      C1 = 2 (이벤트 a)                             C2 = 2          │
-  │      C1 = 3 (이벤트 b) ─(메시지 m1, ts:3)─▶        C2 = 3          │
-  │                                           (수신 c) C2 = MAX(3,3)+1 = 4 │
-  │      C1 = 4 ◀────────(메시지 m2, ts:5)── (전송 d) C2 = 5          │
-  │  (수신 e) C1 = MAX(4,5)+1 = 6                                     │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">람포트 논리적 시계 (Logical Clock) 동작 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">규칙 1: 내부 이벤트 (Local Event)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1이 내부 연산을 수행할 때마다 자신의 카운터(C1)를 1 증가시킨다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( C1 = C1 + 1 )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">규칙 2: 메시지 전송 및 수신 (Message Passing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 전송(Send): P1이 P2에게 메시지(m)를 보낼 때, 갱신된 자신의 시계값</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">C1을 메시지에 붙여서(Timestamp) 보낸다.</div><div class="kb-diagram-node">m, C1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">② 수신(Receive): P2가</div><div class="kb-diagram-node">m, C1</div><div class="kb-diagram-note">을 수신하면, P2는 자신의 현재 시계값(C2)과</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">받아온 시계값(C1) 중</div><div class="kb-diagram-node">더 큰 값</div><div class="kb-diagram-note">을 선택하고 +1 한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( C2 = MAX(C2, C1) + 1 )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P1의 시간) (네트워크) (P2의 시간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 = 1 C2 = 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 = 2 (이벤트 a) C2 = 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 = 3 (이벤트 b) ─(메시지 m1, ts:3)─▶ C2 = 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수신 c) C2 = MAX(3,3)+1 = 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 = 4 ◀ (메시지 m2, ts:5)── (전송 d) C2 = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수신 e) C1 = MAX(4,5)+1 = 6</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** P1이 보낸 메시지의 타임스탬프가 3이었다. P2가 그걸 받았을 때 P2의 내부 시계가 1로 뒤쳐져 있었다면 어떻게 될까? P2는 "아, 저쪽 동네는 벌써 3이구나. 내가 메시지를 '받은(결과)' 사건은 보낸 사건(원인)보다 늦어야 하니, 내 시계를 강제로 4로 맞춰야겠다!"라고 판단(`MAX(1,3)+1=4`)한다. 이렇게 함으로써 물리적 시간이 어긋나 있더라도 전체 시스템의 메시지 인과율이 모순 없이 정렬된다.
 
@@ -95,7 +93,7 @@ tags = ["studynote-operating-system"]
 그러나 치명적인 역명제 모순이 존재한다: **"$C(a) < C(b)$ 라고 해서 반드시 $a \rightarrow b$ 인 것은 아니다."** 
 서로 통신을 한 번도 안 한 지구 서버(A)와 화성 서버(B)가 각자 혼자 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 올려서 A는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), B는 20을 찍었다. [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) < 20 이지만, A가 B의 원인이 된 적은 없다.
 
-- **전순서(Total [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) 해결책**: 두 이벤트의 람포트 시계 값이 같을 경우(예: $C(a) = C(b) = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$), 프로세스의 고유 ID(PID)나 IP 주소를 비교하여 인위적으로 순서를 강제한다. (예: PID 1인 서버의 이벤트가 먼저다). 이를 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 모든 이벤트에 줄 세우기(Total Order)가 가능해진다.
+- <strong>전순서(Total <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>) 해결책</strong>: 두 이벤트의 람포트 시계 값이 같을 경우(예: $C(a) = C(b) = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$), 프로세스의 고유 ID(PID)나 IP 주소를 비교하여 인위적으로 순서를 강제한다. (예: PID 1인 서버의 이벤트가 먼저다). 이를 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 모든 이벤트에 줄 세우기(Total Order)가 가능해진다.
 
 - **📢 섹션 요약 비유**: 람포트 시계는 카카오톡의 '말풍선 순서'를 맞추는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다. 내 폰 시간이 아무리 틀려도, 상대방이 보낸 말풍선(원인) 밑에 내 말풍선(결과)이 예쁘게 달리도록 시간([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))을 보정해 주는 기법입니다.
 
@@ -107,14 +105,14 @@ tags = ["studynote-operating-system"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 시간 기준 | 장점 | 단점 / 한계 | 주요 사용처 |
 |:---|:---|:---|:---|:---|
-| **물리적 시계 ([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))** | 원자 시계 (UTC) | 인간이 이해하기 직관적임 | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)으로 완벽 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 절대 불가 | 일반 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
+| <strong>물리적 시계 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a>)</strong> | 원자 시계 (UTC) | 인간이 이해하기 직관적임 | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)으로 완벽 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 절대 불가 | 일반 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 | **TrueTime (Spanner)** | GPS + 원자 시계 + 오차 범위(ε) | 물리적 시간의 오차 범위까지 계산하여 인과율 보장 | 비싼 구글 전용 하드웨어 필요 | 구글 Spanner DB ([NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)) |
 | **Lamport Clocks** | 단일 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)) | 오버헤드 거의 0, 인과율(선후) 완벽 보장 | 값이 같거나 클 때 인과성을 역으로 증명 불가 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 타임스탬프 |
-| **Vector Clocks** | 노드별 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | **인과성과 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(Concurrent)을 완벽하게 구분 증명** | 노드 수(N)에 비례하여 메시지 크기 폭증 (무거움) | Amazon Dynamo, Riak DB |
+| **Vector Clocks** | 노드별 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | <strong>인과성과 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>(Concurrent)을 완벽하게 구분 증명</strong> | 노드 수(N)에 비례하여 메시지 크기 폭증 (무거움) | Amazon Dynamo, Riak DB |
 
 ### 과목 융합 관점
 
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (DB)**: 멀티 마스터(Multi-Master) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB 환경에서, 동일한 행(Row)에 대해 A서버와 B서버에서 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)가 발생했을 때 누가 이길지 결정(Conflict Resolution)해야 한다. 이때 LWW(Last-Write-Wins) 전략을 쓰는데, 이 'Last'를 결정하는 절대적 기준이 물리적 시간이 아닌 '람포트 시계(또는 [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/))'의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (DB)</strong>: 멀티 마스터(Multi-Master) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB 환경에서, 동일한 행(Row)에 대해 A서버와 B서버에서 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)가 발생했을 때 누가 이길지 결정(Conflict Resolution)해야 한다. 이때 LWW(Last-Write-Wins) 전략을 쓰는데, 이 'Last'를 결정하는 절대적 기준이 물리적 시간이 아닌 '람포트 시계(또는 [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/))'의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)다.
 - **소프트웨어공학 (SE)**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), 예: Zipkin, Jaeger)을 할 때, 수십 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)를 거쳐 가는 요청의 흐름(Span)을 순서대로 화면에 그리기 위해 이 인과적 타임스탬프(Trace ID와 Sequence) 원리가 100% 동일하게 사용된다.
 
 - **📢 섹션 요약 비유**: 물리적 시계([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))가 "오후 1시에 밥 먹자"고 약속하는 것이라면, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Lamport)는 "네가 오면 밥 먹자"고 약속하는 것입니다. 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 심한 우주([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경)에서는 후자가 훨씬 안전한 약속입니다.
@@ -125,42 +123,39 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 매니저([DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/))에서의 공평한 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))**: 3대의 서버가 1개의 공유 파일에 글을 쓰려고 경쟁한다. 서로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 달라고 요청(Request) 메시지를 뿌렸다. 모두가 동시에 메시지를 쐈는데 누구에게 먼저 락을 주어야 공평할까?
-   - **아키텍처 적용**: 람포트 시계의 전순서(Total [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 기반으로 한 **Lamport's [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 사용한다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 매니저(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/">DLM</a>)에서의 공평한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>: 3대의 서버가 1개의 공유 파일에 글을 쓰려고 경쟁한다. 서로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 달라고 요청(Request) 메시지를 뿌렸다. 모두가 동시에 메시지를 쐈는데 누구에게 먼저 락을 주어야 공평할까?
+   - **아키텍처 적용**: 람포트 시계의 전순서(Total [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 기반으로 한 <strong>Lamport's <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 사용한다.
    - 1) 각 서버는 `[람포트 카운터, 내 서버 ID]`를 달아서 요청을 쏜다.
    - 2) 3대의 서버는 각자의 로컬 큐에 수신된 요청을 `[카운터, ID]` 오름차순으로 정렬한다.
    - 3) 모든 서버로부터 "네 요청 잘 받았다(Ack)"는 응답을 받고, 내 요청이 로컬 큐의 맨 위에 있을 때만 락을 획득하고 파일에 글을 쓴다. 완료되면 해제(Release) 메시지를 쏜다.
    - **결과**: 중앙의 [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 3대가 수학적으로 100% 동일한 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))을 머릿속에 가지게 되어 데드락과 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))가 없는 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 이루어진다.
 
-2. **시나리오 — 다이나모(Dynamo) 계열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB에서의 [Vector Clock](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/) 충돌 해결**: 장바구니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하는 [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) DB 클러스터에서 장바구니에 아이템 A와 B가 각각 다른 노드에 동시에 추가되는 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Split-brain)이 발생.
+2. <strong>시나리오 — 다이나모(Dynamo) 계열 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> DB에서의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/">Vector Clock</a> 충돌 해결</strong>: 장바구니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하는 [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) DB 클러스터에서 장바구니에 아이템 A와 B가 각각 다른 노드에 동시에 추가되는 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Split-brain)이 발생.
    - **원인 분석**: 람포트 시계는 단일 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)라 "A 추가([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"와 "B 추가([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))" 중 하나를 무조건 덮어써 버린다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실). 
-   - **대응 (기술사적 가이드)**: 이럴 때는 람포트 시계를 확장한 **[벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)([Vector Clock](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/))**를 써야 한다. `[Node1: 1, Node2: 0]`과 `[Node1: 0, Node2: 1]`이라는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 비교하면, 두 사건이 서로 인과관계가 없는 동시(Concurrent) 사건임을 수학적으로 판별할 수 있다. DB는 임의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우지 않고, 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살려둔 뒤(Siblings) 클라이언트 프론트엔드에게 던져주어 "사용자가 직접 병합(Merge)"하도록 책임을 위임한다.
+   - **대응 (기술사적 가이드)**: 이럴 때는 람포트 시계를 확장한 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/">벡터 시계</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/">Vector Clock</a>)</strong>를 써야 한다. `[Node1: 1, Node2: 0]`과 `[Node1: 0, Node2: 1]`이라는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 비교하면, 두 사건이 서로 인과관계가 없는 동시(Concurrent) 사건임을 수학적으로 판별할 수 있다. DB는 임의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우지 않고, 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살려둔 뒤(Siblings) 클라이언트 프론트엔드에게 던져주어 "사용자가 직접 병합(Merge)"하도록 책임을 위임한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 분산 데이터 동기화 및 충돌 해결 설계 플로우                │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [분산 시스템 간의 이벤트 정렬 및 데이터 정합성 보장 요구]                  │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Google과 같은 막대한 하드웨어 투자(원자 시계, GPS)가 가능한가?          │
-  │          ├─ 예 ─────▶ [TrueTime API 기반 물리적 동기화 적용]           │
-  │          │            (개발 복잡도 0, 트랜잭션 성능 최상)                │
-  │          └─ 아니오 (일반 클라우드 x86 서버 환경)                        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      "동시(Concurrent)"에 발생한 이벤트 충돌 시, 둘 다 살려야 하는가?      │
-  │      (예: 분산 장바구니, 구글 문서 동시 편집 등)                          │
-  │          ├─ 예 ─────▶ [Vector Clocks (벡터 시계) 알고리즘 도입]        │
-  │          │            (인과관계 파악 완벽, 네트워크 오버헤드 큼)          │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Lamport Clocks (LWW: 마지막 쓰기 승리) 적용]  │
-  │                         (예: 단순 상태값 업데이트, 캐시 갱신 등)          │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 데이터 동기화 및 충돌 해결 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 시스템 간의 이벤트 정렬 및 데이터 정합성 보장 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Google과 같은 막대한 하드웨어 투자(원자 시계, GPS)가 가능한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TrueTime API 기반 물리적 동기화 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발 복잡도 0, 트랜잭션 성능 최상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (일반 클라우드 x86 서버 환경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"동시(Concurrent)"에 발생한 이벤트 충돌 시, 둘 다 살려야 하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 분산 장바구니, 구글 문서 동시 편집 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Vector Clocks (벡터 시계) 알고리즘 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인과관계 파악 완벽, 네트워크 오버헤드 큼)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lamport Clocks (LWW: 마지막 쓰기 승리) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 단순 상태값 업데이트, 캐시 갱신 등)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 '시간'은 돈이자 신뢰다. 돈이 무한대라면 구글처럼 인공위성을 쏘아 올려 물리적 시계(TrueTime)를 맞추면 된다. 그게 안 되는 99%의 기업은 람포트 시계나 [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)라는 소프트웨어적 편법([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시간)을 써야 한다. 그러나 [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)는 노드가 100개면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기가 100이 되어 네트워크 대역폭을 심각하게 낭비하므로, 최신 시스템들은 Hybrid Logical [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)(물리 시계 + 람포트 시계 융합)을 채택하는 추세다.
 
@@ -178,13 +173,13 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 물리적 시계 의존 환경 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계 (Lamport/Vector) 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰기 파괴 | 인과율 보장으로 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 충돌 감지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 100% 확보 |
-| **정량 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | 중앙 타임 서버 장애 시 시스템 정지 | 노드 간 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신만으로 순서 정렬 | 중앙 집중형 병목([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 완전 제거 |
+| <strong>정성 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong> | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰기 파괴 | 인과율 보장으로 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 충돌 감지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 100% 확보 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong> | 중앙 타임 서버 장애 시 시스템 정지 | 노드 간 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신만으로 순서 정렬 | 중앙 집중형 병목([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 완전 제거 |
 | **정성 (디버깅)** | 여러 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 순서가 뒤죽박죽 | 타임스탬프 기반 인과 트리 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) 난이도 극감 |
 
 ### 미래 전망
 - **HLC (Hybrid Logical Clocks)**: 람포트 시계의 치명적 단점인 "물리적 시간(예: 오후 3시)과의 괴리"를 극복하기 위해, 평소에는 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 물리 시계를 따라가다가 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이나 오차가 발생할 때만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 작동시켜 인과율을 보장하는 HLC가 [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 등 최신 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) NewSQL의 표준 시간 엔진으로 장착되고 있다.
-- **CRDT (Conflict-free Replicated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Type)**: [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)의 복잡한 충돌 해결 로직조차 없애기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 어떤 순서로 합쳐지더라도 항상 같은 결과를 내도록(교환법칙 성립) 수학적으로 설계된 CRDT 기술이 실시간 협업 툴(Figma 등)의 핵심으로 부상하고 있다.
+- <strong>CRDT (Conflict-free Replicated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Type)</strong>: [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)의 복잡한 충돌 해결 로직조차 없애기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 어떤 순서로 합쳐지더라도 항상 같은 결과를 내도록(교환법칙 성립) 수학적으로 설계된 CRDT 기술이 실시간 협업 툴(Figma 등)의 핵심으로 부상하고 있다.
 
 ### 결론
 람포트 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시계(Lamport's Logical Clocks)는 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 완벽한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)은 환상에 불과하다"는 사실을 증명함과 동시에, 그 환상을 우회하여 질서를 만들어낸 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 역사의 가장 위대한 논문(1978년) 중 하나다. 이 작은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 규칙 두 개는 현재 우리가 사용하는 클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 트레이싱, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 이르기까지, 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 붕괴하지 않고 단일 생명체처럼 움직이게 하는 수학적 DNA로 자리 잡고 있다.
@@ -204,15 +199,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)]
-    │
-    ▼
-[람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
-    │
-    ├──▶ [분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
-    └──▶ [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

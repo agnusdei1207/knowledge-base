@@ -20,26 +20,27 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 소프트웨어 테스트의 7가지 원칙 중 하나는 "완벽한(모든 조합의) 테스트는 불가능하다"는 것입니다. 
-만약 "0원부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원까지 입력 가능한 결제 창"이 있다면, 테스터가 1원, 2원, 3원... 10000원까지 만 번을 손으로 치고결과를 확인해야 할까요? 만약 1원이 정상 결제되었다면, 코드를 만든 사람의 입장에선 `if (price >= 0 && price <= 10000)`이라는 **동일한 제어 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/)) 지붕 폭** 안에 2원도 있고 5,000원도 같이 버무려져 묶여 있다는 걸 유추할 수 있습니다. 
+만약 "0원부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원까지 입력 가능한 결제 창"이 있다면, 테스터가 1원, 2원, 3원... 10000원까지 만 번을 손으로 치고결과를 확인해야 할까요? 만약 1원이 정상 결제되었다면, 코드를 만든 사람의 입장에선 `if (price >= 0 && price <= 10000)`이라는 <strong>동일한 제어 흐름(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>) 지붕 폭</strong> 안에 2원도 있고 5,000원도 같이 버무려져 묶여 있다는 걸 유추할 수 있습니다. 
 
-따라서 이 드넓은 땅덩어리를 "어차피 똑같이 대접받는 무리(동등 클래스, Equivalence Class)"로 칼 자르듯 잘라버립니다. 그리고 각 무리 구역의 아무 놈이나 등판시켜 1번만 쏘아보고 끝내는 초가성비 블랙박스 축지법이 바로 **[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)([Equivalence Partitioning](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/))** 기법입니다.
+따라서 이 드넓은 땅덩어리를 "어차피 똑같이 대접받는 무리(동등 클래스, Equivalence Class)"로 칼 자르듯 잘라버립니다. 그리고 각 무리 구역의 아무 놈이나 등판시켜 1번만 쏘아보고 끝내는 초가성비 블랙박스 축지법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong> 기법입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  동등 분할의 클래스 분할 매직                     │
-├──────────────────────────────────────────────────────────────┤
-│ [요구사항] "시험 점수 0점~100점만 유효, 60점 이상 합격, 미만 불합격"  │
-│                                                              │
-│ 1. 유효 클래스 (Valid)                                        │
-│     - 60~100 구간 (합격)  ▶ 대푯값 파견: 85점 넣어보기! OK!       │
-│     - 0~59 구간 (불합격) ▶ 대푯값 파견: 30점 넣어보기! OK!       │
-│                                                              │
-│ 2. 무효 클래스 (Invalid) - 안 할 거 같지만 절대 빼먹으면 안 됨!     │
-│     - 음수 영역 (-무한대 ~ -1) ▶ 대푯값 파견: -5점 (에러팝업 잘 뜨나?)│
-│     - 초과 영역 (101 ~ 무한대) ▶ 대푯값 파견: 154점 (에러팝업 잘 뜨나?)│
-│     - 바보 영역 (문자열 등)    ▶ 대푯값 파견: "바보" (크래시 안 죽나?)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동등 분할의 클래스 분할 매직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-note">"시험 점수 0점~100점만 유효, 60점 이상 합격, 미만 불합격"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 유효 클래스 (Valid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 60~100 구간 (합격) ▶ 대푯값 파견: 85점 넣어보기! OK!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 0~59 구간 (불합격) ▶ 대푯값 파견: 30점 넣어보기! OK!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 무효 클래스 (Invalid) - 안 할 거 같지만 절대 빼먹으면 안 됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 음수 영역 (-무한대 ~ -1) ▶ 대푯값 파견: -5점 (에러팝업 잘 뜨나?)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 초과 영역 (101 ~ 무한대) ▶ 대푯값 파견: 154점 (에러팝업 잘 뜨나?)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 바보 영역 (문자열 등) ▶ 대푯값 파견: "바보" (크래시 안 죽나?)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 10만 명의 체육관 학생들을 일일이 키 재볼 시간이 없으니까, "초등부 반장 한 명, 중등부 반장 한 명, 고등부 반장 한 명 앞으로 나와!" 하고 그 3명의 반장 키만 재고 대충 그룹의 키 상태를 속기로 가늠하는 편법이자 마법입니다.
 
@@ -53,9 +54,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)의 전제 조건은 **"우리가 자른 피자 한 조각 안의 토핑 맛은 100% 동일하다"**는 맹목적인 믿음입니다. 만약 개발자가 원래 `0~100` 구간에 `if (x == 50) return error;` 이스터 에그나 미친 짓을 몰래 섞어놨다면, [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 50을 대푯값으로 안 뽑았을 경우 그 결함을 살아서 릴리즈 해버리는 무시무시한 구멍(Hole)을 남깁니다.
+[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)의 전제 조건은 <strong>"우리가 자른 피자 한 조각 안의 토핑 맛은 100% 동일하다"</strong>는 맹목적인 믿음입니다. 만약 개발자가 원래 `0~100` 구간에 `if (x == 50) return error;` 이스터 에그나 미친 짓을 몰래 섞어놨다면, [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 50을 대푯값으로 안 뽑았을 경우 그 결함을 살아서 릴리즈 해버리는 무시무시한 구멍(Hole)을 남깁니다.
 
-이 맹점 때문에 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 절대 혼자 단독으로 치명적인 시스템에 쓰일 수 없으며, 후술할 그 유명한 짝꿍 기법인 **[경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)(BVA)**과 퓨전하여 "대푯값 하나 + 양 끝 양다리값"이라는 세트로 묶여 다니며 보완해야 합니다. 이것이 블랙박스 기사인 QA들이 시험 볼 때 반드시 1+1 공식을 외우는 이유입니다.
+이 맹점 때문에 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)은 절대 혼자 단독으로 치명적인 시스템에 쓰일 수 없으며, 후술할 그 유명한 짝꿍 기법인 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">경계값 분석</a>(BVA)</strong>과 퓨전하여 "대푯값 하나 + 양 끝 양다리값"이라는 세트로 묶여 다니며 보완해야 합니다. 이것이 블랙박스 기사인 QA들이 시험 볼 때 반드시 1+1 공식을 외우는 이유입니다.
 
 - **📢 섹션 요약 비유**: 수박 한 통이 속까지 다 빨갛게 익었을 거라고 믿고 한 숟갈 살짝 파먹고 달면 통과시켰는데, 하필 내가 수박씨 모여 있는 곳을 피해 파먹어서 "씨 없는 맛돌이 수박이네~" 하고 고객한테 팔았다가 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 맞는 역풍입니다.
 
@@ -75,8 +76,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-초짜 신입 QA들이 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 명세서를 작성하면 보통 개발자가 원하는 "정상 작동(해피 패스, Happy Path)" 구역인 **유효 클래스**만 대푯값을 뺍니다 (위 예시의 30점, 85점).
-하지만 10년 차 악질 시니어 QA들은 코에서 콧김을 뿜으며 **무효 클래스(Invalid Class)**인 101, -500, 특수문자 `!@#` 덩어리 구역에 훨씬 많은 대푯값을 배정하는 가학성을 보입니다.
+초짜 신입 QA들이 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 명세서를 작성하면 보통 개발자가 원하는 "정상 작동(해피 패스, Happy Path)" 구역인 <strong>유효 클래스</strong>만 대푯값을 뺍니다 (위 예시의 30점, 85점).
+하지만 10년 차 악질 시니어 QA들은 코에서 콧김을 뿜으며 <strong>무효 클래스(Invalid Class)</strong>인 101, -500, 특수문자 `!@#` 덩어리 구역에 훨씬 많은 대푯값을 배정하는 가학성을 보입니다.
 
 시스템 운영 장애([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Outage)의 99%는 고객이 마우스 매크로나 장난질로 명세서 규칙을 깨버리는 구역에서 뻗어버리는 예외 처리(Exception Handling) 누락에서 터집니다. 제대로 된 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)의 묘미는 "우리를 괴롭힐 해커들이나 빌런들의 입력 공격 덩어리"들을 잘게 찢어서 반장들을 솎아내는 데 있습니다.
 
@@ -141,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-동등 분할 (Equivalence Partitioning) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동등 분할 (Equivalence Partitioning) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

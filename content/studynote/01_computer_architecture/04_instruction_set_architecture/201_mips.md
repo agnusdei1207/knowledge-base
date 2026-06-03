@@ -25,21 +25,19 @@ MIPS는 "적은 수의 규칙적인 [명령어](/knowledge-base/studynote/01_com
 
 이 개념이 중요한 이유는 MIPS가 단순히 옛날 프로세서가 아니라, "좋은 ISA는 무엇을 단순화해야 하는가"를 보여주는 기준 사례이기 때문이다. 교과서에서 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/), [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/), 포워딩, 분기 해저드를 설명할 때 MIPS가 자주 등장하는 이유도 이 투명성에 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             MIPS가 해결하려던 문제: 복잡성보다 규칙성              │
-├──────────────────────────────────────────────────────────────────────┤
-│ CISC 시대 고민                                                      │
-│ ┌──────────────┐    ┌────────────────┐    ┌──────────────────────┐ │
-│ │가변 길이 명령│──▶ │복잡한 디코더   │──▶ │파이프라인 설계 어려움│ │
-│ └──────────────┘    └────────────────┘    └──────────────────────┘ │
-│                                                                      │
-│ MIPS의 선택                                                          │
-│ ┌──────────────┐    ┌────────────────┐    ┌──────────────────────┐ │
-│ │고정 길이 명령│──▶ │단순한 디코더   │──▶ │예측 가능한 파이프라인│ │
-│ └──────────────┘    └────────────────┘    └──────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS가 해결하려던 문제: 복잡성보다 규칙성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISC 시대 고민</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 길이 명령</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">복잡한 디코더</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">파이프라인 설계 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS의 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 길이 명령</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">단순한 디코더</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">예측 가능한 파이프라인</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 MIPS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 마법처럼 끌어올린 것이 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 방해하던 구조적 복잡성을 먼저 줄였다는 점이다. 즉 MIPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 덜 화려하게 만들고, 하드웨어를 더 빠르게 만든" 철학으로 이해해야 한다.
 
@@ -65,25 +63,26 @@ MIPS는 R형, I형, J형처럼 소수의 형식으로 거의 모든 명령을 �
 
 교육용 MIPS는 보통 5단계 파이프라인으로 설명한다: IF ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch), ID ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decode), EX (Execute), MEM (Memory Access), WB ([Write Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)). 이 구조가 유명한 이유는 각 단계의 역할이 명확하고, 해저드가 어디서 생기는지 눈으로 추적하기 쉽기 때문이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 MIPS 5단계 파이프라인의 흐름과 병목                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cycle 1   Cycle 2   Cycle 3   Cycle 4   Cycle 5                     │
-│ IF   ───▶ ID   ───▶ EX   ───▶ MEM  ───▶ WB                          │
-│  │        │        │        │        │                              │
-│  │        │        │        │        └─▶ 레지스터 기록             │
-│  │        │        │        └──────────▶ 데이터 메모리 접근        │
-│  │        │        └───────────────────▶ ALU (Arithmetic Logic Unit)│
-│  │        └────────────────────────────▶ 명령 해독·레지스터 읽기   │
-│  └─────────────────────────────────────▶ 명령 인출                 │
-│                                                                      │
-│ 주요 해저드 지점                                                     │
-│ - ID: 의존성 확인                                                    │
-│ - EX: 분기 판단                                                      │
-│ - MEM→WB: 로드 결과가 늦게 도착                                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS 5단계 파이프라인의 흐름과 병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 Cycle 2 Cycle 3 Cycle 4 Cycle 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF ▶ ID ▶ EX ▶ MEM ▶ WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 레지스터 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 데이터 메모리 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ALU (Arithmetic Logic Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 명령 해독·레지스터 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 명령 인출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 해저드 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ID: 의존성 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- EX: 분기 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MEM→WB: 로드 결과가 늦게 도착</div></div>
+</div>
+</div>
+
+
 
 이 그림은 단순한 단계 나열이 아니라, 왜 로드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 분기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생기는지를 보여준다. 예를 들어 `lw` 명령으로 읽은 값은 MEM 단계가 지나야 확정되므로, 바로 다음 명령이 그 값을 쓰면 정지가 필요하거나 우회 전달이 필요하다.
 
@@ -91,17 +90,19 @@ MIPS는 R형, I형, J형처럼 소수의 형식으로 거의 모든 명령을 �
 
 MIPS라는 이름 자체가 인터락을 두지 않겠다는 철학을 담고 있다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) MIPS는 하드웨어가 모든 의존성을 친절하게 막아 주기보다, 컴파일러가 명령 순서를 잘 배치해 파이프라인 공백을 메우게 했다. 이 철학이 가장 잘 드러나는 예가 분기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 슬롯이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 분기 지연 슬롯이 생기는 이유                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1. BEQ (Branch if Equal) 실행                                        │
-│ 2. 분기 여부는 EX 단계쯤에서 확정                                     │
-│ 3. 그 사이 다음 한 명령은 이미 파이프라인에 들어옴                   │
-│                                                                      │
-│ [분기 명령] ─────▶ [지연 슬롯 1개 실행] ─────▶ [목표 주소 or 순차 실행]│
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 지연 슬롯이 생기는 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. BEQ (Branch if Equal) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 분기 여부는 EX 단계쯤에서 확정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 그 사이 다음 한 명령은 이미 파이프라인에 들어옴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분기 명령</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지연 슬롯 1개 실행</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목표 주소 or 순차 실행</div></div>
+</div>
+</div>
+
+
 
 이 방식은 짧은 파이프라인에서는 합리적이었다. 하드웨어를 단순하게 유지하면서도 컴파일러가 유용한 명령을 채워 넣으면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 줄일 수 있었기 때문이다. 그러나 컴파일러가 넣을 적절한 명령이 없으면 `NOP (No Operation)`를 써야 해서 코드 밀도와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다.
 
@@ -124,15 +125,18 @@ MIPS와 ARM의 차이는 "단순함을 어디에 둘 것인가"에 있다. MIPS�
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 MIPS가 예외 처리, 주소 변환, 캐시 정책을 어떻게 연결하는지가 중요하고, 컴파일러 관점에서는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당과 명령 스케줄링 난이도가 중요하다. 즉 MIPS는 컴퓨터 구조 안에서만 끝나는 주제가 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·컴파일러·[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 설계가 만나는 접점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              RISC 계열의 관점 차이: 누가 복잡함을 맡는가            │
-├──────────────────────────────────────────────────────────────────────┤
-│ MIPS    : 하드웨어 단순화  ─────────────▶ 컴파일러 책임 증가        │
-│ ARM     : 하드웨어·소프트웨어 절충 ───▶ 실용 최적화                │
-│ RISC-V  : 단순 코어 + 선택 확장 ───────▶ 생태계 유연성             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC 계열의 관점 차이: 누가 복잡함을 맡는가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS : 하드웨어 단순화 ▶ 컴파일러 책임 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM : 하드웨어·소프트웨어 절충 ▶ 실용 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC-V : 단순 코어 + 선택 확장 ▶ 생태계 유연성</div></div>
+</div>
+</div>
+
+
 
 이 비교의 핵심은 MIPS가 뒤처진 아키텍처라서 중요하지 않은 것이 아니라, 단순화의 이득과 비용을 가장 선명하게 보여주는 기준축이라는 점이다. 현대 ISA를 평가할 때도 "무엇을 단순하게 만들었고, 그 대가를 누가 치르는가"라는 질문은 여전히 유효하다.
 
@@ -148,9 +152,9 @@ MIPS와 ARM의 차이는 "단순함을 어디에 둘 것인가"에 있다. MIPS�
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **교육용/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용인가?** 구조 설명과 구현 실습이 목적이면 MIPS는 매우 좋은 선택이다.
-2. **현대 상용 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 생태계가 필요한가?** 도구·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·벤더 지원이 중요하면 ARM이나 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V가 더 현실적일 수 있다.
-3. **레거시 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 분석인가?** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 슬롯, 엔디안 (Endian), 호출 규약을 함께 확인해야 한다.
+1. <strong>교육용/<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>용인가?</strong> 구조 설명과 구현 실습이 목적이면 MIPS는 매우 좋은 선택이다.
+2. <strong>현대 상용 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">System on Chip</a>) 생태계가 필요한가?</strong> 도구·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·벤더 지원이 중요하면 ARM이나 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V가 더 현실적일 수 있다.
+3. <strong>레거시 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 분석인가?</strong> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 슬롯, 엔디안 (Endian), 호출 규약을 함께 확인해야 한다.
 4. **고성능 확장성이 핵심인가?** 깊은 파이프라인, [동적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/), 대규모 확장에서는 MIPS의 전통적 단순화가 제약이 될 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -189,24 +193,25 @@ MIPS를 이해하면 파이프라인, [데이터 해저드](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 명령 중심 설계
-    │
-    ▼
-RISC (Reduced Instruction Set Computer)
-    │
-    ▼
-MIPS의 고정 길이 명령 · 로드/스토어 구조
-    │
-    ▼
-5단계 파이프라인 · 해저드 분석 · 지연 슬롯
-    │
-    ▼
-컴파일러 스케줄링 · 포워딩 · 분기 처리 최적화
-    │
-    ▼
-ARM의 실용화 · RISC-V의 개방형 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 명령 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RISC (Reduced Instruction Set Computer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIPS의 고정 길이 명령 · 로드/스토어 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">5단계 파이프라인 · 해저드 분석 · 지연 슬롯</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴파일러 스케줄링 · 포워딩 · 분기 처리 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARM의 실용화 · RISC-V의 개방형 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 MIPS를 하나의 옛 제품으로 보는 대신, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 철학이 교육용 모델에서 현대 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 설계 판단으로 이어지는 연결선으로 보여준다.
 

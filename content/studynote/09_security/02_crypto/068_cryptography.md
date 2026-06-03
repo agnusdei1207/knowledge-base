@@ -29,13 +29,19 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Plaintext
-  ↓
-Crypto Primitive
-  ↓
-Ciphertext / Signature / Digest
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Crypto Primitive</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ciphertext / Signature / Digest</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -106,29 +112,41 @@ Ciphertext / Signature / Digest
 
 ## 관련 개념 맵
 
-```text
-Cryptography
-  ↓
-Symmetric / Asymmetric / Hash
-  ↓
-Security Properties
-  ↓
-Secure Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cryptography</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Symmetric / Asymmetric / Hash</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security Properties</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Secure Design</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Classic Cipher
-  ↓
-Modern Cryptography
-  ↓
-Public Key / Hash
-  ↓
-Security Protocols
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Classic Cipher</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Modern Cryptography</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Public Key / Hash</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security Protocols</div>
+</div>
+</div>
+
+
 
 ---
 

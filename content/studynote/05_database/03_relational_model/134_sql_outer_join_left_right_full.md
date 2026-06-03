@@ -10,9 +10,9 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: OUTER JOIN은 **매칭되지 않는 행도 NULL로 채워서 포함**하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.
-> 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 **비매칭 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 데 필수**이며, LEFT JOIN이 가장 빈번하게 사용된다.
-> 3. **판단 포인트**: LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) + WHERE right.id IS NULL → **비매칭만 추출**하는 Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 핵심이다.
+> 1. **본질**: OUTER JOIN은 <strong>매칭되지 않는 행도 NULL로 채워서 포함</strong>하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.
+> 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 찾는 데 필수</strong>이며, LEFT JOIN이 가장 빈번하게 사용된다.
+> 3. **판단 포인트**: LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) + WHERE right.id IS NULL → <strong>비매칭만 추출</strong>하는 Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 핵심이다.
 
 ---
 
@@ -31,7 +31,7 @@ Anti-Join:  LEFT JOIN WHERE right.id IS NULL → 비매칭만
 
 ## Ⅱ~Ⅴ. 결론
 
-OUTER JOIN은 **비매칭 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 핵심 연산**이며, Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 가장 자주 사용된다.
+OUTER JOIN은 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석의 핵심 연산</strong>이며, Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패턴이 실무에서 가장 자주 사용된다.
 
 ---
 
@@ -39,22 +39,28 @@ OUTER JOIN은 **비매칭 [데이터](/knowledge-base/studynote/05_database/01_d
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 왼쪽 전체 보존 |
-| **RIGHT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 오른쪽 전체 보존 |
+| <strong>LEFT <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 왼쪽 전체 보존 |
+| <strong>RIGHT <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 오른쪽 전체 보존 |
 | **FULL OUTER** | 양쪽 전체 |
-| **Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 비매칭만 추출 |
+| <strong>Anti-<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a></strong> | 비매칭만 추출 |
 | **NULL** | 매칭 없을 때 채움 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Cartesian Product] → [INNER JOIN (교집합)]
-    → [OUTER JOIN (SQL-92)] → [Anti-Join 패턴]
-    → [LATERAL JOIN (SQL:2003)] → [현재: Semi-Join 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cartesian Product</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INNER JOIN (교집합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OUTER JOIN (SQL-92)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Anti-Join 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LATERAL JOIN (SQL:2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Semi-Join 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. LEFT JOIN은 **A반 전체 명단**이에요. B반에서 겹치는 사람은 표시하고 **안 겹치면 빈칸**이에요.
+1. LEFT JOIN은 <strong>A반 전체 명단</strong>이에요. B반에서 겹치는 사람은 표시하고 <strong>안 겹치면 빈칸</strong>이에요.
 2. "주문 안 한 고객"을 찾으려면 **빈칸(NULL)인 사람만** 뽑으면 돼요.
 3. 이 방법(Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 **실무에서 정말 많이** 사용한답니다!
 

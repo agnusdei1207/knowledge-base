@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 처리량 (Throughput)은 시스템이 단위 시간 동안 **완료해 낸 작업의 총량**이며, "얼마나 빨리 하나를 끝내는가"보다 "얼마나 많이 계속 끝내는가"를 본다.
+> 1. **본질**: 처리량 (Throughput)은 시스템이 단위 시간 동안 <strong>완료해 낸 작업의 총량</strong>이며, "얼마나 빨리 하나를 끝내는가"보다 "얼마나 많이 계속 끝내는가"를 본다.
 > 2. **가치**: 서버, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 네트워크, 프로세서에서는 개별 작업의 체감 속도보다 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수용량이 더 중요할 때가 많아, 처리량이 곧 비용 효율과 확장성의 핵심 지표가 된다.
 > 3. **판단 포인트**: 처리량을 높이려면 파이프라이닝 (Pipelining), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 병목 제거가 필요하지만, 자원 사용률을 끝까지 밀어붙이면 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)) 악화와 대기열 폭증이 함께 온다.
 
@@ -25,41 +25,41 @@ tags = ["studynote-computer-architecture"]
 
 특히 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)), 클라우드 백엔드, 멀티코어 기반 연산에서는 "자원을 놀리지 않는 것"이 핵심이다. 단일 작업 하나를 극단적으로 빠르게 만드는 것보다, 여러 작업을 끊김 없이 흘려보내도록 설계하는 편이 실제 운영 효율이 더 높다. 그래서 컴퓨터 구조에서는 파이프라인, 슈퍼스칼라, 캐시, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 입출력 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 모두 처리량 향상이라는 큰 목표 아래 연결된다.
 
-- **📢 섹션 요약 비유**: 처리량은 놀이공원에서 롤러코스터 한 바퀴 속도보다 **하루 동안 몇 명을 태웠는지**를 보는 것과 같다. 한 사람을 아주 빨리 내려보내도 다음 탑승 준비가 느리면 전체 손님 수는 늘지 않는다.
+- **📢 섹션 요약 비유**: 처리량은 놀이공원에서 롤러코스터 한 바퀴 속도보다 <strong>하루 동안 몇 명을 태웠는지</strong>를 보는 것과 같다. 한 사람을 아주 빨리 내려보내도 다음 탑승 준비가 느리면 전체 손님 수는 늘지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-처리량은 보통 **완료된 작업 수 / 시간**으로 이해하면 된다. 핵심은 각 작업의 전체 소요시간을 무조건 줄이는 것이 아니라, 시스템 내부 자원을 겹쳐 사용해 완료 이벤트가 더 자주 나오게 만드는 데 있다. 이때 중요한 설계 수단이 파이프라이닝, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행, 자원 중복 배치, 병목 구간 축소다.
+처리량은 보통 <strong>완료된 작업 수 / 시간</strong>으로 이해하면 된다. 핵심은 각 작업의 전체 소요시간을 무조건 줄이는 것이 아니라, 시스템 내부 자원을 겹쳐 사용해 완료 이벤트가 더 자주 나오게 만드는 데 있다. 이때 중요한 설계 수단이 파이프라이닝, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행, 자원 중복 배치, 병목 구간 축소다.
 
 아래 그림은 왜 파이프라이닝이 처리량을 높이는지 보여준다. 각 작업은 여전히 세 단계를 거치지만, 서로 다른 단계가 동시에 진행되면서 출력 간격이 짧아진다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│        처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"       │
-├──────────────────────────────────────────────────────────────────┤
-│ 단계 표기: [가]=가져오기  [해]=해석  [실]=실행                  │
-│                                                                  │
-│ 비파이프라인                                                      │
-│ 시간 →   1     2     3     4     5     6     7     8     9       │
-│ 작업 A  [가]  [해]  [실]                                         │
-│ 작업 B                    [가]  [해]  [실]                       │
-│ 작업 C                                       [가]  [해]  [실]    │
-│ 완료 시점: 3, 6, 9                                                │
-│                                                                  │
-│ 파이프라인                                                        │
-│ 시간 →   1     2     3     4     5                               │
-│ 작업 A  [가]  [해]  [실]                                         │
-│ 작업 B        [가]  [해]  [실]                                   │
-│ 작업 C              [가]  [해]  [실]                             │
-│ 완료 시점: 3, 4, 5                                                │
-│                                                                  │
-│ 결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다  │
-└──────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 **개별 작업의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 크게 줄지 않아도, 완료 결과가 나오는 간격이 줄어든다**는 점이다. CPU 파이프라인에서는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행 단계에 있을 때 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 해석 단계, 그다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 인출 단계에 들어갈 수 있다. 이렇게 되면 파이프라인이 가득 찬 뒤에는 매 클럭마다 결과가 하나씩 나오므로 처리량이 증가한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">단계 표기:</div><div class="kb-diagram-node">가</div><div class="kb-diagram-note">=가져오기</div><div class="kb-diagram-node">해</div><div class="kb-diagram-note">=해석</div><div class="kb-diagram-node">실</div><div class="kb-diagram-note">=실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 → 1 2 3 4 5 6 7 8 9</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 A</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 B</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 C</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 시점: 3, 6, 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 → 1 2 3 4 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 A</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 B</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">작업 C</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 시점: 3, 4, 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 <strong>개별 작업의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>은 크게 줄지 않아도, 완료 결과가 나오는 간격이 줄어든다</strong>는 점이다. CPU 파이프라인에서는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행 단계에 있을 때 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 해석 단계, 그다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 인출 단계에 들어갈 수 있다. 이렇게 되면 파이프라인이 가득 찬 뒤에는 매 클럭마다 결과가 하나씩 나오므로 처리량이 증가한다.
 
 | 향상 수단 | 처리량에 주는 효과 | 주의할 점 |
 | :--- | :--- | :--- |
@@ -70,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 즉 처리량은 단순히 "더 빠른 코어 1개"의 문제가 아니다. 연산기, 메모리, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 저장장치, 네트워크가 모두 균형 있게 흘러야 높은 처리량이 나온다. 한 구간만 빠르고 나머지가 막히면 전체 시스템은 가장 느린 구간의 처리율에 묶인다.
 
-- **📢 섹션 요약 비유**: 처리량 설계는 세탁기 한 대를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 돌리는 일보다 **세탁-건조-접기 공정을 겹쳐서 계속 옷이 나오게 만드는 세탁소 운영**에 가깝다. 중요한 것은 한 벌의 감동적인 속도가 아니라, 문 닫기 전까지 몇 벌을 끝냈는가다.
+- **📢 섹션 요약 비유**: 처리량 설계는 세탁기 한 대를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 돌리는 일보다 <strong>세탁-건조-접기 공정을 겹쳐서 계속 옷이 나오게 만드는 세탁소 운영</strong>에 가깝다. 중요한 것은 한 벌의 감동적인 속도가 아니라, 문 닫기 전까지 몇 벌을 끝냈는가다.
 
 ---
 
@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 운영체제에서는 스케줄링 정책이 처리량과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)의 균형을 바꾼다. 네트워크에서는 패킷 손실과 혼잡 제어가 실제 처리량을 깎는다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서는 락 경합과 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 초당 완료 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수를 제한한다. 따라서 처리량은 분야가 달라도 결국 "흐름을 막는 지점이 어디인가"라는 공통 질문으로 수렴한다.
 
-컴퓨터 구조 관점에서는 결국 **병목의 위치를 찾는 일**이 처리량 분석의 핵심이다. [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 느린지, 메모리가 막히는지, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패로 파이프라인이 비는지, 입출력 큐가 넘치는지를 봐야 한다. 처리량은 단일 부품의 능력이 아니라, 전체 경로에서 가장 약한 고리가 정한다.
+컴퓨터 구조 관점에서는 결국 <strong>병목의 위치를 찾는 일</strong>이 처리량 분석의 핵심이다. [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 느린지, 메모리가 막히는지, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패로 파이프라인이 비는지, 입출력 큐가 넘치는지를 봐야 한다. 처리량은 단일 부품의 능력이 아니라, 전체 경로에서 가장 약한 고리가 정한다.
 
 - **📢 섹션 요약 비유**: 처리량과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)의 차이는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 택시의 차이와 같다. 택시는 한 사람을 빨리 데려다줄 수 있지만, 출근길 도시 전체를 움직이는 힘은 많은 사람을 꾸준히 실어 나르는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 쪽에 있다.
 
@@ -107,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 2. **자원 사용률이 너무 높은가?**
    평균 사용률이 높아도 대기열 길이와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 분포가 나빠지면 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 급격히 떨어진다.
 
-3. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 이득이 진짜 있는가?**
+3. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 이득이 진짜 있는가?</strong>
    코어 수를 늘려도 공유 자원 경합이 크면 처리량이 선형 증가하지 않는다.
 
 4. **배치 크기와 큐 길이가 적절한가?**
@@ -116,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 ### 실무 예시
 
 - **웹 서버**: 초당 요청 수가 목표라면 커넥션 처리, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/이벤트 모델, 캐시, 로드 밸런싱을 통해 처리량을 높인다.
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)**: 초당 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수를 늘리려면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목, 락 경쟁, 스토리지 IOPS (Input/Output Operations Per Second)를 함께 봐야 한다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>: 초당 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수를 늘리려면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목, 락 경쟁, 스토리지 IOPS (Input/Output Operations Per Second)를 함께 봐야 한다.
 - **CPU 설계**: [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/))를 높이려면 파이프라인 효율, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 캐시 히트율, 메모리 병목 완화가 동시에 필요하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -125,9 +125,9 @@ tags = ["studynote-computer-architecture"]
 - 평균 처리량만 보고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭증 구간을 무시하는 것
 - 코어 수만 늘리면 무조건 확장된다고 가정하는 것
 
-결국 기술사 답안이나 실무 설계에서는 "처리량을 높여야 하는 업무인지, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 지켜야 하는 업무인지"를 먼저 구분해야 한다. 그리고 처리량 목표를 택했다면, 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자랑이 아니라 **병목 제거 + [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 확보 + 포화 관리**라는 세 가지를 함께 제시해야 한다.
+결국 기술사 답안이나 실무 설계에서는 "처리량을 높여야 하는 업무인지, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 지켜야 하는 업무인지"를 먼저 구분해야 한다. 그리고 처리량 목표를 택했다면, 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자랑이 아니라 <strong>병목 제거 + <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 확보 + 포화 관리</strong>라는 세 가지를 함께 제시해야 한다.
 
-- **📢 섹션 요약 비유**: 처리량 중심 운영은 계산대를 한 명에게 맡겨 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 계산을 기대하는 것이 아니라, **여러 계산대를 열고 줄이 끊기지 않게 관리하는 슈퍼마켓 운영**과 같다. 다만 손님을 너무 몰아넣으면 줄이 길어져 모두가 답답해진다.
+- **📢 섹션 요약 비유**: 처리량 중심 운영은 계산대를 한 명에게 맡겨 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 계산을 기대하는 것이 아니라, <strong>여러 계산대를 열고 줄이 끊기지 않게 관리하는 슈퍼마켓 운영</strong>과 같다. 다만 손님을 너무 몰아넣으면 줄이 길어져 모두가 답답해진다.
 
 ---
 
@@ -137,9 +137,9 @@ tags = ["studynote-computer-architecture"]
 
 하지만 처리량이 높다는 사실만으로 좋은 시스템이라고 단정할 수는 없다. 과도한 큐 적재, 긴 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 캐시 오염, 메모리 경합, 전력 증가가 함께 올 수 있기 때문이다. 따라서 처리량은 단독 지표가 아니라 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 사용률, 실패율과 함께 읽어야 한다.
 
-정리하면 처리량은 "시스템이 얼마나 바쁘게 일하는가"가 아니라, "그 바쁨이 실제 완료 결과로 얼마나 잘 이어지는가"를 묻는 지표다. 시험에서는 파이프라이닝·[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화·병목 제거와 연결해 기억하면 좋고, 실무에서는 **포화되기 직전의 안정 구간을 찾는 지표**로 기억하는 것이 가장 정확하다.
+정리하면 처리량은 "시스템이 얼마나 바쁘게 일하는가"가 아니라, "그 바쁨이 실제 완료 결과로 얼마나 잘 이어지는가"를 묻는 지표다. 시험에서는 파이프라이닝·[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화·병목 제거와 연결해 기억하면 좋고, 실무에서는 <strong>포화되기 직전의 안정 구간을 찾는 지표</strong>로 기억하는 것이 가장 정확하다.
 
-- **📢 섹션 요약 비유**: 처리량은 공장의 기계 소음 크기를 듣는 것이 아니라, **퇴근할 때 창고에 완제품 상자가 몇 개 쌓였는지 확인하는 일**과 같다. 바쁘게만 돌아가고 결과물이 적다면, 그 시스템은 진짜로 잘 일한 것이 아니다.
+- **📢 섹션 요약 비유**: 처리량은 공장의 기계 소음 크기를 듣는 것이 아니라, <strong>퇴근할 때 창고에 완제품 상자가 몇 개 쌓였는지 확인하는 일</strong>과 같다. 바쁘게만 돌아가고 결과물이 적다면, 그 시스템은 진짜로 잘 일한 것이 아니다.
 
 ---
 
@@ -155,31 +155,30 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 작업 실행
-    │
-    ▼
-응답 시간 (Response Time) 중심 최적화
-    │
-    ├─► 파이프라이닝 (Pipelining)
-    │        │
-    │        ▼
-    │   CPU 내부 처리량 향상
-    │
-    └─► 멀티코어 (Multi-Core) · 병렬 처리
-             │
-             ▼
-        서버·분산 시스템 전체 처리량 확장
-             │
-             ▼
-   병목 분석 · 큐 관리 · 대역폭 (Bandwidth) 균형 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 작업 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응답 시간 (Response Time) 중심 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파이프라이닝 (Pipelining)</div>
+<div class="kb-diagram-note">CPU 내부 처리량 향상</div>
+<div class="kb-diagram-tree-item" style="--depth:2">멀티코어 (Multi-Core) · 병렬 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버·분산 시스템 전체 처리량 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">병목 분석 · 큐 관리 · 대역폭 (Bandwidth) 균형 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관심사가 "한 건의 속도"에서 "전체 완료량"으로 확장되고, 다시 시스템 전반의 병목 관리로 이어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 처리량은 빵집에서 빵 하나가 얼마나 빨리 구워지는지보다, **한 시간 동안 빵이 몇 개 나왔는지**를 보는 거예요.
+1. 처리량은 빵집에서 빵 하나가 얼마나 빨리 구워지는지보다, <strong>한 시간 동안 빵이 몇 개 나왔는지</strong>를 보는 거예요.
 2. 오븐 하나만 엄청 빠르게 쓰는 것보다, 반죽하고 굽고 포장하는 일을 잘 나눠서 계속 빵이 나오게 만드는 게 더 중요해요.
 3. 그런데 손님을 너무 많이 한꺼번에 받으면 줄이 너무 길어져서, 많이 만들면서도 너무 오래 기다리게 하지 않게 조절해야 해요.
 

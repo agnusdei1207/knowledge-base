@@ -30,27 +30,26 @@ tags = ["studynote-computer-architecture"]
 
 언더플로우 상황에 직면했을 때 컴퓨터의 FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)는 두 단계의 비상 낙하산을 펴 데이터의 완전한 소멸을 늦춘다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         부동소수점 언더플로우 발생과 처리 메커니즘           │
-├──────────────────────────────────────────────────────────────┤
-│ [정규화 수 하한선 도달]                                      │
-│  지수부 최소값: 2^-126 (FP32 기준)                           │
-│       │                                                      │
-│       ▼ (연산 결과가 한계를 뚫고 더 작아짐: 예 2^-140)       │
-│                                                              │
-│ [1차 방어: 점진적 언더플로우 (Gradual Underflow)]            │
-│  가수부(Mantissa)의 비트를 오른쪽으로 시프트하며 지수를 맞춤 │
-│  => 비정규화 수 (Subnormal Number) 영역 진입                 │
-│  => 유효숫자 손실 발생, 하지만 0은 아님!                     │
-│       │                                                      │
-│       ▼ (더 작아져서 가수부마저 모두 0이 됨)                 │
-│                                                              │
-│ [2차 포기: 진성 언더플로우 (True Underflow)]                 │
-│  => 언더플로우 플래그(UF) 설정                               │
-│  => 결과를 완전한 0.0으로 증발 (Flush to Zero)               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부동소수점 언더플로우 발생과 처리 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 수 하한선 도달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지수부 최소값: 2^-126 (FP32 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (연산 결과가 한계를 뚫고 더 작아짐: 예 2^-140)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차 방어: 점진적 언더플로우 (Gradual Underflow)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가수부(Mantissa)의 비트를 오른쪽으로 시프트하며 지수를 맞춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 비정규화 수 (Subnormal Number) 영역 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유효숫자 손실 발생, 하지만 0은 아님!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (더 작아져서 가수부마저 모두 0이 됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2차 포기: 진성 언더플로우 (True Underflow)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 언더플로우 플래그(UF) 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과를 완전한 0.0으로 증발 (Flush to Zero)</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램은 숫자가 0을 향해 추락할 때의 상태 변화를 보여준다. [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준은 점진적 언더플로우 (Gradual Underflow)를 채택하여, 지수를 최소값으로 고정한 채 가수부를 밀어내어 비정규화 수 (Subnormal)를 만든다. 이 과정에서 유효 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깎여나가 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 떨어지지만, 갑자기 0으로 떨어지는 충격을 완화한다. 그러나 이 방어선마저 뚫리면 결국 값은 0.0으로 소멸한다.
 
@@ -79,8 +78,8 @@ tags = ["studynote-computer-architecture"]
 실무에서 언더플로우는 시스템을 예고 없이 느려지게 하거나(비정규화 페널티) AI의 뇌사(0으로 수렴)를 유발하는 숨은 암살자다.
 
 ### 1. 실무 의사결정 포인트
-- **실시간 처리의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방어**: 오디오 DSP나 게임의 3D 물리 엔진에서는 값의 극미한 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)보다 초당 프레임 수(FPS) 유지가 중요하다. 이때는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 설정하여 비정규화 수를 만나는 즉시 0으로 밀어버리는 **FTZ (Flush-To-Zero)** 및 **DAZ (Denormals-Are-Zero)** 스위치를 켜서 CPU 코어 점유율 폭발을 막아야 한다.
-- **딥러닝 로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Loss Scaling)**: FP16 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 사용하는 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에서는 언더플로우 하한선($6 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$)이 매우 얕다. 기울기가 이 선을 뚫고 0으로 증발하는 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))을 막기 위해, 연산 전에 전체 값에 큰 배수(예: 1024)를 곱해 물 위로 끌어올린 뒤 나중에 다시 나누는 기법이 필수적이다.
+- <strong>실시간 처리의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 방어</strong>: 오디오 DSP나 게임의 3D 물리 엔진에서는 값의 극미한 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)보다 초당 프레임 수(FPS) 유지가 중요하다. 이때는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 설정하여 비정규화 수를 만나는 즉시 0으로 밀어버리는 **FTZ (Flush-To-Zero)** 및 **DAZ (Denormals-Are-Zero)** 스위치를 켜서 CPU 코어 점유율 폭발을 막아야 한다.
+- <strong>딥러닝 로스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (Loss Scaling)</strong>: FP16 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 사용하는 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에서는 언더플로우 하한선($6 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$)이 매우 얕다. 기울기가 이 선을 뚫고 0으로 증발하는 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))을 막기 위해, 연산 전에 전체 값에 큰 배수(예: 1024)를 곱해 물 위로 끌어올린 뒤 나중에 다시 나누는 기법이 필수적이다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델(HMM 등)에서 미세한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 연속 곱셈을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환(Log-Space [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 없이 날것으로 구현하여 결국 모든 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 되게 방치하는 설계.
@@ -104,26 +103,28 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **비정규화 수 (Subnormal Number)** | 언더플로우를 늦추는 완충 장치. 극한의 작은 값을 살리려다 연산 속도를 박살 내는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 주범 |
-| **[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) ([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))** | 언더플로우의 반대 극단. 메모리 상한선을 뚫고 숫자가 기하급수적으로 폭발하는 즉사 판정 현상 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>)</strong> | 언더플로우의 반대 극단. 메모리 상한선을 뚫고 숫자가 기하급수적으로 폭발하는 즉사 판정 현상 |
 | **FTZ (Flush-To-Zero)** | 비정규화 수의 파이프라인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 피하기 위해, 언더플로우 발생 시 가차 없이 값을 0으로 뭉개버리는 하드웨어 최적화 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부동소수점 한계 도달 (FP Limit)
-    │
-    ▼
-언더플로우 (Underflow) 발생 위험
-    │
-    ▼
-점진적 언더플로우 · 비정규화 수 (Subnormal)
-    │
-    ▼
-성능 병목 해결: FTZ (Flush-To-Zero) / DAZ 설정
-    │
-    ▼
-AI/딥러닝 확장: 로스 스케일링 (Loss Scaling)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부동소수점 한계 도달 (FP Limit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언더플로우 (Underflow) 발생 위험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">점진적 언더플로우 · 비정규화 수 (Subnormal)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 병목 해결: FTZ (Flush-To-Zero) / DAZ 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI/딥러닝 확장: 로스 스케일링 (Loss Scaling)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

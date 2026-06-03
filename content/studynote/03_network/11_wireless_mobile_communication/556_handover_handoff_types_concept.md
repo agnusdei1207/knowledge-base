@@ -26,18 +26,22 @@ tags = ["studynote-network"]
 - **💡 비유**: 핸드오버는 올림픽 육상 '계주(릴레이)'와 같다. 앞 주자(현재 기지국)가 뒷 주자(다음 기지국)에게 바톤(통신 연결)을 넘겨주는 짧은 구간에서, 바톤을 떨어뜨리지 않고 달리기의 속도를 유지하는 것이 기술의 핵심이다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아날로그 통신 (1G)**: 기지국이 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기를 측정하여 중앙 교환기(MSC)가 일방적으로 핸드오버를 결정했다. 처리 시간이 길어 통화 끊김([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop)이 잦았다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 아날로그 통신 (1G)</strong>: 기지국이 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기를 측정하여 중앙 교환기(MSC)가 일방적으로 핸드오버를 결정했다. 처리 시간이 길어 통화 끊김([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop)이 잦았다.
   2. **디지털 통신 (2G/3G)**: 단말기가 직접 주변 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정해 보고하는 MAHO (Mobile Assisted Handoff) 방식이 도입되었고, [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 기술과 함께 끊기지 않는 '[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)([Soft Handoff](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/))'가 대세가 되었다.
-  3. **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 패킷 통신 (4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))**: IP 패킷 기반 망([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))으로 전환되면서, 다시 '[하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)([Hard Handoff](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/))'로 회귀하되 그 절체 시간(Interruption Time)을 밀리초 단위로 줄이는 X2/Xn 인터페이스 기반의 고속 핸드오버 방식으로 발전했다.
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 패킷 통신 (4G/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>: IP 패킷 기반 망([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))으로 전환되면서, 다시 '[하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)([Hard Handoff](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/))'로 회귀하되 그 절체 시간(Interruption Time)을 밀리초 단위로 줄이는 X2/Xn 인터페이스 기반의 고속 핸드오버 방식으로 발전했다.
 
-```text
-[Co-channel Interference…]
-    │
-    ▼
-[핸드오버 / 핸드오프 종류 개념]
-    │
-    └──▶ [하드 핸드오버]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Co-channel Interference…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핸드오버 / 핸드오프 종류 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 핸드오버</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 라디오 채널을 들으며 서울에서 부산으로 갈 때, 지역마다 주파수가 달라도 라디오가 스스로 알아서 잡음 없이 다음 지역 주파수로 맞춰주는 자동 튜닝 기능과 같습니다.
 
@@ -57,34 +61,33 @@ tags = ["studynote-network"]
 
 ### 핸드오버 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)링 원리 (히스테리시스 마진)
 
-핸드오버 시점을 결정하는 것은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기의 역전이다. 그러나 두 기지국 사이의 경계 지역(Cell Edge)에서는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 엎치락뒤치락하며 핸드오버가 불필요하게 반복되는 **핑퐁 효과(Ping-Pong Effect)**가 발생할 수 있다. 이를 방지하기 위해 '히스테리시스(Hysteresis) 마진'과 'Time-to-Trigger(TTT)' 개념을 적용한다.
+핸드오버 시점을 결정하는 것은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기의 역전이다. 그러나 두 기지국 사이의 경계 지역(Cell Edge)에서는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 엎치락뒤치락하며 핸드오버가 불필요하게 반복되는 <strong>핑퐁 효과(Ping-Pong Effect)</strong>가 발생할 수 있다. 이를 방지하기 위해 '히스테리시스(Hysteresis) 마진'과 'Time-to-Trigger(TTT)' 개념을 적용한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         히스테리시스 마진을 적용한 핸드오버 트리거링             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │ 신호 강도                                                     │
-  │   ▲                                                           │
-  │   │  서빙 기지국(A) 신호           타겟 기지국(B) 신호         │
-  │   │  ───────.                       .───────              │
-  │   │          . ↘                   ↗ .                     │
-  │   │           .  ↘               ↗  .                      │
-  │   │            .   ↘           ↗   .                       │
-  │   │             .    ↘       ↗    .                        │
-  │   │              .     ↘   ↗     .         ↑                │
-  │   │               .      ╳       .          │ Hysteresis      │
-  │   │                .   ↗   ↘   .            │ Margin          │
-  │   │                 . ↗      ↘.             ↓                │
-  │   │                  *─────────*──────────────                │
-  │   │   (신호 역전) ───┘         └─▶ 핸드오버 발생              │
-  │   │                                                           │
-  │   └──────────────────────────────────────────────▶ 이동 거리  │
-  │                                                               │
-  │  조건: [타겟 기지국 신호] > [서빙 기지국 신호] + [Hysteresis]     │
-  │        그리고 이 상태가 [Time-to-Trigger (TTT)] 이상 유지될 때   │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">히스테리시스 마진을 적용한 핸드오버 트리거링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신호 강도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 기지국(A) 신호 타겟 기지국(B) 신호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↘ ↗ .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↘ ↗ .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↘ ↗ .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↘ ↗ .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↘ ↗ . ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ╳ .</div><div class="kb-diagram-cell">Hysteresis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↗ ↘ .</div><div class="kb-diagram-cell">Margin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ↗ ↘. ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신호 역전) ─▶ 핸드오버 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이동 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">조건:</div><div class="kb-diagram-node">타겟 기지국 신호</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">서빙 기지국 신호</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Hysteresis</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">그리고 이 상태가</div><div class="kb-diagram-node">Time-to-Trigger (TTT)</div><div class="kb-diagram-note">이상 유지될 때</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 단말기가 기지국 A에서 B로 이동할 때, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 역전이 일어나는 교차점(`╳`)에서 즉시 핸드오버를 수행하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 미세한 흔들림([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))으로 인해 A와 B를 반복해서 오가는 핑퐁 현상이 발생한다. 이를 막기 위해 타겟 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 A보다 단순히 큰 것이 아니라, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 '히스테리시스 마진'만큼 더 커지고 그 상태가 'TTT(Time-to-Trigger)' 시간 동안 유지될 때만 확정적으로 핸드오버를 지시한다. 마진을 너무 크게 잡으면 핸드오버가 늦어져 통화가 끊어지고, 너무 작게 잡으면 핑퐁이 발생해 기지국 부하가 폭증하므로 최적화(SON)가 필수적이다.
 
@@ -100,8 +103,8 @@ tags = ["studynote-network"]
 | | **Vertical Handover** | 서로 다른 이종망 간의 이동 (예: Wi-Fi망에서 LTE망으로 이동) |
 | **주파수 대역** | **Intra-frequency** | 서빙 셀과 타겟 셀이 동일한 주파수를 사용할 때 |
 | | **Inter-frequency** | 서빙 셀과 타겟 셀이 서로 다른 주파수 대역을 사용할 때 |
-| **코어망 경계** | **Intra-[MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/SGW** | 단말이 동일한 코어 장비([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/SGW) 관할 구역 내에서 기지국만 바뀔 때 |
-| | **Inter-[MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/SGW** | 이동 범위가 커서 코어 장비(MME나 SGW) 자체가 교체되어야 할 때 |
+| **코어망 경계** | <strong>Intra-<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>/SGW</strong> | 단말이 동일한 코어 장비([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/SGW) 관할 구역 내에서 기지국만 바뀔 때 |
+| | <strong>Inter-<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>/SGW</strong> | 이동 범위가 커서 코어 장비(MME나 SGW) 자체가 교체되어야 할 때 |
 
 - **📢 섹션 요약 비유**: 핸드오버는 앞 차(현재 기지국)에서 내리기 전에 뒤 차(다음 기지국)의 문을 먼저 잡고 탈 것인지(소프트), 완전히 내린 후 폴짝 뛸 것인지(하드)를 결정하는 승차 방식의 차이입니다.
 
@@ -115,40 +118,35 @@ tags = ["studynote-network"]
 |:---|:---|:---|
 | **이동 환경** | 4G ↔ 4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) ↔ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) (동종망) | 4G ↔ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi ↔ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 위성 ↔ 지상망 (이종망) |
 | **핵심 목적** | 사용자의 물리적 이동에 따른 연결 유지 | 통신 품질, 비용, 트래픽 분산을 위한 지능적 망 선택 |
-| **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 기준** | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 (RSRP), [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질 (RSRQ) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 + [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 요금, 배터리 잔량, 앱 요구사항 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 기준</strong> | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 (RSRP), [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질 (RSRQ) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 + [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 요금, 배터리 잔량, 앱 요구사항 |
 | **기술적 난이도** | 표준화되어 있으며 비교적 단순 | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 구조가 다르고 IP 주소 변경 이슈로 복잡함 |
 | **관련 기술** | X2/Xn 핸드오버 | [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/) ([Multipath TCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)), ANDSF, 패스포트(Passport) |
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │        수평적 (Horizontal) vs 수직적 (Vertical) 핸드오버      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [수평적 핸드오버]                                            │
-  │                                                             │
-  │       기지국 1 ◀────────▶ 기지국 2                          │
-  │        (5G)     (이동)     (5G)                             │
-  │        / \                 / \                              │
-  │       /   \               /   \                             │
-  │      단말기 ──────────────▶ 단말기                            │
-  │      (동종 통신 방식 내에서의 공간 이동)                        │
-  │                                                             │
-  │  [수직적 핸드오버]                                            │
-  │                                                             │
-  │       집/카페 ◀────────▶ 길거리                            │
-  │       (Wi-Fi)   (이동)    (5G 망)                          │
-  │         │                   │                              │
-  │         ▼                   ▼                              │
-  │      단말기 ──────────────▶ 단말기                            │
-  │      (게임 중 Wi-Fi 영역을 벗어나면 5G로 IP 세션 무손실 전환)    │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수평적 (Horizontal) vs 수직적 (Vertical) 핸드오버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수평적 핸드오버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 1 ◀ ▶ 기지국 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5G) (이동) (5G)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ▶ 단말기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동종 통신 방식 내에서의 공간 이동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수직적 핸드오버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집/카페 ◀ ▶ 길거리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wi-Fi) (이동) (5G 망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ▶ 단말기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(게임 중 Wi-Fi 영역을 벗어나면 5G로 IP 세션 무손실 전환)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 수평적 핸드오버는 우리가 흔히 아는 기지국 간 이동이다. 기술적 방식이 동일하므로 제어 메시지와 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 넘겨주기만 하면 된다. 반면 수직적 핸드오버는 전혀 다른 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: IEEE 802.11과 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) NR) 간의 전환이다. 이 경우 할당받은 IP 주소가 바뀌어 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊어지는 문제가 발생하므로, 전송 계층에서 복수의 경로를 유지하는 [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)([Multipath TCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/))나, 애플리케이션 계층에서의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))을 통한 융합이 필수적이다.
 
 ### 과목 융합 관점
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS) / 네트워크 (NW)**: MPTCP나 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 전송 계층(L4)에서 IP 주소 변경(수직적 핸드오버)에 면역성을 갖도록 설계되어, 이동통신 하위 계층(L2/L3)의 핸드오버 부담을 크게 줄여준다.
-- **[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) / [데이터엔지니어링](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/)**: 과거에는 히스테리시스 마진이나 TTT를 엔지니어가 수동으로 고정했지만, 현재는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반의 자율 최적화 네트워크(SON, Self-Organizing Network)가 단말의 이동 패턴과 트래픽을 학습해 셀 경계마다 최적의 파라미터를 동적으로 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(MRO, Mobility Robustness Optimization)한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS) / 네트워크 (NW)</strong>: MPTCP나 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 전송 계층(L4)에서 IP 주소 변경(수직적 핸드오버)에 면역성을 갖도록 설계되어, 이동통신 하위 계층(L2/L3)의 핸드오버 부담을 크게 줄여준다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) / <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/">데이터엔지니어링</a></strong>: 과거에는 히스테리시스 마진이나 TTT를 엔지니어가 수동으로 고정했지만, 현재는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반의 자율 최적화 네트워크(SON, Self-Organizing Network)가 단말의 이동 패턴과 트래픽을 학습해 셀 경계마다 최적의 파라미터를 동적으로 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(MRO, Mobility Robustness Optimization)한다.
 
 - **📢 섹션 요약 비유**: 수평적 핸드오버가 1호선 전철에서 앞칸에서 뒷칸으로 걸어가는 것이라면, 수직적 핸드오버는 환승역에서 1호선에서 내려 KTX로 갈아타는(전혀 다른 시스템) 것과 같습니다.
 
@@ -157,7 +155,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 고속철도(KTX) 구간에서의 집단 핸드오버 (Handover Storm)**: 시속 300km로 달리는 KTX 내에는 수백 명의 승객이 있다. 열차가 기지국 경계를 통과할 때마다 수백 대의 단말이 동시에 핸드오버를 요청하면, 타겟 기지국의 제어 채널(PRACH)에 심각한 병목이 발생해 대규모 호 드랍([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop)이 발생한다.
-   - **아키텍트의 해결책**: 고속철도 전용으로 여러 개의 기지국을 하나의 논리적 셀로 묶어 핸드오버 자체를 발생시키지 않는 **단일 셀(Single Cell) 솔루션**을 적용하거나, 열차 옥상에 외부 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(이동형 릴레이)를 달아 열차가 대표로 기지국과 통신하고 승객들은 열차 내 Wi-Fi/펨토셀에 접속하는 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 구조를 도입하여 핸드오버 폭풍을 원천 차단해야 한다.
+   - **아키텍트의 해결책**: 고속철도 전용으로 여러 개의 기지국을 하나의 논리적 셀로 묶어 핸드오버 자체를 발생시키지 않는 <strong>단일 셀(Single Cell) 솔루션</strong>을 적용하거나, 열차 옥상에 외부 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(이동형 릴레이)를 달아 열차가 대표로 기지국과 통신하고 승객들은 열차 내 Wi-Fi/펨토셀에 접속하는 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 구조를 도입하여 핸드오버 폭풍을 원천 차단해야 한다.
 
 2. **시나리오 — 핑퐁 현상(Ping-Pong)으로 인한 배터리 및 네트워크 코어 부하**: 도심지 빌딩 숲에서 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 매크로 셀과 스몰 셀의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 난반사되면서 단말기가 1초에도 몇 번씩 핸드오버를 반복하는 상황.
    - **아키텍트의 해결책**: 네트워크 엔지니어는 MRO (Mobility Robustness Optimization) 파라미터를 튜닝해야 한다. 히스테리시스 마진을 높이거나 TTT(Time-To-Trigger)를 증가시켜 잦은 스위칭을 억제하고, 단말의 이동 속도(Doppler Shift 측정)를 인지하여 고속 이동 단말은 반경이 좁은 스몰 셀로의 핸드오버를 금지하고 매크로 셀에 묶어두는 계층적 셀 구조(Hierarchical Cell Structure) 전략을 구사한다.
@@ -183,13 +181,13 @@ tags = ["studynote-network"]
 
 ### 미래 전망
 - **위성-지상망 간 무결절성 수직 핸드오버**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)(예: 스타링크)과 지상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 기지국이 통합(NTN, Non-Terrestrial Network)된다. 사용자가 해상이나 사막으로 이동할 때 지상망에서 위성망으로 자동으로 수직 핸드오버가 일어나는 심리스(Seamless) 모빌리티가 구현된다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반 예측형 핸드오버 (Predictive Handover)**: 단말기의 과거 이동 경로, 네비게이션 목적지, 센서 정보(방향, 가속도)를 결합하여 "3초 뒤 터널에 진입할 것"을 AI가 예측하고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊어지기 전에 미리 가장 적합한 셀로 선제적 핸드오버를 수행하는 기술이 연구되고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 기반 예측형 핸드오버 (Predictive Handover)</strong>: 단말기의 과거 이동 경로, 네비게이션 목적지, 센서 정보(방향, 가속도)를 결합하여 "3초 뒤 터널에 진입할 것"을 AI가 예측하고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊어지기 전에 미리 가장 적합한 셀로 선제적 핸드오버를 수행하는 기술이 연구되고 있다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 38.300 / TS 38.331**: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 환경에서의 핸드오버 절차 및 아키텍처 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 36.331**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) (E-UTRAN) 무선 자원 제어(RRC) 핸드오버 규격
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 38.300 / TS 38.331</strong>: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 환경에서의 핸드오버 절차 및 아키텍처 표준
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 36.331</strong>: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) (E-UTRAN) 무선 자원 제어(RRC) 핸드오버 규격
 
-이동통신 기술의 패러다임은 주파수 효율성 극대화를 넘어 **"사용자가 망의 변화를 전혀 눈치채지 못하게 하는 것([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Interruption)"**으로 진화하고 있다. 기술사는 단순한 기지국 간 전환을 넘어, [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/) 기반의 이종망 결합, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 실시간 마이그레이션, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측 모델을 아우르는 '종합적 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)(Holistic [Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/))' 관점에서 아키텍처를 설계해야 한다.
+이동통신 기술의 패러다임은 주파수 효율성 극대화를 넘어 <strong>"사용자가 망의 변화를 전혀 눈치채지 못하게 하는 것(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Interruption)"</strong>으로 진화하고 있다. 기술사는 단순한 기지국 간 전환을 넘어, [MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/) 기반의 이종망 결합, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 실시간 마이그레이션, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측 모델을 아우르는 '종합적 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)(Holistic [Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/))' 관점에서 아키텍처를 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 미래의 핸드오버는 운전자가 앞을 보며 차선을 바꿀지 말지 고민하기도 전에, 내비게이션([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 미리 덜 막히는 차선으로 차를 부드럽게 옮겨놓는 자율주행 차선 변경 기술과 같습니다.
 
@@ -206,15 +204,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Co-channel Interference…]
-    │
-    ▼
-[현재 개념: 핸드오버 / 핸드오프 종류 개념]
-    │
-    ├──▶ [확장 A: 하드 핸드오버]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Co-channel Interference…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 핸드오버 / 핸드오프 종류 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 하드 핸드오버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 핸드오버 / 핸드오프 종류 개념는 [Co-channel Interference](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
@@ -222,7 +224,7 @@ tags = ["studynote-network"]
 
 1. 여러분이 밤에 자동차를 타고 고속도로를 달릴 때, 가로등이 일정한 간격으로 서 있죠?
 2. 차가 달리면 앞 가로등 불빛은 멀어지고 다음 가로등 불빛이 다가오는데, 어두워지기 전에 스마트폰이 알아서 가장 밝은 가로등을 찾아 연결의 끈을 넘겨받는 거예요.
-3. 이 바톤 터치를 **'핸드오버'**라고 불러요. 덕분에 아빠가 고속도로를 달리며 유튜브를 봐도 끊기지 않고 계속 볼 수 있답니다!
+3. 이 바톤 터치를 <strong>'핸드오버'</strong>라고 불러요. 덕분에 아빠가 고속도로를 달리며 유튜브를 봐도 끊기지 않고 계속 볼 수 있답니다!
 
 ---
 

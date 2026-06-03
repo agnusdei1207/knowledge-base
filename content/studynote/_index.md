@@ -37,4 +37,4 @@ tags = ["studynote"]
 ---
 
 > [!TIP]
-> 공부하는 도중에 발견한 핵심 키워드는 **[inbox](/knowledge-base/inbox/)**에 빠르게 적어두고 나중에 스터디노트에 융합해 보세요.
+> 공부하는 도중에 발견한 핵심 키워드는 <strong><a href="/knowledge-base/inbox/">inbox</a></strong>에 빠르게 적어두고 나중에 스터디노트에 융합해 보세요.

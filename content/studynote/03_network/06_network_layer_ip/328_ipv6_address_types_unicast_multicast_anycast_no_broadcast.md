@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IPv6가 통신 대상의 범위를 지정하기 위해 사용하는 3대 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 캐스트(Cast) 방식. 
-- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절, 브로드캐스트(255.255.255.255)는 편하긴 했지만 악의 축이었다. 내가 질문 하나를 던지면 같은 네트워크에 있는 수천 대의 PC가 일하던 걸 멈추고(CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 패킷을 뜯어봐야 했다. 이를 견디다 못한 설계자들은 **"모든 사람에게 강제로 소리치는 방송(Broadcast) 기능을 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 완전히 삭제"**하고, 원하는 사람만 듣게 하는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 가장 가까운 한 명만 찾는 애니캐스트로 세상을 개편했다.
+- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절, 브로드캐스트(255.255.255.255)는 편하긴 했지만 악의 축이었다. 내가 질문 하나를 던지면 같은 네트워크에 있는 수천 대의 PC가 일하던 걸 멈추고(CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 패킷을 뜯어봐야 했다. 이를 견디다 못한 설계자들은 <strong>"모든 사람에게 강제로 소리치는 방송(Broadcast) 기능을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>에서 완전히 삭제"</strong>하고, 원하는 사람만 듣게 하는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 가장 가까운 한 명만 찾는 애니캐스트로 세상을 개편했다.
 
 - **💡 비유**: 
   - **유니캐스트 (1:1)**: "철수야 이리 와!" (철수 한 명에게 콕 집어 말함)
-  - **[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) (1:N)**: "방송부원들만 이리 와!" (방송부 단톡방에만 메시지를 보냄. 방송부가 아닌 학생들은 아예 안 들림)
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (1:N)</strong>: "방송부원들만 이리 와!" (방송부 단톡방에만 메시지를 보냄. 방송부가 아닌 학생들은 아예 안 들림)
   - **애니캐스트 (1:1 중 가장 가까운 놈)**: 길을 가다 쓰러졌을 때 "거기 119구급차 아무나 제일 빨리 와!" 하고 소리치면, 전국 119센터 중 **내 위치에서 1분 거리에 있는 가장 가까운 구급차 딱 한 대만** 출동하는 시스템.
 
-```text
-[Next Header, 홉 제한]
-    │
-    ▼
-[유니캐스트, 멀티캐스트, 애니캐스트]
-    │
-    └──▶ [링크 로컬 주소 / 사이트 로컬 주소]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Next Header, 홉 제한</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">링크 로컬 주소 / 사이트 로컬 주소</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IPv6는 층간 소음을 유발하는 **"아파트 전체 안내 방송(브로드캐스트)"** 스피커를 모조리 철거해 버리고, 관심 있는 사람들에게만 조용히 카톡 알림([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))을 쏴주는 고도로 문명화된 사회입니다.
 
@@ -45,37 +49,38 @@ tags = ["studynote-network"]
 ### 1. 유니캐스트 (Unicast) - 1:1 단일 목적지
 가장 기본적이고 평범한 통신이다. 보내는 놈 1명, 받는 놈 1명이다.
 - [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소 덩어리의 대부분이 유니캐스트다. (예: `2001:db8::1`)
-- 전 세계 인터넷에 나가는 **Global Unicast**와, 우리 집 공유기 내부에서만 도는 **Link-local Unicast(`fe80::`)** 등으로 나뉜다.
+- 전 세계 인터넷에 나가는 <strong>Global Unicast</strong>와, 우리 집 공유기 내부에서만 도는 <strong>Link-local Unicast(<code>fe80::</code>)</strong> 등으로 나뉜다.
 
 ### 2. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) (Multicast) - 1:N 특정 그룹
-IPv6의 진정한 살림꾼이다. 주소가 **`ff00::/8` (즉, `ff`로 시작)**하면 무조건 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)다.
+IPv6의 진정한 살림꾼이다. 주소가 <strong><code>ff00::/8</code> (즉, <code>ff</code>로 시작)</strong>하면 무조건 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)다.
 - 브로드캐스트가 사라졌기 때문에 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 찾기)도 사라졌다. 
-- 대신 IPv6는 **[NDP](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/)([Neighbor Discovery Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/))**라는 것을 쓰는데, "내 이웃 찾기 전용 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹(`ff02::1:ff...` 형태의 Solicited-node [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))"이라는 단톡방에 질문을 쏘면, 그 IP를 가진 당사자만 단톡방에서 대답해 준다. 동네 다른 PC들은 단톡방에 없으므로 조용히 꿀잠을 잘 수 있다.
+- 대신 IPv6는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/">NDP</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/">Neighbor Discovery Protocol</a>)</strong>라는 것을 쓰는데, "내 이웃 찾기 전용 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹(`ff02::1:ff...` 형태의 Solicited-node [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))"이라는 단톡방에 질문을 쏘면, 그 IP를 가진 당사자만 단톡방에서 대답해 준다. 동네 다른 PC들은 단톡방에 없으므로 조용히 꿀잠을 잘 수 있다.
 
 ### 3. 애니캐스트 (Anycast) - 1:1 of N (가장 가까운 하나)
 IP 주소 체계의 가장 매력적인 꼼수다. 서버 10대에 유니캐스트 주소를 1개 똑같이 부여한다!
-- 유튜브 코리아 서버(서울), 유튜브 재팬 서버(도쿄), 유튜브 미국 서버(뉴욕) 3대의 서버에 몽땅 **`2001:db8::100`** 이라는 애니캐스트 주소를 똑같이 박아 넣는다.
+- 유튜브 코리아 서버(서울), 유튜브 재팬 서버(도쿄), 유튜브 미국 서버(뉴욕) 3대의 서버에 몽땅 <strong><code>2001:db8::100</code></strong> 이라는 애니캐스트 주소를 똑같이 박아 넣는다.
 - [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 등)이 이걸 보고 "어? 100번지 서버가 전 세계 3군데나 있네?" 하고 지도를 그린다.
-- **한국에 있는 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)**가 `2001:db8::100`으로 영상을 요청하면, 통신사 라우터는 뉴욕은 30칸, 도쿄는 5칸, 서울은 2칸 만에 갈 수 있다는 걸 계산([Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/))하고 **가장 가까운 서울 서버**로만 1:1 통신(유니캐스트처럼)을 붙여준다.
+- <strong>한국에 있는 내 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a></strong>가 `2001:db8::100`으로 영상을 요청하면, 통신사 라우터는 뉴욕은 30칸, 도쿄는 5칸, 서울은 2칸 만에 갈 수 있다는 걸 계산([Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/))하고 <strong>가장 가까운 서울 서버</strong>로만 1:1 통신(유니캐스트처럼)을 붙여준다.
 - **결과**: 사용자는 어떤 주소를 고를지 고민할 필요 없이 접속 버튼만 누르면 알아서 제일 빠르고 안 막히는 서버로 꽂히게 된다 (CDN의 핵심 원리).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                애니캐스트 (Anycast)의 마법 같은 경로 탐색          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                            [ DNS 서버 B (뉴욕) ] IP: 1.1.1.1 │
- │                           ↗ (거리: 1000km)                  │
- │   [ 내 PC (한국) ] ──▶ [ 인터넷 라우터 ]                       │
- │                           ↘ (거리: 10km)                    │
- │                            [ DNS 서버 A (서울) ] IP: 1.1.1.1 │
- │                                                             │
- │   1) 내 PC: "1.1.1.1 로 붙여줘!"                              │
- │   2) 라우터: "똑같은 IP가 뉴욕에도 있고 서울에도 있네?                │
- │              당연히 제일 가까운(Cost 낮음) 서울 놈한테만 던져야지!"   │
- │   3) 결과: 서울 서버 1대하고만 1:1 통신이 맺어짐.                 │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애니캐스트 (Anycast)의 마법 같은 경로 탐색</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 서버 B (뉴욕)</div><div class="kb-diagram-note">IP: 1.1.1.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ (거리: 1000km)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (한국)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터넷 라우터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ (거리: 10km)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 서버 A (서울)</div><div class="kb-diagram-note">IP: 1.1.1.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 내 PC: "1.1.1.1 로 붙여줘!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 라우터: "똑같은 IP가 뉴욕에도 있고 서울에도 있네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">당연히 제일 가까운(Cost 낮음) 서울 놈한테만 던져야지!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 결과: 서울 서버 1대하고만 1:1 통신이 맺어짐.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 애니캐스트는 전국 어디서나 **"112"**를 누르면, 서울경찰청(본청)이 아니라 GPS 상으로 나와 가장 가까운 **"우리 동네 파출소"**로 전화가 자동 연결되는 완벽한 근거리 매칭 시스템입니다.
 
@@ -133,15 +138,19 @@ IP 주소 체계의 가장 매력적인 꼼수다. 서버 10대에 유니캐스�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Next Header, 홉 제한]
-    │
-    ▼
-[현재 개념: 유니캐스트, 멀티캐스트, 애니캐스트]
-    │
-    ├──▶ [확장 A: 링크 로컬 주소 / 사이트 로컬 주소]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Next Header, 홉 제한</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 링크 로컬 주소 / 사이트 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트는 Next Header, 홉 제한에서 출발해 현재 메커니즘을 정교화하고, 이후 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

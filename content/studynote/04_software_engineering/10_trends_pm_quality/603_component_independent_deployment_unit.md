@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Class (클래스)**: 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개. 바퀴, 핸들, 나사 1개 낱개 부품 수준. (너무 작아서 1개만 배포 못 함).
-  - **Component (컴포넌트)**: 바퀴, 핸들, 엔진을 싹 다 조립해서 만든 **'바퀴 달린 1개의 완성된 엔진 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)'**. 이 덩어리 하나 툭 떼어다 딴 자동차 껍데기에 붙여도 100% 동일하게 쌩쌩 굴러가는 '기능적 완전체 덩어리'. (Java의 `JAR`, 윈도우의 `DLL`, 리눅스의 `SO` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)).
+  - **Component (컴포넌트)**: 바퀴, 핸들, 엔진을 싹 다 조립해서 만든 <strong>'바퀴 달린 1개의 완성된 엔진 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>'</strong>. 이 덩어리 하나 툭 떼어다 딴 자동차 껍데기에 붙여도 100% 동일하게 쌩쌩 굴러가는 '기능적 완전체 덩어리'. (Java의 `JAR`, 윈도우의 `DLL`, 리눅스의 `SO` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)).
 
-- **필요성 (100만 줄 스파게티 똥 블럭 재컴파일의 멸망 지옥)**: 옛날 1990년대 C/C++ 게임을 짜면 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1만 개가 있었다. 오타 1개 고쳐서 게임 패치 1개를 하려면? 이 1만 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 싹 다 모아서 통째로 1시간 동안 컴파일(빌드) 다시 돌려서 1GB짜리 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개로 말아 유저한테 던져야 했다 (빌드 시간 1시간, 다운로드 10시간). **"아 씨발! 로그인 버튼 색깔 1개 바꿨다고 왜 1GB짜리 게임 전체를 다시 굽고 앉아있어?! 로그인 기능 딱 저거 10MB짜리 덩어리(컴포넌트)만 쏙 도끼로 도려내서 따로 구워(빌드) 놓고, 게임 실행 중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더에 저 10MB 쪼가리 1개만 덮어쓰면(Hot-Swap) 게임 화면 바로 싹 바뀌는 마술 블록 시스템 없어?!"** 이 치떨리는 '통짜 강결합(Monolith) 재빌드의 저주'가 독립 배포가 가능한 찰칵 블록(컴포넌트)을 탄생시켰다.
+- **필요성 (100만 줄 스파게티 똥 블럭 재컴파일의 멸망 지옥)**: 옛날 1990년대 C/C++ 게임을 짜면 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1만 개가 있었다. 오타 1개 고쳐서 게임 패치 1개를 하려면? 이 1만 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 싹 다 모아서 통째로 1시간 동안 컴파일(빌드) 다시 돌려서 1GB짜리 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개로 말아 유저한테 던져야 했다 (빌드 시간 1시간, 다운로드 10시간). <strong>"아 씨발! 로그인 버튼 색깔 1개 바꿨다고 왜 1GB짜리 게임 전체를 다시 굽고 앉아있어?! 로그인 기능 딱 저거 10MB짜리 덩어리(컴포넌트)만 쏙 도끼로 도려내서 따로 구워(빌드) 놓고, 게임 실행 중에 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 폴더에 저 10MB 쪼가리 1개만 덮어쓰면(Hot-Swap) 게임 화면 바로 싹 바뀌는 마술 블록 시스템 없어?!"</strong> 이 치떨리는 '통짜 강결합(Monolith) 재빌드의 저주'가 독립 배포가 가능한 찰칵 블록(컴포넌트)을 탄생시켰다.
 
-- **💡 비유**: 통짜 코드(모놀리스)는 **'플라스틱을 녹여서 부어 만든 1통짜리 피규어 인형'**입니다. 팔 하나 부러지거나 긴 팔로 바꾸고 싶으면? 인형 전체를 용광로에 던져 녹인 뒤(전체 재빌드), 처음부터 다시 틀에 부어 굳혀야 합니다(미친 낭비). 컴포넌트 아키텍처는 **'관절이 완벽히 분리된 레고(LEGO) 건담 인형'**입니다. 팔이 맘에 안 들면 전체를 안 부숩니다. 어깨 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(인터페이스)에서 옛날 팔 1개만 딱 떼서 쓰레기통에 던지고, 새 대포 팔(1MB 컴포넌트 덩어리)을 가져와 1초 만에 찰칵! [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 끼우면 끝입니다. 몸통은 지 팔이 캐논으로 바뀌었는지 1도 모른 채 100배 강해진 총알을 무결점으로 발사해 냅니다.
+- **💡 비유**: 통짜 코드(모놀리스)는 <strong>'플라스틱을 녹여서 부어 만든 1통짜리 피규어 인형'</strong>입니다. 팔 하나 부러지거나 긴 팔로 바꾸고 싶으면? 인형 전체를 용광로에 던져 녹인 뒤(전체 재빌드), 처음부터 다시 틀에 부어 굳혀야 합니다(미친 낭비). 컴포넌트 아키텍처는 <strong>'관절이 완벽히 분리된 레고(LEGO) 건담 인형'</strong>입니다. 팔이 맘에 안 들면 전체를 안 부숩니다. 어깨 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(인터페이스)에서 옛날 팔 1개만 딱 떼서 쓰레기통에 던지고, 새 대포 팔(1MB 컴포넌트 덩어리)을 가져와 1초 만에 찰칵! [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 끼우면 끝입니다. 몸통은 지 팔이 캐논으로 바뀌었는지 1도 모른 채 100배 강해진 총알을 무결점으로 발사해 냅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Procedural 떡칠 시대 (과거)**: 컴포넌트 개념 없음. 함수 1만 개가 얽히고설켜서 1개 고치면 다 뻗음.
   2. **COM, CORBA, EJB (1990~2000s 과도기)**: "야 기업용 자바(EJB)는 통짜로 말고 콩(Bean) 컴포넌트로 찢어서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 올리자!" ➡ 근데 EJB XML [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 1만 줄이 넘어가며 더 무거워져서 개처망함.
-  3. **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 시대 (현재)**: 561장 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 혁명. 컴포넌트가 Java `jar` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넘어, 아예 OS 환경까지 싹 다 얼려버린 **'[도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)([Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/))'**라는 진정한 100% 무결점 우주급 독립 배포 덩어리로 승격하며 천하를 통일함.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>) 시대 (현재)</strong>: 561장 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 혁명. 컴포넌트가 Java `jar` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넘어, 아예 OS 환경까지 싹 다 얼려버린 <strong>'<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/">도커 이미지</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/">Docker Image</a>)'</strong>라는 진정한 100% 무결점 우주급 독립 배포 덩어리로 승격하며 천하를 통일함.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'데스크탑 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 조립'**과 똑같습니다. 메인보드 1판에 CPU, 램, 그래픽카드가 몽땅 납땜(통짜 코딩)되어 있으면 그래픽카드 1개 고장 나면 컴퓨터 통째로 100만 원 주고 새로 사야 합니다(파산). 컴포넌트 기반 설계(CBD)는 메인보드에 **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 규격 구멍(Interface)**만 파두는 겁니다. 그래픽카드(컴포넌트) 10만 원짜리 사서 구멍에 찰칵! 꽂기만 하면 됩니다. 3년 뒤 똥컴 되면? 컴 냅두고 그래픽카드만 쏙 빼서 새 RTX 4090 컴포넌트로 갈아 끼우면 1초 만에 100배 빨라지는(무한 확장성) 궁극의 컴퓨터 공학적 엑스칼리버입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'데스크탑 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 조립'</strong>과 똑같습니다. 메인보드 1판에 CPU, 램, 그래픽카드가 몽땅 납땜(통짜 코딩)되어 있으면 그래픽카드 1개 고장 나면 컴퓨터 통째로 100만 원 주고 새로 사야 합니다(파산). 컴포넌트 기반 설계(CBD)는 메인보드에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> 규격 구멍(Interface)</strong>만 파두는 겁니다. 그래픽카드(컴포넌트) 10만 원짜리 사서 구멍에 찰칵! 꽂기만 하면 됩니다. 3년 뒤 똥컴 되면? 컴 냅두고 그래픽카드만 쏙 빼서 새 RTX 4090 컴포넌트로 갈아 끼우면 1초 만에 100배 빨라지는(무한 확장성) 궁극의 컴퓨터 공학적 엑스칼리버입니다.
 
 ---
 
 다음은 컴포넌트(Component) 독립 배의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컴포넌트(Component) 독립 배                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴포넌트(Component) 독립 배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 컴포넌트(Component) 독립 배가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-컴포넌트(Component) 독립 배포 단위의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+컴포넌트(Component) 독립 배포 단위의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 컴포넌트(Component) 독립 배포 단위의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컴포넌트(Component) 독립 배포 단위 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포넌트(Component) 독립 배포 단위 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

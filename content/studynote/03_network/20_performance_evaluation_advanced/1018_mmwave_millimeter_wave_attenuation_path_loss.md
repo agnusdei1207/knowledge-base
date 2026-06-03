@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 주파수가 30GHz ~ 300GHz 사이로 엄청나게 높고, 파장의 길이가 1mm ~ 10mm 단위로 극도로 짧아(그래서 이름이 밀리미터 파) **'초광대역폭(수백 MHz~수 GHz)'을 단일 채널로 한 방에 확보할 수 있는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) 및 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신의 심장부 주파수 대역**입니다. (한국은 28GHz 대역을 할당했었습니다.)
+- **개념**: 주파수가 30GHz ~ 300GHz 사이로 엄청나게 높고, 파장의 길이가 1mm ~ 10mm 단위로 극도로 짧아(그래서 이름이 밀리미터 파) <strong>'초광대역폭(수백 MHz~수 GHz)'을 단일 채널로 한 방에 확보할 수 있는 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>) 및 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 통신의 심장부 주파수 대역</strong>입니다. (한국은 28GHz 대역을 할당했었습니다.)
 
-```text
-[와이파이 오프로딩]
-    │
-    ▼
-[밀리미터파 전파 감쇠]
-    │
-    └──▶ [테라헤르츠 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 ### 1. 직진성과 회절성(회전)의 실종
 - 주파수가 높을수록 전파는 '빛(레이저)'처럼 오직 앞으로 꼿꼿하게 직진만 하려는 성질이 강해집니다.
 - 옛날 3G 전파는 덩치가 커서 건물 모서리에 부딪히면 둥글게 휘어져서(회절, Diffraction) 골목길 뒤쪽으로 넘어갔습니다.
-- **[밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)의 절망**: 골목길 모서리에 부딪히는 순간 휘어지지 않고 거울처럼 그냥 반사되거나 콘크리트에 퍽 박혀 소멸해 버립니다. 기지국 철탑을 내 눈으로 직접 볼 수 있는 일직선(LoS, Line of Sight) 가시거리가 아니면 코너만 돌아도 5G가 뚝 끊겨 3G로 강등됩니다.
+- <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>의 절망</strong>: 골목길 모서리에 부딪히는 순간 휘어지지 않고 거울처럼 그냥 반사되거나 콘크리트에 퍽 박혀 소멸해 버립니다. 기지국 철탑을 내 눈으로 직접 볼 수 있는 일직선(LoS, Line of Sight) 가시거리가 아니면 코너만 돌아도 5G가 뚝 끊겨 3G로 강등됩니다.
 
 ### 2. 투과력 손실 (벽 뚫기 실패)
 - 빛과 비슷해져서 콘크리트 벽은커녕 **유리창 하나도 제대로 뚫고 들어오지 못합니다.** 베란다 밖에서는 10Gbps가 터지는데, 방 안으로 한 발짝 들어오면 아예 신호가 0칸이 뜨는 인빌딩(In-building) 커버리지 최악의 똥망 전파입니다.
@@ -49,14 +53,18 @@ tags = ["studynote-network"]
 ### 3. 산소 및 수분 흡수 감쇠 (Oxygen & Rain Attenuation)
 - 파장이 1mm로 너무 얇고 섬세해서, 허공에 떠 있는 산소(O2) 분자와 수증기(H2O) 분자에 부딪히는 순간 파동 에너지가 99% 열로 뺏겨 흡수(증발)되어 버립니다. 비 오는 날이나 안개 낀 날은 100미터 밖으로 전파가 날아가지도 못하고 하늘에서 산화해 죽어버립니다.
 
-```text
-[와이파이 오프로딩]
-    │
-    ▼
-[밀리미터파 전파 감쇠]
-    │
-    └──▶ [테라헤르츠 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,11 +74,11 @@ tags = ["studynote-network"]
 
 이 쓰레기 같은 전파 성질을 멱살 잡고 통신망으로 만든 기술들입니다.
 
-1. **[스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/) ([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)) 초밀집 도배**: 
+1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 초밀집 도배</strong>: 
    - 전파가 100m밖에 못 가니까, 강남역 가로등과 전봇대, 편의점 천장마다 100m 간격으로 10만 개의 미니 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))를 벌집처럼 촘촘하게 도배해 버리는 무식한 하드웨어 공해(원가 폭발)로 커버리지를 덮었습니다.
-2. **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 🌟**:
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>) 🌟</strong>:
    - 허공으로 동그랗게 쏘면 산소에 깎여 10m도 못 가니, 100개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩을 모아 에너지를 하나로 뭉친 뒤, 움직이는 내 스마트폰을 향해 레이저 포인트처럼 집중해서 쏘는(지향성 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 흑마법으로 뚫고 나가는 힘을 100배 키워 거리를 간신히 1km로 늘렸습니다. (926번 연계)
-3. **RIS ([지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/), 1021번 심화)**:
+3. <strong>RIS (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/">지능형 반사 표면</a>, 1021번 심화)</strong>:
    - 전파가 건물 모서리에서 휘지 못하니까, 건물 모서리에 '마법의 거울 보드판(RIS)'을 붙여서 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)가 부딪힐 때 골목길 쪽으로 강제로 각도를 꺾어서 튕겨주게 만드는 스마트 굴절판 공사까지 동원 중입니다.
 
 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)이 기반 조건을 만든다면, [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 그 위에서 핵심 메커니즘을 구현하고, [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(저주파)는 둥둥 울리는 **'거대한 클럽 우퍼 베이스 스피커'** 소리입니다. 음악이 벽을 뚫고 꺾여서 화장실 구석구석 골목길까지 둥둥거리며 다 들립니다(투과성/회절성 최고). 반면 **[밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))**는 바늘처럼 날카로운 **'레이저 포인터 불빛'**입니다. 이 빛 안에 1만 권짜리 백과사전(초광대역 대용량)을 담아 1초 만에 눈에 쏠 수 있지만, 중간에 나뭇잎 하나만 지나가도 불빛이 차단되고, 건물 콘크리트 벽은 1mm도 뚫지 못해 방 안으로 아예 빛이 들어오질 않습니다. 게다가 비바람이 불면 허공의 물방울에 레이저 빛이 흩어져 증발해 버립니다(수분 감쇠). 이 끔찍하게 연약한 레이저 통신을 살리기 위해 통신사는 사거리 코너마다 수만 개의 돋보기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))를 촘촘히 엮어 레이저의 힘을 억지로 증폭시키는 살얼음판 우주 공사를 벌이고 있습니다.
+- **📢 섹션 요약 비유**: 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(저주파)는 둥둥 울리는 **'거대한 클럽 우퍼 베이스 스피커'** 소리입니다. 음악이 벽을 뚫고 꺾여서 화장실 구석구석 골목길까지 둥둥거리며 다 들립니다(투과성/회절성 최고). 반면 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a> <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>는 바늘처럼 날카로운 <strong>'레이저 포인터 불빛'</strong>입니다. 이 빛 안에 1만 권짜리 백과사전(초광대역 대용량)을 담아 1초 만에 눈에 쏠 수 있지만, 중간에 나뭇잎 하나만 지나가도 불빛이 차단되고, 건물 콘크리트 벽은 1mm도 뚫지 못해 방 안으로 아예 빛이 들어오질 않습니다. 게다가 비바람이 불면 허공의 물방울에 레이저 빛이 흩어져 증발해 버립니다(수분 감쇠). 이 끔찍하게 연약한 레이저 통신을 살리기 위해 통신사는 사거리 코너마다 수만 개의 돋보기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))를 촘촘히 엮어 레이저의 힘을 억지로 증폭시키는 살얼음판 우주 공사를 벌이고 있습니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 와이파이 오프로딩]
-    │
-    ▼
-[현재 개념: 밀리미터파 전파 감쇠]
-    │
-    ├──▶ [확장 A: 테라헤르츠 대역]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 와이파이 오프로딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 테라헤르츠 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

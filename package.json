@@ -9,6 +9,8 @@
     "serve": "npm run build:data && zola serve",
     "migrate:frontmatter": "python3 scripts/convert_frontmatter_to_zola.py",
     "migrate:wikilinks": "python3 scripts/convert_wikilinks_for_zola.py",
+    "migrate:strong": "python3 scripts/normalize_strong_emphasis.py",
+    "migrate:ascii": "python3 scripts/convert_ascii_to_html.py",
     "check": "python3 -m py_compile scripts/*.py && npm run build:data"
   },
   "devDependencies": {

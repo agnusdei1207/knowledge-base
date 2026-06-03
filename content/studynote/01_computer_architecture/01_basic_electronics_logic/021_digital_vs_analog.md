@@ -28,28 +28,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-디지털이 아날로그를 압도하고 컴퓨팅의 지배자가 된 유일한 이유는 **노이즈 마진 (Noise Margin)**이라는 자체 치유 방어막 덕분이다.
+디지털이 아날로그를 압도하고 컴퓨팅의 지배자가 된 유일한 이유는 <strong>노이즈 마진 (Noise Margin)</strong>이라는 자체 치유 방어막 덕분이다.
 
 디지털 아키텍트는 칩을 설계할 때 "3.5V에서 5V 사이에 들어오는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 무조건 '1'로 취급한다"라고 허용 범위를 설정한다. 따라서 5V로 출발한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전선을 타다 노이즈를 맞아 3.8V로 너덜너덜해져도 시스템은 이를 완벽한 '1'로 복원(Regeneration)해 다음 회로로 넘긴다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           디지털 시스템의 생명줄: 노이즈 마진 (Noise Margin) │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   5.0V ┬  +---------+   ◀── [ 완벽한 1 (High) 영역 ]          │
-│        │  | ~찌그러짐~|         V_ih (약 3.5V 이상)           │
-│   3.5V ┼--+---------+-- ◀── 노이즈 마진 (이 안의 찌그러짐은 무시) │
-│        │                 +-------------------------------+   │
-│        │                 | 🚫 절대 사용 금지 (금지 영역) |   │
-│   1.5V ┼--+---------+-- ◀-------------------------------+   │
-│        │  | ~찌그러짐~|         V_il (약 1.5V 이하)           │
-│   0.0V ┴  +---------+   ◀── [ 완벽한 0 (Low) 영역 ]           │
-│                                                              │
-│ * 5V로 보낸 신호가 노이즈를 맞아 4V로 도착해도,                │
-│   V_ih(3.5V)보다 높기 때문에 시스템은 완벽한 '1'로 복원해 낸다.  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 시스템의 생명줄: 노이즈 마진 (Noise Margin)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">완벽한 1 (High) 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~찌그러짐~</div><div class="kb-diagram-cell">V_ih (약 3.5V 이상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3.5V --+---------+-- ◀── 노이즈 마진 (이 안의 찌그러짐은 무시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚫 절대 사용 금지 (금지 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.5V --+---------+-- ◀-------------------------------+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~찌그러짐~</div><div class="kb-diagram-cell">V_il (약 1.5V 이하)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">완벽한 0 (Low) 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 5V로 보낸 신호가 노이즈를 맞아 4V로 도착해도,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V_ih(3.5V)보다 높기 때문에 시스템은 완벽한 '1'로 복원해 낸다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 선생님이 90점부터 100점까지는 무조건 똑같은 'A등급'을 주기로 약속(노이즈 마진)한 것과 같다. 학생이 컨디션(노이즈) 탓에 92점을 받아도 똑같은 'A등급' 도장을 찍어 실수를 완벽히 덮어준다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-자연계와 컴퓨터 사이를 연결하기 위해서는 **ADC (Analog to Digital Converter)**와 **DAC** 변환 아키텍처가 필수적이다.
+자연계와 컴퓨터 사이를 연결하기 위해서는 <strong>ADC (Analog to Digital Converter)</strong>와 **DAC** 변환 아키텍처가 필수적이다.
 
 | 비교 항목 | 아날로그 (Analog) 아키텍처 | 디지털 (Digital) 아키텍처 |
 |:---|:---|:---|
@@ -91,7 +91,7 @@ tags = ["studynote-computer-architecture"]
 
 디지털 시스템은 노이즈 마진을 무기로 정보의 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 달성하며 현대 IT 문명을 건설했다. 
 
-하지만 최근 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산 폭증으로 디지털의 극심한 곱셈 전력 소모가 한계에 다다르자, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R) 값이 변하는 메모리(Memristor)를 이용해 옴의 법칙과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)/전류량 자체로 행렬 곱셈을 단숨에 끝내버리는 **아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 (Analog In-Memory Computing)**로의 기괴한 르네상스 회귀가 시도되고 있다. 극단의 신뢰성을 추구하던 디지털 패러다임이, 에너지 효율을 위해 다시 아날로그적 물리 법칙과 결합하는 나선형 진화의 변곡점이다.
+하지만 최근 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산 폭증으로 디지털의 극심한 곱셈 전력 소모가 한계에 다다르자, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R) 값이 변하는 메모리(Memristor)를 이용해 옴의 법칙과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)/전류량 자체로 행렬 곱셈을 단숨에 끝내버리는 <strong>아날로그 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기 (Analog In-Memory Computing)</strong>로의 기괴한 르네상스 회귀가 시도되고 있다. 극단의 신뢰성을 추구하던 디지털 패러다임이, 에너지 효율을 위해 다시 아날로그적 물리 법칙과 결합하는 나선형 진화의 변곡점이다.
 
 - **📢 섹션 요약 비유**: 물감으로 그린 그림(아날로그)은 물이 튀면 망가져서, 떨어뜨려도 다시 조립할 수 있는 레고 블록(디지털)으로 세상을 다 지었다. 하지만 레고로 너무 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성을 짓다 보니 조립하는 힘(전력)이 너무 들어, 다시 물감과 레고의 장점만 섞는 새로운 융합(아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 마법을 시도하는 것이다.
 
@@ -103,25 +103,27 @@ tags = ["studynote-computer-architecture"]
 |:---|:---|
 | **노이즈 마진 (Noise Margin)** | 전송 중 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 찌그러져도 임계점 안에만 들어오면 원래 0과 1로 100% 복원해 내는 디지털의 절대 방패 |
 | **ADC / DAC** | 자연계의 아날로그 파형을 컴퓨터의 0과 1로 번역(ADC)하고, 다시 인간이 듣고 볼 수 있게 복원(DAC)하는 통역사 |
-| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차 ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)** | 아날로그 곡선을 디지털 계단으로 강제로 반올림하여 변환할 때 필연적으로 버려지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> 오차 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a> Error)</strong> | 아날로그 곡선을 디지털 계단으로 강제로 반올림하여 변환할 때 필연적으로 버려지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[연속 신호 (아날로그 — Analog)]
-    │
-    ▼
-[샘플링·양자화 (Sampling & Quantization) — ADC]
-    │
-    ▼
-[이진 신호 (디지털 — Digital) — 노이즈 마진으로 복원]
-    │
-    ▼
-[DAC — 다시 아날로그 파형으로 복원]
-    │
-    ▼
-[아날로그 AI 가속기 (Analog In-Memory Computing) — 미래 융합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연속 신호 (아날로그 — Analog)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">샘플링·양자화 (Sampling &amp; Quantization) — ADC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 신호 (디지털 — Digital) — 노이즈 마진으로 복원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DAC — 다시 아날로그 파형으로 복원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아날로그 AI 가속기 (Analog In-Memory Computing) — 미래 융합</div></div>
+</div>
+</div>
+
+
 자연계의 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 ADC로 이산 비트스트림으로 변환하고 노이즈 마진이 디지털 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하며, 에너지 효율을 위한 아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기로 다시 융합하는 나선형 진화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

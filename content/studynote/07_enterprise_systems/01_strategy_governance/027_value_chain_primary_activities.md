@@ -18,20 +18,20 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│                Porter 가치 사슬 구조                        │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  지원 활동:  ┌─────────────────────────────────────────┐   │
-│              │ 기업 인프라 / HR / 기술 개발 / 조달      │   │
-│              └─────────────────────────────────────────┘   │
-│                                                            │
-│  본원적 활동: [내부물류]→[운영]→[외부물류]→[마케팅]→[서비스]│
-│                                        ───────────────►    │
-│                                          이익 마진          │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Porter 가치 사슬 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 활동:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 인프라 / HR / 기술 개발 / 조달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">본원적 활동:</div><div class="kb-diagram-node">내부물류</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">운영</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">외부물류</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">마케팅</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이익 마진</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 음식점 운영 흐름이다. 식재료 입고(내부 물류) → 요리(운영) → 서빙(외부 물류) → 홍보(마케팅) → 애프터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)). 각 단계를 잘할수록 더 많은 이익이 남는다.
 
@@ -47,7 +47,7 @@ tags = ["studynote-enterprise-systems"]
 | **운영** | 제품·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 생산 | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조실행시스템), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 품질 검사 |
 | **외부 물류** | 완제품 보관·배송 | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)(운송관리), 라스트마일 드론 |
 | **마케팅·판매** | 제품 홍보, 주문 수주 | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), 개인화 추천, 디지털 광고 |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), 고객 지원, 설치 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇, 예측 정비 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong> | [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), 고객 지원, 설치 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇, 예측 정비 |
 
 - **📢 섹션 요약 비유**: 디지털화된 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 스마트 공장이다. 재료 입고부터 배송까지 모든 단계가 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·클라우드로 연결되어 자동화·최적화된다.
 
@@ -84,9 +84,9 @@ tags = ["studynote-enterprise-systems"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 명확화** | 경쟁 우위 원천 활동 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 명확화</strong> | 경쟁 우위 원천 활동 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | **IT 투자 우선순위** | 가장 큰 가치를 창출하는 디지털화 활동 결정 |
-| **[벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)** | 경쟁사 대비 각 활동 역량 비교 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/">벤치마킹</a></strong> | 경쟁사 대비 각 활동 역량 비교 |
 
 AI와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 모든 본원적 활동에 통합되면서 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)이 디지털 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)(Digital [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))로 진화하고, [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/)에서는 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)이 가치 네트워크(Value Network)로 재편되고 있다.
 
@@ -102,25 +102,27 @@ AI와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 | **비용 우위** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동의 비용 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **차별화** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동의 독특한 가치 창출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **3C 분석** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)과 연계하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 도구 |
-| **디지털 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합으로 자동화된 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) |
+| <strong>디지털 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/">가치 사슬</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합으로 자동화된 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 가치 사슬 — 5개 본원적 활동 순차 흐름]
-    │
-    ▼
-[가치 사슬 분석 — 경쟁 우위 원천 활동 식별]
-    │
-    ▼
-[IT 통합 — ERP/SCM/CRM으로 활동 연결]
-    │
-    ▼
-[디지털 가치 사슬 — AI·IoT·클라우드 통합]
-    │
-    ▼
-[가치 네트워크 — 플랫폼 기반 다방향 가치 생성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 가치 사슬 — 5개 본원적 활동 순차 흐름</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가치 사슬 분석 — 경쟁 우위 원천 활동 식별</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 통합 — ERP/SCM/CRM으로 활동 연결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 가치 사슬 — AI·IoT·클라우드 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가치 네트워크 — 플랫폼 기반 다방향 가치 생성</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

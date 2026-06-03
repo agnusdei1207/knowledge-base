@@ -22,26 +22,22 @@ tags = ["studynote-cloud-architecture"]
 
 전통 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 새 서버 도입 시 케이블링·[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·스토리지 볼륨 할당에 수 주가 소요되며, 하드웨어 제조사에 종속된 관리 도구가 복잡성을 증폭시킨다. SDDC는 이 모든 과정을 코드([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))로 자동화하여 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 시간을 분 단위로 단축한다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│                    SDDC 계층 구조                               │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  ┌─────────────────────────────────────────────────┐          │
-│  │   Management & Automation Layer (vRealize/vSphere)│         │
-│  │   — 단일 제어 평면, API, 정책 기반 자동화          │         │
-│  └─────────────────────────────────────────────────┘          │
-│          ↕ API                ↕ API               ↕ API        │
-│  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐       │
-│  │  SDC (서버)  │   │  SDS (스토리지)│  │  SDN (네트워크)│     │
-│  │  vSphere/KVM │   │  vSAN/Ceph   │  │  NSX/OpenFlow │      │
-│  └──────────────┘   └──────────────┘   └──────────────┘       │
-│          ↕                    ↕                    ↕           │
-│  ┌─────────────────────────────────────────────────┐          │
-│  │        물리 하드웨어 (x86 서버, SSD, NIC)         │         │
-│  └─────────────────────────────────────────────────┘          │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDDC 계층 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Management &amp; Automation Layer (vRealize/vSphere)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">— 단일 제어 평면, API, 정책 기반 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ API ↕ API ↕ API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDC (서버)</div><div class="kb-diagram-cell">SDS (스토리지)</div><div class="kb-diagram-cell">SDN (네트워크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vSphere/KVM</div><div class="kb-diagram-cell">vSAN/Ceph</div><div class="kb-diagram-cell">NSX/OpenFlow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ ↕ ↕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 하드웨어 (x86 서버, SSD, NIC)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SDDC는 레고 블록으로 지은 집을 설계도(소프트웨어)만 바꾸면 즉시 다른 모양으로 재조립할 수 있게 한 것과 같다. 벽돌(하드웨어)은 그대로지만, 집 구조(인프라)는 몇 초 만에 바꿀 수 있다.
 
@@ -54,31 +50,28 @@ tags = ["studynote-cloud-architecture"]
 | 구성 요소 | 기술 | 핵심 기능 |
 |:---|:---|:---|
 | **SDC (소프트웨어 정의 컴퓨팅)** | VMware vSphere, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Hyper-V | 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/); [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동적 할당 |
-| **[SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) (소프트웨어 정의 스토리지)** | vSAN, Ceph, NetApp ONTAP | 스토리지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 I/O 티어링 |
-| **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))** | VMware NSX, [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/), [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) | [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/), [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) |
-| **[보안 자동화](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/)** | NSX [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 워크로드 이동에 따른 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 자동 적용 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/">SDS</a> (소프트웨어 정의 스토리지)</strong> | vSAN, Ceph, NetApp ONTAP | 스토리지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 I/O 티어링 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/">소프트웨어 정의 네트워킹</a>)</strong> | VMware NSX, [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/), [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) | [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/), [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/">보안 자동화</a></strong> | NSX [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 워크로드 이동에 따른 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 자동 적용 |
 
 ### [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 자동화 흐름
 
-```text
-┌────────────────────────────────────────────────────────┐
-│         IaC 기반 SDDC 프로비저닝 자동화 흐름             │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  개발팀 요청 (API/Git Push)                             │
-│       │                                                │
-│       ▼                                                │
-│  Terraform/Ansible 실행                                 │
-│       │                                                │
-│       ├─ vSphere VM 생성 (SDC)                          │
-│       ├─ vSAN 볼륨 할당 (SDS)                           │
-│       ├─ NSX 네트워크 구성 (SDN)                        │
-│       └─ 방화벽 정책 자동 적용 (보안)                    │
-│       │                                                │
-│       ▼                                                │
-│  완료 → Slack 알림 + CMDB 자동 업데이트                  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaC 기반 SDDC 프로비저닝 자동화 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 요청 (API/Git Push)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform/Ansible 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ vSphere VM 생성 (SDC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ vSAN 볼륨 할당 (SDS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NSX 네트워크 구성 (SDN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 방화벽 정책 자동 적용 (보안)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 → Slack 알림 + CMDB 자동 업데이트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 자동화는 주문만 하면 로봇이 서버 꽂기, 케이블 연결, 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 자동으로 처리하는 무인 물류 창고와 같다. 사람이 손댈 일이 없고, 주문서(코드) 한 장으로 모든 것이 해결된다.
 
@@ -88,10 +81,10 @@ tags = ["studynote-cloud-architecture"]
 
 | 항목 | 전통 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) | [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) | [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) |
 |:---|:---|:---|:---|
-| **[프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)** | 수 주 | 수 분 | 수 초 |
-| **HW [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)** | 높음 | 낮음 | 없음 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong> | 수 주 | 수 분 | 수 초 |
+| <strong>HW <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 높음 | 낮음 | 없음 |
 | **운영 비용** | 높음 | 중간 | 사용량 기반 |
-| **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)** | 완전 통제 | 완전 통제 | 클라우드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 의존 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | 완전 통제 | 완전 통제 | 클라우드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 의존 |
 | **하이브리드 연계** | 어려움 | 원활 | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 의존 |
 
 SDDC는 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)(AWS/Azure)와 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 하이브리드로 연결하는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 역할을 하며, VMware Cloud on AWS처럼 동일한 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 관리 인터페이스로 양쪽을 통합 운영하는 것이 주류 구현 패턴이다.
@@ -105,9 +98,9 @@ SDDC는 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture
 ### 실무 시나리오: 금융기관 [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 전환
 규제 요건으로 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 유지하면서, 배치 분석 워크로드는 클라우드로 버스팅(Cloud Bursting)해야 한다.
 
-1. **[SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 구축**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 VMware vSphere + NSX + vSAN으로 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 환경 구성.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> 구축</strong>: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 VMware vSphere + NSX + vSAN으로 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 환경 구성.
 2. **하이브리드 연결**: VMware HCX로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) ↔ VMware Cloud on AWS 연계.
-3. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 워크로드 이동**: 분석 VM을 야간 배치 시 AWS로 자동 마이그레이션, 완료 후 복귀.
+3. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 기반 워크로드 이동</strong>: 분석 VM을 야간 배치 시 AWS로 자동 마이그레이션, 완료 후 복귀.
 4. **통합 모니터링**: vRealize Operations로 온·오프프레미스 자원 단일 뷰 관리.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -126,7 +119,7 @@ SDDC는 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture
 
 | 기대효과 | 내용 | 수치 |
 |:---|:---|:---|
-| **[프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 가속** | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·네트워크·스토리지 동시 자동 구성 | 수 주 → 수 분 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a> 가속</strong> | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·네트워크·스토리지 동시 자동 구성 | 수 주 → 수 분 |
 | **운영 비용 절감** | 자동화로 수동 관리 인력 감소 | OPEX 30~40% 절감 |
 | **하이브리드 민첩성** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·클라우드 통합 운영 | 워크로드 이동 시간 90% 단축 |
 
@@ -140,34 +133,36 @@ SDDC는 VMware의 Broadcom 인수 이후 라이선스 [정책](/knowledge-base/s
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (소프트웨어 정의 네트워크)** | SDDC의 네트워크 구성 요소; 오버레이 가상 네트워크 |
-| **[SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) (소프트웨어 정의 스토리지)** | SDDC의 스토리지 구성 요소; [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 I/O 자동화 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 자동화 수단; [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·[Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) |
-| **[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)** | SDDC와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 연결하는 운영 모델 |
-| **NSX (Network [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | VMware SDDC의 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) 보안 구성 요소 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (소프트웨어 정의 네트워크)</strong> | SDDC의 네트워크 구성 요소; 오버레이 가상 네트워크 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/">SDS</a> (소프트웨어 정의 스토리지)</strong> | SDDC의 스토리지 구성 요소; [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 I/O 자동화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 자동화 수단; [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·[Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a></strong> | SDDC와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 연결하는 운영 모델 |
+| <strong>NSX (Network <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | VMware SDDC의 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) 보안 구성 요소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[서버 가상화 (VMware vSphere) — 컴퓨팅 추상화]
-    │
-    ▼
-[SDN + SDS — 네트워크·스토리지 소프트웨어화]
-    │
-    ▼
-[SDDC — 4대 구성 요소 통합 + 단일 관리 플레인]
-    │
-    ▼
-[하이브리드 클라우드 — SDDC ↔ 퍼블릭 클라우드 통합]
-    │
-    ▼
-[컨테이너 네이티브 SDDC — Kubernetes + 서비스 메시]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버 가상화 (VMware vSphere) — 컴퓨팅 추상화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN + SDS — 네트워크·스토리지 소프트웨어화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC — 4대 구성 요소 통합 + 단일 관리 플레인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 클라우드 — SDDC ↔ 퍼블릭 클라우드 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 네이티브 SDDC — Kubernetes + 서비스 메시</div></div>
+</div>
+</div>
+
+
 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/SDS로 확장, SDDC로 통합되어 [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네이티브 아키텍처로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. SDDC는 거대한 레고 도시를 **설계 프로그램**으로 뚝딱뚝딱 만드는 것처럼, 서버·네트워크·저장소를 컴퓨터 코드 몇 줄로 즉시 만들어내는 마법의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)예요!
+1. SDDC는 거대한 레고 도시를 <strong>설계 프로그램</strong>으로 뚝딱뚝딱 만드는 것처럼, 서버·네트워크·저장소를 컴퓨터 코드 몇 줄로 즉시 만들어내는 마법의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)예요!
 2. 예전에는 새 서버를 쓰려면 몇 주 동안 케이블 꽂고 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 했지만, SDDC에서는 버튼 하나로 수 분 만에 준비돼요.
 3. 회사 창고([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))와 임대 창고(클라우드)를 같은 앱으로 동시에 관리할 수 있어서, 짐이 많을 때 임대 창고를 즉시 빌릴 수 있답니다!
 

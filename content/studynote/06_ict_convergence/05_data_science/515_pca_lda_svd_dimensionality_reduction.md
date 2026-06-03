@@ -38,20 +38,22 @@ tags = ["studynote-ict-convergence"]
 
 ### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs LDA vs [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 구조
 
-```
-원본 데이터 X (n × p 행렬)
-        │
-   ┌────┼──────────┐
-   ▼    ▼          ▼
-  PCA  LDA        SVD
-  비지도 지도     범용 분해
-  분산  클래스    A=UΣVᵀ
-  최대화 분리
-   │    │          │
- 주성분 판별축   U, Σ, Vᵀ
-(PC1,PC2) (LD1) (좌특이벡터,
-               특이값,우특이벡터)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터 X (n × p 행렬)</div>
+<div class="kb-diagram-note">PCA LDA SVD</div>
+<div class="kb-diagram-note">비지도 지도 범용 분해</div>
+<div class="kb-diagram-note">분산 클래스 A=UΣVᵀ</div>
+<div class="kb-diagram-note">최대화 분리</div>
+<div class="kb-diagram-note">주성분 판별축 U, Σ, Vᵀ</div>
+<div class="kb-diagram-note">(PC1,PC2) (LD1) (좌특이벡터,</div>
+<div class="kb-diagram-note">특이값,우특이벡터)</div>
+</div>
+</div>
+
+
 
 ### [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해: A = UΣVᵀ
 
@@ -61,9 +63,9 @@ tags = ["studynote-ict-convergence"]
 | Σ (시그마) | m × n | 대각 특이값 (내림차순 정렬) |
 | Vᵀ | n × n | 우 특이 벡터 (열 공간) |
 
-**절단 [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) (Truncated [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))**: 상위 k개 특이값만 사용 → PCA와 동일한 결과 (영평균 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기준).
+<strong>절단 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/">SVD</a> (Truncated <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/">SVD</a>)</strong>: 상위 k개 특이값만 사용 → PCA와 동일한 결과 (영평균 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기준).
 
-**[고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/)와 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 연결**:
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/">고유값 분해</a>와 <a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a> 연결</strong>:
 - X의 공분산 행렬 C = XᵀX / (n−1)
 - C의 고유벡터(Eigenvector) = 주성분 방향
 - 고유값(Eigenvalue) = 해당 성분의 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
@@ -88,7 +90,7 @@ tags = ["studynote-ict-convergence"]
 
 - X축: 주성분 번호, Y축: 고유값 (설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)).
 - **엘보우 기준**: 고유값 감소 기울기가 급격히 완만해지는 지점에서 주성분 수 결정.
-- **누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기준**: 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 ≥ 95%인 최소 주성분 수 선택.
+- <strong>누적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 기준</strong>: 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 ≥ 95%인 최소 주성분 수 선택.
 
 - **📢 섹션 요약 비유**: PCA는 "이 사진에서 가장 특징적인 각도는 어디야?"라고 묻는 거고, LDA는 "남자와 여자를 가장 잘 구별하는 각도는 어디야?"라고 묻는 거야 — 목적이 다르다.
 
@@ -96,17 +98,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 1 - 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))**:
+<strong>시나리오 1 - 이미지 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/">SVD</a>)</strong>:
 - 1,000 × 1,000 픽셀 이미지 → [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해.
 - 상위 50개 특이값만 유지 → 원본의 5% 저장 공간으로 시각적으로 유사한 이미지 복원.
 - 정보 보존율 = Σ(k개 특이값²) / Σ(전체 특이값²) = 92%.
 
-**시나리오 2 - 고객 세분화 전처리 ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))**:
+<strong>시나리오 2 - 고객 세분화 전처리 (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a>)</strong>:
 - 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 50개 특성 → [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 적용.
 - 스크리 플롯으로 PC1~PC8이 누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 96.2% 설명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 8차원으로 축소.
 - K-Means 클러스터링 입력으로 사용 → 속도 15배 향상, 실루엣 점수 0.62 (원본 0.48 대비 향상).
 
-**시나리오 3 - 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 전처리 (LDA)**:
+<strong>시나리오 3 - 텍스트 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 전처리 (LDA)</strong>:
 - [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 행렬 (5,000 단어) → LDA로 5개 클래스 분리.
 - 4개 판별 축(LD)으로 축소 → [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도 89% ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 전처리 84% 대비 향상).
 

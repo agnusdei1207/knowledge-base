@@ -25,39 +25,38 @@ tags = ["data_engineering"]
 특히, [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)( [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) )에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신은 대부분 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 기반의 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 이루어지며, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에서 발생하는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 또는 CSV 형태로 전달된다. 이러한 맥락에서 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 처리는 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 필수적인 기술 역량으로 부상하였다.
 
 [반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 대표 유형과 구조적 특성 도식도]
-```text
-[반정형 데이터 유형 매트릭스]
 
-┌─────────────────────────────────────────────────────────────────┐
-│ 데이터 유형 구조 표현 방식 활용 분야 │
-├─────────────────────────────────────────────────────────────────┤
-│ JSON 키-값 쌍의 계층 구조 REST API, 설정 파일 │
-│ { (네스티드/중첩 구조) │
-│ "name": "홍길동", │
-│ "age": 30, │
-│ "address": { │
-│ "city": "서울", │
-│ "district": "강남구" │
-│ } │
-│ } │
-├─────────────────────────────────────────────────────────────────┤
-│ XML 태그( <tag> ) 기반 계층 웹 문서, 설정 파일 │
-│ <person> │
-│ <name>홍길동</name> │
-│ <address> │
-│ <city>서울</city> │
-│ </address> │
-│ </person> │
-├─────────────────────────────────────────────────────────────────┤
-│ CSV 컴마/탭 분리된 평면 테이블 로그, 내보내기 파일 │
-│ name,age,city │
-│ 홍길동,30,서울 │
-│ 김철수,25,부산 │
-├─────────────────────────────────────────────────────────────────┤
-│ 로그 파일 타임스탬프 + 레벨 + 메시지 서버/앱 로그 분석 │
-│ 2024-01-01 10:00:00 ERROR [Auth] Login failed for user: admin │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반정형 데이터 유형 매트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 유형 구조 표현 방식 활용 분야</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JSON 키-값 쌍의 계층 구조 REST API, 설정 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ (네스티드/중첩 구조)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"name": "홍길동",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"age": 30,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"address": {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"city": "서울",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"district": "강남구"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XML 태그( &lt;tag&gt; ) 기반 계층 웹 문서, 설정 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;person&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;name&gt;홍길동&lt;/name&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;address&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;city&gt;서울&lt;/city&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/address&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/person&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSV 컴마/탭 분리된 평면 테이블 로그, 내보내기 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name,age,city</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동,30,서울</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">김철수,25,부산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 파일 타임스탬프 + 레벨 + 메시지 서버/앱 로그 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2024-01-01 10:00:00 ERROR</div><div class="kb-diagram-node">Auth</div><div class="kb-diagram-note">Login failed for user: admin</div></div>
+</div>
+</div>
+
+
 이 도식은 대표적인 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형들의 구조적 특성을 비교한다. JSON은 키-값 쌍의 중첩( Nested ) 구조로 복잡한 계층을 표현할 수 있어 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) DB에. XML은 시작/종료 태그로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 감싸는Markup 언어로, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에적으로 많이 사용되었다. CSV는한 평면 구조로 스프레드시트 내보내기나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 활용된다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 반정형이라기보다는 비정형에 가깝지만, 정규식( Regular Expression )을활용하여 구조화할 수 있는 특성이 있다.
 
 📢 **섹션 요약 비유**: 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는처럼 그날그날의을 자유로운 문장으로 적어두지만, 그래도"날짜,날씨,하루 목표" 같은 항목은 항상 포함하는 다이어리와 같다. 항목 이름( 태그/키 )은 있지만 마다 실제 내용이 다르므로 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)는 아니다.
@@ -67,64 +66,47 @@ tags = ["data_engineering"]
 
 | 반정형 유형 | 핵심 저장소 | 처리 엔진 | 장점 | 단점 |
 |:---|:---|:---|:---|:---|
-| **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)** | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), Couchbase | Spark, Flink, Trino | 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 친화 | 중첩 쿼리 복잡 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a></strong> | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), Couchbase | Spark, Flink, Trino | 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 친화 | 중첩 쿼리 복잡 |
 | **XML** | MarkLogic, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) XML DB | Spark, DataStage | 구조적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(XSD) 가능 | 파싱 오버헤드 큼 |
-| **CSV/[TSV](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/)** | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), S3, MySQL | Spark, Pandas, Airflow |에서 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 추론 필요 |
-| **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), S3 | Flink, Logstash, [Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/) | 실시간 분석 가능 | 검색성능 제한 |
+| <strong>CSV/<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/">TSV</a></strong> | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), S3, MySQL | Spark, Pandas, Airflow |에서 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 추론 필요 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong> | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), S3 | Flink, Logstash, [Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/) | 실시간 분석 가능 | 검색성능 제한 |
 | **Avro** | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) ([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)) | Spark, Flink | 바이너리, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 바이너리 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 어려움 |
-| **[Protocol Buffers](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/)** | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 통신, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | Spark (SparkSQL) | 강력한 타입, | 이기종 언어 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/">Protocol Buffers</a></strong> | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 통신, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | Spark (SparkSQL) | 강력한 타입, | 이기종 언어 |
 
 [반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 아키텍처]
-```text
-[반정형 JSON 데이터의 수집에서 분석까지의 파이프라인]
-┌─────────────────────────────────────────────────────────────────────┐
-│ [데이터 소스 계층] │
-│ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ │
-│ │REST API │ │IoT Sensors│ │Mobile App │ │Web Log │ │
-│ │(JSON) │ │(JSON) │ │(JSON) │ │(Log/CSV) │ │
-│ └─────┬─────┘ └─────┬─────┘ └─────┬─────┘ └─────┬─────┘ │
-│ │ │ │ │ │
-│ └──────────────┴──────────────┴──────────────┘ │
-│ │ (HTTP POST / MQTT / SDK) │
-│ ↓ │
-│ [수집 계층] ───────────────────────────────────────────── │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Apache Kafka (토픽: user-events) │ │
-│ │ ┌─────────┬─────────┬─────────┬─────────┬─────────┐ │ │
-│ │ │Partition│Partition│Partition│Partition│Partition│ │ │
-│ │ │ 0 │ 1 │ 2 │ 3 │ 4 │ │ │
-│ │ └─────────┴─────────┴─────────┴─────────┴─────────┘ │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ↓ (Consumer Group 병렬 처리) │
-│ [처리 계층] ───────────────────────────────────────────── │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Apache Flink (반정형 JSON 파싱/변환) │ │
-│ │ │ │
-│ │ fromKafka("user-events") │ │
-│ │ .filter(x => x.eventType == "purchase") │ │
-│ │ .keyBy(x => x.userId) │ │
-│ │ .window(TumblingEventTimeWindows.of(Time.minutes(5)))│ │
-│ │ .sum("amount") │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ↓ (Parquet / ORC 압축 적재) │
-│ [저장 계층] ───────────────────────────────────────────── │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Data Lake (S3 / HDFS) │ │
-│ │ ┌─────────────────────────────────────────────────┐ │ │
-│ │ │ user-events/year=2024/month=01/day=15/ │ │ │
-│ │ │ part-00000.snappy.parquet (압축: 10:1) │ │ │
-│ │ └─────────────────────────────────────────────────┘ │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ↓ (Trino Federated Query) │
-│ [분석 계층] ───────────────────────────────────────────── │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ BI / ML Tools (Tableau, Jupyter) │ │
-│ └─────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반정형 JSON 데이터의 수집에서 분석까지의 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST API</div><div class="kb-diagram-cell">IoT Sensors</div><div class="kb-diagram-cell">Mobile App</div><div class="kb-diagram-cell">Web Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JSON)</div><div class="kb-diagram-cell">(JSON)</div><div class="kb-diagram-cell">(JSON)</div><div class="kb-diagram-cell">(Log/CSV)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HTTP POST / MQTT / SDK)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수집 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka (토픽: user-events)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition</div><div class="kb-diagram-cell">Partition</div><div class="kb-diagram-cell">Partition</div><div class="kb-diagram-cell">Partition</div><div class="kb-diagram-cell">Partition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (Consumer Group 병렬 처리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Flink (반정형 JSON 파싱/변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fromKafka("user-events")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.filter(x =&gt; x.eventType == "purchase")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.keyBy(x =&gt; x.userId)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.window(TumblingEventTimeWindows.of(Time.minutes(5)))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.sum("amount")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (Parquet / ORC 압축 적재)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저장 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lake (S3 / HDFS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user-events/year=2024/month=01/day=15/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">part-00000.snappy.parquet (압축: 10:1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (Trino Federated Query)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분석 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI / ML Tools (Tableau, Jupyter)</div></div>
+</div>
+</div>
+
+
 이 구조는 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서에서 발생하여 Kafka에 수집되고, Flink에서 실시간으로 파싱 및 윈도우 집계된 후, 최종적으로 Parquet에서Data Lake에 저장되어 분석되는을 보여준다. 핵심적인은/는 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의와/과[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의을 결합하여, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변화( [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution )에도 유연하게 대응할 수 있다는 것이다. Kafka에서Schema [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)( Avro/Protobuf )를 함께 활용하면, 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의도할 수 있다.
 
 📢 **섹션 요약 비유**: 반정형 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)은/는々의( 다양한 구조의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/XML )를 컨베이어 벨트( [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) )에 그대로 올려놓고, 거대한 시스템( Flink )에서자동에( 파싱/[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) )을 했다、별로에( [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) )와/과 같다.
@@ -134,48 +116,50 @@ tags = ["data_engineering"]
 
 | 비교 항목 | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) (Structured) | 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Semi-structured) | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) (Unstructured) |
 |:---|:---|:---|:---|
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)** | 사전 정의 고정 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 동적 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 포함) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없음 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a></strong> | 사전 정의 고정 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 동적 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 포함) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없음 |
 | **변화 대응** | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 마이그레이션 필요 | 동적 추가/삭제 가능 | 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 수용 |
-| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | SQL [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 통한 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 제한적 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 풀 텍스트/벡터 검색 |
-| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** | ACID 완전 보장 | 제한적 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 4.0+ ACID) | 미지원 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | SQL [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 통한 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 제한적 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 풀 텍스트/벡터 검색 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> | ACID 완전 보장 | 제한적 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 4.0+ ACID) | 미지원 |
 | **적용 기술** | RDBMS, [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/) | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), S3, [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예시** | 고객 테이블, 거래 내역 | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 응답, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 | 이미지, 음성, 영상 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 예시</strong> | 고객 테이블, 거래 내역 | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 응답, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 | 이미지, 음성, 영상 |
 | **분석 용도** | 집계/BI/리포팅 | [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)/실시간 모니터링 | 딥러닝/NLP/이미지 인식 |
 
 [반정형 JSON과 정형 RDBMS 테이블의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)]
-```text
-[정형 RDBMS 테이블: 고객]
-┌─────────────────────────────────────────────────────────┐
-│ 고객ID (PK) │ 이름 │ 나이 │ 도시 │ ... │
-├───────────────┼─────────────┼───────┼─────────────┤ │
-│ 1001 │ 홍길동 │ 30 │ 서울 │ │
-│ 1002 │ 김철수 │ 25 │ 부산 │ │
-│ 1003 │ 이영희 │ 28 │ 인천 │ │
-└─────────────────────────────────────────────────────────┘
-(모든 행이 동일한 Column 구조, 타입 강제)
 
-[반정형 JSON 문서: 고객 프로필]
-{
-"customerId": "1001",
-"name": "홍길동",
-"age": 30,
-"city": "서울",
-"preferences": {
-"color": "파란색",
-"hobby": ["등산", "독서"],
-"notifications": {
-"email": true,
-"sms": false
-}
-},
-"tags": ["vip", "prime"],
-"metadata": {
-"registeredAt": "2023-01-01",
-"lastLogin": "2024-01-15T10:30:00Z"
-}
-}
-(문서마다된다 필드 추가/삭제 가능, 계층 구조 표현 가능)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정형 RDBMS 테이블: 고객</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객ID (PK)</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">도시</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1001</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">서울</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1002</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">25</div><div class="kb-diagram-cell">부산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1003</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">28</div><div class="kb-diagram-cell">인천</div></div>
+<div class="kb-diagram-note">(모든 행이 동일한 Column 구조, 타입 강제)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반정형 JSON 문서: 고객 프로필</div></div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"customerId": "1001",</div>
+<div class="kb-diagram-note">"name": "홍길동",</div>
+<div class="kb-diagram-note">"age": 30,</div>
+<div class="kb-diagram-note">"city": "서울",</div>
+<div class="kb-diagram-note">"preferences": {</div>
+<div class="kb-diagram-note">"color": "파란색",</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"hobby":</div><div class="kb-diagram-node">"등산", "독서"</div><div class="kb-diagram-note">,</div></div>
+<div class="kb-diagram-note">"notifications": {</div>
+<div class="kb-diagram-note">"email": true,</div>
+<div class="kb-diagram-note">"sms": false</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">},</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"tags":</div><div class="kb-diagram-node">"vip", "prime"</div><div class="kb-diagram-note">,</div></div>
+<div class="kb-diagram-note">"metadata": {</div>
+<div class="kb-diagram-note">"registeredAt": "2023-01-01",</div>
+<div class="kb-diagram-note">"lastLogin": "2024-01-15T10:30:00Z"</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">(문서마다된다 필드 추가/삭제 가능, 계층 구조 표현 가능)</div>
+</div>
+</div>
+
+
 이 비교는 정형 RDBMS 테이블의 rigid한 행/열 구조와 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서의한 계층 구조의 차이를 보여준다. RDBMS 테이블에서는 회원의 선호색, 취미, 알림 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 같은 계층적/반복적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 별도 테이블로 분리해야 하지만, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서에서는 단일 문서 안에 중첩된 구조로 자연스럽게 표현된다. 다만, 이러한 flexibility는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의와/과[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)성능의 trade-off를 수반한다.
 
 📢 **섹션 요약 비유**: [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)는 미리 정해진 칸의( 각 칸에 정해진 음식만 )이고, 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는의( 뭐든 넣을 수 있지만 모양이 제각각 )이며, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)는 전체( 냉동실, 채소실,실 구분 없이 모두 휘저어넣은 )와/과 같다.
@@ -183,32 +167,32 @@ tags = ["data_engineering"]
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 실무에서 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 마주치는 핵심 판단 상황과 그 기준을 정리한다.
 
-1. **[스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)( [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ) vs [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)( [Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) )**: 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 본질적으로 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read에한다.
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a>( <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a> ) vs <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">스키마 온 라이트</a>( <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">Schema-on-Write</a> )</strong>: 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 본질적으로 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read에한다.
 - **판단**: Kafka에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 메시지를 저장할 때, 각 producers가 다른 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)( v1, v2 )을 보내면 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)( [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) )를활용하여 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 하고 저장할 수 있다. 이후 소비자가 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 적용( 파싱 )할 때 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 모두처리할 수 있다.
-2. **중첩 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 구조의 쿼리 최적화**: MongoDB에서 중첩된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)( [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ) 필터를 queries 할 때성능문제가 발생한다.
+2. <strong>중첩 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 구조의 쿼리 최적화</strong>: MongoDB에서 중첩된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)( [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ) 필터를 queries 할 때성능문제가 발생한다.
 - **판단**: 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 시 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)( [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) )를 고려하되, 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요하다면 ( [Denormalization](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) )로을/를화하여 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 적용한다. 또는 Elasticsearch의 중첩( Nested ) 타입과( [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) ) 타입을활용하여 쿼리한다.
-3. **반정형 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 실시간 분석**: Application [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로 Kafka에 유입될 때, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 레벨( DEBUG, INFO, ERROR )별 필터링이 필수적이다.
+3. <strong>반정형 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 실시간 분석</strong>: Application [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형태로 Kafka에 유입될 때, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 레벨( DEBUG, INFO, ERROR )별 필터링이 필수적이다.
 - **판단**: Flink의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)( [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ) 처리를 통해 시간 기반 윈도우과 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)( [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/) ) 탐지를 실시간으로 수행할 수 있다. 다만, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱은 CPU 집약적이므로 환경에서는 라인 기반 파싱( [TSV](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/)/공백 분리 )보다이다.
 
 [반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화( [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution ) 처리 전략]
-```text
-[Schema Registry를 활용한 스키마 진화 처리]
-┌─────────────────────────────────────────────────────────────┐
-│ Schema Registry (Confluent) │
-│ ┌───────────────────────────────────────────────────────┐ │
-│ │ Topic: user-events │ │
-│ │ ┌─────────────────────────────────────────────────┐ │ │
-│ │ │ Schema v1 ( {"userId": "int", "name": "str"} ) │ │ │
-│ │ │ Schema v2 ( {"userId": "int", "name": "str", │ │ │
-│ │ │ "email": "str"} ) ← 신규 필드 추가 │ │ │
-│ │ │ Schema v3 ( {"userId": "int", "age": "int", │ │ │
-│ │ │ "name": "str"} ) ← 필드 순서 변경 │ │ │
-│ │ └─────────────────────────────────────────────────┘ │ │
-│ └───────────────────────────────────────────────────────┘ │
-│ │ Compatibility Mode: BACKWARD │
-│ │ (이전 버전 소비자가 신규 레코드 읽기 가능) │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema Registry를 활용한 스키마 진화 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema Registry (Confluent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: user-events</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema v1 ( {"userId": "int", "name": "str"} )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema v2 ( {"userId": "int", "name": "str",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"email": "str"} ) ← 신규 필드 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema v3 ( {"userId": "int", "age": "int",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"name": "str"} ) ← 필드 순서 변경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compatibility Mode: BACKWARD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이전 버전 소비자가 신규 레코드 읽기 가능)</div></div>
+</div>
+</div>
+
+
 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry를 활용하여 반정형 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화를 안전하게관리하는 방법을 보여준다. BACKWARD [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)에서 신규 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)( v3 )의 레코드도 이전 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)( v1 )의 consumers가 읽을 수 있어, producers와 consumers의-deploy를 독립적으로 진행할 수 있다. 이는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 특히 중요한 패턴이다.
 
 📢 **섹션 요약 비유**: 반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화는록의 형식이 해마다 조금씩 변하는 것과 같다.，은"오늘의 목표"만 적었는데, 는"오늘의 목표"와" 상태"를 함께 적는 식이다. [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry는 이런 변화가 과거 기록을 감당할 수 있도록 해주는, 새 형식으로도 기록할 수 있게 해주는 문서 관리 정책과 같다.
@@ -238,24 +222,25 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[JSON (JavaScript Object Notation)]
-│
-▼
-[XML (Extensible Markup Language)]
-│
-▼
-[NoSQL Document Database]
-│
-▼
-[Schema Registry]
-│
-▼
-[스키마 온 리드 (Schema-on-Read)]
-│
-▼
-[Apache Kafka]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">JSON (JavaScript Object Notation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XML (Extensible Markup Language)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL Document Database</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema Registry</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키마 온 리드 (Schema-on-Read)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation)에서 출발해 [스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

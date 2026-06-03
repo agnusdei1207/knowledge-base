@@ -33,30 +33,29 @@ tags = ["studynote-cloud-architecture"]
 
 ### 포스트모템 작성 구조
 
-```
-  ┌─────────────────────────────────────────────────────┐
-  │                 포스트모템 문서 구조                   │
-  ├─────────────────────────────────────────────────────┤
-  │  1. 영향도 요약                                       │
-  │     - 발생 시간, 지속 시간                            │
-  │     - 영향받은 사용자/서비스, 비즈니스 손실            │
-  ├─────────────────────────────────────────────────────┤
-  │  2. 타임라인 (Timeline)                               │
-  │     - 발생부터 감지·대응·복구까지 분 단위 기록          │
-  │     - 각 시점의 행동과 관찰 내용                        │
-  ├─────────────────────────────────────────────────────┤
-  │  3. 근본 원인 분석 (5 Whys)                            │
-  │     Why1 → Why2 → Why3 → Why4 → Why5                │
-  ├─────────────────────────────────────────────────────┤
-  │  4. 기여 요인 (Contributing Factors)                  │
-  │     - 직접 원인 + 시스템적 약점                        │
-  ├─────────────────────────────────────────────────────┤
-  │  5. 재발 방지 액션 아이템                               │
-  │     - 단기 (1주): 핫픽스, 알림 추가                    │
-  │     - 중기 (1달): 아키텍처 개선                        │
-  │     - 장기 (분기): 프로세스 변경                        │
-  └─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포스트모템 문서 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 영향도 요약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 발생 시간, 지속 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 영향받은 사용자/서비스, 비즈니스 손실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 타임라인 (Timeline)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 발생부터 감지·대응·복구까지 분 단위 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 각 시점의 행동과 관찰 내용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 근본 원인 분석 (5 Whys)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why1 → Why2 → Why3 → Why4 → Why5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 기여 요인 (Contributing Factors)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 직접 원인 + 시스템적 약점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 재발 방지 액션 아이템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단기 (1주): 핫픽스, 알림 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중기 (1달): 아키텍처 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장기 (분기): 프로세스 변경</div></div>
+</div>
+</div>
+
+
 
 ### 5 Whys 분석 예시
 
@@ -116,7 +115,7 @@ Why 5: 중요 설정값 변경에 대한 자동 검증 문화가 없었기 때�
   6. 액션 아이템 JIRA 티켓화 후 진행 추적
 ```
 
-**심리적 안전감([Psychological Safety](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/))과의 연계**:
+<strong>심리적 안전감(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/">Psychological Safety</a>)과의 연계</strong>:
 - Google의 프로젝트 아리스토텔레스: 고성과 팀의 공통점 1위가 "심리적 안전감"
 - 비난 없는 포스트모템은 심리적 안전감 형성의 가장 가시적인 조직 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 - 리더가 직접 자신의 실수를 포스트모템에 공개하면 문화 전파 속도가 빠름
@@ -139,7 +138,7 @@ Why 5: 중요 설정값 변경에 대한 자동 검증 문화가 없었기 때�
 | 심리적 안전감 | 실수를 투명하게 공유하는 문화 형성 |
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 연계 | 포스트모템이 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소비의 원인 분석 |
 
-Blameless Post-mortem은 기술적 실천이기 전에 **조직 문화의 선택**이다. "사람을 믿고 시스템을 개선한다"는 철학이 없으면 도구와 프로세스만으로는 작동하지 않는다. 리더십이 먼저 자신의 실수를 공개하고 비난받지 않음을 보여줄 때, 진정한 Blameless 문화가 시작된다.
+Blameless Post-mortem은 기술적 실천이기 전에 <strong>조직 문화의 선택</strong>이다. "사람을 믿고 시스템을 개선한다"는 철학이 없으면 도구와 프로세스만으로는 작동하지 않는다. 리더십이 먼저 자신의 실수를 공개하고 비난받지 않음을 보여줄 때, 진정한 Blameless 문화가 시작된다.
 
 📢 **섹션 요약 비유**: Blameless 포스트모템은 항공기 블랙박스와 같다. 사고 원인을 찾아 조종사를 처벌하기 위함이 아니라, 항공 산업 전체가 같은 실수를 반복하지 않도록 학습하기 위해 존재한다.
 
@@ -162,17 +161,21 @@ Blameless Post-mortem은 기술적 실천이기 전에 **조직 문화의 선택
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장애 발생 → 책임 추궁 (Blame Culture)
-    │
-    ▼
-Blameless Postmortem: 사람이 아닌 시스템 개선
-    ├─► Timeline 작성 · 근본 원인 분석 (5 Whys)
-    └─► Action Item + 담당자 + 기한 배정
-    │
-    ▼
-학습 조직 문화: 장애를 성장 기회로 전환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장애 발생 → 책임 추궁 (Blame Culture)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Blameless Postmortem: 사람이 아닌 시스템 개선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Timeline 작성 · 근본 원인 분석 (5 Whys)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Action Item + 담당자 + 기한 배정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">학습 조직 문화: 장애를 성장 기회로 전환</div>
+</div>
+</div>
+
+
 2. "5 Whys"는 "왜 졌어?" → "수비가 약해서" → "왜 약했어?" → "훈련이 부족해서" → "왜 훈련이 부족했어?" → 계속 파고들어.
 3. 결국 선수 탓이 아니라 훈련 방법이나 팀 시스템의 문제를 찾아서 고치는 게 목표야.
 

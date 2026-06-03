@@ -23,7 +23,7 @@ tags = ["studynote-data-engineering"]
 
 문제는 FP32만으로 학습하면 연산량도 크고 메모리 사용량도 급격히 늘어난다는 점이다. 예를 들어 70B 파라미터 [Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 BF16 기준 약 140GB가 필요하고, 그래디언트와 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태까지 고려하면 한 장의 GPU에 담기지 않는다. 여기에 시퀀스 길이가 늘어나면 활성값과 어텐션 메모리도 커져, 연산기보다 메모리와 입출력이 먼저 벽이 되기 쉽다.
 
-이때 등장한 해법이 Tensor Core와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습이다. Tensor Core는 행렬 곱을 전용 하드웨어로 처리해 같은 전력에서 훨씬 많은 곱셈을 수행하고, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 계산용 숫자 크기를 줄여 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 저장 공간을 아낀다. 즉 이 주제는 단순히 "더 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 계산해도 되나?"가 아니라, **연산기와 메모리 계층을 동시에 효율화하는 학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+이때 등장한 해법이 Tensor Core와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습이다. Tensor Core는 행렬 곱을 전용 하드웨어로 처리해 같은 전력에서 훨씬 많은 곱셈을 수행하고, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 계산용 숫자 크기를 줄여 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 저장 공간을 아낀다. 즉 이 주제는 단순히 "더 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 계산해도 되나?"가 아니라, <strong>연산기와 메모리 계층을 동시에 효율화하는 학습 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 학습 시간을 단순화하면 아래처럼 볼 수 있다.
 
@@ -39,27 +39,24 @@ step time ≈ max(compute time, memory time, communication time)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 기반 학습은 메모리 계층과 연산 계층이 타일 단위로 협력하면서 동작한다. HBM에서 읽어 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 L2 캐시, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 레지스터로 옮긴 뒤, [Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) 안의 Tensor Core가 작은 블록 행렬 곱을 반복 수행한다. 이때 중요한 점은 단순 곱셈 속도보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용을 얼마나 늘려 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 왕복을 줄이느냐**다.
+[Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 기반 학습은 메모리 계층과 연산 계층이 타일 단위로 협력하면서 동작한다. HBM에서 읽어 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 L2 캐시, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 레지스터로 옮긴 뒤, [Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) 안의 Tensor Core가 작은 블록 행렬 곱을 반복 수행한다. 이때 중요한 점은 단순 곱셈 속도보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재사용을 얼마나 늘려 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 왕복을 줄이느냐</strong>다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Data path for tensor computation                 │
-├────────────────────────────────────────────────────────────────────┤
-│ HBM3 / HBM2e                                                      │
-│   │  large capacity, TB/s bandwidth                               │
-│   ▼                                                                │
-│ L2 cache                                                           │
-│   │                                                                │
-│   ▼                                                                │
-│ Shared memory / registers inside SM                               │
-│   │  tile reuse                                                    │
-│   ▼                                                                │
-│ Tensor Core matrix multiply-accumulate                            │
-│   │                                                                │
-│   ▼                                                                │
-│ FP32 accumulator / optimizer update path                          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data path for tensor computation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBM3 / HBM2e</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">large capacity, TB/s bandwidth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared memory / registers inside SM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tile reuse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core matrix multiply-accumulate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 accumulator / optimizer update path</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 핵심 병목 |
 | :--- | :--- | :--- |
@@ -70,27 +67,23 @@ step time ≈ max(compute time, memory time, communication time)
 
 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습의 핵심은 "모든 연산을 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 바꾼다"가 아니다. 보통 순전파와 역전파의 대규모 행렬 연산은 FP16 또는 BF16으로 실행하고, 누산과 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 업데이트는 FP32 경로를 유지한다. FP16은 표현 범위가 좁아 작은 그래디언트가 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))될 수 있으므로 손실 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Loss Scaling)이 필요하고, BF16은 지수부가 FP32와 같아 대형 모델 학습에서 더 안정적이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Mixed precision training flow                      │
-├────────────────────────────────────────────────────────────────────┤
-│ FP32 master weights                                                │
-│        │ cast                                                      │
-│        ▼                                                           │
-│ BF16 / FP16 weights + activations                                  │
-│        │                                                           │
-│        ▼                                                           │
-│ Tensor Core forward / backward                                     │
-│        │                                                           │
-│        ▼                                                           │
-│ gradients                                                          │
-│   ├─ FP16 path -> loss scaling / unscaling                         │
-│   └─ BF16 path -> usually no scaling needed                        │
-│        │                                                           │
-│        ▼                                                           │
-│ FP32 optimizer update                                              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed precision training flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 master weights</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cast</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BF16 / FP16 weights + activations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core forward / backward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gradients</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ FP16 path -&gt; loss scaling / unscaling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ BF16 path -&gt; usually no scaling needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 optimizer update</div></div>
+</div>
+</div>
+
+
 
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 장점 | 주의점 | 대표 용도 |
 | :--- | :--- | :--- | :--- |
@@ -99,7 +92,7 @@ step time ≈ max(compute time, memory time, communication time)
 | BF16 | FP32 수준의 넓은 표현 범위 | 가수부 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 FP16보다 거칠 수 있음 | 대형 모델 학습 기본값 |
 | FP8 (8-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) | 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 성숙도 중요 | 최신 하드웨어의 공격적 최적화 |
 
-즉 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 최적화는 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 낮춘다"가 아니라, **어떤 연산은 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로, 어떤 누산과 업데이트는 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 남겨 두는 선택적 분업**이다. 이 분업이 제대로 잡혀야 빠르면서도 수렴 품질을 유지할 수 있다.
+즉 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 최적화는 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 낮춘다"가 아니라, <strong>어떤 연산은 낮은 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로, 어떤 누산과 업데이트는 높은 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로 남겨 두는 선택적 분업</strong>이다. 이 분업이 제대로 잡혀야 빠르면서도 수렴 품질을 유지할 수 있다.
 
 - **📢 섹션 요약 비유**: 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습은 초안은 연필로 빨리 쓰고, 최종 계약서는 잉크로 정확히 남기는 방식과 같다. 속도를 위해 가볍게 쓰되, 중요한 기록은 정교하게 보존해야 한다.
 
@@ -142,25 +135,24 @@ Tensor Core와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/
 
 실무에서 가장 먼저 해야 할 일은 "어떤 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 학습할 것인가"보다 "어디서 병목이 나는가"를 측정하는 것이다. [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 사용률, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시간 비중, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 통신 시간을 함께 봐야 한다. 학습이 느린 이유가 연산 부족인지, 메모리 병목인지, 통신 병목인지 구분하지 않으면 장비만 바꾸고도 기대 성능을 못 얻는다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Practical decision sequence                        │
-├────────────────────────────────────────────────────────────────────┤
-│ unstable training?                                                 │
-│   ├─ yes -> BF16 first, then inspect sensitive ops                 │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ low Tensor Core utilization?                                       │
-│   ├─ yes -> check kernel path, shape alignment, library support    │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ near-peak HBM bandwidth?                                           │
-│   ├─ yes -> optimize memory movement, fusion, FlashAttention       │
-│   └─ no  -> inspect communication / data pipeline                  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical decision sequence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unstable training?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; BF16 first, then inspect sensitive ops</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">low Tensor Core utilization?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; check kernel path, shape alignment, library support</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">near-peak HBM bandwidth?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; optimize memory movement, fusion, FlashAttention</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; inspect communication / data pipeline</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -187,7 +179,7 @@ Tensor Core와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/
 - CPU와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사이 복사를 반복하며 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 이득을 상쇄하는 것
 - [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 병목을 무시한 채 더 큰 GPU만 투입하는 것
 
-기술사 답안에서는 **연산 가속기([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) + 메모리 공급([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) + 수치 안정성(혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))**의 3축을 함께 설명해야 완성도가 높다. 특히 "BF16이 왜 학습에 유리한가", "[HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 왜 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 체감 성능을 좌우하는가"를 같이 써야 실무 판단이 된다.
+기술사 답안에서는 <strong>연산 가속기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a>) + 메모리 공급(<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a>) + 수치 안정성(혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>)</strong>의 3축을 함께 설명해야 완성도가 높다. 특히 "BF16이 왜 학습에 유리한가", "[HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 왜 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 체감 성능을 좌우하는가"를 같이 써야 실무 판단이 된다.
 
 - **📢 섹션 요약 비유**: 주방에서 칼이 아무리 좋아도 재료가 늦게 오면 요리가 밀리고, 재료가 빨리 와도 레시피가 불안하면 맛이 흔들린다. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 최적화는 칼, 재료, 조리법을 동시에 맞추는 일이다.
 
@@ -199,7 +191,7 @@ Tensor Core와 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 하지만 이 최적화는 공짜가 아니다. 수치 안정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 성숙도, 디버깅 복잡성, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 통신, 메모리 병목을 함께 관리해야 한다. 또한 작은 모델이나 메모리 여유가 충분한 실험에서는 과도한 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 튜닝보다 실험 생산성이 더 중요할 수도 있다.
 
-따라서 이 주제는 "FP16이 빠르다"로 기억하면 부족하다. **낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 계산하고, 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 보호하며, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 왕복을 줄여 Tensor Core를 쉬지 않게 만드는 것**이 핵심이다. 결국 좋은 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 연산·메모리·수치 안정성을 동시에 균형 잡는 설계다.
+따라서 이 주제는 "FP16이 빠르다"로 기억하면 부족하다. <strong>낮은 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로 계산하고, 높은 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로 보호하며, <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 왕복을 줄여 Tensor Core를 쉬지 않게 만드는 것</strong>이 핵심이다. 결국 좋은 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 연산·메모리·수치 안정성을 동시에 균형 잡는 설계다.
 
 - **📢 섹션 요약 비유**: 좋은 레이싱 팀은 엔진 출력만 올리지 않는다. 연료 공급, 타이어, 제동, 코너링까지 함께 맞춰야 기록이 단축되듯이, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 학습도 연산과 메모리와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 함께 맞춰야 진짜 빨라진다.
 
@@ -219,23 +211,26 @@ Tensor Core와 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-FP32-only training
-    │
-    ▼
-Tensor Core acceleration + mixed precision
-    ├─ FP16: high throughput, needs scaling
-    └─ BF16: training-friendly default
-    │
-    ▼
-HBM-aware kernel optimization
-    ├─ fusion
-    ├─ FlashAttention
-    └─ activation checkpointing
-    │
-    ▼
-FP8 / Transformer Engine / larger-scale model training
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FP32-only training</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tensor Core acceleration + mixed precision</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FP16: high throughput, needs scaling</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BF16: training-friendly default</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HBM-aware kernel optimization</div>
+<div class="kb-diagram-tree-item" style="--depth:2">fusion</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FlashAttention</div>
+<div class="kb-diagram-tree-item" style="--depth:2">activation checkpointing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP8 / Transformer Engine / larger-scale model training</div>
+</div>
+</div>
+
+
 
 이 흐름은 학습 최적화가 단순한 저정밀 전환이 아니라, 행렬 연산 가속과 메모리 이동 최적화를 거쳐 차세대 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 체계로 확장되는 과정을 보여준다.
 

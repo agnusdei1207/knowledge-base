@@ -40,20 +40,18 @@ y = Σ c_i x_i
 
 여기서 `x_i[b]`는 각 입력의 b번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 괄호 안쪽 합은 해당 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 0/1로 어떤 조합을 이루느냐에 따라 정해지는 상수의 합이므로, 가능한 결과를 LUT에 저장할 수 있다. 실행 시에는 입력들의 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치를 모아 주소를 만들고, LUT에서 부분합을 읽어 와 시프트 누산한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ x0[b] x1[b] x2[b] ... xK-1[b]  ->  address bits                           │
-│                                      │                                     │
-│                                      ▼                                     │
-│                           LUT of precomputed sums                          │
-│                                      │                                     │
-│                                      ▼                                     │
-│                         shift / accumulate over bit index b                │
-│                                      │                                     │
-│                                      ▼                                     │
-│                                     output y                               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">x0</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">x1</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">x2</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">... xK-1</div><div class="kb-diagram-node">b</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">address bits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LUT of precomputed sums</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shift / accumulate over bit index b</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">output y</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -122,7 +120,7 @@ DA를 채택할지 여부는 계수 고정성, 목표 샘플링 속도, [FPGA](/
 
 반대로 LUT 크기 증가와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 항상 경계해야 한다. DA가 빛나는 영역은 분명하지만, 모든 내적 문제에 적용하는 순간 오히려 메모리와 제어 복잡도가 발목을 잡는다. 그래서 현대 설계에서는 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), LUT-less 구조를 혼합해 쓰는 하이브리드 접근이 많다.
 
-결론적으로 DA는 곱셈기를 없애는 기술이 아니라, **문제 구조를 읽고 계산을 기억장치 친화적으로 재배치하는 아키텍처 사고방식**이다. 이 관점을 이해하면 왜 오래된 DSP 기법이 오늘날 FPGA와 저정밀 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어에서 다시 중요해지는지 보인다.
+결론적으로 DA는 곱셈기를 없애는 기술이 아니라, <strong>문제 구조를 읽고 계산을 기억장치 친화적으로 재배치하는 아키텍처 사고방식</strong>이다. 이 관점을 이해하면 왜 오래된 DSP 기법이 오늘날 FPGA와 저정밀 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어에서 다시 중요해지는지 보인다.
 
 - **📢 섹션 요약 비유**: DA는 무거운 짐을 힘으로 드는 대신, 미리 상자를 분류하고 가장 짧은 동선으로 옮기게 만드는 물류 시스템과 같다. 계산 능력보다 배치 전략이 이긴다.
 
@@ -141,24 +139,25 @@ DA를 채택할지 여부는 계수 고정성, 목표 샘플링 속도, [FPGA](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 계수 내적 문제
-        │
-        ▼
-비트 직렬 분산 산술
-        │
-        ▼
-파티셔닝 · OBC 기반 LUT 축소
-        │
-        ▼
-비트 병렬 · 파이프라인 DA
-        │
-        ▼
-LUT-less / 하이브리드 MAC-DA 구조
-        │
-        ▼
-저정밀 AI · FPGA 가속기 응용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 계수 내적 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 직렬 분산 산술</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티셔닝 · OBC 기반 LUT 축소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 병렬 · 파이프라인 DA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LUT-less / 하이브리드 MAC-DA 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">저정밀 AI · FPGA 가속기 응용</div>
+</div>
+</div>
+
+
 
 이 흐름은 DA가 전통적 FIR 최적화 기법에서 출발해, 자원 제약형 가속기 전반으로 확장되는 과정을 보여 준다.
 

@@ -63,7 +63,7 @@ PAYLOAD 섹션 (악성 코드):
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 조건 | 설명 |
 |---|---|
 | **사용자 로그인** | 특정 사용자가 로그인할 때 동작 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 존재/삭제** | 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 삭제되거나 존재할 때 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 존재/삭제</strong> | 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 삭제되거나 존재할 때 |
 | **보상/급여 미지급** | 급여명세서 미도착 시 |
 | **직위 변경/해고** | 인사 시스템 변경 시 |
 
@@ -81,7 +81,7 @@ PAYLOAD 섹션 (악성 코드):
 2. 시스템에서 급여 처리Iterations(반복)에 따라 25번째Processing(처리)에서 악성payload를 심화(이식)했다.
 3. 1개월 후 회사는 A를 계속 고용하지 않기로 결정했고, 퇴사 후 31번째 급여 처리 시 시스템 내 모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를Encrypt(암호화)하여 (유도)했다.
 
-**결과 및 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)**:
+<strong>결과 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/">교훈</a></strong>:
 - 회사 경영진은 "시스템 오류"로 오인하고, Ransom(몸값)을 요구하는 메세지를 받을 때까지 정체를 몰랐다.
 - 사고 해결 기간: 45~90일, 직접(직접피해) 수백억 원
 
@@ -92,16 +92,16 @@ PAYLOAD 섹션 (악성 코드):
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### (방어) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-1. **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 리뷰 및 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)**: 배포 전 모든 코드에 대한 심층적인 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 수행하여 숨겨진 패턴을 탐지
-2. **행위 기반 모니터링 ([EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/))**: 프로세스 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간으로 모니터링하고, 이상 행위를Flag([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))할 수 있는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 솔루션 배포
-3. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 모니터링 (FIM)**: Tripwire 등을 활용하여 주요 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 SHA-256 해시를 정기적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 리뷰 및 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a></strong>: 배포 전 모든 코드에 대한 심층적인 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 수행하여 숨겨진 패턴을 탐지
+2. <strong>행위 기반 모니터링 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/">EDR</a>)</strong>: 프로세스 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간으로 모니터링하고, 이상 행위를Flag([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))할 수 있는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 솔루션 배포
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 모니터링 (FIM)</strong>: Tripwire 등을 활용하여 주요 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 SHA-256 해시를 정기적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
 ### 탐지 기술
 | 기술 | 설명 | 효과 |
 |---|---|---|
 | **행위 분석 (Behavioral Analysis)** | 비정상적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근/수정 패턴 탐지 | 높음 |
-| **[샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) ([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))** | 의심스러운 코드를 격리된 환경에서 실행 | 중간 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시 비교** | 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(정기) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 높음 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">Sandboxing</a>)</strong> | 의심스러운 코드를 격리된 환경에서 실행 | 중간 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 해시 비교</strong> | 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(정기) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 높음 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -130,15 +130,19 @@ PAYLOAD 섹션 (악성 코드):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[트랩 도어 (Trap Door / Backdoor)]
-│
-▼
-[로직 밤 (Logic Bomb) / 타이머 밤]
-│
-├──▶ [바이러스 (Virus)]
-└──▶ [웜 (Worm)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트랩 도어 (Trap Door / Backdoor)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로직 밤 (Logic Bomb) / 타이머 밤</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">바이러스 (Virus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웜 (Worm)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

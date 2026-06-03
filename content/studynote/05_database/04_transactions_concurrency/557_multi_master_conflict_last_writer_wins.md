@@ -25,13 +25,16 @@ tags = ["studynote-database"]
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> Rule -> Current Concept -> Outcome                 │
-├──────────────────────────────────────────────────────────────┤
-│ multi-master-conf… -> current scope -> vector-data-ann-i… │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input -&gt; Rule -&gt; Current Concept -&gt; Outcome</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">multi-master-conf… -&gt; current scope -&gt; vector-data-ann-i…</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 `멀티 마스터 충돌 해결 라스트 라이트 윈(Last Writer Wins) 메커니즘`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
 
@@ -52,13 +55,16 @@ tags = ["studynote-database"]
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Pre-condition -> Current Rule -> Validation -> Result       │
-├──────────────────────────────────────────────────────────────┤
-│ 마스터 슬레이브 지연(Rep… -> 멀티 마스터 충돌 해결 라스… -> 벡터 데이터 ANN 인덱싱 … │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-condition -&gt; Current Rule -&gt; Validation -&gt; Result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스터 슬레이브 지연(Rep… -&gt; 멀티 마스터 충돌 해결 라스… -&gt; 벡터 데이터 ANN 인덱싱 …</div></div>
+</div>
+</div>
+
+
 
 결국 `멀티 마스터 충돌 해결 라스트 라이트 윈(Last Writer Wins) 메커니즘`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
@@ -119,15 +125,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[마스터 슬레이브 지연(Replication Lag…]
-    │
-    ▼
-[멀티 마스터 충돌 해결 라스트 라이트 윈(Last…]
-    │
-    ├──▶ [벡터 데이터 ANN 인덱싱 파라미터(M, …]
-    └──▶ [코사인 유사도 텍스트 임베딩 매칭 정규화 …]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 슬레이브 지연(Replication Lag…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 마스터 충돌 해결 라스트 라이트 윈(Last…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벡터 데이터 ANN 인덱싱 파라미터(M, …</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코사인 유사도 텍스트 임베딩 매칭 정규화 …</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `벡터 데이터 ANN 인덱싱 파라미터(M, efConstruction) 성능/리콜 튜닝`와 `코사인 유사도 텍스트 임베딩 매칭 정규화 거리 계측 연산 방식` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
 

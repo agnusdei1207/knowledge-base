@@ -116,18 +116,21 @@ v_t = β v_(t-1) + (1 - β) g_t
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-현재 배치의 기울기
-  │
-  ▼
-이전 속도와 가중 평균
-  │
-  ▼
-누적된 방향으로 파라미터 이동
-  │
-  ▼
-진동 감소와 수렴 가속
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">현재 배치의 기울기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이전 속도와 가중 평균</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">누적된 방향으로 파라미터 이동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">진동 감소와 수렴 가속</div>
+</div>
+</div>
+
+
 
 핵심은 '한 번의 기울기'가 아니라 '연속된 방향'을 믿는 것이다.
 

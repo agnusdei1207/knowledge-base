@@ -22,19 +22,21 @@ tags = ["studynote-operating-system"]
 ### Morris Worm 사건 (1988)
 Robert Morris가(심화)한Morris Worm은 인터넷 역사상 첫 번째 대규모worm 감염 사건이다. 1988년 11월 2일Unix 시스템의 finger 및 sendmail 취약점을 활용(약용)하여 6,000대의 컴퓨터 중 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%(600대)가 감염되어lehre(피해)를 입었다.
 
-```text
-[Morris Worm 감염 메커니즘]
 
-Patient Zero: 감염된 Unix 서버 1대
-|
-+--> 취약점 스캔 (IP 주소 브로드캐스트)
-|
-+--> 10개 취약점 발견
-+--> 10개 서버 추가 감염 + 각 서버에서 병렬 스캔
-|
-+--> 10^2 --> 10^3 --> 10^4...
-Exponential 확산!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Morris Worm 감염 메커니즘</div></div>
+<div class="kb-diagram-note">Patient Zero: 감염된 Unix 서버 1대</div>
+<div class="kb-diagram-note">+--&gt; 취약점 스캔 (IP 주소 브로드캐스트)</div>
+<div class="kb-diagram-note">+--&gt; 10개 취약점 발견</div>
+<div class="kb-diagram-note">+--&gt; 10개 서버 추가 감염 + 각 서버에서 병렬 스캔</div>
+<div class="kb-diagram-note">+--&gt; 10^2 --&gt; 10^3 --&gt; 10^4...</div>
+<div class="kb-diagram-note">Exponential 확산!</div>
+</div>
+</div>
+
+
 
 **[핵심 포인트]** worm의 가장 큰 특징은(지수적) 감염 속도다. 각 감염(호스트)에서 스스로 스캔과 전파를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행하므로, 감염이 Exponential(기하급수적)으로된다.
 
@@ -48,7 +50,7 @@ Exponential 확산!
 | 방식 | 설명 | 예시 |
 |---|---|---|
 | **네트워크 취약점** |EternalBlue, SMB, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 무차별 공격 | [WannaCry](/knowledge-base/studynote/09_security/15_malware_attack_vectors/732_wannacry/), [NotPetya](/knowledge-base/studynote/09_security/15_malware_attack_vectors/733_notpetya/) |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유** | SMB, [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 등 네트워크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 | Conficker |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 공유</strong> | SMB, [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 등 네트워크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 | Conficker |
 | **이메일** | SMTP를 통한 악성 링크/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 배포 | SoBig |
 
 ### 핵심 구성 요소
@@ -84,15 +86,20 @@ Exponential 확산!
 | **감염 경로** | 네트워크 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 수동 |
 | **확산 속도** | **매우 빠름** | 중간 | 느림 |
 | **숙주 필요** | 아니오 | 예 | 아니오 |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 영향** | **(심대)** | 미미 | 미미 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 영향</strong> | **(심대)** | 미미 | 미미 |
 
-```text
-[확산 속도 비교]
 
-Worm: 1 --> 10 --> 100 --> 1,000 --> 10,000 (수시간)
-Virus: 1 --> 10 --> 100 --> 1,000 (수일~수주)
-Trojan: 1 --> 10 (사용자 배포에 의존)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확산 속도 비교</div></div>
+<div class="kb-diagram-note">Worm: 1 --&gt; 10 --&gt; 100 --&gt; 1,000 --&gt; 10,000 (수시간)</div>
+<div class="kb-diagram-note">Virus: 1 --&gt; 10 --&gt; 100 --&gt; 1,000 (수일~수주)</div>
+<div class="kb-diagram-note">Trojan: 1 --&gt; 10 (사용자 배포에 의존)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -116,14 +123,14 @@ Trojan: 1 --> 10 (사용자 배포에 의존)
 ### 기술적 대응
 | 구분 | 전통 대비 | 현대 대응 |(효과) |
 |---|---|---|---|
-| **네트워크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access | Lateral Movement 차단 |
-| **[패치 관리](/knowledge-base/studynote/09_security/04_endpoint_security/406_patch_management/)** | 수동 패치 | WSUS, SCCM, Qualys | 취약점 사전 차단 |
-| **[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)/[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)** | Signature 기반 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 0-day 탐지 가능 |
+| <strong>네트워크 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access | Lateral Movement 차단 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/406_patch_management/">패치 관리</a></strong> | 수동 패치 | WSUS, SCCM, Qualys | 취약점 사전 차단 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>/<a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a></strong> | Signature 기반 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 0-day 탐지 가능 |
 | **SMBv1 비활성화** | N/A | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 제거 | ETERNALBLUE 원천 차단 |
 
 ### 경영진 의사결정
-- **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표)**: 4시간 이내 목표
-- **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Isolated NetworkSegment(격리 네트워크 분절) 구성, 사전(연습)된 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 계획 실행
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간 목표)</strong>: 4시간 이내 목표
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: Isolated NetworkSegment(격리 네트워크 분절) 구성, 사전(연습)된 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 계획 실행
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -140,15 +147,19 @@ Trojan: 1 --> 10 (사용자 배포에 의존)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[바이러스 (Virus)]
-│
-▼
-[웜 (Worm)]
-│
-├──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
-└──▶ [셸코드 (Shellcode) 인젝션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">바이러스 (Virus)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웜 (Worm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 (Buffer Overflow) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셸코드 (Shellcode) 인젝션</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

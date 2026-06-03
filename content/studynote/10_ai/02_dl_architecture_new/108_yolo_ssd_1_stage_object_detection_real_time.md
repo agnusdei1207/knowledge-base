@@ -22,7 +22,7 @@ tags = ["studynote-ai"]
 
 이러한 속도의 한계를 부수기 위해 등장한 패러다임이 바로 1-Stage Detector다. "후보 영역을 오려내지 말고, 사진 전체를 그냥 바둑판처럼 나눈 뒤 단 한 번만(Look Once) 통과시켜서 위치와 종류를 동시에 때려 맞추자!"라는 파괴적인 발상을 통해 연산량을 극단적으로 줄였고, 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)라는 새로운 지평을 열었다.
 
-- **📢 섹션 요약 비유**: **2-Stage(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))**가 경찰 2,000명이 지도를 1장씩 오려 들고 현미경으로 "여기에 도둑 있냐?"고 한 명씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 굼벵이 수사라면, **1-Stage(YOLO)**는 강남구를 49개 파출소 구역으로 나누고, 소장들이 한 번만 스윽 둘러본 뒤 무전기로 본부에 동시에 범인 위치를 불어버리는 초광속 레이더 망입니다.
+- **📢 섹션 요약 비유**: <strong>2-Stage(R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)</strong>가 경찰 2,000명이 지도를 1장씩 오려 들고 현미경으로 "여기에 도둑 있냐?"고 한 명씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 굼벵이 수사라면, <strong>1-Stage(YOLO)</strong>는 강남구를 49개 파출소 구역으로 나누고, 소장들이 한 번만 스윽 둘러본 뒤 무전기로 본부에 동시에 범인 위치를 불어버리는 초광속 레이더 망입니다.
 
 ---
 
@@ -33,29 +33,28 @@ tags = ["studynote-ai"]
 | 모델 | 아키텍처 원리 | 장단점 |
 | :--- | :--- | :--- |
 | **YOLO v1** | $S \times S$ 바둑판으로 나누고, 물체의 중심이 떨어진 칸(Grid)의 담당자가 박스(X, Y, W, H)와 클래스(개/고양이) 예측을 1타 2피로 전담한다. | 속도 최강. 단, 하나의 칸에 여러 작은 물체(새 떼 등)가 뭉쳐 있으면 1개밖에 잡지 못하는 시각장애 발생. |
-| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)** | YOLO의 단일 출력층 한계를 극복하기 위해, [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 중간층(큰 사진)부터 마지막 층(작은 요약본)까지 총 6개의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)에서 동시에 박스를 예측한다. | 속도는 유지하면서, 얕은 층에선 작은 물체를 깊은 층에선 큰 물체를 완벽히 잡아내어 정확도 급상승. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a></strong> | YOLO의 단일 출력층 한계를 극복하기 위해, [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 중간층(큰 사진)부터 마지막 층(작은 요약본)까지 총 6개의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)에서 동시에 박스를 예측한다. | 속도는 유지하면서, 얕은 층에선 작은 물체를 깊은 층에선 큰 물체를 완벽히 잡아내어 정확도 급상승. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           YOLO의 바둑판 책임 예측 및 NMS 필터링 원리             │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [Grid 분할] 입력 이미지(448x448)를 7x7 바둑판(총 49칸)으로 분할 │
-│        │                                                     │
-│ 2. [책임 할당] "고양이 중심점이 3행 4열에 떨어졌다!"              │
-│               => 3행 4열 세포가 박스 그리기 및 고양이 분류 담당     │
-│        │                                                     │
-│ 3. [난사] 49칸이 각자 2개씩 일단 박스를 던짐 (총 98개 난립)        │
-│        │   (박스 점수 = "얼마나 물체일 확률이 높은가?")           │
-│        ▼                                                     │
-│ 4. [NMS 지우개] Non-Maximum Suppression                      │
-│    - 가장 점수 높은 박스 1개 선택                                │
-│    - 걔랑 엄청 겹친(IoU가 큰) 나머지 잡다한 박스는 다 지워버림!      │
-│        ▼                                                     │
-│ 5. [최종 결과] 깔끔하게 고양이만 감싸는 네모 박스 1개 완성!         │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램에서 마지막 **NMS(비최대 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/))** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1-Stage 방식이 필연적으로 만들어내는 '마구잡이로 겹친 박스 쓰레기'들을 청소하여 화면을 예쁘게 정리해 주는 필수적인 후처리 가위질이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YOLO의 바둑판 책임 예측 및 NMS 필터링 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Grid 분할</div><div class="kb-diagram-note">입력 이미지(448x448)를 7x7 바둑판(총 49칸)으로 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">책임 할당</div><div class="kb-diagram-note">"고양이 중심점이 3행 4열에 떨어졌다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 3행 4열 세포가 박스 그리기 및 고양이 분류 담당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">난사</div><div class="kb-diagram-note">49칸이 각자 2개씩 일단 박스를 던짐 (총 98개 난립)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(박스 점수 = "얼마나 물체일 확률이 높은가?")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">NMS 지우개</div><div class="kb-diagram-note">Non-Maximum Suppression</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가장 점수 높은 박스 1개 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 걔랑 엄청 겹친(IoU가 큰) 나머지 잡다한 박스는 다 지워버림!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">최종 결과</div><div class="kb-diagram-note">깔끔하게 고양이만 감싸는 네모 박스 1개 완성!</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램에서 마지막 <strong>NMS(비최대 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1-Stage 방식이 필연적으로 만들어내는 '마구잡이로 겹친 박스 쓰레기'들을 청소하여 화면을 예쁘게 정리해 주는 필수적인 후처리 가위질이다.
 
 - **📢 섹션 요약 비유**: 49명의 파출소장이 각자 "여기 도둑!"이라며 98개의 빨간 박스를 마구 그려서 올리면 지도가 새빨개집니다. 본부 반장님(NMS)이 "가장 확실한 놈 딱 1개만 놔두고, 걔랑 너무 가까이 겹친 박스 9개는 지우개로 싹 다 지워라!"라고 지시하여 깔끔한 결론을 도출하는 것과 같습니다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-ai"]
 
 과거에는 정확도가 중요하면 R-CNN을, 속도가 중요하면 YOLO를 선택하는 Trade-off가 극심했다. 하지만 YOLO가 SSD의 다중 층 예측(Multi-Scale [Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 아이디어와 다양한 앵커 박스(Anchor Box) 기법을 모조리 흡수하며 v3, v4, v11까지 진화함에 따라, 현재 산업계는 속도와 정확도를 모두 씹어먹은 1-Stage 계열(YOLO)로 99% 평정되었다.
 
-- **📢 섹션 요약 비유**: **2-Stage**가 신중하게 조준경을 들여다보고 숨을 참고 쏘는 '스나이퍼 저격'이라면, **1-Stage**는 앞을 향해 샷건을 마구 갈긴 다음 총알에 맞은 흔적을 보고 재빨리 판단하는 '람보식 난사'입니다. 샷건의 파괴력과 사거리가 발전하면서 스나이퍼를 이겨버린 셈입니다.
+- **📢 섹션 요약 비유**: <strong>2-Stage</strong>가 신중하게 조준경을 들여다보고 숨을 참고 쏘는 '스나이퍼 저격'이라면, <strong>1-Stage</strong>는 앞을 향해 샷건을 마구 갈긴 다음 총알에 맞은 흔적을 보고 재빨리 판단하는 '람보식 난사'입니다. 샷건의 파괴력과 사거리가 발전하면서 스나이퍼를 이겨버린 셈입니다.
 
 ---
 
@@ -85,11 +84,11 @@ tags = ["studynote-ai"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **하드웨어 FPS 매칭**: "우리 CCTV는 60 FPS로 찍히는데 모델은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) FPS다"라는 병목이 없는가? Edge 디바이스(라즈베리파이, Jetson)에 올릴 때는 정확도를 약간 희생하더라도 파라미터가 적은 YOLOv8-Nano 같은 경량화 모델을 탑재했는가?
-2. **작은 물체 군집(Small Object [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 이슈**: 드론으로 지상의 수많은 양 떼를 세는 프로젝트를 할 때, YOLO의 특성상 격자 1개당 탐지 개수 제한에 걸려 양 5마리가 1마리로 퉁쳐지는 현상이 없는가? 고해상도 타일링(Slicing) 전처리 기법을 도입했는가?
+2. <strong>작은 물체 군집(Small Object <a href="/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/">Clustering</a>) 이슈</strong>: 드론으로 지상의 수많은 양 떼를 세는 프로젝트를 할 때, YOLO의 특성상 격자 1개당 탐지 개수 제한에 걸려 양 5마리가 1마리로 퉁쳐지는 현상이 없는가? 고해상도 타일링(Slicing) 전처리 기법을 도입했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무분별한 NMS [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: NMS의 IoU(겹침 허용도) 기준을 너무 낮게 꽉 조여버리면, 백화점 입구처럼 수십 명이 바싹 붙어서 걸어 들어올 때 컴퓨터가 "박스가 너무 겹쳤네, 다 지우고 한 명만 남기자!"라며 사람 10명을 1명으로 세어버리는 재앙(False Negative 폭발)이 발생한다.
+- <strong>무분별한 NMS <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: NMS의 IoU(겹침 허용도) 기준을 너무 낮게 꽉 조여버리면, 백화점 입구처럼 수십 명이 바싹 붙어서 걸어 들어올 때 컴퓨터가 "박스가 너무 겹쳤네, 다 지우고 한 명만 남기자!"라며 사람 10명을 1명으로 세어버리는 재앙(False Negative 폭발)이 발생한다.
 
 - **📢 섹션 요약 비유**: 욜로는 촘촘한 그물이 아니라 듬성듬성한 '대물용 그물'을 바다에 던지는 낚시입니다. 고래는 1초 만에 잡지만, 정어리 수십 마리가 한 그물코로 들어오면 몽땅 빠져나가 버리는 소형 타겟 탐지 불능을 주의해야 합니다. 이를 잡기 위해 작은 그물망([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 방식)을 덧대야 합니다.
 
@@ -116,29 +115,30 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [알고리즘]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이미지 분류 (Image Classification - 강아지인지 고양이인지만 맞춤)
-    │
-    ▼
-객체 탐지 도입 (Object Detection - 어디에 있는지 네모 박스까지 쳐줌)
-    │
-    ▼
-2-Stage 탐지기 (R-CNN, Fast R-CNN - 정확하지만 사진 1장에 수 초~수십 초 소요)
-    │
-    ▼
-1-Stage 탐지기 등장 (YOLO v1 - 한 번만 보고 위치/분류 동시 해결, 실시간 돌파)
-    │
-    ▼
-작은 물체 탐지 약점 극복 (SSD의 다중 특성 맵 기반 사격 개념 도입)
-    │
-    ▼
-1-Stage 천하통일 (YOLO v3 ~ v11 - SSD의 장점을 모두 흡수하여 자율주행, 비전 AI 지배)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이미지 분류 (Image Classification - 강아지인지 고양이인지만 맞춤)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 탐지 도입 (Object Detection - 어디에 있는지 네모 박스까지 쳐줌)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2-Stage 탐지기 (R-CNN, Fast R-CNN - 정확하지만 사진 1장에 수 초~수십 초 소요)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1-Stage 탐지기 등장 (YOLO v1 - 한 번만 보고 위치/분류 동시 해결, 실시간 돌파)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">작은 물체 탐지 약점 극복 (SSD의 다중 특성 맵 기반 사격 개념 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1-Stage 천하통일 (YOLO v3 ~ v11 - SSD의 장점을 모두 흡수하여 자율주행, 비전 AI 지배)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **옛날 방식(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))**은 숨은그림찾기를 할 때 동전만 한 돋보기로 그림판 전체를 2,000번씩 훑어보느라 시간이 엄청 오래 걸렸어요.
-2. 하지만 **YOLO(1-Stage)**는 도화지 위에 듬성듬성 투명한 바둑판을 딱 얹어놓고, 단 1초 만에 도장 찍듯이 그림을 찾아내는 초능력 스캐너예요.
+1. <strong>옛날 방식(R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)</strong>은 숨은그림찾기를 할 때 동전만 한 돋보기로 그림판 전체를 2,000번씩 훑어보느라 시간이 엄청 오래 걸렸어요.
+2. 하지만 <strong>YOLO(1-Stage)</strong>는 도화지 위에 듬성듬성 투명한 바둑판을 딱 얹어놓고, 단 1초 만에 도장 찍듯이 그림을 찾아내는 초능력 스캐너예요.
 3. 덕분에 빠르게 쌩쌩 달리는 자율주행 자동차도 눈앞에 튀어나오는 고양이를 1초 만에 발견하고 브레이크를 밟을 수 있게 되었답니다!
 
 ---

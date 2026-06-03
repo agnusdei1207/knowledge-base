@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **애플 진영 (HLS)**: 비디오 조각을 무조건 MPEG-2 TS (`.ts`)라는 무거운 구형 껍데기에 담아 보냈습니다.
-- **구글/MS 진영 (MPEG-[DASH](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/))**: 비디오 조각을 가볍고 모던한 조각난 MP4 (`.m4s`, fMP4) 껍데기에 담아 보냈습니다.
-- **재앙적 결과 (Storage Double-Cost)**: 넷플릭스는 전 세계 스마트폰을 모두 지원하기 위해, 똑같은 영화를 `.ts` [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 10만 개와 `.m4s` [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 10만 개로 **중복 인코딩(CPU 낭비)하여 스토리지에 2배로 저장(비용 낭비)하고 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 캐시 메모리도 2배로 까먹는** 말도 안 되는 낭비를 수년간 겪었습니다.
+- <strong>구글/MS 진영 (MPEG-<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/">DASH</a>)</strong>: 비디오 조각을 가볍고 모던한 조각난 MP4 (`.m4s`, fMP4) 껍데기에 담아 보냈습니다.
+- **재앙적 결과 (Storage Double-Cost)**: 넷플릭스는 전 세계 스마트폰을 모두 지원하기 위해, 똑같은 영화를 `.ts` [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 10만 개와 `.m4s` [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 10만 개로 <strong>중복 인코딩(CPU 낭비)하여 스토리지에 2배로 저장(비용 낭비)하고 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> 캐시 메모리도 2배로 까먹는</strong> 말도 안 되는 낭비를 수년간 겪었습니다.
 
-```text
-[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
-[CMAF]
-    │
-    └──▶ [화상 회의 지터 버퍼]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CMAF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 2017년 애플과 마이크로소프트가 주도하여 만든 MPEG 국제 표준 규격으로, **HLS와 DASH가 각각 따로 쓰던 미디어 깍두기 껍데기([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))를 '조각난 MP4 (fMP4, Fragmented MP4)' 단 한 가지 포맷으로 통일하여 넷플릭스 등 플랫폼의 저장 및 인코딩 비용을 절반으로 줄여주는 공통 미디어 포맷 규격**입니다.
+- **개념**: 2017년 애플과 마이크로소프트가 주도하여 만든 MPEG 국제 표준 규격으로, <strong>HLS와 DASH가 각각 따로 쓰던 미디어 깍두기 껍데기(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)를 '조각난 MP4 (fMP4, Fragmented MP4)' 단 한 가지 포맷으로 통일하여 넷플릭스 등 플랫폼의 저장 및 인코딩 비용을 절반으로 줄여주는 공통 미디어 포맷 규격</strong>입니다.
 
-```text
-[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
-[CMAF]
-    │
-    └──▶ [화상 회의 지터 버퍼]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CMAF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,8 +74,8 @@ tags = ["studynote-network"]
 사실 스토리지 비용 절감보다 이게 훨씬 더 중요한 무기입니다. 라이브 방송의 10초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렉을 박살 냅니다.
 - **과거의 10초 렉**: 월드컵 라이브 중계 시, 서버는 무조건 10초짜리 영상 조각(세그먼트) 하나가 완전히 다 구워질(인코딩 완료) 때까지 기다렸다가 통째로 폰으로 보냈습니다. 그래서 옆집 아저씨(TV)가 "골!!!" 소리치고 10초 뒤에 내 스마트폰 화면에 골이 들어갔습니다(스트리밍 극악의 딜레이).
 - **CMAF Chunk(청크) 마법**: CMAF는 10초짜리 조각 박스([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) 안에, 더 작은 1초짜리 **미니 초콜릿 박스(Chunk, 청크)** 여러 개를 욱여넣을 수 있는 구조로 설계되었습니다.
-- **동작**: 서버가 10초짜리 영상을 굽다가, 1초어치 분량(청크 1번)이 구워지자마자 **전체 10초 박스가 완성되는 걸 기다리지 않고 곧바로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통로를 통해 청크 1번만 냅다 스마트폰 입으로 던져버립니다(Chunked Transfer Encoding).** 
-- 폰은 1초어치 영상을 받자마자 바로 모니터에 띄웁니다. 라이브 스트리밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 10초에서 **1~2초(Ultra Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**로 극단적으로 짧아져 TV 중계 속도와 완벽히 똑같아집니다.
+- **동작**: 서버가 10초짜리 영상을 굽다가, 1초어치 분량(청크 1번)이 구워지자마자 <strong>전체 10초 박스가 완성되는 걸 기다리지 않고 곧바로 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 통로를 통해 청크 1번만 냅다 스마트폰 입으로 던져버립니다(Chunked Transfer Encoding).</strong> 
+- 폰은 1초어치 영상을 받자마자 바로 모니터에 띄웁니다. 라이브 스트리밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 10초에서 <strong>1~2초(Ultra Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>로 극단적으로 짧아져 TV 중계 속도와 완벽히 똑같아집니다.
 
 CMAF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 기반 조건을 만든다면, CMAF는 그 위에서 핵심 메커니즘을 구현하고, 화상 회의 지터 버퍼는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -77,7 +85,7 @@ CMAF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 과거의 스트리밍(HLS, [DASH](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/)) 시장은 '아이폰용 둥근 도시락통(.ts)'과 '안드로이드용 네모 도시락통(.m4s)' 두 규격이 피 터지게 싸우는 공장이었습니다. 공장장(넷플릭스)은 똑같은 밥과 반찬(영상)을 둥근 통과 네모 통 2가지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 일일이 따로 담아 냉장고에 보관하느라 냉장고 비용(스토리지)이 2배로 깨졌습니다. **CMAF**는 애플과 MS가 극적으로 타결한 '전 세계 공통 육각 도시락통(fMP4)' 평화 조약입니다. 공장장은 이제 밥과 반찬을 육각 도시락통 딱 1가지로만 포장해서 냉장고 절반을 비워버립니다. 아이폰 손님이 오면 '아이폰용 숟가락(M3U8 장부)'을 얹어 육각 도시락을 주고, 안드로이드 손님이 오면 '안드로이드용 포크(MPD 장부)'를 얹어 똑같은 육각 도시락을 줍니다. 알맹이 포장을 완벽히 통일하여 전 세계 비디오 배달 비용을 반토막 낸 위대한 물류 혁명입니다.
+- **📢 섹션 요약 비유**: 과거의 스트리밍(HLS, [DASH](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/)) 시장은 '아이폰용 둥근 도시락통(.ts)'과 '안드로이드용 네모 도시락통(.m4s)' 두 규격이 피 터지게 싸우는 공장이었습니다. 공장장(넷플릭스)은 똑같은 밥과 반찬(영상)을 둥근 통과 네모 통 2가지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 일일이 따로 담아 냉장고에 보관하느라 냉장고 비용(스토리지)이 2배로 깨졌습니다. <strong>CMAF</strong>는 애플과 MS가 극적으로 타결한 '전 세계 공통 육각 도시락통(fMP4)' 평화 조약입니다. 공장장은 이제 밥과 반찬을 육각 도시락통 딱 1가지로만 포장해서 냉장고 절반을 비워버립니다. 아이폰 손님이 오면 '아이폰용 숟가락(M3U8 장부)'을 얹어 육각 도시락을 주고, 안드로이드 손님이 오면 '안드로이드용 포크(MPD 장부)'를 얹어 똑같은 육각 도시락을 줍니다. 알맹이 포장을 완벽히 통일하여 전 세계 비디오 배달 비용을 반토막 낸 위대한 물류 혁명입니다.
 
 ---
 
@@ -119,15 +127,19 @@ CMAF는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ▼
-[현재 개념: CMAF]
-    │
-    ├──▶ [확장 A: 화상 회의 지터 버퍼]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CMAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 화상 회의 지터 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 CMAF는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 화상 회의 지터 버퍼와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

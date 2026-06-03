@@ -21,15 +21,17 @@ tags = ["studynote-cloud-architecture"]
 
 따라서 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 오토스케일링 HPA (파드 증설) CA (노드 증설)가 필요한 이유: 선언 상태와 실제 상태의 차이를 줄임                 │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 선언 ─▶ 제어면(Control Plane) ─▶ 노드 실행면(Node)         │
-│      │                    │                         │              │
-│      └────────── 정책·스케줄·복구 요구를 지속적으로 반영 ─────────┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토스케일링 HPA (파드 증설) CA (노드 증설)가 필요한 이유: 선언 상태와 실제 상태의 차이를 줄임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 선언 ─▶ 제어면(Control Plane) ─▶ 노드 실행면(Node)</div></div>
+<div class="kb-diagram-note">정책·스케줄·복구 요구를 지속적으로 반영</div>
+</div>
+</div>
+
+
 
 이 그림은 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
 
@@ -46,15 +48,17 @@ tags = ["studynote-cloud-architecture"]
 | 노드 실행면 | 실제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행 | [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), runtime, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) |
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)면 | 배포·격리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기준 | autoscaling, probe, [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 오토스케일링 HPA (파드 증설) CA (노드 증설) 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토스케일링 HPA (파드 증설) CA (노드 증설) 핵심 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백</div></div>
+<div class="kb-diagram-note">병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──</div>
+</div>
+</div>
+
+
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 오토스케일링 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증설) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (노드 증설)는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
 

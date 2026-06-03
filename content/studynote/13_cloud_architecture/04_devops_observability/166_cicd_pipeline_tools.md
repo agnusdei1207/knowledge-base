@@ -15,31 +15,32 @@ tags = ["studynote-cloud"]
 - "[Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/)"를 통해 배포 절차를 코드로 관리하여 형상 관리와 재사용성을 극대화함.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-수동으로 빌드하고 FTP로 배포하던 시대는 끝났다. 현대의 클라우드 개발 환경에서는 변경된 코드가 저장소에 들어오는 순간부터 운영 환경에 반영되기까지의 일련의 과정을 정교하게 오케스트레이션해야 한다. **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 도구**는 이러한 복잡한 워크플로우를 자동화하고 시각화하여, 개발 팀이 빠르고 안정적으로 소프트웨어를 릴리스할 수 있도록 돕는 데 필수적인 역할을 한다.
+수동으로 빌드하고 FTP로 배포하던 시대는 끝났다. 현대의 클라우드 개발 환경에서는 변경된 코드가 저장소에 들어오는 순간부터 운영 환경에 반영되기까지의 일련의 과정을 정교하게 오케스트레이션해야 한다. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인 도구</strong>는 이러한 복잡한 워크플로우를 자동화하고 시각화하여, 개발 팀이 빠르고 안정적으로 소프트웨어를 릴리스할 수 있도록 돕는 데 필수적인 역할을 한다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구는 중앙 제어(Controller/Master)와 실제 작업을 수행하는 실행기(Agent/Runner) 구조로 이루어진다.
 
-```text
-[ Developer ] --(Push)--> [ Source Repo (Git) ]
-                                |
-                                v (Webhook)
-+-----------------------------------------------------------+
-|               [ CI/CD Tool Controller ]                   |
-|  - Workflow Orchestrator / Pipeline definitions (.yml)    |
-+-----------------------------------------------------------+
-          | (Dispatch Job)         | (Dispatch Job)
-          v                        v
-+----------------------+   +----------------------+
-| [ Build Agent 1 ]    |   | [ Deploy Runner 2 ]  |
-| - Compile & Test     |   | - K8s Deployment     |
-| - Containerize (Build)   | - Security Scanning  |
-+----------------------+   +----------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Source Repo (Git)</div></div>
+<div class="kb-diagram-note">v (Webhook)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD Tool Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Workflow Orchestrator / Pipeline definitions (.yml)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Dispatch Job)</div><div class="kb-diagram-cell">(Dispatch Job)</div></div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Build Agent 1</div><div class="kb-diagram-node">Deploy Runner 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Compile &amp; Test</div><div class="kb-diagram-cell">- K8s Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Containerize (Build)</div><div class="kb-diagram-cell">- Security Scanning</div></div>
+</div>
+</div>
+
+
 
 1. **Trigger**: Git Push, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 일정 예약(Schedule) 등 특정 이벤트가 발생하면 파이프라인이 시작된다.
-2. **[Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/)**: 배포 절차를 `Jenkinsfile`, `.gitlab-ci.yml`, `action.yml` 등 코드로 작성하여 형상 관리한다.
-3. **[Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)**: 빌드 결과물(Jar, [Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 등)을 저장소(Nexus, ECR)에 안전하게 보관하고 다음 단계로 전달한다.
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차를 `Jenkinsfile`, `.gitlab-ci.yml`, `action.yml` 등 코드로 작성하여 형상 관리한다.
+3. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a></strong>: 빌드 결과물(Jar, [Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 등)을 저장소(Nexus, ECR)에 안전하게 보관하고 다음 단계로 전달한다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -52,32 +53,36 @@ tags = ["studynote-cloud"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **적용 시점**: 프로젝트의 규모와 상관없이 형상 관리를 시작하는 시점부터 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구를 도입하여 자동화된 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 구축해야 한다.
-- **기술사적 판단**: 도구의 선택보다 중요한 것은 **"벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))"**과 **"보안([Secret Management](/knowledge-base/studynote/04_software_engineering/11_testing_validation/514_secret_management/))"**이다. 파이프라인 코드에 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 패스워드가 노출되지 않도록 전용 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 서비스를 연동해야 하며, 환경이 바뀌어도 쉽게 이식할 수 있도록 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 기반의 배포 스크립트를 표준화하는 것이 권장된다.
+- **기술사적 판단**: 도구의 선택보다 중요한 것은 <strong>"벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)"</strong>과 <strong>"보안(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/514_secret_management/">Secret Management</a>)"</strong>이다. 파이프라인 코드에 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 패스워드가 노출되지 않도록 전용 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 서비스를 연동해야 하며, 환경이 바뀌어도 쉽게 이식할 수 있도록 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 기반의 배포 스크립트를 표준화하는 것이 권장된다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구는 개발자의 단순 반복 노동을 제거하고 고부가가치 업무에 집중하게 해준다. 이는 조직의 민첩성(Agility)을 높이는 가장 강력한 수단이다. 향후에는 테크톤(Tekton)과 같은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 네이티브 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 솔루션이나, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구(ArgoCD)와 결합하여 인프라와 앱의 상태를 100% 동기화하는 방향으로 기술 표준이 강화될 것이다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/)**: 배포 절차의 코드화.
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차의 코드화.
 - **Self-hosted Runner**: 보안상의 이유로 내부 망에 두는 실행기.
-- **[Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)**: Git 저장소와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구 간의 실시간 통신 매커니즘.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/">Webhook</a></strong>: Git 저장소와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구 간의 실시간 통신 매커니즘.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 로봇 공장장님이 '장난감 만드는 기계'들을 관리하는 것과 같아요. ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD Tool)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 빌드 · 수동 배포 (느림 · 오류)
-    │
-    ▼
-CI/CD 도구: Jenkins · GitHub Actions · GitLab CI · ArgoCD
-    ├─► Pipeline as Code: YAML 선언적 정의
-    └─► 아티팩트 관리: Nexus · Harbor · ECR
-    │
-    ▼
-GitOps: Git 단일 진실 소스 → 자동 동기화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 빌드 · 수동 배포 (느림 · 오류)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 도구: Jenkins · GitHub Actions · GitLab CI · ArgoCD</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Pipeline as Code: YAML 선언적 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:2">아티팩트 관리: Nexus · Harbor · ECR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps: Git 단일 진실 소스 → 자동 동기화</div>
+</div>
+</div>
+
+
 - "먼저 나사를 조이고, 그다음에 색칠을 하고, 마지막으로 상자에 넣어!"라고 순서를 정해주죠.
 - 공장장님이 시키는 대로 기계들이 알아서 척척 만들어주니까 실수가 없는 멋진 공장이 된답니다.
 

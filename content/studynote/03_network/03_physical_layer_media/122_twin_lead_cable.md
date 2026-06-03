@@ -21,21 +21,25 @@ tags = ["studynote-network"]
 
 통신 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시대, 전기를 이용해 아날로그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전송하기 위해 가장 직관적으로 고안된 방법은 두 가닥의 구리선을 나란히 평행하게 배치하는 것이었다. 이를 평행 2선식 케이블(Twin-lead cable, 또는 Ribbon cable)이라 한다. 하나의 선은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전송하고, 다른 하나의 선은 접지(Ground) 또는 귀환 경로(Return path) 역할을 하여 전기적 폐회로를 구성한다.
 과거 VHF/UHF 대역의 아날로그 TV [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 연결선 등으로 널리 쓰였으나, 두 선이 나란히 노출되어 있어 주변 금속이나 전자기장 환경 변화에 의해 선로의 전기적 특성([임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))이 훼손되고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 방사와 외부 간섭 흡수가 매우 쉽다는 한계가 명확했다. 
-오늘날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 네트워크에서는 거의 사용되지 않는 사장된 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이지만, **"왜 현대의 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))은 선을 복잡하게 꼬아 놓았는가?"**라는 질문에 답하기 위해, 그 전신인 평행 2선의 구조적 결함과 전자기학적 원리를 이해하는 것은 기술적으로 매우 중요한 통찰을 제공한다.
+오늘날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 네트워크에서는 거의 사용되지 않는 사장된 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이지만, <strong>"왜 현대의 랜선(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)은 선을 복잡하게 꼬아 놓았는가?"</strong>라는 질문에 답하기 위해, 그 전신인 평행 2선의 구조적 결함과 전자기학적 원리를 이해하는 것은 기술적으로 매우 중요한 통찰을 제공한다.
 
 아래 도식은 평행 2선식 구조가 외부 전자기 간섭(EMI)에 어떻게 무방비로 노출되는지를 보여준다.
-```text
-[평행 2선식 케이블의 노이즈 취약성]
 
-   외부 노이즈 소스 (모터, 무선전파) ───( EMI 파동 방사 )──→
-                                        │ (강한 영향)     │ (약한 영향)
-   도선 1 (Signal)   ===================▼=================▼==== (+)
-   절연체 띠 (Ribbon) ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-   도선 2 (Return)   ========================================== (-)
 
-   => 노이즈 발생원과의 거리 차이(d1 ≠ d2)로 인해 두 도선에 
-      유도되는 노이즈 전압(Vn1, Vn2)이 서로 다르게 발생 (불균형 노이즈).
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">평행 2선식 케이블의 노이즈 취약성</div></div>
+<div class="kb-diagram-note">외부 노이즈 소스 (모터, 무선전파) ( EMI 파동 방사 )──→</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(강한 영향)</div><div class="kb-diagram-cell">(약한 영향)</div></div>
+<div class="kb-diagram-note">도선 1 (Signal) ===================▼=================▼==== (+)</div>
+<div class="kb-diagram-note">절연체 띠 (Ribbon) ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</div>
+<div class="kb-diagram-note">도선 2 (Return) ========================================== (-)</div>
+<div class="kb-diagram-note">=&gt; 노이즈 발생원과의 거리 차이(d1 ≠ d2)로 인해 두 도선에</div>
+<div class="kb-diagram-note">유도되는 노이즈 전압(Vn1, Vn2)이 서로 다르게 발생 (불균형 노이즈).</div>
+</div>
+</div>
+
+
 이 도식에서 핵심은 두 도선이 물리적으로 평행하게 유지되다 보니, 외부에서 노이즈(전자기파)가 덮칠 때 노이즈 소스에 더 가까운 '도선 1'과 조금 더 먼 '도선 2'가 받는 간섭의 크기가 달라진다는 점이다. 수신단은 결국 두 선의 '[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이'를 측정하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 판별하는데, 노이즈가 양 선에 불균등하게 더해지면 이 차이값이 왜곡되어 원래의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 완전히 망가지게 된다. 이 "거리 편차에 의한 불균형 노이즈 흡수"가 평행선의 가장 뼈아픈 한계다.
 
 - **📢 섹션 요약 비유**: 마치 두 명의 병사가 방패 없이 나란히 걸어갈 때, 옆에서 화살(노이즈)이 날아오면 항상 바깥쪽에 선 병사만 집중적으로 피해를 입어 대열의 균형이 무너지는 것과 같습니다.
@@ -50,23 +54,27 @@ tags = ["studynote-network"]
 |:---|:---|:---|
 | **평행 도선 (Parallel Conductors)** | 일정 간격(d)을 두고 배치된 두 가닥의 연선/단선 | 간격이 유지되어야 특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 유지됨 |
 | **유전체 리본 (Dielectric Ribbon)** | 두 도선을 분리하고 고정하는 폴리에틸렌 등 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) | 도선 간의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)([Capacitance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/))을 결정 |
-| **특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) (Characteristic [Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))** | 주로 300Ω(옴)으로 설계됨 ($Z_0 \approx 276 \log_{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)}(2D/d)$) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)-수신기 간 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 매칭의 기준점 |
+| <strong>특성 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> (Characteristic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a>)</strong> | 주로 300Ω(옴)으로 설계됨 ($Z_0 \approx 276 \log_{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)}(2D/d)$) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)-수신기 간 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 매칭의 기준점 |
 | **차동 모드 (Differential Mode)** | 서로 반대 위상의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 보내는 전송 방식 시도 | 불완전한 상쇄로 인해 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 발생 |
 
-평행 2선식의 치명적 결함은 **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 공간 방사(Radiation)**와 **외부 영향 민감성**이라는 두 가지 원리에서 기인한다.
+평행 2선식의 치명적 결함은 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 공간 방사(Radiation)</strong>와 <strong>외부 영향 민감성</strong>이라는 두 가지 원리에서 기인한다.
 
 아래는 평행 도선에서 발생하는 전자기장 분포와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 누설의 메커니즘을 보여주는 상태 비교도이다.
-```text
-┌───────────────── [ 평행 도선의 전자기장 ] ────────────────┐
-│   (+전압) 도선 1 :  (+) ─→ 전류 방향                   │
-│                     ↑     ↓  (전기장 E 형성)           │
-│   (-전압) 도선 2 :  (-) ←─ 반대 전류 방향              │
-│                                                         │
-│   * 문제점: 자기장(B)과 전기장(E)이 도선 밖으로 넓게 퍼짐 │
-│   * 결과 1: 선로 자체가 거대한 안테나처럼 작동하여 에너지 유실 (방사 손실)
-│   * 결과 2: 주변에 철제 창틀(금속)이 있으면 임피던스 300Ω이 순식간에 깨짐 (반사 발생)
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">평행 도선의 전자기장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+전압) 도선 1 : (+) ─→ 전류 방향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ ↓ (전기장 E 형성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(-전압) 도선 2 : (-) ←─ 반대 전류 방향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제점: 자기장(B)과 전기장(E)이 도선 밖으로 넓게 퍼짐</div></div>
+<div class="kb-diagram-note">* 결과 1: 선로 자체가 거대한 안테나처럼 작동하여 에너지 유실 (방사 손실)</div>
+<div class="kb-diagram-note">* 결과 2: 주변에 철제 창틀(금속)이 있으면 임피던스 300Ω이 순식간에 깨짐 (반사 발생)</div>
+</div>
+</div>
+
+
 이 해설의 핵심은 고주파 교류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 흐를 때 평행 2선은 단순히 전기를 전달하는 파이프가 아니라, 주변 공간 전체에 전자기장을 퍼뜨리는 개방된 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 되어버린다는 점이다. 선로 자체가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 외부로 발산(Radiation)하므로 감쇠가 심하고, 빗물이 묻거나 쇠붙이 근처를 지나가기만 해도 유전율이 변하여 특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 틀어진다. [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 틀어지면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수신단에 도달하지 못하고 반사되어 돌아오는 반사파(Reflection) 왜곡 현상이 발생한다.
 
 - **📢 섹션 요약 비유**: 물이 흐르는 반원형의 뚜껑 없는 개방형 수로(평행 2선)와 같아서, 물이 바깥으로 쉽게 튀어 나가고(방사) 밖에서 낙엽이나 흙먼지(간섭)가 너무 쉽게 들어와 물이 탁해지는 현상입니다.
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 
 평행 2선식의 단점을 극복하기 위해 등장한 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)(Coaxial) 및 꼬임 쌍선(Twisted Pair)과의 구조적 비교를 통해 통신 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 발전사를 이해할 수 있다.
 
-**[초기 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구조적 한계 비교]**
+<strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">초기 전송 [매체</a> 구조적 한계 비교]</strong>
 | 구분 | 평행 2선식 (Twin-lead) | [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) (Coaxial) | 꼬임 쌍선 (Twisted Pair) |
 |:---|:---|:---|:---|
 | **기하학적 구조** | 평행한 두 선 (Ribbon) | 중심 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) + 외부 원통형 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) | 두 선을 나선형으로 꼬음 |
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 | **주변 환경 민감도** | 극도로 높음 (금속/물 회피 필수) | 매우 낮음 (안정적) | 낮음 (차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 시) |
 | **네트워크 활용** | 과거 TV [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 연결 수준에서 도태됨 | 케이블 TV, 초창기 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(10BASE2) | 현대 LAN 표준 ([1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) 등) |
 
-평행 2선식이 꼬임 쌍선으로 진화할 수밖에 없었던 당위성은 **공간적 위상 상쇄**라는 물리적 해결책에 있다.
+평행 2선식이 꼬임 쌍선으로 진화할 수밖에 없었던 당위성은 <strong>공간적 위상 상쇄</strong>라는 물리적 해결책에 있다.
 평행선은 외부 노이즈 거리가 항시 고정되어 불균형 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 유발하지만, 이를 꼬아버리면(Twisted) 1번 선과 2번 선이 노이즈 소스에 번갈아가며 가까워지고 멀어지게 된다. 결과적으로 두 선이 흡수한 노이즈의 총합이 완벽히 같아지고, 수신단에서 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 뺄셈(차동 증폭)하면 노이즈가 '0'으로 상쇄되는 기적이 발생한다. 평행 2선식은 바로 이 기적(꼬임)을 적용하기 직전의 가장 취약한 진화 단계인 셈이다.
 
 - **📢 섹션 요약 비유**: 평행 2선식은 바람막이 없는 노천 카페이고, [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)은 벽을 세운 실내 카페, 꼬임 쌍선은 소음 캔슬링 이어폰을 끼고 대화하는 방식입니다. 노천 카페는 시끄러운 환경에서 대화가 불가능해 버려진 것입니다.
@@ -94,27 +102,30 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 네트워킹(IT 실무)에서 평행 2선식 케이블을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송용으로 설계하거나 도입하는 경우는 **전무(0%)**하다. 다만, 레거시 시스템 철거나 특수 목적 아날로그 장비 유지보수 시 이 선로를 마주칠 때의 주의점이 존재한다.
+현대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 네트워킹(IT 실무)에서 평행 2선식 케이블을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송용으로 설계하거나 도입하는 경우는 <strong>전무(0%)</strong>하다. 다만, 레거시 시스템 철거나 특수 목적 아날로그 장비 유지보수 시 이 선로를 마주칠 때의 주의점이 존재한다.
 
-1. **레거시 아날로그 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 라인 유지보수 시 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 매칭 오류**
+1. <strong>레거시 아날로그 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 라인 유지보수 시 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> 매칭 오류</strong>
    - **문제**: 구형 장비의 300Ω 평행 2선식 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 케이블을 현대식 75Ω [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 시스템에 직결하려 할 때 발생.
-   - **판단/조치**: 두 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 극단적으로 달라 엄청난 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 반사 손실이 발생. 반드시 **발룬(Balun, Balanced-to-Unbalanced 매칭 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))**을 중간에 삽입하여 평행선(평형) 300Ω을 동축선(불평형) 75Ω으로 변환해주어야 한다.
+   - **판단/조치**: 두 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 극단적으로 달라 엄청난 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 반사 손실이 발생. 반드시 <strong>발룬(Balun, Balanced-to-Unbalanced 매칭 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a>)</strong>을 중간에 삽입하여 평행선(평형) 300Ω을 동축선(불평형) 75Ω으로 변환해주어야 한다.
 2. **배선 경로의 금속체 근접 (Proximity Effect)**
    - **문제**: 만약 어쩔 수 없이 평행 2선식을 포설할 경우, 케이블 링이나 철제 빔 위에 선을 고정시키는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
    - **결과**: 케이블 주변 전자기장이 금속에 흡수/반사되어 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)가 붕괴, 수신 화질 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 심각하게 열화됨. 특수 절연 스탠드오프(Stand-off)를 써서 금속에서 최소 수 센티미터 띄워야 한다.
 
-```text
-[임피던스 불일치 해결 의사결정 플로우]
-  (300Ω 평행 2선 수신부) ◀──(연결 시도)──▶ (75Ω 동축 케이블 송신부)
-         │
-         ▼
-[단순 물리적 직결?] ──(Yes)──> 임피던스 붕괴, 정상 동작 불가 (신호 반사율 60% 이상)
-         │
-       (No) 
-         │ 
-         ▼
-[매칭 트랜스포머(Balun) 삽입] ──> 임피던스 변환(300Ω ↔ 75Ω) 및 평형/불평형 변환 성공
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">임피던스 불일치 해결 의사결정 플로우</div></div>
+<div class="kb-diagram-note">(300Ω 평행 2선 수신부) ◀──(연결 시도)──▶ (75Ω 동축 케이블 송신부)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 물리적 직결?</div><div class="kb-diagram-note">──(Yes)──&gt; 임피던스 붕괴, 정상 동작 불가 (신호 반사율 60% 이상)</div></div>
+<div class="kb-diagram-note">(No)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매칭 트랜스포머(Balun) 삽입</div><div class="kb-diagram-note">──&gt; 임피던스 변환(300Ω ↔ 75Ω) 및 평형/불평형 변환 성공</div></div>
+</div>
+</div>
+
+
 이 트리의 핵심은 평행 2선식은 본질적으로 양 선이 전기적으로 대칭인 **평형(Balanced)** 선로라는 점이다. 반면 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)이나 대부분의 현대 포트는 기준 접지가 있는 불평형(Unbalanced) 포트이다. 따라서 단순히 커넥터를 물리적으로 잇는 것이 아니라, 전자기적 평형 상태를 조율하는 Balun(발룬) 장비 개입이 물리 계층 인터페이스의 필수 조건이 된다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -134,7 +145,7 @@ tags = ["studynote-network"]
 - **도태 사유**: 10Mbps 이상의 고주파 디지털 펄스를 전송하기에는 방사 손실과 EMI 흡수율이 재앙 수준으로 높아 물리적으로 1계층 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 자체가 불가능하다.
 - **역사적 가치**: 평행 2선식이 가졌던 구조적 모순(노이즈 거리 편차, 전자장 개방 방사)은 이후 차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)링(Differential Signaling)과 꼬임(Twisting) 기술, 나아가 차폐(Shielding) 기술을 탄생시키는 반면교사가 되었다.
 
-결론적으로 네트워크 엔지니어가 평행 2선식을 공부해야 하는 이유는 이를 현장에 도입하기 위함이 아니라, **선로 기하학(Geometry)이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 무결성에 미치는 치명적 영향**을 가장 극명하게 보여주는 훌륭한 반면교사 교보재이기 때문이다. 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구조의 작은 변화가 상위 애플리케이션의 처리량을 좌우하는 물리 계층의 진리를 일깨워주는 상징적인 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+결론적으로 네트워크 엔지니어가 평행 2선식을 공부해야 하는 이유는 이를 현장에 도입하기 위함이 아니라, <strong>선로 기하학(Geometry)이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 무결성에 미치는 치명적 영향</strong>을 가장 극명하게 보여주는 훌륭한 반면교사 교보재이기 때문이다. 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구조의 작은 변화가 상위 애플리케이션의 처리량을 좌우하는 물리 계층의 진리를 일깨워주는 상징적인 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 마차(평행 2선식)는 고속도로(기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 시대에는 달릴 수 없지만, 자동차([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))의 바퀴가 왜 네 개여야 하고 조향 장치가 왜 필요한지를 설계할 때 최초의 영감을 제공한 박물관의 소중한 유물입니다.
 
@@ -152,15 +163,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 매체 구분: 유도 매체 vs 비유도 매체]
-    │
-    ▼
-[현재 개념: 평행 2선식 케이블]
-    │
-    ├──▶ [확장 A: 꼬임 쌍선 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 매체 구분: 유도 매체 vs 비유도 매체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 평행 2선식 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 꼬임 쌍선 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 평행 2선식 케이블는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구분: 유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) vs 비유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 출발해 현재 메커니즘을 정교화하고, 이후 꼬임 쌍선 케이블와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,7 +31,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **폭포수 모델의 한계**: 순차적 개발의 끝에서 터지는 폭탄(요구사항 불일치)을 막을 수단이 필요했다.
   2. **V-모델의 등장 (1980년대)**: 독일 연방정부의 공공 IT 프로젝트 표준으로 처음 채택되며, 개발 단계와 테스트 단계의 대칭적 관계가 이론화되었다.
-  3. **W-모델 / [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)로의 진화**: V-모델마저도 테스트 "실행" 자체가 후반부에 몰린다는 단점이 있어, 개발과 동시에 테스트를 실행하는 W-모델(이중 V모델)이나 완전한 반복 주기인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))로 진화하였다.
+  3. <strong>W-모델 / <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>로의 진화</strong>: V-모델마저도 테스트 "실행" 자체가 후반부에 몰린다는 단점이 있어, 개발과 동시에 테스트를 실행하는 W-모델(이중 V모델)이나 완전한 반복 주기인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))로 진화하였다.
 
 - **📢 섹션 요약 비유**: 미사일을 발사할 때, 쏘고 나서 궤도를 수정하는 것([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 아니라, 발사 버튼을 누르기 전 100가지의 체크리스트를 만들어 각 부품 조립 단계마다 완벽하게 검사를 끝내놓고 쏘는(V-모델) 매우 신중한 발사 매뉴얼입니다.
 
@@ -39,18 +39,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 V-모델 개발-테스트 매핑 구조의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  V-모델 개발-테스트 매핑 구조                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V-모델 개발-테스트 매핑 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 V-모델 개발-테스트 매핑 구조가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ V-모델 개발-테스트 매핑 구조의 핵심 원리와 구성 요소를 이
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-V-모델 개발-테스트 매핑 구조의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+V-모델 개발-테스트 매핑 구조의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: V-모델 개발-테스트 매핑 구조의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ V-모델 개발-테스트 매핑 구조은 '어떻게 빠르게 짜는가'가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-V-모델 개발-테스트 매핑 구조 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">V-모델 개발-테스트 매핑 구조 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

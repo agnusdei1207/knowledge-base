@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **호([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))의 발생**: 사용자가 전화를 걸거나, 웹서버에 접속을 시도하는 '요청(Request)'입니다.
-- **호손 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Loss / [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))**: 내가 요청을 딱 던졌는데, 서버나 통신사의 회선([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 이미 다른 놈들로 꽉 차서 빈자리가 0개일 때, **내 요청이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 들어가지 못하고 그 자리에서 가차 없이 튕겨져서 버려지는(Drop) 현상**입니다. "통화 중 뚜뚜" 소리가 대표적입니다.
-- **호손율 (블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 🌟**: 100명이 전화를 걸었을 때, 재수 없게 튕겨 나간(거절당한) 사람의 비율([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))입니다. (보통 통신사는 호손율 1% 미만, 즉 100명 중 1명만 튕기는 것을 훌륭한 목표치(GoS, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급)로 잡습니다.)
+- <strong>호(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)의 발생</strong>: 사용자가 전화를 걸거나, 웹서버에 접속을 시도하는 '요청(Request)'입니다.
+- <strong>호손 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Loss / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)</strong>: 내가 요청을 딱 던졌는데, 서버나 통신사의 회선([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 이미 다른 놈들로 꽉 차서 빈자리가 0개일 때, <strong>내 요청이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에 들어가지 못하고 그 자리에서 가차 없이 튕겨져서 버려지는(Drop) 현상</strong>입니다. "통화 중 뚜뚜" 소리가 대표적입니다.
+- <strong>호손율 (블로킹 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>) 🌟</strong>: 100명이 전화를 걸었을 때, 재수 없게 튕겨 나간(거절당한) 사람의 비율([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))입니다. (보통 통신사는 호손율 1% 미만, 즉 100명 중 1명만 튕기는 것을 훌륭한 목표치(GoS, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급)로 잡습니다.)
 
-```text
-[Erlang]
-    │
-    ▼
-[호손율 / 블로킹 확률]
-    │
-    └──▶ [망 신뢰도]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망 신뢰도</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,21 +46,25 @@ tags = ["studynote-network"]
 
 ### 1. 공식이 먹고 사는 두 가지 재료
 에를랑 B 공식에 2개의 숫자를 집어넣으면 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(%)이 튀어나옵니다.
-1. **$A$ (트래픽 부하량)**: 1004번에서 배운 **얼랑([Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)) 수치**입니다. 현재 우리 회사로 쏟아지는 트래픽의 밀도(예: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 얼랑).
-2. **$C$ (서버 회선 수)**: 우리 회사가 돈 주고 사다 놓은 **물리적 통신 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/서버 개수** (예: 회선 12개).
+1. **$A$ (트래픽 부하량)**: 1004번에서 배운 <strong>얼랑(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/">Erlang</a>) 수치</strong>입니다. 현재 우리 회사로 쏟아지는 트래픽의 밀도(예: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 얼랑).
+2. **$C$ (서버 회선 수)**: 우리 회사가 돈 주고 사다 놓은 <strong>물리적 통신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>/서버 개수</strong> (예: 회선 12개).
 
 ### 2. 에를랑 B의 무자비한 가설 (Loss System)
-- 에를랑 B 공식은 **"대기 줄([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))이 없다"**고 가정합니다. 
+- 에를랑 B 공식은 <strong>"대기 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)이 없다"</strong>고 가정합니다. 
 - 식당에 밥 먹으러 왔는데 자리가 꽉 찼다? "번호표 뽑고 기다리세요"가 아니라, **"자리 없으니까 나가 이 새꺄!"** 하고 손님을 그 자리에서 즉시 발로 걷어차서 버려버리는(Loss) 지독한 시스템을 전제로 수학을 돌립니다. (전화망이나 실시간 회선 교환망의 특징입니다.)
 
-```text
-[Erlang]
-    │
-    ▼
-[호손율 / 블로킹 확률]
-    │
-    └──▶ [망 신뢰도]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망 신뢰도</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 현대 클라우드 서버(웹서핑)는 튕겨 내지 않고 번호표를 줍니다.
-- **특징**: 자리가 없으면 발로 차지 않고 **무한정 긴 대기 줄([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/버퍼)**에 손님을 세워둡니다.
-- **목적**: 얼랑 C 공식은 "몇 명이 쫓겨나냐?"를 묻지 않습니다. 대신 **"1만 명이 몰렸을 때, 내 앞사람들이 다 먹고 나갈 때까지 나는 큐에서 몇 초나 더 기다려야(Delay [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 하느냐?"**라는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수학적으로 뽑아내는 현대 인터넷 병목 계산의 핵심 공식입니다.
+- **특징**: 자리가 없으면 발로 차지 않고 <strong>무한정 긴 대기 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>/버퍼)</strong>에 손님을 세워둡니다.
+- **목적**: 얼랑 C 공식은 "몇 명이 쫓겨나냐?"를 묻지 않습니다. 대신 <strong>"1만 명이 몰렸을 때, 내 앞사람들이 다 먹고 나갈 때까지 나는 큐에서 몇 초나 더 기다려야(Delay <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>) 하느냐?"</strong>라는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수학적으로 뽑아내는 현대 인터넷 병목 계산의 핵심 공식입니다.
 
 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Erlang가 기반 조건을 만든다면, 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 그 위에서 핵심 메커니즘을 구현하고, [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **호손율(블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**과 **얼랑 B 공식**은 국밥집 사장님의 '테이블 수 계산기'입니다. 손님이 1시간 동안 몰려와 밥 먹고 가는 밀도(트래픽 얼랑)가 10이라고 칩시다. 사장님이 테이블(회선)을 딱 10개만 깔아두면 손님이 밀릴 때 재수 없게 식당 문턱에서 쫓겨나는 손님(호손)이 20%나 생겨 식당 욕을 먹습니다. 사장님이 '얼랑 B 수학 공식'에 숫자를 넣어 엑셀을 돌려봅니다. "아! 테이블 15개를 깔아두면 쫓겨나는 손님(블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 1% 밑으로 떨어뜨릴 수 있구나!" 얼랑 C 공식은 은행 창구입니다. 창구가 꽉 차도 쫓아내지 않고 번호표([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 줍니다. 얼랑 C 계산기를 돌리면 "오늘같이 손님이 몰릴 땐(트래픽 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 창구를 5개(회선) 열어두면 평균 3분을 기다려야([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 자기 차례가 온다"는 것을 1초 만에 계산해 내어 적정 알바생 수를 결정하게 해주는 인프라 가성비의 나침반입니다.
+- **📢 섹션 요약 비유**: <strong>호손율(블로킹 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>)</strong>과 <strong>얼랑 B 공식</strong>은 국밥집 사장님의 '테이블 수 계산기'입니다. 손님이 1시간 동안 몰려와 밥 먹고 가는 밀도(트래픽 얼랑)가 10이라고 칩시다. 사장님이 테이블(회선)을 딱 10개만 깔아두면 손님이 밀릴 때 재수 없게 식당 문턱에서 쫓겨나는 손님(호손)이 20%나 생겨 식당 욕을 먹습니다. 사장님이 '얼랑 B 수학 공식'에 숫자를 넣어 엑셀을 돌려봅니다. "아! 테이블 15개를 깔아두면 쫓겨나는 손님(블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 1% 밑으로 떨어뜨릴 수 있구나!" 얼랑 C 공식은 은행 창구입니다. 창구가 꽉 차도 쫓아내지 않고 번호표([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 줍니다. 얼랑 C 계산기를 돌리면 "오늘같이 손님이 몰릴 땐(트래픽 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 창구를 5개(회선) 열어두면 평균 3분을 기다려야([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) 자기 차례가 온다"는 것을 1초 만에 계산해 내어 적정 알바생 수를 결정하게 해주는 인프라 가성비의 나침반입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Erlang]
-    │
-    ▼
-[현재 개념: 호손율 / 블로킹 확률]
-    │
-    ├──▶ [확장 A: 망 신뢰도]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Erlang</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 망 신뢰도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)는 Erlang에서 출발해 현재 메커니즘을 정교화하고, 이후 [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

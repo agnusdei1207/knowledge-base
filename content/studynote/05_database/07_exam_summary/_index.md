@@ -17,29 +17,26 @@ tags = ["database"]
 
 ### 데이터베이스 시험 핵심 출제 경향 분석
 
-데이터베이스 분야의 기술사(정보관리, 컴퓨터응용) 시험은 **"논리적 무결성"**과 **"물리적 성능"**의 조화를 묻는 문제가 핵심이다. 특히 정규화와 같은 설계 이론뿐만 아니라, 실제 운영 환경에서의 락 (Lock) 경합 해결이나 쿼리 튜닝 실무 능력을 정량적으로 기술하는 능력이 당락을 결정한다.
+데이터베이스 분야의 기술사(정보관리, 컴퓨터응용) 시험은 <strong>"논리적 무결성"</strong>과 <strong>"물리적 성능"</strong>의 조화를 묻는 문제가 핵심이다. 특히 정규화와 같은 설계 이론뿐만 아니라, 실제 운영 환경에서의 락 (Lock) 경합 해결이나 쿼리 튜닝 실무 능력을 정량적으로 기술하는 능력이 당락을 결정한다.
 
-최근에는 **NoSQL의 CAP 이론**, **분산 합의 알고리즘 (Paxos/Raft)**, 그리고 **데이터 레이크하우스**와 같은 현대적 아키텍처 비중이 급증하고 있다. 또한 클라우드 상에서의 데이터 정합성을 맞추는 **Saga 패턴**이나 **벡터 데이터베이스**와 같은 AI 융합 토픽이 단골 출제 키워드이다.
+최근에는 **NoSQL의 CAP 이론**, **분산 합의 알고리즘 (Paxos/Raft)**, 그리고 <strong>데이터 레이크하우스</strong>와 같은 현대적 아키텍처 비중이 급증하고 있다. 또한 클라우드 상에서의 데이터 정합성을 맞추는 <strong>Saga 패턴</strong>이나 <strong>벡터 데이터베이스</strong>와 같은 AI 융합 토픽이 단골 출제 키워드이다.
 
 이 그림은 데이터베이스의 전체 지식 체계를 시험 관점에서 구조화한 것이다. 설계부터 활용까지의 공학적 연계성을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             데이터베이스(DB) 시험 핵심 지식 체계            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       [ 융합/분석 ] ◀─────▶ [ 분산/신기술 ] ◀─────▶ [ 관리/보안 ] │
-│       (DW, Lakehouse)      (NoSQL, NewSQL)    (Governance)  │
-│             ▲                     ▲                 ▲       │
-│             └───────┬─────────────┴────────┬────────┘       │
-│                     │                      │                │
-│               [ 운영/튜닝 ] ◀──────▶ [ 트랜잭션 ]           │
-│               (SQL, Index)         (ACID, Lock)             │
-│                                                             │
-│               [ 기초/설계 ] (ERD, Normalization)            │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스(DB) 시험 핵심 지식 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">융합/분석</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">분산/신기술</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">관리/보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DW, Lakehouse) (NoSQL, NewSQL) (Governance)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영/튜닝</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">트랜잭션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL, Index) (ACID, Lock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기초/설계</div><div class="kb-diagram-note">(ERD, Normalization)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '상향식 설계 능력'이다. 기초 설계(정규화)가 흔들리면 성능 튜닝은 임시방편에 불과하며, 트랜잭션 원리를 모르면 분산 DB의 복잡성을 이해할 수 없다. 실무에서는 이러한 모든 단계가 유기적으로 연결되므로, 기술사는 각 단계의 의사결정이 시스템 전체에 미치는 파급 효과를 설명할 수 있어야 한다.
 
@@ -92,24 +89,21 @@ tags = ["database"]
 
 이 구조도는 쿼리 튜닝 시 옵티마이저를 유도하는 기술사적 판단 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Query Optimization Decision Flow            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Slow Query ] ──▶ [ Execution Plan Check ] ──┐           │
-│                                                 │           │
-│   ┌── [ Full Scan? ] ◀── [ Statistics Fresh? ] ◀┘           │
-│   │          │ (NO)             (YES)                       │
-│   │          ▼                  ▼                           │
-│   │   [ Gather Stats ]   [ Check Index Selectivity ] ──┐    │
-│   │                                                    │    │
-│   └──▶ [ Index Optimization ] ◀── [ Join Method Change ] ◀┘    │
-│                                                             │
-│   * 실무 핵심: 인덱스 수정이 불가능하면 SQL 힌트(Hint) 활용 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Optimization Decision Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slow Query</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Execution Plan Check</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Full Scan?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Statistics Fresh?</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NO) (YES)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gather Stats</div><div class="kb-diagram-node">Check Index Selectivity</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index Optimization</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Join Method Change</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 핵심: 인덱스 수정이 불가능하면 SQL 힌트(Hint) 활용</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 통찰은 '요리사의 불 조절'과 같습니다. 강한 불(성능)이 필요할 때와 은근한 불(정합성)이 필요할 때를 정확히 알고, 재료의 신선도(통계 정보)에 따라 조리법(실행 계획)을 바꾸는 안목입니다.
 
@@ -120,31 +114,27 @@ tags = ["database"]
 ### 기술사적 판단: 장애 진단 및 시스템 아키텍처링 시나리오
 
 **시나리오 1: 신규 이벤트 오픈 직후 DB 서버의 'Enq: TX - index contention' 대기 이벤트 급증**
-- **판단**: 인덱스 리프 노드의 **분할 (Split)** 현상이나 특정 구간의 **락 경합**이 원인이다. 순차적 PK (Identity) 대신 **Reverse Key Index**를 도입하여 삽입 지점을 분산시키거나, 자주 쪼개지는 인덱스의 여유 공간 (PCTFREE)을 늘리는 설계를 제안한다. 또한 어플리케이션 단계에서 트랜잭션의 길이를 최소화하는 리팩토링을 수행한다.
+- **판단**: 인덱스 리프 노드의 **분할 (Split)** 현상이나 특정 구간의 <strong>락 경합</strong>이 원인이다. 순차적 PK (Identity) 대신 <strong>Reverse Key Index</strong>를 도입하여 삽입 지점을 분산시키거나, 자주 쪼개지는 인덱스의 여유 공간 (PCTFREE)을 늘리는 설계를 제안한다. 또한 어플리케이션 단계에서 트랜잭션의 길이를 최소화하는 리팩토링을 수행한다.
 
 **시나리오 2: 하이브리드 클라우드 환경에서 온프레미스와 클라우드 간 데이터 동기화 이슈**
 - **판단**: 네트워크 지연으로 인한 실시간 동기화 (Synchronous)는 불가능하다. **CDC (Change Data Capture)** 기술을 활용한 비동기 복제 아키텍처를 구성한다. 최종 일관성 (Eventual Consistency) 모델을 수용하되, 비즈니스적으로 중요한 결제 데이터에 대해서는 **멱등성 (Idempotency)** 설계를 통해 중복 반영 사고를 원천 차단한다.
 
 이 도식은 데이터베이스 장애 발생 시 수행해야 할 '회복 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               DB Recovery Decision Tree                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Crash Occurred ] ──▶ [ Analyze Redo Logs ] ──┐          │
-│                                                  │          │
-│   ┌── [ Incomplete Tx? ] ◀── [ Redo Phase Done ] ◀┘          │
-│   │          │ (YES)                                        │
-│   │          ▼                                              │
-│   │   [ Undo Phase: Rollback ] ──▶ [ DB Open ]              │
-│   │                                     ▲                   │
-│   └─────────────────────────────────────┘                   │
-│                                                             │
-│   * ARIES 알고리즘: Analysis -> Redo -> Undo 순서 준수     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB Recovery Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Crash Occurred</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analyze Redo Logs</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Incomplete Tx?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Redo Phase Done</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Undo Phase: Rollback</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DB Open</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ARIES 알고리즘: Analysis -&gt; Redo -&gt; Undo 순서 준수</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 진단은 '응급실의 의사'와 같습니다. 환자(시스템)가 실려 오면 가장 먼저 활력 징후(대기 이벤트)를 체크하고, 수술(인덱스 재구성)이 필요한지 약물 치료(쿼리 튜닝)로 가능한지 신속하게 판단하는 능력이 핵심입니다.
 
@@ -154,9 +144,9 @@ tags = ["database"]
 
 ### 데이터 공학의 미래 전망과 기술사의 역할
 
-데이터베이스는 이제 단순한 '저장소'를 넘어 **'데이터 인텔리전스 플랫폼'**으로 진화하고 있다. 벡터 데이터베이스와 결합한 생성형 AI의 지식 기반 역할을 수행하고, 엣지 컴퓨팅 환경에서도 강력한 정합성을 유지하는 것이 차세대 DB의 표준이 될 것이다.
+데이터베이스는 이제 단순한 '저장소'를 넘어 <strong>'데이터 인텔리전스 플랫폼'</strong>으로 진화하고 있다. 벡터 데이터베이스와 결합한 생성형 AI의 지식 기반 역할을 수행하고, 엣지 컴퓨팅 환경에서도 강력한 정합성을 유지하는 것이 차세대 DB의 표준이 될 것이다.
 
-기술사는 이러한 변화 속에서도 변하지 않는 **'데이터 무결성의 원칙'**을 지키면서도, 클라우드 네이티브의 유연함을 아우르는 **'데이터 거버넌스 전문가'**가 되어야 한다. 툴의 화려함보다는 데이터의 본질적인 흐름과 비즈니스의 가치를 연결하는 통찰력이 미래 경쟁력의 핵심이다.
+기술사는 이러한 변화 속에서도 변하지 않는 <strong>'데이터 무결성의 원칙'</strong>을 지키면서도, 클라우드 네이티브의 유연함을 아우르는 <strong>'데이터 거버넌스 전문가'</strong>가 되어야 한다. 툴의 화려함보다는 데이터의 본질적인 흐름과 비즈니스의 가치를 연결하는 통찰력이 미래 경쟁력의 핵심이다.
 
 📢 **섹션 요약 비유**: 미래의 데이터베이스는 '우리 마음을 읽는 지능형 서재'와 같아질 것입니다. 우리가 찾으려 하기 전에 필요한 정보를 미리 준비해두고, 세상의 모든 지식을 가장 안전하고 깨끗한 상태로 보존하는 지혜의 보고가 될 것입니다.
 

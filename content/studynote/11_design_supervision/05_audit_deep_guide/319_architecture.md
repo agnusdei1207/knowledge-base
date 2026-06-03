@@ -21,19 +21,17 @@ tags = ["studynote-design-supervision"]
 전자정부 표준 프레임워크(eGovFrame) 준수율는 기준과 실행을 연결하는 관리 주제다. 최근 환경에서는 표준 아키텍처 준수, 공통 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 활용, 지침 예외 관리가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 전자정부 표준 프레임워크 준수율은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-```text
-┌──────────────┐
-│ 문제 해석     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 구조 배치     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 판단 문장     │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 문장</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 같은 규격의 플러그를 써야 어디서나 꽂히는 것과 같다.
 
@@ -48,11 +46,15 @@ tags = ["studynote-design-supervision"]
 | 적용 구현 | 공통 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 활용이 실제 화면·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·산출물에 반영되는지 본다. | 명세와 구현의 간극을 줄여야 한다. |
 | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 지침 예외 관리을 통해 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 예외 처리를 확인한다. | 예외는 문서화된 승인으로 다뤄야 한다. |
 
-```text
-┌────────────┬────────────┬────────────┐
-│ 서론 키워드  │ 본론 구조    │ 결론 판단    │
-└────────────┴────────────┴────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서론 키워드</div><div class="kb-diagram-cell">본론 구조</div><div class="kb-diagram-cell">결론 판단</div></div>
+</div>
+</div>
+
+
 
 또한 전자정부 표준 프레임워크 준수율은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 설명서, 부품 규격, 검사 기준이 같아야 조립이 쉬운 것과 같다.

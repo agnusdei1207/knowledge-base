@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 신경망의 출력층에서 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 각 클래스의 점수(logit)를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환한다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 ∂L/∂zᵢ를 계산해야 하는데, sᵢ = exp(zᵢ)/Σexp(zⱼ)에서 sᵢ는 모든 zⱼ에 의존하므로 단순 도함수가 아닌 야코비안 행렬 ∂sᵢ/∂zⱼ (i×j 행렬)이 필요하다. 이를 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 결합하면 아름답게 단순화된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)의 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "팀 점수 배분 게임의 미분"이다. 한 선수의 점수(zᵢ)가 오르면 자신의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 오르고 다른 선수의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 내려간다(상호의존). 이 복잡한 의존성을 야코비안 행렬로 한 번에 처리한다.
 
@@ -36,28 +39,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│         소프트맥스 야코비안 유도                          │
-├──────────────────────────────────────────────────────────┤
-│  sᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)                            │
-│                                                          │
-│  Case 1: i = j (대각 원소)                               │
-│  ∂sᵢ/∂zᵢ = sᵢ(1 - sᵢ)                                 │
-│                                                          │
-│  Case 2: i ≠ j (비대각 원소)                             │
-│  ∂sᵢ/∂zⱼ = -sᵢ · sⱼ                                   │
-│                                                          │
-│  야코비안 행렬: J = diag(s) - s·sᵀ                      │
-│                                                          │
-│  CE + Softmax 결합 미분:                                 │
-│  L = -Σᵢ yᵢ log(sᵢ)                                    │
-│  ∂L/∂zᵢ = sᵢ - yᵢ = ŷᵢ - yᵢ  ← 극도로 단순!          │
-│                                                          │
-│  수치 안정성 트릭:                                       │
-│  softmax(z) = softmax(z - max(z))  (값 동일, 안정적)   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트맥스 야코비안 유도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Case 1: i = j (대각 원소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂sᵢ/∂zᵢ = sᵢ(1 - sᵢ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Case 2: i ≠ j (비대각 원소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂sᵢ/∂zⱼ = -sᵢ · sⱼ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">야코비안 행렬: J = diag(s) - s·sᵀ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CE + Softmax 결합 미분:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L = -Σᵢ yᵢ log(sᵢ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂zᵢ = sᵢ - yᵢ = ŷᵢ - yᵢ ← 극도로 단순!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수치 안정성 트릭:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">softmax(z) = softmax(z - max(z)) (값 동일, 안정적)</div></div>
+</div>
+</div>
+
+
 
 | 미분 케이스 | 수식 | 의미 |
 |:---|:---|:---|

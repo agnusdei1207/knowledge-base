@@ -21,42 +21,37 @@ tags = ["studynote-operating-system"]
 
 - **개념**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 취소는 취소 요청(request)이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 종료시키는 기법이다. 비동기식 취소는 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 어느 시점에서든 즉시 SIGCANCEL 시그널을 전송하여 강제 중단하며, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소는 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점에 도달했을 때만 종료를 수행한다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│         비동기식 vs 지연 취소 비교                             │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  비동기식 취소 (PTHREAD_CANCEL_ASYNCHRONOUS):                  │
-│  취소 요청 ──▶ 타겟 스레드에 SIGCANCEL 전송                    │
-│             ──▶ 타겟 스레드 즉시 종료                          │
-│                                                                │
-│  리스크:                                                       │
-│  ┌──────────────────────────────────────┐                      │
-│  │ void* worker(void* arg) {            │                      │
-│  │   lock(&mutex);      ◀── 락 획득        │                   │
-│  │   data = process();  ◀── 중간에 종료!    │                  │
-│  │   unlock(&mutex);  ◀── 영원 안 됨       │ ▶ 데드락          │
-│  │ }                                     │                     │
-│  └──────────────────────────────────────┘                      │
-│                                                                │
-│  지연 취소 (PTHREAD_CANCEL_DEFERRED, 기본):                    │
-│  취소 요청 ──▶ 타겟 스레드에 플래그 설정                       │
-│             ──▶ 타겟 스레드가 취소 점점 도달 시                │
-│                ──▶ 안전하게 종료 (락 해제 등)                  │
-│                                                                │
-│  안전:                                                         │
-│  ┌──────────────────────────────────────┐                      │
-│  │ void* worker(void* arg) {            │                      │
-│  │   while (!cancelled) {               │                      │
-│  │     lock(&mutex);                   │                       │
-│  │     data = process();                │                      │
-│  │     unlock(&mutex);                 │ ▶ 안전 종료           │
-│  │   }                                      │                  │
-│  │   cleanup();                           │                    │
-│  │ }                                     │                     │
-│  └──────────────────────────────────────┘                      │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기식 vs 지연 취소 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기식 취소 (PTHREAD_CANCEL_ASYNCHRONOUS):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">취소 요청 ──▶ 타겟 스레드에 SIGCANCEL 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 타겟 스레드 즉시 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void* worker(void* arg) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock(&amp;mutex); ◀── 락 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data = process(); ◀── 중간에 종료!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock(&amp;mutex); ◀── 영원 안 됨</div><div class="kb-diagram-cell">▶ 데드락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 취소 (PTHREAD_CANCEL_DEFERRED, 기본):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">취소 요청 ──▶ 타겟 스레드에 플래그 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 타겟 스레드가 취소 점점 도달 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 안전하게 종료 (락 해제 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void* worker(void* arg) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (!cancelled) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock(&amp;mutex);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data = process();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock(&amp;mutex);</div><div class="kb-diagram-cell">▶ 안전 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cleanup();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 비동기식 취소에서는 락을 획득한 상태에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 강제 종료되므로 락이 영원 해제되지 않아 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 발생한다. 반면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소에서는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 루프 내에서 pthread_testcancel()이나 [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점(예: pthread_cond_wait() 등)에 도달할 때만 종료하므로, 락 해제와 자원 정리(cleanup)를 보장할 수 있다. 이 때문에 POSIX에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소를 기본값으로 사용한다.
 
@@ -70,7 +65,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **pthread_cancel()** | 취소 요청 전송 | 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 취소 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | **pthread_testcancel()** | [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점 검사 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소 시 명시적 검사 지점 |
-| **[취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)점** | 커널이 자동 검사하는 지점 | pthread_cond_wait() 등 블로킹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/">취소 점</a>점</strong> | 커널이 자동 검사하는 지점 | pthread_cond_wait() 등 블로킹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | **cleanup handler** | 취소 시 정리 함수 | pthread_cleanup_push/pop로 등록 |
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 취소는 "안전벨트"를 거쳐야만 홈에 들어가는 시스템과 같습니다.
@@ -116,15 +111,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[고아 프로세스 (Orphan Process)]
-    │
-    ▼
-[스레드 취소 (Thread Cancellation)]
-    │
-    ├──▶ [취소 점 (Cancellation Point)]
-    └──▶ [스레드 로컬 저장소 (TLS, Thread-Local Storage)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">고아 프로세스 (Orphan Process)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 취소 (Thread Cancellation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">취소 점 (Cancellation Point)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 로컬 저장소 (TLS, Thread-Local Storage)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

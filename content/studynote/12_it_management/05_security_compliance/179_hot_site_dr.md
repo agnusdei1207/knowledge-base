@@ -19,11 +19,11 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-핫 사이트는 재해가 발생했을 때 바로 활용할 수 있도록 미리 준비해 둔 원격 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 센터다. 서버, 스토리지, 네트워크, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 미들웨어, 애플리케이션 구성이 주 센터와 거의 동일하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 실시간 또는 근실시간으로 따라간다. 기술사 문맥에서는 보통 **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 4시간 이내 수준의 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능한 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 유형**으로 설명한다.
+핫 사이트는 재해가 발생했을 때 바로 활용할 수 있도록 미리 준비해 둔 원격 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 센터다. 서버, 스토리지, 네트워크, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 미들웨어, 애플리케이션 구성이 주 센터와 거의 동일하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 실시간 또는 근실시간으로 따라간다. 기술사 문맥에서는 보통 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 4시간 이내 수준의 빠른 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>가 가능한 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> 유형</strong>으로 설명한다.
 
-이 구조가 필요한 이유는 많은 핵심 업무가 "며칠 뒤 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"를 허용하지 않기 때문이다. 인터넷 뱅킹, 병원 접수, 전자상거래 결제, 공공 민원 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 몇 시간만 멈춰도 금전 손실과 신뢰 하락이 크게 발생한다. 그렇다고 모든 시스템을 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/) 수준의 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 운영하면 비용과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 부담이 너무 커진다. 핫 사이트는 바로 이 지점에서 **연속성과 비용의 중간 해법**이 된다.
+이 구조가 필요한 이유는 많은 핵심 업무가 "며칠 뒤 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"를 허용하지 않기 때문이다. 인터넷 뱅킹, 병원 접수, 전자상거래 결제, 공공 민원 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 몇 시간만 멈춰도 금전 손실과 신뢰 하락이 크게 발생한다. 그렇다고 모든 시스템을 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/) 수준의 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 운영하면 비용과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 부담이 너무 커진다. 핫 사이트는 바로 이 지점에서 <strong>연속성과 비용의 중간 해법</strong>이 된다.
 
-즉 핫 사이트의 가치는 단순 예비 공간이 아니라, 장애 선언 직후 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다시 조립하는 시간**을 줄이는 데 있다. 장비 설치, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구성, 애플리케이션 배포를 재해 후에 시작하는 것이 아니라, 평소에 준비를 끝내 두고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 최대한 최신으로 유지하는 방식이다.
+즉 핫 사이트의 가치는 단순 예비 공간이 아니라, 장애 선언 직후 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 다시 조립하는 시간</strong>을 줄이는 데 있다. 장비 설치, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구성, 애플리케이션 배포를 재해 후에 시작하는 것이 아니라, 평소에 준비를 끝내 두고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 최대한 최신으로 유지하는 방식이다.
 
 - **📢 섹션 요약 비유**: 핫 사이트는 평소 비어 있더라도 전기, 물, 가구가 모두 갖춰진 예비 집과 같다. 갑자기 본집에 문제가 생기면 이삿짐을 처음부터 사는 것이 아니라, 곧바로 들어가 살 수 있게 만든다.
 
@@ -43,28 +43,28 @@ tags = ["studynote-it-management"]
 
 아래 그림은 일반적인 핫 사이트 절체 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Hot site DR flow                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary Site (active)                                                │
-│   App / DB / Storage                                                 │
-│      │                                                               │
-│      ├──── replication (async / semi-sync) ───▶ Hot Site (standby)   │
-│      │                                         App / DB / Storage     │
-│      │                                                               │
-│      └──── config / secrets / image sync ─────▶ DR automation        │
-│                                                                      │
-│ Disaster declared                                                    │
-│   1. detect failure                                                  │
-│   2. promote replica / start services                                │
-│   3. switch DNS / GSLB / Load Balancer                               │
-│   4. verify business service                                          │
-│   5. prepare failback after primary recovery                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핫 사이트가 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)와 다른 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식에 있다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)는 보통 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 RPO를 0에 가깝게 밀어붙이지만, 핫 사이트는 비동기 또는 준동기 방식을 써서 성능과 거리 제약을 완화하는 경우가 많다. 그래서 RPO는 대개 수초~수분, RTO는 수시간 이내 수준으로 설계된다. 즉 **거의 최신 상태**를 확보하지만, 절대적인 0 손실을 약속하는 구조는 아니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot site DR flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary Site (active)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replication (async / semi-sync) ▶ Hot Site (standby)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">config / secrets / image sync ▶ DR automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. detect failure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. promote replica / start services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. switch DNS / GSLB / Load Balancer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. verify business service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. prepare failback after primary recovery</div></div>
+</div>
+</div>
+
+
+
+핫 사이트가 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)와 다른 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식에 있다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)는 보통 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 RPO를 0에 가깝게 밀어붙이지만, 핫 사이트는 비동기 또는 준동기 방식을 써서 성능과 거리 제약을 완화하는 경우가 많다. 그래서 RPO는 대개 수초~수분, RTO는 수시간 이내 수준으로 설계된다. 즉 <strong>거의 최신 상태</strong>를 확보하지만, 절대적인 0 손실을 약속하는 구조는 아니다.
 
 또한 절체는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)만 바꾸면 끝나지 않는다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)), 글로벌 로드밸런서, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, 비밀 정보, 배치 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/), 외부 연계 주소까지 함께 전환되어야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 살아난다. 따라서 핫 사이트는 장비 아키텍처이면서 동시에 운영 시나리오 아키텍처다.
 
@@ -84,9 +84,9 @@ tags = ["studynote-it-management"]
 | [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) | 매우 짧음 | 짧음(통상 수시간 이내) | 수일 | 수주 |
 | 비용·운영 난도 | 최고 | 높음 | 중간 | 낮음 |
 
-핫 사이트는 HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))와도 다르다. HA는 동일 지역 또는 동일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역 내에서 장애를 줄이기 위한 평상시 이중화고, 핫 사이트는 **지역 재해까지 고려한 원격지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다. 또 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과도 다르다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 과거 시점으로 돌아가는 도구이고, 핫 사이트는 현재 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 연속성을 이어받는 도구다. 둘 중 하나만으로는 완전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를 만들 수 없다.
+핫 사이트는 HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))와도 다르다. HA는 동일 지역 또는 동일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역 내에서 장애를 줄이기 위한 평상시 이중화고, 핫 사이트는 <strong>지역 재해까지 고려한 원격지 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 또 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과도 다르다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 과거 시점으로 돌아가는 도구이고, 핫 사이트는 현재 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 연속성을 이어받는 도구다. 둘 중 하나만으로는 완전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를 만들 수 없다.
 
-클라우드 환경에서는 이 경계가 조금 달라진다. [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 스탠바이, 파일럿 라이트 (Pilot Light), 웜 스탠바이 같은 패턴이 등장해 전통적 물리 핫 사이트를 대체하기도 한다. 하지만 원리는 같다. **미리 준비된 인프라 + 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 절체 자동화**가 있어야 비로소 핫 사이트라고 부를 수 있다.
+클라우드 환경에서는 이 경계가 조금 달라진다. [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 스탠바이, 파일럿 라이트 (Pilot Light), 웜 스탠바이 같은 패턴이 등장해 전통적 물리 핫 사이트를 대체하기도 한다. 하지만 원리는 같다. <strong>미리 준비된 인프라 + 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> + 절체 자동화</strong>가 있어야 비로소 핫 사이트라고 부를 수 있다.
 
 - **📢 섹션 요약 비유**: 핫 사이트는 예비 무대를 미리 설치해 두는 것이고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 공연 영상을 녹화해 두는 것이다. 둘 다 중요하지만 역할은 완전히 다르다.
 
@@ -118,7 +118,7 @@ tags = ["studynote-it-management"]
 - [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 목표를 문서에만 적고 실제 모의훈련을 하지 않는 운영
 - 핫 사이트가 있으니 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 불필요하다고 판단하는 오해
 
-기술사 답안에서는 **"핫 사이트는 주 센터와 유사한 환경과 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 준비해 낮은 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/RPO를 확보하는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식과 절체 자동화, 정기 훈련이 핵심 판단 요소"**라고 정리하면 깊이가 생긴다.
+기술사 답안에서는 <strong>"핫 사이트는 주 센터와 유사한 환경과 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 미리 준비해 낮은 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/RPO를 확보하는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>이며, <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 방식과 절체 자동화, 정기 훈련이 핵심 판단 요소"</strong>라고 정리하면 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 소방차를 많이 사 두는 것만으로는 부족하고, 출동 경로와 교대 규칙까지 반복 훈련해야 실제 화재 때 바로 움직일 수 있는 것과 같다.
 
@@ -128,7 +128,7 @@ tags = ["studynote-it-management"]
 
 핫 사이트의 가장 큰 효과는 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 "처음부터 다시 세우는 작업"이 아니라 "준비된 환경으로 전환하는 작업"으로 바꾸는 데 있다. 그 결과 업무 중단 시간이 줄고, 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유지되며, 규제 산업에서 요구하는 연속성 기준을 맞추기 쉬워진다. 비용은 높지만, 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 그 비용이 손실 회피 효과로 상쇄되기도 한다.
 
-다만 핫 사이트는 모든 시스템의 정답이 아니다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)보다 싸다고 해도 운영과 테스트 부담은 여전히 크고, 중요도가 낮은 시스템에는 과한 선택일 수 있다. 그래서 핫 사이트는 "좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)"이 아니라, **수시간 내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 꼭 필요한 업무에 맞는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 등급**으로 기억하는 것이 정확하다.
+다만 핫 사이트는 모든 시스템의 정답이 아니다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)보다 싸다고 해도 운영과 테스트 부담은 여전히 크고, 중요도가 낮은 시스템에는 과한 선택일 수 있다. 그래서 핫 사이트는 "좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)"이 아니라, <strong>수시간 내 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>가 꼭 필요한 업무에 맞는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> 등급</strong>으로 기억하는 것이 정확하다.
 
 결국 핫 사이트의 품질은 구축 시점이 아니라 훈련 시점에 드러난다. 실제 절체와 복귀를 반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 조직만이 핫 사이트를 종이 설계가 아닌 살아 있는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 체계로 만들 수 있다.
 
@@ -149,20 +149,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-BIA (Business Impact Analysis)
-    │
-    ▼
-업무별 RTO / RPO 설정
-    │
-    ├─ RTO≈0, RPO≈0 -> 미러 사이트
-    ├─ RTO 수시간, RPO 수분 -> 핫 사이트
-    ├─ RTO 수일 -> 웜 사이트
-    └─ RTO 수주 -> 콜드 사이트
-    │
-    ▼
-복제 자동화 · 절체 훈련 · 클라우드 DR로 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">업무별 RTO / RPO 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RTO≈0, RPO≈0 -&gt; 미러 사이트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RTO 수시간, RPO 수분 -&gt; 핫 사이트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RTO 수일 -&gt; 웜 사이트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RTO 수주 -&gt; 콜드 사이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복제 자동화 · 절체 훈련 · 클라우드 DR로 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 핫 사이트가 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 스펙트럼에서 어느 위치에 있으며, 왜 업무 영향 분석과 함께 판단해야 하는지 보여 준다.
 

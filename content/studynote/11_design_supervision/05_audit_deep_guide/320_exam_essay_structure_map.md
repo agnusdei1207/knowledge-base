@@ -21,19 +21,17 @@ tags = ["studynote-design-supervision"]
 IT 감리 논술 답안 구조 맵는 답안 구조를 빠르게 세우는 메타 학습 주제다. 최근 환경에서는 정의와 필요성, 비교와 사례, 기술사 판단 문장가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 IT 감리 논술 답안 구조 맵은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-```text
-┌──────────────┐
-│ 문제 해석     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 구조 배치     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 판단 문장     │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 문장</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 발표 전에 목차를 먼저 세우는 것과 같다.
 
@@ -48,11 +46,15 @@ IT 감리 논술 답안 구조 맵의 핵심 원리는 정의와 필요성로 �
 | 본론 구조 | 비교와 사례를 도표·비교·사례에 배치한다. | 같은 지식도 구조가 있으면 점수가 오른다. |
 | 결론 판단 | 기술사 판단 문장를 채택 조건과 리스크로 마무리한다. | 기술사 답안은 판단 문장으로 닫아야 한다. |
 
-```text
-┌────────────┬────────────┬────────────┐
-│ 서론 키워드  │ 본론 구조    │ 결론 판단    │
-└────────────┴────────────┴────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서론 키워드</div><div class="kb-diagram-cell">본론 구조</div><div class="kb-diagram-cell">결론 판단</div></div>
+</div>
+</div>
+
+
 
 또한 IT 감리 논술 답안 구조 맵은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 뼈대가 있어야 살을 붙여도 무너지지 않는 글쓰기와 같다.

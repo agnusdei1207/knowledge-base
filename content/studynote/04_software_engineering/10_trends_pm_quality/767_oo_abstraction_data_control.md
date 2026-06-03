@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 현대 소프트웨어는 수천만 줄의 코드로 이루어진다. 한 명의 개발자가 이 모든 코드가 어떻게 작동하는지 100% 이해하는 것은 뇌 구조상 불가능하다.
 
-만약 우리가 'TV 리모컨'을 쓸 때마다 내부의 적외선 센서가 어떻게 신호를 변조하는지 알아야 한다면 아무도 TV를 볼 수 없을 것이다. 리모컨은 그저 '전원 버튼', '채널 버튼'이라는 **직관적인 인터페이스([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))**만 밖으로 노출하고, 복잡한 전자기학적 원리는 플라스틱 케이스 안에 완벽하게 **숨긴다(캡슐화)**.
+만약 우리가 'TV 리모컨'을 쓸 때마다 내부의 적외선 센서가 어떻게 신호를 변조하는지 알아야 한다면 아무도 TV를 볼 수 없을 것이다. 리모컨은 그저 '전원 버튼', '채널 버튼'이라는 <strong>직관적인 인터페이스(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)</strong>만 밖으로 노출하고, 복잡한 전자기학적 원리는 플라스틱 케이스 안에 완벽하게 **숨긴다(캡슐화)**.
 
-소프트웨어 설계도 마찬가지다. 복잡한 코드를 그대로 펼쳐놓지 않고, 사람이 이해하기 쉬운 개념으로 묶어서 이름표를 붙여주는 작업. 이것이 바로 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 첫 단추인 **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))**다.
+소프트웨어 설계도 마찬가지다. 복잡한 코드를 그대로 펼쳐놓지 않고, 사람이 이해하기 쉬운 개념으로 묶어서 이름표를 붙여주는 작업. 이것이 바로 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 첫 단추인 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 서울에서 부산까지 걸어가는 모든 골목길을 외울 필요는 없다. "경부고속도로를 탄다"라는 하나의 굵은 선([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 지도)만 알면 우리는 쉽게 부산에 도착할 수 있다. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 세상을 바라보는 해상도(Resolution)를 낮춰서 큰 그림을 보게 해주는 마법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 객체지향 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 추상화 자료/제어/과정 분리                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 추상화 자료/제어/과정 분리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자료/제어/과정 분리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 초점 (Focus) | 핵심 질문 |
 |:---|:---|:---|
-| **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))** | **설계 (Design)** | "이 사물을 밖에서 볼 때 **무엇(What)**으로 정의할 것인가?" |
-| **캡슐화 (Encapsulation)**| **구조 (Structure)**| "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(변수)와 행위(함수)를 **하나의 캡슐(클래스)**에 어떻게 묶을 것인가?" |
-| **[정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) (Info Hiding)**| **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | "캡슐 안의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 **어디까지 숨길 것인가(private)?**" |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong> | **설계 (Design)** | "이 사물을 밖에서 볼 때 <strong>무엇(What)</strong>으로 정의할 것인가?" |
+| **캡슐화 (Encapsulation)**| **구조 (Structure)**| "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(변수)와 행위(함수)를 <strong>하나의 캡슐(클래스)</strong>에 어떻게 묶을 것인가?" |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">정보 은닉</a> (Info Hiding)</strong>| <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | "캡슐 안의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 **어디까지 숨길 것인가(private)?**" |
 
 즉, [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 "자동차"라는 개념을 뽑아내고, 캡슐화로 "엔진과 시동 함수"를 하나로 묶은 뒤, [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)으로 "엔진의 내부 변수는 외부에서 조작 못 하게 `private`으로 잠그는 것"이 객체지향 설계의 완벽한 콤보다.
 
@@ -106,9 +105,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 원칙을 완벽하게 적용한 코드는 **'다형성(Polymorphism)'**이라는 객체지향의 마법을 부릴 수 있게 된다. 코어 로직은 `Payment`라는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스만 바라보기 때문에, 밑단에 `KakaoPay`를 끼우든 `NaverPay`를 끼우든 코드는 한 줄도 변하지 않고 우아하게 동작한다.
+[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 원칙을 완벽하게 적용한 코드는 <strong>'다형성(Polymorphism)'</strong>이라는 객체지향의 마법을 부릴 수 있게 된다. 코어 로직은 `Payment`라는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스만 바라보기 때문에, 밑단에 `KakaoPay`를 끼우든 `NaverPay`를 끼우든 코드는 한 줄도 변하지 않고 우아하게 동작한다.
 
-결론적으로 기술 리더가 수행하는 아키텍처 설계는 본질적으로 **'[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 경계(Boundary)'를 어디에 그을 것인가를 결정하는 예술**이다. "어디까지를 핵심으로 보고, 어디부터를 세부 구현(Detail)으로 쳐내어 숨길 것인가?" 이 철학적 결단이 시스템의 수명과 유지보수 비용을 0에서 100까지 결정짓는다.
+결론적으로 기술 리더가 수행하는 아키텍처 설계는 본질적으로 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>의 경계(Boundary)'를 어디에 그을 것인가를 결정하는 예술</strong>이다. "어디까지를 핵심으로 보고, 어디부터를 세부 구현(Detail)으로 쳐내어 숨길 것인가?" 이 철학적 결단이 시스템의 수명과 유지보수 비용을 0에서 100까지 결정짓는다.
 
 - **📢 섹션 요약 비유**: 피카소의 그림이 위대한 이유는 소의 털이나 핏줄을 다 그려서가 아니다. 단 세 번의 붓터치([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))만으로 소의 역동성과 본질을 완벽하게 표현했기 때문이다. 위대한 코드 역시 복잡한 논리를 가장 간결한 인터페이스 하나로 뽑아내는 것이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 추상화 자료/제어/과정 분리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 추상화 자료/제어/과정 분리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 통신 사업자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 케이블 매설 업체가 미래의 트래픽 수요 증가를 대비해 땅속에 선제적으로 매설해 두었으나, **현재 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 쏘지 않고 연결 단자만 방치해 둔 '가동되지 않는(Dark) 잉여 상태의 물리적 예비 광섬유(Fiber)' 자산 인프라**입니다. (Unlit Fiber라고도 합니다.)
+- **개념**: 통신 사업자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 케이블 매설 업체가 미래의 트래픽 수요 증가를 대비해 땅속에 선제적으로 매설해 두었으나, <strong>현재 빛 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 쏘지 않고 연결 단자만 방치해 둔 '가동되지 않는(Dark) 잉여 상태의 물리적 예비 광섬유(Fiber)' 자산 인프라</strong>입니다. (Unlit Fiber라고도 합니다.)
 
-```text
-[NG-PON2 표준 광통신 파장 동적 분할…]
-    │
-    ▼
-[다크 파이버]
-    │
-    └──▶ [무선 광통신 대기권 전송 FSO 기상 조건…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다크 파이버는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,25 +43,29 @@ tags = ["studynote-network"]
 통신사가 이 빈 케이블을 다른 회사에 임대(Lease)해 주기 시작하면서 거대한 생태계 혁명이 일어났습니다.
 
 ### 1. 기존 통신망 임대([Leased Line](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)) 방식의 한계
-- 회사가 본사와 공장 사이에 전용선을 깔 때, 옛날엔 통신사(SKT)가 양 끝에 시스코 라우터를 달고 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다 세팅해서 **'살아 숨 쉬는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Lit Fiber)'** 형태로 1Gbps 차선만 딱 빌려줬습니다.
+- 회사가 본사와 공장 사이에 전용선을 깔 때, 옛날엔 통신사(SKT)가 양 끝에 시스코 라우터를 달고 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다 세팅해서 <strong>'살아 숨 쉬는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(Lit Fiber)'</strong> 형태로 1Gbps 차선만 딱 빌려줬습니다.
 - 매달 비싼 돈을 내야 했고, 1Gbps에서 10Gbps로 올리려면 통신사에 수천만 원의 증설 요금을 내고 몇 주를 기다려야 했습니다(통신사 갑질).
 
 ### 2. 다크 파이버 대여의 무한한 자유도 🌟
 - 구글이나 카카오 같은 대기업은 통신사에게 "네 라우터 치워! 그냥 땅속에 묻힌 **'빈 유리관(다크 파이버)' 자체만 나한테 통으로 렌트해 줘!**"라고 선언합니다.
-- **무한한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장**: 대기업이 이 빈 유리관 양 끝단에 자신들이 직접 사 온 최첨단 893번 **[OTN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) 장비나 800Gbps짜리 DWDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광 전송 장비**를 직접 꽂아서 빛을 쏴버립니다. 
+- <strong>무한한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 확장</strong>: 대기업이 이 빈 유리관 양 끝단에 자신들이 직접 사 온 최첨단 893번 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/">OTN</a> 장비나 800Gbps짜리 DWDM(파장 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>) 광 전송 장비</strong>를 직접 꽂아서 빛을 쏴버립니다. 
 - 어차피 유리관 하나를 통째로 빌렸으므로, 장비만 좋은 걸로 갈아 끼우면 통신사에 허락을 안 받고 10G, 100G, 1Tbps로 미친 듯이 속도를 공짜로 뻥튀기할 수 있습니다. (궁극의 망 지배권 확보)
 
 ### 3. 완벽한 물리적 보안 보장
 - 빈 유리관을 우리 회사 장비 두 대가 양 끝에서 독점하고 쏘는 것이므로, 통신사의 중앙 라우터나 다른 회사의 트래픽과 1%도 섞일 일이 없습니다. 해커가 중간에서 스니핑(가로채기) 할 수 없는 물리적으로 가장 완벽한 100% 에어갭 보안 전용선이 완성됩니다.
 
-```text
-[NG-PON2 표준 광통신 파장 동적 분할…]
-    │
-    ▼
-[다크 파이버]
-    │
-    └──▶ [무선 광통신 대기권 전송 FSO 기상 조건…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다크 파이버의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **규제 및 보수 공사 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 
+- <strong>규제 및 보수 공사 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 
   - 통신사가 다크 파이버를 빌려줄 때 "케이블 관리(포크레인 단선 방어)는 우리가 해주지만, 케이블 껍데기 외에 네가 쏜 빛 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끊기는 건 우리가 책임 못 져!" ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장 한계)라고 선을 긋습니다.
   - 결국 유지보수를 할 자체 네트워크 엔지니어링 팀을 갖춘 대기업이나 금융권만이 다크 파이버를 사서 직접 조립하고 운용(DIY)할 자격이 됩니다.
 - **국가 인프라 자산 규제**: 땅을 함부로 팔 수 없듯, 국가 기간망인 광케이블 자산의 임대 시장 개방과 가격 상한을 정부가 어느 정도 규제하며 벤처기업들이 저렴하게 망을 깔 수 있도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 개입하기도 합니다.
@@ -78,7 +86,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 통신사의 '전용 회선 임대(Lit Fiber)'는 항공사의 **'퍼스트 클래스 좌석 한 자리'**를 비싸게 예매하는 것입니다. 스튜어디스(통신사)가 밥도 주고 케어도 해주지만, 짐을 많이 실으려 하거나 좌석을 넓히려면 돈을 무지하게 내야 합니다. **다크 파이버(Dark Fiber)** 대여는 하늘에 비어있는 **'항로(항공길)' 자체를 통째로 국가(통신사)로부터 전세 내는 것**입니다. 구글이나 카카오는 그 항로에 자신들이 직접 돈 주고 산 A380 초대형 화물 비행기(DWDM 광스위치 장비)를 띄워 자기 마음대로 물건을 나릅니다. 스튜어디스의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(통신사 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))는 없지만, 비행기만 좋은 걸로 갈아치우면 승객을 10명 태우든 1,000명 태우든 추가 요금이 전혀 들지 않는, 거대 IT 공룡들의 인프라 원가 절감 필살기입니다.
+- **📢 섹션 요약 비유**: 기존 통신사의 '전용 회선 임대(Lit Fiber)'는 항공사의 <strong>'퍼스트 클래스 좌석 한 자리'</strong>를 비싸게 예매하는 것입니다. 스튜어디스(통신사)가 밥도 주고 케어도 해주지만, 짐을 많이 실으려 하거나 좌석을 넓히려면 돈을 무지하게 내야 합니다. **다크 파이버(Dark Fiber)** 대여는 하늘에 비어있는 <strong>'항로(항공길)' 자체를 통째로 국가(통신사)로부터 전세 내는 것</strong>입니다. 구글이나 카카오는 그 항로에 자신들이 직접 돈 주고 산 A380 초대형 화물 비행기(DWDM 광스위치 장비)를 띄워 자기 마음대로 물건을 나릅니다. 스튜어디스의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(통신사 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))는 없지만, 비행기만 좋은 걸로 갈아치우면 승객을 10명 태우든 1,000명 태우든 추가 요금이 전혀 들지 않는, 거대 IT 공룡들의 인프라 원가 절감 필살기입니다.
 
 ---
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NG-PON2 표준 광통신 파장 동적 분할…]
-    │
-    ▼
-[현재 개념: 다크 파이버]
-    │
-    ├──▶ [확장 A: 무선 광통신 대기권 전송 FSO 기상 조건…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NG-PON2 표준 광통신 파장 동적 분할…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다크 파이버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 다크 파이버는 NG-PON2 표준 광통신 파장 동적 분할…에서 출발해 현재 메커니즘을 정교화하고, 이후 [무선 광통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 대기권 전송 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기상 조건…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

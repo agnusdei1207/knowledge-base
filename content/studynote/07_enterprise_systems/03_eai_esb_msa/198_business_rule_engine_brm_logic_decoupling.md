@@ -43,18 +43,19 @@ BRE의 기본 흐름은 규칙 작성, 저장, 실행, 설명 가능성으로 �
 
 아래 그림은 애플리케이션이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 계산하지 않고, 외부화된 결정 계층을 호출하는 구조를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Externalized decision architecture                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application ──▶ Decision Service ──▶ Inference Engine                     │
-│                    │                        │                              │
-│                    │                        ├─▶ Rule Repository            │
-│                    │                        └─▶ Priority / agenda / cache  │
-│                    ▼                                                       │
-│          Audit trail · explanation · effective date history               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Externalized decision architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application ──▶ Decision Service ──▶ Inference Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Rule Repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Priority / agenda / cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit trail · explanation · effective date history</div></div>
+</div>
+</div>
+
+
 
 엔진 내부에서는 규칙 충돌 해결, 우선순위, 전방 추론 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) 또는 후방 추론 ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) 같은 메커니즘이 사용된다. 대규모 규칙 집합에서는 Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)처럼 변경된 사실만 효율적으로 재평가하는 방식이 중요하다. 핵심은 BRE가 단순한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라, 규칙 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 실행 근거까지 관리하는 결정 플랫폼이라는 점이다.
 
@@ -106,7 +107,7 @@ BRE는 규칙이 자주 바뀌고, 변경 이력과 설명 책임이 중요한 �
 
 BRE를 제대로 도입하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 리드타임이 줄고, 규칙 변경 이력과 적용 근거가 남아 운영 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 높아진다. 개발팀은 규칙 수정 요청을 직접 처리하느라 소모되기보다, 실행 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 품질을 개선하는 일에 집중할 수 있다. 현업도 배포 일정에 묶이지 않고 시뮬레이션과 승인 절차를 거쳐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 빠르게 실험할 수 있다.
 
-하지만 BRE는 설계가 잘못되면 또 다른 블랙박스가 된다. 규칙이 지나치게 많아지고 상호 충돌이 관리되지 않으면, 코드보다 더 이해하기 어려운 규칙 숲이 생길 수 있다. 결국 BRE는 "조건문을 외부로 뺀다"가 아니라, **변하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 설명 가능하고 통제 가능한 형태로 분리한다**는 관점으로 기억해야 한다.
+하지만 BRE는 설계가 잘못되면 또 다른 블랙박스가 된다. 규칙이 지나치게 많아지고 상호 충돌이 관리되지 않으면, 코드보다 더 이해하기 어려운 규칙 숲이 생길 수 있다. 결국 BRE는 "조건문을 외부로 뺀다"가 아니라, <strong>변하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 설명 가능하고 통제 가능한 형태로 분리한다</strong>는 관점으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: BRE의 진짜 효과는 간판을 전자식으로 바꾸는 데 있는 것이 아니라, 누가 언제 어떤 문구로 바꿨는지까지 남겨 두는 데 있다. 바꾸기 쉬움과 통제 가능성이 함께 가야 한다.
 
@@ -124,21 +125,23 @@ BRE를 제대로 도입하면 [정책](/knowledge-base/studynote/10_ai/02_dl_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-하드코딩된 if-else 정책
-    │
-    ▼
-규칙 분리 요구
-    │
-    ▼
-BRMS 기반 규칙 작성 · 버전 관리
-    │
-    ▼
-결정 서비스 + 추론 엔진 실행
-    │
-    ▼
-시뮬레이션 · 감사 추적 · 실시간 정책 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하드코딩된 if-else 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">규칙 분리 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BRMS 기반 규칙 작성 · 버전 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결정 서비스 + 추론 엔진 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시뮬레이션 · 감사 추적 · 실시간 정책 반영</div>
+</div>
+</div>
+
+
 
 이 흐름은 코드 내부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서, 운영 가능한 결정 플랫폼으로 진화하는 과정을 요약한다.
 

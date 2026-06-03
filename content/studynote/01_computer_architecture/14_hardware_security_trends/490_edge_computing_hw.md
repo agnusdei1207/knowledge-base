@@ -21,23 +21,25 @@ tags = ["studynote-computer-architecture"]
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 하드웨어 ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) Hardware)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 만들어지는 현장에 가까이 배치되어, 카메라·센서·기계에서 올라오는 정보를 즉시 처리하는 하드웨어를 뜻한다. 과거에는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 클라우드로 보내고 결과를 받아오는 구조가 일반적이었지만, 이 방식은 네트워크 왕복 지연과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용이 빠르게 커진다. 특히 사람 안전, 공정 제어, 영상 이벤트 감지처럼 몇 밀리초에서 수십 밀리초 안에 결론이 나와야 하는 업무에서는 클라우드 단독 구조가 한계에 부딪힌다.
 
-또한 엣지에서 처리하면 개인정보와 원본 영상이 현장 밖으로 덜 나가므로 보안과 프라이버시 측면에서도 이점이 있다. 네트워크가 끊겨도 최소 기능을 유지할 수 있다는 점 역시 중요하다. 결국 엣지 하드웨어는 "클라우드를 대체하는 소형 서버"가 아니라, **현장 반응 속도와 자율성을 보장하는 첫 번째 계산 계층**이다.
+또한 엣지에서 처리하면 개인정보와 원본 영상이 현장 밖으로 덜 나가므로 보안과 프라이버시 측면에서도 이점이 있다. 네트워크가 끊겨도 최소 기능을 유지할 수 있다는 점 역시 중요하다. 결국 엣지 하드웨어는 "클라우드를 대체하는 소형 서버"가 아니라, <strong>현장 반응 속도와 자율성을 보장하는 첫 번째 계산 계층</strong>이다.
 
 아래 그림은 계산 위치가 시스템 성격을 어떻게 바꾸는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Compute placement versus reaction time                                   │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Sensor / Actuator                                                        │
-│    │ raw stream                                                          │
-│    ├─▶ Edge node : 1~10 ms, local decision, privacy, offline response   │
-│    ├─▶ Site node : 10~50 ms, area coordination                           │
-│    └─▶ Cloud     : 50 ms+, global learning and long-term storage         │
-│                                                                          │
-│ Closer placement keeps raw data local and sends summaries upward         │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute placement versus reaction time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / Actuator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">raw stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Edge node : 1~10 ms, local decision, privacy, offline response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Site node : 10~50 ms, area coordination</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Cloud : 50 ms+, global learning and long-term storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Closer placement keeps raw data local and sends summaries upward</div></div>
+</div>
+</div>
+
+
 
 이 그림이 말하는 핵심은 계산 위치가 단순한 배치 문제가 아니라는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 판단 지점을 가깝게 붙이면 지연시간뿐 아니라 네트워크 비용, 장애 반경, 프라이버시 노출 범위까지 함께 줄어든다.
 
@@ -47,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-엣지 하드웨어의 핵심은 적은 전력과 작은 공간 안에서 센싱, 추론, 제어를 끊김 없이 돌리는 것이다. 그래서 최근 설계는 시스템 온 칩 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에 중앙처리장치 (CPU, Central Processing Unit), 신경망 처리 장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 이미지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), [Image Signal Processor](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/)), 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor), 보안 블록을 함께 넣는 방향으로 간다. 여기서 중요한 사실은 연산 자체보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동**이 더 비싼 경우가 많다는 점이다. 즉 엣지에서는 TOPS보다 온칩 메모리 재사용, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 저전력 메모리 구성이 더 중요해진다.
+엣지 하드웨어의 핵심은 적은 전력과 작은 공간 안에서 센싱, 추론, 제어를 끊김 없이 돌리는 것이다. 그래서 최근 설계는 시스템 온 칩 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에 중앙처리장치 (CPU, Central Processing Unit), 신경망 처리 장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 이미지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), [Image Signal Processor](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/552_isp/)), 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor), 보안 블록을 함께 넣는 방향으로 간다. 여기서 중요한 사실은 연산 자체보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동</strong>이 더 비싼 경우가 많다는 점이다. 즉 엣지에서는 TOPS보다 온칩 메모리 재사용, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 저전력 메모리 구성이 더 중요해진다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -60,21 +62,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전형적인 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 장치가 어떤 흐름으로 동작하는지 정리한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Edge inference device data path                                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Sensor I/O ─▶ ISP / DSP ─▶ shared SRAM / LPDDR ─▶ NPU ─▶ result         │
-│      │                    ▲                          │                   │
-│      └──────────────▶ CPU / real-time core ─────────┘                   │
-│                                                                          │
-│ Security : secure boot / key store / trusted execution                   │
-│ Power    : PMIC + DVFS + thermal control                                 │
-│ Output   : actuator / local HMI / uplink                                 │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 CPU는 전체 흐름을 조정하고, NPU는 반복적인 행렬 연산을 전담하며, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)·DSP는 입력 자체를 더 다루기 쉬운 형태로 바꿔 준다. 따라서 엣지 설계의 포인트는 "모든 일을 CPU가 하는가"가 아니라, **입력 정제 → 로컬 메모리 유지 → 전용 추론 → 즉시 제어**의 연쇄를 얼마나 짧게 만들었는가에 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge inference device data path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor I/O ─▶ ISP / DSP ─▶ shared SRAM / LPDDR ─▶ NPU ─▶ result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ CPU / real-time core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security : secure boot / key store / trusted execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power : PMIC + DVFS + thermal control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output : actuator / local HMI / uplink</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 CPU는 전체 흐름을 조정하고, NPU는 반복적인 행렬 연산을 전담하며, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)·DSP는 입력 자체를 더 다루기 쉬운 형태로 바꿔 준다. 따라서 엣지 설계의 포인트는 "모든 일을 CPU가 하는가"가 아니라, <strong>입력 정제 → 로컬 메모리 유지 → 전용 추론 → 즉시 제어</strong>의 연쇄를 얼마나 짧게 만들었는가에 있다.
 
 - **📢 섹션 요약 비유**: 엣지 하드웨어는 작은 편의점 주방과 같다. 냉장고, 조리대, 계산대가 좁은 공간에 붙어 있어야 주문이 빨리 나오듯, 칩 안에서도 연산기와 메모리가 가깝게 붙어 있어야 전력 낭비가 줄어든다.
 
@@ -104,11 +107,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **지연시간 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 네트워크 왕복을 포함해도 되는지, 아니면 로컬에서 몇 ms 안에 끝내야 하는가?
-2. **메모리 적합성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 모델과 버퍼가 온칩 메모리·LPDDR 예산 안에 들어오는가?
-3. **열·전력 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 팬리스 박스, 차량, 배터리 환경에서 지속 동작 가능한가?
-4. **입출력 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 카메라, 마이크, 산업 센서, 필드버스 등 필요한 인터페이스가 모두 있는가?
-5. **보안 운영 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 안전한 원격 업데이트, 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 준비되어 있는가?
+1. <strong>지연시간 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 네트워크 왕복을 포함해도 되는지, 아니면 로컬에서 몇 ms 안에 끝내야 하는가?
+2. <strong>메모리 적합성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 모델과 버퍼가 온칩 메모리·LPDDR 예산 안에 들어오는가?
+3. <strong>열·전력 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 팬리스 박스, 차량, 배터리 환경에서 지속 동작 가능한가?
+4. <strong>입출력 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 카메라, 마이크, 산업 센서, 필드버스 등 필요한 인터페이스가 모두 있는가?
+5. <strong>보안 운영 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 안전한 원격 업데이트, 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 준비되어 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -116,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 - TOPS 수치만 보고 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 열 설계를 무시하는 선택
 - 회선이 끊기면 기능 전체가 멈추는 "엣지처럼 보이는 얇은 단말" 구조
 
-기술사 관점에서는 "엣지가 빠르다"가 아니라, **왜 현장에서 결정해야 하는가**, **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 현장에 남길 것인가**, **전력과 보안 업데이트를 어떻게 운영할 것인가**를 답해야 한다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 TOPS/W, 모델 크기, 현장 유지보수성을 함께 적으면 답안 완성도가 높아진다.
+기술사 관점에서는 "엣지가 빠르다"가 아니라, **왜 현장에서 결정해야 하는가**, <strong>어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 현장에 남길 것인가</strong>, <strong>전력과 보안 업데이트를 어떻게 운영할 것인가</strong>를 답해야 한다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 TOPS/W, 모델 크기, 현장 유지보수성을 함께 적으면 답안 완성도가 높아진다.
 
 - **📢 섹션 요약 비유**: 엣지 하드웨어 선택은 등산 가방을 꾸리는 일과 같다. 산 정상에 호텔 주방을 통째로 들고 갈 수는 없으니, 꼭 필요한 장비만 가볍고 튼튼하게 챙겨야 한다.
 
@@ -124,9 +127,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-엣지 하드웨어를 제대로 도입하면 지연시간이 줄고, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 트래픽이 감소하며, 네트워크 장애 시에도 현장 기능을 유지할 수 있다. 또한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 장치 밖으로 덜 나가므로 프라이버시와 규제 대응에도 유리하다. 즉 엣지는 클라우드 비용을 덜어 주는 보조 장치가 아니라, **현장 자율성을 높이는 독립 계산 계층**이다.
+엣지 하드웨어를 제대로 도입하면 지연시간이 줄고, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 트래픽이 감소하며, 네트워크 장애 시에도 현장 기능을 유지할 수 있다. 또한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 장치 밖으로 덜 나가므로 프라이버시와 규제 대응에도 유리하다. 즉 엣지는 클라우드 비용을 덜어 주는 보조 장치가 아니라, <strong>현장 자율성을 높이는 독립 계산 계층</strong>이다.
 
-다만 한계도 분명하다. 작은 전력 예산, 제한된 냉각, 장치별 편차, 대규모 플릿 업데이트의 복잡성은 늘 문제다. 앞으로는 온디바이스 생성형 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 더 큰 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 안전한 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/), 메모리-연산 통합 구조가 엣지 진화를 이끌 가능성이 크다. 그래서 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 하드웨어는 "클라우드의 축소판"이 아니라, **현장 반응을 위해 태어난 목적형 컴퓨터**로 기억하는 것이 맞다.
+다만 한계도 분명하다. 작은 전력 예산, 제한된 냉각, 장치별 편차, 대규모 플릿 업데이트의 복잡성은 늘 문제다. 앞으로는 온디바이스 생성형 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 더 큰 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 안전한 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/), 메모리-연산 통합 구조가 엣지 진화를 이끌 가능성이 크다. 그래서 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 하드웨어는 "클라우드의 축소판"이 아니라, <strong>현장 반응을 위해 태어난 목적형 컴퓨터</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 엣지 하드웨어는 동네 안에 세운 작은 소방서와 같다. 큰 본부보다 장비는 적어도, 불이 났을 때 가장 먼저 달려가 문제를 줄이는 역할이 핵심이다.
 
@@ -145,21 +148,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 센서 노드 · 마이크로컨트롤러 (MCU, Microcontroller Unit) 제어
-          │
-          ▼
-엣지 게이트웨이
-          │
-          ▼
-엣지 추론 SoC + NPU
-          │
-          ▼
-MEC · 현장 오케스트레이션
-          │
-          ▼
-온디바이스 AI · 연합형 엣지 지능
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 센서 노드 · 마이크로컨트롤러 (MCU, Microcontroller Unit) 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 게이트웨이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 추론 SoC + NPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MEC · 현장 오케스트레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온디바이스 AI · 연합형 엣지 지능</div>
+</div>
+</div>
+
+
 
 이 흐름은 "수집만 하던 단말"이 "현장에서 판단하는 지능형 장치"로 진화하는 과정을 보여 준다.
 

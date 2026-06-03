@@ -11,54 +11,52 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 529장에서 배운 12개의 '다이렉트 블록' 슬롯이 꽉 차서(고작 48KB 한계) 튕겨 나간 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들의 주소를 수용하기 위해, **본체 i-node 안에 주소를 직접 적지 않고 "장부가 있는 디스크 블록의 주소" 를 가리키는 포인터 트리 구조(간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))** 를 1단, 2단, 3단(Triple) 깊이로 무한 증식시키는 엑사바이트 클라우드 확장 S/W 아키텍처다.
+> 1. **본질**: 앞선 529장에서 배운 12개의 '다이렉트 블록' 슬롯이 꽉 차서(고작 48KB 한계) 튕겨 나간 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들의 주소를 수용하기 위해, <strong>본체 i-node 안에 주소를 직접 적지 않고 "장부가 있는 디스크 블록의 주소" 를 가리키는 포인터 트리 구조(간접 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong> 를 1단, 2단, 3단(Triple) 깊이로 무한 증식시키는 엑사바이트 클라우드 확장 S/W 아키텍처다.
 > 2. **가치**: 1단 간접(Single)은 주소 장부를 디스크 특정 칸에 하나 더 만들어서 확장, 2단 간접(Double)은 장부를 지시하는 장부(트리 2계층), 3단 간접(Triple)은 장부를 지시하는 장부의 장부(트리 3계층)를 파서 **수백만 배의 기하급수적 용량 뻥튀기(Capacity Scaling) 포팅 결착** 을 단 1개의 256바이트 i-node 껍데기만으로 통치할 수 있는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 객체 우주 지배력을 성취해 냈다.
-> 3. **한계**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝부분에 닿거나 특정 오프셋 랜덤 점프를 뛰려면? 모터를 1단, 2단, 3단의 장부를 읽으러 물리적 징검다리 디스크 철판을 계속 찍고 긁어서(추적 Chasing) 최악의 **I/O 탐색 깊이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로드(Disk [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) Overhead 늪 병목 데들락)** [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 체감이 현격히 발생 박살 나므로 메모리 캐시 버퍼([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) RAM 버프)의 도움 없이는 기어 다니는 텍스트 시스템이 될 위기 락백을 배태했다.
+> 3. **한계**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝부분에 닿거나 특정 오프셋 랜덤 점프를 뛰려면? 모터를 1단, 2단, 3단의 장부를 읽으러 물리적 징검다리 디스크 철판을 계속 찍고 긁어서(추적 Chasing) 최악의 <strong>I/O 탐색 깊이 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 로드(Disk <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> Overhead 늪 병목 데들락)</strong> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 체감이 현격히 발생 박살 나므로 메모리 캐시 버퍼([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) RAM 버프)의 도움 없이는 기어 다니는 텍스트 시스템이 될 위기 락백을 배태했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **i-node 간접 블록 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Blocks 트리 스위칭 포팅 렌더)** 은 [유닉스 i-node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) 구조체 하단에 위치하는 13, 14, 15번째 포인터 항목이다. 슬롯 13번은 `단일 간접(Single Indirect)`, 14번은 `이중 간접(Double Indirect)`, 15번은 `삼중 간접(Triple Indirect)` 이라고 불린다. 이 포인터들이 가리키는 Ди스크 블록은 "유저의 텍스트가 담긴 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)" 가 아니라, **"수천 개의 포인터 주소를 빼곡히 머금고 있는 거대한 별도 주소록 장부([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Block 맵핑 깡통)"** 이다.
-- **필요성**: 고작 256바이트밖에 안 되는 i-node 작은 여백에 어떻게 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터를 물리적으로 다 적을까? 절대 불가능([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 메모리 용량 초과 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러 폭발!)하다. 유닉스 프로그래머들은 "야! i-node 껍데기 크기를 뚱뚱하게 키우지 마 메모리 넘쳐! **차라리 디스크 구석 아무 데나 4KB 철판 방(Block) 하나 렌탈해서, 거기를 싹 비우고 오직 포인터 1,024개만 다다닥 적은 '하청 장부(Single [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))' 로 써! 그리고 i-node에는 그 번호만 1개 달랑 스왑 포스팅(위임 Decoupling)** 때려 놔!!" 
-  "어? 영화가 너무 커서 하청 장부 1개(4MB 수용)로 모자라? **그럼 하청 장부 1,024개의 주소를 적는 중역 임원 장부(Double [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) 2차 트리)** 방을 하나 더 파서 피라미드로 엮어 무결점 $4MB \times 1024 = 4GB$ 뻥튀기 부스트 돌격!!!"
+- **개념**: <strong>i-node 간접 블록 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/">Indirect</a> Blocks 트리 스위칭 포팅 렌더)</strong> 은 [유닉스 i-node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/) 구조체 하단에 위치하는 13, 14, 15번째 포인터 항목이다. 슬롯 13번은 `단일 간접(Single Indirect)`, 14번은 `이중 간접(Double Indirect)`, 15번은 `삼중 간접(Triple Indirect)` 이라고 불린다. 이 포인터들이 가리키는 Ди스크 블록은 "유저의 텍스트가 담긴 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)" 가 아니라, <strong>"수천 개의 포인터 주소를 빼곡히 머금고 있는 거대한 별도 주소록 장부(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Block 맵핑 깡통)"</strong> 이다.
+- **필요성**: 고작 256바이트밖에 안 되는 i-node 작은 여백에 어떻게 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터를 물리적으로 다 적을까? 절대 불가능([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 메모리 용량 초과 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러 폭발!)하다. 유닉스 프로그래머들은 "야! i-node 껍데기 크기를 뚱뚱하게 키우지 마 메모리 넘쳐! <strong>차라리 디스크 구석 아무 데나 4KB 철판 방(Block) 하나 렌탈해서, 거기를 싹 비우고 오직 포인터 1,024개만 다다닥 적은 '하청 장부(Single <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/">Indirect</a>)' 로 써! 그리고 i-node에는 그 번호만 1개 달랑 스왑 포스팅(위임 Decoupling)</strong> 때려 놔!!" 
+  "어? 영화가 너무 커서 하청 장부 1개(4MB 수용)로 모자라? <strong>그럼 하청 장부 1,024개의 주소를 적는 중역 임원 장부(Double <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/">Indirect</a> 2차 트리)</strong> 방을 하나 더 파서 피라미드로 엮어 무결점 $4MB \times 1024 = 4GB$ 뻥튀기 부스트 돌격!!!"
 
-  - (다이렉트 12칸 한계): "조직 보스(i-node 본체) 핸드폰 단축 번호에는 고작 **12명의 직속 똘마니(다이렉트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록)** 만 저장 가능해요 램 메모리 부족!"
+  - (다이렉트 12칸 한계): "조직 보스(i-node 본체) 핸드폰 단축 번호에는 고작 <strong>12명의 직속 똘마니(다이렉트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록)</strong> 만 저장 가능해요 램 메모리 부족!"
   - (싱글 간접 1단 트리): "그래서 단축 번호 13번에 똘마니 대신 **[중간 보스 수첩 위치]** 를 저장해 픽! 이 수첩을 열면 1,024명의 하위 말단 똘마니 번호(총 4MB 병력)가 쫙 쏟아져 확장 컷!"
-  - (더블 간접 2단 트리): "이것도 모자라? 단축 번호 14번에는 **[지역 총장 수첩 위치]** 를 저장해! 총장 수첩엔 중간 보스 1,024명의 주소가 있고(2차 트리 계층 스킵 $\times1024$ 뻥튀기), 그 1,024명이 또 각각 말단 병사 1,024명씩 거느리니 순식간에 **100만 명 병력(4GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량 확장)** 이 장악 돌진 통달 달성된답니다!"
+  - (더블 간접 2단 트리): "이것도 모자라? 단축 번호 14번에는 **[지역 총장 수첩 위치]** 를 저장해! 총장 수첩엔 중간 보스 1,024명의 주소가 있고(2차 트리 계층 스킵 $\times1024$ 뻥튀기), 그 1,024명이 또 각각 말단 병사 1,024명씩 거느리니 순식간에 <strong>100만 명 병력(4GB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 용량 확장)</strong> 이 장악 돌진 통달 달성된답니다!"
 
-- **i-node 단일/이중/삼중 피라미드 뻥튀기와 엑사바이트 렌더 스위칭 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 돌파 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 통치 다이어그램**:
+- <strong>i-node 단일/이중/삼중 피라미드 뻥튀기와 엑사바이트 렌더 스위칭 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 돌파 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 통치 다이어그램</strong>:
 운영체제가 단 3개의 C언어 포인터 슬롯으로 어떻게 수 테라바이트(TB) 급 블록을 무한 증식(Growth) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 마스킹 트리를 전개하는지 깊이 뎁스(Depth) 맵핑 뷰를 까보면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │                 기가바이트 벽을 허무는 1차, 2차, 3차 피라미드 계층 블록 트리  │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │  [[ 145번 i-node (256 Byte 한정된 쥐꼬리 장부 속 스로틀 포팅) ]]              │
-  │  -------------------------------------------------------------                │
-  │   [0~11] Direct 포인터 ──▶ (즉시 48KB 데이터 조달 빔 속도 통치!)              │
-  │                                                                               │
-  │   [12] 단일 간접 포인터  ──▶ [[ 1차 하청 장부 블록 (4KB 크기 Index) ]]        │
-  │                             ├──▶ 데이터블록 1 (4KB)                           │
-  │  (수용량: 1024개 $\times$ 4KB = 4MB)  ├──▶ 데이터블록 2 (4KB)                 │
-  │                             └──▶ 데이터블록 1024 (끝)                         │
-  │                                                                               │
-  │   [13] 이중 간접 포인터  ──▶ [[ 2차 거물 임원 장부 (Double Index) ]]          │
-  │  (수용량: 1024 $\times$ 4MB = 4GB!)   │                                       │
-  │                             ├──▶ [1차 하청 장부 A] ─▶ 1024개 데이터!          │
-  │                             ├──▶ [1차 하청 장부 B] ─▶ 1024개 데이터!          │
-  │                             └──▶ [1차 하청 장부 C (총 1024개 하청)]           │
-  │                                                                               │
-  │   [14] 삼중 간접 포인터  ──▶ [[ 3차 마왕 황제 장부 (Triple Index 우주) ]]     │
-  │                              ──▶ [2차 임원 장부 1024개 ──▶ 엄청 커짐!]        │
-  │  (수용량: 1024 $\times$ 4GB = 4TB!)                                           │
-  └───────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** [12], [13], [14] 이 세 개의 포인터 락백 구멍 속에서 **수학의 지수 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 성장이 폭발적인 데카르트 승수 뻥튀기 융합 공간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 마법** 을 우당탕 일으킨다. `단일 간접(Single)` 하나를 뚫을 때마다, 1024칸의 주소록 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 4KB 디스크 섹터 빈칸 하청 방에서 생성되고 포팅된다. 이 4KB 장부가 모자라면 그다음 [13] `이중(Double)` 칸이 해금(Unlock 렌더)되면서 1024 $\times$ 1024 = 100만 개(4GB 용량 거대화수용) 트리가 펼쳐진다. 최후의 보루인 [14] `삼중(Triple)` 까지 영혼을 끌어 쓰면 1024 $\times$ 1024 $\times$ 1024 = 10억 개 조각(4TB 용량 압살 한계 스위칭)을 이 i-node 포인터 하나가 우주 피라미드 점조직으로 싸잡아 거느리는 괴팍한 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 최후의 보루 병합 시스템 증거 뷰를 만천하에 드러내는 셈이다!
 
-- **📢 섹션 요약 비유**: 이 삼중 간접 계층 공간 증식 마법 포팅 뷰는 은행의 **"대여 금고 속 열쇠 증식 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파쇄 이스터에그!"** 랑 같습니다!! 
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기가바이트 벽을 허무는 1차, 2차, 3차 피라미드 계층 블록 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">145번 i-node (256 Byte 한정된 쥐꼬리 장부 속 스로틀 포팅)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0~11</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(즉시 48KB 데이터 조달 빔 속도 통치!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">12</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1차 하청 장부 블록 (4KB 크기 Index)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 데이터블록 1 (4KB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수용량: 1024개 $\times$ 4KB = 4MB) ──▶ 데이터블록 2 (4KB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 데이터블록 1024 (끝)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">13</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 거물 임원 장부 (Double Index)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수용량: 1024 $\times$ 4MB = 4GB!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1차 하청 장부 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1024개 데이터!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1차 하청 장부 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1024개 데이터!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1차 하청 장부 C (총 1024개 하청)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">14</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3차 마왕 황제 장부 (Triple Index 우주)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 임원 장부 1024개 ──▶ 엄청 커짐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수용량: 1024 $\times$ 4GB = 4TB!)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** [12], [13], [14] 이 세 개의 포인터 락백 구멍 속에서 <strong>수학의 지수 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 성장이 폭발적인 데카르트 승수 뻥튀기 융합 공간 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 마법</strong> 을 우당탕 일으킨다. `단일 간접(Single)` 하나를 뚫을 때마다, 1024칸의 주소록 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 4KB 디스크 섹터 빈칸 하청 방에서 생성되고 포팅된다. 이 4KB 장부가 모자라면 그다음 [13] `이중(Double)` 칸이 해금(Unlock 렌더)되면서 1024 $\times$ 1024 = 100만 개(4GB 용량 거대화수용) 트리가 펼쳐진다. 최후의 보루인 [14] `삼중(Triple)` 까지 영혼을 끌어 쓰면 1024 $\times$ 1024 $\times$ 1024 = 10억 개 조각(4TB 용량 압살 한계 스위칭)을 이 i-node 포인터 하나가 우주 피라미드 점조직으로 싸잡아 거느리는 괴팍한 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 최후의 보루 병합 시스템 증거 뷰를 만천하에 드러내는 셈이다!
+
+- **📢 섹션 요약 비유**: 이 삼중 간접 계층 공간 증식 마법 포팅 뷰는 은행의 <strong>"대여 금고 속 열쇠 증식 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 파쇄 이스터에그!"</strong> 랑 같습니다!! 
   - 내 메인 금고함(i-node) 12칸에는 진짜 현금 따위([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 1백만 원어치 들어있어 금고가 가득 찹니다!
   - 근데 금고 13번째 칸을 열었더니 웬 **작은 열쇠 다발(Single 간접 주소록)** 이 1024개가 들어있네? 이 열쇠들로 다른 비밀창고 1024개에 있는 돈 40억 원 치를 더 꺼낼 수 있게 됩니다! 연결점프 포팅!
   - 대박, 금고 14번째 칸을 열었더니 **마스터키(Double 간접 보스 열쇠)** 1개가 나옵니다! 그 열쇠로 초대형 지하 벙커를 열면? 그 안에 방금 전 '작은 열쇠 다발' 상자가 1024개나 와르르 쏟아지며, 무려 4조 원을 보관 통제할 수 있는 권한을 얻게 됩니다 뻥튀기 우주 기적!
@@ -75,22 +73,22 @@ tags = ["studynote-operating-system"]
 | **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 블록 1방 $O(1)$ 레이저 타격** | `본체 i-node $\to$ 데이터` : 디스크 읽기 고작 **1번**. 빛의 속도 부스트! | `최대 약 48KB 한계 폭파` (작은 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 종결 락백) |
 | **단일(Single) 간접 블록 2방 점프 결속** | `본체 $\to$ 하청장부 $\to$ 데이터` : 디스크 읽기 **2번**. ($2 \times 10ms$) $O(2)$ | `최대 4MB` (이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), MP3 음악 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구동 적합 수용 포팅) |
 | **이중(Double) 간접 블록 3방 점프 깊이 늪** | `본체 $\to$ 임원장부 $\to$ 하청장부 $\to$ 데이터` : 장부 찾느라 바늘이 **3회** 우당탕! $O(3)$ | `최대 4GB` (1시간짜리 1080p 고화질 영화 동영상 저장 부합 전개) |
-| **삼중(Triple) 간접 블록 4방 크래시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | `본체 $\to$ 마왕장부 $\to$ 임원장부 $\to$ 하청장부 $\to$ 데이터` : [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 꺼내려 허공 삽질 **4회(디스크 40ms 소비 멸망!!)** | `최대 4TB` 우주! (초거대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스로틀 락!) |
+| <strong>삼중(Triple) 간접 블록 4방 크래시 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | `본체 $\to$ 마왕장부 $\to$ 임원장부 $\to$ 하청장부 $\to$ 데이터` : [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 꺼내려 허공 삽질 **4회(디스크 40ms 소비 멸망!!)** | `최대 4TB` 우주! (초거대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스로틀 락!) |
 
 ### 2. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 버퍼([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방패)와 최신 엑사바이트 64비트 메가 돌파 (XFS, Ext4)
 앞서 배운 끔찍한 "삼중 간접 4번 읽기 데들락 암살 병목(Disk I/O Wait Overhead 폭사 늪)" 을 어떻게 모면하고 리눅스가 클라우드 천하통일을 했을까?
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙 (장부 읽기 뺑뺑이 모터 춤춤 지옥 렌더)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙 (장부 읽기 뺑뺑이 모터 춤춤 지옥 렌더)</strong>: 
   - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝에 1만 번부터 10만 번 블록까지 쭈욱 순차적으로 동영상을 봐야 한다. 동영상이 `삼중 간접(Triple)` 의 지배를 받고 있다.
   - 다음 프레임 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1칸 가져오기 위해 "마왕 트리 $\to$ 임원 트리 $\to$ 하청 트리 $\to$ 다음 짐([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))" 을 매번 4번씩 긁느라, 디스크 I/O가 멈추고 넷플릭스 동영상에 모래시계(로딩 렉 폭사)가 30초씩 돈다! 
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 폭증 진단 스왑과 OS 해결 아크 렌더 결착 ([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 램 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 마스크 융합)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 폭증 진단 스왑과 OS 해결 아크 렌더 결착 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a> 램 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 마스크 융합)</strong>: 
   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 왈: "야!! 저기 저 디스크 장부(간접 트리 껍데기들)를 매번 왜 모터 암으로 읽어 멍청아!! 어차피 방금 읽은 마왕 장부에 다음 포인터도 다 통계 연속으로 들어 있잖아??"
-  - 운영체제는 4번 물리 긁기를 할 때, 그 거쳐 간 장부들(마왕, 임원, 하청 깡통 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 3장)을 **전부 통째로 뽑아 CPU RAM 캐시([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 버퍼 옥상 록백 뷰) 위로 띄워 도피 복사 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 부스트)을 친다!**
+  - 운영체제는 4번 물리 긁기를 할 때, 그 거쳐 간 장부들(마왕, 임원, 하청 깡통 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 3장)을 <strong>전부 통째로 뽑아 CPU RAM 캐시(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 버퍼 옥상 록백 뷰) 위로 띄워 도피 복사 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>(Cache <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 부스트)을 친다!</strong>
   - 다음 1만 1번 프레임을 요청할 때는? 디스크에 안 가고! RAM 버퍼에 떠 있는 간접 트리 3계층(나노 세컨드 빛의 속도)을 눈빛으로 통과해 포인터 주소를 알아낸 뒤, 디스크엔 단 1번 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 긁기로 돌진해 다이브 $O(1)$ 타격 꽂는다! 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 늪이 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 묘수로 완벽 분쇄 파괴된 결론 마스킹 기전이다.
 
 - **📢 섹션 요약 비유**: 이 RAM 버퍼 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(장부 임시 통암기 로드 타격) 트리 검색 극복은 택배 기사의 **"초고층 아파트 미로 도면 통째 암기 스왑 통치!"** 랑 동일 효율입니다!! 
   - 101동 60층에 배달 갈 때마다 경비실 도면(1차 트리) 보고 $\to$ 동 1층 도면(2차 트리) 보고 $\to$ 층 엘베 지도(3차 트리) 찾느라 시간이 개판 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(4방 점프 암살) 됐습니다!
-  - 기사님이 폭발해서 **"아 몰라! 그냥 경비실 도면, 층 도면 사진 3장을 내 스마트폰 갤러리 램([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 구름!)에 통째로 카메라로 직찍 찰칵 올려 저장 병합해버렷!! 찰칵!"** 이제 다음 택배 배달부터는 경비실(디스크 장부 구역) 안 거치고, 스마트폰 화면(캐시 $O(1)$ 전기 속도 레이어)만 0.1초 슥삭~ 넘겨본 뒤 곧바로 목표물인 60층 안방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다이렉트 I/O 타격)으로 레이저 돌진 다이빙 점프 스로틀 결착을 해낸답니다 백본!
+  - 기사님이 폭발해서 <strong>"아 몰라! 그냥 경비실 도면, 층 도면 사진 3장을 내 스마트폰 갤러리 램(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a> 구름!)에 통째로 카메라로 직찍 찰칵 올려 저장 병합해버렷!! 찰칵!"</strong> 이제 다음 택배 배달부터는 경비실(디스크 장부 구역) 안 거치고, 스마트폰 화면(캐시 $O(1)$ 전기 속도 레이어)만 0.1초 슥삭~ 넘겨본 뒤 곧바로 목표물인 60층 안방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다이렉트 I/O 타격)으로 레이저 돌진 다이빙 점프 스로틀 결착을 해낸답니다 백본!
 
 ---
 
@@ -99,17 +97,17 @@ tags = ["studynote-operating-system"]
 ### 전통적 [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) (간접 3중 포인터)의 종말과 빅데이터 시대 블록 [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) ([익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 결속 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))
 전통 리눅스 Ext2, Ext3 시절을 지배하던 저 단일/이중/삼중 간접 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 리스트 구조는 현대 최신 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ext4)에서는 과감히 도축 파쇄되어 사라졌다. 왜일까?
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 (대용량 연속 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 어마어마한 포인터 낭비 융합 오버헤드 늪 에러)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 (대용량 연속 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 어마어마한 포인터 낭비 융합 오버헤드 늪 에러)</strong>: 
   - 유저 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 4TB짜리 통짜 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 빅데이터 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 단지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개인데, 이놈 하나 주소를 다 매핑하려고 간접 장부([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Block)만 **수십만 장을 디스크에 공구리 낭비 세금 허비** 해야 했다(공간 헌납 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 파탄).
   - 게다가 100만 번째 조각을 읽으려면 3중 트리를 타면서 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)가 없으면 4번 디스크를 긁는 기형적이고 피로한 낡은 C언어 $O(\log N)$ 방식에 매몰되어, 최신 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 초광속 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대 모터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 C언어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 코드(간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 자체가 못 따라가는 지독한 소프트웨어 스로틀 발목 데들락에 빠졌다!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 폭증 진단과 차세대 스토리지 스왑 아크 (B+ Tree [B-tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 노드 동적 트리 렌더 Ext4 & XFS 시대 강림 빔!)**: 
-  - 엔지니어들은 이 간접 트리 노가다를 폭파해 버리고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 검색 엔진계의 신(God)으로 꼽히는 **범용 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)(혹은 B+트리)** 자료구조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 i-node 하단에 통째로 쑤셔 융합 이식 포팅해버린다 확정!!
-  - 더불어 주소를 다닥다닥 적지 않고! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수만 번 연속으로 덩어리져 있으면 꼬리표 대신 **"여기서부터 시작 주소 99만 번째 블록까지 한 번에 길이 쭈~욱 10GB 길이 다이렉트 연속 이어버려 우주 할당 통치 [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)([익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 구동 렌더 부합 타결)!!"** 라는 덩어리 예약 매핑 기술을 결속시켰다 ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 523장 마법의 부활).
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 폭증 진단과 차세대 스토리지 스왑 아크 (B+ Tree <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-tree</a> 노드 동적 트리 렌더 Ext4 &amp; XFS 시대 강림 빔!)</strong>: 
+  - 엔지니어들은 이 간접 트리 노가다를 폭파해 버리고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 검색 엔진계의 신(God)으로 꼽히는 <strong>범용 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a>(혹은 B+트리)</strong> 자료구조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 i-node 하단에 통째로 쑤셔 융합 이식 포팅해버린다 확정!!
+  - 더불어 주소를 다닥다닥 적지 않고! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수만 번 연속으로 덩어리져 있으면 꼬리표 대신 <strong>"여기서부터 시작 주소 99만 번째 블록까지 한 번에 길이 쭈~욱 10GB 길이 다이렉트 연속 이어버려 우주 할당 통치 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/">Extent</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/">익스텐트</a> 구동 렌더 부합 타결)!!"</strong> 라는 덩어리 예약 매핑 기술을 결속시켰다 ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 523장 마법의 부활).
   - 이 덕분에 최신 Ext4, XFS 리눅스는 쓸데없이 복잡한 3중 장부(Triple [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이, $O(1)$ 이란 속도로 10기가짜리 영화 조각 위치를 단 2줄의 트리 B+Tree [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 예약 주물 장부로 가볍게 색출 박살 내어 엄청난 디스크 클라우드 Iops [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 부스트 신기원을 장악 달성 보장해 냈다 진리다.
 
 | Unix 대용량 장부 S/W I/O 렌더 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Capacity 뷰) | 전통적 `ext2/3` 의 간접 블록 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Pointer 트리 랙) | 최첨단 현대 `ext4/XFS` ([Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 트리 다이나믹 결착) |
 |:---|:---|:---|
-| **정량 (물리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색 맵 구조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 통치 오버헤드)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커질수록 중간 장부 종이가 수만 장 늘어남. **엄청난 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장 오버헤드 공간 낭비 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 멸망.** | 100만 조각 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 주소가 아니라 **[시작 ~ 길이 1백만 끝!] 단 1줄 노드 요약** 으로 공간 축약 혁명 포팅 무결 타결! |
+| <strong>정량 (물리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 탐색 맵 구조 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 통치 오버헤드)</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커질수록 중간 장부 종이가 수만 장 늘어남. <strong>엄청난 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 저장 오버헤드 공간 낭비 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 멸망.</strong> | 100만 조각 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 주소가 아니라 **[시작 ~ 길이 1백만 끝!] 단 1줄 노드 요약** 으로 공간 축약 혁명 포팅 무결 타결! |
 | **정성 (대용량 시스템 안정 검색 트리 빔 및 레이턴시 부하)** | 트리 깊이가 무조건 고정적. (작은 건 1중, 큰 건 3중 점프 필수). 읽는 속도 로직이 낡고 뻔함 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 늪. | [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) ([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 동적 발란스)로 10테라 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터도 **깊이가 엄청 얕고 똑똑하게 유지돼 빛의 탐색 스피드 스왑!** |
 
 ### Ⅳ. 기대효과 및 결론
@@ -155,15 +153,19 @@ i-node 단일/이중/삼중 간접 블록 ([Indirect](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[i-node 직접 블록 (Direct Blocks)]
-    │
-    ▼
-[i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
-    │
-    ├──▶ [익스텐트 (Extent)]
-    └──▶ [빈 공간 관리 (Free-Space Management) 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 직접 블록 (Direct Blocks)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">익스텐트 (Extent)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빈 공간 관리 (Free-Space Management) 알고리즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

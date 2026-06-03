@@ -31,17 +31,23 @@ Helm은 이런 반복 작업을 차트(Chart)라는 패키지로 묶어 해결�
 
 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 기본값, 템플릿, 의존성으로 구성된다.
 
-```text
-my-chart/
-├── Chart.yaml       # 차트 정보
-├── values.yaml      # 기본 설정
-├── templates/       # 렌더링될 리소스
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   └── ingress.yaml
-├── charts/          # 서브차트
-└── README.md
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">my-chart/</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Chart.yaml # 차트 정보</div>
+<div class="kb-diagram-tree-item" style="--depth:0">values.yaml # 기본 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:0">templates/ # 렌더링될 리소스</div>
+<div class="kb-diagram-note">── deployment.yaml</div>
+<div class="kb-diagram-note">── service.yaml</div>
+<div class="kb-diagram-note">── ingress.yaml</div>
+<div class="kb-diagram-tree-item" style="--depth:0">charts/ # 서브차트</div>
+<div class="kb-diagram-tree-item" style="--depth:0">README.md</div>
+</div>
+</div>
+
+
 
 템플릿은 values.yaml의 값을 받아 실제 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 매니페스트로 렌더링된다. 그래서 같은 차트라도 환경별로 다른 설정을 쉽게 적용할 수 있다.
 
@@ -101,15 +107,21 @@ Helm은 Kubernetes를 숨기는 도구가 아니라, Kubernetes를 더 안전하
 
 ## 관련 개념 맵
 
-```text
-Chart.yaml + values.yaml
-          ↓
-템플릿 렌더링
-          ↓
-install / upgrade / rollback
-          ↓
-릴리스 추적과 환경별 배포
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Chart.yaml + values.yaml</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">템플릿 렌더링</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">install / upgrade / rollback</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">릴리스 추적과 환경별 배포</div>
+</div>
+</div>
+
+
 
 ---
 

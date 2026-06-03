@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ASLR(Address Space Layout Randomization)은 프로그램이 실행될 때마다 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)의 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 적재 시작 주소를 예측 불가능하게 무작위(Random)로 흩뿌리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 보안 기술**이다.
-> 2. **가치**: 해커가 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 등의 취약점을 알아내더라도, 악성 코드를 심거나 점프(Jump)시켜야 할 '정확한 메모리 타겟 주소'를 알 수 없게 만들어 **메모리 오염 및 코드 실행 공격([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/), Return-to-libc)을 원천적으로 무력화**시키는 1차 방어선 역할을 한다.
+> 1. **본질**: ASLR(Address Space Layout Randomization)은 프로그램이 실행될 때마다 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 적재 시작 주소를 예측 불가능하게 무작위(Random)로 흩뿌리는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 핵심 보안 기술</strong>이다.
+> 2. **가치**: 해커가 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 등의 취약점을 알아내더라도, 악성 코드를 심거나 점프(Jump)시켜야 할 '정확한 메모리 타겟 주소'를 알 수 없게 만들어 <strong>메모리 오염 및 코드 실행 공격(<a href="/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/">ROP</a>, Return-to-libc)을 원천적으로 무력화</strong>시키는 1차 방어선 역할을 한다.
 > 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 아키텍처와 '위치 독립 코드(Position Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC/[PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/))' 컴파일 기술이 완벽하게 융합되어, 주소가 매번 뒤죽박죽 바뀌어도 프로그램 본연의 실행 속도와 로직에는 아무런 영향을 주지 않는 투명성(Transparency)을 달성했다.
 
 ---
@@ -24,26 +24,27 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 해킹 창과 방패의 역사**:
   1. **정적 주소의 재앙**: C언어로 짠 수많은 서버가 `strcpy`, `gets` 같은 함수 버그 하나에 메모리가 털려 전 세계 서버가 좀비 PC가 되었다(슬래머 웜 등).
-  2. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 활용**: 어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 맘대로 꼬아놔도 매핑 테이블만 연결하면 된다. 굳이 똑같은 가상 주소를 줄 필요가 없다는 것을 깨달았다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 활용</strong>: 어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 맘대로 꼬아놔도 매핑 테이블만 연결하면 된다. 굳이 똑같은 가상 주소를 줄 필요가 없다는 것을 깨달았다.
   3. **ASLR의 표준화**: 2001년 Linux 패치를 시작으로, 2007년 Windows Vista, 2011년 iOS/Mac까지 전 세계 모든 범용 OS가 ASLR을 기본 켜짐(Default On)으로 강제하며 메모리 해킹의 난이도를 수백 배 끌어올렸다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교      │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ ASLR OFF (과거의 낡은 OS: 해커들의 놀이터) ]                    │
-│  실행 1차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
-│  실행 2차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
-│  ▶ 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ" │
-│                                                                   │
-│ [ ASLR ON (현대의 OS: 예측 불허의 방어막) ]                       │
-│  실행 1차: [코드 0x51A] ... [데이터 0x82C] ... [스택 0x9FA]       │
-│  실행 2차: [코드 0x24B] ... [데이터 0x55D] ... [스택 0xA1C]       │
-│  ▶ 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."      │
-│  ▶ 해커가 0x400으로 찔러봄 -> 없는 주소네? -> Segmentation Fault! │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR OFF (과거의 낡은 OS: 해커들의 놀이터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">실행 1차:</div><div class="kb-diagram-node">코드 0x400</div><div class="kb-diagram-node">데이터 0x600</div><div class="kb-diagram-note">......</div><div class="kb-diagram-node">스택 0x7FF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">실행 2차:</div><div class="kb-diagram-node">코드 0x400</div><div class="kb-diagram-node">데이터 0x600</div><div class="kb-diagram-note">......</div><div class="kb-diagram-node">스택 0x7FF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR ON (현대의 OS: 예측 불허의 방어막)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">실행 1차:</div><div class="kb-diagram-node">코드 0x51A</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">데이터 0x82C</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">스택 0x9FA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">실행 2차:</div><div class="kb-diagram-node">코드 0x24B</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">데이터 0x55D</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">스택 0xA1C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커가 0x400으로 찔러봄 -&gt; 없는 주소네? -&gt; Segmentation Fault!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 가상 주소 공간이라는 광활한 사막에 텐트(세그먼트)를 무작위로 쳐버리는 기법이다. 공격자가 특정 함수(예: 쉘을 실행하는 `execve`)의 메모리 주소를 알지 못하면, 악성 코드를 심어놓고 거기로 점프시킬 타겟을 잃어버린다. 찍어서 맞출 확률은 64비트 시스템에서 수억 분의 1로 떨어지므로 사실상 찍기 해킹([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/))을 물리적으로 불가능하게 만든다.
 
 - **📢 섹션 요약 비유**: 전쟁터에서 장군(핵심 코드)의 지휘 통제소가 매일 같은 언덕(고정 주소)에 있으면 적의 포격([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 한 방에 전멸하지만, 매일 밤 텐트의 위치를 산속 무작위 위치로 몰래 옮겨버리면(ASLR) 적은 포탄을 어디다 쏴야 할지 몰라 허공에 포탄만 날리게(SegFault) 됩니다.
@@ -56,20 +57,20 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 로더(Loader)는 프로그램이 실행(exec)될 때, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간의 뼈대가 되는 4가지 큰 덩어리의 시작 지점(Base Address)에 난수(Random Offset)를 더해 흩뿌린다.
 
-1. **[Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**: 함수 지역 변수와 리턴 주소가 담기는 가장 위험한 타겟. 시작 번지를 꼬아버린다.
-2. **[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) (힙)**: 동적 할당(`malloc`) 영역. [힙 스프레이](/knowledge-base/studynote/09_security/04_endpoint_security/349_heap_spray/)([Heap Spray](/knowledge-base/studynote/09_security/04_endpoint_security/349_heap_spray/)) 공격을 막기 위해 시작 주소를 흔든다.
-3. **Libraries ([공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/))**: `libc.so`, `kernel32.dll` 같은 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 매핑되는 `mmap` 영역. 여기가 고정되어 있으면 Return-to-libc (RTL) 공격에 즉사한다.
-4. **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본체)**: 가장 뚫기 어려운 영역이다. 본체까지 흔들려면 컴파일할 때 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)([Position Independent Executable](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)) 옵션을 무조건 켜야 한다.
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>)</strong>: 함수 지역 변수와 리턴 주소가 담기는 가장 위험한 타겟. 시작 번지를 꼬아버린다.
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a> (힙)</strong>: 동적 할당(`malloc`) 영역. [힙 스프레이](/knowledge-base/studynote/09_security/04_endpoint_security/349_heap_spray/)([Heap Spray](/knowledge-base/studynote/09_security/04_endpoint_security/349_heap_spray/)) 공격을 막기 위해 시작 주소를 흔든다.
+3. <strong>Libraries (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">공유 라이브러리</a>)</strong>: `libc.so`, `kernel32.dll` 같은 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 매핑되는 `mmap` 영역. 여기가 고정되어 있으면 Return-to-libc (RTL) 공격에 즉사한다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> / <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> (실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 본체)</strong>: 가장 뚫기 어려운 영역이다. 본체까지 흔들려면 컴파일할 때 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)([Position Independent Executable](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)) 옵션을 무조건 켜야 한다.
 
 ---
 
 ### [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) (위치 독립 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))와의 찰떡 융합 아키텍처
 
-ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴파일러(Compiler)가 짜놓은 기계어 코드의 협조**가 절대적이다.
-- 만약 컴파일러가 기계어를 짤 때 `JUMP 0x400500` 처럼 주소를 **절대 주소(하드코딩)**로 박아버리면? 
+ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <strong>컴파일러(Compiler)가 짜놓은 기계어 코드의 협조</strong>가 절대적이다.
+- 만약 컴파일러가 기계어를 짤 때 `JUMP 0x400500` 처럼 주소를 <strong>절대 주소(하드코딩)</strong>로 박아버리면? 
   OS가 ASLR로 이 코드 덩어리를 `0x800000`으로 통째로 이사시켰을 때, `JUMP 0x400500`을 실행하는 순간 텅 빈 허공으로 날아가 프로그램이 죽어버린다.
-- **[PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) / PIC 의 마법**: 
-  그래서 현대 컴파일러(GCC 등)는 코드를 짤 때 절대 주소 대신 **`JUMP 현재위치 + 500보` 처럼 상대 주소(Relative Address)**로만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 작성한다.
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/">PIE</a> / PIC 의 마법</strong>: 
+  그래서 현대 컴파일러(GCC 등)는 코드를 짤 때 절대 주소 대신 <strong><code>JUMP 현재위치 + 500보</code> 처럼 상대 주소(Relative Address)</strong>로만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 작성한다.
   이걸 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)([Position Independent Executable](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/))라고 부른다. 이렇게 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 OS가 메모리의 1번지든 10억 번지든 어디에 던져놔도, 톱니바퀴 물리듯 완벽하게 굴러간다.
 
 - **📢 섹션 요약 비유**: ASLR([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))이 이사용 트럭으로 가구를 맘대로 섞어서 아무 방에나 던져놓을 수 있으려면, 가구 디자이너(컴파일러)가 서랍장 위치를 "거실 10번 타일(절대 주소)"이 아니라 "침대에서 오른쪽으로 두 발짝(상대 주소, [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/))" 구조로 유연하게 설계해놔야만 어디에 두든 완벽히 사용할 수 있는 이치입니다.
@@ -90,19 +91,22 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 
 ### [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) ([Return-Oriented Programming](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)) 공격과의 창방패 전쟁
 
-1. **1차전**: 해커가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 악성 코드를 넣고 실행했다. -> **[NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)**로 막았다. (실행 불가 에러)
+1. **1차전**: 해커가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 악성 코드를 넣고 실행했다. -> <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/">NX Bit</a></strong>로 막았다. (실행 불가 에러)
 2. **2차전**: 해커가 천재적인 꼼수를 냈다. "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 실행이 안 되면, 램에 이미 깔려있는 윈도우 기본 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`kernel32.dll`)의 `system()` 함수 조각조각들의 주소를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 리턴 주소에 이어 붙여서([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)) 악성 코드를 조립해 버리자!" (해킹 대성공)
 3. **3차전**: 방어 측 멘붕. "저 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격을 막으려면 윈도우 기본 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주소를 해커가 아예 모르게 해야 해!" -> **이때 ASLR이 구원투수로 등판한다.** 매번 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`dll`, `so`)를 켤 때마다 주소를 수억 개의 난수로 섞어버렸다. 해커는 `system()` 함수의 주소가 어디 있는지 몰라 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 퍼즐 조각을 잃어버리고 완패했다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 방어 기법  │ 오버플로우 방어│ 쉘코드 실행 차단│ ROP(퍼즐) 차단 │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ Stack Canary│ 🟢 1차 튕김 │ ❌ 못 막음   │ ❌ 못 막음          │
-│ NX Bit   │ ❌ 못 막음   │ 🟢 하드웨어 차단│ ❌ 우회당함        │
-│ **ASLR** │ ❌ 못 막음   │ ❌ 못 막음   │ **🟢 원천 차단**      │
-└──────────┴────────────┴────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 기법</div><div class="kb-diagram-cell">오버플로우 방어</div><div class="kb-diagram-cell">쉘코드 실행 차단</div><div class="kb-diagram-cell">ROP(퍼즐) 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack Canary</div><div class="kb-diagram-cell">🟢 1차 튕김</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NX Bit</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">🟢 하드웨어 차단</div><div class="kb-diagram-cell">❌ 우회당함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">🟢 원천 차단</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 어느 하나의 기술만으로는 완벽한 보안이 불가능하다. 입력 길이를 검사하는 카나리아([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)), 실행을 금지하는 NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 주소를 숨기는 ASLR 이 세 가지 방패가 융합([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/))되었을 때 비로소 현대의 철통같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 샌드박스가 완성된다.
 
 - **📢 섹션 요약 비유**: 해커가 남의 총(기존 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드)을 훔쳐 쏘려([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격) 할 때, 총의 방아쇠를 뽑아버리는 게([NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)) 아니라, 아예 매일 밤 총을 무작위 무기고(ASLR)에 숨겨버려서 해커가 총을 찾다가 날 새게 만드는 고도의 숨바꼭질 방어 전술입니다.
@@ -113,7 +117,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 
 ### 실무 시나리오: 메모리 릭(Leak)과 ASLR의 붕괴
 1. **ASLR의 유일한 약점**: 
-   - ASLR은 완벽해 보이지만, 치명적인 단점이 하나 있다. **'상대적인 오프셋(거리)은 항상 고정되어 있다'**는 점이다.
+   - ASLR은 완벽해 보이지만, 치명적인 단점이 하나 있다. <strong>'상대적인 오프셋(거리)은 항상 고정되어 있다'</strong>는 점이다.
    - 예를 들어 섞인 주소 위에서 `printf` 함수와 `system` 함수 사이의 거리는 1000바이트로 항상 고정이다. 베이스 주소(시작점) 1개만 무작위로 흔들렸을 뿐이기 때문이다.
 2. **해커의 Info Leak 공격**:
    - 실무 서버에 C언어 포인터 값을 화면에 실수로 출력해 주는 아주 작은 텍스트 버그(Info Leak)가 있었다.
@@ -125,7 +129,7 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 32비트 아키텍처의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 한계
 32비트 시스템에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 4GB밖에 안 된다. 여기서 시스템 코드 영역과 여러 고정 영역을 빼고 나면, ASLR이 주소를 섞을 수 있는 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 고작 256가지(8비트)밖에 안 남는 상황이 벌어진다. 해커가 악성 코드를 만들고 `for` 루프를 돌려 256번만 아무 데나 쾅쾅 찔러대면([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) 1초 안에 뚫려버린다. 
-즉, ASLR이 제대로 된 철벽 방어의 위력을 내려면, 주소 경우의 수가 수조 개(수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 넘는 **64비트 아키텍처**와 완벽하게 결합되어야만 한다.
+즉, ASLR이 제대로 된 철벽 방어의 위력을 내려면, 주소 경우의 수가 수조 개(수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 넘는 <strong>64비트 아키텍처</strong>와 완벽하게 결합되어야만 한다.
 
 - **📢 섹션 요약 비유**: 해커가 숨겨진 텐트(ASLR)의 위치를 몰라 헤매고 있었는데, 멍청한 병사 하나가 "우리 텐트는 화장실에서 동쪽으로 100보 거리에 있어!"라는 쪽지(Info Leak)를 땅에 흘려버린 탓에, 화장실을 발견한 해커가 완벽한 좌표를 계산해 내어 텐트를 폭격하는 정보전의 패배입니다.
 
@@ -138,8 +142,8 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 | 구분 | 내용 |
 |:---|:---|
 | **메모리 손상(Corruption) 공격 무력화**| 주소를 하드코딩하는 90% 이상의 구식 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 악성코드와 웜([Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) 바이러스를 멸종시킴 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 제로(0)** | 실행 초기에 베이스 주소값에 난수 하나 덧셈해 주는 것이 전부이므로, 프로그램 런타임 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)이 전혀 없음 |
-| **코드 위치 독립성([PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)) 확립** | ASLR을 위해 도입된 상대 주소 매핑 기술은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 컨테이너와 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(DLL) 생태계의 유연성을 극대화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드 제로(0)</strong> | 실행 초기에 베이스 주소값에 난수 하나 덧셈해 주는 것이 전부이므로, 프로그램 런타임 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)이 전혀 없음 |
+| <strong>코드 위치 독립성(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/">PIE</a>) 확립</strong> | ASLR을 위해 도입된 상대 주소 매핑 기술은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 컨테이너와 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(DLL) 생태계의 유연성을 극대화 |
 
 ### 결론 및 미래 전망
 
@@ -160,15 +164,19 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ARM / x86의 메모리 매핑 아키텍처 차이]
-    │
-    ▼
-[주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
-    │
-    ├──▶ [메모리 보호 키 (Memory Protection Keys)]
-    └──▶ [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 보호 키 (Memory Protection Keys)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 인식 데이터 구조 (Cache-aware Data Structures)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

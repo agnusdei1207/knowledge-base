@@ -33,7 +33,7 @@ f(n) = g(n) + h(n)
 3. 인접 노드 확장 및 f(n) 갱신
 4. 목표 도달 시까지 반복
 ```
-- **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수(h):** 유클리드 거리, 맨해튼 거리 등을 사용하며, 실제 비용을 과대평가하지 않아야(Admissible) 최적해가 보장됨
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 함수(h):</strong> 유클리드 거리, 맨해튼 거리 등을 사용하며, 실제 비용을 과대평가하지 않아야(Admissible) 최적해가 보장됨
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 평가 방식 | 특징 |
@@ -57,25 +57,25 @@ f(n) = g(n) + h(n)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[브루트 포스 경로 탐색 — 모든 경로 전수]
-    │
-    ▼
-[다익스트라 (Dijkstra) — g(n) 기반 최단경로]
-    │
-    ▼
-[휴리스틱 탐색 (Best-First) — h(n)으로 목표 유도]
-    │
-    ▼
-[A* 알고리즘 — g(n)+h(n) 균형 탐색]
-    │
-    ├─▶ [Weighted A* — 속도 우선 근사]
-    │
-    └─▶ [IDA* / JPS — 메모리·격자 최적화]
-                │
-                ▼
-            [게임 AI / 로보틱스 / 내비게이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브루트 포스 경로 탐색 — 모든 경로 전수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 (Dijkstra) — g(n) 기반 최단경로</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">휴리스틱 탐색 (Best-First) — h(n)으로 목표 유도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 — g(n)+h(n) 균형 탐색</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Weighted A* — 속도 우선 근사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IDA* / JPS — 메모리·격자 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게임 AI / 로보틱스 / 내비게이션</div></div>
+</div>
+</div>
+
+
 A*는 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 정확성과 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 방향성을 결합해, 최단 경로 보장을 유지하면서 탐색 공간을 효율적으로 줄인다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

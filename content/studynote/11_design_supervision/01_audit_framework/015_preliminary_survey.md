@@ -23,15 +23,21 @@ tags = ["design_supervision"]
 
 이 도식은 문서 기반의 피상적 이해와 인터뷰가 결합된 예비조사가 어떻게 숨겨진 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(Iceberg)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)해 내는지 시각화한다.
 
-```text
-[수면 위 (표면 데이터)]
-  ├─ 제안서, 과업내용서 ──> "목표 진척률 90% 달성, 이슈 없음" (사업자의 공식 보고)
-──┼────────────────────────────────────────────────────────── (가시성 경계선)
-[수면 아래 (예비조사 스캐닝)]
-  ├─ (면담) 발주처 현업 불만  ──> "우리가 원한 화면이 아님, 잦은 재작업"
-  ├─ (로그) 형상관리 커밋율   ──> "핵심 코어 모듈 50% 코딩 미완료"
-  └─ (결과) 실제 잠복 리스크  => [리스크 식별] => 본 감리 화력 집중 타겟 도출
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수면 위 (표면 데이터)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">제안서, 과업내용서 ──&gt; "목표 진척률 90% 달성, 이슈 없음" (사업자의 공식 보고)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(가시성 경계선)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수면 아래 (예비조사 스캐닝)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">(면담) 발주처 현업 불만 ──&gt; "우리가 원한 화면이 아님, 잦은 재작업"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(로그) 형상관리 커밋율 ──&gt; "핵심 코어 모듈 50% 코딩 미완료"</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (결과) 실제 잠복 리스크 =&gt;</div><div class="kb-diagram-node">리스크 식별</div><div class="kb-diagram-note">=&gt; 본 감리 화력 집중 타겟 도출</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 수면 위의 공식 문서([정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/))와 수면 아래의 인터뷰/메타 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)) 간의 **불일치(Inconsistency)** 를 찾아내는 것이다. 진척률은 90%인데 형상관리 서버(SVN/Git)의 최근 1주일 커밋(Commit)이 제로(0)라면, 이는 심각한 개발 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 인력 이탈의 강력한 시그널이다. 실무 감리 총괄은 예비조사에서 이 갭(Gap)을 포착해 내야만, 본 감리에서 사업자의 방어 논리를 뚫고 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 짚어낼 수 있다.
 
@@ -48,22 +54,25 @@ tags = ["design_supervision"]
 | **문서 사전 검토** | [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 파악 및 논리성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 과업내용서 대비 사업수행계획서, [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 주간/월간보고서의 정합성 대조 (Desk [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) | RFP, 제안서, [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) | 범죄 기록 및 알리바이 서류 분석 |
 | **발주처 면담** | 비즈니스 Pain-Point 수집 | 현업 부서의 가장 큰 우려사항, 추가/변경 요구에 대한 사업자와의 갈등 내역 청취 | 면담 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) | 피해자 진술 청취 |
 | **사업자 면담 (PM)** | 기술적 병목 및 제약 파악 | 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사유, 외부 솔루션 연동([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/DB) 이슈, 요구사항 확정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 대한 고충 파악 | 위험 등록부 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 용의자/현장 소장 진술 청취 |
-| **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) (Cross Check)** | 정보의 객관화 및 위양성 제거 | 문서의 주장, 발주자의 주장, 사업자의 주장을 삼각형(Triangulation) 구도로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 팩트 도출 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)) | 진술과 증거의 상호 모순 대조 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> (Cross Check)</strong> | 정보의 객관화 및 위양성 제거 | 문서의 주장, 발주자의 주장, 사업자의 주장을 삼각형(Triangulation) 구도로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 팩트 도출 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)) | 진술과 증거의 상호 모순 대조 |
 | **주안점 (Focus Area) 도출** | 본 감리 타겟팅 확정 | 교체된 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 등 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 점수가 가장 높은 상위 20%의 핵심 표적 선정 | 예비조사 결과서 | 현장 압수수색 영장(타겟) 발부 |
 
 이 흐름도는 예비 조사를 구성하는 세 주체 간의 정보 흐름과 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Triangulation) 메커니즘을 보여준다.
 
-```text
-       [문서 자료 (Document)] ──(진척률/아키텍처 스펙 제공)──┐
-            │                                               │
-(갭 발생 시 모순 포착)                                      │ (크로스 체크)
-            │                                               ↓
-       [사업자 PM 진술] ──(지연은 발주처 탓)──><──(시스템 성능 불만)── [발주처/현업 진술]
-            │                                               │
-            └────────────> [총괄 감리원 (Auditor)] <────────┘
-                                 │ (정합성 분석)
-                           [핵심 리스크 및 주안점 도출]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문서 자료 (Document)</div><div class="kb-diagram-note">──(진척률/아키텍처 스펙 제공)──</div></div>
+<div class="kb-diagram-note">(갭 발생 시 모순 포착) │ (크로스 체크)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업자 PM 진술</div><div class="kb-diagram-note">──(지연은 발주처 탓)──&gt;&lt;──(시스템 성능 불만)──</div><div class="kb-diagram-node">발주처/현업 진술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">총괄 감리원 (Auditor)</div><div class="kb-diagram-note">&lt;</div></div>
+<div class="kb-diagram-note">(정합성 분석)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 리스크 및 주안점 도출</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 총괄 감리원이 정보의 '[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))' 역할을 피하고 중앙 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) 패턴처럼 동작한다는 것이다. 사업자 PM은 "발주처가 요구사항을 안 줘서 늦어졌다"고 진술하고, 발주처는 "사업자 기술력이 부족해 화면이 느리다"고 진술한다. 이때 감리원은 양측의 진술을 문서([요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) 결재 이력, DB 튜닝 내역)와 대조(Cross Check)하여, 진정한 병목 원인(예: 요구사항 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아닌 DB 설계 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 판별하고 이를 본 감리의 1순위 타겟으로 고정(Pinning)한다.
 
@@ -80,31 +89,32 @@ tags = ["design_supervision"]
 | 비교 항목 | 문서 기반 검토 (Desk [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 면담 (Interview) | 정보 융합의 팩트 체크 기준 |
 |:---|:---|:---|:---|
 | **정보의 성격** | 정형화, 공식화된 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 비정형화, 주관적, 감정적 상태 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 징후) | 문서의 진위를 면담으로 찌르고, 면담의 과장을 문서로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **파악 가능한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**| 과업 범위 축소/조작, [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 소진 | 개발자 피로도, 부서 간 갈등, 숨겨진 버그 | 정량적 수치 vs 정성적 분위기의 괴리 |
-| **한계 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)** | 사업자가 의도적으로 은폐/가라([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/))로 작성한 문서는 맹점이 됨 (Blind Spot) | 개인의 책임을 회피하기 위한 과장이나 남 탓 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 발생 가능성 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/))가 없는 심증 배제 |
+| <strong>파악 가능한 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>| 과업 범위 축소/조작, [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 소진 | 개발자 피로도, 부서 간 갈등, 숨겨진 버그 | 정량적 수치 vs 정성적 분위기의 괴리 |
+| <strong>한계 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong> | 사업자가 의도적으로 은폐/가라([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/))로 작성한 문서는 맹점이 됨 (Blind Spot) | 개인의 책임을 회피하기 위한 과장이나 남 탓 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 발생 가능성 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/))가 없는 심증 배제 |
 
 이 매트릭스는 예비 조사에서 흔히 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)되는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 유형을 아키텍처 및 품질 속성에 융합하여 어떻게 주안점으로 치환하는지 보여준다.
 
-```text
-┌──────────────┬─────────────────────────┬────────────────────────────┬────────────────────┐
-│ 리스크 징후  │ 예비조사 포착 시그널    │ 타겟 아키텍처 및 검증 도구 │ 감리 주안점 (Focus)│
-├──────────────┼─────────────────────────┼────────────────────────────┼────────────────────┤
-│ 일정 지연/붕괴│ 핵심 인력 빈번한 교체   │ 형상관리/CI 브랜치 병합률  │ 코어 로직 완성도 및│
-│              │ WBS 마일스톤 연속 미달  │ SAST(정적 분석) 도구 스캔  │ 스파게티 코드 점검 │
-├──────────────┼─────────────────────────┼────────────────────────────┼────────────────────┤
-│ 잦은 요건 변경│ 발주처 현업의 강한 불만 │ RTM(요구사항 추적 매트릭스)│ 범위 크립(Scope    │
-│ (Scope Creep)│ 회의록 상의 잦은 충돌   │ 의 양방향 매핑 상태 분석   │ Creep) 통제 적정성 │
-├──────────────┼─────────────────────────┼────────────────────────────┼────────────────────┤
-│ 성능/장애 위험│ 신규 프레임워크(MSA)도입│ APM(성능 모니터링) 툴,     │ 병목 트랜잭션의 락 │
-│              │ 타 기관 API 연동 지연   │ 스트레스 부하 테스트(JMeter)│ 경합 및 타임아웃   │
-└──────────────┴─────────────────────────┴────────────────────────────┴────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 징후</div><div class="kb-diagram-cell">예비조사 포착 시그널</div><div class="kb-diagram-cell">타겟 아키텍처 및 검증 도구</div><div class="kb-diagram-cell">감리 주안점 (Focus)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정 지연/붕괴</div><div class="kb-diagram-cell">핵심 인력 빈번한 교체</div><div class="kb-diagram-cell">형상관리/CI 브랜치 병합률</div><div class="kb-diagram-cell">코어 로직 완성도 및</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WBS 마일스톤 연속 미달</div><div class="kb-diagram-cell">SAST(정적 분석) 도구 스캔</div><div class="kb-diagram-cell">스파게티 코드 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잦은 요건 변경</div><div class="kb-diagram-cell">발주처 현업의 강한 불만</div><div class="kb-diagram-cell">RTM(요구사항 추적 매트릭스)</div><div class="kb-diagram-cell">범위 크립(Scope</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scope Creep)</div><div class="kb-diagram-cell">회의록 상의 잦은 충돌</div><div class="kb-diagram-cell">의 양방향 매핑 상태 분석</div><div class="kb-diagram-cell">Creep) 통제 적정성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능/장애 위험</div><div class="kb-diagram-cell">신규 프레임워크(MSA)도입</div><div class="kb-diagram-cell">APM(성능 모니터링) 툴,</div><div class="kb-diagram-cell">병목 트랜잭션의 락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타 기관 API 연동 지연</div><div class="kb-diagram-cell">스트레스 부하 테스트(JMeter)</div><div class="kb-diagram-cell">경합 및 타임아웃</div></div>
+</div>
+</div>
+
+
 
 이 표의 핵심 트레이드오프는 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 징후'를 '객관적 감리 주안점'으로 치환하는 매핑 과정이다. 발주처가 단순히 "화면이 느리다"고 불평(면담)했다고 해서 주안점을 "화면 속도 점검"이라고 추상적으로 잡으면 안 된다. 감리원은 이 불만을 분해하여, "도입된 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처 하에서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway와 [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) 간의 네트워크 레이턴시 및 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 동작 여부 점검"이라는 고도로 구체화된 아키텍처 타겟으로 벼려내야 한다.
 
 **과목 융합 관점**:
-- **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/))** : 예비조사의 면담 기법은 요구사항 도출(Elicitation) 기법 중 브레인스토밍, [포커스 그룹 인터뷰](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/)([FGI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))와 맥을 같이 한다. 감리원은 유도신문이나 편향을 피하고, 5 Why 기법을 통해 현상(Symptom) 아래의 근본 원인(Root Cause)을 도출해야 한다.
-- **보안 ([ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/))** : [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 환경이나 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 시스템의 경우, 예비 조사 시 시스템 아키텍처 다이어그램([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))만 보고도 망연계 솔루션의 위치, DB 암호화 누락, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))의 취약점 등 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) 주안점을 1차적으로 스캐닝할 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">요구사항 공학</a>)</strong> : 예비조사의 면담 기법은 요구사항 도출(Elicitation) 기법 중 브레인스토밍, [포커스 그룹 인터뷰](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/)([FGI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/))와 맥을 같이 한다. 감리원은 유도신문이나 편향을 피하고, 5 Why 기법을 통해 현상(Symptom) 아래의 근본 원인(Root Cause)을 도출해야 한다.
+- <strong>보안 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a>)</strong> : [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 환경이나 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 시스템의 경우, 예비 조사 시 시스템 아키텍처 다이어그램([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))만 보고도 망연계 솔루션의 위치, DB 암호화 누락, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))의 취약점 등 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) 주안점을 1차적으로 스캐닝할 수 있다.
 
 📢 **섹션 요약 비유**: 의사가 수술(본 감리)에 들어가기 전에 엑스레이 차트(문서)만 보지 않고, 환자에게 "어디가 가장 쑤시고 아픈가요?"라고 직접 묻고(인터뷰) 두 정보를 교차하여 가장 치명적인 암 덩어리(감리 주안점)의 위치를 확정하는 정밀 진단 과정과 같습니다.
 
@@ -114,7 +124,7 @@ tags = ["design_supervision"]
 
 총괄 감리원은 예비조사에서 포착된 시그널의 진위를 감별하고, 방어적인 사업자를 압박하여 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어내는 고도의 협상력과 분석력을 발휘해야 한다.
 
-1. **시나리오 1: 사업자의 예비 산출물 제출 거부 및 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**
+1. <strong>시나리오 1: 사업자의 예비 산출물 제출 거부 및 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>
    - **상황**: 본 감리 1주일 전 예비 조사를 시작했으나, 사업자 PM이 "아직 문서 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/)가 안 끝났다"며 설계서와 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 제출을 며칠째 미루고 있다.
    - **판단**: 전형적인 '산출물 조작/급조'를 위한 시간 끌기([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))이다. 감리원은 미완성 산출물(Draft)이라도 있는 그대로 형상([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 묶어 제출할 것을 강제해야 한다. 완벽한 문서를 기다리는 것은 사업자가 과거의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 숨길 기회를 주는 것이므로, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 사실 자체를 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 기록하고 본 감리 시 '문서 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 부실'을 최우선으로 타격(Major 지적)할 준비를 해야 한다.
 
@@ -128,14 +138,19 @@ tags = ["design_supervision"]
 
 이 의사결정 트리는 예비조사 인터뷰 과정에서 사업자의 방어적 태도에 대한 감리원의 우회 타격([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 플로우를 보여준다.
 
-```text
-[사업자 PM 인터뷰] ──(리스크 은폐 시도?)
-                     ├─> "문서로 다 제출했습니다" (방어적 태도)
-                     │    => [문서 대조] => (오류 포착) => [형상관리 커밋/이슈 트래커 로그 강제 징구]
-                     │
-                     └─> "발주처가 요구를 계속 바꿉니다" (책임 전가 태도)
-                          => [현업 크로스 인터뷰] => (회의록/공문 대조) => [범위 크립(Scope Creep) 통제 실태 점검]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업자 PM 인터뷰</div><div class="kb-diagram-note">──(리스크 은폐 시도?)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">"문서로 다 제출했습니다" (방어적 태도)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">문서 대조</div><div class="kb-diagram-note">=&gt; (오류 포착) =&gt;</div><div class="kb-diagram-node">형상관리 커밋/이슈 트래커 로그 강제 징구</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">"발주처가 요구를 계속 바꿉니다" (책임 전가 태도)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">현업 크로스 인터뷰</div><div class="kb-diagram-note">=&gt; (회의록/공문 대조) =&gt;</div><div class="kb-diagram-node">범위 크립(Scope Creep) 통제 실태 점검</div></div>
+</div>
+</div>
+
+
 
 이 운영 플로우의 핵심은 사람의 말(거짓)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이력)로 격파하는 것이다. 사업자가 숨기려 할수록 감리원은 더 깊은 로우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 형상관리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), DB 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) 접근 권한을 요구하여, 예비 조사의 깊이를 시스템 코어 레벨까지 끌고 내려가야 한다.
 
@@ -150,41 +165,43 @@ tags = ["design_supervision"]
 | 구분 | 예비 조사 부실 (형식적 문서 접수) | 예비 조사 철저 수행 (심층 인터뷰 및 대조) | 기대 효과 및 프로젝트 방어력 |
 |:---|:---|:---|:---|
 | **감리 생산성** | 현장에서 문서 읽느라 3일 허비 | 첫날부터 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 소스코드 정밀 타격 | 동일 감리 기간 내 크리티컬 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 도출율 극대화 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응력** | 발주처/사업자가 숨긴 장애가 오픈 후 폭발 | 숨은 갈등과 기술 부채를 수면 위로 끌어올림 | 프로젝트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 및 지체상금 발생 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 대응력</strong> | 발주처/사업자가 숨긴 장애가 오픈 후 폭발 | 숨은 갈등과 기술 부채를 수면 위로 끌어올림 | 프로젝트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 및 지체상금 발생 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 |
 | **품질 보증 가치**| 뻔한 '가이드라인 준수 요망' 수준의 보고서 | 병목 DB 튜닝, 아키텍처 재설계 등 실질적 솔루션 | 발주처의 기술적 멘토이자 최상위 품질 보증(QA) 기구 안착 |
 
 **미래 전망 (Future Standard)**: 
-향후 예비 조사 프로세스는 수작업 기반의 면담과 문서 읽기를 넘어, **[데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)([Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)) 도구와의 자동 연동**으로 진화할 것이다. 감리 착수 1개월 전부터 시스템의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 대시보드([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab)와 이슈 트래커(Jira)에 감리용 모니터링 봇(Bot)을 연결(Plug-in)하여, 코드 복잡도(Cyclomatic Complexity)의 증가 추이, 빌드 실패율, 테스트 커버리지 하락률 등의 메타 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AI가 24시간 수집하고, 실시간 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 히트맵(Heatmap)을 감리원에게 대시보드로 제공하는 '디지털 예비조사(Digital Preliminary)' 시대로 전환될 것이다.
+향후 예비 조사 프로세스는 수작업 기반의 면담과 문서 읽기를 넘어, <strong><a href="/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/">데이터 옵저버빌리티</a>(<a href="/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/">Data Observability</a>) 도구와의 자동 연동</strong>으로 진화할 것이다. 감리 착수 1개월 전부터 시스템의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 대시보드([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab)와 이슈 트래커(Jira)에 감리용 모니터링 봇(Bot)을 연결(Plug-in)하여, 코드 복잡도(Cyclomatic Complexity)의 증가 추이, 빌드 실패율, 테스트 커버리지 하락률 등의 메타 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AI가 24시간 수집하고, 실시간 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 히트맵(Heatmap)을 감리원에게 대시보드로 제공하는 '디지털 예비조사(Digital Preliminary)' 시대로 전환될 것이다.
 
 📢 **섹션 요약 비유**: 과거에는 기상 캐스터가 구름 모양을 보고 수동으로 태풍을 예측했다면(아날로그 예비조사), 미래에는 수백 개의 위성과 센서가 실시간으로 수집한 기압 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자동화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/이슈 트래커)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 슈퍼컴퓨터가 분석하여 태풍의 정확한 상륙 지점(핵심 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 타겟)을 쪽집게처럼 찍어주는 스마트 재난 대비 시스템과 같습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **위험 등록부 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** : 예비조사 면담 시 PM이 관리하는 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) 목록으로, 프로젝트의 잠재적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산, 기술 부족)와 완화 조치([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 상태가 기록된 핵심 분석 대상.
-- **범위 크립 ([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))** : 공식적인 변경 통제 절차([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 없이 발주처의 요구사항이 조금씩 지속적으로 추가되어 결국 아키텍처와 일정을 붕괴시키는 프로젝트 실패의 가장 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
-- **삼각 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Triangulation)** : 예비 조사 시 문서, 발주자 인터뷰, 사업자 인터뷰라는 서로 다른 3개의 출처(Source)에서 얻은 정보를 교차 대조하여 객관적 진실(Fact)을 도출하는 분석 기법.
-- **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))** : 사업수행계획서 내의 작업 분해 구조로, 예비 조사 시 계획된 마일스톤 대비 실제 진척도([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))의 왜곡(오버 리포팅) 여부를 스캐닝하는 기본 척도.
-- **형상 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) (Configuration [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** : 예비조사 시점에 사업자가 감리단에 제출하며 '더 이상 수정하지 않겠다'고 승인/고정시킨 문서나 코드의 상태로, 본 감리 중 무단 변경을 막는 통제 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/).
+- <strong>위험 등록부 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> : 예비조사 면담 시 PM이 관리하는 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) 목록으로, 프로젝트의 잠재적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산, 기술 부족)와 완화 조치([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 상태가 기록된 핵심 분석 대상.
+- <strong>범위 크립 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)</strong> : 공식적인 변경 통제 절차([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 없이 발주처의 요구사항이 조금씩 지속적으로 추가되어 결국 아키텍처와 일정을 붕괴시키는 프로젝트 실패의 가장 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
+- <strong>삼각 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Triangulation)</strong> : 예비 조사 시 문서, 발주자 인터뷰, 사업자 인터뷰라는 서로 다른 3개의 출처(Source)에서 얻은 정보를 교차 대조하여 객관적 진실(Fact)을 도출하는 분석 기법.
+- <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> : 사업수행계획서 내의 작업 분해 구조로, 예비 조사 시 계획된 마일스톤 대비 실제 진척도([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))의 왜곡(오버 리포팅) 여부를 스캐닝하는 기본 척도.
+- <strong>형상 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> (Configuration <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> : 예비조사 시점에 사업자가 감리단에 제출하며 '더 이상 수정하지 않겠다'고 승인/고정시킨 문서나 코드의 상태로, 본 감리 중 무단 변경을 막는 통제 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/).
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[감리 계획 수립 — 감리 목적·범위·방법론·일정 확정]
-    │
-    ▼
-[예비 조사 (Preliminary Survey) — 사업 문서 검토·삼각 검증으로 리스크 선행 식별]
-    │
-    ▼
-[본 감리 (Main Audit) — 현장 점검·인터뷰·산출물 심층 검증]
-    │
-    ▼
-[감리 결과 보고 — 시정 조치 요구(F/U) 및 개선 권고]
-    │
-    ▼
-[종료 확인 감리 — 시정 조치 이행 여부 검증, 사업 최종 품질 확인]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 수립 — 감리 목적·범위·방법론·일정 확정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예비 조사 (Preliminary Survey) — 사업 문서 검토·삼각 검증으로 리스크 선행 식별</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">본 감리 (Main Audit) — 현장 점검·인터뷰·산출물 심층 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 결과 보고 — 시정 조치 요구(F/U) 및 개선 권고</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 확인 감리 — 시정 조치 이행 여부 검증, 사업 최종 품질 확인</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 IT 감리의 전체 프로세스를 [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)→예비 조사→본 감리→결과 보고→종료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리로 이어지는 단계적 흐름으로 보여주며, 예비 조사가 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조기 발견의 핵심 관문임을 강조한다.
 

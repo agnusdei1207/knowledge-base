@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 클라이언트가 특정 공개키 인증서의 상태를 인증서 폐지 목록 전체가 아니라 **해당 인증서 1건 단위로 실시간 질의**하는 인증서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로토콜이다.
+> 1. **본질**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 클라이언트가 특정 공개키 인증서의 상태를 인증서 폐지 목록 전체가 아니라 <strong>해당 인증서 1건 단위로 실시간 질의</strong>하는 인증서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로토콜이다.
 > 2. **가치**: 인증서 폐지 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)) 전체를 주기적으로 내려받는 방식보다 응답이 가볍고 최신성이 높아, 분실·유출·오발급된 인증서를 더 빠르게 차단할 수 있다.
 > 3. **판단 포인트**: OCSP는 효율적이지만 브라우저의 추가 네트워크 왕복, 응답 서버 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 프라이버시 노출, 소프트 페일 (Soft-Fail) 문제를 동반하므로 스테이플링과 캐시 전략까지 함께 이해해야 한다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-security"]
 
 OCSP는 인증기관 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority)이 발급한 인증서가 아직 유효한지, 아니면 폐기 (Revocation)되었는지를 온라인으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 프로토콜이다. 서버 인증서가 아직 만료되지 않았더라도 개인키 유출, 잘못된 발급, 조직 변경 같은 이유가 생기면 즉시 신뢰를 철회해야 하므로, 단순 만료일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)만으로는 충분하지 않다.
 
-과거에는 CRL을 내려받아 폐기된 인증서 목록 전체를 로컬에서 대조하는 방식이 일반적이었다. 하지만 인증서가 많아질수록 목록 크기가 커지고, 갱신 주기가 길면 최신성이 떨어진다. 반면 OCSP는 브라우저나 클라이언트가 필요한 인증서의 일련번호 ([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Number)만 질의해 **"지금 이 인증서가 괜찮은가"**를 바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 한다.
+과거에는 CRL을 내려받아 폐기된 인증서 목록 전체를 로컬에서 대조하는 방식이 일반적이었다. 하지만 인증서가 많아질수록 목록 크기가 커지고, 갱신 주기가 길면 최신성이 떨어진다. 반면 OCSP는 브라우저나 클라이언트가 필요한 인증서의 일련번호 ([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Number)만 질의해 <strong>"지금 이 인증서가 괜찮은가"</strong>를 바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 한다.
 
 즉 OCSP의 필요성은 "목록 전체를 들고 다니는 방식의 비효율"을 줄이고, 폐기 정보를 더 빨리 반영하기 위해서다. 특히 금융, 공공, 대형 인터넷 서비스처럼 폐기된 인증서를 오래 신뢰하면 위험한 환경에서 중요하다.
 
@@ -43,23 +43,22 @@ OCSP의 기본 흐름은 단순하다. 클라이언트는 서버가 제시한 �
 
 아래 그림은 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 접속 중 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의가 개입되는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    OCSP의 기본 검증 흐름                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Browser ── TLS Handshake ──▶ Web Server                             │
-│    │                           │                                    │
-│    │  Certificate + AIA        │                                    │
-│    ▼                           │                                    │
-│ OCSP Request ────────────────▶ Responder                            │
-│    │                           │                                    │
-│    │  Signed Response: good / revoked / unknown                     │
-│    ▼                           │                                    │
-│ Validation Decision ◀──────────┘                                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-기술적으로 중요한 점은 응답이 **서명되어야 한다**는 것이다. 그렇지 않으면 공격자가 중간에서 "정상"이라고 위조 응답을 보낼 수 있다. 또한 응답에는 `thisUpdate`, `nextUpdate` 같은 시점 정보가 포함되어 캐시 허용 범위를 정한다. 결국 OCSP는 단순 조회가 아니라, **짧은 수명의 서명된 상태 증명서**를 교환하는 구조라고 볼 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP의 기본 검증 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ── TLS Handshake ──▶ Web Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate + AIA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP Request ▶ Responder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signed Response: good / revoked / unknown</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation Decision ◀</div></div>
+</div>
+</div>
+
+
+
+기술적으로 중요한 점은 응답이 <strong>서명되어야 한다</strong>는 것이다. 그렇지 않으면 공격자가 중간에서 "정상"이라고 위조 응답을 보낼 수 있다. 또한 응답에는 `thisUpdate`, `nextUpdate` 같은 시점 정보가 포함되어 캐시 허용 범위를 정한다. 결국 OCSP는 단순 조회가 아니라, <strong>짧은 수명의 서명된 상태 증명서</strong>를 교환하는 구조라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: OCSP는 손님이 신분증을 보여주면 문지기가 경찰서 전산망에 한 번 조회하고, 경찰서가 도장 찍힌 답변서를 보내 주는 방식과 같다. 핵심은 답변이 빨라야 하고, 경찰서 도장이 있어야 믿을 수 있다는 점이다.
 
@@ -76,7 +75,7 @@ OCSP는 CRL보다 가볍고 최신성이 높지만, 네트워크 의존성이 �
 | 약점 | 목록 대형화, 갱신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 추가 왕복, 프라이버시 노출 | 서버 설정과 캐시 관리 필요 |
 | 적합성 | 제한된 오프라인 환경 | 일반 실시간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 현대 웹 브라우징 최적화 |
 
-또한 OCSP는 인증서 투명성 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/))과도 구분해야 한다. OCSP는 **이미 발급된 인증서의 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)**를 묻는 기술이고, CT는 **발급 사실 자체를 공개 로그로 감시**하는 기술이다. 즉 하나는 폐기 여부, 다른 하나는 발급 투명성을 다룬다.
+또한 OCSP는 인증서 투명성 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/))과도 구분해야 한다. OCSP는 <strong>이미 발급된 인증서의 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a></strong>를 묻는 기술이고, CT는 <strong>발급 사실 자체를 공개 로그로 감시</strong>하는 기술이다. 즉 하나는 폐기 여부, 다른 하나는 발급 투명성을 다룬다.
 
 따라서 OCSP는 인증서 수명주기 중 "사후 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"에 해당하며, [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)·스테이플링·CT와 함께 볼 때 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))의 전체 그림이 선명해진다.
 
@@ -102,7 +101,7 @@ OCSP는 CRL보다 가볍고 최신성이 높지만, 네트워크 의존성이 �
 - **보완**: 대규모 웹 서비스는 스테이플링으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 프라이버시 문제를 줄이는 것이 바람직하다.
 - **주의**: 응답자 장애 시 무조건 접속 차단하는 하드 페일 (Hard-Fail)은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 해칠 수 있고, 반대로 소프트 페일은 보안 공백을 만들 수 있다.
 
-예를 들어 금융기관 사이트는 개인키 유출 시 즉시 폐기 상태가 반영되어야 하므로 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 계열 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중요하다. 다만 사용자가 몰리는 서비스라면 브라우저 수백만 대가 직접 질의하는 구조보다 서버 측 스테이플링이 훨씬 현실적이다. 기술사 답안에서는 이 **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 대 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) trade-off**를 명확히 쓰는 것이 중요하다.
+예를 들어 금융기관 사이트는 개인키 유출 시 즉시 폐기 상태가 반영되어야 하므로 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 계열 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중요하다. 다만 사용자가 몰리는 서비스라면 브라우저 수백만 대가 직접 질의하는 구조보다 서버 측 스테이플링이 훨씬 현실적이다. 기술사 답안에서는 이 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> 대 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> trade-off</strong>를 명확히 쓰는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 운영은 보안문을 하나 더 다는 일이지만, 그 문이 너무 무겁거나 고장 나면 사람들이 건물에 아예 못 들어올 수도 있다. 그래서 튼튼함과 통과 속도를 함께 설계해야 한다.
 
@@ -112,9 +111,9 @@ OCSP는 CRL보다 가볍고 최신성이 높지만, 네트워크 의존성이 �
 
 OCSP는 폐기 상태를 더 빠르고 가볍게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하게 해 주므로, 유출되거나 잘못 발급된 인증서를 오래 신뢰하는 위험을 줄인다. 이는 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선이 아니라, 인증서 신뢰 체계의 반응 속도를 높이는 효과다. 특히 브라우저, 메일, 기업용 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 환경에서 폐기 정보의 최신성이 중요한 경우 유용하다.
 
-하지만 OCSP만으로 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 문제가 모두 해결되지는 않는다. 응답자 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 프라이버시, 브라우저별 예외 처리, 소프트 페일 문제는 여전히 존재한다. 따라서 OCSP는 독립적인 만능 해법이 아니라, **CRL의 비효율을 줄이기 위해 도입된 실시간 상태 질의 계층**으로 이해해야 한다.
+하지만 OCSP만으로 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 문제가 모두 해결되지는 않는다. 응답자 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 프라이버시, 브라우저별 예외 처리, 소프트 페일 문제는 여전히 존재한다. 따라서 OCSP는 독립적인 만능 해법이 아니라, <strong>CRL의 비효율을 줄이기 위해 도입된 실시간 상태 질의 계층</strong>으로 이해해야 한다.
 
-결국 기억해야 할 핵심은 이것이다. OCSP의 본질은 인증서 자체를 더 안전하게 만드는 것이 아니라, **이미 발급된 인증서가 아직 믿을 만한지 더 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방법**이라는 점이다. 그리고 현대 웹에서는 그 장점을 살리면서 단점을 줄이기 위해 스테이플링과 함께 쓰는 방향이 일반적이다.
+결국 기억해야 할 핵심은 이것이다. OCSP의 본질은 인증서 자체를 더 안전하게 만드는 것이 아니라, <strong>이미 발급된 인증서가 아직 믿을 만한지 더 빠르게 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 방법</strong>이라는 점이다. 그리고 현대 웹에서는 그 장점을 살리면서 단점을 줄이기 위해 스테이플링과 함께 쓰는 방향이 일반적이다.
 
 - **📢 섹션 요약 비유**: OCSP는 신분증의 진위를 실시간으로 물어볼 수 있게 만든 전화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 서비스와 같다. 전화가 빠르면 안전해지지만, 전화가 늦거나 끊기면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차 전체가 병목이 되므로 운영 방식까지 같이 고민해야 한다.
 
@@ -133,21 +132,23 @@ OCSP는 폐기 상태를 더 빠르고 가볍게 [확인](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인증서 만료일 확인만으로는 부족
-    │
-    ▼
-CRL (목록 기반 폐기 확인)
-    │
-    ▼
-OCSP (실시간 개별 질의)
-    │
-    ▼
-OCSP Stapling
-    │
-    ▼
-프라이버시 · 가용성 · CT 연계 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인증서 만료일 확인만으로는 부족</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CRL (목록 기반 폐기 확인)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCSP (실시간 개별 질의)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCSP Stapling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프라이버시 · 가용성 · CT 연계 검증</div>
+</div>
+</div>
+
+
 
 이 흐름은 "목록 기반 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 실시간 상태 질의 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 프라이버시 개선"으로 이어지는 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술의 발전 방향을 보여준다.
 

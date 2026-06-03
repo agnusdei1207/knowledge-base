@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 내가 `주문(Order)` 함수를 짰는데, 이 함수 안에서 `이메일 발송(EmailSender)` 객체를 호출한다. 테스트 코드를 짤 때 진짜 이메일 발송 객체를 쓰면 어떻게 될까? 테스트를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 돌릴 때마다 내 고객들에게 결제 완료 이메일 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000통이 진짜로 날아가는 핵폭탄 대참사가 벌어진다. 게다가 인터넷이 끊기면 테스트도 실패한다(불안정성). 아키텍트는 "테스트 환경에서는 절대 진짜 이메일 발송기를 쓰지 말고, 이메일을 날리는 척만 하는 '가짜 배우([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))'를 넣어라!"라고 지시해야 한다. 이것이 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)이 존재하는 유일하고도 거대한 이유다.
 
-- **💡 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 **'소방 훈련용 마네킹'**과 같습니다. 소방관(내가 짠 코드)이 심폐소생술 훈련([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))을 해야 하는데, 진짜 사람(진짜 DB 객체)을 데려다 갈비뼈를 부러뜨리며 연습할 수는 없습니다. 그래서 사람의 무게와 가슴 압박 느낌만 완벽하게 흉내 낸 '마네킹([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/))'을 눕혀놓고 안전하게 수만 번 훈련을 하는 것입니다.
+- **💡 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 <strong>'소방 훈련용 마네킹'</strong>과 같습니다. 소방관(내가 짠 코드)이 심폐소생술 훈련([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))을 해야 하는데, 진짜 사람(진짜 DB 객체)을 데려다 갈비뼈를 부러뜨리며 연습할 수는 없습니다. 그래서 사람의 무게와 가슴 압박 느낌만 완벽하게 흉내 낸 '마네킹([테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/))'을 눕혀놓고 안전하게 수만 번 훈련을 하는 것입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **강한 결합의 지옥**: 과거에는 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)을 쓸 수 없었다. 코드 안에 `new EmailSender()`가 본드로 붙어(하드코딩) 있어서 가짜를 쑤셔 넣을 구멍이 없었다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) (Test Double)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  테스트 더블 (Test Double)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 더블 (Test Double)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) (Test Double)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) (Test Double) 5가지 개념 (xUnit 테스트 패턴)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) (Test Double) 5가지 개념 (xUnit 테스트 패턴)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) (Test Double) 5가지 개념 (xUnit 테스트 패턴)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-테스트 더블 (Test Double) 5가지 개념 (xUnit 테스트 패턴) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 더블 (Test Double) 5가지 개념 (xUnit 테스트 패턴) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

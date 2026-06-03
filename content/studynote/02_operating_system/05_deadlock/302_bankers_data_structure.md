@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 에츠허르 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))의 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 데드락 회피 시뮬레이션을 돌리기 위해 실시간 메모리에 유지해야 하는 **4대 장부(Matrix)**인 `Available`(남은 자원), `Max`(최대 필요량), `Allocation`(현재 빌려준 양), `Need`(앞으로 빌려줄 양)를 의미한다.
-> 2. **가치**: 이 네 가지 행렬의 산술 방정식인 **"Need = Max - Allocation"**과 **"Need <= Available 이면 졸업 가능"** 규칙만을 이용해, 그 복잡한 다중 인스턴스의 얽히고설킨 사이클(Unsafe) 확률을 오로지 숫자 매트릭스 뺄셈 몇 번으로 완벽히 증명해 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델의 극치를 보여준다.
+> 1. **본질**: 에츠허르 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))의 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 데드락 회피 시뮬레이션을 돌리기 위해 실시간 메모리에 유지해야 하는 <strong>4대 장부(Matrix)</strong>인 `Available`(남은 자원), `Max`(최대 필요량), `Allocation`(현재 빌려준 양), `Need`(앞으로 빌려줄 양)를 의미한다.
+> 2. **가치**: 이 네 가지 행렬의 산술 방정식인 <strong>"Need = Max - Allocation"</strong>과 **"Need <= Available 이면 졸업 가능"** 규칙만을 이용해, 그 복잡한 다중 인스턴스의 얽히고설킨 사이클(Unsafe) 확률을 오로지 숫자 매트릭스 뺄셈 몇 번으로 완벽히 증명해 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델의 극치를 보여준다.
 > 3. **융합**: 비록 순수 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위에선 사장되었으나, AWS나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 같은 거대 클라우드 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 노드(Node)의 자원 용량을 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 `Requests/Limits` 선언값과 매칭시켜 빈 패킹(Bin-packing) 가용성을 점검할 때 이와 유사한 다차원 행렬 자료구조가 핵심 코어로 계승되어 사용된다.
 
 ---
@@ -25,28 +25,26 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 복잡하게 얽힌 빚쟁이 3명의 채무관계를 선 긋기로 증명하다 화가 난 회계사. 그냥 엑셀을 켜서 딱 4개의 열(Column)만 만들었다. [현재 회사 남은 현금], [A가 쓰기로 한 총예산], [A한테 지금까지 입금해 준 액수], [A한테 앞으로 더 줘야 할 남은 액수]. 이 4줄만 있으면 오늘 A한테 잔금을 치렀을 때 회사가 부도날지 안 날지 1초 만에 더하기 빼기로 증명 쌉가능!
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         은행원 장부의 4대 자료구조 (N=프로세스, M=자원)       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  1. Available (1 x M 벡터) : 은행 금고의 남은 시재 현황       │
-│     - Available[A] = 3 (자원 A가 3개 남아있음)                │
-│                                                               │
-│  2. Max (N x M 행렬) : 프로세스의 '최대 대출 한도' 선언       │
-│     - P1이 "나 평생 A 5개, B 3개 쓸래"라고 약정함.            │
-│                                                               │
-│  3. Allocation (N x M 행렬) : 현재까지 '진짜 빌려준' 수량     │
-│     - P1 손에 지금 A 2개, B 1개가 쥐어져 있음.                │
-│                                                               │
-│  4. Need (N x M 행렬) : 'Max - Allocation' (잔여 미수금)      │
-│     - P1의 Need = [5, 3] - [2, 1] = [3, 2]                    │
-│     - (의미) P1을 졸업시키려면 앞으로 A 3개, B 2개가 더 필요! │
-│                                                               │
-│  ▶ 대원칙: Need 배열이 현재 Available 금고 상황보다 작거나    │
-│             같아야만 그 스레드를 구제(졸업)시킬 수 있다.      │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은행원 장부의 4대 자료구조 (N=프로세스, M=자원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Available (1 x M 벡터) : 은행 금고의 남은 시재 현황</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Available</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">= 3 (자원 A가 3개 남아있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Max (N x M 행렬) : 프로세스의 '최대 대출 한도' 선언</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P1이 "나 평생 A 5개, B 3개 쓸래"라고 약정함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Allocation (N x M 행렬) : 현재까지 '진짜 빌려준' 수량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P1 손에 지금 A 2개, B 1개가 쥐어져 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Need (N x M 행렬) : 'Max - Allocation' (잔여 미수금)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- P1의 Need =</div><div class="kb-diagram-node">5, 3</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">2, 1</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">3, 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (의미) P1을 졸업시키려면 앞으로 A 3개, B 2개가 더 필요!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 대원칙: Need 배열이 현재 Available 금고 상황보다 작거나</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같아야만 그 스레드를 구제(졸업)시킬 수 있다.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 이 4가지 장부만 있으면 복잡한 심리전 할 필요 없이 숫자로 증명됩니다. "내 호주머니(Available)에 3천 원 남았고, 쟤가 앞으로 뜯어낼 돈(Need)이 2천 원이면, 줘버리고 졸업시켜 쟤가 들고 있던 1만 원(Allocation)을 다 회수해 버리자!" 식의 회계 놀음입니다.
 
@@ -57,14 +55,14 @@ tags = ["studynote-operating-system"]
 ### Need 매트릭스의 '변동성' 장악
 
 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산의 심장은 `Need 행렬`이다.
-만약 P가 자원 요청 시, OS는 바로 자원을 줘버리지 않고 다음과 같은 **임시 결산(Virtual Trial)**을 한다.
+만약 P가 자원 요청 시, OS는 바로 자원을 줘버리지 않고 다음과 같은 <strong>임시 결산(Virtual Trial)</strong>을 한다.
 
 1. **승인 가정 (Trial Update)**: P에게 자원을 줬다고 가정하고 장부를 임시로 조작한다.
    `Available = Available - 요청량`
    `Allocation = Allocation + 요청량`
    `Need = Need - 요청량`
 2. **시뮬레이션 (Safety Check)**: 바뀐 장부 상태에서, 나머지 애들의 `Need`를 `Available`로 순차적으로 틀어막아 모두 졸업([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))시킬 수 있는지 루프를 돌린다.
-3. **복원 ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))**: 만약 졸업을 못 시키는 파산(Unsafe)이 뜨면, 장부를 원래 수치로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하고(가상 임시 장부 폐기) P를 매몰차게 Block(대기) 시켜버린다.
+3. <strong>복원 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>: 만약 졸업을 못 시키는 파산(Unsafe)이 뜨면, 장부를 원래 수치로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하고(가상 임시 장부 폐기) P를 매몰차게 Block(대기) 시켜버린다.
 
 **📢 섹션 요약 비유**: 은행원이 실제 돈을 넘기기 전, 메모장에서 연필로 슥슥 지우고 숫자를 올려본 뒤(가상 승인), 끝까지 장부가 흑자로 굴러가면 그제야 연필을 지우고 펜으로 확정 잉크(실 할당)를 칠하는 겁니다.
 
@@ -86,10 +84,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s) Resource [Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 및 Limits**: K8s 매니페스트 파일에서 `requests`가 바로 해당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 사용할 `Allocation` 보증이고, `limits`가 바로 `Max`를 의미한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 노드의 CPU/Memory 사이즈가 `Available`이다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 은행원처럼 시뮬레이션하지는 않지만, 이 4가지 매트릭스 사상을 이어받아 "이 노드의 Available이 팟의 Needs를 커버 못하면 애초에 스케줄링(할당)을 거부(Pending)" 하는 현대식 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 회피 모델로 승화시켰다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> (K8s) Resource <a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">Quota</a> 및 Limits</strong>: K8s 매니페스트 파일에서 `requests`가 바로 해당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 사용할 `Allocation` 보증이고, `limits`가 바로 `Max`를 의미한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 노드의 CPU/Memory 사이즈가 `Available`이다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 은행원처럼 시뮬레이션하지는 않지만, 이 4가지 매트릭스 사상을 이어받아 "이 노드의 Available이 팟의 Needs를 커버 못하면 애초에 스케줄링(할당)을 거부(Pending)" 하는 현대식 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 회피 모델로 승화시켰다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀의 허위 Max 선언 (Over-provisioning 방치)**: "내가 앞으론 얼마나 쓸지 잘 모르겠지만, 그냥 여유 있게 프린터 100대(Max) 쓸 거라고 뻥치고 시작할래." 이렇게 보수적으로 신고해 버리면 `Need` [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 미친 듯이 커져서, OS의 `Available` 금고는 아무 프로세스도 졸업시킬 수 없다는 절망(Unsafe)에 빠진다. 결국 돈이 썩어 넘쳐나는데도 아무도 자원을 배급받지 못하는 거대한 락 대단원 마비(아사)가 벌어진다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 풀의 허위 Max 선언 (Over-provisioning 방치)</strong>: "내가 앞으론 얼마나 쓸지 잘 모르겠지만, 그냥 여유 있게 프린터 100대(Max) 쓸 거라고 뻥치고 시작할래." 이렇게 보수적으로 신고해 버리면 `Need` [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 미친 듯이 커져서, OS의 `Available` 금고는 아무 프로세스도 졸업시킬 수 없다는 절망(Unsafe)에 빠진다. 결국 돈이 썩어 넘쳐나는데도 아무도 자원을 배급받지 못하는 거대한 락 대단원 마비(아사)가 벌어진다.
 
 **📢 섹션 요약 비유**: 은행 대출 서류 쓸 때, "1천만 원만 빌려주면 무조건 졸업할게" 할 걸 쫄아서 "혹시 모르니 10억까지 빌려간다고 쓸게(Max 뻥튀기)"를 해버리면, 은행은 쫄아서 단돈 100원도 안 빌려주고 당신을 대기열에 박아 버립니다.
 
@@ -104,7 +102,7 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전담 부서에 회계사 4명을 고용해 `Available, Max, Allocation, Need` 라는 치밀한 수학적 행렬 감시 장부를 도입한 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 시도는, 다중 자원 생태계를 수학적으로 증명할 수 있는 완벽한 판을 짰다는 의의를 가진다. 
 
-비록 이 행렬의 유지 보수 코스트(`O(MN^2)`)가 범용 컴퓨터에 감당되지 않아 폐기되었으나, **"현재 용량과 최대 한도를 비교하여 미래 할당을 미리 심판한다"**는 자료구조적 철학은 현대의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 클라우드 빈 패킹 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 아키텍처에 불멸의 유산으로 자리 잡았다.
+비록 이 행렬의 유지 보수 코스트(`O(MN^2)`)가 범용 컴퓨터에 감당되지 않아 폐기되었으나, <strong>"현재 용량과 최대 한도를 비교하여 미래 할당을 미리 심판한다"</strong>는 자료구조적 철학은 현대의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 클라우드 빈 패킹 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 아키텍처에 불멸의 유산으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -121,15 +119,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[다중 인스턴스 환경의 회피]
-    │
-    ▼
-[은행원 알고리즘 자료구조 (Bankers Data Structure)]
-    │
-    ├──▶ [은행원 알고리즘 한계]
-    └──▶ [교착 상태 탐지 (Deadlock Detection)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 인스턴스 환경의 회피</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘 자료구조 (Bankers Data Structure)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행원 알고리즘 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 탐지 (Deadlock Detection)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -29,17 +29,23 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-주 센터
-  ├─ 운영 DB
-  ├─ 애플리케이션
-  └─ 서비스 트래픽
-        ↓ Failover
-DR 센터
-  ├─ 복제 DB
-  ├─ 대기 시스템
-  └─ 복구 절차
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주 센터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">운영 DB</div>
+<div class="kb-diagram-tree-item" style="--depth:1">애플리케이션</div>
+<div class="kb-diagram-tree-item" style="--depth:1">서비스 트래픽</div>
+<div class="kb-diagram-note">↓ Failover</div>
+<div class="kb-diagram-note">DR 센터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">복제 DB</div>
+<div class="kb-diagram-tree-item" style="--depth:1">대기 시스템</div>
+<div class="kb-diagram-tree-item" style="--depth:1">복구 절차</div>
+</div>
+</div>
+
+
 
 | 용어 | 의미 |
 | :-- | :-- |
@@ -105,33 +111,45 @@ Hot Site는 거의 실시간 [복제](/knowledge-base/studynote/14_data_engineer
 
 ## 관련 개념 맵
 
-```text
-BCP / DRP
-   ↓
-Failover
-   ↓
-RTO / RPO
-   ↓
-Failback
-   ↓
-Service Continuity
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BCP / DRP</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Failover</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Failback</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Service Continuity</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-백업
-   ↓
-DR 센터
-   ↓
-모의 훈련
-   ↓
-RTO / RPO 검증
-   ↓
-지속적 복구 체계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">백업</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DR 센터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">모의 훈련</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO 검증</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지속적 복구 체계</div>
+</div>
+</div>
+
+
 
 ---
 

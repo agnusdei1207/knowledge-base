@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 현실은 지옥이었다. 하드웨어는 공장에서 찍어내면 되지만, 소프트웨어는 사람의 머릿속에서 나오는 순수한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 덩어리다. 요구사항은 계속 바뀌고, 눈에 보이지 않으니 얼마나 만들었는지(진척도) 측정도 안 됐다. 
 
-결과적으로, 전 세계의 수많은 프로젝트가 예산을 2~3배씩 초과하고, 약속한 날짜를 1년 넘게 넘기며, 막상 오픈했더니 버그가 터져서 회사가 망하는 일이 속출했다. 1968년 나토(NATO)의 가르미슈 회의에서 학자들은 이 끔찍한 상황을 **'[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))'**라고 명명했다.
+결과적으로, 전 세계의 수많은 프로젝트가 예산을 2~3배씩 초과하고, 약속한 날짜를 1년 넘게 넘기며, 막상 오픈했더니 버그가 터져서 회사가 망하는 일이 속출했다. 1968년 나토(NATO)의 가르미슈 회의에서 학자들은 이 끔찍한 상황을 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">소프트웨어 위기</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">Software Crisis</a>)'</strong>라고 명명했다.
 
 - **📢 섹션 요약 비유**: 10층짜리 건물을 지으라고 벽돌과 크레인(하드웨어)은 엄청나게 좋은 걸 사줬는데, 설계도도 없고 건설 감독관(프로세스)도 없이 벽돌공 100명이 각자 마음대로 시멘트를 바르고 있는 대환장 파티가 바로 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 비용 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 품질 문제의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 위기 비용 지연 품질 문제                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 위기 비용 지연 품질 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 비용 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 품질 문제가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 위기의 원인 | 해결을 위해 등장한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 기법 | 현대적 발전 형태 |
 |:---|:---|:---|
-| **일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) / 예측 불가**| **[SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) ([소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/)) 모델 도입** | 폭포수(Waterfall) $\rightarrow$ **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** |
-| **비용 (인력) 폭증** | **규모/비용 산정 기법 도입** | [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/), **[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))** |
-| **품질 저하 (버그)** | **구조적 프로그래밍, 테스팅 기법** | 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)), **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))** |
-| **유지보수 지옥** | **[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 및 모듈화** | Git, **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** |
+| <strong>일정 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> / 예측 불가</strong>| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/">SDLC</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/">소프트웨어 생명주기</a>) 모델 도입</strong> | 폭포수(Waterfall) $\rightarrow$ <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> |
+| **비용 (인력) 폭증** | **규모/비용 산정 기법 도입** | [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/), <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>)</strong> |
+| **품질 저하 (버그)** | **구조적 프로그래밍, 테스팅 기법** | 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)), <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/">테스트 주도 개발</a>)</strong> |
+| **유지보수 지옥** | <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a> 및 모듈화</strong> | Git, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> |
 
-과거에는 폭포수 모델로 '완벽한 설계'를 해서 위기를 막으려 했으나, 오히려 요구사항 변화를 못 따라가 위기가 심화되었다. 그래서 현대에는 **"어차피 변할 테니 작게 자주 만들어서 보여주자"**는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))로 패러다임이 전환되었다.
+과거에는 폭포수 모델로 '완벽한 설계'를 해서 위기를 막으려 했으나, 오히려 요구사항 변화를 못 따라가 위기가 심화되었다. 그래서 현대에는 <strong>"어차피 변할 테니 작게 자주 만들어서 보여주자"</strong>는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))로 패러다임이 전환되었다.
 
 - **📢 섹션 요약 비유**: [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)는 인류를 죽일 뻔한 '흑사병'이었다. 이 병을 고치기 위해 의학([소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/))이 생겨났고, 청진기(비용 산정), 수술법(객체지향), 백신([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))이 차례로 발명된 것이다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)의 본질을 이해한 조직은 '완벽한 예측'이라는 환상을 버린다. 대신 요구사항은 언제든 변할 수 있음을 겸허히 수용하고, 지속적인 통합([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 배포(CD) 파이프라인을 통해 작은 실패를 자주 겪고(Fail-Fast) 빠르게 교정하는 건강한 개발 문화를 정착시킨다.
 
-결론적으로 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'는 끝나지 않았다. 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 되면서 시스템의 규모는 과거와 비교할 수 없을 만큼 거대해졌다. 기술 리더는 아무리 도구가 좋아져도 **"소프트웨어는 사람이 사람을 위해 짜는 복잡한 의사소통의 결과물"**이라는 사실을 잊지 말고, 기술(Tech)보다 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))와 사람(People)을 관리하는 데 힘을 쏟아야 한다.
+결론적으로 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'는 끝나지 않았다. 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 되면서 시스템의 규모는 과거와 비교할 수 없을 만큼 거대해졌다. 기술 리더는 아무리 도구가 좋아져도 <strong>"소프트웨어는 사람이 사람을 위해 짜는 복잡한 의사소통의 결과물"</strong>이라는 사실을 잊지 말고, 기술(Tech)보다 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))와 사람(People)을 관리하는 데 힘을 쏟아야 한다.
 
 - **📢 섹션 요약 비유**: 자동차가 시속 300km로 빨라졌다고 해서 교통사고([소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 없어지는 게 아니다. 오히려 더 큰 대형 사고가 날 수 있다. 차가 좋아진 만큼 신호등(프로세스), 안전벨트(테스트), 그리고 훌륭한 운전자(엔지니어)를 양성하는 것이 위기를 막는 유일한 방법이다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 위기 비용 지연 품질 문제 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 위기 비용 지연 품질 문제 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

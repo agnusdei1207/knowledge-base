@@ -26,9 +26,9 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 전투기나 자동차에 총을 맞아 구멍이 났을 때의 대처법과 같습니다. 에어컨이나 라디오(부가 기능)로 가는 전력을 모두 끊어버리고, 오직 엔진과 조향 장치(핵심 기능)에만 남은 에너지를 몰아주어 어떻게든 기지까지 살아서 돌아가게 만드는 것이 바로 [페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/)입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 생존 전술**: 항공기 엔진이 하나 꺼졌을 때 고도가 떨어지는 것([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)을 감수하고라도 남은 엔진으로 계속 비행을 유지하는 설계에서 유래했다.
-  2. **우아한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 (Graceful Degradation)**: 브라우저가 최신 CSS나 자바스크립트를 지원하지 않을 때 에러를 내는 대신, 텍스트 기반의 못생긴(하지만 동작은 하는) 구형 UI를 보여주는 프론트엔드 기법으로 정착했다.
-  3. **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 아키텍처**: 수백 개의 마이크로서비스가 얽힌 현대 클라우드에서, 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체로 번지는 것(Cascading Failure)을 막기 위해 서킷 브레이커와 결합하여 기본값을 뱉어내는 런타임 방어막으로 완성되었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 하드웨어 생존 전술</strong>: 항공기 엔진이 하나 꺼졌을 때 고도가 떨어지는 것([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)을 감수하고라도 남은 엔진으로 계속 비행을 유지하는 설계에서 유래했다.
+  2. <strong>우아한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 (Graceful Degradation)</strong>: 브라우저가 최신 CSS나 자바스크립트를 지원하지 않을 때 에러를 내는 대신, 텍스트 기반의 못생긴(하지만 동작은 하는) 구형 UI를 보여주는 프론트엔드 기법으로 정착했다.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 아키텍처</strong>: 수백 개의 마이크로서비스가 얽힌 현대 클라우드에서, 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체로 번지는 것(Cascading Failure)을 막기 위해 서킷 브레이커와 결합하여 기본값을 뱉어내는 런타임 방어막으로 완성되었다.
 
 - **📢 섹션 요약 비유**: [페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/)는 '100점이 아니면 0점'이라는 완벽주의를 버리고, '이번 시험은 아프니까 70점만 맞자'라며 어떻게든 낙제(시스템 중단)를 면하는 실전형 생존 전략입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ([Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  페일 소프트 (Fail-Soft)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페일 소프트 (Fail-Soft)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ([Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ([Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ([Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [페일 소프트](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) ([Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-페일 소프트 (Fail-Soft) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페일 소프트 (Fail-Soft) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

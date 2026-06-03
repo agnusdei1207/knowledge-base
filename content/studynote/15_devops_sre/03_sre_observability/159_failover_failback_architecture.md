@@ -31,30 +31,27 @@ tags = ["studynote-devops-sre"]
 
 페일오버 아키텍처는 단순히 서버를 하나 더 두는 문제가 아니다. 헬스 체크 (Health Check), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식, 트래픽 전환 계층, 상태 저장 위치, 복귀 절차가 함께 맞물려야 한다. 특히 무상태 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 전환이 비교적 쉽지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시처럼 상태가 있는 계층은 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심 병목이 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            페일오버/페일백의 기본 흐름과 상태 동기화 지점           │
-├──────────────────────────────────────────────────────────────────────┤
-│  Client                                                              │
-│    │                                                                  │
-│    ▼                                                                  │
-│  DNS / Load Balancer ──▶ Primary Region / AZ                          │
-│           │                     │                                      │
-│           │                     ├─ 서비스 인스턴스                    │
-│           │                     └─ Primary DB                          │
-│           │                           │ 복제                            │
-│           │                           ▼                                 │
-│           └──────── 장애 감지 ─────▶ Standby Region / AZ              │
-│                                         │                               │
-│                                         ├─ Standby 서비스              │
-│                                         └─ Replica DB                  │
-│                                                                      │
-│  Failover : 트래픽을 Standby로 전환                                   │
-│  Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀               │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림이 말해 주는 핵심은 전환 대상이 서버 한 대가 아니라 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 + [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 계층**이라는 점이다. 헬스 체크가 빨라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 늦으면 RPO가 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 맞아도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) TTL이 길면 체감 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘어난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페일오버/페일백의 기본 흐름과 상태 동기화 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS / Load Balancer ──▶ Primary Region / AZ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서비스 인스턴스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Primary DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 감지 ▶ Standby Region / AZ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Standby 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Replica DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failover : 트래픽을 Standby로 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀</div></div>
+</div>
+</div>
+
+
+
+이 그림이 말해 주는 핵심은 전환 대상이 서버 한 대가 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계층 + <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong>이라는 점이다. 헬스 체크가 빨라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 늦으면 RPO가 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 맞아도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) TTL이 길면 체감 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘어난다.
 
 | 아키텍처 유형 | 전환 준비 상태 | 일반적 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) | 일반적 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) | 특징 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -64,7 +61,7 @@ tags = ["studynote-devops-sre"]
 | [콜드 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/) ([Cold Standby](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/)) | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만 보유, 재기동 필요 | 수시간~수일 | 시간 단위 이상 | 저비용이지만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 느림 |
 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 라이트 (Pilot Light) | 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 상시 유지 | 수십 분 내외 | 분~시간 | 클라우드 DR에서 자주 쓰는 절충형 |
 
-핵심 원리는 간단하다. RTO가 짧을수록 대기 자원을 더 많이 켜 두어야 하고, RPO가 작을수록 동기 또는 준실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 필요하다. 결국 페일오버 설계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라 **비용과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표의 거래**다.
+핵심 원리는 간단하다. RTO가 짧을수록 대기 자원을 더 많이 켜 두어야 하고, RPO가 작을수록 동기 또는 준실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 필요하다. 결국 페일오버 설계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라 <strong>비용과 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 목표의 거래</strong>다.
 
 - **📢 섹션 요약 비유**: 소방 설비도 스프링클러를 항상 연결해 둘지, 소화기만 둘지에 따라 비용과 대응 속도가 달라진다. 페일오버도 같은 원리로 준비 수준이 달라진다.
 
@@ -115,7 +112,7 @@ tags = ["studynote-devops-sre"]
 
 적절한 페일오버/페일백 아키텍처는 장애를 없애지 못해도, 고객이 체감하는 중단 시간을 크게 줄인다. 단일 장애 지점을 제거하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 확보하며, 운영 조직이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 반복 가능하게 만든다는 점에서 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표) 달성에 직접 기여한다. 특히 멀티 AZ ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone), [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 환경에서는 이 구조가 사실상 필수다.
 
-하지만 그 대가로 인프라 비용, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 복잡도, 테스트 부담, 운영 자동화 수준 요구가 함께 올라간다. 따라서 이 개념은 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 서버 하나 더 두기"로 기억하면 안 된다. 페일오버/페일백은 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 기준으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경로를 설계하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 운영 아키텍처**로 이해하는 것이 맞다.
+하지만 그 대가로 인프라 비용, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 복잡도, 테스트 부담, 운영 자동화 수준 요구가 함께 올라간다. 따라서 이 개념은 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 서버 하나 더 두기"로 기억하면 안 된다. 페일오버/페일백은 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 목표와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성을 기준으로 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경로를 설계하고 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하는 운영 아키텍처</strong>로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 페일오버 설계는 예비 타이어를 트렁크에 넣어 두는 수준이 아니라, 언제 교체하고 다시 원래 바퀴로 안전하게 돌아올지까지 포함한 주행 계획이다.
 
@@ -134,21 +131,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SPOF 제거 필요성
-    │
-    ▼
-RTO · RPO 정의
-    │
-    ▼
-핫/웜/콜드 스탠바이 · 파일럿 라이트 선택
-    │
-    ▼
-헬스 체크 · 자동 전환 · 데이터 복제
-    │
-    ▼
-페일백 검증 · 카오스 테스트 · SRE 운영 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SPOF 제거 필요성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTO · RPO 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">핫/웜/콜드 스탠바이 · 파일럿 라이트 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헬스 체크 · 자동 전환 · 데이터 복제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페일백 검증 · 카오스 테스트 · SRE 운영 자동화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "장애 위험 인식 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 수립 → 아키텍처 선택 → 자동 전환 → 복귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 설계 사고를 정리한다.
 

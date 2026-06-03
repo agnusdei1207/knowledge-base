@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 라우터가 자신에게 바로 연결된 링크(서브넷) 내에 어떤 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소에 가입한 리스너(Listener, 수신자)가 존재하는지 파악하기 위해 사용하는 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 2710). 
-- **필요성**: IPv4에서 IGMP가 했던 역할("나 11번 채널 볼래!")이 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 세계에서도 똑같이 필요했다. 하지만 IPv6는 헤더 크기가 커지고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구조가 바뀌었기 때문에 옛날 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 메시지 포맷을 그대로 갖다 쓸 수가 없었다. 그래서 **"역할은 똑같이 하되, 껍데기 포장만 IPv6와 ICMPv6 규격에 맞게 싹 리모델링한 새로운 이름"**이 MLD다.
+- **필요성**: IPv4에서 IGMP가 했던 역할("나 11번 채널 볼래!")이 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 세계에서도 똑같이 필요했다. 하지만 IPv6는 헤더 크기가 커지고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구조가 바뀌었기 때문에 옛날 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 메시지 포맷을 그대로 갖다 쓸 수가 없었다. 그래서 <strong>"역할은 똑같이 하되, 껍데기 포장만 IPv6와 ICMPv6 규격에 맞게 싹 리모델링한 새로운 이름"</strong>이 MLD다.
 
 - **💡 비유**: 
-  - **[IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/)**: 아날로그 TV 시절, 케이블 기사님에게 "저희 집 유선 방송 스포츠 채널 뚫어주세요!"라고 쓰던 **"종이 신청서([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))"**.
-  - **MLD**: 넷플릭스 스마트 TV 시대에, 리모컨으로 화면에서 "구독하기" 버튼을 누르면 서버로 날아가는 **"디지털 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 신청서([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))"**. 역할은 똑같은데 폼이 세련되게 바뀌었습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a></strong>: 아날로그 TV 시절, 케이블 기사님에게 "저희 집 유선 방송 스포츠 채널 뚫어주세요!"라고 쓰던 <strong>"종이 신청서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>)"</strong>.
+  - **MLD**: 넷플릭스 스마트 TV 시대에, 리모컨으로 화면에서 "구독하기" 버튼을 누르면 서버로 날아가는 <strong>"디지털 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> 신청서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>)"</strong>. 역할은 똑같은데 폼이 세련되게 바뀌었습니다.
 
-```text
-[IGMP Snooping]
-    │
-    ▼
-[MLD]
-    │
-    └──▶ [NDP]
-```
 
-- **📢 섹션 요약 비유**: ** MLD는 구형 가스보일러([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))를 철거하고, 똑같은 난방 역할을 하지만 최신형 아파트([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 규격에 딱 들어맞는 **스마트 전기보일러(MLD)로 교체한 것**과 같습니다. 이름만 다를 뿐 99% 똑같은 작동 원리를 갖습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IGMP Snooping</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MLD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NDP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> MLD는 구형 가스보일러(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a>)를 철거하고, 똑같은 난방 역할을 하지만 최신형 아파트(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>) 규격에 딱 들어맞는 </strong>스마트 전기보일러(MLD)로 교체한 것**과 같습니다. 이름만 다를 뿐 99% 똑같은 작동 원리를 갖습니다.
 
 ---
 
@@ -53,31 +57,32 @@ MLD는 백지에서 새로 만든 게 아니라 IGMPv2의 기능을 100% 베껴�
 *(MLDv2는 IGMPv3에 대응되어 소스 지정 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(SSM) 기능을 추가 지원한다).*
 
 ### 2. ICMPv6로의 통폐합 (가벼워진 구조)
-가장 큰 설계적 차이점은, **MLD는 독자적인 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라는 점**이다.
+가장 큰 설계적 차이점은, <strong>MLD는 독자적인 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>이 아니라는 점</strong>이다.
 - [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절의 `IGMP`는 3계층 IP 헤더 위에 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 2번을 달고 독자적인 방을 썼다.
 - IPv6에서는 "어차피 둘 다 네트워크 제어용 메시지인데 뭐하러 방을 따로 쓰냐? 그냥 에러/진단 메시지 모음집인 **ICMPv6 (Next Header = 58) 뱃속에 MLD를 다 집어넣어라!**"라고 구조조정을 단행했다.
 - 덕분에 라우터는 ICMPv6 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나만 까보면 핑(Ping)도 처리하고 MLD 가입 신청서도 한 큐에 처리할 수 있게 되어 연산 효율이 좋아졌다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MLD 패킷의 캡슐화 위치 (ICMPv6 내부)             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 이더넷 MAC 헤더 ]                                          │
- │   [ IPv6 메인 헤더 (Next Header = 58 ──▶ ICMPv6 란 뜻!) ]     │
- │   [ IPv6 확장 헤더 (Hop-by-Hop 옵션) ]                         │
- │     └───▶ [ ICMPv6 헤더 (Type = 131 ──▶ MLD Report 란 뜻!) ] │
- │             [ MLD 데이터 (내가 가입할 IPv6 멀티캐스트 주소 적힘) ] │
- │                                                             │
- │   * 핵심: MLD는 ICMPv6라는 거대한 종합 관리 시스템의 "하나의 메뉴"로 │
- │          통합되어 IPv6의 아키텍처를 깔끔하게 완성시켰다.             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLD 패킷의 캡슐화 위치 (ICMPv6 내부)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 MAC 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 메인 헤더 (Next Header = 58 ──▶ ICMPv6 란 뜻!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 확장 헤더 (Hop-by-Hop 옵션)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ICMPv6 헤더 (Type = 131 ──▶ MLD Report 란 뜻!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MLD 데이터 (내가 가입할 IPv6 멀티캐스트 주소 적힘)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: MLD는 ICMPv6라는 거대한 종합 관리 시스템의 "하나의 메뉴"로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합되어 IPv6의 아키텍처를 깔끔하게 완성시켰다.</div></div>
+</div>
+</div>
+
+
 
 ### 3. MLD Snooping (스위치의 최적화)
 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping과 완벽하게 똑같다. L2 스위치들은 MLD 패킷이 지나갈 때마다 그걸 훔쳐보고(Snooping), "아! 3번 포트에 있는 PC가 `ff02::abcd` [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 채널에 가입(Report)했구나!"라고 수첩에 적어둔 뒤, 그 채널의 영상이 내려오면 3번 포트로만 쏙 던져주어 10Gbps의 엄청난 플러딩(Flooding) 부하를 방지한다.
 
-- **📢 섹션 요약 비유**: ** MLD는 자동차(네트워크)의 엔진(엔드포인트)과 변속기(라우터) 사이에서 기어를 바꿔주는 오일과 같습니다. 과거 가솔린차([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 시절엔 미션 오일([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))이라 불렀고, 전기차([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 시대에는 감속기 오일(MLD)이라 부르지만, 결국 **동력이 낭비되지 않게([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약) 연결을 매끄럽게 제어해 주는 본질은 100% 동일**합니다.
+- **📢 섹션 요약 비유**: <strong> MLD는 자동차(네트워크)의 엔진(엔드포인트)과 변속기(라우터) 사이에서 기어를 바꿔주는 오일과 같습니다. 과거 가솔린차(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>) 시절엔 미션 오일(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a>)이라 불렀고, 전기차(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>) 시대에는 감속기 오일(MLD)이라 부르지만, 결국 </strong>동력이 낭비되지 않게([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약) 연결을 매끄럽게 제어해 주는 본질은 100% 동일**합니다.
 
 ---
 
@@ -133,15 +138,19 @@ MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IGMP Snooping]
-    │
-    ▼
-[현재 개념: MLD]
-    │
-    ├──▶ [확장 A: NDP]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IGMP Snooping</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MLD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NDP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 MLD는 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 NDP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

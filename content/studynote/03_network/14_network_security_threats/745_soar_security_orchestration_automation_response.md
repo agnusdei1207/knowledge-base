@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 기업이 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)(통합 관제)을 샀더니 하루에 경고 알람이 1만 개씩 쏟아집니다. 보안 담당자 3명이 1만 개를 일일이 분석하다 지쳐버려 진짜 해킹 알람을 놓치는 '경고 피로도(Alert Fatigue)' 문제가 발생했습니다.
-- 이를 해결하기 위해, 가트너는 단순 반복 업무를 기계가 대신하고 보안 장비들을 오케스트라 지휘자처럼 하나로 조종하는 **SOAR ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation and Response)**라는 차세대 자동 대응 플랫폼을 제창했습니다.
+- 이를 해결하기 위해, 가트너는 단순 반복 업무를 기계가 대신하고 보안 장비들을 오케스트라 지휘자처럼 하나로 조종하는 <strong>SOAR (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, Automation and Response)</strong>라는 차세대 자동 대응 플랫폼을 제창했습니다.
 
-```text
-[침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
-[SOAR]
-    │
-    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SOAR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,7 +46,7 @@ tags = ["studynote-network"]
 - 해킹이 터졌을 때, 지휘자(SOAR) 한 명이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에는 "IP 차단해!", 백신에는 "스캔 돌려!", 사내 메신저(Slack)에는 "비상 알림 보내!"라고 한 번의 클릭으로 일제히 명령을 하달하는 중앙 통제권입니다.
 
 ### 2. [보안 자동화](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/) (Automation) - "[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)([Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/))의 기적" 🌟
-- 인간이 해커를 잡을 때의 행동 수칙을 미리 **순서도(Flowchart)**처럼 그려둔 대본을 **[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)([Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/))**이라고 합니다.
+- 인간이 해커를 잡을 때의 행동 수칙을 미리 <strong>순서도(Flowchart)</strong>처럼 그려둔 대본을 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/">플레이북</a>(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/">Playbook</a>)</strong>이라고 합니다.
 - **시나리오**:
   1. 새벽 2시, 직원 메일함에 악성 의심 첨부파일이 도착함.
   2. SOAR가 1초 만에 이를 가로채 샌드박스로 던짐.
@@ -53,14 +57,18 @@ tags = ["studynote-network"]
 ### 3. 위협 인텔리전스 연동 ([Threat Intelligence](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/))
 - SOAR는 자체 두뇌 외에도 전 세계 해커들의 최신 IP와 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 해시값이 실시간으로 업데이트되는 거대한 DB([TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/), 다음 746번 문서)와 연동되어 스스로 지능을 높입니다. "어? 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 데이터베이스에 물어보니 어제 러시아 해커가 쓴 거라네? 차단!"
 
-```text
-[침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
-[SOAR]
-    │
-    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SOAR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,8 +76,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) (눈과 귀)**: 수만 개의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 모아 "이거 좀 이상한데?" 하고 **의심(탐지)**을 합니다.
-- **SOAR (손과 발)**: SIEM의 의심을 넘겨받아 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)을 펴보고, "진짜 해킹이네! [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 막고, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 포맷해!"라고 **직접 행동(조치)**을 실행합니다.
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/">SIEM</a> (눈과 귀)</strong>: 수만 개의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 모아 "이거 좀 이상한데?" 하고 <strong>의심(탐지)</strong>을 합니다.
+- **SOAR (손과 발)**: SIEM의 의심을 넘겨받아 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)을 펴보고, "진짜 해킹이네! [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 막고, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 포맷해!"라고 <strong>직접 행동(조치)</strong>을 실행합니다.
 
 SOAR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…가 기반 조건을 만든다면, SOAR는 그 위에서 핵심 메커니즘을 구현하고, [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 융합 / STIX, TAXII 표준 지…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ SOAR는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ▼
-[현재 개념: SOAR]
-    │
-    ├──▶ [확장 A: TI 융합 / STIX, TAXII 표준 지…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SOAR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TI 융합 / STIX, TAXII 표준 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 SOAR는 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 융합 / STIX, TAXII 표준 지…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

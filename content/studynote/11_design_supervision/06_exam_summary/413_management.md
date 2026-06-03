@@ -19,11 +19,15 @@ tags = ["studynote-design-supervision"]
 
 관리 측면에서 중요한 점은 “외부 제품을 쓰지 말자”가 아니라 “종속을 인지 가능한 수준으로 관리하자”는 데 있다. 즉 어떤 의존성은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 수용하고, 어떤 의존성은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)·표준화·이중화로 통제해야 한다. 기술사 답안에서는 기능 우수성만 강조하지 말고, 대체 가능성과 퇴출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 제시해야 한다.
 
-```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 외부 서비스 │──▶│ 내부 적용층 │──▶│ 운영·계약 통제 │
-└────────────┘   └────────────┘   └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 서비스</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">내부 적용층</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영·계약 통제</div></div>
+</div>
+</div>
+
+
 
 위 흐름은 락인이 기술 문제이면서 동시에 관리 문제임을 보여 준다. 코드만 바꿔서는 해결되지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·계약·인력·운영 절차가 함께 설계되어야 한다.
 - **📢 섹션 요약 비유**: 편리한 렌터카를 빌리는 것은 좋지만 반납 조건을 모르면 여행 마지막 날이 가장 힘들어진다.
@@ -37,13 +41,16 @@ tags = ["studynote-design-supervision"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 반출 형식 표준화와 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/) 확보 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기, 마이그레이션 테스트, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 보존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 계약·운영 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 종료 조항, 가격 구조를 사전에 관리 | 위약금, 기술지원 범위, 종료 시 지원 기간 점검 |
 
-```text
-┌──────────┐   ┌────────────┐   ┌────────────┐
-│ Vendor A │──▶│ 추상화 계층  │──▶│ 업무 서비스  │
-└──────────┘   └────┬───────┘   └────┬───────┘
-                     │                │
-                데이터 반출 규칙   운영·계약 통제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vendor A</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">추상화 계층</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">업무 서비스</div></div>
+<div class="kb-diagram-note">데이터 반출 규칙 운영·계약 통제</div>
+</div>
+</div>
+
+
 
 핵심 원리는 세 가지다. 첫째, 공급자 특화 기능 사용은 가치 대비 종속 비용을 계산해 선택한다. 둘째, 이전 비용은 사고 후가 아니라 도입 전에 측정한다. 셋째, 내부 팀이 최소한의 대체 구현 능력을 유지해야 협상력도 유지된다.
 - **📢 섹션 요약 비유**: 집 열쇠를 빌려 쓰더라도 복사 열쇠와 이사 계획을 함께 준비해야 갑자기 쫓겨나지 않는다.

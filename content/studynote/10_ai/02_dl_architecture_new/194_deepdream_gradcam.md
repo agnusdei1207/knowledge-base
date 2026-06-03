@@ -21,18 +21,21 @@ tags = ["studynote-ai"]
 
 딥러닝의 컨볼루션 신경망([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 수십 개의 층(Layer)으로 이루어져 있다. 첫 번째 층은 선과 윤곽을 보고, 중간 층은 눈과 코를 보고, 마지막 층은 얼굴 전체를 본다고 흔히 말하지만, 사실 그 층 안에는 알아볼 수 없는 숫자로 꽉 찬 매트릭스(Tensor)만 들어있다. 
 
-구글(Google)의 엔지니어들은 궁금했다. "도대체 저 숫자 덩어리들이 그림을 어떻게 이해하고 있을까?" 그래서 2015년에 재미있는 장난을 쳤다. 사진을 넣고 개나 고양이를 찾게 한 게 아니라, 반대로 무작위 노이즈 사진을 넣고 신경망에게 **"네가 이 안에서 '강아지 눈' 같은 패턴을 조금이라도 발견하면, 그 부분을 미친 듯이 더 강아지 눈처럼 과장해서 똑같이 그려봐!"**라고 지시한 것이다. 그 결과 신경망은 구름을 보고 강아지 얼굴을 끝없이 덧그리며 소름 끼치고 기괴한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 이미지를 만들어냈다. 이것이 AI가 꾸는 꿈, **딥 드림 (DeepDream)**의 탄생이다.
+구글(Google)의 엔지니어들은 궁금했다. "도대체 저 숫자 덩어리들이 그림을 어떻게 이해하고 있을까?" 그래서 2015년에 재미있는 장난을 쳤다. 사진을 넣고 개나 고양이를 찾게 한 게 아니라, 반대로 무작위 노이즈 사진을 넣고 신경망에게 <strong>"네가 이 안에서 '강아지 눈' 같은 패턴을 조금이라도 발견하면, 그 부분을 미친 듯이 더 강아지 눈처럼 과장해서 똑같이 그려봐!"</strong>라고 지시한 것이다. 그 결과 신경망은 구름을 보고 강아지 얼굴을 끝없이 덧그리며 소름 끼치고 기괴한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 이미지를 만들어냈다. 이것이 AI가 꾸는 꿈, <strong>딥 드림 (DeepDream)</strong>의 탄생이다.
 
 하지만 딥 드림은 예술적 장난에 가까웠고, 진짜 실무에서는 "AI가 왜 이 엑스레이를 폐암이라고 했지?"라는 정확한 인과관계 추적이 필요했다. 그래서 딥 드림의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 철학을 진화시켜, 뇌의 마지막 출력단에서 쏟아지는 피(기울기, Gradient)의 흐름을 역추적해, 사진 위에 시뻘건 열화상으로 "나 여기 보고 암이라고 100% 확신했어!"라고 칠해주는 **Grad-CAM** 기술이 XAI의 표준으로 자리 잡았다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 딥 드림은 구름을 보며 상상력을 발휘하는 꼬마 아이에게 도화지를 준 것이다. 구름 속에 살짝 강아지 귀 같은 모양이 보이면, 꼬마가 그 위에 강아지 얼굴 100개를 미친 듯이 덧칠해 기괴한 꿈([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))의 그림을 완성한다. 반면 Grad-CAM은 깐깐한 경찰 조사관이다. 로봇이 "저 사진에 도둑이 있다"라고 하면, 조사관이 사진에 빨간 레이저 포인터를 딱 쏘며 "사진 속 저 사람의 검은 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 부분 때문에 도둑이라고 의심했지?"라고 정확한 물증 부위(히트맵)를 콕 짚어내는 족집게 도구다.
 
@@ -42,27 +45,28 @@ tags = ["studynote-ai"]
 
 Grad-CAM (Gradient-weighted Class Activation [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 딥러닝 망을 부수지 않고도, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 기울기 흐름을 가로채는 천재적인 수학적 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 기법을 쓴다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Grad-CAM의 기울기 역추적 시각화 (Heatmap) 아키텍처        │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 정방향 추론 (Forward Pass)]                              │
-│   입력 사진(강아지) ─▶ 1층 ─▶ 2층 ─▶ 마지막 100번째 CNN 층(특징 맵) ─▶ 결과(99% 강아지)│
-│                                                              │
-│  [2. 역방향 스파이 추적 (Backward Pass & Gradient)]               │
-│   * 목표: "결과(99% 강아지) 점수에 가장 큰 영향을 준 곳은 100층 중 어디지?"   │
-│   * 계산: 결과값에서부터 100번째 CNN 층을 향해 편미분(Gradient)을 쏴 올림. │
-│          ─▶ 피(기울기)가 가장 많이 몰린 특징 맵의 필터 번호(예: 3번, 7번)를 찾음.│
-│                                                              │
-│  [3. 열화상 렌더링 (Heatmap Overlay)]                          │
-│   * 피가 몰린 3번, 7번 특징 맵의 그림(Activation)들을 곱해서 합침.         │
-│   * 흑백 사진이었던 특징 맵에 빨강(중요함)-파랑(안 중요함) 색깔을 칠함.        │
-│   * 원본 강아지 사진 위에 빨간 형광펜 레이어를 오버랩(Overlay)으로 투명하게 덧씌움!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grad-CAM의 기울기 역추적 시각화 (Heatmap) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정방향 추론 (Forward Pass)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 사진(강아지) ─▶ 1층 ─▶ 2층 ─▶ 마지막 100번째 CNN 층(특징 맵) ─▶ 결과(99% 강아지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 역방향 스파이 추적 (Backward Pass &amp; Gradient)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: "결과(99% 강아지) 점수에 가장 큰 영향을 준 곳은 100층 중 어디지?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 계산: 결과값에서부터 100번째 CNN 층을 향해 편미분(Gradient)을 쏴 올림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 피(기울기)가 가장 많이 몰린 특징 맵의 필터 번호(예: 3번, 7번)를 찾음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 열화상 렌더링 (Heatmap Overlay)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 피가 몰린 3번, 7번 특징 맵의 그림(Activation)들을 곱해서 합침.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 흑백 사진이었던 특징 맵에 빨강(중요함)-파랑(안 중요함) 색깔을 칠함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원본 강아지 사진 위에 빨간 형광펜 레이어를 오버랩(Overlay)으로 투명하게 덧씌움!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (기울기 가중합)**:
-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델의 마지막 컨볼루션 층(Layer)은 보통 512개 정도의 흑백 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 필터들을 가지고 있다. 1번 필터는 뾰족한 귀를 찾는 필터고, 2번 필터는 동그란 눈을 찾는 필터다. Grad-CAM은 딥러닝 결과값에서 역으로 미분을 돌려, 이 512개의 필터 중 이번 정답("강아지")을 맞추는 데 어떤 필터가 가장 멱살을 잡고 캐리했는지 **기울기 점수(Gradient [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))**를 매긴다. 그리고 그 점수만큼 필터 그림들을 다 더해서 짜부라뜨린 뒤 시뻘겋게 열화상 처리를 하는 것이다.
+[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델의 마지막 컨볼루션 층(Layer)은 보통 512개 정도의 흑백 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 필터들을 가지고 있다. 1번 필터는 뾰족한 귀를 찾는 필터고, 2번 필터는 동그란 눈을 찾는 필터다. Grad-CAM은 딥러닝 결과값에서 역으로 미분을 돌려, 이 512개의 필터 중 이번 정답("강아지")을 맞추는 데 어떤 필터가 가장 멱살을 잡고 캐리했는지 <strong>기울기 점수(Gradient <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)</strong>를 매긴다. 그리고 그 점수만큼 필터 그림들을 다 더해서 짜부라뜨린 뒤 시뻘겋게 열화상 처리를 하는 것이다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -82,7 +86,7 @@ Grad-CAM (Gradient-weighted Class Activation [Mapping](/knowledge-base/studynote
 | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법 | 핵심 동작 원리 (철학) | 실무 활용 포인트 및 장점 | 단점 |
 |:---|:---|:---|:---|
 | **DeepDream** | 이미지를 비틀어서 신경망이 보고 싶어 하는 특정 패턴(예: 눈알, 새)을 강제로 화면에 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)처럼 끝없이 발현시킴 | AI가 특정 패턴을 과도하게 학습했는지(예: 덤벨을 항상 팔과 같이 인식하는 붕괴 버그) 파악 가능 | 예술적 가치가 높으나, 특정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 인과관계를 설명하는 영수증으로는 못 씀 |
-| **[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) (이미지용)** | 원본 사진을 100조각으로 자른 뒤, 포토샵으로 눈/코 조각을 껐다 켰다 하면서 점수가 어찌 변하는지 찔러봄 | 딥러닝이든 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)든 모델의 내부 뼈대를 몰라도 그냥 결과만 보고 다 색칠해 줄 수 있음 | 매번 색칠되는 부위가 랜덤하게 흔들릴 수 있고, 사진 조각내기 연산이 너무 느림 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> (이미지용)</strong> | 원본 사진을 100조각으로 자른 뒤, 포토샵으로 눈/코 조각을 껐다 켰다 하면서 점수가 어찌 변하는지 찔러봄 | 딥러닝이든 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)든 모델의 내부 뼈대를 몰라도 그냥 결과만 보고 다 색칠해 줄 수 있음 | 매번 색칠되는 부위가 랜덤하게 흔들릴 수 있고, 사진 조각내기 연산이 너무 느림 |
 | **Grad-CAM** | 모델의 마지막 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 층으로 흘러 들어온 미분 기울기 피(Gradient)를 역추적해 중요 필터를 열화상으로 합침 | 연산이 미친 듯이 빠르고, 미분 수학에 기반하므로 언제 돌려도 100% 정확하게 똑같은 곳을 빨갛게 색칠함 | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 구조 뼈대가 아니거나, 레이어가 복잡하게 꼬인 최신 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(ViT) 모델엔 적용하기 까다로움 |
 
 최근에는 자율주행과 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 영역에서 "어텐션(Attention) 맵"이라는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 구조의 자생적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기법이 Grad-CAM의 파이를 빼앗고 있지만, 여전히 가벼운 모바일 NPU용 비전 모델(MobileNet 등) 디버깅에서는 Grad-CAM이 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 1군 표준(De Facto)으로 쓰이고 있다.
@@ -122,10 +126,10 @@ Grad-CAM 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))** | 딥 드림과 Grad-CAM이 핏줄(기울기)을 파고들고 색칠을 해대는 물리적 공간이자, 이미지 처리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝의 영원한 고향 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/">합성곱 신경망</a>)</strong> | 딥 드림과 Grad-CAM이 핏줄(기울기)을 파고들고 색칠을 해대는 물리적 공간이자, 이미지 처리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝의 영원한 고향 |
 | **클레버 한스 (Clever Hans) 현상** | 모델이 정답의 진짜 본질(강아지 얼굴)을 배운 게 아니라, 엉뚱한 배경(풀밭 픽셀)이나 노이즈 같은 꼼수를 보고 정답을 찍어 맞추는 치명적인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사기극 버그 |
-| **[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 기울기** | Grad-CAM이 형광펜을 칠할 때 "어느 필터가 제일 열심히 일했나?"를 측정하기 위해, 결과값에서 거꾸로 타고 올라오는 수학적 핏물(미분 점수)의 흔적 |
-| **[XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) (설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | 단순한 정답률 99%를 넘어, "왜 그런 판단을 했는지" 사람에게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적이고 시각적인 영수증(히트맵, [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 점수)을 반드시 끊어줘야만 통과되는 차세대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 윤리/공학 사상 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>) 기울기</strong> | Grad-CAM이 형광펜을 칠할 때 "어느 필터가 제일 열심히 일했나?"를 측정하기 위해, 결과값에서 거꾸로 타고 올라오는 수학적 핏물(미분 점수)의 흔적 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> (설명 가능한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | 단순한 정답률 99%를 넘어, "왜 그런 판단을 했는지" 사람에게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적이고 시각적인 영수증(히트맵, [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 점수)을 반드시 끊어줘야만 통과되는 차세대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 윤리/공학 사상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,8 +139,8 @@ Grad-CAM 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **딥 드림**은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)에게 수면제를 먹여서 "구름 속에서 네가 좋아하는 강아지 얼굴을 찾아 마음껏 덧그려봐!"라고 시켰더니, 구름이 징그러운 눈알 괴물로 변하는 AI의 꿈 그리기 놀이예요.
-2. 반면 **Grad-CAM**은 의사 선생님의 엑스레이 카메라예요. 뚱뚱한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇의 배를 가르지 않고도, 찰칵 사진을 찍어서 "아하, 로봇의 뇌 중에서 '강아지 귀'를 담당하는 부분에 피(기울기)가 팍 몰려있네!"라고 1초 만에 알아채요.
+1. <strong>딥 드림</strong>은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)에게 수면제를 먹여서 "구름 속에서 네가 좋아하는 강아지 얼굴을 찾아 마음껏 덧그려봐!"라고 시켰더니, 구름이 징그러운 눈알 괴물로 변하는 AI의 꿈 그리기 놀이예요.
+2. 반면 <strong>Grad-CAM</strong>은 의사 선생님의 엑스레이 카메라예요. 뚱뚱한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇의 배를 가르지 않고도, 찰칵 사진을 찍어서 "아하, 로봇의 뇌 중에서 '강아지 귀'를 담당하는 부분에 피(기울기)가 팍 몰려있네!"라고 1초 만에 알아채요.
 3. 그래서 원본 사진의 귀 부분에 시뻘겋게 레이저 포인터(히트맵)를 딱 칠해주니까, 우리가 "이 로봇이 귀를 보고 강아지를 맞췄구나!" 하고 100% 믿을 수 있게 된답니다.
 
 ---

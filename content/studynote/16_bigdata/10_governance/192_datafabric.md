@@ -24,8 +24,8 @@ tags = ["studynote-bigdata"]
 
 ### 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 복잡성 증가 (Pain Point)
 현대 기업은 수십 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집합니다. [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), HR 시스템, 마케팅 자동화 플랫폼, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, SNS 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 퍼져있는 위치만큼이나 그 포맷과 의미도 제각각입니다.
-- **문제 1 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))**: 재무 시스템의 '고객' 테이블과 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템의 '고객' 테이블은 이름은 같지만 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 다릅니다. 재무는 사업자등록번호를 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 쓰고, CRM은 이메일을 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 씁니다. 이 두 시스템을 연결하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 비즈니스 로직을 수동으로 이해하고 매핑해야 합니다.
-- **문제 2 - [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)의 부재**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 왔는지(출처), 어떻게 변환되었는지(계보), 어떤 의미인지(의미론적 정의)가 문서화되지 않아, 새로운 분석을 시작할 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색부터 다시 시작해야 합니다.
+- <strong>문제 1 - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)</strong>: 재무 시스템의 '고객' 테이블과 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템의 '고객' 테이블은 이름은 같지만 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 다릅니다. 재무는 사업자등록번호를 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 쓰고, CRM은 이메일을 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 씁니다. 이 두 시스템을 연결하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 비즈니스 로직을 수동으로 이해하고 매핑해야 합니다.
+- <strong>문제 2 - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>의 부재</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 왔는지(출처), 어떻게 변환되었는지(계보), 어떤 의미인지(의미론적 정의)가 문서화되지 않아, 새로운 분석을 시작할 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색부터 다시 시작해야 합니다.
 - **문제 3 - 통합 설계의 수동성**: 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스가 추가될 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 "소스 A의 X 테이블과 소스 B의 Y 컬럼을 JOIN해서 Z로 산출해라"는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을수동으로 설계합니다. 시스템 수가 할수록 이 조합은적으로 증가합니다.
 
 ### 2. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 등장: "지식이 연결한다."
@@ -40,43 +40,29 @@ tags = ["studynote-bigdata"]
 
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 아키텍처는 크게 4개의 핵심 레이어로 구성되며, 각 레이어가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)를 중심으로 유기적으로 동작합니다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 데이터 패브릭 (Data Fabric) 아키텍처 ] │
-│ │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ [ 사용자 인터페이스 / 소비 계층 ] │ │
-│ │ Business Analyst ◀── Data Scientist ◀── Data Engineer │ │
-│ └──────────────────────────┬────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────────▼────────────────────────────────────────┐ │
-│ │ [ 데이터 통합 오케스트레이션 엔진 ] │ │
-│ │ 자동 파이프라인 생성 + 스케줄링 + 모니터링 │ │
-│ │ (강화 학습 기반 자동 설계) │ │
-│ └──────────────────────────┬────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────────▼────────────────────────────────────────┐ │
-│ │ ★ 핵심: 메타데이터 지식 그래프 (Knowledge Graph) ★ │ │
-│ │ ┌─────────────────────────────────────────────────────────────┐ │ │
-│ │ │ [노드] [관계] [속성] │ │ │
-│ │ │ 고객 ─────────▶ 사업자등록번호 (의미론적 동의어) │ │ │
-│ │ │ │ │ │ │ │
-│ │ │ │ │ │ │ │
-│ │ │ ▼ ▼ │ │ │
-│ │ │ CRM_고객 ◀──같은실체──▶ 재무_고객 (자동 추론) │ │ │
-│ │ │ │ │ │ │
-│ │ │ │──출처──▶ Oracle ERP │ │ │
-│ │ │ │──변환──▶ SELECT AVG(salary)... │ │ │
-│ │ │ │──품질──▶ 99.2% complete │ │ │
-│ │ └─────────────────────────────────────────────────────────────┘ │ │
-│ └──────────────────────────┬────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────────▼────────────────────────────────────────┐ │
-│ │ [ 데이터 연결 계층 ] │ │
-│ │ Oracle ERP │ Salesforce CRM │ S3 Data Lake │ Kafka │ Snowflake │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 인터페이스 / 소비 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Analyst ◀── Data Scientist ◀── Data Engineer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 통합 오케스트레이션 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 파이프라인 생성 + 스케줄링 + 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(강화 학습 기반 자동 설계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 핵심: 메타데이터 지식 그래프 (Knowledge Graph) ★</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">노드</div><div class="kb-diagram-node">관계</div><div class="kb-diagram-node">속성</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 ▶ 사업자등록번호 (의미론적 동의어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM_고객 ◀──같은실체──▶ 재무_고객 (자동 추론)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──출처──▶ Oracle ERP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──변환──▶ SELECT AVG(salary)...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──품질──▶ 99.2% complete</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 연결 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle ERP</div><div class="kb-diagram-cell">Salesforce CRM</div><div class="kb-diagram-cell">S3 Data Lake</div><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">Snowflake</div></div>
+</div>
+</div>
+
+
 
 ### 1. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 자동 추론 (Automated Reasoning)
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를Ontology(온톨로지)로 모델링하고, 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 자동으로 결론을 도출하는 Engine입니다.
@@ -94,7 +80,7 @@ tags = ["studynote-bigdata"]
 | 구분 | 전통적 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) | [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) | [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) |
 | :--- | :--- | :--- | :--- |
 | **핵심 철학** | 중앙 집중 저장소 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분권 소유 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반 지능형 연결 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동** | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 이동 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 필요시 | 위치 무관, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 연결 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동</strong> | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 이동 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 필요시 | 위치 무관, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 연결 |
 | **통합 방식** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인수동 설계 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 인터페이스 | [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 자동 추론 |
 | **확장성** | 중앙 팀 병목 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 추가 시 자연 확장 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 규모에 영향 |
 | **주요** | AWS Lake Formation, Azure [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory | U/[Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)/[Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) | Alation/Collibra/[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).world |
@@ -113,13 +99,13 @@ tags = ["studynote-bigdata"]
 
 | 고려 사항 | 세부 내용 | 도입 의사결정 |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복잡성** | 연결해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 수, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 다양성 | 소스 수 20개 이상 시 패브릭 가치 상승 |
-| **[메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 수준** | 기존 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 존재 여부 | 미비 시 Alation/Collibra 같은 도구 도입 필요 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복잡성</strong> | 연결해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 수, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 다양성 | 소스 수 20개 이상 시 패브릭 가치 상승 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/">메타데이터 관리</a> 수준</strong> | 기존 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 존재 여부 | 미비 시 Alation/Collibra 같은 도구 도입 필요 |
 | **자동화 필요도** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수동 설계 병목 심각 여부 | 중앙 팀 병목이 business 속도 저하 주요 원인일 경우 |
 | **예산과 인적 자원** | 온톨로지 구축 및 유지 인력 확보 가능 여부 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 역량에 따라 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 결정 |
 
 *(추가 실무 적용 가이드 - 점진적 온톨로지 구축)*
-- 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 Ontology를 한 번에 구축하려고 하지 말고, **가장 빈번하게 통합되는 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(고객, 주문, 제품)부터 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 구축**하여 핵심 가치를 입증한 뒤 확장하는 접근이 현실적입니다.
+- 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 Ontology를 한 번에 구축하려고 하지 말고, <strong>가장 빈번하게 통합되는 핵심 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(고객, 주문, 제품)부터 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>를 구축</strong>하여 핵심 가치를 입증한 뒤 확장하는 접근이 현실적입니다.
 - **실무 도구 조합**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심 기능인 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/)와 자동화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계를 위해 Collibra(거버넌스) + Apache Atlas(리니지) + [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)([오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))을 조합하는 것이 일반적입니다.
 
 - **📢 섹션 요약 비유**: 실무 도입은 "아기 옷을 사면서부터 성인 복장까지 한 번에와/과하다 것"과 같습니다. 먼저(먼저) 가장 자주 입는 기본 옷(핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터씩(하나씩) 사들이고, 옷장이 늘어나면서 점차 고급 옷(전사적 Ontology)을 채워가는 것이 현명하며, 모든 옷을 한꺼번에 사려다가 옷장이 터져버리는(프로젝트 실패) 것을 방지해야 합니다.
@@ -128,13 +114,13 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **생성 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와의 융합**
+1. <strong>생성 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(Generative <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)와의 융합</strong>
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 Model)이 온톨로지 구축을 자동화하는 연구가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되고 있습니다. 자연어로 "고객 테이블과 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 테이블은 같은 실체를 가리킨다"는 설명을 하면, LLM이 이를Ontology로 번역하여 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)에 자동 추가하는 것이 가능해지고 있습니다. 이로 인해 온톨로지 구축의 Man Hour(인건비)가 대폭 감소할 것으로 기대됩니다.
 
-2. **실시간 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) (Real-Time [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))**
+2. <strong>실시간 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">데이터 패브릭</a> (Real-Time <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a>)</strong>
 현재 배치 기반의(중심)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합을 넘어, Apache Kafka나Apache Flink와 같은 스트리밍 플랫폼을 활용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 순간 지식이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 반영되고, 실시간으로 자동 통합 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 재구성되는 "Live [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)"으로 진화하고 있습니다.
 
-3. **자율적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 (Autonomous [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering)**
+3. <strong>자율적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 엔지니어링 (Autonomous <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Engineering)</strong>
 궁극적 비전으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 연결, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계, 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 이상 감지, 자가 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)(실패 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))까지 모든 단계를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Agent가에(스스로) 수행하는 완전 자동화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 시대로 이행하고 있습니다. 이 영역은 아직 연구 단계이지만, 향후 5년 내 성숙할 것으로 업계는 예측합니다.
 
 - **📢 섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 미래는 "자기 운전하는 도시 교통 시스템"과 같습니다. 현재는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등과 도로 표지판([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))을 사람이(설치)하고, 교통 상황([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름)의에 따라 사람이(교차로 조정)를 합니다. 미래에는 도로에 깔린 센서(실시간 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))가 스스로 교통 패턴을(학습)하고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 으로 최적의 흐름을 하며, 사고가 나면 자동으로 우회 경로를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 완전 자율 교통 시스템으로 진화하는 것입니다.
@@ -143,7 +129,7 @@ tags = ["studynote-bigdata"]
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 4대 핵심 레이어**
+* <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">데이터 패브릭</a> 4대 핵심 레이어</strong>
 * 사용자 인터페이스 계층: 셀프서비스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근, BI/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구 연동
 * 통합 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층: 자동화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
 * [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 계층: 시맨틱 온톨로지, 자동 추론 엔진 ★ 핵심
@@ -158,18 +144,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 사일로]
-│
-▼
-[메타데이터 카탈로그]
-│
-▼
-[지식 그래프]
-│
-▼
-[데이터 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 카탈로그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)와 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)로 연결한 뒤 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)으로 확장하는 통합의 순서를 보여준다.
 
@@ -180,7 +169,7 @@ tags = ["studynote-bigdata"]
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ 3.1 Pro Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-05)
 
 ---
 

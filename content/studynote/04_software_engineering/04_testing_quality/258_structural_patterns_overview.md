@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 구조 패턴 (Structural Pa의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  구조 패턴 (Structural Pa                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 패턴 (Structural Pa</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 구조 패턴 (Structural Pa가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,8 +49,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF의 23가지 패턴 중 두 번째 대분류입니다. **작게 쪼개진 클래스나 객체들을 조합하고 융합하여, 더 거대하고 강력한 기능(복합 객체)을 가진 구조물로 유연하게 조립하는 방법(레고 조립 설명서)을 제공하는 7가지 패턴의 묶음**입니다.
-- **주요 무기**: 이 놈들은 244번의 **다형성(인터페이스)**과 **합성/위임(Composition/Delegation, 껍데기 안에 객체 품기)** 기술을 밥 먹듯이 사용하여 뼈대를 미치도록 유연하게 늘려 나갑니다.
+- **개념**: GoF의 23가지 패턴 중 두 번째 대분류입니다. <strong>작게 쪼개진 클래스나 객체들을 조합하고 융합하여, 더 거대하고 강력한 기능(복합 객체)을 가진 구조물로 유연하게 조립하는 방법(레고 조립 설명서)을 제공하는 7가지 패턴의 묶음</strong>입니다.
+- **주요 무기**: 이 놈들은 244번의 <strong>다형성(인터페이스)</strong>과 **합성/위임(Composition/Delegation, 껍데기 안에 객체 품기)** 기술을 밥 먹듯이 사용하여 뼈대를 미치도록 유연하게 늘려 나갑니다.
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -71,13 +70,13 @@ tags = ["studynote-software-engineering"]
 
 정보처리기사 시험에서 "다음 중 구조 패턴이 아닌 것은?"으로 객관식 1번 문제로 나옵니다. "어데프 퍼컴브플" 처럼 앞글자를 따서라도 달달 외워야 합니다. (각 패턴의 디테일은 259~265번에서 폭격합니다.)
 
-1. **[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))**: "야! 삼성 돼지코랑 미국 콘센트 구멍 모양이 안 맞아! 중간에 **변환기(돼지코)** 꽂아서 호환되게 억지로 엮어버려!"
-2. **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))**: "기능이랑 껍데기를 하나로 합치면 커질 때 100개로 쪼개져! **뼈대와 속살을 다리로 이어서(분리)** 각자 자유롭게 뚱뚱해지게 놔둬!"
-3. **[컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/))**: "폴더 안에 폴더, 그 안에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)... **그릇이랑 내용물을 똑같은 놈(단일 인터페이스)으로 취급**해서 폴더 트리를 무한대로 박아버려!"
-4. **[데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))**: "무기 하나 추가할 때마다 클래스 새로 짜? 미쳤어? 그냥 기본 로봇 껍데기 위에 **포장지 씌우듯 동적으로 기능을 덕지덕지** 덧씌워서 덩치를 불려!"
-5. **[퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) ([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))**: "클래스 10개가 거미줄처럼 얽혀서 너무 복잡해! 사용자 눈앞에 **거대한 정문(단순한 입구) 1개만** 딱 세워놓고, 뒤에 복잡한 건 지가 알아서 통제하게 가려버려!"
-6. **[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**: "DB 접근권한이나 속도 때문에 아무나 못 들여보내! **가짜 대리인(비서)**을 앞에 세워놓고 비서가 대신 통제하고 심부름하게 시켜!"
-7. **[플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) ([Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/))**: "똑같이 생긴 총알 10만 개 쏘는데 메모리가 모자라! 껍데기 1개만 만들어놓고 **참조값만 돌려쓰며 메모리 극한 다이어트** 해!"
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong>: "야! 삼성 돼지코랑 미국 콘센트 구멍 모양이 안 맞아! 중간에 **변환기(돼지코)** 꽂아서 호환되게 억지로 엮어버려!"
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>)</strong>: "기능이랑 껍데기를 하나로 합치면 커질 때 100개로 쪼개져! **뼈대와 속살을 다리로 이어서(분리)** 각자 자유롭게 뚱뚱해지게 놔둬!"
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">컴포지트</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a>)</strong>: "폴더 안에 폴더, 그 안에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)... <strong>그릇이랑 내용물을 똑같은 놈(단일 인터페이스)으로 취급</strong>해서 폴더 트리를 무한대로 박아버려!"
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">데코레이터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">Decorator</a>)</strong>: "무기 하나 추가할 때마다 클래스 새로 짜? 미쳤어? 그냥 기본 로봇 껍데기 위에 **포장지 씌우듯 동적으로 기능을 덕지덕지** 덧씌워서 덩치를 불려!"
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">퍼사드</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">Facade</a>)</strong>: "클래스 10개가 거미줄처럼 얽혀서 너무 복잡해! 사용자 눈앞에 **거대한 정문(단순한 입구) 1개만** 딱 세워놓고, 뒤에 복잡한 건 지가 알아서 통제하게 가려버려!"
+6. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong>: "DB 접근권한이나 속도 때문에 아무나 못 들여보내! <strong>가짜 대리인(비서)</strong>을 앞에 세워놓고 비서가 대신 통제하고 심부름하게 시켜!"
+7. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">플라이웨이트</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">Flyweight</a>)</strong>: "똑같이 생긴 총알 10만 개 쏘는데 메모리가 모자라! 껍데기 1개만 만들어놓고 **참조값만 돌려쓰며 메모리 극한 다이어트** 해!"
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -90,9 +89,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 구조 패턴 7개가 목숨 걸고 외치는 객체지향 최고의 명언입니다.
-- 기능 덩치를 불리려고 `extends(상속)`를 떡칠하면 부모가 바뀔 때 자식이 다 터집니다(강한 결합). 구조 패턴들은 상속을 버리고, 내 뱃속에 다른 객체를 변수로 몰래 품어서 대신 일하게 시키는 **'합성(Composition)'**을 통해 시스템의 관절을 고무줄처럼 유연하게 조립합니다.
+- 기능 덩치를 불리려고 `extends(상속)`를 떡칠하면 부모가 바뀔 때 자식이 다 터집니다(강한 결합). 구조 패턴들은 상속을 버리고, 내 뱃속에 다른 객체를 변수로 몰래 품어서 대신 일하게 시키는 <strong>'합성(Composition)'</strong>을 통해 시스템의 관절을 고무줄처럼 유연하게 조립합니다.
 
-> 📢 **섹션 요약 비유**: **구조 패턴(Structural Patterns)**은 레고 조각들을 모아 **'거대한 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 합체 로봇을 조립하는 7가지 비법서'**입니다. 252번의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이 예쁘고 튼튼한 레고 블록 1개(팔, 다리)를 공장에서 어떻게 잘 찍어낼지 고민하는 기술이었다면, 구조 패턴은 찍어져 나온 그 수백 개의 팔, 다리, 머리 블록들을 어떻게 맞물려 끼워야 거대한 합체 로봇(아키텍처)이 튼튼하게 서 있을 수 있는지 가르쳐줍니다. 만약 팔 블록과 몸통 블록의 튀어나온 돌기 모양이 달라 끼워지지 않으면 중간에 특수 연결 블록(1. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))을 끼워서 억지로 호환시켜 버립니다. 로봇 겉면에 미사일을 달고 싶은데 몸통을 다시 뜯어내기 귀찮으면, 그냥 기존 로봇 껍데기 위에 자석처럼 장갑을 덧대어(4. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 덩치와 기능을 불려 나갑니다. 조종사가 로봇의 복잡한 100개의 전선을 일일이 조작하다 감전될까 봐, 조종석 앞에 큼직한 '합체 전원 버튼' 딱 1개(5. [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))만 만들어 뒤의 복잡함을 싹 가려줍니다. 단일 부품의 한계를 뛰어넘어, 수십 개의 객체를 엮어 위대한 성벽을 쌓아 올리는 아키텍트들의 필수 조립 공학입니다.
+> 📢 **섹션 요약 비유**: <strong>구조 패턴(Structural Patterns)</strong>은 레고 조각들을 모아 <strong>'거대한 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a> 합체 로봇을 조립하는 7가지 비법서'</strong>입니다. 252번의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이 예쁘고 튼튼한 레고 블록 1개(팔, 다리)를 공장에서 어떻게 잘 찍어낼지 고민하는 기술이었다면, 구조 패턴은 찍어져 나온 그 수백 개의 팔, 다리, 머리 블록들을 어떻게 맞물려 끼워야 거대한 합체 로봇(아키텍처)이 튼튼하게 서 있을 수 있는지 가르쳐줍니다. 만약 팔 블록과 몸통 블록의 튀어나온 돌기 모양이 달라 끼워지지 않으면 중간에 특수 연결 블록(1. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))을 끼워서 억지로 호환시켜 버립니다. 로봇 겉면에 미사일을 달고 싶은데 몸통을 다시 뜯어내기 귀찮으면, 그냥 기존 로봇 껍데기 위에 자석처럼 장갑을 덧대어(4. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 덩치와 기능을 불려 나갑니다. 조종사가 로봇의 복잡한 100개의 전선을 일일이 조작하다 감전될까 봐, 조종석 앞에 큼직한 '합체 전원 버튼' 딱 1개(5. [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))만 만들어 뒤의 복잡함을 싹 가려줍니다. 단일 부품의 한계를 뛰어넘어, 수십 개의 객체를 엮어 위대한 성벽을 쌓아 올리는 아키텍트들의 필수 조립 공학입니다.
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -137,21 +136,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-구조 패턴 (Structural Patterns) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조 패턴 (Structural Patterns) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

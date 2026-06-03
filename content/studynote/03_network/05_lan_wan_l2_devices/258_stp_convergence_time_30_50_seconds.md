@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 주고받는 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 교환이 모두 끝나고, 트리의 모양(루프가 없는 상태)이 완전히 고정되어 안정을 찾은 상태를 '수렴(Convergence)'이라 하며, 장애가 나고 다시 수렴할 때까지 걸리는 갭(Gap)이 컨버전스 타임이다.
 - **필요성**: 메인 도로가 공사로 막혔을 때 우회 도로의 바리케이드를 치우고 다시 차를 달리게 해야 한다. 이 바리케이드를 치우는 타이밍이 컨버전스 타임인데, 만약 성급하게 1초 만에 치웠다가 아직 덜 막힌 곳 때문에 루프(충돌)가 생기면 전체가 전멸한다. 따라서 초창기 설계자들은 '안전제일'을 위해 무식할 정도로 긴 대기 시간(타이머)을 프로토콜에 박아 두었다.
 
-- **💡 비유**: 길을 가다 메인 고속도로 톨게이트가 고장 나서 차단기가 내려갔습니다. 관리자는 우회 국도를 열어줘야 하는데, "혹시 모르니 국도 반대편에서 차가 오는지 20초 지켜보고(Max Age), 안내 방송 15초 하고(Listening), 차선 정리 15초 하고([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 문 열어줄게!"라며 **운전자들을 50초 동안 멍하니 서 있게 만드는 융통성 없는 시스템**입니다.
+- **💡 비유**: 길을 가다 메인 고속도로 톨게이트가 고장 나서 차단기가 내려갔습니다. 관리자는 우회 국도를 열어줘야 하는데, "혹시 모르니 국도 반대편에서 차가 오는지 20초 지켜보고(Max Age), 안내 방송 15초 하고(Listening), 차선 정리 15초 하고([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 문 열어줄게!"라며 <strong>운전자들을 50초 동안 멍하니 서 있게 만드는 융통성 없는 시스템</strong>입니다.
 
-```text
-[STP 4단계 상태 전이]
-    │
-    ▼
-[컨버전스 시간]
-    │
-    └──▶ [포트 패스트 / BPDU Guard]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨버전스 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 패스트 / BPDU Guard</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** STP의 50초 컨버전스는 수술실에서 심장이 멈춘 환자(장애)를 살릴 때, CPR(심폐소생술)을 바로 하지 않고 **"안전 규정 매뉴얼북을 50초 동안 정독한 뒤에야 제세동기를 켜는 지나치게 신중한 의사"**와 같습니다. 환자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 이미 죽어버립니다.
 
@@ -42,16 +46,20 @@ tags = ["studynote-network"]
 ### 1. STP의 3대 핵심 타이머
 - **Hello Time (2초)**: 대장(Root) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 "나 살아있다"라고 생존 엽서를 뿌리는 간격.
 - **Max Age (20초)**: "죽었나?" 판단하는 인내심의 한계. 20초 동안 엽서가 안 오면 대장이 죽었거나 선이 끊어졌다고 확정 짓는다.
-- **[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Delay (15초)**: Listening에서 Learning으로, Learning에서 Forwarding으로 넘어갈 때 눈치 보며 기다리는 깐깐한 대기 시간. (총 30초 소요)
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Delay (15초)</strong>: Listening에서 Learning으로, Learning에서 Forwarding으로 넘어갈 때 눈치 보며 기다리는 깐깐한 대기 시간. (총 30초 소요)
 
-```text
-[STP 4단계 상태 전이]
-    │
-    ▼
-[컨버전스 시간]
-    │
-    └──▶ [포트 패스트 / BPDU Guard]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨버전스 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 패스트 / BPDU Guard</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 컨버전스 시간의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,36 +69,31 @@ tags = ["studynote-network"]
 
 내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂혀있던 메인 선이 내 눈앞에서 "툭" 하고 뽑혔다. 
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 센서가 꺼지는 것을 바로 감지하므로 20초(Max Age)를 멍청하게 기다릴 필요가 없다. 즉시 내가 막아두었던([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 예비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 연다. 하지만 안전 확인을 위해 Listening(15초)과 [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)(15초)은 얄짤없이 거쳐야 한다.
-▶ **총 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 = 30초 (15 + 15)**
+▶ <strong>총 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간 = 30초 (15 + 15)</strong>
 
 ### 3. 시나리오 B: 간접 링크 장애 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Link Failure)
 내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂힌 선은 정상인데, 저 멀리 윗동네에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들 사이의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 선이 끊어졌다(내 센서엔 불이 들어와 있음).
 이때는 윗동네에서 오던 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 엽서가 멈춘다. 나는 내 선은 정상이니 "엽서가 밀리나?" 하며 **무려 20초(Max Age)를 꼼짝 않고 기다린다.** 20초가 지나서야 "아! 윗동네 선이 끊어졌구나!" 깨닫고 예비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열 준비(Listening 15초 + [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 15초)를 시작한다.
-▶ **총 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 = 50초 (20 + 15 + 15)**
+▶ <strong>총 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간 = 50초 (20 + 15 + 15)</strong>
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                간접 장애 시 50초 컨버전스 타임라인              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   T=0초  : 윗동네 허브 선로 단절 (내 포트는 Link-up 상태)           │
- │            │                                                │
- │            │ (Max Age 타이머 작동: BPDU 안 오나? 기다려보자)      │
- │            ▼                                                │
- │   T=20초 : "20초 지났다! 윗동네 죽었네! 내 예비 포트 열어라!"         │
- │            [ Blocking ──▶ Listening 진입 ]                  │
- │            │                                                │
- │            │ (유세 및 눈치 보기 15초)                           │
- │            ▼                                                │
- │   T=35초 : [ Listening ──▶ Learning 진입 ]                   │
- │            │                                                │
- │            │ (지도 그리기 15초)                               │
- │            ▼                                                │
- │   T=50초 : [ Learning ──▶ Forwarding 진입 ]                  │
- │            통신 정상화 완료! 하지만 50초 동안 회사 인터넷은 끊김!      │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간접 장애 시 50초 컨버전스 타임라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=0초 : 윗동네 허브 선로 단절 (내 포트는 Link-up 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Max Age 타이머 작동: BPDU 안 오나? 기다려보자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=20초 : "20초 지났다! 윗동네 죽었네! 내 예비 포트 열어라!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Blocking ──▶ Listening 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유세 및 눈치 보기 15초)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=35초 :</div><div class="kb-diagram-node">Listening ──▶ Learning 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지도 그리기 15초)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=50초 :</div><div class="kb-diagram-node">Learning ──▶ Forwarding 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 정상화 완료! 하지만 50초 동안 회사 인터넷은 끊김!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 직접 장애가 **"내 눈앞에서 차 사고가 나서 즉시 다른 길로 우회(30초)"**하는 것이라면, 간접 장애는 **"저 산 너머에서 사고가 나서 20초 동안 라디오([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))를 듣고 나서야 우회(총 50초)"**를 결심하는 답답한 상황입니다.
 
@@ -134,15 +137,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: STP 4단계 상태 전이]
-    │
-    ▼
-[현재 개념: 컨버전스 시간]
-    │
-    ├──▶ [확장 A: 포트 패스트 / BPDU Guard]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 컨버전스 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 포트 패스트 / BPDU Guard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 컨버전스 시간는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

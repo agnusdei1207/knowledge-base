@@ -23,16 +23,18 @@ tags = ["studynote-enterprise"]
 
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 사후 대응만으로는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 규제 대응이 약해지는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 과적합 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델 비교는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                     머신러닝 과적합 앙상블 …의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [머신러닝 과적합 앙상블 …] ─────▶ [머신러닝 과적합 앙상블 …] ─────▶ [보안 거버넌스]                  │
-│      │                           │                           │
-│      └────────▶ [사후 대응만으로는 신뢰성…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머신러닝 과적합 앙상블 …의 필요성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현장 입력 설계 기준 기대 결과</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 과적합 앙상블 …</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">머신러닝 과적합 앙상블 …</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보안 거버넌스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사후 대응만으로는 신뢰성…</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">운영 안정화</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 과적합 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델 비교가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
 
@@ -51,15 +53,17 @@ tags = ["studynote-enterprise"]
 | [Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [머신러닝 과적합 앙상블 …] ─────▶ [ML Overfitting] ─────▶ [Ensemble]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 원리: 기준 → 실행 → 피드백 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 과적합 앙상블 …</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ML Overfitting</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ensemble</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지표·리스크·교정 루프</div></div>
+</div>
+</div>
+
+
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 과적합 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델 비교는 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
 
@@ -126,15 +130,19 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[머신러닝 과적합 앙상블 … 정리]
-    │
-    ▼
-[머신러닝 과적합 앙상블 … 적용]
-    │
-    ├──▶ [ML Overfitting 최적화]
-    └──▶ [지속적 컴플라이언스 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 과적합 앙상블 … 정리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 과적합 앙상블 … 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ML Overfitting 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지속적 컴플라이언스 확장</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
 

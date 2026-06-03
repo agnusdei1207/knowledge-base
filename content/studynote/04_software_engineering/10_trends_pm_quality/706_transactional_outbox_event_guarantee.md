@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 1. DB에 먼저 저장하고 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)에 쏘려는데, 쏘기 직전에 서버가 다운되면? $\rightarrow$ **이벤트 유실 (주문은 됐는데 배송이 안 옴)**
 2. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)에 먼저 쏘고 DB에 저장하려는데, DB 저장이 실패하면? $\rightarrow$ **유령 이벤트 발생 (배송은 출발했는데 주문 내역이 없음)**
 
-이러한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 악몽을 해결하기 위해 고안된 가장 확실하고 우아한 해답이 바로 **[트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)([Transactional Outbox](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/))** 패턴이다.
+이러한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 악몽을 해결하기 위해 고안된 가장 확실하고 우아한 해답이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/">트랜잭셔널 아웃박스</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/">Transactional Outbox</a>)</strong> 패턴이다.
 
 - **📢 섹션 요약 비유**: 친구에게 "돈 보냈어"라고 문자를 보내고 은행 앱에서 송금을 눌렀는데, 통장 잔고 부족으로 송금이 실패하면 친구는 문자를 보고 거짓말쟁이라고 화를 낸다. 이 두 가지 행동(문자 발송과 실제 송금)이 절대 엇갈리지 않게 묶는 기술이 아웃박스 패턴이다.
 
@@ -35,18 +35,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) 이벤트 유실 방지의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  트랜잭셔널 아웃박스 이벤트 유실 방지                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭셔널 아웃박스 이벤트 유실 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) 이벤트 유실 방지가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -58,7 +57,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)의 핵심 원리는 **"로컬 DB의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 능력"에 100% 업혀 가는 것**이다.
+[트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)의 핵심 원리는 <strong>"로컬 DB의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(ACID) 능력"에 100% 업혀 가는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) 이벤트 유실 방지은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -80,9 +79,9 @@ tags = ["studynote-software-engineering"]
 
 | 해결 패턴 | 동작 방식 | 한계 및 단점 |
 |:---|:---|:---|
-| **[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))** | DB와 Kafka를 묶어 한 번에 커밋 | NoSQL이나 현대 브로커는 2PC를 미지원. 속도가 끔찍하게 느림. ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) |
-| **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 (Choreography)**| 각자 알아서 이벤트 쏘고 실패 시 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) 실행 | 첫 이벤트를 쏠 때 서버가 죽어 유실되는 'Dual-Write' 원천 문제는 여전히 해결 못 함. |
-| **[Transactional Outbox](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)** | **로컬 DB에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 이벤트를 원자적으로 함께 저장** | **Dual-Write 문제를 완벽히 해결.** 단, 아웃박스 테이블 관리 오버헤드 존재. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">2PC</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">Two-Phase Commit</a>)</strong> | DB와 Kafka를 묶어 한 번에 커밋 | NoSQL이나 현대 브로커는 2PC를 미지원. 속도가 끔찍하게 느림. ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> 패턴 (Choreography)</strong>| 각자 알아서 이벤트 쏘고 실패 시 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) 실행 | 첫 이벤트를 쏠 때 서버가 죽어 유실되는 'Dual-Write' 원천 문제는 여전히 해결 못 함. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/">Transactional Outbox</a></strong> | <strong>로컬 DB에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 이벤트를 원자적으로 함께 저장</strong> | **Dual-Write 문제를 완벽히 해결.** 단, 아웃박스 테이블 관리 오버헤드 존재. |
 
 결국 아웃박스 패턴은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 복잡도를 가장 믿을 수 있는 구식 무기(RDBMS의 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))로 찍어 누르는 가장 영리한 타협안이다.
 
@@ -135,21 +134,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-트랜잭셔널 아웃박스 이벤트 유실 방지 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트랜잭셔널 아웃박스 이벤트 유실 방지 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

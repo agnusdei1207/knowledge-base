@@ -18,22 +18,27 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-BST 불균형 문제:
-  순차 삽입 [1, 2, 3, 4, 5]:
-      1
-               2
-                   3
-                       4
-                           5
-  → 연결 리스트와 같아짐: 검색 O(N)
 
-AVL 트리: 자동 균형 유지
-      3
-     /     2   4
-   /       1       5
-  → 항상 O(log N) 검색
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BST 불균형 문제:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">순차 삽입</div><div class="kb-diagram-node">1, 2, 3, 4, 5</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-note">1</div>
+<div class="kb-diagram-note">2</div>
+<div class="kb-diagram-note">3</div>
+<div class="kb-diagram-note">4</div>
+<div class="kb-diagram-note">5</div>
+<div class="kb-diagram-note">→ 연결 리스트와 같아짐: 검색 O(N)</div>
+<div class="kb-diagram-note">AVL 트리: 자동 균형 유지</div>
+<div class="kb-diagram-note">3</div>
+<div class="kb-diagram-note">/ 2 4</div>
+<div class="kb-diagram-note">/ 1 5</div>
+<div class="kb-diagram-note">→ 항상 O(log N) 검색</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BST는 무질서한 책장이다. 순서대로만 책을 꽂으면 한쪽으로 기울어진 탑이 된다. AVL 트리는 자동 정리 로봇이 있어서 한쪽이 기울면 즉시 재배치하는 균형 잡힌 책장이다.
 
@@ -43,23 +48,26 @@ AVL 트리: 자동 균형 유지
 
 ### Balance Factor와 회전
 
-```text
-Balance Factor (BF) = 왼쪽 높이 - 오른쪽 높이
 
-BF = -1, 0, 1 → 균형 상태
-BF ≤ -2 또는 BF ≥ 2 → 불균형 → 회전 필요
 
-4가지 회전:
-  LL 불균형: 단순 우회전
-      Z(BF=2)         Y
-     /              /       Y(BF=1)  →    X     Z
-   /
-  X
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Balance Factor (BF) = 왼쪽 높이 - 오른쪽 높이</div>
+<div class="kb-diagram-note">BF = -1, 0, 1 → 균형 상태</div>
+<div class="kb-diagram-note">BF ≤ -2 또는 BF ≥ 2 → 불균형 → 회전 필요</div>
+<div class="kb-diagram-note">4가지 회전:</div>
+<div class="kb-diagram-note">LL 불균형: 단순 우회전</div>
+<div class="kb-diagram-note">Z(BF=2) Y</div>
+<div class="kb-diagram-note">/ / Y(BF=1) → X Z</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">X</div>
+<div class="kb-diagram-note">RR 불균형: 단순 좌회전 (LL의 반대)</div>
+<div class="kb-diagram-note">LR 불균형: 좌회전 후 우회전 (이중 회전)</div>
+<div class="kb-diagram-note">RL 불균형: 우회전 후 좌회전 (이중 회전)</div>
+</div>
+</div>
 
-  RR 불균형: 단순 좌회전 (LL의 반대)
-  LR 불균형: 좌회전 후 우회전 (이중 회전)
-  RL 불균형: 우회전 후 좌회전 (이중 회전)
-```
+
 
 ### 높이와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
 
@@ -158,28 +166,30 @@ def insert(root, key):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **BST** | AVL의 기반 자료 구조 |
-| **[Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/)** | AVL의 대안 균형 BST |
-| **[B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) / B+Tree** | 디스크 기반 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a></strong> | AVL의 대안 균형 BST |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> / B+Tree</strong> | 디스크 기반 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 | **회전 (Rotation)** | AVL/RB 균형 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 연산 |
 | **Balance Factor** | AVL 균형 판단 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BST — 이진 탐색, 최악 O(N)]
-    │
-    ▼
-[AVL 트리 — 엄격 균형, 항상 O(log N)]
-    │
-    ▼
-[Red-Black 트리 — 유연 균형, 빠른 삽입/삭제]
-    │
-    ▼
-[B-Tree / B+Tree — 멀티웨이 디스크 I/O 최적화]
-    │
-    ▼
-[Skip List — Redis, 병렬화 친화적 대안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BST — 이진 탐색, 최악 O(N)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AVL 트리 — 엄격 균형, 항상 O(log N)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Red-Black 트리 — 유연 균형, 빠른 삽입/삭제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree / B+Tree — 멀티웨이 디스크 I/O 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Skip List — Redis, 병렬화 친화적 대안</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

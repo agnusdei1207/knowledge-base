@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 205번 3계층(UI ➜ 비즈니스 ➜ DB)의 치명적 단점은 화살표의 방향이 **위에서 아래로([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/))** 향한다는 것입니다.
+- 205번 3계층(UI ➜ 비즈니스 ➜ DB)의 치명적 단점은 화살표의 방향이 <strong>위에서 아래로(<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a>)</strong> 향한다는 것입니다.
 - 2층(비즈니스 뇌)이 1층(DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 직접 호출(`Call`)하기 때문에, 오라클 전용 SQL 문법이 뇌 코드 안으로 더럽게 파고들어 섞입니다. 뇌([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 껍데기 기계 기술(DB)에 노예처럼 종속되어버렸습니다.
 
 - **📢 섹션 요약 비유**: 헥사고날 아키텍처 ([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/) / Ports and Adapters)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 헥사고날 아키텍처 (Hexagonal의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  헥사고날 아키텍처 (Hexagonal                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헥사고날 아키텍처 (Hexagonal</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 헥사고날 아키텍처 (Hexagonal가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 앨리스터 코오번(Alistair Cockburn)이 제안한 구조로, 시스템의 가장 핵심인 **'비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)'을 정중앙(육각형의 안쪽)에 꽁꽁 숨겨두고, 외부의 모든 기술(웹 화면, DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 육각형 바깥쪽에서 '[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'와 '[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))'를 통해서만 내부 뇌와 통신하도록 설계하여, 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드를 외부 기술 변화로부터 100% 완벽하게 격리시키는 패턴**입니다.
+- **개념**: 앨리스터 코오번(Alistair Cockburn)이 제안한 구조로, 시스템의 가장 핵심인 <strong>'비즈니스 로직(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델)'을 정중앙(육각형의 안쪽)에 꽁꽁 숨겨두고, 외부의 모든 기술(웹 화면, DB, 외부 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)은 육각형 바깥쪽에서 '<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)'와 '<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)'를 통해서만 내부 뇌와 통신하도록 설계하여, 내부 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 코드를 외부 기술 변화로부터 100% 완벽하게 격리시키는 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 헥사고날 아키텍처 ([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/) / Ports and Adapters)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -82,11 +81,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **의존성의 방향**: 화살표가 밖에서 무조건 안쪽(정중앙 육각형)을 향해 꽂힙니다. 1층(DB)이 2층(뇌)을 향해 거꾸로 꽂히는 **[의존성 역전 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/)([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))**이 발동한 것입니다! 
+- **의존성의 방향**: 화살표가 밖에서 무조건 안쪽(정중앙 육각형)을 향해 꽂힙니다. 1층(DB)이 2층(뇌)을 향해 거꾸로 꽂히는 <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/">의존성 역전 원칙</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">Dependency Inversion Principle</a>)</strong>이 발동한 것입니다! 
 - **기적의 결과**: 나중에 DB를 오라클에서 몽고DB로 바꿉니다. 정중앙의 '비즈니스 뇌' 코드는 1줄도 수정하지 않습니다. 그냥 육각형 바깥에 꽂혀있던 '오라클 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 돼지코'를 뽑아버리고, 1시간 만에 새로 짠 '몽고DB [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 돼지코'를 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍에 찰칵 끼워 넣으면 끝납니다. (플러그 앤 플레이)
 - **테스트**: DB 없이도 뇌 코드만 쏙 빼서 1초 만에 수만 번 [유닛 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/263_unit_test_mocking_stubbing/)(Mocking)를 돌릴 수 있는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 최고급 엘리트 아키텍처입니다.
 
-> 📢 **섹션 요약 비유**: 기존 **계층형(Layered) 아키텍처**는 회사의 핵심 두뇌인 **'회장님(비즈니스 로직)'이 지하 창고(DB)에 직접 내려가서 먼지를 뒤집어쓰고 엑셀 파일을 뒤지는 꼴**이었습니다. 창고가 이사 가면 회장님도 짐을 싸야 했습니다(DB [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 이를 부숴버린 **헥사고날(Hexagonal) 아키텍처**는 회장님을 빌딩 꼭대기 **'무균실 유리 캡슐(육각형 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))'** 안에 가둬버린 것입니다. 회장님은 절대 방 밖으로 나가지 않고 오직 회사 운영(핵심 로직)만 고민합니다. 유리 캡슐 벽면에는 여러 개의 **'마이크와 스피커 구멍([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'**이 뚫려 있습니다. 지하 창고에서 서류를 올려보낼 때는 비서([어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))가 서류를 받아, 회장님이 쓰는 표준 한국어(자바 인터페이스)로 깔끔하게 통역하여 스피커 구멍으로 쏙 넣어줍니다. 내일 창고가 미국식(몽고DB)으로 바뀌어 영어가 올라와도, 회장님은 알 바 아닙니다. 영어 통역이 가능한 새 비서(새 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))로 갈아치우기만 하면, 회장님은 여전히 한국어만 들으며 영원히 무균실에서 평화롭게 회사를 통치할 수 있는 궁극의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아키텍처입니다.
+> 📢 **섹션 요약 비유**: 기존 <strong>계층형(Layered) 아키텍처</strong>는 회사의 핵심 두뇌인 <strong>'회장님(비즈니스 로직)'이 지하 창고(DB)에 직접 내려가서 먼지를 뒤집어쓰고 엑셀 파일을 뒤지는 꼴</strong>이었습니다. 창고가 이사 가면 회장님도 짐을 싸야 했습니다(DB [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 이를 부숴버린 <strong>헥사고날(Hexagonal) 아키텍처</strong>는 회장님을 빌딩 꼭대기 <strong>'무균실 유리 캡슐(육각형 내부 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)'</strong> 안에 가둬버린 것입니다. 회장님은 절대 방 밖으로 나가지 않고 오직 회사 운영(핵심 로직)만 고민합니다. 유리 캡슐 벽면에는 여러 개의 <strong>'마이크와 스피커 구멍(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)'</strong>이 뚫려 있습니다. 지하 창고에서 서류를 올려보낼 때는 비서([어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))가 서류를 받아, 회장님이 쓰는 표준 한국어(자바 인터페이스)로 깔끔하게 통역하여 스피커 구멍으로 쏙 넣어줍니다. 내일 창고가 미국식(몽고DB)으로 바뀌어 영어가 올라와도, 회장님은 알 바 아닙니다. 영어 통역이 가능한 새 비서(새 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))로 갈아치우기만 하면, 회장님은 여전히 한국어만 들으며 영원히 무균실에서 평화롭게 회사를 통치할 수 있는 궁극의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아키텍처입니다.
 
 - **📢 섹션 요약 비유**: 헥사고날 아키텍처 ([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/) / Ports and Adapters)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -127,21 +126,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

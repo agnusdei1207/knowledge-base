@@ -22,7 +22,7 @@ tags = ["studynote-computer-architecture"]
 
 소수점의 위치를 자유롭게 두는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 방식은 표현 범위가 넓지만, 표현의 파편화라는 치명적 문제가 발생한다. 예를 들어 $0.5$를 저장할 때 누군가는 $0.1 \times 2^0$으로, 다른 누군가는 $0.01 \times 2^1$로 제멋대로 표기한다면, 컴퓨터가 두 숫자의 대소를 비교(`==`)할 때 매번 소수점을 일일이 맞춰보아야 하므로 연산 속도가 극도로 느려진다. 이 혼란을 해결하기 위해 아키텍트들은 "무조건 맨 앞은 `1.`로 시작하라"는 엄격한 규격을 강제하여 연산 장치의 복잡도를 대폭 낮추었다.
 
-- **📢 섹션 요약 비유**: 정규화는 우편번호를 적는 **'표준 규격 봉투'**와 같다. "대한민국 서울시"나 "우리 집 강남구"처럼 제멋대로 적힌 주소는 우체국 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계를 고장 내지만, 무조건 "우편번호 5자리"부터 쓰도록 규칙을 정하면 기계는 봉투가 들어오자마자 0.1초 만에 지역을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있다.
+- **📢 섹션 요약 비유**: 정규화는 우편번호를 적는 <strong>'표준 규격 봉투'</strong>와 같다. "대한민국 서울시"나 "우리 집 강남구"처럼 제멋대로 적힌 주소는 우체국 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계를 고장 내지만, 무조건 "우편번호 5자리"부터 쓰도록 규칙을 정하면 기계는 봉투가 들어오자마자 0.1초 만에 지역을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있다.
 
 ---
 
@@ -30,28 +30,28 @@ tags = ["studynote-computer-architecture"]
 
 정규화는 하드웨어 연산기의 구조를 단순화할 뿐 아니라, '숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'라는 천재적인 메모 최적화를 가능하게 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           정규화 연산 및 숨겨진 비트 (Hidden Bit) 원리             │
-├──────────────────────────────────────────────────────────────┤
-│ [입력된 날것의 이진수]   0.001101 × 2^0                          │
-│                                                              │
-│ 1단계: 정규화 (Normalization)                                   │
-│        맨 앞에 '1'이 올 때까지 소수점을 오른쪽으로 3칸 이동         │
-│        ──▶ 1.101 × 2^-3 (소수점을 3칸 밀고 지수를 -3으로 조정)      │
-│                                                              │
-│ 2단계: 숨겨진 비트 (Hidden Bit) 트릭 적용                          │
-│        이진수에서는 0이 아니면 무조건 1이므로, 앞의 '1.'은 생략!     │
-│        ──▶ 메모리에 저장되는 실제 가수 (Mantissa): 101           │
-│                                                              │
-│ [최종 메모리 저장 상태]                                          │
-│ 부호(1bit) │ 지수부 (Exponent, -3) │ 가수부 (Mantissa, 10100…)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 연산 및 숨겨진 비트 (Hidden Bit) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력된 날것의 이진수</div><div class="kb-diagram-note">0.001101 × 2^0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 정규화 (Normalization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맨 앞에 '1'이 올 때까지 소수점을 오른쪽으로 3칸 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 1.101 × 2^-3 (소수점을 3칸 밀고 지수를 -3으로 조정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 숨겨진 비트 (Hidden Bit) 트릭 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이진수에서는 0이 아니면 무조건 1이므로, 앞의 '1.'은 생략!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 메모리에 저장되는 실제 가수 (Mantissa): 101</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 메모리 저장 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호(1bit)</div><div class="kb-diagram-cell">지수부 (Exponent, -3)</div><div class="kb-diagram-cell">가수부 (Mantissa, 10100…)</div></div>
+</div>
+</div>
+
+
 
 이진수 시스템에서 정규화를 거쳐 맨 앞이 0이 아니게 만들었다면 그 자리는 100% 확률로 `1`이다. [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 설계자들은 이 뻔한 `1`을 비싼 칩 메모리(RAM)에 저장하지 않고 과감히 생략했다. 연산 장치 (FPU, [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들일 때 하드웨어 회로가 앞에 `1.`을 자동으로 복원하여 계산한다. 이 트릭 덕분에 [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) (FP32)는 물리적으로 23비트의 가수를 가지지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 24비트의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 해상도를 공짜로 얻게 된다.
 
-- **📢 섹션 요약 비유**: 이는 **'휴대폰 번호 앞의 010을 생략하고 저장'**하는 원리와 완벽히 일치한다. 어차피 한국 번호는 무조건 010으로 시작하므로, 굳이 연락처 메모리를 낭비할 필요 없이 뒤의 고유 번호 여덟 자리만 저장해 공간을 알뜰하게 쓰는 것과 같다.
+- **📢 섹션 요약 비유**: 이는 <strong>'휴대폰 번호 앞의 010을 생략하고 저장'</strong>하는 원리와 완벽히 일치한다. 어차피 한국 번호는 무조건 010으로 시작하므로, 굳이 연락처 메모리를 낭비할 필요 없이 뒤의 고유 번호 여덟 자리만 저장해 공간을 알뜰하게 쓰는 것과 같다.
 
 ---
 
@@ -61,14 +61,14 @@ tags = ["studynote-computer-architecture"]
 
 | 비교 지표 | 정규화 수 (Normalized Number) | 비정규화 수 (Subnormal / Denormalized) | 아키텍처적 조치 사항 |
 |:---|:---|:---|:---|
-| **소수점 앞자리** | **무조건 `1.`** | **무조건 `0.`** (정규화 포기) | FPU 연산 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 분기 (Branching) |
-| **숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)** | 존재 (1비트 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 이득) | **부재** (숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `0`으로 취급됨) | 가수의 물리적 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 = [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
+| **소수점 앞자리** | <strong>무조건 <code>1.</code></strong> | <strong>무조건 <code>0.</code></strong> (정규화 포기) | FPU 연산 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 분기 (Branching) |
+| <strong>숨겨진 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong> | 존재 (1비트 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 이득) | **부재** (숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `0`으로 취급됨) | 가수의 물리적 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 = [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
 | **지수 (Exponent)** | 최소 `-126` (FP32 기준) | `-126` 하단 고정, 지수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 `00...00` | 극한의 작은 수 표현 허용 |
-| **연산 속도 ([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))** | 1 사이클 (압도적 광속) | **최대 100배 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (마이크로코드 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 처리)** | **FTZ (Flush-To-Zero) 강제 세팅** |
+| <strong>연산 속도 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>)</strong> | 1 사이클 (압도적 광속) | <strong>최대 100배 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (마이크로코드 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 처리)</strong> | **FTZ (Flush-To-Zero) 강제 세팅** |
 
 숫자가 작아지다 못해 지수의 물리적 하한선($2^{-126}$) 밑으로 떨어지면, 더 이상 소수점을 밀어 정규화($1.xxx$)를 할 수 없다. 이때 칩이 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))로 뻗는 것을 막기 위해 `0.xxx` 형태의 비정규화 수 (Subnormal Number)를 예외적으로 허용한다. 하지만 이 규격 외 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 FPU 파이프라인에 진입하면 하드웨어가 직접 처리하지 못하고 운영체제의 마이크로코드 (Microcode)로 처리를 넘겨버려 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Denormal Penalty)이 폭증한다.
 
-- **📢 섹션 요약 비유**: 정규화가 '규격에 맞게 큐브 형태로 포장된 택배 상자'라면, 비정규화 수는 **'모양 없이 덜렁거리는 비닐봉지'**다. 컨베이어 벨트(FPU)는 네모난 상자만 초당 1만 개씩 고속으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하지만, 비닐봉지가 던져지면 기계가 멈추고 직원이 직접 걸어와 수작업으로 처리해야 하므로 공장이 멈춰 선다.
+- **📢 섹션 요약 비유**: 정규화가 '규격에 맞게 큐브 형태로 포장된 택배 상자'라면, 비정규화 수는 <strong>'모양 없이 덜렁거리는 비닐봉지'</strong>다. 컨베이어 벨트(FPU)는 네모난 상자만 초당 1만 개씩 고속으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하지만, 비닐봉지가 던져지면 기계가 멈추고 직원이 직접 걸어와 수작업으로 처리해야 하므로 공장이 멈춰 선다.
 
 ---
 
@@ -76,12 +76,12 @@ tags = ["studynote-computer-architecture"]
 
 실무의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 최적화는 정규화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 덧셈 병목을 해결하고 예외 상황을 통제하는 데 집중된다.
 
-1. **정렬 (Alignment)과 가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Guard [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 튜닝**  
+1. <strong>정렬 (Alignment)과 가드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (Guard <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>) 튜닝</strong>  
    두 정규화 숫자를 더할 때는 반드시 작은 쪽의 소수점을 뒤로 밀어 지수를 큰 쪽에 맞춰야 한다. 이때 작은 수가 가수부 23비트 밖으로 밀려나 증발하는 흡수 오차 (Absorption Error)가 발생한다. 아키텍트는 FPU 내부에 가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Guard, Round, Sticky)라는 임시 레지스터를 추가해 버려지는 꼬리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 안전하게 받아내고 반올림 정확도를 수호해야 한다. 곱셈은 지수만 더하면 되므로 덧셈보다 하드웨어 부담이 적다는 점을 인지해야 한다.
 2. **FTZ (Flush-To-Zero) 융합 최적화**  
    오디오 시그널 프로세싱 (DSP)이나 게임 물리 엔진에서 숫자가 매우 작아져 비정규화 (Subnormal) 영역으로 떨어지면 CPU 점유율이 100%로 치솟는 스파이크가 발생한다. 실무 엔지니어는 컴파일러 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`_MM_SET_FLUSH_ZERO_MODE`)를 활성화해, 숫자가 정규화 하한선을 벗어나면 가차 없이 0으로 뭉개버리도록 (FTZ) 강제하여 실시간(Real-time) 처리 속도를 방어해야 한다.
 
-- **📢 섹션 요약 비유**: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 덧셈은 **'10억 원짜리 수표와 1원짜리 동전을 한 장부에 적는 일'**이다. 단위를 맞추기 위해 1원의 위치를 뒤로 밀어내다 보면 장부 칸을 벗어나 버려지므로, 장부 바깥 허공에 임시 메모장(가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 덧대어 1원을 끝까지 추적하는 하드웨어 설계가 필수다.
+- **📢 섹션 요약 비유**: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 덧셈은 <strong>'10억 원짜리 수표와 1원짜리 동전을 한 장부에 적는 일'</strong>이다. 단위를 맞추기 위해 1원의 위치를 뒤로 밀어내다 보면 장부 칸을 벗어나 버려지므로, 장부 바깥 허공에 임시 메모장(가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 덧대어 1원을 끝까지 추적하는 하드웨어 설계가 필수다.
 
 ---
 
@@ -99,31 +99,33 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) ([IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/))** | 정규화가 필수적으로 적용되는 거대한 모태 포맷이자 표준 규격 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/">IEEE 754</a>)</strong> | 정규화가 필수적으로 적용되는 거대한 모태 포맷이자 표준 규격 |
 | **서브노멀 (Subnormal / Denormalized)** | 숫자가 너무 작아져 정규화의 틀($1.xxx$)을 부수고 $0.xxx$로 쭈그러든 파이프라인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 주범 |
-| **가드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Guard, Round, Sticky)** | 정규화된 숫자를 덧셈할 때 소수점을 맞추며 버려지는 꼬리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 임시로 받아내 반올림을 지켜주는 방패 |
+| <strong>가드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (Guard, Round, Sticky)</strong> | 정규화된 숫자를 덧셈할 때 소수점을 맞추며 버려지는 꼬리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 임시로 받아내 반올림을 지켜주는 방패 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부동소수점 표기의 파편화 (Floating Point 혼란)
-    │
-    ▼
-정규화 (Normalization) 도입 · 강제 규격화 (1.xxx)
-    │
-    ▼
-숨겨진 비트 (Hidden Bit) 적용 · 정밀도 1비트 향상
-    │
-    ▼
-가드 비트 (Guard Bit) 및 얼라인먼트 (Alignment) · 덧셈 오차 보정
-    │
-    ▼
-비정규화 수 (Subnormal) 예외 처리 · FTZ (Flush-To-Zero) 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부동소수점 표기의 파편화 (Floating Point 혼란)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 (Normalization) 도입 · 강제 규격화 (1.xxx)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">숨겨진 비트 (Hidden Bit) 적용 · 정밀도 1비트 향상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가드 비트 (Guard Bit) 및 얼라인먼트 (Alignment) · 덧셈 오차 보정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비정규화 수 (Subnormal) 예외 처리 · FTZ (Flush-To-Zero) 최적화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 정규화는 숫자들에게 **"너희들, 무조건 첫 번째 자리는 '1'이 되게 줄을 서!"**라고 호루라기를 부는 선생님이에요.
+1. 정규화는 숫자들에게 <strong>"너희들, 무조건 첫 번째 자리는 '1'이 되게 줄을 서!"</strong>라고 호루라기를 부는 선생님이에요.
 2. 첫 자리가 무조건 '1'로 고정되니까, 컴퓨터는 굳이 메모장에 '1'이라고 쓰지 않아도 1이 있다고 믿고 공간을 아껴요.
 3. 이렇게 줄이 반듯하게 서 있으면, 컴퓨터가 크기를 비교할 때 머리카락(맨 앞부분)만 쓱 보고도 0.1초 만에 승자를 맞힐 수 있답니다!
 

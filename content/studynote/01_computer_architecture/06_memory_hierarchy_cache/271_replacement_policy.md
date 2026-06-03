@@ -35,19 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 실제로 개입하는 지점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ 교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다      │
-├────────────────────────────────────────────────────────────────────┤
-│ CPU 요청 ─▶ 태그 비교 ─▶ Miss 확인 ─▶ 빈 Way 존재? ── 예 ─▶ 적재   │
-│                                  │                                │
-│                                  └─ 아니오 ─▶ Victim 선택         │
-│                                                  │                │
-│                        최근성 · 빈도 · 삽입 위치 · 비용 고려       │
-│                                                  │                │
-│                                 기존 블록 축출 후 새 블록 적재     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청 ─▶ 태그 비교 ─▶ Miss 확인 ─▶ 빈 Way 존재? ── 예 ─▶ 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ Victim 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근성 · 빈도 · 삽입 위치 · 비용 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 블록 축출 후 새 블록 적재</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모든 접근에 대해 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 단계"가 아니라, **미스가 발생했고 빈 자리가 없을 때만** 본격적으로 개입한다는 점이다. 그러나 실제 하드웨어는 그 순간을 위해 평소에도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 계속 갱신해야 한다. 예를 들어 [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 접근할 때마다 순서를 업데이트해야 하고, [Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 관리해야 한다.
 
@@ -95,16 +95,16 @@ tags = ["studynote-computer-architecture"]
    - L1은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화가 우선이고, 수준 2 캐시 ([L2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/))·수준 3 캐시 ([L3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/))는 미스율 감소 효과가 더 중요하다.
 2. **접근 패턴이 반복형인가, 순차 스캔형인가?**
    - 순차 스캔이 많으면 순수 LRU는 캐시 오염 (Cache Pollution)에 취약할 수 있다.
-3. **추적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용이 허용되는가?**
+3. <strong>추적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 비용이 허용되는가?</strong>
    - 웨이 수가 커질수록 완전한 순서 추적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수와 갱신 로직이 급격히 증가한다.
-4. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 예측 가능성이 필요한가?**
+4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 예측 가능성이 필요한가?</strong>
    - 실시간 시스템은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 일관성이 중요할 수 있다.
 
 ### 대표적인 실무 상황
 
 - **고성능 프로세서 캐시**: 최근성은 중요하지만 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 더 중요하므로 PLRU나 적응형 삽입 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사용해 LRU를 근사한다.
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)**: 정확한 LRU는 오버헤드가 커서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 이용한 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 계열 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 근사하는 경우가 많다.
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀**: 대량 스캔 쿼리가 자주 들어오면 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 최상위로 올리지 않고 중간에 삽입하여 캐시 오염을 줄인다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a></strong>: 정확한 LRU는 오버헤드가 커서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 이용한 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 계열 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 근사하는 경우가 많다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 버퍼 풀</strong>: 대량 스캔 쿼리가 자주 들어오면 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 최상위로 올리지 않고 중간에 삽입하여 캐시 오염을 줄인다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -124,7 +124,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에는 항상 전제조건이 있다. 지역성이 약한 작업에서는 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 큰 효과를 내기 어렵고, 스캔 중심 workload에서는 최근성 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 오히려 불리할 수 있다. 그래서 최근 아키텍처는 단일 고정 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)보다, 접근 패턴을 관찰해 삽입 위치나 우선순위를 조절하는 적응형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 진화하고 있다.
 
-결국 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "무엇을 버려야 무엇을 살릴 수 있는가"를 정하는 메모리 관리의 핵심 철학이다. 기억을 무한히 늘릴 수 없는 이상, 좋은 시스템은 더 많이 저장하는 시스템이 아니라 **더 가치 있게 잊는 시스템**이라는 관점으로 이해하는 것이 중요하다.
+결국 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "무엇을 버려야 무엇을 살릴 수 있는가"를 정하는 메모리 관리의 핵심 철학이다. 기억을 무한히 늘릴 수 없는 이상, 좋은 시스템은 더 많이 저장하는 시스템이 아니라 <strong>더 가치 있게 잊는 시스템</strong>이라는 관점으로 이해하는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 여행 가방을 싸는 기술과 같다. 가방이 한정되어 있을 때 좋은 여행자는 물건을 무조건 많이 넣는 사람이 아니라, 가장 다시 쓸 가능성이 높은 물건을 남기고 덜 중요한 것을 과감히 빼는 사람이다.
 
@@ -142,21 +142,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 매핑의 단순 충돌
-    │
-    ▼
-세트 연관 매핑 · 희생 블록 선택 필요
-    │
-    ▼
-FIFO · LRU · LFU · Random
-    │
-    ▼
-PLRU · Clock · 삽입 위치 조절
-    │
-    ▼
-적응형 교체 정책 · workload 인식 캐시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 매핑의 단순 충돌</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세트 연관 매핑 · 희생 블록 선택 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FIFO · LRU · LFU · Random</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PLRU · Clock · 삽입 위치 조절</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 교체 정책 · workload 인식 캐시</div>
+</div>
+</div>
+
+
 
 이 흐름은 "고정 규칙"에서 출발해 "접근 패턴을 읽는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 발전하는 방향을 보여준다.
 

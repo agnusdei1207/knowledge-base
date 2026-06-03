@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Control Flow Instructions)는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 바꿔 **다음에 읽을 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소 자체를 재지정**하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)군이다.
+> 1. **본질**: 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Control Flow Instructions)는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 바꿔 <strong>다음에 읽을 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 주소 자체를 재지정</strong>하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)군이다.
 > 2. **가치**: 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 덕분에 컴퓨터는 순차 계산기를 넘어 조건 분기, 반복, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 예외 처리 같은 구조적 실행을 구현한다.
 > 3. **판단 포인트**: 제어 흐름은 소프트웨어 표현력을 키우는 대신 파이프라인 교란과 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 비용을 만들므로, 어떤 형태의 분기와 주소 계산을 쓰는지가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이다.
 
@@ -19,29 +19,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 CPU (Central Processing Unit)가 다음 사이클에 가져올 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 위치를 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. 일반적인 순차 실행에서는 PC가 `현재 주소 + 1개 명령어 길이`로 증가하지만, 분기 (Branch), 점프 (Jump), 호출 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)), 복귀 (Return)는 이 규칙을 깨고 다른 주소를 선택하게 만든다. 즉 제어 흐름은 계산 자체보다 **실행의 다음 좌표를 재편성**하는 역할을 맡는다.
+제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 CPU (Central Processing Unit)가 다음 사이클에 가져올 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 위치를 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. 일반적인 순차 실행에서는 PC가 `현재 주소 + 1개 명령어 길이`로 증가하지만, 분기 (Branch), 점프 (Jump), 호출 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)), 복귀 (Return)는 이 규칙을 깨고 다른 주소를 선택하게 만든다. 즉 제어 흐름은 계산 자체보다 <strong>실행의 다음 좌표를 재편성</strong>하는 역할을 맡는다.
 
 이 개념이 필요한 이유는 실제 프로그램이 항상 직선으로만 흐르지 않기 때문이다. `if` 문은 조건에 따라 길이 갈라져야 하고, `while` 문은 같은 위치로 되돌아가야 하며, 함수는 다른 코드 블록으로 잠깐 이동했다가 원래 자리로 돌아와야 한다. 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 없다면 같은 코드를 반복해서 메모리에 복사해야 하고, 조건 판단도 구현할 수 없어 컴퓨터는 사실상 거대한 계산기에 머문다.
 
 아래 그림은 순차 실행과 제어 흐름 변경이 PC를 어떻게 다르게 다루는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           PC 이동 방식: 순차 실행 vs 제어 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ 순차 실행                                                   │
-│   100 ──▶ 101 ──▶ 102 ──▶ 103                               │
-│                                                              │
-│ 조건부 분기                                                  │
-│   100 ──▶ 101 ──▶ [BRANCH if Z=1] ───────▶ 220               │
-│                          └─ false 이면 102로 계속 진행      │
-│                                                              │
-│ 서브루틴 호출                                                │
-│   300 ──▶ [CALL 900] ──▶ 900 ... [RET] ──▶ 301               │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸기보다 **실행의 다음 좌표를 바꾼다**는 점이다. 컴퓨터 구조에서 지능처럼 보이는 대부분의 동작은 결국 "어디로 갈 것인가"를 결정하는 문제로 환원된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC 이동 방식: 순차 실행 vs 제어 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100 ──▶ 101 ──▶ 102 ──▶ 103</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 분기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BRANCH if Z=1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">220</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ false 이면 102로 계속 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브루틴 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CALL 900</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RET</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">301</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸기보다 <strong>실행의 다음 좌표를 바꾼다</strong>는 점이다. 컴퓨터 구조에서 지능처럼 보이는 대부분의 동작은 결국 "어디로 갈 것인가"를 결정하는 문제로 환원된다.
 
 - **📢 섹션 요약 비유**: 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 여행 계획표의 화살표를 바꾸는 표지판과 같다. 직진만 하던 길에서 "여기서 돌아가라", "잠깐 들렀다 다시 와라"를 지시해야 비로소 복잡한 여행 일정이 완성된다.
 
@@ -62,21 +63,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 호출과 복귀의 내부 주소 보존 과정을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             CALL / RETURN 의 주소 보존 메커니즘             │
-├──────────────────────────────────────────────────────────────┤
-│ 시작: PC = 300, 명령어 = CALL 900                          │
-│                                                              │
-│ 1) return address = 301 계산                                 │
-│ 2) stack.push(301)                                            │
-│ 3) PC = 900                                                   │
-│ 4) 서브루틴 실행                                              │
-│ 5) RET 수행 → PC = stack.pop() = 301                         │
-│                                                              │
-│ 결과: "잠깐 다른 곳에서 일하고 정확히 원래 줄로 복귀"       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALL / RETURN 의 주소 보존 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작: PC = 300, 명령어 = CALL 900</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) return address = 301 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) stack.push(301)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) PC = 900</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 서브루틴 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) RET 수행 → PC = stack.pop() = 301</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "잠깐 다른 곳에서 일하고 정확히 원래 줄로 복귀"</div></div>
+</div>
+</div>
+
+
 
 하드웨어 입장에서는 여기서 큰 비용이 생긴다. 분기 결과와 목표 주소가 확정되기 전까지 파이프라인은 다음에 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져와야 할지 확신할 수 없다. 그래서 깊은 파이프라인일수록 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))가 커지고, 예측 실패 시 플러시 (Flush) 비용도 급증한다.
 
@@ -86,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해할 때는 **분기·점프·호출**을 한 묶음으로 보되, 각각이 해결하는 문제가 다르다는 점을 구분해야 한다. [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)는 선택을, 무조건 점프는 경로 전환을, 호출/복귀는 구조화된 재사용을 담당한다. 같은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 변경이라도 "돌아올 필요가 있는가"와 "조건 판단이 필요한가"에 따라 하드웨어 지원 수준이 달라진다.
+제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해할 때는 <strong>분기·점프·호출</strong>을 한 묶음으로 보되, 각각이 해결하는 문제가 다르다는 점을 구분해야 한다. [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)는 선택을, 무조건 점프는 경로 전환을, 호출/복귀는 구조화된 재사용을 담당한다. 같은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 변경이라도 "돌아올 필요가 있는가"와 "조건 판단이 필요한가"에 따라 하드웨어 지원 수준이 달라진다.
 
 | 비교 항목 | [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/) | 무조건 점프 | 호출/복귀 |
 | :--- | :--- | :--- | :--- |
@@ -106,23 +108,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체보다 **어떤 제어 흐름 패턴이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 만드는가**를 판단해야 한다. 예를 들어 루프 안의 분기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 무작위로 바뀌면 예측기가 실패해 파이프라인이 자주 비워지고, 깊은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)는 복귀 주소와 지역 변수를 쌓아 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로를 유발할 수 있다. 반대로 예측 가능한 루프 분기는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기의 적중률이 높아 큰 문제가 되지 않는다.
+실무에서는 제어 흐름 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체보다 <strong>어떤 제어 흐름 패턴이 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목을 만드는가</strong>를 판단해야 한다. 예를 들어 루프 안의 분기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 무작위로 바뀌면 예측기가 실패해 파이프라인이 자주 비워지고, 깊은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)는 복귀 주소와 지역 변수를 쌓아 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로를 유발할 수 있다. 반대로 예측 가능한 루프 분기는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기의 적중률이 높아 큰 문제가 되지 않는다.
 
 아래 체크 흐름은 핫패스에서 어떤 제어 흐름 전략을 택할지 판단할 때 유용하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          핫패스 제어 흐름 최적화 판단 순서                 │
-├──────────────────────────────────────────────────────────────┤
-│ 분기가 자주 실행되는가?                                     │
-│   ├─ 아니오 → 가독성 우선                                   │
-│   └─ 예                                                      │
-│       ├─ 결과가 예측 가능한가? → 예 → 일반 branch 유지      │
-│       └─ 아니오                                              │
-│            ├─ 값 선택 문제인가? → CMOV / predication 검토   │
-│            └─ 주소 선택 문제인가? → jump table / layout 조정│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핫패스 제어 흐름 최적화 판단 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기가 자주 실행되는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 → 가독성 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 결과가 예측 가능한가? → 예 → 일반 branch 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 값 선택 문제인가? → CMOV / predication 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주소 선택 문제인가? → jump table / layout 조정</div></div>
+</div>
+</div>
+
+
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -165,21 +170,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 실행
-    │
-    ▼
-조건부 분기 · 무조건 점프
-    │
-    ▼
-호출/복귀 · 스택 프레임
-    │
-    ▼
-제어 해저드 (Control Hazard)
-    │
-    ▼
-분기 예측 · 투기 실행 (Speculative Execution)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건부 분기 · 무조건 점프</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">호출/복귀 · 스택 프레임</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 해저드 (Control Hazard)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 예측 · 투기 실행 (Speculative Execution)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 주소 증가"에서 출발해 "경로 선택", "복귀 보존", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완"으로 제어 흐름 기술이 확장되는 과정을 보여 준다.
 

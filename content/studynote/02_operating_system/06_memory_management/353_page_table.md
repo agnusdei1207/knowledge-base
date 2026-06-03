@@ -11,50 +11,43 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Table)은 뿔뿔이 흩어진 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 조각들이 실제 물리 메모리(프레임)의 어느 방 번호에 들어가 있는지 1:1로 매핑 정보를 기록해 둔 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 거대하고 치밀한 핵심 번역 장부**다.
-> 2. **가치**: CPU는 오직 이 장부가 알려주는 번역 결과만 맹신하기 때문에, OS는 프로세스마다 전혀 다른 고유의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 쥐여줌으로써, 서로 다른 프로그램이 완벽하게 독립된 자신만의 메모리 우주([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))를 갖도록 하는 **격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 마법**을 실현한다.
+> 1. **본질**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Table)은 뿔뿔이 흩어진 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 조각들이 실제 물리 메모리(프레임)의 어느 방 번호에 들어가 있는지 1:1로 매핑 정보를 기록해 둔 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 거대하고 치밀한 핵심 번역 장부</strong>다.
+> 2. **가치**: CPU는 오직 이 장부가 알려주는 번역 결과만 맹신하기 때문에, OS는 프로세스마다 전혀 다른 고유의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 쥐여줌으로써, 서로 다른 프로그램이 완벽하게 독립된 자신만의 메모리 우주([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))를 갖도록 하는 <strong>격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)의 마법</strong>을 실현한다.
 > 3. **융합**: 각 줄(Entry)에는 단순히 프레임 번호뿐만 아니라, 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크에 있는지 램에 있는지(Valid [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)), 읽기 전용인지(R/W [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)), 최근에 쓰였는지([Dirty bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)) 등의 메타데이터가 융합되어 있어, 요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 보안 아키텍처의 신경망 역할을 수행한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리는 고정 크기(4KB)의 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'들로 나뉘고, 물리 메모리는 똑같은 크기의 '프레임(Frame)'들로 나뉜다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 $p$를 물리 프레임 번호 $f$로 바꾸어 주는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 형태의 자료구조다. **각 프로세스마다 자신만의 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블이 물리 메모리 내에 상주**한다.
+- **개념**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 메모리는 고정 크기(4KB)의 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'들로 나뉘고, 물리 메모리는 똑같은 크기의 '프레임(Frame)'들로 나뉜다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 $p$를 물리 프레임 번호 $f$로 바꾸어 주는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 형태의 자료구조다. <strong>각 프로세스마다 자신만의 전용 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 테이블이 물리 메모리 내에 상주</strong>한다.
 - **필요성**: 비연속 할당을 채택하면서 프로그램 조각들이 물리 램(RAM)의 1번 방, 50번 방, 99번 방에 뒤죽박죽 흩어졌다. 만약 어디에 뭐가 있는지 기록해둔 장부가 없다면 CPU가 다음 줄의 코드를 실행하려 할 때 길을 잃고 시스템이 즉사(Crash)한다. 흩어진 조각들을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 하나로 꿰매어 줄 튼튼한 동아줄이 절대적으로 필요했다.
 
 - **등장 배경 및 아키텍처의 전환**:
-  1. **[베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)의 한계**: [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절엔 시작 주소 하나만 기억하면 됐다([베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 1개).
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/">베이스 레지스터</a>의 한계</strong>: [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절엔 시작 주소 하나만 기억하면 됐다([베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 1개).
   2. **장부의 거대화**: 메모리가 4KB 단위로 조각나면서, 수만 개의 조각 위치를 다 기억해야 하므로 CPU 안의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 개로는 감당할 수 없게 되었다.
-  3. **메모리 상주 장부**: 결국 장부([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블) 자체가 수십 MB 크기로 비대해지자, OS는 이 장부를 CPU 칩셋 밖으로 빼서 **'물리 램(RAM)의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역'에 은밀하게 숨겨두고** CPU([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 필요할 때마다 램을 뒤져보게 하는 아키텍처로 진화했다.
+  3. **메모리 상주 장부**: 결국 장부([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블) 자체가 수십 MB 크기로 비대해지자, OS는 이 장부를 CPU 칩셋 밖으로 빼서 <strong>'물리 램(RAM)의 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 영역'에 은밀하게 숨겨두고</strong> CPU([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 필요할 때마다 램을 뒤져보게 하는 아키텍처로 진화했다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        프로세스별 페이지 테이블을 통한 메모리 격리 시각화             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 프로세스 A (카카오톡) ]        [ 프로세스 B (엑셀) ]                │
-│ "나는 0번지부터 쓴다!"           "나도 0번지부터 쓴다!"               │
-│ (가상 메모리의 착각)              (가상 메모리의 착각)                │
-│        │                               │                              │
-│        ▼                               ▼                              │
-│ [ A의 페이지 테이블 ]           [ B의 페이지 테이블 ]                 │
-│ ┌───┬───────┐              ┌───┬───────┐                              │
-│ │ P │ Frame │              │ P │ Frame │                              │
-│ ├───┼───────┤              ├───┼───────┤                              │
-│ │ 0 │   4   │────┐         │ 0 │   9   │──┐                           │
-│ │ 1 │   2   │──┐ │         │ 1 │   7   │─┐│                           │
-│ └───┴───────┘  │ │         └───┴───────┘ ││                           │
-│                 │ └──────────────┐      ││                            │
-│                 ▼                ▼      ▼▼                            │
-│ [ 실제 물리 메모리 (RAM) ]                                            │
-│ ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐               │
-│ │ Fr 1│ Fr 2│ Fr 3│ Fr 4│ Fr 5│ Fr 6│ Fr 7│ Fr 8│ Fr 9│               │
-│ │ (빈) │A_Pg1│ (빈) │A_Pg0│ (빈) │ (빈) │B_Pg1│ (빈) │B_Pg0│          │
-│ └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘               │
-│ ✅ 결론: 두 프로그램은 똑같이 "0페이지"를 불렀지만, 페이지 테이블이   │
-│    가리키는 화살표가 달라서 물리적으로 완벽히 충돌 없이 격리됨!       │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스별 페이지 테이블을 통한 메모리 격리 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A (카카오톡)</div><div class="kb-diagram-node">프로세스 B (엑셀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나는 0번지부터 쓴다!" "나도 0번지부터 쓴다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가상 메모리의 착각) (가상 메모리의 착각)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A의 페이지 테이블</div><div class="kb-diagram-node">B의 페이지 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">Frame</div><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">Frame</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">9</div><div class="kb-diagram-cell">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실제 물리 메모리 (RAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fr 1</div><div class="kb-diagram-cell">Fr 2</div><div class="kb-diagram-cell">Fr 3</div><div class="kb-diagram-cell">Fr 4</div><div class="kb-diagram-cell">Fr 5</div><div class="kb-diagram-cell">Fr 6</div><div class="kb-diagram-cell">Fr 7</div><div class="kb-diagram-cell">Fr 8</div><div class="kb-diagram-cell">Fr 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">A_Pg1</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">A_Pg0</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">B_Pg1</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">B_Pg0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 두 프로그램은 똑같이 "0페이지"를 불렀지만, 페이지 테이블이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가리키는 화살표가 달라서 물리적으로 완벽히 충돌 없이 격리됨!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 그림이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리의 최고봉이다. A와 B는 똑같이 `가상 주소 0`을 외치지만, A의 테이블은 4번 방으로, B의 테이블은 9번 방으로 꺾어버린다. 해커가 엑셀 프로그램에서 포인터를 아무리 조작해 카카오톡의 4번 프레임을 훔쳐보려 해도, 엑셀의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에는 '4'라는 숫자가 애초에 존재하지 않으므로 물리적으로 접근이 원천 차단된다(메모리 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)).
 
 - **📢 섹션 요약 비유**: 수백 명의 배우들이 다 같이 무대 위에서 대본 리딩을 하는데, 각자 귀에 꽂힌 이어폰(전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블)에서 "당신은 저쪽 구석으로 가세요", "당신은 무대 중앙으로 가세요"라고 개별 지시를 내려주어, 눈을 감고 걸어도 서로 절대 부딪히지 않게 통제하는 완벽한 동선 안무입니다.
@@ -65,14 +58,14 @@ tags = ["studynote-operating-system"]
 
 ### PTE ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Table Entry)의 세부 구조
 
-[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 단순히 방 번호만 적혀 있는 일차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아니다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 한 줄, 즉 **PTE([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Table Entry)** 안에는 현대 OS의 보안과 스와핑을 통제하는 마법의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))들이 빼곡히 박혀 있다.
+[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 단순히 방 번호만 적혀 있는 일차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아니다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 한 줄, 즉 <strong>PTE(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Table Entry)</strong> 안에는 현대 OS의 보안과 스와핑을 통제하는 마법의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))들이 빼곡히 박혀 있다.
 
 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Bits) | 역할 및 기능 (Function) | 비유 |
 |:---|:---|:---|
 | **Frame Number** | 매핑된 실제 물리 메모리의 프레임 번호 (20비트 이상) | 아파트 실제 동/호수 |
-| **Valid / Invalid [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)**| 이 조각이 현재 램(RAM)에 있는지, 아니면 스왑 영역(Disk)으로 쫓겨났는지 표시 | 주민이 집(RAM)에 있나? 외출(Disk)했나? |
-| **[Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) (R/W/X)** | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 읽기 전용인지, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한지, 실행 코드인지 권한 제어 ([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) 기능) | 창고 자물쇠 종류 |
-| **[Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (Accessed)**| 최근에 CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽은 적 있는지 체크 ([페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) LRU에서 사용) | 최근 방문객 방명록 도장 |
+| <strong>Valid / Invalid <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a></strong>| 이 조각이 현재 램(RAM)에 있는지, 아니면 스왑 영역(Disk)으로 쫓겨났는지 표시 | 주민이 집(RAM)에 있나? 외출(Disk)했나? |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> (R/W/X)</strong> | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 읽기 전용인지, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한지, 실행 코드인지 권한 제어 ([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) 기능) | 창고 자물쇠 종류 |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> (Accessed)</strong>| 최근에 CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽은 적 있는지 체크 ([페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) LRU에서 사용) | 최근 방문객 방명록 도장 |
 | **Dirty (Modified)** | 램에 올라온 이후 내용이 수정(Write)되었는지 표시. (나중에 디스크에 덮어써야 할지 결정) | 방 안의 물건이 변경되었는가? |
 
 ---
@@ -80,7 +73,7 @@ tags = ["studynote-operating-system"]
 ### 하드웨어와 소프트웨어의 협주 (MMU의 역할)
 
 1. CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) `[P: 3, Offset: 10]`을 내뿜는다.
-2. 하드웨어인 **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))**가 이를 낚아챈다.
+2. 하드웨어인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)</strong>가 이를 낚아챈다.
 3. MMU는 물리 메모리 어딘가에 박혀있는 현재 프로세스의 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 시작 주소([PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/))'로 달려간다.
 4. 시작 주소에서 `P(3) * PTE 크기(4Byte)` 만큼 점프하여 해당 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 칸(Entry 3)을 읽는다.
 5. 그 칸에 적힌 '프레임 번호'와 'Valid [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'를 확인한다.
@@ -99,22 +92,25 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **장부의 개수** | 시스템 전체를 관리하는 전역 장부(Free List) 1개 | **실행 중인 프로세스 개수만큼** 각자의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 존재 |
 | **하드웨어 지원** | Base/Limit [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 단 2개면 끝 | [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)(시작 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))과 램 내의 거대 테이블 탐색 로직 |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | Base/Limit 값 2개만 쓱 바꾸면 끝 (매우 가벼움) | CPU가 바라보는 **[PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)(장부 시작 주소) 자체를 남의 장부로 스위칭**해야 함 (무거움) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | Base/Limit 값 2개만 쓱 바꾸면 끝 (매우 가벼움) | CPU가 바라보는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/">PTBR</a>(장부 시작 주소) 자체를 남의 장부로 스위칭</strong>해야 함 (무거움) |
 
 ### 극악의 오버헤드: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블의 용량 폭발 문제
 
-32비트(4GB) OS에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면, 테이블의 줄(Entry) 개수는 100만 개다. 1줄당 4바이트면 **테이블 하나가 4MB**다.
-- 별거 아닌 것 같지만, 크롬 탭을 100개 띄우면(프로세스 100개), **"장부 크기만 400MB"**를 처먹는다.
-- 게다가 **64비트 시스템**으로 넘어오면, 가상 주소 공간이 상상을 초월하게 넓어져 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 테이블을 만들면 장부 크기만 테라바이트(TB) 급으로 커져서 지구상의 어떤 컴퓨터로도 켤 수가 없다.
+32비트(4GB) OS에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면, 테이블의 줄(Entry) 개수는 100만 개다. 1줄당 4바이트면 <strong>테이블 하나가 4MB</strong>다.
+- 별거 아닌 것 같지만, 크롬 탭을 100개 띄우면(프로세스 100개), <strong>"장부 크기만 400MB"</strong>를 처먹는다.
+- 게다가 <strong>64비트 시스템</strong>으로 넘어오면, 가상 주소 공간이 상상을 초월하게 넓어져 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 테이블을 만들면 장부 크기만 테라바이트(TB) 급으로 커져서 지구상의 어떤 컴퓨터로도 켤 수가 없다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 아키텍처   │ 페이지 크기 │ 1차원 장부 크기│ 해결 아키텍처 도입 │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ 32 Bit   │ 4 KB       │ 4 MB       │ 견딜만 함 (1단 구조)      │
-│ 64 Bit   │ 4 KB       │ 수백 TB 급  │ **다단계 페이징** 필수   │
-└──────────┴────────────┴────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">페이지 크기</div><div class="kb-diagram-cell">1차원 장부 크기</div><div class="kb-diagram-cell">해결 아키텍처 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32 Bit</div><div class="kb-diagram-cell">4 KB</div><div class="kb-diagram-cell">4 MB</div><div class="kb-diagram-cell">견딜만 함 (1단 구조)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64 Bit</div><div class="kb-diagram-cell">4 KB</div><div class="kb-diagram-cell">수백 TB 급</div><div class="kb-diagram-cell">다단계 페이징 필수</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 가상 주소 공간이 거대해지자 "단일 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블"은 용량의 한계에 부딪혔다. 쓰지도 않는 허허벌판 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 주소까지 몽땅 테이블의 빈칸으로 만들어둬야 했기 때문이다. 이 엄청난 메모리 낭비를 잡기 위해, 목차의 목차를 만드는 '[다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Hierarchical Paging](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/))'이나 주소를 해시로 압축하는 '[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))' 기법이 파생되었다. (후속 키워드에서 다룸)
 
 - **📢 섹션 요약 비유**: 전 국민의 전화번호부를 한 권의 거대한 책(1차원 테이블)으로 만들려다 책이 집채만 해져서 넘길 수조차 없게 되자, 지역별-동네별로 전화번호부를 잘게 쪼개어(다단계 테이블) 필요한 동네 책자만 꺼내보는 방식으로 진화할 수밖에 없었던 상황입니다.
@@ -125,15 +121,15 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 격리)와 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)) 사태
 1. **과거의 관행**: 속도 향상을 위해 과거 OS는 '사용자 앱의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블' 맨 윗부분에 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블'을 똑같이 슬쩍 복사해(매핑) 두었다. 그래야 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 시스템 콜을 넘나들 때, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 교체하는 엄청난 시간([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)을 절약할 수 있었기 때문이다.
-2. **해킹의 붕괴 ([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) & [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/))**:
+2. <strong>해킹의 붕괴 (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/">Meltdown</a> &amp; <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/">Spectre</a>)</strong>:
    - 2018년, 인텔 CPU의 취약점을 이용해 일반 사용자 앱이 이 '슬쩍 매핑해 둔 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 영역'을 훔쳐보는 사상 최악의 하드웨어 해킹 기법이 터졌다.
-3. **[KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 패치 도입**:
-   - 리눅스와 윈도우는 눈물을 머금고, 속도를 포기하는 대신 **유저 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 완전히 가위로 찢어 분리**하는 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치를 단행했다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/">KPTI</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>-Table <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 패치 도입</strong>:
+   - 리눅스와 윈도우는 눈물을 머금고, 속도를 포기하는 대신 <strong>유저 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 테이블과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 테이블을 완전히 가위로 찢어 분리</strong>하는 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치를 단행했다.
    - 이제 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 넘어갈 때마다(파일을 읽거나 네트워크를 보낼 때마다), CPU는 이전 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 버리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블로 완전히 교체([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))해야 한다.
 4. **결과**: 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(특히 I/O 잦은 DB나 웹서버)이 하루아침에 5~30% 폭락하는 대참사가 벌어졌지만, 보안을 위해 전 세계 모든 엔지니어가 이 막대한 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 교체 비용'을 기꺼이 세금으로 납부하게 되었다.
 
 ### [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 마법
-`fork()` 시스템 콜로 자식 프로세스를 복제할 때, 1GB짜리 부모 메모리를 다 복사하면 수 초가 걸린다. OS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사를 안 하고, 그저 **자식의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블이 부모의 물리 프레임을 똑같이 가리키도록 화살표(포인터)만 복사**한다. (1밀리초 컷). 나중에 둘 중 하나가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)하려고 할 때 비로소 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 몰래 복사(Copy)하여 화살표를 틀어버린다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 매핑이 부리는 최고의 퍼포먼스 흑마술이다.
+`fork()` 시스템 콜로 자식 프로세스를 복제할 때, 1GB짜리 부모 메모리를 다 복사하면 수 초가 걸린다. OS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사를 안 하고, 그저 <strong>자식의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 테이블이 부모의 물리 프레임을 똑같이 가리키도록 화살표(포인터)만 복사</strong>한다. (1밀리초 컷). 나중에 둘 중 하나가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)하려고 할 때 비로소 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 몰래 복사(Copy)하여 화살표를 틀어버린다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블 매핑이 부리는 최고의 퍼포먼스 흑마술이다.
 
 - **📢 섹션 요약 비유**: 도둑(해커)이 내 가계부([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블)의 윗단에 적힌 회사 금고 비밀번호([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리)를 훔쳐보자, 아예 회사용 장부와 가정용 장부를 두 권으로 쪼개서([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)), 매번 장부를 꺼내 바꿔 읽는 수고([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)를 겪으며 보안을 지켜낸 뼈아픈 실무의 역사입니다.
 
@@ -145,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))**| 프로세스마다 독립된 장부를 가짐으로써 남의 램 주소를 추측조차 할 수 없는 완벽한 하드웨어 격리망 완성 |
+| <strong>메모리 <a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">Sandboxing</a>)</strong>| 프로세스마다 독립된 장부를 가짐으로써 남의 램 주소를 추측조차 할 수 없는 완벽한 하드웨어 격리망 완성 |
 | **동적 메모리 재배치 투명화** | 스와핑으로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크를 왔다 갔다 해도, 테이블의 화살표만 살짝 바꿔주면 앱은 1도 눈치채지 못함 |
 | **메모리 셰어링(Sharing) 극대화**| 여러 프로세스의 테이블 엔트리가 같은 물리 프레임 1개를 가리키게 하여 DLL, SO 등 공유 라이브러리의 중복 적재를 완벽히 소거 |
 
@@ -168,15 +164,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[페이지 크기 (Page Size)]
-    │
-    ▼
-[페이지 테이블 (Page Table)]
-    │
-    ├──▶ [PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
-    └──▶ [페이징의 메모리 보호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 크기 (Page Size)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블 (Page Table)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징의 메모리 보호</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

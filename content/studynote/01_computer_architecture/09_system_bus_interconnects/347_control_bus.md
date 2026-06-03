@@ -13,32 +13,35 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Control [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 "어디로"와 "무엇"이 아니라, **"지금 읽어라, 써라, 기다려라, 반응하라"**를 전달하는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 집합이다.
+> 1. **본질**: 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Control [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 "어디로"와 "무엇"이 아니라, <strong>"지금 읽어라, 써라, 기다려라, 반응하라"</strong>를 전달하는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 집합이다.
 > 2. **가치**: [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)와 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)가 있어도 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 없으면 메모리와 장치는 동작 시점과 권한을 판단할 수 없어, 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌과 타이밍 오류가 발생한다.
-> 3. **판단 포인트**: 좋은 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 종류를 많이 두는 것이 아니라, **읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·대기·중재**를 필요한 수준으로 분리해 성능과 복잡도의 균형을 맞추는 데 있다.
+> 3. **판단 포인트**: 좋은 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 종류를 많이 두는 것이 아니라, <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>·대기·중재</strong>를 필요한 수준으로 분리해 성능과 복잡도의 균형을 맞추는 데 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Control [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 CPU (Central Processing Unit), 메모리, 입출력 장치가 같은 배선망을 공유할 때 동작 방식과 순서를 지정하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선들의 묶음이다. [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 목적지를 지정하고 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)가 실제 값을 운반한다면, 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 그 전송이 읽기인지 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)인지, 지금 유효한지, 잠시 기다려야 하는지를 결정한다. 즉 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 세 요소 중 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 **행동 규칙**을 담당한다.
+제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Control [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 CPU (Central Processing Unit), 메모리, 입출력 장치가 같은 배선망을 공유할 때 동작 방식과 순서를 지정하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선들의 묶음이다. [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 목적지를 지정하고 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)가 실제 값을 운반한다면, 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 그 전송이 읽기인지 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)인지, 지금 유효한지, 잠시 기다려야 하는지를 결정한다. 즉 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 세 요소 중 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 <strong>행동 규칙</strong>을 담당한다.
 
-이 개념이 필요한 이유는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 본질적으로 충돌 가능성을 안고 있기 때문이다. 같은 주소가 실려 있어도 메모리는 `Read` [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으면 값을 내보내야 하고, `Write` [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으면 외부 값을 내부 셀에 저장해야 한다. 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 없다면 한 장치는 내보내고 다른 장치는 동시에 쓰려 하면서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)이 생긴다. 결국 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달보다 먼저 시스템 전체의 **질서와 타이밍**을 세우기 위해 등장했다.
+이 개념이 필요한 이유는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 본질적으로 충돌 가능성을 안고 있기 때문이다. 같은 주소가 실려 있어도 메모리는 `Read` [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으면 값을 내보내야 하고, `Write` [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받으면 외부 값을 내부 셀에 저장해야 한다. 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 없다면 한 장치는 내보내고 다른 장치는 동시에 쓰려 하면서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)이 생긴다. 결국 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달보다 먼저 시스템 전체의 <strong>질서와 타이밍</strong>을 세우기 위해 등장했다.
 
 아래 그림은 왜 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 주소/[데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)와 별도로 필요한지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             같은 주소·데이터라도 제어 신호가 의미를 결정함          │
-├──────────────────────────────────────────────────────────────────────┤
-│ 주소 버스    : 0x1000                                                │
-│ 데이터 버스  : 0x2A                                                  │
-│ 제어 버스    : READ  ─────▶ 메모리: "0x1000의 값을 내보내라"         │
-│                WRITE ────▶ 메모리: "0x2A를 0x1000에 저장하라"        │
-│                WAIT (Wait) ◀─ 느린 장치: "아직 준비 안 됨"           │
-│                IRQ (Interrupt Request) ◀─ 장치: "긴급 서비스 요청"     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 주소·데이터라도 제어 신호가 의미를 결정함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 버스 : 0x1000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 버스 : 0x2A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 버스 : READ ▶ 메모리: "0x1000의 값을 내보내라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WRITE ▶ 메모리: "0x2A를 0x1000에 저장하라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAIT (Wait) ◀─ 느린 장치: "아직 준비 안 됨"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IRQ (Interrupt Request) ◀─ 장치: "긴급 서비스 요청"</div></div>
+</div>
+</div>
+
+
 
 같은 전기적 배선 위에서도 의미가 달라지는 지점이 바로 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 핵심이다. 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 명사라면 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 동사에 가깝다.
 
@@ -58,24 +61,26 @@ tags = ["studynote-computer-architecture"]
 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | `IRQ (Interrupt Request)`, `INTA (Interrupt Acknowledge)` | 장치, CPU | 비동기 사건 알림 및 승인 |
 | 중재 | `BR (Bus Request)`, `BG (Bus Grant)` | [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), CPU | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권 요청/허가 |
 
-핵심 메커니즘은 **한 번의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))이 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 의해 시작·정지·완료된다**는 점이다. CPU가 주소를 올리고 `Read`를 활성화하면, 선택된 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내보낼 준비를 한다. 장치가 충분히 빠르면 같은 사이클 안에 응답하지만, 느리면 `READY`를 늦게 올리거나 `WAIT`를 유지해 CPU가 한두 사이클 더 기다리게 만든다. 이 과정 덕분에 3GHz급 프로세서와 그보다 훨씬 느린 주변장치가 같은 시스템 안에서 공존할 수 있다.
+핵심 메커니즘은 <strong>한 번의 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)이 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>에 의해 시작·정지·완료된다</strong>는 점이다. CPU가 주소를 올리고 `Read`를 활성화하면, 선택된 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내보낼 준비를 한다. 장치가 충분히 빠르면 같은 사이클 안에 응답하지만, 느리면 `READY`를 늦게 올리거나 `WAIT`를 유지해 CPU가 한두 사이클 더 기다리게 만든다. 이 과정 덕분에 3GHz급 프로세서와 그보다 훨씬 느린 주변장치가 같은 시스템 안에서 공존할 수 있다.
 
 다음 그림은 읽기 요청이 실제로 어떻게 완료되는지 단계별로 압축해 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 제어 버스 기반 읽기 트랜잭션의 시간 흐름            │
-├──────────┬──────────────┬──────────────┬────────────────────────────┤
-│ 단계     │ 주소 버스     │ 제어 버스     │ 데이터 버스                 │
-├──────────┼──────────────┼──────────────┼────────────────────────────┤
-│ 1. 요청  │ 주소 제시      │ READ = 1      │ 비어 있음                   │
-│ 2. 준비  │ 주소 유지      │ WAIT = 1      │ 장치가 데이터 준비 중       │
-│ 3. 완료  │ 주소 유지      │ READY = 1     │ 유효 데이터 출력            │
-│ 4. 종료  │ 주소 해제      │ READ = 0      │ 버스 해제                   │
-└──────────┴──────────────┴──────────────┴────────────────────────────┘
-```
 
-이 그림이 강조하는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 제어가 먼저라는 사실이다. [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)에 무엇이 놓일지는 주소 디코딩과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 먼저 맞아야만 결정된다. 그래서 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 단순한 선의 개수 문제가 아니라, **장치 속도 차이를 어떻게 흡수하고, 누가 언제 말할 권한을 갖는가**를 정하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 버스 기반 읽기 트랜잭션의 시간 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계</div><div class="kb-diagram-cell">주소 버스</div><div class="kb-diagram-cell">제어 버스</div><div class="kb-diagram-cell">데이터 버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 요청</div><div class="kb-diagram-cell">주소 제시</div><div class="kb-diagram-cell">READ = 1</div><div class="kb-diagram-cell">비어 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 준비</div><div class="kb-diagram-cell">주소 유지</div><div class="kb-diagram-cell">WAIT = 1</div><div class="kb-diagram-cell">장치가 데이터 준비 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 완료</div><div class="kb-diagram-cell">주소 유지</div><div class="kb-diagram-cell">READY = 1</div><div class="kb-diagram-cell">유효 데이터 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 종료</div><div class="kb-diagram-cell">주소 해제</div><div class="kb-diagram-cell">READ = 0</div><div class="kb-diagram-cell">버스 해제</div></div>
+</div>
+</div>
+
+
+
+이 그림이 강조하는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 제어가 먼저라는 사실이다. [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)에 무엇이 놓일지는 주소 디코딩과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 먼저 맞아야만 결정된다. 그래서 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 단순한 선의 개수 문제가 아니라, <strong>장치 속도 차이를 어떻게 흡수하고, 누가 언제 말할 권한을 갖는가</strong>를 정하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계에 가깝다.
 
 - **📢 섹션 요약 비유**: 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 공용 회의실의 발언 규칙과 같다. 누가 먼저 말할지, 아직 자료를 찾는 중인지, 긴급 발언이 들어왔는지를 정해 주지 않으면 회의는 금방 소음이 된다.
 
@@ -102,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 단순 이론보다 **장치 속도 차이와 우선순위 충돌을 어떻게 흡수할 것인가**라는 문제로 나타난다. 예를 들어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 컨트롤러가 디스크 블록을 메모리로 옮길 때, CPU가 계속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 독점하면 대용량 전송이 비효율적이다. 이때 DMA는 `BR (Bus Request)`로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권을 요청하고, CPU는 `BG (Bus Grant)`로 권한을 넘긴다. 이 중재가 부정확하면 CPU 성능보다 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상과 장치 타임아웃이 발생한다.
+실무에서 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 단순 이론보다 <strong>장치 속도 차이와 우선순위 충돌을 어떻게 흡수할 것인가</strong>라는 문제로 나타난다. 예를 들어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 컨트롤러가 디스크 블록을 메모리로 옮길 때, CPU가 계속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 독점하면 대용량 전송이 비효율적이다. 이때 DMA는 `BR (Bus Request)`로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권을 요청하고, CPU는 `BG (Bus Grant)`로 권한을 넘긴다. 이 중재가 부정확하면 CPU 성능보다 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상과 장치 타임아웃이 발생한다.
 
 느린 장치를 붙이는 상황도 대표적 판단 포인트다. 고속 프로세서가 저속 플래시 메모리나 레거시 주변장치를 읽을 때 `WAIT` 삽입이 없으면 CPU는 아직 유효하지 않은 값을 읽어 버린다. 따라서 설계자는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 최대한 단순화할지"와 "장치 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 늘릴지"를 함께 판단해야 한다. 임베디드 시스템은 핀 수 절감을 위해 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 최소화하는 반면, 범용 시스템은 다양한 장치 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 더 복잡한 중재와 상태 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 유지하는 경우가 많다.
 
@@ -124,9 +129,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 잘 설계되면 시스템은 서로 다른 속도와 성격의 장치를 한 플랫폼 안에서 안정적으로 묶을 수 있다. 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 의미가 명확해지고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)가 체계화되며, 느린 장치 때문에 전체 시스템이 무너지는 일을 줄일 수 있다. 즉 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 성능을 직접 높이는 부품이라기보다, **성능이 안전하게 발휘되도록 받쳐 주는 운영 규칙**에 가깝다.
+제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 잘 설계되면 시스템은 서로 다른 속도와 성격의 장치를 한 플랫폼 안에서 안정적으로 묶을 수 있다. 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 의미가 명확해지고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)가 체계화되며, 느린 장치 때문에 전체 시스템이 무너지는 일을 줄일 수 있다. 즉 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 성능을 직접 높이는 부품이라기보다, <strong>성능이 안전하게 발휘되도록 받쳐 주는 운영 규칙</strong>에 가깝다.
 
-물론 한계도 있다. 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 많아질수록 핀 수, 배선 복잡도, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 늘어난다. 그래서 현대 인터커넥트는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 제어선을 무한히 늘리기보다 패킷 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 의미를 직렬화하거나, 링크 계층 내부로 일부 제어 기능을 숨기는 방향으로 진화한다. 그럼에도 본질은 변하지 않는다. 컴퓨터는 결국 "값을 보내는 선"만으로는 움직이지 않으며, **그 값을 언제 어떤 규칙으로 다룰지 정하는 통제 체계**가 반드시 필요하다.
+물론 한계도 있다. 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 많아질수록 핀 수, 배선 복잡도, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 늘어난다. 그래서 현대 인터커넥트는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 제어선을 무한히 늘리기보다 패킷 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 의미를 직렬화하거나, 링크 계층 내부로 일부 제어 기능을 숨기는 방향으로 진화한다. 그럼에도 본질은 변하지 않는다. 컴퓨터는 결국 "값을 보내는 선"만으로는 움직이지 않으며, <strong>그 값을 언제 어떤 규칙으로 다룰지 정하는 통제 체계</strong>가 반드시 필요하다.
 
 - **📢 섹션 요약 비유**: 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 오케스트라의 지휘봉과 같다. 악보와 악기가 아무리 좋아도, 들어올 타이밍과 멈출 타이밍을 맞추지 못하면 음악은 성립하지 않는다.
 
@@ -144,22 +149,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-주소 지정 · 데이터 전달
-        │
-        ▼
-제어 버스 (읽기/쓰기/대기 신호)
-        │
-        ├─▶ 인터럽트 (Interrupt) 처리
-        │
-        ├─▶ 버스 중재 (Bus Arbitration)
-        │
-        ▼
-DMA (Direct Memory Access) · 다중 마스터 버스
-        │
-        ▼
-고속 인터커넥트의 프로토콜 기반 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주소 지정 · 데이터 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 버스 (읽기/쓰기/대기 신호)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터럽트 (Interrupt) 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 버스 중재 (Bus Arbitration)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access) · 다중 마스터 버스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고속 인터커넥트의 프로토콜 기반 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 제어에서 시작해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 중재, 다중 마스터 지원, 현대 인터커넥트 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장되는 방향을 보여준다.
 

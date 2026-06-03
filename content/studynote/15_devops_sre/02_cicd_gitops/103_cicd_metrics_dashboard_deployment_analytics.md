@@ -33,27 +33,29 @@ tags = ["studynote-devops-sre"]
 
 | 계층 | 주요 도구 예시 | 역할 |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)** | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions, GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 빌드, 테스트, 배포 실행 시 발생하는 원시 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD)</strong> | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions, GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 빌드, 테스트, 배포 실행 시 발생하는 원시 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **수집 및 저장 (Storage)** | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Datadog, ELK | 각 [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)의 소요 시간, 성공/실패 여부를 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 수집 후 저장 |
-| **[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) (Visualization)** | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 차트, 게이지, 트렌드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링하여 인사이트 도출 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Visualization)</strong> | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 차트, 게이지, 트렌드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링하여 인사이트 도출 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CI/CD 옵저버빌리티(Observability) 데이터 파이프라인       │
-├──────────────────────────────────────────────────────────────┤
-│ [Pipeline Event]     [Collector / Exporter]   [Visualization]│
-│                                                              │
-│  Git Push ────┐                                              │
-│               │        Webhook / API 호출        DORA Metrics │
-│  Build ───────┼───────▶ Prometheus TSDB ──────▶ Grafana 📊   │
-│               │        (성공/실패, 소요시간)       - 배포 빈도    │
-│  Test ────────┤                                - 실패율      │
-│               │                                - 리드 타임   │
-│  Deploy ──────┘                                              │
-└──────────────────────────────────────────────────────────────┘
-```
 
-가장 핵심이 되는 측정 기준은 **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스**다. 이는 배포 빈도 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율 ([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Time to Restore [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 4가지 지표로 구성되어 민첩성과 안정성을 동시에 평가한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 옵저버빌리티(Observability) 데이터 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pipeline Event</div><div class="kb-diagram-node">Collector / Exporter</div><div class="kb-diagram-node">Visualization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Push</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webhook / API 호출 DORA Metrics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build ▶ Prometheus TSDB ▶ Grafana 📊</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공/실패, 소요시간) - 배포 빈도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test - 실패율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리드 타임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deploy</div></div>
+</div>
+</div>
+
+
+
+가장 핵심이 되는 측정 기준은 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> Research and Assessment) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스</strong>다. 이는 배포 빈도 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율 ([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Time to Restore [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 4가지 지표로 구성되어 민첩성과 안정성을 동시에 평가한다.
 
 - **📢 섹션 요약 비유**: 이것은 선수의 건강 상태를 체크하는 스마트 워치다. 달리기(배포)를 할 때 심박수(실패율)와 랩타임([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 기록해서, 다음 훈련 때 어디를 보완해야 더 빨리 뛸 수 있는지 알려준다.
 
@@ -86,7 +88,7 @@ tags = ["studynote-devops-sre"]
    - **판단**: 테스트 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 (Parallelism)를 도입하거나, [테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/)를 모킹(Mocking)하여 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 비중을 늘리는 최적화 작업에 리소스를 투입해야 한다.
 2. **특정 요일/시간대의 실패율 급증**: 금요일 오후에 유독 변경 실패율 ([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))이 높게 찍힌다면?
    - **판단**: 팀의 피로도 누적이나 급한 기능 밀어넣기가 원인일 수 있다. 조직 차원에서 '금요일 배포 금지(Freeze)' 룰을 시각적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 증명하여 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 세울 수 있다.
-3. **허영 지표 (Vanity [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) 경계**: 의미 없는 빌드 횟수만 높이는 것은 중요하지 않다. 실패 시 얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)했는지([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))와 묶어서, 성숙도 향상 가이드라인으로 활용해야 한다.
+3. <strong>허영 지표 (Vanity <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>) 경계</strong>: 의미 없는 빌드 횟수만 높이는 것은 중요하지 않다. 실패 시 얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)했는지([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))와 묶어서, 성숙도 향상 가이드라인으로 활용해야 한다.
 
 - **📢 섹션 요약 비유**: 병목 탐지는 꽉 막힌 고속도로 원인을 헬기로 내려다보는 것과 같다. 톨게이트가 좁아서 막히는지(빌드 서버 부족), 사고가 났는지(테스트 실패)를 정확히 알아야 도로 확장을 할지 견인차를 부를지 결정할 수 있다.
 
@@ -113,21 +115,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배포 자동화 구축 (CI/CD Pipeline)
-    │
-    ▼
-로깅 및 파이프라인 상태 수집 (Pipeline Logging)
-    │
-    ▼
-정량적 성과 측정 도입 (DORA Metrics)
-    │
-    ▼
-배포 성능 분석 및 시각화 (CI/CD Metrics Dashboard)
-    │
-    ▼
-예측형 자동화 및 지능형 배포 차단 (Predictive CI/CD)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배포 자동화 구축 (CI/CD Pipeline)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로깅 및 파이프라인 상태 수집 (Pipeline Logging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정량적 성과 측정 도입 (DORA Metrics)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배포 성능 분석 및 시각화 (CI/CD Metrics Dashboard)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측형 자동화 및 지능형 배포 차단 (Predictive CI/CD)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,22 +25,22 @@ RoCE는 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/
 
 이 그림은 RoCE가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용 사이에서 어떤 절충점을 노리는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      RoCE는 범용 Ethernet에 RDMA 전용 규칙을 얹어 비용과 성능을 절충 │
-├──────────────────────────────────────────────────────────────────────┤
-│ App / Accelerator                                                    │
-│   │                                                                  │
-│ RNIC ─────────────── Ethernet Fabric ─────────────── RNIC             │
-│   │                 (priority + ECN + queue 제어)                    │
-│   ▼                                                                  │
-│ Remote Memory                                                        │
-│                                                                      │
-│ 같은 스위치망을 쓰되, RDMA 흐름은 별도 우선순위와 혼잡 제어가 필요    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 RoCE는 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에서 돌아가는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)"가 아니라, **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 친화적으로 재조정한 패브릭**이다. 이 관점을 놓치면 왜 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 네트워크 카드만큼 중요한지 설명할 수 없다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoCE는 범용 Ethernet에 RDMA 전용 규칙을 얹어 비용과 성능을 절충</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / Accelerator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNIC Ethernet Fabric RNIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(priority + ECN + queue 제어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 스위치망을 쓰되, RDMA 흐름은 별도 우선순위와 혼잡 제어가 필요</div></div>
+</div>
+</div>
+
+
+
+즉 RoCE는 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에서 돌아가는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)"가 아니라, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>을 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 친화적으로 재조정한 패브릭</strong>이다. 이 관점을 놓치면 왜 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 네트워크 카드만큼 중요한지 설명할 수 없다.
 
 - **📢 섹션 요약 비유**: RoCE는 일반 고속도로에 구급차 전용 차선을 따로 만드는 것과 같다. 도로는 같지만, 빨리 가야 하는 차를 위해 규칙과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 다시 짜야 한다.
 
@@ -62,17 +62,19 @@ RoCE v1은 계층 2 기반이라 같은 [이더넷](/knowledge-base/studynote/03
 
 이 그림은 RoCE v2가 어떤 계층 위에 세워지는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          RoCE v2는 RDMA 전송을 UDP/IP 안에 실어 L3까지 확장한다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Ethernet ][ IP ][ UDP ][ InfiniBand Transport ][ RDMA Payload ]    │
-│     ▲          ▲         ▲                                           │
-│     │          │         └─ Queue Pair / Completion 의미 유지        │
-│     │          └──────────── ECN marking / routing                   │
-│     └────────────────────── PFC pause / priority queue              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoCE v2는 RDMA 전송을 UDP/IP 안에 실어 L3까지 확장한다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ethernet</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-node">UDP</div><div class="kb-diagram-node">InfiniBand Transport</div><div class="kb-diagram-node">RDMA Payload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue Pair / Completion 의미 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECN marking / routing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFC pause / priority queue</div></div>
+</div>
+</div>
+
+
 
 따라서 RoCE의 핵심은 RNIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)만이 아니다. 패브릭 전체가 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 흐름을 어떻게 우선시하고, 혼잡을 어떻게 완화하며, 손실을 어떻게 억제하는지가 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다.
 
@@ -104,7 +106,7 @@ RoCE는 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_i
 
 실무에서는 "이미 가진 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 자산으로 RDMA를 어디까지 끌어올릴 것인가"가 RoCE 채택의 핵심이다. 100/200/400기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 이미 깔려 있고, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습이나 백엔드 스토리지 트래픽처럼 동서향 대역폭이 큰 환경이라면 RoCE가 매우 강력하다. 특히 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) 백엔드, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 집합 통신, 메모리 중심 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 복제는 RoCE의 효과가 잘 드러나는 대표 사례다.
 
-반대로 잘못 설계된 RoCE는 평균 속도보다 tail latency와 장애가 더 큰 문제를 만든다. PFC를 모든 트래픽에 무분별하게 켜면 [Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking이 커지고, ECN 임계값이 맞지 않으면 패브릭 전체가 흔들릴 수 있다. 즉 RoCE는 하드웨어 스펙보다 **네트워크 정책의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)**가 더 중요하다.
+반대로 잘못 설계된 RoCE는 평균 속도보다 tail latency와 장애가 더 큰 문제를 만든다. PFC를 모든 트래픽에 무분별하게 켜면 [Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking이 커지고, ECN 임계값이 맞지 않으면 패브릭 전체가 흔들릴 수 있다. 즉 RoCE는 하드웨어 스펙보다 <strong>네트워크 정책의 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a></strong>가 더 중요하다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,7 +131,7 @@ RoCE의 가장 큰 효과는 RDMA를 전용 슈퍼컴퓨팅 기술에서 일반 
 
 하지만 RoCE는 "저렴한 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)"로만 기억하면 틀린다. 이 기술은 전용 패브릭 비용을 줄이는 대신, 네트워크 엔지니어링 난도를 올리는 구조다. 따라서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 큐, 버퍼, PFC, ECN, 텔레메트리를 다룰 수 있는 팀이 있을 때 진짜 강점이 살아난다.
 
-결론적으로 RoCE는 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 친화적인 패브릭으로 재훈련시키는 기술**이다. 이 관점으로 보면 왜 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터, [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) 백엔드, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시가 RoCE를 선택하는지, 또 왜 네트워크 운영 미숙이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어지는지 한 번에 설명된다.
+결론적으로 RoCE는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>을 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 친화적인 패브릭으로 재훈련시키는 기술</strong>이다. 이 관점으로 보면 왜 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터, [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) 백엔드, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시가 RoCE를 선택하는지, 또 왜 네트워크 운영 미숙이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어지는지 한 번에 설명된다.
 
 - **📢 섹션 요약 비유**: RoCE는 평범한 도시에 특급 물류망을 심는 일과 같다. 새 도시를 짓는 대신, 기존 도로를 더 똑똑하게 운영해 빠른 배송을 만드는 방식이다.
 
@@ -148,21 +150,23 @@ RoCE의 가장 큰 효과는 RDMA를 전용 슈퍼컴퓨팅 기술에서 일반 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Best-effort Ethernet
-        │
-        ▼
-DCB (Data Center Bridging) 기반 우선순위 제어
-        │
-        ▼
-RoCE v1 (L2 기반)
-        │
-        ▼
-RoCE v2 (UDP/IP 기반)
-        │
-        ▼
-ECN · DCQCN · AI / NVMe-oF 패브릭 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Best-effort Ethernet</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DCB (Data Center Bridging) 기반 우선순위 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RoCE v1 (L2 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RoCE v2 (UDP/IP 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ECN · DCQCN · AI / NVMe-oF 패브릭 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)"이 "저지연 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 패브릭"으로 점차 특화되는 과정을 보여 준다.
 

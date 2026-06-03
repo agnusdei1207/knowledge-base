@@ -11,46 +11,45 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU가 그래픽카드나 마우스 같은 외부 하드웨어 장치를 제어(Read/Write)할 때, 그 장치의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소를 **우리가 아는 일반 물리 램(RAM) 주소 공간의 일부분에 덮어씌워 퉁치는 것이 '메모리 맵 I/O(MMIO)'**이고, **램과 완전히 분리된 별도의 I/O 전용 주소 공간을 파놓고 특수 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로만 찌르는 것이 '분리된 I/O(Isolated I/O / PMIO)'**다.
-> 2. **가치**: MMIO는 램을 읽고 쓰는 막강한 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`MOV` 등) 수백 개를 하드웨어 제어에 그대로 재활용할 수 있어 **코딩의 직관성과 기가바이트 급 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전송 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))을 보장**하며, PMIO는 램 주소를 1바이트도 빼앗지 않고 독립성을 지키는 데 의의가 있다.
-> 3. **융합**: 과거 인텔 x86은 PMIO(IN/OUT [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 고집했으나, 3D 그래픽과 네트워크가 쏟아내는 압도적인 데이터량을 감당하지 못해 결국 현대의 모든 범용 디바이스 드라이버와 칩셋 아키텍처는 **MMIO로 대통합(Convergence)되어 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 위에 융합**되었다.
+> 1. **본질**: CPU가 그래픽카드나 마우스 같은 외부 하드웨어 장치를 제어(Read/Write)할 때, 그 장치의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소를 <strong>우리가 아는 일반 물리 램(RAM) 주소 공간의 일부분에 덮어씌워 퉁치는 것이 '메모리 맵 I/O(MMIO)'</strong>이고, <strong>램과 완전히 분리된 별도의 I/O 전용 주소 공간을 파놓고 특수 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>로만 찌르는 것이 '분리된 I/O(Isolated I/O / PMIO)'</strong>다.
+> 2. **가치**: MMIO는 램을 읽고 쓰는 막강한 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`MOV` 등) 수백 개를 하드웨어 제어에 그대로 재활용할 수 있어 <strong>코딩의 직관성과 기가바이트 급 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 전송 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a>/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a>)을 보장</strong>하며, PMIO는 램 주소를 1바이트도 빼앗지 않고 독립성을 지키는 데 의의가 있다.
+> 3. **융합**: 과거 인텔 x86은 PMIO(IN/OUT [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 고집했으나, 3D 그래픽과 네트워크가 쏟아내는 압도적인 데이터량을 감당하지 못해 결국 현대의 모든 범용 디바이스 드라이버와 칩셋 아키텍처는 <strong>MMIO로 대통합(Convergence)되어 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 매핑 위에 융합</strong>되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **분리된 I/O (Isolated I/O / [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)-Mapped I/O, PMIO)**: 메모리 주소 지도와 I/O 주소 지도가 완전히 2장으로 분리되어 있다. CPU 핀(Pin) 하나가 "나 지금 메모리 부르는 거 아님. I/O 장비 부르는 거임!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜준다. 이를 위해 `IN`, `OUT` 이라는 특수 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 별도로 존재한다.
+  - <strong>분리된 I/O (Isolated I/O / <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>-Mapped I/O, PMIO)</strong>: 메모리 주소 지도와 I/O 주소 지도가 완전히 2장으로 분리되어 있다. CPU 핀(Pin) 하나가 "나 지금 메모리 부르는 거 아님. I/O 장비 부르는 거임!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜준다. 이를 위해 `IN`, `OUT` 이라는 특수 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 별도로 존재한다.
   - **메모리 맵 I/O (Memory-Mapped I/O, MMIO)**: 램 주소 지도가 4GB라면, 그중 끝부분 500MB 정도를 램에서 뺏어버리고 "여기는 이제부터 그래픽 카드(VRAM) 영토다!"라고 선언한다. CPU는 그 주소가 램인지 그래픽카드인지 모르고 그냥 `MOV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 램 다루듯 덮어쓴다. 
 - **필요성**: CPU는 바보다. 자기가 전기를 쏠 때 그 전기가 램 칩으로 가는지 사운드 카드 칩으로 가는지 알 길이 없다. 이 전기의 물길([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 어떻게 터줄 것인가? 초기엔 "램이랑 하드웨어는 성격이 다르니까 주소 체계를 완전히 찢어버리자(PMIO)"고 생각했다. 하지만 하드웨어에 보낼 데이터가 100MB로 커지자, `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 1바이트씩 1억 번을 쏘느라 CPU가 뻗어버렸다. "아니 씨, 그냥 하드웨어 주소를 램 주소인 척 속이고 포인터로 쫙 복사(`memcpy`)해 버리면 안 돼?"라는 지극히 개발자 친화적인 꼼수가 발동하며 MMIO가 대세가 되었다.
 
 - **등장 배경 및 아키텍처의 항복**:
   1. **x86의 아집 (PMIO)**: 인텔은 16비트 시절 램 1MB가 너무 소중해서, 램 주소를 1바이트라도 I/O 장비에 뺏기기 싫어 64KB짜리 독립된 I/O [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 공간을 팠다.
   2. **RISC의 효율 (MMIO)**: ARM이나 MIPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 가짓수 늘리는 게 더 싫어! 그냥 Load/Store 두 개로 램이든 I/O든 다 패버려!"라며 MMIO를 썼다.
-  3. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))의 폭발**: 3D 게임이 나오며 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에 수 기가바이트를 쏟아부어야 하자, 인텔의 `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로는 렉이 걸려 도저히 감당이 안 됐다. 결국 인텔도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 MMIO로 도배하며 항복했다.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)의 폭발</strong>: 3D 게임이 나오며 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에 수 기가바이트를 쏟아부어야 하자, 인텔의 `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로는 렉이 걸려 도저히 감당이 안 됐다. 결국 인텔도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 MMIO로 도배하며 항복했다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화          │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ ▶ 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙             │
-│   [ 메모리 주소 공간 (4GB) ]       [ I/O 포트 주소 공간 (64KB) ]      │
-│   0x00000000 ~ 0xFFFFFFFF      0x0000 ~ 0xFFFF                        │
-│   (오직 RAM만 100% 꽉 채워 씀)     (키보드 0x60, 마우스 0x64)         │
-│                                                                       │
-│   💥 동작: CPU가 램을 건드릴 땐 `MOV` 명령어를 쓰고,                  │
-│           키보드를 찌를 땐 무조건 `IN / OUT` 명령어만 써야 함.        │
-│                                                                       │
-│ ▶ 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합                  │
-│   [ 통합된 단일 물리 주소 공간 (예: 4GB) ]                            │
-│   0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)              │
-│   0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)           │
-│                                                                       │
-│   ✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.      │
-│           CPU는 키보드든 램이든 전부 다 `MOV` 명령어로 퉁쳐서 조작함. │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 주소 공간 (4GB)</div><div class="kb-diagram-node">I/O 포트 주소 공간 (64KB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 ~ 0xFFFFFFFF 0x0000 ~ 0xFFFF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오직 RAM만 100% 꽉 채워 씀) (키보드 0x60, 마우스 0x64)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 동작: CPU가 램을 건드릴 땐 <code>MOV</code> 명령어를 쓰고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키보드를 찌를 땐 무조건 <code>IN / OUT</code> 명령어만 써야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통합된 단일 물리 주소 공간 (예: 4GB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU는 키보드든 램이든 전부 다 <code>MOV</code> 명령어로 퉁쳐서 조작함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 그림 2번(MMIO)을 보면 치명적인 부작용이 보인다. 램을 4GB 돈 주고 사서 꽂았는데, 시스템이 그래픽카드랑 통신하려고 상위 500MB 주소를 MMIO 웜홀로 빼앗아 버렸다. 그 주소에 할당된 '진짜 램 500MB'는 주소가 없어져서 영영 못 쓰는 투명인간이 되어버린다. 이것이 과거 32비트 윈도우에서 램 4GB를 꽂아도 3.2GB밖에 인식 안 되던(Hardware Reserved) 뼈아픈 역사의 진실이다. (64비트가 되며 주소가 텅텅 남아돌아 이 문제는 완전히 해결되었다.)
 
 - **📢 섹션 요약 비유**: PMIO는 국어 숙제는 '국어 공책'에, 수학 숙제는 '수학 공책'에 엄격하게 따로 하는 방식입니다. MMIO는 두꺼운 종합장(단일 주소 공간) 하나를 사서, 앞쪽은 국어 쓰고 뒷부분 몇 장 뜯어서 수학 숙제를 하는 방식입니다. 종합장 공간(램 주소)은 조금 버려지겠지만, 공책 하나만 들고 다니며 똑같은 연필(`MOV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))로 다 쓸 수 있으니 가방이 엄청 가벼워집니다.
@@ -62,8 +61,8 @@ tags = ["studynote-operating-system"]
 ### 하드웨어 디코딩 회로의 마법 (Chip [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))
 
 CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카드 칩으로 갈지 전기는 어떻게 알고 찾아갈까?
-- 메인보드의 **메모리 컨트롤러(Memory Controller)**가 이 교통정리를 담당한다.
-- [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))는 부팅될 때 메인보드에 꽂힌 모든 장비([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 등)에게 "너는 몇 번지부터 몇 번지까지 MMIO로 쓸래?" 하고 물어보고 **베이스 주소 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(BAR)**에 그 영토를 하드코딩해 준다.
+- 메인보드의 <strong>메모리 컨트롤러(Memory Controller)</strong>가 이 교통정리를 담당한다.
+- [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))는 부팅될 때 메인보드에 꽂힌 모든 장비([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 등)에게 "너는 몇 번지부터 몇 번지까지 MMIO로 쓸래?" 하고 물어보고 <strong>베이스 주소 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(BAR)</strong>에 그 영토를 하드코딩해 준다.
 - CPU가 주소를 쏘면, 메모리 컨트롤러 안의 주소 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)(Address [Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 그 번지를 보고 "앗! 0xE000 번지 이상은 램으로 보내지 말고, 옆구리에 있는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(그래픽카드)로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 꺾어라!(Chip [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))"라고 1나노초 만에 선로를 바꿔버린다.
 
 ---
@@ -75,7 +74,7 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 - 똑똑한 CPU는 "램에 글씨 썼네? 당장 램에 안 보내고 일단 L1 캐시에만 `1`이라고 적어두고 미뤄야지([Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))!"
 - **재앙**: CPU 캐시에만 불이 켜지고, 진짜 랜카드 하드웨어로는 전기가 0.1초 동안 날아가지 않는다! 랜카드가 안 켜져서 인터넷이 끊긴다.
 - 더 미친 상황: 랜카드가 수신한 패킷(100)을 읽으려고 `int packet = *nic_data;` 를 쳤다. CPU는 "어? 아까 그 주소 L1 캐시에 `0`이라고 저장돼있네? 램 안 가고 그냥 캐시값 `0` 줄게!"라고 답한다 (Stale [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)).
-- **절대 방어막 (Uncacheable)**: 이 재앙을 막기 위해, OS는 MMIO 구역으로 지정된 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE)에 반드시 **"이 주소는 무조건 캐시를 타지 말고(Uncacheable), 찌르는 즉시 칩셋으로 다이렉트 전기를 꽂아라!"**라는 하드웨어 락 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무조건 세팅해야 한다. 디바이스 드라이버 개발자의 목숨줄이다.
+- **절대 방어막 (Uncacheable)**: 이 재앙을 막기 위해, OS는 MMIO 구역으로 지정된 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE)에 반드시 <strong>"이 주소는 무조건 캐시를 타지 말고(Uncacheable), 찌르는 즉시 칩셋으로 다이렉트 전기를 꽂아라!"</strong>라는 하드웨어 락 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무조건 세팅해야 한다. 디바이스 드라이버 개발자의 목숨줄이다.
 
 - **📢 섹션 요약 비유**: 사장님(CPU)이 비서(L1 캐시)를 통해 지시를 내리면 비서가 자의적으로 지시를 뭉뚱그리거나([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) 예전 보고서(Stale Cache)를 올려서 공장(하드웨어)이 뻗어버립니다. MMIO 웜홀을 쓸 때는 봉투에 "비서 개입 절대 금지, 사장님 직통 결재(Uncacheable)"라는 붉은 도장을 반드시 찍어 비서의 최적화를 강제로 꺼버려야만 기계가 돌아갑니다.
 
@@ -89,23 +88,26 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 
 | 특성 | Isolated I/O (PMIO) | Memory-Mapped I/O (MMIO) |
 |:---|:---|:---|
-| **가용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수** | `IN`, `OUT` 단 2~4개 수준 (빈곤) | `ADD`, `AND`, `OR`, `MOV` 등 **수백 개의 메모리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 100% 활용** |
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산** | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 빼와서(`IN`), `AND` 치고, 다시 넣어야(`OUT`) 함 (3클럭 소모) | **`AND [0x8000], 0x01` 한 줄로 램 위에서 즉시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작 끝! (1클럭)** |
+| <strong>가용 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 수</strong> | `IN`, `OUT` 단 2~4개 수준 (빈곤) | `ADD`, `AND`, `OR`, `MOV` 등 <strong>수백 개의 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 100% 활용</strong> |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 연산</strong> | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 빼와서(`IN`), `AND` 치고, 다시 넣어야(`OUT`) 함 (3클럭 소모) | <strong><code>AND [0x8000], 0x01</code> 한 줄로 램 위에서 즉시 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 조작 끝! (1클럭)</strong> |
 | **C언어 코딩** | 인라인 어셈블리나 `outb()` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 필수 | `int *p = 0x8000; *p = 1;` **순수 C언어 포인터로 직관적 통제** |
-| **보안 및 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | `IN/OUT`은 특권 명령이라 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 쓸 수 있음 | MMIO는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블 권한(R/W/U)으로 유저에게도 쉽게 떼어줄 수 있음 |
+| <strong>보안 및 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | `IN/OUT`은 특권 명령이라 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 쓸 수 있음 | MMIO는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블 권한(R/W/U)으로 유저에게도 쉽게 떼어줄 수 있음 |
 
 ### PMIO의 마지막 낭만: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Conflict)의 향수
 1990년대 사운드카드나 랜카드를 샀을 때, 우리는 메인보드 딥스위치(Jumper)를 이빨 쑤시개로 똑딱거리며 `IRQ 5`, `I/O Port 220` 같은 값을 수동으로 맞춰야 했다. 두 하드웨어가 똑같은 PMIO 주소(0x220)를 쓰겠다고 싸우면(충돌), 컴퓨터에서 소리가 안 났다. 
 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반의 MMIO 시대가 오면서, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS)가 부팅될 때 알아서 수십 기가바이트의 널널한 램 주소 공간을 자동으로 찢어서 장비들에 안 겹치게 나눠주게 되었다. 우리가 '플러그 앤 플레이(꽂으면 바로 켜짐)'를 누리게 된 배경에는 이 광활한 MMIO 주소 공간의 여유로움이 있다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 아키텍처   │ 주소 공간 낭비│ 하드웨어 로직 │ 프로그래밍 난이도 │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ PMIO     │ 0% (독립됨) │ 복잡함 (핀 분리)│ ☠️ 어셈블리 지옥    │
-│ MMIO     │ 🔴 램 뺏어먹음│ 매우 단순함   │ 🟢 C 포인터 천국    │
-└──────────┴────────────┴────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">주소 공간 낭비</div><div class="kb-diagram-cell">하드웨어 로직</div><div class="kb-diagram-cell">프로그래밍 난이도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMIO</div><div class="kb-diagram-cell">0% (독립됨)</div><div class="kb-diagram-cell">복잡함 (핀 분리)</div><div class="kb-diagram-cell">☠️ 어셈블리 지옥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMIO</div><div class="kb-diagram-cell">🔴 램 뺏어먹음</div><div class="kb-diagram-cell">매우 단순함</div><div class="kb-diagram-cell">🟢 C 포인터 천국</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** "공간을 희생해서 개발자의 편의와 속도를 취한다"는 컴퓨터 공학의 절대 법칙이 다시 한번 발동했다. 주소 공간 수백 MB를 버리더라도 C언어 포인터로 하드웨어를 주무르는 달콤함은 포기할 수 없었다. 그리고 64비트 시대가 오며 '주소 공간의 낭비'라는 유일한 단점마저 수학적으로 소멸해버려 MMIO가 100% 천하 통일을 이뤘다.
 
 - **📢 섹션 요약 비유**: PMIO는 오직 십자드라이버(`IN/OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 하나만 쓸 수 있게 만들어진 빡빡한 기계입니다. 나사를 조이려면 무조건 십자드라이버만 찾아야 하죠. MMIO는 기계 나사구멍을 아예 일상 규격(메모리 주소)으로 뚫어버려서, 내가 가진 전동드릴, 망치, 펜치(`ADD, MOV` 등 수백 개 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 아무거나 마음대로 써서 기계를 개조할 수 있는 오픈 플랫폼입니다.
@@ -115,10 +117,10 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: DPDK와 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) ([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 흑마술)
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 병목**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 랜카드 드라이버가 패킷을 받아 유저 공간으로 복사해 주려니 10Gbps 속도를 못 뽑는다.
-2. **MMIO의 유저 스페이스 헌납 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 병목</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 랜카드 드라이버가 패킷을 받아 유저 공간으로 복사해 주려니 10Gbps 속도를 못 뽑는다.
+2. <strong>MMIO의 유저 스페이스 헌납 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass)</strong>:
    - 클라우드 엔지니어([DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 튜닝)는 극단적인 선택을 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버를 꺼버린다!
-   - 그리고 하드웨어 랜카드의 칩셋 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) **MMIO 주소(예: 0xE000)를, 아예 유저 애플리케이션(C/C++)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))으로 다이렉트로 뚫어버린다.**
+   - 그리고 하드웨어 랜카드의 칩셋 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) <strong>MMIO 주소(예: 0xE000)를, 아예 유저 애플리케이션(C/C++)의 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 공간(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>)으로 다이렉트로 뚫어버린다.</strong>
    - 유저 C언어 프로그램이 `*ptr` 포인터로 램을 찔렀는데, 그게 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 거치지 않고 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타고 랜카드 칩셋 제어판으로 다이렉트 벼락([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) MMIO)으로 꽂힌다.
    - OS 시스템 콜 0회, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 0회, 메모리 복사 0회. 1억 개의 패킷을 1초 만에 찢어버리는 현대 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 심장([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)이 이 MMIO의 물리적 특성 덕분에 완성되었다.
 
@@ -137,7 +139,7 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 |:---|:---|
 | **기기 통제 오버헤드 0화** | I/O 처리를 위한 무거운 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(IN/OUT) 호출과 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 배제하고, 나노초 단위의 L1 캐시 접근 속도로 하드웨어 상태(Status)를 갱신 |
 | **디바이스 드라이버 이식성** | 어셈블리어가 아닌 C/C++ 표준 포인터 문법만으로 코딩이 가능해져, Linux, Windows, macOS 간의 드라이버 코드 이식(Porting)이 비약적으로 쉬워짐 |
-| **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 개방**| 수십 기가바이트의 텐서(Tensor) 데이터를 VRAM으로 밀어 넣을 때, MMIO 매핑 공간 위에서 CPU의 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)(AVX) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 100% 때려 박아 전송량 극대화 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>/<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>) <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 개방</strong>| 수십 기가바이트의 텐서(Tensor) 데이터를 VRAM으로 밀어 넣을 때, MMIO 매핑 공간 위에서 CPU의 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)(AVX) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 100% 때려 박아 전송량 극대화 |
 
 ### 결론 및 미래 전망
 
@@ -158,15 +160,19 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[포트 (Port) / 버스 (Bus)]
-    │
-    ▼
-[메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    │
-    ├──▶ [폴링 (Polling / Programmed I/O)]
-    └──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

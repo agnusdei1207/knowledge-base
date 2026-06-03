@@ -19,45 +19,41 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Frameworks)는 단일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀의 범위를 넘어 다수의 팀, 부서, 나아가 전사적 차원에서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 가치와 실천법을 적용하기 위한 조직 설계 및 운영 방법론이다. 대표적으로 딘 레핑웰(Dean Leffingwell)이 창시한 무겁고 체계적인 **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)**와 크레이그 라만(Craig Larman) 등이 창시한 가볍고 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 친화적인 **[LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)**가 있다.
+- **개념**: [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) Frameworks)는 단일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀의 범위를 넘어 다수의 팀, 부서, 나아가 전사적 차원에서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 가치와 실천법을 적용하기 위한 조직 설계 및 운영 방법론이다. 대표적으로 딘 레핑웰(Dean Leffingwell)이 창시한 무겁고 체계적인 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a></strong>와 크레이그 라만(Craig Larman) 등이 창시한 가볍고 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 친화적인 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/">LeSS</a></strong>가 있다.
 - **필요성**: 소규모 팀 단위의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 성공적이나, 기업 전체로 보면 수십 개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 서로 다른 방향으로 달리거나 의존성(Dependency) 문제로 인해 통합 시점에 거대한 충돌이 발생하는 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))' 현상이 발생한다. 대규모 시스템을 개발하기 위해서는 이 팀들을 하나의 제품 비전으로 묶어줄(Alignment) 정교한 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 메커니즘이 필수적으로 요구되었다.
 - **💡 비유**: 단일 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 빠르고 민첩한 '스피드보트'라면, [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)은 이 수십 대의 스피드보트들이 서로 부딪히지 않고 하나의 거대한 목적지를 향해 대형을 유지하며 항해하도록 지휘하는 '함대 사령부' 시스템과 같다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 한계**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 3~9명의 단일 팀을 위한 완벽한 프레임워크지만, 100명이 넘는 개발자가 하나의 거대한 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템을 만들 때는 어떻게 협업해야 하는지 가이드하지 않았다.
-  2. **SoS ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) of Scrums)의 부족**: 각 팀의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터들이 모이는 SoS 기법이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 도입되었으나, 단순한 소통 창구 역할에 그쳐 전사적 예산 기획과 아키텍처 정렬을 해결하지 못했다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>의 한계</strong>: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 3~9명의 단일 팀을 위한 완벽한 프레임워크지만, 100명이 넘는 개발자가 하나의 거대한 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템을 만들 때는 어떻게 협업해야 하는지 가이드하지 않았다.
+  2. <strong>SoS (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a> of Scrums)의 부족</strong>: 각 팀의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터들이 모이는 SoS 기법이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 도입되었으나, 단순한 소통 창구 역할에 그쳐 전사적 예산 기획과 아키텍처 정렬을 해결하지 못했다.
   3. **엔터프라이즈 프레임워크의 탄생**: 이에 따라 기업의 기존 거버넌스와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 타협시킨 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)(2011년)가 대기업을 중심으로 폭발적으로 성장했고, 이에 반발하여 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 본연의 단순함을 유지하려는 [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/), Spotify 모델 등이 대안으로 등장하며 시장을 양분하게 되었다.
 
 규모가 커짐에 따라 단일 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀에서 발생하는 의존성 지옥(Dependency Hell)과 이를 대규모 프레임워크가 어떻게 구조화하는지를 시각적으로 대비해 볼 수 있다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         단일 애자일의 한계(Silo) vs 대규모 애자일(정렬) 비교       │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [확장 전: 애자일 사일로 및 의존성 지옥]                         │
-  │   (Team A)   ──서로 일정 안맞음──▶  (Team B)                   │
-  │     스프린트                      스프린트                       │
-  │        │                             │                       │
-  │        ▼ 통합 실패 (Integration Hell) ▼                       │
-  │   [결과물 A] ◀─── 인터페이스 불일치 ───▶ [결과물 B]                 │
-  │   * 문제: 각자 빠르지만, 통합하면 시스템이 동작하지 않음.              │
-  │                                                              │
-  │  [확장 후: 대규모 애자일(Scaled Agile) 정렬 메커니즘]             │
-  │                                                              │
-  │           [전사 비전 / 포트폴리오 백로그]                        │
-  │                         │                                    │
-  │      ┌──────────────────┴──────────────────┐                 │
-  │      ▼ 동기화된 릴리스 기차 (예: SAFe ART)  ▼                 │
-  │   (Team A)                           (Team B)                │
-  │  동일한 주기의                        동일한 주기의               │
-  │  스프린트 진행                        스프린트 진행               │
-  │      │                                  │                    │
-  │      └──────────▶ 지속적 통합 ◀──────────┘                    │
-  │                     [하나의 완성된 시스템]                        │
-  │   * 해결: 동일한 박자(Cadence)와 통합 이벤트로 전체 정렬 확보.         │
-  └──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 애자일의 한계(Silo) vs 대규모 애자일(정렬) 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확장 전: 애자일 사일로 및 의존성 지옥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Team A) ──서로 일정 안맞음──▶ (Team B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프린트 스프린트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 통합 실패 (Integration Hell) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과물 A</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">결과물 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제: 각자 빠르지만, 통합하면 시스템이 동작하지 않음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확장 후: 대규모 애자일(Scaled Agile) 정렬 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전사 비전 / 포트폴리오 백로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동기화된 릴리스 기차 (예: SAFe ART) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Team A) (Team B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 주기의 동일한 주기의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프린트 진행 스프린트 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 지속적 통합 ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하나의 완성된 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해결: 동일한 박자(Cadence)와 통합 이벤트로 전체 정렬 확보.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 확장 전의 모습은 각 팀이 자신만의 백로그와 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기를 가지고 독립적으로 달리는 상황이다. 소프트웨어의 크기가 작을 때는 문제가 없으나, 마이크로서비스나 대형 플랫폼처럼 시스템 간 결합도가 높은 환경에서는 A팀이 B팀의 API를 기다리며 노는(Block) 현상이나, 나중에 합쳤을 때 구조가 어긋나는 통합 지옥이 필연적으로 발생한다. [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)은 상위에 '포트폴리오 백로그'를 두어 목표를 통일하고, 아래의 모든 팀이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작일과 종료일(Cadence)을 완벽히 맞추어 정기적으로 결과물을 강제 통합([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))하게 만듦으로써 부분 최적화가 아닌 전체 최적화를 달성한다.
 
@@ -82,7 +78,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), LeSS의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), LeSS의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), LeSS의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -158,21 +154,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-대규모 애자일 SAFe, LeSS 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 애자일 SAFe, LeSS 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

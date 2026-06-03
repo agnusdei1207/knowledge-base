@@ -31,7 +31,7 @@ if (result == 8) {
 ```
 테스트가 100개면 이런 코드를 100번 짜야 했고, 진짜 프로그램을 배포할 때는 이 `print` 문들을 일일이 찾아 지우느라 밤을 새웠다.
 
-이런 미친 짓을 멈추기 위해 천재 개발자 켄트 벡(Kent Beck)과 에릭 감마(Erich Gamma)가 비행기 안에서 **"우리가 짠 테스트용 함수들만 모아서 자동으로 돌려주고, 결과만 이쁘게 리포트해 주는 도구를 만들자!"**라며 뚝딱 만든 것이 Java의 전설적인 프레임워크 **JUnit**의 탄생이다. 이것이 전 세계 언어로 퍼져나가 **xUnit 생태계**를 이뤘다.
+이런 미친 짓을 멈추기 위해 천재 개발자 켄트 벡(Kent Beck)과 에릭 감마(Erich Gamma)가 비행기 안에서 <strong>"우리가 짠 테스트용 함수들만 모아서 자동으로 돌려주고, 결과만 이쁘게 리포트해 주는 도구를 만들자!"</strong>라며 뚝딱 만든 것이 Java의 전설적인 프레임워크 <strong>JUnit</strong>의 탄생이다. 이것이 전 세계 언어로 퍼져나가 <strong>xUnit 생태계</strong>를 이뤘다.
 
 > 📢 **섹션 요약 비유**: 수백 명의 학생(함수)이 시험을 봤을 때, 선생님이 일일이 채점하고 점수를 적으려면 며칠이 걸립니다. [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크는 이 채점과 성적표 발급을 1초 만에 해치워 주는 OMR 카드 자동 채점기이자, 학생을 불러모으는 조교 역할을 동시에 해내는 완벽한 조력자입니다.
 
@@ -134,21 +134,23 @@ if (result == 8) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-단위 테스트 프레임워크 (JUnit, pytest, NUnit 등) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단위 테스트 프레임워크 (JUnit, pytest, NUnit 등) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

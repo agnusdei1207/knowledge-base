@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: SSL(Secure Sockets Layer) 또는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜을 사용하여 암호화된 터널을 생성하는 원격 접속(Remote-Access) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술. (현재 SSL은 보안 취약점으로 폐기되었고 100% TLS를 쓰지만 관습적으로 SSL VPN이라 부른다).
-- **필요성**: 직원 1,000명이 재택근무를 한다 치자. [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 쓰려면 직원 1,000명 노트북에 시스코 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 클라이언트 프로그램을 다 깔아줘야 하고, 집마다 다른 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 꼬인 거 다 원격으로 풀어줘야 한다(헬데스크 폭발). "아니, 어차피 모든 노트북에 크롬 브라우저 깔려 있고 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 전 세계 공유기 어딜 가나 프리패스로 다 뚫려 있잖아? **그 브라우저의 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화 터널을 이용해서 사내망 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널을 뚫어버리면 프로그램 설치도 필요 없지 않나?!**" 라는 혁명적 발상에서 출발했다.
+- **필요성**: 직원 1,000명이 재택근무를 한다 치자. [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 쓰려면 직원 1,000명 노트북에 시스코 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 클라이언트 프로그램을 다 깔아줘야 하고, 집마다 다른 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 꼬인 거 다 원격으로 풀어줘야 한다(헬데스크 폭발). "아니, 어차피 모든 노트북에 크롬 브라우저 깔려 있고 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 전 세계 공유기 어딜 가나 프리패스로 다 뚫려 있잖아? <strong>그 브라우저의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> 암호화 터널을 이용해서 사내망 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 터널을 뚫어버리면 프로그램 설치도 필요 없지 않나?!</strong>" 라는 혁명적 발상에서 출발했다.
 
 - **💡 비유**: 
-  - **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)**: 군사 작전용 **"전용 터널 굴착기"**입니다. 엄청 안전하지만, 땅을 파려면 허가도 받아야 하고(클라이언트 설치), 암반([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 만나면 우회([NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))해야 해서 토목 공사가 빡셉니다.
-  - **[SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/)**: 이미 도시 전체에 깔려 있는 **"지하철([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**을 그냥 타고 가는 것입니다. 표(웹 로그인)만 끊으면 누구나 타니까 공사할 필요가 1도 없고, 어느 건물이든 지하철역은 무조건 뚫려 있으니 차단될 일도 없습니다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong>: 군사 작전용 <strong>"전용 터널 굴착기"</strong>입니다. 엄청 안전하지만, 땅을 파려면 허가도 받아야 하고(클라이언트 설치), 암반([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 만나면 우회([NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))해야 해서 토목 공사가 빡셉니다.
+  - <strong><a href="/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/">SSL VPN</a></strong>: 이미 도시 전체에 깔려 있는 <strong>"지하철(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> 443 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)"</strong>을 그냥 타고 가는 것입니다. 표(웹 로그인)만 끊으면 누구나 타니까 공사할 필요가 1도 없고, 어느 건물이든 지하철역은 무조건 뚫려 있으니 차단될 일도 없습니다.
 
-```text
-[NAT-T]
-    │
-    ▼
-[SSL VPN / TLS VPN]
-    │
-    └──▶ [DMVPN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** SSL VPN은 재택근무 직원들에게 지급되는 **"만능 웹브라우저 마스터키"**입니다. 복잡한 드라이버 설치나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 지식 1도 없이, 네이버 로그인하듯 아이디/비번만 치면 화면이 휙 바뀌면서 사내 그룹웨어 인트라넷 한가운데로 공간 이동을 시켜줍니다.
 
@@ -46,18 +50,22 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 1. **Clientless 모드 (순수 웹 모드)**
    - **방식**: 브라우저로 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) 포털)에 접속하면, 브라우저 안에서 사내 웹서버 화면만 띄워준다. 프로그램 설치 0%.
    - **한계**: 오직 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)(웹 기반 그룹웨어) 툴만 쓸 수 있다. 사내망으로 `Ping`을 치거나, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 파일을 받거나 전용 클라이언트 앱을 돌리는 것은 불가능하다.
-2. **Tunnel 모드 (Full [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) / [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) Agent)**
-   - **방식**: 웹 접속 후 아주 가벼운 플러그인(Agent, 예: [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) AnyConnect, FortiClient)이 노트북에 쓱 깔리면서 **가상의 랜카드(가상 IP [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 부여)**를 하나 만들어 버린다.
+2. <strong>Tunnel 모드 (Full <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a> / <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> Agent)</strong>
+   - **방식**: 웹 접속 후 아주 가벼운 플러그인(Agent, 예: [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) AnyConnect, FortiClient)이 노트북에 쓱 깔리면서 <strong>가상의 랜카드(가상 IP <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>.x.x.x 부여)</strong>를 하나 만들어 버린다.
    - **결과**: 이 순간부터 노트북 전체 트래픽이 SSL 암호화 터널([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 443) 안으로 빨려 들어가며, 사내망의 모든 서버로 핑을 치고 FTP를 할 수 있는 완벽한 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 급 터널이 뚫린다. (현재 재택근무의 99%가 이 방식을 쓴다).
 
-```text
-[NAT-T]
-    │
-    ▼
-[SSL VPN / TLS VPN]
-    │
-    └──▶ [DMVPN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,33 +75,33 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 
 | 비교 항목 | [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) | [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) |
 |:---:|:---|:---|
-| **동작 계층** | **L3 (네트워크 계층)** | **L7 (애플리케이션 계층, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/표현)** |
+| **동작 계층** | **L3 (네트워크 계층)** | <strong>L7 (애플리케이션 계층, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>/표현)</strong> |
 | **주요 사용처** | 본사-지사 간 연결 (Site-to-Site) | 재택근무자 원격 접속 (Remote-Access) |
 | **소프트웨어 설치** | 별도의 무거운 전용 클라이언트 필수 | 웹 브라우저만으로 O.K (가벼운 에이전트) |
 | **보안 통제 단위** | IP 서브넷 단위 통제 (통짜로 열림) | 어플리케이션/사용자 단위의 세밀한 통제 |
-| **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과** | 빡셈 ([NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) 세팅 등 개고생 필요) | **프리패스 (모든 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 443은 열어둠)** |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 통과</strong> | 빡셈 ([NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) 세팅 등 개고생 필요) | <strong>프리패스 (모든 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>이 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 443은 열어둠)</strong> |
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                SSL VPN (터널 모드)의 가상 랜카드 마법            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 노트북 (집) ]                                            │
- │   물리 랜카드 (192.168.0.5 - 집 공유기가 줌)                     │
- │      │                                                      │
- │      ▼ (AnyConnect 접속 완료 순간!)                             │
- │   가상 랜카드 짠! (10.1.1.99 - 회사 방화벽이 던져줌)               │
- │                                                             │
- │   * 뇌구조: "난 이제부터 10.1.1.99 다! 회사 서버로 가는 모든 패킷은    │
- │            TCP 443번(HTTPS) 암호화 상자에 싸서, 물리 랜카드를 통해   │
- │            집 공유기를 프리패스로 통과시켜 회사 방화벽에 쏜다!!"       │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSL VPN (터널 모드)의 가상 랜카드 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 노트북 (집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 랜카드 (192.168.0.5 - 집 공유기가 줌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (AnyConnect 접속 완료 순간!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 랜카드 짠! (10.1.1.99 - 회사 방화벽이 던져줌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 뇌구조: "난 이제부터 10.1.1.99 다! 회사 서버로 가는 모든 패킷은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 443번(HTTPS) 암호화 상자에 싸서, 물리 랜카드를 통해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집 공유기를 프리패스로 통과시켜 회사 방화벽에 쏜다!!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 교두보
 최근 트렌드인 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처에서 SSL VPN은 핵심 관문이다. IPsec처럼 망 전체를 열어주어 해커가 노트북을 털면 회사 망을 다 헤집고 다니게 놔두지 않는다. SSL VPN은 "너는 재무팀 직원이니까 사내망 접속해도 '인사팀 웹서버'는 클릭 못 하게 아예 아이콘을 치워버릴게!"라는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)(초미세 통제)이 가능하기 때문이다.
 
-- **📢 섹션 요약 비유**: ** IPsec이 성벽을 통째로 허물어 대군을 진격시키는 **"공성전"**이라면, SSL VPN은 적군 몰래([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화) 지하 하수도를 타고 들어가 왕의 침실(특정 어플리케이션) 문만 조용히 열고 들어가는 **"정밀 타격 암살 작전"**입니다.
+- **📢 섹션 요약 비유**: ** IPsec이 성벽을 통째로 허물어 대군을 진격시키는 **"공성전"<strong>이라면, SSL VPN은 적군 몰래(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> 암호화) 지하 하수도를 타고 들어가 왕의 침실(특정 어플리케이션) 문만 조용히 열고 들어가는 </strong>"정밀 타격 암살 작전"**입니다.
 
 ---
 
@@ -135,15 +143,19 @@ SSL VPN은 직원의 요구 수준에 따라 두 가지 모드로 동작한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NAT-T]
-    │
-    ▼
-[현재 개념: SSL VPN / TLS VPN]
-    │
-    ├──▶ [확장 A: DMVPN]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAT-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DMVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T에서 출발해 현재 메커니즘을 정교화하고, 이후 DMVPN와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

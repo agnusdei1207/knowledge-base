@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 가감산기 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 덧셈기([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)) 회로 앞단에 **XOR 게이트 하나를 융합**하여, 외부 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Sub)에 따라 덧셈과 뺄셈을 마음대로 스위칭하는 하드웨어 아키텍처다.
+> 1. **본질**: 가감산기 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 덧셈기([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)) 회로 앞단에 <strong>XOR 게이트 하나를 융합</strong>하여, 외부 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Sub)에 따라 덧셈과 뺄셈을 마음대로 스위칭하는 하드웨어 아키텍처다.
 > 2. **가치**: 뺄셈용 전용 회로([Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/))를 만들지 않고 2의 보수(2's Complement) 수학의 원리(`A - B = A + (~B + 1)`)를 물리적 게이트로 완벽히 치환함으로써 칩의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 면적을 획기적으로 줄였다.
 > 3. **판단 포인트**: 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 캐리 입력(Carry-in)으로 흘러 들어가는 절묘한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 설계와, 병목을 잡기 위한 올림수 예측(Carry Look-ahead) 회로의 결합이 고속 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 설계의 핵심이다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터가 덧셈뿐만 아니라 뺄셈도 해야 했을 때, 초창기 설계자들은 덧셈기 회로 옆에 뺄셈기 회로를 똑같이 거대하게 지었다. 그러나 실리콘 칩의 면적은 너무나 비쌌고, "어차피 음수를 2의 보수로 만들어서 더하면 뺄셈이 되는데, 왜 회로를 두 개나 지어야 하는가?"라는 근원적인 의문이 제기되었다.
 
-아키텍트들은 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집는 행위(NOT)"와 "끝에 1을 더하는 행위(+1)"가 2의 보수의 핵심임을 간파했다. 그리고 놀랍게도 **XOR 게이트와 덧셈기의 첫 번째 캐리 입력(C_in)**을 이용하면, 이 두 가지 행위를 뺄셈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 동시에 터뜨릴 수 있다는 공학적 기적을 발견했다. 이로써 덧셈과 뺄셈은 영원히 하나의 회로, 가감산기(Adder-[Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/))로 완벽하게 통합되었다.
+아키텍트들은 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집는 행위(NOT)"와 "끝에 1을 더하는 행위(+1)"가 2의 보수의 핵심임을 간파했다. 그리고 놀랍게도 <strong>XOR 게이트와 덧셈기의 첫 번째 캐리 입력(C_in)</strong>을 이용하면, 이 두 가지 행위를 뺄셈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 동시에 터뜨릴 수 있다는 공학적 기적을 발견했다. 이로써 덧셈과 뺄셈은 영원히 하나의 회로, 가감산기(Adder-[Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/))로 완벽하게 통합되었다.
 
 - **📢 섹션 요약 비유**: 가감산기는 '양면 잠바'다. 겉으로 입으면 평범한 점퍼(덧셈기)지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 눌러 뒤집어(2의 보수) 입으면 비가 올 때 입는 완벽한 우비(뺄셈기)로 변신한다. 옷 두 벌을 살 필요가 없다.
 
@@ -31,31 +31,27 @@ tags = ["studynote-computer-architecture"]
 ### 2의 보수를 물리적으로 구현하는 XOR 트릭
 $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$를 뒤집고(1의 보수) 거기에 $1$을 더해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           가감산기 (Adder-Subtractor) 하드웨어 로직 레이아웃    │
-├────────────────────────────────────────────────────────┤
-│   제어 신호 (Sub) : 덧셈일 땐 0, 뺄셈일 땐 1                 │
-│                                                        │
-│                  입력 A                입력 B             │
-│                    │                    │              │
-│                    ▼                    ▼              │
-│                  [ A ]           ┌─▶[ XOR 게이트 ]       │
-│                    │             │      │              │
-│                    │             │      ▼              │
-│ (Sub ─▶ C_in) ──▶[ 전가산기 (Full Adder) ]               │
-│        (0 or 1)    │                                   │
-│                    ▼                                   │
-│                 결과값(Sum)                            │
-│                                                        │
-│ * 마법의 원리 (Sub = 1, 즉 뺄셈일 때):                      │
-│   1. B가 XOR 게이트를 통과하며 Sub(1)과 만나 모두 뒤집힘(~B)   │
-│   2. Sub(1) 신호가 덧셈기의 첫 C_in으로 흘러 들어가 +1 역할을 함│
-│   ──▶ 결과적으로 전가산기는 A + (~B) + 1 연산을 수행 = A - B!  │
-└────────────────────────────────────────────────────────┘
-```
 
-이 회로의 천재성은 'Sub' 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 한 가닥이 **XOR 게이트의 반전 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**와 **첫 번째 [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)의 캐리 입력(+1)**이라는 두 가지 역할을 동시에 수행하도록 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)된 것에 있다. 단 1가닥의 전선 추가로 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수천 개짜리 뺄셈기를 완전히 대체해 버린 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가감산기 (Adder-Subtractor) 하드웨어 로직 레이아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 신호 (Sub) : 덧셈일 땐 0, 뺄셈일 땐 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 A 입력 B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">XOR 게이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전가산기 (Full Adder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0 or 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과값(Sum)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법의 원리 (Sub = 1, 즉 뺄셈일 때):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. B가 XOR 게이트를 통과하며 Sub(1)과 만나 모두 뒤집힘(~B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Sub(1) 신호가 덧셈기의 첫 C_in으로 흘러 들어가 +1 역할을 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과적으로 전가산기는 A + (~B) + 1 연산을 수행 = A - B!</div></div>
+</div>
+</div>
+
+
+
+이 회로의 천재성은 'Sub' 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 한 가닥이 <strong>XOR 게이트의 반전 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>와 <strong>첫 번째 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">전가산기</a>의 캐리 입력(+1)</strong>이라는 두 가지 역할을 동시에 수행하도록 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)된 것에 있다. 단 1가닥의 전선 추가로 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수천 개짜리 뺄셈기를 완전히 대체해 버린 것이다.
 
 - **📢 섹션 요약 비유**: 가감산기의 XOR 게이트는 기차 선로의 '방향 전환기'다. 덧셈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 넣으면 기차가 원래 선로([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) B 그대로)를 타지만, 뺄셈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 넣으면 기차가 방향을 180도 틀어 거꾸로(반전된 B) 달리게 만든다.
 
@@ -67,9 +63,9 @@ $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$�
 
 | 항목 | 분리된 덧셈기 + 뺄셈기 구조 | 가감산기 일체형 구조 (Adder-[Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)) |
 |:---|:---|:---|
-| **면적 ([Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) Count)** | 2배의 면적 차지 (최악의 낭비) | **절반으로 감소 (XOR 게이트 비용만 추가)** |
+| <strong>면적 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/">Transistor</a> Count)</strong> | 2배의 면적 차지 (최악의 낭비) | **절반으로 감소 (XOR 게이트 비용만 추가)** |
 | **소비 전력** | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 2배 발생 | 1개 회로만 가동되므로 효율 극대화 |
-| **연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Delay)** | MUX를 통해 결과를 골라야 함 | XOR 게이트 하나를 거치는 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 존재 |
+| <strong>연산 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Delay)</strong> | MUX를 통해 결과를 골라야 함 | XOR 게이트 하나를 거치는 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 존재 |
 | **확장성** | 곱셈, 나눗셈 확장 복잡함 | 시프터(Shifter) 결합으로 곱셈/나눗셈 통합 용이 |
 
 현대의 모든 범용 CPU, [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU), 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기(DSP)의 연산 코어는 예외 없이 이 일체형 가감산기 로직을 채택하고 있다. 면적과 전력 소모를 50% 줄인 이 압도적인 효율성 앞에서는 그 어떤 다른 대안도 살아남을 수 없었다.
@@ -81,8 +77,8 @@ $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 감지 로직의 융합**: 가감산기가 뺄셈을 수행할 때, 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)에서 "들어온 캐리(C_in)"와 "나가는 캐리(C_out)"를 빼내어 또 다른 XOR 게이트에 물려둔다. 두 캐리가 다르면(결과가 1) 즉각 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(V [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))를 띄워, `A - (-B)` 같은 치명적인 양수 폭발 버그를 OS 차원의 예외(Exception)로 던져버리는 방어 체계다.
-2. **리플 캐리(Ripple Carry) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 하드웨어적 병목 탈출**: 가감산기를 64비트 크기로 만들면 캐리(올림수)가 1번부터 64번 [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)까지 도미노처럼 넘어갈 때까지 엄청난 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생한다. 아키텍트는 덧셈을 기다리지 않고 수식 전개로 캐리를 한방에 찔러주는 CLA(Carry Look-ahead) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 가감산기 회로 위에 덮어씌워 광속의 GHz 클럭을 달성한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>) 감지 로직의 융합</strong>: 가감산기가 뺄셈을 수행할 때, 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)에서 "들어온 캐리(C_in)"와 "나가는 캐리(C_out)"를 빼내어 또 다른 XOR 게이트에 물려둔다. 두 캐리가 다르면(결과가 1) 즉각 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(V [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))를 띄워, `A - (-B)` 같은 치명적인 양수 폭발 버그를 OS 차원의 예외(Exception)로 던져버리는 방어 체계다.
+2. <strong>리플 캐리(Ripple Carry) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 하드웨어적 병목 탈출</strong>: 가감산기를 64비트 크기로 만들면 캐리(올림수)가 1번부터 64번 [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)까지 도미노처럼 넘어갈 때까지 엄청난 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생한다. 아키텍트는 덧셈을 기다리지 않고 수식 전개로 캐리를 한방에 찔러주는 CLA(Carry Look-ahead) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 가감산기 회로 위에 덮어씌워 광속의 GHz 클럭을 달성한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **컴파일러 단에서의 불필요한 뺄셈기 우회 로직 작성**: 일부 개발자가 속도를 높이겠다고 `A - B` 대신 `A + (~B + 1)` 코드를 소프트웨어 레벨(C언어)에서 직접 풀어쓰는 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 파괴 만행. 최신 컴파일러와 하드웨어는 애초에 이 두 수식이 물리적으로 100% 동일한 쇳덩어리(가감산기) 경로를 타도록 설계되어 있다. 의미 없는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산 꼼수는 오히려 컴파일러의 파이프라인 최적화를 방해한다.
@@ -105,27 +101,29 @@ $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) ([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))** | 가감산기를 구성하는 레고 블록. A, B [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 밑에서 올라온 올림수(Carry)까지 3비트를 더해 합과 새로운 올림수를 내뿜는 회로 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">전가산기</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">Full Adder</a>)</strong> | 가감산기를 구성하는 레고 블록. A, B [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 밑에서 올라온 올림수(Carry)까지 3비트를 더해 합과 새로운 올림수를 내뿜는 회로 |
 | **2의 보수 (2's Complement)** | $A - B = A + (-B)$ 수학적 마법. 가감산기 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 존재할 수 있는 유일한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근간 |
 | **캐리 예측 가산기 (CLA)** | 64비트 가감산기가 덧셈 도미노(Ripple)를 기다리지 않고 수학 공식으로 캐리를 미리 찍어내어 광속 연산을 보장하는 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-덧셈기 회로망(Adder)의 완성
-    │
-    ▼
-뺄셈 연산 처리를 위한 2의 보수(2's Complement) 체계 적용
-    │
-    ▼
-XOR 게이트와 첫 번째 캐리(C_in)를 활용한 덧셈/뺄셈 통합 회로 발명
-    │
-    ▼
-오버플로우 감지 로직 융합 및 캐리 예측 로직(CLA) 부착에 의한 고속화
-    │
-    ▼
-현대 프로세서(ALU)의 가장 기초적인 정수 연산 쇳덩어리 블록으로 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">덧셈기 회로망(Adder)의 완성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">뺄셈 연산 처리를 위한 2의 보수(2's Complement) 체계 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">XOR 게이트와 첫 번째 캐리(C_in)를 활용한 덧셈/뺄셈 통합 회로 발명</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오버플로우 감지 로직 융합 및 캐리 예측 로직(CLA) 부착에 의한 고속화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 프로세서(ALU)의 가장 기초적인 정수 연산 쇳덩어리 블록으로 표준화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "덧셈 구현 → 음수 수학적 처리 정립 → 하드웨어 일원화(비용 절감) → 병목 제거 및 고속화"로 귀결되는 연산 코어 회로의 발전을 보여준다.
 

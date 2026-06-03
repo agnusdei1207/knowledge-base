@@ -25,19 +25,22 @@ PKCS#7/CMS는 암호 연산 결과를 "교환 가능한 문서"로 만드는 표
 
 아래 그림은 CMS가 왜 "포장 표준"인지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Raw crypto output vs CMS container                                   │
-├──────────────────────────┬───────────────────────────────────────────┤
-│ Raw signature / cipher   │ CMS container                            │
-│ - payload location vague │ - content type identified                │
-│ - cert chain separate    │ - signer / recipient metadata bundled    │
-│ - recipient list unclear │ - certificates can travel together       │
-│ - tool-specific parsing  │ - common syntax across products          │
-└──────────────────────────┴───────────────────────────────────────────┘
-```
 
-핵심은 CMS가 암호학적 강도를 높이는 장치가 아니라, **암호 결과가 해석될 문맥을 고정하는 장치**라는 점이다. 그래서 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 환경에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택만큼이나 포맷 일관성이 중요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw crypto output vs CMS container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw signature / cipher</div><div class="kb-diagram-cell">CMS container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- payload location vague</div><div class="kb-diagram-cell">- content type identified</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- cert chain separate</div><div class="kb-diagram-cell">- signer / recipient metadata bundled</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- recipient list unclear</div><div class="kb-diagram-cell">- certificates can travel together</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- tool-specific parsing</div><div class="kb-diagram-cell">- common syntax across products</div></div>
+</div>
+</div>
+
+
+
+핵심은 CMS가 암호학적 강도를 높이는 장치가 아니라, <strong>암호 결과가 해석될 문맥을 고정하는 장치</strong>라는 점이다. 그래서 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 환경에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택만큼이나 포맷 일관성이 중요하다.
 
 - **📢 섹션 요약 비유**: 자물쇠만 튼튼하다고 택배가 완성되는 것은 아니다. 상자 안에 무엇이 들었는지, 누구만 열 수 있는지, 보증서가 어디 붙었는지까지 정리된 송장과 포장이 있어야 제대로 전달된다.
 
@@ -59,25 +62,24 @@ CMS의 외곽 구조는 `ContentInfo`다. 이 바깥 래퍼 안에 "이 안에 �
 
 또한 CMS는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐지 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))을 함께 운반할 수 있어, 수신자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 필요한 부가 자료를 한 번에 확보하게 해 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Generic CMS packaging flow                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Content ----------------------------------------------------------┐  │
-│   ├─ hash + signer private key ------------------------------┐    │  │
-│   │                                                          ▼    │  │
-│   │                                                    SignerInfo  │  │
-│   ├─ content-encryption key (CEK) ----------------------┐          │  │
-│   │                                                     ▼          │  │
-│   │                                           EncryptedContent     │  │
-│   └─ CEK wrapped for each recipient ----------------┐              │  │
-│                                                      ▼              │  │
-│                                                RecipientInfo        │  │
-│ Certificates / CRLs ------------------------------> Bundle          │  │
-│                                                                    │  │
-│ Final CMS = ContentInfo { type + payload + metadata } ------------┘  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Generic CMS packaging flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Content ----------------------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hash + signer private key ------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SignerInfo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ content-encryption key (CEK) ----------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EncryptedContent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CEK wrapped for each recipient ----------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RecipientInfo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificates / CRLs ------------------------------&gt; Bundle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final CMS = ContentInfo { type + payload + metadata } ------------</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 선택이 `attached`와 `detached`다. 원문을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 넣으면 전달 편의성은 좋아지지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커지고, 원문을 밖에 두면 같은 원본에 대한 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 여러 시스템이 반복하기 쉽다. [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)이나 대용량 배포에서는 detached 구조가, 메일 첨부처럼 한 덩어리 전송이 필요한 경우에는 attached 구조가 자주 쓰인다.
 
@@ -96,7 +98,7 @@ CMS의 외곽 구조는 `ContentInfo`다. 이 바깥 래퍼 안에 "이 안에 �
 | CMS / PKCS#7 | 콘텐츠, 서명, 수신자 정보, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인 | 없음 | 서명 메시지, 암호 메시지, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 번들 |
 | PKCS#12 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 개인키 묶음 | 있음 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 사용자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 이동 |
 
-CMS는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 "만드는" 형식이 아니라 **이미 존재하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 서명 결과를 운반하는 형식**이다. 그래서 앞 단계의 PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 뒤 단계의 X.509·PKCS#12와 연결되지만 역할은 겹치지 않는다. 또 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 영역의 JOSE (JavaScript Object Signing and Encryption)가 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 친화적이라면, CMS는 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·ASN.1 기반 생태계에 더 강하다. 즉 둘 다 서명과 암호화를 다루지만, **운반 문법과 주변 생태계가 다르다**.
+CMS는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 "만드는" 형식이 아니라 <strong>이미 존재하는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서와 서명 결과를 운반하는 형식</strong>이다. 그래서 앞 단계의 PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 뒤 단계의 X.509·PKCS#12와 연결되지만 역할은 겹치지 않는다. 또 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 영역의 JOSE (JavaScript Object Signing and Encryption)가 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 친화적이라면, CMS는 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·ASN.1 기반 생태계에 더 강하다. 즉 둘 다 서명과 암호화를 다루지만, **운반 문법과 주변 생태계가 다르다**.
 
 이 차이는 활용처로도 이어진다. S/MIME는 CMS를 이용해 메일 본문과 첨부파일을 서명·암호화하고, Microsoft Authenticode는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시에 대한 서명 정보를 CMS 구조로 붙인다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 배포용 `.p7b`는 실질적으로 서명 없는 `SignedData` 변형을 이용해 체인만 전달한다.
 
@@ -131,11 +133,11 @@ CMS는 특히 엔드포인트 보안에서 유용하다. 메일 클라이언트,
 
 ## Ⅴ. 기대효과 및 결론
 
-CMS의 가장 큰 효과는 **[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 있는 암호 메시지 유통**이다. 서명, 암호화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인을 각각 따로 관리하던 복잡성을 하나의 문법으로 묶으면서, 메일·[코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)·문서 보관 시스템이 같은 기본 구조를 공유할 수 있게 됐다. 다중 서명, 다중 수신자, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 번들 같은 확장도 같은 프레임 안에서 다룰 수 있다.
+CMS의 가장 큰 효과는 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a> 있는 암호 메시지 유통</strong>이다. 서명, 암호화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인을 각각 따로 관리하던 복잡성을 하나의 문법으로 묶으면서, 메일·[코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)·문서 보관 시스템이 같은 기본 구조를 공유할 수 있게 됐다. 다중 서명, 다중 수신자, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 번들 같은 확장도 같은 프레임 안에서 다룰 수 있다.
 
 하지만 CMS만 있다고 신뢰가 성립하는 것은 아니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 폐지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 타임스탬프, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 신뢰 루트 배포는 여전히 별도의 운영 문제다. 또한 ASN.1 기반 포맷 특성상 구현 복잡도가 높고, 파서 품질이 약하면 오히려 취약점이 생길 수 있다. 앞으로는 CAdES (CMS Advanced Electronic Signatures) 같은 장기 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) 확장과 포스트 양자 암호 ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/), [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수용이 더 중요해질 것이다.
 
-결국 PKCS#7/CMS는 "암호 기술 그 자체"보다 **암호 결과를 안전하게 운반하는 표준 배송 규격**으로 기억하는 것이 정확하다. 신뢰는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 만들고, CMS는 그 신뢰 재료를 분실되지 않게 묶어 전달한다.
+결국 PKCS#7/CMS는 "암호 기술 그 자체"보다 <strong>암호 결과를 안전하게 운반하는 표준 배송 규격</strong>으로 기억하는 것이 정확하다. 신뢰는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 만들고, CMS는 그 신뢰 재료를 분실되지 않게 묶어 전달한다.
 
 - **📢 섹션 요약 비유**: 좋은 포장 상자는 내용물을 대신해 주지 않지만, 내용물이 끝까지 제모습을 유지하도록 지켜 준다. CMS는 암호기술의 힘을 현장까지 안전하게 실어 나르는 운송 상자다.
 
@@ -154,25 +156,24 @@ CMS의 가장 큰 효과는 **[상호운용성](/knowledge-base/studynote/04_sof
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Key pair and certificate issuance
-            │
-            ▼
-PKCS#10 CSR submission
-            │
-            ▼
-X.509 certificate issuance
-            │
-            ▼
-CMS ContentInfo packaging
-      ┌─────┼───────────────┐
-      ▼                     ▼
- SignedData            EnvelopedData
-      │                     │
-      └────────────┬────────┘
-                   ▼
-S/MIME / code signing / certificate bundle distribution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Key pair and certificate issuance</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKCS#10 CSR submission</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">X.509 certificate issuance</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CMS ContentInfo packaging</div>
+<div class="kb-diagram-note">SignedData EnvelopedData</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S/MIME / code signing / certificate bundle distribution</div>
+</div>
+</div>
+
+
 
 이 흐름은 "키 발급 준비 → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 확보 → 서명·암호문 포장 → 실제 배포 채널 적용"으로 CMS가 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 운용의 중간 배송 계층에 놓인다는 점을 보여 준다.
 

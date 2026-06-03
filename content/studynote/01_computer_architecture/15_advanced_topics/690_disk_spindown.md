@@ -35,16 +35,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 일반적인 상태 변화를 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  HDD power state transition                  │
-├──────────────────────────────────────────────────────────────┤
-│ Active/Idle (spinning) -- inactivity timer --> Standby      │
-│         ▲                                         │          │
-│         └----------- read/write request ----------┘          │
-│                      spin-up latency                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD power state transition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active/Idle (spinning) -- inactivity timer --&gt; Standby</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">----------- read/write request ----------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spin-up latency</div></div>
+</div>
+</div>
+
+
 
 실제 명령 수준에서는 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/))나 SAS ([Serial Attached SCSI](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/340_scsi_sas/)) 장치가 standby 관련 전원 관리 명령을 해석한다. 이때 중요한 것은 단순 모터 정지보다도, 복귀 시 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 급증과 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제어하는 것이다. 여러 디스크가 한꺼번에 깨어나면 전원 장치가 순간 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 감당하지 못할 수 있어 staggered spin-up 같은 순차 기동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 쓰인다.
 
@@ -129,21 +131,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Always-spinning HDD arrays
-          │
-          ▼
-Idle timer based spin-down
-          │
-          ▼
-Cache-aware power management
-          │
-          ▼
-MAID style selective wake-up
-          │
-          ▼
-Deep archive with tape / cloud archive
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Always-spinning HDD arrays</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Idle timer based spin-down</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cache-aware power management</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MAID style selective wake-up</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Deep archive with tape / cloud archive</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 개별 디스크 절전에서 시작해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도 기반의 계층형 아카이브로 발전하는 방향을 보여 준다.
 

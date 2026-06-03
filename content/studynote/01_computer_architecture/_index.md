@@ -1,5 +1,5 @@
 +++
-title = "🏛️ 01: 컴퓨터 구조 (Computer Architecture)"
+title = "01: 컴퓨터 구조 (Computer Architecture)"
 
 [extra]
 tags = ["studynote-computer-architecture"]
@@ -20,8 +20,8 @@ tags = ["studynote-computer-architecture"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-**컴퓨터 구조(Computer Architecture)**는 디지털 논리 회로라는 물리적 실체를 이용하여 인간의 논리 체계를 처리할 수 있는 추상적 연산 장치로 변환하는 설계 철학이자 공학적 실천의 결정체다. 이는 단순히 부품을 조립하는 단계를 넘어, "어떻게 하면 전력 소모(Power)를 최소화하면서 데이터 처리량(Throughput)을 극한으로 끌어올릴 것인가?"라는 근본적인 아키텍처적 질문에 답하는 과정이다.
-초기 에니악(ENIAC)과 같은 배선반(Hard-wired) 방식의 컴퓨터는 프로그램이 바뀔 때마다 물리적 회로를 재조립해야 하는 치명적 한계를 가졌다. 이를 극복하기 위해 폰 노이만(John von Neumann)이 제안한 **내장형 프로그램(Stored-program) 방식**은 메모리에 데이터와 명령어를 함께 저장하는 패러다임 혁명을 일으켰으나, CPU와 메모리 간의 속도 차이로 인한 **'폰 노이만 병목(Von Neumann Bottleneck)'**이라는 구조적 결함을 낳았다. 현대의 컴퓨터 구조는 이 병목을 '파단'하기 위한 파이프라이닝, 캐시 계층, 그리고 멀티코어 설계의 눈물겨운 진화 역사라 할 수 있다.
+<strong>컴퓨터 구조(Computer Architecture)</strong>는 디지털 논리 회로라는 물리적 실체를 이용하여 인간의 논리 체계를 처리할 수 있는 추상적 연산 장치로 변환하는 설계 철학이자 공학적 실천의 결정체다. 이는 단순히 부품을 조립하는 단계를 넘어, "어떻게 하면 전력 소모(Power)를 최소화하면서 데이터 처리량(Throughput)을 극한으로 끌어올릴 것인가?"라는 근본적인 아키텍처적 질문에 답하는 과정이다.
+초기 에니악(ENIAC)과 같은 배선반(Hard-wired) 방식의 컴퓨터는 프로그램이 바뀔 때마다 물리적 회로를 재조립해야 하는 치명적 한계를 가졌다. 이를 극복하기 위해 폰 노이만(John von Neumann)이 제안한 <strong>내장형 프로그램(Stored-program) 방식</strong>은 메모리에 데이터와 명령어를 함께 저장하는 패러다임 혁명을 일으켰으나, CPU와 메모리 간의 속도 차이로 인한 <strong>'폰 노이만 병목(Von Neumann Bottleneck)'</strong>이라는 구조적 결함을 낳았다. 현대의 컴퓨터 구조는 이 병목을 '파단'하기 위한 파이프라이닝, 캐시 계층, 그리고 멀티코어 설계의 눈물겨운 진화 역사라 할 수 있다.
 
 ---
 
@@ -39,34 +39,32 @@ tags = ["studynote-computer-architecture"]
 | **Pipeline** | 명령어 병렬 실행 | IF-ID-EX-MEM-WB 단계를 중첩시켜 IPC(Instruction Per Cycle) 극대화 | Branch Prediction, Forwarding | 공장 컨베이어 벨트 |
 
 #### 2. CPU 파이프라인 및 메모리 계층 아키텍처 다이어그램
-```text
-    [ 비순차 슈퍼스칼라 실행 아키텍처 및 메모리 계층 구조 ]
-    [ Superscalar Out-of-Order Execution Architecture & Memory Hierarchy ]
-    
-    (명령어 인출 및 분기 예측 / Instruction Fetch & Predict)
-    +-------------------------------------------+
-    | Branch Predictor (BHT/BTB)  <---------+   |
-    | I-Cache (L1) -> Fetch Unit            |   |
-    +-------------------|-------------------+   |
-                        v                       | (오예측 플러시 / Mispredict Flush)
-    +---------------------------------------+   |
-    | Decode & Register Renaming (RAT)      | --+
-    | (디코딩 및 레지스터 리네이밍)         |
-    +-------------------|-------------------+
-                        v
-    +---------------------------------------+
-    | Reorder Buffer (ROB) & Issue Queue    |
-    | (재정렬 버퍼 및 이슈 큐)              |
-    +---------------------------------------+
-            /           |           \ (비순차 실행 / Out of Order Issue)
-    +-------v---+ +-----v-----+ +---v-------+
-    | ALU (정수)| | FPU (부동) | | LSU (메모리)| --> 데이터 캐시 / Data Cache (L1) -> L2 Cache
-    +-------+---+ +-----+-----+ +---+-------+                                    |
-            \           |           /                                            v
-    +-------v-----------v-----------v-------+                               [ L3 Cache ]
-    | Commit Unit (순차 은퇴 / In-Order)    |                                    |
-    +---------------------------------------+                               [ Main RAM ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비순차 슈퍼스칼라 실행 아키텍처 및 메모리 계층 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Superscalar Out-of-Order Execution Architecture &amp; Memory Hierarchy</div></div>
+<div class="kb-diagram-note">(명령어 인출 및 분기 예측 / Instruction Fetch &amp; Predict)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch Predictor (BHT/BTB) &lt;---------+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I-Cache (L1) -&gt; Fetch Unit</div></div>
+<div class="kb-diagram-note">v | (오예측 플러시 / Mispredict Flush)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode &amp; Register Renaming (RAT)</div><div class="kb-diagram-cell">--+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디코딩 및 레지스터 리네이밍)</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reorder Buffer (ROB) &amp; Issue Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재정렬 버퍼 및 이슈 큐)</div></div>
+<div class="kb-diagram-note">/ | \ (비순차 실행 / Out of Order Issue)</div>
+<div class="kb-diagram-note">+-------v---+ +-----v-----+ +---v-------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (정수)</div><div class="kb-diagram-cell">FPU (부동)</div><div class="kb-diagram-cell">LSU (메모리)</div><div class="kb-diagram-cell">--&gt; 데이터 캐시 / Data Cache (L1) -&gt; L2 Cache</div></div>
+<div class="kb-diagram-note">\ | / v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+-------v-----------v-----------v-------+</div><div class="kb-diagram-node">L3 Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Unit (순차 은퇴 / In-Order)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+---------------------------------------+</div><div class="kb-diagram-node">Main RAM</div></div>
+</div>
+</div>
+
+
 
 #### 3. 파이프라이닝 동작 원리 및 분기 예측 수식
 1. **IF (Fetch)**: PC(Program Counter)가 가리키는 주소의 명령어를 L1 I-Cache에서 인출.
@@ -103,11 +101,11 @@ tags = ["studynote-computer-architecture"]
 
 **시나리오 1: 대규모 인메모리(In-Memory) DB 서버 아키텍처 선정**
 - **문제 상황**: 초당 수백만 건의 트랜잭션을 처리하는 Redis 클러스터에서 잦은 L3 캐시 미스(Cache Miss)와 메모리 대역폭(Bandwidth) 병목으로 인해 TPS가 급감.
-- **기술사적 결단**: 단순 코어 클럭(Frequency)이 높은 x86 CPU 대신, L3 캐시 용량이 압도적으로 크고 메모리 채널이 다중화된(예: 8채널 DDR5) **EPYC 또는 Threadripper 급 다코어 아키텍처**를 채택. 아울러 NUMA(Non-Uniform Memory Access) 아키텍처의 특성을 고려하여, OS 커널 수준에서 프로세스와 해당 프로세스가 사용하는 메모리 노드를 일치시키는 **NUMA Binding (CPU Affinity)** 정책을 강제 적용.
+- **기술사적 결단**: 단순 코어 클럭(Frequency)이 높은 x86 CPU 대신, L3 캐시 용량이 압도적으로 크고 메모리 채널이 다중화된(예: 8채널 DDR5) <strong>EPYC 또는 Threadripper 급 다코어 아키텍처</strong>를 채택. 아울러 NUMA(Non-Uniform Memory Access) 아키텍처의 특성을 고려하여, OS 커널 수준에서 프로세스와 해당 프로세스가 사용하는 메모리 노드를 일치시키는 **NUMA Binding (CPU Affinity)** 정책을 강제 적용.
 
 **시나리오 2: 초저전력 엣지(Edge) AI 디바이스 설계**
 - **문제 상황**: 스마트 팩토리의 비전 검사 시스템에서 딥러닝 추론(Inference) 시 발열과 전력 소모가 극심하여 배터리로 구동 불가.
-- **기술사적 결단**: 범용 CPU 연산을 배제하고, 행렬 곱셈(MAC) 연산에 특화된 **NPU(Neural Processing Unit) 가속기**가 집적된 SoC를 설계. 모델 양자화(INT8 Quantization)를 통해 산술 유닛의 물리적 면적을 줄이고, 오프칩(Off-chip) DRAM 접근을 최소화하기 위한 **SRAM 기반의 온칩(On-chip) 메모리 아키텍처**를 구성.
+- **기술사적 결단**: 범용 CPU 연산을 배제하고, 행렬 곱셈(MAC) 연산에 특화된 <strong>NPU(Neural Processing Unit) 가속기</strong>가 집적된 SoC를 설계. 모델 양자화(INT8 Quantization)를 통해 산술 유닛의 물리적 면적을 줄이고, 오프칩(Off-chip) DRAM 접근을 최소화하기 위한 <strong>SRAM 기반의 온칩(On-chip) 메모리 아키텍처</strong>를 구성.
 
 **도입 시 고려사항 (체크리스트)**
 - **기술적**: 애플리케이션의 워크로드가 연산 위주(Compute-bound)인가, 메모리 위주(Memory-bound)인가?
@@ -126,7 +124,7 @@ tags = ["studynote-computer-architecture"]
 | **SIMD (AVX-512) 적용**| 벡터 및 멀티미디어 연산 | 단일 클럭 당 데이터 처리량 최대 16배(32비트 기준) 폭증 |
 
 **미래 전망 및 진화 방향**:
-무어의 법칙(Moore's Law)이 트랜지스터 크기의 원자 단위 도달로 인해 파단에 이르렀다. 향후 컴퓨터 구조는 단일 칩의 미세화를 넘어, 여러 다이(Die)를 하나의 패키지로 묶는 **칩렛(Chiplet) 아키텍처(UCIe 표준)**로 진화 중이다. 또한, 데이터가 연산 장치로 이동하는 오버헤드를 없애기 위해 메모리 내부에서 직접 연산을 수행하는 **PIM(Processing-In-Memory)**이 차세대 폰 노이만 병목의 최종 해결책이 될 것이다.
+무어의 법칙(Moore's Law)이 트랜지스터 크기의 원자 단위 도달로 인해 파단에 이르렀다. 향후 컴퓨터 구조는 단일 칩의 미세화를 넘어, 여러 다이(Die)를 하나의 패키지로 묶는 <strong>칩렛(Chiplet) 아키텍처(UCIe 표준)</strong>로 진화 중이다. 또한, 데이터가 연산 장치로 이동하는 오버헤드를 없애기 위해 메모리 내부에서 직접 연산을 수행하는 <strong>PIM(Processing-In-Memory)</strong>이 차세대 폰 노이만 병목의 최종 해결책이 될 것이다.
 
 **※ 참고 표준/가이드**:
 - IEEE 754: 부동소수점 산술 연산 국제 표준.

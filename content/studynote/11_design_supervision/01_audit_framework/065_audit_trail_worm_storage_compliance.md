@@ -29,17 +29,23 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Event
-  ↓
-Audit Log
-  ↓
-WORM Storage
-  ↓
-Retention / Access Control
-  ↓
-Audit Evidence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Event</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Log</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">WORM Storage</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Retention / Access Control</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Evidence</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -109,29 +115,41 @@ Audit Evidence
 
 ## 관련 개념 맵
 
-```text
-Event
-  ↓
-Audit Trail
-  ↓
-WORM Storage
-  ↓
-Compliance Evidence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Event</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Trail</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">WORM Storage</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Compliance Evidence</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Log
-  ↓
-Audit Trail
-  ↓
-WORM
-  ↓
-Compliance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Log</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Trail</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">WORM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Compliance</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -18,9 +18,9 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-지난 수십 년간 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)는 DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)처럼 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한곳으로 모으는 **중앙 집중화**를 지향했다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 폭발하고 비즈니스가 복잡해지면서, 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 모든 부서의 요구사항을 처리하지 못하는 '병목 현상'과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미를 제대로 파악하지 못하는 '품질 저하' 문제가 발생했다.
+지난 수십 년간 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)는 DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)처럼 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한곳으로 모으는 <strong>중앙 집중화</strong>를 지향했다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 폭발하고 비즈니스가 복잡해지면서, 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 모든 부서의 요구사항을 처리하지 못하는 '병목 현상'과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미를 제대로 파악하지 못하는 '품질 저하' 문제가 발생했다.
 
-자마크 데가니(Zhamak Dehghani)가 제안한 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 이러한 한계를 극복하기 위해 기술적 해결보다는 **조직 구조와 책임의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**에 초점을 맞춘다.
+자마크 데가니(Zhamak Dehghani)가 제안한 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 이러한 한계를 극복하기 위해 기술적 해결보다는 <strong>조직 구조와 책임의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>에 초점을 맞춘다.
 
 - **📢 섹션 요약 비유**: 모든 요리를 중앙 집중 식당(Central Kitchen)에서 만들어 배달하는 방식에서, 각 동네 맛집([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Team)들이 직접 요리하고 손님에게 서빙하는 방식으로 전환하는 것과 같다.
 
@@ -37,15 +37,20 @@ tags = ["studynote-enterprise"]
 | 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라 | 중앙 팀은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 기능만 제공 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 인프라 걱정 없이 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 개발 |
 | 연합 거버넌스 | 전사 표준은 지키되 실행은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 위임 | [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 유지와 자율성 사이의 균형 |
 
-```text
-[도메인 A: 마케팅] ──▶ [데이터 제품 A] ──┐
-                                          │
-[도메인 B: 물류]   ──▶ [데이터 제품 B] ──┼──▶ [전사 데이터 메시망]
-                                          │      (표준 API 연동)
-[도메인 C: 재무]   ──▶ [데이터 제품 C] ──┘
-          ▲
-          └────── [중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 A: 마케팅</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 A</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 B: 물류</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전사 데이터 메시망</div></div>
+<div class="kb-diagram-note">(표준 API 연동)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 C: 재무</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 C</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 중앙 도서관이 모든 책을 정리하는 대신, 각 전문 학과([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 전공 서적을 관리하고 도서관은 책 대여 시스템(인프라)과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙(거버넌스)만 제공하는 원리다.
 
@@ -53,7 +58,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 기술의 차이라기보다 **관리 철학**의 차이다.
+[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 기술의 차이라기보다 <strong>관리 철학</strong>의 차이다.
 
 | 항목 | [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) (중앙 집중형) | [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형) |
 |:---|:---|:---|
@@ -70,7 +75,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 기술 도입보다 **조직 문화의 변화**가 훨씬 어렵다. 현업 부서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리라는 추가 업무를 맡아야 하므로 강력한 경영진의 의지와 적절한 보상 체계가 필수적이다.
+[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 기술 도입보다 <strong>조직 문화의 변화</strong>가 훨씬 어렵다. 현업 부서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리라는 추가 업무를 맡아야 하므로 강력한 경영진의 의지와 적절한 보상 체계가 필수적이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 현업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요청을 처리하는 데 수주 이상 걸리는가?
@@ -78,7 +83,7 @@ tags = ["studynote-enterprise"]
 3. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀들이 각자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 다룰 수 있는 최소한의 역량을 갖추었는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 강조하고 **연합 거버넌스(표준)**를 무시할 경우, 부서 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 달라 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 합칠 수 없는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))'가 재현될 위험이 크다.
+- [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 강조하고 <strong>연합 거버넌스(표준)</strong>를 무시할 경우, 부서 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 달라 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 합칠 수 없는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))'가 재현될 위험이 크다.
 
 - **📢 섹션 요약 비유**: 각자 요리하라고 했더니 식기 규격이나 위생 기준(Standard)을 안 지켜서, 손님이 여러 집 음식을 섞어 먹을 수 없게 되는 상황을 경계해야 한다.
 
@@ -104,21 +109,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-중앙 집중형 데이터 레이크 - 병목·소유권 혼란
-    │
-    ▼
-데이터 플랫폼 팀 단독 관리 → 확장성 한계
-    │
-    ▼
-Data Mesh 패러다임 - 도메인 소유권 분산
-    │
-    ▼
-Data Product + 셀프서브 플랫폼 + 연합 거버넌스
-    │
-    ▼
-Federated Computational Governance 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 집중형 데이터 레이크 - 병목·소유권 혼란</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 플랫폼 팀 단독 관리 → 확장성 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Mesh 패러다임 - 도메인 소유권 분산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Product + 셀프서브 플랫폼 + 연합 거버넌스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Federated Computational Governance 표준화</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/), [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership, [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/), Self-Serve Platform, Federated Governance, Zhamak Dehghani
 

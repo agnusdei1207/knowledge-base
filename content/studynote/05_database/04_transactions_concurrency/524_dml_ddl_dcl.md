@@ -21,13 +21,16 @@ tags = ["studynote-database"]
 
 [EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 분석계는 적재 주기, 비정규화, 다차원 집계가 핵심이므로 운영계와 다른 관점이 필요하다. 운영계 구조를 그대로 가져오면 조인과 스캔 비용이 과도해진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Source -> Pipeline -> Current concept -> Report              │
-├──────────────────────────────────────────────────────────────┤
-│ Raw data -> model/aggregate -> insight                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source -&gt; Pipeline -&gt; Current concept -&gt; Report</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw data -&gt; model/aggregate -&gt; insight</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -46,13 +49,16 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `정보 공학 방법론 데이터 주도적 생명 주기`·`B+Tree 인덱스 스플릿 병합 오버헤드`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Ingest -> transform -> current concept -> serve              │
-├──────────────────────────────────────────────────────────────┤
-│ Batch/stream -> model -> analytic query                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest -&gt; transform -&gt; current concept -&gt; serve</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch/stream -&gt; model -&gt; analytic query</div></div>
+</div>
+</div>
+
+
 
 핵심은 [EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -113,15 +119,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정보 공학 방법론 데이터 주도적 생명 주기]
-    │
-    ▼
-[EER 모델 서브타입 상속 특수화]
-    │
-    ├──▶ [B+Tree 인덱스 스플릿 병합 오버헤드]
-    └──▶ [해시 조인 탐색 비용 및 메모리 스왑 오버헤드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 공학 방법론 데이터 주도적 생명 주기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EER 모델 서브타입 상속 특수화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B+Tree 인덱스 스플릿 병합 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 조인 탐색 비용 및 메모리 스왑 오버헤드</div></div>
+</div>
+</div>
+
+
 
 정보 공학 방법론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도적 생명 주기에서 출발한 논점이 [EER](/knowledge-base/studynote/05_database/02_modeling_normalization/089_eer_enhanced_er_model_specialization/) 모델 서브타입 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 특수화에서 핵심 판단으로 모이고, 이후 B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스플릿 병합 오버헤드·[해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) 탐색 비용 및 메모리 스왑 오버헤드 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

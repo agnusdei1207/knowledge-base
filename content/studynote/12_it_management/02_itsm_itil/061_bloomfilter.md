@@ -29,14 +29,19 @@ Bloom Filter는 정확도를 조금 양보하는 대신, 메모리와 속도를 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-삽입
-원소 -> h1,h2,...,hk -> 비트 배열의 k개 위치를 1로 설정
 
-조회
-원소 -> h1,h2,...,hk -> 모두 1이면 "있을 가능성"
-                              하나라도 0이면 "없음"
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">삽입</div>
+<div class="kb-diagram-note">원소 -&gt; h1,h2,...,hk -&gt; 비트 배열의 k개 위치를 1로 설정</div>
+<div class="kb-diagram-note">조회</div>
+<div class="kb-diagram-note">원소 -&gt; h1,h2,...,hk -&gt; 모두 1이면 "있을 가능성"</div>
+<div class="kb-diagram-note">하나라도 0이면 "없음"</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -101,33 +106,45 @@ Bloom Filter는 정확도와 자원의 균형을 잘 맞춘 [확률](/knowledge-
 
 ## 관련 개념 맵
 
-```text
-Bit Array
-   ↓
-Bloom Filter
-   ↓
-Probabilistic Membership Test
-   ↓
-Cache / Crawler / Log Dedup
-   ↓
-Large-scale Systems
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bit Array</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Bloom Filter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Probabilistic Membership Test</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cache / Crawler / Log Dedup</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Large-scale Systems</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-HashSet
-   ↓
-Bloom Filter
-   ↓
-Counting Bloom Filter
-   ↓
-Cuckoo Filter
-   ↓
-Approximate Membership Query
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HashSet</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Bloom Filter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Counting Bloom Filter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cuckoo Filter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Approximate Membership Query</div>
+</div>
+</div>
+
+
 
 ---
 

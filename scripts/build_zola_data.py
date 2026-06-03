@@ -87,11 +87,59 @@ def insert_tree(root: dict[str, Any], segments: list[str], item: dict[str, Any])
         children.append(item)
 
 
+def _sort_key_tuple(child: dict[str, Any]) -> tuple:
+    """이모지·특수문자를 제거한 뒤 숫자 prefix를 숫자로 비교하여 올바르게 정렬.
+    만약 title에서 숫자를 찾지 못하면 segment(파일명/폴더명 stem)에서 찾음."""
+    import unicodedata
+    title = child.get("title", "")
+    segment = child.get("segment", "")
+    section = child.get("section", False)
+
+    # 이모지 및 기호 카테고리(S*, P*) 문자 제거
+    cleaned = "".join(
+        c for c in title
+        if unicodedata.category(c) not in {"So", "Sm", "Sc", "Sk", "Po", "Ps", "Pe", "Pi", "Pf", "Pd"}
+    ).strip()
+
+    # 1. Try to get number prefix from the title
+    m = re.match(r"(\d+)", cleaned)
+    if m:
+        num = int(m.group(1))
+    else:
+        # 2. Try to get number prefix from the segment (e.g. 050_d_latch)
+        m_seg = re.match(r"(\d+)", segment)
+        if m_seg:
+            num = int(m_seg.group(1))
+        else:
+            num = 9999
+
+    has_no_number = (num == 9999)
+    # Non-numbered items: folders (section=True, not section=False) first, then files (not section=True)
+    section_group = (not section) if has_no_number else False
+
+    # Return sorting tuple:
+    # 1. has_no_number: Numbered items sort before non-numbered
+    # 2. section_group: Folders sort before files for non-numbered items
+    # 3. num: Numerical ordering
+    # 4. section: Pages/files first, then folders/sections for tie-breakers (e.g., keyword list vs sub-folder)
+    # 5. title lowercased: Alphabetical ordering fallback
+    return (has_no_number, section_group, num, section, cleaned.lower())
+
+
 def sort_tree(node: dict[str, Any]) -> None:
     children = node.get("children", [])
-    children.sort(key=lambda child: (not child.get("section"), child.get("title", "").lower()))
+    children.sort(key=_sort_key_tuple)
     for child in children:
         sort_tree(child)
+
+
+def get_parent_path(path_str: str) -> str:
+    if path_str == "/":
+        return ""
+    parts = path_str.strip("/").split("/")
+    if len(parts) <= 1:
+        return "/"
+    return "/" + "/".join(parts[:-1]) + "/"
 
 
 def main() -> None:
@@ -148,13 +196,18 @@ def main() -> None:
     for doc in docs:
         seen_targets: set[str] = set()
         targets: list[dict[str, Any]] = []
-        for match in WIKILINK_RE.finditer(doc["body"]):
+        body_for_links = doc["body"]
+        for marker in ("## 🔗 이전/다음 글", "### 🔗 이전/다음 글"):
+            if marker in body_for_links:
+                body_for_links = body_for_links.split(marker)[0]
+                break
+        for match in WIKILINK_RE.finditer(body_for_links):
             raw_target = match.group(1).strip()
             stem = Path(raw_target).stem
             target = by_stem.get(stem)
             if target:
                 targets.append(target)
-        for match in MARKDOWN_INTERNAL_RE.finditer(doc["body"]):
+        for match in MARKDOWN_INTERNAL_RE.finditer(body_for_links):
             raw_path = match.group(1).removeprefix(BASE)
             if not raw_path.startswith("/"):
                 raw_path = "/" + raw_path
@@ -170,24 +223,64 @@ def main() -> None:
             backlinks.setdefault(target["path"], []).append({"title": doc["title"], "url": doc["url"]})
             links.append({"source": node_ids[doc["path"]], "target": node_ids[target["path"]]})
 
-    linked_ids: set[str] = set()
+    edge_pairs = {(link["source"], link["target"]) for link in links}
+
+    # Programmatically add directory hierarchy links (parent-child folder links)
+    for doc in docs:
+        current_path = doc["path"]
+        if current_path == "/":
+            continue
+        parent_path = get_parent_path(current_path)
+        if parent_path and parent_path in by_path:
+            parent_doc = by_path[parent_path]
+            existing_backlinks = backlinks.setdefault(parent_path, [])
+            if not any(b["url"] == doc["url"] for b in existing_backlinks):
+                existing_backlinks.append({"title": doc["title"], "url": doc["url"]})
+                
+            p_nid = node_ids[parent_path]
+            c_nid = node_ids[current_path]
+            if (p_nid, c_nid) not in edge_pairs:
+                links.append({"source": p_nid, "target": c_nid})
+                edge_pairs.add((p_nid, c_nid))
+
+    degrees: dict[str, int] = {}
     for link in links:
-        linked_ids.add(link["source"])
-        linked_ids.add(link["target"])
-    selected_ids = set(list(linked_ids)[:360])
-    nodes = [
-        {"id": node_ids[doc["path"]], "title": doc["title"], "url": doc["url"], "section": doc["section"]}
-        for doc in docs
-        if node_ids[doc["path"]] in selected_ids
-    ]
+        degrees[link["source"]] = degrees.get(link["source"], 0) + 1
+        degrees[link["target"]] = degrees.get(link["target"], 0) + 1
+
+    # Adjacency list for neighbors (undirected)
+    nid_to_path = {nid: path for path, nid in node_ids.items()}
+    adj: dict[str, set[str]] = {doc["path"]: set() for doc in docs}
+    for link in links:
+        u_path = nid_to_path[link["source"]]
+        v_path = nid_to_path[link["target"]]
+        adj[u_path].add(v_path)
+        adj[v_path].add(u_path)
+
+    # Fallback global graph.json
+    sorted_linked_ids = sorted(degrees.keys(), key=lambda x: degrees[x], reverse=True)
+    selected_ids = set(sorted_linked_ids[:200])
+    docs_by_nid = {node_ids[doc["path"]]: doc for doc in docs}
+    
+    nodes = []
+    for nid in sorted_linked_ids[:200]:
+        if nid in docs_by_nid:
+            doc = docs_by_nid[nid]
+            nodes.append({
+                "id": nid,
+                "title": doc["title"],
+                "url": doc["url"],
+                "section": doc["section"]
+            })
+            
     graph_links = [
         link for link in links
         if link["source"] in selected_ids and link["target"] in selected_ids
-    ][:900]
+    ][:500]
 
     (OUT / "site-index.json").write_text(json.dumps(tree, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     for doc in docs:
-        filename = quote(doc["path"], safe="") + ".json"
+        filename = doc["path"].replace("/", "_") + ".json"
         (BACKLINKS_OUT / filename).write_text(
             json.dumps(backlinks.get(doc["path"], [])[:80], ensure_ascii=False, separators=(",", ":")),
             encoding="utf-8",

@@ -33,23 +33,25 @@ WMS의 핵심 아키텍처는 물건이 창고에 들어와서 나갈 때까지�
 | 핵심 기능 | 역할 및 원리 | 최적화 목표 |
 | :--- | :--- | :--- |
 | **입고 및 로케이션 할당** | 하역된 상품에 바코드를 스캔하여, 가장 적합한 보관 위치(선반 층/열)를 시스템이 계산해 작업자에게 지시 | 공간 활용도 극대화, 중량/회전율 고려 |
-| **피킹 (Picking) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)** | 여러 주문을 분석하여, 작업자가 창고를 가로지르는 동선을 최소화하는 최단 경로 (Z자형, U자형 등) 제공 | 이동 시간 단축 (동선 낭비 0%) |
+| <strong>피킹 (Picking) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | 여러 주문을 분석하여, 작업자가 창고를 가로지르는 동선을 최소화하는 최단 경로 (Z자형, U자형 등) 제공 | 이동 시간 단축 (동선 낭비 0%) |
 | **출하 및 패킹 검수** | 포장 단계에서 선입선출([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 등 규칙 위반을 최종 검수하고 운송장 자동 발행 | 출고 오류(오배송) 방지율 100% |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                WMS의 피킹 경로 최적화 (Routing) 시각화       │
-├──────────────────────────────────────────────────────────────┤
-│ [ WMS 미도입: 지그재그 난개발 동선 ]                         │
-│ 작업자 출발 ─▶ A열(치약) ─▶ 저끝 Z열(휴지) ─▶ 다시 B열(비누) │
-│ (1시간 동안 5km를 걸으며 체력 방전, 배송 지연)               │
-│                                                              │
-│ [ WMS 알고 조명 최적화: 일방통행 Z-Route 동선 ]              │
-│ 작업자 출발 ─▶ A열(치약) ─▶ B열(비누) ─▶ ... ─▶ Z열(휴지) │
-│ (시스템이 계산한 최단 경로 화면 지시대로 카트만 밀면 됨)     │
-│ (10분 만에 피킹 완료, 동선 효율 극대화)                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WMS의 피킹 경로 최적화 (Routing) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WMS 미도입: 지그재그 난개발 동선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업자 출발 ─▶ A열(치약) ─▶ 저끝 Z열(휴지) ─▶ 다시 B열(비누)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1시간 동안 5km를 걸으며 체력 방전, 배송 지연)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WMS 알고 조명 최적화: 일방통행 Z-Route 동선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업자 출발 ─▶ A열(치약) ─▶ B열(비누) ─▶ ... ─▶ Z열(휴지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템이 계산한 최단 경로 화면 지시대로 카트만 밀면 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10분 만에 피킹 완료, 동선 효율 극대화)</div></div>
+</div>
+</div>
+
+
 
 WMS는 작업자에게 "무엇을 가져오라"고 종이로 주지 않는다. "지금 앞으로 5보 전진해서 오른쪽 위에서 두 번째 박스의 바코드를 찍어라"라고 행동 단위로 지시한다.
 
@@ -80,7 +82,7 @@ WMS 도입 시 실무자는 단순 패키지 소프트웨어 설치가 아니라
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 도입 판단
 1. **재고 회전율 및 SKU(품목 수) 복잡도**: 취급 품목이 수만 개를 넘고 유통기한 관리가 필수적인가? (필수라면 고도화된 WMS 도입이 시급함).
 2. **바코드/RFID 인프라 연동**: 아무리 좋은 WMS도 바코드 스캔 인프라가 창고 전역의 Wi-Fi 음영 지역 없이 구축되지 않으면 무용지물이 되는가?
-3. **피킹 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 유연성**: 단일 주문 피킹, 일괄(Batch) 피킹, 존(Zone) 피킹 등 사업 모델(B2B 대량 vs B2C 소량 다건)에 맞는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 수 있는가?
+3. <strong>피킹 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>의 유연성</strong>: 단일 주문 피킹, 일괄(Batch) 피킹, 존(Zone) 피킹 등 사업 모델(B2B 대량 vs B2C 소량 다건)에 맞는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 수 있는가?
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 현장의 물리적 동선(기둥 위치, 랙의 높이 제한 등)을 무시하고 소프트웨어 로직만으로 동선을 짰다가 오히려 작업자의 이동을 방해하는 경우다.
 
@@ -103,27 +105,29 @@ WMS의 성공적인 도입은 물류센터의 생산성을 차원이 다르게 �
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **다이나믹 로케이션 (Random Stow)** | 정해진 구역 없이 빈 곳에 무작위 보관하여 동선을 극한으로 단축하는 기법 |
-| **선입선출 ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))** | 먼저 입고된 상품(유통기한 임박)을 WMS가 강제로 먼저 출고 지시하는 로직 |
+| <strong>선입선출 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>)</strong> | 먼저 입고된 상품(유통기한 임박)을 WMS가 강제로 먼저 출고 지시하는 로직 |
 | **피킹 (Picking)** | 창고에서 고객의 주문 내역에 맞춰 물건을 선반에서 꺼내오는 가장 핵심적인 작업 |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리)** | WMS를 포함하여 원자재부터 최종 고객 배송까지의 전체 흐름을 관리하는 거시적 체계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 관리)</strong> | WMS를 포함하여 원자재부터 최종 고객 배송까지의 전체 흐름을 관리하는 거시적 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 장부 기반 창고 관리 (오기입, 재고 불일치)
-    │
-    ▼
-바코드/RFID 기반 고정 로케이션 WMS 도입
-    │
-    ▼
-알고리즘 기반 피킹 동선 최적화 (라우팅 적용)
-    │
-    ▼
-다이나믹 로케이션 (Random Stow) 및 AI 예측 배치 적용
-    │
-    ▼
-WCS/AGV(자율이동로봇) 연동 무인 자동화 물류센터 구축
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 장부 기반 창고 관리 (오기입, 재고 불일치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">바코드/RFID 기반 고정 로케이션 WMS 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">알고리즘 기반 피킹 동선 최적화 (라우팅 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다이나믹 로케이션 (Random Stow) 및 AI 예측 배치 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WCS/AGV(자율이동로봇) 연동 무인 자동화 물류센터 구축</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

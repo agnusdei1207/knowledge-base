@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 컴퓨터의 4대 구성요소는 연산을 전담하는 **CPU**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 저장하는 **메인 메모리(Memory)**, 외부 세계와 소통하는 **입출력 장치(I/O)**, 그리고 이들을 하나로 연결하는 신경망인 **[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)([System Bus](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/))**다.
+> 1. **본질**: 컴퓨터의 4대 구성요소는 연산을 전담하는 **CPU**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 저장하는 **메인 메모리(Memory)**, 외부 세계와 소통하는 **입출력 장치(I/O)**, 그리고 이들을 하나로 연결하는 신경망인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">System Bus</a>)</strong>다.
 > 2. **가치**: [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)([Von Neumann Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))의 물리적 뼈대이며, 하드웨어의 모든 발전(캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))은 결국 이 4개 부품 사이의 속도 차이([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))를 메우기 위한 눈물겨운 발악의 역사다.
 > 3. **판단 포인트**: 시스템을 설계할 때 CPU가 아무리 빨라도 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁거나 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크면 전체 성능이 하락하는 암달의 법칙(Amdahl's Law)이 정확히 지배하는 거버넌스 맵이다.
 
@@ -31,27 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 4대 구성요소의 상호작용 메커니즘
 이 4가지 부품은 철저하게 '[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)'라는 공용 도로를 통해서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           컴퓨터 4대 핵심 구성요소의 마이크로아키텍처 맵       │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│     [ CPU ] (연산, 제어)                               │
-│     - ALU, CU, Register Cache 탑재                     │
-│        ▲                                               │
-│        │ (초당 수십억 번의 데이터/명령어 페치)               │
-│        ▼                                               │
-│ ═══════════════ [ 시스템 버스 (System Bus) ] ════════════│
-│        ▲ (데이터 버스, 주소 버스, 제어 버스)               │
-│        │                                               │
-│     ┌──┴────────────┐             ┌────────────┴──┐    │
-│     ▼               ▼             ▼               ▼    │
-│ [ 메인 메모리 ]  [ I/O 컨트롤러 ] ──▶ [ I/O 장치 (키보드, 모니터) ]│
-│ - 프로그램 적재   - 디바이스 제어                        │
-└────────────────────────────────────────────────────────┘
-```
 
-가장 큰 문제는 **속도의 격차**다. CPU는 1 나노초에 연산을 끝내지만, 메인 메모리는 50 나노초, 하드디스크(I/O)는 5,000,000 나노초가 걸린다. CPU가 I/O 결과를 멍하니 기다리면 시스템이 마비되므로, 이를 해결하기 위해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))라는 꼼수 하드웨어가 4대 요소 사이에 융합되었다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨터 4대 핵심 구성요소의 마이크로아키텍처 맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-note">(연산, 제어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ALU, CU, Register Cache 탑재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초당 수십억 번의 데이터/명령어 페치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 버스 (System Bus)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (데이터 버스, 주소 버스, 제어 버스)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리</div><div class="kb-diagram-node">I/O 컨트롤러</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 장치 (키보드, 모니터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로그램 적재 - 디바이스 제어</div></div>
+</div>
+</div>
+
+
+
+가장 큰 문제는 <strong>속도의 격차</strong>다. CPU는 1 나노초에 연산을 끝내지만, 메인 메모리는 50 나노초, 하드디스크(I/O)는 5,000,000 나노초가 걸린다. CPU가 I/O 결과를 멍하니 기다리면 시스템이 마비되므로, 이를 해결하기 위해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))라는 꼼수 하드웨어가 4대 요소 사이에 융합되었다.
 
 - **📢 섹션 요약 비유**: 부품 간의 속도 차이는 '비행기, 자동차, 자전거의 합동 배달'과 같다. CPU(비행기)가 아무리 빨리 목적지 상공에 도착해도, 결국 밑에서 자전거(I/O)가 물건을 받을 준비가 될 때까지 하늘을 빙빙 돌며 기다려야(병목) 하는 치명적인 구조적 한계다.
 
@@ -67,7 +64,7 @@ tags = ["studynote-computer-architecture"]
 | **CPU (중앙처리장치)** | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독 및 산술/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | **$\sim 1$ ns (광속)** |
 | **메인 메모리 (Memory)**| 실행 중인 프로그램(프로세스) 적재 | D램 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) | $\sim 50$ ns |
 | **I/O 장치 (입출력)** | 외부 세계와의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 및 영구 저장 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 랜카드, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), 키보드 | **$\mu$s $\sim$ ms (재앙 수준 느림)** |
-| **[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))** | 위 3개 부품을 잇는 공용 통신망 | 마더보드 구리 배선, 칩셋 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))에 의존 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>)</strong> | 위 3개 부품을 잇는 공용 통신망 | 마더보드 구리 배선, 칩셋 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))에 의존 |
 
 - **📢 섹션 요약 비유**: CPU는 초능력자, 메모리는 옆 동네, I/O는 지구 반대편이다. 초능력자가 지구 반대편에서 물건을 가져오라고 시키는 것(I/O 요청)은 엄청난 시간 낭비이므로, 옆 동네(메모리)에 미리 물건을 잔뜩 쌓아두고 조금씩 가져다 쓰는 방식([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 진화했다.
 
@@ -77,10 +74,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 시나리오
 1. **메모리 맵 I/O (Memory-Mapped I/O)**: CPU가 I/O 장치에 명령을 내릴 때, 굳이 I/O 전용 통신선과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 따로 만들지 않고 메인 메모리의 특정 주소(예: `0x80000000`)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면 그게 그래픽카드로 직행하도록 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 컨트롤러를 설계하는 기법. 현대 ARM, x86 아키텍처의 절대적인 하드웨어 제어 표준이다.
-2. **[버스 마스터](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/)링 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Mastering) 설계**: CPU만이 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)의 주인이 아니다. 고속 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 [버스 마스터](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/) 권한을 얻어 CPU를 거치지 않고 다이렉트로 메모리에 패킷을 쑤셔 넣는([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 쇳덩어리 아키텍처를 가동하여 CPU 오버헤드를 0으로 만든다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/">버스 마스터</a>링 (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> Mastering) 설계</strong>: CPU만이 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)의 주인이 아니다. 고속 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 [버스 마스터](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/350_bus_master/) 권한을 얻어 CPU를 거치지 않고 다이렉트로 메모리에 패킷을 쑤셔 넣는([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 쇳덩어리 아키텍처를 가동하여 CPU 오버헤드를 0으로 만든다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **I/O 작업 완료를 묻는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 남용**: 프로그래머가 네트워크 소켓이나 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어올 때, CPU의 `while(true)` 루프를 돌리며 "다 읽었니? 다 읽었니?" 하고 1초에 1억 번씩 I/O 장치를 괴롭히는 행위. I/O는 엄청나게 느리기 때문에 CPU의 소중한 사이클을 100% 낭비하게 된다. 반드시 I/O 장치가 준비되면 CPU를 찌르는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))' 기반의 비동기(Asynchronous) 모델로 융합해야 한다.
+- <strong>I/O 작업 완료를 묻는 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 남용</strong>: 프로그래머가 네트워크 소켓이나 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어올 때, CPU의 `while(true)` 루프를 돌리며 "다 읽었니? 다 읽었니?" 하고 1초에 1억 번씩 I/O 장치를 괴롭히는 행위. I/O는 엄청나게 느리기 때문에 CPU의 소중한 사이클을 100% 낭비하게 된다. 반드시 I/O 장치가 준비되면 CPU를 찌르는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))' 기반의 비동기(Asynchronous) 모델로 융합해야 한다.
 
 - **📢 섹션 요약 비유**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 피자가 다 구워질 때까지 화덕 앞에 서서 1초마다 문을 열어보는 짓이고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 타이머를 맞춰놓고 다른 일을 하다가 '알람 소리'가 울리면 피자를 꺼내러 가는 완벽한 분업이다.
 
@@ -100,27 +97,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ([Von Neumann Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))** | 프로그램(소프트웨어)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(재료)를 모두 '메인 메모리'라는 하나의 그릇에 담아버린 4대 요소의 설계 철학 |
-| **[메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))** | CPU는 미친 듯이 빨라지는데 메모리 속도와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 못 따라와서 4대 요소 간의 밸런스가 완전히 붕괴된 현대 아키텍처의 재앙 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 느려터진 I/O 장치가 CPU의 바짓가랑이를 잡고 늘어지는 것을 막기 위해, 작업이 끝났을 때만 CPU를 호출하는 하드웨어 알람 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/">폰 노이만 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/">Von Neumann Architecture</a>)</strong> | 프로그램(소프트웨어)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(재료)를 모두 '메인 메모리'라는 하나의 그릇에 담아버린 4대 요소의 설계 철학 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/">메모리 월</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/">Memory Wall</a>)</strong> | CPU는 미친 듯이 빨라지는데 메모리 속도와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 못 따라와서 4대 요소 간의 밸런스가 완전히 붕괴된 현대 아키텍처의 재앙 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | 느려터진 I/O 장치가 CPU의 바짓가랑이를 잡고 늘어지는 것을 막기 위해, 작업이 끝났을 때만 CPU를 호출하는 하드웨어 알람 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-에니악(ENIAC)의 물리적 배선 변경 방식의 한계 (프로그램 교체 불가)
-    │
-    ▼
-폰 노이만 아키텍처 제안 (프로그램 내장 방식 및 4대 요소 분리)
-    │
-    ▼
-CPU-메모리 속도 격차 발생 (메모리 월 현상)
-    │
-    ▼
-캐시(Cache) 도입 및 다단계 메모리 계층 구조(Memory Hierarchy) 융합
-    │
-    ▼
-I/O 병목 극복을 위한 DMA(직접 메모리 접근) 및 칩셋(SoC) 통합으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">에니악(ENIAC)의 물리적 배선 변경 방식의 한계 (프로그램 교체 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폰 노이만 아키텍처 제안 (프로그램 내장 방식 및 4대 요소 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU-메모리 속도 격차 발생 (메모리 월 현상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시(Cache) 도입 및 다단계 메모리 계층 구조(Memory Hierarchy) 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">I/O 병목 극복을 위한 DMA(직접 메모리 접근) 및 칩셋(SoC) 통합으로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 분리 → 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 속도 격차 발생 → 병목 제거를 위한 하드웨어적 꼼수(캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))의 도입"으로 이어지는 컴퓨터 구조론 전체를 관통하는 진화 궤적을 보여준다.
 

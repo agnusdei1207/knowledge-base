@@ -29,14 +29,20 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-데이터
-  ├─ Full Backup
-  ├─ Incremental Backup
-  └─ Differential Backup
-        ↓
-복구 / 보존 / 아카이빙
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Full Backup</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Incremental Backup</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Differential Backup</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 / 보존 / 아카이빙</div>
+</div>
+</div>
+
+
 
 | 유형 | 특징 |
 | :-- | :-- |
@@ -106,31 +112,43 @@ Full은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/65
 
 ## 관련 개념 맵
 
-```text
-Backup
-   ↓
-Full / Incremental / Differential
-   ↓
-Restore Test
-   ↓
-Archiving
-   ↓
-Retention Policy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Backup</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Full / Incremental / Differential</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Restore Test</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Archiving</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Retention Policy</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-데이터 복제
-   ↓
-백업 정책
-   ↓
-복구 테스트
-   ↓
-아카이빙
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 복제</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">백업 정책</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 테스트</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">아카이빙</div>
+</div>
+</div>
+
+
 
 ---
 

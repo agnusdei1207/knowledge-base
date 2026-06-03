@@ -20,13 +20,19 @@ tags = ["studynote-devops-sre"]
 
 카오스 실험 5단계:
 
-```
-1. Steady State 정의 → SLI 기준 정상 상태 지표 선정
-2. 가설 설정 → "노드 하나 장애나도 응답률 99% 유지"
-3. 실험 설계 → 실패 유형 선택
-4. 실험 실행 → 최소 폭발 반경으로 시작 → 점진적 확대
-5. 결과 분석 → Steady State 벗어난 경우 취약점 발견
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. Steady State 정의 → SLI 기준 정상 상태 지표 선정</div>
+<div class="kb-diagram-note">2. 가설 설정 → "노드 하나 장애나도 응답률 99% 유지"</div>
+<div class="kb-diagram-note">3. 실험 설계 → 실패 유형 선택</div>
+<div class="kb-diagram-note">4. 실험 실행 → 최소 폭발 반경으로 시작 → 점진적 확대</div>
+<div class="kb-diagram-note">5. 결과 분석 → Steady State 벗어난 경우 취약점 발견</div>
+</div>
+</div>
+
+
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 소방 훈련 — 실제 화재 전에 연기를 피워 대피 경로와 소화 시스템을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
@@ -73,11 +79,17 @@ GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를
 3. **비즈니스 영향 최소화**: 저트래픽 시간대 실행
 4. **팀 공지**: 실험 전 On-[call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 팀에 사전 통보
 
-```
-카오스 실험 안전 게이트
-Staging → Canary(5%) → 25% → 50% → 100%
-          자동 중단 조건 항상 활성화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">카오스 실험 안전 게이트</div>
+<div class="kb-diagram-note">Staging → Canary(5%) → 25% → 50% → 100%</div>
+<div class="kb-diagram-note">자동 중단 조건 항상 활성화</div>
+</div>
+</div>
+
+
 
 > 📢 **Ⅳ 섹션 요약 비유**
 > 카오스 실험은 다이너마이트 폭파 훈련 — 항상 안전거리를 확보하고, 비상 정지 버튼을 손에 쥔 채 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다.
@@ -99,14 +111,20 @@ Staging → Canary(5%) → 25% → 50% → 100%
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Chaos Engineering
-    ├── Steady State Hypothesis → 실험 기준 정의
-    ├── 장애 주입 → 네트워크/파드/노드/리소스
-    ├── LitmusChaos / Chaos Mesh → K8s 네이티브 도구
-    ├── GameDay → 팀 규모 장애 훈련
-    └── Resilience Engineering → 장애 내성 시스템 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Chaos Engineering</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Steady State Hypothesis → 실험 기준 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:2">장애 주입 → 네트워크/파드/노드/리소스</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LitmusChaos / Chaos Mesh → K8s 네이티브 도구</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GameDay → 팀 규모 장애 훈련</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Resilience Engineering → 장애 내성 시스템 설계</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 레고 성이 얼마나 튼튼한지 보려고 일부러 블록 하나를 빼보는 것이에요. 그래도 성이 무너지지 않으면 합격!

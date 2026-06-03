@@ -18,32 +18,33 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 독립성의 두 차원
 
-```
-감리인 독립성 (Auditor Independence):
 
-외관적 독립성 (Independence in Appearance):
-  "독립적으로 보이는가?"
-  
-  확인 기준:
-  - 감리법인과 발주자/사업자 간 지분 관계 없음
-  - 최근 3년 내 해당 사업 참여 이력 없음
-  - 친인척 관계 없음
-  - 경쟁 입찰 통한 선정 절차
 
-실질적 독립성 (Independence in Fact):
-  "실제로 독립적으로 행동하는가?"
-  
-  확인 기준:
-  - 감리 결과를 압력 없이 보고
-  - 발주자에게 불리한 사실도 기재
-  - 재감리 요청에도 소신 유지
-  - 사업자 로비 거부
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">감리인 독립성 (Auditor Independence):</div>
+<div class="kb-diagram-note">외관적 독립성 (Independence in Appearance):</div>
+<div class="kb-diagram-note">"독립적으로 보이는가?"</div>
+<div class="kb-diagram-note">확인 기준:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">감리법인과 발주자/사업자 간 지분 관계 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">최근 3년 내 해당 사업 참여 이력 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">친인척 관계 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">경쟁 입찰 통한 선정 절차</div>
+<div class="kb-diagram-note">실질적 독립성 (Independence in Fact):</div>
+<div class="kb-diagram-note">"실제로 독립적으로 행동하는가?"</div>
+<div class="kb-diagram-note">확인 기준:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">감리 결과를 압력 없이 보고</div>
+<div class="kb-diagram-tree-item" style="--depth:1">발주자에게 불리한 사실도 기재</div>
+<div class="kb-diagram-tree-item" style="--depth:1">재감리 요청에도 소신 유지</div>
+<div class="kb-diagram-tree-item" style="--depth:1">사업자 로비 거부</div>
+<div class="kb-diagram-note">관계:</div>
+<div class="kb-diagram-note">외관적 독립성 없음 -&gt; 이해충돌 의심</div>
+<div class="kb-diagram-note">실질적 독립성 없음 -&gt; 감리 형식화 위험</div>
+<div class="kb-diagram-note">둘 다 필요</div>
+</div>
+</div>
 
-관계:
-  외관적 독립성 없음 -> 이해충돌 의심
-  실질적 독립성 없음 -> 감리 형식화 위험
-  둘 다 필요
-```
+
 
 > 📢 **섹션 요약 비유**: 독립성은 심판의 중립성 — 경기에 베팅한 심판은 외관적, 베팅 안 해도 한 팀 눈치를 보면 실질적 독립성 결여.
 
@@ -121,24 +122,27 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 클라우드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사업 감리 독립성 이슈
 
-```
-신기술 사업에서의 독립성 도전:
 
-클라우드 사업 감리:
-  문제: 클라우드 플랫폼(AWS, Azure) 감리 시
-        벤더 인증 보유자가 감리에 유리
-  위험: 특정 벤더 출신 감리인 -> 벤더 친화적 판단
 
-AI/ML 사업 감리:
-  문제: AI 전문 인력 희소 -> 사업자 직원 출신 활용
-  위험: 이전 사업자 이해관계 잔류
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">신기술 사업에서의 독립성 도전:</div>
+<div class="kb-diagram-note">클라우드 사업 감리:</div>
+<div class="kb-diagram-note">문제: 클라우드 플랫폼(AWS, Azure) 감리 시</div>
+<div class="kb-diagram-note">벤더 인증 보유자가 감리에 유리</div>
+<div class="kb-diagram-note">위험: 특정 벤더 출신 감리인 -&gt; 벤더 친화적 판단</div>
+<div class="kb-diagram-note">AI/ML 사업 감리:</div>
+<div class="kb-diagram-note">문제: AI 전문 인력 희소 -&gt; 사업자 직원 출신 활용</div>
+<div class="kb-diagram-note">위험: 이전 사업자 이해관계 잔류</div>
+<div class="kb-diagram-note">해결 방안:</div>
+<div class="kb-diagram-note">독립적 전문가 풀 구축 (감리사 네트워크)</div>
+<div class="kb-diagram-note">쿨링오프 기간 AI 분야도 적용 강화</div>
+<div class="kb-diagram-note">외부 전문가 패널 참여 (대학교수, 타사 전문가)</div>
+<div class="kb-diagram-note">AI 감리 특화 독립성 지침 마련 (KISA)</div>
+</div>
+</div>
 
-해결 방안:
-  독립적 전문가 풀 구축 (감리사 네트워크)
-  쿨링오프 기간 AI 분야도 적용 강화
-  외부 전문가 패널 참여 (대학교수, 타사 전문가)
-  AI 감리 특화 독립성 지침 마련 (KISA)
-```
+
 
 > 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리 독립성 문제는 언어 시험을 그 언어 원어민만 채점하는 상황 — 전문성과 독립성을 동시에 확보하는 것이 과제.
 
@@ -146,36 +150,34 @@ AI/ML 사업 감리:
 
 ## Ⅴ. 실무 시나리오 — 대규모 공공 감리
 
-```
-대형 공공 정보화 사업 감리 독립성 사례:
 
-사업: 국가 행정망 클라우드 전환 (500억)
-문제 상황:
-  - 감리법인 A사가 이전에 설계 참여
-  - 사업자 B사 대표가 감리법인 A사 전 직원
 
-발주자(행정안전부) 조치:
-  1. 감리법인 A사 자격 요건 검토
-     -> 설계 참여 이력 확인 -> 결격 판정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 공공 정보화 사업 감리 독립성 사례:</div>
+<div class="kb-diagram-note">사업: 국가 행정망 클라우드 전환 (500억)</div>
+<div class="kb-diagram-note">문제 상황:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">감리법인 A사가 이전에 설계 참여</div>
+<div class="kb-diagram-tree-item" style="--depth:1">사업자 B사 대표가 감리법인 A사 전 직원</div>
+<div class="kb-diagram-note">발주자(행정안전부) 조치:</div>
+<div class="kb-diagram-note">1. 감리법인 A사 자격 요건 검토</div>
+<div class="kb-diagram-tree-item" style="--depth:2">설계 참여 이력 확인 -&gt; 결격 판정</div>
+<div class="kb-diagram-note">2. 재입찰 공고: 결격 요건 명확 명시</div>
+<div class="kb-diagram-tree-item" style="--depth:2">최근 5년 내 해당 사업 참여 법인 제외</div>
+<div class="kb-diagram-tree-item" style="--depth:2">사업자 계열사/협력사 제외</div>
+<div class="kb-diagram-note">3. 감리법인 B사 선정 후 독립성 확인서 징구</div>
+<div class="kb-diagram-note">4. 감리 착수 전 이해충돌 자가 진단 보고서 제출 요구</div>
+<div class="kb-diagram-note">5. 감리 수행 중 발주자 현장 모니터링 실시</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">감리 결과 객관성 확보</div>
+<div class="kb-diagram-note">사업자 이의제기 없음</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">선정 단계의 독립성 검증이 가장 중요</div>
+<div class="kb-diagram-note">사후 관리보다 사전 예방이 효과적</div>
+</div>
+</div>
 
-  2. 재입찰 공고: 결격 요건 명확 명시
-     - 최근 5년 내 해당 사업 참여 법인 제외
-     - 사업자 계열사/협력사 제외
-     
-  3. 감리법인 B사 선정 후 독립성 확인서 징구
-  
-  4. 감리 착수 전 이해충돌 자가 진단 보고서 제출 요구
 
-  5. 감리 수행 중 발주자 현장 모니터링 실시
-
-결과:
-  감리 결과 객관성 확보
-  사업자 이의제기 없음
-  
-교훈:
-  선정 단계의 독립성 검증이 가장 중요
-  사후 관리보다 사전 예방이 효과적
-```
 
 > 📢 **섹션 요약 비유**: 감리 독립성 관리는 공사 감독관 선정 — 시공사와 이해관계 없는 독립적 감독관이어야 하자 발견 시 진실을 말할 수 있다.
 

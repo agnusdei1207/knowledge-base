@@ -33,25 +33,23 @@ tags = ["studynote-ai"]
 
 가장 핵심적인 평가 지표는 예측한 박스가 정답과 얼마나 일치하는지를 따지는 `IoU (Intersection over Union)`다. 모델이 수많은 박스를 예측하면, `NMS (Non-Maximum Suppression)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 겹치는 박스 중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 높은 하나만 남기고 나머지를 지워버려 최종 결과를 확정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           [객체 탐지 구조 및 IoU (Intersection over Union)]  │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 딥러닝 출력 (Dual Head)                                     │
-│ [입력 이미지] ─▶ [CNN 특징 추출] ┬─▶ 분류: "사람 (98%)"         │
-│                                 └─▶ 위치: [x:150, y:200, w:50] │
-│                                                              │
-│ 2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)                    │
-│                                                              │
-│   정답 박스 (A)      예측 박스 (B)         IoU = 교집합 / 합집합    │
-│   ┌──────┐         ┌──────┐             = (A ∩ B) / (A ∪ B)  │
-│   │      │         │      │                                  │
-│   │   ┌──┼─────────┤      │         * IoU > 0.5 이면 정답 인정  │
-│   │   │  │ 교집합  │      │                                  │
-│   └──┼──┘         │      │                                  │
-│      └────────────┘      │                                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">객체 탐지 구조 및 IoU (Intersection over Union)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 딥러닝 출력 (Dual Head)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 이미지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CNN 특징 추출</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분류: "사람 (98%)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">x:150, y:200, w:50</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답 박스 (A) 예측 박스 (B) IoU = 교집합 / 합집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= (A ∩ B) / (A ∪ B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">* IoU &gt; 0.5 이면 정답 인정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교집합</div></div>
+</div>
+</div>
+
+
 
 위 그림은 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델이 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 동시에 수행하며, 예측된 박스의 품질을 면적 비율(IoU)로 채점하는 방식을 보여준다.
 
@@ -61,7 +59,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처는 영역을 먼저 찾고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 **2-Stage 방식**과, 한 번에 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 끝내는 **1-Stage 방식**으로 나뉜다. 
+[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처는 영역을 먼저 찾고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 <strong>2-Stage 방식</strong>과, 한 번에 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 끝내는 <strong>1-Stage 방식</strong>으로 나뉜다. 
 
 | 항목 | 2-Stage 구조 (예: Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) | 1-Stage 구조 (예: YOLO, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) |
 |:---|:---|:---|
@@ -84,8 +82,8 @@ tags = ["studynote-ai"]
 CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 무거운 모델을 돌릴 수 없다. 이때는 YOLO 기반의 경량화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(YOLOv8 Nano 등)을 채택하고, 프레임 수를 낮추거나 입력 해상도를 줄이는 판단이 필요하다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 자율주행 시스템에 정확도만 믿고 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열을 적용하여 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))으로 인해 사고를 유발하는 설계.
-- **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 모델이 겹쳐 있는 여러 물체를 잘 구분하는가? (IoU 임계값 및 NMS 파라미터 튜닝 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 자율주행 시스템에 정확도만 믿고 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열을 적용하여 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))으로 인해 사고를 유발하는 설계.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 모델이 겹쳐 있는 여러 물체를 잘 구분하는가? (IoU 임계값 및 NMS 파라미터 튜닝 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
 
 - **📢 섹션 요약 비유**: 레이싱카(1-Stage)를 험준한 산길 정밀 탐사에 쓰거나, 덤프트럭(2-Stage)을 F1 경주에 출전시키면 안 되듯 용도에 맞는 차량 배차가 핵심이다.
 
@@ -108,25 +106,27 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 | **YOLO (You Only Look Once)** | 1-Stage 방식의 대명사, 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 혁명을 이끈 모델 |
 | **IoU (Intersection over Union)** | 바운딩 박스의 정확도를 계산하는 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)의 핵심 평가 지표 |
 | **NMS (Non-Maximum Suppression)** | 중복된 바운딩 박스 중 가장 점수가 높은 하나만 남기는 후처리 기법 |
-| **[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))** | 이미지 특징을 추출하는 백본(Backbone) 네트워크 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/">Convolutional Neural Network</a>)</strong> | 이미지 특징을 추출하는 백본(Backbone) 네트워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이미지 분류 (Classification)
-    │
-    ▼
-2-Stage 탐지: R-CNN (Region-based CNN) 
-    │
-    ▼
-속도 개선: Faster R-CNN (RPN 도입)
-    │
-    ▼
-1-Stage 혁명: YOLO (격자 기반 실시간 탐지)
-    │
-    ▼
-경량화 및 통합: YOLO 최신 버전, Vision Transformer 기반 탐지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이미지 분류 (Classification)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2-Stage 탐지: R-CNN (Region-based CNN)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">속도 개선: Faster R-CNN (RPN 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1-Stage 혁명: YOLO (격자 기반 실시간 탐지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경량화 및 통합: YOLO 최신 버전, Vision Transformer 기반 탐지</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

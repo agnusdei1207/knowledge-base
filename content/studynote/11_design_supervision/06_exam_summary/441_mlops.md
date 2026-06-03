@@ -23,16 +23,17 @@ tags = ["studynote-design-supervision"]
 
 기술사 답안에서는 단순히 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)와 개념 드리프트를 정의하는 데서 멈추지 말고, **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 탐지 -> 경보 -> 재학습 또는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)**의 운영 루프로 정리해야 한다. 결국 드리프트 관리는 통계 기법의 문제가 아니라 모델 운영 거버넌스의 문제이기 때문이다.
 
-```text
-┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌─────────────┐
-│ Train Data  │ ───▶ │ Deploy Model │ ───▶ │ Live Traffic│ ───▶ │ Drift Signal│
-└─────────────┘      └──────────────┘      └─────────────┘      └─────────────┘
-                                                                     │
-                                                                     ▼
-                                                             ┌─────────────┐
-                                                             │ Action Loop │
-                                                             └─────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train Data</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Deploy Model</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Live Traffic</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Drift Signal</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action Loop</div></div>
+</div>
+</div>
+
+
 
 이 그림은 모델 운영이 일회성 배포가 아니라, 실제 입력 변화에 따라 계속 되돌아오는 순환 구조임을 보여 준다.
 
@@ -42,7 +43,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-드리프트 파이프라인의 핵심은 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 현재 상태를 지속적으로 비교하는 것이다. 보통 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계 특성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 베이스라인으로 저장하고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), K-S 검정(Kolmogorov-Smirnov test), 실제 정답 기반 품질 지표를 계산해 이상 여부를 판정한다. 중요한 것은 지표 그 자체보다 **어떤 조건에서 누구의 승인으로 어떤 조치를 할 것인가**가 정의되어 있어야 한다는 점이다.
+드리프트 파이프라인의 핵심은 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 현재 상태를 지속적으로 비교하는 것이다. 보통 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계 특성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 베이스라인으로 저장하고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), K-S 검정(Kolmogorov-Smirnov test), 실제 정답 기반 품질 지표를 계산해 이상 여부를 판정한다. 중요한 것은 지표 그 자체보다 <strong>어떤 조건에서 누구의 승인으로 어떤 조치를 할 것인가</strong>가 정의되어 있어야 한다는 점이다.
 
 | 구성 축 | 역할 | 실무 포인트 |
 |:---|:---|:---|
@@ -50,23 +51,20 @@ tags = ["studynote-design-supervision"]
 | 탐지 엔진 | 분포 변화와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 계산·경보 | PSI, K-S, AUC (Area Under the Curve), [F1 score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 등 지표별 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 필요 |
 | 대응 파이프라인 | 재학습, 승인, 재배포, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 실행 | 자동화 범위와 사람 승인 경계를 분리해야 함 |
 
-```text
-┌──────────────────┐      ┌──────────────────┐
-│ Baseline Store   │      │ Live Feature Log │
-└──────────────────┘      └──────────────────┘
-          │                         │
-          └────────────┬────────────┘
-                       ▼
-              ┌──────────────────┐
-              │ Drift Detector   │
-              └──────────────────┘
-                       │
-                  alert / score
-                       ▼
-┌──────────────────┐      ┌──────────────────┐
-│ Retrain / Review │ ───▶ │ Deploy / Rollback│
-└──────────────────┘      └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline Store</div><div class="kb-diagram-cell">Live Feature Log</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift Detector</div></div>
+<div class="kb-diagram-note">alert / score</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retrain / Review</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Deploy / Rollback</div></div>
+</div>
+</div>
+
+
 
 이 구조가 갖춰지면 드리프트는 단순 경고가 아니라 운영 의사결정을 촉발하는 증거가 된다.
 
@@ -112,7 +110,7 @@ tags = ["studynote-design-supervision"]
 
 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 드리프트 파이프라인이 정착되면 모델 품질 저하를 사후 장애가 아니라 사전 경보로 관리할 수 있다. 그 결과 재학습 비용 최적화, 규제 대응력 향상, 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 안정화, 운영 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상이라는 효과를 기대할 수 있다.
 
-결론적으로 이 주제의 핵심은 통계 기법 자체보다 **모델 운영의 폐루프 자동화**에 있다. 시험 답안에서는 드리프트 유형, 탐지 지표, 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 승인 거버넌스를 한 흐름으로 묶어 쓰면 완성도가 높다.
+결론적으로 이 주제의 핵심은 통계 기법 자체보다 <strong>모델 운영의 폐루프 자동화</strong>에 있다. 시험 답안에서는 드리프트 유형, 탐지 지표, 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 승인 거버넌스를 한 흐름으로 묶어 쓰면 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 날씨 앱이 예보만 하고 우산 알림을 안 주면 반쪽 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)이듯, 드리프트 감지도 대응 루프가 있어야 비로소 가치가 생긴다.
 
@@ -130,21 +128,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모델 배포
-    |
-    v
-운영 데이터 수집
-    |
-    +--> 분포 비교(PSI / K-S)
-    +--> 품질 비교(AUC / F1)
-    |
-    v
-경보 / 원인분석 / 재학습
-    |
-    v
-재배포 및 롤백 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 배포</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">운영 데이터 수집</div>
+<div class="kb-diagram-note">+--&gt; 분포 비교(PSI / K-S)</div>
+<div class="kb-diagram-note">+--&gt; 품질 비교(AUC / F1)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">경보 / 원인분석 / 재학습</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">재배포 및 롤백 거버넌스</div>
+</div>
+</div>
+
+
 
 이 흐름은 MLOps가 단순 자동 배포가 아니라, 변화 감지와 후속 조치를 포함한 운영 체계임을 압축한다.
 

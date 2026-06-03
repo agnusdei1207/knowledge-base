@@ -35,26 +35,23 @@ BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결
 
 아래 흐름은 BDD가 단순 문서 작성이 아니라 협업, 자동화, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 이어지는 구조임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  BDD Workflow                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. Discovery                                                     │
-│    Business + Dev + QA gather concrete examples                  │
-│                │                                                  │
-│                ▼                                                  │
-│ 2. Formulation                                                   │
-│    Feature / Scenario / Given-When-Then                          │
-│                │                                                  │
-│                ▼                                                  │
-│ 3. Automation                                                    │
-│    Gherkin ↔ Step Definitions ↔ Test Runner                      │
-│                │                                                  │
-│                ▼                                                  │
-│ 4. Validation                                                    │
-│    CI/CD run + report + living documentation                     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BDD Workflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Discovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business + Dev + QA gather concrete examples</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Formulation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature / Scenario / Given-When-Then</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gherkin ↔ Step Definitions ↔ Test Runner</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD run + report + living documentation</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 연결점은 Gherkin이다. 거킨 (Gherkin)은 BDD 시나리오를 표현하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어 (Domain-Specific Language, DSL)로, 비기술자도 읽을 수 있으면서 도구가 파싱할 수 있다. 아래 예시는 명세와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 문장 구조를 공유한다.
 
@@ -105,7 +102,7 @@ BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의�
 
 실무에서 BDD는 로그인처럼 단순한 기능보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)성 규칙이 많은 영역에서 빛난다. 예를 들어 전자상거래 쿠폰 기능은 "신규 회원만 가능", "중복 할인 불가", "유효기간 만료 시 거절" 같은 규칙이 얽혀 있다. 이때 시나리오를 먼저 정리하면 구현 전에 누락 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 예외 흐름을 발견할 수 있다.
 
-좋은 BDD 시나리오는 구체적이고, UI 세부보다 행위 중심이며, 비즈니스 언어를 사용한다. 반대로 나쁜 시나리오는 버튼 클릭 순서만 적거나, 하나의 시나리오에 여러 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 몰아넣어 실패 원인을 अस्पष्ट하게 만든다. 따라서 시나리오 수를 줄이는 것보다 **책임이 명확한 시나리오**를 만드는 것이 중요하다.
+좋은 BDD 시나리오는 구체적이고, UI 세부보다 행위 중심이며, 비즈니스 언어를 사용한다. 반대로 나쁜 시나리오는 버튼 클릭 순서만 적거나, 하나의 시나리오에 여러 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 몰아넣어 실패 원인을 अस्पष्ट하게 만든다. 따라서 시나리오 수를 줄이는 것보다 <strong>책임이 명확한 시나리오</strong>를 만드는 것이 중요하다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -149,22 +146,23 @@ BDD를 제대로 적용하면 요구사항과 테스트와 구현의 간격이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 모호성
-    │
-    ▼
-예시 기반 대화 (Example Conversation)
-    │
-    ▼
-BDD (Behavior Driven Development)
-    │
-    ├── Gherkin 시나리오
-    │
-    ├── Step Definition 자동화
-    │
-    ▼
-CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 모호성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예시 기반 대화 (Example Conversation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BDD (Behavior Driven Development)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Gherkin 시나리오</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Step Definition 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)</div>
+</div>
+</div>
+
+
 
 이 흐름은 구두 요구사항이 예시와 시나리오를 거쳐 실행 가능한 명세와 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 발전하는 과정을 보여준다.
 

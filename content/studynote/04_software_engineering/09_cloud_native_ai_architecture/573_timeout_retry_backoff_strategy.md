@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) (타임아웃)**: 남의 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찌르고 무한정 기다리다 내 스레드까지 말라 죽는 걸 막기 위해, "딱 3초만 대답 없으면 통신 선 잘라버려!(Fail-fast)"라고 선언하는 최소한의 멱살잡이.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> (타임아웃)</strong>: 남의 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찌르고 무한정 기다리다 내 스레드까지 말라 죽는 걸 막기 위해, "딱 3초만 대답 없으면 통신 선 잘라버려!(Fail-fast)"라고 선언하는 최소한의 멱살잡이.
   - **Retry (재시도)**: 3초 타임아웃으로 에러가 났을 때, 유저한테 시뻘건 500 에러를 던지기 전에 "아마 네트워크 잠깐 튄 걸 거야 ㅋ 몰래 한 번 더 찔러보자"며 1~3회 정도 기회를 더 주는 회복술.
 
 - **필요성 (Retry Storm, 재시도 폭풍의 멸망)**: 50개의 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 떠 있다. 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 쿠폰 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 찔렀다. 쿠폰 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 1초 딜레이 렉을 먹었다. 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1,000개가 "타임아웃 1초 컷! 재시도 갈겨!" 하면서 1초 뒤에 동시에 쿠폰 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 1,000방의 재시도 트래픽을 때려 넣었다. 쿠폰 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 원래 1,000건만 쳐내면 렉이 풀릴 운명이었는데, 갑자기 쏟아진 2,000건(원래 트래픽 + 재시도 트래픽)의 폭격에 메모리가 터져 뻗어버렸다. **"에러를 덮으려던 재시도(Retry)가 오히려 폭주족(Thundering Herd)이 되어 내 시스템을 내가 디도스(Self-DDoS) 때려버렸다!!"** 이 끔찍한 팀킬을 막기 위해 딜레이 시간을 예술적으로 흩뿌리는 백오프(Backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 발명되었다.
 
-- **💡 비유**: 무지성 재시도는 **'엘리베이터 문이 안 열린다고 10명이 동시에 1초 간격으로 열림 버튼을 발로 쾅쾅쾅 차대는 미친 짓'**입니다. 엘리베이터(서버)는 고장 나 버리죠. 지수 백오프와 Jitter는 **'사람들이 똑똑해지는 것'**입니다. 첫 번째는 1초 뒤에 문을 두드려봅니다. 안 열리면? 2초 뒤에 쳐보고, 그래도 안 열리면 4초 뒤, 8초 뒤에 쳐봅니다(기하급수적 대기). 게다가 10명이 똑같이 4초 뒤에 치는 게 아니라, 누구는 3.5초 뒤, 누구는 4.2초 뒤에(랜덤 난수 섞기) 뿔뿔이 흩어져서 노크합니다. 문(서버)이 받는 타격이 완벽하게 분산되어 부서지지 않습니다.
+- **💡 비유**: 무지성 재시도는 <strong>'엘리베이터 문이 안 열린다고 10명이 동시에 1초 간격으로 열림 버튼을 발로 쾅쾅쾅 차대는 미친 짓'</strong>입니다. 엘리베이터(서버)는 고장 나 버리죠. 지수 백오프와 Jitter는 <strong>'사람들이 똑똑해지는 것'</strong>입니다. 첫 번째는 1초 뒤에 문을 두드려봅니다. 안 열리면? 2초 뒤에 쳐보고, 그래도 안 열리면 4초 뒤, 8초 뒤에 쳐봅니다(기하급수적 대기). 게다가 10명이 똑같이 4초 뒤에 치는 게 아니라, 누구는 3.5초 뒤, 누구는 4.2초 뒤에(랜덤 난수 섞기) 뿔뿔이 흩어져서 노크합니다. 문(서버)이 받는 타격이 완벽하게 분산되어 부서지지 않습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Constant Retry (과거)**: 1초, 1초, 1초. 정해진 시간마다 무지성으로 때림. 트래픽 폭발 원흉.
   2. **Exponential Backoff (과도기)**: 1초, 2초, 4초, 8초. 지수 함수로 시간을 늘려주며 서버가 숨 쉴 틈을 벌어줌. 하지만 1만 대의 클라이언트가 여전히 발을 맞춰(Synchronized) 8초 뒤에 동시에 1만 번을 때리는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭격의 한계는 못 벗어남.
   3. **Backoff with Jitter (현재, AWS 헌법)**: 아마존(AWS) 아키텍트들이 뼈저리게 깨닫고 전파한 절대 법칙. "시간을 늘릴 때(Exponential), 무조건 거기다 랜덤한 숫자 0.1~0.9(Jitter)를 곱해서 더해라!" 파도처럼 몰려오던 트래픽이 모래알처럼 산산이 부서지며 서버에 솜털처럼 부드럽게 꽂히기 시작했다.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'군대가 다리를 건너는 법'**과 똑같습니다. 수만 명의 군인이 군가를 부르며 똑같이 발을 구르며(동기화된 Retry) 행진하면 그 진동 주파수 때문에 튼튼한 다리(서버)가 무너져 내립니다(실제 타코마 다리 붕괴 사건). 지휘관은 다리를 건널 때 명령합니다. "발 맞추지 마! 다 지 맘대로 개판으로 뛰어!(Jitter 주입)." 발소리가 엇박자가 나면 충격이 흩어져 다리는 절대 무너지지 않습니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'군대가 다리를 건너는 법'</strong>과 똑같습니다. 수만 명의 군인이 군가를 부르며 똑같이 발을 구르며(동기화된 Retry) 행진하면 그 진동 주파수 때문에 튼튼한 다리(서버)가 무너져 내립니다(실제 타코마 다리 붕괴 사건). 지휘관은 다리를 건널 때 명령합니다. "발 맞추지 마! 다 지 맘대로 개판으로 뛰어!(Jitter 주입)." 발소리가 엇박자가 나면 충격이 흩어져 다리는 절대 무너지지 않습니다.
 
 ---
 
 다음은 타임아웃 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  타임아웃 (Timeout) 및 재시도                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃 (Timeout) 및 재시도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 타임아웃 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-타임아웃 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도 (Retry) 백오프(Backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+타임아웃 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도 (Retry) 백오프(Backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 타임아웃 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 및 재시도 (Retry) 백오프(Backoff) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-타임아웃 (Timeout) 및 재시도 (Retry) 백오프(Backoff) 전략 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타임아웃 (Timeout) 및 재시도 (Retry) 백오프(Backoff) 전략 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -24,23 +24,25 @@ tags = ["studynote-computer-architecture"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 그레이 코드는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 없으며, 2진수를 그레이 코드로 변환할 때는 이전 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 현재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 XOR (Exclusive OR) 연산하여 구한다. $G_n = B_n \oplus B_{n+1}$.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          물리적 스위칭 에러 방어: 이진수 vs 그레이 코드      │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 이진 코드 (Binary Code) - 재앙 발생 가능 구간             │
-│    숫자 3:  0  1  1                                          │
-│             │  │  │  ◀─ 3비트 동시 전환 시도                 │
-│    숫자 4:  1  0  0                                          │
-│    * 결과: 가운데 비트가 늦게 꺼지면 1 1 0 (6)이 오독됨!     │
-│                                                              │
-│ 2. 그레이 코드 (Gray Code) - 완벽한 안전 구역                │
-│    숫자 3:  0  1  0                                          │
-│             │        ◀─ 맨 앞 1비트만 전환됨                 │
-│    숫자 4:  1  1  0                                          │
-│    * 결과: 아무리 늦게 꺼져도 010(3) 아니면 110(4)만 읽힘.   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 스위칭 에러 방어: 이진수 vs 그레이 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이진 코드 (Binary Code) - 재앙 발생 가능 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 3: 0 1 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 3비트 동시 전환 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 4: 1 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 가운데 비트가 늦게 꺼지면 1 1 0 (6)이 오독됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 그레이 코드 (Gray Code) - 완벽한 안전 구역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 3: 0 1 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 맨 앞 1비트만 전환됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 4: 1 1 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 아무리 늦게 꺼져도 010(3) 아니면 110(4)만 읽힘.</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 연속된 모든 상태 변화가 단 1비트의 토글로만 이루어진다는 것이다. 모터의 각도를 측정하는 로터리 엔코더 (Rotary [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))에 이 패턴의 구멍을 뚫어두면, 회전 중 빛이 애매하게 걸려도 터무니없는 각도로 튀는 현상(스파크 노이즈)이 물리적으로 불가능해진다.
 
@@ -52,7 +54,7 @@ tags = ["studynote-computer-architecture"]
 | 인코딩 방식 | 인접 숫자 간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변화 | 주요 특징 | 실무 적용처 |
 |:---|:---|:---|:---|
 | **순수 이진수 (Binary)** | 최대 N개 (가변적) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 존재, 사칙연산 가능 | CPU 메인 연산, 메모리 저장 |
-| **[BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (8421 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 최대 3~4개 | 10진수와 1:1 매핑 용이 | 7-Segment 디스플레이 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (8421 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 최대 3~4개 | 10진수와 1:1 매핑 용이 | 7-Segment 디스플레이 |
 | **그레이 코드 (Gray)** | **무조건 1개 고정** | 연산 불가, 오류 원천 차단 | 모터 엔코더, K-Map 축약, 통신 |
 
 CPU가 그레이 코드로 계산을 하려면 다시 2진수로 변환해야 한다. 2진수에서 그레이 코드로 갈 때는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(Parallel)로 단번에 처리되지만, 그레이 코드에서 2진수로 해독할 때는 이전 자리의 해독 결과를 받아와야 하는 리플 (Ripple) 지연이 발생하여 속도를 갉아먹는다.
@@ -62,9 +64,9 @@ CPU가 그레이 코드로 계산을 하려면 다시 2진수로 변환해야 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 실무 설계에서 그레이 코드는 "안전한 경계선 넘기"가 필요한 모든 아키텍처의 핵심 뼈대로 사용된다.
 
-1. **로터리 엔코더 (Rotary [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))**: 정밀 모터 제어에서 순수 이진 센서를 쓰면 각도가 180도 뒤집히는 고스트 노이즈가 발생한다. 무조건 그레이 코드로 패턴을 새겨야 각도 인식 오류를 하드웨어 레벨에서 지울 수 있다.
-2. **비동기 통신 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/)) [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)**: 속도가 다른 두 칩(예: 500MHz CPU와 100MHz 통신 칩) 사이에서 큐([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터를 주고받을 때 이진수를 쓰면 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 쪼개지는 준안정성 (Metastability) 에러가 발생한다. 포인터를 그레이 코드로 변환해 전송하면, 도중 타이밍이 어긋나도 포인터 값이 엉뚱한 곳으로 튀지 않는다.
-3. **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 축약 (K-Map)**: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) ([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/))의 가로/세로 축 좌표는 무조건 `00, 01, 11, 10`의 그레이 코드 순서다. 그래야 인접한 칸끼리 1비트만 달라서 수식을 묶어 소거할 수 있다.
+1. <strong>로터리 엔코더 (Rotary <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>)</strong>: 정밀 모터 제어에서 순수 이진 센서를 쓰면 각도가 180도 뒤집히는 고스트 노이즈가 발생한다. 무조건 그레이 코드로 패턴을 새겨야 각도 인식 오류를 하드웨어 레벨에서 지울 수 있다.
+2. <strong>비동기 통신 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/">Clock Domain Crossing</a>) <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a></strong>: 속도가 다른 두 칩(예: 500MHz CPU와 100MHz 통신 칩) 사이에서 큐([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터를 주고받을 때 이진수를 쓰면 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 쪼개지는 준안정성 (Metastability) 에러가 발생한다. 포인터를 그레이 코드로 변환해 전송하면, 도중 타이밍이 어긋나도 포인터 값이 엉뚱한 곳으로 튀지 않는다.
+3. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 축약 (K-Map)</strong>: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) ([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/))의 가로/세로 축 좌표는 무조건 `00, 01, 11, 10`의 그레이 코드 순서다. 그래야 인접한 칸끼리 1비트만 달라서 수식을 묶어 소거할 수 있다.
 
 - **📢 섹션 요약 비유**: 소프트웨어의 FOR 루프 카운터로 그레이 코드를 쓰는 것은, 은행 번호표를 1, 2, 3번 대신 복잡한 암호문으로 뽑아주고 창구 직원이 매번 암호를 해독하게 만드는 멍청한 설계다. 충돌이 없는 곳에서는 속도만 떨어뜨린다.
 
@@ -78,26 +80,28 @@ CPU가 그레이 코드로 계산을 하려면 다시 2진수로 변환해야 �
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))** | 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 간에 서로 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 개수. 그레이 코드는 이 거리를 1로 통제한다. |
-| **[카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (K-Map)** | 인접 칸 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 변수 1개만 변화시켜 수식을 묶고 최소화하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 설계 도구. |
-| **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/))** | 서로 다른 클럭 스피드를 가진 시스템 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 넘길 때 그레이 코드 카운터가 필수적이다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">Hamming Distance</a>)</strong> | 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 간에 서로 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 개수. 그레이 코드는 이 거리를 1로 통제한다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a> (K-Map)</strong> | 인접 칸 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 변수 1개만 변화시켜 수식을 묶고 최소화하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 설계 도구. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/">Clock Domain Crossing</a>)</strong> | 서로 다른 클럭 스피드를 가진 시스템 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 넘길 때 그레이 코드 카운터가 필수적이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-순수 2진법 (Binary Code)의 스위칭 에러 한계
-    │
-    ▼
-해밍 거리 1 제약 적용 (Hamming Distance = 1)
-    │
-    ▼
-그레이 코드 (Gray Code) 발명
-    │
-    ▼
-로터리 엔코더 (Rotary Encoder) · 카르노 맵 (K-Map) 축약
-    │
-    ▼
-비동기 클럭 도메인 교차 (CDC) FIFO 포인터 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순수 2진법 (Binary Code)의 스위칭 에러 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 거리 1 제약 적용 (Hamming Distance = 1)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그레이 코드 (Gray Code) 발명</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로터리 엔코더 (Rotary Encoder) · 카르노 맵 (K-Map) 축약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비동기 클럭 도메인 교차 (CDC) FIFO 포인터 보호</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 기계 요정들이 강을 건널 때 한 번에 여러 발을 펄쩍펄쩍 뛰면 물에 빠지기 쉽잖아요?

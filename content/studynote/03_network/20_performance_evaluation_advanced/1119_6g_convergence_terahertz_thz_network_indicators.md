@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **한계**: 5G의 28GHz([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)) 대역은 넓긴 하지만 진정한 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/), XR 홀로그램)을 실시간으로 뿜어내기엔 여전히 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁습니다.
-- **초공간 융합**: 5G는 땅바닥의 자동차, 사람만 엮었습니다. 6G는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(에어택시), 태평양의 선박, 우주의 저궤도 위성까지 통신망을 수직으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km 확장하는 **3D 입체 통신망**이 필수적입니다.
+- **초공간 융합**: 5G는 땅바닥의 자동차, 사람만 엮었습니다. 6G는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(에어택시), 태평양의 선박, 우주의 저궤도 위성까지 통신망을 수직으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km 확장하는 <strong>3D 입체 통신망</strong>이 필수적입니다.
 
-```text
-[정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
-[6G 융합 테라헤르츠 예측 지표망]
-    │
-    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,25 +44,29 @@ tags = ["studynote-network"]
 ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입니다.
 
 ### 1. 1 Tbps의 극한의 전송 속도 (Peak [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate)
-- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 최고 속도(20Gbps)의 무려 **50배**입니다.
-- **[테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/), 100GHz ~ 10THz) 대역 🌟**: 이 미친 속도를 뽑아낼 유일한 물리적 해답입니다. 도로 차선이 거의 무한대에 가까운 초초광대역입니다. 이걸 쓰면 100GB짜리 초고화질 영화를 0.1초 만에 다운받고, 서울과 뉴욕의 회의실에 실제와 구분 불가능한 입체 홀로그램(Volumetric [Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)) 수십 명을 실시간으로 텔레포트시킬 수 있습니다.
+- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 최고 속도(20Gbps)의 무려 <strong>50배</strong>입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a>, 100GHz ~ 10THz) 대역 🌟</strong>: 이 미친 속도를 뽑아낼 유일한 물리적 해답입니다. 도로 차선이 거의 무한대에 가까운 초초광대역입니다. 이걸 쓰면 100GB짜리 초고화질 영화를 0.1초 만에 다운받고, 서울과 뉴욕의 회의실에 실제와 구분 불가능한 입체 홀로그램(Volumetric [Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)) 수십 명을 실시간으로 텔레포트시킬 수 있습니다.
 
 ### 2. 0.1 ms 극한의 초저지연 (Extreme Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
-- 5G의 초저지연 목표가 1ms(0.001초) 였습니다. 6G는 그걸 다시 10토막 내어 **0.1ms (100마이크로초)**로 깎아냅니다.
+- 5G의 초저지연 목표가 1ms(0.001초) 였습니다. 6G는 그걸 다시 10토막 내어 <strong>0.1ms (100마이크로초)</strong>로 깎아냅니다.
 - **왜 필요한가?**: 지구 반대편에 있는 원격 수술 로봇의 칼날이나, 우주 공간의 위성 궤도를 조종할 때, 인간의 신경 반사 속도보다 네트워크 속도가 미세하게 더 빠르거나 완벽히 일치하여 100% 완벽한 촉각(Haptic) 통신(인터넷으로 물건의 감촉을 전달)을 구현하기 위함입니다.
 
 ### 3. 천문학적 밀집도와 1,000 km/h 고속 이동성
-- 5G는 1제곱킬로미터(km²)당 100만 대의 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 수용했습니다. 6G는 10배인 **1,000만 대(천장, 바닥, 옷, 안경, 피부 속 센서까지 모조리 접속)**를 동시에 뻗지 않고 소화해야 합니다.
+- 5G는 1제곱킬로미터(km²)당 100만 대의 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 수용했습니다. 6G는 10배인 <strong>1,000만 대(천장, 바닥, 옷, 안경, 피부 속 센서까지 모조리 접속)</strong>를 동시에 뻗지 않고 소화해야 합니다.
 - 5G는 시속 500km KTX 정도에서 터졌습니다. 6G는 **마하 1에 가까운 시속 1,000km로 날아가는 하이퍼루프나 에어택시, 여객기** 안에서도 1Tbps 넷플릭스가 끊기지 않는 끈질긴 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 방어 및 빔 트래킹(추적) 기술을 요구합니다.
 
-```text
-[정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
-[6G 융합 테라헤르츠 예측 지표망]
-    │
-    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 
 ### 1. [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/) (RIS, Reconfigurable Intelligent Surface)
 - [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)는 1019번에서 배웠듯 빛(레이저)과 똑같아서 나뭇잎 1장, 유리창 1장도 못 뚫고 소멸해 버립니다.
-- **RIS 꼼수**: 빌딩 외벽, 방 안의 벽지, 유리창 겉면에 '눈에 보이지 않는 메타물질 거울 칩셋(RIS)'을 도배합니다. 기지국에서 쏜 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 전파가 이 유리창(거울)에 부딪히면 튕겨 나가지 않고, 방 안의 스마트폰을 향해 **강제로 각도를 꺾어서 레이저 빔의 방향을 틀어버리는 마법**을 부려 사각지대를 완벽히 지워냅니다.
+- **RIS 꼼수**: 빌딩 외벽, 방 안의 벽지, 유리창 겉면에 '눈에 보이지 않는 메타물질 거울 칩셋(RIS)'을 도배합니다. 기지국에서 쏜 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 전파가 이 유리창(거울)에 부딪히면 튕겨 나가지 않고, 방 안의 스마트폰을 향해 <strong>강제로 각도를 꺾어서 레이저 빔의 방향을 틀어버리는 마법</strong>을 부려 사각지대를 완벽히 지워냅니다.
 
 ### 2. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화 ([AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/) Network)
 - [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 망은 인간이 관리하는 게 불가능합니다. 1116번에서 배운 레벨 5수준의 100% 자율 통제가 기본입니다. 코어 망부터 말단 스마트폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩셋까지 처음부터 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩이 박혀있어([AI-Native](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/792_ai_native_6g_neural_network_radio/)), 전파 상태를 스스로 1초에 1억 번씩 학습하며 빔의 각도와 에러를 스스로 치유하는 완전 생명체 네트워크로 진화합니다.
@@ -83,7 +91,7 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)**가 스마트폰으로 땅바닥에서 유튜브 4K 영상을 끊김 없이 보는 **'슈퍼카 고속도로'**라면, **[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/)([테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)망)**는 현실과 완벽히 100% 겹쳐진 또 다른 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 지구를 실시간으로 다운로드 받는 **'우주 텔레포트 차원 관문'**입니다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 관문으로 1Tbps라는 폭포수([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 같은 데이터가 쏟아지면, 홀로그램 아바타가 서울 한복판에 1초 만에 나타나 현실 사람과 악수하고 부둥켜안을 수 있습니다. 하지만 이 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)(빛) 폭포수는 너무 섬세해서 벽에 부딪히면 다 산산조각 나버리는 최악의 생존력을 가집니다. 이를 살리기 위해 도시의 모든 건물 벽과 가로등에 스마트 거울(RIS)을 발라 폭포수 물줄기 각도를 꺾어 내 방 안까지 구겨 넣고, 마하 1의 속도로 날아가는 비행기 창문까지 그 빛을 쫓아가 꽂아버리는 인류 통신 공학의 마지막 한계 돌파 시나리오입니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a></strong>가 스마트폰으로 땅바닥에서 유튜브 4K 영상을 끊김 없이 보는 <strong>'슈퍼카 고속도로'</strong>라면, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a>망)</strong>는 현실과 완벽히 100% 겹쳐진 또 다른 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 지구를 실시간으로 다운로드 받는 <strong>'우주 텔레포트 차원 관문'</strong>입니다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 관문으로 1Tbps라는 폭포수([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 같은 데이터가 쏟아지면, 홀로그램 아바타가 서울 한복판에 1초 만에 나타나 현실 사람과 악수하고 부둥켜안을 수 있습니다. 하지만 이 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)(빛) 폭포수는 너무 섬세해서 벽에 부딪히면 다 산산조각 나버리는 최악의 생존력을 가집니다. 이를 살리기 위해 도시의 모든 건물 벽과 가로등에 스마트 거울(RIS)을 발라 폭포수 물줄기 각도를 꺾어 내 방 안까지 구겨 넣고, 마하 1의 속도로 날아가는 비행기 창문까지 그 빛을 쫓아가 꽂아버리는 인류 통신 공학의 마지막 한계 돌파 시나리오입니다.
 
 ---
 
@@ -125,15 +133,19 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 정보통신 기술사 최근 기출 토픽 기반]
-    │
-    ▼
-[현재 개념: 6G 융합 테라헤르츠 예측 지표망]
-    │
-    ├──▶ [확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정보통신 기술사 최근 기출 토픽 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망는 정보통신 기술사 최근 기출 토픽 기반에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 기반 도심항공교통](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

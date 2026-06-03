@@ -43,20 +43,20 @@ LC/NC 플랫폼은 보통 디자이너, [메타데이터](/knowledge-base/studyn
 
 아래 구조는 시각적 설계가 곧바로 업무 실행으로 이어지되, 그 사이에 공통 통제 계층이 꼭 들어가야 함을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     Metadata-driven low-code platform                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Designer UI -> App / Flow Metadata -> Runtime Engine -> Connectors       │
-│      │                  │                    │               │            │
-│      │                  │                    │               └-> ERP/CRM  │
-│      │                  │                    └-> Auth / Log / Monitor     │
-│      └-> Forms / Rules  └-> Versioned deploy                              │
-│                              │                                             │
-│                              ▼                                             │
-│                 Governance / policy / approval pipeline                    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata-driven low-code platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Designer UI -&gt; App / Flow Metadata -&gt; Runtime Engine -&gt; Connectors</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ERP/CRM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Auth / Log / Monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Forms / Rules -&gt; Versioned deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Governance / policy / approval pipeline</div></div>
+</div>
+</div>
+
+
 
 노코드 (No-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 정해진 블록 안에서 빠르게 결과를 만드는 데 강하고, 로우코드 (Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 필요한 부분에 스크립트나 확장 코드를 붙여 복잡한 요구를 수용하는 데 강하다. 따라서 LC/NC의 설계 포인트는 "코드가 있나 없나"보다, 플랫폼이 어느 수준까지 표준 기능으로 흡수하고 어디부터 전문 개발자 확장이 필요한가를 경계 짓는 데 있다.
 
@@ -109,7 +109,7 @@ LC/NC는 부서 단위 업무 앱, 승인 프로세스, [SaaS](/knowledge-base/s
 
 LC/NC를 잘 적용하면 장꼬리 업무 자동화의 처리 속도가 빨라지고, 현업의 문제 해결 역량이 커지며, IT 부서는 공통 플랫폼과 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개발에 집중할 수 있다. 또한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반으로 앱과 흐름을 표준화하면, 산발적 엑셀 매크로와 개인 봇을 기업 통제 범위 안으로 흡수하는 효과도 얻는다.
 
-다만 플랫폼에 과도하게 의존하면 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계, 복잡한 로직 처리 부족이 문제로 드러날 수 있다. 따라서 LC/NC는 "개발을 쉽게 한다"보다, **표준화된 범위 안에서 자동화를 민주화한다**는 시각으로 기억해야 한다. 쉬운 제작과 강한 거버넌스가 함께 있을 때만 엔터프라이즈 가치가 커진다.
+다만 플랫폼에 과도하게 의존하면 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계, 복잡한 로직 처리 부족이 문제로 드러날 수 있다. 따라서 LC/NC는 "개발을 쉽게 한다"보다, <strong>표준화된 범위 안에서 자동화를 민주화한다</strong>는 시각으로 기억해야 한다. 쉬운 제작과 강한 거버넌스가 함께 있을 때만 엔터프라이즈 가치가 커진다.
 
 - **📢 섹션 요약 비유**: LC/NC의 이상형은 모두가 공용 공구를 써서 작은 수리를 스스로 해결하되, 건물의 기둥과 배선 공사는 전문가가 맡는 구조다. 자율성과 안전선이 함께 있어야 오래 간다.
 
@@ -127,21 +127,23 @@ LC/NC를 잘 적용하면 장꼬리 업무 자동화의 처리 속도가 빨라�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수기 엑셀 · 이메일 업무
-    │
-    ▼
-시각적 폼 · 간단한 자동화 블록
-    │
-    ▼
-노코드 워크플로우
-    │
-    ▼
-로우코드 확장 · API 연계
-    │
-    ▼
-CoE 기반 엔터프라이즈 자동화 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수기 엑셀 · 이메일 업무</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시각적 폼 · 간단한 자동화 블록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노코드 워크플로우</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로우코드 확장 · API 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CoE 기반 엔터프라이즈 자동화 거버넌스</div>
+</div>
+</div>
+
+
 
 이 흐름은 개인 생산성 도구 수준에서, 조직 차원의 통제 가능한 자동화 플랫폼으로 발전하는 방향을 보여준다.
 

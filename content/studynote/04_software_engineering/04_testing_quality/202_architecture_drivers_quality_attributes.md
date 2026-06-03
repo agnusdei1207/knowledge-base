@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)(뼈대)를 이렇게 그릴까 저렇게 그릴까 고민할 때, **최종적으로 특정 구조를 결정짓도록 멱살을 잡고 끌고 가는(Driving) 핵심적인 압박 요인과 요구사항들의 총합**을 말합니다.
+- **개념**: [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)(뼈대)를 이렇게 그릴까 저렇게 그릴까 고민할 때, <strong>최종적으로 특정 구조를 결정짓도록 멱살을 잡고 끌고 가는(Driving) 핵심적인 압박 요인과 요구사항들의 총합</strong>을 말합니다.
 - 아무리 뛰어난 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처라도 이 '드라이버'를 만족시키지 못하면 오답이 됩니다.
 
 - **📢 섹션 요약 비유**: 아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 아키텍처 드라이버 (Architect의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 드라이버 (Architect                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 드라이버 (Architect</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 아키텍처 드라이버 (Architect가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -63,10 +62,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 드라이버들은 서로 사이가 안 좋습니다. 
-- **상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**: "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))"을 올리려고 암호화를 빼자니 "[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이 개박살납니다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 빵빵하게 하려고 방화벽을 3중으로 치면, 클릭 딜레이가 3초가 걸려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 죽고, 장비값(제약)이 폭발합니다.
-- **결론**: 완벽한 아키텍처는 우주에 존재하지 않습니다. 아키텍트는 3대 드라이버 사이에서 피 터지게 싸우는 요소들을 저울질하며, **"지금 우리 회사 비즈니스에서 제일 중요한 1순위 품질(예: 무조건 싼 가격)을 위해 다른 품질(보안)을 눈물을 머금고 포기(Trade-off)하는 가장 아름다운 타협점"**을 도면으로 그려내는 협상의 달인이어야 합니다.
+- <strong>상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))"을 올리려고 암호화를 빼자니 "[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이 개박살납니다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 빵빵하게 하려고 방화벽을 3중으로 치면, 클릭 딜레이가 3초가 걸려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 죽고, 장비값(제약)이 폭발합니다.
+- **결론**: 완벽한 아키텍처는 우주에 존재하지 않습니다. 아키텍트는 3대 드라이버 사이에서 피 터지게 싸우는 요소들을 저울질하며, <strong>"지금 우리 회사 비즈니스에서 제일 중요한 1순위 품질(예: 무조건 싼 가격)을 위해 다른 품질(보안)을 눈물을 머금고 포기(Trade-off)하는 가장 아름다운 타협점"</strong>을 도면으로 그려내는 협상의 달인이어야 합니다.
 
-> 📢 **섹션 요약 비유**: **아키텍처 드라이버**는 집(소프트웨어)을 지을 때 건축가의 화려한 상상력을 짓밟고 멱살을 잡아채는 **'잔인한 3명의 건축주(돈, 시간, 요구사항)'**입니다. 건축가는 100층짜리 전면 유리 통창 성을 그리고 싶었습니다(최고의 아키텍처). 그런데 첫 번째 건축주(제약 사항)가 **"예산은 1억 원뿐이고 땅도 좁아!"**라고 소리칩니다. 유리 성은 즉시 시멘트 1층 집으로 쪼그라듭니다. 두 번째 건축주(비즈니스 목표)가 **"이번 달 말까지 무조건 입주해야 돼!"**라고 채찍질합니다. 정교한 설계는 개나 주고 조립식 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 뼈대로 도면이 바뀝니다. 세 번째 건축주(품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))가 **"대신 진도 8.0 지진에도 안 무너져야 해!([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))"**라며 말도 안 되는 조건을 덧붙입니다. 건축가는 1달 만에 짓는 싸구려 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 집 바닥에 미친 듯이 두꺼운 H빔 철골을 용접하는 기괴한 도면(트레이드오프 타협안)을 눈물을 머금고 그려냅니다. 이 3명의 미친 압박 요인(드라이버)이 부딪히고 깎여나간 상처투성이 타협의 결과물이 바로 살아 숨 쉬는 진짜 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)의 뼈대입니다.
+> 📢 **섹션 요약 비유**: <strong>아키텍처 드라이버</strong>는 집(소프트웨어)을 지을 때 건축가의 화려한 상상력을 짓밟고 멱살을 잡아채는 <strong>'잔인한 3명의 건축주(돈, 시간, 요구사항)'</strong>입니다. 건축가는 100층짜리 전면 유리 통창 성을 그리고 싶었습니다(최고의 아키텍처). 그런데 첫 번째 건축주(제약 사항)가 <strong>"예산은 1억 원뿐이고 땅도 좁아!"</strong>라고 소리칩니다. 유리 성은 즉시 시멘트 1층 집으로 쪼그라듭니다. 두 번째 건축주(비즈니스 목표)가 <strong>"이번 달 말까지 무조건 입주해야 돼!"</strong>라고 채찍질합니다. 정교한 설계는 개나 주고 조립식 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 뼈대로 도면이 바뀝니다. 세 번째 건축주(품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))가 <strong>"대신 진도 8.0 지진에도 안 무너져야 해!(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)"</strong>라며 말도 안 되는 조건을 덧붙입니다. 건축가는 1달 만에 짓는 싸구려 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 집 바닥에 미친 듯이 두꺼운 H빔 철골을 용접하는 기괴한 도면(트레이드오프 타협안)을 눈물을 머금고 그려냅니다. 이 3명의 미친 압박 요인(드라이버)이 부딪히고 깎여나간 상처투성이 타협의 결과물이 바로 살아 숨 쉬는 진짜 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)의 뼈대입니다.
 
 - **📢 섹션 요약 비유**: 아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -91,8 +90,8 @@ tags = ["studynote-software-engineering"]
 
 ### 기술사 판단 포인트
 
-- 이 개념을 **언제 채택**해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
-- 이 개념을 **언제 회피**해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
+- 이 개념을 <strong>언제 채택</strong>해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
+- 이 개념을 <strong>언제 회피</strong>해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
 
 - **📢 섹션 요약 비유**: 아키텍처 드라이버 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Drivers) 적용은 요리사가 레시피를 따라 요리하는 과정과 같다. 레시피(원칙)를 완전히 무시하면 매번 결과가 들쑥날쑥하지만, 레시피를 맹목적으로 따르되 재료 상황(프로젝트 특성)에 맞게 조정하는 것이 진정한 전문가의 판단이다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 드라이버 (Architecture Drivers) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 드라이버 (Architecture Drivers) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

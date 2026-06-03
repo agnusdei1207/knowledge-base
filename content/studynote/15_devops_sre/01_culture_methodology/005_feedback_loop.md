@@ -26,33 +26,31 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 전통적 개발방식과 현대적 피드백 루프 방식의 차이를 보여준다.
 
-```text
-[전통적 개발 vs 피드백 루프 중심 개발]
 
-전통적 방식 (긴 피드백 루프 = 높은 수정 비용):
-Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release ──▶ Operate
-↑
-│ 수개월~수년 후
-│ 문제 발견
-│
-"수정 비용 ↑
-시점 ∙∙∙∙∙∙"
-↑
-문제 발견 시점 (개발 후)
 
-데브옵스/애자일 방식 (짧은 피드백 루프 = 낮은 수정 비용):
-┌────────────────────────────────────────────────────────────┐
-│ Plan ──▶ Code ──▶ Build ──▶ Test ──▶ Release ──▶ Operate │
-│ ↑ │ │
-│ │ ┌────────────────────────┘ │
-│ │ │ (수~수일 후) │
-│ │ │ 문제/피드백 발견 │
-│ │ ↓ │
-│ │ "수정 비용 ↓" │
-│ │ 시점 ∙∙ │
-│ └──────── 문제 발견 시점 (코드 작성 직후) │
-└────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 개발 vs 피드백 루프 중심 개발</div></div>
+<div class="kb-diagram-note">전통적 방식 (긴 피드백 루프 = 높은 수정 비용):</div>
+<div class="kb-diagram-note">Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release ──▶ Operate</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">수개월~수년 후</div>
+<div class="kb-diagram-note">문제 발견</div>
+<div class="kb-diagram-note">"수정 비용 ↑</div>
+<div class="kb-diagram-note">시점 ∙∙∙∙∙∙"</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">문제 발견 시점 (개발 후)</div>
+<div class="kb-diagram-note">데브옵스/애자일 방식 (짧은 피드백 루프 = 낮은 수정 비용):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan ──▶ Code ──▶ Build ──▶ Test ──▶ Release ──▶ Operate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수~수일 후)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제/피드백 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"수정 비용 ↓"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시점 ∙∙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 발견 시점 (코드 작성 직후)</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 피드백 루프의 길이가 비용과 직접적으로한다는 점이다. 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(코딩 직후)에 문제를 발견하면수정 비용이 거의 들지 않지만, 프로덕션 배포 후에 발견되면 영향을 받는 사용자 범위, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에서 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), patches로 인한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 등을 고려하면수정 비용은 수배에서 수십배 한다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)의 궁극적 가치는 이 피드백 루프를 단축하여 수정 비용을 최소화하는 데 있다.
 
@@ -73,53 +71,32 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 
 아래는 완전한 피드백 루프의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 나타내는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
-```text
-[완전한 DevOps 피드백 루프 구조]
 
-┌─────────────────────────────────────────────────────────────────┐
-│ 개발 환경 (Development) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ Backlog │───▶│ 코드 작성 │───▶│ CI/CD │ │
-│ │ (User Story)│ │ (Developer) │ │ Pipeline │ │
-│ └─────────────┘ └─────────────┘ └──────┬──────┘ │
-└──────────────────────────────────────────────┼───────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 운영 환경 (Production) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ 사용자 │◀───│ 서비스 │◀───│ 배포된 │ │
-│ │ (End User) │ │ (Service) │ │ Application │ │
-│ └──────┬──────┘ └──────┬──────┘ └─────────────┘ │
-└─────────┼──────────────────┼───────────────────────────────────┘
-│ │
-▼ ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 피드백 수집 (Feedback Collection) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ 메트릭스 │ │ 로그 │ │ 사용자 │ │
-│ │ (Prometheus)│ │ (ELK) │ │ 피드백 │ │
-│ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ │
-└─────────┼──────────────────┼──────────────────┼───────────────┘
-│ │ │
-▼ ▼ ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 분석 및 대응 (Analysis & Action) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│ │ SLO/SLI │ │ 포스트모텀 │ │ 제품 │ │
-│ │ 평가 │ │ (장애 회고) │ │ 로드맵 갱신 │ │
-│ └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ │
-└─────────┼──────────────────┼──────────────────┼───────────────┘
-│ │ │
-└──────────────────┴──────────────────┘
-│
-▼
-┌─────────────────┐
-│ 개발 환경으로 │
-│ 피드백 환류 │
-│ (Back to Plan) │
-└─────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">완전한 DevOps 피드백 루프 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 환경 (Development)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backlog</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">코드 작성</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CI/CD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Story)</div><div class="kb-diagram-cell">(Developer)</div><div class="kb-diagram-cell">Pipeline</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 환경 (Production)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">배포된</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(End User)</div><div class="kb-diagram-cell">(Service)</div><div class="kb-diagram-cell">Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피드백 수집 (Feedback Collection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭스</div><div class="kb-diagram-cell">로그</div><div class="kb-diagram-cell">사용자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Prometheus)</div><div class="kb-diagram-cell">(ELK)</div><div class="kb-diagram-cell">피드백</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 및 대응 (Analysis &amp; Action)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO/SLI</div><div class="kb-diagram-cell">포스트모텀</div><div class="kb-diagram-cell">제품</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가</div><div class="kb-diagram-cell">(장애 회고)</div><div class="kb-diagram-cell">로드맵 갱신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 환경으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피드백 환류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Back to Plan)</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 피드백 루프가 단일이 아니라 무한 순환이라는 점이다. 개발에서 운영으로의 단일 방향 배포(One-way [deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 함께, 운영에서 개발으로의 다중 방향 피드백(Multi-way feedback)이 동시에 존재해야 한다. 기술적 피드백(빌드 실패, 테스트 에러)은 수분 내 개발자에게 전달되고,적 피드백([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 경보)은 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 반영되며, 고객 피드백(버그 신고)은 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)에되어야 한다.
 
@@ -133,33 +110,34 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 
 | 방법론 | 피드백 루프의 초점 | 핵심 도구 | 측정 지표 |
 |:---|:---|:---|:---|
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | Build-Measure-Learn | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 백로그 정리 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 달성률 |
-| **[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))** | 코드 → 프로덕션 → 피드백 속도 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 |
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학)** | 에러 버짓 소진 속도 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), 에러 버짓 대시보드 | 에러율, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) |
-| **린 ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))** | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) → 측정 → 학습 속도 | A/B 테스트, 린 애널리틱스 | 학습 속도, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)/퍼시eve 비율 |
-| **[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))** | 작업 흐름 최적화 | Cumulative Flow Diagram | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 사이클 타임 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | Build-Measure-Learn | [스프린트 회고](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/), 백로그 정리 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 달성률 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a>)</strong> | 코드 → 프로덕션 → 피드백 속도 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (사이트 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 공학)</strong> | 에러 버짓 소진 속도 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), 에러 버짓 대시보드 | 에러율, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) |
+| <strong>린 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) → 측정 → 학습 속도 | A/B 테스트, 린 애널리틱스 | 학습 속도, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)/퍼시eve 비율 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>)</strong> | 작업 흐름 최적화 | Cumulative Flow Diagram | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 사이클 타임 |
 
 피드백 루프의 효과는 그 길이(반복 주기)뿐 아니라(얼마나 한 정보를 전달하는가)에 भी 영향을 받는다. noisy한 알람만 많이 받는 피드백은 역효과를 내며, 핵심적인 을 calescens할 수 있는([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))이 중요하다.
 
-```text
-[피드백 루프의 두 축: 속도 vs 품질]
 
-속도 (Speed)
-느림 ◀─────────────────▶ 빠름
-│ │
-│ Level 1: │ Level 3:
-│ + 품질 │ + 품질
-│ (불확실한 피드백) │ (이상적 상태)
-품질 │ │
-(Quality) │ Level 2: │ Level 4:
-│ + 품질 │ + 품질
-│ (정확하지만 늦은 피드백) │ (빠르지만 noisy)
-│ │
-└──────────────────────────┘
 
-목표: 제4사분면 (고속 + 고품질) 도달
-방법: 옵저버빌리티화, Alert 경량화, 자동화된 분석
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 루프의 두 축: 속도 vs 품질</div></div>
+<div class="kb-diagram-note">속도 (Speed)</div>
+<div class="kb-diagram-note">느림 ◀ ▶ 빠름</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1:</div><div class="kb-diagram-cell">Level 3:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 품질</div><div class="kb-diagram-cell">+ 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(불확실한 피드백)</div><div class="kb-diagram-cell">(이상적 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Quality)</div><div class="kb-diagram-cell">Level 2:</div><div class="kb-diagram-cell">Level 4:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 품질</div><div class="kb-diagram-cell">+ 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정확하지만 늦은 피드백)</div><div class="kb-diagram-cell">(빠르지만 noisy)</div></div>
+<div class="kb-diagram-note">목표: 제4사분면 (고속 + 고품질) 도달</div>
+<div class="kb-diagram-note">방법: 옵저버빌리티화, Alert 경량화, 자동화된 분석</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 피드백 루프는 체육관의 러닝머신과 같다. 속도(피드백 빈도)가 너무 빠르면() 오히려 숨이 차서를 얻지 못하고, 속도가 너무 느리면(정보 부족) 개선이 더디다. 또한 품질(성)이 떨어지면(잘못된 피드백) 오히려 몸에 잘못된 버릇이 배울 수 있다. 따라서 적절한 속도와 정확한 정보가 모두 필요하다.
 
@@ -170,7 +148,7 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 피드백 루프 구축 시 흔히 저지르는 실수와 그 해결 방안을별로 정리하면 다음과 같다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 하고 있지만 알람이 너무 많아 "알람 피로(Alert Fatigue)" 발생**
+- <strong>시나리오 A: <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링은 하고 있지만 알람이 너무 많아 "알람 피로(Alert Fatigue)" 발생</strong>
 - **상황**: 프로메테우스 알람을 수백 개 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했지만, 실제 알람의 대부분이 잘못된 양성(false positive)이라 경보를 무시하는 문화가 형성됨.
 - **판단**: 알람을 줄이기보다 알람의품질을 높여야 한다. [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)/[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 체계를 도입하여 알람이 실제로에 영향을 미치는 것만 경보하게 하고, 알람은 문서화만 하고 경보는 발생시키지 않는다. 이를 통해 팀이 실제로 대응해야 할 문제에 집중할 수 있다.
 
@@ -178,24 +156,26 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 - **상황**: 매번 장애 후 원인 분석( RCA)을 수행하지만, 동일한 장애가 반복해서 발생함.
 - **판단**: 피드백이 작동하지 않는 것이다. 포스트모텀에서 도출된 개선 조치를.backlog에 추가하고, 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에서 반드시 처리하도록 하며, 완료 여부를 추적해야 한다. 또한 무비판적 포스트모텀이었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여, 진정한근본가 아니라 표면적 원인을 도출해야 한다.
 
-```text
-[피드백 루프 실효성 확보를 위한 체크리스트]
 
-□ 피드백이 개발 조직에 실제로 전달되는가?
-- 알람 → 담당자 연동 → 조치 여부 추적
 
-□ 피드백이 다음 개발 결정에 반영되는가?
-- 포스트모텀 조치 → 백로그 편성 → 스프린트 포함
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 루프 실효성 확보를 위한 체크리스트</div></div>
+<div class="kb-diagram-note">□ 피드백이 개발 조직에 실제로 전달되는가?</div>
+<div class="kb-diagram-tree-item" style="--depth:0">알람 → 담당자 연동 → 조치 여부 추적</div>
+<div class="kb-diagram-note">□ 피드백이 다음 개발 결정에 반영되는가?</div>
+<div class="kb-diagram-tree-item" style="--depth:0">포스트모텀 조치 → 백로그 편성 → 스프린트 포함</div>
+<div class="kb-diagram-note">□ 피드백 속도가 충분히 빠른가?</div>
+<div class="kb-diagram-tree-item" style="--depth:0">CI/CD 파이프라인: 수분 내</div>
+<div class="kb-diagram-tree-item" style="--depth:0">메트릭스 경보: 수분~수시간 내</div>
+<div class="kb-diagram-tree-item" style="--depth:0">고객 피드백: 수일 내</div>
+<div class="kb-diagram-note">□ 피드백의 품질이 적절한가?</div>
+<div class="kb-diagram-tree-item" style="--depth:0">SLO/SLI 기반 진짜 중요한 것만 알람</div>
+<div class="kb-diagram-tree-item" style="--depth:0">잘못된 양성 비율 최소화</div>
+</div>
+</div>
 
-□ 피드백 속도가 충분히 빠른가?
-- CI/CD 파이프라인: 수분 내
-- 메트릭스 경보: 수분~수시간 내
-- 고객 피드백: 수일 내
 
-□ 피드백의 품질이 적절한가?
-- SLO/SLI 기반 진짜 중요한 것만 알람
-- 잘못된 양성 비율 최소화
-```
 
 > 📢 **섹션 요약 비유**: 피드백 루프이/가하여없다 것은 건강검진 결과를 받아보기만 하고 실제로병원에 가지 않는 것과 같다. 피드백을 수집하는 것(검진)만으로는개선되지 않고, 그 피드백을 실질적인 행동 변화(운동, 식단 변경)에 연결해야 한다. 운동 루틴(개발)에 반영해서 건강이 개선된다.
 
@@ -223,29 +203,31 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 
 ### 📌 관련 개념 맵
 
-- **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**
-- **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (Monitoring) & 알람**
-- **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)/[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)/Indicator)**
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 (Monitoring) &amp; 알람</strong>
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>/Indicator)</strong>
 - **포스트모텀 (Postmortem)**
 - **지속적 개선 (Continuous Improvement)**
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CI/CD 파이프라인]
-│
-▼
-[모니터링 (Monitoring) & 알람]
-│
-▼
-[SLO/SLI (Service Level Objective/Indicator)]
-│
-▼
-[포스트모텀 (Postmortem)]
-│
-▼
-[지속적 개선 (Continuous Improvement)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 파이프라인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터링 (Monitoring) &amp; 알람</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLO/SLI (Service Level Objective/Indicator)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포스트모텀 (Postmortem)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 개선 (Continuous Improvement)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 출발해 지속적 개선 (Continuous Improvement)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

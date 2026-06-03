@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 한정된 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 환경에서, 트래픽의 종류에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay), 지터(Jitter), 패킷 손실률(Packet Loss)을 보장하거나 차등적으로 제어하기 위한 일련의 네트워크 아키텍처 및 메커니즘.
-- **필요성**: 1Gbps짜리 사내망에 1.5Gbps의 데이터가 쏟아져 들어왔다. 라우터 큐(대기열 버퍼)가 꽉 찼다. 이 안에 사장님이 해외 바이어와 하고 있는 화상 회의(Zoom) 패킷과, 신입사원이 몰래 받고 있는 10GB짜리 스팀 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))이 섞여 있다. 기본 라우터는 둘을 구별 못 하니 평등하게 짬뽕해서 버린다. 사장님 화면이 툭툭 끊기고 음성이 로봇처럼 들린다(Jitter 발생). **"아니, 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 1초 늦게 받아도 아무도 모르지만, 목소리는 0.1초만 늦어도 통화가 끊기잖아! 제발 목소리 패킷(음성 트래픽)부터 무조건 1빠따로 챙겨서 통과시켜!"** 이것이 QoS가 존재하는 유일한 이유다.
+- **필요성**: 1Gbps짜리 사내망에 1.5Gbps의 데이터가 쏟아져 들어왔다. 라우터 큐(대기열 버퍼)가 꽉 찼다. 이 안에 사장님이 해외 바이어와 하고 있는 화상 회의(Zoom) 패킷과, 신입사원이 몰래 받고 있는 10GB짜리 스팀 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))이 섞여 있다. 기본 라우터는 둘을 구별 못 하니 평등하게 짬뽕해서 버린다. 사장님 화면이 툭툭 끊기고 음성이 로봇처럼 들린다(Jitter 발생). <strong>"아니, 게임 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>은 1초 늦게 받아도 아무도 모르지만, 목소리는 0.1초만 늦어도 통화가 끊기잖아! 제발 목소리 패킷(음성 트래픽)부터 무조건 1빠따로 챙겨서 통과시켜!"</strong> 이것이 QoS가 존재하는 유일한 이유다.
 
-- **💡 비유**: 라우터의 큐(대기열)는 명절날 꽉 막힌 **"고속도로 톨게이트"**와 같습니다.
+- **💡 비유**: 라우터의 큐(대기열)는 명절날 꽉 막힌 <strong>"고속도로 톨게이트"</strong>와 같습니다.
   - **Best Effort**: 앰뷸런스든 덤프트럭이든 무조건 줄 선 순서대로 1대씩 표를 끊어줍니다. 앰뷸런스 환자는 죽어갑니다.
-  - **[IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/) (예약)**: 앰뷸런스가 출발하기 1시간 전에 톨게이트에 전화해서 **"나 1시간 뒤에 갈 거니까 1차선 톨게이트 아예 싹 다 비워놓고 다른 차 아무도 못 들어오게 막아놔!"**라고 바리케이드를 치는 겁니다.
-  - **[DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) (차등 대우)**: 앰뷸런스 지붕에 **"빨간색 사이렌(DSCP 마킹)"**을 달고 달립니다. 톨게이트 직원이 멀리서 사이렌 색깔만 보고 "어? 앰뷸런스네! 앞에 트럭들 다 치워! 얘 먼저 하이패스로 쏴줘!"라며 유연하게 새치기를 시켜줍니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/">IntServ</a> (예약)</strong>: 앰뷸런스가 출발하기 1시간 전에 톨게이트에 전화해서 <strong>"나 1시간 뒤에 갈 거니까 1차선 톨게이트 아예 싹 다 비워놓고 다른 차 아무도 못 들어오게 막아놔!"</strong>라고 바리케이드를 치는 겁니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/">DiffServ</a> (차등 대우)</strong>: 앰뷸런스 지붕에 <strong>"빨간색 사이렌(DSCP 마킹)"</strong>을 달고 달립니다. 톨게이트 직원이 멀리서 사이렌 색깔만 보고 "어? 앰뷸런스네! 앞에 트럭들 다 치워! 얘 먼저 하이패스로 쏴줘!"라며 유연하게 새치기를 시켜줍니다.
 
-```text
-[WireGuard]
-    │
-    ▼
-[QoS]
-    │
-    └──▶ [IntServ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IntServ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** QoS의 본질은 **"응급실의 환자 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Triage)"**입니다. 먼저 병원에 도착했다고([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 감기 환자를 먼저 치료하는 게 아니라, 늦게 왔더라도 피를 흘리는 중증 외상 환자(VoIP, 화상 회의)를 의사가 가장 먼저 수술대(출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 밀어 넣는 철저한 불평등(우선순위) 대우 시스템입니다.
 
@@ -51,7 +55,7 @@ tags = ["studynote-network"]
 
 ### 2. [IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/) ([Integrated Services](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/)) - 자원 예약 모델
 - "절대 패킷이 1방울도 안 버려지게 할 완벽한 방법을 찾자!"
-- 송신자가 **RSVP (자원 예약 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**이라는 특수 특사를 보낸다. 이 특사가 내가 목적지까지 가는 경로에 있는 모든 100대의 라우터를 방문해서, **"야, 1번 라우터 너 100M 중에 10M 예약! 2번 라우터 너도 10M 예약! 아무도 터치 못 해!"**라고 절대 권력의 알박기(Hard [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 시전한다.
+- 송신자가 <strong>RSVP (자원 예약 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>이라는 특수 특사를 보낸다. 이 특사가 내가 목적지까지 가는 경로에 있는 모든 100대의 라우터를 방문해서, <strong>"야, 1번 라우터 너 100M 중에 10M 예약! 2번 라우터 너도 10M 예약! 아무도 터치 못 해!"</strong>라고 절대 권력의 알박기(Hard [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 시전한다.
 - **실패 원인 (확장성 붕괴)**: 통신사 코어 라우터는 초당 수천만 명이 지나다닌다. 100만 명의 RSVP 예약 장부를 일일이 다 외우고 있으면 라우터 메모리가 터져버린다. 결국 대규모 망에서는 폐기되고 연구실이나 소규모 극비 망에서나 쓰는 개념이 되었다.
 
 ### 3. [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) ([Differentiated Services](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)) - 꼬리표 새치기 모델 (현대 표준)
@@ -62,25 +66,25 @@ tags = ["studynote-network"]
   - 3번 천민 대기 줄: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 (남는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 찌꺼기만 먹음)
 - 통신사 라우터는 누구 패킷인지 예약 장부를 뒤질 필요 없이, "어? 너 빨간 딱지(EF) 붙이고 왔네? 넌 VIP 줄로 가! 넌 파란 딱지네? 3번 줄로 가!"라며 기계적으로 컨베이어 벨트를 돌려버리므로 기가비트 스피드를 방해하지 않는다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IntServ (예약) vs DiffServ (딱지) 극단적 비교      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 식당에서 밥 먹기 (라우터 통과하기) ]                             │
- │                                                             │
- │   * IntServ 방식 (RSVP 예약):                                 │
- │     "사장님! 저녁 7시에 갈 거니까 창가 자리(10Mbps) 무조건 비워둬요!"   │
- │     단점: 손님 안 오면 그 자리는 계속 비어있어 식당이 적자남 (자원 낭비).   │
- │     단점: 사장님이 예약 장부 수만 개를 일일이 다 외워야 함 (메모리 폭발).   │
- │                                                             │
- │   * DiffServ 방식 (DSCP 딱지):                                │
- │     예약 안 함. 손님이 올 때 가슴에 "VVIP 황금 배지"를 달고 문을 염.     │
- │     직원이 황금 배지만 딱 보고 "오우 VIP 오셨네, 새치기해서 바로 저기 │
- │     제일 좋은 자리로 가십쇼!" 하고 꽂아줌.                            │
- │     장점: 예약 장부 필요 없음! 스피드 최고! 가용 자원 100% 긁어 씀!     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IntServ (예약) vs DiffServ (딱지) 극단적 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">식당에서 밥 먹기 (라우터 통과하기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IntServ 방식 (RSVP 예약):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"사장님! 저녁 7시에 갈 거니까 창가 자리(10Mbps) 무조건 비워둬요!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 손님 안 오면 그 자리는 계속 비어있어 식당이 적자남 (자원 낭비).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 사장님이 예약 장부 수만 개를 일일이 다 외워야 함 (메모리 폭발).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* DiffServ 방식 (DSCP 딱지):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예약 안 함. 손님이 올 때 가슴에 "VVIP 황금 배지"를 달고 문을 염.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직원이 황금 배지만 딱 보고 "오우 VIP 오셨네, 새치기해서 바로 저기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제일 좋은 자리로 가십쇼!" 하고 꽂아줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 예약 장부 필요 없음! 스피드 최고! 가용 자원 100% 긁어 씀!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IntServ가 아무도 달리지 못하게 고속도로의 한 차선을 완전히 통제해 버리는 **"대통령 전용 도로 통제"**라면, DiffServ는 모든 차가 같이 달리지만 버스전용차로를 만들어두고 특정 스티커(DSCP)를 붙인 승합차만 그곳으로 슝슝 빠져나가게 허락해 주는 **"다인승 전용차로 융통성 시스템"**입니다.
 
@@ -138,15 +142,19 @@ QoS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WireGuard]
-    │
-    ▼
-[현재 개념: QoS]
-    │
-    ├──▶ [확장 A: IntServ]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WireGuard</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IntServ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 QoS는 WireGuard에서 출발해 현재 메커니즘을 정교화하고, 이후 IntServ와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 장비의 도움을 단 1%도 받지 않고, **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 기지국(gNB)과 차세대 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용 코어망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Core, [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))만으로 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Control)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(User)를 100% 독립적으로 처리하는 완벽한 5세대 이동통신 아키텍처**입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Option 2 규격)
+- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 장비의 도움을 단 1%도 받지 않고, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 무선 기지국(gNB)과 차세대 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 전용 코어망(<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> Core, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)만으로 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(Control)와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(User)를 100% 독립적으로 처리하는 완벽한 5세대 이동통신 아키텍처</strong>입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Option 2 규격)
 - 통신사들이 "진짜 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(True [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))"라고 부르는 궁극적인 최종 진화 형태입니다.
 
-```text
-[NSA]
-    │
-    ▼
-[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    └──▶ [5GC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NSA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5GC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,20 +41,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-단순히 서버 성능만 빨라진 것이 아닙니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))은 그 내부 소프트웨어 구조를 아예 실리콘 밸리의 IT 기업들처럼 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)(Cloud-Native)**로 완전히 뜯어고쳤습니다. ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처 도입, 769번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+단순히 서버 성능만 빨라진 것이 아닙니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))은 그 내부 소프트웨어 구조를 아예 실리콘 밸리의 IT 기업들처럼 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native)</strong>로 완전히 뜯어고쳤습니다. ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처 도입, 769번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 1. **하드웨어 깡통 탈피**: 옛날 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 서버는 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 장비, S-GW 장비처럼 덩치 큰 쇳덩어리 기계를 통신사 전산실에 쌓아두었습니다.
-2. **[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) ([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 모드의 코어망 서버([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))는 쇳덩어리 하드웨어가 없습니다. 그냥 AWS 같은 클라우드 서버에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄워서 그 안에서 소프트웨어 앱(App) 형태로 통신망 기능을 쌩쌩 돌립니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>)와 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 모드의 코어망 서버([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))는 쇳덩어리 하드웨어가 없습니다. 그냥 AWS 같은 클라우드 서버에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄워서 그 안에서 소프트웨어 앱(App) 형태로 통신망 기능을 쌩쌩 돌립니다.
 3. **무한한 유연성**: 접속자가 폭주하면, 5초 만에 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s)로 [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1,000개를 클라우드 위로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 증식시킵니다. 트래픽이 줄면 다시 삭제합니다. IT 기업의 서버 증설 방식을 통신망 뇌에 그대로 적용한 혁명입니다.
 
-```text
-[NSA]
-    │
-    ▼
-[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    └──▶ [5GC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NSA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5GC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 통신사들이 수조 원을 부어 SA로 갈아타는 이유는, 여기서부터 '돈'이 되는 B2B 기업용 특수 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기능이 비로소 작동하기 때문입니다.
 
 ### 1. [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) 지원
-- 5GC가 소프트웨어 클라우드 기반이 되었으므로 가능한 마법입니다. 물리적인 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 1개를, **소프트웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술로 칼질([Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))하여 전혀 다른 성격을 가진 3개의 가상 전용망(자율주행용망, 넷플릭스용망, IoT용망)으로 독립적으로 쪼개버립니다.**
+- 5GC가 소프트웨어 클라우드 기반이 되었으므로 가능한 마법입니다. 물리적인 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 1개를, <strong>소프트웨어 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술로 칼질(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">Slice</a>)하여 전혀 다른 성격을 가진 3개의 가상 전용망(자율주행용망, 넷플릭스용망, IoT용망)으로 독립적으로 쪼개버립니다.</strong>
 - 하나의 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 디도스를 맞아 마비되어도 다른 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(자율주행망)는 절대 영향을 받지 않아 생명을 완벽히 지켜줍니다. (773번 문서 상세)
 
 ### 2. 진정한 1ms 초저지연 ([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 완벽 연동)
@@ -113,15 +121,19 @@ SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NSA]
-    │
-    ▼
-[현재 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ├──▶ [확장 A: 5GC]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NSA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5GC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 SA 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…는 NSA에서 출발해 현재 메커니즘을 정교화하고, 이후 5GC와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -10,9 +10,9 @@ tags = ["studynote-algorithm"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **다분 탐색 트리(Multi-way Search Tree)**의 일종으로, 모든 리프 노드가 같은 깊이를 가지는 균형 트리(Balanced Tree)임.
-- 노드 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 상태를 유지하며, 하나의 노드에 여러 자식 노드를 가질 수 있어 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 **디스크 기반 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템**에 최적화됨.
-- [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)와 달리 노드당 키 개수를 늘려 트리의 높이를 낮춤으로써 **디스크 I/O 횟수를 최소화**함.
+- <strong>다분 탐색 트리(Multi-way Search Tree)</strong>의 일종으로, 모든 리프 노드가 같은 깊이를 가지는 균형 트리(Balanced Tree)임.
+- 노드 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 상태를 유지하며, 하나의 노드에 여러 자식 노드를 가질 수 있어 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 <strong>디스크 기반 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 및 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템</strong>에 최적화됨.
+- [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)와 달리 노드당 키 개수를 늘려 트리의 높이를 낮춤으로써 <strong>디스크 I/O 횟수를 최소화</strong>함.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
 - **배경:** 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 때 주메모리보다 느린 보조기억장치([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 접근 비용이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 됨. [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)는 트리가 깊어질수록 디스크 접근 횟수가 늘어나는 단점이 있음.
@@ -20,18 +20,18 @@ tags = ["studynote-algorithm"]
 - **특징:** 모든 리프 노드는 동일한 레벨에 위치하며, 각 노드는 최소 $\lceil M/2 \rceil - 1$개에서 최대 $M-1$개의 키를 가짐 ($M$은 트리의 차수).
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-```text
-[ B-Tree Structure (Degree M=3) ]
-          +-----------+
-          |   [20]    |  <-- Root Node (Key: 20)
-          +--/-----\--+
-            /       \
-   +-------/---+     +---\-------+
-   | [10] [15] |     | [30] [40] |  <-- Internal Nodes
-   +--/---|--\-+     +--/---|--\-+
-     /    |   \        /    |    \
- [5,7] [12] [18]    [25] [35]  [45,50]  <-- Leaf Nodes (Same Level)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree Structure (Degree M=3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Root Node (Key: 20)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-node">15</div><div class="kb-diagram-node">30</div><div class="kb-diagram-node">40</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Internal Nodes</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5,7</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">18</div><div class="kb-diagram-node">25</div><div class="kb-diagram-node">35</div><div class="kb-diagram-node">45,50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Leaf Nodes (Same Level)</div></div>
+</div>
+</div>
+
+
 - **탐색(Search):** 루트에서 시작하여 노드 내 키와 비교하며 적절한 포인터를 따라 리프까지 내려감 ($O(\log n)$).
 - **삽입(Insertion):** 리프 노드에 삽입 후, 노드가 가득 차면([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 중앙값을 부모로 올리고 노드를 분할(Split)함.
 - **삭제(Deletion):** 리프 노드에서 삭제 후, 최소 키 개수 미달 시([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 형제 노드에서 빌려오거나(Redistribution) 병합(Merge)을 수행함.
@@ -58,21 +58,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이진 탐색 트리 (BST, Binary Search Tree) — 기본 탐색 구조]
-    │
-    ▼
-[B-트리 (B-Tree) — 다중 키 균형 트리]
-    │
-    ▼
-[B+ 트리 (B+ Tree) — 리프 연결 리스트 중심]
-    │
-    ▼
-[B* 트리 (B* Tree) — 노드 점유율 최적화]
-    │
-    ▼
-[데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST, Binary Search Tree) — 기본 탐색 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 (B-Tree) — 다중 키 균형 트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B+ 트리 (B+ Tree) — 리프 연결 리스트 중심</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B* 트리 (B* Tree) — 노드 점유율 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)의 한계를 보완하기 위해 다중 키 균형과 리프 연결을 도입하고, 결국 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준 구조로 발전하는 과정을 보여준다.
 

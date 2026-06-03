@@ -26,24 +26,24 @@ IT 기술은 눈에 보이지 않는 무형의 가치(예: 업무 효율화, 고
 
 아래 도식은 대규모 IT 투자가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될 때, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 막대한 자본 지출(CAPEX)이 시간이 지남에 따라 어떻게 운영 수익으로 회수되는지를 보여주는 전형적인 **현금 흐름(Cash Flow)** [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)이다. 성과 평가 지표는 이 굴곡을 하나의 숫자로 요약하는 기술이다.
 
-```text
-[전형적인 IT 투자의 현금 흐름 (Cash Flow) 다이어그램]
 
-현금흐름 (+)
-  ▲                            [누적 흑자 구간]
-  │                                   +++++++++++
-  │                                +++           +++ (운영 수익 발생)
-  │                             +++                 ++
-  │                          +++                      +
- 0├───────────────────────+++─────────────────────────────► 시간 (Time)
-  │       |            +++   |      Year 2     Year 3 
-  │       |         +++      | (손익분기점 PP 달성)
-  │       |      +++         |
-  │    ---▼---+++            | 
-  │ --- 초기 투자비 (장비, 라이선스, 개발비)
-  ▼
-현금흐름 (-)    [투자 회수 구간 (Death Valley)]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전형적인 IT 투자의 현금 흐름 (Cash Flow) 다이어그램</div></div>
+<div class="kb-diagram-note">현금흐름 (+)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">누적 흑자 구간</div></div>
+<div class="kb-diagram-note">+++ +++ (운영 수익 발생)</div>
+<div class="kb-diagram-note">0 +++ ► 시간 (Time)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+++</div><div class="kb-diagram-cell">Year 2 Year 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+++</div><div class="kb-diagram-cell">(손익분기점 PP 달성)</div></div>
+<div class="kb-diagram-note">--- 초기 투자비 (장비, 라이선스, 개발비)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">현금흐름 (-)</div><div class="kb-diagram-node">투자 회수 구간 (Death Valley)</div></div>
+</div>
+</div>
+
+
 *해설: 투자의 첫해(0~1년)에는 막대한 현금이 유출(-)된다. 시스템이 오픈된 후, 비용 절감이나 매출 증대 효과를 통해 매년 현금이 유입(+)되며 누적 현금 흐름이 점차 0을 향해 올라간다. 이 곡선이 언제 '0'을 뚫고 올라가는지를 측정하는 것이 [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)(투자회수기간)이며, 수년 뒤 발생하는 저 (+)현금들을 '현재 가치'로 할인하여 모두 더한 것이 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)(순현재가치)이다. 모든 평가 지표는 이 곡선의 형태를 분석하는 도구이다.*
 
 > 📢 **섹션 요약 비유**: IT 투자 평가는 '과수원 농사'와 같습니다. 씨앗과 비료를 사는 데 큰돈([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자)이 들지만 당장 열매는 없습니다. 몇 년 뒤 수확한 사과(미래 수익)를 팔았을 때, 씨앗값을 빼고도 남는 장사인지, 아니면 차라리 그 돈을 은행에 넣어두는 게(할인율) 나았을지를 미리 계산하는 수학적 저울입니다.
@@ -56,31 +56,31 @@ IT 투자 타당성을 [검증](/knowledge-base/studynote/04_software_engineerin
 
 | 지표 (Abbreviation) | 전체 명칭 및 정의 | 핵심 공식 및 계산 원리 | 특징 및 비유 |
 |:---|:---|:---|:---|
-| **[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)** | **투자 수익률** ([Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) | `(누적 순이익 / 총 투자액) × 100` | 가장 직관적. 100%를 넘으면 이익. "100원 넣어서 얼마 벌었어?" |
-| **[PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)** | **투자 회수 기간** ([Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)) | 누적 현금흐름이 `0`이 되는 시점(년/월) 산출 | 유동성 확보에 중요. 짧을수록 좋음. "언제 본전 뽑아?" |
-| **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)** | **순현재가치** (Net Present Value) | `∑[미래현금유입 / (1+r)^t] - 초기투자액` (r: 할인율, t: 시간) | **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) > 0 이면 투자 채택**. 미래에 벌 돈을 현재 가치로 깎아서(할인) 남는 장사인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). "지금 가치로 얼마 남는 거야?" |
-| **[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/)** | **내부 수익률** (Internal Rate of Return) | `NPV = 0`으로 만드는 할인율(r) | **[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) > 요구수익률 이면 채택**. 은행 이자율보다 이 수치가 높아야 함. "이 프로젝트의 자체 이자율은 몇 %야?" |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a></strong> | **투자 수익률** ([Return On Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) | `(누적 순이익 / 총 투자액) × 100` | 가장 직관적. 100%를 넘으면 이익. "100원 넣어서 얼마 벌었어?" |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/">PP</a></strong> | **투자 회수 기간** ([Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)) | 누적 현금흐름이 `0`이 되는 시점(년/월) 산출 | 유동성 확보에 중요. 짧을수록 좋음. "언제 본전 뽑아?" |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/">NPV</a></strong> | **순현재가치** (Net Present Value) | `∑[미래현금유입 / (1+r)^t] - 초기투자액` (r: 할인율, t: 시간) | **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) > 0 이면 투자 채택**. 미래에 벌 돈을 현재 가치로 깎아서(할인) 남는 장사인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). "지금 가치로 얼마 남는 거야?" |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/">IRR</a></strong> | **내부 수익률** (Internal Rate of Return) | `NPV = 0`으로 만드는 할인율(r) | **[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) > 요구수익률 이면 채택**. 은행 이자율보다 이 수치가 높아야 함. "이 프로젝트의 자체 이자율은 몇 %야?" |
 
-이 중 경영학적으로 가장 완벽한 지표는 **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)(순현재가치)**이다. 5년 뒤에 벌어들일 100억 원은 인플레이션과 은행 이자(기회비용)를 고려하면 현재의 100억 원보다 가치가 낮다. 이를 수학적으로 할인(Discount)하는 메커니즘을 아래 타이밍 매트릭스를 통해 심층 분석한다.
+이 중 경영학적으로 가장 완벽한 지표는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/">NPV</a>(순현재가치)</strong>이다. 5년 뒤에 벌어들일 100억 원은 인플레이션과 은행 이자(기회비용)를 고려하면 현재의 100억 원보다 가치가 낮다. 이를 수학적으로 할인(Discount)하는 메커니즘을 아래 타이밍 매트릭스를 통해 심층 분석한다.
 
-```text
-[NPV 도출 메커니즘: 화폐의 시간 가치 할인 (할인율 r=10% 가정)]
 
-시간 흐름     Year 0 (현재)     Year 1           Year 2           Year 3
-────────────────────────────────────────────────────────────────────────────
-1. 발생 현금  [-100억 투자]     [+40억 수익]     [+50억 수익]     [+60억 수익]
-   (단순합계: +50억 남음 -> 단순 ROI는 50%로 매우 훌륭해 보임)
 
-2. 할인 공식      N/A           40 / (1.1)^1     50 / (1.1)^2     60 / (1.1)^3
-   (미래 가치 깎기)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NPV 도출 메커니즘: 화폐의 시간 가치 할인 (할인율 r=10% 가정)</div></div>
+<div class="kb-diagram-note">시간 흐름 Year 0 (현재) Year 1 Year 2 Year 3</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 발생 현금</div><div class="kb-diagram-node">-100억 투자</div><div class="kb-diagram-node">+40억 수익</div><div class="kb-diagram-node">+50억 수익</div><div class="kb-diagram-node">+60억 수익</div></div>
+<div class="kb-diagram-note">(단순합계: +50억 남음 -&gt; 단순 ROI는 50%로 매우 훌륭해 보임)</div>
+<div class="kb-diagram-note">2. 할인 공식 N/A 40 / (1.1)^1 50 / (1.1)^2 60 / (1.1)^3</div>
+<div class="kb-diagram-note">(미래 가치 깎기)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 현재 가치(PV)</div><div class="kb-diagram-node">-100억</div><div class="kb-diagram-node">+36.3억</div><div class="kb-diagram-node">+41.3억</div><div class="kb-diagram-node">+45.1억</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4. NPV 합산 = (-100) + 36.3 + 41.3 + 45.1 =</div><div class="kb-diagram-node">+22.7억</div></div>
+<div class="kb-diagram-note">의사결정: NPV(+22.7억) &gt; 0 이므로 투자를 "승인(Accept)" 한다.</div>
+<div class="kb-diagram-note">(이 투자는 은행에 10% 이자로 예금하는 것보다 기업 가치를 22.7억 원 더 높여준다.)</div>
+</div>
+</div>
 
-3. 현재 가치(PV)[-100억]        [+36.3억]        [+41.3억]        [+45.1억]
 
-4. NPV 합산   = (-100) + 36.3 + 41.3 + 45.1 = [+22.7억] 
-────────────────────────────────────────────────────────────────────────────
-의사결정: NPV(+22.7억) > 0 이므로 투자를 "승인(Accept)" 한다. 
-(이 투자는 은행에 10% 이자로 예금하는 것보다 기업 가치를 22.7억 원 더 높여준다.)
-```
 *해설: 만약 회사 통장에 여유가 없어 돈을 은행에서 20%(할인율 r=0.2)로 빌려와야 한다면 어떻게 될까? 미래의 현금은 `(1.2)^t`로 더 강력하게 깎이게 되어 NPV는 (-)마이너스로 추락할 것이다. 즉, 미래에 150억을 벌더라도 은행 이자를 갚고 나면 손해라는 뜻이다. IRR은 바로 저 NPV를 정확히 '0'으로 만드는 마법의 이자율(이 표에서는 대략 21%)을 역산하는 것이다.*
 
 > 📢 **섹션 요약 비유**: [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 계산은 타임머신을 타는 것과 같습니다. 미래의 3년 동안 벌어들일 돈뭉치들을 타임머신에 태워 현재로 가져오면, 오는 동안 세월의 풍파(할인율/이자율)를 맞아 크기가 줄어듭니다. 줄어든 그 돈들을 다 합쳤을 때, 처음에 넣은 내 지갑의 돈보다 많아야 진짜 성공한 장사입니다.
@@ -93,28 +93,30 @@ IT 투자 타당성을 [검증](/knowledge-base/studynote/04_software_engineerin
 
 | 지표 | 강점 (Strengths) | 약점 및 맹점 (Weaknesses & Bottlenecks) |
 |:---:|:---|:---|
-| **[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)** | 이해하기 쉽고 직관적, 경영진 보고용으로 최적 | 시간의 흐름(언제 돈이 들어오는지)을 무시하여, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수익이 나는 프로젝트와 막판에 수익이 나는 프로젝트를 구분 못 함 |
-| **[PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)** | 기업의 현금 유동성 위기(흑자 부도) 방어에 유리, 단기 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 회피 가능 | **회수 기간 이후에 발생하는 막대한 수익을 무시함.** (예: 5년 후 대박 나는 플랫폼 사업을 PP가 길다고 기각하는 오류 발생) |
-| **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)** | 가치 극대화 원칙에 가장 부합, 절대적 화폐 금액(Scale) 크기를 보여줌 | 자본 비용(할인율 r)을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 정확히 예측/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 매우 어려움 |
-| **[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/)** | 비율(%)로 나와서 타 프로젝트나 은행 이율과 직관적 비교 용이 | 현금 흐름 부호가 (+)(-)로 여러 번 바뀔 경우, 수학적 방정식의 해([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/))가 복수로 존재하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 상실 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a></strong> | 이해하기 쉽고 직관적, 경영진 보고용으로 최적 | 시간의 흐름(언제 돈이 들어오는지)을 무시하여, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수익이 나는 프로젝트와 막판에 수익이 나는 프로젝트를 구분 못 함 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/">PP</a></strong> | 기업의 현금 유동성 위기(흑자 부도) 방어에 유리, 단기 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 회피 가능 | **회수 기간 이후에 발생하는 막대한 수익을 무시함.** (예: 5년 후 대박 나는 플랫폼 사업을 PP가 길다고 기각하는 오류 발생) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/">NPV</a></strong> | 가치 극대화 원칙에 가장 부합, 절대적 화폐 금액(Scale) 크기를 보여줌 | 자본 비용(할인율 r)을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 정확히 예측/[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 매우 어려움 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/">IRR</a></strong> | 비율(%)로 나와서 타 프로젝트나 은행 이율과 직관적 비교 용이 | 현금 흐름 부호가 (+)(-)로 여러 번 바뀔 경우, 수학적 방정식의 해([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/))가 복수로 존재하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 상실 |
 
 아래의 비교 매트릭스는 A 프로젝트(단기 소규모)와 B 프로젝트(장기 대규모)가 충돌했을 때, 지표 간의 역전 현상(Conflict)을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
-```text
-[투자 의사결정의 모순 시나리오: 프로젝트 A vs B]
-- 회사의 남은 예산은 한정되어 있어 둘 중 하나만 선택해야 함.
 
-              ┌─────────────┬─────────────┐
-              │ 프로젝트 A  │ 프로젝트 B  │  <판단 및 결과>
-              │ (단기/소규모)│ (장기/대규모)│
-├─────────────┼─────────────┼─────────────┤
-│ 초기 투자비 │ 10억 원     │ 100억 원    │ 
-│ IRR (수익률)│ 30% (승!)   │ 20% (패)    │ -> 비율로 보면 A가 훌륭해 보임.
-│ NPV (순가치)│ +2억 원 (패)│ +15억 원 (승)│ -> 절대 금액으로는 B가 회사를 부자로 만듦.
-└─────────────┴─────────────┴─────────────┘
-  => [결론]: 상호 배타적 투자(둘 중 하나만 선택)에서는 무조건 **NPV가 큰 쪽(B)**을 
-             선택하는 것이 재무학의 절대 원칙이다. IRR은 규모의 경제를 무시하는 한계가 있다.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">투자 의사결정의 모순 시나리오: 프로젝트 A vs B</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">회사의 남은 예산은 한정되어 있어 둘 중 하나만 선택해야 함.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 A</div><div class="kb-diagram-cell">프로젝트 B</div><div class="kb-diagram-cell">&lt;판단 및 결과&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단기/소규모)</div><div class="kb-diagram-cell">(장기/대규모)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 투자비</div><div class="kb-diagram-cell">10억 원</div><div class="kb-diagram-cell">100억 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IRR (수익률)</div><div class="kb-diagram-cell">30% (승!)</div><div class="kb-diagram-cell">20% (패)</div><div class="kb-diagram-cell">-&gt; 비율로 보면 A가 훌륭해 보임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPV (순가치)</div><div class="kb-diagram-cell">+2억 원 (패)</div><div class="kb-diagram-cell">+15억 원 (승)</div><div class="kb-diagram-cell">-&gt; 절대 금액으로는 B가 회사를 부자로 만듦.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">결론</div><div class="kb-diagram-note">: 상호 배타적 투자(둘 중 하나만 선택)에서는 무조건 NPV가 큰 쪽(B)을</div></div>
+<div class="kb-diagram-note">선택하는 것이 재무학의 절대 원칙이다. IRR은 규모의 경제를 무시하는 한계가 있다.</div>
+</div>
+</div>
+
+
 *해설: IRR의 치명적인 함정은 '스케일(규모)'을 보여주지 못한다는 것이다. 내 주머니에 100억 원이 있을 때, 10만 원을 투자해 15만 원을 벌어오는 붕어빵 장사([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) 50%)와 100억 원을 투자해 120억 원을 버는 빌딩 투자([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) 20%) 중 무엇을 해야 할까? 당연히 빌딩 투자(B)가 기업의 부([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))를 극대화한다. 실무 아키텍트는 퍼센트(%)의 마법에 속지 말고 절대적 부가가치([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))를 방어해야 한다.*
 
 > 📢 **섹션 요약 비유**: 이 지표들의 융합은 사람을 평가하는 것과 같습니다. [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)/IRR은 이 사람의 '시험 점수(비율)'이고, NPV는 이 사람이 평생 벌어올 '총 재산(절대 규모)'이며, PP는 이 사람이 '언제 취업해서 내 용돈을 덜어줄지(시간)'를 묻는 것입니다. 어느 하나라도 모르면 좋은 배우자(프로젝트)를 고를 수 없습니다.
@@ -131,32 +133,37 @@ IT 프로젝트의 타당성을 평가할 때 가장 큰 장애물은, 비용(H/
    - 판단: "고객 만족도 향상"을 직접 돈으로 환산할 수는 없다. 대신 이를 대리 지표로 치환([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Method)해야 한다. 예: ([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 도입) -> (콜센터 고객 대기시간 1분 단축) -> (상담원 1인당 일일 처리건수 20% 증가) -> (필요 상담원 수 10명 감축 분의 인건비 5억 원 절감). 이렇게 산출된 5억 원을 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 현금 유입(+) 항목에 삽입하여 타당성을 입증한다.
 2. **매몰 비용(Sunk Cost)의 함정 회피**:
    - 상황: 50억 원을 이미 투자한 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 개발이 실패 위기다. 남은 50억을 추가 투입해 살릴지, 아니면 폐기하고 60억짜리 새 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) ERP를 도입할지 결정해야 한다.
-   - 판단: 이사회의 의사결정 시, **이미 지출된 50억(매몰 비용)은 의사결정 변수에서 완전히 배제([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-base)**해야 한다. 오직 '앞으로 들어갈 돈'과 '앞으로 벌 돈'만을 기준으로 신규 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 계산을 수행하여, 추가 투자([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))와 새 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도입([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))을 비교하는 냉정한 판단을 내려야 한다.
-3. **위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))의 할인율(Discount Rate) 반영**:
+   - 판단: 이사회의 의사결정 시, <strong>이미 지출된 50억(매몰 비용)은 의사결정 변수에서 완전히 배제(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-base)</strong>해야 한다. 오직 '앞으로 들어갈 돈'과 '앞으로 벌 돈'만을 기준으로 신규 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 계산을 수행하여, 추가 투자([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))와 새 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도입([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))을 비교하는 냉정한 판단을 내려야 한다.
+3. <strong>위험(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)의 할인율(Discount Rate) 반영</strong>:
    - 상황: 전례 없는 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술을 도입하는 A 프로젝트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 레거시 시스템을 업그레이드하는 B 프로젝트의 예상 NPV가 동일하게 나왔다.
-   - 판단: 이는 실패율([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 반영하지 않은 착시다. 혁신적이고 불확실성이 높은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트는 자본 비용(요구수익률)을 높게 책정하여 **더 높은 할인율(r)**로 미래 가치를 가혹하게 깎아내려야([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)-adjusted Discount Rate) 한다. 이를 통해 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 반영된 진정한 NPV를 비교해야 올바른 IT 거버넌스가 작동한다.
+   - 판단: 이는 실패율([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 반영하지 않은 착시다. 혁신적이고 불확실성이 높은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트는 자본 비용(요구수익률)을 높게 책정하여 <strong>더 높은 할인율(r)</strong>로 미래 가치를 가혹하게 깎아내려야([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)-adjusted Discount Rate) 한다. 이를 통해 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 반영된 진정한 NPV를 비교해야 올바른 IT 거버넌스가 작동한다.
 
 아래 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 제한된 예산 속에서 IT 프로젝트들을 어떻게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오에 편입시키는지에 대한 실무 운영 플로우이다.
 
-```text
-[엔터프라이즈 IT 포트폴리오 선정 의사결정 트리]
 
-[IT 프로젝트 후보군 리스트 (A, B, C, D)]
-                 ↓
-1. 기초 심사: 법적/규제(Compliance) 필수 프로젝트인가?
-    ├─ (YES) ──► 무조건 우선 승인 (보안 패치, 세법 변경 반영 등)
-    └─ (NO)  ──► 재무 타당성 심사로 이동
-                 ↓
-2. 재무 심사: NPV > 0 이며, IRR > 기업의 자본조달비용(WACC) 인가?
-    ├─ (NO)  ──► 즉시 기각 (Kill)
-    └─ (YES) ──► 후보군 등재
-                 ↓
-3. 포트폴리오 최적화 (가용 예산 100억 원 한도)
-    - NPV 절대값이 가장 큰 프로젝트부터 내림차순 정렬 (B -> C -> A)
-    - 예산 제약 내에서 자원을 가장 효율적으로 조합하여 최종 선정
-                 ↓
-[최종 승인 및 프로젝트 착수] => (운영 중 지속적인 EVM(획득가치) 모니터링)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔터프라이즈 IT 포트폴리오 선정 의사결정 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 프로젝트 후보군 리스트 (A, B, C, D)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1. 기초 심사: 법적/규제(Compliance) 필수 프로젝트인가?</div>
+<div class="kb-diagram-tree-item" style="--depth:2">(YES) ──► 무조건 우선 승인 (보안 패치, 세법 변경 반영 등)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">(NO) ──► 재무 타당성 심사로 이동</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2. 재무 심사: NPV &gt; 0 이며, IRR &gt; 기업의 자본조달비용(WACC) 인가?</div>
+<div class="kb-diagram-tree-item" style="--depth:2">(NO) ──► 즉시 기각 (Kill)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">(YES) ──► 후보군 등재</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">3. 포트폴리오 최적화 (가용 예산 100억 원 한도)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NPV 절대값이 가장 큰 프로젝트부터 내림차순 정렬 (B -&gt; C -&gt; A)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">예산 제약 내에서 자원을 가장 효율적으로 조합하여 최종 선정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 승인 및 프로젝트 착수</div><div class="kb-diagram-note">=&gt; (운영 중 지속적인 EVM(획득가치) 모니터링)</div></div>
+</div>
+</div>
+
+
 *해설: IT 부서는 종종 1번(컴플라이언스)과 2번(재무적 이익)을 혼동한다. 법을 어기면 회사가 문을 닫는 규제 준수 프로젝트(예: [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 의무화)는 NPV가 마이너스라도 무조건 해야 하는 '생존 비용'이다. 반면 효율화 프로젝트는 철저히 2번과 3번의 수학적 칼날을 통과해야만 살아남을 수 있다.*
 
 > 📢 **섹션 요약 비유**: IT 효익을 화폐로 환산하는 것은 '구름을 저울에 다는 일'처럼 어렵습니다. 하지만 구름이 비가 되어 내리면 식수가 되고(비용 절감), 그 식수를 생수병에 담아 팔 수 있듯이(매출 증대), 기술의 무형적 가치를 끈질기게 추적하여 재무제표상의 숫자로 번역해내는 것이 IT 리더의 핵심 역량입니다.
@@ -174,36 +181,38 @@ IT 프로젝트의 타당성을 평가할 때 가장 큰 장애물은, 비용(H/
 | **현업의 책임감 부여** | 시스템 도입 후 약속했던 '수익 창출'을 달성해야 하므로, 현업 스스로 프로세스 혁신([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))에 적극 참여 |
 | **경영진과의 언어 일치** | 기술 용어(TPS 증대, [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 감소)를 경영진의 언어([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/), 현금흐름)로 치환하여 소통의 장벽 제거 |
 
-**미래 전망**: 클라우드 시대([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))로 접어들면서 IT 비용 구조가 거대한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축비(CAPEX)에서 월별 구독료 형태의 운영비(OPEX)로 급격히 이동하고 있다. 이에 따라 수년에 걸친 거시적인 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)/[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) 예측보다는, 실시간으로 사용량 대비 비즈니스 가치를 측정하고 통제하는 **[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)(클라우드 재무 관리)** 프레임워크와 결합된 동적인 성과 측정 지표 체계로 패러다임이 진화하고 있다. 즉, 프로젝트 단위의 평가에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 및 프로덕트 단위의 실시간 마이크로 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 추적 체계로 넘어가는 중이다.
+**미래 전망**: 클라우드 시대([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))로 접어들면서 IT 비용 구조가 거대한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축비(CAPEX)에서 월별 구독료 형태의 운영비(OPEX)로 급격히 이동하고 있다. 이에 따라 수년에 걸친 거시적인 [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)/[IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/) 예측보다는, 실시간으로 사용량 대비 비즈니스 가치를 측정하고 통제하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a>(클라우드 재무 관리)</strong> 프레임워크와 결합된 동적인 성과 측정 지표 체계로 패러다임이 진화하고 있다. 즉, 프로젝트 단위의 평가에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 및 프로덕트 단위의 실시간 마이크로 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 추적 체계로 넘어가는 중이다.
 
 > 📢 **섹션 요약 비유**: 이 지표들은 의사의 '청진기이자 X-ray'입니다. 환자(IT 프로젝트)가 겉보기엔 화려하고 첨단 기술로 무장한 것 같아도, 이 지표들로 뼈대(현금흐름)를 투시해 보지 않으면 속으로 병들고 있는지(기업 가치 훼손) 알 수 없으며, 정확한 수술(투자 결정)을 내릴 수도 없습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **IT [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 (PPM)** | 다양한 IT 프로젝트 후보군들의 NPV와 IRR을 비교하여 가장 가치가 높은 조합을 구성하는 거버넌스 기법
-* **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) ([총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/))** | 투자의 지출(Outflow) 부분을 계산할 때, 하드웨어 구매비뿐만 아니라 향후 5년간의 유지보수, 교육비 등을 모두 합산하는 지표
-* **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (획득가치 관리)** | 투자 승인 이후 프로젝트가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 동안, 현재까지 지출된 비용 대비 달성된 작업의 금전적 가치([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 기법
+* <strong>IT <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>폴리오 관리 (PPM)</strong> | 다양한 IT 프로젝트 후보군들의 NPV와 IRR을 비교하여 가장 가치가 높은 조합을 구성하는 거버넌스 기법
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/">총 소유 비용</a>)</strong> | 투자의 지출(Outflow) 부분을 계산할 때, 하드웨어 구매비뿐만 아니라 향후 5년간의 유지보수, 교육비 등을 모두 합산하는 지표
+* <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (획득가치 관리)</strong> | 투자 승인 이후 프로젝트가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 동안, 현재까지 지출된 비용 대비 달성된 작업의 금전적 가치([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 기법
 * **IT 거버넌스의 가치 전달(Value Delivery)** | IT가 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 이행하여 궁극적으로 재무적 이익을 실현하는 것을 보장하는 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)
-* **[비즈니스 케이스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) ([Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/))** | IT 프로젝트 승인을 얻기 위해 정성적 기대효과와 정량적 지표([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 등)를 종합하여 경영진에게 제출하는 사업 타당성 보고서
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/">비즈니스 케이스</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/">Business Case</a>)</strong> | IT 프로젝트 승인을 얻기 위해 정성적 기대효과와 정량적 지표([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) 등)를 종합하여 경영진에게 제출하는 사업 타당성 보고서
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[IT 포트폴리오 관리 (PPM)]
-    │
-    ▼
-[TCO (총 소유 비용)]
-    │
-    ▼
-[EVM (획득가치 관리)]
-    │
-    ▼
-[IT 거버넌스의 가치 전달 (Value Delivery)]
-    │
-    ▼
-[비즈니스 케이스 (Business Case)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 포트폴리오 관리 (PPM)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCO (총 소유 비용)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVM (획득가치 관리)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스의 가치 전달 (Value Delivery)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 케이스 (Business Case)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 IT [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 (PPM)에서 출발해 [비즈니스 케이스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) ([Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

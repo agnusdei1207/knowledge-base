@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)와 같은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 동작하는 가장 널리 사용되는 **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 플랫폼(구현체)**입니다.
+- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)와 같은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 동작하는 가장 널리 사용되는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a>) 플랫폼(구현체)</strong>입니다.
 - [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 보안([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 암호화), 그리고 가시성(모니터링) 모듈을 하나로 완벽하게 패키징하여 제공합니다.
 
-```text
-[서비스 메시]
-    │
-    ▼
-[Istio]
-    │
-    └──▶ [사이드카 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이드카 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Istio는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,24 +43,28 @@ tags = ["studynote-network"]
 
 ### 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 행동 대장: Envoy [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 🌟
 Istio가 1위가 된 결정적 이유는 이 기가 막힌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 엔진 덕분입니다.
-- **Envoy (엔보이)**: 차량 호출 회사인 리프트(Lyft)가 C++로 미친 듯이 가볍고 찰나의 지연시간조차 없도록 깎고 다듬어서 만든 **고성능 L7 (응용 계층) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버**입니다.
-- Istio는 사용자가 띄우는 모든 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 옆구리에 이 **Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 '[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/))' 패턴으로 자동으로 찔러 넣습니다(Auto-Injection).**
+- **Envoy (엔보이)**: 차량 호출 회사인 리프트(Lyft)가 C++로 미친 듯이 가볍고 찰나의 지연시간조차 없도록 깎고 다듬어서 만든 <strong>고성능 L7 (응용 계층) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 서버</strong>입니다.
+- Istio는 사용자가 띄우는 모든 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 옆구리에 이 <strong>Envoy <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>를 '<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a>)' 패턴으로 자동으로 찔러 넣습니다(Auto-Injection).</strong>
 - 앱이 밖으로 뱉어내는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 등)는 100% 이 Envoy의 입속으로 빨려 들어가며, Envoy가 로드밸런싱, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재전송(Retry) 등 모든 통신 궂은일을 빛의 속도로 대행합니다.
 
 ### 2. 컨트롤 평면 (Control Plane)의 뇌: Istiod (이스티오디) 🌟
-초창기 Istio는 사령부를 3개(Pilot, Citadel, Galley)로 쪼개놨다가 너무 무거워서 쌍욕을 먹었습니다. 그래서 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에서는 이 3개의 뇌를 **`istiod`라는 단 하나의 똘똘한 중앙 통제 프로그램(바이너리)으로 완벽하게 통합**했습니다.
-- **Pilot ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 역할)**: 개발자가 "A앱에서 B앱으로 갈 때 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 2번 서버로 보내!"라는 규칙(VirtualService)을 적어주면, Pilot이 이 룰을 기계어로 번역해 전국 수만 대의 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 1초 만에 쫙 뿌려([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 트래픽 방향을 통제합니다.
-- **Citadel (보안관 역할)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 해킹(스니핑) 당하지 않게, 모든 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 강력한 **SSL 암호화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))**를 자동으로 찍어내서 뿌리고 관리해 주는 조폐공사 겸 보안 사령관입니다. (831번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+초창기 Istio는 사령부를 3개(Pilot, Citadel, Galley)로 쪼개놨다가 너무 무거워서 쌍욕을 먹었습니다. 그래서 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에서는 이 3개의 뇌를 <strong><code>istiod</code>라는 단 하나의 똘똘한 중앙 통제 프로그램(바이너리)으로 완벽하게 통합</strong>했습니다.
+- <strong>Pilot (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>럿 역할)</strong>: 개발자가 "A앱에서 B앱으로 갈 때 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 2번 서버로 보내!"라는 규칙(VirtualService)을 적어주면, Pilot이 이 룰을 기계어로 번역해 전국 수만 대의 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 1초 만에 쫙 뿌려([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 트래픽 방향을 통제합니다.
+- **Citadel (보안관 역할)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 해킹(스니핑) 당하지 않게, 모든 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 강력한 <strong>SSL 암호화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>)</strong>를 자동으로 찍어내서 뿌리고 관리해 주는 조폐공사 겸 보안 사령관입니다. (831번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 - **Galley (검열관 역할)**: 사용자가 적어낸 트래픽 규칙(YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))의 문법이 틀렸는지 맞았는지 미리 검사해 주는 오타 킬러입니다.
 
-```text
-[서비스 메시]
-    │
-    ▼
-[Istio]
-    │
-    └──▶ [사이드카 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이드카 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Istio의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,9 +72,9 @@ Istio가 1위가 된 결정적 이유는 이 기가 막힌 [데이터](/knowledg
 
 ## Ⅲ. 비교 및 연결
 
-1. **[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/))의 예술**: 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)의 예술</strong>: 
    - 쿠팡이 새로운 결제 서버 v2를 만들었습니다. 한 번에 바꿨다간 뻑나면 회사가 망합니다.
-   - [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)(Envoy)에게 지시합니다. **"지금부터 결제 트래픽의 딱 5%만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v2로 조용히 보내고, 나머지 95%는 원래 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v1으로 보내라!"** (트래픽 분할 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)). 앱 코드 수정 단 1줄 없이, 트래픽을 마음대로 고무줄처럼 조절해 안전하게 신버전을 테스트할 수 있습니다. (832번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+   - [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)(Envoy)에게 지시합니다. <strong>"지금부터 결제 트래픽의 딱 5%만 새 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> v2로 조용히 보내고, 나머지 95%는 원래 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> v1으로 보내라!"</strong> (트래픽 분할 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)). 앱 코드 수정 단 1줄 없이, 트래픽을 마음대로 고무줄처럼 조절해 안전하게 신버전을 테스트할 수 있습니다. (832번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 2. **Kiali (키알리)와 텔레메트리**:
    - 수만 개의 꼬인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통신망 구조를, 눈에 쏙 들어오는 거미줄 그래프로 시각화해서 모니터에 띄워줍니다. 500 에러가 터지면 어디서 막혔는지 거미줄이 빨간색으로 변해 1초 만에 범인을 잡아냅니다.
 
@@ -78,7 +86,7 @@ Istio를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 '특급 비서 제도'라는 개념 그 자체라면, **[Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)(이스티오)**는 이 제도를 완벽하게 시스템화해서 런칭한 글로벌 1위의 '특급 비서 파견 전문 대기업'입니다. 이 회사가 파견하는 현장 비서의 이름이 바로 **Envoy(엔보이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**입니다. Envoy 비서는 몸집이 작고 미친 듯이 발이 빨라(C++ 기반) 외교관([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 옆에 찰싹 붙어서 서류 배달을 0.001초 만에 해냅니다. 그리고 이 수만 명의 Envoy 비서들을 본사 꼭대기 층에서 모니터로 내려다보며, 매일 아침 "오늘은 편지 보낼 때 이 주소로 우회해서 보내라!"라고 카톡으로 전사 지시(트래픽 룰 하달)를 쏘는 천재 본부장님이 바로 컨트롤 플레인인 **istiod**입니다.
+- **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 '특급 비서 제도'라는 개념 그 자체라면, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>(이스티오)</strong>는 이 제도를 완벽하게 시스템화해서 런칭한 글로벌 1위의 '특급 비서 파견 전문 대기업'입니다. 이 회사가 파견하는 현장 비서의 이름이 바로 <strong>Envoy(엔보이 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong>입니다. Envoy 비서는 몸집이 작고 미친 듯이 발이 빨라(C++ 기반) 외교관([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 옆에 찰싹 붙어서 서류 배달을 0.001초 만에 해냅니다. 그리고 이 수만 명의 Envoy 비서들을 본사 꼭대기 층에서 모니터로 내려다보며, 매일 아침 "오늘은 편지 보낼 때 이 주소로 우회해서 보내라!"라고 카톡으로 전사 지시(트래픽 룰 하달)를 쏘는 천재 본부장님이 바로 컨트롤 플레인인 <strong>istiod</strong>입니다.
 
 ---
 
@@ -120,15 +128,19 @@ Istio는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 서비스 메시]
-    │
-    ▼
-[현재 개념: Istio]
-    │
-    ├──▶ [확장 A: 사이드카 아키텍처]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 메시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Istio</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사이드카 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 Istio는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

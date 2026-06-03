@@ -12,7 +12,7 @@ tags = ["hadoop", "studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 일꾼(Worker)**: [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 블록(Block) 단위로 로컬 디스크에 직접 저장하고 관리하는 물리적 서버 노드입니다.
 - **상태 보고 (Heartbeat)**: [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))에게 주기적으로 하트비트와 블록 리포트를 전송하여, 자신의 생존 여부와 저장된 블록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보고합니다.
-- **클라이언트 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 시 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 위치 정보만 알려주고, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 클라이언트와 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) 간에 직접 이루어져 병목을 방지합니다.
+- <strong>클라이언트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 시 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 위치 정보만 알려주고, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 클라이언트와 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) 간에 직접 이루어져 병목을 방지합니다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
 HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-슬레이브 아키텍처를 가집니다. [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터인 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 관리한다면, 슬레이브인 수많은 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)는 기가바이트에서 테라바이트에 이르는 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 128MB(기본값)의 블록으로 쪼개어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보관합니다. 이는 저가의 범용 서버(Commodity Hardware)를 수평 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하여 대규모 저장소를 구축하기 위한 핵심 구성 요소입니다.
@@ -20,25 +20,25 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)는 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 지시에 따라 블록의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 수행합니다.
 
-```text
-[ DataNode Internal & Communication Architecture ]
 
-1. Block Storage: Stores data as local files (blk_ID) + Checksum (.meta).
-2. Communication Loop:
-   - Heartbeat: Every 3 seconds (Survival check).
-   - Block Report: Every hour (Full list of blocks held).
 
-[ Diagram: Data Write Pipeline ]
-   [ Client ] ----(1. Get Locations)----> [ NameNode ]
-       |                                      |
-       | <----(2. DN1, DN2, DN3)--------------+
-       |
-       +----(3. Write Block)----> [ DataNode 1 ]
-                                      |
-                               (4. Replication)
-                                      |
-                                 [ DataNode 2 ] ----> [ DataNode 3 ]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode Internal &amp; Communication Architecture</div></div>
+<div class="kb-diagram-note">1. Block Storage: Stores data as local files (blk_ID) + Checksum (.meta).</div>
+<div class="kb-diagram-note">2. Communication Loop:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Heartbeat: Every 3 seconds (Survival check).</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Block Report: Every hour (Full list of blocks held).</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Diagram: Data Write Pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NameNode</div></div>
+<div class="kb-diagram-note">&lt;----(2. DN1, DN2, DN3)--------------+</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DataNode 1</div></div>
+<div class="kb-diagram-note">(4. Replication)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DataNode 3</div></div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)와 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)의 역할을 명확히 비교합니다.
@@ -46,9 +46,9 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 | 비교 항목 | [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) ([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)) | [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) ([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)) |
 | :--- | :--- | :--- |
 | **역할** | 관리자 (Manager) | 실무자 (Worker) |
-| **저장 내용** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록, 위치) | **실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록** |
-| **메모리 vs 디스크** | RAM 위주 (빠른 조회) | **[HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 위주 (대용량 저장)** |
-| **수량** | 단일 또는 소수(HA) | **수십~수만 대 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))** |
+| **저장 내용** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록, 위치) | <strong>실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록</strong> |
+| **메모리 vs 디스크** | RAM 위주 (빠른 조회) | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 위주 (대용량 저장)</strong> |
+| **수량** | 단일 또는 소수(HA) | <strong>수십~수만 대 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>)</strong> |
 | **장애 영향** | 전체 시스템 마비 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) | 해당 노드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 ([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 해결) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
@@ -61,26 +61,28 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념**: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/), [하둡 에코시스템](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/)
-- **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 개념**: 블록(Block), 하트비트(Heartbeat), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 개념</strong>: 블록(Block), 하트비트(Heartbeat), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
 - **관련 기술**: Amazon S3 (객체 스토리지), Ceph
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[HDFS NameNode]
-    │
-    ▼
-[DataNode]
-    │
-    ▼
-[블록 저장]
-    │
-    ▼
-[Heartbeat]
-    │
-    ▼
-[HA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS NameNode</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Heartbeat</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HA</div></div>
+</div>
+</div>
+
+
 
 NameNode와 DataNode의 역할 분담과 Heartbeat 기반 상태 감지가 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 고가용성으로 발전하는 흐름이다.
 

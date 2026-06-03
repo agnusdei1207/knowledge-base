@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 아키텍처 평가 기법 개요의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 평가 기법 개요                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 평가 기법 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 아키텍처 평가 기법 개요가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스템을 본격적으로 코딩하기 전에, 작성된 **아키텍처 설계 모델(도면)이 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(고객, 개발자, 유지보수팀)들이 요구하는 다양한 '품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/): [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 변경 용이성 등)'을 제대로 충족시키고 있는지를 체계적으로 분석하고 검증하는 활동**입니다.
+- **개념**: 시스템을 본격적으로 코딩하기 전에, 작성된 <strong>아키텍처 설계 모델(도면)이 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>(고객, 개발자, 유지보수팀)들이 요구하는 다양한 '품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/">Quality Attributes</a>: <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>, 보안, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>, 변경 용이성 등)'을 제대로 충족시키고 있는지를 체계적으로 분석하고 검증하는 활동</strong>입니다.
 
 - **📢 섹션 요약 비유**: 아키텍처 평가 기법 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,12 +88,12 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 미국 카네기 멜런 대학(SEI)에서 만든 족보들입니다. 이 4개의 알파벳 약자가 시험의 핵심입니다.
-1. **[SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/)**: 최초의 기본 평가 모델 (기능, 변경 용이성 위주)
-2. **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 🌟 (가장 중요)**: SAAM을 발전시켜, **'트레이드오프(상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))'** 분석에 미친 듯이 집착하는 현대 표준 평가 모델
-3. **[CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)**: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 다 좋은데 돈(Cost) 생각을 안 하네? **'경제적 이익(돈)'** 관점까지 추가한 최고급 평가 모델
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/">SAAM</a></strong>: 최초의 기본 평가 모델 (기능, 변경 용이성 위주)
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> 🌟 (가장 중요)</strong>: SAAM을 발전시켜, <strong>'트레이드오프(상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)'</strong> 분석에 미친 듯이 집착하는 현대 표준 평가 모델
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a></strong>: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 다 좋은데 돈(Cost) 생각을 안 하네? **'경제적 이익(돈)'** 관점까지 추가한 최고급 평가 모델
 4. **ARID**: 특정 아키텍처 부분만 떼어내서 미리 코드 짜보고([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 평가하는 실전 모델
 
-> 📢 **섹션 요약 비유**: **아키텍처 평가**는 새로 뽑은 자동차 설계도(도면)를 실제 쇳덩어리로 만들기 전에 **'가상 풍동 실험실(시뮬레이션)'**에 집어넣는 작업입니다. 설계도만 보고 "차 이쁘네~" 하고 끝나는 게 아니라, 가상의 비바람 시나리오를 쏩니다. "시속 200km로 달리다가 눈길에서 브레이크를 밟으면(시나리오), 이 뼈대가 안 뒤집히고 버티는가([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/안전성)?" 만약 안 버티면 타이어를 무겁게(설계 변경) 바꿉니다. 근데 타이어가 무거워지니 연비([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 떡락합니다. 여기서 아키텍트와 사장님이 머리를 맞댑니다. "안전([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 위해 연비([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 포기하는 게 우리 차의 컨셉에 맞아!(트레이드오프 합의)" 이렇게 시멘트(코드)를 들이붓기 전에, 도면 위에서 발생할 수 있는 모든 재앙과 딜레마를 미리 끄집어내어 박 터지게 싸우고 가장 완벽한 타협점(아키텍처)을 확정 짓는 필수적인 보험 절차입니다.
+> 📢 **섹션 요약 비유**: <strong>아키텍처 평가</strong>는 새로 뽑은 자동차 설계도(도면)를 실제 쇳덩어리로 만들기 전에 <strong>'가상 풍동 실험실(시뮬레이션)'</strong>에 집어넣는 작업입니다. 설계도만 보고 "차 이쁘네~" 하고 끝나는 게 아니라, 가상의 비바람 시나리오를 쏩니다. "시속 200km로 달리다가 눈길에서 브레이크를 밟으면(시나리오), 이 뼈대가 안 뒤집히고 버티는가([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/안전성)?" 만약 안 버티면 타이어를 무겁게(설계 변경) 바꿉니다. 근데 타이어가 무거워지니 연비([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 떡락합니다. 여기서 아키텍트와 사장님이 머리를 맞댑니다. "안전([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 위해 연비([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 포기하는 게 우리 차의 컨셉에 맞아!(트레이드오프 합의)" 이렇게 시멘트(코드)를 들이붓기 전에, 도면 위에서 발생할 수 있는 모든 재앙과 딜레마를 미리 끄집어내어 박 터지게 싸우고 가장 완벽한 타협점(아키텍처)을 확정 짓는 필수적인 보험 절차입니다.
 
 - **📢 섹션 요약 비유**: 아키텍처 평가 기법 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -139,21 +138,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 평가 기법 개요 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 평가 기법 개요 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

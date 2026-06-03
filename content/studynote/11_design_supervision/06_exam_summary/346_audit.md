@@ -21,19 +21,17 @@ tags = ["studynote-design-supervision"]
 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 마일스톤 평가는 기준과 실행을 연결하는 관리 주제다. 최근 환경에서는 백로그 완료 기준, 번다운 추세, 증분 시연가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 마일스톤 평가은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-```text
-┌──────────────┐
-│ 기준선 확정   │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 수행·조율     │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 검증·종결     │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준선 확정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행·조율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증·종결</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 공사 전에 도면과 공정표를 먼저 맞춰 보는 것과 같다.
 
@@ -48,11 +46,15 @@ tags = ["studynote-design-supervision"]
 | 수행 체계 | 번다운 추세가 실제 역할 분담과 승인선에 반영된다. | 책임자와 일정이 보여야 한다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·종결 | 증분 시연를 통해 인터뷰·문서·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. | 지적사항은 종료 조건까지 닫혀야 한다. |
 
-```text
-┌────────────┬────────────┬────────────┐
-│ 계획·범위   │ 수행·협의   │ 증빙·종결   │
-└────────────┴────────────┴────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획·범위</div><div class="kb-diagram-cell">수행·협의</div><div class="kb-diagram-cell">증빙·종결</div></div>
+</div>
+</div>
+
+
 
 또한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 마일스톤 평가은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 재료 창고, 작업 순서, 검수표가 한 줄로 이어져야 하는 공장과 같다.

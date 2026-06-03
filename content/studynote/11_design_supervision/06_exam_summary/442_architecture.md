@@ -23,16 +23,17 @@ tags = ["studynote-design-supervision"]
 
 감리와 설계 관점에서 중요한 이유는, 네트워크가 더 이상 단순 인프라가 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질·보안·규제 준수의 핵심 통제 지점이기 때문이다. 따라서 시험 답안에서는 IBN을 단순 유행어가 아니라 **의도 입력 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변환 -> 지속 보증** 구조로 설명해야 한다.
 
-```text
-┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
-│ Business Intent  │ ───▶ │ Policy Translate │ ───▶ │ Network Changes  │
-└──────────────────┘      └──────────────────┘      └──────────────────┘
-                                                                 │
-                                                                 ▼
-                                                       ┌──────────────────┐
-                                                       │ Assurance Loop   │
-                                                       └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Intent</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Policy Translate</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Network Changes</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assurance Loop</div></div>
+</div>
+</div>
+
+
 
 이 그림은 IBN이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화만이 아니라, 적용 후에도 원래 의도가 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조라는 점을 보여 준다.
 
@@ -50,32 +51,25 @@ IBN의 핵심은 변환(Translation), 활성화(Activation), 보증(Assurance)�
 | Controller / Orchestrator | 멀티벤더 장비와 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포 | 장비 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 변경 이력 관리 필요 |
 | Assurance / Telemetry | 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 세그멘트 상태를 측정·교정 | 의도 이탈 시 경보·재구성·자가 치유 체계 필요 |
 
-```text
-┌───────────────────┐
-│ Intent Statement  │
-└───────────────────┘
-          │
-          ▼
-┌───────────────────┐      ┌───────────────────┐
-│ Policy Model      │ ───▶ │ Controller        │
-└───────────────────┘      └───────────────────┘
-                                     │
-                                     ▼
-                             ┌───────────────────┐
-                             │ Network Fabric    │
-                             └───────────────────┘
-                                     │
-                                telemetry
-                                     ▼
-                             ┌───────────────────┐
-                             │ Assurance Engine  │
-                             └───────────────────┘
-                                     │
-                                feedback loop
-                                     └────────────▶
-```
 
-따라서 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 평가는 "얼마나 멋지게 자동화했는가"보다, **의도와 실제 상태의 차이를 얼마나 짧게 닫는가**로 보는 것이 핵심이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intent Statement</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Model</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Controller</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Fabric</div></div>
+<div class="kb-diagram-note">telemetry</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assurance Engine</div></div>
+<div class="kb-diagram-note">feedback loop</div>
+</div>
+</div>
+
+
+
+따라서 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 평가는 "얼마나 멋지게 자동화했는가"보다, <strong>의도와 실제 상태의 차이를 얼마나 짧게 닫는가</strong>로 보는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 스마트 온도조절기는 희망 온도를 맞추는 것뿐 아니라, 실제 온도를 계속 재서 덥거나 추우면 다시 조절해야 제 역할을 한다.
 
@@ -119,7 +113,7 @@ IBN은 전통 네트워킹과 SDN을 대체한다기보다 그 위에 추상화�
 
 IBN이 정착되면 네트워크 변경 속도 향상, 구성 오류 감소, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 재사용성 강화, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보라는 효과를 기대할 수 있다. 특히 복잡한 멀티도메인 환경에서 운영자가 장비 명령보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 집중할 수 있다는 점이 크다.
 
-결론적으로 인텐트 기반 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 자동 변환망의 본질은 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화가 아니라 의도 보증 자동화**다. 시험에서는 전통 네트워크, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/), IBN의 계층적 진화를 비교하고, 변환-배포-보증 루프를 명확히 쓰면 답안의 깊이가 살아난다.
+결론적으로 인텐트 기반 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 자동 변환망의 본질은 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 자동화가 아니라 의도 보증 자동화</strong>다. 시험에서는 전통 네트워크, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/), IBN의 계층적 진화를 비교하고, 변환-배포-보증 루프를 명확히 쓰면 답안의 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: 잘 설계된 자동운전은 핸들만 대신 잡는 것이 아니라, 목적지와 도로 상황을 계속 맞춰 보며 안전하게 도착하게 만든다.
 

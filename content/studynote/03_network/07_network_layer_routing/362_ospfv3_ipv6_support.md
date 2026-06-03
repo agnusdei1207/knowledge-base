@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 네트워크를 위한 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(RFC 5340). 기존 OSPFv2의 기본 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/), Area 계층 구조)은 유지하되, IPv6의 128비트 주소 체계와 구조적 특징(Link-Local 주소 등)을 수용하도록 재설계되었다.
-- **필요성**: 세상이 IPv6로 넘어가면서 32비트짜리 주소를 담던 OSPFv2의 엽서(LSA) 봉투 규격으로는 128비트 주소를 쑤셔 넣을 방법이 없었다. 게다가 IPv6는 기계가 알아서 주소를 만드는 `fe80` (링크 로컬) 같은 괴상한 주소 체계가 생겨서, 옛날처럼 IP 대역(Subnet)만 보고 라우터 친구(Neighbor)를 맺는 로직이 다 박살 났다. **"[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 천재성은 그대로 두되, 데이터를 담는 상자 규격과 친구 맺는 기준을 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 시대에 맞게 확 갈아엎자!"**라는 요구가 v3를 낳았다.
+- **필요성**: 세상이 IPv6로 넘어가면서 32비트짜리 주소를 담던 OSPFv2의 엽서(LSA) 봉투 규격으로는 128비트 주소를 쑤셔 넣을 방법이 없었다. 게다가 IPv6는 기계가 알아서 주소를 만드는 `fe80` (링크 로컬) 같은 괴상한 주소 체계가 생겨서, 옛날처럼 IP 대역(Subnet)만 보고 라우터 친구(Neighbor)를 맺는 로직이 다 박살 났다. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 천재성은 그대로 두되, 데이터를 담는 상자 규격과 친구 맺는 기준을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 시대에 맞게 확 갈아엎자!"</strong>라는 요구가 v3를 낳았다.
 
 - **💡 비유**: 
-  - **OSPFv2**: 도로명 주소가 없던 시절, **"동 단위(Subnet)"**로 뭉뚱그려 지도를 그리고 소문을 내던 옛날 우체부 아저씨입니다.
+  - **OSPFv2**: 도로명 주소가 없던 시절, <strong>"동 단위(Subnet)"</strong>로 뭉뚱그려 지도를 그리고 소문을 내던 옛날 우체부 아저씨입니다.
   - **OSPFv3**: 도로명 주소([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))가 도입되자, 동 이름(IP 주소)에 연연하지 않고 **"도로와 골목길 라인(Link)"** 그 자체를 기준으로 지도를 새로 그리는 현대의 정밀 내비게이션 매핑 시스템입니다.
 
-```text
-[OSPF 트래픽엔지니어링 연동]
-    │
-    ▼
-[OSPFv3]
-    │
-    └──▶ [IS-IS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 트래픽엔지니어링 연동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPFv3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IS-IS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** OSPFv3는 명작 게임(OSPFv2)의 **"4K 리마스터(Remaster) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)"**입니다. 게임의 스토리나 캐릭터([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), Area 구조)는 완벽히 똑같지만, 그래픽 엔진(패킷 포맷)과 해상도(128비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원)를 현대 컴퓨터에 맞게 싹 갈아치운 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)입니다.
 
@@ -43,7 +47,7 @@ tags = ["studynote-network"]
 
 ### 1. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 뼈대 분리 (Link-Local 주소의 활용)
 - **v2의 방식**: 내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) IP가 `10.1.1.1`이고 네 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 `10.1.1.2`여야만(같은 서브넷) 친구([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))를 맺었다.
-- **v3의 방식**: OSPFv3는 서로의 진짜 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 공인 주소(`2001:...`)가 달라도 친구를 맺을 수 있다! 대신 IPv6의 특권인 **[링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)(`FE80::xxxx`)**를 써서 대화한다. "너 나랑 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Link)에 꽂혀 있니? 그럼 공인 IP 묻지도 따지지도 말고 일단 친구 맺고 지도(LSA)부터 교환하자!"
+- **v3의 방식**: OSPFv3는 서로의 진짜 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 공인 주소(`2001:...`)가 달라도 친구를 맺을 수 있다! 대신 IPv6의 특권인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/">링크 로컬 주소</a>(<code>FE80::xxxx</code>)</strong>를 써서 대화한다. "너 나랑 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Link)에 꽂혀 있니? 그럼 공인 IP 묻지도 따지지도 말고 일단 친구 맺고 지도(LSA)부터 교환하자!"
 - 이 덕분에 IP 주소가 바뀌어도 지형도(토폴로지)가 흔들리지 않는 엄청난 안정성을 얻었다.
 
 ### 2. LSA (엽서) 종류의 진화와 이름 변경
@@ -52,21 +56,22 @@ v3는 봉투 규격이 바뀌면서 LSA Type의 이름과 용도가 살짝(사�
 - **Type 8 (Link LSA) ★신규**: "어? Type 1에서 IP를 뺐으면 IP는 누가 알려줌?" -> 그래서 새로 만든 게 Type 8이다. 이 녀석은 자기 동네(Link) 안에서만 공유되는 엽서로, 내 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)(`FE80`)와 내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 할당된 진짜 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 앞자리(Prefix) 목록을 알려준다.
 - **Type 9 (Intra-Area Prefix LSA) ★신규**: 기존 v2의 Type 1, 2에서 떨어져 나온 순수 "[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소(Prefix) 목록" 엽서다. Area 내부로 쫙 퍼진다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                OSPFv2 vs OSPFv3 핵심 스펙 차이표               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 항목 ]              [ OSPFv2 ]          [ OSPFv3 ]        │
- │   --------------------------------------------------------- │
- │   프로토콜 대상          IPv4 전용           IPv6 (나중엔 v4도 지원)│
- │   친구 맺기 기준         서브넷 (Subnet)      링크 (Link)          │
- │   패킷 소스 IP          인터페이스 IP 주소    링크 로컬 주소 (FE80::) │
- │   멀티캐스트 주소        224.0.0.5 / .6      FF02::5 / FF02::6    │
- │   자체 암호화 (인증)      MD5 자체 지원       미지원 (IPsec 사용)    │
- │   LSA 종류             Type 1 ~ 5 (7)      Type 8, 9 등 추가 신설│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPFv2 vs OSPFv3 핵심 스펙 차이표</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">항목</div><div class="kb-diagram-node">OSPFv2</div><div class="kb-diagram-node">OSPFv3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 대상 IPv4 전용 IPv6 (나중엔 v4도 지원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">친구 맺기 기준 서브넷 (Subnet) 링크 (Link)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 소스 IP 인터페이스 IP 주소 링크 로컬 주소 (FE80::)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티캐스트 주소 224.0.0.5 / .6 FF02::5 / FF02::6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자체 암호화 (인증) MD5 자체 지원 미지원 (IPsec 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSA 종류 Type 1 ~ 5 (7) Type 8, 9 등 추가 신설</div></div>
+</div>
+</div>
+
+
 
 ### 3. 단일 프로세스로 여러 인스턴스 구동
 v3는 하나의 링크(랜선) 위에서 여러 개의 OSPFv3 프로세스(Instance)를 겹쳐서 돌릴 수 있다.
@@ -128,15 +133,19 @@ OSPFv3는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rout
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OSPF 트래픽엔지니어링 연동]
-    │
-    ▼
-[현재 개념: OSPFv3]
-    │
-    ├──▶ [확장 A: IS-IS]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF 트래픽엔지니어링 연동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPFv3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IS-IS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 OSPFv3는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동에서 출발해 현재 메커니즘을 정교화하고, 이후 IS-IS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

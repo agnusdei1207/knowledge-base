@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 전송 계층의 16비트 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 공간을 목적과 용도에 따라 Well-Known(시스템), Registered(사용자/기업), Dynamic(동적/사설) 세 가지 영역으로 공식 분할한 IANA의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 할당 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/).
-- **필요성**: 세상 모든 웹서버가 자기 맘대로 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 정한다 치자. 네이버는 자기를 찾으려면 5000번으로 오라 하고, 구글은 7777번으로 오라고 한다. 사용자는 접속할 사이트마다 IP 주소는 물론이고 그 사이트의 전용 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)까지 수첩에 다 외우고 다녀야 하는 미친 세상이 온다. **"야! 웹서버면 무조건 80번 써! 메일 서버면 25번 써! 전 세계 공통 법으로 박아놔서 사용자들이 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 안 치고 엔터 쳐도 알아서 찾아가게 만들어!!"** 이것이 번호판 규격화의 탄생 배경이다.
+- **필요성**: 세상 모든 웹서버가 자기 맘대로 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 정한다 치자. 네이버는 자기를 찾으려면 5000번으로 오라 하고, 구글은 7777번으로 오라고 한다. 사용자는 접속할 사이트마다 IP 주소는 물론이고 그 사이트의 전용 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)까지 수첩에 다 외우고 다녀야 하는 미친 세상이 온다. <strong>"야! 웹서버면 무조건 80번 써! 메일 서버면 25번 써! 전 세계 공통 법으로 박아놔서 사용자들이 <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a> 안 치고 엔터 쳐도 알아서 찾아가게 만들어!!"</strong> 이것이 번호판 규격화의 탄생 배경이다.
 
-- **💡 비유**: [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 대역은 **국가 전화번호 체계**와 완벽히 같습니다.
-  - **Well-Known (0~1023)**: 112(경찰), 119(소방서)처럼 전 국민이 외우고 있는 **긴급/공공 특수 번호**입니다. 일반인은 이 번호로 핸드폰을 개통할 수 없습니다.
-  - **Registered (1024~49151)**: 1588-0000(기업 콜센터)처럼, 기업들이 장사하려고 돈 주고 **예약해 둔 대표 번호**입니다.
-  - **Dynamic (49152~65535)**: 우리가 대리점에서 개통할 때 대충 뒷자리 남는 걸로 아무거나 뽑아주는 **내 개인 핸드폰 번호(임시 번호)**입니다.
+- **💡 비유**: [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 대역은 <strong>국가 전화번호 체계</strong>와 완벽히 같습니다.
+  - **Well-Known (0~1023)**: 112(경찰), 119(소방서)처럼 전 국민이 외우고 있는 <strong>긴급/공공 특수 번호</strong>입니다. 일반인은 이 번호로 핸드폰을 개통할 수 없습니다.
+  - **Registered (1024~49151)**: 1588-0000(기업 콜센터)처럼, 기업들이 장사하려고 돈 주고 <strong>예약해 둔 대표 번호</strong>입니다.
+  - **Dynamic (49152~65535)**: 우리가 대리점에서 개통할 때 대충 뒷자리 남는 걸로 아무거나 뽑아주는 <strong>내 개인 핸드폰 번호(임시 번호)</strong>입니다.
 
-```text
-[포트 번호]
-    │
-    ▼
-[Well-Known 포트, Registere…]
-    │
-    └──▶ [소켓 주소 = IP 주소 + 포트 번호]
-```
 
-- **📢 섹션 요약 비유**: ** [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 3개로 나눈 것은 도로의 **"차선 지정제"**입니다. 1차선(Well-Known)은 허가받은 버스와 구급차만 달릴 수 있는 영구 전용차로이고, 나머지 차선(동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))은 일반 승용차들이 목적지로 갈 때 아무렇게나 밟고 달렸다가 빠지는 자유 도로입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Well-Known 포트, Registere…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>를 3개로 나눈 것은 도로의 </strong>"차선 지정제"**입니다. 1차선(Well-Known)은 허가받은 버스와 구급차만 달릴 수 있는 영구 전용차로이고, 나머지 차선(동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))은 일반 승용차들이 목적지로 갈 때 아무렇게나 밟고 달렸다가 빠지는 자유 도로입니다.
 
 ---
 
@@ -45,22 +49,22 @@ tags = ["studynote-network"]
 ### 1. Well-Known Ports (잘 알려진 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 0 ~ 1023)
 유닉스/리눅스 환경에서는 시스템 최고 관리자(Root) 권한이 있어야만 이 번호대역의 프로그램(서버)을 실행할 수 있다. (보안상의 이유). 해커가 일반 계정을 뚫어도 가짜 80번 웹서버를 띄울 수 없게 막은 조치다.
 
-**[ 정보통신 기사 / 실무 필수 암기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ]**
-- **20, 21번 ([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))**: 20번은 묵직한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송, 21번은 제어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/).
-- **22번 ([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완벽히 암호화된 안전한 원격 터미널 접속. (해커들이 매일 털려고 22번에 무차별 대입 공격을 날린다).
+<strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/"> 정보통신 기사 / 실무 필수 암기 [포트</a> ]</strong>
+- <strong>20, 21번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a>)</strong>: 20번은 묵직한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송, 21번은 제어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/).
+- <strong>22번 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완벽히 암호화된 안전한 원격 터미널 접속. (해커들이 매일 털려고 22번에 무차별 대입 공격을 날린다).
 - **23번 (Telnet)**: 암호화가 안 된 원격 접속. (요새 쓰면 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) 때 징계 먹는다).
-- **25번 ([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))**: 이메일을 보낼 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/).
-- **53번 ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))**: "naver.com IP가 뭐임?" 물어볼 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). (주로 UDP를 쓴다).
-- **80번 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))**: 평문 웹 접속.
-- **110번 ([POP3](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/))**: 이메일을 다운받아 읽을 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/).
-- **443번 ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))**: 완벽하게 암호화된 안전한 웹 접속. 현대 인터넷 트래픽의 80%가 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏠려 있다.
+- <strong>25번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/">SMTP</a>)</strong>: 이메일을 보낼 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/).
+- <strong>53번 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a>)</strong>: "naver.com IP가 뭐임?" 물어볼 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). (주로 UDP를 쓴다).
+- <strong>80번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>)</strong>: 평문 웹 접속.
+- <strong>110번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/">POP3</a>)</strong>: 이메일을 다운받아 읽을 때 쓰는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/).
+- <strong>443번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)</strong>: 완벽하게 암호화된 안전한 웹 접속. 현대 인터넷 트래픽의 80%가 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏠려 있다.
 
 ### 2. Registered Ports (등록된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 1024 ~ 49151)
 대기업들이 IANA에 "우리가 만든 프로그램은 전 세계적으로 이 번호를 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쓰게 허락해 주세요"라고 찜해둔 번호들이다. 
 - **1521번 (MS SQL Server)**: 마이크로소프트 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 뚫을 때 쓴다.
 - **3306번 (MySQL)**: 오라클 등 다른 DB가 쓴다.
 - **3389번 (RDP)**: 윈도우 원격 데스크톱 연결. 해커들의 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 침투 1순위 구멍이라 방화벽에서 3389를 열어두면 망한다.
-- **8080번 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Alternate)**: 웹서버 개발자들이 80번(관리자 권한 필요) 대신 테스트용으로 가장 많이 띄우는 가짜 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)다.
+- <strong>8080번 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Alternate)</strong>: 웹서버 개발자들이 80번(관리자 권한 필요) 대신 테스트용으로 가장 많이 띄우는 가짜 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)다.
 
 ### 3. Dynamic / Private Ports (동적/사설 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 49152 ~ 65535)
 이 구역은 "아무도 소유권을 주장할 수 없는 자유 지대"다.
@@ -68,26 +72,25 @@ tags = ["studynote-network"]
 - 통신이 끝나서 브라우저 탭을 닫으면, 이 번호표는 반납되어 다음 프로그램을 위해 재활용된다. (그래서 이름이 Ephemeral [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 즉 단명 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)라고도 불린다).
 - *주의*: 구형 윈도우([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 시절)는 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 1024~5000번까지 아주 좁게 썼지만, 현대 운영체제들은 국제 표준을 지켜 49152번 이후를 쓴다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                클라이언트와 서버의 포트 번호 짝짜꿍 시나리오          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 폰 (클라이언트) ]                       [ 구글 (서버) ]   │
- │   (OS가 동적 포트 랜덤 생성)                  (Well-Known 고정) │
- │                                                             │
- │   * 유튜브 앱 실행!                                            │
- │   ▶ 폰: 출발지 51000 ──▶ 목적지 443(HTTPS) 으로 접속 요청!!      │
- │                                                             │
- │   * 구글 서버 응답!                                            │
- │   ◀ 구글: 출발지 443 ──▶ 목적지 51000 으로 영상 쏴줌!!            │
- │                                                             │
- │   ▶ 결과: 나는 443번 고정 간판을 보고 쉽게 구글을 찾아가고,         │
- │           구글은 내가 던져준 51000번 딱지를 보고 내 폰으로 정확히 배송함!│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 3대장은 백화점의 **"층수 가이드"**입니다. 1층(Well-Known)은 명품관과 안내데스크처럼 절대 바뀌지 않는 고정석이고, 2층~3층(Registered)은 입점 계약을 맺은 브랜드 매장들이며, 꼭대기 층(Dynamic)은 주말마다 아무 상인이나 들어왔다 빠지는 벼룩시장(플리마켓)입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트와 서버의 포트 번호 짝짜꿍 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 폰 (클라이언트)</div><div class="kb-diagram-node">구글 (서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 동적 포트 랜덤 생성) (Well-Known 고정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 유튜브 앱 실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 폰: 출발지 51000 ──▶ 목적지 443(HTTPS) 으로 접속 요청!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 구글 서버 응답!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 구글: 출발지 443 ──▶ 목적지 51000 으로 영상 쏴줌!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 나는 443번 고정 간판을 보고 쉽게 구글을 찾아가고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글은 내가 던져준 51000번 딱지를 보고 내 폰으로 정확히 배송함!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a> 3대장은 백화점의 </strong>"층수 가이드"**입니다. 1층(Well-Known)은 명품관과 안내데스크처럼 절대 바뀌지 않는 고정석이고, 2층~3층(Registered)은 입점 계약을 맺은 브랜드 매장들이며, 꼭대기 층(Dynamic)은 주말마다 아무 상인이나 들어왔다 빠지는 벼룩시장(플리마켓)입니다.
 
 ---
 
@@ -143,15 +146,19 @@ Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 포트 번호]
-    │
-    ▼
-[현재 개념: Well-Known 포트, Registere…]
-    │
-    ├──▶ [확장 A: 소켓 주소 = IP 주소 + 포트 번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Well-Known 포트, Registere…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 소켓 주소 = IP 주소 + 포트 번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…는 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

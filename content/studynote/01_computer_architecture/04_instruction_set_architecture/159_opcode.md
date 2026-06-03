@@ -42,23 +42,23 @@ Opcode는 보통 [명령어](/knowledge-base/studynote/01_computer_architecture/
 
 아래 그림은 Opcode가 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바뀌는 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  opcode decode: bits become actions                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Instruction Register                                                       │
-│ [ opcode | register field | immediate / address ]                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Decoder                                                                    │
-│   ├──▶ ALU select        (add, and, shift, compare)                        │
-│   ├──▶ Register control  (read / write enable)                             │
-│   ├──▶ Memory control    (load / store)                                    │
-│   └──▶ Control flow      (branch / trap / privilege check)                 │
-│                                                                            │
-│ Unassigned pattern ──▶ Illegal Opcode Exception / reserved handling        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">opcode decode: bits become actions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instruction Register</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">opcode | register field | immediate / address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decoder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ALU select (add, and, shift, compare)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Register control (read / write enable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Memory control (load / store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Control flow (branch / trap / privilege check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unassigned pattern ──▶ Illegal Opcode Exception / reserved handling</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 Opcode가 단순 숫자가 아니라 여러 하드웨어 블록을 동시에 여는 제어 열쇠라는 점이다. 예를 들어 산술 명령은 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 경로를 활성화하고, 분기 명령은 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신 로직을 활성화한다. 반대로 정의되지 않은 Opcode는 불법 연산 코드 예외 (Illegal Opcode Exception)를 유발해 잘못된 실행이나 권한 오남용을 막는다.
 
@@ -108,7 +108,7 @@ Opcode를 이해할 때는 [명령어](/knowledge-base/studynote/01_computer_arc
 
 잘 설계된 Opcode 체계는 ISA를 배우기 쉽고, 컴파일러가 안정적으로 코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, CPU 전단부가 예측 가능하게 동작하도록 만든다. 또한 예약 공간과 예외 정책이 잘 잡혀 있으면 향후 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 암호화, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속 같은 확장 명령도 비교적 질서 있게 추가할 수 있다. 결국 Opcode 품질은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 생태계 확장성에도 영향을 준다.
 
-반대로 Opcode가 불규칙하거나 과도하게 비대해지면 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 병목, 전력 증가, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도 상승, 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 부담이 함께 커진다. 따라서 Opcode는 단순한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조각이 아니라 **“소프트웨어가 하드웨어에게 내리는 가장 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 명령 언어”**로 기억하는 것이 맞다.
+반대로 Opcode가 불규칙하거나 과도하게 비대해지면 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 병목, 전력 증가, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도 상승, 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 부담이 함께 커진다. 따라서 Opcode는 단순한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조각이 아니라 <strong>“소프트웨어가 하드웨어에게 내리는 가장 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 명령 언어”</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 Opcode 체계는 잘 설계된 악보 기호와 같다. 기호 수가 많다고 좋은 것이 아니라, 연주자가 빠르고 정확하게 읽고 연주할 수 있어야 진짜 가치가 생긴다.
 
@@ -127,23 +127,24 @@ Opcode를 이해할 때는 [명령어](/knowledge-base/studynote/01_computer_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 프로그램 방식
-    │
-    ▼
-명령어 (Instruction)
-    │
-    ├── Opcode + Operand
-    │
-    ▼
-디코더 (Instruction Decoder)
-    │
-    ▼
-고정 길이 인코딩 · 확장 Opcode · 마이크로 연산 분해
-    │
-    ▼
-SIMD 확장 · 특권 명령 · 하위 호환 ISA 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 프로그램 방식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 (Instruction)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Opcode + Operand</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디코더 (Instruction Decoder)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고정 길이 인코딩 · 확장 Opcode · 마이크로 연산 분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD 확장 · 특권 명령 · 하위 호환 ISA 진화</div>
+</div>
+</div>
+
+
 
 이 흐름은 Opcode가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 일부에서 출발하지만, 실제로는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 구조와 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전체를 끌고 가는 중심 축임을 보여 준다.
 

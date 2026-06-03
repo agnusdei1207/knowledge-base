@@ -31,28 +31,27 @@ tags = ["studynote-it-management"]
 
 현대 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구는 단순히 게시판 역할을 넘어, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) v3/v4 교과서의 프로세스를 코드와 워크플로우 엔진으로 구현해 둔 것이다. 
 
-**[ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 플랫폼의 3대 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/):**
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/">ITSM</a> 플랫폼의 3대 핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>:</strong>
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 작동 원리 및 특징 |
 | :--- | :--- | :--- |
 | **티켓팅 및 워크플로우** | 인시던트 (Incident) 및 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청 추적 | 접수 시 담당자 자동 할당, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 임박 시 매니저에게 에스컬레이션(Escalation) 알림 발송 |
-| **[CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) ([구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) DB)** | IT 자산(서버, SW, 네트워크) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 장애 발생 시, 연결된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예: 결제 시스템)의 영향도를 거미줄 맵으로 즉시 파악 |
-| **셀프서비스 포털 및 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/)** | 사용자 직접 해결 및 지식 축적 | "비밀번호 초기화" 같은 단순 문의를 FAQ (알려진 오류 DB)로 유도하여 IT 인력 개입 최소화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/">CMDB</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">구성 관리</a> DB)</strong> | IT 자산(서버, SW, 네트워크) 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 장애 발생 시, 연결된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예: 결제 시스템)의 영향도를 거미줄 맵으로 즉시 파악 |
+| <strong>셀프서비스 포털 및 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/">KEDB</a></strong> | 사용자 직접 해결 및 지식 축적 | "비밀번호 초기화" 같은 단순 문의를 FAQ (알려진 오류 DB)로 유도하여 IT 인력 개입 최소화 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 ITSM 플랫폼 프로세스 워크플로우              │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 포털 접속] ──▶ [이슈 접수/티켓 생성] ──▶ [SLA 타이머 시작] │
-│                                │                             │
-│       ┌────────────────────────┴──────────────┐              │
-│       ▼                                     ▼              │
-│ [알려진 장애 (KEDB)]                 [신규 장애/변경 요청]   │
-│ 자동 답변 제공 후 종료               담당자 할당 & CAB 승인  │
-│                                             │              │
-│  [사용자 만족도 평가] ◀── [해결 및 티켓 종료] ◀───────┘      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ITSM 플랫폼 프로세스 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 포털 접속</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이슈 접수/티켓 생성</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SLA 타이머 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알려진 장애 (KEDB)</div><div class="kb-diagram-node">신규 장애/변경 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 답변 제공 후 종료 담당자 할당 &amp; CAB 승인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 만족도 평가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">해결 및 티켓 종료</div><div class="kb-diagram-connector">◀</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 시스템이 사람(IT 담당자)을 감시하고 재촉한다는 점이다. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 타이머가 작동하여 일정 시간 내에 처리가 안 되면 워크플로우가 자동으로 상위 관리자를 호출한다.
 
@@ -83,8 +82,8 @@ tags = ["studynote-it-management"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **프로세스 사전 정의**: 시스템 도입 전, 사내 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 위원회([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)) 규정이나 에스컬레이션(보고 체계) 규칙이 문서화되어 있는가?
-2. **[CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 최신화**: 서버 현황과 스토리지 매핑 정보가 CMDB에 지속적으로 자동 업데이트(Discovery) 되는 체계가 있는가?
-3. **[SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/) (단일 접점) 강제화**: 임원진이 전화로 급하게 IT 지원을 요청해도, "포털에 티켓부터 남겨주십시오"라고 거절할 수 있는 경영진의 스폰서십이 있는가?
+2. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/">CMDB</a> 최신화</strong>: 서버 현황과 스토리지 매핑 정보가 CMDB에 지속적으로 자동 업데이트(Discovery) 되는 체계가 있는가?
+3. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/">SPOC</a> (단일 접점) 강제화</strong>: 임원진이 전화로 급하게 IT 지원을 요청해도, "포털에 티켓부터 남겨주십시오"라고 거절할 수 있는 경영진의 스폰서십이 있는가?
 
 ### 실무 판단 가이드
 - **ServiceNow 채택**: 회사의 규모가 크고, IT뿐만 아니라 인사(HR), 총무, 재무 등 모든 부서의 결재와 워크플로우를 하나의 거대 플랫폼(Platform of Platforms)으로 통합하고 싶을 때 막대한 예산을 들여 채택한다.
@@ -115,21 +114,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Help Desk (헬프 데스크) · 단순 IT 문의 응대
-    │
-    ▼
-Service Desk (서비스 데스크) · SPOC (단일 접점) 기반 통합 지원
-    │
-    ▼
-ITSM (IT Service Management) 플랫폼 · ITIL 프로세스 전면 자동화 (ServiceNow 등)
-    │
-    ▼
-ESM (Enterprise Service Management) · IT를 넘어 HR, 재무 등 전사 워크플로우 통합
-    │
-    ▼
-AIOps 및 AI 기반 ITSM · 티켓 자동 분류 및 인프라 자가 치유 (Self-healing)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Help Desk (헬프 데스크) · 단순 IT 문의 응대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Service Desk (서비스 데스크) · SPOC (단일 접점) 기반 통합 지원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ITSM (IT Service Management) 플랫폼 · ITIL 프로세스 전면 자동화 (ServiceNow 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ESM (Enterprise Service Management) · IT를 넘어 HR, 재무 등 전사 워크플로우 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AIOps 및 AI 기반 ITSM · 티켓 자동 분류 및 인프라 자가 치유 (Self-healing)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "단순 민원 처리 → IT 프로세스 자동화 → 전사 확장 → [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 자율화"로 진화하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 도구의 발전을 보여준다.
 

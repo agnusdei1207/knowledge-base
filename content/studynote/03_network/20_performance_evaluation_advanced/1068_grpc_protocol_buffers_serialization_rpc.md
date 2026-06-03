@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **JSON의 무거움**: `{"age": 30}` 이 문장을 전송하려면 괄호, 쌍따옴표 텍스트까지 모조리 바이트로 차지합니다. 사람이 눈으로 읽기는 좋지만, 컴퓨터가 이 문자열을 쪼개서 숫자 30으로 해석(Parsing)하는 데 엄청난 CPU 연산 낭비가 터집니다.
-- **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 족쇄**: 464번에서 배운 홀딩(HOLB) 현상 때문에 한 번에 하나씩밖에 패킷을 못 던져 통신 딜레이가 끔찍했습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1의 족쇄</strong>: 464번에서 배운 홀딩(HOLB) 현상 때문에 한 번에 하나씩밖에 패킷을 못 던져 통신 딜레이가 끔찍했습니다.
 
-```text
-[이스티오 사이드카 프록시]
-    │
-    ▼
-[gRPC / 프로토콜 버퍼 직렬화]
-    │
-    └──▶ [WebRTC NAT 횡단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이스티오 사이드카 프록시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC / 프로토콜 버퍼 직렬화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 구글이 수만 대의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 서버끼리 빛의 속도로 대화하게 하려고 자체 개발해 오픈소스로 푼 **초고성능 범용 원격 프로시저 호출([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 프레임워크**입니다.
-- **원리 ([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))**: 부산에 있는 서버 B의 코드를 실행하고 싶은데, 마치 내 서버 A 컴퓨터 안의 함수를 실행(`CallPayment(100)`)하는 것처럼 아무 네트워크 지식 없이 한 줄의 코드만 치면 허공을 뚫고 들어가 남의 서버 함수를 실행시키고 값을 훔쳐 옵니다.
+- **개념**: 구글이 수만 대의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 서버끼리 빛의 속도로 대화하게 하려고 자체 개발해 오픈소스로 푼 <strong>초고성능 범용 원격 프로시저 호출(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>) 프레임워크</strong>입니다.
+- <strong>원리 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>)</strong>: 부산에 있는 서버 B의 코드를 실행하고 싶은데, 마치 내 서버 A 컴퓨터 안의 함수를 실행(`CallPayment(100)`)하는 것처럼 아무 네트워크 지식 없이 한 줄의 코드만 치면 허공을 뚫고 들어가 남의 서버 함수를 실행시키고 값을 훔쳐 옵니다.
 
-```text
-[이스티오 사이드카 프록시]
-    │
-    ▼
-[gRPC / 프로토콜 버퍼 직렬화]
-    │
-    └──▶ [WebRTC NAT 횡단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이스티오 사이드카 프록시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC / 프로토콜 버퍼 직렬화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,14 +65,14 @@ tags = ["studynote-network"]
 
 ### 1. 화물 다이어트: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 ([Protocol Buffers](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/), protobuf) 🌟
 JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화(Serialization, 포장지) 포맷입니다.
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 인간이 읽는 텍스트(String)를 싹 다 버리고, 오직 기계만 알아먹는 **초압축 이진수(Binary) 덩어리**로 꽉꽉 뭉쳐서 팩킹해 버립니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 인간이 읽는 텍스트(String)를 싹 다 버리고, 오직 기계만 알아먹는 <strong>초압축 이진수(Binary) 덩어리</strong>로 꽉꽉 뭉쳐서 팩킹해 버립니다.
 - **동작**: 
   - `.proto` 파일에 설계도를 먼저 짭니다. "1번 칸은 문자열 이름, 2번 칸은 숫자 나이!" 
   - 패킷을 쏠 때는 이름표 태그(`"name":`)를 아예 생략하고, 그냥 `[1번 칸 데이터][2번 칸 데이터]` 이진수 덩어리만 틱 쏩니다.
-  - **효과**: JSON보다 용량이 **3분의 1**로 줄어들고, 텍스트를 해석할 필요가 없어 파싱 속도가 **최소 5배~10배** 미친 듯이 빨라집니다. 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부망 통신 트래픽을 극단적으로 쥐어짭니다.
+  - **효과**: JSON보다 용량이 <strong>3분의 1</strong>로 줄어들고, 텍스트를 해석할 필요가 없어 파싱 속도가 **최소 5배~10배** 미친 듯이 빨라집니다. 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부망 통신 트래픽을 극단적으로 쥐어짭니다.
 
 ### 2. 고속도로 교체: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 기반 🌟
-- gRPC는 낡은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1을 버리고 태생부터 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2(466번)** 위에서만 돌아갑니다.
+- gRPC는 낡은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1을 버리고 태생부터 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2(466번)</strong> 위에서만 돌아갑니다.
 - **양방향 스트리밍 (Bi-directional Streaming)**: 한 번 암호 터널([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 뚫어두면, 문을 안 닫고 클라이언트와 서버가 커다란 호스를 연결한 것처럼 실시간 비디오를 쏘듯 패킷을 양방향으로 와다다다 무한정 쏟아붓습니다(멀티플렉싱). 통신을 맺고 끊는 오버헤드가 제로가 됩니다.
 
 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 기반 조건을 만든다면, [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화는 그 위에서 핵심 메커니즘을 구현하고, [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -82,7 +90,7 @@ JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [데이터](/knowledge
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 구글의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼(설계도) 하나만 딱 짜서 컴파일러에 넣으면, 자바(Java), 파이썬(Python), Go, C++ 등 10개 언어의 통신 코드를 1초 만에 기계가 다 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Generation)해 줍니다. 언어가 파편화된 클라우드 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 신이 내린 축복입니다.
-- **치명적 단점 (브라우저 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))**: 브라우저(크롬, 사파리)는 이진수 덩어리(바이너리)를 직접 파싱하는 데 취약해서 프론트엔드(웹)와 백엔드가 통신할 땐 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 힘듭니다([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 꼼수 필요). 그래서 **백엔드 서버들끼리의 내부망 통신(East-West)**에만 몰빵해서 100% 장악한 상태입니다.
+- <strong>치명적 단점 (브라우저 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>)</strong>: 브라우저(크롬, 사파리)는 이진수 덩어리(바이너리)를 직접 파싱하는 데 취약해서 프론트엔드(웹)와 백엔드가 통신할 땐 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 힘듭니다([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 꼼수 필요). 그래서 <strong>백엔드 서버들끼리의 내부망 통신(East-West)</strong>에만 몰빵해서 100% 장악한 상태입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [데이터](/knowledge
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))** 방식은 외국인과 대화할 때, 택배 박스에 **"이것의 이름은(name) 홍길동이고, 나이는(age) 30입니다"라고 영어 문장으로 예쁘고 친절하게 적어서 보내는 것**입니다. 받는 사람이 박스 겉면만 보고도 무슨 내용인지 알 수 있지만, 글자가 길어 박스가 낭비되고 텍스트를 읽고 해석(파싱)하느라 시간이 한참 걸립니다. **[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼)**는 이 텍스트를 다 찢어버리고, 서로 미리 설계도(암호 책)를 나눠가진 뒤 **'진공 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장된 알약(바이너리 이진수)'** 하나만 딸랑 쏘는 흑마법입니다. 해커나 인간이 이 패킷을 가로채서 까보면 그냥 `10110010`이라는 쓰레기 기계어 덩어리로 보여서 절대 읽지 못합니다. 하지만 암호 책(.proto)을 가진 상대방 서버는 이 이진수 알약을 0.001초 만에 쏙 풀어서 "홍길동, 30"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뽑아냅니다. 인간의 가독성을 완벽히 포기한 대가로, 용량을 1/3로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 파싱 속도를 10배 폭발시켜, 1초에 수만 번 대화하는 기계([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))들만의 초광속 텔레파시 우주 통신망을 완성했습니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>)</strong> 방식은 외국인과 대화할 때, 택배 박스에 <strong>"이것의 이름은(name) 홍길동이고, 나이는(age) 30입니다"라고 영어 문장으로 예쁘고 친절하게 적어서 보내는 것</strong>입니다. 받는 사람이 박스 겉면만 보고도 무슨 내용인지 알 수 있지만, 글자가 길어 박스가 낭비되고 텍스트를 읽고 해석(파싱)하느라 시간이 한참 걸립니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 버퍼)</strong>는 이 텍스트를 다 찢어버리고, 서로 미리 설계도(암호 책)를 나눠가진 뒤 <strong>'진공 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 포장된 알약(바이너리 이진수)'</strong> 하나만 딸랑 쏘는 흑마법입니다. 해커나 인간이 이 패킷을 가로채서 까보면 그냥 `10110010`이라는 쓰레기 기계어 덩어리로 보여서 절대 읽지 못합니다. 하지만 암호 책(.proto)을 가진 상대방 서버는 이 이진수 알약을 0.001초 만에 쏙 풀어서 "홍길동, 30"이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뽑아냅니다. 인간의 가독성을 완벽히 포기한 대가로, 용량을 1/3로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 파싱 속도를 10배 폭발시켜, 1초에 수만 번 대화하는 기계([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))들만의 초광속 텔레파시 우주 통신망을 완성했습니다.
 
 ---
 
@@ -113,15 +121,19 @@ JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [데이터](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 이스티오 사이드카 프록시]
-    │
-    ▼
-[현재 개념: gRPC / 프로토콜 버퍼 직렬화]
-    │
-    ├──▶ [확장 A: WebRTC NAT 횡단]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이스티오 사이드카 프록시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: gRPC / 프로토콜 버퍼 직렬화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WebRTC NAT 횡단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화는 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) | 승인된 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 | Staging/Production 승격 절차 |
 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·드리프트 감시 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 예측 품질, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 |
 
-```text
-┌──────────────┐   features   ┌──────────────┐   train    ┌──────────────┐
-│ Raw Data     │ ───────────▶ │ Feature Store│ ─────────▶ │ Training     │
-└──────────────┘              └──────────────┘            └──────────────┘
-        │                              │                           │
-        │ monitor                      │ online/offline parity     │ register
-        ▼                              ▼                           ▼
-┌──────────────┐              ┌──────────────┐            ┌──────────────┐
-│ Drift Check  │ ◀─────────── │ Serving      │ ◀───────── │ Model Registry│
-└──────────────┘              └──────────────┘            └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">features train</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Data</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Feature Store</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Training</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">monitor</div><div class="kb-diagram-cell">online/offline parity</div><div class="kb-diagram-cell">register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift Check</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Serving</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Model Registry</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 “학습과 운영이 같은 정의를 사용하게 만드는 것”이다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 없이 학습용 SQL과 운영용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 로직이 따로 움직이면, 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 찾기 어렵다. 또한 재학습은 자동화할 수 있지만, 무조건 자동 승격하는 것이 아니라 품질 기준과 인간 승인 단계를 둬야 안전하다.
 
@@ -116,18 +117,21 @@ MLOps를 잘 구축하면 모델 배포 속도뿐 아니라 재현성과 [감사
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Model Training Script
-   │
-   ▼
-Experiment Tracking
-   │
-   ▼
-Feature Store + Registry
-   │
-   ▼
-MLOps Monitoring / Retraining Loop
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Model Training Script</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Experiment Tracking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Feature Store + Registry</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLOps Monitoring / Retraining Loop</div>
+</div>
+</div>
+
+
 
 이 흐름은 “실험 중심 → 재현성 확보 → 운영 표준화 → 지속적 재학습”으로 MLOps가 성숙하는 경로를 보여준다.
 

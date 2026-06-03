@@ -29,27 +29,28 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│              TDE vs 애플리케이션 암호화 보호 범위 비교               │
-├──────────────────────────────────────────────────────────────────┤
-│  TDE (Transparent Data Encryption)                               │
-│  애플리케이션 → DB 엔진 (평문) → 디스크 I/O 시 자동 암호화 → 파일  │
-│  ✅ 물리 스토리지 탈취 방어                                         │
-│  ❌ DB 세션 접근 시 복호화된 평문 노출                              │
-│  ❌ DBA, 내부자 접근 방어 불가                                      │
-│                                                                  │
-│  애플리케이션 레벨 암호화                                           │
-│  애플리케이션 → 암호화 → DB (암호문 저장)                           │
-│  ✅ DB 레벨에서는 항상 암호문 → DBA도 평문 접근 불가                │
-│  ✅ DB 세션 탈취 시에도 암호문만 노출                               │
-│  ❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한                       │
-│  ❌ 키 관리 (KMS) 책임이 애플리케이션으로                           │
-│                                                                  │
-│  컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간        │
-│  DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDE vs 애플리케이션 암호화 보호 범위 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDE (Transparent Data Encryption)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 → DB 엔진 (평문) → 디스크 I/O 시 자동 암호화 → 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 물리 스토리지 탈취 방어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ DB 세션 접근 시 복호화된 평문 노출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ DBA, 내부자 접근 방어 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레벨 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 → 암호화 → DB (암호문 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ DB 레벨에서는 항상 암호문 → DBA도 평문 접근 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ DB 세션 탈취 시에도 암호문만 노출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 키 관리 (KMS) 책임이 애플리케이션으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)</div></div>
+</div>
+</div>
+
+
 
 | 항목               | [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)                         | 애플리케이션 암호화              |
 |:-----------------|:----------------------------|:-------------------------------|
@@ -66,7 +67,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-**키 관리 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**는 암호화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 핵심 과제다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 암호화 키를 같은 서버에 보관하면 서버 탈취 시 키와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두 노출된다. [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))이나 클라우드 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 통해 키를 분리 보관해야 한다.
+<strong>키 관리 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>는 암호화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 핵심 과제다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 암호화 키를 같은 서버에 보관하면 서버 탈취 시 키와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두 노출된다. [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))이나 클라우드 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 통해 키를 분리 보관해야 한다.
 
 **SQL Server Always Encrypted**: 클라이언트 측 암호화로, DB 서버도 평문을 볼 수 없는 방식. 열 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 키 (Column Master [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 클라이언트에, 열 암호화 키 (Column Encryption [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 DB에 암호화된 형태로 저장한다.
 
@@ -76,7 +77,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/)별 암호화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/">데이터 분류</a>별 암호화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 - 공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 암호화 불필요
 - 내부 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 연락처): [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/) + 컬럼 레벨 암호화
 - 극도 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (카드번호, 주민번호): 애플리케이션 암호화 + [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)/[KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) 키 분리
@@ -86,7 +87,7 @@ tags = ["studynote-enterprise"]
 - [전자금융감독규정](/knowledge-base/studynote/09_security/17_framework_compliance/888_electronic_financial_supervision_regulation/): 카드번호, 계좌번호 등 금융정보 암호화
 - [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/): [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 저장 시 암호화 적용 여부 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 항목
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - 전체 DB를 TDE로 암호화하고 규정 준수 완료로 간주 → 내부자 위협 무방비
 - 모든 컬럼을 애플리케이션 암호화 → 검색 불가능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 
@@ -116,21 +117,23 @@ TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-물리 스토리지 탈취 위협 → TDE 도입
-    │
-    ▼
-내부자 위협 인식 → 애플리케이션 레벨 암호화
-    │
-    ▼
-컬럼 레벨 암호화 + KMS/HSM 키 분리 관리
-    │
-    ▼
-규제 준수 (GDPR, PCI-DSS, 개인정보보호법) 요구 강화
-    │
-    ▼
-동형 암호화 · 안전한 다자간 계산 (MPC) 연구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 스토리지 탈취 위협 → TDE 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내부자 위협 인식 → 애플리케이션 레벨 암호화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컬럼 레벨 암호화 + KMS/HSM 키 분리 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">규제 준수 (GDPR, PCI-DSS, 개인정보보호법) 요구 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동형 암호화 · 안전한 다자간 계산 (MPC) 연구</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

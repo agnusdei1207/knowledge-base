@@ -25,19 +25,22 @@ CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, 
 
 아래 시간축은 두 지표가 같은 관측 구간을 서로 다르게 해석한다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 100 ms observation window                                   │
-├──────────────────────────────────────────────────────────────┤
-│ 0      35      60      85      100                          │
-│ |--run A--|--idle--|--run B--|--kernel work--|              │
-│ busy time      = 35 + 25 + 15 = 75 ms                      │
-│ idle time      = 25 ms                                      │
-│ completed jobs = 2                                          │
-│ utilization    = 75 / 100 = 75%                            │
-│ throughput     = 2 jobs / 0.1 s = 20 jobs/s                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100 ms observation window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 35 60 85 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--run A--</div><div class="kb-diagram-cell">--idle--</div><div class="kb-diagram-cell">--run B--</div><div class="kb-diagram-cell">--kernel work--</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">busy time = 35 + 25 + 15 = 75 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">idle time = 25 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">completed jobs = 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">utilization = 75 / 100 = 75%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">throughput = 2 jobs / 0.1 s = 20 jobs/s</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 [kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) work도 이용률에는 포함되지만, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 늘려 주는 것은 완료된 작업 수뿐이다. 그래서 이용률이 높은데 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 기대만큼 안 나오면, CPU가 "유용한 계산"보다 "관리 비용"에 시간을 쓰는지 의심해야 한다.
 
@@ -59,17 +62,20 @@ CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, 
 
 시스템 부하가 늘면 처음에는 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 함께 올라간다. 준비 큐에 작업이 어느 정도 있어야 CPU가 빈 시간을 줄이고, 파이프라인과 캐시도 더 잘 활용할 수 있기 때문이다. 하지만 어느 시점을 넘으면 대기열, 락, 캐시 미스, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 급증해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 먼저 꺾이기 시작한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Load increase and saturation                                │
-├──────────────────────────────────────────────────────────────┤
-│ low load      useful zone                   overload         │
-│ util       :  /--------------------------                    │
-│ throughput : /----------------\___                          │
-│ queue len  : ____/^^^^^^^^^^^^^^^^^^                        │
-│ overload -> switching, lock wait, page fault cost           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load increase and saturation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">low load useful zone overload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">util : /--------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">throughput : /----------------\___</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">queue len : ____/^^^^^^^^^^^^^^^^^^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">overload -&gt; switching, lock wait, page fault cost</div></div>
+</div>
+</div>
+
+
 
 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 튜닝에서 핵심은 단순한 최대 이용률이 아니라 포화점 (Saturation Point) 찾기다. 이 지점 이전까지는 작업을 더 넣을수록 성과가 커지지만, 이후에는 시스템이 바쁘기만 하고 생산성은 떨어진다.
 
@@ -100,17 +106,20 @@ CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/
 
 실무에서는 CPU 이용률을 한 줄 숫자로만 보지 말고, 무엇이 그 시간을 채우는지 분해해서 봐야 한다. Linux 계열 시스템이라면 user, system, iowait, steal 같은 세부 항목이 필수다. 높은 CPU 사용률 경보가 떴을 때도 "계산이 많아서 높은지", "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드 때문에 높은지", "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 호스트에서 빼앗겨서 느린지"를 구분해야 대책이 달라진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ CPU 90%+ alarm triage                                       │
-├──────────────────────────────────────────────────────────────┤
-│ user high   -> real computation or hot code path            │
-│ system high -> syscall, lock, interrupt, network overhead   │
-│ iowait high -> storage bottleneck, CPU is not root cause    │
-│ steal high  -> virtualized host contention                  │
-│ always compare with throughput and latency after diagnosis  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 90%+ alarm triage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user high -&gt; real computation or hot code path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">system high -&gt; syscall, lock, interrupt, network overhead</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iowait high -&gt; storage bottleneck, CPU is not root cause</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">steal high -&gt; virtualized host contention</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">always compare with throughput and latency after diagnosis</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -158,20 +167,23 @@ CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-도착 작업 증가
-    │
-    ▼
-busy time · idle time 측정
-    │
-    ├──────────────▶ CPU utilization
-    ├──────────────▶ completed jobs / sec = throughput
-    ▼
-포화점 파악
-    │
-    ▼
-스레드 수 · 큐 길이 · scale-out 정책 조정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">도착 작업 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">busy time · idle time 측정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CPU utilization</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ completed jobs / sec = throughput</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포화점 파악</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스레드 수 · 큐 길이 · scale-out 정책 조정</div>
+</div>
+</div>
+
+
 
 이 흐름도는 두 지표가 단순 모니터링 숫자가 아니라, 부하 해석과 용량 계획, 튜닝 결정으로 이어지는 실무 입력값임을 보여준다.
 

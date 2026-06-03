@@ -51,27 +51,28 @@ PRMA [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295
 | **단말기 (MS)** | 상태 감지 및 패킷 전송 시도 | 버퍼에 패킷이 생기면 빈 슬롯에 경쟁 전송([Slotted ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/)) 시도 | 식당 대기 손님 |
 | **타임 슬롯 (Time Slot)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송되는 물리적 시간 단위 | 프레임 내 주기적으로 반복되며 예약 또는 경쟁 상태를 가짐 | 식당 테이블 |
 | **프레임 (Frame)** | 다수의 타임 슬롯 묶음 | 음성 패킷 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주기와 동일하게 설정됨 (예: 20ms) | 영업 사이클 |
-| **VAD (Voice Activity [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))** | 음성 활성화 감지 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 사용자의 발화 구간과 묵음 구간을 식별하여 패킷 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 제어 | 손님의 식사/대기 상태 |
+| <strong>VAD (Voice Activity <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> | 음성 활성화 감지 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 사용자의 발화 구간과 묵음 구간을 식별하여 패킷 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 제어 | 손님의 식사/대기 상태 |
 
 PRMA의 동작은 크게 '경쟁(Contention)', '예약(Reservation)', '해제(Release)'의 상태 전이로 이루어진다.
 
-```text
-┌───────────────── 단말기 상태 전이도 (State Machine) ──────────────────┐
-│                                                                       │
-│                        (음성 패킷 발생)                               │
-│       ┌─────────────┐   경쟁 시도      ┌─────────────┐                │
-│       │   SILENT    │ ───────────────> │ CONTENTION  │                │
-│       │ (묵음 대기) │ <─────────────── │ (알로하 경쟁)│                │
-│       └─────────────┘   충돌/실패      └──────┬──────┘                │
-│              ▲                                │ 성공 (BS의 ACK)       │
-│              │                                │                       │
-│              │ (패킷 소진 / 묵음 진입)        ▼                       │
-│              │                         ┌─────────────┐                │
-│              └──────────────────────── │ RESERVATION │                │
-│                 예약 해제              │ (슬롯 예약) │                │
-│                                        └─────────────┘                │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단말기 상태 전이도 (State Machine)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(음성 패킷 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경쟁 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SILENT</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">CONTENTION</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(묵음 대기)</div><div class="kb-diagram-cell">&lt;</div><div class="kb-diagram-cell">(알로하 경쟁)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌/실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">성공 (BS의 ACK)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(패킷 소진 / 묵음 진입) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RESERVATION</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예약 해제</div><div class="kb-diagram-cell">(슬롯 예약)</div></div>
+</div>
+</div>
+
+
 
 이 상태 전이도의 핵심은 단말기가 음성 트래픽을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)했을 때 CONTENTION 상태를 거쳐 성공적으로 기지국의 응답(ACK)을 받으면 RESERVATION 상태로 진입하여 이후 프레임의 동일한 슬롯을 무경쟁으로 독점한다는 점이다. 이런 배치는 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 겪는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동성(Jitter)을 최소화하기 때문이며, 따라서 통화 품질 보장에 결정적인 영향을 준다. 실무에서는 경쟁 구간에서의 허용 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Permission [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), p)을 어떻게 설정하느냐에 따라 시스템의 안정성이 크게 달라진다.
 
@@ -92,27 +93,25 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 | 항목 | [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)) | [Slotted ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) | PRMA (Packet Reservation) |
 |:---|:---|:---|:---|
 | **채널 할당 방식** | 고정적 (Static) | 전면 무작위 (Random) | 동적 하이브리드 (Dynamic) |
-| **음성 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 지원** | 완벽 보장 | 보장 불가 (충돌 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 보장 (예약 성공 이후) |
+| <strong>음성 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 지원</strong> | 완벽 보장 | 보장 불가 (충돌 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 보장 (예약 성공 이후) |
 | **묵음 구간 활용** | 불가능 ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비) | 자동 활용됨 | 가능 (다른 단말이 사용) |
 | **시스템 복잡도** | 낮음 | 매우 낮음 | 높음 (BS 스케줄링 필요) |
 
-```text
-┌──────────────── 성능 트레이드오프 매트릭스 ────────────────┐
-│ 트래픽 부하 증가 시 지연(Delay) 변화 그래프                │
-│                                                            │
-│ Delay                                                      │
-│   ▲                                                        │
-│   │       Slotted ALOHA (급격한 지수적 상승)               │
-│   │       /                                                │
-│   │      /         PRMA (완만한 상승 후 임계점 포화)       │
-│   │     /         /                                        │
-│   │    / --------/------------------- TDMA (고정 지연)     │
-│   │   /         /                                          │
-│   │  /         /                                           │
-│   │ /         /                                            │
-│   └────────────────────────────────────► Traffic Load      │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성능 트레이드오프 매트릭스</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 부하 증가 시 지연(Delay) 변화 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slotted ALOHA (급격한 지수적 상승)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ PRMA (완만한 상승 후 임계점 포화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ --------/------------------- TDMA (고정 지연)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► Traffic Load</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스의 핵심은 트래픽 부하가 낮을 때는 무작위 접근 방식이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 측면에서 유리하지만, 부하가 증가함에 따라 충돌로 인해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증한다는 점이다. PRMA는 알로하의 유연성과 TDMA의 안정성을 타협한 중간 지점에 위치한다. 따라서 트래픽이 임계치를 넘어가면 예약 자체를 실패하는 단말이 속출하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증할 수 있다. 실무에서는 가입자 수와 트래픽 패턴을 분석하여 적절한 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)(p)를 튜닝하지 않으면 전체 시스템이 마비되는 혼잡 붕괴(Congestion Collapse)를 겪을 수 있다.
 
@@ -124,26 +123,29 @@ PRMA는 전통적인 방식들과 명확한 트레이드오프를 가진다.
 
 실제 무선 패킷 통신망을 설계할 때 PRMA 방식을 적용하기 위해서는 정밀한 파라미터 튜닝과 예외 상황 관리가 필수적이다.
 
-**실무 시나리오 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)**
-```text
-[트래픽 분석]
-   │
-   ├─ Q: 음성과 데이터가 혼재되어 있는가?
-   │   ├─ 아니오 (순수 데이터) => [결정] CSMA/CA 또는 Slotted ALOHA 채택
-   │   └─ 예 (혼재됨)
-   │        │
-   │        ├─ Q: 지연 민감도(음성 패킷 드롭률 제한)가 1% 미만이어야 하는가?
-   │        │   ├─ 아니오 => [결정] 일반 경쟁 기반 MAC (QoS 완화)
-   │        │   └─ 예 => [결정] PRMA 구조 채택 및 파라미터(p) 최적화 수행
-   │        │
-   │        └─ Q: 트래픽 부하가 시스템 용량의 80%를 자주 초과하는가?
-   │            ├─ 예 => [위험] PRMA 혼잡 붕괴 위험! 예약 슬롯 비율을 동적 제어하거나 호 수락 제어(CAC) 연동 필요
-   │            └─ 아니오 => [안전] PRMA 기본 설정 적용
-```
+<strong>실무 시나리오 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a></strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 분석</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q: 음성과 데이터가 혼재되어 있는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 아니오 (순수 데이터) =&gt;</div><div class="kb-diagram-node">결정</div><div class="kb-diagram-note">CSMA/CA 또는 Slotted ALOHA 채택</div></div>
+<div class="kb-diagram-note">─ 예 (혼재됨)</div>
+<div class="kb-diagram-note">─ Q: 지연 민감도(음성 패킷 드롭률 제한)가 1% 미만이어야 하는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ 아니오 =&gt;</div><div class="kb-diagram-node">결정</div><div class="kb-diagram-note">일반 경쟁 기반 MAC (QoS 완화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ 예 =&gt;</div><div class="kb-diagram-node">결정</div><div class="kb-diagram-note">PRMA 구조 채택 및 파라미터(p) 최적화 수행</div></div>
+<div class="kb-diagram-note">─ Q: 트래픽 부하가 시스템 용량의 80%를 자주 초과하는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 예 =&gt;</div><div class="kb-diagram-node">위험</div><div class="kb-diagram-note">PRMA 혼잡 붕괴 위험! 예약 슬롯 비율을 동적 제어하거나 호 수락 제어(CAC) 연동 필요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 아니오 =&gt;</div><div class="kb-diagram-node">안전</div><div class="kb-diagram-note">PRMA 기본 설정 적용</div></div>
+</div>
+</div>
+
+
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 PRMA가 만능이 아니라 특정 트래픽 혼합 환경과 부하 조건 하에서만 빛을 발한다는 점이다. 부하가 80%를 넘어서면 경쟁 구간에서 음성 단말이 예약을 획득하지 못해 패킷 폐기율(Drop Rate)이 급증한다. 실무에서는 이 지점의 실패율과 대기 시간을 반드시 별도로 모니터링해야 하며, [Call Admission Control](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)(CAC)을 통해 신규 음성 통화 진입을 원천 차단하는 방어 기제를 두어야 안정성을 확보할 수 있다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 - [ ] VAD (Voice Activity [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 센시티비티가 적절하게 설정되어 핑퐁 현상이 없는가?
 - [ ] 단말기 송신 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 파라미터(p)가 트래픽 부하에 따라 동적으로 조절되는 알고리즘이 적용되었는가?
 - [ ] [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 대비 음성 패킷의 우선순위를 보장할 수 있는 메커니즘이 존재하는가?
@@ -159,7 +161,7 @@ PRMA의 개념은 [초기](/knowledge-base/studynote/03_network/08_transport_lay
 | 구분 | 기대 효과 및 기술적 가치 |
 |:---|:---|
 | **효율성 (Efficiency)** | 묵음 구간의 슬롯 재활용으로 [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 대비 시스템 수용 용량(Capacity) 1.5배~2배 증대 |
-| **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장** | 경쟁 후 즉각적인 슬롯 예약을 통해 음성 통신의 최대 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 엄격히 제한 가능 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 보장</strong> | 경쟁 후 즉각적인 슬롯 예약을 통해 음성 통신의 최대 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 엄격히 제한 가능 |
 | **발전 방향** | [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등 현대 셀룰러 망의 동적 자원 스케줄링(Dynamic Scheduling) 기법으로 진화 |
 
 PRMA 자체는 과거의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 형태지만, '필요할 때 경쟁하고, 확보하면 독점하는' 하이브리드 철학은 최신 5G의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 스케줄링 알고리즘이나 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)([DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) 등)에 깊이 녹아들어 있다. 향후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 트래픽 예측 모델과 결합하여, 슬롯 경쟁을 최소화하고 트래픽 발생 직전에 선제적으로 예약을 잡아주는 인텐트 기반(Intent-based) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 진화할 것이다.
@@ -180,15 +182,19 @@ PRMA 자체는 과거의 [프로토콜](/knowledge-base/studynote/03_network/06_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 토큰 패싱]
-    │
-    ▼
-[현재 개념: PRMA]
-    │
-    ├──▶ [확장 A: DAMA]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 토큰 패싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PRMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DAMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
+</div>
+</div>
+
+
 
 PRMA는 토큰 패싱에서 출발해 현재 메커니즘을 정교화하고, 이후 DAMA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

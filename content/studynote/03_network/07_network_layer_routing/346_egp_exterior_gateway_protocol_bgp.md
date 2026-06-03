@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 서로 다른 자율 시스템(Autonomous System, [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 간에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보(네트워크 도달 가능성)를 교환하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 군. 사실상 BGPv4를 의미한다.
-- **필요성**: KT 망 안에서는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))를 돌려서 수천 대의 라우터가 길을 찾는다. 구글 망 안에서도 OSPF가 돈다. 이제 내가 KT 랜선을 꽂고 구글 유튜브 서버에 접속하려 한다. KT 라우터가 아무리 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도를 뒤져봐야 구글 서버 IP는 나오지 않는다(다른 나라니까). "KT 관문 라우터와 구글 관문 라우터가 서로 만나서, **'우리나라(KT)에는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 국민들이 살고 있으니 나한테 넘겨'**라고 통짜 지도를 교환할 국제 외교 채널이 필요해!"
+- **필요성**: KT 망 안에서는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))를 돌려서 수천 대의 라우터가 길을 찾는다. 구글 망 안에서도 OSPF가 돈다. 이제 내가 KT 랜선을 꽂고 구글 유튜브 서버에 접속하려 한다. KT 라우터가 아무리 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도를 뒤져봐야 구글 서버 IP는 나오지 않는다(다른 나라니까). "KT 관문 라우터와 구글 관문 라우터가 서로 만나서, <strong>'우리나라(KT)에는 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>.x.x.x 국민들이 살고 있으니 나한테 넘겨'</strong>라고 통짜 지도를 교환할 국제 외교 채널이 필요해!"
 
 - **💡 비유**: 
-  - **[IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) (내부망)**: 서울시의 **"마을 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도"**입니다. 골목길 구석구석을 아주 빠르고 정교하게 안내합니다.
-  - **EGP ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))**: 인천공항의 **"국제선 항공 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)"**입니다. 서울 골목길(세부 IP)은 전혀 관심 없고, 오직 "한국에서 미국을 가려면 일본(중간 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))을 경유해야 하는가?"라는 굵직한 국가 간 항로([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)만 관리합니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/">IGP</a> (내부망)</strong>: 서울시의 <strong>"마을 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 노선도"</strong>입니다. 골목길 구석구석을 아주 빠르고 정교하게 안내합니다.
+  - <strong>EGP (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)</strong>: 인천공항의 <strong>"국제선 항공 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>"</strong>입니다. 서울 골목길(세부 IP)은 전혀 관심 없고, 오직 "한국에서 미국을 가려면 일본(중간 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))을 경유해야 하는가?"라는 굵직한 국가 간 항로([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)만 관리합니다.
 
-```text
-[IGP]
-    │
-    ▼
-[EGP]
-    │
-    └──▶ [거리 벡터 라우팅 알고리즘]
-```
 
-- **📢 섹션 요약 비유**: ** EGP([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))는 전 세계 통신사 대표들이 모인 **"UN(국제 연합) 총회"**입니다. 각 통신사는 자기네 나라([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))에 속한 국민(IP 대역) 명부를 뭉텅이로 던져놓고, 서로의 이익(돈, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 무역로(트래픽 경로)를 협상하고 통제합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IGP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EGP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거리 벡터 라우팅 알고리즘</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> EGP(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)는 전 세계 통신사 대표들이 모인 </strong>"UN(국제 연합) 총회"**입니다. 각 통신사는 자기네 나라([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))에 속한 국민(IP 대역) 명부를 뭉텅이로 던져놓고, 서로의 이익(돈, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 무역로(트래픽 경로)를 협상하고 통제합니다.
 
 ---
 
@@ -43,42 +47,41 @@ tags = ["studynote-network"]
 
 ### 1. [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))의 근본 원리
 BGP는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)([Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/))를 살짝 변형한 **경로 벡터(Path Vector)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓴다.
-- [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터는 목적지까지 갈 때 거쳐야 하는 **"[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 국가들의 도장(ASN) 목록"**을 편지 봉투에 줄줄이 찍어가며 길을 배운다.
+- [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터는 목적지까지 갈 때 거쳐야 하는 <strong>"<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 국가들의 도장(ASN) 목록"</strong>을 편지 봉투에 줄줄이 찍어가며 길을 배운다.
 - 예를 들어 목적지가 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)인데, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 지도를 보니 `경로: AS 1759(KT) -> AS 209(Qwest) -> AS 15169(구글)` 라고 적혀있다.
 - 내가 받은 경로 정보 중에 **"내 국가 번호(내 ASN)"가 이미 찍혀있다면?** "어? 이거 내가 보냈던 건데 한 바퀴 돌아서 나한테 다시 온 거네?"라고 판단하고 즉각 패킷을 버린다. (우주 스케일의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프를 완벽히 방지하는 천재적 원리다).
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보)
 BGP는 인터넷 전체(약 90만 개)의 거대한 지도를 주고받아야 한다.
 - OSPF나 RIP처럼 대충 IP 위에 싣거나 UDP로 막 던지다간 정보가 깨져서 전 지구적 인터넷 대란이 일어날 수 있다.
-- 그래서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 서로 완벽한 1:1 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(179번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**을 맺고, 3-Way Handshake로 손을 굳게 잡은 뒤에야 안전하게 90만 줄짜리 지도를 천천히 복사해 준다.
+- 그래서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 서로 완벽한 1:1 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>을 맺고, 3-Way Handshake로 손을 굳게 잡은 뒤에야 안전하게 90만 줄짜리 지도를 천천히 복사해 준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IGP (최단 거리) vs BGP (정책 제어) 차이             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: A(우리 회사)에서 C(목적지)로 가는 길 ]                     │
- │   경로 1: A ──▶ B(경쟁사 망) ──▶ C (물리적으로 50km, 아주 가까움)  │
- │   경로 2: A ──▶ D(우방국 망) ──▶ C (물리적으로 500km, 아주 멈)     │
- │                                                             │
- │   * IGP(OSPF)의 뇌구조:                                        │
- │     "닥치고 빠른 게 최고지! 경쟁사 망이든 뭐든 B로 가!" (경로 1 선택)  │
- │                                                             │
- │   * EGP(BGP)의 뇌구조:                                        │
- │     "속도가 무슨 상관이야? 경쟁사 B한테 1원도 줄 수 없어!           │
- │      관리자가 Local Preference 속성을 억지로 조작해서라도         │
- │      무조건 먼 우방국 D로 돌려!" (경로 2 선택)                    │
- │                                                             │
- │   ▶ 결과: BGP는 인터넷 기업들의 '돈과 권력'을 통제하는 정치 도구다.     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGP (최단 거리) vs BGP (정책 제어) 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: A(우리 회사)에서 C(목적지)로 가는 길</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 1: A ──▶ B(경쟁사 망) ──▶ C (물리적으로 50km, 아주 가까움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 2: A ──▶ D(우방국 망) ──▶ C (물리적으로 500km, 아주 멈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IGP(OSPF)의 뇌구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"닥치고 빠른 게 최고지! 경쟁사 망이든 뭐든 B로 가!" (경로 1 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* EGP(BGP)의 뇌구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"속도가 무슨 상관이야? 경쟁사 B한테 1원도 줄 수 없어!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리자가 Local Preference 속성을 억지로 조작해서라도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 먼 우방국 D로 돌려!" (경로 2 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: BGP는 인터넷 기업들의 '돈과 권력'을 통제하는 정치 도구다.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 막강한 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)) 제어
 BGP는 단순히 거리가 짧다고 그 길을 1등으로 치지 않는다.
-**[Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), Local Preference, [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path, MED, Origin** 등 무려 10개가 넘는 세부적인 전투력 평가 항목([Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))을 가지고 있다. 
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>, Local Preference, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-Path, MED, Origin</strong> 등 무려 10개가 넘는 세부적인 전투력 평가 항목([Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))을 가지고 있다. 
 네트워크 관리자는 이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값들을 CLI에서 수동으로 찌그러뜨리고 부풀리면서, 인바운드 트래픽(들어오는 돈)과 아웃바운드 트래픽(나가는 돈)의 방향을 마음대로 쥐락펴락(Traffic Engineering) 조작할 수 있다.
 
-- **📢 섹션 요약 비유**: ** [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터(외교관)는 **"여권에 찍힌 출입국 도장([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)"**을 봅니다. 이 사람이 어느 나라를 거쳐서 왔는지 도장만 딱 보면, 우방국에서 왔는지 적국에서 왔는지 한눈에 파악하고 우리 나라로 들여보낼지 쫓아낼지([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 결정합니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 라우터(외교관)는 </strong>"여권에 찍힌 출입국 도장([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)"**을 봅니다. 이 사람이 어느 나라를 거쳐서 왔는지 도장만 딱 보면, 우방국에서 왔는지 적국에서 왔는지 한눈에 파악하고 우리 나라로 들여보낼지 쫓아낼지([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 결정합니다.
 
 ---
 
@@ -134,15 +137,19 @@ EGP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IGP]
-    │
-    ▼
-[현재 개념: EGP]
-    │
-    ├──▶ [확장 A: 거리 벡터 라우팅 알고리즘]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IGP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EGP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 거리 벡터 라우팅 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 EGP는 IGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

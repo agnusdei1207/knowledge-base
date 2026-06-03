@@ -31,14 +31,19 @@ tags = ["studynote-computer-architecture"]
 
 핵심은 공통 클럭과 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 결합이다. 각 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 다음 박자에 뒤집힐지 미리 계산하고, 클럭 에지에서 한꺼번에 반응한다.
 
-```text
-CLK ─────────────────▶ [FF0]
-  ├──────────────────▶ [FF1]
-  ├──────────────────▶ [FF2]
-  └──────────────────▶ [FF3]
 
-AND / look-ahead logic가 다음 상태를 미리 계산
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF3</div></div>
+<div class="kb-diagram-note">AND / look-ahead logic가 다음 상태를 미리 계산</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -101,29 +106,41 @@ AND / look-ahead logic가 다음 상태를 미리 계산
 
 ## 관련 개념 맵
 
-```text
-클럭(Clock)
-   ↓
-플립플롭(Flip-Flop)
-   ↓
-동기식 카운터
-   ↓
-PC / 타이머 / 주소 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭(Clock)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">플립플롭(Flip-Flop)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">동기식 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PC / 타이머 / 주소 생성</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-비동기식 카운터
-   ↓
-동기식 카운터
-   ↓
-Look-ahead 논리
-   ↓
-고속 주소/상태 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비동기식 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">동기식 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Look-ahead 논리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">고속 주소/상태 제어</div>
+</div>
+</div>
+
+
 
 ---
 

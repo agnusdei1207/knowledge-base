@@ -30,19 +30,25 @@ MDA는 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 MDA는 모델을 세 단계로 나눈다.
 
-```text
-CIM (Computation Independent Model)
-   ↓
-PIM (Platform Independent Model)
-   ↓
-PSM (Platform Specific Model)
-   ↓
-코드 생성
-```
 
-- **[CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/)**은 업무 관점의 요구사항이다.
-- **[PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)**은 기술을 뺀 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이다.
-- **PSM**은 특정 플랫폼에 맞춘 구체 모델이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CIM (Computation Independent Model)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PIM (Platform Independent Model)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PSM (Platform Specific Model)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">코드 생성</div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/">CIM</a></strong>은 업무 관점의 요구사항이다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a></strong>은 기술을 뺀 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이다.
+- <strong>PSM</strong>은 특정 플랫폼에 맞춘 구체 모델이다.
 
 이 구분이 있어야 업무와 기술을 분리해 생각할 수 있다.
 
@@ -86,15 +92,21 @@ MDA의 장점은 재사용성과 플랫폼 독립성이다. 반대로 한계는 
 
 ## 관련 개념 맵
 
-```text
-CIM
-   ↓
-PIM
-   ↓
-PSM
-   ↓
-코드 생성 / 유지보수
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CIM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PIM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PSM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">코드 생성 / 유지보수</div>
+</div>
+</div>
+
+
 
 ---
 

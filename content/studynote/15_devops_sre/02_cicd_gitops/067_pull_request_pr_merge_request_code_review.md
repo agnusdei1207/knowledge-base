@@ -29,13 +29,19 @@ GitHub에서는 Pull Request, GitLab에서는 Merge Request라고 부르지만 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-feature branch
-  ↓
-PR / MR
-  ↓ review + CI
-merge to main
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">feature branch</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PR / MR</div>
+<div class="kb-diagram-note">↓ review + CI</div>
+<div class="kb-diagram-note">merge to main</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ PR 프로세스는 코드 품질과 협업 품질을 동시에 높인다. 그래
 
 ## 관련 개념 맵
 
-```text
-Feature Branch
-  ↓
-Pull Request
-  ↓
-Review / CI
-  ↓
-Merge
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Feature Branch</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Pull Request</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Review / CI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Commit
-  ↓
-Pull Request
-  ↓
-Code Review
-  ↓
-Merge Workflow
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Commit</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Pull Request</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Code Review</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge Workflow</div>
+</div>
+</div>
+
+
 
 ---
 

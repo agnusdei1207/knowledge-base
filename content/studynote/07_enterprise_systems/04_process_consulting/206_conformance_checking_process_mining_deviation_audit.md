@@ -40,15 +40,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 모델과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 나란히 놓고 어느 지점에서 일탈이 발생하는지 찾는 기본 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Model : Request -> Approve -> Ship -> Invoice                       │
-│ Log   : Request -> Ship -----> Invoice                              │
-│                    │                                                 │
-│                    └-> missing Approve = deviation                  │
-│ Result: fitness down / compliance alert / root cause analysis       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model : Request -&gt; Approve -&gt; Ship -&gt; Invoice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log : Request -&gt; Ship -----&gt; Invoice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; missing Approve = deviation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: fitness down / compliance alert / root cause analysis</div></div>
+</div>
+</div>
+
+
 
 이때 중요한 것은 위반 탐지가 단순히 "다르다"고 말하는 데 그치지 않는다는 점이다. Fitness는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 모델을 얼마나 잘 따르는지, Precision은 모델이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 비해 지나치게 느슨하지 않은지를 보여 준다. 따라서 적합성 검사는 모델이 너무 이상적이라 현실을 못 담는지, 혹은 통제가 느슨해 위반이 반복되는지까지 함께 판단하게 해 준다.
 
@@ -115,21 +118,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-표준 프로세스 모델 수립
-    │
-    ▼
-Event Log 수집
-    │
-    ▼
-Token Replay · Alignment
-    │
-    ▼
-Deviation 분류 · Fitness 평가
-    │
-    ▼
-RCA · Internal Control Improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">표준 프로세스 모델 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Event Log 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Token Replay · Alignment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Deviation 분류 · Fitness 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RCA · Internal Control Improvement</div>
+</div>
+</div>
+
+
 
 이 흐름은 기준 모델과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 대조에서 시작해, 위반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 적합도 측정을 거쳐 통제 개선으로 이어지는 구조를 보여 준다.
 

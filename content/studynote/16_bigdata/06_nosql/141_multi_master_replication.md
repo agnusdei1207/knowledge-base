@@ -20,28 +20,25 @@ tags = ["studynote-bigdata"]
 
 ### 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 vs 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 비교
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  단일 마스터 복제 (Single-Master)                             │
-│                                                             │
-│  서울 사용자       도쿄 마스터        뉴욕 레플리카            │
-│  [쓰기 요청] ─────→ [Primary] ─────→ [Replica]              │
-│                                                             │
-│  지연: 서울→도쿄 ~30ms + 처리 = ~50ms                        │
-│  장애: 도쿄 다운 → 전 세계 쓰기 불가                          │
-└─────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────┐
-│  멀티 마스터 복제 (Multi-Master)                              │
-│                                                             │
-│  서울 Master ←──────────────────────→ 뉴욕 Master            │
-│      ↕  (양방향 비동기 복제)              ↕                   │
-│  도쿄 Master ←──────────────────────→ 유럽 Master            │
-│                                                             │
-│  서울 사용자 → 서울 Master (로컬 쓰기, ~5ms)                  │
-│  장애: 서울 다운 → 다른 3개 Master가 계속 쓰기 수용            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 마스터 복제 (Single-Master)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울 사용자 도쿄 마스터 뉴욕 레플리카</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 요청</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Primary</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Replica</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연: 서울→도쿄 ~30ms + 처리 = ~50ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애: 도쿄 다운 → 전 세계 쓰기 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티 마스터 복제 (Multi-Master)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울 Master ← → 뉴욕 Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (양방향 비동기 복제) ↕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도쿄 Master ← → 유럽 Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울 사용자 → 서울 Master (로컬 쓰기, ~5ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애: 서울 다운 → 다른 3개 Master가 계속 쓰기 수용</div></div>
+</div>
+</div>
+
+
 
 ### 충돌 발생 시나리오
 
@@ -64,89 +61,85 @@ tags = ["studynote-bigdata"]
 
 ### 충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3가지
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│  1. LWW (Last-Write-Wins, 최신 쓰기 우선)                  │
-│                                                            │
-│  서울 쓰기 (T=1000) vs 도쿄 쓰기 (T=1001)                   │
-│  → 타임스탬프 비교 → T=1001 (도쿄) 승리                      │
-│                                                            │
-│  장점: 단순, 빠른 충돌 해결                                   │
-│  단점: 서울 쓰기 손실 (데이터 유실)                           │
-│  사용: DynamoDB Global Tables (기본값)                      │
-├────────────────────────────────────────────────────────────┤
-│  2. 벡터 클록 (Vector Clock)                               │
-│                                                            │
-│  각 쓰기에 [Seoul:3, Tokyo:1] 형태의 벡터 클록 부여          │
-│  비교: 한쪽이 다른 쪽의 모든 버전을 포함하면 더 최신            │
-│  충돌: 어느 쪽도 포함하지 않으면 진짜 충돌 → 앱 해결          │
-│                                                            │
-│  장점: 인과 관계 추적, 의미 있는 충돌 감지                    │
-│  단점: 클록 크기 노드 수에 비례 증가                          │
-│  사용: Riak, CouchDB                                       │
-├────────────────────────────────────────────────────────────┤
-│  3. CRDT (Conflict-free Replicated Data Type)              │
-│                                                            │
-│  수학적으로 항상 병합 가능한 자료구조 설계                     │
-│  예: G-Counter (증가만) → merge = max(각 노드 값)            │
-│  예: OR-Set → add/remove가 충돌 없이 병합 가능               │
-│                                                            │
-│  장점: 자동 충돌 해결, 데이터 손실 없음                        │
-│  단점: 모든 연산에 적용 불가 (복잡한 비즈니스 로직)             │
-│  사용: Riak (기본), Redis CRDT (엔터프라이즈)                 │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. LWW (Last-Write-Wins, 최신 쓰기 우선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울 쓰기 (T=1000) vs 도쿄 쓰기 (T=1001)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 타임스탬프 비교 → T=1001 (도쿄) 승리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 단순, 빠른 충돌 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 서울 쓰기 손실 (데이터 유실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용: DynamoDB Global Tables (기본값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 벡터 클록 (Vector Clock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">각 쓰기에</div><div class="kb-diagram-node">Seoul:3, Tokyo:1</div><div class="kb-diagram-note">형태의 벡터 클록 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교: 한쪽이 다른 쪽의 모든 버전을 포함하면 더 최신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌: 어느 쪽도 포함하지 않으면 진짜 충돌 → 앱 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 인과 관계 추적, 의미 있는 충돌 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 클록 크기 노드 수에 비례 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용: Riak, CouchDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CRDT (Conflict-free Replicated Data Type)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적으로 항상 병합 가능한 자료구조 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: G-Counter (증가만) → merge = max(각 노드 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: OR-Set → add/remove가 충돌 없이 병합 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 자동 충돌 해결, 데이터 손실 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 모든 연산에 적용 불가 (복잡한 비즈니스 로직)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용: Riak (기본), Redis CRDT (엔터프라이즈)</div></div>
+</div>
+</div>
+
+
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables 아키텍처
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│              DynamoDB Global Tables                           │
-│                                                               │
-│  ┌──────────────┐        ┌──────────────┐                    │
-│  │  ap-northeast │        │  us-east-1   │                    │
-│  │  (서울 리전)  │        │  (버지니아)   │                    │
-│  │              │        │              │                    │
-│  │  table:orders│←──────→│  table:orders│                    │
-│  │  (Active)    │  양방향  │  (Active)    │                    │
-│  │              │  복제   │              │                    │
-│  └──────────────┘        └──────────────┘                    │
-│           ↕                      ↕                            │
-│  ┌──────────────┐        ┌──────────────┐                    │
-│  │  eu-west-1   │        │  ap-southeast│                    │
-│  │  (아일랜드)  │←──────→│  (싱가포르)  │                    │
-│  │  (Active)    │        │  (Active)    │                    │
-│  └──────────────┘        └──────────────┘                    │
-│                                                               │
-│  충돌 해결: LWW (타임스탬프 기반)                               │
-│  복제 지연: 일반적으로 수초 이내                                 │
-│  조건: 각 리전에서 고유한 PK 사용 권장 (충돌 최소화)             │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB Global Tables</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ap-northeast</div><div class="kb-diagram-cell">us-east-1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서울 리전)</div><div class="kb-diagram-cell">(버지니아)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">table:orders</div><div class="kb-diagram-cell">← →</div><div class="kb-diagram-cell">table:orders</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Active)</div><div class="kb-diagram-cell">양방향</div><div class="kb-diagram-cell">(Active)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ ↕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eu-west-1</div><div class="kb-diagram-cell">ap-southeast</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아일랜드)</div><div class="kb-diagram-cell">← →</div><div class="kb-diagram-cell">(싱가포르)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Active)</div><div class="kb-diagram-cell">(Active)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌 해결: LWW (타임스탬프 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제 지연: 일반적으로 수초 이내</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건: 각 리전에서 고유한 PK 사용 권장 (충돌 최소화)</div></div>
+</div>
+</div>
+
+
 
 ### CouchDB 개정(Revision) 기반 충돌 감지
 
-```text
-CouchDB 문서:
-{
-  "_id": "user:john",
-  "_rev": "3-abc123",   ← 개정 번호:해시
-  "age": 30
-}
 
-충돌 발생:
-  서울: _rev: "3-abc123" → 수정 → "4-def456"
-  도쿄: _rev: "3-abc123" → 수정 → "4-xyz789"
 
-CouchDB 충돌 처리:
-  - 두 버전 모두 보존 (충돌 상태로 저장)
-  - 앱이 충돌 감지 + 해결 책임
-  - 해결된 버전으로 "winning" 버전 저장
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CouchDB 문서:</div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"_id": "user:john",</div>
+<div class="kb-diagram-note">"_rev": "3-abc123", ← 개정 번호:해시</div>
+<div class="kb-diagram-note">"age": 30</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">충돌 발생:</div>
+<div class="kb-diagram-note">서울: _rev: "3-abc123" → 수정 → "4-def456"</div>
+<div class="kb-diagram-note">도쿄: _rev: "3-abc123" → 수정 → "4-xyz789"</div>
+<div class="kb-diagram-note">CouchDB 충돌 처리:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">두 버전 모두 보존 (충돌 상태로 저장)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">앱이 충돌 감지 + 해결 책임</div>
+<div class="kb-diagram-tree-item" style="--depth:1">해결된 버전으로 "winning" 버전 저장</div>
+<div class="kb-diagram-note">CouchDB 오프라인 우선 동기화:</div>
+<div class="kb-diagram-note">모바일 앱 → 오프라인 작업 → 온라인 시 서버와 복제</div>
+<div class="kb-diagram-note">→ 동기화 충돌 자동 감지 + 앱 레벨 해결</div>
+</div>
+</div>
 
-CouchDB 오프라인 우선 동기화:
-  모바일 앱 → 오프라인 작업 → 온라인 시 서버와 복제
-  → 동기화 충돌 자동 감지 + 앱 레벨 해결
-```
+
 
 📢 **섹션 요약 비유**
 > CRDT의 G-Counter는 학급의 팀 점수판과 같다. 서울팀과 도쿄팀이 동시에 점수를 추가해도 충돌이 없다 — 최종 합계는 모든 노드의 최댓값을 더하면 된다. "감점"이 없어서 충돌 없이 병합 가능한 수학적 설계다.
@@ -189,29 +182,33 @@ CRDT: 분산 시스템 방식
 
 ### 글로벌 e-커머스 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 설계
 
-```text
-요구: 서울·뉴욕·유럽 동시 쓰기, 재고 정확도 보장
 
-설계 결정:
-  ① 상품 카탈로그(낮은 충돌) → DynamoDB Global Tables (LWW)
-  ② 재고 수량(충돌 위험 높음) → Cassandra + QUORUM 또는
-                                  단일 재고 서비스(분산 잠금)
-  ③ 사용자 프로필(Session 일관성) → Session + Last-Write-Wins
-  ④ 장바구니(동시 추가) → CRDT OR-Set (충돌 없는 추가)
 
-핵심 원칙:
-  높은 충돌 위험 데이터 → 멀티 마스터 지양 (단일 마스터 유지)
-  낮은 충돌 위험 데이터 → 멀티 마스터 적극 활용
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구: 서울·뉴욕·유럽 동시 쓰기, 재고 정확도 보장</div>
+<div class="kb-diagram-note">설계 결정:</div>
+<div class="kb-diagram-note">① 상품 카탈로그(낮은 충돌) → DynamoDB Global Tables (LWW)</div>
+<div class="kb-diagram-note">② 재고 수량(충돌 위험 높음) → Cassandra + QUORUM 또는</div>
+<div class="kb-diagram-note">단일 재고 서비스(분산 잠금)</div>
+<div class="kb-diagram-note">③ 사용자 프로필(Session 일관성) → Session + Last-Write-Wins</div>
+<div class="kb-diagram-note">④ 장바구니(동시 추가) → CRDT OR-Set (충돌 없는 추가)</div>
+<div class="kb-diagram-note">핵심 원칙:</div>
+<div class="kb-diagram-note">높은 충돌 위험 데이터 → 멀티 마스터 지양 (단일 마스터 유지)</div>
+<div class="kb-diagram-note">낮은 충돌 위험 데이터 → 멀티 마스터 적극 활용</div>
+</div>
+</div>
+
+
 
 ### 충돌 최소화 설계 패턴
 
 | 패턴 | 설명 | 적용 예시 |
 |:---:|:---|:---:|
-| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권** | 각 리전이 다른 키 범위 담당 | 서울: KR 사용자, 뉴욕: US 사용자 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>별 소유권</strong> | 각 리전이 다른 키 범위 담당 | 서울: KR 사용자, 뉴욕: US 사용자 |
 | **수렴 자료구조** | CRDT 사용 | 좋아요 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 장바구니 |
-| **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 연산** | 같은 요청 여러 번 실행해도 동일 결과 | 결제 처리 |
-| **인과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)** | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 토큰과 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 조건부 업데이트 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> 연산</strong> | 같은 요청 여러 번 실행해도 동일 결과 | 결제 처리 |
+| <strong>인과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 토큰과 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 조건부 업데이트 |
 
 📢 **섹션 요약 비유**
 > [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권 패턴은 나라별 담당자를 정하는 것과 같다. 한국 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 서울 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터만, 미국 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 뉴욕 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터만 수정한다. 담당 구역이 겹치지 않으니 충돌 자체가 발생하지 않는 가장 근본적인 충돌 방지 방법이다.
@@ -230,7 +227,7 @@ CRDT: 분산 시스템 방식
 | 아키텍처 복잡도 | 낮음 | 중간 (충돌 처리 필요) |
 
 ### 결론
-[멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 글로벌 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 요구 사항일 때의 필수 아키텍처 패턴이다. 그러나 충돌 해결은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비즈니스 특성에 맞게 세심하게 설계해야 한다. 기술사 시험에서는 **LWW vs 벡터 클록 vs CRDT 충돌 해결 비교**, **[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables 작동 원리**, **CouchDB 개정 기반 충돌 감지**, **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권 설계 패턴**이 핵심 논점이다.
+[멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 글로벌 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 요구 사항일 때의 필수 아키텍처 패턴이다. 그러나 충돌 해결은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비즈니스 특성에 맞게 세심하게 설계해야 한다. 기술사 시험에서는 **LWW vs 벡터 클록 vs CRDT 충돌 해결 비교**, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/">DynamoDB</a> Global Tables 작동 원리</strong>, **CouchDB 개정 기반 충돌 감지**, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>별 소유권 설계 패턴</strong>이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 세계 각지에 지사를 두되, 각 지사가 독립적으로 결정을 내릴 수 있게 하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 경영 방식이다. 결정이 충돌하면 누구의 결정을 따를지 규칙(충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))이 있어야 하고, 충돌이 최소화되도록 각 지사의 담당 업무를 명확히 나누는([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권) 것이 운영의 핵심이다.
@@ -249,21 +246,23 @@ CRDT: 분산 시스템 방식
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[싱글 마스터 복제 (Single Master) — 단일 쓰기 노드, 읽기 확장]
-    │
-    ▼
-[멀티 마스터 복제 (Multi-Master) — 여러 노드 동시 쓰기, 고가용성]
-    │
-    ▼
-[충돌 해결 (Conflict Resolution) — 최종 쓰기 우선·벡터 클록·사용자 정의]
-    │
-    ▼
-[CRDT (무충돌 복제 자료구조) — 수학적으로 충돌 없는 분산 자료구조]
-    │
-    ▼
-[글로벌 분산 DB (CockroachDB·Spanner) — 지역별 멀티 마스터 + 일관성 보장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">싱글 마스터 복제 (Single Master) — 단일 쓰기 노드, 읽기 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 마스터 복제 (Multi-Master) — 여러 노드 동시 쓰기, 고가용성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">충돌 해결 (Conflict Resolution) — 최종 쓰기 우선·벡터 클록·사용자 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRDT (무충돌 복제 자료구조) — 수학적으로 충돌 없는 분산 자료구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">글로벌 분산 DB (CockroachDB·Spanner) — 지역별 멀티 마스터 + 일관성 보장</div></div>
+</div>
+</div>
+
+
 [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 한계를 극복하지만 충돌 해결 복잡성을 낳으며, CRDT와 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 진화해 지역 레이턴시와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 해결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

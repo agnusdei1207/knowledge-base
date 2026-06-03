@@ -30,26 +30,21 @@ tags = ["studynote-operating-system"]
 
 이 도식은 ASMP의 핵심인 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave) 토폴로지를 시각적으로 표현한다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│           ASMP (Asymmetric Multiprocessing) Topology              │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│      ┌──────────────────┐            ┌──────────────────┐         │
-│      │  Master CPU      │            │  Slave CPU 1     │         │
-│      │  (OS 실행, 권한)  │            │  (User Task 1)   │        │
-│      └────────┬─────────┘            └────────┬─────────┘         │
-│               │                               │                   │
-│  ─────────────┴───────────────────────────────┴──────── [Bus]     │
-│               │                               │                   │
-│      ┌────────┴─────────┐            ┌────────┴─────────┐         │
-│      │  Slave CPU 2     │            │  Slave CPU n     │         │
-│      │  (User Task 2)   │            │  (User Task n)   │         │
-│      └──────────────────┘            └──────────────────┘         │
-│                                                                   │
-│  ※ 핵심: 오직 Master CPU만이 시스템 자원(I/O, RAM)을 직접 통제함  │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASMP (Asymmetric Multiprocessing) Topology</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master CPU</div><div class="kb-diagram-cell">Slave CPU 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS 실행, 권한)</div><div class="kb-diagram-cell">(User Task 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slave CPU 2</div><div class="kb-diagram-cell">Slave CPU n</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Task 2)</div><div class="kb-diagram-cell">(User Task n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 핵심: 오직 Master CPU만이 시스템 자원(I/O, RAM)을 직접 통제함</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing) 시스템에서 Master CPU는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전독적으로 실행한다. 시스템의 모든 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 I/O 요청은 오직 Master에게만 전달된다. 반면 Slave CPU들은 마스터로부터 전달받은 사용자 프로세스나 스레드만을 실행하며, 만약 I/O가 필요하거나 시스템 서비스를 호출해야 할 경우 Master에게 요청을 보낸 뒤 결과를 기다려야 한다. 이러한 구조는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드를 줄여 설계 비용을 낮추지만, 모든 시스템 관리가 단일 CPU에 집중되므로 Master의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 시스템의 한계 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))를 결정짓는 결정적 요인이 된다.
 
@@ -65,9 +60,9 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **Master 프로세서** | 시스템 관리 및 의사결정 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행, 스케줄링, I/O 처리 전담 | 총괄 매니저 |
 | **Slave 프로세서** | 실제 사용자 작업 수행 | 마스터가 배정한 사용자 코드 연산 | 생산 라인 직원 |
-| **작업 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)** | 마스터 내에서 슬레이브로 작업 전달 | 준비 큐에서 작업을 꺼내 슬레이브 메모리에 로드 | 작업 지시서 전달 |
-| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘** | 프로세서 간 통신 (Inter-processor) | 마스터와 슬레이브 간의 상태 공유 및 요청 전달 | 사내 인터폰 |
-| **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)** | 코드 및 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 공간 | 모든 프로세서가 접근 가능한 통합 메모리 공간 | 공용 자재 창고 |
+| <strong>작업 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">디스패처</a></strong> | 마스터 내에서 슬레이브로 작업 전달 | 준비 큐에서 작업을 꺼내 슬레이브 메모리에 로드 | 작업 지시서 전달 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 메커니즘</strong> | 프로세서 간 통신 (Inter-processor) | 마스터와 슬레이브 간의 상태 공유 및 요청 전달 | 사내 인터폰 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a></strong> | 코드 및 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 공간 | 모든 프로세서가 접근 가능한 통합 메모리 공간 | 공용 자재 창고 |
 
 ---
 
@@ -75,15 +70,18 @@ tags = ["studynote-operating-system"]
 
 사용자 프로그램이 실행되어 I/O 요청을 하고 완료되기까지의 흐름은 반드시 마스터를 거쳐야 한다.
 
-```text
-1. [사용자 요청] ──▶ [Master CPU] (스케줄링 결정)
-                         │
-2. [작업 할당] ────────▶ [Slave CPU] (연산 수행 중 I/O 발생)
-                         │
-3. [I/O 요청] ◀─────────┘ (Slave는 직접 I/O 못함!)
-                         │
-4. [Master 처리] ──▶ [I/O 장치 인터럽트 수신] ──▶ [결과 전달] ──▶ [Slave 재개]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">사용자 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Master CPU</div><div class="kb-diagram-note">(스케줄링 결정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">작업 할당</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slave CPU</div><div class="kb-diagram-note">(연산 수행 중 I/O 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">I/O 요청</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Slave는 직접 I/O 못함!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">Master 처리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 장치 인터럽트 수신</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">결과 전달</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slave 재개</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 환경에서 슬레이브 (Slave) 프로세서는 반쪽짜리 주권만을 가진다. 위 흐름도에서 보듯, 슬레이브에서 실행 중인 작업이 디스크 읽기나 네트워크 전송 같은 I/O를 필요로 하면, 슬레이브는 스스로 하드웨어를 제어할 수 없으므로 마스터 (Master)에게 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 형태의 요청을 보낸다. 마스터는 이 요청을 받아 대신 하드웨어를 조작하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리한 뒤 결과를 다시 슬레이브에게 넘겨준다. 이 과정에서 슬레이브는 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에 빠지게 되며, 많은 슬레이브가 동시에 마스터에게 요청을 보낼 경우 마스터의 작업 큐가 급격히 쌓이는 '마스터 병목 현상'이 발생한다. 따라서 ASMP는 슬레이브 수가 적거나, I/O 비중이 매우 낮은 연산 집약적 작업 환경에서 효율적이다.
 
@@ -93,15 +91,20 @@ tags = ["studynote-operating-system"]
 
 프로세서 수가 늘어남에 따라 마스터의 부하가 어떻게 임계치에 도달하는지 보여준다.
 
-```text
-[Slave 1 Req] ──┐
-[Slave 2 Req] ──┼──▶ [ Master CPU ] ──▶ [ I/O 처리 / 스케줄링 ]
-[Slave 3 Req] ──┤          ▲
-[Slave 4 Req] ──┘      (과부하 발생!)
-                           │
-       [ Wait Queue ] : [Req 4][Req 3][Req 2] ...
-       (슬레이브들은 마스터의 처리가 끝날 때까지 모두 정지 상태)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slave 1 Req</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slave 2 Req</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Master CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 처리 / 스케줄링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slave 3 Req</div><div class="kb-diagram-connector">▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slave 4 Req</div><div class="kb-diagram-note">── (과부하 발생!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wait Queue</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Req 4</div><div class="kb-diagram-node">Req 3</div><div class="kb-diagram-node">Req 2</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-note">(슬레이브들은 마스터의 처리가 끝날 때까지 모두 정지 상태)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 비대칭 구조의 가장 치명적인 단점은 확장성 (Scalability)의 한계다. 도식에서 보듯 Slave CPU의 개수가 증가할수록 마스터가 처리해야 할 관리 업무 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))는 기하급수적으로 늘어난다. 어느 시점에 도달하면 마스터는 100% 가동되지만 슬레이브들은 마스터의 승인을 기다리느라 놀게 되는 현상이 발생한다. 이를 마스터 병목 (Master [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이라 하며, 이 때문에 범용 서버 시장에서는 [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 대신 모든 CPU가 관리 기능을 나누어 갖는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)로 패러다임이 완전히 전환되었다. 하지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮은 소형 코어와 고성능 코어를 섞어 쓰는 특수 목적 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))에서는 여전히 제어의 단순성을 위해 이 구조가 변형되어 사용된다.
 
@@ -115,7 +118,7 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)) | [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) |
 |:---|:---|:---|
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계** | 단순 (Master만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행) | 복잡 (모든 CPU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공유) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 설계</strong> | 단순 (Master만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행) | 복잡 (모든 CPU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공유) |
 | **자원 경쟁** | 없음 (Master가 독점 관리) | 극심 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/[Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 필수) |
 | **장애 내성** | Master 고장 시 시스템 전체 중단 | CPU 하나 고장 나도 가동 가능 |
 | **하드웨어 구성** | 프로세서 간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 가능 | 보통 동일한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 CPU 사용 |
@@ -136,18 +139,18 @@ tags = ["studynote-operating-system"]
 
 ### 실무 적용 시나리오 및 아키텍처 판단 기준
 
-1. **시나리오 — 레거시 하드웨어의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 구현**: 기존의 단일 프로세서용 OS를 다중 CPU 환경으로 확장해야 할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체를 다시 설계하는 비용이 너무 크다면 [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 방식을 선택한다. Master CPU에게만 OS를 맡기고 나머지 CPU는 계산 엔진으로만 활용함으로써, 최소한의 수정으로 멀티 CPU의 계산 능력을 활용할 수 있다.
+1. <strong>시나리오 — 레거시 하드웨어의 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 구현</strong>: 기존의 단일 프로세서용 OS를 다중 CPU 환경으로 확장해야 할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체를 다시 설계하는 비용이 너무 크다면 [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 방식을 선택한다. Master CPU에게만 OS를 맡기고 나머지 CPU는 계산 엔진으로만 활용함으로써, 최소한의 수정으로 멀티 CPU의 계산 능력을 활용할 수 있다.
 
 2. **시나리오 — 실시간 제어와 연산의 분리**: 산업용 로봇 제어 시스템에서 정밀한 타이밍 제어 (Real-time [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))는 Master CPU가 전담하고, 복잡한 이미지 인식이나 경로 계산 (Heavy [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))은 Slave CPU들에게 뿌려주는 구조를 설계한다. 이는 제어의 결정성 (Determinism)을 보장하면서도 연산 능력을 확보하는 최적의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
 
 ### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **마스터 가동률**: 시스템 피크 타임 시 Master CPU의 점유율이 80%를 넘지 않는가?
-- **장애 전이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Master CPU 장애 발생 시 특정 Slave를 Master로 승격시킬 수 있는 소프트웨어적 장치가 있는가?
+- <strong>장애 전이 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: Master CPU 장애 발생 시 특정 Slave를 Master로 승격시킬 수 있는 소프트웨어적 장치가 있는가?
 - **I/O 집중도**: 시스템의 워크로드가 I/O 바운드인가, CPU 바운드인가? (I/O 바운드라면 ASMP는 피해야 함)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **Slave 수의 무분별한 증설**: 마스터의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 고려하지 않고 슬레이브 CPU만 늘리면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은커녕 관리 오버헤드 때문에 시스템 전체 속도가 오히려 느려질 수 있다.
-- **Slave에서의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 직접 호출**: 슬레이브가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 직접 실행하려고 시도하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성이 깨지고 시스템이 붕괴 (Panic)될 수 있으므로 하드웨어적 격리가 필수적이다.
+- <strong>Slave에서의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 직접 호출</strong>: 슬레이브가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 직접 실행하려고 시도하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성이 깨지고 시스템이 붕괴 (Panic)될 수 있으므로 하드웨어적 격리가 필수적이다.
 
 - **📢 섹션 요약 비유**: 사장의 능력은 100인데 직원을 1,000명 뽑으면, 사장이 보고받느라 잠도 못 자고 회사는 마비되는 '관리의 역설'을 주의해야 합니다.
 
@@ -160,11 +163,11 @@ tags = ["studynote-operating-system"]
 | 구분 | 도입 전 (Single CPU) | 도입 후 ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)) | 기대 효과 |
 |:---|:---|:---|:---|
 | **개발 비용** | 100 (표준 OS) | 120 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 최소 수정) | [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 대비 낮은 비용으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
-| **연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | n (단일 연산) | 3~5n ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산) | 연산 집약적 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증대 |
+| <strong>연산 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | n (단일 연산) | 3~5n ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산) | 연산 집약적 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증대 |
 | **시스템 복잡도** | 낮음 | 중간 ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 대비 훨씬 낮음) | 유지보수 및 디버깅 용이성 확보 |
 
 ### 미래 전망
-앞으로의 ASMP는 **기능적 비대칭성 (Functional Asymmetry)**으로 진화할 것이다. 단순히 관리와 실행의 분리가 아니라, 보안 전담 CPU ([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전담 CPU, 네트워크 전담 CPU 등이 각자의 영역에서 Master 역할을 수행하는 '다중 마스터 비대칭 시스템'이 보편화될 것이다. 또한 클라우드 환경에서 하드웨어 자원을 중앙에서 통제하는 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))의 등장은 네트워크 인터페이스가 시스템의 새로운 Master 역할을 수행하는 ASMP의 현대적 변용으로 볼 수 있다.
+앞으로의 ASMP는 <strong>기능적 비대칭성 (Functional Asymmetry)</strong>으로 진화할 것이다. 단순히 관리와 실행의 분리가 아니라, 보안 전담 CPU ([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전담 CPU, 네트워크 전담 CPU 등이 각자의 영역에서 Master 역할을 수행하는 '다중 마스터 비대칭 시스템'이 보편화될 것이다. 또한 클라우드 환경에서 하드웨어 자원을 중앙에서 통제하는 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))의 등장은 네트워크 인터페이스가 시스템의 새로운 Master 역할을 수행하는 ASMP의 현대적 변용으로 볼 수 있다.
 
 ### 참고 표준
 - **AMP (Asymmetric Multiprocessing) Framework**: 임베디드 멀티코어 간 통신 및 관리를 위한 표준 프레임워크.
@@ -177,36 +180,38 @@ tags = ["studynote-operating-system"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave)** | ASMP의 근간이 되는 계층적 프로세서 운영 체계 |
-| **마스터 병목 (Master [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))** | 관리 업무가 단일 프로세서에 집중되어 시스템 확장이 제한되는 현상 |
-| **[SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)** | 모든 CPU가 동등한 권한을 갖는 ASMP의 대척점 기술 |
+| <strong>주종 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> (Master-Slave)</strong> | ASMP의 근간이 되는 계층적 프로세서 운영 체계 |
+| <strong>마스터 병목 (Master <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong> | 관리 업무가 단일 프로세서에 집중되어 시스템 확장이 제한되는 현상 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> (Symmetric Multiprocessing)</strong> | 모든 CPU가 동등한 권한을 갖는 ASMP의 대척점 기술 |
 | **big.LITTLE** | 서로 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/전력 특성을 가진 코어를 비대칭적으로 운영하는 현대적 응용 기술 |
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | ASMP에서 오직 Master만이 실행할 수 있는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 영역 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> | ASMP에서 오직 Master만이 실행할 수 있는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 영역 |
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[주종 관계 (Master-Slave)]
-    │
-    ▼
-[마스터 병목 (Master Bottleneck)]
-    │
-    ▼
-[SMP (Symmetric Multiprocessing)]
-    │
-    ▼
-[big.LITTLE]
-    │
-    ▼
-[커널 (Kernel)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주종 관계 (Master-Slave)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 병목 (Master Bottleneck)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMP (Symmetric Multiprocessing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">big.LITTLE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 (Kernel)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave)에서 출발해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. ASMP는 컴퓨터 안에 **"대장 두뇌와 일꾼 두뇌들"**이 있는 것과 같아요.
+1. ASMP는 컴퓨터 안에 <strong>"대장 두뇌와 일꾼 두뇌들"</strong>이 있는 것과 같아요.
 2. 대장 두뇌는 어려운 결정을 내리고 계획을 세우는 일을 하고, 일꾼 두뇌들은 대장이 시키는 단순한 숙제들만 열심히 풀어요.
 3. 일꾼들이 갑자기 많아지면 대장이 너무 바빠져서 힘들어할 수 있지만, 대장이 시키는 대로만 하면 되니까 일꾼들끼리 싸울 일은 없어서 평화롭답니다!
 

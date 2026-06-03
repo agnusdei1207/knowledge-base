@@ -31,23 +31,24 @@ tags = ["studynote-computer-architecture"]
 
 팩드 BCD의 핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 짝수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 강제화와 부호(Sign)의 후위 배치이다. 숫자가 홀수 개일 경우 최상위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)의 앞부분을 `0`으로 채우는 제로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 수행하며, 양수/음수 상태는 반드시 전체 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림의 맨 마지막 4비트에 예약 마커로 삽입한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Unpacked BCD vs Packed BCD 압축 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│ [저장 목표: 10진수 '+85'를 메모리에 할당하라]                │
-│                                                              │
-│ 1. Unpacked BCD (2 Bytes 낭비 구조)                          │
-│    바이트 1: [ Zone (1111) ] [  '8' (1000) ]                 │
-│    바이트 2: [ Sign (+)    ] [  '5' (0101) ]                 │
-│                                                              │
-│ 2. Packed BCD (1 Byte 초고밀도 압축 구조)                    │
-│    숫자를 먼저 묶고, 맨 마지막 남은 반쪽(Nibble)에 부호 삽입 │
-│    바이트 1: [ 패딩 '0' (0000) ] [ 숫자 '8' (1000) ]         │
-│    바이트 2: [ 숫자 '5' (0101) ] [ 부호 '+' (1100) ]         │
-│    결과: '085+' 형태로 물리적 메모리에 저장됨                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unpacked BCD vs Packed BCD 압축 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저장 목표: 10진수 '+85'를 메모리에 할당하라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Unpacked BCD (2 Bytes 낭비 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">바이트 1:</div><div class="kb-diagram-node">Zone (1111)</div><div class="kb-diagram-node">'8' (1000)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">바이트 2:</div><div class="kb-diagram-node">Sign (+)</div><div class="kb-diagram-node">'5' (0101)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Packed BCD (1 Byte 초고밀도 압축 구조)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자를 먼저 묶고, 맨 마지막 남은 반쪽(Nibble)에 부호 삽입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">바이트 1:</div><div class="kb-diagram-node">패딩 '0' (0000)</div><div class="kb-diagram-node">숫자 '8' (1000)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">바이트 2:</div><div class="kb-diagram-node">숫자 '5' (0101)</div><div class="kb-diagram-node">부호 '+' (1100)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: '085+' 형태로 물리적 메모리에 저장됨</div></div>
+</div>
+</div>
+
+
 
 이 구조에서는 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 덧셈을 수행할 때 일반 2진수 가산 방식을 그대로 쓸 수 없다. 1바이트 안에 10진수 단위가 2개나 들어있어 하위 4비트의 합이 9를 초과할 경우, 상위 4비트로 자리 올림(Carry)이 발생해야 한다. 이를 하드웨어적으로 감지하기 위해 보조 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) (AF, Auxiliary [Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/))가 작동하며, 계산 후 `+6` 보정을 통해 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 포맷을 유지한다.
 
@@ -63,7 +64,7 @@ tags = ["studynote-computer-architecture"]
 | :--- | :--- | :--- | :--- |
 | **저장 밀도** | 낮음 (1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = 1 숫자) | 높음 (1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = 2 숫자) | 최고 밀도 |
 | **디스크 I/O** | 낭비 심함 | 50% 절감 | 최적화됨 |
-| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산 속도** | 비교적 단순 | 복잡 (Nibble 간 보정 필요) | 매우 빠름 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> 연산 속도</strong> | 비교적 단순 | 복잡 (Nibble 간 보정 필요) | 매우 빠름 |
 | **소수점 정확도** | 완벽 (오차 없음) | 완벽 (오차 없음) | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차 발생 |
 
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 엔진 관점에서 보면, `DECIMAL`이나 `NUMERIC` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 디스크에 기록할 때 대부분 팩드 BCD와 유사한 고밀도 블롭(Blob) 형태로 인코딩한다. 이는 I/O 대역폭을 획기적으로 아껴주지만, 조건절(`WHERE`)에서 연산을 수행할 때마다 CPU가 패킹을 해제하거나 이중 가산 보정을 수행해야 하므로 스캔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범이 되기도 한다.
@@ -78,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 기준
 1. **스토리지 병목 vs CPU 병목 판단**: 대규모 금융 거래 원장을 저장할 때는 디스크 I/O가 병목이므로 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 기반의 저장이 절대적으로 유리하다. 반면, 실시간 게임 엔진이나 3D 렌더링처럼 소수점 오차가 치명적이지 않고 연산 속도가 최우선인 환경에서는 순수 2진수 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 사용해야 한다.
-2. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직렬화 오버헤드 주의**: 백엔드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 통신 페이로드(예: [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에 용량을 줄이겠다고 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 바이너리 인코딩을 강제하면 안 된다. 디코딩에 소모되는 CPU 오버헤드가 네트워크 트래픽 절약분보다 훨씬 커진다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 직렬화 오버헤드 주의</strong>: 백엔드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 통신 페이로드(예: [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에 용량을 줄이겠다고 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 바이너리 인코딩을 강제하면 안 된다. 디코딩에 소모되는 CPU 오버헤드가 네트워크 트래픽 절약분보다 훨씬 커진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **문자열 그대로의 연산**: 팩드 BCD로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디코드하지 않고 아스키([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/)) 문자열로 취급하여 직접 파싱 로직을 돌리는 설계. 이는 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(AF)의 이점을 완전히 버리고 소프트웨어 루프로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹는 행위다.
@@ -101,27 +102,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Unpacked BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/))** | 숫자를 1바이트에 하나만 적재하는 낭비적 포맷으로, 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 탄생의 배경 |
-| **보조 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) (Auxiliary [Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/), AF)** | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 연산 시, 1바이트 내부의 니블 장벽을 넘는 자리 올림을 감지하는 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) |
+| <strong>언팩드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/">Unpacked BCD</a>)</strong> | 숫자를 1바이트에 하나만 적재하는 낭비적 포맷으로, 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 탄생의 배경 |
+| <strong>보조 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/">캐리 플래그</a> (Auxiliary <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/">Carry Flag</a>, AF)</strong> | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 연산 시, 1바이트 내부의 니블 장벽을 넘는 자리 올림을 감지하는 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) |
 | **COMP-3 (Computational-3)** | 팩드 BCD의 개념을 소프트웨어적으로 구현한 COBOL 프로그래밍 언어의 전설적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-10진수 연산 필요성 대두 (부동소수점 오차 회피)
-    │
-    ▼
-언팩드 BCD (Unpacked BCD) · 1바이트당 1숫자 (공간 낭비)
-    │
-    ▼
-팩드 BCD (Packed BCD) · 1바이트당 2숫자 고밀도 압축
-    │
-    ▼
-보조 캐리 플래그 (AF) · 니블(Nibble) 단위 덧셈 보정 회로
-    │
-    ▼
-RDBMS 고정밀 숫자 타입 (DECIMAL, NUMERIC) 스토리지 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">10진수 연산 필요성 대두 (부동소수점 오차 회피)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언팩드 BCD (Unpacked BCD) · 1바이트당 1숫자 (공간 낭비)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팩드 BCD (Packed BCD) · 1바이트당 2숫자 고밀도 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보조 캐리 플래그 (AF) · 니블(Nibble) 단위 덧셈 보정 회로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDBMS 고정밀 숫자 타입 (DECIMAL, NUMERIC) 스토리지 적용</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

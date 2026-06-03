@@ -39,51 +39,51 @@ tags = ["studynote-algorithm"]
 
 ### 기본 동작 순서 (이완, Relaxation)
 
-```
-그래프: A─(4)─B, A─(2)─C, C─(1)─B, B─(5)─D, C─(8)─D
-시작: A
 
-초기: dist = {A:0, B:∞, C:∞, D:∞}
 
-1단계: A 처리 (dist=0)
-  → B: 0+4=4 < ∞ → dist[B]=4
-  → C: 0+2=2 < ∞ → dist[C]=2
-  dist = {A:0, B:4, C:2, D:∞}
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래프: A─(4)─B, A─(2)─C, C─(1)─B, B─(5)─D, C─(8)─D</div>
+<div class="kb-diagram-note">시작: A</div>
+<div class="kb-diagram-note">초기: dist = {A:0, B:∞, C:∞, D:∞}</div>
+<div class="kb-diagram-note">1단계: A 처리 (dist=0)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">=4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">=2</div></div>
+<div class="kb-diagram-note">dist = {A:0, B:4, C:2, D:∞}</div>
+<div class="kb-diagram-note">2단계: C 처리 (dist=2, 최솟값)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">=3 (이완!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div><div class="kb-diagram-note">=10</div></div>
+<div class="kb-diagram-note">dist = {A:0, B:3, C:2, D:10}</div>
+<div class="kb-diagram-note">3단계: B 처리 (dist=3)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div><div class="kb-diagram-note">=8 (이완!)</div></div>
+<div class="kb-diagram-note">dist = {A:0, B:3, C:2, D:8}</div>
+<div class="kb-diagram-note">4단계: D 처리 (dist=8) → 완료</div>
+<div class="kb-diagram-note">최종: A→0, B→3, C→2, D→8</div>
+</div>
+</div>
 
-2단계: C 처리 (dist=2, 최솟값)
-  → B: 2+1=3 < 4 → dist[B]=3 (이완!)
-  → D: 2+8=10 < ∞ → dist[D]=10
-  dist = {A:0, B:3, C:2, D:10}
 
-3단계: B 처리 (dist=3)
-  → D: 3+5=8 < 10 → dist[D]=8 (이완!)
-  dist = {A:0, B:3, C:2, D:8}
-
-4단계: D 처리 (dist=8) → 완료
-최종: A→0, B→3, C→2, D→8
-```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 이완 과정과 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                     (4)                                  │
-│            A ──────────── B                              │
-│            │              │                              │
-│           (2)            (5)                             │
-│            │              │                              │
-│            C ──(1)──────► B    ← 이완: 2+1=3 < 4        │
-│            │                                             │
-│           (8)                                            │
-│            │                                             │
-│            D                                             │
-│                                                          │
-│  우선순위 큐 (Min-Heap):                                   │
-│  [(0,A)] → [(2,C),(4,B)] → [(3,B),(4,B),(10,D)]          │
-│          → [(4,B),(8,D),(10,D)] → [(8,D),(10,D)]         │
-│  ※ 중복 항목(4,B)은 꺼낼 때 dist 불일치로 무시             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) (5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C ──(1) ► B ← 이완: 2+1=3 &lt; 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 큐 (Min-Heap):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(0,A)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">(2,C),(4,B)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">(3,B),(4,B),(10,D)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">(4,B),(8,D),(10,D)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">(8,D),(10,D)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 중복 항목(4,B)은 꺼낼 때 dist 불일치로 무시</div></div>
+</div>
+</div>
+
+
 
 ### 이완 (Relaxation) 연산
 
@@ -118,15 +118,19 @@ if dist[u] + weight(u,v) < dist[v]:
 
 ### 음수 간선에서 다익스트라가 실패하는 이유
 
-```
-A ─(3)→ B ─(-5)→ C
-A ─(2)→ C
 
-다익스트라: A→C = 2 (잘못됨)
-실제 최단:  A→B→C = 3-5 = -2 (더 짧음)
 
-이유: B를 처리하기 전에 C가 이미 처리됨 → 이완 기회 상실
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A ─(3)→ B ─(-5)→ C</div>
+<div class="kb-diagram-note">A ─(2)→ C</div>
+<div class="kb-diagram-note">다익스트라: A→C = 2 (잘못됨)</div>
+<div class="kb-diagram-note">실제 최단: A→B→C = 3-5 = -2 (더 짧음)</div>
+<div class="kb-diagram-note">이유: B를 처리하기 전에 C가 이미 처리됨 → 이완 기회 상실</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 음수 간선에서 다익스트라가 실패하는 것은 "지금까지 가장 싼 표"를 먼저 결제했는데, 나중에 더 싼 환불 가능 표가 발견된 상황과 같다. 이미 결제한 것은 취소가 안 된다.
 
@@ -181,24 +185,25 @@ A ─(2)→ C
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[그래프 이론 (Graph Theory)]
-    │
-    ▼
-[BFS 너비 우선 탐색 (Breadth-First Search)]
-    │
-    ▼
-[다익스트라 알고리즘 (Dijkstra Algorithm)]
-    │
-    ▼
-[우선순위 큐 (Priority Queue)]
-    │
-    ▼
-[A* 알고리즘 (A* Algorithm)]
-    │
-    ▼
-[벨만-포드 알고리즘 (Bellman-Ford Algorithm)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 이론 (Graph Theory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BFS 너비 우선 탐색 (Breadth-First Search)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 알고리즘 (Dijkstra Algorithm)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 (Priority Queue)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 (A* Algorithm)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">벨만-포드 알고리즘 (Bellman-Ford Algorithm)</div></div>
+</div>
+</div>
+
+
 
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색에서 최단 경로 문제로 발전하며 다익스트라가 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 활용해 효율성을 높이고 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색으로 이어지는 흐름이다.
 

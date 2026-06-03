@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) ([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))는 운영체제의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 상태 중, 현재 남은 자원으로는 **시스템 내의 어떤 프로세스도 요구하는 최대 자원량(Max Need)을 충족시켜 줄 수 없어 '안전 순서열([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence)'을 단 하나도 찾을 수 없는 논리적 파산 상태**를 의미한다.
-> 2. **가치**: "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)가 곧 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))다"라는 명제는 틀렸다. [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 **데드락이 발생할 '가능성([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))'이 0보다 큰 지뢰밭 영역**일 뿐, 프로세스들이 자원을 얌전하게 쓰고 빨리 반납하면 무사히 지나갈 수도 있는 확률적 공간이다.
+> 1. **본질**: [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) ([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))는 운영체제의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 상태 중, 현재 남은 자원으로는 <strong>시스템 내의 어떤 프로세스도 요구하는 최대 자원량(Max Need)을 충족시켜 줄 수 없어 '안전 순서열(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)'을 단 하나도 찾을 수 없는 논리적 파산 상태</strong>를 의미한다.
+> 2. **가치**: "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)가 곧 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))다"라는 명제는 틀렸다. [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 <strong>데드락이 발생할 '가능성(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)'이 0보다 큰 지뢰밭 영역</strong>일 뿐, 프로세스들이 자원을 얌전하게 쓰고 빨리 반납하면 무사히 지나갈 수도 있는 확률적 공간이다.
 > 3. **융합**: [교착 상태 회피](/knowledge-base/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))의 유일한 목적은 시스템이 단 한순간이라도 이 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)로 넘어가지 못하도록, 요구된 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)을 거부(Deny)하고 스레드를 대기(Block)시키는 완벽한 예방선을 긋는 것이다.
 
 ---
@@ -24,23 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 데이크스트라의 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 시뮬레이션에서, '[안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))'의 대척점으로서 수학적으로 정의되었다. 데드락 회피 철학은 "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)를 정의하고, 거기로 가는 모든 경로를 차단한다"는 네거티브(Negative) 방어 논리에 기반하고 있다.
 
-```text
-  [안전 상태, 불안전 상태, 교착 상태의 포함 관계도]
 
-  ┌─────────────────────────────────────────────────────┐
-  │  전체 자원 할당 상태 (All States)                   │
-  │                                                     │
-  │  ┌─────────────────┐ ┌────────────────────────┐     │
-  │  │ 안전 상태        │ │ 불안전 상태 (Unsafe)      │ │
-  │  │ (Safe State)    │ │                        │     │
-  │  │                 │ │   ┌────────────────┐   │     │
-  │  │                 │ │   │ 교착 상태       │   │    │
-  │  │ (데드락 확률 0%)  │ │   │ (Deadlock)     │   │   │
-  │  │                 │ │   │ (파산 확정 ☠️)   │   │   │
-  │  │                 │ │   └────────────────┘   │     │
-  │  └─────────────────┘ └────────────────────────┘     │
-  └─────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">안전 상태, 불안전 상태, 교착 상태의 포함 관계도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 자원 할당 상태 (All States)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 상태</div><div class="kb-diagram-cell">불안전 상태 (Unsafe)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Safe State)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데드락 확률 0%)</div><div class="kb-diagram-cell">(Deadlock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파산 확정 ☠️)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))는 반드시 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)) 안에서만 발생한다. 하지만 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)의 모든 공간이 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)인 것은 아니다. [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 "프로세스들이 최악의 경우(Maximum)로 자원을 요구할 경우 데드락이 터지는 상태"다. 만약 프로세스들이 양심껏 최대치를 요구하지 않고 일찍 작업을 끝내 반환해 준다면, [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)에서도 데드락 없이 무사히 빠져나올 수 있다. (그래서 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "너무 쫄보같이 보수적이다"라고 비판받는 것이다).
 
 - **📢 섹션 요약 비유**: [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)는 "태풍이 안 오는 날씨"고, [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 "태풍 경보가 내린 바다"입니다. [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)는 "배가 뒤집힌 것"입니다. 태풍 경보가 내린 바다에 나간다고 100% 배가 뒤집히는 건 아니지만(운 좋게 살 수도 있음), 배가 뒤집힌 사고는 무조건 태풍이 온 바다에서 일어납니다.
@@ -61,11 +59,11 @@ tags = ["studynote-operating-system"]
 | **P2** | **2** | **4** | **2** |
 | P3 | 1 | 4 | 3 |
 
-*분석*: 남은 자원이 2개다. P2의 Need(2)를 딱 만족시킨다. P2를 밀어주면 P2가 끝나면서 기존 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 2개까지 뱉어내어 남은 자원이 4개가 된다. 이 4개로 P3(Need 3)를 살리고, 그다음 P1을 살릴 수 있다. ($P_2 \to P_3 \to P_1$ 안전 순서열 존재 ─▶ **[Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)**)
+*분석*: 남은 자원이 2개다. P2의 Need(2)를 딱 만족시킨다. P2를 밀어주면 P2가 끝나면서 기존 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 2개까지 뱉어내어 남은 자원이 4개가 된다. 이 4개로 P3(Need 3)를 살리고, 그다음 P1을 살릴 수 있다. ($P_2 \to P_3 \to P_1$ 안전 순서열 존재 ─▶ <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a></strong>)
 
-**[잘못된 대출 승인으로 인한 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) 진입]**
+<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">잘못된 대출 승인으로 인한 [불안전 상태</a> 진입]</strong>
 위 상황에서 P3가 "자원 1개만 먼저 빌려주세요!"라고 요청했다. 스케줄러가 아무 생각 없이 1개를 내어줬다 치자.
-▶ 현재 남은 자원(Available) = **1개**로 줄어듦. (P3의 Alloc은 2, Need는 2로 변경됨)
+▶ 현재 남은 자원(Available) = <strong>1개</strong>로 줄어듦. (P3의 Alloc은 2, Need는 2로 변경됨)
 
 | 프로세스 | 현재 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) (Alloc) | 최대 필요량 (Max) | 추가 필요량 (Need) |
 |:---:|:---:|:---:|:---:|
@@ -73,13 +71,13 @@ tags = ["studynote-operating-system"]
 | **P2** | **2** | **4** | **2** |
 | **P3** | **2** | **4** | **2** |
 
-*재분석*: 이제 남은 자원이 **1개**뿐이다. 그런데 P1(5), P2(2), P3(2) 그 누구의 Need도 1개로는 채워줄 수 없다! 
-🚨 **결과**: 그 어떤 안전 순서열도 그릴 수 없다. 이것이 바로 **[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))**로의 추락이다. 이 상태에서 P2나 P3가 자원을 더 달라고 하면 영원히 무한 대기([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지게 된다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 P3가 1개를 달라고 했을 때 이 결과를 미리 계산해 보고, 1개를 주는 것을 거절(Block)하여 시스템을 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) State에 머물게 하는 기술이다.
+*재분석*: 이제 남은 자원이 <strong>1개</strong>뿐이다. 그런데 P1(5), P2(2), P3(2) 그 누구의 Need도 1개로는 채워줄 수 없다! 
+🚨 **결과**: 그 어떤 안전 순서열도 그릴 수 없다. 이것이 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>로의 추락이다. 이 상태에서 P2나 P3가 자원을 더 달라고 하면 영원히 무한 대기([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지게 된다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 P3가 1개를 달라고 했을 때 이 결과를 미리 계산해 보고, 1개를 주는 것을 거절(Block)하여 시스템을 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) State에 머물게 하는 기술이다.
 
 ### 회피(Avoidance)의 극단적 보수성 (왜 욕을 먹는가?)
 위의 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) 시나리오를 다시 보자. 
 P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지만, 실제로 코드를 돌려보니 3개만 쓰고 끝날 수도 있는 일이다. 만약 P2가 운 좋게 3개만 쓰고 자원을 반납했다면, 남은 1개 자원으로도 충분히 시스템은 돌아갔을 것이다. 
-하지만 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **"니들이 최악으로 나쁜 마음(Max)을 먹었을 때"를 가정**하고 철퇴를 내리기 때문에, 실제로는 데드락이 터지지 않을 상황인데도 멀쩡한 스레드를 재워버리는(Sleep) 극심한 시스템 낭비를 유발한다.
+하지만 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>"니들이 최악으로 나쁜 마음(Max)을 먹었을 때"를 가정</strong>하고 철퇴를 내리기 때문에, 실제로는 데드락이 터지지 않을 상황인데도 멀쩡한 스레드를 재워버리는(Sleep) 극심한 시스템 낭비를 유발한다.
 
 - **📢 섹션 요약 비유**: 대출 심사역(회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 너무 보수적입니다. 고객이 마이너스 통장 한도(Max Need)를 1억 뚫어놓으면, 실제로 고객이 100만 원만 꺼내 쓸 확률이 높음에도 불구하고 "이놈이 내일 1억을 한 번에 다 빼가면 어쩌지?"라고 최악을 상정하여 다른 고객들의 대출을 다 막아버리는 꽉 막힌 금융 시스템입니다.
 
@@ -91,14 +89,14 @@ P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지�
 
 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | 원인 및 조건 | OS 스케줄러의 행동 |
 |:---|:---|:---|
-| **[Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ─▶ [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)** | 락(자원) 요청을 시뮬레이션해 보니 여전히 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence가 존재함 | 락 획득 승인! (CPU 할당) |
-| **[Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ─▶ Unsafe** | 락 요청을 승인하면 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence가 붕괴됨 | 🚨 락 승인 거부! (스레드를 대기 큐로 던지고 Sleep) |
-| **Unsafe ─▶ [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)**| Unsafe 상태에서 프로세스들이 실제로 Max Need까지 자원을 요구해 버림 | 시스템 먹통. 제3의 개입(강제 킬/재부팅) 전까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 |
-| **Unsafe ─▶ [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)** | Unsafe 상태였는데, 프로세스가 양심껏 자원을 조기 반납함 (운이 좋음) | 가용 자원이 늘어나며 기적적으로 다시 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) State로 회귀 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> ─▶ <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a></strong> | 락(자원) 요청을 시뮬레이션해 보니 여전히 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence가 존재함 | 락 획득 승인! (CPU 할당) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> ─▶ Unsafe</strong> | 락 요청을 승인하면 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence가 붕괴됨 | 🚨 락 승인 거부! (스레드를 대기 큐로 던지고 Sleep) |
+| <strong>Unsafe ─▶ <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a></strong>| Unsafe 상태에서 프로세스들이 실제로 Max Need까지 자원을 요구해 버림 | 시스템 먹통. 제3의 개입(강제 킬/재부팅) 전까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 |
+| <strong>Unsafe ─▶ <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a></strong> | Unsafe 상태였는데, 프로세스가 양심껏 자원을 조기 반납함 (운이 좋음) | 가용 자원이 늘어나며 기적적으로 다시 [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) State로 회귀 |
 
 ### [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)의 역설 (Unsafe $\neq$ [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))
-컴퓨터 공학 시험에 나오는 가장 큰 함정이다. "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)에 진입하면 반드시 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다"는 **거짓(False)**이다.
-[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 **"[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생할 가능성이 0보다 커진 상태"**일 뿐이다. 만약 모든 프로세스가 자원을 최대로 요구하기 전에 스스로 I/O 대기를 타거나 자원을 풀어버린다면, 데드락은 터지지 않고 늪을 무사히 빠져나온다. 단지 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계자들은 그 '운'에 시스템의 명운을 맡기는 것을 병적으로 싫어할 뿐이다.
+컴퓨터 공학 시험에 나오는 가장 큰 함정이다. "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)에 진입하면 반드시 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다"는 <strong>거짓(False)</strong>이다.
+[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>가 발생할 가능성이 0보다 커진 상태"</strong>일 뿐이다. 만약 모든 프로세스가 자원을 최대로 요구하기 전에 스스로 I/O 대기를 타거나 자원을 풀어버린다면, 데드락은 터지지 않고 늪을 무사히 빠져나온다. 단지 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계자들은 그 '운'에 시스템의 명운을 맡기는 것을 병적으로 싫어할 뿐이다.
 
 - **📢 섹션 요약 비유**: [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 '안전벨트를 안 매고 시속 200km로 달리는 상태'입니다. 무조건 사고가 나서 죽는 건 아니지만(운 좋으면 도착함), 만약 사고(최대 자원 요구)가 나면 무조건 죽는(데드락) 미친 짓입니다. OS는 안전벨트를 매지 않으면 아예 시동이 안 걸리게(할당 거부) 막아두는 겁니다.
 
@@ -107,37 +105,36 @@ P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Linux [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer의 작동 원리 ([불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)의 실무적 방치)**: 
-   - 리눅스는 데드락 회피(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 포기했다. 즉, **리눅스 시스템은 밥 먹듯이 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))를 들락날락한다**. 
+1. <strong>Linux <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out of Memory</a>) Killer의 작동 원리 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>의 실무적 방치)</strong>: 
+   - 리눅스는 데드락 회피(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 포기했다. 즉, <strong>리눅스 시스템은 밥 먹듯이 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)를 들락날락한다</strong>. 
    - 사용자가 메모리(자원)를 요청(malloc)하면 리눅스는 "일단 다 써!"라고 가상 메모리를 펑펑 남발한다(**Memory Overcommit**). 
-   - 그러다 진짜로 물리 메모리가 부족해져서 데드락 직전의 임계점(진짜 100% 꽉 참)에 도달하면, 그제야 **[OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)**라는 자객을 보내서 메모리를 많이 먹는 놈을 뒤통수 쳐서 죽여버린다.
+   - 그러다 진짜로 물리 메모리가 부족해져서 데드락 직전의 임계점(진짜 100% 꽉 참)에 도달하면, 그제야 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>라는 자객을 보내서 메모리를 많이 먹는 놈을 뒤통수 쳐서 죽여버린다.
    - **아키텍처의 승리**: 이론적으로는 위험해 보이지만, 대부분의 프로세스가 `malloc` 해놓고 실제론 메모리를 다 안 쓴다는 현실적 통계(운)를 믿고 오버헤드 0의 극강의 스루풋을 달성한 실무 아키텍처의 승리다.
-2. **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)(K8s) Resource Overcommit 제어**: 클라우드 인프라에서도 리눅스처럼 오버커밋을 즐긴다. K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 `Requests`와 `Limits`를 다르게 설정하는 것 자체가 "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)를 합법적으로 허용하겠다"는 선언이다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>(K8s) Resource Overcommit 제어</strong>: 클라우드 인프라에서도 리눅스처럼 오버커밋을 즐긴다. K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 `Requests`와 `Limits`를 다르게 설정하는 것 자체가 "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)를 합법적으로 허용하겠다"는 선언이다.
    - 노드의 전체 메모리가 10G인데, 10개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 Limits 합이 20G면 시스템은 항상 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)다.
    - 만약 운이 나빠 10개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 동시에 2G씩 달라고 하면 데드락([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 터져 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들이 우수수 Eviction(퇴거) 당한다. 이것이 회피를 포기한 대가지만, 클라우드 회사는 빈 공간을 팔아 돈을 더 버는 비즈니스 모델을 택했다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     클라우드 환경의 자원 오버커밋(Overcommit)과 Unsafe State 관리  │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [ K8s 클러스터 자원 배분 전략 결정 ]                             │
-  │                                                                    │
-  │   [ 1. Guaranteed QoS (안전 상태 100% 강제 유지) ]                 │
-  │     ▶ 방법: 모든 파드의 Requests == Limits 로 똑같이 설정.         │
-  │     ▶ 효과: 노드 자원보다 큰 파드는 배치가 거부됨(Banker's 회피).  │
-  │     ▶ 단점: 비싼 서버 CPU가 맨날 50%씩 텅텅 놀아서 돈 낭비 극심.   │
-  │                                                                    │
-  │   [ 2. Burstable QoS (불안전 상태 적극 활용) ]                     │
-  │     ▶ 방법: Requests < Limits 로 뻥튀기 배포 허용.                 │
-  │     ▶ 효과: 100만 원짜리 서버에 200만 원어치 파드를 구겨 넣음.     │
-  │     ▶ 리스크: 모두가 Limit을 당겨 쓰면(Unsafe -> Deadlock 터짐)    │
-  │              OOM Killer가 파드를 랜덤하게 죽여버림.                │
-  │                                                                    │
-  │   ✅ 아키텍트의 타협: 무거운 DB는 1번(Safe)으로 띄우고,            │
-  │                     죽어도 바로 살아나는 웹서버는 2번(Unsafe)으로! │
-  └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 환경의 자원 오버커밋(Overcommit)과 Unsafe State 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 클러스터 자원 배분 전략 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Guaranteed QoS (안전 상태 100% 강제 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: 모든 파드의 Requests == Limits 로 똑같이 설정.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 노드 자원보다 큰 파드는 배치가 거부됨(Banker's 회피).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단점: 비싼 서버 CPU가 맨날 50%씩 텅텅 놀아서 돈 낭비 극심.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Burstable QoS (불안전 상태 적극 활용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: Requests &lt; Limits 로 뻥튀기 배포 허용.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 100만 원짜리 서버에 200만 원어치 파드를 구겨 넣음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 리스크: 모두가 Limit을 당겨 쓰면(Unsafe -&gt; Deadlock 터짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM Killer가 파드를 랜덤하게 죽여버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 아키텍트의 타협: 무거운 DB는 1번(Safe)으로 띄우고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽어도 바로 살아나는 웹서버는 2번(Unsafe)으로!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "서버 자원을 100% 안전([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))하게 관리한다"는 것은 비즈니스 관점에서 보면 "자원을 낭비하여 회사에 손해를 끼치고 있다"는 말과 동의어다. 위대한 인프라 아키텍트는 시스템이 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))에서 아슬아슬하게 줄타기하도록 만들면서도, 진짜 파국(데드락)이 터졌을 때 즉시 죽이고 살리는 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처(Self-healing)를 붙여 시스템의 ROI를 극대화한다.
 
 - **📢 섹션 요약 비유**: 비행기 오버부킹(초과 예약)과 같습니다. 좌석이 100개(자원)인데 표를 110장(Limits 뻥튀기) 팝니다. 모든 승객이 나타나면(최대 자원 요구) 자리가 모자라 데드락이 터지지만, 항공사는 "항상 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 안 오더라([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))"는 통계를 믿고 [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)(오버부킹)를 유지하며 돈을 법니다. 자리가 모자라면 바우처를 주고 다음 비행기로 쫓아내면([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 그만입니다.
@@ -168,15 +165,19 @@ P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[카운팅 세마포어 (Counting Semaphore)]
-    │
-    ▼
-[불안전 상태 (Unsafe State)]
-    │
-    ├──▶ [모니터 (Monitor)]
-    └──▶ [조건 변수 (Condition Variable)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">카운팅 세마포어 (Counting Semaphore)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모니터 (Monitor)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조건 변수 (Condition Variable)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -184,7 +185,7 @@ P2와 P3는 최대(Max) 4개가 필요하다고 OS에 신고(계약)해 놨지�
 
 1. 용돈이 500원 남았는데, 친구 두 명이 와서 각자 "나중에 1,000원씩 빌려줄 수 있어?"라고 약속을 걸어놨어요.
 2. 당장 500원을 한 명한테 줘버리면, 나중에 1,000원 달라고 할 때 줄 돈이 모자라서 싸움(데드락)이 날 확률이 엄청 높겠죠?
-3. 이렇게 "아직 싸움이 난 건 아니지만, 한 발짝만 더 헛디디면 무조건 크게 싸움이 날 것 같은 조마조마한 상태"를 **[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))**라고 한답니다!
+3. 이렇게 "아직 싸움이 난 건 아니지만, 한 발짝만 더 헛디디면 무조건 크게 싸움이 날 것 같은 조마조마한 상태"를 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>라고 한답니다!
 
 ---
 

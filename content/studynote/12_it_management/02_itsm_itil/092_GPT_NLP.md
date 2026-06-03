@@ -38,21 +38,21 @@ GPT의 근간은 구글이 발표한 [트랜스포머](/knowledge-base/studynote
 | :--- | :--- | :--- |
 | **사전 학습 (Pre-training)** | 일반적인 언어 모델 구축 | 수조 개의 텍스트로 "다음 토큰 예측". [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) |
 | **지도형 미세조정 (SFT)** | 질문-답변 형태의 대화 능력 부여 | 고품질의 프롬프트-답변 쌍(Label)으로 모델 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
-| **인간 피드백 강화학습 ([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))** | 인간의 의도와 도덕성에 정렬(Alignment) | 인간이 선호하는 답변을 보상 모델로 만들어 강화학습 적용 |
+| <strong>인간 피드백 강화학습 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a>)</strong> | 인간의 의도와 도덕성에 정렬(Alignment) | 인간이 선호하는 답변을 보상 모델로 만들어 강화학습 적용 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           GPT의 동작 원리: 자기회귀적 다음 단어 예측           │
-├──────────────────────────────────────────────────────────────┤
-│ [입력 프롬프트] "대한민국의 수도는"                           │
-│       │                                                      │
-│       ▼                                                      │
-│ [Transformer Decoder (Self-Attention)] ─▶ 예측: "서울"      │
-│       │                                                      │
-│       ▼ (예측된 단어를 다시 입력으로 재귀 피드백)              │
-│ [입력] "대한민국의 수도는 서울" ─────────▶ 예측: "이다."     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPT의 동작 원리: 자기회귀적 다음 단어 예측</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 프롬프트</div><div class="kb-diagram-note">"대한민국의 수도는"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer Decoder (Self-Attention)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">예측: "서울"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (예측된 단어를 다시 입력으로 재귀 피드백)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">예측: "이다."</div></div>
+</div>
+</div>
+
+
 
 특히 ChatGPT([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5 이상)의 혁신은 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)를 통해 "똑똑하지만 제멋대로인 예측기"를 "안전하고 예의 바르게 대답하는 비서"로 통제(Alignment)했다는 데 있다.
 
@@ -81,9 +81,9 @@ BERT가 문서를 완벽하게 독해(이해)하여 빈칸을 채우거나 [분�
 실무에서 기업이 GPT와 같은 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 사내 서비스에 연동할 때 단순히 API만 연결하면 대형 사고가 발생한다. 지식의 최신성 부족과 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 방어하기 위한 아키텍처 판단이 필수적이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 방어**: 모델이 그럴듯한 거짓말을 하는 것을 막기 위해 벡터 DB와 결합하여 사내 사전을 먼저 검색하는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 패턴을 도입했는가?
-2. **보안 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출**: 직원이 사내 기밀 코드를 퍼블릭 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) API에 올려 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 유출될 위험을 차단(예: Azure OpenAI 프라이빗 엔드포인트 사용 등)했는가?
-3. **[프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))**: In-Context Learning을 극대화하기 위해 질문 시 명확한 역할(Persona) 부여와 Few-shot 예시(사례 몇 개 제시)를 시스템 프롬프트에 내장했는가?
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>) 방어</strong>: 모델이 그럴듯한 거짓말을 하는 것을 막기 위해 벡터 DB와 결합하여 사내 사전을 먼저 검색하는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 패턴을 도입했는가?
+2. <strong>보안 및 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출</strong>: 직원이 사내 기밀 코드를 퍼블릭 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) API에 올려 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 유출될 위험을 차단(예: Azure OpenAI 프라이빗 엔드포인트 사용 등)했는가?
+3. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a>)</strong>: In-Context Learning을 극대화하기 위해 질문 시 명확한 역할(Persona) 부여와 Few-shot 예시(사례 몇 개 제시)를 시스템 프롬프트에 내장했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 사내 규정이나 전문 지식을 묻는 챗봇을 만들 때, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처 구축 없이 무작정 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))에 모든 것을 파인튜닝으로 때려 넣으려는 무식하고 값비싼 시도.
@@ -113,21 +113,23 @@ BERT가 문서를 완벽하게 독해(이해)하여 빈칸을 채우거나 [분�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RNN / LSTM (순차적 자연어 처리)
-    │
-    ▼
-트랜스포머 (Transformer) 구조 발표 (Self-Attention)
-    │
-    ▼
-GPT-1 / GPT-2 / GPT-3 (파라미터 폭발, Few-shot 가능)
-    │
-    ▼
-InstructGPT · ChatGPT (RLHF를 통한 인간 의도 정렬 완료)
-    │
-    ▼
-GPT-4 (멀티모달 통합) · AI Agent (자율 행동 에이전트)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RNN / LSTM (순차적 자연어 처리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트랜스포머 (Transformer) 구조 발표 (Self-Attention)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPT-1 / GPT-2 / GPT-3 (파라미터 폭발, Few-shot 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">InstructGPT · ChatGPT (RLHF를 통한 인간 의도 정렬 완료)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPT-4 (멀티모달 통합) · AI Agent (자율 행동 에이전트)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 순차적으로 문장을 읽던 모델이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능한 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)로 진화하고, 단순히 덩치를 키우는 것을 넘어 인간의 의도(Alignment)와 다중 감각([Multimodal](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/))으로 발전하는 과정을 보여준다.
 

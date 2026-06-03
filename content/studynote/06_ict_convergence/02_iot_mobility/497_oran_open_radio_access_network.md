@@ -23,11 +23,11 @@ tags = ["studynote-ict-convergence"]
 
 전통적 기지국은 하드웨어(RF·[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))와 소프트웨어(L1·L2·L3 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))가 단일 벤더 장비에 통합되어 있었다. 이 구조의 문제점은 다음과 같다.
 
-- **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))**: Ericsson·Nokia·Huawei 장비는 호환 불가. 교체 시 전체 망 재구성 필요.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)</strong>: Ericsson·Nokia·Huawei 장비는 호환 불가. 교체 시 전체 망 재구성 필요.
 - **혁신 속도 저하**: 소프트웨어 업그레이드를 위해 벤더 의존. 빠른 기능 추가 불가.
 - **비용**: 단일 벤더 독점으로 장비 가격 협상력 없음.
 
-**[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) Alliance** (2018년 설립): AT&T·NTT DoCoMo·Deutsche Telekom·중국 통신사 등이 결성. 개방형 인터페이스 표준화 주도.
+<strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> Alliance</strong> (2018년 설립): AT&T·NTT DoCoMo·Deutsche Telekom·중국 통신사 등이 결성. 개방형 인터페이스 표준화 주도.
 
 - **📢 섹션 요약 비유**: 기존 RAN은 특정 자동차 브랜드의 전용 충전소다. 현대차(기지국 벤더)만 충전 가능. O-RAN은 표준 전기차 충전기(CCS)다. 어떤 브랜드 차든 충전할 수 있다.
 
@@ -35,30 +35,29 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│               O-RAN 3분할 아키텍처                        │
-├──────────────────────────────────────────────────────────┤
-│  [Non-RT RIC]  비실시간 제어 (> 1초)                       │
-│  rApp (Third-party 앱) / A1 인터페이스                     │
-│        │ A1 인터페이스                                     │
-│  [Near-RT RIC]  준실시간 제어 (10ms~1초)                   │
-│  xApp (Third-party 앱) / E2 인터페이스                     │
-│        │ E2 인터페이스                                     │
-│  ┌─────────────────────────────────────────┐             │
-│  │  O-CU (Central Unit)                    │             │
-│  │  - PDCP·RRC (L3·상위 L2)               │             │
-│  │  - F1 인터페이스 (개방)                  │             │
-│  ├─────────────────────────────────────────┤             │
-│  │  O-DU (Distributed Unit)               │             │
-│  │  - RLC·MAC·하위 PHY (하위 L2·상위 L1)   │             │
-│  │  - Fronthaul 인터페이스 (개방)           │             │
-│  ├─────────────────────────────────────────┤             │
-│  │  O-RU (Remote Unit)                    │             │
-│  │  - RF·안테나·상위 PHY (하위 L1)          │             │
-│  └─────────────────────────────────────────┘             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-RAN 3분할 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Non-RT RIC</div><div class="kb-diagram-note">비실시간 제어 (&gt; 1초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rApp (Third-party 앱) / A1 인터페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A1 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Near-RT RIC</div><div class="kb-diagram-note">준실시간 제어 (10ms~1초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xApp (Third-party 앱) / E2 인터페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E2 인터페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-CU (Central Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PDCP·RRC (L3·상위 L2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- F1 인터페이스 (개방)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-DU (Distributed Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RLC·MAC·하위 PHY (하위 L2·상위 L1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Fronthaul 인터페이스 (개방)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-RU (Remote Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RF·안테나·상위 PHY (하위 L1)</div></div>
+</div>
+</div>
+
+
 
 ### [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 핵심 구성 요소
 
@@ -76,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) vs [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/)([Cloud RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/)) vs 전통 RAN**
+<strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">Cloud RAN</a>) vs 전통 RAN</strong>
 
 | 항목 | 전통 RAN | [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) | [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) |
 |:---:|:---:|:---:|:---:|
@@ -94,17 +93,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 도입의 기대 효과**
+<strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> 도입의 기대 효과</strong>
 
 - **비용 절감**: [COTS](/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/)(Commercial Off-The-Shelf) 서버 활용, 기지국 장비 단가 30~40% 절감 추정.
 - **혁신 속도**: 소프트웨어 업데이트로 새 기능 신속 적용. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)(Cloud-native) 운영.
 - **경쟁 생태계**: 기존 3대 벤더 독점에 Samsung·Mavenir·Parallel Wireless 등 신규 진입.
 
-**[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 보안 취약점**
+<strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> 보안 취약점</strong>
 
 - **개방형 인터페이스**: [Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)·E2·A1 인터페이스를 표준 공개 → 공격자 분석 용이.
-- **[3rd party](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 앱**: xApp 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계 미흡 → 악성 앱 삽입 위험.
-- **[공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)**: 다수 벤더 부품 사용 → [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 취약점 증가.
+- <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">3rd party</a> 앱</strong>: xApp 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계 미흡 → 악성 앱 삽입 위험.
+- <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a></strong>: 다수 벤더 부품 사용 → [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 취약점 증가.
 - **대응**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 보안 위협 모델([O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) Alliance TIFG) 표준화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중.
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 보안 딜레마는 잠금장치가 없는 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 생태계다. 앱스토어(xApp 마켓)를 개방하면 혁신 앱이 쏟아지지만, 악성 앱도 들어올 수 있다. Apple 앱스토어처럼 엄격한 심사(보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))가 필요하다.

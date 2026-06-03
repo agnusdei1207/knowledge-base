@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))는 배구화의 '뾰족한 징'이나 차트의 뾰족한 솟구침을 뜻한다. 평소 100명이 쓰던 쇼핑몰에, 밤 12시 00초 정각 '선착순 아이패드 반값 세일'이 시작되자마자 10만 명의 트래픽이 벼락처럼 꽂히는 현상을 인위적으로 시뮬레이션한다.
 
-- **필요성**: 기존의 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)는 트래픽을 서서히 올렸다(계단식). 그러면 AWS 오토스케일링 그룹이 "어? CPU 올라가네? 서버 2대 띄워!"라며 대응할 여유가 있었다. 하지만 현실의 이벤트(BTS 티켓팅, 재난 문자 푸시)는 대응할 1분의 시간도 주지 않고 1초 만에 서버를 박살 낸다. 오토스케일링 서버가 채 부팅되기도 전에 이미 톰캣(Tomcat) 커넥션 풀이 메말라 터져버린다. 이 **'초 단위의 절벽 충격'**을 버텨낼 수증기(캐시, 큐) 방어막이 제대로 작동하는지 증명해야만 한다.
+- **필요성**: 기존의 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)는 트래픽을 서서히 올렸다(계단식). 그러면 AWS 오토스케일링 그룹이 "어? CPU 올라가네? 서버 2대 띄워!"라며 대응할 여유가 있었다. 하지만 현실의 이벤트(BTS 티켓팅, 재난 문자 푸시)는 대응할 1분의 시간도 주지 않고 1초 만에 서버를 박살 낸다. 오토스케일링 서버가 채 부팅되기도 전에 이미 톰캣(Tomcat) 커넥션 풀이 메말라 터져버린다. 이 <strong>'초 단위의 절벽 충격'</strong>을 버텨낼 수증기(캐시, 큐) 방어막이 제대로 작동하는지 증명해야만 한다.
 
-- **💡 비유**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 자동차의 **'급브레이크 / 에어백 테스트'**와 같습니다. 자동차를 서서히 가속해서 시속 200km를 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))은 엔진의 힘입니다. 하지만 시속 100km로 잘 가다가 갑자기 1초 만에 콘크리트 벽에 쾅 들이받았을 때([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)), 0.1초 만에 에어백([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Cache)이 터져 나와 운전자(서버)의 목숨을 구하는지를 테스트하는 극강의 순발력 검증입니다.
+- **💡 비유**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 자동차의 <strong>'급브레이크 / 에어백 테스트'</strong>와 같습니다. 자동차를 서서히 가속해서 시속 200km를 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))은 엔진의 힘입니다. 하지만 시속 100km로 잘 가다가 갑자기 1초 만에 콘크리트 벽에 쾅 들이받았을 때([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)), 0.1초 만에 에어백([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Cache)이 터져 나와 운전자(서버)의 목숨을 구하는지를 테스트하는 극강의 순발력 검증입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **오토스케일링의 환상**: 클라우드 시대가 되면서 "트래픽 오면 서버 무한대로 늘리면 되지!"라고 자만했다.
   2. **서버 예열(Pre-warming)의 한계**: 서버가 늘어나려면 부팅하고 Java 띄우는 데 최소 1~2분이 걸린다. 1초 만에 수만 명이 쏟아지면 서버가 늘어나기 전에 싹 다 폭파되는 대참사가 발생했다.
-  3. **[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 대처 아키텍처 등장 (현재)**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 같은 거대한 큐(대기열)를 앞에 세우고 뒤로 천천히 보내거나, 앞단 캐시([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))로 방어하는 아키텍처가 필수화되며, 이를 검증하는 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트가 중요해졌다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a> 대처 아키텍처 등장 (현재)</strong>: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 같은 거대한 큐(대기열)를 앞에 세우고 뒤로 천천히 보내거나, 앞단 캐시([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))로 방어하는 아키텍처가 필수화되며, 이를 검증하는 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트가 중요해졌다.
 
 - **📢 섹션 요약 비유**: 댐 관리입니다. [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)가 '장마철에 물이 서서히 댐 위까지 차올라도 댐이 무너지지 않는가?'를 본다면, [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트는 '댐 위로 갑자기 거대한 쓰나미(파도)가 1초 만에 덮쳐왔을 때 수문이 찰나의 충격을 흡수해 내는가?'를 보는 것입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  스파이크 테스트 (Spike Test                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파이크 테스트 (Spike Test</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 테스트 ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스파이크 테스트 (Spike Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스파이크 테스트 (Spike Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

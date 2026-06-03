@@ -23,27 +23,27 @@ tags = ["bigdata"]
 
 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([European Data Strategy](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/))은 EU 전역에 걸쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자유롭고 안전하게 흐를 수 있는 '단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시장(Single Market for [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 구축하기 위한 포괄적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업이 미국의 하이퍼스케일러(AWS, Azure, GCP)나 중국의 대형 플랫폼 기업에 의해 독점되면서, 유럽은 자체적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제력 상실이라는 위기에 직면했다. 이러한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)'은 안보 위협일 뿐만 아니라 미래 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경쟁력의 심각한 저하를 초래한다. 
 
-이에 대응하기 위해 EU는 **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간)**와 **Gaia-X (가이아 엑스)**라는 기술적, 제도적 아키텍처를 출범시켰다. 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심은 단순한 "클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 국산화"가 아니다. 기존의 중앙집중형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식에서 벗어나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원래 있는 곳([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 엣지 등)에 머물게 하되, 상호 합의된 표준과 신뢰 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 통해 필요할 때만 연결하여 처리하는 **연합형(Federated) 생태계**를 구축하는 것이다.
+이에 대응하기 위해 EU는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 공간)</strong>와 <strong>Gaia-X (가이아 엑스)</strong>라는 기술적, 제도적 아키텍처를 출범시켰다. 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심은 단순한 "클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 국산화"가 아니다. 기존의 중앙집중형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식에서 벗어나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원래 있는 곳([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 엣지 등)에 머물게 하되, 상호 합의된 표준과 신뢰 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 통해 필요할 때만 연결하여 처리하는 <strong>연합형(Federated) 생태계</strong>를 구축하는 것이다.
 
 다음은 기존 중앙집중형 플랫폼의 한계와 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 추구하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 생태계의 차이를 보여주는 비교 도식이다.
 
-```text
-[기존 중앙집중형 구조의 한계]
-┌──────────────────────────────────────┐
-│        Global Tech Giant Cloud       │
-│  ┌──────────┐ ┌──────────┐ ┌───────┐ │
-│  │ EU Data  │ │ US Data  │ │ AI    │ │ <- 벤더 락인 (Vendor Lock-in),
-│  │ (Locked) │ │ (Locked) │ │ Model │ │    통제권 상실, 데이터 유출 우려
-│  └──────────┘ └──────────┘ └───────┘ │
-└──────────────────────────────────────┘
-                   ▲
-[EU 유럽 데이터 전략: 연합형 구조 (Gaia-X & Data Spaces)]
-┌──────────┐       ┌──────────┐       ┌──────────┐
-│ Provider │ <===> │ Gaia-X   │ <===> │ Consumer │
-│ (Node A) │       │ Trust    │       │ (Node B) │
-│ Own Data │       │ Framework│       │ Analytics│
-└──────────┘       └──────────┘       └──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 중앙집중형 구조의 한계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global Tech Giant Cloud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EU Data</div><div class="kb-diagram-cell">US Data</div><div class="kb-diagram-cell">AI</div><div class="kb-diagram-cell">&lt;- 벤더 락인 (Vendor Lock-in),</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Locked)</div><div class="kb-diagram-cell">(Locked)</div><div class="kb-diagram-cell">Model</div><div class="kb-diagram-cell">통제권 상실, 데이터 유출 우려</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EU 유럽 데이터 전략: 연합형 구조 (Gaia-X &amp; Data Spaces)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provider</div><div class="kb-diagram-cell">&lt;===&gt;</div><div class="kb-diagram-cell">Gaia-X</div><div class="kb-diagram-cell">&lt;===&gt;</div><div class="kb-diagram-cell">Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node A)</div><div class="kb-diagram-cell">Trust</div><div class="kb-diagram-cell">(Node B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Own Data</div><div class="kb-diagram-cell">Framework</div><div class="kb-diagram-cell">Analytics</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 중앙의 거대 저장소를 없애고, 참여 노드 간의 'Trust Framework (신뢰 프레임워크)'를 중간 매개체로 두어 [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)-to-Peer로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환한다는 점이다. 따라서 [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)는 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 가서 어떻게 쓰이는지 정확히 통제할 수 있으며, 클라우드 제공자에 종속되지 않고 자유롭게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이동할 수 있다.
 
@@ -53,42 +53,43 @@ tags = ["bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 기술적 뼈대는 크게 두 축으로 나뉜다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 환경인 **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces**와, 이를 물리적·인프라적으로 뒷받침하는 **Gaia-X** 생태계다.
+유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 기술적 뼈대는 크게 두 축으로 나뉜다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 환경인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces</strong>와, 이를 물리적·인프라적으로 뒷받침하는 **Gaia-X** 생태계다.
 
 #### 1. 주요 구성 요소
 
 | 요소명 | 역할 | 내부 동작 메커니즘 | 실무 비유 |
 |:---|:---|:---|:---|
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계 | 산업별(제조, 의료, 모빌리티 등) 공통 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 및 의미론적 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)을 정의하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 촉진 | 같은 업종 종사자들의 전용 협업 공간 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces</strong> | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계 | 산업별(제조, 의료, 모빌리티 등) 공통 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 및 의미론적 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)을 정의하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 촉진 | 같은 업종 종사자들의 전용 협업 공간 |
 | **Gaia-X Federated Services (GXFS)** | 연합 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라 | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 교환, 컴플라이언스를 위한 최소한의 소프트웨어 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 제공 | 연합 인프라를 지탱하는 공통 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
 | **Identity & Trust** | 신원 및 신뢰 관리 | W3C [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 신원증명([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)) 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)가능한 자격증명(VC)을 이용해 참여자의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 생태계 진입을 위한 디지털 신분증 |
 | **Federated Catalogue** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | 각 제공자가 보유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고 검색 가능하게 지원 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 노란 전화번호부 |
-| **Sovereign [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange** | 주권 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 사용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Usage Control)을 강제하며 계약 기반의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 자동 집행되는 스마트 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)서 |
+| <strong>Sovereign <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Exchange</strong> | 주권 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 사용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Usage Control)을 강제하며 계약 기반의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 자동 집행되는 스마트 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)서 |
 
 #### 2. Gaia-X 아키텍처 흐름
 
 아래 도식은 Gaia-X 생태계 내에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자와 소비자가 어떻게 신뢰를 구축하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 교환하는지 그 절차를 보여준다.
 
-```text
-[Gaia-X Sovereign Data Exchange Architecture]
 
-1. Self-Description 등록
-   [Data Provider] ───────(Meta Data & Policies)──────> [Federated Catalogue]
-          │                                                    │
-          │ 2. DID 기반 신원 인증                                │ 3. 서비스 검색 및 조회
-          ▼                                                    ▼
-   [Identity & Trust Anchor (Clearing House)] <──────── [Data Consumer]
-          │
-          │ 4. 규제 준수 및 자격 증명 (Verifiable Credentials)
-          ▼
-   [Compliance & Certification Node]
-          
-          5. P2P 데이터 전송 (Data Usage Control 강제)
-   [Data Provider] ===================================> [Data Consumer]
-   (데이터 물리적 보관)      Contract / Token 기반 접근      (데이터 임시 활용/분석)
-```
 
-이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)나 중앙 서버로 복사되지 않는다는 점이다. 제공자는 오직 자신의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 'Self-Description (자기 기술서)'만을 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등록한다. 소비자는 이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 검색해 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾은 뒤, Identity Anchor를 통해 양측의 신원을 증명하고, 합의된 스마트 계약 체결 후 **직접([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송받는다. 이때 전송된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제공자가 지정한 사용 목적 및 기간(Usage Control)에 종속되어, 무단 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 재판매가 원천 차단된다. 실무에서는 이 구조를 통해 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 컴플라이언스를 자동으로 만족시키는 효과를 얻을 수 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gaia-X Sovereign Data Exchange Architecture</div></div>
+<div class="kb-diagram-note">1. Self-Description 등록</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Provider</div><div class="kb-diagram-note">(Meta Data &amp; Policies) &gt;</div><div class="kb-diagram-node">Federated Catalogue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DID 기반 신원 인증</div><div class="kb-diagram-cell">3. 서비스 검색 및 조회</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Identity &amp; Trust Anchor (Clearing House)</div><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">Data Consumer</div></div>
+<div class="kb-diagram-note">4. 규제 준수 및 자격 증명 (Verifiable Credentials)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Compliance &amp; Certification Node</div></div>
+<div class="kb-diagram-note">5. P2P 데이터 전송 (Data Usage Control 강제)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Provider</div><div class="kb-diagram-connector">===================================&gt;</div><div class="kb-diagram-node">Data Consumer</div></div>
+<div class="kb-diagram-note">(데이터 물리적 보관) Contract / Token 기반 접근 (데이터 임시 활용/분석)</div>
+</div>
+</div>
+
+
+
+이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)나 중앙 서버로 복사되지 않는다는 점이다. 제공자는 오직 자신의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 'Self-Description (자기 기술서)'만을 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등록한다. 소비자는 이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 검색해 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾은 뒤, Identity Anchor를 통해 양측의 신원을 증명하고, 합의된 스마트 계약 체결 후 <strong>직접(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송받는다. 이때 전송된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제공자가 지정한 사용 목적 및 기간(Usage Control)에 종속되어, 무단 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 재판매가 원천 차단된다. 실무에서는 이 구조를 통해 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 컴플라이언스를 자동으로 만족시키는 효과를 얻을 수 있다.
 
 > 📢 **섹션 요약 비유**: 마치 집([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 그대로 두고 임대 매물 정보(Self-Description)만 부동산([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))에 올린 뒤, 철저한 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Identity Anchor)을 거쳐 전자 계약서를 작성해야만 세입자(Consumer)에게 일시적으로 출입 권한(Usage Control)을 주는 스마트 임대 시스템과 같습니다.
 
@@ -103,10 +104,10 @@ Gaia-X와 기존 하이퍼스케일러 [퍼블릭 클라우드](/knowledge-base/
 | 항목 | 하이퍼스케일러 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) (AWS, Azure) | Gaia-X 및 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces (Federated) | 판단 포인트 |
 |:---|:---|:---|:---|
 | **아키텍처 구조** | 중앙집중형 (Centralized) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 | [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 및 연합형 (Decentralized & Federated) | 통제권의 귀속 위치 |
-| **[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)** | 플랫폼 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))의 인프라에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속 | [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)가 물리적 위치와 사용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 완벽히 통제 | 규제 준수 및 보안 요구 수준 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a></strong> | 플랫폼 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))의 인프라에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속 | [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)가 물리적 위치와 사용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 완벽히 통제 | 규제 준수 및 보안 요구 수준 |
 | **상호 운용성** | 해당 벤더의 전용 API와 생태계에 락인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) | 개방형 표준(Open Standard) 기반, 다기종 인프라 연결 | 멀티/[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 전환 가능성 |
 | **신원 및 보안** | 플랫폼 내부의 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) (Identity and Access Mgt) | W3C [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), VC 기반의 자기주권신원 (SSI) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) | 생태계 간 신뢰 연합 여부 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 위치에 따라 일괄 적용 (비교적 낮음) | [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결 및 노드 상태에 따라 변동 폭 존재 (최적화 필요) | 실시간 처리 요구사항 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 위치에 따라 일괄 적용 (비교적 낮음) | [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결 및 노드 상태에 따라 변동 폭 존재 (최적화 필요) | 실시간 처리 요구사항 |
 
 위 비교표에서 볼 수 있듯, 중앙집중형 클라우드는 인프라 구축의 편의성과 즉각적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화에 강점이 있지만, 강력한 벤더 락인을 유발한다. 반면 Gaia-X 방식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연합 인프라 구성 및 상호 운용성 확보를 위한 기술적 오버헤드([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 발급, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제 엔진 도입 등)가 크지만, 다수의 참여자가 평등하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환해야 하는 B2B 산업 연합체나 국가 핵심 인프라에서는 필수적인 선택이다.
 
@@ -126,25 +127,28 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 - **의사결정**: 중앙의 하나의 AWS S3 버킷에 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 방식은 경쟁사 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 우려로 성립될 수 없다.
 - **솔루션**: [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) (International [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces) 커넥터를 각 회사의 [On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 설치한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 각자의 서버에 두고, 요청이 있을 때만 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 커넥터 간의 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 통신 및 사용 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Usage Control) 하에 집계된 결과만 안전하게 교환한다.
 
-```text
-[Data Usage Control 의사결정 플로우]
-[데이터 접근 요청]
-   │
-   ▼
-[DID 검증 및 토큰 발급] ──(실패)──> [접근 거부]
-   │
-   ▼ (성공)
-[Usage Policy 엔진 평가] ──(목적 외 사용)──> [접근 거부]
-   │ (예: 30일 후 폐기, 암호화 상태로만 연산)
-   ▼
-[데이터 암호화 채널 P2P 전송]
-   │
-   ▼
-[Consumer 환경에서 실행 후 자동 파기 강제 (TEE 활용)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Usage Control 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 접근 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DID 검증 및 토큰 발급</div><div class="kb-diagram-note">──(실패)──&gt;</div><div class="kb-diagram-node">접근 거부</div></div>
+<div class="kb-diagram-note">▼ (성공)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Usage Policy 엔진 평가</div><div class="kb-diagram-note">──(목적 외 사용)──&gt;</div><div class="kb-diagram-node">접근 거부</div></div>
+<div class="kb-diagram-note">(예: 30일 후 폐기, 암호화 상태로만 연산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 암호화 채널 P2P 전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer 환경에서 실행 후 자동 파기 강제 (TEE 활용)</div></div>
+</div>
+</div>
+
+
 
 #### 2. 도입 시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의사항
-- **중앙화된 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 의존**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형으로 구성하지 않고 특정 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 서버에 의존하면, 결국 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))와 새로운 락인이 발생한다. 연합형 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 아키텍처를 철저히 구현해야 한다.
+- <strong>중앙화된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 의존</strong>: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형으로 구성하지 않고 특정 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 서버에 의존하면, 결국 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))와 새로운 락인이 발생한다. 연합형 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 아키텍처를 철저히 구현해야 한다.
 - **레거시 연동 간과**: 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Space로 즉시 마이그레이션하려는 시도는 실패한다. 기존 레거시 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/DB 앞단에 가벼운 '[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connector' [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 두어 점진적으로 생태계에 참여시키는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
 > 📢 **섹션 요약 비유**: 각기 다른 자물쇠를 쓰는 여러 회사 사무실을 무리하게 하나로 합치는 대신, 공용 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키와 출입 기록부([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connector & [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Engine)를 표준화하여 각자 사무실의 보안을 유지한 채 꼭 필요한 사람만 방문하게 하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
@@ -161,37 +165,39 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 | **기술 표준화** | [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)(International [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces), FIWARE 등 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 관련 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 글로벌 사실상 표준(De facto standard)화 |
 | **보안/컴플라이언스** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)법([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Act) 등 강력한 규제를 아키텍처 레벨에서 자동 준수([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)-by-Design) |
 
-결론적으로, Gaia-X와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces로 대표되는 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙으로 모여야만 가치가 생긴다"는 기존 빅데이터의 통념을 깨고, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 흩어져 있되, 신뢰 네트워크로 연결될 때 진정한 주권적 가치가 창출된다"**는 새로운 패러다임을 제시한다. 이는 향후 클라우드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 설계 방향이 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)'을 극복하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연합 구조로 진화할 것임을 강하게 시사한다.
+결론적으로, Gaia-X와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces로 대표되는 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 중앙으로 모여야만 가치가 생긴다"는 기존 빅데이터의 통념을 깨고, "<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 흩어져 있되, 신뢰 네트워크로 연결될 때 진정한 주권적 가치가 창출된다"</strong>는 새로운 패러다임을 제시한다. 이는 향후 클라우드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 설계 방향이 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)'을 극복하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연합 구조로 진화할 것임을 강하게 시사한다.
 
 > 📢 **섹션 요약 비유**: 과거 제국주의 시대의 중앙집중형 자원 수탈에서 벗어나, 상호 존중과 신뢰를 바탕으로 독립 국가들이 연합하여 글로벌 가치를 창출하는 유럽 연합(EU)의 철학이 그대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 아키텍처로 구현된 것입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **International [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces ([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces 구현을 위한 실질적인 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처 및 커넥터 표준
-- **[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) ([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 물리적, 법적 통제권을 갖는 권리
+- <strong>International <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces (<a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a>)</strong> | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces 구현을 위한 실질적인 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처 및 커넥터 표준
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/">Data Sovereignty</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 물리적, 법적 통제권을 갖는 권리
 - **자기주권신원 (SSI, Self-Sovereign Identity)** | 제3자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관 없이 개인이 직접 신원을 증명하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 기술
-- **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용 권한과 조건을 코드로 작성하여 조건 충족 시 자동 실행되게 하는 기술
-- **[신뢰 실행 환경](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), [Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 메모리 영역에서만 복호화하고 처리하여 Consumer의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취를 막는 하드웨어 보안 영역
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용 권한과 조건을 코드로 작성하여 조건 충족 시 자동 실행되게 하는 기술
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">신뢰 실행 환경</a> (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a>, <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/">Trusted Execution Environment</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 메모리 영역에서만 복호화하고 처리하여 Consumer의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취를 막는 하드웨어 보안 영역
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개인정보 보호 규정 (GDPR) — EU 역내 데이터 처리 권리 및 역외 이전 통제 기준]
-    │
-    ▼
-[유럽 데이터 전략 (European Data Strategy, 2020) — 데이터 단일 시장, 인간 중심 데이터 경제]
-    │
-    ▼
-[Gaia-X — EU 연합 클라우드 인프라, 데이터 주권 기반 연동 생태계]
-    │
-    ▼
-[데이터 스페이스 (Data Spaces) — 분야별(산업·의료·농업 등) 신뢰 데이터 공유 공간]
-    │
-    ▼
-[데이터 거버넌스법 / 데이터법 (DGA / Data Act) — 공공·민간 데이터 접근 제도화, 데이터 중개자 규율]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호 규정 (GDPR) — EU 역내 데이터 처리 권리 및 역외 이전 통제 기준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유럽 데이터 전략 (European Data Strategy, 2020) — 데이터 단일 시장, 인간 중심 데이터 경제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gaia-X — EU 연합 클라우드 인프라, 데이터 주권 기반 연동 생태계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스페이스 (Data Spaces) — 분야별(산업·의료·농업 등) 신뢰 데이터 공유 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스법 / 데이터법 (DGA / Data Act) — 공공·민간 데이터 접근 제도화, 데이터 중개자 규율</div></div>
+</div>
+</div>
+
+
 이 흐름은 GDPR의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 원칙을 기반으로 유럽이 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 산업 활용을 동시에 추구하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단일 시장을 설계하고, Gaia-X·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스로 구체화하는 EU [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

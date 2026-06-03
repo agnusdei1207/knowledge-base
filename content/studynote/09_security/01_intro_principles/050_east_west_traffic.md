@@ -21,14 +21,20 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ### 1.1 방향 정의
 
-```
-[외부 인터넷]
-      ↕  ← 노스-사우스 (North-South): 외부 ↔ 내부
-[경계 방화벽 / DMZ]
-      ↕
-[내부 데이터센터]
-  서버A ↔ 서버B ↔ 서버C  ← 이스트-웨스트 (East-West): 내부 간
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 인터넷</div></div>
+<div class="kb-diagram-note">↕ ← 노스-사우스 (North-South): 외부 ↔ 내부</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경계 방화벽 / DMZ</div></div>
+<div class="kb-diagram-note">↕</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부 데이터센터</div></div>
+<div class="kb-diagram-note">서버A ↔ 서버B ↔ 서버C ← 이스트-웨스트 (East-West): 내부 간</div>
+</div>
+</div>
+
+
 
 ### 1.2 현대 트래픽 비율
 
@@ -47,12 +53,18 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ### 2.1 공격 흐름
 
-```
-1. 초기 침투: 이메일 피싱 → 워크스테이션 감염
-2. 자격증명 탈취: Mimikatz 등으로 크리덴셜 수집
-3. 측면 이동: 내부 서버 A → B → C (이스트-웨스트 악용)
-4. 목표 달성: DB 서버 접근, 랜섬웨어 배포
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 초기 침투: 이메일 피싱 → 워크스테이션 감염</div>
+<div class="kb-diagram-note">2. 자격증명 탈취: Mimikatz 등으로 크리덴셜 수집</div>
+<div class="kb-diagram-note">3. 측면 이동: 내부 서버 A → B → C (이스트-웨스트 악용)</div>
+<div class="kb-diagram-note">4. 목표 달성: DB 서버 접근, 랜섬웨어 배포</div>
+</div>
+</div>
+
+
 
 ### 2.2 전통적 경계 보안의 한계
 
@@ -68,12 +80,18 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ### 3.1 개념
 
-```
-전통적 VLAN 구조:       마이크로 세그먼테이션:
-[웹 서버][앱 서버][DB]   [웹 서버] ← 정책 → [앱 서버] ← 정책 → [DB]
-     └──── VLAN ────┘         허용 트래픽만 명시적 허가
-          (내부 자유 통신)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 VLAN 구조: 마이크로 세그먼테이션:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버</div><div class="kb-diagram-node">앱 서버</div><div class="kb-diagram-node">DB</div><div class="kb-diagram-node">웹 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">앱 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">DB</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">VLAN 허용 트래픽만 명시적 허가</div>
+<div class="kb-diagram-note">(내부 자유 통신)</div>
+</div>
+</div>
+
+
 
 ### 3.2 구현 기술
 
@@ -92,21 +110,33 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ### 4.1 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙 적용
 
-```
-1. 명시적 검증: 모든 요청 → 신원(ID) + 장치 상태 + 위치 검증
-2. 최소 권한: 서비스 A → DB 특정 테이블만 접근 허용
-3. 침해 가정: 내부 트래픽도 항상 암호화(mTLS)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 명시적 검증: 모든 요청 → 신원(ID) + 장치 상태 + 위치 검증</div>
+<div class="kb-diagram-note">2. 최소 권한: 서비스 A → DB 특정 테이블만 접근 허용</div>
+<div class="kb-diagram-note">3. 침해 가정: 내부 트래픽도 항상 암호화(mTLS)</div>
+</div>
+</div>
+
+
 
 ### 4.2 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([Mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 양방향 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):
 
-```
-서비스 A ──[인증서 제시]──▶ 서비스 B
-         ◀──[인증서 검증]──
-         ──[암호화 통신]──▶
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">서비스 A ──</div><div class="kb-diagram-node">인증서 제시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">서비스 B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">인증서 검증</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">암호화 통신</div><div class="kb-diagram-connector">▶</div></div>
+</div>
+</div>
+
+
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd)가 mTLS를 자동 관리.
 
@@ -118,14 +148,20 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ### 5.1 이스트-웨스트 트래픽 가시성
 
-```
-흐름:
-서버 A → 서버 B (허용)
-서버 B → 서버 C (비정상 포트/시간)
-             ↓
-         SIEM/NDR에서 탐지
-         (Network Detection & Response)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">흐름:</div>
+<div class="kb-diagram-note">서버 A → 서버 B (허용)</div>
+<div class="kb-diagram-note">서버 B → 서버 C (비정상 포트/시간)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SIEM/NDR에서 탐지</div>
+<div class="kb-diagram-note">(Network Detection &amp; Response)</div>
+</div>
+</div>
+
+
 
 ### 5.2 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 지표
 
@@ -142,43 +178,55 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ## 📌 관련 개념 맵
 
-```
-이스트-웨스트 트래픽 보안
-├── 위협
-│   ├── 측면 이동 (Lateral Movement)
-│   └── 내부 신뢰 붕괴
-├── 제어 기술
-│   ├── 마이크로 세그먼테이션
-│   ├── Zero Trust (mTLS)
-│   └── SDN/eBPF 정책
-├── 모니터링
-│   ├── NDR (Network Detection & Response)
-│   └── SIEM 연동
-└── 플랫폼
-    ├── VMware NSX
-    ├── Cisco ACI
-    └── Kubernetes (Cilium, Calico)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이스트-웨스트 트래픽 보안</div>
+<div class="kb-diagram-tree-item" style="--depth:0">위협</div>
+<div class="kb-diagram-note">── 측면 이동 (Lateral Movement)</div>
+<div class="kb-diagram-note">── 내부 신뢰 붕괴</div>
+<div class="kb-diagram-tree-item" style="--depth:0">제어 기술</div>
+<div class="kb-diagram-note">── 마이크로 세그먼테이션</div>
+<div class="kb-diagram-note">── Zero Trust (mTLS)</div>
+<div class="kb-diagram-note">── SDN/eBPF 정책</div>
+<div class="kb-diagram-tree-item" style="--depth:0">모니터링</div>
+<div class="kb-diagram-note">── NDR (Network Detection &amp; Response)</div>
+<div class="kb-diagram-note">── SIEM 연동</div>
+<div class="kb-diagram-tree-item" style="--depth:0">플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">VMware NSX</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Cisco ACI</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Kubernetes (Cilium, Calico)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-경계 방화벽 중심 보안 (1990s~2000s)
-     │  클라우드/MSA 확산
-     ▼
-VLAN 기반 내부 분리 (부분적 이스트-웨스트 통제)
-     │  측면 이동 공격 증가
-     ▼
-마이크로 세그먼테이션 (VMware NSX, 2013~)
-     │  ID 기반 접근 통제
-     ▼
-Zero Trust + 서비스 메시 (Istio + mTLS, 2017~)
-     │  eBPF 기반 커널 수준 정책
-     ▼
-Cloud-Native Zero Trust (2020s~)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계 방화벽 중심 보안 (1990s~2000s)</div>
+<div class="kb-diagram-note">클라우드/MSA 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VLAN 기반 내부 분리 (부분적 이스트-웨스트 통제)</div>
+<div class="kb-diagram-note">측면 이동 공격 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 세그먼테이션 (VMware NSX, 2013~)</div>
+<div class="kb-diagram-note">ID 기반 접근 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Trust + 서비스 메시 (Istio + mTLS, 2017~)</div>
+<div class="kb-diagram-note">eBPF 기반 커널 수준 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud-Native Zero Trust (2020s~)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: 이스트-웨스트, 측면 이동, 마이크로 세그먼테이션, [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/), [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), NDR, [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)
 

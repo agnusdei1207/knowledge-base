@@ -24,21 +24,23 @@ tags = ["studynote-software-engineering"]
 
 이를 해결하기 위한 엔지니어링 딜레마가 바로 **"다 돌릴 것인가(Retest-All), 찝어서 돌릴 것인가(Selective Regression)"** 입니다. 이것은 단순한 게으름의 문제가 아닙니다. 한정된 컴퓨팅 자원(Server Farm 빌드 노드 시간)과 '개발 피드백 사이클 속도'를 지키기 위한 고도의 수학적 알고리즘과 아키텍처적 결단입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  회귀 테스트 실행 전략의 극단 비교               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 전체 재테스트 (Retest All)                                 │
-│    "모르겠고, 불안하니까 10만 개 TC 밤새 다 돌려!!"               │
-│    ──▶ 장점 : 100% 안심 보장, 사이드 이펙트 누락 제로             │
-│    ──▶ 단점 : 피드백에 24시간 소요, 개발자들 빌드 기다리다 칼퇴근      │
-│                                                              │
-│ 2. 선택적 테스팅 (Selective Regression Testing)                │
-│    "이번 패치는 결제.java 야. 이와 연결된 TC 500개만 가져와 돌려!!"  │
-│    ──▶ 장점 : 5분 만에 결과 확인 (총알 피드백, 쾌속 전진)           │
-│    ──▶ 단점 : 의존성 파악을 놓친 저기 귀퉁이 모듈에서 버그 터질 위험.  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀 테스트 실행 전략의 극단 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전체 재테스트 (Retest All)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"모르겠고, 불안하니까 10만 개 TC 밤새 다 돌려!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 장점 : 100% 안심 보장, 사이드 이펙트 누락 제로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 단점 : 피드백에 24시간 소요, 개발자들 빌드 기다리다 칼퇴근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 선택적 테스팅 (Selective Regression Testing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이번 패치는 결제.java 야. 이와 연결된 TC 500개만 가져와 돌려!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 장점 : 5분 만에 결과 확인 (총알 피드백, 쾌속 전진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 단점 : 의존성 파악을 놓친 저기 귀퉁이 모듈에서 버그 터질 위험.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 범죄자가 섬에 숨어들었다고 할 때, 섬의 나무 100만 그루를 한 그루씩 전부 들춰보는 무식한 수색(Retest All)과, 범죄자가 탄 배가 닿은 동쪽 해안가 근처 나무 1,000그루만 집중적으로 뒤지는 효율적 수색(Selective)의 차이입니다.
 
@@ -54,7 +56,7 @@ tags = ["studynote-software-engineering"]
 
 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 단순히 사람이 감으로 찍는 것을 넘어(이건 위험합니다), 과학에 기반해 스위트(커다란 묶음) 크기를 줄입니다.
 
-1. **테스트 선택 (Test [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))**
+1. <strong>테스트 선택 (Test <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>
    - 방금 바뀐 소스코드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))과 함수 엮임망([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))을 컴파일러가 역추적하여, "이 코드를 1% 라도 스쳐 지나가는 테스트들" 교집합만 기계적으로 필터링해 냅니다.
 2. **테스트 최소화 (Test Minimization)**
    - 스위트 안에 "로그인 화면 A에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)", "로그인 B에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 등 중복된 코드 커버리지를 가진 잉여 테스트가 많습니다. 같은 기능을 1번만 덮게끔 중복(Redundant) 케이스를 영구 삭제하여 뼈대만 남깁니다.
@@ -82,7 +84,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 옛날 100만 줄짜리 통짜 모놀리스(Monolithic) 시스템 시대에는 스파게티처럼 꼬여서 Selective 탐색이 너무 위험하여 Retest-All을 하는 경우가 많았습니다.
-하지만 지금은 **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** 시대입니다. 수박을 잘게 썰어놓듯 시스템이 50개의 독립 컨테이너로 찢어졌고, 3번 결제 서비스가 수정되어 커밋이 올라왔다면, 다른 장바구니 서비스나 배달 서비스는 눈 감고도 영향을 받지 않음을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트랙트(계약)로 증명할 수 있습니다. 
+하지만 지금은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> 시대입니다. 수박을 잘게 썰어놓듯 시스템이 50개의 독립 컨테이너로 찢어졌고, 3번 결제 서비스가 수정되어 커밋이 올라왔다면, 다른 장바구니 서비스나 배달 서비스는 눈 감고도 영향을 받지 않음을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트랙트(계약)로 증명할 수 있습니다. 
 따라서 MSA의 본질은 "해당 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 내부 Retest-all과 최소한의 연동만 Selective로 돌리는 완벽한 분할 최적화"입니다. 
 
 - **📢 섹션 요약 비유**: 아파트 전체(통짜 시스템)가 같이 물을 공유할 때는 101호 배관을 고쳐도 304호 물이 썩을까 봐 건물 전체를 검사해야 했지만, 이제는 세대별 독립 급수([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 되어서 101호 공사하면 101호 화장실만 테스트하면 되는 세상이 왔습니다.
@@ -98,9 +100,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 실무에서 완벽한 100% 호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 추적은 언어(자바스크립트 등 동적 언어) 특성상 거의 불가능할 때가 많습니다.
-그래서 현업 QA 지휘관들은 **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 및 비즈니스 임팩트**를 근거로 선택적 회귀를 결정합니다.
+그래서 현업 QA 지휘관들은 <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 및 비즈니스 임팩트</strong>를 근거로 선택적 회귀를 결정합니다.
 
-예를 들어, "폰트 색깔 변경"이라는 패치가 DB 엔진에 영향을 줄 리 없다는 것을 전문가의 휴리스틱과 과거 사고 통계(Bug History)로 판단합니다. 이를 툴킷화 한 것이 **티타늄(Titanium) 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예측 도구**들입니다. AI가 지난 10년간의 깃헙(GitHub) 커밋과 버그 연관성을 학습하여 "이 개발자가 이런 코드를 짰다면 저기 저 파일도 무너졌을 확률이 74%다! 관련 TC를 자동으로 가져와!"라고 지시하는 수준에 이르렀습니다.
+예를 들어, "폰트 색깔 변경"이라는 패치가 DB 엔진에 영향을 줄 리 없다는 것을 전문가의 휴리스틱과 과거 사고 통계(Bug History)로 판단합니다. 이를 툴킷화 한 것이 <strong>티타늄(Titanium) 및 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 예측 도구</strong>들입니다. AI가 지난 10년간의 깃헙(GitHub) 커밋과 버그 연관성을 학습하여 "이 개발자가 이런 코드를 짰다면 저기 저 파일도 무너졌을 확률이 74%다! 관련 TC를 자동으로 가져와!"라고 지시하는 수준에 이르렀습니다.
 
 - **📢 섹션 요약 비유**: 10년 차 고참 형사([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측 툴)가 현장에 뿌려진 페인트만 보고도 "저건 예전 박 영감네 공장 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이랑 비슷한 수법이다. 일단 박 영감 공장 근처 TC부터 털어봐!"라고 직관적 통계에 기반한 핀셋 수사를 펴는 겁니다.
 
@@ -114,7 +116,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화와 최적화의 목표는 단 하나, **"엔지니어의 퇴근 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방지(빠른 피드백)"**입니다. 
+[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화와 최적화의 목표는 단 하나, <strong>"엔지니어의 퇴근 시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 방지(빠른 피드백)"</strong>입니다. 
 아무리 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))을 잘해놔도 실행 런타임이 무한대로 발산하면 짐짝일 뿐입니다. Selective 방식과 자동화 로봇 서버의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 구축된 회사는 개발자가 코드를 서버에 올리고 화장실에 다녀오면 합불 여부가 슬랙 메시지로 날아옵니다. 이것이 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 경쟁력의 가장 거대하고 둔탁한 아킬레스건을 치료하는 최강의 최적화 기술입니다.
 
 - **📢 섹션 요약 비유**: 너무나도 충성스럽지만 멍청하게 무거운 갑옷 100개를 다 들고뛰려는 기사([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))에게, 적군이 활 쏘는 부대면 방패만 들리고 늪지대면 가벼운 칼만 쥐여줘서 가장 효율적인 전사로 튜닝시켜주는 마법입니다.
@@ -138,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

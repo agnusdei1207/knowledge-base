@@ -25,22 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 [그리드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/051_grid_computing/)은 이런 비효율을 해결하기 위해 등장했다. 전력망이 발전소 하나가 아니라 여러 발전 자원을 연결해 전기를 공급하듯, 그리드는 다양한 계산 자원을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 꺼내 쓰게 하려는 철학이다. 그래서 이 개념은 단순한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 기법을 넘어, 자원 공유 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·스케줄링을 포함하는 운영 모델로 이해해야 한다. 여기서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 기준도 단순한 CPU (Central Processing Unit) 클럭이나 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 수량이 아니라, 얼마나 많은 자원을 협업 가능한 상태로 엮어낼 수 있는가에 가깝다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                그리드 컴퓨팅이 등장한 배경과 문제의식               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 기관 A        기관 B         기관 C         기관 D                 │
-│ [유휴 CPU]    [유휴 GPU]     [유휴 서버]    [유휴 스토리지]        │
-│     │             │              │               │                  │
-│     └─────────────┴─────── WAN (Wide Area Network) ───────────────┘ │
-│                                │                                     │
-│                                ▼                                     │
-│                    [공동 문제 해결용 자원 풀]                        │
-│                                │                                     │
-│                                ▼                                     │
-│          초대형 계산을 작은 작업 단위로 분할하여 병렬 실행           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그리드 컴퓨팅이 등장한 배경과 문제의식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기관 A 기관 B 기관 C 기관 D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유휴 CPU</div><div class="kb-diagram-node">유휴 GPU</div><div class="kb-diagram-node">유휴 서버</div><div class="kb-diagram-node">유휴 스토리지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAN (Wide Area Network)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공동 문제 해결용 자원 풀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초대형 계산을 작은 작업 단위로 분할하여 병렬 실행</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은, 그리드의 출발점이 "빠른 내부망"이 아니라 "흩어진 자원의 공동 활용"이라는 점이다. 따라서 그리드 설계의 첫 질문은 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라, 자원을 얼마나 신뢰할 수 있고 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 빌려 쓸지다.
 
@@ -64,29 +62,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 그리드 작업이 처리되는 전형적인 흐름을 보여준다. 중요한 점은 노드들이 동시에 하나의 메모리를 공유하지 않고, 독립 작업 단위를 받아 개별적으로 계산한 뒤 결과를 반환한다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    그리드 작업 처리 흐름                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ [사용자 작업 제출]                                                   │
-│        │                                                             │
-│        ▼                                                             │
-│ [그리드 포털 / 미들웨어]                                             │
-│        │  작업 분할                                                   │
-│        ▼                                                             │
-│ [스케줄러] ── 자원 조회 ──▶ [자원 정보 서비스]                       │
-│        │                                                             │
-│   ┌────┼───────────────┬───────────────┐                             │
-│   ▼    ▼               ▼               ▼                             │
-│ 노드 A  노드 B          노드 C          노드 D                        │
-│ 계산    계산             계산             실패                         │
-│   │      │               │               │                             │
-│   └──────┴──── 결과 반환 ┴───────┬──────┘                             │
-│                                  │ 재할당                             │
-│                                  ▼                                     │
-│                               노드 E                                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그리드 작업 처리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 작업 제출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그리드 포털 / 미들웨어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 정보 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 A 노드 B 노드 C 노드 D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산 계산 계산 실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 E</div></div>
+</div>
+</div>
+
+
 
 이 구조에서는 장애를 예외로 취급하지 않고 기본 전제로 본다. 어떤 노드는 느리거나 중간에 끊길 수 있으므로, 작업은 작은 단위로 쪼개고 재실행 가능해야 한다. 그래서 그리드는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리보다 통신 지연에는 약하지만, 대규모 배치 작업과 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) 측면에서는 강하다.
 
@@ -136,26 +129,25 @@ tags = ["studynote-computer-architecture"]
 
 실무 의사결정 문장으로 정리하면 이렇다. **고성능이 필요하더라도 저지연 동기화가 중요하면 클러스터나 슈퍼컴퓨터를 선택하고, 독립 배치 작업을 저비용으로 넓게 퍼뜨릴 수 있으면 그리드를 선택한다.** 기술사 답안에서는 이 판단 기준을 분명히 쓰는 것이 중요하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              그리드 도입 적합성 판단 흐름                   │
-├──────────────────────────────────────────────────────────────┤
-│ 작업 분해 가능?                                              │
-│   ├─ 아니오 ──▶ 클러스터 / SMP (Symmetric Multiprocessing) / │
-│   │                 고속 인터커넥트 고려                    │
-│   └─ 예                                                      │
-│        │                                                     │
-│        ▼                                                     │
-│ 노드 간 실시간 통신 많음?                                    │
-│   ├─ 예 ──────▶ 그리드 부적합                                │
-│   └─ 아니오                                                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 실패 시 재실행 쉬움?                                         │
-│   ├─ 아니오 ──▶ 고신뢰 전용 인프라 고려                      │
-│   └─ 예 ──────▶ 그리드 적합                                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그리드 도입 적합성 판단 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 분해 가능?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 클러스터 / SMP (Symmetric Multiprocessing) /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고속 인터커넥트 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 간 실시간 통신 많음?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 그리드 부적합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패 시 재실행 쉬움?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 고신뢰 전용 인프라 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 그리드 적합</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 그리드는 서로 자주 상의할 필요 없는 숙제를 여러 학생에게 나눠 주는 방식에는 좋지만, 한 문장을 같이 써 내려가야 하는 공동 작문에는 맞지 않는다.
 
@@ -165,7 +157,7 @@ tags = ["studynote-computer-architecture"]
 
 [그리드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/051_grid_computing/)의 가장 큰 효과는 자원의 총량을 키우는 것이 아니라, 이미 존재하지만 흩어져 있던 자원을 계산 가능한 형태로 바꾼다는 데 있다. 이를 통해 연구기관은 예산 제약 속에서도 대규모 계산을 수행할 수 있고, 조직 간 협업은 계산 자원 공유라는 형태로 확장된다. 또한 장애를 전제로 한 재실행 구조를 통해, 일부 노드 실패가 전체 작업 실패로 이어지지 않도록 만들 수 있다.
 
-하지만 한계도 분명하다. 통신 지연이 크고 자원 품질이 균일하지 않으며, 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 보안 체계가 복잡하다. 그래서 그리드는 모든 문제를 빠르게 만드는 만능 해법이 아니라, **독립적 작업을 넓은 자원망에 뿌려 처리량을 얻는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억해야 한다. 즉, 그리드의 경쟁력은 "최저 지연시간"이 아니라 "최대 자원 동원 범위"에 있다.
+하지만 한계도 분명하다. 통신 지연이 크고 자원 품질이 균일하지 않으며, 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 보안 체계가 복잡하다. 그래서 그리드는 모든 문제를 빠르게 만드는 만능 해법이 아니라, <strong>독립적 작업을 넓은 자원망에 뿌려 처리량을 얻는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억해야 한다. 즉, 그리드의 경쟁력은 "최저 지연시간"이 아니라 "최대 자원 동원 범위"에 있다.
 
 오늘날 많은 상용 환경은 클라우드로 이동했지만, 그리드의 철학은 여전히 남아 있다. 다기관 공동 연구, 과학 계산 플랫폼, 자원 공유형 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 프로젝트, 엣지 자원 연합은 모두 그리드의 문제의식을 계승한다. 따라서 그리드는 역사적 기술이 아니라, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 협력 모델의 원형으로 보는 것이 맞다.
 
@@ -185,25 +177,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-슈퍼컴퓨터 중심 고성능 계산
-        │
-        ▼
-클러스터 컴퓨팅 (Cluster Computing)
-        │
-        ▼
-그리드 컴퓨팅 (Grid Computing)
-        │
-        ├─▶ 가상 조직 (VO, Virtual Organization)
-        │
-        ├─▶ 미들웨어 기반 자원 공유
-        │
-        ▼
-클라우드 컴퓨팅 (Cloud Computing)
-        │
-        ▼
-엣지 자원 연합 · 분산 협업형 컴퓨팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">슈퍼컴퓨터 중심 고성능 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클러스터 컴퓨팅 (Cluster Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그리드 컴퓨팅 (Grid Computing)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 가상 조직 (VO, Virtual Organization)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 미들웨어 기반 자원 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 컴퓨팅 (Cloud Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 자원 연합 · 분산 협업형 컴퓨팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 "전용 고성능 장비 → 조직 내부 집적 → 조직 간 공유 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)화 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협업 확장"으로 발전하는 방향을 보여준다.
 

@@ -23,18 +23,22 @@ tags = ["studynote-network"]
 
 - **필요성**: 두 노드 간 물리적 연결이 완료되고([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 단계) 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)되었다고 해서 곧바로 인터넷이 되는 것은 아니다. 서로 통신하려면 양단이 IP 주소를 가져야 하고, 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 여부 등을 맞춰야 한다. NCP는 이러한 상위 네트워크 논리적 구성을 전담하여 링크를 실사용 가능한 상태로 만든다.
 
-- **💡 비유**: 고속도로(물리적 링크)가 깔리고 톨게이트 요금 정산([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))이 끝났다고 차가 달릴 수 있는 것은 아닙니다. NCP는 각 차량에 **"차량 번호판(IP 주소)"을 발급하고 "내비게이션 경로([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))"를 세팅**해 주어 차가 올바르게 주행할 수 있게 해주는 차량 등록 사업소와 같습니다.
+- **💡 비유**: 고속도로(물리적 링크)가 깔리고 톨게이트 요금 정산([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))이 끝났다고 차가 달릴 수 있는 것은 아닙니다. NCP는 각 차량에 <strong>"차량 번호판(IP 주소)"을 발급하고 "내비게이션 경로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)"를 세팅</strong>해 주어 차가 올바르게 주행할 수 있게 해주는 차량 등록 사업소와 같습니다.
 
-```text
-[LCP]
-    │
-    ▼
-[NCP]
-    │
-    └──▶ [PAP]
-```
 
-- **📢 섹션 요약 비유**: ** NCP는 아파트 입주 시 계약([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/))을 마친 후, 실제로 전구에 불이 들어오게 하려고 **"전기/수도/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(IP, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 개통하는 마지막 행정 절차"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LCP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> NCP는 아파트 입주 시 계약(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a>)을 마친 후, 실제로 전구에 불이 들어오게 하려고 </strong>"전기/수도/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(IP, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 개통하는 마지막 행정 절차"**입니다.
 
 ---
 
@@ -42,14 +46,18 @@ tags = ["studynote-network"]
 
 NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 축라는 관점에서 이해해야 한다. LCP와 [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[LCP]
-    │
-    ▼
-[NCP]
-    │
-    └──▶ [PAP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LCP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,38 +66,37 @@ NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 
 ## Ⅲ. 비교 및 연결
 
 [PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) 연결은 크게 세 단계를 거친다.
-1. **[LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) ([Link Control Protocol](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/))**: 링크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), MTU 협상, 루프백 탐지.
-2. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단계 (선택)**: [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/), [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) 등을 통한 사용자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-3. **NCP (Network Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (IP 주소 등 할당). 이 단계가 성공해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램이 교환된다.
+1. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">Link Control Protocol</a>)</strong>: 링크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), MTU 협상, 루프백 탐지.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 단계 (선택)</strong>: [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/), [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) 등을 통한 사용자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+3. <strong>NCP (Network Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (IP 주소 등 할당). 이 단계가 성공해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램이 교환된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                     PPP 연결 상태 천이도                    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [Dead] ────(물리적 연결)───▶ [Establish]                  │
- │                                    │  (LCP 협상 진행)       │
- │                                    ▼                        │
- │  ┌─────────────── [Authenticate] ◀─┘                        │
- │  │ (인증 실패)        │                                     │
- │  ▼                    ▼ (인증 성공 또는 인증 없음)          │
- │ [Terminate] ◀────── [Network]  (NCP 협상 진행)              │
- │                       │                                     │
- │                       ▼ (IPCP 등 NCP 설정 완료)             │
- │                     [Open]  ◀─── 실제 IP 데이터 전송 상태!  │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPP 연결 상태 천이도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dead</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Establish</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LCP 협상 진행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Authenticate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ (인증 성공 또는 인증 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Terminate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-note">(NCP 협상 진행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (IPCP 등 NCP 설정 완료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Open</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">실제 IP 데이터 전송 상태!</div></div>
+</div>
+</div>
+
+
 
 ### 2. IPCP (IP Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 동작 방식
 가장 대표적인 NCP인 IPCP(RFC 1332)의 주요 기능은 다음과 같다.
 - **IP 주소 할당**: 다이얼업이나 PPPoE 연결 시 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 서버가 클라이언트에게 동적 IP를 부여한다.
-- **헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 협상**: Van Jacobson [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 등을 사용할지 협상하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 높인다.
+- <strong>헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 협상</strong>: Van Jacobson [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 등을 사용할지 협상하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 높인다.
 
 ### 3. 멀티프로토콜 지원 ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))
 NCP 덕분에 PPP는 하나의 시리얼 라인 위에서 IP, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), IPX [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램을 섞어서 전송할 수 있다. 프레임의 `Protocol` 필드를 통해 수신 측이 이를 식별한다. (예: 0x8021은 IPCP, 0x0021은 IP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
 
-- **📢 섹션 요약 비유**: ** NCP는 만능 어댑터입니다. 하나의 수도관([PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/))을 통해 수돗물([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)), 정수기 물([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)), 온수(IPX) 등 다양한 액체를 문제없이 동시에 흘려보낼 수 있도록 **"각 액체에 맞는 전용 밸브(IPCP, IPv6CP)를 달아주는 역할"**을 합니다.
+- **📢 섹션 요약 비유**: <strong> NCP는 만능 어댑터입니다. 하나의 수도관(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/">PPP</a>)을 통해 수돗물(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>), 정수기 물(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>), 온수(IPX) 등 다양한 액체를 문제없이 동시에 흘려보낼 수 있도록 </strong>"각 액체에 맞는 전용 밸브(IPCP, IPv6CP)를 달아주는 역할"**을 합니다.
 
 ---
 
@@ -131,15 +138,19 @@ NCP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LCP]
-    │
-    ▼
-[현재 개념: NCP]
-    │
-    ├──▶ [확장 A: PAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LCP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 NCP는 LCP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

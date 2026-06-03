@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-메모리 스크러빙 (Memory Scrubbing)은 CPU가 당장 접근하지 않는 메모리 영역까지 백그라운드에서 순회하며 읽고, 오류가 있으면 ECC로 수정한 뒤 깨끗한 값으로 다시 써 넣는 관리 절차다. 핵심은 "필요할 때 고친다"가 아니라 **필요해지기 전에 고친다**는 점이다.
+메모리 스크러빙 (Memory Scrubbing)은 CPU가 당장 접근하지 않는 메모리 영역까지 백그라운드에서 순회하며 읽고, 오류가 있으면 ECC로 수정한 뒤 깨끗한 값으로 다시 써 넣는 관리 절차다. 핵심은 "필요할 때 고친다"가 아니라 <strong>필요해지기 전에 고친다</strong>는 점이다.
 
 이 기법이 필요한 이유는 메모리 오류가 발견되는 순간보다, 발견되기 전 누적되는 시간이 더 위험하기 때문이다. SECDED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)) 수준의 메모리는 1비트 오류를 고칠 수 있지만, 같은 워드에 두 번째 오류가 쌓이면 더 이상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하지 못한다. 특히 자주 읽히지 않는 cold page나 장시간 상주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 오류가 숨어 있어도 운영체제가 모른 채 지나가기 쉽다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 스크러빙은 보통 메모리 컨트롤러 내부의 저우선순위 엔진으로 구현된다. 이 엔진은 주소를 순회하며 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 라인을 읽고, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 결과에 따라 아무 일 없이 넘어가거나, 정정 가능한 오류를 수정해 write-back을 수행하거나, 정정 불가 오류를 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 격리 정책으로 넘긴다. 중요한 점은 이 과정이 애플리케이션의 정상 메모리 트래픽을 과도하게 방해하지 않도록 **속도 제한(throttling)** 과 **우선순위 조절**을 함께 사용한다는 것이다.
+메모리 스크러빙은 보통 메모리 컨트롤러 내부의 저우선순위 엔진으로 구현된다. 이 엔진은 주소를 순회하며 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 라인을 읽고, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 결과에 따라 아무 일 없이 넘어가거나, 정정 가능한 오류를 수정해 write-back을 수행하거나, 정정 불가 오류를 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 격리 정책으로 넘긴다. 중요한 점은 이 과정이 애플리케이션의 정상 메모리 트래픽을 과도하게 방해하지 않도록 **속도 제한(throttling)** 과 <strong>우선순위 조절</strong>을 함께 사용한다는 것이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -43,23 +43,24 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 스크러빙이 단순 read loop가 아니라, "순회-판정-[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)-기록"으로 이어지는 관리 루프임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Scrubbing loop: scan memory, repair correctable faults, record bad spots  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Timer/Credit] -> [Address Walker] -> [Read DRAM line] -> [ECC Decode]    │
-│                                                            │               │
-│                      no error ----------------------------->│ advance       │
-│                      correctable error -> [Write Back] ----┤               │
-│                      uncorrectable error -> [Log/Alert] ---┘               │
-│                                                                            │
-│ Low priority rule: application traffic > scrub traffic                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-운용 방식은 크게 두 가지다. 패트롤 스크러빙 (Patrol Scrubbing)은 유휴 시간에 메모리 전체를 일정 주기로 순회하고, 디맨드 스크러빙 (Demand Scrubbing)은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 발견된 correctable error를 즉시 write-back으로 치유한다. 전자는 **보이지 않는 오류를 찾는 능력**이 강하고, 후자는 **자주 쓰이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 즉시성**이 좋기 때문에 실무에서는 둘을 함께 쓰는 경우가 많다.
 
-또 하나의 원리는 스크러빙 주기를 소프트 에러율과 연결해 잡아야 한다는 점이다. 너무 길면 latent error가 누적되고, 너무 짧으면 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전력을 의미 없이 소모한다. 결국 핵심은 "전체 메모리를 얼마나 빨리 다 훑는가"보다, **다음 오류가 겹치기 전에 먼저 방문할 수 있는가**다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scrubbing loop: scan memory, repair correctable faults, record bad spots</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Timer/Credit</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Address Walker</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Read DRAM line</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ECC Decode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no error -----------------------------&gt;</div><div class="kb-diagram-cell">advance</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Write Back</div><div class="kb-diagram-note">----</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Log/Alert</div><div class="kb-diagram-note">---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low priority rule: application traffic &gt; scrub traffic</div></div>
+</div>
+</div>
+
+
+
+운용 방식은 크게 두 가지다. 패트롤 스크러빙 (Patrol Scrubbing)은 유휴 시간에 메모리 전체를 일정 주기로 순회하고, 디맨드 스크러빙 (Demand Scrubbing)은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 발견된 correctable error를 즉시 write-back으로 치유한다. 전자는 <strong>보이지 않는 오류를 찾는 능력</strong>이 강하고, 후자는 <strong>자주 쓰이는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 즉시성</strong>이 좋기 때문에 실무에서는 둘을 함께 쓰는 경우가 많다.
+
+또 하나의 원리는 스크러빙 주기를 소프트 에러율과 연결해 잡아야 한다는 점이다. 너무 길면 latent error가 누적되고, 너무 짧으면 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전력을 의미 없이 소모한다. 결국 핵심은 "전체 메모리를 얼마나 빨리 다 훑는가"보다, <strong>다음 오류가 겹치기 전에 먼저 방문할 수 있는가</strong>다.
 
 - **📢 섹션 요약 비유**: 스크러빙 엔진은 야간 순찰차와 같다. 평소에는 조용히 돌아다니다가, 깨진 가로등을 보면 바로 교체하고 기록까지 남긴다.
 
@@ -79,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 이 비교가 중요한 이유는 스크러빙이 만능이 아니기 때문이다. 반복적으로 같은 주소에서 correctable error가 난다면 이는 소프트 에러가 아니라 hard error 전조일 수 있으므로, 단순 스크러빙만으로는 해결되지 않는다. 이때는 MCA ([Machine Check Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/717_memory_mca/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), MCE (Machine Check Exception), [EDAC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/718_edac/) ([Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/) and Correction) 통계를 통해 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 은퇴나 DIMM (Dual In-line Memory [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 교체까지 이어져야 한다.
 
-또한 스크러빙은 메인 메모리에만 해당하지 않는다. 우주·항공·네트워크 장비에서는 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 캐시, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)) 구성 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 스크러빙 대상이 된다. 즉 이 개념은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 관리 기법을 넘어, **상태를 오래 들고 있는 모든 저장 자원에 대한 예방 순찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 확장된다.
+또한 스크러빙은 메인 메모리에만 해당하지 않는다. 우주·항공·네트워크 장비에서는 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 캐시, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)) 구성 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 스크러빙 대상이 된다. 즉 이 개념은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 관리 기법을 넘어, <strong>상태를 오래 들고 있는 모든 저장 자원에 대한 예방 순찰 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 확장된다.
 
 - **📢 섹션 요약 비유**: ECC가 응급 처치 상자라면, 메모리 스크러빙은 그 상자를 들고 건물 전체를 정기 순찰하는 보건팀과 같다.
 
@@ -113,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 메모리 스크러빙이 잘 작동하면 correctable error가 latent state로 오래 남지 않아, uncorrectable error와 예기치 않은 시스템 다운 가능성을 크게 줄일 수 있다. 이 효과는 대규모 서버, 장시간 실행되는 과학 계산, 무정지 장비에서 특히 크다. 한 번의 대형 장애 비용을 생각하면, 백그라운드로 소모되는 소량의 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 매우 작은 투자다.
 
-물론 모든 문제를 해결하지는 못한다. 반복되는 하드 결함은 결국 교체나 격리가 필요하고, 메모리 용량이 계속 커지면 전 영역 순회의 비용도 무시하기 어렵다. 그래서 앞으로는 오류 이력 기반의 적응형 스크러빙, 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우선 순회, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 풀에 맞춘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스크러빙이 더 중요해질 것이다. 기억해야 할 핵심은 하나다. 메모리 스크러빙은 **오류를 기다렸다가 고치는 기술이 아니라, 오류가 커지지 못하게 만드는 예방 순찰 기술**이다.
+물론 모든 문제를 해결하지는 못한다. 반복되는 하드 결함은 결국 교체나 격리가 필요하고, 메모리 용량이 계속 커지면 전 영역 순회의 비용도 무시하기 어렵다. 그래서 앞으로는 오류 이력 기반의 적응형 스크러빙, 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우선 순회, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 풀에 맞춘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스크러빙이 더 중요해질 것이다. 기억해야 할 핵심은 하나다. 메모리 스크러빙은 <strong>오류를 기다렸다가 고치는 기술이 아니라, 오류가 커지지 못하게 만드는 예방 순찰 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 메모리 스크러빙은 낡은 건물의 균열을 매일 점검해 큰 붕괴로 번지기 전에 메우는 유지보수와 같다.
 
@@ -132,21 +133,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ECC 기반 단발성 오류 정정
-        │
-        ▼
-Demand Scrubbing
-        │
-        ▼
-Patrol Scrubbing · 메모리 컨트롤러 순회
-        │
-        ▼
-Page Retirement · Spare Rank · RAS 운영
-        │
-        ▼
-적응형 스크러빙 · CXL 메모리 풀 신뢰성 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ECC 기반 단발성 오류 정정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Demand Scrubbing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Patrol Scrubbing · 메모리 컨트롤러 순회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Page Retirement · Spare Rank · RAS 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 스크러빙 · CXL 메모리 풀 신뢰성 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "읽을 때만 고치는 방식"에서 출발해, 지금은 오류 이력과 시스템 토폴로지까지 반영하는 능동형 메모리 관리로 발전하고 있음을 보여 준다.
 

@@ -112,37 +112,37 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) → 정형화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-비정형 데이터 정형화 프로세스:
 
-[원천 데이터]
-    비정형 (이메일, PDF, 이미지)
-         |
-         v
-[전처리 (Preprocessing)]
-    OCR, 음성 인식, 크롤링
-    텍스트 정제 (노이즈 제거)
-         |
-         v
-[특징 추출 (Feature Extraction)]
-    NLP: 키워드, 감성, 개체명
-    CV: 특징 벡터, 객체 좌표
-         |
-         v
-[구조화 (Structuring)]
-    추출된 특징 -> 테이블/JSON 변환
-    메타데이터 생성
-         |
-         v
-[저장 및 분석]
-    데이터 웨어하우스 / 데이터 레이크
-    BI 도구, ML 모델 입력
 
-예시:
-  보험 청구서(PDF) -> OCR -> 텍스트 추출
-  -> NLP 정보 추출 (사고 유형, 금액, 날짜)
-  -> 정형 데이터 -> 청구 분류 모델 입력
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정형 데이터 정형화 프로세스:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원천 데이터</div></div>
+<div class="kb-diagram-note">비정형 (이메일, PDF, 이미지)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 (Preprocessing)</div></div>
+<div class="kb-diagram-note">OCR, 음성 인식, 크롤링</div>
+<div class="kb-diagram-note">텍스트 정제 (노이즈 제거)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">특징 추출 (Feature Extraction)</div></div>
+<div class="kb-diagram-note">NLP: 키워드, 감성, 개체명</div>
+<div class="kb-diagram-note">CV: 특징 벡터, 객체 좌표</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구조화 (Structuring)</div></div>
+<div class="kb-diagram-note">추출된 특징 -&gt; 테이블/JSON 변환</div>
+<div class="kb-diagram-note">메타데이터 생성</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저장 및 분석</div></div>
+<div class="kb-diagram-note">데이터 웨어하우스 / 데이터 레이크</div>
+<div class="kb-diagram-note">BI 도구, ML 모델 입력</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">보험 청구서(PDF) -&gt; OCR -&gt; 텍스트 추출</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NLP 정보 추출 (사고 유형, 금액, 날짜)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">정형 데이터 -&gt; 청구 분류 모델 입력</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 비정형 정형화는 손으로 쓴 일기를 구조화된 엑셀로 변환하기 — AI가 자동으로 날짜, 감정, 장소를 추출해 표로 만들어준다.
 
@@ -150,39 +150,38 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 실무 시나리오 — 금융 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용
 
-```
-금융사 A의 비정형 데이터 분석 전략:
 
-현황:
-  정형 데이터: 거래 내역, 고객 정보 (20%)
-  비정형 데이터: 상담 메모, 민원 이메일, 
-                계약서, 뉴스, SNS (80%)
-  
-활용 사례:
 
-1. 고객 상담 메모 분석:
-   콜센터 상담 내용 -> STT(음성→텍스트)
-   NLP 감성 분석 -> 이탈 위험 고객 식별
-   -> 선제적 고객 유지 캠페인
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융사 A의 비정형 데이터 분석 전략:</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-note">정형 데이터: 거래 내역, 고객 정보 (20%)</div>
+<div class="kb-diagram-note">비정형 데이터: 상담 메모, 민원 이메일,</div>
+<div class="kb-diagram-note">계약서, 뉴스, SNS (80%)</div>
+<div class="kb-diagram-note">활용 사례:</div>
+<div class="kb-diagram-note">1. 고객 상담 메모 분석:</div>
+<div class="kb-diagram-note">콜센터 상담 내용 -&gt; STT(음성→텍스트)</div>
+<div class="kb-diagram-note">NLP 감성 분석 -&gt; 이탈 위험 고객 식별</div>
+<div class="kb-diagram-tree-item" style="--depth:1">선제적 고객 유지 캠페인</div>
+<div class="kb-diagram-note">2. 계약서 자동 검토:</div>
+<div class="kb-diagram-note">PDF 계약서 -&gt; OCR + NLP</div>
+<div class="kb-diagram-note">이상 조항 탐지, 리스크 키워드 추출</div>
+<div class="kb-diagram-note">법무팀 검토 시간 70% 단축</div>
+<div class="kb-diagram-note">3. 뉴스/SNS 리스크 모니터링:</div>
+<div class="kb-diagram-note">기업 고객 관련 뉴스 실시간 수집</div>
+<div class="kb-diagram-note">부정적 기사 감지 -&gt; 신용 위험 조기 경보</div>
+<div class="kb-diagram-note">4. 공시 문서 분석:</div>
+<div class="kb-diagram-note">DART 공시 자동 파싱</div>
+<div class="kb-diagram-note">재무 지표 추출 + 경영진 발언 감성 분석</div>
+<div class="kb-diagram-note">ROI:</div>
+<div class="kb-diagram-note">다크 데이터 활용 전환 -&gt; 신규 수익원</div>
+<div class="kb-diagram-note">운영 비용 절감 (자동화)</div>
+<div class="kb-diagram-note">리스크 관리 고도화</div>
+</div>
+</div>
 
-2. 계약서 자동 검토:
-   PDF 계약서 -> OCR + NLP
-   이상 조항 탐지, 리스크 키워드 추출
-   법무팀 검토 시간 70% 단축
 
-3. 뉴스/SNS 리스크 모니터링:
-   기업 고객 관련 뉴스 실시간 수집
-   부정적 기사 감지 -> 신용 위험 조기 경보
-
-4. 공시 문서 분석:
-   DART 공시 자동 파싱
-   재무 지표 추출 + 경영진 발언 감성 분석
-
-ROI:
-  다크 데이터 활용 전환 -> 신규 수익원
-  운영 비용 절감 (자동화)
-  리스크 관리 고도화
-```
 
 > 📢 **섹션 요약 비유**: 금융 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용은 창고 정리 후 숨은 보물 발견 — 쌓아둔 상담 메모와 계약서에서 AI로 가치 있는 인사이트를 발굴.
 
@@ -190,23 +189,29 @@ ROI:
 
 ## 📌 관련 개념 맵
 
-```
-데이터 정형화 비율
-+-- 유형
-|   +-- 정형 (~20%): RDBMS, 스프레드시트
-|   +-- 반정형 (~10%): JSON, XML, CSV
-|   +-- 비정형 (~80%): 텍스트, 이미지, 영상
-+-- 비정형 활용 기술
-|   +-- NLP (텍스트)
-|   +-- Computer Vision (이미지/영상)
-|   +-- ASR (음성)
-|   +-- 멀티모달 AI
-+-- 파이프라인
-|   +-- 전처리 -> 특징 추출 -> 구조화
-+-- 과제
-    +-- 다크 데이터 (미활용 데이터)
-    +-- 데이터 활용 성숙도
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 정형화 비율</div>
+<div class="kb-diagram-note">+-- 유형</div>
+<div class="kb-diagram-note">+-- 정형 (~20%): RDBMS, 스프레드시트</div>
+<div class="kb-diagram-note">+-- 반정형 (~10%): JSON, XML, CSV</div>
+<div class="kb-diagram-note">+-- 비정형 (~80%): 텍스트, 이미지, 영상</div>
+<div class="kb-diagram-note">+-- 비정형 활용 기술</div>
+<div class="kb-diagram-note">+-- NLP (텍스트)</div>
+<div class="kb-diagram-note">+-- Computer Vision (이미지/영상)</div>
+<div class="kb-diagram-note">+-- ASR (음성)</div>
+<div class="kb-diagram-note">+-- 멀티모달 AI</div>
+<div class="kb-diagram-note">+-- 파이프라인</div>
+<div class="kb-diagram-note">+-- 전처리 -&gt; 특징 추출 -&gt; 구조화</div>
+<div class="kb-diagram-note">+-- 과제</div>
+<div class="kb-diagram-note">+-- 다크 데이터 (미활용 데이터)</div>
+<div class="kb-diagram-note">+-- 데이터 활용 성숙도</div>
+</div>
+</div>
+
+
 
 ---
 

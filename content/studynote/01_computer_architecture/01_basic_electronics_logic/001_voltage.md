@@ -20,22 +20,23 @@ tags = ["studynote-computer-architecture"]
 
 전압 (Voltage)은 두 지점 사이에 존재하는 전기적 에너지 높이 차이다. [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 "얼마나 흐르는가"를 말한다면, 전압은 "왜 흐르기 시작하는가"를 설명하는 값이다. 컴퓨터에서는 이 전위차가 있어야 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 게이트가 켜지고 꺼지며, 그 결과 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 0과 1로 구분된다.
 
-전압이 중요한 이유는 디지털 회로가 이상적인 추상 세계가 아니라, 잡음과 지연이 존재하는 물리 세계 위에 서 있기 때문이다. 예를 들어 1로 해석되어야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 충분히 높은 전압을 확보하지 못하면 회로는 이를 불안정한 값으로 읽을 수 있다. 즉 전압은 단순한 에너지 공급량이 아니라, **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)답게 읽게 만드는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)**이다.
+전압이 중요한 이유는 디지털 회로가 이상적인 추상 세계가 아니라, 잡음과 지연이 존재하는 물리 세계 위에 서 있기 때문이다. 예를 들어 1로 해석되어야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 충분히 높은 전압을 확보하지 못하면 회로는 이를 불안정한 값으로 읽을 수 있다. 즉 전압은 단순한 에너지 공급량이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>답게 읽게 만드는 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a></strong>이다.
 
 이 그림은 전압이 왜 "차이"의 개념인지, 그리고 왜 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)와 구분해서 봐야 하는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          전압의 본질: 에너지 높이 차가 흐름을 만든다         │
-├──────────────────────────────────────────────────────────────┤
-│  높은 전위 (VDD)                                낮은 전위    │
-│     [ + ] ───────────── 전위차 ─────────────▶ [ - ]         │
-│        │                                              │      │
-│        └──── "밀어주는 기준" = 전압                    │      │
-│                                                       ▼      │
-│                                          실제 흐름 = 전류    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압의 본질: 에너지 높이 차가 흐름을 만든다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">높은 전위</div><div class="kb-diagram-node">VDD</div><div class="kb-diagram-note">낮은 전위</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">+</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">-</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"밀어주는 기준" = 전압</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 흐름 = 전류</div></div>
+</div>
+</div>
+
+
 
 여기서 핵심은 전압과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 같은 것으로 보면 안 된다는 점이다. 전압은 흐름의 원인이고, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 그 결과다. 컴퓨터 아키텍처에서 전압은 더 나아가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 레벨, 센스 앰프 (Sense Amplifier)의 판독 기준, 메모리 셀 보존 여유 같은 설계 판단으로 이어진다.
 
@@ -56,22 +57,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 실제 시스템에서 전압이 전달되는 길과, 어디서 문제가 생기는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│              전압 전달 경로와 설계 병목 지점                  │
-├────────────────────────────────────────────────────────────────┤
-│ PSU ─▶ VRM ─▶ Package ─▶ On-chip Power Grid ─▶ Transistor     │
-│          │         │                │                  │       │
-│          │         │                │                  └─ 스위칭│
-│          │         │                └─ IR Drop / Noise         │
-│          │         └─ 핀/패키지 임피던스                      │
-│          └─ 부하 급변 시 응답 속도                            │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 전달 경로와 설계 병목 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSU ─▶ VRM ─▶ Package ─▶ On-chip Power Grid ─▶ Transistor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스위칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IR Drop / Noise</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 핀/패키지 임피던스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 부하 급변 시 응답 속도</div></div>
+</div>
+</div>
+
+
 
 전압이 아키텍처에서 특히 중요한 이유는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전력이 동시에 걸려 있기 때문이다. [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 대략 `P_dynamic ≈ α x C x V^2 x f`에 비례하므로, 전압을 조금만 높여도 소비전력이 빠르게 증가한다. 반대로 전압을 낮추면 전력은 줄지만 게이트 지연이 늘고, 타이밍 위반 위험이 커진다.
 
-따라서 전압 설계의 핵심은 "높이면 빠르다"가 아니라 **필요한 주파수를 만족하는 최소 전압을 찾는 것**이다. 이 지점에서 클럭, 열, 공정 편차, 부하 변동이 모두 한 문제로 연결된다.
+따라서 전압 설계의 핵심은 "높이면 빠르다"가 아니라 <strong>필요한 주파수를 만족하는 최소 전압을 찾는 것</strong>이다. 이 지점에서 클럭, 열, 공정 편차, 부하 변동이 모두 한 문제로 연결된다.
 
 - **📢 섹션 요약 비유**: 전압 설계는 수도관 압력을 맞추는 일과 같다. 압력이 너무 낮으면 꼭대기 층까지 물이 안 올라가고, 너무 높으면 배관과 요금이 동시에 버거워진다.
 
@@ -99,29 +102,31 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 전압을 개별 숫자로 보기보다 **전압 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (Voltage [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))** 과 **운영 시나리오**로 판단한다. 예를 들어 CPU 코어, 메모리 인터페이스, Always-On 블록은 요구 조건이 다르므로 같은 전압을 주는 것이 오히려 비효율적일 수 있다. 그래서 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))는 블록별로 다른 전압을 쓰고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계에는 레벨 시프터 (Level Shifter)를 둔다.
+실무에서는 전압을 개별 숫자로 보기보다 <strong>전압 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (Voltage <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong> 과 <strong>운영 시나리오</strong>로 판단한다. 예를 들어 CPU 코어, 메모리 인터페이스, Always-On 블록은 요구 조건이 다르므로 같은 전압을 주는 것이 오히려 비효율적일 수 있다. 그래서 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))는 블록별로 다른 전압을 쓰고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계에는 레벨 시프터 (Level Shifter)를 둔다.
 
 이 그림은 전압 관련 의사결정이 어떤 순서로 이뤄져야 하는지를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            전압 판단 흐름: 성능보다 먼저 조건 확인           │
-├──────────────────────────────────────────────────────────────┤
-│ 목표 주파수 충족 필요?                                       │
-│   ├─ 예 ─▶ 현재 전압에서 타이밍 여유 충분한가?              │
-│   │          ├─ 예 ─▶ 전압 유지                              │
-│   │          └─ 아니오 ─▶ 전압 상향 또는 경로 최적화         │
-│   └─ 아니오 ─▶ 전압/주파수 하향으로 전력 절감                │
-│                                                              │
-│ 추가 확인: 열 한계, IR Drop, 도메인 경계, 레벨 시프터       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 판단 흐름: 성능보다 먼저 조건 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 주파수 충족 필요?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ 현재 전압에서 타이밍 여유 충분한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ 전압 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 전압 상향 또는 경로 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 전압/주파수 하향으로 전력 절감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 확인: 열 한계, IR Drop, 도메인 경계, 레벨 시프터</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
 
 1. **전압 상향은 최후 수단인가**  
    타이밍이 안 맞을 때 무조건 전압부터 올리면 전력과 열 문제가 커진다. 먼저 경로 최적화, 파이프라이닝, 클럭 조정을 검토해야 한다.
-2. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리가 필요한가**  
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리가 필요한가</strong>  
    [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 메모리 PHY처럼 특성이 다른 블록을 단일 전압으로 묶으면 불필요한 전력 낭비가 생긴다.
 3. **저전압 리스크를 검증했는가**  
    Undervolting은 전력 절감에 유리하지만, 부하 급변 시 전압 강하와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류를 일으킬 수 있으므로 워크로드 기반 검증이 필수다.
@@ -142,7 +147,7 @@ tags = ["studynote-computer-architecture"]
 
 반대로 전압은 낮추기만 하면 좋은 값도 아니다. 너무 낮으면 문턱 전압 근처에서 지연이 커지고, 보존 실패, 센싱 오류, 재현 어려운 간헐 장애가 나타날 수 있다. 그래서 현대 시스템은 정적 고정 전압보다 적응형 전압 제어, 파워 게이팅, 세밀한 센서 피드백 구조로 이동하고 있다.
 
-정리하면 전압은 "전기를 넣는 수치"가 아니라 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 전력, 안정성을 동시에 조절하는 시스템 레버**다. 컴퓨터구조에서 전압을 이해한다는 것은 회로를 움직이는 힘뿐 아니라, 그 힘을 어디까지 허용해야 하는지 판단하는 기준을 이해한다는 뜻이다.
+정리하면 전압은 "전기를 넣는 수치"가 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>, 전력, 안정성을 동시에 조절하는 시스템 레버</strong>다. 컴퓨터구조에서 전압을 이해한다는 것은 회로를 움직이는 힘뿐 아니라, 그 힘을 어디까지 허용해야 하는지 판단하는 기준을 이해한다는 뜻이다.
 
 - **📢 섹션 요약 비유**: 전압은 악셀 페달과 같다. 밟으면 속도는 나지만, 노면 상태와 엔진 온도를 보지 않고 계속 밟으면 결국 차 전체가 버티지 못한다.
 
@@ -159,18 +164,21 @@ tags = ["studynote-computer-architecture"]
 | [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic Voltage and Frequency Scaling) | 전압과 주파수를 함께 조절해 전력/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형을 맞추는 기법 |
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전류 (Current)]
-    │
-    ▼
-[저항 (Resistance)]
-    │
-    ▼
-[클럭 (Clock)]
-    │
-    ▼
-[VRM (Voltage Regulator Module)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전류 (Current)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저항 (Resistance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클럭 (Clock)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VRM (Voltage Regulator Module)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

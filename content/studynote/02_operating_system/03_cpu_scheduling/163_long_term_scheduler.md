@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 시스템에 들어오려는 작업들 중 일부만 골라 메모리에 적재하고 Ready 상태의 프로세스로 만드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기능이다. [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 정한다면, 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 그보다 앞단에서 "애초에 지금 시스템 안으로 누구를 들여보낼까"를 결정한다. 즉 관심 대상은 CPU 시간보다 **시스템 전체 수용량**이다.
+장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 시스템에 들어오려는 작업들 중 일부만 골라 메모리에 적재하고 Ready 상태의 프로세스로 만드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기능이다. [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 정한다면, 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 그보다 앞단에서 "애초에 지금 시스템 안으로 누구를 들여보낼까"를 결정한다. 즉 관심 대상은 CPU 시간보다 <strong>시스템 전체 수용량</strong>이다.
 
 이 개념이 중요해진 배경은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 배치 시스템의 자원 제약 때문이다. 작업은 디스크의 작업 큐에 많이 쌓여 있었지만, 주기억장치는 작고 I/O 장치도 느렸기 때문에 모든 작업을 한꺼번에 올릴 수 없었다. CPU 바운드 작업만 가득 들이면 디스크와 터미널이 놀고, I/O 바운드 작업만 들이면 CPU가 놀기 때문에, 적절한 혼합을 유지할 문지기가 필요했다.
 
@@ -44,25 +44,26 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 위치를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   long-term scheduling admission flow                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Disk Job Pool                                                              │
-│ [J1][J2][J3][J4][J5]                                                       │
-│        │                                                                   │
-│        ├── check memory capacity                                           │
-│        ├── check CPU-bound / I/O-bound mix                                 │
-│        └── check policy / priority                                         │
-│                ▼                                                           │
-│         Long-term Scheduler                                                │
-│                ▼ admit                                                     │
-│       Ready Queue in Main Memory                                           │
-│      [P1][P3][P4] ──▶ Short-term Scheduler ──▶ CPU                         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 단순히 빈자리가 생길 때 하나 채우는 것이 아니다. 시스템 안에 이미 CPU 바운드 작업이 많다면 다음에는 I/O 바운드 작업을 선택해 CPU와 장치가 번갈아 바쁘게 돌아가도록 만드는 것이 더 유리할 수 있다. 그래서 장기 스케줄링은 공정성보다도 **적절한 작업 조합을 설계하는 문제**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long-term scheduling admission flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk Job Pool</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">J1</div><div class="kb-diagram-node">J2</div><div class="kb-diagram-node">J3</div><div class="kb-diagram-node">J4</div><div class="kb-diagram-node">J5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check memory capacity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check CPU-bound / I/O-bound mix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check policy / priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long-term Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ admit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Queue in Main Memory</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Short-term Scheduler ──▶ CPU</div></div>
+</div>
+</div>
+
+
+
+핵심은 단순히 빈자리가 생길 때 하나 채우는 것이 아니다. 시스템 안에 이미 CPU 바운드 작업이 많다면 다음에는 I/O 바운드 작업을 선택해 CPU와 장치가 번갈아 바쁘게 돌아가도록 만드는 것이 더 유리할 수 있다. 그래서 장기 스케줄링은 공정성보다도 <strong>적절한 작업 조합을 설계하는 문제</strong>에 가깝다.
 
 이때 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)는 메모리에 상주하는 프로세스 수와 거의 같은 의미로 쓰인다. 너무 낮으면 CPU가 놀고, 너무 높으면 각 프로세스가 충분한 메모리를 확보하지 못해 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)으로 이어질 수 있다. 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 수치를 앞단에서 완만하게 조절하는 역할을 한다.
 
@@ -100,7 +101,7 @@ tags = ["studynote-operating-system"]
 1. **현재 환경이 배치 중심인가, 상호작용 중심인가?** 상호작용 중심이면 과도한 입장 지연은 사용자 경험을 해친다.
 2. **메모리와 장치 자원이 충분한가?** 부족하면 무제한 진입보다 입장 통제가 낫다.
 3. **작업의 성격이 크게 다른가?** CPU 바운드와 I/O 바운드 혼합이 중요하다.
-4. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부가 아니라 상위 플랫폼에서 같은 역할을 수행하고 있지는 않은가?** 클러스터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 배치 큐, admission control을 함께 본다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부가 아니라 상위 플랫폼에서 같은 역할을 수행하고 있지는 않은가?</strong> 클러스터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 배치 큐, admission control을 함께 본다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -114,7 +115,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-장기 스케줄링이 잘 되면 시스템은 감당 가능한 수준의 작업만 받아들이면서도 CPU와 I/O 장치를 균형 있게 활용할 수 있다. 그 결과 처리량과 자원 이용률이 올라가고, 과부하로 인한 급격한 품질 저하를 피하기 쉬워진다. 즉 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 효과는 개별 프로세스 가속보다 **전체 시스템 안정화**에 있다.
+장기 스케줄링이 잘 되면 시스템은 감당 가능한 수준의 작업만 받아들이면서도 CPU와 I/O 장치를 균형 있게 활용할 수 있다. 그 결과 처리량과 자원 이용률이 올라가고, 과부하로 인한 급격한 품질 저하를 피하기 쉬워진다. 즉 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 효과는 개별 프로세스 가속보다 <strong>전체 시스템 안정화</strong>에 있다.
 
 하지만 오늘날 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 응답성, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), 동적 자원 회수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 강해지면서 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 전통적 모습은 많이 희미해졌다. 따라서 이 주제는 "현재 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 항상 보이는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)"이 아니라, "작업 진입량을 조절해 시스템 수용량을 관리하는 철학"으로 기억하는 것이 맞다.
 
@@ -133,21 +134,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배치 시스템의 Job Pool
-        │
-        ▼
-장기 스케줄러의 입장 통제
-        │
-        ▼
-다중 프로그래밍 정도 · CPU/I/O mix 최적화
-        │
-        ▼
-가상 메모리 · 시분할 시스템으로 역할 축소
-        │
-        ▼
-HPC / 클러스터 workload admission으로 철학 계승
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 시스템의 Job Pool</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장기 스케줄러의 입장 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 프로그래밍 정도 · CPU/I/O mix 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 메모리 · 시분할 시스템으로 역할 축소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HPC / 클러스터 workload admission으로 철학 계승</div>
+</div>
+</div>
+
+
 
 이 흐름은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 메인프레임 배치 환경에서 출발해, 현대에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부보다 클러스터와 플랫폼의 입장 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 재해석되고 있음을 보여 준다.
 

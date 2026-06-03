@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-멀티스레딩의 핵심은 **무엇을 공유하고, 무엇을 각자 갖는가**에 있다. 같은 프로세스의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), 전역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙 메모리를 공유하지만, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 각자 독립적으로 가진다. 이 구조 덕분에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협업은 빠르지만, 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 동시 접근은 곧바로 경쟁 조건으로 이어질 수 있다.
+멀티스레딩의 핵심은 <strong>무엇을 공유하고, 무엇을 각자 갖는가</strong>에 있다. 같은 프로세스의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), 전역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙 메모리를 공유하지만, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 각자 독립적으로 가진다. 이 구조 덕분에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협업은 빠르지만, 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 동시 접근은 곧바로 경쟁 조건으로 이어질 수 있다.
 
 | 구성 요소 | 공유 여부 | 의미 | 설계상 중요점 |
 | :-- | :-- | :-- | :-- |
@@ -43,25 +43,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 멀티스레딩에서 공유 영역과 개별 영역이 어떻게 나뉘는지, 그리고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이를 어떻게 코어에 배치하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         One Process with Multiple Threads: shared + private         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Shared within process                                               │
-│   Code  │  Global Data  │  Heap  │  Open Files                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Thread A            │ Thread B            │ Thread C                │
-│ PC / Registers      │ PC / Registers      │ PC / Registers          │
-│ Stack               │ Stack               │ Stack                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ OS Scheduler  ─────────▶  Core 0 / Core 1 / Core 2 로 배치          │
-│                       └▶  단일 코어면 시간 분할(Time Slicing) 수행   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One Process with Multiple Threads: shared + private</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared within process</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Global Data</div><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">Open Files</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A</div><div class="kb-diagram-cell">Thread B</div><div class="kb-diagram-cell">Thread C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC / Registers</div><div class="kb-diagram-cell">PC / Registers</div><div class="kb-diagram-cell">PC / Registers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Scheduler ▶ Core 0 / Core 1 / Core 2 로 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단일 코어면 시간 분할(Time Slicing) 수행</div></div>
+</div>
+</div>
+
+
 
 단일 코어에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 실제로 동시에 실행되지 않더라도 시간 분할 (Time Slicing)을 통해 번갈아 실행되므로 사용자에게는 동시성처럼 보인다. 멀티코어에서는 서로 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 코어에서 실제 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행될 수 있어 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상 효과가 커진다. 그러나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 코어 수보다 지나치게 많아지면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 늘고, 같은 캐시 라인을 두고 경쟁하는 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 같은 미세 병목도 드러난다.
 
-따라서 멀티스레딩의 원리는 단순히 "여러 개 돌린다"가 아니라, **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 협업 + [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 배치 + [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 제어**의 결합으로 이해해야 한다. 같은 주소 공간을 나눠 쓰는 덕분에 빠르지만, 바로 그 공유성 때문에 설계 품질이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성을 동시에 좌우한다.
+따라서 멀티스레딩의 원리는 단순히 "여러 개 돌린다"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> 기반 협업 + <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 배치 + <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 제어</strong>의 결합으로 이해해야 한다. 같은 주소 공간을 나눠 쓰는 덕분에 빠르지만, 바로 그 공유성 때문에 설계 품질이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성을 동시에 좌우한다.
 
 - **📢 섹션 요약 비유**: 큰 사무실의 공용 서류함은 모두가 함께 쓰면 빠르지만, 각자 책상과 메모장은 따로 있어야 일이 꼬이지 않는다. 멀티스레딩은 공용 창고와 개인 작업대를 함께 설계하는 일이다.
 
@@ -116,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 기대효과는 항상 조건부다. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간이 큰 프로그램은 암달의 법칙 (Amdahl's Law) 때문에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 늘려도 속도 향상이 제한되고, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 과하면 멀티스레딩이 사실상 순차 실행처럼 변한다. 또한 멀티소켓 또는 비균일 메모리 접근 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 환경에서는 메모리 배치가 잘못될 경우 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성보다 원격 메모리 접근 지연이 더 큰 비용이 되기도 한다.
 
-앞으로의 흐름은 단순한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 증가보다, 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 기반 런타임, 정교한 스케줄링, 하드웨어 원자 연산과의 결합으로 이동하고 있다. 따라서 멀티스레딩은 "여러 일을 동시에 한다"는 표면적 정의보다, **공유 자원을 통제 가능한 비용 안에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성으로 바꾸는 실행 구조**로 기억하는 것이 정확하다.
+앞으로의 흐름은 단순한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 증가보다, 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 기반 런타임, 정교한 스케줄링, 하드웨어 원자 연산과의 결합으로 이동하고 있다. 따라서 멀티스레딩은 "여러 일을 동시에 한다"는 표면적 정의보다, <strong>공유 자원을 통제 가능한 비용 안에서 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성으로 바꾸는 실행 구조</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 멀티스레딩은 같은 악보를 여러 연주자가 나눠 연주하는 합주와 같다. 연주자가 많다고 무조건 좋은 것이 아니라, 박자와 역할 분담이 맞을 때만 음악이 커지고 풍성해진다.
 
@@ -134,21 +135,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 실행 흐름
-      │
-      ▼
-프로세스 기반 분리
-      │
-      ▼
-멀티스레딩 (Multithreading)
-      │
-      ├──▶ 스레드 풀 (Thread Pool)
-      ├──▶ 동기화 (Mutex / Semaphore / Atomic Operation)
-      ├──▶ 거짓 공유 (False Sharing) 대응
-      ▼
-멀티코어 · SMT · 가상 스레드로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 실행 흐름</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 기반 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티스레딩 (Multithreading)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 스레드 풀 (Thread Pool)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 동기화 (Mutex / Semaphore / Atomic Operation)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 거짓 공유 (False Sharing) 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 · SMT · 가상 스레드로 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

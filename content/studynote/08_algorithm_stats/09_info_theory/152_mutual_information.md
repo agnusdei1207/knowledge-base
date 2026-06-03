@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-두 확률변수 X, Y가 **얼마나 서로 의존하는지**를 정량화하는 척도가 **상호 정보량 (Mutual Information, MI)** 이다.
+두 확률변수 X, Y가 <strong>얼마나 서로 의존하는지</strong>를 정량화하는 척도가 **상호 정보량 (Mutual Information, MI)** 이다.
 
 ```
 I(X;Y) = H(X) - H(X|Y)
@@ -50,19 +50,18 @@ I(X;Y) = H(X) - H(X|Y)
 
 ### [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 벤 다이어그램
 
-```
-     ┌──────────────────────────────────┐
-     │            H(X,Y)                │
-     │  ┌───────────────┐               │
-     │  │    H(X)       │               │
-     │  │  ┌────────────┼────────┐      │
-     │  │  │  I(X;Y)   │ H(Y)   │      │
-     │  │  │            │        │      │
-     │  │H(X|Y)        │H(Y|X)  │      │
-     │  │  └────────────┼────────┘      │
-     │  └───────────────┘               │
-     └──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X,Y)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I(X;Y)</div><div class="kb-diagram-cell">H(Y)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X</div><div class="kb-diagram-cell">Y)</div><div class="kb-diagram-cell">H(Y</div><div class="kb-diagram-cell">X)</div></div>
+</div>
+</div>
+
+
 
 - **I(X;Y)**: X와 Y 원의 교집합 (공유 정보)
 - **H(X|Y)**: X 원에서 교집합을 뺀 부분 (Y를 알고도 남은 X의 불확실성)
@@ -70,7 +69,7 @@ I(X;Y) = H(X) - H(X|Y)
 
 ### [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)과의 연결
 
-**[채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) ([Channel Capacity](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/))** C는 입력 분포 P(X)를 최적화하여 얻는 최대 상호 정보량:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">Channel Capacity</a>)</strong> C는 입력 분포 P(X)를 최적화하여 얻는 최대 상호 정보량:
 
 ```
 C = max_{P(X)} I(X;Y)   [bits/channel use]
@@ -94,7 +93,7 @@ Z가 주어졌을 때 Y가 X에 대해 추가로 제공하는 정보량.
 
 ### [NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) (Normalized Mutual Information) — 클러스터링 평가
 
-MI는 클러스터 수가 많아지면 인위적으로 커지므로, **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 상호 정보량 ([NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/), Normalized Mutual Information)** 을 사용:
+MI는 클러스터 수가 많아지면 인위적으로 커지므로, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 상호 정보량 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/">NMI</a>, Normalized Mutual Information)</strong> 을 사용:
 
 ```
 NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
@@ -118,7 +117,7 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 ### 특성 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 에서의 활용
 
 - **MRMR (Minimum Redundancy Maximum Relevance)**: 타깃과의 MI 최대화 + 특성 간 MI 최소화
-- **Relief** 계열, **HSIC (Hilbert-Schmidt [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) Criterion)** 의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) MI 확장
+- **Relief** 계열, <strong>HSIC (Hilbert-Schmidt <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> Criterion)</strong> 의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) MI 확장
 
 📢 **섹션 요약 비유**: 상호 정보량은 "비선형 형사"다 — 선형 상관계수가 놓치는 복잡한 연관관계도 잡아낸다, 마치 단순한 목격자 진술 외에 행동 패턴까지 분석하는 것처럼.
 
@@ -128,22 +127,24 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 
 ### [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특성 선택 파이프라인
 
-```
-원시 특성
-    │
-    ▼
-I(특성ᵢ ; 타깃 Y) 계산
-    │
-    ▼
-높은 MI 특성 선택        중복 특성 제거
-(relevance ↑)    ───►   (redundancy ↓)
-    │
-    ▼
-MRMR 선택된 특성 부분집합
-    │
-    ▼
-모델 학습
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원시 특성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">I(특성ᵢ ; 타깃 Y) 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">높은 MI 특성 선택 중복 특성 제거</div>
+<div class="kb-diagram-note">(relevance ↑) ► (redundancy ↓)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MRMR 선택된 특성 부분집합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 학습</div>
+</div>
+</div>
+
+
 
 ### 실무 시나리오: 고객 이탈 예측
 
@@ -168,14 +169,14 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 ## Ⅴ. 기대효과 및 결론
 
-상호 정보량은 **분포 간 의존성의 가장 범용적인 척도**다. 선형 회귀의 피어슨 상관계수가 한계에 부딪힐 때, MI는 비선형·비단조 의존성을 모두 포착한다.
+상호 정보량은 <strong>분포 간 의존성의 가장 범용적인 척도</strong>다. 선형 회귀의 피어슨 상관계수가 한계에 부딪힐 때, MI는 비선형·비단조 의존성을 모두 포착한다.
 
 실무적으로 중요한 세 축:
-1. **[채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)**: I(X;Y)를 최대화하면 최적 통신 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a></strong>: I(X;Y)를 최대화하면 최적 통신 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출
 2. **특성 선택**: 높은 MI 특성 → 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) vs 복잡도 균형
 3. **클러스터링 평가**: NMI로 레이블 없는 평가 가능
 
-양자 정보이론에서는 **양자 상호 정보량 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Mutual Information)** 이 고전 MI의 대응물로, [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) 측정에 활용된다.
+양자 정보이론에서는 <strong>양자 상호 정보량 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Mutual Information)</strong> 이 고전 MI의 대응물로, [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) 측정에 활용된다.
 
 📢 **섹션 요약 비유**: 상호 정보량은 "공통 어휘의 크기"와 같다 — 두 사람이 많은 어휘를 공유할수록 의사소통이 쉽듯, I(X;Y)가 클수록 X와 Y 사이에 공유되는 정보가 많다.
 
@@ -195,24 +196,25 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[상호 정보량 I(X;Y)]
-    │
-    ▼
-[NMI]
-    │
-    ▼
-[채널 용량 C]
-    │
-    ▼
-[KL 다이버전스]
-    │
-    ▼
-[MRMR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 정보량 I(X;Y)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NMI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 용량 C</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KL 다이버전스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MRMR</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 KL 다이버전스까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

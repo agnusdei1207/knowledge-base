@@ -18,19 +18,21 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│         DA vs DBA 역할 구분                                  │
-├──────────────────────────┬─────────────────────────────────┤
-│       DA (데이터 관리자)  │      DBA (DB 관리자)            │
-├──────────────────────────┼─────────────────────────────────┤
-│ 데이터 표준·의미 정의     │ DB 엔진 설치·운영               │
-│ 논리/개념 데이터 모델     │ 물리 스키마 구현                │
-│ 메타데이터 관리           │ 성능 튜닝·백업·복구             │
-│ 데이터 품질 지표 수립     │ 가용성·보안 관리                │
-│ 전사 데이터 거버넌스      │ 특정 DBMS 운영 전문가           │
-└──────────────────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DA vs DBA 역할 구분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DA (데이터 관리자)</div><div class="kb-diagram-cell">DBA (DB 관리자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 표준·의미 정의</div><div class="kb-diagram-cell">DB 엔진 설치·운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리/개념 데이터 모델</div><div class="kb-diagram-cell">물리 스키마 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 관리</div><div class="kb-diagram-cell">성능 튜닝·백업·복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 지표 수립</div><div class="kb-diagram-cell">가용성·보안 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전사 데이터 거버넌스</div><div class="kb-diagram-cell">특정 DBMS 운영 전문가</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DA는 도시 전체의 도로 체계를 설계하는 도시 계획가이고, DBA는 특정 도로의 포장·유지보수 담당 기술자다. 도시 계획가([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))가 없으면 도로들이 연결되지 않는다.
 
@@ -40,26 +42,26 @@ tags = ["studynote-database"]
 
 ### [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 주요 업무 영역
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│              DA 업무 영역                                  │
-├─────────────────────────────────────────────────────────┤
-│ 1. 데이터 표준화                                          │
-│    - 용어 사전, 도메인 정의, 코드 표준화                   │
-│    - 예: "고객번호" = 10자리 숫자, CUSTOMER_ID            │
-│                                                         │
-│ 2. 데이터 모델링                                          │
-│    - 개념/논리/물리 데이터 모델 설계·검토                   │
-│    - ERD (Entity-Relationship Diagram) 작성              │
-│                                                         │
-│ 3. 메타데이터 관리                                        │
-│    - 데이터 사전, 데이터 카탈로그 운영                     │
-│    - 데이터 리니지(Lineage) 추적                          │
-│                                                         │
-│ 4. 데이터 품질 관리                                       │
-│    - 품질 기준 수립, 이상 데이터 탐지·정제                 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DA 업무 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 용어 사전, 도메인 정의, 코드 표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: "고객번호" = 10자리 숫자, CUSTOMER_ID</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 데이터 모델링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개념/논리/물리 데이터 모델 설계·검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ERD (Entity-Relationship Diagram) 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 메타데이터 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 사전, 데이터 카탈로그 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 리니지(Lineage) 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 데이터 품질 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질 기준 수립, 이상 데이터 탐지·정제</div></div>
+</div>
+</div>
+
+
 
 ### [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)의 실제 효과
 
@@ -89,10 +91,10 @@ C시스템: customer_code (문자)  → EDW 통합, MDM 구축 가능
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 공공 사업 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 산출물 요건 (행안부 고시)
-1. **[데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) 정의서**: 용어, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 코드, 엔터티 표준 정의.
-2. **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 ERD, 엔터티·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 명세.
-3. **[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)# 도구 산출물**: 표준화 이력, 승인 워크플로우 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/).
-4. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 계획서**: 측정 항목, 기준값, 개선 계획.
+1. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/">데이터 표준화</a> 정의서</strong>: 용어, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 코드, 엔터티 표준 정의.
+2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a></strong>: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 ERD, 엔터티·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 명세.
+3. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a># 도구 산출물</strong>: 표준화 이력, 승인 워크플로우 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/).
+4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 계획서</strong>: 측정 항목, 기준값, 개선 계획.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 없이 개발팀이 각자 컬럼명을 정하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("비표준 모델링"). 3년 후 EDW 구축 프로젝트에서 300개 테이블의 컬럼명 불일치를 매핑하는 데 6개월이 소요된 실제 사례가 있다.
@@ -105,7 +107,7 @@ C시스템: customer_code (문자)  → EDW 통합, MDM 구축 가능
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합** | 표준화 기반 EDW·[MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 구축 가능 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합</strong> | 표준화 기반 EDW·[MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 구축 가능 |
 | **품질 보장** | 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기준 수립·관리 |
 | **거버넌스** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 컴플라이언스 기반 |
 
@@ -119,29 +121,31 @@ C시스템: customer_code (문자)  → EDW 통합, MDM 구축 가능
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)** | DA와 역할 분담; [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)=[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)=운영 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | DA와 역할 분담; [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)=[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)=운영 |
 | **EDW** | [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 표준화 기반 전사 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
-| **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)** | DA의 핵심 관리 대상 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질** | DA의 측정·개선 책임 영역 |
-| **[Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)** | 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)에서 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 역할 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a></strong> | DA의 핵심 관리 대상 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | DA의 측정·개선 책임 영역 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a></strong> | 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)에서 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 표준화 필요 인식 — 사일로 데이터 문제]
-    │
-    ▼
-[DA 역할 정립 — 데이터 표준·모델·품질 관리]
-    │
-    ▼
-[EDW/MDM — DA 표준화 기반 통합 데이터 플랫폼]
-    │
-    ▼
-[데이터 카탈로그 — 메타데이터 자동화 관리]
-    │
-    ▼
-[Data Mesh — 분산 도메인 오너십 + 연방 거버넌스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 표준화 필요 인식 — 사일로 데이터 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DA 역할 정립 — 데이터 표준·모델·품질 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EDW/MDM — DA 표준화 기반 통합 데이터 플랫폼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 — 메타데이터 자동화 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Mesh — 분산 도메인 오너십 + 연방 거버넌스</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

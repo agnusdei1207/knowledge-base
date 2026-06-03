@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거의 IT 운영(Ops) 팀은 개발팀(Dev)이 만든 소프트웨어를 받아서 수동으로 서버에 설치하고, 에러가 나면 밤새워 재부팅하는 것을 주업무로 삼았다. 트래픽이 10배 늘어나면 운영자도 10배를 더 뽑아야만 버틸 수 있는 구조였다.
 
-구글은 이러한 구조의 한계를 깨닫고, "소프트웨어 엔지니어에게 운영을 맡기면 어떻게 될까?"라는 질문에서 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))**를 탄생시켰다. SRE의 핵심 철학은 **"엔지니어는 반복적인 삽질(Toil) 대신, 소프트웨어(자동화)를 통해 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이는 엔지니어링을 해야 한다"**는 것이다. 이를 위해 구글은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀의 토일 업무 비율을 전체 시간의 50% 미만으로 강제 제한하는 규칙을 만들었다.
+구글은 이러한 구조의 한계를 깨닫고, "소프트웨어 엔지니어에게 운영을 맡기면 어떻게 될까?"라는 질문에서 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong>를 탄생시켰다. SRE의 핵심 철학은 <strong>"엔지니어는 반복적인 삽질(Toil) 대신, 소프트웨어(자동화)를 통해 시스템의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>을 높이는 엔지니어링을 해야 한다"</strong>는 것이다. 이를 위해 구글은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀의 토일 업무 비율을 전체 시간의 50% 미만으로 강제 제한하는 규칙을 만들었다.
 
 - **📢 섹션 요약 비유**: 토일은 밑빠진 독에 끝없이 물을 붓는 노동이다. 엔지니어링은 물을 붓는 대신, 독의 구멍을 때우거나 자동으로 물이 채워지는 파이프를 설계하는 작업이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 토일 (Toil) 자동화 축소 대상 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  토일 (Toil) 자동화 축소 대상                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토일 (Toil) 자동화 축소 대상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 토일 (Toil) 자동화 축소 대상 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-구글 SRE가 정의하는 **토일(Toil)의 6가지 핵심 특성**은 다음과 같다.
+구글 SRE가 정의하는 <strong>토일(Toil)의 6가지 핵심 특성</strong>은 다음과 같다.
 
 | 토일의 특성 | 설명 | 예시 |
 |:---|:---|:---|
@@ -63,20 +62,20 @@ tags = ["studynote-software-engineering"]
 | **가치 부재 (No Enduring Value)**| 작업을 마쳐도 시스템의 상태가 나아지지 않고 제자리임 | 어제도 오늘도 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재시작 |
 | **선형적 증가 (O(n))** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모나 사용자 수에 비례하여 작업량이 늘어남 | 서버가 100대로 늘어나면 패치 시간도 10배 증가 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  엔지니어의 시간 배분 모델 (SRE 기준)        │
-├──────────────────────────────────────────────────────────────┤
-│ ┌────────────────────────────┐ ┌───────────────────────────┐ │
-│ │     Toil (토일) 최대 50%   │ │   Engineering 최소 50%    │ │
-│ ├────────────────────────────┤ ├───────────────────────────┤ │
-│ │ - 티켓 처리 (계정 생성 등) │ │ - 인프라 자동화 코드 작성 │ │
-│ │ - 수동 릴리즈/배포         │ │ - 아키텍처 병목 개선      │ │
-│ │ - 반복적인 알람 대응       │ │ - CI/CD 파이프라인 고도화 │ │
-│ └────────────────────────────┘ └───────────────────────────┘ │
-│  (목표: Engineering 시간을 투자하여 내일의 Toil을 줄여나감)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔지니어의 시간 배분 모델 (SRE 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Toil (토일) 최대 50%</div><div class="kb-diagram-cell">Engineering 최소 50%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 티켓 처리 (계정 생성 등)</div><div class="kb-diagram-cell">- 인프라 자동화 코드 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수동 릴리즈/배포</div><div class="kb-diagram-cell">- 아키텍처 병목 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 반복적인 알람 대응</div><div class="kb-diagram-cell">- CI/CD 파이프라인 고도화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목표: Engineering 시간을 투자하여 내일의 Toil을 줄여나감)</div></div>
+</div>
+</div>
+
+
 
 ※ **오해 금지**: 기획 회의, 영수증 처리, 신입사원 온보딩 등은 피곤하고 귀찮은 일(Overhead)이긴 하지만, '토일'의 정의에는 부합하지 않는다.
 
@@ -98,7 +97,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | **핵심 철학** | 안정성(안 바뀌는 것)이 최고다 | 개발과 운영의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(장벽) 타파 | **DevOps의 구체적이고 정량적인 구현체** |
 | **토일 대응** | 인력을 충원하여 수동으로 해결 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 등 툴 체인으로 자동화 권장 | **토일을 50% 이하로 통제하는 명시적 규정 존재** |
-| **장애 접근법**| 절대 장애가 나면 안 된다 | 빠른 배포와 빠른 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))** 내에서의 장애는 허용 |
+| **장애 접근법**| 절대 장애가 나면 안 된다 | 빠른 배포와 빠른 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong> 내에서의 장애는 허용 |
 
 SRE는 "데브옵스라는 추상적인 인터페이스를 자바(Java)의 구체적인 클래스로 구현한 것"이라고 불릴 만큼, 토일 제거와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 정량적 규칙(50% 룰, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 등)으로 강제한다.
 
@@ -126,7 +125,7 @@ SRE는 "데브옵스라는 추상적인 인터페이스를 자바(Java)의 구�
 
 ## Ⅴ. 기대효과 및 결론
 
-토일을 성공적으로 제거하면 엔지니어는 창의적인 설계와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선에 시간을 집중할 수 있다. 이는 인력 충원 없이도 10배 커진 트래픽을 감당할 수 있는 **서브리니어 확장(Sublinear Scaling)**을 가능하게 한다. 또한 밤샘 작업과 단순 반복 작업에 지친 엔지니어들의 번아웃과 퇴사를 막는 가장 확실한 복지가 된다.
+토일을 성공적으로 제거하면 엔지니어는 창의적인 설계와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선에 시간을 집중할 수 있다. 이는 인력 충원 없이도 10배 커진 트래픽을 감당할 수 있는 <strong>서브리니어 확장(Sublinear Scaling)</strong>을 가능하게 한다. 또한 밤샘 작업과 단순 반복 작업에 지친 엔지니어들의 번아웃과 퇴사를 막는 가장 확실한 복지가 된다.
 
 결론적으로 클라우드 네이티브와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 매일 수십 번의 배포와 수백 대의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 확장이 발생하므로 수동 운영은 불가능하다. 토일의 지속적인 식별과 자동화 제거 능력이야말로 현대 IT 인프라 조직의 생존을 결정짓는 핵심 KPI다.
 
@@ -151,21 +150,23 @@ SRE는 "데브옵스라는 추상적인 인터페이스를 자바(Java)의 구�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-토일 (Toil) 자동화 축소 대상 작업 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토일 (Toil) 자동화 축소 대상 작업 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

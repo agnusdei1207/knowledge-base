@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **클래식 컴퓨터 (Classical)**: [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)로 0 아니면 1([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))을 스위칭하는 멍청한 타자기. 동전을 던지면 앞면 또는 뒷면, 둘 중 하나만 볼 수 있다.
-  - **[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))**: [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))라는 미친 단위를 쓴다. 동전이 공중에 빙글빙글 돌고 있는 상태(중첩)를 유지하여, 0과 1의 상태를 '동시에' 쥐고 있는다. [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 300개만 엮어도 우주 전체의 원자 수보다 많은 경우의 수를 **단 한 번의 스텝(1 [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))으로 모조리 다 계산**해 낸다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a>)</strong>: [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))라는 미친 단위를 쓴다. 동전이 공중에 빙글빙글 돌고 있는 상태(중첩)를 유지하여, 0과 1의 상태를 '동시에' 쥐고 있는다. [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 300개만 엮어도 우주 전체의 원자 수보다 많은 경우의 수를 <strong>단 한 번의 스텝(1 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)으로 모조리 다 계산</strong>해 낸다.
 
-- **필요성 (연산 폭발 한계치(Moore's Law)의 완전한 붕괴 극복)**: 택배 기사가 50개 도시를 가장 짧게 도는 경로 찾기([외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/), [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)). 슈퍼컴퓨터로 이 경우의 수를 다 곱해서 풀려면 1억 년이 걸린다. "야, 인류의 칩 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 크기가 1나노미터로 한계에 부딪혔어! CPU 클럭 더 올리면 발열로 다 녹아 죽어!! 우주 비밀을 풀거나 초신약을 1달 안에 개발하려면, 아예 0과 1 순서대로 노가다 치는 물리 법칙 자체를 찢어발긴 **'모든 경우의 수를 공중에 둥둥 띄워놓고 1번 만에 정답만 툭 떨어지게 만드는 양자 흑마법 칩(QPU)'**이 필요해!!" 이 절망적 물리 한계 돌파의 갈망이 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)를 세상에 불렀다.
+- **필요성 (연산 폭발 한계치(Moore's Law)의 완전한 붕괴 극복)**: 택배 기사가 50개 도시를 가장 짧게 도는 경로 찾기([외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/), [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)). 슈퍼컴퓨터로 이 경우의 수를 다 곱해서 풀려면 1억 년이 걸린다. "야, 인류의 칩 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 크기가 1나노미터로 한계에 부딪혔어! CPU 클럭 더 올리면 발열로 다 녹아 죽어!! 우주 비밀을 풀거나 초신약을 1달 안에 개발하려면, 아예 0과 1 순서대로 노가다 치는 물리 법칙 자체를 찢어발긴 <strong>'모든 경우의 수를 공중에 둥둥 띄워놓고 1번 만에 정답만 툭 떨어지게 만드는 양자 흑마법 칩(QPU)'</strong>이 필요해!!" 이 절망적 물리 한계 돌파의 갈망이 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)를 세상에 불렀다.
 
-- **💡 비유**: 클래식 컴퓨터(CPU)는 **'미로 찾기 게임에서 10만 개의 쥐를 한 마리씩 출발시켜 출구를 찾는 짓'**입니다. 1번 쥐가 막히면 돌아오고 2번 쥐가 출발합니다([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 노가다 1억 년 소요). [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)(QPU)는 **'미로 전체에 1초 만에 10만 갈래로 쪼개지는 물(Water)을 콸콸 들이붓는 짓'**입니다. 물은 미로의 모든 길(수백억 경우의 수)을 0.001초 만에 동시에(중첩) 휩쓸고 지나가며, 출구(정답)로 튀어나오는 물방울 단 1방울을 한 방 컷으로 쏙 찾아내는 물리 법칙 파괴의 초광속 탐색술입니다.
+- **💡 비유**: 클래식 컴퓨터(CPU)는 <strong>'미로 찾기 게임에서 10만 개의 쥐를 한 마리씩 출발시켜 출구를 찾는 짓'</strong>입니다. 1번 쥐가 막히면 돌아오고 2번 쥐가 출발합니다([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 노가다 1억 년 소요). [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)(QPU)는 <strong>'미로 전체에 1초 만에 10만 갈래로 쪼개지는 물(Water)을 콸콸 들이붓는 짓'</strong>입니다. 물은 미로의 모든 길(수백억 경우의 수)을 0.001초 만에 동시에(중첩) 휩쓸고 지나가며, 출구(정답)로 튀어나오는 물방울 단 1방울을 한 방 컷으로 쏙 찾아내는 물리 법칙 파괴의 초광속 탐색술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **리처드 파인만의 예언 (1980s)**: 천재 물리학자 파인만이 "야, 자연은 양자역학으로 도는데 이걸 0과 1 타자기로 시뮬레이션하려니 느려 터지지 ㅋ 걍 컴퓨터 자체를 양자 법칙으로 굴려라!" 선포함.
-  2. **쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발명 (1994)**: 피터 쇼어가 "[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 쓰면 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소인수분해 암호 1초 만에 해독 쌉가능 ㅋ" [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 칠판에 적음. 전 세계 은행과 정보 기관이 기저귀 차고 벌벌 떨며 돈을 퍼붓기 시작.
-  3. **[양자 우위](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/223_quantum_supremacy_advantage/)([Quantum Supremacy](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/223_quantum_supremacy_advantage/)) 선언과 하이브리드 시대 (현재)**: 2019년 구글 시카모어 칩이 "슈퍼컴 1만 년 걸릴 거 200초 만에 풀었음 ㅋ" 시연 성공. 하지만 양자 칩은 툭하면 에러(노이즈)가 나서 아직 단독으로 앱을 띄우지 못함. ➡ **"야 그냥 K8s 일반 서버에서 돌리다가 어려운 미적분만 양자 클라우드(Amazon Braket) API로 던져서 정답만 받아(Hybrid)!!"** 라는 과도기 메타 아키텍처가 전 세계 대기업에 세팅됨.
+  2. <strong>쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 발명 (1994)</strong>: 피터 쇼어가 "[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 쓰면 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소인수분해 암호 1초 만에 해독 쌉가능 ㅋ" [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 칠판에 적음. 전 세계 은행과 정보 기관이 기저귀 차고 벌벌 떨며 돈을 퍼붓기 시작.
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/223_quantum_supremacy_advantage/">양자 우위</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/223_quantum_supremacy_advantage/">Quantum Supremacy</a>) 선언과 하이브리드 시대 (현재)</strong>: 2019년 구글 시카모어 칩이 "슈퍼컴 1만 년 걸릴 거 200초 만에 풀었음 ㅋ" 시연 성공. 하지만 양자 칩은 툭하면 에러(노이즈)가 나서 아직 단독으로 앱을 띄우지 못함. ➡ **"야 그냥 K8s 일반 서버에서 돌리다가 어려운 미적분만 양자 클라우드(Amazon Braket) API로 던져서 정답만 받아(Hybrid)!!"** 라는 과도기 메타 아키텍처가 전 세계 대기업에 세팅됨.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'일반 자전거에서 워프(순간이동) 장치로의 도약'**입니다. 자전거(CPU)로 지구 한 바퀴 도는 데 10년이 걸립니다. 워프 장치(양자)는 버튼 1방에 지구 반대편으로 텔레포트([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 중첩)합니다. 단, 아직 워프 장치는 기계가 불안정해서(노이즈) 타면 팔다리가 삐구 나서 나올 수 있습니다. 그래서 현재의 하이브리드 아키텍처는 **평소엔 그냥 안전한 자전거(AWS 기존 서버)를 타다가, 바다를 건너야 하는 불가능한 퀘스트 1곳에서만 잠깐 워프 장치(양자 클라우드 찔러보기)를 쓰고 바로 자전거로 갈아타는 궁극의 하이브리드 생존 주행**입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'일반 자전거에서 워프(순간이동) 장치로의 도약'</strong>입니다. 자전거(CPU)로 지구 한 바퀴 도는 데 10년이 걸립니다. 워프 장치(양자)는 버튼 1방에 지구 반대편으로 텔레포트([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 중첩)합니다. 단, 아직 워프 장치는 기계가 불안정해서(노이즈) 타면 팔다리가 삐구 나서 나올 수 있습니다. 그래서 현재의 하이브리드 아키텍처는 <strong>평소엔 그냥 안전한 자전거(AWS 기존 서버)를 타다가, 바다를 건너야 하는 불가능한 퀘스트 1곳에서만 잠깐 워프 장치(양자 클라우드 찔러보기)를 쓰고 바로 자전거로 갈아타는 궁극의 하이브리드 생존 주행</strong>입니다.
 
 ---
 
 다음은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Comp의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  양자 컴퓨팅 (Quantum Comp                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 컴퓨팅 (Quantum Comp</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Comp가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) ([Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)에 대비한 하이브리드 아키텍처 연구의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) ([Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)에 대비한 하이브리드 아키텍처 연구의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) ([Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)에 대비한 하이브리드 아키텍처 연구의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-양자 컴퓨팅 (Quantum Computing) 알고리즘 (쇼어 알고리즘 등)에 대비한 하이브리드 아키텍처 연구 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자 컴퓨팅 (Quantum Computing) 알고리즘 (쇼어 알고리즘 등)에 대비한 하이브리드 아키텍처 연구 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

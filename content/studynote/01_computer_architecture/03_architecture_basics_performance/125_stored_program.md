@@ -10,8 +10,8 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 내장형 프로그램(Stored-program)은 컴퓨터가 실행할 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'를 외부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 천공카드가 아닌, **컴퓨터 내부의 고속 메모리에 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'와 동일한 2진수 형태로 적재(Load)해 두고 순차적으로 꺼내 쓰는 설계 사상**이다.
-> 2. **가치**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 수동으로 꽂았다 뺐다 하던 하드웨어 재조립의 지옥에서 벗어나, 소프트웨어만 바꾸면 동일한 기계(CPU)로 미적분도 풀고 게임도 할 수 있는 **'소프트웨어(범용 컴퓨터)의 시대'**를 열어젖힌 빅뱅이다.
+> 1. **본질**: 내장형 프로그램(Stored-program)은 컴퓨터가 실행할 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'를 외부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 천공카드가 아닌, <strong>컴퓨터 내부의 고속 메모리에 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>'와 동일한 2진수 형태로 적재(Load)해 두고 순차적으로 꺼내 쓰는 설계 사상</strong>이다.
+> 2. **가치**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 수동으로 꽂았다 뺐다 하던 하드웨어 재조립의 지옥에서 벗어나, 소프트웨어만 바꾸면 동일한 기계(CPU)로 미적분도 풀고 게임도 할 수 있는 <strong>'소프트웨어(범용 컴퓨터)의 시대'</strong>를 열어젖힌 빅뱅이다.
 > 3. **판단 포인트**: 메모리에 한 번 올라간 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 CPU 입장에서는 단순한 숫자 덩어리에 불과하므로, 코드가 실행 도중 자기 자신을 고쳐 쓰는 자가 변형 코드(Self-modifying [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 해킹 취약점을 낳는 원인 제공자이기도 하다.
 
 ---
@@ -31,28 +31,27 @@ tags = ["studynote-computer-architecture"]
 ### [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 메인 메모리 적재 및 페치(Fetch) 사이클
 내장형 프로그램의 핵심은 '모든 것은 메모리에 있다'는 절대 원칙이다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           내장형 프로그램(Stored-program) 실행 아키텍처         │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 메인 메모리 (Memory) ]                                │
-│   번지   값(0과 1)    해석(인간의 눈)                      │
-│   0100 : 00101011 ──▶ (명령어) ADD R1, R2               │
-│   0101 : 11001100 ──▶ (명령어) JUMP 0200                │
-│   ...                                                  │
-│   0200 : 00000101 ──▶ (데이터) 숫자 '5'                  │
-│                                                        │
-│            ▲  (버스를 통해 이동)  ▼                       │
-│ ═══════════════════════════════════════════════════════│
-│                                                        │
-│  [ CPU (제어장치 + 연산장치) ]                           │
-│   1. Fetch(가져오기): PC(프로그램 카운터)가 가리키는 0100번지에서  │
-│      '00101011'을 가져온다.                              │
-│   2. Decode(해독): 제어장치가 "이건 덧셈 명령이군!" 하고 해석한다.│
-│   3. Execute(실행): 더한다. PC를 0101번지로 1 증가시킨다.    │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내장형 프로그램(Stored-program) 실행 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리 (Memory)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">번지 값(0과 1) 해석(인간의 눈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0100 : 00101011 ──▶ (명령어) ADD R1, R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0101 : 11001100 ──▶ (명령어) JUMP 0200</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0200 : 00000101 ──▶ (데이터) 숫자 '5'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (버스를 통해 이동) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU (제어장치 + 연산장치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Fetch(가져오기): PC(프로그램 카운터)가 가리키는 0100번지에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'00101011'을 가져온다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Decode(해독): 제어장치가 "이건 덧셈 명령이군!" 하고 해석한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Execute(실행): 더한다. PC를 0101번지로 1 증가시킨다.</div></div>
+</div>
+</div>
+
+
 
 메모리에 들어있는 `00101011`이라는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열은 그것이 '덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'인지, 아니면 그냥 '숫자 43'인지 기계는 알 수 없다. 오직 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오는 시점(Fetch)에 접근하면 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 취급되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 시점([Operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) Fetch)에 접근하면 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 취급될 뿐이다. 이 지독한 동등성(Equivalence)이 내장형 구조의 가장 위대한 아키텍처적 유연성이다.
 
@@ -67,10 +66,10 @@ tags = ["studynote-computer-architecture"]
 
 | 비교 항목 | 외부 하드와이어드 프로그래밍 (ENIAC) | 내장형 프로그래밍 (EDVAC, 현대 컴퓨터) |
 |:---|:---|:---|
-| **프로그램 수정 방식** | **사람이 물리적으로 전선(Patch Cord)을 재연결** | **메모리의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(0과 1)만 덮어쓰기** |
+| **프로그램 수정 방식** | **사람이 물리적으로 전선(Patch Cord)을 재연결** | <strong>메모리의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(0과 1)만 덮어쓰기</strong> |
 | **작업 교체 시간** | 수 시간 ~ 수일 소요 (개노가다) | **수 밀리초(ms) 단위 광속 교체 (소프트웨어 로딩)** |
-| **유연성 (범용성)** | 매우 낮음. 특정 연산(대포 궤적) 전용 기계 | **무한대. [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), 게임, 웹서핑 모두 가능** |
-| **제어 장치 (CU)** | 복잡한 릴레이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 물리적 타이머 | **[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 기반의 순차적 상태 머신** |
+| **유연성 (범용성)** | 매우 낮음. 특정 연산(대포 궤적) 전용 기계 | <strong>무한대. <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a>, 게임, 웹서핑 모두 가능</strong> |
+| **제어 장치 (CU)** | 복잡한 릴레이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 물리적 타이머 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">프로그램 카운터</a>) 기반의 순차적 상태 머신</strong> |
 | **결정적 단점** | 물리적 고장이 잦음 (진공관 터짐) | **메모리 병목(폰 노이만 병목)과 해킹 취약점 존재** |
 
 하드와이어드 방식은 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))을 구워버리는 오늘날의 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)([Hardware Accelerator](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/))와 비슷하지만 범용성이 제로였다. 내장형 프로그램은 메모리라는 임시 창고를 빌림으로써, 인간이 '소프트웨어 엔지니어'라는 새로운 직업을 창조할 수 있게 만든 토대다.
@@ -82,11 +81,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 부팅과 로더(Loader)의 역할**: 우리가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 전원을 켜면, 텅 빈 쇳덩어리인 메인 메모리(RAM)에 가장 먼저 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)'이라는 프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들이 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에서 복사되어 올라온다. 이 적재 과정(Loading)이 없으면 CPU는 실행할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 없어 깡통이 된다. 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 로더(Loader)는 사용자가 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 더블 클릭할 때마다 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이진수 코드를 램(RAM)에 '내장(Stored)'시키고 CPU의 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 그 주소로 꽂아버리는 완벽한 내장형 프로그램의 실무자다.
-2. **[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러의 동적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 자바(Java)나 자바스크립트는 런타임에 소스 코드를 기계어([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))로 번역하여 메모리에 꽂아 넣는다. "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)도 결국 메모리에 쓰이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)일 뿐이다"라는 내장형 원리가 있기에, 프로그램이 실행되는 도중에 스스로 새로운 프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 메모리에 동적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고(Write) 거기로 점프(Execute)하여 실행 속도를 미친 듯이 끌어올리는 현대의 괴물 같은 최적화가 가능하다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)의 부팅과 로더(Loader)의 역할</strong>: 우리가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 전원을 켜면, 텅 빈 쇳덩어리인 메인 메모리(RAM)에 가장 먼저 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)'이라는 프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들이 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에서 복사되어 올라온다. 이 적재 과정(Loading)이 없으면 CPU는 실행할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 없어 깡통이 된다. 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 로더(Loader)는 사용자가 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 더블 클릭할 때마다 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이진수 코드를 램(RAM)에 '내장(Stored)'시키고 CPU의 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 그 주소로 꽂아버리는 완벽한 내장형 프로그램의 실무자다.
+2. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/">JIT</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/">Just-In-Time</a>) 컴파일러의 동적 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 자바(Java)나 자바스크립트는 런타임에 소스 코드를 기계어([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))로 번역하여 메모리에 꽂아 넣는다. "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)도 결국 메모리에 쓰이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)일 뿐이다"라는 내장형 원리가 있기에, 프로그램이 실행되는 도중에 스스로 새로운 프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 메모리에 동적으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고(Write) 거기로 점프(Execute)하여 실행 속도를 미친 듯이 끌어올리는 현대의 괴물 같은 최적화가 가능하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 공격에 대한 무방비 설계**: "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 공간(메모리)에 있고 구별되지 않는다"는 특징은 해커들에게는 신의 축복이다. 해커가 회원가입 창([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력칸)에 악성 기계어 코드 100줄을 때려 넣는다. 서버는 이를 순진하게 메모리에 저장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))하는데, 버퍼가 넘쳐서 CPU가 복귀할 반환 주소(Return Address)를 덮어버린다. CPU는 아무 의심 없이 해커가 넣은 그 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 착각하고 실행(Fetch)해 버린다. 이를 막기 위해 현대 OS는 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구역은 절대 실행 금지)라는 하드웨어 락을 강제로 걸어야만 했다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a>) 공격에 대한 무방비 설계</strong>: "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 공간(메모리)에 있고 구별되지 않는다"는 특징은 해커들에게는 신의 축복이다. 해커가 회원가입 창([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력칸)에 악성 기계어 코드 100줄을 때려 넣는다. 서버는 이를 순진하게 메모리에 저장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))하는데, 버퍼가 넘쳐서 CPU가 복귀할 반환 주소(Return Address)를 덮어버린다. CPU는 아무 의심 없이 해커가 넣은 그 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 착각하고 실행(Fetch)해 버린다. 이를 막기 위해 현대 OS는 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구역은 절대 실행 금지)라는 하드웨어 락을 강제로 걸어야만 했다.
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 해킹은 은행 창구 직원의 실수다. 고객이 '돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'과 함께 "내 통장에 100억을 입금해라"라고 적힌 종이를 섞어 줬는데, 직원이 이 종이를 지점장의 '업무 지시서([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'로 착각해서 그대로 실행해 버리는 끔찍한 사기극이다.
 
@@ -106,27 +105,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ([Von Neumann Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))** | 내장형 프로그램 사상을 물리적 하드웨어 구조(CPU, 메모리, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 완벽히 구현해 낸 컴퓨팅 시스템의 뼈대 설계도 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/">폰 노이만 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/">Von Neumann Architecture</a>)</strong> | 내장형 프로그램 사상을 물리적 하드웨어 구조(CPU, 메모리, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 완벽히 구현해 낸 컴퓨팅 시스템의 뼈대 설계도 |
 | **로더 (Loader)** | 하드디스크에 잠자고 있는 프로그램(실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 깨워서 멱살을 잡고 메인 메모리 위로 끌어올려 '내장'시켜주는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 필수 일꾼 |
-| **[프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))** | 메모리의 수백만 개 주소 중 "CPU야, 네가 다음에 읽어야 할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 1054번지에 있어!"라고 가리키는 손가락이자 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">프로그램 카운터</a> (Program <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong> | 메모리의 수백만 개 주소 중 "CPU야, 네가 다음에 읽어야 할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 1054번지에 있어!"라고 가리키는 손가락이자 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전선 연결(Patching) 기반의 하드와이어드 프로그래밍 (ENIAC 시대)
-    │
-    ▼
-잦은 고장 및 재설정의 극심한 비효율성 직면
-    │
-    ▼
-프로그램 명령어를 데이터처럼 취급하자는 아이디어 대두 (Turing & Von Neumann)
-    │
-    ▼
-명령어와 데이터를 메인 메모리에 저장하여 순차 실행 ──▶ 내장형 프로그램 (Stored-program) 확립
-    │
-    ▼
-하드웨어-소프트웨어의 완벽한 분리 ──▶ 범용 컴퓨터 시대 및 소프트웨어 산업의 폭발적 팽창
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전선 연결(Patching) 기반의 하드와이어드 프로그래밍 (ENIAC 시대)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잦은 고장 및 재설정의 극심한 비효율성 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그램 명령어를 데이터처럼 취급하자는 아이디어 대두 (Turing &amp; Von Neumann)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어와 데이터를 메인 메모리에 저장하여 순차 실행 ──▶ 내장형 프로그램 (Stored-program) 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어-소프트웨어의 완벽한 분리 ──▶ 범용 컴퓨터 시대 및 소프트웨어 산업의 폭발적 팽창</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "딱딱한 기계적 조작 → 유연한 정보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 중심의 제어 → 소프트웨어의 독립과 범용 컴퓨터의 탄생"이라는 IT 역사상 가장 거대한 패러다임 전환을 보여준다.
 

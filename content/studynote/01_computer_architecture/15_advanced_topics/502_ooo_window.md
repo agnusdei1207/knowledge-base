@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 윈도우는 코어가 리네이밍 이후 커밋 (Commit) 이전까지 동시에 붙잡고 보며, 실행 순서를 유연하게 바꿀 수 있는 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 가시 범위**다.
+> 1. **본질**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 윈도우는 코어가 리네이밍 이후 커밋 (Commit) 이전까지 동시에 붙잡고 보며, 실행 순서를 유연하게 바꿀 수 있는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 가시 범위</strong>다.
 > 2. **가치**: 윈도우가 넓을수록 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 다단계 연산 뒤에 숨어 있는 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 멀리서 찾아낼 수 있어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 (Instruction-Level Parallelism, ILP)과 메모리 수준 병렬성 (Memory-Level Parallelism, MLP)을 함께 끌어올린다.
 > 3. **판단 포인트**: 유효 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 리오더 버퍼 ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) 숫자만으로 결정되지 않으며, 발급 큐·[로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)·물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수·[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도가 함께 받쳐 줄 때 비로소 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득으로 이어진다.
 
@@ -25,21 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 윈도우가 단순한 저장 공간이 아니라, "앞으로 볼 수 있는 범위" 자체라는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     OoO window = visible in-flight range                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Fetch → Decode → Rename → [ ROB (Reorder Buffer) / Issue Queue /          │
-│                               LSQ (Load-Store Queue) / Physical Register   │
-│                               File ] → Execute → Commit                    │
-│                           └──────── current OoO window ────────┘          │
-│                                                                            │
-│ oldest in-flight op                                            youngest op │
-│      │                                                                │    │
-│      ▼                                                                ▼    │
-│   head of ROB  ───────────────── visible future instructions ─────▶  tail   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OoO window = visible in-flight range</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch → Decode → Rename → [ ROB (Reorder Buffer) / Issue Queue /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSQ (Load-Store Queue) / Physical Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File ] → Execute → Commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current OoO window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">oldest in-flight op youngest op</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">head of ROB visible future instructions ▶ tail</div></div>
+</div>
+</div>
+
+
 
 따라서 윈도우는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 저장한다"는 뜻보다 "가로막힌 지점을 우회할 선택지를 얼마나 확보하느냐"에 더 가깝다. 결국 넓은 윈도우는 고성능 코어가 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고, 그 시간을 다른 일로 메우게 하는 기본 조건이 된다.
 
@@ -51,23 +51,24 @@ tags = ["studynote-computer-architecture"]
 
 윈도우는 하나의 버퍼가 아니라 여러 구조의 합성 결과다. 리오더 버퍼는 아직 완료되지 않은 명령의 총수를 제한하고, 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 그중 실행 준비가 된 명령을 골라 내며, [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 메모리 명령의 재배치 가능 범위를 정한다. 여기에 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Physical [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), PRF) 여유가 부족하면 리네이밍 자체가 멈추므로, 실제 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 가장 먼저 포화되는 구조가 결정한다.
 
-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. **필요한 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ≈ 숨기고 싶은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) × 그동안 유지하고 싶은 유효 발급률**이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. <strong>필요한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a> ≈ 숨기고 싶은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> × 그동안 유지하고 싶은 유효 발급률</strong>이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   How a large window hides a long-latency load            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ ROB order : [LD miss][ADD][MUL][ADD][BR][LD][ADD][ST][XOR][CMP]...       │
-│               wait      ready ready ready ?   ready ready ready ready     │
-│                                                                            │
-│ issue now :                ADD ─▶ arithmetic unit                          │
-│                             MUL ─▶ multiply unit                            │
-│                              LD ─▶ address unit                             │
-│                                                                            │
-│ rule : older LD is still unresolved, but younger independent ops can run   │
-│        as long as data / branch / memory-order constraints allow it        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How a large window hides a long-latency load</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">ROB order :</div><div class="kb-diagram-node">LD miss</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">MUL</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-node">CMP</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait ready ready ready ? ready ready ready ready</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue now : ADD ─▶ arithmetic unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MUL ─▶ multiply unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LD ─▶ address unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule : older LD is still unresolved, but younger independent ops can run</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">as long as data / branch / memory-order constraints allow it</div></div>
+</div>
+</div>
+
+
 
 | 윈도우를 제한하는 요소 | 역할 | 포화 시 나타나는 현상 |
 | :-- | :-- | :-- |
@@ -77,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 | 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (PRF) | 리네이밍 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 저장 | 이름 붙일 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족으로 정체 |
 | [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 | 미래 경로 공급 | 잘못된 경로가 윈도우를 오염 |
 
-중요한 점은 "큰 윈도우 = 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 자동으로 성립하지 않는다는 것이다. 긴 의존성 체인이나 예측 실패가 잦은 코드에서는 윈도우 대부분이 기다리는 명령으로 채워질 수 있다. 그래서 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 절대적인 엔트리 수보다, **그 안에서 얼마나 많은 독립 작업을 발견하고 유지할 수 있느냐**다.
+중요한 점은 "큰 윈도우 = 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 자동으로 성립하지 않는다는 것이다. 긴 의존성 체인이나 예측 실패가 잦은 코드에서는 윈도우 대부분이 기다리는 명령으로 채워질 수 있다. 그래서 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 절대적인 엔트리 수보다, <strong>그 안에서 얼마나 많은 독립 작업을 발견하고 유지할 수 있느냐</strong>다.
 
 - **📢 섹션 요약 비유**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 공사 현장의 작업 대기 구역과 같다. 공간이 넓으면 자재가 늦게 와도 다른 팀이 먼저 일할 수 있지만, 모든 공정이 한 자재만 기다리면 넓은 공간도 금세 답답한 대기실이 된다.
 
@@ -94,7 +95,7 @@ tags = ["studynote-computer-architecture"]
 | 회로 비용 | 낮음 | 면적·전력·타이밍 부담 증가 |
 | 적합한 코어 | 저전력·실시간 중심 | 고성능·서버 중심 |
 
-다른 관련 개념과 연결해 보면 경계가 더 분명해진다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 윈도우를 **올바른 미래**로 채우는 전제 조건이고, 발급 큐는 그 미래 중 **당장 실행 가능한 후보**를 고른다. 리오더 버퍼는 비순차로 실행된 결과를 다시 **프로그램 순서**로 정리하고, 메모리 의존성 예측과 LSQ는 로드·스토어가 지나치게 위험하게 앞지르지 않도록 제어한다. 즉 윈도우는 단일 부품이 아니라, 이들 여러 구조가 합쳐 만든 "사고 범위"다.
+다른 관련 개념과 연결해 보면 경계가 더 분명해진다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 윈도우를 <strong>올바른 미래</strong>로 채우는 전제 조건이고, 발급 큐는 그 미래 중 <strong>당장 실행 가능한 후보</strong>를 고른다. 리오더 버퍼는 비순차로 실행된 결과를 다시 <strong>프로그램 순서</strong>로 정리하고, 메모리 의존성 예측과 LSQ는 로드·스토어가 지나치게 위험하게 앞지르지 않도록 제어한다. 즉 윈도우는 단일 부품이 아니라, 이들 여러 구조가 합쳐 만든 "사고 범위"다.
 
 - **📢 섹션 요약 비유**: 윈도우가 책상 위에 펼쳐 둔 할 일 전체라면, 발급 큐는 그중 오늘 바로 처리할 일 목록이고, 리오더 버퍼는 끝난 일을 번호 순서대로 묶어 제출하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)철이다.
 
@@ -127,7 +128,7 @@ tags = ["studynote-computer-architecture"]
 
 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우가 충분히 확보되면, 코어는 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고 그 사이 다른 일을 꺼내 처리할 수 있다. 이는 [단일 스레드 성능](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 향상뿐 아니라 여러 메모리 요청을 겹쳐 날리는 능력, 즉 메모리 수준 병렬성까지 끌어올려 준다. 결과적으로 같은 클럭에서도 더 많은 유효 일을 해내는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 개선된다.
 
-하지만 윈도우 확대는 공짜가 아니다. 비교 대상이 늘수록 스케줄링 회로가 무거워지고, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 잘못된 투기 실행이 커질수록 한 번에 버려야 하는 일도 많아진다. 따라서 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 "크면 무조건 좋다"보다 **코어가 앞을 얼마나 멀리, 그리고 얼마나 정확히 볼 수 있는가를 결정하는 설계 균형점**으로 기억하는 편이 정확하다.
+하지만 윈도우 확대는 공짜가 아니다. 비교 대상이 늘수록 스케줄링 회로가 무거워지고, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 잘못된 투기 실행이 커질수록 한 번에 버려야 하는 일도 많아진다. 따라서 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 "크면 무조건 좋다"보다 <strong>코어가 앞을 얼마나 멀리, 그리고 얼마나 정확히 볼 수 있는가를 결정하는 설계 균형점</strong>으로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 체스 선수가 몇 수 앞까지 내다보는 능력과 같다. 많이 본다고 늘 이기는 것은 아니지만, 앞을 거의 못 보면 좋은 수가 있어도 놓쳐 버린다.
 
@@ -145,24 +146,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-In-order execution
-      │
-      ▼
-Scoreboarding
-      │
-      ▼
-OoO execution + reorder buffer
-      │
-      ▼
-Larger instruction windows
-      │
-      ▼
-ROB / IQ / LSQ co-scaling
-      │
-      ▼
-Latency-tolerant clustered OoO cores
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">In-order execution</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scoreboarding</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OoO execution + reorder buffer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Larger instruction windows</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ROB / IQ / LSQ co-scaling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Latency-tolerant clustered OoO cores</div>
+</div>
+</div>
+
+
 
 이 흐름은 "순차 실행 → [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 → 윈도우 확대 → 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
 

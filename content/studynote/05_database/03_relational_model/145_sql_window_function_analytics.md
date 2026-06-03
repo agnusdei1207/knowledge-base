@@ -10,8 +10,8 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 값 범위)로 현재 행 기준 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 범위를 정의**하며, UNBOUNDED PRECEDING·[CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW·N FOLLOWING 등으로 세밀하게 제어한다.
-> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW)처럼 **이동 평균·누적합·연속 N일 집계**를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
+> 1. **본질**: Window Frame은 <strong>ROWS(물리적 행 수)/RANGE(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 값 범위)로 현재 행 기준 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 범위를 정의</strong>하며, UNBOUNDED PRECEDING·[CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW·N FOLLOWING 등으로 세밀하게 제어한다.
+> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW)처럼 <strong>이동 평균·누적합·연속 N일 집계</strong>를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
 > 3. **판단 포인트**: ROWS(물리적 행 수, 동점 무관)와 RANGE([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 값, 동점 포함)의 차이를 이해하고, 기본 Frame(RANGE UNBOUNDED PRECEDING)을 명시적으로 지정하는 것이 안전하다.
 
 ---
@@ -24,13 +24,13 @@ tags = ["studynote-database"]
 RANGE: AVG(sal) OVER (ORDER BY sal RANGE BETWEEN 1000 PRECEDING AND 1000 FOLLOWING)
 ```
 
-- **📢 섹션 요약 비유**: Window Frame은 **망원경 줌**이다. 얼마나 넓게(UNBOUNDED) 또는 좁게(1 PRECEDING) 볼지 조절한다.
+- **📢 섹션 요약 비유**: Window Frame은 <strong>망원경 줌</strong>이다. 얼마나 넓게(UNBOUNDED) 또는 좁게(1 PRECEDING) 볼지 조절한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROWS/RANGE 차이를 명확히 이해해야 한다.
+Window Frame은 <strong>이동 평균·누적합·연속 집계의 핵심</strong>이며, ROWS/RANGE 차이를 명확히 이해해야 한다.
 
 ---
 
@@ -46,16 +46,22 @@ Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROW
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기본 Window Function (SQL:2003)] → [ROWS/RANGE Frame]
-    → [GROUPS Frame (SQL:2011)]
-    → [현재: Window Function 최적화 — Segment Tree 기반]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 Window Function (SQL:2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ROWS/RANGE Frame</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GROUPS Frame (SQL:2011)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Window Function 최적화 — Segment Tree 기반</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Window Frame은 **망원경 줌**이에요. 넓게 or 좁게 볼 범위를 정해요.
-2. "최근 3일 평균"은 **2 PRECEDING**으로 앞 2행+현재 행을 봐요.
-3. "전체 누적합"은 **UNBOUNDED PRECEDING**으로 처음부터 다 더해요!
+1. Window Frame은 <strong>망원경 줌</strong>이에요. 넓게 or 좁게 볼 범위를 정해요.
+2. "최근 3일 평균"은 <strong>2 PRECEDING</strong>으로 앞 2행+현재 행을 봐요.
+3. "전체 누적합"은 <strong>UNBOUNDED PRECEDING</strong>으로 처음부터 다 더해요!
 
 ---
 

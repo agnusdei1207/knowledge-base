@@ -39,19 +39,21 @@ tags = ["studynote-devops-sre"]
 | **3. Heavy Testing** | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/), 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 브라우저 자동화([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)), [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 보안 스캔 |
 | **4. Report & Alert** | 결과 리포팅 | 다음 날 아침 실패 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 요약본 발송 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       주간(Day) CI와 야간(Night) 파이프라인의 이중 구조        │
-├──────────────────────────────────────────────────────────────┤
-│ [Day Time] 개발자 커밋 발생 (빈도 높음)                      │
-│   ├─▶ 캐시 기반 빠른 빌드 ─▶ 단위 테스트 ─▶ 결과 피드백 (5분)   │
-│                                                              │
-│ [Night Time] 정해진 시각 트리거 (빈도 낮음)                  │
-│   ├─▶ 기존 캐시 완전 파기 (Clean)                            │
-│   ├─▶ 100% 클린 빌드 ─▶ E2E/부하/보안 테스트 (수 시간 소요)  │
-│   └─▶ Morning Report ─▶ 출근 후 데일리 스크럼의 최우선 안건    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주간(Day) CI와 야간(Night) 파이프라인의 이중 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Day Time</div><div class="kb-diagram-note">개발자 커밋 발생 (빈도 높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 캐시 기반 빠른 빌드 ─▶ 단위 테스트 ─▶ 결과 피드백 (5분)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Night Time</div><div class="kb-diagram-note">정해진 시각 트리거 (빈도 낮음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 기존 캐시 완전 파기 (Clean)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 100% 클린 빌드 ─▶ E2E/부하/보안 테스트 (수 시간 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Morning Report ─▶ 출근 후 데일리 스크럼의 최우선 안건</div></div>
+</div>
+</div>
+
+
 
 이 구조를 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Degradation) 추이나 간헐적(Flaky) 테스트 실패를 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 분석하여 시스템의 근본적인 퇴보를 감시할 수 있다.
 
@@ -65,7 +67,7 @@ tags = ["studynote-devops-sre"]
 
 | 비교 항목 | 주간 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (Commit-based) | 야간 나이트 빌드 (Time-based) |
 | :--- | :--- | :--- |
-| **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 방식** | 코드 Push / [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 발생 시 | Cron 기반 지정된 시간 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 방식</strong> | 코드 Push / [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 발생 시 | Cron 기반 지정된 시간 |
 | **우선순위 가치** | 속도 (Fast Feedback) | 정확도 및 포괄성 (Completeness) |
 | **환경 상태** | 점진적 빌드 (캐시 의존) | 백지 상태 빌드 (제로 베이스) |
 | **장애 원인** | 주로 내가 방금 작성한 코드 | 주로 외부 의존성 업데이트, 누적된 상호작용 |
@@ -82,7 +84,7 @@ tags = ["studynote-devops-sre"]
 
 1. **절대적 클린 환경 보장**: 나이트 빌드는 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 이전 빌드 결과물, 다운로드 캐시를 철저히 비운 격리된 환경(주로 일회용 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에서 구동해야 한다. "어? 내 로컬에선 되는데 나이트 빌드에선 깨지네?"라는 현상이 나와야 정상이다.
 2. **Red Build 최우선 해결**: 아침에 출근했을 때 나이트 빌드가 '실패(Red)' 상태라면, 모든 개발팀은 신규 기능 개발을 멈추고 이를 수정하는 데 전력을 다해야 한다(Stop the Line). 방치된 실패는 깨진 유리창이 되어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 파괴한다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 나이트 빌드를 너무 가볍게 구성하여 주간 CI와 다를 바 없이 만드는 것. 남는 야간 리소스를 버리는 꼴이다. 무거워서 낮에 못했던 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)를 밤에 쏟아부어야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 나이트 빌드를 너무 가볍게 구성하여 주간 CI와 다를 바 없이 만드는 것. 남는 야간 리소스를 버리는 꼴이다. 무거워서 낮에 못했던 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)를 밤에 쏟아부어야 한다.
 
 - **📢 섹션 요약 비유**: 나이트 빌드의 에러 리포트는 은행의 일일 마감 정산과 같다. 단 1원의 오차(Red Build)라도 발견되면 퇴근하지 말고 원인을 찾아야 내일 영업(새로운 개발)을 정상적으로 시작할 수 있다.
 
@@ -103,27 +105,29 @@ tags = ["studynote-devops-sre"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **Cron Expression** | 나이트 빌드의 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 시간 예약 문법 |
-| **[Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) ([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))** | 나이트 빌드에서 수행되는, 이전 기능이 퇴보하지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 전수 테스트 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/">Regression Test</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/">회귀 테스트</a>)</strong> | 나이트 빌드에서 수행되는, 이전 기능이 퇴보하지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 전수 테스트 |
 | **Clean Build** | 잔여물을 모두 지워 환경 오염 문제를 차단하고 빌드 재현성을 확보하는 방식 |
-| **[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)** | 실행 속도가 느려 주간 CI에 넣기 힘든, 나이트 빌드 단골 손님인 보안 검사 도구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> / <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a></strong> | 실행 속도가 느려 주간 CI에 넣기 힘든, 나이트 빌드 단골 손님인 보안 검사 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Continuous Integration (기본 CI 개념 도입)
-    │
-    ▼
-Fast Feedback Cycle (캐시를 활용한 빠른 주간 검증)
-    │
-    ▼
-Nightly Build (시간 분리형 전수 회귀/무거운 검증)
-    │
-    ▼
-Automated Regression & Security Scan (보안, 부하 통합)
-    │
-    ▼
-Self-Healing CI & Predictive Analysis (결과 분석 및 자동 대응)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Continuous Integration (기본 CI 개념 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fast Feedback Cycle (캐시를 활용한 빠른 주간 검증)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Nightly Build (시간 분리형 전수 회귀/무거운 검증)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Automated Regression &amp; Security Scan (보안, 부하 통합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Self-Healing CI &amp; Predictive Analysis (결과 분석 및 자동 대응)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 사용자가 자신의 의지와는 무관하게, **해커가 의도한 행위(게시글 작성, 비밀번호 변경, 계좌 송금 등)를 특정 웹사이트에 '요청(Request)'하도록 강제당하는 웹 해킹 기법**입니다.
+- **개념**: 사용자가 자신의 의지와는 무관하게, <strong>해커가 의도한 행위(게시글 작성, 비밀번호 변경, 계좌 송금 등)를 특정 웹사이트에 '요청(Request)'하도록 강제당하는 웹 해킹 기법</strong>입니다.
 - **XSS와의 결정적 차이 🌟**: 
-  - **[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) (726번)**: 해커가 내 브라우저에 악성 스크립트를 돌려서 내 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(지갑)'를 **훔쳐다 자기 주머니로 가져가는** 도둑질입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> (726번)</strong>: 해커가 내 브라우저에 악성 스크립트를 돌려서 내 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(지갑)'를 **훔쳐다 자기 주머니로 가져가는** 도둑질입니다.
   - **CSRF**: 해커는 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔치지(보지) 못합니다. 단지 로그인되어 있는 내 '손(권한)'을 꼭두각시처럼 강제로 조종해서, **내 신분으로 나도 모르게 은행에 악성 송금 버튼을 누르게(위조 요청)** 만드는 꼭두각시 조종술입니다.
 
-```text
-[SQL 인젝션]
-    │
-    ▼
-[CSRF 인증 세션 권한 도용]
-    │
-    └──▶ [크로스 사이트 요청 위조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 인젝션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSRF 인증 세션 권한 도용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,17 +46,21 @@ tags = ["studynote-network"]
 이 마법 같은 조종술이 성공하려면 3가지 톱니바퀴가 딱 맞물려야 합니다.
 
 1. **타겟 사이트의 허술함**: 공격당할 사이트(예: 피해 은행)가 사용자의 요청(송금)이 진짜 사용자가 누른 버튼인지, 엉뚱한 사이트에서 날아온 억지 클릭인지 검사하는 2차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직이 없어야 합니다.
-2. **피해자의 로그인 유지 상태**: 희생자의 브라우저에는 이미 은행 사이트의 **'정상적인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(로그인 통행증)'가 살아 숨 쉬고 있어야 합니다.**
+2. **피해자의 로그인 유지 상태**: 희생자의 브라우저에는 이미 은행 사이트의 <strong>'정상적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(로그인 통행증)'가 살아 숨 쉬고 있어야 합니다.</strong>
 3. **피해자의 무의식적 클릭 (Trigger)**: 해커가 카톡이나 이메일로 보낸 낚시 링크를, 희생자가 로그인된 브라우저에서 무심코 찰칵 클릭해야 합니다.
 
-```text
-[SQL 인젝션]
-    │
-    ▼
-[CSRF 인증 세션 권한 도용]
-    │
-    └──▶ [크로스 사이트 요청 위조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 인젝션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSRF 인증 세션 권한 도용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,10 +68,10 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. 앨리스는 방금 A 은행에서 잔액 조회를 마치고, 창은 닫았지만 **로그아웃은 누르지 않아 브라우저에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 빵빵하게 살아있습니다.**
+1. 앨리스는 방금 A 은행에서 잔액 조회를 마치고, 창은 닫았지만 <strong>로그아웃은 누르지 않아 브라우저에 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>가 빵빵하게 살아있습니다.</strong>
 2. 해커 다스가 앨리스에게 카톡으로 `http://다스해킹.com/고양이.html` 링크를 보냅니다.
 3. 앨리스가 링크를 클릭해 고양이 사이트를 여는 순간, 그 사이트 안에 투명하게 숨겨진 이미지 태그 `<img src="http://A은행.com/send_money?to=다스계좌&amount=100만">` 코드가 앨리스의 브라우저에서 몰래 실행됩니다.
-4. **브라우저의 바보 같은 성질**: 웹 브라우저는 코드를 읽자마자 A 은행에 송금 요청 패킷을 던집니다. 이때, 브라우저는 아까 저장해 둔 **"A 은행의 살아있는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(로그인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)"를 너무나도 친절하게 찰싹 붙여서 같이 쏴버립니다.**
+4. **브라우저의 바보 같은 성질**: 웹 브라우저는 코드를 읽자마자 A 은행에 송금 요청 패킷을 던집니다. 이때, 브라우저는 아까 저장해 둔 <strong>"A 은행의 살아있는 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(로그인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)"를 너무나도 친절하게 찰싹 붙여서 같이 쏴버립니다.</strong>
 5. A 은행 서버는 요청을 받습니다. "어? 송금 요청에 앨리스 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 딱 붙어있네? 앨리스 본인이 요청한 거 확실하구만! 다스 계좌로 100만 원 쏴!" (게임 오버)
 
 CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)이 기반 조건을 만든다면, CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 그 위에서 핵심 메커니즘을 구현하고, 크로스 사이트 요청 위조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -111,15 +119,19 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SQL 인젝션]
-    │
-    ▼
-[현재 개념: CSRF 인증 세션 권한 도용]
-    │
-    ├──▶ [확장 A: 크로스 사이트 요청 위조]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SQL 인젝션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CSRF 인증 세션 권한 도용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 크로스 사이트 요청 위조와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

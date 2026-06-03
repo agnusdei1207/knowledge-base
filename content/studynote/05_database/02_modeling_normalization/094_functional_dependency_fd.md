@@ -37,33 +37,23 @@ tags = ["studynote-database"]
 | **부분 함수 종속 (Partial FD)** | 종속자 Y가 복합키 X의 일부에만 종속될 때 | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) 대상 |
 | **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때 ($X \rightarrow Z$) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 대상 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  함수적 종속성 분석 다이어그램               │
-├──────────────────────────────────────────────────────────────┤
-│ [복합 기본키]                                                │
-│ ┌───────┐   ┌─────────┐                                      │
-│ │ 학번  │   │ 과목코드│                                      │
-│ └───┬───┘   └───┬─────┘                                      │
-│     │           │                                            │
-│     └─────┬─────┘                                            │
-│           │ (1) 완전 함수 종속: 복합키 전체에 종속           │
-│           ▼                                                  │
-│      ┌────┴────┐                                             │
-│      │  성적   │                                             │
-│      └─────────┘                                             │
-│                                                              │
-│ (2) 부분 함수 종속: 키의 일부에 종속                         │
-│ ┌───────┐        ┌─────────┐                                 │
-│ │ 학번  │───────▶│ 학생이름│                                 │
-│ └───────┘        └─────────┘                                 │
-│                                                              │
-│ (3) 이행적 함수 종속: 다른 속성을 거쳐 종속                  │
-│ ┌───────┐        ┌─────────┐        ┌─────────┐            │
-│ │ 학번  │───────▶│ 지도교수│───────▶│ 교수방 번호 │         │
-│ └───────┘        └─────────┘        └─────────┘            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성 분석 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복합 기본키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">과목코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 완전 함수 종속: 복합키 전체에 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) 부분 함수 종속: 키의 일부에 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">학생이름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 이행적 함수 종속: 다른 속성을 거쳐 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">지도교수</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">교수방 번호</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램은 한 테이블 내에 혼재된 여러 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 형태를 보여준다. (1) 완전 함수 종속은 올바른 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)지만, (2) 부분 함수 종속과 (3) 이행적 함수 종속은 중복을 유발하므로 테이블을 찢어서([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 분리해야 한다.
 
@@ -77,7 +67,7 @@ tags = ["studynote-database"]
 
 | 항목 | 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) (FD) | [다치 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)) |
 | :--- | :--- | :--- |
-| **결정 규칙** | X 값 하나에 Y 값 **하나**가 결정됨 | X 값 하나에 Y 값 **여러 개**가 결정됨 |
+| **결정 규칙** | X 값 하나에 Y 값 <strong>하나</strong>가 결정됨 | X 값 하나에 Y 값 <strong>여러 개</strong>가 결정됨 |
 | **기호 표기** | $X \rightarrow Y$ | $X \twoheadrightarrow Y$ |
 | **관련 정규형** | 제1 ~ [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) 정규형 | [제4정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)) |
 | **해결 방법** | 부분/이행 종속을 분리 | 독립적인 다치 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 별도 테이블로 분리 |
@@ -93,11 +83,11 @@ tags = ["studynote-database"]
 실무에서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스키마를 설계할 때, 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 완벽히 제거하는 것만이 능사는 아니다. 
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 분리 판단)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 빈도가 높은가?** 
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 갱신 빈도가 높은가?</strong> 
    - 잦은 Update/Delete가 발생한다면, [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)을 막기 위해 부분/이행 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 반드시 분리([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))해야 한다.
 2. **조회(Read) 연산이 복잡한가?** 
    - 테이블을 너무 쪼개면 여러 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 묶기 위해 잦은 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이 발생한다. 조회 중심의 시스템(예: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 묵인하고 비정규화([Denormalization](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)) 상태를 유지하기도 한다.
-3. **[결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 정말 유일한가?** 
+3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">결정자</a>가 정말 유일한가?</strong> 
    - 이름이나 이메일처럼 중복 가능성이 0.01%라도 있는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)로 쓰면 안 되며, 인조 키([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/))를 도입해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -121,28 +111,30 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거하여 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)을 막는 일련의 과정 |
-| **기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)에서 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 완벽히 결정짓는 으뜸 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 잘못 엮여 있을 때 발생하는 삽입/수정/삭제 오류 |
-| **[다치 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/))** | 함수적 종속의 개념을 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 확장한 특수 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거하여 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)을 막는 일련의 과정 |
+| <strong>기본키 (Primary <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)에서 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 완벽히 결정짓는 으뜸 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 잘못 엮여 있을 때 발생하는 삽입/수정/삭제 오류 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/107_multi_valued_dependency_mvd_4nf/">다치 종속성</a> (<a href="/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/">MVD</a>)</strong> | 함수적 종속의 개념을 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 확장한 특수 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정규화의 기초
-    │
-    ▼
-함수적 종속성 (Functional Dependency)
-    │
-    ▼
-부분 함수 종속 (Partial FD) · 이행적 함수 종속 (Transitive FD)
-    │
-    ▼
-다치 종속성 (Multi-Valued Dependency) · 조인 종속성 (Join Dependency)
-    │
-    ▼
-데이터 무결성 확보 및 반정규화 (Denormalization) 타협
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정규화의 기초</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수적 종속성 (Functional Dependency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부분 함수 종속 (Partial FD) · 이행적 함수 종속 (Transitive FD)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다치 종속성 (Multi-Valued Dependency) · 조인 종속성 (Join Dependency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 무결성 확보 및 반정규화 (Denormalization) 타협</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

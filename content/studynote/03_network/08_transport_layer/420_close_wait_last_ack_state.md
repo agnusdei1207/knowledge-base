@@ -22,20 +22,24 @@ tags = ["studynote-network"]
 - **개념**: [TCP 4-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/418_tcp_4_way_handshake_connection_termination/) 종료 과정에서, 연결 해제 요청을 '수신한 측(Passive Close)'의 OS [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 거치게 되는 상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)의 과도기적 두 단계.
 - **필요성**: 만약 통신이 무 자르듯 뚝 끊긴다면? 내가 구글 드라이브에 100MB 파일을 올리고 있는데, 99MB쯤 올라갔을 때 구글 서버(앱)가 갑자기 급한 일이 생겨서 나한테 `FIN(끊자!)` 패킷을 날렸다고 치자. 내가 그걸 받고 즉각 셔터를 내리면, 기껏 올린 99MB 파일은 전송 실패로 쓰레기통에 처박힌다. **"네가 바쁜 건 알겠고 일단 셔터(입구)는 닫아줄게. 하지만 내가 내보낼 1MB 찌꺼기 트래픽이 아직 남아있으니 이거 마저 밀어 넣을 때까지만 출구 쪽 셔터를 붙잡아줘!!"** 이것이 패시브 종료 모델의 존재 이유다.
 
-- **💡 비유**: 이 과정은 식당의 **"마감 시간 풍경"**과 완벽히 똑같습니다.
+- **💡 비유**: 이 과정은 식당의 <strong>"마감 시간 풍경"</strong>과 완벽히 똑같습니다.
   - **CLOSE_WAIT**: 영업시간 끝났다고 지배인이 입구 간판의 불을 껐습니다(상대의 FIN 수신). 하지만 아직 주방에서는 손님이 시킨 마지막 군만두(남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 요리 중입니다. 주방장은 군만두가 나올 때까지 **주방 셔터를 붙잡고 버티고 섭니다(CLOSE_WAIT)**.
-  - **LAST_ACK**: 군만두를 손님상에 내고 "이제 저희 진짜 문 닫습니다(나의 FIN 발송)"라고 찐막 선언을 했습니다. 이제 손님이 카드 결제 사인을 해주기(마지막 ACK 수신)만을 **계산대 앞에서 멍하니 기다리는 상태(LAST_ACK)**입니다.
+  - **LAST_ACK**: 군만두를 손님상에 내고 "이제 저희 진짜 문 닫습니다(나의 FIN 발송)"라고 찐막 선언을 했습니다. 이제 손님이 카드 결제 사인을 해주기(마지막 ACK 수신)만을 <strong>계산대 앞에서 멍하니 기다리는 상태(LAST_ACK)</strong>입니다.
 
-```text
-[TIME_WAIT 상태]
-    │
-    ▼
-[CLOSE_WAIT / LAST_ACK 상태]
-    │
-    └──▶ [TCP 흐름 제어]
-```
 
-- **📢 섹션 요약 비유**: ** CLOSE_WAIT은 헤어지자는 애인의 통보를 받고 일단 고개를 끄덕였지만, **"그래도 내가 사준 플스는 돌려주고 가!"라며 바짓가랑이를 붙잡고 남은 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 싸주는 질척거리는 시간**이며, LAST_ACK는 짐을 다 싸주고 상대가 **마지막으로 "잘 살아라(최종 ACK)" 하고 뒤돌아 걸어가는 모습을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 전 1초의 찰나**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 흐름 제어</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** CLOSE_WAIT은 헤어지자는 애인의 통보를 받고 일단 고개를 끄덕였지만, **"그래도 내가 사준 플스는 돌려주고 가!"라며 바짓가랑이를 붙잡고 남은 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 싸주는 질척거리는 시간<strong>이며, LAST_ACK는 짐을 다 싸주고 상대가 </strong>마지막으로 "잘 살아라(최종 ACK)" 하고 뒤돌아 걸어가는 모습을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 전 1초의 찰나**입니다.
 
 ---
 
@@ -47,23 +51,27 @@ tags = ["studynote-network"]
 - 클라이언트 ── `FIN` ──▶ **서버 (수신!)**
 - **서버 OS**: "어? 쟤가 끊재! 일단 알았다고 대답해 줘!"
   - 서버 ── `ACK` ──▶ 클라이언트
-  - **[서버 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 상태: CLOSE_WAIT 진입!]**
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: CLOSE_WAIT 진입!]</strong>
 - **서버 OS -> 서버 애플리케이션(예: Tomcat)**: "야 톰캣아! 저기 손님이 이제 그만 먹고 나가겠대! 넌 짐 빨리 다 싸고 입에 물고 있는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 닫아(Close() [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))!"
 - 서버 애플리케이션은 남은 파일을 싹 다 밀어낸 뒤, 마지막으로 OS에게 "그래, 나도 다 줬어. 셔터 닫아라!"라고 지시한다.
 - **서버 OS**: "오케이!"
   - 서버 ── `FIN` ──▶ 클라이언트
-  - **[서버 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 상태: LAST_ACK 진입!]**
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: LAST_ACK 진입!]</strong>
 - 클라이언트 ── `ACK` (마지막 영수증) ──▶ 서버
-- **[서버 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 상태: CLOSED (완전 소멸, 깔끔한 해피엔딩!)]**
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: CLOSED (완전 소멸, 깔끔한 해피엔딩!)]</strong>
 
-```text
-[TIME_WAIT 상태]
-    │
-    ▼
-[CLOSE_WAIT / LAST_ACK 상태]
-    │
-    └──▶ [TCP 흐름 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 흐름 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CLOSE_WAIT / LAST_ACK 상태의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -85,32 +93,30 @@ CLOSE_WAIT / LAST_ACK 상태를 볼 때는 앞뒤 개념과의 경계를 함께 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-리눅스 서버에 접속해 `netstat -ano`를 쳤는데, 100개가 넘는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 `CLOSE_WAIT` 상태로 며칠째 사라지지 않고 썩어간다면? 이건 **네트워크 문제가 아니라 100% 개발자의 코딩 실수(애플리케이션 버그)**다.
+리눅스 서버에 접속해 `netstat -ano`를 쳤는데, 100개가 넘는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 `CLOSE_WAIT` 상태로 며칠째 사라지지 않고 썩어간다면? 이건 <strong>네트워크 문제가 아니라 100% 개발자의 코딩 실수(애플리케이션 버그)</strong>다.
 
 - 원리: `CLOSE_WAIT` 상태는 OS가 "야, 상대방이 끊쟀어! 너 하던 거 빨리 마무리하고 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 닫아라!"라고 어플리케이션(개발자가 짠 코드)에게 통보한 상태다.
-- **버그 발생**: 그런데 미친 어플리케이션이 무한 루프에 빠졌거나, 개발자가 코드 맨 마지막에 **`socket.close()` 라는 종료 함수를 깜빡하고 안 적어 놓았다!**
+- **버그 발생**: 그런데 미친 어플리케이션이 무한 루프에 빠졌거나, 개발자가 코드 맨 마지막에 <strong><code>socket.close()</code> 라는 종료 함수를 깜빡하고 안 적어 놓았다!</strong>
 - **결과**: 앱은 "나 아직 안 끝났어!"라고 멍때리고, OS는 "앱이 아직 안 끝났다니까 셔터 못 내리겠네..." 하고 무한정 기다려준다(CLOSE_WAIT). 상대방은 이미 퇴근한 지 오렌지인데, 내 서버 혼자서 끝도 없이 메모리에 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 붙잡고 있다가 결국 서버 램이 꽉 차서 죽어버린다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CLOSE_WAIT 장애 시나리오의 완벽한 묘사              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 1. 고객 PC ] "나 로그아웃함 ㅂㅂ" (FIN) ──▶ [ 2. 우리 회사 서버 OS ] │
- │                                              상태: CLOSE_WAIT     │
- │                                                             │
- │   [ 3. 회사 서버 OS ] "야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"    │
- │       │                                                     │
- │       ▼ (명령 하달)                                          │
- │                                                             │
- │   [ 4. 미친 백엔드 프로그램 ] (개발자가 버그 내서 무한 연산 도는 중)       │
- │      "...... (무응답, close() 함수 호출 안 함)"                │
- │                                                             │
- │   ▶ 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로│
- │           기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자  │
- │           가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSE_WAIT 장애 시나리오의 완벽한 묘사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 고객 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. 우리 회사 서버 OS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태: CLOSE_WAIT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 회사 서버 OS</div><div class="kb-diagram-note">"야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (명령 하달)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 미친 백엔드 프로그램</div><div class="kb-diagram-note">(개발자가 버그 내서 무한 연산 도는 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"...... (무응답, close() 함수 호출 안 함)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -118,7 +124,7 @@ CLOSE_WAIT / LAST_ACK 상태를 볼 때는 앞뒤 개념과의 경계를 함께 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** CLOSE_WAIT 좀비 현상은 식당 지배인(OS)이 손님이 나갔다고 주방장(어플리케이션)에게 마감하라고 소리쳤는데, **주방장이 이어폰을 끼고 노래를 들으며 영원히 설거지만 하고 있어서, 지배인이 주방장 눈치를 보며 차마 식당 문셔터를 내리지 못하고 평생 밤을 새우는 환장할 코미디**입니다. 해결책은 주방장(개발자) 등짝을 때려서 설거지(버그)를 멈추게 하는 것뿐입니다.
+- **📢 섹션 요약 비유**: <strong> CLOSE_WAIT 좀비 현상은 식당 지배인(OS)이 손님이 나갔다고 주방장(어플리케이션)에게 마감하라고 소리쳤는데, </strong>주방장이 이어폰을 끼고 노래를 들으며 영원히 설거지만 하고 있어서, 지배인이 주방장 눈치를 보며 차마 식당 문셔터를 내리지 못하고 평생 밤을 새우는 환장할 코미디**입니다. 해결책은 주방장(개발자) 등짝을 때려서 설거지(버그)를 멈추게 하는 것뿐입니다.
 
 ---
 
@@ -141,15 +147,19 @@ CLOSE_WAIT / LAST_ACK 상태는 전송 계층을 이해할 때 핵심 축을 잡
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TIME_WAIT 상태]
-    │
-    ▼
-[현재 개념: CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ├──▶ [확장 A: TCP 흐름 제어]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TIME_WAIT 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CLOSE_WAIT / LAST_ACK 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 CLOSE_WAIT / LAST_ACK 상태는 TIME_WAIT 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,80 +20,84 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 바바라 리스코프 (Barbara Liskov) 가 1987년 제안한 원칙으로, "서브타입은 그것의 베이스타입으로 치환 가능해야 한다"는 원칙이다. 즉, `T` 타입의 객체가 요구되는 모든 곳에 `S extends T` 타입의 객체를 대입해도 프로그램의 **정확성이 변하지 않아야** 한다.
 
-```
-[ 상속 거부 사례 — 정사각형/직사각형 문제 ]
-┌────────────────────────────────────────────────────────┐
-│  class Rectangle {                                     │
-│    int width, height;                                  │
-│    void setWidth(int w)  { this.width = w; }           │
-│    void setHeight(int h) { this.height = h; }          │
-│    int  area()           { return width * height; }    │
-│  }                                                     │
-│                                                        │
-│  class Square extends Rectangle {  ← "is-a?" NO!      │
-│    @Override                                           │
-│    void setWidth(int w) {                              │
-│      this.width = w; this.height = w;  // 거부: height │
-│    }                                                   │
-│    @Override                                           │
-│    void setHeight(int h) {                             │
-│      this.width = h; this.height = h;  // 거부: width  │
-│    }                                                   │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
-  Rectangle r = new Square(5);
-  r.setWidth(3);   // height도 3으로 변경 → 기대 위반!
-  assert r.area() == 15;  ← FAIL (실제: 9)
-```
 
-다형성 (Polymorphism) 을 활용하는 코드는 부모 타입으로 객체를 다룬다. LSP가 위반되면 **런타임에 예상치 못한 동작**이 발생하고, 타입 체크 (`instanceof`) 코드가 급증해 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/), [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 도 함께 위반된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상속 거부 사례 — 정사각형/직사각형 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Rectangle {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int width, height;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setWidth(int w) { this.width = w; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setHeight(int h) { this.height = h; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return width * height; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Square extends Rectangle { ← "is-a?" NO!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Override</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setWidth(int w) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">this.width = w; this.height = w; // 거부: height</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Override</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setHeight(int h) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">this.width = h; this.height = h; // 거부: width</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-note">Rectangle r = new Square(5);</div>
+<div class="kb-diagram-note">r.setWidth(3); // height도 3으로 변경 → 기대 위반!</div>
+<div class="kb-diagram-note">assert r.area() == 15; ← FAIL (실제: 9)</div>
+</div>
+</div>
+
+
+
+다형성 (Polymorphism) 을 활용하는 코드는 부모 타입으로 객체를 다룬다. LSP가 위반되면 <strong>런타임에 예상치 못한 동작</strong>이 발생하고, 타입 체크 (`instanceof`) 코드가 급증해 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/), [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 도 함께 위반된다.
 
 - **📢 섹션 요약 비유**: "포유류" 카드게임에서 "고래"를 뽑았더니 "육지에서 달려라" 명령을 수행하지 못한다 — [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층이 잘못 설계된 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────┐
-│               LSP 위반 유형 분류                           │
-├────────────────────┬───────────────────────────────────────┤
-│  유형              │  설명 및 예시                         │
-├────────────────────┼───────────────────────────────────────┤
-│ 사전 조건 강화     │ 자식이 더 엄격한 입력 조건 요구       │
-│ (Precondition      │ 부모: accept(n >= 0)                  │
-│  Strengthening)    │ 자식: accept(n > 0) ← 위반            │
-├────────────────────┼───────────────────────────────────────┤
-│ 사후 조건 약화     │ 자식이 더 약한 결과 보장              │
-│ (Postcondition     │ 부모: return list non-empty           │
-│  Weakening)        │ 자식: return null 가능 ← 위반         │
-├────────────────────┼───────────────────────────────────────┤
-│ 불변식 위반        │ 자식이 클래스 불변 조건 파괴          │
-│ (Invariant         │ Square가 width≠height 상태 허용       │
-│  Violation)        │                                       │
-├────────────────────┼───────────────────────────────────────┤
-│ 예외 규칙 추가     │ 자식이 부모가 던지지 않는 예외 추가   │
-│ (Exception         │ 자식 override에서 새 예외 throw       │
-│  Addition)         │                                       │
-└────────────────────┴───────────────────────────────────────┘
-```
 
-```
-[ 처방 — 구성 방식 재설계 ]
-┌────────────────────────────────────────────────┐
-│  interface Shape { int area(); }               │
-│                                                │
-│  class Rectangle implements Shape {           │
-│    int width, height;                          │
-│    int area() { return width * height; }       │
-│  }                                             │
-│                                                │
-│  class Square implements Shape {              │
-│    int side;                                   │
-│    int area() { return side * side; }          │
-│  }                                             │
-│  // Rectangle과 Square는 더 이상 상속 관계 없음 │
-└────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSP 위반 유형 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형</div><div class="kb-diagram-cell">설명 및 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 조건 강화</div><div class="kb-diagram-cell">자식이 더 엄격한 입력 조건 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Precondition</div><div class="kb-diagram-cell">부모: accept(n &gt;= 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strengthening)</div><div class="kb-diagram-cell">자식: accept(n &gt; 0) ← 위반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사후 조건 약화</div><div class="kb-diagram-cell">자식이 더 약한 결과 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Postcondition</div><div class="kb-diagram-cell">부모: return list non-empty</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weakening)</div><div class="kb-diagram-cell">자식: return null 가능 ← 위반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불변식 위반</div><div class="kb-diagram-cell">자식이 클래스 불변 조건 파괴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Invariant</div><div class="kb-diagram-cell">Square가 width≠height 상태 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Violation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 규칙 추가</div><div class="kb-diagram-cell">자식이 부모가 던지지 않는 예외 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Exception</div><div class="kb-diagram-cell">자식 override에서 새 예외 throw</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Addition)</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">처방 — 구성 방식 재설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interface Shape { int area(); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Rectangle implements Shape {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int width, height;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return width * height; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Square implements Shape {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int side;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return side * side; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// Rectangle과 Square는 더 이상 상속 관계 없음</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -130,12 +134,12 @@ tags = ["studynote-design-supervision"]
 Java 표준 라이브러리의 `Stack<E>` 가 `Vector<E>` 를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)하는 것은 역사적 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반 사례다. `Stack` 에 `add(index, element)` 같은 `Vector` 메서드를 호출하면 스택의 불변식(후입선출, LIFO: Last-In-First-Out)이 깨진다. 현재는 `Deque` 인터페이스와 `ArrayDeque` 구현을 사용하도록 권고한다.
 
 - **빈 메서드 구현**: 오버라이드 메서드 내부가 비어있거나 `UnsupportedOperationException`만 던지면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
-- **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층 깊이**: 3단 이상 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 잠재적 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반 가능성이 높음
-- **[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 체크**: `@Override` 메서드에서 `throw new UnsupportedOperationException` 검색
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 계층 깊이</strong>: 3단 이상 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)은 잠재적 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반 가능성이 높음
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 체크</strong>: `@Override` 메서드에서 `throw new UnsupportedOperationException` 검색
 
-- **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층 재설계**: "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) → 인터페이스 + 구성" 전환을 설계 개선 방안으로 제시
-- **계약 설계 ([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/), DbC)**: 선행 조건 (Precondition), 후행 조건 (Postcondition), 불변식 (Invariant) 문서화
-- **인터페이스 분리 ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/): [Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/))**: 거대 인터페이스 대신 역할별 소형 인터페이스
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 계층 재설계</strong>: "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) → 인터페이스 + 구성" 전환을 설계 개선 방안으로 제시
+- <strong>계약 설계 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/">Design by Contract</a>, DbC)</strong>: 선행 조건 (Precondition), 후행 조건 (Postcondition), 불변식 (Invariant) 문서화
+- <strong>인터페이스 분리 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>: <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/">Interface Segregation Principle</a>)</strong>: 거대 인터페이스 대신 역할별 소형 인터페이스
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -155,7 +159,7 @@ Java 표준 라이브러리의 `Stack<E>` 가 `Vector<E>` 를 [상속](/knowledg
 | 새 서브타입 추가 비용 | 높음 (기존 체크 코드 수정) | 낮음 (새 클래스만) |
 | 런타임 예외 발생률 | 높음 | 낮음 |
 
-[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 거부 (Refused Bequest) 는 "is-a [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 착각한 설계"의 결과다. [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)) 는 다형성이 실제로 작동하기 위한 **논리적 전제 조건**이다. 실무에서 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층을 설계할 때는 "이 자식 클래스가 부모의 모든 계약을 이행하는가?"를 먼저 검토하고, 의심스러우면 구성 (Composition) 을 선택해야 한다.
+[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 거부 (Refused Bequest) 는 "is-a [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 착각한 설계"의 결과다. [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([Liskov Substitution Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)) 는 다형성이 실제로 작동하기 위한 <strong>논리적 전제 조건</strong>이다. 실무에서 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층을 설계할 때는 "이 자식 클래스가 부모의 모든 계약을 이행하는가?"를 먼저 검토하고, 의심스러우면 구성 (Composition) 을 선택해야 한다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

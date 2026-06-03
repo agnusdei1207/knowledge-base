@@ -30,38 +30,36 @@ tags = ["studynote-bigdata"]
 
 ### A/B 테스트 프레임워크
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  A/B 테스트 실행 프레임워크                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  1. 가설 설정                                                         │
-│     H0 (귀무): 버튼 색 변경이 CTR에 영향 없음                         │
-│     H1 (대립): 초록 버튼이 파랑보다 CTR 높음                           │
-│                                                                      │
-│  2. 표본 크기 계산 (검정력 분석, Power Analysis)                      │
-│     α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)  │
-│     → 최소 n명이 필요 (각 그룹)                                       │
-│                                                                      │
-│  3. 무작위 배정 (Randomization)                                       │
-│     user_id 기반 해시 → A 그룹 (50%) or B 그룹 (50%)                 │
-│                                                                      │
-│  4. 실험 실행 (충분한 기간 = 1~2주 이상)                              │
-│                                                                      │
-│  5. 통계 분석                                                         │
-│     t-test / Z-test → p-value 계산                                   │
-│     p < 0.05 → H0 기각 → 통계적 유의미한 차이 존재                   │
-│                                                                      │
-│  6. 의사결정 및 롤아웃                                                │
-│     유의미 + 비즈니스 가치 → B 버전 전체 배포                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A/B 테스트 실행 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가설 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H0 (귀무): 버튼 색 변경이 CTR에 영향 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H1 (대립): 초록 버튼이 파랑보다 CTR 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 표본 크기 계산 (검정력 분석, Power Analysis)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최소 n명이 필요 (각 그룹)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 무작위 배정 (Randomization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user_id 기반 해시 → A 그룹 (50%) or B 그룹 (50%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 실험 실행 (충분한 기간 = 1~2주 이상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 통계 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t-test / Z-test → p-value 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p &lt; 0.05 → H0 기각 → 통계적 유의미한 차이 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 의사결정 및 롤아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유의미 + 비즈니스 가치 → B 버전 전체 배포</div></div>
+</div>
+</div>
+
+
 
 ### 통계 개념 정리
 
 | 개념 | 정의 | 함정 |
 |:---|:---|:---|
-| **[p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/)** | H0가 참일 때 현재 결과 이상이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | p < 0.05라도 효과 크기가 작을 수 있음 |
-| **통계적 검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), 1-β)** | 실제 효과가 있을 때 탐지할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 낮은 검정력 = 실제 효과를 놓침 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/">p-value</a></strong> | H0가 참일 때 현재 결과 이상이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | p < 0.05라도 효과 크기가 작을 수 있음 |
+| <strong>통계적 검정력 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>, 1-β)</strong> | 실제 효과가 있을 때 탐지할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 낮은 검정력 = 실제 효과를 놓침 |
 | **최소 효과 크기 (MDE)** | 비즈니스적으로 의미 있는 최소 차이 | 너무 작게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 막대한 표본 필요 |
 | **다중 검정 (Multiple Testing)** | 여러 지표를 동시 검정 시 오탐 증가 | Bonferroni 보정 또는 FDR 적용 |
 
@@ -99,16 +97,16 @@ A/B 테스트는 [클릭스트림 분석](/knowledge-base/studynote/16_bigdata/0
 
 1. **이커머스 체크아웃**: CTA 버튼 문구 "구매하기" vs "지금 결제" → 전환율 비교
 2. **이메일 캠페인**: 제목줄 A vs B → 오픈율·클릭률 비교
-3. **가격 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 월 구독 $9.99 vs $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) vs $12.99 (A/B/n) → 매출 최적화
-4. **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경**: 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) v1 vs v2 → 참여율·구매 전환율 비교
+3. <strong>가격 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 월 구독 $9.99 vs $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) vs $12.99 (A/B/n) → 매출 최적화
+4. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 변경</strong>: 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) v1 vs v2 → 참여율·구매 전환율 비교
 
 ### A/B 테스트 플랫폼
 
 | 플랫폼 | 특징 |
 |:---|:---|
 | **Optimizely** | 엔터프라이즈급, 통계 엔진 내장 |
-| **VWO (Visual Website [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))** | 노코드 UI, 마케터 친화적 |
-| **자체 구축 (Spark + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))** | 완전한 커스텀 실험, 대규모 처리 |
+| <strong>VWO (Visual Website <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a>)</strong> | 노코드 UI, 마케터 친화적 |
+| <strong>자체 구축 (Spark + <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)</strong> | 완전한 커스텀 실험, 대규모 처리 |
 | **Google Optimize (종료)** | GA4로 이전, Firebase 통합 |
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -152,21 +150,23 @@ A/B 테스트는 단순한 실험 기법이 아니라 조직이 "[데이터](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[가설 수립 (Hypothesis) — 비즈니스 목표 정의]
-    │
-    ▼
-[무작위 집단 분리 (Randomization) — A그룹 vs B그룹]
-    │
-    ▼
-[실험 실행 — 충분한 표본 수집 (검정력 분석)]
-    │
-    ▼
-[통계 검정 (p-value · 신뢰구간) — 유의성 판단]
-    │
-    ▼
-[베이지안 A/B 테스트 / 멀티암드 밴딧 — 현대적 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가설 수립 (Hypothesis) — 비즈니스 목표 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무작위 집단 분리 (Randomization) — A그룹 vs B그룹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실험 실행 — 충분한 표본 수집 (검정력 분석)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통계 검정 (p-value · 신뢰구간) — 유의성 판단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이지안 A/B 테스트 / 멀티암드 밴딧 — 현대적 진화</div></div>
+</div>
+</div>
+
+
 가설을 세우고 무작위 집단 분리로 편향을 제거한 실험 결과를 통계 검정으로 판단하며, 베이지안 방법론과 멀티암드 밴딧으로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

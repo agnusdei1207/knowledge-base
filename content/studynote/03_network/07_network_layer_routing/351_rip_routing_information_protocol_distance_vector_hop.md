@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)(자율 시스템) 내부에서 사용되는 IGP에 속하며, [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)([Bellman-Ford](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)) 알고리즘을 기반으로 최적 경로를 결정하는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 520번 사용).
 - **필요성**: 1980년대 컴퓨터들은 지금의 스마트폰보다도 계산 능력이 떨어졌다. 라우터가 온 동네 지형을 다 파악해서 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)) 공식을 돌리는 건 CPU가 녹아내리는 미친 짓이었다. "야, 그냥 묻지도 따지지도 말고 네가 아는 길 나한테 알려주고, 내가 아는 길 너한테 알려주면서 숫자 1씩만 더하자! CPU 안 쓰고 짱 편하네!"라는 빈약한 하드웨어의 생존 본능이 RIP를 낳았다.
 
-- **💡 비유**: RIP는 시골 마을의 **"카더라 통신"**과 같습니다. 이웃 할머니가 "읍내 시장(목적지)까지 3정거장(Hop) 걸린대!"라고 말해주면, 나는 그게 진흙탕 길인지 8차선 포장도로인지([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 묻지도 않고 내 수첩에 **"시장까지 4정거장(3+1)"**이라고 덜컥 적어버립니다.
+- **💡 비유**: RIP는 시골 마을의 <strong>"카더라 통신"</strong>과 같습니다. 이웃 할머니가 "읍내 시장(목적지)까지 3정거장(Hop) 걸린대!"라고 말해주면, 나는 그게 진흙탕 길인지 8차선 포장도로인지([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 묻지도 않고 내 수첩에 <strong>"시장까지 4정거장(3+1)"</strong>이라고 덜컥 적어버립니다.
 
-```text
-[홀드다운 타이머, 트리거드 업데이트]
-    │
-    ▼
-[RIP]
-    │
-    └──▶ [RIPv1 vs RIPv2]
-```
 
-- **📢 섹션 요약 비유**: ** RIP 알고리즘은 지하철의 **"노선도 역 개수 세기"**입니다. 목적지까지 쾌적한 KTX를 타고 5정거장을 가는 길과, 콩나물시루 같은 1호선 완행열차를 타고 3정거장을 가는 길이 있을 때, RIP는 무조건 역 개수가 적은 **지옥철(3정거장)을 1등 경로로 채택하는 단순무식한 길 찾기 앱**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀드다운 타이머, 트리거드 업데이트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RIPv1 vs RIPv2</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** RIP 알고리즘은 지하철의 **"노선도 역 개수 세기"<strong>입니다. 목적지까지 쾌적한 KTX를 타고 5정거장을 가는 길과, 콩나물시루 같은 1호선 완행열차를 타고 3정거장을 가는 길이 있을 때, RIP는 무조건 역 개수가 적은 </strong>지옥철(3정거장)을 1등 경로로 채택하는 단순무식한 길 찾기 앱**입니다.
 
 ---
 
@@ -43,34 +47,33 @@ tags = ["studynote-network"]
 RIP는 말이 안 통할 정도로 수다쟁이다. 
 - [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(자기 지식 전부)을 **무조건 30초마다** 이웃 라우터에게 복사해서 던진다.
 - 1시간 동안 아무런 선로 단절(이벤트)이 없어도, 30초마다 수백 줄짜리 엽서를 계속 주고받는다. 
-- 이 때문에 구형 56Kbps 같은 좁은 전용선에서는 **RIP가 떠드는 소리(오버헤드) 때문에 정작 고객의 진짜 데이터가 지나갈 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 꽉 막혀버리는 현상**이 발생했다.
+- 이 때문에 구형 56Kbps 같은 좁은 전용선에서는 <strong>RIP가 떠드는 소리(오버헤드) 때문에 정작 고객의 진짜 데이터가 지나갈 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 꽉 막혀버리는 현상</strong>이 발생했다.
 
 ### 2. 15 Hop 제한의 딜레마 (Count to Infinity)
 RIP의 최대 홉(Hop) 허용치는 15다. (16은 죽음, Unreachable을 의미함).
-- **왜 15로 막았나?**: 앞서 배운 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)의 치명적 단점인 "무한 루프([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)"를 막기 위해서다. 길이 끊겨서 라우터 둘이서 핑퐁으로 패킷을 돌리다 보면 홉이 1, 2, 3... 무한대로 늘어나야 하지만, "어? 16이 됐네! 이거 루프 돌고 있는 거네! 폐기!"라고 억지로 끊어버리는 **최후의 안전장치**다.
+- **왜 15로 막았나?**: 앞서 배운 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)의 치명적 단점인 "무한 루프([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)"를 막기 위해서다. 길이 끊겨서 라우터 둘이서 핑퐁으로 패킷을 돌리다 보면 홉이 1, 2, 3... 무한대로 늘어나야 하지만, "어? 16이 됐네! 이거 루프 돌고 있는 거네! 폐기!"라고 억지로 끊어버리는 <strong>최후의 안전장치</strong>다.
 - **부작용**: 전국에 지사를 둔 농협 망을 생각해보자. 서울에서 제주 지사까지 라우터를 16대 거쳐야 한다고 치자. RIP를 돌리면 16번째 제주 라우터는 "어? 나 죽은 거네?" 하고 스스로 통신을 끊어버린다. 즉, **대형 네트워크에서는 절대 쓸 수 없다.**
 
 ### 3. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 520번 ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 결여)
-OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통신하는 것과 달리, RIP는 대충 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 520번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**에 엽서를 싣고 허공에 냅다 던진다. "가다가 엽서가 분실되면 어떡하죠?" "어차피 30초 뒤에 똑같은 엽서 또 던질 건데 뭐 어때!"라는 극강의 무책임한 방식을 쓴다.
+OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통신하는 것과 달리, RIP는 대충 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 520번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>에 엽서를 싣고 허공에 냅다 던진다. "가다가 엽서가 분실되면 어떡하죠?" "어차피 30초 뒤에 똑같은 엽서 또 던질 건데 뭐 어때!"라는 극강의 무책임한 방식을 쓴다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP의 비효율적인 최적 경로 선택 시나리오             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ] ──── (10Mbps 구형 모뎀 선) ────▶ [ Z망 ]      │
- │        │                                             ▲      │
- │        └── (10Gbps 광랜) ──▶ [라우터 B] ── (10Gbps) ──┘      │
- │                                                             │
- │   * RIP의 뇌구조 판단:                                         │
- │   - 직통으로 가는 윗길: 라우터 0개 거침 (Hop Count = 1)         │
- │   - B를 거쳐 가는 아랫길: 라우터 1개 거침 (Hop Count = 2)        │
- │                                                             │
- │   ▶ 결과: "1이 2보다 작으니까 직통이 무조건 짱이야!!"                │
- │           10Gbps 광랜을 놔두고, 수만 명의 트래픽을 10Mbps 썩은 선에  │
- │           때려 박아 인터넷을 마비시켜 버린다.                     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP의 비효율적인 최적 경로 선택 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 B</div><div class="kb-diagram-note">── (10Gbps) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RIP의 뇌구조 판단:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 직통으로 가는 윗길: 라우터 0개 거침 (Hop Count = 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B를 거쳐 가는 아랫길: 라우터 1개 거침 (Hop Count = 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: "1이 2보다 작으니까 직통이 무조건 짱이야!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10Gbps 광랜을 놔두고, 수만 명의 트래픽을 10Mbps 썩은 선에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때려 박아 인터넷을 마비시켜 버린다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RIP는 기억력이 30초밖에 안 되는 금붕어와 같아서, 동네 지도(테이블)를 한 번 외우고 끝내는 게 아니라 **30초마다 이웃에게 "우리 동네 지도 이거 맞지?"라고 똑같은 소리를 끊임없이 앵무새처럼 반복**하는, 낡고 시끄러운 옛날식 확성기입니다.
 
@@ -128,15 +131,19 @@ RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 홀드다운 타이머, 트리거드 업데이트]
-    │
-    ▼
-[현재 개념: RIP]
-    │
-    ├──▶ [확장 A: RIPv1 vs RIPv2]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홀드다운 타이머, 트리거드 업데이트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RIP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RIPv1 vs RIPv2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 RIP는 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트에서 출발해 현재 메커니즘을 정교화하고, 이후 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

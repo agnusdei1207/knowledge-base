@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 1은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 설계에서 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 다루는 대상을 **행위가 아니라 리소스 (Resource) 중심으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하기 시작한 단계**다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 1은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 설계에서 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 다루는 대상을 <strong>행위가 아니라 리소스 (Resource) 중심으로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>하기 시작한 단계</strong>다.
 > 2. **가치**: `orders`, `customers`, `payments`처럼 자원별 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 분리하면 시스템 구조가 드러나고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드와 상태 코드 정비로 확장할 기반이 생긴다.
 > 3. **판단 포인트**: Level 1은 REST의 출발점이지만 아직 완성형은 아니며, URI만 명사형으로 바꾸고 모든 작업을 `POST`로 처리하면 설계 품질은 절반만 개선된다.
 
@@ -35,24 +35,25 @@ Level 1의 핵심 원리는 "리소스를 URI로 [식별](/knowledge-base/studyn
 
 아래 그림은 Level 0에서 Level 1로 넘어갈 때 무엇이 달라지는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│            Level 0 → Level 1 전환 시 의미 변화                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [Level 0]                                                         │
-│ POST /api                                                         │
-│ { action: "createOrder", customerId: 7 }                         │
-│ POST /api                                                         │
-│ { action: "cancelOrder", orderId: 1001 }                         │
-│                                                                    │
-│ [Level 1]                                                         │
-│ POST /orders                -> 주문 컬렉션에 생성 요청             │
-│ POST /orders/1001/cancel    -> 아직 메서드는 미성숙할 수 있음      │
-│ GET  /orders/1001?          -> 이상적이지만 Level 2에서 본격 정착  │
-│                                                                    │
-│ 핵심 변화: "행위 이름"보다 "대상 자원"이 URI에 드러남           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 → Level 1 전환 시 의미 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ action: "createOrder", customerId: 7 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ action: "cancelOrder", orderId: 1001 }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /orders -&gt; 주문 컬렉션에 생성 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /orders/1001/cancel -&gt; 아직 메서드는 미성숙할 수 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /orders/1001? -&gt; 이상적이지만 Level 2에서 본격 정착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 변화: "행위 이름"보다 "대상 자원"이 URI에 드러남</div></div>
+</div>
+</div>
+
+
 
 이 단계에서 설계자는 보통 컬렉션 URI, 개별 리소스 URI, 하위 리소스 URI를 정의한다. 예를 들어 고객과 주문 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 `/customers/7/orders`처럼 표현할 수 있다. 이 구조는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서화, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 권한 모델링, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)에 직접 도움이 된다. 왜냐하면 요청 경로만 보아도 시스템이 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 만졌는지 알 수 있기 때문이다.
 
@@ -116,7 +117,7 @@ Level 1의 위치를 이해하려면 Level 0과 Level 2 사이에 놓고 봐야 
 
 Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 점이다. API를 처음 보는 사람도 URI만 보고 어떤 자원이 있는지 짐작할 수 있고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계와 문서 구조도 더 안정된다. 이는 장기적으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정비에 좋은 기반이 된다.
 
-반면 한계도 명확하다. URI가 자원 중심이어도 메서드와 상태 코드가 미성숙하면 캐시, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 표준 오류 처리 같은 웹 아키텍처 이점을 충분히 살리기 어렵다. 그래서 Level 1은 목표라기보다 **[REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 설계가 시작되었다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**로 이해해야 한다.
+반면 한계도 명확하다. URI가 자원 중심이어도 메서드와 상태 코드가 미성숙하면 캐시, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 표준 오류 처리 같은 웹 아키텍처 이점을 충분히 살리기 어렵다. 그래서 Level 1은 목표라기보다 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a> 설계가 시작되었다는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>로 이해해야 한다.
 
 결론적으로 이 개념의 핵심은 "자원에게 이름을 붙여 외부에 드러낸다"는 데 있다. REST의 첫 성숙은 결국 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 예쁘게 포장하는 것이 아니라, 시스템의 대상을 리소스 단위로 재구성하는 데서 출발한다.
 
@@ -136,21 +137,25 @@ Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Level 0
-  (단일 URI + action 중심)
-    │
-    ▼
-Level 1
-  (리소스별 고유 URI)
-    │
-    ├─ 컬렉션/개별 리소스 구분
-    ├─ 도메인 경계 노출
-    └─ 문서화 · 라우팅 명확화
-    ▼
-Level 2
-  (HTTP 메서드 · 상태 코드 정착)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Level 0</div>
+<div class="kb-diagram-note">(단일 URI + action 중심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 1</div>
+<div class="kb-diagram-note">(리소스별 고유 URI)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">컬렉션/개별 리소스 구분</div>
+<div class="kb-diagram-tree-item" style="--depth:2">도메인 경계 노출</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문서화 · 라우팅 명확화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 2</div>
+<div class="kb-diagram-note">(HTTP 메서드 · 상태 코드 정착)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 중심에서 자원 중심 구조로 이동한 뒤, 다시 표준 웹 의미를 채워 넣는 순서를 보여준다.
 

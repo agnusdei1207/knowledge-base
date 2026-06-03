@@ -30,8 +30,8 @@ tags = ["cloud_architecture"]
 
 두 오토스케일러는 역할이 다르다.
 
-- **[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 개수를 늘리거나 줄인다.
-- **[VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/)**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 한 개당 리소스 요청량을 조절한다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/">HPA</a></strong>: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 개수를 늘리거나 줄인다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/">VPA</a></strong>: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 한 개당 리소스 요청량을 조절한다.
 
 ```text
 트래픽 증가
@@ -50,15 +50,21 @@ VPA: 파드당 리소스 조정
 
 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 늘어도 노드가 부족하면 배치할 자리가 없다. 이때 Cluster Autoscaler가 노드를 추가한다.
 
-```text
-HPA / VPA
-   ↓
-파드 증가 또는 리소스 증대
-   ↓
-Cluster Autoscaler
-   ↓
-노드 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HPA / VPA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">파드 증가 또는 리소스 증대</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cluster Autoscaler</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">노드 확장</div>
+</div>
+</div>
+
+
 
 그래서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 노드의 세 층을 함께 봐야 한다.
 
@@ -97,15 +103,21 @@ HPA는 사용자 수나 CPU 사용률처럼 수평 확장에 적합하고, VPA�
 
 ## 관련 개념 맵
 
-```text
-트래픽 / 자원 사용량
-   ↓
-HPA / VPA
-   ↓
-Cluster Autoscaler
-   ↓
-자동 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">트래픽 / 자원 사용량</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">HPA / VPA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cluster Autoscaler</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">자동 확장</div>
+</div>
+</div>
+
+
 
 ---
 

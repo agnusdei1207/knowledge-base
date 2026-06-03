@@ -18,17 +18,21 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 위험 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 4가지
 
-위험 대응([Risk Response](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/))은 **위험 평가 후 각 위험에 대해 취할 행동 방침**이다.
+위험 대응([Risk Response](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/))은 <strong>위험 평가 후 각 위험에 대해 취할 행동 방침</strong>이다.
 
-```
-위험 평가 (위험 = 위협 × 취약점 × 자산 가치)
-         ↓
-    ┌────┴────┐
-    │ 높은 위험│
-    └────┬────┘
-         ↓
-  [회피] [전가] [완화] [수용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 평가 (위험 = 위협 × 취약점 × 자산 가치)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 위험</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">회피</div><div class="kb-diagram-node">전가</div><div class="kb-diagram-node">완화</div><div class="kb-diagram-node">수용</div></div>
+</div>
+</div>
+
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)       | 정의                          | 예시                         |
 |----------|------------------------------|------------------------------|
@@ -47,15 +51,21 @@ tags = ["studynote-security"]
 
 ### 심층 방어 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))
 
-```
-외부 인터넷
-   ↓ [방화벽·DDoS 방어] — 예방
-   ↓ [WAF·IDS/IPS] — 탐지
-   ↓ [네트워크 세그먼테이션] — 격리
-   ↓ [엔드포인트 EDR] — 탐지·대응
-   ↓ [데이터 암호화·DLP] — 완화
-   데이터 자산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 인터넷</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">방화벽·DDoS 방어</div><div class="kb-diagram-note">— 예방</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">WAF·IDS/IPS</div><div class="kb-diagram-note">— 탐지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">네트워크 세그먼테이션</div><div class="kb-diagram-note">— 격리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">엔드포인트 EDR</div><div class="kb-diagram-note">— 탐지·대응</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">데이터 암호화·DLP</div><div class="kb-diagram-note">— 완화</div></div>
+<div class="kb-diagram-note">데이터 자산</div>
+</div>
+</div>
+
+
 
 ### 통제 유형
 
@@ -71,15 +81,20 @@ tags = ["studynote-security"]
 
 ## Ⅲ. [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)) 관리
 
-```
-총 위험 (Inherent Risk)
-   - 통제 적용
-   ──────────────────
-   잔여 위험 (Residual Risk)
-   ≤ 위험 허용 기준 (Risk Appetite)?
-      YES → 경영진 수용 승인 문서화
-      NO  → 추가 통제 적용 → 재평가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">총 위험 (Inherent Risk)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">통제 적용</div>
+<div class="kb-diagram-note">잔여 위험 (Residual Risk)</div>
+<div class="kb-diagram-note">≤ 위험 허용 기준 (Risk Appetite)?</div>
+<div class="kb-diagram-note">YES → 경영진 수용 승인 문서화</div>
+<div class="kb-diagram-note">NO → 추가 통제 적용 → 재평가</div>
+</div>
+</div>
+
+
 
 ### 위험 허용 기준 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite vs [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Tolerance)
 
@@ -120,18 +135,21 @@ tags = ["studynote-security"]
 
 ## Ⅴ. NIST RMF 기반 위험 관리 사이클
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              NIST 위험 관리 프레임워크 (RMF)              │
-│                                                          │
-│  1. Categorize (분류) — 시스템·데이터 분류               │
-│  2. Select (선택) — 보안 통제 선택                       │
-│  3. Implement (구현) — 통제 적용                         │
-│  4. Assess (평가) — 통제 효과성 평가                     │
-│  5. Authorize (승인) — ATO(Authorization to Operate)    │
-│  6. Monitor (모니터링) — 지속적 위험 모니터링             │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST 위험 관리 프레임워크 (RMF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Categorize (분류) — 시스템·데이터 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Select (선택) — 보안 통제 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Implement (구현) — 통제 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Assess (평가) — 통제 효과성 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Authorize (승인) — ATO(Authorization to Operate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Monitor (모니터링) — 지속적 위험 모니터링</div></div>
+</div>
+</div>
+
+
 
 ### 주요 위험 관리 표준
 
@@ -148,48 +166,55 @@ tags = ["studynote-security"]
 
 ## 📌 관련 개념 맵
 
-```
-위험 대응 전략 (Risk Response Strategies)
-├── 4대 전략
-│   ├── 회피 (Avoid) — 원인 제거
-│   ├── 전가 (Transfer) — 보험·아웃소싱
-│   ├── 완화 (Mitigate) — 통제 적용
-│   └── 수용 (Accept) — 잔여 위험 인정
-├── 완화 수단
-│   ├── 예방적·탐지적·교정적 통제
-│   └── 심층 방어 (Defense in Depth)
-├── 잔여 위험 관리
-│   ├── Risk Appetite / Tolerance
-│   └── 경영진 수용 승인 (ATO)
-└── 표준 프레임워크
-    ├── NIST RMF
-    ├── ISO 27005
-    └── FAIR 모델
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 대응 전략 (Risk Response Strategies)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">4대 전략</div>
+<div class="kb-diagram-note">── 회피 (Avoid) — 원인 제거</div>
+<div class="kb-diagram-note">── 전가 (Transfer) — 보험·아웃소싱</div>
+<div class="kb-diagram-note">── 완화 (Mitigate) — 통제 적용</div>
+<div class="kb-diagram-note">── 수용 (Accept) — 잔여 위험 인정</div>
+<div class="kb-diagram-tree-item" style="--depth:0">완화 수단</div>
+<div class="kb-diagram-note">── 예방적·탐지적·교정적 통제</div>
+<div class="kb-diagram-note">── 심층 방어 (Defense in Depth)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">잔여 위험 관리</div>
+<div class="kb-diagram-note">── Risk Appetite / Tolerance</div>
+<div class="kb-diagram-note">── 경영진 수용 승인 (ATO)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">표준 프레임워크</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NIST RMF</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ISO 27005</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FAIR 모델</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              위험 대응 전략 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ BS7799·ISMS 초기   │ 정보보안 위험 관리 개념화    │
-│ 2001년       │ ISO 17799         │ 정보보안 위험 관리 국제 표준  │
-│ 2005년       │ ISO 27001/27005   │ ISMS + 위험 관리 세분화       │
-│ 2010년       │ NIST RMF 출판     │ 미국 연방 정부 위험 관리 표준 │
-│ 2018년       │ GDPR + 사이버 보험│ 법적 의무 + 위험 전가 급성장  │
-│ 2020년대     │ FAIR + AI 위험    │ 정량적 분석·AI 리스크 추가   │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-위험 식별 → 위험 분석 → 위험 평가 → 위험 대응 → 모니터링
-    ↓           ↓           ↓            ↓
-자산 목록    ALE 계산    허용 기준    4대 전략 선택
-    ↓
-잔여 위험 → 경영진 수용 승인 → ISMS 인증
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 대응 전략 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">BS7799·ISMS 초기</div><div class="kb-diagram-cell">정보보안 위험 관리 개념화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001년</div><div class="kb-diagram-cell">ISO 17799</div><div class="kb-diagram-cell">정보보안 위험 관리 국제 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2005년</div><div class="kb-diagram-cell">ISO 27001/27005</div><div class="kb-diagram-cell">ISMS + 위험 관리 세분화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년</div><div class="kb-diagram-cell">NIST RMF 출판</div><div class="kb-diagram-cell">미국 연방 정부 위험 관리 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">GDPR + 사이버 보험</div><div class="kb-diagram-cell">법적 의무 + 위험 전가 급성장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">FAIR + AI 위험</div><div class="kb-diagram-cell">정량적 분석·AI 리스크 추가</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">위험 식별 → 위험 분석 → 위험 평가 → 위험 대응 → 모니터링</div>
+<div class="kb-diagram-note">자산 목록 ALE 계산 허용 기준 4대 전략 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">잔여 위험 → 경영진 수용 승인 → ISMS 인증</div>
+</div>
+</div>
+
+
 
 ---
 

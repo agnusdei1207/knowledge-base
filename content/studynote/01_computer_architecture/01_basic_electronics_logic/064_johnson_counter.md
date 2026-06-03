@@ -29,11 +29,16 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-FF1 → FF2 → FF3 → FF4
- ↑                 ↓
- └────── inverted ─┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FF1 → FF2 → FF3 → FF4</div>
+<div class="kb-diagram-tree-item" style="--depth:0">inverted ─</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -101,29 +106,41 @@ FF1 → FF2 → FF3 → FF4
 
 ## 관련 개념 맵
 
-```text
-Shift Register
-  ↓
-Inverted Feedback
-  ↓
-Johnson Counter
-  ↓
-2n State Sequence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shift Register</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Inverted Feedback</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Johnson Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2n State Sequence</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Ring Counter
-  ↓
-Johnson Counter
-  ↓
-Sequence Generator
-  ↓
-Timing Control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Ring Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Johnson Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sequence Generator</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Timing Control</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -29,30 +29,28 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-채찍 효과를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 가장 강력한 2가지 무기는 **POS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 정보 중앙화**와 **[VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) ([Vendor Managed Inventory](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/))**다.
+채찍 효과를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 가장 강력한 2가지 무기는 <strong>POS <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반의 정보 중앙화</strong>와 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">Vendor Managed Inventory</a>)</strong>다.
 
-1. **POS (Point of Sales) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직결**: 편의점에서 바코드를 찍는 순간의 '실판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'가 도매상을 거치지 않고 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 서버를 통해 제조 공장에 실시간으로 공유된다. 공장은 왜곡된 도매상의 발주서 대신, 팩트(Fact)인 소비자 수요만 보고 생산 계획을 짠다.
-2. **[VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) (공급자 주도형 재고 관리)**: 소매점(을)이 발주를 넣는 기존 방식을 뒤집어, 제조사(갑)가 소매점의 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 알아서 물건을 채워주는 방식이다.
+1. <strong>POS (Point of Sales) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 직결</strong>: 편의점에서 바코드를 찍는 순간의 '실판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'가 도매상을 거치지 않고 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 서버를 통해 제조 공장에 실시간으로 공유된다. 공장은 왜곡된 도매상의 발주서 대신, 팩트(Fact)인 소비자 수요만 보고 생산 계획을 짠다.
+2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (공급자 주도형 재고 관리)</strong>: 소매점(을)이 발주를 넣는 기존 방식을 뒤집어, 제조사(갑)가 소매점의 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 알아서 물건을 채워주는 방식이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)        │
-├──────────────────────────────────────────────────────────────┤
-│ [ 전통적 방식: 정보 단절과 지연 ]                            │
-│  소비자 ─(10개)─▶ 소매점 ─(15개 발주)─▶ 도매상 ─(30개 발주)─▶ 공장 │
-│    ▲               │                 │               │       │
-│    └───────────────┴─────────────────┴───────────────┘       │
-│                각자 창고에 안전 재고를 몰래 쌓음                   │
-│                                                              │
-│ [ VMI 및 실시간 정보 공유 (EDI / POS 연동) ]                 │
-│  소비자 ─(10개 구매)─▶ 소매점 (발주 안 함, 판매 데이터만 전송)       │
-│                        │                                     │
-│                        ▼ [POS 실시간 데이터]                 │
-│                 ┌────────────────┐                           │
-│                 │   SCM 통합 서버  │◀──────────────[공장]     │
-│                 └────────────────┘     (10개 소진 확인 후 즉시 생산/배송) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 방식: 정보 단절과 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 ─(10개)─▶ 소매점 ─(15개 발주)─▶ 도매상 ─(30개 발주)─▶ 공장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각자 창고에 안전 재고를 몰래 쌓음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VMI 및 실시간 정보 공유 (EDI / POS 연동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 ─(10개 구매)─▶ 소매점 (발주 안 함, 판매 데이터만 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">POS 실시간 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">공장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10개 소진 확인 후 즉시 생산/배송)</div></div>
+</div>
+</div>
+
+
 
 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 체제에서는 공장이 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통제하므로, 각 유통 단계에서 발생하는 과장된 주문(뻥튀기)이 원천 차단된다. [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)(주문부터 도착까지의 시간)이 짧아지면 가수요가 사라져 채찍의 진폭 자체가 작아진다.
 
@@ -69,7 +67,7 @@ tags = ["studynote-enterprise-systems"]
 | **재고 소유권** | 소매점 | 소매점 | 공급자 (공장/도매상) | 공동 소유/관리 |
 | **발주 주체** | 소매점 | 소매점 | 공급자 | 공동 기획 |
 | **정보의 흐름** | 단절 (발주서만 전달) | POS 실판매 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | 실재고량 및 판매 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) | 판촉, 기획 등 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 공유 |
-| **채찍 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)력** | 낮음 (심각한 왜곡) | 중간 (예측 정확도 향상) | 높음 (가수요 차단) | 매우 높음 (궁극적 협업) |
+| <strong>채찍 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>력</strong> | 낮음 (심각한 왜곡) | 중간 (예측 정확도 향상) | 높음 (가수요 차단) | 매우 높음 (궁극적 협업) |
 
 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겨주는 수준(Information Sharing)을 넘어, 공급자가 발주 권한을 가져가면([VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)), 더 나아가 양사가 판촉 기획까지 같이 하면(CPFR) 채찍 효과는 완벽에 가깝게 소멸한다. 
 
@@ -82,9 +80,9 @@ tags = ["studynote-enterprise-systems"]
 실무 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 구축 시 VMI와 실시간 정보 공유가 항상 성공하는 것은 아니다. 기술적 인프라보다 기업 간의 역학 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 더 큰 장애물이 된다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 분기
-1. **갑을 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 역전 수용이 가능한가?**
+1. <strong>갑을 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>의 역전 수용이 가능한가?</strong>
    - VMI를 도입하면 소매점(유통업체)은 진열장 권한을 넘겨야 하고, 공급자(제조사)는 재고 유지 비용을 떠안아야 한다. P&G와 월마트처럼 상호 윈윈(Win-Win) 구조에 대한 경영진의 결단과 신뢰(Trust)가 선행되어야 한다.
-2. **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))의 물리적 한계는 어떠한가?**
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">Lead Time</a>)의 물리적 한계는 어떠한가?</strong>
    - [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)처럼 원자재 수급부터 제조까지 수개월이 걸리는 산업은 POS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 봐도 당장 찍어낼 수가 없다. 이런 경우 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 도입보다는 공정 자체의 유연성 확보나 핵심 부품의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 비축이 더 중요하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -108,28 +106,30 @@ SCM을 통한 투명한 정보 공유와 VMI의 도입은 [공급망](/knowledge
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 하나의 프로세스로 통합 최적화하는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **채찍 효과 ([Bullwhip Effect](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/))** | 하류(고객)의 작은 수요 변동이 상류(공장)로 갈수록 증폭되는 현상 |
-| **[VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) ([Vendor Managed Inventory](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/))** | 공급자가 수요자의 재고 수준을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 주도적으로 보충하는 기법 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 하나의 프로세스로 통합 최적화하는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong>채찍 효과 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/">Bullwhip Effect</a>)</strong> | 하류(고객)의 작은 수요 변동이 상류(공장)로 갈수록 증폭되는 현상 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">Vendor Managed Inventory</a>)</strong> | 공급자가 수요자의 재고 수준을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 주도적으로 보충하는 기법 |
 | **CPFR** | VMI에서 한 단계 더 나아가 기획, 예측, 보충까지 공동으로 수행하는 협업 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 조달 체계 (서면 발주, 정보 단절)
-    │
-    ▼
-채찍 효과 (Bullwhip Effect) 및 악성 재고 발생
-    │
-    ▼
-POS 데이터 실시간 공유 (Information Sharing, EDI 도입)
-    │
-    ▼
-VMI (공급자 주도형 재고 관리) 체계로 패러다임 전환
-    │
-    ▼
-CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 조달 체계 (서면 발주, 정보 단절)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">채찍 효과 (Bullwhip Effect) 및 악성 재고 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">POS 데이터 실시간 공유 (Information Sharing, EDI 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMI (공급자 주도형 재고 관리) 체계로 패러다임 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

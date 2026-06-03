@@ -21,18 +21,19 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 설계에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 구조적 복잡도(Complexity)와 재사용성을 측정하는 아주 직관적이고 중요한 지표입니다. 시스템의 구조도(Structure Chart) 상에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(선)를 세어서 계산합니다.
 
-```text
-        [ 모듈 A ]         [ 모듈 B ]         [ 모듈 C ]
-             │                 │                  │
-             └────────┬────────┘                  │
-                      ▼                           ▼
-                 [ 모듈 D ] ◀─────────────────────┘
-                 (Fan-in: 3)
-                (Fan-out: 2)
-                 ┌────┴────┐
-                 ▼         ▼
-             [모듈 E]   [모듈 F]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 A</div><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-node">모듈 C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 D</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-note">(Fan-in: 3)</div>
+<div class="kb-diagram-note">(Fan-out: 2)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 E</div><div class="kb-diagram-node">모듈 F</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 팬인 (Fan-in) / 팬아웃 (Fan-out)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -42,7 +43,7 @@ tags = ["studynote-software-engineering"]
 
 - **의미**: "얼마나 많은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들이 나를 필요로 하는가?"
 - **특징**: 팬인이 높다는 것은 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 여러 곳에서 **공통으로 많이 재사용(Reuse)** 되고 있다는 뜻입니다. (예: '로그인 체크 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)'은 장바구니, 마이페이지 등 모든 곳에서 호출하므로 팬인이 매우 높습니다.)
-- **설계 지침**: 훌륭한 설계는 **Fan-in을 높게 유지**하여 중복 코드를 줄이는 것입니다. 단, 너무 높으면 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 될 수 있으므로 테스트를 가장 빡세게 해야 합니다.
+- **설계 지침**: 훌륭한 설계는 <strong>Fan-in을 높게 유지</strong>하여 중복 코드를 줄이는 것입니다. 단, 너무 높으면 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 될 수 있으므로 테스트를 가장 빡세게 해야 합니다.
 
 - **📢 섹션 요약 비유**: 팬인 (Fan-in) / 팬아웃 (Fan-out)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -58,7 +59,7 @@ tags = ["studynote-software-engineering"]
 
 - **의미**: "내가 일을 시키는(부려 먹는) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 몇 개인가?"
 - **특징**: 팬아웃이 높다는 것은 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자신이 해야 할 일을 수많은 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에게 뿌려주는 '제어(Control)' 역할이 강하다는 뜻입니다. 반면, 내부 로직이 너무 복잡해 통제력이 떨어진다는 신호이기도 합니다.
-- **설계 지침**: 훌륭한 설계는 **Fan-out을 낮게(보통 3~4 이내) 유지**하는 것입니다. 만약 Fan-out이 너무 크면, 중간 관리자 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 하나 더 만들어서 지시 체계를 단순화(계층화)해야 합니다.
+- **설계 지침**: 훌륭한 설계는 <strong>Fan-out을 낮게(보통 3~4 이내) 유지</strong>하는 것입니다. 만약 Fan-out이 너무 크면, 중간 관리자 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 하나 더 만들어서 지시 체계를 단순화(계층화)해야 합니다.
 
 - **📢 섹션 요약 비유**: 팬인 (Fan-in) / 팬아웃 (Fan-out)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -106,21 +107,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-팬인 (Fan-in) / 팬아웃 (Fan-out) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팬인 (Fan-in) / 팬아웃 (Fan-out) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

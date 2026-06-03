@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 여러 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 소스([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로부터 동일한 목적지에 대한 경로를 학습했을 때, 어떤 정보 소스를 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 등록할지 결정하는 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(Trustworthiness) 지수.
-- **필요성**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))은 자기들끼리 싸울 때 쓰는 거다. OSPF가 "내 길이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Cost 10이니까 내가 짱이야!"라고 주장하는데, 옆에 있던 RIP가 "웃기지 마! 내 길은 Hop이 1개니까 내가 짱이야!"라고 우긴다. 잣대(단위)가 다르니 둘을 링에 올려놓고 싸움을 붙일 수가 없다. 라우터 입장에서는 **"서로 잣대가 다를 땐, 그냥 어느 소속([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 놈이 더 똑똑한 놈인지 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 서열을 미리 매겨놓고, 서열 높은 놈 말만 듣자!"**라는 교통정리가 필요했다.
+- **필요성**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))은 자기들끼리 싸울 때 쓰는 거다. OSPF가 "내 길이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Cost 10이니까 내가 짱이야!"라고 주장하는데, 옆에 있던 RIP가 "웃기지 마! 내 길은 Hop이 1개니까 내가 짱이야!"라고 우긴다. 잣대(단위)가 다르니 둘을 링에 올려놓고 싸움을 붙일 수가 없다. 라우터 입장에서는 <strong>"서로 잣대가 다를 땐, 그냥 어느 소속(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 놈이 더 똑똑한 놈인지 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 서열을 미리 매겨놓고, 서열 높은 놈 말만 듣자!"</strong>라는 교통정리가 필요했다.
 
-- **💡 비유**: 길을 잃었을 때 동네 꼬마([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 "오른쪽으로 가!"라고 하고, 경찰관([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 "왼쪽으로 가!"라고 하며, 내비게이션(Static)은 "직진해!"라고 합니다. 이때 나는 누구의 말을 믿을까요? 당연히 가장 신뢰할 수 있는 내비게이션(1순위)의 말을 듣고 직진합니다. 이 **"누구의 직업(출처)을 믿을 것인가"에 대한 점수표가 바로 AD(관리 거리)**입니다.
+- **💡 비유**: 길을 잃었을 때 동네 꼬마([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 "오른쪽으로 가!"라고 하고, 경찰관([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 "왼쪽으로 가!"라고 하며, 내비게이션(Static)은 "직진해!"라고 합니다. 이때 나는 누구의 말을 믿을까요? 당연히 가장 신뢰할 수 있는 내비게이션(1순위)의 말을 듣고 직진합니다. 이 <strong>"누구의 직업(출처)을 믿을 것인가"에 대한 점수표가 바로 AD(관리 거리)</strong>입니다.
 
-```text
-[메트릭]
-    │
-    ▼
-[관리 거리]
-    │
-    └──▶ [AS / ASN 분배]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관리 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AS / ASN 분배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AD 값은 라우터 세상의 **"공무원 직급(서열)"**입니다. 9급 공무원([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))이 아무리 완벽한 보고서를 써와도, 1급 장관(Static)이 "이 길로 가!"라고 한마디 하면 9급의 보고서는 즉각 휴지통에 버려집니다.
 
@@ -41,14 +45,18 @@ tags = ["studynote-network"]
 
 관리 거리는 네트워크 전체에서 최적 경로를 찾고 유지하는 제어 축라는 관점에서 이해해야 한다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[메트릭]
-    │
-    ▼
-[관리 거리]
-    │
-    └──▶ [AS / ASN 분배]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관리 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AS / ASN 분배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 관리 거리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -74,38 +82,38 @@ tags = ["studynote-network"]
 
 | 순위 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소스 ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | AD 값 | 이유 (왜 신뢰하는가?) |
 |:---:|:---|:---:|:---|
-| **0순위** | **Connected** (직접 연결됨) | **`0`** | 내 몸([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 직접 꽂힌 선인데 당연히 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 믿어야 함. |
-| **1순위** | **Static Route** ([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)) | **`1`** | 라우터의 주인이신 관리자(인간)가 쳐 넣은 절대 명령이므로 99% 믿음. |
-| **2순위** | **eBGP** (외부 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) | **`20`** | 통신사 밖에서 넘어온 인터넷 국가대표급 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이라 매우 신뢰. |
-| **3순위** | **[EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/)** (시스코 내부용) | **`90`** | 시스코가 자기네 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 쓰게 하려고 OSPF보다 일부러 점수 좋게 줌. |
-| **4순위** | **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)** (오픈 표준) | **`110`** | 동네 지도를 다 그려보고 판단하는 가장 합리적이고 똑똑한 놈. |
-| **5순위** | **[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)** | **`120`** | 남의 말만 듣고 소문 퍼뜨리는 멍청한 놈이라 제일 안 믿음. |
+| **0순위** | **Connected** (직접 연결됨) | <strong><code>0</code></strong> | 내 몸([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 직접 꽂힌 선인데 당연히 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 믿어야 함. |
+| **1순위** | **Static Route** ([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)) | <strong><code>1</code></strong> | 라우터의 주인이신 관리자(인간)가 쳐 넣은 절대 명령이므로 99% 믿음. |
+| **2순위** | **eBGP** (외부 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) | <strong><code>20</code></strong> | 통신사 밖에서 넘어온 인터넷 국가대표급 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이라 매우 신뢰. |
+| **3순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a></strong> (시스코 내부용) | <strong><code>90</code></strong> | 시스코가 자기네 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 쓰게 하려고 OSPF보다 일부러 점수 좋게 줌. |
+| **4순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong> (오픈 표준) | <strong><code>110</code></strong> | 동네 지도를 다 그려보고 판단하는 가장 합리적이고 똑똑한 놈. |
+| **5순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong> | <strong><code>120</code></strong> | 남의 말만 듣고 소문 퍼뜨리는 멍청한 놈이라 제일 안 믿음. |
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AD 대결과 라우팅 테이블(RIB) 승리 시나리오           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   * 목적지: 부산 (192.168.10.0/24) 망으로 가고 싶다.                 │
- │                                                             │
- │   1) OSPF 프로세스가 정보를 들고옴: "1번 포트로 가십쇼!" (AD: 110)      │
- │   2) RIP 프로세스가 정보를 들고옴: "아닙니다! 2번 포트가 짱입니다!" (AD: 120)│
- │   3) 관리자가 쳐둔 Static 룰: "무조건 3번으로 가라" (AD: 1)           │
- │                                                             │
- │   ▶ 라우터의 결단: "다 닥쳐! 관리자님이 쳐두신 Static(1)이 최고 존엄이다!" │
- │   ▶ 결과: 라우팅 테이블에는 오직 "Static -> 3번 포트" 단 한 줄만 올라감. │
- │           (OSPF와 RIP 정보는 메모리 구석에 처박혀서 대기함)            │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AD 대결과 라우팅 테이블(RIB) 승리 시나리오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목적지: 부산 (192.168.10.0/24) 망으로 가고 싶다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) OSPF 프로세스가 정보를 들고옴: "1번 포트로 가십쇼!" (AD: 110)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) RIP 프로세스가 정보를 들고옴: "아닙니다! 2번 포트가 짱입니다!" (AD: 120)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 관리자가 쳐둔 Static 룰: "무조건 3번으로 가라" (AD: 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 라우터의 결단: "다 닥쳐! 관리자님이 쳐두신 Static(1)이 최고 존엄이다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 라우팅 테이블에는 오직 "Static -&gt; 3번 포트" 단 한 줄만 올라감.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OSPF와 RIP 정보는 메모리 구석에 처박혀서 대기함)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 플로팅 스태틱 (Floating Static) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기술
 AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 보통 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(AD 110)로 메인 통신을 하고 있다. 선이 끊어지면 쓸 ISDN 전화선(예비선)을 하나 꽂아놨다.
 - 관리자가 예비선 쪽에 Static [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 건다. `ip route 10.0.0.0 255.0.0.0 1.1.1.1`
 - 이러면 Static의 AD가 `1`이 되어서, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(`110`)를 찢어버리고 평소에도 끔찍하게 느린 예비선(전화선)으로만 트래픽이 흐르는 대참사가 벌어진다.
-- **해결책**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 맨 뒤에 AD 값을 억지로 **`130`**으로 조작해서 박아 넣는다!
+- **해결책**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 맨 뒤에 AD 값을 억지로 <strong><code>130</code></strong>으로 조작해서 박아 넣는다!
   `ip route 10.0.0.0 255.0.0.0 1.1.1.1 130`
-- **플로팅(물 위에 둥둥 뜸) 효과**: 평소엔 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(110)가 130보다 낮아서 이겨서 메인 선로를 쓴다. 그러다 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 메인 선이 포크레인에 끊겨서 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 룰이 테이블에서 날아가 버리면? **수면 아래 잠수해 있던 AD 130짜리 예비 스태틱 경로가 "짠!" 하고 물 위([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)로 부상하여** 끊김 없이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 선로로 통신을 살려낸다.
+- **플로팅(물 위에 둥둥 뜸) 효과**: 평소엔 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(110)가 130보다 낮아서 이겨서 메인 선로를 쓴다. 그러다 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 메인 선이 포크레인에 끊겨서 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 룰이 테이블에서 날아가 버리면? <strong>수면 아래 잠수해 있던 AD 130짜리 예비 스태틱 경로가 "짠!" 하고 물 위(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)로 부상하여</strong> 끊김 없이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 선로로 통신을 살려낸다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,15 +144,19 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 메트릭]
-    │
-    ▼
-[현재 개념: 관리 거리]
-    │
-    ├──▶ [확장 A: AS / ASN 분배]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 메트릭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 관리 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AS / ASN 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 관리 거리는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

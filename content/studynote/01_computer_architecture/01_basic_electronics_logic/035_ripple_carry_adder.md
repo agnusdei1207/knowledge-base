@@ -18,17 +18,20 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 기본 원리 — [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)의 체인
 
-```
-  A3 B3    A2 B2    A1 B1    A0 B0
-  │  │     │  │     │  │     │  │
- [FA3]←C3─[FA2]←C2─[FA1]←C1─[FA0]←Cin=0
-  │        │        │        │
-  S3       S2       S1       S0
-  │
-  Cout
-```
 
-- **FA ([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))** 하나가 1비트 합(Sum)과 캐리(Carry Out) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A3 B3 A2 B2 A1 B1 A0 B0</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FA3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">FA2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">FA1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">FA0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Cin=0</div></div>
+<div class="kb-diagram-note">S3 S2 S1 S0</div>
+<div class="kb-diagram-note">Cout</div>
+</div>
+</div>
+
+
+
+- <strong>FA (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">Full Adder</a>)</strong> 하나가 1비트 합(Sum)과 캐리(Carry Out) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - Carry Out이 다음 FA의 Carry In으로 전달 → 물결처럼 전파
 - n-bit 합산 시 FA를 n개 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결
 
@@ -73,14 +76,19 @@ n-bit RCA 총 지연:
 
 ### 3-1. CLA ([Carry Lookahead Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))
 
-```
-Generate: Gi = Ai AND Bi   → 이 자리에서 캐리 생성
-Propagate: Pi = Ai XOR Bi  → 입력 캐리를 다음 자리로 전달
 
-C1 = G0 + P0·C0
-C2 = G1 + P1·G0 + P1·P0·C0
-C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Generate: Gi = Ai AND Bi → 이 자리에서 캐리 생성</div>
+<div class="kb-diagram-note">Propagate: Pi = Ai XOR Bi → 입력 캐리를 다음 자리로 전달</div>
+<div class="kb-diagram-note">C1 = G0 + P0·C0</div>
+<div class="kb-diagram-note">C2 = G1 + P1·G0 + P1·P0·C0</div>
+<div class="kb-diagram-note">C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0 (병렬 계산)</div>
+</div>
+</div>
+
+
 
 - **O(log n)** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 단축
 - 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리를 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 결과를 기다리지 않고 직접 계산
@@ -137,49 +145,57 @@ endmodule
 
 ## 📌 관련 개념 맵
 
-```
-리플 캐리 가산기 (RCA)
-├── 구성 단위: FA (Full Adder)
-│   ├── Half Adder (HA) × 2 + OR
-│   └── 입력: A, B, Cin / 출력: Sum, Cout
-├── 성능 병목: 캐리 전파 지연 O(n)
-├── 개선
-│   ├── CLA (Carry Lookahead Adder) → O(log n)
-│   │   ├── Generate (Gi)
-│   │   └── Propagate (Pi)
-│   └── CSA (Carry Save Adder) → 3→2 압축
-└── 응용
-    ├── ALU (Arithmetic Logic Unit)
-    ├── 곱셈기 (부분 합 합산)
-    └── FPU (부동소수점 가산)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">리플 캐리 가산기 (RCA)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구성 단위: FA (Full Adder)</div>
+<div class="kb-diagram-note">── Half Adder (HA) × 2 + OR</div>
+<div class="kb-diagram-note">── 입력: A, B, Cin / 출력: Sum, Cout</div>
+<div class="kb-diagram-tree-item" style="--depth:0">성능 병목: 캐리 전파 지연 O(n)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">개선</div>
+<div class="kb-diagram-note">── CLA (Carry Lookahead Adder) → O(log n)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Generate (Gi)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Propagate (Pi)</div></div>
+<div class="kb-diagram-note">── CSA (Carry Save Adder) → 3→2 압축</div>
+<div class="kb-diagram-tree-item" style="--depth:0">응용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ALU (Arithmetic Logic Unit)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">곱셈기 (부분 합 합산)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FPU (부동소수점 가산)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-[반가산기 HA]
-      │ 캐리 처리 한계
-      ▼
-[전가산기 FA] → Cin 포함 1비트 합산
-      │ 직렬 연결
-      ▼
-[RCA (Ripple Carry Adder)] → 단순·저비용·O(n) 지연
-      │ 속도 개선 필요
-      ├──────────────────────────────┐
-      ▼                              ▼
-[CLA (Carry Lookahead)]        [CSA (Carry Save)]
-O(log n) 지연·병렬 캐리        3→2 압축·곱셈기 내부
-      │
-      ▼
-[계층적 CLA / Kogge-Stone / Brent-Kung]
-초고속 VLSI 가산기 설계
-      │
-      ▼
-[현대 CPU ALU / FPU / GPU]
-GHz 클럭에서 1사이클 가산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반가산기 HA</div></div>
+<div class="kb-diagram-note">캐리 처리 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전가산기 FA</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Cin 포함 1비트 합산</div></div>
+<div class="kb-diagram-note">직렬 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RCA (Ripple Carry Adder)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">단순·저비용·O(n) 지연</div></div>
+<div class="kb-diagram-note">속도 개선 필요</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLA (Carry Lookahead)</div><div class="kb-diagram-node">CSA (Carry Save)</div></div>
+<div class="kb-diagram-note">O(log n) 지연·병렬 캐리 3→2 압축·곱셈기 내부</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계층적 CLA / Kogge-Stone / Brent-Kung</div></div>
+<div class="kb-diagram-note">초고속 VLSI 가산기 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대 CPU ALU / FPU / GPU</div></div>
+<div class="kb-diagram-note">GHz 클럭에서 1사이클 가산</div>
+</div>
+</div>
+
+
 
 ---
 

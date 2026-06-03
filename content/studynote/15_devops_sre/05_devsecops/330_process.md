@@ -29,23 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+-----------------------------------------------------------+
-|          마이크로 세그멘테이션 구조 (K8s)                  |
-+-----------------------------------------------------------+
-|                                                           |
-|  [기존 - 플랫 네트워크]        [마이크로 세그멘테이션]      |
-|  Pod A <-----------> Pod B     Pod A  |  Pod B            |
-|  Pod C <-----------> Pod D     -------+-------            |
-|  (모든 Pod 간 통신 허용)        Pod C  |  Pod D            |
-|                                (정책으로 격리)             |
-|                                                           |
-|  Cilium eBPF 정책 구조:                                    |
-|  L3: IP/CIDR 기반 허용/차단                                |
-|  L4: 포트/프로토콜 필터링                                   |
-|  L7: HTTP 메서드/경로 필터링 (GET /api/v1만 허용 등)        |
-+-----------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 세그멘테이션 구조 (K8s)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 - 플랫 네트워크</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A &lt;-----------&gt; Pod B Pod A</div><div class="kb-diagram-cell">Pod B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod C &lt;-----------&gt; Pod D -------+-------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 Pod 간 통신 허용) Pod C</div><div class="kb-diagram-cell">Pod D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정책으로 격리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cilium eBPF 정책 구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3: IP/CIDR 기반 허용/차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4: 포트/프로토콜 필터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L7: HTTP 메서드/경로 필터링 (GET /api/v1만 허용 등)</div></div>
+</div>
+</div>
+
+
 
 | 기술 | 레이어 | 특징 |
 |:---|:---|:---|
@@ -67,8 +68,8 @@ tags = ["studynote-devops-sre"]
 | 구현 복잡성 | 낮음 | 높음 ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리) |
 
 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) vs [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/):
-- **[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)**: 사용자 -> 애플리케이션 접근 제어 (원격 접근)
-- **[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)**: 워크로드 간 네트워크 제어 (동-서 트래픽)
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a></strong>: 사용자 -> 애플리케이션 접근 제어 (원격 접근)
+- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a></strong>: 워크로드 간 네트워크 제어 (동-서 트래픽)
 
 > 📢 **섹션 요약 비유**: ZTNA는 건물 출입증 시스템([사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))이고, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 건물 내 각 방의 열쇠(워크로드 간 접근 제어)다. 둘 다 있어야 완전한 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust다.
 
@@ -80,8 +81,8 @@ tags = ["studynote-devops-sre"]
 
 1. **가시성 확보**: 현재 워크로드 간 트래픽 흐름 맵핑 ([Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) Hubble, Wireshark)
 2. **기본 NetworkPolicy 적용**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 간 기본 거부, 필요한 트래픽만 허용
-3. **[Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 도입**: L7 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (특정 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 경로만 허용) 적용
-4. **지속 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 트래픽 탐지 및 알림
+3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a> 도입</strong>: L7 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (특정 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 경로만 허용) 적용
+4. <strong>지속 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 트래픽 탐지 및 알림
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -97,7 +98,7 @@ tags = ["studynote-devops-sre"]
 
 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) 적용으로 공격자가 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 침해해도 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로의 이동이 차단된다. 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 경로가 최소화되고, 컴플라이언스([PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/)-DSS, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/)) 요구사항도 충족된다.
 
-[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)의 핵심은 **"[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))의 네트워크 레이어 구현"**이다. 필요한 통신만 허용하고, 나머지는 차단한다.
+[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)의 핵심은 <strong>"<a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">Least Privilege</a>)의 네트워크 레이어 구현"</strong>이다. 필요한 통신만 허용하고, 나머지는 차단한다.
 
 > 📢 **섹션 요약 비유**: [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하나로 외부를 막는 대신, 수백 개의 작은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 내부 모든 통로를 지키는 것이다. 성벽 하나보다 미로가 더 안전하다.
 
@@ -116,14 +117,19 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경계 보안 시대              Zero Trust 등장              현대 마이크로 세그멘테이션
-------------------   --------------------------   ------------------------
-방화벽 중심 경계     ->  NIST Zero Trust 프레임워크  ->  eBPF 기반 고성능 정책
-내부는 안전 가정         Forrester Zero Trust 모델      Cilium + Hubble
-VPN 원격 접근            NetworkPolicy (K8s)            서비스 메시 통합
-                          ZTNA 솔루션 등장               AI 기반 트래픽 이상 탐지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계 보안 시대 Zero Trust 등장 현대 마이크로 세그멘테이션</div>
+<div class="kb-diagram-note">방화벽 중심 경계 -&gt; NIST Zero Trust 프레임워크 -&gt; eBPF 기반 고성능 정책</div>
+<div class="kb-diagram-note">내부는 안전 가정 Forrester Zero Trust 모델 Cilium + Hubble</div>
+<div class="kb-diagram-note">VPN 원격 접근 NetworkPolicy (K8s) 서비스 메시 통합</div>
+<div class="kb-diagram-note">ZTNA 솔루션 등장 AI 기반 트래픽 이상 탐지</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

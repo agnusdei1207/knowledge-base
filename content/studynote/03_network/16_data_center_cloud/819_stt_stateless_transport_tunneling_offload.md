@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - 랜선을 탈 때 패킷의 최대 크기는 1.5KB(MTU)이므로 이 거대한 짐을 1.5KB짜리로 잘게 40조각 썰어야 합니다([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)).
 - **VXLAN의 비극**: VXLAN은 포장지가 '[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)'입니다. 불행히도 대부분의 컴퓨터 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 TCP만 자동으로 썰어주는 기능이 있고, [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 박스는 자를 줄 모릅니다. 그래서 결국 컴퓨터 메인 뇌(서버 CPU)가 소프트웨어로 땀을 뻘뻘 흘리며 64KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 40개로 조각내고, 거기에 일일이 40번의 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 껍데기를 포장하느라(Encapsulation) 과부하가 걸립니다.
 
-```text
-[NVGRE MS 주도 캡슐화 통신 체계]
-    │
-    ▼
-[STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    └──▶ [EVPN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,26 +42,30 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VMWare 산하의 Nicira에서 개발한 이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술의 유일한 목적은 **"어떻게 하면 기존 깡통 랜카드의 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 썰기 기능)을 사기 쳐서 빼먹을 수 있을까?"**에 꽂혀 있습니다.
+VMWare 산하의 Nicira에서 개발한 이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술의 유일한 목적은 <strong>"어떻게 하면 기존 깡통 랜카드의 하드웨어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 썰기 기능)을 사기 쳐서 빼먹을 수 있을까?"</strong>에 꽂혀 있습니다.
 
 ### 1. MAC-in-[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 가짜 껍데기 속임수 (MAC-in-Fake [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 🌟
-- STT는 오리지널 L2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 포장할 때, 박스 겉면을 **진짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더처럼 완벽하게 위장한 껍데기**로 씌워버립니다.
+- STT는 오리지널 L2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 포장할 때, 박스 겉면을 <strong>진짜 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더처럼 완벽하게 위장한 껍데기</strong>로 씌워버립니다.
 - **사기극의 전말**:
   - STT 소프트웨어가 64KB짜리 거대한 L2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리 1개에다가 커다란 가짜 '[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더' 1개를 딱 씌워서, 서버 바닥에 있는 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 툭 던집니다.
   - 랜카드는 겉면을 보고 "오! [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷이네! 내가 전문이지!" 하고 완벽히 속아 넘어갑니다.
   - 랜카드의 자체 칩셋 하드웨어 엔진(**TSO / LSO**, Large Send Offload)이 윙~ 돌아가며, CPU 도움 하나도 없이 지가 알아서 이 거대 덩어리를 1.5KB짜리 조각 40개로 빛의 속도로 난도질하고 복사해서 랜선 밖으로 날려버립니다.
 
 ### 2. [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) (무상태)의 아이러니
-- 이름에 '[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태)'가 들어간 이유는, 겉모습은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(연결지향, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 흉내 내어 랜카드를 속였지만, **실제로는 3-Way Handshake 연결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이나 에러 체크를 단 1도 하지 않고 UDP처럼 그냥 막 던지는 쿨한 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 프로토콜로 작동하기 때문**입니다. (진짜 TCP처럼 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 속도가 느려지니까 겉 껍질만 베낀 것입니다.)
+- 이름에 '[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태)'가 들어간 이유는, 겉모습은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(연결지향, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 흉내 내어 랜카드를 속였지만, <strong>실제로는 3-Way Handshake 연결 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>이나 에러 체크를 단 1도 하지 않고 UDP처럼 그냥 막 던지는 쿨한 무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 프로토콜로 작동하기 때문</strong>입니다. (진짜 TCP처럼 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 속도가 느려지니까 겉 껍질만 베낀 것입니다.)
 
-```text
-[NVGRE MS 주도 캡슐화 통신 체계]
-    │
-    ▼
-[STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    └──▶ [EVPN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -79,7 +87,7 @@ STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualizatio
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 서버 CPU는 공장 '사장님'이고, 랜카드는 물건을 포장해 썰어주는 '자동화 커팅 기계'입니다. 커팅 기계는 구형이라 오직 '네모 상자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷)'만 인식해서 자동으로 썰어줍니다. 사장님이 '동그란 상자([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))'를 가져가면 기계가 작동을 안 해서, 사장님이 직접 손으로 밤새 칼질을 해야 했습니다(CPU 과부하). **STT 기술**은 사장님의 눈물겨운 꼼수입니다. 동그란 상자 겉면에 '이건 네모 상자임'이라고 그림을 그려서(가짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 위장) 기계에 밀어 넣습니다. 멍청한 커팅 기계(랜카드 TSO 엔진)는 완벽히 속아 넘어가 요란한 소리를 내며 동그란 상자를 알아서 100조각으로 다 썰어줍니다. 사장님(CPU)은 드디어 칼을 내려놓고 침대에 누워 편히 쉴 수 있게 된 극한의 하드웨어 기만술(Offload)입니다.
+- **📢 섹션 요약 비유**: 서버 CPU는 공장 '사장님'이고, 랜카드는 물건을 포장해 썰어주는 '자동화 커팅 기계'입니다. 커팅 기계는 구형이라 오직 '네모 상자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷)'만 인식해서 자동으로 썰어줍니다. 사장님이 '동그란 상자([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))'를 가져가면 기계가 작동을 안 해서, 사장님이 직접 손으로 밤새 칼질을 해야 했습니다(CPU 과부하). <strong>STT 기술</strong>은 사장님의 눈물겨운 꼼수입니다. 동그란 상자 겉면에 '이건 네모 상자임'이라고 그림을 그려서(가짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 위장) 기계에 밀어 넣습니다. 멍청한 커팅 기계(랜카드 TSO 엔진)는 완벽히 속아 넘어가 요란한 소리를 내며 동그란 상자를 알아서 100조각으로 다 썰어줍니다. 사장님(CPU)은 드디어 칼을 내려놓고 침대에 누워 편히 쉴 수 있게 된 극한의 하드웨어 기만술(Offload)입니다.
 
 ---
 
@@ -121,15 +129,19 @@ STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualizatio
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NVGRE MS 주도 캡슐화 통신 체계]
-    │
-    ▼
-[현재 개념: STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    ├──▶ [확장 A: EVPN]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NVGRE MS 주도 캡슐화 통신 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 [NVGRE](/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/) MS 주도 캡슐화 통신 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 EVPN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -52,37 +52,39 @@ Linux 프로세스 회계:
 
 ## Ⅱ. 시스템 로깅 아키텍처
 
-```
-Linux 로깅 아키텍처:
 
-커널 → [dmesg 링 버퍼] → 부팅 로그
-     ↓
-커널/사용자 공간 → syslog() 시스템 콜 → rsyslog/syslog-ng
-     ↓
-서비스 (systemd) → [journald] → /var/log/journal
 
-/var/log 주요 파일:
-  /var/log/messages : 일반 시스템 메시지 (RHEL)
-  /var/log/syslog   : 일반 로그 (Ubuntu/Debian)
-  /var/log/auth.log : 인증 이벤트 (sudo, ssh)
-  /var/log/kern.log : 커널 메시지
-  /var/log/dmesg    : 부팅 시 커널 링 버퍼
-  /var/log/secure   : 보안 이벤트 (RHEL)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Linux 로깅 아키텍처:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">dmesg 링 버퍼</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">부팅 로그</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">커널/사용자 공간 → syslog() 시스템 콜 → rsyslog/syslog-ng</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">journald</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">/var/log/journal</div></div>
+<div class="kb-diagram-note">/var/log 주요 파일:</div>
+<div class="kb-diagram-note">/var/log/messages : 일반 시스템 메시지 (RHEL)</div>
+<div class="kb-diagram-note">/var/log/syslog : 일반 로그 (Ubuntu/Debian)</div>
+<div class="kb-diagram-note">/var/log/auth.log : 인증 이벤트 (sudo, ssh)</div>
+<div class="kb-diagram-note">/var/log/kern.log : 커널 메시지</div>
+<div class="kb-diagram-note">/var/log/dmesg : 부팅 시 커널 링 버퍼</div>
+<div class="kb-diagram-note">/var/log/secure : 보안 이벤트 (RHEL)</div>
+<div class="kb-diagram-note">syslog 우선순위 (Severity Level, RFC 5424):</div>
+<div class="kb-diagram-note">0: Emergency (emerg) — 시스템 불안정</div>
+<div class="kb-diagram-note">1: Alert — 즉시 조치 필요</div>
+<div class="kb-diagram-note">2: Critical — 크리티컬 상태</div>
+<div class="kb-diagram-note">3: Error — 오류 조건</div>
+<div class="kb-diagram-note">4: Warning — 경고</div>
+<div class="kb-diagram-note">5: Notice — 중요 정상 상태</div>
+<div class="kb-diagram-note">6: Info — 정보성</div>
+<div class="kb-diagram-note">7: Debug — 디버그 상세 정보</div>
+<div class="kb-diagram-note">Facility (시설):</div>
+<div class="kb-diagram-note">kern(0), user(1), mail(2), daemon(3)</div>
+<div class="kb-diagram-note">auth(4), syslog(5), ... local0-7(16-23)</div>
+</div>
+</div>
 
-syslog 우선순위 (Severity Level, RFC 5424):
-  0: Emergency (emerg) — 시스템 불안정
-  1: Alert        — 즉시 조치 필요
-  2: Critical     — 크리티컬 상태
-  3: Error        — 오류 조건
-  4: Warning      — 경고
-  5: Notice       — 중요 정상 상태
-  6: Info         — 정보성
-  7: Debug        — 디버그 상세 정보
 
-Facility (시설):
-  kern(0), user(1), mail(2), daemon(3)
-  auth(4), syslog(5), ... local0-7(16-23)
-```
 
 > 📢 **섹션 요약 비유**: [syslog](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/) 우선순위는 병원 응급도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(트리아지) — Emergency(즉시 처치), Error(긴급), Warning(주의관찰), Info(일반 정보).
 
@@ -90,42 +92,42 @@ Facility (시설):
 
 ## Ⅲ. 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 현대 로깅
 
-```
-전통 vs 구조화 로그:
 
-전통 텍스트 로그:
-  "2025-04-05 10:30:45 ERROR Connection refused to DB"
-  단점: 파싱 어려움, 비정형, 검색 비효율
 
-구조화 로그 (JSON):
-  {
-    "timestamp": "2025-04-05T10:30:45Z",
-    "level": "ERROR",
-    "message": "Connection refused",
-    "service": "api-server",
-    "target": "db-primary",
-    "user_id": "u-12345",
-    "trace_id": "abc123"
-  }
-  장점: 자동 파싱, 필드 검색, 집계 용이
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 vs 구조화 로그:</div>
+<div class="kb-diagram-note">전통 텍스트 로그:</div>
+<div class="kb-diagram-note">"2025-04-05 10:30:45 ERROR Connection refused to DB"</div>
+<div class="kb-diagram-note">단점: 파싱 어려움, 비정형, 검색 비효율</div>
+<div class="kb-diagram-note">구조화 로그 (JSON):</div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"timestamp": "2025-04-05T10:30:45Z",</div>
+<div class="kb-diagram-note">"level": "ERROR",</div>
+<div class="kb-diagram-note">"message": "Connection refused",</div>
+<div class="kb-diagram-note">"service": "api-server",</div>
+<div class="kb-diagram-note">"target": "db-primary",</div>
+<div class="kb-diagram-note">"user_id": "u-12345",</div>
+<div class="kb-diagram-note">"trace_id": "abc123"</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">장점: 자동 파싱, 필드 검색, 집계 용이</div>
+<div class="kb-diagram-note">로그 수집 파이프라인:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱/서버</div></div>
+<div class="kb-diagram-note">→ Filebeat / Fluentd (수집)</div>
+<div class="kb-diagram-note">→ Logstash / Fluentd (변환/필터)</div>
+<div class="kb-diagram-note">→ Elasticsearch (저장/인덱싱)</div>
+<div class="kb-diagram-note">→ Kibana (시각화/검색)</div>
+<div class="kb-diagram-note">클라우드 네이티브:</div>
+<div class="kb-diagram-note">AWS CloudWatch Logs</div>
+<div class="kb-diagram-note">GCP Cloud Logging</div>
+<div class="kb-diagram-note">Azure Monitor Logs</div>
+<div class="kb-diagram-note">OpenTelemetry:</div>
+<div class="kb-diagram-note">Logs + Traces + Metrics 통합 수집</div>
+<div class="kb-diagram-note">벤더 중립 표준 (CNCF 프로젝트)</div>
+</div>
+</div>
 
-로그 수집 파이프라인:
 
-[앱/서버]
-  → Filebeat / Fluentd (수집)
-  → Logstash / Fluentd (변환/필터)
-  → Elasticsearch (저장/인덱싱)
-  → Kibana (시각화/검색)
-
-클라우드 네이티브:
-  AWS CloudWatch Logs
-  GCP Cloud Logging
-  Azure Monitor Logs
-
-OpenTelemetry:
-  Logs + Traces + Metrics 통합 수집
-  벤더 중립 표준 (CNCF 프로젝트)
-```
 
 > 📢 **섹션 요약 비유**: 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) → ELK는 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템 — 산더미 책([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 저자·제목·장르(필드)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 1초에 원하는 책 검색.
 
@@ -172,41 +174,39 @@ Linux 감사 시스템 (auditd):
 
 ## Ⅴ. 실무 시나리오 — [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)
 
-```
-금융 서비스 장애 원인 분석 사례:
 
-증상:
-  오전 9:00~9:30 API 응답 시간 3초 이상
-  사용자 민원 200건 접수
 
-로그 분석 과정:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융 서비스 장애 원인 분석 사례:</div>
+<div class="kb-diagram-note">증상:</div>
+<div class="kb-diagram-note">오전 9:00~9:30 API 응답 시간 3초 이상</div>
+<div class="kb-diagram-note">사용자 민원 200건 접수</div>
+<div class="kb-diagram-note">로그 분석 과정:</div>
+<div class="kb-diagram-note">1. 애플리케이션 로그 확인:</div>
+<div class="kb-diagram-note">Kibana 쿼리: level:ERROR AND service:api AND</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">time:</div><div class="kb-diagram-node">09:00 TO 09:30</div></div>
+<div class="kb-diagram-note">결과: DB connection timeout 에러 다수 발견</div>
+<div class="kb-diagram-note">2. DB 로그 확인:</div>
+<div class="kb-diagram-note">MySQL slow query log 확인</div>
+<div class="kb-diagram-note">→ 09:05~09:28 특정 쿼리 30초 이상 실행</div>
+<div class="kb-diagram-note">3. OS 시스템 로그:</div>
+<div class="kb-diagram-note">/var/log/syslog 확인</div>
+<div class="kb-diagram-note">→ 09:04 디스크 I/O 경보 로그 발견</div>
+<div class="kb-diagram-note">"I/O error on device sdb, logical block 12345"</div>
+<div class="kb-diagram-note">4. 커널 로그 (dmesg):</div>
+<div class="kb-diagram-note">→ 디스크 불량 섹터 감지 로그 발견</div>
+<div class="kb-diagram-note">→ RAID 배열 재구성 시작 → I/O 지연 → 쿼리 지연</div>
+<div class="kb-diagram-note">근본 원인:</div>
+<div class="kb-diagram-note">물리 디스크 불량 섹터 → RAID 재구성</div>
+<div class="kb-diagram-note">→ DB I/O 지연 → 쿼리 타임아웃 → API 지연</div>
+<div class="kb-diagram-note">해결:</div>
+<div class="kb-diagram-note">디스크 교체 완료 (11:00)</div>
+<div class="kb-diagram-note">재발 방지: 디스크 S.M.A.R.T 모니터링 추가</div>
+</div>
+</div>
 
-1. 애플리케이션 로그 확인:
-  Kibana 쿼리: level:ERROR AND service:api AND
-              time:[09:00 TO 09:30]
-  결과: DB connection timeout 에러 다수 발견
 
-2. DB 로그 확인:
-  MySQL slow query log 확인
-  → 09:05~09:28 특정 쿼리 30초 이상 실행
-
-3. OS 시스템 로그:
-  /var/log/syslog 확인
-  → 09:04 디스크 I/O 경보 로그 발견
-  "I/O error on device sdb, logical block 12345"
-
-4. 커널 로그 (dmesg):
-  → 디스크 불량 섹터 감지 로그 발견
-  → RAID 배열 재구성 시작 → I/O 지연 → 쿼리 지연
-
-근본 원인:
-  물리 디스크 불량 섹터 → RAID 재구성
-  → DB I/O 지연 → 쿼리 타임아웃 → API 지연
-
-해결:
-  디스크 교체 완료 (11:00)
-  재발 방지: 디스크 S.M.A.R.T 모니터링 추가
-```
 
 > 📢 **섹션 요약 비유**: [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)은 의료 부검 — 애플리케이션(증상)→DB(기관)→OS(조직)→하드웨어(세포) 순서로 원인을 파고들어 근본 원인 발견.
 

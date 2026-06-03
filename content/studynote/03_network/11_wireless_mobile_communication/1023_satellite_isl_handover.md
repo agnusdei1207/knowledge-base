@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 과거의 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)은 'Bent-pipe(구부러진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))' 방식이었다. 지상에서 쏜 전파를 위성이 받아 그대로 반사하여 다시 지상의 게이트웨이로 내려보내는 단순 중계기 역할만 했다. 이 방식의 치명적인 한계는, 위성이 떠 있는 바로 아래의 지상에 데이터를 수신해 줄 게이트웨이(지상국)가 없으면 바다나 우주 한가운데서 통신이 완전히 먹통이 된다는 점이다.
 
-이를 해결하기 위해 위성끼리 우주에서 직접 데이터를 주고받도록 만든 기술이 **[ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)(Inter-Satellite Link)**이다. 위성 간 연결망이 구축되면 데이터는 우주에서 목적지 근처까지 날아간 뒤 한 번만 지상으로 내려오면 된다. 한편, 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 위성은 고정되어 있지 않고 미친 듯이 지구를 돌기 때문에, 지상의 사용자 안테나는 10분마다 머리 위로 지나가는 다음 위성을 찾아 접속을 넘겨받아야 한다. 이 극단적인 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 환경을 제어하는 기술이 바로 **위성 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**다.
+이를 해결하기 위해 위성끼리 우주에서 직접 데이터를 주고받도록 만든 기술이 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>(Inter-Satellite Link)</strong>이다. 위성 간 연결망이 구축되면 데이터는 우주에서 목적지 근처까지 날아간 뒤 한 번만 지상으로 내려오면 된다. 한편, 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 위성은 고정되어 있지 않고 미친 듯이 지구를 돌기 때문에, 지상의 사용자 안테나는 10분마다 머리 위로 지나가는 다음 위성을 찾아 접속을 넘겨받아야 한다. 이 극단적인 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 환경을 제어하는 기술이 바로 <strong>위성 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong>다.
 
-```text
-[저궤도 위성망 스타링크]
-    │
-    ▼
-[위성 통신 핸드오버와 ISL]
-    │
-    └──▶ [V2X]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">저궤도 위성망 스타링크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위성 통신 핸드오버와 ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V2X</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 우체부가 산골짜기(바다)에 들어갔을 때 우체국(지상국)이 없으면 편지를 못 전하던 것을, 우체부들끼리(위성) 무전기를 쳐서 릴레이로 편지를 건네주어 지구 반대편까지 전달하는 셈이다.
 
@@ -40,25 +44,24 @@ tags = ["studynote-network"]
 
 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) 망과 위성 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 메커니즘은 3차원 공간에서의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 트래킹의 결합이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [ 우주 (Space Segment) ]                    │
-│                                                              │
-│      (이동 방향 ▶)                      (이동 방향 ▶)       │
-│   [ 위성 1 (퇴역 예정) ]  ◀─(ISL: 레이저)─▶  [ 위성 2 (새로 진입) ] │
-│          │                                      ▲           │
-│          ▼ (신호 약해짐)                         │ (신호 강해짐)│
-├──────────┼──────────────────────────────────────┼───────────┤
-│          │        [ 지상 (Ground Segment) ]     │           │
-│          └────────────────┐  ┌────────────────┘           │
-│                           │  │                               │
-│                        [ 지상 단말 ]                         │
-│               (위상배열 안테나: 빔포밍 트래킹)               │
-└──────────────────────────────────────────────────────────────┘
-```
 
-1. **위성 간 링크 ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/))**: 진공 상태인 우주에서는 빛의 산란이 없으므로 레이저(Optical Communication)를 쏘아 위성 간 수 Gbps~Tbps의 속도로 데이터를 전송한다. 빛의 속도는 광케이블 유리 속보다 진공 상태에서 약 1.5배 빠르기 때문에, 런던-뉴욕 간 통신 시 해저 광케이블보다 우주 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 더 빠른 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성할 수 있다.
-2. **위성 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**: 지상의 단말이 위성 1과 통신하다가 위성 1이 지평선 너머로 사라지기 직전, 새롭게 머리 위로 떠오르는 위성 2를 찾아야 한다. 지상 안테나는 기계적으로 고개를 돌리는 대신, 수천 개의 소자를 이용한 전자식 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)(Make-before-break 방식)으로 위성 2와 먼저 연결을 맺은 뒤 위성 1과의 연결을 끊는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">우주 (Space Segment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 방향 ▶) (이동 방향 ▶)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위성 1 (퇴역 예정)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">위성 2 (새로 진입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (신호 약해짐)</div><div class="kb-diagram-cell">(신호 강해짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지상 (Ground Segment)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지상 단말</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위상배열 안테나: 빔포밍 트래킹)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>위성 간 링크 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>)</strong>: 진공 상태인 우주에서는 빛의 산란이 없으므로 레이저(Optical Communication)를 쏘아 위성 간 수 Gbps~Tbps의 속도로 데이터를 전송한다. 빛의 속도는 광케이블 유리 속보다 진공 상태에서 약 1.5배 빠르기 때문에, 런던-뉴욕 간 통신 시 해저 광케이블보다 우주 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 더 빠른 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성할 수 있다.
+2. <strong>위성 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong>: 지상의 단말이 위성 1과 통신하다가 위성 1이 지평선 너머로 사라지기 직전, 새롭게 머리 위로 떠오르는 위성 2를 찾아야 한다. 지상 안테나는 기계적으로 고개를 돌리는 대신, 수천 개의 소자를 이용한 전자식 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)(Make-before-break 방식)으로 위성 2와 먼저 연결을 맺은 뒤 위성 1과의 연결을 끊는다.
 
 - **📢 섹션 요약 비유**: 달리는 말(위성1)에서 옆에 나란히 달리는 새 말(위성2)로 옮겨탈 때, 한 발을 먼저 새 말에 디뎌 놓고(Make) 이전 말에서 발을 떼는(Break) 곡예가 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)다.
 
@@ -72,8 +75,8 @@ tags = ["studynote-network"]
 |:---:|:---|:---|
 | **기지국의 상태** | 고정되어 있음 (건물 옥상) | **시속 27,000km로 날아감** |
 | **이동 주체** | 사용자 단말 (자동차, 스마트폰) | **기지국 (위성 자체)** |
-| **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 발생 주기**| 단말이 기지국 경계를 넘을 때 (비주기적) | 단말이 가만히 있어도 **약 5~10분마다 강제 발생** |
-| **망간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)** | 지상의 광케이블 백본망 사용 | **우주 공간의 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) 레이저 백본망 사용** |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 발생 주기</strong>| 단말이 기지국 경계를 넘을 때 (비주기적) | 단말이 가만히 있어도 **약 5~10분마다 강제 발생** |
+| <strong>망간 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | 지상의 광케이블 백본망 사용 | <strong>우주 공간의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a> 레이저 백본망 사용</strong> |
 
 우주망의 ISL은 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 결합하여, 지구 위를 덮은 거대한 메쉬([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지 안에서 최단 경로를 실시간으로 재계산([Dynamic Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))하는 거대한 하늘의 인터넷망을 형성한다.
 
@@ -87,7 +90,7 @@ tags = ["studynote-network"]
 초단타 매매(HFT: High Frequency Trading)를 하는 금융권에서는 런던-뉴욕 간, 런던-도쿄 간 핑(Ping) 시간을 1ms라도 줄이기 위해 수백억 원을 쓴다. ISL이 적용된 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망은 빛의 진공 속도가 광케이블 속도보다 빠르다는 물리적 이점을 활용하여, 대륙 간 초저지연 통신망 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 상품으로 금융 및 글로벌 기업들에게 판매된다.
 
 **기술사 판단 포인트 (Trade-off):**
-위성망을 엔터프라이즈 백본으로 채택할 때는 **'[ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) 탑재 여부'와 '단말 안테나의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'**을 가장 먼저 확인해야 한다.
+위성망을 엔터프라이즈 백본으로 채택할 때는 <strong>'<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a> 탑재 여부'와 '단말 안테나의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>'</strong>을 가장 먼저 확인해야 한다.
 1. ISL이 없는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 세대 위성(스타링크 V1.0)은 바다 위 선박에서 위성과 통신해도, 위성이 땅에 있는 게이트웨이로 데이터를 쏴주지 못하면 인터넷이 불가능했다. 원양어선이나 사막 플랜트 망 설계 시 반드시 [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) 지원(V1.5 이상) 여부를 살펴야 한다.
 2. [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 시 패킷 유실(Packet Loss)이 발생할 수 있으므로, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세션이 끊어지지 않도록 단말 측 라우터에 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 기능을 얹어 패킷 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 및 경로 보정 로직을 추가하는 아키텍처가 권장된다.
 
@@ -122,15 +125,19 @@ ISL과 정밀 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 저궤도 위성망 스타링크]
-    │
-    ▼
-[현재 개념: 위성 통신 핸드오버와 ISL]
-    │
-    ├──▶ [확장 A: V2X]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 저궤도 위성망 스타링크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 위성 통신 핸드오버와 ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: V2X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)와 ISL는 [저궤도 위성망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) 스타링크에서 출발해 현재 메커니즘을 정교화하고, 이후 V2X와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

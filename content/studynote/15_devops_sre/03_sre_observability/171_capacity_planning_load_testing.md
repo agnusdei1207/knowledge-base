@@ -19,20 +19,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-용량 계획은 평균 트래픽을 보는 일이 아니라, 사업 이벤트와 장애 재시도까지 포함해 **미래의 피크 수요를 견딜 수 있는지**를 따지는 작업이다. 반면 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 가상 사용자를 발생시켜 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 오류율, 자원 사용률이 어떻게 변하는지 실측하는 과정이다. 하나만 있으면 절반짜리다. 계획만 있고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없으면 엑셀 상의 자신감에 그치고, 테스트만 있고 계획이 없으면 어떤 수준까지 대비해야 하는지 기준이 없다.
+용량 계획은 평균 트래픽을 보는 일이 아니라, 사업 이벤트와 장애 재시도까지 포함해 <strong>미래의 피크 수요를 견딜 수 있는지</strong>를 따지는 작업이다. 반면 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 가상 사용자를 발생시켜 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 오류율, 자원 사용률이 어떻게 변하는지 실측하는 과정이다. 하나만 있으면 절반짜리다. 계획만 있고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없으면 엑셀 상의 자신감에 그치고, 테스트만 있고 계획이 없으면 어떤 수준까지 대비해야 하는지 기준이 없다.
 
 특히 [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 환경에서는 평균값이 거의 의미가 없다. 전자상거래 할인 시작 5분, 방송 직후 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 몰림, 재시도 폭주, 배치 작업 겹침처럼 실제 장애는 대부분 짧은 피크 구간에서 일어난다. 따라서 용량 계획은 평균 Central Processing Unit (CPU) 사용률이 아니라 피크 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 외부 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 한도까지 함께 모델링해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          평균이 아니라 피크와 회복시간이 시스템을 결정한다    │
-├──────────────────────────────────────────────────────────────┤
-│ 일평균:        1,000 RPS                                     │
-│ 이벤트 피크:   6,000 RPS                                     │
-│ 재시도 폭주:   9,000 RPS                                     │
-│ 외형상 평온해도, 실제 장애는 짧은 포화 구간에서 발생         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균이 아니라 피크와 회복시간이 시스템을 결정한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일평균: 1,000 RPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 피크: 6,000 RPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재시도 폭주: 9,000 RPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외형상 평온해도, 실제 장애는 짧은 포화 구간에서 발생</div></div>
+</div>
+</div>
+
+
 
 그래서 용량 계획과 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 운영 안정성의 앞뒤 절반이다. 계획은 얼마를 준비할지 정하고, 테스트는 그 준비가 어느 계층에서 무너지는지 보여 준다. 둘이 연결되어야만 "왜 이 정도 자원이 필요한가"를 기술적·사업적으로 설명할 수 있다.
 
@@ -44,19 +47,21 @@ tags = ["studynote-devops-sre"]
 
 좋은 용량 계획은 단일 서버 스펙이 아니라 요청이 지나가는 전체 경로를 모델링한다. 사용자는 Content Delivery Network ([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)), [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/), 애플리케이션, 캐시, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 외부 API를 거치며, 가장 느린 한 지점이 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 결정한다. 따라서 CPU만 여유 있다고 안심할 수 없고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 수나 외부 호출 제한이 먼저 병목이 될 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│               Capacity Model: 수요가 병목을 통과하는 경로          │
-├────────────────────────────────────────────────────────────────────┤
-│ Users → CDN → Load Balancer → App                                │
-│                                ├─ Cache (hit ratio)              │
-│                                ├─ Database (conn pool)           │
-│                                └─ External API (rate limit)      │
-│                                                                    │
-│ 병목 후보: worker 수 · queue depth · slow query · timeout         │
-│ 가장 먼저 포화되는 지점 = 실제 시스템 처리량의 상한                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capacity Model: 수요가 병목을 통과하는 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Users → CDN → Load Balancer → App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cache (hit ratio)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Database (conn pool)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ External API (rate limit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 후보: worker 수 · queue depth · slow query · timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 먼저 포화되는 지점 = 실제 시스템 처리량의 상한</div></div>
+</div>
+</div>
+
+
 
 용량 계산의 기본은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델이다. Little's Law에 따라 대략 `동시 요청 수 ≈ 처리량 × 응답 시간`으로 볼 수 있다. 예를 들어 2,000 RPS를 처리하면서 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 0.2초라면, 동시에 떠 있는 요청은 약 400개다. 이 값은 워커 수, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 수를 잡는 데 직접적인 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 된다.
 
@@ -86,7 +91,7 @@ tags = ["studynote-devops-sre"]
 | [Spike Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/448_spike_test/) | 순간 폭증을 흡수하는가 | 큐 적체, 오토스케일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | Soak Test | 오래 돌리면 새는 곳이 있는가 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), 핸들 고갈 |
 
-아래 곡선에서 중요한 것은 절대 최대점보다 **무릎점 (Knee Point)**이다. 그 이전까지는 부하 증가에 비례해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 완만하게 나빠지지만, 무릎점을 넘으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 오류율이 급격히 악화된다. 운영 기준은 보통 이 지점보다 충분히 낮은 곳에 잡는다.
+아래 곡선에서 중요한 것은 절대 최대점보다 <strong>무릎점 (Knee Point)</strong>이다. 그 이전까지는 부하 증가에 비례해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 완만하게 나빠지지만, 무릎점을 넘으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 오류율이 급격히 악화된다. 운영 기준은 보통 이 지점보다 충분히 낮은 곳에 잡는다.
 
 ```text
 99th Percentile Latency
@@ -101,7 +106,7 @@ tags = ["studynote-devops-sre"]
                 무릎점
 ```
 
-이 결과는 오토스케일링, 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), 큐잉 설계와 직결된다. 예를 들어 무릎점이 애플리케이션 CPU가 아니라 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 풀에서 나타난다면, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수를 늘려도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지지 않는다. 즉 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 "서버를 더 사자"가 아니라 **어디를 바꿔야 하는가**를 알려 주는 진단 도구다.
+이 결과는 오토스케일링, 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), 큐잉 설계와 직결된다. 예를 들어 무릎점이 애플리케이션 CPU가 아니라 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 풀에서 나타난다면, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수를 늘려도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지지 않는다. 즉 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 "서버를 더 사자"가 아니라 <strong>어디를 바꿔야 하는가</strong>를 알려 주는 진단 도구다.
 
 - **📢 섹션 요약 비유**: 무릎점은 풍선을 불다가 갑자기 빵 터질 위험이 커지는 지점과 같다. 그 직전까지는 조금씩 커지지만, 그 선을 넘으면 작은 힘에도 급격히 문제가 생긴다.
 
@@ -136,7 +141,7 @@ tags = ["studynote-devops-sre"]
 - 배치 작업, 재시도, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 트래픽을 제외하고 계획 세우기
 - 오토스케일링이 있으니 용량 계획은 필요 없다고 생각하기
 
-기술사 답안에서는 **수요 예측 → workload 모델 → [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) → 병목 분석 → 개선 및 재검증** 흐름으로 정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성이 높다. 클라우드는 자원을 빨리 빌려줄 수는 있어도, 갑자기 나타나는 병목을 대신 설계해 주지는 않는다.
+기술사 답안에서는 <strong>수요 예측 → workload 모델 → <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> → 병목 분석 → 개선 및 재검증</strong> 흐름으로 정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성이 높다. 클라우드는 자원을 빨리 빌려줄 수는 있어도, 갑자기 나타나는 병목을 대신 설계해 주지는 않는다.
 
 - **📢 섹션 요약 비유**: [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 실무는 공연 전 리허설과 같다. 무대 크기만 보는 것이 아니라, 배우 동선이 겹치는지, 조명이 늦게 켜지는지, 출입구가 막히는지까지 실제처럼 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 본 공연에서 사고가 없다.
 
@@ -148,7 +153,7 @@ tags = ["studynote-devops-sre"]
 
 물론 한계는 있다. 테스트 환경이 프로덕션과 다르면 결과 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)가 낮아지고, 이벤트 트래픽의 사회적 변수까지 완벽히 예측할 수는 없다. 또한 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)가 성공했다고 해서 모든 장애를 막는 것도 아니다. 배포 버그, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애, 지역 단위 네트워크 문제는 별도의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 설계가 필요하다.
 
-그래도 기억해야 할 핵심은 분명하다. **용량 계획은 숫자를 맞추는 일이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 어디서 느려지고 어디서 무너지는지 미리 알아내는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학**이다. 좋은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 조직은 서버 수를 외우는 팀이 아니라, 한계와 여유를 계측해 설명할 수 있는 팀이다.
+그래도 기억해야 할 핵심은 분명하다. <strong>용량 계획은 숫자를 맞추는 일이 아니라, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 어디서 느려지고 어디서 무너지는지 미리 알아내는 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 공학</strong>이다. 좋은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 조직은 서버 수를 외우는 팀이 아니라, 한계와 여유를 계측해 설명할 수 있는 팀이다.
 
 - **📢 섹션 요약 비유**: 용량 계획과 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)는 다리 건설 전 하중 실험과 같다. 몇 톤까지 버티는지 모르고 차를 올리는 것보다, 어디서 흔들리고 어느 정도 여유가 있는지 미리 알아 두는 편이 훨씬 안전하다.
 
@@ -167,21 +172,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-과거 트래픽 · 사업 이벤트 예측
-    │
-    ▼
-Workload Model (RPS · 동시성 · 요청 혼합비)
-    │
-    ▼
-Load / Stress / Spike / Soak Test
-    │
-    ▼
-Knee Point · Bottleneck 발견
-    │
-    ▼
-Scale Strategy · Tuning · 재검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과거 트래픽 · 사업 이벤트 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Workload Model (RPS · 동시성 · 요청 혼합비)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Load / Stress / Spike / Soak Test</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Knee Point · Bottleneck 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scale Strategy · Tuning · 재검증</div>
+</div>
+</div>
+
+
 
 이 흐름은 [용량 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/)가 단발성 장비 구매가 아니라, 예측과 실험을 반복하는 지속적 운영 활동임을 보여준다.
 

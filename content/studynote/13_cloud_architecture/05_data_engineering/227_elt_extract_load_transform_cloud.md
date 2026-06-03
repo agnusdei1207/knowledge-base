@@ -10,25 +10,30 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크에 고속 적재(L)한 후, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 MPP 컴퓨팅으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환(T)하는 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 방식**이다.
-> 2. **가치**: ETL의 변환 서버 병목을 제거하고, 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하여 **나중에 다른 관점으로 재분석**할 수 있으며, 클라우드 DW의 수평 확장으로 빅데이터 규모에 탄력적 대응이 가능하다.
-> 3. **판단 포인트**: dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)가 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 패러다임의 Transform 단계를 SQL 기반으로 표준화한 핵심 도구이며, **[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·Redshift + dbt** 조합이 현대 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스택의 표준이다.
+> 1. **본질**: [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크에 고속 적재(L)한 후, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 MPP 컴퓨팅으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환(T)하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 방식</strong>이다.
+> 2. **가치**: ETL의 변환 서버 병목을 제거하고, 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하여 <strong>나중에 다른 관점으로 재분석</strong>할 수 있으며, 클라우드 DW의 수평 확장으로 빅데이터 규모에 탄력적 대응이 가능하다.
+> 3. **판단 포인트**: dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)가 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 패러다임의 Transform 단계를 SQL 기반으로 표준화한 핵심 도구이며, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/">Snowflake</a>·<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/">BigQuery</a>·Redshift + dbt</strong> 조합이 현대 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스택의 표준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 시대의 가장 큰 병목은 "변환 서버"였다. 아무리 빠르게 추출해도 중간 서버 성능이 한계였다. 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·Redshift)가 MPP(Massively Parallel Processing)로 수백 노드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 동원할 수 있게 되자, **"왜 비싼 전용 서버에서 변환하지? [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부에서 하면 훨씬 빠르잖아"**라는 인식이 생겼다.
+[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 시대의 가장 큰 병목은 "변환 서버"였다. 아무리 빠르게 추출해도 중간 서버 성능이 한계였다. 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·Redshift)가 MPP(Massively Parallel Processing)로 수백 노드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 동원할 수 있게 되자, <strong>"왜 비싼 전용 서버에서 변환하지? <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 내부에서 하면 훨씬 빠르잖아"</strong>라는 인식이 생겼다.
 
-```
-[ETL 한계]
-소스 → 추출 → [변환 서버 병목] → DW 적재
-                    ↑ 이 병목이 ETL 전체 속도 결정
 
-[ELT 개선]
-소스 → 추출 → [DW에 원시 적재] → [DW 내부 MPP 변환]
-                                       ↑ DW 수평 확장으로 병목 해소
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ETL 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">변환 서버 병목</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">DW 적재</div></div>
+<div class="kb-diagram-note">↑ 이 병목이 ETL 전체 속도 결정</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ELT 개선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DW에 원시 적재</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DW 내부 MPP 변환</div></div>
+<div class="kb-diagram-note">↑ DW 수평 확장으로 병목 해소</div>
+</div>
+</div>
+
+
 
 ELT가 특히 효과적인 이유:
 - 클라우드 DW는 스토리지-컴퓨팅 분리로 변환 시 컴퓨팅만 확장 가능
@@ -43,41 +48,45 @@ ELT가 특히 효과적인 이유:
 
 ### [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 파이프라인 아키텍처
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                     ELT 파이프라인                          │
-│                                                            │
-│  소스 시스템   ─── Extract ───▶  Raw/Staging Schema        │
-│  (SaaS API,        (Fivetran,     (원시 테이블 그대로)       │
-│   CDC,             Airbyte,                                │
-│   플랫파일)         Custom)                                 │
-│                                 ↓ dbt Transform            │
-│                              Marts Schema                  │
-│                              (비즈니스 도메인 모델)           │
-│                                 ↓                         │
-│                              BI 도구 / ML 플랫폼             │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELT 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템 Extract ▶ Raw/Staging Schema</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SaaS API, (Fivetran, (원시 테이블 그대로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDC, Airbyte,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫파일) Custom)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ dbt Transform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Marts Schema</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 도메인 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 도구 / ML 플랫폼</div></div>
+</div>
+</div>
+
+
 
 ### dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool) 역할
 
-```
-[dbt 핵심 기능]
-┌──────────────────────────────────────────────────┐
-│              dbt (데이터 변환 프레임워크)             │
-│                                                  │
-│  .sql 파일  ──▶  SELECT * FROM raw_orders        │
-│               WHERE created_at > '2024-01-01'   │
-│               → 자동으로 DW 내 VIEW/TABLE 생성   │
-│                                                  │
-│  기능:                                            │
-│  ① SQL 기반 변환 로직 버전 관리 (Git)              │
-│  ② 데이터 테스트 (NOT NULL, UNIQUE, 참조 무결성)  │
-│  ③ 의존성 자동 해결 (DAG 생성)                    │
-│  ④ 문서 자동 생성 (컬럼 설명, 계보)               │
-│  ⑤ CI/CD 파이프라인 통합                          │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">dbt 핵심 기능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt (데이터 변환 프레임워크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.sql 파일 ──▶ SELECT * FROM raw_orders</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE created_at &gt; '2024-01-01'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자동으로 DW 내 VIEW/TABLE 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① SQL 기반 변환 로직 버전 관리 (Git)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 데이터 테스트 (NOT NULL, UNIQUE, 참조 무결성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 의존성 자동 해결 (DAG 생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 문서 자동 생성 (컬럼 설명, 계보)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ CI/CD 파이프라인 통합</div></div>
+</div>
+</div>
+
+
 
 ### [Modern Data Stack](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/) 구성
 
@@ -86,9 +95,9 @@ ELT가 특히 효과적인 이유:
 | **Extract & Load** | 소스 → [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 원시 적재 | Fivetran, Airbyte, Stitch |
 | **Storage** | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift |
 | **Transform** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 SQL 변환 | dbt, Dataform |
-| **[Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)** | 파이프라인 스케줄링 | Airflow, Prefect, Dagster |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a></strong> | 파이프라인 스케줄링 | Airflow, Prefect, Dagster |
 | **BI & Analytics** | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·분석 | [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/), [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/), Metabase |
-| **[Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/)** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) → [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도구 역방향 | Census, Hightouch |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/">Reverse ETL</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) → [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도구 역방향 | Census, Hightouch |
 
 📢 **섹션 요약 비유**: dbt는 SQL로 된 레시피 북이다. 어떤 재료(원시 테이블)를 어떻게 조합([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·집계)해 어떤 요리(비즈니스 테이블)를 만드는지 Git으로 관리되는 레시피북이며, 매번 같은 맛을 보장하는 자동화 주방이다.
 
@@ -101,26 +110,32 @@ ELT가 특히 효과적인 이유:
 | 비교 항목 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) |
 |:---|:---|:---|
 | **변환 주체** | 전용 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버 | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/레이크 |
-| **원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존** | 미보존 (변환 후 적재) | 보존 (원시 테이블 유지) |
+| <strong>원시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보존</strong> | 미보존 (변환 후 적재) | 보존 (원시 테이블 유지) |
 | **빅데이터 확장성** | 제한적 | 탁월 ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) MPP 활용) |
 | **변환 도구** | Informatica, DataStage | dbt, SQL, Spark |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량** | 적음 (정제 후 이동) | 많음 (원시 그대로 이동) |
-| **[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 저장 비용** | 낮음 | 높음 (원시+정제 중복) |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성** | 낮음 | 높음 (원시 보존) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동량</strong> | 적음 (정제 후 이동) | 많음 (원시 그대로 이동) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 저장 비용</strong> | 낮음 | 높음 (원시+정제 중복) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 유연성</strong> | 낮음 | 높음 (원시 보존) |
 | **기술 요건** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 전문가 | SQL 능숙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 |
 | **적합 환경** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 레거시 | 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), 스타트업 |
 
 ### [Reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) (역방향 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))
 
-ELT의 발전으로 등장한 개념으로, DW에서 분석·변환된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **운영 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도구([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·이메일·광고 플랫폼)로 역방향 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**한다.
+ELT의 발전으로 등장한 개념으로, DW에서 분석·변환된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>운영 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 도구(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>·이메일·광고 플랫폼)로 역방향 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>한다.
 
-```
-[Reverse ETL 흐름]
-DW (Gold 테이블) ──▶ Census/Hightouch ──▶ Salesforce CRM
-                                       ──▶ Marketo (이메일)
-                                       ──▶ Google Ads
-"분석 결과를 곧바로 마케팅 실행에 활용"
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Reverse ETL 흐름</div></div>
+<div class="kb-diagram-note">DW (Gold 테이블) ──▶ Census/Hightouch ──▶ Salesforce CRM</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ Marketo (이메일)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ Google Ads</div>
+<div class="kb-diagram-note">"분석 결과를 곧바로 마케팅 실행에 활용"</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Reverse ETL은 주방에서 완성된 요리(분석 결과)를 배달 앱([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·광고 플랫폼)으로 바로 전송하는 것이다. 창고([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에만 보관하지 않고, 요리를 손님(비즈니스 팀)에게 실시간으로 서빙한다.
 
@@ -174,22 +189,24 @@ models:
 
 ### 실무 도입 단계
 
-```
-1단계: Extract & Load 자동화
-       Fivetran으로 SaaS 소스 → Snowflake Raw 스키마 자동 적재
 
-2단계: dbt 변환 계층 구성
-       Staging → Intermediate → Marts 3단계 모델 구조
 
-3단계: 테스트 및 문서화
-       dbt test + dbt docs generate → 데이터 품질 자동 검증
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1단계: Extract &amp; Load 자동화</div>
+<div class="kb-diagram-note">Fivetran으로 SaaS 소스 → Snowflake Raw 스키마 자동 적재</div>
+<div class="kb-diagram-note">2단계: dbt 변환 계층 구성</div>
+<div class="kb-diagram-note">Staging → Intermediate → Marts 3단계 모델 구조</div>
+<div class="kb-diagram-note">3단계: 테스트 및 문서화</div>
+<div class="kb-diagram-note">dbt test + dbt docs generate → 데이터 품질 자동 검증</div>
+<div class="kb-diagram-note">4단계: 오케스트레이션</div>
+<div class="kb-diagram-note">Airflow DAG 또는 dbt Cloud 스케줄러로 일일 배치</div>
+<div class="kb-diagram-note">5단계: Reverse ETL (선택)</div>
+<div class="kb-diagram-note">Census로 Snowflake Gold → Salesforce 고객 세그먼트 동기화</div>
+</div>
+</div>
 
-4단계: 오케스트레이션
-       Airflow DAG 또는 dbt Cloud 스케줄러로 일일 배치
 
-5단계: Reverse ETL (선택)
-       Census로 Snowflake Gold → Salesforce 고객 세그먼트 동기화
-```
 
 📢 **섹션 요약 비유**: Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack은 레고 블록 세트다. Fivetran(Extract+Load), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)(Storage), dbt(Transform), Airflow([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)), [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)(BI)라는 각각의 블록을 조립하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인을 완성한다.
 
@@ -202,17 +219,17 @@ models:
 | 효과 | 내용 |
 |:---|:---|
 | **처리 속도 향상** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 변환 서버 병목 제거, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) MPP로 수~수십 배 속도 |
-| **원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존** | 재분석·새로운 비즈니스 요건 발생 시 재처리 가능 |
+| <strong>원시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보존</strong> | 재분석·새로운 비즈니스 요건 발생 시 재처리 가능 |
 | **민첩성** | SQL 기반 dbt로 변환 로직 빠른 수정 및 배포 |
 | **비용 최적화** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 전용 서버 제거, 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 컴퓨팅 온디맨드 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보** | dbt 의존성 DAG로 소스~타겟 전체 계보 자동 문서화 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계보</strong> | dbt 의존성 DAG로 소스~타겟 전체 계보 자동 문서화 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 비용 증가** | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존으로 스토리지 및 컴퓨팅 비용 ↑ |
-| **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 원시 테이블 과잉 → 정리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 비용 증가</strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존으로 스토리지 및 컴퓨팅 비용 ↑ |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내 원시 테이블 과잉 → 정리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
 | **SQL 의존성** | 복잡한 ML [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 비정형 처리는 Python/Spark 병행 필요 |
 | **실시간 한계** | 기본적으로 배치 지향, 실시간 처리는 스트리밍 파이프라인 별도 |
 
@@ -236,17 +253,21 @@ models:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ETL: 외부 서버에서 변환 (병목)
-    │
-    ▼
-ELT: DW/Lake 내부에서 변환 (BigQuery · Snowflake MPP)
-    ├─► dbt: SQL 기반 변환 오케스트레이션
-    └─► Materialized View · CTAS
-    │
-    ▼
-Reverse ETL: DW → SaaS 도구로 데이터 역전달
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ETL: 외부 서버에서 변환 (병목)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ELT: DW/Lake 내부에서 변환 (BigQuery · Snowflake MPP)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">dbt: SQL 기반 변환 오케스트레이션</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Materialized View · CTAS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Reverse ETL: DW → SaaS 도구로 데이터 역전달</div>
+</div>
+</div>
+
+
 2. dbt는 "이 장난감들을 이렇게 분류해라"라는 정리 규칙서(SQL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))다. 규칙서를 고치면 다음번에 자동으로 새로운 방식으로 정리된다.
 3. 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하는 것은 장난감 설명서를 버리지 않는 것과 같다. 나중에 다른 방법으로 조립(재분석)하고 싶을 때 다시 꺼내볼 수 있다.
 

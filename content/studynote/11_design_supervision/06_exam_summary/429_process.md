@@ -18,20 +18,21 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 경계 보안은 내부 네트워크에 들어오면 상대적으로 신뢰하는 구조였다. 그러나 클라우드, 재택근무, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동, 내부자 위협이 늘어나면서 "내부=안전"이라는 가정이 무너졌다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))는 이 한계를 해결하기 위해 **사용자, 기기, 애플리케이션, 네트워크를 모두 지속적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**하자는 원칙으로 등장했다.
+전통적인 경계 보안은 내부 네트워크에 들어오면 상대적으로 신뢰하는 구조였다. 그러나 클라우드, 재택근무, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동, 내부자 위협이 늘어나면서 "내부=안전"이라는 가정이 무너졌다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))는 이 한계를 해결하기 위해 <strong>사용자, 기기, 애플리케이션, 네트워크를 모두 지속적으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하자는 원칙으로 등장했다.
 
 이때 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)를 실제 구조에 내리는 핵심 수단이다. 애플리케이션, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 통신 경계를 잘게 나누어 허용된 흐름만 열고 나머지는 차단함으로써, 침해 이후의 수평 이동(Lateral Movement)을 억제한다. 시험에서는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)를 원칙으로, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)을 구현 전술로 구분해 쓰면 좋다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ User / Device / Workload                                     │
-│        │                                                     │
-│        ▼                                                     │
-│ Verify Identity & Posture ──▶ Policy Decision ──▶ Allow Path │
-│                                         │                    │
-│                                         └── else Deny        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User / Device / Workload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verify Identity &amp; Posture ──▶ Policy Decision ──▶ Allow Path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── else Deny</div></div>
+</div>
+</div>
+
+
 
 이 그림은 먼저 접속을 허용하고 나중에 감시하는 방식이 아니라, 요청마다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 필요한 경로만 여는 방식이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 기본임을 보여 준다.
 
@@ -41,7 +42,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 보통 **신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정, 세그먼트 분리, 지속 모니터링**의 네 축으로 설명한다. 특히 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 "누가 들어왔는가"를 넘어서 "어디까지 갈 수 있는가"를 통제하는 장치다.
+[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 보통 <strong>신원 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 결정, 세그먼트 분리, 지속 모니터링</strong>의 네 축으로 설명한다. 특히 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 "누가 들어왔는가"를 넘어서 "어디까지 갈 수 있는가"를 통제하는 장치다.
 
 | 구성 축 | 역할 | 시험 포인트 |
 |:---|:---|:---|
@@ -50,18 +51,19 @@ tags = ["studynote-design-supervision"]
 | [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) | 워크로드·애플리케이션 단위로 통신 경계 세분화 | 동서 트래픽과 수평 이동 차단에 강하다 |
 | 지속 모니터링 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·행위 분석으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반과 이상 징후 탐지 | 일회성 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 아니라 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중요하다 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Request                                                      │
-│   │                                                          │
-│   ├─▶ PEP (Policy Enforcement Point)                         │
-│   │        │                                                 │
-│   │        └─▶ PDP (Identity + Context + Policy)             │
-│   │                     │                                     │
-│   └──── allow only approved path ──▶ Segment A / B / C       │
-│                             deny east-west lateral movement   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ PEP (Policy Enforcement Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ PDP (Identity + Context + Policy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">allow only approved path ──▶ Segment A / B / C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">deny east-west lateral movement</div></div>
+</div>
+</div>
+
+
 
 실무에서는 네트워크 장비만으로 해결되지 않는다. 애플리케이션 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/) 관리, 태그 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) NetworkPolicy, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 같은 상위 통제와 결합해야 실제 효과가 나온다.
 
@@ -111,7 +113,7 @@ tags = ["studynote-design-supervision"]
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)와 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)을 제대로 적용하면 침해 사고가 발생하더라도 피해 확산 범위를 좁힐 수 있고, 관리자 권한 남용이나 내부 이동도 더 세밀하게 추적할 수 있다. 또한 클라우드·[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·원격 근무 환경이 섞인 복합 환경에서도 일관된 접근 통제를 설계하기 쉬워진다.
 
-결론적으로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 제품명이 아니라 **신뢰를 최소화하는 설계 원칙**이고, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 이를 구현하는 핵심 전술이다. 시험에서는 원칙과 구현 수단을 구분하고, 최소 권한·지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·동서 트래픽 통제라는 키워드를 함께 제시하면 답안이 선명해진다.
+결론적으로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 제품명이 아니라 <strong>신뢰를 최소화하는 설계 원칙</strong>이고, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 이를 구현하는 핵심 전술이다. 시험에서는 원칙과 구현 수단을 구분하고, 최소 권한·지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·동서 트래픽 통제라는 키워드를 함께 제시하면 답안이 선명해진다.
 
 - **📢 섹션 요약 비유**: 불이 났을 때 방화문이 구역별로 닫히면 건물 전체가 타지 않듯, 세그먼트를 잘 나누면 침해도 한 구역에 가둘 수 있다.
 
@@ -129,21 +131,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경계 보안 한계 노출
-    │
-    ▼
-Zero Trust 원칙 채택
-    │
-    ▼
-신원 · 기기 · 정책 기반 검증
-    │
-    ▼
-Microsegmentation 적용
-    │
-    ▼
-수평 이동 억제 · 지속 모니터링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계 보안 한계 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Trust 원칙 채택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">신원 · 기기 · 정책 기반 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Microsegmentation 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수평 이동 억제 · 지속 모니터링</div>
+</div>
+</div>
+
+
 
 이 흐름은 "외부 차단 중심"에서 "내부 이동 통제 중심"으로 보안 설계 사고가 이동하고 있음을 보여 준다.
 

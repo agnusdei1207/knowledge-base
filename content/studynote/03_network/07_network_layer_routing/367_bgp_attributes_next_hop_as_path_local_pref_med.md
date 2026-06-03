@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: BGP가 수신된 여러 개의 경로 중 하나를 "Best Path"로 선택하기 위해 비교하는 일련의 파라미터(변수) 집합. 
-- **필요성**: 삼성전자([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)가 인터넷을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 KT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200)과 SKT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 300)을 동시에 뚫어 놨다(멀티 호밍). KT는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 빵빵하고 요금이 비싸며, SKT는 요금이 싸다. 만약 OSPF처럼 속도만 보고 길을 찾으면 트래픽이 비싼 KT로만 다 몰려서 삼성전자 파산한다. "야, 사내 직원들 유튜브 보는 트래픽은 싼 SKT 쪽으로 밀어 넣고, VIP 고객들이 접속하는 건 빵빵한 KT 쪽으로 들어오게 **인위적으로 조작할 '수치 조작 다이얼([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))'들이 필요하다!!**"
+- **필요성**: 삼성전자([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)가 인터넷을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 KT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200)과 SKT 망([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 300)을 동시에 뚫어 놨다(멀티 호밍). KT는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 빵빵하고 요금이 비싸며, SKT는 요금이 싸다. 만약 OSPF처럼 속도만 보고 길을 찾으면 트래픽이 비싼 KT로만 다 몰려서 삼성전자 파산한다. "야, 사내 직원들 유튜브 보는 트래픽은 싼 SKT 쪽으로 밀어 넣고, VIP 고객들이 접속하는 건 빵빵한 KT 쪽으로 들어오게 <strong>인위적으로 조작할 '수치 조작 다이얼(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)'들이 필요하다!!</strong>"
 
-- **💡 비유**: BGP의 Attributes는 게임 캐릭터의 **"스탯(능력치) 보드"**와 같습니다.
+- **💡 비유**: BGP의 Attributes는 게임 캐릭터의 <strong>"스탯(능력치) 보드"</strong>와 같습니다.
   - OSPF가 오직 '민첩성([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))' 딱 하나만 보고 싸운다면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 캐릭터는 '힘([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))', '지능(Local_Pref)', '운(MED)', '체력([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)' 등 수십 개의 복잡한 스탯을 가집니다. 라우터는 위에서부터 순서대로 스탯을 하나씩 대결시켜서 최종 승자(Best Path)를 결정합니다.
 
-```text
-[iBGP, eBGP, BGP Split Ho…]
-    │
-    ▼
-[BGP 속성]
-    │
-    └──▶ [BGP Route Reflector / Co…]
-```
 
-- **📢 섹션 요약 비유**: ** [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 속성값들은 무역 회사 사장님의 **"결재 서류 결재 우선순위"**입니다. 단순히 배송이 빠른 택배사(최단 거리)를 고르는 게 아니라, 리베이트를 많이 주는 곳(Local Pref), 평소 거래를 튼 곳([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), 서류 절차가 짧은 곳([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 등 온갖 꼼수 점수를 매겨 가장 이문이 남는 택배사를 골라잡는 냉혹한 비즈니스 룰입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">iBGP, eBGP, BGP Split Ho…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP Route Reflector / Co…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 속성값들은 무역 회사 사장님의 </strong>"결재 서류 결재 우선순위"**입니다. 단순히 배송이 빠른 택배사(최단 거리)를 고르는 게 아니라, 리베이트를 많이 주는 곳(Local Pref), 평소 거래를 튼 곳([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), 서류 절차가 짧은 곳([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 등 온갖 꼼수 점수를 매겨 가장 이문이 남는 택배사를 골라잡는 냉혹한 비즈니스 룰입니다.
 
 ---
 
@@ -56,36 +60,36 @@ tags = ["studynote-network"]
 
 ### 4순위. [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path (거쳐 온 나라 개수, 짧을수록 승리) ★인바운드 제어
 - 여권에 찍힌 도장의 개수다. 거쳐 온 국가(ASN)의 개수가 가장 적은 놈이 이긴다.
-- **[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path Prepending 꼼수**: 외부에서 우리 쪽으로 들어오는(Inbound) 트래픽을 A길로 유도하고 싶을 때 쓴다. B길 쪽으로 엽서를 뿌릴 때 내 ASN 도장을 `AS 100, 100, 100, 100` 식으로 4번이나 중복해서 찍어 보낸다. 상대방은 "헐, B길은 거쳐 갈 나라가 4개나 되네? 조낸 머네? A길로 가야지!" 하고 낚이게 된다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-Path Prepending 꼼수</strong>: 외부에서 우리 쪽으로 들어오는(Inbound) 트래픽을 A길로 유도하고 싶을 때 쓴다. B길 쪽으로 엽서를 뿌릴 때 내 ASN 도장을 `AS 100, 100, 100, 100` 식으로 4번이나 중복해서 찍어 보낸다. 상대방은 "헐, B길은 거쳐 갈 나라가 4개나 되네? 조낸 머네? A길로 가야지!" 하고 낚이게 된다.
 
 ### 5순위. MED (Multi-Exit Discriminator, 낮을수록 승리) ★인바운드 제어
 - 이웃 국가(eBGP)에게 "우리 집 문이 2개 있는데, 1번 문(MED [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))이 2번 문(MED 20)보다 들어오기 편하니까 1번 문으로 들어오렴~" 하고 미끼([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 던지는 속성이다.
 - 단, 상대방 국가가 이 미끼를 씹어버리고 "내 맘대로(Local Pref) 보낼 건데?" 하면 강제할 방법은 없다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                인바운드 / 아웃바운드 트래픽 제어의 정수            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 우리 회사 (AS 100) ]                 [ KT (AS 200) ]     │
- │        (문 A) ◀─────── (들어오게 꼬시기) ──────── (문 A)       │
- │        (문 B) ───────▶ (나가도록 몰빵하기) ───────▶ (문 B)       │
- │                                                             │
- │   1. "직원들이 나갈 땐 무조건 문 B로 나가라!" (아웃바운드 통제)        │
- │      ▶ 우리 회사 라우터들에 [ Local_Pref ] 값을 B 쪽에 몰아준다. │
- │                                                             │
- │   2. "손님들이 들어올 땐 무조건 문 A로 들어오게 꼬셔라!" (인바운드 통제)  │
- │      ▶ KT한테 엽서 줄 때, A문은 [ AS-Path 1번 ], B문은 [ AS-Path │
- │        10번 ] 찍어서 사기를 친다. KT는 속아서 A문으로만 데이터를 준다.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인바운드 / 아웃바운드 트래픽 제어의 정수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우리 회사 (AS 100)</div><div class="kb-diagram-node">KT (AS 200)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문 A) ◀ (들어오게 꼬시기) (문 A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문 B) ▶ (나가도록 몰빵하기) ▶ (문 B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "직원들이 나갈 땐 무조건 문 B로 나가라!" (아웃바운드 통제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Local_Pref</div><div class="kb-diagram-note">값을 B 쪽에 몰아준다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "손님들이 들어올 땐 무조건 문 A로 들어오게 꼬셔라!" (인바운드 통제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AS-Path 1번</div><div class="kb-diagram-note">, B문은 [ AS-Path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10번 ] 찍어서 사기를 친다. KT는 속아서 A문으로만 데이터를 준다.</div></div>
+</div>
+</div>
+
+
 
 ### 6. Next_Hop 속성의 주의점
 BGP에서 Next_Hop(다음 징검다리 IP)은 OSPF와 조금 다르다.
 eBGP로 남의 나라에서 엽서를 받아 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 식구들에게 돌릴 때, **"Next_Hop 주소를 나(관문)로 바꾸지 않고, 남의 나라 라우터 IP를 그대로 살려서 뿌려버린다"**. 
 그러면 내부 식구들은 그 IP가 어딘지 몰라서 길이 끊긴다. 그래서 관문 라우터는 반드시 `next-hop-self`라는 명령어를 쳐서 "야야, 모르는 주소 찾지 말고 일단 나한테 쏴!"라고 엽서를 고쳐서 뿌려야만 망이 정상 작동한다.
 
-- **📢 섹션 요약 비유**: ** [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 속성은 카지노의 **"포커 패"**입니다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(포카드)가 있으면 무조건 이기고, 그게 없으면 Local Pref(풀하우스), 그것도 없으면 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path(스트레이트) 순서대로 패를 까서 가장 높은 카드를 쥔 경로 하나가 판돈(트래픽)을 모두 쓸어가는 냉혹한 도박판입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 속성은 카지노의 </strong>"포커 패"**입니다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(포카드)가 있으면 무조건 이기고, 그게 없으면 Local Pref(풀하우스), 그것도 없으면 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path(스트레이트) 순서대로 패를 까서 가장 높은 카드를 쥔 경로 하나가 판돈(트래픽)을 모두 쓸어가는 냉혹한 도박판입니다.
 
 ---
 
@@ -141,15 +145,19 @@ eBGP로 남의 나라에서 엽서를 받아 [iBGP](/knowledge-base/studynote/03
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: iBGP, eBGP, BGP Split Ho…]
-    │
-    ▼
-[현재 개념: BGP 속성]
-    │
-    ├──▶ [확장 A: BGP Route Reflector / Co…]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: iBGP, eBGP, BGP Split Ho…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP 속성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP Route Reflector / Co…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 속성는 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/), eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

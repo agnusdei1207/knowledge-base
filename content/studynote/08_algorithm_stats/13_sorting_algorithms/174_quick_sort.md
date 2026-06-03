@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 하나를 기준으로 원소를 좌우로 분할하고, 각 부분 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 다시 정렬하는 **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 기반 정렬**이다.
+> 1. **본질**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 하나를 기준으로 원소를 좌우로 분할하고, 각 부분 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 다시 정렬하는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>) 기반 정렬</strong>이다.
 > 2. **가치**: 평균 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) `O(n log n)`, 작은 추가 메모리, 뛰어난 캐시 지역성 때문에 실제 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬에서 매우 자주 선택되는 "빠른 기본값"이다.
 > 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택과 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 균형에 달려 있으며, 최악의 경우 `O(n²)`가 되므로 실전에서는 Median-of-3, 3-way [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 같은 방어 장치가 중요하다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 토니 호어 (C. A. R. Hoare) 가 제안한 대표적인 비교 기반 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 핵심은 "전체를 정렬한다"보다 **하나의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 제자리에 가깝게 보내고, 그보다 작은 집합과 큰 집합을 따로 정렬한다**는 데 있다. 병합 정렬처럼 나중에 다시 합치는 큰 단계가 없고, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체가 정렬을 대부분 진행한다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 토니 호어 (C. A. R. Hoare) 가 제안한 대표적인 비교 기반 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 핵심은 "전체를 정렬한다"보다 <strong>하나의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a>을 제자리에 가깝게 보내고, 그보다 작은 집합과 큰 집합을 따로 정렬한다</strong>는 데 있다. 병합 정렬처럼 나중에 다시 합치는 큰 단계가 없고, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체가 정렬을 대부분 진행한다.
 
 이 방식이 중요해진 이유는 단순 `O(n²)` 정렬이 데이터가 커질수록 너무 급격히 느려지기 때문이다. 버블 정렬이나 선택 정렬은 구현은 쉽지만, 수만 개 이상의 원소에서는 금방 비실용적이 된다. 반면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균적으로 `O(n log n)`을 유지하면서도 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 내부를 직접 바꿔 나가므로 메모리 효율과 실제 실행 속도가 좋다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 보통 **[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 → [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) → [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 정렬 → 작은 구간 최적화**로 이해하면 된다. 핵심 비용은 병합이 아니라 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)에서 발생한다. 한 번의 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 끝나면 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 최종 위치에 놓이고, 이후에는 양쪽 부분 문제만 남는다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 보통 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> 선택 → <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> → <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 정렬 → 작은 구간 최적화</strong>로 이해하면 된다. 핵심 비용은 병합이 아니라 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)에서 발생한다. 한 번의 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 끝나면 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 최종 위치에 놓이고, 이후에는 양쪽 부분 문제만 남는다.
 
 | 단계 | 핵심 동작 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 미치는 영향 | 실전 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -42,21 +42,23 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 핵심이 "분할의 균형"에 있음을 보여 준다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 파티션이 균형 잡히면 깊이가 짧아지고, 한쪽으로 치우치면 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 급격히 늘어난다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           Quick Sort cost depends on partition balance             │
-├────────────────────────────────────────────────────────────────────┤
-│ input  : [9 3 7 1 8 2 5]                                           │
-│ pivot  : 5                                                         │
-│ split  : [3 1 2] | 5 | [9 7 8]                                     │
-│          recurse left   recurse right                              │
-│                                                                    │
-│ balanced split  -> depth about log n -> average O(n log n)         │
-│ skewed split    -> depth about n     -> worst   O(n^2)             │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-수식으로 보면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 `T(n) = T(k) + T(n-k-1) + O(n)` 이다. 여기서 `k` 가 매번 절반 근처면 평균 `O(n log n)` 이 나오고, `k` 가 0 또는 `n-1` 쪽으로 계속 치우치면 최악 `O(n²)` 가 된다. 즉 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 비교 횟수보다도 **얼마나 균형 있게 나뉘는가**에 달려 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quick Sort cost depends on partition balance</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">input :</div><div class="kb-diagram-node">9 3 7 1 8 2 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pivot : 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">split :</div><div class="kb-diagram-node">3 1 2</div><div class="kb-diagram-note">5</div><div class="kb-diagram-node">9 7 8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recurse left recurse right</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanced split -&gt; depth about log n -&gt; average O(n log n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">skewed split -&gt; depth about n -&gt; worst O(n^2)</div></div>
+</div>
+</div>
+
+
+
+수식으로 보면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 `T(n) = T(k) + T(n-k-1) + O(n)` 이다. 여기서 `k` 가 매번 절반 근처면 평균 `O(n log n)` 이 나오고, `k` 가 0 또는 `n-1` 쪽으로 계속 치우치면 최악 `O(n²)` 가 된다. 즉 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 비교 횟수보다도 <strong>얼마나 균형 있게 나뉘는가</strong>에 달려 있다.
 
 또한 같은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이라도 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 방식은 다르다. Hoare 파티션은 양 끝 포인터가 서로 교차할 때까지 움직이며 교환하고, Lomuto 파티션은 한 방향으로 진행하며 경계를 넓혀 간다. 실무에서는 구현 단순성과 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 중복 원소 처리 특성까지 함께 고려한다.
 
@@ -76,7 +78,7 @@ tags = ["studynote-algorithm"]
 | 안정성 | 불안정 | 안정 | 불안정 | 불안정 |
 | 실제 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 매우 좋음 | 좋음 | 상대적으로 불리한 편 | 매우 좋음 + 최악 방어 |
 
-즉 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 장점은 "이론적으로 최고"가 아니라 **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서의 실제 상수 비용이 작고 캐시 친화적**이라는 데 있다. 반면 안정 정렬이 필요하거나, 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 절대 흔들리면 안 되거나, 외부 정렬처럼 보조 공간을 쓰는 구조가 유리하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)이나 다른 선택지가 더 적합할 수 있다.
+즉 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 장점은 "이론적으로 최고"가 아니라 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>에서의 실제 상수 비용이 작고 캐시 친화적</strong>이라는 데 있다. 반면 안정 정렬이 필요하거나, 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 절대 흔들리면 안 되거나, 외부 정렬처럼 보조 공간을 쓰는 구조가 유리하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)이나 다른 선택지가 더 적합할 수 있다.
 
 또 하나 중요한 경계는 중복 원소다. 동일 키가 매우 많은 데이터에 일반 2-way 파티션을 적용하면, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)과 같은 값들이 양쪽으로 비효율적으로 흩어져 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다. 이를 보완하는 대표 기법이 3-way [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 이며, 현대 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 구현은 이런 입력 분포까지 고려해 진화한다.
 
@@ -86,7 +88,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 **메모리 안의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·벡터·[슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 정렬**에서 매우 강력하다. 예를 들어 수십만 개의 정수나 구조체를 빠르게 정렬해야 하고, 동일 키의 상대 순서를 보존할 필요가 없다면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 계열이 매우 유리하다. 그래서 많은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 순수 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 아니라, 방어 장치를 넣은 하이브리드 형태를 기본값으로 쓴다.
+실무에서 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 <strong>메모리 안의 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>·벡터·<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> 정렬</strong>에서 매우 강력하다. 예를 들어 수십만 개의 정수나 구조체를 빠르게 정렬해야 하고, 동일 키의 상대 순서를 보존할 필요가 없다면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 계열이 매우 유리하다. 그래서 많은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 순수 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 아니라, 방어 장치를 넣은 하이브리드 형태를 기본값으로 쓴다.
 
 대표적 판단 포인트는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 전략이다. 이미 정렬된 데이터에서 첫 원소만 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)으로 잡으면 분할이 `0` 대 `n-1` 로 계속 치우쳐 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다. 이를 피하려고 Median-of-3, 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/), Dual-[Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 전략을 사용한다. 또 부분 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 매우 작아지면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 더 빠른 경우가 많아, 길이 16~32 수준에서 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로 전환하기도 한다.
 
@@ -106,7 +108,7 @@ tags = ["studynote-algorithm"]
 - [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 제한 없이 구현해 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 위험을 키우는 경우
 - 안정성이 필요한 레코드 정렬에 불안정 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)을 무심코 사용하는 경우
 
-실무적으로 기억할 만한 사례는 이렇다. C++의 `std::sort` 는 [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 계열을 사용해 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 최악 보장을 결합한다. 자바의 기본형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬은 Dual-[Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) [Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 를 활용한다. 즉 현대 시스템은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)을 그대로 쓰기보다, **[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 빠름을 중심으로 방어 기법을 덧댄 형태**를 선호한다.
+실무적으로 기억할 만한 사례는 이렇다. C++의 `std::sort` 는 [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 계열을 사용해 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 최악 보장을 결합한다. 자바의 기본형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬은 Dual-[Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) [Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 를 활용한다. 즉 현대 시스템은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)을 그대로 쓰기보다, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a>의 빠름을 중심으로 방어 기법을 덧댄 형태</strong>를 선호한다.
 
 - **📢 섹션 요약 비유**: 빠른 자동차도 브레이크와 미끄럼 방지 장치가 있어야 도로에서 안심하고 탈 수 있다. 실무의 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)도 그냥 빠르기만 한 것이 아니라, 나쁜 길을 대비한 안전장치를 함께 달아 쓴다.
 
@@ -116,7 +118,7 @@ tags = ["studynote-algorithm"]
 
 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 가장 큰 효과는 평균적으로 매우 빠른 정렬을 작은 메모리로 제공한다는 점이다. 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 데이터에서는 캐시 적중률이 좋아, 같은 `O(n log n)` 이론 복잡도를 가진 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중에서도 실제 실행 시간이 인상적으로 좋게 나오는 경우가 많다.
 
-하지만 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 만능이 아니다. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 나쁘면 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 드러나고, 안정 정렬이 아니며, 연결 리스트나 외부 정렬처럼 순차 병합이 중요한 환경에는 덜 어울린다. 그래서 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "항상 최고"가 아니라, **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬의 빠른 기본값이지만 방어 장치와 맥락 판단이 필요한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**으로 기억하는 것이 정확하다.
+하지만 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 만능이 아니다. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 나쁘면 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 드러나고, 안정 정렬이 아니며, 연결 리스트나 외부 정렬처럼 순차 병합이 중요한 환경에는 덜 어울린다. 그래서 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "항상 최고"가 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 정렬의 빠른 기본값이지만 방어 장치와 맥락 판단이 필요한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>으로 기억하는 것이 정확하다.
 
 결론적으로 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)의 대표 예시를 넘어, 현대 정렬 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 설계의 중심 개념이다. 핵심은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 하나를 어떻게 뽑아 얼마나 균형 있게 나누느냐이며, 실전에서는 그 질문이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 대부분을 결정한다.
 
@@ -138,22 +140,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Quadratic comparison sorts
-          │
-          ▼
-Divide and Conquer idea
-          │
-          ▼
-Pivot-based partitioning
-          │
-          ▼
-Quick Sort for fast in-memory arrays
-          │
-          ├───────────────► 3-way / Dual-Pivot optimization
-          ▼
-Introsort and hybrid standard-library sorting
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Quadratic comparison sorts</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Divide and Conquer idea</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pivot-based partitioning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quick Sort for fast in-memory arrays</div>
+<div class="kb-diagram-tree-item" style="--depth:5">3-way / Dual-Pivot optimization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Introsort and hybrid standard-library sorting</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 비교 정렬의 한계 → [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 중심 분할 → 빠른 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬 → 하이브리드 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 정렬"로 이어지는 발전 과정을 보여 준다.
 

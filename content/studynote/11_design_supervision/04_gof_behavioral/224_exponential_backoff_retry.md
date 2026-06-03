@@ -18,20 +18,23 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-```
-[단순 즉시 재시도 시나리오]
-  서버 과부하 → 1,000개 클라이언트 모두 즉시 재시도
-  → 서버 복구 중에 갑자기 3,000 요청 폭발 (원래 요청 + 재시도 × 2회)
-  → 서버 다시 다운 → 무한 루프
 
-[Thundering Herd Problem]
-  ┌──────────────────────────────────────────────┐
-  │ 시각   | 요청 수                               │
-  │ 0s     | 1,000 (정상)     ← 서버 과부하 발생   │
-  │ 1s     | 3,000 (재시도 2회) ← 천둥 떼 재시도   │
-  │ 2s     | 3,000            ← 서버 다시 다운     │
-  └──────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 즉시 재시도 시나리오</div></div>
+<div class="kb-diagram-note">서버 과부하 → 1,000개 클라이언트 모두 즉시 재시도</div>
+<div class="kb-diagram-note">→ 서버 복구 중에 갑자기 3,000 요청 폭발 (원래 요청 + 재시도 × 2회)</div>
+<div class="kb-diagram-note">→ 서버 다시 다운 → 무한 루프</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Thundering Herd Problem</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각</div><div class="kb-diagram-cell">요청 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0s</div><div class="kb-diagram-cell">1,000 (정상) ← 서버 과부하 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1s</div><div class="kb-diagram-cell">3,000 (재시도 2회) ← 천둥 떼 재시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2s</div><div class="kb-diagram-cell">3,000 ← 서버 다시 다운</div></div>
+</div>
+</div>
+
+
 
 ```
 대기 시간 = min(cap, base × 2^attempt)
@@ -55,30 +58,29 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-Jitter 없는 지수 백오프의 문제:
-  모든 클라이언트가 동시에 같은 시간(2초, 4초, 8초...)에 재시도
-  → 여전히 주기적인 스파이크 발생
 
-Full Jitter 공식:
-  wait = random_between(0, min(cap, base × 2^attempt))
 
-효과:
-  클라이언트마다 대기 시간이 무작위로 분산
-  → 시간축에 고르게 분포 → 서버 부하 평활화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Jitter 없는 지수 백오프의 문제:</div>
+<div class="kb-diagram-note">모든 클라이언트가 동시에 같은 시간(2초, 4초, 8초...)에 재시도</div>
+<div class="kb-diagram-note">→ 여전히 주기적인 스파이크 발생</div>
+<div class="kb-diagram-note">Full Jitter 공식:</div>
+<div class="kb-diagram-note">wait = random_between(0, min(cap, base × 2^attempt))</div>
+<div class="kb-diagram-note">효과:</div>
+<div class="kb-diagram-note">클라이언트마다 대기 시간이 무작위로 분산</div>
+<div class="kb-diagram-note">→ 시간축에 고르게 분포 → 서버 부하 평활화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재시도 요청 분포 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jitter 없음:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=1s ████████████████████ (모두 동시 재시도 = 스파이크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=2s ████████████████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Full Jitter:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=0~2s ████ ██ █ ██ ███ ██ █ ██ (고르게 분산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=0~4s ██ █ ██ █ ███ █ ██ █ █ ██</div></div>
+</div>
+</div>
 
-┌──────────────────────────────────────────────────────────────┐
-│  재시도 요청 분포 비교                                         │
-│                                                              │
-│  Jitter 없음:                                                │
-│  t=1s  ████████████████████ (모두 동시 재시도 = 스파이크)     │
-│  t=2s  ████████████████████                                  │
-│                                                              │
-│  Full Jitter:                                                │
-│  t=0~2s  ████ ██ █ ██ ███ ██ █ ██  (고르게 분산)             │
-│  t=0~4s  ██ █ ██ █ ███ █ ██ █ █ ██                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 공식 | 특징 |
 |:---|:---|:---|
@@ -88,20 +90,24 @@ Full Jitter 공식:
 | Exponential + Jitter | wait = random(0, base × 2^attempt) | AWS 권장 표준 |
 | Decorrelated Jitter | wait = random(base, prev × 3) | 더 넓은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 
-```
-재시도 안전한 연산 (멱등성 O):
-  GET /users/1        → 항상 같은 결과
-  DELETE /orders/1    → 이미 삭제됐으면 404 반환 (OK)
-  PUT /users/1 {name} → 동일 값으로 덮어쓰기 = 안전
 
-재시도 위험한 연산 (멱등성 X):
-  POST /orders        → 두 번 실행 = 두 개의 주문
-  POST /payments      → 두 번 실행 = 이중 결제
 
-해결: Idempotency Key
-  헤더에 고유 키 포함: Idempotency-Key: uuid-123
-  서버가 키를 기록하고 중복 요청 시 이전 결과 반환
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">재시도 안전한 연산 (멱등성 O):</div>
+<div class="kb-diagram-note">GET /users/1 → 항상 같은 결과</div>
+<div class="kb-diagram-note">DELETE /orders/1 → 이미 삭제됐으면 404 반환 (OK)</div>
+<div class="kb-diagram-note">PUT /users/1 {name} → 동일 값으로 덮어쓰기 = 안전</div>
+<div class="kb-diagram-note">재시도 위험한 연산 (멱등성 X):</div>
+<div class="kb-diagram-note">POST /orders → 두 번 실행 = 두 개의 주문</div>
+<div class="kb-diagram-note">POST /payments → 두 번 실행 = 이중 결제</div>
+<div class="kb-diagram-note">해결: Idempotency Key</div>
+<div class="kb-diagram-note">헤더에 고유 키 포함: Idempotency-Key: uuid-123</div>
+<div class="kb-diagram-note">서버가 키를 기록하고 중복 요청 시 이전 결과 반환</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 없는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 재시도는 카페에서 주문 실패 후 다시 주문하면 커피가 두 잔 나오는 것 — [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) Key는 "주문번호 #1234번을 또 주문해도 한 잔만 만들어 달라"는 요청이다.
 
@@ -114,29 +120,36 @@ Full Jitter 공식:
 | [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | 지속적 장애 ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운) | 빠른 실패 | 실패율 누적 → [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
 조합 패턴:
-```
-요청
- │
- ├─ Circuit Breaker OPEN? → 즉시 Fallback 반환 (재시도 안 함)
- │
- └─ Circuit Breaker CLOSED → 시도
-        │
-        ├─ 성공 → 반환
-        └─ 실패 → Exponential Backoff + Retry
-                    │
-                    └─ 최대 재시도 초과 → Dead Letter Queue
-```
 
-```
-최대 재시도 횟수(maxAttempts) 초과 시:
-  → 메시지를 DLQ(Dead Letter Queue)로 이동
-  → 운영자 알림 (PagerDuty, Slack)
-  → 수동 재처리 또는 데이터 보정 절차
 
-AWS SQS 예:
-  원본 큐 → 재시도 (maxReceiveCount: 3)
-           → 실패 시 DLQ로 자동 이동
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요청</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Circuit Breaker OPEN? → 즉시 Fallback 반환 (재시도 안 함)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Circuit Breaker CLOSED → 시도</div>
+<div class="kb-diagram-tree-item" style="--depth:4">성공 → 반환</div>
+<div class="kb-diagram-tree-item" style="--depth:4">실패 → Exponential Backoff + Retry</div>
+<div class="kb-diagram-tree-item" style="--depth:8">최대 재시도 초과 → Dead Letter Queue</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">최대 재시도 횟수(maxAttempts) 초과 시:</div>
+<div class="kb-diagram-note">→ 메시지를 DLQ(Dead Letter Queue)로 이동</div>
+<div class="kb-diagram-note">→ 운영자 알림 (PagerDuty, Slack)</div>
+<div class="kb-diagram-note">→ 수동 재처리 또는 데이터 보정 절차</div>
+<div class="kb-diagram-note">AWS SQS 예:</div>
+<div class="kb-diagram-note">원본 큐 → 재시도 (maxReceiveCount: 3)</div>
+<div class="kb-diagram-note">→ 실패 시 DLQ로 자동 이동</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DLQ는 우체국 반송 보관함 — 여러 번 배달 시도(재시도)해도 수취인이 없으면 반송함(DLQ)에 보관하고, 나중에 수취인(운영자)이 직접 처리한다.
 
@@ -189,17 +202,17 @@ SDK 기본 설정:
 Exponential Backoff and Retry 패턴은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 복원력(Resilience) 기반 기법이다:
 
 **기대효과**:
-- **일시적 장애 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**: 네트워크 순간 오류의 90%는 재시도로 해결
+- <strong>일시적 장애 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>: 네트워크 순간 오류의 90%는 재시도로 해결
 - **서버 부하 감소**: Jitter로 재시도 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 방지
-- **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 향상**: 재시도 없이는 실패했을 요청도 성공으로 전환
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 향상</strong>: 재시도 없이는 실패했을 요청도 성공으로 전환
 
 **적용 원칙**:
-1. 재시도 전 **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** — 비멱등성 연산에는 [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 필수
-2. **[Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 조합** — 지속 장애 시 재시도 루프 방지
+1. 재시도 전 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> — 비멱등성 연산에는 [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 필수
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a> 조합</strong> — 지속 장애 시 재시도 루프 방지
 3. **최대 재시도 제한** + **DLQ** 연계로 무한 재시도 방지
 4. 재시도 시마다 **로깅과 지표 수집** — 재시도 빈도는 인프라 건강의 바로미터
 
-기술사 시험에서는 **지수 백오프 공식**, **Jitter의 역할(Thundering Herd 방지)**, **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 요구사항**을 함께 서술하는 것이 핵심이다.
+기술사 시험에서는 **지수 백오프 공식**, **Jitter의 역할(Thundering Herd 방지)**, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> 요구사항</strong>을 함께 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

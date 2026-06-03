@@ -52,28 +52,23 @@ tags = ["studynote-enterprise-systems"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 거버넌스 3요소 + IT 지원 레이어
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│ 데이터 거버넌스 프레임워크 │
-│ │
-│ ① 원칙 (Principles) │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ 데이터 분류 정책 │ 품질 기준 │ 보안 정책 │ 생명주기 정책 │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ② 조직 (Organization) ▼ │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ CDO → Governance Council → Data Owner → Data Steward │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ③ 프로세스 + IT 시스템 ▼ │
-│ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌──────────┐ │
-│ │데이터 카탈로그│ │ 데이터 계보 │ │품질 모니터링│ │메타데이터│ │
-│ │(Atlas/ │ │(OpenLinea-│ │(dbt test/ │ │ 관리 │ │
-│ │ Alation) │ │ ge) │ │ GE) │ │ │ │
-│ └───────────┘ └───────────┘ └───────────┘ └──────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 원칙 (Principles)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 분류 정책</div><div class="kb-diagram-cell">품질 기준</div><div class="kb-diagram-cell">보안 정책</div><div class="kb-diagram-cell">생명주기 정책</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 조직 (Organization) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDO → Governance Council → Data Owner → Data Steward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 프로세스 + IT 시스템 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그</div><div class="kb-diagram-cell">데이터 계보</div><div class="kb-diagram-cell">품질 모니터링</div><div class="kb-diagram-cell">메타데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Atlas/</div><div class="kb-diagram-cell">(OpenLinea-</div><div class="kb-diagram-cell">(dbt test/</div><div class="kb-diagram-cell">관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alation)</div><div class="kb-diagram-cell">ge)</div><div class="kb-diagram-cell">GE)</div></div>
+</div>
+</div>
+
+
 
 ### [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 비교
 
@@ -142,21 +137,23 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-데이터 품질 문제 인식 - 임시방편 대응
-│
-▼
-데이터 관리 정책 수립 (조직·프로세스·IT 3요소)
-│
-▼
-Data Catalog + Data Steward 체계화
-│
-▼
-DAMA-DMBOK 기반 거버넌스 성숙도 모델 적용
-│
-▼
-능동적 거버넌스 (Active Metadata + AI 자동화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 품질 문제 인식 - 임시방편 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 관리 정책 수립 (조직·프로세스·IT 3요소)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Catalog + Data Steward 체계화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAMA-DMBOK 기반 거버넌스 성숙도 모델 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">능동적 거버넌스 (Active Metadata + AI 자동화)</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [Data Steward](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/), [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), [CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/), [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/)-DMBOK, [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/), [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)
 

@@ -11,28 +11,31 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MTBF (Mean Time Between Failures)는 **수리 가능한 시스템이 두 번의 고장 사이에서 평균적으로 얼마나 오래 정상 동작하는지**를 나타내는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 지표다.
-> 2. **가치**: 이 지표는 장비 한 대의 "수명 예언"이 아니라, 대규모 장비군에서 **예상 고장 빈도·예비 부품·[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 수준**을 계산하게 해 주는 운영 설계 기준이다.
-> 3. **판단 포인트**: MTBF 숫자가 높아도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 안전한 것은 아니며, 실제 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To Repair), [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure), [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 구조**와 함께 봐야 한다.
+> 1. **본질**: MTBF (Mean Time Between Failures)는 <strong>수리 가능한 시스템이 두 번의 고장 사이에서 평균적으로 얼마나 오래 정상 동작하는지</strong>를 나타내는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 지표다.
+> 2. **가치**: 이 지표는 장비 한 대의 "수명 예언"이 아니라, 대규모 장비군에서 <strong>예상 고장 빈도·예비 부품·<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 수준</strong>을 계산하게 해 주는 운영 설계 기준이다.
+> 3. **판단 포인트**: MTBF 숫자가 높아도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 안전한 것은 아니며, 실제 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To Repair), <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (Single Point of Failure), <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 구조</strong>와 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MTBF (Mean Time Between Failures)는 수리 가능한 장비나 시스템에서 한 번 고장이 난 뒤 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되고 나서, 다음 고장이 발생할 때까지의 평균 간격을 뜻한다. 현장에서는 이를 "평균 정상 가동 시간"처럼 단순화해 쓰는 경우가 많지만, 핵심은 **개별 장비의 운명**보다 **집단 운영에서의 고장 패턴**을 읽는 데 있다.
+MTBF (Mean Time Between Failures)는 수리 가능한 장비나 시스템에서 한 번 고장이 난 뒤 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되고 나서, 다음 고장이 발생할 때까지의 평균 간격을 뜻한다. 현장에서는 이를 "평균 정상 가동 시간"처럼 단순화해 쓰는 경우가 많지만, 핵심은 <strong>개별 장비의 운명</strong>보다 <strong>집단 운영에서의 고장 패턴</strong>을 읽는 데 있다.
 
 이 지표가 필요한 이유는 현대 시스템이 더 이상 단일 부품으로 끝나지 않기 때문이다. 서버 한 대에는 중앙처리장치인 CPU (Central Processing Unit), 메모리, 전원공급장치인 PSU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit), 저장장치, 냉각부가 함께 들어가고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 다시 수십~수천 대의 노드 위에서 돌아간다. 이런 환경에서는 "좋은 부품을 썼다"보다 "얼마나 자주 고장이 발생할 것으로 보고 운영을 설계할 것인가"가 더 중요하다.
 
 특히 데이터센터나 클라우드 환경에서는 고장이 예외가 아니라 상수다. MTBF를 모르면 예비 부품 재고, 유지보수 계약, 교체 주기, 장애 대응 인력 배치를 감으로 정해야 한다. 반대로 MTBF를 이해하면 "고장은 반드시 난다"는 전제 위에서 운영을 수치화할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        MTBF가 답하는 질문: "얼마나 오래 버티는가"          │
-├──────────────────────────────────────────────────────────────┤
-│ 고장 발생 ──▶ 복구 완료 ───────── 정상 운영 ─────────▶ 다음 고장 │
-│              │<----------- 평균 간격 = MTBF ----------->│      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTBF가 답하는 질문: "얼마나 오래 버티는가"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고장 발생 ──▶ 복구 완료 정상 운영 ▶ 다음 고장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------- 평균 간격 = MTBF -----------&gt;</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 MTBF가 "고장이 없는 이상세계"를 뜻하지 않는다는 점이다. 오히려 고장이 반복된다는 현실을 인정하고, 그 사이 간격을 평균값으로 다루는 운영 지표에 가깝다.
 
@@ -42,9 +45,9 @@ MTBF (Mean Time Between Failures)는 수리 가능한 장비나 시스템에서 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MTBF는 보통 고장률이 비교적 안정적인 구간에서 의미가 크다. 전자부품은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량 구간, 안정 구간, 마모 구간을 거치는 욕조 곡선 ([Bathtub Curve](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/)) 특성을 보이는데, MTBF는 주로 **안정 구간의 평균 고장 간격**을 대표값으로 삼는다. 그래서 신품 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이 많거나, 수명 말기에 급격히 마모되는 장비에는 MTBF 하나만으로 설명이 부족할 수 있다.
+MTBF는 보통 고장률이 비교적 안정적인 구간에서 의미가 크다. 전자부품은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량 구간, 안정 구간, 마모 구간을 거치는 욕조 곡선 ([Bathtub Curve](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/756_bathtub_curve/)) 특성을 보이는데, MTBF는 주로 <strong>안정 구간의 평균 고장 간격</strong>을 대표값으로 삼는다. 그래서 신품 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이 많거나, 수명 말기에 급격히 마모되는 장비에는 MTBF 하나만으로 설명이 부족할 수 있다.
 
-고장률을 λ([람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))라고 두고 고장이 무작위로 발생한다고 가정하면, 안정 구간에서는 대략 `MTBF ≈ 1 / λ`로 볼 수 있다. 또한 운영 관점에서는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To Repair)와 묶어서 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)인 Availability를 판단한다. 즉, **자주 안 고장 나는가**와 **고장 나면 얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는가**가 같이 움직여야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 결정된다.
+고장률을 λ([람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))라고 두고 고장이 무작위로 발생한다고 가정하면, 안정 구간에서는 대략 `MTBF ≈ 1 / λ`로 볼 수 있다. 또한 운영 관점에서는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To Repair)와 묶어서 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)인 Availability를 판단한다. 즉, <strong>자주 안 고장 나는가</strong>와 <strong>고장 나면 얼마나 빨리 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>하는가</strong>가 같이 움직여야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 결정된다.
 
 | 지표 | 의미 | 주로 보는 대상 | 실무 해석 |
 | :--- | :--- | :--- | :--- |
@@ -54,16 +57,17 @@ MTBF는 보통 고장률이 비교적 안정적인 구간에서 의미가 크다
 
 아래 그림은 MTBF와 MTTR이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)으로 이어지는 관계를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          장애 운영 주기: 신뢰성은 간격과 복구의 합          │
-├──────────────────────────────────────────────────────────────┤
-│ 정상 운영(MTBF)        장애 감지/수리(MTTR)   정상 운영(MTBF) │
-│ ────────────────────┬──────────────────────┬──────────────── │
-│                     │                      │                 │
-│ 서비스 체감 품질  = 고장 사이 간격이 길수록 ↑, 복구 시간이 짧을수록 ↑ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 운영 주기: 신뢰성은 간격과 복구의 합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 운영(MTBF) 장애 감지/수리(MTTR) 정상 운영(MTBF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 체감 품질 = 고장 사이 간격이 길수록 ↑, 복구 시간이 짧을수록 ↑</div></div>
+</div>
+</div>
+
+
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 관점에서는 보통 `Availability ≈ MTBF / (MTBF + MTTR)` 형태로 직관적으로 설명한다. 예를 들어 MTBF가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000시간이고 MTTR이 1시간이면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 매우 높지만, MTBF가 100,000시간이라도 MTTR이 24시간이면 고객 체감 품질은 크게 흔들릴 수 있다.
 
@@ -85,17 +89,20 @@ MTBF를 제대로 쓰려면 비슷해 보이는 지표와의 경계를 분명히
 
 운영체제와 클라우드 관점으로 확장하면, MTBF는 결국 [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), Serviceability) 중 Reliability를 수치화한 입력값이다. 여기에 자동 장애 감지, 핫스왑, [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/), 오토스케일링이 붙으면 "부품이 안 고장 나는 시스템"이 아니라 "고장 나도 멈추지 않는 시스템"으로 사고방식이 옮겨간다.
 
-```text
-개별 부품 신뢰성
-    │
-    ├─ 높음 ──▶ 단일 장비 안정성 향상
-    │
-    └─ 낮음 ──▶ 이중화·복제 없으면 서비스 장애 증가
-                         │
-                         ▼
-                 시스템 수준 설계 필요
-                 (RAID, Failover, Cluster)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 부품 신뢰성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">높음 ──▶ 단일 장비 안정성 향상</div>
+<div class="kb-diagram-tree-item" style="--depth:2">낮음 ──▶ 이중화·복제 없으면 서비스 장애 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 수준 설계 필요</div>
+<div class="kb-diagram-note">(RAID, Failover, Cluster)</div>
+</div>
+</div>
+
+
 
 📢 섹션 요약 비유: MTBF만 보는 것은 선수 개인 기록만 보고 축구팀 우승 가능성을 판단하는 것과 같다. 스트라이커가 좋아도 수비와 골키퍼가 약하면 팀은 무너지고, 반대로 팀워크와 교체 전략이 좋으면 개인 기록이 평범해도 우승할 수 있다.
 
@@ -130,7 +137,7 @@ MTBF를 제대로 이해하면 [신뢰성](/knowledge-base/studynote/04_software
 
 다만 MTBF는 어디까지나 평균값이며, 실제 장애는 사용 패턴·온도·진동·전력 품질·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 결함에 따라 크게 달라진다. 그래서 현대 운영은 제조사 MTBF를 출발점으로 쓰되, Self-Monitoring, Analysis and Reporting Technology인 S.M.A.R.T. 텔레메트리, 예지 정비, 장애 이력 분석으로 자사 환경의 실측 데이터를 계속 보정한다.
 
-앞으로의 방향은 "고장을 더 늦추는 것"만이 아니라 "고장을 빨리 감지하고 우아하게 우회하는 것"에 있다. 따라서 MTBF는 **장비 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 절대 진리**가 아니라, **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 설계를 시작하게 만드는 첫 번째 숫자**로 기억하는 것이 가장 정확하다.
+앞으로의 방향은 "고장을 더 늦추는 것"만이 아니라 "고장을 빨리 감지하고 우아하게 우회하는 것"에 있다. 따라서 MTBF는 <strong>장비 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 절대 진리</strong>가 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 설계를 시작하게 만드는 첫 번째 숫자</strong>로 기억하는 것이 가장 정확하다.
 
 📢 섹션 요약 비유: MTBF는 집을 튼튼하게 짓는 기준선이다. 하지만 오래 사는 비결은 벽돌 강도만이 아니라, 누수 경보기, 예비 열쇠, 빠른 수리공 연락처까지 함께 준비해 두는 데 있다.
 
@@ -148,21 +155,23 @@ MTBF를 제대로 이해하면 [신뢰성](/knowledge-base/studynote/04_software
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부품 고장 통계
-    │
-    ▼
-MTTF · MTBF · MTTR
-    │
-    ▼
-가용성 계산 · 장애 대응 시간 관리
-    │
-    ▼
-RAID · 이중 전원 · 클러스터 페일오버
-    │
-    ▼
-예지 정비 · 텔레메트리 기반 신뢰성 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부품 고장 통계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MTTF · MTBF · MTTR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가용성 계산 · 장애 대응 시간 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAID · 이중 전원 · 클러스터 페일오버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예지 정비 · 텔레메트리 기반 신뢰성 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 "개별 부품의 평균 고장 이해"에서 출발해 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준의 장애 흡수 설계"로 확장되는 방향을 보여준다.
 

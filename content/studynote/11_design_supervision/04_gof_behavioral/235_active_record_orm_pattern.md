@@ -20,7 +20,7 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 의 행과 객체지향 프로그래밍의 객체 사이에는 구조적 불일치가 존재한다—이를 객체-[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 (Object-Relational [Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) Mismatch) 라고 한다. ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 은 이 간격을 메우는 기술의 총칭이며, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드는 ORM 구현 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 가장 단순한 형태다.
 
-마틴 파울러의 PEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), 2002) 에서 정의된 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 패턴의 핵심은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 행동이 같은 클래스에 있다"** 는 것이다. `user.save()`, `User.find(id)` 처럼 객체가 자신의 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 스스로 책임진다.
+마틴 파울러의 PEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), 2002) 에서 정의된 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 패턴의 핵심은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 행동이 같은 클래스에 있다"</strong> 는 것이다. `user.save()`, `User.find(id)` 처럼 객체가 자신의 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 스스로 책임진다.
 
 | 문제 | [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드의 해결 방식 |
 |:---|:---|
@@ -28,44 +28,44 @@ tags = ["studynote-design-supervision"]
 | 테이블 ↔ 객체 수동 매핑 | 컬럼 이름 = 필드 이름 관례로 자동 매핑 |
 | CRUD 보일러플레이트 | save / find / destroy 기본 제공 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 통장(객체)이 스스로 입금도 하고 출금도 하고 잔액 조회도 할 수 있는 것처럼, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 객체는 DB 작업을 스스로 처리한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────┐
-│             Active Record 객체 구조                     │
-│                                                        │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │               User (ActiveRecord)                │  │
-│  │                                                  │  │
-│  │  [데이터 속성]              [영속성 메서드]         │  │
-│  │  + id: Long                + save()              │  │
-│  │  + name: String            + delete()            │  │
-│  │  + email: String           + validate()          │  │
-│  │  + createdAt: DateTime     + find(id)            │  │
-│  │                            + findAll()           │  │
-│  │  [비즈니스 메서드]           + findBy(condition)   │  │
-│  │  + changeEmail(e)          + update(attrs)       │  │
-│  │  + isAdmin()                                     │  │
-│  └──────────────────┬───────────────────────────────┘  │
-│                     │ SQL 자동 생성                     │
-│                     ▼                                  │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │             Database Table: users                │  │
-│  │  id | name  | email           | created_at       │  │
-│  │  ───┼───────┼─────────────────┼──────────────    │  │
-│  │   1 │ Alice │ alice@email.com │ 2026-01-01       │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Record 객체 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User (ActiveRecord)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 속성</div><div class="kb-diagram-node">영속성 메서드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ id: Long + save()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ name: String + delete()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ email: String + validate()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createdAt: DateTime + find(id)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ findAll()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 메서드</div><div class="kb-diagram-note">+ findBy(condition) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ changeEmail(e) + update(attrs)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ isAdmin()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 자동 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database Table: users</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">email</div><div class="kb-diagram-cell">created_at</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">Alice</div><div class="kb-diagram-cell">alice@email.com</div><div class="kb-diagram-cell">2026-01-01</div></div>
+</div>
+</div>
+
+
 
 ```ruby
 # 테이블: users (id, name, email, created_at)
@@ -104,24 +104,28 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 적합성 | 낮음 | 높음 |
 | 대표 구현체 | Rails ActiveRecord, Laravel Eloquent | Hibernate, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA |
 
-```
-도메인 로직이 복잡한가?
-     │
-     ├── 아니오 (CRUD 중심 단순 앱)  → Active Record
-     │
-     └── 예 (복잡한 비즈니스 규칙)   → Data Mapper + Repository
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">도메인 로직이 복잡한가?</div>
+<div class="kb-diagram-tree-item" style="--depth:2">아니오 (CRUD 중심 단순 앱) → Active Record</div>
+<div class="kb-diagram-tree-item" style="--depth:2">예 (복잡한 비즈니스 규칙) → Data Mapper + Repository</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 간단한 메모장 앱은 셀프서비스 식당([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record)으로 충분하지만, 병원 예약 시스템 같은 복잡한 앱은 전문 웨이터([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper)가 필요하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-1. **스타트업 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))**: 빠른 프로토타이핑, Rails/Laravel로 수 일 내 CRUD 완성
-2. **관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)**: 단순 CRUD 어드민 패널, 비즈니스 로직 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작만 수행
+1. <strong>스타트업 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">Minimum Viable Product</a>)</strong>: 빠른 프로토타이핑, Rails/Laravel로 수 일 내 CRUD 완성
+2. <strong>관리자 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a></strong>: 단순 CRUD 어드민 패널, 비즈니스 로직 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작만 수행
 3. **스크립트성 배치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) ([Extract Transform Load](/knowledge-base/studynote/14_data_engineering/01_infrastructure/033_etl/)) 스크립트
 
-**God Object [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 비즈니스 로직이 늘어날수록 모델 파일이 수천 줄이 된다.
+<strong>God Object <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 비즈니스 로직이 늘어날수록 모델 파일이 수천 줄이 된다.
 - **해결책**: [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Object, Concern 분리, 점진적으로 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper 패턴으로 이전
 
 **테스트 속도 저하**: `User.save`는 실제 DB 연결 없이는 테스트 불가능하다.
@@ -147,7 +151,7 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 - **도입 적합**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 단순하고, 빠른 개발이 필요하며, 팀이 소규모인 경우
 - **도입 부적합**: [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 를 적용하거나, 마이크로서비스에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직이 복잡한 경우
 
-기술사 관점에서, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드는 **생산성(Productivity)과 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)([Maintainability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 사이의 트레이드오프**를 명확히 이해해야 선택 근거를 설명할 수 있다. 단순함이 강점이지만, 그 단순함이 복잡성의 씨앗이 될 수 있다는 이중성을 인지해야 한다.
+기술사 관점에서, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드는 <strong>생산성(Productivity)과 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">Maintainability</a>) 사이의 트레이드오프</strong>를 명확히 이해해야 선택 근거를 설명할 수 있다. 단순함이 강점이지만, 그 단순함이 복잡성의 씨앗이 될 수 있다는 이중성을 인지해야 한다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

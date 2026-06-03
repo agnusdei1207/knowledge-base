@@ -21,21 +21,24 @@ tags = ["studynote-bigdata"]
 
 ### 1. 전통적 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 한계
 
-```
-문제 1: 데이터 수정 어려움
-  Parquet 파일은 불변(Immutable) → UPDATE/DELETE가 사실상 불가
-  → 파티션 전체를 재작성하는 우회 방법만 존재
 
-문제 2: 동시성 문제
-  두 Spark 잡이 같은 테이블에 동시 쓰기 → 데이터 부분 손상 가능
-  → 중복 데이터 또는 누락 데이터 발생
 
-문제 3: 스키마 불일치
-  스트림이 새 컬럼을 추가하거나 타입이 바뀌면 하위 쿼리가 이상 동작
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제 1: 데이터 수정 어려움</div>
+<div class="kb-diagram-note">Parquet 파일은 불변(Immutable) → UPDATE/DELETE가 사실상 불가</div>
+<div class="kb-diagram-note">→ 파티션 전체를 재작성하는 우회 방법만 존재</div>
+<div class="kb-diagram-note">문제 2: 동시성 문제</div>
+<div class="kb-diagram-note">두 Spark 잡이 같은 테이블에 동시 쓰기 → 데이터 부분 손상 가능</div>
+<div class="kb-diagram-note">→ 중복 데이터 또는 누락 데이터 발생</div>
+<div class="kb-diagram-note">문제 3: 스키마 불일치</div>
+<div class="kb-diagram-note">스트림이 새 컬럼을 추가하거나 타입이 바뀌면 하위 쿼리가 이상 동작</div>
+<div class="kb-diagram-note">문제 4: 읽기/쓰기 일관성 없음</div>
+<div class="kb-diagram-note">쓰기 도중 읽기가 이루어지면 "반쯤 쓰여진" 상태 읽기 가능</div>
+</div>
+</div>
 
-문제 4: 읽기/쓰기 일관성 없음
-  쓰기 도중 읽기가 이루어지면 "반쯤 쓰여진" 상태 읽기 가능
-```
+
 
 ### 2. Delta Lake의 해결책
 
@@ -50,18 +53,24 @@ tags = ["studynote-bigdata"]
 
 ### 1. [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 디렉토리 구조
 
-```
-/delta/table/
-├── _delta_log/
-│   ├── 00000000000000000000.json   ← 초기 커밋 (테이블 스키마)
-│   ├── 00000000000000000001.json   ← 첫 번째 쓰기 트랜잭션
-│   ├── 00000000000000000002.json   ← UPDATE/DELETE 트랜잭션
-│   ├── 00000000000000000010.checkpoint.parquet  ← 로그 체크포인트
-│   └── _last_checkpoint
-├── part-00000-xxx.parquet          ← 실제 데이터 파일 (활성)
-├── part-00001-xxx.parquet          ← (이전 버전 파일, VACUUM 전)
-└── part-00002-xxx.parquet
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">/delta/table/</div>
+<div class="kb-diagram-tree-item" style="--depth:0">_delta_log/</div>
+<div class="kb-diagram-note">── 00000000000000000000.json ← 초기 커밋 (테이블 스키마)</div>
+<div class="kb-diagram-note">── 00000000000000000001.json ← 첫 번째 쓰기 트랜잭션</div>
+<div class="kb-diagram-note">── 00000000000000000002.json ← UPDATE/DELETE 트랜잭션</div>
+<div class="kb-diagram-note">── 00000000000000000010.checkpoint.parquet ← 로그 체크포인트</div>
+<div class="kb-diagram-note">── _last_checkpoint</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00000-xxx.parquet ← 실제 데이터 파일 (활성)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00001-xxx.parquet ← (이전 버전 파일, VACUUM 전)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00002-xxx.parquet</div>
+</div>
+</div>
+
+
 
 ### 2. Delta Lake의 4가지 핵심 기능
 
@@ -176,7 +185,7 @@ DESCRIBE TABLE EXTENDED orders;
 
 ### 2. 결론
 
-Delta Lake는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 유연성과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 안정성을 결합한 **[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 핵심 스토리지 레이어**다. [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 환경에서는 기본이며, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 Spark 클러스터에도 적용 가능하다. 기술사 답안에서는 기존 레이크의 한계 → Delta Lake의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 해결책 → ACID + 타임 트래블의 가치를 순서대로 서술하는 것이 핵심이다.
+Delta Lake는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 유연성과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 안정성을 결합한 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 아키텍처의 핵심 스토리지 레이어</strong>다. [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 환경에서는 기본이며, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 Spark 클러스터에도 적용 가능하다. 기술사 답안에서는 기존 레이크의 한계 → Delta Lake의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 해결책 → ACID + 타임 트래블의 가치를 순서대로 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
 > Delta Lake는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 "법적 효력을 가진 계약 시스템"을 도입한 것이다. 어떤 변경도 장부에 기록되고, 잘못된 거래는 취소([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))할 수 있으며, 언제나 특정 시점의 장부(타임 트래블)를 열람할 수 있다.
@@ -196,21 +205,23 @@ Delta Lake는 [데이터 레이크](/knowledge-base/studynote/12_it_management/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Data Lake — 스키마 없는 원시 파일 저장]
-    │
-    ▼
-[Delta Log (트랜잭션 로그) — 모든 변경 이력 기록]
-    │
-    ▼
-[ACID 보장 (원자성·일관성·격리·지속성) — 동시성 제어]
-    │
-    ▼
-[타임 트래블 (Time Travel) — 특정 시점 버전 조회]
-    │
-    ▼
-[Lakehouse 아키텍처 — DW 신뢰성 + Data Lake 유연성 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake — 스키마 없는 원시 파일 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Log (트랜잭션 로그) — 모든 변경 이력 기록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACID 보장 (원자성·일관성·격리·지속성) — 동시성 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 트래블 (Time Travel) — 특정 시점 버전 조회</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lakehouse 아키텍처 — DW 신뢰성 + Data Lake 유연성 통합</div></div>
+</div>
+</div>
+
+
 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장소인 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 더해 ACID 정합성과 타임 트래블을 제공하는 Delta Lake가 [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 표준으로 자리잡는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -24,11 +24,11 @@ tags = ["studynote-software-engineering"]
 켄트 벡(Kent Beck)은 이 지옥을 끝내고 싶었다. 그는 개발 과정에서 효과적이라고 검증된 방법들을 모아 보았다. '테스트', '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)', '고객과의 대화'. 
 
 그는 생각했다. **"이 좋은 것들을 왜 한 달에 한 번만 하지? 매일, 매 분, 매 초마다 극한(Extreme)으로 하면 어떨까?"** 
-- [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)가 좋으면 $\rightarrow$ **아예 두 명이 같이 코드를 짜자 ([Pair Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/))**
-- 테스트가 좋으면 $\rightarrow$ **아예 테스트 코드부터 먼저 짜자 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))**
-- 코드 합치는 게 좋으면 $\rightarrow$ **하루에 10번씩 합치자 ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))**
+- [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)가 좋으면 $\rightarrow$ <strong>아예 두 명이 같이 코드를 짜자 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/">Pair Programming</a>)</strong>
+- 테스트가 좋으면 $\rightarrow$ <strong>아예 테스트 코드부터 먼저 짜자 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a>)</strong>
+- 코드 합치는 게 좋으면 $\rightarrow$ <strong>하루에 10번씩 합치자 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong>
 
-이러한 극단적인 실천 강령들을 하나로 묶어 발표한 것이 바로 현대 애자일의 기술적 심장, **익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))**이다.
+이러한 극단적인 실천 강령들을 하나로 묶어 발표한 것이 바로 현대 애자일의 기술적 심장, <strong>익스트림 프로그래밍(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 운동이 몸에 좋은 건 안다. 하지만 한 달에 한 번 10시간씩 헬스장에 가는 건 고통([폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))이다. XP는 "그럴 바엔 매일 아침 10분씩 턱걸이와 팔굽혀펴기를 극한으로 매일매일 반복하자!"라는 실천적 다이어트 십계명이다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  XP 테스트 주도 개발 (TDD) 리                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XP 테스트 주도 개발 (TDD) 리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -59,7 +58,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-XP는 5가지 핵심 가치(의사소통, 단순함, 피드백, 용기, 존중)를 바탕으로 **12가지 구체적인 실천 방법(Practices)**을 강제한다. 그중 가장 중요한 4대 천왕을 살펴보자.
+XP는 5가지 핵심 가치(의사소통, 단순함, 피드백, 용기, 존중)를 바탕으로 <strong>12가지 구체적인 실천 방법(Practices)</strong>을 강제한다. 그중 가장 중요한 4대 천왕을 살펴보자.
 
 - **📢 섹션 요약 비유**: [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -77,16 +76,16 @@ XP는 5가지 핵심 가치(의사소통, 단순함, 피드백, 용기, 존중)�
 
 ## Ⅲ. 비교 및 연결
 
-애자일을 대표하는 쌍두마차는 **[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))**과 **[XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)([Extreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))**다. 둘은 완벽한 콤비다.
+애자일을 대표하는 쌍두마차는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">Extreme Programming</a>)</strong>다. 둘은 완벽한 콤비다.
 
 | 비교 항목 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | 익스트림 프로그래밍 ([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) |
 |:---|:---|:---|
-| **핵심 포커스** | **프로젝트 관리 ([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | **기술적 실천 방법 (Engineering)** |
+| **핵심 포커스** | <strong>프로젝트 관리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | **기술적 실천 방법 (Engineering)** |
 | **주요 역할자** | [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/), 프로덕트 오너(PO) | 개발자 (엔지니어 중심) |
 | **주요 도구** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/), 회고 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) |
 | **강점** | "어떻게 일정을 관리하고 회의할 것인가?" | "어떻게 버그 없이 코드를 예쁘게 짤 것인가?" |
 
-실무에서는 **"겉껍데기(회의와 일정 관리)는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)으로 돌리고, 그 안에서 개발자들이 실제로 코드를 짜는 방식은 XP를 쓴다"**는 하이브리드 조합이 전 세계의 표준이다.
+실무에서는 <strong>"겉껍데기(회의와 일정 관리)는 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>으로 돌리고, 그 안에서 개발자들이 실제로 코드를 짜는 방식은 XP를 쓴다"</strong>는 하이브리드 조합이 전 세계의 표준이다.
 
 - **📢 섹션 요약 비유**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)은 군대에서 "매일 아침 9시에 작전 회의를 하고, 2주마다 마을을 점령하자"고 정하는 '지휘관의 전술'이다. XP는 총을 쏘는 병사들에게 "매일 총기 손질을 하고, 둘이 짝을 지어서 움직여라"라고 가르치는 '실전 전투 교범'이다.
 
@@ -100,7 +99,7 @@ XP는 5가지 핵심 가치(의사소통, 단순함, 피드백, 용기, 존중)�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-XP의 12가지 실천 방법 중, 한국 기업 문화에서 가장 정착하기 힘들고 실패하는 것이 바로 **'[페어 프로그래밍](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)'**과 **'코드 공동 소유'**다.
+XP의 12가지 실천 방법 중, 한국 기업 문화에서 가장 정착하기 힘들고 실패하는 것이 바로 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/">페어 프로그래밍</a>'</strong>과 <strong>'코드 공동 소유'</strong>다.
 
 - **📢 섹션 요약 비유**: [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -137,21 +136,23 @@ XP를 조직에 완벽하게 내재화하면, 퇴사자가 발생해도 프로�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-XP 테스트 주도 개발 (TDD) 리팩토링 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">XP 테스트 주도 개발 (TDD) 리팩토링 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

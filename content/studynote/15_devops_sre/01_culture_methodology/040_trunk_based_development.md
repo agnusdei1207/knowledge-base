@@ -18,31 +18,33 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. TBD 핵심 원칙
 
-```
-Trunk-Based Development 원칙:
 
-기본 규칙:
-  - 단일 공유 브랜치 (main/master/trunk)
-  - 모든 개발자가 하루 1회 이상 커밋
-  - 브랜치 수명: 1~2일 이내 (이상적으로 없음)
-  - 기능 완성 전에도 통합 가능 (피처 플래그 사용)
 
-반대 개념:
-  장기 피처 브랜치 개발:
-    feature/order-system (3주 개발)
-    -> 병합 시 수백 파일 충돌
-    -> "병합 지옥 (Merge Hell)"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Trunk-Based Development 원칙:</div>
+<div class="kb-diagram-note">기본 규칙:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단일 공유 브랜치 (main/master/trunk)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">모든 개발자가 하루 1회 이상 커밋</div>
+<div class="kb-diagram-tree-item" style="--depth:1">브랜치 수명: 1~2일 이내 (이상적으로 없음)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">기능 완성 전에도 통합 가능 (피처 플래그 사용)</div>
+<div class="kb-diagram-note">반대 개념:</div>
+<div class="kb-diagram-note">장기 피처 브랜치 개발:</div>
+<div class="kb-diagram-note">feature/order-system (3주 개발)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">병합 시 수백 파일 충돌</div>
+<div class="kb-diagram-tree-item" style="--depth:2">"병합 지옥 (Merge Hell)"</div>
+<div class="kb-diagram-note">TBD 흐름:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">오전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">오후</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실시간</div></div>
+<div class="kb-diagram-note">단기 브랜치 허용 (Scaled TBD):</div>
+<div class="kb-diagram-note">feature 브랜치 최대 2일 이내 병합</div>
+<div class="kb-diagram-note">PR(Pull Request) 통한 리뷰 후 병합</div>
+<div class="kb-diagram-note">병합 후 브랜치 즉시 삭제</div>
+</div>
+</div>
 
-TBD 흐름:
-  Alice: code -> commit -> push (trunk)   [오전]
-  Bob:   code -> commit -> push (trunk)   [오후]
-  CI:    자동 테스트 -> 통과 -> 배포 준비  [실시간]
-  
-단기 브랜치 허용 (Scaled TBD):
-  feature 브랜치 최대 2일 이내 병합
-  PR(Pull Request) 통한 리뷰 후 병합
-  병합 후 브랜치 즉시 삭제
-```
+
 
 > 📢 **섹션 요약 비유**: TBD는 매일 저녁 숙제를 선생님께 제출하는 방식 — 한 달치 몰아서 내면 충돌·오류 수정이 훨씬 어렵다.
 
@@ -50,34 +52,35 @@ TBD 흐름:
 
 ## Ⅱ. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)와 TBD
 
-```
-Feature Flag (피처 플래그) + TBD:
 
-문제:
-  완성되지 않은 기능을 trunk에 병합하면
-  -> 사용자에게 미완성 기능 노출 위험
 
-해결: 피처 플래그
-  if feature_flag("new_checkout"):
-      show_new_checkout()
-  else:
-      show_old_checkout()
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Feature Flag (피처 플래그) + TBD:</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">완성되지 않은 기능을 trunk에 병합하면</div>
+<div class="kb-diagram-tree-item" style="--depth:1">사용자에게 미완성 기능 노출 위험</div>
+<div class="kb-diagram-note">해결: 피처 플래그</div>
+<div class="kb-diagram-note">if feature_flag("new_checkout"):</div>
+<div class="kb-diagram-note">show_new_checkout()</div>
+<div class="kb-diagram-note">else:</div>
+<div class="kb-diagram-note">show_old_checkout()</div>
+<div class="kb-diagram-note">피처 플래그 상태:</div>
+<div class="kb-diagram-note">개발 중: 플래그 OFF (기존 로직 실행)</div>
+<div class="kb-diagram-note">내부 테스트: 플래그 ON (특정 사용자만)</div>
+<div class="kb-diagram-note">점진적 출시: 10% -&gt; 50% -&gt; 100% 활성화</div>
+<div class="kb-diagram-note">완전 출시: 플래그 제거 (코드 정리)</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">코드는 프로덕션에 배포됐지만 기능은 숨김</div>
+<div class="kb-diagram-note">언제든 즉시 롤백 (플래그 OFF)</div>
+<div class="kb-diagram-note">A/B 테스트 가능 (사용자 절반씩 다른 경험)</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">LaunchDarkly, Unleash, CloudBees</div>
+<div class="kb-diagram-note">직접 DB/Redis로 간단 구현 가능</div>
+</div>
+</div>
 
-피처 플래그 상태:
-  개발 중:   플래그 OFF (기존 로직 실행)
-  내부 테스트: 플래그 ON (특정 사용자만)
-  점진적 출시: 10% -> 50% -> 100% 활성화
-  완전 출시:  플래그 제거 (코드 정리)
 
-장점:
-  코드는 프로덕션에 배포됐지만 기능은 숨김
-  언제든 즉시 롤백 (플래그 OFF)
-  A/B 테스트 가능 (사용자 절반씩 다른 경험)
-  
-도구:
-  LaunchDarkly, Unleash, CloudBees
-  직접 DB/Redis로 간단 구현 가능
-```
 
 > 📢 **섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 새 도로 개통 전에 차단막 설치 — 공사(개발)는 다 끝났지만 개통(활성화) 시점은 따로 결정.
 
@@ -150,35 +153,35 @@ TBD 성공을 위한 전제:
 
 ## Ⅴ. 실무 시나리오 — TBD 전환 사례
 
-```
-스타트업 C사 TBD 전환 (100명 규모):
 
-현황 (Git Flow 사용 중):
-  병합 주기: 주 1회 (금요일)
-  충돌 해결: 평균 3시간 소요
-  배포 주기: 주 1회 (목요일 새벽 배포 창)
-  버그 발견: 배포 2주 후 고객 신고
 
-TBD 전환 계획 (3개월):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스타트업 C사 TBD 전환 (100명 규모):</div>
+<div class="kb-diagram-note">현황 (Git Flow 사용 중):</div>
+<div class="kb-diagram-note">병합 주기: 주 1회 (금요일)</div>
+<div class="kb-diagram-note">충돌 해결: 평균 3시간 소요</div>
+<div class="kb-diagram-note">배포 주기: 주 1회 (목요일 새벽 배포 창)</div>
+<div class="kb-diagram-note">버그 발견: 배포 2주 후 고객 신고</div>
+<div class="kb-diagram-note">TBD 전환 계획 (3개월):</div>
+<div class="kb-diagram-note">1개월: 인프라 준비</div>
+<div class="kb-diagram-note">CI 파이프라인 강화 (테스트 자동화 70%+)</div>
+<div class="kb-diagram-note">피처 플래그 플랫폼 도입 (Unleash)</div>
+<div class="kb-diagram-note">2개월: 팀 교육 + 파일럿</div>
+<div class="kb-diagram-note">1개 팀 TBD 시범 도입</div>
+<div class="kb-diagram-note">Small Commit 가이드 배포</div>
+<div class="kb-diagram-note">3개월: 전사 전환</div>
+<div class="kb-diagram-note">모든 팀 TBD 전환</div>
+<div class="kb-diagram-note">Git Flow 브랜치 정리</div>
+<div class="kb-diagram-note">전환 후 6개월 결과:</div>
+<div class="kb-diagram-note">배포 빈도: 주 1회 -&gt; 하루 3회</div>
+<div class="kb-diagram-note">충돌 시간: 3시간 -&gt; 0 (없어짐)</div>
+<div class="kb-diagram-note">버그 발견 시간: 2주 -&gt; 30분 (CI 탐지)</div>
+<div class="kb-diagram-note">개발자 만족도: 3.2/5 -&gt; 4.5/5</div>
+</div>
+</div>
 
-1개월: 인프라 준비
-  CI 파이프라인 강화 (테스트 자동화 70%+)
-  피처 플래그 플랫폼 도입 (Unleash)
-  
-2개월: 팀 교육 + 파일럿
-  1개 팀 TBD 시범 도입
-  Small Commit 가이드 배포
-  
-3개월: 전사 전환
-  모든 팀 TBD 전환
-  Git Flow 브랜치 정리
 
-전환 후 6개월 결과:
-  배포 빈도: 주 1회 -> 하루 3회
-  충돌 시간: 3시간 -> 0 (없어짐)
-  버그 발견 시간: 2주 -> 30분 (CI 탐지)
-  개발자 만족도: 3.2/5 -> 4.5/5
-```
 
 > 📢 **섹션 요약 비유**: TBD 전환은 주간 보고를 일일 스탠드업으로 바꾸기 — 매일 작은 업데이트로 큰 문제를 예방, 팀이 항상 같은 상태를 공유.
 

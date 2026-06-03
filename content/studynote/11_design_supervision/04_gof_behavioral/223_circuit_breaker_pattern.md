@@ -18,17 +18,22 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-```
-마이크로서비스 의존 관계:
-  서비스 A → 서비스 B → 서비스 C (장애 발생!)
 
-장애 전파:
-  1. 서비스 C 응답 지연 (10초 타임아웃)
-  2. 서비스 B의 스레드가 C를 기다리며 블록
-  3. 서비스 A의 요청이 밀리며 B의 스레드 풀 고갈
-  4. 서비스 A 전체 응답 불가 → 서비스 A도 장애
-  5. 도미노처럼 전체 시스템 다운
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마이크로서비스 의존 관계:</div>
+<div class="kb-diagram-note">서비스 A → 서비스 B → 서비스 C (장애 발생!)</div>
+<div class="kb-diagram-note">장애 전파:</div>
+<div class="kb-diagram-note">1. 서비스 C 응답 지연 (10초 타임아웃)</div>
+<div class="kb-diagram-note">2. 서비스 B의 스레드가 C를 기다리며 블록</div>
+<div class="kb-diagram-note">3. 서비스 A의 요청이 밀리며 B의 스레드 풀 고갈</div>
+<div class="kb-diagram-note">4. 서비스 A 전체 응답 불가 → 서비스 A도 장애</div>
+<div class="kb-diagram-note">5. 도미노처럼 전체 시스템 다운</div>
+</div>
+</div>
+
+
 
 [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) 없는 시스템의 치명적 문제:
 - 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 호출하며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자원을 낭비
@@ -40,38 +45,38 @@ tags = ["studynote-design-supervision"]
 - 과부하: 차단기 작동, 회로 차단 (Open)
 - [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 테스트: 소량 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 허용 (Half-Open)
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Circuit Breaker는 집의 전기 차단기 — 과전류(장애)가 발생하면 즉시 회로를 차단(Open)해서 집 전체가 불타는 것을 막고, 안전해지면 다시 연결(Half-Open → Closed)한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌──────────────────────────────────────────────────────────────┐
-│           Circuit Breaker State Machine                      │
-│                                                              │
-│  ┌───────────┐                         ┌───────────────┐     │
-│  │  CLOSED   │  실패율 > 임계값(50%)    │     OPEN      │     │
-│  │ (정상 운영)│────────────────────────▶│  (호출 차단)   │     │
-│  │           │  (예: 10번 중 5번 실패)  │               │     │
-│  └─────┬─────┘                         └──────┬────────┘     │
-│        │                                      │              │
-│        │ 성공률 > 임계값(90%)                   │ 대기시간 경과  │
-│        │ 충분한 시도 횟수                       │ (예: 60초)    │
-│        │                                      ▼              │
-│        │                              ┌───────────────┐      │
-│        └──────────────────────────────│  HALF-OPEN    │      │
-│                                       │ (탐색/테스트)  │      │
-│                                       │               │      │
-│                                       │ 실패 시 → OPEN │      │
-│                                       └───────────────┘      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circuit Breaker State Machine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSED</div><div class="kb-diagram-cell">실패율 &gt; 임계값(50%)</div><div class="kb-diagram-cell">OPEN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정상 운영)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(호출 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 10번 중 5번 실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공률 &gt; 임계값(90%)</div><div class="kb-diagram-cell">대기시간 경과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충분한 시도 횟수</div><div class="kb-diagram-cell">(예: 60초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HALF-OPEN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(탐색/테스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패 시 → OPEN</div></div>
+</div>
+</div>
+
+
 
 | 파라미터 | 설명 | 기본값 |
 |:---|:---|:---|
@@ -188,14 +193,14 @@ public class OrderService {
 - **연쇄 장애 방지**: 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체로 퍼지지 않음
 - **빠른 실패(Fail Fast)**: [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 대기 없이 즉시 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 반환
 - **자가 치유**: Half-Open 상태에서 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시도
-- **자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 고갈 방지
+- <strong>자원 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 고갈 방지
 
 **설계 원칙**:
-- Circuit Breaker는 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계**마다 설치 (각 외부 의존성마다 별도 인스턴스)
+- Circuit Breaker는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경계</strong>마다 설치 (각 외부 의존성마다 별도 인스턴스)
 - Fallback은 **항상 정의** — "차단됐을 때 무엇을 할 것인가" 가 설계의 핵심
-- 임계값은 **실제 트래픽 패턴**을 기반으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (기본값 그대로 사용 금지)
+- 임계값은 <strong>실제 트래픽 패턴</strong>을 기반으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (기본값 그대로 사용 금지)
 
-기술사 시험에서는 **3가지 상태(Closed/Open/Half-Open) 전이 조건**, **[Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 종류**, **Retry와의 차이점**을 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 **3가지 상태(Closed/Open/Half-Open) 전이 조건**, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 종류</strong>, <strong>Retry와의 차이점</strong>을 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

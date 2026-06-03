@@ -22,24 +22,26 @@ tags = ["studynote-data-engineering"]
 
 현대 기업은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수십 개의 이기종 시스템에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 있다.
 
-```
-[데이터 사일로 현황]
 
-Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
-(영업 데이터)  (주문 데이터)  (로그 데이터)  (고객 데이터)
-     │             │            │              │
-     └─────────────┴────────────┴──────────────┘
-                   ? 통합 분석 어떻게?
 
-문제:
-  ├─ 데이터 복사/이동 → 일관성 문제
-  ├─ ETL 파이프라인 수십 개 → 관리 부담
-  └─ 실시간 최신 데이터 접근 불가
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 현황</div></div>
+<div class="kb-diagram-note">Oracle DB PostgreSQL MongoDB Salesforce CRM</div>
+<div class="kb-diagram-note">(영업 데이터) (주문 데이터) (로그 데이터) (고객 데이터)</div>
+<div class="kb-diagram-note">? 통합 분석 어떻게?</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 복사/이동 → 일관성 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ETL 파이프라인 수십 개 → 관리 부담</div>
+<div class="kb-diagram-tree-item" style="--depth:1">실시간 최신 데이터 접근 불가</div>
+</div>
+</div>
+
+
 
 ### 1.2 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (Federated Query) 정의
 
-연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 이동시키지 않고** 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하고 결과를 통합하는 기법이다.
+연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중앙으로 이동시키지 않고</strong> 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하고 결과를 통합하는 기법이다.
 
 | 항목 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 방식 | 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 방식 |
 |:---|:---|:---|
@@ -51,7 +53,7 @@ Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
 
 ### 1.3 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) 정의
 
-[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 이기종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 **논리적으로 통합**하는 아키텍처 레이어로, 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) + [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) + 자동 거버넌스 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그를 포함한다.
+[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 이기종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 <strong>논리적으로 통합</strong>하는 아키텍처 레이어로, 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) + [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) + 자동 거버넌스 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그를 포함한다.
 
 📢 **섹션 요약 비유**: 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 여러 도서관의 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 한 곳으로 모으지 않고, 각 도서관에 사서([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진)를 보내 원하는 정보를 가져오는 것이다. 도서관([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)은 그대로이고, 정보만 모아온다.
 
@@ -61,59 +63,55 @@ Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
 
 ### 2.1 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 아키텍처
 
-```
-사용자 쿼리
-  SELECT o.order_id, c.name, p.price
-  FROM orders o JOIN customers c ON o.cid = c.id
-  JOIN products p ON o.pid = p.id
 
-         │
-         ▼
-┌─────────────────────────────────────────────┐
-│           연방 쿼리 엔진 (Trino/Presto)        │
-│                                             │
-│  1. 쿼리 파싱 및 논리 플랜 생성               │
-│  2. 비용 기반 최적화기(CBO) → 실행 계획       │
-│  3. 소스별 서브쿼리 분해(Pushdown)            │
-│  4. 병렬 실행 및 결과 병합(Join)             │
-└────┬────────────┬──────────────┬────────────┘
-     │            │              │
-     ▼            ▼              ▼
-PostgreSQL     MongoDB        Salesforce API
-(orders)      (products)      (customers)
-     │            │              │
-     ▼            ▼              ▼
-  서브쿼리       서브쿼리        서브쿼리
-  실행 결과     실행 결과       실행 결과
-     │            │              │
-     └────────────┴──────────────┘
-                  │ Shuffle Join
-                  ▼
-               최종 결과 반환
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 쿼리</div>
+<div class="kb-diagram-note">SELECT o.order_id, c.name, p.price</div>
+<div class="kb-diagram-note">FROM orders o JOIN customers c ON o.cid = c.id</div>
+<div class="kb-diagram-note">JOIN products p ON o.pid = p.id</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연방 쿼리 엔진 (Trino/Presto)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 쿼리 파싱 및 논리 플랜 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 비용 기반 최적화기(CBO) → 실행 계획</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 소스별 서브쿼리 분해(Pushdown)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 병렬 실행 및 결과 병합(Join)</div></div>
+<div class="kb-diagram-note">PostgreSQL MongoDB Salesforce API</div>
+<div class="kb-diagram-note">(orders) (products) (customers)</div>
+<div class="kb-diagram-note">서브쿼리 서브쿼리 서브쿼리</div>
+<div class="kb-diagram-note">실행 결과 실행 결과 실행 결과</div>
+<div class="kb-diagram-note">Shuffle Join</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최종 결과 반환</div>
+</div>
+</div>
+
+
 
 ### 2.2 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화: 프레디케이트 푸시다운 (Predicate Pushdown)
 
-```
-최적화 전 (비효율):
-  모든 customers 데이터를 엔진으로 가져옴
-  → 엔진에서 WHERE age > 30 필터링
 
-최적화 후 (푸시다운):
-  WHERE age > 30 조건을 소스에 전달
-  → 소스(Salesforce)에서 이미 필터링 후 전송
-  → 네트워크 전송량 대폭 감소
 
-프레디케이트 푸시다운 지원 수준:
-┌────────────────┬─────────────────────────────┐
-│ 소스 시스템     │ 푸시다운 지원 수준             │
-├────────────────┼─────────────────────────────┤
-│ PostgreSQL     │ 완전 지원 (SQL 네이티브)       │
-│ MongoDB        │ 부분 지원 (배열 연산 제외)     │
-│ REST API       │ 지원 안됨 (전체 데이터 조회)   │
-│ Iceberg 테이블 │ 파티션 프루닝 지원             │
-└────────────────┴─────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">최적화 전 (비효율):</div>
+<div class="kb-diagram-note">모든 customers 데이터를 엔진으로 가져옴</div>
+<div class="kb-diagram-note">→ 엔진에서 WHERE age &gt; 30 필터링</div>
+<div class="kb-diagram-note">최적화 후 (푸시다운):</div>
+<div class="kb-diagram-note">WHERE age &gt; 30 조건을 소스에 전달</div>
+<div class="kb-diagram-note">→ 소스(Salesforce)에서 이미 필터링 후 전송</div>
+<div class="kb-diagram-note">→ 네트워크 전송량 대폭 감소</div>
+<div class="kb-diagram-note">프레디케이트 푸시다운 지원 수준:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템</div><div class="kb-diagram-cell">푸시다운 지원 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PostgreSQL</div><div class="kb-diagram-cell">완전 지원 (SQL 네이티브)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MongoDB</div><div class="kb-diagram-cell">부분 지원 (배열 연산 제외)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST API</div><div class="kb-diagram-cell">지원 안됨 (전체 데이터 조회)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Iceberg 테이블</div><div class="kb-diagram-cell">파티션 프루닝 지원</div></div>
+</div>
+</div>
+
+
 
 ### 2.3 주요 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 비교
 
@@ -128,26 +126,21 @@ PostgreSQL     MongoDB        Salesforce API
 
 ### 2.4 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 아키텍처
 
-```
-┌──────────────────────────────────────────────────────┐
-│               메타데이터 관리 계층                      │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐    │
-│  │           데이터 카탈로그 (Hive Metastore)      │    │
-│  │   테이블명, 스키마, 파티션, 통계, 위치(URI)     │    │
-│  └──────────────────────┬───────────────────────┘    │
-│                         │                            │
-│  ┌──────────────────────▼───────────────────────┐    │
-│  │            AWS Glue Data Catalog              │    │
-│  │   자동 스키마 감지, 버전 관리, IAM 연계          │    │
-│  └──────────────────────┬───────────────────────┘    │
-│                         │                            │
-│  ┌──────────────────────▼───────────────────────┐    │
-│  │              Apache Atlas                     │    │
-│  │   데이터 계보(Lineage), 태그 기반 분류, RBAC    │    │
-│  └──────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 관리 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그 (Hive Metastore)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블명, 스키마, 파티션, 통계, 위치(URI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Glue Data Catalog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 스키마 감지, 버전 관리, IAM 연계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Atlas</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계보(Lineage), 태그 기반 분류, RBAC</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진)가 각 나라의 여행사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
 
@@ -168,26 +161,28 @@ PostgreSQL     MongoDB        Salesforce API
 
 ### 3.2 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-성능 병목 요소 및 해결책
 
-1. 네트워크 전송량 최소화
-   ├─ Predicate Pushdown → 소스에서 필터링
-   ├─ Column Pruning → 필요한 컬럼만 조회
-   └─ Partition Pruning → 관련 파티션만 스캔
 
-2. 조인(Join) 전략 최적화
-   ├─ Broadcast Join: 작은 테이블을 모든 워커에 복사
-   ├─ Bucket Join: 조인 키로 사전 파티셔닝
-   └─ Sort Merge Join: 대용량 테이블 조인
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성능 병목 요소 및 해결책</div>
+<div class="kb-diagram-note">1. 네트워크 전송량 최소화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Predicate Pushdown → 소스에서 필터링</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Column Pruning → 필요한 컬럼만 조회</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Partition Pruning → 관련 파티션만 스캔</div>
+<div class="kb-diagram-note">2. 조인(Join) 전략 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Broadcast Join: 작은 테이블을 모든 워커에 복사</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Bucket Join: 조인 키로 사전 파티셔닝</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Sort Merge Join: 대용량 테이블 조인</div>
+<div class="kb-diagram-note">3. 통계 정보 활용</div>
+<div class="kb-diagram-tree-item" style="--depth:1">테이블 행 수, 컬럼 카디널리티 통계</div>
+<div class="kb-diagram-tree-item" style="--depth:1">CBO(Cost-Based Optimizer)가 최적 계획 선택</div>
+<div class="kb-diagram-note">4. 결과 캐싱</div>
+<div class="kb-diagram-tree-item" style="--depth:1">반복 쿼리 결과 캐시 (Alluxio, Redis)</div>
+</div>
+</div>
 
-3. 통계 정보 활용
-   ├─ 테이블 행 수, 컬럼 카디널리티 통계
-   └─ CBO(Cost-Based Optimizer)가 최적 계획 선택
 
-4. 결과 캐싱
-   └─ 반복 쿼리 결과 캐시 (Alluxio, Redis)
-```
 
 ### 3.3 Trino 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
 
@@ -234,28 +229,23 @@ LIMIT 100;
 
 ### 4.2 AWS 환경 연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 아키텍처
 
-```
-AWS Athena Federated Query 아키텍처
 
-┌─────────────────────────────────────────────────────┐
-│  사용자 (SQL 클라이언트)                              │
-│      │                                              │
-│      ▼                                              │
-│  Amazon Athena (쿼리 엔진)                           │
-│  ├─ AWS Glue Data Catalog (메타데이터)               │
-│  └─ Lambda 커넥터 (소스별 연결)                      │
-│         │                                           │
-│    ┌────┴──────────────────────────────────┐         │
-│    │                                       │         │
-│    ▼                                       ▼         │
-│  Lambda Connector A        Lambda Connector B        │
-│  (RDS PostgreSQL)          (DynamoDB)                │
-│         │                         │                  │
-│         ▼                         ▼                  │
-│  Amazon RDS               Amazon DynamoDB            │
-│  (트랜잭션 데이터)         (사용자 세션 데이터)         │
-└─────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AWS Athena Federated Query 아키텍처</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 (SQL 클라이언트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amazon Athena (쿼리 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AWS Glue Data Catalog (메타데이터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Lambda 커넥터 (소스별 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda Connector A Lambda Connector B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RDS PostgreSQL) (DynamoDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amazon RDS Amazon DynamoDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트랜잭션 데이터) (사용자 세션 데이터)</div></div>
+</div>
+</div>
+
+
 
 ### 4.3 보안 및 거버넌스 고려사항
 
@@ -293,23 +283,27 @@ AWS Athena Federated Query 아키텍처
 
 ### 5.2 진화 방향: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)
 
-```
-AI 강화 데이터 패브릭 (미래)
 
-현재:
-  메타데이터 수동 태깅, 정책 수동 설정
 
-미래:
-  ├─ AI 자동 분류: 데이터 내용 기반 자동 태깅
-  ├─ 자동 추천: "이 데이터와 관련된 데이터셋"
-  ├─ 자율 거버넌스: 정책 자동 적용·업데이트
-  └─ 자연어 쿼리: "지난달 아시아 고객 매출 보여줘"
-                  → SQL 자동 생성 + 연방 쿼리 실행
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AI 강화 데이터 패브릭 (미래)</div>
+<div class="kb-diagram-note">현재:</div>
+<div class="kb-diagram-note">메타데이터 수동 태깅, 정책 수동 설정</div>
+<div class="kb-diagram-note">미래:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AI 자동 분류: 데이터 내용 기반 자동 태깅</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자동 추천: "이 데이터와 관련된 데이터셋"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자율 거버넌스: 정책 자동 적용·업데이트</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자연어 쿼리: "지난달 아시아 고객 매출 보여줘"</div>
+<div class="kb-diagram-note">→ SQL 자동 생성 + 연방 쿼리 실행</div>
+</div>
+</div>
+
+
 
 ### 5.3 결론 요약
 
-연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 논리적으로 통합하는 현대 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 핵심이다. 기술사 관점에서는 **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법(Pushdown, CBO), [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/)의 중요성**, 그리고 **[Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh의 조직 적합성** 차이를 명확히 이해해야 한다.
+연방 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 논리적으로 통합하는 현대 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 핵심이다. 기술사 관점에서는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 기법(Pushdown, CBO), <a href="/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/">메타데이터 관리</a>의 중요성</strong>, 그리고 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a> vs <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Mesh의 조직 적합성</strong> 차이를 명확히 이해해야 한다.
 
 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 도시([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)를 연결하는 고속도로 네트워크다. 각 도시(소스)는 독립적으로 운영되지만, 고속도로(패브릭)를 통해 어느 도시 정보든 빠르게 접근하고, 교통 관제 시스템([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))이 최적 경로를 안내한다.
 
@@ -335,23 +329,26 @@ AI 강화 데이터 패브릭 (미래)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 사일로 (시스템별 격리 저장)
-    │
-    ▼
-연방 쿼리 (Federated Query)
-    ├─► 쿼리 푸시다운: 원본 시스템에서 필터링 후 전송
-    ├─► 가상 테이블: 원격 데이터를 로컬처럼 조인
-    └─► 커넥터: Trino · Presto · BigQuery Omni
-    │
-    ▼
-데이터 패브릭 (Data Fabric)
-    ├─► 분산 메타데이터 통합 · 데이터 카탈로그
-    └─► 자동 데이터 디스커버리 · 거버넌스
-    │
-    ▼
-데이터 메시 (Data Mesh): 도메인 소유권 분산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 사일로 (시스템별 격리 저장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연방 쿼리 (Federated Query)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">쿼리 푸시다운: 원본 시스템에서 필터링 후 전송</div>
+<div class="kb-diagram-tree-item" style="--depth:2">가상 테이블: 원격 데이터를 로컬처럼 조인</div>
+<div class="kb-diagram-tree-item" style="--depth:2">커넥터: Trino · Presto · BigQuery Omni</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 패브릭 (Data Fabric)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분산 메타데이터 통합 · 데이터 카탈로그</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동 데이터 디스커버리 · 거버넌스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 (Data Mesh): 도메인 소유권 분산</div>
+</div>
+</div>
+
+
 2. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 같은 언어(SQL)로 대화할 수 있게 해줘요.
 3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.
 

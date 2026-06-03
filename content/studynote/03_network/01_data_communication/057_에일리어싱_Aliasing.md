@@ -59,15 +59,21 @@ f_s >= 2 f_max
 
 가장 기본적인 방법은 샘플링 주파수를 충분히 높이는 것이다. 또 샘플링 전에 안티-에일리어싱 필터(Anti-aliasing filter)를 넣어 고주파 성분을 미리 잘라낸다.
 
-```text
-아날로그 입력
-   ↓
-저역통과필터(LPF)
-   ↓
-ADC (Analog-to-Digital Converter)
-   ↓
-디지털 샘플
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">아날로그 입력</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">저역통과필터(LPF)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ADC (Analog-to-Digital Converter)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">디지털 샘플</div>
+</div>
+</div>
+
+
 
 오버샘플링([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/))을 쓰면 복원 여유가 커지지만, 그만큼 계산량과 저장 비용도 늘어난다.
 
@@ -94,15 +100,21 @@ ADC (Analog-to-Digital Converter)
 
 ## 관련 개념 맵
 
-```text
-아날로그 신호
-   ↓
-표본화 주파수 부족
-   ↓
-에일리어싱 / 주파수 폴딩
-   ↓
-필터링 / 오버샘플링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">아날로그 신호</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표본화 주파수 부족</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">에일리어싱 / 주파수 폴딩</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">필터링 / 오버샘플링</div>
+</div>
+</div>
+
+
 
 ---
 

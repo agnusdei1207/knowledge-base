@@ -21,22 +21,24 @@ tags = ["studynote-enterprise-systems"]
 
 SOA와 MSA는 모두 거대한 모놀리식 (Monolithic) 시스템의 복잡성을 줄이기 위해 등장한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 접근이다. 공통 목표는 기능을 분리해 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고, 재사용성과 변경 용이성을 높이는 데 있다. 그러나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분해의 목적과 운영 방식이 다르기 때문에, 둘을 같은 말로 취급하면 실무 판단이 흐려진다.
 
-SOA는 주로 기업 내부의 여러 시스템을 **전사 수준에서 연결**하려는 요구에서 발전했다. 인사, 회계, 영업, 생산처럼 서로 다른 시스템이 공통 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 재사용하고 표준 인터페이스로 연동해야 했기 때문이다. 반면 MSA는 대형 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 클라우드 환경에서, 하나의 애플리케이션을 작은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 쪼개 빠르게 배포하고 독립적으로 확장하려는 요구 속에서 부상했다.
+SOA는 주로 기업 내부의 여러 시스템을 <strong>전사 수준에서 연결</strong>하려는 요구에서 발전했다. 인사, 회계, 영업, 생산처럼 서로 다른 시스템이 공통 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 재사용하고 표준 인터페이스로 연동해야 했기 때문이다. 반면 MSA는 대형 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 클라우드 환경에서, 하나의 애플리케이션을 작은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 쪼개 빠르게 배포하고 독립적으로 확장하려는 요구 속에서 부상했다.
 
 즉 둘의 차이는 단순한 기술 세대 차이보다, "무엇을 통합하려는가"의 차이다. SOA는 기업 전체를 연결하는 통합 아키텍처 성격이 강하고, MSA는 제품 개발 속도와 운영 자율성을 높이는 [애플리케이션 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 성격이 강하다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              같은 서비스 분해라도 출발점이 다르다                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ SOA  : enterprise integration / reuse / governance                  │
-│ MSA  : product agility / independent deployment / scalability       │
-│                                                                  │
-│ Common goal: reduce coupling by separating capabilities             │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 아키텍처 비교의 핵심 질문은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 쪼갰는가"가 아니라, **통합과 재사용이 중심인지, 독립 배포와 빠른 변경이 중심인지**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 서비스 분해라도 출발점이 다르다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA : enterprise integration / reuse / governance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA : product agility / independent deployment / scalability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Common goal: reduce coupling by separating capabilities</div></div>
+</div>
+</div>
+
+
+
+따라서 아키텍처 비교의 핵심 질문은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 쪼갰는가"가 아니라, <strong>통합과 재사용이 중심인지, 독립 배포와 빠른 변경이 중심인지</strong>다.
 
 - **📢 섹션 요약 비유**: SOA와 MSA는 둘 다 큰 회사를 부서별로 나누는 방식이지만, SOA는 회사 전체 업무를 연결하려는 본사 관점이고, MSA는 각 팀이 더 빨리 움직이게 하려는 현장 관점에 가깝다.
 
@@ -58,22 +60,22 @@ MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 아래 그림은 두 구조의 핵심 차이를 직관적으로 보여준다.
 
-```text
-┌─────────────────────────────── SOA ────────────────────────────────┐
-│ [ERP]   [CRM]   [Billing]   [Legacy App]                           │
-│    \      │       /             /                                  │
-│     \     │      /             /                                   │
-│      └────▼─────▼─────────────▼────▶ [ ESB ]                       │
-│                 routing / transform / policy                       │
-└─────────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────── MSA ────────────────────────────────┐
-│ [Order] ◀────▶ [Payment] ◀────▶ [Inventory]                        │
-│    │             │                 │                                │
-│  Order DB     Payment DB       Inventory DB                         │
-│            event bus / REST / gRPC                                 │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SOA</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ERP</div><div class="kb-diagram-node">CRM</div><div class="kb-diagram-node">Billing</div><div class="kb-diagram-node">Legacy App</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">ESB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">routing / transform / policy</div></div>
+<div class="kb-diagram-note">MSA</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Order</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Payment</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Inventory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order DB Payment DB Inventory DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">event bus / REST / gRPC</div></div>
+</div>
+</div>
+
+
 
 이 구조 차이는 장애 전파 방식에도 영향을 준다. SOA에서는 ESB가 강력한 통합 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 되는 대신 병목이나 단일 고장점 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이 될 위험이 있다. MSA에서는 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 의존은 줄지만, 대신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아지면서 네트워크 호출, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 더 어려워진다.
 
@@ -83,7 +85,7 @@ MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ## Ⅲ. 비교 및 연결
 
-실무에서 가장 중요한 비교 축은 **통합 범위, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유, 배포 독립성, 운영 복잡성**이다. SOA는 전사 공통 기능을 묶고 표준화하는 데 강해, 여러 계열사 시스템과 레거시를 연결하는 데 유리하다. 반면 MSA는 한 제품 안에서 주문, 결제, 배송처럼 변화 속도가 다른 기능을 분리해 빠르게 개발·배포하는 데 강하다.
+실무에서 가장 중요한 비교 축은 <strong>통합 범위, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유, 배포 독립성, 운영 복잡성</strong>이다. SOA는 전사 공통 기능을 묶고 표준화하는 데 강해, 여러 계열사 시스템과 레거시를 연결하는 데 유리하다. 반면 MSA는 한 제품 안에서 주문, 결제, 배송처럼 변화 속도가 다른 기능을 분리해 빠르게 개발·배포하는 데 강하다.
 
 | 항목 | [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 | :--- | :--- | :--- |
@@ -93,7 +95,7 @@ MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 중앙 모델·공유 모델 허용 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 보상 처리 중시 |
 | 운영 trade-off | 중앙 제어는 쉽지만 민첩성 저하 | 민첩성은 높지만 운영 복잡도 증가 |
 
-또한 SOA와 MSA는 완전히 단절된 개념도 아니다. 기업은 전사 수준에서는 SOA적 통합 레이어를 유지하면서, 신규 디지털 채널이나 고객 접점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 MSA로 설계할 수 있다. 즉 현실에서는 "SOA냐 MSA냐"의 이분법보다, **어느 계층에 어떤 원칙을 적용할 것인가**가 더 실무적이다.
+또한 SOA와 MSA는 완전히 단절된 개념도 아니다. 기업은 전사 수준에서는 SOA적 통합 레이어를 유지하면서, 신규 디지털 채널이나 고객 접점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 MSA로 설계할 수 있다. 즉 현실에서는 "SOA냐 MSA냐"의 이분법보다, <strong>어느 계층에 어떤 원칙을 적용할 것인가</strong>가 더 실무적이다.
 
 이 차이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과도 연결된다. SOA는 표준 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 변환을 중시해 공유 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 비교적 자연스럽지만, MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 독립성을 위해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 분리를 더 강하게 요구한다. 그래서 MSA는 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)), [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 기법과 함께 논의되는 경우가 많다.
 
@@ -129,7 +131,7 @@ MSA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 SOA를 잘 적용하면 전사 공통 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재사용, 인터페이스 표준화, 레거시 통합 비용 절감 효과를 얻을 수 있다. MSA를 잘 적용하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 배포, 부분 확장, 장애 격리, 조직 민첩성 향상이라는 이점을 얻을 수 있다. 둘 다 궁극적으로는 복잡한 시스템을 더 다루기 쉽게 만들기 위한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
-하지만 두 방식 모두 전제조건이 있다. SOA는 과도한 중앙화가 민첩성을 해칠 수 있고, MSA는 자동화와 관측성이 부족하면 단순히 복잡한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 될 뿐이다. 따라서 아키텍처의 좋고 나쁨보다, **조직 구조와 운영 역량이 해당 구조를 감당할 수 있는가**가 더 본질적인 판단 기준이다.
+하지만 두 방식 모두 전제조건이 있다. SOA는 과도한 중앙화가 민첩성을 해칠 수 있고, MSA는 자동화와 관측성이 부족하면 단순히 복잡한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 될 뿐이다. 따라서 아키텍처의 좋고 나쁨보다, <strong>조직 구조와 운영 역량이 해당 구조를 감당할 수 있는가</strong>가 더 본질적인 판단 기준이다.
 
 앞으로는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 통합, 이벤트 기반 연계, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), 내부 개발 플랫폼이 확산되면서 SOA와 MSA의 경계가 일부 섞일 수 있다. 그래도 기억할 핵심은 분명하다. SOA는 "전사를 연결하는 [서비스 전략](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_service_strategy/)", MSA는 "제품을 빠르게 진화시키는 [서비스 전략](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_service_strategy/)"에 더 가깝다.
 
@@ -150,19 +152,22 @@ SOA를 잘 적용하면 전사 공통 [서비스](/knowledge-base/studynote/13_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식 대형 시스템
-    │
-    ▼
-SOA (전사 통합 · ESB · 재사용)
-    │
-    ├─ 레거시 연계 · 표준 인터페이스
-    ▼
-MSA (독립 배포 · 도메인 분리)
-    │
-    ▼
-API Gateway · Event-Driven · Platform Engineering
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식 대형 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SOA (전사 통합 · ESB · 재사용)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">레거시 연계 · 표준 인터페이스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA (독립 배포 · 도메인 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Gateway · Event-Driven · Platform Engineering</div>
+</div>
+</div>
+
+
 
 이 흐름은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분해가 전사 통합 중심에서 제품 민첩성 중심으로 확장되어 온 방향을 보여준다.
 

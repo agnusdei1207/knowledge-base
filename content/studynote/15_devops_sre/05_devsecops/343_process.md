@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | 연합형 거버넌스 | 최소 표준 정의 | 보안, 명명 규칙, [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) |
 | [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) | 소비 가능한 산출물 | 발견성, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
 
-```text
-┌──────────────┐   publish   ┌──────────────┐   discover   ┌──────────────┐
-│ Domain Team A│ ──────────▶ │ Data Product │ ───────────▶ │ Consumers    │
-└──────────────┘             └──────────────┘              └──────────────┘
-        ▲                             ▲                             │
-        │ tooling                     │ policy                      │ feedback
-        │                             │                             ▼
-┌──────────────┐             ┌──────────────┐              ┌──────────────┐
-│ Platform Team│ ──────────▶ │ Governance   │ ◀─────────── │ Domain Team B│
-└──────────────┘             └──────────────┘              └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">publish discover</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Team A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Data Product</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Consumers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tooling</div><div class="kb-diagram-cell">policy</div><div class="kb-diagram-cell">feedback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform Team</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Governance</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Domain Team B</div></div>
+</div>
+</div>
+
+
 
 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 핵심 원리는 “[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성”과 “플랫폼 표준화”의 균형이다. 자율성만 강조하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)마다 포맷과 용어가 달라져 소비가 어려워지고, 표준화만 강조하면 다시 중앙팀 병목으로 회귀한다. 따라서 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 아니라 운영 모델로 이해해야 한다.
 
@@ -116,18 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Central Data Team
-   │
-   ▼
-Self-service Platform
-   │
-   ▼
-Domain-owned Data Product
-   │
-   ▼
-Federated Governance + Data Mesh
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Central Data Team</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Self-service Platform</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Domain-owned Data Product</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Federated Governance + Data Mesh</div>
+</div>
+</div>
+
+
 
 이 흐름은 “중앙 처리 → 플랫폼화 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스”로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조직이 진화하는 방향을 보여준다.
 

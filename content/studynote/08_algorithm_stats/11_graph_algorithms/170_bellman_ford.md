@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-벨만-포드는 가중 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 한 시작점으로부터 다른 모든 정점까지의 최단 거리를 구하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 가장 큰 특징은 **음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 간선**을 허용한다는 점이다. 그래서 비용이 감소하는 쿠폰, 환율 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)처럼 "한 번 지나갈수록 더 유리해질 수 있는" 모델에서도 사용할 수 있다.
+벨만-포드는 가중 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 한 시작점으로부터 다른 모든 정점까지의 최단 거리를 구하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 가장 큰 특징은 <strong>음수 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 간선</strong>을 허용한다는 점이다. 그래서 비용이 감소하는 쿠폰, 환율 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)처럼 "한 번 지나갈수록 더 유리해질 수 있는" 모델에서도 사용할 수 있다.
 
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요한 이유는 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)가 탐욕적 확정 전략을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문이다. [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 한 번 확정한 거리가 다시 줄어들지 않는다는 전제가 있어야 안전한데, 음수 간선이 들어오면 이 전제가 무너진다. 반면 벨만-포드는 성급하게 확정하지 않고 모든 간선을 여러 번 훑으며 거리를 점진적으로 개선한다.
 
@@ -27,19 +27,22 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 왜 반복이 필요한지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         One more pass means shortest paths with one more edge        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Pass 0 : only source is known                                        │
-│ Pass 1 : shortest paths using <= 1 edge become correct               │
-│ Pass 2 : shortest paths using <= 2 edges become correct               │
-│ ...                                                                  │
-│ Pass V-1 : all simple shortest paths are covered                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 벨만-포드는 "지금 가장 짧아 보이는 길"을 믿기보다, **경로 길이가 늘어날수록 더 좋은 해가 뒤늦게 나타날 수 있다**는 가능성을 끝까지 열어 둔다. 느리지만 음수 세계에서 안전한 이유가 여기에 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One more pass means shortest paths with one more edge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 0 : only source is known</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 1 : shortest paths using &lt;= 1 edge become correct</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 2 : shortest paths using &lt;= 2 edges become correct</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass V-1 : all simple shortest paths are covered</div></div>
+</div>
+</div>
+
+
+
+즉 벨만-포드는 "지금 가장 짧아 보이는 길"을 믿기보다, <strong>경로 길이가 늘어날수록 더 좋은 해가 뒤늦게 나타날 수 있다</strong>는 가능성을 끝까지 열어 둔다. 느리지만 음수 세계에서 안전한 이유가 여기에 있다.
 
 - **📢 섹션 요약 비유**: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)가 눈앞의 지름길을 먼저 확정하는 빠른 길잡이라면, 벨만-포드는 지도를 여러 번 다시 보며 숨은 할인길이 있는지 끝까지 확인하는 신중한 안내원과 같다.
 
@@ -58,24 +61,22 @@ tags = ["studynote-algorithm"]
 
 아래 상태도는 벨만-포드의 계산 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Bellman-Ford relaxation workflow                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Init dist[source]=0, others=INF                                     │
-│        │                                                             │
-│        ▼                                                             │
-│ Repeat V-1 times: for every edge (u,v,w)                            │
-│        │                                                             │
-│        ├─ if dist[u] + w < dist[v] -> update dist[v]                │
-│        └─ if no update in a full pass -> early stop                 │
-│        │                                                             │
-│        ▼                                                             │
-│ One extra pass                                                       │
-│        ├─ update exists -> negative cycle reachable                  │
-│        └─ no update     -> distances finalized                       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bellman-Ford relaxation workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Init dist</div><div class="kb-diagram-node">source</div><div class="kb-diagram-note">=0, others=INF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repeat V-1 times: for every edge (u,v,w)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ if dist</div><div class="kb-diagram-node">u</div><div class="kb-diagram-note">+ w &lt; dist</div><div class="kb-diagram-node">v</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ if no update in a full pass -&gt; early stop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One extra pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ update exists -&gt; negative cycle reachable</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no update -&gt; distances finalized</div></div>
+</div>
+</div>
+
+
 
 음수 사이클 판정이 중요한 이유는, 그런 사이클이 시작점에서 도달 가능하면 최단 거리 개념 자체가 무너진다는 데 있다. 예를 들어 한 바퀴 돌 때마다 비용이 -3씩 줄어드는 사이클이 있으면, 그 경로를 더 많이 돌수록 비용이 계속 낮아져 최적해가 정해지지 않는다. 벨만-포드는 V번째 검사에서 이 현상을 포착한다.
 
@@ -97,7 +98,7 @@ tags = ["studynote-algorithm"]
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E log V) | O(VE) | O(V³) |
 | 대표 장점 | 빠름 | 안전함, 검출 가능 | 전체 관계를 한 번에 계산 |
 
-[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 빠르지만 비음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)라는 계약이 깨지면 신뢰할 수 없다. 플로이드-워셜은 모든 정점 쌍을 한꺼번에 다루기 때문에 작은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석에는 좋지만, 단일 시작점 문제에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에는 비용이 크다. 벨만-포드는 그 중간이 아니라, **음수 간선과 음수 사이클 검출이 필요할 때 선택하는 별도 해법**이다.
+[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 빠르지만 비음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)라는 계약이 깨지면 신뢰할 수 없다. 플로이드-워셜은 모든 정점 쌍을 한꺼번에 다루기 때문에 작은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분석에는 좋지만, 단일 시작점 문제에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에는 비용이 크다. 벨만-포드는 그 중간이 아니라, <strong>음수 간선과 음수 사이클 검출이 필요할 때 선택하는 별도 해법</strong>이다.
 
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 금융 모델에도 연결된다. [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 본질적으로 분산형 벨만-포드이고, 환율 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 `-log(rate)`를 적용하면 차익 거래는 음수 사이클 탐지 문제로 바뀐다. 즉 벨만-포드는 교과서 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 머물지 않고 실제 인프라 논리를 뒷받침한다.
 
@@ -141,7 +142,7 @@ SPFA는 "갱신 가능성이 있는 정점 주변만 다시 보자"는 아이디
 
 벨만-포드의 가장 큰 장점은 속도보다 신뢰성이다. 음수 간선이 있는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서도 최단 경로를 일관되게 계산하고, 음수 사이클까지 검출해 모델이 논리적으로 성립하는지 알려 준다. 그래서 계산 결과를 "숫자"뿐 아니라 "유효성 판정"까지 포함한 답으로 확장해 준다.
 
-대신 비용은 크다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 커질수록 O(VE)는 빠르게 부담스러워지고, 모든 문제에 무심코 적용하기엔 무겁다. 따라서 벨만-포드는 범용 기본값이라기보다, **음수 세계를 다뤄야 할 때 선택하는 안전한 표준 도구**로 기억하는 편이 정확하다.
+대신 비용은 크다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 커질수록 O(VE)는 빠르게 부담스러워지고, 모든 문제에 무심코 적용하기엔 무겁다. 따라서 벨만-포드는 범용 기본값이라기보다, <strong>음수 세계를 다뤄야 할 때 선택하는 안전한 표준 도구</strong>로 기억하는 편이 정확하다.
 
 결론적으로 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 완화 연산 자체가 아니라, "최단 경로가 아직 뒤집힐 수 있다"는 가능성을 끝까지 열어 두는 태도에 있다. 빠른 확정보다 늦은 교정을 택하기 때문에, 음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 환경에서도 무너지지 않는다.
 
@@ -162,21 +163,23 @@ SPFA는 "갱신 가능성이 있는 정점 주변만 다시 보자"는 아이디
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Weighted graph shortest path
-    │
-    ├─ non-negative weights -> Dijkstra
-    └─ possible negative weights
-              │
-              ▼
-      Bellman-Ford relaxation
-              │
-              ├─ stable after V-1 passes -> shortest paths
-              └─ still improves at Vth pass -> negative cycle
-              │
-              ▼
-Distance-vector routing · arbitrage detection · Johnson reweighting
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Weighted graph shortest path</div>
+<div class="kb-diagram-tree-item" style="--depth:2">non-negative weights -&gt; Dijkstra</div>
+<div class="kb-diagram-tree-item" style="--depth:2">possible negative weights</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bellman-Ford relaxation</div>
+<div class="kb-diagram-tree-item" style="--depth:7">stable after V-1 passes -&gt; shortest paths</div>
+<div class="kb-diagram-tree-item" style="--depth:7">still improves at Vth pass -&gt; negative cycle</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Distance-vector routing · arbitrage detection · Johnson reweighting</div>
+</div>
+</div>
+
+
 
 이 흐름은 최단 경로 문제에서 음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 등장할 때 왜 벨만-포드가 별도의 해법으로 필요해지는지를 보여 준다.
 

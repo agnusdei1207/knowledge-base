@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 테스트를 실행할 수 없지만, 할스테드 복잡도는 **소스 코드 텍스트만으로** 품질 지표를 계산할 수 있다. 따라서 코딩 중간중간에 복잡도 추이를 모니터링하여 기술 부채를 조기에 발견할 수 있다.
 
-- **💡 비유**: 할스테드 복잡도는 **'언어의 문법과 단어를 세는 것'**과 같다. 영어 문장에서 동사(연산자)와 명사([피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/))의 수를 세면 문장의 복잡도가 된다. 동사가 많고 명사가 복잡하면 문장을 이해하기 어려운 것처럼, 연산자가 많고 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 복잡하면 프로그램을 이해하기 어렵다.
+- **💡 비유**: 할스테드 복잡도는 <strong>'언어의 문법과 단어를 세는 것'</strong>과 같다. 영어 문장에서 동사(연산자)와 명사([피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/))의 수를 세면 문장의 복잡도가 된다. 동사가 많고 명사가 복잡하면 문장을 이해하기 어려운 것처럼, 연산자가 많고 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 복잡하면 프로그램을 이해하기 어렵다.
 
 - **등장 배경 및 발전 과정**:
 1. **1977년 Halstead 연구**: Maurice Halstead가 "Software Physics"라는 저서에서 프로그램 길이와 복잡도를 측정하는 형식적 방법론 제시
 2. **1980년대 품질 도구**: 할스테드 Metrics를 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리 표준(ISO/IEC 9126 등)에 포함
 3. **현재**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구의 핵심 지표 중 하나로 활용, 단독보다는 맥케이브 복잡도와 함께 사용
 
-- **📢 섹션 요약 비유**: 할스테드 복잡도는 **'소설의 단어 수와 문장 길이 분석'**과 같다. 한 권의 소설에서 동사에 해당하는 동작(연산자)와 명사에 해당하는 사건/인물([피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/))의 수를 세면, 그와 앞으로 나올 이수을/를에할 수 있는이다.
+- **📢 섹션 요약 비유**: 할스테드 복잡도는 <strong>'소설의 단어 수와 문장 길이 분석'</strong>과 같다. 한 권의 소설에서 동사에 해당하는 동작(연산자)와 명사에 해당하는 사건/인물([피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/))의 수를 세면, 그와 앞으로 나올 이수을/를에할 수 있는이다.
 
 ---
 
 다음은 할스테드 (Halstead) 복잡도의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 할스테드 (Halstead) 복잡도 │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할스테드 (Halstead) 복잡도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 할스테드 (Halstead) 복잡도가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-할스테드 (Halstead) 복잡도의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+할스테드 (Halstead) 복잡도의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 할스테드 (Halstead) 복잡도의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-할스테드 (Halstead) 복잡도 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">할스테드 (Halstead) 복잡도 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

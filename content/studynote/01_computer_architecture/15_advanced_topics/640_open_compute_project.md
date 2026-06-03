@@ -23,15 +23,17 @@ OCP는 2011년 페이스북이 자사 [데이터센터](/knowledge-base/studynot
 
 이 프로젝트가 필요했던 이유는 전통적인 엔터프라이즈 서버가 하이퍼스케일 환경에서는 지나치게 비싸고, 너무 많은 벤더 고유 부품에 의존했기 때문이다. 대규모 운영자는 장식보다는 전력 효율, 통풍, 신속한 부품 교체, 대량 조달의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 더 중요하다. OCP는 바로 이런 관점에서 불필요한 요소를 덜고, 실제 운영에 중요한 것만 남긴 설계를 축적해 왔다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ OCP turns datacenter know-how into shared specifications    │
-├──────────────────────────────────────────────────────────────┤
-│ Operator need ─▶ Community spec ─▶ ODM build ─▶ Deployment  │
-│      ▲                                              │        │
-│      └──────────── feedback and next revision ──────┘        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCP turns datacenter know-how into shared specifications</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operator need ─▶ Community spec ─▶ ODM build ─▶ Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feedback and next revision</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은 OCP가 설계 문서를 공개하는 데서 끝나지 않는다는 점이다. 운영 요구가 다시 커뮤니티로 돌아와 다음 세대 규격을 만들기 때문에, OCP는 공개 저장소이면서 동시에 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 학습 루프이기도 하다.
 
@@ -50,17 +52,20 @@ OCP는 2011년 페이스북이 자사 [데이터센터](/knowledge-base/studynot
 | Serviceability | Tool-less 교체, 전면 정비성 강화 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 감소, 현장 작업 시간 단축 |
 | [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) / [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 개방형 관리 인터페이스와 자동화 | [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 완화, 대규모 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Typical OCP rack view                                       │
-├──────────────────────────────────────────────────────────────┤
-│ Power shelf                                                 │
-│ Server sleds                                                │
-│ Storage or accelerator sleds                                │
-│ Network tray                                                │
-│ Shared mechanical and electrical interfaces                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical OCP rack view</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power shelf</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server sleds</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage or accelerator sleds</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network tray</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared mechanical and electrical interfaces</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 철학은 화려한 외관보다 운영 효율을 우선한다는 점이다. 서버 앞면 덮개보다 공기 흐름이 중요하고, 독자 전원 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)보다 랙 단위 공급이 중요하다. 또한 최근에는 개방형 베이스보드 관리 컨트롤러 생태계인 OpenBMC가 결합되면서, 하드웨어 표준화가 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 운영 자동화까지 이어지고 있다.
 
@@ -80,7 +85,7 @@ OCP를 이해하려면 전통적인 엔터프라이즈 서버 조달 방식과 �
 | 확장 방식 | 제품 라인업 단위 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 랙 규격 단위 |
 | 강점 | 단일 책임 지원, 도입 단순 | 대규모 효율, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 완화 |
 
-이 차이는 OCP가 단순히 값싼 장비를 뜻하지 않는다는 점을 분명히 해 준다. OCP는 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/), 클라우드용 개방형 네트워킹 소프트웨어 (Software for Open Networking in the Cloud, [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)), OpenBMC, 랙 스케일 설계와 자연스럽게 이어진다. 즉 장비 한 대를 싸게 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니라, **하드웨어와 운영 소프트웨어를 함께 개방형 생태계로 묶는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+이 차이는 OCP가 단순히 값싼 장비를 뜻하지 않는다는 점을 분명히 해 준다. OCP는 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/), 클라우드용 개방형 네트워킹 소프트웨어 (Software for Open Networking in the Cloud, [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)), OpenBMC, 랙 스케일 설계와 자연스럽게 이어진다. 즉 장비 한 대를 싸게 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니라, <strong>하드웨어와 운영 소프트웨어를 함께 개방형 생태계로 묶는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 전통 장비가 완제품 주방 세트라면, OCP는 표준 규격으로 맞춘 업소용 주방 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다. 설치는 더 신경 써야 하지만, 규모가 커질수록 훨씬 유연하고 경제적이다.
 
@@ -90,7 +95,7 @@ OCP를 이해하려면 전통적인 엔터프라이즈 서버 조달 방식과 �
 
 OCP는 수천 대 이상을 운영하는 클라우드, 콘텐츠, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서 가장 큰 효과를 낸다. 예를 들어 동일 랙 구조에 여러 제조사의 서버 sled를 꽂을 수 있으면, 특정 벤더의 공급 차질이 전체 구축 일정으로 번지는 위험을 줄일 수 있다. 또한 부품 교체와 전원 설계가 표준화되어 있으면, 운영자는 장비 종류보다 운영 정책에 더 집중할 수 있다.
 
-하지만 작은 전산실에서 OCP를 도입한다고 자동으로 이익이 생기지는 않는다. 랙 규격, 전원 설비, 예비 부품 체계, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 관리 자동화가 따라오지 않으면 전통 장비보다 관리가 어려워질 수 있다. 기술사 관점에서는 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 채택 여부보다 **우리 조직이 개방형 하드웨어를 스스로 운영할 능력이 있는가**를 먼저 따져야 한다.
+하지만 작은 전산실에서 OCP를 도입한다고 자동으로 이익이 생기지는 않는다. 랙 규격, 전원 설비, 예비 부품 체계, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 관리 자동화가 따라오지 않으면 전통 장비보다 관리가 어려워질 수 있다. 기술사 관점에서는 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 채택 여부보다 <strong>우리 조직이 개방형 하드웨어를 스스로 운영할 능력이 있는가</strong>를 먼저 따져야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,7 +118,7 @@ OCP는 수천 대 이상을 운영하는 클라우드, 콘텐츠, [인공지능]
 
 OCP가 잘 맞는 조직은 전력 효율, 부품 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 조달 유연성, 대규모 자동화에서 큰 이익을 얻는다. 하드웨어 설계가 공개돼 있으므로 한 회사의 로드맵에만 묶이지 않고, 운영자 요구를 규격으로 다시 밀어 넣는 선순환을 만들 수 있다. 최근에는 액체 냉각, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 지속가능성 지표까지 논의 범위가 넓어지며 OCP의 역할도 함께 확장되고 있다.
 
-다만 OCP는 책임의 일부를 운영자에게 돌려준다. 벤더가 모두 알아서 해 주는 모델보다 자유로운 대신, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 운영 역량이 필요하다. 그래서 OCP를 기억할 때는 공개 설계라는 표면보다, **대규모 운영 지식을 커뮤니티 자산으로 바꾸는 메커니즘**이라는 본질을 잡는 것이 더 중요하다.
+다만 OCP는 책임의 일부를 운영자에게 돌려준다. 벤더가 모두 알아서 해 주는 모델보다 자유로운 대신, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 운영 역량이 필요하다. 그래서 OCP를 기억할 때는 공개 설계라는 표면보다, <strong>대규모 운영 지식을 커뮤니티 자산으로 바꾸는 메커니즘</strong>이라는 본질을 잡는 것이 더 중요하다.
 
 - **📢 섹션 요약 비유**: OCP는 모두가 함께 쓰는 운동장 설계도와 같다. 규칙이 잘 만들어지면 어느 팀이 와도 같은 선에서 경기를 시작할 수 있고, 운동장 전체의 수준도 함께 올라간다.
 
@@ -131,21 +136,23 @@ OCP가 잘 맞는 조직은 전력 효율, 부품 [호환성](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-벤더 종속형 엔터프라이즈 장비
-    │
-    ▼
-화이트박스 네트워킹 확산
-    │
-    ▼
-OCP 서버 · Open Rack 표준
-    │
-    ▼
-OpenBMC · SONiC 기반 운영 자동화
-    │
-    ▼
-개방형 AI 인프라 · 지속가능 데이터센터
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">벤더 종속형 엔터프라이즈 장비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">화이트박스 네트워킹 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCP 서버 · Open Rack 표준</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenBMC · SONiC 기반 운영 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개방형 AI 인프라 · 지속가능 데이터센터</div>
+</div>
+</div>
+
+
 
 이 흐름은 장비 구매 중심 사고에서, 공개 규격과 운영 자동화를 함께 설계하는 방향으로의 변화를 보여준다.
 

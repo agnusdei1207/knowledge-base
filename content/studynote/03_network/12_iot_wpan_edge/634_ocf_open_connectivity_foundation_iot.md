@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 삼성전자, 인텔, 마이크로소프트, 퀄컴 등 글로벌 ICT 기업들이 주도하여 만든 **[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 표준화 연합체이자, 그들이 제정한 기기 간 상호 연동([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/)) 개방형 표준 규격**입니다.
+- 삼성전자, 인텔, 마이크로소프트, 퀄컴 등 글로벌 ICT 기업들이 주도하여 만든 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 표준화 연합체이자, 그들이 제정한 기기 간 상호 연동(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/">Interoperability</a>) 개방형 표준 규격</strong>입니다.
 - **목표**: 안드로이드, iOS, 윈도우 등 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 다르고, 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 등 통신망이 달라도 기기들끼리 원활하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받게 만드는 통일된 '미들웨어 프레임워크'를 제공하는 것입니다.
 
-```text
-[자율주행 차량 통신]
-    │
-    ▼
-[OCF IoT 통합 관리 계층 표준]
-    │
-    └──▶ [IETF 산하 IoT CoRE 워킹그룹 동향]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율주행 차량 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,24 +41,28 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- OCF는 인터넷 웹 생태계를 그대로 IoT에 가져왔습니다. 모든 가전제품(스마트 전구, 냉장고)을 고유한 URL을 가진 **하나의 웹 자원(Resource)**으로 취급합니다.
-- 복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 대신, 초경량 웹 프로토콜인 **[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)(623번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**를 사용하여 `GET /light`, `PUT /light` 같은 단순한 방식으로 기기를 제어합니다. 빠르고 가벼우며 인터넷과 연동하기가 극도로 쉽습니다.
+- OCF는 인터넷 웹 생태계를 그대로 IoT에 가져왔습니다. 모든 가전제품(스마트 전구, 냉장고)을 고유한 URL을 가진 <strong>하나의 웹 자원(Resource)</strong>으로 취급합니다.
+- 복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 대신, 초경량 웹 프로토콜인 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>(623번 문서 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 사용하여 `GET /light`, `PUT /light` 같은 단순한 방식으로 기기를 제어합니다. 빠르고 가벼우며 인터넷과 연동하기가 극도로 쉽습니다.
 
 ### 2. [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 구현체: IoTivity (아이오티비티)
-- 표준 문서만 띡 던져주면 제조사들이 개발하기 힘듭니다. OCF는 이 표준을 완벽하게 C/C++나 Java 코드로 구현해 놓은 **'IoTivity'라는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프레임워크**를 무료로 배포했습니다.
+- 표준 문서만 띡 던져주면 제조사들이 개발하기 힘듭니다. OCF는 이 표준을 완벽하게 C/C++나 Java 코드로 구현해 놓은 <strong>'IoTivity'라는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 프레임워크</strong>를 무료로 배포했습니다.
 - 중소기업도 이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코드만 자기네 센서에 쏙 복사해서 집어넣으면, 즉시 삼성 갤럭시 스마트싱스(SmartThings) 앱과 연동되는 기적을 맛볼 수 있습니다.
 
 ### 3. 강력한 자동 탐색 (Discovery) 기능
 - 기기를 사서 전원만 꽂으면, 사용자 몰래 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) 기기들이 허공에 전파를 쏴서 "나 새로 온 삼성 에어컨이야!"라고 주변을 자동으로 탐색(Discovery)하고 거실 허브에 스스로 등록되는 플러그 앤 플레이(Plug & Play) 편의성을 제공합니다.
 
-```text
-[자율주행 차량 통신]
-    │
-    ▼
-[OCF IoT 통합 관리 계층 표준]
-    │
-    └──▶ [IETF 산하 IoT CoRE 워킹그룹 동향]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율주행 차량 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 OCF는 초창기 가전제품 중심의 강력한 연합체였지만, 애플이나 구글 같은 빅테크가 적극적으로 참여하지 않아 반쪽짜리 연합이라는 비판을 받았습니다.
-- **현재 상황**: 앞선 612번 문서에서 배운 **[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)([매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/))** 표준이 애플, 구글, 아마존, 삼성이라는 절대 반지 4개를 모두 모아버리면서 스마트홈 시장을 완전히 통일해버렸습니다. 현재 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) 진영의 기술들은 Matter와 호환되게 하거나, 보다 산업용/기업용 B2B [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시장으로 방향을 틀어 생존을 도모하고 있습니다.
+- **현재 상황**: 앞선 612번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">매터</a>)</strong> 표준이 애플, 구글, 아마존, 삼성이라는 절대 반지 4개를 모두 모아버리면서 스마트홈 시장을 완전히 통일해버렸습니다. 현재 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) 진영의 기술들은 Matter와 호환되게 하거나, 보다 산업용/기업용 B2B [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시장으로 방향을 틀어 생존을 도모하고 있습니다.
 
 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)이 기반 조건을 만든다면, [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준은 그 위에서 핵심 메커니즘을 구현하고, [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -115,15 +123,19 @@ OCF는 초창기 가전제품 중심의 강력한 연합체였지만, 애플이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 자율주행 차량 통신]
-    │
-    ▼
-[현재 개념: OCF IoT 통합 관리 계층 표준]
-    │
-    ├──▶ [확장 A: IETF 산하 IoT CoRE 워킹그룹 동향]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율주행 차량 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCF IoT 통합 관리 계층 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준는 [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

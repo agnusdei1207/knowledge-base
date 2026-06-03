@@ -23,25 +23,24 @@ tags = ["studynote-design-supervision"]
 
 실제 예: 비디오 변환 라이브러리는 VideoFile, CodecFactory, MPEG4CompressionCodec, OggCompressionCodec, BitrateReader 등 복잡한 클래스들을 갖는다. `VideoConverter.convert(file, format)`처럼 단일 메서드로 감싸면 클라이언트는 내부 복잡성을 알 필요가 없다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              파사드 패턴 구조                                 │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│      │ (단일 인터페이스만 사용)                              │
-│      ▼                                                      │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Facade                                               │   │
-│  │  + simpleOperation(): void {                          │   │
-│  │      subsystem1.doThis();                            │   │
-│  │      subsystem2.doThat();                            │   │
-│  │      subsystem3.finish();                            │   │
-│  │  }                                                   │   │
-│  └──────────────────────────────────────────────────────┘   │
-│       │           │           │                              │
-│  Subsystem1  Subsystem2  Subsystem3  (복잡한 내부 구조)     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파사드 패턴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단일 인터페이스만 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Facade</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ simpleOperation(): void {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">subsystem1.doThis();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">subsystem2.doThat();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">subsystem3.finish();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subsystem1 Subsystem2 Subsystem3 (복잡한 내부 구조)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 여행사(파사드)는 복잡한 항공권 예약, 호텔 예약, 렌터카 예약(서브시스템)을 한 번에 처리해준다. 여행객(클라이언트)은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시스템을 직접 알 필요 없이 여행사에 한 번만 요청한다.
 
@@ -57,18 +56,20 @@ tags = ["studynote-design-supervision"]
 | Subsystem | 복잡한 기능 구현 | CodecFactory, BitrateReader |
 | [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) | Facade를 통해 서브시스템 사용 | 애플리케이션 코드 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│     레이어드 아키텍처에서 파사드 역할                       │
-├─────────────────────────────────────────────────────────────┤
-│  Presentation Layer (컨트롤러)                              │
-│       │ (파사드를 통해서만 비즈니스 계층 접근)              │
-│  Service Facade (파사드)                                    │
-│       │           │           │                             │
-│  OrderService  PaymentService  ShippingService              │
-│  (서브시스템들 - 복잡한 내부 로직)                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어드 아키텍처에서 파사드 역할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Presentation Layer (컨트롤러)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파사드를 통해서만 비즈니스 계층 접근)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Facade (파사드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService PaymentService ShippingService</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서브시스템들 - 복잡한 내부 로직)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 회사 대표전화(파사드)로 연락하면 담당 부서(서브시스템)로 연결된다. 고객(클라이언트)은 각 부서의 내선 번호(서브시스템 인터페이스)를 알 필요가 없다.
 

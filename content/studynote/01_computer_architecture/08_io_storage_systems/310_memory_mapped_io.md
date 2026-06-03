@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 맵 I/O (Memory-Mapped I/O, MMIO)는 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 메모리 주소 공간 안에 배치해, **CPU (Central Processing Unit)**가 일반 `Load/Store` 명령으로 주변 장치를 제어하게 만드는 방식이다.
-> 2. **가치**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 체계와 프로그래밍 모델이 단순해져 **[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)** 계열 설계에 특히 잘 맞고, 운영체제와 드라이버도 메모리 접근 규칙을 재사용할 수 있다.
-> 3. **판단 포인트**: MMIO 영역은 일반 **[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)** 처럼 다루면 안 되며, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)·정렬·`volatile` 처리를 함께 설계해야 실제 장치 상태와 소프트웨어 관찰값이 어긋나지 않는다.
+> 1. **본질**: 메모리 맵 I/O (Memory-Mapped I/O, MMIO)는 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 메모리 주소 공간 안에 배치해, <strong>CPU (Central Processing Unit)</strong>가 일반 `Load/Store` 명령으로 주변 장치를 제어하게 만드는 방식이다.
+> 2. **가치**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 체계와 프로그래밍 모델이 단순해져 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/">RISC</a> (Reduced <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Set Computer)</strong> 계열 설계에 특히 잘 맞고, 운영체제와 드라이버도 메모리 접근 규칙을 재사용할 수 있다.
+> 3. **판단 포인트**: MMIO 영역은 일반 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> (Dynamic Random Access Memory)</strong> 처럼 다루면 안 되며, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)·정렬·`volatile` 처리를 함께 설계해야 실제 장치 상태와 소프트웨어 관찰값이 어긋나지 않는다.
 
 ---
 
@@ -31,31 +31,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MMIO의 핵심은 CPU가 주소와 제어 신호를 내보내면, 중간의 주소 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 그 주소를 해석해 **메모리 컨트롤러**로 보낼지, 특정 장치 컨트롤러로 보낼지 결정하는 데 있다. 즉 CPU 입장에서는 같은 `STORE` 명령이어도, 목적지 주소가 `0x8000_0000`이면 DRAM에 기록되고 `0xFEC0_0000`이면 장치 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록된다. 이 단순성이 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 가볍게 만들고, 장치 제어를 메모리 모델 안에 편입시킨다.
+MMIO의 핵심은 CPU가 주소와 제어 신호를 내보내면, 중간의 주소 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 그 주소를 해석해 <strong>메모리 컨트롤러</strong>로 보낼지, 특정 장치 컨트롤러로 보낼지 결정하는 데 있다. 즉 CPU 입장에서는 같은 `STORE` 명령이어도, 목적지 주소가 `0x8000_0000`이면 DRAM에 기록되고 `0xFEC0_0000`이면 장치 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록된다. 이 단순성이 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 가볍게 만들고, 장치 제어를 메모리 모델 안에 편입시킨다.
 
 아래 그림은 “같은 명령, 다른 목적지”가 어떻게 결정되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                CPU의 주소 기반 분기: 메모리와 장치의 통합 접근      │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Load/Store                                                      │
-│      │                                                              │
-│      ▼                                                              │
-│ 주소 버스 + 데이터 버스                                              │
-│      │                                                              │
-│      ▼                                                              │
-│ ┌────────────────┐      주소 범위 판별      ┌─────────────────────┐ │
-│ │ 주소 디코더     │ ───────────────────────▶ │ MMIO 장치 레지스터   │ │
-│ └──────┬─────────┘                          └─────────────────────┘ │
-│        │                                                            │
-│        └───────────────────────────────▶ ┌─────────────────────┐    │
-│                                          │ 주기억장치 DRAM      │    │
-│                                          └─────────────────────┘    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-MMIO에서 자주 다루는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 크게 세 가지다. 첫째, **제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Control [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** 는 장치 시작, 중지, 모드 전환 같은 명령을 받는다. 둘째, **[상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) ([Status Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/))** 는 준비 완료, 오류, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 여부를 나타낸다. 셋째, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** 는 실제 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 버퍼 포인터를 담는다. CPU는 이들을 일반 메모리 셀처럼 접근하지만, 장치 입장에서는 이 값이 곧 동작 명령이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU의 주소 기반 분기: 메모리와 장치의 통합 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Load/Store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 버스 + 데이터 버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 범위 판별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 디코더</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">MMIO 장치 레지스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기억장치 DRAM</div></div>
+</div>
+</div>
+
+
+
+MMIO에서 자주 다루는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 크게 세 가지다. 첫째, <strong>제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (Control <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> 는 장치 시작, 중지, 모드 전환 같은 명령을 받는다. 둘째, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a>)</strong> 는 준비 완료, 오류, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 여부를 나타낸다. 셋째, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> 는 실제 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 버퍼 포인터를 담는다. CPU는 이들을 일반 메모리 셀처럼 접근하지만, 장치 입장에서는 이 값이 곧 동작 명령이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -83,9 +78,9 @@ MMIO를 정확히 이해하려면 분리형 I/O (Isolated I/O, PMIO)와 비교�
 | 소프트웨어 작성 | 포인터/구조체 기반 접근 용이 | 특수 함수/어셈블리 의존 |
 | 한계 | 주소 공간 일부 차지 | 프로그래밍 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 낮음 |
 
-또한 MMIO는 **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))** 와 함께 봐야 한다. MMIO는 “제어”에 강하고, DMA는 “대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동”에 강하다. 예를 들어 네트워크 카드 드라이버는 MMIO로 송신 큐 주소, 길이, 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 기록하고, 실제 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사는 DMA가 메모리와 장치 사이에서 수행한다. 즉 MMIO가 장치의 손잡이라면, DMA는 무거운 짐을 옮기는 운반 장치다.
+또한 MMIO는 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>)</strong> 와 함께 봐야 한다. MMIO는 “제어”에 강하고, DMA는 “대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동”에 강하다. 예를 들어 네트워크 카드 드라이버는 MMIO로 송신 큐 주소, 길이, 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 기록하고, 실제 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사는 DMA가 메모리와 장치 사이에서 수행한다. 즉 MMIO가 장치의 손잡이라면, DMA는 무거운 짐을 옮기는 운반 장치다.
 
-이 연결은 운영체제와도 직결된다. 운영체제는 MMIO 영역을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가상 주소에 매핑하고, 사용자 공간이 함부로 접근하지 못하게 **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))** 권한을 건다. 따라서 MMIO는 단순 하드웨어 주제가 아니라, CPU 명령 체계·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조·캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)까지 이어지는 교차 개념이다.
+이 연결은 운영체제와도 직결된다. 운영체제는 MMIO 영역을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가상 주소에 매핑하고, 사용자 공간이 함부로 접근하지 못하게 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)</strong> 권한을 건다. 따라서 MMIO는 단순 하드웨어 주제가 아니라, CPU 명령 체계·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조·캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)까지 이어지는 교차 개념이다.
 
 - **📢 섹션 요약 비유**: MMIO와 PMIO의 차이는 같은 도로망을 쓰는 통합 물류와, 직원 전용 통로를 따로 두는 방식의 차이와 같다. DMA까지 붙으면 지시만 사람이 하고, 실제 짐 운반은 지게차가 맡는 구조가 된다.
 
@@ -111,7 +106,7 @@ MMIO를 정확히 이해하려면 분리형 I/O (Isolated I/O, PMIO)와 비교�
 - 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 한 번에 수정하려다 Read-Modify-Write 경쟁 상태를 만드는 경우
 - 수 MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 MMIO [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 루프 복사해 CPU를 낭비하는 경우
 
-따라서 기술사 관점의 판단은 명확하다. **제어와 상태 확인은 MMIO**, **대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동은 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)**, **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 순서 보장은 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)/배리어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 분리해 생각해야 안정성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 잡을 수 있다.
+따라서 기술사 관점의 판단은 명확하다. **제어와 상태 확인은 MMIO**, <strong>대량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동은 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a></strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>와 순서 보장은 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>/배리어 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 분리해 생각해야 안정성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 잡을 수 있다.
 
 - **📢 섹션 요약 비유**: MMIO 장치는 일반 서랍이 아니라 “만지면 바로 기계가 반응하는 제어판”이다. 버튼 순서를 잘못 누르거나 이전 표시를 믿으면 기계가 엉뚱하게 움직인다.
 
@@ -142,22 +137,23 @@ MMIO의 가장 큰 효과는 하드웨어와 소프트웨어 사이의 접점을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분리형 I/O (Isolated I/O)
-        │
-        ▼
-메모리 맵 I/O (Memory-Mapped I/O)
-        │
-        ├──▶ 장치 드라이버 (Device Driver) 표준화
-        │
-        ├──▶ DMA (Direct Memory Access) 와 역할 분리
-        │
-        ▼
-캐시 정책 · 메모리 배리어 · MMU 보호 속성
-        │
-        ▼
-고속 인터커넥트 기반 통합 장치 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분리형 I/O (Isolated I/O)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 맵 I/O (Memory-Mapped I/O)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 장치 드라이버 (Device Driver) 표준화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ DMA (Direct Memory Access) 와 역할 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 정책 · 메모리 배리어 · MMU 보호 속성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고속 인터커넥트 기반 통합 장치 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 “전용 입출력 명령”에서 출발해 “통합 주소 기반 제어”, 그리고 “[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·순서·고속화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 포함한 현대 장치 제어”로 발전하는 방향을 보여준다.
 

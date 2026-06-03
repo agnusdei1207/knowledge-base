@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 시스템의 타겟 사용자(노인, 학생, 전문가 등)를 실제 또는 가상 환경에 앉혀놓고, "장바구니에 담긴 물건을 취소해 보세요"라는 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))를 준다. 그리고 사용자가 버튼을 못 찾아 헤매거나, 짜증을 내거나, 실수를 하는 모든 과정을 기록(관찰)하여 UI/UX의 결함을 찾아내는 테스트다.
 
-- **필요성**: 은행 앱을 만들었다. 이체 기능은 0.1초 만에 동작하고 버그도 0개다(기능 테스트 통과). 하지만 할아버지 사용자가 앱을 켰는데, 글씨가 너무 작고 '이체'라는 버튼 대신 '트랜스퍼(Transfer)'라고 영어로 적혀 있어 아무도 이체를 못 한다면? 이 앱은 쓰레기다. 기능이 아무리 훌륭해도 **사용자가 사용할 수 없다면 소프트웨어의 가치는 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 되기 때문**에 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트가 절대적으로 필요하다.
+- **필요성**: 은행 앱을 만들었다. 이체 기능은 0.1초 만에 동작하고 버그도 0개다(기능 테스트 통과). 하지만 할아버지 사용자가 앱을 켰는데, 글씨가 너무 작고 '이체'라는 버튼 대신 '트랜스퍼(Transfer)'라고 영어로 적혀 있어 아무도 이체를 못 한다면? 이 앱은 쓰레기다. 기능이 아무리 훌륭해도 <strong>사용자가 사용할 수 없다면 소프트웨어의 가치는 0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)이 되기 때문</strong>에 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트가 절대적으로 필요하다.
 
-- **💡 비유**: [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트는 새로 만든 문의 **'손잡이 당겨보기 테스트'**와 같습니다. 문이 튼튼하고(기능), 열쇠도 잘 돌아가도(보안), 손잡이 디자인을 '미는 모양'으로 만들어 놓으면 100명 중 99명은 문 앞에서 문을 밀다가 이마를 찧습니다. 만든 목수(개발자)는 "당기면 되잖아!"라고 억울해하지만, 처음 보는 사람(사용자)이 자연스럽게 당기도록 손잡이를 고쳐 다는 과정이 바로 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트입니다.
+- **💡 비유**: [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트는 새로 만든 문의 <strong>'손잡이 당겨보기 테스트'</strong>와 같습니다. 문이 튼튼하고(기능), 열쇠도 잘 돌아가도(보안), 손잡이 디자인을 '미는 모양'으로 만들어 놓으면 100명 중 99명은 문 앞에서 문을 밀다가 이마를 찧습니다. 만든 목수(개발자)는 "당기면 되잖아!"라고 억울해하지만, 처음 보는 사람(사용자)이 자연스럽게 당기도록 손잡이를 고쳐 다는 과정이 바로 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **기능 우위 시대 (CLI)**: 도스([DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 시절엔 사용자가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 못 외우면 사용자 탓을 했다. [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)이라는 개념 자체가 없었다.
-  2. **GUI와 인간-컴퓨터 상호작용([HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/))의 대두**: 윈도우와 마우스가 등장하며, 화면 구조와 직관성이 상업적 성공을 좌우하게 되었다. 닐슨(Jakob Nielsen)의 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가가 바이블이 됨.
-  3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 UX 시대 (현재)**: 감각이나 관찰에만 의존하지 않고, 마우스 호버 타임, 클릭 히트맵(Heatmap), 퍼널(Funnel) 이탈률 등 철저하게 숫자로 사용자의 짜증과 헤매임을 증명하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학으로 진화했다.
+  2. <strong>GUI와 인간-컴퓨터 상호작용(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/">HCI</a>)의 대두</strong>: 윈도우와 마우스가 등장하며, 화면 구조와 직관성이 상업적 성공을 좌우하게 되었다. 닐슨(Jakob Nielsen)의 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 평가가 바이블이 됨.
+  3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 UX 시대 (현재)</strong>: 감각이나 관찰에만 의존하지 않고, 마우스 호버 타임, 클릭 히트맵(Heatmap), 퍼널(Funnel) 이탈률 등 철저하게 숫자로 사용자의 짜증과 헤매임을 증명하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학으로 진화했다.
 
 - **📢 섹션 요약 비유**: 기능 테스트가 요리사(개발자) 입장에서 "고기가 잘 익었나, 간이 맞나?"를 스스로 맛보는 것이라면, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트는 식당 손님(사용자)에게 음식을 주고 "포크로 썰어 먹기 편한가? 접시가 너무 무겁지 않은가?"를 옆에서 지켜보는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 검증입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사용성 테스트 (Usability T                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용성 테스트 (Usability T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 테스트 ([Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사용성 테스트 (Usability Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사용성 테스트 (Usability Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

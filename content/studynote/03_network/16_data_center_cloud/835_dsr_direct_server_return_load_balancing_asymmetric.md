@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 전통적인 L4 로드밸런싱(In-Path, SNAT 방식)은 패킷이 들어올 때도 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거치고, 나갈 때도 무조건 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거쳐야만 합니다(대칭형 트래픽).
-- **병목 폭발 시나리오**: 클라이언트의 접속 요청 패킷은 사이즈가 작습니다(수십 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)). 하지만 서버가 뱉어내는 넷플릭스 영화 응답 패킷은 수 기가바이트(GB)의 뚱뚱한 쓰나미입니다. 이 쓰나미가 다시 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서)의 랜선 구멍을 역주행해서 비집고 나가려면 **L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계(목구멍)에 걸려 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 속도가 마비**됩니다. 비싼 L4 장비가 터져 나갑니다.
+- **병목 폭발 시나리오**: 클라이언트의 접속 요청 패킷은 사이즈가 작습니다(수십 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)). 하지만 서버가 뱉어내는 넷플릭스 영화 응답 패킷은 수 기가바이트(GB)의 뚱뚱한 쓰나미입니다. 이 쓰나미가 다시 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서)의 랜선 구멍을 역주행해서 비집고 나가려면 <strong>L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비의 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계(목구멍)에 걸려 전체 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 속도가 마비</strong>됩니다. 비싼 L4 장비가 터져 나갑니다.
 
-```text
-[라운드 로빈]
-    │
-    ▼
-[DSR]
-    │
-    └──▶ [VPC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,26 +41,30 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 클라이언트의 얇은 요청(Request) 패킷은 L4 로드밸런서를 거쳐 서버로 들어오지만, 서버가 뱉어내는 뚱뚱한 **응답(Response) 패킷은 L4 로드밸런서를 전혀 거치지 않고, 서버가 직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) 외부 라우터를 통해 클라이언트에게 바로 쏴버리는(Return) 비대칭 네트워킹 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 구조**입니다.
+- **개념**: 클라이언트의 얇은 요청(Request) 패킷은 L4 로드밸런서를 거쳐 서버로 들어오지만, 서버가 뱉어내는 뚱뚱한 <strong>응답(Response) 패킷은 L4 로드밸런서를 전혀 거치지 않고, 서버가 직접(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>) 외부 라우터를 통해 클라이언트에게 바로 쏴버리는(Return) 비대칭 네트워킹 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 구조</strong>입니다.
 
 ### DSR을 성립시키는 속임수 마법 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 변조) 🌟
 응답 패킷이 L4를 안 거치고 다이렉트로 나가면, 손님(클라이언트)은 "어? 나는 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VIP)한테 요청했는데, 왜 생판 모르는 1번 서버(Real IP)가 답장을 줘? 해킹인가?" 하고 패킷을 찢어버립니다. 이를 속이기 위한 치밀한 세팅이 필요합니다.
 
 1. **들어올 때 (L4의 기만)**: 
-   - 손님이 목적지에 **가짜 간판(VIP)**을 적어 보냅니다. L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷의 목적지 IP(VIP)는 절대 건드리지 않고, 겉면의 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2 껍데기)**만 1번 서버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 몰래 슥 바꿔치기해서 던집니다(L2 DSR).
+   - 손님이 목적지에 <strong>가짜 간판(VIP)</strong>을 적어 보냅니다. L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷의 목적지 IP(VIP)는 절대 건드리지 않고, 겉면의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소(L2 껍데기)</strong>만 1번 서버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 몰래 슥 바꿔치기해서 던집니다(L2 DSR).
 2. **서버의 가짜 신분증 (Loopback VIP 셋팅)**: 
    - 1번 서버에 도착했습니다. 목적지 IP가 자기 IP(Real IP)가 아니라 가짜 간판(VIP)으로 적혀 있으면 원래 버려야 합니다. 하지만 서버 엔지니어가 1번 서버 컴퓨터 안에 몰래 'Loopback 가상 인터페이스'를 하나 뚫어두고, 거기에 가짜 간판 주소(VIP)를 똑같이 세팅해 둡니다. 1번 서버는 "아, 이거 나한테 온 거 맞네!" 하고 덥석 받아먹습니다.
 3. **나갈 때 직배송 (Return)**: 
    - 1번 서버가 응답 패킷을 쏠 때, **보내는 사람(출발지 IP)에 자기 실제 IP를 적지 않고, 아까 그 가짜 간판 주소(VIP)를 떡하니 적어서 인터넷으로 바로 쏴버립니다.** 손님은 "아! 가짜 간판(VIP)이 보낸 답장이 무사히 왔네!"라고 100% 속아 넘어가 통신이 완성됩니다.
 
-```text
-[라운드 로빈]
-    │
-    ▼
-[DSR]
-    │
-    └──▶ [VPC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **압도적 효과 (로드밸런서 구원)**: L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽 부담이 **최대 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 수준으로 떡락**합니다. 트래픽 폭풍이 일어나는 동영상 스트리밍, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 서버 팜(Server Farm)을 구성할 때 DSR을 쓰지 않으면 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 유지비가 수십 배로 뜁니다. 절대적인 필수 아키텍처입니다.
+- **압도적 효과 (로드밸런서 구원)**: L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽 부담이 <strong>최대 1/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 수준으로 떡락</strong>합니다. 트래픽 폭풍이 일어나는 동영상 스트리밍, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 서버 팜(Server Farm)을 구성할 때 DSR을 쓰지 않으면 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 유지비가 수십 배로 뜁니다. 절대적인 필수 아키텍처입니다.
 - **치명적 주의점**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 충돌 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/). 서버 100대가 전부 자기 몸에 가짜 간판 IP(Loopback VIP)를 달고 있으므로, 공유기가 "VIP 누구야?" 물어봤을 때 100대가 동시에 "저요!" 하고 대답하면 망이 붕괴합니다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 충돌). 이를 막기 위해 리눅스 커널에서 강제로 입을 틀어막는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(arp_ignore 등)이 필수입니다.
 
 DSR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)이 기반 조건을 만든다면, DSR는 그 위에서 핵심 메커니즘을 구현하고, VPC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -75,7 +83,7 @@ DSR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: DSR 통신망은 대형 물류센터의 '효율적인 하차/상차 동선 분리'입니다. 옛날(In-Path 방식)엔 고객이 빈 트럭을 몰고 '정문(L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'으로 들어와서 짐(응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 잔뜩 싣고, 다시 비좁은 '정문'으로 비집고 나가느라 정문 입구가 미어터져서 트럭이 오가지도 못하는 마비 상태였습니다. **DSR(직접 응답 배송)**은 정문(L4) 통제소는 오직 '빈 트럭(요청 패킷)이 들어오는 입구용'으로만 씁니다. 창고(서버)에서 짐을 다 실은 트럭은 정문으로 다시 돌아가지 않고, 공장 뒷마당에 뚫어놓은 광활한 직통 8차선 '출구 고속도로([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Return)'를 타고 고객에게 바로 쏴버립니다. 좁은 정문(로드밸런서)이 숨통이 트여 100년 넘게 고장 없이 돌아가게 만드는 극강의 공간 분리 전술입니다.
+- **📢 섹션 요약 비유**: DSR 통신망은 대형 물류센터의 '효율적인 하차/상차 동선 분리'입니다. 옛날(In-Path 방식)엔 고객이 빈 트럭을 몰고 '정문(L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'으로 들어와서 짐(응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 잔뜩 싣고, 다시 비좁은 '정문'으로 비집고 나가느라 정문 입구가 미어터져서 트럭이 오가지도 못하는 마비 상태였습니다. <strong>DSR(직접 응답 배송)</strong>은 정문(L4) 통제소는 오직 '빈 트럭(요청 패킷)이 들어오는 입구용'으로만 씁니다. 창고(서버)에서 짐을 다 실은 트럭은 정문으로 다시 돌아가지 않고, 공장 뒷마당에 뚫어놓은 광활한 직통 8차선 '출구 고속도로([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Return)'를 타고 고객에게 바로 쏴버립니다. 좁은 정문(로드밸런서)이 숨통이 트여 100년 넘게 고장 없이 돌아가게 만드는 극강의 공간 분리 전술입니다.
 
 ---
 
@@ -117,15 +125,19 @@ DSR는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 라운드 로빈]
-    │
-    ▼
-[현재 개념: DSR]
-    │
-    ├──▶ [확장 A: VPC]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 라운드 로빈</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 DSR는 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VPC와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

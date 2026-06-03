@@ -21,7 +21,7 @@ tags = ["studynote-cloud-architecture"]
 
 2009년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley AMP Lab의 Matei Zaharia가 개발한 Spark는 MapReduce의 근본적 한계—매 처리 단계마다 디스크에 중간 결과를 쓰는 것—을 해결하기 위해 탄생했다. 특히 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), k-평균 클러스터링)은 수십~수백 번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반복 처리하는데, MapReduce로는 각 반복마다 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 읽기/쓰기가 발생하여 극도로 느렸다.
 
-Spark의 핵심 아이디어: **메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지한다(Keep [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) In Memory).** 첫 번째 읽기 시에만 디스크에서 메모리로 로딩하고, 이후 처리는 모두 메모리에서 수행한다. 100번 반복이 필요한 ML [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 대비 최대 100배 빠른 이유다.
+Spark의 핵심 아이디어: <strong>메모리에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 유지한다(Keep <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> In Memory).</strong> 첫 번째 읽기 시에만 디스크에서 메모리로 로딩하고, 이후 처리는 모두 메모리에서 수행한다. 100번 반복이 필요한 ML [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 대비 최대 100배 빠른 이유다.
 
 2014년 Apache 최상위 프로젝트로 승격, 2016년 기준으로 GitHub에서 가장 활발한 빅데이터 프로젝트가 됐다. 현재 넷플릭스·우버·알리바바·어도비 등 수천 개 회사가 Spark를 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 엔진으로 사용한다.
 
@@ -33,41 +33,34 @@ Spark의 핵심 아이디어: **메모리에 [데이터](/knowledge-base/studyno
 
 ### Spark 아키텍처
 
-```
-  ┌──────────────────────────────────────────────────────────┐
-  │                    Spark 애플리케이션                      │
-  ├──────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  ┌─────────────────┐                                     │
-  │  │   Driver Program │  ← 사용자 코드 실행, Job 생성        │
-  │  │   SparkContext   │  ← 클러스터 연결 및 실행 조율         │
-  │  └────────┬─────────┘                                     │
-  │           │ Task 분배                                     │
-  │           ▼                                               │
-  │  ┌─────────────────────────────────────────────────────┐ │
-  │  │           Cluster Manager (YARN/K8s/Standalone)      │ │
-  │  └────────────────────┬────────────────────────────────┘ │
-  │                        │ Executor 할당                    │
-  │     ┌──────────────────┼─────────────────┐               │
-  │     ▼                  ▼                 ▼               │
-  │  ┌───────────┐   ┌───────────┐   ┌───────────┐          │
-  │  │ Executor 1│   │ Executor 2│   │ Executor 3│          │
-  │  │ (노드1)   │   │ (노드2)   │   │ (노드3)   │          │
-  │  │ [Task1]   │   │ [Task3]   │   │ [Task5]   │          │
-  │  │ [Task2]   │   │ [Task4]   │   │ [Task6]   │          │
-  │  │ [메모리 캐시] │ [메모리 캐시] │ [메모리 캐시] │        │
-  │  └───────────┘   └───────────┘   └───────────┘          │
-  └──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark 애플리케이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver Program</div><div class="kb-diagram-cell">← 사용자 코드 실행, Job 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SparkContext</div><div class="kb-diagram-cell">← 클러스터 연결 및 실행 조율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task 분배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster Manager (YARN/K8s/Standalone)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor 1</div><div class="kb-diagram-cell">Executor 2</div><div class="kb-diagram-cell">Executor 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드1)</div><div class="kb-diagram-cell">(노드2)</div><div class="kb-diagram-cell">(노드3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Task1</div><div class="kb-diagram-node">Task3</div><div class="kb-diagram-node">Task5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Task2</div><div class="kb-diagram-node">Task4</div><div class="kb-diagram-node">Task6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 캐시</div><div class="kb-diagram-node">메모리 캐시</div><div class="kb-diagram-node">메모리 캐시</div></div>
+</div>
+</div>
+
+
 
 ### Spark 통합 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
 
 | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 용도 | 주요 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 |:---|:---|:---|
 | **Spark Core** | 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 | map, filter, reduce |
-| **[Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)** | 구조화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) SQL 처리 | DataFrame, SparkSQL |
-| **[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)** | 실시간 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | [DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) (구버전) |
-| **[Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)** | [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) (DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | readStream, writeStream |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/">Spark SQL</a></strong> | 구조화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) SQL 처리 | DataFrame, SparkSQL |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/">Spark Streaming</a></strong> | 실시간 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | [DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) (구버전) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a></strong> | [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) (DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | readStream, writeStream |
 | **MLlib** | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), LinearRegression |
 | **GraphX** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 | [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), Pregel |
 
@@ -128,7 +121,7 @@ word_count.write.csv("s3://mybucket/output/wordcount")
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**Spark [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 핵심**:
+<strong>Spark <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝 핵심</strong>:
 ```python
 spark = SparkSession.builder \
     .config("spark.executor.memory", "8g") \  # executor 메모리
@@ -145,7 +138,7 @@ df.cache()  # 이후 여러 번 사용 시 재로딩 없이 메모리에서 처�
 df.count()  # 이 시점에 실제 캐시 실행 (Lazy Evaluation)
 ```
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐(Skew) 문제 해결**:
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스큐(Skew) 문제 해결</strong>:
 ```python
 # Salting 기법: 키에 랜덤 접미사 추가하여 파티션 분산
 from pyspark.sql.functions import concat, lit, rand, floor
@@ -197,18 +190,22 @@ Apache Spark는 현재 빅데이터 처리의 사실상 표준(De facto Standard
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MapReduce: 단계마다 디스크 I/O (느림)
-    │
-    ▼
-Spark: In-Memory 처리 (DAG 기반 실행 계획)
-    ├─► Spark SQL · DataFrame: 구조화 데이터
-    ├─► Spark Streaming: 마이크로배치 스트리밍
-    └─► MLlib · GraphX: ML + 그래프 연산
-    │
-    ▼
-Spark on K8s · Databricks Lakehouse
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MapReduce: 단계마다 디스크 I/O (느림)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark: In-Memory 처리 (DAG 기반 실행 계획)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Spark SQL · DataFrame: 구조화 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Spark Streaming: 마이크로배치 스트리밍</div>
+<div class="kb-diagram-tree-item" style="--depth:2">MLlib · GraphX: ML + 그래프 연산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark on K8s · Databricks Lakehouse</div>
+</div>
+</div>
+
+
 2. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)도, SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)도, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)도, 실시간 분석도 모두 Spark 하나로 할 수 있어. 스위스 군용 칼처럼 다기능이야.
 3. 단, 책상이(메모리가) 작은데 너무 많은 책을 올리면 바닥에 쌓이게 되어(디스크 spill) 다시 느려지니까, 책상 크기에 맞게 조절해야 해.
 

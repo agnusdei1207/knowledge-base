@@ -23,7 +23,7 @@ tags = ["studynote-ict-convergence"]
 쥐는 일단 무작정 앞으로 가본다(행동 A). 함정에 빠져서 아팠다(-1점). 쥐는 수첩을 꺼내 적는다. "좌표 (2,3)에서 '앞'으로 갔더니 엄청 아프더라. 여기 점수는 -1점." 
 다음에 그 자리에 오면 수첩(Q-Table)을 보고 "앞으로 가면 -1점이니까, 이번엔 '오른쪽'으로 가봐야지"라고 행동을 수정한다.
 
-이처럼 **"환경이 어떻게 굴러가는지 아무것도 모르는 상태(Model-free)에서, 일단 행동부터 해보고 그 결과(보상)를 수첩에 꼬박꼬박 적어가며 완벽한 정답 지도([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 완성해 나가는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"**이 바로 1989년에 발명된 강화학습의 마스터피스, **[Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)**이다.
+이처럼 <strong>"환경이 어떻게 굴러가는지 아무것도 모르는 상태(Model-free)에서, 일단 행동부터 해보고 그 결과(보상)를 수첩에 꼬박꼬박 적어가며 완벽한 정답 지도(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)를 완성해 나가는 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>"</strong>이 바로 1989년에 발명된 강화학습의 마스터피스, <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 수학 공식(환경의 법칙)을 전혀 모르는 학생이 수능을 볼 때, 무작정 1번부터 5번까지 다 찍어보고 답안지를 맞춰가며 "아, 이 문제 패턴은 무조건 3번이 정답이네"라고 기출문제 오답 노트(Q-Table)를 빽빽하게 채워가며 100점을 맞는 무식하고도 확실한 공부법이다.
 
@@ -33,29 +33,30 @@ tags = ["studynote-ict-convergence"]
 
 Q-Learning은 텅 빈 수첩(Q-Table)을 들고, 새로운 경험을 할 때마다 공식을 통해 수첩의 빈칸을 조금씩 업데이트하는 루프(Loop)를 돈다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             [ Q-Learning의 오프 폴리시 업데이트 파이프라인 ]    │
-├────────────────────────────────────────────────────────┤
-│ 1. Q-Table (컨닝 페이퍼) 초기화                           │
-│    - 세로축: 모든 상태(S), 가로축: 모든 행동(A)의 거대한 표 만듦 │
-│    - 처음엔 아무것도 모르니까 표 안의 점수를 싹 다 0으로 적어둠   │
-│                                                        │
-│ 2. 엡실론 그리디 (ε-Greedy) 행동 선택                    │
-│    - 탐험(Exploration): 가끔은 10% 확률로 미친 척하고 아무 데나 감│
-│    - 활용(Exploitation): 90% 확률로는 수첩에서 제일 점수 높은 곳 감│
-│                                                        │
-│ 3. ⭐️ 뻔뻔한 Q값 업데이트 공식 (Off-Policy의 핵심!)        │
-│    - 수식: Q_new = Q_old + α * [ R + γ * Max(Q_next) - Q_old ]│
-│    - 해석: "내가 다음 턴에 실제로 엉뚱한 짓을 하든 말든 상관없어! │
-│            점수표를 적을 때만큼은, 다음 상태에서 내가 할 수 있는 │
-│            행동 중 '가장 완벽한 1등 행동(Max)'을 했다고 상상하고 │
-│            그 최고의 점수를 끌어와서 내 수첩에 적을 거야!"         │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Q-Learning의 오프 폴리시 업데이트 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Q-Table (컨닝 페이퍼) 초기화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 세로축: 모든 상태(S), 가로축: 모든 행동(A)의 거대한 표 만듦</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처음엔 아무것도 모르니까 표 안의 점수를 싹 다 0으로 적어둠</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 엡실론 그리디 (ε-Greedy) 행동 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 탐험(Exploration): 가끔은 10% 확률로 미친 척하고 아무 데나 감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 활용(Exploitation): 90% 확률로는 수첩에서 제일 점수 높은 곳 감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ⭐️ 뻔뻔한 Q값 업데이트 공식 (Off-Policy의 핵심!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 수식: Q_new = Q_old + α *</div><div class="kb-diagram-node">R + γ * Max(Q_next) - Q_old</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해석: "내가 다음 턴에 실제로 엉뚱한 짓을 하든 말든 상관없어!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점수표를 적을 때만큼은, 다음 상태에서 내가 할 수 있는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 중 '가장 완벽한 1등 행동(Max)'을 했다고 상상하고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 최고의 점수를 끌어와서 내 수첩에 적을 거야!"</div></div>
+</div>
+</div>
+
+
 
 1. **시간 차 학습 (TD, Temporal Difference)**: 바둑을 한 판 다 끝내고 나서야 점수를 수정(몬테카를로 방식)하려면 속도가 너무 느리다. Q-Learning은 1칸 이동할 때마다 "방금 내 수첩의 점수"와 "이동한 뒤에 예측한 새로운 점수"의 '시간적 차이(TD Error)'를 즉시즉시 수정하여 학습 속도를 극한으로 끌어올렸다.
-2. **오프 폴리시 (Off-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**: 내가 실제로 걷고 있는 엉망진창인 발걸음([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)용 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과, 내 수첩에 적어두는 완벽한 정답지(업데이트 타겟 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))가 **완전히 분리(Off)**되어 있다는 뜻이다. 이 분리 덕분에 아무리 삽질을 하며 돌아다녀도, 수첩에는 항상 '가장 완벽한 1등 경로'만이 예쁘게 기록되는 기적이 일어난다.
+2. <strong>오프 폴리시 (Off-<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>: 내가 실제로 걷고 있는 엉망진창인 발걸음([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)용 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과, 내 수첩에 적어두는 완벽한 정답지(업데이트 타겟 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))가 <strong>완전히 분리(Off)</strong>되어 있다는 뜻이다. 이 분리 덕분에 아무리 삽질을 하며 돌아다녀도, 수첩에는 항상 '가장 완벽한 1등 경로'만이 예쁘게 기록되는 기적이 일어난다.
 
 - **📢 섹션 요약 비유**: 오프 폴리시(Off-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))는 골프 초보의 멘탈 관리법이다. 실제로는 공을 숲속으로 엉망진창 날리면서도([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 행동), 마음속으로는 "내가 타이거 우즈처럼 완벽한 스윙(Max Q)을 했다면 공이 저기 갔을 거야!"라고 상상하며 머릿속의 골프 자세 수첩(Q-Table)을 타이거 우즈 폼으로만 교정하는 뻔뻔한 마인드 컨트롤이다.
 
@@ -68,13 +69,13 @@ Q-Learning은 텅 빈 수첩(Q-Table)을 들고, 새로운 경험을 할 때마�
 | 비교 항목 | SARSA (온 폴리시) | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) (오프 폴리시) |
 |:---:|:---|:---|
 | **업데이트 룰** | **"내가 실제로 갈 길의 점수를 적겠다!"** | **"내가 딴 길로 가든 말든, 제일 좋은 길의 점수만 적겠다!" (Max)** |
-| **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 일치 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**| 행동하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) = 점수 적는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (On-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | **행동하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) $\neq$ 점수 적는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Off-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))** |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 일치 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>| 행동하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) = 점수 적는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (On-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | **행동하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) $\neq$ 점수 적는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Off-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))** |
 | **안전성 vs 대담성**| 낭떠러지 근처를 피해 안전하게 돌아감 (안전 빵) | **낭떠러지 바로 옆에 지름길이 있으면 무조건 거기로 감 (극단적)** |
 | **최적해 보장** | 적당히 좋은 길을 찾음 | **무한히 반복하면 무조건 세상에서 1등인 길(Optimal)을 찾음** |
 
 낭떠러지 바로 옆에 100만 원이 있는 길이 있다고 치자. 
-**SARSA(온 폴리시)**는 "내가 가끔 실수([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))해서 낭떠러지에 떨어질지 몰라. 무서우니까 그냥 100만 원 포기하고 안전하게 돌아갈래"라고 점수를 적는다.
-**[Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)(오프 폴리시)**은 "내가 실수로 낭떠러지에 떨어질 순 있겠지(실제 행동). 하지만 내 수첩에는 '나는 절대 실수 안 하는 완벽한 천재다(Max)'라고 뻥을 치고 100만 원짜리 지름길을 1등 코스로 적어놓을래!"라고 배짱을 부린다.
+<strong>SARSA(온 폴리시)</strong>는 "내가 가끔 실수([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))해서 낭떠러지에 떨어질지 몰라. 무서우니까 그냥 100만 원 포기하고 안전하게 돌아갈래"라고 점수를 적는다.
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a>(오프 폴리시)</strong>은 "내가 실수로 낭떠러지에 떨어질 순 있겠지(실제 행동). 하지만 내 수첩에는 '나는 절대 실수 안 하는 완벽한 천재다(Max)'라고 뻥을 치고 100만 원짜리 지름길을 1등 코스로 적어놓을래!"라고 배짱을 부린다.
 
 - **📢 섹션 요약 비유**: SARSA는 자기가 운전 초보인 걸 인정하고 좁은 지름길 대신 넒은 도로로 돌아가는 소심한 운전자다. Q-Learning은 자기가 초보인 걸 알면서도, "나는 슈마허다!"라고 뇌를 속이며 좁고 위험한 지름길만 내비게이션(수첩)에 무조건 1순위로 박아넣는 상남자다.
 
@@ -88,10 +89,10 @@ Q-Learning은 텅 빈 수첩(Q-Table)을 들고, 새로운 경험을 할 때마�
 엔지니어가 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 루프를 1만 번 돌리면, 1초도 안 되어서 400칸의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 수만 번의 충돌과 도착 점수가 꽉꽉 채워진다. 로봇은 실서비스에서 더 이상 고민하지 않고, 자신이 위치한 칸에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 점수가 가장 높은 방향으로만 쏙쏙 이동하여 최단 거리로 충전소에 골인한다.
 
 **기술사 판단 포인트 (Trade-off):**
-강화학습 아키텍처 설계 시 기술사는 **'차원의 저주(Q-Table의 폭발)'**를 가장 먼저 진단해야 한다.
+강화학습 아키텍처 설계 시 기술사는 <strong>'차원의 저주(Q-Table의 폭발)'</strong>를 가장 먼저 진단해야 한다.
 1. 바둑판 100칸은 Q-Table 400칸으로 해결됐다. 만약 자율주행 자동차의 전방 카메라 화면(1920x1080 픽셀)이 상태(S)라면 어떨까?
 2. 픽셀 하나가 256개의 색을 가질 수 있으므로, 상태(S)의 경우의 수는 $256^{1920 \times 1080}$이라는 우주 원자 수보다 많은 미친 차원이 된다. 이걸 Q-Table 엑셀 표로 만들면 세상의 모든 하드디스크를 다 합쳐도 저장을 못 한다. (차원의 저주).
-3. 기술사는 상태(S)가 '이산적(Discrete, 셀 수 있음)'일 때만 전통적인 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 수첩을 허락하고, 상태가 '연속적(Continuous)이거나 픽셀 단위'로 터져나갈 때는 즉각 수첩을 찢어버리고 그 자리에 **딥러닝 신경망을 꽂아 넣는 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))** 아키텍처로 넘어가야 한다.
+3. 기술사는 상태(S)가 '이산적(Discrete, 셀 수 있음)'일 때만 전통적인 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 수첩을 허락하고, 상태가 '연속적(Continuous)이거나 픽셀 단위'로 터져나갈 때는 즉각 수첩을 찢어버리고 그 자리에 <strong>딥러닝 신경망을 꽂아 넣는 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">Deep Q-Network</a>)</strong> 아키텍처로 넘어가야 한다.
 
 - **📢 섹션 요약 비유**: Q-Learning은 전화번호부를 손으로 적는 것과 같다. 동네 친구 10명(바둑판)의 번호는 수첩에 적을 수 있지만, 대한민국 국민 5천만 명(카메라 픽셀)의 번호를 수첩에 적으려면 수첩이 산더미만 해진다. 데이터가 방대해지면 수첩을 버리고 컴퓨터 검색(딥러닝)으로 갈아타야 한다.
 

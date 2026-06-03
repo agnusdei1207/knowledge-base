@@ -25,46 +25,43 @@ tags = ["studynote-operating-system"]
 - **비유**: 연쇄적 종료는 회사의 본사가 폐업하면 모든 지사와 출장소도 함께 문을 닫는 것과 같다. 본사가 없이 지사가 혼자 남아 있으면 재고(공유 자원)를 잘못 처리하거나, 발주(작업 요청)를 계속하여 재고 누적을 초래할 수 있으므로, 본사 폐업 시 전체 조직이 함께 정리되는 것이 안전하다.
 
 - **등장 배경 및 발전 과정**:
-  1. **VMS의 연쇄 종료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: DEC (Digital Equipment Corporation)의 VMS 운영체제는 부모 종료 시 자식을 강제 종료하는 연쇄 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 기본으로 채택하여, 부모-자식 의존성으로 인한 자원 누수를 방지했다.
-  2. **유닉스의 고아 양자 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 반면 유닉스는 부모 종료 시 자식을 init에 양자하여, 자식이 독립적으로 계속 실행될 수 있도록 하는 유연한 설계를 택했다.
+  1. <strong>VMS의 연쇄 종료 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: DEC (Digital Equipment Corporation)의 VMS 운영체제는 부모 종료 시 자식을 강제 종료하는 연쇄 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 기본으로 채택하여, 부모-자식 의존성으로 인한 자원 누수를 방지했다.
+  2. <strong>유닉스의 고아 양자 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 반면 유닉스는 부모 종료 시 자식을 init에 양자하여, 자식이 독립적으로 계속 실행될 수 있도록 하는 유연한 설계를 택했다.
   3. **리눅스 cgroup 기반 그룹 관리**: systemd와 cgroup이 결합되면서, 프로세스 트리 전체를 그룹으로 관리하고 일괄 종료하는 현대적 연쇄 종료가 구현되었다.
 
 유닉스의 고아 양자 방식과 VMS의 연쇄 종료 방식의 차이를 시각화하면, 두 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 장단점을 직관적으로 비교할 수 있다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │       유닉스 고아 양자 vs 연쇄적 종료: 부모 종료 시 하위 처리 비교     │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [초기 상태: 프로세스 트리]                                            │
-  │       Parent (PID=100)                                                 │
-  │       ├── Child1 (PID=101)                                             │
-  │       └── Child2 (PID=102)                                             │
-  │           └── Grandchild (PID=103)                                     │
-  │                                                                        │
-  │  [유닉스 방식: 고아 양자 (Orphan Adoption)]                            │
-  │       Parent (PID=100) → exit() → 소멸                                 │
-  │                                                                        │
-  │       init (PID=1)                                                     │
-  │       ├── Child1 (PID=101, PPID=1) ← 양자됨                            │
-  │       └── Child2 (PID=102, PPID=1) ← 양자됨                            │
-  │           └── Grandchild (PID=103, PPID=102) ← 계속 실행               │
-  │                                                                        │
-  │       결과: 자식들은 init이 수거할 때까지 계속 실행됨                  │
-  │       장점: 자식의 독립적 실행 보장                                    │
-  │       단점: 고아가 자원을 낭비하거나 공유 자원에 접근할 위험           │
-  │                                                                        │
-  │  [연쇄 종료 방식: Cascading Termination]                               │
-  │       Parent (PID=100) → exit()                                        │
-  │           ├──▶ Child1 (PID=101) → SIGTERM → 종료                       │
-  │           └──▶ Child2 (PID=102) → SIGTERM → 종료                       │
-  │                    └──▶ Grandchild (PID=103) → SIGTERM → 종료          │
-  │                                                                        │
-  │       결과: 프로세스 트리 전체가 재귀적으로 일괄 종료                  │
-  │       장점: 자원 누수 방지, 공유 자원 일관성 보장                      │
-  │       단점: 자식이 독립적으로 계속해야 할 작업이 중단될 수 있음        │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유닉스 고아 양자 vs 연쇄적 종료: 부모 종료 시 하위 처리 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태: 프로세스 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parent (PID=100)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Child1 (PID=101)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Child2 (PID=102)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Grandchild (PID=103)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유닉스 방식: 고아 양자 (Orphan Adoption)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parent (PID=100) → exit() → 소멸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">init (PID=1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Child1 (PID=101, PPID=1) ← 양자됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Child2 (PID=102, PPID=1) ← 양자됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Grandchild (PID=103, PPID=102) ← 계속 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 자식들은 init이 수거할 때까지 계속 실행됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 자식의 독립적 실행 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 고아가 자원을 낭비하거나 공유 자원에 접근할 위험</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄 종료 방식: Cascading Termination</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parent (PID=100) → exit()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Child1 (PID=101) → SIGTERM → 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Child2 (PID=102) → SIGTERM → 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Grandchild (PID=103) → SIGTERM → 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 프로세스 트리 전체가 재귀적으로 일괄 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 자원 누수 방지, 공유 자원 일관성 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 자식이 독립적으로 계속해야 할 작업이 중단될 수 있음</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 다이어그램은 부모 종료 시 하위 프로세스에 대한 두 가지 처리 방식의 근본적 차이를 보여준다. 유닉스 방식에서는 부모가 종료되면 커널이 자식들의 PPID를 init(PID 1)로 재설정하여 고아로 만들고, 자식들은 이후에도 독립적으로 계속 실행된다. 반면 연쇄 종료 방식에서는 부모 종료 시 커널이 자식과 손자 프로세스까지 재귀적으로 순회하며 SIGTERM(또는 SIGKILL)을 전송하여 전체 트리를 일괄 종료한다. 현대 리눅스에서는 이 두 방식을 상황에 따라 선택할 수 있으며, 일반적으로 systemd [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 cgroup 기반 연쇄 종료를, 셸의 백그라운드 프로세스는 고아 양자를 사용한다.
 
@@ -78,46 +75,39 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) ([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/))** | 관련 프로세스를 그룹으로 묶음 | `setpgid()`로 그룹 ID [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), `kill(-pgid, sig)`로 그룹 전체에 시그널 전송 | `kill(-pgid, SIGTERM)` | 부대 단위 작전 명령 |
-| **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))** | 터미널 단위의 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) 집합 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더 종료 시 SIGHUP이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전체에 전송 | `setsid()`, 터미널 제어 | 사단 단위 지휘 체계 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">프로세스 그룹</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">Process Group</a>)</strong> | 관련 프로세스를 그룹으로 묶음 | `setpgid()`로 그룹 ID [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), `kill(-pgid, sig)`로 그룹 전체에 시그널 전송 | `kill(-pgid, SIGTERM)` | 부대 단위 작전 명령 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)</strong> | 터미널 단위의 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) 집합 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더 종료 시 SIGHUP이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전체에 전송 | `setsid()`, 터미널 제어 | 사단 단위 지휘 체계 |
 | **cgroup (Control Group)** | 계층적 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) 관리 | systemd가 cgroup 단위로 `kill` 명령을 전송하여 하위 트리 전체 종료 | systemd, cgroup v2 | 기업 그룹 단위 정리 |
 
 리눅스에서 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 통해 연쇄 종료를 구현하는 메커니즘을 시각화하면, 시그널 전파 경로를 명확히 이해할 수 있다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │     리눅스 프로세스 그룹/세션 기반 연쇄 종료 시그널 전파 경로          │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  Session Leader (bash, PID=500, SID=500)                               │
-  │       │                                                                │
-  │       │ 터미널 종료 (SIGHUP 전파)                                      │
-  │       ▼                                                                │
-  │  ┌──────────────────────────────────────────────────────┐              │
-  │  │  Process Group 1 (PGID=500): bash (Foreground)       │              │
-  │  └──────────────────────────────────────────────────────┘              │
-  │  ┌──────────────────────────────────────────────────────┐              │
-  │  │  Process Group 2 (PGID=1000):                       │               │
-  │  │    ├── worker-1 (PID=1001)                          │               │
-  │  │    ├── worker-2 (PID=1002)                          │               │
-  │  │    └── worker-3 (PID=1003)                          │               │
-  │  └──────────────────────────────────────────────────────┘              │
-  │                                                                        │
-  │  [연쇄 종료 시나리오 1: 터미널 종료]                                   │
-  │  터미널 닫힘 → Session Leader(bash)에 SIGHUP →                         │
-  │  bash 종료 → PGID=1000 그룹 전체에 SIGHUP 전송 →                       │
-  │  worker-1, worker-2, worker-3 모두 종료                                │
-  │                                                                        │
-  │  [연쇄 종료 시나리오 2: 프로세스 그룹 전체 종료]                       │
-  │  kill(-1000, SIGTERM) → PGID=1000인 모든 프로세스에                    │
-  │  SIGTERM 전송 → worker-1,2,3 모두 종료                                 │
-  │                                                                        │
-  │  [연쇄 종료 시나리오 3: cgroup 기반 일괄 종료]                         │
-  │  systemctl stop myapp.service →                                        │
-  │  systemd가 해당 cgroup 내 모든 프로세스에 SIGTERM 전송 →               │
-  │  타임아웃 후 SIGKILL으로 잔여 프로세스 강제 종료                       │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 프로세스 그룹/세션 기반 연쇄 종료 시그널 전파 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session Leader (bash, PID=500, SID=500)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">터미널 종료 (SIGHUP 전파)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Group 1 (PGID=500): bash (Foreground)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Group 2 (PGID=1000):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── worker-1 (PID=1001)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── worker-2 (PID=1002)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── worker-3 (PID=1003)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄 종료 시나리오 1: 터미널 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">터미널 닫힘 → Session Leader(bash)에 SIGHUP →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bash 종료 → PGID=1000 그룹 전체에 SIGHUP 전송 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker-1, worker-2, worker-3 모두 종료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄 종료 시나리오 2: 프로세스 그룹 전체 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kill(-1000, SIGTERM) → PGID=1000인 모든 프로세스에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIGTERM 전송 → worker-1,2,3 모두 종료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄 종료 시나리오 3: cgroup 기반 일괄 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">systemctl stop myapp.service →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">systemd가 해당 cgroup 내 모든 프로세스에 SIGTERM 전송 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃 후 SIGKILL으로 잔여 프로세스 강제 종료</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스에서 연쇄 종료를 구현하는 세 가지 레이어가 존재한다. 첫째, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 레이어에서는 터미널이 닫히면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더(bash)에 SIGHUP이 전송되고, bash가 종료되면 자신의 자식 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) 전체에 SIGHUP이 전파된다. 둘째, [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)) 레이어에서는 `kill(-pgid, SIGTERM)` 명령으로 동일 그룹의 모든 프로세스에 시그널을 일괄 전송할 수 있다. 셋째, cgroup 레이어에서는 systemd가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 cgroup을 관리하며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중지 시 해당 cgroup 내의 모든 프로세스(자식, 손자 포함)에 SIGTERM -> 대기 -> SIGKILL의 두 단계 종료를 수행한다. cgroup 기반 연쇄 종료는 프로세스가 `fork()`하여 하위 트리를 아무리 깊게 생성해도 누락 없이 전체를 종료할 수 있는 가장 강력한 메커니즘이다.
 
@@ -139,37 +129,31 @@ systemd는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 | 비교 항목 | 고아 양자 (유닉스 방식) | 연쇄 종료 (cgroup 방식) |
 |:---|:---|:---|
-| **기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** | 부모 종료 시 자식을 init에 양자 | 부모 종료 시 자식을 함께 종료 |
+| <strong>기본 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong> | 부모 종료 시 자식을 init에 양자 | 부모 종료 시 자식을 함께 종료 |
 | **자식의 생존** | 자식이 독립적으로 계속 실행 가능 | 자식이 반드시 종료됨 |
 | **자원 관리** | init이 고아를 수거해야 함 | 즉시 일괄 정리로 자원 회수 |
 | **적합 환경** | 백그라운드 작업, 데몬 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) |
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │        고아 양자 vs 연쇄 종료: 적용 상황에 따른 의사결정 플로우         │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  부모 종료 시 자식 프로세스를 어떻게 처리할 것인가?                     │
-  │       │                                                                 │
-  │       ▼                                                                 │
-  │  자식이 부모 없이 독립적으로 실행을 계속해야 하는가?                    │
-  │       │                                                                 │
-  │  ├─ 예 ──▶ 데몬 프로세스인가?                                           │
-  │  │           │                                                          │
-  │  │     ├─ 예 ──▶ [고아 양자] init이 양자, 백그라운드 계속 실행          │
-  │  │     │         (double-fork로 의도적으로 고아 생성)                   │
-  │  │     │                                                                │
-  │  │     └─ 아니오 ─▶ [고아 양자] PPID=1로 변경, 필요시 별도 수거         │
-  │  │                                                                      │
-  │  └─ 아니오 ──▶ 서비스/컨테이너 단위 관리인가?                           │
-  │              │                                                          │
-  │        ├─ 예 ──▶ [연쇄 종료] systemd/cgroup이 일괄 종료                 │
-  │        │         (SIGTERM → 대기 → SIGKILL)                             │
-  │        │                                                                │
-  │        └─ 아니오 ─▶ 프로세스 그룹 단위 종료                             │
-  │                  kill(-pgid, SIGTERM)                                   │
-  └─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고아 양자 vs 연쇄 종료: 적용 상황에 따른 의사결정 플로우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 종료 시 자식 프로세스를 어떻게 처리할 것인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식이 부모 없이 독립적으로 실행을 계속해야 하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ──▶ 데몬 프로세스인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고아 양자</div><div class="kb-diagram-note">init이 양자, 백그라운드 계속 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(double-fork로 의도적으로 고아 생성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고아 양자</div><div class="kb-diagram-note">PPID=1로 변경, 필요시 별도 수거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 서비스/컨테이너 단위 관리인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연쇄 종료</div><div class="kb-diagram-note">systemd/cgroup이 일괄 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SIGTERM → 대기 → SIGKILL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 프로세스 그룹 단위 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kill(-pgid, SIGTERM)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 플로우는 실무에서 부모 종료 시 자식 처리 전략을 선택하는 기준을 보여준다. [데몬화](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/)(double-fork)처럼 의도적으로 고아를 생성하여 백그라운드에서 독립적으로 실행해야 하는 경우에는 유닉스의 고아 양자 방식이 적합하다. 반면 systemd [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) Pod처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 생명주기를 관리해야 하는 경우에는 cgroup 기반 연쇄 종료가 필수적이다. [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) 단위 종료는 중간 지점으로, 같은 작업에 속한 프로세스들을 그룹으로 묶어 일괄 종료할 때 사용된다.
 
@@ -181,7 +165,7 @@ systemd는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 ### 실무 시나리오
 
-1. **시나리오 -- [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) Pod의 연쇄 종료**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에서 하나의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 내에 실행된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 pause 프로세스(PID 1)와 함께 여러 개의 워커 프로세스를 fork하여 실행 중이었다. Pod가 삭제되면 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 SIGTERM을 전송하고, pause 프로세스가 좀비가 되지 않도록 cgroup 단위로 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 트리를 연쇄 종료한다. 연쇄 종료가 없었다면 워커 프로세스들이 고아 상태로 남아 노드의 자원을 점유하면서도 아무 작업도 수행하지 않는 자원 누수가 발생했을 것이다.
+1. <strong>시나리오 -- <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> Pod의 연쇄 종료</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에서 하나의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 내에 실행된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 pause 프로세스(PID 1)와 함께 여러 개의 워커 프로세스를 fork하여 실행 중이었다. Pod가 삭제되면 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 SIGTERM을 전송하고, pause 프로세스가 좀비가 되지 않도록 cgroup 단위로 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 트리를 연쇄 종료한다. 연쇄 종료가 없었다면 워커 프로세스들이 고아 상태로 남아 노드의 자원을 점유하면서도 아무 작업도 수행하지 않는 자원 누수가 발생했을 것이다.
 
 2. **시나리오 -- 터미널 종료 시 SIGHUP 전파**: [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 통해 원격 서버에서 장시간 실행 중이던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 스크립트가, 네트워크 단절로 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터미널이 갑자기 닫히면서 SIGHUP 시그널을 수신하여 비정상 종료되었다. 엔지니어는 `nohup` 명령어나 `tmux`/`screen`을 사용하여 SIGHUP 전파를 차단하고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더 종료 시에도 하위 프로세스가 연쇄 종료되지 않도록 보호했다.
 
@@ -207,8 +191,8 @@ systemd는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 | **정성** | 부모-자식 간 공유 자원 불일치 위험 | 전체 트리가 원자적으로 종료 | 시스템 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) **완전 보장** |
 
 ### 미래 전망
-- **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 Graceful Node Shutdown**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 1.21+에서는 노드 자체가 종료될 때 해당 노드의 모든 Pod을 연쇄적으로 우아한 종료시키는 기능이 기본으로 활성화되어, 클러스터 수준의 연쇄 종료 관리가 표준화되고 있다.
-- **[Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/) 패턴과 연쇄 종료**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 아키텍처에서는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) 프록시가 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 함께 Pod에 배포되며, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 종료 시 두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 순서대로 연쇄 종료되어 네트워크 연결의 정상적인 해제를 보장한다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>의 Graceful Node Shutdown</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 1.21+에서는 노드 자체가 종료될 때 해당 노드의 모든 Pod을 연쇄적으로 우아한 종료시키는 기능이 기본으로 활성화되어, 클러스터 수준의 연쇄 종료 관리가 표준화되고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a> 패턴과 연쇄 종료</strong>: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 아키텍처에서는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) 프록시가 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 함께 Pod에 배포되며, [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 종료 시 두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 순서대로 연쇄 종료되어 네트워크 연결의 정상적인 해제를 보장한다.
 
 ### 참고 표준
 - **POSIX.1**: [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)(`setpgid()`), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(`setsid()`), `kill()` 시스템 콜 표준.
@@ -225,30 +209,32 @@ systemd는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[고아 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/) ([Orphan Process](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/))** | 연쇄 종료의 대안 개념으로, 부모 종료 시 자식이 init에 양자되어 독립적으로 계속 실행되는 유닉스의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. |
-| **[프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) ([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/))** | `kill(-pgid, sig)`를 통해 그룹 전체에 시그널을 전송하여, 연쇄 종료를 구현하는 리눅스의 핵심 메커니즘이다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">Orphan Process</a>)</strong> | 연쇄 종료의 대안 개념으로, 부모 종료 시 자식이 init에 양자되어 독립적으로 계속 실행되는 유닉스의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">프로세스 그룹</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">Process Group</a>)</strong> | `kill(-pgid, sig)`를 통해 그룹 전체에 시그널을 전송하여, 연쇄 종료를 구현하는 리눅스의 핵심 메커니즘이다. |
 | **cgroup (Control Group)** | systemd가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 프로세스 트리를 관리하고 일괄 종료하는 현대적 연쇄 종료의 기술적 기반이다. |
-| **시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | SIGHUP, SIGTERM, SIGKILL을 통해 연쇄 종료 시 프로세스에 종료 요청을 전달하는 비동기 통신 수단이다. |
-| **PID [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부에서 독립적인 init 프로세스와 프로세스 트리를 구성하여, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위의 연쇄 종료를 가능하게 한다. |
+| <strong>시그널 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | SIGHUP, SIGTERM, SIGKILL을 통해 연쇄 종료 시 프로세스에 종료 요청을 전달하는 비동기 통신 수단이다. |
+| <strong>PID <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">Namespace</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부에서 독립적인 init 프로세스와 프로세스 트리를 구성하여, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위의 연쇄 종료를 가능하게 한다. |
 | **Graceful Shutdown** | 연쇄 종료 시 SIGTERM -> 대기 -> SIGKILL의 두 단계를 거쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 보장하는 우아한 종료 패턴이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 유닉스 고아 양자 (Orphan Adoption)
-    │
-    ▼
-VMS 연쇄적 종료 (강제 종속성 부여)
-    │
-    ▼
-프로세스 그룹 기반 시그널 일괄 전송 (kill -pgid)
-    │
-    ▼
-cgroup 기반 계층적 연쇄 종료 (systemd 통합)
-    │
-    ▼
-컨테이너/Pod 단위 Graceful Shutdown (Kubernetes)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 유닉스 고아 양자 (Orphan Adoption)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMS 연쇄적 종료 (강제 종속성 부여)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 그룹 기반 시그널 일괄 전송 (kill -pgid)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup 기반 계층적 연쇄 종료 (systemd 통합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너/Pod 단위 Graceful Shutdown (Kubernetes)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -17,31 +17,29 @@ tags = ["bigdata"]
 
 ### 데이터 홍수의 시대와 빅데이터의 등장
 
-인터넷 서비스의 폭발적 성장과 IoT 기기의 확산으로 인해 데이터의 발생량은 기하급수적으로 늘어났다. 과거에는 관계형 데이터베이스 (RDBMS)에 담을 수 있는 정형 데이터 (Structured Data)만을 처리했으나, 이제는 로그, SNS 텍스트, 이미지, 영상과 같은 **비정형 데이터 (Unstructured Data)**가 전체 데이터의 80% 이상을 차지하게 되었다.
+인터넷 서비스의 폭발적 성장과 IoT 기기의 확산으로 인해 데이터의 발생량은 기하급수적으로 늘어났다. 과거에는 관계형 데이터베이스 (RDBMS)에 담을 수 있는 정형 데이터 (Structured Data)만을 처리했으나, 이제는 로그, SNS 텍스트, 이미지, 영상과 같은 <strong>비정형 데이터 (Unstructured Data)</strong>가 전체 데이터의 80% 이상을 차지하게 되었다.
 
 이러한 대규모 데이터를 기존의 방식(Scale-up)으로 처리하려면 천문학적인 비용이 소모된다. 빅데이터 기술은 저렴한 범용 서버 수천 대를 연결하는 **분산 병렬 처리 (Scale-out)** 방식을 도입하여, 비용 효율적으로 테라바이트(TB)에서 페타바이트(PB) 급의 데이터를 요리할 수 있게 해주었다.
 
 이 그림은 데이터 처리 아키텍처의 패러다임 변화를 보여준다. 중앙 집중식 고성능 서버(Scale-up)에서 분산된 다수의 서버(Scale-out)로의 전환을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Scale-up vs Scale-out Architecture              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Scale-up ] (Vertical)         [ Scale-out ] (Horizontal) │
-│   ┌──────────────┐                ┌──────┐ ┌──────┐ ┌──────┐ │
-│   │              │                │Node A│ │Node B│ │Node C│ │
-│   │  High-end    │                └──────┘ └──────┘ └──────┘ │
-│   │  Mainframe   │                   ▲        ▲        ▲     │
-│   │              │                   └────────┼────────┘     │
-│   └──────────────┘                   [ Cluster Network ]     │
-│                                                              │
-│   - 고가 하드웨어 교체            - 저가 서버 무한 증설      │
-│   - 물리적 한계 존재              - 선형적 성능 확장         │
-│   - SPOF 위험 높음                - 장애 내성 (Fault Tol.)   │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scale-up vs Scale-out Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-up</div><div class="kb-diagram-note">(Vertical)</div><div class="kb-diagram-node">Scale-out</div><div class="kb-diagram-note">(Horizontal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A</div><div class="kb-diagram-cell">Node B</div><div class="kb-diagram-cell">Node C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-end</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mainframe</div><div class="kb-diagram-cell">▲ ▲ ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster Network</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고가 하드웨어 교체 - 저가 서버 무한 증설</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 물리적 한계 존재 - 선형적 성능 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SPOF 위험 높음 - 장애 내성 (Fault Tol.)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '비용 효율성과 확장성'이다. Scale-out 방식은 데이터가 늘어나는 만큼 서버만 추가하면 되므로 투입 비용 대비 성능 향상이 선형적으로 나타난다. 실무에서는 이러한 분산 환경을 구축하기 위해 데이터의 일관성 (Consistency)보다는 가용성 (Availability)과 장애 내성 (Partition Tolerance)을 중시하는 설계가 보편화되었다.
 
@@ -78,24 +76,21 @@ tags = ["bigdata"]
 1. **Lambda Architecture**: 배치 레이어 (Batch)와 스피드 레이어 (Real-time)를 분리하여 운영하는 방식. (안정성 우수, 로직 이중화 불편)
 2. **Kappa Architecture**: 모든 데이터를 스트림으로 간주하여 하나의 레이어에서 처리하는 방식. (단순한 구조, 재처리 부담 존재)
 
-이 구조도는 현대 빅데이터의 흐름인 **Kappa Architecture**를 보여준다.
+이 구조도는 현대 빅데이터의 흐름인 <strong>Kappa Architecture</strong>를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Kappa Architecture Data Flow                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Data Sources] ──▶ [Streaming Layer (Kafka/Flink)] ──┐    │
-│                                                        │    │
-│          ┌─────────────────────────────────────────────┘    │
-│          ▼                                                  │
-│   [Serving Layer (NoSQL/DW)] ──▶ [Analytics / Dashboards]   │
-│                                                             │
-│   * 과거 데이터 재처리가 필요하면?                          │
-│     -> 스트림 데이터의 시작점(Offset)을 과거로 돌려 재실행  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kappa Architecture Data Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Sources</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Streaming Layer (Kafka/Flink)</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Serving Layer (NoSQL/DW)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analytics / Dashboards</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과거 데이터 재처리가 필요하면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 스트림 데이터의 시작점(Offset)을 과거로 돌려 재실행</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '통합 파이프라인'이다. 배치 처리를 위한 코드를 따로 짤 필요 없이 스트리밍 로직 하나로 모든 시점의 데이터를 처리한다. 실무에서는 Apache Flink와 같은 강력한 스트림 프로세서와 Kafka의 영속성 저장 능력을 결합하여 카파 아키텍처를 구현한다.
 
@@ -133,24 +128,25 @@ tags = ["bigdata"]
 ### 기술사적 판단: 빅데이터 플랫폼 구축 시나리오
 
 **시나리오 1: 실시간 마케팅 푸시 알림 시스템 구축**
-- **판단**: 데이터 지연(Latency)이 생명이므로 **카파 아키텍처**를 선택한다. **Kafka**를 메시지 버스로 두고, **Flink**나 **Spark Streaming**을 통해 윈도우 기반의 실시간 집계를 수행한다. 결과는 **Redis**와 같은 인메모리 DB에 저장하여 즉시 앱으로 푸시를 보낸다.
+- **판단**: 데이터 지연(Latency)이 생명이므로 <strong>카파 아키텍처</strong>를 선택한다. <strong>Kafka</strong>를 메시지 버스로 두고, <strong>Flink</strong>나 <strong>Spark Streaming</strong>을 통해 윈도우 기반의 실시간 집계를 수행한다. 결과는 <strong>Redis</strong>와 같은 인메모리 DB에 저장하여 즉시 앱으로 푸시를 보낸다.
 
 **시나리오 2: 전사 통합 데이터 분석 환경 (Data Silo 해결)**
-- **판단**: 각 부서에 흩어진 데이터를 한곳으로 모으는 **데이터 레이크**를 먼저 구축한다. 저렴한 **AWS S3**나 **HDFS**에 원시 데이터를 저장하고, 분석 효율을 위해 **Apache Iceberg**와 같은 테이블 포맷을 입혀 **레이크하우스** 구조로 진화시킨다. 이를 통해 BI 분석가와 데이터 사이언티스트가 동일한 데이터 소스를 공유하게 한다.
+- **판단**: 각 부서에 흩어진 데이터를 한곳으로 모으는 <strong>데이터 레이크</strong>를 먼저 구축한다. 저렴한 <strong>AWS S3</strong>나 <strong>HDFS</strong>에 원시 데이터를 저장하고, 분석 효율을 위해 <strong>Apache Iceberg</strong>와 같은 테이블 포맷을 입혀 **레이크하우스** 구조로 진화시킨다. 이를 통해 BI 분석가와 데이터 사이언티스트가 동일한 데이터 소스를 공유하게 한다.
 
 이 도식은 빅데이터 거버넌스 수립을 위한 기술사적 검토 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               빅데이터 거버넌스 워크플로우                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [데이터 발견] ──▶ [데이터 분류] ─────────▶ [저장소]     │
-│          │               │ (개인정보 마스킹)       │        │
-│   [사용 정책] ◀── [품질 감사] ◀─────── [메타데이터 관리]  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅데이터 거버넌스 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 발견</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 분류</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저장소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인정보 마스킹)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용 정책</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">품질 감사</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">메타데이터 관리</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 설계는 거대 도시의 상수도망을 짜는 것과 같습니다. 물(데이터)이 어디서 오는지(수집), 어디에 가둬두는지(저장), 그리고 어떻게 정수하여(처리) 각 가정(활용)에 깨끗하게 전달할지를 결정하는 일입니다.
 
@@ -186,20 +182,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 폭발 (Web 2.0, IoT, SNS)
-    │
-    ▼
-빅데이터 3V: Volume · Velocity · Variety
-    │
-    ▼
-분산 저장 (HDFS) → 분산 처리 (MapReduce)
-    │
-    ├─► 배치 처리 (Hadoop) → 실시간 처리 (Kafka + Flink)
-    │
-    ▼
-람다 아키텍처 → 카파 아키텍처
-    │
-    ▼
-데이터 레이크 → 레이크하우스 → 데이터 메시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 폭발 (Web 2.0, IoT, SNS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅데이터 3V: Volume · Velocity · Variety</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 저장 (HDFS) → 분산 처리 (MapReduce)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">배치 처리 (Hadoop) → 실시간 처리 (Kafka + Flink)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">람다 아키텍처 → 카파 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 레이크 → 레이크하우스 → 데이터 메시</div>
+</div>
+</div>
+
+

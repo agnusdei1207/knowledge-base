@@ -23,15 +23,17 @@ tags = ["studynote-ai"]
 
 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Imitation Learning from Expert Demonstrations      │
-├──────────────────────────────────────────────────────────────┤
-│ [Expert Driving] → [State-Action Pairs] → [Policy Network]   │
-│                                             ↓                │
-│                                         [Action Output]       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imitation Learning from Expert Demonstrations</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Expert Driving</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">State-Action Pairs</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Policy Network</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Action Output</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 운전 선생님 옆자리에 앉아 "왜 지금 핸들을 꺾는지"를 배우는 것과 같다.
 
@@ -47,15 +49,17 @@ tags = ["studynote-ai"]
 | **Inverse RL** | 보상 함수를 추정 | 의도 해석 가능 | 복잡하고 느림 |
 | **DAgger** | 모델이 만든 상태를 다시 수집 | 분포 이동 완화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용 증가 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  Behavior Cloning Pipeline                   │
-├──────────────────────────────────────────────────────────────┤
-│ demo state ──▶ supervised learner ──▶ action policy          │
-│     ▲                                               │        │
-│     └──────────── expert label / action ────────────┘        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavior Cloning Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">demo state ──▶ supervised learner ──▶ action policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expert label / action</div></div>
+</div>
+</div>
+
+
 
 모방 학습의 가장 큰 위험은 covariate shift다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전문가가 잘 운전한 상황만 포함하지만, 실제 모델은 스스로 조금씩 잘못된 상태를 만들고 그 상태에선 더 이상 전문가처럼 행동하지 못한다.
 
@@ -104,7 +108,7 @@ tags = ["studynote-ai"]
 
 모방 학습은 자율주행처럼 보상 설계가 어렵고 안전이 중요한 문제에서 강력하다. 인간의 암묵적 판단을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 옮겨 빠르게 쓸 수 있는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 만든다는 점이 핵심이다.
 
-결론적으로 모방 학습은 **'전문가를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 학습'**이므로, 우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 분포 이동 대책을 함께 설계해야 한다.
+결론적으로 모방 학습은 <strong>'전문가를 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 학습'</strong>이므로, 우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 분포 이동 대책을 함께 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 운전 스승의 습관을 잘 따라 배우되, 돌발 상황에서는 다시 배우고 고쳐야 한다.
 

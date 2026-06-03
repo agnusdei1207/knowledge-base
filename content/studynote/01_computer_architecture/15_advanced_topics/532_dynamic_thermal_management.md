@@ -21,23 +21,24 @@ tags = ["studynote-computer-architecture"]
 
 동적 써멀 관리 (DTM)는 칩과 시스템이 작동하는 동안 실제 온도 분포를 보고, 가장 적은 비용으로 안전한 열 범위를 유지하도록 제어하는 기술이다. 오늘날 프로세서는 전력 밀도가 높고 발열이 균일하지 않아서, 평균 온도가 멀쩡해 보여도 특정 코어나 메모리 컨트롤러 부근의 핫스팟 (Hot Spot)이 먼저 위험해질 수 있다. 여기에 온도 상승이 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 증가와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 저하를 다시 부르는 양의 되먹임까지 겹치면, 열은 단순 불편이 아니라 수명과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 깎는 구조적 한계가 된다.
 
-과거처럼 최악 조건을 가정해 거대한 히트싱크와 팬만 얹는 정적 냉각으로는 이 문제를 해결하기 어렵다. 모바일과 팬리스 시스템은 공간이 부족하고, 서버와 GPU는 순간 부하 변화가 너무 커서 항상 최악 조건으로 설계하면 효율이 나빠진다. 그래서 현대 시스템은 "뜨거워지면 무조건 느리게"가 아니라, **어느 계층에서 어떤 방식으로 개입하는 것이 가장 덜 아픈지**를 실시간으로 판단해야 한다.
+과거처럼 최악 조건을 가정해 거대한 히트싱크와 팬만 얹는 정적 냉각으로는 이 문제를 해결하기 어렵다. 모바일과 팬리스 시스템은 공간이 부족하고, 서버와 GPU는 순간 부하 변화가 너무 커서 항상 최악 조건으로 설계하면 효율이 나빠진다. 그래서 현대 시스템은 "뜨거워지면 무조건 느리게"가 아니라, <strong>어느 계층에서 어떤 방식으로 개입하는 것이 가장 덜 아픈지</strong>를 실시간으로 판단해야 한다.
 
 이 그림은 왜 DTM이 단순 온도 제한이 아니라 능동 제어여야 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            DTM이 필요한 이유: 열은 국소적으로 빨리 쌓이고 늦게 빠진다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 워크로드 집중 ─▶ 핫스팟 형성 ─▶ 누설 전류 증가 ─▶ 추가 발열                │
-│       │                                                 │                  │
-│       └──────────────── DTM 개입 없으면 ────────────────┘                  │
-│                                 ▼                                          │
-│                    반복 스로틀링 · 성능 흔들림 · 수명 저하                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 DTM의 목표는 단순히 칩을 식히는 것이 아니다. **열 예산 안에서 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최대화하고, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작이 필요할 때도 가장 덜 거친 방법부터 선택하는 것**이 핵심이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM이 필요한 이유: 열은 국소적으로 빨리 쌓이고 늦게 빠진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드 집중 ─▶ 핫스팟 형성 ─▶ 누설 전류 증가 ─▶ 추가 발열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM 개입 없으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 스로틀링 · 성능 흔들림 · 수명 저하</div></div>
+</div>
+</div>
+
+
+
+즉 DTM의 목표는 단순히 칩을 식히는 것이 아니다. <strong>열 예산 안에서 지속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최대화하고, <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 동작이 필요할 때도 가장 덜 거친 방법부터 선택하는 것</strong>이 핵심이다.
 
 - **📢 섹션 요약 비유**: DTM은 아이가 뛰어놀 때 체온을 재며 물을 마시게 하고, 그늘로 옮기고, 그래도 안 되면 뛰는 속도를 줄이는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자와 같다. 바로 눕혀 버리는 것보다 훨씬 영리한 관리다.
 
@@ -57,18 +58,20 @@ DTM은 보통 센서 계층, 예측·[정책](/knowledge-base/studynote/10_ai/02
 
 이 그림은 DTM의 폐루프 구조와 서로 다른 시간 상수를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    DTM 폐루프: 감지 → 예측 → 제어 → 냉각                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [DTS / 전력센서] ─▶ [Thermal Model / Predictor] ─▶ [Policy Engine]        │
-│        ▲                                          │            │           │
-│        │                                          │            ├─ DVFS     │
-│        │                                          │            ├─ 작업 이동 │
-│        │                                          │            ├─ Fan/Pump │
-│        └──────────── 실제 온도 변화 피드백 ───────┘            └─ Throttle │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM 폐루프: 감지 → 예측 → 제어 → 냉각</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTS / 전력센서</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thermal Model / Predictor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DVFS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 작업 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Fan/Pump</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 온도 변화 피드백 ─ Throttle</div></div>
+</div>
+</div>
+
+
 
 또 하나의 핵심은 히스테리시스다. 진입 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 해제 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 같게 두면 주파수가 계속 올라갔다 내려갔다 하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 출렁인다. 그래서 DTM은 "한 번 개입하면 어느 정도 식을 때까지 유지"하는 구간을 두어 핑퐁 현상을 막는다. 이 때문에 DTM은 단순 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 스위치가 아니라, 예측과 완충을 갖춘 제어기라고 보는 편이 정확하다.
 
@@ -89,7 +92,7 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 
 이 차이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영에도 그대로 이어진다. [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)의 thermal zone은 OS가 열 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 인지하게 하고, 서버에서는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))와 랙 냉각 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 움직인다. 모바일에서는 피부 접촉 온도까지 고려해야 하고, 3D 적층 패키지나 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 구조에서는 패키지 내부 열 이동까지 함께 봐야 한다.
 
-결국 DTM은 "뜨거우면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 깎는 기술"이 아니라, **어디를 얼마나 식히고 무엇을 얼마나 옮겨야 전체 시스템이 가장 안정적으로 빠른가**를 정하는 조정 기술이다. 이 관점이 있어야 473번 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)과도 자연스럽게 연결된다.
+결국 DTM은 "뜨거우면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 깎는 기술"이 아니라, <strong>어디를 얼마나 식히고 무엇을 얼마나 옮겨야 전체 시스템이 가장 안정적으로 빠른가</strong>를 정하는 조정 기술이다. 이 관점이 있어야 473번 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)과도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)이 응급실의 해열 주사라면, DTM은 생활 습관·약·환기·수분 섭취를 함께 관리하는 장기 치료 계획이다.
 
@@ -103,7 +106,7 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 
 - **모바일/팬리스**: 피부 접촉 온도와 배터리 제약이 크므로, 부드러운 DVFS와 작업 분산이 중요하다.
 - **노트북/워크스테이션**: 팬 소음과 burst [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형이 중요해, 히스테리시스와 팬 곡선 설계가 핵심이다.
-- **서버/[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)**: 코어 온도뿐 아니라 랙 흡기 온도, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치, 워크로드 이동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 봐야 한다.
+- <strong>서버/<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a></strong>: 코어 온도뿐 아니라 랙 흡기 온도, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치, 워크로드 이동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 봐야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -120,7 +123,7 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 - DTM을 꺼서 문제를 숨기고, 실제 냉각 병목은 그대로 두는 것
 - 워크로드 이동과 팬 제어가 따로 놀아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 출렁임을 키우는 것
 
-기술사 답안에서는 "온도가 높아지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낮춘다"보다, **어떤 계층이 먼저 개입하고 어떤 비용을 치르는가**를 말해야 한다. 그래야 모바일, 서버, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 시스템마다 다른 DTM 전략을 설명할 수 있다.
+기술사 답안에서는 "온도가 높아지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낮춘다"보다, <strong>어떤 계층이 먼저 개입하고 어떤 비용을 치르는가</strong>를 말해야 한다. 그래야 모바일, 서버, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 시스템마다 다른 DTM 전략을 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: DTM 운영은 오케스트라 지휘와 같다. 바이올린이 너무 커지면 그 파트만 조금 낮추고, 환기가 나쁘면 공연장 공조를 바꾸며, 마지막 순간에만 전체 볼륨을 줄여야 음악이 망가지지 않는다.
 
@@ -128,11 +131,11 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 설계된 DTM은 시스템을 더 오래, 더 조용하게, 그리고 더 예측 가능하게 만든다. 핫스팟을 빨리 잡아 수명을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 터보 여유가 있을 때는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 과감하게 끌어올리며, 장기 부하에서는 급격한 스로틀링 대신 완만한 제어로 지속 처리량을 높인다. 즉 DTM의 성과는 최고 온도를 낮추는 것만이 아니라 **안전한 범위 안에서 얻을 수 있는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 것**에 있다.
+잘 설계된 DTM은 시스템을 더 오래, 더 조용하게, 그리고 더 예측 가능하게 만든다. 핫스팟을 빨리 잡아 수명을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 터보 여유가 있을 때는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 과감하게 끌어올리며, 장기 부하에서는 급격한 스로틀링 대신 완만한 제어로 지속 처리량을 높인다. 즉 DTM의 성과는 최고 온도를 낮추는 것만이 아니라 <strong>안전한 범위 안에서 얻을 수 있는 평균 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 높이는 것</strong>에 있다.
 
-한편 한계도 분명하다. 센서 오차나 과도하게 보수적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 과소 활용하게 만들고, 제어 루프가 조율되지 않으면 주파수 진동과 지터가 심해진다. 앞으로는 chiplet별 열 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 제어, 액체 냉각과의 통합, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 발열 예측처럼 **온도를 본 뒤 반응하는 단계에서 온도 상승을 미리 읽고 배치하는 단계**로 진화할 가능성이 크다.
+한편 한계도 분명하다. 센서 오차나 과도하게 보수적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 과소 활용하게 만들고, 제어 루프가 조율되지 않으면 주파수 진동과 지터가 심해진다. 앞으로는 chiplet별 열 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 제어, 액체 냉각과의 통합, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 발열 예측처럼 <strong>온도를 본 뒤 반응하는 단계에서 온도 상승을 미리 읽고 배치하는 단계</strong>로 진화할 가능성이 크다.
 
-결론적으로 DTM은 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)의 상위 개념이며, 컴퓨터 구조 관점에서는 **열 예산을 실시간으로 스케줄링하는 제어 시스템**으로 기억하는 것이 가장 정확하다.
+결론적으로 DTM은 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)의 상위 개념이며, 컴퓨터 구조 관점에서는 <strong>열 예산을 실시간으로 스케줄링하는 제어 시스템</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: DTM은 마라톤 코치와 같다. 선수가 지치기 전에 페이스를 조절하고 물을 주고 코스를 바꿔 주어, 끝까지 가장 좋은 기록으로 완주하게 만든다.
 
@@ -151,24 +154,25 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 냉각 중심 설계
-        │
-        ▼
-온칩 온도 센서 + 임계치 보호
-        │
-        ▼
-DVFS 연계 폐루프 제어
-        │
-        ▼
-작업 이동 · 패키지 전력 재배치
-        │
-        ▼
-시스템 / 랙 단위 열-전력 공동 제어
-        │
-        ▼
-Chiplet · 액체 냉각 · 예측형 DTM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 냉각 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온칩 온도 센서 + 임계치 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS 연계 폐루프 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">작업 이동 · 패키지 전력 재배치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 / 랙 단위 열-전력 공동 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chiplet · 액체 냉각 · 예측형 DTM</div>
+</div>
+</div>
+
+
 
 이 흐름은 열 관리가 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 회로에서 시작해, 이제는 시스템 전체 자원을 조정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진으로 커지고 있음을 보여 준다.
 

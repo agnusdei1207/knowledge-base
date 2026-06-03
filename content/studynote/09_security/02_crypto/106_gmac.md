@@ -33,31 +33,25 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 
 | 연산 단계 | 핵심 동작 | 기술적 특징 |
 | :--- | :--- | :--- |
-| **1. 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 비밀키를 AES로 암호화하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고정된 기준점 마련 |
-| **2. GHASH 누적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 $H$와 갈루아 곱셈($\times$)하고 XOR($+$) 반복 | **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능 (CPU 하드웨어 가속)** |
+| <strong>1. 키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 비밀키를 AES로 암호화하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고정된 기준점 마련 |
+| **2. GHASH 누적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 $H$와 갈루아 곱셈($\times$)하고 XOR($+$) 반복 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능 (CPU 하드웨어 가속)</strong> |
 | **3. 최종 마감** | 연산 결과에 일회용 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 XOR하여 태그(Tag) 출력 | 재사용 방지 및 태그 암호화 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [인증키 H]               [인증키 H]              [인증키 H]       │
-│           │                       │                       │         │
-│           ▼                       ▼                       ▼         │
-│ 데이터1 ─▶( ✖ )───( ➕ )──▶ ( ✖ )───( ➕ )──▶ ( ✖ )───┐          │
-│                    ▲                       ▲               │         │
-│                    │                       │               │         │
-│                 데이터2                 데이터3              │         │
-│                                                            ▼         │
-│                                         (암호화된 일회용 난수 Nonce)    │
-│                                                            │         │
-│                                                            ▼         │
-│                                              ★ [ 최종 인증 태그 ] ★      │
-│                                                              │
-│ * 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증키 H</div><div class="kb-diagram-node">인증키 H</div><div class="kb-diagram-node">인증키 H</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터1 ─▶( ✖ ) ( ➕ )──▶ ( ✖ ) ( ➕ )──▶ ( ✖ )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터2 데이터3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(암호화된 일회용 난수 Nonce)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">최종 인증 태그</div><div class="kb-diagram-note">★</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.</div></div>
+</div>
+</div>
+
+
 
 이 방식이 무서운 속도를 내는 이유는 곱셈과 XOR 연산이 CPU가 가장 좋아하는 기본 동작이기 때문이다. 인텔과 AMD 같은 칩 제조사들은 이 갈루아 곱셈을 위한 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`PCLMULQDQ`)를 아예 CPU 안에 박아 넣었다. 덕분에 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 타는 것보다 물리적으로 압도적인 속도를 낸다.
 
@@ -67,13 +61,13 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 
 ## Ⅲ. 비교 및 연결
 
-GMAC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장)할 수 없다. 오직 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 깨졌다'는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장만 제공한다. 그래서 현대 인터넷에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 담당하는 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드와 이 GMAC을 결합하여 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호)의 완전체인 **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)**을 만들어 쓴다.
+GMAC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장)할 수 없다. 오직 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 깨졌다'는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장만 제공한다. 그래서 현대 인터넷에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 담당하는 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드와 이 GMAC을 결합하여 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호)의 완전체인 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>을 만들어 쓴다.
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 기반 원리 | 연산 방식 | 속도 특성 | 주요 용도 |
 | :--- | :--- | :--- | :--- | :--- |
-| **[HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)** | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA 등) 반복 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 일반적인 소프트웨어 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| **[CMAC](/knowledge-base/studynote/09_security/02_crypto/105_cmac/)** | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등) 체인 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 제어 환경 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| **GMAC** | 갈루아 체 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 수학 곱셈 | **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 지원** | **매우 빠름(가속)** | 대용량 고속 트래픽 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a></strong> | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA 등) 반복 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 일반적인 소프트웨어 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/105_cmac/">CMAC</a></strong> | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등) 체인 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 제어 환경 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| **GMAC** | 갈루아 체 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 수학 곱셈 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 지원</strong> | **매우 빠름(가속)** | 대용량 고속 트래픽 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
 
 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드에서 IP 주소나 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포트처럼 라우팅을 위해 평문으로 둬야 하지만(암호화 X), 해커가 변조하는 것은 막아야 하는 부가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(AAD, Additional Authenticated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보호할 때 이 GMAC 연산기에 쏙 집어넣어 처리한다.
 
@@ -118,18 +112,21 @@ GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/14
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CBC-MAC / CMAC · 강력하지만 직렬 연산으로 인한 성능 병목 발생
-    │
-    ▼
-갈루아 체 연산 (Galois Field) · 다항식 수학 곱셈을 통한 병렬 처리 아이디어
-    │
-    ▼
-GMAC (Galois MAC) · 하드웨어 가속(CPU 명령어)을 받아 초고속 무결성 인증 획득
-    │
-    ▼
-GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래픽 장악 (TLS 1.3)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CBC-MAC / CMAC · 강력하지만 직렬 연산으로 인한 성능 병목 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">갈루아 체 연산 (Galois Field) · 다항식 수학 곱셈을 통한 병렬 처리 아이디어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GMAC (Galois MAC) · 하드웨어 가속(CPU 명령어)을 받아 초고속 무결성 인증 획득</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래픽 장악 (TLS 1.3)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

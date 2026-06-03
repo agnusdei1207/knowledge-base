@@ -35,16 +35,17 @@ SHA-3의 내부 상태는 1600비트이며, `rate + capacity = 1600` 관계를 �
 
 아래 그림은 스펀지 구조와 순열 코어가 어떻게 연결되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ msg block -> pad10*1 -> XOR into rate bits -> state[1600]                 │
-│                                              │                             │
-│                                              ▼                             │
-│                    theta -> rho -> pi -> chi -> iota   (24 rounds)        │
-│                                              │                             │
-│                                              └──> squeeze r bits -> digest │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1600</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">theta -&gt; rho -&gt; pi -&gt; chi -&gt; iota (24 rounds)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──&gt; squeeze r bits -&gt; digest</div></div>
+</div>
+</div>
+
+
 
 | 단계 | 역할 | 하드웨어 관점의 포인트 |
 | :--- | :--- | :--- |
@@ -88,8 +89,8 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 
 1. **초소형 기기**: 면적과 전력이 우선이면 반복형 또는 부분 언롤드 구조가 유리하다.
 2. **고속 패킷 처리**: 10GbE 이상 네트워크라면 다중 버퍼, [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)), 파이프라인 구조를 함께 설계해야 한다.
-3. **보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)**: 사이드채널 저항성이 중요하면 마스킹, 듀얼 레일, 클록 균형화처럼 회로 수준 방어가 필요하다.
-4. **[PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 연동**: SHAKE 기반 키 확장이 많다면 고정 길이 해시보다 확장 출력 최적화가 더 중요하다.
+3. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>: 사이드채널 저항성이 중요하면 마스킹, 듀얼 레일, 클록 균형화처럼 회로 수준 방어가 필요하다.
+4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> 연동</strong>: SHAKE 기반 키 확장이 많다면 고정 길이 해시보다 확장 출력 최적화가 더 중요하다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,7 +115,7 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 
 한계도 분명하다. 1600비트 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 소형 칩에 부담이 될 수 있고, 파이프라인을 깊게 넣을수록 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 지연과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전력이 늘어난다. 사이드채널 대응을 추가하면 면적과 주파수 이득의 일부를 포기해야 한다.
 
-결국 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 하드웨어의 핵심은 "복잡한 해시 함수를 빠르게 계산한다"가 아니라, **동일한 순열 코어를 다양한 보안 모드로 안전하고 예측 가능하게 서비스한다**는 데 있다. 이 관점을 잡으면 왜 Keccak이 현대 보안 SoC의 공용 엔진으로 주목받는지 자연스럽게 이해된다.
+결국 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 하드웨어의 핵심은 "복잡한 해시 함수를 빠르게 계산한다"가 아니라, <strong>동일한 순열 코어를 다양한 보안 모드로 안전하고 예측 가능하게 서비스한다</strong>는 데 있다. 이 관점을 잡으면 왜 Keccak이 현대 보안 SoC의 공용 엔진으로 주목받는지 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: 좋은 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 코어는 만능 믹서기와 같다. 반죽, 소스, 크림을 각각 손으로 만들던 주방을 하나의 강력한 공용 장비가 안정적으로 떠받친다.
 
@@ -133,24 +134,25 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Merkle-Damgård 해시 시대
-        │
-        ▼
-Keccak 스펀지 구조 제안
-        │
-        ▼
-SHA-3 표준화
-        │
-        ▼
-SHA3-256/512 · SHAKE · KMAC 공용 코어
-        │
-        ▼
-언롤드 · 파이프라인 보안 가속기
-        │
-        ▼
-PQC 대응형 보안 SoC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Merkle-Damgård 해시 시대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Keccak 스펀지 구조 제안</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SHA-3 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SHA3-256/512 · SHAKE · KMAC 공용 코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언롤드 · 파이프라인 보안 가속기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PQC 대응형 보안 SoC</div>
+</div>
+</div>
+
+
 
 이 흐름은 해시 회로가 단순 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 블록에서, 다양한 보안 모드를 품는 공용 순열 엔진으로 발전해 온 과정을 보여 준다.
 

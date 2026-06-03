@@ -11,49 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 기존 1~2단계 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 "내 폴더 안에는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 들어올 수 있다"는 답답한 제약을 박살 내고, **"내 폴더(부모) 안에 또 다른 폴더(자식)를 무한정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다"** 는 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) 확장을 이루어낸 현대 Windows/[Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Linux [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 절대적 근간 구조체(Tree 뼈대)다.
+> 1. **본질**: 기존 1~2단계 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 "내 폴더 안에는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 들어올 수 있다"는 답답한 제약을 박살 내고, <strong>"내 폴더(부모) 안에 또 다른 폴더(자식)를 무한정 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>할 수 있다"</strong> 는 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적(Recursive) 확장을 이루어낸 현대 Windows/[Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Linux [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 절대적 근간 구조체(Tree 뼈대)다.
 > 2. **가치**: 트리는 1개의 최상위 뿌리(Root 노드, `/` 또는 `C:\`)에서 시작해 나뭇가지처럼 끝없이 뻗어 나간다. 이를 통해 수백만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내가 원하는 "사진폴더 -> 2026년 -> 03월 -> 제주도여행" 처럼 완벽한 의미적 계층(Category/[Grouping](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/))으로 분리하여 고속 검색 스캔 효율을 폭발적으로 극한 압착시키는 네비게이션 혁명이다.
-> 3. **한계**: 나무의 가지(Sub-[directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))가 아무리 복잡해도 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 내가 지금 어느 방에 있는지 헷갈리지 않아야 한다. 그래서 각 프로그램이 실행될 때 배 속에 몰래 **"현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Working [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/), CWD)"** 라는 전용 메모리 나침반을 부여해야만, 매번 유저가 최상위 뿌리부터 주소를 쓰는([절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) 피로도) 지옥을 면할 수 있다.
+> 3. **한계**: 나무의 가지(Sub-[directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))가 아무리 복잡해도 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 내가 지금 어느 방에 있는지 헷갈리지 않아야 한다. 그래서 각 프로그램이 실행될 때 배 속에 몰래 <strong>"현재 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> Working <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a>, CWD)"</strong> 라는 전용 메모리 나침반을 부여해야만, 매번 유저가 최상위 뿌리부터 주소를 쓰는([절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) 피로도) 지옥을 면할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **트리 구조 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(Tree-structured [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))** 는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 하나의 단일 거대 뿌리(Root [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에서 시작해 가지처럼 무한으로 하위 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(Subdirectory) 체인을 계속 쪼개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 비순환 계층형 연결 트리 구조망이다. 
+- **개념**: <strong>트리 구조 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a>(Tree-structured <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a>)</strong> 는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 하나의 단일 거대 뿌리(Root [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에서 시작해 가지처럼 무한으로 하위 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(Subdirectory) 체인을 계속 쪼개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 비순환 계층형 연결 트리 구조망이다. 
 - **필요성**: 이전 2단계 구조에서는 유저(UFD) 폴더 1개 안에 과제 100개, 야동 1,000개, 영화 10개를 모조리 다 때려 박아 뒤죽박죽 쓰레기장이 되는 "그룹핑([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 마비 증상" 에 시달렸다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수만 개로 늘어나는 빅데이터 시대에 인간의 뇌가 이 오물통을 검색 감당할 수 없었고, 논리적이고 세밀하게 종류별로 방을 끝없이 쪼갤 수 있는([Grouping](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) 자유도 100% 해방) 수학의 나뭇가지 자료형, `Tree` 스펙이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 OS에 완벽히 찰떡 생존 융합 도입 된 배경이다.
 
-- **트리 폴더의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)(Recursive)와 현재의 나침반(CWD) 락백 다이어그램**:
+- <strong>트리 폴더의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>(Recursive)와 현재의 나침반(CWD) 락백 다이어그램</strong>:
 운영체제가 이 거대한 숲(트리) 속에서 커서의 네비게이션 위치를 어떻게 제어하고 통달하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 분리 해체하면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 현대 OS의 표준 : 트리(Tree)형 무한 뎁스 파일 파이프 트리     │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │  [ 리눅스 루트(Root) 트리의 계층 구조 생태계 융합 ]                          │
-  │                                                                              │
-  │                     / (Root Directory 뿌리) ◀ 절대 시작점 0단계              │
-  │                    /                   \                                     │
-  │           [👤 user]                   [⚙️ bin]                               │
-  │            /      \                       |                                  │
-  │     [Alice]        [Bob]                bash (실행파일 단말노드)             │
-  │        |            /    \                                                   │
-  │     [work]     [music]   [docs]  ◀ 폴더 내부에 언제든 하위 폴더 쪼개기!      │
-  │        |          |         |                                                │
-  │      c.txt      1.mp3   report.pdf  ◀ (Leaf 최말단 데이터파편 본진)          │
-  │                                                                              │
-  │  =============================================================               │
-  │  [ 현재 디렉터리 (CWD) 포인터 요술 나침반 작동 구역 ]                        │
-  │   - 지금 터미널에서 프로그래머가 `Bob` 의 `music` 방에 서 있다면?            │
-  │     👉 커널은 메모리 스펙에 `CWD = /user/Bob/music` 를 기록 록(Lock)!        │
-  │   - 여기서 `1.mp3` 를 열려고, 매번 재수없게 0단계부터 주소 낭비를 안 함!     │
-  │     그냥 "틀어! `1.mp3`" 하면 나침반이 현재 방에서 즉시 초광속 점프 타격함.  │
-  └──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 OS의 표준 : 트리(Tree)형 무한 뎁스 파일 파이프 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 루트(Root) 트리의 계층 구조 생태계 융합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Root Directory 뿌리) ◀ 절대 시작점 0단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">👤 user</div><div class="kb-diagram-node">⚙️ bin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Alice</div><div class="kb-diagram-node">Bob</div><div class="kb-diagram-note">bash (실행파일 단말노드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">work</div><div class="kb-diagram-node">music</div><div class="kb-diagram-node">docs</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">폴더 내부에 언제든 하위 폴더 쪼개기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c.txt 1.mp3 report.pdf ◀ (Leaf 최말단 데이터파편 본진)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 디렉터리 (CWD) 포인터 요술 나침반 작동 구역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지금 터미널에서 프로그래머가 <code>Bob</code> 의 <code>music</code> 방에 서 있다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👉 커널은 메모리 스펙에 <code>CWD = /user/Bob/music</code> 를 기록 록(Lock)!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 여기서 <code>1.mp3</code> 를 열려고, 매번 재수없게 0단계부터 주소 낭비를 안 함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그냥 "틀어! <code>1.mp3</code>" 하면 나침반이 현재 방에서 즉시 초광속 점프 타격함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 컴퓨터 트리 자료형의 특징답게 가장 위의 `/`(루트)는 나무의 뿌리(Root Node)며, 맨 마지막 끄트머리에 매달린 진짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들(`c.txt` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 나뭇잎(Leaf Node 단말 노드)이라고 부른다. 중간에 뻗어나가는 모든 관절(폴더들)은 부모이자 동시에 자식이 되는 서브 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(내부 노드)다. 이 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 트리 구조 덕분에 S/W [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 검색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 인덱스와 별도)은 찾고자 하는 가지(Branch 경로)만 타고 내려가면 나머지 99% 의 불필요한 폴더를 완전 탐색 무시([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 할 수 있어 O(log N) 에 수렴하는 극강의 탐색 I/O 병목 박살 시스템을 장악 전개 해 낸다.
 
-- **📢 섹션 요약 비유**: 이 트리 구조는 거대한 생명수 나무([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 시스템)의 가지들입니다. 윈도우에서 우리가 맨날 새 폴더 아이콘을 눌러 "게임" 폴더를 만들고, 그 안에 또 새 폴더 "스타크래프트" 를 무한정 파서 솎아내는 게 바로 나무에 **'새로운 잔가지(Sub [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 뎁스 구조)'** 를 뻗어 자라게 하는 생태 마스킹 창작입니다. 이 가지가 수백 만개가 되어야만, 그 끝에 매달린 수천만 개의 잎사귀(실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파도)가 안 얽히고 평화롭게 각자 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 생존하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생명의 공간 질서 지배가 창립 구축 유지됩니다!
+- **📢 섹션 요약 비유**: 이 트리 구조는 거대한 생명수 나무([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 시스템)의 가지들입니다. 윈도우에서 우리가 맨날 새 폴더 아이콘을 눌러 "게임" 폴더를 만들고, 그 안에 또 새 폴더 "스타크래프트" 를 무한정 파서 솎아내는 게 바로 나무에 <strong>'새로운 잔가지(Sub <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a> 뎁스 구조)'</strong> 를 뻗어 자라게 하는 생태 마스킹 창작입니다. 이 가지가 수백 만개가 되어야만, 그 끝에 매달린 수천만 개의 잎사귀(실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파도)가 안 얽히고 평화롭게 각자 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 생존하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생명의 공간 질서 지배가 창립 구축 유지됩니다!
 
 ---
 
@@ -64,18 +59,18 @@ tags = ["studynote-operating-system"]
 
 | 트리 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) OS 시스템 기전 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구현 메커니즘 붕괴 설명 및 I/O 테이블 | 시스템 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 설계 튜닝 보안 체계 맵 |
 |:---|:---|:---|
-| **폴더 vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1비트 구분 (Type [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 마스킹)** | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 속 이름 옆에, "얘는 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이야(0), 얘는 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폴더 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이야(1)!" 이라는 단 1개의 구별 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 표식([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))을 박아둬서 자식 폴더인지 찐 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 조작 통제. | 사용자는 똑같은 이름표 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 보지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `1(폴더비트)` 이 뜨면 그걸 또 다른 번역 장부(Symbol Table)로 취급해 다시 파싱 하러 타고 들어간다. |
-| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 조작 (mkdir / rmdir)** | 자식 폴더를 낳는 행위. 실제로는 빈 속성표 텍스트 일기장을 1개 만들고, 부모 폴더 테이블에 "나 서브 폴더 태어났어 1비트!" 쓰고 이름 등재하는 행위 록백. | 만약 폴더 안에 자식 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파편이 1개라도 남아있으면 `rmdir` 로 절대 안 지워짐. 고아(Orphan) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 룰 방어. |
-| **현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) ([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Working Dir)** | `pwd` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Print Working [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스(PCB)를 켤 때 이 프로세스가 지금 머무는 '현재 뎁스 룸' 의 주소 경로를 메모리에 찰진 변수로 계속 들고 따라다님. 절대 좌표 네비 나침판 장착 기술. | [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) S/W 나 데몬 데드락을 켤 때 스크립트 위치가 틀어져 에러가 터지지 않도록 지탱해 주는 절대적 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 위치 좌표 백본 스펙. |
+| <strong>폴더 vs <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 1비트 구분 (Type <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> 마스킹)</strong> | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 속 이름 옆에, "얘는 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이야(0), 얘는 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폴더 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이야(1)!" 이라는 단 1개의 구별 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 표식([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))을 박아둬서 자식 폴더인지 찐 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 조작 통제. | 사용자는 똑같은 이름표 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 보지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `1(폴더비트)` 이 뜨면 그걸 또 다른 번역 장부(Symbol Table)로 취급해 다시 파싱 하러 타고 들어간다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 조작 (mkdir / rmdir)</strong> | 자식 폴더를 낳는 행위. 실제로는 빈 속성표 텍스트 일기장을 1개 만들고, 부모 폴더 테이블에 "나 서브 폴더 태어났어 1비트!" 쓰고 이름 등재하는 행위 록백. | 만약 폴더 안에 자식 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파편이 1개라도 남아있으면 `rmdir` 로 절대 안 지워짐. 고아(Orphan) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 룰 방어. |
+| <strong>현재 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> Working Dir)</strong> | `pwd` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Print Working [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스(PCB)를 켤 때 이 프로세스가 지금 머무는 '현재 뎁스 룸' 의 주소 경로를 메모리에 찰진 변수로 계속 들고 따라다님. 절대 좌표 네비 나침판 장착 기술. | [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) S/W 나 데몬 데드락을 켤 때 스크립트 위치가 틀어져 에러가 터지지 않도록 지탱해 주는 절대적 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 위치 좌표 백본 스펙. |
 
 ### 2. 트리 탐색 로직의 3종 특수 표기법 (마법의 점 `.` 과 `..`)
 루트부터 뿌리를 다 적어서 찾는 것([절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/))보다 내가 속한 "현재 좌표(현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))" 를 기준으로 옆방이나 윗방으로 건너뛰어 가는 혁신적 CWD 상태 기계 연산이다.
 
-- **단일 점 `.` (내 방 현위치 락백)**: 현재 내가 발을 딛고 서 있는 바로 이 방([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) 자체를 가리키는 셀프 주소 매핑 포인터. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 켤 때 쓰이는 무기. (`./script.sh` : 딴 데 찾지 말고 지금 내 방에 있는 이 놈 당장 틀어!)
-- **이중 점 `..` (부모님 컴백 포인터)**: 트리의 가지 구조에서, 나를 낳아준 **바로 윗 단계 방(부모 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) Parent 방)** 으로 올라가 치솟는 역주행 포인터 록. (`cd ..` 치면 상위 폴더 탈출 우회 부스트 성립).
+- <strong>단일 점 <code>.</code> (내 방 현위치 락백)</strong>: 현재 내가 발을 딛고 서 있는 바로 이 방([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) 자체를 가리키는 셀프 주소 매핑 포인터. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 켤 때 쓰이는 무기. (`./script.sh` : 딴 데 찾지 말고 지금 내 방에 있는 이 놈 당장 틀어!)
+- <strong>이중 점 <code>..</code> (부모님 컴백 포인터)</strong>: 트리의 가지 구조에서, 나를 낳아준 <strong>바로 윗 단계 방(부모 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> Parent 방)</strong> 으로 올라가 치솟는 역주행 포인터 록. (`cd ..` 치면 상위 폴더 탈출 우회 부스트 성립).
 - 이 두 가지 점 표시는 사용자가 굳이 `/user/Bob/music/` 라고 길게 안치고도, `../docs/` (부모방으로 나가서 그 옆에 문서방 가라!) 처럼 직관적인 상태 머신 이동([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)을 터미널에 창조한 인류 서버 마스킹 탐색 UI 의 극단적 최고 걸작 혁명 편의다.
 
-- **📢 섹션 요약 비유**: 이 특수 네비게이션 트리 층계 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) . ..) 표기는 아파트나 빌딩 엘리베이터 버튼입니다! 여러분이 108층에 있을 때 109층으로 갈라치면, "나는 다시 1층 문밖으로 나가서(루트 Root로 리셋), 다시 엘베 타고 109층 올라와!" 라고 무식한 짓(절대 주소 치기 지옥)을 하지 않죠!! 그냥 지금 선 자리(현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 108)에서 **"한 칸 위로 올라가(`..` 부모 부스트 버튼)"** 를 눌러 단 1초 만에 옆 방으로 워프 통달 이동하는 시스템 효율의 꽃, 그것이 바로 트리 CWD 가동 나침반 상대 경로 마법입니다!
+- **📢 섹션 요약 비유**: 이 특수 네비게이션 트리 층계 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) . ..) 표기는 아파트나 빌딩 엘리베이터 버튼입니다! 여러분이 108층에 있을 때 109층으로 갈라치면, "나는 다시 1층 문밖으로 나가서(루트 Root로 리셋), 다시 엘베 타고 109층 올라와!" 라고 무식한 짓(절대 주소 치기 지옥)을 하지 않죠!! 그냥 지금 선 자리(현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 108)에서 <strong>"한 칸 위로 올라가(<code>..</code> 부모 부스트 버튼)"</strong> 를 눌러 단 1초 만에 옆 방으로 워프 통달 이동하는 시스템 효율의 꽃, 그것이 바로 트리 CWD 가동 나침반 상대 경로 마법입니다!
 
 ---
 
@@ -84,8 +79,8 @@ tags = ["studynote-operating-system"]
 ### 1. 비순환(Acyclic 트리 트리) 원칙의 강철 보장성 (Tree 무결 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막)
 자료 구조에서 "트리(Tree 나무)" 라는 이름이 붙으려면 가장 핵심적인 생존 조건이 **"절대로 내 자식이 나(부모)를 부모격으로 도로 품어 돌고 도는 뫼비우스의 순환 고리(Cycle/루프 에러)가 없어야 한다"** 는 철칙 장악이다.
 
-- **사이클 재앙 현상 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 루프 폭발)**: 만약 `A폴더` 안에 `B폴더`가 있고, `B폴더` 안에 다시 `A폴더`가 들어가 연결되는 마의 순환 띠(Cycle 링크)가 창조되면 어떻게 될까? [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) 프로그램 봇이나 검색 툴(grep)이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 스캔하러 들어갔다가 B방 들어갔더니 A방, A갔더니 B방... 영원히 빠져나오지 못하는 무한 루프(Infinite Loop 파동 늪) 블랙홀에 갇혀 서버 CPU 메모리가 즉사 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 멸절 터짐 재앙에 부딪힌다.
-- **포팅 방어 솔루션 구도 (수직적 종속 트리의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강제)**: 현대 트리(Tree)형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 이 뫼비우스 고리를 창조하는 걸 철저하게 막아(부모-자식의 수직적 혈통 유지 배타 강건 시스템 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), 검색 엔진과 S/W 들이 디스크를 순회 락(Traverse Scan)할 때 **"언젠가는 맨 끝 나뭇잎(Leaf)에 도달해 탈출 검색이 끝난다"** 는 영원한 수학적 유한 보장성 무결 증명을 시스템 백본 전체에 하사 통달하는 것이다.
+- <strong>사이클 재앙 현상 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 루프 폭발)</strong>: 만약 `A폴더` 안에 `B폴더`가 있고, `B폴더` 안에 다시 `A폴더`가 들어가 연결되는 마의 순환 띠(Cycle 링크)가 창조되면 어떻게 될까? [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) 프로그램 봇이나 검색 툴(grep)이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 스캔하러 들어갔다가 B방 들어갔더니 A방, A갔더니 B방... 영원히 빠져나오지 못하는 무한 루프(Infinite Loop 파동 늪) 블랙홀에 갇혀 서버 CPU 메모리가 즉사 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 멸절 터짐 재앙에 부딪힌다.
+- <strong>포팅 방어 솔루션 구도 (수직적 종속 트리의 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 강제)</strong>: 현대 트리(Tree)형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 이 뫼비우스 고리를 창조하는 걸 철저하게 막아(부모-자식의 수직적 혈통 유지 배타 강건 시스템 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), 검색 엔진과 S/W 들이 디스크를 순회 락(Traverse Scan)할 때 **"언젠가는 맨 끝 나뭇잎(Leaf)에 도달해 탈출 검색이 끝난다"** 는 영원한 수학적 유한 보장성 무결 증명을 시스템 백본 전체에 하사 통달하는 것이다.
 
 ### 2. [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폭포수 권한 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Permission Cascade 락백 제어)
 이 트리의 가장 위대한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운용 장점은, 보안 관리자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10만 개마다 일일이 암호를 걸 필요 없이 부모 룸 폴더 장막 하나만 락을 채우면 우주 방어 시스템이 성립된다는 점이다.
@@ -138,15 +133,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)]
-    │
-    ▼
-[트리 구조 디렉터리 (Tree-structured Directory)]
-    │
-    ├──▶ [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
-    └──▶ [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리 구조 디렉터리 (Tree-structured Directory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">절대 경로 (Absolute Path) / 상대 경로 (Relative Path)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비순환 그래프 디렉터리 (Acyclic Graph Directory)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

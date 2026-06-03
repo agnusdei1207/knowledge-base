@@ -45,24 +45,26 @@ tags = ["ict_convergence"]
 
 ### 블록 구조
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ 블록의 구조 │
-├────────────────────────┬─────────────────────────────────────────┤
-│ 블록 헤더 (64B) │ 블록 바디 (거래 목록) │
-├────────────────────────┼─────────────────────────────────────────┤
-│ 버전 (Version) │ 거래 #1: A → B, 1 BTC │
-│ 이전 블록 해시 │ 거래 #2: C → D, 2 BTC │
-│ (Previous Block Hash) │ 거래 #3: E → F, 0.5 BTC │
-│ 머클 루트 │ ... │
-│ (Merkle Root) │ 거래 #N: X → Y, 3 BTC │
-│ 타임스탬프 │ │
-│ (Timestamp) │ │
-│ 난이도 목표 │ │
-│ (Difficulty Target) │ │
-│ 논스 (Nonce) │ │
-└────────────────────────┴─────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록의 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더 (64B)</div><div class="kb-diagram-cell">블록 바디 (거래 목록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전 (Version)</div><div class="kb-diagram-cell">거래 #1: A → B, 1 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 블록 해시</div><div class="kb-diagram-cell">거래 #2: C → D, 2 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Previous Block Hash)</div><div class="kb-diagram-cell">거래 #3: E → F, 0.5 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Merkle Root)</div><div class="kb-diagram-cell">거래 #N: X → Y, 3 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Timestamp)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난이도 목표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Difficulty Target)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논스 (Nonce)</div></div>
+</div>
+</div>
+
+
 
 블록 헤더(Block Header)는 6개의 주요 필드로 구성된다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Version) 필드는 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 사용된 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 나타낸다. 이전 블록 해시(Previous Block Hash) 필드는 바로 앞선 블록의 해시값을 저장하여 블록들을 사슬처럼 연결하는 역할을 한다. 이것이 블록체인의변조 방지 핵심 메커니즘이다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 해당 블록 내 모든 거래의 해시을/를하여 만든 최종 해시값이다. 타임스탬프(Timestamp)는 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 시간을 기록한다. 난이도 목표(Difficulty Target)와 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))는증명(PoW)에서 채굴 경쟁의 난이도를하는 역할을 한다.
 
@@ -72,18 +74,18 @@ tags = ["ict_convergence"]
 
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조
 
-```
-[전 세계 분산 노드 네트워크]
-│ │ │
-▼ ▼ ▼
-┌──────┐ ┌──────┐ ┌──────┐
-│블록 0│◄───│블록 1│◄───│블록 2│◄───► ... (계속 연결)
-│ genesis│ │ │ │ │
-└──────┘ └──────┘ └──────┘
-│ │ │
-▼ ▼ ▼
-[동일한 거래 기록을 동시에보유]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전 세계 분산 노드 네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 0</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">블록 1</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">블록 2</div><div class="kb-diagram-cell">◄ ► ... (계속 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">genesis</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동일한 거래 기록을 동시에보유</div></div>
+</div>
+</div>
+
+
 
 블록체인의 가장 근본적인 특성은이다. 비트코인 네트워크에는 17,000개 이상의 활성 노드가되어 있으며, 각 노드는 [Genesis Block](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)(첫 번째 블록)부터 현재까지 모든 거래 기록의을보유한다. 어떤 노드가 공격을/를하거나로 조작을 시도하여도,수 개의 노이/가을/를보유하고 있기 때문에, 네트워크 전체의-integrity는 유지된다.
 
@@ -155,65 +157,46 @@ tags = ["ict_convergence"]
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-```
-+------------------------------------------------------------------+
-| 블록체인 동작 원리 |
-+------------------------------------------------------------------+
-| |
-│ [사용자 A] ──── 거래 요청 ────► [네트워크 전파] │
-│ │ │
-│ ┌──────────────────────────────────────┼───────────────┐ │
-│ │ ▼ │ │
-│ │ ┌──────────────────────────────────────────────┐ │ │
-│ │ │ Mempool (거래 풀) │ │ │
-│ │ │ TX1, TX2, TX3, ... TXN │ │ │
-│ │ └──────────────────────────────────────────────┘ │ │
-│ │ │ │ │
-│ │ ┌────────────────┴───────────┐ │ │
-│ │ ▼ │ │ │
-│ │ ┌──────────────────────────────────────────────┐ │ │
-│ │ │ 새 블록 생성 │ │ │
-│ │ │ 버전│이전해시│머클루트│타임스탬프│논스 │ │ │
-│ │ └──────────────────────────────────────────────┘ │ │
-│ │ │ │ │ │
-│ │ ▼ │ │ │
-│ │ [합의 알고리즘 (PoW/PoS/BFT)] │ │ │
-│ │ │ │ │ │ │
-│ │ 검증 성공 검증 실패 │ │ │
-│ │ │ │ │ │ │
-│ │ ▼ ▼ │ │ │
-│ │ [블록 체인에 추가] [블록 거부] │ │ │
-│ │ │ │ │ │
-│ └──────────────┼────────────────────────────────────┘ │ │
-│ │ │
-│ ┌─────────┴─────────┐ │
-│ ▼ ▼ ▼ │
-│ ┌────────┐ ┌────────┐ ┌────────┐ │
-│ │ 노드 1 │ │ 노드 2 │ │ 노드 3 │ ... (수천 개) │
-│ │(한국) │ │(미국) │ │(독일) │ │
-│ └────────┘ └────────┘ └────────┘ │
-+------------------------------------------------------------------+
-| 핵심 특성: │ 투명성 │ |
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 A</div><div class="kb-diagram-note">거래 요청 ►</div><div class="kb-diagram-node">네트워크 전파</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mempool (거래 풀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX1, TX2, TX3, ... TXN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 블록 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전</div><div class="kb-diagram-cell">이전해시</div><div class="kb-diagram-cell">머클루트</div><div class="kb-diagram-cell">타임스탬프</div><div class="kb-diagram-cell">논스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합의 알고리즘 (PoW/PoS/BFT)</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 성공 검증 실패</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 체인에 추가</div><div class="kb-diagram-node">블록 거부</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 1</div><div class="kb-diagram-cell">노드 2</div><div class="kb-diagram-cell">노드 3</div><div class="kb-diagram-cell">... (수천 개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(한국)</div><div class="kb-diagram-cell">(미국)</div><div class="kb-diagram-cell">(독일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div><div class="kb-diagram-cell">투명성</div></div>
+</div>
+</div>
+
+
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[거래 요청 (Transaction Request)]
-│
-▼
-[네트워크 전파 (Network Propagation)]
-│
-▼
-[Mempool (Transaction Pool)]
-│
-▼
-[새 블록 생성 (Block Creation)]
-│
-▼
-[합의 알고리즘 (Consensus Algorithm)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">거래 요청 (Transaction Request)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 전파 (Network Propagation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mempool (Transaction Pool)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새 블록 생성 (Block Creation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합의 알고리즘 (Consensus Algorithm)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 거래 요청 ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Request)에서 출발해 네트워크 전파 (Network Propagation), Mempool ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Pool), 새 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Block Creation), [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) ([Consensus Algorithm](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))으로 이어지는 블록체인 처리 순서를 보여준다.
 

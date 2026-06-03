@@ -21,16 +21,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 공식은 `결함 수 / 소프트웨어 크기` 다. 예를 들어 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000줄)에서 버그가 20개 나왔다면, 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/)는 `20 / 10 KLOC = 2.0 (버그/KLOC)`이다. 즉, 1천 줄당 버그가 2개씩 튀어나온다는 뜻이다. 
 
-- **필요성**: 프로젝트 오픈이 3일 남았다. A팀이 "우리 팀은 어제 버그를 100개나 잡았어요! 열심히 일했죠?"라고 자랑한다. B팀은 "우린 5개밖에 못 잡았네요"라고 풀이 죽었다. 사장님은 A팀을 칭찬해야 할까? 아니다. A팀이 만든 앱의 크기가 고작 5,000줄(버그 밀도 20.0)이고, B팀이 만든 시스템이 100만 줄(버그 밀도 0.005)이라면 A팀은 상을 받을 게 아니라 당장 해고당해야 할 쓰레기 코더들이다. 이처럼 **소프트웨어의 '부피'를 무시한 단순한 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 갯수'는 경영진의 눈을 가리는 사기극**이 되기 때문에, 동일한 체급(KLOC)에서 누가 진짜 깨끗한 코드를 짜는지 가려낼 공학적 지표(밀도)가 절대적으로 필요했다.
+- **필요성**: 프로젝트 오픈이 3일 남았다. A팀이 "우리 팀은 어제 버그를 100개나 잡았어요! 열심히 일했죠?"라고 자랑한다. B팀은 "우린 5개밖에 못 잡았네요"라고 풀이 죽었다. 사장님은 A팀을 칭찬해야 할까? 아니다. A팀이 만든 앱의 크기가 고작 5,000줄(버그 밀도 20.0)이고, B팀이 만든 시스템이 100만 줄(버그 밀도 0.005)이라면 A팀은 상을 받을 게 아니라 당장 해고당해야 할 쓰레기 코더들이다. 이처럼 <strong>소프트웨어의 '부피'를 무시한 단순한 '<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 갯수'는 경영진의 눈을 가리는 사기극</strong>이 되기 때문에, 동일한 체급(KLOC)에서 누가 진짜 깨끗한 코드를 짜는지 가려낼 공학적 지표(밀도)가 절대적으로 필요했다.
 
 - **💡 비유**: 도시의 '인구 밀도'를 계산하는 것과 같습니다.
-  - **단순 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 (절대 평가)**: 몽골에는 사람이 300만 명 살고, 홍대 입구에는 10만 명의 사람이 있습니다. "몽골에 사람이 더 많으니 몽골이 더 복잡하네!"라고 말하면 바보입니다.
-  - **[결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) (상대 평가)**: 몽골은 땅(소프트웨어 크기)이 엄청나게 넓어서 인구 밀도가 '1제곱킬로미터당 2명'입니다(아주 쾌적하고 깨끗한 코드). 반면 홍대는 땅이 코딱지만 한데 10만 명이 몰려있어 '1제곱킬로미터당 2만 명'입니다(스파게티 코드, 끔찍한 버그 밭). 땅 크기로 나눠서 계산해야만 진짜 '복잡도와 위험도'를 100% 꿰뚫어 볼 수 있습니다.
+  - <strong>단순 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 수 (절대 평가)</strong>: 몽골에는 사람이 300만 명 살고, 홍대 입구에는 10만 명의 사람이 있습니다. "몽골에 사람이 더 많으니 몽골이 더 복잡하네!"라고 말하면 바보입니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/">결함 밀도</a> (상대 평가)</strong>: 몽골은 땅(소프트웨어 크기)이 엄청나게 넓어서 인구 밀도가 '1제곱킬로미터당 2명'입니다(아주 쾌적하고 깨끗한 코드). 반면 홍대는 땅이 코딱지만 한데 10만 명이 몰려있어 '1제곱킬로미터당 2만 명'입니다(스파게티 코드, 끔찍한 버그 밭). 땅 크기로 나눠서 계산해야만 진짜 '복잡도와 위험도'를 100% 꿰뚫어 볼 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 코드 라인 수(LOC) 측정 (1970년대)**: S/W 공학 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 생산성을 그저 "하루에 코드 몇 줄 짰냐"로 계산하던 시절, 버그도 단순 LOC 대비 비율로 측정하기 시작함.
-  2. **[기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))의 편입 (1980년대)**: 자바 1줄과 어셈블리어 1줄은 밀도가 다르다! 언어에 종속되지 않는 진정한 크기 측정법인 '[기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))'가 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 공모의 분모로 차용되며 정밀해짐.
-  3. **통계적 프로세스 통제([SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/)) 시대 (현재)**: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 지표가 식스시그마([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트(Quality Gate)의 자동 통과 커트라인으로 융합되어 인간의 감정 개입 없는 자동화된 릴리스 판독기로 진화.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 코드 라인 수(LOC) 측정 (1970년대)</strong>: S/W 공학 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 생산성을 그저 "하루에 코드 몇 줄 짰냐"로 계산하던 시절, 버그도 단순 LOC 대비 비율로 측정하기 시작함.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">기능 점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)의 편입 (1980년대)</strong>: 자바 1줄과 어셈블리어 1줄은 밀도가 다르다! 언어에 종속되지 않는 진정한 크기 측정법인 '[기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))'가 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 공모의 분모로 차용되며 정밀해짐.
+  3. <strong>통계적 프로세스 통제(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>) 시대 (현재)</strong>: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 지표가 식스시그마([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트(Quality Gate)의 자동 통과 커트라인으로 융합되어 인간의 감정 개입 없는 자동화된 릴리스 판독기로 진화.
 
 - **📢 섹션 요약 비유**: 수박에 씨(버그)가 100개 있는 것과 포도알에 씨가 10개 있는 것을 비교할 때, 수박이 씨가 더 많다고 버리기엔 수박의 크기(코드)가 훨씬 큽니다. 과일의 부피 대비 씨앗이 얼마나 징그럽게 박혀있는지 정밀하게 계산해 포도알(위험한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 뱉어내는 과일 품질 감별 공식입니다.
 
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  결함 밀도 측정 및 프로세스 통제                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 밀도 측정 및 프로세스 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 측정 및 프로세스 통제의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-결함 밀도 측정 및 프로세스 통제 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결함 밀도 측정 및 프로세스 통제 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

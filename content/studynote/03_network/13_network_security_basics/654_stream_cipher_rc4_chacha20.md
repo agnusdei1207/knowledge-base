@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) 방식의 한 갈래로, 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한꺼번에 모아서 처리하지 않고, **물 흐르듯이 1비트(또는 1바이트) 단위로 순차적으로 처리하며 암호화하는 기법**입니다.
-- **원리**: 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 짧은 비밀 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 씨앗(Seed) 삼아서, 무한히 긴 0과 1의 랜덤 난수열([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 폭포수처럼 콸콸 만들어 냅니다. 흘러오는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(평문)와 이 난수열(키 스트림)을 1:1로 겹쳐서 **XOR(배타적 논리합) 연산**만 톡 때려주면 1 나노초 만에 암호화가 끝납니다.
+- [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) 방식의 한 갈래로, 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한꺼번에 모아서 처리하지 않고, <strong>물 흐르듯이 1비트(또는 1바이트) 단위로 순차적으로 처리하며 암호화하는 기법</strong>입니다.
+- **원리**: 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 짧은 비밀 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 씨앗(Seed) 삼아서, 무한히 긴 0과 1의 랜덤 난수열([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 폭포수처럼 콸콸 만들어 냅니다. 흘러오는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(평문)와 이 난수열(키 스트림)을 1:1로 겹쳐서 <strong>XOR(배타적 논리합) 연산</strong>만 톡 때려주면 1 나노초 만에 암호화가 끝납니다.
 
-```text
-[대칭키 암호화]
-    │
-    ▼
-[스트림 암호]
-    │
-    └──▶ [블록 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스트림 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **장점 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 저메모리)**: 단순히 숫자를 1:1로 비교하는 XOR 연산만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 하드웨어(CPU) 부하가 거의 없고 처리 속도가 빛의 속도입니다. 버퍼(메모리)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아둘 필요도 없습니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 같은 실시간 무선 환경에 적합했습니다.
+- <strong>장점 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>, 저메모리)</strong>: 단순히 숫자를 1:1로 비교하는 XOR 연산만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 하드웨어(CPU) 부하가 거의 없고 처리 속도가 빛의 속도입니다. 버퍼(메모리)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아둘 필요도 없습니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 같은 실시간 무선 환경에 적합했습니다.
 - **단점 (재사용의 재앙)**: 같은 키 스트림(난수열)을 실수로 두 번 재사용하는 순간, 해커가 암호문을 XOR 연산으로 뒤집어 원본 비밀번호를 1초 만에 털어버릴 수 있는 끔찍한 수학적 약점이 존재합니다.
 
-```text
-[대칭키 암호화]
-    │
-    ▼
-[스트림 암호]
-    │
-    └──▶ [블록 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스트림 암호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,13 +64,13 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 몰락한 제왕: [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) ([Rivest Cipher 4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))
-- 1987년에 개발되어 무선 LAN [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보안인 **[WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)** 통신 등에 전 세계적으로 가장 많이 쓰였던 전설적인 스트림 암호입니다.
-- **몰락**: 앞선 580번 문서에서 배운 것처럼, [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 벡터) 재사용 취약점 때문에 암호화 공식의 패턴이 간파되어 5분 만에 해킹당하는 치명적 약점이 까발려졌습니다. 현재는 IETF에 의해 모든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 등)에서 **사용이 완전 금지(Deprecated)**되었습니다.
+- 1987년에 개발되어 무선 LAN [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보안인 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/">WEP</a></strong> 통신 등에 전 세계적으로 가장 많이 쓰였던 전설적인 스트림 암호입니다.
+- **몰락**: 앞선 580번 문서에서 배운 것처럼, [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 벡터) 재사용 취약점 때문에 암호화 공식의 패턴이 간파되어 5분 만에 해킹당하는 치명적 약점이 까발려졌습니다. 현재는 IETF에 의해 모든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 등)에서 <strong>사용이 완전 금지(Deprecated)</strong>되었습니다.
 
 ### 2. 화려한 부활: ChaCha20 (차차20)
-- 구글(Google)이 주도하여 RC4를 관짝에 넣고 그 자리를 대체하기 위해 밀어붙인 **현대적인 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스트림 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다.
+- 구글(Google)이 주도하여 RC4를 관짝에 넣고 그 자리를 대체하기 위해 밀어붙인 <strong>현대적인 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 스트림 암호 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 - **특징**: 기존 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)인 AES가 소프트웨어(앱) 환경에서 돌리면 속도가 살짝 느려지는 약점이 있는데, ChaCha20은 소프트웨어 연산에 극도로 최적화되어 구형 스마트폰이나 저사양 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에서도 AES보다 3배 이상 빠르게 쌩쌩 돌아갑니다.
-- 현재 인터넷 보안 표준인 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3에서 AES와 함께 공식 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 채택**되어 모바일 웹 환경을 지배하고 있습니다.
+- 현재 인터넷 보안 표준인 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3에서 AES와 함께 공식 암호화 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 채택</strong>되어 모바일 웹 환경을 지배하고 있습니다.
 
 스트림 암호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)가 기반 조건을 만든다면, 스트림 암호는 그 위에서 핵심 메커니즘을 구현하고, [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 대칭키 암호화]
-    │
-    ▼
-[현재 개념: 스트림 암호]
-    │
-    ├──▶ [확장 A: 블록 암호]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 대칭키 암호화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스트림 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 스트림 암호는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

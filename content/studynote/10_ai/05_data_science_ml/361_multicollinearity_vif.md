@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 주택 가격 예측 모델에서 "방 개수"와 "거실 면적"이 모두 특성으로 들어갔을 때 이 둘은 강한 상관관계를 가진다. 회귀 계수를 추정할 때 "(방 개수 효과) + (거실 면적 효과)"를 분리하기 어려워, 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변동에도 계수가 크게 요동친다. 이것이 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)이다. 해석 관점에서 "방 개수를 1개 늘리면 가격이 500만원 오른다"는 결론을 내릴 수 없게 된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)은 "두 탐정이 서로 같은 증거만 제출하는 상황"이다. 탐정 A(방 개수)와 탐정 B(거실 면적)가 거의 같은 증거(상관관계)를 제출하면, 판사(회귀 모델)가 "둘 중 누가 진짜 결정적 증인인가?"를 판단하지 못하고 계수가 불안정해진다.
 
@@ -36,26 +39,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│         VIF (Variance Inflation Factor) 계산             │
-├──────────────────────────────────────────────────────────┤
-│  VIF_j = 1 / (1 - R²_j)                                │
-│                                                          │
-│  R²_j: 특성 j를 나머지 특성들로 선형 회귀한 결정 계수   │
-│                                                          │
-│  해석:                                                   │
-│  VIF = 1.0  → 다중 공선성 없음 (완전 독립)             │
-│  VIF = 5.0  → 주의 필요 (R² = 0.80)                   │
-│  VIF = 10.0 → 심각한 다중 공선성 (R² = 0.90)          │
-│  VIF = ∞   → 완전 공선성 (R² = 1.00)                  │
-│                                                          │
-│  분산 팽창 의미:                                        │
-│  Var(β̂_j) = VIF_j · σ²/(n·Var(Xj))                   │
-│  → VIF가 크면 계수 분산 ↑ → 표준 오차 ↑ → t값 ↓      │
-│  → 통계적 유의성 상실                                   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF (Variance Inflation Factor) 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF_j = 1 / (1 - R²_j)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R²_j: 특성 j를 나머지 특성들로 선형 회귀한 결정 계수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF = 1.0 → 다중 공선성 없음 (완전 독립)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF = 5.0 → 주의 필요 (R² = 0.80)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF = 10.0 → 심각한 다중 공선성 (R² = 0.90)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF = ∞ → 완전 공선성 (R² = 1.00)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 팽창 의미:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Var(β̂_j) = VIF_j · σ²/(n·Var(Xj))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ VIF가 크면 계수 분산 ↑ → 표준 오차 ↑ → t값 ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 통계적 유의성 상실</div></div>
+</div>
+</div>
+
+
 
 | VIF 값 | 공선성 정도 | 대응 방법 |
 |:---|:---|:---|

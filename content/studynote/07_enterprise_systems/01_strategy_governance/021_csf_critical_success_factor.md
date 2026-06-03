@@ -25,20 +25,20 @@ tags = ["enterprise_systems"]
 
 과거 [경영 정보 시스템](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/001_mis_definition/)(MIS)은 단순히 조직에서 발생하는 모든 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합해 방대한 보고서를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 데 그쳤다. 이러한 상향식([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 접근은 정작 최고경영자가 어떤 정보에 집중해야 하는지 알려주지 못했다. 이러한 한계를 극복하기 위해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 목표에서 출발하여 필수 요건을 연역적으로 찾아내고, 이에 필요한 정보 시스템을 역산하여 설계하는 패러다임 전환이 요구되었다.
 
-```text
-이 도식은 데이터가 단순 누적되는 상향식 어프로치와, 경영 목표에서 출발해 필요한 지표만 추려내는 하향식 CSF 어프로치의 본질적인 차이를 보여준다.
 
-[기존: 상향식 데이터의 늪]                [CSF: 하향식 전략적 집중]
-+-------------------------+             +-------------------------+
-|     경영진 (혼란)       |             |   비즈니스 목표 (Goal)  |
-|      ▲   ▲   ▲          |             |            |            |
-|     /    |    \         |             |            ▼            |
-|   데이터의 폭포수       |             |    CSF (핵심 성공 요인) |
-| (모든 부서의 파편 지표) |             |            |            |
-+-------------------------+             |            ▼            |
-                                        |    KPI (측정 가능 지표) |
-                                        +-------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 데이터가 단순 누적되는 상향식 어프로치와, 경영 목표에서 출발해 필요한 지표만 추려내는 하향식 CSF 어프로치의 본질적인 차이를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존: 상향식 데이터의 늪</div><div class="kb-diagram-node">CSF: 하향식 전략적 집중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영진 (혼란)</div><div class="kb-diagram-cell">비즈니스 목표 (Goal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 폭포수</div><div class="kb-diagram-cell">CSF (핵심 성공 요인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 부서의 파편 지표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPI (측정 가능 지표)</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양이 아니라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 정렬(Alignment)이다. 수백 개의 지표를 관리하는 기업은 사실상 아무것도 관리하지 않는 것과 같다. [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 구조는 경영 목표가 달성되기 위한 전제 조건([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))을 먼저 확립하고, 이를 측정할 수 있는 수치([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))로 치환함으로써 조직의 시선을 집중시킨다. 실무에서는 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 수립할 때, 막대한 IT 예산의 우선순위를 정하는 최상위 나침반 역할을 한다.
 
@@ -53,10 +53,10 @@ tags = ["enterprise_systems"]
 | 구성 요소 | 역할 | 내부 동작 | 산출물 | 비유 |
 |:---|:---|:---|:---|:---|
 | **Vision & Goal** | 전사적 방향성 제시 | 기업의 존재 이유와 중장기 목표 정의 | 기업 비전 선언문 | 목적지 (북극성) |
-| **[CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 도출** | 필수 성공 영역 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 목표 달성을 방해하는 제약과 필수 요소 교차 분석 | [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 리스트 (3~5개) | 항로의 주요 체크포인트 |
-| **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 매핑** | 정량적 측정 기준 수립 | CSF의 달성 여부를 평가할 수 있는 지표 선정 | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) | 계기판의 속도계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a> 도출</strong> | 필수 성공 영역 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 목표 달성을 방해하는 제약과 필수 요소 교차 분석 | [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 리스트 (3~5개) | 항로의 주요 체크포인트 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a> 매핑</strong> | 정량적 측정 기준 수립 | CSF의 달성 여부를 평가할 수 있는 지표 선정 | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) | 계기판의 속도계 |
 | **IT 요구사항** | 시스템적 지원 도출 | KPI를 실시간으로 측정하고 CSF를 지원할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/시스템 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) / 시스템 명세 | 엔진 튜닝 플랜 |
-| **[Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수정 및 적응 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 달성도에 따라 CSF의 유효성 재평가 및 조정 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수정 보고서 | 내비게이션 경로 재탐색 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">Feedback Loop</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수정 및 적응 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 달성도에 따라 CSF의 유효성 재평가 및 조정 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수정 보고서 | 내비게이션 경로 재탐색 |
 
 ```text
 이 도식은 최상위 비즈니스 목표가 어떻게 구체적인 데이터 요구사항과 IT 시스템 아키텍처로 하향 전개되는지 그 계층적 흐름을 보여준다.
@@ -86,29 +86,29 @@ CSF는 단독으로 쓰이기보다 성과 평가 도구인 [KPI](/knowledge-bas
 
 | 항목 | [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) (Critical Success Factor) | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **본질적 역할** | **무엇**을 해야 성공하는가 (영역, 정성적) | 성공을 **어떻게** 측정할 것인가 (지표, 정량적) | 추상성 vs 구체성 |
+| **본질적 역할** | <strong>무엇</strong>을 해야 성공하는가 (영역, 정성적) | 성공을 **어떻게** 측정할 것인가 (지표, 정량적) | 추상성 vs 구체성 |
 | **도출 방향** | 비전/목표에서 하향식 전개 ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) | CSF를 측정 가능하도록 변환 | 선행 지표의 명확성 |
 | **변경 주기** | 중장기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기간 (1~3년) | 단기 운영 주기에 따라 탄력적 변경 (월/분기) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 안정성 |
 | **IT 연계성** | IT 투자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 타당성 근거 | 실시간 대시보드(BI) 구현을 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요건 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 관점의 얼라인먼트 |
 
 경영정보의 융합 관점에서 CSF는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))의 [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))를 구성하는 핵심 요소다. [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)에서 정의된 CSF는 곧 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))에서 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)의 관리 기준이 되며, [애플리케이션 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))에서 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 우선적으로 MSA로 전환할지 결정하는 비즈니스 가치 척도가 된다.
 
-```text
-이 도식은 조직 성과 관리의 역사적 흐름 속에서 CSF가 어떤 포지션을 차지하며 다른 방법론(MBO, BSC, OKR)과 어떻게 결합하는지를 보여준다.
 
-┌──────────────┬─────────────────────────┬────────────────────────┐
-│ 프레임워크   │ 포커스 및 철학          │ CSF와의 관계           │
-├──────────────┼─────────────────────────┼────────────────────────┤
-│ MBO          │ 목표 지향, 결과 평가    │ CSF가 누락되면 엉뚱한  │
-│ (전통적)     │ (상하향식 합의)         │ 목표에 집착할 위험 존재│
-├──────────────┼─────────────────────────┼────────────────────────┤
-│ BSC          │ 4가지 관점의 균형       │ 각 관점별로 달성해야 할│
-│ (균형적)     │ (재무/고객/프로세스/학습│ 핵심 성공 요인(CSF) 할당│
-├──────────────┼─────────────────────────┼────────────────────────┤
-│ OKR          │ 도전적 목표(O)와        │ O(목표)를 달성하기 위한│
-│ (애자일)     │ 핵심 결과(KR) 매핑      │ 논리적 근거로 CSF 활용 │
-└──────────────┴─────────────────────────┴────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 조직 성과 관리의 역사적 흐름 속에서 CSF가 어떤 포지션을 차지하며 다른 방법론(MBO, BSC, OKR)과 어떻게 결합하는지를 보여준다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크</div><div class="kb-diagram-cell">포커스 및 철학</div><div class="kb-diagram-cell">CSF와의 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBO</div><div class="kb-diagram-cell">목표 지향, 결과 평가</div><div class="kb-diagram-cell">CSF가 누락되면 엉뚱한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전통적)</div><div class="kb-diagram-cell">(상하향식 합의)</div><div class="kb-diagram-cell">목표에 집착할 위험 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSC</div><div class="kb-diagram-cell">4가지 관점의 균형</div><div class="kb-diagram-cell">각 관점별로 달성해야 할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(균형적)</div><div class="kb-diagram-cell">(재무/고객/프로세스/학습</div><div class="kb-diagram-cell">핵심 성공 요인(CSF) 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OKR</div><div class="kb-diagram-cell">도전적 목표(O)와</div><div class="kb-diagram-cell">O(목표)를 달성하기 위한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(애자일)</div><div class="kb-diagram-cell">핵심 결과(KR) 매핑</div><div class="kb-diagram-cell">논리적 근거로 CSF 활용</div></div>
+</div>
+</div>
+
+
 
 이 비교표의 핵심은 CSF가 독단적인 만능 도구가 아니라, 다른 평가 프레임워크의 뼈대를 제공하는 메타 도구라는 점이다. MBO의 개인 이기주의적 한계나 단기 실적주의를 극복하기 위해, BSC의 균형 잡힌 시각 안에서 CSF를 배치하면 부서 간 이기주의([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 타파하고 전사적 융합을 이끌어낼 수 있다.
 
@@ -120,23 +120,27 @@ CSF는 단독으로 쓰이기보다 성과 평가 도구인 [KPI](/knowledge-bas
 
 실무에서 정보화 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 수립할 때 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 도출 과정에서 가장 빈번하게 발생하는 문제는 '모든 것이 중요하다'는 착각이다. 경영진과의 인터뷰를 거치면 수십 개의 중요 요인이 나오는데, 이를 걸러내지 못하면 프로젝트 예산이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 결국 아무 시스템도 제대로 완성하지 못한다.
 
-```text
-이 흐름도는 실무 컨설팅에서 수집된 방대한 이슈들을 어떻게 소수의 진정한 CSF로 필터링하고 우선순위를 부여하는지에 대한 의사결정 트리다.
 
-[이슈/요구사항 풀]
-       │
-       ▼
-< 목표와 직결되는가? > ──(No)──> [기각 및 백로그 이관]
-       │ (Yes)
-       ▼
-< 경쟁 우위를 창출하는가? > ──(No)──> [일반 운영 과제 (BAU) 분류]
-       │ (Yes)
-       ▼
-< 통제 및 측정 가능한가? > ──(No)──> [중장기 연구/지표 개발 과제로 전환]
-       │ (Yes)
-       ▼
- [최종 CSF 확정] => [가중치 부여 (AHP 분석)] => [IT 투자 포트폴리오 배정]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 실무 컨설팅에서 수집된 방대한 이슈들을 어떻게 소수의 진정한 CSF로 필터링하고 우선순위를 부여하는지에 대한 의사결정 트리다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이슈/요구사항 풀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&lt; 목표와 직결되는가? &gt; ──(No)──&gt;</div><div class="kb-diagram-node">기각 및 백로그 이관</div></div>
+<div class="kb-diagram-note">(Yes)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&lt; 경쟁 우위를 창출하는가? &gt; ──(No)──&gt;</div><div class="kb-diagram-node">일반 운영 과제 (BAU) 분류</div></div>
+<div class="kb-diagram-note">(Yes)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&lt; 통제 및 측정 가능한가? &gt; ──(No)──&gt;</div><div class="kb-diagram-node">중장기 연구/지표 개발 과제로 전환</div></div>
+<div class="kb-diagram-note">(Yes)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 CSF 확정</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">가중치 부여 (AHP 분석)</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">IT 투자 포트폴리오 배정</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 엄격한 여과 과정(Filtering)이다. 모든 부서가 자신들의 과제를 CSF로 밀어넣으려 하는 사내 정치의 압력을 이겨내야 한다. 특히 "측정 가능한가?"라는 단계에서 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 한계가 적나라하게 드러나므로, 이 단계에서 탈락한 과제들은 [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)을 해소하기 위한 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 구축 등 선행 인프라 투자의 당위성을 제공한다. 실무에서는 이러한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 산정에 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)이나 AHP 기법을 동원하여 객관성을 확보한다.
 
@@ -155,29 +159,31 @@ CSF는 단독으로 쓰이기보다 성과 평가 도구인 [KPI](/knowledge-bas
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))** : CSF의 달성도를 숫자로 보여주는 정량적 계기판 지표
-* **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard)** : 재무, 고객, 프로세스, 학습 관점에서 CSF를 균형 있게 배치하는 성과 관리 틀
-* **[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)** : 기업의 CSF를 지원하기 위한 중장기 전사 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜
-* **AHP ([Analytic Hierarchy Process](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/))** : 도출된 다수의 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 중 어떤 것이 더 중요한지 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 수학적으로 계산하는 기법
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/">Key Performance Indicator</a>)</strong> : CSF의 달성도를 숫자로 보여주는 정량적 계기판 지표
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> (Balanced Scorecard)</strong> : 재무, 고객, 프로세스, 학습 관점에서 CSF를 균형 있게 배치하는 성과 관리 틀
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> (Information <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Planning)</strong> : 기업의 CSF를 지원하기 위한 중장기 전사 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜
+* <strong>AHP (<a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/">Analytic Hierarchy Process</a>)</strong> : 도출된 다수의 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 중 어떤 것이 더 중요한지 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 수학적으로 계산하는 기법
 * **Business-IT Alignment** : 비즈니스 목표([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))와 IT 아키텍처가 어긋남 없이 한 방향을 가리키도록 하는 IT 거버넌스의 핵심 원칙
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비즈니스 전략 목표 (Strategic Goal)]
-    │
-    ▼
-[CSF (Critical Success Factor — 핵심 성공 요인) 도출]
-    │
-    ▼
-[KPI (Key Performance Indicator — 측정 지표) 수립]
-    │
-    ▼
-[BSC (Balanced Scorecard) 4관점 배치]
-    │
-    ▼
-[IT 전략 정렬 (Business-IT Alignment) — ISP·EA 연계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 목표 (Strategic Goal)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSF (Critical Success Factor — 핵심 성공 요인) 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KPI (Key Performance Indicator — 측정 지표) 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSC (Balanced Scorecard) 4관점 배치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 전략 정렬 (Business-IT Alignment) — ISP·EA 연계</div></div>
+</div>
+</div>
+
+
 CSF는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표와 측정 지표([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))를 연결하는 가교로, BSC의 4대 관점에 배치되어 비즈니스 목표가 IT 아키텍처 설계까지 일관되게 흘러가도록 한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

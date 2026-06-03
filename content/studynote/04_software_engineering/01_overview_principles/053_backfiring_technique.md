@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 백파이어링(Backfiring) 기법은 이미 짜여 있는 기존 프로그램의 **소스 코드 라인 수(LOC)**를 기반으로, 프로그래밍 언어별 환산 계수를 곱해 역으로 소프트웨어의 **[기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))**를 추정하는 [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 척도다.
+> 1. **본질**: 백파이어링(Backfiring) 기법은 이미 짜여 있는 기존 프로그램의 <strong>소스 코드 라인 수(LOC)</strong>를 기반으로, 프로그래밍 언어별 환산 계수를 곱해 역으로 소프트웨어의 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">기능 점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>)</strong>를 추정하는 [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 척도다.
 > 2. **가치**: 설계 문서가 증발해 버린 수십 년 된 레거시(Legacy) 시스템을 차세대 시스템으로 전환(Migration)할 때, 코드 길이만으로 기능의 규모와 재구축 예산을 빠르고 저렴하게 산정하는 유일한 구명조끼 역할을 한다.
 > 3. **판단 포인트**: 프로그래머의 개인 코딩 스타일이나 불필요한 주석, 빈 줄까지 규모로 과대 포장될 위험이 있으므로, 단순 LOC가 아닌 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 명령문 수(Logical SLOC)를 기준으로 엄격히 환산해야 한다.
 
@@ -31,24 +31,25 @@ tags = ["studynote-software-engineering"]
 ### 언어별 환산 계수(Conversion Factor)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조
 백파이어링의 핵심은 "프로그래밍 언어의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 레벨이 다르면 동일한 기능을 구현하는 데 필요한 코드 라인 수도 다르다"는 절대 원칙에 기반한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           백파이어링(Backfiring) 기능 점수 역산 모델 로직     │
-├────────────────────────────────────────────────────────┤
-│   [ 공식 ]                                             │
-│   기능 점수(FP) = 소스 코드 라인 수(SLOC) / 언어별 환산 계수 │
-│                                                        │
-│   [ 프로그래밍 언어별 1 FP당 평균 라인 수 (환산 계수 통계) ]  │
-│   - 어셈블리어 (Assembly) : 320 줄 (저급 언어, 매우 김)       │
-│   - C 언어               : 128 줄                      │
-│   - 코볼 (COBOL)         : 105 줄                      │
-│   - C++ / Java           : 53 줄 (객체지향, 짧아짐)          │
-│   - 파이썬 (Python)       : 24 줄 (고급 스크립트, 매우 짧음)     │
-│                                                        │
-│ * 역산 예시: 53,000줄짜리 Java 레거시 코드를 발견했다면?      │
-│   ──▶ 53,000 / 53 (환산 계수) = 대략 "1,000 FP"의 규모!       │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백파이어링(Backfiring) 기능 점수 역산 모델 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 점수(FP) = 소스 코드 라인 수(SLOC) / 언어별 환산 계수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로그래밍 언어별 1 FP당 평균 라인 수 (환산 계수 통계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 어셈블리어 (Assembly) : 320 줄 (저급 언어, 매우 김)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C 언어 : 128 줄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코볼 (COBOL) : 105 줄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C++ / Java : 53 줄 (객체지향, 짧아짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파이썬 (Python) : 24 줄 (고급 스크립트, 매우 짧음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 역산 예시: 53,000줄짜리 Java 레거시 코드를 발견했다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 53,000 / 53 (환산 계수) = 대략 "1,000 FP"의 규모!</div></div>
+</div>
+</div>
+
+
 
 이 통계적 환산표를 거치면, 개발 언어에 상관없이 이 소프트웨어가 궁극적으로 사용자에게 제공하는 '비즈니스적 가치([기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))'의 객관적 지표로 시스템의 덩치를 표준화할 수 있다.
 
@@ -64,7 +65,7 @@ tags = ["studynote-software-engineering"]
 | 항목 | 정통 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/) (IFPUG [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) | 백파이어링 (Backfiring) |
 |:---|:---|:---|
 | **산정 시점** | 프로젝트 기획 및 설계 단계 | 프로젝트 종료 후, 또는 **유지보수/재구축(Re-engineering) 시점** |
-| **분석 대상** | 사용자 요구사항 문서, 화면 설계서 | 완성된 **물리적 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Source [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** |
+| **분석 대상** | 사용자 요구사항 문서, 화면 설계서 | 완성된 <strong>물리적 소스 코드 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Source <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> |
 | **정확도** | 높음 (업무 로직 복잡도 정밀 계산) | 낮음 (통계적 꼼수에 가까움, 코딩 스타일에 오차 큼) |
 | **비용 및 속도**| 분석 전문가 투입 필요 (비싸고 느림) | 자동 툴(SLOC [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))로 돌리면 끝 (싸고 광속임) |
 
@@ -78,10 +79,10 @@ tags = ["studynote-software-engineering"]
 
 ### 실무 시나리오
 1. **레거시 차세대 프로젝트 (Migration & Re-engineering) 예산 수립**: 공공기관이 20년 된 C언어 기반의 시스템을 Java 기반의 최신 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 전환하는 사업을 띄운다. SI(시스템 통합) 업체 아키텍트는 C언어 100만 라인을 백파이어링 기법으로 나누어 약 7,800 FP를 도출해 낸다. 이를 바탕으로 "재구축에 필요한 투입 인력(Man-Month)과 수주 예산은 50억 원이 타당하다"는 물리적 근거 자료를 제안서에 박아 넣는다.
-2. **외주 소프트웨어 납품 단가 사후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 외주 업체가 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/) 베이스로 돈을 받아 갔는데, 납품된 결과물(소스 코드)이 너무 빈약해 보일 때. 발주처는 납품된 코드의 라인 수를 백파이어링으로 역산해 보고, 사전에 합의한 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))에 턱없이 못 미치면 "너희 기능 빼먹고 코딩 안 했지?"라며 감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 딴죽을 거는 방어 무기로 활용한다.
+2. <strong>외주 소프트웨어 납품 단가 사후 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 외주 업체가 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/) 베이스로 돈을 받아 갔는데, 납품된 결과물(소스 코드)이 너무 빈약해 보일 때. 발주처는 납품된 코드의 라인 수를 백파이어링으로 역산해 보고, 사전에 합의한 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))에 턱없이 못 미치면 "너희 기능 빼먹고 코딩 안 했지?"라며 감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 딴죽을 거는 방어 무기로 활용한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **물리적(Physical) 라인 수의 맹신**: 소스 코드 라인을 셀 때 빈 줄(Blank line), 주석(Comments), 의미 없는 괄호(`{`, `}`)까지 전부 세어버리는 자동화 툴의 폐해. 실력 없는 개발자가 복사-붙여넣기(Copy & Paste)로 코드 길이를 뻥튀기해 놓으면, 백파이어링 공식은 이 쓰레기 코드를 '어마어마하게 거대하고 훌륭한 기능'으로 착각해 버린다. 반드시 실제 명령문 단위의 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 라인 수(Logical SLOC)**만 정제해서 카운트해야 한다.
+- **물리적(Physical) 라인 수의 맹신**: 소스 코드 라인을 셀 때 빈 줄(Blank line), 주석(Comments), 의미 없는 괄호(`{`, `}`)까지 전부 세어버리는 자동화 툴의 폐해. 실력 없는 개발자가 복사-붙여넣기(Copy & Paste)로 코드 길이를 뻥튀기해 놓으면, 백파이어링 공식은 이 쓰레기 코드를 '어마어마하게 거대하고 훌륭한 기능'으로 착각해 버린다. 반드시 실제 명령문 단위의 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 라인 수(Logical SLOC)</strong>만 정제해서 카운트해야 한다.
 
 - **📢 섹션 요약 비유**: 물리적 라인을 세는 것은 과대 포장된 과자 상자의 '부피'만 보고 돈을 내는 짓이다. 질소(주석과 빈 줄)를 쫙 빼고 진짜 들어있는 과자의 알맹이([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 실행 코드) 무게만 재어서 역산해야 바가지를 쓰지 않는다.
 
@@ -101,27 +102,29 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) ([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/), [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))** | 사용자의 시각에서 소프트웨어가 제공하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 기능의 개수와 복잡도를 세는, 백파이어링이 궁극적으로 역추적해서 도달하려는 최종 목표 지표 |
-| **SLOC (Source Lines of [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 소프트웨어의 소스 코드 줄 수. 백파이어링 공식의 입력값으로 쓰이는 가장 원초적인 규모 산정 척도 |
-| **[소프트웨어 리엔지니어링](/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/) (Re-engineering)** | 낡은 시스템 코드를 뜯어고쳐 새 시스템을 만드는 작업. 잃어버린 문서를 대신해 백파이어링이 가장 강력하게 쓰이는 주 무대 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">기능 점수</a>)</strong> | 사용자의 시각에서 소프트웨어가 제공하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 기능의 개수와 복잡도를 세는, 백파이어링이 궁극적으로 역추적해서 도달하려는 최종 목표 지표 |
+| <strong>SLOC (Source Lines of <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 소프트웨어의 소스 코드 줄 수. 백파이어링 공식의 입력값으로 쓰이는 가장 원초적인 규모 산정 척도 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/028_software_reengineering/">소프트웨어 리엔지니어링</a> (Re-engineering)</strong> | 낡은 시스템 코드를 뜯어고쳐 새 시스템을 만드는 작업. 잃어버린 문서를 대신해 백파이어링이 가장 강력하게 쓰이는 주 무대 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개발 전 규모 산정 지표로서의 LOC(Line of Code) 한계 (언어별 편차 심각)
-    │
-    ▼
-기능 중심의 표준 지표 FP (Function Point) 도입
-    │
-    ▼
-레거시 시스템 유지보수 시대 도래 (설계 문서 유실로 FP 산정 불가 현상)
-    │
-    ▼
-과거 통계 데이터(언어별 생산성) 기반의 백파이어링(Backfiring) 기법 창안
-    │
-    ▼
-소프트웨어 자산 관리 및 차세대 마이그레이션(Migration) 예산 산정의 표준으로 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발 전 규모 산정 지표로서의 LOC(Line of Code) 한계 (언어별 편차 심각)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기능 중심의 표준 지표 FP (Function Point) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레거시 시스템 유지보수 시대 도래 (설계 문서 유실로 FP 산정 불가 현상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과거 통계 데이터(언어별 생산성) 기반의 백파이어링(Backfiring) 기법 창안</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 자산 관리 및 차세대 마이그레이션(Migration) 예산 산정의 표준으로 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "코드 중심 → 설계 중심([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) → 레거시 환경의 제약 직면 → 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(통계)를 활용한 역방향 추정 모델의 개발"로 귀결되는 소프트웨어 규모 산정(Size Estimation) 기법의 진화사를 보여준다.
 

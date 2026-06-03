@@ -11,9 +11,9 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 런북 (Runbook)은 특정 알람·장애 유형에 대한 **실행 절차 문서**이고, [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) ([Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/))은 여러 런북과 커뮤니케이션 규칙을 묶어 **[인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 전체를 지휘하는 운영 시나리오**다.
+> 1. **본질**: 런북 (Runbook)은 특정 알람·장애 유형에 대한 <strong>실행 절차 문서</strong>이고, [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) ([Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/))은 여러 런북과 커뮤니케이션 규칙을 묶어 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/">인시던트 대응</a> 전체를 지휘하는 운영 시나리오</strong>다.
 > 2. **가치**: 좋은 런북/[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 전문가의 기억을 문서와 자동화로 옮겨, Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))를 사람 의존형에서 절차 의존형으로 바꾼다.
-> 3. **판단 포인트**: 문서는 설명서가 아니라 행동 지시서여야 한다. **명령, 기대 결과, 분기 조건, 에스컬레이션 기준**이 없다면 위기 상황에서 거의 쓸모가 없다.
+> 3. **판단 포인트**: 문서는 설명서가 아니라 행동 지시서여야 한다. <strong>명령, 기대 결과, 분기 조건, 에스컬레이션 기준</strong>이 없다면 위기 상황에서 거의 쓸모가 없다.
 
 ---
 
@@ -21,21 +21,23 @@ tags = ["studynote-devops-sre"]
 
 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)은 기술 문제이면서 동시에 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 문제다. 알람이 새벽에 울렸을 때 운영자는 원인 파악, 임시 조치, 영향 범위 판단, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 커뮤니케이션을 동시에 처리해야 한다. 이때 경험 많은 엔지니어 한 명의 기억에만 기대면, 담당자가 바뀌거나 압박이 큰 상황에서 대응 품질이 급격히 흔들린다.
 
-런북은 이런 불확실성을 줄이는 가장 기본적인 장치다. 특정 증상에 대해 "무엇을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 어떤 명령을 실행하며, 결과가 A면 어디로 가고 B면 누구를 호출하는가"를 정리해 둔 문서이기 때문이다. 반면 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/)(심각도) 판정, Incident Commander 지정, 상황실 개설, 고객 공지, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함해 **사람과 절차 전체를 조율하는 상위 문서**다.
+런북은 이런 불확실성을 줄이는 가장 기본적인 장치다. 특정 증상에 대해 "무엇을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 어떤 명령을 실행하며, 결과가 A면 어디로 가고 B면 누구를 호출하는가"를 정리해 둔 문서이기 때문이다. 반면 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/)(심각도) 판정, Incident Commander 지정, 상황실 개설, 고객 공지, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함해 <strong>사람과 절차 전체를 조율하는 상위 문서</strong>다.
 
 아래 그림은 문서가 없는 대응과 있는 대응의 차이를 단순화한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Incident response with and without docs             │
-├───────────────────────┬────────────────────────────────────────────┤
-│ No runbook            │ With runbook / playbook                   │
-├───────────────────────┼────────────────────────────────────────────┤
-│ alert -> guess ->     │ alert -> triage -> runbook branch ->      │
-│ ask expert -> retry   │ mitigation -> playbook communication      │
-│ => slow, inconsistent │ => repeatable, auditable                  │
-└───────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident response with and without docs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No runbook</div><div class="kb-diagram-cell">With runbook / playbook</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alert -&gt; guess -&gt;</div><div class="kb-diagram-cell">alert -&gt; triage -&gt; runbook branch -&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ask expert -&gt; retry</div><div class="kb-diagram-cell">mitigation -&gt; playbook communication</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; slow, inconsistent</div><div class="kb-diagram-cell">=&gt; repeatable, auditable</div></div>
+</div>
+</div>
+
+
 
 즉 런북/[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)의 목적은 문서를 예쁘게 남기는 것이 아니라, 위기 상황에서 "다음 행동"을 즉시 제공하는 것이다. 특히 [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서는 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 시간이 비용이므로, 진단과 의사결정 시간을 줄이는 문서가 곧 운영 품질이 된다.
 
@@ -47,21 +49,20 @@ tags = ["studynote-devops-sre"]
 
 런북과 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 보통 계층 구조로 설계된다. 가장 아래에는 알람별 런북이 있고, 그 위에는 심각도별 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)이 있으며, 필요하면 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation, and Response ([SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/))나 [ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/) 자동화가 일부 단계를 대신한다. 중요한 것은 문서 간 역할 분리다. 런북은 "기술적 조치"를, [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 "조직적 대응"을 담당해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Layered incident documentation                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Alert catalog                                                        │
-│    │                                                                 │
-│    ├─ Runbook: check command -> expected output -> next branch       │
-│    │                                                                 │
-│    ├─ Playbook: severity -> roles -> comms -> escalation             │
-│    │                                                                 │
-│    └─ Automation: SOAR / script / runbook-as-code                    │
-│                                                                      │
-│ Postmortem feedback updates both runbook and playbook                │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layered incident documentation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert catalog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Runbook: check command -&gt; expected output -&gt; next branch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Playbook: severity -&gt; roles -&gt; comms -&gt; escalation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Automation: SOAR / script / runbook-as-code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Postmortem feedback updates both runbook and playbook</div></div>
+</div>
+</div>
+
+
 
 좋은 런북에는 최소한 다음이 들어가야 한다.
 
@@ -75,7 +76,7 @@ tags = ["studynote-devops-sre"]
 | Escalation | 누구를 언제 호출할지 | 늦은 협업, 책임 공백 |
 | [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) / [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 조치 후 되돌림과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 임시 조치가 새 장애를 만듦 |
 
-[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 여기서 한 단계 올라가서 역할을 정의한다. 누가 Incident Commander인지, 고객 공지를 누가 하는지, 얼마나 자주 상황을 공유할지, 법무·보안·경영진 보고가 필요한 조건이 무엇인지 같은 내용이 포함된다. 즉 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 기술 절차를 넘어 **의사결정 권한과 커뮤니케이션 경로**를 정하는 문서다.
+[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 여기서 한 단계 올라가서 역할을 정의한다. 누가 Incident Commander인지, 고객 공지를 누가 하는지, 얼마나 자주 상황을 공유할지, 법무·보안·경영진 보고가 필요한 조건이 무엇인지 같은 내용이 포함된다. 즉 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 기술 절차를 넘어 <strong>의사결정 권한과 커뮤니케이션 경로</strong>를 정하는 문서다.
 
 최근에는 Runbook-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 형태도 중요해지고 있다. 정형화된 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차는 YAML, Python, [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 등으로 자동 실행할 수 있고, 사람은 승인과 분기 판단에 집중할 수 있다. 다만 자동화는 "예측 가능한 저위험 조치"부터 시작해야 하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제나 광범위 재시작처럼 위험한 조치는 수동 승인 단계를 남기는 편이 안전하다.
 
@@ -99,7 +100,7 @@ tags = ["studynote-devops-sre"]
 
 또한 런북은 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)), 알람 설계, [ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/), SOAR와 직접 연결된다. 알람이 너무 모호하면 어떤 런북도 쓸모없고, 반대로 런북이 명확하면 일부 알람은 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 승격할 수 있다. 결국 좋은 문서는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 품질과 자동화 수준을 함께 끌어올리는 기반 자산이다.
 
-즉 비교의 핵심은 문서 종류 자체가 아니라, **어떤 문서가 어떤 순간의 의사결정 비용을 줄이는가**에 있다.
+즉 비교의 핵심은 문서 종류 자체가 아니라, <strong>어떤 문서가 어떤 순간의 의사결정 비용을 줄이는가</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 여행 가이드북, 지하철 노선도, 비상 대피 안내문은 모두 종이지만 쓰는 순간이 다르다. 위기 때는 예쁜 설명보다 바로 행동할 수 있는 안내문이 중요하다.
 
@@ -109,30 +110,32 @@ tags = ["studynote-devops-sre"]
 
 실무에서는 "모든 알람에 런북이 있는가"보다 "그 런북이 실제로 동작하는가"가 더 중요하다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 바뀌었거나 팀 이름이 바뀌었거나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조가 바뀌었는데 문서가 예전 상태라면, 위기 상황에서 오히려 잘못된 자신감을 준다. 그래서 작성보다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 갱신 체계를 먼저 설계해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Practical incident decision flow                  │
-├────────────────────────────────────────────────────────────────────┤
-│ alert fired                                                         │
-│   │                                                                 │
-│   ├─ known pattern + reversible action? -> runbook / auto-remediate │
-│   ├─ cross-team or high blast radius? -> invoke playbook            │
-│   ├─ no clear diagnosis in time box? -> escalate                     │
-│   └─ after recovery -> verify -> postmortem -> update docs          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical incident decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alert fired</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ known pattern + reversible action? -&gt; runbook / auto-remediate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cross-team or high blast radius? -&gt; invoke playbook</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no clear diagnosis in time box? -&gt; escalate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ after recovery -&gt; verify -&gt; postmortem -&gt; update docs</div></div>
+</div>
+</div>
+
+
 
 실무 판단 포인트는 다음과 같다.
 
 1. **명령은 복사 가능해야 한다**: "DB 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"이 아니라 실행 명령과 예상 출력 예시가 들어가야 한다.
 2. **시간 제한을 둔다**: 10분 내 미해결, 고객 영향 확대, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 의심 같은 에스컬레이션 조건이 있어야 한다.
 3. **자동화 후보를 선별한다**: 반복되고 되돌리기 쉬운 조치는 Runbook-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code로 전환하고, 위험한 조치는 수동 승인 단계를 둔다.
-4. **게임 데이로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다**: 문서를 작성한 사람이 아니라 신규 팀원이 따라 해도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
-5. **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리한다**: 코드와 같이 Pull Request로 리뷰하고, 시스템 변경과 함께 업데이트한다.
+4. <strong>게임 데이로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>한다</strong>: 문서를 작성한 사람이 아니라 신규 팀원이 따라 해도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+5. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리한다</strong>: 코드와 같이 Pull Request로 리뷰하고, 시스템 변경과 함께 업데이트한다.
 
 운영 지표도 중요하다. 런북 커버리지, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 성공률, 문서 최신화 주기, 런북 사용 후 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 감소율, 잘못된 자동화로 인한 추가 장애율을 함께 봐야 한다. 특히 "문서는 있는데 아무도 안 쓴다"는 상황은 문서 품질이 아니라 알람 품질, [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/), 검색성 문제일 수 있다.
 
-기술사 답안에서는 런북을 단순 매뉴얼로 끝내지 말고, **실행 가능성(Actionability), 시간 제한, 역할 분리, 자동화 범위, Postmortem 피드백**을 함께 써야 설계 관점이 살아난다. [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)까지 묻는 문제라면 반드시 Incident Commander, 커뮤니케이션, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 보고 구조를 포함해야 한다.
+기술사 답안에서는 런북을 단순 매뉴얼로 끝내지 말고, <strong>실행 가능성(Actionability), 시간 제한, 역할 분리, 자동화 범위, Postmortem 피드백</strong>을 함께 써야 설계 관점이 살아난다. [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)까지 묻는 문제라면 반드시 Incident Commander, 커뮤니케이션, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 보고 구조를 포함해야 한다.
 
 - **📢 섹션 요약 비유**: 소방 훈련도 소화기 위치만 적어 두면 부족하다. 누가 119에 전화하고 누가 사람들을 대피시키며 누가 전원을 끌지까지 정해져야 실제 화재 때 움직일 수 있다.
 
@@ -142,9 +145,9 @@ tags = ["studynote-devops-sre"]
 
 잘 관리된 런북/[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) 체계는 단순히 대응 시간을 줄이는 것을 넘어, 조직의 운영 기억을 표준화한다. 숙련자 한 명의 경험이 팀 전체의 자산이 되고, 야간 온콜의 불안이 줄며, 커뮤니케이션 품질도 일정해진다. 자동화 가능한 절차는 점차 SOAR나 스크립트로 넘어가고, 사람은 더 복잡한 판단에 집중할 수 있다.
 
-물론 한계도 있다. 문서가 오래되면 독이 되고, 자동화가 과도하면 잘못된 조치를 대규모로 반복할 위험이 있다. 또한 한 번도 훈련하지 않은 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 위기 시 거의 읽히지 않는다. 따라서 성공 조건은 "문서 보유"가 아니라 **현행성, 훈련, [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/), 자동화 경계 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**이다.
+물론 한계도 있다. 문서가 오래되면 독이 되고, 자동화가 과도하면 잘못된 조치를 대규모로 반복할 위험이 있다. 또한 한 번도 훈련하지 않은 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 위기 시 거의 읽히지 않는다. 따라서 성공 조건은 "문서 보유"가 아니라 <strong>현행성, 훈련, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a>, 자동화 경계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다.
 
-결국 런북과 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 운영 문서가 아니라 **[인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 시스템의 일부**다. 좋은 문서는 사람의 기억을 대체하는 것이 아니라, 압박 상황에서도 올바른 다음 행동을 꺼내 주는 운영 인터페이스로 기능한다.
+결국 런북과 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 운영 문서가 아니라 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/">인시던트 대응</a> 시스템의 일부</strong>다. 좋은 문서는 사람의 기억을 대체하는 것이 아니라, 압박 상황에서도 올바른 다음 행동을 꺼내 주는 운영 인터페이스로 기능한다.
 
 - **📢 섹션 요약 비유**: 낯선 도시에서 길을 찾을 때 머릿속 감에만 의존하면 헤매기 쉽다. 신뢰할 수 있는 지도와 안내 체계가 있으면 누구라도 비슷한 속도로 목적지에 도착할 수 있다.
 
@@ -164,21 +167,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Expert memory and ad-hoc response
-    │
-    ▼
-Alert-linked runbooks
-    │
-    ▼
-Severity-based playbooks and incident command
-    │
-    ▼
-Runbook-as-Code / SOAR automation
-    │
-    ▼
-Postmortem-driven continuous update loop
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Expert memory and ad-hoc response</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Alert-linked runbooks</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Severity-based playbooks and incident command</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Runbook-as-Code / SOAR automation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Postmortem-driven continuous update loop</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -10,27 +10,29 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MQTT는 **Pub/Sub(발행/구독) 기반 경량 메시징 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**로, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 제한된 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **최소 2바이트 헤더**로 전송할 수 있는 사실상 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 메시징 표준이다.
-> 2. **가치**: HTTP는 헤더만 수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)이지만, MQTT는 **고정 헤더 2바이트 + 가변 헤더**로 페이로드 대비 오버헤드가 극히 작아 저전력·저대역폭 디바이스에 최적이다.
-> 3. **판단 포인트**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 3단계(0: At most once, 1: At least once, 2: Exactly once)와 **Retained Message·Last Will·Topic 계층 구조**를 이해하고, [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 5.0의 Shared Subscription(로드밸런싱)을 숙지해야 한다.
+> 1. **본질**: MQTT는 <strong>Pub/Sub(발행/구독) 기반 경량 메시징 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 제한된 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>최소 2바이트 헤더</strong>로 전송할 수 있는 사실상 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 메시징 표준이다.
+> 2. **가치**: HTTP는 헤더만 수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)이지만, MQTT는 <strong>고정 헤더 2바이트 + 가변 헤더</strong>로 페이로드 대비 오버헤드가 극히 작아 저전력·저대역폭 디바이스에 최적이다.
+> 3. **판단 포인트**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 3단계(0: At most once, 1: At least once, 2: Exactly once)와 <strong>Retained Message·Last Will·Topic 계층 구조</strong>를 이해하고, [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 5.0의 Shared Subscription(로드밸런싱)을 숙지해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    MQTT Pub/Sub 아키텍처                               │
-├───────────────────────────────────────────────────────┤
-│  [Publisher]                [Subscriber]               │
-│   센서 ──publish──▶ Broker ──subscribe──▶ 서버       │
-│   Topic: home/sensor/temp   Topic: home/sensor/#     │
-│   Payload: {"temp": 25.3}                             │
-│                                                       │
-│  Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장      │
-│  Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT Pub/Sub 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Publisher</div><div class="kb-diagram-node">Subscriber</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 ──publish──▶ Broker ──subscribe──▶ 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: home/sensor/temp Topic: home/sensor/#</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload: {"temp": 25.3}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MQTT는 우체국(Broker) 시스템이다. 보내는 사람(Publisher)은 우편함(Topic)에 넣고, 받는 사람(Subscriber)은 원하는 우편함을 구독한다.
 
@@ -53,7 +55,7 @@ tags = ["studynote-ict-convergence"]
 | **헤더** | 수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | **2바이트~** |
 | **패턴** | Request/Response | **Pub/Sub** |
 | **연결** | 매번 새로 | **지속 연결 (Keep-alive)** |
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 적합** | 부적합 | **최적** |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 적합</strong> | 부적합 | **최적** |
 
 - **📢 섹션 요약 비유**: HTTP는 매번 전화를 걸어야 하는 통화이고, MQTT는 한 번 연결한 무전기로 계속 대화하는 것이다.
 
@@ -66,7 +68,7 @@ tags = ["studynote-ict-convergence"]
 | **전송** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) |
 | **패턴** | Pub/Sub | Req/Res | Pub/Sub + [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) |
 | **헤더** | 2B | 4B | 8B+ |
-| **용도** | **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 제어 | 엔터프라이즈 MQ |
+| **용도** | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서</strong> | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 제어 | 엔터프라이즈 MQ |
 
 ---
 
@@ -83,7 +85,7 @@ tags = ["studynote-ict-convergence"]
 
 | 지표 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) | [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) | 개선 |
 |:---|:---|:---|:---|
-| [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 높음 | **1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~1/100** | 대폭 절감 |
+| [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 높음 | <strong>1/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~1/100</strong> | 대폭 절감 |
 | 배터리 | 빠른 소모 | **절약 (지속 연결)** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 적합 |
 | 실시간성 | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 간격 | **즉시 Push** | 실시간 |
 
@@ -96,32 +98,34 @@ MQTT는 AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Pub/Sub** | MQTT의 핵심 메시징 패턴 |
-| **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)** | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준 (0/1/2) |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong> | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 보장 수준 (0/1/2) |
 | **Broker** | Mosquitto, EMQX 등 메시지 중개 서버 |
 | **Topic** | 메시지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 (계층 구조) |
-| **[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)** | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 대안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a></strong> | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 대안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[MQTT v3.1 (1999, IBM) — IoT 경량 메시징 시작]
-    │
-    ▼
-[OASIS 표준화 (2014) — MQTT 3.1.1]
-    │
-    ▼
-[AWS IoT Core (2015~) — MQTT 클라우드 네이티브]
-    │
-    ▼
-[MQTT 5.0 (2019) — Shared Sub, Properties]
-    │
-    ▼
-[현재: MQTT over QUIC — 고속 전송·멀티플렉싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT v3.1 (1999, IBM) — IoT 경량 메시징 시작</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OASIS 표준화 (2014) — MQTT 3.1.1</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AWS IoT Core (2015~) — MQTT 클라우드 네이티브</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 5.0 (2019) — Shared Sub, Properties</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: MQTT over QUIC — 고속 전송·멀티플렉싱</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MQTT는 **우체국(Broker)** 시스템이에요. 센서가 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 우편함(Topic)에 넣어요.
-2. 서버는 원하는 우편함을 **구독**해서 편지가 오면 바로 읽어요.
+2. 서버는 원하는 우편함을 <strong>구독</strong>해서 편지가 오면 바로 읽어요.
 3. 편지 봉투(헤더)가 **아주 작아서(2바이트)** 작은 센서도 쉽게 보낼 수 있답니다!
 
 ---

@@ -43,22 +43,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 우회가 어떻게 차단되는지 단계별로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ ASLR bypass mitigation pipeline                                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [process launch]                                                           │
-│   ├─ random code / heap / stack / library bases                            │
-│   └─ 64-bit entropy                                                        │
-│                                                                            │
-│ [attacker tries de-randomization]                                          │
-│   ├─ info leak                   ──▶ pointer redaction needed              │
-│   ├─ speculative side channel    ──▶ KPTI / predictor control             │
-│   └─ direct code reuse           ──▶ NX / CET / PAC / BTI                 │
-│                                                                            │
-│ Result: "find address" and "use leaked address" both become harder         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR bypass mitigation pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">process launch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ random code / heap / stack / library bases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 64-bit entropy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">attacker tries de-randomization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ info leak ──▶ pointer redaction needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ speculative side channel ──▶ KPTI / predictor control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ direct code reuse ──▶ NX / CET / PAC / BTI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: "find address" and "use leaked address" both become harder</div></div>
+</div>
+</div>
+
+
 
 즉 하드웨어 기반 우회 방어의 요체는 두 단계다. 첫째, 주소가 잘 안 보이게 한다. 둘째, 일부 주소가 드러나도 그 정보만으로는 안정적인 공격 체인을 만들기 어렵게 한다. 이 둘이 함께 있을 때 ASLR은 단순 장식이 아니라 실제 공격 비용을 크게 높이는 방어선이 된다.
 
@@ -135,21 +136,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DEP / NX
-    │
-    ▼
-ASLR · PIE
-    │
-    ▼
-64비트 고엔트로피 · KASLR
-    │
-    ▼
-KPTI · 투기 실행 완화
-    │
-    ▼
-CET / PAC / BTI · 세분화 재무작위화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DEP / NX</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASLR · PIE</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">64비트 고엔트로피 · KASLR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KPTI · 투기 실행 완화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CET / PAC / BTI · 세분화 재무작위화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 실행 금지에서 출발해, 주소 무작위화와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 은닉, 그리고 유출 이후 악용 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)까지 방어층이 점점 입체적으로 확장되는 과정을 보여 준다.
 

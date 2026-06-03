@@ -12,9 +12,9 @@ tags = ["studynote-cloud"]
 # Kube-Scheduler (스케줄러) - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 지능형 테트리스 봇
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: `Kube-Scheduler`(스케줄러)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)(Control Plane) 안에서 24시간 눈에 불을 켜고 대기하며, 엔지니어가 "새로운 팟([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 띄워 줘!"라고 요청할 때 **수십, 수백 대의 워커 노드(서버) 스펙을 스캔하여 '이 팟이 어느 노드의 빈 공간에 들어가는 것이 가장 완벽할지' 최적의 명당자리를 찍어주는(Binding) 뇌쇄적인 지능형 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 엔진**이다.
-> 2. **가치**: 인간이 "이 앱은 3번 서버에 띄워야지"라고 엑셀로 노가다를 치는 수동 할당(Static Placement)을 완전히 멸망시켰다. 스케줄러는 서버들의 남은 CPU/RAM 잔여량을 계산할 뿐만 아니라, "DB 팟과 웹 팟은 찰싹 붙여놔라(친화성)", "똑같은 팟 3개는 한 서버에 몰빵하지 말고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 놔라(반친화성)" 같은 극악의 **아키텍처 제약 조건들을 단 0.1초 만에 수리적으로 계산해 내어 거대 인프라의 극강 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(HA)**을 담보한다.
-> 3. **융합**: 스케줄러 자체는 절대 팟을 직접 띄우지(Run) 않는다. 그저 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장부의 `nodeName` 빈칸에 `Worker-Node-4번`이라고 이름표(Binding)만 딱 꽂아두고 퇴근하면, 현장 반장인 **[Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)**이 그걸 보고 진짜 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진을 망치질하는 완벽한 디커플링(Decoupling) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 구조와 융합되어 있다.
+> 1. **본질**: `Kube-Scheduler`(스케줄러)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)(Control Plane) 안에서 24시간 눈에 불을 켜고 대기하며, 엔지니어가 "새로운 팟([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 띄워 줘!"라고 요청할 때 <strong>수십, 수백 대의 워커 노드(서버) 스펙을 스캔하여 '이 팟이 어느 노드의 빈 공간에 들어가는 것이 가장 완벽할지' 최적의 명당자리를 찍어주는(Binding) 뇌쇄적인 지능형 배치 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 엔진</strong>이다.
+> 2. **가치**: 인간이 "이 앱은 3번 서버에 띄워야지"라고 엑셀로 노가다를 치는 수동 할당(Static Placement)을 완전히 멸망시켰다. 스케줄러는 서버들의 남은 CPU/RAM 잔여량을 계산할 뿐만 아니라, "DB 팟과 웹 팟은 찰싹 붙여놔라(친화성)", "똑같은 팟 3개는 한 서버에 몰빵하지 말고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 놔라(반친화성)" 같은 극악의 <strong>아키텍처 제약 조건들을 단 0.1초 만에 수리적으로 계산해 내어 거대 인프라의 극강 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(HA)</strong>을 담보한다.
+> 3. **융합**: 스케줄러 자체는 절대 팟을 직접 띄우지(Run) 않는다. 그저 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장부의 `nodeName` 빈칸에 `Worker-Node-4번`이라고 이름표(Binding)만 딱 꽂아두고 퇴근하면, 현장 반장인 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a></strong>이 그걸 보고 진짜 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진을 망치질하는 완벽한 디커플링(Decoupling) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 구조와 융합되어 있다.
 
 ---
 
@@ -22,16 +22,16 @@ tags = ["studynote-cloud"]
 
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터라는 거대한 호텔에 새로운 손님([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))이 캐리어를 끌고 찾아왔다. 손님은 "난 무조건 오션뷰([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 필수)에, 강아지([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 볼륨)랑 같이 잘 수 있고, 시끄러운 클럽(다른 무거운 앱) 옆 방은 싫어!"라고 깐깐하게 요구(yaml 스펙)한다. `Kube-Scheduler`는 이 호텔의 프론트 매니저다. 100개의 빈방 리스트를 스캔한 뒤 조건에 안 맞는 방은 칼같이 쳐내고(필터링), 남은 방 중에서 가장 쾌적하고 완벽한 1개의 방 번호를 뽑아 손님에게 배정해 주는 역할을 한다.
 
-- **필요성**: 클라우드 이전에는 서버(EC2)가 10대 있으면, 개발자가 SSH로 들어가서 `1번 서버엔 Nginx`, `2번 서버엔 Redis` 라고 하나하나 수동으로 띄웠다. 그러다 1번 서버의 CPU가 100%를 치고 터졌다. 남은 9대 서버는 CPU가 텅텅 놀고 있었다. **"서버가 1,000대로 늘어나면 인간의 뇌로는 도저히 팟(앱)들을 예쁘게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 넣을 수 없다. 한 서버만 펑 터지는 참사를 막고 클러스터 전체 자원을 빈틈없이 꽉꽉 눌러 짜내는(Packing) 수학적 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 배정 봇"**이 절실했고, 이것이 Kube-Scheduler의 존재 이유다.
+- **필요성**: 클라우드 이전에는 서버(EC2)가 10대 있으면, 개발자가 SSH로 들어가서 `1번 서버엔 Nginx`, `2번 서버엔 Redis` 라고 하나하나 수동으로 띄웠다. 그러다 1번 서버의 CPU가 100%를 치고 터졌다. 남은 9대 서버는 CPU가 텅텅 놀고 있었다. <strong>"서버가 1,000대로 늘어나면 인간의 뇌로는 도저히 팟(앱)들을 예쁘게 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시켜 넣을 수 없다. 한 서버만 펑 터지는 참사를 막고 클러스터 전체 자원을 빈틈없이 꽉꽉 눌러 짜내는(Packing) 수학적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 배정 봇"</strong>이 절실했고, 이것이 Kube-Scheduler의 존재 이유다.
 
-- **💡 비유**: 복잡한 물류 창고에서 일하는 **'지게차 배차 반장님'**과 같습니다.
+- **💡 비유**: 복잡한 물류 창고에서 일하는 <strong>'지게차 배차 반장님'</strong>과 같습니다.
   - 트럭이 엄청 무거운 철근 박스([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 싣고 왔습니다. 반장님은 무전기를 듭니다.
   - "어이! 1번 창고는 이미 짐 꽉 찼으니 안 돼(CPU 부족). 2번 창고는 철근 옆에 물이 있어서 녹슬 테니 안 돼(반친화성)."
-  - "오케이, 3번 창고 구석이 튼튼하고 빈자리도 널널하네! 지게차야, 이 박스 들어서 무조건 **3번 창고**에만 내려놔!"
+  - "오케이, 3번 창고 구석이 튼튼하고 빈자리도 널널하네! 지게차야, 이 박스 들어서 무조건 <strong>3번 창고</strong>에만 내려놔!"
   - 반장님(Scheduler)은 직접 짐을 들지 않고, 가장 완벽하고 밸런스가 맞는 창고 번호(Node)를 계산해서 서류에 적어주기만 합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Static Scheduling ([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))**: 서버 IP와 포트를 포스트잇에 적어서 사람이 직접 타겟 서버에만 팟을 때려 넣던 미개한 시대.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> Static Scheduling (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: 서버 IP와 포트를 포스트잇에 적어서 사람이 직접 타겟 서버에만 팟을 때려 넣던 미개한 시대.
   2. **Borg 스케줄러의 이식 (2015)**: 구글이 10년간 갈고닦은 "수만 대 서버의 CPU 찌꺼기까지 긁어모아 테트리스 블록을 빈틈없이 꽂아 넣는" 압도적인 빈 패킹(Bin Packing) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 K8s 스케줄러로 오픈소스화.
   3. **Custom Scheduler 춘추전국시대 (현재)**: 기본 스케줄러가 너무 CPU/RAM만 본다는 불만이 터지자, 딥러닝 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전용 스케줄러나 에너지(전력) 최소화 스케줄러 등을 사람들이 직접 코딩해서 K8s 기본 스케줄러 멱살을 잡고 교체(Plug-in)할 수 있는 확장형 아키텍처로 완전 진화함.
 
@@ -45,36 +45,32 @@ tags = ["studynote-cloud"]
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버가 "야, 집 없는 떠돌이 팟(Pending [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 하나 나왔어. 방 찾아줘!"라고 던지면, 스케줄러는 0.1초 동안 2단계의 가혹한 오디션을 열어 노드(서버)를 뽑는다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         Kube-Scheduler의 최적 워커 노드 배정 (Binding) 파이프라인        │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [ 대기실 ] 떠돌이 팟 (Pod) 생성됨 (nodeName: 비어있음)               │
-  │     - 팟 요구사항(yaml): "나 CPU 4개 필요함, 무조건 SSD 달린 서버에 갈거야!" │
-  │                                                               │
-  │  =============================================================│
-  │   [ 1차 오디션: 필터링 (Filtering / Predicates) ] - "자격 없는 놈 탈락!"│
-  │     - 클러스터 내의 노드 100대를 일렬로 세움.                         │
-  │     - "너 CPU 4개 남아?" ─▶ 노드 30대 탈락! (70대 생존)               │
-  │     - "너 SSD 라벨(Taints) 달려있어?" ─▶ 50대 탈락! (20대 생존)       │
-  │     ▶ 결과: 살아남은 20대의 노드 ─▶ "합격(Feasible Nodes)"           │
-  │                                                               │
-  │  =============================================================│
-  │   [ 2차 오디션: 스코어링 (Scoring / Priorities) ] - "최고의 명당은?"  │
-  │     - 합격한 20대 노드에게 0~100점까지 점수를 매기는 가혹한 뷰티 콘테스트.   │
-  │     - "너 이 팟 받아주면 자원(CPU)이 얼마나 예쁘게 꽉 차?" (점수 부여)     │
-  │     - "이 팟이 좋아하는 DB 팟이 네 서버 안에 같이 살아?" (보너스 점수 +10) │
-  │     - "이 팟이랑 똑같이 생긴 복제본 팟이 이미 네 서버에 있어? 넌 안돼 한 곳에 │
-  │        몰빵하면 터져!" (마이너스 점수 -50)                           │
-  │                                                               │
-  │  =============================================================│
-  │   [ 최종 낙찰 (Binding) ]                                       │
-  │     - 99점으로 1등을 차지한 [노드 15번] 당첨!                          │
-  │     - 스케줄러는 조용히 etcd 장부에 `nodeName: 노드 15번` 이라고 적고 퇴근. │
-  │     - 그 후 15번 노드의 십장(Kubelet)이 이걸 보고 진짜로 도커 팟을 띄움.    │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kube-Scheduler의 최적 워커 노드 배정 (Binding) 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대기실</div><div class="kb-diagram-note">떠돌이 팟 (Pod) 생성됨 (nodeName: 비어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팟 요구사항(yaml): "나 CPU 4개 필요함, 무조건 SSD 달린 서버에 갈거야!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차 오디션: 필터링 (Filtering / Predicates)</div><div class="kb-diagram-note">- "자격 없는 놈 탈락!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 클러스터 내의 노드 100대를 일렬로 세움.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "너 CPU 4개 남아?" ─▶ 노드 30대 탈락! (70대 생존)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "너 SSD 라벨(Taints) 달려있어?" ─▶ 50대 탈락! (20대 생존)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 살아남은 20대의 노드 ─▶ "합격(Feasible Nodes)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2차 오디션: 스코어링 (Scoring / Priorities)</div><div class="kb-diagram-note">- "최고의 명당은?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 합격한 20대 노드에게 0~100점까지 점수를 매기는 가혹한 뷰티 콘테스트.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "너 이 팟 받아주면 자원(CPU)이 얼마나 예쁘게 꽉 차?" (점수 부여)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "이 팟이 좋아하는 DB 팟이 네 서버 안에 같이 살아?" (보너스 점수 +10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "이 팟이랑 똑같이 생긴 복제본 팟이 이미 네 서버에 있어? 넌 안돼 한 곳에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">몰빵하면 터져!" (마이너스 점수 -50)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 낙찰 (Binding)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 99점으로 1등을 차지한</div><div class="kb-diagram-node">노드 15번</div><div class="kb-diagram-note">당첨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스케줄러는 조용히 etcd 장부에 <code>nodeName: 노드 15번</code> 이라고 적고 퇴근.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그 후 15번 노드의 십장(Kubelet)이 이걸 보고 진짜로 도커 팟을 띄움.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 스케줄러는 자기가 직접 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행(Run)하지 않는다. 이것이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 위대한 **'디커플링(Decoupling, 결합 끊기)'** 철학이다. 스케줄러는 오직 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server에게 "저기 빈칸(`nodeName`)에 노드 15번이라고 글씨 좀 써주세요"라고 부탁(Binding 요청)만 할 뿐이다. 그러면 각 노드에 파견 나가 있는 행동대장([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 1초마다 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 장부를 쳐다보다가 "어라? 15번 노드(내 땅)에 새로 배정된 팟이 생겼네? 당장 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진 돌려라!"라며 망치질을 시작한다. 뇌(스케줄러)와 손발([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 완벽히 쪼개져 서로 알 필요가 없으니 시스템이 뻗어도 연쇄 폭발이 일어나지 않는다.
 
@@ -86,7 +82,7 @@ tags = ["studynote-cloud"]
 
 | 무기 종류 | 주체 (누가 튕겨내나) | 작동 원리 및 비유 |
 |:---|:---|:---|
-| **[Node Affinity](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)<br>(노드 친화성)** | **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) (손님)** | 손님이 "나는 창가 자리([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드) 아니면 안 앉아!"라고 고집을 부리는 룰. 스케줄러는 손님의 입맛에 맞는 노드만 골라서 배정한다. (끌어당김의 힘) |
+| **[Node Affinity](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)<br>(노드 친화성)** | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> (손님)</strong> | 손님이 "나는 창가 자리([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드) 아니면 안 앉아!"라고 고집을 부리는 룰. 스케줄러는 손님의 입맛에 맞는 노드만 골라서 배정한다. (끌어당김의 힘) |
 | **Taints & Tolerations<br>(얼룩과 용인)**| **Node (방주인)** | 방주인(노드)이 문 앞에 똥([Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/))을 뿌려놓고 "내 방에 들어오지 마!"라고 차단벽을 친다. 단, 이 똥 냄새를 참을 수 있는 특수 방독면(Toleration)을 쓴 VVIP 팟만 스케줄러가 들여보내 준다. (밀어냄의 힘) |
 
 ---
@@ -96,12 +92,12 @@ tags = ["studynote-cloud"]
 ### 실무 시나리오
 
 1. **시나리오 — 스케줄링 붕괴를 부른 자원 한계(Requests/Limits) 미설정**: 스타트업 개발팀이 스프링 부트(Spring Boot) 팟 50개를 K8s에 배포했다. yaml 파일에 CPU/RAM을 얼마나 먹을지(`resources.requests`) 적어주는 걸 깜빡했다. Kube-Scheduler는 "오! 이 녀석들은 밥을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))만큼 먹는 애들이군!"이라며 1번 워커 노드 1대에 50개 팟을 무식하게 다 욱여넣어 배정(Schedule)해 버렸다. 1시간 뒤 유저 트래픽이 몰리자 50개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 일제히 램(RAM)을 빨아먹기 시작했고, 1번 노드는 결국 `OOM (Out Of Memory)` 킬러의 낫을 맞고 펑 터지며 클러스터가 마비되었다.
-   - **판단**: 스케줄러는 점쟁이가 아니다. 개발자가 미리 알려준 `requests` 명세서를 기반으로 테트리스를 꽂는다. 이 명세서를 빼먹어 **스케줄러의 필터링 오디션 자체를 무력화**시킨 치명적 장애다.
-   - **해결책**: 무조건(Must-have) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) yaml 파일에 **`Requests` (최소 보장 밥그릇)**와 **`Limits` (최대 폭식 제한선)**를 강제 하드코딩해야 한다. 만약 `requests: cpu: 1, memory: 2Gi`라고 적어주면, 스케줄러는 "이 놈은 등치가 크군. 1번 노드는 이미 꽉 찼으니 탈락(Filter)! 널널한 3번 노드에 넣어라"라며 기가 막히게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치를 때려 넣는다. 더 나아가 클러스터 어드미션 컨트롤러에 `LimitRange` 정책을 걸어, `Requests`를 안 적고 오는 싸가지 없는 팟은 스케줄링 대기실(Pending)에 아예 들어오지도 못하게 걷어차 버려야 인프라가 생존한다.
+   - **판단**: 스케줄러는 점쟁이가 아니다. 개발자가 미리 알려준 `requests` 명세서를 기반으로 테트리스를 꽂는다. 이 명세서를 빼먹어 <strong>스케줄러의 필터링 오디션 자체를 무력화</strong>시킨 치명적 장애다.
+   - **해결책**: 무조건(Must-have) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) yaml 파일에 <strong><code>Requests</code> (최소 보장 밥그릇)</strong>와 <strong><code>Limits</code> (최대 폭식 제한선)</strong>를 강제 하드코딩해야 한다. 만약 `requests: cpu: 1, memory: 2Gi`라고 적어주면, 스케줄러는 "이 놈은 등치가 크군. 1번 노드는 이미 꽉 찼으니 탈락(Filter)! 널널한 3번 노드에 넣어라"라며 기가 막히게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치를 때려 넣는다. 더 나아가 클러스터 어드미션 컨트롤러에 `LimitRange` 정책을 걸어, `Requests`를 안 적고 오는 싸가지 없는 팟은 스케줄링 대기실(Pending)에 아예 들어오지도 못하게 걷어차 버려야 인프라가 생존한다.
 
-2. **시나리오 — [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(HA) 붕괴를 막아내는 Anti-[Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) (반친화성) 튜닝**: 대형 금융사에서 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 3개 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Replica=3)해서 K8s에 띄웠다. Kube-Scheduler는 빈 공간이 가장 많았던 "5번 워커 노드"에 3개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 나란히 예쁘게 다 꽂아넣었다(Score 1등). 그런데 다음 날, AWS 5번 노드가 낙뢰를 맞아 통째로 사망했다. 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 3개가 한 서버에서 한방에 동반 자살([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))하며 전국 결제망이 다운되었다. 사장님이 "아니 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Replica)를 3개나 했는데 왜 다 죽어?"라며 노발대발했다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>(HA) 붕괴를 막아내는 Anti-<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a> (반친화성) 튜닝</strong>: 대형 금융사에서 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 3개 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Replica=3)해서 K8s에 띄웠다. Kube-Scheduler는 빈 공간이 가장 많았던 "5번 워커 노드"에 3개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 나란히 예쁘게 다 꽂아넣었다(Score 1등). 그런데 다음 날, AWS 5번 노드가 낙뢰를 맞아 통째로 사망했다. 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 3개가 한 서버에서 한방에 동반 자살([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))하며 전국 결제망이 다운되었다. 사장님이 "아니 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Replica)를 3개나 했는데 왜 다 죽어?"라며 노발대발했다.
    - **판단**: 스케줄러는 "같은 종류의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 한 바구니에 담지 마라"는 비즈니스 고가용성(HA) 원칙을 스스로 알아서 깨우치진 못한다. 스코어링의 패배다.
-   - **해결책**: 배포 yaml에 **`PodAntiAffinity` ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 반친화성)** 룰을 영혼까지 끌어 모아 박아 넣어야 한다. "나랑 똑같은 라벨(Label)을 가진 쌍둥이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 이미 살고 있는 노드(서버)에는, 절대 나를 배정하지 마라!"라고 선언한다. 이 룰을 본 스케줄러는 식은땀을 흘리며 첫 번째 팟은 1번 노드에, 두 번째 팟은 2번 노드에, 세 번째 팟은 3번 노드에 강제로 멀찍이 떨어뜨려 찢어놓는다(Scheduling). 이제 1번 노드 서버가 벼락에 맞아 불타도, 2번 3번 노드에 숨어있는 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 멀쩡히 살아남아 트래픽을 완벽하게 방어해 내는 **진정한 클라우드 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 기적**이 달성된다.
+   - **해결책**: 배포 yaml에 <strong><code>PodAntiAffinity</code> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 반친화성)</strong> 룰을 영혼까지 끌어 모아 박아 넣어야 한다. "나랑 똑같은 라벨(Label)을 가진 쌍둥이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 이미 살고 있는 노드(서버)에는, 절대 나를 배정하지 마라!"라고 선언한다. 이 룰을 본 스케줄러는 식은땀을 흘리며 첫 번째 팟은 1번 노드에, 두 번째 팟은 2번 노드에, 세 번째 팟은 3번 노드에 강제로 멀찍이 떨어뜨려 찢어놓는다(Scheduling). 이제 1번 노드 서버가 벼락에 맞아 불타도, 2번 3번 노드에 숨어있는 결제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 멀쩡히 살아남아 트래픽을 완벽하게 방어해 내는 <strong>진정한 클라우드 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>의 기적</strong>이 달성된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **Custom Scheduler (커스텀 스케줄러)의 유혹**: "K8s 기본 스케줄러가 너무 바보같이 CPU만 봐! 넷플릭스처럼 우리는 '네트워크 통신이 가장 빠른 노드'에 팟을 배정하는 딥러닝 스케줄러 파이썬으로 직접 짜서 얹자!" 할 수 있다. K8s는 스케줄러를 갈아 끼울 수 있다. 하지만 스타트업에서 이 짓을 하면 100% 후회한다. 스케줄러를 직접 짜면 클러스터 업그레이드 때마다 충돌(Dependency Hell)이 나고 팟들이 허공에 떠서 Pending 지옥에 빠진다. 웬만하면 기본 `Kube-Scheduler`가 제공하는 엄청난 수준의 [Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/), Toleration, [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 옵션을 영혼까지 쥐어짜서 사용하는 것이 인프라 운영자의 장수 비결이다.
@@ -115,10 +111,10 @@ tags = ["studynote-cloud"]
 | 구분 | 인간의 수동 배정 (Static Placement) | Kube-Scheduler 자율 배정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 클라우드 인프라 [파괴적 혁신](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/) |
 |:---|:---|:---|:---|
 | **정량 (서버 가동률 / 비용)**| "이 서버는 웹만, 저긴 DB만" (자원 50% 낭비)| 1,000대 서버의 빈틈에 팟 테트리스 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 박기 | 서버 고집적화(Bin Packing)로 **AWS 요금 40% 절약** |
-| **정량 ([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 속도)**| 관리자가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 들어가서 IP 찍고 띄우는 데 5분 | 1초 만에 최적 서버 100군데 찍고 동시 폭격 띄움| 트래픽 폭발 시 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) **민첩성 극대화** |
-| **정성 ([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 보장 HA)**| 실수로 한 서버에 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 다 때려 박음 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) | Anti-Affinity로 무조건 물리적 격리 보장 찢기 | 클라우드 AZ(가용 영역) 붕괴 시에도 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 100% 생존 보장** |
+| <strong>정량 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a> 속도)</strong>| 관리자가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 들어가서 IP 찍고 띄우는 데 5분 | 1초 만에 최적 서버 100군데 찍고 동시 폭격 띄움| 트래픽 폭발 시 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) **민첩성 극대화** |
+| <strong>정성 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 보장 HA)</strong>| 실수로 한 서버에 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 다 때려 박음 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) | Anti-Affinity로 무조건 물리적 격리 보장 찢기 | 클라우드 AZ(가용 영역) 붕괴 시에도 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 100% 생존 보장</strong> |
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 클라우드 제국의 황제가 된 이유는 화려한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 때문이 아니다. 보이지 않는 지하실에서 수만 대의 컴퓨터 CPU 찌꺼기 용량까지 싹싹 긁어모아 가장 완벽하고 이상적인 위치에 블록을 꽂아 넣는 이 **'Kube-Scheduler의 미친 테트리스(Bin Packing) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'** 덕분이다. 기술사는 아무 생각 없이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 갯수만 늘리는 하수에서 벗어나야 한다. 팟이 Pending(대기) 상태에 빠져 허공에 둥둥 떠 있을 때, 스케줄러의 1차 오디션(CPU 부족)에서 탈락했는지, 2차 뷰티 콘테스트([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 꼬임)에서 감점을 먹었는지를 꿰뚫어 보고, Taint와 Toleration이라는 몽둥이와 당근을 휘둘러 팟들을 내가 원하는 영토에 예쁘게 안착시키는 클러스터의 마에스트로(지휘자)로 각성해야 한다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 클라우드 제국의 황제가 된 이유는 화려한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 때문이 아니다. 보이지 않는 지하실에서 수만 대의 컴퓨터 CPU 찌꺼기 용량까지 싹싹 긁어모아 가장 완벽하고 이상적인 위치에 블록을 꽂아 넣는 이 <strong>'Kube-Scheduler의 미친 테트리스(Bin Packing) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>'</strong> 덕분이다. 기술사는 아무 생각 없이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 갯수만 늘리는 하수에서 벗어나야 한다. 팟이 Pending(대기) 상태에 빠져 허공에 둥둥 떠 있을 때, 스케줄러의 1차 오디션(CPU 부족)에서 탈락했는지, 2차 뷰티 콘테스트([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 꼬임)에서 감점을 먹었는지를 꿰뚫어 보고, Taint와 Toleration이라는 몽둥이와 당근을 휘둘러 팟들을 내가 원하는 영토에 예쁘게 안착시키는 클러스터의 마에스트로(지휘자)로 각성해야 한다.
 
 ---
 
@@ -126,11 +122,11 @@ tags = ["studynote-cloud"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **Kube-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server** | 스케줄러의 유일한 상전이자 우체국. 스케줄러는 자기가 일거리를 직접 찾지 않고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버가 "야, 아직 집(Node) 배정 못 받은 백수 팟 1개 나왔어!"라고 알려줘야 비로소 움직인다. |
+| <strong>Kube-<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Server</strong> | 스케줄러의 유일한 상전이자 우체국. 스케줄러는 자기가 일거리를 직접 찾지 않고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버가 "야, 아직 집(Node) 배정 못 받은 백수 팟 1개 나왔어!"라고 알려줘야 비로소 움직인다. |
 | **Pending (대기 상태)** | 스케줄러가 팟을 띄워줄 빈 서버(CPU/RAM)를 찾지 못했거나, [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 조건이 너무 빡세서 실패했을 때 팟이 빠지는 무한 대기 지옥. 장애의 90%는 여기서 터진다. |
 | **Taints & Tolerations** | 노드(방주인)가 특정 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 못 들어오게 똥(Taints)을 뿌려 차단막을 치고, 오직 이 똥 냄새를 견딜 수 있는 특수 방독면(Toleration)을 쓴 VIP [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)만 쏙 들여보내는 스케줄러의 문지기 스킬. |
 | **Bin Packing (빈 패킹)** | 스케줄러의 핵심 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 빈 박스(노드 자원) 안에 각기 다른 크기의 물건([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) CPU)들을 버리는 공간 1도 없이 꽉꽉 눌러 담아 테트리스를 끝내는 인프라 비용 절약의 궁극기. |
-| **[Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) (큐블릿)** | 스케줄러가 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장부에 "이 팟은 5번 노드 당첨!"이라고 글씨만 쓰고 퇴근하면, 5번 노드에 사는 현장 십장([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 그걸 보고 자기가 진짜로 망치질을 해 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄운다. |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a> (큐블릿)</strong> | 스케줄러가 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장부에 "이 팟은 5번 노드 당첨!"이라고 글씨만 쓰고 퇴근하면, 5번 노드에 사는 현장 십장([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))이 그걸 보고 자기가 진짜로 망치질을 해 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄운다. |
 
 ---
 
@@ -139,18 +135,22 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 워크로드 배치 (비효율)
-    │
-    ▼
-kube-scheduler: 자동 Pod 배치
-    ├─► Filtering: 적합한 노드 필터링 (taints · affinity)
-    └─► Scoring: 최적 노드 선택 (리소스 균형)
-    │
-    ▼
-커스텀 스케줄러 · Gang Scheduling · Descheduler
-```
-2. 이때 번개처럼 빠른 **'자리 배정 컴퓨터(스케줄러)'**가 짠! 나타납니다. 1초 만에 손님들의 요구사항을 쫙 스캔해요. "뚱뚱한 손님(CPU 많이 먹음)은 넓은 자리! 싸운 친구(반친화성)는 멀리 떨어뜨려!"
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 워크로드 배치 (비효율)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kube-scheduler: 자동 Pod 배치</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Filtering: 적합한 노드 필터링 (taints · affinity)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Scoring: 최적 노드 선택 (리소스 균형)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커스텀 스케줄러 · Gang Scheduling · Descheduler</div>
+</div>
+</div>
+
+
+2. 이때 번개처럼 빠른 <strong>'자리 배정 컴퓨터(스케줄러)'</strong>가 짠! 나타납니다. 1초 만에 손님들의 요구사항을 쫙 스캔해요. "뚱뚱한 손님(CPU 많이 먹음)은 넓은 자리! 싸운 친구(반친화성)는 멀리 떨어뜨려!"
 3. 절대 사람들을 직접 끌고 가지는 않아요. 기차표에 "너는 3호 차 15번 좌석!"이라고 정확한 자리 번호(Node)만 쾅쾅 찍어주고 사라지면, 승무원([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))들이 표를 보고 안내해 주는 세상에서 제일 똑똑한 자리 배치 마법이랍니다!
 
 ---

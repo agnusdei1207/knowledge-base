@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Update)은 한 코어가 공유 캐시 라인을 쓰면 다른 코어의 복사본을 무효화하지 않고, **새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 전파해 모두의 캐시를 최신값으로 맞추는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다.
+> 1. **본질**: 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Update)은 한 코어가 공유 캐시 라인을 쓰면 다른 코어의 복사본을 무효화하지 않고, <strong>새 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자체를 전파해 모두의 캐시를 최신값으로 맞추는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.
 > 2. **가치**: 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 다시 읽을 가능성이 높다면 다음 읽기에서 캐시 미스(Cache Miss)를 줄여 지연시간을 낮출 수 있다.
 > 3. **판단 포인트**: 읽기 중심 공유에는 유리할 수 있지만, 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)나 공유자 수가 많아지면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방송 비용이 급격히 커져 현대 범용 다중 코어 CPU (Central Processing Unit)에서는 주류가 되지 못했다.
 
@@ -21,26 +21,28 @@ tags = ["studynote-computer-architecture"]
 
 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Update)은 공유 캐시 복사본을 **지우는 대신 함께 고쳐 주는** [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 멀티코어 환경에서는 여러 코어가 같은 메모리 블록을 각자 캐시에 들고 있기 때문에, 한 코어가 값을 수정하는 순간 다른 코어의 복사본은 오래된 정보가 된다. 이때 단순 [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)은 나중에 다시 읽는 코어에게 추가 캐시 미스를 강제하지만, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "지금 바뀐 값을 같이 받아 두라"는 방향을 택한다.
 
-이 방식이 등장한 이유는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 짧은 시간 안에 여러 코어에서 반복적으로 읽히는 워크로드 때문이다. 예를 들어 락 상태, 생산자-소비자 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 짧은 제어 변수처럼 "누군가 쓴 직후 다른 누군가 바로 읽는" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면, 무효화보다 갱신이 다음 읽기의 대기시간을 더 잘 줄일 수 있다. 즉 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 대역폭보다 **후속 읽기 지연시간**을 우선시한 설계 철학이라 볼 수 있다.
+이 방식이 등장한 이유는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 짧은 시간 안에 여러 코어에서 반복적으로 읽히는 워크로드 때문이다. 예를 들어 락 상태, 생산자-소비자 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 짧은 제어 변수처럼 "누군가 쓴 직후 다른 누군가 바로 읽는" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면, 무효화보다 갱신이 다음 읽기의 대기시간을 더 잘 줄일 수 있다. 즉 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 대역폭보다 <strong>후속 읽기 지연시간</strong>을 우선시한 설계 철학이라 볼 수 있다.
 
 아래 그림은 왜 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 직관적으로 매력적인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Write-Update의 기본 생각: "지우지 말고 같이 최신값으로 맞춘다" │
-├──────────────────────────────────────────────────────────────────────┤
-│ 코어 A 캐시 : X = 5                                                  │
-│ 코어 B 캐시 : X = 5                                                  │
-│ 메모리      : X = 5                                                  │
-│                                                                      │
-│ 1) 코어 A가 X를 10으로 씀                                            │
-│ 2) 인터커넥트가 "X=10" 데이터를 공유자에게 전달                      │
-│ 3) 코어 B 캐시도 X = 10으로 즉시 갱신                                │
-│ 4) 코어 B가 곧바로 읽으면 Cache Miss 없이 최신값 사용                │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 "나중에 읽을 때 다시 가져오게 하지 말고, 지금 미리 최신본을 넣어 두자"는 선제 대응이다. 따라서 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 읽기 지역성(Locality)이 아니라 **공유 읽기 타이밍**을 잘 맞출 때 효과가 난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Update의 기본 생각: "지우지 말고 같이 최신값으로 맞춘다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 A 캐시 : X = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 B 캐시 : X = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 : X = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 코어 A가 X를 10으로 씀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 인터커넥트가 "X=10" 데이터를 공유자에게 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 코어 B 캐시도 X = 10으로 즉시 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 코어 B가 곧바로 읽으면 Cache Miss 없이 최신값 사용</div></div>
+</div>
+</div>
+
+
+
+핵심은 "나중에 읽을 때 다시 가져오게 하지 말고, 지금 미리 최신본을 넣어 두자"는 선제 대응이다. 따라서 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 읽기 지역성(Locality)이 아니라 <strong>공유 읽기 타이밍</strong>을 잘 맞출 때 효과가 난다.
 
 **📢 섹션 요약 비유**: 화이트보드 내용을 바꿀 때 예전 메모를 지워 버리는 대신, 같은 회의실 사람들 노트에도 새 내용을 바로 적어 주는 방식이 Write-Update다. 곧바로 다시 볼 사람에게는 편하지만, 아무도 안 볼 노트까지 다 고쳐 주면 일이 많아진다.
 
@@ -48,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 [스누핑 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/) ([Snooping Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/))이나 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 추적과 결합되어 동작한다. 핵심 절차는 단순하다. 어떤 코어가 공유 상태의 캐시 라인을 쓸 때, 인터커넥트는 해당 주소와 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 값을 다른 공유자에게 전달하고, 그 캐시들은 자신의 복사본을 같은 값으로 덮어쓴다. 즉 **권한 이전 중심**의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 **값 전파 중심**의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 [스누핑 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/) ([Snooping Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/403_snooping_protocol/))이나 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 추적과 결합되어 동작한다. 핵심 절차는 단순하다. 어떤 코어가 공유 상태의 캐시 라인을 쓸 때, 인터커넥트는 해당 주소와 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 값을 다른 공유자에게 전달하고, 그 캐시들은 자신의 복사본을 같은 값으로 덮어쓴다. 즉 <strong>권한 이전 중심</strong>의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 <strong>값 전파 중심</strong>의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 |
 | :--- | :--- | :--- |
@@ -59,22 +61,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 한 번이 어떤 식으로 퍼지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Write-Update의 데이터 전파 경로                         │
-├──────────────────────────────────────────────────────────────────────┤
-│  코어 A                인터커넥트                 코어 B / 코어 C     │
-│  ┌─────────┐           ┌──────────────┐           ┌──────────────┐    │
-│  │ write X │ ───────▶ │ Update(X=10) │ ───────▶ │ line X := 10  │    │
-│  └─────────┘           └──────────────┘           └──────────────┘    │
-│         │                         └────────────────▶ line X := 10      │
-│         └─────────────────────────────────────────────────────────────▶ │
-│                                                                      │
-│ 결과: 다른 코어는 invalid가 아니라 "최신 공유본"을 계속 유지          │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-문제는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 한 번으로 끝나지 않는 경우다. `X=1 → X=2 → X=3`처럼 같은 라인을 연속 수정하면 매번 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전파된다. [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)은 첫 한 번만 다른 복사본을 끊어 놓으면 이후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 조용히 이어 갈 수 있지만, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 **모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)마다 통신 비용**이 발생한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Update의 데이터 전파 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 A 인터커넥트 코어 B / 코어 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write X</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Update(X=10)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">line X := 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ line X := 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 다른 코어는 invalid가 아니라 "최신 공유본"을 계속 유지</div></div>
+</div>
+</div>
+
+
+
+문제는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 한 번으로 끝나지 않는 경우다. `X=1 → X=2 → X=3`처럼 같은 라인을 연속 수정하면 매번 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전파된다. [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)은 첫 한 번만 다른 복사본을 끊어 놓으면 이후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 조용히 이어 갈 수 있지만, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>모든 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>마다 통신 비용</strong>이 발생한다.
 
 이 특성 때문에 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "읽기 지연을 줄이는 대신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 대역폭을 소비하는 구조"로 이해해야 한다. 특히 캐시 라인 크기가 64바이트이고 실제 바뀌는 필드는 몇 바이트뿐이라면, 부분 갱신 처리조차 인터커넥트 설계를 복잡하게 만든다.
 
@@ -84,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 이해하려면 [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/))과의 경계를 분명히 봐야 한다. 두 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 모두 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))을 지키려는 목적은 같지만, **어떤 비용을 먼저 치를지**가 다르다.
+갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 이해하려면 [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/))과의 경계를 분명히 봐야 한다. 두 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 모두 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))을 지키려는 목적은 같지만, <strong>어떤 비용을 먼저 치를지</strong>가 다르다.
 
 | 항목 | 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Update) | [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)) |
 | :--- | :--- | :--- |
@@ -96,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 Dragon [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Dragon [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 대표적인 write-update 계열로 알려져 있다. 반면 MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Modified, Exclusive, Shared, Invalid)과 MOESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Modified, Owned, Exclusive, Shared, Invalid)의 주류 구현은 대체로 무효화 철학을 따른다. 이는 현대 시스템에서 코어 수 증가와 인터커넥트 병목이 더 치명적이기 때문이다.
 
-연결해서 보면, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단순히 "옛날 방식"이 아니라 **트래픽과 지연시간 사이의 선택지**다. 작은 공유자 집합, 읽기 우세, 빠른 재사용이 맞물리면 이론적으로 여전히 매력적이다. 하지만 범용 서버처럼 코어 수가 많고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 예측 불가능하면, 버스나 메시에 쏟아지는 update 메시지가 전체 확장성을 갉아먹는다.
+연결해서 보면, 갱신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단순히 "옛날 방식"이 아니라 <strong>트래픽과 지연시간 사이의 선택지</strong>다. 작은 공유자 집합, 읽기 우세, 빠른 재사용이 맞물리면 이론적으로 여전히 매력적이다. 하지만 범용 서버처럼 코어 수가 많고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 예측 불가능하면, 버스나 메시에 쏟아지는 update 메시지가 전체 확장성을 갉아먹는다.
 
 **📢 섹션 요약 비유**: Write-Update는 새 교재가 나오면 반 친구 전원에게 새 페이지를 바로 배포하는 방식이고, Write-Invalidate는 "옛 페이지는 버려"라고 먼저 알리는 방식이다. 자주 다시 읽는 수업이면 전자 쪽이 편하지만, 교재 수정이 계속되면 후자가 훨씬 덜 시끄럽다.
 
@@ -110,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 
 1. **공유자 수가 작다**: 2~4개 수준의 제한된 공유라면 전파 범위가 통제 가능하다.
 2. **읽기 재사용이 즉시 발생한다**: 쓰고 난 직후 다른 코어가 거의 곧바로 읽는 패턴이어야 한다.
-3. **반복 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 길지 않다**: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 연속 갱신이 길면 update의 장점이 빠르게 사라진다.
+3. <strong>반복 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>가 길지 않다</strong>: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 연속 갱신이 길면 update의 장점이 빠르게 사라진다.
 
 반대로 아래 상황이면 [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)이 더 합리적이다.
 
@@ -118,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 - 공유자 수가 많아 브로드캐스트나 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 비용이 커지는 경우
 - [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))처럼 실제로는 독립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인데 같은 캐시 라인을 건드리는 경우
 
-소프트웨어 아키텍처에서도 같은 판단이 반복된다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복제에서 새 값을 적극 push할지, 키를 invalidation만 할지 결정할 때도 결국 **즉시 읽기 보장 vs 네트워크 절약**의 선택으로 환원된다. 하드웨어의 write-update는 오늘날 주류는 아니지만, 설계 판단 프레임은 여전히 살아 있다.
+소프트웨어 아키텍처에서도 같은 판단이 반복된다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복제에서 새 값을 적극 push할지, 키를 invalidation만 할지 결정할 때도 결국 <strong>즉시 읽기 보장 vs 네트워크 절약</strong>의 선택으로 환원된다. 하드웨어의 write-update는 오늘날 주류는 아니지만, 설계 판단 프레임은 여전히 살아 있다.
 
 **📢 섹션 요약 비유**: 식당에서 메뉴가 바뀔 때 손님이 바로 다시 주문할 테이블에만 새 메뉴판을 돌리면 효율적이다. 하지만 모든 테이블에 매번 새 메뉴판을 뿌리면, 정작 서빙보다 메뉴판 배달이 더 바빠지는 상황이 생긴다.
 
@@ -130,7 +131,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 널리 쓰이지 않는 이유도 분명하다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 연속되면 update 메시지가 누적되고, 공유자가 많아질수록 통신량이 선형적으로 증가하며, 결과적으로 시스템 전체 확장성이 나빠진다. 그래서 현대 설계에서는 "가능하면 invalidate를 기본으로 하고, 정말 필요한 곳에만 update적 사고를 국소 적용"하는 방향이 더 현실적이다.
 
-결국 Write-Update는 **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 방법 중 하나**이지, 항상 더 친절한 해답은 아니다. 이 개념은 "최신값을 미리 배포하면 읽기는 빨라지지만, 그 친절함의 비용은 결국 통신이 낸다"는 관점으로 기억하는 것이 가장 정확하다.
+결국 Write-Update는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 맞추는 방법 중 하나</strong>이지, 항상 더 친절한 해답은 아니다. 이 개념은 "최신값을 미리 배포하면 읽기는 빨라지지만, 그 친절함의 비용은 결국 통신이 낸다"는 관점으로 기억하는 것이 가장 정확하다.
 
 **📢 섹션 요약 비유**: 모두에게 최신 소식을 미리 알려 주면 질문이 줄어드는 장점이 있다. 하지만 소식이 너무 자주 바뀌면, 소식을 전하는 일 자체가 본업이 되어 버린다.
 
@@ -148,22 +149,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 데이터 읽기 문제
-    │
-    ▼
-캐시 일관성 (Cache Coherence)
-    │
-    ├──▶ 갱신 정책 (Write-Update)
-    │         │
-    │         ├──▶ Dragon 프로토콜 (Dragon Protocol)
-    │         └──▶ 읽기 지연 최소화 지향
-    │
-    └──▶ 무효화 정책 (Write-Invalidate)
-              │
-              ├──▶ MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)
-              └──▶ 대역폭·확장성 중심 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 데이터 읽기 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 갱신 정책 (Write-Update)</div>
+<div class="kb-diagram-note">──▶ Dragon 프로토콜 (Dragon Protocol)</div>
+<div class="kb-diagram-note">──▶ 읽기 지연 최소화 지향</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 무효화 정책 (Write-Invalidate)</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ 대역폭·확장성 중심 진화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 설계가 "최신값을 미리 보내는 길"과 "필요할 때 다시 가져오게 하는 길"로 갈라졌음을 보여준다.
 

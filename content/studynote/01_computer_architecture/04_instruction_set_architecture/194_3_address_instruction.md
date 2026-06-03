@@ -19,26 +19,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 **목적지 1개와 소스 2개**를 독립적으로 적는 형식이다. 대표 예는 `ADD R3, R1, R2`이며 의미는 `R3 ← R1 + R2`다. 즉 결과를 저장하는 자리와 입력값을 읽는 자리를 분리해, 연산 이후에도 `R1`, `R2`의 값이 그대로 남는다.
+3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 <strong>목적지 1개와 소스 2개</strong>를 독립적으로 적는 형식이다. 대표 예는 `ADD R3, R1, R2`이며 의미는 `R3 ← R1 + R2`다. 즉 결과를 저장하는 자리와 입력값을 읽는 자리를 분리해, 연산 이후에도 `R1`, `R2`의 값이 그대로 남는다.
 
 이 형식이 중요해진 이유는 수식이 복잡해질수록 "원본을 보존한 채 다음 연산으로 연결할 수 있는가"가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하기 때문이다. 1-주소나 2-주소 형식은 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)나 목적지 겸 소스에 값이 덮어써져 중간 복사나 재적재가 자주 필요하다. 반면 3-주소 형식은 수학식의 구조를 기계어에 거의 그대로 옮길 수 있어, 컴파일러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성을 더 명확하게 추적하고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재배치를 더 공격적으로 수행할 수 있다.
 
 아래 그림은 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 왜 "원본 보존"에 강한지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│     3-주소 명령어의 핵심: 읽는 곳 2개, 쓰는 곳 1개 분리      │
-├──────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R3, R1, R2                                      │
-│                                                              │
-│ 읽기 단계                 연산 단계               쓰기 단계   │
-│ R1 ───────────────┐                                   ┌─▶ R3 │
-│                   ├─▶ ALU (Arithmetic Logic Unit) ────┤      │
-│ R2 ───────────────┘                                   └──────│
-│                                                              │
-│ 결과: R1, R2는 유지되고 R3만 새 값으로 갱신된다.             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-주소 명령어의 핵심: 읽는 곳 2개, 쓰는 곳 1개 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: ADD R3, R1, R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 단계 연산 단계 쓰기 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 ─▶ R3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ ALU (Arithmetic Logic Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: R1, R2는 유지되고 R3만 새 값으로 갱신된다.</div></div>
+</div>
+</div>
+
+
 
 핵심은 연산에 참여한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)와 결과 저장 위치가 겹치지 않는다는 점이다. 이 구조는 "한 값을 여러 후속 명령이 동시에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)"하는 상황에서 특히 강하다. 원본이 살아 있으니 복사 명령을 덜 넣어도 되고, 값의 생존 구간도 더 길게 활용할 수 있다.
 
@@ -48,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순히 주소가 하나 더 많은 포맷이 아니라, **읽기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2개와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개를 전제로 한 실행 모델**과 맞물린다. 따라서 이 형식은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배치, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조, 디코딩 규칙, 즉시값 배치 방식까지 함께 설계해야 제대로 힘을 발휘한다.
+3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순히 주소가 하나 더 많은 포맷이 아니라, <strong>읽기 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 2개와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 1개를 전제로 한 실행 모델</strong>과 맞물린다. 따라서 이 형식은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배치, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조, 디코딩 규칙, 즉시값 배치 방식까지 함께 설계해야 제대로 힘을 발휘한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -61,18 +62,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 수식 `Y = (A + B) * C`를 3-주소 방식으로 처리할 때 흐름이 어떻게 단순해지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        수식 변환: 3-주소는 중간 결과를 새 레지스터에 둔다     │
-├──────────────────────────────────────────────────────────────┤
-│ 1) ADD T1, A, B   ──▶ T1 = A + B                            │
-│ 2) MUL Y,  T1, C  ──▶ Y  = T1 × C                           │
-│                                                              │
-│ A, B, C 보존 ──▶ 중간값 T1 생성 ──▶ 최종값 Y 생성            │
-│                                                              │
-│ 중간 단계마다 "누구를 덮어쓸지" 고민하지 않아도 된다.       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수식 변환: 3-주소는 중간 결과를 새 레지스터에 둔다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) ADD T1, A, B ──▶ T1 = A + B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) MUL Y, T1, C ──▶ Y = T1 × C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A, B, C 보존 ──▶ 중간값 T1 생성 ──▶ 최종값 Y 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간 단계마다 "누구를 덮어쓸지" 고민하지 않아도 된다.</div></div>
+</div>
+</div>
+
+
 
 이 구조는 하드웨어에도 이점이 있다. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 두 소스를 읽고 한 목적지에 쓰는 규칙을 반복적으로 처리하면 되므로 제어가 단순해지고, 파이프라인의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 단계가 규칙적으로 정렬된다. 또한 즉시값이 필요한 경우에는 `Rs2` 자리를 즉시값 필드로 바꾸는 I형 변형을 두어 같은 철학을 유지한 채 확장할 수 있다.
 
@@ -84,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 장점은 다른 주소 수 체계와 비교할 때 더 또렷해진다. 핵심 비교 축은 **원본 보존 여부**, **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수**, **코드 밀도**, **디코딩 단순성**이다.
+3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 장점은 다른 주소 수 체계와 비교할 때 더 또렷해진다. 핵심 비교 축은 **원본 보존 여부**, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 수</strong>, **코드 밀도**, <strong>디코딩 단순성</strong>이다.
 
 | 항목 | [1-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/192_1_address_instruction/) | [2-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/193_2_address_instruction/) | 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
 | :-- | :-- | :-- | :-- |
@@ -107,11 +109,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순한 교과서 개념이 아니라, **컴파일러 백엔드·임베디드 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 설계·벡터 명령 확장**을 판단할 때 기준이 된다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 중시하는 설계에서는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄의 짧음"보다 "전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 단순함"이 더 중요할 때가 많다.
+실무에서 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순한 교과서 개념이 아니라, <strong>컴파일러 백엔드·임베디드 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 설계·벡터 명령 확장</strong>을 판단할 때 기준이 된다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 중시하는 설계에서는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄의 짧음"보다 "전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 단순함"이 더 중요할 때가 많다.
 
 ### 1) 채택이 유리한 경우
 
-1. **파이프라인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 중요한 경우**: 독립 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 유지하므로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링과 아웃오브오더(Out-of-Order) 실행이 수월하다.
+1. <strong>파이프라인 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화가 중요한 경우</strong>: 독립 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 유지하므로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링과 아웃오브오더(Out-of-Order) 실행이 수월하다.
 2. **컴파일러 최적화를 크게 활용하는 경우**: 공통 부분식 제거, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재배치, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당이 더 자연스럽다.
 3. **고정 길이 디코딩이 필요한 경우**: 임베디드 프로세서, 교육용 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), 간결한 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 설계에 적합하다.
 
@@ -119,27 +121,29 @@ tags = ["studynote-computer-architecture"]
 
 1. **코드 크기가 매우 중요한 경우**: 주소 필드가 많아 플래시 메모리나 명령 캐시 압박이 커질 수 있다.
 2. **즉시값 사용 빈도가 높은 경우**: 세 주소와 큰 상수를 동시에 담기 어려워 추가 로드가 늘 수 있다.
-3. **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수가 부족한 경우**: 형식은 3-주소라도 실제로는 스필(Spill) 증가로 장점이 줄어든다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 수가 부족한 경우</strong>: 형식은 3-주소라도 실제로는 스필(Spill) 증가로 장점이 줄어든다.
 
 아래 그림은 실무 판단을 위한 대표적인 균형점을 정리한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            3-주소 채택 판단: 성능과 코드 크기의 균형          │
-├──────────────────────────────────────────────────────────────┤
-│ 성능 우선 설계                                                │
-│   ├─ 원본 보존 필요 큼                                        │
-│   ├─ 파이프라인/병렬화 중요                                   │
-│   └─ 3-주소 채택에 유리                                       │
-│                                                              │
-│ 메모리 절약 우선 설계                                          │
-│   ├─ 명령어 저장 공간 제한 큼                                 │
-│   ├─ 압축 명령어 필요                                          │
-│   └─ 2-주소 또는 압축 확장 병행 고려                           │
-└──────────────────────────────────────────────────────────────┘
-```
 
-기술사 답안에서는 "3-주소가 항상 우월하다"고 쓰면 부족하다. 정확한 판단은 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심이면 3-주소가 유리하지만, 코드 밀도와 즉시값 표현력까지 고려하면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 또는 혼합 포맷이 필요하다**는 식으로 정리해야 한다. 실제 ARM Thumb, [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) C 확장은 이 한계를 메우기 위해 등장한 사례다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-주소 채택 판단: 성능과 코드 크기의 균형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 우선 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원본 보존 필요 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 파이프라인/병렬화 중요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3-주소 채택에 유리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 절약 우선 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 명령어 저장 공간 제한 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 압축 명령어 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2-주소 또는 압축 확장 병행 고려</div></div>
+</div>
+</div>
+
+
+
+기술사 답안에서는 "3-주소가 항상 우월하다"고 쓰면 부족하다. 정확한 판단은 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 중심이면 3-주소가 유리하지만, 코드 밀도와 즉시값 표현력까지 고려하면 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 또는 혼합 포맷이 필요하다</strong>는 식으로 정리해야 한다. 실제 ARM Thumb, [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) C 확장은 이 한계를 메우기 위해 등장한 사례다.
 
 - **📢 섹션 요약 비유**: 3-주소는 넓은 작업대가 있는 공방과 같다. 일은 빨라지지만 공간 임대료가 비싸면, 접이식 작업대를 같이 써야 전체 운영이 좋아진다.
 
@@ -151,7 +155,7 @@ tags = ["studynote-computer-architecture"]
 
 반면 대가도 분명하다. 주소 필드가 늘수록 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 커지고, 코드 밀도는 나빠지며, 큰 즉시값을 직접 넣기 어려워진다. 그래서 현대 설계는 3-주소를 기본으로 삼되, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)·벡터 전용 포맷·즉시값 확장 명령을 함께 두어 약점을 보완한다.
 
-결국 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "가장 많은 정보를 한 줄에 적는 방식"이 아니라, **연산의 의미를 가장 깨끗하게 보존하는 방식**으로 기억해야 한다. 시험에서는 비파괴성·파이프라인 친화성·코드 밀도 저하를 함께 적는 것이 핵심이고, 실무에서는 ISA의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 철학을 드러내는 설계 선택으로 이해하면 된다.
+결국 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "가장 많은 정보를 한 줄에 적는 방식"이 아니라, <strong>연산의 의미를 가장 깨끗하게 보존하는 방식</strong>으로 기억해야 한다. 시험에서는 비파괴성·파이프라인 친화성·코드 밀도 저하를 함께 적는 것이 핵심이고, 실무에서는 ISA의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 철학을 드러내는 설계 선택으로 이해하면 된다.
 
 - **📢 섹션 요약 비유**: 3-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 정리정돈이 잘된 책상과 같다. 책상은 조금 넓게 차지하지만, 물건이 섞이지 않아 결국 더 빠르고 정확하게 일할 수 있다.
 
@@ -169,21 +173,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-누산기 중심 1-주소
-        │
-        ▼
-절충형 2-주소
-        │
-        ▼
-비파괴 3-주소 + 고정 길이 디코딩
-        │
-        ├─▶ RISC 파이프라인 최적화
-        ├─▶ 컴파일러 SSA/IR 친화성 강화
-        └─▶ 압축 명령어 · 벡터 확장으로 보완
-```
 
-이 흐름은 "주소 수 증가" 자체보다, **연산 의미를 얼마나 명시적으로 표현하느냐**가 아키텍처 발전의 핵심이었음을 보여준다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">누산기 중심 1-주소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">절충형 2-주소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비파괴 3-주소 + 고정 길이 디코딩</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ RISC 파이프라인 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 컴파일러 SSA/IR 친화성 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 압축 명령어 · 벡터 확장으로 보완</div>
+</div>
+</div>
+
+
+
+이 흐름은 "주소 수 증가" 자체보다, <strong>연산 의미를 얼마나 명시적으로 표현하느냐</strong>가 아키텍처 발전의 핵심이었음을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

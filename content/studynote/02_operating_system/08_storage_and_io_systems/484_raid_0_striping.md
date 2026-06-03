@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **ëì**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))ì ìë êì ëëì ëìíë ëì, ëìíë íì íêì ëë(ìíëìí, Stripe) ëìë ìêì ê ëìíì ìììêìììë ëì êëíë ìíëìí (Striping) êì ìêë.
 > 2. **êì**: ëìíë ìê ì ë ëì ìë ëë ëìíê ëìì I/O(Input/Output)ë ìííëë(ëë ìë), ìëììë ëìí êì(N)ëíì **ìíìì I/O ìë ìí(ëìí êëí)** ìëë ìêì ìëì ëìíë.
-> 3. **íê**: íëí(Parity) ìììë ëëë(Mirroring) êì ëìí ëí ììê ë 1ëìíë ììíì ììëë, ìëìì ìí **ë íëì ëìíë êì ëë ìì ëëì ëìíê 100% ìê ìì([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/) 0)** ëë 'êíì ìë ëí' ìêë.
+> 3. **íê**: íëí(Parity) ìììë ëëë(Mirroring) êì ëìí ëí ììê ë 1ëìíë ììíì ììëë, ìëìì ìí <strong>ë íëì ëìíë êì ëë ìì ëëì ëìíê 100% ìê ìì(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a> 0)</strong> ëë 'êíì ìë ëí' ìêë.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -30,11 +30,11 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **êë**: RAIDì ììê êëìì êì êêìì ííì ëë 0ì ìì "ìëì ìëì(Redundant)"ìëë [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ëëì êëíìë ìëëë. ëì ëìí(Redundancy)ê "0"ìëë ìëìì [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ìë ëëëìë. ìì ìë([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))ì ìë(Capacity)ì ìë íììëë í ìëë íë ëììë.
-- **íìì**: êíìë ëëì ëëë, 3D ëë ììê íìì ìíëë, ëêë êí ììì ìì ìì ìì ë ëìíì 'ìê ëì'ëëë ëì **ëëí ëìí([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))ì íí ìì ìê ëì ìëíëë ìë**ì ìëììë íìí íì íêì ììíë. êì ëì ëì êêì ëìíë ìììë I/O ìëê CPUì ìì ìëë ëìí ëëêì ëí ë, ììëìë ìëí ëìí 4êë ìì ìêì êìëë 4ììì ëìëëë êë([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0)ì ëëê ëë. 
+- **íìì**: êíìë ëëì ëëë, 3D ëë ììê íìì ìíëë, ëêë êí ììì ìì ìì ìì ë ëìíì 'ìê ëì'ëëë ëì <strong>ëëí ëìí(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)ì íí ìì ìê ëì ìëíëë ìë</strong>ì ìëììë íìí íì íêì ììíë. êì ëì ëì êêì ëìíë ìììë I/O ìëê CPUì ìì ìëë ëìí ëëêì ëí ë, ììëìë ìëí ëìí 4êë ìì ìêì êìëë 4ììì ëìëëë êë([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0)ì ëëê ëë. 
 
 - **ð ëì**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì "1ìêìë êì ëìë"ì 1ëì íììê ìë 1ìêì êëìë, ëì íìì 5ë ëìë 12ë(ëìí êì N)ì íìììê ììì ëìì ìëê ììíë(ìíëìí), ìì ëìë 5ë ëì ììíëëë(ìë Në ìì) êêì íì ëììëë. íìë 12ë ì 1ëìëë íììì êì íìíì ì ìë(ëìí H/W ìë), ìì ëìê ìê ëì ìë ìë ìë ìëêê ëìëëë ëìí(ìëì ìë)ì ëêìëë.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 (ìíëìí)ì ëìí ëì ëë ëí êì**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 0 (ìíëìí)ì ëìí ëì ëë ëí êì</strong>:
 ëë ëìì ëìíê ììììë ìë ìíë(ëìí)ì ìëê ìêìì ëëìëìë [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) ëììêëìë ìêííë ëìê êë.
 
 ```text
@@ -149,9 +149,9 @@ tags = ["studynote-operating-system"]
 
 ### ìë ìëëì ìë ëë
 
-1. **ìëëì  [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) (High Peformance Computing) íêì ëì ëë ììì ìì ëìí (Scratch Space)**: ëëë([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) ëëìì íëëìíê ëìíì ìíí(Epoch)ë ìêììë ëëí ë ëì ììíì [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 1ììë ëìí I/O ëëì ìì [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ììê ëìíë êëëëë ëê ìë. ì ëìí ìì ìë ìëìí ìíëì(S3 ë ëìë ìììë)ì ììí ëêëì ììëë ìíí ëë ìììë êìë ëì íìë(Pull) ëìë. ëëì êì ì [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 4~8ìì **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 (S/W mdadm)** ìë ëê ëë ìíëìíìë ëìí 20GB/s êì êë ìì ìíëì(Scratch) ííìì ëììê ML ììëìì ìíí ëë ìêì ììí ìë ìííì êëì íììë.
+1. <strong>ìëëì  <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/">HPC</a> (High Peformance Computing) íêì ëì ëë ììì ìì ëìí (Scratch Space)</strong>: ëëë([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) ëëìì íëëìíê ëìíì ìíí(Epoch)ë ìêììë ëëí ë ëì ììíì [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 1ììë ëìí I/O ëëì ìì [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ììê ëìíë êëëëë ëê ìë. ì ëìí ìì ìë ìëìí ìíëì(S3 ë ëìë ìììë)ì ììí ëêëì ììëë ìíí ëë ìììë êìë ëì íìë(Pull) ëìë. ëëì êì ì [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 4~8ìì <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 0 (S/W mdadm)</strong> ìë ëê ëë ìíëìíìë ëìí 20GB/s êì êë ìì ìíëì(Scratch) ííìì ëììê ML ììëìì ìíí ëë ìêì ììí ìë ìííì êëì íììë.
 
-2. **ìëëì  ìëí ëê ìíëë ëí ììí ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) / ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**: ììë ìì ëê ìë êêëìíì ëì ëê ìëíë ëìë. ëìì ììë ìë ëê íìì Kafkaë Logstashê ëì íìíëììë íêë ìì ëëìë ìì ëìíìë(íë ëì ë), ìêì ëë(Log drop)ì ìëìì ìëì(êìêì ë)ëë íëí ëëíë ëì ëì ìëì ììë ëëë. ìë ìíëìì [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) êì ëëíì I/O ìëíëë ìí ëê Drop ëëì ëê ëëë, ëëëì **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0**ìë ëì ìê ëë ììë ììëìë ìí íëë ëë êì êì ìíííì íëí ìíìë.
+2. <strong>ìëëì  ìëí ëê ìíëë ëí ììí (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> / ELK <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong>: ììë ìì ëê ìë êêëìíì ëì ëê ìëíë ëìë. ëìì ììë ìë ëê íìì Kafkaë Logstashê ëì íìíëììë íêë ìì ëëìë ìì ëìíìë(íë ëì ë), ìêì ëë(Log drop)ì ìëìì ìëì(êìêì ë)ëë íëí ëëíë ëì ëì ìëì ììë ëëë. ìë ìíëìì [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) êì ëëíì I/O ìëíëë ìí ëê Drop ëëì ëê ëëë, ëëëì <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 0</strong>ìë ëì ìê ëë ììë ììëìë ìí íëë ëë êì êì ìíííì íëí ìíìë.
 
 ì ëêì 0ì ìííí íê ìììë êì ëìíìë íë ìë ííí [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ìí ìëì íë íëë ëìê êë.
 
@@ -201,12 +201,12 @@ tags = ["studynote-operating-system"]
 | **ìì (ìì)** | ìë ëë êê(ìì ììë, ëìë ìììë ëìëê) ìì | ìê(Write) ìëíë 0% ëì ë ìêìì I/O ëí ëì ìë | íëìì I/O ë ìí ìíëììì ìì ìì([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) êì íí |
 
 ### ëë ìë
-- **[RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) (1+0) ë ëìí êìì ìíí(Under-layer) ìì**: ììí [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ëëì ê ìëìì ìíííì íê(FT=0) ëëì ìì ëììíë ëëììë ììëê íëë. íìë ìíëìíì **ìëìì ìë** ëëëíì ìë íêí ì ìê ëëì, ëëìë ìëê ììì(ëì ëì)ì êìë ëë ìììë êì ìëí íìëëë ìëì ìíì **[RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) (Striping over Mirroring ìë ëë)ì 'íì ìë ëë'** ëì ìì ìíì ìëì ëí êìë.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">RAID 10</a> (1+0) ë ëìí êìì ìíí(Under-layer) ìì</strong>: ììí [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0 ëëì ê ìëìì ìíííì íê(FT=0) ëëì ìì ëììíë ëëììë ììëê íëë. íìë ìíëìíì **ìëìì ìë** ëëëíì ìë íêí ì ìê ëëì, ëëìë ìëê ììì(ëì ëì)ì êìë ëë ìììë êì ìëí íìëëë ìëì ìíì <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">RAID 10</a> (Striping over Mirroring ìë ëë)ì 'íì ìë ëë'</strong> ëì ìì ìíì ìëì ëí êìë.
 - **íëìë Ephemeral Storage (ìì íëì ëë)**: AWS ììíì ìíì, GCPì ëì [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ìíëì ë íëìë VDC íêìì 'ììí ììíì ëë ë ëìêë ìì êì ëë ììì'ì íëë ëì ë, S/W [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì ëìì êëì ììíì ìê ëìì I/Oë ëìëìë íìí ëììí êëì ììì íëìë íë ìíìë êì ììëê ìë.
 
 ### ìê íì
 - **SNIA (Storage Networking Industry Association)**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ëë ëë 0([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Striping WITHOUT Parity) ìì ìë êì ìì.
-- **Linux ìë `mdadm` ëëì**: S/W êì ìíëìí ìëì(ëë 0) ëë ììì ìí ìëì ììí(Tuning) êìì. ( `mdadm --create --level=0` )
+- <strong>Linux ìë <code>mdadm</code> ëëì</strong>: S/W êì ìíëìí ìëì(ëë 0) ëë ììì ìí ìëì ììí(Tuning) êìì. ( `mdadm --create --level=0` )
 
 êëììë [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0ì RAIDì ìì ëìì "ëìí ëìë (Redundancy)" ìëë ììí êëì ìëíê ëìí ììí ìëìì ììììë, ììììë ê ëëì "ìëì ìë" ìëë í ìêì ìê() ììì ìí íììì ëëíë ììì ììëìì êììë. íê([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))ì ëë ëììë ëëë êë([RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)+0 ë)ì ìê ìì ìëí êëí ì ìêì ìë ëíì ììí ììì ëë.
 
@@ -233,15 +233,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID (Redundant Array of Independent Disks)]
-    │
-    ▼
-[RAID 0 (스트라이핑, Striping) (RAID 0 Striping)]
-    │
-    ├──▶ [RAID 1 (미러링, Mirroring)]
-    └──▶ [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID (Redundant Array of Independent Disks)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 0 (스트라이핑, Striping) (RAID 0 Striping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 1 (미러링, Mirroring)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (List [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 지역, 채널, 등급처럼 **의미가 분명한 이산 값**을 미리 정한 목록으로 매핑해, 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 자체를 물리 저장 경계로 바꾸는 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법이다.
+> 1. **본질**: 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (List [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 지역, 채널, 등급처럼 <strong>의미가 분명한 이산 값</strong>을 미리 정한 목록으로 매핑해, 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 자체를 물리 저장 경계로 바꾸는 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기법이다.
 > 2. **가치**: 동등 조건 조회에서 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/))이 직관적으로 잘 작동하고, 지역별 삭제·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·권한 통제를 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 수행하기 쉬워 운영 설명력이 높다.
 > 3. **판단 포인트**: 값 종류가 적고 안정적일수록 강하지만, 새 코드가 자주 추가되거나 특정 값으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 심하게 몰리면 DEFAULT [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 재분산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이는 오히려 관리 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 커진다.
 
@@ -19,24 +19,26 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 값이 사전에 정의된 특정 목록에 속하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤, 해당 목록과 연결된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 행을 저장하는 방식이다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/))이 값의 순서와 경계를 활용하고, [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) ([Hash Partitioning](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/))이 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 우선한다면, 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 **업무 코드의 의미**를 그대로 물리 구조에 반영한다.
+리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 값이 사전에 정의된 특정 목록에 속하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤, 해당 목록과 연결된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 행을 저장하는 방식이다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/))이 값의 순서와 경계를 활용하고, [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) ([Hash Partitioning](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/))이 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 우선한다면, 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 <strong>업무 코드의 의미</strong>를 그대로 물리 구조에 반영한다.
 
 이 방식이 필요한 이유는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간 축이나 해시 분포로 설명되지 않기 때문이다. 예를 들어 `region_code`, `sales_channel`, `tenant_tier`, `country_code`처럼 값의 종류는 많지 않지만 구분 의미가 분명한 컬럼은, 어느 그룹이 어느 저장 영역에 있어야 하는지가 설계에서 중요하다. 이런 경우 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 쓰면 "서울 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 서울 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)", "제휴 채널 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제휴 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)"처럼 업무 설명과 저장 구조가 일치해진다.
 
-아래 그림은 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 **업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 축을 그대로 저장 경계로 고정**한다는 점을 보여 준다.
+아래 그림은 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 <strong>업무 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 축을 그대로 저장 경계로 고정</strong>한다는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Business code becomes a physical boundary                          │
-├────────────────────────────────────────────────────────────────────┤
-│ region = SEOUL      -> P_CAPITAL                                   │
-│ region = BUSAN      -> P_SOUTH                                     │
-│ region = GANGWON    -> P_EAST                                      │
-│ region = others     -> P_DEFAULT                                   │
-│                                                                    │
-│ effect: query, archive, access policy follow the same code axis    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business code becomes a physical boundary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = SEOUL -&gt; P_CAPITAL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = BUSAN -&gt; P_SOUTH</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = GANGWON -&gt; P_EAST</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = others -&gt; P_DEFAULT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">effect: query, archive, access policy follow the same code axis</div></div>
+</div>
+</div>
+
+
 
 핵심은 이 구조가 단순한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 아니라는 점이다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 삭제, 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 대상으로 한 통계 수집과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리가 가능해지므로, 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 운영 거버넌스 수단이 되기도 한다.
 
@@ -46,7 +48,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))은 새 행이 들어오면 먼저 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, 그 값이 어느 `VALUES` 목록에 속하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 일치하는 목록이 있으면 그 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 없으면 `DEFAULT` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 보내거나 오류를 발생시킨다. 즉 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 원리는 복잡한 계산보다 **명시적 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)**에 가깝다.
+[데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))은 새 행이 들어오면 먼저 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, 그 값이 어느 `VALUES` 목록에 속하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 일치하는 목록이 있으면 그 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 없으면 `DEFAULT` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 보내거나 오류를 발생시킨다. 즉 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 원리는 복잡한 계산보다 <strong>명시적 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/">매핑 규칙</a></strong>에 가깝다.
 
 ```sql
 CREATE TABLE sales_region (
@@ -64,22 +66,20 @@ PARTITION BY LIST (region_code) (
 
 아래 그림은 입력 시점과 조회 시점에 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 어떻게 동작하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Insert routing in list partitioning                                │
-├────────────────────────────────────────────────────────────────────┤
-│ incoming row                                                       │
-│    │                                                               │
-│    ▼                                                               │
-│ read partition key = region_code                                   │
-│    │                                                               │
-│    ├─ value in explicit list? ─ Yes ─▶ target partition            │
-│    │                                                               │
-│    └─ No ─▶ P_DEFAULT or insert error                              │
-│                                                                    │
-│ query region_code = 'BUSAN' -> prune all unrelated partitions      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Insert routing in list partitioning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">incoming row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read partition key = region_code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ value in explicit list? ─ Yes ─▶ target partition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ P_DEFAULT or insert error</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query region_code = 'BUSAN' -&gt; prune all unrelated partitions</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -117,7 +117,7 @@ PARTITION BY LIST (region_code) (
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 **업무 코드가 작고 안정적이며, 그 코드로 자주 조회하거나 관리해야 하는 테이블**에 먼저 검토한다. 예를 들어 국내/해외 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리, 제휴/직영 채널 주문 분리, Bronze·Silver·Gold 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급별 관리처럼 코드 자체가 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결될 때 적합하다.
+실무에서 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 <strong>업무 코드가 작고 안정적이며, 그 코드로 자주 조회하거나 관리해야 하는 테이블</strong>에 먼저 검토한다. 예를 들어 국내/해외 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리, 제휴/직영 채널 주문 분리, Bronze·Silver·Gold 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급별 관리처럼 코드 자체가 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결될 때 적합하다.
 
 반대로 아래 조건이면 신중해야 한다. 첫째, 코드 체계가 자주 바뀌면 `ALTER TABLE` 성격의 유지보수가 잦아진다. 둘째, 특정 값에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 80~90% 몰리면 한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 비대해지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew)이 생긴다. 셋째, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값이 자주 수정되면 사실상 대량 행 재배치 작업이 발생한다.
 
@@ -136,7 +136,7 @@ PARTITION BY LIST (region_code) (
 - 값 분포 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 "지역별로 나누면 보기 좋다"는 이유만으로 적용하는 경우
 - [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 잦은 컬럼을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 잡아 갱신 때마다 행 이동을 유발하는 경우
 
-기술사 답안에서는 "지역별로 나누기 쉽다"에서 멈추면 부족하다. **프루닝 이점, 규제/권한 분리, DEFAULT 안전판, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림과 행 이동 위험**을 함께 설명해야 실제 설계 판단으로 이어진다.
+기술사 답안에서는 "지역별로 나누기 쉽다"에서 멈추면 부족하다. <strong>프루닝 이점, 규제/권한 분리, DEFAULT 안전판, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 쏠림과 행 이동 위험</strong>을 함께 설명해야 실제 설계 판단으로 이어진다.
 
 - **📢 섹션 요약 비유**: 도시를 구별로 나누어 행정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하는 것은 효율적이지만, 인구가 한 구에만 몰리거나 행정구역 이름이 자주 바뀌면 오히려 창구가 더 혼잡해진다. 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)도 이름표가 명확할수록 좋지만, 이름표 체계가 흔들리면 관리 부담이 급격히 커진다.
 
@@ -144,7 +144,7 @@ PARTITION BY LIST (region_code) (
 
 ## Ⅴ. 기대효과 및 결론
 
-리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 잘 맞으면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 설명력이 함께 올라간다. 특정 코드값 조회에서 읽어야 할 물리 영역이 줄어들고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·삭제·이관·권한 통제를 수행하기 쉬워진다. 즉 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개는 것이 아니라 **업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 저장 구조에 정착시키는 효과**가 생긴다.
+리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 잘 맞으면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 설명력이 함께 올라간다. 특정 코드값 조회에서 읽어야 할 물리 영역이 줄어들고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·삭제·이관·권한 통제를 수행하기 쉬워진다. 즉 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개는 것이 아니라 <strong>업무 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>를 저장 구조에 정착시키는 효과</strong>가 생긴다.
 
 하지만 장점만 있는 것은 아니다. 코드 체계가 변하면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정의도 따라 바뀌어야 하고, 특정 값 집중은 곧 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 집중으로 이어진다. 또한 시간 축 관리나 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 더 중요하다면 레인지나 해시, 또는 복합 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 더 적절할 수 있다.
 
@@ -168,20 +168,23 @@ PARTITION BY LIST (region_code) (
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-업무 코드 분리 필요
-        │
-        ▼
-명시적 값 목록 설계
-        │
-        ▼
-리스트 파티셔닝 (List Partitioning)
-        │
-        ├──────────────► 동등 조건 프루닝
-        ├──────────────► 지역별/채널별 독립 관리
-        ├──────────────► DEFAULT 파티션 운영
-        └──────────────► Range + List / List + Hash 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">업무 코드 분리 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명시적 값 목록 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리스트 파티셔닝 (List Partitioning)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">동등 조건 프루닝</div>
+<div class="kb-diagram-tree-item" style="--depth:4">지역별/채널별 독립 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">DEFAULT 파티션 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Range + List / List + Hash 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,38 +18,37 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 기존 보안 모델의 한계
 
-```
-전통적 경계 방어 (Perimeter Defense):
 
-외부 인터넷
-    ↓ (방화벽이 막음)
-내부 네트워크 ─────────────────────
-                  서버A ↔ 서버B ↔ 서버C
-                  (내부는 신뢰)
 
-"성벽 모델" 문제:
-  성벽(방화벽) 안에 들어오면 자유롭게 이동
-  
-  공격 시나리오:
-  1. 피싱으로 내부 PC 감염
-  2. 내부 PC → 데이터베이스 서버 (자유롭게 이동)
-  3. DB에서 민감 데이터 탈취
-  
-  방화벽이 허용했어도 내부 이동은 무방비
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 경계 방어 (Perimeter Defense):</div>
+<div class="kb-diagram-note">외부 인터넷</div>
+<div class="kb-diagram-note">↓ (방화벽이 막음)</div>
+<div class="kb-diagram-note">내부 네트워크</div>
+<div class="kb-diagram-note">서버A ↔ 서버B ↔ 서버C</div>
+<div class="kb-diagram-note">(내부는 신뢰)</div>
+<div class="kb-diagram-note">"성벽 모델" 문제:</div>
+<div class="kb-diagram-note">성벽(방화벽) 안에 들어오면 자유롭게 이동</div>
+<div class="kb-diagram-note">공격 시나리오:</div>
+<div class="kb-diagram-note">1. 피싱으로 내부 PC 감염</div>
+<div class="kb-diagram-note">2. 내부 PC → 데이터베이스 서버 (자유롭게 이동)</div>
+<div class="kb-diagram-note">3. DB에서 민감 데이터 탈취</div>
+<div class="kb-diagram-note">방화벽이 허용했어도 내부 이동은 무방비</div>
+<div class="kb-diagram-note">VLAN 기반 세그먼테이션 한계:</div>
+<div class="kb-diagram-note">VLAN으로 부서 간 분리</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">같은 VLAN 내 서버들은 자유 통신</div>
+<div class="kb-diagram-note">VLAN 변경 = 네트워크 재구성 (고비용)</div>
+<div class="kb-diagram-note">동적 클라우드/컨테이너 IP에 대응 어려움</div>
+<div class="kb-diagram-note">현실 통계:</div>
+<div class="kb-diagram-note">평균 침해 탐지 시간: 197일 (IBM 2022)</div>
+<div class="kb-diagram-note">내부 이동 시간: 침해 후 4~10일</div>
+<div class="kb-diagram-note">→ 조기 발견/차단이 피해 최소화 핵심</div>
+</div>
+</div>
 
-VLAN 기반 세그먼테이션 한계:
-  VLAN으로 부서 간 분리
-  
-  문제:
-  같은 VLAN 내 서버들은 자유 통신
-  VLAN 변경 = 네트워크 재구성 (고비용)
-  동적 클라우드/컨테이너 IP에 대응 어려움
 
-현실 통계:
-  평균 침해 탐지 시간: 197일 (IBM 2022)
-  내부 이동 시간: 침해 후 4~10일
-  → 조기 발견/차단이 피해 최소화 핵심
-```
 
 > 📢 **섹션 요약 비유**: 전통 경계 방어 = 성벽 도시 — 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 지키면 내부는 자유. 적이 성문 통과(계정 탈취)하면 내부 모든 곳 이동. 마이크로 세그먼테이션은 건물마다 별도 잠금!
 
@@ -57,50 +56,45 @@ VLAN 기반 세그먼테이션 한계:
 
 ## Ⅱ. 마이크로 세그먼테이션 원리
 
-```
-마이크로 세그먼테이션:
-  워크로드 단위 격리 + 동서 트래픽 제어
 
-개념:
-  기존: 서버 A ↔ 서버 B (자유 통신)
-  마이크로 세그먼테이션:
-  
-  [웹 서버] ←→ [앱 서버] ←→ [DB 서버]
-      ↑             ↑            ↑
-  (정책: 80/443만) (정책: 8080) (정책: 3306, 앱서버만)
 
-핵심 원칙:
-  묵시적 거부 (Implicit Deny):
-  명시적 허용 없으면 기본 차단
-  
-  최소 권한 (Least Privilege):
-  필요한 포트/프로토콜만 허용
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마이크로 세그먼테이션:</div>
+<div class="kb-diagram-note">워크로드 단위 격리 + 동서 트래픽 제어</div>
+<div class="kb-diagram-note">개념:</div>
+<div class="kb-diagram-note">기존: 서버 A ↔ 서버 B (자유 통신)</div>
+<div class="kb-diagram-note">마이크로 세그먼테이션:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">앱 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">DB 서버</div></div>
+<div class="kb-diagram-note">(정책: 80/443만) (정책: 8080) (정책: 3306, 앱서버만)</div>
+<div class="kb-diagram-note">핵심 원칙:</div>
+<div class="kb-diagram-note">묵시적 거부 (Implicit Deny):</div>
+<div class="kb-diagram-note">명시적 허용 없으면 기본 차단</div>
+<div class="kb-diagram-note">최소 권한 (Least Privilege):</div>
+<div class="kb-diagram-note">필요한 포트/프로토콜만 허용</div>
+<div class="kb-diagram-note">세그먼트 단위:</div>
+<div class="kb-diagram-note">1. 서브넷/VLAN 기반 (전통):</div>
+<div class="kb-diagram-note">IP 대역으로 그룹 구분</div>
+<div class="kb-diagram-note">변경 어려움</div>
+<div class="kb-diagram-note">2. ID 기반 (현대):</div>
+<div class="kb-diagram-note">호스트명, 태그, 레이블로 그룹 정의</div>
+<div class="kb-diagram-note">IP 변경에 독립적</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">role=web → role=app: TCP/8080 허용</div>
+<div class="kb-diagram-note">role=app → role=db: TCP/3306 허용</div>
+<div class="kb-diagram-note">기타 모든 통신: 차단</div>
+<div class="kb-diagram-note">3. 프로세스 레벨 (고급):</div>
+<div class="kb-diagram-note">서버 내 프로세스 단위 정책</div>
+<div class="kb-diagram-note">nginx → java-app: 허용</div>
+<div class="kb-diagram-note">sshd → 외부: 차단</div>
+<div class="kb-diagram-note">Zero Trust Network Access와 결합:</div>
+<div class="kb-diagram-note">"Never Trust, Always Verify"</div>
+<div class="kb-diagram-note">마이크로 세그먼테이션: 동서 트래픽</div>
+<div class="kb-diagram-note">ZTNA: 남북 트래픽 (사용자→앱)</div>
+</div>
+</div>
 
-세그먼트 단위:
 
-1. 서브넷/VLAN 기반 (전통):
-  IP 대역으로 그룹 구분
-  변경 어려움
-
-2. ID 기반 (현대):
-  호스트명, 태그, 레이블로 그룹 정의
-  IP 변경에 독립적
-  
-  예:
-  role=web → role=app: TCP/8080 허용
-  role=app → role=db: TCP/3306 허용
-  기타 모든 통신: 차단
-
-3. 프로세스 레벨 (고급):
-  서버 내 프로세스 단위 정책
-  nginx → java-app: 허용
-  sshd → 외부: 차단
-
-Zero Trust Network Access와 결합:
-  "Never Trust, Always Verify"
-  마이크로 세그먼테이션: 동서 트래픽
-  ZTNA: 남북 트래픽 (사용자→앱)
-```
 
 > 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 = 건물 내 출입증 통제 — 회사 건물 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 각 방(워크로드)마다 별도 출입증 필요. 적이 1개 방 침투해도 다른 방 이동 차단!
 
@@ -167,48 +161,45 @@ Zero Trust Network Access와 결합:
 
 ## Ⅳ. 구현 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-마이크로 세그먼테이션 도입 단계:
 
-Phase 1 - 가시성 확보:
-  현재 통신 패턴 파악
-  
-  도구:
-  Illumio 탐색 모드 (트래픽 기록만, 차단 없음)
-  VMware NSX Flow Monitoring
-  VPC Flow Logs (AWS)
-  
-  결과:
-  "어떤 서버가 어디와 통신하는가" 맵핑
 
-Phase 2 - 그룹화 및 정책 설계:
-  워크로드를 역할 기반 그룹으로 정의
-  
-  예: 그룹 정의
-  G1: Web servers (role=web)
-  G2: App servers (role=app)
-  G3: Database (role=db)
-  G4: Management (role=mgmt)
-  
-  정책:
-  인터넷 → G1: TCP/80,443 허용
-  G1 → G2: TCP/8080 허용
-  G2 → G3: TCP/3306 허용
-  G4 → All: TCP/22 허용 (관리)
-  기타: 차단
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마이크로 세그먼테이션 도입 단계:</div>
+<div class="kb-diagram-note">Phase 1 - 가시성 확보:</div>
+<div class="kb-diagram-note">현재 통신 패턴 파악</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">Illumio 탐색 모드 (트래픽 기록만, 차단 없음)</div>
+<div class="kb-diagram-note">VMware NSX Flow Monitoring</div>
+<div class="kb-diagram-note">VPC Flow Logs (AWS)</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">"어떤 서버가 어디와 통신하는가" 맵핑</div>
+<div class="kb-diagram-note">Phase 2 - 그룹화 및 정책 설계:</div>
+<div class="kb-diagram-note">워크로드를 역할 기반 그룹으로 정의</div>
+<div class="kb-diagram-note">예: 그룹 정의</div>
+<div class="kb-diagram-note">G1: Web servers (role=web)</div>
+<div class="kb-diagram-note">G2: App servers (role=app)</div>
+<div class="kb-diagram-note">G3: Database (role=db)</div>
+<div class="kb-diagram-note">G4: Management (role=mgmt)</div>
+<div class="kb-diagram-note">정책:</div>
+<div class="kb-diagram-note">인터넷 → G1: TCP/80,443 허용</div>
+<div class="kb-diagram-note">G1 → G2: TCP/8080 허용</div>
+<div class="kb-diagram-note">G2 → G3: TCP/3306 허용</div>
+<div class="kb-diagram-note">G4 → All: TCP/22 허용 (관리)</div>
+<div class="kb-diagram-note">기타: 차단</div>
+<div class="kb-diagram-note">Phase 3 - 테스트 모드:</div>
+<div class="kb-diagram-note">정책 시뮬레이션 (차단 전 기록)</div>
+<div class="kb-diagram-note">오탐(False Positive) 확인</div>
+<div class="kb-diagram-note">Phase 4 - 점진적 적용:</div>
+<div class="kb-diagram-note">비중요 시스템부터 시작</div>
+<div class="kb-diagram-note">모니터링 후 중요 시스템 확대</div>
+<div class="kb-diagram-note">Phase 5 - 지속적 관리:</div>
+<div class="kb-diagram-note">새 워크로드 배포 시 자동 태그 적용</div>
+<div class="kb-diagram-note">정책 드리프트 모니터링</div>
+</div>
+</div>
 
-Phase 3 - 테스트 모드:
-  정책 시뮬레이션 (차단 전 기록)
-  오탐(False Positive) 확인
 
-Phase 4 - 점진적 적용:
-  비중요 시스템부터 시작
-  모니터링 후 중요 시스템 확대
-
-Phase 5 - 지속적 관리:
-  새 워크로드 배포 시 자동 태그 적용
-  정책 드리프트 모니터링
-```
 
 > 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 도입 = 공장 안전 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 먼저 직원 이동 패턴 기록(Phase 1), 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Phase 2), 가상 울타리 테스트(Phase 3), 단계적 실제 울타리 설치(Phase 4)!
 
@@ -216,49 +207,46 @@ Phase 5 - 지속적 관리:
 
 ## Ⅴ. 실무 시나리오 — 금융권 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 방어
 
-```
-금융회사 마이크로 세그먼테이션 도입:
 
-배경:
-  2021년 유사 금융사 랜섬웨어 피해 100억+
-  내부 서버 간 자유 통신 → 전사 확산
-  
-  현황:
-  - 3-Tier 아키텍처 (웹/앱/DB) × 12개 시스템
-  - VMware vSphere 환경
 
-구현 (VMware NSX):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융회사 마이크로 세그먼테이션 도입:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">2021년 유사 금융사 랜섬웨어 피해 100억+</div>
+<div class="kb-diagram-note">내부 서버 간 자유 통신 → 전사 확산</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">3-Tier 아키텍처 (웹/앱/DB) × 12개 시스템</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VMware vSphere 환경</div>
+<div class="kb-diagram-note">구현 (VMware NSX):</div>
+<div class="kb-diagram-note">가시성:</div>
+<div class="kb-diagram-note">NSX Intelligence로 6주간 트래픽 기록</div>
+<div class="kb-diagram-note">예상치 못한 통신 발견:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">HR 서버 → 생산 DB 직접 통신 (이상)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">개발 서버 → 운영 서버 통신 (위험!)</div>
+<div class="kb-diagram-note">정책 설계:</div>
+<div class="kb-diagram-note">운영 존 (Production):</div>
+<div class="kb-diagram-note">Web → App: 8443</div>
+<div class="kb-diagram-note">App → DB: 5432</div>
+<div class="kb-diagram-note">App → Redis: 6379</div>
+<div class="kb-diagram-note">나머지 동서 통신: 전부 차단</div>
+<div class="kb-diagram-note">개발 ↔ 운영 격리:</div>
+<div class="kb-diagram-note">개발 존 → 운영 존: 완전 차단</div>
+<div class="kb-diagram-note">단계적 적용:</div>
+<div class="kb-diagram-note">1단계 (2주): 비중요 HR 시스템</div>
+<div class="kb-diagram-note">2단계 (2주): 내부 업무 시스템</div>
+<div class="kb-diagram-note">3단계 (4주): 핵심 금융 시스템</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">탐색 중 발견 이상 통신: 23건 (즉시 차단)</div>
+<div class="kb-diagram-note">시뮬레이션 랜섬웨어 공격:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">기존: 전사 확산 (4시간)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NSX 적용 후: 최초 감염 서버 1대 격리</div>
+<div class="kb-diagram-note">컴플라이언스:</div>
+<div class="kb-diagram-note">금융보안원 평가 + 3점 (마이크로 세그 적용)</div>
+</div>
+</div>
 
-가시성:
-  NSX Intelligence로 6주간 트래픽 기록
-  예상치 못한 통신 발견:
-  - HR 서버 → 생산 DB 직접 통신 (이상)
-  - 개발 서버 → 운영 서버 통신 (위험!)
 
-정책 설계:
-  운영 존 (Production):
-  Web → App: 8443
-  App → DB: 5432
-  App → Redis: 6379
-  나머지 동서 통신: 전부 차단
-  
-  개발 ↔ 운영 격리:
-  개발 존 → 운영 존: 완전 차단
-
-단계적 적용:
-  1단계 (2주): 비중요 HR 시스템
-  2단계 (2주): 내부 업무 시스템
-  3단계 (4주): 핵심 금융 시스템
-
-결과:
-  탐색 중 발견 이상 통신: 23건 (즉시 차단)
-  시뮬레이션 랜섬웨어 공격:
-  - 기존: 전사 확산 (4시간)
-  - NSX 적용 후: 최초 감염 서버 1대 격리
-  
-  컴플라이언스:
-  금융보안원 평가 + 3점 (마이크로 세그 적용)
-```
 
 > 📢 **섹션 요약 비유**: 금융 마이크로 세그먼테이션 = 방화 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 공장 각 구역을 방화문으로 분리. 한 구역 화재([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))가 전체 확산 방지. 기존 4시간 확산 → 1대 격리!
 

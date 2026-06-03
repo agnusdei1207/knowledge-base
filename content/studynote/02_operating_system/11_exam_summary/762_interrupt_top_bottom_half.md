@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리는 0.1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 허용하지 않는 긴급 작업(상반부, Top-Half)과, 나중에 한가할 때 천천히 처리해도 되는 덜 급한 무거운 작업(하반부, Bottom-Half)으로 **[인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))을 두 토막 내어 비동기적으로 분할 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄링 아키텍처**다.
-> 2. **가치**: 상반부를 처리하는 동안에는 다른 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 마스킹(차단)되어 시스템이 귀머거리가 되는데, 이 마스킹 시간을 마이크로초 단위로 극단적으로 줄여줌으로써 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 패킷 폭주 속에서도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 질식사하지 않고 시스템의 반응성(Responsiveness)을 사수**한다.
+> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리는 0.1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 허용하지 않는 긴급 작업(상반부, Top-Half)과, 나중에 한가할 때 천천히 처리해도 되는 덜 급한 무거운 작업(하반부, Bottom-Half)으로 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)을 두 토막 내어 비동기적으로 분할 처리하는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 스케줄링 아키텍처</strong>다.
+> 2. **가치**: 상반부를 처리하는 동안에는 다른 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 마스킹(차단)되어 시스템이 귀머거리가 되는데, 이 마스킹 시간을 마이크로초 단위로 극단적으로 줄여줌으로써 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 네트워크 패킷 폭주 속에서도 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 질식사하지 않고 시스템의 반응성(Responsiveness)을 사수</strong>한다.
 > 3. **융합**: 고전적인 SoftIRQ와 Tasklet을 거쳐, 현대 리눅스에서는 별도의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Workqueue)를 활용해 하반부를 사용자 프로세스처럼 스케줄링하고 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 대기까지 허용하는 구조적 진화를 이루어냈다.
 
 ---
@@ -30,37 +30,35 @@ tags = ["studynote-operating-system"]
   - 그동안 도착하는 마우스 클릭, 키보드 입력, 다음 랜카드 패킷은 전부 CPU에 도달하지 못하고 버려진다(Drop / 렉 발생).
   - **해결책**: "택배가 오면 일단 현관문 열고 박스만 집 안으로 휙 던진 다음(상반부), 바로 문 닫고 다음 택배를 받아라! 박스 뜯고 내용물 조립하는 건(하반부) 밤에 소파에 앉아서 천천히 하자!"
 
-  - **단일 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (구형)**: 응급실 의사가 교통사고 환자가 오면 접수, 응급 지혈, X-ray 촬영, 골절 수술, 입원 수속, 밥 먹여주기까지 혼자 다 끝낼 때까지 다음 환자를 아예 안 받음. 병원 밖 환자들은 다 죽음.
-  - **상반/하반부 쪼개기**: 의사는 **급한 지혈과 기도 확보(상반부)**만 1분 만에 딱 끝내놓고 환자를 대기실에 밀어 넣은 뒤, 즉시 다음 피 흘리는 환자를 받음. 지혈된 환자들의 깁스나 꿰매는 작업은 나중에 간호사나 일반 병동(하반부)에서 순차적으로 느긋하게 처리함.
+  - <strong>단일 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (구형)</strong>: 응급실 의사가 교통사고 환자가 오면 접수, 응급 지혈, X-ray 촬영, 골절 수술, 입원 수속, 밥 먹여주기까지 혼자 다 끝낼 때까지 다음 환자를 아예 안 받음. 병원 밖 환자들은 다 죽음.
+  - **상반/하반부 쪼개기**: 의사는 <strong>급한 지혈과 기도 확보(상반부)</strong>만 1분 만에 딱 끝내놓고 환자를 대기실에 밀어 넣은 뒤, 즉시 다음 피 흘리는 환자를 받음. 지혈된 환자들의 깁스나 꿰매는 작업은 나중에 간호사나 일반 병동(하반부)에서 순차적으로 느긋하게 처리함.
 
 - **등장 배경**: 
   - 리눅스 2.4 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)부터 네트워크와 디스크 속도가 비약적으로 상승함에 따라, 무거운 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 뒤로 미루기(Deferred Work) 위한 Tasklet, SoftIRQ 아키텍처가 전면 도입되었다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 인터럽트 처리의 Top-Half / Bottom-Half 쪼개기        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [ ⚡ 하드웨어 인터럽트 (IRQ) 탕! 발생 ]                             │
-  │            │                                                │
-  │  =========(모든 인터럽트 수신 차단 상태 - 매우 위험)================== │
-  │   [ 상반부 (Top-Half) - 진짜 ISR ]                             │
-  │   1. 즉각적인 하드웨어 ACK 신호 응답 (장치 초기화)                    │
-  │   2. NIC 버퍼에서 메인 메모리(RAM)로 패킷만 쏙 빼옴 (데이터 유실 방지)      │
-  │   3. "이따가 하반부 실행해라" 하고 꼬리표(Flag) 꽂음                    │
-  │            │                                                │
-  │  =========(인터럽트 수신 다시 허용! 다음 패킷 받을 수 있음)============= │
-  │            │                                                │
-  │   [ CPU는 다시 평소 하던 일(유저 프로그램 등)로 복귀 ]                    │
-  │            │  ................ (잠시 후 스케줄링 시점)            │
-  │            ▼                                                │
-  │   [ 하반부 (Bottom-Half) - Deferred Work ]                   │
-  │   1. TCP/IP 네트워크 스택 파싱 시작 (무거운 로직)                      │
-  │   2. IP 주소 까서 라우팅 테이블 검사 및 포워딩                        │
-  │   3. Socket 버퍼를 통해 애플리케이션(Nginx)에게 데이터 전달             │
-  │      (※ 이 작업 중에도 언제든 다른 하드웨어 인터럽트는 자유롭게 끼어들 수 있음)│
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 처리의 Top-Half / Bottom-Half 쪼개기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">⚡ 하드웨어 인터럽트 (IRQ) 탕! 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=========(모든 인터럽트 수신 차단 상태 - 매우 위험)==================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상반부 (Top-Half) - 진짜 ISR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 즉각적인 하드웨어 ACK 신호 응답 (장치 초기화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. NIC 버퍼에서 메인 메모리(RAM)로 패킷만 쏙 빼옴 (데이터 유실 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "이따가 하반부 실행해라" 하고 꼬리표(Flag) 꽂음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=========(인터럽트 수신 다시 허용! 다음 패킷 받을 수 있음)=============</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU는 다시 평소 하던 일(유저 프로그램 등)로 복귀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">................ (잠시 후 스케줄링 시점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하반부 (Bottom-Half) - Deferred Work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. TCP/IP 네트워크 스택 파싱 시작 (무거운 로직)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IP 주소 까서 라우팅 테이블 검사 및 포워딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Socket 버퍼를 통해 애플리케이션(Nginx)에게 데이터 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 이 작업 중에도 언제든 다른 하드웨어 인터럽트는 자유롭게 끼어들 수 있음)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 그림의 핵심은 두 개의 굵은 점선([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 차단 장벽)이다. 상반부는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 막고(CLI, Clear [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 실행되는 '절대 권력의 찰나'다. 이 시간이 길어지면 시스템의 심장이 멎는 것과 같으므로 드라이버 코더는 상반부를 극한으로 짧게 짜야 한다. 하반부는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 활성화된(STI, Set [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 상태에서, 사실상 일반적인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)처럼 백그라운드에서 여유롭게 도는 시간이다. 즉, 치명적인 하드웨어 이벤트를 안전한 소프트웨어 이벤트(소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))로 환전하여 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 통제권 아래로 부드럽게 넘겨주는 것이 이 메커니즘의 진정한 예술이다.
 
@@ -77,31 +75,32 @@ tags = ["studynote-operating-system"]
 | 기법 종류 | 실행 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | 특징 및 장단점 | 주요 사용처 |
 |:---|:---|:---|:---|
 | **1. SoftIRQ** (소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | **가장 빠르고 무식함.** 여러 코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))에서 동시에 같은 하반부가 실행될 수 있어, 개발자가 미친 듯이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 관리를 잘 짜야 함. | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 수신 큐), 블록 디바이스 코어 |
-| **2. Tasklet** (태스크릿) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | SoftIRQ 기반으로 만들어졌지만, **같은 Tasklet은 여러 코어에서 동시에 돌지 않도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 막아줌.** 락 설계가 쉬움. | 일반적인 디바이스 드라이버 하반부 처리 (가장 대중적) |
-| **3. Workqueue** (워크큐) | **프로세스 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`kworker`)가 대신 일해줌. 유일하게 실행 중 **수면(Sleep/[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))과 메모리 할당이 가능**함. | 디스크 I/O 대기, 메모리 락 대기가 필수적인 무거운 작업 |
+| **2. Tasklet** (태스크릿) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | SoftIRQ 기반으로 만들어졌지만, <strong>같은 Tasklet은 여러 코어에서 동시에 돌지 않도록 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 막아줌.</strong> 락 설계가 쉬움. | 일반적인 디바이스 드라이버 하반부 처리 (가장 대중적) |
+| **3. Workqueue** (워크큐) | <strong>프로세스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`kworker`)가 대신 일해줌. 유일하게 실행 중 <strong>수면(Sleep/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)과 메모리 할당이 가능</strong>함. | 디스크 I/O 대기, 메모리 락 대기가 필수적인 무거운 작업 |
 
 ### [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 마지노선: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) vs 프로세스 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍트가 드라이버를 설계할 때 맞닥뜨리는 생사의 갈림길이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Context 스위칭 딜레마: Sleep()의 허용 여부            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 인터럽트 컨텍스트 (Top-Half, SoftIRQ, Tasklet) ]                 │
-  │   - 백업해 둔 "사용자 프로그램의 스택"을 몰래 빌려 쓰는 상태.                │
-  │   - 소속(PID)이 없음. 유령 같은 존재임.                               │
-  │   - 🚨 룰: 여기서 디스크 I/O를 하거나 Mutex 락을 기다린다고 Sleep 해버리면?   │
-  │        -> 스케줄러가 누구를 다시 깨워야 할지 몰라 OS 전체가 뻗음! (Kernel Panic)│
-  │                                                                   │
-  │   [ 프로세스 컨텍스트 (Workqueue) ]                                   │
-  │   - 커널이 만들어둔 진짜 스레드(`kworker PID 102` 등)가 실행 주체.         │
-  │   - 소속과 자기만의 스택이 확실히 존재함.                                │
-  │   - 🟢 룰: 여기서 10분 동안 Sleep 하거나 디스크 락을 걸고 멍때려도 안전함.     │
-  │        -> 스케줄러가 "아 kworker가 자는구나, 딴 스레드 돌려야지" 하고 자연스레 넘어감.│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context 스위칭 딜레마: Sleep()의 허용 여부</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 컨텍스트 (Top-Half, SoftIRQ, Tasklet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 백업해 둔 "사용자 프로그램의 스택"을 몰래 빌려 쓰는 상태.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소속(PID)이 없음. 유령 같은 존재임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🚨 룰: 여기서 디스크 I/O를 하거나 Mutex 락을 기다린다고 Sleep 해버리면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 스케줄러가 누구를 다시 깨워야 할지 몰라 OS 전체가 뻗음! (Kernel Panic)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 컨텍스트 (Workqueue)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널이 만들어둔 진짜 스레드(<code>kworker PID 102</code> 등)가 실행 주체.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소속과 자기만의 스택이 확실히 존재함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🟢 룰: 여기서 10분 동안 Sleep 하거나 디스크 락을 걸고 멍때려도 안전함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 스케줄러가 "아 kworker가 자는구나, 딴 스레드 돌려야지" 하고 자연스레 넘어감.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 상반부와 Tasklet은 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)'라는 공중에 떠 있는 얇은 얼음판 위에서 춤을 춘다. 여기서는 `kmalloc(GFP_KERNEL)` 같이 메모리가 없으면 잠시 자면서 기다리는 함수를 쓰면 얼음이 깨지며 시스템이 폭파된다. 반드시 즉시 리턴되는 코딩만 해야 한다. 만약 네트워크 패킷을 까봤는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 디스크 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 한참 기다려야 하는 작업이라면? 절대 Tasklet에서 하면 안 되고, 안전한 땅바닥인 'Workqueue(프로세스 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'라는 지게차에 짐을 옮겨 싣고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래에서 느긋하게 자면서 처리해야 한다. 
 
@@ -118,13 +117,13 @@ tags = ["studynote-operating-system"]
 | 발생 시나리오 | 꼬임 발생 원리 | 아키텍트의 해결책 방어망 |
 |:---|:---|:---|
 | **상반부 vs 상반부** | 코어 0에서 A [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 중, 코어 1에서 똑같은 A [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서 둘이 겹침. | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조상 같은 라인(IRQ)의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 다른 코어에서 동시에 터지지 않게 하드웨어적으로 막아줌. (방어 불필요) |
-| **상반부 vs 하반부** | 하반부가 열심히 큐에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼서 조립하고 있는데, 갑자기 상반부 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서 큐에 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 막 밀어 넣음. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 발생! | 하반부에서 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만지기 직전에 **잠시 현재 코어의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 꺼버리고(local_irq_disable)**, 볼일 다 보면 다시 켜는 강제 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수행. |
-| **하반부 vs 하반부** | 코어 0과 코어 1이 동시에 Tasklet을 돌려서 같은 전역 변수를 막 수정함. | **[Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))**을 사용하여 락을 잡음. 단 절대 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)(수면 발생)를 쓰면 안 되고 무한 루프 도는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)만 써야 함. |
+| **상반부 vs 하반부** | 하반부가 열심히 큐에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼서 조립하고 있는데, 갑자기 상반부 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서 큐에 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 막 밀어 넣음. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 발생! | 하반부에서 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만지기 직전에 <strong>잠시 현재 코어의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>를 꺼버리고(local_irq_disable)</strong>, 볼일 다 보면 다시 켜는 강제 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수행. |
+| **하반부 vs 하반부** | 코어 0과 코어 1이 동시에 Tasklet을 돌려서 같은 전역 변수를 막 수정함. | <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>)</strong>을 사용하여 락을 잡음. 단 절대 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)(수면 발생)를 쓰면 안 되고 무한 루프 도는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)만 써야 함. |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (NAPI - [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**: 리눅스 네트워크의 궁극기인 NAPI는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상반/하반부의 기괴한 융합체다. 10G 랜카드에서 첫 패킷이 오면 딱 한 번 IRQ(상반부)를 때리고 상반부는 즉시 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 **아예 영구히 꺼버린다(Disable)**. 그 후 하반부(SoftIRQ)를 띄워 얘가 무한 루프를 돌며 랜카드 버퍼의 수만 개 패킷을 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 다 긁어먹게 한다. 버퍼가 텅 비면 그제야 다시 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 켜준다. ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm 원천 차단 기술).
-- **실시간 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (RTOS, [PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/))**: 하반부(SoftIRQ)는 무조건 일반 유저 프로세스보다 우선순위가 높다. 리눅스 서버에서 SoftIRQ(`ksoftirqd`)가 CPU를 100% 잡아먹으면 내 앱은 단 한 줄도 실행 안 되고 서버가 마비된다([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)). 이를 막기 위해 RTOS 패치는 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 하반부를 강제로 '일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'로 강등(Threaded IRQ)시켜서, 우선순위가 높은 유저 앱이 오히려 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 선점(Preempt)하고 짓밟을 수 있게 허용하는 혁명적 역전 아키텍처를 취한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (NAPI - <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>: 리눅스 네트워크의 궁극기인 NAPI는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상반/하반부의 기괴한 융합체다. 10G 랜카드에서 첫 패킷이 오면 딱 한 번 IRQ(상반부)를 때리고 상반부는 즉시 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 **아예 영구히 꺼버린다(Disable)**. 그 후 하반부(SoftIRQ)를 띄워 얘가 무한 루프를 돌며 랜카드 버퍼의 수만 개 패킷을 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 다 긁어먹게 한다. 버퍼가 텅 비면 그제야 다시 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 켜준다. ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm 원천 차단 기술).
+- <strong>실시간 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (RTOS, <a href="/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/">PREEMPT_RT</a>)</strong>: 하반부(SoftIRQ)는 무조건 일반 유저 프로세스보다 우선순위가 높다. 리눅스 서버에서 SoftIRQ(`ksoftirqd`)가 CPU를 100% 잡아먹으면 내 앱은 단 한 줄도 실행 안 되고 서버가 마비된다([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)). 이를 막기 위해 RTOS 패치는 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 하반부를 강제로 '일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'로 강등(Threaded IRQ)시켜서, 우선순위가 높은 유저 앱이 오히려 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 선점(Preempt)하고 짓밟을 수 있게 허용하는 혁명적 역전 아키텍처를 취한다.
 
 - **📢 섹션 요약 비유**: NAPI 구조는 손님이 1명 올 때는 벨([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 울려 맞이하지만, 점심시간에 100명이 폭주하면 아예 벨 선을 잘라버리고 문을 활짝 연 뒤 지배인(하반부)이 문 앞에 서서 무한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)으로 사람을 쑤셔 넣는 가장 현실적이고 효율적인 식당 운영법입니다.
 
@@ -134,40 +133,37 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 및 서버 튜닝
 
-1. **시나리오 — 대용량 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버의 `ksoftirqd` CPU 100% 마비([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) 현상**: 초당 100만 건의 트래픽을 처리하는 Nginx/HAProxy 서버가 뻗었다. `top`을 쳐보니 유저 연산(us)은 5%인데, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)인 `ksoftirqd/0`이 CPU 0번 코어의 100%를 독식하며 서버를 [Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)(산 채로 굳어버림) 상태로 몰아넣었다.
+1. <strong>시나리오 — 대용량 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 서버의 <code>ksoftirqd</code> CPU 100% 마비(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">Livelock</a>) 현상</strong>: 초당 100만 건의 트래픽을 처리하는 Nginx/HAProxy 서버가 뻗었다. `top`을 쳐보니 유저 연산(us)은 5%인데, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)인 `ksoftirqd/0`이 CPU 0번 코어의 100%를 독식하며 서버를 [Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)(산 채로 굳어버림) 상태로 몰아넣었다.
    - **원인 분석**: 상반부가 밀어 넣은 네트워크 패킷 큐가 끝도 없이 쌓이자, 하반부(SoftIRQ)가 이 큐를 파싱하느라 끝없는 무한 루프에 빠져버린 것이다. 하반부는 일반 프로세스보다 권력이 세서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 함부로 뺏지 못하므로, 정작 트래픽을 처리해야 할 Nginx 앱 프로세스가 CPU를 배정받지 못해 굶어 죽었다([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
    - **아키텍트 판단 (RSS 튜닝 및 Budget 제한)**: 첫째, 랜카드의 다중 수신 큐 기능(RSS, Receive Side Scaling)을 활성화해 코어 0번 혼자 맞는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 64개 코어로 골고루 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))시킨다. 둘째, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `net.core.netdev_budget` 값을 조절해, 하반부가 한 번에 처리할 수 있는 최대 패킷 수(예: 300개)를 제한한다. 300개를 까먹으면 강제로 하반부를 재우고 Nginx 앱에게 CPU 턴을 넘겨주도록 튜닝하여 굶어 죽는 앱을 구출한다.
 
-2. **시나리오 — 센서 디바이스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 및 데드락 (임베디드 리눅스)**: 공장 온습도를 초당 10만 번 체크하는 I2C 센서 드라이버를 개발 중. 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 로깅 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 저장해야 하는데, 무심코 상반부(IRQ 핸들러) 코드 내에 `vfs_write()` 로 디스크에 쓰는 코드를 박아 넣었다가 라즈베리파이가 즉시 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 뿜으며 죽어버렸다.
-   - **아키텍트 판단 (Workqueue [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))**: 디스크에 글씨를 쓰는 행위(`write`)는 밑단에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 락을 잡거나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 일으켜 수십 밀리초의 수면(Sleep) 상태를 유발할 수 있다. 앞서 말했듯 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 얇은 얼음판에서는 수면=즉사 다. 아키텍트는 즉시 코드를 찢어서 상반부에서는 센서의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 값만 전역 메모리 링 버퍼에 넣고 끝낸 뒤, 디스크 기록 로직은 `INIT_WORK`를 통해 **워크큐(Workqueue)**로 포장하여 백그라운드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`kworker`)에게 짐을 던져([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 버리도록 아키텍처를 갈아엎어야 한다.
+2. <strong>시나리오 — 센서 디바이스의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실 및 데드락 (임베디드 리눅스)</strong>: 공장 온습도를 초당 10만 번 체크하는 I2C 센서 드라이버를 개발 중. 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 로깅 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 저장해야 하는데, 무심코 상반부(IRQ 핸들러) 코드 내에 `vfs_write()` 로 디스크에 쓰는 코드를 박아 넣었다가 라즈베리파이가 즉시 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 뿜으며 죽어버렸다.
+   - <strong>아키텍트 판단 (Workqueue <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>)</strong>: 디스크에 글씨를 쓰는 행위(`write`)는 밑단에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 락을 잡거나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 일으켜 수십 밀리초의 수면(Sleep) 상태를 유발할 수 있다. 앞서 말했듯 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 얇은 얼음판에서는 수면=즉사 다. 아키텍트는 즉시 코드를 찢어서 상반부에서는 센서의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 값만 전역 메모리 링 버퍼에 넣고 끝낸 뒤, 디스크 기록 로직은 `INIT_WORK`를 통해 <strong>워크큐(Workqueue)</strong>로 포장하여 백그라운드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`kworker`)에게 짐을 던져([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 버리도록 아키텍처를 갈아엎어야 한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 안전한 드라이버 인터럽트 분할(Top/Bottom) 설계 트리         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 장치 드라이버의 하반부(Bottom-Half) 기법을 선택한다 ]                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      이 하반부 작업 중에 메모리 할당 대기나, 디스크 I/O 같은 Sleep이 발생하는가? │
-  │          ├─ 예 ─────▶ [ Workqueue (워크큐) 사용 필수! ]               │
-  │          │             (커널 백그라운드 스레드가 천천히, 안전하게 처리)        │
-  │          └─ 아니오 (Sleep 절대 안하고 연산만 빨리 끝낼 수 있다)             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      초당 수십만 번 호출되는 네트워크/블록 I/O처럼 극강의 병렬 퍼포먼스가 필요한가?│
-  │          ├─ 예 ─────▶ [ SoftIRQ 사용 ]                              │
-  │          │             (코드를 극도로 최적화하고 스핀락을 완벽히 통제해야 함)  │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [ Tasklet 사용 (가장 안전한 디폴트) ]            │
-  │                        (같은 함수가 다중 코어에서 겹치지 않게 OS가 알아서 막아줌)│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 드라이버 인터럽트 분할(Top/Bottom) 설계 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장치 드라이버의 하반부(Bottom-Half) 기법을 선택한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 하반부 작업 중에 메모리 할당 대기나, 디스크 I/O 같은 Sleep이 발생하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Workqueue (워크큐) 사용 필수!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 백그라운드 스레드가 천천히, 안전하게 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (Sleep 절대 안하고 연산만 빨리 끝낼 수 있다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 수십만 번 호출되는 네트워크/블록 I/O처럼 극강의 병렬 퍼포먼스가 필요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SoftIRQ 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드를 극도로 최적화하고 스핀락을 완벽히 통제해야 함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Tasklet 사용 (가장 안전한 디폴트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(같은 함수가 다중 코어에서 겹치지 않게 OS가 알아서 막아줌)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 트리는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 해커들의 목숨을 살려주는 안전 가이드라인이다. 잘못된 하반부 메커니즘 선택은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 아니라 시스템 셧다운을 부른다. 초보자는 코딩이 편하고 데드락 위험이 없는 Workqueue를 쓰면 99% 안전하다. 퍼포먼스를 극한으로 쥐어짜는 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 엔지니어만이 신의 영역인 SoftIRQ를 직접 다룬다. 그 중간 타협점이 Tasklet이며, 대부분의 마우스, 키보드, 간단한 센서 장치는 모두 Tasklet으로 구현되어 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 누락**: 상반부 코드 내부에서 공유 자원을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하겠다고 `local_irq_disable()` (CLI)을 호출하여 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 틀어막은 뒤, 실수로 `local_irq_enable()` (STI)을 안 부르고 빠져나오는 에러. 이렇게 되면 그 CPU 코어는 영원히 귀머거리가 되어 마우스, 키보드, 네트워크는 물론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 깨우는 시스템 타이머 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))마저 수신하지 못해 그대로 코어가 좀비가 되어버리는 최악의 치명타를 입는다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 누락</strong>: 상반부 코드 내부에서 공유 자원을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하겠다고 `local_irq_disable()` (CLI)을 호출하여 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 틀어막은 뒤, 실수로 `local_irq_enable()` (STI)을 안 부르고 빠져나오는 에러. 이렇게 되면 그 CPU 코어는 영원히 귀머거리가 되어 마우스, 키보드, 네트워크는 물론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 깨우는 시스템 타이머 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))마저 수신하지 못해 그대로 코어가 좀비가 되어버리는 최악의 치명타를 입는다.
 
 - **📢 섹션 요약 비유**: 수술실(공유 자원) 문을 잠그고(CLI) 들어갔으면, 수술이 끝난 뒤에 반드시 문을 따주고(STI) 나와야 다음 환자를 살릴 수 있습니다. 깜빡하고 열쇠를 버리고 나오면 병원 전체의 기능이 멎어버리는 극단적 마비 상태가 됩니다.
 
@@ -179,17 +175,17 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 통짜 단일 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 구조 | 상/하반부 분할 아키텍처 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (IRQ [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**| 하나의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에 수 ms 걸려 시스템 멈춤 | 상반부 처리 **수십 µs** 만에 종료 후 즉각 허용 | 후속 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)의 유실(Drop Rate) 99% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| <strong>정량 (IRQ <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>)</strong>| 하나의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에 수 ms 걸려 시스템 멈춤 | 상반부 처리 **수십 µs** 만에 종료 후 즉각 허용 | 후속 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)의 유실(Drop Rate) 99% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 | **정량 (시스템 반응성)**| 마우스 렉, 타이핑 밀림 등 UI/UX 개판 | 급한 일만 치고 빠져서 쾌적함 유지 | 고부하 I/O 중에도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 체감 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방어 |
 | **정성 (드라이버 안정성)**| 복잡한 로직을 ISR에 구겨 넣어 잦은 패닉 | 무거운 로직을 워크큐 등 유연한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 이전 | 개발 난이도 하락 및 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 빈도 급감 |
 
 ### 미래 전망
-- **Threaded IRQ의 전면화 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)화)**: 상반부/하반부라는 묘수를 넘어서, 이제는 최신 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 아예 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(상반부) 자체를 스케줄링 가능한 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'로 감싸버리는(Threaded [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 기술이 보편화되고 있다. 이를 통해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)마저도 다른 앱과 우선순위를 다투며 통제 가능한 영역으로 완전히 끌어내려, 오디오/비디오 스트리밍이나 로봇 제어의 실시간성(Real-time)을 하드웨어 레벨에서 보장하게 되었다.
-- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/))의 하위 계층 장악**: 하반부(SoftIRQ)로 올라오는 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 비용조차 너무 무거워졌다. 그래서 패킷이 랜카드 버퍼에 닿자마자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(하반부)을 타기도 전에 하드웨어 드라이버 최하단 계층([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))에서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드가 패킷을 날려버리거나 라우팅해 버리는 마이크로초 단위의 선제 방어가 클라우드 엣지 방화벽의 뉴노멀이 되었다.
+- <strong>Threaded IRQ의 전면화 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>화)</strong>: 상반부/하반부라는 묘수를 넘어서, 이제는 최신 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 아예 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(상반부) 자체를 스케줄링 가능한 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'로 감싸버리는(Threaded [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 기술이 보편화되고 있다. 이를 통해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)마저도 다른 앱과 우선순위를 다투며 통제 가능한 영역으로 완전히 끌어내려, 오디오/비디오 스트리밍이나 로봇 제어의 실시간성(Real-time)을 하드웨어 레벨에서 보장하게 되었다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a>)의 하위 계층 장악</strong>: 하반부(SoftIRQ)로 올라오는 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 비용조차 너무 무거워졌다. 그래서 패킷이 랜카드 버퍼에 닿자마자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(하반부)을 타기도 전에 하드웨어 드라이버 최하단 계층([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))에서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드가 패킷을 날려버리거나 라우팅해 버리는 마이크로초 단위의 선제 방어가 클라우드 엣지 방화벽의 뉴노멀이 되었다.
 
 ### 참고 표준
-- **Linux NAPI ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**: 리눅스 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 폭풍을 막기 위해 상/하반부 철학과 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 결합해 제정한 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 표준 프레임워크.
-- **[PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/)**: 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 강등시키고 락을 선점 가능하게 하여, 군사/우주/산업용 제어에서 리눅스가 100% 데드라인을 보장하도록 만드는 [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) 공식 패치 규격.
+- <strong>Linux NAPI (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>: 리눅스 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 폭풍을 막기 위해 상/하반부 철학과 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 결합해 제정한 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 표준 프레임워크.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/">PREEMPT_RT</a></strong>: 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 강등시키고 락을 선점 가능하게 하여, 군사/우주/산업용 제어에서 리눅스가 100% 데드라인을 보장하도록 만드는 [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) 공식 패치 규격.
 
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 상반/하반부 메커니즘은 "모든 것을 당장 해결할 필요는 없다"는 우선순위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리(Deferred Execution)의 철학을 뼈대 삼고 있다. 한쪽 손은 하드웨어의 미친 속도에 맞춰 초인적으로 번개처럼 움직이고, 다른 쪽 손은 소프트웨어의 느긋한 리듬에 맞춰 조심스레 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어루만진다. 이 기괴하지만 완벽한 양손잡이 아키텍처 덕분에 우리의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수십 기가의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운로드하는 폭풍우 속에서도 우아하게 마우스 포인터를 끊김 없이 움직일 수 있는 것이다.
 
@@ -208,15 +204,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[디바이스 드라이버 모듈 인터페이스]
-    │
-    ▼
-[인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)]
-    │
-    ├──▶ [루트킷 탐지 무결성 스캔]
-    └──▶ [ASLR 메모리 레이아웃 난수화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 드라이버 모듈 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루트킷 탐지 무결성 스캔</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASLR 메모리 레이아웃 난수화</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

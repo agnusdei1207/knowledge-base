@@ -31,23 +31,22 @@ FP16이 도입된 이유는 딥러닝 [가중치](/knowledge-base/studynote/10_a
 
 FP16은 16비트라는 제한된 공간 안에 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 욱여넣기 위해 지수와 가수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 극단적으로 삭감했다. 이로 인해 표현할 수 있는 수의 범위와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 치명적인 한계가 발생한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           반정밀도 (FP16) 아키텍처 비트 분배 및 범위         │
-├──────────────────────────────────────────────────────────────┤
-│ 전체 크기: 16 bits (2 Bytes)                                 │
-│                                                              │
-│  [15]   [14 <--- 5 bits ---> 10]   [9 <--- 10 bits ---> 0]   │
-│  ┌─┐    ┌────────────────────┐     ┌─────────────────────┐   │
-│  │S│    │     지수부 (E)     │     │     가수부 (M)      │   │
-│  └─┘    └────────────────────┘     └─────────────────────┘   │
-│ 부호     편향 (Bias) = 15            유효 숫자 (약 3.3자리)  │
-│                                                              │
-│ [치명적 한계]                                                │
-│ - 최대 표현 값: 65,504 (조금만 커져도 Overflow ➔ NaN 발생)   │
-│ - 최소 정규수: 6.10 x 10^-5 (조금만 작아져도 Underflow ➔ 0)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반정밀도 (FP16) 아키텍처 비트 분배 및 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 크기: 16 bits (2 Bytes)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">15</div><div class="kb-diagram-node">14 &lt;--- 5 bits ---&gt; 10</div><div class="kb-diagram-node">9 &lt;--- 10 bits ---&gt; 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">지수부 (E)</div><div class="kb-diagram-cell">가수부 (M)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 편향 (Bias) = 15 유효 숫자 (약 3.3자리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">치명적 한계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 표현 값: 65,504 (조금만 커져도 Overflow ➔ NaN 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최소 정규수: 6.10 x 10^-5 (조금만 작아져도 Underflow ➔ 0)</div></div>
+</div>
+</div>
+
+
 
 가장 큰 문제는 지수부가 5비트에 불과하여 바이어스([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))가 15라는 점이다. 따라서 지수는 $2^{-14}$부터 $2^{15}$까지만 표현할 수 있고, 다룰 수 있는 최댓값은 65,504에 그친다. 이 범위를 넘어가는 연산 결과는 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)로 인해 즉시 `NaN (Not a Number)` 혹은 `Infinity`로 붕괴한다. 또한 너무 작은 소수점 값은 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)가 발생해 0으로 처리(Flush-to-Zero)되어버린다.
 
@@ -61,10 +60,10 @@ FP16은 16비트라는 제한된 공간 안에 [부동소수점](/knowledge-base
 
 | 비교 항목 | [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) (FP32) | 반정밀도 (FP16) | 아키텍처적 차이점 |
 | :--- | :--- | :--- | :--- |
-| **메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 4 Bytes | 2 Bytes | VRAM 사용량 절반 감소 |
+| <strong>메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 4 Bytes | 2 Bytes | VRAM 사용량 절반 감소 |
 | **최대 표현 범위** | 약 $3.4 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{38}$ | 65,504 | 좁은 지수부로 인한 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 위험 |
 | **최소 표현 범위** | 약 $1.4 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-45}$ | 약 $5.9 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-8}$ | 작은 그래디언트 값의 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 위험 |
-| **연산량 ([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))** | 기준 속도 | 약 2배 ~ 4배 증가 | [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 연산에 특화됨 |
+| <strong>연산량 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/">FLOPS</a>)</strong> | 기준 속도 | 약 2배 ~ 4배 증가 | [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 연산에 특화됨 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 과정에서 계산되는 그래디언트(Gradient)는 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-6}$ 이하로 떨어지는 경우가 많은데, FP32에서는 문제가 없으나 FP16에서는 이를 0으로 날려버린다. 이를 해결하기 위해 최근에는 지수부를 FP32와 동일하게 8비트로 늘리고 가수부를 7비트로 대폭 줄여 표현 범위를 넓힌 `bfloat16 (Brain Floating Point 16)` 포맷이 대안으로 부상하고 있다.
 
@@ -77,8 +76,8 @@ FP16은 16비트라는 제한된 공간 안에 [부동소수점](/knowledge-base
 실무에서 FP16을 단순 적용하면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련 시 모델이 수렴하지 않고 에러를 뿜는 현상을 겪게 된다. 따라서 하드웨어와 소프트웨어의 하이브리드 전략이 필수적이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ([혼합 정밀도 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/187_mixed_precision_training/) 적용 시)
-1. **혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) 아키텍처 적용**: 행렬의 곱셈은 빠른 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 FP16으로 처리하되, 그 결과값을 더하는 누적기([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/))와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트용 마스터 변수는 반드시 FP32 레지스터를 사용해 오차를 방어해야 한다.
-2. **로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Loss Scaling) 기법 사용**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 그래디언트가 FP16의 표현 범위를 벗어나 0이 되는 것을 막기 위해, 임의의 큰 상수(예: 1024)를 곱해 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)한 후 안전하게 연산하고 나중에 다시 나누어주는 보정 과정이 프레임워크 층에 구현되어 있는지 확인해야 한다.
+1. <strong>혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>) 아키텍처 적용</strong>: 행렬의 곱셈은 빠른 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 FP16으로 처리하되, 그 결과값을 더하는 누적기([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/))와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트용 마스터 변수는 반드시 FP32 레지스터를 사용해 오차를 방어해야 한다.
+2. <strong>로스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (Loss Scaling) 기법 사용</strong>: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 그래디언트가 FP16의 표현 범위를 벗어나 0이 되는 것을 막기 위해, 임의의 큰 상수(예: 1024)를 곱해 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)한 후 안전하게 연산하고 나중에 다시 나누어주는 보정 과정이 프레임워크 층에 구현되어 있는지 확인해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **FP16 강제 캐스팅 맹신**: 모델 파라미터 전체를 강제로 `.half()`로 변환하여 로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 없이 훈련을 돌리는 경우. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 도중 값이 소멸하거나 증폭되어 `Loss = NaN` 상태로 훈련이 파탄난다.
@@ -101,28 +100,30 @@ FP16 규격은 정확도 100%를 포기하고 '충분히 쓸만한 정확도'와
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** | FP16의 속도와 FP32의 정확도를 결합하여 한계를 극복하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련 소프트웨어/하드웨어 아키텍처 |
-| **[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))** | FP16 포맷의 4x4 행렬 곱-합 ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 연산을 하드웨어 단에서 병렬로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리하는 가속 유닛 |
-| **[bfloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) (Brain Float 16)** | FP16의 좁은 지수부 한계를 없애기 위해 가수부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 줄이고 지수부를 FP32 수준인 8비트로 확장한 대안 규격 |
-| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** | FP16, INT8 등 더 작은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 매핑하여 신경망 모델의 크기를 줄이고 추론 속도를 높이는 최적화 기법 |
+| <strong>혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | FP16의 속도와 FP32의 정확도를 결합하여 한계를 극복하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련 소프트웨어/하드웨어 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">텐서 코어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a>)</strong> | FP16 포맷의 4x4 행렬 곱-합 ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 연산을 하드웨어 단에서 병렬로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리하는 가속 유닛 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/">bfloat16</a> (Brain Float 16)</strong> | FP16의 좁은 지수부 한계를 없애기 위해 가수부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 줄이고 지수부를 FP32 수준인 8비트로 확장한 대안 규격 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> | FP16, INT8 등 더 작은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 매핑하여 신경망 모델의 크기를 줄이고 추론 속도를 높이는 최적화 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IEEE 754 단정밀도 (FP32)
-    │
-    ▼
-반정밀도 (FP16) · 메모리 대역폭 한계 돌파
-    │
-    ▼
-혼합 정밀도 (Mixed Precision) · 오버플로우/언더플로우 보완
-    │
-    ▼
-bfloat16 (Brain Float 16) · 지수부 확장 아키텍처
-    │
-    ▼
-극단적 양자화 (FP8, INT4 등) · 추론 가속 전용 규격
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IEEE 754 단정밀도 (FP32)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반정밀도 (FP16) · 메모리 대역폭 한계 돌파</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">혼합 정밀도 (Mixed Precision) · 오버플로우/언더플로우 보완</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">bfloat16 (Brain Float 16) · 지수부 확장 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">극단적 양자화 (FP8, INT4 등) · 추론 가속 전용 규격</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

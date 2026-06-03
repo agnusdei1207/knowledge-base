@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: "저 멀리 미국 서버([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))에 있는 폴더를, 내 컴퓨터 마우스로 더블 클릭해서 열어볼 순 없을까?" 라는 원초적 욕망을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 직결시켜, **원격 컴퓨터의 디스크를 내 로컬 하드디스크인 것처럼 환상(Illusion) [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)** 시키는 원격 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접속 프로토콜이다.
+> 1. **본질**: "저 멀리 미국 서버([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))에 있는 폴더를, 내 컴퓨터 마우스로 더블 클릭해서 열어볼 순 없을까?" 라는 원초적 욕망을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 직결시켜, <strong>원격 컴퓨터의 디스크를 내 로컬 하드디스크인 것처럼 환상(Illusion) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a></strong> 시키는 원격 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접속 프로토콜이다.
 > 2. **가치**: NFS v2/v3 시절의 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 1회성 망각 빔) 설계는 서버가 정전되어 껐다 켜져도 클라이언트가 전혀 눈치채지 못하고 무인 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Transparent [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))가 가능하도록 SRE의 극단적 강건함을 탄생시켰다. 이 덕에 수천 대의 클라우드 인스턴스가 단 하나의 중앙 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 스토리지 폴더를 1초 만에 동시에 나눠 쓰는 'Shared Storage 백본' 군락을 제패했다 도출.
 > 3. **한계**: 암호화가 안 된 텍스트 평문(Clear text 보안 파단) 전송과 허술한 IP 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 탓에 해커의 최상위 먹잇감이 되는 치명적 보안 약점을 지녔다. 결국 상태 유지(Stateful 록백)와 강력한 암호화([Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) 마스킹)를 덕지덕지 바른 무거운 NFS v4 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 진화해야만 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫고 생존하는 현대 클라우드의 트레이드오프 숙명을 안고 있다.
 
@@ -20,46 +20,40 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)/[SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/) (수동적 원격 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 노가다 전송)**: 원격지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 보려면, 내 컴퓨터로 다운로드(복사) $\to$ 열어서 수정 $\to$ 다시 서버로 업로드(덮어쓰기) 하는 귀찮은 전송 랙 프로세스 늪.
-  - **NFS (Network [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System 원격지 로컬 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 둔갑 빔!)**: 복사 다운로드가 필요 없다! 그냥 내 C드라이브 `Z:` 폴더(혹은 `/mnt/nfs`)에 들어가면, 실제로는 저 멀리 구글 클라우드 스토리지에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 내 눈앞에 바로 보인다. 수정을 누르는 순간, 그 즉시 네트워크 케이블을 타고 원격지 서버 모터가 물리적으로 긁히며([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 저장되는 투명성(Transparency 스왑)의 극치 구조.
+  - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/">SCP</a> (수동적 원격 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 노가다 전송)</strong>: 원격지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 보려면, 내 컴퓨터로 다운로드(복사) $\to$ 열어서 수정 $\to$ 다시 서버로 업로드(덮어쓰기) 하는 귀찮은 전송 랙 프로세스 늪.
+  - <strong>NFS (Network <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> System 원격지 로컬 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 둔갑 빔!)</strong>: 복사 다운로드가 필요 없다! 그냥 내 C드라이브 `Z:` 폴더(혹은 `/mnt/nfs`)에 들어가면, 실제로는 저 멀리 구글 클라우드 스토리지에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 내 눈앞에 바로 보인다. 수정을 누르는 순간, 그 즉시 네트워크 케이블을 타고 원격지 서버 모터가 물리적으로 긁히며([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 저장되는 투명성(Transparency 스왑)의 극치 구조.
 - **필요성**: 웹 서버 100대가 똑같은 사진 1만 장(이미지 캐시)을 각자 100번씩 다운로드 받아 보관하면 오버헤드 디스크 용량 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 낭비 데들락이 온다. "야, 사진들은 그냥 1대짜리 거대 중앙 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 에 몰빵해 두고, 웹 서버 100마리는 전부 그 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 폴더 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 거머리처럼 이어서 자기 로컬 C드라이브처럼 뽑아 써 부스트 타결!" [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 스토리지 일원화 공유(Sharing 록백) 마법진을 위해 필연적으로 창도되었다 증명.
 
   - ([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 방식 수동 전송 삽질 늪): 사원(클라이언트)이 팀장님(서버) 자리로 걸어가서 문서를 복사기로 복사(다운로드 랙)해 자리로 옵니다. 고쳐서 다시 팀장님 책상에 갖다 놔야(업로드) 합니다 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 파단 에러!
-  - **(NFS 마스터 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 공간 마법 기전!)**: 사원 자리에 **마법의 유리창([마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 포인트 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 빔!)** 이 걸려있습니다. 유리창 너머로 팀장님 책상의 종이가 실시간으로 100,000% 선명하게 보입니다. 사원이 자기 자리에 앉아 볼펜으로 허공(유리창)에 글씨를 쓰면, 마법처럼 팀장님 책상 위 종이에 그 글씨가 물리적으로 즉시 각인(원격 Write [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 포팅!) 됩니다! 사원은 복사본다운로드 이동 랙 없이 "팀장님 책상을 내 책상처럼" 둔갑 초광속으로 씁니다 결속!
+  - <strong>(NFS 마스터 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 공간 마법 기전!)</strong>: 사원 자리에 <strong>마법의 유리창(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 포인트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 빔!)</strong> 이 걸려있습니다. 유리창 너머로 팀장님 책상의 종이가 실시간으로 100,000% 선명하게 보입니다. 사원이 자기 자리에 앉아 볼펜으로 허공(유리창)에 글씨를 쓰면, 마법처럼 팀장님 책상 위 종이에 그 글씨가 물리적으로 즉시 각인(원격 Write [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 포팅!) 됩니다! 사원은 복사본다운로드 이동 랙 없이 "팀장님 책상을 내 책상처럼" 둔갑 초광속으로 씁니다 결속!
 
-- **NFS [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)([Virtual File System](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 투명성 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 메커니즘 뷰**:
+- <strong>NFS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a>) 투명성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 유저가 던진 `write()` 시스템 콜이 어떻게 내 컴퓨터 하드디스크가 아닌 바다 건너 랜선을 타게 되는지 그 탈옥 렌더를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 "유저를 속여라! 내 디스크인 척하지만 사실은 바다 건너 케이블!"   │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │  [ 사용자 랩탑 (Client) ]                                                        │
-  │     (워드 프로그램) "저장 버튼 클릭!" ────▶ [ 시스템 콜: write() 빔! ]           │
-  │                                                  │                               │
-  │  =========================▼===================================                   │
-  │                                                  │                               │
-  │     [[ OS 커널: VFS (가상 파일 스위처 렌더 거대한 교통경찰) 스왑 록! ]]          │
-  │      - VFS: "어? 너가 쓰려는 'Z:' 드라이브는 내 배꼽 밑 물리 철판이 아닌데?"     │
-  │      - VFS: "너는 [NFS 클라이언트 모듈] 쪽으로 파이프 우회 꺾어! 발사!"          │
-  │                                                                                  │
-  │         [ 내꺼 물리 디스크 (ext4) ]   ▶ (경로 차단: 여길 안 건드림 무결 방패)    │
-  │                                                                                  │
-  │         [ NFS Client 봇 록백! ] ────▶ ( RPC 캡슐 메타 압축 빔 포팅! )            │
-  │                                      ↓                                           │
-  │  -----------------------------------네트워크 패킷 (TCP/UDP 랜선)-----------      │
-  │                                      ↓                                           │
-  │  [ 바다 건너 목적지 (NFS Server / NAS) ]                                         │
-  │         [ NFS 데몬 감시 봇 ] ◀────( "앗! 클라이언트가 쓰기 명령 보냈네!" )       │
-  │                 │                                                                │
-  │         [ NAS 진짜 물리 철판 (ZFS/ext4) ] ◀── "여기 진짜 바닥에 데이터 구워 락!" │
-  │   => 결과: 유저(워드)는 자기 랩탑 0.1mm 바닥에 쓴 줄 알지만, 실제로는 1,000km    │
-  │           저 멀리 저장소에 구이가 완료되는 환각(Transparency) 초공간 아크 지배!  │
-  └──────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 클라이언트 응용 프로그램은 네트워킹을 전혀 모른다. 그저 `read() / write()` 시스템 콜 망치만 친다. 이것을 가능하게 해주는 진원지가 바로 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 **[VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) ([Virtual File System](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 뼈대 인터페이스)** 이다. VFS는 경로를 파싱하여 `/mnt/nfs` 위치면 로컬 디바이스 드라이버 대신 `NFS 클라이언트 모듈(네트워크 전송기)` 로 꺾어주는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 스로틀 역할을 한다. 이 모듈은 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))라는 통신 원격 망치로 변환해 랜선을 타고, 서버 VFS를 다시 뚫고 들어가 실제 디스크를 치는 거대한 심해 왕복 잠수 다이브를 완성한다 도출.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"유저를 속여라! 내 디스크인 척하지만 사실은 바다 건너 케이블!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 랩탑 (Client)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜: write() 빔!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">OS 커널: VFS (가상 파일 스위처 렌더 거대한 교통경찰) 스왑 록!</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VFS: "어? 너가 쓰려는 'Z:' 드라이브는 내 배꼽 밑 물리 철판이 아닌데?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- VFS: "너는</div><div class="kb-diagram-node">NFS 클라이언트 모듈</div><div class="kb-diagram-note">쪽으로 파이프 우회 꺾어! 발사!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내꺼 물리 디스크 (ext4)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(경로 차단: 여길 안 건드림 무결 방패)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFS Client 봇 록백!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">( RPC 캡슐 메타 압축 빔 포팅! )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----------------------------------네트워크 패킷 (TCP/UDP 랜선)-----------</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">바다 건너 목적지 (NFS Server / NAS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFS 데몬 감시 봇</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">( "앗! 클라이언트가 쓰기 명령 보냈네!" )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAS 진짜 물리 철판 (ZFS/ext4)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "여기 진짜 바닥에 데이터 구워 락!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 유저(워드)는 자기 랩탑 0.1mm 바닥에 쓴 줄 알지만, 실제로는 1,000km</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저 멀리 저장소에 구이가 완료되는 환각(Transparency) 초공간 아크 지배!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 클라이언트 응용 프로그램은 네트워킹을 전혀 모른다. 그저 `read() / write()` 시스템 콜 망치만 친다. 이것을 가능하게 해주는 진원지가 바로 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 뼈대 인터페이스)</strong> 이다. VFS는 경로를 파싱하여 `/mnt/nfs` 위치면 로컬 디바이스 드라이버 대신 `NFS 클라이언트 모듈(네트워크 전송기)` 로 꺾어주는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 스로틀 역할을 한다. 이 모듈은 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))라는 통신 원격 망치로 변환해 랜선을 타고, 서버 VFS를 다시 뚫고 들어가 실제 디스크를 치는 거대한 심해 왕복 잠수 다이브를 완성한다 도출.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -72,20 +66,20 @@ tags = ["studynote-operating-system"]
 
 | 커넥션 관리 스펙 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뷰 | 일반적인 연결형 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), Stateful 뼈대) | ✨ NFS v2/v3 비상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 망각의 신 스왑 방어선) |
 |:---|:---|:---|
-| **서버의 연결 기억 방식 상태 (Memory/[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 발동)** | "A 클라이언트가 1번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어놨다" 라고 서버 RAM [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 일기장에 꼼꼼히 기록하고 유지함 유지 늪. | **"난 1초 전 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열었던 놈 기억 안 해. 요청 올 때마다 누군지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 증거 처음부터 다 내놔 컷!"** |
+| <strong>서버의 연결 기억 방식 상태 (Memory/<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 발동)</strong> | "A 클라이언트가 1번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어놨다" 라고 서버 RAM [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 일기장에 꼼꼼히 기록하고 유지함 유지 늪. | <strong>"난 1초 전 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 열었던 놈 기억 안 해. 요청 올 때마다 누군지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 증거 처음부터 다 내놔 컷!"</strong> |
 | **정전 크래시 발생 후 재부팅 멸망 시나리오 증명** | 서버 꺼지면 RAM 기억(연결상태 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 증발. 클라이언트는 "어? 연결 끊겼어 멸망 에러 팝업 폭사!" | 서버 꺼짐 $\to$ 클라이언트는 무한 대기 랙. 서버 켜짐(기억 어차피 없었음) $\to$ 클라가 다시 요청(재전송) $\to$ **서버: "드루와!" (무인 에러 없이 투명한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) $O(1)$ [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 백본 부스트!)** |
-| **치명적 단점 ([File Locking](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/) 공유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 멱살 꼬임 충돌 렉)** | A가 수정 중이면 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 B를 차단하는 정밀 통제 완벽함. | 기억이 없으니 A가 고치든 말든 B가 들어와서 무참히 덮어쓰고 박살 내는 기현상([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) 붕괴 마비 데들락) 도출. |
+| <strong>치명적 단점 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/">File Locking</a> 공유 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 멱살 꼬임 충돌 렉)</strong> | A가 수정 중이면 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 B를 차단하는 정밀 통제 완벽함. | 기억이 없으니 A가 고치든 말든 B가 들어와서 무참히 덮어쓰고 박살 내는 기현상([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) 붕괴 마비 데들락) 도출. |
 
 ### 2. 치명적 오버헤드 폭발: ID/그룹 평문 매핑(UID/GID)의 원시적 해킹 보안 멸망 랙
 NFS의 가장 극악한 약점은 보안을 IP 주소 1개와 단순 유저 번호(UID)로 퉁쳐버리는 원시적인 설계([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Breach) 데들락 늪에 있다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (루트 스매싱 Root Squashing 보안 허점 폭쇄 빔)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (루트 스매싱 Root Squashing 보안 허점 폭쇄 빔)</strong>: 
   - (사기극 늪 스왑): NFS 서버는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때, 접속한 놈의 `UID 번호(예: UID 1000)` 만 보고, 자기 디스크에 1000번 허가권이 있으면 열어준다 (비밀번호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 따위 안 함).
   - (해커 클라이언트 위조 발동!): 해커가 자기 노트북의 아이디를 강제로 `UID 1000` (서버의 사장님 아이디 넘버)으로 조작([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))한 뒤 NFS 접속 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 꽂는다. 
   - 결과: 사장님으로 둔갑 성공! 서버의 최고 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 아무런 비밀번호 없이 전부 복사 투척([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage 마스킹 뚫림)해버리는 끔찍한 권한 우회 침탈 사태가 태생적으로 발발 입증 멸망.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (`root_squash` 강등 빔과 NFS v4 [Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) 록백!!) / 암호화 강제**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>root_squash</code> 강등 빔과 NFS v4 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/">Kerberos</a> 록백!!) / 암호화 강제</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 구조 1방: "야 너 해커가 UID 0번(최고관리자 root) 달고 들어와도? 절대 서버 관리자 안 줌! 너는 들어오는 순간 제일 찌꺼기 권한(nobody, UID 65534) 나부랭이로 강제 신분 강등 스왑 처형시켜 빔!!" $\to$ 이것이 그 유명한 `root_squash` 권한 압사 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 방어 패치 조작이다.
-  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 진화 포팅: 이것도 못미더워서 NFS v4 로 넘어오면서 "야 이제 얄팍한 UID 번호 장난질 안 통해. **[Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) (케르베로스 티켓 발급 암호화 호위병)** 무적 방패 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 없으면 얄짤없이 접속 차단 영구 록백 걸어버린다 결착!!" 의 보안 철통 요새 진화를 택하며 현대 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 랙을 무결로 뚫어냈다 증명.
+  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 진화 포팅: 이것도 못미더워서 NFS v4 로 넘어오면서 "야 이제 얄팍한 UID 번호 장난질 안 통해. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/">Kerberos</a> (케르베로스 티켓 발급 암호화 호위병)</strong> 무적 방패 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 없으면 얄짤없이 접속 차단 영구 록백 걸어버린다 결착!!" 의 보안 철통 요새 진화를 택하며 현대 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 랙을 무결로 뚫어냈다 증명.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -96,12 +90,12 @@ NFS의 가장 극악한 약점은 보안을 IP 주소 1개와 단순 유저 번�
 ### 당신이 클라우드 엔지니어라면 무조건 만나는 악몽 'Stale NFS [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) handle'
 NFS 폴더에 쓰기를 하는데 영원한 유령 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 응답하지 않아 서버가 프리징 당하는 유명한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 충돌 현상을 분해한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (Stale [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Handle 유령 손잡이 마비 에러 데들락)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (Stale <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Handle 유령 손잡이 마비 에러 데들락)</strong>: 
   - 클라이언트 A가 `보고서.txt` 를 열어서 메모리(핸들 번호 99번 부여)에 쥐고 열심히 키보드를 친다.
   - 그때 서버 방에 들어간 다른 놈(관리자)이 실수로 그 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 대상인 진짜 `보고서.txt` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 원격 서버 로컬단 디스크에서 `rm -rf` 로 영원히 삭제 소각시켜 버렸다 파단!
   - 10분 뒤, 열심히 글을 다 쓴 클라이언트 A가 "저장(Write 99번 핸들 향해 발사!)" 버튼을 누르면?
-  - 서버 NFS 감시봇: "어? 너 99번 손잡이로 문 열려고? 야 그 문 이미 아까 철거돼서 허공 벽인데? 데들락 블로킹!" $\to$ [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 에러 코드 **"Stale NFS [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) handle (유령 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 손잡이 터짐 멸망 랙!)"** 이 팍 튀어나오며 앱이 영구 멈춤 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 패닉에 처박힌다 증명 뷰.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Unmount 칼등 치기 스왑 렌더!)**: 
+  - 서버 NFS 감시봇: "어? 너 99번 손잡이로 문 열려고? 야 그 문 이미 아까 철거돼서 허공 벽인데? 데들락 블로킹!" $\to$ [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 에러 코드 <strong>"Stale NFS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">file</a> handle (유령 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 손잡이 터짐 멸망 랙!)"</strong> 이 팍 튀어나오며 앱이 영구 멈춤 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 패닉에 처박힌다 증명 뷰.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Unmount 칼등 치기 스왑 렌더!)</strong>: 
   - 이렇게 꼬여버린 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 단순 `umount` 명령어로 절대 풀리지 않고 서버 목줄을 "Device is busy" 무한 루프 늪으로 조여 댄다.
   - 엔지니어 궁극기 사살 빔!: `umount -f -l /mnt/nfs` (f: 무조건 멱살 풀기! l: 내부 프로세스 다 죽고 나면 여유롭게 숨통 끊기!) 라는 레이지 언마운트([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 도출) 망치로 좀비화된 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 라우터를 끊어내야 클라우드 인스턴스 프리징을 해방시킬 수 있다 결착 도출.
 
@@ -138,22 +132,26 @@ NFS (Network [File](/knowledge-base/studynote/02_operating_system/09_file_system
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
-    │
-    ▼
-[NFS (Network File System)]
-    │
-    ├──▶ [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
-    └──▶ [윈도우 NTFS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFS (Network File System)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 NTFS</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 게임 할 때 내 컴퓨터 C드라이브 용량이 모자라서 100GB 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 못 넣고 에러(디스크 가득 참!) 나서 울상을 지었어요. 만약 친구네 집 슈퍼 컴퓨터 용량 100TB 짜리를, 마치 내 컴퓨터에 꽂힌 C드라이브인 것처럼 '거짓말 마법 환상(투명성 둔갑 마스킹!)' 을 쓸 수 있으면 얼마나 좋을까요?
-2. 그래서 컴퓨터 천재 마법사가 **"NFS (네트워크 멀리 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 마법!)"** 거울 창문을 만들어줬어요 록백 스왑! 내 폴더 아이콘을 더블클릭해서 들어가면? 마법의 공간 유리창을 넘어 "1,000km 멀리 떨어진 미국 서버 나스([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 다락방 디스크)" 의 폴더가 눈앞에 펼쳐져요 연결! 내가 이 방에 그림을 복사해 넣으면? 실제 내 하드디스크가 아니라 미국 서버 하드 모터에서 징~ 하고 저장(원격 Write 발사 도출!) 된답니다 투명 부스트!
+2. 그래서 컴퓨터 천재 마법사가 <strong>"NFS (네트워크 멀리 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 마법!)"</strong> 거울 창문을 만들어줬어요 록백 스왑! 내 폴더 아이콘을 더블클릭해서 들어가면? 마법의 공간 유리창을 넘어 "1,000km 멀리 떨어진 미국 서버 나스([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 다락방 디스크)" 의 폴더가 눈앞에 펼쳐져요 연결! 내가 이 방에 그림을 복사해 넣으면? 실제 내 하드디스크가 아니라 미국 서버 하드 모터에서 징~ 하고 저장(원격 Write 발사 도출!) 된답니다 투명 부스트!
 3. 치명적 슬픔 데들락 보안 뚫림 발생! 근데 이 미국 서버 할아버지가 시력이 참 나빠요. 어떤 도둑 해커가 우리 집 와이파이 주소랑 내 이름표(UID 권한 위조 파괴 빔!) 훔쳐 달고 와서 "저 지민이에요! NFS 문 열어줘요!" 하고 들어오면? 비밀번호도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 안 하고 문을 활짝 열어줘버려서 무서운 일기장 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 다 털리는 허술한 바보 약점 랙 늪(보안 취약점 오버헤드 파단)을 가지고 있어서, 최신 방탄조끼(NFS v4 암호화 보안 록백 무결망) 수술을 받아야만 했답니다 만렙 진화!
 
 ---

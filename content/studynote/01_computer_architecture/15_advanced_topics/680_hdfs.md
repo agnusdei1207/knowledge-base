@@ -40,20 +40,21 @@ HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 | 랙 인식 배치 | 같은 장애 도메인에만 몰리지 않게 배치 | [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·랙 단위 장애 대응 |
 | HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 완화 | 액티브-스탠바이 운영 필요 |
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Client                                                                  │
-│   │ metadata request                                                    │
-│   ▼                                                                      │
-│ NameNode ------------------------------------------------------┐         │
-│   │ block locations                                            │         │
-│   ▼                                                            │         │
-│ DataNode 1  ->  DataNode 2  ->  DataNode 3                     │         │
-│   block copy      block copy      block copy                   │         │
-│                                                                 │         │
-│ write pipeline : client writes once, replicas flow in order     │         │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode ------------------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block locations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 1 -&gt; DataNode 2 -&gt; DataNode 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block copy block copy block copy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write pipeline : client writes once, replicas flow in order</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 HDFS는 대용량 순차 읽기와 쓰기에서 매우 강하다. 블록 크기를 128메가바이트 또는 256메가바이트처럼 크게 잡으면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수가 줄어들고, 분석 작업은 블록이 있는 노드에서 실행되어 네트워크 이동량도 줄어든다. 대신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간을 자주 수정하거나, 아주 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수백만 개를 관리하는 용도로는 비효율이 커진다.
 
@@ -83,15 +84,15 @@ HDFS는 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 ### 실무 시나리오
 
-1. **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)**
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a></strong>
    - 웹 서비스와 장비에서 나오는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 날짜 단위 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 적재한다.
    - 하루 단위 배치 분석이 많을수록 HDFS의 순차 처리 장점이 잘 드러난다.
 
-2. **[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load) 파이프라인**
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> (Extract, Transform, Load) 파이프라인</strong>
    - 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 HDFS에 쌓고, 변환 작업과 집계 작업을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행한다.
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 노드 곳곳에 있어도 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근처로 보내 처리 비용을 줄일 수 있다.
 
-3. **학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리**
+3. <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전처리</strong>
    - 이미지나 텍스트를 대규모로 읽어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전처리해야 할 때 유용하다.
    - 다만 최근에는 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)와 함께 혼합 사용되는 경우가 많다.
 
@@ -117,7 +118,7 @@ HDFS는 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 HDFS는 값싼 하드웨어 위에서도 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 배치 분석을 안정적으로 가능하게 만든 대표적 기술이다. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 덕분에 하드웨어 고장을 특별한 사건이 아니라 일상적인 운영 조건으로 다룰 수 있게 했고, 이는 빅데이터 플랫폼의 대중화를 이끌었다. 대형 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이벤트, 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관소로서 HDFS가 가진 역사적 의미는 매우 크다.
 
-다만 오늘날에는 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)와 역할을 나누거나 함께 쓰는 경우가 많다. 클라우드 환경에서는 저장과 계산을 더 느슨하게 분리하는 추세가 강하고, 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 집중도 여전히 한계로 남는다. 그래서 HDFS는 **“범용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템”이 아니라 “[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)을 중시하는 분석용 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)”**으로 기억해야 한다.
+다만 오늘날에는 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)와 역할을 나누거나 함께 쓰는 경우가 많다. 클라우드 환경에서는 저장과 계산을 더 느슨하게 분리하는 추세가 강하고, 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 집중도 여전히 한계로 남는다. 그래서 HDFS는 <strong>“범용 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템”이 아니라 “<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>과 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">데이터 지역성</a>을 중시하는 분석용 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/">분산 파일 시스템</a>”</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: HDFS는 무엇이든 넣는 책상이 아니라, 무거운 재료를 많이 쌓아 두고 공장처럼 흘려보내는 작업장에 더 가깝다.
 
@@ -137,21 +138,23 @@ HDFS는 값싼 하드웨어 위에서도 대용량 [데이터](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Google File System (GFS) 아이디어
-        │
-        ▼
-HDFS 블록 복제 기반 분산 파일 저장
-        │
-        ▼
-MapReduce / Spark와 결합한 데이터 지역성 분석
-        │
-        ▼
-HA NameNode / Federation / 삭제 코딩 확장
-        │
-        ▼
-오브젝트 스토리지와 공존하는 현대 데이터 레이크 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Google File System (GFS) 아이디어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HDFS 블록 복제 기반 분산 파일 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MapReduce / Spark와 결합한 데이터 지역성 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HA NameNode / Federation / 삭제 코딩 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오브젝트 스토리지와 공존하는 현대 데이터 레이크 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장이 단순 보관을 넘어, 대규모 분석 파이프라인의 실행 토대와 결합해 발전해 왔음을 보여준다.
 

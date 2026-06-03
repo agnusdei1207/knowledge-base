@@ -33,21 +33,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 랙 PDU가 서버와 관리 계층 사이에 어떻게 배치되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Rack-level power path with redundant PDUs                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ UPS A / Busway ─▶ PDU A ─▶ PSU A ─┐                                      │
-│                     │             ├─▶ Server 1                           │
-│                     ├─ meter      ├─▶ Server 2                           │
-│                     └─ switch     └─▶ Server 3                           │
-│                                                                            │
-│ UPS B / Busway ─▶ PDU B ─▶ PSU B ─┐                                      │
-│                     │             ├─▶ Server 1                           │
-│                     ├─ sensor     ├─▶ Server 2                           │
-│                     └─ network ─────▶ DCIM / OOB management              │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack-level power path with redundant PDUs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS A / Busway ─▶ PDU A ─▶ PSU A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Server 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ meter ─▶ Server 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch ─▶ Server 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS B / Busway ─▶ PDU B ─▶ PSU B ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Server 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sensor ─▶ Server 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network ▶ DCIM / OOB management</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -98,7 +100,7 @@ PDU를 제대로 이해하려면 기본형과 지능형의 차이, 그리고 UPS
 - 랙 안에서 PDU 위에 또 멀티탭을 물리는 연쇄 배선
 - 원격 관리 웹 화면을 외부 인터넷에 노출하는 운영
 
-좋은 PDU 설계는 사고가 났을 때만 빛나지 않는다. 전력 텔레메트리가 쌓일수록 좀비 서버를 찾고, 랙별 여유 전력을 계산하고, 과부하를 사전에 피하는 운영 자동화가 가능해진다. 기술사 관점에서는 "몇 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인가"보다 **전력 경로를 얼마나 관측 가능하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능하게 만들었는가**가 더 중요하다.
+좋은 PDU 설계는 사고가 났을 때만 빛나지 않는다. 전력 텔레메트리가 쌓일수록 좀비 서버를 찾고, 랙별 여유 전력을 계산하고, 과부하를 사전에 피하는 운영 자동화가 가능해진다. 기술사 관점에서는 "몇 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인가"보다 <strong>전력 경로를 얼마나 관측 가능하고 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능하게 만들었는가</strong>가 더 중요하다.
 
 - **📢 섹션 요약 비유**: PDU 설계는 고속도로 차선 배치와 같다. 차가 많이 다닐수록 차선 수뿐 아니라 어디서 막히는지 보는 카메라와 우회로 계획이 함께 있어야 진짜 안전하다.
 
@@ -108,7 +110,7 @@ PDU를 제대로 이해하려면 기본형과 지능형의 차이, 그리고 UPS
 
 서버 랙 PDU를 제대로 설계하면 랙 단위 전력 사용량이 투명해지고, 과부하와 불균형을 조기에 발견할 수 있으며, 원격 전원 제어로 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간도 줄일 수 있다. 특히 고밀도 랙이 늘어나는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 PDU 계측 데이터가 곧 증설 계획과 냉각 전략의 입력값이 된다. 즉 PDU는 단순 말단 배선이 아니라, 전력 운영의 디지털 센서 역할을 한다.
 
-다만 PDU는 UPS를 대체하지 못하고, 전력 문제를 혼자 해결하지도 못한다. 상위 배전, 하위 서버 PSU, 냉각, 관리망 보안이 함께 맞물릴 때 비로소 랙 수준 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 완성된다. 따라서 서버 랙 PDU는 **전기를 나누는 장치**로만 외우기보다, **랙 단위 전력 가시성과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 제어를 담당하는 마지막 인프라 노드**로 기억하는 것이 정확하다.
+다만 PDU는 UPS를 대체하지 못하고, 전력 문제를 혼자 해결하지도 못한다. 상위 배전, 하위 서버 PSU, 냉각, 관리망 보안이 함께 맞물릴 때 비로소 랙 수준 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 완성된다. 따라서 서버 랙 PDU는 <strong>전기를 나누는 장치</strong>로만 외우기보다, <strong>랙 단위 전력 가시성과 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 제어를 담당하는 마지막 인프라 노드</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 서버 랙 PDU는 몸의 손끝 신경과 같다. 심장이 피를 보내더라도 손끝에서 감각이 사라지면 어디가 다쳤는지 늦게 알게 되듯, 전력도 마지막 배전 지점이 보여야 전체 몸을 안전하게 움직일 수 있다.
 
@@ -126,24 +128,26 @@ PDU를 제대로 이해하려면 기본형과 지능형의 차이, 그리고 UPS
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본형 배전 멀티탭
-    │
-    ▼
-랙 단위 PDU 도입
-: 전원 분배 표준화
-    │
-    ▼
-모니터형 PDU
-: 전압 · 전류 · 전력 가시화
-    │
-    ▼
-스위치형 지능형 PDU
-: 원격 제어 · 시퀀싱 · 센서 연동
-    │
-    ▼
-DCIM · 자동화 · 고밀도 AI 랙 전력 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본형 배전 멀티탭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랙 단위 PDU 도입</div>
+<div class="kb-diagram-note">: 전원 분배 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모니터형 PDU</div>
+<div class="kb-diagram-note">: 전압 · 전류 · 전력 가시화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스위치형 지능형 PDU</div>
+<div class="kb-diagram-note">: 원격 제어 · 시퀀싱 · 센서 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DCIM · 자동화 · 고밀도 AI 랙 전력 최적화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -11,7 +11,7 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 가장 첫 번째 줄(4바이트)은 라우터가 패킷을 받아들였을 때 **가장 먼저 뜯어보는 주민등록증과 같은 기본 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보 구역**이다.
+> 1. **본질**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 가장 첫 번째 줄(4바이트)은 라우터가 패킷을 받아들였을 때 <strong>가장 먼저 뜯어보는 주민등록증과 같은 기본 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 정보 구역</strong>이다.
 > 2. **가치**: 이 패킷이 IPv4인지 IPv6인지 구분하는 `버전(4)`과, 헤더의 길이가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지(보통 `5` × 4 = 20바이트) 알려주어 라우터가 정확한 위치에서 페이로드를 잘라낼 수 있게 해 준다.
 > 3. **판단 포인트**: 이 패킷이 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라서 빨리 처리해야 하는지([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 명시하는 `TOS(DSCP)` 필드와, 헤더를 포함한 패킷 전체가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 뚱뚱한지 알려주는 `전체 길이` 필드로 구성된다.
 
@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 0비트부터 31비트까지 첫 4바이트(Row 1)를 차지하는 4개의 필드다.
 - **필요성**: 우체국 직원이 소포를 받으면 가장 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것은 "이게 국제 우편이냐 국내 우편이냐(버전)?", "송장 크기가 어디까지냐(IHL)?", "이거 취급 주의 특급 우편이냐(TOS)?", "총 무게가 몇 kg이냐(Total Length)?"다. 이 4가지 정보가 없으면 라우터는 그다음 정보(IP 주소 등)를 엉뚱한 위치에서 읽게 되어 패킷을 100% 버리게 된다.
 
-- **💡 비유**: 서류 결재판을 받았을 때, 결재판 맨 앞표지에 적힌 **"결재 문서의 양식 버전(V4), 문서의 총 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수(Length), 그리고 [긴급!] 도장 유무(TOS)"**와 같습니다.
+- **💡 비유**: 서류 결재판을 받았을 때, 결재판 맨 앞표지에 적힌 <strong>"결재 문서의 양식 버전(V4), 문서의 총 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 수(Length), 그리고 [긴급!] 도장 유무(TOS)"</strong>와 같습니다.
 
-```text
-[IPv4 헤더 구조]
-    │
-    ▼
-[버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    └──▶ [식별자, 플래그, 단편화 오프셋]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4 헤더 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식별자, 플래그, 단편화 오프셋</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 헤더 첫 줄은 이력서의 **"맨 위 인적 사항 칸"**입니다. 내 이름(IP)을 말하기 전에 내가 어느 시대([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 사람인지, 키와 몸무게(Total Length)는 몇인지를 밝히는 가장 기초적인 자기소개입니다.
 
@@ -43,33 +47,32 @@ tags = ["studynote-network"]
 - 라우터가 패킷을 까보고 4비트를 읽었을 때 `0100 (10진수 4)`이 나오면 IPv4로 처리하고, `0110 (10진수 6)`이 나오면 완전히 다른 헤더 규격을 가진 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷으로 간주하고 처리 모듈을 바꾼다.
 
 ### 2. IHL (Internet Header Length, 4 Bits)
-- **4바이트 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 단위**: 헤더의 길이가 총 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 라우터에게 알려주는 필드다. 그런데 공간이 고작 4비트밖에 없어 최대 숫자 15(`1111`)까지만 적을 수 있다. 
-- **해결책 (x 4 연산)**: 헤더 길이는 무조건 4바이트 단위로 증가한다. 그래서 이 필드에 **`5`**가 적혀 있으면 라우터는 속으로 곱하기 4를 해서 **"아, 헤더는 20바이트구나!"**라고 계산한다. 옵션이 꽉 차서 60바이트 헤더면 이 값은 `15`가 된다. (5 미만의 숫자가 오면 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 간주해 버림).
+- <strong>4바이트 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 단위</strong>: 헤더의 길이가 총 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 라우터에게 알려주는 필드다. 그런데 공간이 고작 4비트밖에 없어 최대 숫자 15(`1111`)까지만 적을 수 있다. 
+- **해결책 (x 4 연산)**: 헤더 길이는 무조건 4바이트 단위로 증가한다. 그래서 이 필드에 <strong><code>5</code></strong>가 적혀 있으면 라우터는 속으로 곱하기 4를 해서 <strong>"아, 헤더는 20바이트구나!"</strong>라고 계산한다. 옵션이 꽉 차서 60바이트 헤더면 이 값은 `15`가 된다. (5 미만의 숫자가 오면 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 간주해 버림).
 
 ### 3. TOS (Type of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) / DSCP (8 Bits = 1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))
-- 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 패킷 수천 개가 쌓여 있을 때, **"누구를 먼저 새치기시켜서 보내줄 것인가?"**를 결정하는 우선순위표다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)).
-- 과거엔 우선순위 3비트(Precedence)로 썼으나, 현대 네트워크에서는 이를 **DSCP([Differentiated Services](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point, 6비트)** 규격으로 바꾸어 사용한다.
+- 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 패킷 수천 개가 쌓여 있을 때, <strong>"누구를 먼저 새치기시켜서 보내줄 것인가?"</strong>를 결정하는 우선순위표다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)).
+- 과거엔 우선순위 3비트(Precedence)로 썼으나, 현대 네트워크에서는 이를 <strong>DSCP(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/">Differentiated Services</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Point, 6비트)</strong> 규격으로 바꾸어 사용한다.
 - 실시간으로 끊기면 안 되는 VoIP(인터넷 전화기)나 화상 회의 패킷은 이 DSCP 값에 '특급 배송(EF)' 딱지를 붙여, 일반 웹서핑 패킷보다 무조건 라우터를 먼저 통과하게 대우해 준다.
 
 ### 4. Total Length (전체 길이, 16 Bits = 2 Bytes)
 - **범위**: 헤더(20B) + 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload)를 합친 전체 패킷의 사이즈를 '[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위'로 적는다. 16비트이므로 $2^{16} - 1 = 65,535$ [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)가 한 패킷이 가질 수 있는 최대 크기다.
 - **활용**: 이 값에서 아까 구한 헤더 길이(IHL × 4)를 빼면, 순수한 알맹이([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 페이로드)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이즈가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 정확히 알 수 있다. (예: 전체 1500 - 헤더 20 = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1480 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                헤더 1행(Row 1) 뜯어보기 (와이어샤크 예시)         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0100 │ 0101 │ 00000000 │ 0000 0001 0010 1100 (총 32비트)   │
- │   └┬─┘   └┬─┘   └───┬────┘ └──────────┬────────┘              │
- │    │      │         │                 │                     │
- │   VER    IHL       TOS          Total Length                │
- │   (4)  (5=20B)  (0=일반택배)    (300 바이트)                     │
- │                                                             │
- │   ▶ 라우터 왈: "IPv4 패킷이고, 헤더는 20바이트 짜리네!            │
- │               보통 패킷이니까 줄 서고, 전체 무게는 300바이트구나!"   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더 1행(Row 1) 뜯어보기 (와이어샤크 예시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0100</div><div class="kb-diagram-cell">0101</div><div class="kb-diagram-cell">00000000</div><div class="kb-diagram-cell">0000 0001 0010 1100 (총 32비트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VER IHL TOS Total Length</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) (5=20B) (0=일반택배) (300 바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 라우터 왈: "IPv4 패킷이고, 헤더는 20바이트 짜리네!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보통 패킷이니까 줄 서고, 전체 무게는 300바이트구나!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 라우터는 택배 기사님입니다. 소포를 들자마자 **"버전 4(택배 규격), 20바이트(박스 크기), 300바이트(총 무게), DSCP(당일 특급 취급주의)"**를 1열에서 순식간에 스캔한 뒤, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 컨베이어 벨트에 패킷을 올려놓습니다.
 
@@ -127,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv4 헤더 구조]
-    │
-    ▼
-[현재 개념: 버전, 헤더 길이, 서비스 타입, 전체 길이]
-    │
-    ├──▶ [확장 A: 식별자, 플래그, 단편화 오프셋]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv4 헤더 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 식별자, 플래그, 단편화 오프셋</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 버전, 헤더 길이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입, 전체 길이는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

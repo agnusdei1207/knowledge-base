@@ -43,22 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)이 왜 "모델 교환 루프"로 이해되어야 하는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Federated learning round: train locally, aggregate globally                  │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Global model on server                                                       │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Selected clients -> local train -> masked updates                            │
-│    ├-> Client A                                                              │
-│    ├-> Client B                                                              │
-│    └-> Client C                                                              │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Secure aggregation -> weighted average -> new global model                   │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Federated learning round: train locally, aggregate globally</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global model on server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Selected clients -&gt; local train -&gt; masked updates</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Client A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Client B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Client C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure aggregation -&gt; weighted average -&gt; new global model</div></div>
+</div>
+</div>
+
+
 
 현실에서는 이 루프가 깔끔하게만 돌지 않는다. 어떤 기기는 와이파이(Wi-Fi)와 충전 상태에서만 참여하고, 어떤 기관은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 완전히 다르며, 일부 참여자는 중간에 이탈한다. 그래서 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심은 수학적 평균 자체보다 "누가 언제 얼마나 신뢰할 수 있게 참여하는가"를 제어하는 시스템 설계에 있다.
 
@@ -129,24 +128,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Centralized learning
-    │
-    ▼
-Privacy · data sovereignty pressure
-    │
-    ▼
-Federated Learning + FedAvg
-    │
-    ▼
-Secure Aggregation + Differential Privacy
-    │
-    ▼
-Cross-device / Cross-silo federation
-    │
-    ▼
-Personalized Federated Learning · Hierarchical Federated Learning · Edge AI ecosystem
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Centralized learning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Privacy · data sovereignty pressure</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Federated Learning + FedAvg</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Aggregation + Differential Privacy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cross-device / Cross-silo federation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Personalized Federated Learning · Hierarchical Federated Learning · Edge AI ecosystem</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 시대에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 남겨 둔 채 모델만 협력하는 시대로 학습 아키텍처가 이동하는 과정을 보여준다.
 

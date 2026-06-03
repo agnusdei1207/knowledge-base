@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: 패킷을 수신한 라우터가, 송신자(호스트)에게 "목적지로 가려면 나를 거치는 것보다 나와 같은 서브넷에 있는 다른 라우터를 통하는 것이 더 최적의 경로(Shorter Path)다"라고 알려주는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 에러 통보 (Type 5).
 - **필요성**: PC는 멍청해서 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 등)을 돌리지 못한다. PC는 오직 "내 동네 아니면 묻지도 따지지도 않고 무조건 `기본 게이트웨이(Default Gateway)`로 던진다"라는 1차원적인 논리만 가지고 있다. 만약 회사에 라우터가 2대(A: 일반용, B: 공장 전용) 꽂혀있는데, 내 PC의 게이트웨이가 A로 잡혀있다면, 공장으로 보낼 데이터도 일단 A로 던지는 뻘짓을 하게 된다. 이때 라우터 A가 친절하게 "공장 갈 거면 B한테 직접 줘!"라고 가르쳐주는 기능이 필요했다.
 
-- **💡 비유**: 내가 부산에 가려고 **"동네 파출소(기본 게이트웨이 A)"**에 가서 길을 물었습니다. 파출소 순경 아저씨가 "부산 갈 거면 나한테 오지 말고, 저기 사거리 옆에 있는 **'고속도로 요금소(라우터 B)'**로 바로 직행하세요!"라고 **올바른 약도를 쥐여서 돌려보내는 것(Redirect)**과 같습니다.
+- **💡 비유**: 내가 부산에 가려고 <strong>"동네 파출소(기본 게이트웨이 A)"</strong>에 가서 길을 물었습니다. 파출소 순경 아저씨가 "부산 갈 거면 나한테 오지 말고, 저기 사거리 옆에 있는 <strong>'고속도로 요금소(라우터 B)'</strong>로 바로 직행하세요!"라고 <strong>올바른 약도를 쥐여서 돌려보내는 것(Redirect)</strong>과 같습니다.
 
-```text
-[Echo Request/Reply / Sou…]
-    │
-    ▼
-[Redirect 메시지]
-    │
-    └──▶ [IPv6]
-```
 
-- **📢 섹션 요약 비유**: ** [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect는 내비게이션 없이 무작정 메인 도로로만 직진하려는 초보 운전자([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))에게, 동네 주민(라우터)이 **"아이고 답답아, 저쪽 샛길로 빠지면 훨씬 빨리 가!"**라고 창문을 내리고 훈수를 두는 훌륭한 길라잡이 서비스입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Echo Request/Reply / Sou…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redirect 메시지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect는 내비게이션 없이 무작정 메인 도로로만 직진하려는 초보 운전자(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)에게, 동네 주민(라우터)이 </strong>"아이고 답답아, 저쪽 샛길로 빠지면 훨씬 빨리 가!"**라고 창문을 내리고 훈수를 두는 훌륭한 길라잡이 서비스입니다.
 
 ---
 
@@ -47,35 +51,32 @@ tags = ["studynote-network"]
 
 1. PC가 공장 망([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x)으로 핑을 쏜다. PC는 멍청하니까 무조건 R1으로 프레임을 쏜다.
 2. R1이 받아보니, "어라? [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 망으로 가려면 어차피 내 옆에 있는 R2(192.168.0.2)로 줘야 하네?"라며 R2로 다시 튕겨준다.
-3. 이 상황은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) -> R1 -> R2로 패킷이 한 동네에서 V자 모양으로 꺾이는 완벽한 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비(Triangular [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**다.
-4. R1은 R2로 패킷을 넘겨준 직후, PC를 향해 **[ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 5 (Redirect)** 패킷을 쏜다. "야! 공장([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x)으로 갈 거면 다음부터는 나 거치지 말고 다이렉트로 R2(192.168.0.2)한테 쏴라!"
+3. 이 상황은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) -> R1 -> R2로 패킷이 한 동네에서 V자 모양으로 꺾이는 완벽한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비(Triangular <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>다.
+4. R1은 R2로 패킷을 넘겨준 직후, PC를 향해 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Type 5 (Redirect)</strong> 패킷을 쏜다. "야! 공장([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x)으로 갈 거면 다음부터는 나 거치지 말고 다이렉트로 R2(192.168.0.2)한테 쏴라!"
 5. PC는 이 말을 듣고 자신의 메모리(내부 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 `10.x 망 = R2로 보냄`이라는 임시 메모를 적어두고, 다음 패킷부터는 똑똑하게 R2로 직행한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ICMP Redirect에 의한 경로 최적화 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC (192.168.0.100) ]                                    │
- │    게이트웨이: R1 (0.1)                                       │
- │       │                                                     │
- │       │ 1. 일단 멍청하게 R1로 던짐                              │
- │       ▼                                                     │
- │   [ 라우터 R1 (192.168.0.1) ] ── 2. R2로 전달 (V자 낭비) ──▶ [ 라우터 R2 ] │
- │       │                            (192.168.0.2)             │
- │       │ 3. ICMP Redirect 발송!                                │
- │       ▼ ("야! 다음부턴 R2로 다이렉트로 쏴라!")                    │
- │                                                             │
- │   [ PC ] "아항! 오케이 메모 완료!"                              │
- │       │                                                     │
- │       │ 4. 두 번째 패킷부터는 똑똑하게 R2로 다이렉트 전송!          │
- │       └───────────────────────────────────────────▶ │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICMP Redirect에 의한 경로 최적화 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC (192.168.0.100)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게이트웨이: R1 (0.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 일단 멍청하게 R1로 던짐</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 R1 (192.168.0.1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(192.168.0.2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ICMP Redirect 발송!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ("야! 다음부턴 R2로 다이렉트로 쏴라!")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC</div><div class="kb-diagram-note">"아항! 오케이 메모 완료!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 두 번째 패킷부터는 똑똑하게 R2로 다이렉트 전송!</div></div>
+</div>
+</div>
+
+
 
 ### 2. 해커의 악용: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect 공격 (MITM)
 마치 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Spoofing처럼 너무 사람을 잘 믿어서 발생하는 치명적인 해킹 공격이다.
-해커가 같은 네트워크에 숨어서 내 PC로 **가짜 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect(Type 5) 메시지**를 날린다. 
+해커가 같은 네트워크에 숨어서 내 PC로 <strong>가짜 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect(Type 5) 메시지</strong>를 날린다. 
 - 해커: "야 PC야, 구글(8.8.8.8)로 가려면 기본 게이트웨이 말고 내 노트북 IP(192.168.0.99)로 보내는 게 제일 빨라! 내 쪽으로 보내라!"
 - 멍청한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): "어머나 친절하셔라. 알겠습니다!" ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 오염)
 - 결국 내 PC가 구글로 보내는 모든 비밀번호 패킷이 해커 노트북으로 줄줄이 납치당한다.
@@ -100,7 +101,7 @@ Redirect 메시지를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-오늘날 L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 기업용 라우터를 구매하면 이 친절한 오지랖 기능이 **기본적으로 강제 종료(Disable)**되어 있다.
+오늘날 L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 기업용 라우터를 구매하면 이 친절한 오지랖 기능이 <strong>기본적으로 강제 종료(Disable)</strong>되어 있다.
 - 시스코 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/): `no ip redirects` (인터페이스 모드)
 - 비효율적인 삼각 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 돌더라도, 해커에게 망 전체를 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)) 당하는 것보다 낫다는 철학이다. 어차피 요새는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 속도가 수십 기가비트(Gbps)라 1번 튕겨가는 것쯤은 티도 나지 않는다.
 
@@ -110,7 +111,7 @@ Redirect 메시지를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Redirect는 묻지도 않았는데 길을 가르쳐주는 **"오지랖 넓은 동네 아저씨"**입니다. 진짜 경찰(라우터)이 가르쳐주면 고맙지만, 사기꾼(해커)이 샛길로 유인해 강도짓(스니핑)을 할 수 있으므로, 요즘 PC들은 아무리 샛길을 알려줘도 **"그냥 내비게이션(기본 게이트웨이)이 시키는 대로만 우직하게 갈래!"**라며 귀를 막아버립니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Redirect는 묻지도 않았는데 길을 가르쳐주는 </strong>"오지랖 넓은 동네 아저씨"**입니다. 진짜 경찰(라우터)이 가르쳐주면 고맙지만, 사기꾼(해커)이 샛길로 유인해 강도짓(스니핑)을 할 수 있으므로, 요즘 PC들은 아무리 샛길을 알려줘도 **"그냥 내비게이션(기본 게이트웨이)이 시키는 대로만 우직하게 갈래!"**라며 귀를 막아버립니다.
 
 ---
 
@@ -133,15 +134,19 @@ Redirect 메시지는 네트워크 계층과 IP를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Echo Request/Reply / Sou…]
-    │
-    ▼
-[현재 개념: Redirect 메시지]
-    │
-    ├──▶ [확장 A: IPv6]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Echo Request/Reply / Sou…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Redirect 메시지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Redirect 메시지는 Echo Request/Reply / Sou…에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv6와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

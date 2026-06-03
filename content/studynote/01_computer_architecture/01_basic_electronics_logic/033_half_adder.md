@@ -18,7 +18,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 반가산기의 정의와 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
 
-반가산기(Half Adder, HA)는 **두 입력 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(A, B)의 덧셈 결과인 합(Sum)과 올림수(Carry)를 출력**하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로다.
+반가산기(Half Adder, HA)는 <strong>두 입력 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(A, B)의 덧셈 결과인 합(Sum)과 올림수(Carry)를 출력</strong>하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로다.
 
 ### [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
 
@@ -38,12 +38,17 @@ Carry = A · B  (AND)
 
 ### 반가산기 회로
 
-```
-A ──┬──[XOR]── Sum
-    │
-B ──┤
-    └──[AND]── Carry
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">A ── ──</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-note">── Sum</div></div>
+<div class="kb-diagram-note">B ──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-note">── Carry</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 반가산기는 한 자리 덧셈 기계다 — 1+1=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(이진수)처럼 합과 올림을 따로 출력하지만, 앞 자리에서 올라온 올림은 처리 못한다.
 
@@ -51,7 +56,7 @@ B ──┤
 
 ## Ⅱ. [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) ([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/), FA)
 
-[전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))는 **두 입력 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(A, B)와 이전 자리 올림(Cin)을 모두 더해 합(S)과 올림(Cout)을 출력**한다.
+[전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)([Full Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/))는 <strong>두 입력 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(A, B)와 이전 자리 올림(Cin)을 모두 더해 합(S)과 올림(Cout)을 출력</strong>한다.
 
 ### [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
 
@@ -75,14 +80,20 @@ Cout = (A · B) + (Cin · (A ⊕ B))
 
 ### [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) = 반가산기 2개 + OR
 
-```
-       HA1              HA2
-A ──[XOR]──[XOR]────── S
-B ──[XOR]  Cin ─────
-A ──[AND]──[OR]──── Cout
-B ──[AND]     ↑
-              HA2의 Carry
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HA1 HA2</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A ──</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-note">S</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">B ──</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-note">Cin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A ──</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">OR</div><div class="kb-diagram-note">Cout</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">B ──</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-connector">↑</div></div>
+<div class="kb-diagram-note">HA2의 Carry</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)는 3자리 덧셈 계산기다 — 두 수(A, B)에 앞 자리 올림(Cin)까지 더해 합과 다음 자리 올림(Cout)을 출력한다.
 
@@ -92,15 +103,18 @@ B ──[AND]     ↑
 
 4비트 RCA는 [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/) 4개를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결해 4비트 이진수 덧셈을 수행한다.
 
-```
-A3 B3  A2 B2  A1 B1  A0 B0
- │  │   │  │   │  │   │  │
-[FA3] [FA2] [FA1] [FA0]
- │     │     │     │
- S3    S2    S1    S0   Cin=0
- │
-Cout(올림)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A3 B3 A2 B2 A1 B1 A0 B0</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FA3</div><div class="kb-diagram-node">FA2</div><div class="kb-diagram-node">FA1</div><div class="kb-diagram-node">FA0</div></div>
+<div class="kb-diagram-note">S3 S2 S1 S0 Cin=0</div>
+<div class="kb-diagram-note">Cout(올림)</div>
+</div>
+</div>
+
+
 
 ### RCA [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 문제
 
@@ -128,7 +142,7 @@ C_2 = G_1 + P_1 · G_0 + P_1 · P_0 · C_0
 C_3 = G_2 + P_2·G_1 + P_2·P_1·G_0 + P_2·P_1·P_0·C_0
 ```
 
-**모든 올림을 C_0과 G_i, P_i만으로 직접 계산 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능**
+<strong>모든 올림을 C_0과 G_i, P_i만으로 직접 계산 → <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong>
 
 📢 **섹션 요약 비유**: CLA는 시험 답안을 채점하기 전에 미리 배점을 계산해두는 것이다 — 각 문제 점수를 기다리지 않고, 전체 점수를 동시에 계산한다.
 
@@ -136,17 +150,20 @@ C_3 = G_2 + P_2·G_1 + P_2·P_1·G_0 + P_2·P_1·P_0·C_0
 
 ## Ⅴ. 실무 응용 — ALU와 디지털 회로
 
-```
-┌──────────────────────────────────────────┐
-│              ALU 내부 가산기 블록         │
-│                                          │
-│  A[31:0] ──┐                            │
-│  B[31:0] ──┤── 32비트 CLA 가산기 ──── Sum│
-│  Cin ──────┘                    └── Cout │
-│                                  └── OF  │
-│  OP 코드로 가산/감산/비교 모드 전환       │
-└──────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU 내부 가산기 블록</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">31:0</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">B</div><div class="kb-diagram-node">31:0</div><div class="kb-diagram-note">── ── 32비트 CLA 가산기 Sum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cin ── Cout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── OF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OP 코드로 가산/감산/비교 모드 전환</div></div>
+</div>
+</div>
+
+
 
 | 가산기 유형   | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)  | 게이트 수  | 용도            |
 |------------|----------|----------|----------------|
@@ -160,47 +177,54 @@ C_3 = G_2 + P_2·G_1 + P_2·P_1·G_0 + P_2·P_1·P_0·C_0
 
 ## 📌 관련 개념 맵
 
-```
-반가산기 (Half Adder)
-├── 구성 게이트
-│   ├── XOR (합)
-│   └── AND (올림)
-├── 전가산기 (Full Adder, FA)
-│   ├── 반가산기 2개 + OR
-│   └── Cin (이전 올림) 처리
-├── 가산기 확장
-│   ├── 리플 캐리 가산기 (RCA) — 직렬
-│   ├── 선행 올림 가산기 (CLA) — 병렬
-│   └── 캐리 세이브 가산기 (CSA)
-└── 응용
-    ├── ALU 덧셈/뺄셈
-    ├── 부동소수점 가수 합산
-    └── 디지털 DSP 회로
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">반가산기 (Half Adder)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구성 게이트</div>
+<div class="kb-diagram-note">── XOR (합)</div>
+<div class="kb-diagram-note">── AND (올림)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전가산기 (Full Adder, FA)</div>
+<div class="kb-diagram-note">── 반가산기 2개 + OR</div>
+<div class="kb-diagram-note">── Cin (이전 올림) 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">가산기 확장</div>
+<div class="kb-diagram-note">── 리플 캐리 가산기 (RCA) — 직렬</div>
+<div class="kb-diagram-note">── 선행 올림 가산기 (CLA) — 병렬</div>
+<div class="kb-diagram-note">── 캐리 세이브 가산기 (CSA)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">응용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ALU 덧셈/뺄셈</div>
+<div class="kb-diagram-tree-item" style="--depth:2">부동소수점 가수 합산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">디지털 DSP 회로</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              가산기 회로 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1940년대     │ 반가산기/전가산기  │ 진공관 논리 회로             │
-│ 1950년대     │ RCA (리플 캐리)    │ 트랜지스터 기반 가산기       │
-│ 1960년대     │ CLA 이론 정립      │ IBM System/360 적용          │
-│ 1970년대     │ 캐리 세이브 가산기 │ 곱셈기·DSP에 응용            │
-│ 1990년대     │ CMOS 저전력 가산기 │ 모바일 프로세서 최적화       │
-│ 2010년대     │ GPU 병렬 가산기    │ 수천 개 ALU 병렬 동작        │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-HA(XOR+AND) → FA(HA2+OR) → RCA(직렬) → CLA(병렬)
-    ↓              ↓           ↓            ↓
-1비트 덧셈    3입력 덧셈    n비트 직렬   병렬 올림 계산
-    ↓
-ALU 덧셈 → 뺄셈(2의보수) → 곱셈 → FPU
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가산기 회로 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1940년대</div><div class="kb-diagram-cell">반가산기/전가산기</div><div class="kb-diagram-cell">진공관 논리 회로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1950년대</div><div class="kb-diagram-cell">RCA (리플 캐리)</div><div class="kb-diagram-cell">트랜지스터 기반 가산기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1960년대</div><div class="kb-diagram-cell">CLA 이론 정립</div><div class="kb-diagram-cell">IBM System/360 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">캐리 세이브 가산기</div><div class="kb-diagram-cell">곱셈기·DSP에 응용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">CMOS 저전력 가산기</div><div class="kb-diagram-cell">모바일 프로세서 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">GPU 병렬 가산기</div><div class="kb-diagram-cell">수천 개 ALU 병렬 동작</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">HA(XOR+AND) → FA(HA2+OR) → RCA(직렬) → CLA(병렬)</div>
+<div class="kb-diagram-note">1비트 덧셈 3입력 덧셈 n비트 직렬 병렬 올림 계산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ALU 덧셈 → 뺄셈(2의보수) → 곱셈 → FPU</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -25,19 +25,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 외부화가 왜 "같은 코드, 다른 환경"을 가능하게 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same artifact, different environments                              │
-├────────────────────────────────────────────────────────────────────┤
-│ payment-service:2.4.1                                              │
-│        │                                                           │
-│        ├─ Dev  ─▶ config.dev.yml  + dev secrets                    │
-│        ├─ Stage ─▶ config.stage.yml + stage secrets                │
-│        └─ Prod ─▶ config.prod.yml  + prod secrets                  │
-│                                                                    │
-│ Code stays identical; only runtime configuration changes           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same artifact, different environments</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">payment-service:2.4.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dev ─▶ config.dev.yml + dev secrets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Stage ─▶ config.stage.yml + stage secrets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Prod ─▶ config.prod.yml + prod secrets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code stays identical; only runtime configuration changes</div></div>
+</div>
+</div>
+
+
 
 따라서 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 단순한 원격 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장소가 아니다. 이는 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 "환경마다 다른 빌드"에서 "하나의 빌드 + 환경별 주입"으로 바꾸는 운영 원칙이며, MSA에서 불변 배포 ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))를 가능하게 하는 핵심 장치다.
 
@@ -49,24 +50,20 @@ tags = ["studynote-enterprise"]
 
 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 보통 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 저장소, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 제공 응용 프로그램 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 비밀 저장소, 클라이언트 부트스트랩, 갱신 메커니즘으로 구성된다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 시작할 때 자신이 누구인지와 어떤 프로파일인지 알리고, 중앙 서버는 해당 조합에 맞는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 반환한다. 이후 일부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 런타임 중 갱신할 수 있지만, 연결 풀이나 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)처럼 구조적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 재시작이 더 안전할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Externalized configuration architecture                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Git / config repository        Secret manager                      │
-│        │                            │                              │
-│        └──────────────┬─────────────┘                              │
-│                       ▼                                            │
-│              Configuration Server API                              │
-│                       │                                            │
-│        ┌──────────────┼──────────────┐                             │
-│        ▼              ▼              ▼                             │
-│   Service A      Service B      Service C                         │
-│   bootstrap      bootstrap      bootstrap                         │
-│        │              │              │                             │
-│        └─ cache / refresh / fallback policy ──────────────────────┘
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Externalized configuration architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git / config repository Secret manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Configuration Server API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A Service B Service C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bootstrap bootstrap bootstrap</div></div>
+<div class="kb-diagram-note">─ cache / refresh / fallback policy</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -78,7 +75,7 @@ tags = ["studynote-enterprise"]
 
 실무에서 자주 쓰는 형태는 Git 기반 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버 + 비밀 관리 도구 조합이다. 예를 들어 일반 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 Git에 두고, 비밀번호나 토큰은 HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 같은 비밀 저장소에서 읽게 하면 변경 이력과 보안 요구를 동시에 만족시키기 쉽다. 이때 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부에서는 [마이크로서비스 샤시](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/183_microservice_chassis_pattern/) ([Microservice Chassis](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/141_microservice_chassis/))나 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 로딩 규칙을 표준화해 주는 경우가 많다.
 
-중요한 것은 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 실시간으로 바꾸려 하지 않는 것이다. 로깅 레벨, 기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 일부 외부 엔드포인트는 동적 갱신이 유용하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 종류나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 구조처럼 애플리케이션 생명주기를 건드리는 값은 재시작 없이 바꾸면 오히려 위험할 수 있다. 외부화는 "아무 값이나 언제든 바꾼다"가 아니라 **변경 통제를 중앙화한다**는 의미다.
+중요한 것은 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 실시간으로 바꾸려 하지 않는 것이다. 로깅 레벨, 기능 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 일부 외부 엔드포인트는 동적 갱신이 유용하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 종류나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 구조처럼 애플리케이션 생명주기를 건드리는 값은 재시작 없이 바꾸면 오히려 위험할 수 있다. 외부화는 "아무 값이나 언제든 바꾼다"가 아니라 <strong>변경 통제를 중앙화한다</strong>는 의미다.
 
 - **📢 섹션 요약 비유**: 학교 방송실이 각 교실에 시간표와 공지사항을 내려보내는 구조와 같다. 다만 전구 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)처럼 교실 구조를 바꾸는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 방송으로 즉석 변경하면 더 위험하므로, 어떤 것은 방송으로 바꾸고 어떤 것은 쉬는 시간에 손봐야 한다.
 
@@ -109,25 +106,24 @@ tags = ["studynote-enterprise"]
 
 하지만 중앙화에는 대가도 있다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버가 기동 시점 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되면 신규 인스턴스가 올라오지 못할 수 있고, 잘못된 공통 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나가 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 동시에 흔들 수도 있다. 그래서 캐시, 읽기 전용 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 라벨, 단계적 배포가 중요하다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When to centralize configuration                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Few apps, one environment, rare changes?                           │
-│        ├─ Yes ─▶ local file / environment variables                │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Many services or multiple environments with audit needs?           │
-│        ├─ Yes ─▶ externalized configuration server                 │
-│        └─ No                                                       │
-│             │                                                      │
-│             ▼                                                      │
-│ Are secrets short-lived or highly sensitive?                       │
-│        ├─ Yes ─▶ add secret manager / dynamic credentials          │
-│        └─ No  ─▶ config server may be enough for non-secret values │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When to centralize configuration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Few apps, one environment, rare changes?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ local file / environment variables</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Many services or multiple environments with audit needs?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ externalized configuration server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Are secrets short-lived or highly sensitive?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ add secret manager / dynamic credentials</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ config server may be enough for non-secret values</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -154,9 +150,9 @@ tags = ["studynote-enterprise"]
 
 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버가 잘 도입되면 배포 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)가 불변에 가까워지고, 환경별 차이는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 레이어에서 흡수된다. 그 결과 운영 변경 속도, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 편의성이 모두 좋아진다. 특히 MSA처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많은 환경에서는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식 자체의 표준화가 운영 성숙도를 크게 끌어올린다.
 
-반면 중앙 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 새로운 운영 계층을 하나 더 만드는 일이기도 하다. 고가용성, 접근 제어, 캐시, 변경 승인, 비밀 관리 연계가 약하면 중앙화가 오히려 장애 증폭 장치가 될 수 있다. 따라서 이 패턴의 성공 조건은 도구 선택보다 **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 변경 거버넌스**에 있다.
+반면 중앙 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 새로운 운영 계층을 하나 더 만드는 일이기도 하다. 고가용성, 접근 제어, 캐시, 변경 승인, 비밀 관리 연계가 약하면 중앙화가 오히려 장애 증폭 장치가 될 수 있다. 따라서 이 패턴의 성공 조건은 도구 선택보다 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>와 변경 거버넌스</strong>에 있다.
 
-앞으로는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화, 동적 비밀 발급, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)이 결합되면서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리도 더 선언적이고 자동화된 형태로 발전할 가능성이 크다. 그래도 기억해야 할 본질은 같다. 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 원격 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라, **코드와 운영 환경을 분리하는 계약 장치**다.
+앞으로는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화, 동적 비밀 발급, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)이 결합되면서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리도 더 선언적이고 자동화된 형태로 발전할 가능성이 크다. 그래도 기억해야 할 본질은 같다. 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버는 원격 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라, <strong>코드와 운영 환경을 분리하는 계약 장치</strong>다.
 
 - **📢 섹션 요약 비유**: 같은 연극 대본으로도 공연장마다 조명과 음향 세팅은 달라진다. 대본을 바꾸지 않고 무대 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 바꾸어 공연을 맞추는 것이 외부화된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 서버의 역할이다.
 
@@ -176,23 +172,25 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-환경별 설정 증가
-        │
-        ▼
-코드 내 하드코딩 한계
-        │
-        ▼
-외부화된 설정 (Externalized Configuration)
-        │
-        ▼
-외부화된 설정 서버 (Externalized Configuration Server)
-        │
-        ├──────────────► Profile · Version · Rollback
-        ├──────────────► Secret Manager 연계
-        ├──────────────► Dynamic refresh · Feature flag
-        └──────────────► GitOps · 정책 기반 변경 통제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">환경별 설정 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코드 내 하드코딩 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부화된 설정 (Externalized Configuration)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부화된 설정 서버 (Externalized Configuration Server)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Profile · Version · Rollback</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Secret Manager 연계</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Dynamic refresh · Feature flag</div>
+<div class="kb-diagram-tree-item" style="--depth:4">GitOps · 정책 기반 변경 통제</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 환경 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리에서 중앙 통제형 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 운영으로 성숙해 가는 방향을 보여 준다.
 

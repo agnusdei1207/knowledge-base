@@ -28,13 +28,19 @@ tags = ["ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Input
-  ↓ weighted sum
-Activation
-  ↓
-Output
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input</div>
+<div class="kb-diagram-note">↓ weighted sum</div>
+<div class="kb-diagram-note">Activation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Output</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -102,25 +108,37 @@ Output
 
 ## 관련 개념 맵
 
-```text
-Input
-  ↓
-Forward Propagation
-  ↓
-Output
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Forward Propagation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Output</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Neural Network
-  ↓
-Forward Propagation
-  ↓
-Backward Propagation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Neural Network</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Forward Propagation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Backward Propagation</div>
+</div>
+</div>
+
+
 
 ---
 

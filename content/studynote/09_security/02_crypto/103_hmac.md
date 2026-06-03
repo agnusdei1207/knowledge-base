@@ -29,7 +29,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-단순히 `Hash(비밀키 + 메시지)` 형태로 이어 붙이는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산은 해커가 원본 메시지 뒤에 악성 코드를 덧붙여 정상 해시를 뽑아내는 **길이 연장 공격(Length Extension Attack)**에 매우 취약하다. 이를 방어하기 위해 HMAC은 1996년 고안된 **이중 해싱 샌드위치 구조**를 사용한다.
+단순히 `Hash(비밀키 + 메시지)` 형태로 이어 붙이는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산은 해커가 원본 메시지 뒤에 악성 코드를 덧붙여 정상 해시를 뽑아내는 <strong>길이 연장 공격(Length Extension Attack)</strong>에 매우 취약하다. 이를 방어하기 위해 HMAC은 1996년 고안된 <strong>이중 해싱 샌드위치 구조</strong>를 사용한다.
 
 핵심 원리는 비밀키를 각기 다른 상수(ipad, opad)와 XOR 연산하여 두 개의 다른 열쇠 껍질을 만든 뒤, 안쪽과 바깥쪽에서 두 번 해시를 수행하는 것이다.
 
@@ -40,21 +40,20 @@ tags = ["studynote-security"]
 | **내부 해시 (Inner Hash)** | `Hash((K ⊕ ipad) || Message)` $\rightarrow$ 메시지를 1차적으로 키와 비벼서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | **외부 해시 (Outer Hash)** | `Hash((K ⊕ opad) || Inner_Hash_Result)` $\rightarrow$ 길이 연장 공격을 수학적으로 차단 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           HMAC의 이중 샌드위치 방어 아키텍처 (XOR & Hash)    │
-├──────────────────────────────────────────────────────────────┤
-│ [1차: 내부 방어벽]                                           │
-│  ( 비밀키 ⊕ ipad )  +  [ 원본 메시지 ] ──▶ [ Hash 엔진 ]     │
-│                                                 │            │
-│                                                 ▼            │
-│ [2차: 외부 방어벽]                        (1차 해시 덩어리)  │
-│  ( 비밀키 ⊕ opad )  +  [ 1차 해시 덩어리 ] ──▶ [ Hash 엔진 ] │
-│                                                 │            │
-│                                                 ▼            │
-│                                         ★ [ 최종 HMAC 태그 ] │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HMAC의 이중 샌드위치 방어 아키텍처 (XOR &amp; Hash)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차: 내부 방어벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">( 비밀키 ⊕ ipad ) +</div><div class="kb-diagram-node">원본 메시지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash 엔진</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2차: 외부 방어벽</div><div class="kb-diagram-note">(1차 해시 덩어리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">( 비밀키 ⊕ opad ) +</div><div class="kb-diagram-node">1차 해시 덩어리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash 엔진</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">최종 HMAC 태그</div></div>
+</div>
+</div>
+
+
 
 이 기묘한 이중 구조 덕분에 내부에 사용된 해시 엔진([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 등)에 다소 취약점이 발견되더라도, 밖을 감싼 두 번째 껍질 구조가 방어선을 유지하여 전체 HMAC의 안전성이 훼손되지 않는 기적 같은 방어력을 발휘한다.
 
@@ -69,7 +68,7 @@ HMAC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/00
 | 비교 항목 | 일반 해시 (SHA-256) | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ([Hash-based MAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) | [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256) | [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) ([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) Sign) |
 | :--- | :--- | :--- | :--- | :--- |
 | **주요 목적** | [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)) | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) + 송신자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장 (내용 숨김) | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) + **부인 방지** |
-| **사용 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 없음 | 송수신자 공유 비밀키 (대칭) | 송수신자 공유 비밀키 (대칭) | 송신자의 개인키/공개키 (비대칭) |
+| <strong>사용 키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | 없음 | 송수신자 공유 비밀키 (대칭) | 송수신자 공유 비밀키 (대칭) | 송신자의 개인키/공개키 (비대칭) |
 | **조작/위조 방어**| 불가능 (누구나 해시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | 완벽 방어 | 방어 불가능 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨짐 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가) | 완벽 방어 |
 | **속도** | 매우 빠름 | 빠름 (해시 2번 수행) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 비례 | 매우 느림 (수학적 연산 복잡) |
 
@@ -84,9 +83,9 @@ HMAC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/00
 오늘날 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 통신이나 모바일 앱 백엔드에서 서버 간 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 할 때 HMAC은 가장 널리 쓰이는 표준이다.
 
 ### 실무 적용 사례 및 의사결정 포인트
-1. **[JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 서명**: 클라이언트가 서버에 로그인 상태를 증명할 때 쓰는 JWT의 마지막 `Signature` 부분이 주로 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)-SHA256(HS256)으로 만들어진다. 서버의 비밀키가 털리지 않는 한 토큰 위조는 불가능하다.
-2. **[Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (AWS 서명 등)**: AWS나 결제 게이트웨이에 API를 호출할 때, 개발자는 발급받은 `Secret Key`를 이용해 요청 파라미터와 타임스탬프를 HMAC으로 말아서 보낸다. 서버는 비밀키를 통해 "이 요청이 우리 고객이 쏜 게 맞다"고 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))한다.
-3. **보안 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: HMAC을 구현할 때 태그 비교 시 일치하는 바이트까지만 비교하고 틀리면 바로 리턴하는 방식은 '타이밍 공격(Timing Attack)'에 털린다. 반드시 모든 바이트를 끝까지 다 비교하는 `constant-time compare` 함수를 사용해야 한다.
+1. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JSON Web Token</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>) 서명</strong>: 클라이언트가 서버에 로그인 상태를 증명할 때 쓰는 JWT의 마지막 `Signature` 부분이 주로 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)-SHA256(HS256)으로 만들어진다. 서버의 비밀키가 털리지 않는 한 토큰 위조는 불가능하다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/">Open API</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (AWS 서명 등)</strong>: AWS나 결제 게이트웨이에 API를 호출할 때, 개발자는 발급받은 `Secret Key`를 이용해 요청 파라미터와 타임스탬프를 HMAC으로 말아서 보낸다. 서버는 비밀키를 통해 "이 요청이 우리 고객이 쏜 게 맞다"고 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))한다.
+3. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: HMAC을 구현할 때 태그 비교 시 일치하는 바이트까지만 비교하고 틀리면 바로 리턴하는 방식은 '타이밍 공격(Timing Attack)'에 털린다. 반드시 모든 바이트를 끝까지 다 비교하는 `constant-time compare` 함수를 사용해야 한다.
 
 - **📢 섹션 요약 비유**: HMAC은 클럽 입장 시 보여주는 야광 스탬프와 같다. 얼굴이나 이름을 가릴 필요는 없지만, 오직 클럽 가드(서버)만이 그날의 야광 잉크(비밀키)를 알고 있어 가짜 손님을 완벽하게 걸러낼 수 있다.
 
@@ -106,25 +105,28 @@ HMAC은 공개키 기반의 [전자서명](/knowledge-base/studynote/03_network/
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))** | 임의의 길이를 고정 길이로 압축하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 제공하는 HMAC의 핵심 엔진 (SHA-256 등) |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong> | 임의의 길이를 고정 길이로 압축하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 제공하는 HMAC의 핵심 엔진 (SHA-256 등) |
 | **길이 연장 공격 (Length Extension Attack)** | 단순 `Hash(Key + Message)` 구조를 붕괴시키는 해킹 수법. HMAC이 이중 구조를 채택한 원인 |
-| **[JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))** | 웹과 모바일 환경에서 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 구현할 때 HMAC을 서명 알고리즘으로 사용하는 대표적 기술 |
-| **[전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) ([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))** | HMAC과 목적은 같으나 비대칭키를 사용하여 송신자가 부인할 수 없는 증거(부인 방지)까지 제공하는 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JSON Web Token</a>)</strong> | 웹과 모바일 환경에서 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 구현할 때 HMAC을 서명 알고리즘으로 사용하는 대표적 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong> | HMAC과 목적은 같으나 비대칭키를 사용하여 송신자가 부인할 수 없는 증거(부인 방지)까지 제공하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단방향 해시 함수 (SHA-1, SHA-2) · 무결성 제공, 위조에 무방비
-    │
-    ▼ (비밀키 결합 시도 및 취약점 발견)
-단순 결합 MAC · `Hash(K||M)` 시도, 길이 연장 공격에 붕괴
-    │
-    ▼ (안전한 키 혼입 구조의 발명)
-HMAC (Hash-based MAC) · XOR 패딩과 이중 해시 샌드위치 구조로 완벽 방어
-    │
-    ▼ (실무 플랫폼 적용)
-JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 매커니즘으로 안착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단방향 해시 함수 (SHA-1, SHA-2) · 무결성 제공, 위조에 무방비</div>
+<div class="kb-diagram-note">▼ (비밀키 결합 시도 및 취약점 발견)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순 결합 MAC · <code>Hash(K</div><div class="kb-diagram-cell">M)</code> 시도, 길이 연장 공격에 붕괴</div></div>
+<div class="kb-diagram-note">▼ (안전한 키 혼입 구조의 발명)</div>
+<div class="kb-diagram-note">HMAC (Hash-based MAC) · XOR 패딩과 이중 해시 샌드위치 구조로 완벽 방어</div>
+<div class="kb-diagram-note">▼ (실무 플랫폼 적용)</div>
+<div class="kb-diagram-note">JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 매커니즘으로 안착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술이 해커의 공격을 방어하기 위해 수학적 구조를 고도화하고, 최종적으로 산업 표준 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기술로 자리 잡는 궤적을 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 불규칙한 포인터 체이싱을 프런티어 큐, 방문 비트맵, 다중 뱅크 스케줄링으로 재조직해 **메모리 병목을 직접 다루는 구조**다.
+> 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 불규칙한 포인터 체이싱을 프런티어 큐, 방문 비트맵, 다중 뱅크 스케줄링으로 재조직해 <strong>메모리 병목을 직접 다루는 구조</strong>다.
 > 2. **가치**: [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) (Breadth-First Search, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))과 [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Depth-First Search, [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))은 산술 연산보다 주소 추적과 중복 제거에 더 많은 시간을 쓰므로, 메모리 계층을 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 친화적으로 바꾸면 처리 간선 수와 전력 효율이 함께 개선된다.
 > 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 연산기 개수보다 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장 형식, 정점 재배열, 방문 비트맵 배치, 메모리 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 설계하느냐에 달려 있다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 정점과 간선을 읽는 순서를 메모리 쪽에서 재정렬해, 범용 캐시가 감당하기 어려운 무작위 접근을 흡수하는 구조다. BFS와 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 알고리즘은 `정점 → 인접 리스트 → 다음 정점 → 또 다른 인접 리스트` 식으로 접근이 이어져 지역성이 매우 낮다. 그래서 범용 중앙처리장치 (Central Processing Unit, CPU)는 계산보다 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 응답을 기다리는 시간이 더 길어지기 쉽다.
 
-특히 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 금융 이상거래 추적, 경로 탐색처럼 연결 차수가 크게 치우친 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 문제가 더 심해진다. BFS는 한 레벨의 프런티어를 넓게 확장하므로 방문 체크와 이웃 읽기가 폭발하고, DFS는 프런티어 폭은 좁아도 깊은 의존성과 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 때문에 캐시가 예측하기 어렵다. 결국 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 계산 문제라기보다 **주소를 얼마나 빨리 찾고, 묶고, 중복을 지우고, 다시 발사하느냐**의 문제다.
+특히 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 금융 이상거래 추적, 경로 탐색처럼 연결 차수가 크게 치우친 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 문제가 더 심해진다. BFS는 한 레벨의 프런티어를 넓게 확장하므로 방문 체크와 이웃 읽기가 폭발하고, DFS는 프런티어 폭은 좁아도 깊은 의존성과 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 때문에 캐시가 예측하기 어렵다. 결국 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 계산 문제라기보다 <strong>주소를 얼마나 빨리 찾고, 묶고, 중복을 지우고, 다시 발사하느냐</strong>의 문제다.
 
 - **📢 섹션 요약 비유**: 일반 메모리가 동네 주소록이라면, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리는 골목길이 뒤엉킨 도시의 교통 관제실과 같다. 어디로 차가 몰릴지 미리 보고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 바꿔 줘야 길 찾기가 빨라진다.
 
@@ -29,28 +29,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 프런티어 관리, 주소 재배열, 방문 중복 제거, 다중 메모리 뱅크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 발사를 하나의 흐름으로 묶는 것이다. 보통 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 행 형식 (Compressed Sparse Row, [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))이나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 열 형식 (Compressed Sparse Column, CSC)으로 저장하고, 전용 하드웨어는 정점 오프셋과 간선 목록을 따로 읽어 **다음에 읽을 주소 묶음**을 만든다. 이때 방문 비트맵을 온칩 정적 램 (Static Random Access Memory, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))에 두면, 중복 이웃을 메인 메모리까지 보내기 전에 즉시 걸러낼 수 있다.
+핵심은 프런티어 관리, 주소 재배열, 방문 중복 제거, 다중 메모리 뱅크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 발사를 하나의 흐름으로 묶는 것이다. 보통 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 행 형식 (Compressed Sparse Row, [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))이나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 희소 열 형식 (Compressed Sparse Column, CSC)으로 저장하고, 전용 하드웨어는 정점 오프셋과 간선 목록을 따로 읽어 <strong>다음에 읽을 주소 묶음</strong>을 만든다. 이때 방문 비트맵을 온칩 정적 램 (Static Random Access Memory, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))에 두면, 중복 이웃을 메인 메모리까지 보내기 전에 즉시 걸러낼 수 있다.
 
 아래 그림은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 메모리 서브시스템이 무작위 요청을 어떻게 파이프라인으로 바꾸는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│    Graph Traversal Memory Subsystem: irregular -> scheduled flow    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host Core / Graph Engine                                             │
-│          │ frontier vertex IDs                                       │
-│          ▼                                                           │
-│   [ Frontier Queue ] -> [ CSR Offset Cache ] -> [ Address Coalescer ]│
-│          │                         │                      │           │
-│          │                         │                      ▼           │
-│          │                         └──────────────> [ Bank Scheduler ]│
-│          │                                            │  │  │        │
-│          ▼                                            ▼  ▼  ▼        │
-│   [ Visited Bitmap SRAM ] <──── duplicate filter ── [ Memory Banks ] │
-│          │                                                           │
-│          └──────────────────────> [ Next Frontier / DFS Stack ]      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Graph Traversal Memory Subsystem: irregular -&gt; scheduled flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Core / Graph Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontier vertex IDs</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Frontier Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CSR Offset Cache</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Address Coalescer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ &gt;</div><div class="kb-diagram-node">Bank Scheduler</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Visited Bitmap SRAM</div><div class="kb-diagram-note">&lt; duplicate filter ──</div><div class="kb-diagram-node">Memory Banks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Next Frontier / DFS Stack</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -60,7 +57,7 @@ tags = ["studynote-computer-architecture"]
 | 방문 비트맵 (Visited Bitmap) | 이미 본 정점을 빠르게 제거 | 온칩 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 좌우 |
 | 뱅크 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (Bank Scheduler) | 여러 메모리 요청을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 발사 | 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))와 궁합이 좋음 |
 
-BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 큐와 중복 제거가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 반대로 DFS는 하드웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 형제 노드 프리패치가 핵심이며, 너무 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 억지로 넣으면 오히려 불필요한 메모리 트래픽만 늘어난다. 즉 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색이라도 **BFS는 넓이 중심 메모리 스케줄링**, **DFS는 의존성 중심 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨기기**로 최적화 포인트가 다르다.
+BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 큐와 중복 제거가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 반대로 DFS는 하드웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 형제 노드 프리패치가 핵심이며, 너무 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 억지로 넣으면 오히려 불필요한 메모리 트래픽만 늘어난다. 즉 같은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색이라도 **BFS는 넓이 중심 메모리 스케줄링**, <strong>DFS는 의존성 중심 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 숨기기</strong>로 최적화 포인트가 다르다.
 
 - **📢 섹션 요약 비유**: 이 구조는 택배 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 같다. 물건이 들어오는 순서대로 아무 트럭에나 싣는 게 아니라, 지역별로 먼저 분류하고 중복 배송을 제거한 뒤 여러 출구로 동시에 내보내야 전체 배송 시간이 줄어든다.
 
@@ -68,7 +65,7 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ## Ⅲ. 비교 및 연결
 
-범용 캐시는 `최근에 본 데이터는 곧 다시 본다`는 가정을 전제로 설계된다. 하지만 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 `다음에 읽을 주소가 방금 읽은 주소와 아무 상관이 없을 수 있음`이 기본이어서, 캐시 적중률보다 **메모리 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (Memory-Level Parallelism, MLP)** 이 더 중요하다. 그래서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 전용 서브시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 장치라기보다, 요청 순서를 재구성하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 가깝다.
+범용 캐시는 `최근에 본 데이터는 곧 다시 본다`는 가정을 전제로 설계된다. 하지만 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 `다음에 읽을 주소가 방금 읽은 주소와 아무 상관이 없을 수 있음`이 기본이어서, 캐시 적중률보다 <strong>메모리 수준 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 (Memory-Level Parallelism, MLP)</strong> 이 더 중요하다. 그래서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 전용 서브시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 장치라기보다, 요청 순서를 재구성하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 가깝다.
 
 | 항목 | 범용 CPU 캐시 계층 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템 |
 | :--- | :--- | :--- |
@@ -86,7 +83,7 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 연산 유닛을 더 붙이기 전에 **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 표현과 메모리 배치**부터 점검해야 한다. 친구 추천, 사기 거래 추적, 네트워크 장애 전파 분석처럼 거대한 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 반복 탐색하는 시스템은 대개 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산기보다 메모리 병목이 먼저 온다. 이런 경우 전용 메모리 서브시스템을 도입하면, 같은 연산기 수로도 훨씬 많은 탐색을 처리할 수 있다.
+실무에서는 연산 유닛을 더 붙이기 전에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 표현과 메모리 배치</strong>부터 점검해야 한다. 친구 추천, 사기 거래 추적, 네트워크 장애 전파 분석처럼 거대한 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 반복 탐색하는 시스템은 대개 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산기보다 메모리 병목이 먼저 온다. 이런 경우 전용 메모리 서브시스템을 도입하면, 같은 연산기 수로도 훨씬 많은 탐색을 처리할 수 있다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -98,7 +95,7 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **객체 포인터 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그대로 하드웨어에 밀어 넣기**: 연결 리스트와 힙 포인터 구조는 소프트웨어에는 편하지만 하드웨어 뱅크 배치에는 최악이다.
+- <strong>객체 포인터 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>를 그대로 하드웨어에 밀어 넣기</strong>: 연결 리스트와 힙 포인터 구조는 소프트웨어에는 편하지만 하드웨어 뱅크 배치에는 최악이다.
 - **방문 비트맵을 DRAM에만 두기**: 중복 제거보다 중복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 비용이 더 커져 탐색이 느려진다.
 - **연산기 수만 늘리고 메모리 스케줄링은 그대로 두기**: 일꾼만 늘리고 출입문은 그대로인 공장과 같아서 병목이 더 심해진다.
 
@@ -110,7 +107,7 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 잘 설계된 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 메모리 서브시스템은 탐색당 처리 간선 수 (Traversed Edges Per Second, TEPS)를 크게 끌어올리고, 간선 하나를 따라가는 데 필요한 에너지와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 낮춘다. 특히 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 같은 프런티어 확장형 알고리즘에서는 중복 제거와 뱅크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화만 잘해도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 크게 난다. 이는 [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) 인프라의 서버 대수와 전력 비용을 직접 줄이는 효과로 이어진다.
 
-다만 모든 문제에 만능은 아니다. 동적으로 구조가 계속 바뀌는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 정점 차수 편차가 극단적인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 탐색보다 계산이 더 무거운 [그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/) 전처리 단계에서는 별도 균형 조정이 필요하다. 결국 이 기술은 **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색은 연산기 문제보다 메모리 질서 문제**라는 사실을 하드웨어 수준에서 인정한 결과로 기억하면 된다.
+다만 모든 문제에 만능은 아니다. 동적으로 구조가 계속 바뀌는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 정점 차수 편차가 극단적인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 탐색보다 계산이 더 무거운 [그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/) 전처리 단계에서는 별도 균형 조정이 필요하다. 결국 이 기술은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 탐색은 연산기 문제보다 메모리 질서 문제</strong>라는 사실을 하드웨어 수준에서 인정한 결과로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 전용 메모리 서브시스템은 복잡한 도시에서 길 안내를 맡는 교통 관제 센터다. 자동차 엔진을 키우는 것보다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 똑똑하게 만드는 편이 더 빨리 도착하게 해 준다.
 
@@ -128,21 +125,23 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-포인터 기반 그래프 탐색
-    │
-    ▼
-CPU 캐시 미스 · 포인터 체이싱 병목
-    │
-    ▼
-CSR/CSC · 정점 재정렬 · 방문 비트맵
-    │
-    ▼
-그래프 탐색 전용 메모리 서브시스템
-    │
-    ▼
-근접 메모리 컴퓨팅 · PIM · 분산 그래프 분석기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">포인터 기반 그래프 탐색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU 캐시 미스 · 포인터 체이싱 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSR/CSC · 정점 재정렬 · 방문 비트맵</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그래프 탐색 전용 메모리 서브시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">근접 메모리 컴퓨팅 · PIM · 분산 그래프 분석기</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,11 +23,16 @@ tags = ["studynote-enterprise"]
 
 소프트웨어 조직에서는 코딩보다 대기 시간이 더 길다. 개발이 1시간인데 보안 검토와 승인 대기가 2주라면, 전체 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 사실상 2주다. VSM은 이 숨은 대기를 눈에 보이게 한다.
 
-```text
-고객 요청 → 개발 → QA 대기 → 보안 승인 → 배포
-   │          │          │           │        │
-   └─ 가치 시간은 짧고, 대기 시간이 길다 ─────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객 요청 → 개발 → QA 대기 → 보안 승인 → 배포</div>
+<div class="kb-diagram-tree-item" style="--depth:1">가치 시간은 짧고, 대기 시간이 길다</div>
+</div>
+</div>
+
+
 
 이 그림처럼 VSM은 "일이 얼마나 빨리 끝났는가"보다 "고객이 얼마나 오래 기다렸는가"를 먼저 묻는다.
 
@@ -46,13 +51,18 @@ VSM은 프로세스 박스, 정보 흐름, 재공품(WIP, [Work In Progress](/kn
 | WIP([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 작업량 | 병목과 혼잡의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 | Takt Time | 고객 수요가 요구하는 리듬 | 공급 속도 기준 |
 
-```text
-[현재 상태]
-요청 ─▶ 개발 ─▶ QA 대기 ─▶ 승인 대기 ─▶ 배포
- │        │         │           │
- │        └─ value ─┴───────────┘
- └─ wait time이 대부분
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 상태</div></div>
+<div class="kb-diagram-note">요청 ─▶ 개발 ─▶ QA 대기 ─▶ 승인 대기 ─▶ 배포</div>
+<div class="kb-diagram-note">─ value ─</div>
+<div class="kb-diagram-tree-item" style="--depth:0">wait time이 대부분</div>
+</div>
+</div>
+
+
 
 VSM의 힘은 각 단계의 소요 시간을 숫자로 적는 데 있다. 숫자가 있어야 낭비를 논쟁이 아니라 사실로 바꿀 수 있다.
 
@@ -121,21 +131,23 @@ VSM을 쓰면 [리드 타임](/knowledge-base/studynote/04_software_engineering/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Toyota Production System
-    │
-    ▼
-Lean / Muda 제거
-    │
-    ▼
-Value Stream Mapping
-    │
-    ▼
-DevOps 파이프라인 진단
-    │
-    ▼
-Lead Time 단축 / Flow 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Toyota Production System</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lean / Muda 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Value Stream Mapping</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevOps 파이프라인 진단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lead Time 단축 / Flow 개선</div>
+</div>
+</div>
+
+
 
 이 흐름은 제조업의 낭비 제거 철학이 소프트웨어 흐름 진단으로 확장된 과정을 보여준다. 앞으로는 자동 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집과 결합해 더 자주, 더 정확하게 흐름을 볼 수 있다.
 

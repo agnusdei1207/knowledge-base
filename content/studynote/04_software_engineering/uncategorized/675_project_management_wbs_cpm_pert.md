@@ -20,49 +20,42 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 작업 분할 구조도)**: 프로젝트의 전체 범위를 관리 가능하고 통제 가능한 가장 작은 하위 단위(Work Package)로 계층적으로 쪼개어 놓은 트리 구조다.
-  - **[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/), 임계 경로 기법)**: 확정적인 작업 시간을 바탕으로 작업 간의 선후행 네트워크를 그려, 프로젝트의 최장 소요 시간(가장 여유가 없는 경로)을 찾아내는 수학적 기법이다.
-  - **[PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) (Program Evaluation and [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Technique, 프로그램 평가 리뷰 기법)**: 과거 데이터가 없어 작업 소요 시간 예측이 불확실할 때, 비관적/낙관적/최빈치를 혼합한 확률적 시간 추정(3점 추정)을 통해 일정 달성 가능성을 분석하는 기법이다.
+  - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>, 작업 분할 구조도)</strong>: 프로젝트의 전체 범위를 관리 가능하고 통제 가능한 가장 작은 하위 단위(Work Package)로 계층적으로 쪼개어 놓은 트리 구조다.
+  - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>, 임계 경로 기법)</strong>: 확정적인 작업 시간을 바탕으로 작업 간의 선후행 네트워크를 그려, 프로젝트의 최장 소요 시간(가장 여유가 없는 경로)을 찾아내는 수학적 기법이다.
+  - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/">PERT</a> (Program Evaluation and <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a> Technique, 프로그램 평가 리뷰 기법)</strong>: 과거 데이터가 없어 작업 소요 시간 예측이 불확실할 때, 비관적/낙관적/최빈치를 혼합한 확률적 시간 추정(3점 추정)을 통해 일정 달성 가능성을 분석하는 기법이다.
 
 - **필요성**: 대형 소프트웨어 구축 프로젝트는 수백 명의 개발자와 수천 개의 모듈이 뒤엉켜 돌아간다. 만약 전체 그림을 잘게 쪼개는 기준([WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))이 없다면 반드시 개발 누락이 발생하여 막판에 아키텍처가 붕괴된다. 또한 모든 작업이 동시에 진행될 수 없으므로, 어떤 작업이 늦어질 때 프로젝트 전체가 지연되는지(Critical Path)를 알지 못하면 핵심 병목 구간에 자원을 쏟아붓지 못하고 엉뚱한 곳에 인력을 낭비하게 된다. 이 세 가지 도구는 막연한 '희망'을 '통제 가능한 수학적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)'로 바꾸는 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)의 나침반이다.
 
 - **💡 비유**: WBS는 요리할 때 필요한 '재료 손질, 굽기, 플레이팅'의 세부 레시피 목록이고, CPM은 '고기가 익는 동안 야채를 썰면 언제 요리가 끝날지' 계산하는 최적의 동선 설계도이며, PERT는 '가스레인지 불이 약할 최악의 경우'까지 대비해 예상 식사 시간을 확률로 알려주는 타이머와 같다.
 
 - **등장 배경 및 상호 보완적 진화**:
-  1. 1950년대 미 해군의 폴라리스 잠수함 미사일 개발 과정에서, 수천 개의 하청업체 일정을 맞추기 위해 불확실성을 다루는 통계적 **[PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)**가 탄생했다.
-  2. 비슷한 시기 듀퐁(DuPont)사는 화학 공장 건설 시 확정적 시간을 다루는 최적 동선 도구로 **[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)**을 고안했다.
-  3. 이후 두 기법의 입력 데이터가 되는 '작업의 기준 단위'를 표준화하기 위해 미 국방부가 **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)** 개념을 정립했다. 현대에는 이 세 가지가 하나의 파이프라인으로 통합되어 쓰인다.
+  1. 1950년대 미 해군의 폴라리스 잠수함 미사일 개발 과정에서, 수천 개의 하청업체 일정을 맞추기 위해 불확실성을 다루는 통계적 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/">PERT</a></strong>가 탄생했다.
+  2. 비슷한 시기 듀퐁(DuPont)사는 화학 공장 건설 시 확정적 시간을 다루는 최적 동선 도구로 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a></strong>을 고안했다.
+  3. 이후 두 기법의 입력 데이터가 되는 '작업의 기준 단위'를 표준화하기 위해 미 국방부가 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a></strong> 개념을 정립했다. 현대에는 이 세 가지가 하나의 파이프라인으로 통합되어 쓰인다.
 
 세 가지 도구가 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기획 단계에서 어떻게 물 흐르듯 이어지는지 시각화하면 그 유기적 결합이 명확해진다.
 
-```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         프로젝트 일정 수립 파이프라인 (WBS → PERT → CPM)       │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [단계 1: 범위 정의]                                      │
-  │    WBS 작성      ──▶ 쪼개진 최소 단위: "Work Package (WP)"│
-  │                       (예: 로그인 API 개발, DB 스키마 설계)  │
-  │                                                         │
-  │        │ (각 WP별로 소요 시간 산정 및 논리 관계 설정)         │
-  │        ▼                                                │
-  │                                                         │
-  │  [단계 2: 시간 추정]                                      │
-  │    PERT 3점 추정 ──▶ 불확실성 통제: 기대 시간(Te) 도출       │
-  │                       (낙관치 + 4*최빈치 + 비관치) / 6     │
-  │                                                         │
-  │        │ (도출된 기대 시간과 선후행 관계를 네트워크로 연결)   │
-  │        ▼                                                │
-  │                                                         │
-  │  [단계 3: 네트워크 분석]                                   │
-  │    CPM 분석      ──▶ 여유 시간(Slack)이 0인 최장 경로 도출  │
-  │                       -> "Critical Path (임계 경로) 확정"  │
-  │                                                         │
-  │        │                                                │
-  │        ▼                                                │
-  │  [최종 산출물] : Gantt Chart (간트 차트) 및 프로젝트 기준선 확립 │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 일정 수립 파이프라인 (WBS → PERT → CPM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계 1: 범위 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WBS 작성 ──▶ 쪼개진 최소 단위: "Work Package (WP)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 로그인 API 개발, DB 스키마 설계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 WP별로 소요 시간 산정 및 논리 관계 설정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계 2: 시간 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PERT 3점 추정 ──▶ 불확실성 통제: 기대 시간(Te) 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(낙관치 + 4*최빈치 + 비관치) / 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도출된 기대 시간과 선후행 관계를 네트워크로 연결)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계 3: 네트워크 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPM 분석 ──▶ 여유 시간(Slack)이 0인 최장 경로 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; "Critical Path (임계 경로) 확정"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 산출물</div><div class="kb-diagram-note">: Gantt Chart (간트 차트) 및 프로젝트 기준선 확립</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 파이프라인 도식은 일정 관리의 뼈대를 보여준다. PM은 가장 먼저 WBS를 그려서 프로젝트라는 거대한 코끼리를 한 입 크기(Work Package)로 토막 낸다. 그다음에 각 조각이 며칠 걸릴지 시간을 재야 하는데, 신기술 적용 등으로 불확실성이 크다면 [PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/) 공식을 써서 가중 평균 시간을 안전하게 빼낸다. 마지막으로 선후행 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(DB가 설계되어야 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 코딩이 가능하다 등)에 맞춰 노드를 엮고 [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) 계산(전진 계산, 후진 계산)을 돌리면, "이 프로젝트는 최소 몇 달이 걸리며, 어느 구간을 특별 관리해야 하는가"라는 최종 답안(Critical Path)이 떨어진다. 이 파이프라인의 어느 한 곳이라도 부실하면 프로젝트 스케줄은 반드시 무너진다.
 
@@ -87,7 +80,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-프로젝트 관리 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/), PERT의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+프로젝트 관리 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/), PERT의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 프로젝트 관리 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/), PERT의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -163,21 +156,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프로젝트 관리 WBS, CPM, PERT 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로젝트 관리 WBS, CPM, PERT 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,11 +19,11 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-RPO는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 얼마나 빨리 살릴 것인가"가 아니라, **"어느 시점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가지고 다시 시작할 것인가"**를 정하는 지표다. 시스템이 재기동되더라도 주문, 계좌, 재고, 진료 기록이 너무 오래된 상태라면 비즈니스는 정상으로 보기 어렵다. 따라서 RPO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 문제가 아니라 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도와 정합성** 문제다.
+RPO는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 얼마나 빨리 살릴 것인가"가 아니라, <strong>"어느 시점의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가지고 다시 시작할 것인가"</strong>를 정하는 지표다. 시스템이 재기동되더라도 주문, 계좌, 재고, 진료 기록이 너무 오래된 상태라면 비즈니스는 정상으로 보기 어렵다. 따라서 RPO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 문제가 아니라 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시점의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도와 정합성</strong> 문제다.
 
 이 개념이 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 비용이 업무마다 극단적으로 다르기 때문이다. 전자상거래 주문 30분 손실, 금융 거래 30초 손실, 분석 리포트 하루 손실은 비즈니스 영향이 같지 않다. 그래서 조직은 먼저 "얼마나 과거로 돌아가도 되는가"를 정하고, 그 허용 범위 안에서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 전략을 설계해야 한다.
 
-즉 RPO는 단순히 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 자주 하자"는 선언이 아니다. 업무 가치, 규제 요구, 재입력 가능성, 정산 비용을 기준으로 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 허용 한계**를 숫자로 표현한 것이다.
+즉 RPO는 단순히 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 자주 하자"는 선언이 아니다. 업무 가치, 규제 요구, 재입력 가능성, 정산 비용을 기준으로 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 허용 한계</strong>를 숫자로 표현한 것이다.
 
 - **📢 섹션 요약 비유**: RPO는 게임이 꺼졌을 때 몇 분 전 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)까지는 괜찮은지 미리 정해 두는 약속과 같다. 다시 켤 수 있어도 너무 옛날 저장점이면 플레이어는 큰 손해를 본다.
 
@@ -31,7 +31,7 @@ RPO는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RPO의 핵심 공식은 단순하다. **실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 시간 = 장애 발생 시각 - 마지막으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 일관된 시점**이다. 따라서 RPO를 줄이려면 그 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 시점"을 더 자주, 더 멀리, 더 안전하게 확보해야 한다. 여기에는 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), Point-in-Time [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (PITR) 같은 기술이 동원된다.
+RPO의 핵심 공식은 단순하다. <strong>실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 시간 = 장애 발생 시각 - 마지막으로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능한 일관된 시점</strong>이다. 따라서 RPO를 줄이려면 그 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 시점"을 더 자주, 더 멀리, 더 안전하게 확보해야 한다. 여기에는 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), Point-in-Time [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (PITR) 같은 기술이 동원된다.
 
 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방식 | 일반적 RPO 수준 | 장점 | 제약 |
 | :--- | :--- | :--- | :--- |
@@ -42,21 +42,23 @@ RPO의 핵심 공식은 단순하다. **실제 [데이터](/knowledge-base/study
 
 아래 그림은 RPO가 타임라인에서 어떻게 계산되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ RPO timeline                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Transactions: 10:00 10:05 10:10 10:15 10:20 10:25                   │
-│ Snapshots:      B1          B2          B3                           │
-│ Disaster:                                   X at 10:27              │
-│ Recoverable point:                          B3 at 10:20             │
-│                                                                      │
-│ Actual data loss window = 10:27 - 10:20 = 7 minutes                 │
-│ RPO target means this gap must stay within the allowed limit         │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림에서 핵심은 RPO가 장애 이후에 계산되는 **실제 결과값**이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 **목표값**이라는 점이다. 그래서 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한지와 그 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO timeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transactions: 10:00 10:05 10:10 10:15 10:20 10:25</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snapshots: B1 B2 B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster: X at 10:27</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recoverable point: B3 at 10:20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actual data loss window = 10:27 - 10:20 = 7 minutes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO target means this gap must stay within the allowed limit</div></div>
+</div>
+</div>
+
+
+
+이 그림에서 핵심은 RPO가 장애 이후에 계산되는 <strong>실제 결과값</strong>이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 <strong>목표값</strong>이라는 점이다. 그래서 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한지와 그 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
 
 또한 RPO는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 개수보다 캡처 빈도와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 정합성이 더 중요하다. 5개 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본이 있어도 모두 하루 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면 RPO는 하루일 수 있다. 반대로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 PITR을 잘 구성하면 정해진 시점까지 훨씬 세밀하게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있다.
 
@@ -109,7 +111,7 @@ RPO는 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/1
 - 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 비중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 RPO로 묶어 비용을 과도하게 쓰는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 본체만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 메시지 큐, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지, 외부 연계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제외하는 계획
 
-기술사 답안에서는 **"RPO는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 빈도의 다른 이름이 아니라, 비즈니스가 허용하는 최대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 창을 기술 구조로 구현한 목표"**라고 정리하면 수준 있는 판단으로 보인다.
+기술사 답안에서는 <strong>"RPO는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 빈도의 다른 이름이 아니라, 비즈니스가 허용하는 최대 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 창을 기술 구조로 구현한 목표"</strong>라고 정리하면 수준 있는 판단으로 보인다.
 
 - **📢 섹션 요약 비유**: RPO 설계는 모든 물건을 금고에 넣는 일이 아니라, 잃어버리면 큰일 나는 물건부터 더 가까운 곳에 더 자주 복사해 두는 생활 규칙과 같다.
 
@@ -119,7 +121,7 @@ RPO는 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/1
 
 RPO를 명확히 정의하면 조직은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 말자"라는 추상 구호 대신, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 얼마의 손실까지 허용할지 구체적으로 합의할 수 있다. 그 결과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식, 센터 구성, 예산, 모의훈련 범위가 일관되게 설계된다. 특히 재해 후 재입력 비용과 정산 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 크게 줄일 수 있다.
 
-다만 낮은 RPO는 공짜가 아니다. 더 촘촘한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존, 더 빠른 스토리지, 더 가까운 센터, 더 엄격한 운영 통제가 필요하다. 그래서 RPO를 기억할 때는 "작을수록 무조건 좋다"가 아니라, **"업무 가치에 맞춘 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 허용 한계"**로 이해하는 것이 맞다.
+다만 낮은 RPO는 공짜가 아니다. 더 촘촘한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존, 더 빠른 스토리지, 더 가까운 센터, 더 엄격한 운영 통제가 필요하다. 그래서 RPO를 기억할 때는 "작을수록 무조건 좋다"가 아니라, <strong>"업무 가치에 맞춘 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 허용 한계"</strong>로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 RPO는 모든 숙제를 1분마다 저장하는 것이 아니라, 정말 중요한 숙제는 자주 저장하고 덜 중요한 메모는 조금 늦게 저장하는 현명한 저장 습관과 같다.
 
@@ -138,25 +140,26 @@ RPO를 명확히 정의하면 조직은 "[데이터](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-업무 영향 분석
-    │
-    ▼
-데이터 등급 분류
-    │
-    ▼
-RPO 목표 설정
-    │
-    ├─ 0에 가까움  -> 동기 복제 · 미러 사이트
-    ├─ 짧음        -> 비동기 복제 · 로그 전송
-    └─ 김          -> 스냅샷 · 주기 백업
-    │
-    ▼
-복구 테스트 · 시점 정합성 검증
-    │
-    ▼
-BCP (Business Continuity Planning) / DR 거버넌스 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">업무 영향 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 등급 분류</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RPO 목표 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">0에 가까움 -&gt; 동기 복제 · 미러 사이트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">짧음 -&gt; 비동기 복제 · 로그 전송</div>
+<div class="kb-diagram-tree-item" style="--depth:2">김 -&gt; 스냅샷 · 주기 백업</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복구 테스트 · 시점 정합성 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCP (Business Continuity Planning) / DR 거버넌스 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 RPO가 단일 숫자가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도 분류에서 시작해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 전략과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 이어지는 의사결정 축임을 보여 준다.
 

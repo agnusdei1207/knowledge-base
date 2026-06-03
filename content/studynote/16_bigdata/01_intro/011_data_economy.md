@@ -23,16 +23,20 @@ tags = ["bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Economy)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집, 저장, 분석, 활용 및 거래를 통해 경제적 가치가 창출되는 거시적 경제 생태계를 의미한다. 4차 산업혁명의 도래와 함께 모든 비즈니스 활동이 디지털화되면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '21세기의 원유'로 격상되었다. 기존 경제가 재화와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 교환을 중심으로 돌아갔다면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 흐름과 융합을 통해 자원 배분의 최적화를 달성한다. 이 과정에서 필연적으로 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가치 있는 정보로 변환하는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산화' 과정과, 이를 매매하는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소'의 역할이 중요해졌다. 기업과 국가는 생존을 위해 자체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 고립을 피하고 개방적 생태계로 진입해야 하는 강한 압박을 받고 있다.
 
-```text
-이 도식은 기존의 고립된 데이터 환경(Silo)에서 데이터가 어떻게 자본화되어 거래 생태계로 진입하는지를 보여주는 배경적 한계와 극복 과정을 나타낸다.
 
-[기존: Data Silo]
-(원시 데이터) ──> [기업 A 내부 보관] ──> 폐기 또는 방치 (가치 소멸)
 
-[혁신: Data Economy]
-(원시 데이터) ──> [정제/비식별화] ──> [데이터 거래소] ──> (가치 창출/교환) ──> [기업 B, C 활용]
-                       ↑ 자산화              ↑ 유동성 확보
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 기존의 고립된 데이터 환경(Silo)에서 데이터가 어떻게 자본화되어 거래 생태계로 진입하는지를 보여주는 배경적 한계와 극복 과정을 나타낸다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존: Data Silo</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(원시 데이터) ──&gt;</div><div class="kb-diagram-node">기업 A 내부 보관</div><div class="kb-diagram-note">──&gt; 폐기 또는 방치 (가치 소멸)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: Data Economy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(원시 데이터) ──&gt;</div><div class="kb-diagram-node">정제/비식별화</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">데이터 거래소</div><div class="kb-diagram-note">──&gt; (가치 창출/교환) ──&gt;</div><div class="kb-diagram-node">기업 B, C 활용</div></div>
+<div class="kb-diagram-note">↑ 자산화 ↑ 유동성 확보</div>
+</div>
+</div>
+
+
 이 도식의 핵심은 가치가 소멸하던 폐쇄적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 외부로의 연결(거래소)을 통해 선순환 구조를 획득했다는 점이다. 이런 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순히 쌓여 있는 것이 아니라 유통될 때 비로소 경제적 의미를 지님을 설명하기 위함이다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소의 활성화 여부가 전체 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성(시장 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))에 영향을 준다. 실무에서는 이러한 가치 전이를 위해 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 전제 조건일 때 유리하고, 반대로 품질 보증 체계가 없는 상황에서는 불리하다.
 
 **📢 섹션 요약 비유**: 마치 지하에 묻혀있던 원유(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 정유 공장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산화)에서 가공하여, 주유소([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소)를 통해 차량(다양운 비즈니스)에 연료로 공급하는 경제 생태계와 같습니다.
@@ -45,29 +49,29 @@ tags = ["bigdata"]
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)/기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 및 자산화 | 비식별화, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/), [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) | 생산자 |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 중개 플랫폼 | 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 가격 산정, 매칭 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | 도매상/거래소 |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Consumer** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 및 융합 분석 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구독, 결제, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연계 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/), OAuth | 소비자 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 및 자산화 | 비식별화, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/), [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) | 생산자 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Exchange</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 중개 플랫폼 | 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 가격 산정, 매칭 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | 도매상/거래소 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Consumer</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 및 융합 분석 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구독, 결제, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연계 | [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/), OAuth | 소비자 |
 | **Clearing House** | 정산 및 권리 증명 관리 | 계약 기반 정산, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 결제원 |
 | **Trust Layer** | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 및 보안 보장 | 암호화, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/), 이력 추적 | [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) | 품질보증마크 |
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래와 자산화의 내부 메커니즘은 매우 정교하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 가능하므로 소유권의 이전보다는 '사용권'의 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 형태로 거래가 일어난다.
 
-```text
-이 흐름도는 데이터 공급자가 원시 데이터를 자산화하여 거래소에 등록하고, 수요자가 이를 구매하여 사용하는 전 과정의 아키텍처를 보여준다.
 
-[Data Provider]                     [Data Exchange Platform]                    [Data Consumer]
-       │                                       │                                       │
-  ① 원시데이터 ──(ETL/정제)──> [Data Asset]     │                                       │
-       │                                       │                                       │
-       └─ ② 메타데이터/카탈로그 등록 ──────────> [Catalog/Search API] <── ③ 검색/조회 ─┘
-                                               │                                       │
-                                               │ [Pricing / Smart Contract] <── ④ 계약/결제
-                                               │                                       │
-       ⑤ 데이터 전송 승인(Token 발급) <─────── [Access Control] ───────────────────────┘
-       │                                       │
-       └─ ⑥ 보안 API 전송(또는 Secure Enclave) ──────────────────────────────────────> ⑦ 분석 융합
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 데이터 공급자가 원시 데이터를 자산화하여 거래소에 등록하고, 수요자가 이를 구매하여 사용하는 전 과정의 아키텍처를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Provider</div><div class="kb-diagram-node">Data Exchange Platform</div><div class="kb-diagram-node">Data Consumer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">① 원시데이터 ──(ETL/정제)──&gt;</div><div class="kb-diagram-node">Data Asset</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ ② 메타데이터/카탈로그 등록 &gt;</div><div class="kb-diagram-node">Catalog/Search API</div><div class="kb-diagram-note">&lt;── ③ 검색/조회 ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pricing / Smart Contract</div><div class="kb-diagram-note">&lt;── ④ 계약/결제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">⑤ 데이터 전송 승인(Token 발급) &lt;</div><div class="kb-diagram-node">Access Control</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">⑥ 보안 API 전송(또는 Secure Enclave) &gt; ⑦ 분석 융합</div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 등록 및 계약)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 이동(실행 단계)보다 앞에 위치한다는 점이다. 이런 배치는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 불필요한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 유출을 막고 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만으로 시장을 형성하기 때문이며, 따라서 플랫폼 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이로드 크기](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/236_payload_size_and_padding_46_1500_bytes/)보다 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 검색 및 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 체결 속도에 의해 먼저 제한된다. 실무에서는 이 지점의 계약 실패율과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) 시간을 반드시 따로 관찰해야 한다.
 
 실무 관점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가격 산정 방식은 아래와 같은 복합적 요인을 따른다.
@@ -102,20 +106,22 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 | **거래의 대상** | 소유권의 완전한 이전 | 접근 권한(라이선스) 및 사용권 제공 | 권리 구조 |
 | **물류/유통** | 물리적 인프라, 운송 비용 발생 | 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 비용 발생 | 확장성 및 비용 구조 |
 
-기술적 융합 관점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))**과 결합하여 폭발적인 시너지를 낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 원본 증명이 어렵다는 치명적 한계가 있는데, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장과 NFT(대체 불가능 토큰) 기술을 적용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 변경 이력, 소유권을 투명하게 증명할 수 있다. 또한, **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술**은 거래소 내에서 수요자가 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 추천하고 정제되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질을 스스로 향상시키는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Auto-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Prep) 역할을 수행한다.
+기술적 융합 관점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong>과 결합하여 폭발적인 시너지를 낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 원본 증명이 어렵다는 치명적 한계가 있는데, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장과 NFT(대체 불가능 토큰) 기술을 적용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 변경 이력, 소유권을 투명하게 증명할 수 있다. 또한, <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기술</strong>은 거래소 내에서 수요자가 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 추천하고 정제되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질을 스스로 향상시키는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Auto-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Prep) 역할을 수행한다.
 
-```text
-이 비교 매트릭스는 폐쇄형 데이터 공유와 개방형 거래소 방식을 비교하여 어떤 아키텍처적 트레이드오프가 있는지 보여준다.
 
-┌────────────┬────────────────────────────┬────────────────────────────┐
-│ 항목       │ P2P 직접 거래 (API 공유)   │ Data Exchange Platform 기반│
-├────────────┼────────────────────────────┼────────────────────────────┤
-│ 확장성     │ O(N^2)의 복잡도 증가       │ O(N)의 플랫폼 허브 구조    │
-│ 보안/감사  │ 개별 기업 간 계약 의존     │ 중앙집중적 통합 감사 가능  │
-│ 탐색 용이성│ 파트너 외 데이터 발견 불가 │ 글로벌 카탈로그로 검색 용이│
-│ 도입 비용  │ 초기 연동 비용 낮음        │ 플랫폼 수수료/등록 비용 큼 │
-└────────────┴────────────────────────────┴────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 비교 매트릭스는 폐쇄형 데이터 공유와 개방형 거래소 방식을 비교하여 어떤 아키텍처적 트레이드오프가 있는지 보여준다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">P2P 직접 거래 (API 공유)</div><div class="kb-diagram-cell">Data Exchange Platform 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">O(N^2)의 복잡도 증가</div><div class="kb-diagram-cell">O(N)의 플랫폼 허브 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안/감사</div><div class="kb-diagram-cell">개별 기업 간 계약 의존</div><div class="kb-diagram-cell">중앙집중적 통합 감사 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 용이성</div><div class="kb-diagram-cell">파트너 외 데이터 발견 불가</div><div class="kb-diagram-cell">글로벌 카탈로그로 검색 용이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도입 비용</div><div class="kb-diagram-cell">초기 연동 비용 낮음</div><div class="kb-diagram-cell">플랫폼 수수료/등록 비용 큼</div></div>
+</div>
+</div>
+
+
 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 직접 거래 방식은 단일 기업 간 레이턴시가 짧고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 협상만 끝나면 연동이 빠르지만, 참여 파트너가 많아질수록 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 관리와 계약 갱신 비용이 누적된다. 반면 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exchange 방식은 거래 수수료와 등록이라는 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 진입 장벽은 다소 크지만, 글로벌 탐색성과 거버넌스 통합 측면에서 좋아, 다양한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동적으로 수급해야 하는 환경에서는 전체 가치 창출 기준으로 더 유리할 수 있다.
 
 **📢 섹션 요약 비유**: 마치 각자 물건을 물물교환([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))하던 원시 사회에서, 거대한 중앙 시장(Exchange Platform)과 화폐 시스템([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))이 도입되어 전 세계 물품을 쉽게 검색하고 거래하는 상업 혁명과 같습니다.
@@ -126,25 +132,29 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 
 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산화 및 거래소를 구축할 때는 치밀한 판단이 필요하다. 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포털에 올려놓는다고 해서 경제가 동작하지 않는다.
 
-**실무 시나리오 1: 이종 산업 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 융합 결합**
+<strong>실무 시나리오 1: 이종 산업 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 융합 결합</strong>
 - **상황**: 금융사 A가 통신사 B의 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구매하여 새로운 신용 평가 모형을 개발하고자 함.
 - **판단**: 직접 거래 시 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 위반 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 큼. 따라서 국가가 지정한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문기관([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Agency)'을 제3자 신뢰 기관으로 삼아 가명정보 결합(K-익명성 등)을 수행한 후 결과 셋만 반환받는 아키텍처를 선택해야 한다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. **기술적**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공 시 트래픽 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 견딜 수 있는 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) Rate Limiting이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되었는가?
 2. **법률/보안**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 등 컴플라이언스를 만족하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동화되어 있는가?
 3. **가치적**: 등록하려는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내부 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 쓰레기가 아닌, 외부에서 구매 의향이 있는 정제된 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상품([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)) 방치 후 단순 상장**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>: <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스왐프(<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/">Data Swamp</a>) 방치 후 단순 상장</strong>
 거버넌스 없이 거대한 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 방치된 원시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Swamp)를 그대로 거래소에 올리는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 없고 품질이 담보되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수요자 측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 붕괴시키며, 거래소 자체의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 떨어뜨린다.
 
-```text
-이 도식은 데이터 거래 과정에서 발생할 수 있는 품질 불량 안티패턴과 장애 전파 과정을 보여준다.
 
-[원시 로그] => [품질 검증 누락] => [거래소 등록] => [수요자 구매/ETL] => [AI 모델 파괴]
-                                      ▲                              ▲
-                               단기적 수수료 발생               치명적 비즈니스 장애 (GIGO)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 데이터 거래 과정에서 발생할 수 있는 품질 불량 안티패턴과 장애 전파 과정을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원시 로그</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">품질 검증 누락</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">거래소 등록</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">수요자 구매/ETL</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">AI 모델 파괴</div></div>
+<div class="kb-diagram-note">단기적 수수료 발생 치명적 비즈니스 장애 (GIGO)</div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락이 플랫폼 초입에 위치한다는 점이다. 따라서 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력은 플랫폼 내부에서는 정상 거래로 위장되지만, 수요자 측의 분석 엔진을 오염시켜 결과적으로 플랫폼 전체의 재구매율을 영점에 수렴하게 만든다. 실무에서는 이러한 GIGO(Garbage In, Garbage Out)를 막기 위해 [Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 메커니즘을 도입해 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이나 null 값 발생 시 거래를 즉각 중단시키는 회로 차단기([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))를 두어야 한다.
 
 **📢 섹션 요약 비유**: 마치 불량 식자재를 검수 없이 마트 매대에 올리면 당장 몇 개는 팔리겠지만, 결국 식중독 사태가 발생하여 마트 전체가 문을 닫게 되는 이치와 같습니다.
@@ -157,28 +167,33 @@ def calculate_data_value(base_cost, data_quality_score, market_demand, uniquenes
 
 | 구분 | 도입 전 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) | 도입 후 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Economy) |
 |:---|:---|:---|
-| **[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) / 수익 구조** | 유지보수 비용 (Cost Center) | 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매 수익 (Profit Center) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> / 수익 구조</strong> | 유지보수 비용 (Cost Center) | 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매 수익 (Profit Center) |
 | **의사결정 속도** | 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 (느림, 편향됨) | 외부 다각적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 융합 (빠름, 객관적) |
 | **생태계** | 독점과 고립 | 파트너십과 개방형 혁신 (Open Innovation) |
 
 **미래 전망**: 
-향후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 방식을 넘어, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces)** 개념으로 진화할 것이다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 중앙에 모으지 않고, 각자의 클라우드에 둔 채로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연합(Federated) 컴퓨팅을 통해 통찰력(인사이트)만 거래하는 형태(예: 유럽의 Gaia-X 프로젝트)로 발전 중이다.
+향후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제는 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 방식을 넘어, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Spaces)</strong> 개념으로 진화할 것이다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물리적으로 중앙에 모으지 않고, 각자의 클라우드에 둔 채로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연합(Federated) 컴퓨팅을 통해 통찰력(인사이트)만 거래하는 형태(예: 유럽의 Gaia-X 프로젝트)로 발전 중이다.
 
 **참고 표준**: 
 - **ISO/IEC 22123**: IT 및 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 환경에서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 관리 및 어휘 표준
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법(KOR)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제 활성화를 위한 법적 기반
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>기본법(KOR)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제 활성화를 위한 법적 기반
 
-```text
-미래 데이터 경제의 진화 방향을 보여주는 로드맵 다이어그램이다.
 
-Phase 1: Data Silo (고립)
-  ↓
-Phase 2: Open API / Data Portal (단방향 개방)
-  ↓
-Phase 3: Data Exchange / Marketplace (양방향 거래)
-  ↓
-Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">미래 데이터 경제의 진화 방향을 보여주는 로드맵 다이어그램이다.</div>
+<div class="kb-diagram-note">Phase 1: Data Silo (고립)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Phase 2: Open API / Data Portal (단방향 개방)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Phase 3: Data Exchange / Marketplace (양방향 거래)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)</div>
+</div>
+</div>
+
+
 이 발전 과정의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 이동(Phase 2, 3)에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연결(Phase 4)로 아키텍처 패러다임이 바뀐다는 점이다. 이는 물리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 인한 보안 위협을 극복하기 때문이며, 따라서 미래 인프라는 스토리지가 아닌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 연산 능력에 의해 가치가 결정될 것이다. 실무에서는 지금 당장 거래소를 구축하더라도 향후 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 체계와 연동될 수 있도록 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮춰 설계해야 한다.
 
 **📢 섹션 요약 비유**: 마치 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상업이 직접 물건을 실어 나르던 보따리상([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전송)에서, 점차 서류와 어음만 교환하는 현대 금융 시스템([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스)으로 진화하는 과정과 같습니다.
@@ -186,29 +201,31 @@ Phase 4: Data Spaces / Federated Learning (분산 연합 생태계 - 미래)
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) ([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))** | 개인 주도 하에 본인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산화하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제에 참여하게 하는 필수적 하위 권리 개념.
-- **[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권을 중앙 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 개별 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 자체적인 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상품([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))'을 만들도록 하는 아키텍처.
-- **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 조건을 코드로 자동 실행하여 신뢰를 담보하는 거래 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
-- **[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/))** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 수집하여 수요자가 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쉽게 검색하고 이해할 수 있도록 돕는 디렉토리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).
-- **페더레이티드 러닝 ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동시키지 않고 수요자의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소재지로 이동시켜 학습하는 보안 강화형 융합 기술.
+- <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/">MyData</a>)</strong> | 개인 주도 하에 본인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산화하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제에 참여하게 하는 필수적 하위 권리 개념.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권을 중앙 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 개별 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 자체적인 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상품([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))'을 만들도록 하는 아키텍처.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a>)</strong> | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 조건을 코드로 자동 실행하여 신뢰를 담보하는 거래 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a>)</strong> | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 수집하여 수요자가 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쉽게 검색하고 이해할 수 있도록 돕는 디렉토리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).
+- <strong>페더레이티드 러닝 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동시키지 않고 수요자의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소재지로 이동시켜 학습하는 보안 강화형 융합 기술.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 생성 (Data Generation) — IoT·SNS·트랜잭션에서 원시 데이터 수집]
-    │
-    ▼
-[데이터 자산화 (Data Monetization) — 정제·분석으로 경제적 가치 창출]
-    │
-    ▼
-[데이터 거래 (Data Trading) — 데이터 마켓플레이스에서 유통·거래]
-    │
-    ▼
-[데이터 주권 (Data Sovereignty) — 개인정보보호·국가 데이터 주권 법적 정비]
-    │
-    ▼
-[데이터 생태계 (Data Ecosystem) — 공공·민간 데이터 연계로 새로운 산업 창출]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생성 (Data Generation) — IoT·SNS·트랜잭션에서 원시 데이터 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 자산화 (Data Monetization) — 정제·분석으로 경제적 가치 창출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거래 (Data Trading) — 데이터 마켓플레이스에서 유통·거래</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 주권 (Data Sovereignty) — 개인정보보호·국가 데이터 주권 법적 정비</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생태계 (Data Ecosystem) — 공공·민간 데이터 연계로 새로운 산업 창출</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경제 생태계 형성까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 경제적 자원으로 진화하는 과정을 나타낸다.
 

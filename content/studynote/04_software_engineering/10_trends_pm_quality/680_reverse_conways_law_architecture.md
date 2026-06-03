@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 1967년 멜빈 콘웨이(Melvin Conway)는 "시스템을 설계하는 조직은 필연적으로 그 조직의 의사소통 구조를 복제한 설계를 만들어낸다"고 통찰했다. 예를 들어 프론트엔드 팀, 백엔드 팀, [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 팀으로 조직이 쪼개져 있으면, [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 역시 정확히 프론트엔드, 백엔드, DB 계층의 3-Tier 모놀리식(Monolithic) 구조로 굳어진다.
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대가 도래하면서 기업들은 독립적이고 빠른 배포가 가능한 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 원했다. 그러나 조직 구조는 기존의 수직적(프론트/백/DB) 사일로를 유지한 채 코드만 MSA로 쪼개려다 보니, 배포할 때마다 3개 팀이 모여 회의를 해야 하는 '[분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))'라는 재앙이 발생했다. 이를 해결하기 위해 등장한 것이 바로 조직을 먼저 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 모양으로 세팅하는 **역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Reverse Conway Maneuver)**이다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대가 도래하면서 기업들은 독립적이고 빠른 배포가 가능한 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 원했다. 그러나 조직 구조는 기존의 수직적(프론트/백/DB) 사일로를 유지한 채 코드만 MSA로 쪼개려다 보니, 배포할 때마다 3개 팀이 모여 회의를 해야 하는 '[분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)([Distributed Monolith](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/537_anti_pattern_distributed_monolith/))'라는 재앙이 발생했다. 이를 해결하기 위해 등장한 것이 바로 조직을 먼저 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 모양으로 세팅하는 <strong>역 콘웨이 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(Reverse Conway Maneuver)</strong>이다.
 
 - **📢 섹션 요약 비유**: 붕어빵 틀(조직 구조)이 붕어 모양인데 별 모양의 빵(아키텍처)을 구워낼 수는 없다. 별 모양 빵을 굽고 싶다면, 먼저 붕어빵 틀부터 별 모양으로 바꿔야 한다는 것이 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 아키텍처에 맞춘 조직의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  역 콘웨이 전략 아키텍처에 맞춘 조직                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역 콘웨이 전략 아키텍처에 맞춘 조직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 아키텍처에 맞춘 조직가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|
 | **아마존 2-Pizza Team** | 팀의 크기를 피자 2판으로 식사할 수 있는 규모(6~10명)로 제한하여 의사소통 오버헤드를 줄이고 독립적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모듈을 강제함. (역 콘웨이의 실증 사례) |
 | **Spotify 모델** | 스쿼드(Squad), 트라이브(Tribe), 챕터(Chapter) 등 다기능 팀 중심의 매트릭스 조직을 구성하여 자율성과 기술적 일관성을 동시에 추구함. |
-| **[도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))**| [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 단위로 소프트웨어 모델을 쪼개는 설계 기법. 이 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 1개가 곧 1개의 스쿼드(팀)로 매핑되는 것이 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 완성이다. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">도메인 주도 설계</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a>)</strong>| [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 단위로 소프트웨어 모델을 쪼개는 설계 기법. 이 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 1개가 곧 1개의 스쿼드(팀)로 매핑되는 것이 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 완성이다. |
 
 - **📢 섹션 요약 비유**: DDD가 아파트의 '도면'을 그리는 방법이라면, 역 콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 그 도면에 맞게 목수, 배관공, 전기공을 '한 조'로 묶어 현장에 투입하는 인력 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -127,21 +126,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-역 콘웨이 전략 아키텍처에 맞춘 조직 구성 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역 콘웨이 전략 아키텍처에 맞춘 조직 구성 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

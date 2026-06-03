@@ -21,9 +21,9 @@ tags = ["studynote-cloud-architecture"]
 
 [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/)([Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/))는 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Deployment의 기본 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 중단하지 않고 인스턴스를 순차적으로 교체한다. 롤링이라는 이름은 파도처럼 점진적으로 변경이 흘러가는 모습에서 유래했다.
 
-가장 큰 장점은 **추가 인프라 비용이 거의 없다**는 점이다. 10개의 Pod을 운영하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면, 동시에 최대 `maxSurge`개의 신버전 Pod만 추가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되므로 자원 효율이 높다. 또한 K8s Deployment가 기본으로 지원하므로 별도 구성 없이 사용 가능하다.
+가장 큰 장점은 <strong>추가 인프라 비용이 거의 없다</strong>는 점이다. 10개의 Pod을 운영하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면, 동시에 최대 `maxSurge`개의 신버전 Pod만 추가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되므로 자원 효율이 높다. 또한 K8s Deployment가 기본으로 지원하므로 별도 구성 없이 사용 가능하다.
 
-단점은 배포 중 **구버전(v1)과 신버전(v2)이 동시에 트래픽을 처리**한다는 것이다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 형식이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간 호환되지 않는다면 클라이언트가 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 따라 다른 응답을 받아 예기치 못한 오류가 발생한다. DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 변경된 경우라면 구버전 코드가 새 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 처리하지 못하거나, 신버전 코드가 구 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 데이터를 잘못 해석할 수 있다.
+단점은 배포 중 <strong>구버전(v1)과 신버전(v2)이 동시에 트래픽을 처리</strong>한다는 것이다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 형식이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간 호환되지 않는다면 클라이언트가 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 따라 다른 응답을 받아 예기치 못한 오류가 발생한다. DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 변경된 경우라면 구버전 코드가 새 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 처리하지 못하거나, 신버전 코드가 구 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 데이터를 잘못 해석할 수 있다.
 
 📢 **섹션 요약 비유**: [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/)는 마치 고속도로의 차선 개보수 공사와 같다. 전체 차선을 한꺼번에 막지 않고 한 차선씩 막아 작업하면서 나머지 차선으로 차량이 계속 통행하도록 한다.
 
@@ -42,19 +42,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 배포 단계 흐름
 
-```
-초기 상태 (v1 x4):
-  [v1] [v1] [v1] [v1]    총 4개 Pod
 
-maxSurge=1, maxUnavailable=1 설정 시:
 
-단계 1: v2 1개 생성 → [v1][v1][v1][v1][v2]  (5개)
-단계 2: v1 1개 종료 → [v1][v1][v1][v2]      (4개)
-단계 3: v2 1개 생성 → [v1][v1][v1][v2][v2]  (5개)
-단계 4: v1 1개 종료 → [v1][v1][v2][v2]      (4개)
-  ... 반복 ...
-완료: [v2] [v2] [v2] [v2]    총 4개 Pod
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 상태 (v1 x4):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-note">총 4개 Pod</div></div>
+<div class="kb-diagram-note">maxSurge=1, maxUnavailable=1 설정 시:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(5개)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(4개)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(5개)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(4개)</div></div>
+<div class="kb-diagram-note">... 반복 ...</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">완료:</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">총 4개 Pod</div></div>
+</div>
+</div>
+
+
 
 ### K8s [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) YAML
 
@@ -118,10 +122,10 @@ kubectl rollout history deployment/my-app
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**구/신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 공존 문제 해결 방법**:
-1. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지**: 신버전 코드가 구버전 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형식도 처리할 수 있도록 하위 호환 설계
+<strong>구/신 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 공존 문제 해결 방법</strong>:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 유지</strong>: 신버전 코드가 구버전 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형식도 처리할 수 있도록 하위 호환 설계
 2. **DB 마이그레이션 선행**: expand-contract 패턴으로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 먼저 추가(호환)하고 배포 후 구버전 컬럼 제거
-3. **readinessProbe [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 헬스체크 실패 Pod에는 트래픽을 보내지 않아 오류 전파 방지
+3. <strong>readinessProbe <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 헬스체크 실패 Pod에는 트래픽을 보내지 않아 오류 전파 방지
 
 **배포 속도 최적화**:
 - `minReadySeconds` 줄이기 (단, 충분한 워밍업 필요)
@@ -169,17 +173,21 @@ kubectl rollout history deployment/my-app
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-K8s Deployment: maxSurge · maxUnavailable 설정
-    │
-    ▼
-Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)
-    ├─► Readiness Probe: 트래픽 수신 준비 확인
-    └─► Graceful Shutdown: 기존 연결 완료 대기
-    │
-    ▼
-롤백: kubectl rollout undo → 이전 ReplicaSet 복원
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">K8s Deployment: maxSurge · maxUnavailable 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Readiness Probe: 트래픽 수신 준비 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Graceful Shutdown: 기존 연결 완료 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">롤백: kubectl rollout undo → 이전 ReplicaSet 복원</div>
+</div>
+</div>
+
+
 2. 한 번에 다 바꾸면 손님이 앉을 의자가 없으니까, 하나 바꾸고→하나 돌아오고→또 하나 바꾸고 반복해.
 3. `maxSurge`는 "의자를 최대 몇 개까지 동시에 밖에 내보낼 수 있는지", `maxUnavailable`은 "동시에 몇 개 자리를 비울 수 있는지"야.
 

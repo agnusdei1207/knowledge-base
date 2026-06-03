@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 > **핵심 인사이트**: 스마트폰이 허공에 무선 전파를 쏘면 그 전파는 우주 끝까지 가지 않는다. 천장에 달린 하얀색 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 박스(AP)가 전파를 받아 유선 인터넷 케이블로 변환해 줘야 비로소 전 세계망과 연결된다. 그리고 이 수많은 AP들을 뒤에서 하나로 묶어주는 튼튼한 핏줄이 바로 DS(분배 시스템)다.
 
-```text
-[무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
-[AP / DS]
-    │
-    └──▶ [11 b/g/a/n 표준 세대 발전]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 구조 분산: BSS, ESS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AP / DS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,31 +40,35 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 무선 LAN 환경에서 무선 단말기([Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))들과 외부의 유선 네트워크([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))를 연결해 주는 **통신 허브이자 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 장비**입니다. 흔히 '무선 공유기'의 무선 송수신 파트를 의미합니다.
+- 무선 LAN 환경에서 무선 단말기([Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))들과 외부의 유선 네트워크([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))를 연결해 주는 <strong>통신 허브이자 브릿지(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>) 장비</strong>입니다. 흔히 '무선 공유기'의 무선 송수신 파트를 의미합니다.
 - **주요 기능**:
-  - **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변환**: 공기 중의 무선 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 프레임을 유선 802.3 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임으로 상호 변환합니다.
-  - **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 통제**: 이 와이파이(SSID)에 접속하려는 사용자의 암호([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)/3 등)를 검사하여 네트워크 출입을 통제합니다.
-  - **무선 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어**: 여러 단말기가 동시에 전파를 쏘아 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 나지 않도록, 교통정리([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 수행합니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 변환</strong>: 공기 중의 무선 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 프레임을 유선 802.3 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임으로 상호 변환합니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 및 통제</strong>: 이 와이파이(SSID)에 접속하려는 사용자의 암호([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)/3 등)를 검사하여 네트워크 출입을 통제합니다.
+  - <strong>무선 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어</strong>: 여러 단말기가 동시에 전파를 쏘아 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 나지 않도록, 교통정리([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 수행합니다.
 
 ### 2. [Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) AP vs Thin AP
-- **[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) AP ([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) AP)**: 가정용 공유기처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 보안, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 등 모든 지능적 제어 기능을 혼자 다 처리하는 뚱뚱하고 똑똑한 AP입니다.
-- **Thin AP (Controller-based AP)**: 기업용 대규모망에 주로 쓰입니다. AP 장비 자체는 전파만 쏘고 받는 '바보 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(가벼움)' 역할만 하고, 중앙 전산실의 거대한 **WLC (Wireless LAN Controller)**가 수백 대의 Thin AP를 원격에서 한 번에 통제하고 채널/출력을 조절합니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> AP (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> AP)</strong>: 가정용 공유기처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 보안, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 등 모든 지능적 제어 기능을 혼자 다 처리하는 뚱뚱하고 똑똑한 AP입니다.
+- **Thin AP (Controller-based AP)**: 기업용 대규모망에 주로 쓰입니다. AP 장비 자체는 전파만 쏘고 받는 '바보 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(가벼움)' 역할만 하고, 중앙 전산실의 거대한 <strong>WLC (Wireless LAN Controller)</strong>가 수백 대의 Thin AP를 원격에서 한 번에 통제하고 채널/출력을 조절합니다.
 
-- 건물 전체나 캠퍼스에 흩어져 있는 **여러 대의 AP들을 묶어서 상호 통신할 수 있게 연결해 주는 유선 백본망(Backbone Network)**입니다. (일반적으로 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블로 구축됨)
+- 건물 전체나 캠퍼스에 흩어져 있는 <strong>여러 대의 AP들을 묶어서 상호 통신할 수 있게 연결해 주는 유선 백본망(Backbone Network)</strong>입니다. (일반적으로 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블로 구축됨)
 - 571번 문서에서 배운 '[ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)(Extended [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Set)'를 구성하기 위한 필수 뼈대입니다.
 
 ### 2. 왜 DS가 중요한가? (로밍과 패킷 전달)
 - 스마트폰이 AP1 구역에서 AP2 구역으로 걸어갈 때 끊김 없이 통신하려면, 두 AP가 서로 "이 고객이 내 쪽에서 네 쪽으로 넘어갔다"라고 정보를 교환해야 합니다. 이 정보 교환 통로가 바로 DS입니다.
-- 만약 AP1에 접속한 노트북이 AP2에 접속한 프린터로 문서를 보낸다면, 전파가 직접 날아가는 것이 아니라 **[노트북 → 무선 → AP1 → 유선(DS) → AP2 → 무선 → 프린터]**의 경로를 타게 됩니다.
+- 만약 AP1에 접속한 노트북이 AP2에 접속한 프린터로 문서를 보낸다면, 전파가 직접 날아가는 것이 아니라 <strong>[노트북 → 무선 → AP1 → 유선(DS) → AP2 → 무선 → 프린터]</strong>의 경로를 타게 됩니다.
 
-```text
-[무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
-[AP / DS]
-    │
-    └──▶ [11 b/g/a/n 표준 세대 발전]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 구조 분산: BSS, ESS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AP(Access Point)는 무선 전파라는 '배'를 타고 온 화물을 내려서 트럭에 옮겨 싣는 '항구([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))'입니다. 그리고 항구들을 하나로 연결해 전국 어디로든 트럭이 달리게 해주는 '거대한 고속도로망'이 바로 DS(Distribution System)입니다.
 
@@ -118,15 +126,19 @@ AP / DS는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무선 LAN 구조 분산: BSS, ESS]
-    │
-    ▼
-[현재 개념: AP / DS]
-    │
-    ├──▶ [확장 A: 11 b/g/a/n 표준 세대 발전]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 LAN 구조 분산: BSS, ESS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AP / DS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11 b/g/a/n 표준 세대 발전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 AP / DS는 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS에서 출발해 현재 메커니즘을 정교화하고, 이후 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

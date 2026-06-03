@@ -17,28 +17,28 @@ tags = ["enterprise_systems"]
 
 ### '전산화'를 넘어 '혁신'으로: 왜 DX인가?
 
-과거의 전산화 (Digitization)가 종이 문서를 파일로 바꾸는 것이었고, 정보화 (Digitalization)가 업무 프로세스에 IT를 입히는 것이었다면, **디지털 트랜스포메이션 (DX)**은 기술을 통해 '사업의 방식' 자체를 바꾸는 것이다. 택시 회사가 앱을 만드는 것이 정보화라면, 우버처럼 플랫폼으로 연결하고 데이터를 기반으로 수요를 예측하는 것이 DX이다.
+과거의 전산화 (Digitization)가 종이 문서를 파일로 바꾸는 것이었고, 정보화 (Digitalization)가 업무 프로세스에 IT를 입히는 것이었다면, <strong>디지털 트랜스포메이션 (DX)</strong>은 기술을 통해 '사업의 방식' 자체를 바꾸는 것이다. 택시 회사가 앱을 만드는 것이 정보화라면, 우버처럼 플랫폼으로 연결하고 데이터를 기반으로 수요를 예측하는 것이 DX이다.
 
-DX 전략이 필요한 이유는 세 가지이다. 첫째, **파괴적 혁신가 (Disruptor)로부터의 생존**을 위해서이다. 디지털 경쟁자들은 기존 산업의 경계를 순식간에 허문다. 둘째, **고객 기댓값의 변화** 때문이다. 이제 고객은 초개인화된 실시간 경험을 원한다. 셋째, **데이터 자산의 수익화**를 통해 한계에 다다른 전통적 수익 모델을 극복하기 위함이다.
+DX 전략이 필요한 이유는 세 가지이다. 첫째, <strong>파괴적 혁신가 (Disruptor)로부터의 생존</strong>을 위해서이다. 디지털 경쟁자들은 기존 산업의 경계를 순식간에 허문다. 둘째, **고객 기댓값의 변화** 때문이다. 이제 고객은 초개인화된 실시간 경험을 원한다. 셋째, <strong>데이터 자산의 수익화</strong>를 통해 한계에 다다른 전통적 수익 모델을 극복하기 위함이다.
 
 이 그림은 디지털 전환의 3단계 진화 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Digital Transformation Maturity Stages       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Stage 3: Digital Transformation ] ──▶ 비즈니스 모델 혁신│
-│          ▲ (Business Model)                                 │
-│   [ Stage 2: Digitalization ] ──▶ 프로세스 최적화           │
-│          ▲ (Process)                                        │
-│   [ Stage 1: Digitization ] ──▶ 데이터의 디지털화           │
-│            (Data)                                           │
-│                                                             │
-│   * 핵심: 상위 단계로 갈수록 기술보다 '전략'과 '문화'가 중요│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Digital Transformation Maturity Stages</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 3: Digital Transformation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">비즈니스 모델 혁신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Business Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 2: Digitalization</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">프로세스 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Process)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 1: Digitization</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터의 디지털화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상위 단계로 갈수록 기술보다 '전략'과 '문화'가 중요</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '본질의 변화'이다. 1, 2단계는 효율성을 높이는 수준이지만, 3단계 DX는 기업의 존재 이유와 수익 구조를 바꾼다. 실무에서는 이러한 전환을 위해 **애자일 (Agile)** 조직 문화와 **클라우드 네이티브** 인프라가 필수적인 체력이 된다.
 
@@ -68,26 +68,24 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, **파괴적 혁신가
 - **원리**: AI가 프로세스를 분석 -> 최적의 자동화 구간 발견 -> RPA와 로우코드 (Low-code)로 즉시 구현.
 - **효과**: "모든 자동화 가능한 것은 자동화한다"는 원칙으로 인간의 창의성을 극대화함.
 
-이 구조도는 DX 성공을 위한 **'디지털 운영 모델'**의 핵심 요소를 보여준다.
+이 구조도는 DX 성공을 위한 <strong>'디지털 운영 모델'</strong>의 핵심 요소를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Digital Operating Model Components          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Platform ] ──▶ Cloud, Data Mesh, Open API               │
-│          ▲                                                  │
-│   [ Process  ] ──▶ Agile, DevOps, Continuous Delivery       │
-│          ▲                                                  │
-│   [ People   ] ──▶ Digital Literacy, Growth Mindset         │
-│                                                             │
-│   * 실무 가이드: 기술(Platform)만 바꾸고 사람(People)을     │
-│     바꾸지 않는 DX는 반드시 실패함                          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '사람과 문화'이다. DX는 결국 사람이 하는 일이다. 기술사가 제안하는 아키텍처는 반드시 조직의 **디지털 문해력 (Digital Literacy)**과 협업 문화를 고려하여 설계되어야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Digital Operating Model Components</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Platform</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud, Data Mesh, Open API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Agile, DevOps, Continuous Delivery</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">People</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Digital Literacy, Growth Mindset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 기술(Platform)만 바꾸고 사람(People)을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바꾸지 않는 DX는 반드시 실패함</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '사람과 문화'이다. DX는 결국 사람이 하는 일이다. 기술사가 제안하는 아키텍처는 반드시 조직의 <strong>디지털 문해력 (Digital Literacy)</strong>과 협업 문화를 고려하여 설계되어야 한다.
 
 📢 **섹션 요약 비유**: 서비타이제이션은 '낚싯대를 파는 게 아니라 물고기 잡는 즐거움을 파는 것'과 같습니다. 손님이 진짜 원하는 결과(Value)에 집중하여 돈을 버는 방식입니다.
 
@@ -121,23 +119,24 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, **파괴적 혁신가
 - **판단**: 공장 전체를 한꺼번에 바꾸려 하지 않는다. **'디지털 트윈 (Digital Twin)'** 기술을 핵심 생산 라인 하나에만 먼저 적용한다. 실시간 센서 데이터를 통해 가상 세계에서 고장을 예견하는 '예지 정비'의 가치를 경영진에게 증명(Quick Win)한 뒤, 여기서 확보된 데이터를 전사 ERP와 연동하는 단계적 확장 전략을 제안한다.
 
 **시나리오 2: 금융 서비스의 앱 현대화와 사용자 경험 혁신**
-- **판단**: 단순 기능 추가는 의미 없다. **'슈퍼 앱 (Super App)'** 전략을 수립한다. 뱅킹, 보험, 증권 기능을 하나로 묶되, 내부 아키텍처는 각 기능이 독립적으로 배포되는 **Micro-Frontend**와 **MSA**로 재설계한다. 또한 사용자의 모든 터치포인트를 실시간으로 수집하여 다음 행동을 미리 제안하는 **'인공지능 비서'** 기능을 프론트엔드 최전선에 배치한다.
+- **판단**: 단순 기능 추가는 의미 없다. **'슈퍼 앱 (Super App)'** 전략을 수립한다. 뱅킹, 보험, 증권 기능을 하나로 묶되, 내부 아키텍처는 각 기능이 독립적으로 배포되는 <strong>Micro-Frontend</strong>와 <strong>MSA</strong>로 재설계한다. 또한 사용자의 모든 터치포인트를 실시간으로 수집하여 다음 행동을 미리 제안하는 **'인공지능 비서'** 기능을 프론트엔드 최전선에 배치한다.
 
 이 도식은 기술사가 사용하는 'DX 성공을 위한 5대 전환 동력'을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               The 5 Drivers of Digital Transformation       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. 전략적 정렬: 비즈니스 비전과 기술의 일치               │
-│   2. 고객 중심 설계: UX/UI를 넘어선 고객 여정 최적화        │
-│   3. 데이터 주도성: 모든 판단의 근거를 데이터로 통일        │
-│   4. 민첩한 조직: 애자일과 데브옵스의 내재화                │
-│   5. 개방형 생태계: API를 통한 외부 파트너와의 연결         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The 5 Drivers of Digital Transformation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전략적 정렬: 비즈니스 비전과 기술의 일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 고객 중심 설계: UX/UI를 넘어선 고객 여정 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 주도성: 모든 판단의 근거를 데이터로 통일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 민첩한 조직: 애자일과 데브옵스의 내재화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 개방형 생태계: API를 통한 외부 파트너와의 연결</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 DX 판단은 '도시 재생 전문가'와 같습니다. 낡은 건물을 부수고 공원을 만들지(비즈니스 모델 변경), 아니면 낡은 배관만 최신식으로 바꿀지(프로세스 최적화)를 도시의 미래 가치에 맞춰 결정하는 마스터 플래너입니다.
 
@@ -152,7 +151,7 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, **파괴적 혁신가
 
 ### 미래 전망: Web 3.0과 인공지능 전환 (AX)
 
-향후 DX는 기업 주도의 중앙 집중식 플랫폼을 넘어, 사용자가 가치를 직접 소유하는 **Web 3.0** 생태계로 확장될 것이다. 또한 단순히 디지털화하는 것을 넘어 모든 과정에 AI가 기본으로 탑재되는 **인공지능 전환 (AX: AI Transformation)**이 기업 경쟁력의 절대 기준이 될 것이다. 기술사는 개별 기술의 도입을 넘어, 기술이 인간의 노동과 삶의 질을 어떻게 개선할 것인가에 대한 '휴머니즘적 기술 리더십'을 발휘해야 한다.
+향후 DX는 기업 주도의 중앙 집중식 플랫폼을 넘어, 사용자가 가치를 직접 소유하는 **Web 3.0** 생태계로 확장될 것이다. 또한 단순히 디지털화하는 것을 넘어 모든 과정에 AI가 기본으로 탑재되는 <strong>인공지능 전환 (AX: AI Transformation)</strong>이 기업 경쟁력의 절대 기준이 될 것이다. 기술사는 개별 기술의 도입을 넘어, 기술이 인간의 노동과 삶의 질을 어떻게 개선할 것인가에 대한 '휴머니즘적 기술 리더십'을 발휘해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 DX는 '마법이 일상이 되는 세상'과 같아질 것입니다. 우리가 상상하는 서비스가 AI와 데이터를 통해 즉시 현실이 되고, 기업은 그 마법을 지탱하는 거대하고 투명한 지능형 인프라로서 기능하게 될 것입니다.
 

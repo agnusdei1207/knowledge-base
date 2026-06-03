@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 예를 들어 주문 목록 화면이 주문번호, 상태, 주문일자만 보여 준다면 회원 주소, 주문 상세, 상품 설명까지 동시에 가져오는 것은 낭비다. 반대로 상세 화면에서는 그 연관 객체들이 곧바로 필요할 수 있다. 즉 같은 엔티티라도 유스케이스마다 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭이 달라지므로, 로딩 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 하나로 고정하면 과소 조회 또는 과다 조회가 발생한다.
 
-그래서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 "기본은 가볍게 읽고, 필요한 순간에만 확장하자"는 균형점을 제공한다. 설계감리 관점에서 중요한 것은 이 패턴이 단순 ORM 옵션이 아니라, **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)·메모리·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수를 유스케이스별로 조절하는 비용 통제 장치**라는 점이다.
+그래서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 "기본은 가볍게 읽고, 필요한 순간에만 확장하자"는 균형점을 제공한다. 설계감리 관점에서 중요한 것은 이 패턴이 단순 ORM 옵션이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>·메모리·<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 수를 유스케이스별로 조절하는 비용 통제 장치</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩은 책 한 권을 빌릴 때 도서관 전체 책장을 집으로 가져오지 않고, 읽고 싶은 책만 나중에 꺼내 오는 방식과 같다.
 
@@ -43,26 +43,24 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 실행 경로를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Lazy loading execution path                                          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Service / Use case                                                   │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Order entity loaded                                                  │
-│   ├─ id, status, orderedAt   -> loaded now                           │
-│   └─ member, items           -> proxy / lazy collection              │
-│                                  │ first access                      │
-│                                  ▼                                   │
-│                       Persistence Context / Session                  │
-│                                  │ SQL / cache lookup                │
-│                                  ▼                                   │
-│                           DB or 2nd-level cache                      │
-│                                  │                                   │
-│                                  └─ real object initialized          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lazy loading execution path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service / Use case</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order entity loaded</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ id, status, orderedAt -&gt; loaded now</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ member, items -&gt; proxy / lazy collection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistence Context / Session</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL / cache lookup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB or 2nd-level cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ real object initialized</div></div>
+</div>
+</div>
+
+
 
 핵심은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"이지 "무료"가 아니라는 점이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 가벼워지지만, 나중에 접근하는 순간 추가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 발생한다. 따라서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 품질은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기술 자체보다, 어떤 화면과 서비스가 어떤 시점에 어떤 연관을 실제로 읽는지 예측하고 설계했는가에 달려 있다.
 
@@ -81,7 +79,7 @@ tags = ["studynote-design-supervision"]
 | 대표 위험 | 과다 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), 카테시안 곱, 메모리 증가 | N+1, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 종료 후 예외 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 설계 복잡도 증가 |
 | 적합 상황 | 항상 함께 쓰는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 선택적으로 쓰는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 목록/상세/배치별 최적화 |
 
-이 패턴은 [Repository Pattern](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/), Unit of Work Pattern과도 밀접하다. Repository는 어떤 Aggregate를 어떤 방식으로 꺼낼지 결정하는 입구이고, Unit of Work는 같은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 변경 추적을 가능하게 하는 실행 맥락이다. 즉 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 혼자 작동하는 패턴이 아니라, **조회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계 패턴 위에서 비로소 안전해지는 패턴**이다.
+이 패턴은 [Repository Pattern](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/), Unit of Work Pattern과도 밀접하다. Repository는 어떤 Aggregate를 어떤 방식으로 꺼낼지 결정하는 입구이고, Unit of Work는 같은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 변경 추적을 가능하게 하는 실행 맥락이다. 즉 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 혼자 작동하는 패턴이 아니라, <strong>조회 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계 패턴 위에서 비로소 안전해지는 패턴</strong>이다.
 
 또한 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 캐시와도 다르다. 캐시는 이미 읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 빠르게 주는 메커니즘이고, [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 처음 읽는 시점을 미루는 메커니즘이다. 둘을 혼동하면 "Lazy면 무조건 빠르다" 같은 잘못된 결론에 이르기 쉽다.
 
@@ -115,7 +113,7 @@ tags = ["studynote-design-supervision"]
 - 템플릿 또는 Controller 계층에서 반복문마다 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 연관을 접근해 N+1을 만드는 구현
 - Open [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) In View에 의존해 조회 계획 없이 화면 계층에서 아무 때나 로딩하는 운영
 
-기술사 답안에서는 **"[Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)로 비용을 뒤로 미루는 패턴이며, 기본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로는 유용하지만 유스케이스별 Fetch Plan과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계가 함께 설계되지 않으면 곧바로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 된다"**고 정리하면 좋다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Loading은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>로 비용을 뒤로 미루는 패턴이며, 기본 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>으로는 유용하지만 유스케이스별 Fetch Plan과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계가 함께 설계되지 않으면 곧바로 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>이 된다"</strong>고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩을 잘 쓰는 팀은 필요한 물건만 제때 가져오는 창고 관리자이고, 못 쓰는 팀은 찾을 때마다 창고를 들락거리며 줄을 세우는 팀과 같다.
 
@@ -125,9 +123,9 @@ tags = ["studynote-design-supervision"]
 
 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩의 가장 큰 효과는 기본 조회를 가볍게 만들 수 있다는 점이다. 목록 화면, 검색 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 대시보드처럼 일부 필드만 필요한 경우에는 과다 JOIN과 메모리 사용을 줄이고 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 개선할 수 있다. 또한 설계자가 유스케이스별로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭을 조절할 수 있어, 대형 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서도 확장성이 좋아진다.
 
-반면 잘못 적용하면 문제는 더 교묘해진다. 예외는 실행 후반부에 터지고, N+1은 기능 테스트에서는 잘 보이지 않다가 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 폭발하며, 장수명 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 원인 파악을 어렵게 만든다. 그래서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 옵션"이라기보다, **의도적인 조회 설계와 관측성을 요구하는 패턴**으로 이해하는 편이 맞다.
+반면 잘못 적용하면 문제는 더 교묘해진다. 예외는 실행 후반부에 터지고, N+1은 기능 테스트에서는 잘 보이지 않다가 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 폭발하며, 장수명 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 원인 파악을 어렵게 만든다. 그래서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 옵션"이라기보다, <strong>의도적인 조회 설계와 관측성을 요구하는 패턴</strong>으로 이해하는 편이 맞다.
 
-결론적으로 기억할 문장은 간단하다. **[Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading은 비용을 숨기는 기술이 아니라, 비용 발생 시점을 통제하는 기술이다.** 설계감리에서는 이 통제가 실제로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 계획, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계, DTO [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 구현되어 있는지를 확인해야 한다.
+결론적으로 기억할 문장은 간단하다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Loading은 비용을 숨기는 기술이 아니라, 비용 발생 시점을 통제하는 기술이다.</strong> 설계감리에서는 이 통제가 실제로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 계획, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계, DTO [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 구현되어 있는지를 확인해야 한다.
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩은 냉장고를 꽉 채워 두는 대신, 오늘 요리할 재료만 꺼내 쓰는 습관과 같지만 장보기 계획이 없으면 오히려 더 자주 왕복하게 된다.
 
@@ -146,23 +144,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-객체 그래프 확장
-    │
-    ▼
-즉시 로딩의 과다 JOIN / 메모리 증가
-    │
-    ▼
-Lazy Loading + Virtual Proxy 도입
-    │
-    ├─ first access -> 추가 SQL
-    ├─ transaction boundary 중요
-    ├─ N+1 -> fetch join / batch fetch
-    └─ API 응답 -> DTO projection 필요
-    │
-    ▼
-유스케이스별 Fetch Plan 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">객체 그래프 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">즉시 로딩의 과다 JOIN / 메모리 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lazy Loading + Virtual Proxy 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">first access -&gt; 추가 SQL</div>
+<div class="kb-diagram-tree-item" style="--depth:2">transaction boundary 중요</div>
+<div class="kb-diagram-tree-item" style="--depth:2">N+1 -&gt; fetch join / batch fetch</div>
+<div class="kb-diagram-tree-item" style="--depth:2">API 응답 -&gt; DTO projection 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유스케이스별 Fetch Plan 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading이 단순 ORM 속성이 아니라, 객체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 비용을 유스케이스 단위로 재배치하는 설계 기법임을 보여 준다.
 

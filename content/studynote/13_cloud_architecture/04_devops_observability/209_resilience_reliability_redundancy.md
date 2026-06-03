@@ -19,7 +19,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단 몇 분의 다운타임도 수억 원의 손실을 만든다. AWS의 2017년 S3 다운타임 4시간은 1.5억 달러 손실을 유발했다. 이런 현실에서 **고가용성(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), HA)**과 **내결함성([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))**은 선택이 아닌 필수가 됐다.
+현대 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단 몇 분의 다운타임도 수억 원의 손실을 만든다. AWS의 2017년 S3 다운타임 4시간은 1.5억 달러 손실을 유발했다. 이런 현실에서 <strong>고가용성(High <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>, HA)</strong>과 <strong>내결함성(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>은 선택이 아닌 필수가 됐다.
 
 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))·복원력(Resilience)·[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy)는 서로 다른 차원의 개념이다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 "정상 상태에서 기대한 대로 동작하는가", 복원력은 "장애 상황에서 얼마나 빨리 회복하는가", [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 "물리적으로 중복 구성이 있는가"를 나타낸다. 세 가지가 함께 충족될 때 견고한(Robust) 시스템이 된다.
 
@@ -33,22 +33,22 @@ tags = ["studynote-cloud-architecture"]
 
 ### [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) vs [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 개념
 
-```
-  장애 발생
-     │
-     ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                     시간 축                           │
-  │                                                      │
-  │  [최근 백업]──RPO──[장애 발생]──────RTO──[서비스 복구] │
-  │                                                      │
-  │  RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위         │
-  │  RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간          │
-  └──────────────────────────────────────────────────────┘
-  
-  예: RPO=1시간 → 최대 1시간치 데이터 손실 허용
-      RTO=30분  → 최대 30분간 서비스 중단 허용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장애 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최근 백업</div><div class="kb-diagram-note">──RPO──</div><div class="kb-diagram-node">장애 발생</div><div class="kb-diagram-note">RTO──</div><div class="kb-diagram-node">서비스 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간</div></div>
+<div class="kb-diagram-note">예: RPO=1시간 → 최대 1시간치 데이터 손실 허용</div>
+<div class="kb-diagram-note">RTO=30분 → 최대 30분간 서비스 중단 허용</div>
+</div>
+</div>
+
+
 
 ### [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
@@ -62,24 +62,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### Active-Active 아키텍처
 
-```
-  ┌──────────────────────────────────────────────────┐
-  │               Global Load Balancer                │
-  │            (AWS Route 53 / CloudFront)            │
-  └────────────┬──────────────────────┬──────────────┘
-               │                      │
-     ┌─────────▼──────────┐  ┌────────▼────────────┐
-     │   리전 A (서울)     │  │   리전 B (도쿄)      │
-     │   [App Cluster]    │  │   [App Cluster]     │
-     │   [DB Primary]     │  │   [DB Primary]      │
-     └─────────┬──────────┘  └────────┬────────────┘
-               │                      │
-               └──────────┬───────────┘
-                           ▼
-                   [양방향 DB 동기화]
-                   (DynamoDB Global Tables /
-                    Aurora Global Database)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global Load Balancer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AWS Route 53 / CloudFront)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리전 A (서울)</div><div class="kb-diagram-cell">리전 B (도쿄)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App Cluster</div><div class="kb-diagram-node">App Cluster</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB Primary</div><div class="kb-diagram-node">DB Primary</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 DB 동기화</div></div>
+<div class="kb-diagram-note">(DynamoDB Global Tables /</div>
+<div class="kb-diagram-note">Aurora Global Database)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Active-Active는 두 명의 의사가 동시에 같은 환자 차트를 업데이트하는 것과 같다. 매우 강력하지만, 두 의사의 기록이 충돌하지 않도록 하는 조율이 복잡하다.
 
@@ -114,22 +113,24 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 목표와 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 매핑**:
-```
-비즈니스 요구:      권장 전략:
-─────────────────────────────────────────
-RTO < 1분          Active-Active
-RPO = 0
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a> 목표와 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 매핑</strong>:
 
-RTO < 30분         Active-Active (단일 리전 Multi-AZ)
-RPO < 5분          또는 Aurora Multi-AZ
 
-RTO < 4시간        Warm Standby 또는 Pilot Light
-RPO < 1시간        다른 리전에 DR 환경 유지
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 요구: 권장 전략:</div>
+<div class="kb-diagram-note">RTO &lt; 1분 Active-Active</div>
+<div class="kb-diagram-note">RPO = 0</div>
+<div class="kb-diagram-note">RTO &lt; 30분 Active-Active (단일 리전 Multi-AZ)</div>
+<div class="kb-diagram-note">RPO &lt; 5분 또는 Aurora Multi-AZ</div>
+<div class="kb-diagram-note">RTO &lt; 4시간 Warm Standby 또는 Pilot Light</div>
+<div class="kb-diagram-note">RPO &lt; 1시간 다른 리전에 DR 환경 유지</div>
+<div class="kb-diagram-note">RTO &lt; 24시간 Cold Standby</div>
+<div class="kb-diagram-note">RPO &lt; 24시간 백업 + 복구 프로세스</div>
+</div>
+</div>
 
-RTO < 24시간       Cold Standby
-RPO < 24시간       백업 + 복구 프로세스
-```
+
 
 **AWS 재해복구 4가지 패턴 (비용 순)**:
 ```
@@ -141,7 +142,7 @@ RPO < 24시간       백업 + 복구 프로세스
 
 **기술사 판단 포인트**:
 - RTO와 RPO는 기술이 결정하는 것이 아니라 비즈니스가 결정하는 값이다. 비용을 무한정 투자할 수 없으므로 "이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 1시간 다운되면 손실이 얼마인가?"를 먼저 계산해야 한다.
-- Active-Active의 핵심 과제는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌(Conflict Resolution)**이다. 양쪽에서 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 수정하면 무엇이 최종값인지 결정하는 로직이 필요하다.
+- Active-Active의 핵심 과제는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 충돌(Conflict Resolution)</strong>이다. 양쪽에서 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 수정하면 무엇이 최종값인지 결정하는 로직이 필요하다.
 - [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 구축만으로 끝나지 않는다. 정기적인 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 훈련([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) Drill)을 통해 실제로 작동하는지 검증해야 한다.
 
 📢 **섹션 요약 비유**: [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련 없는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 소화기만 있고 사용법 훈련이 없는 것과 같다. 진짜 화재가 났을 때 패닉 상태에서 올바르게 사용하기 어렵다. 정기적인 실전 훈련이 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 완성이다.
@@ -180,16 +181,20 @@ RPO < 24시간       백업 + 복구 프로세스
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RPO (Recovery Point Objective): 허용 데이터 손실량
-RTO (Recovery Time Objective): 복구 소요 시간 목표
-    │
-    ▼
-DR 전략: Backup & Restore → Pilot Light → Warm Standby → Active-Active
-    │
-    ▼
-Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RPO (Recovery Point Objective): 허용 데이터 손실량</div>
+<div class="kb-diagram-note">RTO (Recovery Time Objective): 복구 소요 시간 목표</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DR 전략: Backup &amp; Restore → Pilot Light → Warm Standby → Active-Active</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증</div>
+</div>
+</div>
+
+
 2. RTO는 게임이 꺼진 후 다시 켜서 이어서 할 수 있게 되는 시간이야. 빠를수록 좋지.
 3. Active-Active는 게임을 두 대 콘솔에서 동시에 하는 것처럼, 하나가 꺼져도 다른 하나로 즉시 계속할 수 있어.
 

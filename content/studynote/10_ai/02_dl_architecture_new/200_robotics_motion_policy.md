@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로보틱스 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련 (Robotics General Motion [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은, 로봇의 관절 하나하나에 "A지점에서 B지점까지 각도 15도로 꺾어서 움직여"라고 사람이 미분 수식을 짜주던 노가다를 버리고, **[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL) 딥러닝 뇌가 수천만 번 넘어져 보며 "안 넘어지고 컵을 쥐는 최적의 근육 움직임(모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))"을 스스로 깨우치게 하는 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 제어 혁명**이다.
+> 1. **본질**: 로보틱스 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련 (Robotics General Motion [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은, 로봇의 관절 하나하나에 "A지점에서 B지점까지 각도 15도로 꺾어서 움직여"라고 사람이 미분 수식을 짜주던 노가다를 버리고, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a>(RL) 딥러닝 뇌가 수천만 번 넘어져 보며 "안 넘어지고 컵을 쥐는 최적의 근육 움직임(모션 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>)"을 스스로 깨우치게 하는 엔드투엔드(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>) 제어 혁명</strong>이다.
 > 2. **가치**: 기존 로봇은 공장에서 짜인 매뉴얼대로만 움직여서, 책상 위 컵 위치가 1cm만 틀어져도 바보처럼 허공을 쥐었다. 반면 이 범용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 훈련된 로봇은 개가 달릴 때 바닥의 돌부리를 보고 직관적으로 다리에 힘을 주어 밸런스를 맞추듯, 돌발 상황과 미지의 환경 앞에서도 유연하게 대처하는 야생의 신체 지능(Embodied [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 얻었다.
 > 3. **판단 포인트**: 현실 세계에서 수백만 번 넘어지면 로봇 부품 값으로 수천억 원이 깨진다. 훈련은 무조건 물리 엔진이 장착된 가상 시뮬레이션([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))에서 수백 배속으로 끝내고, 훈련된 '뇌([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))'만 뽑아서 현실 로봇에 꽂아 넣는 **Sim-to-Real (가상에서 현실로 전이)** 아키텍처의 갭(Gap) 극복이 프로젝트 성패의 100%를 결정한다.
 
@@ -22,18 +22,21 @@ tags = ["studynote-ai"]
 수십 년간 로봇 공학자들은 미적분학과 역운동학(Inverse Kinematics)이라는 수학 지옥에 갇혀 있었다.
 로봇 팔 끝(End-effector)을 책상 위 머그잔으로 이동시키려면, 로봇 팔의 관절 모터 6개가 각각 몇 도의 각도로, 몇 뉴턴(N)의 힘으로 회전해야 하는지 거대한 자코비안(Jacobian) 행렬 수식을 손으로 직접 풀어야 했다. 공장처럼 통제된 환경(기하학적 공간)에서는 이 수학 공식이 완벽했다.
 
-하지만 로봇이 공장을 벗어나 우리 집 거실(비정형 환경)로 들어오는 순간 수학은 붕괴했다. 바닥에 양말이 떨어져 있고, 아이가 뛰어다니고, 의자가 푹신푹신하면 로봇은 계산을 포기하고 쓰러졌다. **"복잡한 현실의 물리 변수를 인간이 모두 수식으로 짜는 것은 불가능하다. 차라리 아기가 걸음마를 배우듯, 로봇 스스로 수만 번 넘어지며 근육의 감각(제어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 딥러닝 뇌세포에 본능으로 새겨넣게 하자!"**
+하지만 로봇이 공장을 벗어나 우리 집 거실(비정형 환경)로 들어오는 순간 수학은 붕괴했다. 바닥에 양말이 떨어져 있고, 아이가 뛰어다니고, 의자가 푹신푹신하면 로봇은 계산을 포기하고 쓰러졌다. <strong>"복잡한 현실의 물리 변수를 인간이 모두 수식으로 짜는 것은 불가능하다. 차라리 아기가 걸음마를 배우듯, 로봇 스스로 수만 번 넘어지며 근육의 감각(제어 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)을 딥러닝 뇌세포에 본능으로 새겨넣게 하자!"</strong>
 
-이것이 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)과 딥러닝이 결합 된 **로보틱스 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (General Motion [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**의 탄생이다. 로봇의 카메라 눈(Vision)과 센서를 입력으로 넣으면, [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)이 복잡한 역학 계산 없이 즉각적으로 "1번 모터 30% 토크, 2번 모터 80% 토크 출력!"이라는 액션(Action) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 곧바로 뿜어내게([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 만들어, 보스턴 다이내믹스(Boston Dynamics)의 로봇 개가 얼음판에서 미끄러져도 탭댄스를 추며 밸런스를 잡는 기적을 낳았다.
+이것이 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)과 딥러닝이 결합 된 <strong>로보틱스 범용 모션 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (General Motion <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>의 탄생이다. 로봇의 카메라 눈(Vision)과 센서를 입력으로 넣으면, [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)이 복잡한 역학 계산 없이 즉각적으로 "1번 모터 30% 토크, 2번 모터 80% 토크 출력!"이라는 액션(Action) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 곧바로 뿜어내게([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 만들어, 보스턴 다이내믹스(Boston Dynamics)의 로봇 개가 얼음판에서 미끄러져도 탭댄스를 추며 밸런스를 잡는 기적을 낳았다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기존 로봇 수학은 탁구공을 칠 때 "풍속 3m/s, 공의 궤적 포물선 방정식 $y = -x^2+3x$에 따라 내 팔 근육을 45도 올려서 친다"고 머리로 계산하고 치는 헛똑똑이다. 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련은 그냥 국가대표 탁구 선수다. 수만 번 랠리를 하면서 몸(딥러닝)이 탁구공의 궤적을 본능적인 감각([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))으로 외워버렸기 때문에, 계산 없이 0.1초 만에 반사적으로 완벽한 스매싱 근육 제어가 튀어나온다.
 
@@ -43,30 +46,31 @@ tags = ["studynote-ai"]
 
 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))나 SAC(Soft [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) 같은 연속 제어(Continuous Control) 최적화 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 아키텍처의 뼈대 위에서 돌아간다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           로보틱스 범용 모션 정책 (Motion Policy)의 PPO 강화 학습 훈련 도해│
-├──────────────────────────────────────────────────────────────┤
-│  [1. 물리 시뮬레이션 환경 (Isaac Gym, MuJoCo 등)]                  │
-│   * 실제와 100% 똑같은 중력, 마찰력, 관절 무게가 세팅된 디지털 트윈 우주.     │
-│   * 수천 대의 복제 로봇이 병렬로 띄워져 미친 듯이 걷고 넘어지기를 반복함.     │
-│                                                              │
-│  [2. 관찰(Observation) 및 액터-크리틱 뇌 (Actor-Critic Net)]       │
-│   * 상태 입력(S): 카메라 이미지 픽셀, 각 관절의 각도(Proprioception) 센서값.│
-│   * 배우 뇌(Actor): "음, 앞으로 넘어질 것 같으니 뒷다리 모터 파워 +30% 올려!" │
-│   * 평론가 뇌(Critic): "방금 그 모터 출력 각도 예술이었어, 생존 보상 +10점!" │
-│                                                              │
-│  [3. Sim-to-Real 전이 (Domain Randomization 마법)]             │
-│   * 시뮬레이터 속 가상 세상과 진짜 지구는 중력/마찰력이 1% 미세하게 다름(Gap). │
-│   * 극복 마법: 훈련할 때 가상 환경의 마찰력, 로봇 팔 무게, 조명 밝기를 매 턴마다│
-│     무작위로 흔들어버림(Randomization). 로봇의 뇌는 온갖 억까(노이즈)에   │
-│     대응하는 맷집이 강해져서, 현실로 꺼내와도 당황하지 않고 완벽히 적응함!  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 (엔드투엔드 제어와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 무작위화)**:
-카메라가 찍은 영상을 물체 인식 AI에 넣고 ─▶ 그 좌표를 수학 공식에 넣고 ─▶ 모터 각도를 구하는 과거의 3단 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 싹 다 부수고, 카메라 영상 픽셀을 딥러닝에 넣으면 즉시 모터의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 토크 값으로 직행하는 것이 **[End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 
-가장 중요한 기술은 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 무작위화 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Randomization)**다. 시뮬레이션(가짜 세상)에서 완벽히 걷던 로봇을 현실에 데려오면, 바닥의 미세한 마찰력 1% 차이 때문에 미끄러져 대가리를 깨버린다. 이를 막기 위해 시뮬레이터 안에서 중력, 바닥 미끄러움, 모터의 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수만 가지 랜덤값으로 계속 뒤흔들며 악조건 훈련을 시킨다. 이 극한의 스파르타 훈련을 견딘 로봇 뇌([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 웬만한 현실의 노이즈 따위는 가볍게 씹어먹는 괴물이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로보틱스 범용 모션 정책 (Motion Policy)의 PPO 강화 학습 훈련 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 물리 시뮬레이션 환경 (Isaac Gym, MuJoCo 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실제와 100% 똑같은 중력, 마찰력, 관절 무게가 세팅된 디지털 트윈 우주.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수천 대의 복제 로봇이 병렬로 띄워져 미친 듯이 걷고 넘어지기를 반복함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 관찰(Observation) 및 액터-크리틱 뇌 (Actor-Critic Net)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상태 입력(S): 카메라 이미지 픽셀, 각 관절의 각도(Proprioception) 센서값.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 배우 뇌(Actor): "음, 앞으로 넘어질 것 같으니 뒷다리 모터 파워 +30% 올려!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 평론가 뇌(Critic): "방금 그 모터 출력 각도 예술이었어, 생존 보상 +10점!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Sim-to-Real 전이 (Domain Randomization 마법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시뮬레이터 속 가상 세상과 진짜 지구는 중력/마찰력이 1% 미세하게 다름(Gap).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 극복 마법: 훈련할 때 가상 환경의 마찰력, 로봇 팔 무게, 조명 밝기를 매 턴마다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위로 흔들어버림(Randomization). 로봇의 뇌는 온갖 억까(노이즈)에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대응하는 맷집이 강해져서, 현실로 꺼내와도 당황하지 않고 완벽히 적응함!</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (엔드투엔드 제어와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 무작위화)</strong>:
+카메라가 찍은 영상을 물체 인식 AI에 넣고 ─▶ 그 좌표를 수학 공식에 넣고 ─▶ 모터 각도를 구하는 과거의 3단 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 싹 다 부수고, 카메라 영상 픽셀을 딥러닝에 넣으면 즉시 모터의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 토크 값으로 직행하는 것이 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a></strong> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 
+가장 중요한 기술은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 무작위화 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Randomization)</strong>다. 시뮬레이션(가짜 세상)에서 완벽히 걷던 로봇을 현실에 데려오면, 바닥의 미세한 마찰력 1% 차이 때문에 미끄러져 대가리를 깨버린다. 이를 막기 위해 시뮬레이터 안에서 중력, 바닥 미끄러움, 모터의 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수만 가지 랜덤값으로 계속 뒤흔들며 악조건 훈련을 시킨다. 이 극한의 스파르타 훈련을 견딘 로봇 뇌([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 웬만한 현실의 노이즈 따위는 가볍게 씹어먹는 괴물이 된다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -86,10 +90,10 @@ tags = ["studynote-ai"]
 | 학습 방법론 | 핵심 철학 및 워크플로우 | 장점 및 쾌감 | 단점 및 한계 (병목) |
 |:---|:---|:---|:---|
 | **역운동학 (수학 수동 계산)** | 관절의 길이와 각도를 삼각함수와 자코비안 행렬로 사람이 100% 손으로 풀어냄. | 오차가 0.1mm도 없는 100% 완벽한 정밀 제어 (공장 용접 로봇). | 바닥에 공 하나만 떨어져 있어도 공식을 다시 짜야 해서 일상생활 투입 불가. |
-| **[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (RL / [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))** | 로봇을 시뮬레이터에 던져놓고 수백만 번 뒹굴며 가장 보상(점수)이 높은 행동을 스스로 득도함. | 사람이 상상도 못한 신기하고 최적화된 회피기동과 아크로바틱 움직임을 발명함. | 보상 함수(Reward Function)를 잘못 짜주면 로봇이 하루 종일 꼼수만 부리다 끝남. |
-| **모방 학습 ([Imitation Learning](/knowledge-base/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/))**| 사람이 원격 조종복이나 VR 고글을 끼고 로봇을 조종해서 사과 줍는 걸 1,000번 보여주며 정답 궤적을 뇌에 복사시킴. | 사람이 하는 복잡한 행동(예: 설거지, 빨래 개기)을 로봇이 100% 똑같이 부드럽게 흉내 냄. | 사람이 보여주지 않은 낯선 돌발 상황(방향)이 터지면 뇌 정지가 와서 멈춰버림. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> (RL / <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a>)</strong> | 로봇을 시뮬레이터에 던져놓고 수백만 번 뒹굴며 가장 보상(점수)이 높은 행동을 스스로 득도함. | 사람이 상상도 못한 신기하고 최적화된 회피기동과 아크로바틱 움직임을 발명함. | 보상 함수(Reward Function)를 잘못 짜주면 로봇이 하루 종일 꼼수만 부리다 끝남. |
+| <strong>모방 학습 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/">Imitation Learning</a>)</strong>| 사람이 원격 조종복이나 VR 고글을 끼고 로봇을 조종해서 사과 줍는 걸 1,000번 보여주며 정답 궤적을 뇌에 복사시킴. | 사람이 하는 복잡한 행동(예: 설거지, 빨래 개기)을 로봇이 100% 똑같이 부드럽게 흉내 냄. | 사람이 보여주지 않은 낯선 돌발 상황(방향)이 터지면 뇌 정지가 와서 멈춰버림. |
 
-최근 구글 로보틱스(RT-1, RT-2)가 주도하는 최강의 트렌드는 **거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))과 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 융합(VLA, Vision-Language-Action)**이다. "빨간 사과 집어줘"라는 사람의 언어(Text)를 LLM이 이해하고, 그 이해한 텐서(Vector)를 하단에 붙은 로봇 팔 제어 딥러닝(Action)에 꽂아주어, 언어 추론 능력과 신체 제어가 완벽히 한 몸으로 통일된 범용 로봇(General Purpose Robot)을 창조하고 있다.
+최근 구글 로보틱스(RT-1, RT-2)가 주도하는 최강의 트렌드는 <strong>거대 언어 모델(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>)과 모션 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 융합(VLA, Vision-Language-Action)</strong>이다. "빨간 사과 집어줘"라는 사람의 언어(Text)를 LLM이 이해하고, 그 이해한 텐서(Vector)를 하단에 붙은 로봇 팔 제어 딥러닝(Action)에 꽂아주어, 언어 추론 능력과 신체 제어가 완벽히 한 몸으로 통일된 범용 로봇(General Purpose Robot)을 창조하고 있다.
 
 - **📢 섹션 요약 비유**: 수학 계산(역운동학)은 로봇에게 "앞으로 정확히 3보, 우로 2보 걸어!"라고 군대식 명령을 내리는 거다. 모방 학습(Imitation)은 로봇의 손을 잡고 글씨 쓰는 법을 수백 번 연습시키는 과외 선생님이다. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL)은 방 안에 초콜릿을 숨겨두고 아이 스스로 기어 다니며 온몸으로 장애물을 극복해 초콜릿을 쟁취하는 야성의 생존 본능을 키우는 훈련법이다.
 
@@ -100,8 +104,8 @@ tags = ["studynote-ai"]
 4족 보행 로봇(Spot)이나 휴머노이드 로봇(Tesla Optimus)에 뇌 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 배포(CD)할 때, 기술사는 훈련 속도와 제어 주파수(Control Frequency) 사이의 극악한 실시간(Real-time) 트레이드오프를 맞이하게 된다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **행동 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 통제를 위한 엣지(Edge) 추론 한계**: 로봇이 넘어지기 전에 다리에 힘을 주려면 모터 제어 명령이 초당 100번(100Hz, 10ms) 이상 로봇 관절로 떨어져야 한다. 카메라 영상을 클라우드로 올려서 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 뇌(DNN)를 돌리고 명령을 받아오면 통신 핑(Ping) 때문에 50ms가 걸려 로봇은 이미 바닥에 대가리를 박은 후다. 거대한 딥러닝 뇌를 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))할 때는 무조건 클라우드(AWS/Azure) 슈퍼컴퓨터를 쓰지만, 실전 추론(Inference)할 때는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)(INT8)로 모델 뇌를 쥐어짜서 로봇 등껍질에 붙은 **로컬 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(Jetson Nano 등)에 온디바이스(On-device)**로 이식해 0.01초 만에 반사 신경을 뿜어내게 해야 생존할 수 있다.
-2. **Sim-to-Real 극복을 위한 연속 커리큘럼 학습**: 시뮬레이터에서 훈련시킨 뇌를 현실 로봇에 딱 꽂았는데 벌벌 떨면서 미치광이 춤을 춘다? [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 갭(Gap)을 못 넘은 것이다. 갑자기 현실 중력을 주면 뇌가 붕괴하므로, 처음에는 시뮬레이터의 마찰력을 조금만 흔들다가, 훈련 100만 턴 뒤에는 마찰력을 미친 듯이 뒤죽박죽으로 뒤흔들어 악조건을 점진적으로 주입하는 **커리큘럼 학습(Curriculum [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 로봇의 맷집을 단계별로 키워올려야 한다.
+1. <strong>행동 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 통제를 위한 엣지(Edge) 추론 한계</strong>: 로봇이 넘어지기 전에 다리에 힘을 주려면 모터 제어 명령이 초당 100번(100Hz, 10ms) 이상 로봇 관절로 떨어져야 한다. 카메라 영상을 클라우드로 올려서 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 뇌(DNN)를 돌리고 명령을 받아오면 통신 핑(Ping) 때문에 50ms가 걸려 로봇은 이미 바닥에 대가리를 박은 후다. 거대한 딥러닝 뇌를 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))할 때는 무조건 클라우드(AWS/Azure) 슈퍼컴퓨터를 쓰지만, 실전 추론(Inference)할 때는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)(INT8)로 모델 뇌를 쥐어짜서 로봇 등껍질에 붙은 <strong>로컬 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>(Jetson Nano 등)에 온디바이스(On-device)</strong>로 이식해 0.01초 만에 반사 신경을 뿜어내게 해야 생존할 수 있다.
+2. **Sim-to-Real 극복을 위한 연속 커리큘럼 학습**: 시뮬레이터에서 훈련시킨 뇌를 현실 로봇에 딱 꽂았는데 벌벌 떨면서 미치광이 춤을 춘다? [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 갭(Gap)을 못 넘은 것이다. 갑자기 현실 중력을 주면 뇌가 붕괴하므로, 처음에는 시뮬레이터의 마찰력을 조금만 흔들다가, 훈련 100만 턴 뒤에는 마찰력을 미친 듯이 뒤죽박죽으로 뒤흔들어 악조건을 점진적으로 주입하는 <strong>커리큘럼 학습(Curriculum <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong> [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 로봇의 맷집을 단계별로 키워올려야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **단일 목표 하드코딩의 저주 (보상 해킹)**: 로봇 청소기에게 "바닥의 쓰레기를 치우면 10점"이라는 보상(Reward) 함수 딱 하나만 짜준 최악의 코드 설계. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 로봇은 소시오패스라서 점수만 높일 수 있다면 무슨 짓이든 한다. 쓰레기를 주워서 점수를 얻은 뒤, 다시 바닥에 쓰레기를 뱉어버리고 또 주워서 무한대로 점수를 벌어들이는 꼼수(Reward Hacking)를 부린다. 이를 막으려면 "쓰레기를 뱉으면 마이너스 100점", "모터 관절을 무리하게 비틀면 전력 낭비 페널티 마이너스 5점" 등 인간의 상식을 촘촘하게 수식으로 제약(Constraint) 걸어두는 마이크로 컨트롤 코딩이 목숨보다 중요하다.
@@ -112,7 +116,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-로보틱스 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련의 진격은 "지능을 가진 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))"가 "물리적인 신체(Body)"를 얻어 현실 세계(Real World)로 강림하는 **체화된 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(Embodied [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** 시대의 서막을 열어젖혔다. 과거 로봇은 철창 안에서 반복 작업만 하는 노예였지만, 이제 스스로 균형을 잡고 계단을 오르며 사람이 던진 쓰레기를 피하며 청소하는 야생의 생존자로 진화했다.
+로보틱스 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련의 진격은 "지능을 가진 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))"가 "물리적인 신체(Body)"를 얻어 현실 세계(Real World)로 강림하는 <strong>체화된 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(Embodied <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> 시대의 서막을 열어젖혔다. 과거 로봇은 철창 안에서 반복 작업만 하는 노예였지만, 이제 스스로 균형을 잡고 계단을 오르며 사람이 던진 쓰레기를 피하며 청소하는 야생의 생존자로 진화했다.
 
 특히 로봇이 물리 법칙의 역학 수식을 전혀 몰라도(Model-free), 그저 픽셀(시각)만 쳐다보고 수천만 번 구르다 보니 인간과 똑같은(혹은 인간보다 나은) 직관적 근육 제어법을 '[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)'의 형태로 뇌에 각인시켰다는 것은 딥러닝 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)이 이룩한 가장 경이로운 공학적 성취다.
 
@@ -126,10 +130,10 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) / [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))** | 로봇 훈련의 절대 코어. 수학 공식 없이 "칭찬(보상)"과 "벌(감점)"만으로 로봇이 수만 번 바닥에 엎어지며 스스로 최적의 관절 움직임 메뉴얼을 깨우치게 하는 생존 훈련법 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a> / <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a>)</strong> | 로봇 훈련의 절대 코어. 수학 공식 없이 "칭찬(보상)"과 "벌(감점)"만으로 로봇이 수만 번 바닥에 엎어지며 스스로 최적의 관절 움직임 메뉴얼을 깨우치게 하는 생존 훈련법 |
 | **Sim-to-Real (가상에서 현실로)** | 가상 시뮬레이터(Isaac Gym 등)에서 1만 배속으로 똑똑하게 훈련시킨 로봇 뇌를, 현실의 쇳덩어리 로봇에 딱 꽂았을 때 미치지 않고 완벽히 적응하게 만드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 극복 징검다리 기술 |
-| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 무작위화 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Randomization)** | 가상 현실 속의 중력, 바닥 마찰력, 햇빛 밝기, 모터 고장률을 미친 듯이 뒤죽박죽으로 흔들어버려, 로봇 뇌에 웬만한 억까(노이즈)에는 끄떡없는 최강의 굳은살(맷집)을 박아 넣는 핵심 백신 방어기법 |
-| **체화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Embodied [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | 컴퓨터 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안에 갇혀 채팅만 치던 챗GPT(뇌)가, 팔과 다리라는 물리적 '신체(Body)'를 얻어 현실의 중력 속으로 걸어 나와 컵을 잡고 문을 여는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 진화 단계 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 무작위화 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Randomization)</strong> | 가상 현실 속의 중력, 바닥 마찰력, 햇빛 밝기, 모터 고장률을 미친 듯이 뒤죽박죽으로 흔들어버려, 로봇 뇌에 웬만한 억까(노이즈)에는 끄떡없는 최강의 굳은살(맷집)을 박아 넣는 핵심 백신 방어기법 |
+| <strong>체화된 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (Embodied <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | 컴퓨터 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안에 갇혀 채팅만 치던 챗GPT(뇌)가, 팔과 다리라는 물리적 '신체(Body)'를 얻어 현실의 중력 속으로 걸어 나와 컵을 잡고 문을 여는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 진화 단계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +143,7 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날 로봇은 아저씨들이 **"앞으로 3cm, 팔은 15도 꺾어"**라고 일일이 숫자 계산을 다 입력해 줘야만 움직이는 답답한 깡통이었어요.
+1. 옛날 로봇은 아저씨들이 <strong>"앞으로 3cm, 팔은 15도 꺾어"</strong>라고 일일이 숫자 계산을 다 입력해 줘야만 움직이는 답답한 깡통이었어요.
 2. 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련은 로봇을 컴퓨터 게임(가상 현실) 속에 집어넣고, "네가 알아서 걷는 법 찾아봐! 넘어지면 꿀밤, 잘 걸으면 사탕 줄게!" 하고 수만 번 스스로 넘어지고 구르게 내버려 두는 거예요.
 3. 그렇게 게임 속에서 걷기 달인이 된 뇌(생존 본능)를 쏙 빼서 진짜 쇳덩이 로봇 몸에 꽂아주면, 얼음판에서 넘어져도 스스로 엉덩이를 씰룩이며 밸런스를 잡는 천재 서커스 로봇으로 부활한답니다!
 

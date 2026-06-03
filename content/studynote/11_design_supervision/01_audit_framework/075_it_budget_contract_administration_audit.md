@@ -23,13 +23,16 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 문제는 이 흐름이 하나라도 끊기면 예산은 남았는데 계약이 없거나, 계약은 있는데 추가과업이 빠지거나, 검수는 끝났는데 청구 금액이 맞지 않는 일이 생긴다는 점이다.
 감리는 그래서 "얼마를 썼나"보다 "무엇을 근거로 썼나"를 본다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ Budget -> Contract -> Work -> Accept -> Settle          │
-├────────┬───────────┬────────┬─────────┬───────────────┤
-│ limit  │ clauses   │ output │ proof   │ payment       │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Budget -&gt; Contract -&gt; Work -&gt; Accept -&gt; Settle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">limit</div><div class="kb-diagram-cell">clauses</div><div class="kb-diagram-cell">output</div><div class="kb-diagram-cell">proof</div><div class="kb-diagram-cell">payment</div></div>
+</div>
+</div>
+
+
 
 이 흐름이 끊기면 예산 집행은 행정이 되고, 계약은 종이가 되며, 정산은 회계만 남는다.
 
@@ -108,27 +111,27 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-기획
-  │
-  ▼
-예산 배정
-  │
-  ▼
-계약 체결
-  │
-  ▼
-수행·변경 관리
-  │
-  ▼
-검수
-  │
-  ▼
-정산
-  │
-  ▼
-감사 판단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기획</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예산 배정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계약 체결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수행·변경 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">감사 판단</div>
+</div>
+</div>
+
+
 
 ### 어린이를 위한 3줄 비유 설명
 

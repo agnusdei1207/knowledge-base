@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Consumer Lag (소비자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽의 최신 오프셋(Latest Offset)과 Consumer 그룹이 커밋한 오프셋(Committed Offset)의 차이로, "Consumer가 Producer보다 얼마나 뒤처져 있는가"를 나타내는 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 건강 지표다.
-- **가치**: Consumer Lag 급증은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 병목(처리 속도 < 수신 속도)의 조기 경보이며, Lag=0이 목표이나 일시적 급증은 정상이므로 **트렌드와 임계값**을 기반으로 오토스케일링과 알림 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
+- **가치**: Consumer Lag 급증은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 병목(처리 속도 < 수신 속도)의 조기 경보이며, Lag=0이 목표이나 일시적 급증은 정상이므로 <strong>트렌드와 임계값</strong>을 기반으로 오토스케일링과 알림 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 - **판단 포인트**: Consumer Lag이 계속 증가하면 Consumer를 수평 확장하거나([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수만큼), 소비 처리 로직을 최적화하거나, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 생산 속도를 낮추는 세 가지 대응 중 병목 위치에 따라 선택해야 한다.
 
 ---
@@ -21,23 +21,27 @@ tags = ["studynote-bigdata"]
 
 ### 1. Consumer Lag의 정의
 
-```
-Kafka Topic "orders":
-  파티션 0: 최신 오프셋 = 10,000 (Producer가 여기까지 씀)
-  파티션 0: Consumer 커밋 오프셋 = 9,500 (Consumer가 여기까지 읽음)
-  → Lag = 10,000 - 9,500 = 500 (메시지 500개 미처리)
 
-파티션 1: 최신 = 8,000, 커밋 = 8,000 → Lag = 0
-파티션 2: 최신 = 12,000, 커밋 = 11,000 → Lag = 1,000
 
-총 Consumer Lag = 500 + 0 + 1,000 = 1,500
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Kafka Topic "orders":</div>
+<div class="kb-diagram-note">파티션 0: 최신 오프셋 = 10,000 (Producer가 여기까지 씀)</div>
+<div class="kb-diagram-note">파티션 0: Consumer 커밋 오프셋 = 9,500 (Consumer가 여기까지 읽음)</div>
+<div class="kb-diagram-note">→ Lag = 10,000 - 9,500 = 500 (메시지 500개 미처리)</div>
+<div class="kb-diagram-note">파티션 1: 최신 = 8,000, 커밋 = 8,000 → Lag = 0</div>
+<div class="kb-diagram-note">파티션 2: 최신 = 12,000, 커밋 = 11,000 → Lag = 1,000</div>
+<div class="kb-diagram-note">총 Consumer Lag = 500 + 0 + 1,000 = 1,500</div>
+</div>
+</div>
+
+
 
 ### 2. Consumer Lag이 중요한 이유
 
-- **실시간 처리 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)**: Lag이 크면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)가 낮아짐
+- <strong>실시간 처리 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong>: Lag이 크면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)가 낮아짐
 - **장애 예측**: Lag 급증 → 처리 병목 → 잠재적 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)/장애 전조
-- **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**: 지속적인 Lag 증가 = Consumer 추가 또는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최적화 필요
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>: 지속적인 Lag 증가 = Consumer 추가 또는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최적화 필요
 
 **📢 섹션 요약 비유**
 > Consumer Lag는 "편의점 계산대 앞 대기 줄 길이"다. 줄이 0이면 실시간 처리, 줄이 100명이면 주문이 100개 밀려 있다는 의미다. 줄이 계속 길어지면 계산원(Consumer)을 더 배치해야 한다.
@@ -74,7 +78,7 @@ kafka-consumer-groups.sh \
 
 ### 3. Burrow의 Lag 판단 로직
 
-Burrow (LinkedIn, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))는 단순 Lag 숫자가 아닌 **Consumer의 처리 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 여부**로 판단한다.
+Burrow (LinkedIn, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))는 단순 Lag 숫자가 아닌 <strong>Consumer의 처리 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 여부</strong>로 판단한다.
 
 ```
 판단 기준:
@@ -128,17 +132,23 @@ spec:
 
 ### 1. Consumer Lag [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처
 
-```
-Kafka Cluster
-    ↓ JMX Metrics 수집
-JMX Exporter (Prometheus)
-    ↓
-Prometheus → Grafana 대시보드
-    ↓ Lag > 임계값
-AlertManager → PagerDuty / Slack 알림
-    ↓ Lag 지속 증가
-KEDA / Custom HPA → Consumer Pod 스케일아웃
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Kafka Cluster</div>
+<div class="kb-diagram-note">↓ JMX Metrics 수집</div>
+<div class="kb-diagram-note">JMX Exporter (Prometheus)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Prometheus → Grafana 대시보드</div>
+<div class="kb-diagram-note">↓ Lag &gt; 임계값</div>
+<div class="kb-diagram-note">AlertManager → PagerDuty / Slack 알림</div>
+<div class="kb-diagram-note">↓ Lag 지속 증가</div>
+<div class="kb-diagram-note">KEDA / Custom HPA → Consumer Pod 스케일아웃</div>
+</div>
+</div>
+
+
 
 ### 2. 알림 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
 
@@ -176,7 +186,7 @@ KEDA / Custom HPA → Consumer Pod 스케일아웃
 
 ### 2. 결론
 
-Consumer Lag는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 **가장 중요한 단일 건강 지표**다. 기술사 답안에서는 Lag의 수식 정의(Latest - Committed Offset), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 도구(Burrow, JMX), 원인별 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 오토스케일링과의 연계를 체계적으로 서술하면 된다.
+Consumer Lag는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 <strong>가장 중요한 단일 건강 지표</strong>다. 기술사 답안에서는 Lag의 수식 정의(Latest - Committed Offset), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 도구(Burrow, JMX), 원인별 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 오토스케일링과의 연계를 체계적으로 서술하면 된다.
 
 **📢 섹션 요약 비유**
 > Consumer Lag는 공장 생산라인의 "미완성 재공품(WIP) 수량"이다. WIP가 0이면 완벽한 흐름, WIP가 늘어나면 어딘가 병목이 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 공장 관리자([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템)는 WIP 추이를 실시간으로 보고 라인을 조정한다.
@@ -196,21 +206,23 @@ Consumer Lag는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Kafka 프로듀서 (Producer) — 토픽 파티션에 메시지 비동기 발행]
-    │
-    ▼
-[오프셋 (Offset) — 파티션 내 메시지 위치, LEO vs 커밋 오프셋 구분]
-    │
-    ▼
-[Consumer Lag — LEO - Current Offset, 소비 지연 누적량 정량 측정]
-    │
-    ▼
-[컨슈머 그룹 모니터링 — Burrow·kafka-consumer-groups로 실시간 Lag 추적]
-    │
-    ▼
-[자동 스케일링 (KEDA) — Lag 임계값 기반 컨슈머 인스턴스 수평 확장·축소]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka 프로듀서 (Producer) — 토픽 파티션에 메시지 비동기 발행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오프셋 (Offset) — 파티션 내 메시지 위치, LEO vs 커밋 오프셋 구분</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer Lag — LEO - Current Offset, 소비 지연 누적량 정량 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨슈머 그룹 모니터링 — Burrow·kafka-consumer-groups로 실시간 Lag 추적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동 스케일링 (KEDA) — Lag 임계값 기반 컨슈머 인스턴스 수평 확장·축소</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 발행에서 오프셋 개념으로 Consumer Lag이 정의되고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 도구로 가시화된 뒤 KEDA 기반 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)으로 Lag을 능동적으로 제어하는 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영의 핵심 계보를 보여준다.
 

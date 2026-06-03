@@ -109,21 +109,23 @@ SQL Text → Tokens → Parse Tree → Semantic Check → Query Plan
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SQL 문장
-    │
-    ▼
-토큰화 (Lexer)
-    │
-    ▼
-파스 트리 (Parser)
-    │
-    ▼
-AST / 의미 분석
-    │
-    ▼
-실행 계획 / 실행기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SQL 문장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토큰화 (Lexer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파스 트리 (Parser)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AST / 의미 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실행 계획 / 실행기</div>
+</div>
+</div>
+
+
 
 이 흐름은 사람이 읽는 SQL이 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부에서 실행 가능한 구조로 바뀌는 과정을 보여준다.
 

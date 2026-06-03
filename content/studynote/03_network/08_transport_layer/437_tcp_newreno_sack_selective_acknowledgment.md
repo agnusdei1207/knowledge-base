@@ -24,18 +24,22 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 
   - **Reno (구형)**: 택배 100개를 시켰는데 10번과 20번이 안 왔습니다. 고객은 "10번 안 왔어!"라고 1차 클레임을 겁니다(속도 삭감). 회사가 10번을 보내줍니다. 그제야 고객은 "20번도 안 왔어!"라고 2차 클레임을 겁니다(속도 또 삭감). 배송 회사는 암 걸립니다.
-  - **SACK (신형)**: 고객이 택배를 받자마자, **"1~9번 오케이, [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)~19번 오케이, 21~100번 오케이!"라고 영수증에 형광펜으로 칠해서(SACK 블록)** 보냅니다. 배송 회사는 영수증을 딱 보고, **"아 10번이랑 20번 2개가 비었네? 한 번에 퀵으로 쏴줄게! (속도 삭감은 1번만)"**라며 눈부신 처리를 보여줍니다.
+  - **SACK (신형)**: 고객이 택배를 받자마자, <strong>"1~9번 오케이, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>~19번 오케이, 21~100번 오케이!"라고 영수증에 형광펜으로 칠해서(SACK 블록)</strong> 보냅니다. 배송 회사는 영수증을 딱 보고, <strong>"아 10번이랑 20번 2개가 비었네? 한 번에 퀵으로 쏴줄게! (속도 삭감은 1번만)"</strong>라며 눈부신 처리를 보여줍니다.
 
-```text
-[TCP Reno 모델]
-    │
-    ▼
-[TCP NewReno / SACK]
-    │
-    └──▶ [TCP BIC / CUBIC]
-```
 
-- **📢 섹션 요약 비유**: ** SACK(선택적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답)은 시험지 채점을 할 때 "너 3번 틀렸어 다시 풀어와" 하고 다시 풀어오면 "7번도 틀렸어 다시 풀어와" 하는 꼰대 선생님(Reno)의 방식을 부수고, **처음부터 "너 3번이랑 7번 틀렸어!"라고 한 번에 채점표를 쥐여주는 1타 강사의 명쾌한 족집게 과외**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Reno 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP NewReno / SACK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP BIC / CUBIC</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> SACK(선택적 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 응답)은 시험지 채점을 할 때 "너 3번 틀렸어 다시 풀어와" 하고 다시 풀어오면 "7번도 틀렸어 다시 풀어와" 하는 꼰대 선생님(Reno)의 방식을 부수고, </strong>처음부터 "너 3번이랑 7번 틀렸어!"라고 한 번에 채점표를 쥐여주는 1타 강사의 명쾌한 족집게 과외**입니다.
 
 ---
 
@@ -45,33 +49,33 @@ tags = ["studynote-network"]
 SACK 옵션이 켜져 있지 않은 낡은 PC들 사이에서도 다중 유실을 막기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 살짝 고친 것이 NewReno다.
 - **Reno의 바보짓**: 유실된 10번을 재전송하고, 수신자가 `ACK 20`을 보내면 "오 10번 잘 갔네! [Fast Recovery](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/) 끝! 정상 주행!" 하고 샴페인을 터뜨렸다. 그런데 바로 다음 순간 `20번`이 없다고 징징대면 "헐? 새 사고 터졌네? 또 절반 깎자!"
 - **NewReno의 눈치**: 수신자가 `ACK 20`을 보냈다 치자. NewReno는 샴페인을 안 터뜨린다. "잠깐만. 내가 아까 창문(Window) 하나에 100번까지 꽉꽉 채워 보냈는데, 쟤가 왜 100번을 불렀다 안 하고 20번을 부르지? **아! 아까 10번 날아갈 때 20번 놈도 같이 바다에 빠진 거구나 (Partial ACK 감지)!!**"
-- **조치**: NewReno는 이 상황을 '새로운 사고'로 안 보고, **'아까 난 사고 수습 중([Fast Recovery](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중)'**으로 간주하여 속도(CWND)를 깎지 않고 20번을 부드럽게 재전송해 준다.
+- **조치**: NewReno는 이 상황을 '새로운 사고'로 안 보고, <strong>'아까 난 사고 수습 중(<a href="/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/">Fast Recovery</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중)'</strong>으로 간주하여 속도(CWND)를 깎지 않고 20번을 부드럽게 재전송해 준다.
 
 ### 2. 궁극의 치트키 SACK (Selective Acknowledgment)
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신을 처음 맺을 때(SYN [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)), `Options` 구역에 "나 SACK 지원함!"이라고 합의를 마친다.
 - **SACK Block의 구조**: 수신자는 기본 영수증(`ACK=10`)을 보내면서, 헤더 꼬리표(Option)에 4개의 블록을 더 적어 보낼 수 있다.
   - "기본적으로 10번까지 받았어. (근데 11번이 안 왔어)"
   - "[SACK Option]: 근데 나 15~20번은 받았고, 25~30번도 받았어!"
-- **송신자의 광속 재전송**: 이 엽서를 받은 송신자는 머리를 1초도 안 굴리고, 뻥 뚫려있는 빈 공간인 **[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)~14번과 21~24번 패킷만 핀셋으로 쏙쏙 뽑아내어 한 방에 재전송**해 버린다.
+- **송신자의 광속 재전송**: 이 엽서를 받은 송신자는 머리를 1초도 안 굴리고, 뻥 뚫려있는 빈 공간인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>~14번과 21~24번 패킷만 핀셋으로 쏙쏙 뽑아내어 한 방에 재전송</strong>해 버린다.
 - 결과적으로 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 따위는 절대 구경할 수 없는 무적의 다운로드 속도가 유지된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                와이어샤크(Wireshark)에서 SACK 블록 훔쳐보기        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 TCP 헤더 영역 ]                                       │
- │   Acknowledgment number: 1000  ◀─ "나 999까지 받았어! 1000번 내놔!" │
- │                                                             │
- │   [ Options 영역 (SACK 켜짐) ]                                 │
- │   TCP SACK Option:                                          │
- │     - SACK Left Edge: 1500                                  │
- │     - SACK Right Edge: 2000 ◀─ "근데 1500~1999번은 잘 도착해 있어!" │
- │                                                             │
- │   ▶ 송신자의 행동: "오케이! 너 1000번부터 1499번까지만 잃어버렸구나!  │
- │                   내가 그 구간만 핀셋으로 뽑아서 지금 당장 쏴줄게!!"  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이어샤크(Wireshark)에서 SACK 블록 훔쳐보기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 TCP 헤더 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acknowledgment number: 1000 ◀─ "나 999까지 받았어! 1000번 내놔!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Options 영역 (SACK 켜짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP SACK Option:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SACK Left Edge: 1500</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SACK Right Edge: 2000 ◀─ "근데 1500~1999번은 잘 도착해 있어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 송신자의 행동: "오케이! 너 1000번부터 1499번까지만 잃어버렸구나!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 그 구간만 핀셋으로 뽑아서 지금 당장 쏴줄게!!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** SACK은 치과 의사가 쓰는 **"충치 파노라마 엑스레이"**입니다. 환자(수신자)가 "이빨 아파요(기본 ACK)"라고 징징댈 때, 의사(송신자)가 이빨을 하나하나 두드려가며 아픈 곳을 찾는 게(Reno) 아니라, 엑스레이(SACK 블록) 사진 한 장 딱 보고 **"아, 왼쪽 어금니 두 개 썩었네" 하고 정확히 그 두 곳만 0.1초 만에 핀셋 치료(재전송)를 끝내버리는 현대 의학의 기적**입니다.
 
@@ -129,15 +133,19 @@ SACK 옵션이 켜져 있지 않은 낡은 PC들 사이에서도 다중 유실�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TCP Reno 모델]
-    │
-    ▼
-[현재 개념: TCP NewReno / SACK]
-    │
-    ├──▶ [확장 A: TCP BIC / CUBIC]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP Reno 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP NewReno / SACK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP BIC / CUBIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) NewReno / SACK는 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

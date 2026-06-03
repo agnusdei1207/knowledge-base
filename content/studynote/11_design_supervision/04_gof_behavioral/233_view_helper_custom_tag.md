@@ -38,38 +38,39 @@ ${userHelper.renderRoleBadge(user)}
 <myapp:roleBadge user="${user}" />
 ```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 요리 레시피에 "계란 3개를 깨서 거품기로 10분 저어라"를 매번 쓰는 대신, "머랭 만들기" 한 단어로 대체하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────┐
-│                  Presentation Layer                        │
-│                                                            │
-│  ┌──────────────┐   호출    ┌──────────────────────────┐   │
-│  │   JSP / 템플  │──────────▶│  View Helper Class       │   │
-│  │  (표현 전용)  │           │  - formatDate()          │   │
-│  │              │◀──────────│  - renderPagination()    │   │
-│  └──────┬───────┘  HTML 반환│  - maskEmail()           │   │
-│         │                  └──────────────────────────┘   │
-│         │ <myapp:tag>                                      │
-│         ▼                                                  │
-│  ┌──────────────────────────────────────────────────┐      │
-│  │  Custom Tag Library (TLD: Tag Library Descriptor)│      │
-│  │  ┌──────────────┐  ┌──────────────────────────┐  │      │
-│  │  │  Tag Handler  │  │  TagExtraInfo (TEI)      │  │      │
-│  │  │ (doStartTag) │  │  (타입 검사, 변수 선언)    │  │      │
-│  │  └──────────────┘  └──────────────────────────┘  │      │
-│  └──────────────────────────────────────────────────┘      │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Presentation Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JSP / 템플</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">View Helper Class</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표현 전용)</div><div class="kb-diagram-cell">- formatDate()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">- renderPagination()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTML 반환</div><div class="kb-diagram-cell">- maskEmail()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;myapp:tag&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Custom Tag Library (TLD: Tag Library Descriptor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag Handler</div><div class="kb-diagram-cell">TagExtraInfo (TEI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(doStartTag)</div><div class="kb-diagram-cell">(타입 검사, 변수 선언)</div></div>
+</div>
+</div>
+
+
 
 ```java
 // View Helper 클래스
@@ -121,14 +122,18 @@ public class DateHelper {
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-```
-표현 로직 복잡도?
-      │
-      ├── 단순 (포맷, null 처리)  → View Helper 메서드
-      │
-      └── 복잡 (중첩 HTML 생성,  → Custom Tag / Component
-              이벤트 처리 포함)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">표현 로직 복잡도?</div>
+<div class="kb-diagram-tree-item" style="--depth:3">단순 (포맷, null 처리) → View Helper 메서드</div>
+<div class="kb-diagram-tree-item" style="--depth:3">복잡 (중첩 HTML 생성, → Custom Tag / Component</div>
+<div class="kb-diagram-note">이벤트 처리 포함)</div>
+</div>
+</div>
+
+
 
 JSTL은 커스텀 태그의 표준화 결과물이다. `c:forEach`, `c:if`, `fmt:formatDate` 등이 대표적이며, 커스텀 태그를 직접 구현하기 전에 JSTL로 해결 가능한지 먼저 검토해야 한다.
 
@@ -158,8 +163,8 @@ void formatDate_nullInput_returnsDash() {
 
 - **코드 중복 제거**: 반복 표현 로직을 단일 위치에서 관리
 - **테스트 용이성**: 순수 Java Helper 메서드의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
-- **[SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) (Separation of Concerns: 관심사 분리)**: 뷰는 "어떻게 보여줄까"만, 헬퍼는 "무엇을 계산할까"만 담당
-- **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)**: 날짜 포맷이 변경되면 Helper 한 곳만 수정
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a> (Separation of Concerns: 관심사 분리)</strong>: 뷰는 "어떻게 보여줄까"만, 헬퍼는 "무엇을 계산할까"만 담당
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong>: 날짜 포맷이 변경되면 Helper 한 곳만 수정
 
 현대 프론트엔드로 갈수록 커스텀 태그의 역할은 React/Vue [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 이관됐지만, 백엔드 렌더링([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/): Server-Side Rendering) 환경이나 레거시 시스템에서는 여전히 핵심 패턴이다.
 

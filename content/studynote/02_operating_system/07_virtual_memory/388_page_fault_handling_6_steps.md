@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 처리 6단계는 CPU(하드웨어)가 램에 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구하며 뻗었을 때, **OS(소프트웨어) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 깨어나 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼와 램에 꽂아주고, 멈췄던 CPU를 다시 완벽하게 살려내는 숨 막히는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 구출 작전**이다.
+> 1. **본질**: [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 처리 6단계는 CPU(하드웨어)가 램에 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구하며 뻗었을 때, <strong>OS(소프트웨어) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 깨어나 디스크에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼와 램에 꽂아주고, 멈췄던 CPU를 다시 완벽하게 살려내는 숨 막히는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 구출 작전</strong>이다.
 > 2. **가치**: 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄링([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)), 디스크 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) I/O, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 갱신이라는 컴퓨터 공학의 모든 핵심 뼈대 기술이 이 6단계 파이프라인 안에 유기적으로 톱니바퀴처럼 맞물려 돌아간다.
-> 3. **융합**: 이 6단계 과정은 수백만 클럭이 소요되는 어마어마한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)을 낳지만, OS가 디스크를 기다리는 동안 **다른 프로세스에게 CPU 제어권을 넘겨주는 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 마술을 부려 시스템 전체의 CPU 가동률(Utilization)을 극한으로 방어**한다.
+> 3. **융합**: 이 6단계 과정은 수백만 클럭이 소요되는 어마어마한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)을 낳지만, OS가 디스크를 기다리는 동안 <strong>다른 프로세스에게 CPU 제어권을 넘겨주는 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a> 마술을 부려 시스템 전체의 CPU 가동률(Utilization)을 극한으로 방어</strong>한다.
 
 ---
 
@@ -23,9 +23,9 @@ tags = ["studynote-operating-system"]
 - **필요성**: CPU는 빛의 속도로 코드를 실행하는 무지성 폭주 기관차다. 눈앞에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 즉시 시스템을 멈추고 블루스크린([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 띄우는 게 원래 하드웨어의 본성이다. 하지만 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 철학을 달성하려면, 이 폭주 기관차를 "안전하게 잠재우고 -> 디스크에서 조용히 선로를 깔아준 뒤 -> 다시 아무 일 없었다는 듯 깨워서 출발"시켜야 한다. 이 과정에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값이 하나라도 꼬이거나 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 두 번 실행되면 프로그램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 산산조각이 나므로, 한 치의 오차도 없는 철통같은 6단계의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 매뉴얼이 필수적이었다.
 
 - **등장 배경 및 난관의 극복**:
-  1. **[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)의 일상화**: 에러일 때만 뜨던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문용으로 일상화시켜야 했다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>의 일상화</strong>: 에러일 때만 뜨던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문용으로 일상화시켜야 했다.
   2. **디스크 병목의 한계**: 디스크 I/O는 8ms로 너무 느리다. CPU가 기다리게 놔두면 서버가 얼어붙는다.
-  3. **[Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Restart ([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재실행) 기술의 완성**: 중간에 끊긴 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 마치 처음 실행한 것처럼 상태를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Roll-back)시키는 하드웨어 지원이 완성되며 6단계 파이프라인이 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Restart (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 재실행) 기술의 완성</strong>: 중간에 끊긴 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 마치 처음 실행한 것처럼 상태를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Roll-back)시키는 하드웨어 지원이 완성되며 6단계 파이프라인이 완성되었다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -37,41 +37,37 @@ tags = ["studynote-operating-system"]
 
 OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽한 6단계 파이프라인 시퀀스다. 외우는 것이 아니라 물 흐르듯 이해해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│              가상 메모리를 살려내는 마법의 6단계 스텝                                  │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                        │
-│ [ 전제 ] CPU가 "가상 3번 페이지 데이터 내놔!" 명령어를 때림.                           │
-│         MMU가 장부를 보니 'I (Invalid)' 비트다.                                        │
-│                                                                                        │
-│ 1️⃣ Step 1: 트랩(Trap) 발생과 OS 진입                                                  │
-│   - 하드웨어(MMU)가 멱살을 잡고 CPU를 멈춤.                                            │
-│   - 제어권이 유저 앱에서 -> OS 커널의 Page Fault Handler로 튕김.                       │
-│                                                                                        │
-│ 2️⃣ Step 2: 합법성 검사 (Legality Check)                                               │
-│   - OS: "이 앱이 허공을 찌른(해킹/버그) 건지, 내 스왑에 있는지 장부(PCB) 보자"         │
-│   - 불법(SegFault)이면 여기서 척살! 합법이면 다음 단계로.                              │
-│                                                                                        │
-│ 3️⃣ Step 3: 빈 프레임(Free Frame) 확보                                                 │
-│   - OS가 램(RAM)을 뒤져 비어있는 4KB 상자 하나를 찾아냄.                               │
-│   - (만약 램이 꽉 찼다면? 여기서 남의 페이지를 쫓아내는 '페이지 교체' 발생)            │
-│                                                                                        │
-│ 4️⃣ Step 4: 디스크(HDD/SSD)에서 페이지 읽기 (I/O)                                      │
-│   - OS가 디스크 컨트롤러에 "스왑 500번 섹터를 아까 찾은 램 빈방에 복사해!" 명령.       │
-│   - ⚠ 주의: 복사에 10ms가 걸리므로 CPU는 기다리지 않고 다른 앱으로 튐(Context Switch)! │
-│                                                                                        │
-│ 5️⃣ Step 5: 페이지 테이블 갱신 (Table Update)                                          │
-│   - 복사가 끝나면 디스크가 "다 옮겼슈!" 하고 인터럽트로 OS를 깨움.                     │
-│   - OS는 페이지 테이블에 [3번 페이지 -> 램 X번 방]으로 적고 `V 비트`를 켬.             │
-│                                                                                        │
-│ 6️⃣ Step 6: 명령어 재실행 (Restart Instruction)                                        │
-│   - OS가 아까 기절시켜둔 앱을 깨우고 레지스터를 복원시킴.                              │
-│   - 터졌던 그 명령어 라인부터 "다시" 실행시킴. 램에 데이터가 있으니 스무스 통과!       │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 6단계는 철저한 비동기(Asynchronous) 이벤트의 릴레이다. 가장 눈여겨볼 곳은 **4단계**다. 디스크에서 램으로 퍼 나르는 시간은 컴퓨터 세계에서 10년과 같은 긴 시간이다. OS는 바보가 아니기 때문에 이 시간 동안 CPU를 놀리지 않는다. 즉, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 나면 그 프로세스는 강제로 `Waiting(Sleep)` 상태로 쫓겨나고, 스케줄러가 `Ready` 큐에 있던 다른 쌩쌩한 프로세스(예: 멜론 플레이어)를 끄집어와 CPU에 태워버린다. (극강의 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 효율).
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리를 살려내는 마법의 6단계 스텝</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제</div><div class="kb-diagram-note">CPU가 "가상 3번 페이지 데이터 내놔!" 명령어를 때림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 장부를 보니 'I (Invalid)' 비트다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ Step 1: 트랩(Trap) 발생과 OS 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하드웨어(MMU)가 멱살을 잡고 CPU를 멈춤.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 제어권이 유저 앱에서 -&gt; OS 커널의 Page Fault Handler로 튕김.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ Step 2: 합법성 검사 (Legality Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이 앱이 허공을 찌른(해킹/버그) 건지, 내 스왑에 있는지 장부(PCB) 보자"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 불법(SegFault)이면 여기서 척살! 합법이면 다음 단계로.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ Step 3: 빈 프레임(Free Frame) 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS가 램(RAM)을 뒤져 비어있는 4KB 상자 하나를 찾아냄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (만약 램이 꽉 찼다면? 여기서 남의 페이지를 쫓아내는 '페이지 교체' 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ Step 4: 디스크(HDD/SSD)에서 페이지 읽기 (I/O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS가 디스크 컨트롤러에 "스왑 500번 섹터를 아까 찾은 램 빈방에 복사해!" 명령.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ⚠ 주의: 복사에 10ms가 걸리므로 CPU는 기다리지 않고 다른 앱으로 튐(Context Switch)!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5️⃣ Step 5: 페이지 테이블 갱신 (Table Update)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복사가 끝나면 디스크가 "다 옮겼슈!" 하고 인터럽트로 OS를 깨움.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- OS는 페이지 테이블에</div><div class="kb-diagram-node">3번 페이지 -&gt; 램 X번 방</div><div class="kb-diagram-note">으로 적고 <code>V 비트</code>를 켬.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6️⃣ Step 6: 명령어 재실행 (Restart Instruction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS가 아까 기절시켜둔 앱을 깨우고 레지스터를 복원시킴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 터졌던 그 명령어 라인부터 "다시" 실행시킴. 램에 데이터가 있으니 스무스 통과!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 6단계는 철저한 비동기(Asynchronous) 이벤트의 릴레이다. 가장 눈여겨볼 곳은 <strong>4단계</strong>다. 디스크에서 램으로 퍼 나르는 시간은 컴퓨터 세계에서 10년과 같은 긴 시간이다. OS는 바보가 아니기 때문에 이 시간 동안 CPU를 놀리지 않는다. 즉, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 나면 그 프로세스는 강제로 `Waiting(Sleep)` 상태로 쫓겨나고, 스케줄러가 `Ready` 큐에 있던 다른 쌩쌩한 프로세스(예: 멜론 플레이어)를 끄집어와 CPU에 태워버린다. (극강의 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 효율).
 
 ---
 
@@ -83,7 +79,7 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 - 디스크 가져와서 6단계로 재시작(`ADD A, B` 처음부터 쳐라!)을 하는 순간, A에 B가 두 번 더해지는 끔찍한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴가 일어난다.
 - **하드웨어의 구원**: 모토로라나 인텔의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CPU 설계자들은 폴트가 터지는 순간 실행 중이던 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 파편들)을 완벽하게 되돌리는 마이크로코드 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 보드([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 칩셋에 때려 박았다. 이 미친 설계 덕분에 6단계는 프로그래머 눈에 100% 투명하게(아무 일 없었던 것처럼) 굴러간다.
 
-- **📢 섹션 요약 비유**: 요리사(CPU)가 당근을 썰다 칼질 3번 만에 "앗 도마가 없네([Page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))" 하고 멈췄습니다. 도마를 사 온 뒤, 요리사는 썰다 만 당근을 마저 써는 게 아니라 아예 **시간을 5초 전으로 되돌려 완전한 새 당근을 다시 처음부터 썰게 만드는([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재실행)** 마법 시계의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)입니다.
+- **📢 섹션 요약 비유**: 요리사(CPU)가 당근을 썰다 칼질 3번 만에 "앗 도마가 없네([Page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))" 하고 멈췄습니다. 도마를 사 온 뒤, 요리사는 썰다 만 당근을 마저 써는 게 아니라 아예 <strong>시간을 5초 전으로 되돌려 완전한 새 당근을 다시 처음부터 썰게 만드는(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 재실행)</strong> 마법 시계의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)입니다.
 
 ---
 
@@ -95,27 +91,30 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 | 항목 | 시스템 콜 (예: `read()`, `printf()`) | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) |
 |:---|:---|:---|
-| **발생 원인** | 프로그래머가 코드에 **의도적**으로 적어넣은 호출 | 아무 생각 없이 변수 읽다 **우발적**으로 지뢰 밟음 |
-| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 종류** | `INT 0x80`, `SYSCALL` 등 명시적 소프트웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어가 멱살 잡는 하드웨어 익셉션(예외) |
-| **처리 후 복귀**| 호출한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 **'다음 줄(Next)'**부터 이어서 실행 | 뻗었던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 **'그 줄(Same)'**부터 처음부터 재실행 |
+| **발생 원인** | 프로그래머가 코드에 <strong>의도적</strong>으로 적어넣은 호출 | 아무 생각 없이 변수 읽다 <strong>우발적</strong>으로 지뢰 밟음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 종류</strong> | `INT 0x80`, `SYSCALL` 등 명시적 소프트웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어가 멱살 잡는 하드웨어 익셉션(예외) |
+| **처리 후 복귀**| 호출한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 <strong>'다음 줄(Next)'</strong>부터 이어서 실행 | 뻗었던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 <strong>'그 줄(Same)'</strong>부터 처음부터 재실행 |
 | **예측 가능성** | 100% 예측 가능 | 언제 어디서 튀어나올지 며느리도 모름 |
 
 ### 숨겨진 함정: [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) ([Page Replacement](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/))
 
-위 6단계 중 **3단계(빈 프레임 확보)**는 이상적인 상황일 뿐이다. 
+위 6단계 중 <strong>3단계(빈 프레임 확보)</strong>는 이상적인 상황일 뿐이다. 
 현실에서는 램이 16GB 꽉 차 있어서 빈방이 단 한 개도 없는 경우가 99%다.
-- 빈방이 없으면 OS는 3.5단계로 **"그럼 지금 램에 있는 놈 중 가장 안 쓸 것 같은 쓰레기 1놈([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 골라서 디스크로 발로 차버려라([Swap Out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/))!"**라는 **[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)([Page Replacement](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/))** 로직을 강제로 태운다.
+- 빈방이 없으면 OS는 3.5단계로 <strong>"그럼 지금 램에 있는 놈 중 가장 안 쓸 것 같은 쓰레기 1놈(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)을 골라서 디스크로 발로 차버려라(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">Swap Out</a>)!"</strong>라는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">Page Replacement</a>)</strong> 로직을 강제로 태운다.
 - 쫓아내는 놈이 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) = 1)라면 디스크에 쓰는 시간(8ms)이 추가로 걸린다. 
 - 결국 빈방이 없으면 [스왑 아웃(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) -> 스왑 인(디스크 읽기)]의 2번 디스크 I/O를 맞아야 해서 페널티 시간이 2배로 폭증한다. (이 교체 알고리즘은 뒤에서 자세히 배운다).
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 램(RAM) 상태│ 3단계 (빈방 찾기)│ 디스크 I/O 횟수 │ 폴트 처리 속도    │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ 빈방 있음 🟢│ 즉시 할당 (O) │ 1번 (읽기만)   │ 평범한 렉 (1x)        │
-│ 빈방 없음 🔴│ 남의 방 뺏기(교체)│ 2번 (쓰고 읽기) │ ☠️ 지옥의 렉 (2x)│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램(RAM) 상태</div><div class="kb-diagram-cell">3단계 (빈방 찾기)</div><div class="kb-diagram-cell">디스크 I/O 횟수</div><div class="kb-diagram-cell">폴트 처리 속도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈방 있음 🟢</div><div class="kb-diagram-cell">즉시 할당 (O)</div><div class="kb-diagram-cell">1번 (읽기만)</div><div class="kb-diagram-cell">평범한 렉 (1x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈방 없음 🔴</div><div class="kb-diagram-cell">남의 방 뺏기(교체)</div><div class="kb-diagram-cell">2번 (쓰고 읽기)</div><div class="kb-diagram-cell">☠️ 지옥의 렉 (2x)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 빈방이 있을 때의 폴트를 Minor/Soft Fault라 치면, 빈방이 없어 남의 방을 뺏어야 하는 폴트는 Major/Hard Fault 중에서도 최악이다. 메모리를 넉넉히 꽂아야 하는 진짜 이유는 이 2배의 '쫓아내고 데려오는 시간'을 없애 빈방(Free list) 여유분을 항상 들고 가기 위함이다.
 
 - **📢 섹션 요약 비유**: 식당(램)에 빈자리가 있으면 대기 손님을 바로 앉히면 되지만(1배 시간), 꽉 차 있으면 밥 다 먹고 폰 보는 밉상 손님을 쫓아내고 테이블 치우는 시간까지 걸려서(2배 시간) 새 손님 앉히는 데 시간이 갑절로 듭니다.
@@ -129,7 +128,7 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 1. **이중 폴트의 공포**:
    - 우분투(게스트) 앱이 폴트를 내면 6단계 처리 과정을 밟는다. 
    - 그런데 게스트 OS가 "좋아, 빈방 5번 램에 꽂아!" 했는데, 그 5번 램이 가짜(가상 램)이고 호스트 OS의 진짜 물리 램에선 디스크로 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)되어 있다면?
-   - **폴트 안에서 또 폴트가 터진다 (Nested [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))**.
+   - <strong>폴트 안에서 또 폴트가 터진다 (Nested <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>.
 2. **오버헤드의 기하급수적 팽창**:
    - 게스트 OS의 6단계 처리를 하려고 디스크를 읽으려는데 호스트 OS도 6단계 처리를 하느라 디스크를 또 긁는다. 수십 밀리초의 렉이 발생해 클라우드 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 토막 난다.
 3. **인텔의 구원 (HW 가속)**:
@@ -137,7 +136,7 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 대용량 배열의 랜덤 엑세스
 자바나 C++로 10GB짜리 배열을 만들고, 인덱스를 1, 1억, 5십만, 2천만... 이런 식으로 무작위(Random)로 뛰면서 찌르는 코드를 짜면 어떻게 될까?
-연속성이 없으니 매번 찌를 때마다 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 6단계 파이프라인이 펑펑 터진다. OS는 4KB 조각을 가져오느라 디스크를 미친 듯이 긁고, 가져온 조각은 단 1바이트만 쓰고 바로 버려지며 램에서 쫓겨난다. "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))"으로 인해 CPU 점유율은 1%인데 시스템 Load는 100을 찍으며 서버는 영원한 동면에 빠진다. **코드는 무조건 배열의 0번지부터 순차적으로(Sequential) 핥고 지나가야 [선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)(Readahead)의 버프를 받아 폴트를 피할 수 있다.**
+연속성이 없으니 매번 찌를 때마다 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 6단계 파이프라인이 펑펑 터진다. OS는 4KB 조각을 가져오느라 디스크를 미친 듯이 긁고, 가져온 조각은 단 1바이트만 쓰고 바로 버려지며 램에서 쫓겨난다. "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))"으로 인해 CPU 점유율은 1%인데 시스템 Load는 100을 찍으며 서버는 영원한 동면에 빠진다. <strong>코드는 무조건 배열의 0번지부터 순차적으로(Sequential) 핥고 지나가야 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">선행 페이징</a>(Readahead)의 버프를 받아 폴트를 피할 수 있다.</strong>
 
 - **📢 섹션 요약 비유**: 은행 창구([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 6단계)에서 앞사람이 볼일 보는 동안 뒷사람 100명이 짜증 내며 기다리는데, 앞사람이 "천 원 입금하고, 다시 만 원 찾고, 다시 천 원 입금하고..." 미친 짓(랜덤 엑세스)을 반복하면 은행 업무가 마비되는 꼴입니다. 한 번에 "10만 원 입금" 서류를 내는 게(순차적 접근) 매너입니다.
 
@@ -149,9 +148,9 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 | 구분 | 내용 |
 |:---|:---|
-| **논리-물리 갭(Gap)의 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**| 에러([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 정상 루틴으로 승화시킴으로써, 앱 개발자는 물리 램이 1GB든 100GB든 1도 신경 쓰지 않고 무한대인 양 코딩 가능 |
+| <strong>논리-물리 갭(Gap)의 완벽한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>| 에러([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 정상 루틴으로 승화시킴으로써, 앱 개발자는 물리 램이 1GB든 100GB든 1도 신경 쓰지 않고 무한대인 양 코딩 가능 |
 | **CPU 가동률(Utilization) 방어** | 디스크 I/O를 기다리는 영겁의 시간 동안 문맥 교환을 쳐서 다른 프로세스에게 CPU를 넘겨주어 전체 시스템 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 극대화 |
-| **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 뼈대 완성** | "가짜 주소를 진짜 주소로 이어주고 멈췄던 곳부터 다시 돌린다"는 이 6단계는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 시스템을 지탱하는 가장 거룩한 십자가 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>의 뼈대 완성</strong> | "가짜 주소를 진짜 주소로 이어주고 멈췄던 곳부터 다시 돌린다"는 이 6단계는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 시스템을 지탱하는 가장 거룩한 십자가 |
 
 ### 결론 및 미래 전망
 
@@ -172,15 +171,19 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[페이지 부재 (Page Fault)]
-    │
-    ▼
-[페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]
-    │
-    ├──▶ [페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
-    └──▶ [스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 (Page Fault)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -10,9 +10,9 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 빅 엔디안(Big-Endian)은 여러 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 구성된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 32비트 정수)를 메모리에 저장할 때, **가장 큰 가중치를 가진 최상위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 가장 낮은 메모리 주소(앞쪽)에 먼저 저장**하는 아키텍처 규격이다.
+> 1. **본질**: 빅 엔디안(Big-Endian)은 여러 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 구성된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 32비트 정수)를 메모리에 저장할 때, <strong>가장 큰 가중치를 가진 최상위 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/">MSB</a>)를 가장 낮은 메모리 주소(앞쪽)에 먼저 저장</strong>하는 아키텍처 규격이다.
 > 2. **가치**: 사람이 숫자를 읽는 방향(왼쪽에서 오른쪽)과 완벽히 일치하여 헥스(Hex) 덤프 디버깅 시 직관적이며, 네트워크 장비가 패킷의 앞부분(목적지 주소)을 읽자마자 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 결정할 수 있는 고속 판단의 근거가 된다.
-> 3. **판단 포인트**: 이기종 통신 시 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 버그를 막기 위해, 모든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)은 빅 엔디안을 **'네트워크 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서(Network [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order)' 표준**으로 강제 규정하였다.
+> 3. **판단 포인트**: 이기종 통신 시 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 버그를 막기 위해, 모든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)은 빅 엔디안을 <strong>'네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 순서(Network <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order)' 표준</strong>으로 강제 규정하였다.
 
 ---
 
@@ -31,23 +31,23 @@ tags = ["studynote-computer-architecture"]
 ### 메모리 레이아웃 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 32비트(4바이트) 정수 `0x12345678`을 메모리 번지 `0x00`부터 저장한다고 가정하자. 여기서 `12`는 수치상 가장 큰 값([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))을 의미한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           빅 엔디안 (Big-Endian) 메모리 매핑 구조          │
-├────────────────────────────────────────────────────────┤
-│   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           │
-│                                                        │
-│   메모리 주소 │ 저장된 바이트 │ 직관적 해석                    │
-│   ─────────┼───────────┼────────────────────────        │
-│    0x00    │    12     │ ◀ MSB (가장 큰 놈이 앞방 차지)     │
-│    0x01    │    34     │                                │
-│    0x02    │    56     │                                │
-│    0x03    │    78     │ ◀ LSB (가장 작은 놈이 뒷방)        │
-│                                                        │
-│ * 핵심 논리: 메모리를 덤프(Dump) 떠서 왼쪽부터 읽으면        │
-│   '12 34 56 78'로, 원래 숫자가 그대로 인간의 눈에 들어온다.  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅 엔디안 (Big-Endian) 메모리 매핑 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 0x 12 34 56 78 (12가 머리, 78이 꼬리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소</div><div class="kb-diagram-cell">저장된 바이트</div><div class="kb-diagram-cell">직관적 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00</div><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">◀ MSB (가장 큰 놈이 앞방 차지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x01</div><div class="kb-diagram-cell">34</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x02</div><div class="kb-diagram-cell">56</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x03</div><div class="kb-diagram-cell">78</div><div class="kb-diagram-cell">◀ LSB (가장 작은 놈이 뒷방)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 메모리를 덤프(Dump) 떠서 왼쪽부터 읽으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'12 34 56 78'로, 원래 숫자가 그대로 인간의 눈에 들어온다.</div></div>
+</div>
+</div>
+
+
 
 이 구조는 숫자 크기 비교(`> , <`) 연산을 수행할 때 극강의 이점을 갖는다. CPU가 주소 `0x00`에 있는 첫 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`12`)만 딱 읽고 비교해도, 뒤에 있는 자잘한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)들을 읽을 필요 없이 두 숫자의 대소 관계를 즉각 판별할 수 있다.
 
@@ -63,7 +63,7 @@ tags = ["studynote-computer-architecture"]
 | 항목 | 빅 엔디안 (네트워크 표준) | [리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/) (x86 CPU 표준) |
 |:---|:---|:---|
 | **설계 철학** | 판단의 신속성, 인간의 직관성 | [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)(덧셈기) 하드웨어 회로의 극단적 최적화 |
-| **강점** | **목적지 주소를 읽자마자 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능** | 자리올림(Carry) 처리가 일의 자리부터 스무스함 |
+| **강점** | <strong>목적지 주소를 읽자마자 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 가능</strong> | 자리올림(Carry) 처리가 일의 자리부터 스무스함 |
 | **단점** | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장(캐스팅) 시 주소가 밀려서 연산 불리 | 메모리 덤프 시 숫자가 뒤집혀 보여 디버깅 지옥 |
 | **적용** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 계열, IBM, 모토로라 | 인텔 x86 계열 칩셋 |
 
@@ -76,8 +76,8 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 매크로 활용**: 인텔 CPU([리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/)) 기반의 서버 코드를 짤 때, 외부 네트워크(빅 엔디안)로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 전에는 무조건 `htonl()` (Host to Network Long) 함수를 태워 숫자를 뒤집어 주어야 한다. 수신할 때도 `ntohl()`로 다시 뒤집어 읽지 않으면 `1` 이라는 숫자가 `16777216(0x01000000)` 이라는 괴물 숫자로 둔갑해 시스템이 붕괴한다.
-2. **이진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Binary [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 파싱 설계**: JPEG, PNG 같은 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 헤더 규격은 대부분 빅 엔디안(모토로라 칩의 유산)으로 박혀있다. 파이썬이나 C로 헤더의 `Width`, `Height`를 파싱할 때, 현재 실행 중인 머신의 엔디안 상태를 묻지도 따지지도 않고 구조체 포인터로 냅다 캐스팅해버리면 이미지가 찢어져서 렌더링된다. 반드시 명시적인 언패킹(Unpacking) 모듈을 융합해야 한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>) 매크로 활용</strong>: 인텔 CPU([리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/)) 기반의 서버 코드를 짤 때, 외부 네트워크(빅 엔디안)로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 전에는 무조건 `htonl()` (Host to Network Long) 함수를 태워 숫자를 뒤집어 주어야 한다. 수신할 때도 `ntohl()`로 다시 뒤집어 읽지 않으면 `1` 이라는 숫자가 `16777216(0x01000000)` 이라는 괴물 숫자로 둔갑해 시스템이 붕괴한다.
+2. <strong>이진 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Binary <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>) 파싱 설계</strong>: JPEG, PNG 같은 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 헤더 규격은 대부분 빅 엔디안(모토로라 칩의 유산)으로 박혀있다. 파이썬이나 C로 헤더의 `Width`, `Height`를 파싱할 때, 현재 실행 중인 머신의 엔디안 상태를 묻지도 따지지도 않고 구조체 포인터로 냅다 캐스팅해버리면 이미지가 찢어져서 렌더링된다. 반드시 명시적인 언패킹(Unpacking) 모듈을 융합해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **엔디안 의존적(Endian-Dependent) 직렬화 통신**: "우리 회사 서버랑 클라이언트는 전부 인텔 x86이니까, 귀찮게 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)하지 말고 구조체를 그대로 메모리 덤프 떠서([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Bytes) 쏘자!"라고 코딩하는 초보적 설계. 3년 뒤 모바일 클라이언트(ARM-빅 엔디안/Bi-endian 지원)가 추가되는 순간, 기존 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 다 갈아엎어야 하는 끔찍한 기술 부채가 터진다.
@@ -100,27 +100,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/) ([Little-Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/))** | 빅 엔디안의 영원한 맞수. 꼬리([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))부터 메모리에 박아 넣어, ALU의 올림수(Carry) 연산과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장에 극단적 편의를 제공하는 인텔식 설계 |
-| **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))** | 양 진영 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서를 강제로 180도 뒤집어주는($0x1234 \leftrightarrow 0x3412$) 통역 로직 |
-| **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark)** | [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/)) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞에 `FE FF`를 달아, "이 문서는 빅 엔디안으로 쓰였다"고 시스템에 선언하는 깃발 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/">리틀 엔디안</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/">Little-Endian</a>)</strong> | 빅 엔디안의 영원한 맞수. 꼬리([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))부터 메모리에 박아 넣어, ALU의 올림수(Carry) 연산과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장에 극단적 편의를 제공하는 인텔식 설계 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>)</strong> | 양 진영 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서를 강제로 180도 뒤집어주는($0x1234 \leftrightarrow 0x3412$) 통역 로직 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order Mark)</strong> | [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/)) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞에 `FE FF`를 달아, "이 문서는 빅 엔디안으로 쓰였다"고 시스템에 선언하는 깃발 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 주소 지정의 물리적 한계 (바이트 단위의 배치 고민)
-    │
-    ▼
-빅 엔디안 (Big-Endian) 설계 (IBM, 인간 직관성 및 대소 비교 최적화)
-    │
-    ▼
-네트워크 라우팅의 고속화 요구 (패킷 헤더 조기 판별)
-    │
-    ▼
-네트워크 바이트 순서(Network Byte Order) 표준으로 빅 엔디안 제정
-    │
-    ▼
-호스트-네트워크 간 데이터 변환 아키텍처(htonl, ntohl)의 필수 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 주소 지정의 물리적 한계 (바이트 단위의 배치 고민)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅 엔디안 (Big-Endian) 설계 (IBM, 인간 직관성 및 대소 비교 최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네트워크 라우팅의 고속화 요구 (패킷 헤더 조기 판별)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네트워크 바이트 순서(Network Byte Order) 표준으로 빅 엔디안 제정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">호스트-네트워크 간 데이터 변환 아키텍처(htonl, ntohl)의 필수 융합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "인간의 직관적 설계 → 대소 비교 효율 → 네트워크 라우터의 고속 패킷 처리 → 글로벌 통신 표준 제정"으로 이어지는 빅 엔디안의 아키텍처적 승리 과정을 보여준다.
 

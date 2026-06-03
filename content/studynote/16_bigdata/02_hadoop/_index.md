@@ -19,29 +19,24 @@ tags = ["bigdata"]
 
 2000년대 초반, 구글 (Google)은 폭증하는 웹 데이터를 처리하기 위해 GFS (분산 파일 시스템)와 MapReduce (분산 처리 모델) 논문을 발표했다. 이를 오픈소스로 구현한 것이 바로 하둡 (Apache Hadoop)이다. 하둡은 비싸고 고장 나지 않는 슈퍼컴퓨터 대신, 언제든 고장 날 수 있는 저렴한 범용 서버 (Commodity Hardware)를 묶어 신뢰성 있는 거대 저장소를 만드는 혁신을 이루었다.
 
-하둡이 필요한 이유는 세 가지이다. 첫째, 단일 서버의 디스크 용량 한계를 넘어 페타바이트(PB) 급의 데이터를 **단일 파일 시스템**처럼 관리해야 하기 때문이고, 둘째, 서버가 고장 나더라도 데이터 유실 없이 서비스를 지속하는 **장애 내성 (Fault Tolerance)**이 필수적이기 때문이며, 셋째, 데이터 이동 비용을 줄이기 위해 **연산을 데이터 근처에서 수행**하는 패러다임이 요구되기 때문이다.
+하둡이 필요한 이유는 세 가지이다. 첫째, 단일 서버의 디스크 용량 한계를 넘어 페타바이트(PB) 급의 데이터를 <strong>단일 파일 시스템</strong>처럼 관리해야 하기 때문이고, 둘째, 서버가 고장 나더라도 데이터 유실 없이 서비스를 지속하는 <strong>장애 내성 (Fault Tolerance)</strong>이 필수적이기 때문이며, 셋째, 데이터 이동 비용을 줄이기 위해 <strong>연산을 데이터 근처에서 수행</strong>하는 패러다임이 요구되기 때문이다.
 
 이 그림은 하둡 아키텍처의 핵심 구성 요소인 HDFS와 MapReduce, 그리고 이를 관리하는 YARN의 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 하둡 2.x / 3.x 아키텍처                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 애플리케이션: Hive, Pig, Spark, HBase, 등 ]             │
-│                                                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │          YARN (Yet Another Resource Negotiator)     │   │
-│   │        (클러스터 리소스 및 작업 스케줄링)           │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│   ┌────────────────────────┐    ┌───────────────────────┐   │
-│   │ 맵리듀스 / 스파크      │    │ HDFS (분산 파일 시스템)│   │
-│   │ (병렬 처리)            │    │ (스토리지 계층)       │   │
-│   └────────────────────────┘    └───────────────────────┘   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하둡 2.x / 3.x 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션: Hive, Pig, Spark, HBase, 등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YARN (Yet Another Resource Negotiator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클러스터 리소스 및 작업 스케줄링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맵리듀스 / 스파크</div><div class="kb-diagram-cell">HDFS (분산 파일 시스템)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병렬 처리)</div><div class="kb-diagram-cell">(스토리지 계층)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'YARN'의 도입이다. 하둡 1.0에서는 MapReduce가 자원 관리까지 도맡아 비효율적이었으나, 2.0부터는 YARN이 자원 할당을 전담하면서 MapReduce 외에도 Spark나 Flink 같은 다양한 엔진이 하둡 위에서 돌아갈 수 있게 되었다. 실무에서는 이를 통해 하나의 클러스터에서 배치와 실시간 처리를 동시에 수행하는 멀티 테넌시 (Multi-tenancy) 환경을 구축한다.
 
@@ -59,31 +54,27 @@ tags = ["bigdata"]
 
 ### HDFS (Hadoop Distributed File System)의 내부 구조
 
-HDFS는 마스터-슬레이브 아키텍처를 따른다. 모든 메타데이터 (파일명, 블록 위치)는 **NameNode (마스터)**가 관리하고, 실제 데이터 블록은 수많은 **DataNode (슬레이브)**에 저장된다.
+HDFS는 마스터-슬레이브 아키텍처를 따른다. 모든 메타데이터 (파일명, 블록 위치)는 <strong>NameNode (마스터)</strong>가 관리하고, 실제 데이터 블록은 수많은 <strong>DataNode (슬레이브)</strong>에 저장된다.
 
-HDFS의 가장 중요한 특징은 **블록 복제 (Replication)**이다. 기본적으로 각 블록은 3벌씩 복제되어 서로 다른 랙 (Rack)에 분산 저장된다. 이를 통해 특정 노드나 랙 전체에 장애가 발생해도 데이터 접근이 중단되지 않는다.
+HDFS의 가장 중요한 특징은 <strong>블록 복제 (Replication)</strong>이다. 기본적으로 각 블록은 3벌씩 복제되어 서로 다른 랙 (Rack)에 분산 저장된다. 이를 통해 특정 노드나 랙 전체에 장애가 발생해도 데이터 접근이 중단되지 않는다.
 
 이 구조도는 HDFS의 읽기/쓰기 메커니즘과 데이터 복제 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 HDFS 읽기/쓰기 및 복제 프로세스             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 클라이언트 ] ──(1) 메타데이터 요청 ──▶ [ 네임노드 ]     │
-│       │                                     │               │
-│       │                                     └─ (메타데이터) │
-│       │                                                     │
-│       └──(2) 블록 읽기/쓰기 ──▶ [ 데이터노드 A ] (로컬)     │
-│                                         │                   │
-│                                   (3) 복제 파이프라인       │
-│                                         ▼                   │
-│                                   [ 데이터노드 B ] (원격)   │
-│                                         ▼                   │
-│                                   [ 데이터노드 C ] (타 랙)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS 읽기/쓰기 및 복제 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네임노드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (메타데이터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터노드 A</div><div class="kb-diagram-note">(로컬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 복제 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 B</div><div class="kb-diagram-note">(원격)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 C</div><div class="kb-diagram-note">(타 랙)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '네임노드 부하 분산'이다. 클라이언트는 파일 목록만 네임노드에 묻고, 실제 대용량 데이터 전송은 데이터노드와 직접 수행한다. 실무에서는 네임노드가 SPOF (Single Point of Failure)가 되는 것을 막기 위해 **Active-Standby NameNode** 구조와 공유 저장을 활용한 고가용성 (HA) 구성을 반드시 적용해야 한다.
 
@@ -129,28 +120,26 @@ MapReduce는 데이터를 처리할 때 가장 부하가 큰 **셔플 (Shuffle)*
 ### 기술사적 판단: 하둡 클러스터 튜닝 시나리오
 
 **시나리오 1: '작은 파일의 저주 (Small Files Problem)' 발생**
-- **판단**: HDFS 네임노드는 파일당 약 150바이트의 메모리를 사용한다. 수 KB짜리 파일이 수억 개면 네임노드 메모리가 고갈된다. **SequenceFile**이나 **Avro**, **Parquet** 포맷으로 파일들을 병합(Compaction)하고, 수집 단계에서 **Kafka**를 두어 마이크로 배치를 통해 파일을 키워서 저장하도록 가이드한다.
+- **판단**: HDFS 네임노드는 파일당 약 150바이트의 메모리를 사용한다. 수 KB짜리 파일이 수억 개면 네임노드 메모리가 고갈된다. <strong>SequenceFile</strong>이나 **Avro**, **Parquet** 포맷으로 파일들을 병합(Compaction)하고, 수집 단계에서 <strong>Kafka</strong>를 두어 마이크로 배치를 통해 파일을 키워서 저장하도록 가이드한다.
 
 **시나리오 2: 컴퓨팅 자원 부족으로 인한 작업 대기 발생**
-- **판단**: YARN의 **Capacity Scheduler**나 **Fair Scheduler** 설정을 점검한다. 중요도가 높은 배치 작업에는 전용 큐를 할당하여 자원을 보장하고, 리소스가 남을 때는 다른 작업이 빌려 쓸 수 있게 'Preemption' 옵션을 활성화한다.
+- **판단**: YARN의 <strong>Capacity Scheduler</strong>나 **Fair Scheduler** 설정을 점검한다. 중요도가 높은 배치 작업에는 전용 큐를 할당하여 자원을 보장하고, 리소스가 남을 때는 다른 작업이 빌려 쓸 수 있게 'Preemption' 옵션을 활성화한다.
 
 이 도식은 하둡 클러스터의 장애 복구 (Failover) 판단 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               하둡 고가용성 장애 조치 흐름                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [액티브 NN 하트비트 소실] ──▶ [ZKFC 감지] ──────┐       │
-│                                                     │       │
-│   ┌── [펜싱: 기존 액티브 종료] ◀───────────────────┘       │
-│   │                                                         │
-│   └──▶ [스탠바이 NN 상태 변경] ──▶ [액티브로 승격]          │
-│                                                             │
-│   * ZKFC: 주키퍼 장애 조치 컨트롤러                         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하둡 고가용성 장애 조치 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">액티브 NN 하트비트 소실</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZKFC 감지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">펜싱: 기존 액티브 종료</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스탠바이 NN 상태 변경</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">액티브로 승격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ZKFC: 주키퍼 장애 조치 컨트롤러</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 하둡 관리는 '교통 관제'와 같습니다. 병목이 생기는 교차로(셔플 단계)를 모니터링하고, 사고(노드 장애) 발생 시 즉시 우회로를 열어주는(HA) 체계를 유지하는 것이 핵심입니다.
 
@@ -165,7 +154,7 @@ MapReduce는 데이터를 처리할 때 가장 부하가 큰 **셔플 (Shuffle)*
 
 ### 미래 전망: 하둡의 클라우드 네이티브화
 
-전통적인 온프레미스 하둡 클러스터는 관리가 힘들고 확장이 경직적이다. 최근에는 **Hadoop on K8s**나, HDFS 대신 **S3/Object Storage**를 저장소로 쓰는 'Decoupled Architecture'로 진화하고 있다. 하지만 여전히 거대 금융권이나 공공기관에서는 데이터 주권과 보안을 위해 자체 하둡 클러스터를 고도화하고 있으며, 하둡의 핵심 철학인 '분산 처리'는 Spark, Presto 등 현대 기술 속에서도 여전히 핵심 유전자로 흐르고 있다.
+전통적인 온프레미스 하둡 클러스터는 관리가 힘들고 확장이 경직적이다. 최근에는 <strong>Hadoop on K8s</strong>나, HDFS 대신 <strong>S3/Object Storage</strong>를 저장소로 쓰는 'Decoupled Architecture'로 진화하고 있다. 하지만 여전히 거대 금융권이나 공공기관에서는 데이터 주권과 보안을 위해 자체 하둡 클러스터를 고도화하고 있으며, 하둡의 핵심 철학인 '분산 처리'는 Spark, Presto 등 현대 기술 속에서도 여전히 핵심 유전자로 흐르고 있다.
 
 📢 **섹션 요약 비유**: 미래의 하둡은 거대한 코끼리에서, 구름 속을 자유롭게 날아다니며 필요한 곳에 내려앉는 똑똑한 드론 군단과 같은 모습으로 변해갈 것입니다.
 
@@ -186,18 +175,20 @@ MapReduce는 데이터를 처리할 때 가장 부하가 큰 **셔플 (Shuffle)*
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-GFS (Google File System, 2003) → HDFS
-    │
-    ▼
-MapReduce (Google, 2004) → Hadoop MapReduce
-    │
-    ▼
-Hadoop 에코시스템: YARN · Hive · HBase · Pig · Sqoop
-    │
-    ▼
-Hadoop 한계 (디스크 I/O) → Apache Spark (인메모리)
-    │
-    ▼
-YARN → Kubernetes 컨테이너 오케스트레이션으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GFS (Google File System, 2003) → HDFS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MapReduce (Google, 2004) → Hadoop MapReduce</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hadoop 에코시스템: YARN · Hive · HBase · Pig · Sqoop</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hadoop 한계 (디스크 I/O) → Apache Spark (인메모리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">YARN → Kubernetes 컨테이너 오케스트레이션으로 진화</div>
+</div>
+</div>
+
+

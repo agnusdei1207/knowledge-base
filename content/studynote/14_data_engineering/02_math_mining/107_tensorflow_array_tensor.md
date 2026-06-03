@@ -38,18 +38,20 @@ tags = ["studynote-data-engineering"]
 | **Rank 2** | 행렬 (Matrix) | `[32, 64]` | 단일 흑백 이미지, 다중 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Rank 3+** | 텐서 (Tensor) | `[32, 28, 28, 3]` | 32장의 RGB(3채널) 컬러 이미지 배치 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             텐서의 차원 확장 (Rank Progression)              │
-├──────────────────────────────────────────────────────────────┤
-│ Rank 0 (점) : [7]                                            │
-│ Rank 1 (선) : [7, 2, 4]                                      │
-│ Rank 2 (면) : [ [7, 2, 4], [1, 5, 8] ]                       │
-│ Rank 3 (입체): [ [[7,2,4], [1,5,8]], [[3,1,2], [9,6,4]] ]    │
-│                                                              │
-│ ※ 차원이 올라갈수록 바깥쪽 대괄호( [ ] )가 겹겹이 포장됨     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서의 차원 확장 (Rank Progression)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 0 (점) :</div><div class="kb-diagram-node">7</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 1 (선) :</div><div class="kb-diagram-node">7, 2, 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 2 (면) : [</div><div class="kb-diagram-node">7, 2, 4</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">1, 5, 8</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 3 (입체): [ [</div><div class="kb-diagram-node">7,2,4</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">1,5,8</div><div class="kb-diagram-note">], [</div><div class="kb-diagram-node">3,1,2</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">9,6,4</div><div class="kb-diagram-note">] ]</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">※ 차원이 올라갈수록 바깥쪽 대괄호(</div><div class="kb-diagram-note">)가 겹겹이 포장됨</div></div>
+</div>
+</div>
+
+
 
 텐서플로우는 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조 위에서 브로드캐스팅(Broadcasting)을 지원한다. 모양이 완전히 똑같지 않은 텐서끼리 덧셈이나 곱셈을 할 때, 작은 쪽의 텐서를 큰 쪽의 텐서 모양에 맞게 논리적으로 복사하여 늘려주는 기능이다. 이는 메모리 낭비를 줄이고 코드 작성을 극도로 단순하게 해준다.
 
@@ -64,9 +66,9 @@ tags = ["studynote-data-engineering"]
 | 비교 항목 | 파이썬 List | NumPy ndarray | TensorFlow Tensor |
 | :--- | :--- | :--- | :--- |
 | **메모리 구조** | 비연속적 ([포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/)) | 연속적 메모리 할당 | 연속적 메모리 할당 |
-| **연산 가속** | CPU 단일 코어 | CPU 최적화 연산 | CPU, **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)** [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 |
+| **연산 가속** | CPU 단일 코어 | CPU 최적화 연산 | CPU, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/">TPU</a></strong> [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 |
 | **미분 계산** | 불가 | 불가 (직접 수식 구현) | **자동 미분(Auto-grad)** 지원 |
-| **가변성** | 가변 (Mutable) | 가변 (Mutable) | **불변 ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))** |
+| **가변성** | 가변 (Mutable) | 가변 (Mutable) | <strong>불변 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a>)</strong> |
 
 NumPy [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에 탁월하지만, 딥러닝 훈련에 필수적인 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 기울기 계산 기능이 없고 GPU로 넘길 수 없다는 한계가 있다. 텐서는 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 올라타 자동으로 미분 궤적을 추적(`tf.GradientTape`)할 수 있게 설계된 '딥러닝용 특수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)'이다.
 
@@ -80,7 +82,7 @@ NumPy [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055
 
 1. **차원 조작의 필수 기술**: 모델 성능을 높이기 위해 차원을 억지로 늘리거나 줄일 때 `tf.reshape`, `tf.expand_dims`, `tf.squeeze`를 정확히 써야 한다. 차원을 함부로 찌그러뜨리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 맥락이 파괴된다.
 2. **상태를 가지는 텐서 (tf.Variable)**: 일반 텐서는 불변이지만, 모델 훈련 과정에서 계속 갱신되어야 하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))와 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 예외적으로 값을 덮어쓸 수 있는 `tf.Variable`을 사용해야 한다. "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갱신되어야 하는가?"를 설계자가 판단해야 한다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 텐서를 루프문(`for`) 안에서 파이썬 표준 함수로 조작하는 행위. 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 끊어져 연산 속도가 수백 배 느려지고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용이 막혀버린다. 모든 연산은 텐서플로우 내장 벡터화 함수(`tf.math` 등)를 통해 통째로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 텐서를 루프문(`for`) 안에서 파이썬 표준 함수로 조작하는 행위. 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 끊어져 연산 속도가 수백 배 느려지고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용이 막혀버린다. 모든 연산은 텐서플로우 내장 벡터화 함수(`tf.math` 등)를 통해 통째로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리해야 한다.
 
 - **📢 섹션 요약 비유**: 텐서 차원 맞추기는 복잡한 배관을 연결하는 작업이다. 배관 구경(Shape)이 다르면 물이 새거나 터져버린다. 배관 공사는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 부속(Reshape)을 써서 깔끔하게 이어야 한다.
 
@@ -107,21 +109,23 @@ NumPy [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Scalar & Vector (기본 수치 데이터)
-    │
-    ▼
-NumPy ndarray (CPU 기반의 행렬 연산 표준)
-    │
-    ▼
-Tensor (N차원 추상화, 형상 및 타입 명세)
-    │
-    ▼
-tf.Tensor & Autograd (불변성, 병렬화, 자동 미분 추적)
-    │
-    ▼
-Tensor Parallelism & Distributed Training (분산 가속 훈련)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Scalar &amp; Vector (기본 수치 데이터)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NumPy ndarray (CPU 기반의 행렬 연산 표준)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tensor (N차원 추상화, 형상 및 타입 명세)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">tf.Tensor &amp; Autograd (불변성, 병렬화, 자동 미분 추적)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tensor Parallelism &amp; Distributed Training (분산 가속 훈련)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

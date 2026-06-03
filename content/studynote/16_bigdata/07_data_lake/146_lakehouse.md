@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. 레이크하우스(Lakehouse)는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 **저비용·유연 저장**과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 **ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 단일 아키텍처로 통합하여 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 비용을 제거한다.
-2. [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) / [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) / [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) 같은 **[오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)**이 객체 스토리지 위에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장·타임 트래블을 실현하는 핵심 기술 레이어다.
+1. 레이크하우스(Lakehouse)는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 <strong>저비용·유연 저장</strong>과 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 <strong>ACID <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>·<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 단일 아키텍처로 통합하여 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 비용을 제거한다.
+2. [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) / [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) / [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) 같은 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/">오픈 테이블 포맷</a></strong>이 객체 스토리지 위에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장·타임 트래블을 실현하는 핵심 기술 레이어다.
 3. ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 접근할 수 있어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자의 실험 주기가 단축되고 거버넌스가 단일 지점으로 통합된다.
 
 ---
@@ -36,27 +36,25 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│               레이크하우스 (Lakehouse) 아키텍처                  │
-├──────────────────────────┬──────────────────────────────────────┤
-│  소스 시스템              │  [DB CDC] [이벤트 스트림] [파일/API]  │
-├──────────────────────────┴──────────────────────────────────────┤
-│                객체 스토리지 (S3 / ADLS Gen2 / GCS)              │
-│   ┌──────────────────────────────────────────────────────────┐  │
-│   │            오픈 테이블 포맷 (Delta / Iceberg / Hudi)       │  │
-│   │  _delta_log/  ──▶  트랜잭션 로그 (ACID 보장)              │  │
-│   │  Parquet 파일 ──▶  컬럼형 데이터 (쿼리 성능)              │  │
-│   └──────────────────────────────────────────────────────────┘  │
-├─────────────────────────────────────────────────────────────────┤
-│                   컴퓨팅 엔진 계층                               │
-│  [Apache Spark] [Trino/Presto] [Flink] [Databricks SQL]         │
-├──────────────────┬───────────────────┬──────────────────────────┤
-│  BI / 리포팅     │  데이터 과학 / ML  │  실시간 스트리밍         │
-│  (Power BI,     │  (MLflow, Jupyter) │  (Flink, Kafka)          │
-│   Tableau)      │                   │                          │
-└──────────────────┴───────────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이크하우스 (Lakehouse) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">소스 시스템</div><div class="kb-diagram-node">DB CDC</div><div class="kb-diagram-node">이벤트 스트림</div><div class="kb-diagram-node">파일/API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 (S3 / ADLS Gen2 / GCS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오픈 테이블 포맷 (Delta / Iceberg / Hudi)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_delta_log/ ──▶ 트랜잭션 로그 (ACID 보장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet 파일 ──▶ 컬럼형 데이터 (쿼리 성능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨팅 엔진 계층</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark</div><div class="kb-diagram-node">Trino/Presto</div><div class="kb-diagram-node">Flink</div><div class="kb-diagram-node">Databricks SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI / 리포팅</div><div class="kb-diagram-cell">데이터 과학 / ML</div><div class="kb-diagram-cell">실시간 스트리밍</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Power BI,</div><div class="kb-diagram-cell">(MLflow, Jupyter)</div><div class="kb-diagram-cell">(Flink, Kafka)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau)</div></div>
+</div>
+</div>
+
+
 
 **핵심 구성 요소 비교**
 
@@ -86,10 +84,10 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 **연관 기술 연결**
 
-- **[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: 레이크하우스의 대표 구현체 → `_delta_log` 기반 ACID
-- **[Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)**: 레이크하우스 내 Bronze → Silver → Gold 3계층
-- **[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)**: 레이크하우스의 거버넌스·접근 제어 레이어
-- **[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)**: 레이크하우스 위 ML 실험 추적 및 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: 레이크하우스의 대표 구현체 → `_delta_log` 기반 ACID
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a></strong>: 레이크하우스 내 Bronze → Silver → Gold 3계층
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/">Unity Catalog</a></strong>: 레이크하우스의 거버넌스·접근 제어 레이어
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a></strong>: 레이크하우스 위 ML 실험 추적 및 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)
 
 > 📢 **섹션 요약 비유**: 예전엔 생산 공장(레이크)과 판매 창고([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))가 별개였는데, 레이크하우스는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)처럼 생산과 판매를 한 건물에서 동시에 처리한다.
 
@@ -99,7 +97,7 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 **채택 판단 기준**
 
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모**: 테라바이트 이상, 다양한 형식의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공존할 때 레이크하우스가 유리
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모</strong>: 테라바이트 이상, 다양한 형식의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공존할 때 레이크하우스가 유리
 - **ML 필요성**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 팀이 [raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 접근해야 한다면 레이크하우스 필수
 - **비용 최적화**: 기존 DW의 라이선스 비용([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Redshift)이 높을 때 이전 검토
 - **실시간 요건**: 스트리밍과 배치를 동일 테이블에서 처리해야 할 때 [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) + Delta
@@ -126,7 +124,7 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 | ML 실험 주기 단축 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제거로 일 단위 → 시간 단위 |
 | [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) | 단일 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)로 전사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 일원화 |
 
-레이크하우스는 빅데이터 아키텍처의 차세대 표준으로 빠르게 수렴하고 있다. [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), AWS, Azure, GCP 모두 자사 플랫폼에 레이크하우스 기능을 내재화하고 있으며, Apache Iceberg의 멀티엔진 지원이 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성을 완화한다. 기술사 시험에서는 **오픈 포맷 기반 ACID 보장**, **Medallion 계층화**, **[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 제거**가 핵심 논점이다.
+레이크하우스는 빅데이터 아키텍처의 차세대 표준으로 빠르게 수렴하고 있다. [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), AWS, Azure, GCP 모두 자사 플랫폼에 레이크하우스 기능을 내재화하고 있으며, Apache Iceberg의 멀티엔진 지원이 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성을 완화한다. 기술사 시험에서는 **오픈 포맷 기반 ACID 보장**, **Medallion 계층화**, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 제거</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: 레이크하우스는 도시의 통합 물류 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다. 원자재 창고와 소매점을 분리하던 구조를 하나의 스마트 물류 센터로 통합하여, 실시간 재고 파악과 즉각적인 배송을 동시에 실현한다.
 
@@ -147,27 +145,27 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[Delta Lake]
-    │
-    ▼
-[Apache Iceberg]
-    │
-    ▼
-[Medallion Architecture]
-    │
-    ▼
-[Unity Catalog]
-    │
-    ▼
-[MLflow]
-    │
-    ▼
-[Data Mesh]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Iceberg</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Medallion Architecture</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MLflow</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Mesh</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 MLflow까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

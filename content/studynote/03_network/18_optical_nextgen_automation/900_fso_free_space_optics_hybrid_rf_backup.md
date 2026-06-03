@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 유리관(광섬유)을 땅속에 묻는 대신, **적외선 또는 레이저 빔파장을 대기권(Free Space, 공기 중)의 허공을 뚫고 쏘아 보내어 두 지점(빌딩 간, 위성 간)을 1:1([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/))로 연결하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 무선 광 전송 기술**입니다.
+- **개념**: 유리관(광섬유)을 땅속에 묻는 대신, <strong>적외선 또는 레이저 빔파장을 대기권(Free Space, 공기 중)의 허공을 뚫고 쏘아 보내어 두 지점(빌딩 간, 위성 간)을 1:1(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/">Point-to-Point</a>)로 연결하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 무선 광 전송 기술</strong>입니다.
 - 광케이블 매설이 불가능한 도심지나 산악 지형, 계곡을 훌쩍 넘어서 수 Gbps의 통신망을 당일치기로 뚝딱 개통해 낼 수 있는(Last-Mile 해결책) 획기적 수단입니다.
 
-```text
-[다크 파이버]
-    │
-    ▼
-[무선 광통신]
-    │
-    └──▶ [AIOps]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIOps</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무선 광통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - **무허가 폭격**: 일반 무선 라디오 전파([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), 와이파이)는 정부에 조 단위의 주파수 경매 돈을 내야 쓸 수 있습니다. 하지만 FSO의 레이저 빛(가시광선/적외선 대역)은 정부 규제를 받지 않아 누구나 무료로 무허가로 마음껏 쏠 수 있습니다.
 - **철통 보안과 무간섭**: 빛은 완벽하게 1:1 직선으로만 뻗어 나갑니다. 옆에 뚱뚱한 전파 간섭(와이파이 혼선)을 1도 받지 않으며, 해커가 허공의 레이저 빔 사이에 수신기를 끼워 넣어 훔쳐보기 전까진 스니핑이 물리적으로 불가능합니다.
 
-```text
-[다크 파이버]
-    │
-    ▼
-[무선 광통신]
-    │
-    └──▶ [AIOps]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIOps</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무선 광통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 빛이 공기 중을 날아가다 보니 대자연의 변덕 앞에 무력해집니다.
 
-1. **안개와 비의 학살 ([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) & Attenuation)**: 
+1. <strong>안개와 비의 학살 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a> &amp; Attenuation)</strong>: 
    - 안개 입자(수증기)의 크기가 FSO 레이저 빛의 파장(1550nm) 크기와 비슷합니다.
    - 레이저가 안개 속을 통과하려다 물방울에 부딪히며 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)(미에 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/), Mie [Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))되어 사방으로 흩어져 버립니다(감쇠). 비바람이나 폭설이 치는 날엔 1km 거리의 옥상 수신기 통신이 완전히 끊어집니다.
 2. **건물의 흔들림과 아지랑이 (신틸레이션 현상)**: 
@@ -80,9 +88,9 @@ tags = ["studynote-network"]
 안개 낀다고 은행 전산망이 끊기면 안 됩니다. 두 가지 융합 기술로 생명줄을 살려냅니다.
 
 ### 1. FSO / RF 라디오 융합 하이브리드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 모델 🌟
-- 옥상에 레이저 총(FSO) 옆에 일반 **전통 무선 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RF, [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 등)**를 보조로 달아둡니다.
+- 옥상에 레이저 총(FSO) 옆에 일반 <strong>전통 무선 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(RF, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a> 등)</strong>를 보조로 달아둡니다.
 - **맑은 날**: 속도가 미치도록 빠른 FSO 레이저 빔으로 10Gbps의 트래픽을 빛의 속도로 쏟아붓습니다.
-- **안개 낀 날**: 레이저가 물방울에 맞아 죽어갑니다. 센서가 이를 즉각 감지하고, **1초 만에 시스템을 비상 모드로 돌려 무선 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RF 라디오) 쪽으로 트래픽을 우회시킵니다.** RF 전파는 안개와 비를 뚫고 가는 성질이 강합니다. 속도는 1Gbps로 뚝 떨어지지만, 1급 핵심 기밀 데이터는 끊기지 않고 목숨을 연명하는 완벽한 하이브리드 상호 보완 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)망입니다.
+- **안개 낀 날**: 레이저가 물방울에 맞아 죽어갑니다. 센서가 이를 즉각 감지하고, <strong>1초 만에 시스템을 비상 모드로 돌려 무선 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(RF 라디오) 쪽으로 트래픽을 우회시킵니다.</strong> RF 전파는 안개와 비를 뚫고 가는 성질이 강합니다. 속도는 1Gbps로 뚝 떨어지지만, 1급 핵심 기밀 데이터는 끊기지 않고 목숨을 연명하는 완벽한 하이브리드 상호 보완 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)망입니다.
 
 ### 2. 공간 다이버시티 (Spatial Diversity)
 - 송신기에 레이저 총 1개, 과녁 1개를 두면 새가 날아가다 가리기만 해도 통신이 끊깁니다.
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: FSO(무선 광통신)는 밤바다에서 두 배가 멀리 떨어져서 '후레쉬 불빛(모스 부호)'으로 비밀 통신을 하는 것과 같습니다. 구리선을 바닷속으로 던질 필요도 없고, 누구도 중간에서 통신을 엿들을 수 없는 기가 막힌 직통 방법([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 보안망)입니다. 하지만 해무(안개)가 짙게 끼는 날이면 후레쉬 불빛이 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)되어 반대편 배에서 아예 불빛이 보이지 않는 끔찍한 먹통 사태가 터집니다(기상 조건 감쇠). 이 한계를 극복하는 **FSO/RF 하이브리드망**은 후레쉬를 든 선원 옆에 보조로 '무전기(RF 라디오 전파)'를 든 선원을 같이 세워두는 완벽한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 플랜입니다. 안개가 껴서 후레쉬 불빛이 가려지면 1초 만에 무전기를 켜서 소리로 암호를 전달합니다. 속도는 좀 답답하지만 절대 끊어지지 않는 극한의 생존 확률을 자랑하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 통신 모델입니다.
+- **📢 섹션 요약 비유**: FSO(무선 광통신)는 밤바다에서 두 배가 멀리 떨어져서 '후레쉬 불빛(모스 부호)'으로 비밀 통신을 하는 것과 같습니다. 구리선을 바닷속으로 던질 필요도 없고, 누구도 중간에서 통신을 엿들을 수 없는 기가 막힌 직통 방법([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 보안망)입니다. 하지만 해무(안개)가 짙게 끼는 날이면 후레쉬 불빛이 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)되어 반대편 배에서 아예 불빛이 보이지 않는 끔찍한 먹통 사태가 터집니다(기상 조건 감쇠). 이 한계를 극복하는 <strong>FSO/RF 하이브리드망</strong>은 후레쉬를 든 선원 옆에 보조로 '무전기(RF 라디오 전파)'를 든 선원을 같이 세워두는 완벽한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 플랜입니다. 안개가 껴서 후레쉬 불빛이 가려지면 1초 만에 무전기를 켜서 소리로 암호를 전달합니다. 속도는 좀 답답하지만 절대 끊어지지 않는 극한의 생존 확률을 자랑하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 통신 모델입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 다크 파이버]
-    │
-    ▼
-[현재 개념: 무선 광통신]
-    │
-    ├──▶ [확장 A: AIOps]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 파이버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AIOps</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 무선 광통신는 [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AIOps와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

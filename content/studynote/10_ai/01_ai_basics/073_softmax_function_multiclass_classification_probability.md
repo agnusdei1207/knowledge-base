@@ -99,27 +99,39 @@ Probabilities (sum=1)
 
 ## 관련 개념 맵
 
-```text
-Logits
-  ↓
-Softmax
-  ↓
-Probabilities
-  ↓
-Classification
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Logits</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Softmax</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Probabilities</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Classification</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Softmax
-  ↓
-Multiclass Classification
-  ↓
-Probability Output
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Softmax</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Multiclass Classification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Probability Output</div>
+</div>
+</div>
+
+
 
 ---
 

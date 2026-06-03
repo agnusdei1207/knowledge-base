@@ -18,48 +18,43 @@ tags = ["studynote-database"]
 
 ## Ⅰ. IMDB 개요
 
-```
-IMDB vs 전통 디스크 DB:
 
-전통 DB (디스크 기반):
-  데이터: 디스크 (HDD: ms, SSD: us)
-  처리: 디스크 읽기 → 버퍼 풀 → CPU
-  
-  병목: 디스크 I/O (랜덤 읽기 HDD: ~10ms)
-  
-  예: MySQL SELECT → 100ms (캐시 미스)
 
-IMDB (메모리 기반):
-  데이터: 완전히 RAM에 상주
-  처리: RAM 직접 접근 → CPU
-  
-  RAM 접근: ~100ns (HDD 대비 100,000×)
-  
-  예: Redis GET → ~10-100μs
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IMDB vs 전통 디스크 DB:</div>
+<div class="kb-diagram-note">전통 DB (디스크 기반):</div>
+<div class="kb-diagram-note">데이터: 디스크 (HDD: ms, SSD: us)</div>
+<div class="kb-diagram-note">처리: 디스크 읽기 → 버퍼 풀 → CPU</div>
+<div class="kb-diagram-note">병목: 디스크 I/O (랜덤 읽기 HDD: ~10ms)</div>
+<div class="kb-diagram-note">예: MySQL SELECT → 100ms (캐시 미스)</div>
+<div class="kb-diagram-note">IMDB (메모리 기반):</div>
+<div class="kb-diagram-note">데이터: 완전히 RAM에 상주</div>
+<div class="kb-diagram-note">처리: RAM 직접 접근 → CPU</div>
+<div class="kb-diagram-note">RAM 접근: ~100ns (HDD 대비 100,000×)</div>
+<div class="kb-diagram-note">예: Redis GET → ~10-100μs</div>
+<div class="kb-diagram-note">성능 비교:</div>
+<div class="kb-diagram-note">HDD: 100 IOPS</div>
+<div class="kb-diagram-note">SSD: 100,000 IOPS</div>
+<div class="kb-diagram-note">DRAM: 100,000,000+ "IOPS"</div>
+<div class="kb-diagram-note">IMDB 유형:</div>
+<div class="kb-diagram-note">1. 전용 인메모리 (Pure IMDB):</div>
+<div class="kb-diagram-note">Redis, Memcached, VoltDB</div>
+<div class="kb-diagram-note">2. 인메모리 옵션 (Hybrid):</div>
+<div class="kb-diagram-note">MySQL Memory Engine</div>
+<div class="kb-diagram-note">SAP HANA (주로 IMDB)</div>
+<div class="kb-diagram-note">3. 클라우드 인메모리:</div>
+<div class="kb-diagram-note">Amazon ElastiCache (Redis/Memcached)</div>
+<div class="kb-diagram-note">Azure Cache for Redis</div>
+<div class="kb-diagram-note">Google Cloud Memorystore</div>
+<div class="kb-diagram-note">RAM 비용:</div>
+<div class="kb-diagram-note">DRAM 32GB: ~$50~100 (2024)</div>
+<div class="kb-diagram-note">→ 수십~수백 GB IMDB = 수백~수천만원</div>
+<div class="kb-diagram-note">→ 성능 이점 대비 비용 효과적</div>
+</div>
+</div>
 
-성능 비교:
-  HDD: 100 IOPS
-  SSD: 100,000 IOPS
-  DRAM: 100,000,000+ "IOPS"
 
-IMDB 유형:
-  1. 전용 인메모리 (Pure IMDB):
-     Redis, Memcached, VoltDB
-     
-  2. 인메모리 옵션 (Hybrid):
-     MySQL Memory Engine
-     SAP HANA (주로 IMDB)
-     
-  3. 클라우드 인메모리:
-     Amazon ElastiCache (Redis/Memcached)
-     Azure Cache for Redis
-     Google Cloud Memorystore
-
-RAM 비용:
-  DRAM 32GB: ~$50~100 (2024)
-  → 수십~수백 GB IMDB = 수백~수천만원
-  → 성능 이점 대비 비용 효과적
-```
 
 > 📢 **섹션 요약 비유**: IMDB는 책상 위 노트 vs 책장 창고 — 책장(디스크)에서 책 꺼내기(ms) vs 이미 책상(RAM)에 펼쳐진 노트 보기(μs). 1,000배 빠른 차이!
 
@@ -67,52 +62,45 @@ RAM 비용:
 
 ## Ⅱ. 내구성 메커니즘
 
-```
-IMDB 내구성 (Durability) 문제:
-  RAM = 휘발성 → 전원 장애 → 데이터 소실
 
-Redis 내구성 옵션:
 
-1. RDB (Redis Database Snapshot):
-   주기적으로 디스크에 스냅샷 저장
-   
-   예: 5분마다 또는 100개 변경마다
-   파일: dump.rdb
-   
-   장점: 파일 작음, 복구 빠름
-   단점: 마지막 스냅샷 이후 데이터 손실 가능
-   
-   RPO: 최대 5분 데이터 손실
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IMDB 내구성 (Durability) 문제:</div>
+<div class="kb-diagram-note">RAM = 휘발성 → 전원 장애 → 데이터 소실</div>
+<div class="kb-diagram-note">Redis 내구성 옵션:</div>
+<div class="kb-diagram-note">1. RDB (Redis Database Snapshot):</div>
+<div class="kb-diagram-note">주기적으로 디스크에 스냅샷 저장</div>
+<div class="kb-diagram-note">예: 5분마다 또는 100개 변경마다</div>
+<div class="kb-diagram-note">파일: dump.rdb</div>
+<div class="kb-diagram-note">장점: 파일 작음, 복구 빠름</div>
+<div class="kb-diagram-note">단점: 마지막 스냅샷 이후 데이터 손실 가능</div>
+<div class="kb-diagram-note">RPO: 최대 5분 데이터 손실</div>
+<div class="kb-diagram-note">2. AOF (Append-Only File):</div>
+<div class="kb-diagram-note">모든 쓰기 명령을 로그 파일에 추가</div>
+<div class="kb-diagram-note">파일: appendonly.aof</div>
+<div class="kb-diagram-note">fsync 옵션:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">always: 매 명령 → 가장 안전 (성능 ↓)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">everysec: 1초마다 → 균형 (기본)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">no: OS에 위임 → 가장 빠름</div>
+<div class="kb-diagram-note">RPO: everysec = 최대 1초 데이터 손실</div>
+<div class="kb-diagram-note">단점: 파일 크기 증가 (주기적 rewrite)</div>
+<div class="kb-diagram-note">3. RDB + AOF 혼합:</div>
+<div class="kb-diagram-note">AOF에 RDB 스냅샷 포함 (Redis 4+)</div>
+<div class="kb-diagram-note">재시작 빠름 + AOF 보호</div>
+<div class="kb-diagram-note">4. Redis Cluster + Replica:</div>
+<div class="kb-diagram-note">Master-Replica 복제</div>
+<div class="kb-diagram-note">Master 장애 → Replica 자동 승격</div>
+<div class="kb-diagram-note">→ RPO ≈ 0 (비동기 복제 시 소량 손실)</div>
+<div class="kb-diagram-note">VoltDB:</div>
+<div class="kb-diagram-note">ACID 트랜잭션 완전 지원 IMDB</div>
+<div class="kb-diagram-note">2PC (2-Phase Commit)</div>
+<div class="kb-diagram-note">K-Safety: 노드 장애 대비 복제</div>
+<div class="kb-diagram-note">WAL → 영구 스토리지</div>
+</div>
+</div>
 
-2. AOF (Append-Only File):
-   모든 쓰기 명령을 로그 파일에 추가
-   
-   파일: appendonly.aof
-   
-   fsync 옵션:
-   - always: 매 명령 → 가장 안전 (성능 ↓)
-   - everysec: 1초마다 → 균형 (기본)
-   - no: OS에 위임 → 가장 빠름
-   
-   RPO: everysec = 최대 1초 데이터 손실
-   
-   단점: 파일 크기 증가 (주기적 rewrite)
 
-3. RDB + AOF 혼합:
-   AOF에 RDB 스냅샷 포함 (Redis 4+)
-   재시작 빠름 + AOF 보호
-
-4. Redis Cluster + Replica:
-   Master-Replica 복제
-   Master 장애 → Replica 자동 승격
-   → RPO ≈ 0 (비동기 복제 시 소량 손실)
-
-VoltDB:
-  ACID 트랜잭션 완전 지원 IMDB
-  2PC (2-Phase Commit)
-  K-Safety: 노드 장애 대비 복제
-  WAL → 영구 스토리지
-```
 
 > 📢 **섹션 요약 비유**: IMDB 내구성은 노트 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) — 책상 노트(RAM)는 지진(전원장애)에 사라지므로, 주기적으로 사진([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)=RDB) 찍거나 모든 수정 기록(AOF) 유지!
 
@@ -120,50 +108,48 @@ VoltDB:
 
 ## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 활용
 
-```
-Redis 데이터 구조:
 
-String: 문자열
-  SET user:1 "Alice"
-  GET user:1 → "Alice"
-  INCR counter → 원자적 증가
-  사용: 캐싱, 카운터, 세션
 
-List: 연결 리스트
-  LPUSH queue "task1"
-  RPOP queue
-  사용: 큐, 스택, 최근 항목
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Redis 데이터 구조:</div>
+<div class="kb-diagram-note">String: 문자열</div>
+<div class="kb-diagram-note">SET user:1 "Alice"</div>
+<div class="kb-diagram-note">GET user:1 → "Alice"</div>
+<div class="kb-diagram-note">INCR counter → 원자적 증가</div>
+<div class="kb-diagram-note">사용: 캐싱, 카운터, 세션</div>
+<div class="kb-diagram-note">List: 연결 리스트</div>
+<div class="kb-diagram-note">LPUSH queue "task1"</div>
+<div class="kb-diagram-note">RPOP queue</div>
+<div class="kb-diagram-note">사용: 큐, 스택, 최근 항목</div>
+<div class="kb-diagram-note">Hash: 필드-값 맵</div>
+<div class="kb-diagram-note">HSET user:1 name "Alice" age 30</div>
+<div class="kb-diagram-note">HGETALL user:1</div>
+<div class="kb-diagram-note">사용: 객체 저장</div>
+<div class="kb-diagram-note">Set: 중복 없는 집합</div>
+<div class="kb-diagram-note">SADD online_users "u1" "u2"</div>
+<div class="kb-diagram-note">SISMEMBER online_users "u1"</div>
+<div class="kb-diagram-note">사용: 태그, 좋아요, 팔로워</div>
+<div class="kb-diagram-note">Sorted Set (ZSet): 점수 기반 정렬 집합</div>
+<div class="kb-diagram-note">ZADD leaderboard 1500 "Alice"</div>
+<div class="kb-diagram-note">ZRANGE leaderboard 0 9 WITHSCORES</div>
+<div class="kb-diagram-note">사용: 리더보드, 우선순위 큐</div>
+<div class="kb-diagram-note">Geospatial:</div>
+<div class="kb-diagram-note">GEOADD locations 127.0 37.5 "Seoul"</div>
+<div class="kb-diagram-note">GEODIST locations "Seoul" "Busan"</div>
+<div class="kb-diagram-note">사용: 위치 기반 서비스</div>
+<div class="kb-diagram-note">HyperLogLog:</div>
+<div class="kb-diagram-note">PFADD visitors "user1" "user2"</div>
+<div class="kb-diagram-note">PFCOUNT visitors → 근사 고유 카운트</div>
+<div class="kb-diagram-note">사용: 대규모 카디널리티 추정 (12KB로!)</div>
+<div class="kb-diagram-note">Streams:</div>
+<div class="kb-diagram-note">XADD events * type "click" page "/home"</div>
+<div class="kb-diagram-note">XREAD streams events 0</div>
+<div class="kb-diagram-note">사용: 이벤트 스트리밍, 로그</div>
+</div>
+</div>
 
-Hash: 필드-값 맵
-  HSET user:1 name "Alice" age 30
-  HGETALL user:1
-  사용: 객체 저장
 
-Set: 중복 없는 집합
-  SADD online_users "u1" "u2"
-  SISMEMBER online_users "u1"
-  사용: 태그, 좋아요, 팔로워
-
-Sorted Set (ZSet): 점수 기반 정렬 집합
-  ZADD leaderboard 1500 "Alice"
-  ZRANGE leaderboard 0 9 WITHSCORES
-  사용: 리더보드, 우선순위 큐
-
-Geospatial:
-  GEOADD locations 127.0 37.5 "Seoul"
-  GEODIST locations "Seoul" "Busan"
-  사용: 위치 기반 서비스
-
-HyperLogLog:
-  PFADD visitors "user1" "user2"
-  PFCOUNT visitors → 근사 고유 카운트
-  사용: 대규모 카디널리티 추정 (12KB로!)
-
-Streams:
-  XADD events * type "click" page "/home"
-  XREAD streams events 0
-  사용: 이벤트 스트리밍, 로그
-```
 
 > 📢 **섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조는 다용도 도구 세트 — String(메모장), List(할일 목록), Hash(명함), Set(친구 목록), ZSet(순위표). 상황에 맞는 도구 선택!
 
@@ -171,51 +157,45 @@ Streams:
 
 ## Ⅳ. [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-IMDB 캐싱 패턴:
 
-Cache-Aside (Look-Aside, Lazy Loading):
-  가장 일반적
-  
-  읽기:
-  앱 → 캐시(Redis) 확인
-  히트: 캐시에서 반환
-  미스: DB 조회 → 캐시 저장 → 반환
-  
-  쓰기:
-  앱 → DB 갱신 → 캐시 삭제 (또는 무효화)
-  
-  장점: 필요한 것만 캐싱 (필요 시 로드)
-  단점: 첫 요청 느림 (Cache Miss)
 
-Write-Through:
-  쓰기: DB + 캐시 동시 갱신
-  읽기: 캐시에서만
-  
-  장점: 캐시 항상 최신
-  단점: 쓰기 지연 (2번 쓰기)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IMDB 캐싱 패턴:</div>
+<div class="kb-diagram-note">Cache-Aside (Look-Aside, Lazy Loading):</div>
+<div class="kb-diagram-note">가장 일반적</div>
+<div class="kb-diagram-note">읽기:</div>
+<div class="kb-diagram-note">앱 → 캐시(Redis) 확인</div>
+<div class="kb-diagram-note">히트: 캐시에서 반환</div>
+<div class="kb-diagram-note">미스: DB 조회 → 캐시 저장 → 반환</div>
+<div class="kb-diagram-note">쓰기:</div>
+<div class="kb-diagram-note">앱 → DB 갱신 → 캐시 삭제 (또는 무효화)</div>
+<div class="kb-diagram-note">장점: 필요한 것만 캐싱 (필요 시 로드)</div>
+<div class="kb-diagram-note">단점: 첫 요청 느림 (Cache Miss)</div>
+<div class="kb-diagram-note">Write-Through:</div>
+<div class="kb-diagram-note">쓰기: DB + 캐시 동시 갱신</div>
+<div class="kb-diagram-note">읽기: 캐시에서만</div>
+<div class="kb-diagram-note">장점: 캐시 항상 최신</div>
+<div class="kb-diagram-note">단점: 쓰기 지연 (2번 쓰기)</div>
+<div class="kb-diagram-note">Write-Behind (Write-Back):</div>
+<div class="kb-diagram-note">쓰기: 캐시만 갱신 (비동기 DB 반영)</div>
+<div class="kb-diagram-note">장점: 쓰기 속도 빠름</div>
+<div class="kb-diagram-note">단점: DB 동기화 지연, 캐시 장애 시 손실</div>
+<div class="kb-diagram-note">TTL (Time-To-Live):</div>
+<div class="kb-diagram-note">캐시 만료 시간 설정</div>
+<div class="kb-diagram-note">SET session:xyz "data" EX 3600 # 1시간</div>
+<div class="kb-diagram-note">너무 짧은 TTL: 캐시 효율 낮음</div>
+<div class="kb-diagram-note">너무 긴 TTL: 오래된 데이터 제공</div>
+<div class="kb-diagram-note">Thundering Herd (Cache Stampede):</div>
+<div class="kb-diagram-note">대량 캐시 동시 만료 → DB 과부하</div>
+<div class="kb-diagram-note">해결:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">TTL 지터(랜덤 분산)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">캐시 갱신 잠금 (단일 프로세스만)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">소프트 TTL + 하드 TTL 이중 구조</div>
+</div>
+</div>
 
-Write-Behind (Write-Back):
-  쓰기: 캐시만 갱신 (비동기 DB 반영)
-  
-  장점: 쓰기 속도 빠름
-  단점: DB 동기화 지연, 캐시 장애 시 손실
 
-TTL (Time-To-Live):
-  캐시 만료 시간 설정
-  SET session:xyz "data" EX 3600  # 1시간
-  
-  너무 짧은 TTL: 캐시 효율 낮음
-  너무 긴 TTL: 오래된 데이터 제공
-
-Thundering Herd (Cache Stampede):
-  대량 캐시 동시 만료 → DB 과부하
-  
-  해결:
-  - TTL 지터(랜덤 분산)
-  - 캐시 갱신 잠금 (단일 프로세스만)
-  - 소프트 TTL + 하드 TTL 이중 구조
-```
 
 > 📢 **섹션 요약 비유**: [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 음식 보관 방법 — Cache-Aside는 먹을 때만 냉장고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), Write-Through는 만들자마자 냉동+냉장 동시, Write-Back은 일단 냉장고만!
 
@@ -223,54 +203,50 @@ Thundering Herd (Cache Stampede):
 
 ## Ⅴ. 실무 시나리오 — 전자상거래 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처
 
-```
-전자상거래 Redis 캐싱 아키텍처:
 
-대상 데이터:
-  상품 정보: 변경 드물음 (TTL 1시간)
-  재고 현황: 자주 변경 (TTL 10초)
-  사용자 세션: 30분 TTL
-  리더보드: 판매 순위 (실시간)
 
-아키텍처:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전자상거래 Redis 캐싱 아키텍처:</div>
+<div class="kb-diagram-note">대상 데이터:</div>
+<div class="kb-diagram-note">상품 정보: 변경 드물음 (TTL 1시간)</div>
+<div class="kb-diagram-note">재고 현황: 자주 변경 (TTL 10초)</div>
+<div class="kb-diagram-note">사용자 세션: 30분 TTL</div>
+<div class="kb-diagram-note">리더보드: 판매 순위 (실시간)</div>
+<div class="kb-diagram-note">아키텍처:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자</div></div>
+<div class="kb-diagram-note">↓ 요청</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API 서버</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Redis Cluster</div></div>
+<div class="kb-diagram-note">↓ 캐시 미스</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MySQL/DynamoDB</div></div>
+<div class="kb-diagram-note">상품 캐시:</div>
+<div class="kb-diagram-note">HSET product:12345 name "운동화" price "89000" stock "50"</div>
+<div class="kb-diagram-note">EXPIRE product:12345 3600</div>
+<div class="kb-diagram-note">히트율 목표: 95% (캐시 미스 5%만 DB)</div>
+<div class="kb-diagram-note">세션 관리:</div>
+<div class="kb-diagram-note">SET session:abc123 (JSON 직렬화) EX 1800</div>
+<div class="kb-diagram-note">EXPIRE session:abc123 1800 (요청마다 갱신)</div>
+<div class="kb-diagram-note">재고 실시간:</div>
+<div class="kb-diagram-note">DECR product:12345:stock (원자적 감소)</div>
+<div class="kb-diagram-note">→ 재고 0 → 품절 처리</div>
+<div class="kb-diagram-note">(DB에 비동기 반영)</div>
+<div class="kb-diagram-note">리더보드:</div>
+<div class="kb-diagram-note">ZADD sales:rank:daily &lt;판매량&gt; &lt;상품ID&gt;</div>
+<div class="kb-diagram-note">ZREVRANGE sales:rank:daily 0 9 WITHSCORES</div>
+<div class="kb-diagram-note">→ 실시간 TOP 10</div>
+<div class="kb-diagram-note">Redis Cluster 구성:</div>
+<div class="kb-diagram-note">3 Master × 2 Replica = 6 노드</div>
+<div class="kb-diagram-note">자동 샤딩 (16,384 슬롯)</div>
+<div class="kb-diagram-note">장애 자동 페일오버</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">DB 쿼리: 초당 10만 → 5천 (95% 절감)</div>
+<div class="kb-diagram-note">응답 시간: 150ms → 8ms</div>
+<div class="kb-diagram-note">DB CPU: 90% → 35%</div>
+<div class="kb-diagram-note">Flash Sale 트래픽 (초당 100만 요청) 처리</div>
+</div>
+</div>
 
-[사용자]
-   ↓ 요청
-[API 서버] → Redis Cluster
-   ↓ 캐시 미스
-[MySQL/DynamoDB]
 
-상품 캐시:
-  HSET product:12345 name "운동화" price "89000" stock "50"
-  EXPIRE product:12345 3600
-  
-  히트율 목표: 95% (캐시 미스 5%만 DB)
-
-세션 관리:
-  SET session:abc123 (JSON 직렬화) EX 1800
-  EXPIRE session:abc123 1800 (요청마다 갱신)
-
-재고 실시간:
-  DECR product:12345:stock  (원자적 감소)
-  → 재고 0 → 품절 처리
-  (DB에 비동기 반영)
-
-리더보드:
-  ZADD sales:rank:daily <판매량> <상품ID>
-  ZREVRANGE sales:rank:daily 0 9 WITHSCORES
-  → 실시간 TOP 10
-
-Redis Cluster 구성:
-  3 Master × 2 Replica = 6 노드
-  자동 샤딩 (16,384 슬롯)
-  장애 자동 페일오버
-
-결과:
-  DB 쿼리: 초당 10만 → 5천 (95% 절감)
-  응답 시간: 150ms → 8ms
-  DB CPU: 90% → 35%
-  Flash Sale 트래픽 (초당 100만 요청) 처리
-```
 
 > 📢 **섹션 요약 비유**: 전자상거래 Redis는 빠른 계산원 — DB(창고)에서 물건 꺼내는 대신, 자주 팔리는 상품(캐시)을 계산대([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 앞에 미리 배치. 줄 서는 시간(응답) 1/20!
 

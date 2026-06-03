@@ -17,28 +17,25 @@ tags = ["cloud_architecture"]
 
 ### 인프라의 민첩성이 비즈니스의 민첩성이다
 
-클라우드 환경에서 서버를 빌리는 것은 쉽지만, 수천 개의 서비스를 안전하고 빠르게 배포하고 운영하는 것은 또 다른 문제다. **클라우드 DevOps**는 수작업으로 인한 오류와 지연을 코드로 해결하여, 아이디어가 제품이 되는 시간을 분 단위로 압축한다. 또한, 눈에 보이지 않는 클라우드 자원의 '건강 상태'를 실시간으로 파악하는 **관측성**은 클라우드 운영의 필수 전제 조건이다.
+클라우드 환경에서 서버를 빌리는 것은 쉽지만, 수천 개의 서비스를 안전하고 빠르게 배포하고 운영하는 것은 또 다른 문제다. <strong>클라우드 DevOps</strong>는 수작업으로 인한 오류와 지연을 코드로 해결하여, 아이디어가 제품이 되는 시간을 분 단위로 압축한다. 또한, 눈에 보이지 않는 클라우드 자원의 '건강 상태'를 실시간으로 파악하는 <strong>관측성</strong>은 클라우드 운영의 필수 전제 조건이다.
 
-클라우드 기반의 운영 체계가 필요한 이유는 세 가지이다. 첫째, **환경의 복제와 확장성**을 위해서이다. 전 세계 리전에 동일한 설정을 순식간에 배포해야 한다. 둘째, **장애 대응의 고도화**를 위해서이며 (분산 시스템의 복잡성 해결), 셋째, **비용 효율성**을 위해 유휴 자원을 자동으로 회수하고 최적화하기 위함이다.
+클라우드 기반의 운영 체계가 필요한 이유는 세 가지이다. 첫째, <strong>환경의 복제와 확장성</strong>을 위해서이다. 전 세계 리전에 동일한 설정을 순식간에 배포해야 한다. 둘째, <strong>장애 대응의 고도화</strong>를 위해서이며 (분산 시스템의 복잡성 해결), 셋째, <strong>비용 효율성</strong>을 위해 유휴 자원을 자동으로 회수하고 최적화하기 위함이다.
 
 이 그림은 클라우드 네이티브 환경에서의 통합 DevOps 파이프라인과 관측성 루프를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Cloud Native DevOps & Observability         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Git Repo ] ──▶ [ CI/CD Pipeline ] ──▶ [ K8s Cluster ]   │
-│          ▲                                        │         │
-│          │          ┌─────────────────────────────┘         │
-│          │          ▼                                       │
-│   [ Feedback ] ◀── [ Observability Stack ] ◀── [ Metrics ]  │
-│   (Improve)        (Logging / Tracing)        (Logs/Traces) │
-│                                                             │
-│   * 핵심: 배포(CD)와 동시에 관측(Obs)이 시작되어야 함       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Native DevOps &amp; Observability</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repo</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI/CD Pipeline</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Cluster</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Feedback</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Observability Stack</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Metrics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Improve) (Logging / Tracing) (Logs/Traces)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 배포(CD)와 동시에 관측(Obs)이 시작되어야 함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '폐쇄 루프 (Closed Loop)'이다. 배포된 시스템에서 나오는 데이터를 실시간으로 관측하고, 이를 다시 개발과 운영의 개선점으로 환류시키는 과정이 클라우드 DevOps의 정수이다. 실무에서는 이 루프를 자동화하기 위해 **Prometheus**, **Grafana**, **ArgoCD** 등의 도구 체인을 구축한다.
 
@@ -66,26 +63,24 @@ tags = ["cloud_architecture"]
 - **메커니즘**: 각 요청에 고유한 Trace ID를 부여하고, 각 서비스 통과 시각을 기록하여 전체 타임라인을 구성.
 - **효과**: "결제가 왜 느린가?"라는 질문에 대해 "A 서비스의 B 쿼리가 3초 걸렸다"는 명확한 해답을 제공.
 
-이 구조도는 **Prometheus**와 **Service Mesh**가 결합된 지능형 관측성 체계를 보여준다.
+이 구조도는 <strong>Prometheus</strong>와 <strong>Service Mesh</strong>가 결합된 지능형 관측성 체계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Mesh-based Observability Flow               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User Req ] ──▶ [ Service Mesh (Istio) ] ──▶ [ Service ] │
-│                           │ (Sidecar Proxy)                 │
-│          ┌────────────────┴────────────────┐                │
-│          ▼                                 ▼                │
-│   [ Telemetry Data ] ──▶ [ Prometheus ] ──▶ [ Alertmanager ]│
-│                                            (Auto-scaling)   │
-│                                                             │
-│   * 혁신: 코드 수정 없이 네트워크 계층에서 지표 자동 수집   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '투명성'이다. 개발자가 모니터링 코드를 일일이 심지 않아도, 인프라 계층 (Sidecar)에서 자동으로 모든 데이터를 수집한다. 실무에서는 이 데이터를 바탕으로 트래픽이 몰리면 서버를 늘리는 **HPA (Horizontal Pod Autoscaler)**를 연동한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mesh-based Observability Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Req</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service Mesh (Istio)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sidecar Proxy)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Telemetry Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Prometheus</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Alertmanager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Auto-scaling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 혁신: 코드 수정 없이 네트워크 계층에서 지표 자동 수집</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '투명성'이다. 개발자가 모니터링 코드를 일일이 심지 않아도, 인프라 계층 (Sidecar)에서 자동으로 모든 데이터를 수집한다. 실무에서는 이 데이터를 바탕으로 트래픽이 몰리면 서버를 늘리는 <strong>HPA (Horizontal Pod Autoscaler)</strong>를 연동한다.
 
 📢 **섹션 요약 비유**: 분산 추적은 '택배 송장 번호 조회'와 같습니다. 내 택배가 어느 터미널(서비스)을 지나고 있고, 어디서 오래 머물고 있는지 실시간으로 확인하여 배송 지연의 원인을 찾는 것과 같습니다.
 
@@ -117,29 +112,26 @@ tags = ["cloud_architecture"]
 ### 기술사적 판단: 대규모 장애 진단 및 자율 운영 전략
 
 **시나리오 1: 마이크로서비스 환경에서 간헐적으로 발생하는 특정 API 지연**
-- **판단**: 단순한 로그 검색으로는 한계가 있다. **분산 추적 (Jaeger/Zipkin)** 도구를 통해 지연이 발생하는 특정 서비스의 **Span**을 식별한다. 만약 인프라 레벨의 네트워크 지연이라면 **Service Mesh**의 재시도 (Retry) 및 타임아웃 정책을 튜닝하고, 어플리케이션 병목이라면 코드 레벨의 프로파일링을 권고한다. "현상은 하나지만 원인은 수십 곳일 수 있다"는 전제하에 가시성을 먼저 확보한다.
+- **판단**: 단순한 로그 검색으로는 한계가 있다. **분산 추적 (Jaeger/Zipkin)** 도구를 통해 지연이 발생하는 특정 서비스의 <strong>Span</strong>을 식별한다. 만약 인프라 레벨의 네트워크 지연이라면 <strong>Service Mesh</strong>의 재시도 (Retry) 및 타임아웃 정책을 튜닝하고, 어플리케이션 병목이라면 코드 레벨의 프로파일링을 권고한다. "현상은 하나지만 원인은 수십 곳일 수 있다"는 전제하에 가시성을 먼저 확보한다.
 
 **시나리오 2: 클라우드 인프라 변경 시마다 발생하는 설정 오류와 롤백 실패**
-- **판단**: 수동 변경 (ClickOps)을 전면 금지하고 **GitOps (ArgoCD)**를 강제한다. 모든 인프라 변경은 Git의 **Pull Request**와 동료 리뷰를 거쳐야 하며, 배포 전 **Terraform Plan** 결과를 자동으로 스캔하여 보안 위협을 사전에 차단한다. 장애 시에는 고민하지 않고 Git의 이전 커밋으로 **'Revert'** 버튼을 눌러 인프라를 1분 내로 원복시키는 '코드 기반 안정성' 체계를 구축한다.
+- **판단**: 수동 변경 (ClickOps)을 전면 금지하고 <strong>GitOps (ArgoCD)</strong>를 강제한다. 모든 인프라 변경은 Git의 <strong>Pull Request</strong>와 동료 리뷰를 거쳐야 하며, 배포 전 **Terraform Plan** 결과를 자동으로 스캔하여 보안 위협을 사전에 차단한다. 장애 시에는 고민하지 않고 Git의 이전 커밋으로 **'Revert'** 버튼을 눌러 인프라를 1분 내로 원복시키는 '코드 기반 안정성' 체계를 구축한다.
 
 이 도식은 기술사가 설계하는 '클라우드 장애 자가 치유 (Self-healing)' 로직을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Self-healing Decision Logic                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Monitor ] ──▶ [ Analyze: SLI Threshold? ] ──▶ [ YES ] ──┐│
-│          ▲                                           │      │
-│          │          ┌────────────────────────────────┘      │
-│          │          ▼                                       │
-│   [ Verify ] ◀── [ Action: Restart / Scale-up / Rollback ]  │
-│                                                             │
-│   * 실무 가이드: 자동 조치 시에는 반드시 '이력'을 남기고    │
-│     담당자에게 통보하여 근본 원인 해결 (Problem Mgmt) 연계  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-healing Decision Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analyze: SLI Threshold?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Verify</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Action: Restart / Scale-up / Rollback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 자동 조치 시에는 반드시 '이력'을 남기고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">담당자에게 통보하여 근본 원인 해결 (Problem Mgmt) 연계</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 운영 판단은 '현대식 병원의 집중 치료실'을 설계하는 것과 같습니다. 환자(시스템)의 생체 신호를 24시간 감시하고, 위급 상황 시 기계(자동화 도구)가 즉시 응급 처치를 수행하게 하여 생존율을 극대화하는 전문가입니다.
 
@@ -154,7 +146,7 @@ tags = ["cloud_architecture"]
 
 ### 미래 전망: AIOps와 플랫폼 엔지니어링의 완성
 
-미래의 클라우드 운영은 사람이 대시보드를 보지 않아도 되는 **AIOps**로 진화할 것이다. AI가 실시간으로 수조 개의 지표를 분석하여 장애를 예견하고, 인프라 비용과 성능 사이의 최적점을 스스로 찾아 변경하는 **자율 인프라**가 상용화될 것이다. 또한 개발자가 인프라를 전혀 몰라도 비즈니스 가치를 전달할 수 있는 **내부 개발자 플랫폼 (IDP)**이 기업의 표준 아키텍처가 될 것이다. 기술사는 개별 도구의 전문가를 넘어, 인프라 전체를 하나의 거대한 '지능형 유기체'로 보고 가치를 조율하는 '플랫폼 아키텍트'로 거듭나야 한다.
+미래의 클라우드 운영은 사람이 대시보드를 보지 않아도 되는 <strong>AIOps</strong>로 진화할 것이다. AI가 실시간으로 수조 개의 지표를 분석하여 장애를 예견하고, 인프라 비용과 성능 사이의 최적점을 스스로 찾아 변경하는 <strong>자율 인프라</strong>가 상용화될 것이다. 또한 개발자가 인프라를 전혀 몰라도 비즈니스 가치를 전달할 수 있는 <strong>내부 개발자 플랫폼 (IDP)</strong>이 기업의 표준 아키텍처가 될 것이다. 기술사는 개별 도구의 전문가를 넘어, 인프라 전체를 하나의 거대한 '지능형 유기체'로 보고 가치를 조율하는 '플랫폼 아키텍트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 클라우드 운영은 '투명한 보호막'과 같아질 것입니다. 우리가 의식하지 않아도 시스템이 스스로를 지키고 키워나가며, 우리는 그저 그 안에서 상상하는 모든 아이디어를 현실로 만들기만 하면 되는 완벽한 세상이 올 것입니다.
 

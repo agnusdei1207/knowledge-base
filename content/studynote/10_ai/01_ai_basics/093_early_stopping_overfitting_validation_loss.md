@@ -37,24 +37,26 @@ tags = ["studynote-ai"]
 | Patience | 인내심 횟수 | 오차가 개선되지 않아도 훈련을 멈추지 않고 지켜보는 에폭 수. |
 | Restore Best Weights | 최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원 | 인내심 구간이 끝나 강제 종료될 때, 가장 오차가 낮았던 과거 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 되돌린다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           조기 종료의 작동 원리 (Loss Curve)                 │
-├──────────────────────────────────────────────────────────────┤
-│ Loss                                                         │
-│  │                                 [과적합 발생 구간]          │
-│  │                                 ↗ (Validation Loss)       │
-│  │ 훈련 시작                  ↗                              │
-│  │   ↘                  Sweet Spot                           │
-│  │     ↘              ↗ (최적점)                             │
-│  │       ↘          ● ── Patience(5회) ──▶ 강제 종료 &      │
-│  │         ↘      ↙                        Best 모델 복원    │
-│  │           ↘  ↙                                            │
-│  │             ↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)               │
-│  └───────────────────────────────────────────────────────────│
-│                              Epochs                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조기 종료의 작동 원리 (Loss Curve)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 발생 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ (Validation Loss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 시작 ↗</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ Sweet Spot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↗ (최적점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ● ── Patience(5회) ──▶ 강제 종료 &amp;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙ Best 모델 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Epochs</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 최적점(Sweet Spot)에서 즉시 학습을 멈추지 않고 Patience 횟수만큼 더 지켜본 뒤, 진짜 상승세임이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 타임머신을 타고 Sweet Spot 시점의 모델 상태를 복원(Restore)한다는 점이다.
 
@@ -85,8 +87,8 @@ L2 규제나 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropo
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **Patience 값은 적절한가?** 너무 작으면 국소 최적점([Local Minima](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))이나 일시적 오차 튐 현상에 속아 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))될 수 있고, 너무 크면 학습 시간을 과도하게 낭비한다. 보통 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20 사이를 기준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
-2. **배치 크기([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 고려했는가?** 배치 크기가 작을수록 Loss [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 지그재그(Noise)가 심해지므로, Patience 값을 더 크게 주어 인내심을 늘려야 한다.
-3. **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원(Restore Best Weights) 옵션이 켜져 있는가?** 이 옵션이 없으면 종료 시점의 망가진 모델을 배포하게 되는 치명적 장애가 발생한다.
+2. <strong>배치 크기(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">Batch Size</a>)와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 고려했는가?</strong> 배치 크기가 작을수록 Loss [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 지그재그(Noise)가 심해지므로, Patience 값을 더 크게 주어 인내심을 늘려야 한다.
+3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 복원(Restore Best Weights) 옵션이 켜져 있는가?</strong> 이 옵션이 없으면 종료 시점의 망가진 모델을 배포하게 되는 치명적 장애가 발생한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오차([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Loss)만으로 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 경우 (절대 종료되지 않거나 끝까지 과적합됨).
@@ -118,21 +120,23 @@ L2 규제나 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비용 함수 (Loss Function) · 에폭 (Epoch)
-    │
-    ▼
-과적합 (Overfitting) 발생 · 일반화 성능 저하
-    │
-    ▼
-검증 세트 분리 (Validation Set Split)
-    │
-    ▼
-조기 종료 (Early Stopping) 도입 · Patience 최적화
-    │
-    ▼
-L2 규제 / Dropout 결합 최적화 (Regularization Synergy)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비용 함수 (Loss Function) · 에폭 (Epoch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과적합 (Overfitting) 발생 · 일반화 성능 저하</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증 세트 분리 (Validation Set Split)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조기 종료 (Early Stopping) 도입 · Patience 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L2 규제 / Dropout 결합 최적화 (Regularization Synergy)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

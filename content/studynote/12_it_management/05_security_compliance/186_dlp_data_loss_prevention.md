@@ -19,7 +19,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 방지 시스템은 악성코드만 막는 보안 장비가 아니라, **조직의 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 흘러가는지 직접 통제하는 장치**다. 방화벽이나 침입탐지시스템은 주로 접속 경로와 행위를 본다면, DLP는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본문, 메일 첨부, 클립보드, 출력물, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 복사, 클라우드 업로드처럼 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용을 본다. 그래서 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 영업비밀, 설계도면, 금융 정보처럼 유출 시 피해가 큰 자산을 다루는 조직에서 중요하다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 방지 시스템은 악성코드만 막는 보안 장비가 아니라, <strong>조직의 중요 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 어디로 흘러가는지 직접 통제하는 장치</strong>다. 방화벽이나 침입탐지시스템은 주로 접속 경로와 행위를 본다면, DLP는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본문, 메일 첨부, 클립보드, 출력물, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 복사, 클라우드 업로드처럼 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용을 본다. 그래서 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 영업비밀, 설계도면, 금융 정보처럼 유출 시 피해가 큰 자산을 다루는 조직에서 중요하다.
 
 DLP가 필요해진 배경은 단순 해킹 방어를 넘어선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 복잡화에 있다. 업무 환경은 이메일, 메신저, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), 원격근무, 개인 디바이스, 협업 도구로 넓어졌고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 더 이상 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 경계 안에만 머물지 않는다. 내부 사용자의 실수로 잘못 전송되는 경우, 권한 있는 사용자가 의도적으로 반출하는 경우, 랜섬웨어가 암호화 전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부로 유출하는 경우까지 모두 통제 대상이 된다.
 
@@ -35,27 +35,24 @@ DLP는 보통 엔드포인트, 네트워크, 스토리지의 세 채널에서 �
 
 아래 그림은 DLP의 3채널 구조를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                          DLP 3채널 통제 아키텍처                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│  Endpoint DLP              Network DLP                Storage DLP           │
-│  ┌───────────────┐         ┌───────────────┐          ┌───────────────┐    │
-│  │ PC / Laptop   │         │ Mail / Web    │          │ File / DB /    │    │
-│  │ - USB copy    │         │ Proxy / SWG   │          │ NAS Scanner    │    │
-│  │ - Print       │         │ - SMTP/HTTP   │          │ - At-rest scan │    │
-│  │ - Clipboard   │         │ - TLS inspect │          │ - Tag/Encrypt  │    │
-│  └──────┬────────┘         └──────┬────────┘          └──────┬────────┘    │
-│         │                           │                          │             │
-│         └──────────────┬────────────┴──────────────┬───────────┘             │
-│                        ▼                           ▼                         │
-│               [Policy Engine / Classification Engine]                       │
-│                        │                                                     │
-│                        ├─ RegEx / Dictionary / Fingerprint / OCR / ML       │
-│                        ├─ Allow / Block / Quarantine / Encrypt              │
-│                        └─ Incident Log / Ticket / SIEM 연동                 │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP 3채널 통제 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint DLP Network DLP Storage DLP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC / Laptop</div><div class="kb-diagram-cell">Mail / Web</div><div class="kb-diagram-cell">File / DB /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- USB copy</div><div class="kb-diagram-cell">Proxy / SWG</div><div class="kb-diagram-cell">NAS Scanner</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Print</div><div class="kb-diagram-cell">- SMTP/HTTP</div><div class="kb-diagram-cell">- At-rest scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Clipboard</div><div class="kb-diagram-cell">- TLS inspect</div><div class="kb-diagram-cell">- Tag/Encrypt</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Policy Engine / Classification Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RegEx / Dictionary / Fingerprint / OCR / ML</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Allow / Block / Quarantine / Encrypt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Incident Log / Ticket / SIEM 연동</div></div>
+</div>
+</div>
+
+
 
 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기술 | 설명 | 주의점 |
 | :--- | :--- | :--- |
@@ -137,22 +134,23 @@ DLP의 기대효과는 세 가지다. 첫째, [데이터](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경계 보안 중심 방어
-    │
-    ▼
-데이터 분류 · 정규식 기반 DLP
-    │
-    ▼
-Endpoint / Network / Storage DLP
-    │
-    ├──────────────▶ CASB · SaaS 가시성
-    │
-    └──────────────▶ OCR · ML 기반 문맥 식별
-                           │
-                           ▼
-                 SSE / Zero Trust 기반 데이터 중심 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계 보안 중심 방어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 분류 · 정규식 기반 DLP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Endpoint / Network / Storage DLP</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CASB · SaaS 가시성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ OCR · ML 기반 문맥 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSE / Zero Trust 기반 데이터 중심 보호</div>
+</div>
+</div>
+
+
 
 이 흐름은 “네트워크 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 클라우드·문맥 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)”로 통제가 진화하는 방향을 보여준다.
 

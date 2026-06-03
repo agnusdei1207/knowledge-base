@@ -25,10 +25,10 @@ tags = ["studynote-ai"]
 ∇_θ J(θ) = E[G_t · ∇_θ log π_θ(a_t|s_t)]
 ```
 
-이 방법은 **고분산(High [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))** 문제를 가진다. 같은 (s,a) 쌍이라도 에피소드 전개에 따라 G_t가 크게 달라지므로, 그래디언트가 불안정하고 수렴이 느리다.
+이 방법은 <strong>고분산(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 문제를 가진다. 같은 (s,a) 쌍이라도 에피소드 전개에 따라 G_t가 크게 달라지므로, 그래디언트가 불안정하고 수렴이 느리다.
 
 해결책은 두 가지 방향이다:
-1. **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** 차감: G_t 대신 G_t - b(s_t) 사용 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 불변)
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> 차감: G_t 대신 G_t - b(s_t) 사용 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 불변)
 2. **비평자(Critic)** 활용: b(s_t)를 학습된 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) V(s_t)로 추정
 
 Actor-Critic은 이 두 아이디어를 결합하여, 행동자(Actor)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 개선하고 비평자(Critic)가 행동자의 업데이트 품질을 실시간으로 평가하는 이중 구조를 만든다.
@@ -58,30 +58,27 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 
 ### A2C [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      A2C 구조                               │
-│                                                             │
-│  환경(Environment)                                          │
-│       │ s_t                      │ R_t, s_{t+1}            │
-│       ▼                          ▼                          │
-│  ┌─────────────┐          ┌──────────────┐                 │
-│  │   Actor     │          │   Critic     │                 │
-│  │   π_θ(a|s)  │          │   V_φ(s)     │                 │
-│  └──────┬──────┘          └──────┬───────┘                 │
-│         │ a_t                    │ V(s_t), V(s_{t+1})      │
-│         │                        ▼                          │
-│         │              A_t = R_t + γV(s_{t+1}) - V(s_t)   │
-│         │                        │                          │
-│         ▼                        ▼                          │
-│  Actor 손실: -A_t·log π_θ(a_t|s_t)                         │
-│  Critic 손실: (A_t)²   (TD 오류 제곱)                        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A2C 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경(Environment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s_t</div><div class="kb-diagram-cell">R_t, s_{t+1}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor</div><div class="kb-diagram-cell">Critic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">π_θ(a</div><div class="kb-diagram-cell">s)</div><div class="kb-diagram-cell">V_φ(s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a_t</div><div class="kb-diagram-cell">V(s_t), V(s_{t+1})</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A_t = R_t + γV(s_{t+1}) - V(s_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor 손실: -A_t·log π_θ(a_t</div><div class="kb-diagram-cell">s_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Critic 손실: (A_t)² (TD 오류 제곱)</div></div>
+</div>
+</div>
+
+
 
 ### 업데이트 수식
 
-**Actor ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 네트워크) 업데이트**:
+<strong>Actor (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 네트워크) 업데이트</strong>:
 ```
 θ ← θ + α_actor · A(s_t, a_t) · ∇_θ log π_θ(a_t|s_t)
 ```
@@ -110,7 +107,7 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) | 클리핑 비율 | 단일/다중 | 높음 | 높음 |
 | SAC | 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 단일 | 매우 높음 | 매우 높음 |
 
-**[PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))** 핵심:
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">Proximal Policy Optimization</a>)</strong> 핵심:
 
 ```
 L^PPO(θ) = E[min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)]
@@ -130,7 +127,7 @@ r_t(θ) = π_θ(a_t|s_t) / π_θ_old(a_t|s_t)  (확률비)
 - 연속 행동 공간(Continuous Action Space): Mujoco 로봇 제어 → [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)/SAC 적합
 - 이산 행동 공간(Discrete Action Space): Atari 게임 → A2C/[A3C](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)/[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 적합
 
-**[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) Bonus)**: Actor 손실에 H(π)를 더해 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 촉진:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> 보너스(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a> Bonus)</strong>: Actor 손실에 H(π)를 더해 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 촉진:
 ```
 L = L^Actor - α_critic·L^Critic + β·H(π_θ)
 ```

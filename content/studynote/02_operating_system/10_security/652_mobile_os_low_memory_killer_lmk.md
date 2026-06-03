@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모바일 기기는 서버나 PC와 달리 스왑(Swap) 공간(디스크)이 없거나 극히 제한적이다. 따라서 메모리가 부족해지면 리눅스의 기본 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 대신, 안드로이드 전용의 **[Low Memory Killer](/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/) (LMK)**가 발동하여 앱을 백그라운드에서 조용히 죽여 메모리를 확보한다.
-> 2. **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: LMK는 각 앱의 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(포그라운드, 백그라운드, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등)를 실시간으로 추적하여 `oom_adj_score`라는 생존 점수를 매긴다. 메모리 부족 단계(Threshold)가 심각해질수록 점수가 높은(쓸모없는) 백그라운드 앱부터 순차적으로 처형한다.
+> 1. **본질**: 모바일 기기는 서버나 PC와 달리 스왑(Swap) 공간(디스크)이 없거나 극히 제한적이다. 따라서 메모리가 부족해지면 리눅스의 기본 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 대신, 안드로이드 전용의 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/">Low Memory Killer</a> (LMK)</strong>가 발동하여 앱을 백그라운드에서 조용히 죽여 메모리를 확보한다.
+> 2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: LMK는 각 앱의 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(포그라운드, 백그라운드, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등)를 실시간으로 추적하여 `oom_adj_score`라는 생존 점수를 매긴다. 메모리 부족 단계(Threshold)가 심각해질수록 점수가 높은(쓸모없는) 백그라운드 앱부터 순차적으로 처형한다.
 > 3. **가치**: 사용자가 앱을 켜고 끄는 것을 신경 쓰지 않아도 되게 만드는 스마트폰 멀티태스킹의 핵심이며, 개발자에게는 앱이 언제든 시스템에 의해 살해(Kill)될 수 있음을 전제로 하는 모바일 특유의 **상태 저장(SaveInstanceState)** 생명 주기 아키텍처를 강제했다.
 
 ---
@@ -20,19 +20,19 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 기능으로, 메모리가 완전히 바닥났을 때(패닉 직전) 가장 메모리를 많이 먹는 프로세스를 죽이는 극단적 처방.
-  - **[Low Memory Killer](/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/) (LMK)**: 안드로이드(Android)가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에 추가한 커스텀 데몬으로, 메모리가 완전히 바닥나기 '전'에 여유 공간(Free RAM)의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)에 따라 가장 덜 중요한 앱을 부드럽게 미리 죽여놓는 예방적 관리 시스템이다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 기능으로, 메모리가 완전히 바닥났을 때(패닉 직전) 가장 메모리를 많이 먹는 프로세스를 죽이는 극단적 처방.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/">Low Memory Killer</a> (LMK)</strong>: 안드로이드(Android)가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에 추가한 커스텀 데몬으로, 메모리가 완전히 바닥나기 '전'에 여유 공간(Free RAM)의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)에 따라 가장 덜 중요한 앱을 부드럽게 미리 죽여놓는 예방적 관리 시스템이다.
 
 - **필요성 (PC와 스마트폰의 램 관리 차이)**: 
   - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(윈도우)는 램이 꽉 차면 안 쓰는 데이터를 SSD로 몰아내는 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 한다. 스마트폰의 낸드 플래시(eMMC, UFS)에 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)을 하면 수명이 급격히 줄어들고(Wear-out), 배터리가 녹아내린다.
   - 또한, 스마트폰 사용자는 앱의 'X(종료) 버튼'을 누르지 않고 무조건 홈 버튼만 눌러 백그라운드로 넘긴다. 앱 50개를 켜두면 램이 견딜 수가 없다.
   - **해결책**: 스왑을 없애고, 백그라운드에 숨어있는 앱들을 '우선순위'에 따라 차례대로 암살(Kill)하여 빈 메모리를 항상 일정 수준 이상 유지하는 LMK 데몬이 모바일 OS의 생명줄로 도입되었다.
 
-  - **[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))**: 비행기가 무거워서 추락하기 직전이다. 기장이 가장 뚱뚱한 사람(메모리 많이 먹는 앱)을 찾아내어 낙하산 없이 밀어버린다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a>)</strong>: 비행기가 무거워서 추락하기 직전이다. 기장이 가장 뚱뚱한 사람(메모리 많이 먹는 앱)을 찾아내어 낙하산 없이 밀어버린다.
   - **스마트폰 (LMK)**: 비행기가 고도를 살짝 잃기 시작한다. 기장(안드로이드)은 명부를 보고 "현재 잠자고 있는 승객(백그라운드 앱)"부터 조용히 짐 칸으로 내린다. 고도가 더 떨어지면 "음악만 듣고 있는 승객([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앱)"을 내린다. 지금 비행기를 조종하고 있는 "조종사(포그라운드 앱)"는 비행기가 박살 나기 전까지 절대 건드리지 않는다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) LMK (In-Kernel)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 C 코드로 작성되어 돌아감. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 무겁게 만들고 커스텀이 어려움.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> LMK (In-Kernel)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 C 코드로 작성되어 돌아감. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 무겁게 만들고 커스텀이 어려움.
   2. **LMKD (User-space, 안드로이드 9+)**: LMK를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 빼내어 사용자 공간 데몬(lmkd)으로 분리. eBPF와 PSI(Pressure Stall Information)를 활용해 훨씬 똑똑하고 예측 가능한 킬링을 수행.
 
 - **📢 섹션 요약 비유**: 스마트폰의 램(RAM) 관리는 끝없는 '의자 뺏기 게임'입니다. 자리가 모자랄 때마다 심판(LMK)이 가장 눈에 안 띄는 사람부터 조용히 탈락시켜서, 게임이 멈추지 않게 하는 냉혹한 생존 법칙입니다.
@@ -49,7 +49,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **Foreground App** | 0 | 사용자가 현재 쳐다보고 터치하고 있는 앱 | VVIP (절대 죽이면 안 됨) |
 | **Visible App** | 100 | 화면에 보이긴 하지만 터치는 안 되는 앱 (예: 팝업 뒤의 앱) | VIP |
-| **[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) App** | 200 | 백그라운드에서 음악을 틀거나 파일을 다운로드 중인 앱 | 우수 회원 (일하는 중) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> App</strong> | 200 | 백그라운드에서 음악을 틀거나 파일을 다운로드 중인 앱 | 우수 회원 (일하는 중) |
 | **Previous App** | 400 | 방금 전까지 쓰다가 홈 버튼을 눌러 들어간 앱 | 일반 회원 |
 | **Cached App** | 900 ~ 1000 | 오랫동안 안 쓴 앱. 메모리에 틀(Cache)만 남아있음 | 유령 회원 (**1순위 사살 대상**) |
 
@@ -59,33 +59,30 @@ tags = ["studynote-operating-system"]
 
 LMK는 메모리 여유 공간(Free RAM)의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 여러 단계로 나누고, 여유 공간이 줄어들 때마다 사살(Kill) 범위를 넓힌다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Low Memory Killer (LMK) 단계별 처형 메커니즘           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [스마트폰 총 RAM: 4GB]                                               │
-  │                                                                   │
-  │  1. 여유 램 500MB (안전 상태)                                        │
-  │     - LMK는 잠을 잔다.                                              │
-  │                                                                   │
-  │  2. 사용자가 고사양 게임(원신)을 켜서 여유 램이 [ 300MB ]로 떨어짐!          │
-  │     - LMK 1단계 발동: "점수 900점 이상(Cached App) 다 죽여!"          │
-  │     - 3일 전에 켰던 계산기 앱, 메모장 앱이 메모리에서 조용히 사라짐.           │
-  │                                                                   │
-  │  3. 게임이 램을 더 먹어서 여유 램이 [ 200MB ]로 떨어짐!                   │
-  │     - LMK 2단계 발동: "점수 400점 이상(Previous App) 다 죽여!"        │
-  │     - 방금 전까지 하던 카카오톡 앱이 강제 종료됨.                          │
-  │                                                                   │
-  │  4. 게임이 미쳐서 램을 다 먹고 여유 램이 [ 100MB ] (위험 수준) 도달!          │
-  │     - LMK 최종 발동: "점수 200점(Service) 이상 싹 다 사살해!"           │
-  │     - 백그라운드에서 듣고 있던 유튜브 뮤직 앱마저 픽 하고 꺼져버림.            │
-  │                                                                   │
-  │  [결과] 고사양 게임(Foreground, 0점)은 살아남아 부드럽게 구동됨.             │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** LMK의 핵심은 **"여유 메모리 양에 비례하여 킬링 허들(Score)을 낮추는 것"**이다. 평소에 스마트폰에 띄워둔 앱들을 '모두 닫기'로 끄는 것은 사실 배터리 낭비다. 켜둔 앱은 LMK에 의해 Cached 상태로 얌전히 램만 점유하고 있으므로, 나중에 다시 켤 때 CPU를 안 써서 배터리가 절약된다. 램이 진짜 모자라면 어차피 LMK가 알아서 지워준다. (안드로이드는 램을 꽉 채워 쓰는 것이 가장 효율적이다.)
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low Memory Killer (LMK) 단계별 처형 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 총 RAM: 4GB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 여유 램 500MB (안전 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LMK는 잠을 잔다.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 사용자가 고사양 게임(원신)을 켜서 여유 램이</div><div class="kb-diagram-node">300MB</div><div class="kb-diagram-note">로 떨어짐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LMK 1단계 발동: "점수 900점 이상(Cached App) 다 죽여!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3일 전에 켰던 계산기 앱, 메모장 앱이 메모리에서 조용히 사라짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 게임이 램을 더 먹어서 여유 램이</div><div class="kb-diagram-node">200MB</div><div class="kb-diagram-note">로 떨어짐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LMK 2단계 발동: "점수 400점 이상(Previous App) 다 죽여!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방금 전까지 하던 카카오톡 앱이 강제 종료됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4. 게임이 미쳐서 램을 다 먹고 여유 램이</div><div class="kb-diagram-node">100MB</div><div class="kb-diagram-note">(위험 수준) 도달!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LMK 최종 발동: "점수 200점(Service) 이상 싹 다 사살해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 백그라운드에서 듣고 있던 유튜브 뮤직 앱마저 픽 하고 꺼져버림.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">고사양 게임(Foreground, 0점)은 살아남아 부드럽게 구동됨.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** LMK의 핵심은 <strong>"여유 메모리 양에 비례하여 킬링 허들(Score)을 낮추는 것"</strong>이다. 평소에 스마트폰에 띄워둔 앱들을 '모두 닫기'로 끄는 것은 사실 배터리 낭비다. 켜둔 앱은 LMK에 의해 Cached 상태로 얌전히 램만 점유하고 있으므로, 나중에 다시 켤 때 CPU를 안 써서 배터리가 절약된다. 램이 진짜 모자라면 어차피 LMK가 알아서 지워준다. (안드로이드는 램을 꽉 채워 쓰는 것이 가장 효율적이다.)
 
 ---
 
@@ -113,7 +110,7 @@ LMK에 의해 앱이 갑자기 죽어버리면 사용자는 분노한다. 카카
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: LMK는 데스크탑 OS(Windows, Linux)가 **'모든 프로세스는 평등하다(공정성)'**고 가정하는 것과 달리, 모바일 OS는 **'화면에 보이는 프로세스(포그라운드)가 절대 권력을 가진다'**는 극단적인 비대칭 스케줄링 철학을 OS 레벨에서 구현한 것이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: LMK는 데스크탑 OS(Windows, Linux)가 <strong>'모든 프로세스는 평등하다(공정성)'</strong>고 가정하는 것과 달리, 모바일 OS는 <strong>'화면에 보이는 프로세스(포그라운드)가 절대 권력을 가진다'</strong>는 극단적인 비대칭 스케줄링 철학을 OS 레벨에서 구현한 것이다.
 - **소프트웨어공학 (SE)**: 서버 개발자들은 프로세스가 죽는 것을 '장애(Crash)'로 여기지만, 모바일 개발자들은 프로세스가 죽는 것을 '정상적인 생명 주기(Lifecycle)'로 설계해야 한다. 이것이 모바일 아키텍처(MVVM, 상태 저장 보존)가 서버 아키텍처와 근본적으로 달라지게 만든 원인이다.
 
 - **📢 섹션 요약 비유**: 데스크탑은 식량이 부족하면 덩치가 커서 밥을 많이 먹는 사람(메모리 다소비)을 배에서 내쫓지만, 스마트폰은 식량이 부족하면 지금 노 젓는 사람(포그라운드)을 살리기 위해 잠자는 사람(백그라운드)을 무조건 바다로 던집니다.
@@ -126,7 +123,7 @@ LMK에 의해 앱이 갑자기 죽어버리면 사용자는 분노한다. 카카
 
 1. **시나리오 — 배달/택시 앱의 백그라운드 GPS 추적 끊김 현상**: 기사용 앱이 화면에 켜져 있을 때는 GPS를 잘 받아오는데, 기사가 내비게이션(T맵)을 화면에 띄우면 10분 뒤 내 앱이 LMK에 의해 죽어서 서버로 위치 전송이 끊어지는 불만 폭주.
    - **원인 분석**: 내 앱이 백그라운드로 밀리면서 Cached App(점수 900)이나 Previous App(점수 400)으로 강등되었다. T맵이 무거워 램이 부족해지자 LMK가 내 앱을 사살한 것이다.
-   - **대응 (Foreground [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 적용)**: 개발자는 앱을 단순 백그라운드가 아니라 **Foreground [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (상단바 고정 알림 필수)**로 띄워야 한다. 이렇게 하면 AMS가 이 앱의 점수를 200점([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 이하로 낮춰주어, LMK의 타겟 순위에서 뒤로 밀리게 되어 끈질기게 생존할 수 있다. (단, 배터리 소모는 감수해야 함)
+   - <strong>대응 (Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 적용)</strong>: 개발자는 앱을 단순 백그라운드가 아니라 <strong>Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (상단바 고정 알림 필수)</strong>로 띄워야 한다. 이렇게 하면 AMS가 이 앱의 점수를 200점([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 이하로 낮춰주어, LMK의 타겟 순위에서 뒤로 밀리게 되어 끈질기게 생존할 수 있다. (단, 배터리 소모는 감수해야 함)
 
 2. **시나리오 — 구형 저사양 스마트폰(RAM 2GB)에서의 앱 튕김 현상 최적화**: 게임 회사가 만든 대작 게임이 구형 폰에서 켜기만 하면 5분을 못 버티고 크래시([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))가 남.
    - **아키텍처 적용**: 앱 자체의 메모리 풋프린트가 너무 커서, 게임이 포그라운드(Foreground)에 있는데도 OS가 버티다 못해 최후의 수단으로 0점짜리 게임마저 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬을 해버리는 상황이다.
@@ -134,29 +131,26 @@ LMK에 의해 앱이 갑자기 죽어버리면 사용자는 분노한다. 카카
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 모바일 앱 메모리 생존 전략 (LMK 회피) 설계 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [사용자가 내 앱을 백그라운드로 내렸을 때의 동작 요구사항 분석]                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      백그라운드에서 반드시 실시간으로 동작(음악, GPS, 다운로드)해야 하는가?     │
-  │          ├─ 예 ─────▶ [Foreground Service 구현 및 상단바 알림 띄움]    │
-  │          │            (OOM_ADJ 점수를 낮춰 LMK의 타겟에서 벗어남)       │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      그냥 주기적으로 메시지만 확인하면 되는가? (예: 카톡 푸시 알림)         │
-  │          ├─ 예 ─────▶ [FCM (Firebase Cloud Messaging) 연동]        │
-  │          │            (앱은 LMK에 죽게 내버려 두고, OS가 알림을 대신 받음)│
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [WorkManager / JobScheduler 사용]           │
-  │                         (OS가 폰이 충전 중일 때 등 램 여유가 있을 때만   │
-  │                          앱을 잠깐 깨워서 작업을 시키고 다시 죽임)          │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일 앱 메모리 생존 전략 (LMK 회피) 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자가 내 앱을 백그라운드로 내렸을 때의 동작 요구사항 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백그라운드에서 반드시 실시간으로 동작(음악, GPS, 다운로드)해야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Foreground Service 구현 및 상단바 알림 띄움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OOM_ADJ 점수를 낮춰 LMK의 타겟에서 벗어남)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그냥 주기적으로 메시지만 확인하면 되는가? (예: 카톡 푸시 알림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCM (Firebase Cloud Messaging) 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앱은 LMK에 죽게 내버려 두고, OS가 알림을 대신 받음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WorkManager / JobScheduler 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 폰이 충전 중일 때 등 램 여유가 있을 때만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱을 잠깐 깨워서 작업을 시키고 다시 죽임)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 초보 모바일 개발자는 "내 앱이 죽지 않게 해주세요!"라며 안드로이드 시스템을 해킹하려 들거나 배터리 최적화 예외에 앱을 올리려 한다. 이는 모바일 생태계의 철학을 정면으로 거스르는 짓이다. 훌륭한 아키텍트는 "내 앱은 언제든 죽을 수 있다"를 전제로, 죽었을 때 상태를 저장하고, 깨어났을 때 끊김 없이 복원하는 유연한(Resilient) 수명 주기(Lifecycle)를 설계한다.
 
@@ -179,8 +173,8 @@ LMK에 의해 앱이 갑자기 죽어버리면 사용자는 분노한다. 카카
 | **정량 (배터리)** | 켜진 모든 앱이 CPU와 RAM 소모 | 백그라운드 앱을 주기적으로 청소 | 불필요한 백그라운드 누수 방지로 배터리 수명 연장 |
 
 ### 미래 전망
-- **MGLRU (Multi-Generational [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 6.1에 도입되어 안드로이드 14부터 기본 탑재된 차세대 메모리 회수 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). LMK가 앱을 죽이기 전에, 진짜 안 쓰는 캐시 페이지가 무엇인지 기존 LRU보다 훨씬 똑똑하게 찾아내어, LMK 발동 횟수(앱 죽는 횟수) 자체를 20% 이상 줄여주는 기적의 최적화를 이뤄냈다.
-- **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 킬링 (App Standby Buckets)**: 단순히 점수만 보는 게 아니라, OS 내장의 AI가 "이 사용자는 매일 아침 8시에 유튜브를 켜는군"을 학습하여, 7시 59분에는 유튜브 앱을 절대 LMK로 죽이지 않고 메모리에 꼭 쥐고 있는 스마트 [프리페칭](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/)(Pre-fetching) 킬링 정책이 발전하고 있다.
+- <strong>MGLRU (Multi-Generational <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 6.1에 도입되어 안드로이드 14부터 기본 탑재된 차세대 메모리 회수 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). LMK가 앱을 죽이기 전에, 진짜 안 쓰는 캐시 페이지가 무엇인지 기존 LRU보다 훨씬 똑똑하게 찾아내어, LMK 발동 횟수(앱 죽는 횟수) 자체를 20% 이상 줄여주는 기적의 최적화를 이뤄냈다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 기반 킬링 (App Standby Buckets)</strong>: 단순히 점수만 보는 게 아니라, OS 내장의 AI가 "이 사용자는 매일 아침 8시에 유튜브를 켜는군"을 학습하여, 7시 59분에는 유튜브 앱을 절대 LMK로 죽이지 않고 메모리에 꼭 쥐고 있는 스마트 [프리페칭](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/)(Pre-fetching) 킬링 정책이 발전하고 있다.
 
 ### 결론
 모바일 OS의 [Low Memory Killer](/knowledge-base/studynote/02_operating_system/11_exam_summary/787_android_lmk_low_memory_killer/)(LMK)는 "제한된 자원에서 사용자에게 완벽한 환상(Illusion)을 주려면 어떻게 해야 하는가?"에 대한 모바일 엔지니어링의 치열한 답변이다. 개발자에게는 끝없이 죽고 부활하는 복잡한 수명 주기를 강제하는 골칫거리지만, 사용자에게는 수십 개의 앱을 마음껏 열어두어도 폰이 절대 멈추지 않게 만드는 든든한 수호자다. LMK와 OOM_ADJ 스코어에 대한 이해는 안드로이드 시스템 프로그래밍과 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 트러블슈팅의 핵심 열쇠다.
@@ -200,15 +194,19 @@ LMK에 의해 앱이 갑자기 죽어버리면 사용자는 분노한다. 카카
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
-    │
-    ▼
-[모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
-    │
-    ├──▶ [엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)]
-    └──▶ [리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -21,25 +21,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-FIFO는 캐시나 버퍼가 가득 찼을 때 **가장 먼저 적재된 항목을 교체 대상**으로 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 판단 기준이 "얼마나 자주 썼는가"도 아니고 "방금 썼는가"도 아니라 오직 **들어온 순서**뿐이라는 점이 핵심이다. 이 단순함 덕분에 복잡한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 없이도 교체 결정을 내릴 수 있다.
+FIFO는 캐시나 버퍼가 가득 찼을 때 <strong>가장 먼저 적재된 항목을 교체 대상</strong>으로 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 판단 기준이 "얼마나 자주 썼는가"도 아니고 "방금 썼는가"도 아니라 오직 <strong>들어온 순서</strong>뿐이라는 점이 핵심이다. 이 단순함 덕분에 복잡한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 없이도 교체 결정을 내릴 수 있다.
 
-이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요한 이유는 모든 저장 구조가 고성능 교체 로직을 감당할 필요는 없기 때문이다. CPU (Central Processing Unit) 최상위 캐시처럼 극단적 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 중요한 곳은 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 계열이 더 유리하지만, 네트워크 큐나 센서 링 버퍼처럼 **순서 보장과 구현 단순성**이 더 중요한 구조도 많다. 이런 환경에서는 정교한 예측보다 "확실하고 빠른 처리"가 우선이다.
+이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요한 이유는 모든 저장 구조가 고성능 교체 로직을 감당할 필요는 없기 때문이다. CPU (Central Processing Unit) 최상위 캐시처럼 극단적 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 중요한 곳은 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 계열이 더 유리하지만, 네트워크 큐나 센서 링 버퍼처럼 <strong>순서 보장과 구현 단순성</strong>이 더 중요한 구조도 많다. 이런 환경에서는 정교한 예측보다 "확실하고 빠른 처리"가 우선이다.
 
-즉 FIFO는 최고의 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 노리는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이라기보다, **최소한의 제어 비용으로 저장 공간을 순환시키는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 이해해야 한다. 오래된 것이 곧 덜 중요하다는 보장은 없지만, 적어도 누가 나갈지는 즉시 결정할 수 있다.
+즉 FIFO는 최고의 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 노리는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이라기보다, <strong>최소한의 제어 비용으로 저장 공간을 순환시키는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 이해해야 한다. 오래된 것이 곧 덜 중요하다는 보장은 없지만, 적어도 누가 나갈지는 즉시 결정할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        FIFO가 필요한 상황: 판단은 단순하게, 교체는 즉시       │
-├──────────────────────────────────────────────────────────────┤
-│ 캐시/버퍼 가득 참                                             │
-│      │                                                       │
-│      ▼                                                       │
-│ "최근 사용" 추적 없음  "빈도" 카운트 없음  "순서"만 관리     │
-│      │                                                       │
-│      ▼                                                       │
-│ 가장 먼저 들어온 항목 선택  ───────────────▶ 즉시 교체         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO가 필요한 상황: 판단은 단순하게, 교체는 즉시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시/버퍼 가득 참</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"최근 사용" 추적 없음 "빈도" 카운트 없음 "순서"만 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 먼저 들어온 항목 선택 ▶ 즉시 교체</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FIFO는 식당 대기표와 같다. 자주 오는 단골인지, 방금 주문했는지는 보지 않고 번호표를 먼저 뽑은 순서만 기준으로 자리를 비운다.
 
@@ -55,25 +54,22 @@ FIFO의 핵심 구현은 보통 큐 ([Queue](/knowledge-base/studynote/08_algori
 
 다음 그림은 FIFO가 왜 빠르지만 둔감한지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                FIFO 교체 흐름: 참조 이력은 무시               │
-├──────────────────────────────────────────────────────────────┤
-│ 현재 큐 상태                                                  │
-│ Front                                                     Rear│
-│  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐                      │
-│  │  A   │  │  B   │  │  C   │  │  D   │                      │
-│  └──────┘  └──────┘  └──────┘  └──────┘                      │
-│     ▲                                                        │
-│     └─ 가장 먼저 들어온 블록 = 다음 희생자                    │
-│                                                              │
-│ 새 블록 E 도착                                               │
-│                                                              │
-│  A 제거  ───────────────────────────────────────▶  E 삽입      │
-│                                                              │
-│ 결과: [ B ][ C ][ D ][ E ]                                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO 교체 흐름: 참조 이력은 무시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 큐 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Rear</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가장 먼저 들어온 블록 = 다음 희생자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 블록 E 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 제거 ▶ E 삽입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">E</div></div>
+</div>
+</div>
+
+
 
 | 항목 | FIFO의 처리 방식 | 의미 |
 | :--- | :--- | :--- |
@@ -88,7 +84,7 @@ FIFO의 핵심 구현은 보통 큐 ([Queue](/knowledge-base/studynote/08_algori
 
 ## Ⅲ. 비교 및 연결
 
-FIFO를 제대로 이해하려면 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), LFU와의 경계를 함께 봐야 한다. FIFO는 **순서**, LRU는 **최근성**, LFU는 **빈도**를 본다. 즉 FIFO는 기억해야 할 정보가 가장 적은 대신, 프로그램의 지역성(Locality)을 가장 덜 반영한다.
+FIFO를 제대로 이해하려면 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), LFU와의 경계를 함께 봐야 한다. FIFO는 **순서**, LRU는 **최근성**, LFU는 <strong>빈도</strong>를 본다. 즉 FIFO는 기억해야 할 정보가 가장 적은 대신, 프로그램의 지역성(Locality)을 가장 덜 반영한다.
 
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 판단 기준 | 장점 | 약점 | 대표 연결 개념 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -96,7 +92,7 @@ FIFO를 제대로 이해하려면 [LRU](/knowledge-base/studynote/02_operating_s
 | [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) | 가장 오래 안 쓴 시점 | [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) 반영 우수 | 구현 복잡도 증가 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) |
 | [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) | 가장 적게 사용한 빈도 | 장기 인기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 관리 부담 큼 | 캐시 오염 방지 |
 
-특히 FIFO는 **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** 이 아니기 때문에 캐시 크기를 키워도 항상 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진다고 보장할 수 없다. 같은 접근열에서 캐시를 3칸에서 4칸으로 늘렸는데도 미스가 증가하는 현상이 바로 벨라디의 모순이다. 이 점이 FIFO를 메인 CPU 캐시의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵게 만든다.
+특히 FIFO는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> 이 아니기 때문에 캐시 크기를 키워도 항상 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진다고 보장할 수 없다. 같은 접근열에서 캐시를 3칸에서 4칸으로 늘렸는데도 미스가 증가하는 현상이 바로 벨라디의 모순이다. 이 점이 FIFO를 메인 CPU 캐시의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵게 만든다.
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체에서 쓰이는 Second Chance 또는 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 FIFO의 약점을 보완한 대표 사례다. 기본 순서는 FIFO처럼 유지하되, 최근 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))가 있으면 즉시 버리지 않고 한 번 더 기회를 준다. 즉 실무는 FIFO의 단순함을 버리지 않으면서도, 지역성을 조금이라도 반영하려는 방향으로 발전해 왔다.
 
@@ -106,9 +102,9 @@ FIFO를 제대로 이해하려면 [LRU](/knowledge-base/studynote/02_operating_s
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FIFO를 채택할지 여부는 "[적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 최적화"보다 **제어 비용과 순서 보장**이 더 중요한지로 판단해야 한다. 예를 들어 초당 대량 이벤트를 받는 네트워크 입력 버퍼나 오디오 스트리밍 버퍼는, 복잡한 교체 판단보다 빠른 순환과 예측 가능한 동작이 중요하다. 이런 곳에서 FIFO는 좋은 선택이다.
+실무에서 FIFO를 채택할지 여부는 "[적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 최적화"보다 <strong>제어 비용과 순서 보장</strong>이 더 중요한지로 판단해야 한다. 예를 들어 초당 대량 이벤트를 받는 네트워크 입력 버퍼나 오디오 스트리밍 버퍼는, 복잡한 교체 판단보다 빠른 순환과 예측 가능한 동작이 중요하다. 이런 곳에서 FIFO는 좋은 선택이다.
 
-반면 CPU 캐시, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀(Buffer Pool), 자주 재사용되는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 캐시처럼 **지역성이 강한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 다루는 계층에서는 순수 FIFO를 조심해야 한다. 오래 머물렀다는 이유만으로 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내보내면 미스 패널티가 누적되고, 하위 메모리 접근 지연이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 망친다. 특히 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근이 수십 ns 이상 걸리는 상황에서는 작은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이가 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이로 이어진다.
+반면 CPU 캐시, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀(Buffer Pool), 자주 재사용되는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 캐시처럼 <strong>지역성이 강한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 다루는 계층에서는 순수 FIFO를 조심해야 한다. 오래 머물렀다는 이유만으로 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내보내면 미스 패널티가 누적되고, 하위 메모리 접근 지연이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 망친다. 특히 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근이 수십 ns 이상 걸리는 상황에서는 작은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이가 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이로 이어진다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -133,7 +129,7 @@ FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하�
 
 하지만 FIFO를 "낡았으니 버린다"는 단일 관점으로만 이해하면 위험하다. 컴퓨터 구조에서 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 뜻은 아니기 때문이다. 캐시 계층이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리는 이유는 지역성을 잘 붙잡는 데 있는데, FIFO는 이 점에서 본질적으로 불리하다.
 
-따라서 FIFO는 **모든 캐시에 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이 아니라, **순서 중심 구조에 특히 잘 맞는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 기억해야 한다. 현대 시스템은 필요에 따라 FIFO를 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하고, Second Chance처럼 약간 보완해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하며, 더 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 필요하면 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열로 넘어간다. 핵심은 단순함과 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 사이의 균형을 어디에 둘 것인지 판단하는 것이다.
+따라서 FIFO는 <strong>모든 캐시에 좋은 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이 아니라, <strong>순서 중심 구조에 특히 잘 맞는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 기억해야 한다. 현대 시스템은 필요에 따라 FIFO를 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하고, Second Chance처럼 약간 보완해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 하며, 더 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 필요하면 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열로 넘어간다. 핵심은 단순함과 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 사이의 균형을 어디에 둘 것인지 판단하는 것이다.
 
 - **📢 섹션 요약 비유**: FIFO는 가장 단순한 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 같다. 규칙은 명확하고 운영은 쉽지만, 모든 교차로에 똑같이 적용하면 혼잡한 도심에서는 더 똑똑한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 필요해진다.
 
@@ -151,25 +147,25 @@ FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 순환 버퍼
-    │
-    ▼
-FIFO (First-In, First-Out)
-    │
-    ├─ 장점: 구현 단순 · 저전력 · 예측 가능
-    │
-    └─ 한계: 지역성 미반영 · 벨라디의 모순
-           │
-           ▼
-Second Chance / Clock
-           │
-           ▼
-LRU (Least Recently Used) · Pseudo-LRU
-           │
-           ▼
-적응형 교체 정책 (Adaptive Replacement)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 순환 버퍼</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FIFO (First-In, First-Out)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">장점: 구현 단순 · 저전력 · 예측 가능</div>
+<div class="kb-diagram-tree-item" style="--depth:2">한계: 지역성 미반영 · 벨라디의 모순</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Second Chance / Clock</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LRU (Least Recently Used) · Pseudo-LRU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 교체 정책 (Adaptive Replacement)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

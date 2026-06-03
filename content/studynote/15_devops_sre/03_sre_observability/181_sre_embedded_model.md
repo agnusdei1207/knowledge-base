@@ -27,22 +27,24 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 중앙 큐 기반 운영과 임베디드 모델의 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 중앙 큐 기반 vs 임베디드 SRE                                  │
-├──────────────────────────────────────────────────────────────┤
-│ 중앙 큐 기반                                                   │
-│ Team A ─┐                                                     │
-│ Team B ─┼─▶ 중앙 SRE 요청 대기 ─▶ 뒤늦은 리뷰·장애 대응       │
-│ Team C ─┘                                                     │
-│                                                              │
-│ 임베디드 모델                                                 │
-│ Product Team A [개발 · 개발 · 품질 · Embedded SRE]            │
-│   ├─ 설계 단계에서 SLO 검토                                  │
-│   ├─ 배포 전 가드레일 점검                                   │
-│   └─ 장애 후 바로 회고와 자동화로 연결                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 큐 기반 vs 임베디드 SRE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 큐 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team B ─ ─▶ 중앙 SRE 요청 대기 ─▶ 뒤늦은 리뷰·장애 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team C ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베디드 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Product Team A</div><div class="kb-diagram-node">개발 · 개발 · 품질 · Embedded SRE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 설계 단계에서 SLO 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 배포 전 가드레일 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장애 후 바로 회고와 자동화로 연결</div></div>
+</div>
+</div>
+
+
 
 핵심은 장애가 난 뒤 티켓을 넘기는 속도보다, 장애가 덜 나게 만드는 학습 루프를 얼마나 제품팀 가까이에 두느냐다. 임베디드 모델은 바로 그 거리를 줄이기 위한 조직 설계다.
 
@@ -62,26 +64,26 @@ tags = ["studynote-devops-sre"]
 
 아래 구조는 임베디드 SRE가 어느 쪽에도 완전히 끊기지 않는 형태를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ SRE Guild / CoP                                               │
-│ 표준 SLO · Incident Practice · 공통 도구 · 학습 공유         │
-└───────────────┬──────────────────────────────────────────────┘
-                │ 정기 동기화
-                ▼
-┌──────────────────────────────────────────────────────────────┐
-│ Product Team                                                  │
-│ 기획 · 개발 · 품질 · Embedded SRE                              │
-├──────────────────────────────────────────────────────────────┤
-│ 설계 리뷰 -> 배포 가드 -> 온콜 -> Postmortem -> 자동화       │
-│                ▲                               │              │
-│                └──── Platform Team Tool / Service ─┘          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE Guild / CoP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 SLO · Incident Practice · 공통 도구 · 학습 공유</div></div>
+<div class="kb-diagram-note">정기 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Team</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 · 개발 · 품질 · Embedded SRE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계 리뷰 -&gt; 배포 가드 -&gt; 온콜 -&gt; Postmortem -&gt; 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform Team Tool / Service ─</div></div>
+</div>
+</div>
+
+
 
 운영 원리는 세 가지로 요약된다. 첫째, 임베디드 SRE는 제품팀의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 의사결정에 실시간으로 참여해야 한다. 둘째, 반복 수동 작업은 플랫폼과 자동화로 밀어 올려야 한다. 셋째, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 시간이 온콜과 티켓에만 잠식되지 않도록 50% 인바운드 한계를 가드레일로 써야 한다. 그렇지 않으면 임베디드는 전문 운영팀이 아니라 상주 지원 인력으로 전락한다.
 
-실무적으로는 임베디드 SRE가 다음 영역을 반복적으로 다룬다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 정의, 장애 조기 탐지를 위한 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Postmortem 액션의 자동화 전환, 개발자의 온콜 참여 확대, 위험한 릴리스 패턴 제거가 대표적이다. 즉 산출물은 "티켓 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)"보다 **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 학습 자산과 자동화 자산**이어야 한다.
+실무적으로는 임베디드 SRE가 다음 영역을 반복적으로 다룬다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 정의, 장애 조기 탐지를 위한 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Postmortem 액션의 자동화 전환, 개발자의 온콜 참여 확대, 위험한 릴리스 패턴 제거가 대표적이다. 즉 산출물은 "티켓 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)"보다 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 학습 자산과 자동화 자산</strong>이어야 한다.
 
 - **📢 섹션 요약 비유**: 임베디드 SRE의 이중 소속은 축구팀에 파견된 피지컬 코치와 같다. 매일 그 팀 선수들과 훈련하지만, 본부 코치진의 훈련 철학과 표준도 계속 가져와야 한다.
 
@@ -100,7 +102,7 @@ tags = ["studynote-devops-sre"]
 
 임베디드 모델은 Team Topologies 관점에서 Enabling Team과 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)-Aligned Team의 성격을 동시에 가진다. 즉 제품팀의 소유권을 빼앗지 않고, 특정 기간 동안 전문성을 내장해 주는 구조다. 이 때문에 성공한 임베디드 운영은 시간이 지날수록 제품팀의 운영 자립도를 높이고, 장기적으로는 플랫폼 기능과 표준 템플릿을 더 많이 남긴다.
 
-반대로 실패한 임베디드 운영은 두 가지 패턴으로 나타난다. 하나는 SRE가 제품팀의 고급 운영기사처럼 티켓 처리만 하게 되는 경우고, 다른 하나는 각 팀에 박힌 SRE가 공통 표준과 단절되어 "팀마다 다른 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)"가 되는 경우다. 그래서 임베디드 모델은 중앙화의 반대말이 아니라, **중앙 표준을 현장으로 번역하는 방법**으로 봐야 한다.
+반대로 실패한 임베디드 운영은 두 가지 패턴으로 나타난다. 하나는 SRE가 제품팀의 고급 운영기사처럼 티켓 처리만 하게 되는 경우고, 다른 하나는 각 팀에 박힌 SRE가 공통 표준과 단절되어 "팀마다 다른 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)"가 되는 경우다. 그래서 임베디드 모델은 중앙화의 반대말이 아니라, <strong>중앙 표준을 현장으로 번역하는 방법</strong>으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 중앙 SRE가 본사 소방본부라면, 임베디드 SRE는 공장마다 배치된 안전 책임자다. 현장을 더 잘 알지만, 소방 기준서와 훈련 체계는 본부와 연결되어 있어야 한다.
 
@@ -112,21 +114,25 @@ tags = ["studynote-devops-sre"]
 
 실무에서는 보통 다음과 같은 단계로 도입한다.
 
-```text
-중앙 SRE 지원
-    │
-    ▼
-Shadow SRE 배정
-    │  (특정 팀 회의·온콜에 부분 참여)
-    ▼
-Embedded SRE 배치
-    │  (설계·배포·장애 루프에 상시 참여)
-    ▼
-지식 이전 완료
-    │
-    ├─ 팀 자립 + 플랫폼 표준화
-    └─ 초중요 서비스는 일부 장기 임베딩 유지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 SRE 지원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shadow SRE 배정</div>
+<div class="kb-diagram-note">(특정 팀 회의·온콜에 부분 참여)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Embedded SRE 배치</div>
+<div class="kb-diagram-note">(설계·배포·장애 루프에 상시 참여)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지식 이전 완료</div>
+<div class="kb-diagram-tree-item" style="--depth:2">팀 자립 + 플랫폼 표준화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">초중요 서비스는 일부 장기 임베딩 유지</div>
+</div>
+</div>
+
+
 
 기술사 관점의 판단 포인트는 다음과 같다.
 
@@ -148,7 +154,7 @@ Embedded SRE 배치
 
 하지만 비용도 있다. 숙련된 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 인력을 팀별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해야 하므로 희소 인력 관리가 어렵고, 공통 플랫폼 개선보다 현장 문제 해결에 시간이 많이 빨려 들어갈 수 있다. 그래서 임베디드 모델은 보통 장기 정답이라기보다, 고위험 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 조직 전환기의 집중 투자 모델로 보는 편이 현실적이다.
 
-미래에는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기반 운영 보조가 성숙할수록, 임베디드 SRE는 모든 문제를 직접 처리하기보다 고난도 설계 검토와 사고 학습 촉진에 더 집중하게 될 가능성이 높다. 결론적으로 이 모델의 핵심은 사람을 더 붙이는 것이 아니라, **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 지식을 제품팀의 일상 작업 안에 심는 것**이다.
+미래에는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기반 운영 보조가 성숙할수록, 임베디드 SRE는 모든 문제를 직접 처리하기보다 고난도 설계 검토와 사고 학습 촉진에 더 집중하게 될 가능성이 높다. 결론적으로 이 모델의 핵심은 사람을 더 붙이는 것이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 지식을 제품팀의 일상 작업 안에 심는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 임베디드 SRE는 학교에 잠깐 와서 강의만 하는 외부 강사가 아니라, 학생들이 스스로 안전하게 실험할 수 있을 때까지 옆에서 습관을 만들어 주는 실험실 지도교사와 같다.
 
@@ -168,22 +174,24 @@ Embedded SRE 배치
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 SRE 큐 기반 운영
-    │
-    ▼
-Shadow SRE · 현장 밀착 지원
-    │
-    ▼
-Embedded SRE 모델
-    │
-    ├─ SLO · 온콜 · Postmortem 내재화
-    ├─ Platform Team과 자동화 연계
-    └─ CoP를 통한 표준 유지
-    │
-    ▼
-팀 자립 운영 · 낮은 Toil · 빠른 복구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 SRE 큐 기반 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shadow SRE · 현장 밀착 지원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Embedded SRE 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SLO · 온콜 · Postmortem 내재화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Platform Team과 자동화 연계</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CoP를 통한 표준 유지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팀 자립 운영 · 낮은 Toil · 빠른 복구</div>
+</div>
+</div>
+
+
 
 이 흐름은 중앙 지원형 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 운영이 제품팀 가까이 이동한 뒤, 결국 팀 자립과 플랫폼 표준화로 성숙하는 과정을 보여 준다.
 

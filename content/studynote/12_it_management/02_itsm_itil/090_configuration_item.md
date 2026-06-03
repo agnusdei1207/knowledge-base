@@ -22,13 +22,16 @@ CI (Configuration Item)는 조직이 당면한 요구를 반복 가능하고 설
 
 이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
-├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand Principle Execution Feedback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business need ──▶ control point ──▶ operation ──▶ improve</div></div>
+</div>
+</div>
+
+
 
 이 그림은 CI (Configuration Item)가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
 
@@ -47,13 +50,16 @@ CI (Configuration Item)가 제대로 작동하려면 목표 정의, 역할 분�
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
 | 수명주기 상태 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
-├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scope ──▶ Role ──▶ Process ──▶ Measure ──▶ Improve</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">boundary owner control evidence feedback</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 단순하다. 먼저 범위를 정의하고, 그 범위 안에서 누가 무엇을 책임지는지 정한 뒤, 절차를 표준화하고, 마지막으로 지표와 증적으로 통제가 실제 작동하는지 확인해야 한다. 이 순서가 뒤집히면 보고서는 많아져도 운영 품질은 나아지지 않는다.
 
@@ -117,15 +123,19 @@ CI (Configuration Item)가 정착되면 조직은 속도와 통제를 동시에 
 | 수명주기 상태 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-[선행 요구 정렬]
-    │
-    ▼
-[CI (Configuration Item)]
-    │
-    ├──▶ [속성]
-    └──▶ [관계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 요구 정렬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI (Configuration Item)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">속성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">관계</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 선행 요구를 기준으로 CI (Configuration Item)를 정착시키고, 이후 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 같은 확장 축으로 고도화하는 전개를 보여 준다.
 

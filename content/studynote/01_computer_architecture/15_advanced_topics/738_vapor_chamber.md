@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 문제는 특히 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), 얇은 게이밍 노트북, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) baseplate에서 두드러진다. 칩은 수 mm~수 cm 면적에 고출력을 내는데, 실제로 열을 버릴 수 있는 공간은 섀시 전체나 광범위한 핀 배열이다. 따라서 열을 빠르게 "멀리 퍼뜨리는" 중간 계층이 필요하고, 베이퍼 체임버가 그 역할을 맡는다.
 
-즉 베이퍼 체임버는 쿨러의 대체품이 아니라, **작은 열원을 넓은 방열 면적으로 연결하는 평면형 열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기**다.
+즉 베이퍼 체임버는 쿨러의 대체품이 아니라, <strong>작은 열원을 넓은 방열 면적으로 연결하는 평면형 열 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>기</strong>다.
 - **📢 섹션 요약 비유**: 뜨거운 냄비 바닥 한 점의 열을 얇은 철판 전체로 먼저 퍼뜨려야 상 전체가 골고루 따뜻해지는 것과 같다. 한 점만 뜨거우면 넓은 상판은 거의 일을 못 한다.
 
 ---
@@ -32,7 +32,7 @@ tags = ["studynote-computer-architecture"]
 
 베이퍼 체임버의 기본 구성은 금속 외피, 진공에 가까운 내부 공간, wick, 작동유다. 열원이 닿는 증발부에서 액체가 끓어 증기로 바뀌면 잠열을 흡수하고, 이 증기가 압력 차에 의해 체임버의 더 차가운 영역으로 빠르게 확산된다. 그곳에서 증기는 응축되며 열을 방출하고, 응축된 액체는 wick의 모세관 작용으로 다시 증발부로 돌아온다.
 
-핵심은 열이 단순 전도만으로 옆으로 이동하는 것이 아니라, **상변화의 잠열과 증기 확산을 이용해 평면 전체로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된다는 점**이다. 그래서 같은 두께의 [solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) copper plate보다 hotspot 완화 능력이 훨씬 높을 수 있다. 다만 체임버 바깥에서 열을 공기나 섀시로 내보낼 경로가 부족하면 내부 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 잘될 뿐 전체 온도는 여전히 높다.
+핵심은 열이 단순 전도만으로 옆으로 이동하는 것이 아니라, <strong>상변화의 잠열과 증기 확산을 이용해 평면 전체로 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된다는 점</strong>이다. 그래서 같은 두께의 [solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) copper plate보다 hotspot 완화 능력이 훨씬 높을 수 있다. 다만 체임버 바깥에서 열을 공기나 섀시로 내보낼 경로가 부족하면 내부 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 잘될 뿐 전체 온도는 여전히 높다.
 
 | 구성 요소 | 역할 | 병목 포인트 |
 | :--- | :--- | :--- |
@@ -43,21 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 작은 열원이 어떻게 넓은 평면 방열 면적으로 바뀌는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      Vapor chamber spreads one hotspot into a wide condenser area         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Top skin / condenser area                                                 │
-│ ┌────────────────────────────────────────────────────────────────────────┐ │
-│ │ vapor spreads laterally  ---> ---> --->                               │ │
-│ │                                                                        │ │
-│ │   [hotspot]  evaporate  =>  vapor transport  =>  condense at edges    │ │
-│ │                                                                        │ │
-│ │ liquid return through wick  <--- <--- <---                            │ │
-│ └────────────────────────────────────────────────────────────────────────┘ │
-│ Bottom skin / evaporator area                                            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vapor chamber spreads one hotspot into a wide condenser area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top skin / condenser area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vapor spreads laterally ---&gt; ---&gt; ---&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">hotspot</div><div class="kb-diagram-note">evaporate =&gt; vapor transport =&gt; condense at edges │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">liquid return through wick &lt;--- &lt;--- &lt;---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bottom skin / evaporator area</div></div>
+</div>
+</div>
+
+
 
 따라서 베이퍼 체임버는 "얇은 구조에서 넓은 면적을 살리는" 데 특히 강하다.
 - **📢 섹션 요약 비유**: 뜨거운 물이 든 얇은 수평 물주머니를 상상하면 쉽다. 가운데만 데워도 안쪽 증기가 퍼지며 열을 옆으로 나눠, 한 점의 뜨거움을 넓은 면적으로 풀어 준다.
@@ -109,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 베이퍼 체임버는 비용과 제조 난도가 높고, 누설이나 dry-out 같은 two-phase 구조 특유의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이슈를 관리해야 한다. 또한 이것은 "열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기"이지 최종 방열기가 아니므로, 팬·방열핀·섀시·그래파이트 시트와의 통합 설계가 전제되어야 한다. 앞으로는 초박형 복합 VC, 그래파이트 하이브리드 구조, 패키지 수준 vapor chamber 같은 방향으로 발전할 가능성이 높다.
 
-결론적으로 베이퍼 체임버는 **작은 열원을 넓은 면적으로 바꾸어 전체 방열 체인을 더 잘 쓰게 만드는 평면형 2상 인터페이스**로 기억하는 것이 핵심이다.
+결론적으로 베이퍼 체임버는 <strong>작은 열원을 넓은 면적으로 바꾸어 전체 방열 체인을 더 잘 쓰게 만드는 평면형 2상 인터페이스</strong>로 기억하는 것이 핵심이다.
 - **📢 섹션 요약 비유**: 물 한 컵을 바닥에 쏟으면 한곳에만 젖지만, 넓은 걸레가 있으면 물이 전체로 퍼져 빨리 마르는 것과 같다. 베이퍼 체임버는 열에 대한 그 넓은 걸레다.
 
 ---
@@ -127,21 +126,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Solid copper spreader
-        │
-        ▼
-Heatpipe-based transport
-        │
-        ▼
-Flat vapor chamber for 2D spreading
-        │
-        ▼
-Hybrid VC + graphite / fin integration
-        │
-        ▼
-Package-level and ultra-thin composite vapor chambers
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Solid copper spreader</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Heatpipe-based transport</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flat vapor chamber for 2D spreading</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid VC + graphite / fin integration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Package-level and ultra-thin composite vapor chambers</div>
+</div>
+</div>
+
+
 
 이 흐름은 방열 구조가 단순 금속 전도에서 출발해, 점점 더 얇은 제품 안에서 열을 넓고 지능적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방향으로 진화했음을 보여 준다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-평균 메모리 접근 시간 (Average Memory Access Time, AMAT)은 메모리 한 번 접근할 때 평균적으로 걸리는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 뜻한다. 가장 기본식은 `AMAT = Hit Time + Miss Rate × Miss Penalty`이며, 캐시가 맞았을 때의 짧은 시간과 틀렸을 때의 긴 벌점을 함께 계산한다. 즉 AMAT는 캐시가 "있는가"를 보는 지표가 아니라, 캐시가 **실제로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얼마나 구했는가**를 보는 지표다.
+평균 메모리 접근 시간 (Average Memory Access Time, AMAT)은 메모리 한 번 접근할 때 평균적으로 걸리는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 뜻한다. 가장 기본식은 `AMAT = Hit Time + Miss Rate × Miss Penalty`이며, 캐시가 맞았을 때의 짧은 시간과 틀렸을 때의 긴 벌점을 함께 계산한다. 즉 AMAT는 캐시가 "있는가"를 보는 지표가 아니라, 캐시가 <strong>실제로 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 얼마나 구했는가</strong>를 보는 지표다.
 
 이 개념이 중요한 이유는 [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 때문이다. CPU (Central Processing Unit)는 수많은 명령을 매우 빠르게 처리할 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 L1 캐시 ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))에 없어서 하위 계층까지 내려가면 파이프라인이 멈추고 수십~수백 클럭을 허비한다. 따라서 설계자는 캐시 용량, 연관도, 라인 크기, [프리페칭](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/) 정책을 바꿀 때마다 "평균적으로 이득인가 손해인가"를 계산해야 하고, 그 공통 언어가 바로 AMAT다.
 
@@ -41,27 +41,23 @@ AMAT를 이해하려면 먼저 세 항목의 역할을 분리해서 봐야 한�
 
 다단계 캐시에서는 이 식이 재귀적으로 확장된다. 예를 들어 L1 캐시에서 미스가 나도 바로 주기억장치로 가는 것이 아니라, L2 캐시 ([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/)), L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)), [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 순으로 내려간다. 그래서 상위 캐시 관점에서의 미스 패널티는 "다음 계층의 AMAT"가 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│               다단계 캐시에서 AMAT가 누적되는 방식                │
-├────────────────────────────────────────────────────────────────────┤
-│ CPU 요청                                                          │
-│   │                                                               │
-│   ├─ L1 Hit  ───────────────────────────────▶  L1 Hit Time        │
-│   │                                                               │
-│   └─ L1 Miss (확률 = m1)                                          │
-│          │                                                        │
-│          ├─ L2 Hit  ─────────────────────────▶  L2 Hit Time       │
-│          │                                                        │
-│          └─ L2 Miss (확률 = m2)                                   │
-│                 │                                                 │
-│                 ├─ L3 Hit  ─────────────────▶  L3 Hit Time        │
-│                 │                                                 │
-│                 └─ L3 Miss  ────────────────▶  DRAM 접근 패널티   │
-│                                                                    │
-│ AMAT = t1 + m1 × ( t2 + m2 × ( t3 + m3 × tmem ) )                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다단계 캐시에서 AMAT가 누적되는 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 Hit ▶ L1 Hit Time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 Miss (확률 = m1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 Hit ▶ L2 Hit Time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 Miss (확률 = m2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L3 Hit ▶ L3 Hit Time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L3 Miss ▶ DRAM 접근 패널티</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMAT = t1 + m1 × ( t2 + m2 × ( t3 + m3 × tmem ) )</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 핵심은 모든 캐시가 같은 목표를 갖지 않는다는 점이다. L1 캐시는 파이프라인 바로 옆에 있으므로 적중 시간을 극단적으로 낮춰야 하고, 마지막 수준 캐시 (Last-Level Cache, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/))는 주기억장치로 떨어지는 비율을 줄이는 데 더 큰 가치를 둔다. 같은 "좋은 캐시"라도 상위 계층은 속도 우선, 하위 계층은 흡수율 우선으로 설계 철학이 달라진다.
 
@@ -119,7 +115,7 @@ AMAT는 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory
 
 ## Ⅴ. 기대효과 및 결론
 
-AMAT를 기준으로 메모리 계층을 설계하면 캐시의 역할 분담이 선명해진다. 상위 캐시는 빠른 응답을, 하위 캐시는 미스 흡수를 담당하도록 목표를 분리할 수 있고, 그 결과 파이프라인 정지 감소, 체감 응답 속도 향상, 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 절감 효과를 함께 얻는다. 결국 좋은 메모리 계층은 "모든 계층이 빠른 것"이 아니라, **전체 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 낮은 것**이다.
+AMAT를 기준으로 메모리 계층을 설계하면 캐시의 역할 분담이 선명해진다. 상위 캐시는 빠른 응답을, 하위 캐시는 미스 흡수를 담당하도록 목표를 분리할 수 있고, 그 결과 파이프라인 정지 감소, 체감 응답 속도 향상, 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 절감 효과를 함께 얻는다. 결국 좋은 메모리 계층은 "모든 계층이 빠른 것"이 아니라, <strong>전체 평균 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 낮은 것</strong>이다.
 
 다만 AMAT는 평균이라는 전제 위에서만 의미가 있다. 멀티코어 환경의 간섭, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 비용, 프리페처 오동작, 비정형 접근 패턴은 단일 식으로 완전히 설명되지 않는다. 따라서 설계자는 AMAT를 중심 축으로 삼되, 전력·면적·예측 가능성·꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 함께 보는 다면 평가가 필요하다.
 
@@ -143,21 +139,22 @@ AMAT를 기준으로 메모리 계층을 설계하면 캐시의 역할 분담이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 월 (Memory Wall)
-    │
-    ▼
-적중 시간 · 미스율 · 미스 패널티
-    │
-    ▼
-평균 메모리 접근 시간 (AMAT)
-    │
-    ├─▶ 다단계 캐시 (L1/L2/L3)
-    │
-    ├─▶ 지역성 최적화 · 데이터 배치
-    │
-    └─▶ 프리페칭 · HBM · 메모리 대역폭 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 월 (Memory Wall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적중 시간 · 미스율 · 미스 패널티</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">평균 메모리 접근 시간 (AMAT)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 다단계 캐시 (L1/L2/L3)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 지역성 최적화 · 데이터 배치</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 프리페칭 · HBM · 메모리 대역폭 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "문제 인식 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)식 정립 → 계층 설계 → 최적화 기술 확장"으로 이어지는 메모리 계층 발전 방향을 보여 준다.
 

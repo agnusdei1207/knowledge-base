@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: TCP의 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 과정에서 작은 크기의 윈도우 여유 공간이 송신 측에 통보되어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 페이로드(1바이트)보다 헤더의 크기([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 20B + IP 20B = 40B)가 훨씬 커지는 배보다 배꼽이 큰 오버헤드가 연속적으로 발생하는 현상.
-- **필요성**: 수신자의 램(버퍼)이 꽉 찼다(Window=0). 수신자 어플이 1바이트를 읽어서 1바이트의 빈 공간이 생겼다. 멍청한 수신자 OS는 "야 구글아 나 1바이트 비었어!"라고 엽서를 보낸다. 구글은 1바이트를 쏘기 위해 40바이트짜리 헤더를 덧붙여서(총 41바이트) 날린다. 수신자는 그 1바이트를 받아 다시 꽉 찬다(Window=0). 어플이 또 1바이트 읽는다. "구글아 나 또 1바이트 비었어!" **"야!! 1바이트짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나르려고 택배 박스랑 송장 스티커(헤더)를 계속 버리고 있잖아! 이런 낭비가 어딨어! 최소한 박스 하나(MSS) 꽉 찰 만큼 창고 자리가 나면 그때 한 번에 부르란 말이야!!"**
+- **필요성**: 수신자의 램(버퍼)이 꽉 찼다(Window=0). 수신자 어플이 1바이트를 읽어서 1바이트의 빈 공간이 생겼다. 멍청한 수신자 OS는 "야 구글아 나 1바이트 비었어!"라고 엽서를 보낸다. 구글은 1바이트를 쏘기 위해 40바이트짜리 헤더를 덧붙여서(총 41바이트) 날린다. 수신자는 그 1바이트를 받아 다시 꽉 찬다(Window=0). 어플이 또 1바이트 읽는다. "구글아 나 또 1바이트 비었어!" <strong>"야!! 1바이트짜리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 나르려고 택배 박스랑 송장 스티커(헤더)를 계속 버리고 있잖아! 이런 낭비가 어딨어! 최소한 박스 하나(MSS) 꽉 찰 만큼 창고 자리가 나면 그때 한 번에 부르란 말이야!!"</strong>
 
-- **💡 비유**: Silly Window 증후군은 **"택배 기사의 미친 1개씩 쪼개기 배송"**과 같습니다.
+- **💡 비유**: Silly Window 증후군은 <strong>"택배 기사의 미친 1개씩 쪼개기 배송"</strong>과 같습니다.
   - 내 방 창고(수신 버퍼)가 꽉 차서 쌀 1포대 들어갈 자리밖에 안 남았습니다.
   - 쿠팡 기사에게 "쌀 1포대 놓을 자리 났어요"라고 연락합니다.
   - 쿠팡 기사가 거대한 5톤 트럭([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 40바이트)을 끌고 와서 고작 쌀 1포대([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1바이트)를 툭 내려놓고 갑니다. (기름값, 고속도로 대역폭의 극한 낭비).
   - 내가 쌀 1포대를 더 먹고 치우면, 기사가 또 5톤 트럭을 끌고 와서 1포대를 내려놓고 갑니다. 고속도로는 텅 빈 5톤 트럭들로 꽉 막혀버립니다.
 
-```text
-[송신 버퍼 / 수신 버퍼]
-    │
-    ▼
-[어리석은 윈도우 증후군 문제]
-    │
-    └──▶ [네이글 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신 버퍼 / 수신 버퍼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">어리석은 윈도우 증후군 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네이글 알고리즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 이 증후군은 식당에서 손님이 나갈 때마다 직원이 치우지 않고, 손님이 **"밥 한 숟가락을 먹어 상 위에 빈 공간 1cm가 날 때마다, 주방장이 뛰어나와 그 1cm 공간에 반찬 한 가닥을 올려두고 가는 미련한 서빙의 극치"**입니다.
 
@@ -58,34 +62,34 @@ tags = ["studynote-network"]
 **"수신자야! 네 버퍼에 쥐똥만 한 공간이 나더라도 송신자한테 빈 공간 있다고 절대 떠벌리지 마!"**
 
 **[ 침묵 해제(Window Update)의 두 가지 빡센 조건 ]**
-1. 내 수신 버퍼의 **전체 공간 중 50% 이상**이 텅텅 비었을 때!
-2. 혹은, 1바이트씩이 아니라 한 번에 훅 받을 수 있는 **온전한 풀 패킷 사이즈(MSS, 보통 1460 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 이상의 거대한 공간**이 확보되었을 때!
+1. 내 수신 버퍼의 <strong>전체 공간 중 50% 이상</strong>이 텅텅 비었을 때!
+2. 혹은, 1바이트씩이 아니라 한 번에 훅 받을 수 있는 <strong>온전한 풀 패킷 사이즈(MSS, 보통 1460 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>) 이상의 거대한 공간</strong>이 확보되었을 때!
 
-둘 중 하나가 만족될 때까지 수신자 OS는 송신자에게 **계속 `Window=0` 이라고 철면피를 깔고 거짓말(침묵)**을 한다.
+둘 중 하나가 만족될 때까지 수신자 OS는 송신자에게 <strong>계속 <code>Window=0</code> 이라고 철면피를 깔고 거짓말(침묵)</strong>을 한다.
 송신자는 0인 줄 알고 계속 기다린다.
 그러다 내 앱이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 팍팍 퍼가서 마침내 1460바이트의 공간이 비었다!
-그제야 수신자 OS는 **`Window=1460`** 엽서를 쏘고, 기다리던 송신자는 트럭에 1460바이트를 꽉꽉 욱여넣어 단 한 번의 배달로 완벽한 가성비를 뽑아낸다.
+그제야 수신자 OS는 <strong><code>Window=1460</code></strong> 엽서를 쏘고, 기다리던 송신자는 트럭에 1460바이트를 꽉꽉 욱여넣어 단 한 번의 배달로 완벽한 가성비를 뽑아낸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Clark의 알고리즘에 의한 멍청함 극복 시나리오       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신자 버퍼 (총 3000바이트 크기) ]                           │
- │   - 버퍼 꽉 참 (잔여 공간 0) ──▶ 송신자에게 Window=0 통보!         │
- │   - 앱이 1바이트 뺌 (잔여 1)  ──▶ OS: "입 꾹 다물어 (계속 Win=0 통보)" │
- │   - 앱이 500바이트 뺌 (잔여 501) ──▶ OS: "아직 안 돼 입 꾹 다물어!"   │
- │                                                             │
- │   - 앱이 왕창 빼서 드디어 [잔여 1500바이트 (절반 비움!)] 달성!        │
- │   - OS: "오예! 드디어 조건(50% 이상 비움) 달성이다!"                 │
- │   - 수신자 ──▶ 송신자에게 [Window=1500] 통보 엽서 발사!!            │
- │                                                             │
- │   ▶ 결과: 송신자는 1바이트씩 1500번 쏘는 미친 짓 대신,              │
- │           1500바이트짜리 택배 1개를 한방에 쏴서 대역폭을 극강으로 아낌! │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** Clark의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **"세탁기 돌리기 룰"**과 같습니다. 빨랫감이 1장(1바이트 빈 공간) 생겼다고 매번 세탁기(40바이트 헤더, 전기세)를 휙휙 돌리면 엄마한테 등짝을 맞습니다. 세탁기가 **절반 이상 꽉 찰 때(50% 공간 확보)까지 빨랫감을 꾹 참고 모아두었다가 한 번에 돌리는 현명한 살림꾼의 지혜**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clark의 알고리즘에 의한 멍청함 극복 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 버퍼 (총 3000바이트 크기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버퍼 꽉 참 (잔여 공간 0) ──▶ 송신자에게 Window=0 통보!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱이 1바이트 뺌 (잔여 1) ──▶ OS: "입 꾹 다물어 (계속 Win=0 통보)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱이 500바이트 뺌 (잔여 501) ──▶ OS: "아직 안 돼 입 꾹 다물어!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 앱이 왕창 빼서 드디어</div><div class="kb-diagram-node">잔여 1500바이트 (절반 비움!)</div><div class="kb-diagram-note">달성!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "오예! 드디어 조건(50% 이상 비움) 달성이다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Window=1500</div><div class="kb-diagram-note">통보 엽서 발사!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 송신자는 1바이트씩 1500번 쏘는 미친 짓 대신,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1500바이트짜리 택배 1개를 한방에 쏴서 대역폭을 극강으로 아낌!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> Clark의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 </strong>"세탁기 돌리기 룰"<strong>과 같습니다. 빨랫감이 1장(1바이트 빈 공간) 생겼다고 매번 세탁기(40바이트 헤더, 전기세)를 휙휙 돌리면 엄마한테 등짝을 맞습니다. 세탁기가 </strong>절반 이상 꽉 찰 때(50% 공간 확보)까지 빨랫감을 꾹 참고 모아두었다가 한 번에 돌리는 현명한 살림꾼의 지혜**입니다.
 
 ---
 
@@ -141,15 +145,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 송신 버퍼 / 수신 버퍼]
-    │
-    ▼
-[현재 개념: 어리석은 윈도우 증후군 문제]
-    │
-    ├──▶ [확장 A: 네이글 알고리즘]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 송신 버퍼 / 수신 버퍼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 어리석은 윈도우 증후군 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네이글 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 어리석은 윈도우 증후군 문제는 [송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/) / 수신 버퍼에서 출발해 현재 메커니즘을 정교화하고, 이후 네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

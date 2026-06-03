@@ -18,17 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────┐
-│              SPACE 5차원 프레임워크                      │
-├────────────────────────────────────────────────────────┤
-│ S - Satisfaction & Wellbeing  : 직무 만족·번아웃 방지   │
-│ P - Performance               : 결과물 품질·신뢰성      │
-│ A - Activity                  : 코드·배포·리뷰 활동     │
-│ C - Communication & Collaboration : 협업·지식 공유     │
-│ E - Efficiency & Flow         : 방해 최소화, 집중 시간  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPACE 5차원 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S - Satisfaction &amp; Wellbeing : 직무 만족·번아웃 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P - Performance : 결과물 품질·신뢰성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A - Activity : 코드·배포·리뷰 활동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C - Communication &amp; Collaboration : 협업·지식 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E - Efficiency &amp; Flow : 방해 최소화, 집중 시간</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SPACE는 운동선수 종합 체력 검진이다. 심폐 지구력(활동량)만 재는 게 아니라 정신 건강(만족도), 시합 결과(성과), 팀 협력(협업), 집중력(흐름) 다섯 가지를 모두 측정한다.
 
@@ -41,21 +44,26 @@ tags = ["studynote-devops-sre"]
 | 차원 | 측정 방법 | 지표 예시 |
 |:---|:---|:---|
 | **Satisfaction** | 설문 (eNPS, 번아웃 지수) | 직무 만족도 점수 |
-| **[Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 결과 측정 | 버그율, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 품질 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a></strong> | 결과 측정 | 버그율, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 품질 |
 | **Activity** | 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 일일 커밋 수, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 머지 수 |
 | **Communication** | 협업 도구 분석 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 문서화 |
 | **Efficiency & Flow** | 시간 추적 | 딥 워크 시간, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전환 |
 
 ### Activity 지표의 함정
 
-```text
-❌ 잘못된 사용: 커밋 수 = 생산성
-   → 작은 커밋을 많이 쪼개거나, 불필요한 코드 추가 유발
 
-✅ 올바른 사용: Activity를 다른 4차원과 함께 해석
-   → Activity 높은데 Satisfaction 낮음 → 번아웃 위험 신호
-   → Activity 낮은데 Performance 높음 → 효율적 고품질 개발
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">❌ 잘못된 사용: 커밋 수 = 생산성</div>
+<div class="kb-diagram-note">→ 작은 커밋을 많이 쪼개거나, 불필요한 코드 추가 유발</div>
+<div class="kb-diagram-note">✅ 올바른 사용: Activity를 다른 4차원과 함께 해석</div>
+<div class="kb-diagram-note">→ Activity 높은데 Satisfaction 낮음 → 번아웃 위험 신호</div>
+<div class="kb-diagram-note">→ Activity 낮은데 Performance 높음 → 효율적 고품질 개발</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Activity만 측정하는 건 선생님이 칠판 필기 횟수로 수업 품질을 평가하는 것이다. 칠판을 많이 써도 학생이 이해 못하면([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), 선생님이 지쳐있으면(Satisfaction) 좋은 수업이 아니다.
 
@@ -96,7 +104,7 @@ tags = ["studynote-devops-sre"]
 |:---|:---|
 | **번아웃 예방** | Satisfaction 조기 경고로 개발자 유지 |
 | **진정한 생산성** | 활동 수 아닌 결과·흐름 기반 측정 |
-| **도구 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | GenAI·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도구 도입 효과 정량화 |
+| <strong>도구 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | GenAI·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도구 도입 효과 정량화 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩 어시스턴트(GitHub Copilot, Cursor) 등장으로 SPACE의 Activity·Efficiency 차원이 급격히 변화하면서, "AI와 협력하는 개발자 생산성"을 새롭게 정의하는 SPACE 2.0 논의가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다.
 
@@ -108,29 +116,31 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/)** | SPACE와 함께 사용하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표 |
-| **[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DevEx)** | SPACE의 실천적 개선 활동 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a></strong> | SPACE와 함께 사용하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과 지표 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a>(DevEx)</strong> | SPACE의 실천적 개선 활동 |
 | **번아웃** | Satisfaction 차원의 핵심 위험 지표 |
 | **딥 워크** | Efficiency & Flow 차원의 핵심 개념 |
 | **GitHub Copilot** | SPACE Activity·Efficiency에 영향 주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Activity 단일 지표 — 커밋·PR 수 기반 생산성]
-    │
-    ▼
-[DORA Metrics — 4지표 기반 팀 성과 측정]
-    │
-    ▼
-[SPACE 프레임워크 — 5차원 개발자 생산성 측정]
-    │
-    ▼
-[GenAI 도구 통합 SPACE — AI 협력 효과 정량화]
-    │
-    ▼
-[SPACE 2.0 — AI+인간 협력 생산성 새 정의]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Activity 단일 지표 — 커밋·PR 수 기반 생산성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DORA Metrics — 4지표 기반 팀 성과 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPACE 프레임워크 — 5차원 개발자 생산성 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GenAI 도구 통합 SPACE — AI 협력 효과 정량화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPACE 2.0 — AI+인간 협력 생산성 새 정의</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

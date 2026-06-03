@@ -21,22 +21,25 @@ tags = ["studynote-data-engineering"]
 
 양자 내성 암호 ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))는 "양자 컴퓨터가 충분히 커졌을 때 어떤 키가 먼저 위험해지는가"라는 질문에서 출발한다. 오늘의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 공개키 암호를 거의 모든 신뢰 경계에 사용한다. 외부 API의 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 객체 저장소 접근 토큰, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지와 모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 서명까지 대부분 RSA나 ECC에 기대고 있다.
 
-문제는 위협이 도래하는 시점보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비밀 유지 수명**이 더 길 수 있다는 점이다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 거래 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 모델 체크포인트, 규제 보관 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 5년 이상 살아남는다. 공격자가 오늘 암호문을 모아 두었다가 나중에 양자 자원으로 복호화하면, "지금은 안전해 보이는" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 미래에는 한꺼번에 노출될 수 있다.
+문제는 위협이 도래하는 시점보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 비밀 유지 수명</strong>이 더 길 수 있다는 점이다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 거래 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 모델 체크포인트, 규제 보관 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 5년 이상 살아남는다. 공격자가 오늘 암호문을 모아 두었다가 나중에 양자 자원으로 복호화하면, "지금은 안전해 보이는" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 미래에는 한꺼번에 노출될 수 있다.
 
 아래 그림은 왜 양자 컴퓨터가 완성되기 전에 전환을 시작해야 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Harvest now, decrypt later timeline                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Today  : capture TLS sessions, backups, signed artifacts          │
-│ Future : fault-tolerant quantum breaks RSA / ECC                  │
-│ Result : old data becomes readable, old signatures may be forged  │
-│ Defense: migrate before confidentiality lifetime expires          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 가장 시급한 표적은 공개키 계열이다. [Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 대칭 암호는 키 길이를 늘려 대응할 여지가 있지만, 공개키 기반의 키 교환과 디지털 서명은 구조 자체를 바꿔야 한다. 그래서 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 추가가 아니라 **클라우드 신뢰 사슬 전체를 다시 설계하는 작업**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Harvest now, decrypt later timeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Today : capture TLS sessions, backups, signed artifacts</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Future : fault-tolerant quantum breaks RSA / ECC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : old data becomes readable, old signatures may be forged</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Defense: migrate before confidentiality lifetime expires</div></div>
+</div>
+</div>
+
+
+
+여기서 가장 시급한 표적은 공개키 계열이다. [Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 대칭 암호는 키 길이를 늘려 대응할 여지가 있지만, 공개키 기반의 키 교환과 디지털 서명은 구조 자체를 바꿔야 한다. 그래서 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 추가가 아니라 <strong>클라우드 신뢰 사슬 전체를 다시 설계하는 작업</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 아직 해적선이 보이지 않을 때 방파제를 높이는 일과 같다. 파도가 눈앞에 와서야 공사를 시작하면 이미 항구 안의 배부터 피해를 입는다.
 
@@ -56,20 +59,21 @@ tags = ["studynote-data-engineering"]
 
 아래 구조는 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 PQC가 어느 층에 걸쳐 들어가는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Hybrid PQC cloud stack                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Client / Partner                                                   │
-│   │                                                                │
-│   ├─ TLS 1.3 : X25519 + ML-KEM  -> external edge                   │
-│   ├─ mTLS    : service mesh hybrid handshakes                      │
-│   ├─ KMS     : envelope key wrap / re-wrap policies                │
-│   └─ CI/CD   : dual signature on images, models, manifests         │
-│                                                                    │
-│ Protected assets: object store, backups, model registry, secrets   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid PQC cloud stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Partner</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TLS 1.3 : X25519 + ML-KEM -&gt; external edge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mTLS : service mesh hybrid handshakes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ KMS : envelope key wrap / re-wrap policies</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CI/CD : dual signature on images, models, manifests</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protected assets: object store, backups, model registry, secrets</div></div>
+</div>
+</div>
+
+
 
 현재 기준으로 NIST (National Institute of Standards and Technology) 표준화의 중심은 다음 세 계열이다.
 
@@ -85,7 +89,7 @@ tags = ["studynote-data-engineering"]
 shared_secret = KDF(classical_secret || pqc_secret)
 ```
 
-즉 전환의 본질은 "새 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 꽂는다"가 아니라, **기존 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 유지하면서 미래 안전성을 점진적으로 더하는 것**이다.
+즉 전환의 본질은 "새 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 꽂는다"가 아니라, <strong>기존 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>을 유지하면서 미래 안전성을 점진적으로 더하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 하이브리드 PQC는 현관문에 기존 자물쇠와 새 보안문을 함께 다는 것과 같다. 둘 중 하나만 믿지 않고, 교체 기간 동안 두 장치를 겹쳐 써서 안전하게 넘어가는 방식이다.
 
@@ -103,7 +107,7 @@ shared_secret = KDF(classical_secret || pqc_secret)
 
 또한 같은 PQC라도 키 교환과 서명의 우선순위는 다르다. 외부 TLS는 지금 수집되는 트래픽을 미래에 복호화할 수 있으므로 긴급성이 높다. 반면 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명은 "앞으로도 오래 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)"에서 더 중요해진다. 예를 들어 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 학습 파이프라인 이미지, 배포 매니페스트는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점보다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시점이 더 오래 남는다.
 
-이 지점에서 PQC는 MLOps와 강하게 연결된다. [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)의 서명이 약하면 모델 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 출처 신뢰가 흔들리고, 장기 보관 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 키 래핑이 약하면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 미래에 통째로 열릴 수 있다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점의 PQC는 네트워크 암호화만이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 전체의 신뢰 수명 관리**다.
+이 지점에서 PQC는 MLOps와 강하게 연결된다. [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)의 서명이 약하면 모델 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 출처 신뢰가 흔들리고, 장기 보관 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 키 래핑이 약하면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 미래에 통째로 열릴 수 있다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점의 PQC는 네트워크 암호화만이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 생명주기 전체의 신뢰 수명 관리</strong>다.
 
 - **📢 섹션 요약 비유**: 같은 열쇠 교체라도 현관문, 금고, 회사 도장함의 우선순위가 다른 것처럼, PQC도 통신·저장·서명 가운데 무엇이 오래 남고 무엇이 먼저 노출될지를 따져 순서를 정해야 한다.
 
@@ -113,21 +117,23 @@ shared_secret = KDF(classical_secret || pqc_secret)
 
 현실적인 전환 로드맵은 "전수 조사 → 위험 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 하이브리드 적용 → 신뢰 체계 확장 → 레거시 일몰" 순서다. 양자 위협을 이유로 모든 키를 하루아침에 바꾸려 하면, 오히려 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 장애와 운영 리스크가 먼저 터진다.
 
-```text
-CBOM inventory
-    │
-    ▼
-confidentiality lifetime classification
-    │
-    ▼
-hybrid pilot on edge / internal mesh
-    │
-    ▼
-PKI · KMS · HSM expansion
-    │
-    ▼
-legacy-only path sunset
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CBOM inventory</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">confidentiality lifetime classification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">hybrid pilot on edge / internal mesh</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKI · KMS · HSM expansion</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">legacy-only path sunset</div>
+</div>
+</div>
+
+
 
 우선순위는 자산의 비밀 유지 기간과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수명으로 정하는 편이 좋다.
 
@@ -159,7 +165,7 @@ legacy-only path sunset
 
 물론 비용도 있다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 서명 크기가 커져 네트워크와 캐시 효율이 떨어질 수 있고, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 생태계가 완전히 성숙하지 않은 영역도 남아 있다. 따라서 PQC는 단일 제품 교체가 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[호환성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/453_compatibility_test/)·운영 교육이 필요한 장기 프로그램으로 봐야 한다.
 
-결국 기억해야 할 핵심은 단순하다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 키 전환은 "언젠가 새 암호를 쓸 것"이 아니라, **오늘 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 서명이 미래에도 안전하도록 신뢰 체인을 미리 갱신하는 일**이다. 그래서 정답은 단번의 교체가 아니라, 하이브리드와 Crypto-Agility를 축으로 한 점진적 이행이다.
+결국 기억해야 할 핵심은 단순하다. [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 키 전환은 "언젠가 새 암호를 쓸 것"이 아니라, <strong>오늘 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>되는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 서명이 미래에도 안전하도록 신뢰 체인을 미리 갱신하는 일</strong>이다. 그래서 정답은 단번의 교체가 아니라, 하이브리드와 Crypto-Agility를 축으로 한 점진적 이행이다.
 
 - **📢 섹션 요약 비유**: PQC는 낡은 다리를 한 번에 철거하고 새 다리를 놓는 공사가 아니라, 차량이 다니는 동안 옆에 새 다리를 먼저 놓고 교통을 천천히 옮긴 뒤 옛 다리를 닫는 교량 이설 작업에 가깝다.
 
@@ -180,24 +186,25 @@ legacy-only path sunset
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RSA / ECC 기반 공개키 체계
-    │
-    ▼
-Harvest Now, Decrypt Later 위협 인식
-    │
-    ▼
-CBOM 작성 · 자산별 기밀 수명 분류
-    │
-    ▼
-Hybrid TLS · Dual Signature 도입
-    │
-    ▼
-KMS / HSM / PKI 전환
-    │
-    ▼
-Crypto-Agility 기반의 장기 운영 체계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RSA / ECC 기반 공개키 체계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Harvest Now, Decrypt Later 위협 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBOM 작성 · 자산별 기밀 수명 분류</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid TLS · Dual Signature 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KMS / HSM / PKI 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Crypto-Agility 기반의 장기 운영 체계</div>
+</div>
+</div>
+
+
 
 이 흐름은 양자 위협 인식이 단순 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체를 넘어, 인벤토리와 신뢰 사슬 재설계로 확장되는 과정을 보여 준다.
 

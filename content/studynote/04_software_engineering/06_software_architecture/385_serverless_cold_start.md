@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 사용자가 웹 앱이나 API를 호출할 때, Backend 로직이 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수로 처리된다면, 함수의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시간(보통 100ms~수초)만큼 응답이 지연된다. 만약 이 지연이 사용자 경험에 영향을 줄 정도라면, 이는의 Losses로 이어질 수 있다. 따라서 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 원인을 분석하고 최적화하는 것이 서버리스 운영의 핵심 과제이다.
 
-- **💡 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'자동차 시동'**과 같다. 시동이 꺼진 자동차(되지 않는 함수)를 다시 굴리려면(호출), 시동 모터를 돌리고 엔진이 접철해야 하는 긴 시간이 걸린다 ([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)). 그러나 한번 시동이 걸린 후에는 (워밍 상태), 바로 가속할 수 있다 (핫 스타트). 전화를 받을 때마다 시동을 끄고 다시 시동 거는 것은적이다.
+- **💡 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 <strong>'자동차 시동'</strong>과 같다. 시동이 꺼진 자동차(되지 않는 함수)를 다시 굴리려면(호출), 시동 모터를 돌리고 엔진이 접철해야 하는 긴 시간이 걸린다 ([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)). 그러나 한번 시동이 걸린 후에는 (워밍 상태), 바로 가속할 수 있다 (핫 스타트). 전화를 받을 때마다 시동을 끄고 다시 시동 거는 것은적이다.
 
 - **등장 배경 및 발전 과정**:
 1. **2014년**: AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 출시, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 시대
@@ -31,24 +31,23 @@ tags = ["studynote-software-engineering"]
 3. **2019년 이후**: [Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/), Graviton2 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 도입
 4. **현재**: 경량 런타임 ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) SnapStart 등), 대기 시간 최적화
 
-- **📢 섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'새벽에 학교 운동장에|first_start을 켜는 것'**과 같다. 여름철 새벽에 공기질을:first_time 위해 에어컨을 켜면, 냉방이 작동하는 데 시간이 걸린다. 이미 가동 중인 에어컨이라면 바로 냉방이 되지만, 꺼져 있던 것은 compressor가 작동하고 냉매가 순환하는 데수이나이나。 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수도 마찬가지로 처음 호출될 때 [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 시간이 발생한다.
+- **📢 섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 <strong>'새벽에 학교 운동장에|first_start을 켜는 것'</strong>과 같다. 여름철 새벽에 공기질을:first_time 위해 에어컨을 켜면, 냉방이 작동하는 데 시간이 걸린다. 이미 가동 중인 에어컨이라면 바로 냉방이 되지만, 꺼져 있던 것은 compressor가 작동하고 냉매가 순환하는 데수이나이나。 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수도 마찬가지로 처음 호출될 때 [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 시간이 발생한다.
 
 ---
 
 다음은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(Cold의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 서버리스 환경의 콜드 스타트(Cold │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 환경의 콜드 스타트(Cold</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(Cold가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) 모니터링 및 튜닝의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) 모니터링 및 튜닝의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) 모니터링 및 튜닝의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-서버리스 환경의 콜드 스타트(Cold Start) 모니터링 및 튜닝 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버리스 환경의 콜드 스타트(Cold Start) 모니터링 및 튜닝 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,37 +18,36 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. t-SNE 개념
 
-```
-t-SNE (t-distributed Stochastic Neighbor Embedding):
-  van der Maaten & Hinton, 2008년 제안
 
-목적:
-  고차원 데이터 (100~수만 차원) → 2~3차원 시각화
-  클러스터 구조 탐색
 
-SNE (Stochastic Neighbor Embedding):
-  t-SNE의 전신
-  고차원: 가우시안 분포로 유사도 계산
-  저차원: 가우시안 분포로 유사도 계산
-  
-  문제: 군집 붕괴 (Crowding Problem)
-  고차원 중간 거리 점들이 저차원에서 모두 가운데 몰림
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">t-SNE (t-distributed Stochastic Neighbor Embedding):</div>
+<div class="kb-diagram-note">van der Maaten &amp; Hinton, 2008년 제안</div>
+<div class="kb-diagram-note">목적:</div>
+<div class="kb-diagram-note">고차원 데이터 (100~수만 차원) → 2~3차원 시각화</div>
+<div class="kb-diagram-note">클러스터 구조 탐색</div>
+<div class="kb-diagram-note">SNE (Stochastic Neighbor Embedding):</div>
+<div class="kb-diagram-note">t-SNE의 전신</div>
+<div class="kb-diagram-note">고차원: 가우시안 분포로 유사도 계산</div>
+<div class="kb-diagram-note">저차원: 가우시안 분포로 유사도 계산</div>
+<div class="kb-diagram-note">문제: 군집 붕괴 (Crowding Problem)</div>
+<div class="kb-diagram-note">고차원 중간 거리 점들이 저차원에서 모두 가운데 몰림</div>
+<div class="kb-diagram-note">t-SNE 개선:</div>
+<div class="kb-diagram-note">저차원 공간에 t-분포 (자유도=1) 사용</div>
+<div class="kb-diagram-note">→ 두꺼운 꼬리로 멀리 떨어진 점들을 더 멀리 배치</div>
+<div class="kb-diagram-note">→ Crowding Problem 해결</div>
+<div class="kb-diagram-note">직관적 이해:</div>
+<div class="kb-diagram-note">1. 각 점을 중심으로 "이웃 확률 분포" 계산</div>
+<div class="kb-diagram-note">고차원: P(j|i) = 가까울수록 높은 확률</div>
+<div class="kb-diagram-note">2. 저차원에서 같은 분포 재현 시도</div>
+<div class="kb-diagram-note">Q(j|i): t-분포 기반 유사도</div>
+<div class="kb-diagram-note">3. P와 Q의 차이(KL Divergence) 최소화</div>
+<div class="kb-diagram-note">Gradient Descent로 저차원 좌표 최적화</div>
+</div>
+</div>
 
-t-SNE 개선:
-  저차원 공간에 t-분포 (자유도=1) 사용
-  → 두꺼운 꼬리로 멀리 떨어진 점들을 더 멀리 배치
-  → Crowding Problem 해결
 
-직관적 이해:
-  1. 각 점을 중심으로 "이웃 확률 분포" 계산
-     고차원: P(j|i) = 가까울수록 높은 확률
-     
-  2. 저차원에서 같은 분포 재현 시도
-     Q(j|i): t-분포 기반 유사도
-     
-  3. P와 Q의 차이(KL Divergence) 최소화
-     Gradient Descent로 저차원 좌표 최적화
-```
 
 > 📢 **섹션 요약 비유**: t-SNE는 3D 지도 → 2D 지도 변환 — 나라(고차원 점)들을 비슷한 것끼리 가깝게, 다른 것끼리 멀게 배치. t-분포는 섬나라(멀리 떨어진 그룹)를 바다 건너 확실히 분리.
 
@@ -56,47 +55,42 @@ t-SNE 개선:
 
 ## Ⅱ. t-SNE [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-t-SNE 알고리즘 상세:
 
-1단계: 고차원 유사도 계산
-  입력: N개의 고차원 점 x1, ..., xN
-  
-  조건부 확률 (가우시안):
-  P(j|i) = exp(-||xi-xj||² / 2σi²) / Σk≠i exp(-||xi-xk||² / 2σi²)
-  
-  σi: 퍼플렉시티(Perplexity)에 의해 결정
-  P(ij) = (P(j|i) + P(i|j)) / 2N  ← 대칭화
 
-2단계: 저차원 유사도 계산
-  저차원 좌표: y1, ..., yN (초기화: 랜덤 or PCA)
-  
-  t-분포 기반:
-  Q(ij) = (1 + ||yi-yj||²)^(-1) / Σk≠l (1 + ||yk-yl||²)^(-1)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">t-SNE 알고리즘 상세:</div>
+<div class="kb-diagram-note">1단계: 고차원 유사도 계산</div>
+<div class="kb-diagram-note">입력: N개의 고차원 점 x1, ..., xN</div>
+<div class="kb-diagram-note">조건부 확률 (가우시안):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(j</div><div class="kb-diagram-cell">i) = exp(-</div><div class="kb-diagram-cell">xi-xj</div><div class="kb-diagram-cell">² / 2σi²) / Σk≠i exp(-</div><div class="kb-diagram-cell">xi-xk</div><div class="kb-diagram-cell">² / 2σi²)</div></div>
+<div class="kb-diagram-note">σi: 퍼플렉시티(Perplexity)에 의해 결정</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(ij) = (P(j</div><div class="kb-diagram-cell">i) + P(i</div><div class="kb-diagram-cell">j)) / 2N ← 대칭화</div></div>
+<div class="kb-diagram-note">2단계: 저차원 유사도 계산</div>
+<div class="kb-diagram-note">저차원 좌표: y1, ..., yN (초기화: 랜덤 or PCA)</div>
+<div class="kb-diagram-note">t-분포 기반:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(ij) = (1 +</div><div class="kb-diagram-cell">yi-yj</div><div class="kb-diagram-cell">²)^(-1) / Σk≠l (1 +</div><div class="kb-diagram-cell">yk-yl</div><div class="kb-diagram-cell">²)^(-1)</div></div>
+<div class="kb-diagram-note">3단계: KL Divergence 최소화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = KL(P</div><div class="kb-diagram-cell">Q) = Σij P(ij) log(P(ij)/Q(ij))</div></div>
+<div class="kb-diagram-note">Gradient:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dC/dyi = 4 Σj (P(ij) - Q(ij)) (yi-yj) (1+</div><div class="kb-diagram-cell">yi-yj</div><div class="kb-diagram-cell">²)^(-1)</div></div>
+<div class="kb-diagram-note">경사하강법으로 반복 최적화</div>
+<div class="kb-diagram-note">퍼플렉시티 (Perplexity):</div>
+<div class="kb-diagram-note">유효 이웃 수 설정 (5~50, 보통 30)</div>
+<div class="kb-diagram-note">낮은 Perplexity: 국소 구조 강조</div>
+<div class="kb-diagram-note">높은 Perplexity: 전역 구조 반영</div>
+<div class="kb-diagram-note">데이터 크기에 따라 조정:</div>
+<div class="kb-diagram-note">소규모 (&lt;1,000): Perplexity 5~15</div>
+<div class="kb-diagram-note">중간 (1,000~10,000): 20~50</div>
+<div class="kb-diagram-note">대규모: 100 이상</div>
+<div class="kb-diagram-note">계산 복잡도:</div>
+<div class="kb-diagram-note">기본: O(n²)</div>
+<div class="kb-diagram-note">Barnes-Hut 근사: O(n log n)</div>
+<div class="kb-diagram-note">→ 10만 개 이상 데이터에는 별도 최적화 필요</div>
+</div>
+</div>
 
-3단계: KL Divergence 최소화
-  C = KL(P || Q) = Σij P(ij) log(P(ij)/Q(ij))
-  
-  Gradient:
-  dC/dyi = 4 Σj (P(ij) - Q(ij)) (yi-yj) (1+||yi-yj||²)^(-1)
-  
-  경사하강법으로 반복 최적화
 
-퍼플렉시티 (Perplexity):
-  유효 이웃 수 설정 (5~50, 보통 30)
-  낮은 Perplexity: 국소 구조 강조
-  높은 Perplexity: 전역 구조 반영
-  
-  데이터 크기에 따라 조정:
-  소규모 (<1,000): Perplexity 5~15
-  중간 (1,000~10,000): 20~50
-  대규모: 100 이상
-
-계산 복잡도:
-  기본: O(n²)
-  Barnes-Hut 근사: O(n log n)
-  → 10만 개 이상 데이터에는 별도 최적화 필요
-```
 
 > 📢 **섹션 요약 비유**: t-SNE [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
 
@@ -154,37 +148,37 @@ UMAP (Uniform Manifold Approximation and Projection):
 
 ## Ⅳ. t-SNE 주의사항
 
-```
-t-SNE 오용 패턴:
 
-1. 클러스터 간 거리 해석:
-   잘못: "클러스터 A와 B가 C보다 더 유사하다"
-   이유: t-SNE는 전역 구조 보존 안 함
-   → 클러스터 간 거리는 무의미
-   
-2. 클러스터 크기 해석:
-   잘못: "A 클러스터가 B보다 크다"
-   이유: t-SNE 클러스터 크기 ≠ 원래 데이터 밀도
-   
-3. Perplexity 기본값 신뢰:
-   권장: 여러 Perplexity 값으로 시각화 비교
-   Perplexity 5: 매우 타이트한 클러스터 (의도적 분리)
-   Perplexity 50: 느슨한 배치 (전체적 경향)
-   
-4. 노이즈 클러스터 착시:
-   작은 점 하나가 별개 클러스터로 보이는 경우
-   → 실제 아웃라이어인지 확인 필요
-   
-5. 랜덤 초기화 의존:
-   매번 다른 레이아웃
-   → 결론 전에 여러 번 실행, 일관된 패턴 확인
 
-올바른 t-SNE 사용:
-  - "이 데이터에 클러스터 구조가 있는가?" 탐색
-  - ML 모델 임베딩 품질 시각적 확인
-  - 클래스 간 분리 가능성 시각화 (레이블 색상)
-  - 이상치(Outlier) 탐지 보조
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">t-SNE 오용 패턴:</div>
+<div class="kb-diagram-note">1. 클러스터 간 거리 해석:</div>
+<div class="kb-diagram-note">잘못: "클러스터 A와 B가 C보다 더 유사하다"</div>
+<div class="kb-diagram-note">이유: t-SNE는 전역 구조 보존 안 함</div>
+<div class="kb-diagram-note">→ 클러스터 간 거리는 무의미</div>
+<div class="kb-diagram-note">2. 클러스터 크기 해석:</div>
+<div class="kb-diagram-note">잘못: "A 클러스터가 B보다 크다"</div>
+<div class="kb-diagram-note">이유: t-SNE 클러스터 크기 ≠ 원래 데이터 밀도</div>
+<div class="kb-diagram-note">3. Perplexity 기본값 신뢰:</div>
+<div class="kb-diagram-note">권장: 여러 Perplexity 값으로 시각화 비교</div>
+<div class="kb-diagram-note">Perplexity 5: 매우 타이트한 클러스터 (의도적 분리)</div>
+<div class="kb-diagram-note">Perplexity 50: 느슨한 배치 (전체적 경향)</div>
+<div class="kb-diagram-note">4. 노이즈 클러스터 착시:</div>
+<div class="kb-diagram-note">작은 점 하나가 별개 클러스터로 보이는 경우</div>
+<div class="kb-diagram-note">→ 실제 아웃라이어인지 확인 필요</div>
+<div class="kb-diagram-note">5. 랜덤 초기화 의존:</div>
+<div class="kb-diagram-note">매번 다른 레이아웃</div>
+<div class="kb-diagram-note">→ 결론 전에 여러 번 실행, 일관된 패턴 확인</div>
+<div class="kb-diagram-note">올바른 t-SNE 사용:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"이 데이터에 클러스터 구조가 있는가?" 탐색</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ML 모델 임베딩 품질 시각적 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:1">클래스 간 분리 가능성 시각화 (레이블 색상)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이상치(Outlier) 탐지 보조</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: t-SNE 오용 주의는 지도 해석 주의 — 지도에서 두 도시가 가깝다고 실제로 가까운 게 아닐 수 있어요. t-SNE 거리는 "동네 구조"를 보여주지만 "전국 거리"는 안 보여줘요.
 
@@ -192,58 +186,52 @@ t-SNE 오용 패턴:
 
 ## Ⅴ. 실무 시나리오 — 텍스트 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-```
-BERT 텍스트 임베딩 t-SNE 시각화:
 
-목적: 뉴스 기사 카테고리 임베딩 품질 확인
 
-데이터:
-  20,000개 뉴스 기사
-  카테고리: 정치, 경제, 스포츠, 연예, IT, 의학
-  
-  BERT 임베딩: 각 기사 → 768차원 벡터
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BERT 텍스트 임베딩 t-SNE 시각화:</div>
+<div class="kb-diagram-note">목적: 뉴스 기사 카테고리 임베딩 품질 확인</div>
+<div class="kb-diagram-note">데이터:</div>
+<div class="kb-diagram-note">20,000개 뉴스 기사</div>
+<div class="kb-diagram-note">카테고리: 정치, 경제, 스포츠, 연예, IT, 의학</div>
+<div class="kb-diagram-note">BERT 임베딩: 각 기사 → 768차원 벡터</div>
+<div class="kb-diagram-note">t-SNE 적용:</div>
+<div class="kb-diagram-note">from sklearn.manifold import TSNE</div>
+<div class="kb-diagram-note">import matplotlib.pyplot as plt</div>
+<div class="kb-diagram-note"># PCA로 사전 압축 (100차원, 속도 향상)</div>
+<div class="kb-diagram-note">from sklearn.decomposition import PCA</div>
+<div class="kb-diagram-note">pca = PCA(n_components=100)</div>
+<div class="kb-diagram-note">X_pca = pca.fit_transform(X_bert) # (20000, 768) → (20000, 100)</div>
+<div class="kb-diagram-note"># t-SNE</div>
+<div class="kb-diagram-note">tsne = TSNE(n_components=2, perplexity=40,</div>
+<div class="kb-diagram-note">n_iter=1000, random_state=42)</div>
+<div class="kb-diagram-note">X_tsne = tsne.fit_transform(X_pca) # (20000, 100) → (20000, 2)</div>
+<div class="kb-diagram-note"># 시각화</div>
+<div class="kb-diagram-note">plt.figure(figsize=(12, 8))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">scatter = plt.scatter(X_tsne</div><div class="kb-diagram-node">:,0</div><div class="kb-diagram-note">, X_tsne</div><div class="kb-diagram-node">:,1</div><div class="kb-diagram-note">,</div></div>
+<div class="kb-diagram-note">c=labels, cmap='tab10', s=1)</div>
+<div class="kb-diagram-note">plt.colorbar(scatter)</div>
+<div class="kb-diagram-note">plt.title("BERT 임베딩 t-SNE 시각화")</div>
+<div class="kb-diagram-note">결과 해석:</div>
+<div class="kb-diagram-note">좋은 임베딩:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">각 카테고리가 명확히 분리된 클러스터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">경계가 선명함</div>
+<div class="kb-diagram-note">나쁜 임베딩:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">카테고리들이 섞임</div>
+<div class="kb-diagram-tree-item" style="--depth:1">구분 불가능</div>
+<div class="kb-diagram-note">발견:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">경제 + IT: 부분적 혼합 (경제기술 뉴스 중복)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스포츠: 매우 명확한 분리 (도메인 특화)</div>
+<div class="kb-diagram-note">활용: 임베딩 방법 비교 (BERT vs RoBERTa vs GPT)</div>
+<div class="kb-diagram-note">미세조정(Fine-tuning) 전후 임베딩 품질 비교</div>
+<div class="kb-diagram-note">대규모 처리:</div>
+<div class="kb-diagram-note">20,000건: t-SNE 약 5분</div>
+<div class="kb-diagram-note">200,000건: UMAP 권장 (5분 내 처리)</div>
+</div>
+</div>
 
-t-SNE 적용:
-  from sklearn.manifold import TSNE
-  import matplotlib.pyplot as plt
-  
-  # PCA로 사전 압축 (100차원, 속도 향상)
-  from sklearn.decomposition import PCA
-  pca = PCA(n_components=100)
-  X_pca = pca.fit_transform(X_bert)  # (20000, 768) → (20000, 100)
-  
-  # t-SNE
-  tsne = TSNE(n_components=2, perplexity=40,
-              n_iter=1000, random_state=42)
-  X_tsne = tsne.fit_transform(X_pca)  # (20000, 100) → (20000, 2)
-  
-  # 시각화
-  plt.figure(figsize=(12, 8))
-  scatter = plt.scatter(X_tsne[:,0], X_tsne[:,1],
-                        c=labels, cmap='tab10', s=1)
-  plt.colorbar(scatter)
-  plt.title("BERT 임베딩 t-SNE 시각화")
 
-결과 해석:
-  좋은 임베딩:
-  - 각 카테고리가 명확히 분리된 클러스터
-  - 경계가 선명함
-  
-  나쁜 임베딩:
-  - 카테고리들이 섞임
-  - 구분 불가능
-  
-  발견:
-  - 경제 + IT: 부분적 혼합 (경제기술 뉴스 중복)
-  - 스포츠: 매우 명확한 분리 (도메인 특화)
-  
-  활용: 임베딩 방법 비교 (BERT vs RoBERTa vs GPT)
-        미세조정(Fine-tuning) 전후 임베딩 품질 비교
-
-대규모 처리:
-  20,000건: t-SNE 약 5분
-  200,000건: UMAP 권장 (5분 내 처리)
-```
 
 > 📢 **섹션 요약 비유**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) t-SNE [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 언어의 지도 — 각 뉴스가 2D 지도에 찍히는데, 같은 카테고리끼리 동네를 이루면 "좋은 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)!", 섞이면 "모델 개선 필요!".
 

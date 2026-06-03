@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 과거 모놀리식 시절에는 서버가 1대뿐이었으므로, 클라이언트 앱에 `192.168.0.10`이라고 IP를 박아두어도 10년 동안 문제가 없었다. 하지만 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대에는 트래픽이 몰리면 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 '결제 서버'를 1대에서 50대로 늘리고(새 IP 부여), 트래픽이 빠지면 5대로 줄인다(IP 소멸). 이 역동적인 환경에서 클라이언트가 "결제 서버 IP가 뭐지?"라고 허공에 외쳤을 때, 누군가는 "지금 7, 8, 15번 서버가 살아있으니 그쪽으로 가!"라고 알려주어야 한다.
 
-- **💡 비유**: 옛날엔 친구네 집 주소를 다 외우고 다녔지만, 친구들이 매일 이사(오토스케일링)를 다닌다면 주소를 외우는 건 불가능합니다. 그래서 **'스마트폰 연락처([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))'**가 생겼습니다. 나는 그저 '길동이'라고 검색해서 전화를 걸면, 통신사가 현재 길동이가 있는 위치(IP)로 알아서 전화를 연결해 주는 마법과 같습니다.
+- **💡 비유**: 옛날엔 친구네 집 주소를 다 외우고 다녔지만, 친구들이 매일 이사(오토스케일링)를 다닌다면 주소를 외우는 건 불가능합니다. 그래서 <strong>'스마트폰 연락처(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)'</strong>가 생겼습니다. 나는 그저 '길동이'라고 검색해서 전화를 걸면, 통신사가 현재 길동이가 있는 위치(IP)로 알아서 전화를 연결해 주는 마법과 같습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **DNS의 한계**: 전통적인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 네임 시스템)도 이름을 IP로 바꿔주지만, DNS는 전파되는 데 시간이 너무 오래 걸려([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 문제) 1초 단위로 IP가 바뀌는 클라우드 환경에서는 부적합했다.
-  2. **[Client-side Discovery](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) (Netflix Eureka)**: 넷플릭스가 AWS 클라우드로 넘어가면서, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 중앙 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)(Eureka)에 자신의 IP를 등록하고, 클라이언트가 이 명부를 통째로 다운받아 직접 로드밸런싱하는 방식을 대유행시켰다.
-  3. **Server-side Discovery ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 시대가 오면서, 개발자가 유레카 코드를 짤 필요 없이 인프라 계층(K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) & CoreDNS)이 디스커버리를 투명하게 100% 대행하는 방식으로 진화했다.
+  2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/">Client-side Discovery</a> (Netflix Eureka)</strong>: 넷플릭스가 AWS 클라우드로 넘어가면서, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 중앙 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)(Eureka)에 자신의 IP를 등록하고, 클라이언트가 이 명부를 통째로 다운받아 직접 로드밸런싱하는 방식을 대유행시켰다.
+  3. <strong>Server-side Discovery (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a>)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 시대가 오면서, 개발자가 유레카 코드를 짤 필요 없이 인프라 계층(K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) & CoreDNS)이 디스커버리를 투명하게 100% 대행하는 방식으로 진화했다.
 
-- **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리는 거대한 뷔페식당의 **'빈자리 안내 전광판'**입니다. 손님(클라이언트)이 일일이 빈자리를 찾으러 돌아다니는 대신, 전광판에 "현재 5번, 12번 자리가 비었습니다"라고 실시간으로 업데이트되는 정보를 보고 바로 가서 앉는 시스템입니다.
+- **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리는 거대한 뷔페식당의 <strong>'빈자리 안내 전광판'</strong>입니다. 손님(클라이언트)이 일일이 빈자리를 찾으러 돌아다니는 대신, 전광판에 "현재 5번, 12번 자리가 비었습니다"라고 실시간으로 업데이트되는 정보를 보고 바로 가서 앉는 시스템입니다.
 
 ---
 
 다음은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) D의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 디스커버리 (Service D                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 디스커버리 (Service D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) D가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리 ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리 ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리 ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 디스커버리 (Service Discovery) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 디스커버리 (Service Discovery) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

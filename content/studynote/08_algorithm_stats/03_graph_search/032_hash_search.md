@@ -39,44 +39,49 @@ tags = ["studynote-algorithm"]
 
 ### [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 테이블 구조
 
-```
-키 "apple" → 해시 함수 h(k) → 인덱스 3 → 배열[3] = "apple"의 값
 
-h(k) = k mod 7  (테이블 크기 7)
-h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">= "apple"의 값</div></div>
+<div class="kb-diagram-note">h(k) = k mod 7 (테이블 크기 7)</div>
+<div class="kb-diagram-note">h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5</div>
+</div>
+</div>
+
+
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구조
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  키      해시 함수     인덱스    해시 테이블               │
-│                                                          │
-│ "apple"  ──→ h(k) ──→  5  ──→  [5] → "apple":"red"      │
-│ "grape"  ──→ h(k) ──→  1  ──→  [1] → "grape":"purple"   │
-│ "berry"  ──→ h(k) ──→  5  ──→  충돌! (chaining)          │
-│                                                          │
-│  테이블:                                                  │
-│  ┌───┬─────────────────────────┐                         │
-│  │ 0 │ (비어있음)               │                         │
-│  │ 1 │ "grape" → "purple"      │                         │
-│  │ 2 │ (비어있음)               │                         │
-│  │ 3 │ (비어있음)               │                         │
-│  │ 4 │ (비어있음)               │                         │
-│  │ 5 │ "apple" → "berry" → ... │  ← 체이닝(충돌 처리)    │
-│  │ 6 │ (비어있음)               │                         │
-│  └───┴─────────────────────────┘                         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키 해시 함수 인덱스 해시 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"apple":"red"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"grape":"purple"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"berry" ──→ h(k) ──→ 5 ──→ 충돌! (chaining)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">(비어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">"grape" → "purple"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">(비어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">(비어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">(비어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">"apple" → "berry" → ...</div><div class="kb-diagram-cell">← 체이닝(충돌 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">(비어있음)</div></div>
+</div>
+</div>
+
+
 
 ### 충돌 처리 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Resolution)
 
-**1. 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))**
+<strong>1. 체이닝 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>
 - 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 추가
 - 공간 제한 없음, 삭제 간편
 - 메모리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 포인터 추가 비용
 
-**2. [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/))**
+<strong>2. <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">개방 주소법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">Open Addressing</a>)</strong>
 - 충돌 시 다른 빈 슬롯 탐색
 - 선형 조사 (Linear Probing): [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+1, +2, +3 ...
 - 이차 조사 (Quadratic Probing): [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+1², +2², +3² ...
@@ -90,15 +95,19 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 
 ### 부하율 (Load Factor)
 
-```
-부하율 α = 저장된 항목 수 / 테이블 크기
 
-α = 0.5 → 평균 탐색 횟수 ≈ 1.5 (체이닝)
-α = 0.7 → 권장 리해싱 시점
-α = 1.0 → 성능 급격 저하
 
-리해싱 (Rehashing): 테이블 크기를 2배로 늘려 모든 항목을 재배치
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부하율 α = 저장된 항목 수 / 테이블 크기</div>
+<div class="kb-diagram-note">α = 0.5 → 평균 탐색 횟수 ≈ 1.5 (체이닝)</div>
+<div class="kb-diagram-note">α = 0.7 → 권장 리해싱 시점</div>
+<div class="kb-diagram-note">α = 1.0 → 성능 급격 저하</div>
+<div class="kb-diagram-note">리해싱 (Rehashing): 테이블 크기를 2배로 늘려 모든 항목을 재배치</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 부하율은 주차장 점유율과 같다. 70% 이상 차면 빈자리 찾기가 어려워지듯, [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)도 70% 이상 차면 리해싱으로 공간을 늘려야 한다.
 
@@ -176,24 +185,25 @@ h("apple") = ASCII합 mod 7 = 530 mod 7 = 5 → 인덱스 5
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[해시 함수 (Hash Function)]
-    │
-    ▼
-[충돌 처리 (Collision Resolution)]
-    │
-    ▼
-[부하율 (Load Factor)]
-    │
-    ▼
-[리해싱 (Rehashing)]
-    │
-    ▼
-[HashMap / dict]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수 (Hash Function)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">충돌 처리 (Collision Resolution)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부하율 (Load Factor)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리해싱 (Rehashing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HashMap / dict</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 리해싱 (Rehashing)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

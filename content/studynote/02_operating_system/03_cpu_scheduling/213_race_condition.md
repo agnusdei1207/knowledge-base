@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 경쟁 조건 (Race Condition)은 두 개 이상의 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 공유 자원(메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 동시에 접근하여 수정하려 할 때, **실행(스케줄링)의 타이밍이나 순서에 따라 최종 결과값이 달라지는 치명적인 비결정적(Non-deterministic) 버그 현상**이다.
+> 1. **본질**: 경쟁 조건 (Race Condition)은 두 개 이상의 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 하나의 공유 자원(메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 동시에 접근하여 수정하려 할 때, <strong>실행(스케줄링)의 타이밍이나 순서에 따라 최종 결과값이 달라지는 치명적인 비결정적(Non-deterministic) 버그 현상</strong>이다.
 > 2. **가치**: 컴퓨터 과학에서 버그의 원인을 디버깅하기 가장 어려운 최악의 현상 중 하나이며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 메커니즘을 제공해야만 하는 절대적인 이유(근본 원인)다.
 > 3. **융합**: 멀티 코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 환경의 도래로 이 현상은 소프트웨어 단을 넘어 L1/L2 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제라는 하드웨어 레벨의 경합으로까지 확장되었으며, 현대 언어([Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go)들은 컴파일 단계에서 이 경주(Race)를 원천 차단하려 진화하고 있다.
 
@@ -50,36 +50,35 @@ tags = ["studynote-operating-system"]
 
 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `count++`를 거의 동시에 1번씩 실행하여, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 10에서 최종값 12를 기대하는 상황을 간트 차트로 분해해 본다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션             │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │  [공유 메모리 변수: count = 10]                                        │
-  │                                                                        │
-  │   스레드 A (Core 0)                      스레드 B (Core 1)             │
-  │  ─────────────────────────────────────────────────────────             │
-  │  1. LOAD R_A, [count] (R_A = 10)                                       │
-  │  2. ADD R_A, 1        (R_A = 11)                                       │
-  │  ====================== 💥 스레드 교체 ======================          │
-  │                                  1. LOAD R_B, [count] (R_B = 10)       │
-  │                                  2. ADD R_B, 1        (R_B = 11)       │
-  │                                  3. STORE [count], R_B(count=11됨)     │
-  │  ==================== 💥 스레드 다시 교체 =====================        │
-  │  3. STORE [count], R_A (count에 11을 덮어씀!)                          │
-  │                                                                        │
-  │  🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.      │
-  │     (스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)│
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 변수: count = 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A (Core 0) 스레드 B (Core 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R_A,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R_A = 10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R_A, 1 (R_A = 11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====================== 💥 스레드 교체 ======================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R_B,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R_B = 10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R_B, 1 (R_B = 11)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">, R_B(count=11됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">==================== 💥 스레드 다시 교체 =====================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">, R_A (count에 11을 덮어씀!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 전 세계 전산망을 가장 괴롭히는 Race Condition의 1번 타자, '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)' 패턴이다. A가 메모리에서 10을 가져가서 자기만의 계산 공간([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에서 11을 쥐고 있는 동안, 메모리에 적힌 값은 아직 10이다. 이 빈틈을 노리고 B가 10을 가져가 버렸기 때문에 운명이 꼬인 것이다.
 
 ### 경쟁 조건이 발생하는 3대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약 구역
 
-유저 애플리케이션뿐만 아니라, **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부**에서도 경쟁 조건은 수시로 터진다.
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 수행 중 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 내부의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 변수를 수정하고 있는데 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서 ISR이 같은 큐를 덮어쓰려 할 때.
-2. **프로세스가 시스템 콜을 호출하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입했을 때**: A가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 돌고 있는데, 타임 퀀텀이 다 되어 선점당하고 B가 다시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 진입하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전역 변수를 망칠 때. (Preemptive Kernel의 고질병)
-3. **멀티 프로세서([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 환경**: 코어 0과 코어 1이 시스템 버스를 타고 메인 메모리의 동일한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 동시에 `WRITE` 신호를 쏠 때.
+유저 애플리케이션뿐만 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부</strong>에서도 경쟁 조건은 수시로 터진다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드 수행 중 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 발생 시</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 내부의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 변수를 수정하고 있는데 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져서 ISR이 같은 큐를 덮어쓰려 할 때.
+2. <strong>프로세스가 시스템 콜을 호출하여 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드로 진입했을 때</strong>: A가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 돌고 있는데, 타임 퀀텀이 다 되어 선점당하고 B가 다시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 진입하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전역 변수를 망칠 때. (Preemptive Kernel의 고질병)
+3. <strong>멀티 프로세서(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a>) 환경</strong>: 코어 0과 코어 1이 시스템 버스를 타고 메인 메모리의 동일한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 동시에 `WRITE` 신호를 쏠 때.
 
 - **📢 섹션 요약 비유**: 한 화이트보드에 두 학생이 양쪽에서 동시에 그림을 그리는 상황입니다. 왼쪽 학생이 강아지 눈을 그릴 때, 오른쪽 학생이 그 자리에 고양이 코를 덧그려버리면 화이트보드에는 괴물이 탄생합니다. 순서를 정해 한 명씩 마커 펜을 쥐여주어야 합니다.
 
@@ -89,20 +88,20 @@ tags = ["studynote-operating-system"]
 
 ### 디버깅의 악몽: 비결정성 (Non-determinism)과 하이젠버그 (Heisenbug)
 
-경쟁 조건이 프로그래머를 미치게 만드는 이유는 **"항상 터지지 않는다"**는 점이다.
+경쟁 조건이 프로그래머를 미치게 만드는 이유는 <strong>"항상 터지지 않는다"</strong>는 점이다.
 
 | 버그 유형 | 결정론적 버그 (일반 에러) | 비결정론적 버그 (경쟁 조건) |
 |:---|:---|:---|
-| **재현성 (Reproducibility)**| `NullPointerException`처럼 100번 실행하면 100번 똑같이 터짐 | 10만 번 돌리면 멀쩡하다가, **운 나쁘게 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 딱 그 1줄 사이에 터지는 1번만 에러 발생**. |
+| **재현성 (Reproducibility)**| `NullPointerException`처럼 100번 실행하면 100번 똑같이 터짐 | 10만 번 돌리면 멀쩡하다가, <strong>운 나쁘게 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>가 딱 그 1줄 사이에 터지는 1번만 에러 발생</strong>. |
 | **디버깅 방식** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)나 브레이크포인트(Breakpoint)를 찍으면 바로 원인이 보임 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 찍는 행위(I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 자체가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 타이밍을 바꿔버려 **에러가 숨어버림 (Heisenbug 현상)** |
 | **해결 난이도** | 쉬움 (원인 코드를 수정하면 끝) | **지옥** ([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 덤프 분석, 코드 아키텍처 전면 재검토 필요) |
 
-물리학의 '하이젠베르크 불확정성 원리'에서 따온 **하이젠버그(Heisenbug)**라는 용어는, "관측하려고(디버깅) 시도하면 그 성질이 변해서 사라져 버리는 벌레(Bug)"를 뜻하며, 경쟁 조건의 극악무도함을 가장 잘 표현하는 단어다.
+물리학의 '하이젠베르크 불확정성 원리'에서 따온 <strong>하이젠버그(Heisenbug)</strong>라는 용어는, "관측하려고(디버깅) 시도하면 그 성질이 변해서 사라져 버리는 벌레(Bug)"를 뜻하며, 경쟁 조건의 극악무도함을 가장 잘 표현하는 단어다.
 
 ### [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 과의 관계성
 아이러니하게도 데드락은 경쟁 조건을 막으려다 발생하는 부작용이다.
 - **Race Condition**: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 너무 안 걸어서 문이 활짝 열려 도둑이 들어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 털리는 상황. ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴)
-- **[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)**: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 너무 빡빡하게 걸어서 도둑은 안 들어오는데, 집주인도 열쇠를 잃어버려 방에 평생 갇히는 상황. ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 파괴)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a></strong>: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 너무 빡빡하게 걸어서 도둑은 안 들어오는데, 집주인도 열쇠를 잃어버려 방에 평생 갇히는 상황. ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 파괴)
 
 - **📢 섹션 요약 비유**: 경쟁 조건은 '도둑'이고, 데드락은 '철창'입니다. 도둑을 막겠다고 창문과 문에 철창을 수십 개 달면(과도한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 집에 불이 났을 때 나가지 못하고 타 죽는 재앙(데드락)을 맞이합니다. 적당한 경비 시스템(안전한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))이 최고입니다.
 
@@ -111,33 +110,32 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **DB 트랜잭션의 잃어버린 업데이트 ([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))**: 쇼핑몰 재고가 1개 남았을 때, 고객 A와 B가 동시에 "구매" 버튼을 눌렀다. 웹 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 두 개가 DB에 접속해 재고 `1`을 읽어오고 둘 다 `0`으로 업데이트(Commit)했다. DB상 재고는 0이지만, 물건은 A와 B 두 명에게 배송이 확정되는 치명적 쇼핑몰 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 장애가 터졌다.
+1. <strong>DB 트랜잭션의 잃어버린 업데이트 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/">Lost Update</a>)</strong>: 쇼핑몰 재고가 1개 남았을 때, 고객 A와 B가 동시에 "구매" 버튼을 눌렀다. 웹 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 두 개가 DB에 접속해 재고 `1`을 읽어오고 둘 다 `0`으로 업데이트(Commit)했다. DB상 재고는 0이지만, 물건은 A와 B 두 명에게 배송이 확정되는 치명적 쇼핑몰 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 장애가 터졌다.
    - **실무 조치**: 애플리케이션 코드를 뜯어고치는 게 아니라, DB 쿼리를 날릴 때 `SELECT ... FOR UPDATE` (비관적 락)를 걸거나, `버전 컬럼`을 둬서 업데이트 시 버전이 안 맞으면 예외를 던지는 (낙관적 락) 기술을 써서 백엔드 시스템 전체의 경쟁 조건을 부숴버린다.
-2. **단일 객체 패턴([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/))의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 경합**: 자바(Java) 스프링 환경에서 전역으로 하나만 써야 하는 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 객체를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization)할 때 터지는 고질병이다. `if (instance == null) instance = new Object();` 코드를 짜놓으면, A가 null을 확인하고 객체를 만들려는 찰나에 B가 들어와서 또 null을 확인하고 객체를 또 만들어버려 메모리에 2개의 객체가 떠돌며 서버가 터진다.
+2. <strong>단일 객체 패턴(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>)의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 경합</strong>: 자바(Java) 스프링 환경에서 전역으로 하나만 써야 하는 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 객체를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization)할 때 터지는 고질병이다. `if (instance == null) instance = new Object();` 코드를 짜놓으면, A가 null을 확인하고 객체를 만들려는 찰나에 B가 들어와서 또 null을 확인하고 객체를 또 만들어버려 메모리에 2개의 객체가 떠돌며 서버가 터진다.
    - **아키텍처 결단**: 이를 막기 위해 `Double-Checked Locking` 패턴을 쓰거나, 락 오버헤드가 싫다면 아예 클래스 로딩 시점에 미리 만들어버리는(Eager Initialization) 방식으로 JVM 스펙을 이용해 경쟁 조건을 회피한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │     경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계   │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │   [ Level 4: 공유를 아예 포기한다 (Share Nothing) ]                   │
-  │     ▶ 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용   │
-  │     ▶ 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!   │
-  │                                                                       │
-  │   [ Level 3: 상태를 바꿀 수 없게 만든다 (Immutability) ]              │
-  │     ▶ 방법: String, final, 불변 객체 사용                             │
-  │     ▶ 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸. │
-  │                                                                       │
-  │   [ Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free) ]             │
-  │     ▶ 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용             │
-  │     ▶ 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.           │
-  │                                                                       │
-  │   [ Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock) ]           │
-  │     ▶ 방법: Mutex, Semaphore, Synchronized 남발                       │
-  │     ▶ 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.│
-  └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: 공유를 아예 포기한다 (Share Nothing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: 상태를 바꿀 수 없게 만든다 (Immutability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: String, final, 불변 객체 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: Mutex, Semaphore, Synchronized 남발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 초보 개발자는 공유 변수를 보면 반사적으로 `Mutex`부터 떡칠한다. 하지만 베테랑 아키텍트는 "이 변수를 꼭 10개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 '공유'해야만 하는가?"를 먼저 고민한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 10개에게 각자 도마(Thread-Local)를 하나씩 사주고 마지막에 결과만 취합(Map-Reduce)하면 락을 아예 안 쓰고도 경쟁 조건을 피해 갈 수 있다. 최고의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 락을 쓰지 않는 설계다.
 
 - **📢 섹션 요약 비유**: 교통사고(경쟁 조건)를 막는 최고의 방법은 교차로에 신호등([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 다는 것이 아닙니다. 돈이 많이 들더라도 지하차도와 고가도로(격리, 불변성)를 지어서 차들이 평생 만날 일조차 없게 도로망 자체를 뜯어고치는 것이 진정한 아키텍처입니다.
@@ -151,7 +149,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 컴퓨터의 역사는 이 극악무도한 '경쟁 조건'이라는 버그와 싸워온 투쟁기다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이를 막기 위해 세마포어와 뮤텍스라는 무기를 개발했고, 하드웨어는 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 명령어를 던져주었다. 하지만 인간(프로그래머)의 실수로 락을 빼먹는 휴먼 에러는 막을 수 없었다.
-그래서 미래의 주도권은 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)'에서 **'프로그래밍 언어와 컴파일러'**로 넘어가고 있다. Rust의 소유권(Ownership) 모델, Go의 채널(Channel), Erlang의 액터(Actor) 모델은 **"메모리를 공유하여 통신하지 말고, 통신을 통해 메모리를 공유하라"**는 새로운 철학을 제시했다. 아예 코드를 컴파일할 때 경쟁 조건이 날 것 같으면 빨간 줄을 띄우고 빌드를 거부하는 강제적 언어 스펙이 클라우드 네이티브와 Web3 시대를 지배하는 절대 표준이 되고 있다.
+그래서 미래의 주도권은 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)'에서 <strong>'프로그래밍 언어와 컴파일러'</strong>로 넘어가고 있다. Rust의 소유권(Ownership) 모델, Go의 채널(Channel), Erlang의 액터(Actor) 모델은 <strong>"메모리를 공유하여 통신하지 말고, 통신을 통해 메모리를 공유하라"</strong>는 새로운 철학을 제시했다. 아예 코드를 컴파일할 때 경쟁 조건이 날 것 같으면 빨간 줄을 띄우고 빌드를 거부하는 강제적 언어 스펙이 클라우드 네이티브와 Web3 시대를 지배하는 절대 표준이 되고 있다.
 
 - **📢 섹션 요약 비유**: 옛날엔 사고가 나면 보험금(디버깅)으로 때웠다면, 지금은 자동차 스스로 앞차와 부딪힐 것 같으면 브레이크를 밟아주는 오토 긴급 제동장치([Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 컴파일러, Go 채널)를 차에 의무적으로 장착하여 사고 자체가 발생하지 않는 세상으로 변하고 있습니다.
 
@@ -168,15 +166,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
-    │
-    ▼
-[경쟁 조건 (Race Condition)]
-    │
-    ├──▶ [동적 우선순위 승급 (Priority Boost)]
-    └──▶ [태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 우선순위 승급 (Priority Boost)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

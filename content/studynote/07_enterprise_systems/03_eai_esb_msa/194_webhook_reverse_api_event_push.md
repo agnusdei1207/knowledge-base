@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 "필요할 때마다 내가 묻는 방식"이 아니라 "이벤트가 생기면 네가 알려 달라"고 미리 구독해 두는 서버 간 연동 방식이다. 소비자는 공개 가능한 수신 URL을 제공하고, 공급자는 특정 사건이 발생했을 때 해당 URL로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) POST를 보낸다. 그래서 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 흔히 역방향 API라고 불리지만, 본질은 **이벤트 기반 푸시 통합**이다.
+[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 "필요할 때마다 내가 묻는 방식"이 아니라 "이벤트가 생기면 네가 알려 달라"고 미리 구독해 두는 서버 간 연동 방식이다. 소비자는 공개 가능한 수신 URL을 제공하고, 공급자는 특정 사건이 발생했을 때 해당 URL로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) POST를 보낸다. 그래서 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 흔히 역방향 API라고 불리지만, 본질은 <strong>이벤트 기반 푸시 통합</strong>이다.
 
 이 방식이 필요한 이유는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 대부분의 시간을 낭비하기 때문이다. 예를 들어 결제 상태를 3초마다 조회하면, 실제 결제가 발생하지 않은 대부분의 요청은 의미 없는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 작업에 그친다. 반면 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 상태 변화가 생긴 순간에만 호출하므로 공급자와 소비자 모두 네트워크 부하와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 줄일 수 있다.
 
@@ -43,18 +43,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 운영에서 권장되는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 수신 경로를 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Webhook flow: event source pushes only when change occurs           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Event Source -> Retry Queue -> HTTPS POST -> Receiver Endpoint      │
-│                                          │                          │
-│                                          ▼                          │
-│                              Signature Verify -> Idempotency Check  │
-│                                          │                          │
-│                                          └──────> Async Worker      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webhook flow: event source pushes only when change occurs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Source -&gt; Retry Queue -&gt; HTTPS POST -&gt; Receiver Endpoint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signature Verify -&gt; Idempotency Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; Async Worker</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 RPC처럼 오래 붙잡지 않는 것이다. 공급자 입장에서는 성공 여부를 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다음 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정해야 하므로, 소비자는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 바로 200 또는 202를 반환하고 실제 DB 갱신, 메일 발송, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 반영은 내부 큐에서 처리하는 편이 안정적이다. 즉 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 "푸시 전송"이지만 내부 처리까지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 필요는 없다.
 
@@ -98,7 +98,7 @@ tags = ["studynote-enterprise"]
 - **보완 필요**: 사내망만 허용되어 외부에서 들어오는 호출을 받기 어려운 환경
 - **부적합**: 초저지연 양방향 상호작용, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지가 중요한 대화형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
-기술사 답안에서는 "[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) = 실시간"만 쓰면 부족하다. 반드시 **보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 중복 허용 설계, 재시도 모델, 내부 비동기화**를 함께 언급해야 실제 운영 지식을 보여 줄 수 있다.
+기술사 답안에서는 "[웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) = 실시간"만 쓰면 부족하다. 반드시 <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 중복 허용 설계, 재시도 모델, 내부 비동기화</strong>를 함께 언급해야 실제 운영 지식을 보여 줄 수 있다.
 
 - **📢 섹션 요약 비유**: [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 운영은 현관문을 열어 두는 일이 아니라, 초인종 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 카메라와 택배 보관함을 함께 설치하는 일과 같다. 누가 왔는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 같은 택배를 두 번 적재하지 않아야 집이 안전하다.
 
@@ -108,7 +108,7 @@ tags = ["studynote-enterprise"]
 
 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 잘 활용하면 불필요한 조회 트래픽을 줄이고, 사건 중심 통합으로 업무 반응 속도를 높일 수 있다. 특히 결제, 배포, [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), 티켓 시스템처럼 외부 SaaS와 자주 연결되는 환경에서는 구현 난이도 대비 효과가 크다. 이벤트가 생겼을 때만 움직이는 구조이므로 비용과 실시간성을 함께 개선하기 좋다.
 
-그러나 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 기본적으로 전달 보장과 순서 보장을 애플리케이션이 보완해야 하는 기술이다. 따라서 이 주제는 "푸시 알림 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)" 정도로 기억하기보다, **외부 이벤트를 받아 내부 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 안전하게 연결하는 서버 간 알림 메커니즘**으로 정리하는 것이 정확하다.
+그러나 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 기본적으로 전달 보장과 순서 보장을 애플리케이션이 보완해야 하는 기술이다. 따라서 이 주제는 "푸시 알림 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)" 정도로 기억하기보다, <strong>외부 이벤트를 받아 내부 처리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인으로 안전하게 연결하는 서버 간 알림 메커니즘</strong>으로 정리하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 소식을 빨리 전해 주는 벨소리지만, 집안 정리까지 대신해 주는 집사는 아니다. 벨이 울린 뒤의 정리 체계까지 있어야 진짜 자동화가 된다.
 
@@ -126,21 +126,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Polling 기반 조회
-    │
-    ▼
-Webhook 구독 등록
-    │
-    ▼
-이벤트 발생 시 HTTPS Push
-    │
-    ▼
-서명 검증 · 멱등 처리
-    │
-    ▼
-내부 큐 · 비동기 후처리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Polling 기반 조회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Webhook 구독 등록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 발생 시 HTTPS Push</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서명 검증 · 멱등 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내부 큐 · 비동기 후처리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "반복 조회 → 사건 알림 → 안전한 내부 처리"로 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 통합의 성숙 단계를 보여준다.
 

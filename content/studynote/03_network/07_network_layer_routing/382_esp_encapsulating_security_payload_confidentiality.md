@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: IP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램에 대해 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(Encryption), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 재전송 방지 기능을 몽땅 제공하는 IPsec의 핵심 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 4303). IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 50번을 사용한다.
 - **필요성**: AH의 한계(암호화 부재, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과 불가) 때문에 기업들은 "해커가 중간에서 우리 기밀 도면을 아예 못 보게 까만 잉크로 칠해버리고(암호화), 공유기를 통과할 수 있게 겉면 IP 주소는 검사에서 빼주는 진짜 실전용 방탄 박스가 필요하다!"라고 외쳤고, 이 요구를 완벽히 충족시킨 솔루션이 바로 ESP다.
 
-- **💡 비유**: ESP는 택배 상자를 보낼 때 쓰는 **"비밀번호가 걸린 강철 금고"**입니다.
+- **💡 비유**: ESP는 택배 상자를 보낼 때 쓰는 <strong>"비밀번호가 걸린 강철 금고"</strong>입니다.
   - 내 서류를 강철 금고(ESP) 안에 넣고 닫아버리니 아무도 훔쳐볼 수 없습니다 **(암호화)**.
-  - 금고 문짝에 특수 씰을 붙여 열려고 시도하면 흔적이 남습니다 **([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**.
-  - 금고 겉면에 붙은 택배 송장(IP 헤더)은 아무나 뗐다 붙였다([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 할 수 있도록 씰([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사 범위에서 빼두었습니다. 택배 기사가 송장을 새로 써 붙여도 금고 안의 내용물은 안전합니다 **([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 친화성)**.
+  - 금고 문짝에 특수 씰을 붙여 열려고 시도하면 흔적이 남습니다 <strong>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong>.
+  - 금고 겉면에 붙은 택배 송장(IP 헤더)은 아무나 뗐다 붙였다([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 할 수 있도록 씰([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사 범위에서 빼두었습니다. 택배 기사가 송장을 새로 써 붙여도 금고 안의 내용물은 안전합니다 <strong>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 친화성)</strong>.
 
-```text
-[AH]
-    │
-    ▼
-[ESP]
-    │
-    └──▶ [IKE, ISAKMP, SA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IKE, ISAKMP, SA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ESP는 보안을 위해 내용물을 **"블랙박스"** 처리하면서도, 겉면의 배송 딱지는 우체국이 맘대로 고쳐 쓸 수 있게 허용하는 **"융통성 있는 1티어 배달원"**입니다. 이 융통성 덕분에 전 세계 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 시장을 통일했습니다.
 
@@ -45,34 +49,33 @@ tags = ["studynote-network"]
 ### 1. ESP의 패킷 감싸기 (3단 샌드위치 구조)
 실무에서 가장 많이 쓰는 '터널 모드(Tunnel Mode)' 기준으로 패킷이 어떻게 조립되는지 보자.
 
-1. **원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `[ 오리지널 IP 헤더 ] + [ TCP 데이터 ]`
+1. <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `[ 오리지널 IP 헤더 ] + [ TCP 데이터 ]`
 2. **ESP의 포장**: 이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 몽땅 AES-256으로 암호화해 버린다. (이제 해커 눈엔 쓰레기로 보임).
 3. **ESP 트레일러(꼬리표)**: 암호화된 덩어리 맨 뒤에 "이거 뜯어봤는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Hash 값)"을 찰싹 붙인다.
-4. **[New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP 헤더**: 인터넷을 날아가려면 겉면에 IP가 있어야 하므로, `[ 서울 방화벽 IP -> 부산 방화벽 IP ]`라는 새로운 껍데기를 맨 앞에 씌운다. 그리고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 칸에는 **50번(ESP)**을 적어둔다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP 헤더</strong>: 인터넷을 날아가려면 겉면에 IP가 있어야 하므로, `[ 서울 방화벽 IP -> 부산 방화벽 IP ]`라는 새로운 껍데기를 맨 앞에 씌운다. 그리고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 칸에는 <strong>50번(ESP)</strong>을 적어둔다.
 
 ### 2. ESP가 AH와 다르게 NAT를 통과하는 원리
 - AH는 `[New IP 헤더]` 부분까지 다 포함해서 해시 도장을 찍었다. (그래서 NAT를 만나면 깨짐).
-- ESP는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(해시) 도장을 찍을 때 **`[New IP 헤더]` 부분은 쿨하게 빼고**, 자기가 감싼 `[원본 IP + TCP 데이터]` 부분까지만 도장을 찍는다.
-- **결과**: 중간에 집 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 `New IP 헤더`의 출발지 주소를 자기 맘대로 사설 IP에서 공인 IP로 뜯어고쳐도, **어차피 거기는 도장이 안 찍힌 구역이라 목적지 방화벽이 검사할 때 "에러 없음!"으로 무사 통과(합격)**하게 된다.
+- ESP는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(해시) 도장을 찍을 때 <strong><code>[New IP 헤더]</code> 부분은 쿨하게 빼고</strong>, 자기가 감싼 `[원본 IP + TCP 데이터]` 부분까지만 도장을 찍는다.
+- **결과**: 중간에 집 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 `New IP 헤더`의 출발지 주소를 자기 맘대로 사설 IP에서 공인 IP로 뜯어고쳐도, <strong>어차피 거기는 도장이 안 찍힌 구역이라 목적지 방화벽이 검사할 때 "에러 없음!"으로 무사 통과(합격)</strong>하게 된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ESP의 암호화와 인증(무결성) 범위 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 패킷 전체 구조 ]                                            │
- │   [ New IP ] ─ [ ESP 헤더 ] ─ [ 원본 IP ] ─ [ Data ] ─ [ ESP 꼬리 ] │
- │                                                             │
- │   1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)                    │
- │      ▶ [ 원본 IP ] 부터 [ Data ] 끝까지!                         │
- │                                                             │
- │   2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)              │
- │      ▶ [ ESP 헤더 ] 부터 [ ESP 꼬리 ] 끝까지!                    │
- │                                                             │
- │   3) 아무 보호도 받지 않는 헐벗은 구역                             │
- │      ▶ [ New IP ] (덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!) │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ESP의 암호화와 인증(무결성) 범위 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 전체 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New IP</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">원본 IP</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ESP 꼬리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원본 IP</div><div class="kb-diagram-note">부터</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">끝까지!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-note">부터</div><div class="kb-diagram-node">ESP 꼬리</div><div class="kb-diagram-note">끝까지!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 아무 보호도 받지 않는 헐벗은 구역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">New IP</div><div class="kb-diagram-note">(덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ESP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -94,9 +97,9 @@ ESP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-ESP가 위에서 NAT를 완벽하게 통과한다고 했지만, 사실 여기엔 숨겨진 아주 지독한 함정([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패러독스)이 하나 있다. ESP는 TCP나 UDP가 아니라 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 50번을 쓴다. 즉, **[포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))라는 개념 자체가 아예 없다!**
+ESP가 위에서 NAT를 완벽하게 통과한다고 했지만, 사실 여기엔 숨겨진 아주 지독한 함정([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패러독스)이 하나 있다. ESP는 TCP나 UDP가 아니라 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 50번을 쓴다. 즉, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)라는 개념 자체가 아예 없다!</strong>
 공유기(PAT)는 IP 한 개를 "[포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)"로 쪼개서 수십 명이 나눠 쓰게 하는 놈인데, ESP 패킷은 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)가 없으니 공유기가 "어? 이거 누구한테 돌려주지?" 하고 버려버리는 대참사가 일어난다.
-이 **"ESP의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 부재 현상"**을 구원하기 위해 다음 장에서 배울 **[NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/)([NAT Traversal](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/), [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500)**라는 최종 병기가 등장하게 된다.
+이 <strong>"ESP의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 부재 현상"</strong>을 구원하기 위해 다음 장에서 배울 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/">NAT-T</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/">NAT Traversal</a>, <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 4500)</strong>라는 최종 병기가 등장하게 된다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -104,7 +107,7 @@ ESP가 위에서 NAT를 완벽하게 통과한다고 했지만, 사실 여기엔
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** ESP는 안의 내용물을 완벽하게 **"방탄 금고"**로 감싸주지만, 금고 겉면에는 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)라는 **"아파트 동/호수"**가 적혀 있지 않아 아파트 경비실(공유기 PAT)에서 택배를 주워도 누구 집인지 몰라 버리게 되는 치명적인 배달 사고(한계)를 내재하고 있습니다.
+- **📢 섹션 요약 비유**: ** ESP는 안의 내용물을 완벽하게 **"방탄 금고"<strong>로 감싸주지만, 금고 겉면에는 <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>라는 </strong>"아파트 동/호수"**가 적혀 있지 않아 아파트 경비실(공유기 PAT)에서 택배를 주워도 누구 집인지 몰라 버리게 되는 치명적인 배달 사고(한계)를 내재하고 있습니다.
 
 ---
 
@@ -127,15 +130,19 @@ ESP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: AH]
-    │
-    ▼
-[현재 개념: ESP]
-    │
-    ├──▶ [확장 A: IKE, ISAKMP, SA]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ESP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IKE, ISAKMP, SA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), ISAKMP, SA와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

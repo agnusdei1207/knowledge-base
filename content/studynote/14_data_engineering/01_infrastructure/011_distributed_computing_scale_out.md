@@ -27,21 +27,26 @@ tags = ["data_engineering"]
 
 다음 도식은 트래픽 증가에 따른 기존 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계와 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 대응 방식을 비교하여 보여준다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)이 특정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이후 확장 불가능한 상태에 이르는 반면, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 선형적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장을 기대할 수 있다.
 
-```text
-[트래픽/데이터 볼륨 증가에 따른 확장 방식의 한계 비교]
 
-비용 / 처리량
-  ↑
-  │                    [Scale-up (수직 확장)] : 고가 장비 한계 도달 (장벽)
-  │                   ↗ ✖ (물리적 한계, 비용 폭발)
-  │                 ↗ 
-  │               ↗      
-  │             ↗      [Scale-out (수평 확장)] : 지속적 노드 추가
-  │           ↗    ────────────────────────────────────────────▶ (선형 확장)
-  │         ↗    ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...
-  │       ↗    ─ 
-  └─────────────────────────────────────────────────────→ 데이터 규모 (PB+)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽/데이터 볼륨 증가에 따른 확장 방식의 한계 비교</div></div>
+<div class="kb-diagram-note">비용 / 처리량</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-up (수직 확장)</div><div class="kb-diagram-note">: 고가 장비 한계 도달 (장벽)</div></div>
+<div class="kb-diagram-note">↗ ✖ (물리적 한계, 비용 폭발)</div>
+<div class="kb-diagram-note">↗</div>
+<div class="kb-diagram-note">↗</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">↗</div><div class="kb-diagram-node">Scale-out (수평 확장)</div><div class="kb-diagram-note">: 지속적 노드 추가</div></div>
+<div class="kb-diagram-note">↗ ▶ (선형 확장)</div>
+<div class="kb-diagram-note">↗ ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...</div>
+<div class="kb-diagram-note">↗ ─</div>
+<div class="kb-diagram-tree-item" style="--depth:1">→ 데이터 규모 (PB+)</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 비용 효율성과 물리적 한계 돌파에 있다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 메인프레임과 같은 고가 장비를 요구하지만 어느 시점부터는 비용 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증가율이 급감한다. 반면 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 구조에서는 상대적으로 저렴한 x86 서버를 클러스터에 편입시키는 것만으로 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 선형적으로 높일 수 있다. 실무에서는 이러한 구조 덕분에 클라우드 인프라의 자동 확장(Auto-scaling) 기능과 맞물려 수요 변동에 탄력적으로 대응할 수 있게 된다.
 
@@ -55,45 +60,40 @@ tags = ["data_engineering"]
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
-| **로드 밸런서 ([Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))** | 트래픽 및 작업 분배 | [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/), 해시 등 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 요청을 워커 노드에 할당 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) | 작업 반장 |
-| **[마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) (Master Node)** | 클러스터 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) | 작업 스케줄링, 워커 노드의 상태(Heartbeat) 감시 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지시 | [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 두뇌/사령탑 |
+| <strong>로드 밸런서 (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/">Load Balancer</a>)</strong> | 트래픽 및 작업 분배 | [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/), 해시 등 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 요청을 워커 노드에 할당 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) | 작업 반장 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/">마스터 노드</a> (Master Node)</strong> | 클러스터 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) | 작업 스케줄링, 워커 노드의 상태(Heartbeat) 감시 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지시 | [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 두뇌/사령탑 |
 | **워커 노드 (Worker Node)** | 실제 연산 수행 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 할당받은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 수행하고, 로컬 디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP | 손발/작업자 |
-| **[분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편화 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 블록(Block) 단위로 분할하여 다수 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 창고 |
-| **코디네이터 ([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))** | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 관리 | 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 리더 선출, [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) | ZAB [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 신호등 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/">분산 파일 시스템</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편화 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 블록(Block) 단위로 분할하여 다수 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 창고 |
+| <strong>코디네이터 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)</strong> | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 관리 | 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 리더 선출, [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) | ZAB [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 신호등 |
 
 아래 다이어그램은 무공유 아키텍처 환경에서 여러 개의 워커 노드가 메모리나 디스크를 일절 공유하지 않고, 독립적인 자원으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 수행하는 구조를 나타낸다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│               [Client Request / Job Submission]        │
-└──────────────┬──────────────────────────────┬──────────┘
-               │                              │
-        ┌──────▼──────┐                ┌──────▼──────┐
-        │ Master Node │<=== 동기화 ===>│ Coordinator │
-        │ (Metadata)  │                │ (ZooKeeper) │
-        └──────┬──────┘                └──────┬──────┘
-               │ 스케줄링 및 헬스 체크        │
- ┌─────────────┼─────────────┬────────────────┤
- ▼             ▼             ▼                ▼
-┌─────────┐   ┌─────────┐   ┌─────────┐      ┌─────────┐
-│ Worker 1│   │ Worker 2│   │ Worker 3│      │ Worker N│
-│ - CPU   │   │ - CPU   │   │ - CPU   │      │ - CPU   │
-│ - RAM   │   │ - RAM   │   │ - RAM   │ ...  │ - RAM   │
-│ - Disk  │   │ - Disk  │   │ - Disk  │      │ - Disk  │
-└─────────┘   └─────────┘   └─────────┘      └─────────┘
-   ▲             ▲             ▲                ▲
-   └─────────────┴───────┬─────┴────────────────┘
-                         │ 셔플(Shuffle) / 데이터 전송망
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client Request / Job Submission</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master Node</div><div class="kb-diagram-cell">&lt;=== 동기화 ===&gt;</div><div class="kb-diagram-cell">Coordinator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Metadata)</div><div class="kb-diagram-cell">(ZooKeeper)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄링 및 헬스 체크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 1</div><div class="kb-diagram-cell">Worker 2</div><div class="kb-diagram-cell">Worker 3</div><div class="kb-diagram-cell">Worker N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">- RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div></div>
+<div class="kb-diagram-note">셔플(Shuffle) / 데이터 전송망</div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 각 워커 노드가 자신만의 CPU, RAM, 디스크를 독립적으로 소유하며 다른 노드와 자원을 물리적으로 공유하지 않는다는 점이다. 이는 노드 간 경합(Contention)을 없애 선형 확장을 가능하게 하는 핵심 메커니즘이다. 반면, 이 때문에 워커 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 필요할 때는 네트워크를 통한 셔플(Shuffle)이 발생하여 심각한 I/O 병목이 발생할 수 있다. 실무에서는 이러한 네트워크 이동을 최소화하기 위해 '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))' 원칙, 즉 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 노드로 보내는 전략을 우선해야 한다.
 
 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 핵심 동작 원리는 다음과 같다.
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 ([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))**: 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 특정 기준(해시, 범위)으로 분할하여 여러 노드의 로컬 디스크에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 적재한다.
-2. **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))**: 특정 노드가 죽더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않도록, 서로 다른 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 2~3개씩 복사해 둔다.
-3. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 (Parallel Processing)**: [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)는 작업 요청을 작은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 나누어, 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보유한 워커 노드들에게 분배한다 ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)).
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분할 (<a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 특정 기준(해시, 범위)으로 분할하여 여러 노드의 로컬 디스크에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 적재한다.
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a>)</strong>: 특정 노드가 죽더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않도록, 서로 다른 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 2~3개씩 복사해 둔다.
+3. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산 (Parallel Processing)</strong>: [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)는 작업 요청을 작은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 나누어, 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보유한 워커 노드들에게 분배한다 ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)).
 4. **셔플 및 병합 (Shuffle & Reduce)**: 부분 연산된 결과를 네트워크를 통해 수집 및 재배치한 뒤 최종 결과를 도출한다.
-5. **장애 감내 ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))**: 마스터는 주기적인 하트비트(Heartbeat)를 통해 워커의 생존을 확인하고, 무응답 노드의 작업은 다른 노드에 재할당한다.
+5. <strong>장애 감내 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>: 마스터는 주기적인 하트비트(Heartbeat)를 통해 워커의 생존을 확인하고, 무응답 노드의 작업은 다른 노드에 재할당한다.
 
 > 📢 **섹션 요약 비유**: 각 요리사가 자신만의 도마와 칼(독립된 CPU, 메모리)을 가지고 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산)를 하다가 마지막에 큰 냄비 하나(셔플 및 병합)에 모아 완성하는 거대한 주방과 같습니다.
 
@@ -107,22 +107,27 @@ tags = ["data_engineering"]
 |:---|:---|:---|:---|
 | **비용 구조** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)는 낮으나 노드 관리에 따른 운영 비용 증가 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 도입 비용이 극도로 높음 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) ([총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)) |
 | **확장 한계** | 이론상 무한대 (선형 확장) | 단일 서버 하드웨어 스펙에 의한 물리적 한계 존재 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가량 예측 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지연으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 필요 (Eventual) | 단일 노드이므로 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 용이 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 중요도 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지연으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 필요 (Eventual) | 단일 노드이므로 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 용이 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 중요도 |
 | **장애 영향도** | 일부 노드 장애 시에도 전체 시스템은 정상 작동 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거) | 단일 서버 장애 시 전체 시스템 마비 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 및 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 요구사항 |
 | **도입 기술** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) | 전통적 RDBMS ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), 고성능 서버 장비) | [애플리케이션 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) |
 
-아래의 큐/병목 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 무작정 진행할 때 마주치는 **네트워크 혼잡(Network Congestion) 병목**을 묘사한다.
+아래의 큐/병목 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 무작정 진행할 때 마주치는 <strong>네트워크 혼잡(Network Congestion) 병목</strong>을 묘사한다.
 
-```text
-[스케일 아웃 환경에서의 대규모 셔플(Shuffle) 네트워크 병목 현상]
 
-Worker 1 [Data A] ====↘
-Worker 2 [Data B] ====(Network Switch)====> [Reducer/Aggregator]
-Worker 3 [Data C] ====↗       ▲
-Worker N [Data D] ==↗         │
-                           병목 지점: 과도한 노드 확장은
-                           동기화 및 데이터 교환 네트워크 오버헤드 유발
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케일 아웃 환경에서의 대규모 셔플(Shuffle) 네트워크 병목 현상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 1</div><div class="kb-diagram-node">Data A</div><div class="kb-diagram-note">====↘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 2</div><div class="kb-diagram-node">Data B</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">Reducer/Aggregator</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 3</div><div class="kb-diagram-node">Data C</div><div class="kb-diagram-connector">▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Worker N</div><div class="kb-diagram-node">Data D</div><div class="kb-diagram-note">==↗</div></div>
+<div class="kb-diagram-note">병목 지점: 과도한 노드 확장은</div>
+<div class="kb-diagram-note">동기화 및 데이터 교환 네트워크 오버헤드 유발</div>
+</div>
+</div>
+
+
 
 A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 단일 요청 처리 속도 자체는 빠르고 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어가 쉽지만 장비 증설에 한계가 뚜렷하다. 반면 B 방식([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 극대화되지만, 노드가 수백 대로 늘어날수록 노드 간 통신 오버헤드와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 복잡도가 기하급수적으로 증가한다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 구축할 때는 단순히 노드 수만 늘릴 것이 아니라 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 등 네트워크 인프라 대역폭을 함께 고려해야만 진정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장이 가능하다.
 
@@ -134,25 +139,29 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 실무 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 아키텍처를 도입할 때는 무조건적인 수평 확장이 능사가 아님을 명심해야 한다. 
 
-1. **상태 저장 (Stateful) vs 상태 없음 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 가장 이상적으로 작동하는 곳은 웹 서버와 같이 상태를 유지하지 않는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 계층이다. 반면 RDBMS 같이 강력한 정합성을 요하는 저장소는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)에 제약이 많아 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))이나 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 도입 같은 아키텍처 변경이 수반되어야 한다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핫스팟 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Hotspot) 문제**: 분할 키([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 잘못 설정하여 특정 노드에 트래픽이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상'이 발생하면, 클러스터의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 그 한 대의 느린 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 하향 평준화되는 심각한 지연이 발생한다.
-3. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 (Consensus) 오버헤드**: 노드가 많아질수록 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))에 따라 노드 간 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 비용이 급증한다. 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 생명인 시스템에서는 무작정 노드를 늘리기보다 노드 그룹 분할(Federated)을 고려해야 한다.
+1. <strong>상태 저장 (Stateful) vs 상태 없음 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 가장 이상적으로 작동하는 곳은 웹 서버와 같이 상태를 유지하지 않는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 계층이다. 반면 RDBMS 같이 강력한 정합성을 요하는 저장소는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)에 제약이 많아 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))이나 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 도입 같은 아키텍처 변경이 수반되어야 한다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 핫스팟 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Hotspot) 문제</strong>: 분할 키([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 잘못 설정하여 특정 노드에 트래픽이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상'이 발생하면, 클러스터의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 그 한 대의 느린 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 하향 평준화되는 심각한 지연이 발생한다.
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 합의 (Consensus) 오버헤드</strong>: 노드가 많아질수록 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))에 따라 노드 간 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 비용이 급증한다. 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 생명인 시스템에서는 무작정 노드를 늘리기보다 노드 그룹 분할(Federated)을 고려해야 한다.
 
-```text
-[스케일 아웃 도입 의사결정 플로우]
 
-[시스템 성능 저하 감지]
-         ↓
-[병목이 디스크/메모리인가? 아니면 CPU 연산인가?]
-   ├─ (단순 쿼리/강력한 일관성 필요) ──> [Scale-up 및 RDB 튜닝 고려]
-   └─ (대규모 데이터/분석/무상태) ──> [데이터 파티셔닝 가능 여부 판단]
-                                             ↓
-             ┌─────────(Yes)─────────────────┴──────────(No)────┐
-             ↓                                                  ↓
-   [분산 아키텍처 전환 (Scale-out)]                  [애플리케이션 로직 재설계 (Sharding 도입)]
-             ↓
-   [네트워크 대역폭 및 ZooKeeper 동기화 설계]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케일 아웃 도입 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 성능 저하 감지</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병목이 디스크/메모리인가? 아니면 CPU 연산인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (단순 쿼리/강력한 일관성 필요) ──&gt;</div><div class="kb-diagram-node">Scale-up 및 RDB 튜닝 고려</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (대규모 데이터/분석/무상태) ──&gt;</div><div class="kb-diagram-node">데이터 파티셔닝 가능 여부 판단</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">(Yes) (No)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 아키텍처 전환 (Scale-out)</div><div class="kb-diagram-node">애플리케이션 로직 재설계 (Sharding 도입)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 대역폭 및 ZooKeeper 동기화 설계</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 '모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 마법의 탄환'이 아니라는 점이다. 실무에서는 애플리케이션이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 지원하도록 설계(Stateless화, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 키 설계)되어 있지 않다면 노드만 추가하는 것은 비용 낭비일 뿐이다. 특히 금융권 코어 뱅킹 같은 강력한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 환경에서는 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계를 끝까지 튜닝한 이후에, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 기반의 제한적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 검토하는 것이 올바른 수순이다.
 
@@ -177,29 +186,31 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))** | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감내의 트레이드오프 법칙
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/">CAP Theorem</a>)</strong> | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감내의 트레이드오프 법칙
 - **무공유 아키텍처 (Shared-Nothing)** | 노드 간 자원 경합을 없애 수평 확장을 극대화하는 물리적 독립 설계
-- **[컨시스턴트 해싱](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/) ([Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/))** | 노드 증설/삭제 시 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 리밸런싱을 최소화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 키 매핑 기법
-- **[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))** | 네트워크 부하를 줄이기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보유한 노드에서 연산을 직접 수행하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원리
-- **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))** | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 통해 제거하고자 하는, 실패 시 전체 마비를 일으키는 핵심 병목 노드
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/">컨시스턴트 해싱</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/">Consistent Hashing</a>)</strong> | 노드 증설/삭제 시 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 리밸런싱을 최소화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 키 매핑 기법
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">데이터 지역성</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">Data Locality</a>)</strong> | 네트워크 부하를 줄이기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보유한 노드에서 연산을 직접 수행하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원리
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong> | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 통해 제거하고자 하는, 실패 시 전체 마비를 일으키는 핵심 병목 노드
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 서버 (Monolithic Server) — 수직 확장(Scale-Up)의 물리적 한계]
-    │
-    ▼
-[수평 확장 (Scale-Out) — 동일 서버 복제·로드 밸런싱으로 처리량 선형 증가]
-    │
-    ▼
-[분산 파일 시스템 (HDFS / GFS) — 데이터 샤딩과 복제로 고가용성 저장]
-    │
-    ▼
-[분산 컴퓨팅 프레임워크 (MapReduce / Spark) — 클러스터 전체 병렬 연산]
-    │
-    ▼
-[컨테이너 오케스트레이션 (Kubernetes) — 동적 Scale-Out 자동화·자원 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 (Monolithic Server) — 수직 확장(Scale-Up)의 물리적 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수평 확장 (Scale-Out) — 동일 서버 복제·로드 밸런싱으로 처리량 선형 증가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 파일 시스템 (HDFS / GFS) — 데이터 샤딩과 복제로 고가용성 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 컴퓨팅 프레임워크 (MapReduce / Spark) — 클러스터 전체 병렬 연산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 오케스트레이션 (Kubernetes) — 동적 Scale-Out 자동화·자원 최적화</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 서버의 수직 확장 한계를 수평 확장과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 프레임워크가 극복하며 오케스트레이션으로 자동화되는 과정을 나타낸다.
 

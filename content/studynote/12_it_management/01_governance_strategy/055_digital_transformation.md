@@ -107,18 +107,21 @@ Digitization → Digitalization → Transformation
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전자화
-    │
-    ▼
-자동화
-    │
-    ▼
-플랫폼/데이터 결합
-    │
-    ▼
-비즈니스 전환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전자화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플랫폼/데이터 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비즈니스 전환</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 디지털화에서 조직 전반의 변화로 확장되는 과정을 보여준다.
 

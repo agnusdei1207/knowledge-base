@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-프림 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 정점을 사이클 없이 연결하되 전체 간선 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합이 최소가 되도록 하는 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 문제를 푸는 대표적인 방법이다. 핵심은 여러 개의 작은 부분 트리를 나중에 합치는 것이 아니라, **시작 정점에서 출발해 하나의 트리를 계속 확장한다**는 점에 있다.
+프림 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 정점을 사이클 없이 연결하되 전체 간선 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합이 최소가 되도록 하는 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 문제를 푸는 대표적인 방법이다. 핵심은 여러 개의 작은 부분 트리를 나중에 합치는 것이 아니라, <strong>시작 정점에서 출발해 하나의 트리를 계속 확장한다</strong>는 점에 있다.
 
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요한 이유는 "각 출발점에서 가장 가까운 길"이 아니라 "전체 네트워크를 가장 적은 비용으로 연결하는 길"이 필요하기 때문이다. 전력망, 통신망, 도로, 배관, 배선 설계에서는 어느 한 정점까지의 최단 거리보다 전체 설치 비용의 최소화가 더 중요하다. 이때 프림은 현재 트리 바깥으로 나가는 가장 싼 연결선만 계속 고르면 된다는 단순한 규칙으로 문제를 푼다.
 
@@ -27,19 +27,22 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 프림이 "한 번에 한 정점씩" 트리를 키우는 모습을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          Prim keeps one growing tree and a frontier of edges         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Start S = {A}                                                        │
-│ frontier : A-B(4), A-C(2), A-D(7)                                    │
-│ pick min : A-C(2) -> S = {A,C}                                       │
-│ frontier : A-B(4), C-D(3), C-E(6)                                    │
-│ pick min : C-D(3) -> S = {A,C,D}                                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 "현재 가장 싼 간선"이 아니라 **현재 트리 밖으로 나가는 간선 중 가장 싼 것**이라는 점이다. 그래야 사이클을 만들지 않으면서 전체 비용 최소 조건을 유지할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prim keeps one growing tree and a frontier of edges</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Start S = {A}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontier : A-B(4), A-C(2), A-D(7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pick min : A-C(2) -&gt; S = {A,C}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontier : A-B(4), C-D(3), C-E(6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pick min : C-D(3) -&gt; S = {A,C,D}</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 "현재 가장 싼 간선"이 아니라 <strong>현재 트리 밖으로 나가는 간선 중 가장 싼 것</strong>이라는 점이다. 그래야 사이클을 만들지 않으면서 전체 비용 최소 조건을 유지할 수 있다.
 
 - **📢 섹션 요약 비유**: 프림 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 마을 하나에서 시작해 가장 싸게 이웃 마을과 다리를 놓고, 그다음 새로 연결된 마을에서 다시 가장 싼 다리를 찾는 식으로 동네를 넓혀 가는 방법과 같다.
 
@@ -60,17 +63,19 @@ tags = ["studynote-algorithm"]
 
 이 과정을 정당화하는 이론이 컷 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 현재 트리 정점 집합 `S` 와 나머지 정점 집합 `V-S` 를 가르는 컷이 있을 때, 그 컷을 가로지르는 가장 작은 간선은 어떤 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 에도 안전하게 포함될 수 있다. 프림은 매 단계마다 바로 이 "안전한 간선"을 하나씩 추가하는 방식이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Safe edge = cheapest edge crossing the cut             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Tree S = {A,C,D}                                                     │
-│ crossing edges : A-B(5), D-E(4), C-F(6)                              │
-│                                                                      │
-│ cheapest crossing edge = D-E(4)                                      │
-│ -> add E to the tree, keep MST property                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Safe edge = cheapest edge crossing the cut</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tree S = {A,C,D}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">crossing edges : A-B(5), D-E(4), C-F(6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cheapest crossing edge = D-E(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; add E to the tree, keep MST property</div></div>
+</div>
+</div>
+
+
 
 자료구조에 따라 성능도 달라진다. 인접 행렬을 쓰면 구현은 단순하지만 `O(V^2)`가 된다. 인접 리스트 + 이진 힙 기반 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 쓰면 보통 `O(E log V)`이고, 피보나치 힙 (Fibonacci [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 을 쓰면 이론적으로 `O(E + V log V)`까지 내려간다. 실무와 코딩 테스트에서는 대개 인접 리스트 + 이진 힙 조합이 가장 균형이 좋다.
 
@@ -125,7 +130,7 @@ tags = ["studynote-algorithm"]
 - [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)의 오래된 항목을 처리하면서 방문 여부 검사를 빠뜨리는 경우
 - 비연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)인데도 결과를 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 라고 단정하는 경우
 
-실무와 시험 모두에서 가장 흔한 함정은 "프림 = 가까운 정점 선택"이라는 막연한 기억이다. 정확한 기억은 **현재 트리와 바깥을 잇는 최소 간선 선택**이다. 이 차이를 분명히 이해해야 증명, 구현, 비교 문제에서 흔들리지 않는다.
+실무와 시험 모두에서 가장 흔한 함정은 "프림 = 가까운 정점 선택"이라는 막연한 기억이다. 정확한 기억은 <strong>현재 트리와 바깥을 잇는 최소 간선 선택</strong>이다. 이 차이를 분명히 이해해야 증명, 구현, 비교 문제에서 흔들리지 않는다.
 
 - **📢 섹션 요약 비유**: 동네 전체에 전선을 놓을 때, 이미 연결된 집들 울타리 밖으로 나가는 전선 중 가장 싼 것만 계속 고르는 방식이 프림이다. 집마다 가장 가까운 가게를 찾는 문제와는 다르다.
 
@@ -156,18 +161,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Weighted undirected graph
-    │
-    ▼
-MST (Minimum Spanning Tree)
-    │
-    ├─ edge sorting + Union-Find -> Kruskal
-    └─ frontier minimum + priority queue -> Prim
-    │
-    ▼
-Network design, clustering, infrastructure spanning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Weighted undirected graph</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MST (Minimum Spanning Tree)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">edge sorting + Union-Find -&gt; Kruskal</div>
+<div class="kb-diagram-tree-item" style="--depth:2">frontier minimum + priority queue -&gt; Prim</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Network design, clustering, infrastructure spanning</div>
+</div>
+</div>
+
+
 
 이 흐름은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결 문제에서 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 개념이 등장하고, 이를 해결하는 두 대표 탐욕 전략으로 프림과 [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/)이 분화되는 구조를 보여 준다.
 

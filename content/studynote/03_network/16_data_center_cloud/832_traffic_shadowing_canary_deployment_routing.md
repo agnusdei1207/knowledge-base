@@ -26,14 +26,18 @@ tags = ["studynote-network"]
   - 신버전(V2) 서버를 켜두고, 처음엔 **전체 트래픽의 딱 1%만 V2로 꺾어버립니다.** 에러가 안 터지는 걸 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 5%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 100%로 밸브를 서서히 열어 V1을 자연스럽게 멸망시킵니다.
   - **A/B 테스트와의 차이**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "이 코드가 에러를 뿜는지 안 뿜는지(안정성)"가 목적이고, A/B 테스트는 "파란 버튼과 빨간 버튼 중 어떤 게 매출이 높은지(비즈니스 가치)"가 목적입니다.
 
-```text
-[mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
-[트래픽 섀도잉 및 카나리 배포]
-    │
-    └──▶ [로드 밸런싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로드 밸런싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,21 +47,25 @@ tags = ["studynote-network"]
 
 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)조차 두려운 1급 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(은행 계좌이체 등)를 업데이트할 때 쓰는 가장 완벽하고 극한의 안전 테스트 기법입니다.
 
-- **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Mirroring)**: L7 라우터(Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등)가 실서비스 중인 V1 서버로 향하는 사용자들의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 트래픽을 가로채서, **원본은 V1으로 정상적으로 보내고, 복사본(Shadow)을 몰래 떠서 방금 갓 만든 신버전 V2 서버로 무자비하게 쏟아붓습니다.**
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (Mirroring)</strong>: L7 라우터(Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등)가 실서비스 중인 V1 서버로 향하는 사용자들의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 트래픽을 가로채서, **원본은 V1으로 정상적으로 보내고, 복사본(Shadow)을 몰래 떠서 방금 갓 만든 신버전 V2 서버로 무자비하게 쏟아붓습니다.**
 
 ### 2. 치명적 위험 차단: 응답(Response) 폐기 🌟
 - **Fire and Forget**: V2 서버도 이 복사본 패킷을 받고 열심히 DB를 뒤지고 결제 승인 연산을 돌립니다. 그리고 "결제 완료!"라는 응답을 돌려줍니다.
 - 하지만 L7 라우터는 V2가 보낸 응답(Response)을 **절대 클라이언트(사용자 폰)에게 돌려주지 않고 그 자리에서 찢어서 쓰레기통에 버립니다.** 오직 V1의 정상 응답만 손님에게 줍니다. 
 - 손님은 자기가 V2 서버의 [베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/) 마루타가 된 줄 꿈에도 모른 채 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 즐깁니다.
 
-```text
-[mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
-[트래픽 섀도잉 및 카나리 배포]
-    │
-    └──▶ [로드 밸런싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로드 밸런싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **완벽한 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) (Real-world [Load Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/))**: 아무리 QA팀이 가짜 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 데이터를 만들어 부하를 걸어봐야, 금요일 저녁 진짜 유저들이 뿜어내는 예측 불허의 실전 트래픽 폭풍(버스트)을 재현할 수는 없습니다. 섀도잉은 **'가짜 유저가 아닌 100% 진짜 유저 트래픽'**으로 V2 서버의 맷집을 한 치의 오차 없이 검증해 냅니다.
+- <strong>완벽한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> (Real-world <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/">Load Testing</a>)</strong>: 아무리 QA팀이 가짜 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 데이터를 만들어 부하를 걸어봐야, 금요일 저녁 진짜 유저들이 뿜어내는 예측 불허의 실전 트래픽 폭풍(버스트)을 재현할 수는 없습니다. 섀도잉은 <strong>'가짜 유저가 아닌 100% 진짜 유저 트래픽'</strong>으로 V2 서버의 맷집을 한 치의 오차 없이 검증해 냅니다.
 - **영향도 0% (Zero-Impact)**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 재수 없게 1%의 손님에 걸린 유저가 에러를 맛볼 수 있지만, 섀도잉은 응답을 버리기 때문에 사용자의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체감 영향도가 0%입니다. 완벽하게 격리된 '안전지대 샌드박스 테스트'입니다.
 
 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…가 기반 조건을 만든다면, [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 그 위에서 핵심 메커니즘을 구현하고, [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)**가 식당에 온 100명의 손님 중 무작위 1명에게만 '개발 중인 신메뉴 국밥(V2)'을 몰래 먹여보고 배탈이 나는지 지켜보는 '조심스러운 실전 투입'이라면, **[트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/)(그림자 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))**은 절대 배탈이 나면 안 되는 VIP 식당의 '궁극의 백룸 테스트'입니다. 100명의 손님에게는 모두 검증된 원래 국밥(V1)을 정상적으로 대접합니다. 하지만 주방에서는 셰프(라우터)가 손님들의 식성(주문 트래픽)을 100% 똑같이 흉내 내어 '신메뉴 국밥 100그릇(V2)'을 주방 뒷방에서 미친 듯이 끓여냅니다. 손님상에는 절대 내지 않고, 끓인 국밥은 바로 하수구(응답 폐기)에 버립니다. 손님은 아무 피해를 입지 않고, 주방장은 신메뉴 100그릇을 제시간에 끓여낼 수 있는지(서버 부하와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 100% 완벽한 실전 시뮬레이션을 완료할 수 있습니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong>가 식당에 온 100명의 손님 중 무작위 1명에게만 '개발 중인 신메뉴 국밥(V2)'을 몰래 먹여보고 배탈이 나는지 지켜보는 '조심스러운 실전 투입'이라면, <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/">트래픽 섀도잉</a>(그림자 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>)</strong>은 절대 배탈이 나면 안 되는 VIP 식당의 '궁극의 백룸 테스트'입니다. 100명의 손님에게는 모두 검증된 원래 국밥(V1)을 정상적으로 대접합니다. 하지만 주방에서는 셰프(라우터)가 손님들의 식성(주문 트래픽)을 100% 똑같이 흉내 내어 '신메뉴 국밥 100그릇(V2)'을 주방 뒷방에서 미친 듯이 끓여냅니다. 손님상에는 절대 내지 않고, 끓인 국밥은 바로 하수구(응답 폐기)에 버립니다. 손님은 아무 피해를 입지 않고, 주방장은 신메뉴 100그릇을 제시간에 끓여낼 수 있는지(서버 부하와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 100% 완벽한 실전 시뮬레이션을 완료할 수 있습니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: mTLS 마이크로서비스 간 신뢰 통신 양방향…]
-    │
-    ▼
-[현재 개념: 트래픽 섀도잉 및 카나리 배포]
-    │
-    ├──▶ [확장 A: 로드 밸런싱]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 섀도잉 및 카나리 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로드 밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…에서 출발해 현재 메커니즘을 정교화하고, 이후 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

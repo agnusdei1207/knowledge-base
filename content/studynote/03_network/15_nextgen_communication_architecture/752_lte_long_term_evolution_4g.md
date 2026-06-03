@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 8에서 제정된 4세대(4G) 이동통신 기술입니다.
 - 이름이 '오랜 기간의 진화(Long Term Evolution)'인 이유는, 처음엔 기존 3G망을 조금씩 고쳐 쓰다가 점진적으로 4G로 부드럽게 넘어가겠다는 통신사들의 현실적인 타협이 담겨있기 때문입니다. (기술적으로는 3.9G로 불렸으나 현재는 4G의 동의어로 쓰입니다.)
 
-```text
-[3GPP 표준 개발]
-    │
-    ▼
-[LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    └──▶ [EPC S-GW, P-GW 제어 망 트래픽…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,21 +44,25 @@ tags = ["studynote-network"]
 기존 2G/3G망과의 가장 결정적이고 역사적인 차이점입니다.
 
 ### 1. 구형 망(3G)의 이원화 구조
-- 3G는 두 개의 심장을 가졌습니다. 음성 통화를 위한 **서킷(회선) 교환기망**(집전화와 동일한 원리)과, 웹서핑을 위한 **[패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)망**(인터넷)이 별도로 존재했습니다. 관리 비용이 두 배로 들고 복잡했습니다.
+- 3G는 두 개의 심장을 가졌습니다. 음성 통화를 위한 **서킷(회선) 교환기망**(집전화와 동일한 원리)과, 웹서핑을 위한 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/">패킷 교환</a>망</strong>(인터넷)이 별도로 존재했습니다. 관리 비용이 두 배로 들고 복잡했습니다.
 
 ### 2. LTE의 완벽한 단일망 (All-IP) 🌟
 - LTE는 구형 음성 서킷 교환망을 가차 없이 도려내어 쓰레기통에 버렸습니다. 
-- 오직 **"[패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)(Packet Switched)" 하나만 남기고, 네트워크의 처음부터 끝까지 100% IP(Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 주소 기반의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망으로 완전히 뜯어고쳤습니다.**
-- **음성은 어떻게 할까? ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))**: 음성 통화 역시 카카오보이스톡이나 스카이프처럼, 아날로그 목소리를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷으로 잘게 썰어(VoIP 기술) LTE [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망에 태워버립니다. (이 기술이 다음 758번 문서의 VoLTE입니다.)
+- 오직 <strong>"<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/">패킷 교환</a>(Packet Switched)" 하나만 남기고, 네트워크의 처음부터 끝까지 100% IP(Internet <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 주소 기반의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 망으로 완전히 뜯어고쳤습니다.</strong>
+- <strong>음성은 어떻게 할까? (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/">VoLTE</a>)</strong>: 음성 통화 역시 카카오보이스톡이나 스카이프처럼, 아날로그 목소리를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷으로 잘게 썰어(VoIP 기술) LTE [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망에 태워버립니다. (이 기술이 다음 758번 문서의 VoLTE입니다.)
 
-```text
-[3GPP 표준 개발]
-    │
-    ▼
-[LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    └──▶ [EPC S-GW, P-GW 제어 망 트래픽…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 
 ### [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 🌟
 - 기존 3G는 찰흙 덩어리([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 코드)를 섞어서 보냈지만, 속도 한계가 명확했습니다.
-- LTE는 와이브로([WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/))가 쓰던 **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** 기술을 가져왔습니다. 20MHz짜리 굵은 주파수 대역을, 무려 **1,200개의 바늘구멍 같은 얇은 실(Sub-carrier, [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))**로 쪼갭니다. 
+- LTE는 와이브로([WiMAX](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/570_wimax_802_16_wibro_mobile_broadband/))가 쓰던 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> 기술을 가져왔습니다. 20MHz짜리 굵은 주파수 대역을, 무려 <strong>1,200개의 바늘구멍 같은 얇은 실(Sub-carrier, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>)</strong>로 쪼갭니다. 
 - 그리고 이 실들을 서로 간섭(혼선)이 없는 완벽한 90도 직교(Orthogonal) 상태로 배열하여, 한 번에 수많은 가입자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빽빽하게 구겨 넣어 동시에 발사합니다. 덕분에 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 0에 수렴하여 속도가 3G 대비 수십 배 폭발(최대 150Mbps)했습니다.
 
 LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발이 기반 조건을 만든다면, LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 그 위에서 핵심 메커니즘을 구현하고, [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) S-GW, P-GW 제어 망 트래픽…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -115,15 +123,19 @@ LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_de
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 3GPP 표준 개발]
-    │
-    ▼
-[현재 개념: LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ├──▶ [확장 A: EPC S-GW, P-GW 제어 망 트래픽…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 3GPP 표준 개발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 LTE All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발에서 출발해 현재 메커니즘을 정교화하고, 이후 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) S-GW, P-GW 제어 망 트래픽…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

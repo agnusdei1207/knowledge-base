@@ -18,7 +18,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처의 정의와 목적
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처([Data Voucher](/knowledge-base/studynote/16_bigdata/01_intro/014_data_voucher/))는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구입·가공 비용의 일부를 정부가 바우처 형태로 지원하는 사업**이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처([Data Voucher](/knowledge-base/studynote/16_bigdata/01_intro/014_data_voucher/))는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구입·가공 비용의 일부를 정부가 바우처 형태로 지원하는 사업</strong>이다.
 
 ### 지원 목표
 
@@ -68,21 +68,27 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 신청·수행 절차
 
-```
-1단계: 공고 및 신청 (과기부·AI Hub 공고)
-         ↓
-2단계: 평가 및 선정
-       - 사업 타당성·데이터 활용 계획 심사
-         ↓
-3단계: 바우처 발급 및 공급 기업 선택
-       - AI Hub 데이터 스토어에서 셀러 선택
-         ↓
-4단계: 데이터 구매·가공 수행
-       - 공급 기업과 계약 → 서비스 제공
-         ↓
-5단계: 성과 보고
-       - 데이터 활용 결과·사업 성과 제출
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1단계: 공고 및 신청 (과기부·AI Hub 공고)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2단계: 평가 및 선정</div>
+<div class="kb-diagram-tree-item" style="--depth:3">사업 타당성·데이터 활용 계획 심사</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">3단계: 바우처 발급 및 공급 기업 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:3">AI Hub 데이터 스토어에서 셀러 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">4단계: 데이터 구매·가공 수행</div>
+<div class="kb-diagram-tree-item" style="--depth:3">공급 기업과 계약 → 서비스 제공</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">5단계: 성과 보고</div>
+<div class="kb-diagram-tree-item" style="--depth:3">데이터 활용 결과·사업 성과 제출</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 절차는 정부 지원금 사업과 같다 — 신청→심사→선정→지원금으로 구입→성과 보고 순서로, 투명하게 관리된다.
 
@@ -90,24 +96,28 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 생태계 구조
 
-```
-데이터 바우처 생태계:
 
-  [정부(과기부)]
-      ↓ 재원 지원
-  [AI Hub / 한국데이터산업진흥원]
-      ↓ 바우처 발급·관리
-  [수요 기업(바이어, 중소·스타트업)]
-      ↓ 바우처로 구매
-  [공급 기업(셀러)]
-    데이터 판매·가공 서비스 제공
 
-공급 기업(셀러) 유형:
-  - 통신사 (SKT·KT·LGU+): 위치·이동 데이터
-  - 카드사 (BC·신한·삼성): 소비 패턴 데이터
-  - 플랫폼 (네이버·카카오): 검색·행동 데이터
-  - 데이터 전문 기업: 가공·분석 서비스
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 바우처 생태계:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정부(과기부)</div></div>
+<div class="kb-diagram-note">↓ 재원 지원</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI Hub / 한국데이터산업진흥원</div></div>
+<div class="kb-diagram-note">↓ 바우처 발급·관리</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수요 기업(바이어, 중소·스타트업)</div></div>
+<div class="kb-diagram-note">↓ 바우처로 구매</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공급 기업(셀러)</div></div>
+<div class="kb-diagram-note">데이터 판매·가공 서비스 제공</div>
+<div class="kb-diagram-note">공급 기업(셀러) 유형:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">통신사 (SKT·KT·LGU+): 위치·이동 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">카드사 (BC·신한·삼성): 소비 패턴 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">플랫폼 (네이버·카카오): 검색·행동 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 전문 기업: 가공·분석 서비스</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처 생태계는 정부가 운영하는 오픈 마켓이다 — 정부가 입점 판매자(셀러)를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 소비자(수요 기업)에게 상품권(바우처)을 나눠줘서 안전하게 거래할 수 있게 한다.
 
@@ -139,46 +149,53 @@ tags = ["studynote-bigdata"]
 
 ## 📌 관련 개념 맵
 
-```
-데이터바우처 사업
-├── 바우처 유형
-│   ├── 구매 바우처 (상용 데이터 구입)
-│   └── 가공 바우처 (원시 데이터 정제·분석)
-├── 생태계
-│   ├── 수요 기업 (바이어, 중소기업)
-│   ├── 공급 기업 (셀러, 데이터 전문기업)
-│   └── 플랫폼 (AI Hub, KDATA)
-├── 연계 정책
-│   ├── 데이터댐 사업
-│   ├── AI 바우처
-│   └── 빅데이터 플랫폼 구축
-└── 관련 법
-    ├── 데이터기본법
-    └── 데이터산업진흥법
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터바우처 사업</div>
+<div class="kb-diagram-tree-item" style="--depth:0">바우처 유형</div>
+<div class="kb-diagram-note">── 구매 바우처 (상용 데이터 구입)</div>
+<div class="kb-diagram-note">── 가공 바우처 (원시 데이터 정제·분석)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">생태계</div>
+<div class="kb-diagram-note">── 수요 기업 (바이어, 중소기업)</div>
+<div class="kb-diagram-note">── 공급 기업 (셀러, 데이터 전문기업)</div>
+<div class="kb-diagram-note">── 플랫폼 (AI Hub, KDATA)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">연계 정책</div>
+<div class="kb-diagram-note">── 데이터댐 사업</div>
+<div class="kb-diagram-note">── AI 바우처</div>
+<div class="kb-diagram-note">── 빅데이터 플랫폼 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:0">관련 법</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터기본법</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터산업진흥법</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│               데이터바우처 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2019년       │ 데이터바우처 시범   │ 과기부, 최초 250개 기업 지원  │
-│ 2020년       │ 한국판 뉴딜         │ 데이터댐·AI 바우처 연계 확대 │
-│ 2021년       │ 데이터기본법 제정  │ 데이터 산업 법적 근거 마련   │
-│ 2022년       │ 데이터바우처 대규모 │ 연간 3,000+ 기업 지원       │
-│ 2024년~      │ AI 특화 바우처      │ AI 학습 데이터셋 구축 집중   │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-데이터 접근 불평등 → 데이터바우처 → 중소기업 데이터 구매
-    ↓                     ↓                    ↓
-대기업 독점        정부 75% 지원         AI Hub 플랫폼
-    ↓
-데이터 경제 선순환 → 데이터 산업 생태계 성장
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터바우처 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019년</div><div class="kb-diagram-cell">데이터바우처 시범</div><div class="kb-diagram-cell">과기부, 최초 250개 기업 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">한국판 뉴딜</div><div class="kb-diagram-cell">데이터댐·AI 바우처 연계 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021년</div><div class="kb-diagram-cell">데이터기본법 제정</div><div class="kb-diagram-cell">데이터 산업 법적 근거 마련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">데이터바우처 대규모</div><div class="kb-diagram-cell">연간 3,000+ 기업 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024년~</div><div class="kb-diagram-cell">AI 특화 바우처</div><div class="kb-diagram-cell">AI 학습 데이터셋 구축 집중</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">데이터 접근 불평등 → 데이터바우처 → 중소기업 데이터 구매</div>
+<div class="kb-diagram-note">대기업 독점 정부 75% 지원 AI Hub 플랫폼</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 경제 선순환 → 데이터 산업 생태계 성장</div>
+</div>
+</div>
+
+
 
 ---
 

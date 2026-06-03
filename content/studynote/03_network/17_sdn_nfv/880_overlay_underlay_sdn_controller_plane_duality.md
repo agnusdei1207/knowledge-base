@@ -19,26 +19,30 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)은 컨트롤러가 조종(Control)하는 **타겟 대상이 물리 장비냐, 가상 소프트웨어냐**에 따라 두 가지 파벌로 나뉩니다.
+[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)은 컨트롤러가 조종(Control)하는 <strong>타겟 대상이 물리 장비냐, 가상 소프트웨어냐</strong>에 따라 두 가지 파벌로 나뉩니다.
 
 ### 1. 언더레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Underlay [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) - "바닥 쇳덩어리를 직접 지배" 🌟
-- **개념**: 중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러가 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 바닥에 깔린 **실제 물리적인 쇳덩어리(Hardware) 라우터와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계들을 직접 1:1로 조종([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/), NETCONF 등)하여, 물리적인 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로와 트래픽 포워딩을 100% 쥐락펴락하는 방식**입니다.
+- **개념**: 중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러가 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 바닥에 깔린 <strong>실제 물리적인 쇳덩어리(Hardware) 라우터와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 기계들을 직접 1:1로 조종(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>, NETCONF 등)하여, 물리적인 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 경로와 트래픽 포워딩을 100% 쥐락펴락하는 방식</strong>입니다.
 - **장점**: 물리적 장비의 포트와 트래픽([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 극도로 정밀하게 스케줄링할 수 있어 패킷 드랍 0%의 무결점 하드웨어 고속망(804번 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) 연동 등)을 짤 수 있습니다.
 - **단점**: 기존 사내에 깔려있는 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계들이 컨트롤러의 언어(오픈플로우)를 못 알아먹으면, 수백억 원을 들여 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 전체를 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 전용 장비(화이트박스)로 싹 다 갈아엎어야([Rip](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) and Replace) 하는 막대한 공사 비용이 발생합니다. (주로 거대 통신사, 백본망에서 사용)
 
 ### 2. 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Overlay [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) - "허공의 가상 터널을 지배" 🌟
-- **개념**: 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(언더레이)는 그냥 IP만 대충 찾아가는 바보 상태로 냅둡니다([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 안 건드림). 대신 서버 안의 **[가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) 등 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))들만 컨트롤러가 조종하여, 물리망 위 허공에 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 같은 거대한 가상 터널(오버레이, 817번)을 뚫고 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들의 길을 터주는 방식**입니다.
+- **개념**: 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(언더레이)는 그냥 IP만 대충 찾아가는 바보 상태로 냅둡니다([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 안 건드림). 대신 서버 안의 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">OVS</a> 등 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>)들만 컨트롤러가 조종하여, 물리망 위 허공에 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 같은 거대한 가상 터널(오버레이, 817번)을 뚫고 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)들의 길을 터주는 방식</strong>입니다.
 - **장점**: 사내 바닥에 깔린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 구닥다리 고철 덩어리이든 말든 상관없이 지금 당장 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 클라우드를 1분 만에 구축할 수 있습니다(하드웨어 독립성). VMWare NSX 같은 솔루션이 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 싹 다 점령한 비결입니다.
 - **단점**: 패킷이 두꺼운 터널 박스([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 캡슐화)에 쌓여서 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과하므로, 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 입장에서는 박스 안의 내용을 볼 수 없어 정밀한 1ms 초저지연 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 조절이나 병목 통제가 거의 불가능합니다(시야 가려짐).
 
-```text
-[텔레메트리]
-    │
-    ▼
-[오버레이 SDN vs 언더레이 SDN]
-    │
-    └──▶ [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN vs 언더레이 SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 언더레이 SDN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,20 +51,24 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 현대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(네이버, AWS)는 둘 중 하나만 쓰지 않습니다. 
-- **오버레이**는 VM이 생기고 죽을 때마다 1초 만에 논리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), 842번)을 치고 터널을 파는 데 씁니다.
-- **언더레이**는 밑바닥에 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 다중 경로) 대동맥을 깔아 오버레이 터널이 터지지 않도록 튼튼한 무결점 쾌속 아스팔트를 까는 데 씁니다.
-- **최종 연동 체계**: 상위 오버레이 컨트롤러(오픈스택 등)가 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이사 간다 터널 뚫어라!"라고 명령하면, 그 명령이 하위 언더레이 컨트롤러(ONOS 등)에게 전달되어 "터널 지나갈 테니 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3번 차선 비워둬라!"라며 **구름 위와 땅바닥의 뇌 2개가 실시간으로 소통하고 연동하는 완벽한 2단 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 망**이 구성됩니다.
+- <strong>오버레이</strong>는 VM이 생기고 죽을 때마다 1초 만에 논리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), 842번)을 치고 터널을 파는 데 씁니다.
+- <strong>언더레이</strong>는 밑바닥에 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 다중 경로) 대동맥을 깔아 오버레이 터널이 터지지 않도록 튼튼한 무결점 쾌속 아스팔트를 까는 데 씁니다.
+- **최종 연동 체계**: 상위 오버레이 컨트롤러(오픈스택 등)가 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이사 간다 터널 뚫어라!"라고 명령하면, 그 명령이 하위 언더레이 컨트롤러(ONOS 등)에게 전달되어 "터널 지나갈 테니 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3번 차선 비워둬라!"라며 <strong>구름 위와 땅바닥의 뇌 2개가 실시간으로 소통하고 연동하는 완벽한 2단 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 망</strong>이 구성됩니다.
 
-```text
-[텔레메트리]
-    │
-    ▼
-[오버레이 SDN vs 언더레이 SDN]
-    │
-    └──▶ [마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-```
 
-- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 망 구축은 거대한 도시([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))의 교통 체증을 해결하는 작업입니다. **언더레이(Underlay) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)** 방식은 포크레인을 가져와 '실제 땅바닥 아스팔트 도로(물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'를 다 뜯어엎고, 신호등을 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통제 체계로 싹 다 물리적으로 바꿔버리는 '무식하고 완벽한 대공사'입니다. 비용이 엄청나지만 차 막힘은 완벽히 사라집니다. 반면 **오버레이(Overlay) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)** 방식은 땅바닥 아스팔트가 더럽게 꼬여있든 말든 건드리지 않습니다. 대신 차들에게 '날아다니는 날개([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널 캡슐화)'를 달아주고, 허공에 가상의 비행경로를 찍어주는 '하늘길 비행 통제'입니다. 아스팔트 공사비가 0원 들어서 당장 오늘 도입할 수 있지만, 하늘에 차가 몰려 충돌할 뻔할 때 땅바닥 도로 상황과 유기적인 소통이 끊겨 미세한 교통정리가 꼬이는 부작용(시야 차단)을 감수해야 하는 소프트웨어 꼼수 전술입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN vs 언더레이 SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 망 구축은 거대한 도시([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))의 교통 체증을 해결하는 작업입니다. <strong>언더레이(Underlay) <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a></strong> 방식은 포크레인을 가져와 '실제 땅바닥 아스팔트 도로(물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'를 다 뜯어엎고, 신호등을 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통제 체계로 싹 다 물리적으로 바꿔버리는 '무식하고 완벽한 대공사'입니다. 비용이 엄청나지만 차 막힘은 완벽히 사라집니다. 반면 <strong>오버레이(Overlay) <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a></strong> 방식은 땅바닥 아스팔트가 더럽게 꼬여있든 말든 건드리지 않습니다. 대신 차들에게 '날아다니는 날개([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널 캡슐화)'를 달아주고, 허공에 가상의 비행경로를 찍어주는 '하늘길 비행 통제'입니다. 아스팔트 공사비가 0원 들어서 당장 오늘 도입할 수 있지만, 하늘에 차가 몰려 충돌할 뻔할 때 땅바닥 도로 상황과 유기적인 소통이 끊겨 미세한 교통정리가 꼬이는 부작용(시야 차단)을 감수해야 하는 소프트웨어 꼼수 전술입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 텔레메트리]
-    │
-    ▼
-[현재 개념: 오버레이 SDN vs 언더레이 SDN]
-    │
-    ├──▶ [확장 A: 마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오버레이 SDN vs 언더레이 SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) vs 언더레이 SDN는 텔레메트리에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 접목 내부…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

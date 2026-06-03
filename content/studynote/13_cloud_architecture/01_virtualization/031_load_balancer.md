@@ -18,23 +18,25 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-로드 밸런서 역할:
 
-  클라이언트들
-  │ │ │ │
-  ▼ ▼ ▼ ▼
-  [로드 밸런서]
-  /    |    서버A  서버B  서버C
-(CPU 40%) (CPU 30%) (CPU 70%)
 
-역할:
-  1. 트래픽 분산 (성능·확장성)
-  2. 헬스 체크 (가용성)
-  3. SSL 종료 (보안 오프로딩)
-  4. 세션 지속성 (Sticky Session)
-  5. 속도 제한 (Rate Limiting)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">로드 밸런서 역할:</div>
+<div class="kb-diagram-note">클라이언트들</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런서</div></div>
+<div class="kb-diagram-note">/ | 서버A 서버B 서버C</div>
+<div class="kb-diagram-note">(CPU 40%) (CPU 30%) (CPU 70%)</div>
+<div class="kb-diagram-note">역할:</div>
+<div class="kb-diagram-note">1. 트래픽 분산 (성능·확장성)</div>
+<div class="kb-diagram-note">2. 헬스 체크 (가용성)</div>
+<div class="kb-diagram-note">3. SSL 종료 (보안 오프로딩)</div>
+<div class="kb-diagram-note">4. 세션 지속성 (Sticky Session)</div>
+<div class="kb-diagram-note">5. 속도 제한 (Rate Limiting)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 로드 밸런서는 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 교차로 경찰이다. 모든 차(트래픽)가 한 도로(서버)에 몰리지 않게 여러 방향으로 유도하고, 막힌 도로(다운 서버)는 우회시킨다.
 
@@ -51,23 +53,28 @@ tags = ["studynote-cloud-architecture"]
 | **Least Connections** | 최소 연결 수 서버 선택 | 처리 시간 차이 |
 | **IP Hash** | 클라이언트 IP→서버 고정 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **Random** | 무작위 선택 | 단순 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **Least [Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)** | 최소 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 서버 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
+| <strong>Least <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a></strong> | 최소 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 서버 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
 
 ### L4 vs L7 로드 밸런서
 
-```text
-L4 (Transport Layer):
-  - IP + TCP/UDP 기반 분산
-  - 패킷 수준 빠른 처리
-  - 내용 기반 라우팅 불가
-  - 예: AWS NLB, HAProxy (TCP 모드)
 
-L7 (Application Layer):
-  - HTTP 헤더·URL·쿠키 기반 분산
-  - Path-based Routing: /api → API 서버, /web → 웹 서버
-  - Header-based: User-Agent별 모바일/PC 서버 분리
-  - 예: AWS ALB, Nginx, Traefik
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">L4 (Transport Layer):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">IP + TCP/UDP 기반 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:1">패킷 수준 빠른 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:1">내용 기반 라우팅 불가</div>
+<div class="kb-diagram-tree-item" style="--depth:1">예: AWS NLB, HAProxy (TCP 모드)</div>
+<div class="kb-diagram-note">L7 (Application Layer):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">HTTP 헤더·URL·쿠키 기반 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Path-based Routing: /api → API 서버, /web → 웹 서버</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Header-based: User-Agent별 모바일/PC 서버 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:1">예: AWS ALB, Nginx, Traefik</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: L4 vs L7은 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방식이다. L4(우편번호 기준 지역 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)), L7(내용물 유형 기준 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 냉동식품은 냉장 창고, 일반 물품은 일반 창고)처럼 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준의 깊이가 다르다.
 
@@ -110,17 +117,22 @@ GLB (Gateway Load Balancer):
 
 ### 헬스 체크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-```text
-헬스 체크 엔드포인트:
-  GET /health → HTTP 200 응답 → 정상
-  GET /health → HTTP 500 / 타임아웃 → 이상
 
-설정 파라미터:
-  interval:           30초마다 체크
-  timeout:            5초 응답 대기
-  healthy_threshold:  2회 연속 성공 → 정상
-  unhealthy_threshold: 3회 연속 실패 → 제외
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">헬스 체크 엔드포인트:</div>
+<div class="kb-diagram-note">GET /health → HTTP 200 응답 → 정상</div>
+<div class="kb-diagram-note">GET /health → HTTP 500 / 타임아웃 → 이상</div>
+<div class="kb-diagram-note">설정 파라미터:</div>
+<div class="kb-diagram-note">interval: 30초마다 체크</div>
+<div class="kb-diagram-note">timeout: 5초 응답 대기</div>
+<div class="kb-diagram-note">healthy_threshold: 2회 연속 성공 → 정상</div>
+<div class="kb-diagram-note">unhealthy_threshold: 3회 연속 실패 → 제외</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 헬스 체크는 의사 정기 검진이다. 30초마다 혈압([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 200)을 측정하고, 3번 연속 이상(500 오류)이면 환자(서버)를 격리(트래픽 제외)하여 다른 환자(클라이언트)에게 영향이 없게 한다.
 
@@ -147,26 +159,28 @@ GLB (Gateway Load Balancer):
 | **Round Robin / LC** | [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **L4 / L7** | OSI 계층별 로드 밸런서 |
 | **헬스 체크** | 서버 상태 자동 감지·제외 |
-| **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)** | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 LB |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 고성능 패킷 처리 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong> | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 LB |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 고성능 패킷 처리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[DNS 로드 밸런싱 — 단순 DNS 기반 분산]
-    │
-    ▼
-[L4/L7 로드 밸런서 — TCP/HTTP 지능 분산]
-    │
-    ▼
-[API 게이트웨이 — MSA 진입점 통합 LB]
-    │
-    ▼
-[서비스 메시 (Istio) — 사이드카 기반 서비스 간 LB]
-    │
-    ▼
-[eBPF LB — 커널 레벨 초고성능 패킷 처리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 로드 밸런싱 — 단순 DNS 기반 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L4/L7 로드 밸런서 — TCP/HTTP 지능 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API 게이트웨이 — MSA 진입점 통합 LB</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시 (Istio) — 사이드카 기반 서비스 간 LB</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF LB — 커널 레벨 초고성능 패킷 처리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,40 +18,39 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 사이드체인 개념
 
-```
-사이드체인 (Sidechain):
 
-메인체인 (Ethereum):
-  높은 보안, 탈중앙화
-  느림, 비싼 가스비
-  → 모든 거래 처리 불가능
 
-사이드체인:
-  메인체인과 연결된 별도 블록체인
-  독립 합의 메커니즘
-  더 빠르고 저렴
-  
-  특성:
-  - 자체 노드·검증자 보유
-  - 자체 토큰 또는 페그 토큰
-  - 메인체인과 양방향 자산 이동 가능
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사이드체인 (Sidechain):</div>
+<div class="kb-diagram-note">메인체인 (Ethereum):</div>
+<div class="kb-diagram-note">높은 보안, 탈중앙화</div>
+<div class="kb-diagram-note">느림, 비싼 가스비</div>
+<div class="kb-diagram-note">→ 모든 거래 처리 불가능</div>
+<div class="kb-diagram-note">사이드체인:</div>
+<div class="kb-diagram-note">메인체인과 연결된 별도 블록체인</div>
+<div class="kb-diagram-note">독립 합의 메커니즘</div>
+<div class="kb-diagram-note">더 빠르고 저렴</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자체 노드·검증자 보유</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자체 토큰 또는 페그 토큰</div>
+<div class="kb-diagram-tree-item" style="--depth:1">메인체인과 양방향 자산 이동 가능</div>
+<div class="kb-diagram-note">양방향 페그 (Two-Way Peg):</div>
+<div class="kb-diagram-note">메인체인 → 사이드체인:</div>
+<div class="kb-diagram-note">1. ETH 잠금 (Lock) on Ethereum</div>
+<div class="kb-diagram-note">2. 사이드체인에 wETH 발행 (Mint)</div>
+<div class="kb-diagram-note">사이드체인 → 메인체인:</div>
+<div class="kb-diagram-note">1. wETH 소각 (Burn) on Sidechain</div>
+<div class="kb-diagram-note">2. 원래 ETH 잠금 해제 (Unlock)</div>
+<div class="kb-diagram-note">롤업과 차이:</div>
+<div class="kb-diagram-note">사이드체인: 독립 합의 → 보안 독립</div>
+<div class="kb-diagram-note">롤업: 이더리움 보안 직접 활용 (강함)</div>
+<div class="kb-diagram-note">사이드체인 보안 = 자체 검증자 신뢰</div>
+<div class="kb-diagram-note">(이더리움보다 약할 수 있음)</div>
+</div>
+</div>
 
-양방향 페그 (Two-Way Peg):
-  메인체인 → 사이드체인:
-  1. ETH 잠금 (Lock) on Ethereum
-  2. 사이드체인에 wETH 발행 (Mint)
-  
-  사이드체인 → 메인체인:
-  1. wETH 소각 (Burn) on Sidechain
-  2. 원래 ETH 잠금 해제 (Unlock)
 
-롤업과 차이:
-  사이드체인: 독립 합의 → 보안 독립
-  롤업: 이더리움 보안 직접 활용 (강함)
-  
-  사이드체인 보안 = 자체 검증자 신뢰
-  (이더리움보다 약할 수 있음)
-```
 
 > 📢 **섹션 요약 비유**: 사이드체인은 공항 내 보조 터미널 — 메인 터미널(Ethereum)과 셔틀버스(브릿지)로 연결되고, 보조 터미널(사이드체인)에서 더 빠르고 저렴하게 탑승!
 
@@ -59,47 +58,45 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 브릿지 작동 원리
 
-```
-브릿지 (Bridge) 유형:
 
-1. Lock-and-Mint:
-   체인 A에 자산 잠금 → 체인 B에 래핑 토큰 발행
-   
-   예: ETH → Polygon
-   1. Ethereum: Bridge 컨트랙트에 1 ETH 잠금
-   2. Polygon: 1 wETH 발행 (래핑 ETH)
-   3. Polygon에서 사용
-   4. Polygon: 1 wETH 소각
-   5. Ethereum: 1 ETH 잠금 해제
 
-2. Burn-and-Mint:
-   네이티브 자산 소각 → 대상 체인에서 발행
-   (양쪽 모두 토큰 발행 권한 있을 때)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">브릿지 (Bridge) 유형:</div>
+<div class="kb-diagram-note">1. Lock-and-Mint:</div>
+<div class="kb-diagram-note">체인 A에 자산 잠금 → 체인 B에 래핑 토큰 발행</div>
+<div class="kb-diagram-note">예: ETH → Polygon</div>
+<div class="kb-diagram-note">1. Ethereum: Bridge 컨트랙트에 1 ETH 잠금</div>
+<div class="kb-diagram-note">2. Polygon: 1 wETH 발행 (래핑 ETH)</div>
+<div class="kb-diagram-note">3. Polygon에서 사용</div>
+<div class="kb-diagram-note">4. Polygon: 1 wETH 소각</div>
+<div class="kb-diagram-note">5. Ethereum: 1 ETH 잠금 해제</div>
+<div class="kb-diagram-note">2. Burn-and-Mint:</div>
+<div class="kb-diagram-note">네이티브 자산 소각 → 대상 체인에서 발행</div>
+<div class="kb-diagram-note">(양쪽 모두 토큰 발행 권한 있을 때)</div>
+<div class="kb-diagram-note">3. Liquidity Pool:</div>
+<div class="kb-diagram-note">양쪽 유동성 풀 → 원자적 스왑</div>
+<div class="kb-diagram-note">(예: Connext, Hop Protocol)</div>
+<div class="kb-diagram-note">브릿지 보안 위험:</div>
+<div class="kb-diagram-note">중앙화 위험:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Lock-and-Mint: 잠금 컨트랙트에 거대 자산 집중</div>
+<div class="kb-diagram-tree-item" style="--depth:1">해커 공격 1순위</div>
+<div class="kb-diagram-note">사례:</div>
+<div class="kb-diagram-note">Ronin Bridge 해킹 (2022.03):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Axie Infinity의 Ethereum ↔ Ronin 사이드체인 브릿지</div>
+<div class="kb-diagram-tree-item" style="--depth:1">해커: 5개 검증자 노드 컴프로마이즈</div>
+<div class="kb-diagram-tree-item" style="--depth:1">피해: 624백만 달러 (ETH + USDC)</div>
+<div class="kb-diagram-note">Wormhole 해킹 (2022.02):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Solana ↔ Ethereum 브릿지</div>
+<div class="kb-diagram-tree-item" style="--depth:1">피해: 320백만 달러</div>
+<div class="kb-diagram-note">브릿지 보안 강화:</div>
+<div class="kb-diagram-note">다중 서명 (Multisig) 검증</div>
+<div class="kb-diagram-note">낙관적 브릿지 (Optimistic): 7일 챌린지 기간</div>
+<div class="kb-diagram-note">ZK 브릿지: 수학적 증명으로 검증 (가장 안전)</div>
+</div>
+</div>
 
-3. Liquidity Pool:
-   양쪽 유동성 풀 → 원자적 스왑
-   (예: Connext, Hop Protocol)
 
-브릿지 보안 위험:
-  중앙화 위험:
-  - Lock-and-Mint: 잠금 컨트랙트에 거대 자산 집중
-  - 해커 공격 1순위
-  
-  사례:
-  Ronin Bridge 해킹 (2022.03):
-  - Axie Infinity의 Ethereum ↔ Ronin 사이드체인 브릿지
-  - 해커: 5개 검증자 노드 컴프로마이즈
-  - 피해: 624백만 달러 (ETH + USDC)
-  
-  Wormhole 해킹 (2022.02):
-  - Solana ↔ Ethereum 브릿지
-  - 피해: 320백만 달러
-
-브릿지 보안 강화:
-  다중 서명 (Multisig) 검증
-  낙관적 브릿지 (Optimistic): 7일 챌린지 기간
-  ZK 브릿지: 수학적 증명으로 검증 (가장 안전)
-```
 
 > 📢 **섹션 요약 비유**: 브릿지는 국제 환전소 — 달러([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))를 맡기고 원화(sETH) 받기. 환전소(브릿지)가 털리면 맡긴 돈(자산) 다 사라져요! ZK 브릿지는 금고가 투명한 환전소!
 
@@ -107,45 +104,44 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. Polygon 생태계
 
-```
-Polygon (구 Matic Network):
 
-Polygon PoS (사이드체인):
-  Ethereum 사이드체인
-  합의: BFT + 체크포인트(Ethereum 앵커링)
-  검증자: 100개 검증자 노드
-  TPS: 7,000+ TPS
-  가스비: Ethereum의 1/100 수준
-  
-  보안: Ethereum보다 약함 (100 검증자 신뢰)
-  체크포인트: ~256 블록마다 Ethereum에 기록
-              → 최종 확정은 Ethereum 보안
 
-Polygon zkEVM (ZK 롤업):
-  ZK 증명으로 이더리움 레벨 보안
-  Ethereum EVM 100% 호환
-  TPS: 2,000+ TPS
-  가스비: Ethereum의 1/50~1/100
-  
-  차이: PoS보다 보안 강함 (ZK 수학적 증명)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Polygon (구 Matic Network):</div>
+<div class="kb-diagram-note">Polygon PoS (사이드체인):</div>
+<div class="kb-diagram-note">Ethereum 사이드체인</div>
+<div class="kb-diagram-note">합의: BFT + 체크포인트(Ethereum 앵커링)</div>
+<div class="kb-diagram-note">검증자: 100개 검증자 노드</div>
+<div class="kb-diagram-note">TPS: 7,000+ TPS</div>
+<div class="kb-diagram-note">가스비: Ethereum의 1/100 수준</div>
+<div class="kb-diagram-note">보안: Ethereum보다 약함 (100 검증자 신뢰)</div>
+<div class="kb-diagram-note">체크포인트: ~256 블록마다 Ethereum에 기록</div>
+<div class="kb-diagram-note">→ 최종 확정은 Ethereum 보안</div>
+<div class="kb-diagram-note">Polygon zkEVM (ZK 롤업):</div>
+<div class="kb-diagram-note">ZK 증명으로 이더리움 레벨 보안</div>
+<div class="kb-diagram-note">Ethereum EVM 100% 호환</div>
+<div class="kb-diagram-note">TPS: 2,000+ TPS</div>
+<div class="kb-diagram-note">가스비: Ethereum의 1/50~1/100</div>
+<div class="kb-diagram-note">차이: PoS보다 보안 강함 (ZK 수학적 증명)</div>
+<div class="kb-diagram-note">Polygon 2.0:</div>
+<div class="kb-diagram-note">목표: ZK 기반 Ethereum 유동성 계층</div>
+<div class="kb-diagram-note">각 체인 → ZK 증명 → 공통 브릿지</div>
+<div class="kb-diagram-note">원자적 크로스체인 거래</div>
+<div class="kb-diagram-note">비교:</div>
+<div class="kb-diagram-note">Polygon PoS Polygon zkEVM</div>
+<div class="kb-diagram-note">보안 검증자 신뢰 수학적 ZK 증명</div>
+<div class="kb-diagram-note">속도 빠름 빠름</div>
+<div class="kb-diagram-note">비용 매우 저렴 저렴</div>
+<div class="kb-diagram-note">EVM 호환 완전 완전</div>
+<div class="kb-diagram-note">출시 2020 2023</div>
+<div class="kb-diagram-note">MATIC → POL 토큰 전환:</div>
+<div class="kb-diagram-note">Polygon 2.0 업그레이드 (2023)</div>
+<div class="kb-diagram-note">POL: 다중 역할 토큰 (검증, 거버넌스, 수수료)</div>
+</div>
+</div>
 
-Polygon 2.0:
-  목표: ZK 기반 Ethereum 유동성 계층
-  각 체인 → ZK 증명 → 공통 브릿지
-  원자적 크로스체인 거래
 
-비교:
-            Polygon PoS    Polygon zkEVM
-보안        검증자 신뢰    수학적 ZK 증명
-속도        빠름           빠름
-비용        매우 저렴      저렴
-EVM 호환   완전           완전
-출시        2020           2023
-
-MATIC → POL 토큰 전환:
-  Polygon 2.0 업그레이드 (2023)
-  POL: 다중 역할 토큰 (검증, 거버넌스, 수수료)
-```
 
 > 📢 **섹션 요약 비유**: Polygon은 이더리움 고속도로 건설사 — PoS는 일반 고속도로(빠르고 저렴), zkEVM은 안전 카메라 완비 고속도로(더 안전), Polygon 2.0은 전국 연결망!
 
@@ -194,43 +190,40 @@ IBC (Inter-Blockchain Communication):
 
 ## Ⅴ. 실무 시나리오 — 게임 NFT 브릿지
 
-```
-P2E 게임 NFT 크로스체인 아키텍처:
 
-배경:
-  게임 NFT: Polygon PoS (저렴한 민팅)
-  NFT 거래: Ethereum (높은 유동성)
-  
-  사용자 요구: Polygon 게임 NFT를 OpenSea에서 판매
 
-구조:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">P2E 게임 NFT 크로스체인 아키텍처:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">게임 NFT: Polygon PoS (저렴한 민팅)</div>
+<div class="kb-diagram-note">NFT 거래: Ethereum (높은 유동성)</div>
+<div class="kb-diagram-note">사용자 요구: Polygon 게임 NFT를 OpenSea에서 판매</div>
+<div class="kb-diagram-note">구조:</div>
+<div class="kb-diagram-note">Polygon PoS:</div>
+<div class="kb-diagram-note">게임 플레이 → NFT 획득 → Polygon에 보관</div>
+<div class="kb-diagram-note">가스비: 0.001 MATIC (= ~$0.001)</div>
+<div class="kb-diagram-note">Polygon Bridge → Ethereum:</div>
+<div class="kb-diagram-note">1. Polygon: NFT 잠금 (Bridge 컨트랙트)</div>
+<div class="kb-diagram-note">2. 체크포인트 확인 (7일 또는 빠른 인출)</div>
+<div class="kb-diagram-note">3. Ethereum: 동일 NFT 복원 (래핑)</div>
+<div class="kb-diagram-note">빠른 인출: 유동성 풀 활용 (1-2시간, 0.1% 수수료)</div>
+<div class="kb-diagram-note">일반 인출: 7일 챌린지 (무료)</div>
+<div class="kb-diagram-note">Ethereum:</div>
+<div class="kb-diagram-note">OpenSea에서 NFT 판매</div>
+<div class="kb-diagram-note">고유동성 시장 접근</div>
+<div class="kb-diagram-note">보안 고려사항:</div>
+<div class="kb-diagram-note">Polygon Bridge 컨트랙트 감사 (Audit) 필수</div>
+<div class="kb-diagram-note">멀티시그 검증자 분산</div>
+<div class="kb-diagram-note">이상 거래 모니터링</div>
+<div class="kb-diagram-note">성과:</div>
+<div class="kb-diagram-note">NFT 민팅 비용: ETH 기준 $50 → Polygon $0.01</div>
+<div class="kb-diagram-note">거래 속도: 30초 (Polygon) vs 15초 (Ethereum, 혼잡 없을 때)</div>
+<div class="kb-diagram-note">사용자 경험: 게임 = Polygon, 거래 = Ethereum 선택적</div>
+</div>
+</div>
 
-Polygon PoS:
-  게임 플레이 → NFT 획득 → Polygon에 보관
-  가스비: 0.001 MATIC (= ~$0.001)
 
-Polygon Bridge → Ethereum:
-  1. Polygon: NFT 잠금 (Bridge 컨트랙트)
-  2. 체크포인트 확인 (7일 또는 빠른 인출)
-  3. Ethereum: 동일 NFT 복원 (래핑)
-  
-  빠른 인출: 유동성 풀 활용 (1-2시간, 0.1% 수수료)
-  일반 인출: 7일 챌린지 (무료)
-
-Ethereum:
-  OpenSea에서 NFT 판매
-  고유동성 시장 접근
-
-보안 고려사항:
-  Polygon Bridge 컨트랙트 감사 (Audit) 필수
-  멀티시그 검증자 분산
-  이상 거래 모니터링
-
-성과:
-  NFT 민팅 비용: ETH 기준 $50 → Polygon $0.01
-  거래 속도: 30초 (Polygon) vs 15초 (Ethereum, 혼잡 없을 때)
-  사용자 경험: 게임 = Polygon, 거래 = Ethereum 선택적
-```
 
 > 📢 **섹션 요약 비유**: 게임 NFT 브릿지는 게임 아이템 해외 판매 — 게임(Polygon)에서 아이템 얻고, 국제 경매장(Ethereum OpenSea)에 올리려면 세관(브릿지) 통과. 세관 보안이 중요!
 

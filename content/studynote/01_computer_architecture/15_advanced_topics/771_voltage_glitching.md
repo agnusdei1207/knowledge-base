@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 볼티지 글리칭 ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Glitching)은 칩의 VDD (공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 ns~μs 단위로 순간적으로 떨어뜨려, 정상 동작하던 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로의 타이밍 여유를 깨고 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip이나 연산 오류를 유도하는 **능동형 [fault injection](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/)**이다.
+> 1. **본질**: 볼티지 글리칭 ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Glitching)은 칩의 VDD (공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 ns~μs 단위로 순간적으로 떨어뜨려, 정상 동작하던 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로의 타이밍 여유를 깨고 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip이나 연산 오류를 유도하는 <strong>능동형 <a href="/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/">fault injection</a></strong>이다.
 > 2. **가치**: 보안 부트, 비밀번호 비교, 암호 연산처럼 "딱 한 번만 틀리면" 큰 피해가 나는 구간을 직접 흔들 수 있어, 소프트웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 물리 계층에서 우회하는 데 강력하다.
 > 3. **판단 포인트**: 성공 여부는 offset, width, depth 같은 glitch 파라미터에 달려 있으므로, 방어도 BOD (Brown-Out Detector), on-die regulator, redundancy, tamper response를 함께 설계해야 한다.
 
@@ -42,20 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) glitch가 "전원 부족 → 게이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 → 잘못된 래치"로 이어지는 과정을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Voltage glitch timing                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ VDD : ──────────────────┐    ┌──────────────────────────────────   │
-│                         └────┘                                     │
-│ CLK : ──┐  ┌──┐  ┌──┐  ┌──┐  ┌──┐                                  │
-│         └──┘  └──┘  └──┘  └──┘  └──                               │
-│                 ▲                                                  │
-│         target instruction active during VDD dip                   │
-│                 │                                                  │
-│                 └─ longer gate delay -> setup violation -> fault   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Voltage glitch timing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK : ── ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target instruction active during VDD dip</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ longer gate delay -&gt; setup violation -&gt; fault</div></div>
+</div>
+</div>
+
+
 
 실전에서는 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) 기반 glitcher, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 로직 애널라이저를 함께 써서 수천~수만 번 파라미터를 스윕한다. 목표는 "장비가 멈추지 않으면서도 보안 로직만 어긋나는 창"을 찾는 것이다. 예를 들어 [secure boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 서명 비교 시점에 맞춘 short dip은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 분기를 건너뛰게 할 수 있고, 암호 연산 라운드 중 fault는 DFA (Differential Fault Analysis)로 이어질 수 있다.
 
@@ -124,23 +123,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-외부 전원 접근 + trigger 수집
-              │
-              ▼
-볼티지 글리칭 파라미터 탐색
-: offset / width / depth
-              │
-              ▼
-fault 발생
-: instruction skip / faulty crypto / state desync
-              │
-              ├──▶ secure boot bypass
-              └──▶ DFA 기반 키 복원
-              │
-              ▼
-BOD + regulator + redundancy + tamper response
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 전원 접근 + trigger 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">볼티지 글리칭 파라미터 탐색</div>
+<div class="kb-diagram-note">: offset / width / depth</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">fault 발생</div>
+<div class="kb-diagram-note">: instruction skip / faulty crypto / state desync</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ secure boot bypass</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ DFA 기반 키 복원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BOD + regulator + redundancy + tamper response</div>
+</div>
+</div>
+
+
 
 이 흐름은 "전원 교란"이 어떻게 "보안 우회"로 이어지고, 다시 "감지·완충·중복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 대응되는지 보여 준다.
 

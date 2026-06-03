@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [CNAPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Application [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 애플리케이션 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 플랫폼)은 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) + [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) + [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 보안 스캔 + [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/)을 단일 플랫폼으로 통합한 클라우드 보안 솔루션이다. Gartner가 2021년 명명했다.
-> 2. **[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Graph의 혁신**: Wiz가 개척한 [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Graph는 개별 취약점을 단독으로 평가하는 대신, 취약점 A + 퍼블릭 노출 B + 과도한 권한 C 가 조합될 때만 실제 공격 경로가 형성된다는 것을 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다. 소음(False Positive)을 줄이고 실제 위험에 집중한다.
+> 2. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Graph의 혁신</strong>: Wiz가 개척한 [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Graph는 개별 취약점을 단독으로 평가하는 대신, 취약점 A + 퍼블릭 노출 B + 과도한 권한 C 가 조합될 때만 실제 공격 경로가 형성된다는 것을 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다. 소음(False Positive)을 줄이고 실제 위험에 집중한다.
 > 3. **판단 포인트**: Agentless 방식([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 스캔)은 프로덕션 무영향이 장점이고, Agent 방식은 런타임 실시간 탐지가 장점이다. CNAPP은 두 방식을 결합해 정적+동적 보안을 함께 제공한다.
 
 ---
@@ -29,26 +29,22 @@ CNAPP은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+--------------------------------------------------------------+
-|                    CNAPP 통합 구조                            |
-+--------------------------------------------------------------+
-|                                                              |
-|  +----------------------------------------------------------+ |
-|  |                    Risk Graph                            | |
-|  |  (취약점 + 노출도 + 권한 조합 -> 실제 공격 경로 시각화) | |
-|  +----------------------------------------------------------+ |
-|               |                                             |
-|    +----------+----------+                                  |
-|    v          v          v                                  |
-|  CSPM       CWPP       IaC 보안                             |
-|  (설정 오류) (런타임)  (Terraform)                          |
-|    |          |          |                                  |
-|    +----------+----------+                                  |
-|               v                                             |
-|  Agentless (스냅샷) + Agent (런타임) 복합 탐지              |
-+--------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNAPP 통합 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk Graph</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(취약점 + 노출도 + 권한 조합 -&gt; 실제 공격 경로 시각화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v v v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM CWPP IaC 보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(설정 오류) (런타임) (Terraform)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Agentless (스냅샷) + Agent (런타임) 복합 탐지</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 |:---|:---|
@@ -84,7 +80,7 @@ Wiz vs Prisma Cloud:
 
 1. **현황 파악**: 기존 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)/[CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 도구 인벤토리 및 커버리지 갭 분석
 2. **Agentless 스캔 도입**: 프로덕션 영향 없이 클라우드 계정 전체 스캔
-3. **[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 구성**: 고위험 공격 경로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 우선순위화
+3. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> 구성</strong>: 고위험 공격 경로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 우선순위화
 4. **Agent 확장**: 중요 워크로드에 런타임 탐지 에이전트 추가
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -101,7 +97,7 @@ Wiz vs Prisma Cloud:
 
 [CNAPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/) 도입으로 보안 도구 수를 줄이고 통합 가시성을 확보한다. [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 기반 우선순위화로 보안 팀이 실제 위험에 집중하고, 오탐으로 인한 피로감(Alert Fatigue)이 감소한다.
 
-CNAPP의 핵심 가치는 **"개별 취약점이 아니라 공격 경로(Attack Path) 단위로 보안을 관리하는 것"**이다. 취약점 수가 수천 개여도 실제 익스플로잇 가능한 경로는 소수이며, 그것에 집중해야 한다.
+CNAPP의 핵심 가치는 <strong>"개별 취약점이 아니라 공격 경로(Attack Path) 단위로 보안을 관리하는 것"</strong>이다. 취약점 수가 수천 개여도 실제 익스플로잇 가능한 경로는 소수이며, 그것에 집중해야 한다.
 
 > 📢 **섹션 요약 비유**: 1만 개의 경보가 울리는 것보다 지금 당장 문을 잠가야 할 1개를 정확히 알려주는 것이 CNAPP의 가치다.
 
@@ -119,14 +115,19 @@ CNAPP의 핵심 가치는 **"개별 취약점이 아니라 공격 경로(Attack 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분리된 보안 도구              CNAPP 등장                현대 CNAPP
-------------------   --------------------------   ------------------------
-CSPM 별도           ->  Gartner CNAPP 정의(2021)  ->  Risk Graph 중심
-CWPP 별도                Wiz Agentless 혁신           AI 기반 공격 예측
-IaC 스캐너 별도            멀티클라우드 통합             Supply Chain 통합
-Alert Fatigue              Risk Graph 우선순위화         SBOM + CNAPP 연동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분리된 보안 도구 CNAPP 등장 현대 CNAPP</div>
+<div class="kb-diagram-note">CSPM 별도 -&gt; Gartner CNAPP 정의(2021) -&gt; Risk Graph 중심</div>
+<div class="kb-diagram-note">CWPP 별도 Wiz Agentless 혁신 AI 기반 공격 예측</div>
+<div class="kb-diagram-note">IaC 스캐너 별도 멀티클라우드 통합 Supply Chain 통합</div>
+<div class="kb-diagram-note">Alert Fatigue Risk Graph 우선순위화 SBOM + CNAPP 연동</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

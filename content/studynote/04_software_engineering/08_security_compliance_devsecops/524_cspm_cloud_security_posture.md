@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Posture(형상/자세)는 현재 시스템의 모양새다. 수천 대의 서버, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰, DB 권한 등이 얽힌 클라우드의 '현재 모양'을 엑스레이로 찍는다. [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)([Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 툴(Tool)이다. AWS 계정 키를 물려주면 이 툴이 내 클라우드를 싹 다 뒤져서 "S3 버킷 퍼블릭으로 열렸음!", "DB 비밀번호가 하드코딩됨!", "디폴트 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 열림!" 1,000개의 지뢰를 시뻘건 대시보드에 뿌려주고 멱살을 잡는다.
 
-- **필요성**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대엔 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비 한 대 사서 막으면 끝이었다. 클라우드 시대엔 개발자 100명이 각자 자기 집에서 AWS 접속해서 버튼 클릭 몇 번으로 서버 100대와 스토리지 100개를 1분 만에 띄운다(Agility의 폭발). 엄청난 속도지만, 신입 개발자가 무심코 누른 `Allow Public Access` [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나 때문에 1억 명의 고객 개인정보가 구글 검색창에 굴러다니는 대참사가 터진다. **"인프라의 팽창 속도를 인간(보안팀)의 눈알과 엑셀 수작업으로는 절대 쫓아갈 수 없다는 파멸적 절망감"**이, 24시간 실시간으로 클라우드를 감시하고 기계적으로 썰어버리는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 로봇의 등판을 역사적 필연으로 만들었다.
+- **필요성**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대엔 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비 한 대 사서 막으면 끝이었다. 클라우드 시대엔 개발자 100명이 각자 자기 집에서 AWS 접속해서 버튼 클릭 몇 번으로 서버 100대와 스토리지 100개를 1분 만에 띄운다(Agility의 폭발). 엄청난 속도지만, 신입 개발자가 무심코 누른 `Allow Public Access` [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나 때문에 1억 명의 고객 개인정보가 구글 검색창에 굴러다니는 대참사가 터진다. <strong>"인프라의 팽창 속도를 인간(보안팀)의 눈알과 엑셀 수작업으로는 절대 쫓아갈 수 없다는 파멸적 절망감"</strong>이, 24시간 실시간으로 클라우드를 감시하고 기계적으로 썰어버리는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 로봇의 등판을 역사적 필연으로 만들었다.
 
-- **💡 비유**: CSPM은 거대한 카지노의 **'천장 전방위 360도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감시 카메라 시스템'**과 똑같습니다. 수천 명의 딜러(개발자)가 수만 개의 테이블(클라우드 서버)에서 카드를 칩니다. 보안팀이 걸어 다니며 "거기 돈 서랍 안 잠겼네!" 지적하는 건 불가능합니다. 카지노 천장에 달린 수백 대의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 카메라([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/))가 테이블을 전부 스캔하다가, 345번 테이블 딜러가 실수로 금고 문을 10cm 열어둔 채 퇴근하는 걸 포착합니다. 카메라는 즉시 사이렌을 울리며, 중앙 통제실에서 원격으로 0.1초 만에 그 금고 문을 닫아버리고 잠가버립니다(Auto-Remediation). 인간의 실수가 재앙으로 번지기 전 찰나를 낚아채는 감시의 신입니다.
+- **💡 비유**: CSPM은 거대한 카지노의 <strong>'천장 전방위 360도 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 감시 카메라 시스템'</strong>과 똑같습니다. 수천 명의 딜러(개발자)가 수만 개의 테이블(클라우드 서버)에서 카드를 칩니다. 보안팀이 걸어 다니며 "거기 돈 서랍 안 잠겼네!" 지적하는 건 불가능합니다. 카지노 천장에 달린 수백 대의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 카메라([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/))가 테이블을 전부 스캔하다가, 345번 테이블 딜러가 실수로 금고 문을 10cm 열어둔 채 퇴근하는 걸 포착합니다. 카메라는 즉시 사이렌을 울리며, 중앙 통제실에서 원격으로 0.1초 만에 그 금고 문을 닫아버리고 잠가버립니다(Auto-Remediation). 인간의 실수가 재앙으로 번지기 전 찰나를 낚아채는 감시의 신입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **클라우드 파편화와 ClickOps의 낭만 (2010s)**: AWS가 대중화되며 다들 마우스로 클릭해서 서버를 띄웠다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수가 난무했고 Capital One 사태(S3 권한 실수로 1억 명 털림) 등 참사가 연달아 터졌다.
-  2. **가트너의 작명과 1세대 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) (2018)**: 이 참사를 막기 위해 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 엑스레이 툴들이 나왔고, 가트너가 이를 '[CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)'이라 명명했다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 "위험하다!"라고 대시보드에 경고(Alert)만 띄워주고 끝났다. 개발자들은 귀찮아서 알람을 껐다.
-  3. **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 융합과 자가 치유 시대 (현재)**: 경고만 주면 안 고친다는 걸 깨달았다. 이제 2세대 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)(Prisma Cloud, Wiz)은 파이프라인에 융합되어, [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))를 짜는 찰나에 멱살을 잡고 빌드를 터뜨리거나([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)), 런타임에 털린 룰을 AI가 즉시 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Auto-Healing) 시켜버리는 능동적 방패로 진화했다.
+  2. <strong>가트너의 작명과 1세대 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/">CSPM</a> (2018)</strong>: 이 참사를 막기 위해 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 엑스레이 툴들이 나왔고, 가트너가 이를 '[CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)'이라 명명했다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 "위험하다!"라고 대시보드에 경고(Alert)만 띄워주고 끝났다. 개발자들은 귀찮아서 알람을 껐다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 융합과 자가 치유 시대 (현재)</strong>: 경고만 주면 안 고친다는 걸 깨달았다. 이제 2세대 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)(Prisma Cloud, Wiz)은 파이프라인에 융합되어, [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))를 짜는 찰나에 멱살을 잡고 빌드를 터뜨리거나([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)), 런타임에 털린 룰을 AI가 즉시 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Auto-Healing) 시켜버리는 능동적 방패로 진화했다.
 
-- **📢 섹션 요약 비유**: 클라우드 해킹의 99%는 해커의 천재적인 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격이 아닙니다. 개발자가 **'퇴근할 때 대문 자물쇠를 안 잠그고 간 멍청한 실수(Misconfiguration)'**를 해커가 줍고 들어가는 꼴입니다. CSPM은 집주인이 문을 열어두고 10미터쯤 걸어가면 삐비빅! 소리를 내며 기계가 알아서 철컥! 문을 다시 잠가버리는 완벽한 **'잔소리꾼 겸 기계식 오토락 장치'**입니다.
+- **📢 섹션 요약 비유**: 클라우드 해킹의 99%는 해커의 천재적인 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격이 아닙니다. 개발자가 <strong>'퇴근할 때 대문 자물쇠를 안 잠그고 간 멍청한 실수(Misconfiguration)'</strong>를 해커가 줍고 들어가는 꼴입니다. CSPM은 집주인이 문을 열어두고 10미터쯤 걸어가면 삐비빅! 소리를 내며 기계가 알아서 철컥! 문을 다시 잠가버리는 완벽한 <strong>'잔소리꾼 겸 기계식 오토락 장치'</strong>입니다.
 
 ---
 
 다음은 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 보안 형상 관리 (CSPM)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 보안 형상 관리 (CSPM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)) 연동 개발 프로세스의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)) 연동 개발 프로세스의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)) 연동 개발 프로세스의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라우드 보안 형상 관리 (CSPM) 연동 개발 프로세스 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 보안 형상 관리 (CSPM) 연동 개발 프로세스 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

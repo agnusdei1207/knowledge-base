@@ -18,37 +18,40 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. [QA vs QC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/) 개념 대비
 
-```
-QA (Quality Assurance, 품질 보증):
-정의: 제품이 품질 요구사항을 만족하도록 보증하는
-체계적 활동 (프로세스 중심)
-목적: 결함 예방 (Defect Prevention)
-시점: 개발 전반에 걸쳐 지속적으로
-활동:
-- 소프트웨어 개발 프로세스 수립/심사
-- 코드 리뷰 표준화
-- 품질 계획 수립
-- 프로세스 감사 (Process Audit)
-- 팀 교육 및 역량 향상
 
-QC (Quality Control, 품질 통제):
-정의: 품질 요구사항이 충족되는지 확인하는 검사/측정 활동
-목적: 결함 탐지 (Defect Detection)
-시점: 산출물 완성 후 검사
-활동:
-- 소프트웨어 테스팅 (단위/통합/시스템)
-- 코드 인스펙션 (완성 코드 검토)
-- 사양 준수 확인
-- 버그 리포팅 및 추적
 
-핵심 구분:
-QA: 프로세스를 옳게 → 제품이 자연히 좋아짐
-QC: 제품을 직접 검사 → 결함 있는 제품 걸러냄
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">QA (Quality Assurance, 품질 보증):</div>
+<div class="kb-diagram-note">정의: 제품이 품질 요구사항을 만족하도록 보증하는</div>
+<div class="kb-diagram-note">체계적 활동 (프로세스 중심)</div>
+<div class="kb-diagram-note">목적: 결함 예방 (Defect Prevention)</div>
+<div class="kb-diagram-note">시점: 개발 전반에 걸쳐 지속적으로</div>
+<div class="kb-diagram-note">활동:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">소프트웨어 개발 프로세스 수립/심사</div>
+<div class="kb-diagram-tree-item" style="--depth:0">코드 리뷰 표준화</div>
+<div class="kb-diagram-tree-item" style="--depth:0">품질 계획 수립</div>
+<div class="kb-diagram-tree-item" style="--depth:0">프로세스 감사 (Process Audit)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">팀 교육 및 역량 향상</div>
+<div class="kb-diagram-note">QC (Quality Control, 품질 통제):</div>
+<div class="kb-diagram-note">정의: 품질 요구사항이 충족되는지 확인하는 검사/측정 활동</div>
+<div class="kb-diagram-note">목적: 결함 탐지 (Defect Detection)</div>
+<div class="kb-diagram-note">시점: 산출물 완성 후 검사</div>
+<div class="kb-diagram-note">활동:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">소프트웨어 테스팅 (단위/통합/시스템)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">코드 인스펙션 (완성 코드 검토)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">사양 준수 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:0">버그 리포팅 및 추적</div>
+<div class="kb-diagram-note">핵심 구분:</div>
+<div class="kb-diagram-note">QA: 프로세스를 옳게 → 제품이 자연히 좋아짐</div>
+<div class="kb-diagram-note">QC: 제품을 직접 검사 → 결함 있는 제품 걸러냄</div>
+<div class="kb-diagram-note">비유:</div>
+<div class="kb-diagram-note">QA: 공장 제조 공정 설계 및 감독</div>
+<div class="kb-diagram-note">QC: 공장 출고 전 제품 불량 검사</div>
+</div>
+</div>
 
-비유:
-QA: 공장 제조 공정 설계 및 감독
-QC: 공장 출고 전 제품 불량 검사
-```
+
 
 > 📢 **섹션 요약 비유**: QA vs QC는 요리 레시피 vs 맛 검사 — QA는 좋은 레시피(프로세스)를 만들어 맛있는 음식이 나오게, QC는 나온 음식을 직접 맛보고 기준 미달이면 폐기.
 
@@ -101,41 +104,41 @@ Level 5 (Optimizing): 지속적 개선
 
 ## Ⅲ. QC 핵심 활동
 
-```
-소프트웨어 QC 주요 활동:
 
-1. 정적 테스팅 (Static Testing):
-코드 실행 없이 검토
-인스펙션 (Fagan Inspection):
-계획 → 개요 → 준비 → 회의 → 재작업 → 추적
-워크스루 (Walkthrough): 비공식적 리뷰
-코드 리뷰 (Code Review): 동료 검토
 
-2. 동적 테스팅 (Dynamic Testing):
-단위 테스트 (Unit Test): 함수/모듈 단위
-통합 테스트 (Integration Test): 모듈 간 연동
-시스템 테스트: 전체 시스템 검증
-인수 테스트 (UAT): 사용자 수용 확인
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 QC 주요 활동:</div>
+<div class="kb-diagram-note">1. 정적 테스팅 (Static Testing):</div>
+<div class="kb-diagram-note">코드 실행 없이 검토</div>
+<div class="kb-diagram-note">인스펙션 (Fagan Inspection):</div>
+<div class="kb-diagram-note">계획 → 개요 → 준비 → 회의 → 재작업 → 추적</div>
+<div class="kb-diagram-note">워크스루 (Walkthrough): 비공식적 리뷰</div>
+<div class="kb-diagram-note">코드 리뷰 (Code Review): 동료 검토</div>
+<div class="kb-diagram-note">2. 동적 테스팅 (Dynamic Testing):</div>
+<div class="kb-diagram-note">단위 테스트 (Unit Test): 함수/모듈 단위</div>
+<div class="kb-diagram-note">통합 테스트 (Integration Test): 모듈 간 연동</div>
+<div class="kb-diagram-note">시스템 테스트: 전체 시스템 검증</div>
+<div class="kb-diagram-note">인수 테스트 (UAT): 사용자 수용 확인</div>
+<div class="kb-diagram-note">3. 테스트 설계 기법:</div>
+<div class="kb-diagram-note">블랙박스: 명세 기반 (경계값, 동치 분할)</div>
+<div class="kb-diagram-note">화이트박스: 구조 기반 (구문, 분기, 경로 커버리지)</div>
+<div class="kb-diagram-note">경험 기반: 탐색적 테스팅</div>
+<div class="kb-diagram-note">4. 결함 관리:</div>
+<div class="kb-diagram-note">결함 발견 → 분류 → 수정 → 재테스트 → 종료</div>
+<div class="kb-diagram-note">도구: Jira, Bugzilla, Azure DevOps</div>
+<div class="kb-diagram-note">5. 품질 메트릭:</div>
+<div class="kb-diagram-note">결함 제거 효율(DRE) = 출시 전 발견 결함 / 전체 결함</div>
+<div class="kb-diagram-note">목표: DRE ≥ 85%</div>
+<div class="kb-diagram-note">테스트 커버리지:</div>
+<div class="kb-diagram-note">구문 커버리지 (Statement Coverage)</div>
+<div class="kb-diagram-note">분기 커버리지 (Branch Coverage)</div>
+<div class="kb-diagram-note">조건 커버리지 (Condition Coverage)</div>
+<div class="kb-diagram-note">MC/DC: 항공 DO-178C 기준</div>
+</div>
+</div>
 
-3. 테스트 설계 기법:
-블랙박스: 명세 기반 (경계값, 동치 분할)
-화이트박스: 구조 기반 (구문, 분기, 경로 커버리지)
-경험 기반: 탐색적 테스팅
 
-4. 결함 관리:
-결함 발견 → 분류 → 수정 → 재테스트 → 종료
-도구: Jira, Bugzilla, Azure DevOps
-
-5. 품질 메트릭:
-결함 제거 효율(DRE) = 출시 전 발견 결함 / 전체 결함
-목표: DRE ≥ 85%
-
-테스트 커버리지:
-구문 커버리지 (Statement Coverage)
-분기 커버리지 (Branch Coverage)
-조건 커버리지 (Condition Coverage)
-MC/DC: 항공 DO-178C 기준
-```
 
 > 📢 **섹션 요약 비유**: QC는 의약품 배치 검사 — 제조된 의약품을 샘플링해서 성분 함량, 불순물, 용량을 검사하고 기준 미달이면 해당 배치 전체 폐기.
 
@@ -143,39 +146,40 @@ MC/DC: 항공 DO-178C 기준
 
 ## Ⅳ. Shift-Left와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 품질
 
-```
-Shift-Left 원칙:
-전통: 개발 완료 → QC(테스팅) 시작
-Shift-Left: 요구사항 단계부터 QA/QC 통합
 
-결함 수정 비용 증가 법칙 (IBM 연구):
-요구사항 단계: 1x
-설계 단계: 5x
-코딩 단계: 10x
-테스팅 단계: 20x
-출시 후: 100x
 
-DevOps 품질 통합:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shift-Left 원칙:</div>
+<div class="kb-diagram-note">전통: 개발 완료 → QC(테스팅) 시작</div>
+<div class="kb-diagram-note">Shift-Left: 요구사항 단계부터 QA/QC 통합</div>
+<div class="kb-diagram-note">결함 수정 비용 증가 법칙 (IBM 연구):</div>
+<div class="kb-diagram-note">요구사항 단계: 1x</div>
+<div class="kb-diagram-note">설계 단계: 5x</div>
+<div class="kb-diagram-note">코딩 단계: 10x</div>
+<div class="kb-diagram-note">테스팅 단계: 20x</div>
+<div class="kb-diagram-note">출시 후: 100x</div>
+<div class="kb-diagram-note">DevOps 품질 통합:</div>
+<div class="kb-diagram-note">개발자 → 코드 작성 + 단위 테스트 (TDD)</div>
+<div class="kb-diagram-note">CI 파이프라인:</div>
+<div class="kb-diagram-note">커밋 → 자동 빌드 → 단위 테스트 → 정적 분석</div>
+<div class="kb-diagram-note">CD 파이프라인:</div>
+<div class="kb-diagram-note">통합 테스트 → 보안 스캔 → 성능 테스트 → 배포</div>
+<div class="kb-diagram-note">TDD (Test-Driven Development):</div>
+<div class="kb-diagram-note">Red: 실패하는 테스트 먼저 작성</div>
+<div class="kb-diagram-note">Green: 테스트를 통과하는 최소 코드 작성</div>
+<div class="kb-diagram-note">Refactor: 코드 정리 (테스트 보장 하에)</div>
+<div class="kb-diagram-note">코드 품질 자동화:</div>
+<div class="kb-diagram-note">정적 분석: SonarQube, ESLint, Pylint</div>
+<div class="kb-diagram-note">보안 취약점: Snyk, SAST (Static Application Security Testing)</div>
+<div class="kb-diagram-note">코드 커버리지: JaCoCo (Java), Istanbul (JavaScript)</div>
+<div class="kb-diagram-note">품질 게이트 (Quality Gate):</div>
+<div class="kb-diagram-note">커버리지 &lt; 80% → CI 빌드 실패</div>
+<div class="kb-diagram-note">Critical 취약점 존재 → 배포 차단</div>
+</div>
+</div>
 
-개발자 → 코드 작성 + 단위 테스트 (TDD)
-CI 파이프라인:
-커밋 → 자동 빌드 → 단위 테스트 → 정적 분석
-CD 파이프라인:
-통합 테스트 → 보안 스캔 → 성능 테스트 → 배포
 
-TDD (Test-Driven Development):
-Red: 실패하는 테스트 먼저 작성
-Green: 테스트를 통과하는 최소 코드 작성
-Refactor: 코드 정리 (테스트 보장 하에)
-
-코드 품질 자동화:
-정적 분석: SonarQube, ESLint, Pylint
-보안 취약점: Snyk, SAST (Static Application Security Testing)
-코드 커버리지: JaCoCo (Java), Istanbul (JavaScript)
-품질 게이트 (Quality Gate):
-커버리지 < 80% → CI 빌드 실패
-Critical 취약점 존재 → 배포 차단
-```
 
 > 📢 **섹션 요약 비유**: Shift-Left은 교통사고 예방의 진화 — 사고 후 구급차(QC) → 신호등과 도로 설계 개선(QA) → 자동 긴급 브레이크(자동화 테스트)로 진화.
 

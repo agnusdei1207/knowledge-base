@@ -25,31 +25,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 클라우드 시대에 개발 속도는 빛보다 빠르다(하루 100번 배포). 그런데 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 석기시대다. 금융위에서 "너희 서버 암호화 다 됐어?" 물어보면 보안팀은 1달 내내 수천 대 서버 세팅을 마우스로 캡처(Capture)해서 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))에 붙여넣으며 피눈물을 흘린다. 더 큰 재앙은, 어제 완벽하게 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 통과했어도 오늘 밤 주니어 개발자가 옵션 1개 실수하면 100억짜리 규제 위반 벌금을 맞는다는 것이다. **"인간의 눈알 엑셀 노가다와 양심(기억력)에 회사의 법적 목숨을 거는 미친 짓"을 중단하고, 법(규제)을 24시간 잠들지 않는 기계의 통치 망으로 넘겨버리기 위해** 이 혁명적 개념이 탄생했다.
 
-- **💡 비유**: 컴플라이언스 애즈 코드는 **'고속도로 무인 과속 단속 카메라'**와 똑같습니다. 과거엔 경찰관([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관)이 숨어있다가 딱지를 끊었습니다(수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)). 경찰이 퇴근한 새벽(배포 후)에는 폭주족(해킹)이 판을 칩니다. 이 기술은 경찰관을 아예 없애고, 톨게이트 입구부터 출구까지 모든 차로 바닥에 **'과속하면 차 바퀴가 터져버리는 스마트 스피드 브레이커(코드화된 룰)'**를 깔아버리는 것입니다. 100km/h(보안 규제)를 1km/h라도 넘기면 차가 물리적으로 멈춰버리니, 경찰이 자고 있어도 도로의 평화(컴플라이언스)는 100% 무결하게 수학적으로 보장됩니다.
+- **💡 비유**: 컴플라이언스 애즈 코드는 <strong>'고속도로 무인 과속 단속 카메라'</strong>와 똑같습니다. 과거엔 경찰관([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관)이 숨어있다가 딱지를 끊었습니다(수동 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)). 경찰이 퇴근한 새벽(배포 후)에는 폭주족(해킹)이 판을 칩니다. 이 기술은 경찰관을 아예 없애고, 톨게이트 입구부터 출구까지 모든 차로 바닥에 <strong>'과속하면 차 바퀴가 터져버리는 스마트 스피드 브레이커(코드화된 룰)'</strong>를 깔아버리는 것입니다. 100km/h(보안 규제)를 1km/h라도 넘기면 차가 물리적으로 멈춰버리니, 경찰이 자고 있어도 도로의 평화(컴플라이언스)는 100% 무결하게 수학적으로 보장됩니다.
 
 - **등장 배경 및 발전 과정**:
   1. **종이 서류의 지옥 (2000년대)**: [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/), ISO27001 등 보안 자격증을 따려고 문서만 1만 장씩 수동으로 작성했다. 보여주기식 낭비의 극치.
-  2. **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) (인프라 코드화)의 도래 (2010년대)**: 인프라를 마우스 클릭이 아니라 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드로 짜게 되자, 천재들이 번뜩였다. "어? 인프라가 텍스트 코드네? 그럼 그 텍스트를 기계가 읽게 해서 법을 어겼는지 찰칵 스캔(Linting)할 수 있겠네!"
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (인프라 코드화)의 도래 (2010년대)</strong>: 인프라를 마우스 클릭이 아니라 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드로 짜게 되자, 천재들이 번뜩였다. "어? 인프라가 텍스트 코드네? 그럼 그 텍스트를 기계가 읽게 해서 법을 어겼는지 찰칵 스캔(Linting)할 수 있겠네!"
   3. **OPA의 천하통일 (현재)**: 단순히 인프라를 넘어서 K8s([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 등 클라우드 생태계 전체의 법([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 통제하는 `OPA (Open Policy Agent)`와 `Rego` 언어가 전 세계 표준으로 등극하며, 완벽한 "법의 자동 집행 시대"가 열렸다.
 
-- **📢 섹션 요약 비유**: 이 기술은 인간 검사관이 **'일일이 맛을 보고 독을 찾는 기미 상궁'**에서, 아예 독이 든 재료를 넣으면 기계가 작동을 멈추는 **'스마트 믹서기'**로 주방의 생태계를 뒤엎어버린 웅장한 패러다임 시프트입니다.
+- **📢 섹션 요약 비유**: 이 기술은 인간 검사관이 <strong>'일일이 맛을 보고 독을 찾는 기미 상궁'</strong>에서, 아예 독이 든 재료를 넣으면 기계가 작동을 멈추는 <strong>'스마트 믹서기'</strong>로 주방의 생태계를 뒤엎어버린 웅장한 패러다임 시프트입니다.
 
 ---
 
 다음은 컴플라이언스 애즈 코드 (Compli의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컴플라이언스 애즈 코드 (Compli                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴플라이언스 애즈 코드 (Compli</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 컴플라이언스 애즈 코드 (Compli가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-컴플라이언스 애즈 코드 ([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 자동화의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+컴플라이언스 애즈 코드 ([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 자동화의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 컴플라이언스 애즈 코드 ([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/)) 자동화의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컴플라이언스 애즈 코드 (Compliance as Code) 자동화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴플라이언스 애즈 코드 (Compliance as Code) 자동화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

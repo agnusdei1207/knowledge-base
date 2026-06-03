@@ -31,14 +31,19 @@ tags = ["studynote-operating-system"]
 
 하이퍼바이저는 게스트 OS가 직접 하드웨어를 독점하지 못하게 하고, 가상 자원으로 중재한다. VM이 요청하면 CPU는 trap되고, 하이퍼바이저가 이를 처리한다.
 
-```text
-Physical HW
-   ▲
-   │
-Hypervisor (VMM)
-   ├─ VM1 → Guest OS → Apps
-   └─ VM2 → Guest OS → Apps
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Physical HW</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">Hypervisor (VMM)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VM1 → Guest OS → Apps</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VM2 → Guest OS → Apps</div>
+</div>
+</div>
+
+
 
 | 기능 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -114,18 +119,21 @@ Type 1은 하드웨어 위에서 직접 동작하고, Type 2는 호스트 OS 위
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리 서버
-    │
-    ▼
-하이퍼바이저
-    │
-    ▼
-가상 머신
-    │
-    ▼
-클라우드 / 멀티테넌시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 서버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이퍼바이저</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 머신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 / 멀티테넌시</div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 서버 운영에서 격리된 다중 서버 운영으로 발전하는 과정을 보여준다.
 

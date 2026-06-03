@@ -19,38 +19,39 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)은 토요타의 린 제조방식([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Manufacturing)에서 '낭비 제거' 철학을 빌려와 혁신 창업 모델에 적용한 것이다. 전통적 기업이 '실행' 중심이라면, 스타트업은 '탐색' 중심이다. 여기서 탐색의 단위는 **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 학습 (Validated [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))**이며, 이를 얻기 위한 엔진이 **BML (Build-Measure-Learn) 사이클**, 이 사이클을 한 바퀴 도는 데 필요한 최소한의 수단이 **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))**, 측정 결과 가설이 틀렸을 때 방향을 트는 전략적 결정이 **[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))**이다.
+- **개념**: [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)은 토요타의 린 제조방식([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Manufacturing)에서 '낭비 제거' 철학을 빌려와 혁신 창업 모델에 적용한 것이다. 전통적 기업이 '실행' 중심이라면, 스타트업은 '탐색' 중심이다. 여기서 탐색의 단위는 <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>된 학습 (Validated <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>이며, 이를 얻기 위한 엔진이 **BML (Build-Measure-Learn) 사이클**, 이 사이클을 한 바퀴 도는 데 필요한 최소한의 수단이 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">Minimum Viable Product</a>)</strong>, 측정 결과 가설이 틀렸을 때 방향을 트는 전략적 결정이 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong>이다.
 - **필요성**: 수많은 신규 사업과 스타트업이 실패하는 가장 큰 이유는 "기술이 부족해서"가 아니라 "아무도 원하지 않는 제품을 너무 오랫동안 열심히 만들었기 때문"이다. 과거에는 완벽한 비즈니스 플랜을 짜고 스텔스 모드로 수년간 개발하여 '빅뱅(Big-bang) 릴리스'를 했다. [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)은 이 치명적인 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(시간과 자본의 낭비)를 막기 위해, 가설을 세우고 가장 싼 비용으로 실험하여 생존 가능성을 높이는 '위기관리 시스템'으로서 필수 불가결해졌다.
 - **💡 비유**: 미지의 정글에서 금광을 찾을 때, 수억 원을 들여 완벽한 지도를 그리고 거대한 굴착기를 만드는 것(전통적 방식)이 아니라, 작은 나침반 하나와 삽만 들고 10미터씩 파보면서 흙의 성분을 검사해 방향을 틀어가는 생존법([린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))과 같다.
 
 - **등장 배경 및 발전 과정**:
   1. **닷컴 버블의 붕괴**: 2000년대 초반 막대한 자본을 투자받아 거대한 인프라를 구축했던 스타트업들이 고객의 외면 속에 파산하면서, 전통적 경영학의 사업계획서 무용론이 대두되었다.
-  2. **스티브 블랭크의 고객 개발 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Development)**: 제품 개발(Product Development) 이전에 고객을 먼저 개발하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다는 철학이 등장했다.
-  3. **에릭 리스의 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 정립**: IMVU 창업 과정에서의 뼈아픈 실패 경험을 바탕으로, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)과 고객 개발 방법론을 통합하여 2011년 과학적 창업 방법론으로 집대성했다.
+  2. <strong>스티브 블랭크의 고객 개발 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Development)</strong>: 제품 개발(Product Development) 이전에 고객을 먼저 개발하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다는 철학이 등장했다.
+  3. <strong>에릭 리스의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">린 스타트업</a> 정립</strong>: IMVU 창업 과정에서의 뼈아픈 실패 경험을 바탕으로, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)과 고객 개발 방법론을 통합하여 2011년 과학적 창업 방법론으로 집대성했다.
 
 전통적인 폭포수형 제품 개발과 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 기반 반복 주기를 비교하면 '낭비'의 본질이 무엇인지 직관적으로 이해할 수 있다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         폭포수 방식(빅뱅 출시) vs 린 스타트업 MVP 방식 비교          │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [전통적 방식: 바퀴부터 차근차근 (목적: 완벽한 차 만들기)]          │
-  │   Step 1: 바퀴 1개 (고객: 이게 뭐지? 😡)                       │
-  │   Step 2: 섀시 결합 (고객: 여전히 탈 수 없음 😡)                  │
-  │   Step 3: 엔진 장착 (고객: 언제 탈 수 있나 😡)                    │
-  │   Step 4: 자동차 완성 (고객: 난 사실 오토바이가 필요했어! 😱 파산)    │
-  │   * 문제: 3년간 수백억을 쓰고 출시하기 전까지 가설을 검증할 수 없음.   │
-  │                                                              │
-  │  [린 스타트업 MVP 방식: 가장 단순한 이동 수단부터 (목적: 이동 수단 검증)]│
-  │   Step 1: 스케이트보드 (고객: 불안하지만 일단 이동은 됨 🤔)         │
-  │   Step 2: 킥보드 (고객: 손잡이가 있으니 편하네 🙂)                  │
-  │   Step 3: 자전거 (고객: 속도가 나서 좋아 😄)                      │
-  │   Step 4: 오토바이/자동차 (고객: 바로 이거야! 😍 제품-시장 적합성 확보)│
-  │   * 해결: 매 단계마다 '이동'이라는 본질적 가치를 고객에게 제공하고    │
-  │           피드백을 받아 다음 단계의 방향성(피벗 여부)을 결정함.       │
-  └──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭포수 방식(빅뱅 출시) vs 린 스타트업 MVP 방식 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 방식: 바퀴부터 차근차근 (목적: 완벽한 차 만들기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 바퀴 1개 (고객: 이게 뭐지? 😡)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 섀시 결합 (고객: 여전히 탈 수 없음 😡)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 엔진 장착 (고객: 언제 탈 수 있나 😡)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 자동차 완성 (고객: 난 사실 오토바이가 필요했어! 😱 파산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제: 3년간 수백억을 쓰고 출시하기 전까지 가설을 검증할 수 없음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">린 스타트업 MVP 방식: 가장 단순한 이동 수단부터 (목적: 이동 수단 검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 스케이트보드 (고객: 불안하지만 일단 이동은 됨 🤔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 킥보드 (고객: 손잡이가 있으니 편하네 🙂)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 자전거 (고객: 속도가 나서 좋아 😄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 오토바이/자동차 (고객: 바로 이거야! 😍 제품-시장 적합성 확보)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해결: 매 단계마다 '이동'이라는 본질적 가치를 고객에게 제공하고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피드백을 받아 다음 단계의 방향성(피벗 여부)을 결정함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 스케이트보드-자동차 비유(헨릭 크니버그 고안)는 MVP의 핵심 철학을 가장 완벽하게 설명한다. 기존 폭포수 모델은 '최종 제품(자동차)'의 설계도를 먼저 확정하고 부품을 순서대로 조립한다. 따라서 차가 완성될 때까지 고객은 아무 효용을 얻지 못하며 피드백도 불가능하다. 반면 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)에서 MVP는 미완성 부품이 아니라, 고객의 근본적인 문제(A에서 B로 이동하고 싶다)를 해결해 주는 독립적이고 '가장 싼' 형태의 완제품(스케이트보드)이어야 한다. 스케이트보드를 줘봤더니 고객이 자전거 도로가 아니라 비포장 산길을 간다면, 다음 버전은 자동차가 아니라 산악용 오프로드 바이크로 방향을 선회([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 수 있다. 이것이 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 학습'에 의한 낭비 제거다.
 
@@ -75,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 사이클의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 사이클의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 사이클의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -151,21 +152,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-린 스타트업 MVP 피벗 사이클 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">린 스타트업 MVP 피벗 사이클 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

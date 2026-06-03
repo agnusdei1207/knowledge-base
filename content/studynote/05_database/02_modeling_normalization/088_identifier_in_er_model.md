@@ -37,20 +37,20 @@ tags = ["database"]
 | **불변성 (Immutability)** | 한 번 지정된 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값은 변하지 않아야 함 | PK 변경 시 FK 연쇄 갱신 방지 |
 | **존재성 (Existence)** | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값은 `NULL`일 수 없음 | 개체의 존재 자체를 증명해야 함 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  식별자 선택의 단계적 필터링               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 속성 수집: [사번, 주민번호, 이름, 부서명, 이메일, 입사일] │
-│      │                                                       │
-│ 2. 유일성/존재성 확인 ─▶ (이름, 부서명, 입사일 탈락)      │
-│      │                                                       │
-│ 3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일} │
-│      │                                                       │
-│ 4. 불변성/보안성 검토 ─▶ 주 식별자(Primary Identifier) 선정: {사번}    │
-│                         (주민번호는 보안, 이메일은 변경 가능성으로 탈락) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식별자 선택의 단계적 필터링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 속성 수집:</div><div class="kb-diagram-node">사번, 주민번호, 이름, 부서명, 이메일, 입사일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 유일성/존재성 확인 ─▶ (이름, 부서명, 입사일 탈락)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 불변성/보안성 검토 ─▶ 주 식별자(Primary Identifier) 선정: {사번}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주민번호는 보안, 이메일은 변경 가능성으로 탈락)</div></div>
+</div>
+</div>
+
+
 이 흐름에서 도출된 다양한 후보 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 중에서 비즈니스 목적에 가장 부합하는 단 하나를 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 선택하고, 나머지는 보조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Alternate Identifier)가 된다.
 
 - **📢 섹션 요약 비유**: 오디션에서 유일하게 춤과 노래를 모두 소화하는 사람을 뽑는 과정과 같다. 후보는 많지만, 결선(주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))에 오르는 기준은 '결코 변하지 않는 실력(불변성)'이다.
@@ -59,7 +59,7 @@ tags = ["database"]
 
 ## Ⅲ. 비교 및 연결
 
-[식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 설계할 때 가장 많이 부딪히는 딜레마는 **본질 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (자연 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))** 와 **인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)** 사이의 선택이다.
+[식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 설계할 때 가장 많이 부딪히는 딜레마는 <strong>본질 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a> (자연 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>)</strong> 와 <strong>인조 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a></strong> 사이의 선택이다.
 
 | 항목 | 본질 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Natural Identifier) | 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Surrogate Identifier) |
 | :--- | :--- | :--- |
@@ -68,7 +68,7 @@ tags = ["database"]
 | **장점** | 비즈니스 규칙과 직접 연결됨, 추가 컬럼 불필요 | 불변성 보장, 조인 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 속도 빠름, 보안 위험 낮음 |
 | **단점** | 업무 규칙 변경 시 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값이 변할 위험 존재 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미 파악 어려움, 인위적 매핑 관리 필요 |
 
-본질 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 2개 이상의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 묶이는 **복합 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) Identifier)** 의 경우, 자식 엔터티로 갈수록 PK의 크기가 커져 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 비효율과 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발한다. 이 경우 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 체계로 전환하는 것이 `RDBMS` [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 기본기다.
+본질 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 2개 이상의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 묶이는 <strong>복합 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> Identifier)</strong> 의 경우, 자식 엔터티로 갈수록 PK의 크기가 커져 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 비효율과 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발한다. 이 경우 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 체계로 전환하는 것이 `RDBMS` [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 기본기다.
 
 - **📢 섹션 요약 비유**: 본질 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)는 '여권번호(국가가 발급한 진짜 신분)'이고, 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)는 놀이공원 '입장 팔찌(시스템 안에서만 쓰는 편한 번호)'다. 복잡하게 놀이기구를 탈 때는 팔찌가 편하다.
 
@@ -76,12 +76,12 @@ tags = ["database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링에서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 선정할 때는 철저히 **미래의 변경 가능성**을 의심해야 한다.
+실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링에서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 선정할 때는 철저히 <strong>미래의 변경 가능성</strong>을 의심해야 한다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **이메일이나 휴대폰 번호를 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 썼는가?**
+1. <strong>이메일이나 휴대폰 번호를 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>로 썼는가?</strong>
    - 회피: 이메일은 계정 통합이나 변경 시 업데이트되어야 하므로 불변성을 위반한다. 반드시 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 내부 키로 두어야 한다.
-2. **복합 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 3개를 넘어가는가?**
+2. <strong>복합 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>이 3개를 넘어가는가?</strong>
    - 회피: 조인 조건이 복잡해지고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리가 비대해진다. 무의미한 인조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(일련번호)로 대체하고, 기존 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 `UNIQUE` 제약 조건으로 관리해야 한다.
 3. **주민등록번호 같은 민감 정보가 포함되어 있는가?**
    - 회피: `DB` 암호화 시 인덱싱 및 조인이 불가능해진다. 절대 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 사용해서는 안 된다.
@@ -109,28 +109,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK)** | ER 모델의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 RDBMS 물리 스키마로 구현된 형태 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(함수자)를 기준으로 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 함수적 종속성을 제거해 테이블을 분리하는 과정 |
-| **[외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (FK)** | 부모 엔터티의 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 자식 엔터티가 상속받아 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 형성하는 매개체 |
-| **[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)/비식별 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | 부모의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 자식이 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PK)로 쓰는지, 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(FK)으로 쓰는지의 차이 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/">기본 키</a> (PK)</strong> | ER 모델의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 RDBMS 물리 스키마로 구현된 형태 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(함수자)를 기준으로 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 함수적 종속성을 제거해 테이블을 분리하는 과정 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/">외래 키</a> (FK)</strong> | 부모 엔터티의 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 자식 엔터티가 상속받아 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 형성하는 매개체 |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>/비식별 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 부모의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 자식이 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PK)로 쓰는지, 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(FK)으로 쓰는지의 차이 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개체와 속성 정의 (Entity & Attribute)
-    │
-    ▼
-후보 식별자 도출 (Candidate Identifier)
-    │
-    ▼
-주 식별자 선정 (Primary Identifier) · 4가지 요건 검증
-    │
-    ▼
-인조 식별자 (Surrogate) 도입 판단 및 복합 키 해소
-    │
-    ▼
-물리 모델링 매핑: 기본 키 (PK) 및 참조 무결성 (FK) 정의
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개체와 속성 정의 (Entity &amp; Attribute)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">후보 식별자 도출 (Candidate Identifier)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주 식별자 선정 (Primary Identifier) · 4가지 요건 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인조 식별자 (Surrogate) 도입 판단 및 복합 키 해소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리 모델링 매핑: 기본 키 (PK) 및 참조 무결성 (FK) 정의</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

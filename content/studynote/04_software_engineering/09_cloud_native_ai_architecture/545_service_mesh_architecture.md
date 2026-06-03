@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(그물망)는 거미줄처럼 얽혀있는 네트워크 핏줄을 말한다. 옛날엔 이 핏줄을 이어주는 심장 펌프질을 '애플리케이션(Spring Boot)'이 직접 했다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 시대엔 앱은 피([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 뱉는다. 앱 밖에서 대기하고 있던 '[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 요원'들이 피를 받아서 자기들끼리 거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 통신망을 구축하여 빠르고 안전하게 배달한다.
 
-- **필요성**: 넷플릭스처럼 서버를 50개 찢었다. 50개 서버끼리 통신하다가 1개가 죽으면 도미노처럼 터진다. 이를 막으려고 스프링 개발자들이 코드 안에 `Eureka(길 찾기)`, `Hystrix(서킷 브레이커)`, `Ribbon(로드밸런서)` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 잔뜩 쑤셔 넣었다([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)). 그런데 회사에 Python, Node.js 개발팀이 들어왔다. 그 언어에는 저런 훌륭한 넷플릭스 툴이 없었다. **언어마다 통신 보안/제어 로직을 바닥부터 다시 짜야 하는 대참사(Polyglot의 역설)**가 벌어졌다. "아 제발 통신 로직 좀 내 코드에서 빼줘! 인프라 니들이 밖에서 언어 상관없이 공평하게 씌워줘!"라는 피맺힌 절규가 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)를 탄생시켰다.
+- **필요성**: 넷플릭스처럼 서버를 50개 찢었다. 50개 서버끼리 통신하다가 1개가 죽으면 도미노처럼 터진다. 이를 막으려고 스프링 개발자들이 코드 안에 `Eureka(길 찾기)`, `Hystrix(서킷 브레이커)`, `Ribbon(로드밸런서)` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 잔뜩 쑤셔 넣었다([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)). 그런데 회사에 Python, Node.js 개발팀이 들어왔다. 그 언어에는 저런 훌륭한 넷플릭스 툴이 없었다. <strong>언어마다 통신 보안/제어 로직을 바닥부터 다시 짜야 하는 대참사(Polyglot의 역설)</strong>가 벌어졌다. "아 제발 통신 로직 좀 내 코드에서 빼줘! 인프라 니들이 밖에서 언어 상관없이 공평하게 씌워줘!"라는 피맺힌 절규가 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)를 탄생시켰다.
 
-- **💡 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 **'전용 1:1 특급 택배 기사([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))'**와 같습니다. 옛날([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 통신)엔 내가 직접 자동차(통신 코드)를 조립해서 기름 넣고 지도(디스커버리) 보고 운전해서 배달을 갔습니다. 파이썬을 쓰면 파이썬용 자동차를 또 조립해야 했죠. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 내가 현관문 밖에 물건을 툭 던지기만 하면 끝납니다. 내 집 문 앞에 24시간 대기 중인 '전용 택배 기사([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))'가 물건을 낚아채서, 알아서 가장 안 막히는 길을 찾아([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), 방탄조끼를 입고([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 암호화), 목적지 집 앞 택배 기사에게 안전하게 꽂아줍니다. 나는 내 방에서 물건(비즈니스 로직)만 만들면 됩니다.
+- **💡 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 <strong>'전용 1:1 특급 택배 기사(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>)'</strong>와 같습니다. 옛날([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 통신)엔 내가 직접 자동차(통신 코드)를 조립해서 기름 넣고 지도(디스커버리) 보고 운전해서 배달을 갔습니다. 파이썬을 쓰면 파이썬용 자동차를 또 조립해야 했죠. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 내가 현관문 밖에 물건을 툭 던지기만 하면 끝납니다. 내 집 문 앞에 24시간 대기 중인 '전용 택배 기사([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))'가 물건을 낚아채서, 알아서 가장 안 막히는 길을 찾아([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), 방탄조끼를 입고([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 암호화), 목적지 집 앞 택배 기사에게 안전하게 꽂아줍니다. 나는 내 방에서 물건(비즈니스 로직)만 만들면 됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주도 통신 (2010s 초반)**: Spring Cloud(Netflix [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))가 왕이었다. 자바(Java) 생태계는 행복했지만 다른 언어들은 소외받고 지옥을 걸었다.
-  2. **[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 발명 (2016)**: Linkerd와 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 나왔다. "야, 언어 상관없이 그냥 앱 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 딱 하나 붙여서 걔한테 통신 다 맡기자!"는 물리적 분리 사상이 터졌다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 주도 통신 (2010s 초반)</strong>: Spring Cloud(Netflix [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))가 왕이었다. 자바(Java) 생태계는 행복했지만 다른 언어들은 소외받고 지옥을 걸었다.
+  2. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a>) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>의 발명 (2016)</strong>: Linkerd와 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 나왔다. "야, 언어 상관없이 그냥 앱 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 딱 하나 붙여서 걔한테 통신 다 맡기자!"는 물리적 분리 사상이 터졌다.
   3. **Istio의 천하통일 (2017~)**: 구글, IBM, Lyft가 뭉쳐서 만든 `Istio`가 K8s 생태계를 집어삼켰다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 수만 대를 중앙에서 지휘하는 컨트롤 타워(Control Plane)가 완성되며 인류 통신망의 절대 표준이 되었다.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'정수기 필터의 위치 이동'**입니다. 옛날엔 50명의 사람이 각자 물통에 개인용 필터(통신 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 달고 다녔습니다. 필터 갈아 끼우는 걸 깜빡하면 식중독(해킹/장애)에 걸렸습니다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 아예 마을 수도관(인프라 네트워크) 전체에 거대한 **'투명 정수기'**를 씌워버린 것입니다. 사람들은 필터 걱정 없이 그냥 수도꼭지에서 물을 펑펑 틀어 마시기만 하면 됩니다(투명성, Transparency).
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'정수기 필터의 위치 이동'</strong>입니다. 옛날엔 50명의 사람이 각자 물통에 개인용 필터(통신 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 달고 다녔습니다. 필터 갈아 끼우는 걸 깜빡하면 식중독(해킹/장애)에 걸렸습니다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 아예 마을 수도관(인프라 네트워크) 전체에 거대한 <strong>'투명 정수기'</strong>를 씌워버린 것입니다. 사람들은 필터 걱정 없이 그냥 수도꼭지에서 물을 펑펑 틀어 마시기만 하면 됩니다(투명성, Transparency).
 
 ---
 
 다음은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 메시 (Service Mesh                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 (Service Mesh</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 메시 (Service Mesh) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 메시 (Service Mesh) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

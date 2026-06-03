@@ -19,18 +19,18 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 문제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 잠재변수와 불완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
-**완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Complete [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때  
-**불완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Incomplete [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: X만 관측, Z는 숨겨져 있음
+<strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Complete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때  
+<strong>불완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Incomplete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: X만 관측, Z는 숨겨져 있음
 
-**[MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation) 목표**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a>(Maximum Likelihood Estimation) 목표</strong>:
 
 ```
 θ* = argmax log P(X|θ) = argmax log Σ_Z P(X, Z|θ)
 ```
 
-잠재변수 Z에 대한 합산(marginalization) 때문에 log 안에 Σ가 생겨 **직접 미분 최적화가 불가능**하다. log(합)은 합(log)보다 훨씬 복잡하다.
+잠재변수 Z에 대한 합산(marginalization) 때문에 log 안에 Σ가 생겨 <strong>직접 미분 최적화가 불가능</strong>하다. log(합)은 합(log)보다 훨씬 복잡하다.
 
-**EM의 핵심 아이디어**: 직접 최적화하는 대신, **완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도에 대한 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)(Q 함수)**을 반복 최대화한다.
+**EM의 핵심 아이디어**: 직접 최적화하는 대신, <strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 우도에 대한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/">기댓값</a>(Q 함수)</strong>을 반복 최대화한다.
 
 📢 **섹션 요약 비유**: 잠재변수 문제는 "배달 기록 없이 창고 재고 파악하기"와 같다. 어떤 상품이 어디로 갔는지 모르지만(Z 숨겨짐), 남은 재고(X)를 보면서 "아마 이런 패턴이겠지"를 추론하는 것이 EM이다.
 
@@ -59,26 +59,20 @@ Q 함수를 최대화하는 새 파라미터를 찾음:
 
 **EM 반복 사이클**:
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   EM 반복 사이클                      │
-│                                                      │
-│   초기화 θ⁽⁰⁾                                        │
-│        │                                             │
-│        ▼                                             │
-│   ┌─────────────────────────────────────────────┐   │
-│   │  E-단계: Z 사후 분포로 Q(θ|θ_old) 계산      │   │
-│   └──────────────────┬──────────────────────────┘   │
-│                      │                               │
-│                      ▼                               │
-│   ┌─────────────────────────────────────────────┐   │
-│   │  M-단계: Q 함수 최대화 → θ_new 갱신         │   │
-│   └──────────────────┬──────────────────────────┘   │
-│                      │                               │
-│          수렴?   ────▶ Yes → 종료                    │
-│           No ◀────────                               │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EM 반복 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화 θ⁽⁰⁾</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-단계: Z 사후 분포로 Q(θ</div><div class="kb-diagram-cell">θ_old) 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M-단계: Q 함수 최대화 → θ_new 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴? ▶ Yes → 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ◀</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: EM은 "가구 배치 최적화"와 같다. E-단계는 "사람들이 이 방에서 주로 어디 있는지 관찰"하고, M-단계는 "그 패턴에 맞게 가구를 옮기는" 것이다. 반복할수록 가구 배치가 점점 나아진다.
 
@@ -111,7 +105,7 @@ log Σ_Z P(Z|X, θ_old) · [P(X,Z|θ) / P(Z|X, θ_old)]
 
 ## Ⅳ. GMM에서의 EM 구체 적용
 
-**[GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)(Gaussian Mixture Models, [가우시안 혼합 모델](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/))**은 K개 가우시안 분포의 가중합:
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/">GMM</a>(Gaussian Mixture Models, <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/">가우시안 혼합 모델</a>)</strong>은 K개 가우시안 분포의 가중합:
 
 ```
 P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
@@ -129,7 +123,7 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 | **M-단계** | 평균 갱신 | μ_k^[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·xᵢ / Σᵢ r_ik |
 | **M-단계** | 공분산 갱신 | Σ_k^[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·(xᵢ-μ_k)(xᵢ-μ_k)ᵀ / Σᵢ r_ik |
 
-**K-평균(K-Means)과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**: K-Means는 **하드 EM(Hard EM)**으로 해석 가능하다. r_ik ∈ {0, 1} (단 하나의 클러스터에만 완전 배정). GMM의 r_ik ∈ (0,1)인 소프트 EM과 달리, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 배정 없이 가장 가까운 클러스터에만 완전 배정한다.
+<strong>K-평균(K-Means)과의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: K-Means는 <strong>하드 EM(Hard EM)</strong>으로 해석 가능하다. r_ik ∈ {0, 1} (단 하나의 클러스터에만 완전 배정). GMM의 r_ik ∈ (0,1)인 소프트 EM과 달리, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 배정 없이 가장 가까운 클러스터에만 완전 배정한다.
 
 📢 **섹션 요약 비유**: GMM의 EM은 "설문 결과 분석"과 같다. 응답자가 어느 집단(Z)에 속하는지 모른 채 설문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(X)만 있을 때, 먼저 "아마 이 집단이겠지" [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정(E-단계)하고, 그 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 각 집단의 평균·분산을 갱신(M-단계)하는 것이다.
 
@@ -137,28 +131,30 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 
 ## Ⅴ. 응용: HMM 학습, 결측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 변형
 
-**Baum-Welch [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: HMM 파라미터 추정을 위한 EM 특수 케이스.
+<strong>Baum-Welch <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: HMM 파라미터 추정을 위한 EM 특수 케이스.
 - E-단계: Forward-Backward Algorithm으로 숨겨진 상태의 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
 - M-단계: 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·방출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신
 
-**결측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Missing [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대체([Imputation](/knowledge-base/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/))**:
+<strong>결측 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Missing <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 대체(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/">Imputation</a>)</strong>:
 - 결측값을 잠재변수 Z로 취급
 - E-단계: 결측값의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)(조건부 평균) 계산
 - M-단계: 완전화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 파라미터 추정
 
-**EM 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**:
+<strong>EM 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
-```
-┌───────────────────────────────────────────────┐
-│             EM 알고리즘 변형 계열               │
-├──────────────┬──────────────┬─────────────────┤
-│  표준 EM     │   변분 EM    │   온라인 EM      │
-│ (Batch)     │ (Variational) │ (Stochastic)    │
-├──────────────┼──────────────┼─────────────────┤
-│ 전체 데이터  │ 근사 사후    │ 미니배치 갱신    │
-│ 한 번에 처리 │ 분포 사용    │ (대규모 데이터)  │
-└──────────────┴──────────────┴─────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EM 알고리즘 변형 계열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 EM</div><div class="kb-diagram-cell">변분 EM</div><div class="kb-diagram-cell">온라인 EM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Batch)</div><div class="kb-diagram-cell">(Variational)</div><div class="kb-diagram-cell">(Stochastic)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터</div><div class="kb-diagram-cell">근사 사후</div><div class="kb-diagram-cell">미니배치 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번에 처리</div><div class="kb-diagram-cell">분포 사용</div><div class="kb-diagram-cell">(대규모 데이터)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 응용은 "불완전한 퍼즐 맞추기"와 같다. 빠진 조각(잠재변수)을 "아마 이 모양이겠지"로 임시 채우고 전체 그림을 맞춰보고, 다시 빠진 조각 모양을 수정하기를 반복하면 결국 완성된 그림이 나타난다.
 
@@ -180,21 +176,23 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[잠재 변수 모델 (Latent Variable Model) — 관측 불가능한 숨겨진 변수 포함]
-    │
-    ▼
-[EM 알고리즘 (Expectation-Maximization) — E단계(기댓값 계산) + M단계(파라미터 최적화) 반복]
-    │
-    ▼
-[GMM (Gaussian Mixture Model) — EM으로 혼합 가우시안 파라미터 추정]
-    │
-    ▼
-[베이지안 EM (Bayesian EM) — 사전 분포를 결합한 MAP 추정으로 과적합 방지]
-    │
-    ▼
-[변분 추론 (Variational Inference) — EM의 확장, 복잡한 사후 분포 근사]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">잠재 변수 모델 (Latent Variable Model) — 관측 불가능한 숨겨진 변수 포함</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EM 알고리즘 (Expectation-Maximization) — E단계(기댓값 계산) + M단계(파라미터 최적화) 반복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GMM (Gaussian Mixture Model) — EM으로 혼합 가우시안 파라미터 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이지안 EM (Bayesian EM) — 사전 분포를 결합한 MAP 추정으로 과적합 방지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변분 추론 (Variational Inference) — EM의 확장, 복잡한 사후 분포 근사</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 잠재 변수를 포함한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델의 우도 최대화를 위해 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개발되고, [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 등의 응용을 거쳐 베이지안 방법과 변분 추론으로 발전하는 과정을 보여준다.
 

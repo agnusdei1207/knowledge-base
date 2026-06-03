@@ -22,9 +22,9 @@ tags = ["studynote-devops-sre"]
 2022년 Twitch 소스코드 유출 사건, 삼성 소스코드 유출 사건 모두 하드코딩된 자격증명이나 부적절하게 관리된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)이 원인이었다. Git 저장소에 한 번 커밋된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 히스토리에서 삭제해도 fork 저장소, 빌드 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 등에 남아있을 수 있다.
 
 [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)의 진화 단계:
-1. **하드코딩 ([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**: 소스코드에 직접 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 삽입, Git에 노출
+1. <strong>하드코딩 (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>: 소스코드에 직접 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 삽입, Git에 노출
 2. **환경변수 (개선)**: 평문 환경변수는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 노출
-3. **[Secret Manager](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) (권장)**: HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager 등 중앙화된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 저장소
+3. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/">Secret Manager</a> (권장)</strong>: HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager 등 중앙화된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 저장소
 
 > 📢 **섹션 요약 비유**: 은행 금고([Secret Manager](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)) 없이 지갑(코드)에 현금([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 보관하는 것과 같다. 지갑은 잃어버리기 쉽지만 금고는 잠금장치가 있고 접근 기록이 남는다.
 
@@ -32,31 +32,26 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────────┐
-│           HashiCorp Vault 동적 시크릿 흐름           │
-├────────────────────────────────────────────────────┤
-│                                                    │
-│  애플리케이션 (Pod/Lambda)                           │
-│       │  1. Vault에 인증 (AppRole / K8s SA)         │
-│       ▼                                            │
-│  ┌─────────────────────┐                           │
-│  │  HashiCorp Vault     │                          │
-│  │  - Auth Engine       │                          │
-│  │  - Secrets Engine    │                          │
-│  │  - Audit Log         │                          │
-│  └──────────┬──────────┘                           │
-│             │  2. 동적 자격증명 발급 (TTL=1h)         │
-│             ▼                                      │
-│  ┌───────────────────────┐                         │
-│  │  PostgreSQL           │                         │
-│  │  (임시 계정 자동 생성) │                          │
-│  └───────────────────────┘                         │
-│             │  3. TTL 만료 시 자동 삭제              │
-│             ▼                                      │
-│  감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)         │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashiCorp Vault 동적 시크릿 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 (Pod/Lambda)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Vault에 인증 (AppRole / K8s SA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashiCorp Vault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Auth Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Secrets Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Audit Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 동적 자격증명 발급 (TTL=1h)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PostgreSQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임시 계정 자동 생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. TTL 만료 시 자동 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)</div></div>
+</div>
+</div>
+
+
 
 | 방식 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 수명 | 탈취 시 위험 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 |:---|:---|:---|:---|
@@ -98,7 +93,7 @@ tags = ["studynote-devops-sre"]
 
 - **Auth Method**: AppRole([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간), K8s [ServiceAccount](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/), [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)(사람) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
 - **Secrets Engine**: KV ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급), AWS ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 자격증명)
-- **[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: HCL (HashiCorp Configuration Language) 기반 세밀한 접근 제어
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: HCL (HashiCorp Configuration Language) 기반 세밀한 접근 제어
 
 > 📢 **섹션 요약 비유**: 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 유효기간이 지나면 자동으로 잠기는 자물쇠다. 훔쳐도 시간이 지나면 쓸모없어진다.
 
@@ -108,7 +103,7 @@ tags = ["studynote-devops-sre"]
 
 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 중앙화 관리로 유출 경로가 단일화되고, 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)으로 탈취 시 피해 시간이 제한된다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 "어느 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 어떤 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 언제 요청했는지" 추적이 가능해 침해 조사가 용이해진다.
 
-[시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)의 본질은 **[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)의 시간 축 적용**이다. 필요한 순간에만, 최소한으로, 짧은 수명으로 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 발급하는 것이 목표다.
+[시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)의 본질은 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a>의 시간 축 적용</strong>이다. 필요한 순간에만, 최소한으로, 짧은 수명으로 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 발급하는 것이 목표다.
 
 > 📢 **섹션 요약 비유**: [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키 대신 각 방마다 다른 키를 주는 호텔 시스템이다. 키가 하나 분실되어도 모든 방이 위험해지지 않는다.
 
@@ -126,14 +121,19 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-하드코딩 시대             환경변수 시대             동적 시크릿 시대
-──────────────────   ──────────────────────   ─────────────────────────
-API 키 소스 코드 삽입 → .env 파일, CI 변수  →  HashiCorp Vault
-Git 유출 사고           컨테이너 인스펙션 위험     동적 시크릿 TTL
-수동 로테이션           수동 로테이션              자동 로테이션/폐기
-                                               Secret Scanning CI
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하드코딩 시대 환경변수 시대 동적 시크릿 시대</div>
+<div class="kb-diagram-note">API 키 소스 코드 삽입 → .env 파일, CI 변수 → HashiCorp Vault</div>
+<div class="kb-diagram-note">Git 유출 사고 컨테이너 인스펙션 위험 동적 시크릿 TTL</div>
+<div class="kb-diagram-note">수동 로테이션 수동 로테이션 자동 로테이션/폐기</div>
+<div class="kb-diagram-note">Secret Scanning CI</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

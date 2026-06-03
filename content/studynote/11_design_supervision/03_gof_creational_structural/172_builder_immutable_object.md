@@ -23,17 +23,19 @@ tags = ["studynote-design-supervision"]
 
 이때 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자만으로 해결하려 하면 파라미터가 길게 늘어선다. 반대로 기본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자와 setter를 열어 두면, 객체가 완성되기 전 중간 상태가 외부에 드러난다. 즉 불변 객체를 원하지만, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 자체는 어느 정도 가변적일 수밖에 없는 딜레마가 생긴다. [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 이 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 중의 가변성"과 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후의 불변성"을 분리해서 다루려는 해법이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why Builder is needed                                                │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Constructor only              │ Setters / JavaBeans                  │
-│ - parameter order confusion   │ - incomplete state can leak          │
-│ - optional fields awkward     │ - mutation remains open              │
-├───────────────────────────────┴──────────────────────────────────────┤
-│ Builder = mutate only during construction, freeze after build        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Builder is needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Constructor only</div><div class="kb-diagram-cell">Setters / JavaBeans</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- parameter order confusion</div><div class="kb-diagram-cell">- incomplete state can leak</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- optional fields awkward</div><div class="kb-diagram-cell">- mutation remains open</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Builder = mutate only during construction, freeze after build</div></div>
+</div>
+</div>
+
+
 
 즉 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 "여러 번 바꾸는 행위"가 아니라 "완성 전 설계 단계"로 격리한다. 그 덕분에 최종 객체는 불변성을 유지하면서도, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정은 읽기 쉬운 단계형 인터페이스를 가질 수 있다.
 
@@ -54,25 +56,22 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 Builder와 [Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) Object의 경계를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Builder lifecycle                                                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Builder (mutable, defaults, step-by-step input)                      │
-│   │                                                                  │
-│   ├─ validate required fields                                        │
-│   ├─ validate cross-field rules                                      │
-│   ├─ defensive copy collections                                      │
-│   ▼                                                                  │
-│ build()                                                              │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Immutable Object (final fields, no setters, safe sharing)            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Builder lifecycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Builder (mutable, defaults, step-by-step input)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validate required fields</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validate cross-field rules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ defensive copy collections</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">build()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immutable Object (final fields, no setters, safe sharing)</div></div>
+</div>
+</div>
+
+
 
 예를 들어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체가 `host`, `port`는 필수이고 `timeout`, `sslEnabled`, `allowedIps`는 선택이라고 하자. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자만 쓰면 순서 기억이 어렵고, setter를 쓰면 `host` 없이 `build()` 이전 상태가 떠돌 수 있다. 반면 Builder는 `new Config.Builder("api.example.com", 443).timeout(...).sslEnabled(true).build()`처럼 읽기 쉽고, `build()`에서 `port > 0`, `sslEnabled`일 때 인증서 경로 필요 같은 규칙을 강제할 수 있다.
 
@@ -93,7 +92,7 @@ tags = ["studynote-design-supervision"]
 | [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) | 높음 | 가능 | `build()` 일괄 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 추가 클래스와 코드량 |
 | `record` | 매우 높음 | 가능 | compact constructor | 선택 필드와 복잡 규칙 표현 한계 |
 
-또한 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 단독 패턴이 아니라 다른 설계 개념과 자주 연결된다. 메서드 체이닝을 이용하므로 플루언트 인터페이스 (Fluent Interface) 스타일과 잘 맞고, 최종 산출물이 값 객체 (Value Object)나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체일 때 특히 효과적이다. 반면 팩터리 메서드 ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))는 객체 선택 로직에 강하고, [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 **객체 조립 과정과 불변성 확보**에 강하다.
+또한 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 단독 패턴이 아니라 다른 설계 개념과 자주 연결된다. 메서드 체이닝을 이용하므로 플루언트 인터페이스 (Fluent Interface) 스타일과 잘 맞고, 최종 산출물이 값 객체 (Value Object)나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체일 때 특히 효과적이다. 반면 팩터리 메서드 ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))는 객체 선택 로직에 강하고, [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 <strong>객체 조립 과정과 불변성 확보</strong>에 강하다.
 
 실무에서는 `record`와 자주 비교된다. 모든 필드가 필수이고 구조가 단순하면 `record`가 더 간결할 수 있다. 하지만 선택 필드가 많거나 컬렉션 방어적 복사, 필드 간 제약 조건, 조건부 기본값이 필요한 순간에는 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 더 자연스럽다.
 
@@ -129,7 +128,7 @@ tags = ["studynote-design-supervision"]
 | 불변 객체 + 방어적 복사 필요 | [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) + final 필드 |
 | 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 분기 자체가 중요 | 팩터리 메서드와 병행 검토 |
 
-기술사 답안에서는 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)를 단순 문법 편의로 쓰기보다, **상태 변이 로직을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 단계로 한정하고 최종 객체의 불변성을 확보하는 설계 원리**로 설명하는 편이 좋다. 그래야 멀티스레드 안전성, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시점, 유지보수성까지 함께 연결된다.
+기술사 답안에서는 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)를 단순 문법 편의로 쓰기보다, <strong>상태 변이 로직을 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 단계로 한정하고 최종 객체의 불변성을 확보하는 설계 원리</strong>로 설명하는 편이 좋다. 그래야 멀티스레드 안전성, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시점, 유지보수성까지 함께 연결된다.
 
 - **📢 섹션 요약 비유**: 자동차는 조립 라인에서는 볼트를 조이고 옵션을 추가하지만, 출고 검사 후에는 봉인된 제품이 된다. [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)는 조립 라인이고, 불변 객체는 출고 완료 차량이다.
 
@@ -139,7 +138,7 @@ tags = ["studynote-design-supervision"]
 
 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)과 불변 객체를 함께 쓰면 코드 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/), 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 안전성을 동시에 얻기 쉽다. 호출부는 메서드 이름 덕분에 의도가 드러나고, 객체 내부는 final 필드와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 상태 덕분에 안정적이다. 특히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 객체처럼 한번 만들고 오래 참조하는 구조에서 효과가 크다.
 
-반면 비용도 있다. 별도 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 코드가 필요하고, 작은 객체에 남용하면 구조가 과해질 수 있다. 따라서 기억해야 할 핵심은 "무조건 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)"가 아니라, **복잡한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정의 가변성을 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 안에 가두고 최종 객체는 불변으로 잠그는 것**이다.
+반면 비용도 있다. 별도 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 코드가 필요하고, 작은 객체에 남용하면 구조가 과해질 수 있다. 따라서 기억해야 할 핵심은 "무조건 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)"가 아니라, <strong>복잡한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 과정의 가변성을 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a> 안에 가두고 최종 객체는 불변으로 잠그는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 설계도와 공사장을 분리하면 건물이 완성된 뒤에는 더 이상 매일 벽이 움직이지 않는다. [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)도 객체의 공사 기간과 사용 기간을 분리해, 완성 후 흔들리지 않는 구조를 만든다.
 
@@ -159,24 +158,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Simple constructor
-        │
-        ▼
-Optional fields increase
-        │
-        ▼
-Builder Pattern
-        │
-        ▼
-Validation at build()
-        │
-        ▼
-Immutable Object + defensive copy
-        │
-        ▼
-Safe sharing / readable construction / domain consistency
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Simple constructor</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Optional fields increase</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Builder Pattern</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Validation at build()</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Immutable Object + defensive copy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Safe sharing / readable construction / domain consistency</div>
+</div>
+</div>
+
+
 
 이 흐름은 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요구가 복잡해질수록 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 단순 편의가 아니라 불변성 확보 도구로 발전한다는 점을 보여 준다.
 

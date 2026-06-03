@@ -21,26 +21,28 @@ tags = ["algorithm_stats"]
 
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-과거 사람들은 전신이나 전화선에 노이즈가 생기면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 전압을 높여서 힘으로 뚫으려고만 했다. 하지만 1948년 클로드 섀넌(Claude Shannon)은 **[정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))**을 발표하며 패러다임을 바꿨다. 그는 "정보란 불확실성(Uncertainty)의 감소"라고 정의하고, 이를 **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))**라는 수치로 계산해 냈다. 
+과거 사람들은 전신이나 전화선에 노이즈가 생기면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 전압을 높여서 힘으로 뚫으려고만 했다. 하지만 1948년 클로드 섀넌(Claude Shannon)은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/">정보이론</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/">Information Theory</a>)</strong>을 발표하며 패러다임을 바꿨다. 그는 "정보란 불확실성(Uncertainty)의 감소"라고 정의하고, 이를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a>)</strong>라는 수치로 계산해 냈다. 
 이 이론이 왜 현대 클라우드와 네트워크 시대에 필수적일까? 매일 수십 엑사바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되는 환경에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한정 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할 수 있는지, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 제한된 무선망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 빠르게 보낼 수 있는지에 대한 '이론적 상한선'을 모르면, 무의미한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개발에 천문학적인 비용을 낭비하게 되기 때문이다. [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)은 엔지니어에게 "물리적으로 가능한 최대 성능이 여기까지니, 이 선에 최대한 가깝게 도달하는 코덱과 오류 정정 코드를 짜라"는 궁극의 목표를 제시한다.
 
 이 다이어그램은 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)이 제시하는 통신 시스템의 근본적인 한계 모델(Shannon's Model)과 발생하는 문제를 보여준다.
 
-```text
-[Source] ──> 데이터 발생 (엔트로피 H 제한: 최대로 압축할 수 있는 한계선)
-   │
-   ▼
-[Transmitter] ──> Source Coding (압축) + Channel Coding (오류 정정 패리티 추가)
-   │
-   ▼             ★ 물리적 채널 한계 (채널 용량 C: 초당 전송 가능한 최대 비트)
-[Channel] ────//───> 노이즈(Noise) 개입! 비트 플립 발생
-   │
-   ▼
-[Receiver] ──> 오류 정정 디코딩 + 압축 해제
-   │
-   ▼
-[Destination] ──> 데이터 수신 완수
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Source</div><div class="kb-diagram-note">──&gt; 데이터 발생 (엔트로피 H 제한: 최대로 압축할 수 있는 한계선)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transmitter</div><div class="kb-diagram-note">──&gt; Source Coding (압축) + Channel Coding (오류 정정 패리티 추가)</div></div>
+<div class="kb-diagram-note">▼ ★ 물리적 채널 한계 (채널 용량 C: 초당 전송 가능한 최대 비트)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Channel</div><div class="kb-diagram-note">// &gt; 노이즈(Noise) 개입! 비트 플립 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Receiver</div><div class="kb-diagram-note">──&gt; 오류 정정 디코딩 + 압축 해제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Destination</div><div class="kb-diagram-note">──&gt; 데이터 수신 완수</div></div>
+</div>
+</div>
+
+
 
 이 모델의 핵심은 송신 단의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 한계([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H)와 전송 단의 속도 한계([채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C)를 명확히 분리했다는 점이다. 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 특성을 분석하여 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 타당성을 검증하고, 네트워크 패킷 드랍율을 극복하기 위해 어느 정도의 여분 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Redundancy)를 추가할지 결정하는 데 이 뼈대 모델을 사용한다. 아무리 뛰어난 해커나 천재 개발자도 섀넌이 증명한 이 두 가지 한계선(H와 C)을 물리적으로 넘어설 수는 없다.
 
@@ -57,33 +59,32 @@ tags = ["algorithm_stats"]
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 비유 |
 |:---|:---|:---|:---|
 | **정보량 (Information)** | 단일 사건의 가치 | $P(x)$가 낮을수록 값이 커짐. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 단위. | 뻔한 뉴스 vs 충격 특종 |
-| **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))** | 시스템 전체 불확실성| $-\sum p(x) \log_2 p(x)$. 불확실성이 최대일 때(균등 분포) 값도 최대. | 흩어진 방의 무질서도 |
-| **[소스 부호화 정리](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/)** | [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) 한계 | 평균 코드 길이는 무조건 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) $H(X)$보다 크거나 같아야 함. | 스펀지를 최대한 쥐어짜기 |
-| **[허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)** | 최적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 자주 나오는 문자는 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 드문 문자는 긴 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 할당. | 자주 쓰는 단어의 줄임말 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a>)</strong> | 시스템 전체 불확실성| $-\sum p(x) \log_2 p(x)$. 불확실성이 최대일 때(균등 분포) 값도 최대. | 흩어진 방의 무질서도 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/">소스 부호화 정리</a></strong> | [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) 한계 | 평균 코드 길이는 무조건 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) $H(X)$보다 크거나 같아야 함. | 스펀지를 최대한 쥐어짜기 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/">허프만 코딩</a></strong> | 최적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 자주 나오는 문자는 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 드문 문자는 긴 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 할당. | 자주 쓰는 단어의 줄임말 |
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출현 빈도에 따라 허프만 트리(Huffman Tree)를 구성하여, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 한계에 도달하는 가변 길이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 수행하는 원리를 보여준다.
 
-```text
-[데이터 분포: 'A' 50%, 'B' 25%, 'C' 12.5%, 'D' 12.5%]
-       │
-[트리 병합 (가장 확률이 낮은 C, D부터 묶음)]
-       │
-      (100%)
-      /    \
-   (A:50%) (50%)
-          /    \
-       (B:25%) (25%)
-               /   \
-          (C:12.5%) (D:12.5%)
-       │
-[비트 할당 (왼쪽=0, 오른쪽=1)]
-   - A = 0       (1 bit)  -> 빈도 높으니 가장 짧게!
-   - B = 10      (2 bits)
-   - C = 110     (3 bits) -> 빈도 낮으니 가장 길게!
-   - D = 111     (3 bits)
-       │
-[결과: 평균 비트 길이 = 1.75 비트/심볼 (엔트로피 H와 정확히 일치!)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 분포: 'A' 50%, 'B' 25%, 'C' 12.5%, 'D' 12.5%</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리 병합 (가장 확률이 낮은 C, D부터 묶음)</div></div>
+<div class="kb-diagram-note">(100%)</div>
+<div class="kb-diagram-note">(A:50%) (50%)</div>
+<div class="kb-diagram-note">(B:25%) (25%)</div>
+<div class="kb-diagram-note">(C:12.5%) (D:12.5%)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 할당 (왼쪽=0, 오른쪽=1)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">A = 0 (1 bit) -&gt; 빈도 높으니 가장 짧게!</div>
+<div class="kb-diagram-tree-item" style="--depth:1">B = 10 (2 bits)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">C = 110 (3 bits) -&gt; 빈도 낮으니 가장 길게!</div>
+<div class="kb-diagram-tree-item" style="--depth:1">D = 111 (3 bits)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과: 평균 비트 길이 = 1.75 비트/심볼 (엔트로피 H와 정확히 일치!)</div></div>
+</div>
+</div>
+
+
 
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 고정 길이(예: [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 8비트)의 낭비를 제거하고, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에 따라 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 차등 할당하여 극한의 효율을 뽑아낸다는 점이다. 실무에서는 ZIP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), JPEG 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 마지막 단계에서 이 [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) 메커니즘이 동작하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 한계선까지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 무작위([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최대)라면, [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)조차도 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할 수 없다.
 
@@ -101,17 +102,20 @@ tags = ["algorithm_stats"]
 
 이 매트릭스는 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)의 두 핵심 척도인 KL 다이버전스와 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)가 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 평가에서 어떻게 사용되는지 그 구조적 차이를 비교한다.
 
-```text
-┌──────────────┬─────────────────────────────┬─────────────────────────────┬─────────────┐
-│ 항목         │ KL 다이버전스 (KL Divergence) │ 크로스 엔트로피 (Cross-Entropy)│ 판단 포인트   │
-│              │ (상대 엔트로피)             │                             │             │
-├──────────────┼─────────────────────────────┼─────────────────────────────┼─────────────┤
-│ 수식 구조    │ D_KL(P || Q) = Σ P log(P/Q) │ H(P, Q) = -Σ P log(Q)      │ 척도의 분리   │
-│ 물리적 의미  │ 진짜 분포(P)와 예측 분포(Q)의 차이│ 진짜(P)를 예측(Q)로 압축할 때의 비용│ 정보 손실량   │
-│ 비대칭성     │ D_KL(P||Q) ≠ D_KL(Q||P)     │ 적용 불가                   │ 교환 법칙 불가│
-│ 딥러닝 활용  │ GAN, VAE의 분포 근사 Loss    │ 분류 모델(분류기)의 기본 Loss  │ 최적화 목표   │
-└──────────────┴─────────────────────────────┴─────────────────────────────┴─────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">KL 다이버전스 (KL Divergence)</div><div class="kb-diagram-cell">크로스 엔트로피 (Cross-Entropy)</div><div class="kb-diagram-cell">판단 포인트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상대 엔트로피)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수식 구조</div><div class="kb-diagram-cell">D_KL(P</div><div class="kb-diagram-cell">Q) = Σ P log(P/Q)</div><div class="kb-diagram-cell">H(P, Q) = -Σ P log(Q)</div><div class="kb-diagram-cell">척도의 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 의미</div><div class="kb-diagram-cell">진짜 분포(P)와 예측 분포(Q)의 차이</div><div class="kb-diagram-cell">진짜(P)를 예측(Q)로 압축할 때의 비용</div><div class="kb-diagram-cell">정보 손실량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비대칭성</div><div class="kb-diagram-cell">D_KL(P</div><div class="kb-diagram-cell">Q) ≠ D_KL(Q</div><div class="kb-diagram-cell">P)</div><div class="kb-diagram-cell">적용 불가</div><div class="kb-diagram-cell">교환 법칙 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딥러닝 활용</div><div class="kb-diagram-cell">GAN, VAE의 분포 근사 Loss</div><div class="kb-diagram-cell">분류 모델(분류기)의 기본 Loss</div><div class="kb-diagram-cell">최적화 목표</div></div>
+</div>
+</div>
+
+
 
 A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 얼마나 찌그러졌는지 그 '거리의 차이(정확히는 거리 개념이 아님)'를 잰다. 반면 B 방식([크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))은 정답(P)을 예측모델(Q)의 방식으로 코딩했을 때 발생하는 '전체 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 길이'를 잰다. 수학적으로 `Cross Entropy = Entropy(P) + KL Divergence`가 성립한다. 실무의 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 딥러닝 모델에서 정답 레이블(P)은 이미 고정되어 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 상수이므로, [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)를 최소화하는 것은 결국 모델의 예측(Q)과 정답(P) 사이의 KL 다이버전스를 0으로 만드는 것과 완벽히 동일한 최적화 과정이다.
 
@@ -125,29 +129,30 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 이 의사결정 트리는 시스템 설계 시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 및 전송 전략을 선택할 때 엔지니어가 밟아야 할 기술사적 판단 플로우를 보여준다.
 
-```text
-[대용량 데이터의 저장/전송 병목 발생]
-   │
-   ▼
-[데이터의 무작위성(엔트로피) 측정]
-   ├─(높음: 암호화된 파일, 압축된 미디어 등)
-   │     └─> 🚨 안티패턴: 더 이상 무손실 압축 불가능!
-   │         판단: 압축 시도 중단. 대역폭 증설 또는 '손실 압축(JPEG/MP4)'으로 비즈니스 타협.
-   │
-   └─(낮음: JSON, 텍스트 로그, 반복된 데이터)
-         │
-         ▼
-[채널의 상태 파악 (패킷 손실률, 노이즈)]
-   ├─(안정적: 내부 백본망, 로컬 디스크)
-   │     └─> 압축률이 높은 소스 코딩(Gzip, LZ4, Zstd)을 공격적으로 적용하여 I/O 비용 절약.
-   │
-   └─(불안정: 무선 통신, 위성, 딥스페이스)
-         │
-         ▼
-[오류 정정 코딩(FEC, Forward Error Correction) 개입 여부]
-         └─> 판단: 압축과 역행하여 잉여 비트(Parity)를 의도적으로 추가.
-             해밍 코드, 리드-솔로몬, LDPC 등을 통해 재전송(ARQ) 지연 없이 수신단에서 자가 복구.
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 데이터의 저장/전송 병목 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터의 무작위성(엔트로피) 측정</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">(높음: 암호화된 파일, 압축된 미디어 등)</div>
+<div class="kb-diagram-note">─&gt; 🚨 안티패턴: 더 이상 무손실 압축 불가능!</div>
+<div class="kb-diagram-note">판단: 압축 시도 중단. 대역폭 증설 또는 '손실 압축(JPEG/MP4)'으로 비즈니스 타협.</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(낮음: JSON, 텍스트 로그, 반복된 데이터)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널의 상태 파악 (패킷 손실률, 노이즈)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">(안정적: 내부 백본망, 로컬 디스크)</div>
+<div class="kb-diagram-note">─&gt; 압축률이 높은 소스 코딩(Gzip, LZ4, Zstd)을 공격적으로 적용하여 I/O 비용 절약.</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(불안정: 무선 통신, 위성, 딥스페이스)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 정정 코딩(FEC, Forward Error Correction) 개입 여부</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">판단: 압축과 역행하여 잉여 비트(Parity)를 의도적으로 추가.</div>
+<div class="kb-diagram-note">해밍 코드, 리드-솔로몬, LDPC 등을 통해 재전송(ARQ) 지연 없이 수신단에서 자가 복구.</div>
+</div>
+</div>
+
+
 
 이 운영 플로우의 핵심은 "무조건 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것이 정답이 아니다"라는 점이다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 너무 강하게 하여 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 한계에 도달한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여유 공간(Redundancy)이 0이므로, 네트워크 전송 중 단 1비트만 플립(Flip)되어도 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨지는 극강의 취약성을 가진다. 따라서 실무 아키텍트는 저장을 위해서는 극한의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Source Coding](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/156_source_coding/))을, 전송을 위해서는 의도적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부풀리기([Channel Coding](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/))를 분리하여 설계하는 지혜를 발휘해야 한다.
 
@@ -177,21 +182,23 @@ A 방식(KL 다이버전스)은 두 [확률](/knowledge-base/studynote/08_algori
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[확률 분포 — 정보 발생의 출발점]
-    │
-    ▼
-[자기 정보량(Shannon) — 사건의 놀라움 측정]
-    │
-    ▼
-[엔트로피(Entropy) — 평균 정보량]
-    │
-    ▼
-[채널 용량(Channel Capacity) — 전송 한계]
-    │
-    ▼
-[데이터 압축/오류 정정 — 실제 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확률 분포 — 정보 발생의 출발점</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자기 정보량(Shannon) — 사건의 놀라움 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피(Entropy) — 평균 정보량</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 용량(Channel Capacity) — 전송 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 압축/오류 정정 — 실제 응용</div></div>
+</div>
+</div>
+
+
 
 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 출발해 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)을 통해 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 오류 정정을 설명한다.
 

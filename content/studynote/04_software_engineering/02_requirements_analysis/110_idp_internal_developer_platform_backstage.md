@@ -10,34 +10,34 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 팀이 구축한 **사내 전용 개발 환경 자판기**로, 앱 개발자가 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 지식 없이 **셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)**받는 시스템이다.
-> 2. **가치**: 소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)(전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 족보)·셀프서비스 스캐폴딩(템플릿 자판기)·플러그인 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(50개 도구 통합)의 **3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)**가 개발자 온보딩을 2주→1일로 단축하고 Shadow IT를 원천 차단한다.
-> 3. **판단 포인트**: Spotify가 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)화한 **Backstage**가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Incubating 프로젝트로 사실상 표준이며, [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성공 지표는 **플랫폼 채택률(WAU)**과 **인프라 티켓 감소율**이다.
+> 1. **본질**: [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 팀이 구축한 <strong>사내 전용 개발 환경 자판기</strong>로, 앱 개발자가 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 지식 없이 <strong>셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>받는 시스템이다.
+> 2. **가치**: 소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)(전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 족보)·셀프서비스 스캐폴딩(템플릿 자판기)·플러그인 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(50개 도구 통합)의 <strong>3대 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>가 개발자 온보딩을 2주→1일로 단축하고 Shadow IT를 원천 차단한다.
+> 3. **판단 포인트**: Spotify가 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)화한 <strong>Backstage</strong>가 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) Incubating 프로젝트로 사실상 표준이며, [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성공 지표는 <strong>플랫폼 채택률(WAU)</strong>과 <strong>인프라 티켓 감소율</strong>이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인 스크립트 작성 → Terraform으로 AWS 인프라 구축 → 보안팀 취약점 점검 메일 → **개발 시작도 못 하고 1주일 소모**. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 도입 후: 포털에서 "Spring Boot + [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 세트" 클릭 → **1분 만에 레포·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·인프라 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** → 즉시 코딩 시작.
+IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인 스크립트 작성 → Terraform으로 AWS 인프라 구축 → 보안팀 취약점 점검 메일 → **개발 시작도 못 하고 1주일 소모**. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 도입 후: 포털에서 "Spring Boot + [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 세트" 클릭 → <strong>1분 만에 레포·<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD·인프라 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> → 즉시 코딩 시작.
 
-```text
-┌───────────────────────────────────────────────────────┐
-│     IDP 없는 세계 vs IDP 있는 세계                     │
-├───────────────────────────────────────────────────────┤
-│  [Before]                                             │
-│   개발자 → GitHub → Jenkins → Terraform → 보안팀     │
-│        (각각 수동 설정, 1주일 소요)                    │
-│                                                       │
-│  [After: IDP 포털]                                    │
-│   개발자 → Backstage 포털 클릭 →  1분 후 완료         │
-│        ┌──────────────────────────────────────┐       │
-│        │ ✅ GitHub Repo 자동 생성              │       │
-│        │ ✅ CI/CD 파이프라인 자동 연결          │       │
-│        │ ✅ 보안 검증된 AWS 인프라 자동 배포    │       │
-│        │ ✅ 모니터링 대시보드 자동 연동         │       │
-│        └──────────────────────────────────────┘       │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDP 없는 세계 vs IDP 있는 세계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → GitHub → Jenkins → Terraform → 보안팀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각각 수동 설정, 1주일 소요)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">After: IDP 포털</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → Backstage 포털 클릭 → 1분 후 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ GitHub Repo 자동 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ CI/CD 파이프라인 자동 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 보안 검증된 AWS 인프라 자동 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 모니터링 대시보드 자동 연동</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IDP는 전투기 파일럿을 위한 통합 디지털 콕핏이다. 계기판 10개를 따로 보는 대신, 터치스크린 하나에서 모든 시스템을 제어한다.
 
@@ -49,13 +49,13 @@ IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 [생성](/knowledge
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 비유 |
 |:---|:---|:---|
-| **소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)** | 전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·팀 소유권을 한눈에 조회하는 족보 | 도서관 검색 시스템 |
+| <strong>소프트웨어 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a></strong> | 전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·팀 소유권을 한눈에 조회하는 족보 | 도서관 검색 시스템 |
 | **셀프서비스 스캐폴딩** | Golden Path 템플릿으로 레포·인프라를 원클릭 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 자판기 버튼 |
-| **플러그인 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)** | Jira·GitHub·Datadog·보안스캐너 등 50개 도구를 단일 화면에 통합 | 스마트폰 앱스토어 |
+| <strong>플러그인 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong> | Jira·GitHub·Datadog·보안스캐너 등 50개 도구를 단일 화면에 통합 | 스마트폰 앱스토어 |
 
 ### Backstage 아키텍처
 
-Backstage는 React 프론트엔드 + Node.js 백엔드로 구성되며, **Software Templates(Cookiecutter/Yeoman 기반)**으로 프로젝트 스캐폴딩을 자동화하고, **TechDocs**로 마크다운 문서를 포털 내에서 렌더링한다.
+Backstage는 React 프론트엔드 + Node.js 백엔드로 구성되며, <strong>Software Templates(Cookiecutter/Yeoman 기반)</strong>으로 프로젝트 스캐폴딩을 자동화하고, <strong>TechDocs</strong>로 마크다운 문서를 포털 내에서 렌더링한다.
 
 - **📢 섹션 요약 비유**: Backstage는 개발자용 쇼핑몰이다. 템플릿을 "장바구니에 담아 결제(클릭)"하면, 뒷단에서 인프라 공장이 완제품(환경)을 즉시 배송한다.
 
@@ -76,12 +76,12 @@ Backstage는 React 프론트엔드 + Node.js 백엔드로 구성되며, **Softwa
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 로드맵
-1. **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (4주)**: Backstage + 1개 Golden Path 템플릿(Spring Boot [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 배포.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (4주)</strong>: Backstage + 1개 Golden Path 템플릿(Spring Boot [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 배포.
 2. **확산 (2~3개월)**: 주요 팀 온보딩, 플러그인(Jira·Datadog) 연동.
 3. **성숙 (6개월+)**: 전사 표준 채택, NPS 측정, 셀프서비스 커버리지 80% 달성.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **빈 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)**: 소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 MSA가 10개만 등록 → 검색 가치 0, 채택률 하락.
+- <strong>빈 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a></strong>: 소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 MSA가 10개만 등록 → 검색 가치 0, 채택률 하락.
 - **Golden Path 강제 without Escape Hatch**: 100% 표준 강제 → 파워 유저 이탈.
 
 ---
@@ -103,30 +103,33 @@ IDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)** | IDP를 만드는 상위 규율 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/">플랫폼 엔지니어링</a></strong> | IDP를 만드는 상위 규율 |
 | **Backstage** | IDP의 사실상 표준 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프레임워크 ([CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)) |
 | **Golden Path** | IDP가 제공하는 검증된 표준 개발·배포 경로 |
-| **소프트웨어 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)** | 전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 족보를 한눈에 조회하는 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
+| <strong>소프트웨어 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a></strong> | 전사 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 족보를 한눈에 조회하는 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
 | **DevEx (Developer Experience)** | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성공의 최종 척도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사내 위키 + 티켓 시스템 (2010s) — 수동 인프라 요청]
-    │
-    ▼
-[Backstage 오픈소스화 (2020, Spotify) — IDP 개념 대중화]
-    │
-    ▼
-[CNCF Incubating (2022~) — 생태계 표준화]
-    │
-    ▼
-[현재: IDP + AI Copilot 통합 — 프롬프트 기반 환경 프로비저닝]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사내 위키 + 티켓 시스템 (2010s) — 수동 인프라 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Backstage 오픈소스화 (2020, Spotify) — IDP 개념 대중화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CNCF Incubating (2022~) — 생태계 표준화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: IDP + AI Copilot 통합 — 프롬프트 기반 환경 프로비저닝</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. IDP는 학교 앞 **문구점 자판기**예요. 공책·연필·지우개가 세트로 들어있어요.
-2. 옛날에는 공책은 A가게, 연필은 B가게, 지우개는 C가게를 돌아다녀야 했는데, 이제 **버튼 하나**면 세트가 뿅 나와요!
+1. IDP는 학교 앞 <strong>문구점 자판기</strong>예요. 공책·연필·지우개가 세트로 들어있어요.
+2. 옛날에는 공책은 A가게, 연필은 B가게, 지우개는 C가게를 돌아다녀야 했는데, 이제 <strong>버튼 하나</strong>면 세트가 뿅 나와요!
 3. 덕분에 아이들(개발자)은 가게 돌아다닐 시간 없이 바로 공부(코딩)에 집중할 수 있답니다!
 
 ---

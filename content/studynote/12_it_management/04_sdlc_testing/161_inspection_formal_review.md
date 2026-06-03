@@ -33,18 +33,21 @@ tags = ["studynote-it-management"]
 
 인스펙션은 아무나 모여 문서를 읽는 회의가 아니다. 저자, 사회자, 인스펙터, 기록자가 역할을 나누고, 계획부터 후속 조치까지 정해진 흐름을 따른다. 이 구조 덕분에 회의가 의견 대립이나 설계 토론으로 흐르지 않고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 활동에 집중될 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   인스펙션의 표준 흐름: 준비된 결함 탐지            │
-├──────────────────────────────────────────────────────────────────────┤
-│  1. 계획 (Planning)        : 대상, 일정, 참여자 선정                │
-│  2. 개요 설명 (Overview)   : 저자가 목적과 맥락 설명                │
-│  3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토   │
-│  4. 회의 (Meeting)         : 결함 식별·분류·기록                    │
-│  5. 수정 (Rework)          : 저자가 결함 수정                       │
-│  6. 후속 조치 (Follow-up)  : 사회자가 수정 완료 확인                │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스펙션의 표준 흐름: 준비된 결함 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 계획 (Planning) : 대상, 일정, 참여자 선정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 개요 설명 (Overview) : 저자가 목적과 맥락 설명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 회의 (Meeting) : 결함 식별·분류·기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 수정 (Rework) : 저자가 결함 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 후속 조치 (Follow-up) : 사회자가 수정 완료 확인</div></div>
+</div>
+</div>
+
+
 
 | 역할 | 책임 | 핵심 주의점 |
 | :--- | :--- | :--- |
@@ -53,7 +56,7 @@ tags = ["studynote-it-management"]
 | 인스펙터 (Inspector) | 사전 검토, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 개인 추측보다 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 근거 제시 |
 | 기록자 (Recorder) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 작성 | 해결책이 아니라 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 자체를 명확히 기록 |
 
-인스펙션의 핵심 원리는 세 가지다. 첫째, **개별 준비가 회의 품질을 결정한다**는 점이다. 준비 없이 회의에 들어가면 공식 검토가 단순 낭독회가 된다. 둘째, **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 해결책을 분리한다**는 점이다. 회의에서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 기록하고, 수정은 저자와 후속 단계에서 처리한다. 셋째, **측정 가능성**이다. [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) ([Defect Density](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/)), 준비 속도, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형 분포를 기록하면 산출물 품질과 프로세스 약점을 함께 분석할 수 있다.
+인스펙션의 핵심 원리는 세 가지다. 첫째, <strong>개별 준비가 회의 품질을 결정한다</strong>는 점이다. 준비 없이 회의에 들어가면 공식 검토가 단순 낭독회가 된다. 둘째, <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>과 해결책을 분리한다</strong>는 점이다. 회의에서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 기록하고, 수정은 저자와 후속 단계에서 처리한다. 셋째, <strong>측정 가능성</strong>이다. [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) ([Defect Density](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/)), 준비 속도, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형 분포를 기록하면 산출물 품질과 프로세스 약점을 함께 분석할 수 있다.
 
 - **📢 섹션 요약 비유**: 인스펙션은 재판처럼 역할이 나뉜 공식 절차다. 그 자리에서 바로 집을 다시 짓는 것이 아니라, 어디가 잘못되었는지 정확히 판정하고 기록하는 데 집중해야 효율이 난다.
 
@@ -107,7 +110,7 @@ tags = ["studynote-it-management"]
 
 인스펙션을 제대로 운영하면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 제거해 재작업 비용을 줄이고, 팀의 산출물 품질 기준을 일정하게 유지할 수 있다. 또한 여러 사람이 같은 문서를 읽고 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형을 기록하므로, 팀 전체의 이해도와 표준 준수 수준도 함께 높아진다. 반복적으로 쌓인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 데이터는 교육과 프로세스 개선의 근거가 된다.
 
-하지만 인스펙션은 시간과 준비가 필요한 활동이므로, 모든 상황에 가장 적합한 것은 아니다. 일정이 매우 촉박하거나 산출물 위험도가 낮은 경우에는 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)나 [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)가 더 나을 수 있다. 따라서 인스펙션의 진짜 가치는 "가장 공식적이어서"가 아니라, **고위험 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 일찍 잡아야 할 때 비용 대비 효율이 높다**는 점에 있다.
+하지만 인스펙션은 시간과 준비가 필요한 활동이므로, 모든 상황에 가장 적합한 것은 아니다. 일정이 매우 촉박하거나 산출물 위험도가 낮은 경우에는 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)나 [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)가 더 나을 수 있다. 따라서 인스펙션의 진짜 가치는 "가장 공식적이어서"가 아니라, <strong>고위험 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>을 일찍 잡아야 할 때 비용 대비 효율이 높다</strong>는 점에 있다.
 
 결론적으로 인스펙션은 테스트 이전의 품질 관문이다. 핵심은 많이 읽는 것이 아니라, 준비된 사람이 구조적으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾고 기록하며 후속 조치까지 닫는 것이다.
 
@@ -128,21 +131,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-품질 관리 (QA vs QC)
-    │
-    ▼
-인스펙션 (Inspection)
-    │
-    ▼
-워크스루 (Walkthrough) · 동료 검토 (Peer Review)
-    │
-    ▼
-TDD (Test Driven Development) · BDD (Behavior Driven Development) 기반 실행 전/후 품질 강화
-    │
-    ▼
-CI/CD 파이프라인과 형상 관리로 지속 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">품질 관리 (QA vs QC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인스펙션 (Inspection)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워크스루 (Walkthrough) · 동료 검토 (Peer Review)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TDD (Test Driven Development) · BDD (Behavior Driven Development) 기반 실행 전/후 품질 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 파이프라인과 형상 관리로 지속 검증</div>
+</div>
+</div>
+
+
 
 이 흐름은 품질 관리 개념이 공식 리뷰, 비공식 리뷰, [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/), 자동화 파이프라인으로 이어지는 관계를 보여 준다.
 

@@ -39,31 +39,30 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 | URL [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(v1, v2) | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 별도 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 발전(deprecation) |
 | 복잡도 | 낮음 | 중간 | 높음 |
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  BFF + GraphQL 아키텍처                              │
-│                                                                      │
-│  클라이언트                BFF 레이어              마이크로서비스    │
-│                                                                      │
-│  [모바일 앱]  ─────►  [Mobile BFF]  ──────►  [주문 서비스]         │
-│                            │         ──────►  [상품 서비스]         │
-│                            │         ──────►  [사용자 서비스]       │
-│                            │                                        │
-│  [웹 앱]      ─────►  [Web BFF]     ──────►  [주문 서비스]         │
-│                            │         ──────►  [리뷰 서비스]         │
-│                                                                      │
-│  ─────────── 또는 GraphQL Federation 방식 ─────────────────────── │
-│                                                                      │
-│  [모든 클라이언트] ─►  [GraphQL Gateway]  ──►  [주문 서브그래프]   │
-│                            │               ──►  [상품 서브그래프]   │
-│     query {                │               ──►  [사용자 서브그래프] │
-│       user(id: "1") {      │                                        │
-│         name               │   DataLoader: N+1 쿼리 → 배치 최적화  │
-│         orders { total }   │                                        │
-│       }                    │                                        │
-│     }                      │                                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BFF + GraphQL 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 BFF 레이어 마이크로서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 앱</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">Mobile BFF</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">주문 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ►</div><div class="kb-diagram-node">상품 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ►</div><div class="kb-diagram-node">사용자 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹 앱</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">Web BFF</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">주문 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ►</div><div class="kb-diagram-node">리뷰 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 GraphQL Federation 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모든 클라이언트</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">GraphQL Gateway</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">주문 서브그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──►</div><div class="kb-diagram-node">상품 서브그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">query { │ ──►</div><div class="kb-diagram-node">사용자 서브그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user(id: "1") {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">DataLoader: N+1 쿼리 → 배치 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">orders { total }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: GraphQL은 뷔페 주문 시스템 — 원하는 음식(필드)만 직접 골라 가져올 수 있어 먹지 않을 음식(불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 담지 않아도 된다.
 
@@ -80,7 +79,7 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 타입 안전성 | 미적용 | 강타입 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 약함 |
 | 적합 사례 | 클라이언트별 맞춤 | 복잡한 연결 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 단순 CRUD |
 
-**[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a> <a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a></strong>:
 여러 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 각자 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 서브그래프를 노출하고, Apollo [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) Gateway가 통합하는 패턴. 팀별 독립 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리 + 단일 클라이언트 엔드포인트 달성.
 
 📢 **섹션 요약 비유**: [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) Federation은 여러 전문 도서관(서브그래프)을 연결하는 중앙 도서관 검색 시스템 — 어느 도서관에 있는 책이든 하나의 검색창으로 찾아준다.
@@ -89,12 +88,12 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 도입 기준**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> 도입 기준</strong>
 1. 클라이언트 유형이 2개 이상이고 각 유형의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요구사항이 다를 때
 2. 모바일은 경량 응답, 웹은 풍부한 응답이 필요한 경우
 3. 파트너 API를 별도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·속도 제한 정책으로 관리해야 할 때
 
-**[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 도입 기준**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a> 도입 기준</strong>
 1. 클라이언트가 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태를 자유롭게 조합해야 할 때
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관계가 복잡하고 중첩 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 빈번한 경우
 3. 프론트엔드 팀이 백엔드 의존 없이 빠르게 개발해야 할 때
@@ -133,18 +132,21 @@ GraphQL은 클라이언트가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클라이언트 직접 호출 (Over-fetching · Under-fetching)
-    │
-    ▼
-BFF (Backend for Frontend): 프론트엔드별 전용 API 게이트웨이
-    │
-    ▼
-GraphQL: 클라이언트가 필요한 필드만 선언적 요청
-    │
-    ▼
-API Gateway + BFF + GraphQL Federation → 통합 API 레이어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 직접 호출 (Over-fetching · Under-fetching)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BFF (Backend for Frontend): 프론트엔드별 전용 API 게이트웨이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GraphQL: 클라이언트가 필요한 필드만 선언적 요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Gateway + BFF + GraphQL Federation → 통합 API 레이어</div>
+</div>
+</div>
+
+
 2. GraphQL은 직접 선택하는 뷔페 — 내가 먹고 싶은 것만 골라 담을 수 있어 남기는 음식이 없어요.
 3. 두 방법 모두 여러 주방([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 직접 돌아다니지 않아도 되게 해줘서 훨씬 편리해요.
 

@@ -23,14 +23,17 @@ tags = ["studynote-computer-architecture"]
 
 특히 클라우드 호스트나 엣지 보안 장비처럼 “들어오는 패킷 대부분을 걸러내거나 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)만 해도 되는” 환경에서는, 패킷을 굳이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택까지 올리는 것 자체가 낭비다. [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 이 낭비를 줄이기 위해 등장했다. 즉, 제어 평면은 호스트가 유지하되 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 반복 작업은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 쪽에서 끝내는 분업 모델이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Wire -> NIC parser -> BPF offload engine                                │
-│                          │                                               │
-│                          ├─ drop / redirect / count -> host bypass       │
-│                          └─ exception traffic -> host DMA -> kernel path  │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wire -&gt; NIC parser -&gt; BPF offload engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ drop / redirect / count -&gt; host bypass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exception traffic -&gt; host DMA -&gt; kernel path</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 “빠른 실행”보다 “호스트로 올릴 패킷 자체를 줄인다”는 데 있다. 하드웨어에서 끝낼 수 있는 판단을 앞당길수록 CPU, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 캐시 오염, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 후속 처리가 한꺼번에 줄어든다.
 
@@ -51,18 +54,20 @@ tags = ["studynote-computer-architecture"]
 
 대표적인 연결점은 [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)과 Traffic Control (TC) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이다. XDP는 수신 경로 가장 앞단에서 드롭·리다이렉트 같은 단순 액션에 강하고, TC는 큐잉·클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)처럼 조금 더 풍부한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결되기 쉽다. 다만 둘 다 하드웨어가 지원하는 범위를 넘어서면 소프트웨어 실행으로 돌아가거나 로드 자체가 거절된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Control plane on host, fast path on NIC                                     │
-├───────────────────────────────┬──────────────────────────────────────────────┤
-│ Host                          │ NIC / DPU                                   │
-│                               │                                              │
-│ 1. Loader sends BPF object    │ 4. Packet parser extracts headers           │
-│ 2. Kernel verifier checks     │ 5. Offloaded program looks up map           │
-│ 3. Offload driver approves    │ 6. Action: drop / redirect / mark / count   │
-│ 7. Host updates maps / stats  │ 8. Only exception traffic goes upward       │
-└───────────────────────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control plane on host, fast path on NIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host</div><div class="kb-diagram-cell">NIC / DPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Loader sends BPF object</div><div class="kb-diagram-cell">4. Packet parser extracts headers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Kernel verifier checks</div><div class="kb-diagram-cell">5. Offloaded program looks up map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Offload driver approves</div><div class="kb-diagram-cell">6. Action: drop / redirect / mark / count</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Host updates maps / stats</div><div class="kb-diagram-cell">8. Only exception traffic goes upward</div></div>
+</div>
+</div>
+
+
 
 핵심 제약도 분명하다. 모든 헬퍼 함수가 지원되지 않으며, 대형 맵이나 복잡한 루프, 깊은 상태 추적은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 온칩 메모리와 실행 파이프라인에 잘 맞지 않는다. 그래서 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 가능한 프로그램은 대개 “짧고, 결정적이고, 헤더 중심적”이어야 한다.
 
@@ -78,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 소프트웨어 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 | 높음 | 중간 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경로 영향 받음 | 관측, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 추적 |
 | Native [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) | 드라이버 수신 경로 | 중상 | 낮음 | 매우 낮음 | DDoS 방어, 빠른 필터 |
-| **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)** | SmartNIC / [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 내부 | 중간 | 매우 낮음 | 가장 안정적 | 헤더 기반 차단, 리다이렉트, 카운팅 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> HW <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong> | SmartNIC / [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 내부 | 중간 | 매우 낮음 | 가장 안정적 | 헤더 기반 차단, 리다이렉트, 카운팅 |
 | 고정 기능 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 오프로드 | [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 내장 전용 기능 | 낮음 | 매우 낮음 | 매우 낮음 | 정해진 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/), 수신 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Receive Side Scaling, RSS) |
 
 차이를 만드는 핵심은 “프로그래밍 가능성”이다. 고정 기능 오프로드는 빠르지만 바꾸기 어렵고, 소프트웨어 BPF는 유연하지만 호스트 부담이 남는다. [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 그 사이에서 “하드웨어가 감당 가능한 만큼만 프로그래밍 가능하게 만든 타협점”이라고 보면 된다.
@@ -97,11 +102,11 @@ tags = ["studynote-computer-architecture"]
    - [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서는 악성 스캔, 동서 트래픽 폭주, 단순 [Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 위반 패킷이 꾸준히 발생한다.
    - 이때 소스/목적지, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 터널 헤더 같은 규칙을 NIC에서 먼저 걸러내면, 하이퍼바이저가 처리해야 할 잡음 자체가 크게 줄어든다.
 
-2. **Distributed Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (DDoS) 방어용 [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 필터**
+2. <strong>Distributed Denial of <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (DDoS) 방어용 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a> 필터</strong>
    - 공격 패턴이 비교적 단순한 반사 증폭, 잘못된 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 알려진 블랙리스트 대역 차단이라면, 하드웨어에서 드롭하는 편이 가장 안정적이다.
    - 패킷이 호스트에 닿기 전 차단되므로, 애플리케이션 CPU와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 큐를 보호하는 효과가 크다.
 
-3. **Layer 4 (L4) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 간단한 텔레메트리**
+3. <strong>Layer 4 (L4) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>과 간단한 텔레메트리</strong>
    - 빠른 해시 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 누적, 샘플링 정도는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 큰 효과를 볼 수 있다.
    - 다만 연결 상태 유지, 복잡한 재작성, 깊은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 추적은 소프트웨어 경로가 더 안전하다.
 
@@ -127,7 +132,7 @@ tags = ["studynote-computer-architecture"]
 
 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 잘 맞는 환경에서는 단순 필터링·리다이렉트 경로를 호스트에서 떼어내 여러 CPU 코어를 애플리케이션 처리용으로 되돌릴 수 있다. 특히 짧은 패킷이 많은 보안 장비, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로드밸런서, 고속 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트에서는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 꼬리를 줄이는 효과가 크다. 패킷이 호스트 캐시와 메모리 버스를 덜 오염시키기 때문에, 네트워크 외 워크로드 안정성도 함께 좋아진다.
 
-하지만 이 기술은 “유연한 소프트웨어를 하드웨어로 공짜 이전”해 주는 만능 버튼이 아니다. 벤더별 드라이버 지원, 제한된 헬퍼와 맵 타입, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 내부 자원 한계, 디버깅 난도가 항상 따라온다. 따라서 기억해야 할 관점은 하나다. **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기법이기 전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 어디까지 하드웨어로 밀어 넣을지 결정하는 아키텍처 선택**이라는 점이다.
+하지만 이 기술은 “유연한 소프트웨어를 하드웨어로 공짜 이전”해 주는 만능 버튼이 아니다. 벤더별 드라이버 지원, 제한된 헬퍼와 맵 타입, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 내부 자원 한계, 디버깅 난도가 항상 따라온다. 따라서 기억해야 할 관점은 하나다. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> HW <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>은 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기법이기 전에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면을 어디까지 하드웨어로 밀어 넣을지 결정하는 아키텍처 선택</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 회사 업무를 전부 자동화하는 로봇이 아니라, 반복적인 출입 통제 업무만 전담하는 스마트 게이트에 가깝다. 잘 맞는 업무를 맡기면 사람이 훨씬 여유로워지지만, 예외 처리까지 다 시키면 오히려 운영이 꼬인다.
 
@@ -145,21 +150,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 기능 NIC 오프로드
-        │
-        ▼
-커널 BPF (Berkeley Packet Filter)
-        │
-        ▼
-XDP (eXpress Data Path) / TC (Traffic Control)
-        │
-        ▼
-BPF HW 오프로딩
-        │
-        ▼
-SmartNIC · DPU 기반 프로그래머블 데이터 평면
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 기능 NIC 오프로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 BPF (Berkeley Packet Filter)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">XDP (eXpress Data Path) / TC (Traffic Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPF HW 오프로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SmartNIC · DPU 기반 프로그래머블 데이터 평면</div>
+</div>
+</div>
+
+
 
 이 흐름은 “정해진 기능만 가속”에서 출발해, “[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 쓰고 그 코드를 하드웨어에 내린다”는 방향으로 진화한 과정을 보여준다.
 

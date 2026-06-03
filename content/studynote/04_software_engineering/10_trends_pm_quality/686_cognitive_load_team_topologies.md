@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
 
-따라서 최신 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 단순히 서버와 DB를 쪼개는 것을 넘어, **"팀이 감당할 수 있는 인지 부하의 크기에 맞춰 소프트웨어의 경계와 조직 구조를 함께 쪼개는 작업"**으로 진화했다.
+따라서 최신 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 단순히 서버와 DB를 쪼개는 것을 넘어, <strong>"팀이 감당할 수 있는 인지 부하의 크기에 맞춰 소프트웨어의 경계와 조직 구조를 함께 쪼개는 작업"</strong>으로 진화했다.
 
 - **📢 섹션 요약 비유**: 요리사(개발자)에게 프랑스 요리, 중국 요리, 한식을 모두 만들라고 하면서 재료 구매, 설거지, 세금 계산, 전구 교체까지 다 시키면 요리가 망한다. 요리사는 한 가지 요리에만 집중하게 하고, 나머지는 전문 지원팀이 맡아주는 구조를 짜는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 인지 부하 (Cognitive Loa의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인지 부하 (Cognitive Loa                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인지 부하 (Cognitive Loa</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 인지 부하 (Cognitive Loa가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 기존 접근법 (문제점) | 팀 토폴로지 접근법 (해결책) |
 |:---|:---|
 | **Full-stack 맹신**: "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 니까 개발자가 AWS, K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD까지 다 알아서 해!" | **인지 부하 기반 설계**: "인간의 한계를 인정하라. 인프라는 플랫폼 팀이 추상화해서 제공한다." |
-| **[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 조직**: 기획팀 $\rightarrow$ 개발팀 $\rightarrow$ QA팀 $\rightarrow$ 운영팀 | **스트림 정렬**: 하나의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 책임지는 다기능 팀(Cross-functional Team) 중심 구성. |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 조직</strong>: 기획팀 $\rightarrow$ 개발팀 $\rightarrow$ QA팀 $\rightarrow$ 운영팀 | **스트림 정렬**: 하나의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 책임지는 다기능 팀(Cross-functional Team) 중심 구성. |
 | **소통 만능주의**: "타 부서와 무조건 소통을 많이 해라." | **소통 최소화 원칙**: 팀 간의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 외에는 불필요한 소통(의존성)을 끊어 인지 부하를 줄인다. |
 
 결국 좋은 아키텍처는 "어떻게 하면 팀끼리 회의를 안 하고(소통 안 하고) 각자 알아서 코드를 배포하게 만들까?"를 고민하는 것이다.
@@ -94,7 +93,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-팀 토폴로지를 적용할 때 기술사가 가장 주의해야 할 것은 **플랫폼 팀의 변질**이다.
+팀 토폴로지를 적용할 때 기술사가 가장 주의해야 할 것은 <strong>플랫폼 팀의 변질</strong>이다.
 
 - **📢 섹션 요약 비유**: 인지 부하 (Cognitive Load) 팀 토폴로지은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -131,21 +130,23 @@ MSA로의 시스템 개편은 단순히 코드를 쪼개는 기술적 행위가 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인지 부하 (Cognitive Load) 팀 토폴로지 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인지 부하 (Cognitive Load) 팀 토폴로지 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

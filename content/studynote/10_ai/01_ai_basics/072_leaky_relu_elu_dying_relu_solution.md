@@ -99,27 +99,39 @@ Leaky ReLU와 ELU는 학습 안정성을 높이는 선택지다.
 
 ## 관련 개념 맵
 
-```text
-ReLU
-  ↓
-Leaky ReLU / ELU
-  ↓
-Dying ReLU 해결
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Leaky ReLU / ELU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Dying ReLU 해결</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-ReLU
-  ↓
-Leaky ReLU
-  ↓
-ELU
-  ↓
-Activation Variants
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Leaky ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ELU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Activation Variants</div>
+</div>
+</div>
+
+
 
 ---
 

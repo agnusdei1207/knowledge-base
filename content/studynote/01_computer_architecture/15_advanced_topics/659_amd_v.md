@@ -25,16 +25,19 @@ AMD는 이 문제를 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam
 
 아래 그림은 AMD-V가 VMCB를 중심으로 host와 guest를 왕복시키는 기본 흐름을 보여준다.
 
-```text
-┌──────────────────────┐   VMRUN    ┌──────────────────────────┐
-│ Host / hypervisor    │ ───────▶  │ Guest execution          │
-│ reads and updates    │           │ under SVM guest mode     │
-│ VMCB                 │           │                          │
-└─────────┬────────────┘           └──────────┬───────────────┘
-          │                                   │
-          │   return on intercept             │
-          └───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VMRUN</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host / hypervisor</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Guest execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reads and updates</div><div class="kb-diagram-cell">under SVM guest mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return on intercept</div></div>
+</div>
+</div>
+
+
 
 결국 AMD-V의 필요성은 "게스트를 속여서 돌리는 기술"이 아니라 "게스트를 많이 건드리지 않고도 안전하게 함께 돌리는 기술"에 있다. 이 점이 서버 집적도와 클라우드 효율을 좌우한다.
 
@@ -74,7 +77,7 @@ AMD-V를 볼 때는 Intel VT-x와의 차이, 그리고 AMD 내부 확장 기능�
 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 태깅 | [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) | 가상 프로세서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Virtual Processor [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), VPID) |
 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 예 | AVIC | Intel posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 계열 |
 
-또 하나의 중요한 연결은 AMD-V와 SEV의 관계다. AMD-V는 어디까지나 **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 실용화하는 실행 기반**이고, SEV는 그 위에 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)를 더하는 보안 계층이다. 둘을 혼동하면 "AMD-V만 켜면 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 된다"는 잘못된 결론에 도달하게 된다.
+또 하나의 중요한 연결은 AMD-V와 SEV의 관계다. AMD-V는 어디까지나 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>를 실용화하는 실행 기반</strong>이고, SEV는 그 위에 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)를 더하는 보안 계층이다. 둘을 혼동하면 "AMD-V만 켜면 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 된다"는 잘못된 결론에 도달하게 된다.
 
 이 비교는 기술 선택에도 직접 연결된다. 예를 들어 장치 passthrough와 메모리 집약 워크로드가 핵심이면 AMD-V의 NPT와 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 조합이 특히 중요하고, 규제 환경에서 운영자 가시성까지 줄여야 한다면 SEV까지 범위를 넓혀 판단해야 한다.
 
@@ -121,21 +124,23 @@ AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Software virtualization limits on x86
-    │
-    ▼
-AMD-V with SVM host / guest split
-    │
-    ▼
-VMCB-based control path
-    │
-    ▼
-NPT / RVI · ASID · AVIC
-    │
-    ▼
-SEV and confidential computing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Software virtualization limits on x86</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AMD-V with SVM host / guest split</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMCB-based control path</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NPT / RVI · ASID · AVIC</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SEV and confidential computing</div>
+</div>
+</div>
+
+
 
 이 흐름은 "실행 분리 → 상태 관리 단순화 → 메모리/[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 → 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
 

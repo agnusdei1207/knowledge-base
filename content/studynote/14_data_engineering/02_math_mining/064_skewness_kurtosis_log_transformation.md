@@ -29,15 +29,21 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Raw Distribution
-  ↓
-Skewness / Kurtosis
-  ↓
-Transformation
-  ↓
-Stabilized Distribution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Raw Distribution</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Skewness / Kurtosis</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Transformation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Stabilized Distribution</div>
+</div>
+</div>
+
+
 
 | 지표 | 의미 |
 | :-- | :-- |
@@ -109,29 +115,41 @@ Stabilized Distribution
 
 ## 관련 개념 맵
 
-```text
-Distribution
-  ↓
-Skewness / Kurtosis
-  ↓
-Log Transformation
-  ↓
-Stabilized Modeling
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Distribution</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Skewness / Kurtosis</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Log Transformation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Stabilized Modeling</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-왜도
-  ↓
-첨도
-  ↓
-로그 변환
-  ↓
-분포 안정화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">왜도</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">첨도</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">로그 변환</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분포 안정화</div>
+</div>
+</div>
+
+
 
 ---
 

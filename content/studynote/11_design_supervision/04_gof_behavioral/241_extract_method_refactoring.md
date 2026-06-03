@@ -18,10 +18,10 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-메서드 분리 (Extract Method) 란 한 메서드 내에 묶인 코드 조각을 **별도 메서드**로 떼어내고, 원래 위치에서 새 메서드를 **호출**하도록 대체하는 기법이다. 마틴 파울러 (Martin Fowler) 의 『[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))』 목록에서 가장 자주 쓰이는 기법 1위에 해당한다.
+메서드 분리 (Extract Method) 란 한 메서드 내에 묶인 코드 조각을 <strong>별도 메서드</strong>로 떼어내고, 원래 위치에서 새 메서드를 <strong>호출</strong>하도록 대체하는 기법이다. 마틴 파울러 (Martin Fowler) 의 『[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))』 목록에서 가장 자주 쓰이는 기법 1위에 해당한다.
 
 - **롱 메서드 (Long Method)**: 한 메서드가 50줄을 넘어서면 이해와 테스트가 어려워진다.
-- **중복 코드 (Duplicated [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: 동일 로직이 여러 메서드에 산재해 수정 시 누락이 발생한다.
+- <strong>중복 코드 (Duplicated <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 동일 로직이 여러 메서드에 산재해 수정 시 누락이 발생한다.
 - **주석 의존성**: "// 주문 유효성 검사" 같은 주석은 분리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다.
 
 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 예시 |
@@ -31,53 +31,62 @@ tags = ["studynote-design-supervision"]
 | 메서드 길이 30줄 초과 | 실무 기준 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20줄 권고 |
 | 동일 코드 2회 이상 반복 | 복붙 후 변수명만 다름 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 긴 요리 레시피를 '양념장 만들기', '채소 다듬기' 같이 소분류로 쪼개는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-[ 분리 전 ]                          [ 분리 후 ]
-┌──────────────────────────────┐    ┌──────────────────────────────┐
-│ processOrder()               │    │ processOrder()               │
-│  ├─ // 주문 검증              │    │  ├─ validateOrder()  ◀─ 분리 │
-│  │   if (!order.valid) ...   │    │  ├─ calculateTotal() ◀─ 분리 │
-│  ├─ // 합계 계산              │    │  └─ sendConfirmation() ◀─ 분리│
-│  │   total = qty * price ... │    └──────────────────────────────┘
-│  └─ // 확인 메일              │    ┌─────────────────────────────┐
-│      sendEmail(...)          │    │ validateOrder()             │
-└──────────────────────────────┘    │  if (!order.valid) throw .. │
-                                    ├─────────────────────────────┤
-                                    │ calculateTotal()            │
-                                    │  return qty * price * tax   │
-                                    ├─────────────────────────────┤
-                                    │ sendConfirmation()          │
-                                    │  sendEmail(order.email)     │
-                                    └─────────────────────────────┘
-```
 
-1. **새 메서드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분리 전</div><div class="kb-diagram-node">분리 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">processOrder()</div><div class="kb-diagram-cell">processOrder()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 주문 검증</div><div class="kb-diagram-cell">─ validateOrder() ◀─ 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!order.valid) ...</div><div class="kb-diagram-cell">─ calculateTotal() ◀─ 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 합계 계산</div><div class="kb-diagram-cell">─ sendConfirmation() ◀─ 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">total = qty * price ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 확인 메일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendEmail(...)</div><div class="kb-diagram-cell">validateOrder()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!order.valid) throw ..</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">calculateTotal()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return qty * price * tax</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendConfirmation()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendEmail(order.email)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>새 메서드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
 2. **코드 복사** — 원본 블록을 새 메서드로 복사
 3. **지역 변수 처리** — 참조하는 지역 변수를 매개변수로 전달 또는 반환값 처리
 4. **원본 교체** — 원본 블록을 새 메서드 호출로 대체
 5. **컴파일·테스트** — 동작 불변 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-```
-┌─────────────────────────────────────────────────────┐
-│          지역 변수 처리 결정 트리                    │
-│                                                     │
-│  지역 변수 있음?                                    │
-│     ├─ 읽기만 함 ──▶ 매개변수로 전달               │
-│     ├─ 값 변경 후 계속 사용 ──▶ 반환값으로 처리    │
-│     └─ 여러 변수 변경 ──▶ 임시 변수 객체화 고려    │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 처리 결정 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 있음?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 읽기만 함 ──▶ 매개변수로 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 값 변경 후 계속 사용 ──▶ 반환값으로 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 여러 변수 변경 ──▶ 임시 변수 객체화 고려</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -97,7 +106,7 @@ tags = ["studynote-design-supervision"]
 | 클래스 분리 (Extract Class) | 큰 클래스 분해 | 필드+메서드 묶음 | 라지 클래스 존재 |
 | [파라미터 객체화](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) ([Introduce Parameter Object](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)) | 긴 매개변수 정리 | 매개변수 묶음 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 존재 |
 
-[단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/): [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) 은 클래스 수준이지만, Extract Method는 **메서드 수준**에서 SRP를 구현한다. 각 메서드가 **하나의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준 (Single Level of [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** 만 담당하도록 강제한다.
+[단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/): [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) 은 클래스 수준이지만, Extract Method는 <strong>메서드 수준</strong>에서 SRP를 구현한다. 각 메서드가 <strong>하나의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 수준 (Single Level of <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>)</strong> 만 담당하도록 강제한다.
 
 - **📢 섹션 요약 비유**: "물 끓이기 + 면 삶기 + 소스 만들기"를 하나의 작업 지시서에 쓰면 혼란스럽다 — 각각 분리된 레시피 카드가 SRP다.
 
@@ -108,16 +117,16 @@ tags = ["studynote-design-supervision"]
 
 - **IntelliJ IDEA**: `Ctrl+Alt+M` (macOS: `Cmd+Opt+M`)
 - **Eclipse**: `Alt+Shift+M`
-- **VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)**: 선택 후 전구 아이콘 → Extract Method
+- <strong>VS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong>: 선택 후 전구 아이콘 → Extract Method
 
 IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 결정한다.
 
-- **[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기준**: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 리뷰 시 메서드 길이 20줄 초과면 분리 요청이 표준 관례다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 기준</strong>: [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 리뷰 시 메서드 길이 20줄 초과면 분리 요청이 표준 관례다.
 - **테스트 용이성**: 분리된 작은 메서드는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 작성이 쉬워 [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/) 향상에 직결된다.
 - **온보딩 비용 절감**: 신규 개발자가 개별 메서드를 읽고 이해하는 시간이 50% 이상 단축된다는 실증 연구가 있다.
 
 - **과잉 분리**: 단 1~2줄 코드를 무조건 분리하면 오히려 호출 스택이 복잡해진다.
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 은 인라이닝 최적화를 수행하므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하는 실질적으로 없다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 은 인라이닝 최적화를 수행하므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하는 실질적으로 없다.
 - **이름 선택**: 동사+목적어 형태(`calculateTax`, `validateInput`)로 의도를 명확히 한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -138,7 +147,7 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 소요 시간 | 45분 | 20분 |
 | 버그 수정 사이클 | 2일 | 0.5일 |
 
-메서드 분리 (Extract Method) 는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 알파이자 오메가다. 코드를 **읽는 코드**로 만드는 첫 번째 도구이며, 이후 모든 고수준 패턴 적용의 **전제 조건**이다. 기술사 설계 논술에서는 레거시 시스템 개선 방안으로 "Extract Method + [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 보강"을 표준 답안으로 제시할 수 있다.
+메서드 분리 (Extract Method) 는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 알파이자 오메가다. 코드를 <strong>읽는 코드</strong>로 만드는 첫 번째 도구이며, 이후 모든 고수준 패턴 적용의 <strong>전제 조건</strong>이다. 기술사 설계 논술에서는 레거시 시스템 개선 방안으로 "Extract Method + [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 보강"을 표준 답안으로 제시할 수 있다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

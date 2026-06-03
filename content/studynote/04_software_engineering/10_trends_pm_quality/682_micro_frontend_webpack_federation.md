@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-백엔드 아키텍처는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 진화하며 팀별 자율성을 확보했다. 그러나 유저가 보는 프론트엔드는 여전히 거대한 하나의 React 앱(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application, SPA)으로 묶여 있었다. 이를 **프론트엔드 모놀리스(Frontend Monolith)**라고 부른다.
+백엔드 아키텍처는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 진화하며 팀별 자율성을 확보했다. 그러나 유저가 보는 프론트엔드는 여전히 거대한 하나의 React 앱(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application, SPA)으로 묶여 있었다. 이를 <strong>프론트엔드 모놀리스(Frontend Monolith)</strong>라고 부른다.
 
-모놀리식 프론트엔드 환경에서는 A팀이 검색 버튼 색깔 하나를 바꿨는데 앱 전체에 에러가 나거나, B팀의 작업이 끝날 때까지 A팀이 배포를 기다려야 하는 병목 현상이 생겼다. 백엔드를 아무리 잘게 쪼개도, 프론트엔드에서 하나로 뭉쳐 배포된다면 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 불가능하다. 이 병목을 깨기 위해 프론트엔드 화면 자체를 독립적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 쪼개서 각 팀이 책임지게 하는 **[마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)([Micro Frontend](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/346_process/))**가 등장했다.
+모놀리식 프론트엔드 환경에서는 A팀이 검색 버튼 색깔 하나를 바꿨는데 앱 전체에 에러가 나거나, B팀의 작업이 끝날 때까지 A팀이 배포를 기다려야 하는 병목 현상이 생겼다. 백엔드를 아무리 잘게 쪼개도, 프론트엔드에서 하나로 뭉쳐 배포된다면 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 불가능하다. 이 병목을 깨기 위해 프론트엔드 화면 자체를 독립적인 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 쪼개서 각 팀이 책임지게 하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/">마이크로 프론트엔드</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/346_process/">Micro Frontend</a>)</strong>가 등장했다.
 
 - **📢 섹션 요약 비유**: 옛날엔 신문 1면을 한 명의 편집장이 통째로 그려야만 인쇄(배포)할 수 있었다. [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 정치, 경제, 스포츠 부서가 각자의 기사 칸([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))을 알아서 채워 넣으면, 독자가 신문을 펼치는 순간 각 부서의 기사가 실시간으로 조합되는 방식이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) 웹팩 연계의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로 프론트엔드 웹팩 연계                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 프론트엔드 웹팩 연계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) 웹팩 연계가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 크게 **Host(호스트/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))**와 **Remote(리모트/마이크로 앱)**로 구성되며, 이들을 브라우저 화면에서 어떻게 합칠 것인가(통합 방식)가 핵심이다.
+[마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 크게 <strong>Host(호스트/<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)</strong>와 <strong>Remote(리모트/마이크로 앱)</strong>로 구성되며, 이들을 브라우저 화면에서 어떻게 합칠 것인가(통합 방식)가 핵심이다.
 
 - **📢 섹션 요약 비유**: [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) 웹팩 연계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -130,21 +129,23 @@ Webpack [Module](/knowledge-base/studynote/04_software_engineering/04_testing_qu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로 프론트엔드 웹팩 연계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 프론트엔드 웹팩 연계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -17,30 +17,27 @@ tags = ["database"]
 
 ### 데이터의 안전장치: ACID와 트랜잭션
 
-데이터베이스는 수많은 사람이 동시에 접근하여 데이터를 읽고 쓴다. 만약 한 사람이 은행 계좌에서 돈을 인출하는 도중에 시스템이 꺼지거나, 다른 사람이 동시에 같은 계좌의 잔액을 수정한다면 데이터는 엉망이 될 것이다. **트랜잭션**은 이러한 사고를 막기 위해 "전부 실행되거나, 아니면 아예 실행되지 않아야 한다 (All or Nothing)"는 논리적 울타리를 제공한다.
+데이터베이스는 수많은 사람이 동시에 접근하여 데이터를 읽고 쓴다. 만약 한 사람이 은행 계좌에서 돈을 인출하는 도중에 시스템이 꺼지거나, 다른 사람이 동시에 같은 계좌의 잔액을 수정한다면 데이터는 엉망이 될 것이다. <strong>트랜잭션</strong>은 이러한 사고를 막기 위해 "전부 실행되거나, 아니면 아예 실행되지 않아야 한다 (All or Nothing)"는 논리적 울타리를 제공한다.
 
-트랜잭션 관리가 필요한 이유는 세 가지이다. 첫째, **데이터의 원자성 (Atomicity)**을 지키기 위해서이다. 중간에 끊긴 작업은 반드시 취소되어야 한다. 둘째, **데이터의 고립성 (Isolation)**을 확보하기 위해서이며, 셋째, 장애 발생 후에도 데이터가 사라지지 않는 **영속성 (Durability)**을 보장하기 위함이다.
+트랜잭션 관리가 필요한 이유는 세 가지이다. 첫째, <strong>데이터의 원자성 (Atomicity)</strong>을 지키기 위해서이다. 중간에 끊긴 작업은 반드시 취소되어야 한다. 둘째, <strong>데이터의 고립성 (Isolation)</strong>을 확보하기 위해서이며, 셋째, 장애 발생 후에도 데이터가 사라지지 않는 <strong>영속성 (Durability)</strong>을 보장하기 위함이다.
 
 이 그림은 트랜잭션이 성공 (Commit)하거나 실패 (Rollback)할 때의 상태 전이를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Transaction State Transition                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│          [ Active ] ──(작업 수행)──▶ [ Partially Committed ] │
-│              │                             │                │
-│          (오류 발생)                     (최종 확인)        │
-│              ▼                             ▼                │
-│          [ Failed ] ◀──(중단)─────── [ Committed ]          │
-│              │                       (성공 완료!)           │
-│              ▼                                              │
-│          [ Aborted ] (Rollback 수행)                        │
-│                                                             │
-│   * ACID: Atomicity, Consistency, Isolation, Durability     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transaction State Transition</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Partially Committed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오류 발생) (최종 확인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Failed</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Committed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공 완료!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Aborted</div><div class="kb-diagram-note">(Rollback 수행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ACID: Atomicity, Consistency, Isolation, Durability</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '전부 아니면 무 (All or Nothing)'이다. 실무에서는 특히 `Partially Committed` 상태에서 디스크에 실제 데이터를 쓰기 전, 로그를 먼저 남기는 **WAL (Write Ahead Logging)** 기법이 영속성을 보장하는 핵심 아키텍처가 된다.
 
@@ -75,26 +72,25 @@ tags = ["database"]
 2. **Undo (취소)**: Commit되지 않은 트랜잭션의 내용을 원복. (원자성 보장)
 3. **Checkpoint**: 주기적으로 메모리 내용을 디스크와 동기화하여 복구 시간을 단축.
 
-이 구조도는 현대 DBMS의 대세인 **MVCC (Multi-Version Concurrency Control)**의 동작 원리를 보여준다.
+이 구조도는 현대 DBMS의 대세인 <strong>MVCC (Multi-Version Concurrency Control)</strong>의 동작 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 MVCC: Read non-blocking Write               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Current Data ] : Balance = 100 (Ver 1)                  │
-│          │                                                  │
-│   (Tx 1: Update to 150) ──▶ [ New Data ] : 150 (Ver 2)      │
-│                                     │ (Under Progress)      │
-│   (Tx 2: Read Data) ────────▶ [ Snapshot ] : 100 (Ver 1)    │
-│                                                             │
-│   * 효과: 쓰기 작업 중에도 읽기 작업이 멈추지 않고(Wait-free)│
-│     과거 버전을 조회하여 성능 극대화                        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'Non-blocking Read'이다. 락킹 방식에서는 쓰기 중인 데이터를 읽으려면 기다려야 했지만, MVCC는 **Undo 영역**에 보관된 과거 버전을 보여줌으로써 지연 시간을 없앤다. 실무에서는 이 구버전 데이터를 정리하는 **Vacuum (PostgreSQL)**이나 **Undo Retention (Oracle)** 관리가 운영의 관건이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVCC: Read non-blocking Write</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Current Data</div><div class="kb-diagram-note">: Balance = 100 (Ver 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">New Data</div><div class="kb-diagram-note">: 150 (Ver 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Under Progress)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Snapshot</div><div class="kb-diagram-note">: 100 (Ver 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 쓰기 작업 중에도 읽기 작업이 멈추지 않고(Wait-free)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 버전을 조회하여 성능 극대화</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'Non-blocking Read'이다. 락킹 방식에서는 쓰기 중인 데이터를 읽으려면 기다려야 했지만, MVCC는 <strong>Undo 영역</strong>에 보관된 과거 버전을 보여줌으로써 지연 시간을 없앤다. 실무에서는 이 구버전 데이터를 정리하는 <strong>Vacuum (PostgreSQL)</strong>이나 **Undo Retention (Oracle)** 관리가 운영의 관건이다.
 
 📢 **섹션 요약 비유**: 락킹이 '한 번에 한 명만 들어가는 도서관'이라면, MVCC는 '모든 사람에게 책의 복사본을 나누어 주어 각자 공부하게 하는 도서관'과 같습니다.
 
@@ -134,27 +130,25 @@ tags = ["database"]
 - **판단**: 낮은 격리 수준 (Read Committed)으로 인한 **Lost Update** 현상이다. 애플리케이션 레벨의 **낙관적 락 (Optimistic Lock)** - 버전 컬럼 활용 - 을 도입하거나, DB 레벨의 `SELECT ... FOR UPDATE` (비관적 락)를 사용하여 중요한 레코드에 대해 강한 직렬성을 부여한다. 또한 성능 향상을 위해 락의 범위를 '전체 테이블'이 아닌 '행 단위 (Row-level)'로 최소화한다.
 
 **시나리오 2: 갑작스러운 하드웨어 장애 후 DB 재기동 시 복구 시간이 너무 긴 상황**
-- **판단**: **체크포인트 (Checkpoint)** 주기가 너무 길어 분석해야 할 로그 양이 과다하다. 체크포인트 간격을 좁히거나, **증분 체크포인트 (Incremental Checkpoint)**를 활성화하여 메모리와 디스크의 간극을 수시로 줄인다. 또한 로그 파일이 저장된 디스크의 성능 (IOPS)을 점검하고, Redo 로그 파일의 크기를 최적화하여 로그 스위칭 오버헤드를 제어한다.
+- **판단**: **체크포인트 (Checkpoint)** 주기가 너무 길어 분석해야 할 로그 양이 과다하다. 체크포인트 간격을 좁히거나, <strong>증분 체크포인트 (Incremental Checkpoint)</strong>를 활성화하여 메모리와 디스크의 간극을 수시로 줄인다. 또한 로그 파일이 저장된 디스크의 성능 (IOPS)을 점검하고, Redo 로그 파일의 크기를 최적화하여 로그 스위칭 오버헤드를 제어한다.
 
 이 도식은 데이터베이스의 **데드락 (Deadlock)** 탐지 및 해결 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Deadlock Detection and Victim Selection       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Transaction A ] ──(Wait)──▶ [ Lock by B ]               │
-│          ▲                             │                    │
-│          └──────── (Wait) ◀────────────┘                    │
-│                                                             │
-│   [ DBMS Monitoring ] ──▶ [ Cycle Found! ] ──▶ [ Selection ]│
-│                                                     │       │
-│   * Victim 선정 기준: 1. 가장 적게 작업한 Tx                │
-│                       2. 가장 최근에 시작한 Tx              │
-│   [ Decision ] ──▶ [ Kill Victim ] ──▶ [ Rollback & Resume ]│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock Detection and Victim Selection</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transaction A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock by B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wait) ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS Monitoring</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cycle Found!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Victim 선정 기준: 1. 가장 적게 작업한 Tx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가장 최근에 시작한 Tx</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Decision</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kill Victim</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rollback &amp; Resume</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 동시성 설계는 '교차로 신호 체계'와 같습니다. 차가 많다고 신호를 무작정 길게 주면 정체(성능 저하)가 생기고, 신호가 없으면 사고(데이터 오염)가 납니다. 통행량과 사고 위험을 계산하여 최적의 신호 주기(격리 수준)를 결정하는 전문가입니다.
 
@@ -169,7 +163,7 @@ tags = ["database"]
 
 ### 미래 전망: 분산 트랜잭션의 한계 돌파와 Saga 패턴
 
-마이크로서비스 아키텍처 (MSA)에서는 여러 DB에 걸친 트랜잭션 관리가 어렵다. 고전적인 **2단계 커밋 (2PC)**은 성능 병목과 장애 전파 위험이 크다. 이에 따라 최근에는 각 서비스가 트랜잭션을 처리하고 실패 시 보상 트랜잭션을 날리는 **Saga 패턴**이 표준으로 자리 잡고 있다. 또한 하드웨어 레벨에서 트랜잭션을 지원하는 **Intel TSX**나 **비휘발성 메모리 (NVM)** 기술이 결합되어, 로그 기록 오버헤드가 거의 없는 초광속 회복 시스템이 실현될 전망이다.
+마이크로서비스 아키텍처 (MSA)에서는 여러 DB에 걸친 트랜잭션 관리가 어렵다. 고전적인 <strong>2단계 커밋 (2PC)</strong>은 성능 병목과 장애 전파 위험이 크다. 이에 따라 최근에는 각 서비스가 트랜잭션을 처리하고 실패 시 보상 트랜잭션을 날리는 <strong>Saga 패턴</strong>이 표준으로 자리 잡고 있다. 또한 하드웨어 레벨에서 트랜잭션을 지원하는 <strong>Intel TSX</strong>나 **비휘발성 메모리 (NVM)** 기술이 결합되어, 로그 기록 오버헤드가 거의 없는 초광속 회복 시스템이 실현될 전망이다.
 
 📢 **섹션 요약 비유**: 미래의 트랜잭션은 '완벽한 기억력을 가진 타임머신'과 같아질 것입니다. 어떤 실수를 하더라도, 어떤 사고가 나더라도, 시스템이 기억하는 가장 완벽한 과거의 순간으로 찰나의 순간에 되돌아가는 마법 같은 안정성이 보장될 것입니다.
 

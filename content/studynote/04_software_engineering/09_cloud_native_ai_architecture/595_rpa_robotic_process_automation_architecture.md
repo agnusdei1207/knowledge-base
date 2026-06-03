@@ -20,35 +20,34 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))**: 사람 대신 마우스를 움직이고 키보드를 쳐주는 매크로(Macro) 로봇. 백엔드(DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하는 게 아니라, 사람이 보는 앞단 껍데기(UI 화면)를 강제로 긁어서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐 오고 버튼을 누르는 UI 기반 자동화 툴 (UiPath, UiPath, Automation Anywhere 등).
+  - <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">RPA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">Robotic Process Automation</a>)</strong>: 사람 대신 마우스를 움직이고 키보드를 쳐주는 매크로(Macro) 로봇. 백엔드(DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하는 게 아니라, 사람이 보는 앞단 껍데기(UI 화면)를 강제로 긁어서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐 오고 버튼을 누르는 UI 기반 자동화 툴 (UiPath, UiPath, Automation Anywhere 등).
 
-- **필요성 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 없는 꽉 막힌 레거시 섬의 공포)**: 은행원이 매일 아침 9시에 출근해서 1) 정부 홈택스 사이트 로그인 ➡ 2) 엑셀 100줄 다운 ➡ 3) 20년 된 사내 C++ 낡은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 켜서 복붙 엔터 100번 치기 노가다를 3시간씩 했다. 신입 개발자가 "야 이거 파이썬으로 자동화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 뚫자 ㅋ" 깝쳤다. **"근데 정부 홈택스는 API를 안 열어주고 막아놨네? 사내 20년 된 ERP도 DB 권한 안 주고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 자체가 세상에 존재하질 않네?! 코딩으로 엮을 구멍이 1도 없잖아 ㅆㅂ!!" (레거시 폐쇄망 딜레마).** "아씨발, API가 없으면 걍 로봇 1마리 띄워서 내 노트북 마우스 뺏은 다음 지가 알아서 클릭 100번 하고 엑셀 복붙 치게 만들면 되잖아!!" 이 극강의 무식하고도 직관적인 돌파구가 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 산업을 10조 원 규모로 폭발시켰다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 없는 꽉 막힌 레거시 섬의 공포)</strong>: 은행원이 매일 아침 9시에 출근해서 1) 정부 홈택스 사이트 로그인 ➡ 2) 엑셀 100줄 다운 ➡ 3) 20년 된 사내 C++ 낡은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 켜서 복붙 엔터 100번 치기 노가다를 3시간씩 했다. 신입 개발자가 "야 이거 파이썬으로 자동화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 뚫자 ㅋ" 깝쳤다. <strong>"근데 정부 홈택스는 API를 안 열어주고 막아놨네? 사내 20년 된 ERP도 DB 권한 안 주고 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 자체가 세상에 존재하질 않네?! 코딩으로 엮을 구멍이 1도 없잖아 ㅆㅂ!!" (레거시 폐쇄망 딜레마).</strong> "아씨발, API가 없으면 걍 로봇 1마리 띄워서 내 노트북 마우스 뺏은 다음 지가 알아서 클릭 100번 하고 엑셀 복붙 치게 만들면 되잖아!!" 이 극강의 무식하고도 직관적인 돌파구가 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 산업을 10조 원 규모로 폭발시켰다.
 
-- **💡 비유**: 일반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 백엔드 자동화가 **'주방장(서버)들끼리 몰래 뒷문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 레시피 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))을 깔끔하게 서로 0.1초 만에 넘겨주고받는 짓'**이라면, RPA는 뒷문이 막혀서 빡친 주방장이 아예 **'손님으로 위장한 홀로그램 로봇([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇)'**을 정문(UI 화면)으로 들여보내는 짓입니다. 로봇이 메뉴판(HTML)을 직접 두 눈(OCR)으로 읽고, 종업원한테 "이거 줘!"(마우스 클릭) 육성으로 떠들어서 영수증을 받아온 뒤 다시 주방으로 가져와서 건네주는 무식하지만 100% 확실한 앞문 침투술(Front-door Automation)입니다.
+- **💡 비유**: 일반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 백엔드 자동화가 <strong>'주방장(서버)들끼리 몰래 뒷문(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)으로 레시피 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>)을 깔끔하게 서로 0.1초 만에 넘겨주고받는 짓'</strong>이라면, RPA는 뒷문이 막혀서 빡친 주방장이 아예 <strong>'손님으로 위장한 홀로그램 로봇(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">RPA</a> 봇)'</strong>을 정문(UI 화면)으로 들여보내는 짓입니다. 로봇이 메뉴판(HTML)을 직접 두 눈(OCR)으로 읽고, 종업원한테 "이거 줘!"(마우스 클릭) 육성으로 떠들어서 영수증을 받아온 뒤 다시 주방으로 가져와서 건네주는 무식하지만 100% 확실한 앞문 침투술(Front-door Automation)입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **단순 매크로 (과거 엑셀 VBA 시대)**: 마우스 좌표 (X:100, Y:200) 무지성 클릭. 해상도 1픽셀만 틀어져도 허공 클릭하고 망함 (극도의 쓰레기).
-  2. **오브젝트 인식 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) (과도기, UiPath 대폭발)**: 좌표가 아니라 웹 HTML의 `<button id="login">` DOM 태그 뼈대 구조를 낚아채서 클릭함. 창 크기 늘어나도 귀신같이 버튼 쫓아가서 누름. 전 세계 대기업 은행/보험사 행정직 10만 명 해고 붐.
+  2. <strong>오브젝트 인식 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">RPA</a> (과도기, UiPath 대폭발)</strong>: 좌표가 아니라 웹 HTML의 `<button id="login">` DOM 태그 뼈대 구조를 낚아채서 클릭함. 창 크기 늘어나도 귀신같이 버튼 쫓아가서 누름. 전 세계 대기업 은행/보험사 행정직 10만 명 해고 붐.
   3. **지능형 자동화 (IPA, 현재)**: "버튼 태그 이름이 `id="signin"`으로 사이트 개편돼서 로봇이 뻗었어요 ㅠㅠ" ➡ "야 걍 GPT-4([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시력(Vision) 달아줘서, 화면 캡처 찰칵 찍어주고 '결제처럼 생긴 버튼 니가 알아서 유추해서 눌러' 시켜!" 룰베이스 한계 돌파. (587장 [Agentic AI](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/587_agentic_ai_autonomous_tools/) 연계).
 
-- **📢 섹션 요약 비유**: 이 진화는 **'공장 나사 조이기 로봇'**과 똑같습니다. 옛날 매크로(좌표 클릭)는 눈을 감고 정확히 10cm 앞에 팔을 뻗어 조이는 멍청한 기계라, 부품이 1cm만 엇나가면 허공에 드라이버를 돌렸습니다. 2세대 RPA는 부품에 달린 '바코드(HTML 태그)'를 스캔해서 정확히 찾아가 조였습니다. 지금의 3세대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 RPA는 아예 로봇에 카메라 눈(Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 달아서, 나사 모양이 세모로 바뀌든 네모로 바뀌든 지가 알아서 "아 이거 조이는 거네 ㅋ" 유추해서 드라이버를 바꿔 끼우고 조이는 소름 돋는 자율 주행 로봇입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'공장 나사 조이기 로봇'</strong>과 똑같습니다. 옛날 매크로(좌표 클릭)는 눈을 감고 정확히 10cm 앞에 팔을 뻗어 조이는 멍청한 기계라, 부품이 1cm만 엇나가면 허공에 드라이버를 돌렸습니다. 2세대 RPA는 부품에 달린 '바코드(HTML 태그)'를 스캔해서 정확히 찾아가 조였습니다. 지금의 3세대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 RPA는 아예 로봇에 카메라 눈(Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 달아서, 나사 모양이 세모로 바뀌든 네모로 바뀌든 지가 알아서 "아 이거 조이는 거네 ㅋ" 유추해서 드라이버를 바꿔 끼우고 조이는 소름 돋는 자율 주행 로봇입니다.
 
 ---
 
 다음은 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) (Robotic Process의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  RPA (Robotic Process                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPA (Robotic Process</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) (Robotic Process가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 봇 결합 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 봇 결합 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 봇 결합 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-RPA (Robotic Process Automation) 봇 결합 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RPA (Robotic Process Automation) 봇 결합 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

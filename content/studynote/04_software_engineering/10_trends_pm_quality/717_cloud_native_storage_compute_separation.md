@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 이 방식은 치명적인 단점이 있었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100TB로 늘어나서 하드디스크를 늘려야 하는데, 어쩔 수 없이 필요하지도 않은 CPU와 메모리가 달린 비싼 통짜 서버를 통째로 사서 이어 붙여야 했다. 반대로 연말 정산 기간에 복잡한 연산(CPU)이 필요할 때도 빈 껍데기 하드디스크가 달린 서버를 사야만 했다. 확장(Scaling)의 비율이 맞지 않아 엄청난 돈 낭비가 발생했다.
 
-아마존(AWS S3)과 같은 무한대의 저렴한 클라우드 오브젝트 스토리지가 등장하면서, 아키텍트들은 깨달았다. **"계산(Compute)은 필요할 때만 잠깐 빌려 쓰고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Storage)는 영구적이고 싼 곳에 따로 모아두면 되지 않을까?"** 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 핵심인 **컴퓨팅-스토리지 분리(Separation of Compute and Storage)**의 탄생이다.
+아마존(AWS S3)과 같은 무한대의 저렴한 클라우드 오브젝트 스토리지가 등장하면서, 아키텍트들은 깨달았다. <strong>"계산(Compute)은 필요할 때만 잠깐 빌려 쓰고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Storage)는 영구적이고 싼 곳에 따로 모아두면 되지 않을까?"</strong> 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 핵심인 <strong>컴퓨팅-스토리지 분리(Separation of Compute and Storage)</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 많아지면 무조건 책상(컴퓨팅)이 딸린 비싼 공부방을 통째로 빌려야 했다. 지금은 책은 싸고 거대한 지하 창고(S3)에 다 처박아 두고, 공부할 때만 도서관 빈 책상(EC2)을 잠깐 빌려서 책을 가져다 읽고 반납하는 완벽한 분업이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 스토리지 컴퓨팅 분의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 네이티브 스토리지 컴퓨팅 분                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 네이티브 스토리지 컴퓨팅 분</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 스토리지 컴퓨팅 분가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) + [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) (AWS S3 + [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)/Presto) |
 |:---|:---|:---|
-| **기본 철학** | **"코드를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 보내라"** ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)) | **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 코드가 있는 곳으로 가져와라"** (Separation) |
+| **기본 철학** | <strong>"코드를 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 곳으로 보내라"</strong> ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)) | <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 코드가 있는 곳으로 가져와라"</strong> (Separation) |
 | **인프라 결합** | 컴퓨팅(서버)과 스토리지(하드)가 물리적으로 한 몸 | 컴퓨팅(EC2)과 스토리지(S3)가 분리됨 |
-| **네트워크 요구**| 저속 랜선 환경에서도 작동하도록 고안됨 | **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 클라우드 네트워크(100Gbps 이상) 필수** |
+| **네트워크 요구**| 저속 랜선 환경에서도 작동하도록 고안됨 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 클라우드 네트워크(100Gbps 이상) 필수</strong> |
 | **비용 최적화** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커지면 쓸데없는 CPU도 같이 늘어나 비효율 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관비용(S3)과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행비용(EC2)이 따로 청구됨 |
 
 과거에는 네트워크가 너무 느렸기 때문에 하드디스크가 있는 곳으로 CPU 계산을 보내는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 방식이 정답이었다. 하지만 현재는 AWS 네트워크가 내부 하드디스크 읽는 속도만큼 빨라졌기 때문에, 컴퓨팅과 스토리지를 떼어내는 아키텍처가 승리했다.
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라우드 네이티브 스토리지 컴퓨팅 분리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 스토리지 컴퓨팅 분리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

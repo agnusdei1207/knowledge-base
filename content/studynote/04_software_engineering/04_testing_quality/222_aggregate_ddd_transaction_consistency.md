@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 실무의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(비즈니스) 모델을 만들면 자바 클래스(객체)가 수백 개 쏟아집니다.
-- 객체들끼리 거미줄처럼 화살표([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))가 얽혀 있습니다. 아무나 아무 객체나 직접 끄집어내서 값([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 고치다 보면, **"주문 총액은 5만 원인데, 주문 상품 2개의 합은 3만 원인" 논리적 모순 상태([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 붕괴)**가 필연적으로 터집니다.
+- 객체들끼리 거미줄처럼 화살표([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))가 얽혀 있습니다. 아무나 아무 객체나 직접 끄집어내서 값([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 고치다 보면, <strong>"주문 총액은 5만 원인데, 주문 상품 2개의 합은 3만 원인" 논리적 모순 상태(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 붕괴)</strong>가 필연적으로 터집니다.
 
 - **📢 섹션 요약 비유**: 애그리게이트 (Aggregate)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 애그리게이트 (Aggregate)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  애그리게이트 (Aggregate)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애그리게이트 (Aggregate)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 애그리게이트 (Aggregate)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,8 +48,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 관련된 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체들(엔티티와 값 객체들)을 **논리적으로 하나의 '거대한 군집(덩어리)'으로 묶어낸 것**입니다. 
-- 이 비닐봉지로 묶인 군집은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변경될 때 **무조건 다 같이 살고 다 같이 죽는 '하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 변경 단위'**로 작동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 완벽하게 지켜냅니다.
+- **개념**: 관련된 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체들(엔티티와 값 객체들)을 <strong>논리적으로 하나의 '거대한 군집(덩어리)'으로 묶어낸 것</strong>입니다. 
+- 이 비닐봉지로 묶인 군집은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변경될 때 <strong>무조건 다 같이 살고 다 같이 죽는 '하나의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 변경 단위'</strong>로 작동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 완벽하게 지켜냅니다.
 
 - **📢 섹션 요약 비유**: 애그리게이트 (Aggregate)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,9 +88,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 수백 개의 더러운 객체 거미줄이 **수십 개의 깔끔한 비닐봉지(애그리게이트) 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**되어 아키텍처가 미치도록 단순하고 직관적으로 변합니다. (복잡도 감소)
+- 수백 개의 더러운 객체 거미줄이 <strong>수십 개의 깔끔한 비닐봉지(애그리게이트) 단위로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>되어 아키텍처가 미치도록 단순하고 직관적으로 변합니다. (복잡도 감소)
 
-> 📢 **섹션 요약 비유**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 수많은 객체들은 **'자동차를 구성하는 수만 개의 부품(바퀴, 엔진, 핸들)'**입니다. 만약 멍청한 정비사가 바퀴(내부 객체)만 쏙 빼서 자전거 바퀴로 맘대로 갈아 끼우면, 자동차는 달릴 수 없는 고철 덩어리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모순)가 됩니다. **애그리게이트(Aggregate)**는 이 수만 개의 부품을 조립해 **'완성된 자동차 1대(하나의 군집)'**로 꽁꽁 묶어 철판 껍데기(비닐봉지)를 씌워버린 것입니다. 이 껍데기 밖으로 튀어나온 유일한 대장 조종 장치는 **'운전대(애그리게이트 루트)'**뿐입니다. 외부의 운전자는 절대 엔진이나 바퀴를 직접 손으로 잡아 돌릴 수 없습니다. 무조건 운전대(루트 엔티티)를 돌려서 명령을 내려야만, 자동차의 내부 컴퓨터(루트)가 브레이크와 바퀴의 상태(전체 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 규칙)를 완벽하게 검사한 뒤 안전하게 바퀴를 꺾어줍니다. 관련된 부품들을 다 같이 살고 다 같이 죽는 하나의 완벽한 운명 공동체([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 단위)로 묶어, 외부의 무식한 조작으로부터 시스템의 붕괴를 철통같이 막아내는 객체지향 설계의 진수입니다.
+> 📢 **섹션 요약 비유**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 수많은 객체들은 <strong>'자동차를 구성하는 수만 개의 부품(바퀴, 엔진, 핸들)'</strong>입니다. 만약 멍청한 정비사가 바퀴(내부 객체)만 쏙 빼서 자전거 바퀴로 맘대로 갈아 끼우면, 자동차는 달릴 수 없는 고철 덩어리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모순)가 됩니다. <strong>애그리게이트(Aggregate)</strong>는 이 수만 개의 부품을 조립해 <strong>'완성된 자동차 1대(하나의 군집)'</strong>로 꽁꽁 묶어 철판 껍데기(비닐봉지)를 씌워버린 것입니다. 이 껍데기 밖으로 튀어나온 유일한 대장 조종 장치는 <strong>'운전대(애그리게이트 루트)'</strong>뿐입니다. 외부의 운전자는 절대 엔진이나 바퀴를 직접 손으로 잡아 돌릴 수 없습니다. 무조건 운전대(루트 엔티티)를 돌려서 명령을 내려야만, 자동차의 내부 컴퓨터(루트)가 브레이크와 바퀴의 상태(전체 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 규칙)를 완벽하게 검사한 뒤 안전하게 바퀴를 꺾어줍니다. 관련된 부품들을 다 같이 살고 다 같이 죽는 하나의 완벽한 운명 공동체([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 단위)로 묶어, 외부의 무식한 조작으로부터 시스템의 붕괴를 철통같이 막아내는 객체지향 설계의 진수입니다.
 
 - **📢 섹션 요약 비유**: 애그리게이트 (Aggregate)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -136,21 +135,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-애그리게이트 (Aggregate) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애그리게이트 (Aggregate) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

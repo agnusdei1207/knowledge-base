@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 표준의 두 번째 주파수 대역으로, **24.25 GHz부터 52.6 GHz 사이의 극도로 높은 초고주파 대역**을 의미합니다. (한국은 28 GHz 대역을 할당했었습니다.)
-- **[밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))**: 전파의 파장 길이가 1mm ~ 10mm 정도로 매우 짧다고 해서 붙여진 이름입니다.
+- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 표준의 두 번째 주파수 대역으로, <strong>24.25 GHz부터 52.6 GHz 사이의 극도로 높은 초고주파 대역</strong>을 의미합니다. (한국은 28 GHz 대역을 할당했었습니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>)</strong>: 전파의 파장 길이가 1mm ~ 10mm 정도로 매우 짧다고 해서 붙여진 이름입니다.
 
-```text
-[FR1 주파수]
-    │
-    ▼
-[FR2 주파수]
-    │
-    └──▶ [NSA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FR1 주파수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FR2 주파수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FR2 주파수는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,21 +43,25 @@ tags = ["studynote-network"]
 
 ### 1. 빛을 발하는 장점: 무한한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) 달성)
 - 이 높은 주파수 동네는 아무도 살지 않는 '광활한 텍사스 평야'입니다. 
-- 통신사들이 800MHz 폭이라는 어마어마하게 넓은 초대형 차선을 통째로 가져다 쓸 수 있습니다. 덕분에 5G의 3대 목표 중 하나인 **[eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)(최대 20Gbps 속도)**를 물리적으로 100% 뽑아내어, 수만 명이 모인 경기장에서 8K VR 홀로그램 영상을 끊김 없이 볼 수 있는 마법을 부립니다.
+- 통신사들이 800MHz 폭이라는 어마어마하게 넓은 초대형 차선을 통째로 가져다 쓸 수 있습니다. 덕분에 5G의 3대 목표 중 하나인 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>(최대 20Gbps 속도)</strong>를 물리적으로 100% 뽑아내어, 수만 명이 모인 경기장에서 8K VR 홀로그램 영상을 끊김 없이 볼 수 있는 마법을 부립니다.
 
 ### 2. 최악의 단점: 끔찍한 투과력과 짧은 사거리
-- 파장이 짧은 초고주파 전파는 물리적으로 완벽하게 **빛(레이저)과 같은 '직진성'**을 가집니다.
+- 파장이 짧은 초고주파 전파는 물리적으로 완벽하게 <strong>빛(레이저)과 같은 '직진성'</strong>을 가집니다.
 - **경로 손실 (Path Loss)**: 허공을 날아가는 동안 공기 중의 산소와 수분에 에너지를 뺏겨 순식간에 소멸합니다. 기지국에서 100m~200m만 벗어나도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 떨어집니다.
 - **회절성 제로 (장애물 붕괴)**: 건물 콘크리트 벽은 절대 못 뚫습니다. 심지어 길거리 나무의 나뭇잎, 비 오는 날씨, 사용자가 폰을 쥔 손가락에 가려져도 전파가 막혀 통신이 끊깁니다.
 
-```text
-[FR1 주파수]
-    │
-    ▼
-[FR2 주파수]
-    │
-    └──▶ [NSA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FR1 주파수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FR2 주파수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FR2 주파수의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,11 +69,11 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. **대형 [스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/) ([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)) 조밀 구성 (네트워크 토폴로지)**
+1. <strong>대형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 조밀 구성 (네트워크 토폴로지)</strong>
    - 옥상에 거대한 기지국(매크로 셀) 하나 세워봐야 200m 밖으론 전파가 안 갑니다.
    - **대책**: 도시의 모든 가로등, 전봇대, 신호등, 지하철 천장마다 반경 50m를 커버하는 공유기 크기의 소형 기지국([스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))을 수십만 개씩 도배(Densification)해야만 FR2를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)할 수 있습니다. (천문학적 구축 비용 발생)
 
-2. **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 빔 트래킹 ([스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/))**
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)과 빔 트래킹 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/">스마트 안테나</a>)</strong>
    - 허공으로 흩어지는 전파의 힘을 한데 모아, 레이저 포인터처럼 가입자(스마트폰)의 위치로만 정밀하게 쏘아 보내어 짧은 사거리를 억지로 늘리고 장애물을 피하게 만드는 필수 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술입니다. (777번 문서에서 상세히 다룸)
 
 FR2 주파수를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FR1 주파수가 기반 조건을 만든다면, FR2 주파수는 그 위에서 핵심 메커니즘을 구현하고, NSA는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -82,7 +90,7 @@ FR2 주파수를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-미국은 야구장이나 광장 위주로 조금 깔았지만, 한국 통신사(SKT, KT, LGU+)들은 수만 개의 가로등에 [스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)을 도배할 투자비(조 단위)를 감당하지 못하고 결국 **정부에 28GHz 주파수를 반납(포기)해 버리는 사태**가 발생했습니다. 현재 한국의 일반 스마트폰 사용자는 이 20Gbps짜리 '진짜 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(FR2)'를 사실상 쓸 수 없으며, B2B 공장 전용망(이음5G) 등에서만 제한적으로 부활을 노리고 있습니다.
+미국은 야구장이나 광장 위주로 조금 깔았지만, 한국 통신사(SKT, KT, LGU+)들은 수만 개의 가로등에 [스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)을 도배할 투자비(조 단위)를 감당하지 못하고 결국 <strong>정부에 28GHz 주파수를 반납(포기)해 버리는 사태</strong>가 발생했습니다. 현재 한국의 일반 스마트폰 사용자는 이 20Gbps짜리 '진짜 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(FR2)'를 사실상 쓸 수 없으며, B2B 공장 전용망(이음5G) 등에서만 제한적으로 부활을 노리고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,15 +121,19 @@ FR2 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FR1 주파수]
-    │
-    ▼
-[현재 개념: FR2 주파수]
-    │
-    ├──▶ [확장 A: NSA]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FR1 주파수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FR2 주파수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NSA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 FR2 주파수는 FR1 주파수에서 출발해 현재 메커니즘을 정교화하고, 이후 NSA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

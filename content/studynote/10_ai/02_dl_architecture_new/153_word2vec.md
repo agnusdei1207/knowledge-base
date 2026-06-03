@@ -10,15 +10,15 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Word2Vec은 "비슷한 위치(문맥)에 등장하는 단어는 비슷한 의미를 가진다"는 언어학의 분포 가설(Distributional Hypothesis)을 바탕으로, 단어를 무의미한 0 떡칠의 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 깡통에서 ➔ **인공신경망이 수학적으로 연산 가능한 300차원의 꽉 찬 고밀집 실수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Dense Vector)로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 치환해 버리는 구글의 혁명적 1세대 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 믹서기**다.
+> 1. **본질**: Word2Vec은 "비슷한 위치(문맥)에 등장하는 단어는 비슷한 의미를 가진다"는 언어학의 분포 가설(Distributional Hypothesis)을 바탕으로, 단어를 무의미한 0 떡칠의 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 깡통에서 ➔ <strong>인공신경망이 수학적으로 연산 가능한 300차원의 꽉 찬 고밀집 실수 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(Dense Vector)로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 치환해 버리는 구글의 혁명적 1세대 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 믹서기</strong>다.
 > 2. **가치**: 이 믹서기 덕분에 컴퓨터는 단어의 뜻을 '거리와 방향(Vector)'으로 계산할 수 있게 되었다. **"왕(King) - 남자(Man) + 여자(Woman) = 여왕(Queen)"** 이라는 전설적인 단어 의미의 기하학적 덧셈/뺄셈 연산(Semantic Math)을 완벽히 증명해 내며, 자연어 처리(NLP)를 노가다 if-else 문법 분석에서 ➔ 딥러닝 텐서 수학의 제국으로 강제 이주 차원 도약시킨 개국 공신이다.
-> 3. **판단 포인트**: 극강의 학습 속도를 뽐내지만 깊은 뇌([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))가 없는 얕은 신경망(Shallow NN)이라 ➔ **"타는 '배(Ship)'와 먹는 '배(Pear)'를 구별하지 못하고 똑같은 벡터 좌표 1개에 억지로 쑤셔 박아버리는 정적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Static)의 치명적 한계(다의어 인식 불가 맹점 💀)"**를 안고 있어, 현재는 BERT와 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에게 왕좌를 물려주고 가벼운 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 연관어 봇으로 은퇴 꿀을 빨고 있다.
+> 3. **판단 포인트**: 극강의 학습 속도를 뽐내지만 깊은 뇌([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))가 없는 얕은 신경망(Shallow NN)이라 ➔ <strong>"타는 '배(Ship)'와 먹는 '배(Pear)'를 구별하지 못하고 똑같은 벡터 좌표 1개에 억지로 쑤셔 박아버리는 정적 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(Static)의 치명적 한계(다의어 인식 불가 맹점 💀)"</strong>를 안고 있어, 현재는 BERT와 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에게 왕좌를 물려주고 가벼운 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 연관어 봇으로 은퇴 꿀을 빨고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 왜 '[Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-자연어 처리(NLP) 초창기, 코더들은 컴퓨터한테 단어를 가르치려고 **[원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)([One-Hot Encoding](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))**이라는 미친 노가다 삽질을 쳤다. 
+자연어 처리(NLP) 초창기, 코더들은 컴퓨터한테 단어를 가르치려고 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">One-Hot Encoding</a>)</strong>이라는 미친 노가다 삽질을 쳤다. 
 사전에 단어가 10만 개면? 10만 칸짜리 엑셀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들고 "사과는 1번째 칸만 `1`, 나머진 싹 다 `0` 떡칠 ㅋ", "바나나는 2번째 칸만 `1` ㅋ" 식으로 코딩했다. 
 **대재앙 발동 💥**: 단어 1개 저장하는데 쓸데없이 0이 99,999개 달린 쓰레기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 램에 띄우느라 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/)) 메모리 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 타죽음 뻗음이 터졌다 💀!! 더 끔찍한 건 '사과'와 '바나나'의 유사도(거리)를 쟀더니 100% 직교(수직)해서, "둘 다 과일이라는 공통점"을 컴퓨터 뇌는 평생 죽었다 깨어나도 1바이트 찌끄레기조차 이해할 수가 없었다(의미의 붕괴 파국 💥).
 
@@ -27,7 +27,7 @@ tags = ["studynote-ai"]
 어떻게? 위키백과 수백억 문장 텍스트를 기계한테 무지성으로 읽히면서 ➔ [주변 앞뒤에 같이 자주 나타나는 이웃 단어들([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 우주 공간 좌표에서도 서로 손잡고 찰싹 달라붙게 멱살 잡아 끌어당겨 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 치는 인공신경망 학습] 을 돌려버려 🚀!!!**" 
 이것이 글자 모양이 1도 달라도 '의미(Semantic)'가 같으면 우주 공간에서 귀신같이 뭉쳐버리는(유사도 스키 타기) 밀집 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 혁명 Word2Vec의 위대한 탄생이다.
 
-- **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 깡통은 도서관 책 10만 권을 수납장 10만 칸에 하나씩 대충 쑤셔 넣고 **"1번 방은 해리포터, 2번 방은 미적분"** 식으로 무지성 자리 번호만 매긴 바보 사서입니다. Word2Vec은 천재 사서가 책을 다 읽어보고 내용(문맥)을 파악해서 ➔ **'우주선, 로봇 나오는 책은 3층 왼쪽 끝방에 끼리끼리 예쁘게 모아 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 수납 록온 치는 것'**입니다! "스타워즈 책 어딨어요?" 물어보면 그 방으로 뛰어가서 제일 근처에 있는 '마션' 책을 1초 컷으로 꺼내어 비슷한 장르(유사도 뭉침 ✨)를 찰떡같이 찔러 주는 우주 공간 해킹술입니다.
+- **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 깡통은 도서관 책 10만 권을 수납장 10만 칸에 하나씩 대충 쑤셔 넣고 **"1번 방은 해리포터, 2번 방은 미적분"** 식으로 무지성 자리 번호만 매긴 바보 사서입니다. Word2Vec은 천재 사서가 책을 다 읽어보고 내용(문맥)을 파악해서 ➔ <strong>'우주선, 로봇 나오는 책은 3층 왼쪽 끝방에 끼리끼리 예쁘게 모아 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 수납 록온 치는 것'</strong>입니다! "스타워즈 책 어딨어요?" 물어보면 그 방으로 뛰어가서 제일 근처에 있는 '마션' 책을 1초 컷으로 꺼내어 비슷한 장르(유사도 뭉침 ✨)를 찰떡같이 찔러 주는 우주 공간 해킹술입니다.
 
 ---
 
@@ -35,41 +35,40 @@ tags = ["studynote-ai"]
 
 Word2Vec은 수백 층의 딥러닝 뚱땡이가 아니다. 오직 은닉층(Hidden Layer)이 딱 1개뿐인 극강 초경량 얕은 신경망(Shallow Neural Network) 쾌속 엔진이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Word2Vec의 심장: 2대 코어 아키텍처 (CBOW vs Skip-gram 십자 융합) │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 📝 타겟 문장 예시 ]: "The quick brown [fox] jumps over the lazy dog" │
-│                                                              │
-│ 🟩 [ 1. CBOW (Continuous Bag of Words) ➔ 주변에서 중앙 때려 맞추기 ] │
-│   - 작전: 반 친구들 얼굴을 쭉 보고, 오늘 빈자리에 누가 결석했는지 핀셋 맞추기!  │
-│   - 입력(Input) : brown, jumps, over (주변 단어들)                  │
-│   - ──▶ [ 은닉층 뇌 🧠 믹서기 윙윙~ ] ──▶                        │
-│   - 예측(Output): **fox** (중심 단어 1방 컷 맞추기!)                   │
-│   - 🌟 특징: 여러 주변 놈들이 합심해서 예측하니까 연산 속도가 쾌속 존나 빠름 🚀. │
-│                                                              │
-│        ======= [ 🪓 진짜 우주 1타 깡패 아키텍처 스위칭 록온 ✨ ] ======== │
-│                                                              │
-│ 🟥 [ 2. Skip-gram ➔ 중앙 1명 보고 주변 놈들 싹 다 맞추기 텐트 ]          │
-│   - 작전: 결석한 1명(중심) 이름표 딱 보고, 걔랑 친한 친구들(주변) 누군지 유추!  │
-│   - 입력(Input) : **fox** (중심 단어)                               │
-│   - ──▶ [ 은닉층 뇌 🧠 믹서기 윙윙~ ] ──▶                        │
-│   - 예측(Output): brown, jumps, over (주변 단어 여러 개 싹 다 도출 쾅!)│
-│   - 🌟 팩폭 특징: 중심 단어 1개가 여러 번 학습 채찍질 기회를 쳐맞기 때문에!!  │
-│     미세한 뉘앙스와 10년에 1번 나오는 [희귀 단어(Rare Word) 예측 정확도] 에서 │
-│     CBOW를 우주 끝까지 압살 척살해버리는 궁극의 메인 뼈대 아키텍처다 🚀.      │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**[아키텍트의 피 터지는 한계 튜닝: 네거티브 샘플링 (Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ✨)]**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Word2Vec의 심장: 2대 코어 아키텍처 (CBOW vs Skip-gram 십자 융합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">📝 타겟 문장 예시</div><div class="kb-diagram-note">: "The quick brown</div><div class="kb-diagram-node">fox</div><div class="kb-diagram-note">jumps over the lazy dog"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🟩</div><div class="kb-diagram-node">1. CBOW (Continuous Bag of Words) ➔ 주변에서 중앙 때려 맞추기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 반 친구들 얼굴을 쭉 보고, 오늘 빈자리에 누가 결석했는지 핀셋 맞추기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력(Input) : brown, jumps, over (주변 단어들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉층 뇌 🧠 믹서기 윙윙~</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예측(Output): fox (중심 단어 1방 컷 맞추기!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 특징: 여러 주변 놈들이 합심해서 예측하니까 연산 속도가 쾌속 존나 빠름 🚀.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 진짜 우주 1타 깡패 아키텍처 스위칭 록온 ✨</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🟥</div><div class="kb-diagram-node">2. Skip-gram ➔ 중앙 1명 보고 주변 놈들 싹 다 맞추기 텐트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 결석한 1명(중심) 이름표 딱 보고, 걔랑 친한 친구들(주변) 누군지 유추!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력(Input) : fox (중심 단어)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉층 뇌 🧠 믹서기 윙윙~</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예측(Output): brown, jumps, over (주변 단어 여러 개 싹 다 도출 쾅!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 팩폭 특징: 중심 단어 1개가 여러 번 학습 채찍질 기회를 쳐맞기 때문에!!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">미세한 뉘앙스와 10년에 1번 나오는</div><div class="kb-diagram-node">희귀 단어(Rare Word) 예측 정확도</div><div class="kb-diagram-note">에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBOW를 우주 끝까지 압살 척살해버리는 궁극의 메인 뼈대 아키텍처다 🚀.</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">아키텍트의 피 터지는 한계 튜닝: 네거티브 샘플링 (Negative [Sampling</a> ✨)]</strong>
 "야 씨발 단어 1개 예측하려고 출력층([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))에서 10만 개 전체 단어 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 10만 번 다 계산하면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 용광로 뻗어 타 죽어 쾅 💀!!!" 
 구글 천재들은 이 10만 번 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 풀스캔 연산 랙 병목을 ➔ **'네거티브 샘플링'** 이라는 사기 기만술로 0.01초 컷 도끼 찢기 압살 다이어트를 쳐버렸다. 
 - **수술 🪓**: 10만 개 단어를 다 쳐다보지 마! 걍 **[진짜 찐 정답 이웃 단어 1개 (Positive)]** 랑 ➔ **[아무 상관 없는 쓰레기 오답 단어 5개 (Negative 덤프)]** 딱 6개만 테이블에 딱 올려놔 쾅!! 
 - 그리고 모델한테 "야 이 6개 중에 진짜 이웃 단어가 뭔지 O/X 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/) [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/))로 찍어 맞춰!" 라고 객관식 6지 선다형 퀴즈로 짬처리 오프로드 쳐버림 🚀!! 
 - 10만 번 연산 복잡도를 ➔ 딱 6번 연산 깃털 다이어트로 1만 배 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 펌핑 스케일 다운 시켜버려, 방대한 위키백과 코퍼스를 구닥다리 2013년 CPU 컴퓨터에서도 몇 시간 만에 광속 학습 끝내버린 미친 기적의 스텔스 최적화술이다.
 
-- **📢 섹션 요약 비유**: 네거티브 샘플링의 기적은 **'경찰 몽타주 용의자 찾기'**와 100% 똑같습니다. 목격자한테 "서울 시민 1,000만 명 얼굴 책상에 다 깔아줄 테니까 범인 1명 골라내!([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 풀스캔 💥 뻗음)" 시키면 눈알 터져 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 죽습니다 💀. 천재 형사는 **[진짜 범인 얼굴 1개 + 지나가던 행인 아저씨 얼굴 5개(네거티브 샘플)]** 딱 6장 얼굴만 골라서 1열 종대로 늘어놓고 ➔ "이 6명 중에 범인 O/X로 찍어 쾅 🚀!" 시킵니다. 목격자 뇌([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 연산 랙이 0.01초 컷으로 빛의 속도 패스 통과되는 위대한 연산 꼼수 마법입니다.
+- **📢 섹션 요약 비유**: 네거티브 샘플링의 기적은 <strong>'경찰 몽타주 용의자 찾기'</strong>와 100% 똑같습니다. 목격자한테 "서울 시민 1,000만 명 얼굴 책상에 다 깔아줄 테니까 범인 1명 골라내!([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 풀스캔 💥 뻗음)" 시키면 눈알 터져 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 죽습니다 💀. 천재 형사는 **[진짜 범인 얼굴 1개 + 지나가던 행인 아저씨 얼굴 5개(네거티브 샘플)]** 딱 6장 얼굴만 골라서 1열 종대로 늘어놓고 ➔ "이 6명 중에 범인 O/X로 찍어 쾅 🚀!" 시킵니다. 목격자 뇌([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 연산 랙이 0.01초 컷으로 빛의 속도 패스 통과되는 위대한 연산 꼼수 마법입니다.
 
 ---
 
@@ -79,16 +78,16 @@ NLP 자연어 처리 제국을 씹어 먹었던 [임베딩](/knowledge-base/stud
 
 | 텍스트 인코딩 잣대 | [One-Hot Encoding](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) (깡통 원시인 🗑️) | [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) (1세대 텐서 밀집 융합 🚀) | FastText (페이스북 1.5세대 스나이퍼 🪓) |
 |:---|:---|:---|:---|
-| **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 맵핑 뼈대** | 1단어 = 10만 차원 `0,0` 희소 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 💥 | **1단어 = 300차원 꽉 찬 실수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ✨** | **[단어를 찢어!]** 글자를 쪼갬 (`app`, `ple`) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 맵핑 뼈대</strong> | 1단어 = 10만 차원 `0,0` 희소 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 💥 | <strong>1단어 = 300차원 꽉 찬 실수 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> ✨</strong> | **[단어를 찢어!]** 글자를 쪼갬 (`app`, `ple`) |
 | **의미(Semantic) 이해** | **[지능 0% 💀]** 사과랑 바나나 거리 직교함. | **[지능 100% 🚀]** 사과/바나나 벡터 뭉침. | 사과/바나나 뭉침 유지 완료. |
 | **OOV (Out of Vocab) 빵꾸 대재앙 💀**| 사전에 없는 오타 "사꽈" 들어오면 404 에러 뻗음 마비 터짐 💥. | **[똑같이 404 뻗음 💥]** 자기가 학습 안 한 모르는 단어 들어오면 걍 백치 에러 타죽음. | **[우주 무결점 쉴드 🛡️]** 단어를 N-gram 쪼가리로 학습해서 ➔ "사꽈" 들어와도 `사`+`꽈` 글자 파편 조합해서 유추 방어 록온 쳐 생존함 ✨! |
 
 ### 딜레마: 정적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) (Static [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))의 치명적 멍청함 파국 💀
 Word2Vec은 혁명이지만, 치명적 1차원 맹점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 뇌를 터뜨렸다.
-"야!! 강에 뜨는 **[배(Ship)]**랑, 내가 먹는 과일 **[배(Pear)]**랑, 아파서 쑤시는 내 **[배(Stomach)]** 3개가 있잖아! 이거 의미가 3개 다 180도 다른 거임 ㅋ"
+"야!! 강에 뜨는 <strong>[배(Ship)]</strong>랑, 내가 먹는 과일 <strong>[배(Pear)]</strong>랑, 아파서 쑤시는 내 **[배(Stomach)]** 3개가 있잖아! 이거 의미가 3개 다 180도 다른 거임 ㅋ"
 - **Word2Vec의 바보 짓 💥**: "어 스펠링 똑같이 '배' 네? ㅋ 그럼 걍 3개 뜻 싹 다 짬뽕 믹서기로 갈아서 ➔ 우주 공간에 **[좌표 1개]** 로 뭉뚱그려 고정(Static) 박제 록온 쳐버림 데헷 ㅋ" 
 - **대재앙 발동**: 챗봇한테 "바다에 떠 있는 배" 라고 쳤는데, 봇 놈이 이 짬뽕 좌표 1개만 보고 "아 과일 배? 맛있지 ㅋ" 하고 헛소리 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)) 망상 에러를 뿜으며 유저 소송 멸망 파국이 터졌다 💀.
-- **아키텍트 진화 대관식 ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 🚀)**: "야 이 고정 쇳덩이 1차원 좌표계 찢어 폐기 소각 쳐 쾅!!! ➔ [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) **[어텐션(Attention) 빔 쉴드 ✨]** 발동!! 문장을 읽을 때 '배' 단어 딱 1개만 보지 말고, 주변 앞뒤 단어들 텍스트를 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))으로 100% 흡수 교차 십자 검열 스캔 쳐서 ➔ 그때그때 찰나의 순간마다 문맥에 맞춰 '배'의 좌표를 우주 반대편으로 동적(Dynamic)으로 다르게 스위칭 이동시켜 맵핑 록온 꽂아버려 쓩🚀!!!" (이것이 1세대 Word2Vec이 왕좌에서 물러나고 2세대 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)/GPT가 천하 통일한 절대 팩폭 룰이다).
+- <strong>아키텍트 진화 대관식 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> 동적 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 🚀)</strong>: "야 이 고정 쇳덩이 1차원 좌표계 찢어 폐기 소각 쳐 쾅!!! ➔ [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) **[어텐션(Attention) 빔 쉴드 ✨]** 발동!! 문장을 읽을 때 '배' 단어 딱 1개만 보지 말고, 주변 앞뒤 단어들 텍스트를 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))으로 100% 흡수 교차 십자 검열 스캔 쳐서 ➔ 그때그때 찰나의 순간마다 문맥에 맞춰 '배'의 좌표를 우주 반대편으로 동적(Dynamic)으로 다르게 스위칭 이동시켜 맵핑 록온 꽂아버려 쓩🚀!!!" (이것이 1세대 Word2Vec이 왕좌에서 물러나고 2세대 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)/GPT가 천하 통일한 절대 팩폭 룰이다).
 
 ---
 
@@ -97,8 +96,8 @@ Word2Vec은 혁명이지만, 치명적 1차원 맹점([SPOF](/knowledge-base/stu
 최신 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4) 시대에 접어들며 [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 낡은 쇳덩이 자체를 메인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 대문 앞단으로 세우는 병신 짓은 100% 사형 멸종 당했다. 그러나 그 **가벼움과 벡터 유사도(Cosine) 연산의 깡패 쾌속 핑퐁** 덕분에, 엣지(Edge) 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 추천 봇에서는 여전히 영생을 누리고 있다.
 
 ### 실무 판단 시나리오
-1. **Item2Vec (넷플릭스/쿠팡 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 상품 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 융합 🚀)**: 
-   "야 텍스트만 [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 돌리지 말고 ➔ 걍 유저가 장바구니에 담은 **[상품(Item) ID 클릭 영수증 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10억 개]**를 마치 문장(Text)인 것처럼 믹서기에 쑤셔 박아 융합 록온 쳐 쾅!!!"
+1. <strong>Item2Vec (넷플릭스/쿠팡 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> 상품 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> 융합 🚀)</strong>: 
+   "야 텍스트만 [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 돌리지 말고 ➔ 걍 유저가 장바구니에 담은 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">상품(Item) ID 클릭 영수증 [로그</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 10억 개]</strong>를 마치 문장(Text)인 것처럼 믹서기에 쑤셔 박아 융합 록온 쳐 쾅!!!"
    - **아키텍트 기적 발동 ✨**: 유저가 `[기저귀] ➔ [물티슈] ➔ [분유]` 순서로 장바구니 클릭 로직을 탔다. 이걸 문장 취급해서 Word2Vec에 돌리면 ➔ 벡터 우주 공간에서 `기저귀` 좌표랑 `분유` 좌표가 서로 존나 친하게 자석처럼 찰싹 멱살 잡고 뭉쳐버린다(클러스터링 록온). 
    ➔ 내일 아침 신규 유저가 '기저귀' 1개 딱 클릭하는 0.001초 찰나에!! 백엔드 봇이 벡터 DB 찔러서 거리 젤 가까운 '분유' 상품을 1초 컷 팝업 추천 렌더링 배너로 꽂아버리는(Item2Vec) 우주 최강 아마존/쿠팡 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 추천 엔진 돈 복사기의 심장으로 부활 빙의 환생했다 🚀!
 2. **On-Device Edge 깡통 폰 연관 검색어 (오버엔지니어링 다이어트 수술 🪓)**: 
@@ -108,7 +107,7 @@ Word2Vec은 혁명이지만, 치명적 1차원 맹점([SPOF](/knowledge-base/stu
    걍 단순 키워드 연관성 클러스터링(비슷한 놈 묶기)만 칠 거면 하늘이 두 쪽 나도 **Word2Vec 20MB짜리 깃털 초압축 바이너리 쇳덩이]** 모델만 로컬에 스윽 이식 용접 쳐 발라 록온 쳐 쾅!! 
    [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 연산(CPU 100% 용광로 💥) 이딴 무거운 쓰레기 1바이트도 돌릴 필요 없이 ➔ 걍 고정된 벡터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 덧셈 뺄셈(O(1) 광속) 찰나 연산만으로 1밀리초(ms) 컷 쾌속 추천 팝업 무결점 생존 방어 띄우는 극강 가성비 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 다이어트 끝판왕이다 🚀!!"
 
-- **📢 섹션 요약 비유**: 이 Item2Vec 추천 마법의 융합은, 마트 사장님의 **'맥주와 기저귀 매대 진열 꼼수'**와 100% 똑같습니다. 사장님([Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 봇)이 영수증 1억 장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 스캔 쳐보니, 금요일 밤에 기저귀 사러 온 아빠들이 꼭 맥주를 같이 사 가는 패턴(문맥 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 적발해 냈습니다 ✨! 사장님은 즉시 마트 우주 공간(벡터 맵) 배치를 뜯어고쳐 ➔ 기저귀 매대 코앞 1미터 옆에 맥주 캔을 쌓아두게 찰싹 붙여 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 박아버립니다. 손님이 기저귀 집다가 눈 돌리면 0.1초 컷 바로 맥주가 눈에 띄게 홀려서 사게 만드는 궁극의 무의식 스텔스 영업 세일즈 텐트입니다 🚀.
+- **📢 섹션 요약 비유**: 이 Item2Vec 추천 마법의 융합은, 마트 사장님의 <strong>'맥주와 기저귀 매대 진열 꼼수'</strong>와 100% 똑같습니다. 사장님([Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 봇)이 영수증 1억 장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 스캔 쳐보니, 금요일 밤에 기저귀 사러 온 아빠들이 꼭 맥주를 같이 사 가는 패턴(문맥 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 적발해 냈습니다 ✨! 사장님은 즉시 마트 우주 공간(벡터 맵) 배치를 뜯어고쳐 ➔ 기저귀 매대 코앞 1미터 옆에 맥주 캔을 쌓아두게 찰싹 붙여 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 박아버립니다. 손님이 기저귀 집다가 눈 돌리면 0.1초 컷 바로 맥주가 눈에 띄게 홀려서 사게 만드는 궁극의 무의식 스텔스 영업 세일즈 텐트입니다 🚀.
 
 ---
 
@@ -119,7 +118,7 @@ Word2Vec은 "단어의 뜻은 국어사전 텍스트 글씨가 아니라, 100차
 과거 "컴퓨터가 인간의 글 뉘앙스를 어떻게 이해하냐 ㅋ" 며 콧방귀 뀌던 언어학자들의 뇌피셜 비웃음을 ➔ **[왕(King) - 남자(Man) + 여자(Woman) = 여왕(Queen)]** 이라는 단 한 줄의 미친듯한 텐서(Tensor) 벡터 수학 덧셈 뺄셈 결과 좌표 팩폭 증명 1방으로 척살 압살 도륙 내버렸고 ➔ 인류의 모든 철학적 의미(Semantic)가 차가운 기계 수학 스칼라 연산으로 완벽히 조작 치환 통제될 수 있다는 기적의 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)) 성배를 인류에게 선물했다 ✨.
 
 비록 다의어(문맥 스위칭)를 구분하지 못하고 1개의 좌표 쇳덩이에 퉁쳐 묶어버리는 정적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Static) 1차원적 태생적 멍청함 맹점 한계에 갇혀 ➔ 거대한 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))이라는 2세대 후배 괴물들에게 NLP 옥좌 메인 왕좌 핏줄을 내어주고 역사의 뒤안길 은퇴 벤치로 쓸쓸히 물러났을지언정!! 
-단어들을 고차원 밀집 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Dense Vector)로 우주 공간에 던져 쑤셔 박고, 네거티브 샘플링(Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))이라는 기만술로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 오버헤드 랙 지옥을 0.01초 컷 다이어트 시켜 10억 문서 학습을 무정단 돌파해 냈던 그 눈부신 **'[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) Space) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 맵핑 사상'**만큼은 ➔ 오늘날 파라미터 1조 개를 넘나드는 오픈AI(OpenAI) 챗GPT 초거대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 심장부 밑바닥 코어 0순위 엔진 기저를 아직도 단 1바이트 변함없이 완벽히 떠받치고 지탱 방어하며 ➔ 21세기 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제국의 영원 불멸한 조상님 창조 뼈대 DNA로 무한 증식 고동치고 타오를 것이다 🚀✨.
+단어들을 고차원 밀집 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Dense Vector)로 우주 공간에 던져 쑤셔 박고, 네거티브 샘플링(Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))이라는 기만술로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 오버헤드 랙 지옥을 0.01초 컷 다이어트 시켜 10억 문서 학습을 무정단 돌파해 냈던 그 눈부신 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 공간(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a> Space) <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 맵핑 사상'</strong>만큼은 ➔ 오늘날 파라미터 1조 개를 넘나드는 오픈AI(OpenAI) 챗GPT 초거대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 심장부 밑바닥 코어 0순위 엔진 기저를 아직도 단 1바이트 변함없이 완벽히 떠받치고 지탱 방어하며 ➔ 21세기 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제국의 영원 불멸한 조상님 창조 뼈대 DNA로 무한 증식 고동치고 타오를 것이다 🚀✨.
 
 ---
 
@@ -127,33 +126,35 @@ Word2Vec은 "단어의 뜻은 국어사전 텍스트 글씨가 아니라, 100차
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| **[Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 마법 ✨)** | 컴퓨터가 읽지 못하는 한글 단어 텍스트 껍데기를 ➔ `[0.1, -0.4, 0.8]` 같은 300차원 실수 숫자 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Vector 쇳덩이)로 뭉개 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 융합 변환시켜서, 컴퓨터 뇌([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 덧셈 곱셈 연산 칠 수 있게 떠먹여 주는 만능 통번역 믹서기 엔진. |
-| **[One-Hot Encoding](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) (원-핫 깡통 🗑️)** | Word2Vec이 도끼로 모가지를 썰어버린 구시대 멍청 뼈대. 사전에 단어 10만 개면 10만 칸 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 뚫어서 1개만 `1` 넣고 다 `0` 떡칠 치는 짓. 램(RAM) 타죽고 단어끼리 뜻 비슷한지 1도 척도 계산 안 되는 희소(Sparse) 멸망 파국 💥. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 마법 ✨)</strong> | 컴퓨터가 읽지 못하는 한글 단어 텍스트 껍데기를 ➔ `[0.1, -0.4, 0.8]` 같은 300차원 실수 숫자 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Vector 쇳덩이)로 뭉개 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 융합 변환시켜서, 컴퓨터 뇌([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 덧셈 곱셈 연산 칠 수 있게 떠먹여 주는 만능 통번역 믹서기 엔진. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">One-Hot Encoding</a> (원-핫 깡통 🗑️)</strong> | Word2Vec이 도끼로 모가지를 썰어버린 구시대 멍청 뼈대. 사전에 단어 10만 개면 10만 칸 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 뚫어서 1개만 `1` 넣고 다 `0` 떡칠 치는 짓. 램(RAM) 타죽고 단어끼리 뜻 비슷한지 1도 척도 계산 안 되는 희소(Sparse) 멸망 파국 💥. |
 | **CBOW vs Skip-gram (쌍끌이 2대 아키텍처 🚀)** | 주변 단어 보고 가운데 가려진 빈칸 구멍 쏙 맞추기(CBOW 쾌속 텐트) vs 중앙 단어 1개 던져주고 주변에 누가 있는지 싹 다 읊어 추론 치기(Skip-gram 딥 텐트 ✨). 특히 Skip-gram은 중심 1놈이 훈련 여러 번 쳐 맞아서 뉘앙스 정확도가 우주 압살로 높은 찐 코어 엔진. |
-| **Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) (네거티브 샘플링 기만술 🛡️)** | 정답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 맞출 때 10만 개 단어 다 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) 계산하면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 랙 뻗어 타죽음 💀. ➔ "야 찐 정답 1개랑 쓰레기 오답 5개 딱 6개만 올려놓고 O/X 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 퀴즈로 퉁쳐 짬처리 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸어 쾅!" 극강 연산 다이어트 쉴드 마법. |
-| **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) / [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) (동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 세대 교체 ✨)** | Word2Vec이 '배(Ship, Pear)' 다의어 구분 못 하고 1개 좌표로 뭉개는 바보 짓을 치자 ➔ 어텐션(Attention) 빔 쏴서 "야 앞뒤 문맥 텍스트 찰나 눈치 싹 스캔 치고 '배' 좌표 위치를 100% 그때그때 다르게 동적 스위칭 록온 꽂아버려 쾅 🚀!" 21세기 대관식 점령 보스. |
+| <strong>Negative <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a> (네거티브 샘플링 기만술 🛡️)</strong> | 정답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 맞출 때 10만 개 단어 다 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) 계산하면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 랙 뻗어 타죽음 💀. ➔ "야 찐 정답 1개랑 쓰레기 오답 5개 딱 6개만 올려놓고 O/X 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 퀴즈로 퉁쳐 짬처리 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸어 쾅!" 극강 연산 다이어트 쉴드 마법. |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> / <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a> (동적 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 세대 교체 ✨)</strong> | Word2Vec이 '배(Ship, Pear)' 다의어 구분 못 하고 1개 좌표로 뭉개는 바보 짓을 치자 ➔ 어텐션(Attention) 빔 쏴서 "야 앞뒤 문맥 텍스트 찰나 눈치 싹 스캔 치고 '배' 좌표 위치를 100% 그때그때 다르게 동적 스위칭 록온 꽂아버려 쾅 🚀!" 21세기 대관식 점령 보스. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-원-핫 인코딩 (One-Hot) & 희소 행렬 (Sparse Matrix) 시대 💀 / 단어 사전 개수 10만 개면 배열 10만 칸 뚫어놓음. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 유사도 각도 계산이 1도 성립 안 되는 맹인 뻗음 스파게티 파국 💥
-    │
-    ▼
-Word2Vec 대관식 (2013년 구글 강림) 🚀 / "야 빈칸 10만 개 0 떡칠 다 찢어 폐기 소각 쳐 쾅!! 단어를 300칸 꽉 찬 소수점 실수 배열(Dense Vector)로 압축 찌부러뜨리고 ➔ 문맥(Context) 비슷한 놈들끼리 우주 지도 공간 좌표계에 자석처럼 찰싹 달라붙게 묶어 융합 락킹 쳐 쾅 ✨!!"
-    │
-    ▼
-FastText (페이스북 스나이퍼) 십자 보완 🛡️ / Word2Vec은 지가 학습 안 한 모르는 단어(오타 '사꽈') 들어오면 404 에러 뻗음 💀 ➔ "야 단어 전체 통째로 쑤시지 말고 글자를 [사+과] 쪼개 파편화(Subword) 넣어서 처음 보는 오타 단어도 조합 유추 방어 록온 생존 쳐라 쾅!"
-    │
-    ▼
-문맥 기반 동적 임베딩 (ELMo, BERT 텐트) 진화 ✨ / 다의어 멍청이(정적 임베딩) 맹점 한계 도달 ➔ 어텐션(Attention) 빔 쏴서 앞뒤 문장 통째로 맥락 파악해 좌표 실시간 동적 매핑 쳐주는 진짜 지능형 차원 텔레포트 록온 쾅!
-    │
-    ▼
-LLM 파라미터 1조 개 초지능 (현재) 🚀 / Word2Vec이 발명한 네거티브 샘플링과 임베딩 텐서 밀집 쇳덩이 수학 연산의 DNA 영혼을 100% 완벽히 흡수 빙의 계승하여 ➔ 지구 인류의 모든 책 언어를 1개의 거대 N차원 블랙홀 우주 공간으로 다 쑤셔 박아 통제 번역해 내는 21세기 초거대 AGI 제국 대통일 완료 쾅!!
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원-핫 인코딩 (One-Hot) &amp; 희소 행렬 (Sparse Matrix) 시대 💀 / 단어 사전 개수 10만 개면 배열 10만 칸 뚫어놓음. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 유사도 각도 계산이 1도 성립 안 되는 맹인 뻗음 스파게티 파국 💥</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Word2Vec 대관식 (2013년 구글 강림) 🚀 / "야 빈칸 10만 개 0 떡칠 다 찢어 폐기 소각 쳐 쾅!! 단어를 300칸 꽉 찬 소수점 실수 배열(Dense Vector)로 압축 찌부러뜨리고 ➔ 문맥(Context) 비슷한 놈들끼리 우주 지도 공간 좌표계에 자석처럼 찰싹 달라붙게 묶어 융합 락킹 쳐 쾅 ✨!!"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">FastText (페이스북 스나이퍼) 십자 보완 🛡️ / Word2Vec은 지가 학습 안 한 모르는 단어(오타 '사꽈') 들어오면 404 에러 뻗음 💀 ➔ "야 단어 전체 통째로 쑤시지 말고 글자를</div><div class="kb-diagram-node">사+과</div><div class="kb-diagram-note">쪼개 파편화(Subword) 넣어서 처음 보는 오타 단어도 조합 유추 방어 록온 생존 쳐라 쾅!"</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문맥 기반 동적 임베딩 (ELMo, BERT 텐트) 진화 ✨ / 다의어 멍청이(정적 임베딩) 맹점 한계 도달 ➔ 어텐션(Attention) 빔 쏴서 앞뒤 문장 통째로 맥락 파악해 좌표 실시간 동적 매핑 쳐주는 진짜 지능형 차원 텔레포트 록온 쾅!</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM 파라미터 1조 개 초지능 (현재) 🚀 / Word2Vec이 발명한 네거티브 샘플링과 임베딩 텐서 밀집 쇳덩이 수학 연산의 DNA 영혼을 100% 완벽히 흡수 빙의 계승하여 ➔ 지구 인류의 모든 책 언어를 1개의 거대 N차원 블랙홀 우주 공간으로 다 쑤셔 박아 통제 번역해 내는 21세기 초거대 AGI 제국 대통일 완료 쾅!!</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)**은 로봇들이 우리가 쓰는 복잡한 단어의 뜻을 이해하지 못하니까, 로봇의 뇌가 1초 만에 딱 알아볼 수 있는 **'비밀 숫자 암호 지도(우주 좌표표)'**로 100% 찰떡 번역해 주는 마법 돋보기 지팡이예요!
+1. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/">Word2Vec</a></strong>은 로봇들이 우리가 쓰는 복잡한 단어의 뜻을 이해하지 못하니까, 로봇의 뇌가 1초 만에 딱 알아볼 수 있는 <strong>'비밀 숫자 암호 지도(우주 좌표표)'</strong>로 100% 찰떡 번역해 주는 마법 돋보기 지팡이예요!
 2. 옛날 바보 로봇은 '사과'와 '바나나'가 비슷한 과일 친구인지 1도 몰랐지만(원-핫 깡통 💥), 이 마법을 쓰면 비슷한 뜻을 가진 단어들끼리 로봇의 머릿속 4차원 우주 운동장 한구석에 오순도순 예쁘게 뭉쳐 손잡고 서 있게 만들어줘요(밀집 벡터 🚀).
 3. 그래서 우리가 로봇에게 "야! 멍멍이랑 비슷한 귀여운 동물 좀 찾아줘!"라고 툭 던지면, 로봇이 글씨 뜻을 몰라도 0.1초 컷으로 자기 머리 운동장 지도를 쓱~ 보고 멍멍이 바로 옆에 붙어 서 있는 '고양이'나 '토끼'를 100% 오차 없이 찰떡같이 잡아다 주는 엄청난 텔레포트 꿀팁이랍니다 ✨!
 

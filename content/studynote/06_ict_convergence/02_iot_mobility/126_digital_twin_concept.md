@@ -10,30 +10,32 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 디지털 트윈은 **물리적 자산·프로세스·시스템의 가상 복제본**을 만들어, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 반영하면서 **시뮬레이션·예측·최적화**를 수행하는 기술이다.
-> 2. **가치**: 실제 공장·건물·도시를 변경하기 전에 가상으로 시뮬레이션하여 **위험 없이 최적 방안을 탐색**할 수 있으며, 예측 정비(고장 전 감지)로 다운타임을 50%+ 감소시킨다.
-> 3. **판단 포인트**: 디지털 트윈은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집)+3D 모델링([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(예측)+시뮬레이션(실험)의 **융합 기술**이며, GE(항공)·Siemens(제조)·BMW(자동차)가 대표 적용 사례이다.
+> 1. **본질**: 디지털 트윈은 <strong>물리적 자산·프로세스·시스템의 가상 복제본</strong>을 만들어, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 반영하면서 <strong>시뮬레이션·예측·최적화</strong>를 수행하는 기술이다.
+> 2. **가치**: 실제 공장·건물·도시를 변경하기 전에 가상으로 시뮬레이션하여 <strong>위험 없이 최적 방안을 탐색</strong>할 수 있으며, 예측 정비(고장 전 감지)로 다운타임을 50%+ 감소시킨다.
+> 3. **판단 포인트**: 디지털 트윈은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집)+3D 모델링([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(예측)+시뮬레이션(실험)의 <strong>융합 기술</strong>이며, GE(항공)·Siemens(제조)·BMW(자동차)가 대표 적용 사례이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    디지털 트윈 아키텍처                               │
-├───────────────────────────────────────────────────────┤
-│  [물리 세계]              [디지털 트윈]               │
-│  공장 설비 ──IoT 센서──▶  가상 공장 모델             │
-│  온도·진동·전류           3D 시각화                   │
-│                           시뮬레이션                   │
-│                           AI 예측 (고장 예측)          │
-│                     ◀── 최적화 결과 반영              │
-│                                                       │
-│  양방향: 물리→디지털(데이터), 디지털→물리(제어)     │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: 디지털 트윈은 건물의 **미니어처(축소 모형)**에 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 세계</div><div class="kb-diagram-node">디지털 트윈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공장 설비 ──IoT 센서──▶ 가상 공장 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도·진동·전류 3D 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 예측 (고장 예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 최적화 결과 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양방향: 물리→디지털(데이터), 디지털→물리(제어)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 디지털 트윈은 건물의 <strong>미니어처(축소 모형)</strong>에 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
 
 ---
 
@@ -44,12 +46,12 @@ tags = ["studynote-ict-convergence"]
 | 구성 | 역할 |
 |:---|:---|
 | **물리 개체** | 실제 자산·설비 |
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서** | 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서</strong> | 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 |
 | **가상 모델** | 3D/수학적 모델 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/분석** | 예측·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/분석</strong> | 예측·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
 | **양방향 연결** | 물리↔디지털 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 
-- **📢 섹션 요약 비유**: 디지털 트윈은 의사의 **환자 MRI 영상**이다. 환자(물리)를 직접 절개하지 않고 MRI(디지털)로 상태를 파악·진단한다.
+- **📢 섹션 요약 비유**: 디지털 트윈은 의사의 <strong>환자 MRI 영상</strong>이다. 환자(물리)를 직접 절개하지 않고 MRI(디지털)로 상태를 파악·진단한다.
 
 ---
 
@@ -57,9 +59,9 @@ tags = ["studynote-ict-convergence"]
 
 | 비교 | 3D 모델 | 시뮬레이션 | 디지털 트윈 |
 |:---|:---|:---|:---|
-| **실시간** | 없음 | 없음 | **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 실시간** |
+| **실시간** | 없음 | 없음 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 실시간</strong> |
 | **양방향** | 없음 | 없음 | **물리↔디지털** |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)** | 없음 | 제한적 | **예측·최적화** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong> | 없음 | 제한적 | **예측·최적화** |
 
 ---
 
@@ -75,7 +77,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-디지털 트윈은 **물리 세계의 "What-if" 실험을 가능하게 하는 핵심 기술**이며, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·5G의 발전으로 적용 범위가 빠르게 확장되고 있다.
+디지털 트윈은 <strong>물리 세계의 "What-if" 실험을 가능하게 하는 핵심 기술</strong>이며, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·5G의 발전으로 적용 범위가 빠르게 확장되고 있다.
 
 ---
 
@@ -83,34 +85,36 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)** | 디지털 트윈의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집층 |
-| **[CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)** | 사이버-물리 시스템 (디지털 트윈의 이론 기반) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a></strong> | 디지털 트윈의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집층 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/">CPS</a></strong> | 사이버-물리 시스템 (디지털 트윈의 이론 기반) |
 | **시뮬레이션** | 디지털 트윈의 핵심 기능 |
-| **[PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)** | 디지털 트윈의 제품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
-| **[메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)** | 디지털 트윈의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 확장 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/">PLM</a></strong> | 디지털 트윈의 제품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/">메타버스</a></strong> | 디지털 트윈의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CAD/CAE 시뮬레이션 (1990s)]
-    │
-    ▼
-[디지털 트윈 개념 (NASA, 2010)]
-    │
-    ▼
-[GE Predix + 산업용 디지털 트윈 (2015~)]
-    │
-    ▼
-[Azure/AWS 디지털 트윈 PaaS (2020~)]
-    │
-    ▼
-[현재: AI + 디지털 트윈 — 자율 최적화·예측 정비]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAD/CAE 시뮬레이션 (1990s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 개념 (NASA, 2010)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GE Predix + 산업용 디지털 트윈 (2015~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Azure/AWS 디지털 트윈 PaaS (2020~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI + 디지털 트윈 — 자율 최적화·예측 정비</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 디지털 트윈은 공장의 **미니어처(축소 모형)**에 **실시간 센서**를 연결한 거예요.
-2. 미니어처에서 **"이렇게 바꾸면 어떻게 될까?" 실험**할 수 있어요.
-3. 위험 없이 실험하고 좋은 결과를 **진짜 공장에 적용**하면 안전하답니다!
+1. 디지털 트윈은 공장의 <strong>미니어처(축소 모형)</strong>에 <strong>실시간 센서</strong>를 연결한 거예요.
+2. 미니어처에서 <strong>"이렇게 바꾸면 어떻게 될까?" 실험</strong>할 수 있어요.
+3. 위험 없이 실험하고 좋은 결과를 <strong>진짜 공장에 적용</strong>하면 안전하답니다!
 
 ---
 

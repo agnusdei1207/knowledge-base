@@ -20,23 +20,25 @@ tags = ["datastructure", "studynote-algorithm"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 이진 트리는 루트(Root), 부모(Parent), 자식(Child), 리프(Leaf) 노드로 구성되며, 순회(Traversal)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리한다.
 
-```text
-[ Binary Tree Structure: Hierarchy ]
 
-          ( Root: A )
-           /       \
-       ( B )       ( C )
-       /   \           \
-    ( D ) ( E )       ( F: Leaf )
 
-1. Root: 트리의 최상위 노드
-2. Level/Height: 트리의 깊이와 높이
-3. Degree: 자식 노드의 개수 (최대 2)
-4. Traversal (순회): 
-   - Pre-order (전위): Root -> L -> R
-   - In-order (중위): L -> Root -> R
-   - Post-order (후위): L -> R -> Root
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Binary Tree Structure: Hierarchy</div></div>
+<div class="kb-diagram-note">( Root: A )</div>
+<div class="kb-diagram-note">( B ) ( C )</div>
+<div class="kb-diagram-note">( D ) ( E ) ( F: Leaf )</div>
+<div class="kb-diagram-note">1. Root: 트리의 최상위 노드</div>
+<div class="kb-diagram-note">2. Level/Height: 트리의 깊이와 높이</div>
+<div class="kb-diagram-note">3. Degree: 자식 노드의 개수 (최대 2)</div>
+<div class="kb-diagram-note">4. Traversal (순회):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Pre-order (전위): Root -&gt; L -&gt; R</div>
+<div class="kb-diagram-tree-item" style="--depth:1">In-order (중위): L -&gt; Root -&gt; R</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Post-order (후위): L -&gt; R -&gt; Root</div>
+</div>
+</div>
+
+
 
 **[주요 트리의 종류]**
 *   **포화 이진 트리 (Full Binary Tree)**: 모든 레벨이 꽉 찬 트리.
@@ -48,14 +50,14 @@ tags = ["datastructure", "studynote-algorithm"]
 | 구분 | 일반 트리 (Tree) | 이진 트리 (Binary Tree) | [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST) |
 | :--- | :--- | :--- | :--- |
 | **차수 제한** | 없음 | 최대 2 | 최대 2 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬** | 없음 | 없음 | 왼쪽 < 루트 < 오른쪽 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정렬</strong> | 없음 | 없음 | 왼쪽 < 루트 < 오른쪽 |
 | **주요 용도** | 계층 구조 표현 | 수식 트리, 힙 | 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | O(n) | O(n) | 평균 O(log n) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | O(n) | O(n) | 평균 O(log n) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-기술사적 관점에서 이진 트리는 **컴퓨팅 효율성**의 핵심 지표이다.
+기술사적 관점에서 이진 트리는 <strong>컴퓨팅 효율성</strong>의 핵심 지표이다.
 1.  **수식 트리(Expression Tree)**: 컴파일러가 수식을 파싱할 때 이진 트리를 사용하여 연산 우선순위를 결정한다.
-2.  **[데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)**: [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)([Huffman Coding](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/))에서 빈도수에 따른 가변 길이 코드를 생성할 때 이진 트리를 활용한다.
+2.  <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">데이터 압축</a></strong>: [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)([Huffman Coding](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/))에서 빈도수에 따른 가변 길이 코드를 생성할 때 이진 트리를 활용한다.
 3.  **균형 유지의 중요성**: 편향된 트리는 탐색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 O(n)으로 급락하므로, 실무에서는 AVL 트리나 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))와 같은 자가 균형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 결합하여 최악의 경우에도 O(log n)을 보장하도록 설계해야 한다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
@@ -64,25 +66,27 @@ tags = ["datastructure", "studynote-algorithm"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 *   **상위 개념**: 비선형 자료구조 (Non-linear [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure), 트리 (Tree)
 *   **하위/파생 개념**: [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST), 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), 허프만 트리, AVL 트리
-*   **연관 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Pre/In/Post-order), [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/))
+*   <strong>연관 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Pre/In/Post-order), [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/))
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[트리 (Tree) — 비선형 계층 구조]
-    │
-    ▼
-[이진 트리 (Binary Tree) — 최대 자식 2개]
-    │
-    ▼
-[이진 탐색 트리 (BST, Binary Search Tree)]
-    │
-    ▼
-[균형 이진 트리 (AVL / Red-Black Tree)]
-    │
-    ▼
-[B-트리 / B+트리 (B-Tree) — 데이터베이스 인덱스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리 (Tree) — 비선형 계층 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 트리 (Binary Tree) — 최대 자식 2개</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST, Binary Search Tree)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">균형 이진 트리 (AVL / Red-Black Tree)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 / B+트리 (B-Tree) — 데이터베이스 인덱스</div></div>
+</div>
+</div>
+
+
 
 트리 자료구조가 기본 이진 트리에서 탐색 최적화와 균형 유지를 위한 고급 변형으로 발전한 흐름이다.
 

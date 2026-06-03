@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이런 글로벌 상태가 필요한 이유는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 단순히 CPU만 재운다고 시스템 전체가 안전하게 절전되는 것이 아니기 때문이다. 메모리는 어떤 수준으로 보존할지, 어떤 장치가 깨울 수 있을지, 복귀할 때 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 어디까지 다시 초기화할지를 공통 규약으로 정의하지 않으면 절전과 복귀가 플랫폼마다 제각각이 된다.
 
-특히 노트북과 모바일 PC에서는 배터리 수명, 발열, 즉시 복귀 경험이 한꺼번에 중요하다. 그래서 S-State는 단순한 "꺼짐 단계"가 아니라, **[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 보존량·전력 절감 폭·복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** 사이의 균형점을 고르는 상태 모델로 이해해야 한다.
+특히 노트북과 모바일 PC에서는 배터리 수명, 발열, 즉시 복귀 경험이 한꺼번에 중요하다. 그래서 S-State는 단순한 "꺼짐 단계"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 보존량·전력 절감 폭·복귀 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> 사이의 균형점을 고르는 상태 모델로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: S-State는 건물 전체의 영업 모드 표지판과 같다. "정상 영업", "야간 대기", "문은 닫았지만 장부는 보존", "완전 폐점"을 구분해 두어야 직원과 설비가 같은 규칙으로 움직인다.
 
@@ -31,22 +31,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-S-State의 핵심 원리는 **깊게 잘수록 더 적은 전기를 쓰지만, 더 많은 것을 다시 복구해야 한다**는 것이다. 얕은 상태는 메모리와 장치 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 많이 유지하므로 빨리 깨어나고, 깊은 상태는 전원을 더 과감히 끊는 대신 복귀 경로가 길어진다.
+S-State의 핵심 원리는 <strong>깊게 잘수록 더 적은 전기를 쓰지만, 더 많은 것을 다시 복구해야 한다</strong>는 것이다. 얕은 상태는 메모리와 장치 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 많이 유지하므로 빨리 깨어나고, 깊은 상태는 전원을 더 과감히 끊는 대신 복귀 경로가 길어진다.
 
 아래 그림은 S0에서 S5까지의 깊이를 단순화한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    ACPI global power ladder                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ S0  Working      : user code runs, devices active                   │
-│ S1  Light sleep  : CPU stopped, context mostly retained             │
-│ S2  Deeper sleep : more CPU context lost, rarely implemented        │
-│ S3  STR          : only DRAM kept in self-refresh                   │
-│ S4  Hibernate    : memory image stored on nonvolatile storage       │
-│ S5  Soft Off     : no session context, wake logic only              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACPI global power ladder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0 Working : user code runs, devices active</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S1 Light sleep : CPU stopped, context mostly retained</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S2 Deeper sleep : more CPU context lost, rarely implemented</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 STR : only DRAM kept in self-refresh</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S4 Hibernate : memory image stored on nonvolatile storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S5 Soft Off : no session context, wake logic only</div></div>
+</div>
+</div>
+
+
 
 이 계단형 구조를 실제 의미와 함께 보면 다음과 같다.
 
@@ -69,7 +72,7 @@ S-State의 핵심 원리는 **깊게 잘수록 더 적은 전기를 쓰지만, �
 
 ## Ⅲ. 비교 및 연결
 
-S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 경계를 분명히 해야 한다. S-State는 **시스템 전체**를 다루고, C-State는 **CPU [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 깊이**, P-State는 **CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준**, D-State는 **개별 장치 전원 수준**을 다룬다.
+S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 경계를 분명히 해야 한다. S-State는 <strong>시스템 전체</strong>를 다루고, C-State는 <strong>CPU <a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">idle</a> 깊이</strong>, P-State는 <strong>CPU <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 수준</strong>, D-State는 <strong>개별 장치 전원 수준</strong>을 다룬다.
 
 | 상태 계열 | 제어 범위 | 예시 | 시스템이 하는 일 | 핵심 질문 |
 | :-- | :-- | :-- | :-- | :-- |
@@ -79,7 +82,7 @@ S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 �
 | D-State | 장치 단위 | D0, D3hot, D3cold | 장치 전력 차단 | 이 장치를 켜 둘 필요가 있을까? |
 | G-State | 시스템 전원 그룹 | G0, G1, G2, G3 | 거친 전원 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 전체적으로 켜짐/잠듦/꺼짐인가? |
 
-이 비교에서 중요한 포인트는, S0가 곧 "항상 풀파워"를 뜻하지 않는다는 사실이다. 시스템이 S0에 머무는 동안에도 CPU는 C-State를 오가고, 장치는 D-State로 내려가며, CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 P-State로 조절된다. 그래서 최신 플랫폼은 전통적인 S3 대신 **S0 내부의 저전력 유휴**를 더 적극적으로 활용한다.
+이 비교에서 중요한 포인트는, S0가 곧 "항상 풀파워"를 뜻하지 않는다는 사실이다. 시스템이 S0에 머무는 동안에도 CPU는 C-State를 오가고, 장치는 D-State로 내려가며, CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 P-State로 조절된다. 그래서 최신 플랫폼은 전통적인 S3 대신 <strong>S0 내부의 저전력 유휴</strong>를 더 적극적으로 활용한다.
 
 또한 S3·S4·S5의 차이도 자주 헷갈린다. S3는 메모리를 계속 살려 두는 대신 빠르게 복귀하고, S4는 메모리 내용을 저장하고 전력을 거의 꺼버리며, S5는 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 자체를 포기한다. 결국 이 셋의 차이는 "무엇을 보존해 다음에 다시 쓸 것인가"의 차이다.
 
@@ -89,7 +92,7 @@ S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "어떤 S-State가 더 좋으냐"가 아니라 **어떤 요구사항에 어떤 상태가 맞느냐**를 판단해야 한다. 예를 들어 이동 중 빠른 복귀가 중요하면 S3 또는 S0 저전력 유휴가 유리하고, 장시간 보관이나 배터리 소진 방지가 더 중요하면 S4가 적합하다. 사용자의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 깔끔히 끝내고 원격 부팅만 남기려면 S5가 맞다.
+실무에서는 "어떤 S-State가 더 좋으냐"가 아니라 <strong>어떤 요구사항에 어떤 상태가 맞느냐</strong>를 판단해야 한다. 예를 들어 이동 중 빠른 복귀가 중요하면 S3 또는 S0 저전력 유휴가 유리하고, 장시간 보관이나 배터리 소진 방지가 더 중요하면 S4가 적합하다. 사용자의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 깔끔히 끝내고 원격 부팅만 남기려면 S5가 맞다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -97,7 +100,7 @@ S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 �
 2. **전원 상실에 안전해야 하는가?** DRAM만 남기는 S3는 정전이나 배터리 방전에 취약하지만, S4는 메모리 이미지가 저장장치에 있어 더 안전하다.
 3. **플랫폼이 실제로 무엇을 지원하는가?** 최신 노트북 중에는 S3 대신 S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Idle만 제공하는 경우가 많다.
 4. **웨이크 소스가 필요한가?** 전원 버튼, 뚜껑 열림, Wake-on-LAN (WoL) 같은 요구가 있으면 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 장치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 같이 봐야 한다.
-5. **드라이버와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 깊은 상태를 안정적으로 소화하는가?** 이 단계가 약하면 절전 진입 실패, 팬 지속 동작, resume 장애가 생긴다.
+5. <strong>드라이버와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>가 깊은 상태를 안정적으로 소화하는가?</strong> 이 단계가 약하면 절전 진입 실패, 팬 지속 동작, resume 장애가 생긴다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -105,7 +108,7 @@ S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 �
 - 모든 플랫폼이 전통적 S3를 지원한다고 가정하는 설계
 - 배터리 문제를 CPU만의 문제로 보고 장치 D-State와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 경로를 무시하는 진단
 
-기술사 답안에서도 포인트는 동일하다. S-State는 정의 암기보다 **보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 전력 절감 폭, wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 플랫폼 지원성**을 연결해 설명해야 한다. 그래야 Modern Standby, hibernation, shutdown 차이를 실무 시나리오로 풀어낼 수 있다.
+기술사 답안에서도 포인트는 동일하다. S-State는 정의 암기보다 <strong>보존 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, 전력 절감 폭, wake <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">latency</a>, 플랫폼 지원성</strong>을 연결해 설명해야 한다. 그래야 Modern Standby, hibernation, shutdown 차이를 실무 시나리오로 풀어낼 수 있다.
 
 - **📢 섹션 요약 비유**: S-State 선택은 출장 짐 전략과 같다. 곧 다시 쓸 서류면 책상에 펼쳐 두고 나가고, 며칠 비우면 서랍에 잠가 두며, 프로젝트를 완전히 끝냈다면 책상을 비우고 퇴근한다.
 
@@ -115,9 +118,9 @@ S-State를 정확히 이해하려면 CPU와 장치의 다른 전원 상태와 �
 
 S-State 체계의 가장 큰 효과는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 플랫폼 전체를 예측 가능하게 재우고 깨울 수 있게 만든다는 점이다. 그 결과 노트북은 배터리를 아끼고, 서버는 유지보수 시나리오를 표준화하며, 사용자는 "절전", "최대 절전", "종료"의 차이를 일관된 방식으로 경험할 수 있다.
 
-다만 한계도 분명하다. 전통적 S1/S2는 사실상 사라졌고, S3는 최신 모바일 플랫폼에서 줄어드는 추세이며, S0 내부 저전력 유휴가 점점 중요해지고 있다. 즉 오늘날 S-State는 고정된 옛 표를 외우는 대상이 아니라, **전통적 sleep 모델과 현대적 low-[power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 모델이 어떻게 이어지는지**까지 함께 이해해야 완성된다.
+다만 한계도 분명하다. 전통적 S1/S2는 사실상 사라졌고, S3는 최신 모바일 플랫폼에서 줄어드는 추세이며, S0 내부 저전력 유휴가 점점 중요해지고 있다. 즉 오늘날 S-State는 고정된 옛 표를 외우는 대상이 아니라, <strong>전통적 sleep 모델과 현대적 low-<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">power</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">idle</a> 모델이 어떻게 이어지는지</strong>까지 함께 이해해야 완성된다.
 
-정리하면 S-State는 "전원을 몇 단계로 끄는가"가 아니라, **어떤 수준의 시스템 맥락을 남겨 두고 얼마만큼의 복귀 비용을 감수할 것인가**를 정하는 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언어다. 이 관점으로 기억하면 S3, S4, S5의 차이뿐 아니라 Modern Standby가 왜 S0 안에서 다시 등장했는지도 자연스럽게 연결된다.
+정리하면 S-State는 "전원을 몇 단계로 끄는가"가 아니라, <strong>어떤 수준의 시스템 맥락을 남겨 두고 얼마만큼의 복귀 비용을 감수할 것인가</strong>를 정하는 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언어다. 이 관점으로 기억하면 S3, S4, S5의 차이뿐 아니라 Modern Standby가 왜 S0 안에서 다시 등장했는지도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: 좋은 전력 관리자는 무조건 다 꺼 버리지 않는다. 다음에 얼마나 빨리 다시 써야 하는지 보고, 어디까지 남겨 둘지 계산해 가장 합리적인 퇴실 모드를 고른다.
 
@@ -136,24 +139,24 @@ S-State 체계의 가장 큰 효과는 [운영체제](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Always-on PC operation
-    │
-    ▼
-ACPI global sleep model (S0 ~ S5)
-    │
-    ├──▶ S3 Suspend-to-RAM
-    │
-    ├──▶ S4 Hibernation
-    │
-    ├──▶ S5 Soft Off
-    │
-    ▼
-Fine-grained C-State / D-State coordination
-    │
-    ▼
-S0 low power idle and Modern Standby
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Always-on PC operation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACPI global sleep model (S0 ~ S5)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ S3 Suspend-to-RAM</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ S4 Hibernation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ S5 Soft Off</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fine-grained C-State / D-State coordination</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S0 low power idle and Modern Standby</div>
+</div>
+</div>
+
+
 
 이 흐름은 시스템 전원 관리가 단순한 on/off에서 출발해, 전통적 절전·최대절전·종료를 거쳐, 다시 S0 내부의 세밀한 저전력 유휴로 발전해 온 과정을 보여준다.
 

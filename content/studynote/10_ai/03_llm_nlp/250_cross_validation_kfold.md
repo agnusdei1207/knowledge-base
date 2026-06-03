@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 다른 방식으로 분할하여 모델을 반복 평가함으로써, 단일 분할의 편향을 제거하고 **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(Generalization [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 더 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 추정**하는 기법이다.
+> 1. **본질**: 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 다른 방식으로 분할하여 모델을 반복 평가함으로써, 단일 분할의 편향을 제거하고 <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(Generalization <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)을 더 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 추정</strong>하는 기법이다.
 > 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적은 상황에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 최소화하고, 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 조기에 탐지하여 하이퍼파라미터(Hyperparameter) 선택에 통계적 근거를 제공한다.
 > 3. **판단 포인트**: K-겹 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(K-Fold Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이 표준이며, 클래스 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 계층화 K-겹(Stratified K-Fold)을, 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 LOOCV(Leave-One-Out Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 적용한다.
 
@@ -22,8 +22,8 @@ tags = ["studynote-ai"]
 ### 1.1 단일 Hold-out의 한계
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번만 훈련/테스트로 나누면 다음 문제가 발생한다:
 - **운 좋은 분할**: 우연히 쉬운 테스트셋이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 수 있음
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비**: 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 20~30%를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용
-- **높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**: 분할 방식에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표가 크게 달라질 수 있음
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 낭비</strong>: 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 20~30%를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용
+- <strong>높은 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>: 분할 방식에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표가 크게 달라질 수 있음
 
 ### 1.2 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 목적
 
@@ -44,14 +44,17 @@ tags = ["studynote-ai"]
 | LOOCV | 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | n회 (n=샘플 수) |
 | Time-Series Split | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | K회 (시간 순서 유지) |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 단일 Hold-out은 음식점 위생 점검을 1년에 한 번, 같은 날 같은 시간에만 하는 것과 같다. K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 무작위 날, 다양한 시간에 K번 점검해서 음식점의 진짜 위생 수준을 파악하는 것이다.
 
@@ -61,27 +64,26 @@ tags = ["studynote-ai"]
 
 ### 2.1 K-겹 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (K-Fold Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 동작
 
-```
-┌────────────────────────────────────────────────────────────┐
-│             K-Fold Cross-Validation (K=5 예시)             │
-│                                                            │
-│  전체 데이터를 K개 Fold로 균등 분할                           │
-│  ┌──────┬──────┬──────┬──────┬──────┐                     │
-│  │ F1   │ F2   │ F3   │ F4   │ F5   │                     │
-│  └──────┴──────┴──────┴──────┴──────┘                     │
-│                                                            │
-│  반복 1: [훈련][훈련][훈련][훈련][검증F5] → 성능 Score₁      │
-│  반복 2: [훈련][훈련][훈련][검증F4][훈련] → 성능 Score₂      │
-│  반복 3: [훈련][훈련][검증F3][훈련][훈련] → 성능 Score₃      │
-│  반복 4: [훈련][검증F2][훈련][훈련][훈련] → 성능 Score₄      │
-│  반복 5: [검증F1][훈련][훈련][훈련][훈련] → 성능 Score₅      │
-│                                                            │
-│  최종 성능 = mean(Score₁~Score₅) ± std                    │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-Fold Cross-Validation (K=5 예시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터를 K개 Fold로 균등 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F1</div><div class="kb-diagram-cell">F2</div><div class="kb-diagram-cell">F3</div><div class="kb-diagram-cell">F4</div><div class="kb-diagram-cell">F5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복 1:</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">검증F5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 Score₁</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복 2:</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">검증F4</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 Score₂</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복 3:</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">검증F3</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 Score₃</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복 4:</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">검증F2</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 Score₄</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복 5:</div><div class="kb-diagram-node">검증F1</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-node">훈련</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 Score₅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 성능 = mean(Score₁~Score₅) ± std</div></div>
+</div>
+</div>
+
+
 
 - 각 반복마다 서로 다른 fold가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋 역할
-- **모든 샘플이 정확히 1번 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋에 포함**
+- <strong>모든 샘플이 정확히 1번 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>셋에 포함</strong>
 - 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) = K개 점수의 평균 ± 표준편차
 
 ### 2.2 계층화 K-겹 (Stratified K-Fold)
@@ -125,26 +127,35 @@ Fold3: 양성 2%               Fold3: 양성 5%
 
 ### 3.2 Train / [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) / Test 3분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-전체 데이터
-    │
-    ├── 훈련+검증 세트 (80%)  ─── K-Fold CV로 하이퍼파라미터 선택
-    │        │
-    │        ├── Fold 1~K-1: 훈련 (모델 가중치 학습)
-    │        └── Fold K:     검증 (하이퍼파라미터 선택)
-    │
-    └── 테스트 세트 (20%)  ─── 최종 성능 평가 (한 번만 사용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전체 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:2">훈련+검증 세트 (80%) K-Fold CV로 하이퍼파라미터 선택</div>
+<div class="kb-diagram-note">── Fold 1~K-1: 훈련 (모델 가중치 학습)</div>
+<div class="kb-diagram-note">── Fold K: 검증 (하이퍼파라미터 선택)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">테스트 세트 (20%) 최종 성능 평가 (한 번만 사용)</div>
+</div>
+</div>
+
+
 
 **핵심 원칙**: 테스트 세트는 모델 선택 과정에서 절대 사용하지 않음 → 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대표하는 순수한 최종 평가용
 
 ### 3.3 시계열 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Time-Series Split)
-시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 훈련에 포함되는 것([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)** 방지 필요:
-```
-반복1: 훈련[1~100] → 검증[101~120]
-반복2: 훈련[1~120] → 검증[121~140]
-반복3: 훈련[1~140] → 검증[141~160]
-```
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>미래 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 훈련에 포함되는 것(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage)</strong> 방지 필요:
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복1: 훈련</div><div class="kb-diagram-node">1~100</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">101~120</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복2: 훈련</div><div class="kb-diagram-node">1~120</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">121~140</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">반복3: 훈련</div><div class="kb-diagram-node">1~140</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">141~160</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분리는 학교 시험과 같다. K-Fold는 모의고사([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 여러 번 보는 것이고, Test 세트는 실제 수능(한 번만, 결과가 최종 성적)이다. 수능 문제로 모의고사 연습을 하면 성적이 부풀려진다.
 
@@ -154,16 +165,21 @@ Fold3: 양성 2%               Fold3: 양성 5%
 
 ### 4.1 K-Fold와 [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 결합
 
-```
-모델 후보: A, B, C
-하이퍼파라미터 후보: λ = {0.001, 0.01, 0.1}
 
-각 (모델, λ) 조합에 K-Fold 적용:
-  → CV 평균 점수 계산
-  → 최고 CV 점수 조합 선택
-  → 전체 훈련 데이터로 재학습
-  → 테스트 세트에서 최종 평가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 후보: A, B, C</div>
+<div class="kb-diagram-note">하이퍼파라미터 후보: λ = {0.001, 0.01, 0.1}</div>
+<div class="kb-diagram-note">각 (모델, λ) 조합에 K-Fold 적용:</div>
+<div class="kb-diagram-note">→ CV 평균 점수 계산</div>
+<div class="kb-diagram-note">→ 최고 CV 점수 조합 선택</div>
+<div class="kb-diagram-note">→ 전체 훈련 데이터로 재학습</div>
+<div class="kb-diagram-note">→ 테스트 세트에서 최종 평가</div>
+</div>
+</div>
+
+
 
 ### 4.2 [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 점수 해석
 
@@ -178,7 +194,7 @@ Fold3: 양성 2%               Fold3: 양성 5%
 - **K=10이 표준**: 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 균형에서 실증적으로 K=10이 최적
 - **Stratified K-Fold 필수**: 클래스 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 일반 K-Fold 사용은 오류
 - **테스트셋 오염 방지**: [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 과정에서 테스트셋 사용 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표가 낙관적으로 편향
-- **전처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 포함**: [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 인코딩도 각 fold 내에서 수행 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 방지)
+- <strong>전처리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 포함</strong>: [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 인코딩도 각 fold 내에서 수행 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 방지)
 
 - **📢 섹션 요약 비유**: 전처리를 fold 외부에서 하는 것은 시험 전 전체 학생의 답지를 미리 보여주고 시험을 보는 것과 같다. 스케일러도 각 fold의 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서만 학습해야 공정한 평가가 된다.
 

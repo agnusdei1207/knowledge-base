@@ -21,20 +21,24 @@ tags = ["studynote-ai"]
 
 ### [소프트맥스 함수](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) 정의
 
-```
-소프트맥스 수식:
 
-         e^(zᵢ)
-yᵢ = ─────────────    (i = 1, 2, ..., K)
-       K
-      Σ e^(zⱼ)
-      j=1
 
-특성:
-  - 모든 yᵢ ∈ (0, 1)   : 각 출력은 양수
-  - Σ yᵢ = 1            : 모든 출력의 합 = 1 (확률 분포)
-  - argmax(z) = argmax(y): 가장 큰 로짓 = 가장 큰 확률
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트맥스 수식:</div>
+<div class="kb-diagram-note">e^(zᵢ)</div>
+<div class="kb-diagram-note">yᵢ = (i = 1, 2, ..., K)</div>
+<div class="kb-diagram-note">K</div>
+<div class="kb-diagram-note">Σ e^(zⱼ)</div>
+<div class="kb-diagram-note">j=1</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">모든 yᵢ ∈ (0, 1) : 각 출력은 양수</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Σ yᵢ = 1 : 모든 출력의 합 = 1 (확률 분포)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">argmax(z) = argmax(y): 가장 큰 로짓 = 가장 큰 확률</div>
+</div>
+</div>
+
+
 
 ### 필요성: 왜 단순 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 아닌가?
 
@@ -61,25 +65,26 @@ yᵢ = e^(zᵢ) / Σe^(zⱼ)  ← 음수 처리 가능, 큰 값 강조, 미분 �
 
 ### 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층에서 Softmax 동작
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│               Softmax 다중 클래스 분류 흐름                        │
-│                                                                   │
-│   은닉층 출력    로짓 (Logit, z)    소프트맥스 출력     예측 클래스 │
-│                                                                   │
-│              z₁ = 2.0  ──► e^2.0 = 7.39                          │
-│                                      ÷ 합계          ──► 개 : 70% │
-│   [FC Layer] z₂ = 1.0  ──► e^1.0 = 2.72 = 10.52  ──► 고양이: 26%│
-│                                                    ──► 새  :  4%  │
-│              z₃ = 0.1  ──► e^0.1 = 1.11                          │
-│                              합: 11.22                             │
-│                                                                   │
-│  확인: 7.39/11.22 = 0.659 ≈ 66%                                   │
-│        2.72/11.22 = 0.242 ≈ 24%                                   │
-│        1.11/11.22 = 0.099 ≈ 10%                                   │
-│        합계 = 100% ✓                                               │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Softmax 다중 클래스 분류 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은닉층 출력 로짓 (Logit, z) 소프트맥스 출력 예측 클래스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z₁ = 2.0 ──► e^2.0 = 7.39</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">÷ 합계 ──► 개 : 70%</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FC Layer</div><div class="kb-diagram-note">z₂ = 1.0 ──► e^1.0 = 2.72 = 10.52 ──► 고양이: 26%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──► 새 : 4%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z₃ = 0.1 ──► e^0.1 = 1.11</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합: 11.22</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확인: 7.39/11.22 = 0.659 ≈ 66%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.72/11.22 = 0.242 ≈ 24%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.11/11.22 = 0.099 ≈ 10%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합계 = 100% ✓</div></div>
+</div>
+</div>
+
+
 
 ### 수치 안정성: [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지
 
@@ -97,26 +102,33 @@ yᵢ = e^(zᵢ-c) / Σe^(zⱼ-c)
 
 ### 온도 매개변수 ([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Parameter)
 
-```
-소프트맥스 with 온도:  yᵢ = e^(zᵢ/T) / Σe^(zⱼ/T)
 
-T → 0 (낮은 온도): 분포가 날카로워짐 → argmax에 집중 (결정적)
-T = 1 (기본값):    표준 소프트맥스
-T → ∞ (높은 온도): 분포가 균등해짐 → 랜덤 샘플링 (불확실)
-```
 
-```
-┌───────────────────────────────────────────────────┐
-│        온도에 따른 소프트맥스 출력 변화             │
-│                                                   │
-│  로짓: z = [2.0, 1.0, 0.1]                        │
-│                                                   │
-│  T=0.5 (날카로움):  [0.92, 0.08, 0.00]  ← 확신 강 │
-│  T=1.0 (기본):      [0.66, 0.24, 0.10]  ← 기본    │
-│  T=2.0 (부드러움):  [0.46, 0.34, 0.20]  ← 불확실  │
-│  T=10  (균등화):    [0.36, 0.33, 0.31]  ← 거의 균등│
-└───────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트맥스 with 온도: yᵢ = e^(zᵢ/T) / Σe^(zⱼ/T)</div>
+<div class="kb-diagram-note">T → 0 (낮은 온도): 분포가 날카로워짐 → argmax에 집중 (결정적)</div>
+<div class="kb-diagram-note">T = 1 (기본값): 표준 소프트맥스</div>
+<div class="kb-diagram-note">T → ∞ (높은 온도): 분포가 균등해짐 → 랜덤 샘플링 (불확실)</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도에 따른 소프트맥스 출력 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">로짓: z =</div><div class="kb-diagram-node">2.0, 1.0, 0.1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=0.5 (날카로움):</div><div class="kb-diagram-node">0.92, 0.08, 0.00</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">확신 강</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=1.0 (기본):</div><div class="kb-diagram-node">0.66, 0.24, 0.10</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">기본</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=2.0 (부드러움):</div><div class="kb-diagram-node">0.46, 0.34, 0.20</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">불확실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=10 (균등화):</div><div class="kb-diagram-node">0.36, 0.33, 0.31</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">거의 균등</div></div>
+</div>
+</div>
+
+
 
 ### 소프트맥스 기울기 (야코비안 행렬)
 
@@ -151,7 +163,7 @@ T → ∞ (높은 온도): 분포가 균등해짐 → 랜덤 샘플링 (불확�
 | 개념 | 설명 | 차이점 |
 |:---|:---|:---|
 | **Softmax** | K개 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 모든 출력 고려한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| **[Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)** | 1개 이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 독립적 이진 판단 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a></strong> | 1개 이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 독립적 이진 판단 |
 | **argmax** | 가장 큰 로짓의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 미분 불가, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 아님 |
 | **Sparsemax** | Softmax의 희소 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 일부 클래스만 0이 아닌 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | **Gumbel-Softmax** | 이산 샘플링 미분 가능화 | 강화학습·VAE에서 사용 |
@@ -176,22 +188,26 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) �
 ### 기술사 시험 핵심 논점
 
 1. **왜 Softmax인가**: 다중 클래스에서 "모든 클래스에 대한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 합=1" 보장 필요 → 상호 배타적 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 필수
-2. **[크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)와 결합 이유**: Softmax + CE 기울기 = yᵢ - tᵢ (단순, 수치 안정)
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>와 결합 이유</strong>: Softmax + CE 기울기 = yᵢ - tᵢ (단순, 수치 안정)
 3. **온도 매개변수 활용**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))에서 교사 모델의 "소프트 레이블"을 높은 온도로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 4. **과신뢰(Overconfidence) 문제**: Softmax 출력이 항상 합=1이라 틀려도 높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → 교정([Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)) 기법 필요
 
 ### 실무 활용 예시
 
-```
-이미지 분류 (1,000개 클래스, ImageNet):
-로짓 z [1000차원] → Softmax → 확률 분포 → argmax → 예측 클래스
 
-자연어 처리 (다음 단어 예측):
-로짓 [어휘 크기=50,000] → Softmax(T) → 확률 분포 → 샘플링 → 다음 토큰
 
-지식 증류 (Knowledge Distillation):
-교사 로짓 → Softmax(T=4) → 소프트 레이블 → 학생 모델 학습
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이미지 분류 (1,000개 클래스, ImageNet):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">로짓 z</div><div class="kb-diagram-node">1000차원</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Softmax → 확률 분포 → argmax → 예측 클래스</div></div>
+<div class="kb-diagram-note">자연어 처리 (다음 단어 예측):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">로짓</div><div class="kb-diagram-node">어휘 크기=50,000</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Softmax(T) → 확률 분포 → 샘플링 → 다음 토큰</div></div>
+<div class="kb-diagram-note">지식 증류 (Knowledge Distillation):</div>
+<div class="kb-diagram-note">교사 로짓 → Softmax(T=4) → 소프트 레이블 → 학생 모델 학습</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소프트맥스는 포털 사이트의 "검색 결과 순위" — 검색어와의 관련성(로짓) 점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해 각 결과가 "정답일 가능성"을 퍼센트로 보여주는 것과 같다.
 
@@ -215,7 +231,7 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) �
 
 | 효과 | 내용 |
 |:---|:---|
-| **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석** | 모델 출력을 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 해석 가능 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 해석</strong> | 모델 출력을 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 해석 가능 |
 | **다중 클래스** | K개 클래스에 자연스럽게 확장 |
 | **최적화 효율** | CE와 결합 시 단순하고 안정적인 기울기 |
 | **소프트 레이블** | 온도 조절로 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·샘플링 활용 |

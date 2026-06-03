@@ -18,22 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│        DORA 4대 메트릭                                     │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  처리량(Throughput):                                      │
-│  1. Deployment Frequency (배포 빈도) — 얼마나 자주?        │
-│  2. Lead Time for Changes (변경 리드타임) — 얼마나 빨리?   │
-│                                                          │
-│  안정성(Stability):                                       │
-│  3. CFR (Change Failure Rate) — 얼마나 안전하게?           │
-│  4. MTTR (Mean Time to Recover) — 장애 시 얼마나 빨리?     │
-│                                                          │
-│  ★ CFR = 실패 배포 수 / 전체 배포 수 × 100%               │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 4대 메트릭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량(Throughput):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Deployment Frequency (배포 빈도) — 얼마나 자주?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Lead Time for Changes (변경 리드타임) — 얼마나 빨리?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정성(Stability):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CFR (Change Failure Rate) — 얼마나 안전하게?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. MTTR (Mean Time to Recover) — 장애 시 얼마나 빨리?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ CFR = 실패 배포 수 / 전체 배포 수 × 100%</div></div>
+</div>
+</div>
+
+
 
 ### [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 성과 수준별 CFR 벤치마크
 
@@ -52,41 +52,43 @@ tags = ["studynote-devops-sre"]
 
 ### CFR 감소를 위한 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-1. 자동화 테스트 피라미드
-   E2E Tests (적음)
-   Integration Tests
-   Unit Tests (많음) → 빠른 피드백, CFR 감소
 
-2. 점진적 배포 (Progressive Delivery)
-   Blue-Green: 전체 트래픽을 신규 버전으로 한 번에 전환
-                → 문제 시 즉시 롤백
-   Canary:     5% → 25% → 100% 단계적 트래픽 전환
-                → 소수 사용자에서 문제 조기 탐지
 
-3. Feature Flag
-   배포(Deploy) ≠ 릴리스(Release)
-   코드는 배포하되 Feature Flag로 ON/OFF
-   → 문제 시 코드 배포 없이 플래그만 OFF
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 자동화 테스트 피라미드</div>
+<div class="kb-diagram-note">E2E Tests (적음)</div>
+<div class="kb-diagram-note">Integration Tests</div>
+<div class="kb-diagram-note">Unit Tests (많음) → 빠른 피드백, CFR 감소</div>
+<div class="kb-diagram-note">2. 점진적 배포 (Progressive Delivery)</div>
+<div class="kb-diagram-note">Blue-Green: 전체 트래픽을 신규 버전으로 한 번에 전환</div>
+<div class="kb-diagram-note">→ 문제 시 즉시 롤백</div>
+<div class="kb-diagram-note">Canary: 5% → 25% → 100% 단계적 트래픽 전환</div>
+<div class="kb-diagram-note">→ 소수 사용자에서 문제 조기 탐지</div>
+<div class="kb-diagram-note">3. Feature Flag</div>
+<div class="kb-diagram-note">배포(Deploy) ≠ 릴리스(Release)</div>
+<div class="kb-diagram-note">코드는 배포하되 Feature Flag로 ON/OFF</div>
+<div class="kb-diagram-note">→ 문제 시 코드 배포 없이 플래그만 OFF</div>
+</div>
+</div>
+
+
 
 ### [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포 CFR 감소 원리
 
-```text
-[전체 트래픽 100%]
-         │
-  ┌──────┴──────┐
-  │ Stable v1.0 │  → 95% 트래픽
-  └─────────────┘
 
-  ┌──────────────┐
-  │ Canary v1.1  │  → 5% 트래픽 (모니터링 중)
-  └──────────────┘
-         │
-   에러율 증가 감지
-         │
-  자동 롤백 또는 계속 진행
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전체 트래픽 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stable v1.0</div><div class="kb-diagram-cell">→ 95% 트래픽</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Canary v1.1</div><div class="kb-diagram-cell">→ 5% 트래픽 (모니터링 중)</div></div>
+<div class="kb-diagram-note">에러율 증가 감지</div>
+<div class="kb-diagram-note">자동 롤백 또는 계속 진행</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 광부들이 탄광에 데려가던 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새와 같다. [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 소수 사용자에게 먼저 노출해서 위험(에러)이 감지되면 전체 광부(사용자)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
 
@@ -97,9 +99,9 @@ tags = ["studynote-devops-sre"]
 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 측정 대상 | CFR과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
 | **배포 빈도** | 단위 시간당 배포 횟수 | 높은 빈도 + 낮은 CFR = Elite 팀 |
-| **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)** | 커밋→배포 소요 시간 | 짧은 리드타임 → 빠른 피드백 → CFR↓ |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 커밋→배포 소요 시간 | 짧은 리드타임 → 빠른 피드백 → CFR↓ |
 | **CFR** | 실패 배포 비율 | 안정성의 핵심 지표 |
-| **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)** | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 평균 시간 | CFR 높아도 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 낮으면 영향 최소화 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 평균 시간 | CFR 높아도 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 낮으면 영향 최소화 |
 
 - **📢 섹션 요약 비유**: [DORA 4](/knowledge-base/studynote/15_devops_sre/05_devsecops/285_dora_4/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 자동차의 4가지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. 배포 빈도는 최고 속도, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 가속력, CFR은 브레이크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), MTTR은 수리 속도다. 빠르고 안전한 차가 좋은 차이듯, 빠르고 안정적인 배포가 좋은 DevOps다.
 
@@ -139,7 +141,7 @@ def calculate_cfr(deployments, incidents):
 | 기대효과 | 내용 |
 |:---|:---|
 | **배포 안정성** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 유발 배포 감소 |
-| **팀 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)** | 낮은 CFR = 배포에 대한 공포 감소 |
+| <strong>팀 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a></strong> | 낮은 CFR = 배포에 대한 공포 감소 |
 | **비즈니스 가치** | 빠르고 안전한 기능 출시 |
 
 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 SPACE (Satisfaction, [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Activity, Communication, Efficiency) 프레임워크와 결합하여 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(Developer Experience, DevEx)을 종합적으로 측정하는 방향으로 발전하고 있다. CFR은 단순 KPI가 아닌 팀 [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감과 기술적 역량의 복합 지표다.
@@ -152,29 +154,31 @@ def calculate_cfr(deployments, incidents):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DORA 4](/knowledge-base/studynote/15_devops_sre/05_devsecops/285_dora_4/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | CFR은 안정성 지표 중 하나 |
-| **[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)/Blue-Green 배포** | CFR 감소를 위한 점진적 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)** | 배포와 릴리스 분리로 CFR 영향 최소화 |
-| **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)** | CFR과 쌍으로 분석하는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 지표 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/285_dora_4/">DORA 4</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | CFR은 안정성 지표 중 하나 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a>/Blue-Green 배포</strong> | CFR 감소를 위한 점진적 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a></strong> | 배포와 릴리스 분리로 CFR 영향 최소화 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> | CFR과 쌍으로 분석하는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 지표 |
 | **자동화 테스트** | CFR 감소의 근본적 해결책 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 배포 — 높은 CFR, 낮은 배포 빈도]
-    │
-    ▼
-[CI/CD 자동화 — 테스트 자동화로 CFR 감소]
-    │
-    ▼
-[점진적 배포 (Canary/Blue-Green) — 리스크 최소화]
-    │
-    ▼
-[Feature Flag — 배포와 릴리스 완전 분리]
-    │
-    ▼
-[DORA 메트릭 기반 Elite DevOps — CFR 0~15%]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포 — 높은 CFR, 낮은 배포 빈도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 자동화 — 테스트 자동화로 CFR 감소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점진적 배포 (Canary/Blue-Green) — 리스크 최소화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Feature Flag — 배포와 릴리스 완전 분리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DORA 메트릭 기반 Elite DevOps — CFR 0~15%</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

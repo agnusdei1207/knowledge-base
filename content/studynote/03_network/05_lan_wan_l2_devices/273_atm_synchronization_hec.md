@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: 셀 경계 판별(Cell Delineation). 수신기([ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 끊임없이 들어오는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림(`01011100...`) 속에서 정확히 53바이트짜리 덩어리의 첫 번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(경계선)가 어디인지 알아내는 과정이다.
 - **필요성**: 이더넷은 1518바이트 등 크기가 지멋대로라 무조건 앞에 "지금 시작한다!(Preamble)"는 깃발을 흔들어줘야 했다. 하지만 ATM은 무조건 53바이트로 고정되어 있다는 맹점이 있다. 이 53바이트 구조체 안에 어차피 헤더가 안 깨졌는지 검사하는 HEC(에러 검출) 바이트가 있는데, "이 HEC 수학 공식을 거꾸로 이용하면 굳이 깃발(Preamble)을 흔들지 않아도 수신기가 시작점을 스스로 깨달을 수 있지 않을까?"라는 목적으로 개발되었다.
 
-- **💡 비유**: 길게 이어진 기차 칸막이를 찾는 것과 같습니다. 이더넷은 기차 칸막이마다 겉면에 **"빨간 페인트(Preamble)"**를 크게 칠해 놓은 것이고, ATM은 페인트를 아끼려고 아무 표시도 안 해둔 대신, **"검표원(HEC)이 있는 칸에서 앞쪽으로 정확히 4칸을 세면 거기가 문이다"**라는 숨겨진 수학적 규칙을 이용해 문을 찾는 방식입니다.
+- **💡 비유**: 길게 이어진 기차 칸막이를 찾는 것과 같습니다. 이더넷은 기차 칸막이마다 겉면에 <strong>"빨간 페인트(Preamble)"</strong>를 크게 칠해 놓은 것이고, ATM은 페인트를 아끼려고 아무 표시도 안 해둔 대신, <strong>"검표원(HEC)이 있는 칸에서 앞쪽으로 정확히 4칸을 세면 거기가 문이다"</strong>라는 숨겨진 수학적 규칙을 이용해 문을 찾는 방식입니다.
 
-```text
-[ATM]
-    │
-    ▼
-[ATM 동기화]
-    │
-    └──▶ [VPI / VCI]
-```
 
-- **📢 섹션 요약 비유**: ** [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 포장지에 시작 표시가 없는 대신, **바코드(HEC)의 수학 공식을 풀어서 포장지의 모서리 위치를 역추적해 내는 고도의 두뇌 플레이([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ATM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ATM 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPI / VCI</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>는 포장지에 시작 표시가 없는 대신, </strong>바코드(HEC)의 수학 공식을 풀어서 포장지의 모서리 위치를 역추적해 내는 고도의 두뇌 플레이([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**입니다.
 
 ---
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 1. HEC (Header [Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) 필드
 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 헤더 5바이트 중 마지막 5번째 바이트가 HEC다.
-이 바이트는 앞의 4바이트(목적지 주소 등)가 전송 중 깨지지 않았는지 검사하는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)(순환 중복 검사) 값이다. **(주의: 48바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)는 에러 검사를 하지 않는다. 오직 헤더 4바이트만 검사한다!)**
+이 바이트는 앞의 4바이트(목적지 주소 등)가 전송 중 깨지지 않았는지 검사하는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)(순환 중복 검사) 값이다. <strong>(주의: 48바이트의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(페이로드)는 에러 검사를 하지 않는다. 오직 헤더 4바이트만 검사한다!)</strong>
 
 ### 2. 셀 경계 찾기: 3단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 머신
 수신기가 전원을 막 켰을 때는 어디가 셀의 시작인지 전혀 모르는 막막한 상태다. 수신기는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하나씩 움직여가며(Sliding Window) 5바이트 블록을 잡아 HEC 공식을 돌려본다.
@@ -56,24 +60,23 @@ tags = ["studynote-network"]
    - 완벽하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 달성되었다. 이제부터는 들어오는 족족 53바이트씩 뭉텅 썰어서 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭을 수행한다.
    - 만약 선로 노이즈로 인해 HEC가 알파 번(통상 7번) 연속으로 실패하면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 깨졌다고 판단하고, 즉시 다시 1단계 HUNT(탐색) 상태로 추락한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ATM 수신기의 HEC 셀 델리니에이션(동기화)        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ HUNT ] ── (우연히 1번 맞음) ──▶ [ PRESYNC ]                 │
- │      ▲                             │   │                    │
- │      │(에러 발생, 못 찾음)            │   │(연속 6번 성공!)      │
- │      └─────────────────────────────┘   │                    │
- │              (연속 7번 에러 발생!)        ▼                    │
- │              ◀───────────────────── [ SYNC ]                 │
- │                                    (초고속 데이터 스위칭 가동!) │
- │                                                             │
- │   * 53바이트라는 '고정 길이'가 보장되기에 가능한 마법의 알고리즘이다.  │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** HEC 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 라디오 주파수를 맞출 때, 지지직거리는 잡음 속에서 다이얼을 0.1Mhz씩 미세하게 돌리다가(**HUNT**), DJ의 목소리가 어렴풋이 들리면 잠시 멈추고 계속 선명하게 들리는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤(**PRESYNC**), 확실하다 싶으면 음악을 감상(**SYNC**)하는 과정과 완벽히 일치합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATM 수신기의 HEC 셀 델리니에이션(동기화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HUNT</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PRESYNC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(에러 발생, 못 찾음)</div><div class="kb-diagram-cell">(연속 6번 성공!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(연속 7번 에러 발생!) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">SYNC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초고속 데이터 스위칭 가동!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 53바이트라는 '고정 길이'가 보장되기에 가능한 마법의 알고리즘이다.</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> HEC 기반 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>는 라디오 주파수를 맞출 때, 지지직거리는 잡음 속에서 다이얼을 0.1Mhz씩 미세하게 돌리다가(</strong>HUNT<strong>), DJ의 목소리가 어렴풋이 들리면 잠시 멈추고 계속 선명하게 들리는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>한 뒤(</strong>PRESYNC**), 확실하다 싶으면 음악을 감상(**SYNC**)하는 과정과 완벽히 일치합니다.
 
 ---
 
@@ -129,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ATM]
-    │
-    ▼
-[현재 개념: ATM 동기화]
-    │
-    ├──▶ [확장 A: VPI / VCI]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ATM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ATM 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VPI / VCI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 ATM에서 출발해 현재 메커니즘을 정교화하고, 이후 VPI / VCI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

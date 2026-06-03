@@ -25,17 +25,18 @@ Write-Back은 캐시의 [쓰기](/knowledge-base/studynote/13_cloud_architecture
 
 아래 그림은 Write-Back이 "매번 쓰지 않고, 퇴출 시점에 몰아서 쓴다"는 시간축상의 차이를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│               Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중        │
-├──────────────────────────────────────────────────────────────────────────┤
-│ CPU Store #1     CPU Store #2     CPU Store #3             Eviction     │
-│     │                │                │                      │           │
-│     ▼                ▼                ▼                      ▼           │
-│ Cache Line:   clean ──▶ dirty ───────▶ dirty ──────────────▶ writeback  │
-│ Main Memory:  old   ────────────────────────────────────────▶ final data │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Store #1 CPU Store #2 CPU Store #3 Eviction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Line: clean ──▶ dirty ▶ dirty ▶ writeback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory: old ▶ final data</div></div>
+</div>
+</div>
+
+
 
 즉 Write-Back은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체를 없애는" 기술이 아니라, 여러 번의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하나의 메모리 반영으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 대신 그 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 구간 동안 메모리에는 구버전이 남아 있으므로, 시스템은 어느 쪽이 최신인지 정확히 추적할 장치를 반드시 가져야 한다.
 
@@ -56,27 +57,22 @@ Write-Back 캐시는 단순히 "나중에 쓰자"고 선언하는 것으로 끝�
 
 다음 그림은 Write-Back에서 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 처리되는 내부 흐름을 요약한다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│                  Write-Back 캐시의 쓰기 처리 순서                    │
-├───────────────────────────────────────────────────────────────────────┤
-│ 1) CPU store                                                         │
-│      │                                                               │
-│      ▼                                                               │
-│ 2) Cache hit? ── 아니오 ──▶ 블록 적재(보통 Write Allocate)           │
-│      │ 예                                                            │
-│      ▼                                                               │
-│ 3) 캐시 데이터 갱신                                                  │
-│      │                                                               │
-│      ▼                                                               │
-│ 4) Dirty Bit = 1 설정                                                │
-│      │                                                               │
-│      ▼                                                               │
-│ 5) 라인 교체 시 Dirty 검사 ── 0 ──▶ 그냥 폐기                        │
-│                         │                                             │
-│                         └─ 1 ──▶ Write Buffer ──▶ 하위 메모리 기록    │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Back 캐시의 쓰기 처리 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CPU store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Cache hit? ── 아니오 ──▶ 블록 적재(보통 Write Allocate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 캐시 데이터 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Dirty Bit = 1 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 라인 교체 시 Dirty 검사 ── 0 ──▶ 그냥 폐기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1 ──▶ Write Buffer ──▶ 하위 메모리 기록</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 병목은 "평상시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 아니라 "더티 라인이 쫓겨나는 순간"이다. 캐시 미스가 발생해 새 블록을 넣어야 하는데 희생 라인이 더티 상태라면, 먼저 그 라인을 메모리로 내려보내야 자리를 비울 수 있다. 그래서 고성능 프로세서는 퇴출 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼에 넘겨 백그라운드로 처리하고, 앞단의 파이프라인은 가능한 빨리 다음 명령으로 넘어가게 만든다.
 
@@ -112,17 +108,17 @@ Write-Back의 의미는 다른 [쓰기](/knowledge-base/studynote/13_cloud_archi
 
 ### 실무 판단 체크포인트
 
-1. **반복 갱신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가?**  
+1. <strong>반복 갱신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>인가?</strong>  
    같은 블록을 여러 번 수정한다면 Write-Back 효과가 크다.
 2. **외부 장치와 메모리를 공유하는가?**  
    [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) ([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), Network Interface Card), 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와 버퍼를 공유한다면 캐시 플러시/무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 반드시 필요하다.
-3. **장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이 치명적인가?**  
+3. <strong>장애 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실이 치명적인가?</strong>  
    전원 차단 직전 캐시에만 남은 최신 값은 사라질 수 있으므로, [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 계층에서는 별도 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필요하다.
 
 ### 대표 시나리오
 
 - **고성능 일반 연산**: 루프 안에서 구조체 필드를 수천 번 갱신하는 경우, Write-Back은 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용을 크게 줄인다.
-- **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 전후 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: 드라이버는 전송 시작 전 더티 라인을 메모리로 밀어내고, 전송 후에는 캐시를 무효화해 장치가 쓴 최신 값을 CPU가 다시 읽게 해야 한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 전송 전후 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: 드라이버는 전송 시작 전 더티 라인을 메모리로 밀어내고, 전송 후에는 캐시를 무효화해 장치가 쓴 최신 값을 CPU가 다시 읽게 해야 한다.
 - **지속성 보장 시스템**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만 믿지 않고, 배리어·flush 명령·저널링으로 영속 기록 시점을 명시적으로 통제한다.
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -131,7 +127,7 @@ Write-Back의 의미는 다른 [쓰기](/knowledge-base/studynote/13_cloud_archi
 - 멀티코어 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 비용을 무시한 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가정
 - "캐시에 있으니 저장된 것"으로 착각해 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 보장을 생략하는 설계
 
-결국 기술사 관점의 답안 포인트는 명확하다. **Write-Back은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이지, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보증 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니다.** 따라서 채택 여부는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 절감 이익"과 "[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 비용"을 함께 비교해 판단해야 한다.
+결국 기술사 관점의 답안 포인트는 명확하다. <strong>Write-Back은 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이지, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 보증 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 아니다.</strong> 따라서 채택 여부는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 절감 이익"과 "[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 비용"을 함께 비교해 판단해야 한다.
 
 - **📢 섹션 요약 비유**: Write-Back은 손님이 많은 식당에서 주문서를 주방 앞 보드에 먼저 모아 적는 방식과 같다. 빠르지만, 배달 기사나 다른 주방이 함께 볼 때는 최신 주문인지 꼭 맞춰줘야 혼선이 없다.
 
@@ -143,7 +139,7 @@ Write-Back의 가장 큰 효과는 메모리 계층의 병목을 줄여 CPU가 �
 
 하지만 이 효과는 어디까지나 조건부다. 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추적, 교체 시점 처리, 멀티코어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 연동, 전원 장애 대응이 모두 뒷받침되어야 한다. 즉 Write-Back은 "빠른 대신 복잡한" [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이며, 그 복잡성을 감당할 구조가 있을 때 비로소 장점이 실현된다.
 
-미래 확장 관점에서는 대용량 멀티코어, 비휘발성 메모리, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 같은 계층 확장에서 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 의미가 더 커질 수 있다. 다만 계층이 많아질수록 "어디에 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가"를 맞추는 비용도 함께 증가한다. 따라서 Write-Back은 **캐시가 메모리를 대신 저장해 주는 기술**이 아니라, **최신 상태를 잠시 위임받아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 벌어 주는 기술**로 기억하는 것이 정확하다.
+미래 확장 관점에서는 대용량 멀티코어, 비휘발성 메모리, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 같은 계층 확장에서 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 의미가 더 커질 수 있다. 다만 계층이 많아질수록 "어디에 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가"를 맞추는 비용도 함께 증가한다. 따라서 Write-Back은 <strong>캐시가 메모리를 대신 저장해 주는 기술</strong>이 아니라, <strong>최신 상태를 잠시 위임받아 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 벌어 주는 기술</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: Write-Back은 고속도로 진입 전에 차량을 잠깐 모아 흐름을 정리해 주는 램프미터와 같다. 교통량은 빨라지지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 제대로 운영해야만 전체가 안전하게 흐른다.
 
@@ -161,21 +157,23 @@ Write-Back의 가장 큰 효과는 메모리 계층의 병목을 줄여 CPU가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Write-Through 중심의 단순 일관성
-        │
-        ▼
-Write-Back + 더티 비트 (Dirty Bit)
-        │
-        ▼
-Write Allocate + 쓰기 버퍼 (Write Buffer)
-        │
-        ▼
-MESI 기반 멀티코어 캐시 일관성
-        │
-        ▼
-DMA 동기화 · Flush/Fence · 확장 메모리 계층
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Write-Through 중심의 단순 일관성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write-Back + 더티 비트 (Dirty Bit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write Allocate + 쓰기 버퍼 (Write Buffer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESI 기반 멀티코어 캐시 일관성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA 동기화 · Flush/Fence · 확장 메모리 계층</div>
+</div>
+</div>
+
+
 
 이 흐름은 "즉시 기록"에서 출발해 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기록 + 상태 추적 + 시스템 차원의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 설계 관심사가 확장되는 과정을 보여준다.
 

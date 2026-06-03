@@ -23,14 +23,14 @@ tags = ["studynote-computer-architecture"]
 
 문제는 전원 장애가 다른 하드웨어 장애보다 훨씬 파괴적이라는 점이다. 디스크 하나가 죽으면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하나 재구성이 가능하지만, 전원 공급이 끊기면 메모리 상태가 사라지고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체가 중단된다. 그래서 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 "부품 하나의 고장"과 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단"을 동일시하지 않도록, 전원을 유지보수 가능한 장애로 바꾸는 방향으로 설계한다.
 
-즉 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 단순히 안전장치를 하나 더 넣는 개념이 아니라, **전원 고장을 시스템 정지에서 운영 이벤트로 격하하는 설계 철학**이다.
+즉 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 단순히 안전장치를 하나 더 넣는 개념이 아니라, <strong>전원 고장을 시스템 정지에서 운영 이벤트로 격하하는 설계 철학</strong>이다.
 - **📢 섹션 요약 비유**: 가게 문을 여는 열쇠가 하나뿐이면 분실 순간 영업이 끝난다. 여분 열쇠를 다른 사람과 다른 장소에 나눠 두면, 한 개를 잃어도 가게는 계속 연다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대표적인 서버 전원 구조는 1+1 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)다. 두 개의 PSU가 각각 교류 입력을 받아 직류 출력으로 변환하고, OR-ing 회로나 핫스왑 백플레인을 통해 공통 직류 버스에 연결된다. 평상시에는 두 PSU가 부하를 나눠 갖거나, 일부 설계에서는 한쪽이 더 적극적으로 담당하고 다른 쪽이 대기 상태에 가깝게 동작한다. 중요한 것은 **어느 모드이든 살아남은 한 개의 PSU가 전체 시스템 부하를 단독으로 감당할 수 있어야 한다**는 점이다.
+대표적인 서버 전원 구조는 1+1 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)다. 두 개의 PSU가 각각 교류 입력을 받아 직류 출력으로 변환하고, OR-ing 회로나 핫스왑 백플레인을 통해 공통 직류 버스에 연결된다. 평상시에는 두 PSU가 부하를 나눠 갖거나, 일부 설계에서는 한쪽이 더 적극적으로 담당하고 다른 쪽이 대기 상태에 가깝게 동작한다. 중요한 것은 <strong>어느 모드이든 살아남은 한 개의 PSU가 전체 시스템 부하를 단독으로 감당할 수 있어야 한다</strong>는 점이다.
 
 또 하나의 핵심은 전력 경로 분리다. 두 PSU를 같은 멀티탭에 꽂으면 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 두 개인 것이지, 급전 경로는 하나다. 그래서 실무에서는 PSU A는 [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) (Uninterruptible [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply) A와 PDU A에, PSU B는 [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) B와 PDU B에 연결해 상위 장애 도메인까지 분리한다.
 
@@ -43,17 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 진짜 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)가 "PSU 2개"가 아니라 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) + 급전 경로 + 결합 회로"의 조합임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          True redundancy requires module redundancy and path split         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Utility A -> UPS A -> PDU A -> PSU A --\                                 │
-│                                          +--> OR-ing bus --> Server load   │
-│ Utility B -> UPS B -> PDU B -> PSU B --/                                 │
-│                                                                            │
-│ If PSU A or Feed A fails, PSU B must still support the full server load.   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">True redundancy requires module redundancy and path split</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility A -&gt; UPS A -&gt; PDU A -&gt; PSU A --\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--&gt; OR-ing bus --&gt; Server load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility B -&gt; UPS B -&gt; PDU B -&gt; PSU B --/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If PSU A or Feed A fails, PSU B must still support the full server load.</div></div>
+</div>
+</div>
+
+
 
 핫스왑 (Hot-swap) 구조가 붙으면 운영 중에도 고장 난 PSU를 뽑아 새 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 교체할 수 있다. 이때 시스템은 꺼지지 않고, 관리자는 경고 로그를 보고 장애 부품만 바꾸면 된다. 그래서 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 정비성을 동시에 높이는 인프라가 된다.
 - **📢 섹션 요약 비유**: 비행기에 엔진이 두 개 달린 이유는 둘 다 동시에 가장 세게 돌리기 위해서가 아니라, 하나가 멈춰도 남은 하나로 착륙할 수 있게 하기 위해서다.
@@ -80,7 +82,7 @@ N+1은 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 확인할 것은 용량 계산이다. 예를 들어 서버 최대 소비전력이 750W라면, 1+1 구조에서 각 PSU는 적어도 750W 이상을 단독으로 낼 수 있어야 한다. 500W PSU 두 개를 꽂아 1000W처럼 보이게 만들면 평상시에는 돌아가도 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 죽는 순간 나머지 하나가 버티지 못한다. 즉 **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 구성의 총합 용량이 아니라, 생존 모드의 단독 용량**을 봐야 한다.
+실무에서 가장 먼저 확인할 것은 용량 계산이다. 예를 들어 서버 최대 소비전력이 750W라면, 1+1 구조에서 각 PSU는 적어도 750W 이상을 단독으로 낼 수 있어야 한다. 500W PSU 두 개를 꽂아 1000W처럼 보이게 만들면 평상시에는 돌아가도 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 죽는 순간 나머지 하나가 버티지 못한다. 즉 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 구성의 총합 용량이 아니라, 생존 모드의 단독 용량</strong>을 봐야 한다.
 
 운영 측면에서는 degraded mode 감지가 중요하다. 한 개가 죽어도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 계속되지만, 그 순간부터는 무방비 상태다. 따라서 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))나 관리 소프트웨어가 PSU fail, input lost, fan fail 같은 이벤트를 즉시 올리고, 현장 교체 절차가 준비되어 있어야 한다.
 
@@ -107,9 +109,9 @@ N+1은 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원의 가장 큰 효과는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상이다. PSU 고장, 케이블 이탈, 급전 경로 하나의 상실이 즉시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정지로 이어지지 않으므로, 계획되지 않은 다운타임과 긴급 야간 작업이 줄어든다. 또한 핫스왑 교체가 가능해 유지보수 시간과 운영 리스크도 낮아진다.
 
-다만 비용, 공간, 발열, 경보 체계, 효율 저하 같은 대가가 따른다. 저부하에서 PSU 두 개를 모두 살려 두면 효율 곡선이 불리할 수 있고, 상위 전력 인프라가 단일 경로면 하부 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 효과도 제한된다. 즉 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 만능 방패가 아니라, **전력 경로라는 한 축의 위험을 줄이는 매우 강력한 수단**이다.
+다만 비용, 공간, 발열, 경보 체계, 효율 저하 같은 대가가 따른다. 저부하에서 PSU 두 개를 모두 살려 두면 효율 곡선이 불리할 수 있고, 상위 전력 인프라가 단일 경로면 하부 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 효과도 제한된다. 즉 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 만능 방패가 아니라, <strong>전력 경로라는 한 축의 위험을 줄이는 매우 강력한 수단</strong>이다.
 
-앞으로는 고효율 Titanium 급 PSU, 48V 배전, PMBus ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 텔레메트리, 예지 정비 기반 장애 예측이 더 중요해질 것이다. 결론적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 "PSU를 하나 더 다는 장치"가 아니라, **전원 장애를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단에서 유지보수 이벤트로 전환하는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)식 사고방식**으로 기억하면 된다.
+앞으로는 고효율 Titanium 급 PSU, 48V 배전, PMBus ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 텔레메트리, 예지 정비 기반 장애 예측이 더 중요해질 것이다. 결론적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원은 "PSU를 하나 더 다는 장치"가 아니라, <strong>전원 장애를 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단에서 유지보수 이벤트로 전환하는 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>식 사고방식</strong>으로 기억하면 된다.
 - **📢 섹션 요약 비유**: 좋은 다리는 튼튼한 기둥 하나만 세우지 않는다. 한 기둥에 문제가 생겨도 다른 기둥이 무게를 받아 다리가 끊기지 않게 만든다.
 
 ---
@@ -127,21 +129,23 @@ N+1은 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 PSU 기반 서버
-        │
-        ▼
-1+1 이중화 PSU
-        │
-        ▼
-A/B UPS · A/B PDU 분리 급전
-        │
-        ▼
-Hot-swap · PMBus 텔레메트리 기반 운영
-        │
-        ▼
-N+1 / N+N 전원 셸프와 랙 단위 전력 복원력
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 PSU 기반 서버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1+1 이중화 PSU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">A/B UPS · A/B PDU 분리 급전</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hot-swap · PMBus 텔레메트리 기반 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">N+1 / N+N 전원 셸프와 랙 단위 전력 복원력</div>
+</div>
+</div>
+
+
 
 이 흐름은 전원 설계가 단순 부품 추가에서 출발해, 이제는 상위 급전 경로와 운영 텔레메트리까지 포함하는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 아키텍처로 확장되고 있음을 보여 준다.
 

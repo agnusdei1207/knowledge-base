@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 개발자는 요구사항이 나중에 바뀌면 코드를 다 엎어야 하는 게 끔찍하게 싫습니다(수정의 공포).
-- 그래서 **'미리 대비하자(Future-proofing)'**는 강박에 빠져, 나중에 편하려고 당장 쓰지도 않을 거대한 인터페이스를 파고 가짜 함수들을 수백 개 만들어 둡니다. (이른바 오버 엔지니어링)
+- 그래서 <strong>'미리 대비하자(Future-proofing)'</strong>는 강박에 빠져, 나중에 편하려고 당장 쓰지도 않을 거대한 인터페이스를 파고 가짜 함수들을 수백 개 만들어 둡니다. (이른바 오버 엔지니어링)
 - **비극의 결말**: 시장은 변합니다. 내년에 추가될 줄 알았던 기능은 사장님이 까먹어서 평생 안 쓰입니다. 결국 그 '미리 짜둔 코드들'은 아무도 건드리지 못하고 방치되어, 코드를 읽는 사람을 미치게 만드는 암덩어리 찌끄러기(Dead [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 남습니다.
 
 - **📢 섹션 요약 비유**: [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Go의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  YAGNI (You Aren't Go                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YAGNI (You Aren't Go</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Go가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -93,10 +92,10 @@ tags = ["studynote-software-engineering"]
 
 이 3대장은 코드 리뷰할 때 선배들이 가장 많이 입에 올리는 단골 멘트 3대장입니다.
 1. **DRY (248번)**: 똑같은 코드 두 번 쓰지 마! ➜ **'코드 복붙 낭비' 방지**
-2. **[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) (249번)**: 쓸데없이 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 떡칠해서 꼬아놓지 마! ➜ **'설계 복잡성' 방지**
-3. **[YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (250번)**: 쓸데없이 미래 기능 지레짐작해서 미리 짜지 마! ➜ **'불필요한 코드 추가' 방지**
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/">KISS</a> (249번)</strong>: 쓸데없이 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 떡칠해서 꼬아놓지 마! ➜ **'설계 복잡성' 방지**
+3. <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a> (250번)</strong>: 쓸데없이 미래 기능 지레짐작해서 미리 짜지 마! ➜ **'불필요한 코드 추가' 방지**
 
-> 📢 **섹션 요약 비유**: **[YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/)(You Aren't Gonna Need It)** 원칙은 한라산을 등반하려는 초보 등산객에게 **'북극 탐험용 썰매와 우주복 배낭 금지법'**입니다. 초보 등산객(오버 엔지니어링 개발자)은 한라산에 가면서 상상의 나래를 펼칩니다. "음, 가다가 만약 눈보라를 만나면 썰매가 필요하겠지? 혹시라도 산 정상에서 로켓을 타고 우주로 갈 수도 있으니까 우주복도 챙겨야겠다!" 이 멍청이는 100kg짜리 가방(미래의 추측성 쓰레기 코드)을 메고 산에 오르다 입구에서 무거워서 쓰러져 죽습니다. 산악 대장([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 마스터)이 가방을 탈탈 털어버리며 소리칩니다. **"야 이 바보야!! 너 그거 평생 한라산에서 쓸 일 없어 ㅆㅂ([YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/))!!"** 썰매와 우주복을 다 쓰레기통에 던져버리고 딱 오늘 마실 생수 1병과 아이젠(당장 필요한 핵심 로직)만 쥐여줍니다. 몸이 미치도록 가벼워진 등산객은 한라산 정상을 빛의 속도로 찍고 살아남습니다. 나중에 만약 진짜 우주에 가야 할 일이 생긴다면, 그때 우주 기지(새로운 객체 확장)에 가서 우주복을 챙겨입으면 그만입니다. 일어날지 안 일어날지도 모르는 미래의 망상 때문에 현재의 코드를 뚱뚱하고 무겁게 망치는 죄악을 사형시키는 극단적 군더더기 절단술입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a>(You Aren't Gonna Need It)</strong> 원칙은 한라산을 등반하려는 초보 등산객에게 <strong>'북극 탐험용 썰매와 우주복 배낭 금지법'</strong>입니다. 초보 등산객(오버 엔지니어링 개발자)은 한라산에 가면서 상상의 나래를 펼칩니다. "음, 가다가 만약 눈보라를 만나면 썰매가 필요하겠지? 혹시라도 산 정상에서 로켓을 타고 우주로 갈 수도 있으니까 우주복도 챙겨야겠다!" 이 멍청이는 100kg짜리 가방(미래의 추측성 쓰레기 코드)을 메고 산에 오르다 입구에서 무거워서 쓰러져 죽습니다. 산악 대장([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 마스터)이 가방을 탈탈 털어버리며 소리칩니다. <strong>"야 이 바보야!! 너 그거 평생 한라산에서 쓸 일 없어 ㅆㅂ(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a>)!!"</strong> 썰매와 우주복을 다 쓰레기통에 던져버리고 딱 오늘 마실 생수 1병과 아이젠(당장 필요한 핵심 로직)만 쥐여줍니다. 몸이 미치도록 가벼워진 등산객은 한라산 정상을 빛의 속도로 찍고 살아남습니다. 나중에 만약 진짜 우주에 가야 할 일이 생긴다면, 그때 우주 기지(새로운 객체 확장)에 가서 우주복을 챙겨입으면 그만입니다. 일어날지 안 일어날지도 모르는 미래의 망상 때문에 현재의 코드를 뚱뚱하고 무겁게 망치는 죄악을 사형시키는 극단적 군더더기 절단술입니다.
 
 - **📢 섹션 요약 비유**: [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -141,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-YAGNI (You Aren't Gonna Need It) 원칙 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">YAGNI (You Aren't Gonna Need It) 원칙 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

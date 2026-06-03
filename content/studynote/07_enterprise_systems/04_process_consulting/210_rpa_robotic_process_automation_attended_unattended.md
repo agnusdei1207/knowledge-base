@@ -40,18 +40,19 @@ RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇�
 
 아래 그림은 Attended Bot과 Unattended Bot이 같은 플랫폼 위에서 다르게 배치되는 구조를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│                RPA 운영 구조: 중앙 통제와 실행 방식            │
-├────────────────────────────────────────────────────────────────┤
-│                 오케스트레이터 (Orchestrator)                 │
-│            ┌──────────────┴──────────────┐                    │
-│            ▼                             ▼                    │
-│  사용자 단말의 Attended Bot        서버/VM의 Unattended Bot      │
-│  - 사용자 트리거                  - 스케줄·이벤트 기반 실행    │
-│  - 사람 판단 후 이어받음          - 대량·야간·배치 업무 적합   │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPA 운영 구조: 중앙 통제와 실행 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오케스트레이터 (Orchestrator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 단말의 Attended Bot 서버/VM의 Unattended Bot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용자 트리거 - 스케줄·이벤트 기반 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사람 판단 후 이어받음 - 대량·야간·배치 업무 적합</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 세 가지다. 첫째, 화면 기반 자동화이므로 선택자 안정성과 예외 처리가 중요하다. 둘째, 업무 규칙이 명확할수록 자동화 성공률이 높다. 셋째, 봇 수가 늘어날수록 중앙 통제와 자격증명 관리가 필수다. 즉 RPA는 단순 매크로가 아니라 운영 체계를 함께 가져야 하는 자동화 플랫폼이다.
 
@@ -123,20 +124,23 @@ RPA를 적절히 적용하면 처리시간 단축, 입력 오류 감소, 야간 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수작업 화면 입력
-      │
-      ▼
-RPA (Robotic Process Automation)
-   ├─ Attended Bot
-   └─ Unattended Bot
-      │
-      ▼
-오케스트레이터 기반 중앙 통제
-      │
-      ▼
-지능형 자동화 · 하이퍼오토메이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수작업 화면 입력</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RPA (Robotic Process Automation)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Attended Bot</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Unattended Bot</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오케스트레이터 기반 중앙 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 자동화 · 하이퍼오토메이션</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 화면 자동화가 중앙 운영과 지능형 자동화로 확장되는 방향을 보여준다.
 

@@ -21,33 +21,30 @@ tags = ["studynote-operating-system"]
 
 **개념 및 정의**
 정보보안에서 접근 관리 체계는 크게 3단계의 프로세스인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Authentication) → [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))로 나뉜다. 
-- **[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)**: "나는 ID `admin` 입니다"라고 주장하는 것.
-- **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**: "비밀번호 `1234`를 확인해보니 당신이 진짜 `admin`이 맞군요"라고 증명하는 것.
-- **[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)**: "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)된 `admin`에게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 권한을 부여합니다"라며 접근 제어를 수행하는 것.
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: "나는 ID `admin` 입니다"라고 주장하는 것.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: "비밀번호 `1234`를 확인해보니 당신이 진짜 `admin`이 맞군요"라고 증명하는 것.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong>: "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)된 `admin`에게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 권한을 부여합니다"라며 접근 제어를 수행하는 것.
 
 **필요성 및 등장 배경**
 과거 독립된 컴퓨터 환경에서는 단순한 패스워드 하나만으로 충분한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능했다. 그러나 인터넷 시대가 열리고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경이 도래하면서 패스워드 스니핑(Sniffing), [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)([Phishing](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)), 브루트 포스(Brute-force) 등 패스워드 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 파훼하는 공격이 쏟아졌다. 인간의 기억력에 한계가 있어 쉬운 패스워드를 재사용하는 취약점이 지속되자, 단순 지식을 넘어 하드웨어 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)나 생체 정보를 복합적으로 요구하는 강력한 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 아키텍처가 필수 불가결한 시대적 요구가 되었다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│      접근 관리의 3단계 프로세스 (식별 → 인증 → 인가)       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│   [주체 (User)]                                            │
-│        │                                                   │
-│   ① 식별 (Identification) : "나는 Alice 야!" (아이디 입력)  │
-│        │                                                   │
-│        ▼                                                   │
-│   ② 인증 (Authentication) : "이 비밀번호와 지문을 봐!"      │
-│        │                 (시스템이 진위 여부 검증)         │
-│        ▼ (인증 성공)                                       │
-│                                                            │
-│   ③ 인가 (Authorization)  : "Alice는 'Read' 권한이 있군."   │
-│        │                 (접근 제어 목록(ACL) 확인)        │
-│        ▼                                                   │
-│   [객체 (File, DB, OS 자원) 접근 허용]                     │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 관리의 3단계 프로세스 (식별 → 인증 → 인가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주체 (User)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 식별 (Identification) : "나는 Alice 야!" (아이디 입력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 인증 (Authentication) : "이 비밀번호와 지문을 봐!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템이 진위 여부 검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (인증 성공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 인가 (Authorization) : "Alice는 'Read' 권한이 있군."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(접근 제어 목록(ACL) 확인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">객체 (File, DB, OS 자원) 접근 허용</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 프로세스 다이어그램은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Authentication)이 시스템 보안의 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이자 핵심 관문임을 보여준다. 아무리 권한 통제([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 로직이 정교하게 짜여 있더라도, 해커가 2단계 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 관문을 통과해 합법적인 Alice의 자격을 획득해 버리면 OS는 공격자를 Alice로 완벽히 착각하고 모든 권한을 내어준다. 즉, 시스템 침해 사고의 80% 이상이 복잡한 해킹 기술이 아니라 '탈취된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보(Credential Theft)'로 인해 합법적 절차를 거쳐 발생한다.
 
@@ -71,29 +68,26 @@ tags = ["studynote-operating-system"]
 
 ### 심층 동작 원리: 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [Multi-Factor Authentication](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 메커니즘
 
-서로 다른 카테고리의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 요소를 2개 이상 결합하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 수행하는 것을 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(2FA) 또는 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))이라 한다. 핵심은 반드시 **"서로 다른 요소(Type)"를 조합해야 한다는 점**이다. 패스워드와 PIN 번호 2개를 묻는 것은 '지식 요소 2개'이므로 MFA가 아니다. 패스워드(지식) + [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/)(소유)를 결합해야 진정한 MFA다.
+서로 다른 카테고리의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 요소를 2개 이상 결합하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 수행하는 것을 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(2FA) 또는 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))이라 한다. 핵심은 반드시 <strong>"서로 다른 요소(Type)"를 조합해야 한다는 점</strong>이다. 패스워드와 PIN 번호 2개를 묻는 것은 '지식 요소 2개'이므로 MFA가 아니다. 패스워드(지식) + [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/)(소유)를 결합해야 진정한 MFA다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│      다중 인증(MFA) 기반의 제로 트러스트(Zero Trust) 로그인 흐름 │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  사용자(Client)                                인증 서버(IAM)│
-│       │                                             │      │
-│       │ ─ 1. 식별 및 지식 인증 (ID / PW 전송) ────▶│      │
-│       │                                             │      │
-│       │ ◀─ 2. 1차 검증 완료, 추가 소유 인증 요구 ─── │      │
-│       │        (스마트폰으로 OTP 난수 발생 알람 전송)│      │
-│       │                                             │      │
-│       │ ─ 3. 소유 인증 응답 (앱에서 OTP 6자리 입력) ─▶│      │
-│       │                                             │      │
-│       │      [서버 단의 맥락(Context) 평가 알고리즘]     │      │
-│       │      IF (PW 일치 && OTP 일치 && IP주소 == 한국) │      │
-│       │          => 인증 최종 승인 및 토큰 발급     │      │
-│       │                                             │      │
-│       │ ◀─ 4. 세션 토큰 (JWT / SAML 등) 발급 ────── │      │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 인증(MFA) 기반의 제로 트러스트(Zero Trust) 로그인 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자(Client) 인증 서버(IAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1. 식별 및 지식 인증 (ID / PW 전송) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 2. 1차 검증 완료, 추가 소유 인증 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스마트폰으로 OTP 난수 발생 알람 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3. 소유 인증 응답 (앱에서 OTP 6자리 입력) ─▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버 단의 맥락(Context) 평가 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (PW 일치 &amp;&amp; OTP 일치 &amp;&amp; IP주소 == 한국)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 인증 최종 승인 및 토큰 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 4. 세션 토큰 (JWT / SAML 등) 발급</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도는 MFA가 왜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 공격의 궁극적인 방어 수단인지를 보여준다. 러시아에 있는 해커가 직원의 패스워드(지식 요소)를 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일로 훔쳐내는 데 성공했다 하더라도, 해커는 그 직원의 주머니에 있는 스마트폰(소유 요소)을 물리적으로 훔치지 않는 이상 2단계 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과할 수 없다. 나아가 최신 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)(계정 및 접근 관리) 서버는 사용자의 접속 위치(IP)나 디바이스 상태까지 검사하여 평소와 다른 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이면 아예 [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)(ARE 요소)을 한 번 더 강제하는 적응형 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Adaptive Authentication) 아키텍처로 동작한다. 
 
@@ -115,31 +109,28 @@ OS와 웹 환경의 발전에 따라 [인증](/knowledge-base/studynote/04_softw
 
 차세대 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 글로벌 표준이 된 **FIDO(파이도) 2.0 / WebAuthn** [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 아키텍처를 살펴보면, 생체 정보와 비대칭 키 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))이 어떻게 융합되어 보안을 극대화하는지 알 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│      FIDO2 (WebAuthn) Passwordless 인증 흐름의 기하학      │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [등록 단계 (Registration)]                                │
-│  스마트폰/보안키 (Authenticator)         인증 서버 (Relying Party)│
-│       │                                             │      │
-│       │ 1. 생체 인식(지문)으로 기기 락 해제           │      │
-│       │ 2. 디바이스 내부에 공개키/개인키 쌍 생성      │      │
-│       │ 3. ──(공개키 전송)─────────────────────────▶│ 저장 │
-│       │    ※ 지문 데이터는 절대 밖으로 나가지 않음!   │      │
-│                                                            │
-│  [인증 단계 (Authentication)]                              │
-│       │ ◀── 1. Challenge (난수) 전송 ─────────────── │      │
-│       │                                             │      │
-│       │ 2. 사용자 지문 확인 후, 디바이스 내 안전한 공간│      │
-│       │    에서 개인키(Private Key)로 난수에 서명   │      │
-│       │                                             │      │
-│       │ 3. ──(서명된 난수 전송)────────────────────▶│      │
-│       │                                             │      │
-│       │                     서버는 보관중인 '공개키'로 서명 검증 │
-│       │                     => 패스워드 없이 인증 성공!   │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIDO2 (WebAuthn) Passwordless 인증 흐름의 기하학</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">등록 단계 (Registration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰/보안키 (Authenticator) 인증 서버 (Relying Party)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 생체 인식(지문)으로 기기 락 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 디바이스 내부에 공개키/개인키 쌍 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ──(공개키 전송) ▶</div><div class="kb-diagram-cell">저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 지문 데이터는 절대 밖으로 나가지 않음!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증 단계 (Authentication)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 1. Challenge (난수) 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 사용자 지문 확인 후, 디바이스 내 안전한 공간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에서 개인키(Private Key)로 난수에 서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ──(서명된 난수 전송) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 보관중인 '공개키'로 서명 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 패스워드 없이 인증 성공!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 전통적 방식의 가장 큰 문제점은 사용자의 패스워드(비밀)가 네트워크를 타고 서버로 전달되어야만 한다는 것이었다. 서버가 털리면 모든 패스워드가 유출된다. FIDO는 이 구조를 근본적으로 파괴했다. 사용자의 지문이나 얼굴 데이터는 오직 스마트폰 내부의 하드웨어 보안 영역(TrustZone/[Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/))에만 머문다. 지문이 맞으면 디바이스가 개인키를 꺼내 서버가 보낸 수학 문제(난수)를 풀어서 제출([전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/))할 뿐이다. 서버가 해킹당해 DB가 털리더라도, 안에는 수학 문제를 풀 수 있는 권한인 '공개키'밖에 없으므로 해커는 사용자의 생체 정보나 비밀을 알아낼 방법이 없다.
 
@@ -151,18 +142,18 @@ OS와 웹 환경의 발전에 따라 [인증](/knowledge-base/studynote/04_softw
 
 ### 실무 시나리오: 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 우회 공격 방어 체계 설계
 
-1. **상황 ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) Fatigue 공격)**: 해외 해킹 그룹이 다크웹에서 기업 임원의 아이디와 패스워드를 구매했다. 하지만 회사에 MFA가 적용되어 있어 로그인이 불가능하자, 해커는 새벽 3시에 10분 동안 100번 연속으로 임원의 스마트폰에 "로그인 허용 푸시 알람"을 보냈다. 잠결에 짜증이 난 임원이 알람을 끄기 위해 무의식적으로 "허용(Approve)" 버튼을 눌러버려 시스템이 장악되었다. (우버(Uber), 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 해킹의 실제 사례)
+1. <strong>상황 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a> Fatigue 공격)</strong>: 해외 해킹 그룹이 다크웹에서 기업 임원의 아이디와 패스워드를 구매했다. 하지만 회사에 MFA가 적용되어 있어 로그인이 불가능하자, 해커는 새벽 3시에 10분 동안 100번 연속으로 임원의 스마트폰에 "로그인 허용 푸시 알람"을 보냈다. 잠결에 짜증이 난 임원이 알람을 끄기 위해 무의식적으로 "허용(Approve)" 버튼을 눌러버려 시스템이 장악되었다. (우버(Uber), 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 해킹의 실제 사례)
 2. **원인 분석**: 단순 푸시 승인 방식([Push Notification](/knowledge-base/studynote/09_security/11_iam_access_control/560_push_notification/))은 해커의 무차별 피로도(Fatigue) 공격과 사용자의 휴먼 에러(Human Error)에 치명적으로 취약하다.
-3. **방어자의 의사결정 ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 고도화)**:
+3. <strong>방어자의 의사결정 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a> 고도화)</strong>:
    - **번호 매칭 (Number Matching) 도입**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 화면([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))에 임의의 두 자리 숫자(예: 83)를 띄우고, 스마트폰 앱에서 단순히 '허용'을 누르는 것이 아니라 그 숫자 '83'을 직접 타이핑해야만 승인되도록 아키텍처를 변경한다. 해커가 시도하면 사용자는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면을 볼 수 없어 숫자를 입력할 수 없으므로 피로도 공격이 원천 차단된다.
    - **FIDO2 하드웨어 보안키 적용**: 최고 권한 관리자(Root/[DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))의 경우 스마트폰 앱이 아닌, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 형태의 하드웨어 YubiKey(유비키)를 데스크탑에 직접 꽂고 터치해야만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 통과되도록 최고 등급의 소유 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 강제한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (기업 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처)
-- **[SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) ([Single Sign-On](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)) 통제**: 사내의 수십 개 애플리케이션(Jira, Confluence, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))이 각자의 DB에 패스워드를 관리하게 두지 말고, 중앙 SAML/[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 기반의 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/), 예: [Okta](/knowledge-base/studynote/09_security/11_iam_access_control/551_okta_idaas/), Keycloak) 하나로 통합하여 단일 지점에서 강력한 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통제하고 있는가?
-- **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 및 재인증**: 강력한 MFA로 로그인했더라도 12시간 동안 자리를 비우면 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 위험이 존재한다. 민감한 정보([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 다운로드, 결제) 접근 시에는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 살아있더라도 비밀번호나 생체를 한 번 더 묻는 스텝 업(Step-up) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 적용되어 있는가?
+- <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">SSO</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">Single Sign-On</a>) 통제</strong>: 사내의 수십 개 애플리케이션(Jira, Confluence, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))이 각자의 DB에 패스워드를 관리하게 두지 말고, 중앙 SAML/[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 기반의 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/), 예: [Okta](/knowledge-base/studynote/09_security/11_iam_access_control/551_okta_idaas/), Keycloak) 하나로 통합하여 단일 지점에서 강력한 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통제하고 있는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 및 재인증</strong>: 강력한 MFA로 로그인했더라도 12시간 동안 자리를 비우면 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 위험이 존재한다. 민감한 정보([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 다운로드, 결제) 접근 시에는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 살아있더라도 비밀번호나 생체를 한 번 더 묻는 스텝 업(Step-up) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 적용되어 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **단순 SMS 기반 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 운영**: "소유 요소"를 만족시키기 위해 휴대폰 문자 메시지(SMS)로 6자리 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)번호를 보내는 방식을 방어막의 핵심으로 두는 행위. SMS는 평문으로 전송되며, 해커가 통신사를 속여 피해자의 번호로 유심을 복제하는 **SIM [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (심 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))** 공격 앞에서는 허무하게 뚫리므로 최신 표준(NIST)에서는 권장하지 않는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+- <strong>단순 SMS 기반 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a> 운영</strong>: "소유 요소"를 만족시키기 위해 휴대폰 문자 메시지(SMS)로 6자리 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)번호를 보내는 방식을 방어막의 핵심으로 두는 행위. SMS는 평문으로 전송되며, 해커가 통신사를 속여 피해자의 번호로 유심을 복제하는 <strong>SIM <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a> (심 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>)</strong> 공격 앞에서는 허무하게 뚫리므로 최신 표준(NIST)에서는 권장하지 않는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 도둑이 밤새도록 문을 두드리며 귀찮게 해서 주인이 짜증 나서 문을 열어주게 만드는 수법(피로도 공격)을 막기 위해, 반드시 문밖의 도둑과 특정 암구호 숫자(번호 매칭)를 주고받아야만 문손잡이가 돌아가게 만드는 똑똑한 설계가 필요합니다.
 
@@ -174,7 +165,7 @@ OS와 웹 환경의 발전에 따라 [인증](/knowledge-base/studynote/04_softw
 
 | 구분 | 단순 패스워드 전용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | FIDO 기반 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 전면 적용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 기술적 함의 |
 |:---|:---|:---|:---|
-| **정량 ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | 탈취된 패스워드 기반 침해사고 비중 80% | [크리덴셜 스터핑](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/) / [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 성공률 **99.9% 원천 차단** (MS 통계) | 계정 탈취 공격의 경제성 파괴 (가성비 하락 유도) |
+| <strong>정량 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a>)</strong> | 탈취된 패스워드 기반 침해사고 비중 80% | [크리덴셜 스터핑](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/) / [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 성공률 **99.9% 원천 차단** (MS 통계) | 계정 탈취 공격의 경제성 파괴 (가성비 하락 유도) |
 | **정성 (UX)** | 90일 주기 패스워드 강제 변경으로 사용자 피로도 극심 | 생체 인식(Touch/FaceID) 1초 로그인으로 UX 극대화 | "보안이 강해지면 불편해진다"는 전통적 트레이드오프 극복 |
 | **운영 비용** | 헬프데스크의 30%가 "비밀번호 초기화 요청" | 패스워드 리셋 관련 CS 업무 소멸 | IT 운영 인력의 핵심 업무 집중 가능 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 향상) |
 
@@ -182,7 +173,7 @@ OS와 웹 환경의 발전에 따라 [인증](/knowledge-base/studynote/04_softw
 앞으로 "패스워드(Password)"라는 개념 자체가지구상에서 멸종하는 **패스워드리스(Passwordless)** 시대로 완벽하게 이행될 것이다. 구글, 애플, 마이크로소프트 연합은 FIDO 표준을 확장한 **패스키(Passkeys)** 기술을 스마트폰 OS 깊숙이 내장시켰다. 이로 인해 사용자는 어떤 웹사이트에 가입하든 복잡한 문자를 외울 필요 없이, 자신의 디바이스의 지문 인식 한 번으로 클라우드에 동기화된 암호화 키를 생성하여 로그인하게 된다. 패스워드가 존재하지 않으니 해커가 훔쳐 갈 DB도, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)할 미끼도 사라지는 궁극의 구조적 보안이 완성되는 것이다.
 
 ### 참고 표준
-- **[NIST SP 800-63B](/knowledge-base/studynote/09_security/17_framework_compliance/853_nist_sp_800_63b/)**: 디지털 신원 지침 ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 수명 주기 관리) - SMS [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 폐기 권고 포함
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/853_nist_sp_800_63b/">NIST SP 800-63B</a></strong>: 디지털 신원 지침 ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 수명 주기 관리) - SMS [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 폐기 권고 포함
 - **FIDO Alliance / W3C WebAuthn**: 패스워드 없는 웹 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 개방형 표준
 - **ISO/IEC 27001**: 정보보호 관리체계 (A.9 접근 제어 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))
 
@@ -201,15 +192,19 @@ OS와 웹 환경의 발전에 따라 [인증](/knowledge-base/studynote/04_softw
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)]
-    │
-    ▼
-[사용자 인증 (Authentication) 요소]
-    │
-    ├──▶ [비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]
-    └──▶ [감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 인증 (Authentication) 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">감사 (Auditing) 로깅 프레임워크 (Linux Auditd)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

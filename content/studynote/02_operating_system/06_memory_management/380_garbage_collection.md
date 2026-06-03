@@ -11,42 +11,42 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가비지 컬렉션(GC)은 프로그래머가 수동으로 해제하지 않고 버려둔 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리의 '고아 객체(Garbage)'들을, **런타임 엔진(JVM, V8 등)이 백그라운드에서 추적하여 자동으로 회수(Free)해 주는 자동화된 동적 메모리 관리 기법**이다.
-> 2. **가치**: C/C++ 시절 개발자들을 미치게 했던 최악의 버그인 **[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))와 허공을 찌르는 댕글링 포인터(Dangling Pointer) 문제를 원천적으로 박멸**하여, 프로그래머가 비즈니스 로직에만 집중할 수 있는 생산성의 혁명을 가져왔다.
-> 3. **융합**: 이 자동화의 대가로 힙 메모리 파편화([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 발생하므로, GC는 죽은 객체를 쓸어 담는(Sweep) 것을 넘어 살아남은 객체들을 한곳으로 밀착시키는 **메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 알고리즘과 융합되어 Stop-The-World (STW)라는 필연적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 동반**한다.
+> 1. **본질**: 가비지 컬렉션(GC)은 프로그래머가 수동으로 해제하지 않고 버려둔 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리의 '고아 객체(Garbage)'들을, <strong>런타임 엔진(JVM, V8 등)이 백그라운드에서 추적하여 자동으로 회수(Free)해 주는 자동화된 동적 메모리 관리 기법</strong>이다.
+> 2. **가치**: C/C++ 시절 개발자들을 미치게 했던 최악의 버그인 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">Memory Leak</a>)와 허공을 찌르는 댕글링 포인터(Dangling Pointer) 문제를 원천적으로 박멸</strong>하여, 프로그래머가 비즈니스 로직에만 집중할 수 있는 생산성의 혁명을 가져왔다.
+> 3. **융합**: 이 자동화의 대가로 힙 메모리 파편화([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 발생하므로, GC는 죽은 객체를 쓸어 담는(Sweep) 것을 넘어 살아남은 객체들을 한곳으로 밀착시키는 <strong>메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>) 알고리즘과 융합되어 Stop-The-World (STW)라는 필연적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 동반</strong>한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)는 애플리케이션의 메모리 할당 장부([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))를 감시하다가, 그 어떤 변수(Root)에서도 가리키지 않는([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 않는) 불쌍한 객체들을 찾아내어 물리적 메모리를 운영체제에 반환하는 쓰레기 청소 로봇이다. 대표적인 뼈대 알고리즘으로 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Counting)'과 'Mark-and-Sweep(표시하고 쓸어 담기)'이 있다.
-- **필요성**: C/C++ 환경에서 프로그래머는 `malloc(new)`으로 메모리를 빌렸으면 무조건 `free(delete)`로 반납해야 했다. 만약 깜빡하고 반납 코드를 안 쓰면 메모리가 좀먹어 들어가는 **[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)(Leak)**로 며칠 뒤 서버가 터졌다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)). 반대로 이미 반납한 메모리에 포인터를 던지는 **댕글링 포인터** 버그는 해킹과 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 유발했다. 이 고통스러운 수동 메모리 관리를 사람의 손에서 빼앗아 기계(엔진)에게 넘겨버리는 대안이 절실했다. Java, Python, JavaScript 등 현대 랭귀지의 90%는 이 GC를 심장으로 삼고 태어났다.
+- **필요성**: C/C++ 환경에서 프로그래머는 `malloc(new)`으로 메모리를 빌렸으면 무조건 `free(delete)`로 반납해야 했다. 만약 깜빡하고 반납 코드를 안 쓰면 메모리가 좀먹어 들어가는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>(Leak)</strong>로 며칠 뒤 서버가 터졌다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)). 반대로 이미 반납한 메모리에 포인터를 던지는 **댕글링 포인터** 버그는 해킹과 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 유발했다. 이 고통스러운 수동 메모리 관리를 사람의 손에서 빼앗아 기계(엔진)에게 넘겨버리는 대안이 절실했다. Java, Python, JavaScript 등 현대 랭귀지의 90%는 이 GC를 심장으로 삼고 태어났다.
 
 - **등장 배경 및 알고리즘의 진화**:
-  1. **초창기 ([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅)**: 객체에 꼬리표를 달아 "나를 쳐다보는 포인터가 몇 개인가?" 숫자를 세었다가 0이 되면 지우는 단순한 방식(Objective-C, Swift 등) 도입. 하지만 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Circular [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))라는 치명적 버그에 무너짐.
+  1. <strong>초창기 (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 카운팅)</strong>: 객체에 꼬리표를 달아 "나를 쳐다보는 포인터가 몇 개인가?" 숫자를 세었다가 0이 되면 지우는 단순한 방식(Objective-C, Swift 등) 도입. 하지만 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Circular [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))라는 치명적 버그에 무너짐.
   2. **혁명 (Mark-and-Sweep)**: 뿌리(Root)부터 시작해 닿을 수 있는(Reachable) 객체만 '살아있다'고 색칠(Mark)하고, 색칠 안 된 건 모조리 쓰레기통에 쓸어버리는(Sweep) 방식이 대세(Java, JS 등)로 자리 잡음.
-  3. **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))의 추가**: 지우고 나니 힙 공간이 이빨 빠진 듯 너덜너덜해짐([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)). 결국 남은 객체들을 한쪽 구석으로 좍 밀어붙이는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술이 추가됨.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)의 추가</strong>: 지우고 나니 힙 공간이 이빨 빠진 듯 너덜너덜해짐([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)). 결국 남은 객체들을 한쪽 구석으로 좍 밀어붙이는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술이 추가됨.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        메모리 누수(Leak) 발생과 가비지 컬렉션(GC)의 구원 시각화          │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 상황: 함수 안에서 10MB짜리 몬스터 객체 생성 후 함수 종료 ]             │
-│                                                                          │
-│ ▶ C언어의 재앙 (수동 관리 실패)                                          │
-│   1. `Monster* m = new Monster();` (힙에 10MB 할당)                      │
-│   2. 함수가 끝나서 포인터 변수 `m`이 스택에서 사라짐.                    │
-│   3. 힙(Heap)에 있는 10MB 몬스터는 이름표도 없이 우주 미아가 됨.         │
-│   💥 결과: `delete`를 안 해서 이 10MB는 서버가 꺼질 때까지 영구 증발!    │
-│                                                                          │
-│ ▶ Java/JS의 구원 (GC 출동)                                               │
-│   1. 똑같이 포인터가 사라져 10MB 몬스터가 우주 미아가 됨.                │
-│   2. 백그라운드의 [ GC 청소 로봇 ]이 힙 공간을 레이더로 윙윙 훑음.       │
-│   3. "어? 이 10MB 몬스터를 가리키는 화살표(포인터)가 단 한 개도 없네?"   │
-│   4. "얘는 쓰레기(Garbage)다! 파괴 광선 발사!" (메모리 10MB 즉각 회수)   │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 누수(Leak) 발생과 가비지 컬렉션(GC)의 구원 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 함수 안에서 10MB짜리 몬스터 객체 생성 후 함수 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ C언어의 재앙 (수동 관리 실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. <code>Monster* m = new Monster();</code> (힙에 10MB 할당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 함수가 끝나서 포인터 변수 <code>m</code>이 스택에서 사라짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 힙(Heap)에 있는 10MB 몬스터는 이름표도 없이 우주 미아가 됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: <code>delete</code>를 안 해서 이 10MB는 서버가 꺼질 때까지 영구 증발!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Java/JS의 구원 (GC 출동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 똑같이 포인터가 사라져 10MB 몬스터가 우주 미아가 됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 백그라운드의</div><div class="kb-diagram-node">GC 청소 로봇</div><div class="kb-diagram-note">이 힙 공간을 레이더로 윙윙 훑음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "어? 이 10MB 몬스터를 가리키는 화살표(포인터)가 단 한 개도 없네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. "얘는 쓰레기(Garbage)다! 파괴 광선 발사!" (메모리 10MB 즉각 회수)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 바로 현대 개발자들이 C++보다 Java나 JS를 선호하는 절대적인 이유다. 메모리 반환을 개발자가 신경 쓰지 않아도 뒤에서 보이지 않는 천사가 묵묵히 똥을 치워준다. 이 강력한 자동화 덕분에 비즈니스 로직(웹 서버, 앱 개발)의 코딩 생산성이 과거와 비교할 수 없을 정도로 수직 상승했다.
 
 - **📢 섹션 요약 비유**: 놀이공원에서 내가 탄 카트에서 내리면, 내가 굳이 카트를 차고지(메모리 해제)로 끌고 갈 필요 없이 가만히 놔두기만 해도 1분 뒤에 놀이공원 직원이 알아서 수거(GC)해 가는 초호화 VIP 자동 수거 시스템입니다.
@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 가장 직관적이고 고전적인 가비지 컬렉션 기법이다. (현재 Python, iOS의 ARC 등이 채택)
 - **원리**: 힙 메모리에 객체가 만들어질 때 옆에 조그만 `Count = 0`이라는 변수를 단다. 누군가 이 객체를 포인터로 가리키면 `Count`가 1 증가하고, 포인터가 사라지면 `Count`가 1 감소한다.
 - **제거**: 카운트가 `0`이 되는 그 즉시! 기다릴 필요도 없이 0.001초 만에 메모리에서 폭파시킨다. (실시간성 최고)
-- **치명적 약점 (순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), Circular [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**:
+- <strong>치명적 약점 (순환 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>, Circular <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a>)</strong>:
   객체 A가 객체 B를 가리키고(`B.count=1`), B가 다시 A를 가리키면(`A.count=1`), 메인 프로그램에서 이 둘을 버려버려도 지들끼리 쳐다보며 카운트를 1씩 물고 있어서 영원히 0이 되지 않는 '좀비 고립 섬'이 형성된다. 이 치명적인 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 버그 때문에 순수 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅은 한계에 부딪혔다.
 
 ---
@@ -69,32 +69,32 @@ tags = ["studynote-operating-system"]
 
 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 저주를 깨부수고 나타난 Java, V8(Node.js) 엔진의 심장이다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              Mark-and-Sweep 알고리즘의 무자비한 2단계 청소                │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 전제 조건: Root(뿌리) 찾기 ]                                            │
-│ Root는 스택의 지역 변수나, 현재 살아있는 전역(Global) 변수들임.           │
-│                                                                           │
-│ [ 1단계: Mark (색칠하기 - Reachability 탐색) ]                            │
-│   - GC가 Root부터 출발해서 화살표(참조)를 따라 그래프 탐색(DFS/BFS) 시작. │
-│   - "Root -> A -> B" 연결되어 있네? A와 B에 파란색(Live) 페인트 칠함!     │
-│   - "어? C랑 D는 지들끼리 서로 가리키며(순환참조) 떨어져 있네?"           │
-│     -> Root에서 출발한 화살표가 닿지 않으므로 색칠을 안 함(색칠 실패).    │
-│                                                                           │
-│ [ 2단계: Sweep (쓸어 담기 - 무자비한 철퇴) ]                              │
-│   - GC가 힙 메모리 전체를 1번지부터 끝까지 싹 훑어내림.                   │
-│   - "파란색 페인트가 안 묻은 놈(C, D)들은 모조리 쓰레기(Garbage)다!"      │
-│   - C와 D를 무참히 파괴하고 메모리를 빈 구멍(Free) 장부로 되돌림.         │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-and-Sweep 알고리즘의 무자비한 2단계 청소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건: Root(뿌리) 찾기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root는 스택의 지역 변수나, 현재 살아있는 전역(Global) 변수들임.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: Mark (색칠하기 - Reachability 탐색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GC가 Root부터 출발해서 화살표(참조)를 따라 그래프 탐색(DFS/BFS) 시작.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "Root -&gt; A -&gt; B" 연결되어 있네? A와 B에 파란색(Live) 페인트 칠함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어? C랑 D는 지들끼리 서로 가리키며(순환참조) 떨어져 있네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Root에서 출발한 화살표가 닿지 않으므로 색칠을 안 함(색칠 실패).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: Sweep (쓸어 담기 - 무자비한 철퇴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GC가 힙 메모리 전체를 1번지부터 끝까지 싹 훑어내림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "파란색 페인트가 안 묻은 놈(C, D)들은 모조리 쓰레기(Garbage)다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C와 D를 무참히 파괴하고 메모리를 빈 구멍(Free) 장부로 되돌림.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅의 '순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)' 버그를 완벽하게 분쇄하는 천재적인 알고리즘이다. 지들끼리 백날 서로를 가리키며 카운트를 높여놔 봐야, 뿌리(Root)로부터 전기가 통하지 않는(닿지 않는) 고립된 섬이라면 Mark 단계에서 색칠을 받지 못해 Sweep 단계에서 예외 없이 쓸려나간다. 
 
 ### 3. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) - 파편화 해결)
-Sweep으로 쓰레기를 지우고 나면 힙 메모리가 가변 분할의 저주인 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(이빨 빠진 구멍)** 상태가 된다.
-- 그래서 최신 GC는 Mark-Sweep 뒤에 **Compact([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))** 단계를 붙인다.
+Sweep으로 쓰레기를 지우고 나면 힙 메모리가 가변 분할의 저주인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(이빨 빠진 구멍)</strong> 상태가 된다.
+- 그래서 최신 GC는 Mark-Sweep 뒤에 <strong>Compact(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>)</strong> 단계를 붙인다.
 - 살아남은 파란색 객체들을 메모리의 한쪽 끝으로 차곡차곡 밀어버려 밀착시킨다.
 - 한쪽에 거대하고 깨끗한 연속된 빈 공간(Big Free Space)이 탄생하여 다음 객체 할당(`new`)이 빛의 속도(포인터 범프)로 이루어진다.
 
@@ -112,25 +112,28 @@ Sweep으로 쓰레기를 지우고 나면 힙 메모리가 가변 분할의 저�
 |:---|:---|:---|
 | **개발자 난이도** | ☠️ 최상 (조금만 실수하면 [Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), SegFault) | 🟢 최하 (그냥 막 만들고 잊어버리면 됨) |
 | **메모리 해제 시점**| **즉각적 (Deterministic)**. 코드가 실행되는 그 순간 즉시 삭제됨. | **예측 불가 (Non-Deterministic)**. 쓰레기가 쌓였다가 GC가 기분 내킬 때 지움. |
-| **시스템 멈춤 (STW)**| 없음 (해제 코드가 자연스럽게 흐름에 녹아듦) | **치명적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Stop-The-World)** 렉 발생 |
+| **시스템 멈춤 (STW)**| 없음 (해제 코드가 자연스럽게 흐름에 녹아듦) | <strong>치명적 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Stop-The-World)</strong> 렉 발생 |
 | **힙 파편화 관리** | 프로그래머가 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 등으로 직접 설계해야 함 | GC가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))까지 알아서 다 해줌 |
 
 ### Stop-The-World (STW)의 저주
 
 GC의 가장 크고 어두운 그림자다.
 - **왜 멈추는가?**: GC가 쓸어 담고 특히 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(객체 이사)'을 할 때, 객체들의 물리적 램 주소가 실시간으로 휙휙 바뀐다. 만약 이때 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 그 주소를 건드리면 엉뚱한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 프로그램이 터진다.
-- **해결책**: GC가 빗자루질을 하는 수십 밀리초 ~ 수 초 동안, **애플리케이션의 모든 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 일시 정지(Stop) 시킨다.** (세상을 멈춘다).
+- **해결책**: GC가 빗자루질을 하는 수십 밀리초 ~ 수 초 동안, <strong>애플리케이션의 모든 사용자 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 일시 정지(Stop) 시킨다.</strong> (세상을 멈춘다).
 - **체감**: 게임을 하는데 갑자기 캐릭터가 1초 동안 멈칫하더니 순간 이동한다? 웹 서버 버튼을 눌렀는데 평소 0.1초 걸리던 게 갑자기 3초가 걸린다? 십중팔구 백그라운드에서 이 STW 대청소가 돌고 간 흔적이다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 알고리즘   │ 순환참조 버그│ STW 지연시간 │ 메모리 파편화 방어│
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ Ref Count│ ☠️ 발생함    │ 🟢 없음 (실시간)│ ❌ 못 막음       │
-│ Mark-Sweep│ 🟢 완벽 방어 │ 🔴 보통 렉    │ ❌ 못 막음        │
-│ Mark-Compact│🟢 완벽 방어 │ ☠️ 최악의 렉   │ 🟢 완벽 방어    │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">순환참조 버그</div><div class="kb-diagram-cell">STW 지연시간</div><div class="kb-diagram-cell">메모리 파편화 방어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ref Count</div><div class="kb-diagram-cell">☠️ 발생함</div><div class="kb-diagram-cell">🟢 없음 (실시간)</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-Sweep</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">🔴 보통 렉</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-Compact</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">☠️ 최악의 렉</div><div class="kb-diagram-cell">🟢 완벽 방어</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 완벽한 세상은 없다. 메모리 파편화를 막으려고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Compact)을 추가했더니 시스템이 멈추는 STW 렉이 극악으로 치솟았다. 렉을 없애려고 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅을 쓰자니 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 메모리가 질질 샜다. 현대 자바(Java) 진영은 이 STW 렉을 1밀리초 이하로 줄이기 위해 세대별(Generational) GC, ZGC, Shenandoah GC 등 수십조 원의 연구비가 투입된 기괴하고 엄청난 최적화 엔진들을 쏟아내고 있다.
 
 - **📢 섹션 요약 비유**: 식당 영업(유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))과 바닥 물청소(GC [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))를 동시에 하면 손님들이 자빠지니까, 어쩔 수 없이 식당 영업을 "잠시 멈춤(STW)!" 하고 5분 동안 문 닫고 물청소를 싹 끝낸 뒤 다시 장사를 재개하는 고통스러운 딜레마입니다.
@@ -140,12 +143,12 @@ GC의 가장 크고 어두운 그림자다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 파이썬(Python)의 이중 GC 아키텍처 방어망
-1. **문제의 발단**: 파이썬은 변수를 할당할 때 기본적으로 C언어 레벨의 **'[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅(Ref Count)'**을 써서 메모리를 극도로 빠르고 실시간으로 치운다. (STW 렉이 없음).
-2. **순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 재앙**:
+1. **문제의 발단**: 파이썬은 변수를 할당할 때 기본적으로 C언어 레벨의 <strong>'<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 카운팅(Ref Count)'</strong>을 써서 메모리를 극도로 빠르고 실시간으로 치운다. (STW 렉이 없음).
+2. <strong>순환 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>의 재앙</strong>:
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가가 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))나 양방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 노드를 만들었다. 객체 A와 B가 서로 꼬리를 물었다.
    - [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅의 약점 때문에 카운트가 0이 안 되어 메모리가 줄줄 새며 서버 램 16GB가 폭발하기 직전이다.
 3. **파이썬의 2차 방어망 (Generational GC 투입)**:
-   - 파이썬 설계자들은 바보가 아니다. 이 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 쓰레기를 치우기 위해 백그라운드에 **'세대별 Mark-and-Sweep GC'**를 은밀하게 하나 더 띄워놨다.
+   - 파이썬 설계자들은 바보가 아니다. 이 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 쓰레기를 치우기 위해 백그라운드에 <strong>'세대별 Mark-and-Sweep GC'</strong>를 은밀하게 하나 더 띄워놨다.
    - 평소엔 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 치우다가, 한 번씩 이 2차 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) GC가 튀어나와 힙을 스캔하면서 "어라? 꼬리 물기하고 고립된 섬(순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))이 있네?" 하고 찾아내어 도끼로 쾅 찍어버린다.
 4. **결론**: 현대 언어(Python, PHP 등)는 한 가지 알고리즘의 약점을 다른 알고리즘으로 덮어씌우는 하이브리드(Hybrid) 투트랙 전략으로 실무의 견고함을 확보했다.
 
@@ -162,9 +165,9 @@ GC의 가장 크고 어두운 그림자다.
 
 | 구분 | 내용 |
 |:---|:---|
-| **[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)(Leak) 극복** | 개발자의 실수로 힙을 해제하지 않아 서버가 OOM으로 죽어버리는 재앙을 원천적으로 막아 시스템 수명(Uptime) 보장 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>(Leak) 극복</strong> | 개발자의 실수로 힙을 해제하지 않아 서버가 OOM으로 죽어버리는 재앙을 원천적으로 막아 시스템 수명(Uptime) 보장 |
 | **포인터 버그 원천 봉쇄** | 이미 해제된 램을 또 해제하거나 찌르는([Double Free](/knowledge-base/studynote/09_security/04_endpoint_security/352_double_free/), Dangling) C언어 특유의 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 취약점을 소프트웨어적으로 박멸 |
-| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 통한 쾌속 할당**| GC가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 해준 덕분에, 흩어진 빈 구멍을 찾는 오버헤드([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)) 없이 포인터 덧셈 한 번으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) `new` 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 완료 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)을 통한 쾌속 할당</strong>| GC가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 해준 덕분에, 흩어진 빈 구멍을 찾는 오버헤드([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)) 없이 포인터 덧셈 한 번으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) `new` 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 완료 |
 
 ### 결론 및 미래 전망
 
@@ -185,15 +188,19 @@ GC의 가장 크고 어두운 그림자다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
-    │
-    ▼
-[가비지 컬렉션 (Garbage Collection) 기초]
-    │
-    ├──▶ [가상 메모리 (Virtual Memory) 개념]
-    └──▶ [가상 주소 공간 (Virtual Address Space)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring) / 페이지 컬러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection) 기초</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 메모리 (Virtual Memory) 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 주소 공간 (Virtual Address Space)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

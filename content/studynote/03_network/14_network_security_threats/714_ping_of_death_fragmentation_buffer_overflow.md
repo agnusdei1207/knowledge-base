@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 정상적인 통신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)용 명령어인 `Ping` ([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷의 크기를, **인터넷 규격이 허용하는 최대 크기(65,535바이트)보다 비정상적으로 엄청나게 크게 부풀려서 타겟 서버로 던지는 공격**입니다.
-- 타겟 서버가 이 거대한 패킷 조각들을 받아 다시 하나로 합치는 과정에서, **메모리 허용치(Buffer)를 초과해버려 시스템이 다운되거나 재부팅되는 현상([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))**을 유발하는 고전적인 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격입니다.
+- 정상적인 통신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)용 명령어인 `Ping` ([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷의 크기를, <strong>인터넷 규격이 허용하는 최대 크기(65,535바이트)보다 비정상적으로 엄청나게 크게 부풀려서 타겟 서버로 던지는 공격</strong>입니다.
+- 타겟 서버가 이 거대한 패킷 조각들을 받아 다시 하나로 합치는 과정에서, <strong>메모리 허용치(Buffer)를 초과해버려 시스템이 다운되거나 재부팅되는 현상(<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a>)</strong>을 유발하는 고전적인 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격입니다.
 
-```text
-[ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
-[Ping of Death 대형 패킷 단편화…]
-    │
-    └──▶ [TearDrop 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TearDrop 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,21 +42,25 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))의 발생
-- 우리가 쓰는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(랜선) 도로의 최대 통과 크기(MTU)는 겨우 **1,500바이트**입니다.
+- 우리가 쓰는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(랜선) 도로의 최대 통과 크기(MTU)는 겨우 <strong>1,500바이트</strong>입니다.
 - 해커가 `ping -l 65500 타겟IP`라는 명령어로 65,000바이트짜리 비만 패킷을 던지면, 1500바이트짜리 도로를 통과하기 위해 라우터가 이 거대 패킷을 수십 개의 작은 조각(Fragment)으로 강제로 잘게 썹니다.
 
 ### 2. 수신자의 재조립(Reassembly)과 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)
 - 공격 대상 서버(피해자)는 이 잘게 쪼개진 수십 개의 패킷 조각을 받으면, 램(RAM)의 임시 공간(Buffer)에 차곡차곡 모아두었다가 원래의 65,000바이트 크기로 다시 조립(Reassembly)하려고 시도합니다.
-- **폭발 ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))**: 옛날 윈도우 95나 구형 리눅스 운영체제들은 이렇게 무지막지하게 큰 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 패킷이 들어올 것이라곤 상상도 못 하고 메모리 공간을 작게 만들어 두었습니다. 예상치를 뛰어넘는 거대한 데이터가 조립되면서 좁은 버퍼 공간을 뚫고 넘쳐흐르게 되고([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)), 옆에 있던 운영체제의 핵심 시스템 메모리 영역까지 침범해 덮어쓰면서 윈도우 블루스크린(BSoD)이 뜨며 뻗어버립니다.
+- <strong>폭발 (<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a>)</strong>: 옛날 윈도우 95나 구형 리눅스 운영체제들은 이렇게 무지막지하게 큰 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 패킷이 들어올 것이라곤 상상도 못 하고 메모리 공간을 작게 만들어 두었습니다. 예상치를 뛰어넘는 거대한 데이터가 조립되면서 좁은 버퍼 공간을 뚫고 넘쳐흐르게 되고([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)), 옆에 있던 운영체제의 핵심 시스템 메모리 영역까지 침범해 덮어쓰면서 윈도우 블루스크린(BSoD)이 뜨며 뻗어버립니다.
 
-```text
-[ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
-[Ping of Death 대형 패킷 단편화…]
-    │
-    └──▶ [TearDrop 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TearDrop 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,7 +70,7 @@ tags = ["studynote-network"]
 
 오늘날 이 원시적인 공격에 당하는 서버는 지구상에 거의 없습니다.
 1. **OS 패치**: 최신 윈도우, 리눅스 운영체제는 패킷 조립 시 비정상적으로 큰 데이터가 만들어지려 하면, 똑똑하게 이를 눈치채고 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 나기 전에 그 패킷을 안전하게 쓰레기통에 폐기(Drop)하도록 커널이 패치되어 있습니다.
-2. **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 차단**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 라우터 입구에서 아예 핑([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷의 크기가 정상 범위를 넘으면 무조건 1차선에서 차단해 버리는 규칙(Rule)이 기본적으로 깔려 있습니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>) 차단</strong>: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 라우터 입구에서 아예 핑([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷의 크기가 정상 범위를 넘으면 무조건 1차선에서 차단해 버리는 규칙(Rule)이 기본적으로 깔려 있습니다.
 
 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…가 기반 조건을 만든다면, Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 그 위에서 핵심 메커니즘을 구현하고, TearDrop 공격은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -114,15 +122,19 @@ Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ICMP Smurf 공격 / 스머핑 라우터…]
-    │
-    ▼
-[현재 개념: Ping of Death 대형 패킷 단편화…]
-    │
-    ├──▶ [확장 A: TearDrop 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ICMP Smurf 공격 / 스머핑 라우터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TearDrop 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…에서 출발해 현재 메커니즘을 정교화하고, 이후 TearDrop 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

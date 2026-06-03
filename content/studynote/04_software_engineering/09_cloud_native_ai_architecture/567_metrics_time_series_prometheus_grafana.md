@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [옵저버빌리티 3대 기둥](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/184_observability_three_pillars/)([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스) 중 가장 앞단에 선 1번 타자다.
-  - **시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Time-Series)**: 일반 DB([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))처럼 고객 이름을 업데이트하는 게 아니다. `[10시 0분 1초: 50%], [10시 0분 2초: 51%]` 이렇게 시간에 따라 무조건 뒤에 덧붙여(Append) 쌓아나가는 숫자의 흐름([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 점 잇기)이다.
-  - **[Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) (프로메테우스)**: 그 숫자를 긁어다 모아주는 K8s 생태계 1티어 깡패 수집기(TSDB).
-  - **[Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) (그라파나)**: 모아온 재미없는 숫자를 삐까뻔쩍한 검은색 차트 화면으로 그려주는 눈요기용 화가(Dashboard).
+  - <strong>시계열 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Time-Series)</strong>: 일반 DB([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))처럼 고객 이름을 업데이트하는 게 아니다. `[10시 0분 1초: 50%], [10시 0분 2초: 51%]` 이렇게 시간에 따라 무조건 뒤에 덧붙여(Append) 쌓아나가는 숫자의 흐름([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 점 잇기)이다.
+  - <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a> (프로메테우스)</strong>: 그 숫자를 긁어다 모아주는 K8s 생태계 1티어 깡패 수집기(TSDB).
+  - <strong><a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a> (그라파나)</strong>: 모아온 재미없는 숫자를 삐까뻔쩍한 검은색 차트 화면으로 그려주는 눈요기용 화가(Dashboard).
 
-- **필요성 (텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 무지성 파싱의 멸망)**: 옛날엔 "서버에 에러 몇 개 떴어?" 알고 싶으면 ELK([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버에 가서 `SELECT count(*) WHERE text LIKE '%ERROR%'` 라고 무겁고 더러운 10GB짜리 텍스트를 1분 동안 정규식으로 풀스캔(Full-Scan)하며 덧셈했다. 트래픽 폭주 시, CPU가 터져 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 뻗었다. **"야! 무식하게 텍스트 뒤지지 마! 그냥 결제 앱 개발자한테 '에러 날 때마다 앱 메모리 안의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 숫자 변수에 +1 씩 올리라고(Instrumentation) 해!' 우리는 그 가벼운 숫자만 10초마다 쏙쏙 빼오면, 텍스트 스캔 1도 없이 0.001초 만에 덧셈 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 쫙 그릴 수 있잖아!!"** 이 혁명적 가벼움(Lightweight)의 극치가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 아키텍처를 탄생시켰다.
+- <strong>필요성 (텍스트 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 무지성 파싱의 멸망)</strong>: 옛날엔 "서버에 에러 몇 개 떴어?" 알고 싶으면 ELK([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버에 가서 `SELECT count(*) WHERE text LIKE '%ERROR%'` 라고 무겁고 더러운 10GB짜리 텍스트를 1분 동안 정규식으로 풀스캔(Full-Scan)하며 덧셈했다. 트래픽 폭주 시, CPU가 터져 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 뻗었다. <strong>"야! 무식하게 텍스트 뒤지지 마! 그냥 결제 앱 개발자한테 '에러 날 때마다 앱 메모리 안의 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 숫자 변수에 +1 씩 올리라고(Instrumentation) 해!' 우리는 그 가벼운 숫자만 10초마다 쏙쏙 빼오면, 텍스트 스캔 1도 없이 0.001초 만에 덧셈 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 쫙 그릴 수 있잖아!!"</strong> 이 혁명적 가벼움(Lightweight)의 극치가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 아키텍처를 탄생시켰다.
 
-- **💡 비유**: 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집이 **'경찰이 도서관의 1만 권 책(텍스트)을 일일이 한 장씩 넘겨가며 범죄 증거 단어를 형광펜으로 칠하며 덧셈(개빡셈)하는 무식한 짓'**이라면, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집은 아예 건물마다 **'10분 단위 온도계(숫자판)'**를 딱 달아놓는 짓입니다. 텍스트 읽을 필요 없습니다. 온도계 바늘이 30도에서 100도로 치솟으면(숫자 튐), "아! 불났네 삐용삐용!(Alert)" 0.1초 만에 알람 때리고 튀어나가는 압도적인 초광속 화재 감지 센서입니다.
+- **💡 비유**: 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집이 <strong>'경찰이 도서관의 1만 권 책(텍스트)을 일일이 한 장씩 넘겨가며 범죄 증거 단어를 형광펜으로 칠하며 덧셈(개빡셈)하는 무식한 짓'</strong>이라면, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집은 아예 건물마다 <strong>'10분 단위 온도계(숫자판)'</strong>를 딱 달아놓는 짓입니다. 텍스트 읽을 필요 없습니다. 온도계 바늘이 30도에서 100도로 치솟으면(숫자 튐), "아! 불났네 삐용삐용!(Alert)" 0.1초 만에 알람 때리고 튀어나가는 압도적인 초광속 화재 감지 센서입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)/Zabbix 등 레거시 모니터링 (과거)**: 고정된 IP를 가진 깡통 서버(EC2) 10대 시절. 핑(Ping)만 쏘며 "서버 켜져 있음" 체크하던 단편적 시대.
+  1. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/">SNMP</a>/Zabbix 등 레거시 모니터링 (과거)</strong>: 고정된 IP를 가진 깡통 서버(EC2) 10대 시절. 핑(Ping)만 쏘며 "서버 켜져 있음" 체크하던 단편적 시대.
   2. **Push 방식의 과부하 (과도기)**: 서버가 100대로 늘어나자, 각 서버가 자기들 CPU 80%라고 중앙 모니터링 서버(Datadog/Telegraf)로 1초마다 메시지를 무지성 폭격(Push)해 댔다. 중앙 서버가 디도스(DDoS) 맞고 뻗었다.
   3. **Prometheus의 Pull 혁명과 K8s 천하통일 (현재)**: SoundCloud가 구글 보그(Borgmon)를 뺏겨 만든 역작. "야 서버들! 나한테 쏘지 마(Push 금지)! 그냥 너넨 네 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구석(`:9090/metrics`)에 숫자 전광판 하나만 덜렁 열어둬! 내가([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) 중앙에서 한가할 때 스윽~ 지나가면서 스크래핑(Pull) 10초마다 긁어갈게 ㅋ" 중앙 부하가 사라지고 수만 대의 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 확장을 기적처럼 방어해 내는 스케일 아웃의 신으로 군림했다.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'선생님(수집 서버)과 100명의 학생([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))'**의 대화 방식과 같습니다. 옛날(Push)엔 100명 학생이 동시에 "저 화장실요! 저 80점요!" 소리쳐서 선생님 뇌가 터졌습니다(중앙 서버 폭발). 프로메테우스(Pull)는 무음 교실입니다. 학생은 자기 책상 앞 팻말에 조용히 '80점' 글씨(Endpoint)만 적어둡니다. 선생님은 한가하게 복도를 걸어 다니며 10초마다 스윽 스캔(Scraping)해서 엑셀에 1초 컷으로 적어가는 궁극의 병목 없는 수집술입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'선생님(수집 서버)과 100명의 학생(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>)'</strong>의 대화 방식과 같습니다. 옛날(Push)엔 100명 학생이 동시에 "저 화장실요! 저 80점요!" 소리쳐서 선생님 뇌가 터졌습니다(중앙 서버 폭발). 프로메테우스(Pull)는 무음 교실입니다. 학생은 자기 책상 앞 팻말에 조용히 '80점' 글씨(Endpoint)만 적어둡니다. 선생님은 한가하게 복도를 걸어 다니며 10초마다 스윽 스캔(Scraping)해서 엑셀에 1초 컷으로 적어가는 궁극의 병목 없는 수집술입니다.
 
 ---
 
 다음은 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메트릭 (Metrics)                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭 (Metrics)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Metrics)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-메트릭 (Metrics) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메트릭 (Metrics) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

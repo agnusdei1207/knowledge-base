@@ -19,21 +19,24 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 모델이 거대해지며 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대(예: 80GB)로는 훈련이 아예 불가능해지자, 사람들은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8대를 묶어 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 (DDP)**를 시작했다.
-그런데 DDP에는 아주 바보 같은 비밀이 하나 숨어 있었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 8등분 해서 나눠줄 뿐, **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8대가 각각 100% 똑같은 '쌍둥이 뇌(Model)'와 '수학 공식 장부([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))'를 각자의 메모리에 복사해서 통째로 들고 있어야 했다**는 것이다.
+딥러닝 모델이 거대해지며 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대(예: 80GB)로는 훈련이 아예 불가능해지자, 사람들은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8대를 묶어 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 (DDP)</strong>를 시작했다.
+그런데 DDP에는 아주 바보 같은 비밀이 하나 숨어 있었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 8등분 해서 나눠줄 뿐, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 8대가 각각 100% 똑같은 '쌍둥이 뇌(Model)'와 '수학 공식 장부(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a>)'를 각자의 메모리에 복사해서 통째로 들고 있어야 했다</strong>는 것이다.
 
 파라미터가 100억 개라면 모델 크기만 20GB고, 훈련을 위한 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))와 기울기(Gradient) 저장 공간까지 합치면 120GB가 훌쩍 넘어 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대가 뻥 터진다. 8대의 GPU를 사서 붙였는데, 정작 8대 모두 똑같이 120GB를 중복(Redundancy)해서 짊어지고 있으니 다 같이 메모리가 터져 훈련이 안 돌아가는 어처구니없는 참사가 벌어졌다.
 
-이 메모리 낭비의 굴레를 박살 낸 구원자가 마이크로소프트의 **[ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([Zero Redundancy Optimizer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/))**다. "아니, 어차피 8명이 다 똑같은 장부를 복사해서 들고 있을 거면, 차라리 장부를 8쪽으로 북북 찢어서 1명당 1쪽씩만 들고 있으면 메모리가 8분의 1로 텅텅 비지 않겠어?!"라는 발상의 전환. 이것이 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 최적화가 전 세계 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 표준(De Facto)으로 등극한 위대한 서막이다.
+이 메모리 낭비의 굴레를 박살 낸 구원자가 마이크로소프트의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/">Zero Redundancy Optimizer</a>)</strong>다. "아니, 어차피 8명이 다 똑같은 장부를 복사해서 들고 있을 거면, 차라리 장부를 8쪽으로 북북 찢어서 1명당 1쪽씩만 들고 있으면 메모리가 8분의 1로 텅텅 비지 않겠어?!"라는 발상의 전환. 이것이 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 최적화가 전 세계 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 표준(De Facto)으로 등극한 위대한 서막이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure │
-│ New requirement │ Design decision point │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 8명의 학생이 조별 과제를 하는데, DDP(구형)는 8명 모두가 각자 100쪽짜리 두꺼운 전과 백과사전(모델 상태)을 가방에 무겁게 넣고 다니며 똑같은 걸 보는 짓이다. 가방이 찢어진다. [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)(신형)는 전과 백과사전을 8등분 해서 북북 찢은 다음, 1번 학생은 1~12페이지만 들고, 2번 학생은 13~24페이지만 가방에 넣고 가볍게 다니는 것이다. 만약 2번 학생이 1번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하면 0.1초 만에 1번 학생에게 카톡을 쳐서 빌려보면 된다. 가방의 여유 공간이 무한대로 늘어난다.
 
@@ -43,28 +46,28 @@ tags = ["studynote-ai"]
 
 ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태, 기울기, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 단계적으로 찢어발기는 3가지 Stage 아키텍처로 작동한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ ZeRO (DeepSpeed)의 3단계 메모리 파티셔닝(찢기) 아키텍처 │
-├──────────────────────────────────────────────────────────────┤
-│ [메모리 도둑 3대장]: 파라미터(Weight) / 기울기(Gradient) / 옵티마이저(Adam) │
-│ │
-│ [ ZeRO Stage 1: 옵티마이저 찢기 (가성비 ) ] │
-│ * 훈련 시 가장 뚱뚱하게 메모리를 처먹는 놈은 '옵티마이저의 모멘텀 상태'임. │
-│ * 조치: 옵티마이저 장부만 GPU 개수(N)만큼 N등분 해서 각자 나눠 가짐. │
-│ * 효과: 통신 지연 거의 없이 메모리 용량을 확! 비워버림 (기본으로 무조건 켬). │
-│ │
-│ [ ZeRO Stage 2: 기울기(Gradient)까지 찢기 ] │
-│ * 조치: 오차를 계산한 기울기 숫자들마저 N등분으로 찢어서 파티셔닝함. │
-│ * 효과: 메모리가 절반 더 비워짐. 여기까지가 훈련 속도와 타협할 수 있는 마지노선.│
-│ │
-│ [ ZeRO Stage 3: 파라미터(모델 가중치 뇌)마저 갈기갈기 찢기 ] │
-│ * 조치: 각 GPU는 모델 전체를 모름. 파라미터마저 조각조각 나눠 가짐. │
-│ * 효과: VRAM 메모리가 기적처럼 텅텅 비어, 1조 개짜리 모델도 훈련 가능! │
-│ * 부작용: 1번 GPU가 훈련하다가 남의 파라미터 조각이 필요할 때마다 옆 GPU에 │
-│ 전화 걸어(통신) 받아와야 하므로 네트워크 랜선이 불타며 엄청 느려짐!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZeRO (DeepSpeed)의 3단계 메모리 파티셔닝(찢기) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 도둑 3대장</div><div class="kb-diagram-note">: 파라미터(Weight) / 기울기(Gradient) / 옵티마이저(Adam)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZeRO Stage 1: 옵티마이저 찢기 (가성비 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 훈련 시 가장 뚱뚱하게 메모리를 처먹는 놈은 '옵티마이저의 모멘텀 상태'임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조치: 옵티마이저 장부만 GPU 개수(N)만큼 N등분 해서 각자 나눠 가짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 통신 지연 거의 없이 메모리 용량을 확! 비워버림 (기본으로 무조건 켬).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZeRO Stage 2: 기울기(Gradient)까지 찢기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조치: 오차를 계산한 기울기 숫자들마저 N등분으로 찢어서 파티셔닝함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 메모리가 절반 더 비워짐. 여기까지가 훈련 속도와 타협할 수 있는 마지노선.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZeRO Stage 3: 파라미터(모델 가중치 뇌)마저 갈기갈기 찢기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조치: 각 GPU는 모델 전체를 모름. 파라미터마저 조각조각 나눠 가짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: VRAM 메모리가 기적처럼 텅텅 비어, 1조 개짜리 모델도 훈련 가능!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 부작용: 1번 GPU가 훈련하다가 남의 파라미터 조각이 필요할 때마다 옆 GPU에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화 걸어(통신) 받아와야 하므로 네트워크 랜선이 불타며 엄청 느려짐!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (동적 브로드캐스트통신과 수집)**:
 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 3의 극단적 상태에서는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 0번이 전체 모델(100층)을 다 갖고 있지 않다. 0번 GPU는 자기가 계산할 차례가 오면, 파편을 들고 있는 1번, 2번, 3번 GPU에게 "야, 나 지금 계산해야 하니까 너희들이 들고 있는 뇌 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 조각들 0.1초 동안만 나한테 다 복사해서 줘봐(Broadcast/All-Gather)!"라고 소리쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어모은다. 딱 계산을 끝내자마자 메모리가 터지지 않도록 가져왔던 남의 파편들을 즉시 쓰레기통에 폐기(Discard)해버린다. 필요할 때만 뭉쳤다가 다시 찢어지는 이 다이나믹한 이합집산이 ZeRO의 흑마술이다.
@@ -86,12 +89,12 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 모델 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) / Megatron) | [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) / DeepSpeed) |
 |:---|:---|:---|
-| **찢는 방식 (철학)**| 100층짜리 신경망 아파트를 **세로로 뚝 잘라서** [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 0번은 1~30층, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1번은 31~60층을 전담하여 계산을 컨베이어 벨트 넘기듯 바통 터치함. | 모델을 통째로 썰어버리는 게 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(DDP)를 유지**하되 각자가 들고 있던 중복된 변수 상태(장부)만 찢어서 나눠 갖는 방식. |
+| **찢는 방식 (철학)**| 100층짜리 신경망 아파트를 **세로로 뚝 잘라서** [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 0번은 1~30층, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1번은 31~60층을 전담하여 계산을 컨베이어 벨트 넘기듯 바통 터치함. | 모델을 통째로 썰어버리는 게 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화(DDP)를 유지</strong>하되 각자가 들고 있던 중복된 변수 상태(장부)만 찢어서 나눠 갖는 방식. |
 | **GPU들의 행동** | 앞 GPU가 10층 계산 끝낼 때까지 뒤 GPU는 10분 내내 아무것도 못 하고 쉬고 있음 (버블 지옥 발생). | 모든 GPU가 똑같이 1계층부터 각자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 동시에 연산함 (쉬는 시간 제로). |
 | **네트워크 통신망**| 컨베이어 바통 터치할 때만 한 번 통신. 통신량이 적음. | 파라미터 조각을 서로 수십 번씩 퍼오느라 통신망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 무지막지하게 잡아먹음. |
 | **코드 수정 난이도**| 모델 코드(PyTorch)를 바닥부터 뜯어고쳐 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 층을 수동으로 분리 설계해 줘야 하는 극악의 난이도. | 개발자는 코드를 거의 안 고쳐도 됨. DeepSpeed [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 엑셀([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 `stage: 3`으로 바꾸면 자동으로 찢어짐. (엄청난 편리성) |
 
-오늘날 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 규모의 학습 인프라(슈퍼컴퓨터)에서는 이 두 가지를 고민할 필요 없이 전부 다 섞어 쓴다. Megatron으로 세로를 찢고, 텐서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 가로를 찢고, 마지막으로 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 3를 얹어 중복 찌꺼기를 증발시켜 버리는 **3D [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 (3D Parallelism)** 아키텍처가 전 세계 빅테크 클라우드의 최종 보스 구조다.
+오늘날 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 규모의 학습 인프라(슈퍼컴퓨터)에서는 이 두 가지를 고민할 필요 없이 전부 다 섞어 쓴다. Megatron으로 세로를 찢고, 텐서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 가로를 찢고, 마지막으로 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 3를 얹어 중복 찌꺼기를 증발시켜 버리는 <strong>3D <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 (3D Parallelism)</strong> 아키텍처가 전 세계 빅테크 클라우드의 최종 보스 구조다.
 
 - **📢 섹션 요약 비유**: [파이프라인 병렬화](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)가 햄버거 공장에서 1번 알바는 빵 굽기, 2번 알바는 고기 굽기로 아예 '역할'을 찢어버린 것이라면, ZeRO는 10명의 알바가 각자 햄버거를 처음부터 끝까지 다 만들되, 양상추와 마요네즈 통([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 변수)을 각자 100개씩 중복해서 쟁여두지 않고 중앙 선반에 찢어두고 10명이 공유해서 꺼내 쓰는(통신) 기법이다.
 
@@ -102,8 +105,8 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터 환경에서 Pytorch Lightning이나 HuggingFace Trainer 코드에 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)(DeepSpeed)를 활성화시킬 때, 기술사는 인프라의 네트워크 속도([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 유무)에 따라 Stage를 냉혹하게 튜닝해야 한다.
 
 ### 실무 아키텍처 설계 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 기반 Stage 타협점 세팅**: 우리 회사 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버끼리 연결된 선이 싸구려 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(10Gbps)이라면 절대 Stage 3를 켜면 안 된다. 각 GPU가 파편화된 파라미터를 긁어오느라 통신선에 불이 나고 연산 속도는 오히려 1/10로 박살이 난다. 이런 후진 인프라에서는 통신 부담이 거의 없는 **Stage 1 ([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)만 찢기) 혹은 Stage 2까지만 켜서 가성비를 방어**해야 한다. 값비싼 엔비디아의 NVLink와 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 400Gbps) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 달린 슈퍼 노드여야만 비로소 Stage 3의 극한 찢기를 무손실로 버틸 수 있다.
-2. **CPU Offload (오프로드) 치트키의 결단**: 모델이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8대(Stage 3)를 썼는데도 메모리가 터져서 죽는 극단적인 상황이 있다. 이때 DeepSpeed는 파라미터를 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 램에 두지 않고, 메인보드의 거대한 램(CPU RAM)이나 심지어 하드디스크([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 도피시켜 저장해 두는 **[ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Offload** 아키텍처를 지원한다. 당연히 CPU 램으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피신시키면 학습 속도가 10배 이상 끔찍하게 느려지지만, "아예 훈련이 불가능해 터지는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러"보다는 "천천히라도 훈련이 돌아가게 살려두는 것"이 나을 때 선택하는 최후의 비상용 구명조끼다.
+1. <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 기반 Stage 타협점 세팅</strong>: 우리 회사 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버끼리 연결된 선이 싸구려 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(10Gbps)이라면 절대 Stage 3를 켜면 안 된다. 각 GPU가 파편화된 파라미터를 긁어오느라 통신선에 불이 나고 연산 속도는 오히려 1/10로 박살이 난다. 이런 후진 인프라에서는 통신 부담이 거의 없는 <strong>Stage 1 (<a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>만 찢기) 혹은 Stage 2까지만 켜서 가성비를 방어</strong>해야 한다. 값비싼 엔비디아의 NVLink와 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 400Gbps) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 달린 슈퍼 노드여야만 비로소 Stage 3의 극한 찢기를 무손실로 버틸 수 있다.
+2. **CPU Offload (오프로드) 치트키의 결단**: 모델이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8대(Stage 3)를 썼는데도 메모리가 터져서 죽는 극단적인 상황이 있다. 이때 DeepSpeed는 파라미터를 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 램에 두지 않고, 메인보드의 거대한 램(CPU RAM)이나 심지어 하드디스크([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 도피시켜 저장해 두는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>-Offload</strong> 아키텍처를 지원한다. 당연히 CPU 램으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피신시키면 학습 속도가 10배 이상 끔찍하게 느려지지만, "아예 훈련이 불가능해 터지는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러"보다는 "천천히라도 훈련이 돌아가게 살려두는 것"이 나을 때 선택하는 최후의 비상용 구명조끼다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **모델 크기와 맞지 않는 과도한 최적화 난용**: 파라미터가 1억 개(100M)밖에 안 되는 아주 작고 귀여운 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 비전 모델을 훈련시키는데, 멋있어 보인답시고 딥스피드 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 3를 강제로 켜버리는 주니어의 과유불급. 애초에 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대에 10번이나 복사해서 넉넉히 들어갈 꼬마 모델을 굳이 찢어발겨서 통신 네트워크를 태우게 만들면 시스템 속도만 처참히 깎아 먹는 코미디가 발생한다. 무거운 갑옷은 거인([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에게만 입혀야 한다.
@@ -116,7 +119,7 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 
 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) ([Zero Redundancy Optimizer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/)) 아키텍처의 탄생은, 딥러닝 훈련의 역사를 "GPU의 RAM 용량 한계"라는 물리적 족쇄에서 완전히 해방시킨 거룩한 모세의 기적이다. 모델 크기가 메모리의 용량을 초과할 때마다 연구자들은 눈물을 머금고 층수를 깎거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포기해야 했지만, ZeRO가 메모리 중복의 허상을 걷어내자 수천억 파라미터 모델이 일반적인 클러스터에서도 팽팽 돌아가기 시작했다.
 
-[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)인 **DeepSpeed [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)**에 녹아든 이 천재적인 수학적 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기술 덕분에, 마이크로소프트와 오픈AI는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4라는 거대한 괴수를 세상에 꺼낼 수 있었고, 전 세계 수많은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스타트업(HuggingFace 생태계)들도 수십억 원의 슈퍼컴퓨터 없이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델) 파인튜닝 시장에 참전할 수 있는 기회를 얻었다.
+[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)인 <strong>DeepSpeed <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a></strong>에 녹아든 이 천재적인 수학적 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기술 덕분에, 마이크로소프트와 오픈AI는 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4라는 거대한 괴수를 세상에 꺼낼 수 있었고, 전 세계 수많은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스타트업(HuggingFace 생태계)들도 수십억 원의 슈퍼컴퓨터 없이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델) 파인튜닝 시장에 참전할 수 있는 기회를 얻었다.
 
 결국 MLOps의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 인프라 역사는 연산력([FLOPs](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))과 통신 속도([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)), 그리고 메모리(VRAM)라는 세 가지 악마의 삼각형 사이에서 타협점을 찾는 전쟁이다. ZeRO는 "메모리가 모자라면, 빵을 찢어 옆 사람에게 맡겨두고 통신 속도로 찍어 누르겠다"는 가장 우아하고 공격적인 타협의 결정판으로, 21세기 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대를 거인들의 전장으로 탈바꿈시킨 위대한 인프라 혁명의 이름이다.
 
@@ -128,10 +131,10 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **DDP ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화)** | 8대 GPU에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찢어주지만 정작 무거운 모델 뇌는 8대 모두 똑같이 중복으로 품고 있어야 하는 구시대적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 훈련법. ZeRO가 이 중복을 부숴버림 |
-| **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))** | 그래픽 카드 램(VRAM) 용량이 초과되어 모델 훈련이 즉사해 버리는 지옥의 에러. ZeRO의 유일한 적이자 탄생 원인 |
+| <strong>DDP (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화)</strong> | 8대 GPU에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찢어주지만 정작 무거운 모델 뇌는 8대 모두 똑같이 중복으로 품고 있어야 하는 구시대적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 훈련법. ZeRO가 이 중복을 부숴버림 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong> | 그래픽 카드 램(VRAM) 용량이 초과되어 모델 훈련이 즉사해 버리는 지옥의 에러. ZeRO의 유일한 적이자 탄생 원인 |
 | **All-Gather / Broadcast** | [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 3 상태에서 잘게 찢긴 파라미터 조각을 내가 연산해야 할 타이밍에 0.1초 만에 옆 GPU들로부터 폭풍처럼 끌어모으는 무거운 통신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Offload (오프로드)** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 램으로도 모자라자, 상대적으로 싸고 무한대에 가까운 메인보드 CPU의 RAM과 하드디스크([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))로 변수를 쫓아내어 피난시키는 극한의 메모리 구명조끼 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>-Offload (오프로드)</strong> | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 램으로도 모자라자, 상대적으로 싸고 무한대에 가까운 메인보드 CPU의 RAM과 하드디스크([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))로 변수를 쫓아내어 피난시키는 극한의 메모리 구명조끼 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,8 +144,8 @@ ZeRO는 메모리를 잡아먹는 3대장([옵티마이저](/knowledge-base/stud
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날에는 8명의 로봇이 공부(훈련)할 때, 각자 가방에 **100kg짜리 똑같은 백과사전(모델 장부)**을 하나씩 억지로 짊어지고 다니다가 모두 허리가 부러져 쓰러졌어요.
-2. 마이크로소프트 천재들이 만든 **[ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)(제로)** 마법은, 100kg 백과사전을 8조각으로 북북 찢어서 1명당 12.5kg 가벼운 종이 뭉치만 들고 다니게 만들었어요!
+1. 옛날에는 8명의 로봇이 공부(훈련)할 때, 각자 가방에 <strong>100kg짜리 똑같은 백과사전(모델 장부)</strong>을 하나씩 억지로 짊어지고 다니다가 모두 허리가 부러져 쓰러졌어요.
+2. 마이크로소프트 천재들이 만든 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a>(제로)</strong> 마법은, 100kg 백과사전을 8조각으로 북북 찢어서 1명당 12.5kg 가벼운 종이 뭉치만 들고 다니게 만들었어요!
 3. 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하면 0.1초 만에 옆 친구에게 "야 3페이지 좀 빌려줘!" 하고 돌려보면 되니까, 가방 무게가 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))으로 가벼워져서 우주에서 제일 똑똑한 로봇을 안전하게 키워낼 수 있었답니다.
 
 ---

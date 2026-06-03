@@ -10,7 +10,7 @@ tags = ["studynote-design-supervision"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 감리/소프트웨어 공학에서 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은, 프로젝트의 각 단계(분석, 설계, 구현)가 끝날 때마다 산출물들을 꽁꽁 얼려(Freeze) **'변경 불가능한 합의의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))'을 확정하고, 다음 단계가 이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 정확히 준수했는지 기계적으로 확인하는 쇳덩어리 거버넌스**다.
+> 1. **본질**: 감리/소프트웨어 공학에서 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은, 프로젝트의 각 단계(분석, 설계, 구현)가 끝날 때마다 산출물들을 꽁꽁 얼려(Freeze) <strong>'변경 불가능한 합의의 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)'을 확정하고, 다음 단계가 이 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>을 정확히 준수했는지 기계적으로 확인하는 쇳덩어리 거버넌스</strong>다.
 > 2. **가치**: 고객이 개발 도중에 "이 기능 추가해 줘", "설계 바꿔줘"라며 무한대로 요구사항을 뒤집어엎어 프로젝트가 영원히 끝나지 않고 파산([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))하는 것을 방어하는 가장 강력하고 합법적인 방패 역할을 한다.
 > 3. **판단 포인트**: [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)이 한 번 확정되면 그 이후의 모든 변경은 단순한 수정이 아니라 공식적인 '[형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))'의 승인과 추가 비용(예산/일정) 결제가 수반되어야만 열어주는(Unlock) 엄격한 변경 통제 프로세스가 필수적이다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-design-supervision"]
 
 소프트웨어 개발은 건축과 다르다. 아파트는 골조가 다 올라간 뒤에 "안방을 화장실로 바꿔주세요"라고 하면 미친 사람 취급을 받지만, 소프트웨어는 형태가 없기 때문에 고객(발주처)이 오픈 하루 전날에도 "디자인 좀 다 바꾸고, 결제 기능 하나 더 붙여주세요"라고 가볍게 요구한다. 수행사(개발팀)는 울며 겨자 먹기로 코드를 엎다가 100% 철야를 하고 프로젝트는 폭망한다.
 
-이 비극의 원인은 **'[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))'**이 없기 때문이다. 어디까지가 원래 약속했던 범위이고, 어디서부터가 새로운 요구사항(추가 비용)인지 선을 긋지 않았기 때문이다. 아키텍트와 감리원은 분석 단계가 끝나면 `요구사항 정의서`에 도장을 찍어 꽁꽁 얼려버린다(Freeze). 이것이 **요구사항 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)**이다. 이제부터는 "이 문서에 없는 기능은 안 만듭니다. 하려면 돈 더 내세요!"라고 합법적으로 방어할 수 있다. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 바로 이 얼려둔 문서(과거의 약속)와 현재 만들어진 산출물(현재의 결과)이 1:1로 일치하는지 냉혹하게 채점하는 행위다.
+이 비극의 원인은 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)'</strong>이 없기 때문이다. 어디까지가 원래 약속했던 범위이고, 어디서부터가 새로운 요구사항(추가 비용)인지 선을 긋지 않았기 때문이다. 아키텍트와 감리원은 분석 단계가 끝나면 `요구사항 정의서`에 도장을 찍어 꽁꽁 얼려버린다(Freeze). 이것이 <strong>요구사항 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a></strong>이다. 이제부터는 "이 문서에 없는 기능은 안 만듭니다. 하려면 돈 더 내세요!"라고 합법적으로 방어할 수 있다. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 바로 이 얼려둔 문서(과거의 약속)와 현재 만들어진 산출물(현재의 결과)이 1:1로 일치하는지 냉혹하게 채점하는 행위다.
 
 - **📢 섹션 요약 비유**: [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 인테리어 공사의 '확정된 도면과 견적서'다. 도면에 사인([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 확정)하기 전에는 마음대로 벽지 색을 바꿔도 되지만, 사인이 끝난 후 도배가 다 된 상태에서 "파란색으로 바꿔줘"라고 하면 공사업자는 "도면([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))대로 했으니, 바꾸려면 인건비와 재료비 100만 원 추가 결제하세요"라고 말할 수 있는 강력한 무기다.
 
@@ -31,29 +31,30 @@ tags = ["studynote-design-supervision"]
 ### 마일스톤(Milestone) 기반의 3단계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 아키텍처
 폭포수(Waterfall) 모델에서 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 절대 뒤로 역류하지 않는 쇳덩어리 자물쇠다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘      │
-├────────────────────────────────────────────────────────┤
-│  [ 1. 요구사항 분석 단계 종료 ]                           │
-│   - 산출물: 요구사항 정의서                               │
-│   - 🔒 기능 베이스라인 (Functional Baseline) 확정!        │
-│             │                                          │
-│             ▼ (추적성 검증: Traceability)               │
-│  [ 2. 설계 단계 종료 ]                                   │
-│   - 산출물: 시스템 아키텍처, 화면 설계서, DB ERD            │
-│   - 🔒 분배 베이스라인 (Allocated Baseline) 확정!         │
-│   * 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"    │
-│             │                                          │
-│             ▼ (추적성 검증: Traceability)               │
-│  [ 3. 구현(개발) 및 테스트 단계 종료 ]                     │
-│   - 산출물: 소스코드, 실행 파일 (.jar, .exe)               │
-│   - 🔒 제품 베이스라인 (Product Baseline) 확정!           │
-│   * 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"│
-└────────────────────────────────────────────────────────┘
-```
 
-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 기술은 **추적성 매트릭스([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)**다. 요구사항 ID `REQ-01`이, 설계서의 `DES-01`로, 소스코드의 `Login.java`로, 테스트 케이스의 `TC-01`로 이가 빠지지 않고 1:1로 연결되어 있는지 엑셀이나 Jira(지라) 쇳덩어리로 끈질기게 추적하는 것이 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 본질이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 요구사항 분석 단계 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 요구사항 정의서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 기능 베이스라인 (Functional Baseline) 확정!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (추적성 검증: Traceability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 설계 단계 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 시스템 아키텍처, 화면 설계서, DB ERD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 분배 베이스라인 (Allocated Baseline) 확정!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (추적성 검증: Traceability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 구현(개발) 및 테스트 단계 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 소스코드, 실행 파일 (.jar, .exe)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 제품 베이스라인 (Product Baseline) 확정!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"</div></div>
+</div>
+</div>
+
+
+
+[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 기술은 <strong>추적성 매트릭스(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a> Matrix)</strong>다. 요구사항 ID `REQ-01`이, 설계서의 `DES-01`로, 소스코드의 `Login.java`로, 테스트 케이스의 `TC-01`로 이가 빠지지 않고 1:1로 연결되어 있는지 엑셀이나 Jira(지라) 쇳덩어리로 끈질기게 추적하는 것이 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 본질이다.
 
 - **📢 섹션 요약 비유**: [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 추적은 '택배 배송 추적 시스템'이다. 쇼핑몰에서 주문한 내역(요구사항 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))이, 물류센터 포장 내역(설계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))과 정확히 일치하는지, 그리고 우리 집 문 앞의 실제 택배 박스(제품 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))와 내용물이 똑같은지 바코드(ID)를 찍어가며 1:1로 확인하는 철저한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다.
 
@@ -68,8 +69,8 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|
 | **상태** | 작업 중 (In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) | **얼음 상태 (Frozen / Signed-off)** |
 | **수정 권한** | 개발자 맘대로 언제든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정 가능 | **개발자 수정 절대 불가 (Read Only)** |
-| **변경 절차** | 그냥 덮어쓰기 (Ctrl + S) | **공식 변경 요청(CR) ➔ [형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 승인 ➔ 락 해제 ➔ 수정 ➔ 재승인** |
-| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리** | v0.1, v0.2 등 마이너 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 올라감 | **v1.0 ➔ v2.0 처럼 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 및 전체 공지** |
+| **변경 절차** | 그냥 덮어쓰기 (Ctrl + S) | <strong>공식 변경 요청(CR) ➔ <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">형상 통제 위원회</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>) 승인 ➔ 락 해제 ➔ 수정 ➔ 재승인</strong> |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong> | v0.1, v0.2 등 마이너 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 올라감 | <strong>v1.0 ➔ v2.0 처럼 메이저 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 변경 및 전체 공지</strong> |
 | **주요 목적** | 일상적인 산출물 작성 | **고객과의 법적/재무적 계약의 기준점 확립** |
 
 개발 도중에는 수천 번의 변경이 일어난다. 이때는 통제하지 않는다. 하지만 특정 마일스톤(고객 보고회)을 기점으로 양측이 사인(Sign)을 하는 순간, 그 문서는 더 이상 '종이'가 아니라 '법률적 쇳덩어리'인 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)으로 격상된다. 이 선을 깨려면 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 열어 예산과 일정을 다시 깎는 피 튀기는 전쟁을 치러야 한다.
@@ -81,11 +82,11 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)(범위 전이) 방어를 위한 [형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 철퇴**: 프로젝트 마감 한 달 전, 발주처 부장이 "사장님이 모바일 앱 화면도 있으면 좋겠다고 하시네? 빨리 하나 붙여봐."라고 던진다. 수행사 PM은 예전처럼 "네 ㅠㅠ" 하고 철야를 하는 게 아니라, 얼려둔 **'기능 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 문서(요구사항 정의서 v1.0)'**를 펼쳐 보인다. "부장님, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 모바일 앱은 없습니다. 추가하시려면 변경 요청서(CR) 쓰시고, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(형상통제위원회) 열어서 3,000만 원 예산 증액과 한 달 일정 연장 승인받아 오십시오." 철저한 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 갑질을 막아내는 가장 합리적인 쇳덩어리 방어막이다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>(범위 전이) 방어를 위한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">형상 통제 위원회</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>)의 철퇴</strong>: 프로젝트 마감 한 달 전, 발주처 부장이 "사장님이 모바일 앱 화면도 있으면 좋겠다고 하시네? 빨리 하나 붙여봐."라고 던진다. 수행사 PM은 예전처럼 "네 ㅠㅠ" 하고 철야를 하는 게 아니라, 얼려둔 <strong>'기능 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> 문서(요구사항 정의서 v1.0)'</strong>를 펼쳐 보인다. "부장님, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 모바일 앱은 없습니다. 추가하시려면 변경 요청서(CR) 쓰시고, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(형상통제위원회) 열어서 3,000만 원 예산 증액과 한 달 일정 연장 승인받아 오십시오." 철저한 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 갑질을 막아내는 가장 합리적인 쇳덩어리 방어막이다.
 2. **감리원의 산출물 점검 (추적성 엑셀 노가다)**: 정보시스템 감리법인의 감리원들이 감리장에 투입되면 가장 먼저 요구하는 것이 '[요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))'다. 감리원은 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)으로 확정된 요구사항 500개가, 소스코드 저장소(SVN/Git)의 어느 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 매핑되는지 엑셀을 띄워놓고 밤새 확인한다. 10개의 요구사항이 매핑된 코드가 없다면 "개발 누락(미구현)!", 반대로 요구사항엔 없는데 코드가 만들어져 있다면 "과잉 개발([Gold Plating](/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/), 버그의 온상)!"이라며 가차 없이 '시정 조치'를 때린다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **명목상의 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)과 뒷구멍 변경 ([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/) Change)**: 시스템으로는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)을 걸어놓고 결재([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 받게 만들어 놨는데, 발주처 담당자가 개발자에게 개인적으로 찾아가 커피를 사주며 "이거 DB 컬럼 하나만 몰래 추가해 줘"라고 뒷거래를 한다. 개발자는 귀찮아서 그냥 소스코드를 수정해서 올려버린다. 이 순간 요구사항 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(문서)과 제품 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(소스코드) 사이의 불일치가 터진다. 나중에 서버가 에러를 뿜을 때 문서를 아무리 봐도 추가된 컬럼 정보가 없어 장애 원인을 찾지 못하고 프로젝트 거버넌스는 완전히 붕괴된다.
+- <strong>명목상의 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>과 뒷구멍 변경 (<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/">Backdoor</a> Change)</strong>: 시스템으로는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)을 걸어놓고 결재([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 받게 만들어 놨는데, 발주처 담당자가 개발자에게 개인적으로 찾아가 커피를 사주며 "이거 DB 컬럼 하나만 몰래 추가해 줘"라고 뒷거래를 한다. 개발자는 귀찮아서 그냥 소스코드를 수정해서 올려버린다. 이 순간 요구사항 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(문서)과 제품 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(소스코드) 사이의 불일치가 터진다. 나중에 서버가 에러를 뿜을 때 문서를 아무리 봐도 추가된 컬럼 정보가 없어 장애 원인을 찾지 못하고 프로젝트 거버넌스는 완전히 붕괴된다.
 
 - **📢 섹션 요약 비유**: 뒷구멍 변경은, 집을 짓는데 공식 설계도([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))는 구청에 내놓고, 집주인이 현장 인부에게 몰래 만 원짜리를 쥐여주며 "여기 내력벽(기둥) 하나 부수고 방 좀 넓혀줘"라고 지시하는 짓이다. 도면과 다르게 지어진 집은 나중에 건물이 무너졌을 때 책임을 물을 수도, 복구할 수도 없는 무덤이 된다.
 
@@ -105,27 +106,29 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/))** | 소스코드와 산출물의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(v1.0, v1.1)이 꼬이지 않게 관리하는 전체 행위. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 이 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)의 '가장 중요하게 굳어진 절대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)'을 뜻함 |
-| **[형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/), [Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board)** | [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(결빙 상태)을 깰 수 있는 유일한 권한을 가진 절대 권력 회의체. 갑/을의 의사결정권자가 모여 "예산 올려줄 테니 변경해라"를 결정하는 법정 |
-| **추적성 매트릭스 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)** | 첫 요구사항 번호가 설계, 구현, 테스트까지 한 줄로 똑바로 이어지는지 엑셀로 쫙 그어놓은, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 알파이자 오메가인 문서 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">Configuration Management</a>)</strong> | 소스코드와 산출물의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(v1.0, v1.1)이 꼬이지 않게 관리하는 전체 행위. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 이 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)의 '가장 중요하게 굳어진 절대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)'을 뜻함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">형상 통제 위원회</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>, <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/">Configuration Control</a> Board)</strong> | [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)(결빙 상태)을 깰 수 있는 유일한 권한을 가진 절대 권력 회의체. 갑/을의 의사결정권자가 모여 "예산 올려줄 테니 변경해라"를 결정하는 법정 |
+| <strong>추적성 매트릭스 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a> Matrix)</strong> | 첫 요구사항 번호가 설계, 구현, 테스트까지 한 줄로 똑바로 이어지는지 엑셀로 쫙 그어놓은, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 알파이자 오메가인 문서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초창기 무계획 개발 (Code & Fix) ──▶ 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산
-    │
-    ▼
-소프트웨어 공학의 도입 ──▶ 생명주기(SDLC) 단계 분리 및 문서화 시작
-    │
-    ▼
-단계별 산출물을 동결(Freeze)하는 형상 관리의 '베이스라인(Baseline)' 개념 확립
-    │
-    ▼
-일반 개발자 권한을 박탈하고 CCB(형상통제위원회)를 통한 강력한 변경 통제 프로세스 구축
-    │
-    ▼
-Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 자동 추적성(Traceability) 검증 실현
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초창기 무계획 개발 (Code &amp; Fix) ──▶ 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 공학의 도입 ──▶ 생명주기(SDLC) 단계 분리 및 문서화 시작</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단계별 산출물을 동결(Freeze)하는 형상 관리의 '베이스라인(Baseline)' 개념 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일반 개발자 권한을 박탈하고 CCB(형상통제위원회)를 통한 강력한 변경 통제 프로세스 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 자동 추적성(Traceability) 검증 실현</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "무한 수정의 재앙 → 쇳덩어리 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(동결) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 통제 위원회에 의한 프로세스 법치화 → 도구를 통한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자동화"라는 IT 프로젝트 형상 거버넌스의 발전을 보여준다.
 

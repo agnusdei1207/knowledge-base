@@ -30,20 +30,22 @@ tags = ["database"]
 
 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존의 핵심 원리는 분해된 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 집합 $D = \{R_1, R_2, ..., R_n\}$ 에 대해, 각 $R_i$에서 유지되는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)들의 합집합 연산(Closure)이 원래 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) $R$의 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 집합 $F$와 수학적으로 완전히 동일해야 한다는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           종속성 보존의 분해 원리: 룰의 소실 여부 비교       │
-├──────────────────────────────────────────────────────────────┤
-│ [원본 테이블 R(A, B, C)]                                     │
-│  - 보유 규칙: A → B, B → C                                 │
-│                                                              │
-│ [나쁜 분해 (소실 발생)]            [좋은 분해 (보존 성공)]   │
-│ R1(A, B) : A → B 감시 가능         R1(A, B) : A → B 감시 가능│
-│ R2(A, C) : 룰 감시 불가!           R2(B, C) : B → C 감시 가능│
-│ └─▶ B → C 규칙이 공중 분해됨        └─▶ 모든 규칙이 각 테이블에│
-│                                           안전하게 보존됨    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종속성 보존의 분해 원리: 룰의 소실 여부 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 테이블 R(A, B, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보유 규칙: A → B, B → C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나쁜 분해 (소실 발생)</div><div class="kb-diagram-node">좋은 분해 (보존 성공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(A, B) : A → B 감시 가능 R1(A, B) : A → B 감시 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2(A, C) : 룰 감시 불가! R2(B, C) : B → C 감시 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ B → C 규칙이 공중 분해됨 ─▶ 모든 규칙이 각 테이블에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전하게 보존됨</div></div>
+</div>
+</div>
+
+
 
 위 그림처럼 분해 후에도 각 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 그룹이 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 온전히 담고 있어야 한다. $R_1$과 $R_2$ 각각에 제약조건(Constraint)을 걸어 조인 없이 즉시 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 것이 이 아키텍처의 목적이다.
 
@@ -53,7 +55,7 @@ tags = ["database"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)에서 테이블을 분해할 때 지켜야 할 두 가지 기둥은 **[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)**와 **[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존**이다. 이 둘은 종종 서로 충돌하는 트레이드오프 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가진다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)에서 테이블을 분해할 때 지켜야 할 두 가지 기둥은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a></strong>와 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> 보존</strong>이다. 이 둘은 종종 서로 충돌하는 트레이드오프 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가진다.
 
 | 항목 | [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) (Lossless Decomposition) | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존 (Dependency Preservation) |
 | :--- | :--- | :--- |
@@ -72,8 +74,8 @@ tags = ["database"]
 
 실무에서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍트는 3NF와 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) 사이에서 딜레마를 마주한다. BCNF로 쪼개야 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 완벽히 제거할 수 있는데, 그 과정에서 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 깨진다면 어떻게 할 것인가?
 
-기술사적 판단 포인트는 다음과 같다. **"[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)는 하늘이 두 쪽 나도 지킨다. [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존은 포기할 수 있다."**
-BCNF로 분해하면서 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 보존되지 않는다면, 분해된 테이블 단에서는 잃어버린 비즈니스 룰을 DB 제약조건(Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 등)으로 막을 수 없다. 이럴 때는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 소실을 감수하고 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) 분해를 강행한 뒤, 잃어버린 제약 조건 검사를 **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Trigger)**나 **애플리케이션(Java/Spring) 레벨의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직**으로 보완(땜질)하는 전략을 채택해야 한다.
+기술사적 판단 포인트는 다음과 같다. <strong>"<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a>는 하늘이 두 쪽 나도 지킨다. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> 보존은 포기할 수 있다."</strong>
+BCNF로 분해하면서 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 보존되지 않는다면, 분해된 테이블 단에서는 잃어버린 비즈니스 룰을 DB 제약조건(Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 등)으로 막을 수 없다. 이럴 때는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 소실을 감수하고 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) 분해를 강행한 뒤, 잃어버린 제약 조건 검사를 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> (Trigger)</strong>나 <strong>애플리케이션(Java/Spring) 레벨의 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 로직</strong>으로 보완(땜질)하는 전략을 채택해야 한다.
 
 - **📢 섹션 요약 비유**: 수술(분해)을 하다가 환자의 체력([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존)이 버티지 못할 것 같아도, 암세포([무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) 위반)는 무조건 도려내야 한다. 체력이 떨어진 부분은 수술 후 영양제([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)/애플리케이션 코드)로 보충하면 된다.
 
@@ -93,28 +95,30 @@ BCNF로 분해하면서 [종속성](/knowledge-base/studynote/15_devops_sre/01_c
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (FD)** | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존 원칙이 지켜내고자 하는 비즈니스 규칙의 실체 |
-| **[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 시 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존과 함께 달성해야 하지만 우선순위가 더 높은 원칙 |
-| **[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) (보이스-코드 정규형)** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 엄격하게 적용하다 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존이 깨질 수 있는 경계점 |
-| **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Trigger)** | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 소실되었을 때 이를 보완하기 위해 사용하는 DB 내부 장치 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/">함수적 종속성</a> (FD)</strong> | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존 원칙이 지켜내고자 하는 비즈니스 규칙의 실체 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a></strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 시 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존과 함께 달성해야 하지만 우선순위가 더 높은 원칙 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> (보이스-코드 정규형)</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 엄격하게 적용하다 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존이 깨질 수 있는 경계점 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> (Trigger)</strong> | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 소실되었을 때 이를 보완하기 위해 사용하는 DB 내부 장치 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규화 테이블 (이상 현상 발생)
-    │
-    ▼
-정규화 및 함수적 종속성 (FD) 정의
-    │
-    ▼
-무손실 분해 (Lossless Decomposition) 최우선 적용
-    │
-    ▼
-종속성 보존 (Dependency Preservation) 검증
-    │
-    ▼
-BCNF 딜레마 (종속성 소실 발생 시 트리거/앱 레벨 보완)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규화 테이블 (이상 현상 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 및 함수적 종속성 (FD) 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무손실 분해 (Lossless Decomposition) 최우선 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">종속성 보존 (Dependency Preservation) 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCNF 딜레마 (종속성 소실 발생 시 트리거/앱 레벨 보완)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

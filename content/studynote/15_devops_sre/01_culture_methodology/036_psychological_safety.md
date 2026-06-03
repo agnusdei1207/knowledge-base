@@ -39,24 +39,27 @@ Google Project Aristotle (2012-2015):
 
 ## II. 심리적 안전과 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과
 
-```
-DORA 연구 (2023) 상관관계:
 
-심리적 안전 높음 -> 배포 빈도 ↑
-                 -> MTTR (복구 시간) ↓
-                 -> 변경 실패율 ↓
-                 -> 변경 리드타임 ↓
 
-원인 분석:
-  실패 보고 두려움 없음 -> 빠른 포스트모템
-  아이디어 제안 자유   -> 자동화·개선 촉진
-  도움 요청 거부낌 없음 -> 지식 공유 활성화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DORA 연구 (2023) 상관관계:</div>
+<div class="kb-diagram-note">심리적 안전 높음 -&gt; 배포 빈도 ↑</div>
+<div class="kb-diagram-tree-item" style="--depth:8">MTTR (복구 시간) ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:8">변경 실패율 ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:8">변경 리드타임 ↓</div>
+<div class="kb-diagram-note">원인 분석:</div>
+<div class="kb-diagram-note">실패 보고 두려움 없음 -&gt; 빠른 포스트모템</div>
+<div class="kb-diagram-note">아이디어 제안 자유 -&gt; 자동화·개선 촉진</div>
+<div class="kb-diagram-note">도움 요청 거부낌 없음 -&gt; 지식 공유 활성화</div>
+<div class="kb-diagram-note">DevOps 3가지 방법(Three Ways)과 연결:</div>
+<div class="kb-diagram-note">흐름 (Flow): 심리적 안전 -&gt; 병목 솔직히 보고</div>
+<div class="kb-diagram-note">피드백: 심리적 안전 -&gt; 실패 즉시 공유</div>
+<div class="kb-diagram-note">지속 학습: 심리적 안전 -&gt; 실험 장려</div>
+</div>
+</div>
 
-DevOps 3가지 방법(Three Ways)과 연결:
-  흐름 (Flow):     심리적 안전 -> 병목 솔직히 보고
-  피드백:          심리적 안전 -> 실패 즉시 공유
-  지속 학습:       심리적 안전 -> 실험 장려
-```
+
 
 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 행동          | 심리적 안전 높음     | 심리적 안전 낮음    |
 |-------------------|--------------------|-------------------|
@@ -120,20 +123,25 @@ Timothy Clark의 4단계 모델 (2020):
 
 ## V. 실무 시나리오 — 비난 없는 포스트모템
 
-```
-[비난 있는 포스트모템] (나쁜 예):
-  문제: 배포 후 30분 다운타임 발생
-  결과: "누가 배포했냐? 다음엔 더 조심해"
-  효과: 팀원들이 배포를 두려워함 -> 배포 빈도 감소
 
-[비난 없는 포스트모템] (좋은 예):
-  Timeline 재구성 -> 시스템 원인 탐색
-  "왜 이 실수가 발생할 수밖에 없었나?"
-  -> 배포 전 스테이징 테스트 자동화 추가
-  -> 알람 임계값 조정
-  -> 온콜 핸드북 업데이트
-  효과: 동일 실수 재발 방지 + 팀 신뢰 강화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비난 있는 포스트모템</div><div class="kb-diagram-note">(나쁜 예):</div></div>
+<div class="kb-diagram-note">문제: 배포 후 30분 다운타임 발생</div>
+<div class="kb-diagram-note">결과: "누가 배포했냐? 다음엔 더 조심해"</div>
+<div class="kb-diagram-note">효과: 팀원들이 배포를 두려워함 -&gt; 배포 빈도 감소</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비난 없는 포스트모템</div><div class="kb-diagram-note">(좋은 예):</div></div>
+<div class="kb-diagram-note">Timeline 재구성 -&gt; 시스템 원인 탐색</div>
+<div class="kb-diagram-note">"왜 이 실수가 발생할 수밖에 없었나?"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">배포 전 스테이징 테스트 자동화 추가</div>
+<div class="kb-diagram-tree-item" style="--depth:1">알람 임계값 조정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">온콜 핸드북 업데이트</div>
+<div class="kb-diagram-note">효과: 동일 실수 재발 방지 + 팀 신뢰 강화</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 항공기 사고 조사는 조종사 처벌이 아닌 시스템 개선을 위해 한다 — 소프트웨어 인시던트도 동일해야 한다.
 
@@ -141,22 +149,28 @@ Timothy Clark의 4단계 모델 (2020):
 
 ## 📌 관련 개념 맵
 
-```
-심리적 안전 (Psychological Safety)
-+-- 기반 연구
-|   +-- Amy Edmondson (1999)
-|   +-- Google Project Aristotle (2015)
-+-- 4단계 모델 (Timothy Clark)
-|   +-- 포함 -> 학습 -> 기여 -> 도전
-+-- DevOps 연결
-|   +-- DORA 지표
-|   +-- 비난 없는 포스트모템
-|   +-- 지속적 학습 문화
-+-- 관련 개념
-    +-- 심리적 안전 측정 (Edmondson 7문항)
-    +-- 취약성 기반 신뢰 (Lencioni)
-    +-- 팀 신뢰 5단계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">심리적 안전 (Psychological Safety)</div>
+<div class="kb-diagram-note">+-- 기반 연구</div>
+<div class="kb-diagram-note">+-- Amy Edmondson (1999)</div>
+<div class="kb-diagram-note">+-- Google Project Aristotle (2015)</div>
+<div class="kb-diagram-note">+-- 4단계 모델 (Timothy Clark)</div>
+<div class="kb-diagram-note">+-- 포함 -&gt; 학습 -&gt; 기여 -&gt; 도전</div>
+<div class="kb-diagram-note">+-- DevOps 연결</div>
+<div class="kb-diagram-note">+-- DORA 지표</div>
+<div class="kb-diagram-note">+-- 비난 없는 포스트모템</div>
+<div class="kb-diagram-note">+-- 지속적 학습 문화</div>
+<div class="kb-diagram-note">+-- 관련 개념</div>
+<div class="kb-diagram-note">+-- 심리적 안전 측정 (Edmondson 7문항)</div>
+<div class="kb-diagram-note">+-- 취약성 기반 신뢰 (Lencioni)</div>
+<div class="kb-diagram-note">+-- 팀 신뢰 5단계</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -21,9 +21,9 @@ tags = ["studynote-it-management"]
 
 웜 사이트는 재해가 발생했을 때 며칠 안에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 위해 미리 준비해 둔 예비 센터다. 공간과 전력만 있는 Cold Site보다 한 단계 더 나아가 서버, 스토리지, 네트워크, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 핵심 미들웨어까지 사전에 준비하지만, Hot Site처럼 상시 가동과 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 유지하지는 않는다. 따라서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시에는 서버 기동과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원, 애플리케이션 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차가 여전히 필요하다.
 
-이 구조가 필요한 이유는 모든 업무가 [Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) 수준의 비용을 정당화하지 않기 때문이다. 인터넷 뱅킹 핵심 거래처럼 수시간 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필요한 시스템은 Hot Site가 맞지만, 인사 시스템, 비핵심 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 내부 포털, 보고계 시스템은 수십 분 손실보다는 비용 절감과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성이 더 중요한 경우가 많다. 웜 사이트는 바로 이 구간에서 **연속성 요구와 예산 제약을 동시에 만족시키는 선택지**가 된다.
+이 구조가 필요한 이유는 모든 업무가 [Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) 수준의 비용을 정당화하지 않기 때문이다. 인터넷 뱅킹 핵심 거래처럼 수시간 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필요한 시스템은 Hot Site가 맞지만, 인사 시스템, 비핵심 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 내부 포털, 보고계 시스템은 수십 분 손실보다는 비용 절감과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성이 더 중요한 경우가 많다. 웜 사이트는 바로 이 구간에서 <strong>연속성 요구와 예산 제약을 동시에 만족시키는 선택지</strong>가 된다.
 
-Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시간이 다르다. 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 몇 시간만 멈춰도 큰 손실이 나지만, 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 반일~수일 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)면 충분하다. 웜 사이트는 이런 차등 전략을 가능하게 하므로, 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 획일적으로 하지 않고 **업무 중요도별 등급화**할 수 있게 해 준다.
+Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시간이 다르다. 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 몇 시간만 멈춰도 큰 손실이 나지만, 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 반일~수일 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)면 충분하다. 웜 사이트는 이런 차등 전략을 가능하게 하므로, 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 획일적으로 하지 않고 <strong>업무 중요도별 등급화</strong>할 수 있게 해 준다.
 
 - **📢 섹션 요약 비유**: 웜 사이트는 이사 갈 집에 가구와 전기 배선은 미리 넣어 두었지만, 실제 짐과 냉장고 음식은 사고가 난 뒤에 옮겨 놓아야 하는 예비 집과 같다.
 
@@ -43,27 +43,28 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 아래 그림은 일반적인 웜 사이트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Warm site recovery flow                                              │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary Site (active)                                                │
-│   App / DB / Storage                                                 │
-│      │                                                               │
-│      ├─ periodic backup / async replication ───▶ Warm Site           │
-│      │                                         infra pre-installed    │
-│      │                                         apps mostly standby    │
-│      │                                                               │
-│ Disaster declared                                                    │
-│   1. power on / scale up servers                                     │
-│   2. restore or catch up data                                        │
-│   3. validate app and security settings                              │
-│   4. switch DNS / Load Balancer / routes                             │
-│   5. resume prioritized services                                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림이 보여 주는 핵심은 웜 사이트의 병목이 하드웨어 설치가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재와 기동 절차**라는 점이다. 서버가 이미 있어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 시간이 길면 전체 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))가 늘어난다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 주기를 촘촘히 잡으면 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 줄어들지만, 비용과 운영 복잡도는 높아진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm site recovery flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary Site (active)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ periodic backup / async replication ▶ Warm Site</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">infra pre-installed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apps mostly standby</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. power on / scale up servers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. restore or catch up data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. validate app and security settings</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. switch DNS / Load Balancer / routes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. resume prioritized services</div></div>
+</div>
+</div>
+
+
+
+이 그림이 보여 주는 핵심은 웜 사이트의 병목이 하드웨어 설치가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 적재와 기동 절차</strong>라는 점이다. 서버가 이미 있어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 시간이 길면 전체 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))가 늘어난다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 주기를 촘촘히 잡으면 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 줄어들지만, 비용과 운영 복잡도는 높아진다.
 
 따라서 웜 사이트 설계는 단순히 예비 장비를 두는 것이 아니라, 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)부터 살릴지 우선순위를 정하고, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 즉시 복원하고 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 나중에 따라오게 할지를 나누는 작업이다. 실제 현장에서는 "모든 것을 한 번에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"보다 **핵심 업무 우선 기동** 전략이 더 중요하다.
 
@@ -83,7 +84,7 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 경향 | 거의 0 | 수초~수분 | 수시간~1일 | 수일 |
 | 비용 | 최고 | 높음 | 중간 | 낮음 |
 
-클라우드에서는 이 개념이 Pilot Light나 Warm Standby 패턴으로 재해석된다. 최소한의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 저장소, 네트워크만 유지하다가 장애가 발생하면 컴퓨팅 자원을 확장해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모를 키우는 방식이다. 즉 물리 웜 사이트와 구현 형태는 달라도, **기반은 준비하고 전체 규모는 재해 시 활성화한다**는 철학은 같다.
+클라우드에서는 이 개념이 Pilot Light나 Warm Standby 패턴으로 재해석된다. 최소한의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 저장소, 네트워크만 유지하다가 장애가 발생하면 컴퓨팅 자원을 확장해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모를 키우는 방식이다. 즉 물리 웜 사이트와 구현 형태는 달라도, <strong>기반은 준비하고 전체 규모는 재해 시 활성화한다</strong>는 철학은 같다.
 
 웜 사이트는 Business Continuity Plan과도 밀접하게 연결된다. IT 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만 준비하고 사람, 업무 장소, 외부 협력사, 보안 키, 인증서, 접속 절차를 준비하지 않으면 실제 업무는 재개되지 않는다. 그래서 웜 사이트는 DRP (Disaster [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Plan)의 일부이면서, 상위 계획인 BCP (Business Continuity Plan)와 함께 봐야 완전해진다.
 
@@ -118,7 +119,7 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 - 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 끝난다고 보고 인증서, 계정, 보안정책, 연계 인터페이스를 누락하는 경우
 - 주 센터 피크 성능을 그대로 요구하면서도 웜 사이트 비용은 최소화하려는 모순된 설계
 
-기술사 답안에서는 **"웜 사이트는 인프라를 사전 준비하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 주기적으로 반영해 반일~수일 수준의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 목표로 하는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 방식이며, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기·복원 시간·우선순위 기반 기동 전략이 핵심 판단 요소"**라고 정리하면 좋다.
+기술사 답안에서는 <strong>"웜 사이트는 인프라를 사전 준비하고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 주기적으로 반영해 반일~수일 수준의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>를 목표로 하는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> 방식이며, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 주기·복원 시간·우선순위 기반 기동 전략이 핵심 판단 요소"</strong>라고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 웜 사이트 운영은 예비 발전기를 갖춰 두는 것과 같아서, 기계만 사 두는 것이 아니라 연료, 시동 절차, 정기 점검까지 함께 해야 정전 때 실제로 켤 수 있다.
 
@@ -128,9 +129,9 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 웜 사이트의 가장 큰 장점은 비용과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 역량의 균형이다. 장비 조달과 환경 구축 시간을 사전에 제거해 Cold Site보다 훨씬 빠르게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있고, Hot Site보다 운영 비용을 낮출 수 있다. 그래서 중요하지만 최상위 등급까지는 아닌 업무를 보호하기에 적절하다.
 
-다만 웜 사이트는 "중간 정도 준비"가 아니라, **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 명확히 설계된 준비된 대기 상태**여야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오래되거나, 기동 절차가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않았거나, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 드리프트가 심하면 실제 재해 때는 Cold Site와 큰 차이가 없어질 수 있다. 따라서 웜 사이트의 품질은 장비 사진이 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련 결과로 평가해야 한다.
+다만 웜 사이트는 "중간 정도 준비"가 아니라, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 절차가 명확히 설계된 준비된 대기 상태</strong>여야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오래되거나, 기동 절차가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않았거나, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 드리프트가 심하면 실제 재해 때는 Cold Site와 큰 차이가 없어질 수 있다. 따라서 웜 사이트의 품질은 장비 사진이 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련 결과로 평가해야 한다.
 
-결론적으로 웜 사이트는 모든 시스템의 기본 답안은 아니다. 그러나 [Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 기반으로 업무를 등급화했을 때, 많은 조직에서 가장 현실적인 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 선택지로 작동한다. 즉 웜 사이트는 "싸게 버티는 예비실"이 아니라, **정해진 시간 안에 업무를 다시 세우기 위한 준비된 중간 플랫폼**으로 이해하는 것이 정확하다.
+결론적으로 웜 사이트는 모든 시스템의 기본 답안은 아니다. 그러나 [Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) 기반으로 업무를 등급화했을 때, 많은 조직에서 가장 현실적인 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 선택지로 작동한다. 즉 웜 사이트는 "싸게 버티는 예비실"이 아니라, <strong>정해진 시간 안에 업무를 다시 세우기 위한 준비된 중간 플랫폼</strong>으로 이해하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 웜 사이트는 비상시에만 여는 대피소가 아니라, 평소엔 조용하지만 필요한 순간 바로 잠을 자고 밥을 먹을 수 있게 계속 관리해 두는 예비 생활 공간과 같다.
 
@@ -149,22 +150,24 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business Impact Analysis
-        │
-        ▼
-RTO / RPO target definition
-        │
-        ├─ very low target  -> Mirror / Hot Site
-        ├─ medium target    -> Warm Site
-        └─ relaxed target   -> Cold Site
-        │
-        ▼
-Runbook, restore test, failover/failback drill
-        │
-        ▼
-Cloud Warm Standby / Pilot Light evolution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business Impact Analysis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTO / RPO target definition</div>
+<div class="kb-diagram-tree-item" style="--depth:4">very low target -&gt; Mirror / Hot Site</div>
+<div class="kb-diagram-tree-item" style="--depth:4">medium target -&gt; Warm Site</div>
+<div class="kb-diagram-tree-item" style="--depth:4">relaxed target -&gt; Cold Site</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Runbook, restore test, failover/failback drill</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud Warm Standby / Pilot Light evolution</div>
+</div>
+</div>
+
+
 
 이 흐름은 웜 사이트가 독립 개념이 아니라, 업무 영향 분석과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 위에서 선택되는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 스펙트럼의 한 지점임을 보여 준다.
 

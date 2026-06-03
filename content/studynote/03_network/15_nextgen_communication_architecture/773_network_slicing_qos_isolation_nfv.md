@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **물리적으로는 단 1개인 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통합 네트워크망을, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)과 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 기술을 이용해 마치 식빵 자르듯 완전히 격리된 여러 개의 '논리적이고 독립적인 가상 네트워크([Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))'로 쪼개어 쓰는 차세대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술**입니다.
-- 오직 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망이 독립적으로 존재하는 **[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) 모드**에서만 구현 가능합니다. (NSA에서는 불가능)
+- **개념**: <strong>물리적으로는 단 1개인 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 통합 네트워크망을, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(소프트웨어 정의 네트워크)과 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>) 기술을 이용해 마치 식빵 자르듯 완전히 격리된 여러 개의 '논리적이고 독립적인 가상 네트워크(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">Slice</a>)'로 쪼개어 쓰는 차세대 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 기술</strong>입니다.
+- 오직 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망이 독립적으로 존재하는 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a>) 모드</strong>에서만 구현 가능합니다. (NSA에서는 불가능)
 
-```text
-[PCF]
-    │
-    ▼
-[네트워크 슬라이싱]
-    │
-    └──▶ [E2E 슬라이싱 보장 모델 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,21 +43,25 @@ tags = ["studynote-network"]
 
 5G의 매직 트라이앵글([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/), [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/))을 위해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 아예 용도별로 세 조각 내어 씁니다.
 
-1. **[eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 넷플릭스망)**: 
+1. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 넷플릭스망)</strong>: 
    - 딜레이는 10ms쯤 생겨도 상관없으니, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 폭을 미친 듯이 넓게 뚫어서 트럭(대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 엄청 많이 지나가게 길을 세팅합니다.
-2. **[uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (자율주행/수술 로봇망) 🌟**: 
-   - **가장 중요한 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)**입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 폭은 넓지 않아도 되지만, 장애물이 아예 없고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 길이가 극단적으로 짧아야 합니다. (동네 기지국 UPF + [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지 연동) 이 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)에는 99.999% 절대 끊기지 않는 특급 신뢰성만 몰아줍니다.
-3. **[mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (스마트 계량기 꿀벌망)**: 
+2. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> (자율주행/수술 로봇망) 🌟</strong>: 
+   - <strong>가장 중요한 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a></strong>입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 폭은 넓지 않아도 되지만, 장애물이 아예 없고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 길이가 극단적으로 짧아야 합니다. (동네 기지국 UPF + [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지 연동) 이 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)에는 99.999% 절대 끊기지 않는 특급 신뢰성만 몰아줍니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> (스마트 계량기 꿀벌망)</strong>: 
    - 속도와 지연은 신경 안 씁니다. 대신 서버가 100만 대의 접속을 동시에 튕겨내지 않고 받아주도록([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 처리 위주) 세팅합니다.
 
-```text
-[PCF]
-    │
-    ▼
-[네트워크 슬라이싱]
-    │
-    └──▶ [E2E 슬라이싱 보장 모델 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,9 +69,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-이 기술의 핵심은 속도가 아니라 **'보안과 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))'**입니다.
+이 기술의 핵심은 속도가 아니라 <strong>'보안과 격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)'</strong>입니다.
 - 물리적인 선은 하나지만, 논리적으로는 A [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)와 B [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 우주 끝과 끝처럼 분리되어 있습니다.
-- 만약 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 수만 대를 동원해 유튜브 망([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))에 트래픽을 폭주시켜(DDoS) 유튜브망을 완전히 마비시키고 다운시켜도, **옆 차선에 뚫려있는 자율주행 망([uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))은 단 1비트의 간섭이나 트래픽 침범도 받지 않고 평온하게 돌아갑니다.** ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 자원 관리)
+- 만약 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 수만 대를 동원해 유튜브 망([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))에 트래픽을 폭주시켜(DDoS) 유튜브망을 완전히 마비시키고 다운시켜도, <strong>옆 차선에 뚫려있는 자율주행 망(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>)은 단 1비트의 간섭이나 트래픽 침범도 받지 않고 평온하게 돌아갑니다.</strong> ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 자원 관리)
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. PCF가 기반 조건을 만든다면, [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 그 위에서 핵심 메커니즘을 구현하고, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,8 +88,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 하드웨어를 소프트웨어로 쪼개야 하므로 아래 두 기술이 무조건 베이스로 깔려야 합니다.
-- **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([Software Defined Networking](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/))**: 장비에서 제어부(두뇌)와 전송부(손발)를 떼어내어, 소프트웨어로 길을 자유자재로 뚫고 막는 네트워크 프로그래밍 기술입니다.
-- **[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) (Network Functions [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))**: 라우터, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 같은 비싼 쇳덩어리 장비들을 다 버리고, 범용 x86 클라우드 서버 위에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/VM으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱(App)을 깔아서 무한 복제해 쓰는 마법입니다. ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 모듈인 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 복제의 원리)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/">Software Defined Networking</a>)</strong>: 장비에서 제어부(두뇌)와 전송부(손발)를 떼어내어, 소프트웨어로 길을 자유자재로 뚫고 막는 네트워크 프로그래밍 기술입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> (Network Functions <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)</strong>: 라우터, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 같은 비싼 쇳덩어리 장비들을 다 버리고, 범용 x86 클라우드 서버 위에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/VM으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱(App)을 깔아서 무한 복제해 쓰는 마법입니다. ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 모듈인 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 복제의 원리)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PCF]
-    │
-    ▼
-[현재 개념: 네트워크 슬라이싱]
-    │
-    ├──▶ [확장 A: E2E 슬라이싱 보장 모델 관리]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PCF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 슬라이싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)는 PCF에서 출발해 현재 메커니즘을 정교화하고, 이후 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

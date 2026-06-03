@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 1980년대 중반 시스코가 RIP의 치명적인 한계점(최대 15 Hop 제한, 단순한 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 극복하고자 자사 라우터 전용으로 개발한 디스턴스 벡터 [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 9).
-- **필요성**: 큰 회사 망에 라우터를 20대 깔았다. RIP를 켰더니 16번째 라우터부터 핑이 안 나간다(15 Hop 제한). 게다가 100메가짜리 쾌속 광랜을 놔두고, 라우터 개수가 적다는 이유만으로 9.6Kbps 짜리 조선시대 전화선으로 모든 데이터를 몰아넣어 망을 뻗게 만든다. 빡친 시스코 엔지니어들은 **"야, 우리가 라우터 파는 1위 기업인데, 우리 기계끼리만이라도 똑똑하게 100대까지 커버하고, 진짜 '속도' 빠른 선을 1등으로 찾아내는 끝판왕 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들자!"**라며 칼을 빼 들었다.
+- **필요성**: 큰 회사 망에 라우터를 20대 깔았다. RIP를 켰더니 16번째 라우터부터 핑이 안 나간다(15 Hop 제한). 게다가 100메가짜리 쾌속 광랜을 놔두고, 라우터 개수가 적다는 이유만으로 9.6Kbps 짜리 조선시대 전화선으로 모든 데이터를 몰아넣어 망을 뻗게 만든다. 빡친 시스코 엔지니어들은 <strong>"야, 우리가 라우터 파는 1위 기업인데, 우리 기계끼리만이라도 똑똑하게 100대까지 커버하고, 진짜 '속도' 빠른 선을 1등으로 찾아내는 끝판왕 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 만들자!"</strong>라며 칼을 빼 들었다.
 
 - **💡 비유**: 
-  - **[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)**: 식당의 맛, 위생, 가격은 다 무시하고 오직 **"우리 집에서 걸음 수가 제일 적은 식당(Hop Count)"**만 무조건 1등 맛집으로 치는 극강의 길치.
-  - **IGRP**: 미슐랭 가이드. **"음식의 맛([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)), 서빙 속도([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 청결도([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), 식당의 붐빔 정도(부하)"**라는 4가지 기준에 각각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(K값)를 곱해 100만 점 만점의 완벽한 1등 맛집(복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 찾아내는 깐깐한 미식가.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong>: 식당의 맛, 위생, 가격은 다 무시하고 오직 <strong>"우리 집에서 걸음 수가 제일 적은 식당(Hop Count)"</strong>만 무조건 1등 맛집으로 치는 극강의 길치.
+  - **IGRP**: 미슐랭 가이드. <strong>"음식의 맛(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), 서빙 속도(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>), 청결도(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>), 식당의 붐빔 정도(부하)"</strong>라는 4가지 기준에 각각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(K값)를 곱해 100만 점 만점의 완벽한 1등 맛집(복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 찾아내는 깐깐한 미식가.
 
-```text
-[RIPng]
-    │
-    ▼
-[IGRP]
-    │
-    └──▶ [EIGRP]
-```
 
-- **📢 섹션 요약 비유**: ** IGRP는 아이폰([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 장비)끼리만 쓸 수 있게 만들어진 **"애플 전용 고화질 영상통화(FaceTime)"**의 원조격입니다. 삼성 폰(타사 라우터)과는 대화가 안 되는 콧대 높은 녀석이었습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIPng</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IGRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EIGRP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> IGRP는 아이폰(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> 장비)끼리만 쓸 수 있게 만들어진 </strong>"애플 전용 고화질 영상통화(FaceTime)"**의 원조격입니다. 삼성 폰(타사 라우터)과는 대화가 안 되는 콧대 높은 녀석이었습니다.
 
 ---
 
@@ -45,39 +49,37 @@ tags = ["studynote-network"]
 
 ### 1. IGRP의 5대 복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (K 상수)
 IGRP는 길의 점수를 매길 때 $K1$부터 $K5$까지 5개의 잣대(상수)를 수학 공식에 넣고 팽팽 돌린다.
-- **K1 = [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 속도)**: 선로가 10M냐 100M냐. (기본으로 씀)
+- <strong>K1 = <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>, 속도)</strong>: 선로가 10M냐 100M냐. (기본으로 씀)
 - **K2 = Load (부하)**: 지금 그 길에 트래픽이 얼마나 차서 꽉 막혀있냐. (안 씀)
-- **K3 = Delay ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))**: 핑 치면 응답 오는 데 몇 ms 걸리냐. (기본으로 씀)
-- **K4 = [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) ([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))**: 케이블이 구려서 에러가 얼마나 자주 나냐. (안 씀)
+- <strong>K3 = Delay (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong>: 핑 치면 응답 오는 데 몇 ms 걸리냐. (기본으로 씀)
+- <strong>K4 = <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>)</strong>: 케이블이 구려서 에러가 얼마나 자주 나냐. (안 씀)
 - **K5 = MTU (최대 전송 단위)**: 패킷을 얼마나 크게 썰어 넣을 수 있냐. (안 씀)
 
 보통 K1(속도)과 K3([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))만 1로 켜두고 나머지는 0으로 무시한다. 
-즉, **"안 막히고 속도 빠른 선이 짱이다!"**라는 결론이다.
+즉, <strong>"안 막히고 속도 빠른 선이 짱이다!"</strong>라는 결론이다.
 
 ### 2. RIP를 압살했던 3대 장점
-1. **Hop 제한의 확장**: RIP는 최대 15칸이면 죽었지만, IGRP는 기본 100칸, 최대 **255칸(Hop)**까지 라우터를 늘어놓아도 무사통과하는 넉넉한 체력을 가졌다.
-2. **불균등 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) (Unequal Cost [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))**: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 마법 중 하나다. RIP나 OSPF는 A길과 B길의 점수([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 100% 똑같아야만 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(양쪽으로 나눠 쏘기)을 해준다. 하지만 IGRP는 "A길이 10점, B길이 20점이라 B가 두 배 느리지만, 패킷을 2:1 비율로 적절히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해서 버려지는 길 없이 싹 다 쓰자!"라는 기가 막힌 융통성([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 옵션)을 발휘했다.
-3. **업데이트 타이머**: RIP의 30초보다 훨씬 긴 **90초**마다 방송을 때려 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(소음)을 1/3로 줄였다.
+1. **Hop 제한의 확장**: RIP는 최대 15칸이면 죽었지만, IGRP는 기본 100칸, 최대 <strong>255칸(Hop)</strong>까지 라우터를 늘어놓아도 무사통과하는 넉넉한 체력을 가졌다.
+2. <strong>불균등 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a> (Unequal Cost <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 마법 중 하나다. RIP나 OSPF는 A길과 B길의 점수([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 100% 똑같아야만 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(양쪽으로 나눠 쏘기)을 해준다. 하지만 IGRP는 "A길이 10점, B길이 20점이라 B가 두 배 느리지만, 패킷을 2:1 비율로 적절히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해서 버려지는 길 없이 싹 다 쓰자!"라는 기가 막힌 융통성([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 옵션)을 발휘했다.
+3. **업데이트 타이머**: RIP의 30초보다 훨씬 긴 <strong>90초</strong>마다 방송을 때려 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(소음)을 1/3로 줄였다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IGRP의 몰락과 EIGRP의 탄생 스토리                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1990년대: IGRP 대박 침. 시스코 라우터 날개 돋친 듯 팔림.            │
- │                                                             │
- │   1995년 즈음: 인터넷 폭발. VLSM(서브넷 마스크 쪼개기) 시대 도래!      │
- │                                                             │
- │   IGRP: "어... 나 Classful 프로토콜이라 엽서에 마스크 안 쓰는데...?"  │
- │   시스코: "야, RIP도 v2 만들어서 마스크 쓰게 고쳤는데 너도 고쳐!"      │
- │                                                             │
- │   1996년: 시스코가 IGRP의 알고리즘(DUAL)을 미친 듯이 뜯어고치고        │
- │          마스크(Classless) 지원과 초광속 수렴 속도를 욱여넣은 끝판왕  │
- │          **[ EIGRP (Enhanced IGRP) ]** 를 세상에 내놓음.       │
- │                                                             │
- │   ▶ 그 후 IGRP는 철저히 버림받고 Cisco IOS 운영체제에서 영원히 삭제됨. │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGRP의 몰락과 EIGRP의 탄생 스토리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대: IGRP 대박 침. 시스코 라우터 날개 돋친 듯 팔림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1995년 즈음: 인터넷 폭발. VLSM(서브넷 마스크 쪼개기) 시대 도래!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGRP: "어... 나 Classful 프로토콜이라 엽서에 마스크 안 쓰는데...?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스코: "야, RIP도 v2 만들어서 마스크 쓰게 고쳤는데 너도 고쳐!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1996년: 시스코가 IGRP의 알고리즘(DUAL)을 미친 듯이 뜯어고치고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스크(Classless) 지원과 초광속 수렴 속도를 욱여넣은 끝판왕</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note"></div><div class="kb-diagram-node">EIGRP (Enhanced IGRP)</div><div class="kb-diagram-note"> 를 세상에 내놓음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 그 후 IGRP는 철저히 버림받고 Cisco IOS 운영체제에서 영원히 삭제됨.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IGRP는 1990년대에 출시된 **"비디오테이프 재생이 되는 초호화 브라운관 TV"**였습니다. 당대 최고의 화질(복합 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))과 기능(불균등 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/))을 자랑했지만, 시대가 디지털([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))로 넘어가면서 HDMI([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)) 단자가 없다는 치명적 한계 때문에 결국 스마트 TV([EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/))에게 자리를 물려주고 폐기되었습니다.
 
@@ -135,15 +137,19 @@ IGRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RIPng]
-    │
-    ▼
-[현재 개념: IGRP]
-    │
-    ├──▶ [확장 A: EIGRP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RIPng</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IGRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EIGRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 IGRP는 RIPng에서 출발해 현재 메커니즘을 정교화하고, 이후 EIGRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

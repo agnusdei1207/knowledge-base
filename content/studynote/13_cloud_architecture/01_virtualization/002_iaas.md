@@ -27,15 +27,20 @@ tags = ["cloud_architecture"]
 
 다음은 기존 레거시 인프라와 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경의 자원 관리 병목을 비교한 도식이다.
 
-```text
-[기존 물리적 인프라 환경의 병목]
-요청 → [발주/배송 (Weeks)] → [IDC 입고/마운트 (Days)] → [OS/네트워크 수동 설정 (Days)] → 투입
-              ▲ 물리적 시간 지연이 비즈니스 속도를 제약
 
-[IaaS 환경의 소프트웨어 정의 인프라]
-요청 → [Cloud API/IaC 실행] → [하이퍼바이저 자원 논리 할당 (ms)] → [가상 인스턴스 부팅 (Sec)] → 투입
-              ▲ 모든 물리 장비가 추상화되어 API 엔드포인트로 통제됨
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 물리적 인프라 환경의 병목</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">발주/배송 (Weeks)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">IDC 입고/마운트 (Days)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OS/네트워크 수동 설정 (Days)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">투입</div></div>
+<div class="kb-diagram-note">▲ 물리적 시간 지연이 비즈니스 속도를 제약</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaaS 환경의 소프트웨어 정의 인프라</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Cloud API/IaC 실행</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">하이퍼바이저 자원 논리 할당 (ms)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">가상 인스턴스 부팅 (Sec)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">투입</div></div>
+<div class="kb-diagram-note">▲ 모든 물리 장비가 추상화되어 API 엔드포인트로 통제됨</div>
+</div>
+</div>
+
+
 
 이 그림이 보여주듯, IaaS의 본질은 하드웨어의 제거가 아니라 '하드웨어 제어권의 API화'에 있다. 사용자는 복잡한 물리적 케이블링 대신 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 코드를 통해 몇 줄의 텍스트로 가상 네트워크([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))를 뚫고 수백 대의 서버를 동시에 띄울 수 있다. 따라서 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경에서는 시스템 장애 시 서버를 고쳐 쓰는(Mutable) 것이 아니라 파기하고 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))하는 새로운 운영 패러다임이 요구된다.
 
@@ -47,32 +52,33 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 
 | 구성 요소 | 역할 | 핵심 기술/메커니즘 | 실무 예시 (AWS 기준) | 비유 |
 |:---|:---|:---|:---|:---|
-| **컴퓨팅 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (SDC)** | CPU, RAM 자원 분할 할당 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Xen, Nitro), [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) | EC2, [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) | 넓은 땅을 구획으로 쪼개기 |
-| **스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/))** | 영구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 객체 보관 | [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/), 블록 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 매핑 | EBS (블록), S3 (객체) | 거대한 공용 창고 할당 |
-| **네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))** | 통신 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)/격리 | [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) | [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group | 가상의 투명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 연결 |
-| **[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)/제어 평면** | 자원 생명주기 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제어 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 미터링 엔진 | AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), CloudWatch | 인프라 중앙 통제실 |
-| **[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) (Identity & Access)** | 자원에 대한 접근/권한 제어 | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), 토큰 기반 임시 권한(STS) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role | 출입증 발급 게이트 |
+| <strong>컴퓨팅 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (SDC)</strong> | CPU, RAM 자원 분할 할당 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Xen, Nitro), [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) | EC2, [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) | 넓은 땅을 구획으로 쪼개기 |
+| <strong>스토리지 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/">SDS</a>)</strong> | 영구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 객체 보관 | [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/), 블록 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 매핑 | EBS (블록), S3 (객체) | 거대한 공용 창고 할당 |
+| <strong>네트워크 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>)</strong> | 통신 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)/격리 | [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) | [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group | 가상의 투명 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 연결 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>/제어 평면</strong> | 자원 생명주기 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제어 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 미터링 엔진 | AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), CloudWatch | 인프라 중앙 통제실 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> (Identity &amp; Access)</strong> | 자원에 대한 접근/권한 제어 | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), 토큰 기반 임시 권한(STS) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role | 출입증 발급 게이트 |
 
 다음 구조도는 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경 내에서 사용자의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청이 실제 물리 서버(Host)에서 VM으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 내부 구조를 나타낸다.
 
-```text
-이 도식은 IaaS의 제어 평면(Control Plane)과 데이터 평면(Data Plane)이 분리되어, 사용자의 프로비저닝 명령이 어떻게 하이퍼바이저로 전달되는지를 보여준다.
 
-┌─────────────── [IaaS Control Plane / IaaS 제어 평면] ───────────────┐
-│ [사용자 API/CLI] ──> [API Server & Auth (IAM)]       │
-│                             │                        │
-│                     [Resource Scheduler / 스케줄러]  │
-└─────────────────────────────│────────────────────────┘
-                              ▼ (Hypercall / API)
-┌─────────────── [ IaaS Data Plane (물리 서버) ] ────────┐
-│  ┌───── VM 1 ─────┐  ┌───── VM 2 ─────┐              │
-│  │ Guest OS (Web) │  │ Guest OS (DB)  │              │
-│  └────────────────┘  └────────────────┘              │
-│  =========== Hypervisor (KVM / Nitro) ===========    │
-│  [ 가상 스위치(OVS) ]  ↔  [ 오버레이 네트워크 통로 ] │
-│  [ CPU / RAM 할당 ]  ↔  [ 물리 NIC / Disk I/O  ]     │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 IaaS의 제어 평면(Control Plane)과 데이터 평면(Data Plane)이 분리되어, 사용자의 프로비저닝 명령이 어떻게 하이퍼바이저로 전달되는지를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaaS Control Plane / IaaS 제어 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 API/CLI</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">API Server &amp; Auth (IAM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Scheduler / 스케줄러</div></div>
+<div class="kb-diagram-note">▼ (Hypercall / API)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaaS Data Plane (물리 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1 VM 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS (Web)</div><div class="kb-diagram-cell">Guest OS (DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=========== Hypervisor (KVM / Nitro) ===========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 스위치(OVS)</div><div class="kb-diagram-note">↔</div><div class="kb-diagram-node">오버레이 네트워크 통로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU / RAM 할당</div><div class="kb-diagram-note">↔</div><div class="kb-diagram-node">물리 NIC / Disk I/O</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 제어 평면의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 수만 대의 물리 노드 중 자원 여유가 있는 노드를 탐색하고, 해당 노드의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 지시한다는 점이다. 특히 최신 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 벤더(예: AWS Nitro System)는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 부하(네트워크, 스토리지 I/O 처리)를 메인 CPU가 아닌 별도의 하드웨어 카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC)로 오프로드(Offload)하여, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드를 제로에 가깝게 만들고 보안을 극대화한다. 실무에서는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 격리 수준([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 보안 그룹)을 철저히 설계해야만 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 환경의 해킹 위협([Hypervisor Escape](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/060_hypervisor_escape_vm_security_threat/) 등)을 막을 수 있다.
 
@@ -86,24 +92,27 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 |:---|:---|:---|:---|
 | **제공 수준** | 서버([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), 네트워크, 스토리지 볼륨 | OS, 미들웨어, 런타임, 런타임 프레임워크 | 사용자가 제어하길 원하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 범위 |
 | **사용자 책임** | OS 패치, 보안, 런타임 설치, 애플리케이션 | 애플리케이션 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 | 관리 오버헤드 vs 자유도 트래픽 |
-| **벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))** | 낮음 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지를 타 클라우드로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능) | 중간~높음 (특정 DB/런타임 환경 종속) | [멀티 클라우드 전략](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/189_multi_cloud_strategy_vendor_lock_in/) 가능성 |
+| <strong>벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)</strong> | 낮음 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지를 타 클라우드로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능) | 중간~높음 (특정 DB/런타임 환경 종속) | [멀티 클라우드 전략](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/189_multi_cloud_strategy_vendor_lock_in/) 가능성 |
 | **장점** | 레거시 환경(모놀리식)의 가장 빠르고 쉬운 마이그레이션([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift) | 인프라 관리 없이 비즈니스 로직 개발에만 집중 가능 | 전환 비용 (마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) |
 
 다음은 온프레미스에서 클라우드로 넘어갈 때, 제어권과 관리 부담의 트레이드오프를 보여주는 상태 비교도이다.
 
-```text
-이 도식은 클라우드 서비스 모델에 따른 '사용자의 관리 영역(노란색)'과 '클라우드 제공자의 관리 영역(파란색)'의 경계를 명확히 보여준다.
 
-[On-Premise / 온프레미스]     [IaaS]           [PaaS]           [SaaS]
-┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
-│ Apps     │     │ Apps     │     │ Apps     │     │ Apps     │ (Data)
-│ Runtime  │     │ Runtime  │     │ Runtime  │     ├──────────┤
-│ OS / DB  │     │ OS / DB  │     ├──────────┤     │ OS / DB  │
-│ Virtual  │     ├──────────┤     │ Virtual  │     │ Virtual  │
-│ Server   │     │ Server   │     │ Server   │     │ Server   │
-│ Network  │     │ Network  │     │ Network  │     │ Network  │ (Provider)
-└──────────┘     └──────────┘     └──────────┘     └──────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 클라우드 서비스 모델에 따른 '사용자의 관리 영역(노란색)'과 '클라우드 제공자의 관리 영역(파란색)'의 경계를 명확히 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">On-Premise / 온프레미스</div><div class="kb-diagram-node">IaaS</div><div class="kb-diagram-node">PaaS</div><div class="kb-diagram-node">SaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apps</div><div class="kb-diagram-cell">Apps</div><div class="kb-diagram-cell">Apps</div><div class="kb-diagram-cell">Apps</div><div class="kb-diagram-cell">(Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">Runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS / DB</div><div class="kb-diagram-cell">OS / DB</div><div class="kb-diagram-cell">OS / DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual</div><div class="kb-diagram-cell">Virtual</div><div class="kb-diagram-cell">Virtual</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server</div><div class="kb-diagram-cell">Server</div><div class="kb-diagram-cell">Server</div><div class="kb-diagram-cell">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">(Provider)</div></div>
+</div>
+</div>
+
+
 
 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 모델은 사용자가 OS 계층부터 위쪽으로 모든 권한(Root Access)을 갖는다. 이는 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝이나 상용 레거시 소프트웨어를 수정 없이 얹어 쓰기에는 최고지만, 반대로 말하면 OS 보안 패치, 미들웨어 업그레이드, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트를 사용자가 직접 구성해야 한다는 뜻이다. 반면 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 방식은 단건 지연은 다소 크지만 운영 복잡도를 벤더에게 전가할 수 있어, 신규 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱을 구축할 때 더 유리할 수 있다. 
 
@@ -113,28 +122,30 @@ IaaS를 구성하는 백엔드 아키텍처는 컴퓨팅, 네트워크, 스토�
 
 실무에서 IaaS를 도입하거나 아키텍처를 설계할 때는 보안과 비용 최적화가 가장 큰 판단 기준이 된다. 
 
-1. **마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Rehost vs [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))**: 레거시 시스템을 IaaS로 가장 빨리 옮기는 방법은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지를 그대로 복사하는 Rehost ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift)이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 마이그레이션 속도는 빠르지만 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 이점을 100% 누릴 수 없으므로, 추후 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 [Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/) 하는 2단계 로드맵이 필수적이다.
-2. **비용 낭비(Zombie [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 방지**: 클릭 몇 번으로 서버가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되다 보니, 테스트용으로 띄워둔 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 인스턴스가 끄는 것을 잊어버린 채 방치되어 과금되는 '좀비 인스턴스'가 흔히 발생한다. 리소스 태깅(Tagging)을 강제하고, 주기적으로 사용률 5% 미만 자원을 셧다운하는 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 등)을 설계해야 한다.
-3. **네트워크 격리 ([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) / Subnet)**: [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경에서 DB 서버에 외부 퍼블릭 IP를 할당하는 것은 치명적 안티패턴이다. 웹 서버(Public Subnet)와 DB 서버(Private Subnet)를 엄격히 분리하고, 외부 접근은 배스천 호스트([Bastion Host](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/))나 VPN을 통과하도록 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)을 겹겹이 쳐야 한다.
+1. <strong>마이그레이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Rehost vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">Refactor</a>)</strong>: 레거시 시스템을 IaaS로 가장 빨리 옮기는 방법은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지를 그대로 복사하는 Rehost ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift)이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 마이그레이션 속도는 빠르지만 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 이점을 100% 누릴 수 없으므로, 추후 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 [Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/) 하는 2단계 로드맵이 필수적이다.
+2. <strong>비용 낭비(Zombie <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) 방지</strong>: 클릭 몇 번으로 서버가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되다 보니, 테스트용으로 띄워둔 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 인스턴스가 끄는 것을 잊어버린 채 방치되어 과금되는 '좀비 인스턴스'가 흔히 발생한다. 리소스 태깅(Tagging)을 강제하고, 주기적으로 사용률 5% 미만 자원을 셧다운하는 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 등)을 설계해야 한다.
+3. <strong>네트워크 격리 (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/">VPC</a> / Subnet)</strong>: [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경에서 DB 서버에 외부 퍼블릭 IP를 할당하는 것은 치명적 안티패턴이다. 웹 서버(Public Subnet)와 DB 서버(Private Subnet)를 엄격히 분리하고, 외부 접근은 배스천 호스트([Bastion Host](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/))나 VPN을 통과하도록 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)을 겹겹이 쳐야 한다.
 
-```text
-[실무 IaaS 고가용성 및 보안 라우팅 플로우]
-이 구조도는 IaaS 도입 시 장애 전파를 막고 보안을 확보하기 위한 멀티-가용영역(AZ) 배치의 모범 사례를 보여준다.
 
-[Internet / 인터넷]
-   ↓
-[ Internet Gateway / WAF ]
-   ↓
-┌──[ VPC (Virtual Private Cloud) ]───────────────────────────┐
-│  ┌─[ 가용영역(AZ) A ]─┐           ┌─[ 가용영역(AZ) B ]─┐   │
-│  │ Public Subnet      │ ── LB ──> │ Public Subnet      │   │
-│  │  [Web VM / 웹 VM]  │           │  [Web VM / 웹 VM]  │   │
-│  ├────────────────────┤           ├────────────────────┤   │
-│  │ Private Subnet     │ ── Sync ─ │ Private Subnet     │   │
-│  │  [DB Master VM / DB 마스터 VM]    │           │  [DB Replica VM / DB 레플리카]   │   │
-│  └────────────────────┘           └────────────────────┘   │
-└────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 IaaS 고가용성 및 보안 라우팅 플로우</div></div>
+<div class="kb-diagram-note">이 구조도는 IaaS 도입 시 장애 전파를 막고 보안을 확보하기 위한 멀티-가용영역(AZ) 배치의 모범 사례를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internet / 인터넷</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internet Gateway / WAF</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">VPC (Virtual Private Cloud)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">가용영역(AZ) A</div><div class="kb-diagram-note">─ ─</div><div class="kb-diagram-node">가용영역(AZ) B</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public Subnet</div><div class="kb-diagram-cell">── LB ──&gt;</div><div class="kb-diagram-cell">Public Subnet</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Web VM / 웹 VM</div><div class="kb-diagram-node">Web VM / 웹 VM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Private Subnet</div><div class="kb-diagram-cell">── Sync ─</div><div class="kb-diagram-cell">Private Subnet</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB Master VM / DB 마스터 VM</div><div class="kb-diagram-node">DB Replica VM / DB 레플리카</div></div>
+</div>
+</div>
+
+
 
 이 흐름도의 핵심은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하기 위해 서로 다른 물리적 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(가용영역 A, B)에 인스턴스를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하고, DB를 프라이빗 서브넷에 숨겼다는 점이다. 실무에서는 이러한 구성을 수동 클릭으로 만들면 휴먼 에러가 필연적으로 발생하므로, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드로 작성하여 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거친 후 프로비저닝해야 한다. 
 
@@ -165,21 +176,23 @@ IaaS의 도입은 기업 인프라 운영의 민첩성과 유연성을 극대화
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 정의 데이터센터 (SDDC)]
-    │
-    ▼
-[하이퍼바이저 (Hypervisor)]
-    │
-    ▼
-[불변 인프라 (Immutable Infrastructure)]
-    │
-    ▼
-[데브옵스 / IaC (테라폼)]
-    │
-    ▼
-[베어메탈 클라우드 (Bare Metal Cloud)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 데이터센터 (SDDC)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 (Hypervisor)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">불변 인프라 (Immutable Infrastructure)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데브옵스 / IaC (테라폼)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 클라우드 (Bare Metal Cloud)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [소프트웨어 정의 데이터센터](/knowledge-base/studynote/03_network/17_sdn_nfv/858_sddc_software_defined_data_center_infrastructure/) ([SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/))에서 출발해 [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) ([Bare Metal Cloud](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

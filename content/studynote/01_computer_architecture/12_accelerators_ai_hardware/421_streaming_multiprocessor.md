@@ -11,8 +11,8 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스트리밍 멀티프로세서 (Streaming [Multiprocessor](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/), SM)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 안에서 워프 (Warp)를 실제로 실행하고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)·연산기를 함께 제공하는 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행의 기본 공장 단위**다.
-> 2. **가치**: SM은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 빠르게 끝내기보다, 대기 중인 워프를 즉시 교체해 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 가리면서 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** 을 극대화하도록 설계된다.
+> 1. **본질**: 스트리밍 멀티프로세서 (Streaming [Multiprocessor](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/), SM)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 안에서 워프 (Warp)를 실제로 실행하고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)·연산기를 함께 제공하는 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행의 기본 공장 단위</strong>다.
+> 2. **가치**: SM은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 빠르게 끝내기보다, 대기 중인 워프를 즉시 교체해 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 가리면서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> 을 극대화하도록 설계된다.
 > 3. **판단 포인트**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 코어 수만이 아니라, SM당 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 용량·[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 사용량·워프 점유율·분기 발산이 어떻게 맞물리느냐에 의해 결정된다.
 
 ---
@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 구조가 필요해진 이유는 그래픽스와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 연산이 같은 계산을 엄청난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복하는 형태이기 때문이다. 픽셀 셰이딩, 행렬 곱셈, 벡터 연산처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 큰 작업에서는 복잡한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기보다 많은 연산기와 빠른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 교체가 더 효율적이다. 만약 이런 실행 단위가 없다면 GPU는 수천 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리하면서도 실제 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 자원 경쟁 때문에 연산기를 놀리게 된다.
 
-또한 SM은 GPU를 확장 가능한 구조로 만드는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 단위이기도 하다. 칩 설계자는 SM을 여러 개 반복 배치해 전체 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 키우고, 소프트웨어는 그 위에 블록과 워프를 매핑한다. 그래서 SM을 이해하는 것은 GPU를 단순한 "코어 많이 붙인 칩"이 아니라, **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 엔진의 집합**으로 이해하는 출발점이다.
+또한 SM은 GPU를 확장 가능한 구조로 만드는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 단위이기도 하다. 칩 설계자는 SM을 여러 개 반복 배치해 전체 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 키우고, 소프트웨어는 그 위에 블록과 워프를 매핑한다. 그래서 SM을 이해하는 것은 GPU를 단순한 "코어 많이 붙인 칩"이 아니라, <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 가능한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 엔진의 집합</strong>으로 이해하는 출발점이다.
 
 📢 섹션 요약 비유: SM은 대형 물류센터의 작업 구역과 같다. 구역 하나가 컨베이어벨트, 작업대, 인력을 모두 갖추고 있어야 택배 상자들이 끊기지 않고 흘러간다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SM 내부를 볼 때 핵심은 "무엇이 계산하고, 무엇이 기다림을 숨기며, 무엇이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용을 돕는가"를 구분하는 것이다. 일반적으로 SM은 워프 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어 (Compute Unified Device [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Core), [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 로드/스토어 유닛을 포함한다. 세대마다 구성 비율은 달라지지만, 설계 철학은 일관된다. **많은 워프를 올려두고, 준비된 워프를 골라, 연산기를 쉬지 않게 한다**는 점이다.
+SM 내부를 볼 때 핵심은 "무엇이 계산하고, 무엇이 기다림을 숨기며, 무엇이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용을 돕는가"를 구분하는 것이다. 일반적으로 SM은 워프 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어 (Compute Unified Device [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Core), [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)), 로드/스토어 유닛을 포함한다. 세대마다 구성 비율은 달라지지만, 설계 철학은 일관된다. <strong>많은 워프를 올려두고, 준비된 워프를 골라, 연산기를 쉬지 않게 한다</strong>는 점이다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 미치는 영향 |
 | :--- | :--- | :--- |
@@ -44,25 +44,21 @@ SM 내부를 볼 때 핵심은 "무엇이 계산하고, 무엇이 기다림을 �
 
 아래 그림은 하나의 [스레드 블록](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/)이 SM에 올라와 워프로 쪼개지고, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생기면 다른 워프로 교체되는 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                SM 내부 실행 흐름: "멈춘 워프 대신 다른 워프"       │
-├─────────────────────────────────────────────────────────────────────┤
-│ Thread Block 배치                                                  │
-│      │                                                             │
-│      ▼                                                             │
-│ Warp 0   Warp 1   Warp 2   Warp 3  ...                             │
-│   │        │        │        │                                     │
-│   └────────┴────┬───┴────────┘                                     │
-│                 ▼                                                   │
-│        Warp Scheduler / Issue Logic                                │
-│          ├─ Ready Warp ───────────────▶ CUDA Core / Tensor Core    │
-│          └─ Waiting Warp (DRAM) ──────▶ 보류                        │
-│                                    ▲                                │
-│                                    │                                │
-│                 Shared Memory / Register File                       │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM 내부 실행 흐름: "멈춘 워프 대신 다른 워프"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Block 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp 0 Warp 1 Warp 2 Warp 3 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp Scheduler / Issue Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Ready Warp ▶ CUDA Core / Tensor Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Waiting Warp (DRAM) ▶ 보류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Memory / Register File</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 CPU식 문맥 교체를 하지 않는다는 점이다. 워프의 상태는 이미 SM 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 머물러 있으므로, 어떤 워프가 전역 메모리인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)을 기다리면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 다른 워프로 넘어가면 된다. 이때 필요한 조건이 바로 충분한 점유율이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 너무 많이 쓰거나 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 과도하게 예약하면 SM에 동시에 올릴 수 있는 워프 수가 줄어들고, 결국 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨길 대기열이 얇아진다.
 
@@ -98,11 +94,11 @@ SM의 성격을 선명하게 보려면 CPU 코어와 비교하는 것이 가장 
 
 ### 실무 체크포인트
 
-1. **점유율 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: SM당 활성 워프 수가 너무 낮지 않은가?
-2. **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)당 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사용량이 지나쳐 상주 워프 수를 깎지 않는가?
-3. **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 타일링으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 왕복을 줄였지만, 뱅크 충돌 (Bank Conflict)은 만들지 않았는가?
-4. **분기 패턴 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 워프 내부 조건 분기가 커서 SIMD형 실행 효율을 해치지 않는가?
-5. **메모리 코얼레싱 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 인접 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 인접 주소를 읽도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 설계했는가?
+1. <strong>점유율 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: SM당 활성 워프 수가 너무 낮지 않은가?
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 압박 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)당 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사용량이 지나쳐 상주 워프 수를 깎지 않는가?
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 타일링으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 왕복을 줄였지만, 뱅크 충돌 (Bank Conflict)은 만들지 않았는가?
+4. <strong>분기 패턴 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 워프 내부 조건 분기가 커서 SIMD형 실행 효율을 해치지 않는가?
+5. <strong>메모리 코얼레싱 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 인접 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 인접 주소를 읽도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 설계했는가?
 
 ### 채택이 유리한 경우
 
@@ -128,7 +124,7 @@ SM 아키텍처의 가장 큰 효과는 GPU를 대규모 [병렬](/knowledge-bas
 
 다만 SM은 모든 문제의 만능 열쇠가 아니다. 분기 발산, 메모리 불규칙성, 낮은 점유율, 제한된 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 용량은 언제든 효율을 무너뜨릴 수 있다. 그래서 최신 GPU는 독립 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, 더 유연한 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구성, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 통합, SM 간 협업 기능을 넣으며 한계를 완화해 왔다.
 
-결국 SM은 "[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 안의 코어 묶음"으로 외우기보다, **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 워프 교체로 숨기고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용으로 끌어올리는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 지향 실행 단위**로 기억해야 한다. 이 관점을 잡으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제도 코어 수 경쟁이 아니라 자원 배치와 실행 패턴의 문제로 읽히기 시작한다.
+결국 SM은 "[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 안의 코어 묶음"으로 외우기보다, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 워프 교체로 숨기고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재사용으로 끌어올리는 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 지향 실행 단위</strong>로 기억해야 한다. 이 관점을 잡으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제도 코어 수 경쟁이 아니라 자원 배치와 실행 패턴의 문제로 읽히기 시작한다.
 
 📢 섹션 요약 비유: SM은 같은 설비를 여러 개 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한 공장 라인이다. 라인이 많아도 자재 흐름과 작업 순서가 맞지 않으면 멈추지만, 균형이 맞으면 엄청난 생산량을 낸다.
 
@@ -147,22 +143,23 @@ SM 아키텍처의 가장 큰 효과는 GPU를 대규모 [병렬](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-그래픽 셰이더용 병렬 실행
-        │
-        ▼
-SM (Streaming Multiprocessor)
-        │
-        ├─ 워프 (Warp) · SIMT (Single Instruction Multiple Threads)
-        │
-        ├─ 공유 메모리 (Shared Memory) · 점유율 (Occupancy)
-        │
-        ▼
-텐서 코어 (Tensor Core) 통합
-        │
-        ▼
-AI·HPC 중심의 이기종 가속 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래픽 셰이더용 병렬 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SM (Streaming Multiprocessor)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">워프 (Warp) · SIMT (Single Instruction Multiple Threads)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">공유 메모리 (Shared Memory) · 점유율 (Occupancy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">텐서 코어 (Tensor Core) 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI·HPC 중심의 이기종 가속 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 SM이 단순 그래픽 실행 단위를 넘어, 범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속의 중심 단위로 확장된 과정을 보여준다.
 

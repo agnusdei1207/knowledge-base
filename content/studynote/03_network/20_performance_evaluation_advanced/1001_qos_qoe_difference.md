@@ -19,22 +19,26 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 통신 장비(라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 네트워크 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 측정하는 **객관적이고 정량적인 물리적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표**입니다.
+- **개념**: 통신 장비(라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 네트워크 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 측정하는 <strong>객관적이고 정량적인 물리적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표</strong>입니다.
 - **주요 측정 지표**:
-  1. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 1초에 보낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최대량 (Mbps).
-  2. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Delay / [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 출발지에서 목적지까지 도달하는 시간 (ms).
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 1초에 보낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최대량 (Mbps).
+  2. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Delay / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 출발지에서 목적지까지 도달하는 시간 (ms).
   3. **지터 (Jitter)**: 패킷이 도착하는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 들쭉날쭉한 편차 (ms).
   4. **패킷 손실률 (Packet Loss)**: 중간에 터져서 버려진 패킷의 비율 (%).
 - **특징**: 네트워크 엔지니어가 망을 설계하고 튜닝할 때 쓰는 차가운 기계적 목표치입니다.
 
-```text
-[클라우드 네이티브 네트워크]
-    │
-    ▼
-[QoS / QoE 차이 비교]
-    │
-    └──▶ [네트워크 지연]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지연</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,19 +46,23 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 최종 사용자(End-User)가 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(유튜브, 카톡, 줌)를 실제로 이용했을 때 주관적으로 느끼는 **총체적인 체감 품질과 만족도**입니다. (909번 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/) 문서와 직결됩니다.)
+- **개념**: 최종 사용자(End-User)가 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(유튜브, 카톡, 줌)를 실제로 이용했을 때 주관적으로 느끼는 <strong>총체적인 체감 품질과 만족도</strong>입니다. (909번 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/) 문서와 직결됩니다.)
 - **주요 측정 지표**:
   - 동영상 버퍼링이 걸린 횟수, 화면이 모자이크로 깨진 정도, 앱 로딩에 걸린 시간, 음성 통화 시 기계음 섞임 정도 등.
 - **특징**: 1점(최악)부터 5점(완벽)까지 점수를 매기는 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/)(Mean Opinion Score) 같은 주관적 평가를 통해 측정합니다.
 
-```text
-[클라우드 네이티브 네트워크]
-    │
-    ▼
-[QoS / QoE 차이 비교]
-    │
-    └──▶ [네트워크 지연]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지연</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,7 +89,7 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)**는 피자 배달 오토바이의 '계기판 수치'입니다. 배달부가 "나는 시속 100km([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 달렸고, 10분([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 만에 도착했고, 방지턱에서 딱 2번(지터) 흔들렸습니다!"라고 완벽한 스펙을 자랑합니다. 반면 **QoE**는 피자 박스를 열어본 '고객의 빡침 정도'입니다. 오토바이가 아무리 10분 만에 완벽하게 왔어도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 최고), 배달부가 피자를 거꾸로 들어서 치즈가 박스 뚜껑에 다 늘러붙어 있으면 고객은 별점 1점(QoE 최악)을 테러합니다. 반대로 오토바이가 30분 늦게 왔더라도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 폭망), 사장님이 미안하다며 치즈오븐 스파게티를 공짜로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(앱의 보정 기술)로 넣어주면 고객은 감동하여 별점 5점(QoE 최고)을 주는, 기계의 스펙과 인간의 감정 사이의 극명한 차이점입니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong>는 피자 배달 오토바이의 '계기판 수치'입니다. 배달부가 "나는 시속 100km([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 달렸고, 10분([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 만에 도착했고, 방지턱에서 딱 2번(지터) 흔들렸습니다!"라고 완벽한 스펙을 자랑합니다. 반면 <strong>QoE</strong>는 피자 박스를 열어본 '고객의 빡침 정도'입니다. 오토바이가 아무리 10분 만에 완벽하게 왔어도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 최고), 배달부가 피자를 거꾸로 들어서 치즈가 박스 뚜껑에 다 늘러붙어 있으면 고객은 별점 1점(QoE 최악)을 테러합니다. 반대로 오토바이가 30분 늦게 왔더라도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 폭망), 사장님이 미안하다며 치즈오븐 스파게티를 공짜로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(앱의 보정 기술)로 넣어주면 고객은 감동하여 별점 5점(QoE 최고)을 주는, 기계의 스펙과 인간의 감정 사이의 극명한 차이점입니다.
 
 ---
 
@@ -123,15 +131,19 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클라우드 네이티브 네트워크]
-    │
-    ▼
-[현재 개념: QoS / QoE 차이 비교]
-    │
-    ├──▶ [확장 A: 네트워크 지연]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QoS / QoE 차이 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 지연</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

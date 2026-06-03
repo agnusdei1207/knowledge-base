@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 우주선, 알파 입자, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 노이즈 등으로 발생한 일시적 오류가 프로그램 상태나 제어 동작을 망치지 않도록, 시스템이 스스로 오류를 흡수하고 정상 상태로 돌아오게 만드는 절차다. 여기서 핵심은 하드웨어가 영구 파손된 hard error와 달리, soft error는 **상태를 바로잡으면 다시 계속 쓸 수 있다**는 점이다.
+[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 우주선, 알파 입자, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 노이즈 등으로 발생한 일시적 오류가 프로그램 상태나 제어 동작을 망치지 않도록, 시스템이 스스로 오류를 흡수하고 정상 상태로 돌아오게 만드는 절차다. 여기서 핵심은 하드웨어가 영구 파손된 hard error와 달리, soft error는 <strong>상태를 바로잡으면 다시 계속 쓸 수 있다</strong>는 점이다.
 
 대표 사례로는 SEU (Single Event Upset), SET (Single Event Transient), 제어 경로를 흔드는 기능 중단성 오류가 있다. 공정이 미세해질수록 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나를 유지하는 데 필요한 전하가 줄어들어 같은 외란에도 더 쉽게 상태가 바뀐다. 결국 "하드웨어가 작아질수록 더 똑똑한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 구조가 필요하다"는 역설이 생긴다.
 
-따라서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘의 목적은 에러를 0으로 만드는 것이 아니다. 중요한 것은 에러가 났을 때 **어느 계층에서 먼저 잡을지, 어디까지 퍼지기 전에 막을지, 실패하면 어느 수준으로 안전하게 올라갈지**를 정해 두는 일이다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성이, 자동차와 항공은 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 전환 시간이, 우주 시스템은 현장 정비 불가능성이 각각 판단 기준이 된다.
+따라서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘의 목적은 에러를 0으로 만드는 것이 아니다. 중요한 것은 에러가 났을 때 <strong>어느 계층에서 먼저 잡을지, 어디까지 퍼지기 전에 막을지, 실패하면 어느 수준으로 안전하게 올라갈지</strong>를 정해 두는 일이다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성이, 자동차와 항공은 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 전환 시간이, 우주 시스템은 현장 정비 불가능성이 각각 판단 기준이 된다.
 
 - **📢 섹션 요약 비유**: [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 집 안에 갑자기 정전이 왔을 때, 퓨즈 확인부터 비상등 점등, 차단기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 순서대로 움직이는 안전 체계와 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 보통 **탐지 → 격리 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 에스컬레이션**의 4단계로 설계한다. 먼저 parity, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), duplication, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교 등으로 이상을 감지하고, 오류가 난 코어·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)·연산 결과를 격리한다. 그 뒤 retry, [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/), [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) restore, 다수결 투표 같은 방법으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고, 끝내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않으면 리셋·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 은퇴·[안전 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) 전환으로 상위 계층에 넘긴다.
+[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 보통 <strong>탐지 → 격리 → <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> → 에스컬레이션</strong>의 4단계로 설계한다. 먼저 parity, [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), duplication, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교 등으로 이상을 감지하고, 오류가 난 코어·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)·연산 결과를 격리한다. 그 뒤 retry, [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/), [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) restore, 다수결 투표 같은 방법으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고, 끝내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않으면 리셋·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 은퇴·[안전 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/) 전환으로 상위 계층에 넘긴다.
 
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층 | 대표 기법 | 장점 | 비용/한계 |
 | :-- | :-- | :-- | :-- |
@@ -43,21 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 좋은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 "가능하면 낮은 계층에서 바로 고치고, 안 되면 단계적으로 올리는" 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Soft error recovery ladder: recover locally first, escalate only if needed│
-├────────────────────────────────────────────────────────────────────────────┤
-│ Strike -> [Detect] -> [Contain] -> [Recover] -> [Resume or Escalate]      │
-│             │          │             │                                     │
-│             │          │             ├-> ECC fix                           │
-│             │          │             ├-> Replay / Rollback                 │
-│             │          │             └-> TMR vote                          │
-│             │          └-> Isolate core / poison page / freeze output      │
-│             └-> Parity / ECC / Lockstep compare / Watchdog                 │
-│                                                                            │
-│ Persistent fault  --------------------------------------> retire / reset   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Soft error recovery ladder: recover locally first, escalate only if needed</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Detect</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Contain</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Recover</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Resume or Escalate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ECC fix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Replay / Rollback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; TMR vote</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Isolate core / poison page / freeze output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Parity / ECC / Lockstep compare / Watchdog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistent fault --------------------------------------&gt; retire / reset</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술마다 보호하는 범위와 시간 특성이 다르다는 점이다. ECC는 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전에 매우 빠르지만, 이미 레지스터와 제어 흐름으로 번진 오류는 checkpoint/rollback이 더 적합하다. lockstep은 자동차 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)처럼 결정론적 응답이 중요한 환경에서 강력하고, TMR은 우주·원전처럼 현장 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 어려운 곳에서 비용을 감수할 가치가 있다.
 
@@ -101,7 +102,7 @@ soft error는 일시적이어서 재시도나 상태 복원이 잘 통하는 반
 - 모든 블록에 일률적으로 TMR을 적용해 전력과 면적을 과도하게 낭비하는 설계
 - 오류를 고친 뒤 운영 로그를 남기지 않아 반복 패턴을 놓치는 설계
 
-기술사 관점에서는 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술 이름"만 나열하기보다, **서버는 retry/[rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 중심, 자동차는 [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)+[safe state](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/), 우주는 [TMR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/)+scrubbing 중심**처럼 환경별 선택 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여 주는 것이 중요하다. 그래야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 단순 회로 기법이 아니라 시스템 수준 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학이라는 점이 드러난다.
+기술사 관점에서는 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술 이름"만 나열하기보다, <strong>서버는 retry/<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">rollback</a> 중심, 자동차는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/">lockstep</a>+<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">safe state</a>, 우주는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/">TMR</a>+scrubbing 중심</strong>처럼 환경별 선택 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여 주는 것이 중요하다. 그래야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 단순 회로 기법이 아니라 시스템 수준 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학이라는 점이 드러난다.
 
 - **📢 섹션 요약 비유**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 설계는 보험 설계와 같다. 같은 사고라도 자전거 보험, 자동차 보험, 우주선 보험은 보장 범위와 비용 구조가 완전히 다르다.
 
@@ -111,7 +112,7 @@ soft error는 일시적이어서 재시도나 상태 복원이 잘 통하는 반
 
 [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 잘 갖춰지면, 시스템은 일시적 외란을 장애로 확대하지 않고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 안전을 유지할 수 있다. 이는 단순 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상뿐 아니라, 미세 공정과 저전압 설계가 가져오는 물리적 취약성을 시스템 수준에서 흡수한다는 의미가 있다. 결국 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 더 작은 트랜지스터를 쓸 수 있게 해 주는 숨은 안전판이기도 하다.
 
-한편 비용도 있다. 체크포인트 저장, 중복 실행, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교, [TMR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/) 투표는 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·면적·전력을 소모한다. 앞으로는 모든 블록을 동일하게 보호하기보다, 중요 경로만 선택적으로 강화하는 selective hardening과 하드웨어-소프트웨어 협력형 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 더 중요해질 것이다. 기억해야 할 결론은 분명하다. [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 **에러를 없애는 기술이 아니라, 에러가 일어나도 시스템이 무너지지 않게 만드는 설계 철학**이다.
+한편 비용도 있다. 체크포인트 저장, 중복 실행, [lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 비교, [TMR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/) 투표는 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·면적·전력을 소모한다. 앞으로는 모든 블록을 동일하게 보호하기보다, 중요 경로만 선택적으로 강화하는 selective hardening과 하드웨어-소프트웨어 협력형 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 더 중요해질 것이다. 기억해야 할 결론은 분명하다. [소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘은 <strong>에러를 없애는 기술이 아니라, 에러가 일어나도 시스템이 무너지지 않게 만드는 설계 철학</strong>이다.
 
 - **📢 섹션 요약 비유**: 이 메커니즘은 넘어져도 다시 일어나는 오뚝이보다 한 단계 더 나아가, 왜 넘어졌는지 기록하고 다음엔 덜 넘어지게 자세를 바꾸는 똑똑한 오뚝이와 같다.
 
@@ -130,21 +131,23 @@ soft error는 일시적이어서 재시도나 상태 복원이 잘 통하는 반
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Parity · ECC 기반 국소 오류 탐지
-        │
-        ▼
-Retry · Rollback · Checkpoint
-        │
-        ▼
-Lockstep · DMR 기반 실시간 비교
-        │
-        ▼
-TMR · Fail-operational 시스템
-        │
-        ▼
-선택적 하드닝 · 예측형 신뢰성 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Parity · ECC 기반 국소 오류 탐지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Retry · Rollback · Checkpoint</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lockstep · DMR 기반 실시간 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TMR · Fail-operational 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선택적 하드닝 · 예측형 신뢰성 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 보호에서 출발해, 지금은 시스템 전체가 오류를 흡수하고 운영 정책까지 바꾸는 방향으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하고 있음을 보여 준다.
 

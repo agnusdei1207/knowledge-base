@@ -25,22 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 문제를 먼저 겨냥하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다       │
-├──────────────────────────────────────────────────────────────────────┤
-│ TLB entries = 2,048 가정                                             │
-│                                                                      │
-│ 4KB page   : 2,048 × 4KB   =      8MB                                │
-│ 2MB page   : 2,048 × 2MB   =      4GB                                │
-│ 1GB page   : 2,048 × 1GB   =      2TB                                │
-│                                                                      │
-│ 메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다         │
-│ → 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다            │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 메모리를 더 많이 만드는 기술이 아니라, **주소 변환의 관리 단위를 굵게 만들어 번역 비용을 줄이는 기술**이다. 이 관점을 잡아야 이후의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 메모리 파편화 이슈가 하나로 묶인다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB entries = 2,048 가정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB page : 2,048 × 4KB = 8MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB page : 2,048 × 2MB = 4GB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1GB page : 2,048 × 1GB = 2TB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다</div></div>
+</div>
+</div>
+
+
+
+즉 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 메모리를 더 많이 만드는 기술이 아니라, <strong>주소 변환의 관리 단위를 굵게 만들어 번역 비용을 줄이는 기술</strong>이다. 이 관점을 잡아야 이후의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 메모리 파편화 이슈가 하나로 묶인다.
 
 - **📢 섹션 요약 비유**: [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 도시 지도를 작은 블록 단위 대신 큰 구역 단위로 보는 것과 같다. 골목 하나하나는 덜 자세하지만, 넓은 지역을 훨씬 빨리 찾을 수 있다.
 
@@ -61,7 +62,7 @@ tags = ["studynote-computer-architecture"]
 
 운영체제는 보통 두 방식으로 이를 제공한다. 하나는 부팅 시점이나 관리자가 미리 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 풀을 예약해 두는 명시적 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)이고, 다른 하나는 THP (Transparent [Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))처럼 커널이 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 관찰하다가 조건이 맞으면 자동으로 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 승격하는 방식이다. 전자는 예측 가능성이 높고, 후자는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽지만 병합·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 시점의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동을 동반할 수 있다.
 
-핵심 공식은 단순하다. **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Reach = [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리 수 × [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)**. [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 이 식의 오른쪽 항 하나를 크게 만들어, 주소 변환 구조 전체를 유리하게 바꾼다.
+핵심 공식은 단순하다. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Reach = <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 엔트리 수 × <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a></strong>. [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 이 식의 오른쪽 항 하나를 크게 만들어, 주소 변환 구조 전체를 유리하게 바꾼다.
 
 - **📢 섹션 요약 비유**: [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 서류철을 낱장 대신 묶음 단위로 관리하는 것과 같다. 찾을 때는 빨라지지만, 중간 한 장만 수정하려면 다시 묶음을 풀어야 할 수 있다.
 
@@ -69,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 "무조건 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 최고"라는 단순 선택이 아니다. 실제로는 기본 4KB, 자동 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/), 명시적 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 서로 다른 장단점을 가진다. 중요한 비교 축은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 그 자체보다 **예측 가능성, 메모리 유연성, 운영 복잡도**다.
+[거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 "무조건 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 최고"라는 단순 선택이 아니다. 실제로는 기본 4KB, 자동 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/), 명시적 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 서로 다른 장단점을 가진다. 중요한 비교 축은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 그 자체보다 <strong>예측 가능성, 메모리 유연성, 운영 복잡도</strong>다.
 
 | 방식 | 장점 | 약점 | 잘 맞는 환경 |
 | :--- | :--- | :--- | :--- |
@@ -115,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 만능 스위치가 아니다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 커질수록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 단위, [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 단위, 분할 비용도 함께 커지므로 유연성은 줄어든다. 앞으로의 방향은 "모든 곳을 크게"가 아니라, 혼합 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 자동 승격·강등 개선, 티어드 메모리와 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 환경을 고려한 영역별 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 최적화로 갈 가능성이 크다.
 
-결론적으로 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 **메모리 용량 기술이 아니라 주소 변환 비용을 다루는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술**이다. 이 개념을 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) reach를 넓히는 레버"로 기억하면, 왜 어떤 시스템은 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)로 빨라지고 어떤 시스템은 오히려 운영이 어려워지는지 자연스럽게 설명할 수 있다.
+결론적으로 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 <strong>메모리 용량 기술이 아니라 주소 변환 비용을 다루는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기술</strong>이다. 이 개념을 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) reach를 넓히는 레버"로 기억하면, 왜 어떤 시스템은 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)로 빨라지고 어떤 시스템은 오히려 운영이 어려워지는지 자연스럽게 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 창고 선반을 큰 박스 중심으로 다시 짜는 일과 같다. 자주 나가는 대량 물건은 빨라지지만, 작은 물건까지 전부 큰 박스에 넣으면 오히려 찾기 불편해진다.
 
@@ -134,24 +135,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 4KB 페이지 중심 가상 메모리
-        │
-        ▼
-메모리 용량 증가 · TLB reach 한계
-        │
-        ▼
-거대 페이지 (2MB / 1GB)
-        │
-        ├─▶ THP (Transparent Huge Pages)
-        ├─▶ 명시적 HugeTLBfs 예약
-        │
-        ▼
-가상화 EPT / NPT 최적화
-        │
-        ▼
-혼합 페이지 크기 정책 · 티어드 메모리 · CXL 시대의 영역별 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 4KB 페이지 중심 가상 메모리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 용량 증가 · TLB reach 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">거대 페이지 (2MB / 1GB)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ THP (Transparent Huge Pages)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 명시적 HugeTLBfs 예약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화 EPT / NPT 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">혼합 페이지 크기 정책 · 티어드 메모리 · CXL 시대의 영역별 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "세밀한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리"에서 출발해, "번역 비용 절감"을 거쳐, 결국 워크로드별로 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 다르게 쓰는 방향으로 발전하는 과정을 보여준다.
 

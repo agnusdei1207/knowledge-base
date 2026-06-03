@@ -24,13 +24,13 @@ tags = ["studynote-bigdata"]
 스파크는 RDD의 변환 이력(Lineage)을 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 추적하여 장애 시 재연산(Recomputation)으로 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)을 달성한다. 그러나 리니지가 길어질수록 두 가지 문제가 발생한다.
 
 - **재연산 비용 폭발**: 10단계 변환의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 하나 유실되면 10단계 전체를 재연산
-- **드라이버 메모리/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 한계**: 리니지가 수백 단계가 되면 TaskScheduler의 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 크기가 커져 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 발생
+- <strong>드라이버 메모리/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 한계</strong>: 리니지가 수백 단계가 되면 TaskScheduler의 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 크기가 커져 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 발생
 
 ### 2. 체크포인팅이 필요한 상황
 
-1. **반복적 ML [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: PageRank, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등 수십~수백 이터레이션
-2. **[Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)**: 상태 저장 연산(StatefulAggregation)의 상태 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)
-3. **장기 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**: 수 시간 이상 실행되는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+1. <strong>반복적 ML <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: PageRank, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등 수십~수백 이터레이션
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a></strong>: 상태 저장 연산(StatefulAggregation)의 상태 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)
+3. <strong>장기 실행 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>: 수 시간 이상 실행되는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 **📢 섹션 요약 비유**
 > 리니지(Lineage)는 "요리 레시피 전체를 기억하는 것"이다. 30단계 레시피를 외우다가 중간에 실수하면 처음부터 다시 시작해야 한다. 체크포인팅은 15단계 완성된 중간 결과물을 냉동고([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))에 저장하는 것 — 이후 실수해도 냉동고에서 꺼내 15단계부터 이어가면 된다.
@@ -41,21 +41,24 @@ tags = ["studynote-bigdata"]
 
 ### 1. 체크포인팅 동작 원리
 
-```
-체크포인팅 전:
-  Input ─→ T1 ─→ T2 ─→ T3 ─→ T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
-  (Lineage: 7단계 변환 기억)
 
-  장애 발생 (T6 파티션 유실) → T1~T6 전체 재연산 필요!
 
-체크포인팅 후:
-  Input ─→ T1 ─→ T2 ─→ T3 ─→ [체크포인트: HDFS 저장]
-                                   ↓
-                              T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
-  (T4 이후 Lineage만 기억)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">체크포인팅 전:</div>
+<div class="kb-diagram-note">Input ─→ T1 ─→ T2 ─→ T3 ─→ T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output</div>
+<div class="kb-diagram-note">(Lineage: 7단계 변환 기억)</div>
+<div class="kb-diagram-note">장애 발생 (T6 파티션 유실) → T1~T6 전체 재연산 필요!</div>
+<div class="kb-diagram-note">체크포인팅 후:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">체크포인트: HDFS 저장</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output</div>
+<div class="kb-diagram-note">(T4 이후 Lineage만 기억)</div>
+<div class="kb-diagram-note">장애 발생 (T6 파티션 유실) → HDFS에서 T3 체크포인트 로드 → T4~T6만 재연산!</div>
+</div>
+</div>
 
-  장애 발생 (T6 파티션 유실) → HDFS에서 T3 체크포인트 로드 → T4~T6만 재연산!
-```
+
 
 ### 2. [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 체크포인팅 사용법
 
@@ -119,8 +122,8 @@ query = df.writeStream \
 ### 2. 연결 개념
 
 - **Lineage**: 체크포인팅이 단절하는 대상
-- **[Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)**: 스트리밍에서 체크포인팅과 함께 상태 만료 관리
-- **[Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)**: 체크포인팅의 근본 목적
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a> <a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a></strong>: 스트리밍에서 체크포인팅과 함께 상태 만료 관리
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a></strong>: 체크포인팅의 근본 목적
 
 **📢 섹션 요약 비유**
 > `cache()`는 "책 내용을 머릿속에 외워두는 것"(빠르지만 잠들면 사라짐)이고, `checkpoint()`는 "책 내용을 필사해 금고에 보관하는 것"(느리지만 영구 보존)이다.
@@ -175,7 +178,7 @@ rdd.count()  # persist된 데이터를 HDFS에 쓰기 (재연산 불필요)
 
 ### 2. 결론
 
-체크포인팅은 Spark의 **[fault tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/) 아키텍처의 핵심 보완 장치**다. 리니지 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 강력하지만 무한히 쌓이면 오히려 취약점이 되는 역설을 해결하며, 특히 스트리밍 상태 관리에서는 없어서는 안 될 필수 메커니즘이다.
+체크포인팅은 Spark의 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">fault tolerance</a> 아키텍처의 핵심 보완 장치</strong>다. 리니지 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 강력하지만 무한히 쌓이면 오히려 취약점이 되는 역설을 해결하며, 특히 스트리밍 상태 관리에서는 없어서는 안 될 필수 메커니즘이다.
 
 **📢 섹션 요약 비유**
 > 체크포인팅 없는 장기 Spark 작업은 "세이브 없이 100층 던전을 도전하는 것"이다. 99층에서 죽으면 1층부터 다시 시작해야 한다. 10층마다 세이브(체크포인팅)하면 최악의 경우에도 9층만 다시 하면 된다.
@@ -194,21 +197,23 @@ rdd.count()  # persist된 데이터를 HDFS에 쓰기 (재연산 불필요)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Spark RDD 리니지 (Lineage) — 변환 이력 그래프 축적]
-    │
-    ▼
-[체크포인팅 (Checkpointing) — HDFS에 RDD 물리 저장, 리니지 절단]
-    │
-    ▼
-[스트리밍 체크포인트 — 오프셋·상태(State) 주기적 영속화]
-    │
-    ▼
-[WAL (Write-Ahead Log) — 장애 복구 전 로그 선기록]
-    │
-    ▼
-[장애 복구 (Fault Recovery) — 체크포인트 지점에서 재연산 최소화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark RDD 리니지 (Lineage) — 변환 이력 그래프 축적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">체크포인팅 (Checkpointing) — HDFS에 RDD 물리 저장, 리니지 절단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 체크포인트 — 오프셋·상태(State) 주기적 영속화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAL (Write-Ahead Log) — 장애 복구 전 로그 선기록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 복구 (Fault Recovery) — 체크포인트 지점에서 재연산 최소화</div></div>
+</div>
+</div>
+
+
 Spark의 리니지가 길어질수록 재연산 비용이 폭발하므로, 체크포인팅으로 중간 상태를 영속화해 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 재연산 범위를 최소화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

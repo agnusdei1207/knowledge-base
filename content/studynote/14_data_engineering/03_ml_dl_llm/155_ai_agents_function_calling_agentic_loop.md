@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해서 다음 주 일정 요약 후 팀원들에게 이메일 보내"처럼 여러 도구를 순차적으로 활용하는 작업은 못 한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트는 이를 가능하게 한다.
 
-**에이전트 vs 일반 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출**
+<strong>에이전트 vs 일반 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 호출</strong>
 - 일반 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/): 입력 → 1회 출력
 - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트: 목표 → 계획 → 도구 호출 → 관찰 → 재계획 → ... → 결과
 
@@ -34,54 +34,47 @@ ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/st
 | 오케스트레이터 | 에이전트 루프 관리 | [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/), AutoGen |
 | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) (Function Calling) | 구조화된 도구 인터페이스 | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의 |
 
-```
-[ReAct 에이전트 루프]
 
-목표: "2024년 삼성전자 주가 분석 후 리포트 작성"
-          │
-          ▼
-  [THINK/REASON]
-  "먼저 주가 데이터를 검색해야 해"
-          │
-          ▼
-  [ACT - Function Call]
-  {
-    "function": "web_search",
-    "args": {"query": "삼성전자 2024 주가 데이터"}
-  }
-          │
-          ▼
-  [OBSERVE]
-  검색 결과 반환
-          │
-          ▼
-  [THINK] "데이터를 분석해야 해"
-          │
-          ▼
-  [ACT - Function Call]
-  {
-    "function": "code_interpreter",
-    "args": {"code": "import pandas as pd; ..."}
-  }
-          │
-          ▼
-  [OBSERVE] 분석 결과
-          │
-          ▼
-  [THINK] "이제 리포트를 작성할 수 있어"
-          │
-          ▼
-  최종 리포트 생성
 
-[멀티 에이전트 협업]
-    목표
-      │
-  오케스트레이터 에이전트
-  ┌───┼───────────┐
-  ▼   ▼           ▼
-검색  코드 실행  문서 작성
-에이전트 에이전트 에이전트
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ReAct 에이전트 루프</div></div>
+<div class="kb-diagram-note">목표: "2024년 삼성전자 주가 분석 후 리포트 작성"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">THINK/REASON</div></div>
+<div class="kb-diagram-note">"먼저 주가 데이터를 검색해야 해"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACT - Function Call</div></div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"function": "web_search",</div>
+<div class="kb-diagram-note">"args": {"query": "삼성전자 2024 주가 데이터"}</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OBSERVE</div></div>
+<div class="kb-diagram-note">검색 결과 반환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">THINK</div><div class="kb-diagram-note">"데이터를 분석해야 해"</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACT - Function Call</div></div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"function": "code_interpreter",</div>
+<div class="kb-diagram-note">"args": {"code": "import pandas as pd; ..."}</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OBSERVE</div><div class="kb-diagram-note">분석 결과</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">THINK</div><div class="kb-diagram-note">"이제 리포트를 작성할 수 있어"</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최종 리포트 생성</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 에이전트 협업</div></div>
+<div class="kb-diagram-note">목표</div>
+<div class="kb-diagram-note">오케스트레이터 에이전트</div>
+<div class="kb-diagram-note">검색 코드 실행 문서 작성</div>
+<div class="kb-diagram-note">에이전트 에이전트 에이전트</div>
+</div>
+</div>
+
+
 
 **Function Calling 예시 (OpenAI 형식)**
 ```json
@@ -130,7 +123,7 @@ ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/st
 - 최대 스텝 제한: 무한 루프 방지 (max_iterations)
 - 오류 처리: 도구 실패 시 재시도 또는 대안 계획
 
-**도구 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) (Tool [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))**
+<strong>도구 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> (Tool <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">Catalog</a>)</strong>
 - 정보 수집: 웹 검색, 뉴스 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)
 - 코드 실행: Python 인터프리터, Bash
 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 작업: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
@@ -166,25 +159,27 @@ ChatGPT는 질문에 답하지만, "내 캘린더를 [확인](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-LLM 단순 채팅 (단일 턴 응답)
-    │
-    ▼
-Function Calling — LLM이 외부 도구/API 호출
-    │
-    ▼
-ReAct 패턴 (Reasoning + Acting 반복)
-    │
-    ▼
-AI 에이전트 (Agentic Loop)
-    ├─► Planning: 목표 분해 → 서브태스크
-    ├─► Tool Use: 검색 · 코드 실행 · API 호출
-    ├─► Memory: 단기(대화) · 장기(벡터 DB)
-    └─► Reflection: 자기 평가 · 재계획
-    │
-    ▼
-멀티 에이전트: CrewAI · AutoGen · LangGraph
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LLM 단순 채팅 (단일 턴 응답)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Function Calling — LLM이 외부 도구/API 호출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ReAct 패턴 (Reasoning + Acting 반복)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 에이전트 (Agentic Loop)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Planning: 목표 분해 → 서브태스크</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Tool Use: 검색 · 코드 실행 · API 호출</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Memory: 단기(대화) · 장기(벡터 DB)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Reflection: 자기 평가 · 재계획</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 에이전트: CrewAI · AutoGen · LangGraph</div>
+</div>
+</div>
+
+
 
 ---
 

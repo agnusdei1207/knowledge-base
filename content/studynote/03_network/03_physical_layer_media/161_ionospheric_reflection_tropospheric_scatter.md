@@ -47,20 +47,20 @@ tags = ["studynote-network"]
 
 아래 그림은 두 방식이 LOS 한계를 넘는 경로를 어떻게 만드는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               beyond-line-of-sight propagation via atmosphere              │
-├────────────────────────────────────────────────────────────────────────────┤
-│                        ionosphere                                          │
-│                   /-----------------\                                      │
-│ HF Tx -----------/                   \----------- HF Rx                    │
-│                                                                            │
-│ UHF/SHF Tx ========>  troposcatter volume  . . . . .  ========> Rx        │
-│                                                                            │
-│ Earth surface  ____________________________________________________        │
-│                   horizon gap that pure LOS cannot cross                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">beyond-line-of-sight propagation via atmosphere</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ionosphere</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HF Tx -----------/ \----------- HF Rx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UHF/SHF Tx ========&gt; troposcatter volume . . . . . ========&gt; Rx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Earth surface ____________________________________________________</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">horizon gap that pure LOS cannot cross</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 전리층 반사는 상층 대기에 닿았다가 다시 내려오는 경로이고, 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 상층 대기에서 퍼진 일부 에너지를 이어받는 경로다. 따라서 전리층 반사는 전파 환경의 시간적 변동성이 더 크고, 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 링크 버짓 (Link Budget)과 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 확보가 더 중요하다. 둘 다 단순 출력 증가만으로 해결되지 않으며, 대기층의 성질을 이해해야 설계가 성립한다.
 
@@ -96,8 +96,8 @@ tags = ["studynote-network"]
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **필요 거리가 수백 km인지, 수천 km인지?** 수천 km급이면 전리층 반사가 유리하고, 수백 km급 고주파 링크면 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 검토 가치가 있다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)율보다 생존성과 커버리지가 중요한가?** 그렇다면 HF 기반 전리층 반사가 여전히 매력적일 수 있다.
-3. **대형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 고출력을 감당할 수 있는가?** 불가능하면 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 현실성이 낮다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>율보다 생존성과 커버리지가 중요한가?</strong> 그렇다면 HF 기반 전리층 반사가 여전히 매력적일 수 있다.
+3. <strong>대형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>와 고출력을 감당할 수 있는가?</strong> 불가능하면 대류권 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)은 현실성이 낮다.
 4. **품질 변동을 어느 정도 허용할 수 있는가?** 안정성이 최우선이면 위성이나 유선 대체안을 먼저 본다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -131,20 +131,22 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-지구 곡률에 의한 LOS 한계
-        │
-        ▼
-전리층 반사 (HF 장거리 천파)
-        │
-        ├── 국제 방송 · 해상 통신
-        │
-        ▼
-대류권 산란 (UHF/SHF BLOS 링크)
-        │
-        ▼
-마이크로파 릴레이 · 위성 통신 · 현대 백홀망
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지구 곡률에 의한 LOS 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전리층 반사 (HF 장거리 천파)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">국제 방송 · 해상 통신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대류권 산란 (UHF/SHF BLOS 링크)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로파 릴레이 · 위성 통신 · 현대 백홀망</div>
+</div>
+</div>
+
+
 
 이 흐름은 장거리 무선이 전리층 이용에서 시작해, 고주파 링크와 현대 인프라로 확장되는 과정을 보여 준다.
 

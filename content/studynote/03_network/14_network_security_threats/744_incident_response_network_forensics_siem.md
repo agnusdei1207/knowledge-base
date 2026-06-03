@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 사이버 공격이 발생했을 때 피해를 최소화하고 원인을 찾아내며, 시스템을 정상으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 일련의 과정입니다.
 - **PICERL 모델 6단계 (SANS 기반)**: 준비([Preparation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/654_ir_preparation/)) ➜ [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) ➜ [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)([Containment](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) ➜ [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)([Eradication](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)) ➜ [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) ➜ [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)/사후조치([Lessons Learned](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)).
 
-```text
-[CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
-[침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    └──▶ [SOAR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SOAR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,19 +41,23 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 범죄 현장의 지문을 채취하듯, 네트워크 망을 뚫고 지나간 **과거의 모든 트래픽(패킷) 데이터와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 수집, 저장, 분석하여 사이버 범죄의 증거를 찾아내고 해커의 동선(타임라인)을 완벽히 재구성하는 과학 수사 기법**입니다.
-- **수집 방법 (패킷 미러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), TAP 장비)**:
-  - 회사 망의 핵심 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2/L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 **'미러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Mirror [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 또는 광 TAP 장비'**를 달아놓습니다. 정상 트래픽이 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 흘러갈 때, 몰래 그 패킷의 쌍둥이 복사본을 만들어 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(포렌식 서버)로 던져주는 기능입니다. 
+- **개념**: 범죄 현장의 지문을 채취하듯, 네트워크 망을 뚫고 지나간 <strong>과거의 모든 트래픽(패킷) 데이터와 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 수집, 저장, 분석하여 사이버 범죄의 증거를 찾아내고 해커의 동선(타임라인)을 완벽히 재구성하는 과학 수사 기법</strong>입니다.
+- <strong>수집 방법 (패킷 미러 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>, TAP 장비)</strong>:
+  - 회사 망의 핵심 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2/L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 <strong>'미러 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Mirror <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 또는 광 TAP 장비'</strong>를 달아놓습니다. 정상 트래픽이 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 흘러갈 때, 몰래 그 패킷의 쌍둥이 복사본을 만들어 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(포렌식 서버)로 던져주는 기능입니다. 
   - 포렌식 서버는 수 기가바이트의 이 복사본 패킷들을 하드디스크에 고스란히 무식하게 다 저장(Full Packet Capture)해 둡니다. 나중에 사고가 터지면 형사(보안 관리자)가 이 패킷들을 Wireshark로 열어보고, 해커가 정확히 몇 시 몇 분에 무슨 SQL 명령어를 쳤고, 무슨 파일을 다운받아 갔는지 비디오 되감기 하듯 똑똑히 볼 수 있습니다.
 
-```text
-[CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
-[침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    └──▶ [SOAR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SOAR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,13 +67,13 @@ tags = ["studynote-network"]
 
 포렌식이 '현장 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 비디오테이프'라면, SIEM은 전국에 있는 파출소의 모든 보고서를 한곳에 모아 지휘하는 '경찰청 상황실'입니다.
 
-- **개념**: **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), 윈도우 서버, 리눅스, 백신 등 사내에 있는 수만 대의 이기종 장비들이 뱉어내는 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)들을 한 곳의 거대한 빅데이터 저장소로 실시간 수집하여, 인공지능과 규칙(Rule)으로 연관성을 분석([Correlation Analysis](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/))해 내는 거대 보안 관제 플랫폼**입니다. (예: [Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/), Elastic, IBM [QRadar](/knowledge-base/studynote/09_security/13_secops_ir_forensics/632_qradar/))
+- **개념**: <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, <a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>, 윈도우 서버, 리눅스, 백신 등 사내에 있는 수만 대의 이기종 장비들이 뱉어내는 텍스트 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(Log)들을 한 곳의 거대한 빅데이터 저장소로 실시간 수집하여, 인공지능과 규칙(Rule)으로 연관성을 분석(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">Correlation Analysis</a>)해 내는 거대 보안 관제 플랫폼</strong>입니다. (예: [Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/), Elastic, IBM [QRadar](/knowledge-base/studynote/09_security/13_secops_ir_forensics/632_qradar/))
 - **SIEM의 엄청난 위력 (연관 분석의 마법)**:
   1. 새벽 2시에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 "러시아 IP 접속 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)"가 하나 찍힘. (이것만으론 별 감흥 없음)
   2. 새벽 2시 1분에 윈도우 서버 AD [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 "관리자 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 성공"이 찍힘. (어?)
   3. 새벽 2시 5분에 사내 백신 서버에서 "알 수 없는 프로세스 기동" [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 찍힘. (어어?)
   4. 새벽 2시 10분에 데이터베이스에서 "고객 테이블 10만 줄 복사" [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 찍힘.
-  - 각각의 장비 관리자는 자기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 봐서는 사태의 심각성을 모릅니다. 하지만 **SIEM은 이 4개의 파편화된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 시간순으로 딱딱 끼워 맞춰서 "미친! 지금 해커가 관리자 탈취해서 DB 훔쳐 가고 있잖아!"라며 화면에 새빨간 긴급 경보를 울려줍니다.** (침해 지표 가시화)
+  - 각각의 장비 관리자는 자기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 봐서는 사태의 심각성을 모릅니다. 하지만 <strong>SIEM은 이 4개의 파편화된 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 시간순으로 딱딱 끼워 맞춰서 "미친! 지금 해커가 관리자 탈취해서 DB 훔쳐 가고 있잖아!"라며 화면에 새빨간 긴급 경보를 울려줍니다.</strong> (침해 지표 가시화)
 
 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…가 기반 조건을 만든다면, 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 그 위에서 핵심 메커니즘을 구현하고, SOAR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CSPM / CWPP 보안 설정 모니터링 관…]
-    │
-    ▼
-[현재 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
-    │
-    ├──▶ [확장 A: SOAR]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CSPM / CWPP 보안 설정 모니터링 관…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SOAR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…에서 출발해 현재 메커니즘을 정교화하고, 이후 SOAR와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

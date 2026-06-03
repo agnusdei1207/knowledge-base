@@ -42,19 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 행렬 곱셈에서 타일링이 어떻게 재사용을 만드는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 행렬 곱셈에서 타일링이 재사용을 만드는 방식                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Outer loops: ii, jj, kk                                                    │
-│                                                                            │
-│   A[ii:ii+B, kk:kk+B]  ×  B[kk:kk+B, jj:jj+B]  ──▶  C[ii:ii+B, jj:jj+B]   │
-│          │                         │                         │               │
-│          └────────────── kk 블록 동안 L1/L2에 유지 ─────────┘               │
-│                                                                            │
-│ 효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행렬 곱셈에서 타일링이 재사용을 만드는 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer loops: ii, jj, kk</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">ii:ii+B, kk:kk+B</div><div class="kb-diagram-note">× B</div><div class="kb-diagram-node">kk:kk+B, jj:jj+B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ii:ii+B, jj:jj+B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kk 블록 동안 L1/L2에 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 타일링이 단순히 "작게 쪼갠다"가 아니라는 것이다. 쪼개는 방식이 메모리 레이아웃과 맞지 않으면 오히려 stride가 커지고 prefetch가 깨질 수 있다. 그래서 루프 순서 교환, 벡터화, 언롤링, pack buffer 사용이 함께 따라오는 경우가 많다.
 
@@ -96,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 - 2의 거듭제곱 크기만 고집해 set conflict를 악화시키는 배치
 - sparse·irregular workload인데도 dense 행렬처럼 같은 타일 전략을 적용하는 설계
 
-기술사 답안에서는 루프 타일링을 "캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이는 기법"으로만 쓰지 말고, **[working set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 축소 + 계층형 메모리 맞춤 + 다른 루프 변환과의 결합**까지 적어 주는 것이 좋다. 그래야 왜 행렬 연산 라이브러리가 다층 타일링과 packing을 집요하게 쓰는지 설명할 수 있다.
+기술사 답안에서는 루프 타일링을 "캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이는 기법"으로만 쓰지 말고, <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">working set</a> 축소 + 계층형 메모리 맞춤 + 다른 루프 변환과의 결합</strong>까지 적어 주는 것이 좋다. 그래야 왜 행렬 연산 라이브러리가 다층 타일링과 packing을 집요하게 쓰는지 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 반찬통 크기에 맞게 음식을 나눠 담아야 냉장고가 정리되듯, 캐시 크기와 구조에 맞게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘라야 컴퓨터도 어지럽지 않게 일한다.
 
@@ -106,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 루프 타일링이 잘 맞으면 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 올라가고, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 줄며, 산술 유닛이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기다리는 시간이 짧아진다. 그래서 같은 프로세서에서도 수배 이상의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 나는 경우가 드물지 않다. 특히 GEMM, 영상 필터, 과학 계산 커널처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용이 풍부한 코드에서 효과가 극적이다.
 
-물론 한계도 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 복잡하거나 접근 패턴이 매우 불규칙하면, 타일 경계를 예쁘게 그어도 재사용 자체가 충분히 나오지 않을 수 있다. 앞으로는 polyhedral 최적화, cache-oblivious [algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 가속기 메모리 계층을 고려한 다층 타일링이 더 중요해지겠지만, 핵심 관점은 같다. 루프 타일링은 **계산 순서를 메모리 계층에 맞게 재설계하는 기술**이다.
+물론 한계도 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 복잡하거나 접근 패턴이 매우 불규칙하면, 타일 경계를 예쁘게 그어도 재사용 자체가 충분히 나오지 않을 수 있다. 앞으로는 polyhedral 최적화, cache-oblivious [algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 가속기 메모리 계층을 고려한 다층 타일링이 더 중요해지겠지만, 핵심 관점은 같다. 루프 타일링은 <strong>계산 순서를 메모리 계층에 맞게 재설계하는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 루프 타일링은 큰 퍼즐을 바닥 전체에 흩뿌리지 않고, 작은 판 위에서 한 조각씩 맞춘 뒤 완성된 판을 옆으로 옮기는 방식과 같다.
 
@@ -125,24 +125,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차적 대용량 배열 순회
-        │
-        ▼
-Memory Wall · cache miss 문제 부각
-        │
-        ▼
-Loop Interchange · stride 개선
-        │
-        ▼
-루프 타일링 (Loop Tiling) · blocking
-        │
-        ▼
-다층 타일링 (L3/L2/L1/Register)
-        │
-        ▼
-GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차적 대용량 배열 순회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Memory Wall · cache miss 문제 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Loop Interchange · stride 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">루프 타일링 (Loop Tiling) · blocking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다층 타일링 (L3/L2/L1/Register)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 순회 순서 조정에서 출발해, 메모리 계층 전체를 대상으로 작업 집합을 설계하는 방향으로 최적화가 깊어지는 과정을 보여 준다.
 

@@ -17,34 +17,28 @@ tags = ["enterprise_systems"]
 
 ### 비즈니스와 기술의 일치: 왜 거버넌스인가?
 
-과거의 기업 전략은 문서 속에만 존재했고, IT 시스템은 현장의 요구를 뒤따라가기 바빴다. 이 간극은 중복 투자와 데이터 불일치라는 비효율을 낳았다. **전사 전략 및 거버넌스**는 이 보이지 않는 벽을 허물고, 사장님의 비전(전략)이 실제 서버와 코드(실행)에 즉시 반영되도록 만드는 '기업의 운영체제'이다.
+과거의 기업 전략은 문서 속에만 존재했고, IT 시스템은 현장의 요구를 뒤따라가기 바빴다. 이 간극은 중복 투자와 데이터 불일치라는 비효율을 낳았다. <strong>전사 전략 및 거버넌스</strong>는 이 보이지 않는 벽을 허물고, 사장님의 비전(전략)이 실제 서버와 코드(실행)에 즉시 반영되도록 만드는 '기업의 운영체제'이다.
 
-거버넌스 전략이 필요한 이유는 세 가지이다. 첫째, **전략적 투자 우선순위 결정**을 위해서이다. 한정된 예산을 가장 돈이 되는 사업에 집중시켜야 한다. 둘째, **디지털 전환 (DX)의 성공적 안착**을 위해서이며 (단순 도입이 아닌 체질 개선), 셋째, **전사적 리스크 통합 관리**를 통해 보안 사고나 시스템 파단이 기업 전체의 위기로 번지는 것을 막기 위함이다.
+거버넌스 전략이 필요한 이유는 세 가지이다. 첫째, <strong>전략적 투자 우선순위 결정</strong>을 위해서이다. 한정된 예산을 가장 돈이 되는 사업에 집중시켜야 한다. 둘째, <strong>디지털 전환 (DX)의 성공적 안착</strong>을 위해서이며 (단순 도입이 아닌 체질 개선), 셋째, <strong>전사적 리스크 통합 관리</strong>를 통해 보안 사고나 시스템 파단이 기업 전체의 위기로 번지는 것을 막기 위함이다.
 
 이 그림은 전사 전략이 실제 시스템 구축으로 이어지는 'Cascading' 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Enterprise Strategy Cascading Model         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Vision & Mission ] ──▶ (경영 비전 수립)                 │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Business Strategy ] ──▶ (CSF 도출 및 KPI 설정)          │
-│          │                                                  │
-│          ▼                                                  │
-│   [ IT Strategy (ISP) ] ──▶ (EA 수립 및 과제 도출)          │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Execution (Project) ] ──▶ (ERP, CRM 구축 및 운영)       │
-│                                                             │
-│   * 핵심: 상위 전략이 하위 실행의 강력한 근거가 되어야 함   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '추적성 (Traceability)'이다. 지금 만드는 웹 페이지의 버튼 하나가 궁극적으로 기업의 "매출 20% 증대"라는 비전과 연결되어야 한다. 실무에서는 이러한 연결 고리를 증명하기 위해 **IT BSC**나 **VBM (Value Based Management)** 기법이 동원된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Strategy Cascading Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Vision &amp; Mission</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(경영 비전 수립)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Business Strategy</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(CSF 도출 및 KPI 설정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT Strategy (ISP)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(EA 수립 및 과제 도출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Execution (Project)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(ERP, CRM 구축 및 운영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상위 전략이 하위 실행의 강력한 근거가 되어야 함</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '추적성 (Traceability)'이다. 지금 만드는 웹 페이지의 버튼 하나가 궁극적으로 기업의 "매출 20% 증대"라는 비전과 연결되어야 한다. 실무에서는 이러한 연결 고리를 증명하기 위해 <strong>IT BSC</strong>나 **VBM (Value Based Management)** 기법이 동원된다.
 
 ### 엔터프라이즈 거버넌스의 주요 활동
 
@@ -76,26 +70,25 @@ tags = ["enterprise_systems"]
 | **AA (Application)** | 소프트웨어 컴포넌트, 서비스 구조 | 도시의 건물 및 공공 시설 배치 |
 | **TA (Technical)** | HW, 네트워크, 클라우드 인프라 | 도시의 도로 및 기반 시설 |
 
-이 구조도는 **BPR**을 통해 복잡한 업무가 어떻게 단순화되는지 시각화한다.
+이 구조도는 <strong>BPR</strong>을 통해 복잡한 업무가 어떻게 단순화되는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 BPR: Process Simplification Logic           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ As-Is: 복잡한 수동 결재 ]                               │
-│   신청 ──▶ 팀장 승인 ──▶ 본부장 승인 ──▶ 재무팀 검토 ──▶ 지급 │
-│                                                             │
-│   [ To-Be: 지능형 자동 결재 ]                               │
-│   신청 ──▶ [ Rule Engine 자동 검증 ] ──▶ 즉시 지급          │
-│               (이상 징후 시에만 사람이 개입)                │
-│                                                             │
-│   * 가치: 리드 타임 90% 단축, 인적 오류 제로화              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '불필요한 단계의 파괴'이다. IT 기술은 단순히 수동 작업을 돕는 게 아니라, 단계 자체를 없애는 파괴적 혁신의 도구가 되어야 한다. 실무에서는 이 과정에서 발생하는 현업의 저항을 관리하는 **변화 관리 (Change Management)**가 거버넌스의 핵심 성공 요인이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPR: Process Simplification Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">As-Is: 복잡한 수동 결재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신청 ──▶ 팀장 승인 ──▶ 본부장 승인 ──▶ 재무팀 검토 ──▶ 지급</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">To-Be: 지능형 자동 결재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rule Engine 자동 검증</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">즉시 지급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이상 징후 시에만 사람이 개입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가치: 리드 타임 90% 단축, 인적 오류 제로화</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '불필요한 단계의 파괴'이다. IT 기술은 단순히 수동 작업을 돕는 게 아니라, 단계 자체를 없애는 파괴적 혁신의 도구가 되어야 한다. 실무에서는 이 과정에서 발생하는 현업의 저항을 관리하는 <strong>변화 관리 (Change Management)</strong>가 거버넌스의 핵심 성공 요인이 된다.
 
 📢 **섹션 요약 비유**: BPR은 '낡은 집을 리모델링하는 게 아니라, 헐고 다시 짓는 재건축'과 같습니다. 좁고 불편했던 동선을 무시하고, 가장 살기 편한 최신식 아파트로 구조 자체를 바꾸는 것입니다.
 
@@ -129,28 +122,28 @@ tags = ["enterprise_systems"]
 ### 기술사적 판단: 디지털 거버넌스 수립 및 변화 관리 전략
 
 **시나리오 1: 전사 ERP 통합 프로젝트 추진 중 현업 부서의 강력한 반대**
-- **판단**: 기술의 당위성만으로는 설득할 수 없다. **'가치 기반 경영 (VBM)'** 관점에서 각 부서가 얻을 수 있는 구체적인 이득 (예: 마감 시간 단축, 데이터 정확도 향상)을 수치로 제시한다. 또한 최고경영자 (CEO)의 강력한 의지를 담은 **거버넌스 위원회**를 구성하여, 부서 간 이기주의를 타파하고 전사 최적화가 부서 최적화보다 우선함을 명시하는 '톱다운' 전략을 구사한다.
+- **판단**: 기술의 당위성만으로는 설득할 수 없다. **'가치 기반 경영 (VBM)'** 관점에서 각 부서가 얻을 수 있는 구체적인 이득 (예: 마감 시간 단축, 데이터 정확도 향상)을 수치로 제시한다. 또한 최고경영자 (CEO)의 강력한 의지를 담은 <strong>거버넌스 위원회</strong>를 구성하여, 부서 간 이기주의를 타파하고 전사 최적화가 부서 최적화보다 우선함을 명시하는 '톱다운' 전략을 구사한다.
 
 **시나리오 2: 디지털 트랜스포메이션 (DX) 과제 중 우선순위 결정**
-- **판단**: 화려한 기술(AI, 메타버스 등)에 현혹되지 않는다. **'비즈니스 가치'**와 **'실행 용이성'**을 두 축으로 하는 **2x2 매트릭스** 분석을 수행한다. 단기적으로 성과를 보여줄 수 있는 'Quick Win' 과제를 먼저 성공시켜 조직 내 신뢰를 얻고, 이를 동력 삼아 핵심 아키텍처를 바꾸는 장기 과제를 추진하는 'Step-by-Step' 로드맵을 설계한다.
+- **판단**: 화려한 기술(AI, 메타버스 등)에 현혹되지 않는다. <strong>'비즈니스 가치'</strong>와 <strong>'실행 용이성'</strong>을 두 축으로 하는 **2x2 매트릭스** 분석을 수행한다. 단기적으로 성과를 보여줄 수 있는 'Quick Win' 과제를 먼저 성공시켜 조직 내 신뢰를 얻고, 이를 동력 삼아 핵심 아키텍처를 바꾸는 장기 과제를 추진하는 'Step-by-Step' 로드맵을 설계한다.
 
 이 도식은 기술사가 주도하는 '전략적 정렬 (Alignment) 진단 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Alignment Maturity Assessment                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Level 1 ] : IT와 업무가 따로 국밥 (비용 부서)           │
-│   [ Level 2 ] : 요구하면 만들어 줌 (지원 부서)              │
-│   [ Level 3 ] : 비즈니스 파트너 (협업 부서)                 │
-│   [ Level 4 ] : IT가 비즈니스를 선도 (혁신 엔진)            │
-│                                                             │
-│   * 기술사 가이드: 현재 단계를 냉정히 진단하고, 다음 단계로 │
-│     가기 위한 기술적/조직적 허들을 식별하여 제거함          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alignment Maturity Assessment</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1</div><div class="kb-diagram-note">: IT와 업무가 따로 국밥 (비용 부서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2</div><div class="kb-diagram-note">: 요구하면 만들어 줌 (지원 부서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3</div><div class="kb-diagram-note">: 비즈니스 파트너 (협업 부서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4</div><div class="kb-diagram-note">: IT가 비즈니스를 선도 (혁신 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: 현재 단계를 냉정히 진단하고, 다음 단계로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가기 위한 기술적/조직적 허들을 식별하여 제거함</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 전략 판단은 '함대의 제독'과 같습니다. 거친 바다(시장 변화)에서 모든 배(부서)가 흩어지지 않게 기함(전략)의 깃발을 높이 들고, 최적의 대형(아키텍처)으로 목표 지점까지 함대를 이끄는 전략가입니다.
 
@@ -165,7 +158,7 @@ tags = ["enterprise_systems"]
 
 ### 미래 전망: 가상화된 거버넌스와 AI 전략가
 
-향후 전사 전략은 사람이 보고서를 쓰는 시대를 지나, 실시간 데이터를 학습한 AI가 시뮬레이션을 통해 최적의 경로를 제안하는 **'자율형 전략 수립'** 단계로 진화할 것이다. 또한 기업의 경계가 모호해지는 **에코시스템 거버넌스**가 중요해져, 협력사 및 고객과의 데이터 공유 규약을 관리하는 기술이 핵심이 될 것이다. 기술사는 특정 시스템의 전문가를 넘어, 기술과 비즈니스가 융합된 새로운 '디지털 생태계'의 설계자이자 감독관이 되어야 한다.
+향후 전사 전략은 사람이 보고서를 쓰는 시대를 지나, 실시간 데이터를 학습한 AI가 시뮬레이션을 통해 최적의 경로를 제안하는 **'자율형 전략 수립'** 단계로 진화할 것이다. 또한 기업의 경계가 모호해지는 <strong>에코시스템 거버넌스</strong>가 중요해져, 협력사 및 고객과의 데이터 공유 규약을 관리하는 기술이 핵심이 될 것이다. 기술사는 특정 시스템의 전문가를 넘어, 기술과 비즈니스가 융합된 새로운 '디지털 생태계'의 설계자이자 감독관이 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 거버넌스는 '지능형 우주선'과 같아질 것입니다. 수만 개의 센서(데이터)가 우주(시장)를 감시하고, 인공지능 항해사가 최적의 항로를 제안하겠지만, 그 우주선이 인류를 위해 어떤 행성으로 향할지는 여전히 사령관(기술사)의 철학에 달려있습니다.
 

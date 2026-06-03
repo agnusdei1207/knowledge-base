@@ -18,36 +18,34 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 1비트 비교기 설계
 
-```
-1비트 비교기 진리표:
 
-A  B | A>B  A=B  A<B
------|------------------
-0  0 |  0    1    0
-0  1 |  0    0    1
-1  0 |  1    0    0
-1  1 |  0    1    0
 
-논리식:
-  A=B: XNOR(A,B) = A⊙B = ¬(A⊕B)
-  A>B: A AND ¬B
-  A<B: ¬A AND B
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1비트 비교기 진리표:</div>
+<div class="kb-diagram-note">A B | A&gt;B A=B A&lt;B</div>
+<div class="kb-diagram-note">0 0 | 0 1 0</div>
+<div class="kb-diagram-note">0 1 | 0 0 1</div>
+<div class="kb-diagram-note">1 0 | 1 0 0</div>
+<div class="kb-diagram-note">1 1 | 0 1 0</div>
+<div class="kb-diagram-note">논리식:</div>
+<div class="kb-diagram-note">A=B: XNOR(A,B) = A⊙B = ¬(A⊕B)</div>
+<div class="kb-diagram-note">A&gt;B: A AND ¬B</div>
+<div class="kb-diagram-note">A&lt;B: ¬A AND B</div>
+<div class="kb-diagram-note">게이트 구현:</div>
+<div class="kb-diagram-note">A─ A&gt;B (A AND ¬B)</div>
+<div class="kb-diagram-note">B─ NOT ─</div>
+<div class="kb-diagram-tree-item" style="--depth:1">─ ...</div>
+<div class="kb-diagram-note">A── AND A&gt;B</div>
+<div class="kb-diagram-note">NOT─B ─</div>
+<div class="kb-diagram-tree-item" style="--depth:2">XNOR A=B</div>
+<div class="kb-diagram-note">B──</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NOT─A ─</div>
+<div class="kb-diagram-tree-item" style="--depth:8">AND A&lt;B</div>
+</div>
+</div>
 
-게이트 구현:
-  ┌─────┐
-A─┤     ├─── A>B (A AND ¬B)
-B─┤ NOT ├─┐
-  └─────┘ └─ ...
-  
-  A──┬────────────── AND ─── A>B
-     │      NOT─B ─┘
-     │
-     ├── XNOR ──── A=B
-     │
-  B──┘
-     └── NOT─A ─┐
-                └─ AND ─── A<B
-```
+
 
 > 📢 **섹션 요약 비유**: 1비트 비교기는 "둘 중 누가 큰가?" 심판 — 두 선수의 점수를 보고 이겼다/졌다/비겼다 세 가지 판정.
 
@@ -55,35 +53,34 @@ B─┤ NOT ├─┐
 
 ## Ⅱ. 4비트 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기
 
-```
-4비트 직렬 비교기 (Iterative Comparator):
 
-아이디어:
-  MSB부터 순서대로 비교
-  같으면 다음 비트로, 다르면 즉시 결론
 
-알고리즘:
-  result = EQ (초기: 동등 가정)
-  FOR i = 3 DOWN TO 0:
-    IF A[i] > B[i] AND result == EQ:
-      result = GT; BREAK
-    ELIF A[i] < B[i] AND result == EQ:
-      result = LT; BREAK
-  
-  최종 result = GT/EQ/LT
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">4비트 직렬 비교기 (Iterative Comparator):</div>
+<div class="kb-diagram-note">아이디어:</div>
+<div class="kb-diagram-note">MSB부터 순서대로 비교</div>
+<div class="kb-diagram-note">같으면 다음 비트로, 다르면 즉시 결론</div>
+<div class="kb-diagram-note">알고리즘:</div>
+<div class="kb-diagram-note">result = EQ (초기: 동등 가정)</div>
+<div class="kb-diagram-note">FOR i = 3 DOWN TO 0:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">IF A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">&gt; B</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">AND result == EQ:</div></div>
+<div class="kb-diagram-note">result = GT; BREAK</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">ELIF A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">&lt; B</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">AND result == EQ:</div></div>
+<div class="kb-diagram-note">result = LT; BREAK</div>
+<div class="kb-diagram-note">최종 result = GT/EQ/LT</div>
+<div class="kb-diagram-note">회로 구조:</div>
+<div class="kb-diagram-note">각 비트에 1비트 비교기 4개 직렬 연결</div>
+<div class="kb-diagram-note">이전 단계의 결과를 다음 단계로 전달</div>
+<div class="kb-diagram-note">비교 우선순위 (캐스케이드):</div>
+<div class="kb-diagram-note">Bit3 (MSB) → Bit2 → Bit1 → Bit0 (LSB)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bit3 비교기</div><div class="kb-diagram-note">──(GT3,EQ3,LT3)──&gt;</div><div class="kb-diagram-node">Bit2 비교기</div><div class="kb-diagram-note">──&gt;...──&gt;</div><div class="kb-diagram-node">최종 출력</div></div>
+<div class="kb-diagram-note">시간 복잡도: O(n) 직렬 처리</div>
+<div class="kb-diagram-note">단점: n비트 비교에 n개 단계 = 지연 누적</div>
+</div>
+</div>
 
-회로 구조:
-  각 비트에 1비트 비교기 4개 직렬 연결
-  이전 단계의 결과를 다음 단계로 전달
-  
-비교 우선순위 (캐스케이드):
-  Bit3 (MSB) → Bit2 → Bit1 → Bit0 (LSB)
-  
-  [Bit3 비교기]──(GT3,EQ3,LT3)──>[Bit2 비교기]──>...──>[최종 출력]
 
-시간 복잡도: O(n) 직렬 처리
-단점: n비트 비교에 n개 단계 = 지연 누적
-```
 
 > 📢 **섹션 요약 비유**: [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기는 릴레이 경주 — [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) 선수가 먼저 뛰고, 비겼으면 다음 주자에게 배턴 전달. 한 주자가 이기면 경주 종료.
 
@@ -91,40 +88,39 @@ B─┤ NOT ├─┐
 
 ## Ⅲ. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기와 74HC85
 
-```
-병렬 비교기 (Parallel Comparator):
 
-아이디어:
-  모든 비트를 동시에 비교 (병렬 처리)
-  결과를 논리 게이트로 조합
 
-4비트 병렬 비교기 논리식:
-  A3 > B3: A3 AND ¬B3
-  A3 = B3: A3 XNOR B3
-  ...
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">병렬 비교기 (Parallel Comparator):</div>
+<div class="kb-diagram-note">아이디어:</div>
+<div class="kb-diagram-note">모든 비트를 동시에 비교 (병렬 처리)</div>
+<div class="kb-diagram-note">결과를 논리 게이트로 조합</div>
+<div class="kb-diagram-note">4비트 병렬 비교기 논리식:</div>
+<div class="kb-diagram-note">A3 &gt; B3: A3 AND ¬B3</div>
+<div class="kb-diagram-note">A3 = B3: A3 XNOR B3</div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">전체 A &gt; B 조건:</div>
+<div class="kb-diagram-note">(A3&gt;B3) OR</div>
+<div class="kb-diagram-note">(A3=B3 AND A2&gt;B2) OR</div>
+<div class="kb-diagram-note">(A3=B3 AND A2=B2 AND A1&gt;B1) OR</div>
+<div class="kb-diagram-note">(A3=B3 AND A2=B2 AND A1=B1 AND A0&gt;B0)</div>
+<div class="kb-diagram-note">시간 복잡도: O(1) 병렬 처리 (지연: 2~3게이트)</div>
+<div class="kb-diagram-note">단점: 게이트 수 = O(n²) 기하급수 증가</div>
+<div class="kb-diagram-note">74HC85 (4비트 비교기 IC):</div>
+<div class="kb-diagram-note">입력: A3-A0, B3-B0, IAGB, IAEB, IALB (캐스케이드 입력)</div>
+<div class="kb-diagram-note">출력: OAGB (A&gt;B), OAEB (A=B), OALB (A&lt;B)</div>
+<div class="kb-diagram-note">캐스케이드 연결:</div>
+<div class="kb-diagram-note">낮은 비트 비교기의 출력 → 높은 비트 비교기의 캐스케이드 입력</div>
+<div class="kb-diagram-note">→ 8비트, 16비트 비교기 확장 가능</div>
+<div class="kb-diagram-note">성능 비교:</div>
+<div class="kb-diagram-note">직렬: 지연 O(n), 게이트 O(n)</div>
+<div class="kb-diagram-note">병렬: 지연 O(1), 게이트 O(n²)</div>
+<div class="kb-diagram-note">실제: 계층적 비교기로 균형</div>
+</div>
+</div>
 
-전체 A > B 조건:
-  (A3>B3) OR
-  (A3=B3 AND A2>B2) OR
-  (A3=B3 AND A2=B2 AND A1>B1) OR
-  (A3=B3 AND A2=B2 AND A1=B1 AND A0>B0)
 
-시간 복잡도: O(1) 병렬 처리 (지연: 2~3게이트)
-단점: 게이트 수 = O(n²) 기하급수 증가
-
-74HC85 (4비트 비교기 IC):
-  입력: A3-A0, B3-B0, IAGB, IAEB, IALB (캐스케이드 입력)
-  출력: OAGB (A>B), OAEB (A=B), OALB (A<B)
-  
-  캐스케이드 연결:
-  낮은 비트 비교기의 출력 → 높은 비트 비교기의 캐스케이드 입력
-  → 8비트, 16비트 비교기 확장 가능
-
-성능 비교:
-  직렬: 지연 O(n), 게이트 O(n)
-  병렬: 지연 O(1), 게이트 O(n²)
-  실제: 계층적 비교기로 균형
-```
 
 > 📢 **섹션 요약 비유**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기는 여러 심판이 동시 판정 — 1번 심판은 100점 자리, 2번은 10점 자리 동시 채점, 한 번에 결론. 빠르지만 심판이 많이 필요.
 
@@ -132,36 +128,37 @@ B─┤ NOT ├─┐
 
 ## Ⅳ. CPU [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
 
-```
-CPU 비교 연산 구현 (x86):
 
-CMP 명령어:
-  CMP A, B → A - B 수행 (결과 버림), 플래그 설정
-  
-플래그 레지스터:
-  ZF (Zero Flag): 결과 = 0 (A = B)
-  CF (Carry Flag): 언사인드 빌림 발생 (A < B, 부호 없음)
-  SF (Sign Flag): 결과 음수 (사인드)
-  OF (Overflow Flag): 오버플로우
 
-조건 점프 명령어:
-  JE / JZ:  ZF=1       → Jump if Equal
-  JNE/JNZ:  ZF=0       → Jump if Not Equal
-  JG:       ZF=0, SF=OF → Jump if Greater (부호 있음)
-  JL:       SF≠OF      → Jump if Less (부호 있음)
-  JA:       CF=0, ZF=0 → Jump if Above (부호 없음)
-  JB:       CF=1       → Jump if Below (부호 없음)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 비교 연산 구현 (x86):</div>
+<div class="kb-diagram-note">CMP 명령어:</div>
+<div class="kb-diagram-note">CMP A, B → A - B 수행 (결과 버림), 플래그 설정</div>
+<div class="kb-diagram-note">플래그 레지스터:</div>
+<div class="kb-diagram-note">ZF (Zero Flag): 결과 = 0 (A = B)</div>
+<div class="kb-diagram-note">CF (Carry Flag): 언사인드 빌림 발생 (A &lt; B, 부호 없음)</div>
+<div class="kb-diagram-note">SF (Sign Flag): 결과 음수 (사인드)</div>
+<div class="kb-diagram-note">OF (Overflow Flag): 오버플로우</div>
+<div class="kb-diagram-note">조건 점프 명령어:</div>
+<div class="kb-diagram-note">JE / JZ: ZF=1 → Jump if Equal</div>
+<div class="kb-diagram-note">JNE/JNZ: ZF=0 → Jump if Not Equal</div>
+<div class="kb-diagram-note">JG: ZF=0, SF=OF → Jump if Greater (부호 있음)</div>
+<div class="kb-diagram-note">JL: SF≠OF → Jump if Less (부호 있음)</div>
+<div class="kb-diagram-note">JA: CF=0, ZF=0 → Jump if Above (부호 없음)</div>
+<div class="kb-diagram-note">JB: CF=1 → Jump if Below (부호 없음)</div>
+<div class="kb-diagram-note">예시 (어셈블리):</div>
+<div class="kb-diagram-note">CMP EAX, EBX ; EAX - EBX, 플래그 설정</div>
+<div class="kb-diagram-note">JE equal_label ; ZF=1이면 점프</div>
+<div class="kb-diagram-note">JG greater ; EAX &gt; EBX이면 점프</div>
+<div class="kb-diagram-note">JL less ; EAX &lt; EBX이면 점프</div>
+<div class="kb-diagram-note">ARM Cond:</div>
+<div class="kb-diagram-note">SUBS R0, R1, R2 ; R1 - R2, CPSR 플래그 설정</div>
+<div class="kb-diagram-note">BEQ label ; CPSR Z=1이면 분기</div>
+</div>
+</div>
 
-예시 (어셈블리):
-  CMP EAX, EBX    ; EAX - EBX, 플래그 설정
-  JE  equal_label ; ZF=1이면 점프
-  JG  greater     ; EAX > EBX이면 점프
-  JL  less        ; EAX < EBX이면 점프
 
-ARM Cond:
-  SUBS R0, R1, R2  ; R1 - R2, CPSR 플래그 설정
-  BEQ  label        ; CPSR Z=1이면 분기
-```
 
 > 📢 **섹션 요약 비유**: [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 저울 0점 보정 — 두 무게를 비교할 때 실제로 빼보고 결과만 버리되 "어느 쪽이 무거웠는지" 기록만 남기는 것.
 
@@ -169,38 +166,37 @@ ARM Cond:
 
 ## Ⅴ. 실무 시나리오 — [정렬 네트워크](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)
 
-```
-정렬 네트워크 (Sorting Network):
 
-정의:
-  비교기를 네트워크로 연결해 n개 값을 정렬하는 회로
-  비교기가 직렬/병렬로 배치되어 고정된 순서로 비교
 
-버블 정렬 하드웨어 구현:
-  n=4 정렬 네트워크:
-  
-  [A0,A1] 비교기 → 교환
-  [A1,A2] 비교기 → 교환
-  [A0,A1] 비교기 → 교환
-  [A2,A3] 비교기 → 교환
-  [A1,A2] 비교기 → 교환
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정렬 네트워크 (Sorting Network):</div>
+<div class="kb-diagram-note">정의:</div>
+<div class="kb-diagram-note">비교기를 네트워크로 연결해 n개 값을 정렬하는 회로</div>
+<div class="kb-diagram-note">비교기가 직렬/병렬로 배치되어 고정된 순서로 비교</div>
+<div class="kb-diagram-note">버블 정렬 하드웨어 구현:</div>
+<div class="kb-diagram-note">n=4 정렬 네트워크:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A0,A1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">교환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A1,A2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">교환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A0,A1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">교환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A2,A3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">교환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A1,A2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">교환</div></div>
+<div class="kb-diagram-note">Bitonic Sort Network:</div>
+<div class="kb-diagram-note">n=8: O(log²n) 단계 = 6단계</div>
+<div class="kb-diagram-note">병렬 처리: O(log²n) 지연</div>
+<div class="kb-diagram-note">장점: 완전 병렬 (GPU 정렬에 활용)</div>
+<div class="kb-diagram-note">단점: 2^k 개 원소만 처리 가능</div>
+<div class="kb-diagram-note">FPGA/GPU 활용:</div>
+<div class="kb-diagram-note">비교기 네트워크 → FPGA 로직 블록 구현</div>
+<div class="kb-diagram-note">GPU Thrust 라이브러리의 정렬 기반</div>
+<div class="kb-diagram-note">병렬 처리로 O(n) vs O(n log n) 속도 차이</div>
+<div class="kb-diagram-note">데이터베이스 정렬:</div>
+<div class="kb-diagram-note">ORDER BY 실행: CPU 비교 + 병렬 정렬 네트워크</div>
+<div class="kb-diagram-note">SIMD 명령어: AVX2의 _mm256_cmp_ps 비교 명령</div>
+</div>
+</div>
 
-Bitonic Sort Network:
-  n=8: O(log²n) 단계 = 6단계
-  병렬 처리: O(log²n) 지연
-  
-  장점: 완전 병렬 (GPU 정렬에 활용)
-  단점: 2^k 개 원소만 처리 가능
 
-FPGA/GPU 활용:
-  비교기 네트워크 → FPGA 로직 블록 구현
-  GPU Thrust 라이브러리의 정렬 기반
-  병렬 처리로 O(n) vs O(n log n) 속도 차이
-
-데이터베이스 정렬:
-  ORDER BY 실행: CPU 비교 + 병렬 정렬 네트워크
-  SIMD 명령어: AVX2의 _mm256_cmp_ps 비교 명령
-```
 
 > 📢 **섹션 요약 비유**: [정렬 네트워크](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)는 여러 체중계로 동시 측정 — 모든 사람이 동시에 서로 비교해서 한 번에 키 순서로 줄 세우기.
 

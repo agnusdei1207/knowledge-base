@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Ant의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  안티 코럽션 레이어 (ACL, Ant                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안티 코럽션 레이어 (ACL, Ant</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Ant가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Anti (방지) + Corruption (부패/오염) + Layer (계층)**
-- **개념**: 서로 다른 두 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)(특히 최신 시스템과 구형 레거시 시스템)를 연동할 때, **하류(내 최신 시스템) 측의 경계선 앞에 '중간 번역/세탁 계층([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))'을 두어, 상류(레거시)의 낡은 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격이 내 깨끗한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 안으로 침투하여 부패시키는 것을 완벽하게 막아내는 방어 아키텍처 패턴**입니다.
+- **개념**: 서로 다른 두 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)(특히 최신 시스템과 구형 레거시 시스템)를 연동할 때, <strong>하류(내 최신 시스템) 측의 경계선 앞에 '중간 번역/세탁 계층(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>)'을 두어, 상류(레거시)의 낡은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 규격이 내 깨끗한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 안으로 침투하여 부패시키는 것을 완벽하게 막아내는 방어 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -92,7 +91,7 @@ tags = ["studynote-software-engineering"]
 - 번역기([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))를 거치려면 CPU가 일을 한 번 더 해야 하므로 미세한 속도 저하(오버헤드)가 발생하고, 번역기 코드를 짜는 개발자의 피땀(비용)이 들어갑니다.
 - 하지만 **"상류 팀(레거시)이 나랑 협력해 줄 생각이 아예 없는 막가파(독재자)일 때"**, 내 순결한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드가 저 똥물에 침식되어 썩어 들어가는 끔찍한 미래를 막기 위해, 아무리 비싸도 무조건 국경선에 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 방탄유리를 세우는 것이 장기적인 유지보수의 절대 정답입니다.
 
-> 📢 **섹션 요약 비유**: **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(충돌 방지 계층)**은 1급 청정 구역인 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 클린룸(내 최신 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 입구에 설치된 **'초강력 에어 샤워 멸균실'**입니다. 클린룸 안에서 작업하려면 밖에 있는 더러운 창고(구형 레거시 시스템)에서 부품을 가져와야 합니다. 만약 작업자가 창고의 먼지(구형 썩은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규격)를 잔뜩 뒤집어쓴 채로 클린룸 문을 덜컥 열고 들어오면, 클린룸 내부 전체가 먼지로 오염되어 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(최신 시스템)가 전량 불량 처리됩니다([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 부패). 이를 막기 위해 입구에 멸균실([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 설치합니다. 작업자가 창고에서 부품을 가져오면, 멸균실 안에서 먼지를 100% 털어내고, 부품을 깨끗한 새 캡슐에 포장([데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 번역 및 세탁)한 뒤에야 비로소 클린룸 안으로 넣어줍니다. 밖의 세상이 쓰레기장이든 똥밭이든 상관없이, 이 멸균실 번역기 하나만 튼튼하게 버티고 있으면 내 방(최신 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직) 안쪽은 영원히 순백의 깨끗한 상태([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))를 유지할 수 있는 궁극의 방패술입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>(충돌 방지 계층)</strong>은 1급 청정 구역인 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 클린룸(내 최신 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 입구에 설치된 <strong>'초강력 에어 샤워 멸균실'</strong>입니다. 클린룸 안에서 작업하려면 밖에 있는 더러운 창고(구형 레거시 시스템)에서 부품을 가져와야 합니다. 만약 작업자가 창고의 먼지(구형 썩은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규격)를 잔뜩 뒤집어쓴 채로 클린룸 문을 덜컥 열고 들어오면, 클린룸 내부 전체가 먼지로 오염되어 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(최신 시스템)가 전량 불량 처리됩니다([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 부패). 이를 막기 위해 입구에 멸균실([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 설치합니다. 작업자가 창고에서 부품을 가져오면, 멸균실 안에서 먼지를 100% 털어내고, 부품을 깨끗한 새 캡슐에 포장([데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 번역 및 세탁)한 뒤에야 비로소 클린룸 안으로 넣어줍니다. 밖의 세상이 쓰레기장이든 똥밭이든 상관없이, 이 멸균실 번역기 하나만 튼튼하게 버티고 있으면 내 방(최신 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직) 안쪽은 영원히 순백의 깨끗한 상태([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))를 유지할 수 있는 궁극의 방패술입니다.
 
 - **📢 섹션 요약 비유**: 안티 코럽션 레이어 ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -137,21 +136,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-안티 코럽션 레이어 (ACL, Anti-Corruption Layer) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안티 코럽션 레이어 (ACL, Anti-Corruption Layer) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

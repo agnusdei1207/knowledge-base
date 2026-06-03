@@ -33,25 +33,26 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 
 | 평가 단계 | 처리 과정 | 핵심 원리 |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할** | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 서로 겹치지 않는 집합으로 나눔 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 방지 및 균등성 확보 |
-| **반복 학습/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 루프를 K번 돌면서 서로 다른 폴드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용으로 선택 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번씩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 참여 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분할</strong> | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 서로 겹치지 않는 집합으로 나눔 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 방지 및 균등성 확보 |
+| <strong>반복 학습/<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 루프를 K번 돌면서 서로 다른 폴드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용으로 선택 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번씩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 참여 |
 | **최종 평가** | K번의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표)를 평균 산출 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이고 안정적인 일반화 점수 도출 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  5-Fold Cross Validation 구조                │
-├──────────────────────────────────────────────────────────────┤
-│ 전체 데이터 세트 분할 (K=5)                                  │
-│                                                              │
-│ Iteration 1: [VALID] [TRAIN] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 1│
-│ Iteration 2: [TRAIN] [VALID] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 2│
-│ Iteration 3: [TRAIN] [TRAIN] [VALID] [TRAIN] [TRAIN] ─▶ Score 3│
-│ Iteration 4: [TRAIN] [TRAIN] [TRAIN] [VALID] [TRAIN] ─▶ Score 4│
-│ Iteration 5: [TRAIN] [TRAIN] [TRAIN] [TRAIN] [VALID] ─▶ Score 5│
-│                                                              │
-│ 🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5-Fold Cross Validation 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터 세트 분할 (K=5)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 1:</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 2:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 3:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 4:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 5:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5</div></div>
+</div>
+</div>
+
+
 
 가장 많이 쓰이는 K값은 5 또는 10이다. 극단적으로 K를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체 개수(N)와 동일하게 두면, 단 1개의 샘플만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용하는 `LOOCV (Leave-One-Out Cross Validation)`가 된다.
 
@@ -65,8 +66,8 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 
 | 비교 축 | Hold-out (단순 분할) | K-Fold [Cross Validation](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용률** | 학습과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번 고정됨 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 학습과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 모두 활용됨 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** | 우연한 분할에 따라 변동성이 매우 큼 | K번의 평균을 통해 변동성이 매우 작음 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 활용률</strong> | 학습과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번 고정됨 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 학습과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 모두 활용됨 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 우연한 분할에 따라 변동성이 매우 큼 | K번의 평균을 통해 변동성이 매우 작음 |
 | **컴퓨팅 연산 비용** | 1회 학습으로 낮음 | K번 학습을 수행하므로 연산 비용이 K배 증가 |
 | **권장 적용 상황** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 방대하고 모델 크기가 클 때 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부족하거나 하이퍼파라미터 정밀 튜닝 시 |
 
@@ -81,9 +82,9 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 현업에서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 파이프라인을 구축할 때 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 필수 검문소 역할을 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트의 특성에 맞춰 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전략을 세밀하게 조정해야 한다.
 
 ### 💡 기술사 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **클래스 불균형 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 암 환자 예측처럼 정상과 비정상의 비율이 99:1이라면 일반 K-Fold 대신 반드시 `Stratified K-Fold`를 적용했는가?
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage) 차단**: [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Standardization)이나 결측치 처리, 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))을 '전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'에 먼저 적용하지 않았는가? K-Fold 분할을 먼저 한 뒤, 학습용 폴드에서 추출한 기준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용 폴드를 변환해야 한다.
-3. **시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주의**: 시간에 따른 종속성이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 일반 K-Fold를 쓰면 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 과거를 예측하는 오류가 생기므로 `Time Series Split`을 사용해야 한다.
+1. <strong>클래스 불균형 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 암 환자 예측처럼 정상과 비정상의 비율이 99:1이라면 일반 K-Fold 대신 반드시 `Stratified K-Fold`를 적용했는가?
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage) 차단</strong>: [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Standardization)이나 결측치 처리, 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))을 '전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'에 먼저 적용하지 않았는가? K-Fold 분할을 먼저 한 뒤, 학습용 폴드에서 추출한 기준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용 폴드를 변환해야 한다.
+3. <strong>시계열 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주의</strong>: 시간에 따른 종속성이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 일반 K-Fold를 쓰면 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 과거를 예측하는 오류가 생기므로 `Time Series Split`을 사용해야 한다.
 
 ### 🚫 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **딥러닝 대규모 모델에 맹목적 적용**: 수십 일씩 걸리는 초거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 훈련에 10-Fold를 돌리면 연산 비용을 감당할 수 없다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 충분히 크다면 Hold-out으로도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 무시할 만큼 작아진다.
@@ -109,30 +110,32 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 | **Hold-out** | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 3세트로 단순히 1회 쪼개는 방식 |
 | **Stratified K-Fold** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 레이블 비율이 불균형할 때, 모든 폴드가 동일한 클래스 분포를 갖도록 층화 추출 |
 | **Group K-Fold** | 동일한 환자/기기의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Train과 [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 양쪽에 동시에 섞이는 것을 방지 |
-| **Nested [Cross Validation](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)** | 안쪽 루프에서는 하이퍼파라미터 튜닝을, 바깥쪽 루프에서는 모델 평가를 수행하여 완벽한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 달성 |
+| <strong>Nested <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/">Cross Validation</a></strong> | 안쪽 루프에서는 하이퍼파라미터 튜닝을, 바깥쪽 루프에서는 모델 평가를 수행하여 완벽한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 달성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[성능 평가의 시작]
-Hold-out Validation (단순 분할, 변동성 큼)
-        │
-        ▼
-[데이터 활용 및 신뢰도 극대화]
-K-Fold Cross Validation (반복 검증, 변동성 억제)
-        │
-        ▼
-[데이터 특성에 따른 파생 기법]
-Stratified K-Fold (불균형 극복) / Group K-Fold (누수 방지)
-        │
-        ▼
-[시계열 특화 분할]
-Time Series Split (미래 데이터 참조 금지)
-        │
-        ▼
-[최상위 검증 아키텍처]
-Nested Cross Validation (튜닝과 평가의 완전한 분리)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">성능 평가의 시작</div></div>
+<div class="kb-diagram-note">Hold-out Validation (단순 분할, 변동성 큼)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 활용 및 신뢰도 극대화</div></div>
+<div class="kb-diagram-note">K-Fold Cross Validation (반복 검증, 변동성 억제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 특성에 따른 파생 기법</div></div>
+<div class="kb-diagram-note">Stratified K-Fold (불균형 극복) / Group K-Fold (누수 방지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 특화 분할</div></div>
+<div class="kb-diagram-note">Time Series Split (미래 데이터 참조 금지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최상위 검증 아키텍처</div></div>
+<div class="kb-diagram-note">Nested Cross Validation (튜닝과 평가의 완전한 분리)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

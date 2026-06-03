@@ -27,27 +27,21 @@ RoCE는 이런 문제를 "기존 [이더넷](/knowledge-base/studynote/03_networ
 
 이 그림은 일반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 경로와 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 경로의 병목 차이를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                     일반 이더넷 vs RoCE 데이터 이동 경로                  │
-├───────────────────────┬─────────────────────────────────────────────────────┤
-│ 일반 TCP/IP 경로      │ RoCE 경로                                           │
-├───────────────────────┼─────────────────────────────────────────────────────┤
-│ App                   │ App                                                 │
-│  │                    │  │                                                   │
-│  ▼                    │  ▼                                                   │
-│ Kernel TCP/IP Stack   │ RDMA Library / Queue Pair                           │
-│  │                    │  │                                                   │
-│  ▼                    │  ▼                                                   │
-│ CPU Copy + Interrupt  │ RNIC (RDMA-capable NIC) Offload                     │
-│  │                    │  │                                                   │
-│  ▼                    │  ▼                                                   │
-│ Ethernet              │ Ethernet + Lossless Control                          │
-│  │                    │  │                                                   │
-│  ▼                    │  ▼                                                   │
-│ Remote Kernel Copy    │ Remote Memory Placement                              │
-└───────────────────────┴─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 이더넷 vs RoCE 데이터 이동 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 TCP/IP 경로</div><div class="kb-diagram-cell">RoCE 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel TCP/IP Stack</div><div class="kb-diagram-cell">RDMA Library / Queue Pair</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Copy + Interrupt</div><div class="kb-diagram-cell">RNIC (RDMA-capable NIC) Offload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ethernet</div><div class="kb-diagram-cell">Ethernet + Lossless Control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote Kernel Copy</div><div class="kb-diagram-cell">Remote Memory Placement</div></div>
+</div>
+</div>
+
+
 
 같은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 써도 왼쪽은 CPU와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 계속 개입하고, 오른쪽은 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 지원 네트워크 인터페이스 카드가 전송을 대신 처리한다. 그래서 RoCE를 이해할 때는 "[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 하나 더 배운다"보다 "서버 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 책임을 누가 지는가"를 먼저 봐야 한다.
 
@@ -72,23 +66,22 @@ RoCE의 장점은 "복사를 적게 한다"는 데서 나오지만, 그 전제�
 
 이 그림은 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2의 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 제어 경로를 함께 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         RoCE v2 동작의 핵심 흐름                           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ App Thread                                                                  │
-│   │ post RDMA WR (Work Request)                                             │
-│   ▼                                                                         │
-│ Queue Pair ───────────────▶ RNIC ───────────────▶ Ethernet Fabric           │
-│   │                         │                     │                          │
-│   │                         │ DMA Read/Write      │ PFC / ECN / QoS         │
-│   │                         ▼                     ▼                          │
-│ Completion Queue      Local Registered      Remote RNIC                      │
-│   ▲                   Memory Region              │                           │
-│   │                                              ▼                           │
-│   └──────────── completion polling / event ─ Remote Registered Memory        │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoCE v2 동작의 핵심 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Thread</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">post RDMA WR (Work Request)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue Pair ▶ RNIC ▶ Ethernet Fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Read/Write</div><div class="kb-diagram-cell">PFC / ECN / QoS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Completion Queue Local Registered Remote RNIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Memory Region</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">completion polling / event ─ Remote Registered Memory</div></div>
+</div>
+</div>
+
+
 
 RoCE는 버전에 따라 범위가 달라진다. [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v1은 계층 2 기반이라 같은 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 안에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽지만 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 확장성이 약하다. [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/IP 위에 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 패킷을 실어 계층 3 환경에서도 운용할 수 있어, 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 팜에서는 사실상 표준처럼 쓰인다.
 
@@ -143,7 +136,7 @@ RoCE를 제대로 이해하려면 [인피니밴드](/knowledge-base/studynote/01
 - 스토리지 트래픽, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 트래픽, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 트래픽을 같은 우선순위로 섞는 경우
 - PFC만 켜고 ECN 기반 혼잡 회피를 설계하지 않아 정체 전파를 키우는 경우
 
-시험이나 기술사 답안에서는 "RoCE는 RDMA를 Ethernet으로 확장한 기술"에서 멈추지 말고, 반드시 **무손실에 가까운 네트워크 설계 필요성**, **[RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2의 대규모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 적합성**, **[InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 대비 비용-운영 절충점**까지 연결해 서술해야 답안 밀도가 올라간다.
+시험이나 기술사 답안에서는 "RoCE는 RDMA를 Ethernet으로 확장한 기술"에서 멈추지 말고, 반드시 **무손실에 가까운 네트워크 설계 필요성**, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a> v2의 대규모 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 적합성</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">InfiniBand</a> 대비 비용-운영 절충점</strong>까지 연결해 서술해야 답안 밀도가 올라간다.
 
 - **📢 섹션 요약 비유**: 슈퍼카를 샀다고 랩타임이 자동으로 줄지 않는 것처럼, RoCE도 노면 상태·타이어·피트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞아야만 진짜 성능이 나온다.
 
@@ -174,26 +167,26 @@ RoCE를 잘 설계하면 첫째, CPU 개입 감소로 애플리케이션 계산 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DMA (Direct Memory Access)
-    │
-    ▼
-RDMA (Remote Direct Memory Access)
-    │
-    ├──▶ InfiniBand 전용 패브릭
-    │
-    ▼
-RoCE (RDMA over Converged Ethernet)
-    │
-    ├──▶ RoCE v1 : Layer 2 중심
-    └──▶ RoCE v2 : UDP/IP 기반 확장
-             │
-             ▼
-DCB · PFC · ECN 기반 데이터센터 최적화
-             │
-             ▼
-NVMe-oF · GPUDirect RDMA · AI 클러스터 인터커넥트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DMA (Direct Memory Access)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDMA (Remote Direct Memory Access)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ InfiniBand 전용 패브릭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RoCE (RDMA over Converged Ethernet)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ RoCE v1 : Layer 2 중심</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ RoCE v2 : UDP/IP 기반 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DCB · PFC · ECN 기반 데이터센터 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe-oF · GPUDirect RDMA · AI 클러스터 인터커넥트</div>
+</div>
+</div>
+
+
 
 이 흐름은 "장치 직접 접근 → 원격 메모리 직접 접근 → [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 확장 → [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 최적화 → 스토리지·가속기 응용"으로 개념이 확장되는 과정을 보여준다.
 

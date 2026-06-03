@@ -10,30 +10,32 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 인프라 드리프트(Drift)란 **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 코드([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)/CloudFormation)에 정의된 기대 상태와 실제 클라우드 인프라 상태가 불일치**하는 현상이며, Drift Detection은 이를 자동으로 탐지·알림·복원하는 프로세스다.
+> 1. **본질**: 인프라 드리프트(Drift)란 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> 코드(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>/CloudFormation)에 정의된 기대 상태와 실제 클라우드 인프라 상태가 불일치</strong>하는 현상이며, Drift Detection은 이를 자동으로 탐지·알림·복원하는 프로세스다.
 > 2. **가치**: 운영자가 콘솔에서 수동 변경(보안 그룹 열기, 인스턴스 타입 변경)하면 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 코드와 실제가 달라져 **"코드가 진실이 아니게"** 되며, 이후 `terraform apply` 시 예기치 않은 변경이 발생한다.
-> 3. **판단 포인트**: `terraform plan`을 주기적으로 실행하여 Diff를 감지하거나, **Driftctl·AWS CloudFormation Drift [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)·Spacelift**로 자동화한다.
+> 3. **판단 포인트**: `terraform plan`을 주기적으로 실행하여 Diff를 감지하거나, <strong>Driftctl·AWS CloudFormation Drift <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>·Spacelift</strong>로 자동화한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    드리프트 발생 시나리오                              │
-├───────────────────────────────────────────────────────┤
-│  1. Terraform: security_group = [22, 443]            │
-│  2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️      │
-│  3. 실제 상태: [22, 443, 8080]                        │
-│     Terraform 코드: [22, 443]                         │
-│     → 드리프트 발생!                                  │
-│  4. terraform apply 실행 시:                          │
-│     8080이 코드에 없으므로 삭제됨 → 서비스 장애!     │
-│                                                       │
-│  해결: 주기적 terraform plan으로 Diff 감지            │
-│     → 코드 동기화 또는 수동 변경 되돌리기             │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 발생 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. Terraform: security_group =</div><div class="kb-diagram-node">22, 443</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 실제 상태:</div><div class="kb-diagram-node">22, 443, 8080</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Terraform 코드:</div><div class="kb-diagram-node">22, 443</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 드리프트 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. terraform apply 실행 시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8080이 코드에 없으므로 삭제됨 → 서비스 장애!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 주기적 terraform plan으로 Diff 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코드 동기화 또는 수동 변경 되돌리기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 드리프트는 건축 대장([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))과 실제 건물(인프라)이 다른 상태다. 건축 대장대로 리모델링하면 몰래 만든 방이 철거된다.
 
@@ -45,7 +47,7 @@ tags = ["studynote-devops-sre"]
 
 | 도구 | 방식 | 특징 |
 |:---|:---|:---|
-| **[terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan** | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) vs 실제 비교 | 기본, 수동/크론 실행 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">terraform</a> plan</strong> | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) vs 실제 비교 | 기본, 수동/크론 실행 |
 | **Driftctl** | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 미관리 리소스 탐지 | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 커버리지 높음 |
 | **CloudFormation Drift** | CF [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) vs 실제 비교 | AWS 네이티브 |
 | **Spacelift** | 자동 드리프트 스캔 + 알림 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) |
@@ -95,7 +97,7 @@ steps:
 | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 코드 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | 불확실 | **100%** | 단일 진실 원천 |
 | 예기치 않은 변경 | 빈번 | **즉시 감지** | 사고 예방 |
 
-드리프트 감지는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) GitOps의 **필수 보완 장치**이며, [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))와 결합하여 드리프트 유형별 자동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(허용/거부/알림)을 적용하는 방향으로 진화하고 있다.
+드리프트 감지는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) GitOps의 <strong>필수 보완 장치</strong>이며, [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))와 결합하여 드리프트 유형별 자동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(허용/거부/알림)을 적용하는 방향으로 진화하고 있다.
 
 ---
 
@@ -103,32 +105,34 @@ steps:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))** | 드리프트가 발생하는 [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 코드 = 진실이라는 원칙, 드리프트가 위반하는 대상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>)</strong> | 드리프트가 발생하는 [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 코드 = 진실이라는 원칙, 드리프트가 위반하는 대상 |
 | **Driftctl** | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 드리프트 감지 도구 |
-| **[terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan** | 기본적인 드리프트 감지 명령 |
-| **[OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)** | 드리프트 대응 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">terraform</a> plan</strong> | 기본적인 드리프트 감지 명령 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/">OPA</a></strong> | 드리프트 대응 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 인프라 관리 (콘솔 변경 빈번)]
-    │
-    ▼
-[IaC 도입 (2014~) — 코드로 인프라 관리]
-    │
-    ▼
-[드리프트 문제 인식 (2018~) — 코드 vs 실제 불일치]
-    │
-    ▼
-[Driftctl / CF Drift Detection (2020~) — 자동 감지]
-    │
-    ▼
-[현재: 자동 Remediation — 드리프트 감지→자동 복원]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 인프라 관리 (콘솔 변경 빈번)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaC 도입 (2014~) — 코드로 인프라 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드리프트 문제 인식 (2018~) — 코드 vs 실제 불일치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Driftctl / CF Drift Detection (2020~) — 자동 감지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 자동 Remediation — 드리프트 감지→자동 복원</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 설계도([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))에는 **방 3개**라고 써있는데, 누군가 몰래 **방 1개를 더 만들었어요** (드리프트).
+1. 설계도([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))에는 <strong>방 3개</strong>라고 써있는데, 누군가 몰래 **방 1개를 더 만들었어요** (드리프트).
 2. 나중에 설계도대로 리모델링하면 **몰래 만든 방이 없어져서** 사고가 나요.
 3. 드리프트 감지는 매일 설계도와 실제 건물을 **비교해서 다른 점을 찾아주는** 검사원이에요!
 

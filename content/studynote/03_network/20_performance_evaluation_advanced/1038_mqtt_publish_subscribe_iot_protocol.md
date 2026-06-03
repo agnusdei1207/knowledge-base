@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 462번 HTTP는 폰([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))이 온도계(Server)에게 질문(Request)을 던져야만 대답(Response)을 해줍니다.
 - 방 안의 수백 개 센서 온도를 알고 싶으면, 폰이 1초마다 수백 번의 접속과 질문을 날려대야([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 해서 회선 낭비와 배터리 소모(오버헤드)가 재앙 수준이었습니다.
 
-```text
-[ONS 구조]
-    │
-    ▼
-[MQTT 프로토콜]
-    │
-    └──▶ [CoAP 프로토콜 및 REST 인터페이스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONS 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,8 +41,8 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 제한된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(쓰레기 같은 통신망)과 불안정한 환경(배터리 쪼들리는 센서)에서, 가볍고 빠르게 사물 간([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받기 위해 IBM이 1999년에 만든 **초경량 메시징 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. (현재 ISO 표준)
-- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷 껍데기는 엄청 크고 무겁지만, MQTT의 헤더(껍데기)는 고작 **2바이트**로 깃털처럼 가벼워 저전력 통신망에 최고의 효율을 뽑습니다.
+- **개념**: 제한된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(쓰레기 같은 통신망)과 불안정한 환경(배터리 쪼들리는 센서)에서, 가볍고 빠르게 사물 간([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받기 위해 IBM이 1999년에 만든 <strong>초경량 메시징 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (현재 ISO 표준)
+- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷 껍데기는 엄청 크고 무겁지만, MQTT의 헤더(껍데기)는 고작 <strong>2바이트</strong>로 깃털처럼 가벼워 저전력 통신망에 최고의 효율을 뽑습니다.
 
 센서와 폰이 서로를 몰라도 통신이 되는 완벽한 '비동기 3자 분리' 아키텍처입니다.
 
@@ -48,20 +52,24 @@ tags = ["studynote-network"]
 3. **Broker (브로커 / 우체국 서버) 🌟**: 중간에 서서 모든 메시지를 받아서 분류하고 나눠주는 핵심 중계 서버입니다. (센서와 폰은 서로의 IP 주소를 전혀 모른 채, 오직 브로커하고만 연결됩니다.)
 
 ### 2. 토픽 (Topic) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) - 카테고리 분배
-- 우체국(브로커)은 편지를 어떻게 분류할까요? 주소가 아니라 **'토픽(관심사)'**으로 분류합니다.
+- 우체국(브로커)은 편지를 어떻게 분류할까요? 주소가 아니라 <strong>'토픽(관심사)'</strong>으로 분류합니다.
 - **동작**:
   1. 폰(구독자)이 브로커에게 말합니다. "나 `Home/LivingRoom/Temp` (거실 온도) 토픽 구독할게!"
   2. 거실 온도계(발행자)가 온도를 재고 브로커에게 던집니다. "[토픽: `Home/LivingRoom/Temp`] 메시지: 24도!"
-  3. 브로커는 이 토픽을 구독 중인 모든 폰들에게 **동시에 카톡 푸시 알람을 쏘듯 24도라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 확 뿌려버립니다.**
+  3. 브로커는 이 토픽을 구독 중인 모든 폰들에게 <strong>동시에 카톡 푸시 알람을 쏘듯 24도라는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 확 뿌려버립니다.</strong>
 
-```text
-[ONS 구조]
-    │
-    ▼
-[MQTT 프로토콜]
-    │
-    └──▶ [CoAP 프로토콜 및 REST 인터페이스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONS 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -85,11 +93,11 @@ tags = ["studynote-network"]
 
 네트워크가 쓰레기 같을 때 메시지가 사라지는 걸 막기 위해, 배달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 레벨을 폰에서 조절할 수 있습니다.
 
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0 (At most once, 최대 1번)**:
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 0 (At most once, 최대 1번)</strong>:
   - "보냈어! 가다 잃어버렸다고? 알빠노!" 한 번 툭 던지고 마는 가장 가볍고 무책임한 방식 (온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 적합).
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 1 (At least once, 최소 1번)**:
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 1 (At least once, 최소 1번)</strong>:
   - 우체국이 "잘 받았음(ACK)" 도장을 찍어줄 때까지 온도계가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **계속 끈질기게 다시 보냅니다.** 메시지 분실은 절대 없지만, 우체국이 똑같은 온도를 중복해서 여러 번 받을 수 있습니다.
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2 (Exactly once, 정확히 1번)**:
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 2 (Exactly once, 정확히 1번)</strong>:
   - 무조건 딱 한 번만 완벽하게 도착하도록, 보내고-[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고-지우고-완료하는 미친 4단계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차를 밟습니다. 통신은 제일 무겁지만, 돈과 직결된 과금 센서([가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 검침 결제)에서 절대 오류가 안 나게 할 때 씁니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -98,7 +106,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 방식이 **'엄마(폰)가 아들(온도계) 방에 1분마다 문 열고 들어가 "공부 다 했어?" 묻는 잔소리 통신'**이라면, **[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/)(발행-구독 모델)**는 중간에 **'거실 칠판(브로커 서버)'**을 하나 놔두는 기적의 독립 생활입니다. 엄마(구독자)는 칠판에 "아들 수학 점수 칸 관심 있음"이라고 적어둡니다(토픽 구독). 아들(발행자)은 엄마 방에 찾아갈 필요 없이, 수학 시험을 치고 오면 그냥 거실 칠판 수학 칸에 "100점"이라고 적어놓고 쿨하게 자기 방으로 갑니다(발행). 그럼 칠판 관리자(브로커)가 알아서 엄마 방 문에 "아들 100점 맞음!"이라고 카톡 알림을 쏴줍니다. 엄마와 아들이 얼굴 한 번 보지 않고(IP 독립성), 엄마가 아들 방문을 두드릴 필요도 없이([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 제로), 정보가 업데이트되는 즉시 칠판을 통해 자동으로 뿌려지는 가장 이상적인 짠돌이 스마트홈의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우체국 시스템입니다.
+- **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 방식이 <strong>'엄마(폰)가 아들(온도계) 방에 1분마다 문 열고 들어가 "공부 다 했어?" 묻는 잔소리 통신'</strong>이라면, <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/">MQTT</a>(발행-구독 모델)</strong>는 중간에 <strong>'거실 칠판(브로커 서버)'</strong>을 하나 놔두는 기적의 독립 생활입니다. 엄마(구독자)는 칠판에 "아들 수학 점수 칸 관심 있음"이라고 적어둡니다(토픽 구독). 아들(발행자)은 엄마 방에 찾아갈 필요 없이, 수학 시험을 치고 오면 그냥 거실 칠판 수학 칸에 "100점"이라고 적어놓고 쿨하게 자기 방으로 갑니다(발행). 그럼 칠판 관리자(브로커)가 알아서 엄마 방 문에 "아들 100점 맞음!"이라고 카톡 알림을 쏴줍니다. 엄마와 아들이 얼굴 한 번 보지 않고(IP 독립성), 엄마가 아들 방문을 두드릴 필요도 없이([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 제로), 정보가 업데이트되는 즉시 칠판을 통해 자동으로 뿌려지는 가장 이상적인 짠돌이 스마트홈의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우체국 시스템입니다.
 
 ---
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ONS 구조]
-    │
-    ▼
-[현재 개념: MQTT 프로토콜]
-    │
-    ├──▶ [확장 A: CoAP 프로토콜 및 REST 인터페이스]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ONS 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MQTT 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CoAP 프로토콜 및 REST 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [ONS](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/) 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 인터페이스와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,17 +22,21 @@ tags = ["studynote-network"]
 과거 IBM이 쓰던 BISYNC 같은 통신 규약은 문장 앞뒤에 `STX`, `ETX` 같은 아스키코드 '문자'를 달아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈습니다. 
 - **문제점**: 영어 알파벳을 보낼 땐 상관없지만, 엑셀 파일이나 동영상 같은 순수 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Binary)를 보낼 때는 에러가 터졌고 속도도 느렸습니다.
 
-이를 타파하기 위해 등장한 HDLC는 **'[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향형([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)-oriented)'** 프로토콜입니다.
+이를 타파하기 위해 등장한 HDLC는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 지향형(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>-oriented)'</strong> 프로토콜입니다.
 - 글자 단위로 끊어 읽지 않습니다. 그저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사진이든 문서든 상관없이 무한한 0과 1의 흐름([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 간주하고, 앞뒤에 `01111110`이라는 딱 하나의 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴만 꽂아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘라([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 보냅니다. (이때 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) 기술이 최초로 도입되었습니다.)
 
-```text
-[윈도우 크기, 송신/수신 윈도우]
-    │
-    ▼
-[HDLC]
-    │
-    └──▶ [HDLC 프레임 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: HDLC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,20 +49,24 @@ tags = ["studynote-network"]
 1. **에러 제어 (ARQ의 완성)**
    - 프레임 끝에 16비트나 32비트짜리 강력한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)(FCS)를 달았습니다. 
    - 수신기가 에러를 검출하면 가차 없이 버리고 재전송을 요청하는 **Go-Back-N** 또는 **Selective Repeat** ARQ를 완벽히 탑재했습니다.
-2. **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) (슬라이딩 윈도우)**
+2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (슬라이딩 윈도우)</strong>
    - 1개 보내고 대기하는 바보 같은 정지-대기(Stop-and-Wait)를 버렸습니다.
    - 송신기가 최대 7개(혹은 127개)의 프레임을 상대방 허락 없이 연달아 쏠 수 있는 슬라이딩 윈도우를 내장하여 통신 속도를 비약적으로 끌어올렸습니다.
-3. **양방향 통신과 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/) ([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))**
+3. <strong>양방향 통신과 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">피기배킹</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>
    - 전이중(Full-Duplex) 통신을 기본으로 지원하며, 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리표에 "아까 네가 보낸 거 잘 받았어(ACK)"라는 도장을 슬쩍 업어 태워 보내는 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/) 꼼수를 써서 네트워크 낭비를 극단적으로 줄였습니다.
 
-```text
-[윈도우 크기, 송신/수신 윈도우]
-    │
-    ▼
-[HDLC]
-    │
-    └──▶ [HDLC 프레임 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: HDLC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,8 +77,8 @@ tags = ["studynote-network"]
 사실 지금 우리가 집에서 인터넷을 할 때 순수 HDLC를 쓰지는 않습니다. 우리는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이나 Wi-Fi를 씁니다.
 하지만 HDLC는 사라진 것이 아니라 분화(진화)되었습니다.
 
-- 집에서 모뎀으로 전화를 걸어 인터넷을 하던 시절의 **[PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)([Point-to-Point Protocol](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/))**가 HDLC를 살짝 개조한 놈입니다.
-- ISDN 전화망의 **[LAPD](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/)**, X.25 망의 **[LAPB](/knowledge-base/studynote/03_network/04_data_link_layer_error/222_lapb_link_access_procedure_balanced/)** 등 이름 모를 수많은 통신 규약들이 모두 이 HDLC의 뼈대와 규칙을 그대로 물려받아 파생된 자식들입니다.
+- 집에서 모뎀으로 전화를 걸어 인터넷을 하던 시절의 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/">PPP</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/">Point-to-Point Protocol</a>)</strong>가 HDLC를 살짝 개조한 놈입니다.
+- ISDN 전화망의 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/">LAPD</a></strong>, X.25 망의 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/222_lapb_link_access_procedure_balanced/">LAPB</a></strong> 등 이름 모를 수많은 통신 규약들이 모두 이 HDLC의 뼈대와 규칙을 그대로 물려받아 파생된 자식들입니다.
 
 HDLC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우가 기반 조건을 만든다면, HDLC는 그 위에서 핵심 메커니즘을 구현하고, HDLC 프레임 구조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +88,7 @@ HDLC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** HDLC는 자동차 역사의 **'[포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 모델 T(컨베이어 벨트 자동차)'**와 같습니다. 이전까지 장인들이 수작업으로 글자 하나하나 깎아서 만들던 통신(문자 방식)을 버리고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 규격화된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조각으로 나누어 공장 라인에서 쉴 새 없이 쏟아내는 **최초의 완벽한 자동화 전송 규약([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 동기식)**을 완성했습니다. 오늘날의 페라리([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))도 결국 이 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 모델의 4바퀴 엔진 구조를 그대로 물려받은 것입니다.
+- **📢 섹션 요약 비유**: ** HDLC는 자동차 역사의 **'[포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 모델 T(컨베이어 벨트 자동차)'<strong>와 같습니다. 이전까지 장인들이 수작업으로 글자 하나하나 깎아서 만들던 통신(문자 방식)을 버리고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 규격화된 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 조각으로 나누어 공장 라인에서 쉴 새 없이 쏟아내는 </strong>최초의 완벽한 자동화 전송 규약([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 동기식)**을 완성했습니다. 오늘날의 페라리([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))도 결국 이 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 모델의 4바퀴 엔진 구조를 그대로 물려받은 것입니다.
 
 ---
 
@@ -122,15 +130,19 @@ HDLC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 윈도우 크기, 송신/수신 윈도우]
-    │
-    ▼
-[현재 개념: HDLC]
-    │
-    ├──▶ [확장 A: HDLC 프레임 구조]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HDLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC 프레임 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 HDLC는 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우에서 출발해 현재 메커니즘을 정교화하고, 이후 HDLC 프레임 구조와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

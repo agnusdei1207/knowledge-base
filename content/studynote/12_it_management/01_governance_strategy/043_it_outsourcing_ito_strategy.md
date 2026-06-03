@@ -18,48 +18,46 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. ITO 개념과 유형
 
-```
-IT 아웃소싱 (ITO) 정의:
-내부 IT 기능(인프라/앱/서비스)을 외부 전문 업체에 위탁
 
-동기:
-비용 절감 (고정 비용 → 변동 비용)
-핵심 역량에 집중
-전문성 활용 (24/7 모니터링, 보안 등)
-빠른 확장성
-위험 이전
 
-ITO 유형:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 아웃소싱 (ITO) 정의:</div>
+<div class="kb-diagram-note">내부 IT 기능(인프라/앱/서비스)을 외부 전문 업체에 위탁</div>
+<div class="kb-diagram-note">동기:</div>
+<div class="kb-diagram-note">비용 절감 (고정 비용 → 변동 비용)</div>
+<div class="kb-diagram-note">핵심 역량에 집중</div>
+<div class="kb-diagram-note">전문성 활용 (24/7 모니터링, 보안 등)</div>
+<div class="kb-diagram-note">빠른 확장성</div>
+<div class="kb-diagram-note">위험 이전</div>
+<div class="kb-diagram-note">ITO 유형:</div>
+<div class="kb-diagram-note">1. 선택적 아웃소싱 (Selective Outsourcing):</div>
+<div class="kb-diagram-note">특정 기능만 외주</div>
+<div class="kb-diagram-note">예: 데이터센터 운영만, 헬프데스크만</div>
+<div class="kb-diagram-note">장점: 통제력 유지, 위험 분산</div>
+<div class="kb-diagram-note">2. 전면 아웃소싱 (Total Outsourcing):</div>
+<div class="kb-diagram-note">IT 전반을 단일 업체에 위탁</div>
+<div class="kb-diagram-note">예: 은행 IT 전부 → IBM, Accenture</div>
+<div class="kb-diagram-note">장점: 단일 책임, 대규모 절감</div>
+<div class="kb-diagram-note">단점: 락인(Lock-in) 위험 극대화</div>
+<div class="kb-diagram-note">3. 멀티 소싱 (Multi-Sourcing):</div>
+<div class="kb-diagram-note">기능별로 다수 업체 분리 발주</div>
+<div class="kb-diagram-note">예: 인프라 → A사, 앱 개발 → B사, 보안 → C사</div>
+<div class="kb-diagram-note">장점: 경쟁, 유연성</div>
+<div class="kb-diagram-note">단점: 통합 관리 복잡</div>
+<div class="kb-diagram-note">4. 오프쇼어링 (Offshoring):</div>
+<div class="kb-diagram-note">저비용 국가 업체에 아웃소싱</div>
+<div class="kb-diagram-note">예: 인도 IT 서비스 기업 (TCS, Infosys, Wipro)</div>
+<div class="kb-diagram-note">5. 온쇼어 / 니어쇼어:</div>
+<div class="kb-diagram-note">국내 또는 인접 국가 아웃소싱</div>
+<div class="kb-diagram-note">범주별 분류:</div>
+<div class="kb-diagram-note">IaaS/PaaS/SaaS = 클라우드 기반 IT 아웃소싱</div>
+<div class="kb-diagram-note">BPO (Business Process Outsourcing) = HR, 회계 등</div>
+<div class="kb-diagram-note">MSP (Managed Service Provider) = 클라우드 운영 관리</div>
+</div>
+</div>
 
-1. 선택적 아웃소싱 (Selective Outsourcing):
-특정 기능만 외주
-예: 데이터센터 운영만, 헬프데스크만
-장점: 통제력 유지, 위험 분산
 
-2. 전면 아웃소싱 (Total Outsourcing):
-IT 전반을 단일 업체에 위탁
-예: 은행 IT 전부 → IBM, Accenture
-장점: 단일 책임, 대규모 절감
-단점: 락인(Lock-in) 위험 극대화
-
-3. 멀티 소싱 (Multi-Sourcing):
-기능별로 다수 업체 분리 발주
-예: 인프라 → A사, 앱 개발 → B사, 보안 → C사
-장점: 경쟁, 유연성
-단점: 통합 관리 복잡
-
-4. 오프쇼어링 (Offshoring):
-저비용 국가 업체에 아웃소싱
-예: 인도 IT 서비스 기업 (TCS, Infosys, Wipro)
-
-5. 온쇼어 / 니어쇼어:
-국내 또는 인접 국가 아웃소싱
-
-범주별 분류:
-IaaS/PaaS/SaaS = 클라우드 기반 IT 아웃소싱
-BPO (Business Process Outsourcing) = HR, 회계 등
-MSP (Managed Service Provider) = 클라우드 운영 관리
-```
 
 > 📢 **섹션 요약 비유**: IT 아웃소싱은 집에서 청소부 고용 — 청소(비핵심 IT)를 외주하고 본인은 핵심 업무(사업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에 집중. 단, 집 열쇠(시스템 접근)를 줬으니 신뢰와 계약이 중요.
 
@@ -67,44 +65,42 @@ MSP (Managed Service Provider) = 클라우드 운영 관리
 
 ## Ⅱ. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 설계와 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)
 
-```
-SLA (Service Level Agreement) 핵심 구성:
 
-1. 서비스 범위 정의:
-어떤 서비스를 제공하는가?
-포함/제외 범위 명시
 
-2. 서비스 수준 지표 (KPI):
-가용성 (Availability):
-목표: 99.9% (월 최대 43.8분 다운)
-측정: MTTR, MTBF
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SLA (Service Level Agreement) 핵심 구성:</div>
+<div class="kb-diagram-note">1. 서비스 범위 정의:</div>
+<div class="kb-diagram-note">어떤 서비스를 제공하는가?</div>
+<div class="kb-diagram-note">포함/제외 범위 명시</div>
+<div class="kb-diagram-note">2. 서비스 수준 지표 (KPI):</div>
+<div class="kb-diagram-note">가용성 (Availability):</div>
+<div class="kb-diagram-note">목표: 99.9% (월 최대 43.8분 다운)</div>
+<div class="kb-diagram-note">측정: MTTR, MTBF</div>
+<div class="kb-diagram-note">성능 (Performance):</div>
+<div class="kb-diagram-note">응답 시간: 트랜잭션 95%ile &lt; 2초</div>
+<div class="kb-diagram-note">처리량: 1,000 TPS 이상</div>
+<div class="kb-diagram-note">사고 대응 (Incident Response):</div>
+<div class="kb-diagram-note">P1 (긴급): 1시간 내 응답, 4시간 내 해결</div>
+<div class="kb-diagram-note">P2 (높음): 4시간 내 응답, 8시간 내 해결</div>
+<div class="kb-diagram-note">P3 (중간): 다음 영업일 응답</div>
+<div class="kb-diagram-note">3. 측정 방법:</div>
+<div class="kb-diagram-note">실시간 모니터링 도구 (Datadog, New Relic)</div>
+<div class="kb-diagram-note">월간 SLA 리포트</div>
+<div class="kb-diagram-note">분쟁 시 중립적 제3자 측정</div>
+<div class="kb-diagram-note">4. 패널티/인센티브:</div>
+<div class="kb-diagram-note">SLA 미달 → 서비스 크레딧 지급 (예: 1% 요금 감면)</div>
+<div class="kb-diagram-note">SLA 초과 달성 → 인센티브 (계약 연장, 보너스)</div>
+<div class="kb-diagram-note">5. 에스컬레이션 절차:</div>
+<div class="kb-diagram-note">사고 발생 → 담당자 → 관리자 → 임원 escalation</div>
+<div class="kb-diagram-note">SLA 함정:</div>
+<div class="kb-diagram-note">99.9% 가용성 = 연간 8.76시간 다운 허용</div>
+<div class="kb-diagram-note">피크 타임 다운 vs 새벽 다운: 비즈니스 영향 다름</div>
+<div class="kb-diagram-note">→ 서비스 시간대별 가중 가용성 측정 필요</div>
+</div>
+</div>
 
-성능 (Performance):
-응답 시간: 트랜잭션 95%ile < 2초
-처리량: 1,000 TPS 이상
 
-사고 대응 (Incident Response):
-P1 (긴급): 1시간 내 응답, 4시간 내 해결
-P2 (높음): 4시간 내 응답, 8시간 내 해결
-P3 (중간): 다음 영업일 응답
-
-3. 측정 방법:
-실시간 모니터링 도구 (Datadog, New Relic)
-월간 SLA 리포트
-분쟁 시 중립적 제3자 측정
-
-4. 패널티/인센티브:
-SLA 미달 → 서비스 크레딧 지급 (예: 1% 요금 감면)
-SLA 초과 달성 → 인센티브 (계약 연장, 보너스)
-
-5. 에스컬레이션 절차:
-사고 발생 → 담당자 → 관리자 → 임원 escalation
-
-SLA 함정:
-99.9% 가용성 = 연간 8.76시간 다운 허용
-피크 타임 다운 vs 새벽 다운: 비즈니스 영향 다름
-→ 서비스 시간대별 가중 가용성 측정 필요
-```
 
 > 📢 **섹션 요약 비유**: SLA는 음식점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 계약 — "주문 후 15분 내 음식 제공, 불이행 시 식사비 할인"처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 보상을 명확히 계약.
 
@@ -214,46 +210,45 @@ MSP 도입 시 일반적으로 20~35% IT 비용 절감
 
 ## Ⅴ. 실무 시나리오 — 제조업 ITO [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-중견 제조업체 ITO 전략 수립 사례:
 
-현황:
-직원 2,000명, 매출 3,000억
-내부 IT팀 50명 (비용 연간 50억)
-후화된 온프레미스 인프라
-디지털 전환 압박
 
-비용 분석:
-현재 IT 연간 비용: 50억 (인건비 30 + 인프라 20)
-업계 평균 IT 비율: 매출의 1.5~2%
-현재 비율: 50/3000 = 1.67% (적정)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중견 제조업체 ITO 전략 수립 사례:</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-note">직원 2,000명, 매출 3,000억</div>
+<div class="kb-diagram-note">내부 IT팀 50명 (비용 연간 50억)</div>
+<div class="kb-diagram-note">후화된 온프레미스 인프라</div>
+<div class="kb-diagram-note">디지털 전환 압박</div>
+<div class="kb-diagram-note">비용 분석:</div>
+<div class="kb-diagram-note">현재 IT 연간 비용: 50억 (인건비 30 + 인프라 20)</div>
+<div class="kb-diagram-note">업계 평균 IT 비율: 매출의 1.5~2%</div>
+<div class="kb-diagram-note">현재 비율: 50/3000 = 1.67% (적정)</div>
+<div class="kb-diagram-note">문제: 역량 부족 (보안, AI, 클라우드 전문가 없음)</div>
+<div class="kb-diagram-note">ITO 전략 결정:</div>
+<div class="kb-diagram-note">핵심 유지: ERP 커스터마이징, IT 거버넌스, 전략 결정</div>
+<div class="kb-diagram-note">선택적 아웃소싱:</div>
+<div class="kb-diagram-note">인프라 → 클라우드 MSP (AWS Premier Partner)</div>
+<div class="kb-diagram-note">헬프데스크 → BPO 업체</div>
+<div class="kb-diagram-note">보안 관제 → MSSP (Managed Security Service Provider)</div>
+<div class="kb-diagram-note">앱 개발 → 니어쇼어 개발사</div>
+<div class="kb-diagram-note">SLA 설계:</div>
+<div class="kb-diagram-note">인프라 가용성: 99.9% (월 43.8분 다운 허용)</div>
+<div class="kb-diagram-note">P1 사고 대응: 1시간 내</div>
+<div class="kb-diagram-note">FinOps 절감 목표: 연간 15% 클라우드 비용 절감</div>
+<div class="kb-diagram-note">결과 (3년 후):</div>
+<div class="kb-diagram-note">IT 비용: 50억 → 38억 (24% 절감)</div>
+<div class="kb-diagram-note">IT 역량: 보안 SOC, AI/ML 전문 서비스 활용</div>
+<div class="kb-diagram-note">내부 IT팀: 50명 → 15명 (핵심 거버넌스 역할)</div>
+<div class="kb-diagram-note">디지털 전환: 클라우드 ERP, 스마트 공장 IoT 플랫폼 구축</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">전면 아웃소싱 지양 (핵심 인력 15명 유지 필수)</div>
+<div class="kb-diagram-note">SLA + KPI 명확화 후 계약 (계약 후 변경 어려움)</div>
+<div class="kb-diagram-note">지식 이전 조항 강제 (3년 계약 만료 시 재내부화 가능성)</div>
+</div>
+</div>
 
-문제: 역량 부족 (보안, AI, 클라우드 전문가 없음)
 
-ITO 전략 결정:
-핵심 유지: ERP 커스터마이징, IT 거버넌스, 전략 결정
-선택적 아웃소싱:
-인프라 → 클라우드 MSP (AWS Premier Partner)
-헬프데스크 → BPO 업체
-보안 관제 → MSSP (Managed Security Service Provider)
-앱 개발 → 니어쇼어 개발사
-
-SLA 설계:
-인프라 가용성: 99.9% (월 43.8분 다운 허용)
-P1 사고 대응: 1시간 내
-FinOps 절감 목표: 연간 15% 클라우드 비용 절감
-
-결과 (3년 후):
-IT 비용: 50억 → 38억 (24% 절감)
-IT 역량: 보안 SOC, AI/ML 전문 서비스 활용
-내부 IT팀: 50명 → 15명 (핵심 거버넌스 역할)
-디지털 전환: 클라우드 ERP, 스마트 공장 IoT 플랫폼 구축
-
-교훈:
-전면 아웃소싱 지양 (핵심 인력 15명 유지 필수)
-SLA + KPI 명확화 후 계약 (계약 후 변경 어려움)
-지식 이전 조항 강제 (3년 계약 만료 시 재내부화 가능성)
-```
 
 > 📢 **섹션 요약 비유**: ITO는 식당의 반조리 식재료 활용 — 모든 것을 직접 만들지 않고, 전문 식재료(클라우드/보안)를 사서 요리사(핵심 IT팀)가 최종 요리([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에만 집중.
 

@@ -30,11 +30,16 @@ tags = ["ict_convergence"]
 
 핵심 흐름은 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(KYC), 송금 요청, Travel Rule payload [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수신 VASP [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 기록 보관이다. payload에는 송신자·수신자 이름, 계정 또는 지갑 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 거래 금액, 날짜, 참조번호가 들어가며, 보통 IVMS 101 (InterVASP Messaging Standard 101) 같은 공통 메시지 형식을 활용한다.
 
-```text
-고객 A -> 송신 VASP -> Travel Rule 메시지 -> 수신 VASP -> 고객 B
-   |         |                |                 |
-  KYC      screening       identity data      beneficiary check
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객 A -&gt; 송신 VASP -&gt; Travel Rule 메시지 -&gt; 수신 VASP -&gt; 고객 B</div>
+<div class="kb-diagram-note">KYC screening identity data beneficiary check</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 핵심 통제 |
 | --- | --- | --- |
@@ -105,19 +110,25 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가상자산 송금
-   ↓
-고객 식별(KYC)
-   ↓
-Travel Rule payload 생성
-   ↓
-VASP 간 안전 전송
-   ↓
-수신자 확인 / 제재 점검
-   ↓
-기록 보관 / 감사 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가상자산 송금</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">고객 식별(KYC)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Travel Rule payload 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">VASP 간 안전 전송</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">수신자 확인 / 제재 점검</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기록 보관 / 감사 대응</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

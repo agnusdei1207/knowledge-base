@@ -33,76 +33,85 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 
 **해결**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)별로 독립된 모델을 유지하되, 경계([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 명확히 정의 → [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/).
 
-```
-레거시 시스템 통합:
-  레거시 DB: CUST_TBL { CUST_ID, CUST_NM, ADDR_CD, STAT_FLG, ... }
-             (약어, 코드값, 냄새나는 레거시 모델)
 
-  ACL 없이 직접 참조:
-    Order 도메인 내부에 CUST_NM, ADDR_CD 등 레거시 용어 침투
-    → 도메인 모델 오염, 가독성 파괴
 
-  ACL 적용:
-    CustomerAdapter.translate(CUST_TBL 레코드) → Customer(name, address)
-    Order 도메인은 깨끗한 Customer 모델만 참조
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 시스템 통합:</div>
+<div class="kb-diagram-note">레거시 DB: CUST_TBL { CUST_ID, CUST_NM, ADDR_CD, STAT_FLG, ... }</div>
+<div class="kb-diagram-note">(약어, 코드값, 냄새나는 레거시 모델)</div>
+<div class="kb-diagram-note">ACL 없이 직접 참조:</div>
+<div class="kb-diagram-note">Order 도메인 내부에 CUST_NM, ADDR_CD 등 레거시 용어 침투</div>
+<div class="kb-diagram-note">→ 도메인 모델 오염, 가독성 파괴</div>
+<div class="kb-diagram-note">ACL 적용:</div>
+<div class="kb-diagram-note">CustomerAdapter.translate(CUST_TBL 레코드) → Customer(name, address)</div>
+<div class="kb-diagram-note">Order 도메인은 깨끗한 Customer 모델만 참조</div>
+</div>
+</div>
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ACL은 공항 입국 심사관 — 어떤 외국인(외부 모델)이 들어오더라도 입국 심사관([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))이 우리나라 규정(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)에 맞게 처리하고, 의심스러운 것(오염 요소)은 걸러낸다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   Context Map 관계 유형                          │
-│                                                                 │
-│  [주문 컨텍스트] ─────── Shared Kernel ──────── [결제 컨텍스트]  │
-│      (공유 라이브러리로 일부 모델 공유)                            │
-│                                                                 │
-│  [주문 컨텍스트] ─── Customer-Supplier ──▶ [재고 컨텍스트]        │
-│      (주문=고객, 재고=공급자 → 주문이 요구사항 정의)               │
-│                                                                 │
-│  [CRM 컨텍스트] ────── Conformist ──────▶ [외부 SAP 시스템]      │
-│      (외부 모델을 그대로 따름, 협상력 없음)                        │
-│                                                                 │
-│  [배송 컨텍스트] ──── ACL ──────────────▶ [레거시 물류 시스템]    │
-│      (번역 계층으로 레거시 모델 차단)       ← 우리가 번역           │
-│                                                                 │
-│  [공개 API 컨텍스트] ─ Open Host Service ▶ [다수의 소비자]        │
-│      (표준화된 공개 프로토콜로 서비스 제공)                        │
-│                                                                 │
-│  [이벤트 컨텍스트] ─── Published Language ▶ [다수의 소비자]       │
-│      (표준 이벤트 스키마/메시지 형식 발행)                         │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-```
-외부 시스템                   ACL                    내부 도메인
-┌─────────────┐        ┌─────────────────┐        ┌─────────────┐
-│  레거시 API  │        │  ┌───────────┐  │        │ Order       │
-│             │──HTTP─▶│  │ Adapter   │  │──────▶│ Domain      │
-│ {CUST_ID:   │        │  │ (외부 호출)│  │        │             │
-│  "C001",    │        │  └─────┬─────┘  │        │ Customer {  │
-│  CUST_NM:   │        │        │ 변환    │        │   name,     │
-│  "홍길동",   │        │  ┌─────▼─────┐  │        │   address   │
-│  STAT_FLG:  │        │  │Translator │  │        │ }           │
-│  "Y" }      │        │  │(모델 변환) │  │        └─────────────┘
-└─────────────┘        │  └───────────┘  │
-                       └─────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Map 관계 유형</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 컨텍스트</div><div class="kb-diagram-note">Shared Kernel</div><div class="kb-diagram-node">결제 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유 라이브러리로 일부 모델 공유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 컨텍스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재고 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문=고객, 재고=공급자 → 주문이 요구사항 정의)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRM 컨텍스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 SAP 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 모델을 그대로 따름, 협상력 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">배송 컨텍스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레거시 물류 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(번역 계층으로 레거시 모델 차단) ← 우리가 번역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개 API 컨텍스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다수의 소비자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표준화된 공개 프로토콜로 서비스 제공)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 컨텍스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다수의 소비자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표준 이벤트 스키마/메시지 형식 발행)</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 시스템 ACL 내부 도메인</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 API</div><div class="kb-diagram-cell">Order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──HTTP─▶</div><div class="kb-diagram-cell">Adapter</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Domain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{CUST_ID:</div><div class="kb-diagram-cell">(외부 호출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"C001",</div><div class="kb-diagram-cell">Customer {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CUST_NM:</div><div class="kb-diagram-cell">변환</div><div class="kb-diagram-cell">name,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"홍길동",</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STAT_FLG:</div><div class="kb-diagram-cell">Translator</div><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Y" }</div><div class="kb-diagram-cell">(모델 변환)</div></div>
+</div>
+</div>
+
+
 
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 설명 | 팀 협력도 | 모델 독립성 |
 |:---|:---|:---|:---|
 | Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 두 팀이 공유 코어 모델 공동 관리 | 매우 높음 | 낮음 |
 | [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier | 공급자가 고객 요구사항 반영 | 높음 | 중간 |
 | Conformist | 공급자 모델을 고객이 그대로 따름 | 낮음 | 낮음 |
-| **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)** | **번역 계층으로 외부 모델 차단** | **낮음** | **높음** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> | **번역 계층으로 외부 모델 차단** | **낮음** | **높음** |
 | Published Language | 표준 공개 언어로 통신 | 중간 | 높음 |
 | Open Host [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 제공 | 중간 | 높음 |
 
@@ -153,29 +162,37 @@ public class LegacyCustomerACL {
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-```
-MSA(Microservice Architecture) 환경:
 
-  [주문 서비스]    ACL    [외부 결제 게이트웨이]
-       │          │       (PayPal, Stripe, KG이니시스)
-       │          │       각 결제사마다 다른 API 모델
-       │          ▼
-       └─▶ PaymentACL
-             ├── PaypalAdapter   (PayPal API 번역)
-             ├── StripeAdapter   (Stripe API 번역)
-             └── KGiniAdapter    (KG이니시스 API 번역)
-             │
-             └─▶ 내부: Payment(amount, currency, method, status)
-             (모든 결제사 차이를 ACL 내부에서 흡수)
-```
 
-```
-외부 이벤트 → ACL → 내부 도메인 이벤트
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MSA(Microservice Architecture) 환경:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 서비스</div><div class="kb-diagram-note">ACL</div><div class="kb-diagram-node">외부 결제 게이트웨이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PayPal, Stripe, KG이니시스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 결제사마다 다른 API 모델</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ PaymentACL</div>
+<div class="kb-diagram-tree-item" style="--depth:6">PaypalAdapter (PayPal API 번역)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">StripeAdapter (Stripe API 번역)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">KGiniAdapter (KG이니시스 API 번역)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 내부: Payment(amount, currency, method, status)</div>
+<div class="kb-diagram-note">(모든 결제사 차이를 ACL 내부에서 흡수)</div>
+</div>
+</div>
 
-외부: {"event": "ORDER_PLACED", "custId": "C001", "items": [...]}
-ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
-내부 핸들러: OrderPlacedEvent를 처리 (레거시 필드명 없음)
-```
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 이벤트 → ACL → 내부 도메인 이벤트</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">외부: {"event": "ORDER_PLACED", "custId": "C001", "items":</div><div class="kb-diagram-node">...</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems:</div><div class="kb-diagram-node">...</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-note">내부 핸들러: OrderPlacedEvent를 처리 (레거시 필드명 없음)</div>
+</div>
+</div>
+
+
 
 | 상황 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 적용 | 이유 |
 |:---|:---|:---|
@@ -198,17 +215,17 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map과 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴은 대규모 소프트웨어 시스템의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계 도구다:
 
 **ACL의 핵심 기대효과**:
-- **내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 순수성 유지**: 외부 오염으로부터 격리
+- <strong>내부 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 순수성 유지</strong>: 외부 오염으로부터 격리
 - **변경 격리**: 외부 시스템 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경이 내부에 미치는 영향 최소화
 - **표현력 유지**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 개발자가 공유하는 [Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) 보존
 - **테스트 용이성**: ACL을 Stub으로 대체하여 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 독립 테스트
 
-**[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map의 가치**:
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Map의 가치</strong>:
 - 팀 간 협업 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 명시적 문서화
 - 통합 방식([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Conformist 등)의 의도적 선택
 - 새로운 팀/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추가 시 통합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 가이드
 
-기술사 시험에서는 **6가지 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형**과 **ACL이 방어하는 것([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 오염)**을 명확히 서술하고, **ACL의 내부 구성요소([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) + Translator)** 를 설명하는 것이 핵심이다.
+기술사 시험에서는 <strong>6가지 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Map <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 유형</strong>과 <strong>ACL이 방어하는 것(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 오염)</strong>을 명확히 서술하고, <strong>ACL의 내부 구성요소(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a> + Translator)</strong> 를 설명하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

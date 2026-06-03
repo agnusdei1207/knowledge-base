@@ -38,20 +38,21 @@ ATAM은 크게 4개의 Phase와 그 아래 9개의 세부 스텝으로 맞물려
 | Phase 3: 분석 | 도면 공격/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 5) 유틸리티 트리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (시나리오 도출) 6) 접근법 분석 (타협점/[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 발굴) |
 | Phase 4: 종합 | 판결문 낭독 | 7) 실무자 브레인스토밍 8) 최종 분석 9) 결과 발표 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           ATAM 프로세스: 시나리오가 도면을 공격하는 과정         │
-├──────────────────────────────────────────────────────────────┤
-│ [Phase 1/2] 비즈니스 목표 ──────▶ 유틸리티 트리 (Utility Tree)   │
-│                                           │                  │
-│ [Phase 3]   우선순위(H-H) 시나리오 도출 ─▶ ┼ ◀─ 아키텍처 도면   │
-│                                           │   (방어 논리)    │
-│ [Phase 4]                  ┌──────────────┴──────────────┐ │
-│                            ▼                             ▼ │
-│                      민감점 / 타협점                 리스크  │
-│                   (성능 vs 보안의 충돌)           (시스템 붕괴점)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM 프로세스: 시나리오가 도면을 공격하는 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 1/2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">유틸리티 트리 (Utility Tree)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">◀─ 아키텍처 도면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방어 논리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민감점 / 타협점 리스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성능 vs 보안의 충돌) (시스템 붕괴점)</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 Phase 3에서 유틸리티 트리를 통해 만들어진 '정량적 시나리오'가 아키텍트가 제시한 '도면'과 충돌(Cross-check)하면서 민감점과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 뱉어내는 팩토리(Factory) 구조라는 점이다.
 
@@ -82,7 +83,7 @@ ATAM을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_dev
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **유틸리티 트리의 시나리오는 구체적인 숫자를 포함하는가?** "빨라야 한다" (X) $\rightarrow$ "DB [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 시 3초 이내에 정상 응답해야 한다" (O)
-2. **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 참석이 다변화되어 있는가?** Phase 1~3은 관리자/아키텍트 위주지만, Phase 4의 브레인스토밍(7단계)에는 콜센터 직원이나 서버 운영자 등 밑바닥 실무자가 반드시 참석해야 현장 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 도출된다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 참석이 다변화되어 있는가?</strong> Phase 1~3은 관리자/아키텍트 위주지만, Phase 4의 브레인스토밍(7단계)에는 콜센터 직원이나 서버 운영자 등 밑바닥 실무자가 반드시 참석해야 현장 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 도출된다.
 3. **타협점(Trade-off)이 명시적으로 문서화되었는가?** "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 우려됨"이 아니라 "AES-256 암호화 적용(보안) 시 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 응답 시간이 0.2초 늘어남([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))"처럼 인과관계를 박제해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -115,21 +116,23 @@ ATAM을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 요구사항 (품질 속성 모호성)
-    │
-    ▼
-유틸리티 트리 (Utility Tree) · 정량적 시나리오 도출
-    │
-    ▼
-ATAM 4단계 페이즈 (초기화 → 평가 → 분석 → 종합)
-    │
-    ▼
-민감점 / 타협점 / 리스크 문서화 (Risk Identification)
-    │
-    ▼
-CBAM 연계 (비용 기반 최적 대안 선택)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 요구사항 (품질 속성 모호성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유틸리티 트리 (Utility Tree) · 정량적 시나리오 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM 4단계 페이즈 (초기화 → 평가 → 분석 → 종합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">민감점 / 타협점 / 리스크 문서화 (Risk Identification)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBAM 연계 (비용 기반 최적 대안 선택)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

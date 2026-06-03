@@ -18,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 레거시 시스템의 정의와 문제점
 
-레거시 시스템(Legacy System)은 **현재 비즈니스에서 여전히 중요하게 사용되지만 기술적으로 노후화된 시스템**이다.
+레거시 시스템(Legacy System)은 <strong>현재 비즈니스에서 여전히 중요하게 사용되지만 기술적으로 노후화된 시스템</strong>이다.
 
 ### 레거시 특성 진단 기준 (Lehman's Laws)
 
@@ -36,16 +36,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 현대화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 6R
 
-```
-6R 전략 (Cloud Migration + Modernization):
 
-Retain    → 현상 유지 (수명 연장, 일정 기간 유지)
-Retire    → 폐기 (사용하지 않는 시스템 제거)
-Rehost    → 리호스팅 "Lift & Shift" (코드 변경 없이 클라우드 이전)
-Replatform→ 리플랫폼 (최소 변경, 클라우드 최적화)
-Refactor  → 리팩터 (아키텍처 재설계, MSA 전환)
-Replace   → 교체 (SaaS·COTS 제품으로 대체)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">6R 전략 (Cloud Migration + Modernization):</div>
+<div class="kb-diagram-note">Retain → 현상 유지 (수명 연장, 일정 기간 유지)</div>
+<div class="kb-diagram-note">Retire → 폐기 (사용하지 않는 시스템 제거)</div>
+<div class="kb-diagram-note">Rehost → 리호스팅 "Lift &amp; Shift" (코드 변경 없이 클라우드 이전)</div>
+<div class="kb-diagram-note">Replatform→ 리플랫폼 (최소 변경, 클라우드 최적화)</div>
+<div class="kb-diagram-note">Refactor → 리팩터 (아키텍처 재설계, MSA 전환)</div>
+<div class="kb-diagram-note">Replace → 교체 (SaaS·COTS 제품으로 대체)</div>
+</div>
+</div>
+
+
 
 ### [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 기준
 
@@ -62,22 +67,25 @@ Replace   → 교체 (SaaS·COTS 제품으로 대체)
 
 ## Ⅲ. [Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) 패턴
 
-Martin Fowler가 제안한 **점진적 레거시 교체 패턴**이다.
+Martin Fowler가 제안한 <strong>점진적 레거시 교체 패턴</strong>이다.
 
-```
-Strangler Fig 전환 단계:
 
-1단계: 새 API 게이트웨이/프록시 앞에 배치
-   [클라이언트] → [API Gateway] → [레거시 모놀리스]
 
-2단계: 기능을 하나씩 새 MSA로 이관
-   [클라이언트] → [API Gateway] → [신규 MSA 1 (주문)]
-                              → [레거시 (나머지)]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Strangler Fig 전환 단계:</div>
+<div class="kb-diagram-note">1단계: 새 API 게이트웨이/프록시 앞에 배치</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레거시 모놀리스</div></div>
+<div class="kb-diagram-note">2단계: 기능을 하나씩 새 MSA로 이관</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">신규 MSA 1 (주문)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레거시 (나머지)</div></div>
+<div class="kb-diagram-note">3단계: 레거시가 완전히 대체됨</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSA 1, 2, 3, ...</div></div>
+<div class="kb-diagram-note">(레거시 종료)</div>
+</div>
+</div>
 
-3단계: 레거시가 완전히 대체됨
-   [클라이언트] → [API Gateway] → [MSA 1, 2, 3, ...]
-   (레거시 종료)
-```
+
 
 **장점**: 무중단 전환, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 단계별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 용이
 
@@ -116,46 +124,53 @@ Strangler Fig 전환 단계:
 
 ## 📌 관련 개념 맵
 
-```
-레거시 시스템 현대화
-├── 전략 프레임워크
-│   ├── 6R (Retain/Retire/Rehost/Replatform/Refactor/Replace)
-│   └── 기술 부채 측정 (SQALE·SonarQube)
-├── 전환 패턴
-│   ├── Strangler Fig (점진적 교체)
-│   ├── Branch by Abstraction
-│   └── Event Interception
-├── KPI
-│   ├── DORA 4대 지표 (배포 빈도·리드 타임·MTTR·변경 실패율)
-│   └── 비용 절감 (TCO)
-└── 연관 기술
-    ├── 마이크로서비스 아키텍처
-    ├── API Gateway
-    └── 역 콘웨이 기동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 시스템 현대화</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전략 프레임워크</div>
+<div class="kb-diagram-note">── 6R (Retain/Retire/Rehost/Replatform/Refactor/Replace)</div>
+<div class="kb-diagram-note">── 기술 부채 측정 (SQALE·SonarQube)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전환 패턴</div>
+<div class="kb-diagram-note">── Strangler Fig (점진적 교체)</div>
+<div class="kb-diagram-note">── Branch by Abstraction</div>
+<div class="kb-diagram-note">── Event Interception</div>
+<div class="kb-diagram-tree-item" style="--depth:0">KPI</div>
+<div class="kb-diagram-note">── DORA 4대 지표 (배포 빈도·리드 타임·MTTR·변경 실패율)</div>
+<div class="kb-diagram-note">── 비용 절감 (TCO)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">연관 기술</div>
+<div class="kb-diagram-tree-item" style="--depth:2">마이크로서비스 아키텍처</div>
+<div class="kb-diagram-tree-item" style="--depth:2">API Gateway</div>
+<div class="kb-diagram-tree-item" style="--depth:2">역 콘웨이 기동</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              레거시 현대화 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2004년       │ Strangler Fig 제안 │ Martin Fowler, MSA 전환 패턴│
-│ 2010년       │ 클라우드 이전 붐   │ AWS 6R 전략 표준화           │
-│ 2015년       │ 마이크로서비스     │ Netflix·Amazon MSA 공개      │
-│ 2018년       │ DORA 보고서        │ DevOps 현대화 지표 체계화    │
-│ 2020년대     │ Platform Eng.      │ 현대화 + 개발자 플랫폼 통합 │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-레거시 진단 → 6R 전략 선택 → Strangler Fig 점진 전환
-    ↓              ↓                    ↓
-기술 부채 측정  Lift&Shift/Refactor  API Gateway + MSA
-    ↓
-DORA 지표 개선 → 비즈니스 민첩성 확보
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 현대화 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2004년</div><div class="kb-diagram-cell">Strangler Fig 제안</div><div class="kb-diagram-cell">Martin Fowler, MSA 전환 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년</div><div class="kb-diagram-cell">클라우드 이전 붐</div><div class="kb-diagram-cell">AWS 6R 전략 표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">마이크로서비스</div><div class="kb-diagram-cell">Netflix·Amazon MSA 공개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">DORA 보고서</div><div class="kb-diagram-cell">DevOps 현대화 지표 체계화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">Platform Eng.</div><div class="kb-diagram-cell">현대화 + 개발자 플랫폼 통합</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">레거시 진단 → 6R 전략 선택 → Strangler Fig 점진 전환</div>
+<div class="kb-diagram-note">기술 부채 측정 Lift&amp;Shift/Refactor API Gateway + MSA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DORA 지표 개선 → 비즈니스 민첩성 확보</div>
+</div>
+</div>
+
+
 
 ---
 

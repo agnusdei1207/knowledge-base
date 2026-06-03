@@ -10,9 +10,9 @@ tags = ["studynote-design-supervision"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)) 패턴은 **서로 연관되거나 의존적인 객체군(Product Family)을 구체적인 클래스를 지정하지 않고 하나의 팩토리 인터페이스를 통해 일괄 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**하는 GoF(Gang of Four) [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.
-> 2. **가치**: UI [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 변환([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) UI ↔ Windows UI), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 드라이버 교체(MySQL ↔ PostgreSQL), OS별 렌더링 엔진 교체 등 **런타임에 제품군 전체를 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 교체**할 수 있어, 코드 변경 없이 플랫폼·환경을 스위칭할 수 있다.
-> 3. **판단 포인트**: [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))가 단일 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 위임하는 것과 달리, [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 **연관된 복수의 객체군 전체**를 일관된 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이 핵심 차이다.
+> 1. **본질**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)) 패턴은 <strong>서로 연관되거나 의존적인 객체군(Product Family)을 구체적인 클래스를 지정하지 않고 하나의 팩토리 인터페이스를 통해 일괄 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하는 GoF(Gang of Four) [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.
+> 2. **가치**: UI [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 변환([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) UI ↔ Windows UI), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 드라이버 교체(MySQL ↔ PostgreSQL), OS별 렌더링 엔진 교체 등 <strong>런타임에 제품군 전체를 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 있게 교체</strong>할 수 있어, 코드 변경 없이 플랫폼·환경을 스위칭할 수 있다.
+> 3. **판단 포인트**: [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))가 단일 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 위임하는 것과 달리, [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 <strong>연관된 복수의 객체군 전체</strong>를 일관된 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이 핵심 차이다.
 
 ---
 
@@ -26,7 +26,7 @@ tags = ["studynote-design-supervision"]
 - `MacFactory`: macOS 전용 구현 반환
 - 클라이언트 코드: `GUIFactory`만 알고, 실제 어떤 공장(팩토리)인지는 모름
 
-**[추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 없으면 발생하는 문제**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">추상 팩토리</a> 없으면 발생하는 문제</strong>:
 - 플랫폼별 `if/else` 분기가 비즈니스 로직 전체에 산재
 - 새 플랫폼 추가 시 모든 분기문 수정 필요 → [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 위반
 - 서로 다른 제품군의 객체가 섞여 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 깨짐 (예: Windows 버튼 + [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 스크롤바)
@@ -39,33 +39,27 @@ tags = ["studynote-design-supervision"]
 
 ### 1. [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 구조
 
-```text
-추상 팩토리 패턴 구조
 
-  ┌─────────────────────────────────────────────────────────────┐
-  │                <<interface>>                                │
-  │               AbstractFactory                              │
-  │   + createButton(): AbstractButton                         │
-  │   + createCheckbox(): AbstractCheckbox                     │
-  └────────────────┬────────────────────────────────────────────┘
-                   │
-        ┌──────────┴──────────┐
-        │                     │
-  ┌─────▼──────┐       ┌──────▼──────┐
-  │  Win       │       │  Mac        │
-  │  Factory   │       │  Factory    │
-  │            │       │             │
-  │createButton│       │createButton │
-  │→WinButton  │       │→MacButton   │
-  │createCheckb│       │createCheckb │
-  │→WinCheckbox│       │→MacCheckbox │
-  └────────────┘       └─────────────┘
-        │                     │
-  ┌─────▼──────┐       ┌──────▼──────┐
-  │WinButton   │       │MacButton    │
-  │WinCheckbox │       │MacCheckbox  │
-  └────────────┘       └─────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">추상 팩토리 패턴 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractFactory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createButton(): AbstractButton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createCheckbox(): AbstractCheckbox</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Win</div><div class="kb-diagram-cell">Mac</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Factory</div><div class="kb-diagram-cell">Factory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">createButton</div><div class="kb-diagram-cell">createButton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→WinButton</div><div class="kb-diagram-cell">→MacButton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">createCheckb</div><div class="kb-diagram-cell">createCheckb</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→WinCheckbox</div><div class="kb-diagram-cell">→MacCheckbox</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WinButton</div><div class="kb-diagram-cell">MacButton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WinCheckbox</div><div class="kb-diagram-cell">MacCheckbox</div></div>
+</div>
+</div>
+
+
 
 ### 2. 코드 예시 (Python 스타일)
 
@@ -106,7 +100,7 @@ render_ui(factory)            # 나머지 코드 변경 없음
 | ConcreteProduct | 구체 제품 구현 | `WinButton`, `MacButton` |
 | [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) | AbstractFactory·Product 인터페이스만 사용 | `render_ui()` |
 
-- **📢 섹션 요약 비유**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 **'음식 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 박스 구독 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'** 와 같습니다. "한식 박스"를 구독하면 밥·된장국·김치가 모두 한식으로 오고, "이탈리안 박스"를 구독하면 파스타·브루스케타·티라미수가 옵니다. 어떤 박스를 선택하든 고객(클라이언트)은 "박스를 열어 음식을 꺼내 먹는" 행동만 합니다.
+- **📢 섹션 요약 비유**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 <strong>'음식 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a> 박스 구독 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>'</strong> 와 같습니다. "한식 박스"를 구독하면 밥·된장국·김치가 모두 한식으로 오고, "이탈리안 박스"를 구독하면 파스타·브루스케타·티라미수가 옵니다. 어떤 박스를 선택하든 고객(클라이언트)은 "박스를 열어 음식을 꺼내 먹는" 행동만 합니다.
 
 ---
 
@@ -128,11 +122,11 @@ render_ui(factory)            # 나머지 코드 변경 없음
 |:---|:---|:---|
 | 싱글턴([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)) | 인스턴스 1개 보장 | 공유 자원, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체 |
 | [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | 단일 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위임 | 어떤 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할지 서브클래스 결정 |
-| **[추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)** | **연관 객체군 일괄 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | **플랫폼·[테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)별 제품군 교체** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">추상 팩토리</a></strong> | <strong>연관 객체군 일괄 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | <strong>플랫폼·<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>별 제품군 교체</strong> |
 | [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) | 복잡한 객체 단계별 구성 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정이 복잡한 객체 |
 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)) | 기존 객체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 높을 때 |
 
-- **📢 섹션 요약 비유**: [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 **'주문서 한 장에 제품 하나 생산'**, [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 **'[테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 전체를 선택하면 관련 제품 세트 전체가 나오는 것'** 입니다. 소파 한 개만 주문([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))하는 것과, "북유럽 거실 세트 전체"를 주문([추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))하는 것의 차이입니다.
+- **📢 섹션 요약 비유**: [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 **'주문서 한 장에 제품 하나 생산'**, [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 전체를 선택하면 관련 제품 세트 전체가 나오는 것'</strong> 입니다. 소파 한 개만 주문([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))하는 것과, "북유럽 거실 세트 전체"를 주문([추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))하는 것의 차이입니다.
 
 ---
 
@@ -140,7 +134,7 @@ render_ui(factory)            # 나머지 코드 변경 없음
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- **복수의 연관 객체가 같은 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 사용되어야 함**: 버튼+체크박스+스크롤바 모두 동일 플랫폼 스타일
+- <strong>복수의 연관 객체가 같은 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>로 사용되어야 함</strong>: 버튼+체크박스+스크롤바 모두 동일 플랫폼 스타일
 - **제품군 전체를 런타임에 교체해야 함**: DB 드라이버, UI [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), 렌더링 엔진
 - **새로운 제품군이 주기적으로 추가됨**: 새 플랫폼/[테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 추가 시 기존 코드 무수정
 
@@ -176,35 +170,36 @@ render_ui(factory)            # 나머지 코드 변경 없음
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))** | 단일 제품 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위임; [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 내부에서 사용 |
-| **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))** | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)가 구현하는 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙; 확장에 열리고 수정에 닫힘 |
-| **[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))** | 클라이언트가 추상에만 의존; 구체 팩토리는 주입 |
-| **[빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ([Builder Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/))** | 단계별 복잡한 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/); [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)와 상보적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| **[의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))** | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)를 런타임에 주입하는 현대적 구현 방식 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">팩토리 메서드</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">Factory Method</a>)</strong> | 단일 제품 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위임; [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 내부에서 사용 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/">Open-Closed Principle</a>)</strong> | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)가 구현하는 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙; 확장에 열리고 수정에 닫힘 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">Dependency Inversion Principle</a>)</strong> | 클라이언트가 추상에만 의존; 구체 팩토리는 주입 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/">빌더 패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/">Builder Pattern</a>)</strong> | 단계별 복잡한 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/); [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)와 상보적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a> (<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">Dependency Injection</a>)</strong> | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)를 런타임에 주입하는 현대적 구현 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 직접 생성 (new ConcreteClass())
-    │
-    ▼
-팩토리 메서드 — 단일 객체 생성 위임
-    │
-    ▼
-추상 팩토리 — 연관 제품군 전체 일괄 생성
-    │
-    ├─► OCP / DIP SOLID 원칙 실현
-    │
-    ├─► 의존성 주입 (Spring DI, Guice)
-    │
-    └─► 서비스 로케이터 패턴과 비교
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 직접 생성 (new ConcreteClass())</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팩토리 메서드 — 단일 객체 생성 위임</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상 팩토리 — 연관 제품군 전체 일괄 생성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OCP / DIP SOLID 원칙 실현</div>
+<div class="kb-diagram-tree-item" style="--depth:2">의존성 주입 (Spring DI, Guice)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">서비스 로케이터 패턴과 비교</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 **'가구 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 패키지 공장'** 이에요. "북유럽 공장"에 가면 소파·책상·침대가 모두 북유럽 스타일로 딱 맞게 나오고, "클래식 공장"에 가면 모두 클래식 스타일로 나와요!
+1. [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 <strong>'가구 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a> 패키지 공장'</strong> 이에요. "북유럽 공장"에 가면 소파·책상·침대가 모두 북유럽 스타일로 딱 맞게 나오고, "클래식 공장"에 가면 모두 클래식 스타일로 나와요!
 2. 소비자(클라이언트 코드)는 어떤 공장에 가느냐만 선택하면 되고, 각 가구(버튼·체크박스)가 어떻게 만들어지는지는 알 필요가 없어요.
-3. 새로운 "미니멀 스타일 공장"을 추가해도 기존 소비자 코드를 **한 줄도 바꾸지 않아도 된다는 것**이 이 패턴의 가장 큰 장점이에요!
+3. 새로운 "미니멀 스타일 공장"을 추가해도 기존 소비자 코드를 <strong>한 줄도 바꾸지 않아도 된다는 것</strong>이 이 패턴의 가장 큰 장점이에요!
 
 ---
 

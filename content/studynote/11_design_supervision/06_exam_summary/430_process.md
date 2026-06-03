@@ -19,13 +19,16 @@ tags = ["studynote-design-supervision"]
 
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 방식이 중요한 이유는 스캔 작업 자체를 별도 상시 서버 없이 필요할 때만 실행함으로써 비용 효율성과 확장성을 동시에 확보할 수 있기 때문이다. 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 이미지가 수시로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되므로, 수동 검토나 야간 일괄 점검만으로는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격과 최신 취약점 반영 속도를 따라가기 어렵다. 따라서 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 순간과 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등록 순간에 자동 차단점을 배치해야 한다.
 
-```text
-┌──────────┐   ┌──────────┐   ┌────────────┐   ┌──────────┐
-│ 소스 변경 │──▶│ 이미지 빌드 │──▶│ 서버리스 스캔 │──▶│ 배포 승인 │
-└──────────┘   └──────────┘   └────────────┘   └────┬─────┘
-                                                     │
-                                   차단/예외 승인 ◀──┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 변경</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">이미지 빌드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">서버리스 스캔</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">배포 승인</div></div>
+<div class="kb-diagram-note">차단/예외 승인 ◀──</div>
+</div>
+</div>
+
+
 
 결국 필요성의 핵심은 속도와 보안을 동시에 잡는 것이다. 기술사 답안에서는 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 자동화, [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/), 배포 게이트를 한 흐름으로 묶어 서술하면 논지가 단단해진다.
 - **📢 섹션 요약 비유**: 공항 수하물 검색대처럼, 짐을 싣기 전에 위험 물건을 걸러야 비행기가 뜬 뒤 비상착륙하는 일을 막을 수 있다.
@@ -40,17 +43,18 @@ tags = ["studynote-design-supervision"]
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 및 승인 게이트 | 심각도 기준, 예외 기간, 서명 여부를 규칙으로 판정한다. | 실패 시 기본 차단(Fail Closed), 예외 승인 이력, 만료 관리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)·배포 연계 | 통과 이미지에만 서명과 배포 권한을 부여한다. | 스캔 결과와 배포 버전의 매핑, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기준 검토 |
 
-```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ Build Event │──▶│ Scan Engine │──▶│ Policy Rule │
-└─────┬──────┘   └─────┬──────┘   └─────┬──────┘
-      │                CVE/SBOM/Secret        │
-      │                                       │ Pass
-      ▼                                       ▼
-┌────────────┐                           ┌────────────┐
-│ Audit Log  │◀──────────────────────────│ Registry   │
-└────────────┘                           └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build Event</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Scan Engine</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Policy Rule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE/SBOM/Secret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Log</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Registry</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 세 가지다. 첫째, 스캔은 배포 직전이 아니라 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 가까울수록 효과가 크다. 둘째, 결과는 리포트로 끝나면 안 되고 승인 게이트와 연결되어야 한다. 셋째, 예외는 허용하되 만료일과 책임자를 강제해 영구 면제가 되지 않도록 해야 한다.
 - **📢 섹션 요약 비유**: 빵 공장에서 굽고 난 뒤 맛만 보는 것이 아니라, 재료 입고·반죽·포장마다 검사를 걸어 불량 빵이 진열대에 오르지 못하게 하는 구조다.
@@ -88,23 +92,29 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 탑승 전 교통카드와 짐을 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하듯, 마지막 문 앞에서 한 번 더 통제해야 전체 여정이 안전해진다.
 
 ### 📌 관련 개념 맵
-- **[데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))**: 개발·배포 흐름 안에 보안 통제를 내장하는 운영 철학
-- **[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)**: 이미지 내부 구성요소를 목록화해 취약점 추적과 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 분석을 돕는 증적
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">데브섹옵스</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a>)</strong>: 개발·배포 흐름 안에 보안 통제를 내장하는 운영 철학
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a></strong>: 이미지 내부 구성요소를 목록화해 취약점 추적과 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 분석을 돕는 증적
 - **이미지 서명(Signing)**: 통과한 이미지의 무결성과 승인 상태를 보증하는 배포 조건
 - **어드미션 컨트롤(Admission Control)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 등에서 미검증 이미지를 배포 단계에서 차단하는 최종 게이트
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-수동 취약점 점검
-    ↓
-CI 빌드 후 이미지 스캔
-    ↓
-정책 기반 자동 차단
-    ↓
-SBOM/서명 연계 공급망 보안
-    ↓
-배포·런타임 연동 전주기 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 취약점 점검</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI 빌드 후 이미지 스캔</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정책 기반 자동 차단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SBOM/서명 연계 공급망 보안</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">배포·런타임 연동 전주기 검증</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 도시락을 싸서 소풍 가기 전에 상한 반찬이 없는지 먼저 검사하는 거예요.

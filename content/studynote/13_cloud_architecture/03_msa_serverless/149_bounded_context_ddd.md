@@ -38,29 +38,28 @@ tags = ["studynote-cloud-architecture"]
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 후보 | 1 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) ≈ 1 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) | 팀·배포·스케일 단위 일치 |
 | 통신 방식 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(동기) 또는 이벤트(비동기) | 느슨한 결합 유지 |
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│                     전체 도메인 (E-Commerce)                    │
-│                                                                 │
-│  ┌──────────────────┐   ACL   ┌──────────────────────────┐     │
-│  │  주문 컨텍스트    │◄──────►│    결제 컨텍스트          │     │
-│  │  (Order BC)      │         │    (Payment BC)           │     │
-│  │  ─ Order         │         │  ─ Invoice                │     │
-│  │  ─ OrderItem     │         │  ─ PaymentMethod          │     │
-│  │  [주문 DB]       │         │  [결제 DB]                │     │
-│  └──────────────────┘         └──────────────────────────┘     │
-│          │ Domain Event                    ▲                   │
-│          │ (OrderPlaced)                   │ API               │
-│          ▼                                 │                   │
-│  ┌──────────────────┐         ┌──────────────────────────┐     │
-│  │  재고 컨텍스트    │         │    배송 컨텍스트          │     │
-│  │  (Inventory BC)  │         │    (Shipping BC)          │     │
-│  │  ─ StockItem     │         │  ─ Shipment               │     │
-│  │  ─ Warehouse     │         │  ─ Recipient              │     │
-│  │  [재고 DB]       │         │  [배송 DB]                │     │
-│  └──────────────────┘         └──────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 도메인 (E-Commerce)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 컨텍스트</div><div class="kb-diagram-cell">◄ ►</div><div class="kb-diagram-cell">결제 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Order BC)</div><div class="kb-diagram-cell">(Payment BC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Order</div><div class="kb-diagram-cell">─ Invoice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ OrderItem</div><div class="kb-diagram-cell">─ PaymentMethod</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 DB</div><div class="kb-diagram-node">결제 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Event ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OrderPlaced)</div><div class="kb-diagram-cell">API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재고 컨텍스트</div><div class="kb-diagram-cell">배송 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inventory BC)</div><div class="kb-diagram-cell">(Shipping BC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ StockItem</div><div class="kb-diagram-cell">─ Shipment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warehouse</div><div class="kb-diagram-cell">─ Recipient</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재고 DB</div><div class="kb-diagram-node">배송 DB</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 독립된 왕국 — 왕국마다 화폐 단위가 달라도 국경의 환전소([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Anti-Corruption Layer)를 통해 교역이 가능하다.
 
@@ -76,10 +75,10 @@ tags = ["studynote-cloud-architecture"]
 | 핵심 도구 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | 코어/서브/지원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 패턴 종류:
-- **Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)**: 두 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 작은 모델 일부를 공유, 변경 시 협의 필수.
-- **[Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)/Supplier**: 업스트림이 다운스트림 요구를 충족해야 함.
-- **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer)**: 외부 모델을 내부 모델로 변환하는 번역 계층.
-- **Open Host [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 퍼블릭 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 노출.
+- <strong>Shared <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a></strong>: 두 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 작은 모델 일부를 공유, 변경 시 협의 필수.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a>/Supplier</strong>: 업스트림이 다운스트림 요구를 충족해야 함.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a> (Anti-Corruption Layer)</strong>: 외부 모델을 내부 모델로 변환하는 번역 계층.
+- <strong>Open Host <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong>: 퍼블릭 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 노출.
 
 📢 **섹션 요약 비유**: 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 지도 위의 지형이라면, [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 그 위에 그린 행정구역 선 — 지형은 고정이지만 경계선은 필요에 따라 조정된다.
 
@@ -87,7 +86,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 도출 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경계 도출 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 이벤트 스토밍 (Event Storming) 세션을 통해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 목록 작성.
 2. 같은 명사가 다른 의미로 쓰이는 충돌 지점 → [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 후보.
 3. 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 변경 빈도·팀 소유권·독립 배포 요구 사항 검토.
@@ -127,17 +126,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식: 모든 도메인 용어 혼재
-    │
-    ▼
-Bounded Context: 도메인별 독립 모델 경계
-    ├─► Context Map: 관계 정의 (Upstream/Downstream)
-    └─► Anti-Corruption Layer: 번역 계층
-    │
-    ▼
-MSA 서비스 분할 기준 → API 계약
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식: 모든 도메인 용어 혼재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bounded Context: 도메인별 독립 모델 경계</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Context Map: 관계 정의 (Upstream/Downstream)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Anti-Corruption Layer: 번역 계층</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA 서비스 분할 기준 → API 계약</div>
+</div>
+</div>
+
+
 2. [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 그 '장소의 울타리'예요 — 울타리 안에서는 모두 같은 언어로 이야기해요.
 3. 울타리를 잘 치면, 학교와 병원이 서로 독립적으로 운영되면서도 필요할 때 연락해서 협력할 수 있어요.
 

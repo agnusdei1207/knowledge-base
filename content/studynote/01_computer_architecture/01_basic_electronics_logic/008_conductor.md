@@ -10,8 +10,8 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 도체 (Conductor)는 원자핵의 구속력이 느슨해 무수히 많은 **자유 전자 (Free Electron)**들이 원자 사이를 마음껏 떠돌며 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 수송하는 물질이다.
-> 2. **가치**: 마이크로아키텍처의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 연산 결과를 전달하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인터커넥트 (Interconnect) 고속도로이자, 막대한 전력을 공급하는 **PDN ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Delivery Network)**의 대동맥이다.
+> 1. **본질**: 도체 (Conductor)는 원자핵의 구속력이 느슨해 무수히 많은 <strong>자유 전자 (Free Electron)</strong>들이 원자 사이를 마음껏 떠돌며 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 수송하는 물질이다.
+> 2. **가치**: 마이크로아키텍처의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 연산 결과를 전달하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인터커넥트 (Interconnect) 고속도로이자, 막대한 전력을 공급하는 <strong>PDN (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>의 대동맥이다.
 > 3. **판단 포인트**: 초미세 공정에서는 구리(Cu) 내부의 전자 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)으로 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)률이 폭증하는 한계에 봉착하여, 코발트(Co)/루테늄(Ru) 같은 신물질 적용 및 웨이퍼 뒷면으로 전력 도체를 우회시키는 후면 전력망(BSPDN) 도입이 설계의 사활을 가른다.
 
 ---
@@ -39,22 +39,21 @@ tags = ["studynote-computer-architecture"]
 
 과거 알루미늄 배선 시절, 집적도가 높아져 선폭이 좁아지자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 발열 파괴가 일어났다. 파운드리 업계는 구리 다마신 공법을 도입해 GHz 시대를 열었으나, 10nm 노드 이하로 떨어지자 더 큰 절망벽에 부딪혔다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           나노 배선 폭 축소 시 구리 도체 병목 (Scattering) │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 과거: 충분히 넓은 도체 통로 ]    [ 10nm 이하: 좁아진 도체 통로 ]     │
-│   ┌─────────────────────┐       ┌─────────────┐            │
-│   │         (e-) ─▶     │       │ ◀ (e-) ─▶ │ (벽에 충돌)  │
-│   │  (e-) ─▶            │       │ ▼ ─▶ (e-)│ (산란 발생)  │
-│   └─────────────────────┘       └─────────────┘            │
-│   * 전자가 방해 없이 직진!       * 전자가 양옆 도체 벽에 계속 부딪힘!  │
-│                                                              │
-│  * 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,    │
-│    전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증. │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나노 배선 폭 축소 시 구리 도체 병목 (Scattering)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 충분히 넓은 도체 통로</div><div class="kb-diagram-node">10nm 이하: 좁아진 도체 통로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(e-) ─▶</div><div class="kb-diagram-cell">◀ (e-) ─▶</div><div class="kb-diagram-cell">(벽에 충돌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(e-) ─▶</div><div class="kb-diagram-cell">▼ ─▶ (e-)</div><div class="kb-diagram-cell">(산란 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 전자가 방해 없이 직진! * 전자가 양옆 도체 벽에 계속 부딪힘!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증.</div></div>
+</div>
+</div>
+
+
 
 단면적($A$)이 줄어들면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)($R$)이 늘어난다는 옴의 법칙을 넘어, 양자역학적 전자 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) ([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 현상이 부활한 것이다. 자유 전자들이 앞으로 나아가지 못하고 좁은 구리 벽에 튕기며 열을 내는 바람에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)가 폭증하고 배선이 타버리는 물리적 병목이 발생했다.
 
@@ -100,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 
 도체의 물성 한계를 극복하는 혁신은 데스크톱과 서버의 멀티 GHz 클럭 돌파를 상용화한 1등 공신이다. 그러나 구리 도체의 2차원 스케일링이 한계에 도달하면서 패러다임 게임 체인저가 등장하고 있다.
 
-**BSPDN (Backside [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Delivery Network, 후면 전력 전달망)**은 전면의 미세 복잡한 도체 배선숲을 뚫고 힘들게 들어오던 전력 공급망을 아예 웨이퍼 뒷면(거울상 바닥)으로 우회시켜 다이렉트로 전력을 꽂아 넣는 아방가르드 혁명이다. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 간섭을 척결하고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 소멸시키는 3차원 배선의 결정판이다.
+<strong>BSPDN (Backside <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network, 후면 전력 전달망)</strong>은 전면의 미세 복잡한 도체 배선숲을 뚫고 힘들게 들어오던 전력 공급망을 아예 웨이퍼 뒷면(거울상 바닥)으로 우회시켜 다이렉트로 전력을 꽂아 넣는 아방가르드 혁명이다. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 간섭을 척결하고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 소멸시키는 3차원 배선의 결정판이다.
 
 궁극의 미래에는 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 마찰과 열이 필연적인 무기 금속(구리, 코발트)을 버리고, 전자 이동 속도가 압도적으로 빨라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 멸종에 가까운 탄소 나노 튜브 (CNT) 묶음이나 광 연결 실리콘 포토닉스로 도체의 물리 법칙 헌법을 완전히 새로 쓰는 시대를 목전에 두고 있다.
 
@@ -113,27 +112,29 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **일렉트로마이그레이션 (EM)** | 강한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(전자)가 지속적으로 흐르며 금속 도체 원자를 밀어내어 선이 끊어지거나 합선되는 칩 수명 파괴 현상 |
-| **스캐터링 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 현상 ([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))** | 도체 두께가 전자의 자유 비행 거리보다 좁아지며, 전자가 벽에 부딪혀 운동 에너지를 잃고 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 폭증하는 마찰 한계 |
+| <strong>스캐터링 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">산란</a> 현상 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a>)</strong> | 도체 두께가 전자의 자유 비행 거리보다 좁아지며, 전자가 벽에 부딪혀 운동 에너지를 잃고 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 폭증하는 마찰 한계 |
 | **BSPDN (후면 전력망)** | 전력 공급용 도체를 웨이퍼 후면에 독립적으로 거대하게 배치하여 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 해결하는 차세대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정 |
 | **비저항 ($\rho$)** | 물질 자체가 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 흐름을 방해하는 고유의 성질. 은과 구리가 가장 낮아 고속 배선 매질의 기준이 됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[도체 이론 (자유 전자, Free Electron)]
-    │
-    ▼
-[구리 배선 (Copper Interconnect) — 다층 메탈]
-    │
-    ▼
-[나노 공정 스케일링 (전자 산란 / Scattering)]
-    │
-    ▼
-[신소재 적용 (코발트 Co / 루테늄 Ru)]
-    │
-    ▼
-[후면 전력망 BSPDN (Backside Power Delivery Network)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도체 이론 (자유 전자, Free Electron)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구리 배선 (Copper Interconnect) — 다층 메탈</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나노 공정 스케일링 (전자 산란 / Scattering)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신소재 적용 (코발트 Co / 루테늄 Ru)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">후면 전력망 BSPDN (Backside Power Delivery Network)</div></div>
+</div>
+</div>
+
+
 
 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 배선 기술이 도체 기초 이론에서 출발하여 나노 공정 한계를 극복하기 위한 신소재 및 3차원 구조 혁신으로 진화한 흐름이다.
 

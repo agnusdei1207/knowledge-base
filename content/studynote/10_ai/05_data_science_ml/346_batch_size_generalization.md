@@ -34,14 +34,17 @@ tags = ["studynote-ai"]
 
 이 딜레마를 해결하기 위해 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, Gradient Noise 활용, Linear Scaling Rule 이 개발됐다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 배치 사이즈 선택은 "여론 조사의 표본 크기"와 같다. 소수에게 물어보면(소배치) 노이즈가 많지만 다양한 의견이 나오고, 대규모 조사(대배치)는 정확하지만 평균에만 치우쳐 새로운 집단에서 틀릴 수 있다.
 
@@ -51,69 +54,79 @@ tags = ["studynote-ai"]
 
 ### 손실 경관 (Loss Landscape) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-```
-  Loss
-  │
-  │        샤프 미니마            플랫 미니마
-  │       (Sharp Minima)          (Flat Minima)
-  │
-  │   │         │
-  │   │         │
-  │   │         │         ╰─────────────╯
-  │  ╰╯         ╰╯        플랫 미니마:
-  │  좁고 깊은 골짜기        넓고 얕은 평원
-  │                          배포 환경 변화에 강건
-  └───────────────────────────────────────────▶ w
-         ↑                      ↑
-   큰 배치 수렴              작은 배치 수렴
 
-  핵심 차이:
-  ┌──────────────────────────────────────────────────┐
-  │ Sharp: 파라미터 ε 이동 시 Loss 폭발적 증가       │
-  │ Flat:  파라미터 ε 이동해도 Loss 거의 불변        │
-  └──────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Loss</div>
+<div class="kb-diagram-note">샤프 미니마 플랫 미니마</div>
+<div class="kb-diagram-note">(Sharp Minima) (Flat Minima)</div>
+<div class="kb-diagram-note">│ │</div>
+<div class="kb-diagram-note">플랫 미니마:</div>
+<div class="kb-diagram-note">좁고 깊은 골짜기 넓고 얕은 평원</div>
+<div class="kb-diagram-note">배포 환경 변화에 강건</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ w</div>
+<div class="kb-diagram-note">큰 배치 수렴 작은 배치 수렴</div>
+<div class="kb-diagram-note">핵심 차이:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sharp: 파라미터 ε 이동 시 Loss 폭발적 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flat: 파라미터 ε 이동해도 Loss 거의 불변</div></div>
+</div>
+</div>
+
+
 
 ### 플랫 미니마와 일반화의 수학적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 미니마에서 수렴한 모델의 일반화 오차는 다음에 의해 상한됩니다:
 
-```
-  일반화 오차 ≤ 훈련 오차 + C · √(헤시안 최대 고유값 / n)
-  ─────────────────────────────────────────────────────────
-  헤시안 최대 고유값 ↑ (Sharp) → 일반화 오차 ↑
-  헤시안 최대 고유값 ↓ (Flat)  → 일반화 오차 ↓
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반화 오차 ≤ 훈련 오차 + C · √(헤시안 최대 고유값 / n)</div>
+<div class="kb-diagram-note">헤시안 최대 고유값 ↑ (Sharp) → 일반화 오차 ↑</div>
+<div class="kb-diagram-note">헤시안 최대 고유값 ↓ (Flat) → 일반화 오차 ↓</div>
+</div>
+</div>
+
+
 
 ### SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/)) 의 노이즈 효과
 
-```
-  기울기 추정:
-  g_batch = (1/B) Σᵢ∈B ∇L(xᵢ, w)  (배치 크기 B)
 
-  기울기 분산:
-  Var[g_batch] = (1/B) · σ²(전체 기울기 분산)
 
-  배치 크기 B 증가 → 분산 1/B 감소 → 노이즈 감소
-  → 결정론적 기울기 → Sharp Minima 로 수렴
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기울기 추정:</div>
+<div class="kb-diagram-note">g_batch = (1/B) Σᵢ∈B ∇L(xᵢ, w) (배치 크기 B)</div>
+<div class="kb-diagram-note">기울기 분산:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Var</div><div class="kb-diagram-node">g_batch</div><div class="kb-diagram-note">= (1/B) · σ²(전체 기울기 분산)</div></div>
+<div class="kb-diagram-note">배치 크기 B 증가 → 분산 1/B 감소 → 노이즈 감소</div>
+<div class="kb-diagram-note">→ 결정론적 기울기 → Sharp Minima 로 수렴</div>
+</div>
+</div>
+
+
 
 ### 선형 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 규칙 (Linear Scaling Rule)
 
-```
-  기본 설정: 배치 B₀, 학습률 η₀
-  변경 설정: 배치 kB₀
 
-  규칙: 학습률 → k·η₀
 
-  직관:
-  B₀ 배치로 1 스텝 = k개 미니배치로 k 스텝의 기울기 합
-  → 학습률을 k배 늘려야 동일 파라미터 변화량 유지
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 설정: 배치 B₀, 학습률 η₀</div>
+<div class="kb-diagram-note">변경 설정: 배치 kB₀</div>
+<div class="kb-diagram-note">규칙: 학습률 → k·η₀</div>
+<div class="kb-diagram-note">직관:</div>
+<div class="kb-diagram-note">B₀ 배치로 1 스텝 = k개 미니배치로 k 스텝의 기울기 합</div>
+<div class="kb-diagram-note">→ 학습률을 k배 늘려야 동일 파라미터 변화량 유지</div>
+<div class="kb-diagram-note">Warmup (워밍업) 필요:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">초기에 큰 학습률 적용 시 불안정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">학습률을 0에서 k·η₀ 로 점진적 증가 (선형 워밍업)</div>
+</div>
+</div>
 
-  Warmup (워밍업) 필요:
-  - 초기에 큰 학습률 적용 시 불안정
-  - 학습률을 0에서 k·η₀ 로 점진적 증가 (선형 워밍업)
-```
+
 
 | 요소 | 역할 |
 |:---|:---|
@@ -130,19 +143,20 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 
 ### Gradient Noise (기울기 노이즈) 와 탈출 능력
 
-```
-  손실 경관에서 지역 최솟값 탈출:
-  ┌──────────────────────────────────────────────────┐
-  │  Sharp Minima: 좁은 골짜기에서 큰 노이즈로 탈출  │
-  │                                                  │
-  │     ╰╯ ← 탈출 가능 (노이즈 충분)                │
-  │         ─────────────────────────────────        │
-  │                           └ 플랫 목표 지점       │
-  │                                                  │
-  │  작은 배치: 노이즈 ↑ → Sharp 탈출 가능           │
-  │  큰  배치: 노이즈 ↓ → Sharp 에 갇힘              │
-  └──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">손실 경관에서 지역 최솟값 탈출:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sharp Minima: 좁은 골짜기에서 큰 노이즈로 탈출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 탈출 가능 (노이즈 충분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫 목표 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 배치: 노이즈 ↑ → Sharp 탈출 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 배치: 노이즈 ↓ → Sharp 에 갇힘</div></div>
+</div>
+</div>
+
+
 
 ### 배치 사이즈 조정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
@@ -191,7 +205,7 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 ## Ⅴ. 기대효과 및 결론
 
 - **일반화 향상**: 작은 배치 + Flat Minima 수렴으로 배포 환경 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 가이드**: Linear Scaling Rule 로 배치 크기 확장 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 학습 가이드</strong>: Linear Scaling Rule 로 배치 크기 확장 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지
 - **SAM**: Flat Minima 를 직접 목표로 하는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)로 최대 1~2% 정확도 향상
 - **Gradient Accumulation**: 제한된 VRAM 에서 대형 유효 배치 효과 달성
 - **한계**: 지나치게 작은 배치는 학습 불안정 및 시간 증가

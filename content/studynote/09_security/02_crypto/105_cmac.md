@@ -33,27 +33,25 @@ CMAC의 동작 원리는 입력 [데이터](/knowledge-base/studynote/05_databas
 
 | 단계 | 처리 과정 (CMAC 메커니즘) | 목적 및 효과 |
 | :--- | :--- | :--- |
-| **1. 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 메인 키($K$)에서 수학적 연산으로 서브 키 $K_1$, $K_2$ 도출 | 마지막 블록 락온(Lock-on)을 위한 비밀 무기 준비 |
+| <strong>1. 키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 메인 키($K$)에서 수학적 연산으로 서브 키 $K_1$, $K_2$ 도출 | 마지막 블록 락온(Lock-on)을 위한 비밀 무기 준비 |
 | **2. 연쇄 암호화** | 첫 블록부터 (N-1)번째 블록까지 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드로 순차 암호화 | 앞선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모든 기운이 쇠사슬을 타고 응축됨 |
 | **3. 서브 키 투하** | 마지막 블록 직전에 $K_1$([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없음) 또는 $K_2$([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 있음)를 XOR | 구형 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)-MAC의 길이 확장 위조 공격을 원천 차단 |
 | **4. 태그 추출** | 마지막 블록을 암호화하여 나온 찌꺼기를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 태그(지문)로 사용 | 중간 암호문은 다 버리고 오직 마지막 1개만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 사용 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)        │
-├──────────────────────────────────────────────────────────────┤
-│  [평문 블록 1]      [평문 블록 2]       [마지막 평문 블록 N] │
-│       │                  │                    │              │
-│       ▼                  ▼                    ▼              │
-│    ( AES ) ──(XOR)──▶ ( AES ) ──(XOR)──▶   ( XOR ⊕ ) ◀── ★ K1 (또는 K2) │
-│                      (중간 찌꺼기 넘김)       │              │
-│                                               ▼              │
-│                                            ( AES )           │
-│                                               │              │
-│                                               ▼              │
-│    (버림)             (버림)           [ CMAC 인증 태그 ]    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평문 블록 1</div><div class="kb-diagram-node">평문 블록 2</div><div class="kb-diagram-node">마지막 평문 블록 N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( AES ) ──(XOR)──▶ ( AES ) ──(XOR)──▶ ( XOR ⊕ ) ◀── ★ K1 (또는 K2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중간 찌꺼기 넘김)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( AES )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(버림) (버림)</div><div class="kb-diagram-node">CMAC 인증 태그</div></div>
+</div>
+</div>
+
+
 
 여기서 중간에 나오는 암호문 블록들을 그냥 버리는 이유는 지금 우리의 목적이 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기밀화(암호화)'가 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨짐 방지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))'이기 때문이다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리를 물고 넘어와 마지막 블록에 농축되므로, 이 마지막 블록 하나만 떼어내도 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단 1비트라도 조작되었는지 100% 감지해 낼 수 있다.
 
@@ -68,7 +66,7 @@ CMAC의 동작 원리는 입력 [데이터](/knowledge-base/studynote/05_databas
 | 비교 항목 | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) (Hash 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) | CMAC (Cipher 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) |
 | :--- | :--- | :--- |
 | **내부 핵심 엔진** | SHA-256, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 등 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) 등 대칭키 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (대용량)** | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 속도가 빠름 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해싱 유리) | 순차적으로 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 블록을 기다려야 하므로 대용량에 불리함 |
+| <strong>처리 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (대용량)</strong> | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 속도가 빠름 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해싱 유리) | 순차적으로 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 블록을 기다려야 하므로 대용량에 불리함 |
 | **메모리(코드) 효율** | 암호화 칩과 해시 칩을 모두 구현/탑재해야 함 | 기존 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호화 칩 하나로 100% 재활용 (초경량) |
 | **최적 적용 환경** | 고성능 CPU 서버, 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 등), 클라우드 | [스마트 카드](/knowledge-base/studynote/09_security/12_identity_threat_advanced/607_smart_card/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 칩, 무선 이어폰 등 초소형 임베디드 |
 | **위조 방어 원리** | 2중 해싱 (Inner/Outer [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 결합) | 서브 키 주입 (길이 위조 방어) |
@@ -102,28 +100,30 @@ CMAC은 자원이 극도로 제한된 환경에서도 [기밀성](/knowledge-bas
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/))** | CMAC이 평문을 엮어내는 기반이 되는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드 (앞 블록이 뒤에 영향을 줌) |
-| **[HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ([Hash-based MAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))** | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 엔진으로 사용하는 대형/고속 시스템용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준 경쟁자 |
-| **[대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)/[DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/))** | CMAC이 내부적으로 동작시키기 위해 반드시 필요한 기반 암호화 기계 |
-| **[부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/) ([Side-channel Attack](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/))** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기가 CMAC을 계산할 때 발생하는 전력/전자파를 분석해 서브 키를 탈취하려는 물리적 해킹 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a> 모드 (<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">Cipher Block Chaining</a>)</strong> | CMAC이 평문을 엮어내는 기반이 되는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드 (앞 블록이 뒤에 영향을 줌) |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">Hash-based MAC</a>)</strong> | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 엔진으로 사용하는 대형/고속 시스템용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준 경쟁자 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">대칭키 암호화</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>/<a href="/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/">DES</a>)</strong> | CMAC이 내부적으로 동작시키기 위해 반드시 필요한 기반 암호화 기계 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/">부채널 공격</a> (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/">Side-channel Attack</a>)</strong> | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기가 CMAC을 계산할 때 발생하는 전력/전자파를 분석해 서브 키를 탈취하려는 물리적 해킹 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메시지 인증 코드 (MAC) 도입 · 무결성과 발신자 신원 확인
-    │
-    ▼
-CBC-MAC · 블록 암호를 활용한 가벼운 인증 도입 (단, 고정 길이 메시지만 안전)
-    │
-    ▼
-길이 확장 위조 공격 (Length Extension Attack) 발생 · 가변 길이 메시지에서 털림
-    │
-    ▼
-OMAC (One-Key MAC) 및 서브 키 주입 고안 · 위조 방어 수학적 기법 추가
-    │
-    ▼
-CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 인증 표준 정립
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메시지 인증 코드 (MAC) 도입 · 무결성과 발신자 신원 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBC-MAC · 블록 암호를 활용한 가벼운 인증 도입 (단, 고정 길이 메시지만 안전)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">길이 확장 위조 공격 (Length Extension Attack) 발생 · 가변 길이 메시지에서 털림</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OMAC (One-Key MAC) 및 서브 키 주입 고안 · 위조 방어 수학적 기법 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 인증 표준 정립</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

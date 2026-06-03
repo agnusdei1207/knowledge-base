@@ -22,61 +22,65 @@ tags = ["studynote-network"]
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷 헤더의 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 필드 값이 0이 되어 패킷이 폐기되었을 때, 패킷을 폐기한 라우터가 출발지(송신자)로 보내는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 오류 보고 메시지 (Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0).
 - **필요성**: 만약 A 라우터는 B로 던지고, B 라우터는 A로 던지게끔 설정이 꼬였다고([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop) 치자. 패킷은 빛의 속도로 A와 B 사이를 맴돈다. 다행히 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 제도가 있어서 64바퀴를 돌면 패킷은 삭제된다. 그런데 만약 아무도 "패킷 죽었음"이라고 송신자에게 안 알려주면? 송신자는 패킷이 정상적으로 가고 있는 줄 착각하거나, 서버가 느리다고 오해할 것이다. "너의 패킷이 수명을 다해 객사했다"고 명확히 알려주어야 관리자가 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 꼬임을 인지하고 뜯어고칠 수 있다.
 
-- **💡 비유**: 배달 기사님 오토바이에 **"연료([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))"**가 10리터 들어있습니다. 톨게이트(라우터)를 하나 지날 때마다 연료가 1리터씩 닳습니다. 연료가 0이 되어 오토바이가 고속도로 한가운데서 멈춰 서면, 그 구역 관할 톨게이트 직원이 본사에 전화를 걸어 **"당신네 기사님 여기서 기름 떨어져서(Time Exceeded) 멈췄습니다!"**라고 신고해 주는 서비스입니다.
+- **💡 비유**: 배달 기사님 오토바이에 <strong>"연료(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>)"</strong>가 10리터 들어있습니다. 톨게이트(라우터)를 하나 지날 때마다 연료가 1리터씩 닳습니다. 연료가 0이 되어 오토바이가 고속도로 한가운데서 멈춰 서면, 그 구역 관할 톨게이트 직원이 본사에 전화를 걸어 <strong>"당신네 기사님 여기서 기름 떨어져서(Time Exceeded) 멈췄습니다!"</strong>라고 신고해 주는 서비스입니다.
 
-```text
-[ICMP 메시지 종류]
-    │
-    ▼
-[Time Exceeded]
-    │
-    └──▶ [Destination Unreachable…]
-```
 
-- **📢 섹션 요약 비유**: ** Time Exceeded는 첩보 영화에서 적진에 침투한 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(패킷)가 제한 시간([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 내에 임무를 완수하지 못해 자폭 장치가 터지는 순간, 본부에 마지막으로 송출하는 **"나 여기서 죽는다(나를 죽인 건 이 동네 라우터다)"라는 최후의 단말마 통신**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 메시지 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Time Exceeded</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Destination Unreachable…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> Time Exceeded는 첩보 영화에서 적진에 침투한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(패킷)가 제한 시간(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>) 내에 임무를 완수하지 못해 자폭 장치가 터지는 순간, 본부에 마지막으로 송출하는 </strong>"나 여기서 죽는다(나를 죽인 건 이 동네 라우터다)"라는 최후의 단말마 통신**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 에러 메시지는 네트워크 엔지니어들이 장애가 어느 구간에서 터졌는지 색출해 내는 궁극의 진단 무기인 **`traceroute` (윈도우에서는 `tracert`)** 명령어의 핵심 구동 원리로 승화되었다.
+이 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 에러 메시지는 네트워크 엔지니어들이 장애가 어느 구간에서 터졌는지 색출해 내는 궁극의 진단 무기인 <strong><code>traceroute</code> (윈도우에서는 <code>tracert</code>)</strong> 명령어의 핵심 구동 원리로 승화되었다.
 
 목적지가 미국 구글 서버(`8.8.8.8`)라고 가정하고, 그 사이의 모든 점퍼(라우터) IP를 캐내는 과정이다.
 
 ### 1. 첫 번째 점프 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) = 1)
-- 내 PC가 핑(UDP나 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷을 만들 때, 헤더의 **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 값을 강제로 `1`로 조작**해서 쏜다.
+- 내 PC가 핑(UDP나 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request) 패킷을 만들 때, 헤더의 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> 값을 강제로 <code>1</code>로 조작</strong>해서 쏜다.
 - 패킷이 내 방 공유기(첫 번째 라우터)에 도달한다. 라우터는 룰에 따라 TTL을 1 깎아서 0으로 만든다.
 - "어? [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 0이네? 죽여!" 공유기는 패킷을 쓰레기통에 넣고, 내 PC로 `ICMP Type 11 (Time Exceeded)` 에러를 날린다.
-- 내 PC는 에러 메시지가 날아온 출발지 주소를 읽는다. **"오케이, 첫 번째 길목 라우터 IP는 `192.168.0.1` 획득!"**
+- 내 PC는 에러 메시지가 날아온 출발지 주소를 읽는다. <strong>"오케이, 첫 번째 길목 라우터 IP는 <code>192.168.0.1</code> 획득!"</strong>
 
 ### 2. 두 번째 점프 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) = 2)
-- 내 PC가 이번엔 **TTL을 `2`로 조작**해서 다시 쏜다.
+- 내 PC가 이번엔 <strong>TTL을 <code>2</code>로 조작</strong>해서 다시 쏜다.
 - 첫 번째 공유기를 무사히 통과한다 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 2 -> 1).
 - 두 번째 톨게이트인 KT 전화국 라우터에 도착한다. 라우터가 TTL을 깎으니 0이 된다.
 - KT 라우터가 패킷을 죽이고 에러 메시지를 쏜다.
-- 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): **"오케이, 두 번째 라우터 IP는 `211.200.1.5` 획득!"**
+- 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): <strong>"오케이, 두 번째 라우터 IP는 <code>211.200.1.5</code> 획득!"</strong>
 
 ### 3. 목적지 도달까지 무한 반복
 - 이 짓을 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 3, 4, 5... 1씩 늘려가며 목적지(`8.8.8.8`)에서 "나 살아있어(Type 0 Echo Reply)"라는 찐 응답이 올 때까지 계속 쏜다.
 - 결과적으로 목적지까지 가는 길목에 있는 15개의 라우터 IP 리스트가 내 화면에 쭉 텍스트로 찍히게 된다. 
-- 만약 8번째 라우터 IP까지 잘 찍히다가 9번째부터 `* * * Request timed out`이 뜬다면? **8번째 라우터와 9번째 라우터 사이의 해저 광케이블이 끊어졌거나, 9번째 라우터가 죽어버렸다는 완벽한 심증**을 잡아낼 수 있다.
+- 만약 8번째 라우터 IP까지 잘 찍히다가 9번째부터 `* * * Request timed out`이 뜬다면? <strong>8번째 라우터와 9번째 라우터 사이의 해저 광케이블이 끊어졌거나, 9번째 라우터가 죽어버렸다는 완벽한 심증</strong>을 잡아낼 수 있다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Tracert (Traceroute) 실행 원리 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\> tracert 8.8.8.8                                      │
- │                                                             │
- │   1    <1 ms    <1 ms    <1 ms  192.168.0.1  ◀─ (TTL=1 폭사) │
- │   2     2 ms     1 ms     2 ms  211.100.1.1  ◀─ (TTL=2 폭사) │
- │   3     5 ms     5 ms     4 ms  112.22.33.4  ◀─ (TTL=3 폭사) │
- │   4     *        *        *     요청 시간 초과. ◀─ (여기서 망 끊김!!)│
- │                                                             │
- │   ▶ "3번 라우터(112.22.33.4)까지는 살아서 갔는데, 그다음 놈이         │
- │      대답이 없네! 저기 3번 구간 가서 선로 점검해라!!"라고 진단 가능.    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tracert (Traceroute) 실행 원리 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C:\&gt; tracert 8.8.8.8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 &lt;1 ms &lt;1 ms &lt;1 ms 192.168.0.1 ◀─ (TTL=1 폭사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 2 ms 1 ms 2 ms 211.100.1.1 ◀─ (TTL=2 폭사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 5 ms 5 ms 4 ms 112.22.33.4 ◀─ (TTL=3 폭사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 * * * 요청 시간 초과. ◀─ (여기서 망 끊김!!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "3번 라우터(112.22.33.4)까지는 살아서 갔는데, 그다음 놈이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대답이 없네! 저기 3번 구간 가서 선로 점검해라!!"라고 진단 가능.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** Traceroute는 첩보 영화에서 **"요원에게 일부러 10초짜리, 20초짜리 산소통([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 매어 적진에 침투시키는 잔인한 작전"**입니다. 요원이 산소가 떨어져 쓰러진 위치에서 보내는 구조 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))를 바탕으로, 지휘관은 안갯속 적진의 지도를 한 칸 한 칸 밝혀냅니다.
 
@@ -134,15 +138,19 @@ Time Exceeded는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ICMP 메시지 종류]
-    │
-    ▼
-[현재 개념: Time Exceeded]
-    │
-    ├──▶ [확장 A: Destination Unreachable…]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ICMP 메시지 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Time Exceeded</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Destination Unreachable…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Time Exceeded는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 Destination Unreachable…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

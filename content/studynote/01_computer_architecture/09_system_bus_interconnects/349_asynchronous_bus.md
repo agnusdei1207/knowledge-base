@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이때 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "준비가 끝난 장치만 다음 단계로 넘어간다"는 원리로 문제를 푼다. 느린 장치는 시간을 더 쓰고, 빠른 장치는 불필요하게 최악의 경우만큼 항상 기다리지 않아도 된다. 특히 외부 I/O (Input/Output) 장치처럼 케이블 길이, 장치 내부 처리시간, 전기적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 일정하지 않은 환경에서는 이러한 유연성이 매우 중요하다.
 
-즉 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 필요성은 단순히 클럭이 없다는 데 있지 않다. 핵심은 **예측 가능한 고정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 대신 실제 응답 완료를 기준으로 전송을 종료한다**는 점이며, 이것이 속도 차이와 거리 차이를 동시에 흡수하는 기본 철학이 된다.
+즉 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 필요성은 단순히 클럭이 없다는 데 있지 않다. 핵심은 <strong>예측 가능한 고정 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 대신 실제 응답 완료를 기준으로 전송을 종료한다</strong>는 점이며, 이것이 속도 차이와 거리 차이를 동시에 흡수하는 기본 철학이 된다.
 
 - **📢 섹션 요약 비유**: [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/)가 "종이 울리면 무조건 출발하는 단체 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"라면, 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "승객이 탔는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 문을 닫은 뒤 출발하는 셔틀"에 가깝다. 조금 더 느릴 수는 있어도, 늦게 오는 사람이나 몸이 불편한 사람을 싣지 못하는 사고를 줄여 준다.
 
@@ -35,27 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 읽기 동작에서 요청과 응답이 어떻게 교환되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         비동기식 버스의 4단계 핸드셰이크: 시간 대신 상태로 합의          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Master                                              Slave                  │
-│ (버스 마스터)                                       (대상 장치)            │
-│                                                                          │
-│ 1) 주소/명령 배치 + REQ (Request) asserted ───────────────▶               │
-│                                                     │                      │
-│                                                     │ 내부 접근 수행       │
-│                                                     │ (지연은 가변적)      │
-│                                                     ▼                      │
-│ 2) 데이터 배치 + ACK (Acknowledge) asserted ◀─────────────               │
-│                                                                          │
-│ 3) REQ 해제                                     ───────────────▶          │
-│                                                                          │
-│ 4) ACK 해제                                     ◀───────────────          │
-│                                                                          │
-│ 전송 종료 조건: "고정 시간 경과"가 아니라 "REQ/ACK 왕복 완료"           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기식 버스의 4단계 핸드셰이크: 시간 대신 상태로 합의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master Slave</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버스 마스터) (대상 장치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 주소/명령 배치 + REQ (Request) asserted ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 접근 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지연은 가변적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 데이터 배치 + ACK (Acknowledge) asserted ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) REQ 해제 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) ACK 해제 ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 종료 조건: "고정 시간 경과"가 아니라 "REQ/ACK 왕복 완료"</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 것은 슬레이브가 내부 준비를 마칠 때까지 전체 동작이 기다린다는 점이다. 예를 들어 어떤 장치는 80ns에 응답하고, 다른 장치는 800ns가 걸려도 동일한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 연결할 수 있다. 반면 [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/)처럼 주기당 1회 전송을 강제하지 않기 때문에, 매 전송마다 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전이가 추가되고 배선·제어 논리도 복잡해진다.
 
@@ -74,7 +71,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 제대로 이해하려면 [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/) ([Synchronous Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/))와 무엇이 본질적으로 다른지 봐야 한다. 차이는 단지 클럭 유무가 아니라, **시간을 기준으로 통신을 종료하느냐, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 기준으로 종료하느냐**에 있다.
+비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 제대로 이해하려면 [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/) ([Synchronous Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/))와 무엇이 본질적으로 다른지 봐야 한다. 차이는 단지 클럭 유무가 아니라, <strong>시간을 기준으로 통신을 종료하느냐, 상태 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>을 기준으로 종료하느냐</strong>에 있다.
 
 | 비교 항목 | [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/) | 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) |
 | :-- | :-- | :-- |
@@ -86,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 이 차이는 다른 과목과도 연결된다. 운영체제의 비동기 I/O는 장치가 끝날 때까지 무작정 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))하지 않고 완료 시점을 통지받는 방식인데, 철학적으로는 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 하드웨어 버전과 닮아 있다. 네트워크에서도 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답과 재전송 개념은 결국 "상대가 실제로 받았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다"는 점에서 유사한 사고방식을 공유한다.
 
-또한 현대 시스템은 완전한 흑백 구분보다는 혼합형이 많다. 메인 메모리 인터페이스는 동기식으로 고속화하고, 외부 주변기기 인터페이스는 패킷·버퍼·재시도 메커니즘을 얹어 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 특성을 강화한다. 즉 설계자는 둘 중 하나를 신앙처럼 고르는 것이 아니라, **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 우선인지 호환성과 거리 허용성이 우선인지**에 따라 경계를 나눠야 한다.
+또한 현대 시스템은 완전한 흑백 구분보다는 혼합형이 많다. 메인 메모리 인터페이스는 동기식으로 고속화하고, 외부 주변기기 인터페이스는 패킷·버퍼·재시도 메커니즘을 얹어 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 특성을 강화한다. 즉 설계자는 둘 중 하나를 신앙처럼 고르는 것이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 우선인지 호환성과 거리 허용성이 우선인지</strong>에 따라 경계를 나눠야 한다.
 
 - **📢 섹션 요약 비유**: 동기식이 군악대처럼 같은 북소리에 맞춰 행진하는 방식이라면, 비동기식은 등산대처럼 앞사람이 안전하게 발을 디딘 것을 보고 다음 사람이 움직이는 방식이다. 전자는 빠르고 정렬이 좋고, 후자는 지형 변화에 훨씬 강하다.
 
@@ -118,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 가장 큰 효과는 장치 다양성을 시스템 안으로 끌어들이는 능력이다. 응답시간이 일정하지 않은 장치도 같은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 위에 올릴 수 있고, 물리적 거리와 내부 처리시간 편차를 비교적 자연스럽게 흡수할 수 있다. 이 덕분에 시스템은 "가장 빠른 부품 중심"이 아니라 "함께 연결될 수 있는 부품 중심"으로 확장된다.
 
-물론 한계도 분명하다. 핸드셰이크 기반 설계는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전환 수가 많고, 최고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확보가 어려우며, 상태기계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담도 커진다. 따라서 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 모든 곳의 정답이 아니라, **가변 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 안전하게 감싸야 하는 구간의 정답**으로 이해해야 한다.
+물론 한계도 분명하다. 핸드셰이크 기반 설계는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전환 수가 많고, 최고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확보가 어려우며, 상태기계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부담도 커진다. 따라서 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 모든 곳의 정답이 아니라, <strong>가변 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 안전하게 감싸야 하는 구간의 정답</strong>으로 이해해야 한다.
 
 정리하면 비동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "속도를 포기한 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"가 아니라, "시간 예측이 어려운 세계를 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로 제어하는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"다. 시험과 실무에서는 이 관점으로 기억해야 [동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/348_synchronous_bus/), 대기 상태 삽입, 외부 인터페이스 설계를 한 흐름 안에서 설명할 수 있다.
 
@@ -138,23 +135,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공통 버스 기반 데이터 전송
-        │
-        ▼
-동기식 버스 (Synchronous Bus)
-        │
-        ├─ 고속 근거리 경로 최적화
-        │
-        └─ 속도 차이·거리 문제 노출
-                │
-                ▼
-비동기식 버스 (Asynchronous Bus)
-                │
-                ├─ 핸드셰이크 (Handshake)
-                ├─ 대기 상태 (Wait State) 절충
-                └─ 외부 I/O · 장거리 인터페이스 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공통 버스 기반 데이터 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동기식 버스 (Synchronous Bus)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">고속 근거리 경로 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">속도 차이·거리 문제 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비동기식 버스 (Asynchronous Bus)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">핸드셰이크 (Handshake)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">대기 상태 (Wait State) 절충</div>
+<div class="kb-diagram-tree-item" style="--depth:8">외부 I/O · 장거리 인터페이스 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계가 "빠른 동일 박자"에서 출발해, 이후 "서로 다른 장치 속도를 어떻게 안전하게 흡수할 것인가"로 진화해 왔음을 보여 준다.
 

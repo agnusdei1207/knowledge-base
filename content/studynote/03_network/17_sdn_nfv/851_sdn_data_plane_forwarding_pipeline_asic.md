@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처의 맨 밑바닥에 깔려 있는 계층입니다. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) 또는 포워딩 평면(Forwarding Plane)**이라고도 부릅니다.
+- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처의 맨 밑바닥에 깔려 있는 계층입니다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane) 또는 포워딩 평면(Forwarding Plane)</strong>이라고도 부릅니다.
 - **구성 요소**: [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)(깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), 오픈플로우([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)) 등 실제로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽을 처리하는 하드웨어/소프트웨어 장비들의 모임입니다.
 
-```text
-[SDN]
-    │
-    ▼
-[SDN 데이터 평면]
-    │
-    └──▶ [SDN 제어 평면 두뇌 격 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 제어 평면 두뇌 격 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,26 +41,30 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-과거의 시스코 장비처럼 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 자기가 계산하지 않습니다. 오직 위에서 내려준 **규칙 장부(Flow Table)**만 쳐다보고 일을 합니다.
+과거의 시스코 장비처럼 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 자기가 계산하지 않습니다. 오직 위에서 내려준 <strong>규칙 장부(Flow Table)</strong>만 쳐다보고 일을 합니다.
 
 ### 1. 플로우 테이블 (Flow Table) 기반의 패킷 처리
 - [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(뇌)가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에게 '플로우 테이블'이라는 엑셀 장부를 내려줍니다.
-- 장부의 구조는 간단합니다. **"조건(Match) ➜ 행동(Action)"**입니다.
+- 장부의 구조는 간단합니다. <strong>"조건(Match) ➜ 행동(Action)"</strong>입니다.
   - "만약 패킷 껍데기에 [IP [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1]이 적혀 있으면(Match) ➜ 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 던져라(Action)"
   - "만약 패킷 껍데기에 TCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번]이 적혀 있으면(Match) ➜ 가차 없이 찢어버려라(Action, Drop)"
 
 ### 2. 패킷 처리 파이프라인 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 🌟
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 뇌를 쓰지 않고 이 플로우 테이블을 첫 번째 줄부터 주르륵 대조(Match)해 봅니다.
-- **ASIC의 힘**: 이 대조 작업을 CPU가 소프트웨어로 하면 너무 느리기 때문에, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 안에 있는 **[TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/) (Ternary Content-Addressable Memory)**이라는 비싸고 특수한 쇳덩어리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))이 1억 개의 룰을 0.001초 만에 한 방에 스캔해서 하드웨어적으로 처리(Hardware Forwarding)해 냅니다. 속도의 한계를 부수는 힘입니다.
+- **ASIC의 힘**: 이 대조 작업을 CPU가 소프트웨어로 하면 너무 느리기 때문에, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 안에 있는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/">TCAM</a> (Ternary Content-Addressable Memory)</strong>이라는 비싸고 특수한 쇳덩어리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))이 1억 개의 룰을 0.001초 만에 한 방에 스캔해서 하드웨어적으로 처리(Hardware Forwarding)해 냅니다. 속도의 한계를 부수는 힘입니다.
 
-```text
-[SDN]
-    │
-    ▼
-[SDN 데이터 평면]
-    │
-    └──▶ [SDN 제어 평면 두뇌 격 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 제어 평면 두뇌 격 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 똑똑한 뇌가 빠져나갔기 때문에, 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 만들 때 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소프트웨어를 넣을 필요가 없어졌습니다. 
-- 덕분에 시스코나 주니퍼의 1,000만 원짜리 장비 대신, 대만의 폭스콘이 만든 **100만 원짜리 싸구려 빈 껍데기 기계(화이트박스, 859번 문서)**를 사다가 깔아도 똑같이 10Gbps의 엄청난 속도를 뿜어냅니다. 하드웨어의 파괴적 원가 절감입니다.
-- 단, 뇌(컨트롤러)와 깡통([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 서로 말을 알아들어야 하니, 전 세계 공통 언어인 **[OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)(오픈플로우, 855번 문서)**라는 명령어를 써서 대화하게 됩니다.
+- 덕분에 시스코나 주니퍼의 1,000만 원짜리 장비 대신, 대만의 폭스콘이 만든 <strong>100만 원짜리 싸구려 빈 껍데기 기계(화이트박스, 859번 문서)</strong>를 사다가 깔아도 똑같이 10Gbps의 엄청난 속도를 뿜어냅니다. 하드웨어의 파괴적 원가 절감입니다.
+- 단, 뇌(컨트롤러)와 깡통([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 서로 말을 알아들어야 하니, 전 세계 공통 언어인 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>(오픈플로우, 855번 문서)</strong>라는 명령어를 써서 대화하게 됩니다.
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SDN가 기반 조건을 만든다면, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면은 그 위에서 핵심 메커니즘을 구현하고, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -76,7 +84,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 이전의 라우터는 '택시 운전사'였습니다. 손님이 타면 지도를 펴고, 라디오 교통방송을 듣고([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 연산), 자기가 직접 머리를 굴려 막히지 않는 길을 찾아 운전까지 다 해야 했습니다. 운전사가 엄청 똑똑하고 비싸야 합니다. **SDN의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면(포워딩 장비)**은 뇌가 없는 '자율주행 깡통 자동차'입니다. 이 자동차는 길을 모릅니다. 오직 중앙 관제 센터(컨트롤러)가 1초 만에 쏴준 내비게이션 경로(플로우 테이블) 정보만 다운받습니다. 차는 그냥 내비게이션 화면에 뜬 대로 "우회전! 직진!" 엑셀과 핸들만 물리적으로 조작할 뿐입니다. 뇌가 없으니 기계값이 미친 듯이 싸지고, 오직 바퀴 굴리는 일([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 고속 포워딩)에만 100% 에너지를 쏟아 엄청난 속도를 냅니다.
+- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 이전의 라우터는 '택시 운전사'였습니다. 손님이 타면 지도를 펴고, 라디오 교통방송을 듣고([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 연산), 자기가 직접 머리를 굴려 막히지 않는 길을 찾아 운전까지 다 해야 했습니다. 운전사가 엄청 똑똑하고 비싸야 합니다. <strong>SDN의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면(포워딩 장비)</strong>은 뇌가 없는 '자율주행 깡통 자동차'입니다. 이 자동차는 길을 모릅니다. 오직 중앙 관제 센터(컨트롤러)가 1초 만에 쏴준 내비게이션 경로(플로우 테이블) 정보만 다운받습니다. 차는 그냥 내비게이션 화면에 뜬 대로 "우회전! 직진!" 엑셀과 핸들만 물리적으로 조작할 뿐입니다. 뇌가 없으니 기계값이 미친 듯이 싸지고, 오직 바퀴 굴리는 일([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 고속 포워딩)에만 100% 에너지를 쏟아 엄청난 속도를 냅니다.
 
 ---
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SDN]
-    │
-    ▼
-[현재 개념: SDN 데이터 평면]
-    │
-    ├──▶ [확장 A: SDN 제어 평면 두뇌 격 구조]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 데이터 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDN 제어 평면 두뇌 격 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면는 SDN에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

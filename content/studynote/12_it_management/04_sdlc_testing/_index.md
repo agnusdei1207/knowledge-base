@@ -17,28 +17,25 @@ tags = ["it_management"]
 
 ### '코드' 중심에서 '프로세스' 중심으로
 
-과거의 소프트웨어 개발은 뛰어난 개발자 개인의 역량에 의존했다. 하지만 프로젝트 규모가 거대해지고 수백 명이 협업하는 현대 환경에서는 개인의 천재성보다 **'예측 가능한 프로세스'**가 훨씬 중요하다. **SDLC 관리**는 소프트웨어가 태어나서 죽을 때까지의 모든 단계를 규격화하여, 누가 개발하더라도 일정한 품질이 나오게 만드는 공장 자동화와 같은 경영 기술이다.
+과거의 소프트웨어 개발은 뛰어난 개발자 개인의 역량에 의존했다. 하지만 프로젝트 규모가 거대해지고 수백 명이 협업하는 현대 환경에서는 개인의 천재성보다 <strong>'예측 가능한 프로세스'</strong>가 훨씬 중요하다. <strong>SDLC 관리</strong>는 소프트웨어가 태어나서 죽을 때까지의 모든 단계를 규격화하여, 누가 개발하더라도 일정한 품질이 나오게 만드는 공장 자동화와 같은 경영 기술이다.
 
-품질 경영이 필요한 이유는 세 가지이다. 첫째, **납기 및 예산 준수**를 위해서이다. 체계적인 관리 없이는 일정 지연과 비용 폭증을 막을 수 없다. 둘째, **정량적 품질 증명**을 위해서이며 (SLA 준수), 셋째, **지속적인 프로세스 개선**을 통해 조직의 개발 체력을 근본적으로 강화하기 위함이다.
+품질 경영이 필요한 이유는 세 가지이다. 첫째, <strong>납기 및 예산 준수</strong>를 위해서이다. 체계적인 관리 없이는 일정 지연과 비용 폭증을 막을 수 없다. 둘째, <strong>정량적 품질 증명</strong>을 위해서이며 (SLA 준수), 셋째, <strong>지속적인 프로세스 개선</strong>을 통해 조직의 개발 체력을 근본적으로 강화하기 위함이다.
 
 이 그림은 SDLC의 전형적인 순환 구조와 품질 관리 포인트를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 SDLC Management and Quality Gates           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 1. Planning ] ──▶ [ 2. Analysis ] ──▶ [ 3. Design ]     │
-│          ▲                                        │         │
-│          │          ┌─────────────────────────────┘         │
-│          │          ▼                                       │
-│   [ 6. Maintenance ] ◀── [ 5. Test/Deploy ] ◀── [ 4. Implementation ]│
-│                                                             │
-│   * Quality Gate: 각 단계 종료 시 산출물 및 품질 지표 검증  │
-│   * 목표: 결함의 조기 발견 및 수정 비용 최소화              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDLC Management and Quality Gates</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Planning</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. Analysis</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3. Design</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6. Maintenance</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">5. Test/Deploy</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">4. Implementation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Quality Gate: 각 단계 종료 시 산출물 및 품질 지표 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: 결함의 조기 발견 및 수정 비용 최소화</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '품질 게이트 (Quality Gate)'이다. 앞 단계의 품질이 보장되지 않으면 다음 단계로 넘어가지 못하게 함으로써, 결함이 뒤로 넘어가 비용이 기하급수적으로 늘어나는 '결함 증폭 현상'을 차단한다. 실무에서는 이 게이트를 통과하기 위한 체크리스트와 승인 절차가 거버넌스의 핵심이다.
 
@@ -76,25 +73,22 @@ tags = ["it_management"]
 
 이 구조도는 **V-모델** 기반의 테스트 관리 체계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 V-Model: Verification and Validation        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Req Analysis ] ────────── (Match) ────────▶ [ Acceptance ] │
-│          │                                         ▲        │
-│   [ Sys Design ] ──────────── (Match) ────────▶ [ System Test ]│
-│          │                                         ▲        │
-│   [ Unit Design ] ─────────── (Match) ────────▶ [ Integration ]│
-│          │                                         ▲        │
-│          └──────────▶ [ Implementation ] ──────────┘        │
-│                                                             │
-│   * 관리 포인트: 각 테스트 단계의 결함 발견율과 제거율 분석  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '대칭성'이다. 설계한 만큼 검증해야 한다. 기술사는 각 단계의 테스트 시나리오가 비즈니스 요구사항을 100% 커버하는지 **RTM (요구사항 추적표)**을 통해 상시 감시해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V-Model: Verification and Validation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Req Analysis</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Acceptance</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sys Design</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">System Test</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unit Design</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Integration</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Implementation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 관리 포인트: 각 테스트 단계의 결함 발견율과 제거율 분석</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '대칭성'이다. 설계한 만큼 검증해야 한다. 기술사는 각 단계의 테스트 시나리오가 비즈니스 요구사항을 100% 커버하는지 <strong>RTM (요구사항 추적표)</strong>을 통해 상시 감시해야 한다.
 
 📢 **섹션 요약 비유**: CMMI는 '레스토랑의 등급'과 같습니다. 1성급은 요리사가 그때그때 기분대로 만들고, 5성급은 모든 조리 과정이 수치로 관리되며 항상 일관된 최고의 맛을 보장하는 차이입니다.
 
@@ -115,7 +109,7 @@ tags = ["it_management"]
 
 - **정의**: 빠른 출시를 위해 품질을 희생하고 임시방편으로 개발한 대가.
 - **경영적 판단**: 이자(유지보수 비용 증가)가 원금(재개발 비용)보다 커지기 전에 리팩토링을 통해 부채를 상환해야 한다.
-- **시너지**: **SonarQube**와 같은 정적 분석 도구를 통해 기술 부채를 금액이나 시간으로 시각화하여 경영진의 의사결정을 돕는다.
+- **시너지**: <strong>SonarQube</strong>와 같은 정적 분석 도구를 통해 기술 부채를 금액이나 시간으로 시각화하여 경영진의 의사결정을 돕는다.
 
 📢 **섹션 요약 비유**: 기술 부채는 '카드 할부'와 같습니다. 당장은 큰 물건(기능)을 사서 좋지만, 제때 갚지 않으면 이자(버그와 복잡도)가 눈덩이처럼 불어나 나중에는 파산(시스템 마비)하게 됩니다.
 
@@ -126,28 +120,28 @@ tags = ["it_management"]
 ### 기술사적 판단: 개발 프로세스 혁신 및 품질 통제 전략
 
 **시나리오 1: 대규모 공공 정보화 사업의 잦은 일정 지연 해결**
-- **판단**: 주먹구구식 일정 산정을 버리고 **FP (기능 점수)** 기반의 과학적 추정 기법을 도입한다. 프로젝트 초기 단계에서 **WBS (작업 분할 구조)**를 상세화하고, 임계 경로 (Critical Path)를 상시 모니터링한다. 또한 인력 투입의 적정성을 검토하기 위해 **브룩스의 법칙 (Brooks' Law)** - 지연되는 프로젝트에 인력을 추가하면 더 지연됨 - 을 경계하며, 프로세스 효율화를 통한 병목 제거에 집중한다.
+- **판단**: 주먹구구식 일정 산정을 버리고 **FP (기능 점수)** 기반의 과학적 추정 기법을 도입한다. 프로젝트 초기 단계에서 <strong>WBS (작업 분할 구조)</strong>를 상세화하고, 임계 경로 (Critical Path)를 상시 모니터링한다. 또한 인력 투입의 적정성을 검토하기 위해 **브룩스의 법칙 (Brooks' Law)** - 지연되는 프로젝트에 인력을 추가하면 더 지연됨 - 을 경계하며, 프로세스 효율화를 통한 병목 제거에 집중한다.
 
 **시나리오 2: 운영 단계에서 중대한 결함이 반복적으로 발생하는 조직**
-- **판단**: 사후 약방문식 테스트가 아닌 **'품질 예방 체계'**로 전환한다. 개발 초기 단계에 **TDD (테스트 주도 개발)**를 도입하고, 모든 코드 커밋 시 자동화된 **Static Analysis (정적 분석)**를 강제하는 CI/CD 파이프라인을 구축한다. 또한 결함의 근본 원인 분석 (RCA)을 통해 프로세스의 구멍을 찾아내어, **ISO 9001** 수준의 전사 품질 경영 시스템을 내재화한다.
+- **판단**: 사후 약방문식 테스트가 아닌 <strong>'품질 예방 체계'</strong>로 전환한다. 개발 초기 단계에 <strong>TDD (테스트 주도 개발)</strong>를 도입하고, 모든 코드 커밋 시 자동화된 <strong>Static Analysis (정적 분석)</strong>를 강제하는 CI/CD 파이프라인을 구축한다. 또한 결함의 근본 원인 분석 (RCA)을 통해 프로세스의 구멍을 찾아내어, **ISO 9001** 수준의 전사 품질 경영 시스템을 내재화한다.
 
 이 도식은 기술사가 사용하는 '소프트웨어 자산 가치 평가 모델'을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               SW Asset Value & Maintenance Strategy         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ High Business Value ] ──▶ [ High Tech Quality ] ──▶ Keep │
-│   [ High Business Value ] ──▶ [ Low Tech Quality  ] ──▶ Re-Arch│
-│   [ Low Business Value  ] ──▶ [ High Tech Quality ] ──▶ Sunsetting│
-│   [ Low Business Value  ] ──▶ [ Low Tech Quality  ] ──▶ Retiring│
-│                                                             │
-│   * 기술사 역할: 비즈니스 가치와 기술 품질을 매핑하여       │
-│     시스템의 운명(재개발, 폐기 등)을 결정함                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SW Asset Value &amp; Maintenance Strategy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High Business Value</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">High Tech Quality</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Keep</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High Business Value</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Low Tech Quality</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Re-Arch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Low Business Value</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">High Tech Quality</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Sunsetting</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Low Business Value</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Low Tech Quality</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Retiring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 역할: 비즈니스 가치와 기술 품질을 매핑하여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템의 운명(재개발, 폐기 등)을 결정함</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 품질 판단은 '기업의 체질 개선 전문가'와 같습니다. 겉보기에 근육(기능)만 키우는 게 아니라, 뼈대(아키텍처)를 튼튼히 하고 혈액 순환(데이터 흐름)이 잘 되게 하여 어떤 비바람(시장 변화)에도 끄떡없는 강한 기업 시스템을 만드는 전문가입니다.
 
@@ -162,7 +156,7 @@ tags = ["it_management"]
 
 ### 미래 전망: 플랫폼 엔지니어링과 AI 품질 감리
 
-향후 SDLC 관리는 개발자가 의식하지 않아도 플랫폼이 품질을 강제하는 **플랫폼 엔지니어링**으로 진화할 것이다. 또한 AI가 직접 테스트 시나리오를 설계하고 결함을 자동으로 수정하는 **'Self-Healing Code'** 기술이 표준이 될 것이다. 기술사는 개별 프로젝트의 관리를 넘어, AI와 인간이 공존하는 개발 생태계의 **'윤리적 품질 가이드라인'**을 수립하고 시스템의 사회적 책임을 보증하는 '디지털 품질 거버너'로 거듭나야 한다.
+향후 SDLC 관리는 개발자가 의식하지 않아도 플랫폼이 품질을 강제하는 <strong>플랫폼 엔지니어링</strong>으로 진화할 것이다. 또한 AI가 직접 테스트 시나리오를 설계하고 결함을 자동으로 수정하는 **'Self-Healing Code'** 기술이 표준이 될 것이다. 기술사는 개별 프로젝트의 관리를 넘어, AI와 인간이 공존하는 개발 생태계의 <strong>'윤리적 품질 가이드라인'</strong>을 수립하고 시스템의 사회적 책임을 보증하는 '디지털 품질 거버너'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 SDLC는 '자율 주행 공장'과 같아질 것입니다. 원재료(요구사항)만 넣으면 로봇(AI 도구)들이 가장 안전하고 튼튼하게 제품을 완성하겠지만, 그 제품이 정말 사람들에게 도움이 되는지는 결국 사람이 검사하고 승인해야 합니다.
 

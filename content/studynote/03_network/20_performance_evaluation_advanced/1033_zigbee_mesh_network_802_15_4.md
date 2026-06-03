@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **Wi-Fi**: 1대의 거대한 무선 공유기가 집 전체를 커버(Star 토폴로지)하지만, 공유기에서 멀어지는 화장실엔 전파가 안 닿고, 전기를 너무 먹어 건전지로 도어락을 돌리면 1달 만에 죽습니다.
-- **[Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)**: 저전력([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))이지만 폰과 기기가 1:1로만 연결되어 여러 기기를 동시에 제어하기 빡셌습니다(5.0 메쉬 이전).
-- **[Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) (IEEE 802.15.4) 🌟**: 처음 태어날 때부터 오직 "건전지 1개로 1년 버티면서, **집 안의 수십~수백 개 사물들을 거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))처럼 완벽하게 엮어서** 서로 릴레이 통신하게 만들자"는 목표로 만들어진 저전력, 저속도(250kbps), 초소형 센서망 표준입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a></strong>: 저전력([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))이지만 폰과 기기가 1:1로만 연결되어 여러 기기를 동시에 제어하기 빡셌습니다(5.0 메쉬 이전).
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">Zigbee</a> (IEEE 802.15.4) 🌟</strong>: 처음 태어날 때부터 오직 "건전지 1개로 1년 버티면서, <strong>집 안의 수십~수백 개 사물들을 거미줄(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>)처럼 완벽하게 엮어서</strong> 서로 릴레이 통신하게 만들자"는 목표로 만들어진 저전력, 저속도(250kbps), 초소형 센서망 표준입니다.
 
-```text
-[블루투스 LE]
-    │
-    ▼
-[지그비 메쉬]
-    │
-    └──▶ [NFC 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFC 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,21 +50,25 @@ tags = ["studynote-network"]
 
 ### 2. 라우터 (Router) - "전파 릴레이 전달자 (신하)"
 - **스마트 플러그, 스마트 전구** 등 벽의 콘센트에 항상 전기가 꽂혀있어 배터리 걱정이 없는 기기들입니다.
-- 항상 깨어있으면서 자기 역할(불 켜기)도 하고, 저 멀리 화장실 도어락이 보낸 전파를 받아서 **코디네이터 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 쪽으로 건네주는 징검다리([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 중계기)** 역할을 훌륭히 수행합니다. 이 라우터들이 많아질수록 집안의 통신 거리가 수백 미터로 무한 확장됩니다.
+- 항상 깨어있으면서 자기 역할(불 켜기)도 하고, 저 멀리 화장실 도어락이 보낸 전파를 받아서 <strong>코디네이터 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 쪽으로 건네주는 징검다리(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>, 중계기)</strong> 역할을 훌륭히 수행합니다. 이 라우터들이 많아질수록 집안의 통신 거리가 수백 미터로 무한 확장됩니다.
 
 ### 3. 엔드 디바이스 (End Device) - "잠만 자는 짠돌이 노비"
-- **건전지**로 작동하는 도어락, 온도 센서, 모션 센서입니다.
+- <strong>건전지</strong>로 작동하는 도어락, 온도 센서, 모션 센서입니다.
 - 이놈들은 전파 릴레이(중계) 기능을 아예 삭제당했습니다. 중계를 하려면 항상 깨어있어야 해서 배터리가 다 닳기 때문입니다.
 - 오직 자기 할 말("문 열렸음!")이 있을 때만 1초 깨어나서 가장 가까운 라우터(전구)에게 데이터를 던지고, 즉시 딥슬립(수면)에 빠져 건전지 하나로 1년을 버팁니다.
 
-```text
-[블루투스 LE]
-    │
-    ▼
-[지그비 메쉬]
-    │
-    └──▶ [NFC 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFC 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 10년 넘게 스마트홈을 지배했지만, 최근 구글, 애플, 삼성이 주도하여 "[지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)고 와이파이고 다 좆까고 하나로 통일하자"며 만든 IP 기반의 **[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)([매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/))** 표준이 등장하며 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 생태계가 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 산하로 강제 편입(융합)되고 있는 격변의 시기입니다.
+- 10년 넘게 스마트홈을 지배했지만, 최근 구글, 애플, 삼성이 주도하여 "[지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)고 와이파이고 다 좆까고 하나로 통일하자"며 만든 IP 기반의 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">매터</a>)</strong> 표준이 등장하며 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 생태계가 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 산하로 강제 편입(융합)되고 있는 격변의 시기입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **와이파이(Wi-Fi)**는 교실 맨 앞 교탁에서 **'메가폰을 들고 고래고래 소리 지르는 선생님(공유기)'**입니다. 맨 뒷자리 학생(도어락)은 선생님 목소리가 잘 안 들리고, 선생님에게 대답하려면 엄청난 힘(배터리)을 짜내어 소리를 질러야 합니다. 반면 **[지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬)**는 소리 지르는 것을 포기하고 **'속닥속닥 옆 사람에게 쪽지(릴레이) 넘기기'**를 하는 학생들입니다. 맨 뒷자리 학생은 배터리 아끼려고 하루 종일 잠만 자다가(엔드 디바이스), 할 말이 생기면 눈을 떠서 바로 앞자리 학생(전기 꽂힌 라우터 전구)에게 쪽지를 툭 던지고 다시 잡니다. 앞자리 학생은 그 쪽지를 또 앞자리 학생에게 건네어 결국 맨 앞 선생님(코디네이터)에게 도착합니다. 중간에 한 학생이 결석(고장)해도, 옆 분단 학생을 거쳐서 쪽지가 우회전송(자가 치유 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))되기 때문에, 쪽지는 무조건 교탁까지 살아서 도착하는 궁극의 집단 다단계 통신망입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>와이파이(Wi-Fi)</strong>는 교실 맨 앞 교탁에서 <strong>'메가폰을 들고 고래고래 소리 지르는 선생님(공유기)'</strong>입니다. 맨 뒷자리 학생(도어락)은 선생님 목소리가 잘 안 들리고, 선생님에게 대답하려면 엄청난 힘(배터리)을 짜내어 소리를 질러야 합니다. 반면 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">지그비</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">Zigbee</a> 메쉬)</strong>는 소리 지르는 것을 포기하고 <strong>'속닥속닥 옆 사람에게 쪽지(릴레이) 넘기기'</strong>를 하는 학생들입니다. 맨 뒷자리 학생은 배터리 아끼려고 하루 종일 잠만 자다가(엔드 디바이스), 할 말이 생기면 눈을 떠서 바로 앞자리 학생(전기 꽂힌 라우터 전구)에게 쪽지를 툭 던지고 다시 잡니다. 앞자리 학생은 그 쪽지를 또 앞자리 학생에게 건네어 결국 맨 앞 선생님(코디네이터)에게 도착합니다. 중간에 한 학생이 결석(고장)해도, 옆 분단 학생을 거쳐서 쪽지가 우회전송(자가 치유 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))되기 때문에, 쪽지는 무조건 교탁까지 살아서 도착하는 궁극의 집단 다단계 통신망입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 블루투스 LE]
-    │
-    ▼
-[현재 개념: 지그비 메쉬]
-    │
-    ├──▶ [확장 A: NFC 표준]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블루투스 LE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지그비 메쉬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFC 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE에서 출발해 현재 메커니즘을 정교화하고, 이후 NFC 표준와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

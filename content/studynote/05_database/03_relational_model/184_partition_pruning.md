@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))은 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조건절을 보고 **읽을 필요가 없는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에서 미리 제외**하는 최적화다.
+> 1. **본질**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))은 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조건절을 보고 <strong>읽을 필요가 없는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>을 <a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a>에서 미리 제외</strong>하는 최적화다.
 > 2. **가치**: 같은 대용량 테이블이라도 필요한 1~2개 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 읽게 만들면 입출력 (Input/Output, I/O), 버퍼 사용량, 통계 탐색 범위가 함께 줄어 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점이 현실이 된다.
 > 3. **판단 포인트**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 질의 조건이 맞물릴 때만 효과가 크며, 함수 적용·묵시적 형변환·잘못된 키 선정이 있으면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 나눴는데도 전체 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 다 훑는 상황이 생긴다.
 
@@ -25,20 +25,21 @@ tags = ["studynote-database"]
 
 아래 그림은 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체와 프루닝의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Monthly partitions and pruning                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Table : sales_history                                             │
-│   p_2026_01 | p_2026_02 | p_2026_03 | ... | p_2026_12             │
-│                                                                    │
-│ Query : WHERE order_date >= DATE '2026-05-01'                     │
-│                 AND order_date <  DATE '2026-06-01'               │
-│                                                                    │
-│ Without pruning : scan p_2026_01 ~ p_2026_12                      │
-│ With pruning    : skip all except p_2026_05                       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monthly partitions and pruning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table : sales_history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p_2026_01</div><div class="kb-diagram-cell">p_2026_02</div><div class="kb-diagram-cell">p_2026_03</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">p_2026_12</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query : WHERE order_date &gt;= DATE '2026-05-01'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND order_date &lt; DATE '2026-06-01'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without pruning : scan p_2026_01 ~ p_2026_12</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With pruning : skip all except p_2026_05</div></div>
+</div>
+</div>
+
+
 
 핵심은 "행을 읽고 버리는 것"보다 앞 단계에서 "[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자체를 읽지 않는 것"이다. 그래서 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 필터 조건의 효율화가 아니라, 저장 단위 선택 자체를 줄이는 최적화에 가깝다.
 
@@ -50,26 +51,23 @@ tags = ["studynote-database"]
 
 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조건절을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고, 그 값을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 비교한 뒤, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 시작·종료 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 범위를 좁히는 방식으로 동작한다. 즉 조건식이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 직접 비교 가능한 형태여야 하며, 그래야 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 도달 가능하고 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 불가능한지 계산할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ How pruning happens                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ SQL predicate                                                      │
-│   └─ WHERE order_date >= DATE '2026-05-01'                        │
-│                AND order_date <  DATE '2026-06-01'                │
-│        │                                                          │
-│        ▼                                                          │
-│ Predicate normalization                                            │
-│        │                                                          │
-│        ▼                                                          │
-│ Compare with partition boundary metadata                           │
-│        │                                                          │
-│        ├─ unreachable partitions -> removed from plan             │
-│        └─ reachable partitions  -> kept for scan                  │
-│        ▼                                                          │
-│ Remaining partitions + local index / segment access               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How pruning happens</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL predicate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ WHERE order_date &gt;= DATE '2026-05-01'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND order_date &lt; DATE '2026-06-01'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate normalization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compare with partition boundary metadata</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unreachable partitions -&gt; removed from plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reachable partitions -&gt; kept for scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remaining partitions + local index / segment access</div></div>
+</div>
+</div>
+
+
 
 | 구분 | 결정 시점 | 대표 상황 | 특징 |
 | :--- | :--- | :--- | :--- |
@@ -135,7 +133,7 @@ tags = ["studynote-database"]
 
 하지만 프루닝은 만능이 아니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 다른 조건이 주로 사용되면 효과가 약하고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수가 너무 많으면 최적화와 통계 관리 비용이 커진다. 또한 집계 범위가 거의 전체 기간을 덮는 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)라면 프루닝보다 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리나 저장 형식 최적화가 더 중요한 경우도 있다.
 
-결국 기억해야 할 관점은 단순하다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 "행을 덜 읽는다"보다 한 단계 앞선, **저장 단위를 덜 연다**는 최적화다. 그래서 이 개념의 핵심은 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체보다, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 조건식이 얼마나 자연스럽게 맞물리도록 설계되었는지에 있다.
+결국 기억해야 할 관점은 단순하다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 프루닝은 "행을 덜 읽는다"보다 한 단계 앞선, <strong>저장 단위를 덜 연다</strong>는 최적화다. 그래서 이 개념의 핵심은 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 자체보다, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 조건식이 얼마나 자연스럽게 맞물리도록 설계되었는지에 있다.
 
 - **📢 섹션 요약 비유**: 잘 정리된 창고는 필요한 방 문 하나만 열고 일을 끝내게 해 준다. 반대로 방은 많이 나눴는데 어느 문을 열어야 할지 모르면, 결국 모든 문을 다시 열어보는 수고가 생긴다.
 
@@ -154,23 +152,25 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대용량 테이블 분할
-        │
-        ▼
-파티션 키 선정
-        │
-        ├──────────────► 기간 기반 Range Partition
-        ├──────────────► 업무 경계 List Partition
-        └──────────────► 부하 분산 Hash Partition
-        │
-        ▼
-파티션 프루닝 (Partition Pruning)
-        │
-        ├──────────────► 정적 프루닝
-        ├──────────────► 동적 프루닝
-        └──────────────► 로컬 인덱스 · 서브파티션 프루닝 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대용량 테이블 분할</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티션 키 선정</div>
+<div class="kb-diagram-tree-item" style="--depth:4">기간 기반 Range Partition</div>
+<div class="kb-diagram-tree-item" style="--depth:4">업무 경계 List Partition</div>
+<div class="kb-diagram-tree-item" style="--depth:4">부하 분산 Hash Partition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티션 프루닝 (Partition Pruning)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">정적 프루닝</div>
+<div class="kb-diagram-tree-item" style="--depth:4">동적 프루닝</div>
+<div class="kb-diagram-tree-item" style="--depth:4">로컬 인덱스 · 서브파티션 프루닝 결합</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 분할"에서 "[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 수준의 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)"로 사고가 확장되는 과정을 보여 준다.
 

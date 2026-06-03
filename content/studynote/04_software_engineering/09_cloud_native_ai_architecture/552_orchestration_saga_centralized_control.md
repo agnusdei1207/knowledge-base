@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 550장의 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 구현하는 2가지 뇌 구조 중 하나다. 
   - **코레오그래피(Choreography, 무정부 자율 춤)**: 중앙 대빵 없이 허공([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 이벤트 던지고 지들끼리 눈치껏 주워 먹는 릴레이 핑퐁 구조. (553장에서 다룸)
-  - **[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 지휘자 통제)**: 교향악단(Orchestra) 지휘자처럼 중앙에 통제기 1대를 세운다. "1번 결제팀 찔러! ➡ 완료? ➡ 오케이 2번 배송팀 찔러!" 지휘자가 큐시트(도면)를 들고 직접 트래픽의 모가지를 잡아끌며 지휘한다.
+  - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, 지휘자 통제)</strong>: 교향악단(Orchestra) 지휘자처럼 중앙에 통제기 1대를 세운다. "1번 결제팀 찔러! ➡ 완료? ➡ 오케이 2번 배송팀 찔러!" 지휘자가 큐시트(도면)를 들고 직접 트래픽의 모가지를 잡아끌며 지휘한다.
 
 - **필요성(코레오그래피의 스파게티 지옥 파괴)**: 처음에 스타트업이 멋모르고 코레오그래피로 비동기 핑퐁 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)를 짰다. 서비스가 10개로 늘어났다. [가입 ➡ 쿠폰 ➡ 포인트 ➡ 메일 ➡ 푸시 ➡ 환불 ➡ 재발급] 메시지가 우주로 날아다니는데 엉켜서 터졌다. **"대체 이 거대한 비즈니스 플로우가 어떻게 도는 건지 전체를 파악할 수 있는 코드가 우리 회사 소스코드 100만 줄 중에 단 한 곳도 없네?"** 개발팀 전체가 1달 동안 물어물어 디버깅하다 미쳐버렸다. "아 젠장, 무정부주의 다 때려치우고 걍 가운데 대빵 서버 하나 파서 걔가 다 컨트롤하게 중앙 집권화시켜!!"라는 피 맺힌 절규가 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세화를 불렀다.
 
-- **💡 비유**: 코레오그래피는 **'길거리 비보이 댄스 배틀(무정부 자율)'**입니다. 랩(이벤트)이 나오면 1번 선수가 춤추고 2번 선수가 눈치껏 튀어나와 춥니다. 3명이면 멋지지만 100명이면 개판 1분 전이 됩니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 **'세종문화회관 100인 교향악단(중앙 통제)'**입니다. 100명의 연주자([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))는 절대 옆 사람 눈치를 보지 않습니다. 오직 무대 중앙에 서 있는 1명의 지휘자(Orchestrator)의 지휘봉(명령)만 바라보고 바이올린(결제)을 켜고 북(배송)을 칩니다. 지휘자가 틀린 놈을 1초 만에 콕 집어내어 수습할 수 있는 절대 통제술입니다.
+- **💡 비유**: 코레오그래피는 <strong>'길거리 비보이 댄스 배틀(무정부 자율)'</strong>입니다. 랩(이벤트)이 나오면 1번 선수가 춤추고 2번 선수가 눈치껏 튀어나와 춥니다. 3명이면 멋지지만 100명이면 개판 1분 전이 됩니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'세종문화회관 100인 교향악단(중앙 통제)'</strong>입니다. 100명의 연주자([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))는 절대 옆 사람 눈치를 보지 않습니다. 오직 무대 중앙에 서 있는 1명의 지휘자(Orchestrator)의 지휘봉(명령)만 바라보고 바이올린(결제)을 켜고 북(배송)을 칩니다. 지휘자가 틀린 놈을 1초 만에 콕 집어내어 수습할 수 있는 절대 통제술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **ESB의 흑역사 (2000s)**: 옛날 소아([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 시절 똑같이 중앙 집중 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))를 뒀다가 무거워서 개망했다. 그래서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대 초반엔 다들 중앙 놈들을 혐오하고 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(코레오그래피)만 외쳤다.
-  2. **[Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복잡성 폭발 (2010s 중반)**: 우버(Uber), 넷플릭스 등 글로벌 IT 거인들이 수천 개 서비스로 코레오그래피를 핑퐁 치다 우주적 디버깅 지옥을 맛보았다. "중앙 통제가 어느 정도는 무조건 필요하다!"
-  3. **Workflow Engine의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 이식 (현재)**: 아키텍트들이 넷플릭스 [Conductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/), AWS Step Functions, Uber Cadence(현 Temporal) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 워크플로우 통제 인프라를 들이마시며 100% [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세의 시대로 회귀(나선형 발전)하고 있다.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a> 복잡성 폭발 (2010s 중반)</strong>: 우버(Uber), 넷플릭스 등 글로벌 IT 거인들이 수천 개 서비스로 코레오그래피를 핑퐁 치다 우주적 디버깅 지옥을 맛보았다. "중앙 통제가 어느 정도는 무조건 필요하다!"
+  3. <strong>Workflow Engine의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 이식 (현재)</strong>: 아키텍트들이 넷플릭스 [Conductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/), AWS Step Functions, Uber Cadence(현 Temporal) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 워크플로우 통제 인프라를 들이마시며 100% [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세의 시대로 회귀(나선형 발전)하고 있다.
 
-- **📢 섹션 요약 비유**: 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 **'릴레이 이어달리기'**입니다. 바통(이벤트)을 떨어뜨리면 뛴 놈들끼리 멱살 잡고 싸우며 1시간 동안 원인을 찾습니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 **'공장 컨베이어 벨트 작업 반장(Orchestrator)'**입니다. 작업 반장이 조이스틱을 쥐고 1번 라인, 2번 라인 스위치를 탁탁 켭니다. 3번 라인 기계가 뻗으면 작업 반장 계기판에 빨간불이 1초 만에 들어오고, 반장이 바로 "전 라인 역회전([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))해!" 1초 컷으로 조이스틱을 꺾어버리는 극강의 가시성(Visibility)입니다.
+- **📢 섹션 요약 비유**: 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'릴레이 이어달리기'</strong>입니다. 바통(이벤트)을 떨어뜨리면 뛴 놈들끼리 멱살 잡고 싸우며 1시간 동안 원인을 찾습니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'공장 컨베이어 벨트 작업 반장(Orchestrator)'</strong>입니다. 작업 반장이 조이스틱을 쥐고 1번 라인, 2번 라인 스위치를 탁탁 켭니다. 3번 라인 기계가 뻗으면 작업 반장 계기판에 빨간불이 1초 만에 들어오고, 반장이 바로 "전 라인 역회전([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))해!" 1초 컷으로 조이스틱을 꺾어버리는 극강의 가시성(Visibility)입니다.
 
 ---
 
 다음은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오케스트레이션 사가 (Orchestr                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오케스트레이션 사가 (Orchestr</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오케스트레이션 사가 (Orchestration Saga) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오케스트레이션 사가 (Orchestration Saga) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,25 +22,25 @@ tags = ["studynote-software-engineering"]
 소프트웨어가 미쳐 날뛸 때, 그 원인을 파고 들어가 원시 소스 코드의 무덤을 열어보면 가장 흔한 시체는 바로 부등호 기호 `>` 와 `>=` 의 오타착각입니다. 
 인간 개발자의 뇌는 어리석게도 50이나 70 같은 중간 숫자를 다룰 때는 연산 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 매우 평화롭게 작동합니다. 하지만 배열의 양 끝 절벽 끝인 첫 번째 칸 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 0(-1로 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))이나, 마지막 방 100칸을 다뤄야 할 때 뇌 정지가 오며 치명적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류(Off-by-one error)가 폭발적으로 일어납니다.
 
-이를 수십 년간 고통스럽게 지켜본 선배 엔지니어들은 결론을 내렸습니다. "버그는 평지에 숨어있지 않다. 무조건 계단 모서리, 담벼락, 끄트머리에 우글우글 몰려있다!" 이 깨달음이 바로 가장자리 끝값을 괴롭히는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 철학, **경계값 분석(Boundary Value Analysis, BVA)**을 세상에 낳았습니다.
+이를 수십 년간 고통스럽게 지켜본 선배 엔지니어들은 결론을 내렸습니다. "버그는 평지에 숨어있지 않다. 무조건 계단 모서리, 담벼락, 끄트머리에 우글우글 몰려있다!" 이 깨달음이 바로 가장자리 끝값을 괴롭히는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 철학, <strong>경계값 분석(Boundary Value Analysis, BVA)</strong>을 세상에 낳았습니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  경계값 분석의 족집게 추출 예시                  │
-├──────────────────────────────────────────────────────────────┤
-│ [요구사항] "텍스트 박스에 1자 이상 10자 이하의 아이디만 허용!"        │
-│                                                              │
-│  step 1) 동등 분할 형님이 무리(클래스)를 켬!                       │
-│    A구역(무효): 0자  /  B구역(유효): 1~10자  /  C구역(무효): 11자 이상│
-│                                                              │
-│  step 2) BVA 아우가 모서리 끄트머리를 얄밉게 자름 (2-value 기준)    │
-│    - 최소 경계선 바깥(0)과 안(1) : "빈칸" vs "A"                │
-│    - 최대 경계선 안(10)과 바깥(11) : "ABCDEFGHIJ" vs "ABCDEFGHIJK" │
-│                                                              │
-│  ※ 결론: 수만 개의 문자열을 다 쳐볼 필요 없이 딱 길이 [0, 1, 10, 11]  │
-│          4대천왕만 입력해 보면 부등호 버그를 99% 확정 타격한다.        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경계값 분석의 족집게 추출 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-note">"텍스트 박스에 1자 이상 10자 이하의 아이디만 허용!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 1) 동등 분할 형님이 무리(클래스)를 켬!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A구역(무효): 0자 / B구역(유효): 1~10자 / C구역(무효): 11자 이상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 2) BVA 아우가 모서리 끄트머리를 얄밉게 자름 (2-value 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최소 경계선 바깥(0)과 안(1) : "빈칸" vs "A"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 경계선 안(10)과 바깥(11) : "ABCDEFGHIJ" vs "ABCDEFGHIJK"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">※ 결론: 수만 개의 문자열을 다 쳐볼 필요 없이 딱 길이</div><div class="kb-diagram-node">0, 1, 10, 11</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4대천왕만 입력해 보면 부등호 버그를 99% 확정 타격한다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지진이 일어나면 건물 한가운데 방바닥이 무너지는 게 아니라 무조건 문지방 모서리와 담벼락 끝 기둥이 먼저 갈라져 부서집니다. 그래서 안전진단 검사관(테스터)은 방 중앙은 대충 보고 모서리와 창틀 끄트머리만 망치로 후려쳐보는 겁니다.
 
@@ -83,13 +83,13 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 단순히 `1~10`이라는 숫자의 경계값만 있는 것이 아닙니다. 
-현업에서 고수 QA들이 BVA를 적용할 때 타격하는 진짜 무서운 경계는 명세서에 한 줄도 쓰여 있지 않은 **시스템의 물리적 한계 경계선**입니다.
+현업에서 고수 QA들이 BVA를 적용할 때 타격하는 진짜 무서운 경계는 명세서에 한 줄도 쓰여 있지 않은 <strong>시스템의 물리적 한계 경계선</strong>입니다.
 
 - 입력 란에 아무 숫자 조건을 안 달아놨지만, 컴퓨터 메모리의 극단인 `2,147,483,647` (32비트 [정수 오버플로우](/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/) MAX)을 슬쩍 입력해 봅니다.
 - 게시판 제목 길이에 문자열 `255자` 끄트머리와 `256자` 바깥 구간을 도출합니다. (DB의 VARCHAR 한계 폭주)
 - 날짜에 `윤년인 2월 29일`의 23시 59분 59초(경계)와 그 1초 뒤인 3월 1일 00시 00분 00초 타격.
 
-명세서에서 시키는 부등호만 쫓아가는 BVA는 반쪽짜리입니다. 이처럼 비즈니스 로직 경계 뒤에 숨어서 도사리고 있는 **하드웨어 및 자료형([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Type)의 경계**를 같이 찌르는 것이야말로 경계값 분석이 선사하는 최고의 짜릿함, 크래시(System Crash) 유발점입니다.
+명세서에서 시키는 부등호만 쫓아가는 BVA는 반쪽짜리입니다. 이처럼 비즈니스 로직 경계 뒤에 숨어서 도사리고 있는 <strong>하드웨어 및 자료형(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Type)의 경계</strong>를 같이 찌르는 것이야말로 경계값 분석이 선사하는 최고의 짜릿함, 크래시(System Crash) 유발점입니다.
 
 - **📢 섹션 요약 비유**: 엘리베이터 정원 제한이 10명이라는 명세서 경계(10명/11명)만 테스트하는 게 아니라, 아무도 말 안 해준 진짜 숨겨진 경계선인 쇠줄 한계 무게 톤수인 "1999kg와 2000kg" 모서리를 일부러 노리는 무서운 통찰입니다.
 
@@ -152,21 +152,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-경계값 분석 (Boundary Value Analysis) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경계값 분석 (Boundary Value Analysis) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

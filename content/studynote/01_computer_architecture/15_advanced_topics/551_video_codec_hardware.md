@@ -41,19 +41,21 @@ tags = ["studynote-computer-architecture"]
 | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 엔진 | 최종 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 부호화 | 부호 해석 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 의존성 |
 | 인루프 필터 | 복원 화질 보정, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 복원 프레임 정제 | 라인 버퍼와 필터 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ video codec hardware acceleration                                         │
-├──────────────────────────── encode path ──────────────────────────────────┤
-│ Raw Frame → Block Partition → Prediction → Transform/Q → Entropy Out     │
-│      │                                                     ▲              │
-│      └────────────── Reference Buffer ◀── In-loop Filter ──┘              │
-├──────────────────────────── decode path ──────────────────────────────────┤
-│ Bitstream → Parser/Entropy → Inv.Q/Inv.Transform → Prediction → Display   │
-│                                   │                                        │
-│                                   └──── Reference Buffer / In-loop Filter  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">video codec hardware acceleration</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">encode path</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Frame → Block Partition → Prediction → Transform/Q → Entropy Out</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reference Buffer ◀── In-loop Filter ──</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">decode path</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bitstream → Parser/Entropy → Inv.Q/Inv.Transform → Prediction → Display</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reference Buffer / In-loop Filter</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 "계산량"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용"이다. 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임을 여러 블록이 반복해서 읽기 때문에, 온칩 정적 램 ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/), Static Random Access Memory)과 타일 버퍼가 충분하지 않으면 외부 동적 램 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory) 왕복이 늘어 전력과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 폭증한다. 따라서 좋은 코덱 가속기는 계산 유닛만 큰 것이 아니라, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임 접근 패턴을 줄이는 메모리 계층 설계가 함께 좋아야 한다.
 
@@ -92,7 +94,7 @@ H.265와 AV1은 모두 고효율 [압축](/knowledge-base/studynote/02_operating
 1. **작업 유형**: 디코딩만 필요한가, 실시간 인코딩이나 트랜스코딩까지 필요한가?
 2. **프로파일 범위**: 8비트/10비트, 4:2:0/4:2:2, HDR10, 필름 그레인 합성 등을 실제로 지원하는가?
 3. **메모리 경로**: VPU와 디스플레이·네트워크·저장장치 사이에 [zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 경로가 있는가?
-4. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 모드**: 실시간 회의처럼 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 우선인가, 저장용처럼 최대 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율이 우선인가?
+4. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 모드</strong>: 실시간 회의처럼 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 우선인가, 저장용처럼 최대 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율이 우선인가?
 5. **열지속성**: 4K/8K 연속 처리 시 열 제한 때문에 CPU fallback이나 클럭 저하가 발생하지 않는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -113,7 +115,7 @@ H.265와 AV1은 모두 고효율 [압축](/knowledge-base/studynote/02_operating
 
 반면 한계도 분명하다. 표준이 바뀔 때마다 하드웨어 수명이 갑자기 짧아질 수 있고, H.265는 라이선스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), AV1은 복잡도와 면적이 부담이다. 앞으로는 다재다능 비디오 코딩 (VVC, Versatile Video Coding), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 전처리·후처리, 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 전통 코덱의 하이브리드가 등장하면서 가속기 구조도 더 유연해질 가능성이 크다.
 
-결론적으로 비디오 코덱 하드웨어 가속은 **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 빠르게 돌리는 기술**이 아니라 **복잡한 비디오 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 제한된 메모리와 전력 안에서 제시간에 끝내게 하는 아키텍처 기술**로 기억해야 한다. 이 관점을 잡으면 왜 코덱 지원 여부보다 메모리 경로와 지속 성능이 더 중요할 때가 많은지 이해된다.
+결론적으로 비디오 코덱 하드웨어 가속은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 빠르게 돌리는 기술</strong>이 아니라 <strong>복잡한 비디오 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 제한된 메모리와 전력 안에서 제시간에 끝내게 하는 아키텍처 기술</strong>로 기억해야 한다. 이 관점을 잡으면 왜 코덱 지원 여부보다 메모리 경로와 지속 성능이 더 중요할 때가 많은지 이해된다.
 
 - **📢 섹션 요약 비유**: 좋은 코덱 가속기는 큰 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)기 한 대가 아니라, 포장·운반·보관이 끊기지 않도록 맞물린 자동 물류 라인과 같다.
 
@@ -132,21 +134,23 @@ H.265와 AV1은 모두 고효율 [압축](/knowledge-base/studynote/02_operating
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MPEG-2 / H.264 era fixed decode assist
-        │
-        ▼
-Dedicated H.265 encode + decode engines
-        │
-        ▼
-AV1 hardware decode, then full encode support
-        │
-        ▼
-Multi-stream 4K/8K HDR zero-copy media pipeline
-        │
-        ▼
-VVC · AI-assisted codec hybrid engines
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MPEG-2 / H.264 era fixed decode assist</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dedicated H.265 encode + decode engines</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AV1 hardware decode, then full encode support</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-stream 4K/8K HDR zero-copy media pipeline</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VVC · AI-assisted codec hybrid engines</div>
+</div>
+</div>
+
+
 
 이 흐름은 "재생 보조용 블록"이 "고해상도 [다중 스트림](/knowledge-base/studynote/02_operating_system/09_file_system/560_multi_stream_file_fork_ads/)을 책임지는 핵심 미디어 엔진"으로 확장되는 과정을 보여 준다.
 

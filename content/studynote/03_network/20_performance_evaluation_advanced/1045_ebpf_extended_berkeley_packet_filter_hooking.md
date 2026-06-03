@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어옵니다. 이걸 바이러스인지 검사([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))하려면, 패킷이 리더기 ➜ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 ➜ 복사 ➜ 사용자 공간(백신 앱)까지 깊숙하게 올라와야 합니다. 
-- 복사하고 올라오는 **경로([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 통과)가 너무 길어서** 1초에 1억 개의 패킷을 때려붓는 디도스(DDoS) 공격이 오면 검사하기도 전에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU가 100%를 치고 서버가 기절합니다. ([컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드 폭발)
+- 복사하고 올라오는 <strong>경로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 통과)가 너무 길어서</strong> 1초에 1억 개의 패킷을 때려붓는 디도스(DDoS) 공격이 오면 검사하기도 전에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU가 100%를 치고 서버가 기절합니다. ([컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드 폭발)
 
-```text
-[마이크로 세그멘테이션]
-    │
-    ▼
-[eBPF 커널 네트워킹 후킹 시스템]
-    │
-    └──▶ [P4 네트워크 프로그래밍 모델 플로우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드를 1도 수정하지 않고(재컴파일 없이), 사용자가 작성한 **커스텀 프로그램(바이트코드)을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(운영체제의 심장) 내부의 극도로 안전한 샌드박스(Sandbox) 가상 머신에 동적으로 밀어 넣어 런타임에 즉시 실행시키는 혁명적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로그래밍 기술**입니다.
+- **개념**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드를 1도 수정하지 않고(재컴파일 없이), 사용자가 작성한 <strong>커스텀 프로그램(바이트코드)을 리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(운영체제의 심장) 내부의 극도로 안전한 샌드박스(Sandbox) 가상 머신에 동적으로 밀어 넣어 런타임에 즉시 실행시키는 혁명적인 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 프로그래밍 기술</strong>입니다.
 
-```text
-[마이크로 세그멘테이션]
-    │
-    ▼
-[eBPF 커널 네트워킹 후킹 시스템]
-    │
-    └──▶ [P4 네트워크 프로그래밍 모델 플로우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,13 +63,13 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 빛의 속도 패킷 처단 ([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)) 🌟
-- **[XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) ([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))**: eBPF의 최강 필살기 기능입니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/">eXpress Data Path</a>)</strong>: eBPF의 최강 필살기 기능입니다.
 - 랜카드 하드웨어 드라이버 바로 윗단([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 밑바닥)에 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 프로그램을 갈고리(Hook)처럼 걸어둡니다.
 - 디도스(DDoS) 쓰레기 패킷이 랜카드에 딱 들어오는 찰나! [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 올리기도 전에, 밑바닥에서 eBPF가 0.0001초 만에 까보고 "어? 디도스네? 컷!" 하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 초입에서 **즉사시켜 버립니다(Drop).** CPU 오버헤드 없이 초당 수천만 개의 패킷을 방어하는 미친 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽑아냅니다. (페이스북, 클라우드플레어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 핵심)
 
 ### 2. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 죽이지 않는 샌드박스와 검증기 (Verifier)
 - 내가 짠 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 코드가 실수로 무한 루프(버그)에 빠지면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽어야 정상입니다.
-- eBPF는 코드를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 찔러 넣기 직전에, **Verifier(악질 검열관)**가 코드를 머리부터 발끝까지 뜯어보고 "이 코드 무한 루프 있네? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 침범하네? 넌 탈락!" 하고 빠꾸를 놓습니다. 이 검증을 통과한 100% 안전한 코드만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스 안에서 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일되어 원시 속도로 실행되므로, [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)(블루스크린)이 구조적으로 불가능합니다.
+- eBPF는 코드를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 찔러 넣기 직전에, <strong>Verifier(악질 검열관)</strong>가 코드를 머리부터 발끝까지 뜯어보고 "이 코드 무한 루프 있네? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 침범하네? 넌 탈락!" 하고 빠꾸를 놓습니다. 이 검증을 통과한 100% 안전한 코드만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스 안에서 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일되어 원시 속도로 실행되므로, [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)(블루스크린)이 구조적으로 불가능합니다.
 
 ### 3. 궁극의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (관측성)
 - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 안에 수만 개의 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 떠 있습니다. 얘네들이 무슨 통신을 하는지 옛날엔 곁가지에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 사이드카를 주렁주렁 달아서 감시했습니다(느리고 무거움).
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-과거 자바스크립트(JS)가 멍청한 HTML 웹브라우저를 화려한 동적 프로그램으로 만들었듯, **eBPF는 멍청한 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 마음대로 주무를 수 있는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)용 자바스크립트'**로 불리며 차세대 보안과 네트워킹의 절대 권력으로 군림하고 있습니다.
+과거 자바스크립트(JS)가 멍청한 HTML 웹브라우저를 화려한 동적 프로그램으로 만들었듯, <strong>eBPF는 멍청한 리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>을 마음대로 주무를 수 있는 '<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>용 자바스크립트'</strong>로 불리며 차세대 보안과 네트워킹의 절대 권력으로 군림하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -89,7 +97,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 네트워킹은 공항에서 **'본관 3층에 있는 수하물 검사실(사용자 공간 앱)'**과 같습니다. 폭탄(디도스 패킷)이 비행기에서 내려 컨베이어 벨트를 타고 한참 올라가서 3층에 도착해야만 열어보고 폭탄임을 압니다. 폭탄이 수만 개 쏟아지면 공항 레일이 다 마비되고 터집니다. **eBPF와 [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)**는 비행기 화물칸 문이 열리자마자 바로 코앞 아스팔트 활주로 바닥([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥 랜카드 드라이버)에 **'[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 엑스레이 천막(샌드박스)'**을 긴급 설치한 것입니다. 천막 안에는 내가 짠 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 프로그램)이 대기합니다. 화물이 비행기에서 떨어지는 즉시 레일에 올리기도 전에 0.01초 만에 뜯어보고 폭탄이면 활주로 밖으로 집어 던져버립니다([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) Drop). 덕분에 공항 본관([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 CPU)은 폭탄이 왔는지조차 모를 정도로 평화롭게 진짜 승객(정상 패킷)만 처리할 수 있게 해주는 궁극의 밑바닥 방어 및 관측 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 네트워킹은 공항에서 <strong>'본관 3층에 있는 수하물 검사실(사용자 공간 앱)'</strong>과 같습니다. 폭탄(디도스 패킷)이 비행기에서 내려 컨베이어 벨트를 타고 한참 올라가서 3층에 도착해야만 열어보고 폭탄임을 압니다. 폭탄이 수만 개 쏟아지면 공항 레일이 다 마비되고 터집니다. <strong>eBPF와 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a></strong>는 비행기 화물칸 문이 열리자마자 바로 코앞 아스팔트 활주로 바닥([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥 랜카드 드라이버)에 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 엑스레이 천막(샌드박스)'</strong>을 긴급 설치한 것입니다. 천막 안에는 내가 짠 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 프로그램)이 대기합니다. 화물이 비행기에서 떨어지는 즉시 레일에 올리기도 전에 0.01초 만에 뜯어보고 폭탄이면 활주로 밖으로 집어 던져버립니다([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) Drop). 덕분에 공항 본관([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 CPU)은 폭탄이 왔는지조차 모를 정도로 평화롭게 진짜 승객(정상 패킷)만 처리할 수 있게 해주는 궁극의 밑바닥 방어 및 관측 시스템입니다.
 
 ---
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로 세그멘테이션]
-    │
-    ▼
-[현재 개념: eBPF 커널 네트워킹 후킹 시스템]
-    │
-    ├──▶ [확장 A: P4 네트워크 프로그래밍 모델 플로우]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

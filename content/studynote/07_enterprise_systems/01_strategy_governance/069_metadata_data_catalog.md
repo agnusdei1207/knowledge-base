@@ -28,15 +28,21 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Data Assets
-  ↓
-Metadata Collection
-  ↓
-Data Catalog
-  ↓
-Search / Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Assets</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Metadata Collection</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Catalog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Search / Governance</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 의미 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ Search / Governance
 
 ## 관련 개념 맵
 
-```text
-Metadata
-  ↓
-Data Catalog
-  ↓
-Search / Lineage
-  ↓
-Data Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Metadata</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Catalog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Search / Lineage</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Governance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Metadata
-  ↓
-Data Catalog
-  ↓
-Data Discovery
-  ↓
-Data Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Metadata</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Catalog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Discovery</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Governance</div>
+</div>
+</div>
+
+
 
 ---
 

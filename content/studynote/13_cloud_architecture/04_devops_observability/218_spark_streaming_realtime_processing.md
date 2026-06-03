@@ -23,7 +23,7 @@ tags = ["studynote-cloud-architecture"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)(Spark 1.x)은 [DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)(Discretized [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) API를 사용했다. 스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정 시간 간격(예: 1초)으로 RDD로 쪼개어 배치처럼 처리하는 방식이었다. 동작은 했지만 이벤트 시간 처리, 상태 관리, exactly-once 보장이 복잡했다.
 
-Spark 2.0에서 등장한 **[Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)**은 완전히 재설계됐다. 핵심 아이디어: **스트림을 끝없이 행이 추가되는 테이블**로 본다. 개발자는 이 테이블에 배치와 동일한 DataFrame/SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 작성하고, Spark이 내부적으로 마이크로 배치로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 반복 실행하여 결과를 점진적으로 업데이트한다.
+Spark 2.0에서 등장한 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a></strong>은 완전히 재설계됐다. 핵심 아이디어: <strong>스트림을 끝없이 행이 추가되는 테이블</strong>로 본다. 개발자는 이 테이블에 배치와 동일한 DataFrame/SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 작성하고, Spark이 내부적으로 마이크로 배치로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 반복 실행하여 결과를 점진적으로 업데이트한다.
 
 📢 **섹션 요약 비유**: Structured Streaming은 뉴스 자막 기계와 같다. 자막 기계는 기자가 전송하는 뉴스(스트림)를 화면 아래에 계속 추가하는 테이블처럼 처리하여, 매초 새로운 자막을 자동으로 표시한다.
 
@@ -33,29 +33,26 @@ Spark 2.0에서 등장한 **[Structured Streaming](/knowledge-base/studynote/16_
 
 ### [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) 실행 모델
 
-```
-  ┌────────────────────────────────────────────────────────────┐
-  │               Structured Streaming 처리 모델                │
-  ├────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  소스 (Kafka/File/Socket)                                   │
-  │       │ 새 데이터 계속 유입                                  │
-  │       ▼                                                     │
-  │  Input Table (무한히 쌓이는 테이블 추상화)                   │
-  │  ┌──────────────────────────────────────────────────────┐  │
-  │  │ T=0 │ event_1, event_2                               │  │
-  │  │ T=1 │ event_3, event_4, event_5                      │  │
-  │  │ T=2 │ event_6                                        │  │
-  │  │ ... │ (계속 쌓임)                                     │  │
-  │  └──────────────────────────────────────────────────────┘  │
-  │       │ 동일한 DataFrame 쿼리 적용                           │
-  │       ▼                                                     │
-  │  Result Table (쿼리 결과 테이블)                             │
-  │       │                                                     │
-  │       ▼ 마이크로 배치마다 업데이트                            │
-  │  Output (Console/File/Kafka/DB 등)                          │
-  └────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structured Streaming 처리 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 (Kafka/File/Socket)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 데이터 계속 유입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input Table (무한히 쌓이는 테이블 추상화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=0</div><div class="kb-diagram-cell">event_1, event_2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1</div><div class="kb-diagram-cell">event_3, event_4, event_5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2</div><div class="kb-diagram-cell">event_6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">(계속 쌓임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 DataFrame 쿼리 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result Table (쿼리 결과 테이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 마이크로 배치마다 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output (Console/File/Kafka/DB 등)</div></div>
+</div>
+</div>
+
+
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소스 연동 코드
 
@@ -114,7 +111,7 @@ query.awaitTermination()
 |:---|:---|:---|
 | **Tumbling Window** | 겹치지 않는 고정 크기 윈도우 | 1분마다 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 |
 | **Sliding Window** | 슬라이딩 간격으로 이동하는 윈도우 | 5분 윈도우, 1분마다 이동 |
-| **[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Window** | 비활성 기간으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 구분 | 30초 이상 이벤트 없으면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 종료 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Window</strong> | 비활성 기간으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 구분 | 30초 이상 이벤트 없으면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 종료 |
 
 📢 **섹션 요약 비유**: [윈도우 연산](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 창문으로 바깥을 보는 것과 같다. Tumbling은 매 정류장마다 새 창문, Sliding은 창문이 조금씩 이동하면서 앞 풍경과 현재 풍경이 겹치는 것이다.
 
@@ -155,7 +152,7 @@ query.awaitTermination()
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**:
+<strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a>(<a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a>) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 ```python
 # 이벤트 시간 vs 처리 시간
 # 이벤트: 15:00:00에 발생 → 네트워크 지연으로 15:00:30에 도착
@@ -173,7 +170,7 @@ windowed = df \
 # 워터마크 있으면: 허용 시간 초과한 지연 데이터는 버리고 상태 메모리 정리
 ```
 
-**[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → Spark → S3 파이프라인**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> → Spark → S3 파이프라인</strong>:
 ```python
 # Delta Lake로 실시간 데이터 저장 (ACID 트랜잭션 지원)
 orders.writeStream \
@@ -226,18 +223,21 @@ Spark Structured Streaming은 "빅데이터 [배치 처리](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배치 처리 (지연 ↑, 실시간성 ↓)
-    │
-    ▼
-Spark Streaming: 마이크로배치 (준실시간)
-    │
-    ▼
-Structured Streaming: DataFrame API + Event-Time + Watermark
-    │
-    ▼
-Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 처리 (지연 ↑, 실시간성 ↓)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark Streaming: 마이크로배치 (준실시간)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Structured Streaming: DataFrame API + Event-Time + Watermark</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장</div>
+</div>
+</div>
+
+
 2. 마이크로 배치는 10초마다 영상을 묶어서 분석하는 것, 연속 처리는 프레임마다 즉시 분석하는 거야.
 3. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 "이미 10분 지난 영상은 그냥 넘어가자"라는 규칙이야. 너무 늦게 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 기다리지 않고 무시해서 메모리가 꽉 차지 않게 해.
 

@@ -25,17 +25,20 @@ Prototype은 첫 번째 문제에 답한다. 비싼 초기화를 한 번 수행�
 
 또 하나 중요한 점은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)다. Prototype은 GoF (Gang of Four) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이고, Flyweight는 구조 패턴이다. 그럼에도 둘이 자주 같이 비교되는 이유는, 아키텍트가 실무에서 느끼는 질문이 "패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)"보다 "메모리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 어떻게 아낄 것인가"이기 때문이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Which cost hurts more?                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ new() itself expensive?          ──▶ Prototype                       │
-│ many similar objects coexist?    ──▶ Flyweight                      │
-│ both are true?                   ──▶ combine clone + shared state    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 두 패턴의 출발점은 "효율화"라는 공통 목표가 아니라, **시간 최적화와 공간 최적화라는 서로 다른 질문**이다. 이 경계를 먼저 잡아야 올바른 설계가 시작된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Which cost hurts more?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new() itself expensive? ──▶ Prototype</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many similar objects coexist? ──▶ Flyweight</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">both are true? ──▶ combine clone + shared state</div></div>
+</div>
+</div>
+
+
+
+즉 두 패턴의 출발점은 "효율화"라는 공통 목표가 아니라, <strong>시간 최적화와 공간 최적화라는 서로 다른 질문</strong>이다. 이 경계를 먼저 잡아야 올바른 설계가 시작된다.
 
 - **📢 섹션 요약 비유**: Prototype은 비싼 맞춤 정장을 한 벌 만들어 두고 치수만 조금 바꿔 빨리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 방식이고, Flyweight는 옷걸이와 진열대를 공유해 수많은 옷을 더 적은 공간에 보관하는 방식이다.
 
@@ -47,22 +50,24 @@ Prototype의 핵심 메커니즘은 "초기화 비용을 앞당겨 치르고, �
 
 Flyweight의 핵심 메커니즘은 "상태를 내재 상태와 외재 상태로 나누는 것"이다. 내재 상태 (Intrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 여러 객체가 공통으로 가질 수 있고 보통 불변이어야 한다. 외재 상태 (Extrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 위치, 시간, 사용자별 값처럼 호출 시점마다 달라지는 정보이며, 클라이언트가 별도로 들고 전달한다. 이 분리가 성공하면 메모리는 `공유 상태 1개 + 외재 상태 × N` 구조로 줄어든다.
 
-```text
-┌──────────────────────────── Prototype ───────────────────────────────┐
-│ Prototype Registry                                                   │
-│   └─ prepared object                                                 │
-│          │                                                           │
-│          ├─ shallow copy -> 빠르지만 내부 참조 공유 가능            │
-│          └─ deep copy    -> 안전하지만 복사 비용 증가               │
-└──────────────────────────────────────────────────────────────────────┘
-┌──────────────────────────── Flyweight ───────────────────────────────┐
-│ Flyweight Factory                                                    │
-│   └─ shared intrinsic state cache                                    │
-│          │                                                           │
-│          ├─ glyph A, font 12, black  -> 1회만 저장                  │
-│          └─ clients pass position / order / runtime state            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Prototype</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prototype Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ prepared object</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shallow copy -&gt; 빠르지만 내부 참조 공유 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ deep copy -&gt; 안전하지만 복사 비용 증가</div></div>
+<div class="kb-diagram-note">Flyweight</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flyweight Factory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shared intrinsic state cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ glyph A, font 12, black -&gt; 1회만 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ clients pass position / order / runtime state</div></div>
+</div>
+</div>
+
+
 
 | 구분 | [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | [Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) |
 | :--- | :--- | :--- |
@@ -88,9 +93,9 @@ Prototype과 Flyweight를 구분하는 가장 좋은 질문은 "객체가 태어
 | 상태 처리 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 후 독립 상태가 일반적 | 공유 상태는 불변, 개별 상태는 외부 보관 | 사용 전 초기화·반납 필요 |
 | 대표 예 | 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체, 템플릿 문서 | String Pool, glyph cache, icon cache | DB connection, [thread pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |
 
-이 비교가 중요한 이유는 세 패턴이 모두 "낭비를 줄인다"는 느낌을 주기 때문이다. 그러나 Flyweight는 Object Pool처럼 객체를 회수해 돌려 쓰는 전략이 아니고, Prototype처럼 객체를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 증가시키는 전략도 아니다. Flyweight는 **공통 본체를 하나만 두고 바라보는 관점**이고, Prototype은 **원형에서 새 사본을 만드는 관점**이다.
+이 비교가 중요한 이유는 세 패턴이 모두 "낭비를 줄인다"는 느낌을 주기 때문이다. 그러나 Flyweight는 Object Pool처럼 객체를 회수해 돌려 쓰는 전략이 아니고, Prototype처럼 객체를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 증가시키는 전략도 아니다. Flyweight는 <strong>공통 본체를 하나만 두고 바라보는 관점</strong>이고, Prototype은 <strong>원형에서 새 사본을 만드는 관점</strong>이다.
 
-또한 두 패턴은 함께 쓰일 수 있다. 예를 들어 게임 맵 편집기에서 기본 맵 템플릿은 Prototype으로 빠르게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고, 맵 안의 타일 텍스처와 아이콘은 Flyweight로 공유할 수 있다. 그래서 실무 설계에서는 둘 중 하나만 고집하기보다, 병목이 여러 층에 있으면 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용과 상주 비용을 분리해 동시에 최적화**하는 경우가 많다.
+또한 두 패턴은 함께 쓰일 수 있다. 예를 들어 게임 맵 편집기에서 기본 맵 템플릿은 Prototype으로 빠르게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고, 맵 안의 타일 텍스처와 아이콘은 Flyweight로 공유할 수 있다. 그래서 실무 설계에서는 둘 중 하나만 고집하기보다, 병목이 여러 층에 있으면 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 비용과 상주 비용을 분리해 동시에 최적화</strong>하는 경우가 많다.
 
 - **📢 섹션 요약 비유**: Prototype은 원본 문서를 복사해 각자 한 부씩 나눠 갖는 방식이고, Flyweight는 도서관 참고서를 한 권만 두고 모두가 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정보만 따로 적어 가는 방식이다.
 
@@ -138,7 +143,7 @@ Bullet 100,000개 동시 존재 가정
 - 메모리 문제인데 Prototype만 도입해 인스턴스 수를 더 늘리는 것
 - 외재 상태 전달 비용이 큰데도 무조건 Flyweight를 적용하는 것
 
-기술사 답안에서는 "[Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) vs [Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)"를 단순 암기표로 쓰기보다, **시간 최적화냐 공간 최적화냐**라는 질문으로 재구성해 설명하는 것이 좋다. 그래야 패턴 선택 기준과 실패 시나리오까지 설계 논리로 이어진다.
+기술사 답안에서는 "[Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) vs [Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)"를 단순 암기표로 쓰기보다, <strong>시간 최적화냐 공간 최적화냐</strong>라는 질문으로 재구성해 설명하는 것이 좋다. 그래야 패턴 선택 기준과 실패 시나리오까지 설계 논리로 이어진다.
 
 - **📢 섹션 요약 비유**: 새 가게를 빨리 열고 싶으면 인테리어 설계를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 것이 중요하고, 창고가 부족하면 선반과 포장재를 공유하는 것이 중요하다. 같은 효율화라도 먼저 아픈 곳이 어디인지 봐야 한다.
 
@@ -148,7 +153,7 @@ Bullet 100,000개 동시 존재 가정
 
 Prototype과 Flyweight를 올바르게 구분하면 객체 설계의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 더 정확히 다룰 수 있다. Prototype은 비싼 초기화 비용을 앞단에서 흡수해 응답성을 높이고, Flyweight는 대량 객체가 차지하는 메모리와 GC 압력을 줄여 시스템 밀도를 높인다. 이 둘을 구분하지 못하면 "효율화"라는 이름으로 반대로 비용을 키우는 설계를 하기 쉽다.
 
-한계도 분명하다. Prototype은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 전략이 잘못되면 독립성이 깨지고, Flyweight는 공유 상태를 안전하게 관리하지 못하면 전체 시스템에 버그가 번진다. 따라서 기억해야 할 핵심은 두 패턴을 같은 카테고리로 외우는 것이 아니라, **Prototype은 객체의 탄생을 최적화하고 Flyweight는 객체들의 공존을 최적화한다**는 관점이다.
+한계도 분명하다. Prototype은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 전략이 잘못되면 독립성이 깨지고, Flyweight는 공유 상태를 안전하게 관리하지 못하면 전체 시스템에 버그가 번진다. 따라서 기억해야 할 핵심은 두 패턴을 같은 카테고리로 외우는 것이 아니라, <strong>Prototype은 객체의 탄생을 최적화하고 Flyweight는 객체들의 공존을 최적화한다</strong>는 관점이다.
 
 - **📢 섹션 요약 비유**: Prototype은 "빨리 새것을 만드는 기술"이고, Flyweight는 "많은 것을 함께 살아 있게 만드는 기술"이다. 둘 다 효율적이지만, 아끼는 자원과 설계 부담이 다르다.
 
@@ -168,20 +173,21 @@ Prototype과 Flyweight를 올바르게 구분하면 객체 설계의 [성능](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-객체 성능 문제
-    │
-    ├─ 생성 시점이 비싸다 ──▶ Prototype
-    │                           │
-    │                           └─ shallow copy / deep copy 판단
-    │
-    └─ 동시 상주 수가 많다 ──▶ Flyweight
-                                │
-                                └─ intrinsic / extrinsic state 분리
-    │
-    ▼
-복제 최적화 + 공유 최적화의 병행 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">객체 성능 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">생성 시점이 비싸다 ──▶ Prototype</div>
+<div class="kb-diagram-note">─ shallow copy / deep copy 판단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">동시 상주 수가 많다 ──▶ Flyweight</div>
+<div class="kb-diagram-tree-item" style="--depth:8">intrinsic / extrinsic state 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복제 최적화 + 공유 최적화의 병행 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 객체 효율화 논의가 패턴 이름 암기보다, 비용이 생기는 시점을 먼저 가르는 판단 문제임을 보여 준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: KVM (Keyboard, Video, Mouse) 오버 IP는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 서버의 화면과 입력 장치를 네트워크로 중계하는 **대역외(Out-of-Band) 원격 콘솔**이다.
+> 1. **본질**: KVM (Keyboard, Video, Mouse) 오버 IP는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 서버의 화면과 입력 장치를 네트워크로 중계하는 <strong>대역외(Out-of-Band) 원격 콘솔</strong>이다.
 > 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS), 네트워크 드라이버, 그래픽 드라이버가 죽어도 BIOS (Basic Input/Output System), [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface), [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/), [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 화면까지 직접 볼 수 있다.
 > 3. **판단 포인트**: 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축에는 강력하지만, 영상 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·[BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 보안 위험·제한된 사용자 경험이 있어 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) ([Secure Shell](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))나 RDP (Remote Desktop [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 대체재가 아니라 보완재로 써야 한다.
 
@@ -45,27 +45,24 @@ KVM 오버 IP의 핵심은 "화면은 캡처해서 보내고, 입력은 가짜 �
 
 아래 그림은 KVM 오버 IP가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 위가 아니라 메인보드 관리 경로에서 동작함을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Admin PC                                                                  │
-│  Browser / KVM Client                                                     │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ HTTPS / Vendor Console Protocol
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ OOB Mgmt Network                                                          │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Server Mainboard                                                          │
-│                                                                            │
-│  Host VGA/FB ─────▶ [ Video Capture ] ─────▶ Encode/Stream ─────▶ Remote  │
-│                                                                            │
-│  Admin Input ─────▶ [ BMC ] ─────▶ USB HID Emulation ─────▶ BIOS / OS     │
-│                                                                            │
-│  Power / Reset / Boot Order ───────────────────────────────▶ Control Path  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin PC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser / KVM Client</div></div>
+<div class="kb-diagram-note">HTTPS / Vendor Console Protocol</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOB Mgmt Network</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server Mainboard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Video Capture</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Encode/Stream ▶ Remote</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BMC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">USB HID Emulation ▶ BIOS / OS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power / Reset / Boot Order ▶ Control Path</div></div>
+</div>
+</div>
+
+
 
 화면 경로는 보통 호스트의 VGA [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)나 BMC가 공유하는 프레임버퍼를 읽어 JPEG, H.264, 또는 벤더 전용 스트림으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 전송한다. 입력 경로는 반대로 관리자가 누른 키를 BMC가 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 키보드·마우스로 에뮬레이션해 호스트에 꽂힌 것처럼 보이게 만든다. 이 때문에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰 있어도 BIOS 메뉴에서 `Del`, `F2`, `Esc`를 누르는 동작이 가능하다.
 
@@ -99,8 +96,8 @@ KVM 오버 IP를 제대로 이해하려면 "어떤 장애 단계까지 도달 �
 
 실무에서 KVM 오버 IP는 다음과 같은 상황에서 채택 가치가 높다.
 
-1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축**: BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 구성, PXE (Preboot Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 실패 대응, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) 설치 화면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-2. **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**: [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/), 블루스크린, 부트 루프, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/스토리지 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 실패
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축</strong>: BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 구성, PXE (Preboot Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 실패 대응, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) 설치 화면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+2. <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>: [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/), 블루스크린, 부트 루프, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/스토리지 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 실패
 3. **원격 무인 사이트 운영**: 지사 서버, 콜로케이션 랙, 야간 무인 장애 대응
 4. **보안 격리 환경**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망과 별개 관리망에서 제한적으로 운영
 
@@ -120,7 +117,7 @@ KVM 오버 IP를 제대로 이해하려면 "어떤 장애 단계까지 도달 �
 - HTML5 콘솔 또는 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 지원해 브라우저 의존성이 낮은가?
 - 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차서에 "언제 SSH에서 KVM으로 전환할지" 기준이 있는가?
 
-기술사 관점에서는 KVM 오버 IP를 단순 편의기능이 아니라 **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) 단축 도구**로 설명해야 한다. 현장 출동이 1시간 걸리는 환경에서 KVM 오버 IP는 장애 초동 시간을 분 단위로 줄인다. 다만 보안과 운영 표준화 없이는 관리용 백도어가 되기 쉽기 때문에, 반드시 OOB 망 분리·계정 통제·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 생애주기 관리와 함께 설명하는 것이 정답에 가깝다.
+기술사 관점에서는 KVM 오버 IP를 단순 편의기능이 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">Recovery Time Objective</a>) 단축 도구</strong>로 설명해야 한다. 현장 출동이 1시간 걸리는 환경에서 KVM 오버 IP는 장애 초동 시간을 분 단위로 줄인다. 다만 보안과 운영 표준화 없이는 관리용 백도어가 되기 쉽기 때문에, 반드시 OOB 망 분리·계정 통제·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 생애주기 관리와 함께 설명하는 것이 정답에 가깝다.
 
 - **📢 섹션 요약 비유**: KVM 오버 IP는 비상용 마스터 키와 같다. 화재 때는 생명을 구하지만, 아무 데나 걸어 두면 그 자체가 가장 위험한 침입 통로가 된다.
 
@@ -132,7 +129,7 @@ KVM 오버 IP를 잘 도입하면 물리 방문을 줄이고, [초기](/knowledg
 
 그러나 이 기술이 모든 원격 작업을 대체하지는 않는다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 영상 특성상 대화형 성능이 제한되고, [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 자체가 또 하나의 관리 시스템이므로 보안·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 체계를 따로 가져가야 한다. 또한 대규모 자동화 배포는 PXE, 이미지 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), [Redfish API](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/711_redfish_api/) 같은 기법과 조합할 때 효율이 커진다.
 
-결국 KVM 오버 IP는 "네트워크로 연장된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)와 키보드"가 아니라, **서버가 완전히 아파도 마지막까지 눈과 손을 남겨 두는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층**으로 기억하는 것이 정확하다.
+결국 KVM 오버 IP는 "네트워크로 연장된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)와 키보드"가 아니라, <strong>서버가 완전히 아파도 마지막까지 눈과 손을 남겨 두는 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 계층</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 원격 관제실은 평소에 잘 안 보이지만, 정전이나 화재가 났을 때 진가가 드러난다. KVM 오버 IP도 평온할 때보다 사고 순간에 존재 이유가 증명된다.
 
@@ -150,23 +147,24 @@ KVM 오버 IP를 잘 도입하면 물리 방문을 줄이고, [초기](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Crash Cart
-    │
-    ▼
-Local KVM Switch
-    │
-    ▼
-OOB Management + BMC
-    │
-    ├──▶ KVM over IP
-    │        │
-    │        ├──▶ Virtual Media
-    │        └──▶ Remote Power / Reset
-    │
-    ▼
-HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Crash Cart</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Local KVM Switch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OOB Management + BMC</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ KVM over IP</div>
+<div class="kb-diagram-note">──▶ Virtual Media</div>
+<div class="kb-diagram-note">──▶ Remote Power / Reset</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops</div>
+</div>
+</div>
+
+
 
 이 흐름은 현장 상주형 조작에서 네트워크 기반 무인 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 관리 방식이 진화한 과정을 보여준다.
 

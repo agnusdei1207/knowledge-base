@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 중앙 관리 컴퓨터(NMS, 매니저)가 1,000대의 네트워크 장비(에이전트)에게 5분마다 핑퐁 퀴즈를 던져서 상태를 긁어오는(Pull/[Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 가장 오래되고 유명한 통신 감시 프로토콜입니다.
-- **문제점**: 1,000대의 장비한테 "너 지금 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 트래픽 얼마야?"라고 물어보려면, 그 장비 안에 **"[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 트래픽 수치가 적혀있는 통일된 엑셀 장부"**가 반드시 있어야 합니다.
+- **문제점**: 1,000대의 장비한테 "너 지금 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 트래픽 얼마야?"라고 물어보려면, 그 장비 안에 <strong>"<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 1번 트래픽 수치가 적혀있는 통일된 엑셀 장부"</strong>가 반드시 있어야 합니다.
 
-```text
-[DHCP 릴레이 에이전트]
-    │
-    ▼
-[SNMP MIB 구조]
-    │
-    └──▶ [IPSec 터널/수송 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP MIB 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPSec 터널/수송 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 서버 등 네트워크 장비가 자기 자신의 상태 정보(CPU 점유율, 인터페이스 상태, IP 주소 등)를 중앙 NMS 서버가 읽어갈 수 있도록 **체계적인 트리(Tree) 계층 구조로 분류하여 저장해 놓은 텍스트 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(정보 저장소)**입니다.
+- **개념**: 라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 서버 등 네트워크 장비가 자기 자신의 상태 정보(CPU 점유율, 인터페이스 상태, IP 주소 등)를 중앙 NMS 서버가 읽어갈 수 있도록 <strong>체계적인 트리(Tree) 계층 구조로 분류하여 저장해 놓은 텍스트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(정보 저장소)</strong>입니다.
 - ※ 876번 문서에서 설정값을 바꾸는 YANG 모델을 배웠다면, MIB는 오직 '상태 모니터링'을 위해 옛날부터 쓰던 뼈대 양식입니다.
 
-```text
-[DHCP 릴레이 에이전트]
-    │
-    ▼
-[SNMP MIB 구조]
-    │
-    └──▶ [IPSec 터널/수송 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP MIB 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPSec 터널/수송 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,16 +69,16 @@ tags = ["studynote-network"]
 - 인터넷의 모든 공통 표준 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 객체들은 이 `mib-2` 폴더 밑에 예쁘게 분류되어 방을 씁니다.
 
 ### 2. OID (Object [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), 객체 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) 🌟 핵심 🌟
-트리 끝에 매달린 'CPU 온도'라는 이파리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 지칭하는 **전 세계 유일무이한 고유 번호(주민번호)**입니다.
+트리 끝에 매달린 'CPU 온도'라는 이파리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 지칭하는 <strong>전 세계 유일무이한 고유 번호(주민번호)</strong>입니다.
 - **형식**: 폴더를 타고 내려오는 숫자를 점(`.`)으로 연결합니다. 
 - **예시**: `1.3.6.1.2.1.2.2.1.10.1` 
-  - 저 미친 숫자는 전 세계 만국 공통으로 **"1번 랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어온 총 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수(ifInOctets)"**를 의미합니다.
+  - 저 미친 숫자는 전 세계 만국 공통으로 <strong>"1번 랜선 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 들어온 총 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 수(ifInOctets)"</strong>를 의미합니다.
   - 중앙 관리 서버가 시스코 라우터한테 `1.3.6...10.1 좀 줘!` 하고 패킷을 쏘면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 `현재 1500바이트 찼습니다` 라고 정확히 던져줍니다.
 
 ### 3. [SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/) (Structure of [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information)와 ASN.1 
 MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는 문법(규칙)입니다.
 - **ASN.1**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 글로 적는 문법. (`INTEGER`, `OCTET STRING` 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 규정합니다.)
-- **[SMI](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/)**: "[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 트리를 짤 때는 무조건 OID 점 찍는 룰을 지키고, ASN.1 문법으로만 써라!"라고 족쇄를 채우는 근본 구조 헌법입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/530_smi_structure_of_management_information/">SMI</a></strong>: "[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 트리를 짤 때는 무조건 OID 점 찍는 룰을 지키고, ASN.1 문법으로만 써라!"라고 족쇄를 채우는 근본 구조 헌법입니다.
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트가 기반 조건을 만든다면, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 그 위에서 핵심 메커니즘을 구현하고, [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -96,7 +104,7 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 모니터링은 중앙 사령부가 전국의 1,000개 구청에 '주민 재산 상태'를 감시하는 시스템입니다. 구청마다 문서를 엑셀로 쓸지 한글로 쓸지 중구난방이면 사령부는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합하다 뇌사 상태에 빠집니다. **[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조**는 전 세계 모든 구청이 무조건 똑같이 써야 하는 **'통일된 정부 표준 문서 캐비닛 구조'**입니다. 1번 서랍의 3번째 칸(`OID 1.3.6...`)에는 무조건 '통장 잔고' 서류만 넣어야 하고, 글씨는 굴림체(`SMI/ASN.1` 문법)로만 써야 합니다. 중앙 사령부는 구청 직원이 누군지 알 필요도 없이, 전화해서 "야! 1-3-4-5번 칸 서류 숫자 불러!"라고 OID 번호만 틱 던집니다. 구청 직원은 아무 생각 없이 그 서랍을 열어 숫자를 불러주면 그만인, 30년간 인터넷 감시를 책임져 온 궁극의 초간단 기계어 색인 장부 체계입니다.
+- **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 모니터링은 중앙 사령부가 전국의 1,000개 구청에 '주민 재산 상태'를 감시하는 시스템입니다. 구청마다 문서를 엑셀로 쓸지 한글로 쓸지 중구난방이면 사령부는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합하다 뇌사 상태에 빠집니다. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">MIB</a> 구조</strong>는 전 세계 모든 구청이 무조건 똑같이 써야 하는 <strong>'통일된 정부 표준 문서 캐비닛 구조'</strong>입니다. 1번 서랍의 3번째 칸(`OID 1.3.6...`)에는 무조건 '통장 잔고' 서류만 넣어야 하고, 글씨는 굴림체(`SMI/ASN.1` 문법)로만 써야 합니다. 중앙 사령부는 구청 직원이 누군지 알 필요도 없이, 전화해서 "야! 1-3-4-5번 칸 서류 숫자 불러!"라고 OID 번호만 틱 던집니다. 구청 직원은 아무 생각 없이 그 서랍을 열어 숫자를 불러주면 그만인, 30년간 인터넷 감시를 책임져 온 궁극의 초간단 기계어 색인 장부 체계입니다.
 
 ---
 
@@ -119,15 +127,19 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DHCP 릴레이 에이전트]
-    │
-    ▼
-[현재 개념: SNMP MIB 구조]
-    │
-    ├──▶ [확장 A: IPSec 터널/수송 모드]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP 릴레이 에이전트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMP MIB 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPSec 터널/수송 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞 583장의 [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/)(라벨 기반) 가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 짜다 엔지니어를 정신병에 걸리게 만들었다. 이에 대항(Ubuntu 수세 진영) 하여 튀어나온 **AppArmor(경로 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 방패 빔!)** 는, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이마에 더러운 라벨을 박지 않는다. 오직 시스템의 **[절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) 문자열(`/etc/shadow`, `/var/www/*`) 자체를 족쇄 리스트 룰(Profile) 로 사용해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 가두는 직관적 제어 엔진**이다.
-> 2. **가치**: 이 **이름/경로 기반 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)(Name-based [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) 빔)** 덕분에, 엔지니어가 "Nginx 데몬은 `/usr/sbin/nginx` 실행파일이고, 얘는 오직 `/var/www/` [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폴더만 `rw(읽고쓰기)` 가능하다!" 라고 눈에 보이는 영어 문장(프로파일 Profile) 몇 줄만 작성하면 즉각 해커의 쉘 코드 침투를 틀어막는 압도적 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 이륙시켰다 포팅.
+> 1. **본질**: 앞 583장의 [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/)(라벨 기반) 가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 짜다 엔지니어를 정신병에 걸리게 만들었다. 이에 대항(Ubuntu 수세 진영) 하여 튀어나온 <strong>AppArmor(경로 기반 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 방패 빔!)</strong> 는, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이마에 더러운 라벨을 박지 않는다. 오직 시스템의 **[절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/) 문자열(`/etc/shadow`, `/var/www/*`) 자체를 족쇄 리스트 룰(Profile) 로 사용해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 가두는 직관적 제어 엔진**이다.
+> 2. **가치**: 이 <strong>이름/경로 기반 <a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a>(Name-based <a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a> 빔)</strong> 덕분에, 엔지니어가 "Nginx 데몬은 `/usr/sbin/nginx` 실행파일이고, 얘는 오직 `/var/www/` [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 폴더만 `rw(읽고쓰기)` 가능하다!" 라고 눈에 보이는 영어 문장(프로파일 Profile) 몇 줄만 작성하면 즉각 해커의 쉘 코드 침투를 틀어막는 압도적 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 이륙시켰다 포팅.
 > 3. **한계**: 가장 끔찍한 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)) 와 경로 세탁(Path Evasion) 딜레마. AppArmor 는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체가 아니라 "주소(이름)" 를 통제한다. 즉 해커가 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `/etc/shadow` 에다가, AppArmor 룰에 안 걸리는 `/tmp/test` 라는 이름표([하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 마스킹 경로 세탁!) 1개를 얍삽하게 스왑 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 버리면 룰 레이더의 장님이 되어버려 백도어에 털리는 헛점 수렁을 영원히 안고 있다 결착.
 
 ---
@@ -20,42 +20,38 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 고시 공부의 늪 (Type Enforcement 러닝 커브 파단)**: [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 로 보안 룰 하나 짜려면 컴파일([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 쳐박아야 했다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 라벨([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 이 날아가면 `restorecon` 쳐야 하고, 복잡도가 우주 끝까지 가서 결국 껐다(`setenforce 0`).
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/583_selinux/">SELinux</a> 고시 공부의 늪 (Type Enforcement 러닝 커브 파단)</strong>: [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 로 보안 룰 하나 짜려면 컴파일([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 쳐박아야 했다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 라벨([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 이 날아가면 `restorecon` 쳐야 하고, 복잡도가 우주 끝까지 가서 결국 껐다(`setenforce 0`).
   - **AppArmor 통달 (경로명 기반 직관 프로파일 빔!)**: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이마의 라벨은 다 찢어발겨! 그냥 폴더 경로(Path String) 가 통치한다!" 각 애플리케이션 데몬마다 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(프로파일 Profile) 을 하나씩 부여한다. `/usr/sbin/vsftpd { /var/ftp/ rw, }`. 이 룰 한 줄이면 이 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버는 우주가 멸망해도 저 `/var/ftp/` 폴더 밖(`../` 상위 탈출) 으로는 한 발짝도 못 나가는 거대한 유리 감옥 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 조율이다 컷 스왑.
 - **필요성**: 우분투(Ubuntu) 환경의 대중적인 웹/클라우드 서버 시장에서, 스타트업 백엔드 개발자들도 10분 만에 웹 엔진의 해킹 탈출 반경(Exploit [Containment](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) 을 통제할 수 있게 "사람이 읽을 수 있는(Human-Readable) 평문 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Plain text Profile)" 형태의 직관적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 툴링이 21세기에 필연적으로 멱살 부합 요구되었다 증명 록보장.
 
   - ([SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 의 치명적인 칩셋 붕괴 늪): 장비가 바뀌거나 방 용도를 바꿨을 때 방구석 방마다 RFID 바코드 라벨([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)!) 을 일일이 갱신(relabelling) 하지 않으면 출입 거부 병목 멸망 에러!
-  - **(AppArmor 평문 경로 프로파일 기전!)**: 똑똑한 AppArmor 문지기 레이더는 바코드 스캔을 버립니다 스왑! 오직 배달부(애플리케이션 주체 프로세스!) 가 **[배달 목적지 주소(Path 주소 경로 빔! `/etc/...`)]** 로 가는지 그 주소 문구 자체만 봅니다! 문지기가 들고 있는 명단 룰셋에 "이 배달부는 `/usr/` 로 끝나는 주소로만 갈 수 있음" 이라 적혀 있다면, 배달부가 감히 4층 기밀실 `/etc/` 로 향하는 순간 엘레베이터를 0.1초 만에 박살 내는 무적 통달 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 달성합니다 결속!
+  - **(AppArmor 평문 경로 프로파일 기전!)**: 똑똑한 AppArmor 문지기 레이더는 바코드 스캔을 버립니다 스왑! 오직 배달부(애플리케이션 주체 프로세스!) 가 <strong>[배달 목적지 주소(Path 주소 경로 빔! <code>/etc/...</code>)]</strong> 로 가는지 그 주소 문구 자체만 봅니다! 문지기가 들고 있는 명단 룰셋에 "이 배달부는 `/usr/` 로 끝나는 주소로만 갈 수 있음" 이라 적혀 있다면, 배달부가 감히 4층 기밀실 `/etc/` 로 향하는 순간 엘레베이터를 0.1초 만에 박살 내는 무적 통달 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 달성합니다 결속!
 
-- **AppArmor 의 텍스트 프로파일 구속복(Profile Sandbox) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭쇄 뷰**:
+- <strong>AppArmor 의 텍스트 프로파일 구속복(Profile Sandbox) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 더러운 라벨 컴파일 없이, 평문 영어 텍스트 덩어리가 어떻게 LSM [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 훅을 장악하는지 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "네 라벨엔 관심 없다! 오직 네가 찌르는 '경로 문자열' 만 심판한다!"   │
-  ├──────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                      │
-  │  🚨 [ 상황: 해커가 Nginx 데몬을 뚫고 루트 비밀번호 /etc/shadow 를 조작 시도! ]       │
-  │     (유저 프로세스 : Nginx PID=1003 이 `open("/etc/shadow", O_WRONLY)` 빵!)          │
-  │                                                                                      │
-  │  =========================▼===================================                       │
-  │                                                                                      │
-  │  🔥 [ 커널 VFS 본선 돌입! AppArmor 프로파일 거름망 록백 ❗ ]                         │
-  │                                                                                      │
-  │     [ AppArmor 엔진 룰셋 (파일: /etc/apparmor.d/usr.sbin.nginx) ]                    │
-  │       profile /usr/sbin/nginx {                                                      │
-  │          /usr/sbin/nginx r,     <-- 앱 자신은 읽기만 가능                            │
-  │          /var/www/html/** r,    <-- 웹 폴더는 재귀(**) 단까지 다 읽기 가능           │
-  │          /var/log/nginx/* w,    <-- 로그 폴더는 쓰기만 허용                          │
-  │                                                                                      │
-  │          # 핵심! 이 리스트에 `/etc/shadow` 가 아예 적혀있지 않음! (화이트리스트 압살)│
-  │       }                                                                              │
-  │                                                                                      │
-  │  ✅ [ OS 커널 반환 심연 크래시 빔! ]                                                 │
-  │     AppArmor 심사관: "야 Nginx! 네 룰 종이 쪼가리(Profile) 엔 /etc/ 로 시작하는      │
-  │     경로 접근권 이 1줄도 없다! 루트 권한 777이건 말건 닥치고 차단(Denied) 쾅!!!"     │
-  └──────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"네 라벨엔 관심 없다! 오직 네가 찌르는 '경로 문자열' 만 심판한다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">상황: 해커가 Nginx 데몬을 뚫고 루트 비밀번호 /etc/shadow 를 조작 시도!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 프로세스 : Nginx PID=1003 이 <code>open("/etc/shadow", O_WRONLY)</code> 빵!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">커널 VFS 본선 돌입! AppArmor 프로파일 거름망 록백 ❗</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor 엔진 룰셋 (파일: /etc/apparmor.d/usr.sbin.nginx)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">profile /usr/sbin/nginx {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/usr/sbin/nginx r, &lt;-- 앱 자신은 읽기만 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/www/html/ r, &amp;lt;-- 웹 폴더는 재귀() 단까지 다 읽기 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/log/nginx/* w, &lt;-- 로그 폴더는 쓰기만 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 핵심! 이 리스트에 <code>/etc/shadow</code> 가 아예 적혀있지 않음! (화이트리스트 압살)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 커널 반환 심연 크래시 빔!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AppArmor 심사관: "야 Nginx! 네 룰 종이 쪼가리(Profile) 엔 /etc/ 로 시작하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 접근권 이 1줄도 없다! 루트 권한 777이건 말건 닥치고 차단(Denied) 쾅!!!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이것이 AppArmor 의 미칠듯한 아름다움이자 무결점 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)이다. 개발자나 엔지니어가 언제든지 `/etc/apparmor.d/` 로 들어가서 텍스트 룰 몇 개만 타이핑(`vim`) 한 뒤, `sudo apparmor_parser` 로 리로드(Reload) 한 번 치면 `0.1초` 만에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전역에 강력한 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 철장 족쇄가 반영되는 극한의 스루풋 궤적이다.
 
@@ -70,18 +66,18 @@ tags = ["studynote-operating-system"]
 
 | 2대 보안 플러그인 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 뷰 | ✨ AppArmor (경로 & 이름 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)) | 🔥 [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) (객체 라벨 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 통달) |
 |:---|:---|:---|
-| **통제의 타겟과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 철학 빔** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Inode) 가 아니라 겉껍데기인 **경로 문자열(String Path) 자체를 방어함.** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로가 바뀌든 말든, 코어 속살(Inode) 장부에 박힌 **라벨 칩셋([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 으로만 방어.** |
-| **운영, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 학습 커브 랙** | "아 대충 `/var/*` 열어주세요~" 영어 평문으로 끝나서 **유지보수가 $O(1)$ 으로 극한적 스피드 스왑.** | 라벨 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 트랜지션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 짜다가 **머리 터져서 컴파일 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 구워 수백 줄 코딩하는 멸망 아크.** |
+| <strong>통제의 타겟과 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 철학 빔</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Inode) 가 아니라 겉껍데기인 **경로 문자열(String Path) 자체를 방어함.** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로가 바뀌든 말든, 코어 속살(Inode) 장부에 박힌 <strong>라벨 칩셋(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>) 으로만 방어.</strong> |
+| <strong>운영, <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 학습 커브 랙</strong> | "아 대충 `/var/*` 열어주세요~" 영어 평문으로 끝나서 **유지보수가 $O(1)$ 으로 극한적 스피드 스왑.** | 라벨 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 트랜지션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 짜다가 <strong>머리 터져서 컴파일 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>로 구워 수백 줄 코딩하는 멸망 아크.</strong> |
 | **치명적 한계: 경로 세탁의 사각 늪** | 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 이름표를 살짝 달아주면 룰을 바보로 증발시키는 **치명적 멍청이 구멍 방치.** | 링크를 수백 개 걸어 경로 세탁을 해도 어차피 **코어 라벨(Inode) 이 동일하니 철벽으로 막아냄.** |
 
 ### 2. 치명적 보안 장애: [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)) 우회 공격과 프로파일 강제 적용(Complain 모드) 사건
 이름(Path) 으로만 룰을 지키다 벌어지는 기상천외한 우회 침투 통수 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 ([하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)를 이용한 경로 룰셋 붕괴 폭주 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/">하드 링크</a>를 이용한 경로 룰셋 붕괴 폭주 랙)</strong>: 
   - (태생적 이름표 파단 스왑): AppArmor 는 "Nginx 놈은 `/etc/` 로 접근 거부!" 라고 짜여 있다. 이 룰은 완벽해 보였다! 
   - (환상 브레이크 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 빔!): 앗! Nginx 앱에 들어가 있던 해커가, `ln` 명령어를 통해 루트 비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/shadow`) 을 아까 허락받았던 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 폴더(`/var/log/nginx/fake_shadow`) 로 껍데기([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 빔!) 를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 따버렸다! ([하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)는 완전히 동일한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하는 두 개의 평행 이름표다!)
   - 파멸 결과: 해커가 Nginx 를 통해 `/var/log/nginx/fake_shadow` (허락된 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 이름!) 를 읽는다! AppArmor 심사관은 룰북을 보더니 "어? /var/log 경로는 읽기 허가된 화이트리스트네? 패스!" 라며 바보같이 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 빼돌려주는 미친 멍청이 대참사(Path [Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) Evasion 멸망 패스) 가 실무에서 터져 증명 록보장.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (은닉 분석과 Enforce-Complain 타겟팅 트레이스 록백!!) / 자율 치유 방패**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (은닉 분석과 Enforce-Complain 타겟팅 트레이스 록백!!) / 자율 치유 방패</strong>: 
   - 우분투 해커 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타격!: "이 멍청한 놈! [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)를 타고 들어갈 때 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 허가증도 반드시 같이 체크해라 쾅!" 
   - 갓기능 마스킹 스왑: 
     1. 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 AppArmor 는 `link` 규칙을 추가해 [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) 생성을 막아버리거나 원본 평가 로직 덧칠 압살 통달 빔.
@@ -96,10 +92,10 @@ tags = ["studynote-operating-system"]
 ### 우분투 서버에서 돌리는 모든 MySQL 데몬 백업이 터져버렸을 때 극복한 경로 우회 뷰.
 AppArmor 가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)나 호스트 DB 마이그레이션을 막아설 때의 충돌 궤적 스왑 기전.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (MySQL DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 경로 이전 시 `Permission Denied` 병목 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (MySQL DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 경로 이전 시 <code>Permission Denied</code> 병목 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)</strong>: 
   - 상황: 서버 튜닝한다고 MySQL DB [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 기본 `/var/lib/mysql` 에서 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 10테라 하드가 박힌 `/data/mysqldir/` 로 무사히 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이동시켰다 (오너 권한도 `mysql` 로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 완료!). 데몬 리스타트!
   - 재앙 터짐: MySQL 데몬이 `Starting MySQL... FAILED` 비명을 지르며 죽어버렸다! `sudo tail -f /var/log/syslog` 치니까 `apparmor="DENIED" operation="open" profile="/usr/sbin/mysqld" name="/data/mysqldir/...` 라고 핏빛 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 박힌다! 데몬(`mysqld`) 이 자기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 이사 간 `/data/...` 경로로 읽기 쓰기를 못하고 처참히 목이 잘리는 빚 돌려 막기 파단.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 ([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) /etc/apparmor.d/tunables [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 맵핑 방어 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (<a href="/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/">Aliasing</a> /etc/apparmor.d/tunables <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 맵핑 방어 빔!)</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엘리트 마스킹 발사!: 무식하게 프로파일 100줄을 일일이 `sudo vim` 으로 찾아가 경로를 `/data/...` 로 뜯어고치는 병신 짓을 하지 마라! (하드코딩 파단!)
   - 운영 방검복 스왑: 상단의 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(Tunables) 알리아스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 1줄짜리 마법 변수 지정(`alias /var/lib/mysql/ -> /data/mysqldir/`) 만 딸깍 적어준다. 그러면 AppArmor 파서(Parser) 가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 $O(1)$ 컴파일 주시킬 때 자동으로 모든 룰셋 경로를 덮어주면서 퍼펙트 DB 마이그레이션 아키텍처 결속이다 증명 예고 컷. ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)도 자체 `docker-default` 프로파일을 지녀 Host 의 /proc 를 강제 차단 하는 원리가 이 녀석!)
 
@@ -136,15 +132,19 @@ AppArmor은 [운영체제](/knowledge-base/studynote/02_operating_system/01_over
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SELinux]
-    │
-    ▼
-[AppArmor]
-    │
-    ├──▶ [시스템 보안 위협 유형]
-    └──▶ [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SELinux</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 보안 위협 유형</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

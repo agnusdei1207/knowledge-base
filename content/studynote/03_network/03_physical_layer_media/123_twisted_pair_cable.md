@@ -24,19 +24,24 @@ tags = ["studynote-network"]
 이때 알렉산더 그레이엄 벨이 창안한 **'꼬임 쌍선(Twisted Pair)'** 개념이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신의 구원자로 등장한다. 두 선을 나선형으로 교차시켜 꼬아버리면, 외부 노이즈가 두 선에 미치는 거리 편차가 평균화되어 결과적으로 노이즈가 "0"으로 상쇄되는 마법 같은 물리적 특성을 얻게 된다. 이 혁신적이지만 단순한 원리 덕분에, 오늘날 전 세계 빌딩과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 엣지 배선망은 꼬임 쌍선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))이 완전히 장악하게 되었다.
 
 이 도식은 평행 선로의 한계와 꼬임 구조가 어떻게 문제의 근원을 해결하는지 비교하여 보여준다.
-```text
-[평행선 구조: 노이즈 편차 누적]
- EMI Source  ---(가까움)--->  도선A (노이즈 +10 흡수)
-             ---(  멂  )--->  도선B (노이즈 +5 흡수)
-             => 수신단 전압 차이 발생 (데이터 왜곡!)
 
-[꼬임(Twisted) 구조: 노이즈 평균 상쇄]
- EMI Source  --+-> (A위/B아래) 구간 : A(+10), B(+5) 흡수
-               |     [교차 Twist]
-               +-> (B위/A아래) 구간 : B(+10), A(+5) 흡수
-             => 선로 전체에서 A와 B가 흡수한 노이즈 총량이 (15)로 완벽히 동일해짐
-             => 수신단에서 (A - B) 차동 계산 시 노이즈 = 0 으로 완벽 상쇄!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">평행선 구조: 노이즈 편차 누적</div></div>
+<div class="kb-diagram-note">EMI Source ---(가까움)---&gt; 도선A (노이즈 +10 흡수)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">( 멂 )---&gt; 도선B (노이즈 +5 흡수)</div>
+<div class="kb-diagram-note">=&gt; 수신단 전압 차이 발생 (데이터 왜곡!)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">꼬임(Twisted) 구조: 노이즈 평균 상쇄</div></div>
+<div class="kb-diagram-note">EMI Source --+-&gt; (A위/B아래) 구간 : A(+10), B(+5) 흡수</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교차 Twist</div></div>
+<div class="kb-diagram-note">+-&gt; (B위/A아래) 구간 : B(+10), A(+5) 흡수</div>
+<div class="kb-diagram-note">=&gt; 선로 전체에서 A와 B가 흡수한 노이즈 총량이 (15)로 완벽히 동일해짐</div>
+<div class="kb-diagram-note">=&gt; 수신단에서 (A - B) 차동 계산 시 노이즈 = 0 으로 완벽 상쇄!</div>
+</div>
+</div>
+
+
 이 도식의 핵심은 '공간적 평균화'다. 꼬임을 통해 두 선이 외부 노이즈 발생원과 맺는 거리의 평균값을 동일하게 강제하는 것이다. 수신기는 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이(차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))만 읽어 내는데, 꼬여 있는 두 선이 똑같은 크기의 노이즈(+15)를 먹었기 때문에 뺄셈 과정에서 노이즈가 소거되는 원리다. 단순한 기하학적 형태의 변경이 값비싼 전기적 쉴딩보다 더 효과적인 공통 모드 노이즈 제거(CMRR)를 이뤄낸 천재적 설계다.
 
 - **📢 섹션 요약 비유**: 뜨거운 햇볕(노이즈) 아래를 걷는 두 사람이 나란히 걸으면 한 명만 타지만, 걷는 내내 계속 춤추듯 자리를 바꾸며 꼬여서 걸어가면 결국 둘 다 햇볕을 받은 양이 똑같아져서 피부색 차이([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 왜곡)가 없어지는 원리와 같습니다.
@@ -49,24 +54,27 @@ tags = ["studynote-network"]
 
 | 핵심 요소 | 역할 및 동작 원리 | 실무적 파급 효과 |
 |:---|:---|:---|
-| **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | 송신기에서 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(+)와 반전 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(-)를 각각 두 선에 동시에 쏘아 보내는 전송 기법 | 공통 모드 노이즈(양 선에 같이 유입된 간섭) 완벽 제거 |
+| <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | 송신기에서 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(+)와 반전 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(-)를 각각 두 선에 동시에 쏘아 보내는 전송 기법 | 공통 모드 노이즈(양 선에 같이 유입된 간섭) 완벽 제거 |
 | **페어 꼬임 (Twisting)** | 물리적으로 두 가닥의 도선을 나선형으로 꼬아 외부 EMI 및 상호 자기장을 상쇄시킴 | 금속 쉴드 없이도 LAN 케이블의 100m 전송 보장 |
 | **꼬임률 (Twist Pitch/Rate)** | 1인치(또는 1미터)당 도선이 꼬인 횟수 (주로 촘촘할수록 고성능) | 카테고리(Cat) 등급의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계를 결정하는 물리적 지표 |
 | **페어 간 상이한 피치** | 4쌍(8가닥)의 케이블 내에서 주황, 녹색, 파랑, 갈색 페어의 꼬임 횟수를 일부러 다르게 설계함 | 케이블 내부 인접 페어 간의 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 
-가장 정교한 물리적 엔지니어링은 다선 케이블 내부의 **페어 간 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(Near-End [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), NEXT) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 설계**에 있다.
+가장 정교한 물리적 엔지니어링은 다선 케이블 내부의 <strong>페어 간 <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">누화</a>(Near-End <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>, NEXT) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a> 설계</strong>에 있다.
 
 이 다이어그램은 4쌍의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 내부에서 각 페어의 꼬임 간격(Pitch)이 어떻게 다르게 설계되어 내부 간섭을 막는지를 시각화한다.
-```text
-┌───────────────── 4-Pair UTP 케이블 내부 레이아웃 ─────────────────┐
-│                                                                 │
-│ 페어 1 (주황) : ♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎ (매우 촘촘함 - 인치당 4회 꼬임)  │
-│ 페어 2 (녹색) : 〰︎〰︎〰︎〰︎〰︎〰︎〰︎〰︎ (조금 느슨함 - 인치당 3회 꼬임)     │
-│ 페어 3 (파랑) : ∿∿∿∿∿∿ (더 느슨함 - 인치당 2.5회 꼬임)            │
-│ 페어 4 (갈색) : ~~~~~ (가장 느슨함 - 인치당 2회 꼬임)              │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">4-Pair UTP 케이블 내부 레이아웃</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페어 1 (주황) : ♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎♒︎ (매우 촘촘함 - 인치당 4회 꼬임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페어 2 (녹색) : 〰︎〰︎〰︎〰︎〰︎〰︎〰︎〰︎ (조금 느슨함 - 인치당 3회 꼬임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페어 3 (파랑) : ∿∿∿∿∿∿ (더 느슨함 - 인치당 2.5회 꼬임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페어 4 (갈색) : ~~~~~ (가장 느슨함 - 인치당 2회 꼬임)</div></div>
+</div>
+</div>
+
+
 이 구조의 핵심은 4쌍의 페어가 "서로 다른 주기로 꼬여 있다"는 점이다. 만약 모든 페어가 똑같은 촘촘함으로 꼬여 있다면, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 흐르며 발생하는 미세한 전자기장 곡선이 인접한 다른 페어의 굴곡과 완전히 맞물려 동기화되면서 치명적인 간섭([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))을 일으킨다. 각 페어의 꼬임 주기(Pitch)를 수학적으로 서로소 또는 불일치하게 엇갈리게 설계함으로써, 인접 페어 간 전자기장 결합 에너지가 누적되지 않고 상쇄되도록 유도한다. 이것이 단순한 구리선 8가닥이 기가비트 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 전송할 수 있는 숨겨진 마법이다.
 
 - **📢 섹션 요약 비유**: 마치 라디오 채널을 맞출 때, 옆 사람의 스피커 소리가 내 귀에 들어오지 않게 하려고 서로 라디오 주파수 대역(꼬임 간격)을 미세하게 다르게 설정하여 혼선을 방지하는 것과 같은 이치입니다.
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 | **접지(Grounding)** | 불필요 | 양 끝단 완벽한 접지 필수 (안하면 역효과) | 인프라 설비의 접지 상태 |
 | **가성비 (CAPEX)** | 압도적으로 저렴 (표준적 사용) | 비싸고 포설 인건비 대폭 상승 | 프로젝트 예산 및 10GbE 도입 여부|
 
-차폐막의 유무는 단순한 보호의 문제를 넘어 **네트워크 장비의 접지 아키텍처**를 강제한다는 점에 주목해야 한다. UTP는 차폐막이 없으므로 케이블의 양 끝(PC와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 전기적으로 완전히 고립되어 그라운드 루프(Ground Loop)를 발생시키지 않는다. 반면 STP는 쉴드를 통해 잡은 노이즈 전류를 땅으로 흘려보내야 하므로 양단의 완벽한 접지가 필수다. 만약 한쪽 포트라도 접지 불량이 발생하면, 쉴드망 자체가 거대한 안테나가 되어 오히려 UTP보다 훨씬 더 심각한 노이즈를 빨아들여 네트워크 전체를 마비시키는 대참사를 초래한다.
+차폐막의 유무는 단순한 보호의 문제를 넘어 <strong>네트워크 장비의 접지 아키텍처</strong>를 강제한다는 점에 주목해야 한다. UTP는 차폐막이 없으므로 케이블의 양 끝(PC와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 전기적으로 완전히 고립되어 그라운드 루프(Ground Loop)를 발생시키지 않는다. 반면 STP는 쉴드를 통해 잡은 노이즈 전류를 땅으로 흘려보내야 하므로 양단의 완벽한 접지가 필수다. 만약 한쪽 포트라도 접지 불량이 발생하면, 쉴드망 자체가 거대한 안테나가 되어 오히려 UTP보다 훨씬 더 심각한 노이즈를 빨아들여 네트워크 전체를 마비시키는 대참사를 초래한다.
 
 - **📢 섹션 요약 비유**: UTP가 무술의 회피 기술(꼬임)로만 화살을 피하는 가벼운 자객이라면, STP는 무거운 철갑(차폐)을 입은 기사입니다. 철갑은 방어력이 뛰어나지만 피뢰침 역할(접지)을 제대로 못 하면 오히려 벼락을 맞아 큰일 나는 것과 같습니다.
 
@@ -96,7 +104,7 @@ tags = ["studynote-network"]
 
 실무 네트워크 설계 시, 꼬임 쌍선의 물리적 특성을 무시한 시공은 패킷 로스와 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러 폭증으로 이어져 레이어 상단의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 재전송 병목을 유발한다.
 
-1. **타이 타이(케이블 타이) 과압착 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+1. <strong>타이 타이(케이블 타이) 과압착 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
    - **상황**: 배전반(IDF)에서 케이블 묶음을 예쁘게 정리하겠다고 케이블 타이를 기계로 꽉 조이는 경우.
    - **결과**: 케이블 외피가 눌리면서 내부에 정밀하게 설계된 페어 간의 '꼬임 피치'와 간격이 변형됨. 이 물리적 찌그러짐은 즉각적인 NEXT(근단 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 수치 악화로 이어져 1Gbps 링크가 100Mbps로 떨어지거나 링크 플래핑 현상을 유발함. 묶을 때는 반드시 벨크로(찍찍이) 타이를 사용하여 압박을 최소화해야 한다.
 2. **꼬임 풀림(Untwisting) 길이 초과**
@@ -107,14 +115,18 @@ tags = ["studynote-network"]
    - **결과**: 이론상은 가능하나 케이블 꺾임, 패치 코드 연결점 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 증가, 온도로 인한 구리선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 상승 시 치명적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생. 실무에서는 영구 링크([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 선) 90m + 양단 패치 코드(Stranded 선) 10m 구성을 지키며, 전체 길이는 가급적 90m 이내로 여유 마진 설계를 권장.
 
 이 다이어그램은 RJ-45 커넥터 결선 시 꼬임 풀림 구간에 따른 노이즈 취약점(Return Loss 병목)을 시각화한다.
-```text
-[ 스위치 포트 ] ◀──(RJ-45)─── [ 꼬임 풀림 구간 ] ───── [ 정상 꼬임 유지 구간 ]
-                             │                 │
-                      ❌ 안티패턴: 너무 김   ✅ 모범시공: 꼬임 유지
-                      (노이즈 방벽 붕괴됨)   (외피 속까지 끝까지 꼬임)
-                           ▼                 ▼
-[ EMI 유입 ] ───────> 치명적 신호 왜곡      노이즈 0 상쇄 방어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 포트</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">꼬임 풀림 구간</div><div class="kb-diagram-node">정상 꼬임 유지 구간</div></div>
+<div class="kb-diagram-note">❌ 안티패턴: 너무 김 ✅ 모범시공: 꼬임 유지</div>
+<div class="kb-diagram-note">(노이즈 방벽 붕괴됨) (외피 속까지 끝까지 꼬임)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EMI 유입</div><div class="kb-diagram-note">&gt; 치명적 신호 왜곡 노이즈 0 상쇄 방어</div></div>
+</div>
+</div>
+
+
 이 흐름에서 알 수 있듯, 통신 인프라 장애의 80%는 케이블 중간이 아니라 양 끝단의 연결부(Termination Point)에서 발생한다. 최고급 Cat.6a 케이블을 사놓고도 커넥터 앞부분의 꼬임을 3cm 이상 풀어버리면 그 케이블의 통신 성능은 Cat.5 수준으로 추락한다. 꼬임 쌍선의 물리적 특성은 '꼬여있을 때만' 발현된다는 점을 기술사적 시공 지침으로 명심해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -152,15 +164,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 평행 2선식 케이블]
-    │
-    ▼
-[현재 개념: 꼬임 쌍선 케이블]
-    │
-    ├──▶ [확장 A: UTP]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 평행 2선식 케이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 꼬임 쌍선 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 꼬임 쌍선 케이블는 평행 2선식 케이블에서 출발해 현재 메커니즘을 정교화하고, 이후 UTP와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

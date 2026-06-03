@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: BSIMM(비심)은 'Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)'의 약자로, 해석하면 "보안을 내재화(Building In)하는 능력이 얼마나 성숙(Maturity)했는가 측정하는 모델"이다. 100개가 넘는 글로벌 회사에 찾아가서 "너네 개발자 교육은 해? [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)은 1년에 몇 번 해? [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 해?"라고 물어본 뒤, 그들이 공통으로 하는 행동 122가지를 뽑아서 1레벨(기초)부터 3레벨(고급)까지 줄을 세워놓은 통계 논문이자 체크리스트다.
 
-- **필요성**: 보안팀장이 대표님께 결재를 올렸다. "내년에 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) 툴 사고 보안 교육하는 데 10억 필요합니다." 대표님이 묻는다. "우리 지금 보안 수준이 구글의 몇 프로나 되는데? 그 10억 쓰면 넥슨만큼 보안이 좋아져?" 팀장은 꿀 먹은 벙어리가 된다. 측정할 객관적 기준이 없기 때문이다. 이때 BSIMM 리포트를 들이밀며 **"현재 우리 회사의 보안 성숙도는 글로벌 평균 50점인데 우리는 20점입니다. 특히 '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 자동화' 부문이 0점이라 10억을 투자해 이 영역을 평균으로 끌어올려야 합니다"**라고 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven)로 설득하기 위한 절대적인 나침반이 필요하다.
+- **필요성**: 보안팀장이 대표님께 결재를 올렸다. "내년에 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) 툴 사고 보안 교육하는 데 10억 필요합니다." 대표님이 묻는다. "우리 지금 보안 수준이 구글의 몇 프로나 되는데? 그 10억 쓰면 넥슨만큼 보안이 좋아져?" 팀장은 꿀 먹은 벙어리가 된다. 측정할 객관적 기준이 없기 때문이다. 이때 BSIMM 리포트를 들이밀며 <strong>"현재 우리 회사의 보안 성숙도는 글로벌 평균 50점인데 우리는 20점입니다. 특히 '<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 자동화' 부문이 0점이라 10억을 투자해 이 영역을 평균으로 끌어올려야 합니다"</strong>라고 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven)로 설득하기 위한 절대적인 나침반이 필요하다.
 
-- **💡 비유**: BSIMM은 **'전국 모의고사 성적표(백분위)'**와 같습니다. 혼자 집에서 "난 공부 좀 하니까 보안 완벽해"라고 착각하는 학생(회사)에게 들이대는 현실의 거울입니다. 전국에서 전교 1등(구글, MS) 하는 형들이 수학([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)), 영어([모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/))를 각각 어떻게 공부하고 있는지 통계를 내서 보여줍니다. "아, 전교 1등은 오답 노트([위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/))를 매일 쓰는구나! 나는 안 쓰고 있었네!"를 깨닫고 자신의 공부법([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))을 수정하게 만드는 완벽한 비교 지표입니다.
+- **💡 비유**: BSIMM은 <strong>'전국 모의고사 성적표(백분위)'</strong>와 같습니다. 혼자 집에서 "난 공부 좀 하니까 보안 완벽해"라고 착각하는 학생(회사)에게 들이대는 현실의 거울입니다. 전국에서 전교 1등(구글, MS) 하는 형들이 수학([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)), 영어([모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/))를 각각 어떻게 공부하고 있는지 통계를 내서 보여줍니다. "아, 전교 1등은 오답 노트([위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/))를 매일 쓰는구나! 나는 안 쓰고 있었네!"를 깨닫고 자신의 공부법([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))을 수정하게 만드는 완벽한 비교 지표입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **OWASP SAMM의 한계**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영에서 만든 SAMM 모델은 "이론적으로 이렇게 해야 한다(Prescriptive, 규범적)"는 교과서라 현실 회사들(스타트업, 대기업)의 사정을 잘 반영하지 못했다.
   2. **관찰 기반 모델의 등장 (2008)**: 개리 맥그로(Gary McGraw) 박사 등이 "이론 말고, 진짜 현업에서 돈 잘 버는 회사 100개가 '실제로 하는 짓(Descriptive, 기술적)'을 조사하자!"며 11개 회사를 조사해 BSIMM 1을 발표했다.
   3. **살아 숨 쉬는 생태계 (현재)**: 매년 조사하는 회사가 늘어나 BSIMM 13, 14로 계속 업데이트된다. 클라우드, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 등 시대의 흐름에 따라 구글과 넷플릭스가 도입한 최신 보안 활동(예: [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/))이 매년 새로 편입되는 '살아있는 빅데이터 족보'다.
 
-- **📢 섹션 요약 비유**: BSIMM은 의사가 처방해 주는 **'이상적인 식단표(이론)'**가 아니라, 몸짱 보디빌더 100명의 냉장고를 뒤져서 만든 **'실제 식단 빅데이터(현실)'**입니다. 남들이 진짜로 먹어서 효과를 본 닭가슴살(실제 쓰이는 보안 활동)이 무엇인지 보여주기 때문에 훨씬 더 현실적이고 당장 회사에 도입하기 좋은 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 자료입니다.
+- **📢 섹션 요약 비유**: BSIMM은 의사가 처방해 주는 <strong>'이상적인 식단표(이론)'</strong>가 아니라, 몸짱 보디빌더 100명의 냉장고를 뒤져서 만든 <strong>'실제 식단 빅데이터(현실)'</strong>입니다. 남들이 진짜로 먹어서 효과를 본 닭가슴살(실제 쓰이는 보안 활동)이 무엇인지 보여주기 때문에 훨씬 더 현실적이고 당장 회사에 도입하기 좋은 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 자료입니다.
 
 ---
 
 다음은 BSIMM (Building Secu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  BSIMM (Building Secu                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSIMM (Building Secu</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 BSIMM (Building Secu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-BSIMM (Building Security In Maturity Model) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BSIMM (Building Security In Maturity Model) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

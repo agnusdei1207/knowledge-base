@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Fake는 문자 그대로 '정교한 위조품'이다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))은 `find("kim")`을 부르면 무조건 `"kim"`을 뱉는 바보다. 하지만 Fake DB는 내부에 `HashMap`을 갖고 있어서, `save("kim")`을 하면 진짜로 해시맵에 저장하고, 나중에 `find("kim")`을 부르면 해시맵을 뒤져서 `"kim"`을 꺼내준다. 겉에서 보면 진짜 DB와 구분이 안 갈 정도로 똑똑하게 동작하지만, 전원을 끄면 메모리(HashMap)가 날아가 버리므로 실제 라이브(Production) 환경에서는 절대 쓸 수 없는 장난감이다.
 
-- **필요성**: TDD를 한답시고 Mock과 Stub으로 외부 DB 통신을 싹 다 가짜 대본으로 막아버렸다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 그런데 오픈 당일, DB에 데이터를 넣는 `INSERT` 쿼리문 스펠링에 오타가 나서 시스템이 와르르 무너졌다. Mock은 내 로직만 검사할 뿐 진짜 DB 쿼리가 맞게 짜였는지는 봐주지 않기 때문이다. 그렇다고 매번 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 1만 개를 돌릴 때마다 진짜 무거운 오라클 DB를 켰다 껐다 하면 테스트가 3시간이 걸려 아무도 안 돌리게 된다. **"진짜처럼 쿼리를 다 받아주면서도, 빛의 속도로 켜지고 꺼지는 깃털 같은 DB"**가 절실히 필요했고, 이것이 Fake의 절대적 존재 이유다.
+- **필요성**: TDD를 한답시고 Mock과 Stub으로 외부 DB 통신을 싹 다 가짜 대본으로 막아버렸다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 그런데 오픈 당일, DB에 데이터를 넣는 `INSERT` 쿼리문 스펠링에 오타가 나서 시스템이 와르르 무너졌다. Mock은 내 로직만 검사할 뿐 진짜 DB 쿼리가 맞게 짜였는지는 봐주지 않기 때문이다. 그렇다고 매번 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 1만 개를 돌릴 때마다 진짜 무거운 오라클 DB를 켰다 껐다 하면 테스트가 3시간이 걸려 아무도 안 돌리게 된다. <strong>"진짜처럼 쿼리를 다 받아주면서도, 빛의 속도로 켜지고 꺼지는 깃털 같은 DB"</strong>가 절실히 필요했고, 이것이 Fake의 절대적 존재 이유다.
 
-- **💡 비유**: Fake는 영화 촬영장의 **'가짜 병원 세트장'**과 같습니다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이 그냥 종이에 "병원"이라고 써 붙인 허수아비라면, Fake 병원은 진짜 침대, 링거, 가짜 피(내부 로직)가 완벽하게 갖춰져 있습니다. 배우가 누우면 진짜 병원처럼 완벽하게 연기(테스트)가 가능합니다. 하지만 진짜 의사나 약(Production 기능)은 없기 때문에 실제 환자를 눕히면 큰일 납니다. 촬영(테스트)용도로만 쓰는 완벽한 미니어처입니다.
+- **💡 비유**: Fake는 영화 촬영장의 <strong>'가짜 병원 세트장'</strong>과 같습니다. [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이 그냥 종이에 "병원"이라고 써 붙인 허수아비라면, Fake 병원은 진짜 침대, 링거, 가짜 피(내부 로직)가 완벽하게 갖춰져 있습니다. 배우가 누우면 진짜 병원처럼 완벽하게 연기(테스트)가 가능합니다. 하지만 진짜 의사나 약(Production 기능)은 없기 때문에 실제 환자를 눕히면 큰일 납니다. 촬영(테스트)용도로만 쓰는 완벽한 미니어처입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **진짜 DB에 대한 공포**: 옛날엔 테스트 코드 안에 진짜 DB 연결 코드를 박았다. 팀원 5명이 동시에 테스트를 돌리면 DB 데이터가 뒤섞여 테스트가 터지는 환경 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Flaky Test)에 시달렸다.
   2. **가짜 저장소 수제작**: 개발자들이 빡쳐서 `interface Repository`를 만들고, 진짜 DB 구현체 옆에 `class FakeRepository implements Repository { Map map; }` 이라는 가짜 메모리 클래스를 수작업으로 짜서 테스트에만 주입([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))하기 시작했다.
   3. **H2와 Testcontainers의 대중화 (현재)**: 손으로 맵(Map)을 짜는 것도 귀찮다. 아예 자바 진영에선 JVM 메모리 안에서만 0.1초 만에 떴다 사라지는 `H2 Database (초거대 Fake DB)`가 천하를 통일했고, 최근엔 `Testcontainers(도커 기반 가짜 환경)`로 진화했다.
 
-- **📢 섹션 요약 비유**: Fake 객체는 군대의 **'서바이벌 총(페인트건)'**입니다. 훈련(테스트)할 때 빵야! 하고 입으로 소리 내는 것([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))은 너무 실전 감각이 떨어지고, 진짜 실탄(Real DB)을 쏘면 아군이 죽습니다. 진짜 총과 무게/격발 느낌이 100% 똑같으면서 맞으면 물감만 터지는 페인트건(Fake)이야말로 부상자 없이 실전 전투력([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))을 끌어올리는 최고의 훈련 도구입니다.
+- **📢 섹션 요약 비유**: Fake 객체는 군대의 <strong>'서바이벌 총(페인트건)'</strong>입니다. 훈련(테스트)할 때 빵야! 하고 입으로 소리 내는 것([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))은 너무 실전 감각이 떨어지고, 진짜 실탄(Real DB)을 쏘면 아군이 죽습니다. 진짜 총과 무게/격발 느낌이 100% 똑같으면서 맞으면 물감만 터지는 페인트건(Fake)이야말로 부상자 없이 실전 전투력([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))을 끌어올리는 최고의 훈련 도구입니다.
 
 ---
 
 다음은 Fake (페이크)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Fake (페이크)                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fake (페이크)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Fake (페이크)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Fake (페이크)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Fake (페이크)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Fake (페이크)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ Fake (페이크)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Fake (페이크) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fake (페이크) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,20 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 프로그램 순서와 외부 관찰 순서가 왜 달라질 수 있는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Program order vs observed order                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Core 0 program:   Store X=1  ───────────────▶ Store Flag=1        │
-│                      │                         │                   │
-│                      ▼                         ▼                   │
-│                  Store Buffer              Cache/Bus              │
-│                      │                         │                   │
-│                      └──── delayed expose ────┴──▶ visible later  │
-│                                                                    │
-│ Core 1 observe:                 Load Flag=1 ─────▶ Load X=0 가능   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program order vs observed order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 program: Store X=1 ▶ Store Flag=1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Store Buffer Cache/Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">delayed expose ──▶ visible later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 observe: Load Flag=1 ▶ Load X=0 가능</div></div>
+</div>
+</div>
+
+
 
 핵심은 "명령이 실행된 것"과 "다른 코어에게 보이는 것"이 같은 순간이 아니라는 점이다. 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 이 시간차를 활용해 하드웨어 효율을 높이지만, 동시에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 코드에는 예기치 않은 결과를 만든다.
 
@@ -60,24 +59,24 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 실제로 어떤 경로에서 발생하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Memory access pipeline                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Fetch/Decode                                                       │
-│     │                                                              │
-│     ▼                                                              │
-│ Reorder Buffer                                                     │
-│  ├─ Load  ───────────────▶ Load Queue  ───────▶ L1/L2 Cache        │
-│  └─ Store ───────────────▶ Store Buffer ──────▶ L1/L2 Cache        │
-│                                      │                             │
-│                                      └──── delayed global visible  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory access pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch/Decode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reorder Buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Load ▶ Load Queue ▶ L1/L2 Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Store ▶ Store Buffer ▶ L1/L2 Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">delayed global visible</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 질문은 "무엇을 얼마나 뒤집을 수 있는가"다. 예를 들어 TSO (Total Store Order)는 주로 `Store → Load` 재배치를 허용해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기고, ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine) 계열의 더 약한 모델은 `Load → Load`, `Load → Store`, `Store → Store`까지 더 넓게 완화한다. 즉 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 하나의 고정 규칙이 아니라, 아키텍처마다 허용하는 재배치 범위를 다르게 설계한 계열 개념이다.
 
-결국 핵심 원리는 단순하다. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 없고, 아키텍처 계약을 깨지 않는 범위라면 하드웨어는 순서를 늦추거나 앞당겨 자원을 비우려 한다.** 그리고 이 재배치를 멈추는 비용이 곧 배리어 비용이다.
+결국 핵심 원리는 단순하다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 의존성이 없고, 아키텍처 계약을 깨지 않는 범위라면 하드웨어는 순서를 늦추거나 앞당겨 자원을 비우려 한다.</strong> 그리고 이 재배치를 멈추는 비용이 곧 배리어 비용이다.
 
 - **📢 섹션 요약 비유**: 주방에서 오래 걸리는 탕 요리는 뒤 화구에 올려 두고, 금방 끝나는 반찬부터 먼저 내보내는 식당 운영과 같다. 손님 입장에서는 전체 식사가 빨라지지만, 상차림 순서를 맞춰야 할 때는 따로 "이제 같이 나가라"는 지시가 필요하다.
 
@@ -117,8 +116,8 @@ tags = ["studynote-computer-architecture"]
 ### 대표 적용 패턴
 
 - **발행-구독 (Publish-Subscribe)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 채운 뒤 `release store`로 준비 완료 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 세운다.
-- **소비자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 `acquire load`로 읽은 뒤 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다.
-- **장치 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근**: 입출력 메모리 매핑 (Memory-Mapped I/O)에서는 더 강한 배리어가 필요할 수 있다.
+- <strong>소비자 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 `acquire load`로 읽은 뒤 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다.
+- <strong>장치 제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 접근</strong>: 입출력 메모리 매핑 (Memory-Mapped I/O)에서는 더 강한 배리어가 필요할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -126,7 +125,7 @@ tags = ["studynote-computer-architecture"]
 - 원자 변수 하나만 쓰면 모든 순서 문제가 해결된다고 오해하는 설계
 - 공유 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 기록 순서를 분리 검증하지 않는 테스트
 
-기술사 관점에서의 답안 포인트는 명확하다. **완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 채택 여부의 문제가 아니라 현대 멀티코어의 기본 전제**이며, 설계자는 필요한 순서만 선택적으로 복원해야 한다. 즉 전체를 강한 모델로 묶으면 느리고, 모두 완화한 채 방치하면 위험하므로, 배리어·원자 연산·락의 조합으로 최소 충분 질서를 설계하는 것이 핵심 판단이다.
+기술사 관점에서의 답안 포인트는 명확하다. <strong>완화된 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>은 채택 여부의 문제가 아니라 현대 멀티코어의 기본 전제</strong>이며, 설계자는 필요한 순서만 선택적으로 복원해야 한다. 즉 전체를 강한 모델로 묶으면 느리고, 모두 완화한 채 방치하면 위험하므로, 배리어·원자 연산·락의 조합으로 최소 충분 질서를 설계하는 것이 핵심 판단이다.
 
 - **📢 섹션 요약 비유**: 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 위의 실무 설계는 고속도로 합류 구간 운영과 같다. 평소에는 차를 흘려보내 속도를 높이되, 진입 지점에서는 신호등과 차선 표시로 꼭 필요한 질서만 만들어야 사고 없이 빨라진다.
 
@@ -138,7 +137,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 전제조건도 분명하다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 프로그램이 커질수록 "가시성"과 "순서"를 문서화하지 않으면 유지보수 난도가 급상승한다. 따라서 좋은 설계는 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 부정하지 않고, 어디에서만 강한 질서를 요구할지를 명확히 나눈다.
 
-앞으로는 코어 수 증가, 이종 가속기, 비균일 메모리 접근 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 환경 확대로 인해 메모리 모델 이해가 더 중요해질 가능성이 크다. 결국 이 개념은 "하드웨어가 순서를 어기는 것"이 아니라, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 순서 보장의 책임을 소프트웨어와 분담하는 계약**으로 기억하는 것이 맞다.
+앞으로는 코어 수 증가, 이종 가속기, 비균일 메모리 접근 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 환경 확대로 인해 메모리 모델 이해가 더 중요해질 가능성이 크다. 결국 이 개념은 "하드웨어가 순서를 어기는 것"이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 위해 순서 보장의 책임을 소프트웨어와 분담하는 계약</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 완화된 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 무질서가 아니라 자율주행 물류센터와 같다. 전체 속도를 높이기 위해 현장 재량을 주되, 배송 완료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 같은 핵심 순간에는 반드시 중앙 규칙으로 상태를 확정한다.
 
@@ -156,22 +155,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차적 일관성
-      │
-      ▼
-저장 버퍼 (Store Buffer) · 비순차 실행 (Out-of-Order Execution)
-      │
-      ▼
-완화된 일관성 (Relaxed Consistency)
-      │
-      ├──▶ 메모리 배리어 (Memory Barrier)
-      │
-      └──▶ 원자 연산 (Atomic Operation)
-               │
-               ▼
-언어 메모리 모델 · 락프리 자료구조 · NUMA 동기화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차적 일관성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">저장 버퍼 (Store Buffer) · 비순차 실행 (Out-of-Order Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완화된 일관성 (Relaxed Consistency)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 메모리 배리어 (Memory Barrier)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 원자 연산 (Atomic Operation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언어 메모리 모델 · 락프리 자료구조 · NUMA 동기화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "강한 전역 순서"에서 출발해 "하드웨어 최적화 허용", 그리고 "소프트웨어의 선택적 질서 복원"으로 사고가 확장되는 과정을 보여준다.
 

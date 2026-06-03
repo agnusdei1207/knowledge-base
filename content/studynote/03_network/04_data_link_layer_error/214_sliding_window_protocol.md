@@ -24,17 +24,21 @@ tags = ["studynote-network"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이 윈도우(돋보기)의 위치에 따라 세 가지 신분으로 나뉩니다.
 1. **윈도우의 왼쪽 밖 (과거)**: 이미 송신했고, 수신기로부터 "잘 받았어(ACK)" 도장까지 완벽하게 찍혀서 내 손을 완전히 떠난 승리자들입니다.
-2. **윈도우의 안쪽 (현재 진행형)**: 아직 ACK 도장을 못 받았지만, **수신기의 허락 없이도 당장 내 맘대로 네트워크에 마구 쏴버릴 수 있는(송신 가능한) 발사 대기조**들입니다.
-3. **윈도우의 오른쪽 밖 (미래)**: 아직 윈도우 틀 안에 들어오지 못했기 때문에, 아무리 쏘고 싶어도 **절대 전송할 수 없는 묶여있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**들입니다.
+2. **윈도우의 안쪽 (현재 진행형)**: 아직 ACK 도장을 못 받았지만, <strong>수신기의 허락 없이도 당장 내 맘대로 네트워크에 마구 쏴버릴 수 있는(송신 가능한) 발사 대기조</strong>들입니다.
+3. **윈도우의 오른쪽 밖 (미래)**: 아직 윈도우 틀 안에 들어오지 못했기 때문에, 아무리 쏘고 싶어도 <strong>절대 전송할 수 없는 묶여있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>들입니다.
 
-```text
-[흐름 제어]
-    │
-    ▼
-[슬라이딩 윈도우 프로토콜 개념]
-    │
-    └──▶ [윈도우 크기, 송신/수신 윈도우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">흐름 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,21 +46,25 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태**: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)가 3입니다. `[1번, 2번, 3번]` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 윈도우 안에 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)가 3입니다. `[1번, 2번, 3번]` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 윈도우 안에 있습니다.
 - **발사**: 송신기는 ACK를 안 기다리고 1, 2, 3번을 0.1초 간격으로 다다닥 쏩니다! (고속도로가 꽉 찹니다).
 - **응답의 도착**: 잠시 후 수신기가 `ACK 2` ("1번 잘 받았어, 이제 2번부터 줘")라는 메시지를 보냅니다.
 - **슬라이딩 (핵심)**: 아하! 1번이 무사히 도착했군요. 송신기는 1번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쿨하게 버리고, **사각 틀(윈도우)을 오른쪽으로 딱 한 칸 밀어버립니다(Slide).**
-- **결과**: 윈도우가 오른쪽으로 한 칸 밀렸으니, 1번은 윈도우 밖(과거)으로 빠져나가고, 대신 미래에 있던 **4번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 윈도우 안으로 새롭게 쏙 들어옵니다!** `[2번, 3번, 4번]`.
+- **결과**: 윈도우가 오른쪽으로 한 칸 밀렸으니, 1번은 윈도우 밖(과거)으로 빠져나가고, 대신 미래에 있던 <strong>4번 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 윈도우 안으로 새롭게 쏙 들어옵니다!</strong> `[2번, 3번, 4번]`.
 - 송신기는 새로 들어온 4번을 또 신나게 쏴버립니다. 이 과정이 물 흐르듯 무한 반복됩니다.
 
-```text
-[흐름 제어]
-    │
-    ▼
-[슬라이딩 윈도우 프로토콜 개념]
-    │
-    └──▶ [윈도우 크기, 송신/수신 윈도우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">흐름 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,9 +74,9 @@ tags = ["studynote-network"]
 
 이 위대한 발명은 네트워크의 2가지 핵심 뼈대를 동시에 책임집니다.
 
-1. **에러 제어 ([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))**: 
+1. <strong>에러 제어 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)</strong>: 
    - 앞서 배운 `Go-Back-N`과 `Selective Repeat`가 바로 이 슬라이딩 윈도우 위에서 노는 기법들입니다. (에러가 나면 윈도우를 뒤로 당기느냐, 특정 핀셋만 뽑느냐의 차이일 뿐입니다).
-2. **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))**: 
+2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>: 
    - 슬라이딩 윈도우의 크기(사각 틀의 칸 수)는 고정된 게 아니라 **수신기가 맘대로 늘였다 줄였다(동적 조절)** 할 수 있습니다. 
    - 수신기 버퍼가 꽉 차면 윈도우를 0칸으로 닫아버려 송신기를 강제 정지시키고, 버퍼가 비면 윈도우를 10칸으로 확 넓혀서 속도를 폭발시키는 '가변 윈도우(Variable Window)' 기술의 정수입니다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 흐름 제어]
-    │
-    ▼
-[현재 개념: 슬라이딩 윈도우 프로토콜 개념]
-    │
-    ├──▶ [확장 A: 윈도우 크기, 송신/수신 윈도우]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 흐름 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 슬라이딩 윈도우 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 개념는 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

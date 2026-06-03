@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 엑셀(Excel) 프로그램이 반응형 프로그래밍의 가장 완벽한 예시다. A1 셀에 `10`, B1 셀에 `20`을 넣고, C1 셀에 `=A1+B1`이라고 수식을 짰다. 만약 A1의 값을 `50`으로 수정하면? C1은 내가 명령하지 않아도 **스스로 반응(React)**하여 즉각 `70`으로 바뀐다. 이 "변화가 스스로 전파되는 마법"을 코드로 구현한 것이다.
+- **개념**: 엑셀(Excel) 프로그램이 반응형 프로그래밍의 가장 완벽한 예시다. A1 셀에 `10`, B1 셀에 `20`을 넣고, C1 셀에 `=A1+B1`이라고 수식을 짰다. 만약 A1의 값을 `50`으로 수정하면? C1은 내가 명령하지 않아도 <strong>스스로 반응(React)</strong>하여 즉각 `70`으로 바뀐다. 이 "변화가 스스로 전파되는 마법"을 코드로 구현한 것이다.
 
 - **필요성**: 기존 서버 아키텍처([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) per Request)는 클라이언트가 DB에 "게시글 1,000개 줘"라고 요청하면, DB가 응답할 때까지(3초) 자바 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 1개가 멍청하게 멈춰서 기다렸다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 동시 접속자가 1만 명이 되면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 멈춰서 기다리다 서버 메모리(RAM)가 펑 터져버렸다(C10K 문제). 멈추지 않고(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 비동기로 일하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 즉시 반응(React)하여 다음 로직으로 토스해 주는 우아한 스트림 제어 기술이 절실했다.
 
-- **💡 비유**: 기존 명령형 프로그래밍은 **'은행 창구'**와 같습니다. 손님 1명이 돈을 세는 동안 뒤의 100명은 꼼짝없이 줄 서서 기다려야 합니다(블로킹). **반응형 프로그래밍**은 **'초밥집 회전 컨베이어 벨트'**입니다. 주방장(서버)은 초밥([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 완성되는 족족 벨트(스트림)에 올려놓고 바로 다음 요리를 합니다. 손님(관찰자)들은 자기가 기다리던 연어 초밥이 눈앞에 지나가는 순간 즉각 반응해서 집어먹습니다(논블로킹 변화 전파).
+- **💡 비유**: 기존 명령형 프로그래밍은 <strong>'은행 창구'</strong>와 같습니다. 손님 1명이 돈을 세는 동안 뒤의 100명은 꼼짝없이 줄 서서 기다려야 합니다(블로킹). <strong>반응형 프로그래밍</strong>은 <strong>'초밥집 회전 컨베이어 벨트'</strong>입니다. 주방장(서버)은 초밥([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 완성되는 족족 벨트(스트림)에 올려놓고 바로 다음 요리를 합니다. 손님(관찰자)들은 자기가 기다리던 연어 초밥이 눈앞에 지나가는 순간 즉각 반응해서 집어먹습니다(논블로킹 변화 전파).
 
 - **등장 배경 및 발전 과정**:
-  1. **[옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴의 한계**: 상태 변화를 알려주는 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 훌륭했지만, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끝났다(Complete)"거나 "에러가 났다(Error)"는 신호를 통제하기 어려웠고 복잡한 콜백 지옥(Callback Hell)을 낳았다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">옵저버</a> 패턴의 한계</strong>: 상태 변화를 알려주는 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 훌륭했지만, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끝났다(Complete)"거나 "에러가 났다(Error)"는 신호를 통제하기 어려웠고 복잡한 콜백 지옥(Callback Hell)을 낳았다.
   2. **ReactiveX (Rx)의 탄생 (2011)**: 마이크로소프트가 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴에 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴과 함수형 파이프라인(map, filter)을 결합하여 Rx.NET을 세상에 내놓았고, 이것이 비동기 처리의 은탄환으로 인정받으며 RxJS, RxJava, RxSwift 등으로 전 세계 모든 언어로 포팅되었다.
   3. **Reactive Manifesto (반응형 선언문, 2014)**: 응답성, [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 유연성, 메시지 구동이라는 4대 원칙을 담은 반응형 선언문이 발표되며, 모던 클라우드 아키텍처의 글로벌 표준 헌장으로 채택되었다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 반응형 프로그래밍 (Reactive 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  반응형 프로그래밍 (Reactive                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반응형 프로그래밍 (Reactive</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 반응형 프로그래밍 (Reactive 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-반응형 프로그래밍 (Reactive Programming)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+반응형 프로그래밍 (Reactive Programming)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 반응형 프로그래밍 (Reactive Programming)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-반응형 프로그래밍 (Reactive Programming) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반응형 프로그래밍 (Reactive Programming) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

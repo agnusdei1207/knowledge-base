@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 내에 있는 8비트(1바이트) 크기의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드. IP 데이터그램 뱃속(페이로드)에 캡슐화되어 들어있는 상위 계층(보통 L4 전송 계층)의 프로토콜이 무엇인지 숫자로 나타낸다. IANA(인터넷 할당 번호 관리기관)에서 표준 번호를 관리한다.
 - **필요성**: 우체부(IP 패킷)가 내 컴퓨터(목적지 IP)까지 편지를 무사히 배달했다. 그런데 편지 봉투 안에 들어있는 알맹이가 "반드시 응답을 해줘야 하는 중요한 계약서([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))"인지, "그냥 한번 보고 버려도 되는 잡지([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))"인지, 아니면 "길이 막힌다고 알려주는 우체국 통지서([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/))"인지 컴퓨터는 봉투만 보고는 알 수가 없다. 컴퓨터의 뇌([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 내용물을 해석하려면 미리 "이건 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 부서로 올려보내라"라는 꼬리표가 필요하다.
 
-- **💡 비유**: 목적지 회사 건물(IP 주소) 1층 안내 데스크에 도착한 택배 박스입니다. 안내 데스크(IP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 직원이 박스에 적힌 송장을 봅니다. 송장의 **[담당 부서란(Protocol)]**에 **'6번'**이라고 적혀 있으면 영업부([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))로 올리고, **'17번'**이라고 적혀 있으면 총무부([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))로 던져주는 것과 완벽히 똑같습니다.
+- **💡 비유**: 목적지 회사 건물(IP 주소) 1층 안내 데스크에 도착한 택배 박스입니다. 안내 데스크(IP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 직원이 박스에 적힌 송장을 봅니다. 송장의 <strong>[담당 부서란(Protocol)]</strong>에 <strong>'6번'</strong>이라고 적혀 있으면 영업부([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))로 올리고, <strong>'17번'</strong>이라고 적혀 있으면 총무부([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))로 던져주는 것과 완벽히 똑같습니다.
 
-```text
-[TTL]
-    │
-    ▼
-[프로토콜 필드]
-    │
-    └──▶ [헤더 체크섬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TTL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로토콜 필드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤더 체크섬</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 프로토콜 필드는 큰 박스(IP) 안에 들어있는 작은 박스(L4)가 **"어떤 모양의 블록인지 알려주는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 스티커"**입니다. 컴퓨터는 이 스티커의 번호를 보고 네모 모양 구멍([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이나 세모 모양 구멍([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에 맞춰서 박스를 쏙 집어넣습니다.
 
@@ -42,27 +46,21 @@ tags = ["studynote-network"]
 ### 1. 상위 계층으로의 역다중화 (Demultiplexing)
 IP는 여러 상위 프로토콜의 데이터를 실어 나르는 거대한 덤프트럭([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))이다. 반대로 수신 측에 도착해 짐을 내릴 때는, 짐을 각 주인에게 쪼개서 나눠주는 역다중화 과정이 필수적이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Protocol 필드를 통한 수신 측 역다중화            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신자 OS 내부 (4계층 모듈들) ]                               │
- │                                                             │
- │     [ ICMP 모듈 ]     [ TCP 모듈 ]      [ UDP 모듈 ]          │
- │          ▲                 ▲                 ▲              │
- │          │                 │                 │              │
- │   Protocol = 1      Protocol = 6      Protocol = 17         │
- │          │                 │                 │              │
- │          └───────── ┬ ───────── ┬ ─────────┘              │
- │                       │         │                           │
- │   [ 수신자 IP 모듈 (3계층) ] "야! 택배 도착했다. 번호 보고 찾아가라!" │
- │                       ▲                                     │
- │                       │ (IP 헤더를 벗김)                      │
- │     인터넷 ───▶ [ IP Header | TCP/UDP/ICMP Data ] ───▶       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol 필드를 통한 수신 측 역다중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 OS 내부 (4계층 모듈들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 모듈</div><div class="kb-diagram-node">TCP 모듈</div><div class="kb-diagram-node">UDP 모듈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol = 1 Protocol = 6 Protocol = 17</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 IP 모듈 (3계층)</div><div class="kb-diagram-note">"야! 택배 도착했다. 번호 보고 찾아가라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP 헤더를 벗김)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP Header | TCP/UDP/ICMP Data</div><div class="kb-diagram-connector">▶</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 프로토콜 필드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -85,11 +83,11 @@ IP는 여러 상위 프로토콜의 데이터를 실어 나르는 거대한 덤�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 IANA가 정의한 프로토콜 번호 중 네트워크 실무자가 평생 마주치는 숫자는 아래 5개 정도다.
-- **`1` ([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/))**: 인터넷 제어 메시지 프로토콜. (Ping 쏘거나 에러 메시지 날아올 때)
-- **`2` ([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹 관리 프로토콜. (IPTV 등 그룹 가입할 때)
-- **`6` ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 연결 지향 전송. (웹 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), 메일, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 등 거의 모든 인터넷)
-- **`17` ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 없는 비연결 전송. ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회, 실시간 동영상, 게임)
-- **`89` ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))**: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜. (라우터들끼리 지도를 주고받을 때)
+- <strong><code>1</code> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a>)</strong>: 인터넷 제어 메시지 프로토콜. (Ping 쏘거나 에러 메시지 날아올 때)
+- <strong><code>2</code> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a>)</strong>: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹 관리 프로토콜. (IPTV 등 그룹 가입할 때)
+- <strong><code>6</code> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 연결 지향 전송. (웹 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), 메일, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 등 거의 모든 인터넷)
+- <strong><code>17</code> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>)</strong>: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 없는 비연결 전송. ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회, 실시간 동영상, 게임)
+- <strong><code>89</code> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)</strong>: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜. (라우터들끼리 지도를 주고받을 때)
 
 *(참고: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 겉면에 붙은 `0x0800(IPv4)`은 Type 필드이고, IP 헤더 안에 들어있는 `6(TCP)`은 Protocol 필드다. 헷갈리면 안 된다.)*
 
@@ -126,15 +124,19 @@ IANA가 정의한 프로토콜 번호 중 네트워크 실무자가 평생 마�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TTL]
-    │
-    ▼
-[현재 개념: 프로토콜 필드]
-    │
-    ├──▶ [확장 A: 헤더 체크섬]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TTL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프로토콜 필드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 헤더 체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 프로토콜 필드는 TTL에서 출발해 현재 메커니즘을 정교화하고, 이후 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,24 +18,23 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│       아키텍처 보안 감리 체계                         │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  감리 범위:                                           │
-│  ┌────────────────────────────────────────────────┐  │
-│  │ 네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)   │  │
-│  │ 인증·권한 아키텍처 (IAM·SSO·MFA)              │  │
-│  │ 데이터 보안 (암호화·키 관리·DLP)               │  │
-│  │ 접근 제어 (RBAC·ABAC·Least Privilege)         │  │
-│  │ 보안 모니터링 (SIEM·SOAR 통합)                │  │
-│  └────────────────────────────────────────────────┘  │
-│                                                       │
-│  Zero Trust 원칙 검증:                                │
-│    "Never Trust, Always Verify" 구현 여부             │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 보안 감리 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 범위:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증·권한 아키텍처 (IAM·SSO·MFA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 보안 (암호화·키 관리·DLP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 제어 (RBAC·ABAC·Least Privilege)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 모니터링 (SIEM·SOAR 통합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Trust 원칙 검증:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Never Trust, Always Verify" 구현 여부</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 시스템 아키텍처 보안 감리는 건물 준공 전 소방 안전 검사다. 건물이 완공되기 전 설계 단계에서 비상구·스프링클러·[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 제대로 설계했는지 독립적으로 검사한다.
 
@@ -47,11 +46,11 @@ tags = ["studynote-design-supervision"]
 
 | 원칙 | 감리 점검 항목 |
 |:---|:---|
-| **[Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)** | 다계층 보안 통제 구현 여부 |
-| **[Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·사용자별 최소 권한 부여 |
-| **[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)** | 내부 트래픽도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·암호화 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a></strong> | 다계층 보안 통제 구현 여부 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">Least Privilege</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·사용자별 최소 권한 부여 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong> | 내부 트래픽도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·암호화 |
 | **Fail Secure** | 장애 시 보안 강화 방향으로 동작 |
-| **[Separation of Duties](/knowledge-base/studynote/09_security/01_intro_principles/011_separation_of_duties/)** | 권한 분리 (개발·운영·보안 분리) |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/011_separation_of_duties/">Separation of Duties</a></strong> | 권한 분리 (개발·운영·보안 분리) |
 
 ### [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 보안 감리 항목
 
@@ -90,7 +89,7 @@ IAM:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 공공 정보화 사업 보안 감리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화(AES-256), 전송 구간 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이상.
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화(AES-256), 전송 구간 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이상.
 - **접근 제어**: 역할 기반([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 구현, 관리자 계정 분리.
 - **네트워크**: [DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/) 구성, 내부망·외부망 분리, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서화.
 - **로깅·모니터링**: [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6개월 이상 보존, [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 연동.
@@ -118,29 +117,31 @@ IAM:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)** | 현대 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 핵심 원칙 |
-| **[Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)** | 다계층 보안 통제 |
-| **[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 아키텍처 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 보안 스캐닝** | 자동화 아키텍처 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)** | 보안 모니터링 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong> | 현대 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)의 핵심 원칙 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a></strong> | 다계층 보안 통제 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a></strong> | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> 보안 스캐닝</strong> | 자동화 아키텍처 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/">SIEM</a></strong> | 보안 모니터링 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 보안 감리 — 방화벽·DMZ·암호화 점검]
-    │
-    ▼
-[클라우드 보안 감리 — IAM·VPC·암호화 키 관리]
-    │
-    ▼
-[Zero Trust 아키텍처 감리 — mTLS·최소 권한 검증]
-    │
-    ▼
-[컨테이너·마이크로서비스 감리 — 이미지 보안·서비스 메시]
-    │
-    ▼
-[IaC 자동 보안 감리 — Checkov·tfsec 정적 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 보안 감리 — 방화벽·DMZ·암호화 점검</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 보안 감리 — IAM·VPC·암호화 키 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Trust 아키텍처 감리 — mTLS·최소 권한 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너·마이크로서비스 감리 — 이미지 보안·서비스 메시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaC 자동 보안 감리 — Checkov·tfsec 정적 분석</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

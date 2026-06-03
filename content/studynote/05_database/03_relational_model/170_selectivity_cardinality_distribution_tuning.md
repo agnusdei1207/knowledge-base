@@ -19,28 +19,29 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-선택도, [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 "이 조건으로 몇 행이 나올 것인가"를 추정하기 위해 가장 먼저 보는 통계 정보다. 튜닝 실무에서는 셋이 따로 노는 개념이 아니라, **[기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성이 선택도의 출발점을 만들고, 분포도가 그 평균값을 교정하는 구조**로 이해해야 한다.
+선택도, [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 "이 조건으로 몇 행이 나올 것인가"를 추정하기 위해 가장 먼저 보는 통계 정보다. 튜닝 실무에서는 셋이 따로 노는 개념이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성이 선택도의 출발점을 만들고, 분포도가 그 평균값을 교정하는 구조</strong>로 이해해야 한다.
 
 예를 들어 회원 테이블 1,000만 건에서 `customer_id = 8273151`은 보통 1건만 찾으므로 선택도가 매우 낮다. 반면 `gender = 'F'`는 절반 가까운 행을 건드릴 수 있어 선택도가 높다. 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)라도 전자는 소수 행을 정확히 찍는 도구가 되지만, 후자는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 따라간 뒤 다시 수백만 행을 읽어야 하므로 오히려 비효율적일 수 있다.
 
-또 하나 주의할 점은 **[기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 (Cardinality)** 이라는 말이 문맥에 따라 달라진다는 것이다. 컬럼 통계에서는 보통 "서로 다른 값의 개수"를 뜻하지만, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 화면에서는 어떤 연산이 반환할 것으로 예상한 "행 수"를 cardinality estimate라고 부르기도 한다. 이 문서에서는 먼저 **컬럼 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 = distinct value 개수**를 중심으로 설명하고, 필요할 때 행 수 추정과 연결해 해석한다.
+또 하나 주의할 점은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성 (Cardinality)</strong> 이라는 말이 문맥에 따라 달라진다는 것이다. 컬럼 통계에서는 보통 "서로 다른 값의 개수"를 뜻하지만, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 화면에서는 어떤 연산이 반환할 것으로 예상한 "행 수"를 cardinality estimate라고 부르기도 한다. 이 문서에서는 먼저 <strong>컬럼 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성 = distinct value 개수</strong>를 중심으로 설명하고, 필요할 때 행 수 추정과 연결해 해석한다.
 
 이 그림은 왜 세 지표를 함께 봐야 하는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Column stats are not decoration; they decide the path         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Query A : WHERE customer_id = 8273151                               │
-│   NDV high  -> selectivity tiny  -> index seek is natural           │
-│                                                                      │
-│ Query B : WHERE gender = 'F'                                        │
-│   NDV low   -> selectivity wide  -> full scan may be cheaper         │
-│                                                                      │
-│ Query C : WHERE grade = 'VIP'                                       │
-│   NDV low + skewed distribution -> histogram can flip the answer     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column stats are not decoration; they decide the path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query A : WHERE customer_id = 8273151</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV high -&gt; selectivity tiny -&gt; index seek is natural</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query B : WHERE gender = 'F'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV low -&gt; selectivity wide -&gt; full scan may be cheaper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query C : WHERE grade = 'VIP'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV low + skewed distribution -&gt; histogram can flip the answer</div></div>
+</div>
+</div>
+
+
 
 같은 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있느냐"보다 더 중요한 질문은 "그 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 찾은 뒤 실제로 얼마나 많은 행과 블록을 읽게 되느냐"다. 그래서 튜닝은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 개수 경쟁이 아니라, 통계의 질과 해석의 문제다.
 
@@ -50,7 +51,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 테이블 행 수, 컬럼 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도, 히스토그램, 상관관계 통계를 조합해 결과 건수를 추정한다. 단순한 동등 조건이라면 보통 **선택도 ≈ 1 / [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성** 이라는 균등 분포 가정을 출발점으로 삼고, 예상 행 수는 `전체 행 수 × 선택도`로 계산한다. 그러나 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 균등하지 않기 때문에, 평균값만 믿으면 바로 오판이 생긴다.
+[비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 테이블 행 수, 컬럼 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도, 히스토그램, 상관관계 통계를 조합해 결과 건수를 추정한다. 단순한 동등 조건이라면 보통 <strong>선택도 ≈ 1 / <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성</strong> 이라는 균등 분포 가정을 출발점으로 삼고, 예상 행 수는 `전체 행 수 × 선택도`로 계산한다. 그러나 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 균등하지 않기 때문에, 평균값만 믿으면 바로 오판이 생긴다.
 
 | 통계 요소 | 무엇을 뜻하는가 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 보는 이유 |
 | :--- | :--- | :--- |
@@ -64,21 +65,23 @@ tags = ["studynote-database"]
 
 아래 흐름은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 평균 가정에서 정밀 가정으로 이동하는 과정을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          Predicate -> row estimate -> access path selection          │
-├──────────────────────────────────────────────────────────────────────┤
-│ WHERE grade = 'VIP'                                                  │
-│      │                                                               │
-│      ├─ NDV only        -> 1 / 3   = 33.3%  -> Full Scan candidate   │
-│      ├─ Histogram found -> actual  = 0.2%   -> Index Scan candidate  │
-│      └─ Same column, different value can yield a different best path │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate -&gt; row estimate -&gt; access path selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE grade = 'VIP'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NDV only -&gt; 1 / 3 = 33.3% -&gt; Full Scan candidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Histogram found -&gt; actual = 0.2% -&gt; Index Scan candidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Same column, different value can yield a different best path</div></div>
+</div>
+</div>
+
+
 
 실무에서 더 어려운 부분은 다중 조건이다. `city = 'Seoul' AND district = 'Gangnam'` 처럼 서로 상관된 컬럼을 독립이라고 가정하면 예상 행 수가 실제와 크게 달라질 수 있다. 그래서 최신 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 컬럼 그룹 통계, 동적 샘플링, 적응형 계획 같은 보정 장치를 둔다.
 
-결국 핵심 원리는 단순하다. **[기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성은 평균을 만들고, 분포도는 평균의 거짓말을 드러내며, 선택도는 최종적으로 접근 경로를 바꾸는 숫자**다. 이 셋이 틀리면 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 방식, 액세스 패스가 줄줄이 흔들린다.
+결국 핵심 원리는 단순하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성은 평균을 만들고, 분포도는 평균의 거짓말을 드러내며, 선택도는 최종적으로 접근 경로를 바꾸는 숫자</strong>다. 이 셋이 틀리면 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 방식, 액세스 패스가 줄줄이 흔들린다.
 
 - **📢 섹션 요약 비유**: 학교 급식실이 학생 수만 보고 줄 길이를 예측하면 틀릴 수 있지만, 반별 식사 시간표와 선호 메뉴 분포까지 알면 어느 창구를 먼저 열지 더 정확히 결정할 수 있는 것과 같다.
 
@@ -99,7 +102,7 @@ tags = ["studynote-database"]
 
 또한 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) ([Bind Variable](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/)) 사용 패턴도 결과에 영향을 준다. 값 자체를 모른 채 평균 선택도로 계획을 공유하면, `grade = 'VIP'`와 `grade = 'NORMAL'`이 같은 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 쓰면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 편차가 커질 수 있다. 그래서 일부 엔진은 바인드 피킹 (Bind Peeking), 적응형 커서 공유, SQL 플랜 관리로 이 문제를 보완한다.
 
-즉, 선택도/[기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성/분포도는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 여부만 결정하는 지표가 아니다. **통계 정확도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 특성, 바인딩 방식, 조인 구조를 함께 해석하는 출발점**이다.
+즉, 선택도/[기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성/분포도는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 여부만 결정하는 지표가 아니다. <strong>통계 정확도, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치 특성, 바인딩 방식, 조인 구조를 함께 해석하는 출발점</strong>이다.
 
 - **📢 섹션 요약 비유**: 손님이 몇 종류인지, 이번 예약에 몇 명이 오는지, 특정 시간대에 몰리는지까지 따로 봐야 식당이 좌석 배치를 제대로 할 수 있는 것과 같다.
 
@@ -139,9 +142,9 @@ tags = ["studynote-database"]
 
 선택도, [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도를 정확히 이해하면 "왜 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 안 탔는가" 또는 "왜 같은 SQL이 값에 따라 갑자기 느려졌는가"를 통계 관점에서 설명할 수 있다. 이는 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 넘어, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보와 장애 원인 분석 속도 향상으로 이어진다.
 
-물론 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 계속 변하고, 통계는 샘플 기반이며, 상관관계와 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/)는 여전히 오차를 만든다. 따라서 이 세 지표는 만능 답안이 아니라, **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 세상을 어떻게 오해할 수 있는지 보여 주는 기준 좌표**로 보는 것이 정확하다.
+물론 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 계속 변하고, 통계는 샘플 기반이며, 상관관계와 [바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/)는 여전히 오차를 만든다. 따라서 이 세 지표는 만능 답안이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 세상을 어떻게 오해할 수 있는지 보여 주는 기준 좌표</strong>로 보는 것이 정확하다.
 
-결론적으로 이 주제는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 좋으냐 나쁘냐"를 가르는 문제가 아니다. **평균값으로 세상을 본 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에 더 가깝게 교정하는 일**이 핵심이다. 좋은 튜닝은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)보다 통계에서 먼저 시작된다.
+결론적으로 이 주제는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 좋으냐 나쁘냐"를 가르는 문제가 아니다. <strong>평균값으로 세상을 본 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>를, 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분포에 더 가깝게 교정하는 일</strong>이 핵심이다. 좋은 튜닝은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)보다 통계에서 먼저 시작된다.
 
 - **📢 섹션 요약 비유**: 날씨 앱이 연평균 기온만 보여 주면 오늘 옷차림을 망치기 쉽듯, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)도 평균 통계만 보면 오늘 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 맞는 계획을 놓치기 쉽다.
 
@@ -159,19 +162,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Rule-based tuning
-    │
-    ▼
-CBO (Cost-Based Optimizer)
-    │
-    ├─ NDV / Density -> selectivity estimate
-    ├─ Histogram     -> skew correction
-    └─ Extended Stats -> correlation correction
-    │
-    ▼
-Stable access path and join plan tuning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Rule-based tuning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBO (Cost-Based Optimizer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NDV / Density -&gt; selectivity estimate</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Histogram -&gt; skew correction</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Extended Stats -&gt; correlation correction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Stable access path and join plan tuning</div>
+</div>
+</div>
+
+
 
 이 흐름은 튜닝의 초점이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유무"에서 "통계 기반 추정 정확도"로 이동해 온 과정을 보여 준다.
 

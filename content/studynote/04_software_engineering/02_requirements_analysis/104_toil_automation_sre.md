@@ -38,21 +38,23 @@ tags = ["software_engineering"]
 | **선형적 확장 (O(n))** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모나 트래픽이 커질 때 사람의 노동 시간도 똑같은 비율로 늘어나는가? |
 | **가치 창출 전무** | 작업을 완료했을 때 시스템의 기능이 진보하지 않고 그냥 원래 상태로 복귀할 뿐인가? |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           SRE 엔지니어의 시간 포트폴리오 밸런스 조정           │
-├──────────────────────────────────────────────────────────────┤
-│  [ 나쁜 예: 운영에 함몰된 레거시 팀 ]                          │
-│   ■■■■■■■■■■■■■■■■■■ (90%) : 토일 (알람 끄기, 재부팅)     │
-│   ■■ (10%) : 엔지니어링 (새로운 스크립트 작성)                 │
-│   => 결과: 시스템 커지면 퇴사자 속출, 신뢰성 붕괴                  │
-│                                                              │
-│  [ 올바른 예: 토일 50% 캡을 강제한 구글 SRE ]                   │
-│   ■■■■■■■■■■ (50% 제한) : 최대치로 묶인 토일 처리 시간        │
-│   ■■■■■■■■■■ (50% 보장) : 토일을 자동화하는 전략적 코딩 시간  │
-│   => 결과: 내일은 자동화 덕분에 토일이 30%로 줄어드는 선순환 발생   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 엔지니어의 시간 포트폴리오 밸런스 조정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나쁜 예: 운영에 함몰된 레거시 팀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■■■■■■■■■■■■■■■■ (90%) : 토일 (알람 끄기, 재부팅)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■ (10%) : 엔지니어링 (새로운 스크립트 작성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 시스템 커지면 퇴사자 속출, 신뢰성 붕괴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">올바른 예: 토일 50% 캡을 강제한 구글 SRE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■■■■■■■■ (50% 제한) : 최대치로 묶인 토일 처리 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■■■■■■■■ (50% 보장) : 토일을 자동화하는 전략적 코딩 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 내일은 자동화 덕분에 토일이 30%로 줄어드는 선순환 발생</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이는 것이 단순한 구호가 아니라, 운영자의 강제적 시간 할당 룰을 통해 실현되는 시스템 공학(Engineering)임을 보여준다.
 
@@ -81,12 +83,12 @@ tags = ["software_engineering"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 50% 캡([Cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)) 룰의 캘린더 강제화**: 운영 엔지니어의 캘린더를 분석하여 이번 주 티켓(Jira 등) 처리와 알림 대응이 전체 업무 시간의 50%를 초과했는가? 초과했다면 즉시 일반 개발팀으로 운영 티켓(On-call)을 강제 환원시키고, 해당 SRE는 자동화 파이프라인 개발에 투입시켜야 한다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a> 50% 캡(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">Cap</a>) 룰의 캘린더 강제화</strong>: 운영 엔지니어의 캘린더를 분석하여 이번 주 티켓(Jira 등) 처리와 알림 대응이 전체 업무 시간의 50%를 초과했는가? 초과했다면 즉시 일반 개발팀으로 운영 티켓(On-call)을 강제 환원시키고, 해당 SRE는 자동화 파이프라인 개발에 투입시켜야 한다.
 2. **O(n) 구조 절단**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스가 10개에서 1,000개로 스케일아웃([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))될 때, 엔지니어가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일을 1,000번 배포해야 하는가? [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 도구([Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef)를 이용해 1대의 노력으로 1,000대를 자동 동기화하는 구조가 갖춰져 있는지 판단해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 전담 조직 신설**: "SRE는 고급 개발을 해야 하니, 단순 반복 알람 끄기 작업만 전담하는 계약직 운영팀을 따로 뽑자." 이는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 철학을 정면으로 위배하는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 고통을 직접 느껴야 자동화의 필요성을 알고 코드를 짜게 된다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 다른 사람에게 외주화(Outsourcing)하는 순간, 시스템의 영구적 자동화 개선의 기회는 영원히 사라진다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a> 전담 조직 신설</strong>: "SRE는 고급 개발을 해야 하니, 단순 반복 알람 끄기 작업만 전담하는 계약직 운영팀을 따로 뽑자." 이는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 철학을 정면으로 위배하는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 고통을 직접 느껴야 자동화의 필요성을 알고 코드를 짜게 된다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 다른 사람에게 외주화(Outsourcing)하는 순간, 시스템의 영구적 자동화 개선의 기회는 영원히 사라진다.
 
 - **📢 섹션 요약 비유**: 양동이로 물 퍼내는 일이 힘들다고 싼 인건비의 알바생을 고용해서 대신 물을 퍼내게 하는 것은 바보 짓이다. 펌프 기계 자체를 설치하여 물을 빼는 근본적 자동화 아키텍처를 설계하는 것이 시스템 공학의 올바른 결단이다.
 
@@ -106,28 +108,30 @@ tags = ["software_engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))** | 소프트웨어 엔지니어링 기법을 적용하여 인프라의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 지키고 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 코드로 소멸시키는 구글의 운영 철학 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong> | 소프트웨어 엔지니어링 기법을 적용하여 인프라의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 지키고 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 코드로 소멸시키는 구글의 운영 철학 |
 | **자동화 (Automation)** | 인간의 수작업([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))을 인프라 애즈 코드([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 등을 통해 기계의 영구적인 로직으로 치환하는 무기 |
 | **오버헤드 (Overhead)** | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)과는 반대로 조직의 커뮤니케이션이나 관리를 위해 반드시 소모되어야 하는 필수적 인간 간접 업무 시간 |
-| **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표. 이 목표가 깨졌을 때만 긴급 불끄기에 들어가고, 달성 중이라면 여유 시간을 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 자동화 개발에 투자한다 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>)</strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표. 이 목표가 깨졌을 때만 긴급 불끄기에 들어가고, 달성 중이라면 여유 시간을 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 자동화 개발에 투자한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-레거시 시스템의 수작업 운영 (O(n) 인력 소모)
-    │
-    ▼
-토일(Toil) 6대 조건 기반의 엄격한 판별 및 측정
-    │
-    ▼
-토일 시간 50% 상한(Cap) 통제 룰 적용
-    │
-    ▼
-확보된 시간으로 자동화 스크립트/IaC (Terraform, Ansible) 개발
-    │
-    ▼
-운영 부담(선형 증대) 소멸 및 무한 확장 가능한 신뢰성 아키텍처 완성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 시스템의 수작업 운영 (O(n) 인력 소모)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토일(Toil) 6대 조건 기반의 엄격한 판별 및 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토일 시간 50% 상한(Cap) 통제 룰 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확보된 시간으로 자동화 스크립트/IaC (Terraform, Ansible) 개발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 부담(선형 증대) 소멸 및 무한 확장 가능한 신뢰성 아키텍처 완성</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

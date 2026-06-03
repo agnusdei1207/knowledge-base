@@ -43,21 +43,20 @@ LISS를 시스템 설계에 적용할 때는 보통 전체 업무 공간 정의,
 
 아래 그림은 LISS를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 설계 관점에서 해석한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ LISS design view                                                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Total business space                                                │
-│   ┌──────────┬──────────┬──────────┬──────────┐                     │
-│   │ Order    │ Payment  │ Inventory│ Delivery │                     │
-│   └──────────┴──────────┴──────────┴──────────┘                     │
-│        │           │           │           │                        │
-│        └──── independent ownership and clear interfaces ─────┘      │
-│                                                                      │
-│ Check A: overlap between services = minimal                          │
-│ Check B: end-to-end scenario coverage = complete                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LISS design view</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Total business space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">Payment</div><div class="kb-diagram-cell">Inventory</div><div class="kb-diagram-cell">Delivery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">independent ownership and clear interfaces</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check A: overlap between services = minimal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check B: end-to-end scenario coverage = complete</div></div>
+</div>
+</div>
+
+
 
 선형 독립성 관점에서는 한 기능의 핵심 규칙이 한 곳에만 존재해야 한다. 예를 들어 할인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계산이 주문과 결제 양쪽에 동시에 들어가 있으면 규칙 변경 시 충돌이 발생한다. 공간 포괄성 관점에서는 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 결제 실패, 환불, 재고 복원, 배송 취소 같은 전체 시나리오가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합으로 빠짐없이 설명되어야 한다.
 
@@ -116,21 +115,23 @@ LISS를 잘 적용하면 변경 영향 범위가 줄고, 장애 원인 추적이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Problem decomposition
-        │
-        ▼
-MECE thinking
-        │
-        ▼
-LISS architecture lens
-        │
-        ▼
-Bounded context and service ownership
-        │
-        ▼
-Evolvable enterprise architecture
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Problem decomposition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MECE thinking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LISS architecture lens</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bounded context and service ownership</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Evolvable enterprise architecture</div>
+</div>
+</div>
+
+
 
 이 흐름은 "문제 분해 원칙 → 구조 설계 원리 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 정의 → 진화 가능한 아키텍처"로 이어지는 사고 확장을 보여준다.
 

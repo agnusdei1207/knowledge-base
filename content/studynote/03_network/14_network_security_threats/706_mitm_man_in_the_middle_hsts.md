@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 네트워크 통신을 하는 두 주체(클라이언트와 서버) 사이에 해커가 몰래 끼어들어, **서로가 상대방과 직접 연결되어 있다고 착각하게 만든 뒤, 중간에서 모든 트래픽을 가로채 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing), 변조(Tampering), 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))을 수행하는 극악의 해킹 기법**입니다.
+- **개념**: 네트워크 통신을 하는 두 주체(클라이언트와 서버) 사이에 해커가 몰래 끼어들어, <strong>서로가 상대방과 직접 연결되어 있다고 착각하게 만든 뒤, 중간에서 모든 트래픽을 가로채 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>(Sniffing), 변조(Tampering), 가짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주입(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">Injection</a>)을 수행하는 극악의 해킹 기법</strong>입니다.
 - 앞서 배운 703번([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))과 705번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))이 결국 이 중간자(MitM)의 위치를 차지하기 위해 쓰는 대표적인 낚시 수법들입니다.
 
-```text
-[DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
-[중간자 공격 도청 흐름과 통제 조치]
-    │
-    └──▶ [세션 하이재킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 하이재킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 1. **가로채기**: 해커 다스가 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 써서 앨리스의 컴퓨터를 속여, 네이버로 가는 패킷이 자기(다스)에게 오도록 만듭니다.
-2. **대리 통신 ([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 행세)**: 다스는 앨리스에게 받은 요청을 자기가 네이버인 척 열어보고, 다시 자기가 앨리스인 척 네이버 서버에 전달합니다.
+2. <strong>대리 통신 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 행세)</strong>: 다스는 앨리스에게 받은 요청을 자기가 네이버인 척 열어보고, 다시 자기가 앨리스인 척 네이버 서버에 전달합니다.
 3. **조작 및 전달**: 네이버가 주는 정상적인 응답 패킷을 다스가 먼저 받아서 안에 악성코드를 섞거나 금액을 바꾼 뒤 앨리스에게 넘깁니다. 앨리스는 화면에 뜬 네이버 로고를 보고 해킹당하는 줄 꿈에도 모릅니다.
 
-```text
-[DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
-[중간자 공격 도청 흐름과 통제 조치]
-    │
-    └──▶ [세션 하이재킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 하이재킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-중간자가 패킷을 가로채더라도 뜯어보지 못하게 하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))**로 완벽하게 암호화해야 합니다.
+중간자가 패킷을 가로채더라도 뜯어보지 못하게 하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>)</strong>로 완벽하게 암호화해야 합니다.
 - **해커의 가짜 인증서 공격**: 해커가 중간에서 가짜 네이버 인증서를 만들어서 앨리스에게 던지면 어떻게 될까요?
 - **PKI의 위력**: 앨리스의 브라우저는 그 가짜 인증서를 보자마자 "어? 이 인증서에는 글로벌 최상위 기관(Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 도장(서명)이 안 찍혀있잖아? 이거 가짜다!"라며 새빨간 경고창(ERR_CERT_AUTHORITY_INVALID)을 띄우고 접속을 아예 차단해 버려 해커의 MitM을 처참히 분쇄합니다. (676번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
@@ -75,11 +83,11 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 하지만 해커도 만만치 않습니다. 사용자가 주소창에 귀찮아서 `naver.com`만 치면 브라우저는 일단 기본적으로 암호화가 안 된 평문 통신인 `http://naver.com`으로 먼저 접속을 시도한다는 허점을 노립니다.
-- **[SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/) 공격**: 해커가 이 첫 번째 `http://` 접속 요청을 중간에서 낚아챈 뒤, 자신이 네이버와 대신 `https://` 보안 통신을 맺고, 사용자에게는 영원히 암호화되지 않은 낡은 `http://` 화면만 던져줍니다. 사용자는 자물쇠 마크가 없는지도 모르고 평문으로 비밀번호를 갖다 바칩니다.
-- **궁극의 통제 조치 ([HSTS](/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Strict Transport [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: 
+- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/">SSL Stripping</a> 공격</strong>: 해커가 이 첫 번째 `http://` 접속 요청을 중간에서 낚아챈 뒤, 자신이 네이버와 대신 `https://` 보안 통신을 맺고, 사용자에게는 영원히 암호화되지 않은 낡은 `http://` 화면만 던져줍니다. 사용자는 자물쇠 마크가 없는지도 모르고 평문으로 비밀번호를 갖다 바칩니다.
+- <strong>궁극의 통제 조치 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/268_hsts/">HSTS</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Strict Transport <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 
   - 웹서버가 응답 헤더에 `Strict-Transport-Security`라는 명령을 달아서 보냅니다.
   - 이 명령을 받은 내 크롬 브라우저는 기억해 둡니다. "아! 네이버는 앞으로 1년 동안 무조건 `https://`로만 접속해야 하는 사이트구나!"
-  - 다음 날 내가 실수로 주소창에 평문 `http://naver.com`을 쳐도, **브라우저 자체가 내부에서 강제로 `https://`로 주소를 뜯어고친 뒤 발송**해 버립니다. 해커가 중간에서 평문 요청을 가로채려던 꼼수([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/))가 100% 무력화되는 완벽한 방어막입니다.
+  - 다음 날 내가 실수로 주소창에 평문 `http://naver.com`을 쳐도, <strong>브라우저 자체가 내부에서 강제로 <code>https://</code>로 주소를 뜯어고친 뒤 발송</strong>해 버립니다. 해커가 중간에서 평문 요청을 가로채려던 꼼수([SSL Stripping](/knowledge-base/studynote/09_security/05_web_app_security/267_ssl_stripping/))가 100% 무력화되는 완벽한 방어막입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ▼
-[현재 개념: 중간자 공격 도청 흐름과 통제 조치]
-    │
-    ├──▶ [확장 A: 세션 하이재킹]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 세션 하이재킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

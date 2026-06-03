@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: 4.3BSD Unix 운영체제의 Tahoe 릴리즈에 처음 도입된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 메커니즘. [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), Congestion Avoidance, [Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/) 세 가지 요소를 포함하고 있다.
 - **필요성**: 1986년, 아무런 통제 없이 패킷을 쏟아붓던 인터넷이 40bps로 멈춰 서는 대재앙이 발생했다. 모두가 패킷이 유실될 때마다 똑같은 속도로 미친 듯이 재전송을 갈겨댔기 때문이다. **"야! 패킷이 죽었다는 건 길이 막혔다는 뜻이야! 무조건 속도를 1(바닥)로 확 줄이고 처음부터 살금살금 밟아 올라오게 법으로 강제해!!"** 인터넷을 멸망에서 구하기 위해 가장 원초적이고 확실한 브레이크 시스템이 필요했다.
 
-- **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe는 융통성이라곤 1도 없는 **"FM(원칙주의자) 초보 운전 강사"**와 같습니다.
+- **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe는 융통성이라곤 1도 없는 <strong>"FM(원칙주의자) 초보 운전 강사"</strong>와 같습니다.
   - 고속도로를 시속 100km로 달리다가 앞차가 급정거([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 했습니다. 
-  - 강사는 기겁하며 조수석 브레이크를 꽉 밟아 차를 아예 **시속 0km(완전 정지, CWND 1)**로 세워버립니다. 
-  - 이번엔 길바닥에 작은 돌멩이(3 Dup-ACK, 패킷 1개 유실)가 하나 튀었습니다. 다른 차들은 그냥 속도만 줄이고 지나가는데, 이 원칙주의자 강사는 기겁을 하며 또다시 브레이크를 꽉 밟아 차를 **시속 0km(완전 정지, CWND 1)로 갓길에 세우고 1단 기어([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))부터 다시 출발**시킵니다.
+  - 강사는 기겁하며 조수석 브레이크를 꽉 밟아 차를 아예 <strong>시속 0km(완전 정지, CWND 1)</strong>로 세워버립니다. 
+  - 이번엔 길바닥에 작은 돌멩이(3 Dup-ACK, 패킷 1개 유실)가 하나 튀었습니다. 다른 차들은 그냥 속도만 줄이고 지나가는데, 이 원칙주의자 강사는 기겁을 하며 또다시 브레이크를 꽉 밟아 차를 <strong>시속 0km(완전 정지, CWND 1)로 갓길에 세우고 1단 기어(<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a>)부터 다시 출발</strong>시킵니다.
 
-```text
-[빠른 회복]
-    │
-    ▼
-[TCP Tahoe 모델]
-    │
-    └──▶ [TCP Reno 모델]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">빠른 회복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Tahoe 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP Reno 모델</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** Tahoe [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 징검다리를 건너다가 발을 한 번 헛디뎌서 발목에 물이 튄(가벼운 유실) 상황인데도, "위험해! 다 무효야!"라며 징검다리 맨 앞(출발선)으로 쫓겨나 처음부터 다시 돌다리를 두드리며([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)) 건너게 만드는 지독한 생존 본능의 산물입니다.
 
@@ -42,13 +46,13 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 개념은 정보처리기사나 네트워크 엔지니어 면접에서 **"Tahoe와 Reno의 차이점을 그래프로 설명하라"**는 단골 질문으로 100% 출제된다.
+이 개념은 정보처리기사나 네트워크 엔지니어 면접에서 <strong>"Tahoe와 Reno의 차이점을 그래프로 설명하라"</strong>는 단골 질문으로 100% 출제된다.
 
 ### 1. Tahoe가 가진 3가지 무기 ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 Tahoe가 원시적이라 놀림받지만, 현대 혼잡 제어의 근간은 이 녀석이 다 만들었다.
-1. **[Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)**: 처음엔 무조건 1부터 시작해서 2배씩 올리자!
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a></strong>: 처음엔 무조건 1부터 시작해서 2배씩 올리자!
 2. **Congestion Avoidance**: ssthresh에 닿으면 1개씩 찔끔찔끔 올리자!
-3. **[Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)**: "3번 중복 ACK(Dup-ACK)가 오면? 타이머 만료될 때까지 멍때리지 말고, 눈치껏 **즉시 재전송**을 갈기자!" (놀랍게도 빠른 재전송의 핑퐁 개념은 Tahoe가 최초 발명자다).
+3. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/">Fast Retransmit</a></strong>: "3번 중복 ACK(Dup-ACK)가 오면? 타이머 만료될 때까지 멍때리지 말고, 눈치껏 <strong>즉시 재전송</strong>을 갈기자!" (놀랍게도 빠른 재전송의 핑퐁 개념은 Tahoe가 최초 발명자다).
 
 ### 2. Tahoe의 치명적 한계점
 Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)'을 쏜 직후의 행동 강령에 있다.
@@ -62,30 +66,28 @@ Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynot
 - **Reno의 반응 (3 Dup-ACK 사고 시)**: `CWND = ssthresh(절반)` ──▶ Congestion Avoidance(선형 증가). (골짜기 없이 톱니바퀴 모양 유지).
 - 단, Reno도 '[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)'이라는 진짜 대형 사고 앞에서는 Tahoe처럼 똑같이 1로 박살 나고 슬로우 스타트를 한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Tahoe vs TCP Reno 그래프 차이 도식            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 3 Dup-ACK (가벼운 접촉 사고) 발생 시! ]                       │
- │                                                             │
- │   * TCP Tahoe (과거)                                        │
- │   32 |          /|                                          │
- │   16 |        /  |                /                         │
- │    1 |      /    * ─ * ─ * ─ * ─/                           │
- │      |____/_________________________________               │
- │           └─▶ 바닥(1)으로 찍고 슬로우스타트 계단을 밟음 (답답함)      │
- │                                                             │
- │   * TCP Reno (현재 표준)                                      │
- │   32 |          /|                                          │
- │   16 |        /  * ─ * ─ * ─ * ─ * ─                        │
- │    1 |      /                                               │
- │      |____/_________________________________               │
- │           └─▶ 바닥으로 안 가고 16(절반)에서 바로 시작! (초고속!)     │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** Tahoe는 컵에 물을 따르다가 물방울 하나가 넘쳤을 때, **"아차! 넘쳤네!" 하며 컵의 물을 아예 바닥에 싹 다 버리고 처음부터 다시 1방울씩 정성스레 채워 넣는 강박증 환자**입니다. 이 강박증을 고쳐서, 물방울이 넘치면 **딱 넘친 만큼만 물을 살짝 덜어내고(절반) 다시 부드럽게 채우게 만든 것이 Reno**의 유연함입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP Tahoe vs TCP Reno 그래프 차이 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3 Dup-ACK (가벼운 접촉 사고) 발생 시!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP Tahoe (과거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">/ * ─ * ─ * ─ * ─/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 바닥(1)으로 찍고 슬로우스타트 계단을 밟음 (답답함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP Reno (현재 표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">/ * ─ * ─ * ─ * ─ * ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 바닥으로 안 가고 16(절반)에서 바로 시작! (초고속!)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** Tahoe는 컵에 물을 따르다가 물방울 하나가 넘쳤을 때, **"아차! 넘쳤네!" 하며 컵의 물을 아예 바닥에 싹 다 버리고 처음부터 다시 1방울씩 정성스레 채워 넣는 강박증 환자<strong>입니다. 이 강박증을 고쳐서, 물방울이 넘치면 </strong>딱 넘친 만큼만 물을 살짝 덜어내고(절반) 다시 부드럽게 채우게 만든 것이 Reno**의 유연함입니다.
 
 ---
 
@@ -141,15 +143,19 @@ Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 빠른 회복]
-    │
-    ▼
-[현재 개념: TCP Tahoe 모델]
-    │
-    ├──▶ [확장 A: TCP Reno 모델]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 빠른 회복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP Tahoe 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP Reno 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델는 [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

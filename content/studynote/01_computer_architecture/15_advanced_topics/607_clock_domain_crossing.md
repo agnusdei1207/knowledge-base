@@ -25,16 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 서로 다른 클럭이 만나는 순간이 위험한지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  sampling near an edge creates uncertainty                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ src_data : _____/‾‾‾‾‾\________________                                   │
-│ dst_clk  : ─────┐       ─────┐       ─────┐                              │
-│                 ▲                                                    │
-│                 └─ sample too close to transition -> metastability risk  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sampling near an edge creates uncertainty</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">src_data : _____/‾‾‾‾‾\________________</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dst_clk :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sample too close to transition -&gt; metastability risk</div></div>
+</div>
+</div>
+
+
 
 따라서 CDC의 목적은 단순 전달이 아니다. 첫째, 메타스테이빌리티가 내부 로직으로 퍼지지 않게 해야 하고, 둘째, 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 함께 움직일 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지켜야 하며, 셋째, 빠른 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 짧은 이벤트가 느린 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 사라지지 않게 해야 한다.
 
@@ -56,13 +58,17 @@ tags = ["studynote-computer-architecture"]
 
 가장 기본인 2단 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기는 다음과 같이 생각하면 된다. 첫 번째 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 위험한 비동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받고, 두 번째 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 한 클럭 뒤에 다시 받아 안정화 시간을 늘린다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ src signal -> [sync_ff1] -> [sync_ff2] -> clean dst-domain signal        │
-│                 ^                                                          │
-│                 └─ metastability may start here, but should settle here   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">sync_ff1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">sync_ff2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">clean dst-domain signal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ metastability may start here, but should settle here</div></div>
+</div>
+</div>
+
+
 
 이 구조가 안전한 이유는 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 낮추기 때문이다. 평균 고장 간격 (Mean Time Between Failures, [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))은 대략 `exp(Tsettle / τ)`에 비례하고, 샘플링 주파수와 이벤트 빈도에 반비례한다. 즉 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 단계가 늘어 수습 시간 `Tsettle`이 길어질수록 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 급격히 줄어든다. 다만 이것은 "없애는 것"이 아니라 "제품 수명보다 충분히 드물게 만드는 것"이라는 점을 잊으면 안 된다.
 
@@ -95,7 +101,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 가장 중요한 원칙은 "조합 출력은 넘기지 말고, 등록된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 넘겨라"이다. 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)에는 글리치가 숨어 있으므로, 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기에 넣으면 이벤트 빈도가 높아져 MTBF가 나빠진다. 또 하나 중요한 원칙은 하나의 비동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 여러 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 체인에 따로 넣지 않는 것이다. 체인마다 다른 에지에서 잡히면 이후 로직이 서로 다른 사실을 믿게 된다.
 
-fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 분명 한 사이클 pulse를 냈는데, 수신 쪽 클럭이 더 느리면 그 pulse가 샘플 포인트 사이에서 사라질 수 있다. 이때는 pulse를 level로 늘리거나 toggle bit로 바꾼 뒤 수신 쪽에서 edge detect를 해야 한다. 즉 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 설계는 회로 기법이 아니라 **이벤트 의미를 보존하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계**이기도 하다.
+fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 분명 한 사이클 pulse를 냈는데, 수신 쪽 클럭이 더 느리면 그 pulse가 샘플 포인트 사이에서 사라질 수 있다. 이때는 pulse를 level로 늘리거나 toggle bit로 바꾼 뒤 수신 쪽에서 edge detect를 해야 한다. 즉 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 설계는 회로 기법이 아니라 <strong>이벤트 의미를 보존하는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 설계</strong>이기도 하다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,7 +118,7 @@ fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 �
 - 같은 비동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 여러 체인으로 따로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해 서로 다른 값을 믿게 만드는 연결
 - 시뮬레이션에서 안 깨졌다는 이유만으로 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 판단
 
-기술사 답안에서는 CDC를 "[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기 달면 된다"로 끝내면 부족하다. **메타스테이빌리티 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성, 이벤트 소실, 분석 도구 역할**까지 함께 써야 진짜 경계 관리 능력으로 보인다.
+기술사 답안에서는 CDC를 "[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)기 달면 된다"로 끝내면 부족하다. <strong>메타스테이빌리티 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성, 이벤트 소실, 분석 도구 역할</strong>까지 함께 써야 진짜 경계 관리 능력으로 보인다.
 
 - **📢 섹션 요약 비유**: 국경 검문소를 세울 때 출입문만 두는 것으로는 부족하다. 사람, 화물차, 택배, 응급차가 모두 다른 절차를 가져야 사고 없이 국경을 넘을 수 있다.
 
@@ -124,7 +130,7 @@ fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 �
 
 물론 비용도 있다. [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 단계와 핸드셰이크, FIFO는 모두 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 면적을 추가하며, 메타스테이빌리티를 0으로 만들 수는 없다. 앞으로는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 네트워크 온 칩, 이종 가속기 구조가 더 늘어날수록 GALS와 정교한 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)/RDC 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 중요성이 계속 커질 것이다.
 
-결론적으로 CDC는 **클럭이 다른 블록을 연결하는 배선 기술이 아니라, 서로 다른 시간 체계를 연결하는 계약 설계**다. 이 관점을 기억하면 왜 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나라도 level, pulse, [bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), stream에 따라 전혀 다른 기법을 쓰는지 자연스럽게 이해된다.
+결론적으로 CDC는 <strong>클럭이 다른 블록을 연결하는 배선 기술이 아니라, 서로 다른 시간 체계를 연결하는 계약 설계</strong>다. 이 관점을 기억하면 왜 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나라도 level, pulse, [bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), stream에 따라 전혀 다른 기법을 쓰는지 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: CDC는 단순한 다리가 아니라, 보행자·차량·화물선이 모두 지나가는 복합 환승 터미널과 같다. 건너기만 되면 끝이 아니라, 누구를 어떤 절차로 통과시킬지가 진짜 설계다.
 
@@ -143,24 +149,25 @@ fast-to-slow crossing도 자주 실수하는 구간이다. 송신 쪽에서는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 글로벌 클럭 설계
-        │
-        ▼
-멀티클럭 SoC 확산
-        │
-        ▼
-2단 동기화기 · 핸드셰이크 도입
-        │
-        ▼
-그레이 코드 포인터 · 비동기 FIFO
-        │
-        ▼
-CDC/RDC 정적 검증 자동화
-        │
-        ▼
-GALS 기반 이종 칩 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 글로벌 클럭 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티클럭 SoC 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2단 동기화기 · 핸드셰이크 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그레이 코드 포인터 · 비동기 FIFO</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDC/RDC 정적 검증 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GALS 기반 이종 칩 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 디지털 설계가 "한 박자에 맞춘 회로"에서 출발해, 이제는 서로 다른 시간 체계를 안전하게 공존시키는 방향으로 확장되었음을 보여 준다.
 

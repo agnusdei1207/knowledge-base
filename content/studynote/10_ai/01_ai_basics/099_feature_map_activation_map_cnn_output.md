@@ -33,21 +33,23 @@ tags = ["studynote-ai"]
 
 | 구성 단계 | 역할 및 특징 | 세부 원리 |
 | :--- | :--- | :--- |
-| **1. [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))** | 형태적 특징 추출 | $3 \times 3$ 필터가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합 연산을 수행하여 선형적인 특성 맵([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Feature Map) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong>1. <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">합성곱 연산</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>)</strong> | 형태적 특징 추출 | $3 \times 3$ 필터가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합 연산을 수행하여 선형적인 특성 맵([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Feature Map) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **2. 활성화 (Activation)** | 유의미한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 증폭 및 노이즈 제거 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 함수 적용, 음수 값(의미 없는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 0으로 만들어 액티베이션 맵 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **3. 다중 채널 (Multi-Channel)** | 다양한 특징 동시 확보 | 64개 필터 적용 시, 64개의 채널을 가진 다층 특성 맵 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 완성 |
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│ 특성 맵 생성 과정 (Feature Extraction) │
-├────────────────────────────────────────────────────────────────────────┤
-│ [원본 이미지] * [다중 필터] = [선형 특성 맵] -> [액티베이션 맵] │
-│ (H x W x 3) (64 Filters) (H' x W' x 64) (ReLU 적용) │
-│ │ │ │ │ │
-│ 복잡한 픽셀 가로선/세로선 등 필터 반응값 음수 제거(노이즈↓)│
-│ 패턴 탐지기 단순 집계 결과 핵심 특징만 강조 │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특성 맵 생성 과정 (Feature Extraction)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 이미지</div><div class="kb-diagram-note">*</div><div class="kb-diagram-node">다중 필터</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">선형 특성 맵</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">액티베이션 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H x W x 3) (64 Filters) (H' x W' x 64) (ReLU 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡한 픽셀 가로선/세로선 등 필터 반응값 음수 제거(노이즈↓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴 탐지기 단순 집계 결과 핵심 특징만 강조</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 출력되는 특성 맵의 가로세로 크기는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 수학적으로 결정되며, 채널의 개수는 사용한 필터의 개수와 정확히 일치한다.
 
@@ -100,28 +102,30 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특성 맵을 만들어내는 핵심 필터 연산 |
-| **[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) ([Activation Function](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/))** | 선형 맵의 노이즈를 제거하여 액티베이션 맵으로 완성시킴 |
-| **[1x1 합성곱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/) (Pointwise Conv)** | 과도하게 두꺼워진 특성 맵의 채널 수를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/))하는 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>)</strong> | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특성 맵을 만들어내는 핵심 필터 연산 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">Activation Function</a>)</strong> | 선형 맵의 노이즈를 제거하여 액티베이션 맵으로 완성시킴 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/">1x1 합성곱</a> (Pointwise Conv)</strong> | 과도하게 두꺼워진 특성 맵의 채널 수를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/))하는 기법 |
 | **Grad-CAM** | 최종 특성 맵을 역으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여 모델의 판단 근거(히트맵)를 보여주는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-원본 이미지 (Raw Image)
-│
-▼
-수동 필터 특징 추출 (Sobel, SIFT, HOG)
-│
-▼
-합성곱 연산 (Convolution Kernel) 기반 선형 특성 맵 (Raw Feature Map)
-│
-▼
-활성화 함수 (ReLU 등) 적용에 따른 액티베이션 맵 (Activation Map)
-│
-▼
-채널 최적화 (1x1 Conv, Depthwise Separable Conv) 및 시각화 (Grad-CAM)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 이미지 (Raw Image)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수동 필터 특징 추출 (Sobel, SIFT, HOG)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">합성곱 연산 (Convolution Kernel) 기반 선형 특성 맵 (Raw Feature Map)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">활성화 함수 (ReLU 등) 적용에 따른 액티베이션 맵 (Activation Map)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">채널 최적화 (1x1 Conv, Depthwise Separable Conv) 및 시각화 (Grad-CAM)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

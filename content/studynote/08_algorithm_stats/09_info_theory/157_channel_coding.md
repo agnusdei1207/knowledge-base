@@ -50,42 +50,42 @@ n: 코드워드 비트 수 (k + 잉여 비트)
 
 ### 섀넌 한계 접근 코드 연대표
 
-```
-1948  섀넌, 채널 부호화 정리 증명 (존재성만)
-  │
-1950  해밍 코드 — 최소 거리 3, 1비트 오류 정정
-  │
-1960  갈라거 (Gallager), LDPC 코드 제안 → 무시됨
-  │
-1993  베로 (Berrou) 등, 터보 코드 발표
-       → AWGN에서 섀넌 한계 0.5dB 이내 달성 (충격!)
-  │
-1996  LDPC 재발견 (MacKay & Neal)
-  │
-2009  아르칸 (Arıkan), 폴라 코드 — 이론적으로 섀넌 한계 달성
-  │
-2016  3GPP, 5G NR 제어 채널에 폴라 코드 채택
-  │
-2018  5G NR 데이터 채널에 LDPC 채택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1948 섀넌, 채널 부호화 정리 증명 (존재성만)</div>
+<div class="kb-diagram-note">1950 해밍 코드 — 최소 거리 3, 1비트 오류 정정</div>
+<div class="kb-diagram-note">1960 갈라거 (Gallager), LDPC 코드 제안 → 무시됨</div>
+<div class="kb-diagram-note">1993 베로 (Berrou) 등, 터보 코드 발표</div>
+<div class="kb-diagram-note">→ AWGN에서 섀넌 한계 0.5dB 이내 달성 (충격!)</div>
+<div class="kb-diagram-note">1996 LDPC 재발견 (MacKay &amp; Neal)</div>
+<div class="kb-diagram-note">2009 아르칸 (Arıkan), 폴라 코드 — 이론적으로 섀넌 한계 달성</div>
+<div class="kb-diagram-note">2016 3GPP, 5G NR 제어 채널에 폴라 코드 채택</div>
+<div class="kb-diagram-note">2018 5G NR 데이터 채널에 LDPC 채택</div>
+</div>
+</div>
+
+
 
 ### BER vs Eb/N0 곡선 (개념도)
 
-```
-BER (로그)
-   │
-10⁻¹ ├─────────────── 무코딩 ─────────────────
-     │
-10⁻³ ├─────────────────── 해밍(7,4) ──────────
-     │
-10⁻⁵ ├──────────────────────── 터보/LDPC ─────
-     │
-10⁻⁷ ├─────────────────────────────── 폴라 ───
-     │
-10⁻⁹ ├──────────────────────── 섀넌 한계 ─────
-     └──────────────────────────────────────►
-       0   2   4   6   8   10 [dB]  Eb/N0
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BER (로그)</div>
+<div class="kb-diagram-note">10⁻¹ 무코딩</div>
+<div class="kb-diagram-note">10⁻³ 해밍(7,4)</div>
+<div class="kb-diagram-note">10⁻⁵ 터보/LDPC</div>
+<div class="kb-diagram-note">10⁻⁷ 폴라</div>
+<div class="kb-diagram-note">10⁻⁹ 섀넌 한계</div>
+<div class="kb-diagram-tree-item" style="--depth:2">►</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0 2 4 6 8 10</div><div class="kb-diagram-node">dB</div><div class="kb-diagram-note">Eb/N0</div></div>
+</div>
+</div>
+
+
 
 섀넌 한계에 가까울수록 낮은 Eb/N0 (낮은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지)에서도 낮은 BER 달성.
 
@@ -107,32 +107,37 @@ BER (로그)
 
 ### [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) 구조
 
-```
-정보 비트 u
-    ├──────────────────────────────►  인코더 1 (RSC₁)
-    │                                     │
-    ▼  인터리버 (Interleaver)              ▼
-  u' (재정렬)                         패리티 비트 p₁
-    │                                     │
-    ▼                                     │
-  인코더 2 (RSC₂)                         │
-    │                                     │
-    ▼                                     │
-  패리티 비트 p₂               u + p₁ + p₂ 전송
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정보 비트 u</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인코더 1 (RSC₁)</div>
+<div class="kb-diagram-note">▼ 인터리버 (Interleaver) ▼</div>
+<div class="kb-diagram-note">u' (재정렬) 패리티 비트 p₁</div>
+<div class="kb-diagram-note">인코더 2 (RSC₂)</div>
+<div class="kb-diagram-note">패리티 비트 p₂ u + p₁ + p₂ 전송</div>
+</div>
+</div>
+
+
 
 RSC: Recursive Systematic Convolutional 코드
 
 ### [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 코드의 태너 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Tanner [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
 
-```
-변수 노드 (Variable Nodes): v₁ v₂ v₃ v₄ v₅
-                              │  │  │  │  │
-        ─────────────────────╯ ╰─╯ ╰─╯ ╰─╯
-체크 노드 (Check Nodes):      c₁  c₂  c₃
 
-신뢰 전파: 변수 노드 ↔ 체크 노드 반복 메시지 교환
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">변수 노드 (Variable Nodes): v₁ v₂ v₃ v₄ v₅</div>
+<div class="kb-diagram-tree-item" style="--depth:4">─ ─ ─</div>
+<div class="kb-diagram-note">체크 노드 (Check Nodes): c₁ c₂ c₃</div>
+<div class="kb-diagram-note">신뢰 전파: 변수 노드 ↔ 체크 노드 반복 메시지 교환</div>
+</div>
+</div>
+
+
 
 LDPC의 "저밀도 (Low-Density)" = 연결이 희소 = 신뢰 전파 수렴 빠름
 
@@ -151,12 +156,17 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 ### [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 채널 부호 선정
 
-```
-5G NR 채널        채택 코드        이유
-────────────────────────────────────────
-제어 채널 (PDCCH)  폴라 코드        짧은 블록 최적
-데이터 채널 (PDSCH) LDPC 코드       긴 블록, 높은 처리량
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">5G NR 채널 채택 코드 이유</div>
+<div class="kb-diagram-note">제어 채널 (PDCCH) 폴라 코드 짧은 블록 최적</div>
+<div class="kb-diagram-note">데이터 채널 (PDSCH) LDPC 코드 긴 블록, 높은 처리량</div>
+</div>
+</div>
+
+
 
 ### 스토리지에서의 채널 부호
 
@@ -173,7 +183,7 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 ## Ⅴ. 기대효과 및 결론
 
-채널 부호화 정리는 **디지털 통신의 가능성 한계**를 수학적으로 확정했다. 1948년 섀넌이 증명한 것은 존재성뿐이었지만, 이후 70년간의 코딩 이론 연구가 실제 달성 가능한 코드를 찾아냈다.
+채널 부호화 정리는 <strong>디지털 통신의 가능성 한계</strong>를 수학적으로 확정했다. 1948년 섀넌이 증명한 것은 존재성뿐이었지만, 이후 70년간의 코딩 이론 연구가 실제 달성 가능한 코드를 찾아냈다.
 
 현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), 위성 통신은 섀넌 한계의 0.1~0.5 dB 이내에서 동작한다 — 이론과 실제 사이 격차가 거의 사라진 놀라운 성취다.
 
@@ -195,29 +205,31 @@ n→∞일 때 채널을 n개의 "완전 잡음" 또는 "완전 신뢰" 채널�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[섀넌 채널 용량 정리 (Shannon Channel Capacity)]
-    │
-    ▼
-[블록 부호 (Block Code) — 해밍 코드 (Hamming Code)]
-    │
-    ▼
-[터보 코드 (Turbo Code) — 반복 디코딩 (1993)]
-    │
-    ▼
-[LDPC 부호 (Low-Density Parity-Check) — 5G 데이터]
-    │
-    ▼
-[폴라 코드 (Polar Code) — 섀넌 한계 최초 달성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">섀넌 채널 용량 정리 (Shannon Channel Capacity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 부호 (Block Code) — 해밍 코드 (Hamming Code)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드 (Turbo Code) — 반복 디코딩 (1993)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC 부호 (Low-Density Parity-Check) — 5G 데이터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드 (Polar Code) — 섀넌 한계 최초 달성</div></div>
+</div>
+</div>
+
+
 
 채널 부호화 기술이 섀넌 이론의 증명에서 시작하여 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 표준을 달성하는 [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)까지 진화한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **채널 부호화 정리는 "잡음 있어도 완벽 전달 가능 증명"**: 편지를 여러 번 복사해서 보내는 방법이 있다면, 잡음 속에서도 완벽하게 받을 수 있다.
-2. **[터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)는 "두 선생님 교차 채점"**: 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 서로 결과를 교환하며 점점 정확한 답으로 수렴한다.
-3. **[폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)는 "확실한 채널만 사용하기"**: 믿을 수 있는 통로만 골라서 정보를 보내는 영리한 방법.
+2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">터보 코드</a>는 "두 선생님 교차 채점"</strong>: 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 서로 결과를 교환하며 점점 정확한 답으로 수렴한다.
+3. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/">폴라 코드</a>는 "확실한 채널만 사용하기"</strong>: 믿을 수 있는 통로만 골라서 정보를 보내는 영리한 방법.
 
 ---
 

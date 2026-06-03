@@ -27,7 +27,7 @@ tags = ["studynote-data-engineering"]
 - **지식 단절**: 중앙 팀은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 비즈니스 맥락을 모르고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀은 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 기술을 모름
 - **확장 한계**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수 증가 시 중앙 팀 부하 O(n) 이상 증가
 
-Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 이 문제를 **"마이크로서비스가 애플리케이션 개발을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨 것처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키자"** 는 사상으로 해결한다.
+Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 이 문제를 <strong>"마이크로서비스가 애플리케이션 개발을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시킨 것처럼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>도 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시키자"</strong> 는 사상으로 해결한다.
 
 📢 **섹션 요약 비유**: 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀은 "모든 부서의 서류 복사를 혼자 담당하는 복사실"과 같다. 처음엔 효율적이지만 회사가 커지면 항상 대기줄이 생긴다. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 부서에 복사기를 두는 것이다.
 
@@ -37,35 +37,32 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 2-1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙
 
-```
-┌────────────────────────────────────────────────────────────────────┐
-│                    Data Mesh 4 Principles                          │
-│                                                                    │
-│  ┌─────────────────┐    ┌──────────────────────────────────────┐  │
-│  │  ① Domain       │    │  ② Data as a Product                 │  │
-│  │  Ownership      │    │  (데이터를 제품으로 취급)              │  │
-│  │  (도메인 소유권) │    │  - 검색 가능 (Discoverable)          │  │
-│  │                 │    │  - 주소 지정 가능 (Addressable)      │  │
-│  │  도메인 팀이     │    │  - 이해 가능 (Understandable)        │  │
-│  │  데이터 생산·    │    │  - 신뢰 가능 (Trustworthy)           │  │
-│  │  관리·제공 책임 │    │  - 자체 완비 (Self-contained)        │  │
-│  └─────────────────┘    └──────────────────────────────────────┘  │
-│                                                                    │
-│  ┌─────────────────────────┐    ┌───────────────────────────────┐ │
-│  │  ③ Self-Serve Data      │    │  ④ Federated Computational    │ │
-│  │  Infrastructure Platform│    │  Governance                   │ │
-│  │  (셀프 서빙 플랫폼)      │    │  (연합 거버넌스)               │ │
-│  │                         │    │                               │ │
-│  │  도메인 팀이 인프라      │    │  중앙·도메인 공동 거버넌스     │ │
-│  │  없이도 데이터 제품을   │    │  정책, 표준, 계약 협의         │ │
-│  │  자율 생산할 수 있도록  │    │  자율성 + 글로벌 일관성        │ │
-│  └─────────────────────────┘    └───────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mesh 4 Principles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Domain</div><div class="kb-diagram-cell">② Data as a Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ownership</div><div class="kb-diagram-cell">(데이터를 제품으로 취급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도메인 소유권)</div><div class="kb-diagram-cell">- 검색 가능 (Discoverable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주소 지정 가능 (Addressable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 팀이</div><div class="kb-diagram-cell">- 이해 가능 (Understandable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 생산·</div><div class="kb-diagram-cell">- 신뢰 가능 (Trustworthy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리·제공 책임</div><div class="kb-diagram-cell">- 자체 완비 (Self-contained)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Self-Serve Data</div><div class="kb-diagram-cell">④ Federated Computational</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Infrastructure Platform</div><div class="kb-diagram-cell">Governance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셀프 서빙 플랫폼)</div><div class="kb-diagram-cell">(연합 거버넌스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 팀이 인프라</div><div class="kb-diagram-cell">중앙·도메인 공동 거버넌스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없이도 데이터 제품을</div><div class="kb-diagram-cell">정책, 표준, 계약 협의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율 생산할 수 있도록</div><div class="kb-diagram-cell">자율성 + 글로벌 일관성</div></div>
+</div>
+</div>
+
+
 
 ### 2-2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)) 구조
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 아니라 **"비즈니스 가치를 제공하는 소비 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위"** 다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 아니라 <strong>"비즈니스 가치를 제공하는 소비 가능한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 단위"</strong> 다.
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 설명 | 예시 |
 |:---|:---|:---|
@@ -94,33 +91,27 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 3-2. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권의 실제 구조
 
-```
-                  ┌─────────────────────────────────┐
-                  │    Federated Governance Layer    │
-                  │  (글로벌 정책: 보안, 개인정보,   │
-                  │   데이터 계약 표준)               │
-                  └──────────────┬──────────────────┘
-                                 │ 정책 제공
-          ┌──────────────────────┼───────────────────────┐
-          │                      │                       │
-          ▼                      ▼                       ▼
-┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-│   주문 도메인     │   │   고객 도메인     │   │   물류 도메인     │
-│  Order Domain    │   │  Customer Domain │   │ Logistics Domain │
-│                  │   │                  │   │                  │
-│ 주문 이력        │   │ 고객 프로파일     │   │ 배송 현황        │
-│ 주문 분석        │   │ CLV 분석         │   │ 창고 재고        │
-│ (Data Product A) │   │ (Data Product B) │   │ (Data Product C) │
-└──────────────────┘   └──────────────────┘   └──────────────────┘
-          │                      │                       │
-          └──────────────────────┴───────────────────────┘
-                                 │ 소비
-                    ┌────────────▼────────────┐
-                    │  Self-Serve Platform     │
-                    │  (공통 인프라: 카탈로그,  │
-                    │   스토리지, 컴퓨팅 API)  │
-                    └─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Federated Governance Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(글로벌 정책: 보안, 개인정보,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계약 표준)</div></div>
+<div class="kb-diagram-note">정책 제공</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 도메인</div><div class="kb-diagram-cell">고객 도메인</div><div class="kb-diagram-cell">물류 도메인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Domain</div><div class="kb-diagram-cell">Customer Domain</div><div class="kb-diagram-cell">Logistics Domain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 이력</div><div class="kb-diagram-cell">고객 프로파일</div><div class="kb-diagram-cell">배송 현황</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 분석</div><div class="kb-diagram-cell">CLV 분석</div><div class="kb-diagram-cell">창고 재고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Product A)</div><div class="kb-diagram-cell">(Data Product B)</div><div class="kb-diagram-cell">(Data Product C)</div></div>
+<div class="kb-diagram-note">소비</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Serve Platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공통 인프라: 카탈로그,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지, 컴퓨팅 API)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "프랜차이즈 식당" 모델이다. 각 가맹점([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)은 자체 운영 권한이 있지만, 본사(연합 거버넌스)의 레시피 표준과 식품 안전 규정을 따른다.
 
@@ -149,7 +140,7 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 궁극적 목표는 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민주화(Democratization)"** 다. 모든 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산자이자 소비자가 되어, 조직 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 속도와 품질을 동시에 높인다.
+[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 궁극적 목표는 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 민주화(Democratization)"</strong> 다. 모든 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산자이자 소비자가 되어, 조직 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 속도와 품질을 동시에 높인다.
 
 ### [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)
 
@@ -160,7 +151,7 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용률 | 검색 가능한 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) → 2~3× 향상 |
 | 거버넌스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 속도 | 리니지 자동화 → 80% 단축 |
 
-기술사 시험에서 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 **"조직 중심(Organization-Centric) [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)"** 로, 기술 문제가 아닌 조직·문화적 전환임을 강조해야 한다.
+기술사 시험에서 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 <strong>"조직 중심(Organization-Centric) <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a>"</strong> 로, 기술 문제가 아닌 조직·문화적 전환임을 강조해야 한다.
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "중앙 우체국 없이 각 동네에 우편함을 두는 것"이다. 배달은 빨라지지만, 각 동네가 자기 우편함을 관리하는 책임을 져야 한다.
 
@@ -188,18 +179,22 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 집중 데이터 팀 (병목 · 확장 한계)
-    │
-    ▼
-Data Mesh: 도메인별 데이터 소유권 분산
-    ├─► 도메인 데이터 프로덕트: 자율 운영
-    ├─► Self-Serve 인프라 플랫폼
-    └─► 연방 거버넌스: 전사 표준 + 도메인 자율
-    │
-    ▼
-Data Product Thinking → API · SLA 기반 데이터 계약
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 집중 데이터 팀 (병목 · 확장 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Mesh: 도메인별 데이터 소유권 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">도메인 데이터 프로덕트: 자율 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Self-Serve 인프라 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">연방 거버넌스: 전사 표준 + 도메인 자율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Product Thinking → API · SLA 기반 데이터 계약</div>
+</div>
+</div>
+
+
 2. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 반 선생님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)이 직접 자기 반 숙제를 검사하고 관리하도록 바꾸는 것이다.
 3. 교장 선생님(연합 거버넌스)은 전체 채점 기준만 정해주고, 각 반은 그 기준 안에서 자유롭게 운영한다.
 

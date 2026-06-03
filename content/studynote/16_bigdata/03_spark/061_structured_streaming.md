@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **구조적 스트리밍 (Structured Streaming)**은 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 엔진 위에서 동작하는 확장 가능하고 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)(Fault-tolerant)이 가능한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진이다.
-2. 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지속적으로 추가되는 **'무한 테이블(Unbounded Table)'**로 간주하여, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)와 동일한 DataFrame/Dataset API로 스트리밍 로직을 작성할 수 있다.
-3. **체크포인트와 Write-ahead Log**를 통해 '[정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)(Exactly-once)' 처리 보증을 제공하며, 이벤트 시간(Event-time) 처리 및 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 기능을 완벽히 지원한다.
+1. <strong>구조적 스트리밍 (Structured Streaming)</strong>은 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 엔진 위에서 동작하는 확장 가능하고 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)(Fault-tolerant)이 가능한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진이다.
+2. 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지속적으로 추가되는 <strong>'무한 테이블(Unbounded Table)'</strong>로 간주하여, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)와 동일한 DataFrame/Dataset API로 스트리밍 로직을 작성할 수 있다.
+3. <strong>체크포인트와 Write-ahead Log</strong>를 통해 '[정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)(Exactly-once)' 처리 보증을 제공하며, 이벤트 시간(Event-time) 처리 및 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 기능을 완벽히 지원한다.
 
 ---
 
@@ -45,8 +45,8 @@ tags = ["studynote-bigdata"]
 #### 2. 핵심 처리 메커니즘
 - **Trigger**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 주기를 결정한다 (예: 1초마다, 혹은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오는 즉시 처리하는 연속 모드).
 - **Watermarking**: 늦게 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Late [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 얼마나 기다릴지 정의하여 상태 정보의 메모리 무한 증식을 방지한다.
-- **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Store**: 윈도우 합계나 조인 처리를 위해 필요한 중간 상태값을 인메모리 혹은 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3에 안전하게 보관한다.
-- **[Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)**: Checkpointing을 통해 장애 발생 시 마지막 처리 지점부터 중단 없이 재시작할 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Store</strong>: 윈도우 합계나 조인 처리를 위해 필요한 중간 상태값을 인메모리 혹은 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3에 안전하게 보관한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a></strong>: Checkpointing을 통해 장애 발생 시 마지막 처리 지점부터 중단 없이 재시작할 수 있다.
 
 ---
 
@@ -54,7 +54,7 @@ tags = ["studynote-bigdata"]
 
 | 비교 항목 | [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) ([DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)) | Structured Streaming |
 | :--- | :--- | :--- |
-| **기반 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)** | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) (Low-level) | DataFrame / Dataset (High-level) |
+| <strong>기반 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong> | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) (Low-level) | DataFrame / Dataset (High-level) |
 | **처리 모델** | 마이크로 배치 전용 | 마이크로 배치 + 연속 처리(Continuous) |
 | **이벤트 시간 처리** | 지원 미흡 (Processing Time 위주) | [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 기반 완벽 지원 |
 | **코드 통합** | 배치 코드와 별도 작성 필요 | 배치 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 90% 이상 동일 코드 사용 |
@@ -64,8 +64,8 @@ tags = ["studynote-bigdata"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **배치-스트림 통합 아키텍처**: 동일한 로직을 배치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 모두 적용할 수 있어 유지보수 비용을 획기적으로 낮춘다 ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처 구현 용이).
-- **Sink 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), Console 외에도 Delta Lake와 결합하여 실시간 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)를 구축하는 것이 최신 기술 트렌드이다.
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화**: 셔플링을 유도하는 [윈도우 연산](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/) 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수(`spark.sql.shuffle.partitions`)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정하고, 로컬 상태 저장소의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(RocksDB 등)을 튜닝해야 한다.
+- <strong>Sink 선택 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), Console 외에도 Delta Lake와 결합하여 실시간 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)를 구축하는 것이 최신 기술 트렌드이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화</strong>: 셔플링을 유도하는 [윈도우 연산](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/) 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수(`spark.sql.shuffle.partitions`)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정하고, 로컬 상태 저장소의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(RocksDB 등)을 튜닝해야 한다.
 
 ---
 
@@ -76,32 +76,33 @@ tags = ["studynote-bigdata"]
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-1. **Micro-[batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아주 작은 단위로 묶어 처리하는 방식
-2. **[Exactly-once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이나 중복 없이 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 처리됨을 보장
+1. <strong>Micro-<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">batching</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아주 작은 단위로 묶어 처리하는 방식
+2. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/">Exactly-once Semantics</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이나 중복 없이 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 처리됨을 보장
 3. **Event Time**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템에 입력된 시간이 아닌, 실제 발생한 시간
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배치 처리 (Batch Processing) — 정해진 주기 대규모 데이터 처리]
-    │
-    ▼
-[스트리밍 처리 (Streaming) — 실시간 연속 데이터 처리]
-    │
-    ▼
-[Spark Streaming (DStream) — RDD 기반 마이크로 배치]
-    │
-    ▼
-[Structured Streaming — DataFrame API 기반 연속 처리]
-    │
-    ▼
-[워터마크 (Watermark) — 지연 데이터 처리 기준 시간 설정]
-    │
-    ▼
-[Delta Live Tables — 선언형 스트리밍 파이프라인 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리 (Batch Processing) — 정해진 주기 대규모 데이터 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 처리 (Streaming) — 실시간 연속 데이터 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming (DStream) — RDD 기반 마이크로 배치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming — DataFrame API 기반 연속 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크 (Watermark) — 지연 데이터 처리 기준 시간 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Live Tables — 선언형 스트리밍 파이프라인 자동화</div></div>
+</div>
+</div>
+
+
 Structured Streaming은 DStream의 복잡성을 DataFrame API로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 배치와 스트리밍을 통합하는 현대 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 표준이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

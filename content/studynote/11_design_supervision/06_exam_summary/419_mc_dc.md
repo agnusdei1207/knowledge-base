@@ -19,19 +19,21 @@ tags = ["studynote-design-supervision"]
 
 MC/DC는 단순히 분기문의 참·거짓을 한 번씩 실행하는 수준을 넘는다. 예를 들어 결정식이 `(A and B) or C`라면, A·B·C 각각이 다른 조건은 그대로 둔 채 결과를 바꾸는 사례가 있어야 한다. 즉 “이 조건이 실제로 결과에 영향을 주는가”를 독립적으로 증명하는 것이 핵심이다.
 
-이 기준이 중요한 이유는 항공·자동차·국방처럼 안전 필수 소프트웨어에서 복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 비용이 매우 크기 때문이다. 감리에서는 MC/DC를 단순한 고급 커버리지 용어가 아니라, **복합 조건 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 얼마나 엄격하게 통제하는가**를 보여 주는 증거로 본다.
+이 기준이 중요한 이유는 항공·자동차·국방처럼 안전 필수 소프트웨어에서 복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 비용이 매우 크기 때문이다. 감리에서는 MC/DC를 단순한 고급 커버리지 용어가 아니라, <strong>복합 조건 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>를 얼마나 엄격하게 통제하는가</strong>를 보여 주는 증거로 본다.
 
-```text
-┌────────────────────┐
-│ 결정식: (A ∧ B) ∨ C │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ A 독립 영향 입증    │
-│ B 독립 영향 입증    │
-│ C 독립 영향 입증    │
-└────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정식: (A ∧ B) ∨ C</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 독립 영향 입증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 독립 영향 입증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 독립 영향 입증</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 세 개의 스위치가 달린 전등이라면, 각 스위치가 정말 불을 켜고 끄는 데 영향을 주는지 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 검사다.
 
@@ -41,23 +43,21 @@ MC/DC 설계의 핵심은 조건 분해, 영향 분석, 테스트 쌍 선정, �
 
 감리에서는 테스트 수가 적다고 무조건 좋은 것이 아니다. 최소 집합을 만들더라도 각 조건의 독립 영향이 실제로 증명되는지, 도달 불가능한 경로나 단락 평가(short-circuit) 때문에 왜곡된 판정이 없는지를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-```text
-┌────────────────────┐
-│ 조건 분해(A,B,C)    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 독립 영향 쌍 선정    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 실행·결과 기록       │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 요구사항 추적성 확인 │
-└────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 분해(A,B,C)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립 영향 쌍 선정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행·결과 기록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 추적성 확인</div></div>
+</div>
+</div>
+
+
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 요소 | 설명 | 감리 포인트 |
 |:---|:---|:---|
@@ -101,7 +101,7 @@ MC/DC의 위치는 다른 화이트박스 커버리지와 비교할 때 명확�
 
 MC/DC를 적용하면 복합 조건식에 숨어 있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 더 체계적으로 찾아낼 수 있고, 안전 필수 소프트웨어의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 신뢰도도 높아진다. [다중 조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/427_multiple_condition_coverage/)보다 현실적인 테스트 수로 높은 보증 수준을 확보할 수 있다는 점이 실무적 장점이다. 다만 설계와 추적성 관리가 부족하면 형식적 수치로 전락할 위험이 있다.
 
-결론적으로 MC/DC의 핵심은 높은 커버리지 숫자가 아니라 **조건 독립성의 증명**이다. 답안에서는 조건 분해, 독립 영향 쌍, 다른 커버리지와의 비교, 안전 표준 적용 맥락을 함께 제시해야 한다.
+결론적으로 MC/DC의 핵심은 높은 커버리지 숫자가 아니라 <strong>조건 독립성의 증명</strong>이다. 답안에서는 조건 분해, 독립 영향 쌍, 다른 커버리지와의 비교, 안전 표준 적용 맥락을 함께 제시해야 한다.
 
 - **📢 섹션 요약 비유**: 자전거 브레이크를 점검할 때 바퀴가 멈췄다는 사실만 보는 게 아니라, 앞브레이크와 뒷브레이크가 각각 따로 멈추게 만드는지도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다.
 
@@ -120,21 +120,23 @@ MC/DC를 적용하면 복합 조건식에 숨어 있는 [논리](/knowledge-base
 - 관련 키워드: [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/), [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/), [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/), MC/DC, 단락 평가, 안전 필수 소프트웨어
 - 발전 흐름: 구문 실행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 분기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 조건/결정 결합 → MC/DC 독립성 입증 → 다중 조건 완전 조합 검토
 
-```text
-구문 커버리지
-      │
-      ▼
-결정 커버리지
-      │
-      ▼
-조건 커버리지
-      │
-      ▼
-조건/결정 커버리지
-      │
-      ▼
-MC/DC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">구문 커버리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결정 커버리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건 커버리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건/결정 커버리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MC/DC</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

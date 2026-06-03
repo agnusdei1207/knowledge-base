@@ -18,24 +18,23 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│               덱 자료구조 동작                            │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  앞(Front) 삽입/삭제  ←→  뒤(Rear) 삽입/삭제             │
-│                                                           │
-│  [← A | B | C | D →]                                     │
-│   앞(Front)          뒤(Rear)                             │
-│                                                           │
-│  push_front(X): [X | A | B | C | D]                      │
-│  push_back(Y):  [X | A | B | C | D | Y]                  │
-│  pop_front():   반환 X, [A | B | C | D | Y]              │
-│  pop_back():    반환 Y, [A | B | C | D]                   │
-│                                                           │
-│  모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덱 자료구조 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞(Front) 삽입/삭제 ←→ 뒤(Rear) 삽입/삭제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">← A | B | C | D →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞(Front) 뒤(Rear)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">push_front(X):</div><div class="kb-diagram-node">X | A | B | C | D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">push_back(Y):</div><div class="kb-diagram-node">X | A | B | C | D | Y</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pop_front(): 반환 X,</div><div class="kb-diagram-node">A | B | C | D | Y</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pop_back(): 반환 Y,</div><div class="kb-diagram-node">A | B | C | D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 덱은 양쪽에 문이 있는 버스다. 앞문·뒷문 어디서든 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 탑승·하차할 수 있어 상황에 따라 큐처럼 앞뒤로 사용하거나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 한쪽만 사용할 수 있다.
 
@@ -64,8 +63,8 @@ tags = ["studynote-algorithm-stats"]
 
 | 구현 | 장점 | 단점 |
 |:---|:---|:---|
-| **이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)** | O(1) 삽입·삭제 | 포인터 오버헤드 |
-| **순환 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** | 캐시 친화적 | 크기 제한 |
+| <strong>이중 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a></strong> | O(1) 삽입·삭제 | 포인터 오버헤드 |
+| <strong>순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 캐시 친화적 | 크기 제한 |
 | **Python collections.deque** | 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | C 구현, 빠름 |
 
 - **📢 섹션 요약 비유**: 단조 덱은 자동으로 더 작은 값을 버리는 스마트 줄이다. 줄에 들어올 때 나보다 작은 사람은 자동으로 줄에서 빠지는 규칙 덕분에 줄에는 항상 내림차순으로만 사람이 있다.
@@ -119,7 +118,7 @@ def maxSlidingWindow(nums, k):
 |:---|:---|
 | **슬라이딩 윈도우** | O(n²) → O(n) 최적화 |
 | **양방향 처리** | 큐+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기능 통합 |
-| **[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 변형** | 우선순위 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 0-1 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 변형</strong> | 우선순위 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 0-1 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
 
 덱은 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(0-1 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), 양방향 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))에서도 핵심 역할을 한다. 0-1 BFS에서 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0인 엣지는 덱 앞쪽에, 1인 엣지는 뒤쪽에 추가하여 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 없이 O(V+E) 최단 경로를 구현한다.
 
@@ -132,28 +131,30 @@ def maxSlidingWindow(nums, k):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **단조 덱** | 슬라이딩 윈도우 최적화 핵심 |
-| **[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)** | 덱 기반 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) |
-| **0-1 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 덱 기반 최단 경로 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a></strong> | 덱 기반 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/) |
+| <strong>0-1 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a></strong> | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 덱 기반 최단 경로 |
 | **슬라이딩 윈도우** | 덱의 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용 패턴 |
-| **[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)** | 덱의 확장 개념 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong> | 덱의 확장 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스택·큐 — 단방향 자료구조]
-    │
-    ▼
-[덱 (Deque) — 양방향 삽입·삭제]
-    │
-    ▼
-[단조 덱 — 슬라이딩 윈도우 최적화]
-    │
-    ▼
-[0-1 BFS — 이진 가중치 최단 경로]
-    │
-    ▼
-[세그먼트 트리·스파스 테이블 — 구간 최솟값 고급 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스택·큐 — 단방향 자료구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">덱 (Deque) — 양방향 삽입·삭제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단조 덱 — 슬라이딩 윈도우 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0-1 BFS — 이진 가중치 최단 경로</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리·스파스 테이블 — 구간 최솟값 고급 구조</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

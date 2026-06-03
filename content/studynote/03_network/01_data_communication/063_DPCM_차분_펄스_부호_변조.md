@@ -30,25 +30,31 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Input Sample
-  ↓
-Predictor
-  ↓
-Subtractor
-  ↓
-Quantizer
-  ↓
-Encoder
-  ↓
-Channel
-  ↓
-Decoder
-  ↓
-Adder
-  ↑
-Feedback
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input Sample</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Predictor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Subtractor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Quantizer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Encoder</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Channel</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Decoder</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Adder</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">Feedback</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -113,29 +119,41 @@ DPCM은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread
 
 ## 관련 개념 맵
 
-```text
-PCM
-  ↓
-Predictive Coding
-  ↓
-DPCM
-  ↓
-ADPCM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Predictive Coding</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DPCM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ADPCM</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Pulse Code Modulation
-  ↓
-Differential PCM
-  ↓
-Adaptive Differential PCM
-  ↓
-Predictive Compression
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pulse Code Modulation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Differential PCM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Adaptive Differential PCM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Predictive Compression</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처 (Serverles의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서버리스 아키텍처 (Serverles                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 아키텍처 (Serverles</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처 (Serverles가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,8 +46,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)**: 아마존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 어딘가에 물리적 서버는 분명히 있습니다! 단지 **개발자(나)의 눈앞에서 '서버 관리(OS 패치, 용량 조절, 부팅)'라는 개념 자체가 100% 투명하게 사라져버렸다는 뜻([Less](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/))**입니다.
-- **[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)를 구현하는 핵심 아키텍처. 거대한 앱 코드를 버리고, `이미지_자르기()`, `비번_검사하기()` 같은 아주 작은 **단일 함수(Function) 단위의 조각 코드만 AWS 클라우드에 툭 던져놓고, 이 함수가 호출될 때마다 실행 환경이 찰나에 켜졌다가 죽는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다. (대표작: **AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)**)
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong>: 아마존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 어딘가에 물리적 서버는 분명히 있습니다! 단지 <strong>개발자(나)의 눈앞에서 '서버 관리(OS 패치, 용량 조절, 부팅)'라는 개념 자체가 100% 투명하게 사라져버렸다는 뜻(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/">Less</a>)</strong>입니다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> (Function <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)를 구현하는 핵심 아키텍처. 거대한 앱 코드를 버리고, `이미지_자르기()`, `비번_검사하기()` 같은 아주 작은 <strong>단일 함수(Function) 단위의 조각 코드만 AWS 클라우드에 툭 던져놓고, 이 함수가 호출될 때마다 실행 환경이 찰나에 켜졌다가 죽는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>입니다. (대표작: <strong>AWS <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong>)
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처 ([Serverless Architecture](/knowledge-base/studynote/04_software_engineering/11_testing_validation/558_serverless_architecture/) / [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -83,10 +82,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) 🌟**: 함수가 냉동고에 죽어있다가, 첫 요청이 들어왔을 때 컨테이너를 띄우고 코드를 메모리에 올리느라 **최초 실행 시 약 1~3초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(딜레이)이 터지는 치명적 맹점**입니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a>) 🌟</strong>: 함수가 냉동고에 죽어있다가, 첫 요청이 들어왔을 때 컨테이너를 띄우고 코드를 메모리에 올리느라 <strong>최초 실행 시 약 1~3초의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(딜레이)이 터지는 치명적 맹점</strong>입니다.
 - 즉시 응답이 필요한 MMORPG 게임 서버나 0.01초가 중요한 주식 거래 시스템에는 절대 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)를 쓰면 안 됩니다(계속 켜져 있는 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 컨테이너를 써야 함). 가끔 비동기로 돌리는 배치(Batch) 작업이나 썸네일 처리에만 써야 하는 날카로운 비수입니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **클라우드 서버([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))**는 회사 로비에 **'월급을 300만 원씩 주고 24시간 앉혀둔 상주 경비원'**입니다. 도둑이 오든 안 오든 1년 365일 책상을 지키고 있으니 월급(서버 유지비)이 미친 듯이 나갑니다. **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/), AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))**는 상주 경비원을 다 해고하고 아예 빈 건물로 만들어둔 것입니다. 평소엔 텅 비어있어 인건비가 **'0원'**입니다. 그러다 로비 센서에 도둑(이벤트/트래픽)이 침입하는 찰나의 순간! 허공에서 **'용병(Function 함수)'** 한 명이 0.1초 만에 텔레포트로 튀어나와 도둑의 목을 따버리고, 그 즉시 다시 연기처럼 펑 사라져버립니다. 도둑이 100명 오면 허공에서 용병 100명이 튀어나와 1초 만에 처리하고 사라집니다(극강의 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)). 사장님은 한 달 뒤에, 이 용병들이 나타나서 도둑의 목을 따는 데 걸린 '딱 1초'라는 시간 동안의 시급(초 단위 과금)만 계산해서 용역 회사(AWS)에 1,000원만 계좌이체 해주면 끝나는, IT 인프라 역사상 최고의 짠돌이 경제학 모델입니다.
+> 📢 **섹션 요약 비유**: 기존의 <strong>클라우드 서버(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/">IaaS</a>/<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a>)</strong>는 회사 로비에 <strong>'월급을 300만 원씩 주고 24시간 앉혀둔 상주 경비원'</strong>입니다. 도둑이 오든 안 오든 1년 365일 책상을 지키고 있으니 월급(서버 유지비)이 미친 듯이 나갑니다. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 아키텍처(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a>, AWS <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a>)</strong>는 상주 경비원을 다 해고하고 아예 빈 건물로 만들어둔 것입니다. 평소엔 텅 비어있어 인건비가 <strong>'0원'</strong>입니다. 그러다 로비 센서에 도둑(이벤트/트래픽)이 침입하는 찰나의 순간! 허공에서 **'용병(Function 함수)'** 한 명이 0.1초 만에 텔레포트로 튀어나와 도둑의 목을 따버리고, 그 즉시 다시 연기처럼 펑 사라져버립니다. 도둑이 100명 오면 허공에서 용병 100명이 튀어나와 1초 만에 처리하고 사라집니다(극강의 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)). 사장님은 한 달 뒤에, 이 용병들이 나타나서 도둑의 목을 따는 데 걸린 '딱 1초'라는 시간 동안의 시급(초 단위 과금)만 계산해서 용역 회사(AWS)에 1,000원만 계좌이체 해주면 끝나는, IT 인프라 역사상 최고의 짠돌이 경제학 모델입니다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 아키텍처 ([Serverless Architecture](/knowledge-base/studynote/04_software_engineering/11_testing_validation/558_serverless_architecture/) / [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -127,21 +126,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서버리스 아키텍처 (Serverless Architecture / FaaS) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버리스 아키텍처 (Serverless Architecture / FaaS) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

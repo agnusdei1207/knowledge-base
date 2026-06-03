@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 사용자의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 웹페이지 패킷 등)를 가득 싣고 달리는 메인 화물 트럭입니다.
 
-- **제어부 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**: 무조건 **`0`**으로 시작합니다. 수신기는 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 "오, 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)구나!" 하고 정보부(Information Field)를 깝니다.
-- **핵심 무기 ([피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))**: 이 트럭은 짐만 나르는 게 아닙니다. 제어부 안에 슬라이딩 윈도우를 위한 **`내 전송 순서 번호 N(S)`**와, **`내가 다음번에 너한테 받아야 할 번호 N(R)`**을 같이 적어서 보냅니다. 즉, 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면서 상대방이 아까 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK)을 업어 태우는([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))** 기적의 가성비 프레임입니다.
+- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>0</code></strong>으로 시작합니다. 수신기는 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 "오, 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)구나!" 하고 정보부(Information Field)를 깝니다.
+- <strong>핵심 무기 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">피기배킹</a>)</strong>: 이 트럭은 짐만 나르는 게 아닙니다. 제어부 안에 슬라이딩 윈도우를 위한 <strong><code>내 전송 순서 번호 N(S)</code></strong>와, <strong><code>내가 다음번에 너한테 받아야 할 번호 N(R)</code></strong>을 같이 적어서 보냅니다. 즉, 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면서 상대방이 아까 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>수신 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(ACK)을 업어 태우는(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong> 기적의 가성비 프레임입니다.
 
-```text
-[NRM / ARM / ABM]
-    │
-    ▼
-[정보 프레임, 감독/제어, 비번호]
-    │
-    └──▶ [SDLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,23 +45,27 @@ tags = ["studynote-network"]
 
 사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Information)는 단 1바이트도 싣고 있지 않은, 순수한 통신 통제용 깡통 프레임입니다.
 
-- **제어부 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**: 무조건 **`10`**으로 시작합니다.
-- **역할**: 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(I-프레임)가 없을 때, 상대방에게 **ACK(잘 받았어)나 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(에러 났어)만 따로 던져주고 싶거나, 흐름 제어를 할 때** 씁니다.
+- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>10</code></strong>으로 시작합니다.
+- **역할**: 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(I-프레임)가 없을 때, 상대방에게 <strong>ACK(잘 받았어)나 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a>(에러 났어)만 따로 던져주고 싶거나, 흐름 제어를 할 때</strong> 씁니다.
 
 **[ S-프레임의 4가지 종류 (시험 단골) ]**
-1. **[RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Receive Ready)**: `ACK`입니다. "지금까지 잘 받았고, 다음 N번 내놔! 내 버퍼도 널널해!"
+1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a> (Receive Ready)</strong>: `ACK`입니다. "지금까지 잘 받았고, 다음 N번 내놔! 내 버퍼도 널널해!"
 2. **RNR (Receive Not Ready)**: `흐름 제어용 ACK`입니다. "지금까지 받은 건 정답이야(ACK). 근데 내 메모리 버퍼 터질 것 같으니까 **제발 다음 거 당분간 쏘지 마(Not Ready)! 기다려!**" (속도 조절 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)).
 3. **REJ (Reject)**: `NAK (Go-Back-N 용)`입니다. "방금 N번 프레임 깨졌어! **N번부터 싹 다 다시 보내!**"
 4. **SREJ (Selective Reject)**: `NAK (Selective Repeat 용)`입니다. "딴 건 됐고, **딱 N번 프레임 하나만 다시 보내봐.**"
 
-```text
-[NRM / ARM / ABM]
-    │
-    ▼
-[정보 프레임, 감독/제어, 비번호]
-    │
-    └──▶ [SDLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,12 +76,12 @@ tags = ["studynote-network"]
 통신을 시작하기 전에 "선 좀 꼽자", "이제 끊자" 등 연결 셋업을 담당하는 관리자입니다. 
 순서 번호(Sequence Number)가 전혀 안 적혀 있어서 Unnumbered(비번호)라고 부릅니다.
 
-- **제어부 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**: 무조건 **`11`**로 시작합니다.
+- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>11</code></strong>로 시작합니다.
 - **역할**: 에러 검출 이런 게 아니라, 링크를 처음 열 때(SABM: 비동기 균형 모드로 연결하자!), 에러 나서 링크를 리셋할 때, 접속을 끊고 집에 갈 때(DISC: Disconnect) 던지는 최상위 시스템 제어 명령어들입니다.
 
-> **I-프레임(0)**은 과자를 싣고 배달 가는 듬직한 **'택배 트럭'**입니다. 
-> **S-프레임([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))**은 짐칸은 텅 비어있고 스피커만 달린 **'경찰차'**로, 도로 위에서 "잘 오고 있다([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다. 
-> **U-프레임([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))**은 아예 도로의 차단기를 올리거나 내리는 **'톨게이트 관리 요원'**입니다.
+> <strong>I-프레임(0)</strong>은 과자를 싣고 배달 가는 듬직한 <strong>'택배 트럭'</strong>입니다. 
+> <strong>S-프레임(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong>은 짐칸은 텅 비어있고 스피커만 달린 <strong>'경찰차'</strong>로, 도로 위에서 "잘 오고 있다([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다. 
+> <strong>U-프레임(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)</strong>은 아예 도로의 차단기를 올리거나 내리는 <strong>'톨게이트 관리 요원'</strong>입니다.
 
 정보 프레임, 감독/제어, 비번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM가 기반 조건을 만든다면, 정보 프레임, 감독/제어, 비번호는 그 위에서 핵심 메커니즘을 구현하고, SDLC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NRM / ARM / ABM]
-    │
-    ▼
-[현재 개념: 정보 프레임, 감독/제어, 비번호]
-    │
-    ├──▶ [확장 A: SDLC]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NRM / ARM / ABM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정보 프레임, 감독/제어, 비번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 정보 프레임, 감독/제어, 비번호는 [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM에서 출발해 현재 메커니즘을 정교화하고, 이후 SDLC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

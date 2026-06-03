@@ -21,13 +21,16 @@ tags = ["studynote-database"]
 
 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 비용과 가시성 규칙을 잘못 잡으면 장기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 스토리지 팽창이 생긴다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read view -> Version chain -> Current concept -> Visible row │
-├──────────────────────────────────────────────────────────────┤
-│ Snapshot -> version choice -> blocking reduction             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read view -&gt; Version chain -&gt; Current concept -&gt; Visible row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snapshot -&gt; version choice -&gt; blocking reduction</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -46,13 +49,16 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `시계열 DB 보존 정책 데이터 라이프사이클`·`PACELC 분산 DB 장애 평시 트레이드 오프 이론`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Old version -> current version -> current concept -> reader  │
-├──────────────────────────────────────────────────────────────┤
-│ Undo chain -> snapshot rule -> visibility                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old version -&gt; current version -&gt; current concept -&gt; reader</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Undo chain -&gt; snapshot rule -&gt; visibility</div></div>
+</div>
+</div>
+
+
 
 핵심은 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -113,15 +119,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[시계열 DB 보존 정책 데이터 라이프사이클]
-    │
-    ▼
-[GNN 그래프 모델 연계 추천 시스템 설계망 적용]
-    │
-    ├──▶ [PACELC 분산 DB 장애 평시 트레이드 오프 이론]
-    └──▶ [동적 SQL 조립 런타임 질의 파서]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 DB 보존 정책 데이터 라이프사이클</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GNN 그래프 모델 연계 추천 시스템 설계망 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PACELC 분산 DB 장애 평시 트레이드 오프 이론</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 SQL 조립 런타임 질의 파서</div></div>
+</div>
+</div>
+
+
 
 시계열 DB 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클에서 출발한 논점이 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용에서 핵심 판단으로 모이고, 이후 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 장애 평시 트레이드 오프 이론·동적 SQL 조립 런타임 질의 파서 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

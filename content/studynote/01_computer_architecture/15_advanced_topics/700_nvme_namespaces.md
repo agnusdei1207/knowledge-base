@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 초기의 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 운영은 대개 "디스크 하나를 통째로 노출하고, 그 위를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 나눈다"는 방식이었다. 이 방법은 단순하지만, 대용량 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD를 여러 워크로드가 함께 써야 하는 현대 서버에서는 한계가 분명하다. 예를 들어 부트 영역, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테넌트별 저장공간을 하나의 거대한 장치 안에서 분리하려면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만으로는 관리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 격리 수준이 부족할 수 있다.
 
-이 문제를 해결하기 위해 NVMe는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 도입했다. [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 컨트롤러가 관리하는 **[논리적 블록 주소](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) 공간 자체를 분리**한 것이다. 호스트는 이를 `/dev/nvme0n1`, `/dev/nvme0n2`처럼 서로 다른 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)로 보게 되며, 각 장치는 크기와 포맷, 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 다르게 가져갈 수 있다.
+이 문제를 해결하기 위해 NVMe는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 도입했다. [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 컨트롤러가 관리하는 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/">논리적 블록 주소</a> 공간 자체를 분리</strong>한 것이다. 호스트는 이를 `/dev/nvme0n1`, `/dev/nvme0n2`처럼 서로 다른 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)로 보게 되며, 각 장치는 크기와 포맷, 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 다르게 가져갈 수 있다.
 
 - **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 큰 창고 하나를 테이프로만 구분하는 것이 아니라, 창고 관리자가 아예 별도 호수와 출입표를 가진 방들로 나누어 주는 것과 같다. 그래서 누가 어느 방을 쓰는지 훨씬 분명해진다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 핵심 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)는 NSID ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))다. 호스트는 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 보낼 때 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 대상으로 하는지 NSID로 지정한다. 또한 각 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 LBA Format (Logical Block Address Format), 크기, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 유무, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정보 같은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가질 수 있어, 같은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안에서도 워크로드별 최적화가 가능하다.
 
-중요한 점은 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 위의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분할이 아니라 **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러가 직접 제공하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치**라는 사실이다. 따라서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, 부착(Attach), 분리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 도구가 아니라 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 관리 명령으로 처리된다. 이 구조 덕분에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 플랫폼이나 스토리지 관리 소프트웨어는 더 일관된 방식으로 자원을 배분할 수 있다.
+중요한 점은 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 위의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분할이 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> 컨트롤러가 직접 제공하는 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 장치</strong>라는 사실이다. 따라서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, 부착(Attach), 분리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 도구가 아니라 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 관리 명령으로 처리된다. 이 구조 덕분에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 플랫폼이나 스토리지 관리 소프트웨어는 더 일관된 방식으로 자원을 배분할 수 있다.
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -43,23 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하나의 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치가 여러 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분리되지만, 실제 하드웨어 자원은 여전히 공유한다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             NVMe namespaces: multiple logical devices, one engine    │
-├──────────────────────────────────────────────────────────────────────┤
-│                    NVMe Controller / SSD                             │
-│   ┌────────────────┬────────────────┬────────────────────────────┐   │
-│   │ Namespace 1    │ Namespace 2    │ Namespace 3                │   │
-│   │ boot volume    │ database data  │ tenant or log volume       │   │
-│   │ small blocks   │ tuned layout   │ own policy / reservation   │   │
-│   └────────────────┴────────────────┴────────────────────────────┘   │
-│                             │                                        │
-│                             ▼                                        │
-│                 Shared controller logic and flash pool               │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 물리 디스크를 여러 개 만든 것이 아니라, **한 장치 안에 여러 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치를 공식적으로 만들어 준 것**이다. 그래서 분리는 강하지만, 장치 내부 채널과 플래시 자원은 완전히 독립적이지 않다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe namespaces: multiple logical devices, one engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe Controller / SSD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Namespace 1</div><div class="kb-diagram-cell">Namespace 2</div><div class="kb-diagram-cell">Namespace 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">boot volume</div><div class="kb-diagram-cell">database data</div><div class="kb-diagram-cell">tenant or log volume</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">small blocks</div><div class="kb-diagram-cell">tuned layout</div><div class="kb-diagram-cell">own policy / reservation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared controller logic and flash pool</div></div>
+</div>
+</div>
+
+
+
+즉 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 물리 디스크를 여러 개 만든 것이 아니라, <strong>한 장치 안에 여러 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 장치를 공식적으로 만들어 준 것</strong>이다. 그래서 분리는 강하지만, 장치 내부 채널과 플래시 자원은 완전히 독립적이지 않다.
 
 - **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 백화점 한 건물 안에 여러 매장을 넣는 것과 같다. 매장 이름과 계산대는 따로 있어도, 전기·엘리베이터·주차장은 여전히 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 완전한 분리는 아니다.
 
@@ -67,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 제대로 이해하려면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) ([Logical Unit Number](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/)), 그리고 [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) ([Zoned Namespace](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/))를 함께 비교해야 한다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 한 장치 위를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 나누는 방식이고, LUN은 외부 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 디스크를 노출하는 방식이며, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치 자체가 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)를 여러 개 제공**하는 방식이다. ZNS는 그 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 중에서도 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙을 강화한 특수 형태다.
+[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 제대로 이해하려면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) ([Logical Unit Number](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/)), 그리고 [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) ([Zoned Namespace](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/))를 함께 비교해야 한다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 한 장치 위를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 나누는 방식이고, LUN은 외부 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 디스크를 노출하는 방식이며, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> 장치 자체가 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a>를 여러 개 제공</strong>하는 방식이다. ZNS는 그 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 중에서도 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙을 강화한 특수 형태다.
 
 | 구분 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) | [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) | [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) |
 | :--- | :--- | :--- | :--- |
@@ -109,9 +108,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 고성능 SSD를 더 세밀하게 쪼개어 활용하게 만들어, 멀티테넌시, 빠른 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 용도별 수명주기 관리, 보안적 분리를 지원한다. 특히 로컬 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치조차 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)처럼 유연하게 다루고 싶은 클라우드·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 가치가 크다. 즉 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 NVMe를 "빠른 단일 디스크"에서 **유연한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 스토리지 플랫폼**으로 확장시키는 중요한 장치다.
+[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 고성능 SSD를 더 세밀하게 쪼개어 활용하게 만들어, 멀티테넌시, 빠른 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 용도별 수명주기 관리, 보안적 분리를 지원한다. 특히 로컬 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치조차 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)처럼 유연하게 다루고 싶은 클라우드·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 가치가 크다. 즉 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 NVMe를 "빠른 단일 디스크"에서 <strong>유연한 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 스토리지 플랫폼</strong>으로 확장시키는 중요한 장치다.
 
-다만 컨트롤러와 낸드 풀을 공유한다는 본질은 변하지 않는다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격리, 내구도, 모니터링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 하며, 무분별한 세분화는 오히려 운영 비용을 늘릴 수 있다. 결론적으로 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 **하드웨어 수준에서 관리되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨**으로 이해하는 것이 가장 정확하다.
+다만 컨트롤러와 낸드 풀을 공유한다는 본질은 변하지 않는다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격리, 내구도, 모니터링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 하며, 무분별한 세분화는 오히려 운영 비용을 늘릴 수 있다. 결론적으로 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 <strong>하드웨어 수준에서 관리되는 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 볼륨</strong>으로 이해하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 큰 장난감 상자를 종류별 작은 상자로 나눠 담는 방법과 같다. 정리와 나눔은 쉬워지지만, 여전히 같은 큰 상자 안에 있으니 공간과 무게는 함께 관리해야 한다.
 
@@ -129,22 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 NVMe 장치 전체 노출
-    │
-    ▼
-운영체제 파티션 기반 분할
-    │
-    ▼
-NVMe 네임스페이스 (Namespaces)
-    : 컨트롤러 수준 논리 장치 분리
-    │
-    ├──▶ SR-IOV (Single Root I/O Virtualization)
-    │     : 테넌트별 직접 할당
-    │
-    ▼
-ZNS (Zoned Namespace) · NVMe over Fabrics 기반 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 NVMe 장치 전체 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영체제 파티션 기반 분할</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe 네임스페이스 (Namespaces)</div>
+<div class="kb-diagram-note">: 컨트롤러 수준 논리 장치 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ SR-IOV (Single Root I/O Virtualization)</div>
+<div class="kb-diagram-note">: 테넌트별 직접 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZNS (Zoned Namespace) · NVMe over Fabrics 기반 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

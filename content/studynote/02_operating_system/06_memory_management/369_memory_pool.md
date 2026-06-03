@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 풀(Memory Pool)은 프로그램이 실행 중에 동적으로 메모리를 할당(`malloc`/`new`)하고 해제(`free`/`delete`)하는 짓을 멈추고, 아예 **부팅(초기화) 시점에 똑같은 크기의 빈 방(객체) 수만 개를 거대한 수영장(Pool)처럼 미리 만들어 놓고 돌려쓰는 기법**이다.
-> 2. **가치**: 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리가 이빨 빠진 듯 찢어지는 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))를 영구적으로 박멸**하며, 할당 시 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스위칭을 요청할 필요가 없어 **메모리 접근([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸) 속도를 $O(1)$의 극한으로 끌어올린다**.
+> 1. **본질**: 메모리 풀(Memory Pool)은 프로그램이 실행 중에 동적으로 메모리를 할당(`malloc`/`new`)하고 해제(`free`/`delete`)하는 짓을 멈추고, 아예 <strong>부팅(초기화) 시점에 똑같은 크기의 빈 방(객체) 수만 개를 거대한 수영장(Pool)처럼 미리 만들어 놓고 돌려쓰는 기법</strong>이다.
+> 2. **가치**: 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리가 이빨 빠진 듯 찢어지는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)를 영구적으로 박멸</strong>하며, 할당 시 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스위칭을 요청할 필요가 없어 **메모리 접근([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸) 속도를 $O(1)$의 극한으로 끌어올린다**.
 > 3. **융합**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)([Slab Allocator](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)) 철학을 유저 애플리케이션(C++, Java 게임 서버) 레벨로 그대로 끌어올린 아키텍처이며, 1초의 멈춤(Stop-The-World)도 용납되지 않는 실시간 시스템과 초고빈도 매매(HFT)의 척추 역할을 한다.
 
 ---
@@ -24,29 +24,29 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 프레임 드랍의 공포**:
   1. **잦은 런타임 할당의 저주**: `malloc`이나 `new`는 시스템 콜([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 유발해 CPU 사이클을 수천 번 날려먹는 무거운 연산이다.
-  2. **메모리 파편화와 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)**: 크기가 다른 객체들이 죽고 살기를 반복하면 힙 공간에 10바이트, 40바이트의 쓸모없는 찌꺼기가 폭발해 결국 메모리가 부족해져 서버가 터진다.
-  3. **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))의 보편화**: OS 레벨의 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 구조에 감명받은 엔지니어들이 이를 응용단으로 가져와 DB Connection Pool, [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), Memory Pool 등으로 변주하며 고성능 백엔드의 국룰로 자리 잡았다.
+  2. <strong>메모리 파편화와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a></strong>: 크기가 다른 객체들이 죽고 살기를 반복하면 힙 공간에 10바이트, 40바이트의 쓸모없는 찌꺼기가 폭발해 결국 메모리가 부족해져 서버가 터진다.
+  3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>)의 보편화</strong>: OS 레벨의 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 구조에 감명받은 엔지니어들이 이를 응용단으로 가져와 DB Connection Pool, [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), Memory Pool 등으로 변주하며 고성능 백엔드의 국룰로 자리 잡았다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        일반 동적 할당 vs 메모리 풀(Memory Pool)의 힙 상태 비교          │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 1. 일반 동적 할당 (malloc / free 난사 시) ]                           │
-│  시간 경과 후 힙 메모리가 벌집처럼 찢어짐 (외부 단편화 극심)            │
-│  [총알 10B][ ▒ 빈 5B ▒ ][몬스터 40B][ ▒ 빈 12B ▒ ][폭탄 20B]            │
-│  ⚠ 결과: 남은 공간 합은 17B인데 15B짜리 객체를 못 올리는 OOM 발생!      │
-│                                                                         │
-│ [ 2. 메모리 풀 기법 (사전 고정 할당) ]                                  │
-│  초기화 시 총알 전용 공간, 몬스터 전용 공간을 고정 크기로 쫙 깔아둠.    │
-│                                                                         │
-│  ▶ 몬스터 Pool (무조건 40B 블록 100개 연속 배열)                        │
-│  [몬스터1][ 빈방 ][몬스터3][ 빈방 ][몬스터5]...                         │
-│  ✅ 결과: 크기가 모두 40B로 똑같기 때문에, 방이 비면 무조건 새 몬스터가 │
-│         100% 딱 맞게 들어감. 찢어지는 파편화(단편화) 자체가 소멸함!     │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 가변 분할 방식의 치명적 결점([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))을 극복하기 위해, 프로그래머가 인위적으로 **[고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)**의 통제 구역(Pool)을 힙 내부에 구축한 것이다. 규격이 통일된 블록들끼리만 모아놓았기 때문에, 마치 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템처럼 1바이트의 낭비도 없이 테트리스가 완벽하게 들어맞는 마법이 일어난다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 동적 할당 vs 메모리 풀(Memory Pool)의 힙 상태 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 일반 동적 할당 (malloc / free 난사 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 경과 후 힙 메모리가 벌집처럼 찢어짐 (외부 단편화 극심)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">총알 10B</div><div class="kb-diagram-node">▒ 빈 5B ▒</div><div class="kb-diagram-node">몬스터 40B</div><div class="kb-diagram-node">▒ 빈 12B ▒</div><div class="kb-diagram-node">폭탄 20B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 결과: 남은 공간 합은 17B인데 15B짜리 객체를 못 올리는 OOM 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 메모리 풀 기법 (사전 고정 할당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화 시 총알 전용 공간, 몬스터 전용 공간을 고정 크기로 쫙 깔아둠.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 몬스터 Pool (무조건 40B 블록 100개 연속 배열)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬스터1</div><div class="kb-diagram-node">빈방</div><div class="kb-diagram-node">몬스터3</div><div class="kb-diagram-node">빈방</div><div class="kb-diagram-node">몬스터5</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 크기가 모두 40B로 똑같기 때문에, 방이 비면 무조건 새 몬스터가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 딱 맞게 들어감. 찢어지는 파편화(단편화) 자체가 소멸함!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 가변 분할 방식의 치명적 결점([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))을 극복하기 위해, 프로그래머가 인위적으로 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/">고정 분할 방식</a></strong>의 통제 구역(Pool)을 힙 내부에 구축한 것이다. 규격이 통일된 블록들끼리만 모아놓았기 때문에, 마치 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템처럼 1바이트의 낭비도 없이 테트리스가 완벽하게 들어맞는 마법이 일어난다.
 
 - **📢 섹션 요약 비유**: 손님이 올 때마다 맞춤 양복(동적 할당)을 재단해 주면 자투리 천([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))이 방을 가득 채우고 시간이 오래 걸리지만, 아예 M 사이즈, L 사이즈 기성복(메모리 풀)을 수백 벌 미리 만들어놓고 골라 입히면 재단 시간이 0이 되고 버리는 천도 사라집니다.
 
@@ -58,26 +58,25 @@ tags = ["studynote-operating-system"]
 
 메모리 풀 매니저는 빈방들을 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(Free List [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 관리한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│              메모리 풀 매니저의 할당 및 해제 논리 회로                   │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 부팅 시 상태 (Initialization) ]                                        │
-│ Free List 포인터 ──▶ [방 1] ─▶ [방 2] ─▶ [방 3] ─▶ [방 4]                │
-│                                                                          │
-│ [ 몬스터 객체 할당 요청 (new Monster) ]                                  │
-│  1. 큐의 맨 앞 [방 1]을 툭 끊어서 내어줌. (O(1) Pop 연산, 탐색 0초)      │
-│  2. Free List 포인터 ──▶ [방 2] ─▶ [방 3] ─▶ [방 4]                      │
-│                                                                          │
-│ [ 몬스터 객체 파괴 (delete Monster - 방 1번) ]                           │
-│  1. 다 쓴 [방 1]을 큐의 맨 앞에 툭 꽂아 넣음. (O(1) Push 연산)           │
-│  2. Free List 포인터 ──▶ [방 1] ─▶ [방 2] ─▶ [방 3] ─▶ [방 4]            │
-│                                                                          │
-│ ⚡ 핵심: OS 커널에 들어갈 필요 없이(No Syscall), 유저 공간 안에서        │
-│         포인터 화살표 하나 바꾸는 걸로 메모리 할당/반환이 빛의 속도로 끝!│
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 풀 매니저의 할당 및 해제 논리 회로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부팅 시 상태 (Initialization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬스터 객체 할당 요청 (new Monster)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 큐의 맨 앞</div><div class="kb-diagram-node">방 1</div><div class="kb-diagram-note">을 툭 끊어서 내어줌. (O(1) Pop 연산, 탐색 0초)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬스터 객체 파괴 (delete Monster - 방 1번)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 다 쓴</div><div class="kb-diagram-node">방 1</div><div class="kb-diagram-note">을 큐의 맨 앞에 툭 꽂아 넣음. (O(1) Push 연산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚡ 핵심: OS 커널에 들어갈 필요 없이(No Syscall), 유저 공간 안에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인터 화살표 하나 바꾸는 걸로 메모리 할당/반환이 빛의 속도로 끝!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이것이 C++이나 Java에서 메모리 풀을 짜는 이유다. 원래 `malloc`을 호출하면 OS는 `First-fit`이니 `Best-fit`이니 하며 장부를 뒤지며 CPU를 파먹는다. 하지만 메모리 풀은 "방 크기가 어차피 다 똑같으니 뒤질 필요 없이 맨 앞에 있는 놈 꺼내!"라는 극단적 단순화 로직을 통해 런타임 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 문자 그대로 제로($0$)로 만든다.
 
@@ -85,7 +84,7 @@ tags = ["studynote-operating-system"]
 
 ### 객체 초기화 비용의 회피 (Object Placement)
 
-[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 할당기에서 배웠듯, 메모리 풀의 또 다른 강력한 마력은 **'재초기화 비용 파괴'**에 있다.
+[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 할당기에서 배웠듯, 메모리 풀의 또 다른 강력한 마력은 <strong>'재초기화 비용 파괴'</strong>에 있다.
 - 몬스터 객체가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때마다 `hp = 100`, `mp = 50`, `state = ALIVE` 변수들을 0부터 세팅하는 것도 CPU 사이클이다.
 - 메모리 풀은 몬스터가 죽었을 때 껍데기 메모리를 지우지 않고 `state = DEAD` 정도로만 덮어두고 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))한다.
 - 나중에 몬스터가 부활(재할당)하면, 이미 뼈대가 세팅된 객체를 그대로 가져와서 최소한의 변수만 덮어쓰고 게임에 투입한다. Constructor/Destructor ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자/소멸자)가 매번 무겁게 호출되는 재앙을 막아준다.
@@ -103,24 +102,27 @@ tags = ["studynote-operating-system"]
 | 항목 | 범용 OS `malloc()` / `new` | 커스텀 `Memory Pool` |
 |:---|:---|:---|
 | **설계 철학** | 누구나 어떤 크기든 쓸 수 있는 범용성 | 특정 객체 전용의 극단적 스피드 머신 |
-| **할당 속도** | 느림 (OS 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 거침, [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 걸림) | **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)** (큐에서 하나 [Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) 하면 끝) |
-| **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)** | 크기가 제각각이라 **치명적 찌꺼기 램 발생** | 크기가 획일화되어 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0%** |
-| **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)** | 요구 크기에 맞춰주어 거의 없음 | 미리 100개 만들어뒀는데 10개만 쓰면 **90개 분량 램 낭비** |
+| **할당 속도** | 느림 (OS 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 거침, [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 걸림) | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a></strong> (큐에서 하나 [Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) 하면 끝) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a></strong> | 크기가 제각각이라 **치명적 찌꺼기 램 발생** | 크기가 획일화되어 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 0%</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a></strong> | 요구 크기에 맞춰주어 거의 없음 | 미리 100개 만들어뒀는데 10개만 쓰면 **90개 분량 램 낭비** |
 | **시스템 콜** | 메모리 부족 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 유저 모드에서 다 해결 (오버헤드 없음) |
 
 ### 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Multi-[Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))와 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) 방어
 - 64코어 서버에서 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 C언어 기본 `malloc()`을 호출하면, OS의 단일 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역 장부에 락([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))이 걸려 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 교통 체증을 일으키며 멈춰 선다.
-- 초고성능 메모리 풀은 **각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 자신만의 독립된 작은 메모리 풀([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-Local Pool)**을 쥐여준다.
+- 초고성능 메모리 풀은 <strong>각 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>마다 자신만의 독립된 작은 메모리 풀(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>-Local Pool)</strong>을 쥐여준다.
 - 락을 걸 필요 없이 각자 자기 바구니에서 메모리를 꺼내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 멀티코어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계치까지 확장성(Scalability)이 일직선으로 치솟는다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 최적화 옵션│ 동적 할당 속도│ 파편화(GC)  │ 미사용 메모리 낭비│
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ 범용 malloc│ 🔴 느림    │ 🔴 최악    │ 🟢 공간 절약          │
-│ 메모리 풀  │ 🟢 초고속   │ 🟢 완벽 방어│ 🔴 풀 빈방 낭비     │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 옵션</div><div class="kb-diagram-cell">동적 할당 속도</div><div class="kb-diagram-cell">파편화(GC)</div><div class="kb-diagram-cell">미사용 메모리 낭비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">범용 malloc</div><div class="kb-diagram-cell">🔴 느림</div><div class="kb-diagram-cell">🔴 최악</div><div class="kb-diagram-cell">🟢 공간 절약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 풀</div><div class="kb-diagram-cell">🟢 초고속</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">🔴 풀 빈방 낭비</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 이것이 전형적인 "공간(Space)을 버리고 시간(Time)을 산다"는 컴퓨터 공학의 절대 법칙이다. 메모리 풀은 만약의 사태를 대비해 수십 MB의 RAM을 텅 빈 채로 낭비하게 되지만, 그 대가로 '파편화 제로'와 '0.0001초의 할당 속도'라는 백엔드 엔지니어의 로망을 이뤄준다.
 
 - **📢 섹션 요약 비유**: 택시(malloc)를 부르면 매번 부를 때마다 기다려야 하고 남들과 배차 경쟁([락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))을 해야 하지만 필요할 때만 돈을 냅니다. 반면 렌트카(메모리 풀)는 한 달 치 돈을 미리 내서(메모리 낭비) 안 탈 때도 돈이 아깝지만, 내가 원할 때 1초 만에 시동을 켜고 나갈 수 있는 속도를 얻습니다.
@@ -137,7 +139,7 @@ tags = ["studynote-operating-system"]
 3. **네티(Netty)와 메모리 풀의 구원**:
    - 실력 있는 백엔드 엔지니어는 절대 패킷을 `new`로 새로 만들지 않는다.
    - Netty의 `ByteBufAllocator` 같은 **메모리 풀(PooledByteBuf)** 메커니즘을 사용해, 부팅 때 미리 만들어둔 10만 개의 패킷 껍데기를 재활용(Retain/Release)한다.
-   - GC 입장에서는 객체가 죽지 않고 계속 살아있으니([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 유지), **[가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/) 자체가 아예 돌지를 않는다!**
+   - GC 입장에서는 객체가 죽지 않고 계속 살아있으니([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 유지), <strong><a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a> 자체가 아예 돌지를 않는다!</strong>
    - 0.5초의 악성 렉이 마법처럼 사라지고 서버는 1년 내내 프레임 드랍 없이 부드럽게 돌아간다.
 
 ### C++ 스마트 포인터와의 충돌
@@ -153,7 +155,7 @@ C++에서 `std::shared_ptr` 같은 스마트 포인터는 안전하지만 내부
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 종식**| 고정된 크기만 쓰고 반환하므로 장기 가동되는 서버 애플리케이션의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러 확률을 극적으로 낮춤 |
+| <strong>메모리 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 종식</strong>| 고정된 크기만 쓰고 반환하므로 장기 가동되는 서버 애플리케이션의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 에러 확률을 극적으로 낮춤 |
 | **GC 오버헤드 원천 차단** | Java/C# 같은 관리형 언어에서 메모리 쓰레기 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체를 막아 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Stop The World)을 완벽히 소거 |
 | **캐시 지역성(Locality) 폭발** | 풀에 모여있는 객체들은 물리 메모리상에 연속으로 다닥다닥 붙어있어 하드웨어 L1/L2 캐시 히트율이 극대화됨 |
 
@@ -176,15 +178,19 @@ C++에서 `std::shared_ptr` 같은 스마트 포인터는 안전하지만 내부
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[커널 메모리 할당 방식 (kmalloc, vmalloc)]
-    │
-    ▼
-[메모리 풀 (Memory Pool) 기법]
-    │
-    ├──▶ [파편화 관리 및 조각 모음]
-    └──▶ [거대 페이지 (Huge Pages / Transparent Huge Pages)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당 방식 (kmalloc, vmalloc)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 풀 (Memory Pool) 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파편화 관리 및 조각 모음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

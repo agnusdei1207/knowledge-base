@@ -41,22 +41,20 @@ tags = ["studynote-enterprise"]
 
 아래 흐름은 형식지가 조직 지식으로 작동하는 최소 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Explicit knowledge lifecycle                                 │
-├──────────────────────────────────────────────────────────────┤
-│ Expert know-how                                              │
-│      │                                                       │
-│      ▼                                                       │
-│ Externalize -> template / rule / checklist                   │
-│      │                                                       │
-│      ▼                                                       │
-│ KMS / Wiki repository                                        │
-│      │                                                       │
-│      ├─> Search / RAG retrieval                              │
-│      └─> Review / update / retire                            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Explicit knowledge lifecycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expert know-how</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Externalize -&gt; template / rule / checklist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KMS / Wiki repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Search / RAG retrieval</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Review / update / retire</div></div>
+</div>
+</div>
+
+
 
 즉 형식지의 핵심 원리는 "표현 가능성"과 "반복 가능성"이다. 그러나 문서가 많아질수록 품질 편차와 중복이 커지므로, 검색 구조와 거버넌스가 없으면 저장소는 곧 문서 무덤이 된다.
 
@@ -75,7 +73,7 @@ tags = ["studynote-enterprise"]
 | 장점 | 확산, 표준화, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 | 맥락 이해, 숙련도, 예외 대응 |
 | 위험 | 진부화, 문서 과잉, 맥락 손실 | 퇴사·이동 시 유실 |
 
-형식지는 SECI (Socialization, Externalization, Combination, Internalization) 모델에서 외부화와 결합화의 핵심 자산이고, KMS와 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))의 직접 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이기도 하다. 즉 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용이 늘수록 형식지의 양보다 **정확한 구조와 최신성**이 더 중요해진다.
+형식지는 SECI (Socialization, Externalization, Combination, Internalization) 모델에서 외부화와 결합화의 핵심 자산이고, KMS와 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))의 직접 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이기도 하다. 즉 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용이 늘수록 형식지의 양보다 <strong>정확한 구조와 최신성</strong>이 더 중요해진다.
 
 - **📢 섹션 요약 비유**: 형식지는 복사 가능한 지도이고, 암묵지는 오랜 길치 경험 끝에 생긴 방향 감각과 같다. 지도만 있어도 불안하고, 감각만 있어도 남에게 전달하기 어렵다.
 
@@ -106,7 +104,7 @@ tags = ["studynote-enterprise"]
 
 형식지가 잘 관리되면 온보딩 속도 향상, 업무 표준화, 장애 대응 재현성, 규제 준수, 퇴사 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화라는 효과를 얻는다. 특히 여러 지역·법인·팀이 같은 업무를 수행하는 조직일수록 형식지는 품질 편차를 줄이는 핵심 장치가 된다. 최근에는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기반 사내 AI가 형식지를 직접 검색·요약하면서 활용 가치가 더 커지고 있다.
 
-하지만 모든 지식을 완전히 형식지로 바꿀 수는 없다. 예외 판단, 협상 감각, 위기 대응의 미묘한 숙련은 여전히 사람의 경험 속에 남는다. 따라서 형식지는 "암묵지를 대체하는 것"이 아니라 **조직이 반복해서 사용할 수 있는 부분을 안정적으로 고정하는 장치**로 기억하는 것이 정확하다.
+하지만 모든 지식을 완전히 형식지로 바꿀 수는 없다. 예외 판단, 협상 감각, 위기 대응의 미묘한 숙련은 여전히 사람의 경험 속에 남는다. 따라서 형식지는 "암묵지를 대체하는 것"이 아니라 <strong>조직이 반복해서 사용할 수 있는 부분을 안정적으로 고정하는 장치</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 형식지는 회사의 외장 메모리와 같다. 사람의 머리를 대신하진 못하지만, 잊지 말아야 할 것을 안전하게 남겨 준다.
 
@@ -124,20 +122,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Tacit know-how
-  │
-  ▼
-Externalization
-  │
-  ▼
-Explicit knowledge
-  │
-  ├─> KMS / Wiki / SOP
-  │
-  ▼
-RAG-enabled enterprise knowledge use
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Tacit know-how</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Externalization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Explicit knowledge</div>
+<div class="kb-diagram-tree-item" style="--depth:1">KMS / Wiki / SOP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAG-enabled enterprise knowledge use</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

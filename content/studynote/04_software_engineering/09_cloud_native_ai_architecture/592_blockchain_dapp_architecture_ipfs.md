@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentralized Application)**: 뒤에 있는 빽(백엔드 서버)이 카카오나 네이버 같은 회사 1개의 컴퓨터가 아니라, 전 지구에 흩어진 1만 대의 컴퓨터 덩어리([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크)로 구동되는 웹/앱 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).
-  - **[Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))**: 이더리움 뱃속에서 돌아가는 자바(Java) 백엔드 코드. `if(돈 주면) { 아이템 준다 }` 코드가 블록에 영구 박제되어, 판사가 없어도 기계적으로 계약이 강제 집행되는 백엔드 로직 덩어리.
+  - <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/">DApp</a> (Decentralized Application)</strong>: 뒤에 있는 빽(백엔드 서버)이 카카오나 네이버 같은 회사 1개의 컴퓨터가 아니라, 전 지구에 흩어진 1만 대의 컴퓨터 덩어리([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크)로 구동되는 웹/앱 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).
+  - <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a>)</strong>: 이더리움 뱃속에서 돌아가는 자바(Java) 백엔드 코드. `if(돈 주면) { 아이템 준다 }` 코드가 블록에 영구 박제되어, 판사가 없어도 기계적으로 계약이 강제 집행되는 백엔드 로직 덩어리.
 
-- **필요성 (중앙 집중 독재 서버의 오만과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셧다운의 공포)**: 은행 전산망(DB)에 불이 나서 내 통장 잔고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1억 원이 0원으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화됐다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 게임회사 직원이 빡쳐서 맘대로 게임 아이템 뽑기 확률을 조작해 돈을 빨아먹었다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조). 우리는 그 회사 서버 코드를 까볼 권한이 없으니 당할 수밖에 없다(블랙박스 독재). **"아 씨발! 특정 회사 1곳이 내 돈과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쥐고 흔드는 꼴 못 보겠어! 코드를 전 세계 만천하에 투명하게 다 까발리고(Open Source), 1만 대 컴퓨터에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 뿌려둬서 9,999대가 불타 터져도 1대만 살아있으면 내 돈이 완벽하게 증명/복구되는 '영원불멸의 투명한 공공 백엔드' 없어?!"** 이 배신당하기 싫은 피눈물이 Web3.0 DApp을 탄생시켰다.
+- <strong>필요성 (중앙 집중 독재 서버의 오만과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 셧다운의 공포)</strong>: 은행 전산망(DB)에 불이 나서 내 통장 잔고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1억 원이 0원으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화됐다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 게임회사 직원이 빡쳐서 맘대로 게임 아이템 뽑기 확률을 조작해 돈을 빨아먹었다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조). 우리는 그 회사 서버 코드를 까볼 권한이 없으니 당할 수밖에 없다(블랙박스 독재). <strong>"아 씨발! 특정 회사 1곳이 내 돈과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쥐고 흔드는 꼴 못 보겠어! 코드를 전 세계 만천하에 투명하게 다 까발리고(Open Source), 1만 대 컴퓨터에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다 뿌려둬서 9,999대가 불타 터져도 1대만 살아있으면 내 돈이 완벽하게 증명/복구되는 '영원불멸의 투명한 공공 백엔드' 없어?!"</strong> 이 배신당하기 싫은 피눈물이 Web3.0 DApp을 탄생시켰다.
 
-- **💡 비유**: Web 2.0(일반 웹앱)은 **'독재자(회사) 1명이 장부 하나를 몰래 자기 금고에 숨겨놓고 혼자 볼펜으로 썼다 지웠다 하는 구조'**입니다. 독재자가 몰래 0을 하나 지워도 우리는 꼼짝없이 당합니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 취약). [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 아키텍처는 광장 한가운데에 **'1만 명의 시민(노드)이 똑같은 장부 복사본 1만 개를 들고 동그랗게 둘러앉아 서로 눈을 시퍼렇게 뜨고 감시하는 구조'**입니다. 한 놈(해커)이 몰래 지우개로 0을 지우려고 하면, 나머지 9,999명이 "야 저 새끼 장부 조작한다!!"라고 소리치며 그 장부를 찢어 쓰레기통에 박아버립니다([합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)). 그 누구도 서로를 믿지 않기에 가장 완벽하게 신뢰할 수 있는 수학적 마술입니다.
+- **💡 비유**: Web 2.0(일반 웹앱)은 <strong>'독재자(회사) 1명이 장부 하나를 몰래 자기 금고에 숨겨놓고 혼자 볼펜으로 썼다 지웠다 하는 구조'</strong>입니다. 독재자가 몰래 0을 하나 지워도 우리는 꼼짝없이 당합니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 취약). [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 아키텍처는 광장 한가운데에 <strong>'1만 명의 시민(노드)이 똑같은 장부 복사본 1만 개를 들고 동그랗게 둘러앉아 서로 눈을 시퍼렇게 뜨고 감시하는 구조'</strong>입니다. 한 놈(해커)이 몰래 지우개로 0을 지우려고 하면, 나머지 9,999명이 "야 저 새끼 장부 조작한다!!"라고 소리치며 그 장부를 찢어 쓰레기통에 박아버립니다([합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)). 그 누구도 서로를 믿지 않기에 가장 완벽하게 신뢰할 수 있는 수학적 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **비트코인 시대 (1세대, 2009)**: 그냥 "철수 ➡ 영희 1,000원 보냄" 장부만 기록하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산기. 앱(로직)을 짤 수가 없는 멍청한 화폐.
-  2. **이더리움과 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 강림 (2세대, 2015)**: 비탈릭 부테린이 "야, 돈만 보내지 말고 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 뱃속에 반복문 `while`, 조건문 `if` 코드를 쑤셔 넣자!" 선언함(Turing Complete). 전 세계가 거대한 1대의 공용 컴퓨터([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))로 변신하며 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 앱 생태계가 빅뱅 폭발함.
-  3. **[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 및 Layer 2 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 융합 (3세대, 현재)**: [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 유저가 몰리니 가스비(서버비)가 1번 클릭에 10만 원씩 뜯겼다. "무거운 이미지는 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 밖으로 빼버리고, 자잘한 연산은 Layer 2([Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/))에서 1만 개 뭉쳐치고 결과 1줄만 메인넷(이더리움)에 올리자!" 극강의 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 분업 아키텍처가 Web3의 대세로 안착.
+  2. <strong>이더리움과 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a>의 강림 (2세대, 2015)</strong>: 비탈릭 부테린이 "야, 돈만 보내지 말고 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 뱃속에 반복문 `while`, 조건문 `if` 코드를 쑤셔 넣자!" 선언함(Turing Complete). 전 세계가 거대한 1대의 공용 컴퓨터([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))로 변신하며 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 앱 생태계가 빅뱅 폭발함.
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/">IPFS</a> 및 Layer 2 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> 융합 (3세대, 현재)</strong>: [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 유저가 몰리니 가스비(서버비)가 1번 클릭에 10만 원씩 뜯겼다. "무거운 이미지는 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 밖으로 빼버리고, 자잘한 연산은 Layer 2([Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/))에서 1만 개 뭉쳐치고 결과 1줄만 메인넷(이더리움)에 올리자!" 극강의 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 분업 아키텍처가 Web3의 대세로 안착.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'비밀 레시피 주방'에서 '만인 공개 투표 요리 대회'로의 진화**입니다. 기존 식당(웹앱)은 주방(서버) 문을 닫아놓고 안에서 상한 고기(조작 로직)를 쓰는지 알 수 없습니다. DApp은 길거리 한복판에 통유리 주방([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))을 깔아놓고 1만 명의 심사위원(노드)이 지켜보는 가운데 요리를 합니다. 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1개 들어갈 때마다 1만 명이 "ㅇㅋ 정상 고기네(합의, Consensus)" 도장을 찍어줘야만 다음 스텝으로 넘어갑니다. 투명성은 얻었지만 대신 요리 속도는 더럽게 느려지는(블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뼈아픈 부작용도 감당해야 합니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'비밀 레시피 주방'에서 '만인 공개 투표 요리 대회'로의 진화</strong>입니다. 기존 식당(웹앱)은 주방(서버) 문을 닫아놓고 안에서 상한 고기(조작 로직)를 쓰는지 알 수 없습니다. DApp은 길거리 한복판에 통유리 주방([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))을 깔아놓고 1만 명의 심사위원(노드)이 지켜보는 가운데 요리를 합니다. 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1개 들어갈 때마다 1만 명이 "ㅇㅋ 정상 고기네(합의, Consensus)" 도장을 찍어줘야만 다음 스텝으로 넘어갑니다. 투명성은 얻었지만 대신 요리 속도는 더럽게 느려지는(블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뼈아픈 부작용도 감당해야 합니다.
 
 ---
 
 다음은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentral의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  블록체인 DApp (Decentral                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 DApp (Decentral</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentral가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentralized Application) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentralized Application) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) (Decentralized Application) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-블록체인 DApp (Decentralized Application) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록체인 DApp (Decentralized Application) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

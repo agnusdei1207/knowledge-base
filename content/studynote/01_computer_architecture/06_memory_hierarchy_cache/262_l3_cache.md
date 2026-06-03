@@ -25,24 +25,23 @@ L3 캐시 (Level 3 Cache)는 CPU (Central Processing Unit) 칩 내부에서 여�
 
 아래 그림은 L3 캐시가 "코어별 개인 공간"과 "외부 메모리" 사이에서 어떤 위치를 차지하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  메모리 계층에서 L3 캐시의 위치와 역할                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Core 0        Core 1        Core 2        Core 3                          │
-│  ├─ L1         ├─ L1         ├─ L1         ├─ L1                           │
-│  └─ L2         └─ L2         └─ L2         └─ L2                           │
-│      │            │            │            │                              │
-│      └────────────┴────────────┴────────────┘                              │
-│                           공유 L3 캐시 영역                               │
-│                마지막 레벨 캐시 (LLC, Last Level Cache)                  │
-│                                  │                                         │
-│                                  ▼                                         │
-│                      메모리 컨트롤러 → DRAM → 저장장치                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 L3 캐시가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 가장 빠르게 처리하는 계층이 아니라, **메인 메모리로 떨어질 뻔한 요청을 최대한 칩 내부에서 끝내는 계층**이라는 점이다. 따라서 L3가 없거나 너무 작으면 코어 수가 늘어도 연산기보다 메모리 대기 시간이 병목이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 계층에서 L3 캐시의 위치와 역할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Core 1 Core 2 Core 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 ─ L1 ─ L1 ─ L1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 ─ L2 ─ L2 ─ L2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 L3 캐시 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마지막 레벨 캐시 (LLC, Last Level Cache)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 컨트롤러 → DRAM → 저장장치</div></div>
+</div>
+</div>
+
+
+
+핵심은 L3 캐시가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 가장 빠르게 처리하는 계층이 아니라, <strong>메인 메모리로 떨어질 뻔한 요청을 최대한 칩 내부에서 끝내는 계층</strong>이라는 점이다. 따라서 L3가 없거나 너무 작으면 코어 수가 늘어도 연산기보다 메모리 대기 시간이 병목이 된다.
 
 - **📢 섹션 요약 비유**: L1/L2가 각 직원의 책상과 개인 서랍이라면, L3는 팀 전체가 함께 쓰는 큰 문서 보관실이다. 개인 자리에서 못 찾은 자료를 건물 밖 창고까지 가지 않고 같은 층 보관실에서 찾게 해 주는 셈이다.
 
@@ -64,21 +63,23 @@ L3 캐시의 핵심 원리는 세 가지로 요약된다. 첫째, L2 미스가 �
 
 아래 그림은 L3 캐시가 단순 저장소가 아니라, [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)와 인터커넥트를 통해 요청을 분산하고 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 정보를 중개하는 구조임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    L3 캐시의 슬라이스 기반 동작 개념                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Core 0 ─┐                                                                  │
-│ Core 1 ─┼──▶ On-Chip Interconnect ──▶ [Slice 0]                            │
-│ Core 2 ─┼──▶   (Ring / Mesh)      ──▶ [Slice 1]                            │
-│ Core 3 ─┘                         ──▶ [Slice 2]                            │
-│                                         [Slice 3]                          │
-│                                              │                             │
-│                                              ├─ 데이터 저장                │
-│                                              ├─ 태그/상태 관리             │
-│                                              └─ 일관성 추적 후 DRAM 전달   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 캐시의 슬라이스 기반 동작 개념</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Slice 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 태그/상태 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일관성 추적 후 DRAM 전달</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 트레이드오프는 명확하다. L3 캐시를 크게 만들면 용량 미스는 줄지만, 물리적 면적 증가와 배선 길이 증가로 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘 수 있다. 반대로 L3를 지나치게 작게 만들면 L2 미스를 충분히 흡수하지 못해 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 트래픽이 증가한다. 그래서 서버용 프로세서는 대용량 L3를 선호하고, 모바일 프로세서는 전력과 면적을 고려해 더 공격적으로 크기를 조정한다.
 
@@ -108,7 +109,7 @@ L3 캐시를 제대로 이해하려면 L2 캐시와 [DRAM](/knowledge-base/study
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "L3가 있느냐"보다 **"이 워크로드가 L3를 얼마나 잘 활용하느냐"**가 더 중요하다. 예를 들어 게임 엔진, [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/), 인메모리 키-값 조회처럼 반복 접근되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 수십 MB 안에 들어오면 대용량 L3의 효과가 크다. 반대로 매번 전혀 다른 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일회성으로 훑는 스트리밍 워크로드는 L3를 오염시키기 쉬워 기대한 이득이 작을 수 있다.
+실무에서는 "L3가 있느냐"보다 <strong>"이 워크로드가 L3를 얼마나 잘 활용하느냐"</strong>가 더 중요하다. 예를 들어 게임 엔진, [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/), 인메모리 키-값 조회처럼 반복 접근되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 수십 MB 안에 들어오면 대용량 L3의 효과가 크다. 반대로 매번 전혀 다른 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일회성으로 훑는 스트리밍 워크로드는 L3를 오염시키기 쉬워 기대한 이득이 작을 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -121,7 +122,7 @@ L3 캐시를 제대로 이해하려면 L2 캐시와 [DRAM](/knowledge-base/study
 
 - **고성능 게임/시뮬레이션**: 객체 상태, 충돌 정보, 경로 탐색 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 대용량 L3에 남아 있으면 프레임 드롭을 일으키는 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 왕복이 줄어든다. 그래서 3D V-Cache처럼 적층 SRAM으로 L3 용량을 늘린 제품이 실제 게임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에서 강점을 보인다.
 - **클라우드 멀티테넌시**: 한 테넌트가 대규모 스캔 작업으로 L3를 계속 덮어쓰면, 다른 서비스의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 급증할 수 있다. 이때는 CAT (Cache Allocation Technology) 같은 기능으로 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache) 점유를 분리하거나, 워크로드를 다른 코어 군으로 격리하는 판단이 필요하다.
-- **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핀닝과 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 배치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 계속 다른 코어로 이동하면 L1/L2의 따뜻한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라지고 결국 L3나 원격 메모리에 더 자주 의존하게 된다. 실시간 처리나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 서비스는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정과 메모리 근접 배치가 더 중요하다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 핀닝과 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 배치</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 계속 다른 코어로 이동하면 L1/L2의 따뜻한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라지고 결국 L3나 원격 메모리에 더 자주 의존하게 된다. 실시간 처리나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 서비스는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정과 메모리 근접 배치가 더 중요하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -138,7 +139,7 @@ L3 캐시를 제대로 이해하려면 L2 캐시와 [DRAM](/knowledge-base/study
 
 하지만 한계도 분명하다. L3 캐시는 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 기반이라 면적과 전력 비용이 크고, 공유 구조라서 워크로드 간 간섭을 피할 수 없다. 또한 코어 수가 계속 늘면 링 버스보다 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 단일 다이보다 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 평면 배치보다 적층 캐시처럼 더 복잡한 물리 구조가 필요해진다.
 
-앞으로의 방향은 크게 세 가지다. 첫째, 3D 적층으로 L3 용량을 키우는 접근이다. 둘째, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 기반 파티셔닝으로 공유 간섭을 제어하는 접근이다. 셋째, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 L3 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 근접성을 더 정교하게 다루는 방향이다. 따라서 L3 캐시는 "큰 캐시"가 아니라 **멀티코어 협업과 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 동시에 조율하는 공유 플랫폼**으로 기억하는 것이 맞다.
+앞으로의 방향은 크게 세 가지다. 첫째, 3D 적층으로 L3 용량을 키우는 접근이다. 둘째, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 기반 파티셔닝으로 공유 간섭을 제어하는 접근이다. 셋째, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 L3 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 근접성을 더 정교하게 다루는 방향이다. 따라서 L3 캐시는 "큰 캐시"가 아니라 <strong>멀티코어 협업과 메모리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 동시에 조율하는 공유 플랫폼</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 L3는 큰 창고 하나를 더 짓는 일이 아니라, 여러 팀이 부딪히지 않게 물건을 나누고 빨리 꺼내 쓰게 만드는 물류 운영 체계에 가깝다.
 
@@ -156,21 +157,22 @@ L3 캐시를 제대로 이해하려면 L2 캐시와 [DRAM](/knowledge-base/study
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조 지역성 (Locality of Reference)
-    │
-    ▼
-L1 / L2 캐시로 개인 작업셋 가속
-    │
-    ▼
-L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)
-    │
-    ├─▶ 캐시 일관성 (Cache Coherence) 중개
-    │
-    ├─▶ NUMA (Non-Uniform Memory Access) / 칩렛 배치 최적화
-    │
-    └─▶ 3D V-Cache · CAT (Cache Allocation Technology) · QoS 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조 지역성 (Locality of Reference)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L1 / L2 캐시로 개인 작업셋 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 일관성 (Cache Coherence) 중개</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ NUMA (Non-Uniform Memory Access) / 칩렛 배치 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 3D V-Cache · CAT (Cache Allocation Technology) · QoS 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 캐시 개념이 단순한 속도 향상에서 출발해, 멀티코어 공유 구조와 자원 제어 기술로 확장되는 과정을 보여준다.
 

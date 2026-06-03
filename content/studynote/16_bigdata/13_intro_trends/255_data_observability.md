@@ -18,34 +18,35 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 개념
 
-```
-데이터 옵저버빌리티 (Data Observability):
 
-정의:
-  데이터 파이프라인 내 데이터의 상태를 지속적으로
-  모니터링·감지·진단하는 능력
 
-배경:
-  소프트웨어 옵저버빌리티 → 데이터로 확장
-  소프트웨어: 로그/메트릭/트레이스 → MTTD(탐지), MTTR(복구)
-  데이터: 품질 로그/메트릭/계보 → 데이터 다운타임 최소화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 옵저버빌리티 (Data Observability):</div>
+<div class="kb-diagram-note">정의:</div>
+<div class="kb-diagram-note">데이터 파이프라인 내 데이터의 상태를 지속적으로</div>
+<div class="kb-diagram-note">모니터링·감지·진단하는 능력</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">소프트웨어 옵저버빌리티 → 데이터로 확장</div>
+<div class="kb-diagram-note">소프트웨어: 로그/메트릭/트레이스 → MTTD(탐지), MTTR(복구)</div>
+<div class="kb-diagram-note">데이터: 품질 로그/메트릭/계보 → 데이터 다운타임 최소화</div>
+<div class="kb-diagram-note">데이터 다운타임 (Data Downtime):</div>
+<div class="kb-diagram-note">데이터 파이프라인 이슈로 데이터가 부정확/불완전/미사용</div>
+<div class="kb-diagram-note">평균 발견 시간: 9.1시간 (Monte Carlo 2022 연구)</div>
+<div class="kb-diagram-note">영향: 잘못된 ML 예측, 대시보드 오류, 비즈니스 결정 오류</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">ETL 파이프라인 오류 → NULL 레코드 유입 → KPI 대시보드 이상</div>
+<div class="kb-diagram-note">분석가가 오후에 발견 → 오전 의사결정 이미 오염</div>
+<div class="kb-diagram-note">5대 기둥 (Five Pillars):</div>
+<div class="kb-diagram-note">1. 신선도 (Freshness): 데이터가 최신인가?</div>
+<div class="kb-diagram-note">2. 분포 (Distribution): 값의 분포가 정상 범위인가?</div>
+<div class="kb-diagram-note">3. 볼륨 (Volume): 레코드 수가 예상 범위인가?</div>
+<div class="kb-diagram-note">4. 스키마 (Schema): 컬럼 구조가 변경되지 않았는가?</div>
+<div class="kb-diagram-note">5. 계보 (Lineage): 이 데이터는 어디서 왔는가?</div>
+</div>
+</div>
 
-데이터 다운타임 (Data Downtime):
-  데이터 파이프라인 이슈로 데이터가 부정확/불완전/미사용
-  평균 발견 시간: 9.1시간 (Monte Carlo 2022 연구)
-  영향: 잘못된 ML 예측, 대시보드 오류, 비즈니스 결정 오류
-  
-  예시:
-    ETL 파이프라인 오류 → NULL 레코드 유입 → KPI 대시보드 이상
-    분석가가 오후에 발견 → 오전 의사결정 이미 오염
 
-5대 기둥 (Five Pillars):
-  1. 신선도 (Freshness): 데이터가 최신인가?
-  2. 분포 (Distribution): 값의 분포가 정상 범위인가?
-  3. 볼륨 (Volume): 레코드 수가 예상 범위인가?
-  4. 스키마 (Schema): 컬럼 구조가 변경되지 않았는가?
-  5. 계보 (Lineage): 이 데이터는 어디서 왔는가?
-```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포), 신분증([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)), 가족력(계보)을 매시간 자동 체크하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링.
 
@@ -53,71 +54,61 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 5대 기둥 상세
 
-```
-5대 기둥 상세:
 
-1. 신선도 (Freshness):
-   마지막 업데이트 시간 모니터링
-   
-   모니터링 지표:
-   - 테이블 마지막 업데이트 시간
-   - 예상 업데이트 주기 대비 지연
-   - NULL 비율의 시간적 변화
-   
-   경보 예시:
-   - "orders 테이블 업데이트가 4시간 없음 (기대: 1시간)"
 
-2. 분포 (Distribution):
-   값의 통계적 분포 모니터링
-   
-   모니터링 지표:
-   - Min/Max 범위
-   - 평균/중앙값/표준편차
-   - NULL/0 비율
-   - 카테고리 값 분포 (새 카테고리 등장)
-   
-   경보 예시:
-   - "price 컬럼 평균이 어제 대비 50% 급감"
-   - "country 컬럼에 새 값 'ZZ' 등장"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">5대 기둥 상세:</div>
+<div class="kb-diagram-note">1. 신선도 (Freshness):</div>
+<div class="kb-diagram-note">마지막 업데이트 시간 모니터링</div>
+<div class="kb-diagram-note">모니터링 지표:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">테이블 마지막 업데이트 시간</div>
+<div class="kb-diagram-tree-item" style="--depth:1">예상 업데이트 주기 대비 지연</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NULL 비율의 시간적 변화</div>
+<div class="kb-diagram-note">경보 예시:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"orders 테이블 업데이트가 4시간 없음 (기대: 1시간)"</div>
+<div class="kb-diagram-note">2. 분포 (Distribution):</div>
+<div class="kb-diagram-note">값의 통계적 분포 모니터링</div>
+<div class="kb-diagram-note">모니터링 지표:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Min/Max 범위</div>
+<div class="kb-diagram-tree-item" style="--depth:1">평균/중앙값/표준편차</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NULL/0 비율</div>
+<div class="kb-diagram-tree-item" style="--depth:1">카테고리 값 분포 (새 카테고리 등장)</div>
+<div class="kb-diagram-note">경보 예시:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"price 컬럼 평균이 어제 대비 50% 급감"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"country 컬럼에 새 값 'ZZ' 등장"</div>
+<div class="kb-diagram-note">3. 볼륨 (Volume):</div>
+<div class="kb-diagram-note">데이터 양 모니터링</div>
+<div class="kb-diagram-note">모니터링 지표:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">일별/시간별 레코드 수</div>
+<div class="kb-diagram-tree-item" style="--depth:1">테이블 크기 증가율</div>
+<div class="kb-diagram-tree-item" style="--depth:1">배치 처리 레코드 수 편차</div>
+<div class="kb-diagram-note">경보 예시:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"오늘 주문 레코드 2만건 (어제: 10만건) — 80% 감소"</div>
+<div class="kb-diagram-note">4. 스키마 (Schema):</div>
+<div class="kb-diagram-note">데이터 구조 변경 모니터링</div>
+<div class="kb-diagram-note">모니터링 지표:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컬럼 추가/삭제/이름 변경</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 타입 변경</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NOT NULL 제약 변경</div>
+<div class="kb-diagram-note">경보 예시:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"users 테이블 email 컬럼 삭제됨"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"amount 컬럼 type: INT → VARCHAR 변경"</div>
+<div class="kb-diagram-note">5. 계보 (Lineage):</div>
+<div class="kb-diagram-note">데이터 흐름 추적</div>
+<div class="kb-diagram-note">기능:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 소스 → 변환 → 최종 소비 경로 시각화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이슈 발생 시 영향 범위 자동 파악</div>
+<div class="kb-diagram-tree-item" style="--depth:1">근본 원인 분석 (Root Cause Analysis)</div>
+<div class="kb-diagram-note">계보 예시:</div>
+<div class="kb-diagram-note">raw_orders (S3) → ETL (Spark) → orders_dw (Redshift)</div>
+<div class="kb-diagram-note">→ dashboard (Tableau) → kpi_report (PDF)</div>
+<div class="kb-diagram-note">이슈: raw_orders 스키마 변경</div>
+<div class="kb-diagram-note">→ 계보 추적: Tableau 대시보드까지 영향 자동 알림</div>
+</div>
+</div>
 
-3. 볼륨 (Volume):
-   데이터 양 모니터링
-   
-   모니터링 지표:
-   - 일별/시간별 레코드 수
-   - 테이블 크기 증가율
-   - 배치 처리 레코드 수 편차
-   
-   경보 예시:
-   - "오늘 주문 레코드 2만건 (어제: 10만건) — 80% 감소"
 
-4. 스키마 (Schema):
-   데이터 구조 변경 모니터링
-   
-   모니터링 지표:
-   - 컬럼 추가/삭제/이름 변경
-   - 데이터 타입 변경
-   - NOT NULL 제약 변경
-   
-   경보 예시:
-   - "users 테이블 email 컬럼 삭제됨"
-   - "amount 컬럼 type: INT → VARCHAR 변경"
-
-5. 계보 (Lineage):
-   데이터 흐름 추적
-   
-   기능:
-   - 데이터 소스 → 변환 → 최종 소비 경로 시각화
-   - 이슈 발생 시 영향 범위 자동 파악
-   - 근본 원인 분석 (Root Cause Analysis)
-   
-   계보 예시:
-   raw_orders (S3) → ETL (Spark) → orders_dw (Redshift)
-   → dashboard (Tableau) → kpi_report (PDF)
-   
-   이슈: raw_orders 스키마 변경
-   → 계보 추적: Tableau 대시보드까지 영향 자동 알림
-```
 
 > 📢 **섹션 요약 비유**: 5대 기둥은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)=원재료, 계보=원산지. 5가지 모두 정상이면 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!"
 
@@ -184,50 +175,48 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)
 
-```
-데이터 계약 (Data Contract):
 
-정의:
-  데이터 생산자(Producer)와 소비자(Consumer) 간의
-  스키마, 품질, SLA를 명시한 공식 계약
-  
-  = API 계약의 데이터 버전
 
-구조:
-  dataContractSpecification: 0.9.3
-  id: orders-v1
-  info:
-    title: Orders Data Contract
-    version: 1.0.0
-    owner: data-platform-team
-  
-  models:
-    orders:
-      fields:
-        order_id: {type: string, required: true}
-        amount: {type: number, minimum: 0}
-        created_at: {type: timestamp}
-  
-  quality:
-    - type: not_null
-      field: order_id
-    - type: custom
-      engine: great-expectations
-      expectation: expect_column_values_to_be_between
-      
-  SLA:
-    freshness: 1 hour
-    availability: 99.9%
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 계약 (Data Contract):</div>
+<div class="kb-diagram-note">정의:</div>
+<div class="kb-diagram-note">데이터 생산자(Producer)와 소비자(Consumer) 간의</div>
+<div class="kb-diagram-note">스키마, 품질, SLA를 명시한 공식 계약</div>
+<div class="kb-diagram-note">= API 계약의 데이터 버전</div>
+<div class="kb-diagram-note">구조:</div>
+<div class="kb-diagram-note">dataContractSpecification: 0.9.3</div>
+<div class="kb-diagram-note">id: orders-v1</div>
+<div class="kb-diagram-note">info:</div>
+<div class="kb-diagram-note">title: Orders Data Contract</div>
+<div class="kb-diagram-note">version: 1.0.0</div>
+<div class="kb-diagram-note">owner: data-platform-team</div>
+<div class="kb-diagram-note">models:</div>
+<div class="kb-diagram-note">orders:</div>
+<div class="kb-diagram-note">fields:</div>
+<div class="kb-diagram-note">order_id: {type: string, required: true}</div>
+<div class="kb-diagram-note">amount: {type: number, minimum: 0}</div>
+<div class="kb-diagram-note">created_at: {type: timestamp}</div>
+<div class="kb-diagram-note">quality:</div>
+<div class="kb-diagram-tree-item" style="--depth:2">type: not_null</div>
+<div class="kb-diagram-note">field: order_id</div>
+<div class="kb-diagram-tree-item" style="--depth:2">type: custom</div>
+<div class="kb-diagram-note">engine: great-expectations</div>
+<div class="kb-diagram-note">expectation: expect_column_values_to_be_between</div>
+<div class="kb-diagram-note">SLA:</div>
+<div class="kb-diagram-note">freshness: 1 hour</div>
+<div class="kb-diagram-note">availability: 99.9%</div>
+<div class="kb-diagram-note">데이터 계약 + 옵저버빌리티 통합:</div>
+<div class="kb-diagram-note">계약 위반 → 자동 알림 → 담당팀 티켓 생성</div>
+<div class="kb-diagram-note">계약 이력 → 변경 추적 → 영향 분석</div>
+<div class="kb-diagram-note">이점:</div>
+<div class="kb-diagram-note">생산자: 명확한 품질 의무</div>
+<div class="kb-diagram-note">소비자: 신뢰할 수 있는 데이터 보장</div>
+<div class="kb-diagram-note">조직: 데이터 신뢰성 SLA 가시화</div>
+</div>
+</div>
 
-데이터 계약 + 옵저버빌리티 통합:
-  계약 위반 → 자동 알림 → 담당팀 티켓 생성
-  계약 이력 → 변경 추적 → 영향 분석
 
-이점:
-  생산자: 명확한 품질 의무
-  소비자: 신뢰할 수 있는 데이터 보장
-  조직: 데이터 신뢰성 SLA 가시화
-```
 
 > 📢 **섹션 요약 비유**: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 약속 — "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매 시간 갱신하고, NULL은 없고, 레코드 수는 최소 1만건". 공급자가 약속을 어기면 자동으로 알람이 울려요.
 
@@ -235,50 +224,47 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 실무 시나리오 — ML 모델 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
-```
-E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
 
-파이프라인:
-  원본 이벤트 (Kafka)
-    → ETL (Spark Streaming)
-    → 피처 스토어 (Redis + Snowflake)
-    → ML 모델 추론 서버
-    → 추천 결과 API
 
-문제 상황 (데이터 다운타임 발생):
-  오전 9:00 — Spark ETL 이슈 발생
-    user_id 컬럼 일부 NULL 유입 (스키마 변경 버그)
-    
-  오전 9:00 ~ 오후 2:00 (5시간):
-    ML 모델: NULL user_id 데이터 학습
-    추천 API: 이상 추천 결과 반환
-    
-  오후 2:00:
-    분석가가 KPI 대시보드 이상 발견 → 조사 시작
-    
-  오후 4:00 (7시간 후):
-    근본 원인 발견, 파이프라인 수정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">E커머스 추천 ML 모델 데이터 파이프라인 모니터링:</div>
+<div class="kb-diagram-note">파이프라인:</div>
+<div class="kb-diagram-note">원본 이벤트 (Kafka)</div>
+<div class="kb-diagram-note">→ ETL (Spark Streaming)</div>
+<div class="kb-diagram-note">→ 피처 스토어 (Redis + Snowflake)</div>
+<div class="kb-diagram-note">→ ML 모델 추론 서버</div>
+<div class="kb-diagram-note">→ 추천 결과 API</div>
+<div class="kb-diagram-note">문제 상황 (데이터 다운타임 발생):</div>
+<div class="kb-diagram-note">오전 9:00 — Spark ETL 이슈 발생</div>
+<div class="kb-diagram-note">user_id 컬럼 일부 NULL 유입 (스키마 변경 버그)</div>
+<div class="kb-diagram-note">오전 9:00 ~ 오후 2:00 (5시간):</div>
+<div class="kb-diagram-note">ML 모델: NULL user_id 데이터 학습</div>
+<div class="kb-diagram-note">추천 API: 이상 추천 결과 반환</div>
+<div class="kb-diagram-note">오후 2:00:</div>
+<div class="kb-diagram-note">분석가가 KPI 대시보드 이상 발견 → 조사 시작</div>
+<div class="kb-diagram-note">오후 4:00 (7시간 후):</div>
+<div class="kb-diagram-note">근본 원인 발견, 파이프라인 수정</div>
+<div class="kb-diagram-note">옵저버빌리티 도입 후:</div>
+<div class="kb-diagram-note">Great Expectations 적용:</div>
+<div class="kb-diagram-note">expect_column_values_to_not_be_null("user_id")</div>
+<div class="kb-diagram-note">expect_column_values_to_be_between("session_duration", 0, 3600)</div>
+<div class="kb-diagram-note">Soda 신선도 모니터링:</div>
+<div class="kb-diagram-note">피처 스토어 마지막 업데이트 체크 (1분 주기)</div>
+<div class="kb-diagram-note">알림 흐름:</div>
+<div class="kb-diagram-note">오전 9:02 — NULL 비율 0.01% → 경보 트리거 (기준: 0.001%)</div>
+<div class="kb-diagram-note">오전 9:03 — Slack 알림: "user_id NULL 이상 탐지 in feature_store"</div>
+<div class="kb-diagram-note">오전 9:05 — ML 모델 서빙 자동 일시 중단 (피처 품질 SLA 위반)</div>
+<div class="kb-diagram-note">오전 9:10 — 엔지니어 원인 파악</div>
+<div class="kb-diagram-note">오전 9:30 — 파이프라인 수정 및 재시작</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">데이터 다운타임: 7시간 → 30분</div>
+<div class="kb-diagram-note">비즈니스 영향: 5시간 오염 → 30분 이내 격리</div>
+<div class="kb-diagram-note">ROI: 추천 수익 손실 방지 (약 $10만)</div>
+</div>
+</div>
 
-옵저버빌리티 도입 후:
-  Great Expectations 적용:
-    expect_column_values_to_not_be_null("user_id")
-    expect_column_values_to_be_between("session_duration", 0, 3600)
-    
-  Soda 신선도 모니터링:
-    피처 스토어 마지막 업데이트 체크 (1분 주기)
-    
-  알림 흐름:
-  오전 9:02 — NULL 비율 0.01% → 경보 트리거 (기준: 0.001%)
-  오전 9:03 — Slack 알림: "user_id NULL 이상 탐지 in feature_store"
-  오전 9:05 — ML 모델 서빙 자동 일시 중단 (피처 품질 SLA 위반)
-  오전 9:10 — 엔지니어 원인 파악
-  오전 9:30 — 파이프라인 수정 및 재시작
 
-결과:
-  데이터 다운타임: 7시간 → 30분
-  비즈니스 영향: 5시간 오염 → 30분 이내 격리
-  ROI: 추천 수익 손실 방지 (약 $10만)
-```
 
 > 📢 **섹션 요약 비유**: ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 자동 식품 검사 — 오염된 재료(NULL [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 요리(ML 모델)에 들어가기 전에 입구에서 자동 탐지. 손님(사용자)에게 나쁜 음식이 가지 않도록!
 

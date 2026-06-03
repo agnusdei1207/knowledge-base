@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-캐시 라인 프리패치 (Cache Line [Prefetching](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))는 프로그램이 실제로 `load`를 발행하기 전에, 앞으로 필요할 가능성이 높은 캐시 라인을 상위 캐시나 전용 버퍼로 미리 끌어오는 기법이다. 핵심 단위가 "개별 변수"가 아니라 **캐시 라인**인 이유는 메모리 계층이 보통 64바이트 안팎의 블록 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기기 때문이다. 즉 프리패치는 미래의 주소 하나를 맞히는 기술이 아니라, 그 주소가 속한 공간 지역성 ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)) 전체를 당겨 오는 전략이다.
+캐시 라인 프리패치 (Cache Line [Prefetching](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))는 프로그램이 실제로 `load`를 발행하기 전에, 앞으로 필요할 가능성이 높은 캐시 라인을 상위 캐시나 전용 버퍼로 미리 끌어오는 기법이다. 핵심 단위가 "개별 변수"가 아니라 <strong>캐시 라인</strong>인 이유는 메모리 계층이 보통 64바이트 안팎의 블록 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기기 때문이다. 즉 프리패치는 미래의 주소 하나를 맞히는 기술이 아니라, 그 주소가 속한 공간 지역성 ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)) 전체를 당겨 오는 전략이다.
 
 이 기술이 중요해진 배경은 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 때문이다. 현대 코어에서 L1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 접근은 수 사이클이면 끝나지만, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)까지 내려가면 수십 나노초, 즉 수백 사이클이 걸릴 수 있다. [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)이 어느 정도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨겨 주더라도, 창 안에 독립 명령어가 충분하지 않으면 결국 코어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기다리며 멈춘다.
 
@@ -33,29 +33,25 @@ tags = ["studynote-computer-architecture"]
 
 프리패처는 보통 L1이나 L2 캐시 옆에서 최근 접근 주소, 명령어의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), 캐시 미스 이력, 현재 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 요청 수를 관찰한다. 그리고 다음 라인 프리패처, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 프리패처, 스트림·상관 프리패처처럼 서로 다른 규칙으로 미래 주소를 만들고, 중복 여부와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 여유를 검사한 뒤 메모리 요청을 발행한다. 이때 이미 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 미스와 충돌하지 않도록 MSHR (Miss Status Holding [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))이나 유사한 요청 추적 구조와 협력하는 것이 중요하다.
 
-아래 흐름은 프리패치가 단순한 "선행 메모리 읽기"가 아니라, **예측 → 필터링 → 발행 → 적절한 캐시로 채우기**의 연쇄 판단이라는 점을 보여준다.
+아래 흐름은 프리패치가 단순한 "선행 메모리 읽기"가 아니라, <strong>예측 → 필터링 → 발행 → 적절한 캐시로 채우기</strong>의 연쇄 판단이라는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Prefetch pipeline: predict early, fill before demand                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Load PC/Addr                                                            │
-│     │                                                                    │
-│     ▼                                                                    │
-│ [Trigger] -> [Pattern Table] -> [Filter/Throttle] -> [MSHR/Queue]       │
-│                 │                      │                     │            │
-│                 │                      ├─ duplicate? drop    │            │
-│                 │                      ├─ bus busy? hold      │            │
-│                 │                      └─ page edge? limit   │            │
-│                 ▼                                            ▼            │
-│         next-line / stride / stream                    [DRAM / L3]       │
-│                                                             │            │
-│                                                             ▼            │
-│                                             [L2 / L1 / Prefetch Buffer]  │
-│                                                             │            │
-│                                     later demand arrives -> cache hit    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prefetch pipeline: predict early, fill before demand</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load PC/Addr</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Trigger</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Pattern Table</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter/Throttle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSHR/Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ duplicate? drop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bus busy? hold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page edge? limit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">next-line / stride / stream</div><div class="kb-diagram-node">DRAM / L3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2 / L1 / Prefetch Buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">later demand arrives -&gt; cache hit</div></div>
+</div>
+</div>
+
+
 
 | 방식 | 예측 근거 | 강점 | 취약점 |
 | :-- | :-- | :-- | :-- |
@@ -63,7 +59,7 @@ tags = ["studynote-computer-architecture"]
 | [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 프리패치 | 일정한 주소 간격 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·루프에 강함 | 간격이 자주 바뀌면 오예측 증가 |
 | 스트림·상관 프리패치 | 여러 주소의 연쇄 패턴 | 복잡한 접근도 일부 포착 | 하드웨어 비용과 학습 시간이 큼 |
 
-설계의 핵심 파라미터는 세 가지다. 첫째, **프리패치 거리**가 너무 짧으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늦게 도착하고, 너무 길면 사용 전에 쫓겨난다. 둘째, **프리패치 차수**가 너무 높으면 한 번에 너무 많은 라인을 가져와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 잠식한다. 셋째, **도착 위치**를 L1에 둘지 L2나 전용 버퍼에 둘지에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이득과 오염 위험이 달라진다.
+설계의 핵심 파라미터는 세 가지다. 첫째, <strong>프리패치 거리</strong>가 너무 짧으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늦게 도착하고, 너무 길면 사용 전에 쫓겨난다. 둘째, <strong>프리패치 차수</strong>가 너무 높으면 한 번에 너무 많은 라인을 가져와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 잠식한다. 셋째, <strong>도착 위치</strong>를 L1에 둘지 L2나 전용 버퍼에 둘지에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이득과 오염 위험이 달라진다.
 
 - **📢 섹션 요약 비유**: 프리패처는 택배 물류센터의 선출고 팀과 같다. 주문 패턴을 보고 창고에서 물건을 미리 빼 두면 배송이 빨라지지만, 수요 예측이 틀리면 통로가 박스로 가득 차 진짜 주문이 오히려 늦어진다.
 
@@ -107,7 +103,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 프리패치는 만능이 아니다. 예측이 틀리면 캐시 오염, 에너지 낭비, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화가 뒤따르고, 멀티코어 환경에서는 다른 코어의 유효 요청을 방해할 수도 있다. 그래서 현대 시스템은 정적인 규칙 하나보다, 워크로드 단계에 따라 공격성을 조절하는 적응형 프리패치와 하드웨어·소프트웨어 협력형 프리패치로 진화하고 있다.
 
-결론적으로 캐시 라인 프리패치는 "메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생긴 뒤 버티는 기술"이 아니라 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 보이기 전에 준비해 두는 기술**로 기억하는 것이 정확하다. 핵심은 많이 가져오는 것이 아니라, **맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞는 시점에 맞는 계층으로** 가져오는 데 있다.
+결론적으로 캐시 라인 프리패치는 "메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생긴 뒤 버티는 기술"이 아니라 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 보이기 전에 준비해 두는 기술</strong>로 기억하는 것이 정확하다. 핵심은 많이 가져오는 것이 아니라, <strong>맞는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 맞는 시점에 맞는 계층으로</strong> 가져오는 데 있다.
 
 - **📢 섹션 요약 비유**: 프리패치는 공연 시작 전에 다음 장면 소품을 무대 뒤에 미리 놓아두는 스태프와 같다. 준비가 정확하면 무대가 끊기지 않지만, 엉뚱한 소품을 잔뜩 올려두면 배우 동선만 꼬이게 된다.
 
@@ -126,24 +122,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공간 지역성 인식
-    │
-    ▼
-다음 라인 프리패치
-    │
-    ▼
-스트라이드 프리패치
-    │
-    ▼
-스트림·상관 프리패치
-    │
-    ▼
-피드백 기반 스로틀링
-    │
-    ▼
-협력형·ML 프리패치
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공간 지역성 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다음 라인 프리패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트라이드 프리패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트림·상관 프리패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피드백 기반 스로틀링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">협력형·ML 프리패치</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순한 순차 예측 → 규칙 학습 → 복합 패턴 학습 → 적응형 제어"로 프리패처가 진화하는 방향을 보여준다.
 

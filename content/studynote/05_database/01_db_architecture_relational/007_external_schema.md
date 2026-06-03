@@ -23,17 +23,22 @@ tags = ["database"]
 이러한 한계를 극복하기 위해 제안된 ANSI/SPARC 3단계 아키텍처에서 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)는 각 사용자에게 꼭 필요한 부분집합(Subset)만을 제공합니다. 이는 복잡성을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하는 동시에 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 직접적인 노출을 차단하는 강력한 보안 계층의 역할을 수행합니다.
 
 이 그림은 기존 아키텍처의 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 문제와 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도입에 따른 격리 효과를 보여줍니다.
-```text
-[기존 결합 구조]
-App A ──(직접 쿼리)──> [ 통합 원본 테이블 ] <──(직접 쿼리)── App B
-(컬럼 하나만 변경되어도 App A, B 동시 장애 위험)
 
-[외부 스키마 격리 구조]
-App A ──> [외부 스키마 A (View)] ─(매핑)─┐
-                                         v
-App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
-(원본이 변경되어도 매핑 계층만 수정, App은 무사함)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 결합 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">App A ──(직접 쿼리)──&gt;</div><div class="kb-diagram-node">통합 원본 테이블</div><div class="kb-diagram-note">&lt;──(직접 쿼리)── App B</div></div>
+<div class="kb-diagram-note">(컬럼 하나만 변경되어도 App A, B 동시 장애 위험)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 스키마 격리 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">App A ──&gt;</div><div class="kb-diagram-node">외부 스키마 A (View)</div><div class="kb-diagram-note">─(매핑)─</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">App B ──&gt;</div><div class="kb-diagram-node">외부 스키마 B (View)</div><div class="kb-diagram-note">─(매핑)─&gt;</div><div class="kb-diagram-node">개념 스키마</div></div>
+<div class="kb-diagram-note">(원본이 변경되어도 매핑 계층만 수정, App은 무사함)</div>
+</div>
+</div>
+
+
 이 도식에서 핵심은 응용 프로그램이 원본([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))을 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 않고 가상의 창구(외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 거친다는 점입니다. 따라서 조직 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 개편되더라도, 각 애플리케이션이 바라보는 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)의 반환 포맷만 유지하면 응용 프로그램의 수정 비용이 극적으로 감소합니다. 실무에서는 복잡한 레거시 시스템을 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)할 때 이 계층이 생명주기를 연장하는 핵심 방어막이 됩니다.
 
 📢 **섹션 요약 비유**: 거대한 뷔페 식당([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))에서 고객마다 자신이 먹고 싶은 음식만 담아 온 개인 접시(외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))와 같습니다. 주방 배치가 바뀌어도 내 접시 위의 음식은 그대로 유지됩니다.
@@ -43,25 +48,31 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 
 | 구성 요소 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Definition** | 가상 테이블 정의 | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 딕셔너리에 저장하고 런타임에 전개 | CREATE [VIEW](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 맞춤형 필터 안경 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a> Definition</strong> | 가상 테이블 정의 | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 딕셔너리에 저장하고 런타임에 전개 | CREATE [VIEW](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 맞춤형 필터 안경 |
 | **Query Parser** | 사용자 질의 분석 | 외부 질의를 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) 질의로 치환 | Query Rewriting | 통역사 |
-| **[Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) Access** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회 | 권한 및 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/), 컬럼 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | Dictionary Cache | 신원 조회기 |
-| **[Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)** | 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 뷰에 정의된 열과 행에 대한 접근 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) | GRANT, REVOKE | 출입증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">Catalog</a> Access</strong> | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회 | 권한 및 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/), 컬럼 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | Dictionary Cache | 신원 조회기 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a></strong> | 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 뷰에 정의된 열과 행에 대한 접근 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) | GRANT, REVOKE | 출입증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | **Materialization** | 구체화(선택) | 잦은 조회를 위해 뷰 결과를 디스크에 물리적으로 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | MVIEW | 캐시 스토어 |
 
 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 질의가 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) 질의로 변환되는 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 다음과 같습니다.
-```text
-[Client] SELECT name FROM HR_View;
-   ↓
-[Parser] HR_View 메타데이터 조회 (System Catalog)
-   ↓
-[Rewrite] 질의 재작성 연산 (View Merging)
-   => SELECT name FROM Employee WHERE dept='HR';
-   ↓
-[Auth] 권한 검증 (HR_View 접근 인가 여부)
-   ↓
-[Execute] 개념/내부 스키마 엔진으로 쿼리 전달
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-note">SELECT name FROM HR_View;</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Parser</div><div class="kb-diagram-note">HR_View 메타데이터 조회 (System Catalog)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rewrite</div><div class="kb-diagram-note">질의 재작성 연산 (View Merging)</div></div>
+<div class="kb-diagram-note">=&gt; SELECT name FROM Employee WHERE dept='HR';</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auth</div><div class="kb-diagram-note">권한 검증 (HR_View 접근 인가 여부)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Execute</div><div class="kb-diagram-note">개념/내부 스키마 엔진으로 쿼리 전달</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 사용자의 단일 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 내부적으로 원본 테이블을 향한 복합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 자동 재작성(Rewriting)된다는 점입니다. 따라서 사용자는 복잡한 조인이나 조건절을 몰라도 단순한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻습니다. 그러나 뷰가 너무 많은 기본 테이블을 조인하도록 설계되어 있다면, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 뷰 병합([View Merging](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/))에 실패하여 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발할 수 있습니다. 실무에서는 이 질의 재작성 비용을 반드시 평가해야 합니다.
 
 📢 **섹션 요약 비유**: 복잡한 기계 내부의 전선([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))을 숨기고, 사용자가 누르기 쉬운 버튼 몇 개만 노출시킨 리모컨 패널(외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))과 같습니다.
@@ -71,10 +82,10 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 
 | 항목 | 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) (External) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) (Conceptual) | [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) (Internal) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
-| **설계 관점** | 개별 사용자, 응용 프로그램 | 조직 전체, DB 관리자([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) | 시스템 엔지니어, 물리 장치 | **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)/초점 수준** |
+| **설계 관점** | 개별 사용자, 응용 프로그램 | 조직 전체, DB 관리자([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) | 시스템 엔지니어, 물리 장치 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>/초점 수준</strong> |
 | **구현 객체** | 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), 프로시저 노출부 | 기본 테이블, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 제약조건 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/블록 구조 | **핵심 관리 대상** |
 | **독립성 기여** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) 체감 | 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) 기반 | 하드웨어 독립성 지원 | **변경 파급력 경계** |
-| **존재 개수** | 다수 (N개 존재 가능) | 시스템 당 단 1개 | 시스템 당 단 1개 | **유연성 vs [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** |
+| **존재 개수** | 다수 (N개 존재 가능) | 시스템 당 단 1개 | 시스템 당 단 1개 | <strong>유연성 vs <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> |
 
 이 매트릭스는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 3단계가 어떻게 역할을 분담하는지를 명확히 보여줍니다. 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)는 시스템에 다수가 존재하여 부서별 맞춤 인터페이스를 제공하지만, 개념과 [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 위해 단 하나만 유지됩니다. 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 없다면 응용 개발자는 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)의 방대한 복잡성을 모두 감당해야 하므로 생산성이 급락하게 됩니다.
 
@@ -83,22 +94,28 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 실무 환경에서 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안과 레거시 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심 축으로 사용됩니다.
 
-1. **[데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/)과 보안 격리**: 개발계 DB에서 외부 업체 직원에게는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹(Masking)된 뷰만 제공합니다. 이는 애플리케이션 레벨의 복잡한 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 로직을 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 단에서 근본적으로 해결해 줍니다.
+1. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a>과 보안 격리</strong>: 개발계 DB에서 외부 업체 직원에게는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹(Masking)된 뷰만 제공합니다. 이는 애플리케이션 레벨의 복잡한 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 로직을 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 단에서 근본적으로 해결해 줍니다.
 2. **레거시 시스템 마이그레이션**: 원본 테이블을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 3개로 분할하더라도, 기존 애플리케이션을 위해 과거의 단일 테이블 구조를 모사하는 뷰를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유지)하여 다운타임 없이 무중단 마이그레이션을 수행할 수 있습니다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) on [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**: 뷰를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 또 다른 뷰를 여러 겹 중첩하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다. 이는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 최적의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 수립하는 것을 방해하여 풀 스캔(Full Scan)을 유발합니다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a> on <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>: 뷰를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 또 다른 뷰를 여러 겹 중첩하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다. 이는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 최적의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 수립하는 것을 방해하여 풀 스캔(Full Scan)을 유발합니다.
 
 다음은 권한 기반의 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 접근 제어 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)입니다.
-```text
-[데이터 접근 요청]
-   ↓
-[객체 타입 판별]
-   ├─> Base Table 직접 접근 ──> (정책상 반려, DBA 권한 요구)
-   └─> View (외부 스키마) 접근 ──> [권한 확인] ─(통과)─>
-                                       ↓
-                            [View-to-Table 매핑 연산]
-                                       ↓
-                            [마스킹된 안전한 데이터 반환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 접근 요청</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">객체 타입 판별</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">Base Table 직접 접근 ──&gt; (정책상 반려, DBA 권한 요구)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; View (외부 스키마) 접근 ──&gt;</div><div class="kb-diagram-node">권한 확인</div><div class="kb-diagram-note">─(통과)─&gt;</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">View-to-Table 매핑 연산</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스킹된 안전한 데이터 반환</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 일반 사용자나 애플리케이션의 Base Table 직접 접근을 차단하고 뷰만을 허용하여 보안을 강제한다는 점입니다. 실무에서는 이러한 통제선이 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 준수와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 확립의 첫 단추가 됩니다.
 
 📢 **섹션 요약 비유**: 철저한 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 거쳐 고객의 등급에 맞는 맞춤형 메뉴판만 제공하는 고급 라운지의 출입 통제 시스템과 같습니다.
@@ -125,21 +142,23 @@ App B ──> [외부 스키마 B (View)] ─(매핑)─> [ 개념 스키마 ]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 정의 (Data Definition)]
-    │
-    ▼
-[외부 스키마 (External Schema)]
-    │
-    ▼
-[개념 스키마 (Conceptual Schema)]
-    │
-    ▼
-[내부 스키마 (Internal Schema)]
-    │
-    ▼
-[데이터 독립성 (Data Independence)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정의 (Data Definition)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 스키마 (External Schema)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마 (Conceptual Schema)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부 스키마 (Internal Schema)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 독립성 (Data Independence)</div></div>
+</div>
+</div>
+
+
 
 [3단계 스키마 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/)에서 외부 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 사용자 뷰와 물리적 저장을 분리하여 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 보장하는 흐름이다.
 

@@ -56,41 +56,39 @@ AARRR 퍼널 (Pirate Metrics):
 
 ## Ⅱ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) 방법론
 
-```
-그로스 해킹 프레임워크:
 
-핵심 원칙:
-  "마케팅 = 실험" 패러다임
-  빠른 실험 → 측정 → 학습 → 반복
-  부서 경계 없는 Growth Team
 
-그로스 팀 구성:
-  Growth PM (그로스 팀 리더)
-  데이터 분석가 (실험 설계 및 분석)
-  개발자 (빠른 실험 구현)
-  UX 디자이너 (실험 설계)
-  마케터 (채널 최적화)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그로스 해킹 프레임워크:</div>
+<div class="kb-diagram-note">핵심 원칙:</div>
+<div class="kb-diagram-note">"마케팅 = 실험" 패러다임</div>
+<div class="kb-diagram-note">빠른 실험 → 측정 → 학습 → 반복</div>
+<div class="kb-diagram-note">부서 경계 없는 Growth Team</div>
+<div class="kb-diagram-note">그로스 팀 구성:</div>
+<div class="kb-diagram-note">Growth PM (그로스 팀 리더)</div>
+<div class="kb-diagram-note">데이터 분석가 (실험 설계 및 분석)</div>
+<div class="kb-diagram-note">개발자 (빠른 실험 구현)</div>
+<div class="kb-diagram-note">UX 디자이너 (실험 설계)</div>
+<div class="kb-diagram-note">마케터 (채널 최적화)</div>
+<div class="kb-diagram-note">그로스 프로세스:</div>
+<div class="kb-diagram-note">1. 지표 정의: North Star Metric 선정</div>
+<div class="kb-diagram-note">예: Airbnb = 숙박 예약 완료 건수</div>
+<div class="kb-diagram-note">Spotify = 청취 시간</div>
+<div class="kb-diagram-note">2. 취약 단계 파악: AARRR 각 단계 데이터 분석</div>
+<div class="kb-diagram-note">어느 단계에서 가장 많이 이탈하는가?</div>
+<div class="kb-diagram-note">3. 가설 수립: "이 변경이 OO를 개선할 것이다"</div>
+<div class="kb-diagram-note">4. A/B 테스트: 무작위 분할, 통계적 유의성 확인</div>
+<div class="kb-diagram-note">5. 결과 분석 및 롤아웃 or 롤백</div>
+<div class="kb-diagram-note">Famous Growth Hacks:</div>
+<div class="kb-diagram-note">Dropbox: 추천인 추가 저장공간 (Referral 극대화)</div>
+<div class="kb-diagram-note">Airbnb: Craigslist 역연동 (Acquisition)</div>
+<div class="kb-diagram-note">Hotmail: 이메일 하단 자동 서명 (Viral)</div>
+<div class="kb-diagram-note">LinkedIn: 주소록 연동 (Activation + Referral)</div>
+</div>
+</div>
 
-그로스 프로세스:
-  1. 지표 정의: North Star Metric 선정
-     예: Airbnb = 숙박 예약 완료 건수
-         Spotify = 청취 시간
-  
-  2. 취약 단계 파악: AARRR 각 단계 데이터 분석
-     어느 단계에서 가장 많이 이탈하는가?
-  
-  3. 가설 수립: "이 변경이 OO를 개선할 것이다"
-  
-  4. A/B 테스트: 무작위 분할, 통계적 유의성 확인
-  
-  5. 결과 분석 및 롤아웃 or 롤백
 
-Famous Growth Hacks:
-  Dropbox: 추천인 추가 저장공간 (Referral 극대화)
-  Airbnb: Craigslist 역연동 (Acquisition)
-  Hotmail: 이메일 하단 자동 서명 (Viral)
-  LinkedIn: 주소록 연동 (Activation + Referral)
-```
 
 > 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 의사 역할 — AARRR 체크업으로 어느 장기(단계)가 약한지 진단하고, 처방(실험)을 빠르게 적용해 치료.
 
@@ -173,37 +171,35 @@ A/B 테스트 방법론:
 
 ## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)
 
-```
-B2B SaaS A사 그로스 해킹 사례:
 
-현황 진단:
-  Activation: 가입 후 핵심 기능 사용률 22%
-  Retention: 30일 리텐션 18%
-  Revenue: 유료 전환율 3.2%
-  
-주요 문제: Activation 낮음 → Retention 낮음 → Revenue 저조
 
-가설:
-  "온보딩 과정에서 핵심 기능 Aha Moment를
-   경험하지 못해 이탈하고 있다"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B2B SaaS A사 그로스 해킹 사례:</div>
+<div class="kb-diagram-note">현황 진단:</div>
+<div class="kb-diagram-note">Activation: 가입 후 핵심 기능 사용률 22%</div>
+<div class="kb-diagram-note">Retention: 30일 리텐션 18%</div>
+<div class="kb-diagram-note">Revenue: 유료 전환율 3.2%</div>
+<div class="kb-diagram-note">주요 문제: Activation 낮음 → Retention 낮음 → Revenue 저조</div>
+<div class="kb-diagram-note">가설:</div>
+<div class="kb-diagram-note">"온보딩 과정에서 핵심 기능 Aha Moment를</div>
+<div class="kb-diagram-note">경험하지 못해 이탈하고 있다"</div>
+<div class="kb-diagram-note">실험 설계:</div>
+<div class="kb-diagram-note">A: 기존 텍스트 가이드 온보딩</div>
+<div class="kb-diagram-note">B: 인터랙티브 온보딩 투어 + 첫 3개 기능 필수 체험</div>
+<div class="kb-diagram-note">기간: 2주, 표본 2,000명씩</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">A: 핵심 기능 사용률 22%, 30일 리텐션 18%</div>
+<div class="kb-diagram-note">B: 핵심 기능 사용률 51%, 30일 리텐션 34%</div>
+<div class="kb-diagram-note">통계 검증: p &lt; 0.001, 유의미한 개선</div>
+<div class="kb-diagram-note">롤아웃 후 3개월:</div>
+<div class="kb-diagram-note">유료 전환율: 3.2% → 7.1%</div>
+<div class="kb-diagram-note">MRR: 5,000만원 → 1억1천만원 (120% 성장)</div>
+<div class="kb-diagram-note">성공 요인: Activation 개선 → Retention 개선 → Revenue 자연 증가</div>
+</div>
+</div>
 
-실험 설계:
-  A: 기존 텍스트 가이드 온보딩
-  B: 인터랙티브 온보딩 투어 + 첫 3개 기능 필수 체험
-  기간: 2주, 표본 2,000명씩
 
-결과:
-  A: 핵심 기능 사용률 22%, 30일 리텐션 18%
-  B: 핵심 기능 사용률 51%, 30일 리텐션 34%
-  
-통계 검증: p < 0.001, 유의미한 개선
-
-롤아웃 후 3개월:
-  유료 전환율: 3.2% → 7.1%
-  MRR: 5,000만원 → 1억1천만원 (120% 성장)
-  
-성공 요인: Activation 개선 → Retention 개선 → Revenue 자연 증가
-```
 
 > 📢 **섹션 요약 비유**: AARRR 취약 단계 개선은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 막힌 곳 뚫기 — Activation이 막히면 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)·Revenue도 흐르지 않는다.
 

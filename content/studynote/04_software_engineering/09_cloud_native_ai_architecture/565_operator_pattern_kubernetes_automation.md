@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: `Operator`는 기계를 조작하는 '운영자/조작원'이다. K8s 안에서 오퍼레이터는 실제 사람이 아니라 "Go 언어/Python으로 짜인 봇(Bot) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)"다. 이 봇은 자기가 맡은 특정 앱(예: MySQL, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))의 상태를 24시간 감시하다가 에러가 나면 인간 DBA가 칠 법한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(쉘 스크립트)를 자기가 알아서 실행한다.
 
-- **필요성 (Stateless는 개꿀, Stateful은 지옥)**: 563장에서 봤듯 웹 서버([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))는 K8s에 올리기 너무 쉽다. 터지면? 그냥 똑같은 복제본 1개 띄우면 그만이다. 문제는 DB(Stateful)다. MySQL을 K8s에 올렸는데 마스터 노드가 터졌다. K8s가 멍청하게 빈 서버에 빈 MySQL 파드를 1개 덜렁 띄워준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화는? 슬레이브(Slave)를 마스터로 승격시키는 승급 투표(Election)는? 이건 K8s가 해줄 수 없는 'MySQL만의 고유한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식'이다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어가 새벽 2시에 깨서 수동 스크립트를 쳐야 했다. **"아씨! 이 지저분한 DB [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스크립트 로직을 K8s 자동 루프 안에 박아 넣을 순 없을까?!"** 이 귀차니즘의 끝판왕이 오퍼레이터를 발명했다.
+- **필요성 (Stateless는 개꿀, Stateful은 지옥)**: 563장에서 봤듯 웹 서버([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))는 K8s에 올리기 너무 쉽다. 터지면? 그냥 똑같은 복제본 1개 띄우면 그만이다. 문제는 DB(Stateful)다. MySQL을 K8s에 올렸는데 마스터 노드가 터졌다. K8s가 멍청하게 빈 서버에 빈 MySQL 파드를 1개 덜렁 띄워준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화는? 슬레이브(Slave)를 마스터로 승격시키는 승급 투표(Election)는? 이건 K8s가 해줄 수 없는 'MySQL만의 고유한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식'이다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어가 새벽 2시에 깨서 수동 스크립트를 쳐야 했다. <strong>"아씨! 이 지저분한 DB <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 스크립트 로직을 K8s 자동 루프 안에 박아 넣을 순 없을까?!"</strong> 이 귀차니즘의 끝판왕이 오퍼레이터를 발명했다.
 
-- **💡 비유**: [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트가 **'자동 세차장(1번 지나가면 깨끗해짐)'**이라면, 오퍼레이터(Operator) 패턴은 **'자율 주행 청소 로봇(로봇 청소기)'**입니다. 로봇 청소기는 전원을 끄지 않는 한 24시간 내내 집 안을 돌아다니며 더러운 곳(에러)을 찾고, 장애물(디스크 풀)을 만나면 알아서 우회(볼륨 증가)합니다. 인간이 "여기 청소해!" 명령할 필요 없이, 로봇 청소기 뱃속에 들어있는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 알고리즘이 1년 내내 집안의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 깨끗하게 유지해 주는 궁극의 무인화입니다.
+- **💡 비유**: [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트가 <strong>'자동 세차장(1번 지나가면 깨끗해짐)'</strong>이라면, 오퍼레이터(Operator) 패턴은 <strong>'자율 주행 청소 로봇(로봇 청소기)'</strong>입니다. 로봇 청소기는 전원을 끄지 않는 한 24시간 내내 집 안을 돌아다니며 더러운 곳(에러)을 찾고, 장애물(디스크 풀)을 만나면 알아서 우회(볼륨 증가)합니다. 인간이 "여기 청소해!" 명령할 필요 없이, 로봇 청소기 뱃속에 들어있는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 알고리즘이 1년 내내 집안의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 깨끗하게 유지해 주는 궁극의 무인화입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **CoreOS의 발명 (2016)**: K8s 초창기, etcd나 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 같은 복잡한 툴을 K8s에 띄우려니 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 너무 꼬였다. CoreOS 형님들이 "걍 우리가 봇(Operator) 코딩해서 던져줄게, 이 봇 띄우면 걔가 다 알아서 관리함 ㅋ" 하면서 세상에 첫 공개.
   2. **CRD (Custom Resource Definition)의 정식 편입**: K8s 진영이 "오 이거 개쩌네?" 하면서 K8s 내부 문법([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 확장할 수 있는 CRD 기능을 공식화했다. 이제 아무나 자기만의 K8s [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 창조할 수 있게 되었다.
   3. **OperatorHub의 천하 통일 (현재)**: 전 세계 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영이 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 오퍼레이터", "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오퍼레이터"를 경쟁적으로 코딩해 앱스토어(OperatorHub.io)에 올렸다. 엔지니어는 봇 하나 다운받아서 띄우기만 하면 인프라 자동 관리 끝이다.
 
-- **📢 섹션 요약 비유**: K8s 기본 기능은 **'일반 의사(보건소)'**와 같습니다. 감기(웹 서버 뻗음) 정도는 약 주고 낫게 하지만, 뇌수술(DB 뻗음)은 못 합니다. 오퍼레이터는 뇌수술, 심장 수술을 전문으로 하는 **'수백 명의 특진 전문의(Specialist)'**를 병원(K8s)에 고용하는 것입니다. MySQL 전문의(오퍼레이터 봇)는 MySQL이 뻗었을 때만 나타나 수술을 집도하고, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 전문의는 Redis만 살려냅니다.
+- **📢 섹션 요약 비유**: K8s 기본 기능은 <strong>'일반 의사(보건소)'</strong>와 같습니다. 감기(웹 서버 뻗음) 정도는 약 주고 낫게 하지만, 뇌수술(DB 뻗음)은 못 합니다. 오퍼레이터는 뇌수술, 심장 수술을 전문으로 하는 <strong>'수백 명의 특진 전문의(Specialist)'</strong>를 병원(K8s)에 고용하는 것입니다. MySQL 전문의(오퍼레이터 봇)는 MySQL이 뻗었을 때만 나타나 수술을 집도하고, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 전문의는 Redis만 살려냅니다.
 
 ---
 
 다음은 오퍼레이터 (Operator) 패턴의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오퍼레이터 (Operator) 패턴                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오퍼레이터 (Operator) 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 오퍼레이터 (Operator) 패턴가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-오퍼레이터 (Operator) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+오퍼레이터 (Operator) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 오퍼레이터 (Operator) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오퍼레이터 (Operator) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오퍼레이터 (Operator) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

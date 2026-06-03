@@ -21,16 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 보안이 아무리 강해도, BIOS/UEFI나 부트 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 변조되면 출발선 자체가 오염된다. Google Titan은 이 문제를 막기 위해 시스템이 첫 명령을 실행하기 전에 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 검사하는 별도 보안 칩 계열로 등장했다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버에서는 [공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)과 [펌웨어 루트킷](/knowledge-base/studynote/09_security/04_endpoint_security/366_firmware_rootkit/) 방어가 핵심이고, 모바일 계열에서는 기기 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호가 중요하다. 결국 Titan은 "신뢰를 소프트웨어보다 한 단계 더 아래로 내린" 구조다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               Hardware checks before host boots             │
-├──────────────────────────────────────────────────────────────┤
-│ Power on -> Titan wakes first -> verify firmware            │
-│                                      │                       │
-│                                      ├─ pass -> release CPU  │
-│                                      └─ fail -> hold reset   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware checks before host boots</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on -&gt; Titan wakes first -&gt; verify firmware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pass -&gt; release CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail -&gt; hold reset</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 경비원이 먼저 출근해 건물 문과 금고 봉인을 모두 확인한 뒤에야 직원들을 들여보내는 것과 같다.
 
@@ -47,18 +49,18 @@ Titan 계열의 핵심은 불변 부트 코드, 암호 가속기, 난수원, 보
 | Secure Storage | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·키 보관 | 외부 추출 방지 |
 | Reset / Control Path | 호스트 부팅 허용 여부 결정 | 우회 경로 제거 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                Titan-centered secure boot chain             │
-├──────────────────────────────────────────────────────────────┤
-│ Titan ROM -> Titan FW -> Host firmware measurement          │
-│                                        │                     │
-│                                        ▼                     │
-│                           Policy check / attestation        │
-│                                        │                     │
-│                                        └─ release host reset │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Titan-centered secure boot chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Titan ROM -&gt; Titan FW -&gt; Host firmware measurement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy check / attestation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ release host reset</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 운전자가 자기 음주 여부를 직접 검사하는 것보다, 별도 검사관이 시동 전에 확인하는 편이 훨씬 믿을 만한 구조와 같다.
 
@@ -105,18 +107,21 @@ Titan은 클라우드·모바일 환경에서 하드웨어 기반 신뢰를 현�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Power On]
-    │
-    ▼
-[Titan Verification]
-    │
-    ▼
-[Host Firmware Allowed]
-    │
-    ├──▶ [Remote Attestation]
-    └──▶ [Key / Policy Enforcement]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Power On</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Titan Verification</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host Firmware Allowed</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Remote Attestation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key / Policy Enforcement</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 Titan이 부팅 허용 여부를 결정한 뒤, 그 신뢰를 원격 증명과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행으로 확장하는 구조를 보여준다. 즉 Titan의 역할은 부팅 1회성 검사로 끝나지 않는다.
 

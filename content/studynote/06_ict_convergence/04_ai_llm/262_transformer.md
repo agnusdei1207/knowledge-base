@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))** 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 이해하는 핵심 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
+> 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 이해하는 핵심 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
 > 2. **가치**: 이 주제를 제대로 잡으면 정확도 향상, 자동화, 개인화뿐 아니라 확장성, 표준화, 운영 자동화까지 한 번에 연결해서 설명할 수 있다.
 > 3. **판단 포인트**: 기술사 답안에서는 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용과 책임 분리·관측성·오케스트레이션을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
@@ -19,20 +19,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))** 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 단일 계층·수동 운영 구조에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Needed</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">Expected Gain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제와 제약</div><div class="kb-diagram-cell">구조/규칙/역할</div><div class="kb-diagram-cell">성능·신뢰·운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배경을 정리</div><div class="kb-diagram-cell">무엇을 바꾸는가</div><div class="kb-diagram-cell">무엇이 좋아지는가</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
 
@@ -42,7 +45,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))** 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
+[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
 
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -53,13 +56,16 @@ tags = ["studynote-ict-convergence"]
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Orchestrate        │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input</div><div class="kb-diagram-cell">Orchestrate</div><div class="kb-diagram-cell">Governance</div><div class="kb-diagram-cell">Outcome</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터·요청</div><div class="kb-diagram-cell">핵심 처리/규칙</div><div class="kb-diagram-cell">정책·검증·조정</div><div class="kb-diagram-cell">서비스 가치</div></div>
+</div>
+</div>
+
+
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
 
@@ -73,7 +79,7 @@ tags = ["studynote-ict-convergence"]
 
 | 비교 항목 | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 구조 | 단일 계층·수동 운영 구조 |
 | :--- | :--- | :--- |
-| 설계 초점 | 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))** 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
+| 설계 초점 | 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 순차적 처리를 탈피하고 <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> 메커니즘을 통해 문장 내 모든 단어 간의 관계를 동시에 …를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
 | 강점 | 정확도 향상, 자동화, 개인화 같은 가치와 확장성, 표준화, 운영 자동화 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
 | 약점 | 운영 기준과 예외 처리까지 설계해야 효과가 난다 | 규모 확대 시 병목과 수작업이 누적되기 쉽다 |
 | 연결 관점 | [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)를 배경으로 LLM로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
@@ -128,15 +134,19 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파운데이션 모델]
-    │
-    ▼
-[트랜스포머 어텐션 기반 병렬 연산 구조]
-    │
-    ├──▶ [LLM]
-    └──▶ [멀티모달 / 온디바이스·에이전트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파운데이션 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트랜스포머 어텐션 기반 병렬 연산 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LLM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티모달 / 온디바이스·에이전트</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)에서 출발해 현재 개념을 거쳐 LLM와 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
 

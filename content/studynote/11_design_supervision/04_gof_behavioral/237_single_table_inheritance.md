@@ -22,41 +22,52 @@ tags = ["studynote-design-supervision"]
 
 STI (Single Table Inheritance) 는 가장 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다—**계층 전체를 하나의 테이블로 합친다**. `employee_type` 컬럼(JPA에서는 `DTYPE`이 기본)이 어떤 서브타입인지 구분한다.
 
-```
-Employee (추상 클래스)
- ├── FullTimeEmployee   (salary 컬럼 추가)
- ├── PartTimeEmployee   (hourlyRate 컬럼 추가)
- └── Contractor         (contractEndDate 컬럼 추가)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Employee (추상 클래스)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">FullTimeEmployee (salary 컬럼 추가)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">PartTimeEmployee (hourlyRate 컬럼 추가)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Contractor (contractEndDate 컬럼 추가)</div>
+</div>
+</div>
+
+
 
 이를 STI로 매핑하면 `employees` 테이블 하나에 모든 컬럼이 모인다.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다양한 직원 유형(정규직, 시간제, 계약직)의 서류를 하나의 서랍에 모두 넣되, 서류 오른쪽 위에 "정규직/시간제/계약직" 도장을 찍어 구분하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────────────┐
-│                  employees 테이블 (STI)                             │
-│                                                                    │
-│  id  │ DTYPE           │ name  │ salary │ hourly_rate │ end_date   │
-│  ────┼─────────────────┼───────┼────────┼─────────────┼─────────── │
-│   1  │ FullTimeEmployee│ Alice │ 5000   │   NULL      │   NULL     │
-│   2  │ PartTimeEmployee│ Bob   │ NULL   │   25.50     │   NULL     │
-│   3  │ Contractor      │ Carol │ NULL   │   NULL      │ 2026-12-31 │
-│   4  │ FullTimeEmployee│ Dave  │ 6000   │   NULL      │   NULL     │
-│                                                                    │
-│  ※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)              │
-│  ※ NULL이 많아지는 것이 STI의 단점                                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">employees 테이블 (STI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">DTYPE</div><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">salary</div><div class="kb-diagram-cell">hourly_rate</div><div class="kb-diagram-cell">end_date</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">FullTimeEmployee</div><div class="kb-diagram-cell">Alice</div><div class="kb-diagram-cell">5000</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">PartTimeEmployee</div><div class="kb-diagram-cell">Bob</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">25.50</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">Contractor</div><div class="kb-diagram-cell">Carol</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">2026-12-31</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">FullTimeEmployee</div><div class="kb-diagram-cell">Dave</div><div class="kb-diagram-cell">6000</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ NULL이 많아지는 것이 STI의 단점</div></div>
+</div>
+</div>
+
+
 
 ```java
 @Entity
@@ -102,18 +113,20 @@ public class PartTimeEmployee extends Employee {
 | CTI (Class Table) | `JOINED` | 부모+자식 수 | ✅ | 없음 | 서브타입별 고유 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 많을 때 |
 | Concrete Table | `TABLE_PER_CLASS` | 자식 수 | 다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 느림 | 없음 | 다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 거의 없을 때 |
 
-```
-하위 클래스 수가 많은가?
-      │
-      ├── 아니오 (2~4개) → STI 가능성 높음
-      │
-      └── 예           → 아래 확인
-            │
-            └── 하위 클래스별 고유 컬럼이 많은가?
-                    │
-                    ├── 아니오 → STI 여전히 적합
-                    └── 예    → CTI (JOINED) 고려
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하위 클래스 수가 많은가?</div>
+<div class="kb-diagram-tree-item" style="--depth:3">아니오 (2~4개) → STI 가능성 높음</div>
+<div class="kb-diagram-tree-item" style="--depth:3">예 → 아래 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:6">하위 클래스별 고유 컬럼이 많은가?</div>
+<div class="kb-diagram-tree-item" style="--depth:8">아니오 → STI 여전히 적합</div>
+<div class="kb-diagram-tree-item" style="--depth:8">예 → CTI (JOINED) 고려</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소규모 가족 회사에서 정규직·알바·인턴을 같은 엑셀 시트에 관리하는 건 합리적이지만, 직원이 수백 명이면 시트를 나눠야 한다.
 
@@ -138,9 +151,9 @@ Dog.create(name: "Rex", breed: "Lab")
 # → type='Dog', name='Rex', breed='Lab', indoor=NULL
 ```
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: 서브타입 전용 컬럼에 NOT NULL 제약을 걸 수 없어 애플리케이션 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 서브타입 전용 컬럼에 NOT NULL 제약을 걸 수 없어 애플리케이션 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요
 2. **테이블 비대화**: 서브타입이 늘어날수록 컬럼 수가 폭발적으로 증가
-3. **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: `DTYPE` 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 특정 서브타입 필터링 최적화
+3. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: `DTYPE` 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 특정 서브타입 필터링 최적화
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -165,7 +178,7 @@ STI 패턴의 선택 근거 요약:
 - NOT NULL 같은 DB 제약 적용 불가
 - 서브타입 컬럼 추가 시 전체 테이블 ALTER → 대형 테이블에서 위험
 
-기술사 관점에서 STI는 **단순성과 성능을 위해 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 순수성을 일부 희생하는 트레이드오프** 다. 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 서브타입이 단순할 때 빠르게 개발하고, 복잡해지면 CTI로 리팩토링하는 진화적 접근이 현실적이다.
+기술사 관점에서 STI는 <strong>단순성과 성능을 위해 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 순수성을 일부 희생하는 트레이드오프</strong> 다. 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 서브타입이 단순할 때 빠르게 개발하고, 복잡해지면 CTI로 리팩토링하는 진화적 접근이 현실적이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

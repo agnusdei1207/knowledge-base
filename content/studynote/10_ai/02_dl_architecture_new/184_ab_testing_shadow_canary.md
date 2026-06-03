@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 전통 소프트웨어 배포는 "정상 동작하는가"가 핵심 질문이지만, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 배포는 "정상 동작처럼 보이면서도 잘못된 판단을 조용히 내리지 않는가"까지 봐야 한다. 예를 들어 추천 모델이 에러를 내지는 않더라도 클릭률을 떨어뜨리거나, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 특정 집단에 편향된 결과를 내거나, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 금지된 답변을 더 자주 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다. 그래서 오프라인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋의 정확도 하나만 보고 실서비스 모델을 갈아끼우는 것은 매우 위험하다.
 
-문제의 원인은 온라인 환경이 오프라인 실험실과 다르기 때문이다. 실제 요청은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누락, 최신 사용자 행동, 계절성, 배포 직후의 캐시 상태, 후행 라벨 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)까지 함께 포함한다. 즉 모델 품질은 학습 코드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라, **서빙 시스템·트래픽 분포·사용자 반응**이 결합된 결과다.
+문제의 원인은 온라인 환경이 오프라인 실험실과 다르기 때문이다. 실제 요청은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누락, 최신 사용자 행동, 계절성, 배포 직후의 캐시 상태, 후행 라벨 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)까지 함께 포함한다. 즉 모델 품질은 학습 코드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라, <strong>서빙 시스템·트래픽 분포·사용자 반응</strong>이 결합된 결과다.
 
 이 때문에 현대 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 빅뱅 배포보다 점진적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 택한다. 먼저 실트래픽을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 모델을 숨은 상태로 시험하고, 그다음 일부 사용자에게만 노출하며, 마지막에는 무작위 실험으로 기존 모델과 사업 성과를 비교한다. [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃, A/B 테스팅이 바로 이 세 단계를 맡는다.
 
@@ -35,26 +35,24 @@ tags = ["studynote-ai"]
 
 아래 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 런타임 배포의 단계별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Runtime rollout ladder                                              │
-├──────────────────────────────────────────────────────────────────────┤
-│ User request                                                        │
-│      │                                                              │
-│      ▼                                                              │
-│  Traffic router / feature parity check                              │
-│      │                                                              │
-│      ├─ Champion model (v1) ----------------------> user response   │
-│      │                                                              │
-│      └─ Challenger model (v2)                                       │
-│           ├─ Shadow  : mirrored only, log output diff               │
-│           ├─ Canary  : 1~5% real exposure, guardrail check          │
-│           └─ A/B test: randomized cohorts, KPI comparison           │
-│                                                                      │
-│ Metrics: latency, error, unsafe rate, business conversion           │
-│ Gate   : auto rollback / traffic promotion                          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime rollout ladder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traffic router / feature parity check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Champion model (v1) ----------------------&gt; user response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Challenger model (v2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shadow : mirrored only, log output diff</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Canary : 1~5% real exposure, guardrail check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A/B test: randomized cohorts, KPI comparison</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics: latency, error, unsafe rate, business conversion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gate : auto rollback / traffic promotion</div></div>
+</div>
+</div>
+
+
 
 Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Traffic Mirroring)다. 챌린저 모델은 실제 요청을 받지만 사용자에게 응답을 보내지 않는다. 이때 중요한 구현 규칙은 "비동기 fire-and-forget"이다. 즉 챔피언 응답이 준비되면 바로 사용자에게 보내고, 챌린저의 처리 시간은 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 영향을 주지 않도록 격리해야 한다. 또한 결제, 알림 발송, 캐시 갱신 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부작용은 섀도우 경로에서 차단하거나 샌드박스로 우회해야 한다.
 
@@ -117,7 +115,7 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 - A/B 결과를 보기 전에 이미 트래픽 비율을 계속 바꿔 통계 해석을 망치는 경우
 - KPI만 보고 안전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반이나 공정성 저하를 놓치는 경우
 
-기술사 답안에서는 세 기법을 "점진적 배포" 하나로 뭉뚱그리기보다, **Shadow는 기술 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), Canary는 운영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 제어, A/B는 사업 효과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**이라는 역할 차이를 분명히 쓰는 것이 중요하다. 그리고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델은 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)보다 **무해한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**이 더 본질적이라는 문장을 함께 남기면 좋다.
+기술사 답안에서는 세 기법을 "점진적 배포" 하나로 뭉뚱그리기보다, <strong>Shadow는 기술 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, Canary는 운영 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 제어, A/B는 사업 효과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이라는 역할 차이를 분명히 쓰는 것이 중요하다. 그리고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델은 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)보다 <strong>무해한 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이 더 본질적이라는 문장을 함께 남기면 좋다.
 
 - **📢 섹션 요약 비유**: 좋은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포는 새 요리 레시피를 바로 전 손님에게 내는 것이 아니라, 주방 안 연습·일부 시식·메뉴 경쟁 평가를 차례대로 거치는 식당 운영과 같다.
 
@@ -129,7 +127,7 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 
 물론 비용도 있다. Shadow는 두 모델을 동시에 돌려 인프라 비용이 늘고, Canary와 A/B는 실험 설계·통계 해석·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계가 필요하다. 하지만 전면 배포 후 대규모 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 고객 피해, 브랜드 손상을 생각하면 이 비용은 일종의 보험료에 가깝다.
 
-결론적으로 기억할 구조는 단순하다. **Shadow로 숨어서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, Canary로 작게 노출하고, A/B로 이길 가치가 있는지 증명한 뒤 전면 승격한다.** [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 런타임에서 안전한 배포란 빠른 배포가 아니라, 실패의 반경을 단계적으로 줄이며 학습하는 배포다.
+결론적으로 기억할 구조는 단순하다. <strong>Shadow로 숨어서 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하고, Canary로 작게 노출하고, A/B로 이길 가치가 있는지 증명한 뒤 전면 승격한다.</strong> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 런타임에서 안전한 배포란 빠른 배포가 아니라, 실패의 반경을 단계적으로 줄이며 학습하는 배포다.
 
 - **📢 섹션 요약 비유**: 훌륭한 배포 체계는 새 다리를 만들자마자 모든 차를 올리는 것이 아니라, 먼저 하중 시험을 하고, 일부 차량만 통과시켜 보고, 기존 다리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교한 뒤에야 전면 개통하는 방식과 같다.
 
@@ -148,25 +146,26 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-오프라인 평가
-    │
-    ▼
-Shadow Deployment
-    │
-    ├─ 출력 차이 분석
-    ├─ 지연시간·안전성 검증
-    └─ 부작용 격리 확인
-    │
-    ▼
-Canary Rollout
-    │
-    ▼
-A/B Testing
-    │
-    ▼
-Full Rollout 또는 Multi-Armed Bandit 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오프라인 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shadow Deployment</div>
+<div class="kb-diagram-tree-item" style="--depth:2">출력 차이 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">지연시간·안전성 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">부작용 격리 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Canary Rollout</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">A/B Testing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Full Rollout 또는 Multi-Armed Bandit 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "기술적으로 되는가"에서 시작해 "안전하게 노출할 수 있는가", 그리고 "사업적으로 이득인가"로 질문이 점점 바뀌는 과정을 보여 준다.
 

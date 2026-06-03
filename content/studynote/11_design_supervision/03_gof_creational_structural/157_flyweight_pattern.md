@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 
 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) 패턴은 많은 수의 유사 객체를 효율적으로 다루기 위해 공통 상태를 공유하는 설계 기법이다. 워드프로세서에서 같은 글꼴의 글자가 수천 번 반복되거나, 게임 화면에 동일한 적 유닛이 대량으로 등장하면 각 객체가 모양, 폰트, 텍스처 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 개별 보유하는 순간 메모리 사용량이 급증한다. 이때 객체 수만큼 중복 저장되는 정보를 하나로 묶어 재사용하는 것이 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)의 출발점이다.
 
-이 패턴이 필요한 이유는 단순 메모리 절약에 그치지 않는다. 객체가 과도하게 늘어나면 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), GC) 부담, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출 비용, 캐시 비효율까지 함께 늘어난다. 즉 문제의 본질은 "객체 수"가 아니라 **중복된 상태를 가진 객체 폭증**이다.
+이 패턴이 필요한 이유는 단순 메모리 절약에 그치지 않는다. 객체가 과도하게 늘어나면 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), GC) 부담, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출 비용, 캐시 비효율까지 함께 늘어난다. 즉 문제의 본질은 "객체 수"가 아니라 <strong>중복된 상태를 가진 객체 폭증</strong>이다.
 
 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 이 문제를 내부 상태 (Intrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))와 외부 상태 (Extrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 분리로 해결한다. 공유 가능한 불변 정보는 객체 안에 두고, 호출 시마다 달라지는 좌표·크기·색상 같은 정보는 바깥에서 넘겨주면 같은 객체를 여러 맥락에서 재사용할 수 있다.
 
@@ -35,21 +35,24 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 여러 클라이언트가 같은 공유 객체를 사용하되, 위치와 크기 같은 값은 외부에서 따로 전달하는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Shared object holds only reusable state                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client A: pos(10,20), size=12 ─┐                                    │
-│ Client B: pos(10,40), size=12 ─┼─▶ Flyweight Factory ─▶ Glyph "A"  │
-│ Client C: pos(10,60), size=18 ─┘                       │            │
-│                                                         ├─ intrinsic │
-│                                                         │  font, path│
-│                                                         │  bitmap    │
-│                                                         └─ extrinsic │
-│                                                            x, y, size│
-│                                                            from call │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared object holds only reusable state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A: pos(10,20), size=12 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client B: pos(10,40), size=12 ─ ─▶ Flyweight Factory ─▶ Glyph "A"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client C: pos(10,60), size=18 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ intrinsic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">font, path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bitmap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extrinsic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x, y, size</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">from call</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -68,7 +71,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-[플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 종종 싱글턴 ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)), [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) ([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)), 오브젝트 풀 (Object Pool)과 혼동된다. 하지만 이 패턴들의 목적은 분명히 다르다. 싱글턴은 객체를 하나만 보장하고, [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 줄이며, 오브젝트 풀은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 큰 객체를 재사용한다. [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 "객체 수를 제한"하는 것이 아니라 **객체가 가진 공통 상태를 공유**한다는 점이 핵심이다.
+[플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 종종 싱글턴 ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)), [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) ([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)), 오브젝트 풀 (Object Pool)과 혼동된다. 하지만 이 패턴들의 목적은 분명히 다르다. 싱글턴은 객체를 하나만 보장하고, [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 줄이며, 오브젝트 풀은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 큰 객체를 재사용한다. [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 "객체 수를 제한"하는 것이 아니라 <strong>객체가 가진 공통 상태를 공유</strong>한다는 점이 핵심이다.
 
 | 비교 대상 | [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) | 싱글턴 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | 오브젝트 풀 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -103,7 +106,7 @@ tags = ["studynote-design-supervision"]
 - 공유 이득이 거의 없는데도 패턴을 과잉 도입해 가독성만 떨어뜨리는 경우
 - 팩토리 캐시를 무제한 확장해 메모리 누수처럼 사용하는 경우
 
-기술사 관점에서는 "메모리 절감"만 쓰면 부족하다. **상태 분리 가능성, 팩토리 관리 비용, 디버깅 난이도**까지 함께 말해야 실제 설계 판단으로 인정받는다.
+기술사 관점에서는 "메모리 절감"만 쓰면 부족하다. <strong>상태 분리 가능성, 팩토리 관리 비용, 디버깅 난이도</strong>까지 함께 말해야 실제 설계 판단으로 인정받는다.
 
 - **📢 섹션 요약 비유**: [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 공용 자전거 시스템과 같아서, 자전거를 공유할 조건과 반납 규칙이 명확할 때만 도시 전체 효율이 올라간다.
 
@@ -113,7 +116,7 @@ tags = ["studynote-design-supervision"]
 
 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) 패턴을 올바르게 적용하면 메모리 사용량 감소, 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 횟수 감소, 캐시 친화성 향상이라는 직접 효과를 얻는다. 이는 대량 렌더링이나 저사양 장치에서 특히 큰 차이를 만든다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 중복 보관하지 않으므로, 시스템 규모가 커질수록 절감 폭도 함께 커진다.
 
-하지만 전제조건도 분명하다. 공유 대상이 불변에 가깝고, 외부 상태를 다루는 코드가 명확해야 하며, 팩토리 관리 비용이 절감 이득보다 작아야 한다. 결국 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 "객체를 적게 만든다"가 아니라 **중복 상태를 공유 가능한 구조로 재설계한다**는 관점으로 기억해야 한다.
+하지만 전제조건도 분명하다. 공유 대상이 불변에 가깝고, 외부 상태를 다루는 코드가 명확해야 하며, 팩토리 관리 비용이 절감 이득보다 작아야 한다. 결국 [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)는 "객체를 적게 만든다"가 아니라 <strong>중복 상태를 공유 가능한 구조로 재설계한다</strong>는 관점으로 기억해야 한다.
 
 앞으로도 그래픽스, 문서 처리, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things), 엣지 UI처럼 자원이 제한된 환경에서는 계속 유효한 패턴이다. 다만 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 무차별 적용하는 패턴이 아니라, 반복성과 불변성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합에 선택적으로 쓰는 것이 정답이다.
 
@@ -134,22 +137,24 @@ tags = ["studynote-design-supervision"]
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-Repeated Objects Explosion
-         │
-         ▼
-Intrinsic / Extrinsic State Split
-         │
-         ▼
-Flyweight Factory + Shared Cache
-         │
-         ├──▶ String Pool
-         ├──▶ Rendering Symbol Reuse
-         └──▶ Game Tile / Glyph Sharing
-         │
-         ▼
-Memory Footprint Reduction + Scalable Rendering
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Repeated Objects Explosion</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Intrinsic / Extrinsic State Split</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flyweight Factory + Shared Cache</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ String Pool</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Rendering Symbol Reuse</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Game Tile / Glyph Sharing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Memory Footprint Reduction + Scalable Rendering</div>
+</div>
+</div>
+
+
 
 이 흐름은 "객체 폭증 문제 인식 → 상태 분리 → 공유 관리 → 대량 렌더링 최적화"로 이어지는 적용 맥락을 보여준다.
 

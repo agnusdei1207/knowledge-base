@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-벡터형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 여러 주변장치에서 동시에 들어오는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 정리해 CPU에 전달하고, 동시에 "어느 주소로 들어가야 하는지"까지 알려 주는 하드웨어다. 즉 단순히 벨을 울리는 장치가 아니라, **누가 먼저 처리돼야 하고 어디로 점프해야 하는지 결정하는 배차 시스템**이다. 이 구조가 없으면 CPU는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어올 때마다 상태 레지스터를 읽어 원인을 하나씩 확인해야 하므로 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
+벡터형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 여러 주변장치에서 동시에 들어오는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 정리해 CPU에 전달하고, 동시에 "어느 주소로 들어가야 하는지"까지 알려 주는 하드웨어다. 즉 단순히 벨을 울리는 장치가 아니라, <strong>누가 먼저 처리돼야 하고 어디로 점프해야 하는지 결정하는 배차 시스템</strong>이다. 이 구조가 없으면 CPU는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어올 때마다 상태 레지스터를 읽어 원인을 하나씩 확인해야 하므로 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)와 프로세서에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 개수가 적어 소프트웨어 디스패치 비용이 크지 않았지만, 주변장치가 늘고 실시간 요구가 높아지면서 상황이 달라졌다. 모터 제어, 통신, 센서 샘플링처럼 마이크로초 단위 응답이 중요한 시스템에서는 "누가 불렀는지 찾는 시간" 자체가 손실이 된다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 아키텍처는 공유 IRQ ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Request)에서 vectored IRQ로, 다시 nested vectored 구조로 발전했다.
 
@@ -43,20 +43,19 @@ VIC와 NVIC의 차이도 바로 여기서 나온다. VIC는 벡터화 자체에 
 
 이 그림은 NVIC가 왜 단순 컨트롤러가 아니라 "코어의 일부"처럼 동작하는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Peripherals ─▶ Pending Bits ─▶ Priority Encoder ─▶ Vector Fetch             │
-│                                                         │                   │
-│                                                         ▼                   │
-│                                              Auto Stack Save                │
-│                                                         │                   │
-│                            higher priority arrival ─────┼────▶ Preempt       │
-│                                                         │                   │
-│                                    next pending exists ─┴────▶ Tail Chain   │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peripherals ─▶ Pending Bits ─▶ Priority Encoder ─▶ Vector Fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auto Stack Save</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">higher priority arrival ▶ Preempt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next pending exists ─ ▶ Tail Chain</div></div>
+</div>
+</div>
+
+
 
 대표적으로 Cortex-M 계열에서는 예외 진입이 약 12 cycle 수준, Tail Chaining은 약 6 cycle 수준으로 알려져 있다. 물론 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 플래시 wait [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 혼잡, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 코드 길이에 따라 달라지지만, 핵심은 "문맥 저장과 다음 벡터 결정"을 하드웨어가 대신함으로써 소프트웨어 가변 비용을 크게 줄였다는 데 있다.
 
@@ -118,7 +117,7 @@ NVIC를 제대로 쓰려면 우선순위를 단순 숫자 크기가 아니라 �
 
 한계도 분명하다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구조가 강력할수록 잘못된 우선순위 설계의 피해도 커지고, 지나친 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 중심 구조는 오히려 소프트웨어를 파편화한다. 따라서 이벤트 빈도가 매우 높은 경로는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 배치, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 큐와 조합하는 균형 감각이 필요하다.
 
-미래 방향은 보안 분리와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)다. TrustZone 기반 보안 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 분리, 가상 머신용 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 주입, 멀티코어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러와의 결합이 더 중요해질 것이다. 결국 VIC/NVIC는 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있다"는 사실보다, **누가 언제 어디로 들어갈지를 하드웨어가 얼마나 똑똑하게 정해 주는가**로 기억해야 한다.
+미래 방향은 보안 분리와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)다. TrustZone 기반 보안 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 분리, 가상 머신용 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 주입, 멀티코어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러와의 결합이 더 중요해질 것이다. 결국 VIC/NVIC는 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있다"는 사실보다, <strong>누가 언제 어디로 들어갈지를 하드웨어가 얼마나 똑똑하게 정해 주는가</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 벡터형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 학교의 비상 방송 체계와 같다. 단순히 종을 울리는 것이 아니라, 어느 반이 먼저 대피하고 어디로 가야 하는지까지 정확히 안내해 혼란을 줄인다.
 
@@ -137,21 +136,23 @@ NVIC를 제대로 쓰려면 우선순위를 단순 숫자 크기가 아니라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Polling 기반 장치 감시
-        │
-        ▼
-Vectored Interrupt Controller
-        │
-        ▼
-Nested Vectored Interrupt Controller
-        │
-        ▼
-RTOS 연동 예외 분리(SysTick / PendSV)
-        │
-        ▼
-멀티코어 GIC · APIC · 가상 인터럽트 주입
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Polling 기반 장치 감시</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Vectored Interrupt Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Nested Vectored Interrupt Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTOS 연동 예외 분리(SysTick / PendSV)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 GIC · APIC · 가상 인터럽트 주입</div>
+</div>
+</div>
+
+
 
 이 흐름은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 "누가 불렀는지 찾는 단계"에서 "선점·문맥 저장·시스템 정책을 함께 하드웨어화하는 단계"로 발전했음을 보여 준다.
 

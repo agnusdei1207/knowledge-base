@@ -26,14 +26,17 @@ tags = ["software_engineering"]
 
 아래 그림은 기술 아이디어가 투자 결정으로 바뀌는 기본 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Idea -> Business case -> Funding decision                   │
-├──────────────────────────────────────────────────────────────┤
-│ business problem -> options -> cash flow -> risk -> approve │
-│ no measurable value -> no investment rationale              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Idea -&gt; Business case -&gt; Funding decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">business problem -&gt; options -&gt; cash flow -&gt; risk -&gt; approve</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no measurable value -&gt; no investment rationale</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 프로젝트가 "필요해 보인다"는 감각만으로는 승인되지 않는다는 점이다. 문제 정의가 있어야 하고, 대안이 있어야 하며, 그 대안을 실행했을 때의 비용·편익·위험이 수치와 가정으로 정리되어야 한다. 그래서 비즈니스 케이스는 결재용 종이가 아니라, 프로젝트 시작 전 가장 중요한 품질 필터라고 볼 수 있다.
 
@@ -56,18 +59,21 @@ tags = ["software_engineering"]
 
 예를 들어 결재 자동화 시스템을 도입한다고 하자. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 3억 원이고, 연간 순편익이 1.2억 원씩 4년간 발생한다고 가정하면 총편익은 4.8억 원이다. 이때 단순 ROI는 `((4.8 - 3.0) / 3.0) × 100 = 60%`이고, 투자 회수 기간 ([Payback Period](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/))은 약 2.5년이다. 할인율 8%를 적용한 NPV는 약 +0.97억 원으로, 시간 가치를 반영해도 투자 여지가 있음을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Example cash flow: approval workflow automation             │
-├──────────────────────────────────────────────────────────────┤
-│ Year 0 : -300M KRW                                          │
-│ Year 1 : +120M KRW                                          │
-│ Year 2 : +120M KRW                                          │
-│ Year 3 : +120M KRW                                          │
-│ Year 4 : +120M KRW                                          │
-│ ROI = 60% / Payback ≈ 2.5 years / NPV @ 8% ≈ +97M KRW       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example cash flow: approval workflow automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 0 : -300M KRW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 1 : +120M KRW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 2 : +120M KRW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 3 : +120M KRW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 4 : +120M KRW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROI = 60% / Payback ≈ 2.5 years / NPV @ 8% ≈ +97M KRW</div></div>
+</div>
+</div>
+
+
 
 이 예시는 왜 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 하나만 보면 안 되는지도 보여 준다. 총편익만 보면 매력적이지만, 실제로는 언제 들어오는 돈인지가 중요하다. 똑같이 60% ROI라도 편익이 1년 안에 들어오는 안과 4년 뒤에 몰려 들어오는 안은 경영적으로 가치가 다르기 때문에, NPV와 Payback이 함께 필요하다.
 
@@ -100,17 +106,20 @@ tags = ["software_engineering"]
 
 실무에서 좋은 비즈니스 케이스를 만들려면 숫자보다 먼저 가정을 관리해야 한다. 예상 사용자 수, 채택률, 장애 감소율, 절감되는 인력 시간, 할인율 같은 가정이 흔들리면 재무 지표도 함께 흔들린다. 그래서 base, optimistic, pessimistic 시나리오를 나누고 민감도 분석을 통해 어떤 변수가 의사결정을 뒤집는지 확인해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Practical approval checklist                                │
-├──────────────────────────────────────────────────────────────┤
-│ clear business problem?                                     │
-│ measurable benefit or risk proxy?                           │
-│ full TCO included?                                          │
-│ scenarios and sensitivity tested?                           │
-│ positive risk-adjusted NPV or justified mandatory need?     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical approval checklist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clear business problem?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">measurable benefit or risk proxy?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full TCO included?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scenarios and sensitivity tested?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">positive risk-adjusted NPV or justified mandatory need?</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -129,7 +138,7 @@ tags = ["software_engineering"]
 
 특히 의무 사업은 해석이 달라진다. 예를 들어 보안 규제 대응이나 노후 장비 교체는 직접 ROI가 약해 보여도, 미이행 시 과징금·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단·사고 손실이 훨씬 클 수 있다. 이때 비즈니스 케이스는 "직접 수익"보다 "비실행 비용"을 계산해 승인 논리를 세우는 쪽이 더 현실적이다.
 
-기술사 답안에서는 "ROI가 높다"는 선언보다, **대안 비교·[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)·현금흐름 시점·민감도·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 보정**까지 설명해야 완성도가 높다. 좋은 답안은 숫자를 많이 적는 답안이 아니라, 숫자가 왜 그 결론을 지지하는지 설명하는 답안이다.
+기술사 답안에서는 "ROI가 높다"는 선언보다, <strong>대안 비교·<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>·현금흐름 시점·민감도·<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 보정</strong>까지 설명해야 완성도가 높다. 좋은 답안은 숫자를 많이 적는 답안이 아니라, 숫자가 왜 그 결론을 지지하는지 설명하는 답안이다.
 
 - **📢 섹션 요약 비유**: 비즈니스 케이스 검토는 여행 경비를 계산할 때 항공권 값만 보는 게 아니라 숙박비, 식비, 환율, 취소 위험까지 다 따져 보고 떠날지 말지 정하는 일과 같다.
 
@@ -141,7 +150,7 @@ tags = ["software_engineering"]
 
 한계도 있다. 미래 편익은 본질적으로 추정치이므로, 비즈니스 케이스가 완벽한 예언서는 될 수 없다. 또 공공성, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)성, 규제 준수처럼 숫자로 완전히 환산하기 어려운 프로젝트도 존재한다. 따라서 비즈니스 케이스는 결정을 대신하는 기계가 아니라, 더 나은 결정을 돕는 구조화된 판단 틀로 이해해야 한다.
 
-결론적으로 비즈니스 케이스와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석의 핵심은 "기술의 우수성"이 아니라 **투자 자원의 사용 근거**를 만드는 데 있다. 좋은 소프트웨어 공학은 기능을 만드는 일에서 멈추지 않고, 왜 이 기능에 지금 이만큼 투자해야 하는지까지 설명할 수 있을 때 완성된다.
+결론적으로 비즈니스 케이스와 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석의 핵심은 "기술의 우수성"이 아니라 <strong>투자 자원의 사용 근거</strong>를 만드는 데 있다. 좋은 소프트웨어 공학은 기능을 만드는 일에서 멈추지 않고, 왜 이 기능에 지금 이만큼 투자해야 하는지까지 설명할 수 있을 때 완성된다.
 
 - **📢 섹션 요약 비유**: 좋은 비즈니스 케이스는 멋진 요리 사진이 아니라, 재료비와 조리 시간, 손님 반응까지 계산해 진짜로 장사가 되는 메뉴판을 만드는 일과 같다.
 
@@ -161,21 +170,24 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-business problem identification
-    │
-    ▼
-options · cost · benefit · risk modeling
-    │
-    ├──────────────▶ ROI
-    ├──────────────▶ NPV / IRR
-    ├──────────────▶ Payback Period
-    ▼
-investment decision
-    │
-    ▼
-post-launch KPI tracking and feedback
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">business problem identification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">options · cost · benefit · risk modeling</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ ROI</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ NPV / IRR</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Payback Period</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">investment decision</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">post-launch KPI tracking and feedback</div>
+</div>
+</div>
+
+
 
 이 흐름도는 비즈니스 케이스가 승인 한 번 받고 끝나는 문서가 아니라, 투자 판단에서 운영 성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 관리 사이클의 출발점임을 보여준다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(비트코인, 이더리움)에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 총괄하는 중앙 서버(네이버, 카카오)가 1개도 존재하지 않습니다. (100% P2P망)
 - **플러딩(Flooding)의 재앙**: 내가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(송금 기록)을 발생시킬 때, 내 컴퓨터가 온 동네방네 10만 대에게 동시에 "야 나 송금했어!"라고 방송(Broadcast)을 때리면 어떻게 될까요? 10만 대가 서로에게 소리를 지르며 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 0.1초 만에 폭발(Broadcast Storm)해 전 세계 인터넷이 뻗어버립니다.
 
-```text
-[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    ▼
-[블록체인 가십 프로토콜]
-    │
-    └──▶ [DLT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DLT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 질병([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 전염되거나 사람들 사이에 소문이 퍼지는 방식을 수학적으로 모델링한 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 핵심 메시지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 메커니즘입니다. 
-- 노드(컴퓨터)가 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면, 전체 망에 방송하지 않고 오직 **자신과 연결된 무작위(Random)의 이웃 노드 딱 몇 명(예: 3~8명)에게만 속삭이듯 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달(Push/Pull)하여 망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 100% 회피하면서도 기하급수적(Exponential) 속도로 전체 망의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 100% 일치시키는 마법**입니다.
+- 노드(컴퓨터)가 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면, 전체 망에 방송하지 않고 오직 <strong>자신과 연결된 무작위(Random)의 이웃 노드 딱 몇 명(예: 3~8명)에게만 속삭이듯 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전달(Push/Pull)하여 망 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목을 100% 회피하면서도 기하급수적(Exponential) 속도로 전체 망의 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 100% 일치시키는 마법</strong>입니다.
 
-```text
-[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    ▼
-[블록체인 가십 프로토콜]
-    │
-    └──▶ [DLT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DLT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,12 +70,12 @@ tags = ["studynote-network"]
 ### 2. 기하급수적 전파 (Exponential Spread)
 - 소문을 들은 A도 자기 이웃 D, E, F 세 명에게 귓속말을 날립니다. 
 - B도 G, H, I에게 날립니다. 
-- 한 단계(1 홉)를 거칠 때마다 소문을 아는 컴퓨터의 수는 `1 ➜ 3 ➜ 9 ➜ 27 ➜ 81 ➜ 243` 으로 **수학적 지수 함수를 그리며 미친 듯이 폭발**합니다. 
+- 한 단계(1 홉)를 거칠 때마다 소문을 아는 컴퓨터의 수는 `1 ➜ 3 ➜ 9 ➜ 27 ➜ 81 ➜ 243` 으로 <strong>수학적 지수 함수를 그리며 미친 듯이 폭발</strong>합니다. 
 - 불과 몇 번의 단계(수 초 이내)만 거치면, 단 1대의 중앙 서버 개입 없이도 전 세계 10만 대의 쇳덩어리 컴퓨터가 동시에 100% 동일한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 장부를 들고 있게 됩니다.
 
 ### 3. 상태 머신 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (중복 귓속말 커트)
 - 소문이 돌다 보면, 이미 소문을 알고 있는 D에게 H가 또 와서 "야 철수 1코인 보냈대!"라고 귓속말을 칠 수 있습니다.
-- D는 자기 장부(상태 머신)를 보고 "어 나 아까 A한테 들어서 벌써 적어놨어. 수고해라 씹을게~" 하고 **이벤트 중복([Looping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/))을 가차 없이 끊어버립니다.** 이 안티 루핑 체계 덕분에 플러딩의 폭주(재앙)가 방어됩니다.
+- D는 자기 장부(상태 머신)를 보고 "어 나 아까 A한테 들어서 벌써 적어놨어. 수고해라 씹을게~" 하고 <strong>이벤트 중복(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/">Looping</a>)을 가차 없이 끊어버립니다.</strong> 이 안티 루핑 체계 덕분에 플러딩의 폭주(재앙)가 방어됩니다.
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…가 기반 조건을 만든다면, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 그 위에서 핵심 메커니즘을 구현하고, DLT는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 망의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 **'전교생 1,000명에게 휴교령 알리기'** 미션입니다. 교장 선생님(중앙 서버)이 마이크로 방송(플러딩)을 하려니 마이크가 고장나거나 스피커 선이 뽑히면 학교 전체가 혼란에 빠집니다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). **가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(소문망)**은 교장 선생님이 방송을 포기하고, 눈앞에 지나가는 1반 학생 3명에게 귓속말로 "내일 휴교야. 너희도 딱 3명한테만 말해!"라고 전염병을 퍼뜨리는 방식입니다. 1명이 3명에게, 3명이 9명에게, 9명이 27명에게 귀엣말을 전파(기하급수적 지수 폭발)하면, 단 몇 분 만에 학교 전체에 스피커 하나 쓰지 않고([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약) 휴교령이 완벽히 전파됩니다. 중간에 5반이 통째로 결석(노드 장애)하더라도, 다른 반 아이들을 타고 소문이 빈틈없이 파고들어 결국 100% [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 이루어내는 인류 최고의 무결점 소문 통신망입니다.
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 망의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 **'전교생 1,000명에게 휴교령 알리기'** 미션입니다. 교장 선생님(중앙 서버)이 마이크로 방송(플러딩)을 하려니 마이크가 고장나거나 스피커 선이 뽑히면 학교 전체가 혼란에 빠집니다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). <strong>가십 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(소문망)</strong>은 교장 선생님이 방송을 포기하고, 눈앞에 지나가는 1반 학생 3명에게 귓속말로 "내일 휴교야. 너희도 딱 3명한테만 말해!"라고 전염병을 퍼뜨리는 방식입니다. 1명이 3명에게, 3명이 9명에게, 9명이 27명에게 귀엣말을 전파(기하급수적 지수 폭발)하면, 단 몇 분 만에 학교 전체에 스피커 하나 쓰지 않고([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약) 휴교령이 완벽히 전파됩니다. 중간에 5반이 통째로 결석(노드 장애)하더라도, 다른 반 아이들을 타고 소문이 빈틈없이 파고들어 결국 100% [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 이루어내는 인류 최고의 무결점 소문 통신망입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    ▼
-[현재 개념: 블록체인 가십 프로토콜]
-    │
-    ├──▶ [확장 A: DLT]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록체인 가십 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DLT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…에서 출발해 현재 메커니즘을 정교화하고, 이후 DLT와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

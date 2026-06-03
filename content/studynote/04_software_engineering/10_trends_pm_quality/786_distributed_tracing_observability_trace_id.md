@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 고객이 쇼핑몰에서 결제 버튼을 눌렀다. 500 에러가 떴다. 개발자가 '결제 서버' [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 수만 줄이 쌓여 있어서 지금 에러가 난 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어느 것인지 찾을 수가 없다. 
 
-겨우 찾았더니, 결제 서버의 에러 원인은 "포인트 서버가 응답하지 않음"이었다. 그래서 포인트 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. 마찬가지로 수만 줄의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 있다. 결제 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 포인트 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중 **"어떤 것이 동일한 고객의 하나의 요청 사이클인가?"**를 이어붙일(Correlate) 방법이 전혀 없었다.
+겨우 찾았더니, 결제 서버의 에러 원인은 "포인트 서버가 응답하지 않음"이었다. 그래서 포인트 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까봤다. 마찬가지로 수만 줄의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 있다. 결제 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 포인트 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중 <strong>"어떤 것이 동일한 고객의 하나의 요청 사이클인가?"</strong>를 이어붙일(Correlate) 방법이 전혀 없었다.
 
-수십 개의 서버가 얽힌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서는 전통적인 모니터링(CPU, 메모리 감시)만으로는 장애의 근본 원인(Root Cause)을 절대 찾을 수 없다. 시스템 내부의 혈류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 어떻게 흐르는지 완벽하게 꿰뚫어 보는 능력, 즉 **[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))**의 확보가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입의 가장 중요한 선결 과제로 떠올랐다.
+수십 개의 서버가 얽힌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서는 전통적인 모니터링(CPU, 메모리 감시)만으로는 장애의 근본 원인(Root Cause)을 절대 찾을 수 없다. 시스템 내부의 혈류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 어떻게 흐르는지 완벽하게 꿰뚫어 보는 능력, 즉 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>의 확보가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입의 가장 중요한 선결 과제로 떠올랐다.
 
 - **📢 섹션 요약 비유**: 옛날엔 동네 병원(모놀리식)에서 의사 1명이 차트 하나만 보면 환자 상태를 다 알았다. 지금은 대학병원([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이라서 환자가 10개 과를 돌아다닌다. 이때 환자 팔목에 '고유 바코드([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))'를 채우지 않으면, 각 과의 의사들은 흩어진 차트만 보고 이 환자가 무슨 검사를 받고 왔는지 절대 알 수 없다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) Trace 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  분산 시스템 옵저버빌리티 Trace                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 시스템 옵저버빌리티 Trace</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) Trace 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)를 구성하는 3대 기둥(Pillars) 중, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 뼈대를 추적하는 핵심 원리는 **[분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))**이다.
+[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)를 구성하는 3대 기둥(Pillars) 중, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 뼈대를 추적하는 핵심 원리는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">분산 추적</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">Distributed Tracing</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 상관관계 분석은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 3대 기둥 | 영문 명칭 | 질문 (What to answer?) | 대표적인 도구 (Tools) |
 |:---|:---|:---|:---|
-| **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | **[Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)** | "지금 서버가 아픈가?" (경고/알람) | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog |
-| **[분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)** | **[Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)** | "정확히 어디서(어느 서버에서) 아픈가?" (병목/경로) | Jaeger, Zipkin, AWS X-Ray |
-| **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)** | **[Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)** | "왜 아픈가?" (상세한 에러 원인) | ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), Fluentd, Loki |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a></strong> | "지금 서버가 아픈가?" (경고/알람) | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">분산 추적</a></strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/">Tracing</a></strong> | "정확히 어디서(어느 서버에서) 아픈가?" (병목/경로) | Jaeger, Zipkin, AWS X-Ray |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/">Logging</a></strong> | "왜 아픈가?" (상세한 에러 원인) | ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), Fluentd, Loki |
 
 장애가 터졌을 때 엔지니어의 디버깅 순서는 보통 정해져 있다.
-**[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)**으로 CPU [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 알람을 받음 $\rightarrow$ **추적(Trace)** 대시보드를 열어 결제 서버의 응답시간이 10초가 넘는 것을 발견 $\rightarrow$ 해당 `Trace ID` 복사해서 **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)** 시스템에 검색하여 "DB Connection [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)"이라는 진짜 원인을 찾아냄.
+<strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong>으로 CPU [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 알람을 받음 $\rightarrow$ **추적(Trace)** 대시보드를 열어 결제 서버의 응답시간이 10초가 넘는 것을 발견 $\rightarrow$ 해당 `Trace ID` 복사해서 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(Log)</strong> 시스템에 검색하여 "DB Connection [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)"이라는 진짜 원인을 찾아냄.
 
 - **📢 섹션 요약 비유**: 환자가 쓰러졌을 때, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 '심장 박동기(삐- 소리)'고, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 피가 어디서 막혔는지 보여주는 '혈관 조영제(경로)'이며, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 의사가 돋보기로 환부의 상처를 직접 쳐다보는 '현미경(원인)'이다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 기반의 상관관계(Correlation) 분석 체계가 완성되면, 아무리 복잡하게 얽힌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이라도 트랜잭션의 이동 경로를 우아한 시각적 플로우 차트(Flame [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))로 한눈에 볼 수 있다. 장애 발생 시 원인 파악([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 시간이 수 시간에서 단 1분으로 줄어든다.
 
-결론적으로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 **'[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)'는 선택이 아니라 생존을 위한 필수 인프라**다. 시스템이 모놀리식의 감옥을 탈출해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 자유를 얻은 대가로 치러야 할 비용(Cost)이다. 기술 리더는 기능 개발을 멈추고서라도, 시스템의 혈관을 흐르는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 빛([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 밝히는 작업에 최우선 예산을 투입해야 한다.
+결론적으로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a>'는 선택이 아니라 생존을 위한 필수 인프라</strong>다. 시스템이 모놀리식의 감옥을 탈출해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 자유를 얻은 대가로 치러야 할 비용(Cost)이다. 기술 리더는 기능 개발을 멈추고서라도, 시스템의 혈관을 흐르는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 빛([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 밝히는 작업에 최우선 예산을 투입해야 한다.
 
 - **📢 섹션 요약 비유**: 어두운 동굴([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 속에 10명의 친구를 들여보내면서 아무런 표시도 안 해두면 길을 잃어도 찾을 수 없다. 입구에서 각자에게 고유한 색깔의 야광 밧줄([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 허리에 묶고 들어가게 하면, 동굴 밖에서도 야광 선의 움직임만 보고 누가 어디서 돌부리에 걸려 넘어졌는지 1초 만에 알 수 있다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-분산 시스템 옵저버빌리티 Trace ID 상관관계 분석 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 시스템 옵저버빌리티 Trace ID 상관관계 분석 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

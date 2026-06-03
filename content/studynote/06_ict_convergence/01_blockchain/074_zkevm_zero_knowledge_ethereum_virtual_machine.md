@@ -100,25 +100,37 @@ zkEVM은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockcha
 
 ## 관련 개념 맵
 
-```text
-EVM
-  ↓
-zkEVM
-  ↓
-Zero-Knowledge Proof
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EVM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">zkEVM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Zero-Knowledge Proof</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Rollup
-  ↓
-zkEVM
-  ↓
-Scalability / Privacy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Rollup</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">zkEVM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Scalability / Privacy</div>
+</div>
+</div>
+
+
 
 ---
 

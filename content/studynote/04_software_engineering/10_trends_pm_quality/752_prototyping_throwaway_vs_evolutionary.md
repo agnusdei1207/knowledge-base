@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 개발자 역시 새로운 프레임워크나 낯선 기술을 쓸 때, 이 기술이 진짜로 1만 명의 트래픽을 버틸 수 있을지 머리로만 짐작할 뿐 확신하지 못한다(기술적 불확실성).
 
-이 두 가지 불확실성을 가장 싸고 빠르게 제거하는 방법이 바로 **프로토타이핑(Prototyping)**이다. 본 개발에 들어가기 전, 핵심 기능만 동작하거나 껍데기만 있는 '시제품'을 만들어 고객 눈앞에 들이밀거나 서버에 올려서 직접 테스트해 보는 것이다.
+이 두 가지 불확실성을 가장 싸고 빠르게 제거하는 방법이 바로 <strong>프로토타이핑(Prototyping)</strong>이다. 본 개발에 들어가기 전, 핵심 기능만 동작하거나 껍데기만 있는 '시제품'을 만들어 고객 눈앞에 들이밀거나 서버에 올려서 직접 테스트해 보는 것이다.
 
 - **📢 섹션 요약 비유**: 고객이 "멋진 집을 지어줘"라고 할 때 바로 벽돌부터 쌓는 것이 폭포수 모델이다. 프로토타이핑은 스티로폼과 골판지로 1시간 만에 모형 집을 만들어 보여주며 "창문이 여긴데 괜찮아요?"라고 먼저 물어보는 지혜로운 건축법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프로토타입 버리기 모델 vs 진화적                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토타입 버리기 모델 vs 진화적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,10 +77,10 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | **요구사항 확정**| 프로젝트 초기에 100% 픽스 | **시제품을 통해 초기에 픽스** | 스프린트마다 계속 바뀜 |
 | **산출물 전달** | 마지막 날에 한 번 | 중간에 껍데기 한 번, 마지막에 진짜 | 2주마다 '동작하는 소프트웨어' |
-| **위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 관리**| 매우 취약함 | **요구사항 오해 위험 완벽 차단** | 매 순간 유연하게 대응 |
+| <strong>위험(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>) 관리</strong>| 매우 취약함 | **요구사항 오해 위험 완벽 차단** | 매 순간 유연하게 대응 |
 | **주요 문서** | 방대한 요구사항 정의서 | UI 스토리보드, 목업(Mockup) | 백로그 (Backlog) |
 
-진화적 프로토타이핑 모델이 계속 발전해서 "이걸 2주 단위로 무한히 반복하자!"라고 체계화된 것이 바로 현대의 **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** 방법론이다.
+진화적 프로토타이핑 모델이 계속 발전해서 "이걸 2주 단위로 무한히 반복하자!"라고 체계화된 것이 바로 현대의 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> 방법론이다.
 
 - **📢 섹션 요약 비유**: 폭포수 모델이 눈 감고 초상화를 그린 뒤 마지막에 보여주는 것이라면, 프로토타이핑은 스케치만 대충 슥슥 해서 "이 얼굴 맞아요?" 물어보고 색칠을 시작하는 것이다.
 
@@ -95,7 +94,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 프로토타이핑 모델을 쓸 때 벌어지는 최악의 참사는 **"버려야 할 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 버리지 않는 것"**이다.
+실무에서 프로토타이핑 모델을 쓸 때 벌어지는 최악의 참사는 <strong>"버려야 할 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/">프로토타입</a>을 버리지 않는 것"</strong>이다.
 
 - **📢 섹션 요약 비유**: [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프로토타입 버리기 모델 vs 진화적 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로토타입 버리기 모델 vs 진화적 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

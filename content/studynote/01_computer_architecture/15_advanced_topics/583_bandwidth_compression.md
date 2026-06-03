@@ -11,38 +11,35 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 캐시 라인이나 전송 패킷을 **짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열로 다시 표현해 같은 링크로 더 많은 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 저지연 무손실 부호화 기술**이다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 캐시 라인이나 전송 패킷을 <strong>짧은 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>열로 다시 표현해 같은 링크로 더 많은 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 보내는 저지연 무손실 부호화 기술</strong>이다.
 > 2. **가치**: 핀 수와 배선 폭을 늘리지 않고도 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전송 에너지 효율을 끌어올려, 메모리 벽과 멀티코어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합을 완화할 수 있다.
-> 3. **판단 포인트**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률보다 더 중요한 것은 **낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 작은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 실패 시 즉시 원본 우회가 가능한가**이며, 이미 암호화되었거나 난수성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 오히려 손해가 날 수 있다.
+> 3. **판단 포인트**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률보다 더 중요한 것은 <strong>낮은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간, 작은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 실패 시 즉시 원본 우회가 가능한가</strong>이며, 이미 암호화되었거나 난수성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 오히려 손해가 날 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 메모리나 인터커넥트로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 직전에, 같은 의미를 더 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열로 표현해 전송량을 줄이는 기술이다. 핵심은 저장 용량을 늘리는 것이 아니라, **이동해야 하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 자체를 줄여 같은 배선으로 더 많은 실효 정보를 보내는 것**이다. 그래서 주 대상은 저장장치보다도 캐시-메모리 경로, 칩 간 링크, 온칩 네트워크처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목이 되는 구간이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 메모리나 인터커넥트로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 직전에, 같은 의미를 더 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열로 표현해 전송량을 줄이는 기술이다. 핵심은 저장 용량을 늘리는 것이 아니라, <strong>이동해야 하는 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수 자체를 줄여 같은 배선으로 더 많은 실효 정보를 보내는 것</strong>이다. 그래서 주 대상은 저장장치보다도 캐시-메모리 경로, 칩 간 링크, 온칩 네트워크처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목이 되는 구간이다.
 
-이 기술이 필요한 이유는 연산 자원 증가 속도와 전송 자원 증가 속도가 다르기 때문이다. 코어 수와 가속기는 빠르게 늘어나는데, 배선 폭과 패키지 핀 수는 면적·전력·패키징 비용 때문에 무한정 키우기 어렵다. 결국 병목은 계산기보다 도로에서 먼저 온다. 이때 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 도로를 새로 까는 대신, **짐을 더 촘촘하게 포장해 같은 차선으로 더 많이 보내는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이 된다.
+이 기술이 필요한 이유는 연산 자원 증가 속도와 전송 자원 증가 속도가 다르기 때문이다. 코어 수와 가속기는 빠르게 늘어나는데, 배선 폭과 패키지 핀 수는 면적·전력·패키징 비용 때문에 무한정 키우기 어렵다. 결국 병목은 계산기보다 도로에서 먼저 온다. 이때 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 도로를 새로 까는 대신, <strong>짐을 더 촘촘하게 포장해 같은 차선으로 더 많이 보내는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이 된다.
 
 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지는 계산 에너지보다 클 때가 많다. 동적 랜덤 접근 메모리 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))까지 왕복하는 트래픽을 줄이면 단순히 빨라지는 것뿐 아니라, 입출력 스위칭과 메모리 액세스 전력도 함께 줄어든다. 그래서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이면서 동시에 전력 기술이기도 하다.
 
 이 그림은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 거쳐 더 짧은 전송 단위로 바뀌는 모습을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Same link, fewer transmitted bits                                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Raw cache line / packet                                                    │
-│          │                                                                 │
-│          ▼                                                                 │
-│   low-latency encoder -> shorter payload + small header                    │
-│          │                                                                 │
-│          ▼                                                                 │
-│   same bus / link carries more useful bytes per unit time                 │
-│          │                                                                 │
-│          ▼                                                                 │
-│   decoder reconstructs original data before use                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same link, fewer transmitted bits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw cache line / packet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">low-latency encoder -&gt; shorter payload + small header</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same bus / link carries more useful bytes per unit time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">decoder reconstructs original data before use</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 택배 상자를 더 세게 눌러 작게 만드는 것이 아니라, 내용물의 모양을 기억해 빈 공간 없이 다시 정리해서 같은 트럭에 더 많이 싣는 포장 기술과 같다.
 
@@ -63,25 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 한 블록이 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 안에서 어떤 분기 과정을 거치는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Encode decision for one cache line                                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Input block                                                               │
-│    │                                                                       │
-│    ▼                                                                       │
-│ Pattern detector                                                           │
-│    ├─ all-zero  -> header Z                                                │
-│    ├─ small delta -> header BDI + base + delta[]                           │
-│    ├─ common words -> header FPC + pattern codes                           │
-│    └─ no gain    -> RAW                                                    │
-│                │                                                           │
-│                ▼                                                           │
-│ Send [header + metadata + payload] only if size < original                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-예를 들어 64바이트 캐시 라인이 32바이트로 줄어들면, 같은 폭의 링크에서 전송 사이클 수가 절반 수준으로 줄 수 있다. 물론 실제 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 평균 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능한 트래픽 비율, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기에 따라 달라진다. 그래서 기술사 관점에서는 "2배 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"보다 **평균 워크로드에서 얼마만큼 안정적으로 이득이 나는가**를 보는 것이 더 중요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Encode decision for one cache line</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input block</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pattern detector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all-zero -&gt; header Z</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ small delta -&gt; header BDI + base + delta[]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ common words -&gt; header FPC + pattern codes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no gain -&gt; RAW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Send</div><div class="kb-diagram-node">header + metadata + payload</div><div class="kb-diagram-note">only if size &lt; original</div></div>
+</div>
+</div>
+
+
+
+예를 들어 64바이트 캐시 라인이 32바이트로 줄어들면, 같은 폭의 링크에서 전송 사이클 수가 절반 수준으로 줄 수 있다. 물론 실제 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 평균 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능한 트래픽 비율, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기에 따라 달라진다. 그래서 기술사 관점에서는 "2배 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"보다 <strong>평균 워크로드에서 얼마만큼 안정적으로 이득이 나는가</strong>를 보는 것이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 좋은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 짐을 억지로 구겨 넣는 사람이 아니라, 물건 종류를 보고 가장 빠른 접기 방식을 즉시 고르는 숙련 포장 기사와 같다.
 
@@ -101,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 이 기술은 584번 텐서 희소성, 585번 영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건너뛰기와도 연결된다. 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 "의미 없는 0을 제거한 뒤 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 함께 재배열"한다면, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 보다 일반적인 캐시 라인이나 패킷 전체를 대상으로 "짧은 표현 방식"을 고른다. 즉 하나는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특화, 다른 하나는 범용 전송 최적화라는 차이가 있다.
 
-또한 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 계열에서는 프레임버퍼나 텍스처에 특화된 델타 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 널리 쓰인다. 하지만 CPU 메모리 계층에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미 보존이 절대적이므로, **무손실·저지연·원본 즉시 우회 가능**이라는 조건이 특히 중요하다. 이 경계 차이를 이해해야 "화면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"과 "메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"을 같은 것으로 오해하지 않는다.
+또한 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 계열에서는 프레임버퍼나 텍스처에 특화된 델타 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 널리 쓰인다. 하지만 CPU 메모리 계층에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미 보존이 절대적이므로, <strong>무손실·저지연·원본 즉시 우회 가능</strong>이라는 조건이 특히 중요하다. 이 경계 차이를 이해해야 "화면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"과 "메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"을 같은 것으로 오해하지 않는다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 확대가 도로 확장 공사라면, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 같은 도로에서 차량 적재 효율을 높이는 물류 혁신이고, 영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건너뛰기는 아예 빈 트럭을 출발시키지 않는 운영 규칙에 가깝다.
 
@@ -137,9 +133,9 @@ tags = ["studynote-computer-architecture"]
 
 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩이 제대로 맞아떨어지면 같은 물리 링크로 더 많은 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 보낼 수 있어, 체감상 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭을 넓힌 것과 비슷한 효과가 난다. 이 과정에서 메모리 대기 시간이 줄고, 큐 적체가 완화되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지도 감소한다. 특히 메모리 병목 때문에 연산기가 놀고 있던 구조에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 비교적 선명하게 나타난다.
 
-하지만 이 기술은 항상 같은 이득을 보장하지 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 바뀌면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률도 흔들리고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 커지면 이점이 줄며, 복원 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 임계 경로에 걸리면 오히려 불리해질 수 있다. 그래서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "더 넓은 배선의 대체재"가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성이 맞을 때 링크 효율을 증폭시키는 적응형 도구**로 기억하는 편이 정확하다.
+하지만 이 기술은 항상 같은 이득을 보장하지 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 바뀌면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률도 흔들리고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 커지면 이점이 줄며, 복원 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 임계 경로에 걸리면 오히려 불리해질 수 있다. 그래서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "더 넓은 배선의 대체재"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성이 맞을 때 링크 효율을 증폭시키는 적응형 도구</strong>로 기억하는 편이 정확하다.
 
-앞으로는 워크로드별 적응형 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 선택, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 트래픽에 특화된 희소 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 링크용 초저지연 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)처럼 보다 세분화된 형태로 발전할 가능성이 크다. 결론적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 물리적 한계를 정면 돌파하는 기술이 아니라, **같은 도로를 더 똑똑하게 쓰게 만드는 표현 최적화 기술**이다.
+앞으로는 워크로드별 적응형 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 선택, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 트래픽에 특화된 희소 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 링크용 초저지연 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)처럼 보다 세분화된 형태로 발전할 가능성이 크다. 결론적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 인코딩은 물리적 한계를 정면 돌파하는 기술이 아니라, <strong>같은 도로를 더 똑똑하게 쓰게 만드는 표현 최적화 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 새로운 수도관을 묻는 공사가 아니라, 같은 수도관으로도 물을 더 효율적으로 보내는 압송 방식 개선과 같다.
 
@@ -158,24 +154,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 벽 · 핀 수 한계
-        │
-        ▼
-캐시 라인 기반 무손실 압축
-        │
-        ▼
-BDI · FPC · Zero Encoding
-        │
-        ▼
-GPU 프레임버퍼 · 메모리 링크 최적화
-        │
-        ▼
-적응형 인코더 선택 · 칩렛 링크 적용
-        │
-        ▼
-인공지능 희소 트래픽과 결합한 전송 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 벽 · 핀 수 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 라인 기반 무손실 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BDI · FPC · Zero Encoding</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU 프레임버퍼 · 메모리 링크 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 인코더 선택 · 칩렛 링크 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인공지능 희소 트래픽과 결합한 전송 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 단순한 한 가지 알고리즘이 아니라, 병목 구간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞춰 인코딩 방식을 고르는 방향으로 진화하고 있음을 보여 준다.
 

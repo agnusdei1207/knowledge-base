@@ -11,56 +11,51 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 원래 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4, NTFS)을 짜서 디스크를 굴리려면 OS의 코어인 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)' 을 직접 C언어로 코딩해서 재부팅해야 하는 무서운 헬게이트였다. **FUSE**는 이 철칙을 부수고, **"[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에는 딱 껍데기 통역기(FUSE [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 남겨둔 채 실제 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장하고 지우는 복잡한 로직'은 평범한 응용 프로그램(Userspace) 위에서 파이썬이나 자바로도 쉽게 짜게 해주는 아웃소싱 브릿지 렌더"** 다.
+> 1. **본질**: 원래 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4, NTFS)을 짜서 디스크를 굴리려면 OS의 코어인 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)' 을 직접 C언어로 코딩해서 재부팅해야 하는 무서운 헬게이트였다. <strong>FUSE</strong>는 이 철칙을 부수고, <strong>"<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>에는 딱 껍데기 통역기(FUSE <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)만 남겨둔 채 실제 '<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 저장하고 지우는 복잡한 로직'은 평범한 응용 프로그램(Userspace) 위에서 파이썬이나 자바로도 쉽게 짜게 해주는 아웃소싱 브릿지 렌더"</strong> 다.
 > 2. **가치**: 이 우주적 유연성 덕분에, 인터넷 어딘가에 있는 FTP나 구글 드라이브, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속 경로를 내가 만든 FUSE 프로그램으로 엮어버리면? 사용자 터미널에는 마치 내 PC에 꽂힌 C드라이브 폴더인 양 완벽히 **투명하게(Transparent 스왑) 속여서 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)($O(1)$ [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 뷰)** 시키는 위대한 클라우드-로컬 융합 스토리지 연동(SSHFS 등)을 탄생시켰다.
-> 3. **한계**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 읽으려면 유저 공간(앱) $\to$ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) $\to$ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) FUSE 브릿지 $\to$ 다시 유저 공간(FUSE 데몬)으로 시스템 스위칭([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 랙)을 무려 4번이나 왕복 진동해야 한다! 이 미친 **'유저-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스위칭 벽 통과(Ping-Pong) 오버헤드 늪'** 때문에 순정 ext4보다 I/O 스루풋 속도가 압도적으로 떨어지는 치명적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 딜레마를 안고 있다 결착.
+> 3. **한계**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 읽으려면 유저 공간(앱) $\to$ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) $\to$ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) FUSE 브릿지 $\to$ 다시 유저 공간(FUSE 데몬)으로 시스템 스위칭([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 랙)을 무려 4번이나 왕복 진동해야 한다! 이 미친 <strong>'유저-<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 스위칭 벽 통과(Ping-Pong) 오버헤드 늪'</strong> 때문에 순정 ext4보다 I/O 스루풋 속도가 압도적으로 떨어지는 치명적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 딜레마를 안고 있다 결착.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **전통적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 늪 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space의 폭군의 통치 파단)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 디스크 하드웨어 철판의 뇌관을 만진다. 그래서 무조건 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS 핵심부) 안에서만 놀아야 했고, 개발자가 코드 1줄을 수정하다 실수하면 컴퓨터 전체가 파란 화면([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 셧다운!)을 띄우며 마비되는 위험 천만 지대였다.
-  - **FUSE ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아웃소싱 탈주 빔!)**: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 로직을 유저(Userspace) 층으로 끌어올리자!" [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기(Open)" 를 누르면 그 요청 패킷을 유저 레벨에 떠 있는 백그라운드 앱(FUSE 데몬)에게 던지고 기다린다([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 록백). 데몬이 구글 드라이브에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운받아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저에게 다시 던져준다.
+  - <strong>전통적 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 늪 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Space의 폭군의 통치 파단)</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 디스크 하드웨어 철판의 뇌관을 만진다. 그래서 무조건 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS 핵심부) 안에서만 놀아야 했고, 개발자가 코드 1줄을 수정하다 실수하면 컴퓨터 전체가 파란 화면([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 셧다운!)을 띄우며 마비되는 위험 천만 지대였다.
+  - <strong>FUSE (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 아웃소싱 탈주 빔!)</strong>: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 로직을 유저(Userspace) 층으로 끌어올리자!" [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기(Open)" 를 누르면 그 요청 패킷을 유저 레벨에 떠 있는 백그라운드 앱(FUSE 데몬)에게 던지고 기다린다([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 록백). 데몬이 구글 드라이브에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운받아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저에게 다시 던져준다.
 - **필요성**: 세상의 모든 포맷(ZIP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안을 폴더처럼 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/), 구글 클라우드를 C드라이브처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 등)을 리눅스 창시자 리누스 토발즈가 다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 쑤셔 넣어줄 순 없다([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Bloat 데들락!). 일반 해커나 기업 개발자가 언제든 커스텀 스토리지 논리를 "안전하고 쉽게" [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)할 문법(Framework 인터페이스) 공간이 필연적으로 요구되었다 증명.
 
   - (일반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 늪): 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 요청하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(시청 직원)이 직접 시청 지하의 철제 금고(디스크 하드웨어)를 열고 종이를 꺼내옵니다. 빠르지만 시청 직원이 실수하면 시청 시스템 자체가 정지됩니다 핵폭발 에러!
   - **(FUSE 유저스페이스 둔갑 기전!)**: 똑똑한 시청은 **[심부름 창구(FUSE 브릿지 빔!)]** 만 열어둡니다! 고객이 서류를 요청하면 참구 직원은 지하로 안 가고, 바깥에 있는 외부 심부름꾼(유저 스페이스 데몬 프로그램!)에게 전화를 겁니다 스왑! "야! 밖에서(구글 클라우드든 남의 집이든) 종이 하나 복사해서 가져와!" 심부름꾼이 10분 뒤 가져오면 직원은 그걸 고객에게 넘겨줍니다. 시청([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 멍청해지지만, 전 세계 어디의 지식(Custom FS)이든 시청의 틀을 안 고치고 다 가져올 수 있는 환상의 융합(무결 투명성)입니다 결속!
 
-- **FUSE 패킷 핑퐁(Ping-Pong) [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 오버헤드 뷰**:
+- <strong>FUSE 패킷 핑퐁(Ping-Pong) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/">컨텍스트 스위칭</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 오버헤드 뷰</strong>:
 사용자가 명령어를 쳤을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 VFS와 유저 공간의 FUSE 데몬 사이에서 어떻게 요청이 하늘을 날아다니는지 그 렌더를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "유저: 파일 열어! -> 커널: FUSE 데몬아 열어줘! -> 데몬: 열었어! -> 커널: 유저야 여깄어!" │
-  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                                          │
-  │  🚨 [ 1. 사용자 앱 (Client: "cat /mnt/구글드라이브/file.txt" 얍! ) ]                                     │
-  │                                                                                                          │
-  │  ======= ( ⬇️ ① 시스템 콜 스위칭 장벽 통과 랙! ) =====================                                   │
-  │                                                                                                          │
-  │  ✅ [ 커널 공간 (Kernel Space 통치 록백) ]                                                               │
-  │      - VFS 봇: "오케이 파일 읽기다. 주소가... 앗? 이거 ext4가 아니라                                     │
-  │                FUSE 가짜 마운트네? 야 패킷(명령어) 싸서 위로 던져라 컷!"                                 │
-  │        => (/dev/fuse 브릿지 모듈을 통해 위로 토스 스루풋 폭발)                                           │
-  │                                                                                                          │
-  │  ======= ( ⬆️ ② 커널 -> 유저로 탈출 스위칭 록백!! ) ==================                                   │
-  │                                                                                                          │
-  │  🔥 [ 유저 공간 (User Space: 백그라운드 FUSE 데몬 봇 빔!) ]                                              │
-  │      - Google-Drive-FS 데몬 (파이썬/C 작성):                                                             │
-  │        "커널한테 패킷 왔다! 인터넷 API 때려서 구글 서버에서 파일 다운받아!"                              │
-  │      - 1초 뒤 다 받음: "커널아 다 받았어, 여기 데이터! (결과 리턴)"                                      │
-  │                                                                                                          │
-  │  ======= ( ⬇️ ③ 유저 -> 커널로 재진입 스위치 연산 늪!! ) ==============                                  │
-  │                                                                                                          │
-  │  ✅ [ 커널 공간 다시 입성 VFS 렌더 ]                                                                     │
-  │      - VFS: "답장 왔네! 자, 대기하던 클라이언트 앱아 가져가라!"                                          │
-  │                                                                                                          │
-  │  ======= ( ⬆️ ④ 커널 -> 사용자 앱 최종 통달!! ) =====================                                    │
-  └──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 일반 ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 `유저 앱 -> 커널 VFS -> 하드디스크 읽기 -> 끝` 이다(장벽 1번 왕복). 그런데 FUSE 기반 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 이 망할 놈의 **[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-User 공간의 장벽([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** 을 무려 4번이나 처뚫고 지나가야 한다. 메모리 블록을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 배열로 카피(Copy_to_user 병목)해야 하니 속도가 미친 듯이 떨어질 수밖에 없다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 파단 I/O [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)). 이 미친 오버헤드를 극복하기 위해서라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 FUSE 모듈은 536장의 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 풀([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 빔)을 기생적으로 빨아먹어 "두 번 다시 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 핑퐁 하지 않기" 전략으로 살아남고 있다 도출 증명.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"유저: 파일 열어! -&gt; 커널: FUSE 데몬아 열어줘! -&gt; 데몬: 열었어! -&gt; 커널: 유저야 여깄어!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">1. 사용자 앱 (Client: "cat /mnt/구글드라이브/file.txt" 얍! )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( ⬇️ ① 시스템 콜 스위칭 장벽 통과 랙! ) =====================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">커널 공간 (Kernel Space 통치 록백)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VFS 봇: "오케이 파일 읽기다. 주소가... 앗? 이거 ext4가 아니라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FUSE 가짜 마운트네? 야 패킷(명령어) 싸서 위로 던져라 컷!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (/dev/fuse 브릿지 모듈을 통해 위로 토스 스루풋 폭발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( ⬆️ ② 커널 -&gt; 유저로 탈출 스위칭 록백!! ) ==================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">유저 공간 (User Space: 백그라운드 FUSE 데몬 봇 빔!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Google-Drive-FS 데몬 (파이썬/C 작성):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"커널한테 패킷 왔다! 인터넷 API 때려서 구글 서버에서 파일 다운받아!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1초 뒤 다 받음: "커널아 다 받았어, 여기 데이터! (결과 리턴)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( ⬇️ ③ 유저 -&gt; 커널로 재진입 스위치 연산 늪!! ) ==============</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">커널 공간 다시 입성 VFS 렌더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VFS: "답장 왔네! 자, 대기하던 클라이언트 앱아 가져가라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( ⬆️ ④ 커널 -&gt; 사용자 앱 최종 통달!! ) =====================</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 일반 ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 `유저 앱 -> 커널 VFS -> 하드디스크 읽기 -> 끝` 이다(장벽 1번 왕복). 그런데 FUSE 기반 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 이 망할 놈의 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-User 공간의 장벽(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> 을 무려 4번이나 처뚫고 지나가야 한다. 메모리 블록을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 배열로 카피(Copy_to_user 병목)해야 하니 속도가 미친 듯이 떨어질 수밖에 없다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 파단 I/O [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)). 이 미친 오버헤드를 극복하기 위해서라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 FUSE 모듈은 536장의 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 풀([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 빔)을 기생적으로 빨아먹어 "두 번 다시 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 핑퐁 하지 않기" 전략으로 살아남고 있다 도출 증명.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -73,18 +68,18 @@ tags = ["studynote-operating-system"]
 
 | 아키텍처 기준 뷰 | 순정 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (ext4, XFS 등) | ✨ FUSE (SSHFS, NTFS-3G 등 록백) |
 |:---|:---|:---|
-| **개발 난이도 및 안정성(Crash 늪)** | 개발하기 극도로 어렵고 1글자 실수 시 **서버 전체를 파란 화면으로 죽여버림([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 터짐).** | 일반 앱처럼 Python, C로 짜면 되고, **나 혼자 에러 나고 죽어도 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 아무 타격 없이 무사함 100% 방패.** |
-| **디스크 I/O 속도 레이턴시 스로틀** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에서 디스크 C드라이브를 다이렉트로 때리므로 **빛의 속도 $O(1)$ 무중단 스루풋!** | 유저-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 4번 왕복(Ping-Pong)하는 **[Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 대폭발로 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 최악 3배 느려짐 파단.** |
-| **적용 타겟 (Best Use Case) 빔** | DB 서버, 루트 OS 디스크 등 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)/안전 불멸의 로컬 하드 스토리지.** | **네트워크 드라이브([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)/클라우드 매핑), 가짜 가상 폴더(ZIP/TAR 속 엿보기)** 등 아이디어 중심의 렌더링 폴더 통치. |
+| **개발 난이도 및 안정성(Crash 늪)** | 개발하기 극도로 어렵고 1글자 실수 시 <strong>서버 전체를 파란 화면으로 죽여버림(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 터짐).</strong> | 일반 앱처럼 Python, C로 짜면 되고, <strong>나 혼자 에러 나고 죽어도 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>은 아무 타격 없이 무사함 100% 방패.</strong> |
+| **디스크 I/O 속도 레이턴시 스로틀** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에서 디스크 C드라이브를 다이렉트로 때리므로 **빛의 속도 $O(1)$ 무중단 스루풋!** | 유저-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 4번 왕복(Ping-Pong)하는 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> 대폭발로 속도(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)가 최악 3배 느려짐 파단.</strong> |
+| **적용 타겟 (Best Use Case) 빔** | DB 서버, 루트 OS 디스크 등 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>/안전 불멸의 로컬 하드 스토리지.</strong> | <strong>네트워크 드라이브(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a>/클라우드 매핑), 가짜 가상 폴더(ZIP/TAR 속 엿보기)</strong> 등 아이디어 중심의 렌더링 폴더 통치. |
 
 ### 2. 치명적 오버헤드 폭발: NTFS-3G 의 눈물과 리눅스 윈도우 스토리지 융합의 한계
 가장 유명한 FUSE의 성공작이자 딜레마. 리눅스에서 윈도우용 외장 하드(NTFS)를 읽고 쓰려다 터진 CPU 오버헤드 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (리눅스에서 윈도우 NTFS 꽂기 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (리눅스에서 윈도우 NTFS 꽂기 데들락 랙)</strong>: 
   - (태생적 충돌 늪 스왑): 윈도우가 만든 NTFS(545장)는 마이크로소프트의 극비(Closed-source)다. 리눅스 개발자들은 정확한 소스를 모르니 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 완벽한 NTFS 엔진을 박아 넣을 수가 없었다.
-  - (FUSE 임시 땜빵 발동!): 천재 개발자들이 리버스 엔지니어링으로 "유저 공간 위에서 도는 NTFS 해석기" 인 **`NTFS-3G` (이게 바로 FUSE의 대표주자 빔!)** 를 짰다. 
+  - (FUSE 임시 땜빵 발동!): 천재 개발자들이 리버스 엔지니어링으로 "유저 공간 위에서 도는 NTFS 해석기" 인 <strong><code>NTFS-3G</code> (이게 바로 FUSE의 대표주자 빔!)</strong> 를 짰다. 
   - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭쇄 결과: 리눅스 유저가 윈도우 외장 하드에 10GB 영화를 복사하려 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 10GB를 전부 유저 공간에 띄워 둔 `ntfs-3g` 데몬한테 핑퐁(Ping-Pong 패킷 왕복 발싸!) 스위칭으로 쏴줘야 한다. 덕분에 10GB 복사하는 데 CPU 점유율이 100% 솟구치고 시간은 3배나 더 걸리는(퍼포먼스 아작 프리징 늪) 엄청난 트레이드오프 파단을 전 세계 리눅스 사용자가 수십 년간 겪어왔다 증명.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (`Paragon NTFS` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 직접 합류 록백!!) / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 본진 스왑**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>Paragon NTFS</code> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 직접 합류 록백!!) / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 본진 스왑</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 종말의 선고: 결국 이 FUSE 핑퐁 속도 병목을 못 견딘 리눅스 진영은 최근 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(5.15) 버전에 이르러 아예 Paragon [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 만든 순정 "In-[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) NTFS3 엔진" 코드를 뱃속에 직접 박아 넣어버렸다. 
   - 하지만 여전히 FUSE의 가치는 클라우드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(S3, G-Drive) 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 절대 알 수 없는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 외부 세계망 스토리지를 폴더로 둔갑시키는 영역에서는 $O(1)$의 무적 통치 패권을 영원히 지배하고 있다 보장 록.
 
@@ -97,10 +92,10 @@ tags = ["studynote-operating-system"]
 ### [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 프로토콜만 열려있는데 그 서버의 하드디스크를 내 폴더처럼 탐색기에서 더블클릭하는 무결 마스킹 뷰
 NFS나 Samba를 구축하려면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 열고 데몬 깔고 난리를 쳐야 하는데, FUSE의 걸작 `SSHFS` 가 낳은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 스왑 편의성의 극치를 뚫는다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 뚫기 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 멸망 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/">NFS</a> 뚫기 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a> 멸망 파단 랙)</strong>: 
   - SRE가 서버 10대의 `/var/log` [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 폴더를 자기 랩탑 1곳에 모아서 탐색기로 읽고 싶다. 
   - 구식 방법: 서버 10대마다 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/)(543장) 서버 깔고, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(2049) 10개 열고, 복잡한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 달다가 해커에게 오픈되어 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 털리는 보안 셧다운 무정지 파단 발생 뷰.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (SSHFS 퓨즈 원클릭 투명성 렌더!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (SSHFS 퓨즈 원클릭 투명성 렌더!)</strong>: 
   - 갓기능 FUSE 발사!: 유저의 랩탑에 `sshfs` 데몬(FUSE 기반)만 깐다. `sshfs root@server1:/var/log /mnt/log1` 엔터 딱 한 방!
   - 록백 기전 스왑: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저가 `/mnt/log1` 에 들어갈 때마다, 백그라운드의 SSHFS 데몬에게 "야 목록 가져와" 던진다. 데몬은 그 유명하고 안전한 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(22번 암호화 터널 통치 빔!)를 타고 원격 서버에 접속해 글자를 긁어다 마법처럼 되돌려준다. 
   - 결과적으로 보안 엔지니어는 위험한 공유 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 1개도 뚫지 않고도, 서버 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 자기 PC의 로컬 탐색창으로 완전히 투명 병합(Illusion 둔갑) 시켜 다루는 궁극의 보안 클라우드 렌더를 완성했다 증명.
@@ -138,15 +133,19 @@ FUSE (Filesystem in Userspace)은 [파일](/knowledge-base/studynote/02_operatin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
-    │
-    ▼
-[FUSE (Filesystem in Userspace)]
-    │
-    ├──▶ [백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
-    └──▶ [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FUSE (Filesystem in Userspace)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

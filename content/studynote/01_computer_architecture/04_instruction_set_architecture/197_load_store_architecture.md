@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-로드/스토어 아키텍처는 메모리에서 값을 가져오는 일과 계산하는 일을 분리한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조다. 즉 `A = B + C`를 계산할 때도 먼저 `LOAD`로 값을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올리고, 그다음 `ADD` 같은 연산 명령이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)끼리만 계산하며, 마지막에 `STORE`로 결과를 메모리에 기록한다. 이 구조의 핵심은 **느린 메모리 통신을 계산기 내부에서 직접 처리하지 않게 만드는 것**이다.
+로드/스토어 아키텍처는 메모리에서 값을 가져오는 일과 계산하는 일을 분리한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조다. 즉 `A = B + C`를 계산할 때도 먼저 `LOAD`로 값을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올리고, 그다음 `ADD` 같은 연산 명령이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)끼리만 계산하며, 마지막에 `STORE`로 결과를 메모리에 기록한다. 이 구조의 핵심은 <strong>느린 메모리 통신을 계산기 내부에서 직접 처리하지 않게 만드는 것</strong>이다.
 
 이런 방식이 필요해진 이유는 메모리 접근 시간과 코어 내부 연산 속도의 차이가 매우 크기 때문이다. 중앙처리장치인 CPU (Central Processing Unit) 내부의 산술논리장치 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 한두 클럭 안에 덧셈을 끝낼 수 있지만, 캐시 미스가 난 메모리 접근은 수십~수백 클럭이 걸릴 수 있다. 만약 하나의 산술 명령이 메모리를 직접 읽고 쓰게 허용하면, 파이프라인은 가장 느린 메모리 응답에 맞춰 흔들리게 된다.
 
-로드/스토어 철학은 특히 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열에서 강하게 채택되었다. 이는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)의 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나로 많은 일을 하자"는 접근보다, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순하게 하고 여러 개를 빠르고 규칙적으로 흘리자"는 판단에 가깝다. 결국 이 구조는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 줄이는 것이 아니라, **하드웨어가 예측하기 쉬운 형태로 일을 쪼개는 것**에 목적이 있다.
+로드/스토어 철학은 특히 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열에서 강하게 채택되었다. 이는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)의 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나로 많은 일을 하자"는 접근보다, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순하게 하고 여러 개를 빠르고 규칙적으로 흘리자"는 판단에 가깝다. 결국 이 구조는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 줄이는 것이 아니라, <strong>하드웨어가 예측하기 쉬운 형태로 일을 쪼개는 것</strong>에 목적이 있다.
 
 - **📢 섹션 요약 비유**: 로드/스토어 구조는 요리사가 직접 창고에 뛰어가지 않게 하고, 보조가 재료를 미리 도마 위에 올려두는 주방 운영과 같다. 요리사는 요리만, 보조는 운반만 맡을 때 주방 전체 흐름이 끊기지 않는다.
 
@@ -31,29 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-로드/스토어 아키텍처의 핵심은 **연산 경로와 메모리 경로를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 분리**하는 데 있다. 연산 명령은 [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) (General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))만 읽고 쓰며, 메모리 접근은 로드/스토어 유닛인 LSU (Load-Store Unit)가 전담한다. 이 덕분에 파이프라인은 "연산은 빠르다, 메모리는 느릴 수 있다"는 사실을 구조적으로 다룰 수 있다.
+로드/스토어 아키텍처의 핵심은 <strong>연산 경로와 메모리 경로를 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 분리</strong>하는 데 있다. 연산 명령은 [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) (General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))만 읽고 쓰며, 메모리 접근은 로드/스토어 유닛인 LSU (Load-Store Unit)가 전담한다. 이 덕분에 파이프라인은 "연산은 빠르다, 메모리는 느릴 수 있다"는 사실을 구조적으로 다룰 수 있다.
 
 아래 그림은 동일한 계산을 로드/스토어 방식으로 처리할 때, 어느 단계에서 메모리를 만나고 어느 단계에서 순수 연산이 일어나는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업     │
-├──────────────────────────────────────────────────────────────────────┤
-│ 목표: C = A + B                                                     │
-│                                                                      │
-│ 1) LOAD  R1, [A]   ──▶ 메모리에서 A를 읽어 R1에 적재                │
-│ 2) LOAD  R2, [B]   ──▶ 메모리에서 B를 읽어 R2에 적재                │
-│ 3) ADD   R3, R1, R2 ─▶ ALU가 레지스터 R1, R2만 사용해 계산          │
-│ 4) STORE [C], R3   ──▶ 계산 결과 R3를 메모리 C에 저장               │
-│                                                                      │
-│ 분리 효과                                                            │
-│  ┌──────────────┐        ┌──────────────┐                            │
-│  │ 메모리 경로  │        │ 연산 경로    │                            │
-│  │ LOAD/STORE   │        │ ADD/SUB/AND  │                            │
-│  │ 주소 계산    │        │ 레지스터 연산 │                            │
-│  └──────────────┘        └──────────────┘                            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: C = A + B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1) LOAD R1,</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메모리에서 A를 읽어 R1에 적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2) LOAD R2,</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메모리에서 B를 읽어 R2에 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) ADD R3, R1, R2 ─▶ ALU가 레지스터 R1, R2만 사용해 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4) STORE</div><div class="kb-diagram-node">C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">계산 결과 R3를 메모리 C에 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 경로</div><div class="kb-diagram-cell">연산 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOAD/STORE</div><div class="kb-diagram-cell">ADD/SUB/AND</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 계산</div><div class="kb-diagram-cell">레지스터 연산</div></div>
+</div>
+</div>
+
+
 
 이 구조가 중요한 이유는 파이프라인 단계별 책임이 선명해지기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 해독 뒤에 메모리 접근이 필요한 명령만 LSU를 거치고, 일반 연산은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 안에서 빠르게 끝난다. 덕분에 하드웨어는 포워딩 (Forwarding), [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO), 로드/스토어 큐 같은 기법을 체계적으로 붙일 수 있다.
 
@@ -82,23 +81,25 @@ tags = ["studynote-computer-architecture"]
 | 파이프라인 예측 가능성 | 낮아지기 쉬움 | 높아지기 쉬움 |
 | 컴파일러 역할 | 상대적으로 작음 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당·스케줄링이 중요 |
 
-이 차이는 단순히 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 취향 차이가 아니라, **복잡성을 어디에 둘 것인가**의 문제다. 로드/스토어 구조는 하드웨어 제어를 단순하게 하는 대신, 컴파일러가 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당과 명령 재배치를 더 잘해야 한다. 그래서 이 구조는 컴파일러, 캐시, [파이프라인 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/221_pipeline_hazards/), 분기 예측과 자연스럽게 연결된다.
+이 차이는 단순히 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 취향 차이가 아니라, <strong>복잡성을 어디에 둘 것인가</strong>의 문제다. 로드/스토어 구조는 하드웨어 제어를 단순하게 하는 대신, 컴파일러가 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당과 명령 재배치를 더 잘해야 한다. 그래서 이 구조는 컴파일러, 캐시, [파이프라인 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/221_pipeline_hazards/), 분기 예측과 자연스럽게 연결된다.
 
-특히 현대 x86도 내부적으로는 복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 명령을 잘게 쪼개 마이크로 연산으로 바꿔 실행한다. 이는 외부 ISA는 달라도, **고성능 실행 엔진 내부는 결국 로드/스토어에 가까운 분해된 형태를 선호한다**는 뜻이다. 따라서 로드/스토어는 특정 진영의 문법이 아니라, 현대 고성능 프로세서가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻는 방향을 보여주는 기준선으로 볼 수 있다.
+특히 현대 x86도 내부적으로는 복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 명령을 잘게 쪼개 마이크로 연산으로 바꿔 실행한다. 이는 외부 ISA는 달라도, <strong>고성능 실행 엔진 내부는 결국 로드/스토어에 가까운 분해된 형태를 선호한다</strong>는 뜻이다. 따라서 로드/스토어는 특정 진영의 문법이 아니라, 현대 고성능 프로세서가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻는 방향을 보여주는 기준선으로 볼 수 있다.
 
-```text
-복합 명령 축소
-    │
-    ├─ CISC 외부 명령 ─▶ 내부 마이크로 연산 분해
-    │
-    └─ RISC 명령      ─▶ 처음부터 Load/Store 분리
-                          │
-                          ▼
-                파이프라인 예측 가능성 향상
-                          │
-                          ▼
-                 슈퍼스칼라·OoO 확장 용이
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">복합 명령 축소</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CISC 외부 명령 ─▶ 내부 마이크로 연산 분해</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RISC 명령 ─▶ 처음부터 Load/Store 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 예측 가능성 향상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈퍼스칼라·OoO 확장 용이</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 한 사람이 운전도 하고 짐도 싣고 계산도 하는 가게보다, 배송·정산·조립을 역할별로 나눈 가게가 커질수록 유리하다. 처음엔 번거로워 보여도 규모가 커질수록 분업의 이익이 커진다.
 
@@ -117,10 +118,10 @@ tags = ["studynote-computer-architecture"]
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **로드 직후 즉시 사용을 반복하는 코드 배치**: `LOAD` 다음 줄마다 바로 의존 연산을 두면 파이프라인이 자주 멈춘다.
-- **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족을 무시한 과도한 임시값 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 소스 수준 표현은 간단해 보여도 실제로는 스필이 늘어 메모리 접근이 폭증할 수 있다.
-- **[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) 없이 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 제어하는 코드**: 순서 보장이 필요한 구간에서 배리어가 빠지면 MMIO 동작과 멀티코어 가시성 문제가 생길 수 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 부족을 무시한 과도한 임시값 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 소스 수준 표현은 간단해 보여도 실제로는 스필이 늘어 메모리 접근이 폭증할 수 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a> 없이 장치 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>를 제어하는 코드</strong>: 순서 보장이 필요한 구간에서 배리어가 빠지면 MMIO 동작과 멀티코어 가시성 문제가 생길 수 있다.
 
-기술사 관점에서의 핵심 문장은 명확하다. **로드/스토어 아키텍처는 메모리 병목을 없애는 구조가 아니라, 메모리 병목의 위치를 분리하고 제어 가능하게 만드는 구조**다. 따라서 채택 여부는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 적은가"가 아니라, "예측 가능성과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능성을 얼마나 높일 수 있는가"로 판단해야 한다.
+기술사 관점에서의 핵심 문장은 명확하다. <strong>로드/스토어 아키텍처는 메모리 병목을 없애는 구조가 아니라, 메모리 병목의 위치를 분리하고 제어 가능하게 만드는 구조</strong>다. 따라서 채택 여부는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 적은가"가 아니라, "예측 가능성과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능성을 얼마나 높일 수 있는가"로 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 이 구조를 잘 쓰는 것은 택배 상자를 많이 옮기지 않는 것이 아니라, 어느 차선이 배송용이고 어느 차선이 작업용인지 분명히 나누는 일과 같다. 차선을 나누면 정체를 없애지는 못해도 관리와 우회가 쉬워진다.
 
@@ -132,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 대가도 있다. 같은 작업을 더 많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 표현해야 하므로 코드 크기가 커질 수 있고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 부족하면 오히려 메모리 접근이 늘어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다. 그래서 현대 로드/스토어 계열은 더 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 강한 컴파일러, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 정교한 캐시 계층을 함께 발전시켜 왔다.
 
-결론적으로 로드/스토어 아키텍처는 "메모리를 덜 쓰는 구조"가 아니라 **"메모리 접근을 드러내는 구조"**로 기억하는 것이 정확하다. 이 노출 덕분에 하드웨어와 컴파일러는 병목을 숨기지 않고 정면으로 최적화할 수 있었고, 그 결과가 오늘날 ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine), [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer Five), [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) ([Microprocessor](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) without Interlocked [Pipeline Stages](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)) 계열의 기본 설계 철학으로 이어졌다.
+결론적으로 로드/스토어 아키텍처는 "메모리를 덜 쓰는 구조"가 아니라 <strong>"메모리 접근을 드러내는 구조"</strong>로 기억하는 것이 정확하다. 이 노출 덕분에 하드웨어와 컴파일러는 병목을 숨기지 않고 정면으로 최적화할 수 있었고, 그 결과가 오늘날 ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine), [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer Five), [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) ([Microprocessor](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) without Interlocked [Pipeline Stages](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)) 계열의 기본 설계 철학으로 이어졌다.
 
 - **📢 섹션 요약 비유**: 좋은 로드/스토어 구조는 문제를 감추는 마술이 아니라, 배관을 벽 밖으로 빼서 어디가 막히는지 바로 보이게 하는 설계와 같다. 배관이 보이면 고치기 쉽고, 확장도 쉬워진다.
 
@@ -150,24 +151,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-누산기·메모리 직접 연산 중심 구조
-    │
-    ▼
-레지스터 활용 확대
-    │
-    ▼
-로드/스토어 아키텍처 정착
-    │
-    ├─ 파이프라인 최적화
-    ├─ 슈퍼스칼라 확장
-    ├─ 비순차 실행 (OoO)
-    ▼
-ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline Stages) · RISC-V (Reduced Instruction Set Computer Five)
-    │
-    ▼
-압축 명령어 · 정교한 컴파일러 · 메모리 모델 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">누산기·메모리 직접 연산 중심 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 활용 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로드/스토어 아키텍처 정착</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파이프라인 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">슈퍼스칼라 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">비순차 실행 (OoO)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline Stages) · RISC-V (Reduced Instruction Set Computer Five)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">압축 명령어 · 정교한 컴파일러 · 메모리 모델 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "메모리를 직접 만지는 편의성"에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 위한 구조적 분리"로 중심축이 이동한 과정을 보여준다.
 

@@ -11,30 +11,27 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))은 학습 시 각 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p로 무작위로 비활성화하여 신경망 과적합을 방지하는 [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이다. 매 미니배치마다 다른 서브 네트워크를 학습하여 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 효과를 낸다.
-> 2. **가치**: L1/L2 규제화와 달리 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 **암묵적 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)**을 통해 일반화한다. p=0.5 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 2^n개의 서로 다른 서브 네트워크를 학습하는 효과를 낸다. 추론 시에는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)을 끄고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하여 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 평균을 근사한다.
+> 2. **가치**: L1/L2 규제화와 달리 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 <strong>암묵적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>을 통해 일반화한다. p=0.5 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 2^n개의 서로 다른 서브 네트워크를 학습하는 효과를 낸다. 추론 시에는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)을 끄고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하여 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 평균을 근사한다.
 > 3. **판단 포인트**: 현대 딥러닝에서 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 사용 패턴이 변화했다. [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)·Vision Transformer에서는 [Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)·Layer Normalization이 규제 역할을 대신해서 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)을 생략하는 경우가 많다. Transformer에서는 Attention Dropout과 FFN Dropout이 표준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              드롭아웃 동작 원리                            │
-├──────────────────────────────────────────────────────────┤
-│  학습 시:                      추론 시:                   │
-│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
-│  │1│→  │X│ → │3│              │1│→  │2│ → │3│          │
-│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
-│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
-│  │X│→  │2│ → │X│     →         │4│→  │2│ → │6│          │
-│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
-│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
-│  │3│→  │X│ → │6│              │3│→  │5│ → │6│          │
-│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
-│  X = 비활성화된 뉴런          모든 뉴런 활성 + (1-p)배    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드롭아웃 동작 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 시: 추론 시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X = 비활성화된 뉴런 모든 뉴런 활성 + (1-p)배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 훈련에서 일부를 랜덤으로 빠지게 하는 것이다. 매 훈련마다 다른 조합의 팀원이 참여하면, 모든 선수가 어떤 조합에서도 잘 플레이할 수 있게 된다 — 과의존을 방지하고 각자가 독립적으로 강해진다.
 
@@ -86,20 +83,24 @@ tags = ["studynote-ai"]
 
 ### 현대 딥러닝에서 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 활용
 
-```text
-ResNet (CNN):
-  Batch Normalization으로 규제 → Dropout 미사용
 
-GPT/BERT (Transformer):
-  Attention Dropout: 어텐션 가중치에 p=0.1 적용
-  FFN Dropout: 피드포워드 레이어에 p=0.1 적용
-  임베딩 Dropout: 토큰 임베딩에 p=0.1 적용
 
-MC Dropout (예측 불확실성):
-  추론 시에도 Dropout 활성화
-  여러 번 예측 → 분산으로 불확실성 추정
-  베이지안 신경망 근사
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ResNet (CNN):</div>
+<div class="kb-diagram-note">Batch Normalization으로 규제 → Dropout 미사용</div>
+<div class="kb-diagram-note">GPT/BERT (Transformer):</div>
+<div class="kb-diagram-note">Attention Dropout: 어텐션 가중치에 p=0.1 적용</div>
+<div class="kb-diagram-note">FFN Dropout: 피드포워드 레이어에 p=0.1 적용</div>
+<div class="kb-diagram-note">임베딩 Dropout: 토큰 임베딩에 p=0.1 적용</div>
+<div class="kb-diagram-note">MC Dropout (예측 불확실성):</div>
+<div class="kb-diagram-note">추론 시에도 Dropout 활성화</div>
+<div class="kb-diagram-note">여러 번 예측 → 분산으로 불확실성 추정</div>
+<div class="kb-diagram-note">베이지안 신경망 근사</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 불확실성 추정은 의사의 두 번째 소견이다. 같은 환자를 여러 번 다른 팀(랜덤 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/))이 진단해서 의견이 일치하면 확실, 의견이 분분하면 불확실 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 자기 확신도를 측정한다.
 
@@ -123,29 +124,31 @@ MC Dropout (예측 불확실성):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)** | [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)의 암묵적 효과 |
-| **[Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)** | 현대 CNN의 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 대안 |
-| **MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** | 불확실성 추정 응용 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong> | [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)의 암묵적 효과 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a></strong> | 현대 CNN의 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 대안 |
+| <strong>MC <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> | 불확실성 추정 응용 |
 | **과적합** | [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)이 해결하는 핵심 문제 |
-| **Inverted [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** | 현대 구현 표준 |
+| <strong>Inverted <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> | 현대 구현 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[과적합 문제 — 훈련 데이터 암기]
-    │
-    ▼
-[드롭아웃 (2014) — 랜덤 뉴런 비활성화, 암묵적 앙상블]
-    │
-    ▼
-[Batch Normalization — CNN에서 드롭아웃 역할 대체]
-    │
-    ▼
-[Transformer Dropout — Attention·FFN에 낮은 비율 적용]
-    │
-    ▼
-[MC Dropout — 추론 시 불확실성 정량화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 문제 — 훈련 데이터 암기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드롭아웃 (2014) — 랜덤 뉴런 비활성화, 암묵적 앙상블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Batch Normalization — CNN에서 드롭아웃 역할 대체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer Dropout — Attention·FFN에 낮은 비율 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MC Dropout — 추론 시 불확실성 정량화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

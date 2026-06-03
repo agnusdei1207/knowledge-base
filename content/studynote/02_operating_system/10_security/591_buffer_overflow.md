@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: C언어나 C++ 로 짠 프로그램은 메모리(버퍼) 의 끝을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는 멍청한 함수(`strcpy`, `gets`) 를 쓴다. 해커가 10칸짜리 버퍼에 100글자를 강제로 밀어 넣으면, 그 넘쳐흐른 글자([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 빔!) 들이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리의 핵심 제어판인 **복귀 주소(RET, Return Address) 를 조작된 16진수로 덮어버려 프로그램의 실행 흐름을 통째로 훔치는(Hijacking)** 소프트웨어 파괴의 근원이다.
-> 2. **가치**: 이 **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 스매싱([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Smashing 빔)** 한 방 덕분에, 전 세계 해커들은 관리자(Root) 권한으로 돌고 있는 웹 서버 프로그램에 악성 페이로드(Payload) 를 밀어 넣어, 원래 서버가 할 일(웹페이지 보여주기) 대신 해커가 원하는 짓(루트 쉘 /bin/sh 강제 소환) 을 $O(1)$ 즉시 수행하게 만드는 메모리 익스플로잇 생태계를 이륙시켰다 포팅.
+> 2. **가치**: 이 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 스매싱(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Smashing 빔)</strong> 한 방 덕분에, 전 세계 해커들은 관리자(Root) 권한으로 돌고 있는 웹 서버 프로그램에 악성 페이로드(Payload) 를 밀어 넣어, 원래 서버가 할 일(웹페이지 보여주기) 대신 해커가 원하는 짓(루트 쉘 /bin/sh 강제 소환) 을 $O(1)$ 즉시 수행하게 만드는 메모리 익스플로잇 생태계를 이륙시켰다 포팅.
 > 3. **한계**: 가장 끔찍한 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 기법 앞의 무력화 딜레마. 옛날에는 주소만 맞추면 다 털렸지만, 오늘날 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)들이 594장 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)(주소 막 섞기), 593장 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/NX([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 실행 불가), 595장 [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)(보초병 세우기) 같은 우주방어 3대장을 깔아버리는 바람에, [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 자체는 터져도 쉘로 이어지지 못하고 단순 앱 크래시([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault 종료) 수렁으로 떨어져 해커의 머리를 아프게 하고 있다 결착.
 
 ---
@@ -21,40 +21,37 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **C언어의 방관과 파단 늪 (경계선 검사 부재 파단)**: 파이썬이나 자바는 배열이 10칸인데 11번째 글자를 넣으려 하면 OS 가 `IndexOutOfBoundsException` 을 던지며 강제 종료시킨다. 하지만 C/C++ 은 극한의 퍼포먼스를 위해 그딴 경계선 검사 패킷을 생략했다. 10칸짜리에 100칸을 부으면 그냥 버퍼(물컵) 를 넘어서 옆 메모리를 쭉쭉 덮어써 버리는 무뇌적 참사.
-  - **Buffer [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 통달 (리턴 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 감염 빔!)**: 해커가 이 멍청함을 노린다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 이라는 메모리 공간에는 지역변수(버퍼) 바로 뒤에 함수가 끝난 후 '돌아갈 집 주소(Return Address)' 가 붙어있다! 해커가 오물(A 글자 100개) 을 부어서 이 집 주소 영역까지 넘치게 만든 다음, 그 주소 자리에 해커가 조작한 악성코드 메모리 주소를 덮어 써버리면, CPU 가 함수 종료 후 집으로 안 가고 지옥(해커 서버) 으로 점프(JMP) 해버리는 압살 조율이다 컷 스왑.
+  - <strong>Buffer <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a> 통달 (리턴 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 감염 빔!)</strong>: 해커가 이 멍청함을 노린다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 이라는 메모리 공간에는 지역변수(버퍼) 바로 뒤에 함수가 끝난 후 '돌아갈 집 주소(Return Address)' 가 붙어있다! 해커가 오물(A 글자 100개) 을 부어서 이 집 주소 영역까지 넘치게 만든 다음, 그 주소 자리에 해커가 조작한 악성코드 메모리 주소를 덮어 써버리면, CPU 가 함수 종료 후 집으로 안 가고 지옥(해커 서버) 으로 점프(JMP) 해버리는 압살 조율이다 컷 스왑.
 - **필요성**: 1988년 인터넷 전체를 마비시킨 모리스 웜(Morris [Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) 부터 오늘날 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 해킹까지, 수만 줄의 소스코드 중 단 1줄의 `strcpy` 오타만 있어도 전체 시스템(System Authority) 이 넘어가 버린다. 소프트웨어가 외부 입력값을 100% 믿을 수 없게 만들며 "[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))" 이라는 프로그래머의 1번 수칙이 21세기에 필연적으로 멱살 부합 요구되었다 증명 록보장.
 
   - (정상 렌더링 늪): 함수(`foo()`) 가 시작될 때, 나중에 끝날 때 대비해 '집 주소(RET 10번지)' 를 칠판에 적어놓습니다. 일이 끝나면 CPU 는 "아하 10번지로 가자" 하고 안전하게 퇴근합니다 멸망 에러!
-  - **(Buffer [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 메모리 침범 기전!)**: 똑똑한 해커가 함수 변수(물컵 버퍼) 에 너무 긴 이름을 입력합니다 스왑! 이름 글자들이 컵 밖으로 줄줄 넘쳐흘러([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 빔!) 아까 적어둔 칠판의 [집 주소 10번지] 를 지워버리고 **[해커의 아지트 주소 99번지]** 로 글자를 덮어써 버립니다! CPU 는 아무것도 모르고 퇴근할 때 "어라 99번지로 가라네?" 하고 0.1초 만에 해커의 악성코드 소굴로 뛰어들어가는 무적 통달 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 완성합니다 결속!
+  - <strong>(Buffer <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a> 메모리 침범 기전!)</strong>: 똑똑한 해커가 함수 변수(물컵 버퍼) 에 너무 긴 이름을 입력합니다 스왑! 이름 글자들이 컵 밖으로 줄줄 넘쳐흘러([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 빔!) 아까 적어둔 칠판의 [집 주소 10번지] 를 지워버리고 **[해커의 아지트 주소 99번지]** 로 글자를 덮어써 버립니다! CPU 는 아무것도 모르고 퇴근할 때 "어라 99번지로 가라네?" 하고 0.1초 만에 해커의 악성코드 소굴로 뛰어들어가는 무적 통달 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 완성합니다 결속!
 
-- **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Layout) 가 파괴되며 복귀 주소(EIP/[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)) 가 감염되는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭쇄 뷰**:
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 메모리(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Layout) 가 파괴되며 복귀 주소(EIP/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>) 가 감염되는 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 해커의 페이로드가 어떻게 로컬 변수 버퍼부터 EBP 와 RET 영역까지 쓰나미처럼 덮고 가는지 까보면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "물(버퍼) 이 넘쳐서 댐(EBP) 을 부수고, 마을(RET) 을 익사시켰다!"          │
-  ├───────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                           │
-  │  🚨 [ 1. 정상적인 함수 호출 시 스택(Stack) 메모리 상태 ]                                  │
-  │     |  지역 변수 (Buffer) 10 Bytes     |  EBP (Base Pointer) | RET (Return 집주소) |      │
-  │     | [H][i][\0][ ][ ][ ][ ][ ][ ][ ] | [기존 변수 저장 공간]  | [0x08048420]      |      │
-  │     ( ↑ 여기서 위로 물이 채워짐 )                                                         │
-  │                                                                                           │
-  │  =========================▼===================================                            │
-  │                                                                                           │
-  │  🔥 [ 2. 버퍼 오버플로우 쓰나미 강타! (해커가 A 20개를 난사 록백 ❗) ]                    │
-  │     => 취약 함수 `strcpy(buffer, 해커입력값);` 실행!                                      │
-  │                                                                                           │
-  │     |  지역 변수 (Buffer) 공간 완전 점령!| EBP 댐(저장공간) 박살! | ⭐ RET 주소 감염! ⭐ |│
-  │     | [A][A][A][A][A][A][A][A][A][A] | [A][A][A][A]        | [A][A][A][A]      |          │
-  │     (버퍼 10칸 꽉참)                   (EBP 4칸 덮임)         (RET 4칸 덮임!)             │
-  │                                                                                           │
-  │  ✅ [ OS CPU 점프 심연 크래시 빔! ]                                                       │
-  │     함수 종료 명령어(ret) 가 실행될 때, CPU 가 집 주소를 읽어보니 "AAAA(0x41414141)" 다!  │
-  │     결국 CPU 는 멍청하게 메모리 0x41414141 번지로 날아가고, 그곳에 대기하고 있던 해커의   │
-  │     악성 쉘코드(Shellcode) 가 0.1초 만에 불을 뿜으며 루트 쉘을 던져버림 쾅!               │
-  └───────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"물(버퍼) 이 넘쳐서 댐(EBP) 을 부수고, 마을(RET) 을 익사시켰다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">1. 정상적인 함수 호출 시 스택(Stack) 메모리 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 (Buffer) 10 Bytes</div><div class="kb-diagram-cell">EBP (Base Pointer)</div><div class="kb-diagram-cell">RET (Return 집주소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">H</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">\0</div><div class="kb-diagram-node">기존 변수 저장 공간</div><div class="kb-diagram-node">0x08048420</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( ↑ 여기서 위로 물이 채워짐 )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">2. 버퍼 오버플로우 쓰나미 강타! (해커가 A 20개를 난사 록백 ❗)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 취약 함수 <code>strcpy(buffer, 해커입력값);</code> 실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 (Buffer) 공간 완전 점령!</div><div class="kb-diagram-cell">EBP 댐(저장공간) 박살!</div><div class="kb-diagram-cell">⭐ RET 주소 감염! ⭐</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버퍼 10칸 꽉참) (EBP 4칸 덮임) (RET 4칸 덮임!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS CPU 점프 심연 크래시 빔!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 종료 명령어(ret) 가 실행될 때, CPU 가 집 주소를 읽어보니 "AAAA(0x41414141)" 다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 CPU 는 멍청하게 메모리 0x41414141 번지로 날아가고, 그곳에 대기하고 있던 해커의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">악성 쉘코드(Shellcode) 가 0.1초 만에 불을 뿜으며 루트 쉘을 던져버림 쾅!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이것이 바로 전설적인 프랙(Phrack) 매거진의 "Smashing The [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) For Fun And Profit (알레프 원 Aleph One)" 논문이 세상에 까발린 메모리 박살 궤적이다. 해커의 공격 문자열은 보통 `[ NOP 썰매(의미 없는 공간) + 쉘코드(악성 파일 실행) + AAAA(쓰레기) + 덮어쓸 주소(RET) ]` 의 다단 로켓 구조로 조립된다.
 
@@ -71,16 +68,16 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **문자열 복사 (String Copy) 빔** | `strcpy(dest, src)` : 끝(\0) 을 만날 때까지 크기 불문 무한히 복사해서 덮어버리는 **폭격기.** | `strncpy(dest, src, n)` : 딱 n 글자만 복사하고 무조건 끊어버리는 **방어형 폭격 제한 스왑.** |
 | **문자열 결합 (String Concat) 랙** | `strcat(dest, src)` : 원래 글자 뒤에 무식하게 냅다 때려 박아 길이를 넘치게 하는 **파단.** | `strncat(dest, src, n)` : 역시 복붙할 때 최대 길이를 n으로 강제 락백을 거는 **방어.** |
-| **콘솔 입력 받기 (Input Read) 스왑** | `gets(buffer)` : 엔터 칠 때까지 사용자가 1만 자를 쳐도 계속 입력받는 **[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)의 제왕 멸망.** | `fgets(buffer, n, stdin)` : n 사이즈 이상의 입력을 쳐내버려 **버퍼 크기 안에서만 노게 하는 방패.** |
+| **콘솔 입력 받기 (Input Read) 스왑** | `gets(buffer)` : 엔터 칠 때까지 사용자가 1만 자를 쳐도 계속 입력받는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a>의 제왕 멸망.</strong> | `fgets(buffer, n, stdin)` : n 사이즈 이상의 입력을 쳐내버려 **버퍼 크기 안에서만 노게 하는 방패.** |
 
 ### 2. 치명적 공격 원리: 쉘코드([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)) 소환술과 NOP Sled (썰매) 타기 학살 사건
 버퍼를 덮어쓰고 난 뒤, 해커가 어떻게 자기의 코드를 컴퓨터에서 억지로 돌려버리게 만드는지 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (명중률 바늘구멍 조준 폭주 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (명중률 바늘구멍 조준 폭주 랙)</strong>: 
   - (태생적 주소 적중 파단 스왑): RET 의 주소를 조작해서 "내 악성코드로 점프해라!" 라고 시키려면, 해커는 그 '악성코드가 위치한 정확한 메모리 주소(예: 0xbffffa00)' 를 1바이트 오차도 없이 맞춰야 한다.
   - (환상 브레이크 OS 변동성 빔 발동!): 앗! OS 의 메모리는 실행할 때마다 환경변수 크기가 다르고 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 위치가 몇 바이트씩 요동친다! 해커가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 때릴 때마다 주소가 어긋나서, 악성코드가 실행 안 되고 `Segmentation Fault` (앱 팅김) 만 나면서 100번 공격에 99번 실패한다!
   - 파멸 결과: 해커는 정확한 메모리 주소(Target Offset) 를 도출할 수 없어 페이로드 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)($O(N)$ 조준 멸망 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)) 참사가 발생했다 증명 록보장.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (NOP Sled 미끄럼틀 기만술과 [Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) 록백!!) / 자율 치유 방패**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (NOP Sled 미끄럼틀 기만술과 <a href="/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/">Shellcode</a> 록백!!) / 자율 치유 방패</strong>: 
   - 해커 대마법사 타격!: "정확히 맞추기 힘들어? 그럼 과녁판 주위에 거대한 쿠션 (미끄럼틀) 을 깔아라 쾅!" 
   - 갓기능 마스킹 스왑: 
     1. **NOP Sled (썰매 타기)**: 해커가 코드를 넣을 때 앞부분에 `0x90(NOP, 아무것도 안 하고 다음으로 넘어가라는 기계어)` 을 수백 개 떡칠해서 보낸다! 
@@ -95,11 +92,11 @@ tags = ["studynote-operating-system"]
 ### 인터넷의 자물쇠(OpenSSL) 를 갈기갈기 찢은 사상 최악의 버그, 하트블리드의 버퍼 조작 뷰.
 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 이 아니라 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 에서 버퍼 조작이 터질 때 벌어지는 기밀 유출 스왑 기전.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (OpenSSL 패킷 길이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락으로 인한 메모리 쓰레기 탈취 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (OpenSSL 패킷 길이 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 누락으로 인한 메모리 쓰레기 탈취 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)</strong>: 
   - 상황: 2014년 전 세계 인터넷 암호화 통신의 빙하기. [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 연결을 맺을 때, "나 아직 안 죽고 살아있음(Heartbeat [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))" 이라며 클라이언트가 서버에 평문을 보내고 서버가 그대로 돌려주는 메아리(Ping-Pong) 가 있었다.
   - 재앙 터짐: 해커가 꼼수를 쓴다! "안녕(2글자임)" 라고 보내야 할 패킷을, **"안녕 (나 64KB 글자니까 64KB 분량 메모리로 담아서 돌려줘!)"** 이라고 뻥을 친다! 
   - 충격 멸망: 서버(OpenSSL) 는 "글자 수 검사(Boundary Check)" 도 안 하고, 해커가 달라는 대로 메모리에서 [안녕 + 뒤에 남아있던 서버 비밀 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 64KB (다른 고객 패스워드, 은행 암호화 키 등 찌꺼기!!)] 를 통째로 퍼서 무지성 반환해 버린다! [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 아니라 오버리드(Over-read 메모리 초과 읽기 붕괴) 결함으로, 하루 만에 지구상 웹서버 70% 의 암호키가 해커 손에 떨어지는 빚 돌려 막기 파단.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (Boundary [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과 컴파일러 경계 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (Boundary <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a> 과 컴파일러 경계 빔!)</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엘리트 마스킹 발사!: 유저가 보낸 "길이(Payload Size)" 변수 값을 절대로 믿지 마라! 실제 들어온 문자열 길이를 세서 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해!
   - 운영 방검복 스왑: 하트블리드 패치는 단 2줄이었다. `if (실제 페이로드 길이 < 유저가 말한 길이) return ERROR;`. 이 무식할 정도로 짧은 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 1줄이 누락되어 인류 역사상 최악의 보안 재앙이 터졌다는 사실, 즉 C언어의 수동 메모리 관리가 얼마나 위험한 시한폭탄 아키텍처 생존 결속인지를 증명 예고 컷 (이후 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어 도입의 결정적 계기!)
 
@@ -136,15 +133,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[웜 (Worm)]
-    │
-    ▼
-[버퍼 오버플로우 (Buffer Overflow) 원리]
-    │
-    ├──▶ [셸코드 (Shellcode) 인젝션]
-    └──▶ [버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웜 (Worm)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 (Buffer Overflow) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셸코드 (Shellcode) 인젝션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

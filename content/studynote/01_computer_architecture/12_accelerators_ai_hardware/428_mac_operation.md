@@ -25,25 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기에서는 수십억 번의 곱셈-누산이 한 번의 추론 안에 몰려 있다. 따라서 MAC은 "복잡한 알고리즘을 위한 보조 연산"이 아니라, 하드웨어가 가장 자주 수행해야 하는 일을 가장 짧은 경로로 재구성한 기본 설계 원리라고 보는 편이 맞다.
 
-이 그림은 왜 MAC이 별도 회로로 분리되었는지 보여준다. 핵심은 계산식이 아니라 **중간 결과를 어디서 끊느냐**다.
+이 그림은 왜 MAC이 별도 회로로 분리되었는지 보여준다. 핵심은 계산식이 아니라 <strong>중간 결과를 어디서 끊느냐</strong>다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                분리 실행과 MAC 실행의 차이: 중간 저장의 유무              │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 분리된 MUL + ADD              │ MAC                                         │
-│                               │                                             │
-│ A, B ─▶ [Multiplier]          │ A, B ─▶ [Multiplier]                        │
-│              │                │              │                              │
-│              ▼                │              ▼                              │
-│        [Temp Register]        │         [Adder] ◀── Accumulator            │
-│              │                │              │                              │
-│              ▼                │              ▼                              │
-│ Temp, C ─▶ [Adder] ─▶ Result  │        Updated Sum                          │
-│                               │                                             │
-│ 추가 저장/읽기 발생           │ 곱셈 결과가 바로 누산 경로로 연결됨         │
-└───────────────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리 실행과 MAC 실행의 차이: 중간 저장의 유무</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리된 MUL + ADD</div><div class="kb-diagram-cell">MAC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Multiplier</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Multiplier</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Temp Register</div><div class="kb-diagram-node">Adder</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── Accumulator</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Adder</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Result │ Updated Sum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 저장/읽기 발생</div><div class="kb-diagram-cell">곱셈 결과가 바로 누산 경로로 연결됨</div></div>
+</div>
+</div>
+
+
 
 분리 실행은 제어가 단순하지만, 누적 계산이 길어질수록 임시값 저장과 읽기 비용이 커진다. 반면 MAC은 연산 경로를 짧게 만들어 동일한 수학식을 더 적은 제어 오버헤드와 더 낮은 에너지로 수행한다.
 
@@ -55,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 유닛의 내부는 보통 곱셈기 (Multiplier), [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)), 가산기 (Adder), 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 구성된다. 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 가중치가 들어오면 먼저 곱셈이 수행되고, 그 결과가 기존 누산값과 더해져 부분합 (Partial Sum)을 만든다. 이 부분합은 다음 사이클의 입력이 되어 긴 내적을 한 줄로 이어 간다.
 
-핵심은 단순히 `곱한다 → 더한다`가 아니라, **누산 폭과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 어떻게 잡느냐**다. 예를 들어 8비트 정수 (INT8) 두 개를 곱하면 결과는 16비트까지 커질 수 있고, 이것을 수백 번 더하면 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 더 넓은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 가져야 오버플로를 피할 수 있다. 그래서 저정밀 입력을 사용하더라도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 32비트 이상으로 유지하는 설계가 흔하다.
+핵심은 단순히 `곱한다 → 더한다`가 아니라, <strong>누산 폭과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 어떻게 잡느냐</strong>다. 예를 들어 8비트 정수 (INT8) 두 개를 곱하면 결과는 16비트까지 커질 수 있고, 이것을 수백 번 더하면 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 더 넓은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 가져야 오버플로를 피할 수 있다. 그래서 저정밀 입력을 사용하더라도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)는 32비트 이상으로 유지하는 설계가 흔하다.
 
 | 구성 요소 | 역할 | 설계 시 주의점 |
 | :-- | :-- | :-- |
@@ -66,26 +63,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 MAC이 한 번의 계산기가 아니라, 반복되는 내적을 흘려보내는 누산 파이프라인이라는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  MAC 파이프라인: 내적이 만들어지는 흐름                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ x0, w0 ─▶ [×] ─▶ (+) ─▶ s0                                                │
-│                     ▲                                                      │
-│                     │                                                      │
-│                초기값 0                                                    │
-│                                                                            │
-│ x1, w1 ─▶ [×] ─▶ (+) ─▶ s1                                                │
-│                     ▲                                                      │
-│                     │                                                      │
-│                     s0                                                     │
-│                                                                            │
-│ x2, w2 ─▶ [×] ─▶ (+) ─▶ s2  ...  최종 출력 = Σ(xᵢ × wᵢ) + bias            │
-│                     ▲                                                      │
-│                     │                                                      │
-│                     s1                                                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 파이프라인: 내적이 만들어지는 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기값 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s2 ... 최종 출력 = Σ(xᵢ × wᵢ) + bias</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s1</div></div>
+</div>
+</div>
+
+
 
 이 구조가 중요한 이유는 한 번 계산한 부분합을 버리지 않고 다음 연산으로 즉시 연결하기 때문이다. 그래서 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 충분히 채워져 있을 때는 사이클마다 새 결과를 내보낼 수 있고, 이것이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))의 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))로 확장된다.
 
@@ -122,8 +114,8 @@ CPU (Central Processing Unit)는 제어 분기와 범용 처리에 강하므로 
 
 ### 실무 체크포인트
 
-1. **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 선택이 먼저다**: 정확도 요구가 높지 않은 추론은 INT8 또는 FP16으로 낮춰 더 많은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 확보할 수 있다.
-2. **[누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) 폭을 분리해서 본다**: 입력을 저정밀도로 줄여도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)까지 너무 좁히면 합산 과정에서 정보가 무너진다.
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 선택이 먼저다</strong>: 정확도 요구가 높지 않은 추론은 INT8 또는 FP16으로 낮춰 더 많은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 확보할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/">누산기</a> 폭을 분리해서 본다</strong>: 입력을 저정밀도로 줄여도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)까지 너무 좁히면 합산 과정에서 정보가 무너진다.
 3. **메모리 재사용 구조를 확인한다**: 같은 가중치와 입력 타일을 반복 재사용하지 못하면 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 유닛은 계산보다 대기 시간이 길어진다.
 4. **희소성 활용 여부를 본다**: 값의 대부분이 0인 희소 행렬은 조밀 행렬용 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 기대만큼 빠르지 않을 수 있다.
 
@@ -169,24 +161,25 @@ CPU (Central Processing Unit)는 제어 분기와 범용 처리에 강하므로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-곱셈기 + 가산기 분리
-        │
-        ▼
-MAC (Multiply-Accumulate) 기본 누산 구조
-        │
-        ▼
-FMA (Fused Multiply-Add)로 정확도 개선
-        │
-        ▼
-SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장
-        │
-        ▼
-시스톨릭 어레이 · 텐서 코어 · NPU 대규모 병렬화
-        │
-        ▼
-저정밀 양자화 · 희소성 최적화 · 메모리 근접 연산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">곱셈기 + 가산기 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MAC (Multiply-Accumulate) 기본 누산 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FMA (Fused Multiply-Add)로 정확도 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스톨릭 어레이 · 텐서 코어 · NPU 대규모 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">저정밀 양자화 · 희소성 최적화 · 메모리 근접 연산</div>
+</div>
+</div>
+
+
 
 이 흐름은 "연산 결합 → 정확도 개선 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화"로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 개념이 성장해 온 과정을 보여준다.
 

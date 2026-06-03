@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)**은 위쪽에 객체를 나란히 세우고, 아래(Y축)로 떨어지는 '시간의 흐름'에만 미친 듯이 집착합니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a></strong>은 위쪽에 객체를 나란히 세우고, 아래(Y축)로 떨어지는 '시간의 흐름'에만 미친 듯이 집착합니다.
 - 단점: A가 B, C, D와 핑퐁을 치면, 객체들이 물리적으로 어떻게 얽혀있는지 전체적인 네트워크 구조(조직도)를 한눈에 파악하기가 매우 껄끄럽습니다.
 
 - **📢 섹션 요약 비유**: 통신 다이어그램 (Communication Diagram / Collaboration Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 통신 다이어그램 (Communicat의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  통신 다이어그램 (Communicat                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 다이어그램 (Communicat</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 통신 다이어그램 (Communicat가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,8 +48,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 과거 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 1.x 시절에는 **콜라보레이션 다이어그램(Collaboration Diagram, 협력 다이어그램)**이라고 불렀으며, 이름이 바뀐 똑같은 놈입니다. (시험에 옛날 이름으로 섞여 나올 때가 많으니 꼭 같이 외워야 합니다.)
-- **개념**: 객체들이 메시지를 주고받는 상호작용(동적)을 표현하되, 시간의 흐름(생명선)을 버리고 **객체들 간의 물리적인 '연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(네트워크 구조)'를 중심으로 공간에 배치한 뒤, 메시지의 발생 순서는 1, 2, 3 같은 '숫자 번호표(Sequence Number)'를 붙여서 표현하는 동적 다이어그램**입니다.
+- 과거 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 1.x 시절에는 <strong>콜라보레이션 다이어그램(Collaboration Diagram, 협력 다이어그램)</strong>이라고 불렀으며, 이름이 바뀐 똑같은 놈입니다. (시험에 옛날 이름으로 섞여 나올 때가 많으니 꼭 같이 외워야 합니다.)
+- **개념**: 객체들이 메시지를 주고받는 상호작용(동적)을 표현하되, 시간의 흐름(생명선)을 버리고 <strong>객체들 간의 물리적인 '연결 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(네트워크 구조)'를 중심으로 공간에 배치한 뒤, 메시지의 발생 순서는 1, 2, 3 같은 '숫자 번호표(Sequence Number)'를 붙여서 표현하는 동적 다이어그램</strong>입니다.
 
 - **📢 섹션 요약 비유**: 통신 다이어그램 (Communication Diagram / Collaboration Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -81,11 +80,11 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 정보처리기사 객관식에 무조건 나오는 1:1 비교입니다.
-- **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)**: **'시간의 흐름(Time)'**에 미치도록 집중. (생명선 Y축 존재)
-- **통신 다이어그램**: **'객체들 간의 구조적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(구조)'**에 미치도록 집중. 시간은 '순서 번호표'로 퉁침.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a></strong>: <strong>'시간의 흐름(Time)'</strong>에 미치도록 집중. (생명선 Y축 존재)
+- **통신 다이어그램**: <strong>'객체들 간의 구조적인 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(구조)'</strong>에 미치도록 집중. 시간은 '순서 번호표'로 퉁침.
 - 둘은 서로 변환(Convert) 버튼만 누르면 1초 만에 상대방의 도면으로 상호 변환이 가능한 완벽한 쌍둥이(동치) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)입니다.
 
-> 📢 **섹션 요약 비유**: **통신(커뮤니케이션) 다이어그램**은 범죄 수사 드라마에서 형사가 벽에 붙여놓는 **'범인들 간의 거미줄 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 보드판'**입니다. 235번 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이 범행 당일의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 동영상(시간순)을 틀어놓고 보는 것이라면, 통신 다이어그램은 CCTV를 끄고 벽면 보드판을 봅니다. 보드판 한가운데 '두목' 사진을 붙이고, 주변에 '행동대장', '자금책' 사진(객체)을 둥글게 붙입니다. 그리고 빨간 실선(Link)으로 놈들끼리 어떻게 엮여있는지 거미줄을 쫙쫙 칩니다(객체 간의 구조적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강조). 여기까지는 정지된 조직도 같지만, 여기에 4차원 마법(동적)을 섞습니다. 빨간 실선 위에 화살표와 번호표 포스트잇을 붙입니다. **'1번: 두목 ➜ 행동대장 (암살 지시)'**, **'2번: 행동대장 ➜ 자금책 (돈 내놔)'**. 형사는 보드판([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도)의 뼈대를 한눈에 쫙 보면서도, 포스트잇에 적힌 번호표 순서(1번, 2번...)를 따라 읽어가며 놈들이 범행 당일 시간 순서대로 어떤 연락(메시지)을 주고받았는지 CCTV를 보는 것처럼 범행 시나리오를 머릿속에서 완벽하게 재생(동적 상호작용)해 낼 수 있는 1타 2피의 하이브리드 수사 보드판입니다.
+> 📢 **섹션 요약 비유**: <strong>통신(커뮤니케이션) 다이어그램</strong>은 범죄 수사 드라마에서 형사가 벽에 붙여놓는 <strong>'범인들 간의 거미줄 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도 보드판'</strong>입니다. 235번 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이 범행 당일의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 동영상(시간순)을 틀어놓고 보는 것이라면, 통신 다이어그램은 CCTV를 끄고 벽면 보드판을 봅니다. 보드판 한가운데 '두목' 사진을 붙이고, 주변에 '행동대장', '자금책' 사진(객체)을 둥글게 붙입니다. 그리고 빨간 실선(Link)으로 놈들끼리 어떻게 엮여있는지 거미줄을 쫙쫙 칩니다(객체 간의 구조적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강조). 여기까지는 정지된 조직도 같지만, 여기에 4차원 마법(동적)을 섞습니다. 빨간 실선 위에 화살표와 번호표 포스트잇을 붙입니다. **'1번: 두목 ➜ 행동대장 (암살 지시)'**, **'2번: 행동대장 ➜ 자금책 (돈 내놔)'**. 형사는 보드판([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도)의 뼈대를 한눈에 쫙 보면서도, 포스트잇에 적힌 번호표 순서(1번, 2번...)를 따라 읽어가며 놈들이 범행 당일 시간 순서대로 어떤 연락(메시지)을 주고받았는지 CCTV를 보는 것처럼 범행 시나리오를 머릿속에서 완벽하게 재생(동적 상호작용)해 낼 수 있는 1타 2피의 하이브리드 수사 보드판입니다.
 
 - **📢 섹션 요약 비유**: 통신 다이어그램 (Communication Diagram / Collaboration Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-통신 다이어그램 (Communication Diagram / Collaboration Diagram) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통신 다이어그램 (Communication Diagram / Collaboration Diagram) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -20,27 +20,25 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 웹사이트에서 비밀번호를 하나 틀려 팝업이 뜨는 것은 단순히 조건 하나를 찔러보면 되는 일([동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))입니다.
-하지만 똑같은 "비밀번호 틀림"이라는 동일한 입력을 3번 연속 이어서 할 때 **시스템의 반응이 바뀌게 되는 경우**(예: 계정 잠금 처리)는 앞선 기법들로 테스트가 불가능합니다. 시스템이 과거에 사용자가 한 짓과 카운트를 **'기억(Memory)'**하고 있기 때문입니다.
+하지만 똑같은 "비밀번호 틀림"이라는 동일한 입력을 3번 연속 이어서 할 때 **시스템의 반응이 바뀌게 되는 경우**(예: 계정 잠금 처리)는 앞선 기법들로 테스트가 불가능합니다. 시스템이 과거에 사용자가 한 짓과 카운트를 <strong>'기억(Memory)'</strong>하고 있기 때문입니다.
 
-이러한 유한 상태 기계(Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)로 돌아가는 소프트웨어를 정복하기 위해 테스터는 화이트보드에 동그라미(상태)와 화살표(이벤트)를 그려 넣으며 객체가 태어나서 죽을 때까지의 **흐름(Flow)**을 추적합니다. 이것이 바로 **[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)**입니다.
+이러한 유한 상태 기계(Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)로 돌아가는 소프트웨어를 정복하기 위해 테스터는 화이트보드에 동그라미(상태)와 화살표(이벤트)를 그려 넣으며 객체가 태어나서 죽을 때까지의 <strong>흐름(Flow)</strong>을 추적합니다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a> 테스트(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">State Transition</a> Testing)</strong>입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  쇼핑몰 주문의 상태 전이 모델 예시                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [이벤트: 결제하기]               [이벤트: 상품 출발]        │
-│  (주문 대기) ─────────▶ (결제 완료) ─────────▶ (배송 중)    │
-│       │                    │                       │         │
-│       │                    │                       ▼         │
-│       │ [취소 버튼]         │ [이벤트: 구매자 취소]    (반품 신청) │
-│       ▼                    ▼                                 │
-│  (주문 취소) ◀──────── (결제 환불)                         │
-│                                                              │
-│  ※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기            │
-│     해커가 URL 파라미터 조작으로 [결제 환불] 화살표를 찌른다면?!       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쇼핑몰 주문의 상태 전이 모델 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트: 결제하기</div><div class="kb-diagram-node">이벤트: 상품 출발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 대기) ▶ (결제 완료) ▶ (배송 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">취소 버튼</div><div class="kb-diagram-node">이벤트: 구매자 취소</div><div class="kb-diagram-note">(반품 신청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 취소) ◀ (결제 환불)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">해커가 URL 파라미터 조작으로</div><div class="kb-diagram-node">결제 환불</div><div class="kb-diagram-note">화살표를 찌른다면?!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자판기 플러그를 막 꽂았을 때(대기 상태), 동전을 중간쯤 넣었을 때(입금 상태), 캔이 떨어지고 있을 때(방출 상태). 이 똑같은 자판기 앞에서 "취소 버튼"을 눌러도 자판기가 처한 '기분(상태)'에 따라 환불해 주거나 무시하는 등 다른 반응을 하는 것을 추적하는 심리관찰 카메라입니다.
 
@@ -56,12 +54,12 @@ tags = ["studynote-software-engineering"]
 
 상태를 테스트하기 위한 청사진(다이어그램)을 그릴 때 필요한 필수 요소들은 다음과 같습니다.
 
-1. **상태 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**: 소프트웨어가 현재 머무르고 있는 조건의 찰나입니다. (로그인 중, 카트가 비어있음, 휴면 계정 등). 주로 기획서의 명사/형용사로 정의됩니다.
+1. <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 소프트웨어가 현재 머무르고 있는 조건의 찰나입니다. (로그인 중, 카트가 비어있음, 휴면 계정 등). 주로 기획서의 명사/형용사로 정의됩니다.
 2. **이벤트 (Event / Input)**: 조용히 잠자던 상태를 깨워버리는 외부의 자극입니다. (버튼 클릭, 타이머 5분 경과, 센서 감지 등).
 3. **전이 (Transition)**: A상태에서 이벤트라는 총알을 맞고 B상태로 휙 넘어가는 화살표 그 자체입니다.
 4. **동작 (Action / Output)**: 전이가 일어나는 찰나에 시스템이 토해내는 부가 효과입니다. (화면이 깜빡인다, 이메일이 발송된다 등).
 
-QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개를 뽑아내어 **상태-사건 테이블([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-Event Table)**이라는 2차원 행렬표를 만들고 칸을 메우며 빈 공간을 추궁합니다.
+QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개를 뽑아내어 <strong>상태-사건 테이블(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>-Event Table)</strong>이라는 2차원 행렬표를 만들고 칸을 메우며 빈 공간을 추궁합니다.
 
 - **📢 섹션 요약 비유**: 보드게임판(상태)의 특정 칸에 내 말이 서 있을 때, 주사위를 굴려(이벤트) 나온 숫자에 따라 다음 칸을 향해 징검다리를 껑충 뛸 때(전이), 보너스 동전을 받는 것(동작)을 하나하나 노트에 기록하는 모험 일지입니다.
 
@@ -86,7 +84,7 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 1. **모든 상태 커버리지 (All-States Coverage)**
    - 가장 낮은 수준의 목표입니다. 그림에 그려진 동그라미 5개를 최소한 한 번씩은 모두 거쳐보기만 하면 합격입니다.
 2. **0-스위치 커버리지 (0-Switch / All-Transitions Coverage)**
-   - 동그라미가 아니라, 그려진 모든 **화살표(전이) 선**을 최소 한 번씩 다 타보는 것입니다. (가장 대중적인 실무 테스트 기준)
+   - 동그라미가 아니라, 그려진 모든 <strong>화살표(전이) 선</strong>을 최소 한 번씩 다 타보는 것입니다. (가장 대중적인 실무 테스트 기준)
 3. **N-스위치 커버리지 (N-Switch Coverage)**
    - 1-switch는 "화살표 2번을 연속으로 타는 콤보 경로", 2-switch는 "화살표 3번 연속 타는 콤보"를 전부 다 보는 극악의 노가다입니다.
    - 예: `장바구니 넣고 -> 바로 빼기`, `넣고 -> 결제로 넘어가기` 등 꼬리에 꼬리를 무는 다단계 전환에 대비합니다.
@@ -106,7 +104,7 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 일반적인 개발자가 유닛 테스트를 짤 때는 정상적으로 흘러가는 녹색 화살표(유효 전이)만 증명합니다.
 그러나 블랙박스 테스터의 상태-사건 테이블을 보면 여백이 많습니다. 예를 들어 상태가 **[결제 승인]** 인 세로축에서, 뜬금없이 날아오는 이벤트 **[장바구니 수량 3개로 증가]** 가 만나는 교차점입니다.
 
-명세서에는 "하지 마시오"라고도 안 적혀 있지만, 어둠의 크래커나 엄청난 속도로 키보드를 난타하는 아기, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 강제 변조자들은 억지로 이 무효 전이를 강행합니다. 이때 시스템이 미치지 않고 우아하게 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서는 찌를 수 없는 화살표입니다."라는 알림과 방어벽(Exception)을 쳤는지를 확인하는 **네거티브 테스팅(Negative Testing)**이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 기법의 꽃입니다.
+명세서에는 "하지 마시오"라고도 안 적혀 있지만, 어둠의 크래커나 엄청난 속도로 키보드를 난타하는 아기, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 강제 변조자들은 억지로 이 무효 전이를 강행합니다. 이때 시스템이 미치지 않고 우아하게 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서는 찌를 수 없는 화살표입니다."라는 알림과 방어벽(Exception)을 쳤는지를 확인하는 <strong>네거티브 테스팅(Negative Testing)</strong>이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 기법의 꽃입니다.
 
 - **📢 섹션 요약 비유**: 달리는 기차([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))에서 기관사가 갑자기 변속기 기어를 '후진(R)'으로 때려 넣었을 때(비정상 이벤트), 기차 톱니바퀴가 박살 나지 않고 "시속 100km 주행 중엔 후진 불가" 라며 기계 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 안전하게 버텨주는지 망치로 때려보는 가혹 테스트입니다.
 
@@ -144,21 +142,23 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-상태 전이 테스트 (State Transition Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 전이 테스트 (State Transition Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: PKI ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))는 공개키 암호를 실제 사회와 인터넷에서 신뢰 가능하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해, **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차를 체계화한 공개키 신뢰 인프라**다.
+> 1. **본질**: PKI ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))는 공개키 암호를 실제 사회와 인터넷에서 신뢰 가능하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>기관·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 절차를 체계화한 공개키 신뢰 인프라</strong>다.
 > 2. **가치**: 서버나 사용자의 공개키가 진짜 주체의 것임을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) (MitM, Man-in-the-Middle) 위험을 줄이고, [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)·전송 구간 보안·기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 가능하게 만든다.
 > 3. **판단 포인트**: PKI의 성패는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름보다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority) 운영, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명주기, 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 얼마나 엄격히 설계했는지에 달려 있다.
 
@@ -35,24 +35,24 @@ PKI의 핵심 구성은 [인증](/knowledge-base/studynote/04_software_engineeri
 
 아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 흐름을 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 PKI의 발급·검증 신뢰 사슬                         │
-├────────────────────────────────────────────────────────────────────┤
-│ [발급 단계]                                                       │
-│ Subject(서버/사용자) -> RA 신원 확인 -> CA 서명 -> 인증서 발급    │
-│                                                                    │
-│ [검증 단계]                                                       │
-│ Client <- 서버 인증서 제시                                         │
-│   │                                                                │
-│   ├─ 인증서 유효기간 확인                                          │
-│   ├─ 서명자 CA 확인                                                │
-│   ├─ Root CA 신뢰 저장소와 체인 검증                              │
-│   └─ CRL/OCSP로 폐기 여부 확인                                    │
-│                                                                    │
-│ 결과: "키를 받음"이 아니라 "키의 주인을 검증함"                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI의 발급·검증 신뢰 사슬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발급 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject(서버/사용자) -&gt; RA 신원 확인 -&gt; CA 서명 -&gt; 인증서 발급</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- 서버 인증서 제시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인증서 유효기간 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서명자 CA 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Root CA 신뢰 저장소와 체인 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CRL/OCSP로 폐기 여부 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "키를 받음"이 아니라 "키의 주인을 검증함"</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 사용자가 서버의 공개키를 그냥 받는 것이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 경로 (Certificate Chain)를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다는 점이다. 루트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 공개키는 운영체제나 브라우저의 신뢰 저장소에 미리 탑재되어 있고, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 그 아래에서 실제 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급한다. 사용자는 이 사슬 전체가 끊기지 않고, 유효기간과 폐기 상태까지 문제가 없을 때만 신뢰를 부여한다.
 
@@ -64,7 +64,7 @@ PKI의 핵심 구성은 [인증](/knowledge-base/studynote/04_software_engineeri
 | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐기 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 해지 반영 속도와 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 중요 |
 | 루트 저장소 | 최종 신뢰 기준 | OS/브라우저 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결 |
 
-PKI는 기술 구조이면서 운영 체계이기도 하다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 개인키가 노출되면 신뢰 체계 전체가 흔들리고, 폐기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 느리면 이미 위험한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 계속 믿게 된다. 따라서 PKI의 핵심 원리는 "공개키에 서명한다"보다, **신뢰 사슬을 안전하게 운영한다**는 데 있다.
+PKI는 기술 구조이면서 운영 체계이기도 하다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 개인키가 노출되면 신뢰 체계 전체가 흔들리고, 폐기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 느리면 이미 위험한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 계속 믿게 된다. 따라서 PKI의 핵심 원리는 "공개키에 서명한다"보다, <strong>신뢰 사슬을 안전하게 운영한다</strong>는 데 있다.
 
 - **📢 섹션 요약 비유**: PKI는 신분증 한 장이 아니라, 신분증을 발급하고 조회하고 말소하는 주민등록 행정 시스템 전체와 같다.
 
@@ -81,7 +81,7 @@ PKI의 가치는 "그냥 공개키 배포"와 비교할 때 가장 분명해진�
 | 관리 포인트 | 배포 경로 신뢰 | 비밀키 배포·교체 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급·폐기·체인 관리 |
 | 대표 활용 | 실험·폐쇄망 | 소규모 장비 연동 | [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) |
 
-PKI는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)), [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), 전자문서 서명, 스마트카드, 사설 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)체계와 모두 연결된다. 특히 TLS에서는 서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 안전한 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 교환의 출발점을 만들고, 기업 내부에서는 사설 CA를 통해 기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 사용자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 운영하기도 한다. 즉 PKI는 단독 보안 제품이 아니라, **여러 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 신뢰를 시작하는 기반층**이다.
+PKI는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)), [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), 전자문서 서명, 스마트카드, 사설 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)체계와 모두 연결된다. 특히 TLS에서는 서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 안전한 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 교환의 출발점을 만들고, 기업 내부에서는 사설 CA를 통해 기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 사용자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 운영하기도 한다. 즉 PKI는 단독 보안 제품이 아니라, <strong>여러 보안 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>이 신뢰를 시작하는 기반층</strong>이다.
 
 - **📢 섹션 요약 비유**: 단순 공개키 배포가 명함을 직접 나눠 주는 일이라면, PKI는 국가가 발행한 신분증으로 본인 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차에 가깝다.
 
@@ -114,7 +114,7 @@ PKI는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_t
 
 PKI의 가장 큰 효과는 서로 처음 만나는 주체들 사이에 신뢰를 빠르게 세울 수 있다는 점이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 통해 공개키와 신원을 연결하면, 전송 구간 암호화와 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)의 출발점을 안전하게 만들 수 있다. 이 덕분에 인터넷 규모의 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 기업망, 전자문서, 소프트웨어 배포가 모두 신뢰 가능한 방식으로 운영된다.
 
-하지만 PKI는 복잡하다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 침해, 잘못된 발급, 폐기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 루트 저장소 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제는 체계 전체를 흔들 수 있다. 따라서 PKI는 "강한 암호를 쓰는 기술"이라기보다, **공개키의 신뢰를 지속적으로 운영하는 사회적·기술적 인프라**로 기억해야 한다.
+하지만 PKI는 복잡하다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 침해, 잘못된 발급, 폐기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 루트 저장소 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제는 체계 전체를 흔들 수 있다. 따라서 PKI는 "강한 암호를 쓰는 기술"이라기보다, <strong>공개키의 신뢰를 지속적으로 운영하는 사회적·기술적 인프라</strong>로 기억해야 한다.
 
 결론적으로 PKI의 본질은 공개키 그 자체가 아니라 그 공개키를 믿게 만드는 절차와 구조에 있다. 암호화는 수학으로 시작하지만, 인터넷 규모의 신뢰는 결국 운영되는 인프라 위에서 완성된다.
 
@@ -134,22 +134,25 @@ PKI의 가장 큰 효과는 서로 처음 만나는 주체들 사이에 신뢰�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공개키 암호 도입
-    │
-    ▼
-공개키 진위 문제 발생
-    │
-    ▼
-PKI 구축
-    ├─ CA/RA 운영
-    ├─ X.509 인증서 발급
-    ├─ 체인 검증
-    └─ CRL/OCSP 폐기 확인
-    │
-    ▼
-HTTPS · 전자서명 · VPN · 기기 인증 확산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공개키 암호 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공개키 진위 문제 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKI 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CA/RA 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:2">X.509 인증서 발급</div>
+<div class="kb-diagram-tree-item" style="--depth:2">체인 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CRL/OCSP 폐기 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTTPS · 전자서명 · VPN · 기기 인증 확산</div>
+</div>
+</div>
+
+
 
 이 흐름도는 공개키 암호가 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라가 되기 위해, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위에 별도의 신뢰 운영 체계가 덧붙여졌음을 보여준다.
 

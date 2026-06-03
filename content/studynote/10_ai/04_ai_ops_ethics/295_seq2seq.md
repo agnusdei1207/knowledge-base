@@ -11,26 +11,29 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) (Sequence to Sequence, 시퀀스 대 시퀀스)는 가변 길이 입력 시퀀스를 하나의 고정 크기 **문맥 벡터 ([Context Vector](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/))**로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))와, 이 벡터를 받아 가변 길이 출력 시퀀스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 구성된 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처다.
+> 1. **본질**: [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) (Sequence to Sequence, 시퀀스 대 시퀀스)는 가변 길이 입력 시퀀스를 하나의 고정 크기 <strong>문맥 벡터 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))와, 이 벡터를 받아 가변 길이 출력 시퀀스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 구성된 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처다.
 > 2. **가치**: 입력과 출력의 길이가 달라도 되는 구조로 기계 번역·챗봇·요약·음성 인식 등 거의 모든 변환 작업에 적용 가능하며, 현대 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델의 원형 설계 패턴이다.
-> 3. **판단 포인트**: Seq2Seq의 결정적 병목은 아무리 긴 입력도 **고정 크기 단일 문맥 벡터(고정 병목, Fixed [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**로만 전달되어, 긴 문장일수록 정보 손실이 증가한다는 것이며 이를 해결하기 위해 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)이 등장했다.
+> 3. **판단 포인트**: Seq2Seq의 결정적 병목은 아무리 긴 입력도 <strong>고정 크기 단일 문맥 벡터(고정 병목, Fixed <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>로만 전달되어, 긴 문장일수록 정보 손실이 증가한다는 것이며 이를 해결하기 위해 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)이 등장했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-"I love machine [learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)"을 "나는 기계 학습을 좋아한다"로 번역하려면, 입력(4단어 영어)과 출력(6단어 한국어)의 길이가 다르다. 일반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 신경망은 입력·출력 크기가 고정되어 있어 이런 작업에 적합하지 않다. **[Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)**는 "입력 길이 != 출력 길이"를 자연스럽게 처리하는 구조로 2014년 구글이 기계 번역에 처음 적용했다.
+"I love machine [learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)"을 "나는 기계 학습을 좋아한다"로 번역하려면, 입력(4단어 영어)과 출력(6단어 한국어)의 길이가 다르다. 일반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 신경망은 입력·출력 크기가 고정되어 있어 이런 작업에 적합하지 않다. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/">Seq2Seq</a></strong>는 "입력 길이 != 출력 길이"를 자연스럽게 처리하는 구조로 2014년 구글이 기계 번역에 처음 적용했다.
 
-[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))는 입력 시퀀스 전체를 읽고 요약된 **문맥 벡터([Context Vector](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/))**를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))는 이 벡터 하나만 받아 타겟 언어의 시작 토큰(`<SOS>`)부터 끝 토큰(`<EOS>`)이 나올 때까지 한 단어씩 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))는 입력 시퀀스 전체를 읽고 요약된 <strong>문맥 벡터(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))는 이 벡터 하나만 받아 타겟 언어의 시작 토큰(`<SOS>`)부터 끝 토큰(`<EOS>`)이 나올 때까지 한 단어씩 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Seq2Seq는 동시통역사와 비슷하다. 통역사([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 연설 전체를 듣고 "핵심이 A, B, C야"라는 메모(문맥 벡터) 하나에 요약한다. 그 메모를 받은 통역관([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))이 타겟 언어로 문장을 재구성한다. 연설이 2시간짜리라면 메모 한 장에 다 담기 힘든 게 Seq2Seq의 고질적 병목이다.
 
@@ -38,33 +41,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│          Seq2Seq (Encoder-Decoder) 전체 아키텍처                   │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [인코더 (Encoder) - LSTM/GRU 기반]                               │
-│  "I"──▶[LSTM]──▶"love"──▶[LSTM]──▶"machine"──▶[LSTM]──▶"learning"──▶[LSTM]│
-│                                                      │          │
-│                                              최종 은닉 상태 h_T     │
-│                                              (= 문맥 벡터 c)       │
-│                                                      │          │
-│                                            ┌─────────▼────────┐ │
-│                                            │  Context Vector  │ │
-│                                            │  c = h_T         │ │
-│                                            │  (고정 크기 벡터)   │ │
-│                                            └─────────┬────────┘ │
-│                                                      │          │
-│  [디코더 (Decoder) - LSTM/GRU 기반]                   │          │
-│  <SOS>──▶[LSTM]──"나는"──▶[LSTM]──"좋아한다"──▶[LSTM]──▶<EOS>    │
-│     ▲        ▲       ▲       ▲         ▲                        │
-│     └────────┘       └───────┘         └── 모든 시점에 c 주입     │
-│                                                                  │
-│  ⚠ 병목 (Bottleneck): 긴 입력 전체를 c(고정 벡터) 하나에 압축        │
-│    → 문장이 길수록 초반 정보가 c에서 소실됨!                         │
-│    → 해결책: 어텐션 메커니즘 (Attention Mechanism) 도입             │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seq2Seq (Encoder-Decoder) 전체 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인코더 (Encoder) - LSTM/GRU 기반</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 은닉 상태 h_T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(= 문맥 벡터 c)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Vector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c = h_T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고정 크기 벡터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디코더 (Decoder) - LSTM/GRU 기반</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">&lt;EOS&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모든 시점에 c 주입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 병목 (Bottleneck): 긴 입력 전체를 c(고정 벡터) 하나에 압축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 문장이 길수록 초반 정보가 c에서 소실됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결책: 어텐션 메커니즘 (Attention Mechanism) 도입</div></div>
+</div>
+</div>
+
+
 
 | 구성 | 역할 | 특징 |
 |:---|:---|:---|
@@ -93,7 +91,7 @@ tags = ["studynote-ai"]
 
 **빔 서치 (Beam Search)**: [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 각 시점에서 가장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 높은 단어 하나만 선택(탐욕 탐색)하면 지역 최적에 빠진다. 빔 서치는 상위 K개 후보(빔 크기 K)를 동시에 유지하며 전체 시퀀스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 최대화하는 디코딩 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 번역 품질을 크게 향상시킨다.
 
-**교사 강요 (Teacher Forcing)**: 훈련 시 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 이전 출력 대신 정답 토큰을 입력으로 사용하여 학습 속도를 높이지만, 추론 시 오류가 축적되는 **노출 편향(Exposure [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))** 문제가 발생한다. 커리큘럼 학습(Curriculum [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 점진적으로 Teacher Forcing 비율을 줄이는 방식으로 완화한다.
+**교사 강요 (Teacher Forcing)**: 훈련 시 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 이전 출력 대신 정답 토큰을 입력으로 사용하여 학습 속도를 높이지만, 추론 시 오류가 축적되는 <strong>노출 편향(Exposure <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong> 문제가 발생한다. 커리큘럼 학습(Curriculum [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))으로 점진적으로 Teacher Forcing 비율을 줄이는 방식으로 완화한다.
 
 - **📢 섹션 요약 비유**: 빔 서치는 미로 탈출 시 한 갈래만 탐색하다 막히는 대신, 가장 유망한 3갈래를 동시에 탐색하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 혼자 달리다 막히는 것보다 3명이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 달리다 가장 빨리 출구를 찾는 팀이 이긴다.
 
@@ -125,9 +123,9 @@ Seq2Seq는 입력-출력 길이 비대칭 문제를 [인코더](/knowledge-base/
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)**는 영어 문장을 들으면 한국어로 바꿔주는 번역 기계인데, **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(귀)**가 영어를 듣고 요약 메모를 만들면, **[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)(입)**가 그 메모를 보고 한국어를 말하는 구조예요!
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/">Seq2Seq</a></strong>는 영어 문장을 들으면 한국어로 바꿔주는 번역 기계인데, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>(귀)</strong>가 영어를 듣고 요약 메모를 만들면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>(입)</strong>가 그 메모를 보고 한국어를 말하는 구조예요!
 2. 하지만 문장이 너무 길면 **메모 한 장에 전부 담을 수 없어서** 중요한 내용이 빠지는 "메모 병목" 문제가 생겨요.
-3. 그래서 나중에 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 **원본 전체를 다시 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있게** 만든 어텐션(Attention) 기술이 등장했어요!
+3. 그래서 나중에 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 <strong>원본 전체를 다시 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>할 수 있게</strong> 만든 어텐션(Attention) 기술이 등장했어요!
 
 ---
 

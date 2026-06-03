@@ -25,18 +25,20 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 클릭 기반 대시보드 운영에서 자주 생기는 문제를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 클릭 기반 대시보드의 전형적 문제                             │
-├──────────────────────────────────────────────────────────────┤
-│ 개발자: staging UI에서 패널 수정                             │
-│ 운영자: prod UI에서 긴급 수정                                │
-│ 리뷰 : PR 없음                                                │
-│ 기록 : 누가 무엇을 바꿨는지 Git 이력 없음                    │
-│                                                              │
-│ 결과: 환경 불일치 · 책임 추적 어려움 · 롤백 지연              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭 기반 대시보드의 전형적 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자: staging UI에서 패널 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영자: prod UI에서 긴급 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리뷰 : PR 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기록 : 누가 무엇을 바꿨는지 Git 이력 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 환경 불일치 · 책임 추적 어려움 · 롤백 지연</div></div>
+</div>
+</div>
+
+
 
 Dashboard [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 이 문제를 "대시보드도 애플리케이션처럼 배포한다"는 원칙으로 해결한다. JavaScript Object Notation ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 모델, 템플릿 코드, [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 선언 등 어떤 표현을 쓰든 핵심은 저장소가 단일 진실 원천이 되고, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 인스턴스는 그 산출물을 읽어 재현 가능한 상태를 유지하는 것이다. 이렇게 되면 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포와 관련 대시보드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 같은 변경 집합으로 묶여 관측 공백을 줄일 수 있다.
 
@@ -58,25 +60,21 @@ Dashboard [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344
 
 아래 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 코드 기반 대시보드가 실제 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 인스턴스에 반영되는 전형적 흐름이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Dashboard as Code 배포 파이프라인                            │
-├──────────────────────────────────────────────────────────────┤
-│ dashboard templates / json / terraform                       │
-│                │                                             │
-│                ├─▶ CI 검증 (schema · lint · policy)          │
-│                │                                             │
-│                └─▶ 렌더링/패키징                             │
-│                           │                                  │
-│                           ▼                                  │
-│         Provisioning files / Terraform / API apply           │
-│                           │                                  │
-│                           ▼                                  │
-│                    Grafana instances                         │
-│                           │                                  │
-│                           └─▶ 운영 UI 수정은 차단 또는 덮어씀 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dashboard as Code 배포 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dashboard templates / json / terraform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CI 검증 (schema · lint · policy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 렌더링/패키징</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioning files / Terraform / API apply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana instances</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 운영 UI 수정은 차단 또는 덮어씀</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 원리는 두 가지다. 첫째, 대시보드를 선언적으로 유지해야 동일한 코드가 여러 환경에 재현된다. 둘째, 사람이 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) UI에서 급히 고친 내용을 "영구 진실"로 두지 말고, 반드시 코드로 역반영해야 한다. 그렇지 않으면 한 번의 긴급 수정이 장기적인 환경 차이로 굳어진다.
 
@@ -158,21 +156,23 @@ Dashboard [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-UI Click Ops
-    │
-    ▼
-JSON Export 기반 버전 관리
-    │
-    ▼
-Provisioning / API 배포
-    │
-    ▼
-Terraform · 템플릿 생성 도구
-    │
-    ▼
-Observability as Code
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">UI Click Ops</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">JSON Export 기반 버전 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Provisioning / API 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Terraform · 템플릿 생성 도구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Observability as Code</div>
+</div>
+</div>
+
+
 
 이 흐름은 관측 화면 관리가 개인 클릭 작업에서 조직 표준 자산 관리로 성숙해지는 과정을 보여준다.
 

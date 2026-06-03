@@ -38,8 +38,8 @@ tags = ["studynote-computer-architecture"]
 
 ### 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 동작 원리: 제로 확장과 [논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/)
 하드웨어 관점에서 부호 없는 정수는 처리가 매우 단순하다. 
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버스를 확장할 때 부호를 복사할 필요 없이 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 전부 0으로 채우는 **제로 확장([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Extension)** 로직을 거친다.
-- 나눗셈을 위한 우측 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) 시 빈자리에 무조건 0을 밀어 넣는 **[논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/)([Logical Shift](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/))** [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 사용된다. 복잡한 판별 게이트가 없어 클럭 지연이 최소화된다.
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버스를 확장할 때 부호를 복사할 필요 없이 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 전부 0으로 채우는 <strong>제로 확장(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Extension)</strong> 로직을 거친다.
+- 나눗셈을 위한 우측 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/) 시 빈자리에 무조건 0을 밀어 넣는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">논리 시프트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">Logical Shift</a>)</strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 사용된다. 복잡한 판별 게이트가 없어 클럭 지연이 최소화된다.
 
 - **📢 섹션 요약 비유**: 부호 없는 정수의 연산은 빈 통에 물을 채우는 것과 같다. 통이 커지면([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장) 그냥 빈 공간을 공기(0)로 냅두면 되고, 물을 덜어내면(시프트) 위부터 텅 비게 둔다.
 
@@ -50,19 +50,20 @@ tags = ["studynote-computer-architecture"]
 ### 랩어라운드(Wraparound)와 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)
 [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)가 범위를 넘어서면 양수가 음수가 되는 '[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)'가 발생하지만, 부호 없는 정수는 모듈로(Modulo) 연산 특성에 의해 닫힌 원형 트랙을 도는 **랩어라운드(Wraparound)** 현상을 겪는다.
 
-```text
-┌──────────────────────────────────────────────────────┐
-│        부호 없는 정수의 한계 돌파: 랩어라운드 현상           │
-├──────────────────────────────────────────────────────┤
-│   [ 8비트 Unsigned 기준: 0 ~ 255 범위 ]                  │
-│                                                      │
-│   255 (11111111) + 1  ──▶  0 (00000000)   : 원점으로   │
-│     0 (00000000) - 1  ──▶ 255 (11111111)  : 최댓값으로 │
-│                                                      │
-│ * 핵심 판단: 0에서 작은 뺄셈을 수행하면 시스템상 가장      │
-│   거대한 숫자로 순간이동(언더플로우) 해버린다.             │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 없는 정수의 한계 돌파: 랩어라운드 현상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">8비트 Unsigned 기준: 0 ~ 255 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">255 (11111111) + 1 ──▶ 0 (00000000) : 원점으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 (00000000) - 1 ──▶ 255 (11111111) : 최댓값으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 0에서 작은 뺄셈을 수행하면 시스템상 가장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 숫자로 순간이동(언더플로우) 해버린다.</div></div>
+</div>
+</div>
+
+
 
 이러한 특성 때문에 부호 없는 정수를 루프(Loop) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 사용할 때, `i >= 0` 조건으로 감소시키면 `i`가 0에서 -1이 되는 대신 42억으로 랩어라운드되어 무한 루프에 빠지는 치명적인 버그가 발생한다.
 
@@ -74,10 +75,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **메모리 포인터(Pointer) 선언**: 메모리의 절대 주소값이나 구조체 크기(Size)를 담는 변수(`size_t`)는 시스템 헤더에 규정된 대로 `unsigned` 계열을 강제하고 있는가?
-2. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스크(Bitmask) 연산**: 다수의 플래그를 ON/OFF 하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 변수는 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 간섭을 막기 위해 철저하게 부호 없는 정수로 선언했는가?
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스크(Bitmask) 연산</strong>: 다수의 플래그를 ON/OFF 하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 변수는 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 간섭을 막기 위해 철저하게 부호 없는 정수로 선언했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 Signed 타입 혼용**: C/C++에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 계산할 때 `int`와 `unsigned int`를 무분별하게 섞어 쓰면(Integer Conversion Rules), 컴파일러가 암시적으로 모든 값을 Unsigned로 승격시킨다. 이 상태에서 음수 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 유입되면 랩어라운드가 발생해 엉뚱한 메모리 주소(버퍼 오버런)를 참조하게 되어 해킹의 표적이 된다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>에 Signed 타입 혼용</strong>: C/C++에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 계산할 때 `int`와 `unsigned int`를 무분별하게 섞어 쓰면(Integer Conversion Rules), 컴파일러가 암시적으로 모든 값을 Unsigned로 승격시킨다. 이 상태에서 음수 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 유입되면 랩어라운드가 발생해 엉뚱한 메모리 주소(버퍼 오버런)를 참조하게 되어 해킹의 표적이 된다.
 
 - **📢 섹션 요약 비유**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 부호를 혼용하는 것은 일방통행 도로에 양방향 통행 차량을 허용하는 것과 같다. 겉보기엔 도로 폭이 여유로워 보이지만, 역주행 차량(음수)이 들어오는 순간 대형 사고(보안 취약점)가 발생한다.
 
@@ -97,27 +98,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/) ([Logical Shift](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/))** | 빈자리를 무조건 0으로 채우는 Unsigned 전용의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 나눗셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
-| **제로 확장 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Extension)** | Unsigned [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 큰 레지스터로 옮길 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 보장하는 방법 |
-| **모듈로 연산 ([Modulo Arithmetic](/knowledge-base/studynote/09_security/03_network_security/114_modulo_arithmetic/))** | 표현 한계 초과 시 값이 원점으로 되돌아오는 유한한 정수 집합의 수학적 기반 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">논리 시프트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">Logical Shift</a>)</strong> | 빈자리를 무조건 0으로 채우는 Unsigned 전용의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 나눗셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
+| <strong>제로 확장 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Extension)</strong> | Unsigned [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 큰 레지스터로 옮길 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 보장하는 방법 |
+| <strong>모듈로 연산 (<a href="/knowledge-base/studynote/09_security/03_network_security/114_modulo_arithmetic/">Modulo Arithmetic</a>)</strong> | 표현 한계 초과 시 값이 원점으로 되돌아오는 유한한 정수 집합의 수학적 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정수 표현의 비트 한계 (Hardware Constraints)
-    │
-    ▼
-부호 없는 정수 도입 (부호 비트 제거)
-    │
-    ▼
-양수 범위 2배 확장 · 제로 확장 (Zero Extension)
-    │
-    ▼
-논리 시프트 (Logical Shift) 최적화
-    │
-    ▼
-메모리 주소 (Pointer) 및 네트워크 포트 규격화 표준안 정립
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정수 표현의 비트 한계 (Hardware Constraints)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호 없는 정수 도입 (부호 비트 제거)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양수 범위 2배 확장 · 제로 확장 (Zero Extension)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">논리 시프트 (Logical Shift) 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 주소 (Pointer) 및 네트워크 포트 규격화 표준안 정립</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "하드웨어 한계 극복 → 수치 전용 설계 → [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 가속 → 시스템 표준(주소 체계) 확립"으로 확장되는 부호 없는 정수의 진화를 보여준다.
 

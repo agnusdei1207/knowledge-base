@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드가 반복적으로 수행하는 해시, 서명, 상태 증명, 프리컴파일 연산을 호스트 프로세서에서 떼어 내어 **결정론적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 핵심만 전용 하드웨어로 처리**하는 장치다.
+> 1. **본질**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드가 반복적으로 수행하는 해시, 서명, 상태 증명, 프리컴파일 연산을 호스트 프로세서에서 떼어 내어 <strong>결정론적 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 핵심만 전용 하드웨어로 처리</strong>하는 장치다.
 > 2. **가치**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드와 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 시퀀서는 같은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 계속 재검사해야 하므로, 코프로세서가 뜨거운 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 경로를 오프로딩하면 거래 처리량과 전력당 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 높일 수 있다.
 > 3. **판단 포인트**: 좋은 설계는 가상 머신 규칙 전체를 실리콘에 박는 것이 아니라, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변경에도 비교적 안정적인 수학 커널만 가속하고 소프트웨어와의 결정론을 유지하는 데 초점을 맞춘다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 받아들일 때 반복 수행하는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 업무를 전담하는 옆자리 엔진이다. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 프로그램이지만, 네트워크의 모든 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드는 같은 입력에 대해 같은 결과를 내야 한다. 그래서 이더리움 가상 머신 ([Ethereum Virtual Machine](/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/), [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)) 같은 실행 환경에서는 단순 계산보다 **서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 해시 계산, 상태 루트 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 프리컴파일 호출**이 자주 병목이 된다.
+[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 받아들일 때 반복 수행하는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 업무를 전담하는 옆자리 엔진이다. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 프로그램이지만, 네트워크의 모든 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드는 같은 입력에 대해 같은 결과를 내야 한다. 그래서 이더리움 가상 머신 ([Ethereum Virtual Machine](/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/), [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)) 같은 실행 환경에서는 단순 계산보다 <strong>서명 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>, 해시 계산, 상태 루트 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 프리컴파일 호출</strong>이 자주 병목이 된다.
 
 최근에는 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), 교차 체인 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 보편화되면서 연산 부담이 더 커졌다. 범용 중앙처리장치 (Central Processing Unit, CPU)로도 처리는 가능하지만, 같은 종류의 암호 연산을 수없이 반복하므로 에너지 효율이 낮고 지연시간이 길다. 이때 코프로세서는 호스트가 규칙을 관리하고, 전용 장치가 무거운 수학 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 맡는 구조로 전체 노드 효율을 끌어올린다.
 
@@ -33,24 +33,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서의 전형적 분업 구조를 나타낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Smart contract verification coprocessor: split rules and math       │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Node CPU / VM Scheduler ]                                          │
-│        │ gas / state / exception control                             │
-│        ▼                                                             │
-│ [ Command Queue ] -> [ Data Mover ] -> [ Hash Engine ]               │
-│                                  │   [ Signature Engine ]            │
-│                                  │   [ State Proof Engine ]          │
-│                                  │   [ Precompile Unit ]             │
-│                                  ▼                                   │
-│                         [ Verified Result Buffer ]                   │
-│                                  │                                   │
-│                                  ▼                                   │
-│                     [ Host commits state transition ]                │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart contract verification coprocessor: split rules and math</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node CPU / VM Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gas / state / exception control</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Command Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Data Mover</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Signature Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">State Proof Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Precompile Unit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Verified Result Buffer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host commits state transition</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -68,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-단순 암호 가속기와 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 비슷해 보여도 목표가 다르다. 전자는 암호 연산 하나를 빠르게 끝내는 데 집중하지만, 후자는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 문맥 속에서 상태 루트, 호출 순서, 배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 고려해야 한다. 즉 단일 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만큼이나 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과의 접점**이 중요하다.
+단순 암호 가속기와 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 비슷해 보여도 목표가 다르다. 전자는 암호 연산 하나를 빠르게 끝내는 데 집중하지만, 후자는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 문맥 속에서 상태 루트, 호출 순서, 배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 고려해야 한다. 즉 단일 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만큼이나 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>과의 접점</strong>이 중요하다.
 
 | 항목 | 범용 CPU | 일반 암호 가속기 | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서 |
 | :--- | :--- | :--- | :--- |
@@ -99,7 +98,7 @@ tags = ["studynote-computer-architecture"]
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **가상 머신 명령 전체를 실리콘에 고정**: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바뀌면 칩이 바로 낡아 버린다.
-- **부동소수점이나 비결정적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 축약 사용**: 노드마다 결과가 달라져 합의 분열을 부를 수 있다.
+- <strong>부동소수점이나 비결정적 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 축약 사용</strong>: 노드마다 결과가 달라져 합의 분열을 부를 수 있다.
 - **전송 오버헤드 무시**: 호스트-장치 간 큐 지연이 크면 가속기가 빨라도 전체 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 지연은 줄지 않는다.
 
 - **📢 섹션 요약 비유**: 계약 검토를 빠르게 하겠다며 회사 규정집 전체를 돌에 새기면 규정이 바뀌는 순간 다 뜯어고쳐야 한다. 자주 반복되는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차만 기계화해야 오래 쓸 수 있다.
@@ -110,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서는 거래당 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시간을 줄이고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드의 전력 소모를 낮추며, 같은 서버 수로 더 많은 요청을 처리하게 만든다. 특히 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)·[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)·고빈도 기업 체인처럼 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)량이 집중되는 구간에서는 `트랜잭션당 줄일 수 있는 검증 지연`이 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질과 운영비 절감으로 연결된다. 또한 표준화된 암호 경로를 하드웨어화하면 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 일관성도 좋아진다.
 
-하지만 이 장치는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 통째로 실리콘에 넣는 기술이 아니다. 계약 의미 해석, 합의 규칙, 예외 처리, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 진화는 여전히 소프트웨어와 운영 체계가 책임져야 한다. 따라서 기억해야 할 핵심은 **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 모든 것을 가속하는 것이 아니라, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 뜨거운 핵심만 정밀하게 떼어내는 기술**이라는 점이다.
+하지만 이 장치는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 통째로 실리콘에 넣는 기술이 아니다. 계약 의미 해석, 합의 규칙, 예외 처리, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 진화는 여전히 소프트웨어와 운영 체계가 책임져야 한다. 따라서 기억해야 할 핵심은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>의 모든 것을 가속하는 것이 아니라, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 뜨거운 핵심만 정밀하게 떼어내는 기술</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 코프로세서는 회사를 대신 운영하는 로봇 사장이 아니라, 가장 반복적이고 실수하기 쉬운 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차만 맡아 주는 최고급 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 비서다.
 
@@ -128,21 +127,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 블록체인 노드
-    │
-    ▼
-해시 · 서명 · 상태 증명 검증 병목
-    │
-    ▼
-암호 프리컴파일 · 전용 검증 엔진
-    │
-    ▼
-스마트 컨트랙트 검증 보조 코프로세서
-    │
-    ▼
-롤업 시퀀서 · zkEVM · TEE 결합 노드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 블록체인 노드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시 · 서명 · 상태 증명 검증 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암호 프리컴파일 · 전용 검증 엔진</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스마트 컨트랙트 검증 보조 코프로세서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">롤업 시퀀서 · zkEVM · TEE 결합 노드</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

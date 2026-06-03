@@ -18,22 +18,27 @@ tags = ["studynote-os"]
 
 ## Ⅰ. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭의 단계
 
-[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·시스템 콜·타임슬라이스 만료** 시 발생한다.
+[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>·시스템 콜·타임슬라이스 만료</strong> 시 발생한다.
 
-```
-컨텍스트 스위칭 순서:
 
-1. 인터럽트/시스템 콜 발생
-   ↓
-2. 현재 프로세스 A의 CPU 레지스터 상태 → PCB_A에 저장
-   (PC, SP, 범용 레지스터, PSW 등)
-   ↓
-3. 스케줄러: 다음 프로세스 B 선택
-   ↓
-4. PCB_B에서 레지스터 상태 복원
-   ↓
-5. 프로세스 B 실행 재개
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨텍스트 스위칭 순서:</div>
+<div class="kb-diagram-note">1. 인터럽트/시스템 콜 발생</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2. 현재 프로세스 A의 CPU 레지스터 상태 → PCB_A에 저장</div>
+<div class="kb-diagram-note">(PC, SP, 범용 레지스터, PSW 등)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">3. 스케줄러: 다음 프로세스 B 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">4. PCB_B에서 레지스터 상태 복원</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">5. 프로세스 B 실행 재개</div>
+</div>
+</div>
+
+
 
 ### PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 저장 내용
 
@@ -59,17 +64,22 @@ tags = ["studynote-os"]
 
 ### 간접 비용 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Cost)
 
-```
-CPU 캐시 콜드 미스:
-  프로세스 A의 워킹셋이 캐시에 있음
-  → 스위칭 후 프로세스 B가 캐시 미스 반복
-  → 성능 저하 (캐시 웜업 시간)
 
-TLB 플러시:
-  가상→물리 주소 변환 캐시(TLB) 무효화
-  → 이후 페이지 테이블 접근 비용 증가
-  → ASID(Address Space ID)로 플러시 회피 가능
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 캐시 콜드 미스:</div>
+<div class="kb-diagram-note">프로세스 A의 워킹셋이 캐시에 있음</div>
+<div class="kb-diagram-note">→ 스위칭 후 프로세스 B가 캐시 미스 반복</div>
+<div class="kb-diagram-note">→ 성능 저하 (캐시 웜업 시간)</div>
+<div class="kb-diagram-note">TLB 플러시:</div>
+<div class="kb-diagram-note">가상→물리 주소 변환 캐시(TLB) 무효화</div>
+<div class="kb-diagram-note">→ 이후 페이지 테이블 접근 비용 증가</div>
+<div class="kb-diagram-note">→ ASID(Address Space ID)로 플러시 회피 가능</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 간접 비용은 새 직원 적응 시간이다 — 직원 교체(스위칭) 자체는 빠르지만, 새 직원이 업무 파악(캐시 웜업)을 다시 해야 하는 시간이 더 크다.
 
@@ -84,7 +94,7 @@ TLB 플러시:
 | 메모리 맵      | 새 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 로딩     | 공유 (추가 비용 없음)  |
 | 비용           | 무겁다 (마이크로초 수준) | 가볍다 (수백 나노초)   |
 
-**[코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)/그린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)**: 사용자 공간에서 스케줄링 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없어 더욱 빠름 (수십 나노초)
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a>/그린 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a></strong>: 사용자 공간에서 스케줄링 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없어 더욱 빠름 (수십 나노초)
 
 📢 **섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 같은 책의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(공유 주소 공간)이고, 프로세스 전환은 다른 책으로 교체(새 주소 공간·[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)다.
 
@@ -126,7 +136,7 @@ TLB 플러시:
 | 자발적 (Voluntary) | 프로세스가 스스로 양보  | sleep(), I/O 대기, yield() |
 | 비자발적 (Involuntary) | OS 스케줄러가 강제 교체 | 타임슬라이스 만료, 고우선순위 프로세스 도착 |
 
-**[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표</strong>:
 ```bash
 vmstat 1          # cs 컬럼 = 초당 컨텍스트 스위치 수
 pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
@@ -138,47 +148,54 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 
 ## 📌 관련 개념 맵
 
-```
-컨텍스트 스위칭 (Context Switch)
-├── 저장 구조
-│   ├── PCB (Process Control Block)
-│   └── TCB (Thread Control Block)
-├── 비용 분류
-│   ├── 직접 비용 (레지스터 저장/복원)
-│   └── 간접 비용 (캐시 미스, TLB 플러시)
-├── 최적화
-│   ├── 스레드 풀 크기 최적화
-│   ├── 비동기 I/O (epoll, io_uring)
-│   └── 코루틴 (사용자 공간 스케줄링)
-└── 관련 개념
-    ├── 프로세스 스케줄링 (RR, MLFQ)
-    ├── NUMA 토폴로지
-    └── CPU 어피니티 (CPU Affinity)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨텍스트 스위칭 (Context Switch)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">저장 구조</div>
+<div class="kb-diagram-note">── PCB (Process Control Block)</div>
+<div class="kb-diagram-note">── TCB (Thread Control Block)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비용 분류</div>
+<div class="kb-diagram-note">── 직접 비용 (레지스터 저장/복원)</div>
+<div class="kb-diagram-note">── 간접 비용 (캐시 미스, TLB 플러시)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">최적화</div>
+<div class="kb-diagram-note">── 스레드 풀 크기 최적화</div>
+<div class="kb-diagram-note">── 비동기 I/O (epoll, io_uring)</div>
+<div class="kb-diagram-note">── 코루틴 (사용자 공간 스케줄링)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">관련 개념</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프로세스 스케줄링 (RR, MLFQ)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NUMA 토폴로지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CPU 어피니티 (CPU Affinity)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              컨텍스트 스위칭 발전 흐름                           │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1960년대     │ 멀티프로그래밍 시작 │ 최초 컨텍스트 스위치 구현   │
-│ 1970년대     │ Unix 멀티프로세싱   │ PCB 구조 표준화              │
-│ 1990년대     │ 멀티스레딩 OS      │ 경량 TCB 컨텍스트 스위치    │
-│ 2000년대     │ 멀티코어 CPU       │ 코어 수 증가 → 병렬성 활용  │
-│ 2010년대     │ 코루틴/async       │ Go goroutine, Python asyncio|
-│ 2020년대     │ io_uring (Linux)   │ 비동기 I/O로 스위칭 최소화  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-인터럽트 → 컨텍스트 스위치 → PCB 저장 → 스케줄러 → 다음 프로세스
-    ↓              ↓                ↓           ↓
-타임슬라이스   레지스터 저장    TLB 플러시   우선순위 큐
-    ↓
-스레드 풀 최적화 → 비동기 I/O → 코루틴 → 컨텍스트 스위치 최소화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 스위칭 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1960년대</div><div class="kb-diagram-cell">멀티프로그래밍 시작</div><div class="kb-diagram-cell">최초 컨텍스트 스위치 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">Unix 멀티프로세싱</div><div class="kb-diagram-cell">PCB 구조 표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">멀티스레딩 OS</div><div class="kb-diagram-cell">경량 TCB 컨텍스트 스위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">멀티코어 CPU</div><div class="kb-diagram-cell">코어 수 증가 → 병렬성 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">코루틴/async</div><div class="kb-diagram-cell">Go goroutine, Python asyncio</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">io_uring (Linux)</div><div class="kb-diagram-cell">비동기 I/O로 스위칭 최소화</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">인터럽트 → 컨텍스트 스위치 → PCB 저장 → 스케줄러 → 다음 프로세스</div>
+<div class="kb-diagram-note">타임슬라이스 레지스터 저장 TLB 플러시 우선순위 큐</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스레드 풀 최적화 → 비동기 I/O → 코루틴 → 컨텍스트 스위치 최소화</div>
+</div>
+</div>
+
+
 
 ---
 

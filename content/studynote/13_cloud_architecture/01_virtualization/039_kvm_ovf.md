@@ -18,31 +18,28 @@ tags = ["studynote-cloud-architecture"]
 
 ## I. [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 아키텍처
 
-```
-KVM (Kernel-based Virtual Machine, 2007):
-  Linux 커널 모듈 (kvm.ko, kvm-intel.ko)
-  Type 1 하이퍼바이저 (베어메탈 수준 성능)
-  
-구성 요소:
-  ┌─────────────────────────────────────┐
-  │           Guest OS (VM)             │
-  │  앱  앱  앱                         │
-  └──────────────┬──────────────────────┘
-                 │ QEMU-KVM
-  ┌──────────────▼──────────────────────┐
-  │     Linux 커널 (KVM 모듈)           │
-  │  kvm.ko: CPU/메모리 가상화          │
-  │  QEMU: I/O 에뮬레이션               │
-  └──────────────┬──────────────────────┘
-                 │
-  ┌──────────────▼──────────────────────┐
-  │     하드웨어 (Intel VT-x/AMD-V)     │
-  └─────────────────────────────────────┘
 
-libvirt:
-  KVM/QEMU 관리 API
-  virsh, virt-manager, OpenStack 인터페이스
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">KVM (Kernel-based Virtual Machine, 2007):</div>
+<div class="kb-diagram-note">Linux 커널 모듈 (kvm.ko, kvm-intel.ko)</div>
+<div class="kb-diagram-note">Type 1 하이퍼바이저 (베어메탈 수준 성능)</div>
+<div class="kb-diagram-note">구성 요소:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS (VM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 앱 앱</div></div>
+<div class="kb-diagram-note">QEMU-KVM</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux 커널 (KVM 모듈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kvm.ko: CPU/메모리 가상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QEMU: I/O 에뮬레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 (Intel VT-x/AMD-V)</div></div>
+<div class="kb-diagram-note">libvirt:</div>
+<div class="kb-diagram-note">KVM/QEMU 관리 API</div>
+<div class="kb-diagram-note">virsh, virt-manager, OpenStack 인터페이스</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: KVM은 아파트 건물(Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 안에 독립된 집([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 만드는 것 — 건물 관리인([kvm](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/).ko)이 CPU/메모리 자원 배분.
 
@@ -81,33 +78,34 @@ Intel VT-x (Virtualization Technology):
 
 ## III. OVF / OVA 표준
 
-```
-OVF (Open Virtualization Format):
-  DMTF 표준 (VMware, Red Hat, IBM, Oracle)
-  하이퍼바이저 독립적 VM 패키징
-  
-OVF 패키지 구성:
-  .ovf (설명자): XML 기반 VM 메타데이터
-    CPU, 메모리, 디스크, 네트워크 사양
-  .vmdk/.qcow2 (디스크 이미지)
-  .mf (매니페스트): 무결성 체크섬
-  
-OVA (Open Virtual Appliance):
-  OVF 패키지를 하나의 TAR 파일로 압축
-  배포·전송이 편리
-  
-활용:
-  VM 이미지를 VMware ESXi -> KVM으로 이전
-  또는 VMware <-> Hyper-V 교차 배포
-  
-변환:
-  virt-v2v: VMware/Hyper-V -> KVM 변환
-  qemu-img convert: vmdk -> qcow2 변환
-  
-예:
-  ovftool --targetType=OVA vm.ovf vm.ova
-  virt-v2v -i ova vm.ova -o local -of qcow2
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OVF (Open Virtualization Format):</div>
+<div class="kb-diagram-note">DMTF 표준 (VMware, Red Hat, IBM, Oracle)</div>
+<div class="kb-diagram-note">하이퍼바이저 독립적 VM 패키징</div>
+<div class="kb-diagram-note">OVF 패키지 구성:</div>
+<div class="kb-diagram-note">.ovf (설명자): XML 기반 VM 메타데이터</div>
+<div class="kb-diagram-note">CPU, 메모리, 디스크, 네트워크 사양</div>
+<div class="kb-diagram-note">.vmdk/.qcow2 (디스크 이미지)</div>
+<div class="kb-diagram-note">.mf (매니페스트): 무결성 체크섬</div>
+<div class="kb-diagram-note">OVA (Open Virtual Appliance):</div>
+<div class="kb-diagram-note">OVF 패키지를 하나의 TAR 파일로 압축</div>
+<div class="kb-diagram-note">배포·전송이 편리</div>
+<div class="kb-diagram-note">활용:</div>
+<div class="kb-diagram-note">VM 이미지를 VMware ESXi -&gt; KVM으로 이전</div>
+<div class="kb-diagram-note">또는 VMware &lt;-&gt; Hyper-V 교차 배포</div>
+<div class="kb-diagram-note">변환:</div>
+<div class="kb-diagram-note">virt-v2v: VMware/Hyper-V -&gt; KVM 변환</div>
+<div class="kb-diagram-note">qemu-img convert: vmdk -&gt; qcow2 변환</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">ovftool --targetType=OVA vm.ovf vm.ova</div>
+<div class="kb-diagram-note">virt-v2v -i ova vm.ova -o local -of qcow2</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: OVA는 VM의 이사 박스 — 어느 집([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))에서든 열어서 그대로 설치 가능한 표준 패키징.
 
@@ -156,32 +154,34 @@ XML 기반 VM 정의:
 
 ## V. 실무 시나리오 — [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) 구성
 
-```
-OpenStack + KVM 프라이빗 클라우드:
 
-인프라:
-  물리 서버 10대 (KVM 하이퍼바이저)
-  OpenStack: Nova(컴퓨팅) + Neutron(네트워크)
-  
-VM 프로비저닝 흐름:
-  1. 사용자: API로 VM 생성 요청
-  2. Nova: 스케줄러로 최적 호스트 선택
-  3. libvirt: 선택된 호스트에 KVM VM 시작
-  4. Neutron: VM에 가상 네트워크 연결
-  5. 사용자: SSH로 VM 접속
 
-OVF를 이용한 마이그레이션:
-  VMware 환경 -> OpenStack(KVM) 이전
-  1. VMware에서 VM을 OVA로 내보내기
-  2. virt-v2v로 OVA -> qcow2 변환
-  3. OpenStack Glance에 이미지 업로드
-  4. Nova로 VM 시작
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OpenStack + KVM 프라이빗 클라우드:</div>
+<div class="kb-diagram-note">인프라:</div>
+<div class="kb-diagram-note">물리 서버 10대 (KVM 하이퍼바이저)</div>
+<div class="kb-diagram-note">OpenStack: Nova(컴퓨팅) + Neutron(네트워크)</div>
+<div class="kb-diagram-note">VM 프로비저닝 흐름:</div>
+<div class="kb-diagram-note">1. 사용자: API로 VM 생성 요청</div>
+<div class="kb-diagram-note">2. Nova: 스케줄러로 최적 호스트 선택</div>
+<div class="kb-diagram-note">3. libvirt: 선택된 호스트에 KVM VM 시작</div>
+<div class="kb-diagram-note">4. Neutron: VM에 가상 네트워크 연결</div>
+<div class="kb-diagram-note">5. 사용자: SSH로 VM 접속</div>
+<div class="kb-diagram-note">OVF를 이용한 마이그레이션:</div>
+<div class="kb-diagram-note">VMware 환경 -&gt; OpenStack(KVM) 이전</div>
+<div class="kb-diagram-note">1. VMware에서 VM을 OVA로 내보내기</div>
+<div class="kb-diagram-note">2. virt-v2v로 OVA -&gt; qcow2 변환</div>
+<div class="kb-diagram-note">3. OpenStack Glance에 이미지 업로드</div>
+<div class="kb-diagram-note">4. Nova로 VM 시작</div>
+<div class="kb-diagram-note">라이브 마이그레이션:</div>
+<div class="kb-diagram-note">virsh migrate --live myvm qemu+ssh://host2/system</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VM 중단 없이 호스트 간 이동 (메모리 페이지 전송)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">유지보수를 위한 핵심 기능</div>
+</div>
+</div>
 
-라이브 마이그레이션:
-  virsh migrate --live myvm qemu+ssh://host2/system
-  -> VM 중단 없이 호스트 간 이동 (메모리 페이지 전송)
-  -> 유지보수를 위한 핵심 기능
-```
+
 
 > 📢 **섹션 요약 비유**: libvirt migrate는 달리는 기차의 승객을 다른 기차로 옮기기 — VM을 끄지 않고 다른 서버로 이동 ([라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)).
 

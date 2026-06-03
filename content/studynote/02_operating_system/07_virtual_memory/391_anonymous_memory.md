@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 익명 메모리(Anonymous Memory)는 하드디스크에 대응되는 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 전혀 없이, 프로세스가 실행되는 동안 **오직 램(RAM) 위에서 순수하게 동적으로 창조된 이름 없는 메모리 공간**을 의미한다.
-> 2. **가치**: 프로그램의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조인 **힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), malloc/[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))**과 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 기록인 **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** 영역을 구성하며, 프로그램의 실행 상태와 논리적 맥락을 실시간으로 담아내는 생명선 역할을 한다.
-> 3. **융합**: 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없기 때문에 램에서 쫓겨날 때(Swap-out) 그냥 삭제하면 영원히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 증발하므로, OS는 이 익명 메모리를 살리기 위해 하드디스크에 **'스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'이라는 전용 비상 대피소를 강제로 융합**시켜야만 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막을 수 있다.
+> 1. **본질**: 익명 메모리(Anonymous Memory)는 하드디스크에 대응되는 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 전혀 없이, 프로세스가 실행되는 동안 <strong>오직 램(RAM) 위에서 순수하게 동적으로 창조된 이름 없는 메모리 공간</strong>을 의미한다.
+> 2. **가치**: 프로그램의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조인 <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>, malloc/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">new</a>)</strong>과 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 기록인 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> 영역을 구성하며, 프로그램의 실행 상태와 논리적 맥락을 실시간으로 담아내는 생명선 역할을 한다.
+> 3. **융합**: 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없기 때문에 램에서 쫓겨날 때(Swap-out) 그냥 삭제하면 영원히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 증발하므로, OS는 이 익명 메모리를 살리기 위해 하드디스크에 <strong>'스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(Swap <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)'이라는 전용 비상 대피소를 강제로 융합</strong>시켜야만 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막을 수 있다.
 
 ---
 
@@ -23,31 +23,29 @@ tags = ["studynote-operating-system"]
 - **필요성**: 카카오톡 프로그램 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 컴퓨터를 꺼도 하드디스크 어딘가에 저장되어 있다. 하지만 내가 카카오톡에서 방금 친구에게 타자로 치고 있는 "안녕"이라는 글자나, 방금 막 로그인해서 받아온 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 값은 하드디스크 어디에도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 존재하지 않는다. 이처럼 프로그램이 숨을 쉬고 생각하며 만들어내는 실시간 휘발성 변수(Variable)들을 담아둘 수 있는 순수한 램 공간이 반드시 필요했다.
 
 - **등장 배경 및 OS의 고민**:
-  1. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맵핑([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))의 대중화**: OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 램에 올려놓고 다 쓰면 그냥 지워버리면(Drop) 그만이라 관리가 너무 편했다.
-  2. **동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 반란**: 그런데 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙에 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없어서 램이 부족할 때 그냥 지울 수가 없었다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 맵핑(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>)의 대중화</strong>: OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 램에 올려놓고 다 쓰면 그냥 지워버리면(Drop) 그만이라 관리가 너무 편했다.
+  2. <strong>동적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 반란</strong>: 그런데 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙에 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 없어서 램이 부족할 때 그냥 지울 수가 없었다.
   3. **스왑(Swap) 공간의 탄생**: OS는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 없는 '익명(Anonymous)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 램에서 쫓아낼 때 임시로 묻어두기 위해, 디스크 구석에 이름 없는 무덤인 '[스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)'을 파놓고 여기에만 강제로 밀어 넣기로 합의했다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        가상 주소 공간의 메모리 성격(익명 vs 파일) 완벽 분해        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 4GB 가상 주소 공간 ]             [ 생성 기원 및 쫓겨날 위치 ]    │
-│ ┌──────────────────┐                                               │
-│ │ 스택 (Stack)     │ ──▶ 함수 지역변수. (익명 메모리)              │
-│ │                  │       [쫓겨날 때: 스왑 파티션으로 피난]       │
-│ ├──────────────────┤                                               │
-│ │ 힙 (Heap)        │ ──▶ malloc 동적할당. (익명 메모리)            │
-│ │                  │       [쫓겨날 때: 스왑 파티션으로 피난]       │
-│ ├──────────────────┤                                               │
-│ │ BSS (초기화안됨)   │ ──▶ 전역 변수. (초기엔 파일, 나중엔 익명)   │
-│ │ Data (초기화됨)    │                                             │
-│ ├──────────────────┤                                               │
-│ │ Code / Text      │ ──▶ 프로그램 명령어. (파일 지원 메모리)       │
-│ └──────────────────┘       [쫓겨날 때: 그냥 쿨하게 삭제됨!]        │
-└────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 초보 개발자가 가장 많이 착각하는 것이 "램이 모자라면 모든 프로그램이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 간다"는 것이다. 틀렸다. 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 영역은 디스크에 `.exe` 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있기 때문에, 램이 모자라면 OS는 그냥 램에서 삭제(Drop)해 버린다. 나중에 필요하면 `.exe`에서 다시 읽어오면 되기 때문이다. **스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 도망가는 녀석들은 오직 갈 곳 없는 고아들, 즉 '익명 메모리([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/힙)'뿐이다.**
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 공간의 메모리 성격(익명 vs 파일) 완벽 분해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4GB 가상 주소 공간</div><div class="kb-diagram-node">생성 기원 및 쫓겨날 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 (Stack)</div><div class="kb-diagram-cell">──▶ 함수 지역변수. (익명 메모리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">쫓겨날 때: 스왑 파티션으로 피난</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 (Heap)</div><div class="kb-diagram-cell">──▶ malloc 동적할당. (익명 메모리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">쫓겨날 때: 스왑 파티션으로 피난</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSS (초기화안됨)</div><div class="kb-diagram-cell">──▶ 전역 변수. (초기엔 파일, 나중엔 익명)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data (초기화됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code / Text</div><div class="kb-diagram-cell">──▶ 프로그램 명령어. (파일 지원 메모리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">쫓겨날 때: 그냥 쿨하게 삭제됨!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 초보 개발자가 가장 많이 착각하는 것이 "램이 모자라면 모든 프로그램이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 간다"는 것이다. 틀렸다. 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 영역은 디스크에 `.exe` 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있기 때문에, 램이 모자라면 OS는 그냥 램에서 삭제(Drop)해 버린다. 나중에 필요하면 `.exe`에서 다시 읽어오면 되기 때문이다. <strong>스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 도망가는 녀석들은 오직 갈 곳 없는 고아들, 즉 '익명 메모리(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>/힙)'뿐이다.</strong>
 
 - **📢 섹션 요약 비유**: 이력서 양식(코드)은 컴퓨터에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 있으니 종이가 모자라면 찢어 버려도 다시 출력하면 되지만, 내가 1시간 동안 볼펜으로 직접 써 내려간 자기소개서 내용(익명 메모리)은 버리면 끝장이므로 반드시 비밀 금고([스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/))에 잘 보관해 둬야 하는 것과 같은 이치입니다.
 
@@ -60,8 +58,8 @@ tags = ["studynote-operating-system"]
 익명 메모리가 가장 처음 램(RAM)에 할당될 때, OS는 어마어마한 보안 절차를 하나 거친다.
 - C언어에서 `malloc(4KB)`으로 익명 메모리를 요구하면, OS는 빈 램(Frame) 하나를 찾아서 건네준다.
 - 이때 그 빈 램에는 예전에 엑셀이나 카카오톡이 쓰다 버린 '다른 사람의 비밀번호'나 '민감한 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'가 고스란히 남아있다. (램은 지워지지 않으니까).
-- OS는 이 메모리를 유저 앱에 넘겨주기 직전, 4KB 전체를 **모조리 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))으로 덮어씌워서 깨끗하게 세탁([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill)**한 뒤에 건네준다.
-- 이 과정은 앱이 메모리를 처음 터치(Demand)할 때 실시간으로 일어나므로 **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill-On-Demand (ZFOD)**라고 부른다. 익명 메모리의 탄생을 알리는 신성한 세례 의식이다.
+- OS는 이 메모리를 유저 앱에 넘겨주기 직전, 4KB 전체를 <strong>모조리 0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)으로 덮어씌워서 깨끗하게 세탁(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill)</strong>한 뒤에 건네준다.
+- 이 과정은 앱이 메모리를 처음 터치(Demand)할 때 실시간으로 일어나므로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill-On-Demand (ZFOD)</strong>라고 부른다. 익명 메모리의 탄생을 알리는 신성한 세례 의식이다.
 
 ---
 
@@ -69,11 +67,11 @@ tags = ["studynote-operating-system"]
 
 익명 메모리는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 메모리와 완전히 다른 생명 주기를 갖는다.
 
-1. **탄생 ([Minor Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/))**: 
+1. <strong>탄생 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/">Minor Page Fault</a>)</strong>: 
    앱이 `malloc`을 하고 값을 처음 쓴다. OS가 빈 램을 찾아 0으로 세탁(ZFOD)해서 준다. 디스크 I/O가 없으므로 아주 빠르다.
-2. **사망 위기 ([Swap Out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/))**: 
-   시스템 램이 모자란다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(kswapd)이 이 익명 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내어 **디스크의 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 기록(Write)**하고 램에서 내쫓는다. 디스크 I/O가 터지며 서버가 무거워진다.
-3. **부활 (Major [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) / Swap In)**:
+2. <strong>사망 위기 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">Swap Out</a>)</strong>: 
+   시스템 램이 모자란다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(kswapd)이 이 익명 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내어 <strong>디스크의 스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>에 기록(Write)</strong>하고 램에서 내쫓는다. 디스크 I/O가 터지며 서버가 무거워진다.
+3. <strong>부활 (Major <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> / Swap In)</strong>:
    앱이 쫓겨난 그 변수를 다시 찾는다. OS는 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 묻어둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 **다시 읽어온다(Read)**. 8ms의 지옥 같은 I/O 지연이 발생한다.
 
 - **📢 섹션 요약 비유**: 빈 공책(익명 메모리)을 사 오면 엄마(OS)가 나쁜 낙서가 없나 확인하고 지우개로 싹 지워([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill) 줍니다. 내가 그림을 그리다 책상이 좁으면 엄마가 스케치북을 침대 밑 박스([Swap Out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/))에 넣고, 다시 그리고 싶을 때 낑낑대며 꺼내오는(Swap In) 험난한 라이프사이클입니다.
@@ -90,24 +88,27 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **출신 성분** | 없음 (램에서 `malloc`으로 동적 창조) | 디스크의 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (`.exe`, `.txt` 등) |
 | **속한 구역** | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역 | 코드 (Text) 영역, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑 ([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) 영역 |
-| **램 부족 시 대피처**| **[스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) (Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)/[File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))** | 스왑 안 감. 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덮어쓰거나(Dirty) 그냥 지움(Clean). |
-| **메모리 락 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**| `mlock()`을 통해 램에 강제 고정 가능 | `mlock()`으로 고정 가능 |
-| **메모리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도** | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill 세탁으로 인해 CPU 낭비 약간 있음 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 긁어와야 하므로 디스크 읽기 속도에 종속 |
+| **램 부족 시 대피처**| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a> (Swap <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>/<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong> | 스왑 안 감. 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덮어쓰거나(Dirty) 그냥 지움(Clean). |
+| <strong>메모리 락 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>| `mlock()`을 통해 램에 강제 고정 가능 | `mlock()`으로 고정 가능 |
+| <strong>메모리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 속도</strong> | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill 세탁으로 인해 CPU 낭비 약간 있음 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 긁어와야 하므로 디스크 읽기 속도에 종속 |
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 진짜 주범
 
 시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(디스크만 긁다가 멈춤)에 빠지는 이유는 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/) 때문이 아니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리는 그냥 램에서 찢어버리면(Drop) 1초 만에 램이 수십 기가씩 확보된다. 
 하지만 **익명 메모리가 램에 꽉 차면 지옥이 시작된다.** 익명 메모리는 무조건 스왑 디스크에 'Write([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))'를 한 번 하고 쫓아내야 하므로, 램을 비우는 과정 자체가 끔찍한 디스크 I/O 병목을 유발한다. "[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 고갈)이 발생했다"는 것은 곧 이 "익명 메모리가 램과 스왑을 100% 점령했다"는 뜻과 완벽히 동의어다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 램 100% 시 │ Clean 파일 │ Dirty 파일 │ 익명 메모리(Heap)     │
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ OS의 조치  │ 그냥 즉시 삭제│ 파일에 덮어씀│ **스왑에 덮어씀**│
-│ 소요 시간  │ 0 초 (최상) │ 8 ms (느림) │ 8 ms (느림)         │
-│ 생존 우선권│ 가장 먼저 죽음│ 중간        │ 가장 늦게 쫓겨남  │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 100% 시</div><div class="kb-diagram-cell">Clean 파일</div><div class="kb-diagram-cell">Dirty 파일</div><div class="kb-diagram-cell">익명 메모리(Heap)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 조치</div><div class="kb-diagram-cell">그냥 즉시 삭제</div><div class="kb-diagram-cell">파일에 덮어씀</div><div class="kb-diagram-cell">스왑에 덮어씀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소요 시간</div><div class="kb-diagram-cell">0 초 (최상)</div><div class="kb-diagram-cell">8 ms (느림)</div><div class="kb-diagram-cell">8 ms (느림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생존 우선권</div><div class="kb-diagram-cell">가장 먼저 죽음</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">가장 늦게 쫓겨남</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 운영체제는 램이 부족할 때 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(코드) 캐시를 가장 먼저 죽인다. 왜냐하면 다시 읽어오면 되니까 잃을 게 없기 때문이다. 하지만 힙(익명 메모리)은 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)으로 내쫓는 비용이 너무 비싸기 때문에 웬만하면 램에 오래 살려둔다. 이 OS의 편애 정책을 `Swappiness` 파라미터로 조절한다.
 
 - **📢 섹션 요약 비유**: 집에 불이 나면(램 부족), 마트에서 다시 살 수 있는 옷이나 책([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리)은 창문 밖으로 다 던져버리지만, 돈과 앨범 사진(익명 메모리)은 무거워도 무조건 금고(스왑)에 넣고 살려내야 하는 OS의 눈물겨운 대피 순위입니다.
@@ -118,13 +119,13 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: `swappiness` 파라미터와 DB 서버 튜닝
 1. **문제 상황**: 리눅스 DB(MySQL) 서버가 갑자기 렉이 걸린다. 램은 아직 10GB나 남았는데, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자꾸 DB의 캐시(익명 메모리)를 스왑으로 내쫓으려고 하드디스크를 긁어댄다.
-2. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 딜레마 (`vm.swappiness`)**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 딜레마 (<code>vm.swappiness</code>)</strong>:
    - 리눅스는 `vm.swappiness`라는 변수(0~100, 기본값 60)를 가지고 있다.
    - 이 값이 높으면: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(코드)를 지키기 위해, 힙(익명 메모리)을 스왑으로 적극적으로 내쫓아라!"
    - 이 값이 낮으면: "힙(익명 메모리)을 지키기 위해, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시를 적극적으로 램에서 찢어버려라!"
 3. **실무적 결단**:
    - DB 서버의 힙(익명 메모리) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0.001초 만에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답을 해야 하는 절대적인 생명선이다. 이놈이 스왑으로 쫓겨나면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 10초 걸린다.
-   - 백엔드 엔지니어는 서버 세팅 시 **`sysctl vm.swappiness=1`** 로 값을 극단적으로 낮춰버린다.
+   - 백엔드 엔지니어는 서버 세팅 시 <strong><code>sysctl vm.swappiness=1</code></strong> 로 값을 극단적으로 낮춰버린다.
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 "DB의 힙(익명 메모리)은 하늘이 두 쪽 나도 스왑으로 쫓아내지 마! 차라리 카카오톡 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시를 다 찢어버려!"라고 강제 명령을 내리는, 실무 최고의 생존 튜닝이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 상황에서의 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)
@@ -141,8 +142,8 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **동적 프로그래밍의 실현** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 속박 없이 프로그래머가 원하는 만큼 메모리를 무한히 동적 할당(`malloc`)할 수 있는 논리적 배경 제공 |
-| **[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))의 명분** | 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이라는 하드디스크의 숨겨진 영토를 구축하고 유지해야만 하는 OS 아키텍처의 가장 근원적인 이유 |
-| **보안([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill) 샌드박스** | 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잔재를 완벽히 씻어내는 ZFOD를 통해 멀티 유저 환경에서 타인의 메모리 해킹을 하드웨어 레벨에서 원천 봉쇄 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>)의 명분</strong> | 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이라는 하드디스크의 숨겨진 영토를 구축하고 유지해야만 하는 OS 아키텍처의 가장 근원적인 이유 |
+| <strong>보안(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-fill) 샌드박스</strong> | 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잔재를 완벽히 씻어내는 ZFOD를 통해 멀티 유저 환경에서 타인의 메모리 해킹을 하드웨어 레벨에서 원천 봉쇄 |
 
 ### 결론 및 미래 전망
 
@@ -163,15 +164,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
-    │
-    ▼
-[익명 메모리 (Anonymous Memory)]
-    │
-    ├──▶ [파일 지원 메모리 (File-backed Memory)]
-    └──▶ [쓰기 시 복사 (COW, Copy-on-Write)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">익명 메모리 (Anonymous Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 지원 메모리 (File-backed Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 시 복사 (COW, Copy-on-Write)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

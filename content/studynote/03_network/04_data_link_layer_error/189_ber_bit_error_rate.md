@@ -21,19 +21,23 @@ tags = ["studynote-network"]
 
 네트워크 엔지니어들이 장비를 깔고 가장 먼저 측정하는 지표입니다.
 
-- **공식**: **BER = (수신 측에서 오류가 발생한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수) / (송신 측에서 보낸 총 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)**
+- **공식**: <strong>BER = (수신 측에서 오류가 발생한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수) / (송신 측에서 보낸 총 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수)</strong>
 - **예시**: 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(10Kb)를 보냈는데 그중 1개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0에서 1로 깨져서 도착했다면? 
   - $BER = 1 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-4}$ 입니다.
   - 보통 통신에서는 "이 선로는 텐 투 더 마이너스 포($[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-4}$)짜리 품질이다"라고 말합니다.
 
-```text
-[오류 제어 개요]
-    │
-    ▼
-[비트 에러율]
-    │
-    └──▶ [순방향 에러 수정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 제어 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순방향 에러 수정</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러율은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,19 +50,23 @@ tags = ["studynote-network"]
 1. **광케이블 (초고품질 유선망)**
    - 빛은 외부 노이즈(번개, 전자기장)의 영향을 아예 받지 않습니다.
    - 광케이블의 BER은 보통 **$[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-9}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-12}$** 수준입니다. (1조 개를 보내면 1개 깨질까 말까 한 신의 영역입니다). 에러 제어가 거의 필요 없습니다.
-2. **무선 통신 (Wi-Fi, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))**
+2. <strong>무선 통신 (Wi-Fi, <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>
    - 공기 중에는 비, 눈, [다중 경로 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) 등 전파를 찢어놓는 방해물이 수두룩합니다.
    - 무선망의 BER은 심할 경우 **$[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-3}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$**까지 뚝 떨어집니다. (천 개 보내면 한두 개가 박살 남). 
    - 이렇게 에러가 폭주하기 때문에, 무선 랜카드 안에는 이 깨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 살려내기 위한 끔찍하게 복잡한 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)(FEC, [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 칩셋이 필수적으로 빵빵하게 탑재되어야 합니다.
 
-```text
-[오류 제어 개요]
-    │
-    ▼
-[비트 에러율]
-    │
-    └──▶ [순방향 에러 수정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 제어 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순방향 에러 수정</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러율의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,10 +74,10 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-BER을 결정짓는 가장 큰 물리적 요인은 **[신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))**입니다.
+BER을 결정짓는 가장 큰 물리적 요인은 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">신호 대 잡음비</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">SNR</a>, <a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">Signal-to-Noise Ratio</a>)</strong>입니다.
 
 - 주변 잡음(Noise)이 아무리 커도, 내 공유기가 쏘는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 파워를 압도적으로 세게 쏘면 잡음을 뚫고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘 도착하여 BER이 확 떨어집니다. (고라니가 울어도 내가 스피커로 귀에다 대고 소리치면 말이 들리는 이치).
-- 하지만 국가 전파법 규제(EIRP)나 스마트폰 배터리 문제로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 파워를 무한정 올릴 수 없으므로, 결국 샤논의 정리에 따라 **코딩 기법(채널 코딩)이나 다이버시티 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술을 총동원해 간신히 BER을 낮추는 것**이 현대 무선 통신 공학의 핵심 과제입니다.
+- 하지만 국가 전파법 규제(EIRP)나 스마트폰 배터리 문제로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 파워를 무한정 올릴 수 없으므로, 결국 샤논의 정리에 따라 <strong>코딩 기법(채널 코딩)이나 다이버시티 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 기술을 총동원해 간신히 BER을 낮추는 것</strong>이 현대 무선 통신 공학의 핵심 과제입니다.
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러율을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 개요가 기반 조건을 만든다면, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러율은 그 위에서 핵심 메커니즘을 구현하고, [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ BER을 결정짓는 가장 큰 물리적 요인은 **[신호 대 잡음비](/kno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 오류 제어 개요]
-    │
-    ▼
-[현재 개념: 비트 에러율]
-    │
-    ├──▶ [확장 A: 순방향 에러 수정]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오류 제어 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비트 에러율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 순방향 에러 수정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러율는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

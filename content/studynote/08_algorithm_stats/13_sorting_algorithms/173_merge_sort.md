@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 계속 반으로 나눈 뒤, 정렬된 작은 조각들을 다시 병합해 전체 순서를 만드는 **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))** 정렬이다.
+> 1. **본질**: [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 계속 반으로 나눈 뒤, 정렬된 작은 조각들을 다시 병합해 전체 순서를 만드는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> 정렬이다.
 > 2. **가치**: 입력 상태와 무관하게 항상 `O(n log n)`을 보장하고 안정 정렬 (Stable Sort) 이라서, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)와 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)에서 특히 강하다.
 > 3. **판단 포인트**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서는 보조 메모리 `O(n)`과 복사 비용이 필요하므로, 안정성과 예측 가능성이 메모리 절약보다 중요할 때 선택하는 것이 맞다.
 
@@ -19,11 +19,11 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 큰 문제를 작은 문제로 쪼갠 뒤 다시 합치는 전형적인 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 알고리즘이다. 핵심은 "어떻게 한 번에 정렬할까"가 아니라, **작게 쪼개면 정렬이 쉬워지고, 정렬된 두 조각은 선형 시간에 합칠 수 있다**는 사실을 이용하는 데 있다.
+[합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 큰 문제를 작은 문제로 쪼갠 뒤 다시 합치는 전형적인 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 알고리즘이다. 핵심은 "어떻게 한 번에 정렬할까"가 아니라, <strong>작게 쪼개면 정렬이 쉬워지고, 정렬된 두 조각은 선형 시간에 합칠 수 있다</strong>는 사실을 이용하는 데 있다.
 
 이 알고리즘이 중요해진 이유는 단순 비교 정렬들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 커질수록 급격히 느려지기 때문이다. 버블 정렬이나 선택 정렬은 최악에 `O(n²)`가 걸리므로, 입력 크기가 커지면 처리 시간이 폭증한다. 반면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 입력이 이미 정렬돼 있든 역순이든 관계없이 작업량이 거의 일정하다.
 
-또한 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 안정 정렬이라는 점에서 실무 가치가 크다. 예를 들어 "점수순 정렬 후 같은 점수에서는 먼저 들어온 순서를 유지"해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서, [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 동일 키의 기존 순서를 보존한다. 그래서 단순히 빠른 정렬이 아니라 **예측 가능하고 순서를 보존하는 정렬**로 기억해야 한다.
+또한 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 안정 정렬이라는 점에서 실무 가치가 크다. 예를 들어 "점수순 정렬 후 같은 점수에서는 먼저 들어온 순서를 유지"해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서, [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 동일 키의 기존 순서를 보존한다. 그래서 단순히 빠른 정렬이 아니라 <strong>예측 가능하고 순서를 보존하는 정렬</strong>로 기억해야 한다.
 
 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)이 특히 빛나는 곳은 메모리 안 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)만이 아니다. [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)처럼 순차 접근이 자연스러운 구조, 그리고 디스크에 있는 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 조각으로 나눠 정렬한 뒤 다시 합치는 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)에서 매우 강력하다.
 
@@ -43,24 +43,22 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 분할과 병합이 어떻게 맞물리는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Merge Sort: split first, merge later               │
-├────────────────────────────────────────────────────────────────────┤
-│ [38 27 43 03 09 82 10 14]                                          │
-│          ├───────────────┬───────────────┤                         │
-│      [38 27 43 03]   [09 82 10 14]                                │
-│        ├──────┬──────┤   ├──────┬──────┤                          │
-│      [38 27][43 03] [09 82][10 14]                                │
-│                                                                    │
-│ merge upward:                                                      │
-│ [27 38] [03 43] [09 82] [10 14]                                   │
-│      └──────┬──────┘   └──────┬──────┘                            │
-│      [03 27 38 43]      [09 10 14 82]                             │
-│               └──────────────┬──────────────┘                     │
-│           [03 09 10 14 27 38 43 82]                               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge Sort: split first, merge later</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38 27 43 03 09 82 10 14</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38 27 43 03</div><div class="kb-diagram-node">09 82 10 14</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38 27</div><div class="kb-diagram-node">43 03</div><div class="kb-diagram-node">09 82</div><div class="kb-diagram-node">10 14</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">merge upward:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">27 38</div><div class="kb-diagram-node">03 43</div><div class="kb-diagram-node">09 82</div><div class="kb-diagram-node">10 14</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">03 27 38 43</div><div class="kb-diagram-node">09 10 14 82</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">03 09 10 14 27 38 43 82</div></div>
+</div>
+</div>
+
+
 
 병합 단계의 핵심은 두 포인터 비교다. 왼쪽 정렬 구간과 오른쪽 정렬 구간의 맨 앞 원소를 비교해 더 작은 값을 임시 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고, 그쪽 포인터만 한 칸 전진한다. 이 작업을 반복하면 두 정렬 구간을 `O(n)`에 합칠 수 있다. 따라서 전체 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 `T(n) = 2T(n/2) + O(n)` 이 되고, 마스터 정리 (Master Theorem) 에 의해 `O(n log n)`이 된다.
 
@@ -82,7 +80,7 @@ tags = ["studynote-algorithm"]
 | 안정성 | 안정 | 불안정 | 불안정 |
 | 잘 맞는 환경 | [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/), [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/), 다중 키 정렬 | 일반 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 캐시 효율 | 메모리 제약, 최악 보장 |
 
-[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균적으로 매우 빠르고 캐시 친화적이지만, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택이 나쁘면 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠질 수 있다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 추가 메모리 없이 최악도 보장하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 분산되어 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 이 둘 사이에서 **안정성과 예측 가능성**을 가장 강하게 제공한다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균적으로 매우 빠르고 캐시 친화적이지만, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택이 나쁘면 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠질 수 있다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 추가 메모리 없이 최악도 보장하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 분산되어 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 이 둘 사이에서 <strong>안정성과 예측 가능성</strong>을 가장 강하게 제공한다.
 
 또한 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 더 매력적이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 중간 분할 후 병합할 때 임시 버퍼가 필요하지만, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)는 포인터 재연결만으로 정렬된 두 리스트를 합칠 수 있다. 그래서 같은 `O(n log n)`이라도 자료구조가 달라지면 알고리즘의 실제 매력이 달라진다.
 
@@ -94,7 +92,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)을 선택하는 대표 이유는 세 가지다. **안정성**, **예측 가능한 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**, **순차 접근 친화성**이다. 예를 들어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 시간순으로 정렬하면서 같은 타임스탬프의 기존 입력 순서를 유지해야 한다면, [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 안전한 선택이 된다.
+실무에서 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)을 선택하는 대표 이유는 세 가지다. **안정성**, <strong>예측 가능한 최악 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>, <strong>순차 접근 친화성</strong>이다. 예를 들어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 시간순으로 정렬하면서 같은 타임스탬프의 기존 입력 순서를 유지해야 한다면, [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 안전한 선택이 된다.
 
 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정렬에서도 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 핵심 기반 기술이다. 메모리에 한 번에 다 올릴 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 청크로 나눠 각각 정렬한 뒤, 다방향 병합 (Multi-way Merge) 으로 하나의 정렬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 합친다. 즉 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)은 사실상 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 확장판이다.
 
@@ -122,9 +120,9 @@ tags = ["studynote-algorithm"]
 
 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태와 무관하게 일정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내므로, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측이 쉬운 정렬이라는 장점을 가진다. 또한 안정 정렬이어서 다중 기준 정렬, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 정렬, 레코드 정렬처럼 순서 보존이 중요한 문제에 잘 맞는다.
 
-더 중요한 점은 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)이 단독 알고리즘을 넘어 **[외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬, [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) 같은 하이브리드 정렬의 기반**이라는 사실이다. 즉 이 알고리즘은 교과서 예제가 아니라, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 뼈대를 이루는 기본 메커니즘이다.
+더 중요한 점은 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)이 단독 알고리즘을 넘어 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/">외부 정렬</a>, <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 정렬, <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a> 같은 하이브리드 정렬의 기반</strong>이라는 사실이다. 즉 이 알고리즘은 교과서 예제가 아니라, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 뼈대를 이루는 기본 메커니즘이다.
 
-물론 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서는 `O(n)` 추가 공간이 늘 부담이다. 그래서 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 "무조건 가장 좋은 정렬"이 아니라, **안정성과 예측 가능성을 위해 메모리를 기꺼이 쓰는 정렬**로 기억하는 것이 정확하다.
+물론 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서는 `O(n)` 추가 공간이 늘 부담이다. 그래서 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 "무조건 가장 좋은 정렬"이 아니라, <strong>안정성과 예측 가능성을 위해 메모리를 기꺼이 쓰는 정렬</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)은 넓은 작업대 위에서 물건을 종류별로 나눠 놓고 차근차근 합치는 방식이다. 작업대 공간은 필요하지만, 정리가 정확하고 실수가 적다.
 
@@ -143,21 +141,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Quadratic comparison sorts
-         │
-         ▼
-Divide and Conquer idea
-         │
-         ▼
-Merge Sort with stable O(n log n)
-         │
-         ▼
-External multi-way merge for large files
-         │
-         ▼
-Timsort and parallel merge based optimizations
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Quadratic comparison sorts</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Divide and Conquer idea</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Merge Sort with stable O(n log n)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">External multi-way merge for large files</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Timsort and parallel merge based optimizations</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 비교 정렬의 한계 → [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) → 안정적 병합 정렬 → 대용량·하이브리드 정렬로의 확장"을 보여 준다.
 

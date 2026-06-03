@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 컴퓨터 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 무작정 명령어를 한 줄씩 위에서 아래로 짜는 절차적 방식뿐이었다. 코드가 10만 줄이 넘어가자 `goto`문이 난무하며 스파게티가 되었고 수정이 불가능해졌다([소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)). 코드를 재사용 가능한 '물건(객체)'으로 쪼개야만 했다(객체지향의 탄생). 하지만 클라우드 시대에 수천 개의 스레드가 '객체의 상태(변수)'를 동시에 수정하다가 끔찍한 데드락과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염이 터졌다. 그래서 "아예 변수 값을 못 바꾸게 만들면 버그가 없잖아?"라는 함수형 프로그래밍이 구원투수로 재등장했다.
 
-- **💡 비유**: 요리를 할 때, **절차적**은 "가스불 켜고 -> 물 붓고 -> 라면 넣어라"라는 순차적 매뉴얼입니다. **객체지향**은 '냄비', '불', '라면'이라는 객체들에게 "네가 알아서 끓어라"라고 각자의 역할을 주는 것입니다. **함수형**은 냄비에 물을 끓여서 상태가 변하는 대신, 아예 '끓는 물을 넣은 새로운 냄비'를 매번 새로 만들어 내어 원본이 절대 망가지지 않게 하는 마법의 요리법입니다.
+- **💡 비유**: 요리를 할 때, <strong>절차적</strong>은 "가스불 켜고 -> 물 붓고 -> 라면 넣어라"라는 순차적 매뉴얼입니다. <strong>객체지향</strong>은 '냄비', '불', '라면'이라는 객체들에게 "네가 알아서 끓어라"라고 각자의 역할을 주는 것입니다. <strong>함수형</strong>은 냄비에 물을 끓여서 상태가 변하는 대신, 아예 '끓는 물을 넣은 새로운 냄비'를 매번 새로 만들어 내어 원본이 절대 망가지지 않게 하는 마법의 요리법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **절차적/명령형 (1960s~)**: C, Fortran. 컴퓨터 구조([폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))와 가장 흡사하여 기계 입장에서 가장 빠르고 직관적. 상태 변경과 `순서 제어`가 핵심.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 프로그래밍 패러다임의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프로그래밍 패러다임                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그래밍 패러다임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 프로그래밍 패러다임가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-프로그래밍 패러다임의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+프로그래밍 패러다임의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 프로그래밍 패러다임의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프로그래밍 패러다임 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래밍 패러다임 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

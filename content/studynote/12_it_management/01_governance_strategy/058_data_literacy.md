@@ -90,15 +90,21 @@ tags = ["studynote-it-management"]
 
 ## 관련 개념 맵
 
-```text
-데이터 읽기
-   ↓
-해석
-   ↓
-소통
-   ↓
-의사결정 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 읽기</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">해석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">소통</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">의사결정 적용</div>
+</div>
+</div>
+
+
 
 ---
 

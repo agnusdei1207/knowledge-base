@@ -40,11 +40,17 @@ tags = ["studynote-algorithm"]
 
 ### 예시 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (강의 선수 조건)
 
-```
-수학(A) → 선형대수(B) → 머신러닝(D)
-수학(A) → 통계(C) ────→ 머신러닝(D)
-프로그래밍(E) ─────────→ 머신러닝(D)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수학(A) → 선형대수(B) → 머신러닝(D)</div>
+<div class="kb-diagram-note">수학(A) → 통계(C) → 머신러닝(D)</div>
+<div class="kb-diagram-note">프로그래밍(E) → 머신러닝(D)</div>
+</div>
+</div>
+
+
 
 ### Kahn's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 기반, in-degree 추적)
 
@@ -66,25 +72,26 @@ DFS 탐색에서 정점이 완전 처리될 때(finish) 스택에 Push
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Kahn's [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  DAG:   A → B → D                                        │
-│         A → C → D                                        │
-│         E ─────→ D                                       │
-│                                                          │
-│  in-degree: A=0, B=1, C=1, D=3, E=0                      │
-│                                                          │
-│  Step1: 큐=[A,E]                                         │
-│  Step2: A 꺼냄→결과[A] → B.in-=1(=0), C.in-=1(=0)       │
-│         큐=[E,B,C]                                       │
-│  Step3: E 꺼냄→결과[A,E] → D.in-=1(=2)  큐=[B,C]         │
-│  Step4: B 꺼냄→결과[A,E,B] → D.in-=1(=1) 큐=[C]          │
-│  Step5: C 꺼냄→결과[A,E,B,C] → D.in-=1(=0) 큐=[D]        │
-│  Step6: D 꺼냄→결과[A,E,B,C,D]                           │
-│                                                          │
-│  결과: A → E → B → C → D  (유효한 위상 순서 중 하나)      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG: A → B → D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A → C → D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E → D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">in-degree: A=0, B=1, C=1, D=3, E=0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Step1: 큐=</div><div class="kb-diagram-node">A,E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">B.in-=1(=0), C.in-=1(=0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">큐=</div><div class="kb-diagram-node">E,B,C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A,E</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B,C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A,E,B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A,E,B,C</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A,E,B,C,D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: A → E → B → C → D (유효한 위상 순서 중 하나)</div></div>
+</div>
+</div>
+
+
 
 ### 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -102,13 +109,18 @@ DFS 탐색에서 정점이 완전 처리될 때(finish) 스택에 Push
 
 ### 위상 정렬이 불가능한 경우 (사이클)
 
-```
-A → B → C → A  (사이클 존재)
 
-Kahn's: A.in=1, B.in=1, C.in=1
-→ 초기 큐에 아무것도 없음
-→ 결과 크기=0 < V=3 → 사이클 감지
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A → B → C → A (사이클 존재)</div>
+<div class="kb-diagram-note">Kahn's: A.in=1, B.in=1, C.in=1</div>
+<div class="kb-diagram-note">→ 초기 큐에 아무것도 없음</div>
+<div class="kb-diagram-note">→ 결과 크기=0 &lt; V=3 → 사이클 감지</div>
+</div>
+</div>
+
+
 
 ### 위상 정렬 응용 — 최장 경로 (Critical Path)
 
@@ -170,21 +182,23 @@ longest[v] = max(longest[u] + weight(u,v)) for all u→v
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[방향 비순환 그래프 (DAG — Directed Acyclic Graph) — 위상 정렬의 전제 조건]
-    │
-    ▼
-[진입 차수 (In-degree) 기반 탐색 — Kahn 알고리즘으로 순서 결정]
-    │
-    ▼
-[깊이 우선 탐색 (DFS) 기반 위상 정렬 — 후위 순회로 역순 배치]
-    │
-    ▼
-[빌드 의존성 해소 (Build Dependency) — Make·Gradle에서 컴파일 순서 결정]
-    │
-    ▼
-[작업 스케줄링 (Task Scheduling) — 선행 작업 제약을 지키는 CPM·PERT 경로 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">방향 비순환 그래프 (DAG — Directed Acyclic Graph) — 위상 정렬의 전제 조건</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">진입 차수 (In-degree) 기반 탐색 — Kahn 알고리즘으로 순서 결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">깊이 우선 탐색 (DFS) 기반 위상 정렬 — 후위 순회로 역순 배치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빌드 의존성 해소 (Build Dependency) — Make·Gradle에서 컴파일 순서 결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">작업 스케줄링 (Task Scheduling) — 선행 작업 제약을 지키는 CPM·PERT 경로 분석</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구조 파악에서 실무 빌드 시스템·프로젝트 스케줄링까지 위상 정렬이 적용되는 맥락을 나타낸다.
 

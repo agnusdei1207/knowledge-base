@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))**: 악성코드에 감염되어 해커의 명령에 따라 원격 조종당하는 수백만 대의 인터넷 연결 기기(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기)들의 거대한 군대입니다.
-- **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)의 무서움**: PC와 달리 스마트 전구, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라, 공유기는 보안 백신(V3, 알약)을 깔 수 있는 성능이 없습니다. 사용자는 자기 집 CCTV가 해킹당해 좀비가 되어 해커의 끄나풀로 디도스(DDoS) 공격을 날리고 있는지 전혀 알아채지 못하며, 기기는 24시간 켜져 있어 공격용 화력 발전소로 최적입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">Botnet</a>)</strong>: 악성코드에 감염되어 해커의 명령에 따라 원격 조종당하는 수백만 대의 인터넷 연결 기기(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기)들의 거대한 군대입니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>의 무서움</strong>: PC와 달리 스마트 전구, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라, 공유기는 보안 백신(V3, 알약)을 깔 수 있는 성능이 없습니다. 사용자는 자기 집 CCTV가 해킹당해 좀비가 되어 해커의 끄나풀로 디도스(DDoS) 공격을 날리고 있는지 전혀 알아채지 못하며, 기기는 24시간 켜져 있어 공격용 화력 발전소로 최적입니다.
 
-```text
-[양방향 스마트 계량기]
-    │
-    ▼
-[홈넷/IoT 봇넷 방어 기법]
-    │
-    └──▶ [저전력/메모리 한계 환경 경량 대칭키 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,14 +45,18 @@ tags = ["studynote-network"]
 - **공격 수법**: 전 세계에 인터넷에 연결된 IP 카메라, 홈 공유기 등의 IP 주소를 무작위로 스캔(텔넷 23번, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 탐색)합니다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려 있으면 공장 출고 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비밀번호(예: admin/admin, 12345/12345) 약 60개를 무차별로 때려 넣는 '사전 대입 공격(Dictionary Attack)'을 시도합니다.
 - **피해**: 보안 의식이 없는 수백만 명의 사용자들이 비밀번호를 안 바꾸고 쓰다가 고스란히 감염되었습니다. 2016년, 해커는 이 수백만 대의 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 군단을 지휘하여 인터넷 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리 기업인 Dyn의 서버에 역사상 최대 규모인 초당 수백 GB의 트래픽 쓰레기(DDoS)를 들이부어, 넷플릭스, 트위터, 아마존 등 미국 주요 웹사이트들을 몽땅 다운시켜버렸습니다.
 
-```text
-[양방향 스마트 계량기]
-    │
-    ▼
-[홈넷/IoT 봇넷 방어 기법]
-    │
-    └──▶ [저전력/메모리 한계 환경 경량 대칭키 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,10 +66,10 @@ tags = ["studynote-network"]
 
 ### 1. 무의미한 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 전면 필터링 (가장 중요)
 - 일반 가정집 사용자가 밖에서 CCTV에 '텔넷(Telnet, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 23)'이나 '[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 22)'로 터미널 코딩 접속을 할 일이 0.1%도 없습니다. 
-- 제조사나 통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서, 이런 디버깅용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들이 **외부 인터넷 망으로 아예 뚫려 나가지 못하도록 철저히 차단(필터링/Block)**해야 스캐닝 자체를 원천 봉쇄할 수 있습니다.
+- 제조사나 통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서, 이런 디버깅용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들이 <strong>외부 인터넷 망으로 아예 뚫려 나가지 못하도록 철저히 차단(필터링/Block)</strong>해야 스캐닝 자체를 원천 봉쇄할 수 있습니다.
 
 ### 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 디폴트(Default) 패스워드 폐지
-- 공장에서 찍어낼 때 모든 기기의 기본 비밀번호를 'admin'으로 통일하는 관행을 법으로 금지합니다. 기기마다 박스에 프린트된 난수화된 랜덤 비밀번호를 부여하거나, 사용자가 처음 켰을 때 **강력한 특수문자 비밀번호로 바꾸지 않으면 아예 기기가 동작하지 못하도록 강제**해야 합니다.
+- 공장에서 찍어낼 때 모든 기기의 기본 비밀번호를 'admin'으로 통일하는 관행을 법으로 금지합니다. 기기마다 박스에 프린트된 난수화된 랜덤 비밀번호를 부여하거나, 사용자가 처음 켰을 때 <strong>강력한 특수문자 비밀번호로 바꾸지 않으면 아예 기기가 동작하지 못하도록 강제</strong>해야 합니다.
 
 ### 3. FOTA (무선 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트) 구조 의무화
 - 일단 기기가 팔린 후 새로운 해킹 취약점이 뚫려도 리콜할 수 없으므로, 기기 스스로 제조사 서버와 매일 통신하여 최신 보안 패치를 무선으로 강제 다운로드(FOTA)하여 덮어쓰도록 시스템을 설계해야 합니다.
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양방향 스마트 계량기]
-    │
-    ▼
-[현재 개념: 홈넷/IoT 봇넷 방어 기법]
-    │
-    ├──▶ [확장 A: 저전력/메모리 한계 환경 경량 대칭키 암호]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양방향 스마트 계량기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법는 [양방향 스마트 계량기](/knowledge-base/studynote/03_network/12_iot_wpan_edge/648_smart_meter_two_way_communication_ami/)에서 출발해 현재 메커니즘을 정교화하고, 이후 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

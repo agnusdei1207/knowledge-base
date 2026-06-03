@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Traffic [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**: 도로에 진입하는 자동차([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷) 100대를 앞단([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))에서 낚아채어 "90대는 A 구도로(V1 서버)로 가고, 10대는 B 신도로(V2 서버)로 가라!"고 멱살 잡고 길을 틀어주는 행위다.
-  - **[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Release](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/))**: 옛날 광부들이 일산화탄소를 탐지하려 '[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새'를 먼저 동굴에 들여보냈던 것처럼, 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)을 전체 서버 100대에 확 깔지 않고 딱 1대에만 깐 뒤 1% 트래픽만 먹여보며 에러(독가스)가 터지는지 간을 보는 배포 기법이다.
+  - <strong>트래픽 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Traffic <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: 도로에 진입하는 자동차([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷) 100대를 앞단([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))에서 낚아채어 "90대는 A 구도로(V1 서버)로 가고, 10대는 B 신도로(V2 서버)로 가라!"고 멱살 잡고 길을 틀어주는 행위다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong>: 옛날 광부들이 일산화탄소를 탐지하려 '[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새'를 먼저 동굴에 들여보냈던 것처럼, 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)을 전체 서버 100대에 확 깔지 않고 딱 1대에만 깐 뒤 1% 트래픽만 먹여보며 에러(독가스)가 터지는지 간을 보는 배포 기법이다.
 
-- **필요성**: 쿠팡에 접속자가 1,000만 명이다. 결제 버튼 로직을 새로 짰다(V2). QA 서버에서 1달 동안 테스트해서 100점 맞았다. 라이브 서버 100대에 V2를 동시에 다 덮어씌웠다(빅뱅 배포). 1초 뒤 서버가 펑펑 터지며 올 셧다운 됐다! 원인은 QA 샌드박스에서는 절대 나올 수 없는 '동시 접속 1,000만 명의 데드락 꼬임 현상' 때문이었다. **"QA 테스트는 100% 완벽할 수 없다. 오직 진짜 라이브 트래픽(Real World)만이 진실을 안다. 근데 1,000만 명을 담보로 도박을 할 순 없잖아? 10만 명(1%)한테만 몰래 먹여보고 뻗으면 0.1초 만에 다시 V1으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 생명선"**이 필수 불가결한 클라우드 생존법이 되었다.
+- **필요성**: 쿠팡에 접속자가 1,000만 명이다. 결제 버튼 로직을 새로 짰다(V2). QA 서버에서 1달 동안 테스트해서 100점 맞았다. 라이브 서버 100대에 V2를 동시에 다 덮어씌웠다(빅뱅 배포). 1초 뒤 서버가 펑펑 터지며 올 셧다운 됐다! 원인은 QA 샌드박스에서는 절대 나올 수 없는 '동시 접속 1,000만 명의 데드락 꼬임 현상' 때문이었다. <strong>"QA 테스트는 100% 완벽할 수 없다. 오직 진짜 라이브 트래픽(Real World)만이 진실을 안다. 근데 1,000만 명을 담보로 도박을 할 순 없잖아? 10만 명(1%)한테만 몰래 먹여보고 뻗으면 0.1초 만에 다시 V1으로 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)하는 생명선"</strong>이 필수 불가결한 클라우드 생존법이 되었다.
 
-- **💡 비유**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 대형 정수장(서버)의 **'독극물 기미 상궁 수도꼭지'**와 똑같습니다. 낡은 정수기 필터(V1)를 최신 필터(V2)로 갈아 끼워야 합니다. 옛날(빅뱅 배포)엔 정수기를 10분 끄고 새 필터를 낀 뒤, 도시 전체(100% 트래픽)로 물을 쾅 쐈습니다. 만약 필터 불량이면 온 도시민이 물먹고 죽습니다(대장애). [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 메인 수도관은 냅두고, 옆에 가느다란 **'1%짜리 미니 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))'**를 하나 팝니다. 거기만 새 필터(V2)를 끼우고 동네 사람 딱 10명한테만 줘봅니다. 먹고 아무도 안 아프면(에러율 0%), 수도꼭지 밸브를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 50%, 100%로 스르륵 부드럽게 열어버리며 도시 전체를 안전하게 물갈이하는 100점짜리 무중단 배관술입니다.
+- **💡 비유**: [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 대형 정수장(서버)의 <strong>'독극물 기미 상궁 수도꼭지'</strong>와 똑같습니다. 낡은 정수기 필터(V1)를 최신 필터(V2)로 갈아 끼워야 합니다. 옛날(빅뱅 배포)엔 정수기를 10분 끄고 새 필터를 낀 뒤, 도시 전체(100% 트래픽)로 물을 쾅 쐈습니다. 만약 필터 불량이면 온 도시민이 물먹고 죽습니다(대장애). [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 메인 수도관은 냅두고, 옆에 가느다란 <strong>'1%짜리 미니 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)'</strong>를 하나 팝니다. 거기만 새 필터(V2)를 끼우고 동네 사람 딱 10명한테만 줘봅니다. 먹고 아무도 안 아프면(에러율 0%), 수도꼭지 밸브를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 50%, 100%로 스르륵 부드럽게 열어버리며 도시 전체를 안전하게 물갈이하는 100점짜리 무중단 배관술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **블루/그린(Blue/Green)의 시대**: 2010년대 "[무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)"가 유행하며, V1 서버 10대 옆에 똑같이 V2 서버 10대를 돈 주고 띄워놓고 라우터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 `100 ➡ 0` 으로 확 꺾는 짓을 했다. [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 편했지만 인프라 돈이 2배로 들었고, 100% 꺾어버리니 터지면 충격파도 100%였다.
-  2. **넷플릭스와 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃 (2010s 중반)**: 넷플릭스가 "야 돈 아까워! V2 서버 딱 1대만 띄우고 1%만 흘려!" 라며 클라이언트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Ribbon) 룰로 트래픽을 쪼개는 가성비 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 시대를 열었다.
-  3. **[Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 무혈 통치 (현재)**: K8s 시대가 열렸다. 개발자가 코드로 1% 분기(`if (random < 1) go V2`) 치는 뻘짓을 완전히 멸망시켰다. 인프라 바닥에 깔린 Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 `VirtualService` 도면 딱 1장만 읽고 0.001초 단위로 네트워크 단에서 트래픽을 99:1로 기계적으로 쪼개버리는 궁극의 통제권을 획득했다.
+  2. <strong>넷플릭스와 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 롤아웃 (2010s 중반)</strong>: 넷플릭스가 "야 돈 아까워! V2 서버 딱 1대만 띄우고 1%만 흘려!" 라며 클라이언트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Ribbon) 룰로 트래픽을 쪼개는 가성비 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 시대를 열었다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>의 무혈 통치 (현재)</strong>: K8s 시대가 열렸다. 개발자가 코드로 1% 분기(`if (random < 1) go V2`) 치는 뻘짓을 완전히 멸망시켰다. 인프라 바닥에 깔린 Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 `VirtualService` 도면 딱 1장만 읽고 0.001초 단위로 네트워크 단에서 트래픽을 99:1로 기계적으로 쪼개버리는 궁극의 통제권을 획득했다.
 
-- **📢 섹션 요약 비유**: 옛날 배포(블루그린)는 **'기찻길 선로([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 100% 오른쪽으로 확 꺾어버리는 짓'**입니다. 기차가 오른쪽 선로가 끊겨있으면 그대로 낭떠러지로 다 같이 추락합니다. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 **'기차 승객 중 1%만 뽑아서 쪼매난 선발대 정찰 짚차에 태워 보내는 짓'**입니다. 짚차가 낭떠러지로 떨어져도(1% 희생), 본대 기차(99%)는 1도 타격받지 않고 기존 선로(V1)로 평화롭게 여행을 계속하는 눈물겨운 꼬리 자르기 희생 정신입니다.
+- **📢 섹션 요약 비유**: 옛날 배포(블루그린)는 <strong>'기찻길 선로(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)를 100% 오른쪽으로 확 꺾어버리는 짓'</strong>입니다. 기차가 오른쪽 선로가 끊겨있으면 그대로 낭떠러지로 다 같이 추락합니다. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))는 <strong>'기차 승객 중 1%만 뽑아서 쪼매난 선발대 정찰 짚차에 태워 보내는 짓'</strong>입니다. 짚차가 낭떠러지로 떨어져도(1% 희생), 본대 기차(99%)는 1도 타격받지 않고 기존 선로(V1)로 평화롭게 여행을 계속하는 눈물겨운 꼬리 자르기 희생 정신입니다.
 
 ---
 
 다음은 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 (의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  트래픽 라우팅, 카나리 배포 제어 (                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 라우팅, 카나리 배포 제어 (</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 (가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 역할)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 역할)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 제어 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 역할)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-트래픽 라우팅, 카나리 배포 제어 (Service Mesh의 역할) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트래픽 라우팅, 카나리 배포 제어 (Service Mesh의 역할) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

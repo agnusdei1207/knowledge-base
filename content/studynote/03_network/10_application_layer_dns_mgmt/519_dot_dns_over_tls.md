@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)을 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다. 
 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 중간자(Man-in-the-Middle)가 사용자의 웹 방문 기록을 도청하거나 조작하는 것을 방지하기 위해 도입되었습니다.
 
-```text
-[DNSSEC]
-    │
-    ▼
-[DoT]
-    │
-    └──▶ [DoH]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,18 +43,22 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/stud
 
 | 구분 | 설명 |
 |:---|:---|
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))** | 전용 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 853번**을 사용합니다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)</strong> | 전용 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 853번</strong>을 사용합니다. |
 | **암호화 방식** | HTTPS와 동일하게 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 지향 종단간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 암호화를 제공합니다. |
-| **목적** | **프라이버시(Privacy) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**가 최우선 목적입니다. (DNSSEC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증이 목적) |
+| **목적** | <strong>프라이버시(Privacy) <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>가 최우선 목적입니다. (DNSSEC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증이 목적) |
 
-```text
-[DNSSEC]
-    │
-    ▼
-[DoT]
-    │
-    └──▶ [DoH]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,7 +66,7 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/stud
 
 ## Ⅲ. 비교 및 연결
 
-1. **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 클라이언트(또는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 포워더)가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 8.8.8.8, 1.1.1.1)의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 연결하고 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 수행합니다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 연결 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 클라이언트(또는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 포워더)가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 8.8.8.8, 1.1.1.1)의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 연결하고 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 수행합니다.
 2. **암호화된 질의 전송**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 터널이 형성되면, 기존의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 메시지 형식 그대로 암호화 터널을 통해 질의를 보냅니다.
 3. **암호화된 응답 수신**: 서버 역시 암호화된 상태로 IP 주소를 응답합니다.
 
@@ -77,8 +85,8 @@ DoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 DoT와 DoH는 모두 DNS를 암호화하지만 접근 방식이 다릅니다.
-- **DoT ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853)**: 네트워크 계층 수준에서 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전용 암호화 채널을 분리합니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자가 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단하면 쉽게 막힐 수 있습니다.
-- **[DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 443)**: 일반 웹 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))과 동일한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 사용해 그 속에 DNS를 숨깁니다. 네트워크 관리자가 웹 트래픽과 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 트래픽을 구분하기 어려워 검열(차단)을 회피하는 데 훨씬 유리합니다.
+- <strong>DoT (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 853)</strong>: 네트워크 계층 수준에서 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전용 암호화 채널을 분리합니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자가 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단하면 쉽게 막힐 수 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/">DoH</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 443)</strong>: 일반 웹 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))과 동일한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 사용해 그 속에 DNS를 숨깁니다. 네트워크 관리자가 웹 트래픽과 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 트래픽을 구분하기 어려워 검열(차단)을 회피하는 데 훨씬 유리합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ DoT는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DNSSEC]
-    │
-    ▼
-[현재 개념: DoT]
-    │
-    ├──▶ [확장 A: DoH]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNSSEC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 DoT는 DNSSEC에서 출발해 현재 메커니즘을 정교화하고, 이후 DoH와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

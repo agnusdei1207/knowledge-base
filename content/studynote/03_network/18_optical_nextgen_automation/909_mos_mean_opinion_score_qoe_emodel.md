@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))**: 라우터 기계가 측정하는 지터(Jitter), 딜레이(Delay), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 등 딱딱한 기계적 숫자의 나열입니다. 
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 라우터 기계가 측정하는 지터(Jitter), 딜레이(Delay), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 등 딱딱한 기계적 숫자의 나열입니다. 
 - 기계적 수치가 아무리 좋아도, 폰 단말기의 코덱(오디오 압축기)이 구리거나 영상의 픽셀 보간(808번)이 어긋나면 사람의 뇌는 즉각 불쾌감(사이버 멀미, 기계음)을 느낍니다. 기계와 인간의 인지 부조화가 발생합니다.
 
-```text
-[FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
-[MOS]
-    │
-    └──▶ [네트워크 코딩]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 코딩</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MOS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,14 +51,18 @@ tags = ["studynote-network"]
 - **2점 (Poor)**: 뚝뚝 끊기고 뭉개져서 "여보세요? 안 들려!" 짜증이 솟구치는 상태.
 - **1점 (Bad)**: 기계음 작렬, 통화 불가능. 쌍욕을 하며 전화를 끊어버리는 상태.
 
-```text
-[FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
-[MOS]
-    │
-    └──▶ [네트워크 코딩]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 코딩</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MOS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,9 +72,9 @@ tags = ["studynote-network"]
 
 매일 통화 품질을 측정할 때마다 알바생 100명을 고용해서 이어폰을 씌우고 설문지(주관적 평가)를 돌릴 수는 없는 노릇입니다. 인건비가 폭발합니다.
 
-- **해결책: E-Model (ITU-T G.107) 객관화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 도입**
-  - 똑똑한 공학자들이 수십 년간 설문조사를 한 데이터를 모아보니, **"아! 패킷 손실률이 X%고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 Yms일 때, 사람들은 보통 3.5점을 주더라!"**라는 무서운 수학적 함수(상관관계 패턴)를 발견해 냈습니다.
-  - 이 통계 공식을 100% 코드로 짠 시뮬레이션 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 바로 **E-Model**입니다.
+- <strong>해결책: E-Model (ITU-T G.107) 객관화 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 도입</strong>
+  - 똑똑한 공학자들이 수십 년간 설문조사를 한 데이터를 모아보니, <strong>"아! 패킷 손실률이 X%고 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간이 Yms일 때, 사람들은 보통 3.5점을 주더라!"</strong>라는 무서운 수학적 함수(상관관계 패턴)를 발견해 냈습니다.
+  - 이 통계 공식을 100% 코드로 짠 시뮬레이션 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 바로 <strong>E-Model</strong>입니다.
   - **작동 방식**: 통신사 컴퓨터가 망의 딱딱한 객관적 지표([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 지터, 코덱 종류, 에러율)를 엑셀 데이터로 쫙 뽑아 E-Model [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수식에 집어넣습니다. 그러면 컴퓨터가 사람을 1명도 고용하지 않고도 **"현재 네트워크 상태라면 사람들이 대충 MOS 4.2점을 주겠군!"** 하고 R-Factor라는 수치를 통해 기가 막힌 가상의 MOS 점수를 1초 만에 딱 뽑아내어(추정, Estimation) 대시보드에 띄워줍니다. 완전 자동 체감 품질 감시 체계가 열린 것입니다.
 
 MOS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FEC 실시간 비디오 손실 은닉 기법 미디어…가 기반 조건을 만든다면, MOS는 그 위에서 핵심 메커니즘을 구현하고, [네트워크 코딩](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -92,7 +100,7 @@ MOS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 통신망의 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 속도) 지표가 정육점에서 고기를 달아보는 '저울의 눈금(정확한 스펙 중량 500g)'이라면, **MOS(체감 품질)**는 그 고기를 사다가 집에 가서 구워 먹어본 손님의 '미슐랭 별점 리뷰 5점 만점(맛과 풍미)'입니다. 정육점 주인(엔지니어)이 아무리 저울 0.1g 단위로 고기를 정확히 썰어줬다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 완벽)고 우겨봐야, 고기가 질기면 손님은 별점 1점(MOS 1.0)을 주고 다시는 안 옵니다. 매일 손님에게 맛이 어떠냐고 설문조사(주관적 MOS)를 돌리기 힘드니까, 주인은 **'E-Model'**이라는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 절대 미각 로봇을 샀습니다. 고기의 온도, 숙성 시간, 소금양([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 패킷 드랍, 코덱)만 입력하면 로봇이 "이 조건이면 손님들이 무조건 별점 4.2개를 줍니다!"라고 인간의 미각(만족도)을 수학적으로 완벽히 때려 맞춰 예측해 주는 궁극의 통신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 평가지표입니다.
+- **📢 섹션 요약 비유**: 통신망의 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 속도) 지표가 정육점에서 고기를 달아보는 '저울의 눈금(정확한 스펙 중량 500g)'이라면, <strong>MOS(체감 품질)</strong>는 그 고기를 사다가 집에 가서 구워 먹어본 손님의 '미슐랭 별점 리뷰 5점 만점(맛과 풍미)'입니다. 정육점 주인(엔지니어)이 아무리 저울 0.1g 단위로 고기를 정확히 썰어줬다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 완벽)고 우겨봐야, 고기가 질기면 손님은 별점 1점(MOS 1.0)을 주고 다시는 안 옵니다. 매일 손님에게 맛이 어떠냐고 설문조사(주관적 MOS)를 돌리기 힘드니까, 주인은 <strong>'E-Model'</strong>이라는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 절대 미각 로봇을 샀습니다. 고기의 온도, 숙성 시간, 소금양([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 패킷 드랍, 코덱)만 입력하면 로봇이 "이 조건이면 손님들이 무조건 별점 4.2개를 줍니다!"라고 인간의 미각(만족도)을 수학적으로 완벽히 때려 맞춰 예측해 주는 궁극의 통신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 평가지표입니다.
 
 ---
 
@@ -115,15 +123,19 @@ MOS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    │
-    ▼
-[현재 개념: MOS]
-    │
-    ├──▶ [확장 A: 네트워크 코딩]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MOS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 코딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 MOS는 FEC 실시간 비디오 손실 은닉 기법 미디어…에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 코딩](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

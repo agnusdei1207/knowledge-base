@@ -35,17 +35,21 @@ tags = ["studynote-data-engineering"]
 
 ### 스케일드 닷-프로덕트 어텐션 ([Scaled Dot-Product Attention](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/))
 
-```
-입력 시퀀스 X (n × d_model)
-      ↓ 선형 변환 (W_Q, W_K, W_V)
-Q = X·W_Q  (n × d_k)   ← 쿼리: "나는 무엇과 관련 있는가?"
-K = X·W_K  (n × d_k)   ← 키:   "내가 제공하는 정보의 라벨"
-V = X·W_V  (n × d_v)   ← 값:   "실제 전달할 정보 내용"
 
-Attention(Q, K, V) = softmax(Q·K^T / √d_k) · V
 
-         ↑ 스케일링: 차원이 클수록 내적 값이 커져 softmax 포화 방지
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 시퀀스 X (n × d_model)</div>
+<div class="kb-diagram-note">↓ 선형 변환 (W_Q, W_K, W_V)</div>
+<div class="kb-diagram-note">Q = X·W_Q (n × d_k) ← 쿼리: "나는 무엇과 관련 있는가?"</div>
+<div class="kb-diagram-note">K = X·W_K (n × d_k) ← 키: "내가 제공하는 정보의 라벨"</div>
+<div class="kb-diagram-note">V = X·W_V (n × d_v) ← 값: "실제 전달할 정보 내용"</div>
+<div class="kb-diagram-note">Attention(Q, K, V) = softmax(Q·K^T / √d_k) · V</div>
+<div class="kb-diagram-note">↑ 스케일링: 차원이 클수록 내적 값이 커져 softmax 포화 방지</div>
+</div>
+</div>
+
+
 
 ```
 어텐션 행렬 시각화 (4토큰 예시)
@@ -74,47 +78,47 @@ h개 헤드가 병렬로 서로 다른 관계 포착:
   head_h: 위치적 관계
 ```
 
-```
-Transformer 인코더 블록 구조
-┌─────────────────────────────────────────────┐
-│  입력 임베딩 + 포지셔널 인코딩               │
-│                  ↓                           │
-│  ┌───────────────────────────────────────┐   │
-│  │   Multi-Head Self-Attention           │   │
-│  │   (쿼리·키·값 모두 같은 입력에서)     │   │
-│  └────────────────┬──────────────────────┘   │
-│                   │ + 잔차 연결 (Add)         │
-│             Layer Normalization              │
-│                   ↓                           │
-│  ┌───────────────────────────────────────┐   │
-│  │   Feed-Forward Network (FFN)          │   │
-│  │   FFN(x) = max(0, xW₁+b₁)W₂+b₂      │   │
-│  └────────────────┬──────────────────────┘   │
-│                   │ + 잔차 연결 (Add)         │
-│             Layer Normalization              │
-│                   ↓                           │
-│            다음 인코더 블록 or 출력           │
-└─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Transformer 인코더 블록 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 임베딩 + 포지셔널 인코딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Head Self-Attention</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쿼리·키·값 모두 같은 입력에서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 잔차 연결 (Add)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer Normalization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feed-Forward Network (FFN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FFN(x) = max(0, xW₁+b₁)W₂+b₂</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 잔차 연결 (Add)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer Normalization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 인코더 블록 or 출력</div></div>
+</div>
+</div>
+
+
 
 ### [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))
 
 어텐션은 순서를 모른다 → 위치 정보를 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다.
 
-```
-PE(pos, 2i)   = sin(pos / 10000^{2i/d_model})
-PE(pos, 2i+1) = cos(pos / 10000^{2i/d_model})
 
-X_input = Token_Embedding + Positional_Encoding
 
-위치 0   ───→ [특정 sin/cos 패턴]
-위치 1   ───→ [다른 sin/cos 패턴]
-...
-위치 512 ───→ [고유한 sin/cos 패턴]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PE(pos, 2i) = sin(pos / 10000^{2i/d_model})</div>
+<div class="kb-diagram-note">PE(pos, 2i+1) = cos(pos / 10000^{2i/d_model})</div>
+<div class="kb-diagram-note">X_input = Token_Embedding + Positional_Encoding</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">특정 sin/cos 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">다른 sin/cos 패턴</div></div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">고유한 sin/cos 패턴</div></div>
+<div class="kb-diagram-note">→ 각 위치는 고유한 벡터를 가짐</div>
+<div class="kb-diagram-note">→ 상대 위치 계산 가능 (내적 시 상대 거리 반영)</div>
+</div>
+</div>
 
-→ 각 위치는 고유한 벡터를 가짐
-→ 상대 위치 계산 가능 (내적 시 상대 거리 반영)
-```
+
 
 | 방법 | 특징 | 사용 모델 |
 |:---|:---|:---|
@@ -131,20 +135,22 @@ X_input = Token_Embedding + Positional_Encoding
 
 ### [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전체 아키텍처
 
-```
-인코더 (6 블록)                  디코더 (6 블록)
-┌────────────────┐              ┌─────────────────────────┐
-│  Nx 인코더 블록│              │  Nx 디코더 블록          │
-│                │              │                          │
-│  Self-Attention│              │  Masked Self-Attention   │
-│  → FFN         │→ 메모리 K,V →│  → Cross-Attention (K,V) │
-│                │              │  → FFN                   │
-└────────────────┘              └─────────────────────────┘
-     ↑ 입력 시퀀스                     ↑↓ 출력 시퀀스 (자동회귀)
 
-Cross-Attention: 인코더 K,V + 디코더 Q → 번역 시 원문 참조
-Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인코더 (6 블록) 디코더 (6 블록)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nx 인코더 블록</div><div class="kb-diagram-cell">Nx 디코더 블록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Attention</div><div class="kb-diagram-cell">Masked Self-Attention</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ FFN</div><div class="kb-diagram-cell">→ 메모리 K,V →</div><div class="kb-diagram-cell">→ Cross-Attention (K,V)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ FFN</div></div>
+<div class="kb-diagram-note">↑ 입력 시퀀스 ↑↓ 출력 시퀀스 (자동회귀)</div>
+<div class="kb-diagram-note">Cross-Attention: 인코더 K,V + 디코더 Q → 번역 시 원문 참조</div>
+<div class="kb-diagram-note">Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)</div>
+</div>
+</div>
+
+
 
 ### [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) vs Transformer 비교
 
@@ -165,19 +171,23 @@ Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
 
 ### 어텐션 계산 복잡도와 긴 시퀀스 문제
 
-```
-표준 어텐션: O(n² · d)  ← n = 시퀀스 길이, d = 차원
 
-n=512:   262K 연산    (일반 텍스트)
-n=4096:  16.7M 연산   (장문 문서)
-n=32768: 1G 연산      (책 한 권 → 메모리 부족!)
 
-해결 방법:
-  Flash Attention (2022): IO 최적화 → 메모리 O(n)
-  Sparse Attention:       핵심 위치만 어텐션
-  Sliding Window:         지역 어텐션 + 전역 일부
-  Linear Attention:       커널 근사 → O(n)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">표준 어텐션: O(n² · d) ← n = 시퀀스 길이, d = 차원</div>
+<div class="kb-diagram-note">n=512: 262K 연산 (일반 텍스트)</div>
+<div class="kb-diagram-note">n=4096: 16.7M 연산 (장문 문서)</div>
+<div class="kb-diagram-note">n=32768: 1G 연산 (책 한 권 → 메모리 부족!)</div>
+<div class="kb-diagram-note">해결 방법:</div>
+<div class="kb-diagram-note">Flash Attention (2022): IO 최적화 → 메모리 O(n)</div>
+<div class="kb-diagram-note">Sparse Attention: 핵심 위치만 어텐션</div>
+<div class="kb-diagram-note">Sliding Window: 지역 어텐션 + 전역 일부</div>
+<div class="kb-diagram-note">Linear Attention: 커널 근사 → O(n)</div>
+</div>
+</div>
+
+
 
 ### 모델 크기와 하이퍼파라미터
 
@@ -197,24 +207,29 @@ n=32768: 1G 연산      (책 한 권 → 메모리 부족!)
 
 ### Transformer가 가능하게 한 것들
 
-```
-Transformer (2017)
-      ├── NLP: BERT (2018), GPT (2018~), T5 (2019)
-      ├── Vision: ViT (2020), DINO, MAE
-      ├── Multi-modal: CLIP, DALL-E, Flamingo
-      ├── Biology: AlphaFold2 (단백질 구조)
-      └── Code: Codex, GitHub Copilot
 
-→ 딥러닝 모든 분야의 기반 아키텍처
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Transformer (2017)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">NLP: BERT (2018), GPT (2018~), T5 (2019)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Vision: ViT (2020), DINO, MAE</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Multi-modal: CLIP, DALL-E, Flamingo</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Biology: AlphaFold2 (단백질 구조)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Code: Codex, GitHub Copilot</div>
+<div class="kb-diagram-note">→ 딥러닝 모든 분야의 기반 아키텍처</div>
+</div>
+</div>
+
+
 
 ### 기술사 시험 핵심 포인트
 
 1. **Q·K·V 어텐션 수식**: `softmax(QK^T / √d_k) · V`
-2. **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(√d_k) 이유**: 내적 값 증가로 [softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 포화 방지
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(√d_k) 이유</strong>: 내적 값 증가로 [softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 포화 방지
 3. **멀티헤드 어텐션**: 다양한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 동시 포착
-4. **[포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)**: 사인·코사인 함수로 위치 정보 삽입
-5. **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) vs [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)**: 셀프 어텐션 vs 마스크드+크로스 어텐션
+4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">포지셔널 인코딩</a></strong>: 사인·코사인 함수로 위치 정보 삽입
+5. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a> vs <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a></strong>: 셀프 어텐션 vs 마스크드+크로스 어텐션
 
 📢 **섹션 요약 비유**: Transformer는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 인터넷과 같다. 인터넷이 모든 정보를 연결하듯, Transformer는 시퀀스 내 모든 위치를 직접 연결한다. 이 연결성이 언어, 이미지, 단백질, 코드 등 모든 분야를 혁신하는 기반이 되었다.
 
@@ -237,17 +252,21 @@ Transformer (2017)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RNN (순차 처리, 병렬화 불가)
-    │
-    ▼
-Transformer: Self-Attention + Positional Encoding
-    ├─► Multi-Head Attention: 여러 관점에서 동시 분석
-    └─► Feed-Forward + Layer Norm + Residual
-    │
-    ▼
-Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RNN (순차 처리, 병렬화 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transformer: Self-Attention + Positional Encoding</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Multi-Head Attention: 여러 관점에서 동시 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Feed-Forward + Layer Norm + Residual</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)</div>
+</div>
+</div>
+
+
 2. 멀티헤드 어텐션은 같은 문장을 여러 명의 전문가(문법 선생님, 의미 분석가, 번역가)가 동시에 읽고 각자의 관점을 합치는 것이야.
 3. [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 순서를 모르는 어텐션에게 "이 단어는 세 번째야"라고 번호를 붙여주는 이름표야.
 

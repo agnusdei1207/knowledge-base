@@ -42,30 +42,29 @@ MESI는 캐시 라인마다 4개의 안정 상태를 둔다. `Modified`는 이 �
 
 이 그림은 구현에서 가장 중요한 대표 전이들을 압축해 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               MESI 상태 전이의 핵심: local + snoop 이벤트            │
-├──────────────────────────────────────────────────────────────────────┤
-│ I --PrRd / BusRd--------------▶ E or S                               │
-│ I --PrWr / BusRdX-------------▶ M                                    │
-│                                                                      │
-│ E --PrWr----------------------▶ M   (silent upgrade)                 │
-│ E --snoop BusRd--------------▶ S                                     │
-│ E --snoop BusRdX-------------▶ I                                     │
-│                                                                      │
-│ S --PrWr / BusUpgr-----------▶ M                                     │
-│ S --snoop BusUpgr, BusRdX----▶ I                                     │
-│                                                                      │
-│ M --snoop BusRd--------------▶ S + data supply / write-back          │
-│ M --snoop BusRdX-------------▶ I + data supply / write-back          │
-│                                                                      │
-│ M,E,S --evict----------------▶ I   (M only needs write-back)         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MESI 상태 전이의 핵심: local + snoop 이벤트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I --PrRd / BusRd--------------▶ E or S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I --PrWr / BusRdX-------------▶ M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E --PrWr----------------------▶ M (silent upgrade)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E --snoop BusRd--------------▶ S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E --snoop BusRdX-------------▶ I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S --PrWr / BusUpgr-----------▶ M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S --snoop BusUpgr, BusRdX----▶ I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M --snoop BusRd--------------▶ S + data supply / write-back</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M --snoop BusRdX-------------▶ I + data supply / write-back</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M,E,S --evict----------------▶ I (M only needs write-back)</div></div>
+</div>
+</div>
+
+
 
 여기서 가장 중요한 최적화는 `E → M` 전이다. 이 라인을 가진 코어가 자신뿐이라면, 다른 누구도 무효화할 필요가 없으므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 업그레이드 없이 바로 수정할 수 있다. 반면 `S → M`은 공유자들을 무효화해야 하므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트랜잭션이 필요하다. 즉 `Exclusive` 상태는 "조용한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"를 가능하게 만드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태다.
 
-또 다른 핵심은 `M` 상태의 책임이다. `M` 상태인 라인을 다른 코어가 읽으려 하면, 현재 보유자가 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급하거나 메모리에 반영해야 한다. 그래서 MESI의 상태 전이도는 단순한 색깔표가 아니라, **누가 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임지는가**를 표현하는 실행 규칙이다.
+또 다른 핵심은 `M` 상태의 책임이다. `M` 상태인 라인을 다른 코어가 읽으려 하면, 현재 보유자가 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급하거나 메모리에 반영해야 한다. 그래서 MESI의 상태 전이도는 단순한 색깔표가 아니라, <strong>누가 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 책임지는가</strong>를 표현하는 실행 규칙이다.
 
 - **📢 섹션 요약 비유**: `E`는 아직 아무도 건드리지 않은 내 개인 노트이고, `S`는 모두가 복사해 들고 있는 유인물이며, `M`은 내가 빨간 펜으로 고쳐 둔 유일한 최신본이다. 유인물에 낙서하려면 먼저 남의 유인물을 다 걷어야 한다.
 
@@ -121,7 +120,7 @@ MESI 상태 전이도를 정확히 이해하면, 멀티코어 [캐시 일관성]
 
 하지만 한계도 뚜렷하다. 브로드캐스트 기반 인터커넥트에서는 코어 수가 늘수록 상태 전이에 필요한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비용이 커지고, false sharing과 write ping-pong은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아무리 정교해도 비싸다. 그래서 현대 시스템은 MOESI, MESIF, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 MESI 변형, snoop filter 같은 확장 구조를 함께 사용한다.
 
-결론적으로 MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 상태 전이도는 단순한 4문자 약어가 아니라, **캐시 라인의 소유권과 최신성 책임을 관리하는 최소 상태 기계**다. 이 주제는 상태 이름 암기보다, 어떤 이벤트가 왜 그 상태를 만들고 어떤 비용을 부르는지까지 연결해서 기억해야 진짜 이해가 된다.
+결론적으로 MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 상태 전이도는 단순한 4문자 약어가 아니라, <strong>캐시 라인의 소유권과 최신성 책임을 관리하는 최소 상태 기계</strong>다. 이 주제는 상태 이름 암기보다, 어떤 이벤트가 왜 그 상태를 만들고 어떤 비용을 부르는지까지 연결해서 기억해야 진짜 이해가 된다.
 
 - **📢 섹션 요약 비유**: MESI는 여러 사람이 함께 쓰는 공용 문서의 편집 규칙과 같다. 규칙이 있으면 조금 번거로워도 최신본이 하나로 유지되고, 규칙이 없으면 모두가 빠르게 틀린 문서를 만들게 된다.
 
@@ -140,24 +139,25 @@ MESI 상태 전이도를 정확히 이해하면, 멀티코어 [캐시 일관성]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MSI (Modified, Shared, Invalid)
-        │
-        ▼
-MESI (Modified, Exclusive, Shared, Invalid)
-        │
-        ├─▶ silent E → M upgrade
-        ├─▶ write-invalidate 최적화
-        │
-        ▼
-MOESI / MESIF
-        │
-        ├─▶ dirty data 공유 최적화
-        ├─▶ shared 응답 대표자 지정
-        │
-        ▼
-디렉터리 기반 MESI 변형 · many-core coherence 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MSI (Modified, Shared, Invalid)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESI (Modified, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ silent E → M upgrade</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ write-invalidate 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MOESI / MESIF</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ dirty data 공유 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ shared 응답 대표자 지정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디렉터리 기반 MESI 변형 · many-core coherence 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "기본 상태 기계"에서 출발해, "불필요한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 요청 감소"와 "대규모 시스템 확장" 방향으로 발전하는 과정을 보여준다.
 

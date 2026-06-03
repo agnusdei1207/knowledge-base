@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Soak은 '물에 오랫동안 담가놓는다'는 뜻이다. 동시 접속자 10만 명을 때리는 게 아니다. 평범하게 동시 접속자 1천 명을 3박 4일 동안 쉬지 않고 쏴본다. 1일 차에는 서버 메모리 사용량이 30%였다가, 3일 차에 95%까지 서서히 차올라 결국 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽는 끔찍한 현상을 관찰한다.
 
-- **필요성**: 은행 차세대 시스템을 1,000억 원 들여 만들었다. [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 1시간은 완벽하게 통과했다. 화려하게 오픈식까지 마쳤는데, 오픈 1주일째 되는 일요일 새벽에 모든 WAS 서버가 원인 모를 이유로 메모리를 뿜으며 전멸했다. 서버를 재부팅하니 다시 멀쩡해졌다. 그런데 또 1주일 뒤 일요일에 다 같이 죽었다. 코드를 짤 때 객체를 생성하고 지우는(Close) 한 줄을 빼먹어서, 1주일 동안 쓰레기 객체가 메모리에 산더미처럼 쌓여 터진 것이다. 이런 1주일짜리 잠복기 버그는 짧고 강한 '[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)'로는 절대 못 잡는다. **"오래 켜놔 봐야 안다"**는 진리가 내구성 테스트의 필요성이다.
+- **필요성**: 은행 차세대 시스템을 1,000억 원 들여 만들었다. [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 1시간은 완벽하게 통과했다. 화려하게 오픈식까지 마쳤는데, 오픈 1주일째 되는 일요일 새벽에 모든 WAS 서버가 원인 모를 이유로 메모리를 뿜으며 전멸했다. 서버를 재부팅하니 다시 멀쩡해졌다. 그런데 또 1주일 뒤 일요일에 다 같이 죽었다. 코드를 짤 때 객체를 생성하고 지우는(Close) 한 줄을 빼먹어서, 1주일 동안 쓰레기 객체가 메모리에 산더미처럼 쌓여 터진 것이다. 이런 1주일짜리 잠복기 버그는 짧고 강한 '[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)'로는 절대 못 잡는다. <strong>"오래 켜놔 봐야 안다"</strong>는 진리가 내구성 테스트의 필요성이다.
 
-- **💡 비유**: 내구성 테스트는 자동차의 **'10만 km 내구 주행 테스트'**와 같습니다. 스포츠카를 트랙에 올리고 시속 300km로 10분 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))으로는 엔진의 파워를 알 수 있습니다. 하지만 시속 100km로 3박 4일 동안 쉬지 않고 달렸을 때(내구성 테스트), 미세하게 새던 엔진 오일이 결국 바닥나서 엔진이 녹아내리는지, 타이어 편마모가 생기는지는 오직 오랫동안 달려봐야만 잡을 수 있는 치명적 결함입니다.
+- **💡 비유**: 내구성 테스트는 자동차의 <strong>'10만 km 내구 주행 테스트'</strong>와 같습니다. 스포츠카를 트랙에 올리고 시속 300km로 10분 달리는 것([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))으로는 엔진의 파워를 알 수 있습니다. 하지만 시속 100km로 3박 4일 동안 쉬지 않고 달렸을 때(내구성 테스트), 미세하게 새던 엔진 오일이 결국 바닥나서 엔진이 녹아내리는지, 타이어 편마모가 생기는지는 오직 오랫동안 달려봐야만 잡을 수 있는 치명적 결함입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **단기 테스트의 맹점**: C/C++ 시절 포인터 메모리 해제(`free`) 누락이 많았으나, 테스트가 짧아 운영 중 서버가 자주 죽어 1일 1 재부팅이 당연시되었다.
-  2. **[가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)의 배신**: Java 환경이 오며 GC가 메모리를 청소해 주어 안심했다. 그러나 `HashMap` 같은 정적 변수에 데이터를 계속 쌓기만 하고 지우지 않으면 GC도 손을 놓아버리는 '조용한 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)'가 엔터프라이즈의 가장 큰 적이 되었다.
-  3. **APM과 장기 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) (현재)**: 제니퍼(Jennifer)나 데이터독(Datadog) 같은 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 에이전트를 달고 72시간 롱런 테스트를 돌려, 메모리 증가 곡선(Leak)을 눈으로 확인하고 힙 덤프를 뜨는 것이 차세대 구축 시 필수 관문(오픈 승인 조건)이 되었다.
+  2. <strong><a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>(GC)의 배신</strong>: Java 환경이 오며 GC가 메모리를 청소해 주어 안심했다. 그러나 `HashMap` 같은 정적 변수에 데이터를 계속 쌓기만 하고 지우지 않으면 GC도 손을 놓아버리는 '조용한 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)'가 엔터프라이즈의 가장 큰 적이 되었다.
+  3. <strong>APM과 장기 <a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a> (현재)</strong>: 제니퍼(Jennifer)나 데이터독(Datadog) 같은 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 에이전트를 달고 72시간 롱런 테스트를 돌려, 메모리 증가 곡선(Leak)을 눈으로 확인하고 힙 덤프를 뜨는 것이 차세대 구축 시 필수 관문(오픈 승인 조건)이 되었다.
 
-- **📢 섹션 요약 비유**: 내구성 테스트는 **'양동이 밑빠진 독 테스트'**입니다. 바가지로 1분 동안 미친 듯이 물을 부어보는 것([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))은 양동이가 튼튼한지 봅니다. 하지만 양동이에 바늘구멍([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))이 뚫려있다면 1분 테스트로는 티도 안 납니다. 물을 적당히 틀어놓고 3일 밤낮을 내버려 둬야, 그 바늘구멍으로 물이 다 새어나가 바닥이 드러나는 끔찍한 실체를 잡아낼 수 있습니다.
+- **📢 섹션 요약 비유**: 내구성 테스트는 <strong>'양동이 밑빠진 독 테스트'</strong>입니다. 바가지로 1분 동안 미친 듯이 물을 부어보는 것([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))은 양동이가 튼튼한지 봅니다. 하지만 양동이에 바늘구멍([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))이 뚫려있다면 1분 테스트로는 티도 안 납니다. 물을 적당히 틀어놓고 3일 밤낮을 내버려 둬야, 그 바늘구멍으로 물이 다 새어나가 바닥이 드러나는 끔찍한 실체를 잡아낼 수 있습니다.
 
 ---
 
 다음은 내구성 테스트 (Endurance /의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  내구성 테스트 (Endurance /                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내구성 테스트 (Endurance /</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 내구성 테스트 (Endurance /가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-내구성 테스트 (Endurance / Soak Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+내구성 테스트 (Endurance / Soak Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 내구성 테스트 (Endurance / Soak Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-내구성 테스트 (Endurance / Soak Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내구성 테스트 (Endurance / Soak Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

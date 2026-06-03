@@ -11,8 +11,8 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상태 공간 트리([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 퍼즐이나 미로를 풀 때, **"내가 여기서 선택할 수 있는 모든 경우의 수(상태)를 점(Node)으로 찍고, 선택의 흐름을 선(Edge)으로 연결해 우주 끝까지 뻗어나가는 거대한 족보(Tree) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)"**를 그려 정답을 찾는 노가다 탐색법이다.
-> 2. **가치**: 이 거대한 족보를 다 뒤지는 건 불가능하므로 AI는 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 짠다. **[깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))**은 "한 우물만 끝까지 파고, 막히면 돌아오자"는 무식하지만 메모리(RAM)를 적게 먹는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이고, **[너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))**은 "안전하게 1층 다 뒤지고, 2층 다 뒤지자"며 최단 거리 정답을 100% 보장하지만 메모리가 미친 듯이 터져나가는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 1. **본질**: 상태 공간 트리([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 퍼즐이나 미로를 풀 때, <strong>"내가 여기서 선택할 수 있는 모든 경우의 수(상태)를 점(Node)으로 찍고, 선택의 흐름을 선(Edge)으로 연결해 우주 끝까지 뻗어나가는 거대한 족보(Tree) <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>"</strong>를 그려 정답을 찾는 노가다 탐색법이다.
+> 2. **가치**: 이 거대한 족보를 다 뒤지는 건 불가능하므로 AI는 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 짠다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">깊이 우선 탐색</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong>은 "한 우물만 끝까지 파고, 막히면 돌아오자"는 무식하지만 메모리(RAM)를 적게 먹는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이고, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">너비 우선 탐색</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong>은 "안전하게 1층 다 뒤지고, 2층 다 뒤지자"며 최단 거리 정답을 100% 보장하지만 메모리가 미친 듯이 터져나가는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 3. **판단 포인트**: 바둑이나 체스처럼 경우의 수가 우주의 원자 수($[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$)보다 많은 게임에서는 BFS를 켜는 순간 1초 만에 서버가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 초과)으로 죽어버린다. 시스템의 가용 메모리 한계와 탐색 트리의 깊이(Depth)에 따라 DFS와 BFS를 저울질하거나 섞는 것([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))이 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 아키텍트의 기본 소양이다.
 
 ---
@@ -20,20 +20,23 @@ tags = ["studynote-ai"]
 ## Ⅰ. 개요 및 필요성
 
 초창기 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(1960년대)은 딥러닝처럼 사진을 보고 개/고양이를 구분하는 게 아니었다. AI의 지능을 뽐내는 유일한 무대는 체스, 8퍼즐(숫자 밀어 맞추기), 하노이의 탑 같은 '게임'이었다. 
-기계가 체스를 이기려면 어떻게 해야 할까? 직관? 딥러닝? 다 필요 없고, **"내가 돌을 여기 놨을 때 일어날 수 있는 미래의 모든 경우의 수를 수백만 개 그려보고, 가장 이길 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 길을 고르는 노가다 계산"**이 정답이었다.
+기계가 체스를 이기려면 어떻게 해야 할까? 직관? 딥러닝? 다 필요 없고, <strong>"내가 돌을 여기 놨을 때 일어날 수 있는 미래의 모든 경우의 수를 수백만 개 그려보고, 가장 이길 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 높은 길을 고르는 노가다 계산"</strong>이 정답이었다.
 
-이 '경우의 수' 하나하나를 점([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 부르고, 점들을 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)하며 뻗어나가는 지도를 **상태 공간 트리 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)**라고 부른다. 맨 꼭대기 점은 '현재 체스판의 상태([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태)'고, 맨 밑바닥 점 어딘가에는 '내가 체스에서 이긴 상태(목표 상태)'가 숨어 있다.
+이 '경우의 수' 하나하나를 점([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 부르고, 점들을 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)하며 뻗어나가는 지도를 <strong>상태 공간 트리 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space Tree)</strong>라고 부른다. 맨 꼭대기 점은 '현재 체스판의 상태([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태)'고, 맨 밑바닥 점 어딘가에는 '내가 체스에서 이긴 상태(목표 상태)'가 숨어 있다.
 
-문제는 이 지도가 너무 거대하다는 것이다. 8퍼즐만 해도 점(경우의 수)이 36만 개고, 바둑은 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$개다. 이 미치도록 넓고 깊은 우주에서 AI가 '정답(목표 상태)'을 찾아 미로를 헤매는 맹인 탐색(Blind Search)의 가장 기본이 되는 두 가지 엔진이 바로 밑바닥으로 직진하는 **깊이 우선([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))**과 옆으로 퍼져나가는 **너비 우선([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+문제는 이 지도가 너무 거대하다는 것이다. 8퍼즐만 해도 점(경우의 수)이 36만 개고, 바둑은 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$개다. 이 미치도록 넓고 깊은 우주에서 AI가 '정답(목표 상태)'을 찾아 미로를 헤매는 맹인 탐색(Blind Search)의 가장 기본이 되는 두 가지 엔진이 바로 밑바닥으로 직진하는 <strong>깊이 우선(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong>과 옆으로 퍼져나가는 <strong>너비 우선(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 상태 공간 트리는 '수능 객관식 찍기 경우의 수 지도'다. 1번 문제에서 1~5번을 찍는 5갈래 길이 생기고, 2번 문제에서 또 5갈래가 생겨 25갈래가 된다. 이 수백만 개의 갈래 끝 어딘가에 '100점(목표 상태)'이라는 방이 하나 있다. AI는 눈을 감은 채 이 미로 속 방의 문을 열고 들어가서 100점 방을 찾아내는 무식하지만 확실한 미로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가다.
 
@@ -43,36 +46,35 @@ tags = ["studynote-ai"]
 
 AI가 상태 공간 트리를 뒤질 때 머릿속의 임시 저장소(자료구조)를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))으로 쓰냐 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 쓰냐에 따라 맹인 탐색의 경로가 완전히 정반대로 갈라진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           상태 공간 탐색: 깊이 우선(DFS) vs 너비 우선(BFS) 아키텍처 도해 │
-├──────────────────────────────────────────────────────────────┤
-│  [거대한 상태 공간 트리(Tree)]                                      │
-│         (A) 시작 노드 (1층)                                     │
-│        /   \                                                 │
-│      (B)   (C)       (2층)                                     │
-│     /  \   /  \                                              │
-│   (D) (E) (F) (G)    (3층)     ※ 목표 노드는 (F)라고 가정!         │
-│                                                              │
-│  [1. 깊이 우선 탐색 (DFS, Depth-First Search) - 외길 직진 멧돼지]    │
-│   * 사용 자료구조: Stack (스택, 후입선출 - 마지막에 본 곳부터 다시 파기)  │
-│   * 탐색 순서: A ─▶ B ─▶ D (끝까지 파봄, 꽝!) ─▶ 백트래킹(뒤로 빽!)    │
-│            ─▶ E (꽝!) ─▶ 백트래킹 ─▶ C ─▶ F (정답 발견! 빙고!)   │
-│   * 장점: 기억(메모리)해야 할 갈림길이 몇 개 없어서 RAM 소모가 미미함.    │
-│   * 단점: 운 나쁘면 정답은 바로 옆(C)에 있는데, 영원히 끝이 없는 D 밑바닥 │
-│          블랙홀로 빠져 영원히 못 돌아올 수 있음 (무한 루프 붕괴).      │
-│                                                              │
-│  [2. 너비 우선 탐색 (BFS, Breadth-First Search) - 안전제일 탐험대]   │
-│   * 사용 자료구조: Queue (큐, 선입선출 - 줄 선 순서대로 평등하게 수색)   │
-│   * 탐색 순서: A (1층 끝) ─▶ B ─▶ C (2층 다 뒤짐)                  │
-│            ─▶ D ─▶ E ─▶ F (정답 발견! 빙고!)                  │
-│   * 장점: 가장 얕은 층에 있는 '최단 거리 정답'을 무조건 100% 보장함!    │
-│   * 단점: 10층을 뒤지려면 1~9층의 모든 점(수십억 개)을 몽땅 RAM에 저장해 │
-│          둬야 해서 메모리가 우주 폭발함 (OOM 사망).               │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) vs Queue의 메모리 딜레마)**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 공간 탐색: 깊이 우선(DFS) vs 너비 우선(BFS) 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거대한 상태 공간 트리(Tree)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) 시작 노드 (1층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(B) (C) (2층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(D) (E) (F) (G) (3층) ※ 목표 노드는 (F)라고 가정!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 깊이 우선 탐색 (DFS, Depth-First Search) - 외길 직진 멧돼지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용 자료구조: Stack (스택, 후입선출 - 마지막에 본 곳부터 다시 파기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 탐색 순서: A ─▶ B ─▶ D (끝까지 파봄, 꽝!) ─▶ 백트래킹(뒤로 빽!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ E (꽝!) ─▶ 백트래킹 ─▶ C ─▶ F (정답 발견! 빙고!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 기억(메모리)해야 할 갈림길이 몇 개 없어서 RAM 소모가 미미함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 운 나쁘면 정답은 바로 옆(C)에 있는데, 영원히 끝이 없는 D 밑바닥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙홀로 빠져 영원히 못 돌아올 수 있음 (무한 루프 붕괴).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 너비 우선 탐색 (BFS, Breadth-First Search) - 안전제일 탐험대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용 자료구조: Queue (큐, 선입선출 - 줄 선 순서대로 평등하게 수색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 탐색 순서: A (1층 끝) ─▶ B ─▶ C (2층 다 뒤짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ D ─▶ E ─▶ F (정답 발견! 빙고!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 가장 얕은 층에 있는 '최단 거리 정답'을 무조건 100% 보장함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 10층을 뒤지려면 1~9층의 모든 점(수십억 개)을 몽땅 RAM에 저장해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">둬야 해서 메모리가 우주 폭발함 (OOM 사망).</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> vs Queue의 메모리 딜레마)</strong>:
 DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온 길(Path)만 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장해 두고 막히면 한 칸 뒤로 물러서기([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 때문이다. 깊이가 100층이어도 100개의 점만 기억하면 된다([공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 선형). 
 반면 BFS는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 같은 층의 모든 형제 노드들을 와르르 욱여넣고 동시에 전진한다. 층이 깊어질수록 기억해야 할 점의 수가 지수 함수($2^n$, $3^n$)로 폭발하여, 정답을 찾기도 전에 컴퓨터 메모리가 가득 차서 프로그램이 강제 종료([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))되어 버리는 끔찍한 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)의 저주에 빠진다.
 
@@ -93,9 +95,9 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 
 | 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 탐색 철학 및 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 가장 유리한 상황 (Pros) | 치명적인 붕괴 상황 (Cons) |
 |:---|:---|:---|:---|
-| **[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))** | 일단 가장 깊은 곳까지 뚫고 본다. (외골수 직진) | 미로의 **정답이 아주 깊은 밑바닥에 숨어있을 때** 압도적으로 빨리 찾음. 메모리 제약 0% 수준. | 트리의 깊이가 '무한대'인 곳에서 잘못된 길로 빠지면, **영원히 안 끝나는 블랙홀(Infinite Loop)**에 갇혀버림. 최단 거리 보장 불가. |
-| **[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))** | 얕은 층부터 평등하게 싹 다 뒤지며 내려간다. (안전제일) | **정답이 시작점에서 가까운 얕은 층에 있을 때** 바로 낚아챔. **'최단 거리' 정답을 100% 무조건 보장함.** | 트리가 가지가 많은(분기 계수 Branching Factor가 큰) 게임에서 **메모리 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))**로 서버 즉사. |
-| **[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) (반복적 깊이 심화 탐색)** | DFS와 BFS를 섞은 끔찍한 짬뽕 (Iterative Deepening Search). | 1층까지만 DFS로 파보고, 없으면 2층까지만 DFS로 파보고, 없으면 3층 제한 걸고 DFS를 다시 함! | **DFS의 장점(메모리 안 터짐)과 BFS의 장점(최단 거리 100% 보장)을 모두 갖춘 맹인 탐색의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터피스!** 단, 위층을 반복해서 계속 파야 하므로 시간이 약간 낭비됨. |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">깊이 우선 탐색</a>)</strong> | 일단 가장 깊은 곳까지 뚫고 본다. (외골수 직진) | 미로의 **정답이 아주 깊은 밑바닥에 숨어있을 때** 압도적으로 빨리 찾음. 메모리 제약 0% 수준. | 트리의 깊이가 '무한대'인 곳에서 잘못된 길로 빠지면, <strong>영원히 안 끝나는 블랙홀(Infinite Loop)</strong>에 갇혀버림. 최단 거리 보장 불가. |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">너비 우선 탐색</a>)</strong> | 얕은 층부터 평등하게 싹 다 뒤지며 내려간다. (안전제일) | **정답이 시작점에서 가까운 얕은 층에 있을 때** 바로 낚아챔. **'최단 거리' 정답을 100% 무조건 보장함.** | 트리가 가지가 많은(분기 계수 Branching Factor가 큰) 게임에서 <strong>메모리 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>)</strong>로 서버 즉사. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a> (반복적 깊이 심화 탐색)</strong> | DFS와 BFS를 섞은 끔찍한 짬뽕 (Iterative Deepening Search). | 1층까지만 DFS로 파보고, 없으면 2층까지만 DFS로 파보고, 없으면 3층 제한 걸고 DFS를 다시 함! | <strong>DFS의 장점(메모리 안 터짐)과 BFS의 장점(최단 거리 100% 보장)을 모두 갖춘 맹인 탐색의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터피스!</strong> 단, 위층을 반복해서 계속 파야 하므로 시간이 약간 낭비됨. |
 
 최근 코딩 테스트나 실무 길 찾기 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서는 BFS와 DFS라는 맹인 탐색(아무 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 없이 무지성으로 다 뒤짐)을 거의 쓰지 않는다. "지도상으로 여기가 더 정답이랑 가까워 보이네!"라는 눈치([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))를 더한 **A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이나 **[언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)** 같은 진보된 정보 기반 탐색으로 넘어가는 것이 기본 테크 트리다.
 
@@ -108,11 +110,11 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔진을 만들거나 내비게이션 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 짤 때, 무지성으로 DFS나 BFS의 기본 내장 함수를 호출하면 서버가 무한 루프에 빠져 아키텍트의 모가지가 날아간다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **무한 루프 방어선 (Visited [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) / Closed List) 하드코딩**: DFS의 가장 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 '내가 지나온 길(Cycle)'을 빙글빙글 계속 도는 것이다. A $\rightarrow$ B $\rightarrow$ C $\rightarrow$ A로 이어지는 미로에서, 지나온 흔적을 체크하지 않으면 DFS는 우주가 끝날 때까지 저 4개의 방을 맴돌며 전력을 낭비한다. 탐색을 짤 때는 무조건 **'방문한 노드(Visited [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))'**라는 거대한 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) DB(Hash Set)를 옆에 띄워두고, "어? 나 아까 C방 와봤는데? 그럼 다시 안 들어가고 스킵([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))!"이라는 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 강제 커트라인을 무조건 코딩해야 한다.
-2. **트리 깊이 제한 (Depth Limit) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 딜레마**: 바둑(경우의 수 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$)에서 끝까지 파고드는 DFS를 쓴다는 건 미친 짓이다. 1수를 둘 때 게임이 끝날 때까지 수만 수를 계산할 순 없다. 체스나 바둑 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) 등)를 짤 때는 무조건 **"지금부터 딱 5수 앞(Depth Limit = 5)까지만 파고들고 무조건 멈춰서 빠져나와라!"**라는 제한을 걸어야 실시간(Real-time) 플레이가 가능하다. 깊이 제한에서 멈췄을 때, 그 상태가 얼마나 유리한지 대충 평가하는 함수(Evaluation Function)를 결합하는 것이 게임 트리 탐색의 핵심이다.
+1. <strong>무한 루프 방어선 (Visited <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> / Closed List) 하드코딩</strong>: DFS의 가장 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 '내가 지나온 길(Cycle)'을 빙글빙글 계속 도는 것이다. A $\rightarrow$ B $\rightarrow$ C $\rightarrow$ A로 이어지는 미로에서, 지나온 흔적을 체크하지 않으면 DFS는 우주가 끝날 때까지 저 4개의 방을 맴돌며 전력을 낭비한다. 탐색을 짤 때는 무조건 <strong>'방문한 노드(Visited <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)'</strong>라는 거대한 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) DB(Hash Set)를 옆에 띄워두고, "어? 나 아까 C방 와봤는데? 그럼 다시 안 들어가고 스킵([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))!"이라는 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 강제 커트라인을 무조건 코딩해야 한다.
+2. <strong>트리 깊이 제한 (Depth Limit) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>의 딜레마</strong>: 바둑(경우의 수 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{170}$)에서 끝까지 파고드는 DFS를 쓴다는 건 미친 짓이다. 1수를 둘 때 게임이 끝날 때까지 수만 수를 계산할 순 없다. 체스나 바둑 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) 등)를 짤 때는 무조건 <strong>"지금부터 딱 5수 앞(Depth Limit = 5)까지만 파고들고 무조건 멈춰서 빠져나와라!"</strong>라는 제한을 걸어야 실시간(Real-time) 플레이가 가능하다. 깊이 제한에서 멈췄을 때, 그 상태가 얼마나 유리한지 대충 평가하는 함수(Evaluation Function)를 결합하는 것이 게임 트리 탐색의 핵심이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Weighted [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))에 대한 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 맹신 버그**: 내비게이션 길 찾기를 짤 때, 도로마다 톨게이트 비용이나 막히는 시간([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))이 다른데 무지성 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)([너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))를 돌려버리는 끔찍한 오판. BFS는 오직 "방을 몇 번 거쳤는가(단순 노드 점프 횟수)" 기준으로 최단 거리를 뽑아낸다. BFS에 톨게이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣고 돌리면, "서울 $\rightarrow$ 부산" 직통 고속도로(요금 10만 원)가 "서울 $\rightarrow$ 대전 $\rightarrow$ 대구 $\rightarrow$ 부산" 국도(요금 1만 원)보다 점프 횟수가 1번으로 더 적다며 10만 원짜리 최악의 길을 '최단 거리'라고 뱉어내는 멍청한 짓을 한다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 섞인 도로망에서는 BFS를 폐기하고 무조건 **[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))나 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 꺼내 들어야 한다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Weighted <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)에 대한 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 맹신 버그</strong>: 내비게이션 길 찾기를 짤 때, 도로마다 톨게이트 비용이나 막히는 시간([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))이 다른데 무지성 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)([너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))를 돌려버리는 끔찍한 오판. BFS는 오직 "방을 몇 번 거쳤는가(단순 노드 점프 횟수)" 기준으로 최단 거리를 뽑아낸다. BFS에 톨게이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣고 돌리면, "서울 $\rightarrow$ 부산" 직통 고속도로(요금 10만 원)가 "서울 $\rightarrow$ 대전 $\rightarrow$ 대구 $\rightarrow$ 부산" 국도(요금 1만 원)보다 점프 횟수가 1번으로 더 적다며 10만 원짜리 최악의 길을 '최단 거리'라고 뱉어내는 멍청한 짓을 한다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 섞인 도로망에서는 BFS를 폐기하고 무조건 **[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))나 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 꺼내 들어야 한다.
 
 - **📢 섹션 요약 비유**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 무시 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 버그는 '경유지 개수만 세는 비행기 예약'과 같다. 미국 갈 때, 직항(점프 1번, 500만 원) 비행기와, 일본 $\rightarrow$ 하와이 $\rightarrow$ 미국 경유(점프 3번, 50만 원) 비행기가 있다. 짠돌이 배낭여행객([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))에게는 당연히 50만 원짜리 경유가 최단(최적) 루트다. 그런데 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 여행사 직원은 돈([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))은 신경도 안 쓰고 무조건 점프 횟수가 적은(얕은 층) 500만 원짜리 표를 "가장 짧은 길입니다!"라며 결제해 버리는 참사를 빚는다. 현실 세계는 돈과 시간([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 싸움이므로 멍청한 노드 개수 세기([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))는 안 통한다.
 
@@ -120,7 +122,7 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 
 ## Ⅴ. 기대효과 및 결론
 
-상태 공간 탐색([State Space Search](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/))의 양대 산맥인 DFS와 BFS는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간의 **'시행착오(Trial and Error)'**라는 지적 능력을 컴퓨터의 RAM과 CPU 코드로 완벽하게 번역해 낸 최초의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 굴착기다.
+상태 공간 탐색([State Space Search](/knowledge-base/studynote/10_ai/01_ai_basics/013_state_space_search/))의 양대 산맥인 DFS와 BFS는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간의 <strong>'시행착오(Trial and Error)'</strong>라는 지적 능력을 컴퓨터의 RAM과 CPU 코드로 완벽하게 번역해 낸 최초의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 굴착기다.
 
 딥러닝이 아무리 발전해도 세상의 모든 문제를 '[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)'로만 찍어 맞출 수는 없다. 지하철 노선도의 최단 환승 경로를 찾거나, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로의 꼬이지 않는 배선 길을 찾는([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 완벽하게 정밀한 문제 앞에서는, 결국 컴퓨터가 묵묵히 수만 개의 경우의 수([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 트리로 전개하고 끝까지 파헤쳐보는 무식한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Search [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))의 땀방울이 필요하다. DFS와 BFS는 이 고된 노가다의 가장 견고한 기초 공사 도구다.
 
@@ -134,10 +136,10 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) ([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))** | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))의 단짝 친구. 우물을 끝까지 팠는데 정답이 없으면 쿨하게 흙을 털고 "아까 지나친 갈림길로 다시 뒤로 빽(Back)해서 다른 길을 파자!"라고 돌아가는 핵심 퇴각 기술 |
-| **[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) ([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) / 눈치 탐색)** | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), BFS처럼 눈 감고 다 뒤지는 무식한 맹인 탐색(Blind Search)을 졸업하고, "저기서 고기 냄새가 나니까 저쪽 샛길부터 파보자!"라고 인간의 직감을 수식으로 만들어 탐색 속도를 100배 올리는 업그레이드 마법 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/">백트래킹</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/">Backtracking</a>)</strong> | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))의 단짝 친구. 우물을 끝까지 팠는데 정답이 없으면 쿨하게 흙을 털고 "아까 지나친 갈림길로 다시 뒤로 빽(Back)해서 다른 길을 파자!"라고 돌아가는 핵심 퇴각 기술 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> / 눈치 탐색)</strong> | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), BFS처럼 눈 감고 다 뒤지는 무식한 맹인 탐색(Blind Search)을 졸업하고, "저기서 고기 냄새가 나니까 저쪽 샛길부터 파보자!"라고 인간의 직감을 수식으로 만들어 탐색 속도를 100배 올리는 업그레이드 마법 |
 | **A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (에이 스타)** | 게임 캐릭터 길 찾기(Pathfinding)의 전 세계 표준. 목적지와의 직선거리(눈치, [Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))와 지금까지 걸어온 비용([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 동시에 계산해 내는 BFS의 궁극적 최종 진화 형태 |
-| **상태 공간 트리 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space Tree)** | 현재 체스판의 말 위치([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태)에서 시작해, 내가 이길 때(목표 상태)까지 나올 수 있는 세상의 모든 경우의 수(상태)들을 동그라미와 선으로 거대하게 그려놓은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 보물지도 |
+| <strong>상태 공간 트리 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space Tree)</strong> | 현재 체스판의 말 위치([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태)에서 시작해, 내가 이길 때(목표 상태)까지 나올 수 있는 세상의 모든 경우의 수(상태)들을 동그라미와 선으로 거대하게 그려놓은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 보물지도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,9 +149,9 @@ DFS는 메모리(RAM)를 아주 조금 먹는다. 지금 내가 걸어 들어온
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 캄캄한 미로 속에서 보물을 찾아야 해요! **상태 공간 트리**는 내가 미로에서 갈 수 있는 모든 갈림길을 그림으로 쫙 그려놓은 거대한 지도예요.
-2. **[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (깊이 우선)** 친구는 "무조건 한 우물만 파!" 라면서 한쪽 길로 끝까지 다다닥 뛰어가서 찾아보는 저돌적인 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가예요. (기억할 게 별로 없어서 편해요)
-3. **[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) (너비 우선)** 친구는 "안전이 최고지!" 라면서 미로의 1층을 다 열어보고, 그다음 2층을 꼼꼼히 다 열어보는 꼼꼼한 엄마예요. (가장 빠른 길을 100% 보장하지만 머리가 엄청 아파요)
+1. 캄캄한 미로 속에서 보물을 찾아야 해요! <strong>상태 공간 트리</strong>는 내가 미로에서 갈 수 있는 모든 갈림길을 그림으로 쫙 그려놓은 거대한 지도예요.
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> (깊이 우선)</strong> 친구는 "무조건 한 우물만 파!" 라면서 한쪽 길로 끝까지 다다닥 뛰어가서 찾아보는 저돌적인 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가예요. (기억할 게 별로 없어서 편해요)
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (너비 우선)</strong> 친구는 "안전이 최고지!" 라면서 미로의 1층을 다 열어보고, 그다음 2층을 꼼꼼히 다 열어보는 꼼꼼한 엄마예요. (가장 빠른 길을 100% 보장하지만 머리가 엄청 아파요)
 
 ---
 

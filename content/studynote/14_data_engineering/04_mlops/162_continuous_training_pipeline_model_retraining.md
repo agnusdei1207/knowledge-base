@@ -20,21 +20,24 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))란?
 
-**CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))**는 ML 파이프라인을 자동으로 주기적 또는 이벤트 기반으로 실행하여, 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델을 재학습하고 배포하는 자동화 체계다.
+<strong>CT (Continuous <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>는 ML 파이프라인을 자동으로 주기적 또는 이벤트 기반으로 실행하여, 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델을 재학습하고 배포하는 자동화 체계다.
 
-```
-기존 방식 (수동 재학습)              CT 방식 (자동 재학습)
-┌──────────────────────────┐       ┌──────────────────────────────┐
-│ 데이터 과학자가 수동으로  │       │  트리거 감지                  │
-│ 성능 저하 인지            │       │  (일정/데이터/성능)            │
-│         ↓                │       │          ↓                    │
-│ 재학습 스크립트 실행      │  →    │  파이프라인 자동 실행          │
-│         ↓                │       │  데이터 검증 → 학습 → 평가    │
-│ 수동 모델 평가 및 배포    │       │          ↓                    │
-│ 수주 소요                 │       │  자동 배포 또는 알람           │
-└──────────────────────────┘       │  수시간 소요                  │
-                                   └──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 방식 (수동 재학습) CT 방식 (자동 재학습)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 과학자가 수동으로</div><div class="kb-diagram-cell">트리거 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 저하 인지</div><div class="kb-diagram-cell">(일정/데이터/성능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재학습 스크립트 실행</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">파이프라인 자동 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓</div><div class="kb-diagram-cell">데이터 검증 → 학습 → 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 모델 평가 및 배포</div><div class="kb-diagram-cell">↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수주 소요</div><div class="kb-diagram-cell">자동 배포 또는 알람</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수시간 소요</div></div>
+</div>
+</div>
+
+
 
 ### 1.2 CT가 필요한 이유
 
@@ -43,7 +46,7 @@ tags = ["studynote-data-engineering"]
 | **계절성** | 쇼핑몰 구매 패턴이 명절마다 변화 | 주기적 재학습 |
 | **사용자 행동 변화** | 스마트폰 보급으로 모바일 패턴 급증 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 재학습 |
 | **외부 충격** | COVID-19로 여행 수요 급감 | 즉시 재학습 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누적** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1만 건 이상 쌓이면 업데이트 필요 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 재학습 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누적</strong> | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1만 건 이상 쌓이면 업데이트 필요 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 재학습 |
 | **사기 패턴 변화** | 새로운 신용카드 사기 수법 등장 | 드리프트 감지 후 재학습 |
 
 📢 **섹션 요약 비유**: CT는 날씨 예보 시스템과 같다. 기상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간으로 바뀌는 것처럼 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 계속 변하고, 예보 모델이 자동으로 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 정확도를 유지하는 것처럼 CT는 ML 모델의 신선도를 자동으로 유지한다.
@@ -57,27 +60,29 @@ tags = ["studynote-data-engineering"]
 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 종류 | 조건 | 장점 | 단점 |
 |:---|:---|:---|:---|
 | **일정 기반 (Schedule Trigger)** | 매일/매주/매월 정해진 시각 | 예측 가능, 리소스 계획 용이 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화와 무관하게 실행 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Trigger)** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) N건 이상 수집 시 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충분히 쌓인 후 학습 | 변화 속도와 불일치 가능 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Trigger)** | 정확도/F1이 임계값 이하로 하락 | 진짜 필요할 때만 실행 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 후 대응 (사후적) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Trigger)</strong> | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) N건 이상 수집 시 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충분히 쌓인 후 학습 | 변화 속도와 불일치 가능 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기반 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Trigger)</strong> | 정확도/F1이 임계값 이하로 하락 | 진짜 필요할 때만 실행 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 후 대응 (사후적) |
 
 ### 2.2 CT 파이프라인 상세 구성
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      CT 파이프라인 전체 흐름                         │
-├──────────┬──────────┬──────────┬──────────┬──────────┬─────────────┤
-│  트리거  │  데이터  │  피처    │  모델    │  모델    │   자동      │
-│  감지    │  검증    │  엔지니  │  학습    │  평가    │   배포      │
-│          │          │  어링    │          │          │             │
-├──────────┼──────────┼──────────┼──────────┼──────────┼─────────────┤
-│ Schedule │ 스키마   │ 피처     │ 분산     │ 정확도   │ 통과 →     │
-│ Data     │ 검증     │ 계산     │ 학습     │ F1-Score │ 모델 레지   │
-│ Perf     │ 이상값   │ 정규화   │ HPO      │ 드리프트 │ 스트리 등록 │
-│ Trigger  │ 체크     │ 인코딩   │ 교차검증 │ 비교     │ → 카나리   │
-└──────────┴──────────┴──────────┴──────────┴──────────┴─────────────┘
-                                                           실패 →
-                                                           알람 발송
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 파이프라인 전체 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">자동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감지</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">엔지니</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">평가</div><div class="kb-diagram-cell">배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schedule</div><div class="kb-diagram-cell">스키마</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">분산</div><div class="kb-diagram-cell">정확도</div><div class="kb-diagram-cell">통과 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">계산</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">F1-Score</div><div class="kb-diagram-cell">모델 레지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Perf</div><div class="kb-diagram-cell">이상값</div><div class="kb-diagram-cell">정규화</div><div class="kb-diagram-cell">HPO</div><div class="kb-diagram-cell">드리프트</div><div class="kb-diagram-cell">스트리 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger</div><div class="kb-diagram-cell">체크</div><div class="kb-diagram-cell">인코딩</div><div class="kb-diagram-cell">교차검증</div><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">→ 카나리</div></div>
+<div class="kb-diagram-note">실패 →</div>
+<div class="kb-diagram-note">알람 발송</div>
+</div>
+</div>
+
+
 
 ### 2.3 CT 파이프라인 상세 단계
 
@@ -102,49 +107,51 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 | 작업 | 설명 | 도구 |
 |:---|:---|:---|
-| **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 변환** | 수치형 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 범주형 인코딩 | Scikit-learn [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), TF Transform |
-| **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 선택** | 중요도 기반 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 필터링 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), Boruta |
-| **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장** | 온라인/오프라인 스토어 업데이트 | Feast, Hopsworks |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할** | Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분리 | Stratified Split |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 변환</strong> | 수치형 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 범주형 인코딩 | Scikit-learn [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), TF Transform |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 선택</strong> | 중요도 기반 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 필터링 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), Boruta |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 저장</strong> | 온라인/오프라인 스토어 업데이트 | Feast, Hopsworks |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분할</strong> | Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분리 | Stratified Split |
 
 #### 단계 3: 모델 학습 (Model [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))
 
-```
-┌─────────────────────────────────────────────────────┐
-│                모델 학습 전략 비교                   │
-├───────────────────┬─────────────────────────────────┤
-│  전체 재학습      │  전체 데이터로 처음부터 학습     │
-│  (Full Retraining)│  고비용, 높은 정확도             │
-├───────────────────┼─────────────────────────────────┤
-│  증분 학습        │  새 데이터만으로 기존 모델 업데이 │
-│  (Incremental)    │  저비용, 점진적 성능 개선        │
-├───────────────────┼─────────────────────────────────┤
-│  앙상블 업데이트  │  새 모델 추가, 가중치 재조정     │
-│  (Ensemble Update)│  안정성 높음, 복잡성 증가        │
-└───────────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 학습 전략 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 재학습</div><div class="kb-diagram-cell">전체 데이터로 처음부터 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Full Retraining)</div><div class="kb-diagram-cell">고비용, 높은 정확도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증분 학습</div><div class="kb-diagram-cell">새 데이터만으로 기존 모델 업데이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Incremental)</div><div class="kb-diagram-cell">저비용, 점진적 성능 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앙상블 업데이트</div><div class="kb-diagram-cell">새 모델 추가, 가중치 재조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ensemble Update)</div><div class="kb-diagram-cell">안정성 높음, 복잡성 증가</div></div>
+</div>
+</div>
+
+
 
 #### 단계 4: 모델 평가 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 게이트 (Evaluation Gate)
 
-```
-신규 모델 학습 완료
-        │
-        ▼
-  ┌─────────────────────────────┐
-  │  자동 평가 게이트 (Gate)     │
-  │                             │
-  │  ① 정확도 > 기준 (예: 90%) │
-  │  ② F1-Score 개선 여부       │
-  │  ③ 현재 프로덕션 모델 대비  │
-  │     성능 향상 확인           │
-  │  ④ 지연시간 SLA 충족        │
-  │  ⑤ 공정성 메트릭 체크       │
-  └─────────────────────────────┘
-        │              │
-    통과 ▼          실패 ▼
-  레지스트리 등록   알람 + 원인 분석
-  → 카나리 배포     → 데이터팀 통보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">신규 모델 학습 완료</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 평가 게이트 (Gate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 정확도 &gt; 기준 (예: 90%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② F1-Score 개선 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 현재 프로덕션 모델 대비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 향상 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 지연시간 SLA 충족</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 공정성 메트릭 체크</div></div>
+<div class="kb-diagram-note">통과 ▼ 실패 ▼</div>
+<div class="kb-diagram-note">레지스트리 등록 알람 + 원인 분석</div>
+<div class="kb-diagram-note">→ 카나리 배포 → 데이터팀 통보</div>
+</div>
+</div>
+
+
 
 ### 2.4 재학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 상세 비교
 
@@ -153,7 +160,7 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 | **전체 재학습** | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 처음부터 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장 | 높은 컴퓨팅 비용 | 중요 모델, 월 1회 이하 |
 | **증분 학습** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 추가 학습 | 저비용, 빠른 실행 | Catastrophic Forgetting 위험 | 신경망, 온라인 학습 |
 | **슬라이딩 윈도우** | 최근 N일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 사용 | 오래된 패턴 제거 | [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 | 계절성 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기반** | 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 균형 잡힌 학습 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 튜닝 필요 | 대부분의 시계열 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 기반</strong> | 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 균형 잡힌 학습 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 튜닝 필요 | 대부분의 시계열 |
 
 📢 **섹션 요약 비유**: CT 파이프라인은 레스토랑의 메뉴 자동 업데이트 시스템과 같다. 손님 취향([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 바뀌면 자동으로 감지([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/))하고, 새 레시피를 시험(학습)하고, 맛 검사(평가 게이트)를 통과하면 실제 메뉴에 반영(배포)한다. 기준 미달이면 주방장에게 알람을 보낸다.
 
@@ -167,31 +174,33 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 |:---|:---|:---|:---|
 | **반응 시간** | 예정된 시각 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 임계값 도달 시 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 후 |
 | **비용 예측** | 높음 (예측 가능) | 중간 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입량 의존) | 낮음 (필요 시만) |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 불필요한 재학습 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈 | 저하 구간 노출 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 불필요한 재학습 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈 | 저하 구간 노출 |
 | **권장 분야** | 금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 배치 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/), 검색 | 고가용성 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **결합 사용** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 조합 권장 | | |
 
 ### 3.2 Catastrophic Forgetting 문제와 해결
 
-```
-증분 학습의 문제 - Catastrophic Forgetting
 
-이전 학습 데이터: [고양이, 개, 자동차]
-새 학습 데이터:   [비행기, 배]
-                        ↓
-증분 학습 후: 비행기·배는 잘 분류,
-              고양이·개·자동차 성능 급락 (Forgetting!)
 
-해결 방법:
-┌────────────────────────────────────────────────┐
-│  ① Replay Buffer: 이전 데이터 샘플 보존         │
-│  ② EWC (Elastic Weight Consolidation):         │
-│     중요 가중치에 페널티 부여                    │
-│  ③ Progressive Neural Networks:               │
-│     새 태스크에 별도 컬럼 추가                   │
-│  ④ 전체 재학습 주기 병행                        │
-└────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">증분 학습의 문제 - Catastrophic Forgetting</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">이전 학습 데이터:</div><div class="kb-diagram-node">고양이, 개, 자동차</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">새 학습 데이터:</div><div class="kb-diagram-node">비행기, 배</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">증분 학습 후: 비행기·배는 잘 분류,</div>
+<div class="kb-diagram-note">고양이·개·자동차 성능 급락 (Forgetting!)</div>
+<div class="kb-diagram-note">해결 방법:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Replay Buffer: 이전 데이터 샘플 보존</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② EWC (Elastic Weight Consolidation):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중요 가중치에 페널티 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Progressive Neural Networks:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 태스크에 별도 컬럼 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 전체 재학습 주기 병행</div></div>
+</div>
+</div>
+
+
 
 ### 3.3 CT vs 기존 배치 모델 업데이트 비교
 
@@ -200,7 +209,7 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 | **주기** | 수동 결정 (수주) | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 기반 (수시간~수일) |
 | **인력** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자 개입 | 자동화 (최소 인력) |
 | **재현성** | 낮음 (수동 환경) | 높음 ([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반) |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적** | 어려움 | 파이프라인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자동 기록 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong> | 어려움 | 파이프라인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자동 기록 |
 | **실패 처리** | 수동 디버깅 | 자동 알람 + 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 유지 |
 
 📢 **섹션 요약 비유**: CT와 수동 재학습의 차이는 수동 환자 모니터링과 ICU 자동 모니터링의 차이와 같다. 수동 방식은 의사가 주기적으로 돌아보지만(늦은 반응), ICU 자동 시스템은 이상 수치 감지 즉시 알람을 울리고 응급 프로토콜을 자동 실행한다(빠른 반응).
@@ -211,20 +220,25 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 ### 4.1 CT 비용 vs [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프
 
-```
-모델 성능
-  ↑
-  │     ····················· 이상적 성능 유지선
-  │  ╲     ╱╲     ╱╲
-  │   ╲   ╱  ╲   ╱  ╲
-  │    ╲ ╱    ╲ ╱    ╲···(성능 저하 시작)
-  │     ╳      ╳
-  │    재학습  재학습
-  └─────────────────────────────→ 시간
-    ↑                  ↑
-  너무 자주 재학습      너무 늦은 재학습
-  (비용 낭비)           (성능 저하 노출)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 성능</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">····················· 이상적 성능 유지선</div>
+<div class="kb-diagram-note">╲ ╱╲ ╱╲</div>
+<div class="kb-diagram-note">╲ ╱ ╲ ╱ ╲</div>
+<div class="kb-diagram-note">╲ ╱ ╲ ╱ ╲···(성능 저하 시작)</div>
+<div class="kb-diagram-note">╳ ╳</div>
+<div class="kb-diagram-note">재학습 재학습</div>
+<div class="kb-diagram-tree-item" style="--depth:1">→ 시간</div>
+<div class="kb-diagram-note">너무 자주 재학습 너무 늦은 재학습</div>
+<div class="kb-diagram-note">(비용 낭비) (성능 저하 노출)</div>
+</div>
+</div>
+
+
 
 | 재학습 빈도 | 컴퓨팅 비용 | 모델 신선도 | 권장 상황 |
 |:---|:---:|:---:|:---|
@@ -237,14 +251,14 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 **Q. CT 파이프라인에서 평가 게이트(Evaluation Gate)의 역할과 중요성을 설명하시오.**
 
-평가 게이트는 자동 재학습된 모델이 실제 프로덕션에 배포되기 전에 거치는 **자동 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 관문**이다. 다음 세 가지 기준을 모두 통과해야 배포가 허용된다:
-1. **절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준**: 정확도, [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 등이 최소 기준치 이상
-2. **상대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준**: 현재 프로덕션 모델 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 또는 동등
+평가 게이트는 자동 재학습된 모델이 실제 프로덕션에 배포되기 전에 거치는 <strong>자동 품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 관문</strong>이다. 다음 세 가지 기준을 모두 통과해야 배포가 허용된다:
+1. <strong>절대 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기준</strong>: 정확도, [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 등이 최소 기준치 이상
+2. <strong>상대 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기준</strong>: 현재 프로덕션 모델 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 또는 동등
 3. **비기능 요건**: 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 메모리 사용량 등
 
 이를 통해 자동화 과정에서 발생할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제나 코드 버그로 인한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 모델이 자동으로 배포되는 위험을 방지한다.
 
-**Q. 재학습 비용 vs 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 트레이드오프를 설명하시오.**
+<strong>Q. 재학습 비용 vs 모델 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 트레이드오프를 설명하시오.</strong>
 
 - 재학습이 너무 잦으면: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 컴퓨팅 비용 급증, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이블링 비용 증가
 - 재학습이 너무 드물면: [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 저하, 비즈니스 손실 발생
@@ -296,25 +310,28 @@ def ct_pipeline(data_path: str, threshold: float = 0.90):
 | 항목 | 도입 전 | 도입 후 | 개선 |
 |:---|:---|:---|:---|
 | **재학습 주기** | 분기~반기 (수동) | 수시간~수일 (자동) | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 단축 |
-| **[모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 노출** | 수주간 저하 방치 | 즉시 감지 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 유지 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자 공수** | 재학습에 50% 투입 | 연구개발에 집중 | 생산성 2배 향상 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/">모델 드리프트</a> 노출</strong> | 수주간 저하 방치 | 즉시 감지 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 유지 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자 공수</strong> | 재학습에 50% 투입 | 연구개발에 집중 | 생산성 2배 향상 |
 | **배포 실패율** | 수동 배포로 20% | 자동 게이트로 5% 미만 | 배포 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상 |
 
 ### 5.2 CT 설계 시 고려사항
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  CT 설계 체크리스트                       │
-├─────────────────────────────────────────────────────────┤
-│  □ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)        │
-│  □ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)       │
-│  □ 평가 게이트 기준 설정 (절대값 + 상대값 조합)          │
-│  □ 실패 시 롤백 전략 (이전 버전 유지)                    │
-│  □ 재학습 비용 예산 설정 (GPU 사용량 알람)               │
-│  □ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)     │
-│  □ 피처 스토어 연동 (훈련/서빙 일관성 보장)              │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 설계 체크리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 평가 게이트 기준 설정 (절대값 + 상대값 조합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 실패 시 롤백 전략 (이전 버전 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 재학습 비용 예산 설정 (GPU 사용량 알람)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 피처 스토어 연동 (훈련/서빙 일관성 보장)</div></div>
+</div>
+</div>
+
+
 
 ### 5.3 결론
 
@@ -348,26 +365,28 @@ CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 모델 재학습 (분기별 배치)
-    │
-    ▼
-CT 트리거 도입
-    ├─► 일정 기반 (cron) — 주기적 재학습
-    ├─► 데이터 기반 — 드리프트 감지 시 발동
-    └─► 성능 기반 — 정확도 임계값 하락 시 발동
-    │
-    ▼
-자동 재학습 파이프라인 (Kubeflow · Airflow)
-    ├─► 데이터 검증 → 피처 추출 → 학습
-    └─► 평가 게이트 (성능 · SLA · 공정성)
-    │
-    ▼
-자동 배포 (카나리 → A/B → 전체)
-    │
-    ▼
-지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 모델 재학습 (분기별 배치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CT 트리거 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">일정 기반 (cron) — 주기적 재학습</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 기반 — 드리프트 감지 시 발동</div>
+<div class="kb-diagram-tree-item" style="--depth:2">성능 기반 — 정확도 임계값 하락 시 발동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동 재학습 파이프라인 (Kubeflow · Airflow)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 검증 → 피처 추출 → 학습</div>
+<div class="kb-diagram-tree-item" style="--depth:2">평가 게이트 (성능 · SLA · 공정성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동 배포 (카나리 → A/B → 전체)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)</div>
+</div>
+</div>
+
+
 
 ---
 

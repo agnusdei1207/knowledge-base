@@ -43,30 +43,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "기계어 1개가 여러 마이크로단계로 풀리는 과정"을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            매크로 명령어 → 마이크로명령어 시퀀스 변환 흐름          │
-├──────────────────────────────────────────────────────────────────────┤
-│ IR (Instruction Register)                                            │
-│   │                                                                  │
-│   ├─ Opcode ─────▶ 매핑 로직 ─────▶ CAR                              │
-│   │                                  │                               │
-│   │                                  ▼                               │
-│   │                         제어 메모리 (Control Memory)             │
-│   │                                  │                               │
-│   │                                  ▼                               │
-│   │                                 MIR                              │
-│   │                    ┌─────────────┼─────────────┐                  │
-│   │                    │             │             │                  │
-│   │                    ▼             ▼             ▼                  │
-│   │               ALU 제어      레지스터 제어    메모리 제어         │
-│   │            (ALU Control)   (Register File)   (Read/Write)        │
-│   │                                                                  │
-│   └──────────────────── 순서 제어기 ◀─ 상태 플래그 ──────────────────┘
-│                                 │                                    │
-│                                 └──── 다음 CAR 결정                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 명령어 → 마이크로명령어 시퀀스 변환 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR (Instruction Register)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Opcode ▶ 매핑 로직 ▶ CAR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 메모리 (Control Memory)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU 제어 레지스터 제어 메모리 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ALU Control) (Register File) (Read/Write)</div></div>
+<div class="kb-diagram-note">순서 제어기 ◀─ 상태 플래그</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 CAR 결정</div></div>
+</div>
+</div>
+
+
 
 [마이크로명령어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/217_microinstruction/)는 보통 두 부류의 정보를 담는다. 첫째는 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 기능 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 적재, 메모리 읽기/쓰기처럼 실제 데이터패스를 움직이는 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 둘째는 다음 주소를 지정하거나 조건 분기를 수행하는 순서 제어 정보다. 그래서 하나의 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `ADD R1, R2`도 내부에서는 `피연산자 읽기 → ALU 덧셈 → 결과 기록 → 다음 명령 복귀`처럼 여러 마이크로단계로 나뉠 수 있다.
 
@@ -144,27 +137,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 제어 논리
-    │
-    ▼
-하드와이어드 제어 (Hardwired Control)
-    │
-    ├──────────── 복잡 명령 증가 ────────────┐
-    ▼                                        │
-마이크로프로그래밍 (Microprogrammed Control) │
-    │                                        │
-    ▼                                        │
-제어 메모리 (Control Memory)                 │
-    │                                        │
-    ▼                                        │
-마이크로명령어 / 순서 제어기                 │
-    │                                        │
-    ▼                                        │
-마이크로코드 업데이트                         │
-    │                                        │
-    └──── 현대 하이브리드 제어 · μOP 기반 실행 ─┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 제어 논리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드와이어드 제어 (Hardwired Control)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">복잡 명령 증가</div>
+<div class="kb-diagram-note">마이크로프로그래밍 (Microprogrammed Control)</div>
+<div class="kb-diagram-note">제어 메모리 (Control Memory)</div>
+<div class="kb-diagram-note">마이크로명령어 / 순서 제어기</div>
+<div class="kb-diagram-note">마이크로코드 업데이트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">현대 하이브리드 제어 · μOP 기반 실행 ─</div>
+</div>
+</div>
+
+
 
 이 흐름은 제어 유닛이 단순 배선에서 시작해, 복잡한 명령 지원을 위해 저장형 제어로 확장되고, 다시 현대에는 빠른 경로와 느린 경로를 섞는 혼합 구조로 진화했음을 보여준다.
 

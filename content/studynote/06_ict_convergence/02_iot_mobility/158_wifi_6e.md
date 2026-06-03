@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/) ([Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), IEEE 802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), Institute of Electrical and Electronics Engineers 표준)의 물리·[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 기술을 그대로 유지하면서, 사용 가능한 주파수 대역을 6GHz까지 넓힌 확장 규격이다. 핵심은 세대가 완전히 바뀌었다기보다, **기존 효율 기술을 더 깨끗한 스펙트럼에서 쓰게 한 것**에 있다.
+[와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/) ([Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), IEEE 802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/), Institute of Electrical and Electronics Engineers 표준)의 물리·[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 기술을 그대로 유지하면서, 사용 가능한 주파수 대역을 6GHz까지 넓힌 확장 규격이다. 핵심은 세대가 완전히 바뀌었다기보다, <strong>기존 효율 기술을 더 깨끗한 스펙트럼에서 쓰게 한 것</strong>에 있다.
 
 이 기술이 필요해진 이유는 기존 대역의 혼잡 때문이다. 2.4GHz는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 구형 무선랜이 뒤엉켜 있고, 5GHz도 고성능 무선랜 수요가 늘면서 채널 중첩과 간섭이 커졌다. [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)가 "혼잡한 도로를 더 질서 있게 쓰는 법"을 제시했다면, [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 여기에 "새 도로 자체를 하나 더 개통"한 셈이다.
 
@@ -35,18 +35,20 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)와 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E의 차이를 스펙트럼 관점에서 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Spectrum expansion from Wi-Fi 6 to Wi-Fi 6E                       │
-├────────────────────────────────────────────────────────────────────┤
-│ 2.4 GHz : long reach, narrow channels, legacy/IoT crowding        │
-│ 5   GHz : wider channels, but radar limits and AP congestion      │
-│ 6   GHz : new clean band, easier 80/160 MHz allocation            │
-│                                                                    │
-│ Wi-Fi 6  = better scheduling on existing roads                    │
-│ Wi-Fi 6E = same scheduling + new road opened at 6 GHz             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spectrum expansion from Wi-Fi 6 to Wi-Fi 6E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.4 GHz : long reach, narrow channels, legacy/IoT crowding</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 GHz : wider channels, but radar limits and AP congestion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 GHz : new clean band, easier 80/160 MHz allocation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wi-Fi 6 = better scheduling on existing roads</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wi-Fi 6E = same scheduling + new road opened at 6 GHz</div></div>
+</div>
+</div>
+
+
 
 이 그림의 포인트는 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E가 "더 빠른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"보다 "더 좋은 주파수 자원"에 기대는 기술이라는 점이다. 전체 6GHz 폭은 국가별 개방 범위가 다르지만, 최대 약 1.2GHz에 이르는 넓은 스펙트럼을 통해 다수의 80MHz·160MHz 채널을 더 여유 있게 구성할 수 있다. 또한 6GHz 대역에서는 보안 강화를 위해 [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) (Wi‑Fi Protected Access 3) 사용이 사실상 기본 전제로 다뤄진다.
 
@@ -75,7 +77,7 @@ tags = ["studynote-ict-convergence"]
 | 체감 이점 | 다수 단말 수용 | 간섭 적은 넓은 채널 | 최고 처리량과 링크 유연성 |
 | 주요 고려사항 | 단말 지원 | 규제·커버리지·단말 지원 | 장비 비용·생태계 성숙도 |
 
-또한 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 5세대 이동통신 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 5th Generation Mobile Communication)과도 관점이 닮아 있다. 둘 다 무선 품질을 높이기 위해 단순 출력 경쟁보다 **더 넓은 스펙트럼, 더 촘촘한 셀, 더 정교한 자원 스케줄링**을 활용한다. 따라서 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E를 "새로운 와이파이 세대"로만 보기보다, 무선 자원 관리가 스펙트럼 확보와 결합된 사례로 이해하는 것이 더 정확하다.
+또한 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 5세대 이동통신 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 5th Generation Mobile Communication)과도 관점이 닮아 있다. 둘 다 무선 품질을 높이기 위해 단순 출력 경쟁보다 <strong>더 넓은 스펙트럼, 더 촘촘한 셀, 더 정교한 자원 스케줄링</strong>을 활용한다. 따라서 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E를 "새로운 와이파이 세대"로만 보기보다, 무선 자원 관리가 스펙트럼 확보와 결합된 사례로 이해하는 것이 더 정확하다.
 
 - **📢 섹션 요약 비유**: [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)가 막힌 도로의 신호체계를 개선한 것이라면, [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 그 신호체계를 그대로 들고 새 우회도로까지 연 버전이다.
 
@@ -108,7 +110,7 @@ tags = ["studynote-ict-convergence"]
 
 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E의 가장 큰 효과는 기존 대역의 간섭을 피해, 더 넓고 깨끗한 스펙트럼에서 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)의 효율 기술을 구현할 수 있다는 점이다. 그 결과 고속 무선 링크, 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 안정적인 다중 단말 품질을 기대할 수 있고, 특히 160MHz 채널이 중요한 고급 무선 환경에서 체감 차이가 크다.
 
-반면 한계도 명확하다. 커버리지와 벽 투과는 불리하고, 국가별 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이와 단말 생태계 성숙도도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 따라서 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 "[와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)보다 무조건 빠르다"가 아니라, **[와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)의 효율을 더 좋은 스펙트럼에서 실현하는 선택지**로 기억하는 것이 맞다.
+반면 한계도 명확하다. 커버리지와 벽 투과는 불리하고, 국가별 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차이와 단말 생태계 성숙도도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 따라서 [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E는 "[와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)보다 무조건 빠르다"가 아니라, <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/">와이파이 6</a>의 효율을 더 좋은 스펙트럼에서 실현하는 선택지</strong>로 기억하는 것이 맞다.
 
 앞으로 [와이파이 7](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/159_wifi_7_802_11be/)이 더 넓은 채널과 멀티링크를 확장하더라도, [와이파이 6](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/157_wifi_6_802_11ax/)E가 남긴 의미는 크다. 무선 품질 개선의 핵심이 단순히 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 최적화만이 아니라, 스펙트럼 확보와 규제·장비·배치 설계를 함께 보는 종합 문제라는 점을 분명히 보여 주었기 때문이다.
 
@@ -128,21 +130,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Wi-Fi 5
-    │
-    ▼
-Wi-Fi 6
-  (efficiency on 2.4/5 GHz)
-    │
-    ▼
-Wi-Fi 6E
-  (same efficiency + 6 GHz expansion)
-    │
-    ▼
-Wi-Fi 7
-  (320 MHz + MLO on 2.4/5/6 GHz)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Wi-Fi 5</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Wi-Fi 6</div>
+<div class="kb-diagram-note">(efficiency on 2.4/5 GHz)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Wi-Fi 6E</div>
+<div class="kb-diagram-note">(same efficiency + 6 GHz expansion)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Wi-Fi 7</div>
+<div class="kb-diagram-note">(320 MHz + MLO on 2.4/5/6 GHz)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 무선랜의 진화가 "새 변조 방식"만이 아니라, 효율 개선 뒤에 스펙트럼 확장과 멀티링크 전략으로 이어졌음을 보여준다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) ITU-R IMT-2020 표준 3대 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**
+<strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> ITU-R IMT-2020 표준 3대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>
 
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 영문 | 핵심 지표 | 주요 사용처 |
 |:---:|:---:|:---:|:---:|
@@ -27,7 +27,7 @@ tags = ["studynote-ict-convergence"]
 | [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) | Ultra-Reliable Low-Latency | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1ms, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 99.999% | 자율주행·원격 수술·공장 제어 |
 | [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) | massive Machine-Type Communication | 100만 기기/km² | 스마트시티·스마트팜·미터링 |
 
-**4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) 한계와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등장**: LTE는 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(단순 고속) 구조로 서로 다른 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 요구를 동시에 충족 불가. 5G는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))·소프트웨어 정의([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) 기반으로 유연한 다중 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 관리를 실현한다.
+<strong>4G(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>) 한계와 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 등장</strong>: LTE는 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(단순 고속) 구조로 서로 다른 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 요구를 동시에 충족 불가. 5G는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))·소프트웨어 정의([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) 기반으로 유연한 다중 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 관리를 실현한다.
 
 - **📢 섹션 요약 비유**: 4G는 단일 도로, 5G는 세 개의 전용 차선이다. eMBB는 고속차선(빠른 차), uRLLC는 앰뷸런스 전용차선(항상 빈 길), mMTC는 오토바이 전용 넓은 갓길. 이 세 차선이 서로 침범하지 않는다.
 
@@ -35,26 +35,22 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           5G 네트워크 슬라이싱 아키텍처                    │
-├──────────────────────────────────────────────────────────┤
-│  [물리 인프라]  gNB(기지국) + 5G Core(5GC) 하드웨어        │
-│        │                                                 │
-│  [가상화 계층]  NFV(네트워크 기능 가상화) / SDN             │
-│        │                                                 │
-│  [슬라이스 관리]  NSSF(Network Slice Selection Function)  │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  NSI-1 (eMBB 슬라이스)   │ 넷플릭스·통신사 서비스  │    │
-│  ├─────────────────────────┤──────────────────────┤    │
-│  │  NSI-2 (uRLLC 슬라이스) │ 자율주행·원격 수술     │    │
-│  ├─────────────────────────┤──────────────────────┤    │
-│  │  NSI-3 (mMTC 슬라이스)  │ 스마트시티·IoT 센서    │    │
-│  └─────────────────────────┴──────────────────────┘    │
-│                                                          │
-│  [SLA 보장]  각 슬라이스별 독립 QoS 보장                   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 네트워크 슬라이싱 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 인프라</div><div class="kb-diagram-note">gNB(기지국) + 5G Core(5GC) 하드웨어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 계층</div><div class="kb-diagram-note">NFV(네트워크 기능 가상화) / SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이스 관리</div><div class="kb-diagram-note">NSSF(Network Slice Selection Function)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-1 (eMBB 슬라이스)</div><div class="kb-diagram-cell">넷플릭스·통신사 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-2 (uRLLC 슬라이스)</div><div class="kb-diagram-cell">자율주행·원격 수술</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-3 (mMTC 슬라이스)</div><div class="kb-diagram-cell">스마트시티·IoT 센서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLA 보장</div><div class="kb-diagram-note">각 슬라이스별 독립 QoS 보장</div></div>
+</div>
+</div>
+
+
 
 ### [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) 핵심 개념
 
@@ -71,7 +67,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) vs [NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/)(Non-[Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/))**
+<strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a>) vs <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/">NSA</a>(Non-<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a>)</strong>
 
 | 항목 | [NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) (Non-[Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) ([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) |
 |:---:|:---:|:---:|
@@ -82,7 +78,7 @@ tags = ["studynote-ict-convergence"]
 | 도입 비용 | 낮음 (기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 활용) | 높음 |
 | 진화 경로 | 과도기 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 최종 목표 |
 
-**[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/)(Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 구조로 설계. [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)(접속 관리), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)([세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/)), UPF(사용자 평면), [PCF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), NSSF([슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 선택) 등 기능별 독립 NF로 분리.
+<strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/">SBA</a>(Service-Based <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 구조로 설계. [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)(접속 관리), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)([세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/)), UPF(사용자 평면), [PCF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/772_pcf_policy_control_function_qos/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), NSSF([슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 선택) 등 기능별 독립 NF로 분리.
 
 - **📢 섹션 요약 비유**: NSA는 새집([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국)을 짓되 구형 전기 설비([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 코어)를 그대로 쓰는 것이다. 돈은 적게 들지만 새 가전제품([uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)·슬라이싱)을 다 쓸 수 없다. SA는 전기 설비까지 전부 교체한 완성형이다.
 
@@ -90,7 +86,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**산업별 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 설계 예시**
+<strong>산업별 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> 설계 예시</strong>
 
 | 산업 | [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 유형 | 핵심 요구사항 |
 |:---|:---:|:---|
@@ -101,7 +97,7 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 핵심 판단**
 
-1. [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 동일 물리 망에서 SLA가 다른 다수 고객을 동시 지원하는 **멀티테넌시([Multi-tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/))** 구현 기술.
+1. [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 동일 물리 망에서 SLA가 다른 다수 고객을 동시 지원하는 <strong>멀티테넌시(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">Multi-tenancy</a>)</strong> 구현 기술.
 2. [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)): [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 간 트래픽 누출 방지 → 보안 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장.
 3. 프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([Private 5G](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/365_5g_tsn/)): 기업 전용 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크. [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 자사 공장 내에서 독점 운용.
 

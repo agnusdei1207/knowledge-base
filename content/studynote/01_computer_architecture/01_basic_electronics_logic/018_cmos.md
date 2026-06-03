@@ -32,25 +32,24 @@ CMOS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_
 
 입력에 0(Low)이 들어오면 위의 PMOS가 켜지고 아래 NMOS가 꺼져 출력은 1(VDD)이 된다. 반대로 1(High)이 들어오면 PMOS가 꺼지고 NMOS가 켜져 출력은 0(GND)이 된다. 어느 경우든 VDD와 GND 사이의 길이 끊겨 있으므로 대기 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르지 않는다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CMOS 인버터(NOT 게이트)의 완벽한 상보적 동작           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│     VDD (전원)                        VDD (전원)               │
-│      │                                 │                     │
-│      ▼ [ PMOS ] ◀─ (입력 1에 닫힘)      ▼ [ PMOS ] ◀─ (입력 0에 열림)│
-│      │ ❌ (전류 차단벽 형성)             │ ✅ (전류 통과)          │
-│  ────┼──────────▶ 출력 (0)         ────┼──────────▶ 출력 (1)    │
-│      │                                 │                     │
-│      ▼ [ NMOS ] ◀─ (입력 1에 열림)      ▼ [ NMOS ] ◀─ (입력 0에 닫힘)│
-│      │ ✅ (전류 통과)                    │ ❌ (전류 차단벽 형성)   │
-│     GND (접지)                        GND (접지)               │
-│                                                              │
-│ * 입력이 1이든 0이든, 위나 아래 중 한 곳은 반드시 차단되므로     │
-│   VDD에서 GND로 흐르는 정적 누설 전류(Static Current)는 0이다.   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMOS 인버터(NOT 게이트)의 완벽한 상보적 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD (전원) VDD (전원)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">PMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">PMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (입력 0에 열림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ (전류 차단벽 형성)</div><div class="kb-diagram-cell">✅ (전류 통과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 출력 (0) ▶ 출력 (1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">NMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">NMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (입력 0에 닫힘)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ (전류 통과)</div><div class="kb-diagram-cell">❌ (전류 차단벽 형성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GND (접지) GND (접지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력이 1이든 0이든, 위나 아래 중 한 곳은 반드시 차단되므로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD에서 GND로 흐르는 정적 누설 전류(Static Current)는 0이다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 윗문(PMOS)과 아랫문(NMOS)이 하나로 연결된 널뛰기다. 위가 열리면 아래가 막히고, 아래가 열리면 위가 막혀서 절대 위에서 아래로 다이렉트로 바람이 새지 않는다.
 
@@ -58,12 +57,12 @@ CMOS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_
 
 ## Ⅲ. 비교 및 연결
 
-CMOS는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 끄고 켤 때 필연적으로 끔찍한 전기를 퍼먹는 **동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)(Dynamic [Power Consumption](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))**라는 태생적 한계를 갖는다.
+CMOS는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 끄고 켤 때 필연적으로 끔찍한 전기를 퍼먹는 <strong>동적 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>(Dynamic <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">Power Consumption</a>)</strong>라는 태생적 한계를 갖는다.
 
 | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 유형 | 발생 원인 | 해결 및 아키텍처 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|:---|
-| **[정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/) ([Static Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/))** | 대기 상태에서의 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 등 미세 누설 | High-K 메탈 게이트, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) 구조 도입 |
-| **[동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))** | 0과 1이 바뀔 때 찰나의 단락 및 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 충방전 | [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 하향, 동작 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ([DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)), 멀티코어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/">정적 전력</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/">Static Power</a>)</strong> | 대기 상태에서의 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 등 미세 누설 | High-K 메탈 게이트, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) 구조 도입 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">동적 전력</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">Dynamic Power</a>)</strong> | 0과 1이 바뀔 때 찰나의 단락 및 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 충방전 | [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 하향, 동작 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ([DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)), 멀티코어 |
 
 스위칭하는 찰나의 순간, 위쪽 PMOS 문이 채 닫히기도 전에 아래쪽 NMOS 문이 살짝 열려버리는 단락 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Short-Circuit [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 발생한다. 1초에 수십억 번(GHz) 껐다 켰다를 반복하면 이 찰나의 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)이 폭발하여 칩이 녹아버린다. 결국 CPU 설계자들은 단일 코어의 속도 4GHz 이상 올리기를 포기하고, 느린 코어 여러 개를 붙이는 '멀티코어(Multi-Core)' 혁명으로 우회해야만 했다.
 
@@ -100,25 +99,28 @@ CMOS 아키텍처는 발열과 대기 [전력 소모](/knowledge-base/studynote/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/)** | CMOS라는 거대한 이중문을 구성하기 위해 필수적인 단일 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 부품 |
-| **[동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))** | CMOS가 0에서 1로 상태를 바꿀 때 찰나의 합선과 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 충전으로 내뿜는 피할 수 없는 열 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/">MOSFET</a></strong> | CMOS라는 거대한 이중문을 구성하기 위해 필수적인 단일 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 부품 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">동적 전력</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">Dynamic Power</a>)</strong> | CMOS가 0에서 1로 상태를 바꿀 때 찰나의 합선과 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 충전으로 내뿜는 피할 수 없는 열 |
 | **래치업 (Latch-up)** | 좁은 기판에 P형과 N형을 억지로 붙여놓아 생기는 기생 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 때문에 발생하는 치명적 합선 붕괴 현상 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[NMOS (N형 MOSFET) — 전류 흐름, 대기 전력 낭비]
-    │
-    ▼
-[CMOS (Complementary MOS) — PMOS+NMOS 상보 쌍, 대기 전력 0]
-    │
-    ▼
-[FinFET (Fin Field-Effect Transistor) — 3D 게이트, 누설 전류 억제]
-    │
-    ▼
-[Beyond CMOS (GaN·그래핀·스핀트로닉스) — 양자 물리 기반 차세대 소자]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS (N형 MOSFET) — 전류 흐름, 대기 전력 낭비</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMOS (Complementary MOS) — PMOS+NMOS 상보 쌍, 대기 전력 0</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FinFET (Fin Field-Effect Transistor) — 3D 게이트, 누설 전류 억제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Beyond CMOS (GaN·그래핀·스핀트로닉스) — 양자 물리 기반 차세대 소자</div></div>
+</div>
+</div>
+
+
 CMOS는 NMOS와 PMOS를 쌍으로 묶어 대기 전력을 근본적으로 차단한 설계로, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) 이후 Beyond CMOS 기술로 발전하고 있다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

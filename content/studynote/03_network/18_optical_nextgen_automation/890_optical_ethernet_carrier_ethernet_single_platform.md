@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **LAN (사내망)**: 컴퓨터끼리 통신하기 가장 가볍고 쉬운 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), IEEE 802.3 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 방식)** 표준을 100% 썼습니다.
-- **WAN (국가망)**: 거리가 멀어지면 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 데이터가 깨졌습니다. 그래서 통신사들은 서울-부산 사이에 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능이 빡센 **[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)(895번, 896번 문서)**라는 전혀 다른 낡고 비싼 광통신 체계를 깔았습니다.
+- **LAN (사내망)**: 컴퓨터끼리 통신하기 가장 가볍고 쉬운 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>, IEEE 802.3 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 방식)</strong> 표준을 100% 썼습니다.
+- **WAN (국가망)**: 거리가 멀어지면 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 데이터가 깨졌습니다. 그래서 통신사들은 서울-부산 사이에 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능이 빡센 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>/<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a>(895번, 896번 문서)</strong>라는 전혀 다른 낡고 비싼 광통신 체계를 깔았습니다.
 - **병목 지옥**: 사내 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 데이터가 밖으로 나갈 때, 비싼 라우터가 땀을 뻘뻘 흘리며 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 껍데기'를 다 찢어발기고 '[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) 껍데기'로 재포장([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))해서 쏴야 했습니다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비와 변환 딜레이가 끔찍했습니다.
 
-```text
-[네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-    │
-    ▼
-[광통신 네트워크 이더넷]
-    │
-    └──▶ [장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **싸고 빠르고 친숙한 LAN 기술인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 프레임을, 중간의 복잡한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) 등) 과정 없이, 그대로 도시 간/국가 간을 잇는 거대한 광케이블 백본망(Optical Network) 위에 직접 실어 나르는(Native [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) over DWDM 등) 차세대 단일망 통신 기술**입니다.
+- **개념**: <strong>싸고 빠르고 친숙한 LAN 기술인 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 프레임을, 중간의 복잡한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 변환(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a> 등) 과정 없이, 그대로 도시 간/국가 간을 잇는 거대한 광케이블 백본망(Optical Network) 위에 직접 실어 나르는(Native <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> over DWDM 등) 차세대 단일망 통신 기술</strong>입니다.
 
-```text
-[네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-    │
-    ▼
-[광통신 네트워크 이더넷]
-    │
-    └──▶ [장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,16 +64,16 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 단일화 (단일 플랫폼망 고속 전이) 🌟
-- **혁명**: 내 컴퓨터부터 ➜ 사내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ 서울 국사 ➜ 부산 전산실 도착까지 **패킷의 껍데기가 영원히 변하지 않고 똑같은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)**입니다. 
+- **혁명**: 내 컴퓨터부터 ➜ 사내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ 서울 국사 ➜ 부산 전산실 도착까지 <strong>패킷의 껍데기가 영원히 변하지 않고 똑같은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 프레임(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)</strong>입니다. 
 - 복잡하게 포장을 뜯고 재포장하는 라우터(변환 장비) 수천 대를 쓰레기통에 버렸습니다. 네트워크가 극단적으로 단순해져서(Flat) 통신사 원가(CAPEX)가 박살 나고, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 사실상 광케이블 빛의 속도와 똑같아졌습니다.
 
 ### 2. 100G / 400G / 800G 무한 확장의 폭발
 - 구형 SONET은 10Gbps, 40Gbps 올리기가 하늘의 별 따기였습니다. 너무 무거웠으니까요.
-- [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 태생이 깡패라 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋 성능만 올라가면 속도가 무한으로 올라갑니다. 현재 광 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 단일 링크 하나로 **400Gbps, 800Gbps (Terabit [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**를 가볍게 뚫어내며, 넷플릭스와 유튜브 데이터센터를 묶는 대동맥 표준이 되었습니다. (IEEE 802.3ba/bs 등)
+- [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 태생이 깡패라 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋 성능만 올라가면 속도가 무한으로 올라갑니다. 현재 광 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 단일 링크 하나로 <strong>400Gbps, 800Gbps (Terabit <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>를 가볍게 뚫어내며, 넷플릭스와 유튜브 데이터센터를 묶는 대동맥 표준이 되었습니다. (IEEE 802.3ba/bs 등)
 
 ### 3. 캐리어 클래스(Carrier-Grade) OAM의 융합 
 - [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 치명적 단점은 "선이 끊어져도 쿨하게 무시한다([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 제로)"는 것이었습니다. 
-- 이 약점을 메꾸기 위해 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에 **OAM ([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 감시 및 관리 기술, 894번 문서)**이라는 깐깐한 건강 검진 시스템을 추가로 심었습니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 선이 끊어지면 50밀리초(0.05초) 안에 귀신같이 알아채고 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 우회로로 트래픽을 넘겨주는([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Switching) 끈질긴 생명력을 확보하여 전 세계 통신망을 완전히 정복해 냈습니다.
+- 이 약점을 메꾸기 위해 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에 <strong>OAM (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 감시 및 관리 기술, 894번 문서)</strong>이라는 깐깐한 건강 검진 시스템을 추가로 심었습니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 선이 끊어지면 50밀리초(0.05초) 안에 귀신같이 알아채고 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 우회로로 트래픽을 넘겨주는([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Switching) 끈질긴 생명력을 확보하여 전 세계 통신망을 완전히 정복해 냈습니다.
 
 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…가 기반 조건을 만든다면, 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 그 위에서 핵심 메커니즘을 구현하고, 장거리 백본 [해저 광케이블 아키텍처](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 옛날엔 서울(사무실)에서 택배를 보낼 때 '오토바이([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))'에 짐을 싣고 달렸습니다. 그런데 부산으로 가려면 고속도로 톨게이트(WAN)에서 무조건 짐을 내려서, 튼튼하고 비싼 '특수 장갑 기차([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))'로 짐을 다 옮겨 싣는 미친 노가다를 해야 했습니다. 엄청 느리고 비쌌습니다. **광 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(Optical [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))** 혁명은 고속도로의 철길을 모조리 뜯어내고 아스팔트로 밀어버린 대사건입니다. "환승역 다 없애버려! 그냥 오토바이([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷)에 로켓 엔진(DWDM 광학 전송) 달아줄 테니까, 사무실에서 출발한 그 짐 박스 그 오토바이 그대로 부산역 목적지까지 멈추지 말고 빛의 속도로 논스톱 직진해!!" 포장 변경 없는 단일망 쾌속 질주로 통신망의 속도 한계와 비용의 벽을 동시에 박살 낸 인류 역사상 최고의 효율화 모델입니다.
+- **📢 섹션 요약 비유**: 옛날엔 서울(사무실)에서 택배를 보낼 때 '오토바이([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))'에 짐을 싣고 달렸습니다. 그런데 부산으로 가려면 고속도로 톨게이트(WAN)에서 무조건 짐을 내려서, 튼튼하고 비싼 '특수 장갑 기차([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))'로 짐을 다 옮겨 싣는 미친 노가다를 해야 했습니다. 엄청 느리고 비쌌습니다. <strong>광 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(Optical <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong> 혁명은 고속도로의 철길을 모조리 뜯어내고 아스팔트로 밀어버린 대사건입니다. "환승역 다 없애버려! 그냥 오토바이([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷)에 로켓 엔진(DWDM 광학 전송) 달아줄 테니까, 사무실에서 출발한 그 짐 박스 그 오토바이 그대로 부산역 목적지까지 멈추지 말고 빛의 속도로 논스톱 직진해!!" 포장 변경 없는 단일망 쾌속 질주로 통신망의 속도 한계와 비용의 벽을 동시에 박살 낸 인류 역사상 최고의 효율화 모델입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-    │
-    ▼
-[현재 개념: 광통신 네트워크 이더넷]
-    │
-    ├──▶ [확장 A: 장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)는 [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 장거리 백본 [해저 광케이블 아키텍처](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

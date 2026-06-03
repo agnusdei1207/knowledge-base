@@ -18,47 +18,41 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
 
-```
-계층 구조:
 
-SLI (Service Level Indicator):
-  측정 가능한 서비스 특성
-  예: "이번 달 요청 성공률 = 99.95%"
 
-SLO (Service Level Objective):
-  내부 목표 (계약 아님)
-  예: "요청 성공률 SLO = 99.9%"
-  
-  → 현재 99.95% > 99.9% → SLO 준수 ✅
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">계층 구조:</div>
+<div class="kb-diagram-note">SLI (Service Level Indicator):</div>
+<div class="kb-diagram-note">측정 가능한 서비스 특성</div>
+<div class="kb-diagram-note">예: "이번 달 요청 성공률 = 99.95%"</div>
+<div class="kb-diagram-note">SLO (Service Level Objective):</div>
+<div class="kb-diagram-note">내부 목표 (계약 아님)</div>
+<div class="kb-diagram-note">예: "요청 성공률 SLO = 99.9%"</div>
+<div class="kb-diagram-note">→ 현재 99.95% &gt; 99.9% → SLO 준수 ✅</div>
+<div class="kb-diagram-note">SLA (Service Level Agreement):</div>
+<div class="kb-diagram-note">고객과의 외부 계약</div>
+<div class="kb-diagram-note">예: "가용성 99.9% 보장 (SLA)"</div>
+<div class="kb-diagram-note">SLO &gt; SLA 설정: 완충 지대</div>
+<div class="kb-diagram-note">(SLO 위반 → 경고, SLA 위반 → 계약 페널티)</div>
+<div class="kb-diagram-note">Error Budget:</div>
+<div class="kb-diagram-note">SLO에서 허용되는 오류 총량</div>
+<div class="kb-diagram-note">Error Budget = 1 - SLO</div>
+<div class="kb-diagram-note">예: SLO = 99.9%</div>
+<div class="kb-diagram-note">Error Budget = 0.1%</div>
+<div class="kb-diagram-note">월 기준 (30일 × 24시간 × 60분 = 43,200분):</div>
+<div class="kb-diagram-note">허용 다운타임 = 43,200분 × 0.1% = 43.2분</div>
+<div class="kb-diagram-note">소진 추적:</div>
+<div class="kb-diagram-note">이번 달 다운타임 = 30분</div>
+<div class="kb-diagram-note">남은 예산 = 43.2 - 30 = 13.2분 (70.4% 소진)</div>
+<div class="kb-diagram-note">Error Budget 소진율:</div>
+<div class="kb-diagram-note">빠른 소진 → 릴리스 속도 감소</div>
+<div class="kb-diagram-note">느린 소진 → 더 빠른 릴리스 가능</div>
+<div class="kb-diagram-note">소진율 100% → SLO 위반</div>
+</div>
+</div>
 
-SLA (Service Level Agreement):
-  고객과의 외부 계약
-  예: "가용성 99.9% 보장 (SLA)"
-  
-  SLO > SLA 설정: 완충 지대
-  (SLO 위반 → 경고, SLA 위반 → 계약 페널티)
 
-Error Budget:
-  SLO에서 허용되는 오류 총량
-  
-  Error Budget = 1 - SLO
-  
-  예: SLO = 99.9%
-  Error Budget = 0.1%
-  
-  월 기준 (30일 × 24시간 × 60분 = 43,200분):
-  허용 다운타임 = 43,200분 × 0.1% = 43.2분
-  
-  소진 추적:
-  이번 달 다운타임 = 30분
-  남은 예산 = 43.2 - 30 = 13.2분 (70.4% 소진)
-
-Error Budget 소진율:
-  빠른 소진 → 릴리스 속도 감소
-  느린 소진 → 더 빠른 릴리스 가능
-  
-  소진율 100% → SLO 위반
-```
 
 > 📢 **섹션 요약 비유**: Error Budget은 월 용돈 — 99.9% [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) = 한 달 43.2분 용돈. 장애마다 용돈이 줄어요. 다 쓰면([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 위반) 다음 달까지 조심해야(릴리스 중단)!
 
@@ -66,45 +60,43 @@ Error Budget 소진율:
 
 ## Ⅱ. [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-```
-Error Budget Policy (오류 예산 정책):
 
-목적:
-  오류 예산 소진 수준에 따른 행동 지침
-  개발팀 ↔ SRE팀 갈등 해결 메커니즘
 
-정책 구성 예:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Error Budget Policy (오류 예산 정책):</div>
+<div class="kb-diagram-note">목적:</div>
+<div class="kb-diagram-note">오류 예산 소진 수준에 따른 행동 지침</div>
+<div class="kb-diagram-note">개발팀 ↔ SRE팀 갈등 해결 메커니즘</div>
+<div class="kb-diagram-note">정책 구성 예:</div>
+<div class="kb-diagram-note">오류 예산 소진율 0~50%:</div>
+<div class="kb-diagram-note">→ 정상 릴리스 계속</div>
+<div class="kb-diagram-note">→ 기능 개발 속도 유지</div>
+<div class="kb-diagram-note">오류 예산 소진율 50~75%:</div>
+<div class="kb-diagram-note">→ 릴리스 검토 강화</div>
+<div class="kb-diagram-note">→ 고위험 변경 차단</div>
+<div class="kb-diagram-note">→ 신규 기능 대신 안정성 작업 일부 투입</div>
+<div class="kb-diagram-note">오류 예산 소진율 75~100%:</div>
+<div class="kb-diagram-note">→ 릴리스 속도 50% 감소</div>
+<div class="kb-diagram-note">→ 안정성 이슈 우선 해결</div>
+<div class="kb-diagram-note">→ 피처 플래그(Feature Flag) 활용 점진적 배포</div>
+<div class="kb-diagram-note">오류 예산 완전 소진 (100%):</div>
+<div class="kb-diagram-note">→ 기능 개발 중단 (릴리스 프리즈)</div>
+<div class="kb-diagram-note">→ 모든 리소스 안정성에 투입</div>
+<div class="kb-diagram-note">→ 포스트모텀 + 개선 계획 필수</div>
+<div class="kb-diagram-note">→ 다음 달 SLO 검토</div>
+<div class="kb-diagram-note">정책 합의 주체:</div>
+<div class="kb-diagram-note">개발팀 + SRE팀 + 제품 관리자</div>
+<div class="kb-diagram-note">공식 문서화 (Policy Document)</div>
+<div class="kb-diagram-note">경영진 승인</div>
+<div class="kb-diagram-note">핵심 효과:</div>
+<div class="kb-diagram-note">개발팀: "왜 빨리 배포 못 해요?"</div>
+<div class="kb-diagram-note">SRE팀: "오류 예산 90% 소진했잖아요"</div>
+<div class="kb-diagram-note">→ 주관적 갈등 → 객관적 데이터 기반 대화</div>
+</div>
+</div>
 
-오류 예산 소진율 0~50%:
-  → 정상 릴리스 계속
-  → 기능 개발 속도 유지
 
-오류 예산 소진율 50~75%:
-  → 릴리스 검토 강화
-  → 고위험 변경 차단
-  → 신규 기능 대신 안정성 작업 일부 투입
-
-오류 예산 소진율 75~100%:
-  → 릴리스 속도 50% 감소
-  → 안정성 이슈 우선 해결
-  → 피처 플래그(Feature Flag) 활용 점진적 배포
-
-오류 예산 완전 소진 (100%):
-  → 기능 개발 중단 (릴리스 프리즈)
-  → 모든 리소스 안정성에 투입
-  → 포스트모텀 + 개선 계획 필수
-  → 다음 달 SLO 검토
-
-정책 합의 주체:
-  개발팀 + SRE팀 + 제품 관리자
-  공식 문서화 (Policy Document)
-  경영진 승인
-
-핵심 효과:
-  개발팀: "왜 빨리 배포 못 해요?"
-  SRE팀: "오류 예산 90% 소진했잖아요"
-  → 주관적 갈등 → 객관적 데이터 기반 대화
-```
 
 > 📢 **섹션 요약 비유**: [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) Policy는 지출 규칙 — 용돈(예산) 50% 쓰면 사치품(고위험 릴리스) 금지, 75% 쓰면 필수품만, 다 쓰면 소비 완전 중단. 명확한 규칙!
 
@@ -221,55 +213,51 @@ SLO 설정 과정:
 
 ## Ⅴ. 실무 시나리오 — 전자상거래 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
 
-```
-전자상거래 플랫폼 Error Budget 관리:
 
-서비스: 상품 검색 + 주문 처리
-SLO: 성공률 99.95%, P99 < 500ms
 
-월초 Error Budget:
-  성공률 Budget = 0.05% × 43,200분 = 21.6분
-  P99 Budget = 별도 추적
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전자상거래 플랫폼 Error Budget 관리:</div>
+<div class="kb-diagram-note">서비스: 상품 검색 + 주문 처리</div>
+<div class="kb-diagram-note">SLO: 성공률 99.95%, P99 &lt; 500ms</div>
+<div class="kb-diagram-note">월초 Error Budget:</div>
+<div class="kb-diagram-note">성공률 Budget = 0.05% × 43,200분 = 21.6분</div>
+<div class="kb-diagram-note">P99 Budget = 별도 추적</div>
+<div class="kb-diagram-note">1주차:</div>
+<div class="kb-diagram-note">배포 3회 → 장애 없음</div>
+<div class="kb-diagram-note">성공률: 99.97%</div>
+<div class="kb-diagram-note">Budget 소진: 5.4분 (25% 소진)</div>
+<div class="kb-diagram-note">→ 정상 범위</div>
+<div class="kb-diagram-note">2주차:</div>
+<div class="kb-diagram-note">대형 기능 배포 → DB 쿼리 오류 30분</div>
+<div class="kb-diagram-note">성공률: 99.92% (SLO 위반!)</div>
+<div class="kb-diagram-note">Budget 완전 소진 + 초과</div>
+<div class="kb-diagram-note">Error Budget Policy 발동:</div>
+<div class="kb-diagram-note">Budget 소진 100% → 릴리스 프리즈 선언</div>
+<div class="kb-diagram-note">3주차:</div>
+<div class="kb-diagram-note">기능 개발 중단</div>
+<div class="kb-diagram-note">원인 분석:</div>
+<div class="kb-diagram-note">→ DB 인덱스 미생성 쿼리 → 전체 테이블 스캔</div>
+<div class="kb-diagram-note">→ 트래픽 증가 시 타임아웃</div>
+<div class="kb-diagram-note">해결:</div>
+<div class="kb-diagram-note">인덱스 추가, 쿼리 최적화, DB 읽기 복제 추가</div>
+<div class="kb-diagram-note">4주차:</div>
+<div class="kb-diagram-note">성능 테스트 + 점진적 배포</div>
+<div class="kb-diagram-note">Budget 회복 (월 초기화)</div>
+<div class="kb-diagram-note">포스트모텀:</div>
+<div class="kb-diagram-note">원인: 신규 기능 배포 전 성능 테스트 누락</div>
+<div class="kb-diagram-note">대책:</div>
+<div class="kb-diagram-note">1. 배포 전 부하 테스트 의무화</div>
+<div class="kb-diagram-note">2. DB 쿼리 플랜 검토 체크리스트</div>
+<div class="kb-diagram-note">3. 점진적 배포 (Canary: 1% → 10% → 100%)</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">이후 3개월: SLO 위반 0건</div>
+<div class="kb-diagram-note">Error Budget 소진율 평균 30%</div>
+<div class="kb-diagram-note">(기능 개발 충분히 진행하면서 안정성 유지)</div>
+</div>
+</div>
 
-1주차:
-  배포 3회 → 장애 없음
-  성공률: 99.97%
-  Budget 소진: 5.4분 (25% 소진)
-  → 정상 범위
 
-2주차:
-  대형 기능 배포 → DB 쿼리 오류 30분
-  성공률: 99.92% (SLO 위반!)
-  Budget 완전 소진 + 초과
-
-Error Budget Policy 발동:
-  Budget 소진 100% → 릴리스 프리즈 선언
-  
-  3주차:
-  기능 개발 중단
-  원인 분석:
-  → DB 인덱스 미생성 쿼리 → 전체 테이블 스캔
-  → 트래픽 증가 시 타임아웃
-  
-  해결:
-  인덱스 추가, 쿼리 최적화, DB 읽기 복제 추가
-  
-  4주차:
-  성능 테스트 + 점진적 배포
-  Budget 회복 (월 초기화)
-
-포스트모텀:
-  원인: 신규 기능 배포 전 성능 테스트 누락
-  대책:
-  1. 배포 전 부하 테스트 의무화
-  2. DB 쿼리 플랜 검토 체크리스트
-  3. 점진적 배포 (Canary: 1% → 10% → 100%)
-
-결과:
-  이후 3개월: SLO 위반 0건
-  Error Budget 소진율 평균 30%
-  (기능 개발 충분히 진행하면서 안정성 유지)
-```
 
 > 📢 **섹션 요약 비유**: 전자상거래 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) — 2주차 장애로 용돈(Budget) 바닥. 릴리스 프리즈(쇼핑 중단) + 원인 제거(DB 최적화). 이후 3개월 용돈 30%만 써서 안정+개발 균형!
 

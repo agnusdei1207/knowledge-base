@@ -29,13 +29,19 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Data Lifecycle
-  ↓
-Retention Policy
-  ↓
-Destruction / Archiving
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Lifecycle</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Retention Policy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Destruction / Archiving</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -102,29 +108,41 @@ Destruction / Archiving
 
 ## 관련 개념 맵
 
-```text
-Retention Policy
-  ↓
-Destruction
-  ↓
-Audit Trail
-  ↓
-Compliance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Retention Policy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Destruction</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Trail</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Compliance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Data Lifecycle
-  ↓
-Retention
-  ↓
-Destruction
-  ↓
-Compliance Audit
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Lifecycle</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Retention</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Destruction</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Compliance Audit</div>
+</div>
+</div>
+
+
 
 ---
 

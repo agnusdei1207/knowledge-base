@@ -18,21 +18,22 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│           HDFS Federation + ViewFS 구조                │
-├───────────────────────────────────────────────────────┤
-│ 클라이언트 (ViewFS 설정 적용)                           │
-│   /user  → viewfs://cluster1/user                      │
-│   /data  → viewfs://cluster2/data                      │
-│   /tmp   → viewfs://cluster1/tmp                       │
-│                ↓                                       │
-│  NameNode-1 (cluster1): /user, /tmp 담당               │
-│  NameNode-2 (cluster2): /data 담당                     │
-│                ↓                                       │
-│  DataNode 풀 (공유) — 실제 블록 저장                    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS Federation + ViewFS 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 (ViewFS 설정 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/user → viewfs://cluster1/user</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/data → viewfs://cluster2/data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/tmp → viewfs://cluster1/tmp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode-1 (cluster1): /user, /tmp 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode-2 (cluster2): /data 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 풀 (공유) — 실제 블록 저장</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ViewFS는 여러 도서관([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))을 하나의 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)로 보여주는 시스템이다. "컴퓨터 책은 A도서관, 역사 책은 B도서관"에 있지만, 독자는 하나의 검색창에서 모두 찾을 수 있다.
 
@@ -102,7 +103,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|
 | **확장성** | 수십 억 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수용을 위한 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | **투명성** | 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 잡 코드 변경 없이 [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 적용 |
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)** | [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 독립 운영으로 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 독립 운영으로 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거 |
 
 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) ViewFS는 RBF로 진화하고, 궁극적으로 Ozone의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 객체 스토리지로 대체되는 방향으로 발전 중이다.
 
@@ -114,29 +115,31 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)** | ViewFS가 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 구조 |
-| **[NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)** | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 서버 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> <a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a></strong> | ViewFS가 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 구조 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a></strong> | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 서버 |
 | **RBF** | ViewFS의 서버 측 진화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | **Apache Ozone** | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 한계 극복을 위한 차세대 스토리지 |
-| **[DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)** | 실제 블록을 저장하는 공유 스토리지 노드 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/">DataNode</a></strong> | 실제 블록을 저장하는 공유 스토리지 노드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 NameNode HDFS — 수억 파일 한계]
-    │
-    ▼
-[HDFS Federation — 네임스페이스 수평 분할]
-    │
-    ▼
-[ViewFS — 클라이언트 측 통합 마운트 뷰]
-    │
-    ▼
-[RBF (Router-Based Federation) — 서버 측 통합 라우팅]
-    │
-    ▼
-[Apache Ozone — 객체 스토리지 기반 무제한 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 NameNode HDFS — 수억 파일 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Federation — 네임스페이스 수평 분할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ViewFS — 클라이언트 측 통합 마운트 뷰</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RBF (Router-Based Federation) — 서버 측 통합 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ozone — 객체 스토리지 기반 무제한 확장</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

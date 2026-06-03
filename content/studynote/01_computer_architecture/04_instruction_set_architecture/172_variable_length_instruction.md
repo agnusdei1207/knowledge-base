@@ -19,25 +19,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-가변 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "모든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭으로 강제하지 않는 방식"이다. CPU (Central Processing Unit)는 메모리에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림을 읽은 뒤, 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 해석하고 나서야 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 시작 위치를 알 수 있다. 즉 이 방식의 핵심은 **표현의 유연성**을 얻는 대신 **경계 탐색 비용**을 감수하는 데 있다.
+가변 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "모든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭으로 강제하지 않는 방식"이다. CPU (Central Processing Unit)는 메모리에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림을 읽은 뒤, 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)인지 해석하고 나서야 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 시작 위치를 알 수 있다. 즉 이 방식의 핵심은 <strong>표현의 유연성</strong>을 얻는 대신 <strong>경계 탐색 비용</strong>을 감수하는 데 있다.
 
 이 방식이 필요했던 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터의 가장 비싼 자원이 메모리였기 때문이다. 단순한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 연산까지 모두 32비트나 64비트로 고정하면, 실제 정보량보다 더 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 낭비한다. 반대로 가변 길이는 자주 쓰는 단순 명령을 1~2바이트 수준으로 줄이고, 복잡한 주소 지정이나 큰 상수가 필요한 경우에만 더 많은 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 할당해 같은 저장 공간에 더 많은 프로그램 경로를 담을 수 있다.
 
 아래 그림은 가변 길이가 코드 밀도에는 유리하지만, Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 진행을 단순하지 않게 만든다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Variable-length instruction stream                          │
-├──────────────────────────────────────────────────────────────┤
-│ 0x1000 : [ADD r1,r2]            2B                          │
-│ 0x1002 : [MOV r3, imm32]        5B                          │
-│ 0x1007 : [JNE rel8]             2B                          │
-│ 0x1009 : [LOAD r4, [base+disp]] 6B                          │
-│                                                              │
-│ benefit : dense packing                                      │
-│ cost    : next PC is known only after length decode          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variable-length instruction stream</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0x1000 :</div><div class="kb-diagram-node">ADD r1,r2</div><div class="kb-diagram-note">2B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0x1002 :</div><div class="kb-diagram-node">MOV r3, imm32</div><div class="kb-diagram-note">5B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0x1007 :</div><div class="kb-diagram-node">JNE rel8</div><div class="kb-diagram-note">2B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0x1009 : [LOAD r4,</div><div class="kb-diagram-node">base+disp</div><div class="kb-diagram-note">] 6B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">benefit : dense packing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost : next PC is known only after length decode</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 "현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해석하기 전에는 다음 주소를 확정할 수 없다"는 점이다. [고정 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/171_fixed_length_instruction/)처럼 `PC + 4`로 곧바로 이동하지 못하므로, fetch와 decode는 훨씬 더 밀접하게 결합된다. 그래서 가변 길이 ISA는 실행기보다 전단부가 더 어려운 구조를 만들기 쉽다.
 
@@ -59,19 +61,20 @@ tags = ["studynote-computer-architecture"]
 
 현대 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열 프로세서는 이 복잡성을 전단부 구조로 흡수한다. 먼저 I-cache에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 묶음을 가져오고, [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) queue에 쌓은 뒤, length decoder가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계를 자른다. 그 후 디코더는 외부 명령을 내부 실행기가 다루기 쉬운 uOp로 바꾸고, 자주 쓰는 결과는 uOp cache에 저장해 재사용한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Modern variable-length front-end                            │
-├──────────────────────────────────────────────────────────────┤
-│ I-cache -> byte queue -> length decode -> instruction split │
-│                                 │                            │
-│                                 ├─ predecode metadata        │
-│                                 ├─ branch boundary detect    │
-│                                 └─ uOp translation           │
-│                                           │                  │
-│                                           └-> uOp cache/exec │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern variable-length front-end</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I-cache -&gt; byte queue -&gt; length decode -&gt; instruction split</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ predecode metadata</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ branch boundary detect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ uOp translation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; uOp cache/exec</div></div>
+</div>
+</div>
+
+
 
 이 구조가 보여 주는 것은 복잡성이 실행기보다 입구에 몰린다는 사실이다. 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 비교적 규칙적인 내부 연산을 처리하지만, 그 전에 전단부는 prefix 해석, 길이 판정, 분기 경계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 캐시 라인 경계 처리까지 한꺼번에 담당한다. 그래서 가변 길이의 어려움은 "연산이 복잡해서"라기보다 "읽는 과정이 복잡해서" 생긴다.
 
@@ -105,20 +108,21 @@ tags = ["studynote-computer-architecture"]
 
 실무와 기술사 관점에서는 "가변 길이가 좋은가"가 아니라 "어느 병목을 먼저 줄여야 하는가"를 묻는 것이 맞다. 기존 x86 바이너리와의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 중요한 범용 프로세서라면, 가변 길이 decode 비용을 감수하더라도 생태계 보존 가치가 크다. 반대로 새로 설계하는 임베디드 제어기, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단순성이 중요한 전용 코어라면 고정 길이나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 기반 절충안이 더 적합할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ ISA length design questions                                 │
-├──────────────────────────────────────────────────────────────┤
-│ legacy binary compatibility critical?                       │
-│   ├─ yes -> variable-length / hybrid decode worth it        │
-│   └─ no                                                     │
-│       │                                                     │
-│       ▼                                                     │
-│ code size or fetch bandwidth tightly limited?               │
-│   ├─ yes -> compressed or mixed-width review                │
-│   └─ no  -> fixed-width front-end stays simpler             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA length design questions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">legacy binary compatibility critical?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; variable-length / hybrid decode worth it</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">code size or fetch bandwidth tightly limited?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; compressed or mixed-width review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; fixed-width front-end stays simpler</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -133,7 +137,7 @@ tags = ["studynote-computer-architecture"]
 - 반대로 "가변 길이는 무조건 느리다"고 단정하고 I-cache 이득을 무시하는 것
 - 실제 워크로드 빈도 분석 없이 prefix와 확장 형식을 과하게 늘려 복잡도만 키우는 것
 
-기술사 답안에서는 가변 길이를 단순히 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 방식"으로 설명하면 부족하다. **메모리 효율, 전단부 복잡도, 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 내부 uOp화 전략이 함께 묶인 설계 선택**으로 설명해야 실무적 깊이가 살아난다.
+기술사 답안에서는 가변 길이를 단순히 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 방식"으로 설명하면 부족하다. <strong>메모리 효율, 전단부 복잡도, 하위 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>, 내부 uOp화 전략이 함께 묶인 설계 선택</strong>으로 설명해야 실무적 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: 가변 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 채택은 도심 주차장을 설계하는 일과 같다. 차 크기별 공간을 아끼면 수용 대수는 늘지만, 입구 유도 시스템과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙은 훨씬 정교해야 한다.
 
@@ -165,20 +169,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-memory cost pressure
-    │
-    ▼
-variable-length encoding
-    │
-    ├──────────────▶ code density improvement
-    ├──────────────▶ richer addressing forms
-    ▼
-length decode · predecode required
-    │
-    ▼
-uOp translation · uOp cache · hybrid front-end
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">memory cost pressure</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">variable-length encoding</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ code density improvement</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ richer addressing forms</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">length decode · predecode required</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">uOp translation · uOp cache · hybrid front-end</div>
+</div>
+</div>
+
+
 
 이 흐름도는 가변 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 단순한 형식 차이가 아니라, 메모리 절약 요구가 전단부 구조 혁신으로 이어진 역사라는 점을 보여준다.
 

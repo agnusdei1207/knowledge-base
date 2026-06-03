@@ -101,29 +101,41 @@ CLT는 통계 추론을 가능하게 하는 핵심 정리다.
 
 ## 관련 개념 맵
 
-```text
-Population
-  ↓
-Sample Mean
-  ↓
-CLT
-  ↓
-Inference
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Population</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sample Mean</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CLT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Inference</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Sampling
-  ↓
-CLT
-  ↓
-Normal Approximation
-  ↓
-Statistical Inference
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sampling</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CLT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Normal Approximation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Statistical Inference</div>
+</div>
+</div>
+
+
 
 ---
 

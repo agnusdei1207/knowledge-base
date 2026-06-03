@@ -17,31 +17,27 @@ tags = ["computer_architecture"]
 
 ### 컴퓨터의 5대 장치와 폰 노이만 구조
 
-현대 컴퓨터의 시초인 폰 노이만 아키텍처는 **'내장 프로그램 (Stored Program)'** 방식이 핵심이다. 데이터와 프로그램을 메모리에 함께 저장하고, CPU가 이를 순차적으로 읽어와 실행한다. 이 구조는 범용성을 제공했지만, CPU와 메모리 사이의 속도 차이로 인한 **'폰 노이만 병목 (Von Neumann Bottleneck)'**이라는 숙명적 한계를 가졌다.
+현대 컴퓨터의 시초인 폰 노이만 아키텍처는 **'내장 프로그램 (Stored Program)'** 방식이 핵심이다. 데이터와 프로그램을 메모리에 함께 저장하고, CPU가 이를 순차적으로 읽어와 실행한다. 이 구조는 범용성을 제공했지만, CPU와 메모리 사이의 속도 차이로 인한 <strong>'폰 노이만 병목 (Von Neumann Bottleneck)'</strong>이라는 숙명적 한계를 가졌다.
 
-성능 분석이 필요한 이유는 명확하다. 첫째, 수조 원이 투입되는 슈퍼컴퓨터나 서버 설계 시 **투자 대비 성능 향상 (ROI)**을 정밀하게 계산해야 하기 때문이며, 둘째, 소프트웨어가 요구하는 연산량을 하드웨어가 감당할 수 있는지 **용량 산정 (Sizing)**이 필요하기 때문이고, 셋째, 기술의 발전 속도에 맞춰 **미래 아키텍처의 확장성**을 담보하기 위함이다.
+성능 분석이 필요한 이유는 명확하다. 첫째, 수조 원이 투입되는 슈퍼컴퓨터나 서버 설계 시 <strong>투자 대비 성능 향상 (ROI)</strong>을 정밀하게 계산해야 하기 때문이며, 둘째, 소프트웨어가 요구하는 연산량을 하드웨어가 감당할 수 있는지 <strong>용량 산정 (Sizing)</strong>이 필요하기 때문이고, 셋째, 기술의 발전 속도에 맞춰 <strong>미래 아키텍처의 확장성</strong>을 담보하기 위함이다.
 
 이 그림은 컴퓨터 시스템의 기본 구성과 성능에 영향을 미치는 핵심 지표들의 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Computer Performance Components                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU Time ] = [ Instruction Count ] x [ CPI ] x [ Cycle Time ] │
-│          │                │               │            │    │
-│          ▼                ▼               ▼            ▼    │
-│   (전체 실행 시간)   (알고리즘/ISA)   (아키텍처 설계) (반도체 공정)│
-│                                                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │          The Performance Triangle (Balance)         │   │
-│   │      Power (전력) <──▶ Performance (성능)           │   │
-│   │               ↖      ↗                             │   │
-│   │                 Cost (비용)                         │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computer Performance Components</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Time</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">Instruction Count</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">CPI</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">Cycle Time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 실행 시간) (알고리즘/ISA) (아키텍처 설계) (반도체 공정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Performance Triangle (Balance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power (전력) &lt;──▶ Performance (성능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↖ ↗</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost (비용)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '성능 공식'이다. 전체 실행 시간 (CPU Time)을 줄이기 위해서는 명령어 수를 줄이거나, 명령어 당 클럭 수 (CPI)를 낮추거나, 클럭 속도 (Cycle Time)를 높여야 한다. 실무에서는 이 세 가지 요소가 서로 얽혀 있어 (예: 클럭을 높이면 CPI가 올라갈 수 있음), 이를 조율하는 것이 아키텍트의 핵심 역량이다.
 
@@ -73,23 +69,20 @@ tags = ["computer_architecture"]
 
 이 구조도는 성능 분석을 위한 벤치마크 테스트의 표준 체계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Performance Benchmarking Layers             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Real Applications ] (Compiler, DB, Browser)             │
-│          ▲                                                  │
-│   [ Synthetic Benchmarks ] (SPECint, SPECfp)                │
-│          ▲                                                  │
-│   [ Kernel Benchmarks ] (Linpack, Sieve)                    │
-│          ▲                                                  │
-│   [ Micro-benchmarks ] (Dhrystone, Whetstone)               │
-│                                                             │
-│   * 실무 가이드: 실제 워크로드와 유사한 벤치마크 선택이 필수 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Performance Benchmarking Layers</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Real Applications</div><div class="kb-diagram-note">(Compiler, DB, Browser)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Synthetic Benchmarks</div><div class="kb-diagram-note">(SPECint, SPECfp)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Benchmarks</div><div class="kb-diagram-note">(Linpack, Sieve)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Micro-benchmarks</div><div class="kb-diagram-note">(Dhrystone, Whetstone)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 실제 워크로드와 유사한 벤치마크 선택이 필수</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '신뢰도'이다. 단순한 산술 연산 성능 (Dhrystone)만으로는 실제 사용자가 느끼는 웹 브라우징 속도를 예측할 수 없다. 실무에서는 실제 서비스 환경과 가장 유사한 **Application Benchmark** 결과를 바탕으로 시스템 도입을 결정한다.
 
@@ -126,28 +119,26 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 하드웨어 증설 및 아키텍처 업그레이드 전략
 
 **시나리오 1: 웹 서버의 응답 속도가 느려져서 CPU 업그레이드 검토 중**
-- **판단**: 단순히 클럭이 높은 CPU로 바꾸기 전, **암달의 법칙**을 기반으로 분석한다. 만약 지연 시간의 80%가 네트워크 I/O나 DB 쿼리 대기에서 발생한다면 ($f=0.2$), CPU를 10배 빠르게 만들어도 전체 성능 향상은 20% 미만에 불과하다. 이 경우 CPU보다는 **NIC 가속**이나 **NVMe SSD 도입** 등 병목 지점을 먼저 타격해야 한다.
+- **판단**: 단순히 클럭이 높은 CPU로 바꾸기 전, <strong>암달의 법칙</strong>을 기반으로 분석한다. 만약 지연 시간의 80%가 네트워크 I/O나 DB 쿼리 대기에서 발생한다면 ($f=0.2$), CPU를 10배 빠르게 만들어도 전체 성능 향상은 20% 미만에 불과하다. 이 경우 CPU보다는 <strong>NIC 가속</strong>이나 **NVMe SSD 도입** 등 병목 지점을 먼저 타격해야 한다.
 
 **시나리오 2: 멀티스레드 어플리케이션의 성능이 코어 수만큼 안 나오는 현상**
-- **판단**: **구스타프슨의 법칙 (Gustafson's Law)** 관점에서 접근한다. 데이터 규모를 고정하지 않고, 하드웨어 자원이 늘어남에 따라 처리할 데이터 양도 늘려본다. 그래도 성능이 안 나온다면 코어 간 데이터 공유 시 발생하는 **캐시 일관성 (Coherency) 오버헤드**를 의심하고, 데이터 지역성을 높이는 방향으로 소프트웨어 아키텍처를 리팩토링해야 한다.
+- **판단**: **구스타프슨의 법칙 (Gustafson's Law)** 관점에서 접근한다. 데이터 규모를 고정하지 않고, 하드웨어 자원이 늘어남에 따라 처리할 데이터 양도 늘려본다. 그래도 성능이 안 나온다면 코어 간 데이터 공유 시 발생하는 <strong>캐시 일관성 (Coherency) 오버헤드</strong>를 의심하고, 데이터 지역성을 높이는 방향으로 소프트웨어 아키텍처를 리팩토링해야 한다.
 
 이 도식은 성능 분석을 통한 하드웨어 용량 산정 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Capacity Planning & Performance Tuning        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Profile Workload ] ──▶ [ Identify Bottleneck ] ──┐      │
-│          ▲                        │ (CPU/Mem/IO)     │      │
-│          └────────────────────────┴──────────────────┘      │
-│                                     │                       │
-│   [ Apply Amdahl's Law ] ──▶ [ Cost-Benefit Analysis ]      │
-│                                     │                       │
-│   [ Decision: Scale-up / Scale-out / Code Refactoring ]     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capacity Planning &amp; Performance Tuning</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Profile Workload</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Identify Bottleneck</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(CPU/Mem/IO)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apply Amdahl's Law</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cost-Benefit Analysis</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Decision: Scale-up / Scale-out / Code Refactoring</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 성능 분석은 '병목 현상 해결사'와 같습니다. 도로 전체를 넓히는 데 돈을 쓰기보다, 사고가 잦은 상습 정체 구간(Bottleneck)만 골라내어 입체 교차로를 만드는 것이 가장 똑똑한 해결책임을 알고 있는 전문가입니다.
 
@@ -162,7 +153,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 도메인 특화 아키텍처 (DSA)의 시대
 
-앞으로의 성능은 범용 CPU의 발전보다는, 특정 작업 (AI, 암호화, 그래픽)에만 특화된 **DSA (Domain Specific Architecture)**를 통해 달성될 것이다. 구글의 TPU, 애플의 M 시리즈 칩 등이 그 증거다. 기술사는 범용 성능 지표를 넘어, 가속기 아키텍처가 시스템 전체 성능에 미치는 융합적 영향을 정량화할 수 있어야 한다. 또한 클라우드 환경에서는 성능 대비 가격 (Price/Performance)뿐만 아니라 **전성비 (Performance per Watt)**가 기업의 탄소 중립 지표와 직결되는 핵심 표준이 될 것이다.
+앞으로의 성능은 범용 CPU의 발전보다는, 특정 작업 (AI, 암호화, 그래픽)에만 특화된 <strong>DSA (Domain Specific Architecture)</strong>를 통해 달성될 것이다. 구글의 TPU, 애플의 M 시리즈 칩 등이 그 증거다. 기술사는 범용 성능 지표를 넘어, 가속기 아키텍처가 시스템 전체 성능에 미치는 융합적 영향을 정량화할 수 있어야 한다. 또한 클라우드 환경에서는 성능 대비 가격 (Price/Performance)뿐만 아니라 <strong>전성비 (Performance per Watt)</strong>가 기업의 탄소 중립 지표와 직결되는 핵심 표준이 될 것이다.
 
 📢 **섹션 요약 비유**: 미래의 성능은 '만능 운동선수' 한 명을 키우는 것보다, 축구, 농구 등 종목별로 특화된 선수들(가속기)을 모아 최강의 드림팀을 구성하는 전략에서 나올 것입니다.
 

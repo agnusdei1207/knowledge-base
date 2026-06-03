@@ -31,13 +31,19 @@ tags = ["studynote-operating-system"]
 
 반가상화의 핵심은 하이퍼콜이다. 특권 명령을 그대로 던지는 대신, 수정된 커널이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) API를 호출한다.
 
-```text
-Guest OS
-   ↓ Hypercall
-Hypervisor
-   ↓
-Hardware
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Guest OS</div>
+<div class="kb-diagram-note">↓ Hypercall</div>
+<div class="kb-diagram-note">Hypervisor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hardware</div>
+</div>
+</div>
+
+
 
 이렇게 하면 불필요한 트랩과 에뮬레이션이 줄어든다.
 
@@ -86,15 +92,21 @@ Hardware
 
 ## 관련 개념 맵
 
-```text
-게스트 OS 수정
-   ↓
-Hypercall
-   ↓
-오버헤드 감소
-   ↓
-반가상화 / 하드웨어 보조 가상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">게스트 OS 수정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hypercall</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">오버헤드 감소</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">반가상화 / 하드웨어 보조 가상화</div>
+</div>
+</div>
+
+
 
 ---
 

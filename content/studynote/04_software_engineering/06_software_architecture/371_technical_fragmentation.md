@@ -23,32 +23,31 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 심화되면, 새로운 기능 개발보다 기존 시스템들을 통합하고 유지보수하는 데 인력과 시간이 더 많이 소요된다. 특히 보안 패치 적용 시, 동일한 취약점이 여러 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 중복해서에서하며, 각기 다른 방식으로 패치를 적용해야 하는 "패치 피로"가 발생한다.
 
-- **💡 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'국제 개발도상국 건설 현장'**과 같다. 한국의 시공팀, 설계사, 중국의 자재 공급업체, 그리고의 인력이 각각 다른 언어로, 다른 방식으로, 다른 도구로프로젝트하면, 의사소통 오해, 자재 규격 불일치, 시공 차이 수많은 문제가 발생한다. 모두가 함께 일하지만 통일성이 없어서 하나를 변화시키면 다른 것에 미치는 영향을 파악하기 어렵다.
+- **💡 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 <strong>'국제 개발도상국 건설 현장'</strong>과 같다. 한국의 시공팀, 설계사, 중국의 자재 공급업체, 그리고의 인력이 각각 다른 언어로, 다른 방식으로, 다른 도구로프로젝트하면, 의사소통 오해, 자재 규격 불일치, 시공 차이 수많은 문제가 발생한다. 모두가 함께 일하지만 통일성이 없어서 하나를 변화시키면 다른 것에 미치는 영향을 파악하기 어렵다.
 
 - **등장 배경 및 발전 과정**:
 1. **1990년대까지**: 상대적으로 통일된 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (COBOL, C, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))
-2. **2000년대 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 확산**: 다양한 프레임워크와 라이브러리가 등장하여 기술 선택의 자유 증가
-3. **2010년대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 대중화**: 독립적 서비스별 다른 기술 선택 가능해져 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 심화
+2. <strong>2000년대 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 확산</strong>: 다양한 프레임워크와 라이브러리가 등장하여 기술 선택의 자유 증가
+3. <strong>2010년대 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 대중화</strong>: 독립적 서비스별 다른 기술 선택 가능해져 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 심화
 4. **현재**: polyglot 프로그래밍, 멀티클라우드 등으로 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 가속
 
-- **📢 섹션 요약 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'여러 개의 다른 종류의 레고 블록을 섞어놓은 상자'**와 같다. 빨간 레고, 파란 레고, 초록 레고가 모두 섞여 있으면, 어떤 블록이 어디에 속하는지, 어떻게 연결해야 하는지 파악하기 어렵다. 소프트웨어에서도 여러 기술이 뒤섞여 있으면, 전체 시스템을 이해하고 유지보수하기가 극히 어려워진다.
+- **📢 섹션 요약 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 <strong>'여러 개의 다른 종류의 레고 블록을 섞어놓은 상자'</strong>와 같다. 빨간 레고, 파란 레고, 초록 레고가 모두 섞여 있으면, 어떤 블록이 어디에 속하는지, 어떻게 연결해야 하는지 파악하기 어렵다. 소프트웨어에서도 여러 기술이 뒤섞여 있으면, 전체 시스템을 이해하고 유지보수하기가 극히 어려워진다.
 
 ---
 
 다음은 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Technical F의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 기술적 단편화 (Technical F │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 단편화 (Technical F</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Technical F가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Technical [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 문제의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Technical [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 문제의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Technical [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 문제의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-기술적 단편화 (Technical Fragmentation) 문제 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기술적 단편화 (Technical Fragmentation) 문제 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

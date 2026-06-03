@@ -28,12 +28,18 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Value
-  ├─ Known
-  ├─ Unknown
-  └─ Inapplicable
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Value</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Known</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Unknown</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Inapplicable</div>
+</div>
+</div>
+
+
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -102,29 +108,41 @@ NULL을 정확히 이해하면 SQL 조건과 집계 결과를 더 안전하게 �
 
 ## 관련 개념 맵
 
-```text
-NULL
-  ↓
-3-valued Logic
-  ↓
-SQL Comparison
-  ↓
-Data Quality
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NULL</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">3-valued Logic</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SQL Comparison</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Quality</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Unknown Value
-  ↓
-NULL
-  ↓
-Three-valued Logic
-  ↓
-Query Semantics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Unknown Value</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">NULL</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Three-valued Logic</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Query Semantics</div>
+</div>
+</div>
+
+
 
 ---
 

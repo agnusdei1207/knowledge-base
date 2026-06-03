@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 체크섬(Checksum)은 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Block) 안의 숫자들을 모조리 더한 후 1의 보수(반전)를 취해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리에 붙여 보내는 **총합 기반의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 값**이다.
+> 1. **본질**: 체크섬(Checksum)은 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Block) 안의 숫자들을 모조리 더한 후 1의 보수(반전)를 취해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리에 붙여 보내는 <strong>총합 기반의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 값</strong>이다.
 > 2. **가치**: 소프트웨어적으로 덧셈 연산만 반복하면 되므로 CPU 오버헤드가 극도로 낮아, 패킷 헤더처럼 가볍고 빠르게 조작 여부를 확인해야 하는 네트워크 통신([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 아키텍처의 핵심 검문소로 융합된다.
 > 3. **판단 포인트**: 연산이 빠르지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 순서가 바뀌거나 두 개의 에러가 우연히 서로 상쇄되는 경우(+1, -1) 에러를 100% 놓친다는 치명적 한계가 있어, 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)용으로는 절대 쓸 수 없는 트레이드오프가 있다.
 
@@ -29,24 +29,26 @@ tags = ["studynote-computer-architecture"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1의 보수를 활용한 상쇄 로직
-인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에서 체크섬은 단순히 값을 더하는 것을 넘어, **1의 보수 덧셈**이라는 우아한 아키텍처를 거친다.
+인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에서 체크섬은 단순히 값을 더하는 것을 넘어, <strong>1의 보수 덧셈</strong>이라는 우아한 아키텍처를 거친다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           인터넷 체크섬(Checksum) 생성과 검증의 쇳덩어리 로직     │
-├────────────────────────────────────────────────────────┤
-│   [ 송신자 ]                                           │
-│   데이터 블록: A (0101) , B (0011)                     │
-│   1. 다 더함: A + B = 1000                             │
-│   2. 1의 보수(반전): 0111 (이것이 Checksum 값!)           │
-│   ──▶ 전송 데이터: [ A ] + [ B ] + [ Checksum(0111) ]  │
-│                                                        │
-│   [ 수신자 ]                                           │
-│   1. 받은 걸 다 더함: A(0101) + B(0011) + Checksum(0111)│
-│   2. 결과: 1111 (모든 비트가 1이 됨)                     │
-│   3. 최종 보수(반전): 0000 ──▶ "오! 0이네? 정상!"       │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 체크섬(Checksum) 생성과 검증의 쇳덩어리 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 블록: A (0101) , B (0011)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 다 더함: A + B = 1000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1의 보수(반전): 0111 (이것이 Checksum 값!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Checksum(0111)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 받은 걸 다 더함: A(0101) + B(0011) + Checksum(0111)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 결과: 1111 (모든 비트가 1이 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 최종 보수(반전): 0000 ──▶ "오! 0이네? 정상!"</div></div>
+</div>
+</div>
+
+
 
 이 구조의 천재성은 수신자가 복잡하게 "내 총합과 네 총합이 같냐"고 비교할 필요조차 없다는 것이다. 수신자는 그저 들어온 패킷 전체(체크섬 포함)를 ALU에 들이붓고 덧셈기(Adder)를 쫙 돌려서 최종 결과가 `0000...0000`으로 떨어지는지만 보면 끝난다. 조건문 비교 연산 비용조차 아껴버린 극한의 소프트웨어 최적화다.
 
@@ -63,7 +65,7 @@ tags = ["studynote-computer-architecture"]
 |:---|:---|:---|:---|:---|
 | **패리티 (Parity)** | XOR 로직 게이트 | HW (1 사이클) | 짝수 개 에러 감지 불가 | 메모리, UART 직렬통신 |
 | **체크섬 (Checksum)** | 단순 1의 보수 덧셈 | **SW (가벼움)** | **순서 바뀜 상쇄 오류 감지 불가** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/[IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 |
-| **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) (순환 중복 검사)** | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈 | HW ([시프트 레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/)) | 연산 무거움 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (순환 중복 검사)</strong> | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈 | HW ([시프트 레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/)) | 연산 무거움 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
 
 체크섬은 덧셈만 하므로 CPU에서 C 언어로 쉽게 짤 수 있을 만큼 가볍지만 치명적인 약점이 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 `A`와 `B`의 순서가 전송 중에 `B`, `A`로 뒤바뀌어도 두 값을 더한 총합(체크섬)은 똑같다. 기계는 순서가 뒤집힌 심각한 에러를 "정상"으로 오판한다. 따라서 체크섬은 '어느 정도의 에러는 감수하더라도 패킷을 빨리 넘겨야 하는' 네트워크의 L3/L4 계층의 헤더 검사에 특화되어 융합되었다.
 
@@ -74,11 +76,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 체크섬 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (Checksum Offload)**: 고속 서버 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 설계 시, CPU가 일일이 수만 개 패킷의 체크섬을 소프트웨어로 더하고 있으면 10Gbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 터진다. 운영체제에서 덧셈 로직을 떼어내어 NIC의 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))가 하드웨어적으로 전담 연산하도록 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 아키텍처를 켰는가?
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 체크섬 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> (Checksum Offload)</strong>: 고속 서버 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 설계 시, CPU가 일일이 수만 개 패킷의 체크섬을 소프트웨어로 더하고 있으면 10Gbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 터진다. 운영체제에서 덧셈 로직을 떼어내어 NIC의 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))가 하드웨어적으로 전담 연산하도록 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 아키텍처를 켰는가?
 2. **Pseudo Header (가상 헤더) 융합**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 체크섬을 만들 때 단순히 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 본문만 더하지 않고, IP 주소 일부를 떼어와 만든 가상 헤더를 같이 버무려 더했는가? 이는 패킷이 엉뚱한 목적지에 잘못 도착했을 때 즉각 버려버리게 만드는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 이중 자물쇠다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **스토리지 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 섹터 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 체크섬 도입**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확인하겠다며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 더해서 체크섬으로 저장해두는 멍청한 설계. 스토리지는 네트워크와 달리 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 썩음([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rot)' 현상으로 특정 구역이 미세하게 긁히는 버스트 에러가 잦다. 체크섬은 상쇄 에러를 100% 놓치므로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 썩어가는데도 정상이라고 우기게 된다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에는 무조건 블록 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 해시(SHA-256)나 강력한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32를 융합해야 한다.
+- <strong>스토리지 디스크(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>) 섹터 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>에 체크섬 도입</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확인하겠다며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 더해서 체크섬으로 저장해두는 멍청한 설계. 스토리지는 네트워크와 달리 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 썩음([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rot)' 현상으로 특정 구역이 미세하게 긁히는 버스트 에러가 잦다. 체크섬은 상쇄 에러를 100% 놓치므로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 썩어가는데도 정상이라고 우기게 된다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에는 무조건 블록 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 해시(SHA-256)나 강력한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32를 융합해야 한다.
 
 - **📢 섹션 요약 비유**: 스토리지에 체크섬을 쓰는 건 은행 금고를 자물쇠가 아닌 케이블 타이로 묶어두는 것과 같다. 케이블 타이는 택배 상자(네트워크 패킷)가 안 열리게 잠깐 묶어두는 용도로는 싸고 최고지만, 누군가 칼로 끊고 내용물을 바꿔친 뒤 똑같은 타이로 묶어두면 절대 알아챌 수 없다.
 
@@ -98,27 +100,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))** | CPU가 체크섬 덧셈을 하느라 지치는 것을 막기 위해, 그 노가다를 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어에 떠넘기는 고속화 기법 |
-| **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))** | 체크섬이 놓치는 순서 뒤바뀜 에러까지 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈의 잔혹한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 100% 찢어 발겨 잡아내는 스토리지/L2 계층의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 대장 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>)</strong> | CPU가 체크섬 덧셈을 하느라 지치는 것을 막기 위해, 그 노가다를 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어에 떠넘기는 고속화 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">Cyclic Redundancy Check</a>)</strong> | 체크섬이 놓치는 순서 뒤바뀜 에러까지 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈의 잔혹한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 100% 찢어 발겨 잡아내는 스토리지/L2 계층의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 대장 |
 | **1의 보수 덧셈 (1's Complement Sum)** | 자리올림(Carry)이 발생하면 그걸 버리지 않고 다시 일의 자리에 더하는(End-around carry) 체크섬 특유의 순환 덧셈 룰 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 기반 패킷 검증 필요성 대두 (비싼 HW 회로 탑재 불가 환경)
-    │
-    ▼
-체크섬 (Checksum) 고안 (단순 1의 보수 블록 덧셈 체계)
-    │
-    ▼
-가상 헤더 (Pseudo Header) 융합 (목적지 주소 변조 방어 로직 추가)
-    │
-    ▼
-네트워크 고속화로 인한 CPU 병목 ──▶ NIC Checksum Offload (HW 가속)
-    │
-    ▼
-해시 함수 체계 (MD5, SHA) (고정밀 스토리지 무결성 영역으로 확장 분리)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 기반 패킷 검증 필요성 대두 (비싼 HW 회로 탑재 불가 환경)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">체크섬 (Checksum) 고안 (단순 1의 보수 블록 덧셈 체계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 헤더 (Pseudo Header) 융합 (목적지 주소 변조 방어 로직 추가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네트워크 고속화로 인한 CPU 병목 ──▶ NIC Checksum Offload (HW 가속)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시 함수 체계 (MD5, SHA) (고정밀 스토리지 무결성 영역으로 확장 분리)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "싸고 가벼운 SW [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기 탄생 → 네트워크 방어 고도화 → [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가에 따른 HW 가속 회귀 → 한계 영역 분리"라는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 아키텍처의 흐름을 보여준다.
 

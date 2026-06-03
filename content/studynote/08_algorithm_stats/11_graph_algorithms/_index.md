@@ -16,23 +16,26 @@ tags = ["studynote-algorithm-stats"]
 
 ### Ford-Fulkerson 알고리즘
 
-```text
-소스(s) → 싱크(t)로 흐를 수 있는 최대 유량 찾기
 
-잔여 그래프(Residual Graph) 개념:
-  실제 용량 c(u,v)에서 현재 흐름 f(u,v)를 뺀 잔여 용량
-  역방향 간선: f(v,u) = -f(u,v) (흐름 취소 가능)
 
-증가 경로(Augmenting Path) 반복:
-  BFS/DFS로 s → t 경로 탐색
-  최소 잔여 용량만큼 흐름 추가
-  종료: 더 이상 증가 경로 없음 → 최대 유량 달성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소스(s) → 싱크(t)로 흐를 수 있는 최대 유량 찾기</div>
+<div class="kb-diagram-note">잔여 그래프(Residual Graph) 개념:</div>
+<div class="kb-diagram-note">실제 용량 c(u,v)에서 현재 흐름 f(u,v)를 뺀 잔여 용량</div>
+<div class="kb-diagram-note">역방향 간선: f(v,u) = -f(u,v) (흐름 취소 가능)</div>
+<div class="kb-diagram-note">증가 경로(Augmenting Path) 반복:</div>
+<div class="kb-diagram-note">BFS/DFS로 s → t 경로 탐색</div>
+<div class="kb-diagram-note">최소 잔여 용량만큼 흐름 추가</div>
+<div class="kb-diagram-note">종료: 더 이상 증가 경로 없음 → 최대 유량 달성</div>
+<div class="kb-diagram-note">시간 복잡도:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Ford-Fulkerson: O(E·f*)</div><div class="kb-diagram-node">f*: 최대 유량값</div></div>
+<div class="kb-diagram-note">Edmonds-Karp (BFS 사용): O(V·E²)</div>
+<div class="kb-diagram-note">Dinic: O(V²·E) — 실무 권장</div>
+</div>
+</div>
 
-시간 복잡도:
-  Ford-Fulkerson: O(E·f*)  [f*: 최대 유량값]
-  Edmonds-Karp (BFS 사용): O(V·E²)
-  Dinic: O(V²·E)  — 실무 권장
-```
+
 
 ### Max-Flow Min-Cut 정리
 
@@ -77,19 +80,23 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅲ. 강연결 요소 (Strongly Connected Components, SCC)
 
-```text
-SCC: 방향 그래프에서 모든 정점 쌍 (u, v)에 대해
-     u → v, v → u 경로가 모두 존재하는 최대 부분 그래프
 
-알고리즘:
-  Tarjan's: O(V+E) — DFS + 스택 기반
-  Kosaraju's: O(V+E) — 두 번의 DFS
 
-응용:
-  - 웹 페이지 링크 구조 분석 (PageRank 전처리)
-  - 소셜 네트워크 커뮤니티 탐지
-  - 컴파일러 의존성 분석
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SCC: 방향 그래프에서 모든 정점 쌍 (u, v)에 대해</div>
+<div class="kb-diagram-note">u → v, v → u 경로가 모두 존재하는 최대 부분 그래프</div>
+<div class="kb-diagram-note">알고리즘:</div>
+<div class="kb-diagram-note">Tarjan's: O(V+E) — DFS + 스택 기반</div>
+<div class="kb-diagram-note">Kosaraju's: O(V+E) — 두 번의 DFS</div>
+<div class="kb-diagram-note">응용:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">웹 페이지 링크 구조 분석 (PageRank 전처리)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">소셜 네트워크 커뮤니티 탐지</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컴파일러 의존성 분석</div>
+</div>
+</div>
+
+
 
 ---
 
@@ -132,28 +139,30 @@ DAG(Directed Acyclic Graph, 유향 비순환 그래프)에서
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 그래프 탐색 (BFS / DFS)
-    │
-    ▼
-최단 경로 (Dijkstra · Bellman-Ford · Floyd-Warshall)
-    │
-    ▼
-최소 신장 트리 (Kruskal · Prim)
-    │
-    ▼
-고급 그래프 알고리즘
-    ├─► 최대 유량 (Ford-Fulkerson · Dinic)
-    ├─► 이분 매칭 (Hungarian · Hopcroft-Karp)
-    ├─► SCC (Tarjan · Kosaraju)
-    └─► 위상 정렬 (Kahn's · DFS)
-    │
-    ▼
-그래프 신경망 (GNN) — 그래프 구조 딥러닝
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 그래프 탐색 (BFS / DFS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최단 경로 (Dijkstra · Bellman-Ford · Floyd-Warshall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 신장 트리 (Kruskal · Prim)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고급 그래프 알고리즘</div>
+<div class="kb-diagram-tree-item" style="--depth:2">최대 유량 (Ford-Fulkerson · Dinic)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이분 매칭 (Hungarian · Hopcroft-Karp)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SCC (Tarjan · Kosaraju)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">위상 정렬 (Kahn's · DFS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그래프 신경망 (GNN) — 그래프 구조 딥러닝</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 최대 유량은 **'수도관 네트워크에서 물이 최대 얼마나 흐를 수 있는지'** 찾는 거예요. 가장 좁은 파이프가 전체 물의 양을 결정해요!
 2. 위상 정렬은 **'선수 과목 순서대로 수업 듣기'** 와 같아요. 수학을 배워야 물리를 배울 수 있으니, 순서를 지켜야 해요.
-3. 고급 그래프 알고리즘은 배달 경로 최적화, 병원 의사 배정, SNS 친구 추천 등 **실생활의 복잡한 문제를 수학으로 해결**하는 마법이에요!
+3. 고급 그래프 알고리즘은 배달 경로 최적화, 병원 의사 배정, SNS 친구 추천 등 <strong>실생활의 복잡한 문제를 수학으로 해결</strong>하는 마법이에요!

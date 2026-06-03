@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 락 엘리전([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Elision)은 번역하면 '락 생략'이다. 프로그램 코드에는 `lock()`이라고 적혀 있지만, CPU([하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/), [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/))가 이를 무시하고 락을 쥐지 않은 채 냅다 코드를 실행시킨 뒤, 충돌이 나지 않으면 그대로 반영하고 충돌이 나면 몰래 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 하드웨어 가속 기술이다.
-> 2. **가치**: 소프트웨어 개발자가 보수적이고 멍청하게(혹시 몰라서) 걸어둔 넓은 범위의 락 때문에 10개의 코어가 줄 서서 노는 병목 현상을 CPU 스스로 타파하여, **코드 수정 0줄로 멀티코어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 성능을 수 배 이상 뻥튀기**시킨다.
+> 2. **가치**: 소프트웨어 개발자가 보수적이고 멍청하게(혹시 몰라서) 걸어둔 넓은 범위의 락 때문에 10개의 코어가 줄 서서 노는 병목 현상을 CPU 스스로 타파하여, <strong>코드 수정 0줄로 멀티코어 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 성능을 수 배 이상 뻥튀기</strong>시킨다.
 > 3. **융합**: 운영체제나 프로그래밍 언어가 제공하는 고수준의 '락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))' 메커니즘과 인텔(Intel) TSX(Transactional [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) Extensions) 같은 최하위 실리콘 '하드웨어 구조'가 결합된 컴퓨터 구조와 OS의 가장 아름다운 크로스오버 최적화 사례다.
 
 ---
@@ -23,9 +23,9 @@ tags = ["studynote-operating-system"]
 
 프로그래머들은 데드락과 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 너무 무서운 나머지 방어적인 코딩을 한다.
 1만 개의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A는 `[1]`번 방을 수정하고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 `[9999]`번 방을 수정하려고 한다. 둘은 전혀 겹치지 않으므로 동시에 작업해도 아무 문제가 없다. 
-하지만 귀찮은 프로그래머는 그냥 **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체(1만 개)를 통째로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))** 걸어버린다 ([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 결과적으로 A가 1번 방을 고치는 동안, 9999번 방을 고치려던 B는 의미 없이 밖에서 멍하니 기다려야 한다. (성능의 학살)
+하지만 귀찮은 프로그래머는 그냥 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 전체(1만 개)를 통째로 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong> 걸어버린다 ([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 결과적으로 A가 1번 방을 고치는 동안, 9999번 방을 고치려던 B는 의미 없이 밖에서 멍하니 기다려야 한다. (성능의 학살)
 
-하드웨어 엔지니어들은 이 꼴을 보고 탄식했다. "저 바보 같은 소프트웨어 락 때문에 우리가 만든 16코어 CPU가 1코어 빼고 다 놀고 있잖아! 우리가 실리콘(하드웨어) 차원에서 직접 개입해서, **안 겹칠 것 같으면 락을 그냥 무시(Elision)하게 만들어주자!**" 이렇게 탄생한 기술이 바로 하드웨어 기반의 **락 엘리전([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Elision)**이다.
+하드웨어 엔지니어들은 이 꼴을 보고 탄식했다. "저 바보 같은 소프트웨어 락 때문에 우리가 만든 16코어 CPU가 1코어 빼고 다 놀고 있잖아! 우리가 실리콘(하드웨어) 차원에서 직접 개입해서, **안 겹칠 것 같으면 락을 그냥 무시(Elision)하게 만들어주자!**" 이렇게 탄생한 기술이 바로 하드웨어 기반의 <strong>락 엘리전(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Elision)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -37,39 +37,35 @@ tags = ["studynote-operating-system"]
 
 1. **도박의 시작 (Speculative Execution)**
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `lock()` 명령어에 도달한다. 
-   - CPU는 락을 실제로 거는(메모리 값을 1로 바꾸어 문을 잠그는) 무거운 작업을 **생략(Elision)**해 버린다. 대신 이 구간을 **하드웨어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** 모드로 몰래 전환하고 냅다 코드를 실행해 버린다.
-2. **충돌 감시망 (Cache Coherency [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 활용)**
+   - CPU는 락을 실제로 거는(메모리 값을 1로 바꾸어 문을 잠그는) 무거운 작업을 <strong>생략(Elision)</strong>해 버린다. 대신 이 구간을 <strong>하드웨어 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> 모드로 몰래 전환하고 냅다 코드를 실행해 버린다.
+2. <strong>충돌 감시망 (Cache Coherency <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> 활용)</strong>
    - CPU는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이 구간에서 읽고 쓰는 메모리 주소들을 CPU 내부의 L1/L2 캐시(Cache)에 꼬리표를 달아 감시한다. (읽은 곳 꼬리표, 쓴 곳 꼬리표).
    - CPU 내부망([캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), MESI)을 통해 다른 코어가 감시 중인 주소에 접근하려고 하는지 매의 눈으로 지켜본다.
 3. **도박의 결과 (Commit vs Abort)**
    - **대성공 (충돌 없음)**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `unlock()` 지점까지 도달했는데 꼬리표 달린 주소를 아무도 안 건드렸다? (예: A는 1번 방, B는 9999번 방). 그러면 락을 걸었던 것처럼 뻔뻔하게 결과를 메모리에 커밋하고 끝낸다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율 100%!
-   - **실패 (충돌 감지)**: 도중에 다른 코어가 내 꼬리표 주소를 덮어쓰려 한다? CPU는 번개처럼 하드웨어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Abort)을 때려버린다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 취소하고, **"아휴 꼼수 쓰려다 걸렸네, 얌전히 원래 소프트웨어 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 걸고 순서대로 해야지..."** 라며 보수적인 락 모드로 되돌아간다 ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)).
+   - **실패 (충돌 감지)**: 도중에 다른 코어가 내 꼬리표 주소를 덮어쓰려 한다? CPU는 번개처럼 하드웨어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Abort)을 때려버린다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 취소하고, <strong>"아휴 꼼수 쓰려다 걸렸네, 얌전히 원래 소프트웨어 락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>) 걸고 순서대로 해야지..."</strong> 라며 보수적인 락 모드로 되돌아간다 ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)).
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│           락 엘리전 (Lock Elision) 작동 흐름도: 꼼수와 롤백의 미학          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ 코드:   lock(mutex);                                                        │
-│        array[1] = 50;                                                       │
-│        unlock(mutex);                                                       │
-│                                                                             │
-│ [ CPU 하드웨어의 은밀한 처리 과정 ]                                         │
-│                                                                             │
-│  1. 락 무시! (Elision) "진짜 락 걸면 느려지니까 락 안 건척 하고 달려보자!"  │
-│         │                                                                   │
-│         ▼                                                                   │
-│  2. 캐시에 기록 "내가 array[1] 건드린다! 남들 건드리나 감시해!"             │
-│         │                                                                   │
-│    (분기점: 다른 코어의 간섭 여부)                                          │
-│     ┌───┴────────────────────────────────┐                                  │
-│     ▼ (아무도 안 건드림)                      ▼ (누가 array[1] 건드림!)     │
-│  3. unlock() 무사 도달                 3. 🚨 앗 충돌 났다!! (Abort)         │
-│  4. 변경사항 영구 저장 (Commit)          4. 작업 취소, 롤백 (Rollback)      │
-│     -> 🚀 초고속 병렬 처리 성공!           5. 이번엔 꼼수 안 쓰고 진짜      │
-│                                       소프트웨어 락 걸어서 다시 처리!       │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락 엘리전 (Lock Elision) 작동 흐름도: 꼼수와 롤백의 미학</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드: lock(mutex);</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">array</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= 50;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock(mutex);</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 하드웨어의 은밀한 처리 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 락 무시! (Elision) "진짜 락 걸면 느려지니까 락 안 건척 하고 달려보자!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 캐시에 기록 "내가 array</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">건드린다! 남들 건드리나 감시해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(분기점: 다른 코어의 간섭 여부)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">건드림!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. unlock() 무사 도달 3. 🚨 앗 충돌 났다!! (Abort)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경사항 영구 저장 (Commit) 4. 작업 취소, 롤백 (Rollback)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 🚀 초고속 병렬 처리 성공! 5. 이번엔 꼼수 안 쓰고 진짜</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 락 걸어서 다시 처리!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 메커니즘의 천재성은 '실패 시의 대비책([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))'에 있다. 락을 우회하다가 실패하면 시스템이 뻗는 게 아니라, CPU가 원래의 코드대로 정직하게 락을 획득하도록 자연스럽게 흐름을 돌려준다. 따라서 개발자는 하드웨어를 전혀 신경 쓸 필요 없이 평소처럼 `lock()`과 `unlock()`만 적어두면, 밑에서 CPU가 알아서 눈치껏 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 폭발시켜 주는 것이다.
 
@@ -120,15 +116,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[하드웨어 트랜잭셔널 메모리 (HTM]
-    │
-    ▼
-[락 엘리전 (Lock Elision)]
-    │
-    ├──▶ [스레드 풀 스케줄링 락 경합 (Work Stealing)]
-    └──▶ [더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">락 엘리전 (Lock Elision)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 풀 스케줄링 락 경합 (Work Stealing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

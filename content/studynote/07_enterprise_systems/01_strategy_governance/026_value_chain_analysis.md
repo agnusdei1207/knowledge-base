@@ -18,22 +18,22 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           포터의 가치 사슬 구조                              │
-├──────────────────────────────────────────────────────────┤
-│  지원 활동                                                  │
-│  ┌──────────────────────────────────────────┐            │
-│  │ 기업 인프라 (재무, 법무, 경영 관리)         │            │
-│  │ HRM (인적자원 관리)                        │  이윤       │
-│  │ 기술 개발 (R&D, IT, 자동화)                │  (Margin)  │
-│  │ 조달 (구매, 공급업체 관리)                  │            │
-│  └──────────────────────────────────────────┘            │
-│                                                           │
-│  주활동 →  입고 → 운영 → 출고 → 마케팅 → 서비스           │
-│        물류  생산  물류  영업   A/S                         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포터의 가치 사슬 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 활동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 인프라 (재무, 법무, 경영 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HRM (인적자원 관리)</div><div class="kb-diagram-cell">이윤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 개발 (R&amp;D, IT, 자동화)</div><div class="kb-diagram-cell">(Margin)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조달 (구매, 공급업체 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주활동 → 입고 → 운영 → 출고 → 마케팅 → 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물류 생산 물류 영업 A/S</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 레스토랑의 요리 과정이다. 식재료 구입(입고 물류) → 요리(운영) → 서빙(출고 물류) → 광고(마케팅·영업) → 후식·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(A/S). 각 단계에서 비용을 낮추거나 맛을 높여야(차별화) 이윤이 커진다.
 
@@ -49,7 +49,7 @@ tags = ["studynote-enterprise-systems"]
 | **운영** | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) (제조 실행), [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) QC | 생산 효율↑, 불량률↓ |
 | **출고 물류** | [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) (창고 관리), 라스트마일 최적화 | 배송 속도↑, 비용↓ |
 | **마케팅·영업** | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 디지털 광고 | 고객 전환↑, 획득 비용↓ |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | 챗봇, 원격 A/S, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 예측 정비 | 만족도↑, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비용↓ |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong> | 챗봇, 원격 A/S, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 예측 정비 | 만족도↑, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비용↓ |
 | **기술 개발** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML, 클라우드 R&D | 혁신 속도↑ |
 | **HRM** | HR 테크, 원격 협업 | 인재 확보·생산성↑ |
 
@@ -61,10 +61,10 @@ tags = ["studynote-enterprise-systems"]
 
 | 분석 도구 | 목적 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)과의 연계 |
 |:---|:---|:---|
-| **[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)** | 거시 외부 환경 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동에 영향 주는 외부 요인 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/">PEST</a></strong> | 거시 외부 환경 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동에 영향 주는 외부 요인 |
 | **5 Forces** | 산업 경쟁 구조 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 어느 단계에서 협상력 취약? |
 | **SWOT** | 내외부 종합 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 분석 = S·W 도출 근거 |
-| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 측정 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동별 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 수립 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 측정 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동별 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 수립 |
 
 - **📢 섹션 요약 비유**: [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 도구들은 같은 회사를 다른 렌즈로 보는 것이다. PEST는 망원경(외부 멀리), 5 Forces는 확대경(산업 내 경쟁), [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 X-ray(내부 구조), SWOT는 종합 진단서다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-enterprise-systems"]
 |:---|:---|
 | **경쟁 우위 원천 발굴** | 비용 우위 또는 차별화 활동 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | **IT 투자 정당화** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 활동별 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 근거 제시 |
-| **[DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 로드맵** | 디지털 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 단계별 혁신 계획 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a> 로드맵</strong> | 디지털 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 단계별 혁신 계획 |
 
 디지털 네이티브 기업(아마존, 넷플릭스)은 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 자체를 [플랫폼 비즈니스 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/033_platform_business_model/)로 재설계하여 전통적 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 경쟁자를 압도했다. 이는 산업 경계를 초월한 "생태계 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)(Ecosystem [Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))"로의 진화다.
 
@@ -104,28 +104,30 @@ tags = ["studynote-enterprise-systems"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SWOT 분석** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)의 강·약점이 S·W 입력 |
-| **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)/[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 주활동 디지털화 도구 |
-| **[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 전반의 디지털 혁신 |
-| **[플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)을 플랫폼으로 재설계 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>/<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 주활동 디지털화 도구 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>)</strong> | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 전반의 디지털 혁신 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/">플랫폼 비즈니스</a></strong> | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)을 플랫폼으로 재설계 |
 | **5 Forces** | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 취약 활동의 경쟁 압력 파악 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 가치 사슬 — 물리적 활동 비용 최적화]
-    │
-    ▼
-[IT 접목 (ERP/SCM/CRM) — 주활동 디지털화]
-    │
-    ▼
-[디지털 가치 사슬 — AI·IoT·클라우드 전 활동 혁신]
-    │
-    ▼
-[플랫폼 가치 사슬 — 활동 자체를 사업화]
-    │
-    ▼
-[생태계 가치 사슬 — 산업 경계 초월 협업 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 가치 사슬 — 물리적 활동 비용 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 접목 (ERP/SCM/CRM) — 주활동 디지털화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 가치 사슬 — AI·IoT·클라우드 전 활동 혁신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 가치 사슬 — 활동 자체를 사업화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">생태계 가치 사슬 — 산업 경계 초월 협업 네트워크</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

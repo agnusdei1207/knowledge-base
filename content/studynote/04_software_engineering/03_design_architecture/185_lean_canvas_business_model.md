@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 린 캔버스 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Canvas)는 스타트업이나 신사업 아이디어를 9개의 블록에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해, **가설 중심**으로 비즈니스 모델을 점검하는 1페이지 설계 도구다.
+> 1. **본질**: 린 캔버스 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Canvas)는 스타트업이나 신사업 아이디어를 9개의 블록에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해, <strong>가설 중심</strong>으로 비즈니스 모델을 점검하는 1페이지 설계 도구다.
 > 2. **가치**: 문제 (Problem), 고객 세그먼트 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Segments), 고유 가치 제안 (Unique Value Proposition, UVP)을 먼저 드러내기 때문에, 긴 사업 계획서보다 빠르게 핵심 리스크를 찾고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 지점을 발견할 수 있다.
 > 3. **판단 포인트**: 불확실성이 큰 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에는 매우 강력하지만, 운영 프로세스·재무 세부안·제휴 구조까지 풀어야 하는 성숙 단계에서는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) (Business Model Canvas)나 상세 사업 계획과 함께 써야 한다.
 
@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-린 캔버스는 **"무엇을 만들까?"보다 "이 사업 가설이 성립하는가?"를 먼저 묻는 비즈니스 모델 도구**다. 애시 마우리아 (Ash Maurya)는 알렉산더 오스터왈더 (Alexander Osterwalder)의 BMC를 스타트업 현실에 맞게 변형해, 불확실성이 큰 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 더 중요한 문제, 고객, 해결책, 차별성을 앞세웠다. 즉 린 캔버스는 보기 좋은 요약표가 아니라, 리스크가 큰 가설부터 노출시키는 실험 보드다.
+린 캔버스는 <strong>"무엇을 만들까?"보다 "이 사업 가설이 성립하는가?"를 먼저 묻는 비즈니스 모델 도구</strong>다. 애시 마우리아 (Ash Maurya)는 알렉산더 오스터왈더 (Alexander Osterwalder)의 BMC를 스타트업 현실에 맞게 변형해, 불확실성이 큰 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 더 중요한 문제, 고객, 해결책, 차별성을 앞세웠다. 즉 린 캔버스는 보기 좋은 요약표가 아니라, 리스크가 큰 가설부터 노출시키는 실험 보드다.
 
-이 도구가 필요한 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업이 너무 많은 미지수 위에 서 있기 때문이다. 고객이 진짜 그 문제를 아파하는지, 지금 제시한 해결책이 최소 기능 제품 ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) 수준으로도 가치가 있는지, 돈을 낼 의향이 있는지 모르는 상태에서 수십 페이지짜리 사업 계획서를 작성하면 문서 완성도만 높고 학습 속도는 느려진다. 린 캔버스는 이 낭비를 줄이고 **한 장으로 가설을 공개**하게 만든다.
+이 도구가 필요한 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업이 너무 많은 미지수 위에 서 있기 때문이다. 고객이 진짜 그 문제를 아파하는지, 지금 제시한 해결책이 최소 기능 제품 ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) 수준으로도 가치가 있는지, 돈을 낼 의향이 있는지 모르는 상태에서 수십 페이지짜리 사업 계획서를 작성하면 문서 완성도만 높고 학습 속도는 느려진다. 린 캔버스는 이 낭비를 줄이고 <strong>한 장으로 가설을 공개</strong>하게 만든다.
 
 또한 [팀 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) 효과도 크다. 개발자는 기능을, 디자이너는 경험을, 사업 담당자는 수익을 먼저 생각하기 쉬운데, 린 캔버스는 이 관점을 9칸 안에 묶어 "우리가 누구의 어떤 문제를 어떤 방식으로 풀고, 무엇으로 성공을 판단할 것인가"를 같은 화면에서 보게 해 준다.
 
@@ -31,21 +31,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-린 캔버스의 핵심 원리는 **사업 모델을 완성된 사실이 아니라 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 가설 묶음으로 표현하는 것**이다. 9개 블록은 제품 아이디어를 고객 문제, 가치 제안, 실행 경로, 경제성, 측정 체계로 분해한다. 이때 중요한 것은 왼쪽에서 오른쪽으로 예쁘게 채우는 것이 아니라, 가장 불확실한 칸부터 채우고 증거로 수정하는 것이다.
+린 캔버스의 핵심 원리는 <strong>사업 모델을 완성된 사실이 아니라 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할 가설 묶음으로 표현하는 것</strong>이다. 9개 블록은 제품 아이디어를 고객 문제, 가치 제안, 실행 경로, 경제성, 측정 체계로 분해한다. 이때 중요한 것은 왼쪽에서 오른쪽으로 예쁘게 채우는 것이 아니라, 가장 불확실한 칸부터 채우고 증거로 수정하는 것이다.
 
 아래 그림은 린 캔버스의 기본 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다.
 
-```text
-┌────────────┬────────────┬────────────┬────────────┬────────────┐
-│ Problem    │ Solution   │ Unique     │ Unfair     │ Customer   │
-│ Top pains  │ MVP answer │ Value Prop │ Advantage  │ Segments   │
-│            │            │            │            │ Early Ad.  │
-├────────────┼────────────┤            ├────────────┼────────────┤
-│ Key Metrics│            │            │ Channels   │            │
-├────────────┴────────────┴────────────┴────────────┴────────────┤
-│ Cost Structure                     │ Revenue Streams           │
-└────────────────────────────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">Solution</div><div class="kb-diagram-cell">Unique</div><div class="kb-diagram-cell">Unfair</div><div class="kb-diagram-cell">Customer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top pains</div><div class="kb-diagram-cell">MVP answer</div><div class="kb-diagram-cell">Value Prop</div><div class="kb-diagram-cell">Advantage</div><div class="kb-diagram-cell">Segments</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early Ad.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key Metrics</div><div class="kb-diagram-cell">Channels</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Structure</div><div class="kb-diagram-cell">Revenue Streams</div></div>
+</div>
+</div>
+
+
 
 | 블록 | 핵심 질문 | 좋은 작성 기준 |
 | :--- | :--- | :--- |
@@ -59,7 +61,7 @@ tags = ["studynote-software-engineering"]
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) | 성공 여부를 무엇으로 볼 것인가? | vanity metric보다 행동 지표를 쓴다 |
 | Unfair Advantage | 쉽게 모방되지 않는 이유는 무엇인가? | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/), 독점 접근 등 실질 장벽이 있어야 한다 |
 
-실무에서는 보통 고객 세그먼트와 문제를 먼저 적고, 그다음 UVP와 solution을 연결하는 식으로 시작한다. 마지막에 unfair advantage를 쓰는 이유도 같다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서는 "차별화된 방어력"보다 "정말 풀어야 할 문제가 맞는가"가 더 큰 리스크이기 때문이다. 즉 린 캔버스는 9칸이 동등해 보여도, 실제로는 **문제-고객-가치 제안의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 순서**가 중심축이다.
+실무에서는 보통 고객 세그먼트와 문제를 먼저 적고, 그다음 UVP와 solution을 연결하는 식으로 시작한다. 마지막에 unfair advantage를 쓰는 이유도 같다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서는 "차별화된 방어력"보다 "정말 풀어야 할 문제가 맞는가"가 더 큰 리스크이기 때문이다. 즉 린 캔버스는 9칸이 동등해 보여도, 실제로는 <strong>문제-고객-가치 제안의 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 순서</strong>가 중심축이다.
 
 - **📢 섹션 요약 비유**: 린 캔버스는 집을 지을 때 예쁜 인테리어부터 고르는 것이 아니라, 누구를 위한 집인지, 어떤 불편을 해결할지, 돈과 자재가 얼마나 드는지를 먼저 한 장 도면에 올리는 일과 같다.
 
@@ -67,7 +69,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-린 캔버스는 BMC나 전통적 사업 계획서와 비슷해 보이지만, 질문의 초점이 다르다. BMC가 비교적 안정된 사업의 운영 구조와 파트너, 핵심 활동, 자원 배치를 넓게 조망한다면, 린 캔버스는 불확실한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업에서 **문제-해결-시장 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**을 먼저 드러낸다. 전통적 사업 계획서는 투자와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 상세하게 보여 주는 데 강하지만, 수정 비용이 크고 학습 주기가 느리다.
+린 캔버스는 BMC나 전통적 사업 계획서와 비슷해 보이지만, 질문의 초점이 다르다. BMC가 비교적 안정된 사업의 운영 구조와 파트너, 핵심 활동, 자원 배치를 넓게 조망한다면, 린 캔버스는 불확실한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업에서 <strong>문제-해결-시장 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>을 먼저 드러낸다. 전통적 사업 계획서는 투자와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 상세하게 보여 주는 데 강하지만, 수정 비용이 크고 학습 주기가 느리다.
 
 | 비교 대상 | 린 캔버스 | [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) | 전통적 사업 계획서 |
 | :--- | :--- | :--- | :--- |
@@ -86,30 +88,29 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 린 캔버스는 문서를 잘 채우는 기술보다 **각 칸을 어떤 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할지 연결하는 능력**이 중요하다. Problem 칸에 적은 내용은 고객 인터뷰로, UVP는 landing page나 메시지 테스트로, revenue는 가격 실험으로, channels는 CAC ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost) 관점의 파일럿으로 확인해야 한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나지 않은 칸은 "사실"이 아니라 "가설"로 표시하는 태도가 핵심이다.
+실무에서 린 캔버스는 문서를 잘 채우는 기술보다 <strong>각 칸을 어떤 실험으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할지 연결하는 능력</strong>이 중요하다. Problem 칸에 적은 내용은 고객 인터뷰로, UVP는 landing page나 메시지 테스트로, revenue는 가격 실험으로, channels는 CAC ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost) 관점의 파일럿으로 확인해야 한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나지 않은 칸은 "사실"이 아니라 "가설"로 표시하는 태도가 핵심이다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Lean Canvas learning loop                                         │
-├───────────────────────────────────────────────────────────────────┤
-│ Problem / Customer hypothesis                                     │
-│          │                                                        │
-│          ▼                                                        │
-│ Interview / MVP / landing page test                              │
-│          │                                                        │
-│          ▼                                                        │
-│ Metric learning                                                   │
-│      ├─ validated  -> deepen next block                           │
-│      └─ rejected   -> pivot canvas                                │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lean Canvas learning loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem / Customer hypothesis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interview / MVP / landing page test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metric learning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validated -&gt; deepen next block</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rejected -&gt; pivot canvas</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **고객 세그먼트마다 별도 캔버스가 필요한가?** 서로 다른 고객군이 다른 문제를 겪는다면 캔버스를 분리해야 한다.
 2. **문제보다 solution이 먼저 커졌는가?** 기능 목록이 너무 길면 problem validation이 약한 신호다.
 3. **unfair advantage가 진짜 장벽인가?** "좋은 팀", "열정", "UI가 예쁨"은 장벽이 아니라 희망사항일 수 있다.
-4. **[key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) metrics가 vanity metric인가?** 가입자 수보다 활성 사용자, 재방문율, 전환율처럼 행동 지표가 더 중요하다.
+4. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">key</a> metrics가 vanity metric인가?</strong> 가입자 수보다 활성 사용자, 재방문율, 전환율처럼 행동 지표가 더 중요하다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -118,7 +119,7 @@ tags = ["studynote-software-engineering"]
 - revenue, cost, channel을 적어 놓고 실제 실험은 하지 않는 경우
 - 한 번 작성한 캔버스를 고정 문서처럼 보관만 하는 경우
 
-기술사 관점에서는 린 캔버스를 "1페이지 비즈니스 모델"이라고만 정의하면 약하다. **왜 문제와 고객을 먼저 보는지, BMC와 무엇이 다른지, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)·[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)·측정 지표와 어떻게 연결되는지**까지 설명해야 실제 활용 도구로서 의미가 선명해진다.
+기술사 관점에서는 린 캔버스를 "1페이지 비즈니스 모델"이라고만 정의하면 약하다. <strong>왜 문제와 고객을 먼저 보는지, BMC와 무엇이 다른지, <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a>·<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a>·측정 지표와 어떻게 연결되는지</strong>까지 설명해야 실제 활용 도구로서 의미가 선명해진다.
 
 - **📢 섹션 요약 비유**: 린 캔버스는 요리 아이디어를 적어 두는 메모가 아니라, 손님에게 조금씩 먹여 보고 간을 고쳐 가는 시식 기록표와 같다.
 
@@ -128,9 +129,9 @@ tags = ["studynote-software-engineering"]
 
 린 캔버스의 가장 큰 효과는 팀이 같은 가설 지도를 보며 움직이게 만든다는 점이다. 고객 문제, 가치 제안, 채널, 수익 구조, 핵심 지표가 한 장에 놓이면, 제품 팀과 비즈니스 팀이 서로 다른 언어로 말하더라도 우선순위를 빠르게 맞출 수 있다. 또한 무엇이 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되었고 무엇이 아직 위험한지 드러나므로, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)도 감이 아니라 증거 중심으로 진행할 수 있다.
 
-물론 린 캔버스만으로 사업이 완성되지는 않는다. 규제 검토, 조직 운영, 상세 재무, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 파트너 구조처럼 성숙 단계에서 필요한 요소는 추가 문서와 분석이 필요하다. 따라서 린 캔버스는 만능 계획서가 아니라, **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 학습 속도를 높이는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 지도**로 보는 것이 맞다.
+물론 린 캔버스만으로 사업이 완성되지는 않는다. 규제 검토, 조직 운영, 상세 재무, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 파트너 구조처럼 성숙 단계에서 필요한 요소는 추가 문서와 분석이 필요하다. 따라서 린 캔버스는 만능 계획서가 아니라, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 학습 속도를 높이는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 지도</strong>로 보는 것이 맞다.
 
-정리하면 린 캔버스는 **"한 장으로 비즈니스 모델을 설명하는 문서"가 아니라 "가장 위험한 사업 가설을 빠르게 드러내고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하게 만드는 도구"** 로 기억해야 한다. 시험에서는 BMC와의 차이, 실무에서는 실험과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 연결성까지 함께 쓰는 것이 핵심이다.
+정리하면 린 캔버스는 <strong>"한 장으로 비즈니스 모델을 설명하는 문서"가 아니라 "가장 위험한 사업 가설을 빠르게 드러내고 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하게 만드는 도구"</strong> 로 기억해야 한다. 시험에서는 BMC와의 차이, 실무에서는 실험과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 연결성까지 함께 쓰는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 린 캔버스는 완성된 집 설계도가 아니라, 어떤 집을 지어야 할지 방향을 잡아 주는 첫 스케치와 같다. 스케치가 빨라야 잘못된 방향도 빨리 고칠 수 있다.
 
@@ -150,21 +151,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Idea hypothesis
-    │
-    ▼
-Customer segment + problem
-    │
-    ▼
-UVP + MVP solution
-    │
-    ▼
-Channel / revenue / cost / metrics
-    │
-    ▼
-Experiment learning -> pivot or persevere
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Idea hypothesis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Customer segment + problem</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UVP + MVP solution</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Channel / revenue / cost / metrics</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Experiment learning -&gt; pivot or persevere</div>
+</div>
+</div>
+
+
 
 이 흐름도는 린 캔버스가 아이디어를 고객 문제에서 시작해 실행 실험과 학습 의사결정으로 이어 주는 과정을 보여 준다.
 

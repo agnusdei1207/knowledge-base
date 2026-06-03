@@ -33,24 +33,24 @@ tags = ["database"]
 
 | 종속 유형 | 조건 | 발생 환경 |
 | :--- | :--- | :--- |
-| **[완전 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/) (Full)** | 기본키 전체 집합에 의해서만 결정됨 | 단일키 또는 설계가 잘 된 복합키 환경 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/">완전 함수적 종속</a> (Full)</strong> | 기본키 전체 집합에 의해서만 결정됨 | 단일키 또는 설계가 잘 된 복합키 환경 |
 | **부분 함수적 종속 (Partial)** | 기본키의 진부분집합에 의해 결정됨 | 복합키 환경에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 배치가 잘못된 경우 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           수강 테이블의 부분 함수적 종속 메커니즘 시각화     │
-├──────────────────────────────────────────────────────────────┤
-│  [복합 기본키]                         [일반 속성]             │
-│                                                              │
-│  ┌─ 학번 ─────┐ ───(부분 종속)───▶  학생이름 (이름은 학번만 알면 됨)│
-│  │            │                                              │
-│  │            ├ ───(완전 종속)───▶  성적 (누가 어떤 과목인지 필요)  │
-│  └─ 과목코드 ─┘                                              │
-│                                                              │
-│  * 문제점: 과목코드가 달라져도 학번만 같으면 이름은 항상 같음  │
-│  * 결과: 한 학생이 5과목을 들으면 학생이름이 5번 중복 저장됨   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수강 테이블의 부분 함수적 종속 메커니즘 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복합 기본키</div><div class="kb-diagram-node">일반 속성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 학번 (부분 종속) ▶ 학생이름 (이름은 학번만 알면 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(완전 종속) ▶ 성적 (누가 어떤 과목인지 필요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 과목코드 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제점: 과목코드가 달라져도 학번만 같으면 이름은 항상 같음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 한 학생이 5과목을 들으면 학생이름이 5번 중복 저장됨</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램에서 보듯, `성적`은 `학번`과 `과목코드`가 모두 필요하므로 완전 종속이지만, `학생이름`은 `학번`에만 종속되어 부분 종속을 발생시킨다.
 
@@ -85,8 +85,8 @@ tags = ["database"]
 3. 테이블의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어날 때, 특정 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값(예: 학과명, 사원이름)이 계속해서 중복 반복 저장되는가?
 
 ### 실무적 의사결정: 무조건 분리해야 하는가?
-- **원칙적 분리 ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) 채택)**: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리) 시스템에서는 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 막기 위해 반드시 분리해야 한다. 부분 종속을 제거해 `학생` 테이블과 `수강` 테이블로 나누면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 보장된다.
-- **예외적 허용 ([역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/))**: [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/분석) 시스템에서는 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하기 위해 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산을 줄여야 한다. 이 경우 갱신이 거의 일어나지 않으므로 부분 종속을 일부러 허용하여 하나의 넓은 팩트 테이블에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 때려 넣는 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)를 선택할 수 있다.
+- <strong>원칙적 분리 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a> 채택)</strong>: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리) 시스템에서는 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 막기 위해 반드시 분리해야 한다. 부분 종속을 제거해 `학생` 테이블과 `수강` 테이블로 나누면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 보장된다.
+- <strong>예외적 허용 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>)</strong>: [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/분석) 시스템에서는 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하기 위해 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산을 줄여야 한다. 이 경우 갱신이 거의 일어나지 않으므로 부분 종속을 일부러 허용하여 하나의 넓은 팩트 테이블에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 때려 넣는 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)를 선택할 수 있다.
 
 - **📢 섹션 요약 비유**: 부분 종속 제거는 창고 물건을 종류별로 박스에 나누어 담는 일이다. 관리는 쉬워지지만, 물건을 꺼낼 때 여러 박스를 열어야([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 하는 수고로움과의 트레이드오프를 결정해야 한다.
 
@@ -106,28 +106,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[완전 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/) (Full FD)** | 부분 종속과 대비되는 이상적인 종속 상태 |
-| **[제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))** | 부분 함수적 종속을 제거하여 도달하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계 |
-| **복합키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 부분 함수적 종속이 발생하기 위한 필수 전제 조건 |
-| **[갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) ([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))** | 부분 종속을 방치했을 때 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 누락으로 발생하는 모순 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/">완전 함수적 종속</a> (Full FD)</strong> | 부분 종속과 대비되는 이상적인 종속 상태 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">제2정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a>)</strong> | 부분 함수적 종속을 제거하여 도달하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계 |
+| <strong>복합키 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | 부분 함수적 종속이 발생하기 위한 필수 전제 조건 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/">갱신 이상</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/">Update Anomaly</a>)</strong> | 부분 종속을 방치했을 때 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 누락으로 발생하는 모순 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본키와 속성 관계 정의
-    │
-    ▼
-완전 함수적 종속 vs 부분 함수적 종속 (Partial FD) 발생
-    │
-    ▼
-테이블 무결성 붕괴 (삽입/갱신/삭제 이상)
-    │
-    ▼
-제2정규형 (2NF) 적용 (테이블 분해)
-    │
-    ▼
-조인(Join) 성능과 데이터 무결성 간의 트레이드오프 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본키와 속성 관계 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완전 함수적 종속 vs 부분 함수적 종속 (Partial FD) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테이블 무결성 붕괴 (삽입/갱신/삭제 이상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제2정규형 (2NF) 적용 (테이블 분해)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조인(Join) 성능과 데이터 무결성 간의 트레이드오프 최적화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

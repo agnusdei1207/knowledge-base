@@ -35,29 +35,25 @@ APM은 보통 애플리케이션 에이전트, 텔레메트리 수집 경로, �
 
 아래 그림은 APM이 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장이 아니라 "요청 발생 → 계측 → 집계 → 병목 분석"의 폐쇄 루프라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    APM 데이터 처리 흐름                      │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                  │
-│     │                                                        │
-│     ▼                                                        │
-│ 애플리케이션 + APM Agent / OpenTelemetry SDK                │
-│     │                                                        │
-│     ├─ 트랜잭션 시간 · 오류 · 스팬(Span) 수집               │
-│     ├─ DB 쿼리 · 외부 API · 런타임 메트릭 수집              │
-│     ▼                                                        │
-│ Collector / Vendor Ingest                                   │
-│     │                                                        │
-│     ▼                                                        │
-│ APM Backend                                                  │
-│     ├─ 서비스 맵(Service Map)                                │
-│     ├─ 슬로우 트랜잭션 분석                                  │
-│     ├─ 오류 상관관계 분석                                    │
-│     ▼                                                        │
-│ 운영자 대시보드 · 알람 · 최적화 액션                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APM 데이터 처리 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 + APM Agent / OpenTelemetry SDK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 트랜잭션 시간 · 오류 · 스팬(Span) 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DB 쿼리 · 외부 API · 런타임 메트릭 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector / Vendor Ingest</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APM Backend</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서비스 맵(Service Map)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 슬로우 트랜잭션 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오류 상관관계 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영자 대시보드 · 알람 · 최적화 액션</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -106,7 +102,7 @@ APM은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 ### 실무 판단 포인트
 
 - **상용 APM 선택**: 자동 계측 범위, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 지원 조직이 중요할 때 유리
-- **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 중심 선택**: [오픈텔레메트리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/)와 자체 운영 역량이 있고 비용 통제가 중요할 때 유리
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 중심 선택</strong>: [오픈텔레메트리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/190_opentelemetry_cncf_observability_standard/)와 자체 운영 역량이 있고 비용 통제가 중요할 때 유리
 - **주의 사항**: 과도한 태그 추가, 전체 트레이스 무차별 저장, [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 노출, 경고 과다 발생은 대표적 실패 패턴
 
 실제 운영에서는 APM 대시보드를 SLO와 연결해야 가치가 커진다. 예를 들어 결제 API의 P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면, APM에서 슬로우 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 샘플을 열어 SQL 병목인지 외부 PG 호출인지 곧바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어야 한다. 그래야 APM이 "보기 좋은 화면"이 아니라 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 줄이는 운영 도구가 된다.
@@ -139,23 +135,24 @@ APM을 잘 설계하면 장애 원인 분석 시간이 단축되고, [성능](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인프라 모니터링
-    │
-    ▼
-관측성 (Observability)
-    │
-    ├─▶ 메트릭 · 로그
-    │
-    └─▶ 분산 추적 (Distributed Tracing)
-             │
-             ▼
-APM (Application Performance Management)
-             │
-             ├─▶ RUM (Real User Monitoring)
-             ├─▶ Synthetic Monitoring
-             └─▶ SLO 기반 성능 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인프라 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관측성 (Observability)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 메트릭 · 로그</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 분산 추적 (Distributed Tracing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">APM (Application Performance Management)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ RUM (Real User Monitoring)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ Synthetic Monitoring</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ SLO 기반 성능 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 운영 관점이 서버 자원 감시에서 출발해, 애플리케이션 내부 분석과 사용자 경험 연계까지 확장되는 과정을 보여 준다.
 

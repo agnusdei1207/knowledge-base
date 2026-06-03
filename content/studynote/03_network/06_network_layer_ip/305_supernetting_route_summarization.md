@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: 여러 개의 작은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 공통된 Prefix(접두사)를 묶어 하나의 큰 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로로 요약(Summarization)하여 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 크기를 줄이는 기법. CIDR([클래스리스](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/)) 환경에서만 가능하다.
 - **필요성**: 인터넷이 커지면서 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 코어 라우터들이 길(경로)을 수십만 개씩 외워야 하는 참사가 벌어졌다 ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 폭발). 길 목록이 길어지면 메모리를 갉아먹고, 목적지 IP를 찾느라 검색 시간(Lookup)이 길어져 인터넷이 느려진다. "야, 어차피 강남구 역삼동, 도곡동, 대치동 다 묶어서 걍 '강남구'라고 한 줄만 적어 놔! 일단 강남구로 보내면 거기 있는 라우터가 알아서 세부 배달하겠지!"라는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 절실했다.
 
-- **💡 비유**: [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)이 피자를 **"여러 조각으로 자르는 칼질"**이라면, 슈퍼네팅은 조각난 피자 여러 개를 모아서 다시 치즈를 덮고 오븐에 구워 **"하나의 거대한 온전한 피자(통합)"**로 만들어 버리는 역연산입니다.
+- **💡 비유**: [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)이 피자를 <strong>"여러 조각으로 자르는 칼질"</strong>이라면, 슈퍼네팅은 조각난 피자 여러 개를 모아서 다시 치즈를 덮고 오븐에 구워 <strong>"하나의 거대한 온전한 피자(통합)"</strong>로 만들어 버리는 역연산입니다.
 
-```text
-[서브네팅]
-    │
-    ▼
-[슈퍼네팅 / 경로 요약]
-    │
-    └──▶ [VLSM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브네팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슈퍼네팅 / 경로 요약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLSM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 슈퍼네팅은 방대한 전화번호부입니다. **"02-111-xxxx부터 02-999-xxxx까지 수백만 줄을 일일이 적지 말고, 그냥 [02 = 서울] 이 한 줄만 수첩에 적어둬!"**라고 메모의 기술(요약)을 극한으로 끌어올린 것입니다.
 
@@ -46,31 +50,31 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 - `192.168.2.0 /24` (00000010)
 - `192.168.3.0 /24` (00000011)
 
-**요약 공식**: 네 개의 IP를 이진수로 풀었을 때, **"앞에서부터 완벽하게 겹치는(공통된) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)"까지만 잘라내서** 새로운 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(Prefix)를 만든다.
+**요약 공식**: 네 개의 IP를 이진수로 풀었을 때, <strong>"앞에서부터 완벽하게 겹치는(공통된) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>"까지만 잘라내서</strong> 새로운 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(Prefix)를 만든다.
 - 세 번째 바이트를 보면 `0`부터 `3`까지다. 이진수로 보면 맨 끝 2비트(`00, 01, 10, 11`)만 다르고, 앞쪽 6비트(`000000xx`)는 넷 다 동일하다!
 - 즉, 총 32비트 중 앞의 `8 + 8 + 6 = 22`비트까지는 이 4개 네트워크가 쌍둥이처럼 똑같다.
-- **요약 결과**: **`192.168.0.0 /22`** 라는 단 한 줄짜리 거대한 슈퍼넷 주소가 탄생했다. 라우터는 이제 4줄을 외우는 대신 이 1줄만 외우면 된다.
+- **요약 결과**: <strong><code>192.168.0.0 /22</code></strong> 라는 단 한 줄짜리 거대한 슈퍼넷 주소가 탄생했다. 라우터는 이제 4줄을 외우는 대신 이 1줄만 외우면 된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                경로 요약(Summarization)의 라우터 메모리 절약       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 요약 전 (멍청한 라우터) ]                                    │
- │   라우팅 테이블:                                              │
- │   - 192.168.0.0/24 ──▶ Port 1                            │
- │   - 192.168.1.0/24 ──▶ Port 1                            │
- │   - 192.168.2.0/24 ──▶ Port 1                            │
- │   - 192.168.3.0/24 ──▶ Port 1                            │
- │   (CPU 검색 부하 4배)                                         │
- │                                                             │
- │   [ 요약 후 (똑똑한 라우터) ]                                    │
- │   라우팅 테이블:                                              │
- │   - 192.168.0.0/22 ──▶ Port 1                            │
- │   (단 한 줄로 4개의 동네를 전부 커버함. 초광속 검색 완료!)            │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 요약(Summarization)의 라우터 메모리 절약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요약 전 (멍청한 라우터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅 테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 192.168.0.0/24 ──▶ Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 192.168.1.0/24 ──▶ Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 192.168.2.0/24 ──▶ Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 192.168.3.0/24 ──▶ Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 검색 부하 4배)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요약 후 (똑똑한 라우터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅 테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 192.168.0.0/22 ──▶ Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단 한 줄로 4개의 동네를 전부 커버함. 초광속 검색 완료!)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 슈퍼네팅의 딜레마: 블랙홀 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Black Hole [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 요약을 너무 과감하게 하면 치명적인 부작용이 생긴다.
@@ -136,15 +140,19 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 서브네팅]
-    │
-    ▼
-[현재 개념: 슈퍼네팅 / 경로 요약]
-    │
-    ├──▶ [확장 A: VLSM]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서브네팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 슈퍼네팅 / 경로 요약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VLSM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 슈퍼네팅 / 경로 요약는 [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VLSM와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,19 +23,31 @@ tags = ["studynote-ai"]
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 처리할 수 있다. 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(색상, 직업, 도시명 등)를 단순히 정수로 매핑하면(레이블 인코딩) 모델이 숫자 간 크기/순서 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잘못 학습할 수 있다.
 
 **문제 예시: 레이블 인코딩의 함정**
-```
-빨강=0, 초록=1, 파랑=2
-→ 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습
-→ 실제로 색상 간에는 이런 수치적 관계가 없음
-```
 
-**[원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 해결책:**
-```
-빨강 → [1, 0, 0]
-초록 → [0, 1, 0]
-파랑 → [0, 0, 1]
-→ 세 범주는 완전히 독립적인 이진 변수로 표현됨
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">빨강=0, 초록=1, 파랑=2</div>
+<div class="kb-diagram-note">→ 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습</div>
+<div class="kb-diagram-note">→ 실제로 색상 간에는 이런 수치적 관계가 없음</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a> 해결책:</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 0, 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 1, 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 0, 1</div></div>
+<div class="kb-diagram-note">→ 세 범주는 완전히 독립적인 이진 변수로 표현됨</div>
+</div>
+</div>
+
+
 
 ### 1.2 적용 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
@@ -54,45 +66,48 @@ tags = ["studynote-ai"]
 
 ### 2.1 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 변환 과정
 
-```
-┌───────────────────────────────────────────────────────┐
-│                원-핫 인코딩 변환                        │
-│                                                       │
-│  원본 데이터:                                           │
-│  ┌───────┬──────┐                                     │
-│  │ 샘플  │ 색상 │                                     │
-│  ├───────┼──────┤                                     │
-│  │  #1   │ 빨강 │                                     │
-│  │  #2   │ 초록 │                                     │
-│  │  #3   │ 파랑 │                                     │
-│  │  #4   │ 빨강 │                                     │
-│  └───────┴──────┘                                     │
-│         ↓ 원-핫 인코딩 적용                              │
-│  ┌───────┬────────┬────────┬────────┐                 │
-│  │ 샘플  │ 빨강   │ 초록   │ 파랑   │                 │
-│  ├───────┼────────┼────────┼────────┤                 │
-│  │  #1   │   1    │   0    │   0    │                 │
-│  │  #2   │   0    │   1    │   0    │                 │
-│  │  #3   │   0    │   0    │   1    │                 │
-│  │  #4   │   1    │   0    │   0    │                 │
-│  └───────┴────────┴────────┴────────┘                 │
-│    n개 범주 → n개 이진 열 생성                           │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원-핫 인코딩 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플</div><div class="kb-diagram-cell">색상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">빨강</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">초록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#3</div><div class="kb-diagram-cell">파랑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#4</div><div class="kb-diagram-cell">빨강</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 원-핫 인코딩 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플</div><div class="kb-diagram-cell">빨강</div><div class="kb-diagram-cell">초록</div><div class="kb-diagram-cell">파랑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#3</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#4</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n개 범주 → n개 이진 열 생성</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 가변수 ([Dummy Variable](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)
 
-n개 범주에 n개 열을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 **다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))** 발생:
+n개 범주에 n개 열을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 <strong>다중공선성(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> 발생:
 - 세 열 중 두 열의 값이 정해지면 세 번째 열은 자동 결정
 - 선형 모델에서 역행렬 계산 불가 문제 발생
 - **해결책**: 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 방지 — n-1개 열만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (`drop_first=True`)
 
-```
-n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
-[1, 0, 0]           [1, 0]    ← 파랑은 나머지로 식별
-[0, 1, 0]    →      [0, 1]
-[0, 0, 1]           [0, 0]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">n범주 원-핫 인코딩: 다중공선성 없는 인코딩:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1, 0, 0</div><div class="kb-diagram-node">1, 0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">파랑은 나머지로 식별</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0, 1, 0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0, 0, 1</div><div class="kb-diagram-node">0, 0</div></div>
+</div>
+</div>
+
+
 
 ### 2.3 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) vs [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 비교
 
@@ -155,7 +170,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 ### 4.3 기술사 핵심 판단 포인트
 - [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 **명목형(Nominal) 범주에만** 정확히 적용
-- 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/): **n-1개 열 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** 또는 모델에 따라 n개 유지 가능 여부 판단
+- 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/): <strong>n-1개 열 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> 또는 모델에 따라 n개 유지 가능 여부 판단
 - 고차원 범주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 원-핫 적용 시 **메모리 폭발 위험** 명시
 
 - **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패널이다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 100개 있는데 항상 딱 하나만 켜진다. 방이 3개짜리 패널이면 쓸만하지만, 방이 10만 개짜리면 패널 자체가 방보다 크다.
@@ -195,7 +210,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 좋아하는 과일을 표시할 때 **각 과일에 동그라미 칸을 하나씩 만들고 딱 하나만 색칠하는 것**이에요.
+1. [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 좋아하는 과일을 표시할 때 <strong>각 과일에 동그라미 칸을 하나씩 만들고 딱 하나만 색칠하는 것</strong>이에요.
 2. 사과=[1,0,0], 바나나=[0,1,0], 포도=[0,0,1]처럼 만들어서 컴퓨터가 "사과가 바나나의 반이다" 같은 이상한 생각을 안 하게 해요.
 3. 과일 종류가 너무 많아지면 칸도 너무 많아져서 힘들어지므로, 그럴 땐 "[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)"이라는 더 똑똑한 방법을 써요!
 

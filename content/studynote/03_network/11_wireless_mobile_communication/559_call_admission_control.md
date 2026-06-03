@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 일반적인 인터넷(IP 네트워크)은 무한 리필 뷔페식이다. 사람들이 1,000명 몰려오면 다 받아준다. 대신 다운로드 속도가 1/1000로 끔찍하게 느려져 동영상이 다 끊긴다 (Best Effort).
 
 하지만 **전화 통화나 실시간 원격 수술(의료)** 망이 이렇게 동작하면 끔찍한 재앙이 터진다. 대화가 10초씩 지연되고 수술 로봇이 멈춘다. 그래서 이동통신망이나 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 망 같은 '[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(품질) 보장형' 네트워크는 예약식 고급 레스토랑처럼 동작해야 한다.
-테이블이 100개뿐이면, 101번째 손님이 아무리 문을 두드려도 **"죄송합니다. 현재 네트워크가 꽉 찼습니다(통화 중 뚜뚜뚜~)"**라고 튕겨내야 한다. 
+테이블이 100개뿐이면, 101번째 손님이 아무리 문을 두드려도 <strong>"죄송합니다. 현재 네트워크가 꽉 찼습니다(통화 중 뚜뚜뚜~)"</strong>라고 튕겨내야 한다. 
 
-이처럼 새로운 연결([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))을 수락할지 말지 결정하는 지능적인 통제 시스템이 바로 **호 수락 제어(CAC, [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Admission Control)**이다.
+이처럼 새로운 연결([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))을 수락할지 말지 결정하는 지능적인 통제 시스템이 바로 <strong>호 수락 제어(CAC, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Admission Control)</strong>이다.
 
-```text
-[소프트 핸드오버]
-    │
-    ▼
-[호 수락 제어]
-    │
-    └──▶ [로밍]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트 핸드오버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">호 수락 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로밍</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 유명한 오마카세 식당에 손님이 예약을 요구할 때, 주방장(CAC)은 현재 식사 중인 손님들의 음식 퀄리티가 떨어지지 않게 하려고, 식재료와 남은 셰프의 손길(네트워크 자원)을 치밀하게 계산한 뒤 101번째 손님의 예약을 정중히 거절합니다. ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 
@@ -49,26 +53,26 @@ CAC 알고리즘이 "수락(Admit)" 버튼을 누르기 위해서는 아주 복�
    - 기지국/라우터: "잠깐만, 지금 우리 기지국 남은 무선 주파수 자원(PRB)이 3Mbps 정도 남아있네. [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)(유선망) 대역폭도 여유가 있고."
 3. **가상 시뮬레이션 및 결정 (Impact Analysis)**
    - 기지국: "만약 이 새로운 녀석을 받아주면, 기존에 4K 넷플릭스를 보던 VIP 고객들의 속도가 떨어지지 않을까? 계산해 보니 안 떨어지네! 오케이 수락(Admit)!"
-   - 만약 기존 고객의 품질이 1%라도 훼손될 것 같으면 무조건 **거절(Block / Reject)**한다.
+   - 만약 기존 고객의 품질이 1%라도 훼손될 것 같으면 무조건 <strong>거절(Block / Reject)</strong>한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           CAC (호 수락 제어)의 QoS 보호 방어선 시각화                │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 외부의 새로운 접속 요청 빗발침 ]                                   │
-│  📱 요청 A (음성 통화 100kbps) ────┐                                 │
-│  💻 요청 B (4K 영상 10Mbps)   ───┼──▶ 👮‍♂️ [ CAC 게이트키퍼 ]       │
-│  🚗 요청 C (자율주행 1Mbps,초저지연) ─┘        │ (현재 잔여: 5Mbps)  │
-│                                            │                         │
-│                        [ CAC의 판단 ]       │                        │
-│   "요청 A 수락! (100k < 5M)" ◀──────────────┤                        │
-│   "요청 B 거절! (10M > 5M) 기존 유저 피해 줌!" ◀─┤                   │
-│   "요청 C 수락! (1M < 5M)" ◀────────────────┘                        │
-│                                                                      │
-│ [ 네트워크 내부 ] : 쾌적하고 완벽한 품질 유지 보장 (QoS Guarantee)   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAC (호 수락 제어)의 QoS 보호 방어선 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부의 새로운 접속 요청 빗발침</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 요청 A (음성 통화 100kbps)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CAC 게이트키퍼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 요청 C (자율주행 1Mbps,초저지연) ─</div><div class="kb-diagram-cell">(현재 잔여: 5Mbps)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAC의 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 A 수락! (100k &lt; 5M)" ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 B 거절! (10M &gt; 5M) 기존 유저 피해 줌!" ◀─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 C 수락! (1M &lt; 5M)" ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 내부</div><div class="kb-diagram-note">: 쾌적하고 완벽한 품질 유지 보장 (QoS Guarantee)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 호 수락 제어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -78,9 +82,9 @@ CAC 알고리즘이 "수락(Admit)" 버튼을 누르기 위해서는 아주 복�
 
 실제 이동통신 환경에서는 모든 사람을 평등하게 대우하지 않으며, 상황에 따라 매우 유연하게(Dynamic) 컷트라인을 조절한다.
 
-* **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 우선 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) Prioritization)**
+* <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 우선 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> Prioritization)</strong>
   - 가만히 벤치에 앉아서 새로 유튜브를 켜려는 사람(신규 호)과, 차를 타고 고속도로를 달리며 내 기지국 쪽으로 넘어오고 있는 사람([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 호)이 동시에 들어왔다.
-  - CAC는 무조건 **신규 호를 튕겨내고 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 호를 수락**한다. 통화를 새로 못 거는 것보다, 잘 하던 통화가 중간에 툭 끊기는 것(Drop)이 사용자를 100배 더 빡치게 만들기 때문이다. 이를 위해 기지국 자원의 일부를 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 전용으로 미리 빼두는 '가드 채널(Guard Channel)' 기법을 쓴다.
+  - CAC는 무조건 <strong>신규 호를 튕겨내고 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 호를 수락</strong>한다. 통화를 새로 못 거는 것보다, 잘 하던 통화가 중간에 툭 끊기는 것(Drop)이 사용자를 100배 더 빡치게 만들기 때문이다. 이를 위해 기지국 자원의 일부를 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 전용으로 미리 빼두는 '가드 채널(Guard Channel)' 기법을 쓴다.
 * **우선순위 기반 제어 (Preemption / Priority)**
   - 긴급 [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)(경찰, 소방)이나 119 통화가 들어왔는데 망이 꽉 찼다? CAC는 자리가 날 때까지 기다리지 않는다. 유튜브나 보던 일반 사용자의 연결을 강제로 끊어버리고(Preemption) 재난 통신을 수락해 버린다.
 * **소프트 CAC (Degradation)**
@@ -132,15 +136,19 @@ CAC 알고리즘이 "수락(Admit)" 버튼을 누르기 위해서는 아주 복�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 소프트 핸드오버]
-    │
-    ▼
-[현재 개념: 호 수락 제어]
-    │
-    ├──▶ [확장 A: 로밍]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소프트 핸드오버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 호 수락 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로밍</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 호 수락 제어는 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

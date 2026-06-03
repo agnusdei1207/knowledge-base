@@ -17,31 +17,31 @@ tags = ["bigdata"]
 
 ### 데이터에서 지혜로: 분석의 필요성
 
-단순히 많은 데이터를 모으는 것만으로는 가치가 창출되지 않는다. 데이터는 가공되지 않은 원석과 같으며, 이를 분석이라는 정제 과정을 거쳐야만 비로소 '정보'와 '지식', 그리고 실행 가능한 '지혜'로 변환된다. 빅데이터 분석은 과거의 샘플링 기반 통계의 한계를 벗어나, 전체 데이터를 대상으로 하는 **전수 분석**을 통해 극히 낮은 확률의 희귀 이벤트 (예: 신용카드 사기)까지 정확히 포착해낸다.
+단순히 많은 데이터를 모으는 것만으로는 가치가 창출되지 않는다. 데이터는 가공되지 않은 원석과 같으며, 이를 분석이라는 정제 과정을 거쳐야만 비로소 '정보'와 '지식', 그리고 실행 가능한 '지혜'로 변환된다. 빅데이터 분석은 과거의 샘플링 기반 통계의 한계를 벗어나, 전체 데이터를 대상으로 하는 <strong>전수 분석</strong>을 통해 극히 낮은 확률의 희귀 이벤트 (예: 신용카드 사기)까지 정확히 포착해낸다.
 
-분석 기술이 필요한 이유는 명확하다. 첫째, 복잡해진 시장 환경에서 **숨겨진 고객의 니즈**를 파악하기 위해서이며, 둘째, 데이터 간의 **상관관계**를 밝혀내어 미래의 변화를 선제적으로 예측하기 위해서이고, 셋째, 수동으로 처리 불가능한 막대한 규모의 정보를 **자동화된 알고리즘**으로 처리하여 인지적 한계를 극복하기 위함이다.
+분석 기술이 필요한 이유는 명확하다. 첫째, 복잡해진 시장 환경에서 <strong>숨겨진 고객의 니즈</strong>를 파악하기 위해서이며, 둘째, 데이터 간의 <strong>상관관계</strong>를 밝혀내어 미래의 변화를 선제적으로 예측하기 위해서이고, 셋째, 수동으로 처리 불가능한 막대한 규모의 정보를 <strong>자동화된 알고리즘</strong>으로 처리하여 인지적 한계를 극복하기 위함이다.
 
 이 그림은 데이터 분석의 성숙도 모델 (Gartner 기반)을 보여준다. 분석의 수준이 높아질수록 비즈니스 가치가 어떻게 상승하는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Data Analytics Maturity Model                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Value ▲                                                   │
-│         │                                [Prescriptive]     │
-│         │                                (처방 분석)        │
-│         │                        [Predictive] /             │
-│         │                        (예측 분석) /              │
-│         │                [Diagnostic] /                     │
-│         │                (진단 분석) /                      │
-│         │        [Descriptive] /                            │
-│         │        (묘사 분석) /                              │
-│         └──────────────────────────────────▶                │
-│                   Difficulty / Complexity                   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Analytics Maturity Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prescriptive</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(처방 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Predictive</div><div class="kb-diagram-note">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예측 분석) /</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Diagnostic</div><div class="kb-diagram-note">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(진단 분석) /</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Descriptive</div><div class="kb-diagram-note">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(묘사 분석) /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Difficulty / Complexity</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '질문의 변화'이다. "무슨 일이 일어났는가?"(Descriptive)에서 시작하여 "어떻게 하면 원하는 결과를 만들 수 있는가?"(Prescriptive)로 나아가는 과정이 빅데이터 분석의 궁극적 지향점이다. 실무에서는 이러한 상위 분석을 위해 데이터 사이언티스트뿐만 아니라 도메인 전문가와의 긴밀한 협업이 성공의 열쇠가 된다.
 
@@ -72,27 +72,25 @@ tags = ["bigdata"]
 
 이 구조도는 데이터 마이닝의 핵심 기법인 연관 규칙 분석 (Apriori 알고리즘)의 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Association Rule: Apriori Logic             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Transaction Data ]                                      │
-│   T1: {Milk, Bread}                                         │
-│   T2: {Milk, Diaper, Beer}                                  │
-│   T3: {Milk, Bread, Diaper, Beer}                           │
-│                                                             │
-│   [ Step 1: Support Check ]                                 │
-│   - {Milk, Diaper}: 2/3 (66%) -> Frequent!                  │
-│                                                             │
-│   [ Step 2: Confidence Check ]                              │
-│   - Rule: {Diaper} => {Beer}                                │
-│   - Conf = P(Beer|Diaper) = 100% -> Strong Rule!            │
-│                                                             │
-│   * Result: 기저귀를 산 손님은 반드시 맥주를 산다!          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Association Rule: Apriori Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transaction Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: {Milk, Bread}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: {Milk, Diaper, Beer}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T3: {Milk, Bread, Diaper, Beer}</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1: Support Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- {Milk, Diaper}: 2/3 (66%) -&gt; Frequent!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2: Confidence Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rule: {Diaper} =&gt; {Beer}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Conf = P(Beer</div><div class="kb-diagram-cell">Diaper) = 100% -&gt; Strong Rule!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Result: 기저귀를 산 손님은 반드시 맥주를 산다!</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '가지치기 (Pruning)'이다. 발생 빈도가 낮은 항목을 미리 제거하여 계산 복잡도를 획기적으로 줄이는 것이 알고리즘의 핵심이다. 실무에서는 이러한 연관 규칙을 통해 매장 진열 최적화나 추천 엔진의 기본 로직을 설계한다.
 
@@ -135,28 +133,28 @@ tags = ["bigdata"]
 ### 기술사적 판단: 분석 도구 및 기법 선정 시나리오
 
 **시나리오 1: 고객 이탈 (Churn) 방지를 위한 분석**
-- **판단**: 이탈 여부를 예측해야 하므로 **분류 (Classification)** 기법을 사용한다. 변수의 중요도 파악과 해석이 중요하므로 **의사결정 트리 (Decision Tree)**나 **랜덤 포레스트**를 먼저 적용한다. 분석 프로세스는 비즈니스 가치 검증이 쉬운 **CRISP-DM**을 따르며, 이탈 징후가 포착된 고객에게 자동으로 쿠폰을 발행하는 '처방 분석'까지 연계한다.
+- **판단**: 이탈 여부를 예측해야 하므로 **분류 (Classification)** 기법을 사용한다. 변수의 중요도 파악과 해석이 중요하므로 <strong>의사결정 트리 (Decision Tree)</strong>나 <strong>랜덤 포레스트</strong>를 먼저 적용한다. 분석 프로세스는 비즈니스 가치 검증이 쉬운 <strong>CRISP-DM</strong>을 따르며, 이탈 징후가 포착된 고객에게 자동으로 쿠폰을 발행하는 '처방 분석'까지 연계한다.
 
 **시나리오 2: 보안 로그 내 이상 징후 포착 (FDS)**
-- **판단**: 정답(Label)이 없는 새로운 공격이 많으므로 **비지도 학습 기반의 군집화**나 **Autoencoder 기반의 이상 탐지**를 적용한다. 실시간 로그를 처리해야 하므로 **Spark MLlib**이나 **Flink ML**을 사용하여 데이터 파이프라인과 분석 엔진을 밀결합한다.
+- **판단**: 정답(Label)이 없는 새로운 공격이 많으므로 <strong>비지도 학습 기반의 군집화</strong>나 <strong>Autoencoder 기반의 이상 탐지</strong>를 적용한다. 실시간 로그를 처리해야 하므로 <strong>Spark MLlib</strong>이나 <strong>Flink ML</strong>을 사용하여 데이터 파이프라인과 분석 엔진을 밀결합한다.
 
 이 도식은 데이터 분석 결과의 신뢰성을 확보하기 위한 '교차 검증' 판단 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               모델 검증 의사결정 흐름                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [모델 학습] ─────▶ [과적합 확인?] ───────▶ [예] ─────┐    │
-│          │                                     │ (중지)     │
-│       [아니오]                                 ▼            │
-│          │                          [정규화 기법 적용]      │
-│   [K-폴드 교차 검증] ───────▶ [F1-점수 / AUC 확인]        │
-│                                              │              │
-│   [허용 가능?] ◀─── [최종 성능 확인] ◀────── [예]       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 검증 의사결정 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 학습</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">과적합 확인?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 기법 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K-폴드 교차 검증</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">F1-점수 / AUC 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">허용 가능?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">최종 성능 확인</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">예</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 분석 판단은 의사의 진단과 같습니다. 환자의 증상(비즈니스 문제)을 듣고, 어떤 검사(분석 기법)를 할지 결정하며, 검사 결과가 오진(과적합)이 아닌지 끝까지 의심하고 확인하는 과정입니다.
 
@@ -171,7 +169,7 @@ tags = ["bigdata"]
 
 ### 미래 전망: 가용성 있는 AI (XAI)와 분석 민주화
 
-미래의 빅데이터 분석은 결과만 내놓는 것이 아니라 "왜 그런 결과가 나왔는지"를 설명하는 **설명 가능한 AI (XAI)**로 진화할 것이다. 또한 전문가가 아니어도 데이터를 분석할 수 있는 **Self-Service Analytics**와 **No-code ML** 도구들이 보편화될 것이다. 기술사는 분석의 기술적 깊이를 넘어, 데이터의 **공정성 (Fairness)**과 **윤리성 (Ethics)**을 검증하고, 분석 결과가 사회적 편향을 강화하지 않도록 관리하는 '데이터 윤리 감독관'의 역할을 강화해야 한다.
+미래의 빅데이터 분석은 결과만 내놓는 것이 아니라 "왜 그런 결과가 나왔는지"를 설명하는 <strong>설명 가능한 AI (XAI)</strong>로 진화할 것이다. 또한 전문가가 아니어도 데이터를 분석할 수 있는 <strong>Self-Service Analytics</strong>와 **No-code ML** 도구들이 보편화될 것이다. 기술사는 분석의 기술적 깊이를 넘어, 데이터의 <strong>공정성 (Fairness)</strong>과 <strong>윤리성 (Ethics)</strong>을 검증하고, 분석 결과가 사회적 편향을 강화하지 않도록 관리하는 '데이터 윤리 감독관'의 역할을 강화해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 분석 도구는 운전자가 목적지만 말하면 알아서 최적의 경로를 찾아가고 위험을 피하는 '자율주행 비서'와 같은 모습으로 우리 곁에 올 것입니다.
 
@@ -192,18 +190,20 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-OLAP (Online Analytical Processing) — 다차원 분석
-    │
-    ▼
-데이터 마이닝 (Association, Clustering, Classification)
-    │
-    ├─► A/B 테스트 — 가설 검증
-    ├─► 기술 통계 → 예측 분석 → 처방 분석
-    │
-    ▼
-머신러닝 통합 분석 (MLlib, scikit-learn)
-    │
-    ▼
-AutoML / 생성형 AI 기반 분석 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OLAP (Online Analytical Processing) — 다차원 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 마이닝 (Association, Clustering, Classification)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">A/B 테스트 — 가설 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">기술 통계 → 예측 분석 → 처방 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">머신러닝 통합 분석 (MLlib, scikit-learn)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AutoML / 생성형 AI 기반 분석 자동화</div>
+</div>
+</div>
+
+

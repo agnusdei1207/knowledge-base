@@ -20,35 +20,39 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜이 결정한 최적 경로(Destination-based)를 무시하고, 관리자가 정의한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Route Map)에 따라 트래픽의 포워딩 경로를 임의로 조작하는 기술.
-- **필요성**: 서울 본사에서 부산 지사로 가는 길이 2개 있다 (1번 광랜, 2번 일반선). OSPF를 돌리면 무조건 1번 광랜만 탄다. 근데 사장님이 지시했다. **"야, 임원진 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 10대가 보내는 데이터만 1번 광랜 태우고, 나머지 1000명 일반 직원이 보내는 건 다 2번 일반선으로 몰아!"** [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(목적지 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))로는 이 지시를 절대 구현할 수 없다(부산이라는 목적지는 같으니까). 결국 패킷의 **'출발지(Source)'**나 **'어플리케이션 종류'**를 뜯어보고 길을 갈라치는 깡패 같은 룰이 필요했다.
+- **필요성**: 서울 본사에서 부산 지사로 가는 길이 2개 있다 (1번 광랜, 2번 일반선). OSPF를 돌리면 무조건 1번 광랜만 탄다. 근데 사장님이 지시했다. <strong>"야, 임원진 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 10대가 보내는 데이터만 1번 광랜 태우고, 나머지 1000명 일반 직원이 보내는 건 다 2번 일반선으로 몰아!"</strong> [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(목적지 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))로는 이 지시를 절대 구현할 수 없다(부산이라는 목적지는 같으니까). 결국 패킷의 <strong>'출발지(Source)'</strong>나 <strong>'어플리케이션 종류'</strong>를 뜯어보고 길을 갈라치는 깡패 같은 룰이 필요했다.
 
-- **💡 비유**: 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 **"지하철 노선도"**라면, PBR은 클럽 앞의 **"기도(가드) 아저씨"**입니다.
+- **💡 비유**: 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 <strong>"지하철 노선도"</strong>라면, PBR은 클럽 앞의 <strong>"기도(가드) 아저씨"</strong>입니다.
   - 지하철: 승객이 부자든 거지든(출발지 무관) "강남역(목적지)" 간다고 하면 똑같은 2호선 열차에 태웁니다.
-  - PBR 가드: 클럽(목적지)에 들어가려는 사람들을 붙잡고, **"어? 너 VIP(특정 출발지 IP)네? 넌 하이패스 정문으로 가! 어? 넌 일반인이네? 저쪽 좁은 뒷문으로 돌아가!"**라며 사람의 신분을 보고 강제로 길을 꺾어버립니다.
+  - PBR 가드: 클럽(목적지)에 들어가려는 사람들을 붙잡고, <strong>"어? 너 VIP(특정 출발지 IP)네? 넌 하이패스 정문으로 가! 어? 넌 일반인이네? 저쪽 좁은 뒷문으로 돌아가!"</strong>라며 사람의 신분을 보고 강제로 길을 꺾어버립니다.
 
-```text
-[VRF]
-    │
-    ▼
-[Policy-Based Routing / R…]
-    │
-    └──▶ [MPLS]
-```
 
-- **📢 섹션 요약 비유**: ** PBR은 공정한 법([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블) 위에 군림하는 **"관리자의 독재(사면권)"**입니다. 내비게이션이 아무리 빠른 길을 알려줘도, 조수석에 앉은 회장님이 "저쪽 골목으로 들어가!" 하면 운전사(라우터)는 찍소리 못하고 핸들을 꺾어야 합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VRF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Policy-Based Routing / R…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> PBR은 공정한 법(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블) 위에 군림하는 </strong>"관리자의 독재(사면권)"**입니다. 내비게이션이 아무리 빠른 길을 알려줘도, 조수석에 앉은 회장님이 "저쪽 골목으로 들어가!" 하면 운전사(라우터)는 찍소리 못하고 핸들을 꺾어야 합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. Route Map (루트 맵)의 뼈대: Match & Set
-PBR을 구현하려면 시스코 장비 기준 **`route-map`**이라는 프로그래밍 함수 같은 구조체를 짜야 한다.
+PBR을 구현하려면 시스코 장비 기준 <strong><code>route-map</code></strong>이라는 프로그래밍 함수 같은 구조체를 짜야 한다.
 루트 맵은 철저하게 **"If ~ Then"** 구조로 되어 있다.
 
-- **`match` (If 조건문)**: "누구를 잡아낼 것인가?"
+- <strong><code>match</code> (If 조건문)</strong>: "누구를 잡아낼 것인가?"
   - 예: `match ip address 10` ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 10번에 적힌 사장님 IP `192.168.1.99`를 잡아라!)
   - 예: `match length 1000 1500` (패킷 크기가 1000바이트 이상인 무거운 놈만 잡아라!)
-- **`set` (Then 실행문)**: "잡아낸 놈을 어떻게 요리할 것인가?"
+- <strong><code>set</code> (Then 실행문)</strong>: "잡아낸 놈을 어떻게 요리할 것인가?"
   - 예: `set ip next-hop 10.1.1.1` (원래 길 무시하고 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1 라우터 쪽으로 냅다 던져버려라!)
 
 ### 2. 패킷 처리 시퀀스 (PBR vs 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
@@ -58,31 +62,31 @@ PBR을 구현하려면 시스코 장비 기준 **`route-map`**이라는 프로�
 3. 조건에 맞으면(예: 사장님 IP) ──▶ [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 무시하고, `set` 명령에 따라 강제로 1번 길로 날려버림!
 4. 조건에 안 맞으면(예: 일반 직원) ──▶ PBR 룰을 통과하여, 비로소 일반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등)을 보고 2번 길로 정상 배달됨.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                PBR (Policy-Based Routing) 트래픽 갈라치기 도식    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 사장님 PC (192.168.1.99) ] ────┐                          │
- │                                  ▼ [라우터]                     │
- │   [ 직원들 PC (192.168.1.x)  ] ────┤ 1) PBR 검사              │
- │                                    │ - 99번 IP인가? (Match)   │
- │                                    │ - Yes ──▶ 광랜으로 쏴! (Set)│
- │                                    │ - No  ──▶ 라우팅테이블 봐!  │
- │                                    │                        │
- │   * 라우터의 행동:                      ▼                        │
- │     사장님 패킷 ════════════════════▶ [ 광랜 (비싼 전용선) ]      │
- │     직원들 패킷 ────────────────────▶ [ 일반망 (ADSL선) ]       │
- │                                                             │
- │   ▶ "목적지가 같아도 출발지 신분에 따라 다른 길로 던지는 마법!"         │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBR (Policy-Based Routing) 트래픽 갈라치기 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사장님 PC (192.168.1.99)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">라우터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직원들 PC (192.168.1.x)</div><div class="kb-diagram-note">1) PBR 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 99번 IP인가? (Match)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Yes ──▶ 광랜으로 쏴! (Set)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- No ──▶ 라우팅테이블 봐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 라우터의 행동: ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광랜 (비싼 전용선)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일반망 (ADSL선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "목적지가 같아도 출발지 신분에 따라 다른 길로 던지는 마법!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. PBR의 치명적 단점 (CPU 갉아먹기)
 PBR은 마약과 같다. 쓰면 좋지만 남발하면 라우터가 죽는다.
 하드웨어([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))가 기계적으로 처리하던 걸, CPU가 일일이 "이거 사장님 IP 맞나? 크기는 맞나?" 하고 `match` 구문을 검사(소프트웨어 처리)해야 하므로 트래픽 병목과 딜레마(CPU 100%)를 유발한다. 따라서 꼭 필요한 구간에 최소한으로만 걸어두는 것이 실무의 정석이다.
 
-- **📢 섹션 요약 비유**: ** Route Map [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(`match`와 `set`)은 컨베이어 벨트 위의 **"불량품 선별기"**입니다. 벨트 위를 지나가는 수만 개의 택배(패킷) 중, "빨간색 스티커가 붙은 박스(`match` 조건)"만 귀신같이 탁 쳐서 "VIP 배송 트럭(`set` 조건)"으로 튕겨내는 무자비한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템입니다.
+- **📢 섹션 요약 비유**: <strong> Route Map <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>(<code>match</code>와 <code>set</code>)은 컨베이어 벨트 위의 </strong>"불량품 선별기"**입니다. 벨트 위를 지나가는 수만 개의 택배(패킷) 중, "빨간색 스티커가 붙은 박스(`match` 조건)"만 귀신같이 탁 쳐서 "VIP 배송 트럭(`set` 조건)"으로 튕겨내는 무자비한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템입니다.
 
 ---
 
@@ -138,15 +142,19 @@ Policy-Based [Routing](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VRF]
-    │
-    ▼
-[현재 개념: Policy-Based Routing / R…]
-    │
-    ├──▶ [확장 A: MPLS]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VRF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Policy-Based Routing / R…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MPLS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 Policy-Based [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) / R…는 VRF에서 출발해 현재 메커니즘을 정교화하고, 이후 MPLS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

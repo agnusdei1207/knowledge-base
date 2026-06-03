@@ -35,20 +35,21 @@ HoQ는 보통 네 개의 핵심 블록과 두 개의 보조 블록으로 읽는�
 
 아래 그림은 HoQ의 구조와 정보 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    House of Quality (HoQ)                   │
-├──────────────────────────────────────────────────────────────┤
-│                 Roof: HOW ↔ HOW correlation                 │
-│              (+ synergy / - trade-off / 0 none)             │
-├───────────────┬──────────────────────────────┬───────────────┤
-│ WHAT          │ Relationship Matrix          │ Benchmark     │
-│ customer need │ 9 strong / 3 medium / 1 weak │ our vs rival  │
-│ + importance  │                              │               │
-├───────────────┴──────────────────────────────┴───────────────┤
-│ Priority result = importance × relationship → target values │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">House of Quality (HoQ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Roof: HOW ↔ HOW correlation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+ synergy / - trade-off / 0 none)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHAT</div><div class="kb-diagram-cell">Relationship Matrix</div><div class="kb-diagram-cell">Benchmark</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer need</div><div class="kb-diagram-cell">9 strong / 3 medium / 1 weak</div><div class="kb-diagram-cell">our vs rival</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ importance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Priority result = importance × relationship → target values</div></div>
+</div>
+</div>
+
+
 
 핵심 계산은 단순하지만 강력하다. 고객 중요도가 높은 WHAT에 강하게 연결된 HOW는 우선순위가 올라간다. 예를 들어 "로그인 속도" 중요도 5와 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간" [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 9가 만나면, 이 HOW는 높은 개선 가치가 있다고 판단할 수 있다. 반대로 화려하지만 고객 요구와 약하게 연결된 기술은 점수가 낮아져 과잉 설계를 막는 근거가 된다.
 
@@ -93,7 +94,7 @@ HoQ는 QFD 전체와 동일하지 않다. QFD가 고객 요구를 설계·부품
 ### 실무 시나리오
 
 1. **모바일 뱅킹 앱 개선**: WHAT이 "이체가 빠르다", "안전하다", "실패가 적다"라면, HOW는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간, 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 성공률, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 같은 지표가 된다. HoQ는 어느 기술 개선이 고객 가치에 더 직접 연결되는지 보여 준다.
-2. **배터리 기반 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 제품**: WHAT이 "오래 간다", "연결이 안정적이다"일 때, HOW는 평균 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 소모, 절전 모드 복귀 시간, 재전송률로 구체화된다. 배터리와 응답성 사이의 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 지붕에서 먼저 드러낼 수 있다.
+2. <strong>배터리 기반 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 제품</strong>: WHAT이 "오래 간다", "연결이 안정적이다"일 때, HOW는 평균 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 소모, 절전 모드 복귀 시간, 재전송률로 구체화된다. 배터리와 응답성 사이의 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 지붕에서 먼저 드러낼 수 있다.
 3. **경쟁사 벤치마크 기반 투자 판단**: 고객 중요도는 높지만 경쟁사 대비 우리가 뒤처진 항목을 찾으면, 제한된 예산을 어디에 우선 투입할지 정량적 근거를 만들 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -137,21 +138,24 @@ HoQ를 제대로 활용하면 고객 요구가 기술 목표와 [검증](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-VOC 수집
-    │
-    ▼
-WHAT 정리 · 중요도 부여
-    │
-    ▼
-HoQ 관계 행렬 작성
-    │
-    ├──────────────▶ HOW 도출 · 목표치 설정
-    ├──────────────▶ Roof 상충 관계 분석
-    ├──────────────▶ 경쟁사 벤치마크 비교
-    ▼
-설계 · 구현 · 테스트 · 운영 지표 전개
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VOC 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WHAT 정리 · 중요도 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HoQ 관계 행렬 작성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ HOW 도출 · 목표치 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Roof 상충 관계 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 경쟁사 벤치마크 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설계 · 구현 · 테스트 · 운영 지표 전개</div>
+</div>
+</div>
+
+
 
 이 흐름도는 고객의 목소리가 HoQ를 거쳐 실제 기술 목표와 실행 기준으로 연결되는 전개 흐름을 보여준다.
 

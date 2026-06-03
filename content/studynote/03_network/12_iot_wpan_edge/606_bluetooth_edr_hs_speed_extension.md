@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 1.2 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (기본형, BR: Basic Rate)**: 가장 초창기 널리 쓰인 규격으로, 최대 전송 속도가 **1Mbps**(실제 체감 700Kbps)에 불과했습니다. 키보드나 마우스 같은 단순한 입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받기엔 충분했지만, MP3 고음질 음악이나 사진을 전송하기엔 숨이 막힐 정도로 느렸습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 1.2 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> (기본형, BR: Basic Rate)</strong>: 가장 초창기 널리 쓰인 규격으로, 최대 전송 속도가 **1Mbps**(실제 체감 700Kbps)에 불과했습니다. 키보드나 마우스 같은 단순한 입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받기엔 충분했지만, MP3 고음질 음악이나 사진을 전송하기엔 숨이 막힐 정도로 느렸습니다.
 
-```text
-[블루투스]
-    │
-    ▼
-[블루투스 버전]
-    │
-    └──▶ [BLE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 버전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BLE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,23 +41,27 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 2.0 + [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Enhanced [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate) - 3배 뻥튀기
-- **개념**: 기존 1Mbps의 한계를 부수고, 속도를 최대 **3Mbps**로 무려 3배나 끌어올린 혁신적인 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)업입니다. 현재 우리가 쓰는 무선 이어폰으로 끊김 없이 고음질 음악을 들을 수 있게 만든 1등 공신입니다.
+- **개념**: 기존 1Mbps의 한계를 부수고, 속도를 최대 <strong>3Mbps</strong>로 무려 3배나 끌어올린 혁신적인 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)업입니다. 현재 우리가 쓰는 무선 이어폰으로 끊김 없이 고음질 음악을 들을 수 있게 만든 1등 공신입니다.
 - **원리**: 아우토반(주파수 폭)을 넓힌 것이 아니라, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변조 방식(Modulation)을 뜯어고쳤습니다. 예전에는 한 번 전파가 깜빡일 때 1비트만 담아 보냈지만(GFSK 방식), EDR에서는 위상 변조([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)) 기술을 섞어 한 번 깜빡일 때 2~3비트의 데이터를 우겨 넣어 쏘는 방식으로 전송 밀도를 확 높였습니다.
 
 ### 2. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 3.0 + HS (High Speed) - 24배 뻥튀기 (와이파이 편승)
-- **개념**: 3Mbps로도 고화질 동영상 전송은 택도 없자, 아예 변칙 기술을 써서 최대 **24Mbps**라는 괴물 같은 속도를 만들어낸 규격입니다.
+- **개념**: 3Mbps로도 고화질 동영상 전송은 택도 없자, 아예 변칙 기술을 써서 최대 <strong>24Mbps</strong>라는 괴물 같은 속도를 만들어낸 규격입니다.
 - **원리 (꼼수 마법)**: 이 속도는 순수 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기술로 낸 것이 아닙니다! 스마트폰 안에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 칩과 와이파이(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) 칩이 같이 있다는 점을 악용(?)한 것입니다.
-  - 두 기기 간에 "연결(페어링)"과 "제어"는 전기를 덜 먹는 **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)로 은밀하게 처리**합니다.
-  - 막상 수백 메가짜리 덩치 큰 동영상 파일을 던져야 할 때가 오면, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 몰래 옆에 있던 **Wi-Fi(802.11g) 고속도로를 빌려와(가동시켜) 24Mbps의 폭발적인 속도로 쏟아부어 전송**한 뒤, 전송이 끝나면 재빨리 와이파이를 끄고 다시 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 대기 모드로 돌아갑니다.
+  - 두 기기 간에 "연결(페어링)"과 "제어"는 전기를 덜 먹는 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>로 은밀하게 처리</strong>합니다.
+  - 막상 수백 메가짜리 덩치 큰 동영상 파일을 던져야 할 때가 오면, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 몰래 옆에 있던 <strong>Wi-Fi(802.11g) 고속도로를 빌려와(가동시켜) 24Mbps의 폭발적인 속도로 쏟아부어 전송</strong>한 뒤, 전송이 끝나면 재빨리 와이파이를 끄고 다시 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 대기 모드로 돌아갑니다.
 
-```text
-[블루투스]
-    │
-    ▼
-[블루투스 버전]
-    │
-    └──▶ [BLE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 버전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BLE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 3.0(HS) 이후, 진영은 깨닫습니다. "대용량 전송은 어차피 와이파이나 클라우드가 다 해주는데 굳이 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 속도 경쟁을 할 필요가 없네?" 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)의 진화 트리는 4.0 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)부터 '속도 향상'을 버리고, 동전 배터리 하나로 1년을 버티게 만드는 극한의 **'초저전력([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))'** 기술 개발로 완전히 방향을 틀게 됩니다. (607번 문서로 이어짐)
+[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 3.0(HS) 이후, 진영은 깨닫습니다. "대용량 전송은 어차피 와이파이나 클라우드가 다 해주는데 굳이 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 속도 경쟁을 할 필요가 없네?" 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)의 진화 트리는 4.0 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)부터 '속도 향상'을 버리고, 동전 배터리 하나로 1년을 버티게 만드는 극한의 <strong>'초저전력(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>)'</strong> 기술 개발로 완전히 방향을 틀게 됩니다. (607번 문서로 이어짐)
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 기반 조건을 만든다면, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 그 위에서 핵심 메커니즘을 구현하고, BLE는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 블루투스]
-    │
-    ▼
-[현재 개념: 블루투스 버전]
-    │
-    ├──▶ [확장 A: BLE]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블루투스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스 버전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BLE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)에서 출발해 현재 메커니즘을 정교화하고, 이후 BLE와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,25 +23,26 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 중요해진 이유는 CPU 속도와 메모리 속도의 격차, 즉 [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 때문이다. 코어는 수 ns 안에 여러 명령을 처리할 수 있지만, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache) 밖으로 나가 DRAM까지 접근하면 수십~수백 ns가 소요된다. 캐시 용량을 무한히 늘릴 수 없다면, 남는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 시간과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 요청 창을 이용해 "곧 필요할 가능성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 당겨 놓는 편이 더 현실적이다.
 
-특히 순차 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, 스트리밍, 반복 루프처럼 지역성 (Locality)이 뚜렷한 코드는 미래 주소를 비교적 잘 예측할 수 있다. 반대로 링크드 리스트처럼 주소가 예측 불가능한 구조는 프리페칭 효과가 급감한다. 즉 프리페칭은 모든 메모리 문제의 만능 해법이 아니라, **예측 가능한 접근 패턴에 한해 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 앞당겨 처리하는 장치**다.
+특히 순차 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, 스트리밍, 반복 루프처럼 지역성 (Locality)이 뚜렷한 코드는 미래 주소를 비교적 잘 예측할 수 있다. 반대로 링크드 리스트처럼 주소가 예측 불가능한 구조는 프리페칭 효과가 급감한다. 즉 프리페칭은 모든 메모리 문제의 만능 해법이 아니라, <strong>예측 가능한 접근 패턴에 한해 메모리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 앞당겨 처리하는 장치</strong>다.
 
 이 그림은 수요 기반 적재와 프리페칭의 차이를 "언제 기다리느냐" 관점에서 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│      Demand Fetch vs Prefetch: 같은 메모리 지연을 어디에 둘 것인가 │
-├────────────────────────────────────────────────────────────────────┤
-│ 수요 적재                                                       │
-│   CPU 요청 ──▶ 캐시 미스 ──▶ DRAM 대기 ──▶ 데이터 도착 ──▶ 실행 재개 │
-│                                                                  │
-│ 프리페칭                                                         │
-│   이전 접근 ──▶ 패턴 감지 ──▶ 미리 요청 ──▶ 백그라운드 대기 완료     │
-│                                               │                  │
-│                                               └────▶ 이후 CPU hit │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 자체가 사라지는 것이 아니라, CPU가 당장 놀고 있는 구간이 아니라 **미리 겹칠 수 있는 구간**으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 위치를 옮긴다는 점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand Fetch vs Prefetch: 같은 메모리 지연을 어디에 둘 것인가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수요 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청 ──▶ 캐시 미스 ──▶ DRAM 대기 ──▶ 데이터 도착 ──▶ 실행 재개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프리페칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 접근 ──▶ 패턴 감지 ──▶ 미리 요청 ──▶ 백그라운드 대기 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이후 CPU hit</div></div>
+</div>
+</div>
+
+
+
+핵심은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 자체가 사라지는 것이 아니라, CPU가 당장 놀고 있는 구간이 아니라 <strong>미리 겹칠 수 있는 구간</strong>으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 위치를 옮긴다는 점이다.
 
 - **📢 섹션 요약 비유**: 프리페칭은 손님이 물을 달라고 말한 뒤 컵을 찾는 일이 아니라, 식당 직원이 메뉴 흐름을 보고 메인 요리가 나오기 전에 물컵을 미리 올려두는 것과 같다.
 
@@ -62,20 +63,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 프리페처의 동작을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다. 같은 간격의 주소가 반복되면 프리페처가 미래 블록을 먼저 요청해, CPU가 그 주소에 도착할 때는 이미 캐시에 적재된 상태를 만들려 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│          Stride Prefetcher: 반복 간격을 학습해 앞질러 가기         │
-├────────────────────────────────────────────────────────────────────┤
-│ 관측된 접근:   A0 ─────▶ A4 ─────▶ A8                            │
-│                  \         \         \                            │
-│                   \         \         └─ stride = +4 추정         │
-│                    \         └────────── 과거 간격 기록           │
-│                     └────────────────── 패턴 학습                 │
-│                                                                  │
-│ 예측 요청:                         A12 ───▶ A16                  │
-│ CPU 실제 사용:                     (나중에 도착)                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stride Prefetcher: 반복 간격을 학습해 앞질러 가기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관측된 접근: A0 ▶ A4 ▶ A8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ \ ─ stride = +4 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 과거 간격 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 요청: A12 ▶ A16</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 실제 사용: (나중에 도착)</div></div>
+</div>
+</div>
+
+
 
 좋은 프리페처는 정확도 (Accuracy)와 적시성 (Timeliness)을 동시에 만족해야 한다. 너무 늦게 가져오면 수요 미스와 다를 바 없고, 너무 빨리 가져오면 아직 쓸 차례가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 차지한다. 그래서 실제 CPU는 프리페치 큐, MSHR (Miss Status Holding [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률, 최근 성공률을 함께 보며 공격성을 동적으로 조절한다.
 
@@ -85,9 +87,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-프리페칭을 제대로 이해하려면 먼저 수요 적재 (Demand Fetch)와 비교해야 한다. 수요 적재는 정확하지만 항상 늦고, 프리페칭은 빠를 수 있지만 틀릴 수 있다. 즉 둘의 차이는 "정확도 대 선행성"의 교환관계다. 캐시가 과거의 지역성을 활용하는 장치라면, 프리페칭은 그 지역성이 **앞으로도 이어질 것**이라고 가정하고 한 발 먼저 움직이는 장치다.
+프리페칭을 제대로 이해하려면 먼저 수요 적재 (Demand Fetch)와 비교해야 한다. 수요 적재는 정확하지만 항상 늦고, 프리페칭은 빠를 수 있지만 틀릴 수 있다. 즉 둘의 차이는 "정확도 대 선행성"의 교환관계다. 캐시가 과거의 지역성을 활용하는 장치라면, 프리페칭은 그 지역성이 <strong>앞으로도 이어질 것</strong>이라고 가정하고 한 발 먼저 움직이는 장치다.
 
-또한 하드웨어 프리페칭과 소프트웨어 프리페칭은 역할이 다르다. 하드웨어는 일반적인 패턴을 자동으로 잡아내는 범용 장치이고, 소프트웨어는 프로그램 의미를 아는 사람이 특정 루프를 위해 정밀 보정하는 수단이다. 그래서 실무에서는 둘 중 하나를 고르는 문제가 아니라, **하드웨어가 잘하는 순차 패턴은 맡기고, 포인터 체이닝처럼 하드웨어가 약한 구간만 소프트웨어로 보완**하는 식의 분업이 흔하다.
+또한 하드웨어 프리페칭과 소프트웨어 프리페칭은 역할이 다르다. 하드웨어는 일반적인 패턴을 자동으로 잡아내는 범용 장치이고, 소프트웨어는 프로그램 의미를 아는 사람이 특정 루프를 위해 정밀 보정하는 수단이다. 그래서 실무에서는 둘 중 하나를 고르는 문제가 아니라, <strong>하드웨어가 잘하는 순차 패턴은 맡기고, 포인터 체이닝처럼 하드웨어가 약한 구간만 소프트웨어로 보완</strong>하는 식의 분업이 흔하다.
 
 | 비교 항목 | 수요 적재 | 프리페칭 |
 | :-- | :-- | :-- |
@@ -131,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 
 프리페칭이 잘 맞으면 CPU는 메모리 대기 때문에 멈추는 시간을 크게 줄일 수 있다. 그 결과 IPC가 안정되고, 동일한 하드웨어에서도 체감 처리량이 향상된다. 특히 스트리밍, 과학 계산, 분석형 쿼리처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 규칙적인 시스템에서는 캐시 용량 자체를 키우는 것보다 프리페칭 품질을 높이는 편이 더 큰 이득을 줄 수 있다.
 
-하지만 전제조건도 분명하다. 접근 패턴이 어느 정도 예측 가능해야 하고, 프리페치 요청을 수용할 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 버퍼가 있어야 하며, 오예측을 제어할 정책이 뒤따라야 한다. 즉 프리페칭은 "메모리가 느리다"는 사실을 없애는 기술이 아니라, 그 느림을 **보이지 않게 가리는 기술**이다.
+하지만 전제조건도 분명하다. 접근 패턴이 어느 정도 예측 가능해야 하고, 프리페치 요청을 수용할 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 버퍼가 있어야 하며, 오예측을 제어할 정책이 뒤따라야 한다. 즉 프리페칭은 "메모리가 느리다"는 사실을 없애는 기술이 아니라, 그 느림을 <strong>보이지 않게 가리는 기술</strong>이다.
 
 정리하면 프리페칭은 캐시의 연장선이 아니라 예측 기반 실행 철학의 일부로 기억하는 것이 좋다. 과거 접근을 저장하는 캐시 위에, 미래 접근을 추정하는 프리페처가 얹히면서 현대 시스템은 단순 저장장치가 아니라 학습형 기억장치 계층으로 발전한다.
 
@@ -151,23 +153,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수요 적재 (Demand Fetch)
-        │
-        ▼
-지역성 (Locality) 기반 다음 줄 프리페치
-        │
-        ▼
-스트라이드 프리페치 (Stride Prefetch)
-        │
-        ├──────────────▶ 소프트웨어 프리페치 힌트
-        │
-        ▼
-상관 프리페치 (Correlation Prefetch)
-        │
-        ▼
-적응형 프리페처 · 대역폭 인지 제어 · 학습형 예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수요 적재 (Demand Fetch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지역성 (Locality) 기반 다음 줄 프리페치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트라이드 프리페치 (Stride Prefetch)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 소프트웨어 프리페치 힌트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상관 프리페치 (Correlation Prefetch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 프리페처 · 대역폭 인지 제어 · 학습형 예측</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 순차 추정에서 시작해, 패턴 학습과 시스템 상황 인지까지 프리페처가 점점 더 똑똑해지는 방향을 보여준다.
 

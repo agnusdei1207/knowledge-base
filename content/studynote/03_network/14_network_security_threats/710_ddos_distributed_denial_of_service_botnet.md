@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 해커 1대의 PC가 아닌, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된(Distributed) 수만~수백만 대의 감염된 기기(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기)들을 동원하여 타겟 서버에 엄청난 트래픽 폭탄을 일제히 쏟아부어 서버를 마비시키는 가장 파괴적인 네트워크 공격 기법**입니다.
+- 해커 1대의 PC가 아닌, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된(Distributed) 수만~수백만 대의 감염된 기기(좀비 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기)들을 동원하여 타겟 서버에 엄청난 트래픽 폭탄을 일제히 쏟아부어 서버를 마비시키는 가장 파괴적인 네트워크 공격 기법</strong>입니다.
 - 공격이 전 세계의 수만 개 IP에서 산발적으로 날아오기 때문에, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 특정 IP 하나를 차단한다고 해서 막을 수 있는 수준이 아닙니다.
 
-```text
-[DoS]
-    │
-    ▼
-[분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    └──▶ [SYN Flood 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,19 +44,23 @@ tags = ["studynote-network"]
 해커는 절대로 자기 컴퓨터에서 직접 화살을 쏘지 않습니다. 3단계 다단계 조직을 구축하여 자신을 완벽하게 숨깁니다.
 
 1. **Attacker (해커 / 마스터)**: 공격을 기획하고 최종 돌격 명령 버튼을 누르는 실제 흑막입니다.
-2. **C&C 서버 ([Command and Control](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) Server) 🌟**:
-   - 해커가 직접 좀비들에게 명령을 내리면 IP 추적을 받아 체포됩니다. 그래서 해커는 중간에 **'명령 하달 전용 은닉 서버(C&C 서버)'**를 세워둡니다. 해커가 이 서버에만 "공격해라" 지시하면, C&C 서버가 아래 10만 대의 노예들에게 일제히 작전 지시를 브로드캐스트합니다. (이 C&C 서버를 경찰이 찾아내 부수면 좀비 군대는 통제력을 잃고 해산됩니다.)
-3. **[Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) ([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) / 좀비 부대 / 핸들러와 데몬)**:
-   - 악성코드(미라이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 등)에 감염되어 숙주 컴퓨터 몰래 24시간 백그라운드로 돌아가며 C&C 서버의 명령만 애타게 기다리는 **수백만 대의 노예 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트 TV, IP 카메라 집단**입니다. 공격 명령이 떨어지면 일제히 네이버나 은행 서버를 향해 무차별로 쓰레기 패킷을 쏘아 올려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 불태워버립니다.
+2. <strong>C&amp;C 서버 (<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/">Command and Control</a> Server) 🌟</strong>:
+   - 해커가 직접 좀비들에게 명령을 내리면 IP 추적을 받아 체포됩니다. 그래서 해커는 중간에 <strong>'명령 하달 전용 은닉 서버(C&C 서버)'</strong>를 세워둡니다. 해커가 이 서버에만 "공격해라" 지시하면, C&C 서버가 아래 10만 대의 노예들에게 일제히 작전 지시를 브로드캐스트합니다. (이 C&C 서버를 경찰이 찾아내 부수면 좀비 군대는 통제력을 잃고 해산됩니다.)
+3. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">Botnet</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a> / 좀비 부대 / 핸들러와 데몬)</strong>:
+   - 악성코드(미라이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 등)에 감염되어 숙주 컴퓨터 몰래 24시간 백그라운드로 돌아가며 C&C 서버의 명령만 애타게 기다리는 <strong>수백만 대의 노예 좀비 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, 스마트 TV, IP 카메라 집단</strong>입니다. 공격 명령이 떨어지면 일제히 네이버나 은행 서버를 향해 무차별로 쓰레기 패킷을 쏘아 올려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 불태워버립니다.
 
-```text
-[DoS]
-    │
-    ▼
-[분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    └──▶ [SYN Flood 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,9 +68,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-최근의 디도스는 좀비 부대가 직접 쏘는 것마저 귀찮아합니다. 더 교묘한 꼼수(**DRDoS, [반사 증폭 공격](/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/)**)를 찾아냈습니다. (상세는 717번 이후 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+최근의 디도스는 좀비 부대가 직접 쏘는 것마저 귀찮아합니다. 더 교묘한 꼼수(<strong>DRDoS, <a href="/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/">반사 증폭 공격</a></strong>)를 찾아냈습니다. (상세는 717번 이후 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-- **반사 (Reflection)**: 좀비 PC가 화살을 쏠 때, 겉면에 적힌 '출발지 주소(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))'를 자기 주소가 아니라 **'피해자 서버 IP'**로 위조해서 던집니다. 즉, 지나가는 거인(정상적인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 등)에게 돌을 던지면서 "이거 저기 있는 피해자가 때린 거야!"라고 덮어씌워, 화난 거인이 피해자에게 분노의 펀치(응답 패킷)를 날리게 조종하는 수법입니다.
+- **반사 (Reflection)**: 좀비 PC가 화살을 쏠 때, 겉면에 적힌 '출발지 주소(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))'를 자기 주소가 아니라 <strong>'피해자 서버 IP'</strong>로 위조해서 던집니다. 즉, 지나가는 거인(정상적인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 등)에게 돌을 던지면서 "이거 저기 있는 피해자가 때린 거야!"라고 덮어씌워, 화난 거인이 피해자에게 분노의 펀치(응답 패킷)를 날리게 조종하는 수법입니다.
 - **증폭 (Amplification)**: 더 무서운 점은, 좀비 PC가 던진 조그만 조약돌(1바이트 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 맞은 거인([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버)은 빡쳐서 100배 큰 거대한 바위(100바이트 응답 패킷)로 반사시켜 피해자를 깔아뭉개버린다는 것입니다. 적은 힘으로 100배의 타격력을 뽑아내는 궁극의 레버리지 효과입니다.
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DoS가 기반 조건을 만든다면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 그 위에서 핵심 메커니즘을 구현하고, [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 수백 Gbps로 쏟아지는 트래픽은 회사 앞의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 장비로는 물리적으로 막을 수 없습니다(인터넷 선이 먼저 터짐). 
-- 오늘날의 방어는 클라우드플레어(Cloudflare)나 통신사(KT)가 제공하는 거대한 대피소인 **'[스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)([Scrubbing Center](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/))'**로 회사의 모든 트래픽을 돌려보내, 그곳의 무식하게 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 필터로 쓰레기를 다 세척해 내고 맑은 물(정상 고객)만 사내망으로 넣어주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 가입하여 막아냅니다.
+- 오늘날의 방어는 클라우드플레어(Cloudflare)나 통신사(KT)가 제공하는 거대한 대피소인 <strong>'<a href="/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/">스크러빙 센터</a>(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/">Scrubbing Center</a>)'</strong>로 회사의 모든 트래픽을 돌려보내, 그곳의 무식하게 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 필터로 쓰레기를 다 세척해 내고 맑은 물(정상 고객)만 사내망으로 넣어주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 가입하여 막아냅니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DoS]
-    │
-    ▼
-[현재 개념: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    │
-    ├──▶ [확장 A: SYN Flood 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SYN Flood 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 DoS에서 출발해 현재 메커니즘을 정교화하고, 이후 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

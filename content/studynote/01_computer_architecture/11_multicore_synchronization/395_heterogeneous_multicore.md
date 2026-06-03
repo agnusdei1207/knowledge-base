@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이기종 멀티코어의 핵심 원리는 **작업 특성 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 적합한 코어 배치 → 필요한 경우 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이동 → [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지**의 흐름으로 이해할 수 있다. 이동 가능한 CPU 코어들끼리는 보통 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))를 공유해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 옮겨도 프로그램 의미가 바뀌지 않게 설계한다. 반면 GPU나 NPU처럼 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 자체가 다른 가속기는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 마이그레이션보다는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 대상으로 다뤄진다.
+이기종 멀티코어의 핵심 원리는 <strong>작업 특성 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 적합한 코어 배치 → 필요한 경우 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 이동 → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 유지</strong>의 흐름으로 이해할 수 있다. 이동 가능한 CPU 코어들끼리는 보통 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))를 공유해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 옮겨도 프로그램 의미가 바뀌지 않게 설계한다. 반면 GPU나 NPU처럼 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 자체가 다른 가속기는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 마이그레이션보다는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 대상으로 다뤄진다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -43,22 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 이기종 멀티코어에서 “무슨 일을 어디에 보낼지”와 “공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디를 지나가는지”를 함께 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Heterogeneous Multi-core: workload-aware execution path      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Light / background work  ───────────────▶  E-Core cluster           │
-│ Latency-sensitive thread ───────────────▶  P-Core cluster           │
-│ Vector / graphics / AI   ───────────────▶  GPU / NPU accelerator    │
-│                                                                      │
-│                  ┌────────────────────────────────┐                  │
-│                  │ Shared LLC / Interconnect      │                  │
-│                  │ Cache Coherence / Memory Ctrl  │                  │
-│                  └────────────────────────────────┘                  │
-│                                                                      │
-│          OS Scheduler + HW Hints + DVFS coordination                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heterogeneous Multi-core: workload-aware execution path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Light / background work ▶ E-Core cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Latency-sensitive thread ▶ P-Core cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector / graphics / AI ▶ GPU / NPU accelerator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared LLC / Interconnect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Coherence / Memory Ctrl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Scheduler + HW Hints + DVFS coordination</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어와 효율 코어가 단순히 “빠른 코어 / 느린 코어”의 관계가 아니라는 점이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어는 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 높은 버스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리하고, 효율 코어는 긴 시간 지속되는 경량 작업을 적은 전력으로 처리하는 데 유리하다. 따라서 같은 10ms 작업이라도 사용자 입력을 즉시 처리해야 하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 P-Core로, 백그라운드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 E-Core로 보내는 편이 시스템 전체 품질에 더 낫다.
 
@@ -84,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 이 개념은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 과목의 스케줄링, 메모리 계층 과목의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 하드웨어의 가속기 구조와 직접 연결된다. 예를 들어 OS가 코어 특성을 모르면 높은 우선순위 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 E-Core에 배치해 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 키울 수 있다. 반대로 가속기가 있더라도 CPU와 가속기 사이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 비용이 너무 크면, 이기종 구성이 오히려 전체 처리시간을 악화시킬 수 있다.
 
-즉 이기종 멀티코어는 “코어 종류가 많다”는 뜻이 아니라, **같은 작업을 어디서 실행할 때 총비용이 최소가 되는가를 판단하는 구조**로 기억해야 한다. 바로 이 점이 단순 멀티코어 확장과의 경계다.
+즉 이기종 멀티코어는 “코어 종류가 많다”는 뜻이 아니라, <strong>같은 작업을 어디서 실행할 때 총비용이 최소가 되는가를 판단하는 구조</strong>로 기억해야 한다. 바로 이 점이 단순 멀티코어 확장과의 경계다.
 
 - **📢 섹션 요약 비유**: 동종 멀티코어가 같은 악기만 여러 대 있는 밴드라면, 이기종 멀티코어는 드럼·베이스·피아노가 역할을 나눠 한 곡을 완성하는 합주단에 가깝다.
 
@@ -98,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 작업이 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감형**, **지속형 경량 작업**, **대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)형** 중 어디에 가까운가?
+1. 작업이 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 민감형</strong>, **지속형 경량 작업**, <strong>대량 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>형</strong> 중 어디에 가까운가?
 2. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 코어 이질성을 인식하고 스케줄링할 수 있는가?
 3. 코어 이동 시 캐시 손실과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 이득보다 작다고 검증되었는가?
 4. 가속기 사용 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사와 메모리 공유 비용까지 포함해 측정했는가?
@@ -121,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 첫째, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 런타임이 코어 특성을 이해하지 못하면 코어 배치 실패로 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 흔들린다. 둘째, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 트래픽과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이동 비용이 누적되면 이기종의 장점이 줄어든다. 셋째, 프로그래머가 모든 작업을 균등 분할로만 생각하면 빠른 코어와 느린 코어 사이의 완료 시점 불균형이 전체 처리시간을 지배하게 된다.
 
-앞으로의 발전 방향은 단순한 big/LITTLE 이원화에 머물지 않는다. [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 기반 패키징, 통합 메모리, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속기, 더 세밀한 전력 제어가 결합되면서 “여러 종류의 계산 자원을 하나의 시스템처럼 묶는 능력”이 더 중요해지고 있다. 따라서 이 개념은 **코어를 다르게 만드는 기술**이 아니라, **작업과 자원을 가장 합리적으로 짝짓는 시스템 설계 철학**으로 기억하는 것이 맞다.
+앞으로의 발전 방향은 단순한 big/LITTLE 이원화에 머물지 않는다. [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 기반 패키징, 통합 메모리, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속기, 더 세밀한 전력 제어가 결합되면서 “여러 종류의 계산 자원을 하나의 시스템처럼 묶는 능력”이 더 중요해지고 있다. 따라서 이 개념은 <strong>코어를 다르게 만드는 기술</strong>이 아니라, <strong>작업과 자원을 가장 합리적으로 짝짓는 시스템 설계 철학</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 이기종 시스템은 모든 선수를 같은 포지션에 세우지 않고, 공격수·수비수·골키퍼를 제자리에 배치해 팀 전체 승률을 높이는 축구팀과 같다.
 
@@ -139,24 +138,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 코어 고클럭 경쟁
-        │
-        ▼
-전력 장벽 (Power Wall) · 열 장벽 (Thermal Wall)
-        │
-        ▼
-동종 멀티코어 (Homogeneous Multi-core)
-        │
-        ▼
-이기종 멀티코어 (Heterogeneous Multi-core)
-        │
-        ├──▶ big.LITTLE 아키텍처
-        ├──▶ P-Core / E-Core 하이브리드 CPU
-        ├──▶ GPU · NPU · DSP 오프로딩
-        ▼
-통합 메모리 · 칩렛 · 도메인 특화 가속기 SoC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 코어 고클럭 경쟁</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전력 장벽 (Power Wall) · 열 장벽 (Thermal Wall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동종 멀티코어 (Homogeneous Multi-core)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이기종 멀티코어 (Heterogeneous Multi-core)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ big.LITTLE 아키텍처</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ P-Core / E-Core 하이브리드 CPU</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ GPU · NPU · DSP 오프로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통합 메모리 · 칩렛 · 도메인 특화 가속기 SoC</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

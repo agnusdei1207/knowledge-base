@@ -11,7 +11,7 @@ tags = ["studynote-devops-sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 캐시 중독과 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 하이재킹 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 이름 해석 경로와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로가 동시에 오염될 수 있다는 전제 아래, **응답 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)·경로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**을 함께 감시하는 관측 체계다.
+> 1. **본질**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 캐시 중독과 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 하이재킹 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 이름 해석 경로와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로가 동시에 오염될 수 있다는 전제 아래, <strong>응답 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>·경로 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>을 함께 감시하는 관측 체계다.
 > 2. **가치**: 사용자 트래픽이 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트나 잘못된 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) (Autonomous System) 경로로 우회되기 전에 탐지해, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애와 보안 사고를 조기에 차단할 수 있다.
 > 3. **판단 포인트**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Extensions)와 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) ([Resource Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/))는 [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)이고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 실제 인터넷 경로에서 일어나는 이상 징후를 다중 시점에서 상시 관찰하는 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)라는 점이 중요하다.
 
@@ -35,29 +35,20 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 DNS와 BGP를 통합 감시하는 대표 구조다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                  DNS + BGP 통합 모니터링망 구성                             │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ [External DNS Probes]      [Recursive Resolvers]      [Route Collectors]   │
-│         │                           │                         │              │
-│         ├──────────────┬────────────┴──────────────┬─────────┘              │
-│         ▼              ▼                           ▼                        │
-│  Answer Diff      TTL Drift / NXDOMAIN      Origin AS / AS Path            │
-│         │              │                           │                        │
-│         └──────────────┴──────────────┬────────────┘                        │
-│                                       ▼                                     │
-│                         [Correlation / Detection Engine]                    │
-│                                       │                                     │
-│                  ┌────────────────────┼────────────────────┐                │
-│                  ▼                    ▼                    ▼                │
-│          DNSSEC Validate       RPKI Validate      Baseline Compare         │
-│                  │                    │                    │                │
-│                  └────────────────────┴────────────────────┘                │
-│                                       ▼                                     │
-│                         [Alert / Ticket / Traffic Mitigation]               │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS + BGP 통합 모니터링망 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">External DNS Probes</div><div class="kb-diagram-node">Recursive Resolvers</div><div class="kb-diagram-node">Route Collectors</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Answer Diff TTL Drift / NXDOMAIN Origin AS / AS Path</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Correlation / Detection Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNSSEC Validate RPKI Validate Baseline Compare</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Alert / Ticket / Traffic Mitigation</div></div>
+</div>
+</div>
+
+
 
 | 관측 항목 | 의미 | 이상 징후 예시 |
 | :--- | :--- | :--- |
@@ -111,7 +102,7 @@ tags = ["studynote-devops-sre"]
 - DNSSEC와 RPKI를 켰다는 이유만으로 상시 관측을 소홀히 하는 경우
 - 정상 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 변동, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 응답 차이, 교통 우회 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 모른 채 오탐을 남발하는 경우
 
-기술사 답안에서는 “[DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)/[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 도입”만 쓰지 말고, **다중 관측 지점, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 비교, 상관분석, 대응 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)**을 함께 써야 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망 주제가 살아난다. [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)와 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)를 분리해서 설명하면 더 구조적인 답안이 된다.
+기술사 답안에서는 “[DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)/[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 도입”만 쓰지 말고, <strong>다중 관측 지점, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> 비교, 상관분석, 대응 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/">플레이북</a></strong>을 함께 써야 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망 주제가 살아난다. [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)와 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)를 분리해서 설명하면 더 구조적인 답안이 된다.
 
 - **📢 섹션 요약 비유**: 화재경보기만 달아 놓고 대피 훈련을 안 하면 실제 불이 났을 때 우왕좌왕한다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망도 알람 자체보다 알람 이후 동작이 더 중요하다.
 
@@ -121,7 +112,7 @@ tags = ["studynote-devops-sre"]
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)·[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 통합 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망의 기대효과는 세 가지다. 첫째, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)·경로 탈취 같은 외부 인터넷 사고를 조기에 감지한다. 둘째, 장애와 공격을 구분하는 시간이 짧아져 MTTD (Mean Time To Detect)를 줄인다. 셋째, 사고 시 근거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 남겨 통신사, 클라우드 사업자, 보안 조직과의 공동 대응이 쉬워진다.
 
-다만 인터넷은 본질적으로 외부 의존성이 큰 환경이어서, 모든 이상을 내부에서 통제할 수는 없다. 따라서 이 주제는 “내 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 잘 보는 법”이 아니라, **인터넷 전체 맥락 속에서 내 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 프리픽스를 어떻게 관측할 것인가**의 문제로 이해해야 한다. DNSSEC와 RPKI가 안전벨트라면, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 주행 중 계기판이다.
+다만 인터넷은 본질적으로 외부 의존성이 큰 환경이어서, 모든 이상을 내부에서 통제할 수는 없다. 따라서 이 주제는 “내 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 잘 보는 법”이 아니라, <strong>인터넷 전체 맥락 속에서 내 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>과 프리픽스를 어떻게 관측할 것인가</strong>의 문제로 이해해야 한다. DNSSEC와 RPKI가 안전벨트라면, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 주행 중 계기판이다.
 
 - **📢 섹션 요약 비유**: 안전벨트를 맸다고 해서 운전 중 계기판을 안 볼 수는 없다. DNSSEC와 RPKI가 예방 장치라면, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링망은 길이 잘못 들었는지 바로 알려 주는 내비게이션 경고등이다.
 
@@ -142,21 +133,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 가용성 모니터링
-    │
-    ▼
-DNS 응답 무결성 점검 · DNSSEC
-    │
-    ▼
-BGP 경로 관측 · RPKI · ROA 검증
-    │
-    ▼
-Passive DNS + Route Collector 상관분석
-    │
-    ▼
-인터넷 외부 의존성 관측 · 공격/장애 통합 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 가용성 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DNS 응답 무결성 점검 · DNSSEC</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BGP 경로 관측 · RPKI · ROA 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Passive DNS + Route Collector 상관분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터넷 외부 의존성 관측 · 공격/장애 통합 대응</div>
+</div>
+</div>
+
+
 
 이 흐름은 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 인터넷 이름/경로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 외부 인터넷 전체 관측”으로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관측 범위가 넓어지는 과정을 보여준다.
 

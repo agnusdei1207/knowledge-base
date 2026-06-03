@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: SKT, KT, LGU+ 등 기존 통신 3사를 거치지 않고, **일반 기업(네이버, 삼성, 한전 등)이나 관공서가 특정 구역(공장, 사옥, 항만 등) 내에서 자신들만의 고유한 라이센스 주파수를 정부로부터 직접 할당받아, 독자적으로 구축하고 운영하는 맞춤형(Private) [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크망**입니다.
-- **국내 명칭**: 한국에서는 이를 **이음5G (e-UM [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))**라는 브랜드명으로 부릅니다. (4.7GHz 대역과 28GHz 대역을 특화망 전용으로 정부가 개방했습니다.)
+- **개념**: SKT, KT, LGU+ 등 기존 통신 3사를 거치지 않고, <strong>일반 기업(네이버, 삼성, 한전 등)이나 관공서가 특정 구역(공장, 사옥, 항만 등) 내에서 자신들만의 고유한 라이센스 주파수를 정부로부터 직접 할당받아, 독자적으로 구축하고 운영하는 맞춤형(Private) <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 네트워크망</strong>입니다.
+- **국내 명칭**: 한국에서는 이를 <strong>이음5G (e-UM <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>라는 브랜드명으로 부릅니다. (4.7GHz 대역과 28GHz 대역을 특화망 전용으로 정부가 개방했습니다.)
 
-```text
-[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
-[프라이빗 5G망]
-    │
-    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,14 +53,18 @@ tags = ["studynote-network"]
 - **일반 5G망**: 전 국민이 유튜브(다운로드)를 많이 보므로, 주파수 시간([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))을 `다운로드 8 : 업로드 2` 비율로 고정해 둡니다.
 - **공장 특화망**: 스마트 팩토리는 로봇이 찍은 초고화질 불량품 검사 4K 영상 수천 개를 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버로 **올려보내야(업로드)** 합니다. 특화망은 내 맘대로 망을 주무를 수 있으므로, 과감하게 주파수 비율을 `업로드 8 : 다운로드 2`로 비틀어버려 공장 맞춤형 괴물 통신망으로 튜닝할 수 있습니다.
 
-```text
-[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
-[프라이빗 5G망]
-    │
-    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **독자 구축 (Full [On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))**: 기지국(RAN)부터 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 서버까지 수백억 원을 들여 공장 지하실에 100% 다 사는 방식 (가장 완벽, 가장 비쌈). 대기업용.
+- <strong>독자 구축 (Full <a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">On-Premise</a>)</strong>: 기지국(RAN)부터 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 서버까지 수백억 원을 들여 공장 지하실에 100% 다 사는 방식 (가장 완벽, 가장 비쌈). 대기업용.
 - **클라우드 연동형 (UPF 로컬 배치 모델)**: 기지국(RAN)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 짐꾼(UPF)만 공장에 사서 박고, 똑똑하지만 비싼 두뇌([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 제어부)는 네이버 클라우드나 AWS에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 빌려 쓰는 가성비 하이브리드 대안 모델. (가장 각광받는 중견기업용 모델)
 
 프라이빗 5G망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…가 기반 조건을 만든다면, 프라이빗 5G망은 그 위에서 핵심 메커니즘을 구현하고, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전국망은 '대중교통 고속버스'입니다. 아무리 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 속도가 빨라도 수많은 일반 승객(스마트폰)과 같이 타야 하니 정류장(코어망)을 빙빙 돌아가고 내 기밀 서류를 옆 사람이 훔쳐볼까 불안합니다. **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 특화망(이음5G)**은 삼성이나 네이버가 아예 수백억 원을 들여 공장 앞마당에 '100% 우리 회사 직원 전용 아우토반 도로와 자가용 트럭(주파수와 코어망)'을 싹 다 직접 지어버린 것입니다. 외부 차는 단 1대도 안 들어오니 차가 막힐 일이 절대 없고(초저지연 독점), 물건이 도로 밖으로 빠져나갈 일도 없어 완벽한 철통 보안을 자랑하는 초일류 재벌 기업 전용 나만의 무선 고속도로입니다.
+- **📢 섹션 요약 비유**: 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전국망은 '대중교통 고속버스'입니다. 아무리 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 속도가 빨라도 수많은 일반 승객(스마트폰)과 같이 타야 하니 정류장(코어망)을 빙빙 돌아가고 내 기밀 서류를 옆 사람이 훔쳐볼까 불안합니다. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 특화망(이음5G)</strong>은 삼성이나 네이버가 아예 수백억 원을 들여 공장 앞마당에 '100% 우리 회사 직원 전용 아우토반 도로와 자가용 트럭(주파수와 코어망)'을 싹 다 직접 지어버린 것입니다. 외부 차는 단 1대도 안 들어오니 차가 막힐 일이 절대 없고(초저지연 독점), 물건이 도로 밖으로 빠져나갈 일도 없어 완벽한 철통 보안을 자랑하는 초일류 재벌 기업 전용 나만의 무선 고속도로입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
-    │
-    ▼
-[현재 개념: 프라이빗 5G망]
-    │
-    ├──▶ [확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프라이빗 5G망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 프라이빗 5G망는 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

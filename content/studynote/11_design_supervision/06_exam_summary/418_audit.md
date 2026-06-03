@@ -19,14 +19,18 @@ tags = ["studynote-design-supervision"]
 
 테스트 커버리지가 100%여도 테스트가 약하면 실제 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 놓칠 수 있다. [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)는 이 문제를 직접 겨냥한다. 연산자를 바꾸거나 비교식을 뒤집고, 상수를 변경하는 등 소스에 작은 변이를 넣은 뒤 테스트 스위트를 돌려 본다. 테스트가 실패하면 변이체를 제거한 것이고, 계속 통과하면 해당 영역의 테스트가 약하다는 신호다.
 
-감리 관점에서는 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)를 코드 커버리지의 대체재가 아니라 **보강 지표**로 본다. 즉 “얼마나 많이 실행했는가” 다음 단계로 “얼마나 날카롭게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가”를 묻는 도구다. 안전·정산·권한 같은 핵심 로직에서 특히 의미가 크다.
+감리 관점에서는 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)를 코드 커버리지의 대체재가 아니라 <strong>보강 지표</strong>로 본다. 즉 “얼마나 많이 실행했는가” 다음 단계로 “얼마나 날카롭게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가”를 묻는 도구다. 안전·정산·권한 같은 핵심 로직에서 특히 의미가 크다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 원본 소스코드   │──▶│ 변이체 생성     │──▶│ 테스트 스위트   │──▶│ 제거/생존 판정 │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
-        기준 코드          작은 결함 주입         기존 테스트 실행      테스트 강도 판정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 소스코드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">변이체 생성</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">테스트 스위트</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">제거/생존 판정</div></div>
+<div class="kb-diagram-note">기준 코드 작은 결함 주입 기존 테스트 실행 테스트 강도 판정</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 경비원이 깨어 있는지 보려면 그냥 서 있는지만 보는 게 아니라 일부러 작은 상황을 만들어 반응하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
@@ -36,23 +40,21 @@ tags = ["studynote-design-supervision"]
 
 감리에서는 모든 코드를 무차별적으로 변이시키는지보다, 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 집중하고 실행 비용을 통제하는지 본다. 또한 동등 변이체(결과적으로 의미가 같은 변이)를 구분하지 못하면 점수가 왜곡되므로, 결과 해석 체계가 중요하다.
 
-```text
-┌────────────────────┐
-│ 1. 변이 연산자 선택  │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 2. 변이체 생성/실행  │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 3. 제거/생존 분류    │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ 4. 테스트 보강       │
-└────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 변이 연산자 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 변이체 생성/실행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 제거/생존 분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 테스트 보강</div></div>
+</div>
+</div>
+
+
 
 | 단계 | 핵심 활동 | 감리 포인트 |
 |:---|:---|:---|
@@ -115,21 +117,23 @@ tags = ["studynote-design-supervision"]
 - 관련 키워드: 변이 연산자, 변이체 제거, 생존 변이체, 동등 변이체, 뮤테이션 점수, 선택 실행
 - 발전 흐름: 코드 실행 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 분기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강화 → 변이체 기반 테스트 강도 평가 → 고위험 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 집중 최적화
 
-```text
-단위 테스트 구축
-      │
-      ▼
-커버리지 측정
-      │
-      ▼
-변이체 생성
-      │
-      ▼
-제거/생존 분석
-      │
-      ▼
-테스트 보강
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단위 테스트 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커버리지 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변이체 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제거/생존 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 보강</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

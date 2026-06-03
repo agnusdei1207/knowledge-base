@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 기존 스마트폰이나 공유기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 전파를 360도 전 방향으로 퍼뜨립니다(동심원).
 - **은닉 노드(Hidden Node)와 노출 노드(Exposed Node) 문제 폭발 (809번 문서)**: 내가 동쪽의 A에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때, 서쪽으로도 전파가 퍼져서 B가 통신을 못 하고 억울하게 기다려야 하는 막대한 채널 낭비(간섭)가 발생했습니다.
 
-```text
-[오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
-[지향성 안테나 MAC 제어]
-    │
-    └──▶ [스마트 헬스케어 BAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈API 클라우드 망 연동 / MaaS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지향성 안테나 MAC 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 헬스케어 BAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전파 에너지를 360도 퍼뜨리지 않고, 특정 방향(예: 30도 각도)의 좁은 빔(Beam) 형태로 집중시켜 쏘는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)입니다. ([6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대의 핵심인 **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))**과 궤를 같이합니다.)
-- **효과**: 전파가 한 곳으로 몰리니 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 세져 **통신 거리가 엄청나게 길어지고**, 다른 방향으로 전파가 안 새어나가서 **간섭(충돌)이 0으로 수렴**하며 공간을 극도로 쪼개 쓸 수 있습니다(SDMA 공간 분할).
+- **개념**: 전파 에너지를 360도 퍼뜨리지 않고, 특정 방향(예: 30도 각도)의 좁은 빔(Beam) 형태로 집중시켜 쏘는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)입니다. ([6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대의 핵심인 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong>과 궤를 같이합니다.)
+- **효과**: 전파가 한 곳으로 몰리니 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 세져 **통신 거리가 엄청나게 길어지고**, 다른 방향으로 전파가 안 새어나가서 <strong>간섭(충돌)이 0으로 수렴</strong>하며 공간을 극도로 쪼개 쓸 수 있습니다(SDMA 공간 분할).
 
-```text
-[오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
-[지향성 안테나 MAC 제어]
-    │
-    └──▶ [스마트 헬스케어 BAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈API 클라우드 망 연동 / MaaS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지향성 안테나 MAC 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 헬스케어 BAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 파티장에서 '확성기로 소리 지르기'입니다. 한 명이 춤추면서 소리를 지르면 온 파티장 사람들이 귀를 막고 대화를 멈춰야 합니다(간섭과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비). **지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어**는 파티장에서 '종이컵 실 전화기'를 팽팽하게 당겨서 대화하는 것입니다. 내가 철수랑 대화하려면 먼저 실 전화기(레이저 빔)를 사방으로 이리저리 휘둘러보며 철수의 귀에 컵을 정확히 갖다 대는 작업(스위프 탐색)을 거칩니다. 일단 컵이 딱 맞물리면, 둘이 아무리 큰 소리로 떠들어도 실을 타고만 소리가 전달되므로 파티장의 다른 사람들은 전혀 시끄럽지 않게(간섭 제로) 각자 자기 친구들과 100쌍이 동시에 귓속말을 할 수 있는 극강의 공간 분할 무선 마법입니다.
+- **📢 섹션 요약 비유**: 기존 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 파티장에서 '확성기로 소리 지르기'입니다. 한 명이 춤추면서 소리를 지르면 온 파티장 사람들이 귀를 막고 대화를 멈춰야 합니다(간섭과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비). <strong>지향성 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 제어</strong>는 파티장에서 '종이컵 실 전화기'를 팽팽하게 당겨서 대화하는 것입니다. 내가 철수랑 대화하려면 먼저 실 전화기(레이저 빔)를 사방으로 이리저리 휘둘러보며 철수의 귀에 컵을 정확히 갖다 대는 작업(스위프 탐색)을 거칩니다. 일단 컵이 딱 맞물리면, 둘이 아무리 큰 소리로 떠들어도 실을 타고만 소리가 전달되므로 파티장의 다른 사람들은 전혀 시끄럽지 않게(간섭 제로) 각자 자기 친구들과 100쌍이 동시에 귓속말을 할 수 있는 극강의 공간 분할 무선 마법입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 오픈API 클라우드 망 연동 / MaaS]
-    │
-    ▼
-[현재 개념: 지향성 안테나 MAC 제어]
-    │
-    ├──▶ [확장 A: 스마트 헬스케어 BAN]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오픈API 클라우드 망 연동 / MaaS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지향성 안테나 MAC 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 헬스케어 BAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어는 오픈API 클라우드 망 연동 / MaaS에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트 헬스케어 BAN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

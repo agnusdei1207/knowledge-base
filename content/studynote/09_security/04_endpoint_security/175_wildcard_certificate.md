@@ -19,35 +19,34 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-와일드카드 인증서 (Wildcard Certificate)는 "같은 존(zone) 아래에서 이름만 바뀌는 다수의 서브도메인"을 한 장으로 처리하려고 등장했다. `api.example.com`, `admin.example.com`, `tenant42.example.com`처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늘어날 때마다 개별 인증서를 발급하거나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 목록을 계속 갱신하면, 실제 운영 병목은 암호 기술보다 **인증서 수명주기 관리**에서 먼저 터진다.
+와일드카드 인증서 (Wildcard Certificate)는 "같은 존(zone) 아래에서 이름만 바뀌는 다수의 서브도메인"을 한 장으로 처리하려고 등장했다. `api.example.com`, `admin.example.com`, `tenant42.example.com`처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늘어날 때마다 개별 인증서를 발급하거나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 목록을 계속 갱신하면, 실제 운영 병목은 암호 기술보다 <strong>인증서 수명주기 관리</strong>에서 먼저 터진다.
 
 특히 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 환경에서는 새 서브도메인이 배포와 동시에 생긴다. 이때 이름이 고정되어 있지 않다면, "미리 정의된 정확한 목록"보다 "같은 패턴 안의 이름 집합"을 인정하는 방식이 훨씬 실용적이다. 와일드카드는 이런 운영 현실에 대한 절충안이다.
 
 아래 그림은 고정형 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 관리와 동적 서브도메인 환경 사이의 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why wildcard certificates became necessary                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Fixed host list                                                      │
-│   api.example.com                                                    │
-│   admin.example.com                                                  │
-│   files.example.com                                                  │
-│        │                                                             │
-│        └─ SAN list can explicitly enumerate names                    │
-│                                                                      │
-│ Growing host list                                                    │
-│   tenant1.example.com                                                │
-│   tenant2.example.com                                                │
-│   tenant3.example.com                                                │
-│   ... more every week                                                │
-│        │                                                             │
-│        └─ Reissuing explicit SAN list becomes operational overhead   │
-│                                                                      │
-│ Answer: one wildcard entry *.example.com                             │
-│        -> valid for one-label subdomains under the same base domain  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why wildcard certificates became necessary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fixed host list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">api.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">admin.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">files.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SAN list can explicitly enumerate names</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Growing host list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tenant1.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tenant2.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tenant3.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... more every week</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Reissuing explicit SAN list becomes operational overhead</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Answer: one wildcard entry *.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; valid for one-label subdomains under the same base domain</div></div>
+</div>
+</div>
+
+
 
 즉 와일드카드는 "더 강한 인증서"가 아니라 "더 넓은 이름 집합을 더 적은 문서로 다루는 인증서"다. 필요성의 핵심은 보안 등급 상승이 아니라 운영 자동화와 확장성에 있다.
 
@@ -57,32 +56,30 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-와일드카드는 보통 SAN의 `dNSName` 항목에 패턴 형태로 저장된다. 클라이언트는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 핸드셰이크에서 인증서를 받은 뒤, 자신이 접속한 호스트명이 이 패턴과 일치하는지 검사한다. 이때 핵심 규칙은 **맨 왼쪽 라벨 한 칸만 대체 가능**하다는 점이다. 그래서 `*.example.com`은 `api.example.com`에는 일치하지만 `example.com`이나 `dev.api.example.com`에는 일치하지 않는다.
+와일드카드는 보통 SAN의 `dNSName` 항목에 패턴 형태로 저장된다. 클라이언트는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 핸드셰이크에서 인증서를 받은 뒤, 자신이 접속한 호스트명이 이 패턴과 일치하는지 검사한다. 이때 핵심 규칙은 <strong>맨 왼쪽 라벨 한 칸만 대체 가능</strong>하다는 점이다. 그래서 `*.example.com`은 `api.example.com`에는 일치하지만 `example.com`이나 `dev.api.example.com`에는 일치하지 않는다.
 
 또한 발급 단계에서는 단순 문자열 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 선행된다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)는 신청자가 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 실제로 제어하는지 확인해야 하며, ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 자동화에서는 와일드카드 발급 시 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)-01 챌린지가 대표적으로 사용된다. 즉 편리해 보여도 발급 근거는 여전히 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통제권 위에 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Wildcard issuance and hostname validation                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CSR (Certificate Signing Request) / ACME request                     │
-│   SAN = *.example.com                                                │
-│        │                                                             │
-│        ├─ CA verifies DNS control                                    │
-│        │    └─ ACME wildcard issuance commonly uses DNS-01           │
-│        ▼                                                             │
-│ Issued certificate + private key                                     │
-│        │                                                             │
-│ Client connects to https://api.example.com                           │
-│        │                                                             │
-│ Server sends certificate                                             │
-│        ▼                                                             │
-│ Hostname matcher                                                     │
-│   ├─ api.example.com      -> match                                   │
-│   ├─ example.com          -> no match                                │
-│   └─ dev.api.example.com  -> no match                                │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wildcard issuance and hostname validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSR (Certificate Signing Request) / ACME request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAN = *.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CA verifies DNS control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ACME wildcard issuance commonly uses DNS-01</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issued certificate + private key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client connects to https://api.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server sends certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hostname matcher</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ api.example.com -&gt; match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ example.com -&gt; no match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dev.api.example.com -&gt; no match</div></div>
+</div>
+</div>
+
+
 
 | 인증서 이름 | 일치 예 | 불일치 예 | 이유 |
 | :--- | :--- | :--- | :--- |
@@ -140,7 +137,7 @@ tags = ["studynote-security"]
 - `dev.api.example.com` 같은 2단계 서브도메인까지 포함된다고 오해하는 구성
 - 키를 여러 서버에 평문 파일로 복사해 두고도 "인증서 자동화가 되어 있다"고 생각하는 운영
 
-기술사 관점에서는 "와일드카드는 서브도메인을 많이 처리할 수 있다"에서 멈추면 부족하다. 더 좋은 답은 **"동적 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 운영 효율을 높이는 대신, 키 재사용에 따른 blast radius가 커지므로 동일 보안 경계 안에서만 제한적으로 채택해야 한다"**라고 정리하는 것이다.
+기술사 관점에서는 "와일드카드는 서브도메인을 많이 처리할 수 있다"에서 멈추면 부족하다. 더 좋은 답은 <strong>"동적 하위 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 운영 효율을 높이는 대신, 키 재사용에 따른 blast radius가 커지므로 동일 보안 경계 안에서만 제한적으로 채택해야 한다"</strong>라고 정리하는 것이다.
 
 - **📢 섹션 요약 비유**: 와일드카드는 건물 청소용 마스터 키와 같다. 비슷한 방을 많이 열 때는 매우 편하지만, 금고실 열쇠까지 같은 묶음에 넣어 버리면 편의성보다 사고 비용이 더 커진다.
 
@@ -150,7 +147,7 @@ tags = ["studynote-security"]
 
 와일드카드 인증서는 인증서 운영을 "호스트별 수작업"에서 "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위 자동화"로 끌어올린다. 그래서 서브도메인이 빠르게 늘어나는 현대 플랫폼에서 배포 속도와 관리 효율을 크게 개선한다. 특히 ACME 자동 갱신, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 자동화, [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 기반 배포와 결합하면 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개통 시간을 줄이는 효과가 크다.
 
-하지만 와일드카드의 성공 조건은 범위를 넓히는 것이 아니라 **범위를 어디서 끊을지 아는 것**이다. 인증서가 많은 문제를 줄여 주더라도, 키 하나에 너무 많은 신뢰를 실으면 작은 취약점이 큰 사고로 번진다. 따라서 기억해야 할 핵심은 "와일드카드 = 편리한 범위 자동화 도구"이지, "만능 인증서"가 아니라는 점이다.
+하지만 와일드카드의 성공 조건은 범위를 넓히는 것이 아니라 <strong>범위를 어디서 끊을지 아는 것</strong>이다. 인증서가 많은 문제를 줄여 주더라도, 키 하나에 너무 많은 신뢰를 실으면 작은 취약점이 큰 사고로 번진다. 따라서 기억해야 할 핵심은 "와일드카드 = 편리한 범위 자동화 도구"이지, "만능 인증서"가 아니라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 공용 리모컨은 같은 거실 기기만 편하게 조종하게 해 준다. 집 안 모든 문과 금고, 자동차까지 한 버튼에 연결하면 편리함이 아니라 위험이 된다.
 
@@ -169,25 +166,26 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 호스트 인증서
-    │
-    ▼
-SAN (Subject Alternative Name) 기반 다중 이름 관리
-    │
-    ▼
-와일드카드 패턴 (*.example.com)
-    │
-    ├─ 동적 서브도메인 운영
-    ├─ 인그레스 / 멀티테넌트 플랫폼
-    └─ 개인키 노출 반경 확대
-    │
-    ▼
-ACME + DNS 자동화
-    │
-    ▼
-인증서 분리 전략 + 키 격리 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 호스트 인증서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAN (Subject Alternative Name) 기반 다중 이름 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">와일드카드 패턴 (*.example.com)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">동적 서브도메인 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인그레스 / 멀티테넌트 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">개인키 노출 반경 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACME + DNS 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증서 분리 전략 + 키 격리 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 인증서 운영이 "이름 하나당 한 장"에서 출발해, 패턴 기반 자동화와 그에 따른 격리 설계 문제로 확장되는 과정을 보여 준다.
 

@@ -108,21 +108,23 @@ ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_in
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클래스 혼합
-    │
-    ▼
-Entropy / Gini 계산
-    │
-    ▼
-정보 이득
-    │
-    ▼
-분할 선택
-    │
-    ▼
-의사결정나무
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클래스 혼합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Entropy / Gini 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 이득</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분할 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">의사결정나무</div>
+</div>
+</div>
+
+
 
 이 흐름은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 순수한 노드로 나누는지 보여준다.
 

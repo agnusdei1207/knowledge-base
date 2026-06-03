@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 딥러닝 모델이 10개 클래스를 예측할 때, 모델 출력 분포 Q와 실제 정답 분포 P의 차이를 어떻게 수치화할까? 단순 정확도(Accuracy)는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 사용 불가하다. 이때 정보 이론([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))에서 온 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))가 등장한다. 정보 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P)는 분포 P의 평균 놀라움(정보량)이고, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q)는 실제 분포 P를 모른 채 분포 Q를 기준으로 코딩할 때 필요한 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수다. 둘의 차이가 KLD다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정답 분포 P는 "실제 날씨 패턴"이고, 모델 예측 Q는 "기상청 예보"다. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 기상청 예보를 믿고 우산을 챙길 때 평균적으로 얼마나 손해([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 보는지 측정하는 것이고, KLD는 그 손해에서 원래 날씨 패턴이 가진 불확실성을 뺀 순수 예보 오차다.
 
@@ -38,25 +41,25 @@ tags = ["studynote-ai"]
 
 ### 수식 전개
 
-```
-엔트로피:       H(P) = -Σ p(x) · log p(x)
-교차 엔트로피:  H(P,Q) = -Σ p(x) · log q(x)
-KLD:           D_KL(P||Q) = Σ p(x) · log[p(x)/q(x)]
-                           = H(P,Q) - H(P)
 
-┌─────────────────────────────────────────────────┐
-│         H(P,Q) = H(P) + D_KL(P||Q)              │
-│                                                 │
-│  P = [1,0,0] (정답: 고양이)                      │
-│  Q = [0.7, 0.2, 0.1] (모델 예측)                │
-│                                                 │
-│  H(P,Q) = -(1·log0.7 + 0·log0.2 + 0·log0.1)    │
-│         = -log(0.7) ≈ 0.357 (bits)              │
-│                                                 │
-│  H(P) = 0 (원핫 분포는 엔트로피=0)              │
-│  D_KL = 0.357 - 0 = 0.357                       │
-└─────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">엔트로피: H(P) = -Σ p(x) · log p(x)</div>
+<div class="kb-diagram-note">교차 엔트로피: H(P,Q) = -Σ p(x) · log q(x)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">KLD: D_KL(P||Q) = Σ p(x) · log</div><div class="kb-diagram-node">p(x)/q(x)</div></div>
+<div class="kb-diagram-note">= H(P,Q) - H(P)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P,Q) = H(P) + D_KL(P</div><div class="kb-diagram-cell">Q)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P =</div><div class="kb-diagram-node">1,0,0</div><div class="kb-diagram-note">(정답: 고양이)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Q =</div><div class="kb-diagram-node">0.7, 0.2, 0.1</div><div class="kb-diagram-note">(모델 예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P,Q) = -(1·log0.7 + 0·log0.2 + 0·log0.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= -log(0.7) ≈ 0.357 (bits)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P) = 0 (원핫 분포는 엔트로피=0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_KL = 0.357 - 0 = 0.357</div></div>
+</div>
+</div>
+
+
 
 | 지표 | 수식 | 특성 |
 |:---|:---|:---|

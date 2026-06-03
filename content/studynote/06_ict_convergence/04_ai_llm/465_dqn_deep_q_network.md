@@ -13,7 +13,7 @@ tags = ["studynote-ict-convergence"]
 
 > 1. **본질**: DQN(Deep Q-Network)은 강화학습이 쓰던 종이 수첩(Q-Table)을 찢어버리고, 그 자리에 딥러닝([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 신경망을 꽂아 넣어 "어떤 복잡한 화면(픽셀)이 들어오든, 각 행동(상/하/좌/우)을 했을 때 받을 점수를 함수로 예측해 내는" 초거대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 뇌다.
 > 2. **가치**: 기존 강화학습은 벽돌 깨기 게임의 수억 개가 넘는 화면(상태)을 모두 수첩에 적을 수 없어 파산했지만, DQN은 화면 자체를 이미지로 인식하는 CNN과 결합하여 인간의 개입 없이 스스로 벽돌 깨기 게임의 만점 공략법을 깨우치며 2013년 전 세계를 경악시켰다.
-> 3. **판단 포인트**: 단순히 딥러닝과 Q-Learning을 합치면 모델이 미쳐 날뛰며(학습 붕괴) 터져버린다. 구글 딥마인드는 이를 막기 위해 과거의 경험을 섞어 쓰는 **경험 리플레이([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/))**와, 쫓아가는 정답지를 꽁꽁 얼려두는 **[타겟 네트워크](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/)([Target Network](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/))**라는 두 가지 전설적인 꼼수를 발명하여 딥러닝과 강화학습의 완벽한 융합을 이뤄냈다.
+> 3. **판단 포인트**: 단순히 딥러닝과 Q-Learning을 합치면 모델이 미쳐 날뛰며(학습 붕괴) 터져버린다. 구글 딥마인드는 이를 막기 위해 과거의 경험을 섞어 쓰는 <strong>경험 리플레이(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/">Experience Replay</a>)</strong>와, 쫓아가는 정답지를 꽁꽁 얼려두는 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/">타겟 네트워크</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/">Target Network</a>)</strong>라는 두 가지 전설적인 꼼수를 발명하여 딥러닝과 강화학습의 완벽한 융합을 이뤄냈다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-ict-convergence"]
 강화학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) Q-Learning은 똑똑하지만 치명적인 한계가 있었다. 게임 속 경우의 수가 바둑판 100칸이면 수첩(Q-Table)에 다 적을 수 있지만, 오락실 벽돌 깨기 게임의 화면(픽셀) 경우의 수는 우주의 원자 수보다 많아 수첩에 절대 적을 수 없었다 (차원의 저주).
 
 "모든 경우의 수를 수첩에 다 적지 말고, **현재 화면의 픽셀 사진을 딱 보여주면 '오른쪽으로 가면 10점, 왼쪽으로 가면 -5점'이라고 대충 예측해 주는 딥러닝 함수(신경망)를 만들면 안 될까?**"
-강화학습의 뼈대 위에 거대한 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 뇌로 이식한 것, 그것이 구글 딥마인드(DeepMind)를 세계 최고의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 회사로 만든 **DQN**의 시작이다.
+강화학습의 뼈대 위에 거대한 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 뇌로 이식한 것, 그것이 구글 딥마인드(DeepMind)를 세계 최고의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 회사로 만든 <strong>DQN</strong>의 시작이다.
 
 - **📢 섹션 요약 비유**: 동네 빵집 사장님([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))은 단골 100명의 얼굴과 취향을 수첩에 다 적어놓고 외울 수 있었다. 하지만 전국 5천만 명의 손님이 몰려오자 수첩이 터져버렸다. 그래서 5천만 명의 얼굴 데이터를 보고 취향을 자동으로 때려 맞추는 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴퓨터(DQN)를 카운터에 들여놓은 것이다.
 
@@ -32,31 +32,33 @@ tags = ["studynote-ict-convergence"]
 
 DQN은 딥러닝과 강화학습이 만났을 때 벌어지는 최악의 버그들을 두 가지 특수 파이프라인으로 완벽하게 진압했다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             [ DQN의 학습 붕괴 방어를 위한 2대 파이프라인 ]      │
-├────────────────────────────────────────────────────────┤
-│ 1. 문제 1: 데이터의 시간적 편향 (Correlation)              │
-│    - 게임을 하면 [1초 화면 -> 2초 화면 -> 3초 화면]이 연속으로 들어옴│
-│    - 비슷한 화면만 연달아 학습하면 딥러닝이 과적합으로 바보가 됨! │
-│    - [해결책] 경험 리플레이 (Experience Replay)             │
-│      -> 매 순간의 캡처 화면을 거대한 '리플레이 버퍼(메모리)'에 저장함│
-│      -> 학습할 땐 순서대로 안 뽑고, 버퍼에서 무작위(Random)로    │
-│         과거 기억을 섞어서 끄집어내어 학습함! (노이즈 파괴)         │
-│                                                        │
-│ 2. 문제 2: 움직이는 과녁 (Moving Target)                  │
-│    - Q_new = R + γ * Max(Q_next) 공식에서, Q_next를 예측하는│
-│      신경망과 Q_new를 학습하는 신경망이 똑같은 놈임.             │
-│    - 내가 1보 걸을 때마다 정답지도 같이 1보 도망가는 미친 상황 발생! │
-│    - [해결책] 타겟 네트워크 (Target Network) 분리           │
-│      -> 정답지를 예측하는 '타겟 신경망'을 아예 복사해서 하나 더 만듦│
-│      -> 이 타겟망의 가중치는 꽁꽁 얼려두고(Freeze) 1만 번에 한 번씩만│
-│         메인 신경망과 동기화시킴! (정답지가 가만히 멈춰 있게 됨)     │
-└────────────────────────────────────────────────────────┘
-```
 
-1. **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))로서의 이미지**: DQN의 입력값은 숫자가 아니다. 게임 화면 픽셀 그대로다. 딥마인드는 최근 4개의 프레임(화면)을 겹쳐서 CNN에 밀어 넣었다. 사진 1장만 주면 공이 위로 가는지 아래로 가는지 모르지만, 4장을 겹쳐서 주면 CNN이 스스로 '공의 이동 방향과 속도(벡터)'까지 완벽히 인식해 낸다.
-2. **[End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 학습**: "픽셀 화면을 넣으면, 조이스틱 버튼(행동)이 튀어나온다." 중간에 인간이 '공의 위치를 찾아라' 같은 힌트를 단 하나도 주지 않았음에도, 오직 점수(보상) 하나만 보고 기계가 화면을 스스로 씹어먹는 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 달성했다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQN의 학습 붕괴 방어를 위한 2대 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 문제 1: 데이터의 시간적 편향 (Correlation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 게임을 하면</div><div class="kb-diagram-node">1초 화면 -&gt; 2초 화면 -&gt; 3초 화면</div><div class="kb-diagram-note">이 연속으로 들어옴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비슷한 화면만 연달아 학습하면 딥러닝이 과적합으로 바보가 됨!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">해결책</div><div class="kb-diagram-note">경험 리플레이 (Experience Replay)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 매 순간의 캡처 화면을 거대한 '리플레이 버퍼(메모리)'에 저장함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 학습할 땐 순서대로 안 뽑고, 버퍼에서 무작위(Random)로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 기억을 섞어서 끄집어내어 학습함! (노이즈 파괴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 문제 2: 움직이는 과녁 (Moving Target)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Q_new = R + γ * Max(Q_next) 공식에서, Q_next를 예측하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신경망과 Q_new를 학습하는 신경망이 똑같은 놈임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내가 1보 걸을 때마다 정답지도 같이 1보 도망가는 미친 상황 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">해결책</div><div class="kb-diagram-note">타겟 네트워크 (Target Network) 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 정답지를 예측하는 '타겟 신경망'을 아예 복사해서 하나 더 만듦</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 이 타겟망의 가중치는 꽁꽁 얼려두고(Freeze) 1만 번에 한 번씩만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 신경망과 동기화시킴! (정답지가 가만히 멈춰 있게 됨)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)로서의 이미지</strong>: DQN의 입력값은 숫자가 아니다. 게임 화면 픽셀 그대로다. 딥마인드는 최근 4개의 프레임(화면)을 겹쳐서 CNN에 밀어 넣었다. 사진 1장만 주면 공이 위로 가는지 아래로 가는지 모르지만, 4장을 겹쳐서 주면 CNN이 스스로 '공의 이동 방향과 속도(벡터)'까지 완벽히 인식해 낸다.
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a> 학습</strong>: "픽셀 화면을 넣으면, 조이스틱 버튼(행동)이 튀어나온다." 중간에 인간이 '공의 위치를 찾아라' 같은 힌트를 단 하나도 주지 않았음에도, 오직 점수(보상) 하나만 보고 기계가 화면을 스스로 씹어먹는 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 달성했다.
 
 - **📢 섹션 요약 비유**: 경험 리플레이는 수학 공부를 할 때 1단원만 쭉 풀면 나중에 2단원을 까먹으니까, 문제집의 1, 2, 3단원 문제를 섞어서 랜덤으로 푸는 복습법이다. [타겟 네트워크](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/)는 움직이는 토끼(과녁)를 향해 활을 쏘면 계속 빗나가니까, 토끼를 10초 동안 나무에 묶어놓고(Freeze) 여유롭게 활의 영점을 잡는 사냥법이다.
 
@@ -68,12 +70,12 @@ DQN은 딥러닝과 강화학습이 만났을 때 벌어지는 최악의 버그�
 
 | 비교 항목 | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) (테이블 기반) | DQN (딥러닝 기반) |
 |:---:|:---|:---|
-| **저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)** | 2차원 엑셀 표 (Q-Table) | **거대한 인공신경망 ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), MLP)** |
-| **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 처리**| 이산적(Discrete)인 상태만 가능 | **무한대의 픽셀 이미지(연속적/고차원) 처리 가능** |
-| **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 한 번도 안 가본 길은 점수가 0이라 모름 | **안 가본 길도 비슷한 픽셀이면 점수를 유추해 냄 (Generalization)** |
+| <strong>저장 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a></strong> | 2차원 엑셀 표 (Q-Table) | <strong>거대한 인공신경망 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>, MLP)</strong> |
+| <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>) 처리</strong>| 이산적(Discrete)인 상태만 가능 | **무한대의 픽셀 이미지(연속적/고차원) 처리 가능** |
+| <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 한 번도 안 가본 길은 점수가 0이라 모름 | **안 가본 길도 비슷한 픽셀이면 점수를 유추해 냄 (Generalization)** |
 | **학습 안정성** | 매우 안정적으로 수렴함 | **경험 리플레이, 타겟망 없으면 폭발함 (매우 불안정)** |
 
-DQN이 위대하긴 하지만 여전히 한계가 있다. 행동(Action)이 "조이스틱 위/아래"처럼 딱딱 끊어지는 불연속(Discrete) 행동만 할 수 있다는 점이다. 자율주행 자동차의 "핸들을 15.3도 꺾어라" 같은 부드럽고 연속적인(Continuous) 행동은 불가능하다. 이를 극복하기 위해 등장한 것이 행동까지 딥러닝으로 뽑아내는 **DDPG**나 **SAC (Soft [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/))** 같은 최신 연속 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+DQN이 위대하긴 하지만 여전히 한계가 있다. 행동(Action)이 "조이스틱 위/아래"처럼 딱딱 끊어지는 불연속(Discrete) 행동만 할 수 있다는 점이다. 자율주행 자동차의 "핸들을 15.3도 꺾어라" 같은 부드럽고 연속적인(Continuous) 행동은 불가능하다. 이를 극복하기 위해 등장한 것이 행동까지 딥러닝으로 뽑아내는 <strong>DDPG</strong>나 <strong>SAC (Soft <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/">Actor-Critic</a>)</strong> 같은 최신 연속 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 - **📢 섹션 요약 비유**: Q-Learning은 식당 메뉴판 100개를 다 먹어보고 수첩에 맛 점수를 적는 미식가다(안 먹어본 건 모름). DQN은 음식의 재료와 냄새(픽셀 특징)만 맡고도 "이건 안 먹어봐도 90점짜리 맛이겠네!"라고 일반화(Generalization)해서 유추해 내는 천재 백종원이다.
 
@@ -83,13 +85,13 @@ DQN이 위대하긴 하지만 여전히 한계가 있다. 행동(Action)이 "조
 
 **실무 적용 시나리오:**
 로봇 팔이 컨베이어 벨트에서 물건을 집어 드는 픽 앤 플레이스(Pick and Place) 강화학습을 설계한다. 로봇 위에 달린 카메라 영상이 상태(S)다.
-기술사는 파이토치로 **DQN 아키텍처**를 짠다. 카메라 영상이 들어오면 CNN이 이를 압축하고, 마지막 출력층에서 [위, 아래, 집기, 놓기] 4가지 행동에 대한 Q값(기대 점수)을 뱉어낸다. 
+기술사는 파이토치로 <strong>DQN 아키텍처</strong>를 짠다. 카메라 영상이 들어오면 CNN이 이를 압축하고, 마지막 출력층에서 [위, 아래, 집기, 놓기] 4가지 행동에 대한 Q값(기대 점수)을 뱉어낸다. 
 학습 초반, 로봇은 미친 듯이 허공에 팔을 휘젓는다([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)). 이 모든 헛발질 영상과 점수가 `Replay Buffer`에 10만 장 쌓인다. 밤이 되자 GPU가 이 버퍼에서 64장씩 무작위로 뽑아(Mini-batch) 역전파를 돌린다. 아침이 되자 로봇은 카메라 화면만 보고도 가장 완벽한 궤적으로 물건을 집어 드는 달인으로 진화했다.
 
 **기술사 판단 포인트 (Trade-off):**
-DQN 파이프라인 설계 시 기술사는 **'과대평가(Overestimation)' 버그**를 방어하기 위한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 스위칭을 단행해야 한다.
+DQN 파이프라인 설계 시 기술사는 <strong>'과대평가(Overestimation)' 버그</strong>를 방어하기 위한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 스위칭을 단행해야 한다.
 1. DQN의 가장 고질적인 수학적 결함은 $Max(Q_{next})$를 맹신한다는 것이다. 딥러닝이 가끔 노이즈 때문에 엉뚱한 행동에 '100만 점'이라는 가짜 1등 점수를 매겨버리면, 모델이 그 가짜 1등 점수를 정답으로 믿고 업데이트하며 며칠 치 학습이 통째로 붕괴한다.
-2. 기술사는 이 끔찍한 버그를 막기 위해, 1등 행동을 "고르는 놈(메인 신경망)"과 그 행동의 "점수를 매기는 놈(타겟 신경망)"을 완벽하게 찢어놓는 **Double DQN (DDQN)**으로 아키텍처를 진화시켜야 한다. 
+2. 기술사는 이 끔찍한 버그를 막기 위해, 1등 행동을 "고르는 놈(메인 신경망)"과 그 행동의 "점수를 매기는 놈(타겟 신경망)"을 완벽하게 찢어놓는 <strong>Double DQN (DDQN)</strong>으로 아키텍처를 진화시켜야 한다. 
 3. 행동 선택과 점수 평가를 분리하면 한쪽 신경망이 헛소리를 해도 다른 신경망이 팩트 체크를 해주어 과대평가(오버피팅)가 귀신같이 사라진다.
 
 - **📢 섹션 요약 비유**: 식당을 평가할 때 식당 주인이 직접 "우리 집이 1등이고 100점이다!"라고 평가하면 사기를 당한다(과대평가). Double DQN은 "1등 식당 후보를 고르는 건 주인이 하되(메인 신경망), 그 식당이 진짜 100점짜리인지는 까다로운 미슐랭 심사위원(타겟 신경망)이 검증하게 하는" 완벽한 견제와 균형 시스템이다.

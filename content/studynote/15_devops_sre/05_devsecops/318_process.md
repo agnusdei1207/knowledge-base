@@ -29,19 +29,19 @@ Toil은 다음 6가지 특성을 모두 가진 업무다:
 | No Lasting Value| 완료 후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 영구 개선하지 않음        |
 | Scales linearly | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장에 비례해 업무량 증가                |
 
-```
-┌───────────────────────────────────────────────────┐
-│                Toil 판별 흐름                     │
-│                                                   │
-│  반복 작업 발견                                   │
-│      │                                            │
-│      ├─ 자동화 가능? ─── No ──▶ Toil 아님        │
-│      │       │                                   │
-│      │      Yes                                  │
-│      │       │                                   │
-│      └──▶  Toil ──▶ 자동화 우선순위 큐에 등록    │
-└───────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Toil 판별 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 작업 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자동화 가능? No ──▶ Toil 아님</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Toil ──▶ 자동화 우선순위 큐에 등록</div></div>
+</div>
+</div>
+
+
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > Toil은 매일 아침 똑같은 방법으로 청소하는 것 — 청소 로봇을 사면 그 시간을 더 창의적인 일에 쓸 수 있다.
@@ -74,7 +74,7 @@ SRE는 Overhead는 줄이되, 제거하는 것이 목표인 Toil에 집중한다
 실무 도구:
 - **Runbook 자동화**: 수동 런북 → [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)/Python 스크립트화
 - **Self-healing**: 장애 자동 감지 → 자동 재시작
-- **[ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)**: Slack [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 운영 작업 실행
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/">ChatOps</a></strong>: Slack [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 운영 작업 실행
 
 > 📢 **Ⅲ 섹션 요약 비유**
 > [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거는 계산기 발명 — 덧셈을 손으로 하던 시간을 분석·해석에 쓸 수 있게 된다.
@@ -115,13 +115,19 @@ Toil이 지속적으로 높으면:
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Toil
-    ├── 측정 → 주단위 Toil 시간 로그
-    ├── 자동화 → Runbook 스크립트화, Ansible
-    ├── Self-healing → 장애 자동 감지·재시작
-    └── SRE 건강 지표 → Toil 50% 상한 모니터링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Toil</div>
+<div class="kb-diagram-tree-item" style="--depth:2">측정 → 주단위 Toil 시간 로그</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동화 → Runbook 스크립트화, Ansible</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Self-healing → 장애 자동 감지·재시작</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SRE 건강 지표 → Toil 50% 상한 모니터링</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > Toil은 매일 같은 숙제를 손으로 쓰는 것이에요. 타자를 배우면(자동화) 그 시간에 더 재미있는 공부를 할 수 있어요.

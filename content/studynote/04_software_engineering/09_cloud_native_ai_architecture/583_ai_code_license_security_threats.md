@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **라이선스 충돌 (License Conflict)**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코드는 공짜가 아니다! (MIT, Apache는 착하지만, **GPL**은 "내 코드 1줄 썼어? 그럼 니 회사 코드 100만 줄도 다 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 까!"라는 미친 전염성을 가짐). AI가 GPL 코드를 암기했다가 나한테 짜줬는데 내가 그걸 모르고 회사 서버에 올리는 순간 저작권 지옥이 열린다.
-  - **[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))**: 챗GPT가 이순신 장군이 거북선으로 레이저 쐈다고 헛소리하는 현상. 코딩에선 더 심각하다. "이 에러는 `react-super-fast` 패키지 깔면 해결됨 ㅋ" 해서 개발자가 깔았는데, 알고 보니 해커가 어제 그 이름으로 올려둔 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 악성 패키지인 끔찍한 공격([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Package [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))이다.
+  - **라이선스 충돌 (License Conflict)**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코드는 공짜가 아니다! (MIT, Apache는 착하지만, <strong>GPL</strong>은 "내 코드 1줄 썼어? 그럼 니 회사 코드 100만 줄도 다 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 까!"라는 미친 전염성을 가짐). AI가 GPL 코드를 암기했다가 나한테 짜줬는데 내가 그걸 모르고 회사 서버에 올리는 순간 저작권 지옥이 열린다.
+  - <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)</strong>: 챗GPT가 이순신 장군이 거북선으로 레이저 쐈다고 헛소리하는 현상. 코딩에선 더 심각하다. "이 에러는 `react-super-fast` 패키지 깔면 해결됨 ㅋ" 해서 개발자가 깔았는데, 알고 보니 해커가 어제 그 이름으로 올려둔 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 악성 패키지인 끔찍한 공격([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Package [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))이다.
 
-- **필요성 (눈먼 맹신이 부른 기업 파멸의 공포)**: 개발팀장님! Copilot 쓰니까 개발 속도가 10배 빨라졌어요! 1년 뒤, 회사로 거대한 내용증명 우편 하나가 날아왔다. "귀하의 B2B 솔루션 코드 중 결제 암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 50줄이 우리 회사의 독점 특허(상용 라이선스) 소스코드와 100% 토씨 하나 안 틀리고 똑같습니다. 소송 100억 걸겠습니다." 알고 보니 1년 전 주니어가 AI한테 짜달라고 했던 코드가 남의 회사 깃헙 리포지토리에서 통째로 긁어온 복붙 코드였던 것이다. 게다가 그 코드엔 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 보안 취약점까지 그대로 남아있었다. **"속도가 미친 듯이 빠른 건 좋은데, AI가 싼 똥(라이선스 위반, 보안 구멍)을 인간이 눈치채지 못하고 무지성으로 Merge 치면 회사가 물리적으로 파산한다!! 이걸 막을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 전용 방역망과 헌법이 당장 필요하다!!"**
+- **필요성 (눈먼 맹신이 부른 기업 파멸의 공포)**: 개발팀장님! Copilot 쓰니까 개발 속도가 10배 빨라졌어요! 1년 뒤, 회사로 거대한 내용증명 우편 하나가 날아왔다. "귀하의 B2B 솔루션 코드 중 결제 암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 50줄이 우리 회사의 독점 특허(상용 라이선스) 소스코드와 100% 토씨 하나 안 틀리고 똑같습니다. 소송 100억 걸겠습니다." 알고 보니 1년 전 주니어가 AI한테 짜달라고 했던 코드가 남의 회사 깃헙 리포지토리에서 통째로 긁어온 복붙 코드였던 것이다. 게다가 그 코드엔 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 보안 취약점까지 그대로 남아있었다. <strong>"속도가 미친 듯이 빠른 건 좋은데, AI가 싼 똥(라이선스 위반, 보안 구멍)을 인간이 눈치채지 못하고 무지성으로 Merge 치면 회사가 물리적으로 파산한다!! 이걸 막을 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 코드 전용 방역망과 헌법이 당장 필요하다!!"</strong>
 
-- **💡 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩 툴은 엄청나게 똑똑하지만 출처를 모르는 **'장물아비(도둑) 로봇'**과 같습니다. 내가 "멋진 자전거 한 대 구해줘!" 하면 1초 만에 훔쳐서([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 내 눈앞에 갖다 바칩니다. 공짜로 자전거가 생겨서 신나게 타고 다녔는데(무지성 배포), 다음날 경찰(라이선스 원작자)이 찾아와 "이거 내 자전거 훔친 거잖아! 너 절도죄(저작권 위반) 구속!" 수갑을 채웁니다. 게다가 그 자전거는 브레이크(보안 방어)도 고장 난 상태여서 내리막길에서 타다 내가 절벽으로 추락합니다(해킹 폭파). 장물아비가 준 물건의 출처와 안전성을 의심하는 것이 생존의 0순위입니다.
+- **💡 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩 툴은 엄청나게 똑똑하지만 출처를 모르는 <strong>'장물아비(도둑) 로봇'</strong>과 같습니다. 내가 "멋진 자전거 한 대 구해줘!" 하면 1초 만에 훔쳐서([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 내 눈앞에 갖다 바칩니다. 공짜로 자전거가 생겨서 신나게 타고 다녔는데(무지성 배포), 다음날 경찰(라이선스 원작자)이 찾아와 "이거 내 자전거 훔친 거잖아! 너 절도죄(저작권 위반) 구속!" 수갑을 채웁니다. 게다가 그 자전거는 브레이크(보안 방어)도 고장 난 상태여서 내리막길에서 타다 내가 절벽으로 추락합니다(해킹 폭파). 장물아비가 준 물건의 출처와 안전성을 의심하는 것이 생존의 0순위입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **StackOverflow 복붙 시대 (원시)**: 옛날 개발자들도 구글링해서 복붙했다. 하지만 그때는 최소한 글쓴이가 달아놓은 라이선스 딱지나 경고 댓글(Warning)을 인간의 눈으로 1번은 읽고 필터링했다.
   2. **Copilot 대유행 (과도기)**: 에디터 뱃속에서 `Tab` 키 한 방에 100줄이 꽂히니, 개발자의 뇌가 마비되어 출처를 의심하는 '검증의 시간([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 1초)'조차 0.001초로 삭제되었다. 맹신(Blind Trust)의 파국.
-  3. **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 보안 소송 터짐 (현재)**: 뉴욕타임스, 깃헙 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영이 OpenAI(MS)를 상대로 "우리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 허락 없이 학습해서 돈 버네? 소송 100억!" 단체 소송을 걸고, 삼성이 ChatGPT에 사내 코드 넣었다가 털린 사태가 터지며 '엔터프라이즈 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안/법무 규제'가 1티어 안건으로 떡상했다.
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 보안 소송 터짐 (현재)</strong>: 뉴욕타임스, 깃헙 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영이 OpenAI(MS)를 상대로 "우리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 허락 없이 학습해서 돈 버네? 소송 100억!" 단체 소송을 걸고, 삼성이 ChatGPT에 사내 코드 넣었다가 털린 사태가 터지며 '엔터프라이즈 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안/법무 규제'가 1티어 안건으로 떡상했다.
 
-- **📢 섹션 요약 비유**: 이 재앙은 **'가짜 뉴스([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) News)'**의 공포와 100% 같습니다. 옛날엔 신문을 읽을 때 기자의 이름과 신문사 마크(출처)를 보고 믿을지 말지 판단했습니다. AI는 출처 마크를 싹 다 지워버리고, 정말 아나운서처럼 진지하고 완벽한 말투(그럴싸한 코드)로 "저게 정답입니다"라고 가스라이팅을 칩니다. 인간의 뇌는 그 매끄러운 말투에 속아 넘어가는 치명적인 인지적 오류(Automation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))를 겪게 되며 시스템 방어막이 통째로 뚫립니다.
+- **📢 섹션 요약 비유**: 이 재앙은 <strong>'가짜 뉴스(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a> News)'</strong>의 공포와 100% 같습니다. 옛날엔 신문을 읽을 때 기자의 이름과 신문사 마크(출처)를 보고 믿을지 말지 판단했습니다. AI는 출처 마크를 싹 다 지워버리고, 정말 아나운서처럼 진지하고 완벽한 말투(그럴싸한 코드)로 "저게 정답입니다"라고 가스라이팅을 칩니다. 인간의 뇌는 그 매끄러운 말투에 속아 넘어가는 치명적인 인지적 오류(Automation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))를 겪게 되며 시스템 방어막이 통째로 뚫립니다.
 
 ---
 
 다음은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  AI 어시스턴트 코드 산출물의 라이선                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 어시스턴트 코드 산출물의 라이선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 버그)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 버그)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 버그)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-AI 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 (Hallucination 버그) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 (Hallucination 버그) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -41,15 +41,17 @@ WfMS는 이런 문제를 줄이기 위해 "다음 작업을 누구에게, 어떤
 
 아래 그림은 요청이 접수된 뒤 엔진이 작업을 배분하고, 사용자의 처리 결과와 외부 시스템 응답을 받아 다음 상태를 결정하는 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Request -> Engine -> Worklist(User A) -> Decision -> Engine         │
-│                     │                                  │             │
-│                     └-> API/System Task -------------->│             │
-│                                                        ▼             │
-│                                              Audit Log / SLA         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Engine -&gt; Worklist(User A) -&gt; Decision -&gt; Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; API/System Task --------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Log / SLA</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 상태 기반 제어다. 각 업무 건은 "접수", "승인 대기", "반려", "완료" 같은 상태를 가지며, 이벤트가 발생할 때마다 엔진이 허용된 전이만 수행한다. 따라서 WfMS는 단순 알림 시스템이 아니라, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 책임 추적을 함께 관리하는 제어 시스템으로 이해해야 한다.
 
@@ -116,21 +118,23 @@ WfMS가 안정적으로 정착하면 업무 흐름의 예측 가능성이 높아
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수기 결재 · 메일 라우팅
-    │
-    ▼
-전자결재 시스템
-    │
-    ▼
-WfMS · API 연계 자동화
-    │
-    ▼
-BPM Suite · Process Mining
-    │
-    ▼
-Low-Code Workflow · Hyperautomation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수기 결재 · 메일 라우팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전자결재 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WfMS · API 연계 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPM Suite · Process Mining</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Low-Code Workflow · Hyperautomation</div>
+</div>
+</div>
+
+
 
 이 흐름은 사람 중심 결재 도구가 점차 시스템 연계형 자동화와 전주기 프로세스 관리로 넓어지는 방향을 보여 준다.
 

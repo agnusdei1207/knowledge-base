@@ -29,26 +29,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 관점에서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 **로컬 승인 → 비동기 전파 → 불일치 탐지 → 수렴**의 4단계로 이해하는 것이 가장 쉽다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 먼저 가까운 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 반영되고 즉시 응답된다. 이후 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 힌티드 핸드오프 (Hinted Handoff), 안티 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Anti-Entropy) 같은 메커니즘이 늦게 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 따라잡게 만든다. 핵심은 빠른 응답을 얻는 대신, 잠시 동안은 서로 다른 노드가 서로 다른 진실을 들고 있을 수 있다는 점이다.
+아키텍처 관점에서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 <strong>로컬 승인 → 비동기 전파 → 불일치 탐지 → 수렴</strong>의 4단계로 이해하는 것이 가장 쉽다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 먼저 가까운 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 반영되고 즉시 응답된다. 이후 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 힌티드 핸드오프 (Hinted Handoff), 안티 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Anti-Entropy) 같은 메커니즘이 늦게 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 따라잡게 만든다. 핵심은 빠른 응답을 얻는 대신, 잠시 동안은 서로 다른 노드가 서로 다른 진실을 들고 있을 수 있다는 점이다.
 
 아래 그림은 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 일반적인 전파 경로를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Eventual consistency replication and convergence           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client                                                                    │
-│   │                                                                        │
-│   ├── Write ──▶ Replica A ──▶ ACK                                          │
-│   │                    │                                                    │
-│   │                    ├── async replicate ──▶ Replica B                   │
-│   │                    └── async replicate ──▶ Replica C                   │
-│   │                                                                        │
-│ Readers may see A=new, B=old, C=old for a while                           │
-│   │                                                                        │
-│   └── repair / merge / anti-entropy ──▶ replicas converge                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eventual consistency replication and convergence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Write ──▶ Replica A ──▶ ACK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── async replicate ──▶ Replica B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── async replicate ──▶ Replica C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Readers may see A=new, B=old, C=old for a while</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── repair / merge / anti-entropy ──▶ replicas converge</div></div>
+</div>
+</div>
+
+
 
 | 단계 | 핵심 질문 | 대표 메커니즘 |
 | :--- | :--- | :--- |
@@ -74,7 +73,7 @@ tags = ["studynote-computer-architecture"]
 | 장애 허용성 | 낮아질 수 있음 | 중간 | 높음 |
 | 대표 활용 | 계좌, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 사용자 프로필, 작성 직후 조회 | 피드, 리뷰, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 장바구니 |
 
-이 모델은 BASE 특성 (Basically Available, Soft [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), Eventual [consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))과 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리의 EL 축과도 직접 연결된다. 즉 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 단순한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 용어가 아니라, **가용성과 응답성을 높이는 대신 정합성 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 로직을 뒤로 넘기는 아키텍처 선택**이다. 따라서 저장소뿐 아니라 캐시, 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 이벤트 기반 마이크로서비스에서도 같은 철학이 반복된다.
+이 모델은 BASE 특성 (Basically Available, Soft [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), Eventual [consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))과 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리의 EL 축과도 직접 연결된다. 즉 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 단순한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 용어가 아니라, <strong>가용성과 응답성을 높이는 대신 정합성 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 로직을 뒤로 넘기는 아키텍처 선택</strong>이다. 따라서 저장소뿐 아니라 캐시, 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 이벤트 기반 마이크로서비스에서도 같은 철학이 반복된다.
 
 - **📢 섹션 요약 비유**: 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 교사가 출석을 바로바로 부르는 방식이라면, 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 조장이 나중에 출석부를 모아 맞추는 방식이다. 둘 다 목적은 같지만 속도와 정확도 확보 방식이 다르다.
 
@@ -97,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 - 충돌 해결 없이 최종 작성 우선만 켜 두고 "언젠가 맞겠지"라고 보는 태도
 - 모바일/웹 사용자에게 내가 쓴 값 다시 보기 보장을 주지 않아 체감 장애를 만드는 인터페이스
 
-현실적인 절충은 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 기본으로 두되, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰, 스티키 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 읽기 우선 리전 고정, 정족수 읽기를 섞어 체감 불일치를 줄이는 것이다. 기술사 답안에서는 저장소 모델만 쓰지 말고, **사용자에게 어떤 불일치가 언제 보이는지**까지 함께 설명해야 완성도가 높다.
+현실적인 절충은 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 기본으로 두되, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰, 스티키 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 읽기 우선 리전 고정, 정족수 읽기를 섞어 체감 불일치를 줄이는 것이다. 기술사 답안에서는 저장소 모델만 쓰지 말고, <strong>사용자에게 어떤 불일치가 언제 보이는지</strong>까지 함께 설명해야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 운용은 택배 조회와 같다. 물건은 이미 움직이고 있지만 모든 화면이 동시에 같은 상태를 보여 주지는 않는다. 중요한 건 결국 도착하고, 내가 보기에 너무 헷갈리지 않게 중간 안내를 잘 주는 것이다.
 
@@ -107,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 가장 큰 장점은 높은 가용성과 낮은 지연시간이다. 노드 몇 개가 느리거나 일시적으로 끊겨도 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈추지 않고, 사용자 가까운 위치에서 빠르게 응답할 수 있다. 그래서 대규모 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 저장소, 대량 이벤트 처리 시스템에서 매우 강력한 무기가 된다.
 
-하지만 복잡도는 사라지지 않고 위치만 이동한다. 즉시 합의 비용을 줄인 대신, 충돌 해결, 수렴 모니터링, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 보장, 운영 관측성을 설계자가 떠안게 된다. 따라서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "싼 선택"이 아니라 **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 늦게 맞춰도 괜찮다는 전제를 정확히 통제할 때만 가치가 생기는 선택**으로 기억해야 한다.
+하지만 복잡도는 사라지지 않고 위치만 이동한다. 즉시 합의 비용을 줄인 대신, 충돌 해결, 수렴 모니터링, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 보장, 운영 관측성을 설계자가 떠안게 된다. 따라서 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "싼 선택"이 아니라 <strong>어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 늦게 맞춰도 괜찮다는 전제를 정확히 통제할 때만 가치가 생기는 선택</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 큰 운동장에서 아이들을 자유롭게 뛰게 하되, 끝나고 나면 다시 줄을 세워 인원을 맞추는 방식과 같다. 뛰는 동안은 빠르고 즐겁지만, 마무리 정리 규칙이 없으면 금방 혼란스러워진다.
 
@@ -125,23 +124,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-복제 저장소 (Replication)
-    │
-    ▼
-로컬 승인 · 비동기 복제
-    │
-    ▼
-결과적 일관성 (Eventual Consistency)
-: 일시적 불일치 허용 · 최종 수렴 보장
-    │
-    ├──▶ Gossip · Hinted Handoff · Anti-Entropy
-    │
-    ├──▶ Vector Clock · CRDT · 애플리케이션 병합
-    │
-    ▼
-세션 일관성 · 정족수 조정 · 사용자 경험 보완 전략
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">복제 저장소 (Replication)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로컬 승인 · 비동기 복제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결과적 일관성 (Eventual Consistency)</div>
+<div class="kb-diagram-note">: 일시적 불일치 허용 · 최종 수렴 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Gossip · Hinted Handoff · Anti-Entropy</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Vector Clock · CRDT · 애플리케이션 병합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세션 일관성 · 정족수 조정 · 사용자 경험 보완 전략</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

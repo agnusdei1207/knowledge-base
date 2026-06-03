@@ -29,18 +29,17 @@ PO가 "로그인 화면 만드는 데 며칠 걸려요?"라고 물었을 때, �
 
 다음은 스토리 포인트 (Story Point의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  스토리 포인트 (Story Point                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리 포인트 (Story Point</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 스토리 포인트 (Story Point가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,9 +49,9 @@ PO가 "로그인 화면 만드는 데 며칠 걸려요?"라고 물었을 때, �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-애자일은 시간을 버리고 추상적인 **'점수(Point)'**를 도입했습니다.
+애자일은 시간을 버리고 추상적인 <strong>'점수(Point)'</strong>를 도입했습니다.
 
-1. **기준점([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 잡기**: 팀원들이 모두 동의하는 가장 쉽고 뻔한 작업(예: 단순 텍스트 변경)을 골라 **"이걸 1포인트라고 치자!"**라고 기준을 잡습니다.
+1. <strong>기준점(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a>) 잡기</strong>: 팀원들이 모두 동의하는 가장 쉽고 뻔한 작업(예: 단순 텍스트 변경)을 골라 <strong>"이걸 1포인트라고 치자!"</strong>라고 기준을 잡습니다.
 2. **상대적 크기 비교**: 이제 새로운 '로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 연동' 작업을 봅니다. "이건 아까 그 텍스트 수정(1점)보다 로직이 한 5배쯤 복잡하고, 보안 위험도도 높네. 그럼 이건 **5포인트!**"라고 점수를 매깁니다.
 3. **효과**: 신입이든 시니어든 "로그인 기능이 텍스트 수정보다 5배 무겁다"는 상대적 덩치에는 모두가 이견 없이 동의할 수 있습니다. 개인의 코딩 속도와 무관하게 일의 '객관적 사이즈'가 도출됩니다.
 
@@ -71,13 +70,13 @@ PO가 "로그인 화면 만드는 데 며칠 걸려요?"라고 물었을 때, �
 ## Ⅲ. 비교 및 연결
 
 포인트를 쓰면 우리 팀의 진짜 실력이 숫자로 증명됩니다.
-- [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 1에서 팀이 완료한 스토리 포인트를 다 더했더니 **30점**이었습니다.
-- [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 2에서도 다 더해보니 **32점**이 나왔습니다.
-- 아하! 우리 팀의 **벨로시티(평균 속도)는 2주당 약 30점**이구나!
+- [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 1에서 팀이 완료한 스토리 포인트를 다 더했더니 <strong>30점</strong>이었습니다.
+- [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 2에서도 다 더해보니 <strong>32점</strong>이 나왔습니다.
+- 아하! 우리 팀의 <strong>벨로시티(평균 속도)는 2주당 약 30점</strong>이구나!
 
 이제 PO가 백로그에 300점 치 일감을 쌓아놓으면, "아, 우리 팀 속도가 30점이니까 저걸 다 만들려면 대략 10번의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(20주)가 걸리겠구나"라고 매우 정확하고 수학적인 프로젝트 완료 일정(릴리즈 계획)을 역산할 수 있게 됩니다.
 
-> 📢 **섹션 요약 비유:** 스토리 포인트는 건물을 지을 때 **'바위의 크기와 무게'**를 재는 것입니다. 바위가 100kg(스토리 포인트)이라는 상대적 사실은 변하지 않습니다. 힘센 어른(시니어)이 들면 1시간 만에 옮기고, 꼬마(신입)가 들면 5시간이 걸리겠지만, **이 돌이 10kg짜리 벽돌보다 10배 무겁다는 본질(크기)**을 파악하는 것이 프로젝트 일정 계획의 핵심입니다.
+> 📢 **섹션 요약 비유:** 스토리 포인트는 건물을 지을 때 <strong>'바위의 크기와 무게'</strong>를 재는 것입니다. 바위가 100kg(스토리 포인트)이라는 상대적 사실은 변하지 않습니다. 힘센 어른(시니어)이 들면 1시간 만에 옮기고, 꼬마(신입)가 들면 5시간이 걸리겠지만, <strong>이 돌이 10kg짜리 벽돌보다 10배 무겁다는 본질(크기)</strong>을 파악하는 것이 프로젝트 일정 계획의 핵심입니다.
 
 - **📢 섹션 요약 비유**: 스토리 포인트 (Story Point)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -126,21 +125,23 @@ PO가 "로그인 화면 만드는 데 며칠 걸려요?"라고 물었을 때, �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스토리 포인트 (Story Point) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토리 포인트 (Story Point) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

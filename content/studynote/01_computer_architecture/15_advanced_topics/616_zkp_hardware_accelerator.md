@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 프로버가 반복 수행하는 유한체 연산, 수론적 변환, 다중 스칼라 곱셈, 해시·약속 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 **대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산과 메모리 계층으로 전용화한 칩**이다.
+> 1. **본질**: [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 프로버가 반복 수행하는 유한체 연산, 수론적 변환, 다중 스칼라 곱셈, 해시·약속 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 <strong>대규모 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산과 메모리 계층으로 전용화한 칩</strong>이다.
 > 2. **가치**: 영지식 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) (Zero-Knowledge [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), ZK-[Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 프라이버시 응용에서 병목은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기가 아니라 프로버이므로, 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 증명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간을 분 단위에서 초 단위로 줄여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경제성을 만든다.
 > 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 곱셈기 수만으로 결정되지 않으며, 수론적 변환 (Number Theoretic Transform, NTT), 다중 스칼라 곱셈 (Multi-Scalar Multiplication, MSM), 고대역폭 메모리의 균형과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변화에 대한 유연성이 핵심이다.
 
@@ -33,21 +33,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전형적인 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 프로버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      ZKP accelerator: proving pipeline around math + memory flow    │
-├──────────────────────────────────────────────────────────────────────┤
-│ [ Host Scheduler ] -> [ Witness Buffer ] -> [ NTT Array ]           │
-│        │                            │            │                  │
-│        │                            ▼            ▼                  │
-│        │                     [ Scratchpad SRAM ] [ HBM Banks ]      │
-│        │                            │            │                  │
-│        └──────────────────────────> [ MSM Array ] -> [ Hash/Commit ]│
-│                                                     │                │
-│                                                     ▼                │
-│                                              [ Proof Assembler ]     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZKP accelerator: proving pipeline around math + memory flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host Scheduler</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Witness Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NTT Array</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scratchpad SRAM</div><div class="kb-diagram-node">HBM Banks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">MSM Array</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash/Commit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Proof Assembler</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -108,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 가장 큰 효과는 증명당 시간과 전력 비용 감소다. 이는 곧 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 정산 주기 단축, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 대기 시간 감소, 프라이버시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 사용자 경험 개선으로 이어진다. 또한 증명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 빨라질수록 더 큰 배치를 묶거나 더 자주 증명을 발행할 수 있어 시스템 설계 자유도도 커진다.
 
-하지만 이 기술 역시 만능은 아니다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 빠르게 변하고, 소프트웨어 스택의 성숙도가 아직 균일하지 않으며, 하드웨어 투자 비용도 크다. 따라서 기억해야 할 핵심은 **[ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 암호학을 빠르게 계산하는 칩이 아니라, 증명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 전체를 설계하는 인프라**라는 점이다.
+하지만 이 기술 역시 만능은 아니다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 빠르게 변하고, 소프트웨어 스택의 성숙도가 아직 균일하지 않으며, 하드웨어 투자 비용도 크다. 따라서 기억해야 할 핵심은 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a> 가속 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a>는 암호학을 빠르게 계산하는 칩이 아니라, 증명 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 전체를 설계하는 인프라</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 비밀을 들키지 않으면서도 정답만 빨리 확인해 주는 초정밀 심판석이다. 심판이 빨라질수록 경기는 더 자주, 더 공정하게 열릴 수 있다.
 
@@ -126,21 +124,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-영지식 증명 이론
-    │
-    ▼
-다항식 약속 · 타원곡선 기반 증명
-    │
-    ▼
-NTT · MSM · 대규모 버퍼 병목
-    │
-    ▼
-GPU/FPGA/ASIC 기반 ZKP 가속 반도체
-    │
-    ▼
-ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">영지식 증명 이론</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다항식 약속 · 타원곡선 기반 증명</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NTT · MSM · 대규모 버퍼 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU/FPGA/ASIC 기반 ZKP 가속 반도체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

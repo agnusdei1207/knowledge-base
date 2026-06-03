@@ -27,34 +27,31 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-포스트 모던 ERP의 아키텍처는 크게 변하지 않아야 할 **'코어(Core)'**와 빠르게 변해야 할 **'위성 시스템(Edge/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))'**으로 시스템을 칼로 자르듯 분리(Decoupling)하는 데서 출발한다.
+포스트 모던 ERP의 아키텍처는 크게 변하지 않아야 할 <strong>'코어(Core)'</strong>와 빠르게 변해야 할 <strong>'위성 시스템(Edge/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)'</strong>으로 시스템을 칼로 자르듯 분리(Decoupling)하는 데서 출발한다.
 
 | 아키텍처 요소 | 주요 역할 및 특징 | 대표 솔루션 예시 |
 | :--- | :--- | :--- |
-| **코어 시스템 (Core [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))** | 회사의 존립과 직결된 무겁고 안정적인 중앙 척추. (재무, 회계, 주력 생산, [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) | SAP S/4HANA, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) |
-| **주변 위성 시스템 (Edge/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))** | 각 부서의 민첩성과 혁신을 돕는 최고 존엄 전문 도구(Best of Breed). | Workday(인사), Salesforce([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)), Slack(협업) |
+| <strong>코어 시스템 (Core <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>)</strong> | 회사의 존립과 직결된 무겁고 안정적인 중앙 척추. (재무, 회계, 주력 생산, [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) | SAP S/4HANA, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) |
+| <strong>주변 위성 시스템 (Edge/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong> | 각 부서의 민첩성과 혁신을 돕는 최고 존엄 전문 도구(Best of Breed). | Workday(인사), Salesforce([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)), Slack(협업) |
 | **통합 미들웨어 (iPaaS)** | 코어와 수십 개의 위성 앱 간의 혈관 역할을 하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 연결망. | MuleSoft, Boomi |
 
-이 분리 원리의 핵심은 두 계층이 **느슨한 결합(Loosely Coupled)**을 유지하는 것이다. 코어는 10년에 한 번 업그레이드하더라도, 주변의 마케팅 위성 앱은 매년 트렌드에 맞는 새로운 SaaS로 갈아 끼운다. 앱을 교체할 때는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연결 선만 코어에서 뽑았다가 새 앱에 꽂으면 되므로 회사 전체의 메인 시스템을 다운시킬 필요가 없다.
+이 분리 원리의 핵심은 두 계층이 <strong>느슨한 결합(Loosely Coupled)</strong>을 유지하는 것이다. 코어는 10년에 한 번 업그레이드하더라도, 주변의 마케팅 위성 앱은 매년 트렌드에 맞는 새로운 SaaS로 갈아 끼운다. 앱을 교체할 때는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연결 선만 코어에서 뽑았다가 새 앱에 꽂으면 되므로 회사 전체의 메인 시스템을 다운시킬 필요가 없다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          포스트 모던 ERP의 하이브리드 결합 구조 시각화           │
-├──────────────────────────────────────────────────────────────┤
-│               [ 전문 SaaS (Best of Breed) ]                  │
-│       [Salesforce]       [Workday]        [HubSpot]          │
-│          (영업/CRM)        (인사/HR)        (마케팅)           │
-│              │                 │                │            │
-│  ============▼=================▼================▼=========== │
-│                [ 통합 레이어 (API / iPaaS) ]                  │
-│  ==============================┬============================= │
-│                                │                             │
-│                  ┌─────────────┴────────────┐              │
-│                  │   [ 메인 코어 ERP (안정성) ]   │              │
-│                  │      (재무 / 회계 / 생산)      │              │
-│                  └──────────────────────────┘              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포스트 모던 ERP의 하이브리드 결합 구조 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문 SaaS (Best of Breed)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Salesforce</div><div class="kb-diagram-node">Workday</div><div class="kb-diagram-node">HubSpot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(영업/CRM) (인사/HR) (마케팅)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통합 레이어 (API / iPaaS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 코어 ERP (안정성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재무 / 회계 / 생산)</div></div>
+</div>
+</div>
+
+
 이 그림은 중앙의 코어 ERP가 모든 것을 독점하지 않고, 통합 레이어를 통해 외부의 강력한 전문 무기([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))들과 유연하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 아키텍처를 보여준다.
 
 - **📢 섹션 요약 비유**: 포스트 모던 ERP는 우주 정거장 설계와 같다. 묵직하고 거대한 메인 통제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))은 가만히 궤도를 돌고, 임무에 따라 다양한 모양의 소형 우주선(전문 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))들이 도킹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 통해 찰칵찰칵 붙었다 떨어지는 구조다.
@@ -67,10 +64,10 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 | 항목 | 모놀리식 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Monolithic) | 포스트 모던 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Postmodern) |
 | :--- | :--- | :--- |
-| **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성 ([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))** | 한 벤더에 100% 종속됨 (탈출 불가) | 다수 벤더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Best of Breed 채택) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)</strong> | 한 벤더에 100% 종속됨 (탈출 불가) | 다수 벤더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Best of Breed 채택) |
 | **시스템 민첩성** | 한 부분을 고치려면 전사를 멈춰야 함 | 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 즉각 교체 및 확장 가능 |
 | **사용자 만족도** | 획일화된 UI/UX로 현업 부서의 불만 고조 | 부서별로 가장 트렌디한 맞춤형 앱 사용 |
-| **통합/유지보 난이도** | 벤더가 알아서 통합해 주어 관리는 편함 | **여러 시스템을 엮어야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 지옥 발생** |
+| **통합/유지보 난이도** | 벤더가 알아서 통합해 주어 관리는 편함 | <strong>여러 시스템을 엮어야 하므로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 지옥 발생</strong> |
 
 이 아키텍처는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))나 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 사상과 궤를 같이한다. 거대한 덩어리를 쪼개어 가벼운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들로 나누고, API를 통해 통신한다는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)적 흐름이 기업용 애플리케이션 시장([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))에 그대로 투영된 결과물이다.
 
@@ -80,13 +77,13 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 포스트 모던 ERP를 무작정 도입하면 **"솔루션 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))"**라는 재앙을 맞는다. 아키텍트와 IT 리더는 다음과 같은 판단 기준을 세워야 한다.
+실무에서 포스트 모던 ERP를 무작정 도입하면 <strong>"솔루션 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)"</strong>라는 재앙을 맞는다. 아키텍트와 IT 리더는 다음과 같은 판단 기준을 세워야 한다.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 단일 진실 공급원 (SSOT) 확보**: [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(세일즈포스)에 입력된 고객 정보와 코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(재무)에 찍힌 청구서 정보가 실시간으로 일치하는가? 여러 앱을 섞어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 최우선 과제다. iPaaS (Integration [Platform as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 같은 전문 연계 솔루션 도입이 필수적이다.
-2. **벤더 관리(Vendor [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 복잡성 통제**: 앱이 10개면 계약서도 10장, 장애 시 책임 공방도 10곳과 해야 한다. 도입할 SaaS의 개수를 무한정 늘리는 대신, 뼈대가 되는 코어 주변에 허용할 '위성 앱의 표준 가이드라인'을 통제해야 한다.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합 단일 진실 공급원 (SSOT) 확보</strong>: [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(세일즈포스)에 입력된 고객 정보와 코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(재무)에 찍힌 청구서 정보가 실시간으로 일치하는가? 여러 앱을 섞어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 최우선 과제다. iPaaS (Integration [Platform as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)) 같은 전문 연계 솔루션 도입이 필수적이다.
+2. <strong>벤더 관리(Vendor <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>) 복잡성 통제</strong>: 앱이 10개면 계약서도 10장, 장애 시 책임 공방도 10곳과 해야 한다. 도입할 SaaS의 개수를 무한정 늘리는 대신, 뼈대가 되는 코어 주변에 허용할 '위성 앱의 표준 가이드라인'을 통제해야 한다.
 3. **업무 성격에 따른 이분법적 수용**: 시스템 도입 시 "이 업무가 우리 회사의 핵심 차별화(혁신) 포인트인가?"를 묻고, 그렇다면 Best of Breed SaaS를 선택하고, "단순한 백오피스 기록용인가?"라면 코어 ERP의 기본 기능을 그냥 쓰도록 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)를 구축해야 한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 통합 연계망([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 설계 없이 현업 부서들이 법인카드로 마음대로 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱을 사서 쓰게 방치하여, 회사 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10군데에 고립([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))되는 섀도우 IT의 온상으로 만드는 것.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 통합 연계망([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 설계 없이 현업 부서들이 법인카드로 마음대로 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱을 사서 쓰게 방치하여, 회사 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10군데에 고립([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))되는 섀도우 IT의 온상으로 만드는 것.
 
 - **📢 섹션 요약 비유**: 초호화 뷔페(포스트 모던)를 차렸다면 가장 중요한 것은 '설거지와 서빙 동선([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합)'이다. 음식은 최고급인데 접시가 안 치워지고 손님 동선이 꼬이면 그 식당은 망한다.
 
@@ -94,7 +91,7 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 ## Ⅴ. 기대효과 및 결론
 
-포스트 모던 ERP의 가장 큰 기대효과는 **'비즈니스 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)'**의 획득이다. 코로나 팬데믹처럼 급격한 환경 변화가 왔을 때, 비대면 협업 툴이나 새로운 클라우드 채용 솔루션을 단 몇 주 만에 코어에 이어 붙여 회사의 생존력을 높일 수 있었다. 또한, 직원들은 무겁고 촌스러운 옛날 시스템 대신 트렌디한 도구를 쓰게 되어 업무 생산성이 폭발적으로 증가한다.
+포스트 모던 ERP의 가장 큰 기대효과는 <strong>'비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a>(Resilience)'</strong>의 획득이다. 코로나 팬데믹처럼 급격한 환경 변화가 왔을 때, 비대면 협업 툴이나 새로운 클라우드 채용 솔루션을 단 몇 주 만에 코어에 이어 붙여 회사의 생존력을 높일 수 있었다. 또한, 직원들은 무겁고 촌스러운 옛날 시스템 대신 트렌디한 도구를 쓰게 되어 업무 생산성이 폭발적으로 증가한다.
 
 하지만 한계점인 '통합의 짐'은 IT 부서가 평생 짊어져야 할 숙제다. 미래의 ERP는 단일 제품이 아니라 "우리가 선택한 최고의 앱들이 조화롭게 연주되는 거대한 오케스트라"가 될 것이다. 기업은 통제력과 민첩성 사이에서 최적의 균형점(어디까지를 코어로 둘 것인가)을 찾는 아키텍처적 지혜를 끊임없이 발휘해야 한다.
 
@@ -106,28 +103,30 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **모놀리식 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Monolithic [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))** | 포스트 모던 ERP가 극복하고자 하는 단일 벤더 중심의 낡고 무거운 거대 시스템 |
-| **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) ([Software as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/))** | 코어 주변에 위성처럼 배치되는 최고 품질의 전문 클라우드 애플리케이션들 |
+| <strong>모놀리식 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a> (Monolithic <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a>)</strong> | 포스트 모던 ERP가 극복하고자 하는 단일 벤더 중심의 낡고 무거운 거대 시스템 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/185_saas_software_as_a_service/">Software as a Service</a>)</strong> | 코어 주변에 위성처럼 배치되는 최고 품질의 전문 클라우드 애플리케이션들 |
 | **Best of Breed (최고 존엄 솔루션)** | 특정 부문(HR, [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 등)에서 시장 1위를 차지하는 가장 우수한 단품 소프트웨어 |
-| **iPaaS (Integration [Platform as a Service](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))** | 파편화된 수많은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱과 코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 미들웨어 혈관 |
+| <strong>iPaaS (Integration <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">Platform as a Service</a>)</strong> | 파편화된 수많은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 앱과 코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 미들웨어 혈관 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MRP / MRP Ⅱ (자재 및 생산 자원 관리)
-    │
-    ▼
-모놀리식 ERP (전사 통합, 단일 벤더 종속, 무거움)
-    │
-    ▼
-섀도우 IT 발생 및 클라우드(SaaS) 전문 도구의 부상
-    │
-    ▼
-포스트 모던 ERP (Postmodern ERP) · 코어와 위성의 분리 및 조립
-    │
-    ▼
-지능형/컴포저블 ERP (AI가 최적의 앱 연계와 프로세스를 자동 제안)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MRP / MRP Ⅱ (자재 및 생산 자원 관리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모놀리식 ERP (전사 통합, 단일 벤더 종속, 무거움)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">섀도우 IT 발생 및 클라우드(SaaS) 전문 도구의 부상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포스트 모던 ERP (Postmodern ERP) · 코어와 위성의 분리 및 조립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형/컴포저블 ERP (AI가 최적의 앱 연계와 프로세스를 자동 제안)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 시스템이 뭉쳤다(통합)가 다시 목적에 맞게 쪼개어지고(해체 및 조립), 결국 클라우드 생태계 안에서 유연하게 공존하는 진화 과정을 보여준다.
 

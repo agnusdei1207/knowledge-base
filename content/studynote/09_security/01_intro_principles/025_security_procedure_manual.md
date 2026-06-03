@@ -20,21 +20,19 @@ tags = ["studynote-security"]
 
 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 계층구조에서 절차는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))→표준(Standard)→지침(Guideline)→절차(Procedure)의 4계층 중 가장 구체적인 실행 레벨에 위치한다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│          보안 문서 계층구조                                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  Policy   (정책)   → "반드시 지켜야 할 원칙 선언"           │
-│     │                                                    │
-│  Standard (표준)   → "정책을 충족하는 구체적 기준"           │
-│     │                                                    │
-│  Guideline(지침)   → "권고 사항, 최선의 실무"               │
-│     │                                                    │
-│  Procedure(절차)   → "단계별 실행 방법 (HOW)"               │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 문서 계층구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy (정책) → "반드시 지켜야 할 원칙 선언"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard (표준) → "정책을 충족하는 구체적 기준"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guideline(지침) → "권고 사항, 최선의 실무"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Procedure(절차) → "단계별 실행 방법 (HOW)"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 법률(원칙), 표준은 시행령(기준), 지침은 권고안(최선 방법), 절차는 업무 매뉴얼(단계별 실행)이다. 법이 있어도 구체적 업무 절차가 없으면 현장에서 혼란이 생긴다.
 
@@ -44,37 +42,42 @@ tags = ["studynote-security"]
 
 ### 보안 절차 매뉴얼 구성 요소
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│            보안 절차 매뉴얼 표준 구성                      │
-├─────────────────────────────────────────────────────────┤
-│  1. 목적 및 범위    : 이 절차의 적용 대상 및 목적           │
-│  2. 책임 및 역할    : 수행 주체(담당자, 승인자, 감독자)      │
-│  3. 사전 조건       : 절차 수행 전 갖춰야 할 상태/권한       │
-│  4. 단계별 절차     : 순서별 상세 수행 방법 (번호 목록)      │
-│  5. 예외 처리       : 비정상 상황 발생 시 조치 방법          │
-│  6. 기록 및 증적    : 로그 기록 항목, 보관 기간              │
-│  7. 검토 주기       : 최종 개정일, 다음 검토 예정일          │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 절차 매뉴얼 표준 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 목적 및 범위 : 이 절차의 적용 대상 및 목적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 책임 및 역할 : 수행 주체(담당자, 승인자, 감독자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 사전 조건 : 절차 수행 전 갖춰야 할 상태/권한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 단계별 절차 : 순서별 상세 수행 방법 (번호 목록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 예외 처리 : 비정상 상황 발생 시 조치 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 기록 및 증적 : 로그 기록 항목, 보관 기간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 검토 주기 : 최종 개정일, 다음 검토 예정일</div></div>
+</div>
+</div>
+
+
 
 ### [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 절차 (IRP, [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Procedure) 예시
 
-```text
-[1단계 탐지]  SIEM 경보 수신 → SOC 분석가 이상 여부 판단
-     │
-     ▼
-[2단계 봉쇄]  감염 시스템 네트워크 격리 (ACL 차단)
-     │
-     ▼
-[3단계 박멸]  악성코드 제거, 취약점 패치 적용
-     │
-     ▼
-[4단계 복구]  서비스 정상화, 무결성 검증
-     │
-     ▼
-[5단계 사후]  원인 분석, 재발 방지 대책 수립, 보고서 작성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 탐지</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">SOC 분석가 이상 여부 판단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 봉쇄</div><div class="kb-diagram-note">감염 시스템 네트워크 격리 (ACL 차단)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계 박멸</div><div class="kb-diagram-note">악성코드 제거, 취약점 패치 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4단계 복구</div><div class="kb-diagram-note">서비스 정상화, 무결성 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5단계 사후</div><div class="kb-diagram-note">원인 분석, 재발 방지 대책 수립, 보고서 작성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 보안 절차는 소방 대피 훈련 매뉴얼이다. 화재 감지기 울림(탐지) → 창문 닫기(봉쇄) → 대피([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) → 집결 지점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))처럼, 명확한 단계가 있으면 혼란 없이 모든 사람이 동일한 행동을 한다.
 
@@ -84,10 +87,10 @@ tags = ["studynote-security"]
 
 | 문서 유형 | 내용 | 작성 주체 | 업데이트 주기 |
 |:---|:---|:---|:---|
-| **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))** | 원칙 선언 (1~2쪽) | [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) | 연 1회 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong> | 원칙 선언 (1~2쪽) | [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) | 연 1회 |
 | **표준(Standard)** | 구체적 기술 기준 | 보안팀 | 6개월~1년 |
 | **절차(Procedure)** | 단계별 실행 방법 | 담당 부서 | 3~6개월 |
-| **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)** | 절차 수행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 목록 | 담당자 | 분기~월 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong> | 절차 수행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 목록 | 담당자 | 분기~월 |
 
 - **📢 섹션 요약 비유**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 헌법(불변의 원칙), 표준은 법률(구체적 기준), 절차는 업무 매뉴얼(일상 실행), [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 하루하루의 업무 일지([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기록)이다.
 
@@ -99,7 +102,7 @@ tags = ["studynote-security"]
 1. **문서화 증적**: 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 이력 기록 포함.
 2. **직원 교육**: 관련 담당자 숙지 교육 이수 증적 (서명, 학습 이력).
 3. **주기적 검토**: 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 또는 보안 이벤트 발생 시 절차 적절성 재검토.
-4. **실효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 절차대로 실제 수행 시 원하는 결과가 나오는지 테스트([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/)).
+4. <strong>실효성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 절차대로 실제 수행 시 원하는 결과가 나오는지 테스트([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/)).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 문서는 있지만 실행 불가능한 절차
 - 이론적으로는 완벽하지만 실제 환경에서 실행 불가능한 절차("비현실적 절차"). [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 심사에서 절차 문서와 실제 운영 환경의 불일치가 발견되면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Finding)으로 처리된다.
@@ -112,9 +115,9 @@ tags = ["studynote-security"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 담당자가 바뀌어도 동일한 보안 수준 유지 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 담당자가 바뀌어도 동일한 보안 수준 유지 |
 | **책임 명확화** | 각 단계의 수행자·승인자 명시 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 증적** | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 대응 근거 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 증적</strong> | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사 대응 근거 |
 
 [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation and Response) 플랫폼은 보안 절차 매뉴얼의 자동화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로, [Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) 형태로 절차를 코드화하여 반복적 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)을 자동 수행한다.
 
@@ -126,29 +129,31 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | 절차 매뉴얼 작성·유지의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 요건 |
-| **IRP ([Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/))** | 대표적 보안 절차의 실제 구현 |
-| **[SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) [Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)** | 보안 절차의 자동화 디지털 구현 |
-| **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (변경 통제)** | 절차 변경 시 통제·승인 체계 |
-| **[Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/)** | 절차 실효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 절차 매뉴얼 작성·유지의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 요건 |
+| <strong>IRP (<a href="/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/">Incident Response</a>)</strong> | 대표적 보안 절차의 실제 구현 |
+| <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/">SOAR</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/">Playbook</a></strong> | 보안 절차의 자동화 디지털 구현 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (변경 통제)</strong> | 절차 변경 시 통제·승인 체계 |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/">Tabletop Exercise</a></strong> | 절차 실효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[보안 정책 (Policy) — 원칙 선언]
-    │
-    ▼
-[보안 표준/절차 (Procedure) — 단계별 실행 방법 명문화]
-    │
-    ▼
-[ISMS-P 인증 — 절차 준수 증적 및 심사]
-    │
-    ▼
-[SOAR Playbook — 절차의 자동화 구현]
-    │
-    ▼
-[AI 기반 적응형 절차 — 위협 패턴 기반 자동 업데이트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 (Policy) — 원칙 선언</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 표준/절차 (Procedure) — 단계별 실행 방법 명문화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISMS-P 인증 — 절차 준수 증적 및 심사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR Playbook — 절차의 자동화 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 적응형 절차 — 위협 패턴 기반 자동 업데이트</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -45,48 +45,45 @@ boolean eligible = interpreter.evaluate(rule, user);
 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) NOT | 부정 | `NOT A` |
 | 괄호 그룹 | 우선순위 조정 | `(A OR B) AND C` |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 인터프리터 패턴은 번역가 팀 — 원문(표현식)을 받아 어휘 분석가(Lexer)가 단어로 쪼개고, 문법 분석가(Parser)가 문장 구조(AST)를 파악하고, 번역가(Evaluator)가 최종 의미(true/false)를 판단한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌─────────────────────────────────────────────────────────────────┐
-│           Boolean Parser Interpreter Pipeline                   │
-│                                                                 │
-│  입력: "age >= 18 AND (role = 'ADMIN' OR score > 100)"          │
-│                                                                 │
-│  Step 1: Lexer (렉서 / 토크나이저)                               │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │ [age] [>=] [18] [AND] [(] [role] [=] ['ADMIN'] [OR]... │  │
-│    └────────────────────────────┬────────────────────────────┘  │
-│                                 │ 토큰 스트림                    │
-│  Step 2: Parser (파서, 재귀 하강)                                │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │           AST (추상 구문 트리)                            │  │
-│    │                  AND                                    │  │
-│    │                 /   \                                   │  │
-│    │           age>=18    OR                                 │  │
-│    │                     /  \                                │  │
-│    │              role=ADMIN  score>100                      │  │
-│    └────────────────────────────┬────────────────────────────┘  │
-│                                 │ AST                           │
-│  Step 3: Evaluator (평가기)                                      │
-│    ┌─────────────────────────────────────────────────────────┐  │
-│    │ context = { age: 25, role: "USER", score: 150 }         │  │
-│    │ AND(age>=18:true, OR(role=ADMIN:false, score>100:true))  │  │
-│    │ = AND(true, OR(false, true)) = AND(true, true) = true   │  │
-│    └─────────────────────────────────────────────────────────┘  │
-│                                                                 │
-│  출력: true (조건 충족)                                           │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boolean Parser Interpreter Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: "age &gt;= 18 AND (role = 'ADMIN' OR score &gt; 100)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: Lexer (렉서 / 토크나이저)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">age</div><div class="kb-diagram-node">&gt;=</div><div class="kb-diagram-node">18</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-node">(</div><div class="kb-diagram-node">role</div><div class="kb-diagram-node">=</div><div class="kb-diagram-node">'ADMIN'</div><div class="kb-diagram-node">OR</div><div class="kb-diagram-note">... │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 스트림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: Parser (파서, 재귀 하강)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AST (추상 구문 트리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">age&gt;=18 OR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">role=ADMIN score&gt;100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AST</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: Evaluator (평가기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">context = { age: 25, role: "USER", score: 150 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND(age&gt;=18:true, OR(role=ADMIN:false, score&gt;100:true))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= AND(true, OR(false, true)) = AND(true, true) = true</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: true (조건 충족)</div></div>
+</div>
+</div>
+
+
 
 ```bnf
 expression  ::= or_expr
@@ -190,18 +187,22 @@ String rule = "role = 'ADMIN' OR (role = 'MANAGER' AND department = resource.dep
 boolean allowed = engine.evaluate(rule, new PermissionContext(currentUser, targetResource));
 ```
 
-```
-성능 문제:
-  같은 규칙 문자열을 매 요청마다 파싱 → 파싱 비용 반복 발생
 
-최적화:
-  규칙 문자열 → AST 변환 결과를 캐시
-  (규칙 변경 시 캐시 무효화)
 
-  Map<String, Expression> astCache = new ConcurrentHashMap<>();
-  Expression ast = astCache.computeIfAbsent(ruleText, parser::parse);
-  boolean result = ast.evaluate(context);  // 파싱 없이 평가만
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성능 문제:</div>
+<div class="kb-diagram-note">같은 규칙 문자열을 매 요청마다 파싱 → 파싱 비용 반복 발생</div>
+<div class="kb-diagram-note">최적화:</div>
+<div class="kb-diagram-note">규칙 문자열 → AST 변환 결과를 캐시</div>
+<div class="kb-diagram-note">(규칙 변경 시 캐시 무효화)</div>
+<div class="kb-diagram-note">Map&lt;String, Expression&gt; astCache = new ConcurrentHashMap&lt;&gt;();</div>
+<div class="kb-diagram-note">Expression ast = astCache.computeIfAbsent(ruleText, parser::parse);</div>
+<div class="kb-diagram-note">boolean result = ast.evaluate(context); // 파싱 없이 평가만</div>
+</div>
+</div>
+
+
 
 | 적합 | 부적합 |
 |:---|:---|
@@ -225,7 +226,7 @@ Boolean Parser [Interpreter](/knowledge-base/studynote/04_software_engineering/0
 
 **기대효과**:
 - **배포 없는 규칙 변경**: DB의 규칙 문자열만 수정하면 즉시 반영
-- **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 참여**: 코드를 모르는 전문가도 규칙 정의 가능
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가 참여</strong>: 코드를 모르는 전문가도 규칙 정의 가능
 - **테스트 용이성**: 규칙을 독립적으로 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 가능
 - **재사용성**: 동일 인터프리터로 다양한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙 처리
 
@@ -234,7 +235,7 @@ Boolean Parser [Interpreter](/knowledge-base/studynote/04_software_engineering/0
 - 파싱 오버헤드 (AST 캐싱으로 완화)
 - 문법 에러 처리 및 디버깅 도구 필요
 
-기술사 시험에서는 **Lexer → Parser → AST → Evaluator 4단계**와 **TerminalExpression/NonterminalExpression 역할**을 명확히 서술하고, **실무 적용 사례(Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) SpEL, Drools)**를 언급하는 것이 핵심이다.
+기술사 시험에서는 <strong>Lexer → Parser → AST → Evaluator 4단계</strong>와 <strong>TerminalExpression/NonterminalExpression 역할</strong>을 명확히 서술하고, <strong>실무 적용 사례(Spring <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> SpEL, Drools)</strong>를 언급하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

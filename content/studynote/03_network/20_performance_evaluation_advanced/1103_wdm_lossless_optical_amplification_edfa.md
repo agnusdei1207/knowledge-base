@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 광섬유는 세상에서 제일 투명한 유리지만, 100km를 지나가면 불순물(레일리 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 등에 의해 빛의 에너지가 99% 사라져 칠흑같이 어두워집니다.
 - **O-E-O 변환의 악몽**: 옛날에는 희미해진 빛(Optical)을 기계가 받아서 전기(Electrical)로 바꾸고 0과 1을 증폭시킨 다음 다시 빛(Optical)으로 쐈습니다. 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(병목)이 엄청났고 기계가 비싸서 바닷속에 깔 수가 없었습니다.
 
-```text
-[광섬유 싱글모드 다중모드]
-    │
-    ▼
-[WDM 무손실 광 증폭]
-    │
-    └──▶ [O-RAN 프론트홀 개방 사양]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WDM 무손실 광 증폭은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: O-E-O 변환(전기 변환) 과정 따위는 완전히 생략하고, **희미해진 빛의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 물리적인 상태 그대로 에너지만 뻥튀기(증폭) 시켜서 다시 100km를 날려 보내는 순수 광학 펌핑 장치**입니다.
+- **개념**: O-E-O 변환(전기 변환) 과정 따위는 완전히 생략하고, <strong>희미해진 빛의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 자체를 물리적인 상태 그대로 에너지만 뻥튀기(증폭) 시켜서 다시 100km를 날려 보내는 순수 광학 펌핑 장치</strong>입니다.
 
-```text
-[광섬유 싱글모드 다중모드]
-    │
-    ▼
-[WDM 무손실 광 증폭]
-    │
-    └──▶ [O-RAN 프론트홀 개방 사양]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WDM 무손실 광 증폭의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,13 +66,13 @@ WDM(파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexi
 
 ### 1. 에르븀(Erbium, Er) 이온의 들뜸 현상
 - 광케이블 중간에 에르븀이라는 희토류 원소를 듬뿍 섞어 구워낸 특수 유리관(EDFA)을 10m 정도 이어 붙입니다.
-- 외부에서 980nm 파장의 아주 강력한 **'펌프 레이저'**를 이 유리관 안으로 계속 쏴줍니다.
+- 외부에서 980nm 파장의 아주 강력한 <strong>'펌프 레이저'</strong>를 이 유리관 안으로 계속 쏴줍니다.
 - 에르븀 이온들이 펌프 레이저의 에너지를 받아먹고 흥분해서(들뜬 상태, Excited [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 터지기 일보 직전이 됩니다.
 
 ### 2. 빛의 유도 방출 (Stimulated Emission) - 빛의 복사
-- 이때 서울에서 100km를 날아와서 희미해진 **'진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빛(1550nm 파장)'**이 이 흥분한 에르븀 유리관 속으로 진입합니다.
+- 이때 서울에서 100km를 날아와서 희미해진 <strong>'진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빛(1550nm 파장)'</strong>이 이 흥분한 에르븀 유리관 속으로 진입합니다.
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빛이 에르븀 이온을 툭 치고 지나갑니다! 
-- 그 순간, 흥분해 있던 에르븀 이온이 자기가 머금고 있던 에너지를 토해내는데, 놀랍게도 **방금 툭 친 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빛과 '색깔, 파장, 위상이 100% 완벽하게 똑같은 쌍둥이 빛'을 쏟아냅니다!**
+- 그 순간, 흥분해 있던 에르븀 이온이 자기가 머금고 있던 에너지를 토해내는데, 놀랍게도 <strong>방금 툭 친 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빛과 '색깔, 파장, 위상이 100% 완벽하게 똑같은 쌍둥이 빛'을 쏟아냅니다!</strong>
 - 1가닥의 희미한 빛이 100가닥, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000가닥의 빛으로 복제되며 찬란하고 밝은 본래의 빛으로 100배 증폭(Amplification)되어 다음 100km를 향해 날아갑니다.
 
 WDM 무손실 광 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)가 기반 조건을 만든다면, WDM 무손실 광 증폭은 그 위에서 핵심 메커니즘을 구현하고, [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -81,7 +89,7 @@ WDM 무손실 광 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **WDM (Wavelength [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))**: 1개의 광케이블에 빨강, 주황, 노랑, 파랑 100가지 색깔의 빛을 섞어서 쏘는 기술입니다.
+- <strong>WDM (Wavelength <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong>: 1개의 광케이블에 빨강, 주황, 노랑, 파랑 100가지 색깔의 빛을 섞어서 쏘는 기술입니다.
 - 옛날 기계는 100가지 색깔을 증폭하려면 전기 기계를 100대 달아야 했습니다.
 - **EDFA의 위엄**: EDFA 유리관은 색깔을 가리지 않습니다! 100가지 색깔의 빛이 섞여서 EDFA 유리관을 통과하면, **100가지 색깔의 빛이 그 모습 그대로 동시에 100배로 밝아집니다.** (파장 무관성, 투명성). 이 미친 효율 덕분에 해저 광케이블 하나로 테라비트(Tbps) 전송이 가능해졌습니다.
 
@@ -97,9 +105,9 @@ WDM 무손실 광 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ## Ⅴ. 기대효과 및 결론
 
-- EDFA와 쌍벽을 이루는 또 다른 기술입니다. 특수 에르븀 유리를 달지 않고, 그냥 **수십 km의 일반 광케이블 자체를 증폭기로 써버리는 원리**입니다. 빛과 유리의 분자가 부딪혀 진동(라만 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))하는 에너지를 이용해 빛을 밀어주는 방식으로, EDFA보다 노이즈가 적어 두 개를 섞어서 최장거리 우주 통신에 씁니다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+- EDFA와 쌍벽을 이루는 또 다른 기술입니다. 특수 에르븀 유리를 달지 않고, 그냥 <strong>수십 km의 일반 광케이블 자체를 증폭기로 써버리는 원리</strong>입니다. 빛과 유리의 분자가 부딪혀 진동(라만 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))하는 에너지를 이용해 빛을 밀어주는 방식으로, EDFA보다 노이즈가 적어 두 개를 섞어서 최장거리 우주 통신에 씁니다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 기존의 **전기식 증폭기(리피터)**는 지쳐 쓰러져가는 마라톤 선수(희미한 빛)를 중간 휴게소에서 **'붙잡아 침대에 눕히고 영양제를 먹여(전기로 변환) 다시 살려내서 뛰게 만드는 미련한 짓'**이었습니다. 시간이 엄청 지체되었습니다. **EDFA(광 증폭기)**는 휴게소를 부수고 도로 옆에 **'초대형 에너지 부스터 송풍기'**를 설치한 마법입니다. 지친 선수가 멈추거나 쉴 필요 없이 송풍기 구간(에르븀 유리관)을 지나쳐 달리는 그 찰나의 순간! 등 뒤에서 엄청난 제트기 바람(펌프 레이저 유도 방출)이 선수를 확 밀어줍니다. 선수는 달리는 그 상태 그대로, 속도를 1도 멈추지 않고 체력이 100% 회복된 채 튀어 나갑니다. 심지어 100명의 선수(WDM 다중 파장)가 한꺼번에 뭉쳐서 지나가도, 등 뒤의 바람은 100명의 선수를 동시에 다 밀어주어 테라비트급 해저 케이블의 완벽한 논스톱 질주를 완성한 노벨상급 물리학의 승리입니다.
+- **📢 섹션 요약 비유**: 기존의 <strong>전기식 증폭기(리피터)</strong>는 지쳐 쓰러져가는 마라톤 선수(희미한 빛)를 중간 휴게소에서 <strong>'붙잡아 침대에 눕히고 영양제를 먹여(전기로 변환) 다시 살려내서 뛰게 만드는 미련한 짓'</strong>이었습니다. 시간이 엄청 지체되었습니다. <strong>EDFA(광 증폭기)</strong>는 휴게소를 부수고 도로 옆에 <strong>'초대형 에너지 부스터 송풍기'</strong>를 설치한 마법입니다. 지친 선수가 멈추거나 쉴 필요 없이 송풍기 구간(에르븀 유리관)을 지나쳐 달리는 그 찰나의 순간! 등 뒤에서 엄청난 제트기 바람(펌프 레이저 유도 방출)이 선수를 확 밀어줍니다. 선수는 달리는 그 상태 그대로, 속도를 1도 멈추지 않고 체력이 100% 회복된 채 튀어 나갑니다. 심지어 100명의 선수(WDM 다중 파장)가 한꺼번에 뭉쳐서 지나가도, 등 뒤의 바람은 100명의 선수를 동시에 다 밀어주어 테라비트급 해저 케이블의 완벽한 논스톱 질주를 완성한 노벨상급 물리학의 승리입니다.
 
 ---
 
@@ -114,15 +122,19 @@ WDM 무손실 광 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 광섬유 싱글모드 다중모드]
-    │
-    ▼
-[현재 개념: WDM 무손실 광 증폭]
-    │
-    ├──▶ [확장 A: O-RAN 프론트홀 개방 사양]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: O-RAN 프론트홀 개방 사양</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 WDM 무손실 광 증폭는 [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

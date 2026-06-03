@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 앞선 문서에서 배운 일반적인 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 통신은 클라이언트(내 폰)가 직접 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관) 서버에 질의를 날렸습니다. 
-이로 인해 **1) 클라이언트의 접속 대기 시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 급증**, **2) [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버의 어마어마한 트래픽 과부하(DDoS급 병목)**, **3) 클라이언트의 웹서핑 접속 기록(프라이버시)이 CA에 고스란히 노출**되는 세 가지 치명타를 입었습니다.
+이로 인해 <strong>1) 클라이언트의 접속 대기 시간(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 급증</strong>, <strong>2) <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 서버의 어마어마한 트래픽 과부하(DDoS급 병목)</strong>, <strong>3) 클라이언트의 웹서핑 접속 기록(프라이버시)이 CA에 고스란히 노출</strong>되는 세 가지 치명타를 입었습니다.
 
-```text
-[OCSP]
-    │
-    ▼
-[OCSP Stapling]
-    │
-    └──▶ [SSL/TLS 통신 모델 개요]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,22 +41,26 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 클라이언트가 CA에 질의하는 귀찮은 과정을 생략시키기 위해, **웹 서버(네이버 등 사이트 주인)가 주기적으로 미리 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 접속해 자신의 '[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명서([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답)'를 받아 서버 캐시(메모리)에 쟁여두었다가, 클라이언트가 최초 접속([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake)할 때 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 함께 호치키스(Staple)로 찍어서 한꺼번에 묶어 보내주는 획기적인 트래픽/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. (표준명: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Certificate Status Request 확장)
+- **개념**: 클라이언트가 CA에 질의하는 귀찮은 과정을 생략시키기 위해, <strong>웹 서버(네이버 등 사이트 주인)가 주기적으로 미리 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 서버에 접속해 자신의 '<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 증명서(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/">OCSP</a> 응답)'를 받아 서버 캐시(메모리)에 쟁여두었다가, 클라이언트가 최초 접속(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> Handshake)할 때 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서와 함께 호치키스(Staple)로 찍어서 한꺼번에 묶어 보내주는 획기적인 트래픽/<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 개선 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (표준명: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Certificate Status Request 확장)
 
 - **동작 원리 시나리오**:
-  1. **사전 준비 (웹 서버 ➜ [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: 네이버 웹 서버가 1시간에 한 번씩 미리 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 핑을 때려 "나 안 털렸지?" 하고 묻고, CA의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)이 쾅 찍힌 싱싱한 'Good(정상)' 영수증([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답)을 발급받아 캐시에 임시 저장해 둡니다.
+  1. <strong>사전 준비 (웹 서버 ➜ <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 네이버 웹 서버가 1시간에 한 번씩 미리 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 핑을 때려 "나 안 털렸지?" 하고 묻고, CA의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)이 쾅 찍힌 싱싱한 'Good(정상)' 영수증([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답)을 발급받아 캐시에 임시 저장해 둡니다.
   2. **클라이언트 접속 (클라이언트 ➜ 웹 서버)**: 내 컴퓨터가 네이버에 접속하며 헬로(ClientHello)를 날립니다.
   3. **스테이플링 전송 (웹 서버 ➜ 클라이언트)**: 네이버 서버는 굳이 클라이언트가 경찰청에 묻게 놔두지 않고, 자신의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 줄 때 **아까 받아둔 'Good 영수증'을 호치키스(Stapling)로 딱 묶어서 한 덩어리로 내 컴퓨터에 던져줍니다.**
-  4. **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료**: 내 컴퓨터는 영수증에 찍힌 CA의 암호화 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))을 보고 조작되지 않은 진짜 영수증임을 1초 만에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 안심하고 접속합니다.
+  4. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 완료</strong>: 내 컴퓨터는 영수증에 찍힌 CA의 암호화 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))을 보고 조작되지 않은 진짜 영수증임을 1초 만에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 안심하고 접속합니다.
 
-```text
-[OCSP]
-    │
-    ▼
-[OCSP Stapling]
-    │
-    └──▶ [SSL/TLS 통신 모델 개요]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,8 +69,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 기존 OCSP의 단점을 완벽하게 씹어 먹으며 최신 웹 브라우저 통신의 대세가 되었습니다.
-1. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭발 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 내 브라우저가 외부의 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버를 거칠 필요가 없어져 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회나 왕복 통신 시간이 사라집니다. 사이트 화면이 0.1초라도 빨리 팍팍 뜹니다.
-2. **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버 생존**: 수십억 명의 네티즌이 쏘던 질의가 사라지고, 오직 웹 서버 1대가 1시간에 한 번씩만 점검하러 오므로 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버 트래픽 비용이 99% 삭감됩니다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 폭발 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 내 브라우저가 외부의 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버를 거칠 필요가 없어져 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회나 왕복 통신 시간이 사라집니다. 사이트 화면이 0.1초라도 빨리 팍팍 뜹니다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 서버 생존</strong>: 수십억 명의 네티즌이 쏘던 질의가 사라지고, 오직 웹 서버 1대가 1시간에 한 번씩만 점검하러 오므로 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버 트래픽 비용이 99% 삭감됩니다.
 3. **프라이버시 철벽 방어**: 내 컴퓨터가 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버와 아예 연결을 맺지 않으므로, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(미국 기업 등)는 내가 어느 동네에서 어떤 사이트를 보고 있는지 절대로 추적(감시)할 수 없게 되었습니다.
 
 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. OCSP가 기반 조건을 만든다면, [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling는 그 위에서 핵심 메커니즘을 구현하고, SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 해커가 네이버 서버를 털어 가짜 사이트를 만들었습니다. 가짜 사이트는 'Good 영수증'을 발급받을 수 없으니, 아예 영수증을 호치키스로 안 찍어서(Stapling 생략) 폰에 던져줍니다. 그러면 폰 브라우저는 "어, 영수증 안 왔네. 걍 Soft-fail로 넘어가 주지 뭐" 하고 접속을 허용하는 버그가 있었습니다.
-- 이를 막기 위해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 아예 **"나는 무조건 Stapling 영수증을 첨부하는 서버니까, 만약 내 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 영수증이 안 붙어오면 절대 접속시켜주지 마! (Must-Staple)"**라는 문구를 하드코딩해 박아 넣는 확장 기능이 적용되고 있습니다.
+- 이를 막기 위해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 아예 <strong>"나는 무조건 Stapling 영수증을 첨부하는 서버니까, 만약 내 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서에 영수증이 안 붙어오면 절대 접속시켜주지 마! (Must-Staple)"</strong>라는 문구를 하드코딩해 박아 넣는 확장 기능이 적용되고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OCSP]
-    │
-    ▼
-[현재 개념: OCSP Stapling]
-    │
-    ├──▶ [확장 A: SSL/TLS 통신 모델 개요]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OCSP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCSP Stapling</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SSL/TLS 통신 모델 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling는 OCSP에서 출발해 현재 메커니즘을 정교화하고, 이후 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

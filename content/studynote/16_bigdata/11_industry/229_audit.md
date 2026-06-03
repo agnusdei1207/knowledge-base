@@ -21,11 +21,15 @@ tags = ["studynote-bigdata"]
 
 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)은 빅데이터 환경에서 국방 응용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 기준           │──▶│ 실행           │──▶│ 증거           │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">실행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">증거</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 출입 검사대처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
 
@@ -41,11 +45,15 @@ tags = ["studynote-bigdata"]
 | 실행 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 증거 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 기준           │──▶│ 실행           │──▶│ 증거           │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">실행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">증거</div></div>
+</div>
+</div>
+
+
 
 정보 분석와 적 행동 예측은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -109,21 +117,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 정보 분석 — 수작업 보고서, 제한된 데이터 소스, 높은 지연]
-    │
-    ▼
-[빅데이터 수집 통합 — 다중 센서·로그·통신 데이터 실시간 수집 및 정제]
-    │
-    ▼
-[AI 패턴 탐지 — 기계학습 기반 적 행동 예측·이상 징후 자동 탐지]
-    │
-    ▼
-[사이버-물리 융합 감시 — IT 보안 위협과 물리 침입 징후 통합 분석]
-    │
-    ▼
-[의사결정 지원 시스템 (C4I) — 지휘·통제·통신·컴퓨터·정보의 빅데이터 기반 실시간 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 정보 분석 — 수작업 보고서, 제한된 데이터 소스, 높은 지연</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 수집 통합 — 다중 센서·로그·통신 데이터 실시간 수집 및 정제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 패턴 탐지 — 기계학습 기반 적 행동 예측·이상 징후 자동 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사이버-물리 융합 감시 — IT 보안 위협과 물리 침입 징후 통합 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">의사결정 지원 시스템 (C4I) — 지휘·통제·통신·컴퓨터·정보의 빅데이터 기반 실시간 통합</div></div>
+</div>
+</div>
+
+
 이 흐름은 분야별 분절된 수집·분석을 통합하는 국방 빅데이터가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)과 결합하고, 사이버·물리 위협을 통합 감시하는 지능형 C4I 체계로 발전하는 국방 정보 분석의 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

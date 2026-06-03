@@ -31,14 +31,17 @@ tags = ["studynote-ai"]
 
 실제로 기존 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙 시스템에서 KV [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)의 20~40%만 실질적으로 활용되고 있었다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기존 KV 캐시는 "호텔에서 손님이 오기 전에 최대 인원수로 방을 미리 전부 예약해두는" 방식이다. 손님이 2명만 와도 20명 방이 잡혀있어 다른 손님을 받지 못한다.
 
@@ -48,47 +51,43 @@ tags = ["studynote-ai"]
 
 ### PagedAttention ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)드 어텐션) 구조
 
-```
-  기존 방식 (연속 메모리 할당)
-  ┌─────────────────────────────────────────┐
-  │ 요청 A │ 요청 A │ 요청 A │ [낭비]       │
-  │ 블록0  │ 블록1  │ 블록2  │ [미사용]     │
-  └─────────────────────────────────────────┘
 
-  PagedAttention 방식 (비연속 블록 매핑)
-  ┌──────────────────────────────────────────────┐
-  │ 물리 메모리 블록                              │
-  │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐       │
-  │  │ 블록0 │ │ 블록1 │ │ 블록2 │ │ 블록3 │ ... │
-  │  └──────┘ └──────┘ └──────┘ └──────┘       │
-  └──────────────────────────────────────────────┘
-       ↑            ↑           ↑
-  ┌─────────────┐  ┌─────────────┐
-  │ 요청 A 테이블│  │ 요청 B 테이블│
-  │ 논리0→물리0  │  │ 논리0→물리1  │
-  │ 논리1→물리3  │  │ 논리1→물리2  │
-  └─────────────┘  └─────────────┘
 
-  블록 테이블 (Block Table): 논리 블록 → 물리 블록 매핑
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 방식 (연속 메모리 할당)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">요청 A │ 요청 A │ 요청 A</div><div class="kb-diagram-node">낭비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">블록0 │ 블록1 │ 블록2</div><div class="kb-diagram-node">미사용</div></div>
+<div class="kb-diagram-note">PagedAttention 방식 (비연속 블록 매핑)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리 블록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록0</div><div class="kb-diagram-cell">블록1</div><div class="kb-diagram-cell">블록2</div><div class="kb-diagram-cell">블록3</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 A 테이블</div><div class="kb-diagram-cell">요청 B 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리0→물리0</div><div class="kb-diagram-cell">논리0→물리1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리1→물리3</div><div class="kb-diagram-cell">논리1→물리2</div></div>
+<div class="kb-diagram-note">블록 테이블 (Block Table): 논리 블록 → 물리 블록 매핑</div>
+</div>
+</div>
+
+
 
 ### Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) (연속 배치) 동작
 
-```
-  기존 Static Batching:
-  ┌───────────────────────────────────────────┐
-  │ 배치: [요청A(100tok), 요청B(10tok), ...]   │
-  │ A 완료까지 B 결과 대기 (GPU 유휴 발생)    │
-  └───────────────────────────────────────────┘
 
-  Continuous Batching:
-  ┌───────────────────────────────────────────┐
-  │ 스텝 1: [요청A tok1, 요청B tok1, 요청C tok1]│
-  │ 스텝 2: [요청A tok2, 요청B tok2, 요청D tok1]│ ← B 완료 후 D 즉시 삽입
-  │ 스텝 3: [요청A tok3, 요청D tok2, 요청E tok1]│
-  └───────────────────────────────────────────┘
-  → GPU 활용률 극대화, 짧은 요청 지연 최소화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 Static Batching:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배치:</div><div class="kb-diagram-node">요청A(100tok), 요청B(10tok), ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 완료까지 B 결과 대기 (GPU 유휴 발생)</div></div>
+<div class="kb-diagram-note">Continuous Batching:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">스텝 1:</div><div class="kb-diagram-node">요청A tok1, 요청B tok1, 요청C tok1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">스텝 2:</div><div class="kb-diagram-node">요청A tok2, 요청B tok2, 요청D tok1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">B 완료 후 D 즉시 삽입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">스텝 3:</div><div class="kb-diagram-node">요청A tok3, 요청D tok2, 요청E tok1</div></div>
+<div class="kb-diagram-note">→ GPU 활용률 극대화, 짧은 요청 지연 최소화</div>
+</div>
+</div>
+
+
 
 ### Prefix [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (프리픽스 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))
 
@@ -153,7 +152,7 @@ python -m vllm.entrypoints.openai.api_server \
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)**: 동일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 로 최대 24배 더 많은 요청 처리
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>: 동일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 로 최대 24배 더 많은 요청 처리
 - **메모리 효율**: KV 캐시 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 90%+ 제거
 - **비용**: 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 더 적은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 로 운영 가능
 - **생태계**: OpenAI [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호환 인터페이스로 쉬운 전환

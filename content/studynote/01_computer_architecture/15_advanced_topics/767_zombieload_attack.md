@@ -42,17 +42,18 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 좀비로드가 "실패한 로드"를 이용해 필 버퍼의 잔상을 빼내는 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ZombieLoad leak path                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Victim load traffic ──▶ Fill Buffer ──▶ L1 cache                  │
-│                            │                                       │
-│                            └─ stale bytes remain briefly           │
-│                                       │                            │
-│ Attacker invalid load ── transient consume ──▶ cache decode       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZombieLoad leak path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim load traffic ──▶ Fill Buffer ──▶ L1 cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stale bytes remain briefly</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker invalid load ── transient consume ──▶ cache decode</div></div>
+</div>
+</div>
+
+
 
 공격자는 보통 의미 있는 한 번의 읽기를 기대하지 않는다. 대신 수천~수백만 번의 로드를 반복하면서 어떤 바이트가 얼마나 자주 나타나는지 통계적으로 모은다. 이 성격 때문에 좀비로드는 비밀번호 한 글자, 포인터 일부, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 조각처럼 "흐름 속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 엿듣는 데 강하다.
 
@@ -121,21 +122,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Out-of-Order load path
-    │
-    ▼
-Fill Buffer reuse
-    │
-    ▼
-Fault / Assist / Abort window
-    │
-    ▼
-ZombieLoad sampling
-    │
-    ▼
-MD_CLEAR + SMT / TSX policy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Out-of-Order load path</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fill Buffer reuse</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fault / Assist / Abort window</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZombieLoad sampling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MD_CLEAR + SMT / TSX policy</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

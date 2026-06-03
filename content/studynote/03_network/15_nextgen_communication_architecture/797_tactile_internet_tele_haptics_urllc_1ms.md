@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **텔레햅틱 (원격 촉각)**: 물리적으로 멀리 떨어진 공간의 사물을 만지는 듯한 힘(Force), 진동, 촉감(Tactile) 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 통신망을 통해 실시간으로 양방향 전송하여 사용자에게 생생하게 전달하는 체계입니다.
-- **Tactile Internet (촉각 인터넷)**: ITU-T가 정의한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 궁극적 목표망으로, 시각/청각(비디오/오디오)을 넘어서 **인간의 '촉각'을 완벽하게 모사하기 위해 극도로 짧은 지연시간(초저지연)과 100%에 가까운 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 보장하는 차세대 통신 인프라**입니다.
+- **Tactile Internet (촉각 인터넷)**: ITU-T가 정의한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 궁극적 목표망으로, 시각/청각(비디오/오디오)을 넘어서 <strong>인간의 '촉각'을 완벽하게 모사하기 위해 극도로 짧은 지연시간(초저지연)과 100%에 가까운 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)을 보장하는 차세대 통신 인프라</strong>입니다.
 
-```text
-[홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
-[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 인간의 감각 기관이 사기를 당하지 않고 "진짜 만지는 것 같다"라고 느끼기 위한 생물학적 마지노선입니다.
 - **시각/청각**: 화면과 소리의 입모양이 어긋나는 것은 100ms(0.1초) 정도 지연이 생겨도 인간의 뇌가 대충 보정해 줍니다.
-- **촉각 (Haptic Feedback)**: 손가락으로 로봇팔을 움직여 단단한 쇳덩어리를 쳤을 때, 그 딱딱한 충격량 패킷이 뇌로 되돌아와 햅틱 장갑을 때려주는 시간이 **최대 1~5ms (0.001~0.005초)**를 넘어가면 뇌는 심각한 불일치(멀미, 조작 오류)를 느낍니다. 
+- **촉각 (Haptic Feedback)**: 손가락으로 로봇팔을 움직여 단단한 쇳덩어리를 쳤을 때, 그 딱딱한 충격량 패킷이 뇌로 되돌아와 햅틱 장갑을 때려주는 시간이 <strong>최대 1~5ms (0.001~0.005초)</strong>를 넘어가면 뇌는 심각한 불일치(멀미, 조작 오류)를 느낍니다. 
 - 이 5ms 벽을 뚫어내는 것이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(761번 문서)와 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망의 최대 기술 과제입니다.
 
-```text
-[홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
-[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 비디오 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 달리 촉각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(1kg의 힘으로 눌렀다)는 패킷 용량이 겨우 몇십 바이트로 아주 작습니다. 하지만 그 작은 조각이 빛의 속도로 오가야 합니다.
 
-1. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 운동 학적 보간 (Kinematic Extrapolation) 마법**
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 운동 학적 보간 (Kinematic Extrapolation) 마법</strong>
    - 미국에서 한국으로 수술 로봇 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘면, 빛의 속도로 가도 해저 광케이블 때문에 최소 100ms가 걸립니다(물리법칙 절대 불가).
    - **해결책**: 동네 엣지 클라우드([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)) 서버에 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 심어둡니다. 의사가 로봇팔을 왼쪽으로 쭉 뻗으면, AI가 이 움직임의 속도와 각도를 보고 **"아, 이 의사는 0.1초 뒤에 팔을 10cm 더 뻗을 거야!"라고 0.001초 만에 미래를 예측(예측 보간)해 버립니다.**
    - 예측된 가짜 촉각 신호를 의사 손가락에 먼저 쏴주어 속이고, 진짜 미국에서 패킷이 늦게 오면 그걸 아주 부드럽게 덧씌워 오차를 융합해 버리는(Dead Reckoning) 눈물겨운 꼼수 방침이 기초 구조입니다.
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
-    │
-    ▼
-[현재 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    ├──▶ [확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

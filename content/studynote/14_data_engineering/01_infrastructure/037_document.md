@@ -133,31 +133,33 @@ result = list(orders.aggregate(pipeline))
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). RDBMS vs 문서 저장소 비교
 
-```
-상품 카탈로그 예시:
 
-RDBMS 방식:
-  products 테이블 + attributes 테이블
-  + product_attributes (조인 테이블)
-  -> 3개 테이블 조인 필요
 
-  문제: 전자제품/의류/식품 마다 속성이 달라
-        스키마가 폭발적으로 복잡해짐
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상품 카탈로그 예시:</div>
+<div class="kb-diagram-note">RDBMS 방식:</div>
+<div class="kb-diagram-note">products 테이블 + attributes 테이블</div>
+<div class="kb-diagram-note">+ product_attributes (조인 테이블)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">3개 테이블 조인 필요</div>
+<div class="kb-diagram-note">문제: 전자제품/의류/식품 마다 속성이 달라</div>
+<div class="kb-diagram-note">스키마가 폭발적으로 복잡해짐</div>
+<div class="kb-diagram-note">문서 저장소 방식:</div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"name": "삼성 TV",</div>
+<div class="kb-diagram-note">"category": "electronics",</div>
+<div class="kb-diagram-note">"specs": {"resolution": "4K", "size": "65인치", "hdmi": 4}</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">{</div>
+<div class="kb-diagram-note">"name": "청바지",</div>
+<div class="kb-diagram-note">"category": "clothing",</div>
+<div class="kb-diagram-note">"specs": {"size": "32", "color": "blue", "material": "cotton"}</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-tree-item" style="--depth:1">각 상품마다 다른 속성을 유연하게 저장!</div>
+</div>
+</div>
 
-문서 저장소 방식:
-  {
-    "name": "삼성 TV",
-    "category": "electronics",
-    "specs": {"resolution": "4K", "size": "65인치", "hdmi": 4}
-  }
-  {
-    "name": "청바지",
-    "category": "clothing",
-    "specs": {"size": "32", "color": "blue", "material": "cotton"}
-  }
-  
-  -> 각 상품마다 다른 속성을 유연하게 저장!
-```
+
 
 > 📢 **섹션 요약 비유**: [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 모든 고객 양식이 동일한 공공기관, 문서 저장소는 각자 원하는 항목을 자유롭게 적을 수 있는 메모장.
 
@@ -165,27 +167,29 @@ RDBMS 방식:
 
 ## V. 실무 시나리오 — 이커머스 상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)
 
-```
-문제 상황:
-  전자제품(해상도·주파수)과 의류(사이즈·색상)를
-  같은 테이블에 저장 -> RDBMS 한계
 
-MongoDB 솔루션:
-  products 컬렉션에 다양한 구조의 문서 저장
-  인덱스: 카테고리, 가격, 이름에 인덱스 생성
-  
-  인덱스 생성:
-    db.products.createIndex({"category": 1, "price": -1})
-    -> 카테고리별 가격 내림차순 조회 최적화
 
-  전문 검색 (Full Text Search):
-    db.products.createIndex({"name": "text", "description": "text"})
-    db.products.find({"$text": {"$search": "무선 헤드폰"}})
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제 상황:</div>
+<div class="kb-diagram-note">전자제품(해상도·주파수)과 의류(사이즈·색상)를</div>
+<div class="kb-diagram-note">같은 테이블에 저장 -&gt; RDBMS 한계</div>
+<div class="kb-diagram-note">MongoDB 솔루션:</div>
+<div class="kb-diagram-note">products 컬렉션에 다양한 구조의 문서 저장</div>
+<div class="kb-diagram-note">인덱스: 카테고리, 가격, 이름에 인덱스 생성</div>
+<div class="kb-diagram-note">인덱스 생성:</div>
+<div class="kb-diagram-note">db.products.createIndex({"category": 1, "price": -1})</div>
+<div class="kb-diagram-tree-item" style="--depth:2">카테고리별 가격 내림차순 조회 최적화</div>
+<div class="kb-diagram-note">전문 검색 (Full Text Search):</div>
+<div class="kb-diagram-note">db.products.createIndex({"name": "text", "description": "text"})</div>
+<div class="kb-diagram-note">db.products.find({"$text": {"$search": "무선 헤드폰"}})</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">RDBMS 대비 상품 조회 응답시간 40% 개선</div>
+<div class="kb-diagram-note">스키마 변경 없이 새 카테고리 즉시 추가</div>
+</div>
+</div>
 
-  결과:
-    RDBMS 대비 상품 조회 응답시간 40% 개선
-    스키마 변경 없이 새 카테고리 즉시 추가
-```
+
 
 > 📢 **섹션 요약 비유**: 이커머스 상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 수천만 개, 카테고리마다 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) — 문서 저장소가 유일한 현실적 해결책.
 

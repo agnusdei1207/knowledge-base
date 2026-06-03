@@ -31,14 +31,20 @@ GitOps는 "Git이 진실의 원천"이라는 관점으로 이 문제를 바꾼�
 
 GitOps의 핵심은 선언적(manifest) 정의와 지속적 비교다. Argo CD와 Flux는 주기적으로 Git 상태와 클러스터 상태를 비교하고 차이가 나면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
-```text
-Git Repo
-   ↓ desired state
-Argo CD / Flux
-   ↓ reconcile
-Kubernetes Cluster
-   ↑ live state diff
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Git Repo</div>
+<div class="kb-diagram-note">↓ desired state</div>
+<div class="kb-diagram-note">Argo CD / Flux</div>
+<div class="kb-diagram-note">↓ reconcile</div>
+<div class="kb-diagram-note">Kubernetes Cluster</div>
+<div class="kb-diagram-note">↑ live state diff</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -102,29 +108,41 @@ Argo CD와 Flux는 배포를 사람 손의 작업에서 선언적 운영으로 �
 
 ## 관련 개념 맵
 
-```text
-Git Repo
-   ↓
-Argo CD / Flux
-   ↓
-Reconciliation
-   ↓
-Kubernetes Desired State
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Git Repo</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Argo CD / Flux</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Reconciliation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Kubernetes Desired State</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Push 배포
-   ↓
-GitOps
-   ↓
-Argo CD / Flux
-   ↓
-드리프트 감지 / 자동 롤백
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Push 배포</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">GitOps</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Argo CD / Flux</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">드리프트 감지 / 자동 롤백</div>
+</div>
+</div>
+
+
 
 ---
 

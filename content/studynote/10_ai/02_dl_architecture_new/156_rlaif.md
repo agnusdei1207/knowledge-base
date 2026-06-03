@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback)는 인간이 직접 텍스트 답변의 순위를 매기던 RLHF의 비용과 속도 한계를 극복하기 위해, 인간 대신 **'더 거대하고 똑똑한 교사 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(예: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4)'가 피드백 평가와 채점을 대행**하게 하는 모델 정렬(Alignment) 기법이다.
+> 1. **본질**: [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback)는 인간이 직접 텍스트 답변의 순위를 매기던 RLHF의 비용과 속도 한계를 극복하기 위해, 인간 대신 <strong>'더 거대하고 똑똑한 교사 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(예: <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4)'가 피드백 평가와 채점을 대행</strong>하게 하는 모델 정렬(Alignment) 기법이다.
 > 2. **가치**: 수천 명의 인간 라벨러를 고용해 수십억 원을 쓰지 않아도, 초거대 AI의 API를 호출하여 무한대로 쏟아지는 방대한 답변 쌍을 단 며칠 만에 저렴하게 채점할 수 있어 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모델과 스타트업의 자체 정렬 장벽을 붕괴시켰다.
 > 3. **판단 포인트**: 구글 논문에 따르면 RLAIF로 정렬된 모델과 인간이 정렬한 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(사용자 선호도)이 사실상 동률(Tie)로 입증되었으나, 심판을 보는 교사 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자체에 숨어있는 내재적 편향(Self-[Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이나 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 그대로 학생 모델에 전염될 수 있는 **모드 붕괴(Mode Collapse)** [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 엄격히 통제해야 한다.
 
@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 유해하지 않고 인간의 의도에 맞게 길들이는 데는 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)([인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/))가 절대적인 표준이었다. 하지만 RLHF는 거대한 약점이 있었다. 수만 개의 프롬프트에 대해 "이 답변이 더 안전하고 윤리적인가?"를 평가하려면, 고급 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 갖춘 박사급, 변호사급 인간 라벨러 수백 명을 고용해 몇 달 동안 텍스트를 읽고 채점해야 하는 천문학적인 돈과 시간([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 소모된다는 점이다.
 
-이를 혁파하기 위해 등장한 것이 **[RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 피드백 기반 강화학습)**이다. 이미 전 세계 최고의 지식과 윤리 가드레일을 체득한 초거대 상용 모델(Teacher Model, 예: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude 3 Opus)에게 상세한 평가 기준(프롬프트)을 주고, 작은 학생 모델(Student Model)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변 A와 B 중 어느 것이 더 훌륭한지 랭킹을 매기게 하는 것이다. AI가 AI를 가르치고 평가하는 이 폐쇄 루프(Closed-loop)의 완성은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전 속도에 터보 엔진을 달았다.
+이를 혁파하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 피드백 기반 강화학습)</strong>이다. 이미 전 세계 최고의 지식과 윤리 가드레일을 체득한 초거대 상용 모델(Teacher Model, 예: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude 3 Opus)에게 상세한 평가 기준(프롬프트)을 주고, 작은 학생 모델(Student Model)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변 A와 B 중 어느 것이 더 훌륭한지 랭킹을 매기게 하는 것이다. AI가 AI를 가르치고 평가하는 이 폐쇄 루프(Closed-loop)의 완성은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전 속도에 터보 엔진을 달았다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RLHF가 전국의 수능 교수님들을 모셔 와서 학생들의 모의고사를 한 땀 한 땀 손으로 채점하는 비싼 과정이라면, RLAIF는 이미 수능 만점을 받은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컴퓨터 채점기를 돌려 하룻밤 만에 전교생의 채점과 오답 노트를 싹 끝내버리는 자동화 마법이다.
 
@@ -40,29 +43,29 @@ tags = ["studynote-ai"]
 
 RLAIF의 전체 강화학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(보상 모델 훈련 $\rightarrow$ [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 최적화)은 기본적으로 RLHF와 100% 동일하다. 오직 심판(Evaluator)의 자리에 '인간' 대신 '초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-a-Judge)'이 들어갈 뿐이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           RLAIF (AI 피드백 강화학습) 자동화 파이프라인 도해          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [1. 학생 모델(Student)의 텍스트 생성]                              │
-│   질문: "우울할 때 먹기 좋은 약 추천해 줘."                        │
-│   답변 A: "수면제를 많이 먹고 주무세요." (유해함)                  │
-│   답변 B: "전문의와 상담하고, 초콜릿이나 바나나를 드세요." (안전함)   │
-│                                                              │
-│  [2. 교사 AI (LLM-as-a-Judge, 예: GPT-4)의 자동 프롬프트 채점]   │
-│   (심판 프롬프트): "당신은 윤리 전문가입니다. A와 B 중 도움이 되고    │
-│                  안전한 답변의 승자를 고르고 이유를 설명하시오."      │
-│   (교사 AI 출력): "승자: B. 이유는 A는 자해 위험이 있기 때문입니다." │
-│                                                              │
-│  [3. 보상 모델(RM) 및 PPO 학습]                                 │
-│   * 교사 AI가 남긴 수십만 개의 채점표(Ranking)를 바탕으로 보상 모델 훈련│
-│   * 학생 모델은 교사 AI가 선호한 B의 어투와 논리를 흉내 내도록 최적화됨!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLAIF (AI 피드백 강화학습) 자동화 파이프라인 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 학생 모델(Student)의 텍스트 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문: "우울할 때 먹기 좋은 약 추천해 줘."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">답변 A: "수면제를 많이 먹고 주무세요." (유해함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">답변 B: "전문의와 상담하고, 초콜릿이나 바나나를 드세요." (안전함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 교사 AI (LLM-as-a-Judge, 예: GPT-4)의 자동 프롬프트 채점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(심판 프롬프트): "당신은 윤리 전문가입니다. A와 B 중 도움이 되고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 답변의 승자를 고르고 이유를 설명하시오."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(교사 AI 출력): "승자: B. 이유는 A는 자해 위험이 있기 때문입니다."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 보상 모델(RM) 및 PPO 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 교사 AI가 남긴 수십만 개의 채점표(Ranking)를 바탕으로 보상 모델 훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 학생 모델은 교사 AI가 선호한 B의 어투와 논리를 흉내 내도록 최적화됨!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (프롬프팅을 통한 윤리 주입)**:
-RLAIF의 성패는 교사 AI에게 어떤 심판 기준(Constitution / Prompt)을 주느냐에 달려있다. 앤스로픽(Anthropic)은 이를 **헌법적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/))**라는 형태로 고도화했다. 모델에게 인간이 작성한 십계명("UN 인권 선언을 위배하지 마라", "차별적 단어를 피하라")이라는 헌법 원칙만 프롬프트에 넣어주면, AI가 이 헌법에 맞춰 수만 개의 답변을 스스로 채점하고 깎아내며 완벽히 정렬된 착한 AI로 거듭나게 만드는 구조다.
+RLAIF의 성패는 교사 AI에게 어떤 심판 기준(Constitution / Prompt)을 주느냐에 달려있다. 앤스로픽(Anthropic)은 이를 <strong>헌법적 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a>)</strong>라는 형태로 고도화했다. 모델에게 인간이 작성한 십계명("UN 인권 선언을 위배하지 마라", "차별적 단어를 피하라")이라는 헌법 원칙만 프롬프트에 넣어주면, AI가 이 헌법에 맞춰 수만 개의 답변을 스스로 채점하고 깎아내며 완벽히 정렬된 착한 AI로 거듭나게 만드는 구조다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -83,10 +86,10 @@ RLAIF는 인간의 개입(Human-in-the-loop)을 AI의 개입([AI](/knowledge-bas
 |:---|:---|:---|
 | **평가/채점 주체** | 고임금 라벨러, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가 그룹 | 초거대 상용 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude 3 등 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출) |
 | **비용 및 시간** | 수개월 단위, 수십만 달러 소요 | 며칠~몇 주 이내, 수천 달러 이하 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 비용) |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** | 사람마다 정치적, 종교적, 도덕적 편향이 다름. 피로도 누적으로 오후엔 채점 질이 떨어짐 | 감정이 없음. 프롬프트 규칙에 따라 10만 번을 평가해도 잣대가 흔들리지 않고 일관됨 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> | 사람마다 정치적, 종교적, 도덕적 편향이 다름. 피로도 누적으로 오후엔 채점 질이 떨어짐 | 감정이 없음. 프롬프트 규칙에 따라 10만 번을 평가해도 잣대가 흔들리지 않고 일관됨 |
 | **주요 약점** | 확장이 불가능함 (라벨러 수 확보의 병목) | 교사 모델 자체의 숨은 편향과 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 전염됨 |
 
-최근 메타(Meta)와 구글의 연구에 따르면, 인간과 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4에게 동일한 답변 쌍을 주었을 때 **평가 일치율(Agreement)이 80% 이상**으로 나타났다. 이는 사람 A와 사람 B가 채점했을 때 일치하는 비율과 사실상 똑같은 수치다. 즉, 윤리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 판단에 있어 AI의 심판 능력이 이미 대중 인간의 평균 수준에 도달했음을 의미한다.
+최근 메타(Meta)와 구글의 연구에 따르면, 인간과 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4에게 동일한 답변 쌍을 주었을 때 <strong>평가 일치율(Agreement)이 80% 이상</strong>으로 나타났다. 이는 사람 A와 사람 B가 채점했을 때 일치하는 비율과 사실상 똑같은 수치다. 즉, 윤리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 판단에 있어 AI의 심판 능력이 이미 대중 인간의 평균 수준에 도달했음을 의미한다.
 
 - **📢 섹션 요약 비유**: 올림픽 체조 경기에서 심판 5명([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))이 점수를 매길 때는 눈치를 보거나 실수할 때가 있다. 이를 수만 대의 초정밀 슬로우 모션 카메라와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판독기([RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/))로 교체했더니, 사람 심판보다 훨씬 싸고 빠르면서도 오차 없이 완벽한 점수를 내기 시작한 셈이다.
 
@@ -98,10 +101,10 @@ RLAIF는 인간의 개입(Human-in-the-loop)을 AI의 개입([AI](/knowledge-bas
 
 ### 실무 아키텍처 설계 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. **평가 기준의 세분화 (Granularity of Rubrics)**: 심판 AI에게 단순히 "A가 좋아 B가 좋아?"라고만 묻는 프롬프트는 실패한다. 반드시 "1) 정보 정확도, 2) 예의 바름, 3) 간결성 3가지 기준으로 각각 점수를 매기고 총합 승자를 내라"는 식의 구체적이고 쪼개진 채점 루브릭(Rubric) 프롬프트를 엔지니어링 해야 한다.
-2. **위치 편향성 (Position [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 타파**: 멍청한 심판 모델은 내용과 무관하게 무조건 '먼저 보여준 답변(A)'이나 '긴 답변'을 승자로 고르는 기계적 편향성을 가진다. 이를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위해 평가할 때 A와 B의 순서를 무작위로 뒤집어서 두 번 질문해 일치하는 것만 채점표에 쓰는 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축했는가?
+2. <strong>위치 편향성 (Position <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>) 타파</strong>: 멍청한 심판 모델은 내용과 무관하게 무조건 '먼저 보여준 답변(A)'이나 '긴 답변'을 승자로 고르는 기계적 편향성을 가진다. 이를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위해 평가할 때 A와 B의 순서를 무작위로 뒤집어서 두 번 질문해 일치하는 것만 채점표에 쓰는 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **모델 붕괴 (Model Collapse) 동조 방치**: 교사 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))도 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 일으킨다. 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 수십만 번 자동화 루프로 돌려버리면, 학생 모델은 교사 모델이 가진 특유의 뻣뻣한 말투("물론입니다, 제가 도와드리겠습니다")나 잘못된 편견을 그대로 답습하는 근친교배 오염이 발생한다. 반드시 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인간이 중간에 개입해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 채점이 맞는지 오디팅([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))하는 **[RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) + [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 하이브리드** 구조가 필수적이다.
+- **모델 붕괴 (Model Collapse) 동조 방치**: 교사 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))도 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 일으킨다. 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 수십만 번 자동화 루프로 돌려버리면, 학생 모델은 교사 모델이 가진 특유의 뻣뻣한 말투("물론입니다, 제가 도와드리겠습니다")나 잘못된 편견을 그대로 답습하는 근친교배 오염이 발생한다. 반드시 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인간이 중간에 개입해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 채점이 맞는지 오디팅([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))하는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a> + <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> 하이브리드</strong> 구조가 필수적이다.
 
 - **📢 섹션 요약 비유**: 아무리 훌륭한 자율주행차([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 심판)라도 끝없이 직진만 시켜놓고 잠을 자면 낭떠러지로 떨어진다. 핸들은 AI에게 맡기더라도, 가끔씩 인간 운전자가 눈을 뜨고 엉뚱한 길로 가는지 10분마다 한 번씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 줘야 안전한 목적지에 도착한다.
 
@@ -121,10 +124,10 @@ RLAIF의 등장은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (인간 피드백 강화학습)** | RLAIF의 모태 기술로, 인간 라벨러가 직접 답변의 순위를 매겨 모델의 윤리성과 유용성을 길들이는 오리지널 정렬 기법 |
-| **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-a-Judge (심판으로서의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/)에서 사람이 답변을 평가하는 대신, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 같은 뛰어난 모델이 정답지를 들고 학생 AI를 자동 채점하는 기술 트렌드 |
-| **헌법적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/))** | 인간 피드백 없이, 오직 모델이 지켜야 할 윤리 규칙(헌법) 텍스트만 프롬프트로 주어 모델 스스로 자신의 나쁜 대답을 비판하고 착하게 고쳐 쓰는 자기 교정 [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) 기법 |
-| **편향 (Position [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) / Length [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))** | 기계가 심판을 볼 때 내용이 아니라 단지 답변의 길이가 길거나, 선택지에 먼저 등장했다는 이유만으로 높은 점수를 줘버리는 자동 채점기의 고질적인 판단 에러 현상 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (인간 피드백 강화학습)</strong> | RLAIF의 모태 기술로, 인간 라벨러가 직접 답변의 순위를 매겨 모델의 윤리성과 유용성을 길들이는 오리지널 정렬 기법 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a>-a-Judge (심판으로서의 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/)에서 사람이 답변을 평가하는 대신, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 같은 뛰어난 모델이 정답지를 들고 학생 AI를 자동 채점하는 기술 트렌드 |
+| <strong>헌법적 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a>)</strong> | 인간 피드백 없이, 오직 모델이 지켜야 할 윤리 규칙(헌법) 텍스트만 프롬프트로 주어 모델 스스로 자신의 나쁜 대답을 비판하고 착하게 고쳐 쓰는 자기 교정 [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) 기법 |
+| <strong>편향 (Position <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a> / Length <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong> | 기계가 심판을 볼 때 내용이 아니라 단지 답변의 길이가 길거나, 선택지에 먼저 등장했다는 이유만으로 높은 점수를 줘버리는 자동 채점기의 고질적인 판단 에러 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

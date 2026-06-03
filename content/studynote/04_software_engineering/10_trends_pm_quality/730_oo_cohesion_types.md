@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 결과적으로 이 클래스는 엑셀 다운로드, 엑셀 업로드, 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) DB 저장, 엑셀 폰트 색상 변경까지 수천 줄의 코드가 뒤엉킨 괴물(God Object)이 된다. 나중에 폰트 색상을 바꾸려다 다운로드 기능이 망가지는 대참사가 발생한다.
 
-이처럼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 안에 **서로 관련 없는(또는 억지로 끼워 맞춘) 로직들이 얼마나 섞여 있는지를 측정하는 척도**가 바로 **[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))**다. 좋은 객체지향 설계는 언제나 **"[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 높게(High [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), 결합도는 낮게(Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))"**를 지향한다.
+이처럼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 안에 <strong>서로 관련 없는(또는 억지로 끼워 맞춘) 로직들이 얼마나 섞여 있는지를 측정하는 척도</strong>가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong>다. 좋은 객체지향 설계는 언제나 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>는 높게(High <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>), 결합도는 낮게(Loose <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)"</strong>를 지향한다.
 
 - **📢 섹션 요약 비유**: 서랍을 정리할 때, '학용품 서랍', '양말 서랍'으로 나누면 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높은 것이다. 그런데 귀찮다고 '거실에 굴러다니던 물건 서랍'을 하나 만들어서 리모컨, 양말, 연필을 다 때려 넣으면 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 최악인 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 객체지향 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) (우연, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 시간의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 응집도 (우연, 논리, 시간                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 응집도 (우연, 논리, 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) (우연, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 시간가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 소프트웨어 설계 원칙 중 **[단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))**과 완벽하게 일치한다.
+[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 소프트웨어 설계 원칙 중 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a>)</strong>과 완벽하게 일치한다.
 
 | 비교 항목 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) | [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) |
 |:---|:---|:---|
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

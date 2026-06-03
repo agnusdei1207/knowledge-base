@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-1. **[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) (Public)**: AWS, GCP, Azure처럼 인터넷을 통해 누구나 빌려 쓰는 뻥 뚫린 거대 공용 인프라.
-2. **[프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) (Private)**: 회사 내부 전산실([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 깔아서 우리 회사 직원만 쓰는 철통 보안 인프라.
-3. **[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) (Hybrid) 🌟**: `퍼블릭 + 프라이빗`의 결합. 기밀 데이터는 사내망(프라이빗)에 두고, 웹 서버 등은 확장성이 무한한 AWS(퍼블릭)에 올려 두 망을 직통으로 뚫어 하나처럼 쓰는 실무 최강 아키텍처.
-4. **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)) 🌟**: `AWS + 구글 클라우드 + Azure` 등 특정 클라우드 회사에 종속되는 것을 막기 위해 여러 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 동시에 섞어 쓰는 방식.
+1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">퍼블릭 클라우드</a> (Public)</strong>: AWS, GCP, Azure처럼 인터넷을 통해 누구나 빌려 쓰는 뻥 뚫린 거대 공용 인프라.
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/">프라이빗 클라우드</a> (Private)</strong>: 회사 내부 전산실([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 깔아서 우리 회사 직원만 쓰는 철통 보안 인프라.
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a> (Hybrid) 🌟</strong>: `퍼블릭 + 프라이빗`의 결합. 기밀 데이터는 사내망(프라이빗)에 두고, 웹 서버 등은 확장성이 무한한 AWS(퍼블릭)에 올려 두 망을 직통으로 뚫어 하나처럼 쓰는 실무 최강 아키텍처.
+4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">Multi-Cloud</a>) 🌟</strong>: `AWS + 구글 클라우드 + Azure` 등 특정 클라우드 회사에 종속되는 것을 막기 위해 여러 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 동시에 섞어 쓰는 방식.
 
-```text
-[Direct Connect / Express…]
-    │
-    ▼
-[하이브리드 / 멀티 클라우드 망 연동]
-    │
-    └──▶ [BDI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Direct Connect / Express…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 / 멀티 클라우드 망 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BDI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,28 +47,32 @@ tags = ["studynote-network"]
 
 ### 1. 트랜짓 게이트웨이 (Transit Gateway / [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke) 구조
 - 옛날엔 본사 서버실, AWS의 서울 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), AWS의 도쿄 VPC를 엮으려면 세 곳을 각각 1:1 선(피어링)으로 다 연결해야 하는 복잡한 그물망([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))이 되어 라우터 세팅이 터졌습니다.
-- 아마존이 **Transit Gateway (초거대 중앙 로터리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))** 장비를 중앙에 딱 하나 띄워줍니다. 본사, 도쿄 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), 서울 VPC가 모조리 이 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 한가운데에 선을 딱 1가닥씩만 꽂으면 방사형([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke)으로 모든 통신망이 마법처럼 1초 만에 통합([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))됩니다. 수백 개의 VPC를 관리하는 절대 규격입니다.
+- 아마존이 <strong>Transit Gateway (초거대 중앙 로터리 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong> 장비를 중앙에 딱 하나 띄워줍니다. 본사, 도쿄 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), 서울 VPC가 모조리 이 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 한가운데에 선을 딱 1가닥씩만 꽂으면 방사형([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke)으로 모든 통신망이 마법처럼 1초 만에 통합([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))됩니다. 수백 개의 VPC를 관리하는 절대 규격입니다.
 
 ### 2. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 연동)
 - 아마존 AWS 망과 구글 GCP 망을 연결하려면 어떻게 할까요?
-- 두 회사는 서로 자기들의 838번 문서의 **[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/), Cloud Interconnect)을 중간 통신사 넥서스(Equinix 등 클라우드 교환소)에서 만나게 하여 크로스 커넥트(Cross-Connect)로 묶어버립니다.**
-- 그리고 두 클라우드의 엣지 라우터끼리 인터넷 국제 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)인 **eBGP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**로 엑셀 장부([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)를 교환시킵니다. 그러면 구글 클라우드 서버에서 아마존 클라우드 서버로 데이터를 쏠 때, 인터넷을 안 거치고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 전용망을 타서 1ms 만에 광속 다이렉트 점프가 성립됩니다.
+- 두 회사는 서로 자기들의 838번 문서의 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/">Direct Connect</a>, Cloud Interconnect)을 중간 통신사 넥서스(Equinix 등 클라우드 교환소)에서 만나게 하여 크로스 커넥트(Cross-Connect)로 묶어버립니다.</strong>
+- 그리고 두 클라우드의 엣지 라우터끼리 인터넷 국제 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)인 <strong>eBGP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로 엑셀 장부([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)를 교환시킵니다. 그러면 구글 클라우드 서버에서 아마존 클라우드 서버로 데이터를 쏠 때, 인터넷을 안 거치고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 전용망을 타서 1ms 만에 광속 다이렉트 점프가 성립됩니다.
 
 ### 3. [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) ([소프트웨어 정의 광역망](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)) 기반 오버레이 통제
 - 본사가 전 세계 100개국에 지사가 있고 클라우드도 5개를 씁니다.
 - 본사 관리자가 마우스로 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 컨트롤러를 조작합니다. "유튜브 보려는 트래픽은 싸구려 일반 인터넷망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 보내고, AWS 서버와 통신하는 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 트래픽은 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))으로만 꺾어서 보내라!"
 - 전 세계 수백 대의 장비가 중앙의 룰(소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 트래픽을 지능적으로 분산시키는(Application-Aware [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 극강의 융합 통제망입니다.
 
-```text
-[Direct Connect / Express…]
-    │
-    ▼
-[하이브리드 / 멀티 클라우드 망 연동]
-    │
-    └──▶ [BDI]
-```
 
-- **📢 섹션 요약 비유**: [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 써야 했습니다. **하이브리드/[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 인터커넥트**는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) 연동망)'를 통째로 깔아버린 것입니다. 여기에 **트랜짓 게이트웨이(환승 센터)**라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Direct Connect / Express…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 / 멀티 클라우드 망 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BDI</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 써야 했습니다. <strong>하이브리드/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 인터커넥트</strong>는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) 연동망)'를 통째로 깔아버린 것입니다. 여기에 <strong>트랜짓 게이트웨이(환승 센터)</strong>라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
 
 ---
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Direct Connect / Express…]
-    │
-    ▼
-[현재 개념: 하이브리드 / 멀티 클라우드 망 연동]
-    │
-    ├──▶ [확장 A: BDI]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Direct Connect / Express…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하이브리드 / 멀티 클라우드 망 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BDI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동는 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…에서 출발해 현재 메커니즘을 정교화하고, 이후 BDI와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,23 +31,22 @@ SDMA (Space [Division](/knowledge-base/studynote/05_database/07_exam_summary/411
 
 SDMA 시스템은 기지국 측의 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))과 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 도달 각도를 계산하는 강력한 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리(DSP) 능력이 결합되어 작동한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             SDMA 기반 공간 분할 (Directional Beam)           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [사용자 1 방향의 전파]                [사용자 2 방향의 전파]│
-│        (빔 A)                                (빔 B)          │
-│ User 1 <══════════════ [기지국 안테나] ══════════════> User 2│
-│ (f1, t1 자원 재사용)          │         (f1, t1 자원 재사용) │
-│                               │                              │
-│                               ▼                              │
-│                            User 3                            │
-│                            (빔 C)                            │
-│                                                              │
-│  * 원리: 각 타겟 방향으로 전파의 위상/진폭(Weight)을 정밀 제어│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDMA 기반 공간 분할 (Directional Beam)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 1 방향의 전파</div><div class="kb-diagram-node">사용자 2 방향의 전파</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빔 A) (빔 B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">User 1 &lt;</div><div class="kb-diagram-node">기지국 안테나</div><div class="kb-diagram-note">&gt; User 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(f1, t1 자원 재사용)</div><div class="kb-diagram-cell">(f1, t1 자원 재사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빔 C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 각 타겟 방향으로 전파의 위상/진폭(Weight)을 정밀 제어</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 주파수를 늘리지 않고도 셀 용량을 물리적 빔 개수만큼 배가시키는 핵심 원리를 보여준다. 기지국은 단말이 보내온 채널 상태 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/), Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 분석하여 각 단말의 방향(DOA, Direction of Arrival)을 추정한다. 그 후, 목표 단말로는 전파가 보강 간섭을 일으키고 다른 단말 쪽으로는 상쇄 간섭(Nulling)이 일어나도록 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Matrix)을 계산하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 프리코딩(Precoding)한 뒤 방사한다. 빔의 분리도([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))가 얼마나 정교한지가 전체 스펙트럼 효율을 결정짓는다.
 
@@ -66,7 +65,7 @@ SDMA는 자원의 한계를 '어느 축'을 잘라 해결하느냐에서 기존 
 | **간섭 요인** | 인접 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 간섭 (ICI) | 사용자 간 공간적 근접도 (Angular Spread) | 환경 제약 요소 |
 | **요구 복잡도** | [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)/IFFT 처리 (높음) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 및 정밀 DSP 행렬 연산 (매우 높음) | 하드웨어 구축 비용 |
 
-SDMA는 논리적인 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 관점의 개념이며, 이를 물리 계층에서 실현하는 뼈대가 바로 **MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))** 기술이다. 두 기술이 융합되면서 1차원(시간/주파수)에 갇혀 있던 통신 용량 확장의 문법이 3차원 입체 공간으로 확장되었고, 이는 곧바로 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대의 대규모 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))으로 직결되었다.
+SDMA는 논리적인 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 관점의 개념이며, 이를 물리 계층에서 실현하는 뼈대가 바로 <strong>MU-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (Multi-User <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a>)</strong> 기술이다. 두 기술이 융합되면서 1차원(시간/주파수)에 갇혀 있던 통신 용량 확장의 문법이 3차원 입체 공간으로 확장되었고, 이는 곧바로 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대의 대규모 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))으로 직결되었다.
 
 - **📢 섹션 요약 비유**: 1차선 도로(시간/주파수)가 꽉 막히자 도로를 옆으로 넓히는 대신, 도로 위로 고가도로(공간 분할)를 겹겹이 쌓아 올려 동시에 여러 대의 차가 입체적으로 달릴 수 있게 만든 입체 교차로망이다.
 
@@ -101,27 +100,29 @@ SDMA는 물리적 공간을 무선 자원의 3번째 축으로 개척해 스펙�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상 조절을 통해 지향성 전파를 만드는, SDMA 구현의 필수 하위 물리 기술 |
-| **MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))** | 다중 송수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이용해 여러 사용자의 채널 용량을 동시에 늘리는 SDMA의 실전 구현체 |
-| **[CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)** | 채널의 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 정보를 담은 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). SDMA 프리코딩 행렬 계산에 없어서는 안 될 핵심 재료 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상 조절을 통해 지향성 전파를 만드는, SDMA 구현의 필수 하위 물리 기술 |
+| <strong>MU-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (Multi-User <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a>)</strong> | 다중 송수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이용해 여러 사용자의 채널 용량을 동시에 늘리는 SDMA의 실전 구현체 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a> (Channel <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Information)</strong> | 채널의 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 정보를 담은 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). SDMA 프리코딩 행렬 계산에 없어서는 안 될 핵심 재료 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기존 다중 접속 (FDMA / TDMA / CDMA) 한계 도달
-    │
-    ▼
-스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming) 
-    │
-    ▼
-공간 분할 다중 접속 (SDMA) 구조 완성
-    │
-    ▼
-5G 대규모 안테나 융합: Massive MIMO · MU-MIMO
-    │
-    ▼
-6G 진화: Cell-Free Massive MIMO 환경 
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 다중 접속 (FDMA / TDMA / CDMA) 한계 도달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간 분할 다중 접속 (SDMA) 구조 완성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">5G 대규모 안테나 융합: Massive MIMO · MU-MIMO</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">6G 진화: Cell-Free Massive MIMO 환경</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

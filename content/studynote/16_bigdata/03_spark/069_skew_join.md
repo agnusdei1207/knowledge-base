@@ -42,25 +42,25 @@ tags = ["studynote-bigdata"]
 
 ### 1. AQE 자동 Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화 (Spark 3.0+)
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Stage 1: 셔플 맵 출력 (Shuffle Map Output)                   │
-│                                                              │
-│  파티션 0: 10 MB  ████                                       │
-│  파티션 1:  8 MB  ███                                        │
-│  파티션 2: 500MB  ████████████████████████████████ ← 스큐!   │
-│  파티션 3: 12 MB  ████                                       │
-└──────────────────┬───────────────────────────────────────────┘
-                   │ AQE 통계 분석
-                   ▼
-┌──────────────────────────────────────────────────────────────┐
-│  AQE 판단: 파티션 2가 임계값(skewedPartitionFactor × 중앙값)  │
-│           초과 → 자동 분할                                    │
-│                                                              │
-│  파티션 2a: 250MB (절반)  + 상대편 파티션 2 전체 복사         │
-│  파티션 2b: 250MB (나머지) + 상대편 파티션 2 전체 복사        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stage 1: 셔플 맵 출력 (Shuffle Map Output)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0: 10 MB ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 1: 8 MB ███</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 2: 500MB ████████████████████████████████ ← 스큐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 3: 12 MB ████</div></div>
+<div class="kb-diagram-note">AQE 통계 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AQE 판단: 파티션 2가 임계값(skewedPartitionFactor × 중앙값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초과 → 자동 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 2a: 250MB (절반) + 상대편 파티션 2 전체 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 2b: 250MB (나머지) + 상대편 파티션 2 전체 복사</div></div>
+</div>
+</div>
+
+
 
 AQE Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활성화 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/):
 ```python
@@ -125,8 +125,8 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 ### 2. 연결 개념
 
 - **AQE (Adaptive Query Execution)**: Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 자동 감지의 상위 프레임워크
-- **[파티션 최적화](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/)**: repartition/coalesce와 Skew Join은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 균형 문제의 서로 다른 측면
-- **[Data Serialization](/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/)**: 스큐 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기가 클수록 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용도 증가
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/">파티션 최적화</a></strong>: repartition/coalesce와 Skew Join은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 균형 문제의 서로 다른 측면
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/067_spark_data_serialization/">Data Serialization</a></strong>: 스큐 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기가 클수록 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용도 증가
 
 **📢 섹션 요약 비유**
 > Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화를 고를 때는 "택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"을 설계하는 것과 같다. 박스가 작으면 한 직원이 전부 들고 나눠주면 되고(Broadcast), 특정 지역 택배가 너무 많으면 자동으로 팀을 나누거나(AQE) 주소지에 임의 코드를 붙여 여러 팀으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Salting](/knowledge-base/studynote/02_operating_system/10_security/605_password_salting_hash/))한다.
@@ -137,20 +137,24 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 
 ### 1. Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 진단 및 해결 프로세스
 
-```
-1단계: 진단
-  → Spark UI > Stages > 태스크별 Duration 확인
-  → 스큐 의심 키에 대해 cardinality 분석
 
-2단계: 기법 선택
-  → AQE 활성화 확인 (Spark 3.0+: 기본 true)
-  → 소규모 상대 테이블? → Broadcast Join 힌트 적용
-  → 특정 키 스큐 심각? → Salting 적용
 
-3단계: 검증
-  → 재실행 후 태스크 Duration 균등화 확인
-  → 총 실행 시간 비교
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1단계: 진단</div>
+<div class="kb-diagram-note">→ Spark UI &gt; Stages &gt; 태스크별 Duration 확인</div>
+<div class="kb-diagram-note">→ 스큐 의심 키에 대해 cardinality 분석</div>
+<div class="kb-diagram-note">2단계: 기법 선택</div>
+<div class="kb-diagram-note">→ AQE 활성화 확인 (Spark 3.0+: 기본 true)</div>
+<div class="kb-diagram-note">→ 소규모 상대 테이블? → Broadcast Join 힌트 적용</div>
+<div class="kb-diagram-note">→ 특정 키 스큐 심각? → Salting 적용</div>
+<div class="kb-diagram-note">3단계: 검증</div>
+<div class="kb-diagram-note">→ 재실행 후 태스크 Duration 균등화 확인</div>
+<div class="kb-diagram-note">→ 총 실행 시간 비교</div>
+</div>
+</div>
+
+
 
 ### 2. 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -177,7 +181,7 @@ result = skewed_df.join(normal_df_replicated, "salted_key")
 
 ### 2. 결론
 
-Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화는 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 조인을 다루는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 반드시 이해해야 하는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심**이다. Spark 3.0+의 AQE가 많은 경우를 자동으로 처리하지만, 근본적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향 특성을 이해하고 솔팅 기법으로 사전 대응하는 능력이 기술사 수준의 역량이다.
+Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화는 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 조인을 다루는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 반드시 이해해야 하는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝의 핵심</strong>이다. Spark 3.0+의 AQE가 많은 경우를 자동으로 처리하지만, 근본적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향 특성을 이해하고 솔팅 기법으로 사전 대응하는 능력이 기술사 수준의 역량이다.
 
 **📢 섹션 요약 비유**
 > Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 최적화 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 조인을 하는 것은 "한 팀원에게만 전체 프로젝트를 몰아주고 다른 팀원들은 구경만 하게 두는 것"이다. AQE와 솔팅으로 일감을 공정하게 나누어야 팀 전체가 빠르게 완주한다.
@@ -197,21 +201,23 @@ Skew [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/52
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[조인 연산 (Join Operation) — 분산 환경, 파티션 단위 병렬 처리]
-    │
-    ▼
-[데이터 쏠림 (Data Skew) — 특정 키에 데이터 집중, 일부 태스크 지연]
-    │
-    ▼
-[솔팅 기법 (Salting) — 키에 임의 접미사 추가, 파티션 분산]
-    │
-    ▼
-[브로드캐스트 조인 (Broadcast Join) — 소형 테이블 전체 복제·전송]
-    │
-    ▼
-[AQE (Adaptive Query Execution) — 런타임 파티션 재분배 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">조인 연산 (Join Operation) — 분산 환경, 파티션 단위 병렬 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 쏠림 (Data Skew) — 특정 키에 데이터 집중, 일부 태스크 지연</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔팅 기법 (Salting) — 키에 임의 접미사 추가, 파티션 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 조인 (Broadcast Join) — 소형 테이블 전체 복제·전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution) — 런타임 파티션 재분배 자동화</div></div>
+</div>
+</div>
+
+
 Skew Join은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림으로 인한 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 과부하를 솔팅·브로드캐스트·AQE로 완화하여 Spark 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 균등하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

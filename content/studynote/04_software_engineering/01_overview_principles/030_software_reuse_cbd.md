@@ -18,16 +18,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-재사용 수준 계층:
 
-  시스템 수준  ← 전체 애플리케이션 재사용 (SaaS 활용)
-  서브시스템  ← 라이브러리·프레임워크·미들웨어
-  컴포넌트    ← CBD, 인터페이스로 조립
-  객체/클래스 ← OOP 상속·다형성
-  함수/모듈   ← 가장 기본적인 재사용
-  코드 복사   ← Copy-Paste (재사용 최하위)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">재사용 수준 계층:</div>
+<div class="kb-diagram-note">시스템 수준 ← 전체 애플리케이션 재사용 (SaaS 활용)</div>
+<div class="kb-diagram-note">서브시스템 ← 라이브러리·프레임워크·미들웨어</div>
+<div class="kb-diagram-note">컴포넌트 ← CBD, 인터페이스로 조립</div>
+<div class="kb-diagram-note">객체/클래스 ← OOP 상속·다형성</div>
+<div class="kb-diagram-note">함수/모듈 ← 가장 기본적인 재사용</div>
+<div class="kb-diagram-note">코드 복사 ← Copy-Paste (재사용 최하위)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소프트웨어 재사용 수준은 레고 블록 조립 방식이다. 기성 완성품([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 구매부터 큰 레고 세트(프레임워크) 활용, 개별 블록([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)) 조립까지 다양한 수준이 있다.
 
@@ -39,11 +44,11 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 설명 |
 |:---|:---|
-| **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)** | 독립 배포·교체 가능한 소프트웨어 단위 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong> | 독립 배포·교체 가능한 소프트웨어 단위 |
 | **인터페이스** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 통신 계약 (Provided/Required) |
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 외부 연결 지점 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong> | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 외부 연결 지점 |
 | **커넥터** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 통신 메커니즘 |
-| **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 저장소** | 재사용 자산 관리 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 저장소</strong> | 재사용 자산 관리 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) |
 
 ### 재사용 유형
 
@@ -125,32 +130,33 @@ Glass-Box Reuse (글래스박스):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)** | CBD의 현대적 실현 |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 독립 배포 단위 |
-| **[OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)** | CBD 이론적 기반 |
-| **[SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)** | CBD [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 확장 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 지능형 재사용 자동화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a></strong> | CBD의 현대적 실현 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 독립 배포 단위 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/">OOP</a></strong> | CBD 이론적 기반 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a></strong> | CBD [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 확장 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 코드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 지능형 재사용 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[코드 복사·라이브러리 — 기초 재사용]
-    │
-    ▼
-[OOP — 클래스·상속 기반 재사용]
-    │
-    ▼
-[CBD — 컴포넌트 인터페이스 기반 블랙박스 재사용]
-    │
-    ▼
-[SOA — 서비스 수준 재사용, 웹서비스]
-    │
-    ▼
-[마이크로서비스 — 컨테이너 기반 현대 CBD]
-    │
-    ▼
-[AI 코드 생성 — 지능형 자동 재사용 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 복사·라이브러리 — 기초 재사용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OOP — 클래스·상속 기반 재사용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CBD — 컴포넌트 인터페이스 기반 블랙박스 재사용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOA — 서비스 수준 재사용, 웹서비스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로서비스 — 컨테이너 기반 현대 CBD</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 코드 생성 — 지능형 자동 재사용 추천</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

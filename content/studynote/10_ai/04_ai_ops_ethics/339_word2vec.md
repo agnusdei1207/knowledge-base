@@ -31,14 +31,17 @@ tags = ["studynote-ai"]
 
 Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 (Dense Vector)** 로 단어를 표현한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: One-Hot 은 "각 학생에게 출석부에서 자기 이름 칸만 1, 나머지는 0인 카드" 를 주는 방식이다. 이 카드로는 학생들이 서로 얼마나 친한지 알 수 없다. Word2Vec 은 각 학생의 "성격·취미 점수표"를 만들어 비슷한 사람끼리 점수가 가까워지게 한다.
 
@@ -48,27 +51,23 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 ### CBOW vs Skip-Gram 구조
 
-```
-  CBOW (Continuous Bag of Words):
-  컨텍스트 단어들 → 중심 단어 예측
-  ┌──────┐ ┌──────┐             ┌──────┐
-  │w(t-2)│ │w(t-1)│ → [평균] → │ w(t) │ (예측)
-  └──────┘ └──────┘             └──────┘
-  ┌──────┐ ┌──────┐
-  │w(t+1)│ │w(t+2)│
-  └──────┘ └──────┘
 
-  Skip-Gram: 중심 단어 → 컨텍스트 단어들 예측
-              ┌──────┐             ┌──────┐
-              │ w(t) │ → [은닉층] → │w(t-2)│ (예측)
-              └──────┘             ├──────┤
-                                   │w(t-1)│
-                                   ├──────┤
-                                   │w(t+1)│
-                                   ├──────┤
-                                   │w(t+2)│
-                                   └──────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CBOW (Continuous Bag of Words):</div>
+<div class="kb-diagram-note">컨텍스트 단어들 → 중심 단어 예측</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">평균</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">w(t) │ (예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+1)</div><div class="kb-diagram-cell">w(t+2)</div></div>
+<div class="kb-diagram-note">Skip-Gram: 중심 단어 → 컨텍스트 단어들 예측</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">은닉층</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">w(t-2)│ (예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t-1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+2)</div></div>
+</div>
+</div>
+
+
 
 ### 네거티브 샘플링 (Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 원리
 
@@ -151,7 +150,7 @@ result = model.wv["king"] - model.wv["man"] + model.wv["woman"]
 ## Ⅴ. 기대효과 및 결론
 
 - **효율성**: 대규모 코퍼스에서 수 시간 만에 고품질 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 학습 가능
-- **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 선구**: 사전 학습된 벡터를 다운스트림 과제에 재사용하는 패러다임 개척
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a> 선구</strong>: 사전 학습된 벡터를 다운스트림 과제에 재사용하는 패러다임 개척
 - **의미 연산**: 벡터 공간에서 단어 의미 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 수학적으로 표현 가능
 - **한계**: 문맥 무시 (같은 단어 = 항상 같은 벡터), 다의어 처리 불가
 

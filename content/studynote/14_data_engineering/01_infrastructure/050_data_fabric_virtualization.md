@@ -21,17 +21,22 @@ tags = ["AI-driven", "data catalog", "data fabric", "data mesh", "data virtualiz
 
 ### 1.1 기존 문제와 패브릭 등장
 
-```
-기존:
-  온프레미스 DW + 클라우드 DW + SaaS 앱 + 레거시 DB
-      → 각각 별도 ETL, 중복 파이프라인
-      → 데이터 사일로, 거버넌스 불일치
 
-데이터 패브릭:
-  [단일 통합 레이어 (메타데이터 + 가상화 + 거버넌스)]
-      ↕      ↕      ↕      ↕
-  온프레미스  클라우드  SaaS  레거시
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존:</div>
+<div class="kb-diagram-note">온프레미스 DW + 클라우드 DW + SaaS 앱 + 레거시 DB</div>
+<div class="kb-diagram-note">→ 각각 별도 ETL, 중복 파이프라인</div>
+<div class="kb-diagram-note">→ 데이터 사일로, 거버넌스 불일치</div>
+<div class="kb-diagram-note">데이터 패브릭:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 통합 레이어 (메타데이터 + 가상화 + 거버넌스)</div></div>
+<div class="kb-diagram-note">↕ ↕ ↕ ↕</div>
+<div class="kb-diagram-note">온프레미스 클라우드 SaaS 레거시</div>
+</div>
+</div>
+
+
 
 ### 1.2 핵심 구성 요소
 
@@ -51,15 +56,20 @@ tags = ["AI-driven", "data catalog", "data fabric", "data mesh", "data virtualiz
 
 ### 2.1 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) vs [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
 
-```
-ETL 복제:
-  소스 DB → (추출·변환·적재) → 중앙 DW
-  장점: 빠른 쿼리  단점: 데이터 최신성 지연, 중복
 
-데이터 가상화:
-  쿼리 → 가상 레이어 → 각 소스에 실시간 위임
-  장점: 최신 데이터, 중복 없음  단점: 소스 성능 의존
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ETL 복제:</div>
+<div class="kb-diagram-note">소스 DB → (추출·변환·적재) → 중앙 DW</div>
+<div class="kb-diagram-note">장점: 빠른 쿼리 단점: 데이터 최신성 지연, 중복</div>
+<div class="kb-diagram-note">데이터 가상화:</div>
+<div class="kb-diagram-note">쿼리 → 가상 레이어 → 각 소스에 실시간 위임</div>
+<div class="kb-diagram-note">장점: 최신 데이터, 중복 없음 단점: 소스 성능 의존</div>
+</div>
+</div>
+
+
 
 ### 2.2 연합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) ([Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/))
 
@@ -81,15 +91,21 @@ WHERE o.date >= '2024-01-01';
 
 ### 3.1 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 발견
 
-```
-데이터 소스 연결
-    ↓
-AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
-    ↓
-자동 분류: PII 탐지, 비즈니스 용어 매핑
-    ↓
-데이터 카탈로그 자동 업데이트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 소스 연결</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">자동 분류: PII 탐지, 비즈니스 용어 매핑</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 카탈로그 자동 업데이트</div>
+</div>
+</div>
+
+
 
 ### 3.2 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)
 
@@ -132,16 +148,22 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ### 5.1 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처
 
-```
-[비즈니스 사용자]
-      ↓ 단일 접근
-[데이터 패브릭 레이어]
-  ├── 카탈로그 (Collibra/Atlan)
-  ├── 가상화 엔진 (Denodo/Dremio/Starburst)
-  └── 거버넌스 정책 (Apache Ranger/Privacera)
-      ↕         ↕         ↕
-  [온프레미스]  [AWS]    [Azure/GCP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 사용자</div></div>
+<div class="kb-diagram-note">↓ 단일 접근</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 레이어</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">카탈로그 (Collibra/Atlan)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">가상화 엔진 (Denodo/Dremio/Starburst)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">거버넌스 정책 (Apache Ranger/Privacera)</div>
+<div class="kb-diagram-note">↕ ↕ ↕</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스</div><div class="kb-diagram-node">AWS</div><div class="kb-diagram-node">Azure/GCP</div></div>
+</div>
+</div>
+
+
 
 ### 5.2 주요 플랫폼 비교
 
@@ -158,40 +180,52 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ## 📌 관련 개념 맵
 
-```
-데이터 패브릭
-├── 핵심 기술
-│   ├── 데이터 가상화 (Denodo, Dremio)
-│   ├── 데이터 카탈로그 (Alation, Collibra)
-│   └── Active Metadata (AI 기반)
-├── 관련 패턴
-│   ├── 데이터 메시 (보완 관계)
-│   ├── 데이터 레이크하우스
-│   └── 연합 쿼리
-└── 거버넌스
-    ├── 중앙 집중 정책
-    └── Apache Ranger / Privacera
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 패브릭</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 기술</div>
+<div class="kb-diagram-note">── 데이터 가상화 (Denodo, Dremio)</div>
+<div class="kb-diagram-note">── 데이터 카탈로그 (Alation, Collibra)</div>
+<div class="kb-diagram-note">── Active Metadata (AI 기반)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">관련 패턴</div>
+<div class="kb-diagram-note">── 데이터 메시 (보완 관계)</div>
+<div class="kb-diagram-note">── 데이터 레이크하우스</div>
+<div class="kb-diagram-note">── 연합 쿼리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">거버넌스</div>
+<div class="kb-diagram-tree-item" style="--depth:2">중앙 집중 정책</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Apache Ranger / Privacera</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-ETL + 중앙 DW (1990s~2000s)
-     │  다중 소스·클라우드 확산
-     ▼
-데이터 가상화 (2010s, EII/EAI)
-     │  메타데이터 자동화 필요
-     ▼
-데이터 패브릭 (2019, Gartner 선정)
-     │  조직 분산 필요
-     ▼
-데이터 메시 + 패브릭 하이브리드 (2021~)
-     │  AI 기반 Active Metadata
-     ▼
-지능형 데이터 패브릭 (현재)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ETL + 중앙 DW (1990s~2000s)</div>
+<div class="kb-diagram-note">다중 소스·클라우드 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 가상화 (2010s, EII/EAI)</div>
+<div class="kb-diagram-note">메타데이터 자동화 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 패브릭 (2019, Gartner 선정)</div>
+<div class="kb-diagram-note">조직 분산 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 + 패브릭 하이브리드 (2021~)</div>
+<div class="kb-diagram-note">AI 기반 Active Metadata</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 데이터 패브릭 (현재)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/), 연합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/), Denodo, Starburst
 

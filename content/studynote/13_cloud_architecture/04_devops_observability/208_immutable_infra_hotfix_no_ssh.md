@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적 서버 관리는 "뮤터블(Mutable)" 방식이었다. 서버에 SSH로 접속해서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일을 직접 수정하고, 패키지를 설치하고, 스크립트를 실행했다. 이 방식은 빠르고 편리하지만 심각한 문제를 만든다: **[Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 표류)**.
+전통적 서버 관리는 "뮤터블(Mutable)" 방식이었다. 서버에 SSH로 접속해서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일을 직접 수정하고, 패키지를 설치하고, 스크립트를 실행했다. 이 방식은 빠르고 편리하지만 심각한 문제를 만든다: <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 표류)</strong>.
 
-서버 A에서 수정한 내용이 서버 B, C에는 반영되지 않아, 동일한 역할의 서버들이 서로 다른 상태가 된다. "서버 A에서만 되고 B에서는 안 된다", "이 서버는 왜 이러는지 아무도 모른다"는 상황이 발생한다. 이런 서버를 **눈송이([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) 서버**라고 한다 — 세상에 하나뿐인 고유한 존재가 되어버린 서버.
+서버 A에서 수정한 내용이 서버 B, C에는 반영되지 않아, 동일한 역할의 서버들이 서로 다른 상태가 된다. "서버 A에서만 되고 B에서는 안 된다", "이 서버는 왜 이러는지 아무도 모른다"는 상황이 발생한다. 이런 서버를 <strong>눈송이(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/">Snowflake</a>) 서버</strong>라고 한다 — 세상에 하나뿐인 고유한 존재가 되어버린 서버.
 
 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)) 원칙은 이 문제를 근본적으로 해결한다: **서버는 교체(Replace)되지, 수정(Modify)되지 않는다.** 새 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필요하면 새 이미지를 만들어 새 서버를 배포하고 구 서버를 삭제한다. 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속은 금지된다.
 
@@ -33,39 +33,47 @@ tags = ["studynote-cloud-architecture"]
 
 ### 뮤터블 vs [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 비교
 
-```
-[뮤터블 인프라 - 전통 방식]
-  서버 A: 초기 설정 v1
-    → SSH 접속: 패키지 추가
-    → SSH 접속: 설정 변경
-    → 상태: 알 수 없음 (누가 뭘 바꿨는지)
 
-[불변 인프라 - 현대 방식]
-  코드 변경 (Git)
-    → 이미지 빌드 (Docker/AMI)
-    → 이미지 테스트
-    → 새 서버 프로비저닝 (v2 이미지)
-    → 기존 서버 삭제 (v1)
-  서버 상태 = 항상 Git 코드와 동일
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">뮤터블 인프라 - 전통 방식</div></div>
+<div class="kb-diagram-note">서버 A: 초기 설정 v1</div>
+<div class="kb-diagram-note">→ SSH 접속: 패키지 추가</div>
+<div class="kb-diagram-note">→ SSH 접속: 설정 변경</div>
+<div class="kb-diagram-note">→ 상태: 알 수 없음 (누가 뭘 바꿨는지)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">불변 인프라 - 현대 방식</div></div>
+<div class="kb-diagram-note">코드 변경 (Git)</div>
+<div class="kb-diagram-note">→ 이미지 빌드 (Docker/AMI)</div>
+<div class="kb-diagram-note">→ 이미지 테스트</div>
+<div class="kb-diagram-note">→ 새 서버 프로비저닝 (v2 이미지)</div>
+<div class="kb-diagram-note">→ 기존 서버 삭제 (v1)</div>
+<div class="kb-diagram-note">서버 상태 = 항상 Git 코드와 동일</div>
+</div>
+</div>
+
+
 
 ### [Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/) 발생 과정
 
-```
-  Day 1: 서버 A, B, C 동일한 이미지로 시작
-          A = B = C = v1 ✅
 
-  Day 10: 긴급상황! 엔지니어가 A에 SSH 접속
-          A: SSH → 패치 적용
-          B, C: 변경 없음
-          A ≠ B = C ❌ (Drift 시작)
 
-  Day 30: A에 또 다른 변경 적용
-          A: 수동 설정 2번 적용
-          A ≠ B ≠ C ← 아무도 정확한 차이를 모름 ❌
-          
-  장애 발생 시: "왜 A만 이상하게 동작하지?" → 원인 불명
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Day 1: 서버 A, B, C 동일한 이미지로 시작</div>
+<div class="kb-diagram-note">A = B = C = v1 ✅</div>
+<div class="kb-diagram-note">Day 10: 긴급상황! 엔지니어가 A에 SSH 접속</div>
+<div class="kb-diagram-note">A: SSH → 패치 적용</div>
+<div class="kb-diagram-note">B, C: 변경 없음</div>
+<div class="kb-diagram-note">A ≠ B = C ❌ (Drift 시작)</div>
+<div class="kb-diagram-note">Day 30: A에 또 다른 변경 적용</div>
+<div class="kb-diagram-note">A: 수동 설정 2번 적용</div>
+<div class="kb-diagram-note">A ≠ B ≠ C ← 아무도 정확한 차이를 모름 ❌</div>
+<div class="kb-diagram-note">장애 발생 시: "왜 A만 이상하게 동작하지?" → 원인 불명</div>
+</div>
+</div>
+
+
 
 ### [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 구현 패턴
 
@@ -106,7 +114,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접근 차단 방법**:
+<strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a> 접근 차단 방법</strong>:
 ```
 1. AWS Systems Manager Session Manager 활용
    - SSH 포트(22) 완전 차단
@@ -175,14 +183,19 @@ Kcattle, not Pets(소떼, 펫 아님):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기존: SSH 접속 → 핫픽스 패치 (드리프트 · 추적 불가)
-    │
-    ▼
-불변 인프라: 변경 = 새 이미지 빌드 → 교체
-    ├─► No SSH: SSM Session Manager · kubectl exec
-    └─► 긴급 대응: Git 커밋 → CI/CD → 새 이미지 배포
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존: SSH 접속 → 핫픽스 패치 (드리프트 · 추적 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">불변 인프라: 변경 = 새 이미지 빌드 → 교체</div>
+<div class="kb-diagram-tree-item" style="--depth:2">No SSH: SSM Session Manager · kubectl exec</div>
+<div class="kb-diagram-tree-item" style="--depth:2">긴급 대응: Git 커밋 → CI/CD → 새 이미지 배포</div>
+</div>
+</div>
+
+
 2. SSH로 서버를 직접 고치는 건 레고 블록에 매직펜으로 낙서하는 것과 같아. 나중에 뭐가 원본이고 뭐가 낙서인지 모르게 돼.
 3. 모든 변경은 새 레고 블록을 만드는 것(코드 → 이미지 빌드 → 배포)으로만 해야 해.
 

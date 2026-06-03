@@ -23,25 +23,26 @@ GUI 애플리케이션에서 버튼 클릭, 메뉴 선택, 키보드 단축키 �
 
 실세계 예시: ① 텍스트 에디터의 Ctrl+Z ([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), ② 주식 거래 시스템의 주문 큐, ③ 게임의 플레이 녹화·재생, ④ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에서 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)([Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)).
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              커맨드 패턴 구조                                 │
-├─────────────────────────────────────────────────────────────┤
-│  Client → Command (인터페이스)                              │
-│           + execute(): void                                 │
-│           + undo(): void                                    │
-│                ▲                                            │
-│           ConcreteCommand                                   │
-│           - receiver: Receiver                              │
-│           + execute(): void { receiver.action(); }         │
-│           + undo(): void { receiver.undoAction(); }        │
-│                                                             │
-│  Invoker (실행자)          Receiver (수신자)                 │
-│  - command: Command        + action(): void                 │
-│  + setCommand(cmd)         + undoAction(): void             │
-│  + invoke(): command.execute()                              │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커맨드 패턴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client → Command (인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ execute(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ undo(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteCommand</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- receiver: Receiver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ execute(): void { receiver.action(); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ undo(): void { receiver.undoAction(); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Invoker (실행자) Receiver (수신자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- command: Command + action(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ setCommand(cmd) + undoAction(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ invoke(): command.execute()</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 레스토랑에서 웨이터(Invoker)가 주문서([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 객체)를 받아 주방(Receiver)에 전달한다. 주문서에는 주문 내용(execute)과 취소 방법([undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))이 기록되어 있다.
 
@@ -58,20 +59,21 @@ GUI 애플리케이션에서 버튼 클릭, 메뉴 선택, 키보드 단축키 �
 | 매크로 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 여러 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)를 하나로 묶음 | 복합 작업 |
 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 실행 | [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)를 큐에 저장 후 나중에 실행 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 큐 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       Undo/Redo 스택 동작                                   │
-├─────────────────────────────────────────────────────────────┤
-│  execute(MoveCmd): undoStack=[MoveCmd], redoStack=[]        │
-│  execute(ResizeCmd): undoStack=[MoveCmd, ResizeCmd]         │
-│                                                             │
-│  Undo: undoStack에서 ResizeCmd 꺼내 undo()                  │
-│        redoStack=[ResizeCmd], undoStack=[MoveCmd]           │
-│                                                             │
-│  Redo: redoStack에서 ResizeCmd 꺼내 execute()               │
-│        undoStack=[MoveCmd, ResizeCmd], redoStack=[]         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Undo/Redo 스택 동작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">execute(MoveCmd): undoStack=</div><div class="kb-diagram-node">MoveCmd</div><div class="kb-diagram-note">, redoStack=[]</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">execute(ResizeCmd): undoStack=</div><div class="kb-diagram-node">MoveCmd, ResizeCmd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Undo: undoStack에서 ResizeCmd 꺼내 undo()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">redoStack=</div><div class="kb-diagram-node">ResizeCmd</div><div class="kb-diagram-note">, undoStack=</div><div class="kb-diagram-node">MoveCmd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redo: redoStack에서 ResizeCmd 꺼내 execute()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">undoStack=</div><div class="kb-diagram-node">MoveCmd, ResizeCmd</div><div class="kb-diagram-note">, redoStack=[]</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 요리 레시피([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))에서 잘못된 단계를 되돌리려면 역순으로 취소([undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))하면 된다. 레시피에 각 단계의 취소 방법이 기록되어 있어야 한다.
 

@@ -21,33 +21,32 @@ tags = ["studynote-operating-system"]
 
 수많은 스레드와 자원이 복잡하게 요청하고 점유하는 상황을 C언어 텍스트나 변수만 보고 즉각 "꼬였다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))"라고 선언할 수 없다. 우리는 거대한 미로를 조감할 지도가 필요하다.
 
-**[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)**는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다. 
 
 **💡 비유**: 복잡한 지하철 환승역 노선도에 '사람들이 가려는 방향(요청 간선)'과 '현재 차지한 개찰구(할당 간선)' 화살표를 다 그려보는 것 — 어딘가에서 화살표가 원형으로 빙빙 도는 고리가 생겼다면 막힌([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 지점임을 1초 만에 파악할 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         자원 할당 그래프 시각화 규칙                            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [정점 (Vertices)]                                              │
-│  ○ 프로세스 (Process, P) : 주로 동그라미 모양                   │
-│  □ 자원 유형 (Resource, R) : 주로 네모 모양                     │
-│     * 네모 속 작은 점(•) : 자원의 '인스턴스(개수) 수'           │
-│                                                                 │
-│  [유향 간선 (Directed Edges)]                                   │
-│  1. 요청 간선 (Request Edge):  P1 ──▶ R1                        │
-│     "P1 프로세스가 R1을 쓰겠다고 요청하며 줄 서서 대기 중"      │
-│                                                                 │
-│  2. 할당 간선 (Assignment/Allocation Edge): R1(•) ──▶ P2        │
-│     "R1 자원 안의 1개 인스턴스(점)가 현재 P2에게 쥐어져 있음!"  │
-│                                                                 │
-│  [교착의 시각적 사이클 확인]                                    │
-│  P1 ─(요청)─▶ R1 ─(할당)─▶ P2 ─(요청)─▶ R2 ─(할당)─▶ P1         │
-│  ▲ 이 연결선을 따라가 보니 다시 P1으로 오무려지는 동그라미.     │
-│  → 완벽한 사이클(Cycle) 발생! (단일 인스턴스면 100% 데드락)     │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프 시각화 규칙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정점 (Vertices)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ 프로세스 (Process, P) : 주로 동그라미 모양</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 자원 유형 (Resource, R) : 주로 네모 모양</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 네모 속 작은 점(•) : 자원의 '인스턴스(개수) 수'</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유향 간선 (Directed Edges)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 요청 간선 (Request Edge): P1 ──▶ R1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"P1 프로세스가 R1을 쓰겠다고 요청하며 줄 서서 대기 중"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 할당 간선 (Assignment/Allocation Edge): R1(•) ──▶ P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"R1 자원 안의 1개 인스턴스(점)가 현재 P2에게 쥐어져 있음!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착의 시각적 사이클 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 ─(요청)─▶ R1 ─(할당)─▶ P2 ─(요청)─▶ R2 ─(할당)─▶ P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 이 연결선을 따라가 보니 다시 P1으로 오무려지는 동그라미.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 완벽한 사이클(Cycle) 발생! (단일 인스턴스면 100% 데드락)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (자원할당그래프)는 범죄 수사관의 연결망 보드 — 사진(프로세스, 자원)을 핀으로 박고 실(요청, 점유)을 쭉쭉 연결하다가, 실이 육망성 고리를 그리는 순간 "여기서부터 마비됐군!" 범인(데드락)을 가리키는 시스템 탐지 나침반입니다.
 
@@ -57,28 +56,27 @@ tags = ["studynote-operating-system"]
 
 ### 단일 vs 다중 인스턴스의 본질적 맹점 (Cycle과 Deadlock의 방정식)
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         인스턴스 개수에 따른 사이클 해석의 진실               │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [시나리오 A: 단일 인스턴스 (프린터 1개, 스캐너 1개)]         │
-│  사이클 발견됨 ≡ (완벽히 동치) 교착 상태(Deadlock) 발발 완료  │
-│  → 여분이 없으므로 순환 고리 안의 누구도 빠져나갈 구멍 없음.  │
-│                                                               │
-│  [시나리오 B: 다중 인스턴스 (동일 스캐너 3개인 랩실)]         │
-│  사이클 발견됨 ≡ 그러나 데드락일 수도 있고 아닐 수도 있다!    │
-│                                                               │
-│  왜?                                                          │
-│  고리 밖에 있는 제3의 프로세스 P_K가 동일 자원의 남은         │
-│  1개 잉여 인스턴스를 다 쓰고 반납하면, 고리 중 누군가 그걸    │
-│  선점하면서 얽힘 고리가 스르륵 해체될 수 있음.                │
-│                                                               │
-│  결론 정리:                                                   │
-│  사이클 없음 → 절대 교착 아님 (안심)                          │
-│  사이클 있음 → 1개면 교착 확정, 다중이면 교착 의심(확인 필요) │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스턴스 개수에 따른 사이클 해석의 진실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 A: 단일 인스턴스 (프린터 1개, 스캐너 1개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 발견됨 ≡ (완벽히 동치) 교착 상태(Deadlock) 발발 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 여분이 없으므로 순환 고리 안의 누구도 빠져나갈 구멍 없음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 B: 다중 인스턴스 (동일 스캐너 3개인 랩실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 발견됨 ≡ 그러나 데드락일 수도 있고 아닐 수도 있다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고리 밖에 있는 제3의 프로세스 P_K가 동일 자원의 남은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개 잉여 인스턴스를 다 쓰고 반납하면, 고리 중 누군가 그걸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선점하면서 얽힘 고리가 스르륵 해체될 수 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론 정리:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 없음 → 절대 교착 아님 (안심)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 있음 → 1개면 교착 확정, 다중이면 교착 의심(확인 필요)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 단일 자원 고리는 절벽 둘레 손잡기 — 여유 로프가 없어 다 같이 죽는 구조입니다. 반면 다중 자원인데 고리가 된 건, 아직 바깥에 노는 구명조끼(여분 자원)를 누군가 던져 줄 구멍이 있어서 사이클이 곧 데드락인 건 아니랍니다!
 
@@ -99,10 +97,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **DB [Wait-For Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) (WFG)**: Oracle이나 MySQL은 자원(테이블 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)이 단일 속성에 가깝기 때문에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) A가 B를 기다리는 연결선만 이어 버리는 단축된 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)를 메모리에 구현해둔다. 1초마다 백그라운드 데몬이 이 WFG [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/BFS를 돌려 사이클 꼬리가 잡히는 즉시 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(ORA/ER_LOCK_DEADLOCK) 뱉고 한 트랙잭션을 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 킬한다. (응용 최적화 탑티어 사례)
-2. **Java [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Dump 역추적**: 심야 서버 마비 시 DevOps가 남긴 쓰레드 덤프 텍스트에서 `waiting to lock <0x12ab>`와 `locked <0xfedc>` 상태를 읽고 화이트보드에 동그라미 네모를 손으로 그려보는 행위 자체가 RAG를 인스턴스화하여 데드락 원흉 코드를 짚어내는 일이다.
+1. <strong>DB <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-For Graph</a> (WFG)</strong>: Oracle이나 MySQL은 자원(테이블 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)이 단일 속성에 가깝기 때문에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) A가 B를 기다리는 연결선만 이어 버리는 단축된 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)를 메모리에 구현해둔다. 1초마다 백그라운드 데몬이 이 WFG [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/BFS를 돌려 사이클 꼬리가 잡히는 즉시 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(ORA/ER_LOCK_DEADLOCK) 뱉고 한 트랙잭션을 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 킬한다. (응용 최적화 탑티어 사례)
+2. <strong>Java <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 역추적</strong>: 심야 서버 마비 시 DevOps가 남긴 쓰레드 덤프 텍스트에서 `waiting to lock <0x12ab>`와 `locked <0xfedc>` 상태를 읽고 화이트보드에 동그라미 네모를 손으로 그려보는 행위 자체가 RAG를 인스턴스화하여 데드락 원흉 코드를 짚어내는 일이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **자원 개수를 맹신한 무방비 개발**: 서버 통신 커넥션 풀을 100개(다중 인스턴스) 심었다고 해서 데드락이 우회될 거라 맹신. 커넥션 고갈 시 결국 이 거대한 다중 인스턴스 RAG가 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 함락의 덫이 되어 시스템을 일순간 고체화([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))시킨다. 
 
 **📢 섹션 요약 비유**: 쓰레드 덤프를 보며 WFG를 그리는 개발자는 혈흔(텍스트)을 보고 범인의 경로([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 추리해내는 노련한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 수사대입니다.
@@ -134,15 +132,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[순환 대기 (Circular Wait)]
-    │
-    ▼
-[자원 할당 그래프 (Resource-Allocation Graph)]
-    │
-    ├──▶ [단일 인스턴스 자원 환경]
-    └──▶ [다중 인스턴스 자원 환경]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단일 인스턴스 자원 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 인스턴스 자원 환경</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

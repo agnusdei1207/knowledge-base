@@ -10,19 +10,25 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) per Service는 **각 마이크로서비스가 독립적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 소유**하여 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 직접 DB에 접근하지 못하고 **오직 API로만 통신**하는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이다.
-> 2. **가치**: 공유 DB에서는 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 **다른 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 영향**을 주지만, DB per Service는 **독립 배포·독립 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)·기술 다양성([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))**을 보장한다.
-> 3. **판단 포인트**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 JOIN이 불가능해지므로 **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)([분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/))·[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 분리)·[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)**이 함께 필요하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 **[Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)**로 관리한다.
+> 1. **본질**: [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) per Service는 <strong>각 마이크로서비스가 독립적인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>베이스를 소유</strong>하여 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 직접 DB에 접근하지 못하고 <strong>오직 API로만 통신</strong>하는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이다.
+> 2. **가치**: 공유 DB에서는 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 <strong>다른 모든 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에 영향</strong>을 주지만, DB per Service는 <strong>독립 배포·독립 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>·기술 다양성(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/">Polyglot Persistence</a>)</strong>을 보장한다.
+> 3. **판단 포인트**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 JOIN이 불가능해지므로 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/">분산 트랜잭션</a>)·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 분리)·<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a></strong>이 함께 필요하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a></strong>로 관리한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-공유 DB: 서비스 A·B·C → 같은 DB (커플링)
-DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)
-  서비스 간: API·이벤트로만 통신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 DB: 서비스 A·B·C → 같은 DB (커플링)</div>
+<div class="kb-diagram-note">DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)</div>
+<div class="kb-diagram-note">서비스 간: API·이벤트로만 통신</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 공유 DB는 **공동 냉장고**(한 사람이 정리하면 다른 사람 물건이 밀려남), DB per Service는 **각자 냉장고**(독립 관리).
 
@@ -34,14 +40,14 @@ DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)
 |:---|:---|:---|
 | **커플링** | 높음 | **낮음** |
 | **배포** | 종속 | **독립** |
-| **[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 가능 | **불가 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/이벤트** |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | Strong | **Eventual** |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 가능 | <strong>불가 → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>/이벤트</strong> |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | Strong | **Eventual** |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-DB per Service는 **MSA의 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) 핵심 원칙**이며, [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)·[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)·[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)과 함께 적용해야 한다.
+DB per Service는 <strong>MSA의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a> 핵심 원칙</strong>이며, [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)·[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)·[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)과 함께 적용해야 한다.
 
 ---
 
@@ -49,25 +55,31 @@ DB per Service는 **MSA의 [데이터 독립성](/knowledge-base/studynote/05_da
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **DB per [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 DB |
-| **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)** | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
-| **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)** | 명령/[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 분리 |
-| **[Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)** | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
-| **[Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 다른 DB 기술 |
+| <strong>DB per <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 DB |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a></strong> | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 명령/[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 분리 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a></strong> | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/">Polyglot Persistence</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 다른 DB 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[공유 DB (모노리스)] → [DB per Service (MSA, 2014~)]
-    → [Saga 패턴 (분산 트랜잭션)]
-    → [CQRS + Event Sourcing (2016~)]
-    → [현재: 데이터 메시 — 도메인별 데이터 소유]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 DB (모노리스)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB per Service (MSA, 2014~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Saga 패턴 (분산 트랜잭션)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CQRS + Event Sourcing (2016~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 데이터 메시 — 도메인별 데이터 소유</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 공유 DB는 **공동 냉장고**예요. 한 사람이 정리하면 **다른 사람 물건이 밀려나요**.
-2. DB per Service는 **각자 냉장고**예요. 자기 냉장고를 **독립적으로 관리**해요.
-3. 대신 남의 냉장고 물건이 필요하면 **부탁([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**해야 한답니다!
+1. 공유 DB는 <strong>공동 냉장고</strong>예요. 한 사람이 정리하면 **다른 사람 물건이 밀려나요**.
+2. DB per Service는 <strong>각자 냉장고</strong>예요. 자기 냉장고를 <strong>독립적으로 관리</strong>해요.
+3. 대신 남의 냉장고 물건이 필요하면 <strong>부탁(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>해야 한답니다!
 
 ---
 

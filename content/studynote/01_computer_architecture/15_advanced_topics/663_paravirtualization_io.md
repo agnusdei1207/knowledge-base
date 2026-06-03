@@ -23,21 +23,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O가 왜 빠른지, 그리고 어떤 통로를 새로 만든 것인지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              반가상화 I/O의 기본 구조: 전용 통로로 직접 협력             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest 가상 머신                                                            │
-│   App ─▶ Front-end Driver ─┐                                               │
-│                            │ Shared Memory Ring                            │
-│                            ├──────────────────────────────┐                │
-│                            │                              ▼                │
-│                        Notify / Hypercall         Back-end Driver          │
-│                                                       │                    │
-│                                                       ▼                    │
-│                                                 Physical Device            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반가상화 I/O의 기본 구조: 전용 통로로 직접 협력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest 가상 머신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ─▶ Front-end Driver ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Memory Ring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notify / Hypercall Back-end Driver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Device</div></div>
+</div>
+</div>
+
+
 
 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 제어 경로를 분리하는 데 있다. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 버퍼에 쌓아 두고, “처리 시작”이나 “완료 통지” 같은 최소한의 신호만 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 주고받는다. 그래서 게스트는 굳이 오래된 하드웨어 규약을 흉내 낼 필요가 없고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)도 복잡한 장치 동작을 전부 연기할 필요가 없다.
 
@@ -126,21 +125,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장치 에뮬레이션 중심 I/O
-    │
-    ▼
-게스트 협력형 반가상화 I/O
-    │
-    ▼
-공유 메모리 링 · 하이퍼콜 · 다중 큐
-    │
-    ▼
-Virtio 표준화
-    │
-    ▼
-SR-IOV · vhost 같은 고성능 데이터 경로 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장치 에뮬레이션 중심 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">게스트 협력형 반가상화 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공유 메모리 링 · 하이퍼콜 · 다중 큐</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Virtio 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SR-IOV · vhost 같은 고성능 데이터 경로 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 가상 I/O가 “[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 우선”에서 “협력 기반 효율화”를 거쳐 “표준화와 고성능 분화”로 발전한 방향을 보여준다.
 

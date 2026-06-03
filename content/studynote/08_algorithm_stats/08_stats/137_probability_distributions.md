@@ -70,7 +70,7 @@ E[X] = λ,   Var[X] = λ   (평균 = 분산!)
 
 **단위 시간·공간에서 희귀 사건이 λ번 발생할 때** 사용.
 
-**포아송 과정 (Poisson [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 가정**:
+<strong>포아송 과정 (Poisson <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>) 가정</strong>:
 1. 사건은 독립적으로 발생
 2. 단위 시간당 평균 발생 횟수 = λ
 3. 두 사건이 동시에 발생할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) = 0
@@ -121,7 +121,7 @@ P(X > s+t | X > s) = P(X > t)
 → 지수 분포가 유일한 연속형 무기억 분포!
 ```
 
-**포아송-지수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**: 포아송 과정에서 **사건 간 대기 시간**이 지수 분포를 따름.
+<strong>포아송-지수 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: 포아송 과정에서 <strong>사건 간 대기 시간</strong>이 지수 분포를 따름.
 
 ### 균등 분포 (Uniform Distribution)
 
@@ -133,7 +133,7 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 ```
 
 - 모든 값이 동일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 기반
-- **역변환 샘플링 (Inverse Transform [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))**: U~U(0,1)을 CDF 역함수에 통과시켜 임의 분포 샘플링
+- <strong>역변환 샘플링 (Inverse Transform <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)</strong>: U~U(0,1)을 CDF 역함수에 통과시켜 임의 분포 샘플링
 
 📢 **섹션 요약 비유**: 균등 분포는 완벽한 주사위, 지수 분포는 "언제 다음 버스가 올까", [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)는 "사람들의 키가 평균 주변에 몰리는 현상"을 모델링한다.
 
@@ -141,29 +141,25 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 
 ## Ⅳ. 분포 형태 비교 다이어그램
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  주요 분포 형태 비교 (개략적 PDF/PMF)                       │
-│                                                            │
-│  이항 B(10,0.3)    포아송(λ=3)      정규 N(0,1)            │
-│                                                            │
-│    │ ■              │ ■              │   ╭──╮              │
-│    │ ■■             │ ██             │  ╭╯  ╰╮             │
-│    │ ███            │ ███            │ ╭╯    ╰╮            │
-│    │ ████           │ ████           │╭╯      ╰╮           │
-│    └──────→ k       └──────→ k       └──────────→ x        │
-│    (이산, 유한)     (이산, 무한)     (연속, 대칭)           │
-│                                                            │
-│  지수 Exp(λ=1)      균등 U(0,1)                            │
-│                                                            │
-│    │\               │ ────────       │                    │
-│    │ \              │ │      │       │                    │
-│    │  \             │ │      │       │                    │
-│    │   \            │ │      │       │                    │
-│    └────→ x         └─┴──────┴──→ x  │                    │
-│    (오른쪽 꼬리)    (균일 높이)       │                    │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 분포 형태 비교 (개략적 PDF/PMF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이항 B(10,0.3) 포아송(λ=3) 정규 N(0,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■</div><div class="kb-diagram-cell">■</div><div class="kb-diagram-cell">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■</div><div class="kb-diagram-cell">██</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">███</div><div class="kb-diagram-cell">███</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████</div><div class="kb-diagram-cell">████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ k → k → x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이산, 유한) (이산, 무한) (연속, 대칭)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지수 Exp(λ=1) 균등 U(0,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ x ─ ──→ x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오른쪽 꼬리) (균일 높이)</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -181,24 +177,22 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 
 ### 분포 간 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  주요 분포 간 관계                                          │
-│                                                            │
-│  Bernoulli(p) ──→ Binomial B(n,p)                         │
-│                        │                                  │
-│                  n→∞,p→0,np=λ  │                          │
-│                        ↓                                  │
-│                  Poisson(λ) ──→ 도착 시간 → Exp(λ)        │
-│                        │                                  │
-│                  n→∞ (CLT)  │                              │
-│                        ↓                                  │
-│                  Normal N(μ,σ²)                            │
-│                        │                                  │
-│               X=e^Y → Log-Normal                          │
-│               X²합산 → Chi-squared (카이제곱)              │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 분포 간 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bernoulli(p) ──→ Binomial B(n,p)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n→∞,p→0,np=λ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Poisson(λ) ──→ 도착 시간 → Exp(λ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n→∞ (CLT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal N(μ,σ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X=e^Y → Log-Normal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X²합산 → Chi-squared (카이제곱)</div></div>
+</div>
+</div>
+
+
 
 ### 각 분포 요약 비교표
 
@@ -230,21 +224,23 @@ E[X] = (a+b)/2,   Var[X] = (b-a)²/12
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[베르누이 시행 (Bernoulli Trial) — 성공/실패]
-    │
-    ▼
-[이항 분포 (Binomial Distribution) — n회 반복]
-    │
-    ▼
-[포아송 분포 (Poisson Distribution) — 희귀 사건]
-    │
-    ▼
-[정규 분포 (Normal Distribution) — CLT 극한]
-    │
-    ▼
-[MLE 최대 우도 추정 (Maximum Likelihood Estimation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">베르누이 시행 (Bernoulli Trial) — 성공/실패</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이항 분포 (Binomial Distribution) — n회 반복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포아송 분포 (Poisson Distribution) — 희귀 사건</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규 분포 (Normal Distribution) — CLT 극한</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MLE 최대 우도 추정 (Maximum Likelihood Estimation)</div></div>
+</div>
+</div>
+
+
 
 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 단순 이항 분포에서 극한 근사와 모수 추정으로 체계화된 흐름이다.
 

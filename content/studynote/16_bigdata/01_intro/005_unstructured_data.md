@@ -25,20 +25,21 @@ tags = ["bigdata"]
 
 이러한 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)는 일정한 규칙이나 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))가 없어 기존의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로는 저장과 검색이 근본적으로 불가능하다는 문제의식을 낳았다.
 
-```text
-이 도식은 데이터의 구조화 정도에 따른 유형 분류와, 현재 발생 빈도의 압도적 불균형을 보여준다.
 
-[데이터 유형 스펙트럼과 비중]
 
-   정형 데이터 (20% 미만)      반정형 데이터 (브릿지 역할)      비정형 데이터 (80% 이상 집중)
-  ┌──────────────────┐    ┌─────────────────────┐    ┌──────────────────────────┐
-  │ - RDBMS Tables   │    │ - JSON, XML, HTML   │    │ - SNS 텍스트, 고객 리뷰  │
-  │ - Excel CSV      │    │ - NoSQL Documents   │    │ - 이미지(JPG), 영상(MP4) │
-  │ - 정산/회계 장부 │ => │ - 센서 발생 로그    │ => │ - 콜센터 음성, 위성 사진 │
-  └────────┬─────────┘    └──────────┬──────────┘    └─────────────┬────────────┘
-           │                         │                             │
-    [ SQL 직접 쿼리 ]         [ Key-Value 탐색 ]           [ 메타데이터 / AI 파싱 필수 ]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 데이터의 구조화 정도에 따른 유형 분류와, 현재 발생 빈도의 압도적 불균형을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 유형 스펙트럼과 비중</div></div>
+<div class="kb-diagram-note">정형 데이터 (20% 미만) 반정형 데이터 (브릿지 역할) 비정형 데이터 (80% 이상 집중)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RDBMS Tables</div><div class="kb-diagram-cell">- JSON, XML, HTML</div><div class="kb-diagram-cell">- SNS 텍스트, 고객 리뷰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Excel CSV</div><div class="kb-diagram-cell">- NoSQL Documents</div><div class="kb-diagram-cell">- 이미지(JPG), 영상(MP4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정산/회계 장부</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">- 센서 발생 로그</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">- 콜센터 음성, 위성 사진</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 직접 쿼리</div><div class="kb-diagram-node">Key-Value 탐색</div><div class="kb-diagram-node">메타데이터 / AI 파싱 필수</div></div>
+</div>
+</div>
+
+
 
 이 구조 스펙트럼에서 주목해야 할 점은 오른쪽으로 갈수록 기계가 직접 해석하기는 기하급수적으로 어려워지지만, 비즈니스의 잠재적 폭발력(고객의 진짜 의도, 공정 불량의 원인 등)은 더욱 높다는 것이다. 따라서 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 폐기하지 않고 담아둘 수 있는 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) 기반의 '[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))'와, 비정형 패턴을 수학적 벡터로 변환하는 '[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델'의 도입이 기업 생존을 위한 필수 아키텍처로 자리매김했다.
 
@@ -54,29 +55,32 @@ tags = ["bigdata"]
 |:---|:---|:---|:---|:---|
 | **텍스트 (SNS/리뷰)** | 문법 불규칙, 동음이의어 | NLP ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)), 형태소 분석, [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) | 문서형 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)), [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), 챗봇 |
 | **이미지/비디오** | 픽셀 단위 2D/3D [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 객체 인식(YOLO), 얼굴 인식 | [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) (AWS S3) + [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) DB | 불량 탐지, 무인 매장 |
-| **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/이벤트** | 길이 가변적 텍스트 라인 | 정규표현식 파싱(Grok), Logstash 필터 | 검색 엔진 DB ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)) | 보안 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>/이벤트</strong> | 길이 가변적 텍스트 라인 | 정규표현식 파싱(Grok), Logstash 필터 | 검색 엔진 DB ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)) | 보안 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
 | **음성 (콜센터)** | 주파수 아날로그 파형 | [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)(Speech-to-Text), 화자 분리 분석 | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) (원시) + 텍스트 변환 마트 | 불만 고객 사전 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 
 비정형 텍스트와 이미지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 기계가 이해할 수 있는 형태로 처리되는지 핵심 벡터 변환([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 살펴보자.
 
-```text
-이 흐름도는 비정형 데이터(텍스트/이미지)가 AI 임베딩 모델을 거쳐 수치화된 고차원 벡터로 변환되고 Vector DB에 저장되는 내부 동작을 보여준다.
 
-[비정형 원시 데이터]
- 1. 텍스트: "제품 품질이 훌륭합니다"  ────┐
- 2. 이미지: [강아지 사진.jpg]         ────┼──>  [ Embedding Model (BERT, ResNet) ]
-                                          │     (수백 차원의 실수 배열 공간으로 매핑)
-[데이터 변환 및 저장]                       ▼
- ┌─────────────────────────────────────────────────────────────┐
- │ Vector DB (Milvus, Pinecone 등)                             │
- │  - ID: doc_001                                              │
- │  - Vector: [0.12, -0.44, 0.89, ... , 0.31] (768차원)        │
- │  - Metadata: { "type": "review", "date": "2024-05" }        │
- └──────────────────────────┬──────────────────────────────────┘
-                            │ (시맨틱 유사도 검색: 코사인 유사도, L2 거리 연산)
-                            ▼
- [Application] "비슷한 긍정 리뷰를 찾아줘" => (벡터 공간 내 최단 거리 탐색 반환)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 비정형 데이터(텍스트/이미지)가 AI 임베딩 모델을 거쳐 수치화된 고차원 벡터로 변환되고 Vector DB에 저장되는 내부 동작을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 원시 데이터</div></div>
+<div class="kb-diagram-note">1. 텍스트: "제품 품질이 훌륭합니다"</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 이미지:</div><div class="kb-diagram-node">강아지 사진.jpg</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Embedding Model (BERT, ResNet)</div></div>
+<div class="kb-diagram-note">(수백 차원의 실수 배열 공간으로 매핑)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 변환 및 저장</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector DB (Milvus, Pinecone 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ID: doc_001</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Vector:</div><div class="kb-diagram-node">0.12, -0.44, 0.89, ... , 0.31</div><div class="kb-diagram-note">(768차원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Metadata: { "type": "review", "date": "2024-05" }</div></div>
+<div class="kb-diagram-note">(시맨틱 유사도 검색: 코사인 유사도, L2 거리 연산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Application</div><div class="kb-diagram-note">"비슷한 긍정 리뷰를 찾아줘" =&gt; (벡터 공간 내 최단 거리 탐색 반환)</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘의 가장 큰 혁신은 단순한 '단어 일치' 검사에서 벗어나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '의미적 유사성(Semantic Similarity)'을 계산할 수 있게 되었다는 점이다. 텍스트의 문맥이나 이미지의 형상을 딥러닝 모델이 수백 차원의 실수 벡터로 치환하면, Vector DB는 벡터 간의 거리를 연산(예: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))하여 의미가 가장 가까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마이크로초 단위로 찾아낸다. 이 과정에서 병목은 딥러닝 모델의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 추론 시간이며, 실무에서는 이를 해소하기 위해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 기반의 추론 서버(Triton 등)를 별도로 운영한다.
 
@@ -107,25 +111,27 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 |:---|:---|:---|:---|
 | **주 목적** | 대용량 원본([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) 미디어/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보관 | 반정형([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 기반 애플리케이션 상태 저장 | 대규모 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/텍스트 전문 검색 (Full-text) |
 | **저장 방식** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체 + 고유 ID([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 맵핑 매칭 | 계층형 [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)(BSON) 단위 저장 | [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 기반 단어-문서 매핑 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정** | 덮어쓰기만 가능 (In-place 수정 불가) | 필드 단위 부분 업데이트 지원 (Update) | 색인 재구성 과정 비용이 높음 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정</strong> | 덮어쓰기만 가능 (In-place 수정 불가) | 필드 단위 부분 업데이트 지원 (Update) | 색인 재구성 과정 비용이 높음 |
 | **장단점 트레이드오프**| 비용이 가장 저렴하나, 내부 검색 불가 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 유연성이 높으나 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산 취약| 검색 속도 최상, 메모리 자원 소모 극심 |
 
 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 단일 스토리지가 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 전담할 수 없다. 다음과 같은 아키텍처적 결합 구조가 요구된다.
 
-```text
-이 아키텍처는 비정형 이미지 파일을 저장할 때, 각 스토리지의 한계를 상호 보완하기 위해 시스템을 융합하는 분산 저장 패턴을 보여준다.
 
-[User Upload: 제품 사진.jpg + "강력 추천합니다" 텍스트]
-        │
-        ├─> (1) 대용량 원본 파일 저장 (비용 절감)
-        │      => [ Object Storage (S3) ] -> 반환된 URL: https://s3.../img.jpg
-        │
-        ├─> (2) 구조화된 메타데이터 및 URL 맵핑 저장 (유연성 확보)
-        │      => [ NoSQL (MongoDB) ] -> { id: 1, url: "...", tags: ["electronics"] }
-        │
-        └─> (3) 텍스트 형태소 파싱 및 역색인 (초고속 전문 검색 지원)
-               => [ Elasticsearch ] -> "강력", "추천" 키워드에 id 1 매핑
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 아키텍처는 비정형 이미지 파일을 저장할 때, 각 스토리지의 한계를 상호 보완하기 위해 시스템을 융합하는 분산 저장 패턴을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Upload: 제품 사진.jpg + "강력 추천합니다" 텍스트</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">(1) 대용량 원본 파일 저장 (비용 절감)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Object Storage (S3)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">반환된 URL: https://s3.../img.jpg</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">(2) 구조화된 메타데이터 및 URL 맵핑 저장 (유연성 확보)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">NoSQL (MongoDB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">"electronics"</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">(3) 텍스트 형태소 파싱 및 역색인 (초고속 전문 검색 지원)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Elasticsearch</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"강력", "추천" 키워드에 id 1 매핑</div></div>
+</div>
+</div>
+
+
 
 이 패턴의 핵심은 대용량 바이너리(Blob) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 DB에 우겨넣지 않는다는 점이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본체는 무한히 저렴한 S3([오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/))로 빼고, 애플리케이션 로직을 제어하는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 껍데기만 NoSQL에 유지하며, 텍스트 검색을 위한 특수 계층을 Elasticsearch로 분리한다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 관리하는 복잡도가 증가하지만 시스템 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 극대화하는 표준 실무 아키텍처다.
 
@@ -137,23 +143,28 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 
 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 다룰 때 맞닥뜨리는 가장 큰 실무적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 부재로 인한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 조용한 붕괴(Silent Failure) 현상이다.
 
-```text
-이 의사결정 트리는 다양한 포맷이 섞여 들어오는 로그(비정형/반정형) 파이프라인에서 장애를 격리하고 처리하기 위한 운영 플로우를 보여준다.
 
-[웹/앱 로그 스트림 유입 (JSON, Plain Text 혼재)]
-        ↓
-[로그 수집 에이전트 (Fluentd / Logstash)]
-        ↓
-[정규식 파싱 시도 (Grok Pattern)] ──(패턴 매칭 실패?)──> [Yes] ─> 폐기 금지! -> Dead Letter Queue (S3 원시 보관)
-        ↓ [No]                                                      (추후 수동 분석 또는 패턴 업데이트 후 재처리)
-[Elasticsearch 역색인 적재] ──(Dynamic Mapping 충돌?)──> [Yes] ─> Type 에러 경고 발생 (숫자에 문자가 들어옴 등)
-        ↓ [No]
-[Kibana 대시보드 시각화 및 로그 모니터링]
-```
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**
-- **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)의 RDBMS 강제 주입**: 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트를 파싱하지 않고 RDBMS의 VARCHAR/CLOB 컬럼에 무작정 때려 넣는 경우. 이후 특정 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 찾기 위해 `LIKE '%error%'` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체의 [테이블 풀 스캔](/knowledge-base/studynote/05_database/07_exam_summary/428_table_full_scan/)(Full Scan)이 발생하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비된다.
-- **Dynamic [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) 맹신**: Elasticsearch를 사용할 때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 매핑을 자동으로 맡겨두면, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '100'(숫자)을 정수로 인식하다가 어느 순간 '"100"'(문자열)이 들어올 때 인덱싱 충돌이 발생해 그 이후의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적재되지 않는 조용한 장애가 발생한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 의사결정 트리는 다양한 포맷이 섞여 들어오는 로그(비정형/반정형) 파이프라인에서 장애를 격리하고 처리하기 위한 운영 플로우를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹/앱 로그 스트림 유입 (JSON, Plain Text 혼재)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로그 수집 에이전트 (Fluentd / Logstash)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규식 파싱 시도 (Grok Pattern)</div><div class="kb-diagram-note">──(패턴 매칭 실패?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Dead Letter Queue (S3 원시 보관)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div><div class="kb-diagram-note">(추후 수동 분석 또는 패턴 업데이트 후 재처리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Elasticsearch 역색인 적재</div><div class="kb-diagram-note">──(Dynamic Mapping 충돌?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; Type 에러 경고 발생 (숫자에 문자가 들어옴 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kibana 대시보드 시각화 및 로그 모니터링</div></div>
+</div>
+</div>
+
+
+
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a>의 RDBMS 강제 주입</strong>: 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트를 파싱하지 않고 RDBMS의 VARCHAR/CLOB 컬럼에 무작정 때려 넣는 경우. 이후 특정 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 찾기 위해 `LIKE '%error%'` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체의 [테이블 풀 스캔](/knowledge-base/studynote/05_database/07_exam_summary/428_table_full_scan/)(Full Scan)이 발생하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비된다.
+- <strong>Dynamic <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a> 맹신</strong>: Elasticsearch를 사용할 때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 매핑을 자동으로 맡겨두면, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '100'(숫자)을 정수로 인식하다가 어느 순간 '"100"'(문자열)이 들어올 때 인덱싱 충돌이 발생해 그 이후의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적재되지 않는 조용한 장애가 발생한다.
 
 > 📢 **섹션 요약 비유**: 모양이 제각각인 폐기물(비정형 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 소각장(분석 DB)에 넣기 전, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(파서)가 인식하지 못하는 낯선 쓰레기가 나타났다고 태워 없애버리면 나중에 중요한 증거를 영영 잃게 된다. 모르는 것은 일단 예비 창고(DLQ)에 보관하는 것이 방어적 운영의 핵심이다.
 
@@ -170,29 +181,31 @@ index.upsert(vectors=[("review_123", vector_representation, {"category": "delive
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)** | 폴더 계층 대신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Object) 단위로 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 부여하여 무한정 수평 확장되는 비용 효율적 스토리지
-- **[Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)** | 단어 매칭이 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미적 유사도(거리)를 연산하기 위해 고차원 실수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))을 저장하는 특수 DB
-- **[Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) ([역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/))** | 문서의 위치를 단어 기준으로 정리하여, 비정형 텍스트 내의 키워드를 빛의 속도로 검색하게 해주는 검색 엔진의 핵심 구조
-- **[Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)** | 정해진 표 구조([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)) 없이 일단 비정형 상태로 원본 저장 후, 필요할 때 로직을 통해 구조를 씌워 읽어내는 개념
-- **Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (DLQ)** | 파싱에 실패하거나 알 수 없는 형태의 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)가 유입됐을 때 유실을 막기 위해 임시로 격리하는 대기열 공간
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/">Object Storage</a></strong> | 폴더 계층 대신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Object) 단위로 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 부여하여 무한정 수평 확장되는 비용 효율적 스토리지
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/">Vector Database</a></strong> | 단어 매칭이 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미적 유사도(거리)를 연산하기 위해 고차원 실수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))을 저장하는 특수 DB
+- <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/">Inverted Index</a> (<a href="/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/">역색인</a>)</strong> | 문서의 위치를 단어 기준으로 정리하여, 비정형 텍스트 내의 키워드를 빛의 속도로 검색하게 해주는 검색 엔진의 핵심 구조
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a></strong> | 정해진 표 구조([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)) 없이 일단 비정형 상태로 원본 저장 후, 필요할 때 로직을 통해 구조를 씌워 읽어내는 개념
+- <strong>Dead Letter <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (DLQ)</strong> | 파싱에 실패하거나 알 수 없는 형태의 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)가 유입됐을 때 유실을 막기 위해 임시로 격리하는 대기열 공간
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Object Storage]
-    │
-    ▼
-[Vector Database]
-    │
-    ▼
-[Inverted Index (역색인)]
-    │
-    ▼
-[Schema-on-Read]
-    │
-    ▼
-[Dead Letter Queue (DLQ)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Object Storage</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Vector Database</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Inverted Index (역색인)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dead Letter Queue (DLQ)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 Object Storage에서 출발해 Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (DLQ)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

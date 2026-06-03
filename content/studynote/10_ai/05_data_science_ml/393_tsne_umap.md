@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))는 선형 변환만 수행하므로 비선형 구조(매니폴드)를 잃어버린다. t-SNE와 UMAP은 비선형 매니폴드를 보존한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지구 표면(3D 구면)을 세계 지도(2D 평면)로 펼칠 때 어딘가는 왜곡이 생긴다. t-SNE/UMAP은 이 왜곡을 최소화하며 지도를 만드는 방법이다.
 
@@ -67,19 +70,21 @@ tags = ["studynote-ai"]
    L = Σw·log(w/w_low) + (1-w)·log((1-w)/(1-w_low))
 ```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  고차원 임베딩 (BERT, ResNet 등)                      │
-│  [●●●] [○○○] [▲▲▲]  (3 클래스, 768차원)             │
-│       ↓ t-SNE / UMAP                                 │
-│  저차원 시각화 (2D)                                   │
-│                                                      │
-│  ●●●●                                                │
-│      ○○○                                             │
-│          ▲▲▲                                         │
-│  (클러스터 구조 시각화 성공)                           │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고차원 임베딩 (BERT, ResNet 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">●●●</div><div class="kb-diagram-node">○○○</div><div class="kb-diagram-node">▲▲▲</div><div class="kb-diagram-note">(3 클래스, 768차원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ t-SNE / UMAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저차원 시각화 (2D)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●●●●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○○○</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클러스터 구조 시각화 성공)</div></div>
+</div>
+</div>
+
+
 
 | 특성 | t-SNE | UMAP |
 |:---|:---|:---|
@@ -110,8 +115,8 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 특성의 클러스터 구조 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-**[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)**: 군집에서 벗어난 점 → 레이블 오류 또는 진짜 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 특성의 클러스터 구조 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a></strong>: 군집에서 벗어난 점 → 레이블 오류 또는 진짜 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
 **클래스 분리도**: 클러스터 간 거리로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 가능성 예측
 **UMAP 권장 상황**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)만 건 이상, 전역 구조 분석, 빠른 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 

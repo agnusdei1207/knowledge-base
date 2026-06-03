@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모니터 (Monitor)는 개발자가 수동으로 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)나 뮤텍스를 쥐락펴락하다가 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 휴먼 에러를 막기 위해, **공유 자원과 그 자원을 다루는 함수들을 하나의 거대한 캡슐(객체)로 묶고 프로그래밍 언어 차원에서 자동 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어주는 고수준 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조**다.
-> 2. **가치**: 모니터 내부에는 오직 단 1개의 스레드만 진입할 수 있도록 컴파일러가 강제하며, 내부에는 상태 대기를 위한 **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**를 품고 있어 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전달을 완벽히 융합했다. (Java의 `synchronized`가 그 대표적 구현체다.)
+> 1. **본질**: 모니터 (Monitor)는 개발자가 수동으로 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)나 뮤텍스를 쥐락펴락하다가 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 휴먼 에러를 막기 위해, <strong>공유 자원과 그 자원을 다루는 함수들을 하나의 거대한 캡슐(객체)로 묶고 프로그래밍 언어 차원에서 자동 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 걸어주는 고수준 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 구조</strong>다.
+> 2. **가치**: 모니터 내부에는 오직 단 1개의 스레드만 진입할 수 있도록 컴파일러가 강제하며, 내부에는 상태 대기를 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>를 품고 있어 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전달을 완벽히 융합했다. (Java의 `synchronized`가 그 대표적 구현체다.)
 > 3. **융합**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 C/C++ 레벨에서 놀던 위험한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체들을 [객체지향 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임과 융합하여, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 로직은 한 몸이어야 한다"는 현대 스레드-세이프([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 설계의 표준을 세웠다.
 
 ---
@@ -24,33 +24,29 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍이 발전하며 에러 디버깅 비용이 기하급수적으로 늘어났다. 소프트웨어 공학의 '캡슐화(Encapsulation)' 철학이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에도 도입되어, 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 관리를 OS 커널이 아닌 프로그래밍 언어(Compiler/JVM)의 책임으로 격상시키는 모니터 개념이 등장했다.
 
-```text
-  [모니터(Monitor)의 구조적 시각화: 철통 보안 은행 금고]
 
-  [ 일반 스레드 1, 2, 3 ] ──▶ (진입 시도)
-                                                                                            │
-  ======================== [ 모니터 경계선 (Monitor Boundary) ] ========================
-  │                              ▼                                                          │
-  │     [ 진입 큐 (Entry Queue) ] ─▶ ⛔ (스레드 2, 3은 여기서 블록됨)                       │
-  │                              │                                                          │
-  │    ┌─────────────────────────▼───────────────────────────┐                              │
-  │    │ 1. 상호 배제 구역 (오직 스레드 1만 들어와 있음)             │                      │
-  │    │                                                     │                              │
-  │    │  [ 공유 데이터 (Shared Data) ]                       │                             │
-  │    │   - 통장 잔고 = 100만 원                              │                            │
-  │    │                                                     │                              │
-  │    │  [ 조작 함수 (Operations) ]                         │                              │
-  │    │   - 입금() { 잔고 += 금액; }                         │                             │
-  │    │   - 출금() { 잔고 -= 금액; }                         │                             │
-  │    │                                                     │                              │
-  │    │  [ 조건 변수 (Condition Variable) 및 대기 큐 ]        │                            │
-  │    │   - 잔고부족_조건 ─▶ (스레드 4가 여기서 자고 있음 💤)     │                        │
-  │    └─────────────────────────┬───────────────────────────┘                              │
-  │                              │ (함수 종료 시 자동 Unlock)                               │
-  ===============================│==================================================        │
-                                 ▼
-                          [ 스레드 1 퇴장 ] ─▶ (진입 큐에 있던 스레드 2 자동 입장)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터(Monitor)의 구조적 시각화: 철통 보안 은행 금고</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 스레드 1, 2, 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(진입 시도)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">========================</div><div class="kb-diagram-node">모니터 경계선 (Monitor Boundary)</div><div class="kb-diagram-note">========================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">진입 큐 (Entry Queue)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">⛔ (스레드 2, 3은 여기서 블록됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 상호 배제 구역 (오직 스레드 1만 들어와 있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 데이터 (Shared Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통장 잔고 = 100만 원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조작 함수 (Operations)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입금() { 잔고 += 금액; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 출금() { 잔고 -= 금액; }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 변수 (Condition Variable) 및 대기 큐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잔고부족_조건 ─▶ (스레드 4가 여기서 자고 있음 💤)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(함수 종료 시 자동 Unlock)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 1 퇴장</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(진입 큐에 있던 스레드 2 자동 입장)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 모니터는 완벽한 요새다. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모니터 깊숙한 곳에 숨겨져 있어 외부에서 절대 직접 건드릴 수 없다(`private`). 오직 모니터가 제공하는 함수(입금, 출금)를 통해서만 접근 가능한데, 이 함수들은 모니터라는 거대한 자물쇠에 의해 "무조건 1명씩만 실행"됨이 문법적으로 강제된다. 실수로 락을 안 풀고 나가는 휴먼 에러 자체가 성립할 수 없는 완벽한 설계다.
 
 - **📢 섹션 요약 비유**: 은행 금고(공유 자원)를 지킬 때, 직원들에게 일일이 금고 열쇠를 주고 "열고 꼭 닫아라"라고 교육하는 것([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))은 실패합니다. 그냥 금고 문을 1명만 통과하는 회전문(모니터)으로 개조해 버리면 교육 없이도 도둑맞을 일이 없습니다.
@@ -63,12 +59,12 @@ tags = ["studynote-operating-system"]
 
 모니터를 구현하려면 보이지 않는 곳(언어 런타임)에서 두 가지 도구가 완벽히 융합되어야 한다.
 
-1. **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 락 ([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 락 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">Mutex Lock</a>)</strong>
    - 모니터에 진입하는 모든 메서드(Procedure)는 시작할 때 이 락을 잡아야 하고, 끝날 때 무조건 풀어야 한다. 
    - 개발자 눈에는 안 보이지만 컴파일러가 앞뒤로 락 코드를 욱여넣는다.
-2. **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>
    - 모니터 안에 들어왔는데, 출금하려니 잔고가 0원이다. 여기서 멍때리면 모니터 락을 쥔 채로 굳어버리니 데드락이 터진다.
-   - 이때 `wait()`를 호출하면, 모니터는 스레드를 **'[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)'에 잠재움과 동시에 모니터 락을 툭 열어준다**. 
+   - 이때 `wait()`를 호출하면, 모니터는 스레드를 <strong>'<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/">대기 큐</a>'에 잠재움과 동시에 모니터 락을 툭 열어준다</strong>. 
    - 나중에 입금 스레드가 들어와서 돈을 채우고 `signal()`을 부르면, 자던 스레드가 깨어나서 다시 모니터 락을 잡고 일을 계속한다.
 
 ### Java에서의 모니터 완벽 구현 (`synchronized`)
@@ -111,13 +107,13 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 모니터 (Monitor) | [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) |
 |:---|:---|:---|
-| **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준** | **매우 높음** (프로그래밍 언어 차원의 객체) | **매우 낮음** ([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시스템 콜 레벨의 정수) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 수준</strong> | **매우 높음** (프로그래밍 언어 차원의 객체) | **매우 낮음** ([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시스템 콜 레벨의 정수) |
 | **은닉성 (Encapsulation)**| **완벽함**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함수가 캡슐 안에 보호됨 | 없음. 아무 함수에서나 `wait/signal` 호출 가능 |
 | **안전성 (Safety)** | 높음. 락 획득/해제를 컴파일러가 보장함 | 낮음. 프로그래머 실수 시 즉시 데드락/Race 발생 |
 | **실행 속도 (Overhead)**| **무거움**. 메서드 전체를 잠그므로 병목 발생 쉬움 | 가벼움. 원하는 코드 1줄만 정밀 타격 가능 |
 | **자원 개수 관리** | [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 직접 `while` 돌며 체크해야 함 | 정수형 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나로 N개 자원 즉시 큐잉 가능 |
 
-모니터와 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 수학적으로 완벽히 **동치(Equivalent)**다. 즉, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짠 코드는 모니터로 짤 수 있고, 모니터로 짠 코드도 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짤 수 있다. 단지 껍데기(안전성 vs 자유도)의 차이일 뿐이다.
+모니터와 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 수학적으로 완벽히 <strong>동치(Equivalent)</strong>다. 즉, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짠 코드는 모니터로 짤 수 있고, 모니터로 짠 코드도 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짤 수 있다. 단지 껍데기(안전성 vs 자유도)의 차이일 뿐이다.
 
 ### 모니터 시그널([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 이후의 동작 철학 (Hoare vs Mesa)
 모니터 안에서 자고 있던 B를 A가 깨웠다(`signal`). 이때 모니터 안에는 락을 쥔 A와, 깨어난 B 두 명이 존재하게 되는 모순이 발생한다! ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 붕괴 위험). 이를 어떻게 해결할까?
@@ -135,27 +131,27 @@ tags = ["studynote-operating-system"]
 1. **Java에서의 Monitor 락 병목 (Synchronized의 배신)**: 10년 차 이하 자바 개발자들이 많이 하는 실수다. 여러 개의 API가 공통 `CacheManager` 객체를 쓴다. 이때 `CacheManager`의 모든 조회/수정 메서드에 `synchronized`를 박아버렸다.
    - **사건**: 조회만 하는 10만 명의 트래픽이 모니터 락에 막혀 1차선으로 줄을 서며 서버가 멈췄다([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)).
    - **실무 조치**: 모니터(synchronized)는 너무 거대한 락([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/))이다. 읽기 성능이 중요할 때는 모니터의 우아함을 과감히 버리고, `java.util.concurrent.locks.ReentrantReadWriteLock` 같은 세밀한 OS 락 래퍼를 수동으로 짜거나, `ConcurrentHashMap`(분절 락)을 써서 모니터의 범위를 최소화해야 한다.
-2. **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))의 한계와 고수준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: C#이나 Java에서 모니터 락과 `wait()`, `notifyAll()`을 직접 쳐서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제어하는 코드는 레거시 취급을 받는다. 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)의 한계와 고수준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: C#이나 Java에서 모니터 락과 `wait()`, `notifyAll()`을 직접 쳐서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 제어하는 코드는 레거시 취급을 받는다. 
    - **아키텍처 결단**: 모니터의 훌륭한 철학은 가져오되, 구현은 프레임워크에 넘긴다. `CountDownLatch`, `CyclicBarrier`, `Semaphore` 클래스 등 이미 100% 검증된 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 유틸리티 클래스(Concurrent Utilities)를 레고 블록 조립하듯 끼워 맞추는 것이 실무에서 데드락을 내지 않는 아키텍트의 정석이다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │     객체 지향(OOP) 환경에서의 동기화 설계 (Monitor 적용 여부)      │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [요구사항: 스레드 안전한(Thread-safe) 은행 계좌 클래스 설계]     │
-  │                │                                                   │
-  │                ▼ 동기화 보호막의 범위(Scope) 설정                  │
-  │      [ 1. 클래스 내부 변수가 많고, 연관 로직이 복잡하다 ]          │
-  │       ├─▶ 판단: Monitor (Synchronized 메서드) 적용                 │
-  │       ├─▶ 이유: 락 관리를 언어에 맡겨 휴먼 에러를 원천 차단.       │
-  │       └─▶ 효과: 객체 스스로 상태를 보호하는 완벽한 OOP 달성.       │
-  │                                                                    │
-  │      [ 2. 0.01ms라도 빠른 극한의 성능(TPS)이 필요하다 ]            │
-  │       ├─▶ 판단: Monitor 폐기. CAS 기반 Atomic 객체로 도배.         │
-  │       └─▶ 효과: OS 레벨의 락(Sleep)을 완전히 제거하여 무정지 질주. │
-  └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 지향(OOP) 환경에서의 동기화 설계 (Monitor 적용 여부)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드 안전한(Thread-safe) 은행 계좌 클래스 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동기화 보호막의 범위(Scope) 설정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 클래스 내부 변수가 많고, 연관 로직이 복잡하다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: Monitor (Synchronized 메서드) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이유: 락 관리를 언어에 맡겨 휴먼 에러를 원천 차단.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 객체 스스로 상태를 보호하는 완벽한 OOP 달성.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 0.01ms라도 빠른 극한의 성능(TPS)이 필요하다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: Monitor 폐기. CAS 기반 Atomic 객체로 도배.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: OS 레벨의 락(Sleep)을 완전히 제거하여 무정지 질주.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 모니터는 객체 지향 프로그래밍([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))과 완벽한 찰떡궁합이다. "객체의 상태는 객체의 메서드로만 바꾼다"는 [OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/) 철학에, "메서드는 한 번에 한 놈만 돈다"는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 철학을 얹어 완벽한 스레드-세이프([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 블랙박스를 만들어낸다. 하지만 성능이 병목일 때는 이 두꺼운 철판(모니터)을 떼어내고 원시적인 하드웨어 락([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))으로 돌아가는 역주행을 선택해야 할 때도 있다.
 
 - **📢 섹션 요약 비유**: 모니터는 튼튼한 금고통입니다. 돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 넣고 빼기 편하고 절대 도둑(에러) 맞지 않지만, 금고문이 무거워서 돈을 1초에 1만 번씩 넣었다 뺐다(고성능 서버) 하기에는 팔이 너무 아픕니다. 상황에 따라 금고통(모니터)을 쓸지, 지퍼백(락 프리)을 쓸지 골라야 합니다.
@@ -169,7 +165,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 모니터는 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 낳은 야만의 시대를 끝내고, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍을 우아한 문법의 영역으로 끌어올린 문명화의 상징이다. Java, C#, Python 등 현대의 모든 하이레벨 언어들은 이 모니터의 철학을 언어 스펙의 기본으로 내장하고 있다.
-하지만 멀티코어 개수가 수백 개를 넘어서면서, 하나의 거대한 모니터 락(Big Monitor [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 객체 전체를 잠그는 행위는 성능의 발목을 잡는 주범이 되었다. 미래의 코딩은 모니터로 객체를 잠그는 방식에서 벗어나, 아예 상태를 바꾸지 않는 **불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)**을 쓰거나, 락 대신 큐를 통한 비동기 메시지 패싱(Akka, Go Channels)으로 **"락을 거는 행위 자체"를 삭제하는 패러다임**으로 거대한 진화를 이루고 있다.
+하지만 멀티코어 개수가 수백 개를 넘어서면서, 하나의 거대한 모니터 락(Big Monitor [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 객체 전체를 잠그는 행위는 성능의 발목을 잡는 주범이 되었다. 미래의 코딩은 모니터로 객체를 잠그는 방식에서 벗어나, 아예 상태를 바꾸지 않는 <strong>불변(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a>) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a></strong>을 쓰거나, 락 대신 큐를 통한 비동기 메시지 패싱(Akka, Go Channels)으로 <strong>"락을 거는 행위 자체"를 삭제하는 패러다임</strong>으로 거대한 진화를 이루고 있다.
 
 - **📢 섹션 요약 비유**: 모니터는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이라는 폭주 기관차에 완벽하게 작동하는 오토 브레이크를 달아준 위대한 발명입니다. 하지만 이제 우리는 브레이크 성능을 올리는 것을 포기하고, 아예 기차가 서로 만날 수 없게 허공에 3차원 철로(메시지 패싱, 락 프리)를 깔아버리는 차원으로 이동하고 있습니다.
 
@@ -186,15 +182,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Test-and-Set 명령어]
-    │
-    ▼
-[모니터 (Monitor)]
-    │
-    ├──▶ [원자적 변수 (Atomic Variable)]
-    └──▶ [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Test-and-Set 명령어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 (Monitor)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원자적 변수 (Atomic Variable)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

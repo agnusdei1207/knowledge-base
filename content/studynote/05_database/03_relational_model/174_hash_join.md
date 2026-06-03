@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 해시 조인 (Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 작은 입력을 메모리 버킷 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)로 만든 뒤, 큰 입력을 한 번 훑으며 같은 조인 키를 찾는 **동등 조인 (Equality [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 특화 물리 연산**이다.
+> 1. **본질**: 해시 조인 (Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 작은 입력을 메모리 버킷 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)로 만든 뒤, 큰 입력을 한 번 훑으며 같은 조인 키를 찾는 <strong>동등 조인 (Equality <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>) 특화 물리 연산</strong>이다.
 > 2. **가치**: 랜덤 입출력 (I/O, Input/Output) 과 대규모 정렬 비용을 피할 수 있어, 대량 사실 테이블과 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)을 결합하는 분석계 질의에서 특히 강하다.
 > 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "어느 쪽을 Build Input으로 잡는가", "메모리에 다 들어가는가", "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향이 심한가"에 크게 좌우되며, 비동등 조건에는 원천적으로 맞지 않는다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-해시 조인은 보통 **Build Phase → Probe Phase → Spill 대응**의 세 관점으로 이해하면 된다. 여기서 Build Input 은 더 작은 쪽, Probe Input 은 더 큰 쪽으로 잡는 것이 기본 원칙이다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과가 같다고 해서 키가 반드시 같은 것은 아니므로, 버킷 안에서는 최종 키 비교를 한 번 더 수행한다.
+해시 조인은 보통 <strong>Build Phase → Probe Phase → Spill 대응</strong>의 세 관점으로 이해하면 된다. 여기서 Build Input 은 더 작은 쪽, Probe Input 은 더 큰 쪽으로 잡는 것이 기본 원칙이다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과가 같다고 해서 키가 반드시 같은 것은 아니므로, 버킷 안에서는 최종 키 비교를 한 번 더 수행한다.
 
 | 단계 | 엔진이 하는 일 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 | 주요 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | :--- | :--- | :--- | :--- |
@@ -39,28 +39,29 @@ tags = ["studynote-database"]
 | Probe Phase | 큰 입력을 스캔하며 같은 해시 버킷을 조회 | 순차 스캔 + 메모리 탐색이라 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높음 | [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향으로 특정 버킷 과밀 |
 | Spill / [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) | 메모리 초과 시 입력을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 나눠 디스크에 임시 저장 후 재처리 | Grace Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 으로 대형 입력도 처리 가능 | 임시 공간 사용과 추가 I/O 로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락 |
 
-아래 구조는 해시 조인의 핵심 흐름을 보여 준다. 이 그림에서 중요한 점은 "해시 값 일치"가 곧 "조인 성공"이 아니라, **같은 버킷으로 모은 뒤 실제 키를 다시 비교한다**는 사실이다.
+아래 구조는 해시 조인의 핵심 흐름을 보여 준다. 이 그림에서 중요한 점은 "해시 값 일치"가 곧 "조인 성공"이 아니라, <strong>같은 버킷으로 모은 뒤 실제 키를 다시 비교한다</strong>는 사실이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Hash Join: build once, probe many                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Build input (small)                                                │
-│   row -> hash(join_key) -> bucket[7] -> keep key + payload         │
-│   row -> hash(join_key) -> bucket[2] -> keep key + payload         │
-│                                                                    │
-│ Probe input (large)                                                │
-│   row -> hash(join_key) -> same bucket -> compare real key -> join │
-│                                                                    │
-│ If hash area overflows:                                            │
-│   partition build/probe inputs -> reload one partition at a time   │
-│   -> rehash -> probe again                                         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash Join: build once, probe many</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build input (small)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">keep key + payload</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">keep key + payload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe input (large)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">row -&gt; hash(join_key) -&gt; same bucket -&gt; compare real key -&gt; join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If hash area overflows:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition build/probe inputs -&gt; reload one partition at a time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; rehash -&gt; probe again</div></div>
+</div>
+</div>
+
+
 
 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 볼 때는 Build 쪽이 정말 작은지, 그리고 불필요한 컬럼이 제거되어 있는지를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)에서 조인 키와 필요한 소수 컬럼만 먼저 읽으면, 같은 행 수여도 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 폭이 줄어 메모리 적재성이 좋아진다. 반대로 `SELECT *` 성격으로 넓은 행을 그대로 Build 하면 해시 조인의 장점이 쉽게 사라진다.
 
-메모리를 넘는 경우에는 Grace Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 처럼 양쪽 입력을 같은 해시 기준으로 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 쪼갠 뒤, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 다시 Build/Probe 한다. 즉 해시 조인의 본질은 "한 번에 다 메모리에 넣는다"가 아니라, **메모리에 맞는 단위로 동일 버킷끼리 만나게 만든다**는 데 있다.
+메모리를 넘는 경우에는 Grace Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 처럼 양쪽 입력을 같은 해시 기준으로 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 쪼갠 뒤, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 다시 Build/Probe 한다. 즉 해시 조인의 본질은 "한 번에 다 메모리에 넣는다"가 아니라, <strong>메모리에 맞는 단위로 동일 버킷끼리 만나게 만든다</strong>는 데 있다.
 
 - **📢 섹션 요약 비유**: 큰 창고 물건을 찾을 때 먼저 물건 종류별 상자를 만들어 두고, 들어오는 주문서를 해당 상자만 열어 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방식과 같다. 다만 상자가 창고보다 많아지면 임시 창고를 빌려 다시 나눠 담아야 한다.
 
@@ -68,7 +69,7 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 비교 및 연결
 
-해시 조인의 위치를 정확히 보려면 [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/), [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) 과의 차이를 함께 봐야 한다. 세 방식은 모두 같은 조인 결과를 만들지만, **비용을 어디에 쓰는가**가 다르다.
+해시 조인의 위치를 정확히 보려면 [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/), [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) 과의 차이를 함께 봐야 한다. 세 방식은 모두 같은 조인 결과를 만들지만, <strong>비용을 어디에 쓰는가</strong>가 다르다.
 
 | 비교 축 | [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) | Hash [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) |
 | :--- | :--- | :--- | :--- |
@@ -78,9 +79,9 @@ tags = ["studynote-database"]
 | 결과 순서 활용 | 거의 없음 | 없음 | `ORDER BY`, `GROUP BY` 재활용 가능 |
 | 대표 약점 | 외부 집합이 커지면 급격히 비싸짐 | 메모리 초과와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향에 민감 | 정렬 비용과 임시 공간 부담 |
 
-즉 해시 조인은 "정렬이 필요 없는 [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)" 이 아니라, **동등 비교를 버킷 탐색으로 바꾼 별도의 문제 해결 방식**이다. 그래서 `A.id = B.id` 같은 조건에서는 매우 강하지만, `A.date BETWEEN B.start AND B.end` 같은 범위 조인에서는 쓸 수 없다. 이 경계가 명확해야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)나 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 올바르게 해석할 수 있다.
+즉 해시 조인은 "정렬이 필요 없는 [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)" 이 아니라, <strong>동등 비교를 버킷 탐색으로 바꾼 별도의 문제 해결 방식</strong>이다. 그래서 `A.id = B.id` 같은 조건에서는 매우 강하지만, `A.date BETWEEN B.start AND B.end` 같은 범위 조인에서는 쓸 수 없다. 이 경계가 명확해야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)나 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 올바르게 해석할 수 있다.
 
-또한 해시 조인은 현대 분석 엔진에서 [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 벡터화 실행과도 자주 연결된다. 예를 들어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 질의 엔진은 먼저 작은 입력으로 [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) 를 만들어 큰 입력 스캔 전에 불필요한 키를 걸러 낸다. 즉 해시 조인은 단일 연산자라기보다, **대량 동등 조인을 위한 확장 가능한 계열**로 발전해 왔다.
+또한 해시 조인은 현대 분석 엔진에서 [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 벡터화 실행과도 자주 연결된다. 예를 들어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 질의 엔진은 먼저 작은 입력으로 [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) 를 만들어 큰 입력 스캔 전에 불필요한 키를 걸러 낸다. 즉 해시 조인은 단일 연산자라기보다, <strong>대량 동등 조인을 위한 확장 가능한 계열</strong>로 발전해 왔다.
 
 - **📢 섹션 요약 비유**: 사람 찾기에도 여러 방식이 있다. 한 명씩 교실을 돌며 찾을지, 번호순으로 줄 세워 찾을지, 아니면 반별 명부를 먼저 만들어 해당 반만 열어볼지가 다르다. 해시 조인은 "먼저 반별 명부를 만들어 두는 방식"에 가깝다.
 
@@ -88,7 +89,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 해시 조인이 빛나는 장면은 보통 **큰 사실 테이블 + 작은 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)** 조합이다. 예를 들어 1억 건 판매 이력과 10만 건 상품 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터를 `product_id = product_id` 로 붙이는 질의라면, 상품 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터를 Build Input 으로 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)에 올리고 판매 이력을 Probe 하는 구조가 매우 자연스럽다. 이때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 수없이 찌르는 것보다 양쪽을 순차 스캔하는 편이 더 예측 가능하고 빠를 수 있다.
+실무에서 해시 조인이 빛나는 장면은 보통 <strong>큰 사실 테이블 + 작은 <a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/">차원 테이블</a></strong> 조합이다. 예를 들어 1억 건 판매 이력과 10만 건 상품 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터를 `product_id = product_id` 로 붙이는 질의라면, 상품 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터를 Build Input 으로 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)에 올리고 판매 이력을 Probe 하는 구조가 매우 자연스럽다. 이때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 수없이 찌르는 것보다 양쪽을 순차 스캔하는 편이 더 예측 가능하고 빠를 수 있다.
 
 반대로 단순히 `=` 조건이라고 해서 항상 해시 조인이 정답은 아니다. 주문 10건에 대한 회원 정보 조회처럼 결과가 소량이고 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있다면 [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 이 더 빠를 수 있다. 또 조인 뒤에 바로 정렬된 결과를 재사용해야 한다면 [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) 이 유리할 수 있다. 결국 해시 조인의 판단 기준은 "대량 동등 조인인가?"와 "Build 쪽이 메모리에 안정적으로 올라가는가?" 두 가지로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다.
 
@@ -120,7 +121,7 @@ tags = ["studynote-database"]
 
 하지만 장점의 전제조건도 명확하다. 작은 Build Input, 충분한 작업 메모리, 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향, 정확한 통계 정보가 함께 있어야 한다. 이 조건이 무너지면 해시 스필, 버킷 불균형, 잘못된 Build 선택으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠질 수 있다.
 
-결론적으로 해시 조인은 "가장 빠른 조인"이 아니라, **동등 조인을 버킷 탐색 문제로 변환해 가장 빠르게 만들 수 있는 조인**으로 기억하는 것이 정확하다. 그래서 실무에서는 조인 조건, 입력 크기, 메모리 적재성, 결과 순서 요구를 함께 보고 판단해야 한다.
+결론적으로 해시 조인은 "가장 빠른 조인"이 아니라, <strong>동등 조인을 버킷 탐색 문제로 변환해 가장 빠르게 만들 수 있는 조인</strong>으로 기억하는 것이 정확하다. 그래서 실무에서는 조인 조건, 입력 크기, 메모리 적재성, 결과 순서 요구를 함께 보고 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 해시 조인은 큰 전화번호부를 통째로 뒤지는 대신, 성씨별 서랍을 먼저 만들어 놓고 바로 해당 서랍만 여는 방식이다. 서랍 정리가 잘되면 놀랍도록 빠르지만, 서랍 구성이 틀어지면 오히려 더 어수선해진다.
 
@@ -140,22 +141,24 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Large equality join requirement
-            │
-            ▼
-Choose smaller build input
-            │
-            ▼
-Build in-memory hash buckets
-            │
-            ▼
-Probe large scan against buckets
-            │
-            ├───────────────► if memory overflow -> partition and rehash
-            ▼
-Parallel hash join / Bloom filter optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Large equality join requirement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Choose smaller build input</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Build in-memory hash buckets</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Probe large scan against buckets</div>
+<div class="kb-diagram-tree-item" style="--depth:6">if memory overflow -&gt; partition and rehash</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Parallel hash join / Bloom filter optimization</div>
+</div>
+</div>
+
+
 
 이 흐름은 "대량 동등 조인 필요 → 작은 입력 해시화 → 큰 입력 탐색 → 메모리 초과 대응 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화"로 이어지는 해시 조인의 사고 순서를 보여 준다.
 

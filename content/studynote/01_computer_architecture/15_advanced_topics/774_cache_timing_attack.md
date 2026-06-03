@@ -19,21 +19,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-캐시 타이밍 공격 (Cache Timing Attack)은 [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)의 한 종류로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내는 데 걸린 시간**을 관찰해 비밀을 추론하는 기법이다. CPU (Central Processing Unit)와 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이의 속도 차이를 줄이기 위해 만든 캐시 계층이, 역으로 “무엇을 읽었는지”를 시간으로 말해 주는 셈이다.
+캐시 타이밍 공격 (Cache Timing Attack)은 [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)의 한 종류로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 꺼내는 데 걸린 시간</strong>을 관찰해 비밀을 추론하는 기법이다. CPU (Central Processing Unit)와 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이의 속도 차이를 줄이기 위해 만든 캐시 계층이, 역으로 “무엇을 읽었는지”를 시간으로 말해 주는 셈이다.
 
 이 공격이 성립하는 핵심은 알고리즘이 아니라 구현이다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 테이블 조회, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 지수 연산의 분기, lookup table 기반 코드처럼 비밀 값이 접근 주소를 바꾸면, 수학적으로 안전한 알고리즘도 실제 시스템에서는 시간을 통해 정보를 흘릴 수 있다. 특히 멀티코어와 클라우드 환경에서는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 공유 때문에 프로세스나 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 경계를 넘는 누출까지 가능하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Cache hierarchy turns latency into information              │
-├──────────────────────────────────────────────────────────────┤
-│ L1 hit   :   ~4 cycles                                      │
-│ L2 hit   :  ~12 cycles                                      │
-│ L3 hit   :  ~40+ cycles                                     │
-│ DRAM     : 150~300+ cycles                                  │
-│ => secret-dependent access pattern becomes measurable       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache hierarchy turns latency into information</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 hit : ~4 cycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 hit : ~12 cycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 hit : ~40+ cycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM : 150~300+ cycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; secret-dependent access pattern becomes measurable</div></div>
+</div>
+</div>
+
+
 
 이 차이는 평소엔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화지만, 공격자에게는 관측 가능한 신호다. 따라서 “빠르게 만들었다”는 사실만으로도 새로운 공격면이 생길 수 있다.
 
@@ -53,24 +56,21 @@ tags = ["studynote-computer-architecture"]
 | 타이머 (TSC 등) | 수십 cycle 차이 측정 | [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss를 분리 |
 | lookup table | 비밀 의존 주소 선택 | 키 비트가 접근 패턴으로 새어 나감 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Secret -> address choice -> cache state -> latency          │
-├──────────────────────────────────────────────────────────────┤
-│ secret bit                                                  │
-│    │                                                        │
-│    ▼                                                        │
-│ table index / branch target                                 │
-│    │                                                        │
-│    ▼                                                        │
-│ cache line hit or miss                                      │
-│    │                                                        │
-│    ▼                                                        │
-│ measured time -> statistical inference                      │
-└──────────────────────────────────────────────────────────────┘
-```
 
-예를 들어 AES의 테이블 기반 구현은 평문과 키의 조합이 다른 캐시 라인을 만지게 만들 수 있다. 공격자는 같은 연산을 수천 번 반복 측정해 어떤 라인이나 세트가 더 자주 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 되었는지 분석하고, 그 편향으로 키 후보를 줄여 나간다. 즉 한 번의 측정보다 **반복 측정에서 드러나는 패턴**이 핵심이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret -&gt; address choice -&gt; cache state -&gt; latency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret bit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">table index / branch target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cache line hit or miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">measured time -&gt; statistical inference</div></div>
+</div>
+</div>
+
+
+
+예를 들어 AES의 테이블 기반 구현은 평문과 키의 조합이 다른 캐시 라인을 만지게 만들 수 있다. 공격자는 같은 연산을 수천 번 반복 측정해 어떤 라인이나 세트가 더 자주 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 되었는지 분석하고, 그 편향으로 키 후보를 줄여 나간다. 즉 한 번의 측정보다 <strong>반복 측정에서 드러나는 패턴</strong>이 핵심이다.
 
 - **📢 섹션 요약 비유**: 캐시 타이밍 공격은 도서관 사서가 어느 책장을 자주 왔다 갔다 하는지 발걸음 시간으로 보는 것과 같다. 책 제목을 못 봐도 어느 분야를 찾았는지는 짐작할 수 있다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 | Flush+Reload | 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) + `clflush` 가능 | 라인 단위 | 매우 정밀하고 노이즈가 적음 |
 | Evict+Time | 전체 실행 시간 측정 가능 | 함수/연산 시간 단위 | 환경 제약은 적지만 해상도 낮음 |
 
-또한 이 공격은 투기 실행 취약점과도 연결된다. Spectre류 공격은 투기적으로 읽은 비밀 값을 그대로 반환하지 못하므로, 마지막 단계에서 캐시 타이밍을 이용해 “어느 라인이 흔적을 남겼는지”를 읽어낸다. 즉 캐시 타이밍은 단독 공격이면서 동시에 다른 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 공격의 **추출 채널**이기도 하다.
+또한 이 공격은 투기 실행 취약점과도 연결된다. Spectre류 공격은 투기적으로 읽은 비밀 값을 그대로 반환하지 못하므로, 마지막 단계에서 캐시 타이밍을 이용해 “어느 라인이 흔적을 남겼는지”를 읽어낸다. 즉 캐시 타이밍은 단독 공격이면서 동시에 다른 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 공격의 <strong>추출 채널</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: Prime+Probe가 “누가 내 주차칸을 썼는지”를 보는 것이라면, Flush+Reload는 “내가 지운 발자국이 다시 생겼는지”를 보는 것이다. 둘 다 흔적을 읽지만 관찰 방식이 다르다.
 
@@ -99,9 +99,9 @@ tags = ["studynote-computer-architecture"]
 ### 방어 우선순위
 
 1. **소프트웨어**: secret-dependent branch와 table lookup 제거, bitslicing, constant-time [library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 사용  
-2. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)**: [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 분리, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링, 고해상도 타이머 제한  
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a></strong>: [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 분리, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링, 고해상도 타이머 제한  
 3. **하드웨어**: CAT (Cache Allocation Technology) 같은 캐시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 보안 코어 분리  
-4. **플랫폼 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 메모리 중복 제거(KSM) 비활성화, 민감 워크로드의 코어 고정  
+4. <strong>플랫폼 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 메모리 중복 제거(KSM) 비활성화, 민감 워크로드의 코어 고정  
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -124,7 +124,7 @@ tags = ["studynote-computer-architecture"]
 
 캐시 타이밍 공격을 고려한 설계는 암호 모듈만 안전하게 만드는 것이 아니라, 클라우드 스케줄링·[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 선택·하드웨어 배치까지 포함한 플랫폼 보안을 한 단계 끌어올린다. 특히 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서는 “기능이 맞게 동작한다”는 기준만으로는 충분하지 않고, “다르게 동작하는 시간이 남에게 보이지 않는다”는 기준까지 필요하다.
 
-물론 완전한 제거는 쉽지 않다. 캐시는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이므로 무조건 비우거나 끄면 비용이 너무 크다. 따라서 앞으로의 방향은 secure cache partitioning이나 constant-time 친화 컴파일러처럼 **정보 흐름을 설계 단계에서 차단하는 아키텍처**를 늘리는 것이다. 기억해야 할 핵심은 하나다. 캐시 타이밍 공격은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 보안 관점에선 관측 채널이 될 수 있음을 보여준다.
+물론 완전한 제거는 쉽지 않다. 캐시는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이므로 무조건 비우거나 끄면 비용이 너무 크다. 따라서 앞으로의 방향은 secure cache partitioning이나 constant-time 친화 컴파일러처럼 <strong>정보 흐름을 설계 단계에서 차단하는 아키텍처</strong>를 늘리는 것이다. 기억해야 할 핵심은 하나다. 캐시 타이밍 공격은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 보안 관점에선 관측 채널이 될 수 있음을 보여준다.
 
 - **📢 섹션 요약 비유**: 좋은 방어는 집 안을 조용히 만드는 것이 아니라, 누가 어떤 방에 들어가도 복도에서 들리는 소리가 똑같게 만드는 집 구조와 같다.
 
@@ -143,24 +143,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU-DRAM 속도 격차
-  │
-  ▼
-캐시 계층 구조
-  │
-  ▼
-Hit / Miss 지연 차이
-  │
-  ▼
-Secret-dependent Access
-  │
-  ▼
-Prime+Probe · Flush+Reload · Evict+Time
-  │
-  ▼
-Constant-time · Cache Isolation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU-DRAM 속도 격차</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 계층 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hit / Miss 지연 차이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secret-dependent Access</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Prime+Probe · Flush+Reload · Evict+Time</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Constant-time · Cache Isolation</div>
+</div>
+</div>
+
+
 
 이 흐름은 “[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 → 시간 차이 → 정보 누출 → 구조적 방어”로 이어지는 캐시 타이밍 공격의 본질을 보여준다.
 

@@ -18,21 +18,20 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│          변경 관리 프로세스 흐름                       │
-├──────────────────────────────────────────────────────┤
-│ 1. 변경 요청(RFC)                                    │
-│    ↓                                                 │
-│ 2. 영향 분석 (Impact Assessment)                     │
-│    ↓                                                 │
-│ 3. 변경 승인 (CAB: Change Advisory Board)            │
-│    ↓                                                 │
-│ 4. 변경 구현 (Implementation)                        │
-│    ↓                                                 │
-│ 5. 검토 및 종료 (PIR: Post-Implementation Review)    │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 관리 프로세스 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 변경 요청(RFC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 영향 분석 (Impact Assessment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 변경 승인 (CAB: Change Advisory Board)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경 구현 (Implementation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 검토 및 종료 (PIR: Post-Implementation Review)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토→허가→시공→검수 단계를 반드시 거친다.
 
@@ -107,29 +106,31 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)** | [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)를 포함하는 [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/) |
-| **[CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)** | 변경 승인을 결정하는 위원회 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a></strong> | [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)를 포함하는 [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">CAB</a></strong> | 변경 승인을 결정하는 위원회 |
 | **RFC** | 공식 변경 요청 문서 |
 | **PIR** | 변경 후 효과 검토 활동 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | DevOps의 코드 기반 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 자동화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | DevOps의 코드 기반 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 변경 — 비공식 변경, 추적 불가]
-    │
-    ▼
-[ITSM 변경 관리 — CAB 중심 공식 프로세스]
-    │
-    ▼
-[Agile 변경 관리 — 스프린트 내 변경 통합]
-    │
-    ▼
-[DevOps/GitOps — CI/CD 기반 자동화 변경 관리]
-    │
-    ▼
-[AI 위험 예측 — 변경 실패율 자동 예측·경보]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 변경 — 비공식 변경, 추적 불가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ITSM 변경 관리 — CAB 중심 공식 프로세스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agile 변경 관리 — 스프린트 내 변경 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps/GitOps — CI/CD 기반 자동화 변경 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 위험 예측 — 변경 실패율 자동 예측·경보</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

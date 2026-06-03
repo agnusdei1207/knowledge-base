@@ -102,33 +102,45 @@ ANN은 특징 공학의 부담을 줄이고, 더 큰 [데이터](/knowledge-base
 
 ## 관련 개념 맵
 
-```text
-Neuron
-   ↓
-ANN
-   ↓
-MLP
-   ↓
-Backpropagation
-   ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Neuron</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ANN</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MLP</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Backpropagation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Perceptron
-   ↓
-XOR 한계
-   ↓
-MLP / Backpropagation
-   ↓
-GPU 학습
-   ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Perceptron</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">XOR 한계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MLP / Backpropagation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">GPU 학습</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 

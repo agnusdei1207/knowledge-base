@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (Counting [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))는 내부 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) (S)가 0부터 N까지의 값을 가질 수 있어, **N개의 동시 접근을 허용하는 자원 풀 (Resource Pool)**을 모델링하는 데 사용되는 범용 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다. 바이너리 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))와 달리 N개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 임계 구역에 진입할 수 있다.
+> 1. **본질**: 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (Counting [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))는 내부 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) (S)가 0부터 N까지의 값을 가질 수 있어, <strong>N개의 동시 접근을 허용하는 자원 풀 (Resource Pool)</strong>을 모델링하는 데 사용되는 범용 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 객체다. 바이너리 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))와 달리 N개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 임계 구역에 진입할 수 있다.
 > 2. **가치**: DB 커넥션 풀, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정원 등 "정해진 수 limite resources"를 관리하는 모든 곳에서 활용되며, 초과 요청에는.sleep()을 통해 자원 반납 전까지 대기하게 만들어 무질서한 경합을 구조적으로 차단한다.
 > 3. **융합**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 카운팅 기능은 생산자-소비자 (Producer-Consumer) 패턴에서 '남은 버퍼 수'와 '채워진 버퍼 수'를 동시에 카운팅하여 양쪽의 속도 차이를 완충하는 전형적인 유한 버퍼 (Bounded Buffer) 구현의 핵심 기반이 된다.
 
@@ -24,25 +24,26 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1965년 데이크스트라가 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 발표할 때, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 용도만 제안한 것은 아니었다. 오히려 그 핵심 목표는 "복수 인스턴스 자원 ([Multiple Instance Resource](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/))"을 제어하는 것이었다.
 
-```text
-[카운팅 세마포어의 자원 풀 (Pool) 관리 예시]
 
-[ 자원 상황: DB Connection Pool 크기 = 3개 (Semaphore S = 3) ]
 
-스레드 1: wait() 호출 → (S = 2) [DB 커넥션 1개 사용]
-스레드 2: wait() 호출 → (S = 1) [DB 커넥션 2개 사용]
-스레드 3: wait() 호출 → (S = 0) [DB 커넥션 3개 사용]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">카운팅 세마포어의 자원 풀 (Pool) 관리 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 상황: DB Connection Pool 크기 = 3개 (Semaphore S = 3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB 커넥션 1개 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB 커넥션 2개 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB 커넥션 3개 사용</div></div>
+<div class="kb-diagram-note">풀 고갈 (Pool Exhausted)</div>
+<div class="kb-diagram-note">스레드 4: wait() 호출 → (S &lt; 0이므로 현재 스레드를 Sleep)</div>
+<div class="kb-diagram-note">스레드 5: wait() 호출 → (S &lt; 0이므로 현재 스레드를 Sleep)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 반환</div></div>
+<div class="kb-diagram-note">스레드 2가 DB사용을 끝내고 signal() 호출!</div>
+<div class="kb-diagram-tree-item" style="--depth:0">S가 1만큼 증가하고, 대기 중인 스레드 중 하나를 Wakeup</div>
+<div class="kb-diagram-tree-item" style="--depth:0">스레드 4가 깨어나 DB 커넥션 2번을 할당받는다.</div>
+</div>
+</div>
 
-풀 고갈 (Pool Exhausted)
 
-스레드 4: wait() 호출 → (S < 0이므로 현재 스레드를 Sleep)
-스레드 5: wait() 호출 → (S < 0이므로 현재 스레드를 Sleep)
-
-[ 자원 반환 ]
-스레드 2가 DB사용을 끝내고 signal() 호출!
-- S가 1만큼 증가하고, 대기 중인 스레드 중 하나를 Wakeup
-- 스레드 4가 깨어나 DB 커넥션 2번을 할당받는다.
-```
 
 **[다이어그램 해설]** 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 핵심은 "0 이하로 감소하면 수면"이라는 정책이다. S가 0일 때 P(wait) 연산을 수행하는 프로세스는 OS에 의해 대기 큐에 (수면), 다른 프로세스가 V([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 호출해 S를 늘릴 때까지 영원히 깨어나지 않는다. 이 자동신/ Wakeup 메커니즘이 자원 풀의uma 관리를 Os가 자동으로 해주는 장치다.
 
@@ -87,11 +88,11 @@ wakeup(t); // 해당 스레드를 Ready 큐로 이동
 
 | 특성 | 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) | 뮤텍스 (바이너리 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) |
 |:---|:---|:---|
-| **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 범위** | 0 ~ N (복수 동시 진입) | 0 ~ 1 (1개만 진입) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 범위</strong> | 0 ~ N (복수 동시 진입) | 0 ~ 1 (1개만 진입) |
 | ** Ownership** | 없음 (아무 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 가능) | 있음 (lock한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 unlock 가능) |
 | **용도** | 자원 풀 관리, 순서 제어 | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) |
 | **재귀적 잠금** | 불가 | 가능 (재귀적 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) |
-| **[priority inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)** | OS가 자동 적용 어려움 | OS가 자동 적용 가능 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">priority inheritance</a></strong> | OS가 자동 적용 어려움 | OS가 자동 적용 가능 |
 
 - **📢 섹션 요약 비유**: 뮤텍스는 "내 집 자물쇠"라서 내가 잠그고 내가 열어야 합니다. 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 "공동 놀이터 entry권"으로, 30장이 있는 entry권을 그냥 반납하면 아무나 다시 집어들어 갈 수 있는 구조입니다. 엄격한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)보다는 유연한 관리가 필요할 때 씁니다.
 
@@ -101,31 +102,29 @@ wakeup(t); // 해당 스레드를 Ready 큐로 이동
 
 ### 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 대표적 활용: Bounded Buffer (생산자-소비자)
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴 │
-├──────────────────────────────────────────────────────────────────────┤
-│ │
-│ 버퍼 크기 N = 5 │
-│ │
-│ semaphore mutex = 1; // 버퍼 자체의 상호 배제용 │
-│ semaphore empty = N; // 빈 공간 카운트 (초기: 5) │
-│ semaphore full = 0; // 채워진 공간 카운트 (초기: 0) │
-│ │
-│ [생산자 (Producer)] [소비자 (Consumer)] │
-│ │
-│ wait(empty); wait(full); │
-│ wait(mutex); wait(mutex); │
-│ // 버퍼에 데이터 삽입 // 버퍼에서 데이터 꺼냄 │
-│ signal(mutex); signal(mutex); │
-│ signal(full); signal(empty); │
-│ │
-│ 핵심 원리: │
-│ - empty는 "버퍼에 빈자리가 있나?"를 카운트 → 생산자가 wait (남은 빈칸 줄음) │
-│ - full은 "버퍼에 데이터가 있나?"를 카운트 → 소비자가 wait (남은 데이터 줄음) │
-│ - mutex는 버퍼 데이터 자체의 충돌 방지만 담당 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 크기 N = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">semaphore mutex = 1; // 버퍼 자체의 상호 배제용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">semaphore empty = N; // 빈 공간 카운트 (초기: 5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">semaphore full = 0; // 채워진 공간 카운트 (초기: 0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">생산자 (Producer)</div><div class="kb-diagram-node">소비자 (Consumer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(empty); wait(full);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(mutex); wait(mutex);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 버퍼에 데이터 삽입 // 버퍼에서 데이터 꺼냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex); signal(mutex);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(full); signal(empty);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 원리:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- empty는 "버퍼에 빈자리가 있나?"를 카운트 → 생산자가 wait (남은 빈칸 줄음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- full은 "버퍼에 데이터가 있나?"를 카운트 → 소비자가 wait (남은 데이터 줄음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mutex는 버퍼 데이터 자체의 충돌 방지만 담당</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 패턴의 아름다움은 3-way 카운팅에 있다. empty=N, full=0으로 시작하면, 생산자는 빈자리가 생길 때까지 (empty--) 대기하고, 소비자는 데이터가 채워질 때까지 (full--) 대기한다. 5개의 버퍼가 모두 채워지면 empty가 0이 되어 생산자가 blocks, 소비자가 하나씩 빼먹으면 empty가 증가하여 생산자가 깨어난다. 이 피드백 루프가 별도의 명시적Synchronization 없이 자동으로 생산자와 소비자의 속도를 맞추어 준다.
 
@@ -245,15 +244,19 @@ sem_post(&pool); // 예외가 터지든 말든 반드시 호출
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[피터슨의 해결책 (Peterson's Algorithm)]
-│
-▼
-[카운팅 세마포어 (Counting Semaphore)]
-│
-├──▶ [하드웨어 명령어 기반 동기화]
-└──▶ [Test-and-Set 명령어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피터슨의 해결책 (Peterson's Algorithm)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카운팅 세마포어 (Counting Semaphore)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 명령어 기반 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test-and-Set 명령어</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

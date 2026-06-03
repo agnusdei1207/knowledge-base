@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인덕터 (Inductor)는 구리 선을 코일 형태로 감아 만든 소자로, 흐르는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 변화에 저항하며 전기에너지를 자기장(Magnetic Field) 형태로 임시 저장하는 전기적 관성(Inertia) 덩어리다.
-> 2. **가치**: 마더보드의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (**[VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/)**)에서 벅 컨버터의 심장 역할을 하며, 거친 고압의 스위칭 펄스를 묵직하게 받아내 부드러운 저전압 직류(DC)로 다림질하여 코어에 공급한다.
+> 2. **가치**: 마더보드의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/">VRM</a></strong>)에서 벅 컨버터의 심장 역할을 하며, 거친 고압의 스위칭 펄스를 묵직하게 받아내 부드러운 저전압 직류(DC)로 다림질하여 코어에 공급한다.
 > 3. **판단 포인트**: 동작 주파수가 GHz 단위로 올라가면 칩 패키지의 짧은 와이어나 비아(Via)조차 기생 인덕턴스(**ESL**)로 돌변해 순간적인 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 ($V-droop = L \cdot [di](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)/dt$)를 일으키므로, 루프 면적을 극한으로 줄이는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 설계가 필수적이다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-computer-architecture"]
 
 인덕터(기호 $L$)의 단위는 헨리($H$)다. 직류(DC) [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 일정하게 흐를 때는 단순한 도선처럼 아무런 방해를 하지 않지만, 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))나 갑작스러운 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화(스위칭 펄스)가 유입되면 패러데이의 전자기 유도 법칙에 따라 그 변화를 억누르는 방향으로 역기전력(역전압)을 스스로 만들어낸다. 
 
-컴퓨터에 전원을 공급하는 **SMPS (Switched-Mode [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply)**나 보드 전원부는 $12V$의 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 CPU가 사용하는 $1.X V$ 대역으로 효율 좋게 내리기 위해 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 기법을 쓴다. 이때 불연속적으로 끊겨 치솟는 충격파를 부드러운 물결(리플 최소화)로 눌러주는 압도적인 맷집이 바로 인덕터의 역할이다.
+컴퓨터에 전원을 공급하는 <strong>SMPS (Switched-Mode <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Supply)</strong>나 보드 전원부는 $12V$의 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 CPU가 사용하는 $1.X V$ 대역으로 효율 좋게 내리기 위해 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 기법을 쓴다. 이때 불연속적으로 끊겨 치솟는 충격파를 부드러운 물결(리플 최소화)로 눌러주는 압도적인 맷집이 바로 인덕터의 역할이다.
 
 - **📢 섹션 요약 비유**: 인덕터는 무거운 철로 만든 '거대한 물레방아'와 같다. 처음에 물([전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))을 부을 때는 무거워서 잘 돌지 않아 흐름을 막지만, 일단 세차게 돌기 시작하면 물이 끊겨도 스스로의 관성 덕분에 한동안 계속 물을 밀어내어 흐름을 끊기지 않게 지켜준다.
 
@@ -28,24 +28,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 하강시키는 **[VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))**의 벅 컨버터 (Buck Converter)에서 인덕터는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 스위치와 결합하여 자기장 펌프질을 한다.
+[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 하강시키는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/">VRM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a> Regulator <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)</strong>의 벅 컨버터 (Buck Converter)에서 인덕터는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 스위치와 결합하여 자기장 펌프질을 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         VRM 벅 컨버터 내 인덕터의 스위칭 평활화 도해       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 스위치 ON (충전) ]       V_in(12V) ─▶ (닫힘) ─▶          │
-│                                  인덕터 L (/////)           │
-│   자기장에 에너지 축적 중 ──▶                    ├── 부드럽게 상승 ─▶ 코어 │
-│                                                             │
-│  [ 스위치 OFF (방전) ]      V_in(차단) ─▶ (열림) ─▶          │
-│                                  인덕터 L (/////)           │
-│   자기장 붕괴하며 스스로 밀어냄 ─▶                 ├── 부족분 보충 ─▶ 코어 │
-│   (역기전력 e = L * di/dt)         ▲                      │
-│                                  │ (다이오드 환류)           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VRM 벅 컨버터 내 인덕터의 스위칭 평활화 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 ON (충전)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(닫힘) ─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덕터 L (/////)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자기장에 에너지 축적 중 ──▶ ── 부드럽게 상승 ─▶ 코어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 OFF (방전)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(열림) ─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덕터 L (/////)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자기장 붕괴하며 스스로 밀어냄 ─▶ ── 부족분 보충 ─▶ 코어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(역기전력 e = L * di/dt) ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다이오드 환류)</div></div>
+</div>
+</div>
+
+
 
 스위치가 눈 깜짝할 사이에 켜졌다 꺼지기를 수백만 번 반복할 때, 스위치가 꺼져 $0V$로 끊기는 빙하기 순간에 인덕터($L$)가 품어둔 자기장을 토해내며 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 방어한다. 이 관성의 힘이 없으면 CPU는 전기가 끊겨 즉사한다. 
 
@@ -77,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 초고주파 환경에서 전력 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/))을 지키려면 설계자는 모든 기생 인덕턴스의 폐루프 면적을 진공에 가깝게 부숴야 한다.
 
 ### 실무 시나리오 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-1. **[커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)의 배신 (ESL 공진)**: 노이즈를 잡기 위해 디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)(MLCC)를 잔뜩 달았는데도 고주파 노이즈가 터진다면, [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 자체가 품고 있는 기생 등가 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 인덕턴스(**ESL**)가 원인이다. 수 GHz 대역에서는 인덕터 관성이 깨어나 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)가 방패 역할을 포기하고 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 돌변(안티 공진)한다. 이때는 단자 배열을 뒤집은 역전극(IDC) [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)를 투입해 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 루프를 찢어야 한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a>의 배신 (ESL 공진)</strong>: 노이즈를 잡기 위해 디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)(MLCC)를 잔뜩 달았는데도 고주파 노이즈가 터진다면, [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 자체가 품고 있는 기생 등가 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 인덕턴스(**ESL**)가 원인이다. 수 GHz 대역에서는 인덕터 관성이 깨어나 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)가 방패 역할을 포기하고 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 돌변(안티 공진)한다. 이때는 단자 배열을 뒤집은 역전극(IDC) [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)를 투입해 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 루프를 찢어야 한다.
 2. **광활한 귀환 경로 방치 (Broken Return Path)**: 인덕턴스는 폐루프(Closed Loop) 면적이 클수록 걷잡을 수 없이 커진다. 신호선 바로 밑의 접지(GND) 기준면을 분할(Split Plane)해버려 귀환 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 멀리 우회하게 만들면, 거대한 훌라후프 모양의 방사형 우주 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 생겨나 전자기 노이즈(**EMI**)를 폭발시키며 시스템이 아수라장이 된다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -92,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 인덕터의 자기장 관성을 역이용하여 전력을 제어하고, 반대로 패키지 배선의 기생 관성을 철저히 박살 내면 코어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 (V-droop) 없는 완벽한 수 GHz 프로세서 구동이 가능해진다.
 
-미래 아키텍처는 마더보드에 뚱뚱한 초크 인덕터를 달아 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 파이프를 수 cm나 끌어오는 지연을 없애기 위해, 초소형 평면 인덕터와 전원 컨트롤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 CPU 실리콘 다이 속으로 완전히 합병시켜버리는 **FIVR (Fully Integrated [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator)** 공법으로 나아가고 있다. 궁극적으로는 자기장 반발 자체가 존재할 수 없는 실리콘 포토닉스(광 연결)가 인덕턴스라는 물리적 족쇄를 완전히 해방시킬 차세대 패러다임이다.
+미래 아키텍처는 마더보드에 뚱뚱한 초크 인덕터를 달아 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 파이프를 수 cm나 끌어오는 지연을 없애기 위해, 초소형 평면 인덕터와 전원 컨트롤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 CPU 실리콘 다이 속으로 완전히 합병시켜버리는 <strong>FIVR (Fully Integrated <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a> Regulator)</strong> 공법으로 나아가고 있다. 궁극적으로는 자기장 반발 자체가 존재할 수 없는 실리콘 포토닉스(광 연결)가 인덕턴스라는 물리적 족쇄를 완전히 해방시킬 차세대 패러다임이다.
 
 - **📢 섹션 요약 비유**: 과거에는 멀리 있는 거대한 정수장([VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/)) 파이프를 끌어와 물을 썼다면, 이제는 마실 사람의 위장 속(FIVR)에 아예 미니 정수기를 직접 심어 넣어 배달 지연이나 수도관 마찰(인덕턴스)을 0으로 만들어버리는 경이로운 혁신이다.
 
@@ -103,27 +104,29 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **기생 인덕턴스 (Parasitic L)** | 와이어 본딩이나 솔더 볼이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 스위칭 시 역전압을 일으켜 코어 전력을 갉아먹는 방해 성분 |
-| **V-droop ([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하)** | 칩이 풀로드로 깨어날 때, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 요구량($[di](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)/dt$)과 인덕턴스가 만나 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 일시적으로 푹 꺼지는 현상 |
-| **디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)** | 기생 인덕턴스 때문에 전원이 제때 도착하지 못할 것을 대비해, 코어 바로 옆에 비상 전력을 미리 대기시키는 소자 |
-| **FIVR (통합 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레귤레이터)** | 마더보드의 전원 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 인덕터를 아예 CPU 다이 안으로 집어넣어 배선 길이를 0으로 만든 혁신 기술 |
+| <strong>V-droop (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하)</strong> | 칩이 풀로드로 깨어날 때, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 요구량($[di](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)/dt$)과 인덕턴스가 만나 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 일시적으로 푹 꺼지는 현상 |
+| <strong>디커플링 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a></strong> | 기생 인덕턴스 때문에 전원이 제때 도착하지 못할 것을 대비해, 코어 바로 옆에 비상 전력을 미리 대기시키는 소자 |
+| <strong>FIVR (통합 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 레귤레이터)</strong> | 마더보드의 전원 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 인덕터를 아예 CPU 다이 안으로 집어넣어 배선 길이를 0으로 만든 혁신 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전기 에너지 (Electrical Energy)]
-    │
-    ▼
-[인덕터 / 코일 (Inductor)]
-    │
-    ▼
-[자기장 에너지 저장 (Magnetic Field Storage)]
-    │
-    ▼
-[VRM 벅 컨버터 (Buck Converter)]
-    │
-    ▼
-[FIVR 통합 전압 레귤레이터 (Fully Integrated Voltage Regulator)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전기 에너지 (Electrical Energy)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인덕터 / 코일 (Inductor)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자기장 에너지 저장 (Magnetic Field Storage)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VRM 벅 컨버터 (Buck Converter)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FIVR 통합 전압 레귤레이터 (Fully Integrated Voltage Regulator)</div></div>
+</div>
+</div>
+
+
 
 인덕터가 전기 에너지를 자기장으로 저장하여 VRM에서 안정적인 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 공급하고, 미래에는 칩 내부로 통합되는 발전 흐름이다.
 

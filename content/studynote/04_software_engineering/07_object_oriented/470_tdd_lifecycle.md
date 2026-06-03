@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 3년 된 쇼핑몰 시스템이 있다. 할인 쿠폰 함수 100줄을 조금 우아하게 고치고 싶다([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)). 그런데 코드를 살짝 바꿨더니 다른 쪽에서 결제가 터질까 봐 무서워서 손이 벌벌 떨린다. 방어막(테스트 코드)이 1개도 없기 때문이다. 그래서 개발자들은 더럽고 냄새나는 스파게티 레거시 코드를 "돌아가기만 하면 절대 만지지 마라!"라는 불문율로 방치한다. 이렇게 회사의 기술 부채가 쌓여 시스템이 파산한다. **코드를 과감하게 다 뜯어고쳐도 1초 만에 든든하게 뒤를 받쳐주는 '촘촘한 그물망(Test Suite)'을 태초부터 강제로 짜기 위해 TDD라는 족쇄가 필요하다.**
 
-- **💡 비유**: TDD는 체조 선수가 공중제비([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))를 돌기 전에, 바닥에 **'두꺼운 안전 매트리스(테스트 코드)'**부터 깔아놓는 훈련법입니다. 옛날엔 매트리스 없이 쌩바닥에서 기술(코딩)부터 부렸습니다. 떨어지면 죽으니까 무서워서 새로운 고난도 기술을 시도조차 못합니다. 하지만 매트리스([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 방어막)를 먼저 100% 깔아두면, 100번이고 1,000번이고 넘어져도 안 다친다는 확신이 생겨 미친 듯이 코드를 비틀고 쪼개며 가장 아름다운 회전 기술(최적의 아키텍처)을 구사할 수 있게 됩니다.
+- **💡 비유**: TDD는 체조 선수가 공중제비([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))를 돌기 전에, 바닥에 <strong>'두꺼운 안전 매트리스(테스트 코드)'</strong>부터 깔아놓는 훈련법입니다. 옛날엔 매트리스 없이 쌩바닥에서 기술(코딩)부터 부렸습니다. 떨어지면 죽으니까 무서워서 새로운 고난도 기술을 시도조차 못합니다. 하지만 매트리스([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 방어막)를 먼저 100% 깔아두면, 100번이고 1,000번이고 넘어져도 안 다친다는 확신이 생겨 미친 듯이 코드를 비틀고 쪼개며 가장 아름다운 회전 기술(최적의 아키텍처)을 구사할 수 있게 됩니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Test-Last의 비극**: 개발자에게 "다 짜고 테스트 짜"라고 하면, 이미 뇌의 에너지를 100% 써버려서 대충 `assertTrue(true)` 같은 쓰레기 허수아비 테스트만 만들고 퇴근했다.
   2. **켄트 벡의 선언 (1990s)**: "코딩을 하기 전에 무조건 테스트부터 짜라! 닭이 먼저가 아니라 알이 먼저다!"라며 xUnit 프레임워크(JUnit의 조상)와 함께 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 사이클(Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))을 종교처럼 전파했다.
   3. **클린 아키텍처의 도구 (현재)**: 단순히 버그를 잡는 툴이 아니라, 외부와 단절된 객체를 만들도록([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 강제하는 '최고의 객체지향 설계(Design) 유도 장치'로 그 철학적 위상이 격상되었다.
 
-- **📢 섹션 요약 비유**: TDD가 아닌 방식은 **'과녁판 없이 일단 활부터 쏘고, 나중에 화살이 꽂힌 곳 주변에 과녁을 그리는 꼼수'**입니다(백발백중처럼 보임). TDD는 **'빈 벽에 과녁(테스트 코드)을 뚜렷하게 먼저 그려놓고, 화살(프로덕션 코드)이 정확히 정중앙에 꽂힐 때까지 끝없이 영점 조절([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))을 하는 저격수의 훈련법'**입니다. 과녁을 먼저 그려야만 명중을 증명할 수 있습니다.
+- **📢 섹션 요약 비유**: TDD가 아닌 방식은 <strong>'과녁판 없이 일단 활부터 쏘고, 나중에 화살이 꽂힌 곳 주변에 과녁을 그리는 꼼수'</strong>입니다(백발백중처럼 보임). TDD는 <strong>'빈 벽에 과녁(테스트 코드)을 뚜렷하게 먼저 그려놓고, 화살(프로덕션 코드)이 정확히 정중앙에 꽂힐 때까지 끝없이 영점 조절(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>)을 하는 저격수의 훈련법'</strong>입니다. 과녁을 먼저 그려야만 명중을 증명할 수 있습니다.
 
 ---
 
 다음은 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Dev의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  TDD (Test Driven Dev                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD (Test Driven Dev</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Dev가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Development) 생명주기의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Development) 생명주기의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (Test Driven Development) 생명주기의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-TDD (Test Driven Development) 생명주기 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TDD (Test Driven Development) 생명주기 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

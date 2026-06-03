@@ -19,11 +19,15 @@ tags = ["studynote-design-supervision"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 기반 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시스템에서는 요청이 늘면 먼저 큐 길이가 늘고, 이후 대기 시간이 길어지며, 마지막에는 타임아웃과 거부가 발생한다. 따라서 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자는 단순 “느리다”가 아니라 “유입 대비 처리 능력이 부족해 대기열이 증가한다”는 구조적 설명을 제시해야 한다. 이 점이 리틀의 법칙이 유용한 이유다.
 
-```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ 요청 유입 │──▶│ 대기 큐   │──▶│ 스레드풀  │──▶│ 응답 완료 │
-└──────────┘   └──────────┘   └──────────┘   └──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 유입</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">대기 큐</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">스레드풀</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">응답 완료</div></div>
+</div>
+</div>
+
+
 
 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)감사는 자원 사용률의 점검을 넘어, 대기 구조의 건전성을 확인하는 활동으로 봐야 한다. 이 관점을 서두에 쓰면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 답안의 방향이 잡힌다.
 - **📢 섹션 요약 비유**: 계산대 앞 줄이 길어지는 이유는 손님 수만 많아서가 아니라 계산 속도보다 들어오는 속도가 빠르기 때문이다.
@@ -37,12 +41,16 @@ tags = ["studynote-design-supervision"]
 | λ (평균 처리율) | 단위 시간당 완료된 요청 수 | 유입률과 완료율을 분리해 봐야 포화 여부가 드러남 |
 | W (평균 체류 시간) | 요청이 시스템에 머문 전체 시간 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간과 대기 시간을 구분해 해석해야 함 |
 
-```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 유입률 λ    │──▶│ 시스템 내 L  │──▶│ 체류시간 W   │
-└────────────┘   └────┬───────┘   └────┬───────┘
-                       └──────L = λW──────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유입률 λ</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">시스템 내 L</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">체류시간 W</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">L = λW</div>
+</div>
+</div>
+
+
 
 핵심 원리는 첫째, 정상 상태에서만 평균 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 성립한다는 점이다. 둘째, 동일한 모집단을 측정해야 한다. 셋째, 평균값은 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨길 수 있으므로 백분위 응답시간과 함께 해석해야 한다. 따라서 리틀의 법칙은 만능 공식이 아니라, 대기 구조를 설명하는 1차 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임으로 활용하는 것이 적절하다.
 - **📢 섹션 요약 비유**: 교실에 평균 30명이 있는 이유를 알려면 들어오는 학생 수와 머무는 시간을 함께 봐야 한다.

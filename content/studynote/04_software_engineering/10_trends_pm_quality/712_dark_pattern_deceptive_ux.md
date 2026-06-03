@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 설계의 기본 목적은 사용자가 원하는 목적지에 가장 빠르고 편안하게 도달하도록 돕는 것(Good UX)이다. 하지만 일부 기업들은 사용자의 인지적 편향과 귀찮아하는 심리([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))를 악용하여, 회사의 이익을 극대화하는 방향으로 UI를 꼬아놓기 시작했다.
 
-2010년 영국의 UX 디자이너 해리 브리그널(Harry Brignull)이 이러한 꼼수들을 모아 **[다크 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/)([Dark Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/))**이라고 명명했다. 예를 들어, 구독 해지 버튼을 교묘하게 숨기거나, '예'와 '아니오' 버튼의 색상을 반대로 칠해 착각하게 만드는 것들이다.
+2010년 영국의 UX 디자이너 해리 브리그널(Harry Brignull)이 이러한 꼼수들을 모아 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/">다크 패턴</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/">Dark Pattern</a>)</strong>이라고 명명했다. 예를 들어, 구독 해지 버튼을 교묘하게 숨기거나, '예'와 '아니오' 버튼의 색상을 반대로 칠해 착각하게 만드는 것들이다.
 
 최근 디지털 플랫폼의 구독 경제가 폭발적으로 성장하면서 [다크 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/)이 사회적 문제로 대두되었다. 한국의 공정거래위원회와 방송통신위원회는 이를 '전자상거래법' 위반으로 규정하고 제재를 강화하고 있으며, 소프트웨어 엔지니어링 생태계에서도 [다크 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/) 방지가 핵심 윤리 및 품질 요구사항으로 자리 잡았다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [다크 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/) 기만적 UX 방지의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  다크 패턴 기만적 UX 방지                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다크 패턴 기만적 UX 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [다크 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/294_dark_pattern_avoidance/) 기만적 UX 방지가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-다크 패턴 기만적 UX 방지 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다크 패턴 기만적 UX 방지 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

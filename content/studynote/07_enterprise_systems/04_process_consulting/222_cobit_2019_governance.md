@@ -25,21 +25,22 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019가 다루는 문제를 보여준다. 비즈니스 목표와 IT 실행 사이에 통역 체계가 없으면, 투자 우선순위와 책임 구조가 흐려진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ COBIT 2019 solves the governance gap                        │
-├──────────────────────────────────────────────────────────────┤
-│ Business strategy ──▶ Board direction ──▶ IT investment     │
-│        │                    │                   │            │
-│        │                    │                   ├─ Cloud     │
-│        │                    │                   ├─ Data      │
-│        │                    │                   └─ Security  │
-│        │                    │                                │
-│        └──── if linkage is weak ───▶ value unclear          │
-│                                      risk unclear           │
-│                                      ownership unclear      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COBIT 2019 solves the governance gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business strategy ──▶ Board direction ──▶ IT investment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cloud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Security</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if linkage is weak ▶ value unclear</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">risk unclear</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ownership unclear</div></div>
+</div>
+</div>
+
+
 
 이 그림의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지는 단순하다. 기술 과제가 많아질수록 더 많은 관리 문서가 필요한 것이 아니라, 무엇이 사업 목표에 직접 연결되는지 먼저 선별하는 거버넌스 장치가 필요하다. [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019는 바로 그 선별 기준을 제시한다.
 
@@ -61,22 +62,20 @@ tags = ["studynote-enterprise"]
 
 아래 구조도는 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019의 번역 과정을 요약한다. 핵심은 목표를 그대로 내려 보내는 것이 아니라 설계 요인을 반영해 강도와 범위를 조정한다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ COBIT 2019 design flow                                      │
-├──────────────────────────────────────────────────────────────┤
-│ Stakeholder needs                                           │
-│      │                                                       │
-│      ▼                                                       │
-│ Enterprise goals ─▶ Alignment goals ─▶ Governance objectives │
-│      │                                   EDM/APO/BAI/DSS/MEA │
-│      ▼                                                       │
-│ Design factors ── tailor scope, control depth, target levels │
-│      │                                                       │
-│      ▼                                                       │
-│ Components: process / structure / information / people       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COBIT 2019 design flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stakeholder needs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise goals ─▶ Alignment goals ─▶ Governance objectives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDM/APO/BAI/DSS/MEA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design factors ── tailor scope, control depth, target levels</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Components: process / structure / information / people</div></div>
+</div>
+</div>
+
+
 
 실무에서는 거버넌스 영역의 EDM (Evaluate, [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/), [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))과 관리 영역의 APO/BAI/DSS/MEA를 분리해 보는 것이 중요하다. EDM은 "무엇을 해야 하는가"를 다루고, APO (Align, Plan, Organize), BAI (Build, Acquire, Implement), DSS (Deliver, [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)), MEA ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), Evaluate, Assess)는 "그 일을 어떻게 안정적으로 수행할 것인가"를 다룬다. 이 분리가 무너지면 이사회가 운영 세부사항까지 간섭하거나, 반대로 현장이 투자 우선순위까지 임의로 결정하는 왜곡이 생긴다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IT control thinking
-     │
-     ▼
-Governance principles
-     │
-     ▼
-Goals Cascade + Design Factors
-     │
-     ▼
-EDM / APO / BAI / DSS / MEA
-     │
-     ▼
-Tailored enterprise governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT control thinking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Governance principles</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Goals Cascade + Design Factors</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EDM / APO / BAI / DSS / MEA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tailored enterprise governance</div>
+</div>
+</div>
+
+
 
 이 흐름은 통제 중심 사고가 맞춤형 엔터프라이즈 거버넌스 체계로 확장되는 과정을 보여 준다.
 

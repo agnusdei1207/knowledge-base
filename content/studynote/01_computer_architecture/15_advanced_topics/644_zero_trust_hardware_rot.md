@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: 하드웨어 [루트 오브 트러스트](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) (Hardware [Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/), RoT)는 부팅의 가장 첫 단계에서 신뢰를 시작하는 불변 하드웨어 기준점으로, 이후 실행될 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 소프트웨어를 순차적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 > 2. **가치**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 환경에서 장비는 말로 자신을 증명할 수 없기 때문에, RoT는 측정 부팅과 원격 증명을 통해 "이 장비가 정말 신뢰 가능한 상태인가"를 하드웨어 서명으로 답하게 만든다.
-> 3. **판단 포인트**: 진짜 RoT는 단순 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)만이 아니라 **불변 첫 단계, 키 저장, 반롤백, 안전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·업데이트 체계**까지 포함해야 하며, 이 중 하나라도 약하면 신뢰 사슬 전체가 흔들린다.
+> 3. **판단 포인트**: 진짜 RoT는 단순 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)만이 아니라 <strong>불변 첫 단계, 키 저장, 반롤백, 안전한 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>·업데이트 체계</strong>까지 포함해야 하며, 이 중 하나라도 약하면 신뢰 사슬 전체가 흔들린다.
 
 ---
 
@@ -43,21 +43,21 @@ RoT의 핵심은 "수정하기 어려운 첫 코드"와 "밖으로 꺼낼 수 �
 
 이 측정값은 보통 신뢰할 수 있는 플랫폼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/), [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 저장소에 남긴다. 아래 그림은 신뢰가 소프트웨어에서 시작되는 것이 아니라, 하드웨어에서 위로 올라간다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Root of trust builds trust upward                           │
-├──────────────────────────────────────────────────────────────┤
-│ Power on                                                    │
-│   ▼                                                         │
-│ Immutable ROM / root keys                                   │
-│   ▼ measure + verify                                        │
-│ Firmware ─▶ Bootloader ─▶ Operating system ─▶ Workload      │
-│   │                                                         │
-│   └────────────▶ TPM log / attestation                      │
-│                          ▼                                  │
-│                secret release / network entry               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root of trust builds trust upward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immutable ROM / root keys</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ measure + verify</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firmware ─▶ Bootloader ─▶ Operating system ─▶ Workload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ TPM log / attestation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret release / network entry</div></div>
+</div>
+</div>
+
+
 
 여기서 자주 혼동하는 개념이 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) ([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)), 측정 부팅 ([Measured Boot](/knowledge-base/studynote/09_security/18_iot_ot_physical/919_measured_boot/)), 원격 증명 ([Remote Attestation](/knowledge-base/studynote/09_security/04_endpoint_security/396_remote_attestation/))의 차이다. [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)은 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 통과한 코드만 실행하는 기능이고, 측정 부팅은 각 단계의 해시를 기록으로 남기는 기능이며, 원격 증명은 그 기록을 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 서명된 형태로 제시하는 기능이다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)에서는 셋 중 마지막 단계까지 가야 "내부적으로만 안전하다고 주장하는 장비"를 넘어설 수 있다.
 
@@ -110,7 +110,7 @@ RoT를 이해할 때는 [보안 부팅](/knowledge-base/studynote/02_operating_s
 
 RoT가 잘 구현되면 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 변조와 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 오염을 더 이른 단계에서 차단할 수 있고, 장비 신원을 기반으로 한 접근 제어가 가능해진다. 이는 특히 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드, 금융, 공공, 국방처럼 "누가 이 장비를 믿을 수 있나"가 핵심인 환경에서 큰 차이를 만든다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)가 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만의 문제가 아니라 장비 무결성의 문제이기도 하다는 점을 실무적으로 보여 주는 기술이다.
 
-다만 RoT 역시 완결된 마법은 아니다. 제조 신뢰, 키 수명주기, 교체·폐기 절차, 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 성숙해야 효과가 완성된다. 따라서 이 개념은 "보안 칩 하나 추가"가 아니라, **하드웨어에서 시작해 운영 절차와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 신뢰 체계의 시작점**으로 기억해야 한다.
+다만 RoT 역시 완결된 마법은 아니다. 제조 신뢰, 키 수명주기, 교체·폐기 절차, 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 성숙해야 효과가 완성된다. 따라서 이 개념은 "보안 칩 하나 추가"가 아니라, <strong>하드웨어에서 시작해 운영 절차와 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>까지 이어지는 신뢰 체계의 시작점</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: RoT는 건물의 경비원이 아니라 건물의 기초 공사와 같다. 위층 경비가 아무리 훌륭해도 기초가 흔들리면 건물 전체를 믿을 수 없듯, 시스템 보안도 가장 아래의 신뢰점이 단단해야 오래 버틴다.
 
@@ -128,21 +128,23 @@ RoT가 잘 구현되면 [펌웨어](/knowledge-base/studynote/02_operating_syste
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경계형 네트워크 신뢰
-    │
-    ▼
-보안 부팅
-    │
-    ▼
-측정 부팅 + TPM 기록
-    │
-    ▼
-원격 증명 기반 장비 신원 확인
-    │
-    ▼
-제로 트러스트 · 기밀 컴퓨팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계형 네트워크 신뢰</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 부팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">측정 부팅 + TPM 기록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원격 증명 기반 장비 신원 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제로 트러스트 · 기밀 컴퓨팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 "들어오는 코드를 막는 단계"에서 출발해, "장비 상태를 외부에 증명하고 그 결과로 접근 권한을 결정하는 단계"로 보안의 무게중심이 이동했음을 보여준다.
 

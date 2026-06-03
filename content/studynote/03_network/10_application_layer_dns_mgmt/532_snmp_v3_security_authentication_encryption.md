@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 초창기 SNMPv1과 v2c는 오직 '커뮤니티 스트링(Community String)'이라는 공용 암호를 **평문(Cleartext)** 으로 주고받았습니다. 해커가 와이어샤크(Wireshark)로 패킷을 살짝만 들여다보면 암호가 털려서 라우터 전체가 장악되는 문제가 심각하여, 철저한 보안 통신을 위해 IETF에서 발표한 차세대 표준이 SNMPv3입니다.
 
-```text
-[SNMPv1, v2c]
-    │
-    ▼
-[SNMPv3]
-    │
-    └──▶ [SNMP 명령]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv1, v2c</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP 명령</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SNMPv3는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,18 +44,22 @@ SNMPv3는 USM(User-Based [Security](/knowledge-base/studynote/04_software_engine
 
 | [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) | 설명 |
 |:---|:---|
-| **1. [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) ([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) / Encryption)** | 데이터를 평문으로 보내지 않고, **DES나 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)(128/256) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 사용하여 패킷 내용 전체를 꽁꽁 암호화합니다. 중간에서 패킷을 가로채도 내용을 읽을 수 없습니다. |
-| **2. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) / [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))** | 패킷이 전송되는 도중에 해커가 값을 몰래 바꾸지 않았는지, 그리고 정말 인가된 관리자가 보낸 패킷이 맞는지 **HMAC-[MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), HMAC-SHA [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 통해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(서명)합니다. |
-| **3. [재전송 공격](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/) 방지 (Anti-Replay)**| 해커가 가로챈 정상 패킷을 나중에 다시 똑같이 날려서(Replay) 장비를 오작동시키는 것을 막기 위해, 패킷에 시간 정보(Time Window)와 일련번호를 넣어 과거 패킷은 무조건 버려지게 만듭니다. |
+| <strong>1. <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a> / Encryption)</strong> | 데이터를 평문으로 보내지 않고, <strong>DES나 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>(128/256) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 사용하여 패킷 내용 전체를 꽁꽁 암호화합니다. 중간에서 패킷을 가로채도 내용을 읽을 수 없습니다. |
+| <strong>2. <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> / <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong> | 패킷이 전송되는 도중에 해커가 값을 몰래 바꾸지 않았는지, 그리고 정말 인가된 관리자가 보낸 패킷이 맞는지 <strong>HMAC-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a>, HMAC-SHA <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 통해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(서명)합니다. |
+| <strong>3. <a href="/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/">재전송 공격</a> 방지 (Anti-Replay)</strong>| 해커가 가로챈 정상 패킷을 나중에 다시 똑같이 날려서(Replay) 장비를 오작동시키는 것을 막기 위해, 패킷에 시간 정보(Time Window)와 일련번호를 넣어 과거 패킷은 무조건 버려지게 만듭니다. |
 
-```text
-[SNMPv1, v2c]
-    │
-    ▼
-[SNMPv3]
-    │
-    └──▶ [SNMP 명령]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv1, v2c</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP 명령</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SNMPv3의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ SNMPv3는 장비의 성능이나 관리 편의성에 따라 보안 강도를 3�
 2. **authNoPriv** ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) O, 암호화 X)
    - 패킷이 위변조되지 않았는지([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA)는 검사하지만, 패킷 내용은 암호화하지 않고 평문으로 보냅니다. (속도가 빠름)
 3. **authPriv** ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) O, 암호화 O)
-   - 🌟 **SNMPv3의 핵심이자 가장 안전한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**입니다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)도 하고, 패킷 내용도 AES로 완벽하게 암호화합니다.
+   - 🌟 <strong>SNMPv3의 핵심이자 가장 안전한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>입니다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)도 하고, 패킷 내용도 AES로 완벽하게 암호화합니다.
 
 SNMPv3를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SNMPv1, v2c가 기반 조건을 만든다면, SNMPv3는 그 위에서 핵심 메커니즘을 구현하고, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +91,7 @@ SNMPv3를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 SNMPv3는 보안이 완벽하지만, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 위해 각 장비마다 사용자(User), 암호화 키, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 키를 일일이 셋팅해줘야 하므로 구성이 매우 복잡합니다.
-또한 1분 단위로 수천 대의 장비 데이터를 암복호화해야 하므로 **라우터의 CPU 사용량(Overhead)이 극심해지는 단점**이 있어, 아직도 내부 폐쇄망에서는 v2c를 쓰는 곳이 많습니다.
+또한 1분 단위로 수천 대의 장비 데이터를 암복호화해야 하므로 <strong>라우터의 CPU 사용량(Overhead)이 극심해지는 단점</strong>이 있어, 아직도 내부 폐쇄망에서는 v2c를 쓰는 곳이 많습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,15 +122,19 @@ SNMPv3는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SNMPv1, v2c]
-    │
-    ▼
-[현재 개념: SNMPv3]
-    │
-    ├──▶ [확장 A: SNMP 명령]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SNMPv1, v2c</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMPv3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMP 명령</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 SNMPv3는 SNMPv1, v2c에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

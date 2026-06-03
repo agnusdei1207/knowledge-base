@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **기존 컴퓨터의 한계**: 0 아니면 1만 처리하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 컴퓨터는 자물쇠 비밀번호를 풀기 위해 1부터 10억까지 하나씩 차례대로 대입해야 합니다. 그래서 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 2048비트는 영원히 안전했습니다.
-- **쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: 1994년 피터 쇼어가 발표한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 전용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다. 0과 1이 동시에 겹쳐있는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))의 [양자 중첩](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) 마법을 쓰면, **거대한 소인수분해와 이산대수 문제를 한 번에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산하여 찰나의 시간에 풀어버립니다.**
-- **파급 효과**: 즉, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되는 날(전문가들은 향후 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15년 뒤 예측), 전 세계 은행의 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인 털기, 1급 국가 기밀 등 현재 쓰이는 모든 **공개키(비대칭키) 암호 시스템([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), DSA)이 100% 붕괴(무력화)**됩니다. (※ 반면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 같은 대칭키는 키 길이를 256비트로 2배만 늘려주면 양자컴퓨터의 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공격을 막을 수 있어 생존합니다.)
+- <strong>쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Shor's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 1994년 피터 쇼어가 발표한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 전용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다. 0과 1이 동시에 겹쳐있는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))의 [양자 중첩](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) 마법을 쓰면, <strong>거대한 소인수분해와 이산대수 문제를 한 번에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산하여 찰나의 시간에 풀어버립니다.</strong>
+- **파급 효과**: 즉, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되는 날(전문가들은 향후 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15년 뒤 예측), 전 세계 은행의 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인 털기, 1급 국가 기밀 등 현재 쓰이는 모든 <strong>공개키(비대칭키) 암호 시스템(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>, DSA)이 100% 붕괴(무력화)</strong>됩니다. (※ 반면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 같은 대칭키는 키 길이를 256비트로 2배만 늘려주면 양자컴퓨터의 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공격을 막을 수 있어 생존합니다.)
 
-```text
-[SNI 개요 와 ESNI / ECH 검열 우…]
-    │
-    ▼
-[양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    └──▶ [방화벽 필터링 1,2,3 세대 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 덤벼들어도 해독하는 데 우주 나이만큼의 시간이 걸리도록, 아예 소인수분해 수학을 쓰지 않고 **[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)조차 풀 수 없는 새로운 수학적 난제를 기반으로 설계된 차세대 공개키 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** 체계입니다.
-- **오해 금지**: PQC는 양자 역학(물리학) 원리를 쓰는 하드웨어가 아닙니다. 기존의 평범한 스마트폰과 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) CPU에서 소프트웨어 코드로 쌩쌩 돌아가도록 짠 **순수 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Software)**입니다. (물리학을 쓰는 건 [양자 암호 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) QKD입니다.)
+- **개념**: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 덤벼들어도 해독하는 데 우주 나이만큼의 시간이 걸리도록, 아예 소인수분해 수학을 쓰지 않고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a>조차 풀 수 없는 새로운 수학적 난제를 기반으로 설계된 차세대 공개키 암호 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> 체계입니다.
+- **오해 금지**: PQC는 양자 역학(물리학) 원리를 쓰는 하드웨어가 아닙니다. 기존의 평범한 스마트폰과 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) CPU에서 소프트웨어 코드로 쌩쌩 돌아가도록 짠 <strong>순수 수학 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Software)</strong>입니다. (물리학을 쓰는 건 [양자 암호 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) QKD입니다.)
 
-```text
-[SNI 개요 와 ESNI / ECH 검열 우…]
-    │
-    ▼
-[양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    └──▶ [방화벽 필터링 1,2,3 세대 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,9 +64,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-미국 NIST가 전 세계 천재들을 모아놓고 공모전을 열어, 2022년~2024년에 걸쳐 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 최종 승자 표준들을 발표했습니다. 그중 핵심은 **'격자(Lattice) 기반 암호'**입니다.
+미국 NIST가 전 세계 천재들을 모아놓고 공모전을 열어, 2022년~2024년에 걸쳐 차세대 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 최종 승자 표준들을 발표했습니다. 그중 핵심은 <strong>'격자(Lattice) 기반 암호'</strong>입니다.
 - **원리 (LWE 문제)**: 3차원, 혹은 100차원의 우주 공간에 점(격자)을 무수히 많이 찍어놓습니다. 그리고 원점에서 출발해 특정 점까지 가장 짧은 거리를 찾으라는 기하학적 문제입니다.
-- **왜 못 푸는가?**: 이 문제는 점의 배열에 노이즈(오차)를 살짝 섞어버리면, 현재의 슈퍼컴퓨터는 물론이고 모든 경우의 수를 뚫어보는 **[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)(쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))조차 갈피를 못 잡고 미로에 빠져버리는 수학적으로 증명된 난제([NP-Hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/))**입니다. 
+- **왜 못 푸는가?**: 이 문제는 점의 배열에 노이즈(오차)를 살짝 섞어버리면, 현재의 슈퍼컴퓨터는 물론이고 모든 경우의 수를 뚫어보는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a>(쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)조차 갈피를 못 잡고 미로에 빠져버리는 수학적으로 증명된 난제(<a href="/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/">NP-Hard</a>)</strong>입니다. 
 - 이 밖에도 다변수 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/), 해시 기반 서명([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+) 등의 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 차세대 표준으로 무장 중입니다.
 
 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…가 기반 조건을 만든다면, [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준은 그 위에서 핵심 메커니즘을 구현하고, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터링 1,2,3 세대 진화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -76,7 +84,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **Store Now, Decrypt Later (SNDL 공격)**: 해커 국가(중국, 북한)들은 당장 암호를 못 풀더라도, 미국이나 한국의 1급 군사 기밀 패킷을 무작정 훔쳐서 하드디스크에 저장(Store Now)해두고 있습니다. 10년 뒤 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 나오면 그때 풀어서 읽으려고(Decrypt Later) 말이죠.
-- 이 때문에 애플(iMessage), 구글 크롬, 정부 기관들은 위기감을 느끼고, 기존의 전통적인 **[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 키 교환과 최신 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 2중으로 겹쳐서 암호화하는 '하이브리드(Hybrid)' 방식**을 오늘 당장 통신망 패치에 긴급 투입하여 선제적 방어를 시작하고 있습니다.
+- 이 때문에 애플(iMessage), 구글 크롬, 정부 기관들은 위기감을 느끼고, 기존의 전통적인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 키 교환과 최신 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 2중으로 겹쳐서 암호화하는 '하이브리드(Hybrid)' 방식</strong>을 오늘 당장 통신망 패치에 긴급 투입하여 선제적 방어를 시작하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -107,15 +115,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SNI 개요 와 ESNI / ECH 검열 우…]
-    │
-    ▼
-[현재 개념: 양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    ├──▶ [확장 A: 방화벽 필터링 1,2,3 세대 진화]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SNI 개요 와 ESNI / ECH 검열 우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준는 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…에서 출발해 현재 메커니즘을 정교화하고, 이후 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터링 1,2,3 세대 진화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

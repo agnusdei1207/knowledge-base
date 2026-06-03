@@ -39,18 +39,20 @@ tags = ["studynote-ict-convergence"]
 
 ### 산포도(Spread) 계층 구조
 
-```
-데이터 분포 요약
-┌──────────────────────────────────────────┐
-│  중심: Mean / Median / Mode              │
-├──────────────────────────────────────────┤
-│  산포: Range │ IQR │ Variance │ Std Dev  │
-├──────────────────────────────────────────┤
-│  형태: Skewness (비대칭) │ Kurtosis (꼬리)│
-└──────────────────────────────────────────┘
-```
 
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), σ²)**: σ² = Σ(xᵢ − μ)² / n — 편차 제곱합의 평균. 단위가 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 제곱이라 해석이 불편.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 분포 요약</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중심: Mean / Median / Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산포: Range</div><div class="kb-diagram-cell">IQR</div><div class="kb-diagram-cell">Variance</div><div class="kb-diagram-cell">Std Dev</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형태: Skewness (비대칭)</div><div class="kb-diagram-cell">Kurtosis (꼬리)</div></div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>, σ²)</strong>: σ² = Σ(xᵢ − μ)² / n — 편차 제곱합의 평균. 단위가 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 제곱이라 해석이 불편.
 - **표준편차 (Standard Deviation, σ)**: σ = √σ² — 원래 단위 복원. "평균에서 평균적으로 이만큼 떨어져 있다"는 직관.
 - **IQR (Interquartile Range)**: Q3 − Q1 — 이상값에 강건한 산포 척도. 박스플롯의 핵심.
 
@@ -69,9 +71,9 @@ tags = ["studynote-ict-convergence"]
 
 ### 애스컴 4중주 (Anscombe's Quartet) — 통계 함정
 
-Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋은 **평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 상관계수, 회귀선이 모두 동일**하지만 산점도는 완전히 다른 형태(선형, 곡선, 이상값 포함 등)를 보인다.
+Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋은 <strong>평균, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>, 상관계수, 회귀선이 모두 동일</strong>하지만 산점도는 완전히 다른 형태(선형, 곡선, 이상값 포함 등)를 보인다.
 
-**[교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)**: 요약 통계만으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 판단하지 말고 반드시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 병행하라.
+<strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/">교훈</a></strong>: 요약 통계만으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 판단하지 말고 반드시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 병행하라.
 
 | 비교 항목 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | IQR |
 |:---|:---|:---|
@@ -103,9 +105,9 @@ Anscombe이 만든 4개 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 [기술 통계](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)의 완전한 이해는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 출발점이다. 중심·산포·형태를 동시에 파악하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)로 검증할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제와 분포 특성을 조기에 발견할 수 있다.
 
-- **[EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)([Exploratory Data Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) 효율 향상**: 이상값·편향 조기 발견으로 모델 학습 전 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 시간 단축.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Exploratory Data Analysis</a>) 효율 향상</strong>: 이상값·편향 조기 발견으로 모델 학습 전 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 시간 단축.
 - **적절한 모델 선택**: 분포 형태에 따라 파라미터 검정 vs 비모수 검정을 올바르게 선택.
-- **의사 결정 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 제고**: 요약 통계와 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 함께 보고하여 이해관계자의 오해를 방지.
+- <strong>의사 결정 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 제고</strong>: 요약 통계와 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 함께 보고하여 이해관계자의 오해를 방지.
 
 - **📢 섹션 요약 비유**: [기술 통계](/knowledge-base/studynote/16_bigdata/05_analysis/100_descriptive_statistics/)는 지도에서 현재 위치를 찍는 것이다. 위치(평균)만 알면 지형(분포 형태)을 모른다. 위치·고도·경사(중심·산포·형태)를 함께 봐야 올바른 길을 찾을 수 있다.
 

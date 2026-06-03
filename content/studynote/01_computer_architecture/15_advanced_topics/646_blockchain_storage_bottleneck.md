@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 스토리지 병목은 거래 1건이 단순 추가 기록으로 끝나지 않고, **상태 조회·해시 갱신·키값 저장소 정리 작업**으로 분해되면서 많은 무작위 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 일으키는 데서 생긴다.
+> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 스토리지 병목은 거래 1건이 단순 추가 기록으로 끝나지 않고, <strong>상태 조회·해시 갱신·키값 저장소 정리 작업</strong>으로 분해되면서 많은 무작위 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 일으키는 데서 생긴다.
 > 2. **가치**: 이 병목은 단순 저장 용량 문제가 아니라 신규 노드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시간, 운영 비용, 참여 가능한 노드 수를 결정하므로, 결국 네트워크의 탈중앙성과 확장성에 직접 영향을 준다.
-> 3. **판단 포인트**: 해결책은 빠른 [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 하나를 다는 것이 아니라, **핫 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 과거 이력 분리, 자료구조 완화, [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**를 함께 설계하는 데 있다.
+> 3. **판단 포인트**: 해결책은 빠른 [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 하나를 다는 것이 아니라, <strong>핫 상태 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 과거 이력 분리, 자료구조 완화, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>를 함께 설계하는 데 있다.
 
 ---
 
@@ -33,22 +33,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 신규 블록 반영 시 저장 계층에서 병목이 어떻게 누적되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ New block commit path inside a blockchain node                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [Execute Tx]                                                      │
-│      │                                                           │
-│      ├─ random read ──> [State Trie]                             │
-│      │                      │                                    │
-│      └─ hash update ───────>│                                    │
-│                             ▼                                    │
-│                      [KV store / LSM tree] -> Flush -> Compaction │
-│                                                  │               │
-│                                                  ▼               │
-│                                               [SSD / NVMe]       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New block commit path inside a blockchain node</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Execute Tx</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ random read ──&gt;</div><div class="kb-diagram-node">State Trie</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hash update &gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KV store / LSM tree</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Flush -&gt; Compaction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSD / NVMe</div></div>
+</div>
+</div>
+
+
 
 | 저장 계층 | 주 역할 | 주된 I/O 패턴 | 병목 원인 |
 | :--- | :--- | :--- | :--- |
@@ -108,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 스토리지 병목을 줄이면 신규 노드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시간이 짧아지고, 같은 하드웨어로 더 높은 거래 처리량과 더 안정적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지연을 얻을 수 있다. 무엇보다 운영 비용이 낮아져 더 많은 참여자가 노드를 돌릴 수 있으므로, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선이 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 개선으로도 이어진다. 그래서 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스토리지 최적화는 단순 인프라 튜닝이 아니라 네트워크 구조를 건강하게 만드는 작업이다.
 
-다만 불변 원장이라는 특성상 저장 문제를 완전히 없앨 수는 없다. 결국 상태 축소, 증명 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 역할 분리, 더 나은 저장장치의 조합이 필요하다. 이 주제를 기억할 때는 `블록체인은 용량만 많이 먹는다`가 아니라, **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 상태를 유지하기 위해 비싼 무작위 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용을 계속 지불하는 시스템**이라는 관점이 핵심이다.
+다만 불변 원장이라는 특성상 저장 문제를 완전히 없앨 수는 없다. 결국 상태 축소, 증명 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 역할 분리, 더 나은 저장장치의 조합이 필요하다. 이 주제를 기억할 때는 `블록체인은 용량만 많이 먹는다`가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 상태를 유지하기 위해 비싼 무작위 읽기·<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비용을 계속 지불하는 시스템</strong>이라는 관점이 핵심이다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 저장 최적화는 창고를 무작정 크게 짓는 일이 아니라, 자주 쓰는 물건은 손 닿는 선반에 두고 오래된 서류는 별도 보관소로 보내는 창고 운영술과 같다.
 
@@ -126,21 +124,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Append-only ledger growth
-    │
-    ▼
-State trie + authenticated storage
-    │
-    ▼
-LSM compaction and random-read bottlenecks
-    │
-    ▼
-NVMe / snapshots / pruning / ZNS tuning
-    │
-    ▼
-Verkle-style proofs and stateless validation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Append-only ledger growth</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">State trie + authenticated storage</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSM compaction and random-read bottlenecks</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe / snapshots / pruning / ZNS tuning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Verkle-style proofs and stateless validation</div>
+</div>
+</div>
+
+
 
 이 흐름은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 저장 이슈가 `용량 증가`에서 출발해, 결국 `상태 검증을 얼마나 작고 빠르게 만들 것인가`의 문제로 진화함을 보여 준다.
 

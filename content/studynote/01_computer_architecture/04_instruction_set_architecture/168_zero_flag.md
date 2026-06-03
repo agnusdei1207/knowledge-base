@@ -25,18 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 ZF가 결과값 전체를 다시 보지 않고도 조건 분기를 가능하게 하는 이유를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              0 판정의 압축: 결과 전체를 1비트로 요약          │
-├──────────────────────────────────────────────────────────────┤
-│ 피연산자 A,B ─▶ [ ALU ] ─▶ 결과값 ─▶ 레지스터/메모리         │
-│                        │                                     │
-│                        └──────────────▶ ZF 생성              │
-│                                               │              │
-│                                ZF = 1 ────────┼─▶ JE/JZ      │
-│                                ZF = 0 ────────┴─▶ JNE/JNZ    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 판정의 압축: 결과 전체를 1비트로 요약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">결과값 ─▶ 레지스터/메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ZF 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZF = 1 ─▶ JE/JZ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZF = 0 ─▶ JNE/JNZ</div></div>
+</div>
+</div>
+
+
 
 핵심은 ZF가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 장치가 아니라, 다음 명령의 행동을 바꾸는 제어 신호라는 점이다. 그래서 제로 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 작은 1비트지만 조건문, 반복문, 비교 명령의 중심축이 된다.
 
@@ -57,19 +58,19 @@ ZF의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/0
 
 이 그림은 결과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 어떻게 ZF 한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 축약되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                ZF 생성 회로: all bits must be 0             │
-├──────────────────────────────────────────────────────────────┤
-│ Result[n-1:0] ──▶ OR-reduction ──▶ any 1 bit?               │
-│                                      │                       │
-│                           Yes ───────┼──────▶ ZF = 0         │
-│                                      │                       │
-│                           No ────────┴──────▶ ZF = 1         │
-│                                                              │
-│ 의미: 결과 비트가 하나라도 살아 있으면 "zero 아님"            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZF 생성 회로: all bits must be 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Result</div><div class="kb-diagram-node">n-1:0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">OR-reduction ──▶ any 1 bit?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes ▶ ZF = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ▶ ZF = 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미: 결과 비트가 하나라도 살아 있으면 "zero 아님"</div></div>
+</div>
+</div>
+
+
 
 주의할 점은 모든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 ZF를 갱신하지는 않는다는 것이다. 비교 명령 `CMP`나 `TEST`는 결과를 남기지 않지만 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 갱신하고, 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 명령은 ZF를 건드리지 않는 경우가 많다. 그래서 ZF를 읽을 때는 "직전 명령이 무엇이었는가"가 항상 함께 해석되어야 하며, 이 의존성이 길어질수록 파이프라인에서는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 의존성 병목이 생길 수 있다.
 
@@ -103,7 +104,7 @@ ZF를 제대로 이해하려면 "같음 판정"과 "크기 판정"을 분리해�
 ### 실무 시나리오
 
 1. **카운트다운 루프**: 패킷 재전송 횟수를 8회로 제한할 때 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 감소시키며 ZF로 종료를 감시하면, 별도 메모리 비교 없이 짧은 경로로 반복을 끝낼 수 있다.
-2. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스크 검사**: `TEST status, 0x0F` 뒤 `JZ`를 쓰면 하위 4비트가 모두 0인지 즉시 판단할 수 있어, 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에 유용하다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스크 검사</strong>: `TEST status, 0x0F` 뒤 `JZ`를 쓰면 하위 4비트가 모두 0인지 즉시 판단할 수 있어, 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에 유용하다.
 3. **컴파일러 최적화 해석**: `CMP`가 결과를 저장하지 않아도 이상한 것이 아니다. 실제 산출물은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값이 아니라 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 상태다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -146,21 +147,22 @@ ZF가 잘 활용되면 CPU는 매우 적은 하드웨어 비용으로 풍부한 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ALU 연산 결과 생성
-    │
-    ▼
-Zero Flag (ZF) 판정
-    │
-    ├──────────────▶ 동등 비교 (CMP / JE / JNE)
-    │
-    ├──────────────▶ 반복문 종료 (DEC / JNZ)
-    │
-    ├──────────────▶ 비트 상태 검사 (TEST / JZ)
-    │
-    ▼
-분기 예측 · 파이프라인 의존성 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ALU 연산 결과 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Flag (ZF) 판정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 동등 비교 (CMP / JE / JNE)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 반복문 종료 (DEC / JNZ)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 비트 상태 검사 (TEST / JZ)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 예측 · 파이프라인 의존성 관리</div>
+</div>
+</div>
+
+
 
 이 흐름도는 ZF가 단순 연산 결과 표시를 넘어, 비교·반복·분기 최적화로 확장되는 연결 고리를 보여준다.
 

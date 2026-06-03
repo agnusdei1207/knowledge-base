@@ -19,22 +19,25 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-미러 사이트는 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 센터 중에서도 가장 강한 형태다. 주 센터의 서버, 스토리지, 네트워크, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 원격지 센터에 거의 거울처럼 유지해 두고, 주 센터에 장애가 발생하면 최소한의 전환 절차로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받는다. 핵심은 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 준비한다"가 아니라 **항상 거의 같은 상태로 따라간다**는 점이다.
+미러 사이트는 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 센터 중에서도 가장 강한 형태다. 주 센터의 서버, 스토리지, 네트워크, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 원격지 센터에 거의 거울처럼 유지해 두고, 주 센터에 장애가 발생하면 최소한의 전환 절차로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받는다. 핵심은 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 준비한다"가 아니라 <strong>항상 거의 같은 상태로 따라간다</strong>는 점이다.
 
 이 구조가 필요한 이유는 일부 업무에서 "몇 분 뒤 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"나 "몇 분치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실"조차 허용되지 않기 때문이다. 계좌 원장, 카드 승인, 응급 관제, 국가 핵심 시스템은 장애 후 다시 켜지는 것만으로 충분하지 않다. 마지막 커밋까지 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태가 유지되어야 하고, 사용자 체감 중단도 극도로 짧아야 한다.
 
-다만 미러 사이트를 무조건 "완벽한 0"으로 이해하면 위험하다. 인프라가 같아도 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태, 메시지 큐, 외부 연계, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 절체가 준비되지 않으면 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전환은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될 수 있다. 그래서 미러 사이트의 본질은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 아니라 **애플리케이션까지 포함한 업무 연속성 설계**다.
+다만 미러 사이트를 무조건 "완벽한 0"으로 이해하면 위험하다. 인프라가 같아도 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태, 메시지 큐, 외부 연계, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 절체가 준비되지 않으면 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전환은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될 수 있다. 그래서 미러 사이트의 본질은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 아니라 <strong>애플리케이션까지 포함한 업무 연속성 설계</strong>다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ DR site spectrum                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cold  -> space only, rebuild later                                   │
-│ Warm  -> partial systems, delayed sync                               │
-│ Hot   -> ready systems, near-real-time recovery                      │
-│ Mirror-> same systems + synchronous state for near-zero continuity   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR site spectrum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold -&gt; space only, rebuild later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm -&gt; partial systems, delayed sync</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot -&gt; ready systems, near-real-time recovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirror-&gt; same systems + synchronous state for near-zero continuity</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 미러 사이트는 여분 창고를 하나 더 두는 수준이 아니라, 본점에서 물건을 진열하는 순간 지점 진열대도 동시에 같은 모양이 되도록 맞춰 두는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 매장에 가깝다.
 
@@ -42,7 +45,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-미러 사이트의 중심 원리는 **동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))** 다. 주 센터에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 성공으로 응답되기 전에, 미러 센터에도 같은 변경이 반영되어야 한다. 이 때문에 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 거리, 스토리지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 직접 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요인이 된다. 보통 수 밀리초(ms) 수준의 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유지할 수 있는 메트로(Metro) 거리에서 구현되는 경우가 많다.
+미러 사이트의 중심 원리는 <strong>동기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a>)</strong> 다. 주 센터에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 성공으로 응답되기 전에, 미러 센터에도 같은 변경이 반영되어야 한다. 이 때문에 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 거리, 스토리지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 직접 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요인이 된다. 보통 수 밀리초(ms) 수준의 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유지할 수 있는 메트로(Metro) 거리에서 구현되는 경우가 많다.
 
 | 구성 요소 | 역할 | 핵심 설계 포인트 |
 | :--- | :--- | :--- |
@@ -55,24 +58,24 @@ tags = ["studynote-it-management"]
 
 아래 그림은 미러 사이트의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 절체 판단 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Mirror site write path                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client / App                                                         │
-│    │ write request                                                   │
-│    ▼                                                                 │
-│ Primary DB / Storage                                                 │
-│    │                                                                 │
-│    ╠════ synchronous copy ════╗                                      │
-│    ▼                          ║                                      │
-│ Mirror DB / Storage           ║                                      │
-│    │                          ║                                      │
-│    ╚════ commit ack only after both sides are durable ═════════════╝ │
-│                                                                      │
-│ Witness / Quorum decides which site may serve traffic after failure  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirror site write path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary DB / Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronous copy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirror DB / Storage</div></div>
+<div class="kb-diagram-note">│ ║</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">commit ack only after both sides are durable</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Witness / Quorum decides which site may serve traffic after failure</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 가장 중요한 운영 포인트는 두 가지다. 첫째, 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 RPO를 극단적으로 줄이는 대신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘린다. 둘째, 양쪽 센터가 서로 자신이 살아 있다고 착각하면 두 곳이 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 받는 Split-Brain이 발생할 수 있으므로, Witness나 Quorum 장치를 통한 판정 체계가 필요하다.
 
@@ -84,7 +87,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-미러 사이트는 [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)보다 한 단계 더 엄격한 구조로 보는 것이 정확하다. [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)도 장비와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 미리 준비하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 비동기이거나 일부 상태가 최신이 아닐 수 있다. 미러 사이트는 **구성 동일성 + 동기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동일성**을 더 강하게 요구한다.
+미러 사이트는 [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)보다 한 단계 더 엄격한 구조로 보는 것이 정확하다. [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)도 장비와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 미리 준비하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 비동기이거나 일부 상태가 최신이 아닐 수 있다. 미러 사이트는 <strong>구성 동일성 + 동기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동일성</strong>을 더 강하게 요구한다.
 
 | 구분 | 미러 사이트 | [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) | [웜 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/) | [콜드 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -96,7 +99,7 @@ tags = ["studynote-it-management"]
 
 또한 미러 사이트는 HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))와도 다르다. HA는 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역 안에서 장애를 줄이는 평상시 이중화이고, 미러 사이트는 재해 상황에서 원격지로 업무를 이어받는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구조다. 실제 설계에서는 두 개념이 함께 쓰이지만, HA만으로 지역 재해를 막을 수는 없고, 미러 사이트만으로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류 복원까지 해결되지는 않는다.
 
-특히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과의 경계를 분명히 해야 한다. 미러링은 변경을 즉시 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하기 때문에 삭제 실수, 애플리케이션 버그, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 암호화도 그대로 따라갈 수 있다. 따라서 미러 사이트는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄여 주지만, **과거의 안전한 시점으로 되돌리는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)**을 대체하지 않는다.
+특히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과의 경계를 분명히 해야 한다. 미러링은 변경을 즉시 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하기 때문에 삭제 실수, 애플리케이션 버그, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 암호화도 그대로 따라갈 수 있다. 따라서 미러 사이트는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄여 주지만, <strong>과거의 안전한 시점으로 되돌리는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a></strong>을 대체하지 않는다.
 
 - **📢 섹션 요약 비유**: 미러 사이트가 거울이라면 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 사진첩이다. 거울은 지금 모습을 똑같이 보여 주지만, 잘못된 모습도 그대로 비추고, 사진첩만이 어제의 정상 상태를 꺼내 보여 줄 수 있다.
 
@@ -130,7 +133,7 @@ tags = ["studynote-it-management"]
 - [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 없이 미러링만 믿어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장애와 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에 무방비인 운영
 - 절체 테스트 없이 "구성상 가능하다"고만 판단하는 문서형 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)
 
-기술사 답안에서는 **"미러 사이트는 동일 인프라와 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/RPO를 극소화하는 구조지만, 거리·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·분할 뇌(Split-Brain)·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 분리까지 함께 설계해야 성립한다"**라고 정리하면 깊이가 드러난다.
+기술사 답안에서는 <strong>"미러 사이트는 동일 인프라와 동기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>로 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/RPO를 극소화하는 구조지만, 거리·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·분할 뇌(Split-Brain)·<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 분리까지 함께 설계해야 성립한다"</strong>라고 정리하면 깊이가 드러난다.
 
 - **📢 섹션 요약 비유**: 미러 사이트를 잘 운영하는 것은 예비 조종사를 태워 두는 비행기와 같다. 조종간을 넘길 준비는 되어 있어야 하지만, 언제 넘길지 판단하는 관제와 비상 훈련이 없으면 오히려 더 위험해진다.
 
@@ -140,7 +143,7 @@ tags = ["studynote-it-management"]
 
 미러 사이트의 가장 큰 효과는 재해를 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 이벤트"가 아니라 "짧은 전환 이벤트"로 바꾼다는 점이다. 그 결과 업무 중단 시간을 줄이고, 마지막 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지키며, 규제 산업에서 요구하는 최고 수준 연속성 목표를 현실화할 수 있다. 특히 고객 신뢰와 거래 무결성이 핵심인 분야에서는 비용 이상의 의미를 가진다.
 
-하지만 미러 사이트는 가장 비싼 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구조이며, 작은 시스템까지 동일하게 적용하면 과잉 설계가 된다. 또한 클라우드의 Multi-AZ (Multiple [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zones), 지역 간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 일부 역할을 대신할 수 있어도, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실제로 동기 보장과 자동 절체를 어디까지 제공하는지는 따로 검증해야 한다. 따라서 미러 사이트를 기억할 때는 "무조건 좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)"이 아니라, **가장 높은 연속성을 위해 가장 큰 제약을 감수하는 구조**로 이해하는 것이 맞다.
+하지만 미러 사이트는 가장 비싼 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구조이며, 작은 시스템까지 동일하게 적용하면 과잉 설계가 된다. 또한 클라우드의 Multi-AZ (Multiple [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zones), 지역 간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 일부 역할을 대신할 수 있어도, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실제로 동기 보장과 자동 절체를 어디까지 제공하는지는 따로 검증해야 한다. 따라서 미러 사이트를 기억할 때는 "무조건 좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)"이 아니라, <strong>가장 높은 연속성을 위해 가장 큰 제약을 감수하는 구조</strong>로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 미러 사이트는 언제든 같은 공연을 이어받을 수 있도록 다른 무대에 똑같은 악단을 미리 앉혀 두는 준비다. 다만 그만큼 연습도, 비용도, 지휘도 두 배로 필요하다.
 
@@ -159,24 +162,26 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-BIA (Business Impact Analysis)
-    │
-    ▼
-RTO / RPO 극소화 요구
-    │
-    ▼
-동기 복제 · 동일 인프라 설계
-    │
-    ▼
-Mirror Site 구축
-    ├─ Witness / Quorum
-    ├─ 자동 Failover / Failback
-    └─ Metro 네트워크 저지연
-    │
-    ▼
-원격 백업 · 클라우드 DR · 다층 연속성 체계로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTO / RPO 극소화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동기 복제 · 동일 인프라 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Mirror Site 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Witness / Quorum</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동 Failover / Failback</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Metro 네트워크 저지연</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원격 백업 · 클라우드 DR · 다층 연속성 체계로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 미러 사이트가 단순 예비 장비가 아니라, 업무 영향 분석에서 출발한 최고 수준 연속성 아키텍처라는 점을 보여 준다.
 

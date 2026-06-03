@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 
 이런 '감(Feeling)'에 의존하는 산정 방식은 경영진을 설득할 수 없다. 1981년, 배리 보엠은 수십 개의 성공/실패 프로젝트 데이터를 분석한 끝에 하나의 수학 공식을 만들어냈다.
 
-**"프로그램의 크기(코드 줄 수, LOC)만 대충 알면, 우리가 만들어놓은 공식에 대입해서 정확히 몇 명이 몇 달 동안 일해야 하는지(Man-Month) 계산해 주마!"** 이것이 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 전설적인 비용 산정 모델, **[COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/)**다.
+**"프로그램의 크기(코드 줄 수, LOC)만 대충 알면, 우리가 만들어놓은 공식에 대입해서 정확히 몇 명이 몇 달 동안 일해야 하는지(Man-Month) 계산해 주마!"** 이것이 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 전설적인 비용 산정 모델, <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/">COCOMO</a></strong>다.
 
 - **📢 섹션 요약 비유**: 이삿짐센터에 전화를 걸면 "짐이 몇 박스(LOC) 나오나요?"라고 묻는다. "한 50박스요"라고 대답하면, 센터에서는 자기들의 공식([COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/))에 넣어 "그럼 트럭 1대와 아저씨 3명이 필요하고, 총 50만 원(Man-Month)입니다"라고 정확한 견적을 내어주는 원리다.
 
@@ -34,18 +34,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 소프트웨어 비용 산정 COCOMO의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 비용 산정 COCOMO                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 비용 산정 COCOMO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 비용 산정 COCOMO가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -81,10 +80,10 @@ COCOMO는 시대가 변하면서 진화했고, 다른 산정 기법들과 경쟁
 |:---|:---|:---|:---|
 | **발표 시기** | 1981년 | 1995년 | 1979년 (Albrecht) |
 | **산정 기준** | 오직 **코드 라인 수 (LOC)** | 객체지향, 재사용성 등 현대 기술 반영 | 화면/DB 등 **사용자 요구 기능 수** |
-| **적용 시점** | 개발 중후반 (LOC를 알아야 하므로) | 프로토타이핑 등 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 가능 | **설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 (가장 빠름)** |
+| **적용 시점** | 개발 중후반 (LOC를 알아야 하므로) | 프로토타이핑 등 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 가능 | <strong>설계 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 단계 (가장 빠름)</strong> |
 | **단점** | 개발 시작 전에 LOC를 어떻게 아냐는 비판 | 계산 과정이 복잡함 | 수학적 알고리즘의 복잡성 반영이 힘듦 |
 
-결국 "시작도 하기 전에 코드 줄 수(LOC)를 어떻게 알아!"라는 비판 때문에, 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 **[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))로 규모를 먼저 잰 뒤, 이를 '백파이어링(Backfiring)' 기법으로 LOC로 변환하고, 그 LOC를 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) Ⅱ에 넣어서 예산을 뽑아내는** 하이브리드 방식을 쓴다.
+결국 "시작도 하기 전에 코드 줄 수(LOC)를 어떻게 알아!"라는 비판 때문에, 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)로 규모를 먼저 잰 뒤, 이를 '백파이어링(Backfiring)' 기법으로 LOC로 변환하고, 그 LOC를 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/">COCOMO</a> Ⅱ에 넣어서 예산을 뽑아내는</strong> 하이브리드 방식을 쓴다.
 
 - **📢 섹션 요약 비유**: COCOMO는 '소고기 근수(LOC)'를 달아서 가격을 매기는 정육점이다. 근데 아직 소를 잡기도 전(프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))이라 고기가 몇 근 나올지 모른다. 그래서 일단 소의 덩치([기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/), [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 눈으로 보고 근수를 유추(백파이어링)해서 가격을 부르는 것이다.
 
@@ -112,7 +111,7 @@ COCOMO는 시대가 변하면서 진화했고, 다른 산정 기법들과 경쟁
 
 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델을 통해 도출된 데이터는 PM(프로젝트 매니저)에게 "우리가 이 속도로 코딩하면 6개월 뒤에 돈이 바닥난다"는 것을 경고하는 강력한 '정량적 지표([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))'의 기준점이 된다.
 
-결론적으로 COCOMO는 1980년대에 발표된 낡은 공식이 아니다. 소프트웨어 개발은 막노동이 아니라 고도의 '지식 노동'이므로, **"사람을 두 배 넣는다고 코드가 두 배 빨리 나오지 않으며, 도메인이 복잡해지면 비용은 기하급수적으로 폭발한다"**는 위대한 진리를 수학으로 증명해 낸 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 헌법(Constitution)이다.
+결론적으로 COCOMO는 1980년대에 발표된 낡은 공식이 아니다. 소프트웨어 개발은 막노동이 아니라 고도의 '지식 노동'이므로, <strong>"사람을 두 배 넣는다고 코드가 두 배 빨리 나오지 않으며, 도메인이 복잡해지면 비용은 기하급수적으로 폭발한다"</strong>는 위대한 진리를 수학으로 증명해 낸 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 헌법(Constitution)이다.
 
 - **📢 섹션 요약 비유**: 임산부 9명을 모은다고 아기를 1달 만에 낳을 수 없는 것처럼, 소프트웨어 개발도 고정된 인태기(절대 시간)와 복잡도가 존재한다. COCOMO는 경영진의 억지에 맞서 개발자들을 지켜주는 '가장 차갑고 이성적인 방패'다.
 
@@ -135,21 +134,23 @@ COCOMO는 시대가 변하면서 진화했고, 다른 산정 기법들과 경쟁
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 비용 산정 COCOMO 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 비용 산정 COCOMO 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

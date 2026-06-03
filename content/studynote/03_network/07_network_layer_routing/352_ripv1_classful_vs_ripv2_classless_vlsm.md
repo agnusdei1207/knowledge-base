@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: RIP의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인 Version 1(RFC 1058)이 가진 클래스 제약과 보안적 결함을 보완하기 위해, 호환성을 유지하면서 기능을 대폭 끌어올린 업그레이드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) Version 2(RFC 2453).
-- **필요성**: RIPv1이 쓰이던 시대엔 A, B, C 클래스가 인터넷의 법이었다. 마스크가 무조건 8, 16, 24비트 고정이었으니 엽서에 마스크를 적어 보낼 필요가 없었다. 그런데 인터넷이 커지고 IP가 부족해지자 [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)(가변 길이 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)) 기술이 도입되었다. C클래스 하나를 `/25`, `/26`으로 갈기갈기 쪼개 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했는데, RIPv1은 마스크를 못 읽으니 이 쪼개진 골목길을 도무지 구별해 내지 못하고 길을 다 잃어버리는 치명적 참사가 발생했다. **"야! 엽서 보낼 때 무조건 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)도 옆에 적어서 보내!!"**라는 절박함이 v2를 탄생시켰다.
+- **필요성**: RIPv1이 쓰이던 시대엔 A, B, C 클래스가 인터넷의 법이었다. 마스크가 무조건 8, 16, 24비트 고정이었으니 엽서에 마스크를 적어 보낼 필요가 없었다. 그런데 인터넷이 커지고 IP가 부족해지자 [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)(가변 길이 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)) 기술이 도입되었다. C클래스 하나를 `/25`, `/26`으로 갈기갈기 쪼개 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했는데, RIPv1은 마스크를 못 읽으니 이 쪼개진 골목길을 도무지 구별해 내지 못하고 길을 다 잃어버리는 치명적 참사가 발생했다. <strong>"야! 엽서 보낼 때 무조건 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>도 옆에 적어서 보내!!"</strong>라는 절박함이 v2를 탄생시켰다.
 
 - **💡 비유**: 
-  - **RIPv1**: 우편번호가 없던 시절의 편지. 겉면에 대충 **"서울시 김아무개"**라고만 적혀 있어서 동명이인이 있으면 배달부가 미쳐버림 (마스크 부재).
-  - **RIPv2**: 5자리 최신 우편번호가 도입된 편지. 겉면에 **"서울시 김아무개 + 우편번호 06234([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))"**까지 꽉꽉 적혀 있어 골목길 101동 202호까지 완벽하게 찾아감.
+  - **RIPv1**: 우편번호가 없던 시절의 편지. 겉면에 대충 <strong>"서울시 김아무개"</strong>라고만 적혀 있어서 동명이인이 있으면 배달부가 미쳐버림 (마스크 부재).
+  - **RIPv2**: 5자리 최신 우편번호가 도입된 편지. 겉면에 <strong>"서울시 김아무개 + 우편번호 06234(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>)"</strong>까지 꽉꽉 적혀 있어 골목길 101동 202호까지 완벽하게 찾아감.
 
-```text
-[RIP]
-    │
-    ▼
-[RIPv1 vs RIPv2]
-    │
-    └──▶ [RIPng]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIPv1 vs RIPv2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RIPng</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RIPv1이 눈치 없이 새벽 2시에 확성기로 온 동네가 다 깨도록 이장님 공지(브로드캐스트)를 때리는 구시대적 방식이라면, RIPv2는 관심 있는 사람들만 모인 밴드([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 224.0.0.9)에 조용히 글을 올려 수면을 보장해 주는 세련된 알림 시스템입니다.
 
@@ -45,9 +49,9 @@ tags = ["studynote-network"]
 
 | 비교 항목 | RIPv1 (1988년) | RIPv2 (1994년) | 핵심 의미 |
 |:---:|:---|:---|:---|
-| **[서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) 전송** | 안 함 ([Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/)) | **함 ([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))** | [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)(가변 서브넷)과 CIDR([슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/)) 지원 여부 갈림. |
-| **목적지 주소** | 브로드캐스트 (`255.255.255.255`) | **[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) (`224.0.0.9`)** | v2는 라우터가 아닌 일반 PC의 CPU를 건드리지 않음. |
-| **보안 ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))** | 없음 (누가 줘도 다 믿음) | **[MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 암호화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 지원** | 해커가 위조된 RIP를 쏠 때 막아낼 수 있음. |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a> 전송</strong> | 안 함 ([Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/)) | <strong>함 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/">Classless</a>)</strong> | [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/)(가변 서브넷)과 CIDR([슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/)) 지원 여부 갈림. |
+| **목적지 주소** | 브로드캐스트 (`255.255.255.255`) | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (<code>224.0.0.9</code>)</strong> | v2는 라우터가 아닌 일반 PC의 CPU를 건드리지 않음. |
+| <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong> | 없음 (누가 줘도 다 믿음) | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 암호화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 지원</strong> | 해커가 위조된 RIP를 쏠 때 막아낼 수 있음. |
 | **수동 경로 요약** | 불가능 (경계선 자동 요약만 됨) | **관리자 수동 요약 가능** | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(지도) 다이어트 가능. |
 
 ### 1. [Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(v1)의 대참사 시나리오
@@ -59,26 +63,27 @@ tags = ["studynote-network"]
 
 ### 2. [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))의 도입
 RIPv1은 해커가 노트북 랜선을 꽂고 가짜 라우터인 척 엽서를 쏘면 "어휴 우리 친구!" 하면서 그걸 지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 냉큼 덮어써 버린다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)과 동일한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)).
-RIPv2는 **[MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시 비밀번호** 기능을 넣었다. 
+RIPv2는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 해시 비밀번호</strong> 기능을 넣었다. 
 "야, 엽서 봉투에 우리가 합의한 비밀번호(예: `cisco123`) 암호화해서 찍어 보내. 암호 틀리면 네가 보낸 지도는 갈기갈기 찢어버릴 거야!"라는 강력한 보안막이 생겼다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP 버전 업그레이드 시 실무 명령어의 변화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   Router(config)# router rip                                │
- │   Router(config-router)# version 2   ◀─ (무조건 쳐야 함!)      │
- │   Router(config-router)# no auto-summary ◀─ (자동 요약 끄기!)│
- │                                                             │
- │   * 팁: RIPv2를 켜더라도 기본적으로 '자동 요약(Auto-Summary)' 기능이  │
- │        켜져 있어서 v1처럼 멍청하게 행동하려 든다. 그래서 실무에선      │
- │        무조건 `no auto-summary`를 쳐서 강제로 Classless하게        │
- │        쪼개진 디테일한 길을 다 넘기도록 멱살을 잡아야 한다.             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** RIPv1이 1980년대 만들어진 **"흑백 폴더폰"**이라면, RIPv2는 어떻게든 스마트폰 시대에 살아남으려고 흑백 액정에다가 억지로 카메라(마스크 전송) 달고, 지문인식([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)) 기능까지 욱여넣어 간신히 개조해 낸 **"컬러 피처폰"**입니다. (그래봤자 근본은 낡았습니다).
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP 버전 업그레이드 시 실무 명령어의 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config)# router rip</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config-router)# version 2 ◀─ (무조건 쳐야 함!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config-router)# no auto-summary ◀─ (자동 요약 끄기!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 팁: RIPv2를 켜더라도 기본적으로 '자동 요약(Auto-Summary)' 기능이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">켜져 있어서 v1처럼 멍청하게 행동하려 든다. 그래서 실무에선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 <code>no auto-summary</code>를 쳐서 강제로 Classless하게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쪼개진 디테일한 길을 다 넘기도록 멱살을 잡아야 한다.</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** RIPv1이 1980년대 만들어진 **"흑백 폴더폰"<strong>이라면, RIPv2는 어떻게든 스마트폰 시대에 살아남으려고 흑백 액정에다가 억지로 카메라(마스크 전송) 달고, 지문인식(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>) 기능까지 욱여넣어 간신히 개조해 낸 </strong>"컬러 피처폰"**입니다. (그래봤자 근본은 낡았습니다).
 
 ---
 
@@ -134,15 +139,19 @@ RIPv1 vs RIPv2는 [라우팅](/knowledge-base/studynote/03_network/07_network_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RIP]
-    │
-    ▼
-[현재 개념: RIPv1 vs RIPv2]
-    │
-    ├──▶ [확장 A: RIPng]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RIP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RIPv1 vs RIPv2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RIPng</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 RIPv1 vs RIPv2는 RIP에서 출발해 현재 메커니즘을 정교화하고, 이후 RIPng와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

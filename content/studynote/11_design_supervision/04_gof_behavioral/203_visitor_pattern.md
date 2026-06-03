@@ -20,72 +20,89 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 트리 구조([컴포지트 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/385_composite_pattern_summary/))에서 모든 노드를 순회하며 직렬화, 출력, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등을 해야 한다고 가정하자. 이를 각 Element 클래스에 직접 추가하면:
 
-```
-  // 연산 하나가 추가될 때마다 모든 Element 클래스 수정
-  class NumberNode {
-      serialize() { ... }     // 연산 1
-      prettyPrint() { ... }   // 연산 2  ← 추가됨
-      generateCode() { ... }  // 연산 3  ← 추가됨
-      typeCheck() { ... }     // 연산 4  ← 추가됨
-  }
-  // Element가 10개면, 연산 1개 추가 = 10개 클래스 수정
-```
 
-[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴은 연산을 **별도 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스**로 분리하여 이 문제를 해결한다.
 
-Visitor의 핵심 메커니즘. 일반적인 단일 디스패치(Single Dispatch)는 메서드를 호출하는 객체 타입만으로 메서드가 결정된다. Visitor는 **두 객체의 타입**으로 최종 메서드가 결정된다:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">// 연산 하나가 추가될 때마다 모든 Element 클래스 수정</div>
+<div class="kb-diagram-note">class NumberNode {</div>
+<div class="kb-diagram-note">serialize() { ... } // 연산 1</div>
+<div class="kb-diagram-note">prettyPrint() { ... } // 연산 2 ← 추가됨</div>
+<div class="kb-diagram-note">generateCode() { ... } // 연산 3 ← 추가됨</div>
+<div class="kb-diagram-note">typeCheck() { ... } // 연산 4 ← 추가됨</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">// Element가 10개면, 연산 1개 추가 = 10개 클래스 수정</div>
+</div>
+</div>
 
-```
-  element.accept(visitor)   → 1st dispatch: element의 타입으로 accept() 결정
-    └─ visitor.visit(this)  → 2nd dispatch: visitor의 타입으로 visit() 결정
 
-  결과: Element 타입 × Visitor 타입 → 구체적 연산 메서드
-```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴은 연산을 <strong>별도 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 클래스</strong>로 분리하여 이 문제를 해결한다.
+
+Visitor의 핵심 메커니즘. 일반적인 단일 디스패치(Single Dispatch)는 메서드를 호출하는 객체 타입만으로 메서드가 결정된다. Visitor는 <strong>두 객체의 타입</strong>으로 최종 메서드가 결정된다:
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">element.accept(visitor) → 1st dispatch: element의 타입으로 accept() 결정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">visitor.visit(this) → 2nd dispatch: visitor의 타입으로 visit() 결정</div>
+<div class="kb-diagram-note">결과: Element 타입 × Visitor 타입 → 구체적 연산 메서드</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 박물관 도슨트([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))가 전시물(Element)을 방문할 때, 전시물마다 다른 설명을 한다. 새로운 전시 프로그램(연산)을 추가할 때 전시물(Element)을 바꾸지 않아도 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  «interface»              «interface»
-  Element                  Visitor
-  ─────────────            ──────────────────────────
-  + accept(Visitor)        + visit(ConcreteElementA)
-        ▲                  + visit(ConcreteElementB)
-        │                        ▲
-   ┌────┴────┐          ┌────────┴────────┐
-   ▼         ▼          ▼                 ▼
- ElemA     ElemB    ConcreteVisitor1  ConcreteVisitor2
- accept(v){        (코드 생성)        (타입 체크)
-   v.visit(this)
- }
-```
 
-```
-  AST 구조 (Expression Tree):
 
-           AddNode (NonTerminal)
-          /         \
-   NumberNode(3)   MulNode (NonTerminal)
-                  /        \
-           NumberNode(4)  NumberNode(5)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">«interface» «interface»</div>
+<div class="kb-diagram-note">Element Visitor</div>
+<div class="kb-diagram-note">+ accept(Visitor) + visit(ConcreteElementA)</div>
+<div class="kb-diagram-note">▲ + visit(ConcreteElementB)</div>
+<div class="kb-diagram-note">ElemA ElemB ConcreteVisitor1 ConcreteVisitor2</div>
+<div class="kb-diagram-note">accept(v){ (코드 생성) (타입 체크)</div>
+<div class="kb-diagram-note">v.visit(this)</div>
+<div class="kb-diagram-note">}</div>
+</div>
+</div>
 
-  Visitor 1: PrettyPrintVisitor
-    → "3 + (4 * 5)"
 
-  Visitor 2: EvaluateVisitor
-    → 3 + (4 × 5) = 23
 
-  Visitor 3: TypeCheckVisitor
-    → 모든 노드가 Number 타입인지 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AST 구조 (Expression Tree):</div>
+<div class="kb-diagram-note">AddNode (NonTerminal)</div>
+<div class="kb-diagram-note">NumberNode(3) MulNode (NonTerminal)</div>
+<div class="kb-diagram-note">NumberNode(4) NumberNode(5)</div>
+<div class="kb-diagram-note">Visitor 1: PrettyPrintVisitor</div>
+<div class="kb-diagram-note">→ "3 + (4 * 5)"</div>
+<div class="kb-diagram-note">Visitor 2: EvaluateVisitor</div>
+<div class="kb-diagram-note">→ 3 + (4 × 5) = 23</div>
+<div class="kb-diagram-note">Visitor 3: TypeCheckVisitor</div>
+<div class="kb-diagram-note">→ 모든 노드가 Number 타입인지 검증</div>
+</div>
+</div>
+
+
 
 ```java
 // Element 인터페이스
@@ -126,11 +143,15 @@ class EvaluateVisitor implements ExpressionVisitor {
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 세금 조사관([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))이 각 기업(Element)을 방문한다. 기업은 문을 열어주기만 하면 되고(accept), 세금 계산 방식은 조사관([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))이 결정한다.
 
@@ -139,10 +160,10 @@ class EvaluateVisitor implements ExpressionVisitor {
 ## Ⅲ. 비교 및 연결
 | 변경 유형 | [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 | 일반 Element 내부 구현 |
 |:---|:---|:---|
-| **새 연산([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 추가** | ✅ 쉬움 (새 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스 추가) | ❌ 어려움 (모든 Element 수정) |
+| <strong>새 연산(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a>) 추가</strong> | ✅ 쉬움 (새 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스 추가) | ❌ 어려움 (모든 Element 수정) |
 | **새 Element 추가** | ❌ 어려움 (모든 Visitor에 visit() 추가) | ✅ 쉬움 (새 Element 클래스만 추가) |
 | **캡슐화** | ❌ Element 내부를 Visitor에 노출 | ✅ 보존 |
-| **코드 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)** | 연산별 응집 (한 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) = 한 기능) | Element별 응집 |
+| <strong>코드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a></strong> | 연산별 응집 (한 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) = 한 기능) | Element별 응집 |
 
 | 패턴 | Visitor와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
@@ -156,36 +177,42 @@ class EvaluateVisitor implements ExpressionVisitor {
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-```
-  DOM Tree:
-  <html>
-    <body>
-      <p>Hello</p>
-      <div>World</div>
-    </body>
-  </html>
 
-  Visitor 1: HTMLValidatorVisitor
-    → <p>, <div> 태그 유효성 검사
 
-  Visitor 2: TextExtractorVisitor
-    → "Hello", "World" 텍스트 추출
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DOM Tree:</div>
+<div class="kb-diagram-note">&lt;html&gt;</div>
+<div class="kb-diagram-note">&lt;body&gt;</div>
+<div class="kb-diagram-note">&lt;p&gt;Hello&lt;/p&gt;</div>
+<div class="kb-diagram-note">&lt;div&gt;World&lt;/div&gt;</div>
+<div class="kb-diagram-note">&lt;/body&gt;</div>
+<div class="kb-diagram-note">&lt;/html&gt;</div>
+<div class="kb-diagram-note">Visitor 1: HTMLValidatorVisitor</div>
+<div class="kb-diagram-note">→ &lt;p&gt;, &lt;div&gt; 태그 유효성 검사</div>
+<div class="kb-diagram-note">Visitor 2: TextExtractorVisitor</div>
+<div class="kb-diagram-note">→ "Hello", "World" 텍스트 추출</div>
+<div class="kb-diagram-note">Visitor 3: SecurityScanVisitor</div>
+<div class="kb-diagram-note">→ XSS (Cross-Site Scripting) 스크립트 탐지</div>
+</div>
+</div>
 
-  Visitor 3: SecurityScanVisitor
-    → XSS (Cross-Site Scripting) 스크립트 탐지
-```
 
-```
-  Visitor 적합 판단:
-  ┌────────────────────────────────────────────────┐
-  │  데이터 구조(Element)의 변화가 적고,            │
-  │  그 위에서 수행하는 연산(Operation)이           │
-  │  자주 추가·변경되는가?                          │
-  │                                                │
-  │  YES → Visitor Pattern 적용                    │
-  │  NO  → 일반 메서드 또는 Strategy 적용          │
-  └────────────────────────────────────────────────┘
-```
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Visitor 적합 판단:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 구조(Element)의 변화가 적고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 위에서 수행하는 연산(Operation)이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자주 추가·변경되는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → Visitor Pattern 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NO → 일반 메서드 또는 Strategy 적용</div></div>
+</div>
+</div>
+
+
 
 - **Double Dispatch** 메커니즘 명확히 설명 (두 번의 동적 바인딩)
 - [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 달성의 **비용**: 캡슐화 약화 (Element 내부를 Visitor에 노출)
@@ -209,10 +236,10 @@ class EvaluateVisitor implements ExpressionVisitor {
 | 기능 추가 용이 | 새 연산 = 새 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스만 추가 |
 | 복합 구조 순회 | [Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴과 자연스럽게 결합 |
 
-- **Element 추가 시 모든 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 수정** → 추상 기본 구현(Default 메서드)으로 완화 가능
+- <strong>Element 추가 시 모든 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 수정</strong> → 추상 기본 구현(Default 메서드)으로 완화 가능
 - **캡슐화 약화** → 내부를 노출하는 범위를 Package-Private 등으로 제한
 
-[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 안정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 위에 **다양한 연산을 플러그인처럼 추가**해야 하는 상황에서 가장 빛을 발한다. 컴파일러 설계, AST (Abstract Syntax Tree) 분석, DOM 조작 등이 대표적이다. OCP와 캡슐화의 트레이드오프를 명확히 이해하고 적용해야 한다.
+[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 안정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 위에 <strong>다양한 연산을 플러그인처럼 추가</strong>해야 하는 상황에서 가장 빛을 발한다. 컴파일러 설계, AST (Abstract Syntax Tree) 분석, DOM 조작 등이 대표적이다. OCP와 캡슐화의 트레이드오프를 명확히 이해하고 적용해야 한다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

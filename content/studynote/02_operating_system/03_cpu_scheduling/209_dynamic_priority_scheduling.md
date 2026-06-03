@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때 부여받은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 우선순위(Base Priority)에 얽매이지 않고, 프로세스의 런타임 행동(CPU/IO 사용량, 대기 시간)을 감시하여 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 실시간으로 우선순위 값을 올리거나 내리는 유연한 스케줄링 모델**이다.
+> 1. **본질**: 동적 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때 부여받은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 우선순위(Base Priority)에 얽매이지 않고, 프로세스의 런타임 행동(CPU/IO 사용량, 대기 시간)을 감시하여 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>이 실시간으로 우선순위 값을 올리거나 내리는 유연한 스케줄링 모델</strong>이다.
 > 2. **가치**: 특정 작업이 CPU를 영원히 독점하는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 방지하고, I/O 바운드(대화형) 작업에게 즉각적인 응답성을 보장함으로써, 인간(사용자)이 체감하는 시스템의 부드러움과 공정성(Fairness)을 극대화한다.
 > 3. **융합**: 우선순위 기반의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)), 기아 방지를 위한 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 그리고 데드라인 임박도를 점수로 환산하는 [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)([Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)) 등 현대 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 지배하는 대부분의 지능형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)들이 이 철학을 뼈대로 삼고 있다.
 
@@ -54,31 +54,32 @@ tags = ["studynote-operating-system"]
 
 1. **Base Priority (기본 우선순위)**
    - 사용자가 `nice` 명령어로 주거나 OS가 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 시 부여한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고정값. (이 뼈대 위에서 점수가 움직인다).
-2. **대기 시간 보너스 (Wait Time Bonus / [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**
+2. <strong>대기 시간 보너스 (Wait Time Bonus / <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>
    - Ready 큐에 너무 오래 머물렀거나, 마우스 입력을 기다리며(I/O Bound) 오랫동안 잠을 잤다면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 큰 가산점을 준다. (위로 끌어올림)
 3. **CPU 사용량 페널티 (CPU Usage Penalty)**
    - 타임 퀀텀(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))을 꽉꽉 채워 남김없이 쓴다면 "이놈은 CPU 바운드(연산 괴물)다!"라고 판단하여 무자비하게 감점을 때려버린다. (아래로 내동댕이침)
 
 ### MLFQ를 통한 동적 우선순위의 물리적 구현
 
-현대 OS는 이 동적인 점수를 1차원 배열이 아닌 **[다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/), Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**라는 3차원 엘리베이터로 구현했다.
+현대 OS는 이 동적인 점수를 1차원 배열이 아닌 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">다단계 피드백 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">MLFQ</a>, Multilevel Feedback <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>라는 3차원 엘리베이터로 구현했다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처        │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ VIP 큐 (Priority 0~9) ]  ◀── (I/O 완료 시 즉각 Boost 됨)        │
-  │        ▼ CPU를 너무 많이 쓰면?                                      │
-  │   [ 중간 큐 (Priority 10~19) ]                                      │
-  │        ▼ 또 타임 퀀텀을 꽉 채워 쓰면?                               │
-  │   [ 바닥 큐 (Priority 20~29) ] ── (오래 굶으면 Aging 되어 ─┐        │
-  │                                   위로 다시 끌어올려짐)   │         │
-  │                                                      │              │
-  │   🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직        │  │
-  │      "런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. ◀───┘  │
-  └─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VIP 큐 (Priority 0~9)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (I/O 완료 시 즉각 Boost 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ CPU를 너무 많이 쓰면?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간 큐 (Priority 10~19)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 또 타임 퀀텀을 꽉 채워 쓰면?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">바닥 큐 (Priority 20~29)</div><div class="kb-diagram-note">── (오래 굶으면 Aging 되어 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위로 다시 끌어올려짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. ◀</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 동적 우선순위의 핵심은 '자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(Auto-Sorter)'다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 프로세스를 직접 실행해 보기 전에는 이 녀석이 착한지 나쁜지 모른다. 일단 실행시켜 보고 행동하는 꼬라지(I/O 양보 vs CPU 독점)를 평가하여, 그에 걸맞은 층수(큐)로 계속 이사(Migration)를 시키는 것이 동적 스케줄링의 진수다.
 
 - **📢 섹션 요약 비유**: 처음 게임에 가입하면 일단 '실버 등급(기본 순위)'을 줍니다. 그런데 매너 게임을 하고 남을 도와주면(I/O 양보) 시스템이 실시간으로 '다이아 등급(보너스)'으로 승급시키고, 반대로 욕설을 하고 잠수를 타면(CPU 독점) '브론즈 등급(페널티)'으로 강등시키는 자동 평판 시스템입니다.
@@ -91,11 +92,11 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 고정/정적 우선순위 (Static) | 동적 우선순위 (Dynamic) |
 |:---|:---|:---|
-| **우선순위 갱신** | **없음**. (죽을 때까지 번호표 유지) | **매 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)/틱 마다 갱신됨** (살아 움직임) |
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드** | 극강의 가벼움. (O(1) 혹은 제로) | **무거움**. 매번 점수 계산, 트리/큐 재정렬 오버헤드 발생. |
+| **우선순위 갱신** | **없음**. (죽을 때까지 번호표 유지) | <strong>매 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>/틱 마다 갱신됨</strong> (살아 움직임) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 오버헤드</strong> | 극강의 가벼움. (O(1) 혹은 제로) | **무거움**. 매번 점수 계산, 트리/큐 재정렬 오버헤드 발생. |
 | **예측 가능성** | 100% 보장. (수학적 증명 가능) | **불가**. ([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 추측에 의존하므로 렉이 튈 수 있음) |
 | **주 타겟 환경** | 하드 실시간 임베디드 장비, 공장 로봇, 미사일 | **데스크톱, 스마트폰 UI, 다목적 클라우드 서버** |
-| **기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))** | 필연적으로 발생함 (방치함) | [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)/부스트를 통해 수학적으로 완벽 방어 |
+| <strong>기아 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong> | 필연적으로 발생함 (방치함) | [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)/부스트를 통해 수학적으로 완벽 방어 |
 
 ### 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 아킬레스건: "[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))"의 한계
 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 완벽해 보이지만 가장 큰 딜레마가 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스의 점수를 올리고 내릴 때 쓰는 공식은 결국 인간(OS 개발자)이 만든 "경험적 추측([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))"에 불과하다는 점이다.
@@ -112,34 +113,32 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 1. **Windows OS의 Foreground Priority Boost (전경 부스트)**: 윈도우 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 극한의 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다. 사용자가 수십 개의 창을 띄워놔도 방금 클릭한 창(Foreground)은 무조건 부드럽다.
-   - **실무 원리**: 사용자가 특정 창을 '클릭'하여 활성화(Focus)하는 순간, 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 프로세스에 막대한 **동적 우선순위 부스트(Priority Boost)**와 함께 기본 타임 퀀텀의 3배([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Stretch)를 즉시 부여한다. 뒤에 있는 쩌리 백그라운드 창들이 전부 멈추더라도, 사용자 눈에는 "내 컴퓨터 엄청 빠르네"라는 환상을 완벽히 심어주는 동적 스케줄링의 승리다.
+   - **실무 원리**: 사용자가 특정 창을 '클릭'하여 활성화(Focus)하는 순간, 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 프로세스에 막대한 <strong>동적 우선순위 부스트(Priority Boost)</strong>와 함께 기본 타임 퀀텀의 3배([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Stretch)를 즉시 부여한다. 뒤에 있는 쩌리 백그라운드 창들이 전부 멈추더라도, 사용자 눈에는 "내 컴퓨터 엄청 빠르네"라는 환상을 완벽히 심어주는 동적 스케줄링의 승리다.
 2. **리눅스 CFS (Completely Fair Scheduler)의 가상 시간(vruntime)**: 현대 리눅스는 "동적"이라는 말조차 버렸다. 복잡하게 점수를 더하고 빼는 짓([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))을 그만두었다.
-   - **아키텍처 혁명**: 프로세스가 실행된 물리적 시간에 가중치를 곱한 **`vruntime`** 단 하나만 기록한다. 1초에 수백 번씩 이 `vruntime` 값들이 앞서거니 뒤서거니 하며 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree) 안에서 동적으로 자리를 바꾼다. 즉, CFS는 "우선순위를 조작하는 것"이 아니라, "시간이 흐르는 속도 자체를 동적으로 비틀어버리는" 궁극의 상대성 이론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
+   - **아키텍처 혁명**: 프로세스가 실행된 물리적 시간에 가중치를 곱한 <strong><code>vruntime</code></strong> 단 하나만 기록한다. 1초에 수백 번씩 이 `vruntime` 값들이 앞서거니 뒤서거니 하며 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree) 안에서 동적으로 자리를 바꾼다. 즉, CFS는 "우선순위를 조작하는 것"이 아니라, "시간이 흐르는 속도 자체를 동적으로 비틀어버리는" 궁극의 상대성 이론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │     부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤]│
-  │                │                                                       │
-  │                ▼ 운영체제 동적 튜닝(Renice) 개입                       │
-  │   단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?      │
-  │          ├─ [예]                                                       │
-  │          │   ▶ 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.      │
-  │          │                                                             │
-  │          └─ [아니오 (여전히 버벅임!)]                                  │
-  │                 │                                                      │
-  │                 ▼ (근본 원인 분석)                                     │
-  │             "아! 백업 프로세스가 디스크 I/O를 일으킬 때마다            │
-  │              스케줄러가 '오 I/O 바운드네!'라고 착각하고                │
-  │              동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"         │
-  │                 │                                                      │
-  │                 ▼ [실무 아키텍트의 철퇴 조치]                          │
-  │             1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.      │
-  │             2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!    │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제 동적 튜닝(Renice) 개입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (여전히 버벅임!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (근본 원인 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아! 백업 프로세스가 디스크 I/O를 일으킬 때마다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러가 '오 I/O 바운드네!'라고 착각하고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">실무 아키텍트의 철퇴 조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 무서운 점은 '오뚝이' 같다는 것이다. 개발자가 아무리 권력을 낮춰놔도, 그 프로세스가 I/O 대기(Sleep)를 하는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 동적 보너스 시스템이 발동해 권력을 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시켜 상위 큐로 밀어 올린다. 이를 막기 위해서는 CPU 스케줄링뿐만 아니라 I/O 스케줄링 지분까지 묶어버리는 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 같은 하드코어한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 기술이 필수적이다.
 
 - **📢 섹션 요약 비유**: 벌을 주려고 꼴찌 반(우선순위 19)으로 전학 보냈는데, 이놈이 엎드려 잠만 자니까(I/O Sleep) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선생님이 "아이고 우리 불쌍한 애, 잠만 자서 밥도 못 먹었네!"라며 다시 1등 반으로 강제 전학(Boost) 시켜버리는 환장할 노릇입니다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 오지랖(동적 튜닝)을 완벽히 이해해야 서버를 통제할 수 있습니다.
@@ -169,22 +168,26 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비례 배분 스케줄링 (Proportionate Share Scheduling)]
-    │
-    ▼
-[POSIX 스케줄링 API (Dynamic Priority Scheduling)]
-    │
-    ├──▶ [리눅스 O(1) 스케줄러]
-    └──▶ [리눅스 CFS (Completely Fair Scheduler)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비례 배분 스케줄링 (Proportionate Share Scheduling)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX 스케줄링 API (Dynamic Priority Scheduling)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 O(1) 스케줄러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 CFS (Completely Fair Scheduler)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 고정 우선순위는 "1학년은 평생 1학년 교실에만 있어야 해!"라는 꽉 막힌 규칙이에요. 키가 커져도 책상이 좁아서 고생하죠.
-2. **동적 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)**은 "너 키가 많이 컸네? 그럼 당장 내일 3학년 교실로 이사 가자!"라고 선생님이 매일매일 내 상태를 확인하고 반을 바꿔주는 유연한 규칙이에요.
+2. <strong>동적 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/">우선순위 스케줄링</a></strong>은 "너 키가 많이 컸네? 그럼 당장 내일 3학년 교실로 이사 가자!"라고 선생님이 매일매일 내 상태를 확인하고 반을 바꿔주는 유연한 규칙이에요.
 3. 내가 밥을 못 먹고 굶고 있으면([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 선생님이 불쌍하게 여겨서 강제로 앞 반으로 승진시켜(부스트) 밥을 먹여주니까 억울한 사람이 하나도 없는 따뜻한 학교랍니다!
 
 ---

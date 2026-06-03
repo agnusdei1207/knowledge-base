@@ -36,21 +36,21 @@ tags = ["ict_convergence"]
 | **엣지 노드** | 공유기, 엣지 서버, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | 실시간 분석, 즉각 제어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터링 | 초저지연, 보안 1차 처리 |
 | **중앙 클라우드** | 대규모 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) (AWS 등) | 글로벌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 빅데이터 분석, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 | 고성능, 장기 보관 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           클라우드 단일 구조 vs 엣지 컴퓨팅 구조             │
-├──────────────────────────────────────────────────────────────┤
-│ [ 과거: 지연 0.5초, 대역폭 폭발 ]                            │
-│ 🚗 자율주행차 ────────(수백 GB 비디오)────────▶ ☁️ 클라우드  │
-│                                                              │
-│ [ 엣지 컴퓨팅: 지연 0.01초, 대역폭 절감 ]                    │
-│ 🚗 자율주행차 ──(0.01초 제어)──▶ 📱 엣지 노드 (스마트 게이트웨이) │
-│                                   │                          │
-│                                (가치 있는 요약 데이터만 전송)│
-│                                   ▼                          │
-│                                ☁️ 중앙 클라우드 서버         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 단일 구조 vs 엣지 컴퓨팅 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 지연 0.5초, 대역폭 폭발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 자율주행차 (수백 GB 비디오) ▶ ☁️ 클라우드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅: 지연 0.01초, 대역폭 절감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 자율주행차 ──(0.01초 제어)──▶ 📱 엣지 노드 (스마트 게이트웨이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가치 있는 요약 데이터만 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☁️ 중앙 클라우드 서버</div></div>
+</div>
+</div>
+
+
 
 엣지 노드는 현장에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차로 가공하여, 정상적인 상황의 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 버리고 비정상 상태나 중요한 요약 정보만 클라우드로 보낸다. 이를 통해 네트워크 트래픽을 90% 이상 줄일 수 있으며, 클라우드 연결이 끊긴 오프라인 상태에서도 기기가 생존할 수 있는 자율성을 부여한다.
 
@@ -66,10 +66,10 @@ tags = ["ict_convergence"]
 | :--- | :--- | :--- |
 | **연산 위치** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생지 근처 (로컬 네트워크) | 원격의 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) |
 | **초점** | 실시간성 (초저지연), 트래픽 감소 | 무한한 확장성, 대규모 연산/저장 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 적용** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 추론 (Inference) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 적용</strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 추론 (Inference) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) |
 | **네트워크 의존도** | 낮음 (단절 시에도 자체 동작 가능) | 높음 (단절 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마비) |
 
-최근에는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크의 기지국 자체에 엣지 서버를 심어버리는 **[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (Multi-access [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** 기술이 융합되어, 통신망을 타기 전에 최전방에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 낚아채 처리하는 방식이 표준으로 자리 잡고 있다.
+최근에는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크의 기지국 자체에 엣지 서버를 심어버리는 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Multi-access <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> 기술이 융합되어, 통신망을 타기 전에 최전방에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 낚아채 처리하는 방식이 표준으로 자리 잡고 있다.
 
 - **📢 섹션 요약 비유**: 클라우드가 수천 명의 학자가 모인 거대한 '중앙 국립 도서관'이라면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 골목마다 있는 '동네 편의점'이다. 깊이 있는 연구(학습)는 도서관에서 하지만, 지금 당장 목마를 때 마실 물(실시간 처리)은 동네 편의점에서 구하는 것이 압도적으로 빠르다.
 
@@ -102,28 +102,30 @@ tags = ["ict_convergence"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (Multi-access [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** | 통신사 기지국이나 교환국에 엣지 서버를 구축하여 5G의 초저지연을 극대화하는 기술 |
-| **[포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) ([Fog Computing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/))** | 엣지와 클라우드 사이에 위치하여 동네 단위의 중간 처리를 담당하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 제창) |
-| **온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-Device AI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))** | 스마트폰이나 센서 기기 자체가 스스로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 최전단의 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) |
-| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))** | 엣지에서 수집된 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 클라우드에 현실과 똑같은 가상 모델을 동기화하는 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Multi-access <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> | 통신사 기지국이나 교환국에 엣지 서버를 구축하여 5G의 초저지연을 극대화하는 기술 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">포그 컴퓨팅</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">Fog Computing</a>)</strong> | 엣지와 클라우드 사이에 위치하여 동네 단위의 중간 처리를 담당하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 제창) |
+| <strong>온디바이스 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/">On-Device AI</a>)</strong> | 스마트폰이나 센서 기기 자체가 스스로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 최전단의 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> | 엣지에서 수집된 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 클라우드에 현실과 똑같은 가상 모델을 동기화하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 집중형 클라우드 컴퓨팅 (지연 및 대역폭 한계 도달)
-    │
-    ▼
-포그 컴퓨팅 (Fog Computing) · 중간 게이트웨이 처리 도입
-    │
-    ▼
-엣지 컴퓨팅 (Edge Computing) · 데이터 발생 현장 처리, 실시간성 확보
-    │
-    ▼
-MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
-    │
-    ▼
-온디바이스 AI (On-Device AI) · 기기 자체의 독립적 인공지능화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 집중형 클라우드 컴퓨팅 (지연 및 대역폭 한계 도달)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포그 컴퓨팅 (Fog Computing) · 중간 게이트웨이 처리 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) · 데이터 발생 현장 처리, 실시간성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온디바이스 AI (On-Device AI) · 기기 자체의 독립적 인공지능화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

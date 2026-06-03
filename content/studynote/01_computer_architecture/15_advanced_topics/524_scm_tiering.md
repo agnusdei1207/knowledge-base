@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 CPU (Central Processing Unit) 기준에서 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화가 메우려는 간극을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        메모리와 스토리지 사이의 큰 틈을 SCM 계층이 메운다             │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Cache  : sub-ns                                                 │
-│ DRAM       : ~100 ns      빠르지만 휘발성 / 용량당 가격 높음          │
-│ SCM        : ~0.3~5 μs    느리지만 비휘발성 / 바이트 접근 가능        │
-│ NVMe SSD   : ~50~100 μs   저렴하지만 블록 I/O 중심                    │
-│                                                                      │
-│ 목표: "전원이 꺼져도 남아 있으면서 SSD보다 훨씬 가까운 중간층" 확보    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-결국 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화의 필요성은 단순 용량 확장보다, **[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 얻는 순간 너무 멀어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 CPU 가까이 끌어오는 데** 있다. 이 시각이 있어야 왜 SCM이 메모리와 스토리지 양쪽 언어를 모두 가진 계층인지 이해된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리와 스토리지 사이의 큰 틈을 SCM 계층이 메운다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Cache : sub-ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM : ~100 ns 빠르지만 휘발성 / 용량당 가격 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM : ~0.3~5 μs 느리지만 비휘발성 / 바이트 접근 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe SSD : ~50~100 μs 저렴하지만 블록 I/O 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: "전원이 꺼져도 남아 있으면서 SSD보다 훨씬 가까운 중간층" 확보</div></div>
+</div>
+</div>
+
+
+
+결국 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화의 필요성은 단순 용량 확장보다, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a>을 얻는 순간 너무 멀어지는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다시 CPU 가까이 끌어오는 데</strong> 있다. 이 시각이 있어야 왜 SCM이 메모리와 스토리지 양쪽 언어를 모두 가진 계층인지 이해된다.
 
 - **📢 섹션 요약 비유**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화는 책상과 지하 창고 사이에 잠기지 않는 큰 서랍장을 하나 더 두는 것과 같다. 자주 쓰는 물건은 책상에 두고, 꼭 보존해야 하는 물건은 서랍장에 둬서 매번 창고까지 뛰어가지 않게 만든다.
 
@@ -58,19 +60,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화가 속도 기준 배치와 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 경로를 동시에 어떻게 다루는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      SCM 계층화는 '속도 기준 배치'와 '영속성 기준 배치'를 함께 다룬다 │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Cache                                                            │
-│    │                                                                 │
-│    ├─ 핫 / 쓰기 집중 데이터 ───────▶ DRAM                            │
-│    ├─ 웜 / 영속 데이터 ───────────▶ SCM                              │
-│    └─ 콜드 / 대용량 데이터 ───────▶ NVMe SSD                         │
-│                                                                      │
-│ 내구성 경로: CPU Cache → flush → SCM persist domain → 재기동 후 재사용│
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 계층화는 '속도 기준 배치'와 '영속성 기준 배치'를 함께 다룬다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 핫 / 쓰기 집중 데이터 ▶ DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 웜 / 영속 데이터 ▶ SCM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 콜드 / 대용량 데이터 ▶ NVMe SSD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내구성 경로: CPU Cache → flush → SCM persist domain → 재기동 후 재사용</div></div>
+</div>
+</div>
+
+
 
 실제로 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 얻으려면 CPU 캐시에 머물던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지속 영역에 도달했음을 보장해야 한다. 그래서 캐시 라인 flush와 순서 보장(fence) 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 내구성 절차가 중요해진다. SCM은 저장장치이면서 메모리이기 때문에, "어디에 둘 것인가"뿐 아니라 "언제 실제 영속 상태가 되는가"도 설계 대상이다.
 
@@ -127,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 한계도 있다. DRAM만큼 빠르지 않고, 제품 생태계와 소프트웨어 지원이 아직 균일하지 않으며, 내구성과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서 보장까지 고려해야 한다. 최근에는 전통적 영속 메모리 (PMem, Persistent Memory) DIMM 형태보다 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 확장, 소프트웨어 정의 계층화, QLC (Quad-Level Cell) SSD와의 연동처럼 더 넓은 형태로 진화하고 있다.
 
-결론적으로 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화는 **메모리와 스토리지의 경계를 다시 설계하는 기술**이다. 중요한 것은 소자 이름보다 배치 철학이다. 무엇을 얼마나 빠르게, 얼마나 오래 남겨야 하는지를 기준으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)·SSD를 역할 분담시키는 것이 핵심이다.
+결론적으로 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화는 <strong>메모리와 스토리지의 경계를 다시 설계하는 기술</strong>이다. 중요한 것은 소자 이름보다 배치 철학이다. 무엇을 얼마나 빠르게, 얼마나 오래 남겨야 하는지를 기준으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)·SSD를 역할 분담시키는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계층화는 집 안 수납을 다시 설계하는 일과 같다. 물건을 다 같은 서랍에 넣지 않고, 자주 쓰는 것·꼭 보관할 것·가끔 쓰는 것을 나눠 두어 생활 전체를 더 빠르게 만든다.
 
@@ -146,21 +149,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DRAM 중심 메모리 + SSD 중심 영속 저장
-        │
-        ▼
-Persistent Memory / Optane 계열 시도
-        │
-        ▼
-DRAM · SCM · SSD의 핫 / 웜 / 콜드 계층화
-        │
-        ▼
-DAX 기반 직접 접근 · 빠른 재기동
-        │
-        ▼
-CXL 기반 풀드 메모리 · 소프트웨어 정의 티어링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DRAM 중심 메모리 + SSD 중심 영속 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Persistent Memory / Optane 계열 시도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DRAM · SCM · SSD의 핫 / 웜 / 콜드 계층화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAX 기반 직접 접근 · 빠른 재기동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL 기반 풀드 메모리 · 소프트웨어 정의 티어링</div>
+</div>
+</div>
+
+
 
 이 흐름은 "빠른 휘발성 메모리와 느린 영속 저장장치의 분리"에서 출발해, "[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 메모리 가까이 끌어오는 방향"으로 진화하는 과정을 보여 준다.
 

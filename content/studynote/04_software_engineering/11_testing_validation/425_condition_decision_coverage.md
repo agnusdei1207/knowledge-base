@@ -23,12 +23,18 @@ tags = ["studynote-software-engineering"]
 
 이 지표가 필요한 이유는 복합 조건문이 단순해 보여도 실제로는 많은 결함을 숨기기 때문이다. 조건만 맞추면 전체 분기의 참/거짓이 한쪽으로만 고정될 수 있고, 결정만 맞추면 조건 하나가 아예 검증되지 않을 수 있다.
 
-```text
-if (A and B)
- ├─ A = T/F 모두 확인
- ├─ B = T/F 모두 확인
- └─ 전체 결과도 T/F 모두 확인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">if (A and B)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">A = T/F 모두 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:0">B = T/F 모두 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전체 결과도 T/F 모두 확인</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 부품 하나씩만 검사하면 조립 불량을 놓치고, 완제품만 보면 속 부품의 결함을 놓친다. 둘 다 봐야 한다.
 
@@ -50,12 +56,18 @@ if (A and B)
 | [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) | 전체 식의 T/F | `A > 0 and B > 0` |
 | 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) | 둘 다 | 조건도, 결과도 모두 T/F |
 
-```text
-TC-1: A=T, B=T -> Decision=T
-TC-2: A=T, B=F -> Decision=F
-TC-3: A=F, B=T -> Decision=F
-TC-4: A=F, B=F -> Decision=F
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">TC-1: A=T, B=T -&gt; Decision=T</div>
+<div class="kb-diagram-note">TC-2: A=T, B=F -&gt; Decision=F</div>
+<div class="kb-diagram-note">TC-3: A=F, B=T -&gt; Decision=F</div>
+<div class="kb-diagram-note">TC-4: A=F, B=F -&gt; Decision=F</div>
+</div>
+</div>
+
+
 
 위처럼 테스트를 설계하면 각 조건의 참/거짓과 전체 결정의 참/거짓을 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 다만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식이 복잡해질수록 테스트 수가 늘어난다.
 
@@ -135,21 +147,23 @@ TC-4: A=F, B=F -> Decision=F
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-조건/결정 커버리지 (Condition/Decision Coverage) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건/결정 커버리지 (Condition/Decision Coverage) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

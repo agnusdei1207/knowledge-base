@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 벤더 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(시스코 등)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 처음 들여오면 관리자가 시리얼 콘솔(Console) 케이블을 1:1로 꽂고 노트북을 연결해 검은 화면에서 수백 줄의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설치 명령어를 쳐넣어야 했습니다. (극강의 병목, 휴먼 에러 발생 지점)
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대 들어오면 설치하는 데만 몇 주가 걸리는 인건비 지옥이었습니다.
 
-```text
-[SONiC]
-    │
-    ▼
-[ONIE]
-    │
-    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SONiC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ONIE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([오픈 컴퓨트 프로젝트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/)) 진영에서 제정한 표준으로, 공장에서 막 찍혀 나온 텅 빈 **화이트박스(Bare-metal) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 전원을 켜자마자 작동하여, 네트워크를 통해 자동으로 원하는 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS, 예: [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/), Cumulus) 이미지를 다운로드받고 깡통에 이식(설치)해 주는 소형 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)([Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)) 기반 독립 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설치 프레임워크**입니다.
+- **개념**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([오픈 컴퓨트 프로젝트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/)) 진영에서 제정한 표준으로, 공장에서 막 찍혀 나온 텅 빈 <strong>화이트박스(Bare-metal) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>에 전원을 켜자마자 작동하여, 네트워크를 통해 자동으로 원하는 네트워크 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(NOS, 예: <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a>, Cumulus) 이미지를 다운로드받고 깡통에 이식(설치)해 주는 소형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">Bootloader</a>) 기반 독립 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 설치 프레임워크</strong>입니다.
 
-```text
-[SONiC]
-    │
-    ▼
-[ONIE]
-    │
-    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SONiC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ONIE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,14 +65,14 @@ tags = ["studynote-network"]
 제로 터치 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))의 시작점이자 끝판왕입니다. 사람이 할 일은 깡통 기계 랙(Rack)에 랜선을 꽂고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 멀티탭 전원을 탁 올리는 것뿐입니다.
 
 1. **ONIE 부팅 (공장 출하 상태)**:
-   - [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/) 공장에서 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(바닥)에 딱 하나, 아주 작은 수십 메가바이트짜리 **ONIE [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)(미니 리눅스)** 프로그램 하나만 심어놓고 출하시킵니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜면 아무것도 없으니 이 ONIE가 즉각 깨어납니다.
-2. **동네방네 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수소문 (Discovery)**:
-   - 깬 ONIE는 꽂혀있는 랜선을 타고 밖으로 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)(IP 달라!) 요청을 던지면서 묻습니다. **"저 태어났는데 뇌(OS)가 없습니다! 혹시 제 몸에 깔아야 할 [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.bin) 링크 아시는 분?"**
+   - [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/) 공장에서 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(바닥)에 딱 하나, 아주 작은 수십 메가바이트짜리 <strong>ONIE <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a>(미니 리눅스)</strong> 프로그램 하나만 심어놓고 출하시킵니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜면 아무것도 없으니 이 ONIE가 즉각 깨어납니다.
+2. <strong>동네방네 설치 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 수소문 (Discovery)</strong>:
+   - 깬 ONIE는 꽂혀있는 랜선을 타고 밖으로 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)(IP 달라!) 요청을 던지면서 묻습니다. <strong>"저 태어났는데 뇌(OS)가 없습니다! 혹시 제 몸에 깔아야 할 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 설치 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(.bin) 링크 아시는 분?"</strong>
    - 사내망에 띄워둔 중앙 관리 서버가 "오 너 105번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)네? [http](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)://서버/sonic_v2.bin [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운받아서 설치해라!" 라며 웹 주소를 응답해 줍니다. ([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), [TFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 등 뭐든 다 알아듣습니다.)
 3. **다운로드 및 셀프 무인 설치 (Auto-Install)**:
    - ONIE가 지시받은 주소로 접속해 [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 1GB짜리 이미지를 쓱 다운받고, 자기 자신의 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 싹 포맷한 뒤 SONiC을 혼자 조용히 설치합니다.
 4. **환골탈태 재부팅**:
-   - 설치가 끝나면 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 리부팅을 하면서 10분 만에 **완벽하게 세팅된 [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1호기로 환골탈태하여 동작**을 시작합니다. 1만 대의 전원 코드를 동시에 꽂으면 1만 대가 동시에 10분 만에 지들 혼자 설치를 완료합니다(대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 설치).
+   - 설치가 끝나면 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 리부팅을 하면서 10분 만에 <strong>완벽하게 세팅된 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 1호기로 환골탈태하여 동작</strong>을 시작합니다. 1만 대의 전원 코드를 동시에 꽂으면 1만 대가 동시에 10분 만에 지들 혼자 설치를 완료합니다(대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 설치).
 
 ONIE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SONiC가 기반 조건을 만든다면, ONIE는 그 위에서 핵심 메커니즘을 구현하고, BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -90,7 +98,7 @@ ONIE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거(CLI 수동 설치)는 1만 명의 깡통 로봇에게 일일이 USB를 뒤통수에 꽂고 '영혼([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))'을 주입하는 미친 수작업이었습니다. **ONIE(오픈 네트워크 인스톨 환경)**는 공장에서 깡통 로봇을 출하할 때 뇌 속에 심어둔 '영혼 다운로드 전용 초소형 무선 수신기([부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))'입니다. 관리자가 창고에 로봇 1만 대를 쌓아두고 전원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버튼만 동시에 '딸깍' 켭니다. 1만 명의 로봇에 내장된 수신기가 일제히 깨어나 중앙 클라우드 사령부에 와이파이([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))를 잡고 접속합니다. "나의 영혼(OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 어디 있습니까?" 사령부가 '[SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/).zip' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 공중으로 뿌려주면, 1만 명의 깡통 로봇이 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 다운받아 스스로 자기 머릿속에 설치를 끝내고, 10분 뒤 일제히 눈에 파란 불을 켜며 전투 태세를 갖추고 일어서는 소름 돋는 무인([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Touch) 텔레파시 초기화 시스템입니다.
+- **📢 섹션 요약 비유**: 과거(CLI 수동 설치)는 1만 명의 깡통 로봇에게 일일이 USB를 뒤통수에 꽂고 '영혼([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))'을 주입하는 미친 수작업이었습니다. <strong>ONIE(오픈 네트워크 인스톨 환경)</strong>는 공장에서 깡통 로봇을 출하할 때 뇌 속에 심어둔 '영혼 다운로드 전용 초소형 무선 수신기([부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))'입니다. 관리자가 창고에 로봇 1만 대를 쌓아두고 전원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버튼만 동시에 '딸깍' 켭니다. 1만 명의 로봇에 내장된 수신기가 일제히 깨어나 중앙 클라우드 사령부에 와이파이([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))를 잡고 접속합니다. "나의 영혼(OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 어디 있습니까?" 사령부가 '[SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/).zip' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 공중으로 뿌려주면, 1만 명의 깡통 로봇이 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 다운받아 스스로 자기 머릿속에 설치를 끝내고, 10분 뒤 일제히 눈에 파란 불을 켜며 전투 태세를 갖추고 일어서는 소름 돋는 무인([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Touch) 텔레파시 초기화 시스템입니다.
 
 ---
 
@@ -113,15 +121,19 @@ ONIE는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SONiC]
-    │
-    ▼
-[현재 개념: ONIE]
-    │
-    ├──▶ [확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SONiC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ONIE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 ONIE는 SONiC에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

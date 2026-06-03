@@ -23,17 +23,22 @@ tags = ["it_management"]
 
 아래 시각화는 누적 현금 흐름이 어떻게 마이너스에서 플러스로 전환되어 투자 원금이 회수되는지를 보여주는 그래프이다.
 
-```text
- 누적 현금 흐름 (억 원)
-   ▲ 
- 10│                       ● (Year 4: 최종 +10억 수익)
-   │                   ↗
-  0├────(Year 1)───(Year 2)──★(Year 3)──────────► 시간 (Year)
-   │     -5억        -2억    ↑ 누적 0원 (Break-even)
-   │                         │
--10│● (Year 0)               │
-   (-10억 투자)      이 지점이 회수기간 (PP = 3년)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">누적 현금 흐름 (억 원)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">10│ ● (Year 4: 최종 +10억 수익)</div>
+<div class="kb-diagram-note">↗</div>
+<div class="kb-diagram-note">0 (Year 1) (Year 2)──★(Year 3) ► 시간 (Year)</div>
+<div class="kb-diagram-note">-5억 -2억 ↑ 누적 0원 (Break-even)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-10</div><div class="kb-diagram-cell">● (Year 0)</div></div>
+<div class="kb-diagram-note">(-10억 투자) 이 지점이 회수기간 (PP = 3년)</div>
+</div>
+</div>
+
+
 
 이 그래프의 핵심은 선이 마이너스 계곡을 탈출하여 수면(0원) 위로 올라오는 '돌파 시점(★)'을 찾는 것이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투입 비용(-10억)이 매년 벌어들이는 수익(+5억, +3억, +2억)으로 상쇄되면서 누적 적자가 줄어들다가, 3년 차에 정확히 누적 금액이 0원이 된다. 따라서 이 프로젝트의 투자회수기간은 3년이 되며, 만약 회사 내규에서 "모든 IT 투자는 4년 이내에 원금을 회수해야 한다"는 커트라인(목표 회수기간)이 있다면 이 투자는 안전하게 승인된다. 실무에서 자금 압박에 시달리는 스타트업이나 중소기업일수록 이 회수기간이 짧은 과제만 생존하게 된다.
 
@@ -57,18 +62,22 @@ $PP = (누적 현금흐름이 음수(+)로 넘어가기 직전 연도) + \frac{�
 
 아래는 단순 PP와 화폐 시간가치를 고려한 할인회수기간(Discounted PP)의 차이를 보여주는 비교 매트릭스이다.
 
-```text
-[ 초기 투자: 100억 원 / 매년 수익: 40억 원 / 할인율: 10% ]
 
-┌── 연도 ──┬── 연간 수익 ──┬── 단순 누적액 (PP) ──┬── 할인된 수익 ──┬── 할인 누적액 (DPP) ──┐
-│ Year 1   │   40억 원     │     -60억 원       │   36.3억 원     │     -63.6억 원      │
-│ Year 2   │   40억 원     │     -20억 원       │   33.0억 원     │     -30.6억 원      │
-│ Year 3   │   40억 원     │     +20억 원 (돌파)│   30.0억 원     │      -0.6억 원      │
-│ Year 4   │   40억 원     │     +60억 원       │   27.3억 원     │     +26.7억 원(돌파)│
-└──────────┴───────────────┴────────────────────┴─────────────────┴─────────────────────┘
-▶ 단순 PP 결론 = 2.5년 만에 본전 회수
-▶ 할인 DPP 결론 = 3.02년 만에 이자 포함 본전 회수 (DPP는 항상 PP보다 길다)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">초기 투자: 100억 원 / 매년 수익: 40억 원 / 할인율: 10%</div></div>
+<div class="kb-diagram-note">── 연도 ── ── 연간 수익 ── ── 단순 누적액 (PP) ── ── 할인된 수익 ── ── 할인 누적액 (DPP) ──</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 1</div><div class="kb-diagram-cell">40억 원</div><div class="kb-diagram-cell">-60억 원</div><div class="kb-diagram-cell">36.3억 원</div><div class="kb-diagram-cell">-63.6억 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 2</div><div class="kb-diagram-cell">40억 원</div><div class="kb-diagram-cell">-20억 원</div><div class="kb-diagram-cell">33.0억 원</div><div class="kb-diagram-cell">-30.6억 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 3</div><div class="kb-diagram-cell">40억 원</div><div class="kb-diagram-cell">+20억 원 (돌파)</div><div class="kb-diagram-cell">30.0억 원</div><div class="kb-diagram-cell">-0.6억 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Year 4</div><div class="kb-diagram-cell">40억 원</div><div class="kb-diagram-cell">+60억 원</div><div class="kb-diagram-cell">27.3억 원</div><div class="kb-diagram-cell">+26.7억 원(돌파)</div></div>
+<div class="kb-diagram-note">▶ 단순 PP 결론 = 2.5년 만에 본전 회수</div>
+<div class="kb-diagram-note">▶ 할인 DPP 결론 = 3.02년 만에 이자 포함 본전 회수 (DPP는 항상 PP보다 길다)</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 단순 PP가 돈의 시간 가치를 무시하여 본전 회수를 '지나치게 낙관적'으로 당겨 잡는다는 치명적 오류를 보여준다. 할인율을 적용하여 10년 뒤의 수익 가치를 깎아버리면, 실제 원금을 회수하는 데 걸리는 시간(DPP)은 훨씬 뒤로 밀리거나 아예 영원히 회수하지 못할 수도 있다. 따라서 실무에서는 보수적인 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리가 필요할 때 단순 PP를 버리고 반드시 DPP를 요구해야 한다.
 
@@ -89,23 +98,21 @@ PP는 극도의 직관성을 자랑하지만, NPV나 IRR과 달리 투자의 전
 
 아래는 수익성 지표([NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/))와 유동성 지표(PP)가 충돌할 때 경영진의 성향에 따라 달라지는 의사결정 트리이다.
 
-```text
-[대안 A]: 2년 만에 원금 회수, 이후 수익 없음 (PP 2년, NPV 1억)
-[대안 B]: 4년 만에 원금 회수, 5년 차에 초대박 발생 (PP 4년, NPV 50억)
 
-        [기업의 현재 재무 상태는 어떠한가?]
-                       │
-       ┌───────────────┴───────────────┐
-       ▼                              ▼
- [현금 부족, 도산 위기]          [자금 풍부, 잉여 현금]
-       │                              │
-       ▼                              ▼
- [방어적 전략 (PP 우선)]         [성장 전략 (NPV 우선)]
-       │                              │
- [대안 A 선택 (생존 우선)]       [대안 B 선택 (미래 대박)]
-       │                              │
- "본전 못 뽑고 망하면 끝"      "기다리더라도 큰 돈 벌자"
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">대안 A</div><div class="kb-diagram-note">: 2년 만에 원금 회수, 이후 수익 없음 (PP 2년, NPV 1억)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대안 B</div><div class="kb-diagram-note">: 4년 만에 원금 회수, 5년 차에 초대박 발생 (PP 4년, NPV 50억)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기업의 현재 재무 상태는 어떠한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현금 부족, 도산 위기</div><div class="kb-diagram-node">자금 풍부, 잉여 현금</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방어적 전략 (PP 우선)</div><div class="kb-diagram-node">성장 전략 (NPV 우선)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대안 A 선택 (생존 우선)</div><div class="kb-diagram-node">대안 B 선택 (미래 대박)</div></div>
+<div class="kb-diagram-note">"본전 못 뽑고 망하면 끝" "기다리더라도 큰 돈 벌자"</div>
+</div>
+</div>
+
+
 
 이 트리의 핵심은 '회수 기간 이후의 현금 흐름을 무시한다'는 PP의 치명적 단점이 오히려 특정 상황에서는 장점이 될 수 있다는 역설이다. 스타트업이나 중소 IT 기업은 아무리 5년 뒤에 100억을 벌어들이는 완벽한 NPV의 프로젝트(대안 B)가 있더라도, 당장 3년 차에 운영 자금이 말라 파산(흑자 도산)해 버리면 아무 소용이 없다. 따라서 PP는 수익성 지표가 가려버리는 단기 자금 경색의 공포를 스크리닝하는 생존 감지기 역할을 톡톡히 해낸다.
 
@@ -117,7 +124,7 @@ PP는 극도의 직관성을 자랑하지만, NPV나 IRR과 달리 투자의 전
 
 실무에서 PP를 단독 의사결정 지표로 사용하면 우량 프로젝트를 기각하거나 악성 프로젝트를 통과시키는 심각한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 발생한다.
 
-1. **꼬리표 수익의 무시 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: 플랫폼 비즈니스나 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 모델 투자는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 대규모 서버와 마케팅 비용이 들고, 임계점을 넘은 뒤(J-Curve 효과) 4~5년 차부터 막대한 이익을 거둬들인다. PP만 기준으로 삼으면 이러한 미래의 캐시카우(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 투자는 '원금 회수가 너무 느리다'는 이유로 모조리 기각되고, 1년짜리 소규모 유지보수 계약만 수주하는 단기 성과주의에 조직이 매몰된다.
+1. <strong>꼬리표 수익의 무시 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 플랫폼 비즈니스나 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 모델 투자는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 대규모 서버와 마케팅 비용이 들고, 임계점을 넘은 뒤(J-Curve 효과) 4~5년 차부터 막대한 이익을 거둬들인다. PP만 기준으로 삼으면 이러한 미래의 캐시카우(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 투자는 '원금 회수가 너무 느리다'는 이유로 모조리 기각되고, 1년짜리 소규모 유지보수 계약만 수주하는 단기 성과주의에 조직이 매몰된다.
 2. **목표 회수기간의 자의성**: "왜 우리 회사의 목표 PP는 3년인가?"라는 질문에 이론적 근거가 없다. 경영진의 직관이나 보수적 성향에 의해 주먹구구식 정해지는 경우가 많아, 투자의 일관성이 훼손된다.
 3. **기술 수명(Lifespan)과의 연계 방어선**: 하드웨어 서버 장비 도입은 보통 5년 후 폐기(감가상각 완료)되므로 PP는 반드시 5년 미만이어야 한다. 이처럼 도입하는 IT 자산의 물리적/논리적 생명 주기보다 PP가 길게 나온다면 그 프로젝트는 무조건 기각해야 하는 훌륭한 1차 방어선이 된다.
 
@@ -147,29 +154,31 @@ PP는 극도의 직관성과 보수성으로 인해 IT 거버넌스 체계에서
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **할인투자회수기간 (DPP)**: PP의 화폐 시간가치 무시 문제를 해결하기 위해, 현금을 할인한 뒤 누적액을 계산하는 진보된 PP.
-- **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (순현재가치)**: PP가 무시해 버리는 회수 기간 이후의 대규모 수익까지 모두 모아 전체 투자의 진짜 이익을 보여주는 상호 보완재.
-- **유동성 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) (Liquidity [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))**: 흑자가 나더라도 당장 현금이 없어 회사가 부도나는 현상으로, PP를 통해 이 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)의 지속 기간을 예측 가능.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/">NPV</a> (순현재가치)</strong>: PP가 무시해 버리는 회수 기간 이후의 대규모 수익까지 모두 모아 전체 투자의 진짜 이익을 보여주는 상호 보완재.
+- <strong>유동성 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> (Liquidity <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong>: 흑자가 나더라도 당장 현금이 없어 회사가 부도나는 현상으로, PP를 통해 이 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)의 지속 기간을 예측 가능.
 - **기술 진부화 (Technology Obsolescence)**: IT 시스템이 구형이 되어 가치를 잃는 현상으로, PP는 반드시 이 진부화 기간보다 짧아야만 투자 타당성이 인정됨.
-- **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (총소유비용)**: PP를 계산할 때 '원금'에 해당하는 부분으로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입비 외에 유지보수비까지 TCO에 넣으면 PP 기간이 길어짐.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a> (총소유비용)</strong>: PP를 계산할 때 '원금'에 해당하는 부분으로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입비 외에 유지보수비까지 TCO에 넣으면 PP 기간이 길어짐.
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[투자 의사결정 지표 — PP, NPV, IRR, ROI 등 투자 타당성 평가 도구 집합]
-    │
-    ▼
-[투자회수기간 (PP, Payback Period) — 초기 투자비용을 순현금흐름으로 회수하는 기간]
-    │
-    ▼
-[할인투자회수기간 (DPP) — PP에 화폐의 시간가치(할인율) 반영, 더 보수적인 지표]
-    │
-    ▼
-[NPV (Net Present Value) — PP가 무시하는 회수 기간 이후 현금흐름까지 포함한 총 투자 가치]
-    │
-    ▼
-[TCO (Total Cost of Ownership) — PP 계산의 분모, 초기비용+유지보수비 포함 총소유비용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">투자 의사결정 지표 — PP, NPV, IRR, ROI 등 투자 타당성 평가 도구 집합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">투자회수기간 (PP, Payback Period) — 초기 투자비용을 순현금흐름으로 회수하는 기간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">할인투자회수기간 (DPP) — PP에 화폐의 시간가치(할인율) 반영, 더 보수적인 지표</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NPV (Net Present Value) — PP가 무시하는 회수 기간 이후 현금흐름까지 포함한 총 투자 가치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCO (Total Cost of Ownership) — PP 계산의 분모, 초기비용+유지보수비 포함 총소유비용</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 가장 직관적인 투자 회수 지표인 PP가 화폐 시간가치를 반영한 DPP로 보완되고, PP가 고려하지 못하는 장기 현금흐름을 NPV가 담당하며, TCO가 정확한 원금 계산의 기반이 되는 IT 투자 평가 지표의 상호 보완 관계를 보여준다.
 

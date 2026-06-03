@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 우리가 네이버나 구글에 접속할 때 쓰는 `HTTPS`는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신이다. 브라우저(클라이언트)는 네이버(서버)가 진짜 네이버인지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지만, 네이버는 내가 누구인지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는다. (대신 아이디/비밀번호로 로그인할 뿐이다).
 
-과거의 IT 환경에서는 외부(인터넷)에서 내부망으로 들어올 때만 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) TLS를 쓰고, 일단 **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 안쪽(내부망)에 들어온 서버들끼리는 서로를 100% 믿고 암호화 없이 평문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))으로 통신**했다.
+과거의 IT 환경에서는 외부(인터넷)에서 내부망으로 들어올 때만 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) TLS를 쓰고, 일단 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 안쪽(내부망)에 들어온 서버들끼리는 서로를 100% 믿고 암호화 없이 평문(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>)으로 통신</strong>했다.
 
-하지만 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 내부 직원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하나를 뚫는 순간, 이 PC는 내부망의 '신뢰받는 기기'가 되어 다른 서버들의 평문 통신을 모두 엿듣고 가짜 명령을 보낼 수 있었다. 이를 막기 위해 **"내부망에 있는 서버들끼리도 통신할 때마다 서로 진짜 맞는지 신분증을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 암호화해서 대화하자!"**는 사상이 대두되었고, 이것이 **[mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([Mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))**다.
+하지만 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 내부 직원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하나를 뚫는 순간, 이 PC는 내부망의 '신뢰받는 기기'가 되어 다른 서버들의 평문 통신을 모두 엿듣고 가짜 명령을 보낼 수 있었다. 이를 막기 위해 <strong>"내부망에 있는 서버들끼리도 통신할 때마다 서로 진짜 맞는지 신분증을 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고 암호화해서 대화하자!"</strong>는 사상이 대두되었고, 이것이 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/">Mutual TLS</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) TLS는 클럽 입구에서 기도(클라이언트)가 손님(서버)의 신분증만 검사하는 것이다. mTLS는 클럽 안에 들어온 뒤에도 손님들끼리 대화할 때마다 서로 신분증을 까보고 "너 진짜 우리 클럽 회원 맞아?"라고 매번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 무시무시한 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 보안의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  mTLS 상호 인증 서비스 간 보안                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mTLS 상호 인증 서비스 간 보안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 보안가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,9 +76,9 @@ mTLS의 핵심은 통신하는 양쪽이 모두 '자신의 신분을 증명할 [
 | 비교 항목 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) (평문 통신) | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) | 상호 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) ([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)) |
 |:---|:---|:---|:---|
 | **통신 상태** | 누구나 엿볼 수 있음 | 암호화됨 | 암호화됨 |
-| **신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | 서로 모름 | 클라이언트만 서버를 신뢰함 | **양쪽 모두 서로를 신뢰함** |
+| <strong>신원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | 서로 모름 | 클라이언트만 서버를 신뢰함 | **양쪽 모두 서로를 신뢰함** |
 | **주요 사용처** | 과거의 안전한 내부망 | 외부 사용자 $\rightarrow$ 우리 회사 서버 | **내부망의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 서버 $\leftrightarrow$ 서버** |
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급자**| 없음 | 공인 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Verisign, Let's Encrypt 등) | **사내 자체 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Private [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 발급자</strong>| 없음 | 공인 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Verisign, Let's Encrypt 등) | <strong>사내 자체 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (Private <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong> |
 
 mTLS에 쓰이는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 외부 공인 기관에서 돈 주고 살 필요가 없다. 외부 인터넷과 통신하는 게 아니기 때문에, 사내에 '자체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관(Private [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))'을 띄워놓고 우리 서버들끼리만 알아볼 수 있는 무료 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 무한대로 찍어내면 된다.
 
@@ -109,7 +108,7 @@ mTLS는 보안 측면에서 완벽하지만, 도입 과정에서 개발팀과 �
 
 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 아키텍처를 내재화하면, 해커가 운 좋게 내부망의 스토리지 서버 하나를 해킹했더라도 다른 결제 서버나 DB 서버로 공격을 확장(측면 이동)하는 것이 물리적으로 불가능해진다. 해커의 서버에는 '사내 사원증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)'이 없기 때문에 어떤 API를 찔러도 즉시 차단당하기 때문이다.
 
-결론적으로 mTLS는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 **'[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))' 철학을 실현하는 가장 완벽하고 궁극적인 기술적 해답**이다. 기술 아키텍트는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시를 단순한 트래픽 분배 도구를 넘어, 전사적 보안 인프라의 코어(Core)로 활용하여 보이지 않는 위협으로부터 시스템을 영구히 격리해야 한다.
+결론적으로 mTLS는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 <strong>'<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)' 철학을 실현하는 가장 완벽하고 궁극적인 기술적 해답</strong>이다. 기술 아키텍트는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시를 단순한 트래픽 분배 도구를 넘어, 전사적 보안 인프라의 코어(Core)로 활용하여 보이지 않는 위협으로부터 시스템을 영구히 격리해야 한다.
 
 - **📢 섹션 요약 비유**: mTLS는 마이크로서비스들끼리 쓰는 '외계어'다. 해커가 옆에서 엿들어도 무슨 말인지 알 수 없고(암호화), 해커가 외계인 흉내를 내며 말을 걸어도 억양([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이 달라서 단 1초 만에 가짜임을 들키고 쫓겨난다.
 
@@ -132,21 +131,23 @@ mTLS는 보안 측면에서 완벽하지만, 도입 과정에서 개발팀과 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-mTLS 상호 인증 서비스 간 보안 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">mTLS 상호 인증 서비스 간 보안 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

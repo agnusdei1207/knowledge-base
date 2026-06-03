@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 **제어 계층(컨트롤러)**과 그 위에서 돌아가는 **응용 계층(네트워크 애플리케이션: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드밸런서, 트래픽 감시 앱 등)** 사이를 연결하여 소통하게 해 주는 소프트웨어 통신 규약([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
-- 아키텍처 다이어그램에서 컨트롤러를 기준으로 **북쪽(위쪽, North)**으로 향하는 선이라 하여 노스바운드라 부릅니다.
+- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 <strong>제어 계층(컨트롤러)</strong>과 그 위에서 돌아가는 <strong>응용 계층(네트워크 애플리케이션: <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, 로드밸런서, 트래픽 감시 앱 등)</strong> 사이를 연결하여 소통하게 해 주는 소프트웨어 통신 규약([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
+- 아키텍처 다이어그램에서 컨트롤러를 기준으로 <strong>북쪽(위쪽, North)</strong>으로 향하는 선이라 하여 노스바운드라 부릅니다.
 
-```text
-[사우스바운드 인터페이스]
-    │
-    ▼
-[노스바운드 인터페이스]
-    │
-    └──▶ [OpenFlow SDN 1세대 표준 규격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 노스바운드 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,22 +44,26 @@ tags = ["studynote-network"]
 ### 1. 네트워크의 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 제공 🌟
 이게 노스바운드가 가져온 혁명입니다.
 - **과거의 끔찍함**: 1,000만 원짜리 디도스 방어 앱을 만들려면, 개발자가 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 명령(CLI)을 다 외우고, 주니퍼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 언어도 다 따로 외워서 짜야 했습니다(하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 
-- **노스바운드의 구원**: 컨트롤러가 밑바닥의 그 더러운 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 차이를 다 감춰버리고, 앱 개발자에게는 아주 예쁘고 통일된 **[RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/XML)**만 딱 제공합니다.
+- **노스바운드의 구원**: 컨트롤러가 밑바닥의 그 더러운 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계어 차이를 다 감춰버리고, 앱 개발자에게는 아주 예쁘고 통일된 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 기반 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>/XML)</strong>만 딱 제공합니다.
 - 개발자는 기계어를 1도 모르지만, 그냥 파이썬으로 `POST /api/network/block IP=1.1.1.1` 한 줄만 쏴주면, 밑에서 컨트롤러가 알아서 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)든 기계에 맞게 번역해서 디도스를 차단해 줍니다. 
 
 ### 2. 비즈니스 '의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'의 전달
 - 윗단에 있는 앱(App)은 복잡한 네트워크 길 찾기를 알 필요가 없습니다.
-- 로드밸런서 앱이 노스바운드 API로 **"이번 트래픽은 보안 1등급(의도)으로 쏴줘!"**라고 대충 툭 던집니다. 
+- 로드밸런서 앱이 노스바운드 API로 <strong>"이번 트래픽은 보안 1등급(의도)으로 쏴줘!"</strong>라고 대충 툭 던집니다. 
 - 이 말을 찰떡같이 알아들은 컨트롤러(뇌)가, 알아서 밑바닥 지도를 보고 해킹 위험이 없는 안전한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들로만 쏙쏙 피해서 길(경로)을 다 뚫어줍니다.
 
-```text
-[사우스바운드 인터페이스]
-    │
-    ▼
-[노스바운드 인터페이스]
-    │
-    └──▶ [OpenFlow SDN 1세대 표준 규격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 노스바운드 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 사우스바운드는 기계랑 대화해야 해서 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 같은 특수 언어를 썼지만, 노스바운드는 앱 개발자(인간)랑 대화해야 하므로 웹 개발 언어로 통일되었습니다.
 
-- **[RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) / XML)**: 전 세계 모든 웹 개발자가 숨 쉬듯 쓰는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격입니다. 노스바운드 인터페이스의 99%는 이 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 만들어집니다. (개발 허들이 극도로 낮아져 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 생태계가 폭발했습니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> / XML)</strong>: 전 세계 모든 웹 개발자가 숨 쉬듯 쓰는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격입니다. 노스바운드 인터페이스의 99%는 이 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 만들어집니다. (개발 허들이 극도로 낮아져 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 생태계가 폭발했습니다.)
 - **Frenetic, Nettle, Pyretic**: 학계에서 만든 특수 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 언어들이지만 지금은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API에 밀려 거의 쓰지 않습니다.
 
 노스바운드 인터페이스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)가 기반 조건을 만든다면, 노스바운드 인터페이스는 그 위에서 핵심 메커니즘을 구현하고, [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 1세대 표준 규격은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-노스바운드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 덕분에 네트워크가 **'소프트웨어 산업'**으로 바뀌었습니다. 기존 쇳덩어리 장비 장사만 하던 시스코 대신, 실리콘밸리의 소프트웨어 스타트업들이 파이썬으로 기가 막힌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱, 트래픽 감시 앱을 짜서 컨트롤러 위에 올리기 시작하며 통신 시장의 패러다임이 엎어졌습니다.
+노스바운드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 덕분에 네트워크가 <strong>'소프트웨어 산업'</strong>으로 바뀌었습니다. 기존 쇳덩어리 장비 장사만 하던 시스코 대신, 실리콘밸리의 소프트웨어 스타트업들이 파이썬으로 기가 막힌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱, 트래픽 감시 앱을 짜서 컨트롤러 위에 올리기 시작하며 통신 시장의 패러다임이 엎어졌습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 노스바운드 인터페이스는 식당 주방의 **'주문 단말기(POS)'**입니다. 요리를 하는 건 주방장(컨트롤러)과 보조 요리사들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계)입니다. 그런데 홀에 있는 손님이나 웨이터(앱 프로그래머)가 주방장에게 요리를 시킬 때 "가스레인지 불을 300도로 맞추고, 프라이팬을 10도로 돌려서 소금을 쳐라"라고 기계적인 명령을 하지 않습니다. 웨이터는 주문 단말기(노스바운드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 그냥 '짜장면 1개 덜 짜게(비즈니스 의도)'라고 입력([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 호출)만 딱 누릅니다. 그러면 단말기 주문서를 본 주방장(컨트롤러)이 찰떡같이 알아듣고, 밑바닥의 온갖 기계(가스레인지, 프라이팬)를 복잡하게 조작하여 완벽한 짜장면을 완성해 냅니다. 웨이터(앱)는 기계 사용법을 평생 몰라도 됩니다.
+- **📢 섹션 요약 비유**: 노스바운드 인터페이스는 식당 주방의 <strong>'주문 단말기(POS)'</strong>입니다. 요리를 하는 건 주방장(컨트롤러)과 보조 요리사들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계)입니다. 그런데 홀에 있는 손님이나 웨이터(앱 프로그래머)가 주방장에게 요리를 시킬 때 "가스레인지 불을 300도로 맞추고, 프라이팬을 10도로 돌려서 소금을 쳐라"라고 기계적인 명령을 하지 않습니다. 웨이터는 주문 단말기(노스바운드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 그냥 '짜장면 1개 덜 짜게(비즈니스 의도)'라고 입력([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 호출)만 딱 누릅니다. 그러면 단말기 주문서를 본 주방장(컨트롤러)이 찰떡같이 알아듣고, 밑바닥의 온갖 기계(가스레인지, 프라이팬)를 복잡하게 조작하여 완벽한 짜장면을 완성해 냅니다. 웨이터(앱)는 기계 사용법을 평생 몰라도 됩니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 사우스바운드 인터페이스]
-    │
-    ▼
-[현재 개념: 노스바운드 인터페이스]
-    │
-    ├──▶ [확장 A: OpenFlow SDN 1세대 표준 규격]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사우스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 노스바운드 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenFlow SDN 1세대 표준 규격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 노스바운드 인터페이스는 [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 1세대 표준 규격와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

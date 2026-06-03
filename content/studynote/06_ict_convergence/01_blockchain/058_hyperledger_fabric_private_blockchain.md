@@ -30,20 +30,26 @@ tags = ["ict_convergence"]
 
 패브릭은 허가형 네트워크다. 참여하려면 신원과 권한이 검증되어야 한다.
 
-- **MSP (Membership [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/))**: 신원과 인증을 관리한다.
-- **[Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)**: 장부를 보관하고 [체인코드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/)를 실행한다.
+- <strong>MSP (Membership <a href="/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/">Service Provider</a>)</strong>: 신원과 인증을 관리한다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/">Peer</a></strong>: 장부를 보관하고 [체인코드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/059_chaincode_smart_contract/)를 실행한다.
 - **Orderer**: 거래 순서를 정한다.
 - **Channel**: 참여자끼리만 보는 논리적 공간이다.
 
-```text
-Client
-  ↓ Proposal
-Peer / Endorsement
-  ↓
-Orderer
-  ↓
-Channel Ledger
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Client</div>
+<div class="kb-diagram-note">↓ Proposal</div>
+<div class="kb-diagram-note">Peer / Endorsement</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Orderer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Channel Ledger</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 회사 회의, 인사팀, 결재팀, 회계팀이 각자 역할을 나눠 가진 구조다.
 
@@ -83,15 +89,21 @@ Fabric은 거래를 먼저 제안 받고, 승인 서명을 모은 뒤, 순서를
 
 ## 관련 개념 맵
 
-```text
-허가형 참여자
-   ↓
-MSP / Channel / Peer / Orderer
-   ↓
-체인코드
-   ↓
-기업용 장부
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">허가형 참여자</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MSP / Channel / Peer / Orderer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">체인코드</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기업용 장부</div>
+</div>
+</div>
+
+
 
 ---
 

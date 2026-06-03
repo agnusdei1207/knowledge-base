@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 트래픽([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 또는 PAT([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Address Translation) 장비를 통과할 수 있도록, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 패킷을 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500번 헤더로 추가 캡슐화하여 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 정보를 부여하는 기능 (RFC 3947).
-- **필요성**: 직원이 카페 와이파이([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 공유기)를 잡아 노트북으로 회사에 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 연결했다. 노트북은 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500)로 협상을 잘 마치고 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 암호화 패킷을 쐈다. 공유기는 패킷을 밖으로 보낸다. 본사에서 답장이 왔다. 그런데 공유기가 받아보니 겉면에 IP만 있고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 없다! (ESP는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 없으니까). "어? 내 뒤에 노트북 10명이나 와이파이 쓰고 있는데, 이 패킷 누구한테 줘야 해?" ──▶ 공유기는 패킷을 쓰레기통에 냅다 버린다. (통신 단절). **"야, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 없으면 억지로라도 가짜 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 껍데기를 하나 씌워서 공유기 입맛에 맞게 속여주자!!"** 이것이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T의 탄생 배경이다.
+- **필요성**: 직원이 카페 와이파이([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 공유기)를 잡아 노트북으로 회사에 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 연결했다. 노트북은 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500)로 협상을 잘 마치고 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 암호화 패킷을 쐈다. 공유기는 패킷을 밖으로 보낸다. 본사에서 답장이 왔다. 그런데 공유기가 받아보니 겉면에 IP만 있고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 없다! (ESP는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 없으니까). "어? 내 뒤에 노트북 10명이나 와이파이 쓰고 있는데, 이 패킷 누구한테 줘야 해?" ──▶ 공유기는 패킷을 쓰레기통에 냅다 버린다. (통신 단절). <strong>"야, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>가 없으면 억지로라도 가짜 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 껍데기를 하나 씌워서 공유기 입맛에 맞게 속여주자!!"</strong> 이것이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T의 탄생 배경이다.
 
 - **💡 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T는 택배 배달의 **"동/호수 추가 기입"** 꼼수입니다.
-  - **[ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)**: 금고. 겉면에 "서울시 은마아파트(IP)" 까지만 적혀 있고, 몇 동 몇 호([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))인지가 없습니다. 경비실([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))에서 "이거 누구 집 거야!" 하고 버립니다.
-  - **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500)**: 금고 겉면에 억지로 종이상자를 하나 더 씌우고 매직으로 **"101동 502호([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**라고 가짜 동호수를 적어 줍니다. 경비실은 이 번호표만 보고 손쉽게 배달을 마칩니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a></strong>: 금고. 겉면에 "서울시 은마아파트(IP)" 까지만 적혀 있고, 몇 동 몇 호([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))인지가 없습니다. 경비실([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))에서 "이거 누구 집 거야!" 하고 버립니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>-T (<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 4500)</strong>: 금고 겉면에 억지로 종이상자를 하나 더 씌우고 매직으로 <strong>"101동 502호(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 4500 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)"</strong>라고 가짜 동호수를 적어 줍니다. 경비실은 이 번호표만 보고 손쉽게 배달을 마칩니다.
 
-```text
-[IKE, ISAKMP, SA]
-    │
-    ▼
-[NAT-T]
-    │
-    └──▶ [SSL VPN / TLS VPN]
-```
 
-- **📢 섹션 요약 비유**: ** [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 없어 통과증을 못 받는 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고에게, **"[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500"**이라는 합법적이고 가벼운 프리패스 완장을 하나 덧씌워주어 깐깐한 공유기(PAT)의 바코드 스캐너를 무사히 통과하게 만드는 완벽한 변장술입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IKE, ISAKMP, SA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT-T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSL VPN / TLS VPN</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>-T는 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)가 없어 통과증을 못 받는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 금고에게, </strong>"[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500"**이라는 합법적이고 가벼운 프리패스 완장을 하나 덧씌워주어 깐깐한 공유기(PAT)의 바코드 스캐너를 무사히 통과하게 만드는 완벽한 변장술입니다.
 
 ---
 
@@ -49,38 +53,38 @@ tags = ["studynote-network"]
 
 ### 2. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 쉬프팅 ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500 ──▶ [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500)
 NAT가 발견되면, 두 방화벽은 Phase 2로 넘어가기 전에 약속을 바꾼다.
-- "야, 기존 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상하던 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500)도 다 버려! 꼬일 수 있으니 지금부터는 협상([IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/))도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))도 **모조리 통째로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 갈아타서 쏘자!**"
+- "야, 기존 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상하던 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500)도 다 버려! 꼬일 수 있으니 지금부터는 협상([IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/))도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))도 <strong>모조리 통째로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 4500번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 갈아타서 쏘자!</strong>"
 - 이 순간부터 모든 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 통신은 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500번이라는 하나의 터널 구멍으로 대통합된다.
 
 ### 3. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T 패킷의 4단 샌드위치 구조 (핵심)
 와이어샤크로 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T 패킷을 잡아보면 엄청나게 뚱뚱해진 걸 볼 수 있다.
 (터널 모드 기준)
 
-1. **내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `[ 원본 사설 IP 헤더 ] + [ TCP 데이터 ]`
-2. **[ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 보호막**: 이 알맹이를 `[ ESP 헤더 ]`가 감싸서 암호화한다.
-3. **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T 꼼수 헤더 ★**: 그 위에 `[ UDP 헤더 (포트 4500) ]`를 추가로 씌운다. (이게 핵심).
+1. <strong>내부 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `[ 원본 사설 IP 헤더 ] + [ TCP 데이터 ]`
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 보호막</strong>: 이 알맹이를 `[ ESP 헤더 ]`가 감싸서 암호화한다.
+3. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>-T 꼼수 헤더 ★</strong>: 그 위에 `[ UDP 헤더 (포트 4500) ]`를 추가로 씌운다. (이게 핵심).
 4. **외부 배달 껍데기**: 맨 바깥에 `[ New IP 헤더 (공유기 공인 IP) ]`를 씌운다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                NAT-T 적용 전/후의 패킷 구조 차이 (터널 모드)      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 1. NAT-T 미적용 (일반 ESP) ] - 공유기가 버림!                  │
- │   [ New IP 헤더 ] ──▶ [ ESP 헤더 ] ──▶ [ 암호화된 알맹이 ]           │
- │                       (포트가 없어 PAT 불가)                     │
- │                                                             │
- │   [ 2. NAT-T 적용 완료 ] - 공유기 프리패스!                       │
- │   [ New IP 헤더 ] ──▶ [ UDP (Port 4500) ] ──▶ [ ESP 헤더 ] ──▶  │
- │                       (공유기: "오 UDP 통신이네? 통과!")         │
- │                                                             │
- │   ▶ "방화벽/VPN 엔지니어는 반드시 외부 방화벽 룰에                  │
- │      UDP 500 (IKE) 와 UDP 4500 (NAT-T) 두 개를 모두          │
- │      허용(Allow)해 두어야 재택근무자 연결이 안 터진다!"           │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 패킷이 **"번호판 없는 스텔스 장갑차"**라면, 톨게이트(공유기)는 번호판이 없다고 통과를 거부합니다. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T는 이 장갑차 겉면에 **"[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500"**이라는 가짜 렌터카 번호판을 철썩 붙여주어 톨게이트 직원을 속이고 무사히 톨게이트를 빠져나가게 하는 위장술입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAT-T 적용 전/후의 패킷 구조 차이 (터널 모드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. NAT-T 미적용 (일반 ESP)</div><div class="kb-diagram-note">- 공유기가 버림!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New IP 헤더</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호화된 알맹이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포트가 없어 PAT 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. NAT-T 적용 완료</div><div class="kb-diagram-note">- 공유기 프리패스!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New IP 헤더</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP (Port 4500)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유기: "오 UDP 통신이네? 통과!")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "방화벽/VPN 엔지니어는 반드시 외부 방화벽 룰에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UDP 500 (IKE) 와 UDP 4500 (NAT-T) 두 개를 모두</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허용(Allow)해 두어야 재택근무자 연결이 안 터진다!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 패킷이 </strong>"번호판 없는 스텔스 장갑차"<strong>라면, 톨게이트(공유기)는 번호판이 없다고 통과를 거부합니다. <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>-T는 이 장갑차 겉면에 </strong>"[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4500"**이라는 가짜 렌터카 번호판을 철썩 붙여주어 톨게이트 직원을 속이고 무사히 톨게이트를 빠져나가게 하는 위장술입니다.
 
 ---
 
@@ -136,15 +140,19 @@ NAT가 발견되면, 두 방화벽은 Phase 2로 넘어가기 전에 약속을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IKE, ISAKMP, SA]
-    │
-    ▼
-[현재 개념: NAT-T]
-    │
-    ├──▶ [확장 A: SSL VPN / TLS VPN]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IKE, ISAKMP, SA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAT-T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)-T는 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), ISAKMP, SA에서 출발해 현재 메커니즘을 정교화하고, 이후 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

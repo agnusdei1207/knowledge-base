@@ -22,30 +22,31 @@ tags = ["studynote-operating-system"]
 두루마리 휴지 하나와 비누 하나가 있어야만 씻고 나올 수 있는 두 사람이 있다. 
 A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 하염없는 데드락([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠졌다. 
 
-데드락 예방을 위한 **[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) 부정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**은 아주 시원하게 이 꼬라지를 박살 낸다. 
+데드락 예방을 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold-and-Wait</a>) 부정 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 아주 시원하게 이 꼬라지를 박살 낸다. 
 1. **사전 일괄 획득 (Pre-allocation)**: "샤워실 들어가기 전 바깥 거실에서 휴지와 비누 두 개 세트가 다 모일 때까지 절대 네 몸 하나 까딱하지 말고 기다려라."
 2. **점유 자원 완전 방출 (Release and Request)**: "비누 쥐고 있다가 10초 내로 휴지 못 찾으면? 손에 든 비누 바닥에 내던져버리고(반납), 빈손으로 나갔다가 처음부터 두 개 다 주우러 다시 도전해!"
 
 **💡 비유**: 양손 가득 짐을 물고 문고리를 잡으려 버티지 말고, 다 바닥에 내려놓고 처음부터 싹 담아오라는 룰. 상대방 입장에선 너의 얌체 같은 '일부 점유' 알박기가 사라지니 속이 시원해 데드락이 사라진다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         점유 대기(Hold-and-Wait) 부정을 위한 2가지 알고리즘   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [전략 1] All-at-Once (일괄 요청 기반)                        │
-│  - 프로그램이 10시간 도는 동안, 맨 마지막 1초에 쓸 파일 락    │
-│    하나라도 못 얻으면 아예 시작 로딩조차 안 시킴.             │
-│  - 문제: 남은 9시간 59분 59초 동안 그 파일 락은 놀면서 낭비.  │
-│                                                               │
-│  [전략 2] Release-and-Request (전면 반납형 기반)              │
-│  - 필요할 때마다 락을 잡되, 추가 락 B가 필요한데 막혀있으면   │
-│    기존에 잡고 있던 소중한 A 락을 모조리 OS에 자동 헌납.      │
-│  - 나중에 다시 A와 B를 패키지로 재요청함 (Retry).             │
-│  - 문제: 인기도 높은 A 락을 놓는 순간 남이 채가서 영원히      │
-│    A, B를 동시 완성 못 하고 미아(Starvation)가 됨.            │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유 대기(Hold-and-Wait) 부정을 위한 2가지 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 1</div><div class="kb-diagram-note">All-at-Once (일괄 요청 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로그램이 10시간 도는 동안, 맨 마지막 1초에 쓸 파일 락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나라도 못 얻으면 아예 시작 로딩조차 안 시킴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제: 남은 9시간 59분 59초 동안 그 파일 락은 놀면서 낭비.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 2</div><div class="kb-diagram-note">Release-and-Request (전면 반납형 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 필요할 때마다 락을 잡되, 추가 락 B가 필요한데 막혀있으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존에 잡고 있던 소중한 A 락을 모조리 OS에 자동 헌납.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 나중에 다시 A와 B를 패키지로 재요청함 (Retry).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제: 인기도 높은 A 락을 놓는 순간 남이 채가서 영원히</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A, B를 동시 완성 못 하고 미아(Starvation)가 됨.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 부정은 뷔페 얌체 방지법 — "접시에 김밥 하나 올려놓고 탕수육 줄 30분 서면서 남들 못 먹게 알박기(점유+대기) 금지! 접시도 반납하고 처음부터 세트 맞춰 떠오렴!"
 
@@ -55,10 +56,10 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 
 ### 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) & 낭비 딜레마
 
-`점유 대기 부정`은 운영체제에서 **자원 활용률(Utilization)을 땅바닥으로 처박는 가장 주된 원흉**으로 혹평받는다. 
+`점유 대기 부정`은 운영체제에서 <strong>자원 활용률(Utilization)을 땅바닥으로 처박는 가장 주된 원흉</strong>으로 혹평받는다. 
 
 1. **치명적인 자원 낭비율**: DVD 쓰기를 위해 프로세스는 메모리, CPU, 디스크, DVD 레코더를 동시에 선점한다. 그런데 데이터를 굽기 위해 1시간 연산을 돌릴 때, DVD 레코더는 1시간 내내 유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 상태로 전세가 나간 채 썩고 있다. 다른 사람의 1분 컷 인쇄/굽기도 막아버린다.
-2. **기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 가능성 폭증**: 인기 만점인 자원 3개를 동시에 잡아야 하는 스레드는, 자원 1.2개를 잡고 3번 기다리다 뺏기고, 다시 1번 다시 잡다 뺏기고 핑퐁 릴레이를 무한 반복하며 언제 작업을 마칠지 모르는 '기아'의 나락([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 성향)으로 떨어진다.
+2. <strong>기아 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 가능성 폭증</strong>: 인기 만점인 자원 3개를 동시에 잡아야 하는 스레드는, 자원 1.2개를 잡고 3번 기다리다 뺏기고, 다시 1번 다시 잡다 뺏기고 핑퐁 릴레이를 무한 반복하며 언제 작업을 마칠지 모르는 '기아'의 나락([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 성향)으로 떨어진다.
 
 **📢 섹션 요약 비유**: 효율성 빵점 운영 — DVD 레코더 쓸 1시간 뒤를 위해 1시간 전부터 레코더 스위치를 잠가서 남들 손가락만 빨게 만들고, 반납형으로 시달리다 결국 일처리는 하나도 못 하는 황당한 패러다임입니다.
 
@@ -69,7 +70,7 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 | 처리 기준 | [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 보장 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 허용 후 타조/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) | [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 부정 (완전 예방) |
 |:---|:---|:---|
 | 프로그래머 난이도 | 중간 (때때로 코딩 순서 조심) | 매우 높음 (시작 전 리소스 수요를 100% 코딩으로 선언해야 함) |
-| OS 시스템 활용률 | **최대 스루풋 (Maximum [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** | 쓰레기 수준의 낭비 (수십 % 하락) |
+| OS 시스템 활용률 | <strong>최대 스루풋 (Maximum <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> | 쓰레기 수준의 낭비 (수십 % 하락) |
 | 데드락 안전 보장 | [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 롤백으로 보완 | 안전 보장은 투명하게 100% |
 
 **📢 섹션 요약 비유**: 필요할 때 잠깐 쥐고 쓰는 요즘 시대에, "너네 데드락 낼까 봐 무서우니 탈 것들 아침에 한방에 선점신청 안 하면 아예 안 빌려줌" 하는 철통방어 공산주의적 예약 배급 시스템과 똑같습니다.
@@ -80,9 +81,9 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 
 **실무 시나리오**:
 1. **소프트웨어 락 백오프 (Backoff/Retry) 융합**: 이론적인 R&R(반납 재요청)이 기아에 빠지니, 현대 실무는 `Thread.sleep` + Random 백오프(지수 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 통해 "내가 쥐고 3초 대기해보고 안 되면 놔줄게. 대신 그 후 5초 뒤나 8초 뒤(랜덤 난수)에 재도전할게!" 라며 동시 경합자들끼리 시간축을 분산시켜 기아를 회피하며 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 우회 타파한다.
-2. **[Two-Phase Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/) ([2PL](/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/))의 극복**: DB 트랜잭션의 교과서는 오직 점유([Growing phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/))만 하다가 약속된 분기점에 도달해야만 반납([Shrinking phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/218_shrinking_phase_2pl_cascading_rollback/))하게 만들어, 일체의 `점유 대기 부정`을 극혐하고 오히려 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 보장하는 철학 아래 만들어졌다(직렬성 보장).
+2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/">Two-Phase Locking</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/">2PL</a>)의 극복</strong>: DB 트랜잭션의 교과서는 오직 점유([Growing phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/))만 하다가 약속된 분기점에 도달해야만 반납([Shrinking phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/218_shrinking_phase_2pl_cascading_rollback/))하게 만들어, 일체의 `점유 대기 부정`을 극혐하고 오히려 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 보장하는 철학 아래 만들어졌다(직렬성 보장).
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **정적 자원 리스트업의 붕괴**: OS에 다짜고짜 "나 이 함수 시작할 건데 `Thread_Pool` 30개랑 `DB_Conn` 50개 지금 한 번에 몰아줘"라고 선언(일괄 요청). 트래픽이 부족할 땐 낭비뿐이고 몰려올 땐 시작부터 저 많은 패키지가 조립되지 않아 아예 함수 진입이 봉쇄(초장기 무한 홀딩)된다. 
 
 **📢 섹션 요약 비유**: 모든 재료가 완벽히 오기 전까지 요리 시작조차 안 하는 결벽증 셰프(예방)보다, 일단 야채 썰면서 소고기 오길 기다리다 너무 늦으면 다른 찌개 끓이는 셰프([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))가 매출이 훨씬 나옵니다.
@@ -113,15 +114,19 @@ A는 비누를, B는 휴지를 끝끝내 손에 꼭 쥐고 놔주질 않으니 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상호 배제 부정]
-    │
-    ▼
-[점유 대기 부정 (Deny Hold And Wait)]
-    │
-    ├──▶ [비선점 부정]
-    └──▶ [순환 대기 부정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 부정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점유 대기 부정 (Deny Hold And Wait)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 부정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 부정</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

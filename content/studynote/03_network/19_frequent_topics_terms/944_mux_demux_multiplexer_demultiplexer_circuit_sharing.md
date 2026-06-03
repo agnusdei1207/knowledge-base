@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다. 
 - **해결책**: 고속의 광대역(1Gbps) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 딱 1가닥만 빌리고, 직원 10명(각 100Mbps)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 파이프에 비빔밥처럼 구겨 넣어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏘면 100만 원으로 끝납니다. 이 짓을 물리적으로 수행하는 하드웨어 장비가 MUX입니다.
 
-```text
-[펄스부호변조]
-    │
-    ▼
-[다중화기 / 역다중화기]
-    │
-    └──▶ [직교주파수분할다중접속]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **MUX ([Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/), [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기)**: 송신 측에 설치되어, 속도가 느린 여러 개의 입력 채널(선)에서 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 모아 **속도가 아주 빠른 단 1개의 거대한 출력 채널(고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·병합시켜 실어 보내는 통신 장비(깔때기)**입니다.
-- **DEMUX ([Demultiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/), 역다중화기)**: 부산 지사(수신 측)에 설치되어, 고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥으로 밀려 들어온 비빔밥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 분리(해체)하여, 목적지인 10명의 직원 컴퓨터로 원래대로 찢어 뿌려주는(분배기) 장비입니다.
+- <strong>MUX (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/">Multiplexer</a>, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 송신 측에 설치되어, 속도가 느린 여러 개의 입력 채널(선)에서 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 모아 <strong>속도가 아주 빠른 단 1개의 거대한 출력 채널(고속 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>)에 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·병합시켜 실어 보내는 통신 장비(깔때기)</strong>입니다.
+- <strong>DEMUX (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/">Demultiplexer</a>, 역다중화기)</strong>: 부산 지사(수신 측)에 설치되어, 고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥으로 밀려 들어온 비빔밥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 분리(해체)하여, 목적지인 10명의 직원 컴퓨터로 원래대로 찢어 뿌려주는(분배기) 장비입니다.
 - 통신은 양방향이므로, 보통 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비 안에 MUX와 DEMUX 모듈이 한 몸통으로 붙어있습니다.
 
-```text
-[펄스부호변조]
-    │
-    ▼
-[다중화기 / 역다중화기]
-    │
-    └──▶ [직교주파수분할다중접속]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ### 2. TDM ([시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)) - "시간표 나누기" 🌟
 - 현대 디지털 통신([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), T1/E1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 뼈대입니다. 
-- 파이프는 하나지만, 1초를 0.1초씩 10조각으로 자릅니다. "0.1초는 1번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가고, 다음 0.1초는 2번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가!" 라며 **순서대로 시간표(슬롯)를 배정하여 돌아가며 짐을 싣는 마법**입니다.
+- 파이프는 하나지만, 1초를 0.1초씩 10조각으로 자릅니다. "0.1초는 1번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가고, 다음 0.1초는 2번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가!" 라며 <strong>순서대로 시간표(슬롯)를 배정하여 돌아가며 짐을 싣는 마법</strong>입니다.
 
 ### 3. WDM (파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "무지개빛 색깔 나누기"
 - 광케이블(유리관)에서 쓰는 극강의 스킬입니다. 1번 직원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 빨간색 빛, 2번은 파란색 빛으로 레이저 색깔을 바꾼 뒤, 유리관 한 가닥에 프리즘처럼 모아서 한 방에 쏴버리는 초광대역 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)입니다.
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 비슷해 보이지만 사상이 다릅니다.
-- **MUX ([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기)**: 입력선이 10개(각 10M)면, 나가는 출력선 1개는 무조건 100M짜리 광폭 도로여야 합니다(대역폭의 총합 보장). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1도 안 버려집니다. 정적인 고정 할당입니다.
+- <strong>MUX (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 입력선이 10개(각 10M)면, 나가는 출력선 1개는 무조건 100M짜리 광폭 도로여야 합니다(대역폭의 총합 보장). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1도 안 버려집니다. 정적인 고정 할당입니다.
 - **집중화기 (Concentrator)**: 입력선이 10개(10M)인데 나가는 선이 50M밖에 안 됩니다. "에이, 10명이 동시에 키보드 치진 않겠지!" 하고 대충 확률에 도박을 거는(통계적) 방식입니다. 10명이 동시에 다운로드를 누르면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꽉 막혀 버퍼에서 찢어집니다. (버퍼 메모리 필수 장착 장비)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 회사에서 10명의 직원이 거래처에 택배를 보내려 합니다. 직원이 각자 오토바이 10대(입력 회선 10개)를 불러서 고속도로를 타면 배달비가 폭발합니다. **MUX([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기)**는 회사 입구에 서 있는 '초대형 화물 트럭 물류 집하장'입니다. 10명의 직원이 가져온 작은 소포들을, MUX가 기다리고 있다가 10톤짜리 초대형 화물 트럭 1대(고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 짐칸에 테트리스처럼 꽉꽉 구겨서 싣습니다. 고속도로 톨게이트비(통신비)는 트럭 1대분만 나옵니다. 목적지에 도착하면 **DEMUX(역다중화기)**라는 물류 해체 직원이 짐칸을 열고, 박스에 적힌 라벨을 보고 다시 오토바이 10대에 짐을 찢어서 각 수신자에게 정확히 배달해 주는 궁극의 물류 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 배송 시스템입니다.
+- **📢 섹션 요약 비유**: 회사에서 10명의 직원이 거래처에 택배를 보내려 합니다. 직원이 각자 오토바이 10대(입력 회선 10개)를 불러서 고속도로를 타면 배달비가 폭발합니다. <strong>MUX(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>는 회사 입구에 서 있는 '초대형 화물 트럭 물류 집하장'입니다. 10명의 직원이 가져온 작은 소포들을, MUX가 기다리고 있다가 10톤짜리 초대형 화물 트럭 1대(고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 짐칸에 테트리스처럼 꽉꽉 구겨서 싣습니다. 고속도로 톨게이트비(통신비)는 트럭 1대분만 나옵니다. 목적지에 도착하면 <strong>DEMUX(역다중화기)</strong>라는 물류 해체 직원이 짐칸을 열고, 박스에 적힌 라벨을 보고 다시 오토바이 10대에 짐을 찢어서 각 수신자에게 정확히 배달해 주는 궁극의 물류 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 배송 시스템입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 펄스부호변조]
-    │
-    ▼
-[현재 개념: 다중화기 / 역다중화기]
-    │
-    ├──▶ [확장 A: 직교주파수분할다중접속]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 펄스부호변조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 직교주파수분할다중접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

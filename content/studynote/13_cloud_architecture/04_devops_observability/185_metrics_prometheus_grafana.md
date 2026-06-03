@@ -23,22 +23,23 @@ tags = ["studynote-cloud-architecture"]
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 더 중요해진 이유는 대상이 고정 서버에서 짧게 살아남는 컨테이너와 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))로 바뀌었기 때문이다. 인스턴스가 수시로 생기고 사라지는 환경에서는 개별 서버 이름보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위의 집계가 중요하다. 그래서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 "한 대를 본다"가 아니라 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체의 행동을 숫자로 본다"는 관점으로 설계해야 한다.
 
-[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 없으면 장애 감지는 대부분 사용자의 불만이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 검색 이후로 늦어진다. 반대로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 잘 잡혀 있으면 요청량 급증, 오류율 상승, 포화도 증가를 몇 초에서 수십 초 안에 감지하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 위반 가능성까지 미리 볼 수 있다. 즉 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 본질은 단순 기록이 아니라 **빠른 감지와 비교 가능한 운영 기준**을 제공하는 데 있다.
+[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 없으면 장애 감지는 대부분 사용자의 불만이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 검색 이후로 늦어진다. 반대로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 잘 잡혀 있으면 요청량 급증, 오류율 상승, 포화도 증가를 몇 초에서 수십 초 안에 감지하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 위반 가능성까지 미리 볼 수 있다. 즉 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 본질은 단순 기록이 아니라 <strong>빠른 감지와 비교 가능한 운영 기준</strong>을 제공하는 데 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Metrics answer the first operational question                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Raw events -> aggregation by time window -> time-series numbers   │
-│                                                                    │
-│ request started                                                    │
-│ request failed    ----> error_rate{service="checkout"}             │
-│ latency observed  ----> latency_p95{service="checkout"}            │
-│ cpu sampled       ----> cpu_usage{node="worker-a"}                 │
-│                                                                    │
-│ First question: "Is the system unhealthy right now?"              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics answer the first operational question</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw events -&gt; aggregation by time window -&gt; time-series numbers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request started</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request failed ----&gt; error_rate{service="checkout"}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">latency observed ----&gt; latency_p95{service="checkout"}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cpu sampled ----&gt; cpu_usage{node="worker-a"}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First question: "Is the system unhealthy right now?"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 병원 응급실의 활력 징후 모니터와 같다. 환자의 모든 사연을 말해 주지는 않지만, 맥박과 산소포화도가 흔들리는 순간 위험을 가장 먼저 알려 준다.
 
@@ -48,29 +49,27 @@ tags = ["studynote-cloud-architecture"]
 
 Prometheus는 계측된 애플리케이션이나 익스포터 (Exporter)에서 `/metrics` 엔드포인트를 주기적으로 읽어 오는 [풀 기반](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/) 수집기를 중심으로 동작한다. 애플리케이션은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), 게이지 (Gauge), 히스토그램 (Histogram), 서머리 ([Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/)) 같은 유형으로 수치를 노출하고, Prometheus는 이를 [시계열 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) (Time Series [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), TSDB)에 저장한 뒤 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) Query Language (PromQL)로 계산한다. Grafana는 그 결과를 대시보드와 경보 맥락으로 시각화하고, Alertmanager는 경보를 묶어 전달한다.
 
-이 구조의 핵심은 "수집-저장-질의-시각화"가 느슨하게 분리된다는 점이다. 익스포터는 값을 노출하는 데만 집중하고, Prometheus는 스크레이프 주기와 라벨을 기준으로 저장하며, Grafana는 보기 좋은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 만드는 데 집중한다. 그래서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 도구 선택보다 먼저 **무엇을 어떤 라벨로 얼마나 자주 수집할지**를 정하는 일이다.
+이 구조의 핵심은 "수집-저장-질의-시각화"가 느슨하게 분리된다는 점이다. 익스포터는 값을 노출하는 데만 집중하고, Prometheus는 스크레이프 주기와 라벨을 기준으로 저장하며, Grafana는 보기 좋은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 만드는 데 집중한다. 그래서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 도구 선택보다 먼저 <strong>무엇을 어떤 라벨로 얼마나 자주 수집할지</strong>를 정하는 일이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Prometheus metric pipeline                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ App / Exporter                                                    │
-│   └─ /metrics endpoint                                            │
-│          ▲                                                        │
-│          │ scrape every 15s / 30s                                 │
-│          │                                                        │
-│ Prometheus Server                                                 │
-│   ├─ service discovery                                            │
-│   ├─ TSDB                                                         │
-│   ├─ recording rules                                              │
-│   └─ alert rules                                                  │
-│          │                           │                            │
-│          ├──────────────┬────────────┘                            │
-│          ▼              ▼                                         │
-│      Grafana       Alertmanager                                   │
-│   dashboards        route / group / page                          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus metric pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / Exporter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /metrics endpoint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scrape every 15s / 30s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ service discovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TSDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ recording rules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alert rules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana Alertmanager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dashboards route / group / page</div></div>
+</div>
+</div>
+
+
 
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 유형 | 의미 | 잘 맞는 예시 | 설계 시 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -103,7 +102,7 @@ sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total
 | 장기 추세 분석 | 높음 | 낮음 | 중간 |
 | 개별 원인 분석 | 낮음 | 매우 높음 | 높음 |
 
-Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 시스템과 비교해 봐야 한다. 풀 모델은 대상 상태를 Prometheus가 직접 확인하므로 생존 여부와 수집 실패를 함께 판단하기 쉽고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리와 잘 맞는다. 반면 짧게 실행되는 배치 작업은 푸시게이트웨이 (Pushgateway)나 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector 같은 중간 계층이 더 적합할 수 있다. 즉 "풀 vs 푸시"는 정답 경쟁이 아니라 **대상 생명주기와 네트워크 구조**의 문제다.
+Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 시스템과 비교해 봐야 한다. 풀 모델은 대상 상태를 Prometheus가 직접 확인하므로 생존 여부와 수집 실패를 함께 판단하기 쉽고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 디스커버리와 잘 맞는다. 반면 짧게 실행되는 배치 작업은 푸시게이트웨이 (Pushgateway)나 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector 같은 중간 계층이 더 적합할 수 있다. 즉 "풀 vs 푸시"는 정답 경쟁이 아니라 <strong>대상 생명주기와 네트워크 구조</strong>의 문제다.
 
 또한 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 지표, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표, 에러 버짓 ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))과 직접 연결된다. 요청 성공률, `p95` [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 작업 큐 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 단순 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 아니라 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 입력값이 된다. 그래서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 관측성 도구이면서 동시에 품질 계약의 언어다.
 
@@ -113,7 +112,7 @@ Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 설계할 것은 대시보드가 아니라 **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 이름, 단위, 라벨 규칙**이다. `requests_total`처럼 단위가 불명확한 이름보다 `http_requests_total`, `queue_depth`, `cpu_usage_ratio`처럼 대상과 단위가 드러나는 이름이 훨씬 낫다. 라벨도 `service`, `region`, `status_code`처럼 집계 가능한 차원만 남기고, `user_id`, `order_id`, `session_id`처럼 사실상 무한대에 가까운 값은 피해야 한다.
+실무에서 가장 먼저 설계할 것은 대시보드가 아니라 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 이름, 단위, 라벨 규칙</strong>이다. `requests_total`처럼 단위가 불명확한 이름보다 `http_requests_total`, `queue_depth`, `cpu_usage_ratio`처럼 대상과 단위가 드러나는 이름이 훨씬 낫다. 라벨도 `service`, `region`, `status_code`처럼 집계 가능한 차원만 남기고, `user_id`, `order_id`, `session_id`처럼 사실상 무한대에 가까운 값은 피해야 한다.
 
 | 판단 항목 | 권장 접근 | 이유 |
 | :--- | :--- | :--- |
@@ -123,7 +122,7 @@ Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_
 | 대시보드 구성 | RED (Rate, Errors, Duration) + USE (Utilization, Saturation, Errors) 혼합 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 인프라를 함께 해석 가능 |
 | 라벨 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 저카디널리티 유지, 공통 라벨 표준화 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 성능과 비용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
-특히 히스토그램 버킷은 실제 의사결정 구간에 맞춰야 한다. 응답시간 목표가 100ms, 300ms, 1s라면 버킷도 그 지점 주변에서 촘촘해야 한다. 버킷이 너무 거칠면 백분위수가 무의미해지고, 너무 촘촘하면 시계열 수가 과도하게 늘어난다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 정확도 경쟁이 아니라 **운영 질문에 필요한 해상도만 남기는 절제**다.
+특히 히스토그램 버킷은 실제 의사결정 구간에 맞춰야 한다. 응답시간 목표가 100ms, 300ms, 1s라면 버킷도 그 지점 주변에서 촘촘해야 한다. 버킷이 너무 거칠면 백분위수가 무의미해지고, 너무 촘촘하면 시계열 수가 과도하게 늘어난다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 정확도 경쟁이 아니라 <strong>운영 질문에 필요한 해상도만 남기는 절제</strong>다.
 
 경보는 원인보다 사용자 증상에 가까워야 한다. 예를 들어 CPU 사용률 90퍼센트만으로 바로 호출하기보다, 오류율 상승 또는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 악화와 함께 볼 때 더 실행 가능한 경보가 된다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표를 운영하는 팀이라면 멀티 윈도·멀티 번 레이트 (Multi-window Multi-burn-rate) 방식으로 에러 버짓 소진 속도를 경보에 반영하는 것이 좋다.
 
@@ -137,9 +136,9 @@ Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_
 
 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 잘 설계되면 장애를 빨리 감지하고, 용량 계획을 수치로 설명하며, 배포 전후 품질 변화를 같은 기준으로 비교할 수 있다. Prometheus와 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 조합은 특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 플랫폼 운영처럼 대상이 자주 바뀌는 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위의 공통 숫자 언어를 제공한다. 이는 운영자가 서버 이름보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 건강도와 사용자 경험에 집중하게 만든다.
 
-다만 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 만능이 아니다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이므로 개별 오류의 서사를 직접 주지 못하고, 장기 보존이나 멀티클러스터 집계는 별도 아키텍처가 필요하다. 또한 수집 대상을 늘릴수록 스토리지, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 대시보드 관리 비용도 함께 증가한다. 따라서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 핵심 가치는 많이 모으는 것이 아니라 **같은 질문을 반복 가능하게 만드는 표준 숫자 체계**를 만드는 데 있다.
+다만 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 만능이 아니다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이므로 개별 오류의 서사를 직접 주지 못하고, 장기 보존이나 멀티클러스터 집계는 별도 아키텍처가 필요하다. 또한 수집 대상을 늘릴수록 스토리지, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 대시보드 관리 비용도 함께 증가한다. 따라서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 핵심 가치는 많이 모으는 것이 아니라 <strong>같은 질문을 반복 가능하게 만드는 표준 숫자 체계</strong>를 만드는 데 있다.
 
-결론적으로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 관측성의 출발점이다. 먼저 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 이상을 찾고, 그 다음 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 추적으로 이유를 좁히는 운영 루프가 가장 현실적이다. 기억할 핵심은 단순하다. **Prometheus와 Grafana는 숫자를 예쁘게 보여 주는 도구가 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 건강을 계산 가능하게 만드는 운영 계약의 기반**이다.
+결론적으로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 관측성의 출발점이다. 먼저 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 이상을 찾고, 그 다음 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 추적으로 이유를 좁히는 운영 루프가 가장 현실적이다. 기억할 핵심은 단순하다. <strong>Prometheus와 Grafana는 숫자를 예쁘게 보여 주는 도구가 아니라, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 건강을 계산 가능하게 만드는 운영 계약의 기반</strong>이다.
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 비행기 조종석 계기판과 같다. 창밖 풍경만 보고 날 수는 없고, 고도·속도·연료가 숫자로 보여야 안전하게 방향을 잡을 수 있다.
 
@@ -159,24 +158,25 @@ Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-호스트 자원 모니터링
-    │
-    ▼
-애플리케이션 메트릭 계측
-    │
-    ▼
-Prometheus 수집 · TSDB 저장
-    │
-    ▼
-Grafana 시각화 · Alertmanager 경보
-    │
-    ▼
-SLI / SLO · Error Budget 운영
-    │
-    ▼
-Thanos · Mimir 기반 장기 보존 · 멀티클러스터 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">호스트 자원 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애플리케이션 메트릭 계측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Prometheus 수집 · TSDB 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Grafana 시각화 · Alertmanager 경보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLI / SLO · Error Budget 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Thanos · Mimir 기반 장기 보존 · 멀티클러스터 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

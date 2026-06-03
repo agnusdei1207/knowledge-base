@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 일반적인 은행 웹사이트([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 손님(브라우저)이 "네가 진짜 농협 서버 맞아?"라며 은행의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 일방적으로 검사한다(One-way [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)). 손님은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 필요 없고 아이디/비번만 친다. 반면 **[mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)([Mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))**는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(A서버 ➡ B서버) 통신에서 쓴다. B서버도 A서버에게 "너 진짜 우리 회사 주문(A) 서버 맞아? 네 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 내놔봐!"라며 쌍방으로 목줄을 쥐고 신분증 검사를 하는 지독한 결벽증 프로토콜이다.
+- **개념**: 일반적인 은행 웹사이트([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))는 손님(브라우저)이 "네가 진짜 농협 서버 맞아?"라며 은행의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 일방적으로 검사한다(One-way [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)). 손님은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 필요 없고 아이디/비번만 친다. 반면 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/">Mutual TLS</a>)</strong>는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(A서버 ➡ B서버) 통신에서 쓴다. B서버도 A서버에게 "너 진짜 우리 회사 주문(A) 서버 맞아? 네 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 내놔봐!"라며 쌍방으로 목줄을 쥐고 신분증 검사를 하는 지독한 결벽증 프로토콜이다.
 
-- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 시대가 오면서 1개였던 덩어리가 50개의 서버로 찢어졌다. 이 50개 서버는 사내망([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)) 안에서 1초에 수만 번씩 서로 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))를 찌르며 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날라댄다. 옛날 아키텍트들은 "사내망이니까 안전해~"라며 이 통신을 암호화 없이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 쌩 평문으로 냅뒀다. 재앙이 터졌다. 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 인사팀 직원의 PC를 털거나 외부 게시판 서버 1대를 뚫고 사내망에 들어왔다. 사내망은 텅 빈 고속도로였다. 해커는 와이어샤크(WireShark)를 켜고 50개 서버가 주고받는 결제 내역과 비밀번호 평문 패킷을 편안하게 팝콘 먹으며 다 훔쳐봤다. **"성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 튼튼하고 성안은 무방비인 낡은 사상을 버리고, 성안의 모든 방문마다 3중 강철 자물쇠를 채워야 한다([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))"**는 뼈저린 교훈이 mTLS를 서버 간 통신의 절대 헌법으로 격상시켰다.
+- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 시대가 오면서 1개였던 덩어리가 50개의 서버로 찢어졌다. 이 50개 서버는 사내망([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)) 안에서 1초에 수만 번씩 서로 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))를 찌르며 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날라댄다. 옛날 아키텍트들은 "사내망이니까 안전해~"라며 이 통신을 암호화 없이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 쌩 평문으로 냅뒀다. 재앙이 터졌다. 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 인사팀 직원의 PC를 털거나 외부 게시판 서버 1대를 뚫고 사내망에 들어왔다. 사내망은 텅 빈 고속도로였다. 해커는 와이어샤크(WireShark)를 켜고 50개 서버가 주고받는 결제 내역과 비밀번호 평문 패킷을 편안하게 팝콘 먹으며 다 훔쳐봤다. <strong>"성문(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)만 튼튼하고 성안은 무방비인 낡은 사상을 버리고, 성안의 모든 방문마다 3중 강철 자물쇠를 채워야 한다(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>)"</strong>는 뼈저린 교훈이 mTLS를 서버 간 통신의 절대 헌법으로 격상시켰다.
 
-- **💡 비유**: mTLS는 **'첩보 요원들의 은밀한 쌍방 암구호 교환'**과 같습니다. 일반 웹([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))은 손님이 가게에 가서 "사업자 등록증(서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서) 보여주세요" 확인하고 밥을 먹는 일방통행입니다. 하지만 첩보 영화에서 두 요원(서버 A, B)이 어둠 속에서 만날 때는 다릅니다. 요원 A가 "산에는 꽃이 피고(서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"라고 말하면, 요원 B는 신분증명으로 "물에는 달이 뜬다(클라이언트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"라고 대답해야 합니다. 양쪽 암구호가 100% 완벽히 맞을 때만 서류 가방(암호화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 교환합니다. 중간에 낀 변장한 스파이는 암구호([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)가 없으므로 1초 만에 총에 맞아 즉사합니다.
+- **💡 비유**: mTLS는 <strong>'첩보 요원들의 은밀한 쌍방 암구호 교환'</strong>과 같습니다. 일반 웹([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))은 손님이 가게에 가서 "사업자 등록증(서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서) 보여주세요" 확인하고 밥을 먹는 일방통행입니다. 하지만 첩보 영화에서 두 요원(서버 A, B)이 어둠 속에서 만날 때는 다릅니다. 요원 A가 "산에는 꽃이 피고(서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"라고 말하면, 요원 B는 신분증명으로 "물에는 달이 뜬다(클라이언트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"라고 대답해야 합니다. 양쪽 암구호가 100% 완벽히 맞을 때만 서류 가방(암호화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 교환합니다. 중간에 낀 변장한 스파이는 암구호([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)가 없으므로 1초 만에 총에 맞아 즉사합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **경계 기반 보안의 패배**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 밖은 위험하고 사내망(LAN)은 안전하다는 '성곽 방어' 모델이 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 해킹 한 방에 속수무책으로 무너졌다.
-  2. **[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 부상 (2010년대)**: 구글이 "내부 네트워크도 해커의 앞마당이라 가정해라(BeyondCorp)"라며 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 사상을 터뜨렸다. 사내망에서도 모든 통신을 암호화하고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하라는 지시가 떨어졌다.
-  3. **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 mTLS의 대통일 (현재)**: 50개 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)마다 개발자가 Java로 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 코드를 치려다 다 퇴사해버렸다. 이 고통을 구원하기 위해 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) 같은 '[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)'가 등장해, 앱 바깥에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy)가 투명하게 mTLS를 자동으로 씌워주는 인프라 혁명이 완성되었다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>의 부상 (2010년대)</strong>: 구글이 "내부 네트워크도 해커의 앞마당이라 가정해라(BeyondCorp)"라며 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 사상을 터뜨렸다. 사내망에서도 모든 통신을 암호화하고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하라는 지시가 떨어졌다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>와 mTLS의 대통일 (현재)</strong>: 50개 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)마다 개발자가 Java로 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 코드를 치려다 다 퇴사해버렸다. 이 고통을 구원하기 위해 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) 같은 '[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)'가 등장해, 앱 바깥에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy)가 투명하게 mTLS를 자동으로 씌워주는 인프라 혁명이 완성되었다.
 
-- **📢 섹션 요약 비유**: 사내망 평문 통신은 집에 도둑이 담장을 넘었을 때 **'안방, 화장실, 금고 문이 전부 활짝 열려있어 1초 만에 집을 다 터는 꼴'**입니다. mTLS를 발라둔 사내망은 담장이 뚫려도, 집 안의 모든 방마다 100억짜리 안면인식 강철 문이 달려 있어서 도둑이 거실에서 한 발짝도 움직이지 못하고(횡적 이동 차단) 결국 굶어 죽는 감옥입니다.
+- **📢 섹션 요약 비유**: 사내망 평문 통신은 집에 도둑이 담장을 넘었을 때 <strong>'안방, 화장실, 금고 문이 전부 활짝 열려있어 1초 만에 집을 다 터는 꼴'</strong>입니다. mTLS를 발라둔 사내망은 담장이 뚫려도, 집 안의 모든 방마다 100억짜리 안면인식 강철 문이 달려 있어서 도둑이 거실에서 한 발짝도 움직이지 못하고(횡적 이동 차단) 결국 굶어 죽는 감옥입니다.
 
 ---
 
 다음은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Servic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로서비스 간 보안 (Servic                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 간 보안 (Servic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Servic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Service-to-Service [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Service-to-Service [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 보안 (Service-to-Service [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로서비스 간 보안 (Service-to-Service Security) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 간 보안 (Service-to-Service Security) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

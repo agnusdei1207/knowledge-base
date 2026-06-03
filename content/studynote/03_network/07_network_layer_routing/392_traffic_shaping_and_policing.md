@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))에 따라 네트워크의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용량을 제어하기 위해, 초과된 트래픽을 폐기(Policing)하거나 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(Shaping)하여 트래픽의 프로파일(모양)을 맞추는 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어 메커니즘.
-- **필요성**: 회사가 KT로부터 100Mbps 선을 빌려 쓰는데, 사실 꽂혀있는 랜선은 물리적으로 1Gbps짜리 선이다. 직원이 1Gbps 속도로 데이터를 와다다다 쏴버리면 KT 쪽 라우터가 "어? 계약은 100M인데 1G가 들어오네?" 하면서 900M어치 패킷을 무참히 쏴 죽여버린다(Drop). 데이터가 날아가면 재전송하느라 망이 더 느려진다. **"우리 회사 라우터에서 나갈 때 알아서 100M 속도로 딱 맞춰서 부드럽게 깎아서(Shaping) 내보내자! 그래야 KT한테 안 썰리지!"**라는 방어적 목적으로 주로 쓰인다.
+- **필요성**: 회사가 KT로부터 100Mbps 선을 빌려 쓰는데, 사실 꽂혀있는 랜선은 물리적으로 1Gbps짜리 선이다. 직원이 1Gbps 속도로 데이터를 와다다다 쏴버리면 KT 쪽 라우터가 "어? 계약은 100M인데 1G가 들어오네?" 하면서 900M어치 패킷을 무참히 쏴 죽여버린다(Drop). 데이터가 날아가면 재전송하느라 망이 더 느려진다. <strong>"우리 회사 라우터에서 나갈 때 알아서 100M 속도로 딱 맞춰서 부드럽게 깎아서(Shaping) 내보내자! 그래야 KT한테 안 썰리지!"</strong>라는 방어적 목적으로 주로 쓰인다.
 
 - **💡 비유**: 고속도로 톨게이트를 통과하는 차량 흐름을 제어하는 방식입니다.
-  - **폴리싱 (Policing)**: 규정 속도 100km/h 카메라입니다. 101km/h로 넘는 순간 **경찰(Policing)**이 나타나 딱지를 끊고 차를 압류(Drop)해 버립니다. 피도 눈물도 없습니다.
-  - **쉐이핑 (Shaping)**: 신호등이 있는 톨게이트입니다. 차가 한꺼번에 10대 오면 썰어버리지 않고, 차단기를 내려 **잠깐 대기(Buffer)**시켰다가 1초에 1대씩 차례대로 파란불을 켜서 부드럽게(Smoothing) 내보내 줍니다.
+  - **폴리싱 (Policing)**: 규정 속도 100km/h 카메라입니다. 101km/h로 넘는 순간 <strong>경찰(Policing)</strong>이 나타나 딱지를 끊고 차를 압류(Drop)해 버립니다. 피도 눈물도 없습니다.
+  - **쉐이핑 (Shaping)**: 신호등이 있는 톨게이트입니다. 차가 한꺼번에 10대 오면 썰어버리지 않고, 차단기를 내려 <strong>잠깐 대기(Buffer)</strong>시켰다가 1초에 1대씩 차례대로 파란불을 켜서 부드럽게(Smoothing) 내보내 줍니다.
 
-```text
-[우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ▼
-[트래픽 쉐이핑 / 폴리싱]
-    │
-    └──▶ [Leaky Bucket / Token Buc…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 쉐이핑 / 폴리싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Leaky Bucket / Token Buc…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 폴리싱이 용량을 초과한 쓰레기를 가위로 무참히 잘라내 버리는 **"잔인한 재단사"**라면, 쉐이핑은 초과한 물을 댐에 담아두었다가 수위가 낮아질 때 조금씩 흘려보내는 **"현명한 수자원 공사"**입니다.
 
@@ -50,33 +54,32 @@ tags = ["studynote-network"]
 ### 2. 폴리싱(Policing)의 2가지 액션 (Drop vs Mark-down)
 경찰관이 과속 차량을 잡았을 때 무조건 사형(Drop)시키는 건 아니다.
 - **Drop (버림)**: "10M 넘었어? 너 폐기!" (가장 기본).
-- **Mark-down (등급 강등)**: "10M 넘었네? 죽이진 않을게. 대신 네 이마에 붙은 VIP(EF) 딱지 떼버리고 **천민(BE) 딱지**로 바꿔 붙일 거야. 앞으로 가다가 트래픽 막히면 네가 1순위로 버려질 각오해라!"라며 신분을 강등시키는 아주 고급진 스킬이다.
+- **Mark-down (등급 강등)**: "10M 넘었네? 죽이진 않을게. 대신 네 이마에 붙은 VIP(EF) 딱지 떼버리고 <strong>천민(BE) 딱지</strong>로 바꿔 붙일 거야. 앞으로 가다가 트래픽 막히면 네가 1순위로 버려질 각오해라!"라며 신분을 강등시키는 아주 고급진 스킬이다.
 
 ### 3. 쉐이핑(Shaping)의 치명적 부작용 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))
 쉐이핑은 안 버리고 버퍼(RAM)에 담아두니까 무조건 좋은 거 아닐까? 아니다.
-- **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay) 발생**: 댐에 물을 가둬두니 당연히 패킷이 목적지에 늦게 도착한다. **실시간 음성(VoIP)에 쉐이핑을 걸면 통화가 다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어 쓰레기가 된다**. (VoIP는 무조건 폴리싱이나 LLQ를 태워야 한다).
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay) 발생</strong>: 댐에 물을 가둬두니 당연히 패킷이 목적지에 늦게 도착한다. <strong>실시간 음성(VoIP)에 쉐이핑을 걸면 통화가 다 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>되어 쓰레기가 된다</strong>. (VoIP는 무조건 폴리싱이나 LLQ를 태워야 한다).
 - **버퍼 터짐(Tail Drop)**: 댐(버퍼)도 크기의 한계가 있다. 트래픽이 댐 수용량을 넘어서 끝없이 밀려오면 결국 댐이 터지면서 패킷이 뒤에서부터 우수수 떨어져 죽는다(Tail Drop).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Shaping과 Policing의 실무 적용 위치               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 회사 (계약 100M) ]                    [ 통신사 (ISP) ]     │
- │                                                             │
- │   (내부 1G) -> [내 라우터] ======== 100M선 ========> [통신사 라우터] │
- │                                                             │
- │   1) 내 라우터의 "나가는(Outbound)" 방향:                         │
- │      ▶ **Shaping 적용**: 1G로 들어온 걸 100M에 맞게 부드럽게 깎아서  │
- │                        내보내야 통신사한테 패킷을 안 썰림.           │
- │                                                             │
- │   2) 통신사 라우터의 "들어오는(Inbound)" 방향:                     │
- │      ▶ **Policing 적용**: 고객이 미쳐서 100M 넘게 쏘면 통신사 망이    │
- │                         다치니까 가차 없이 모가지를 썰어버림 (Drop). │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 실무에서 쉐이핑과 폴리싱은 창과 방패입니다. 고객사(내 라우터)는 패킷이 통신사 방패에 부딪혀 깨지는 걸 막기 위해 **"쉐이핑"**이라는 쿠션으로 패킷을 예쁘게 다듬어 던지고, 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))는 계약을 어기고 들어오는 과도한 트래픽을 막기 위해 **"폴리싱"**이라는 칼을 들고 입구에서 대기합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shaping과 Policing의 실무 적용 위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 회사 (계약 100M)</div><div class="kb-diagram-node">통신사 (ISP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">통신사 라우터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 내 라우터의 "나가는(Outbound)" 방향:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Shaping 적용: 1G로 들어온 걸 100M에 맞게 부드럽게 깎아서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내보내야 통신사한테 패킷을 안 썰림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 통신사 라우터의 "들어오는(Inbound)" 방향:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Policing 적용: 고객이 미쳐서 100M 넘게 쏘면 통신사 망이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다치니까 가차 없이 모가지를 썰어버림 (Drop).</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** 실무에서 쉐이핑과 폴리싱은 창과 방패입니다. 고객사(내 라우터)는 패킷이 통신사 방패에 부딪혀 깨지는 걸 막기 위해 **"쉐이핑"<strong>이라는 쿠션으로 패킷을 예쁘게 다듬어 던지고, 통신사(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)는 계약을 어기고 들어오는 과도한 트래픽을 막기 위해 </strong>"폴리싱"**이라는 칼을 들고 입구에서 대기합니다.
 
 ---
 
@@ -132,15 +135,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ▼
-[현재 개념: 트래픽 쉐이핑 / 폴리싱]
-    │
-    ├──▶ [확장 A: Leaky Bucket / Token Buc…]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 쉐이핑 / 폴리싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Leaky Bucket / Token Buc…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 트래픽 쉐이핑 / 폴리싱는 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…에서 출발해 현재 메커니즘을 정교화하고, 이후 Leaky Bucket / Token Buc…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

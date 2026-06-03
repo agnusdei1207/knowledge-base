@@ -36,26 +36,24 @@ FinFET 구조는 채널을 세워 통제력을 강화하고 수직 공간을 활
 | **게이트 (Gate)** | 핀의 상단과 양 측면 3면을 덮어 전기장 방출 | 3면의 강력한 전기장으로 채널을 완벽하게 켜고 끄는 조작기 |
 | **멀티 핀 (Multi-Fin)** | 게이트 하나 안에 여러 핀을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치 | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 하나가 뿜어내는 총 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)량([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 정수배로 증폭 |
 
-평면 구조에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 채널의 폭을 넓히면 됐지만, FinFET에서는 이미 깎인 핀의 높이를 맘대로 키울 수 없으므로(부러짐 위험), 핀을 2개, 3개 옆으로 나란히 늘어놓는 **Multi-Fin 방식**으로 구동 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 늘린다. 고속 코어에는 핀을 4개씩 깔고, 저전력 코어에는 1~2개만 까는 식이다.
+평면 구조에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 채널의 폭을 넓히면 됐지만, FinFET에서는 이미 깎인 핀의 높이를 맘대로 키울 수 없으므로(부러짐 위험), 핀을 2개, 3개 옆으로 나란히 늘어놓는 <strong>Multi-Fin 방식</strong>으로 구동 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 늘린다. 고속 코어에는 핀을 4개씩 깔고, 저전력 코어에는 1~2개만 까는 식이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         Planar (평면 1면) vs FinFET (3D 3면) 채널 제어력     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [과거: Planar MOSFET (1면)]        [혁신: FinFET (3면)]        │
-│                                                              │
-│     [ 게이트 (Gate) ] ◀ 위에서만 누름   [ 게이트 (Gate) ]           │
-│   ===================                +=======+======+          │
-│   [채널] (전자가 지나는 길)               | ◀ | 채널 | ▶ |         │
-│   ───────────────────                +--+---+--+--+          │
-│   (기판 바닥) ↘ 전자가 밑으로 샘          (바닥)                   │
-│                                (양옆과 위에서 꽉 쥐어짜 누설 차단)│
-│                                                              │
-│ * FinFET은 접촉 면적이 늘어나 통제력이 강해져 누설이 0이 되며,     │
-│   수직으로 채널 면적을 넓힌 효과가 있어 전류(성능)가 폭발한다.   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Planar (평면 1면) vs FinFET (3D 3면) 채널 제어력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Planar MOSFET (1면)</div><div class="kb-diagram-node">혁신: FinFET (3면)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게이트 (Gate)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">게이트 (Gate)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">채널 | ▶ |</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기판 바닥) ↘ 전자가 밑으로 샘 (바닥)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(양옆과 위에서 꽉 쥐어짜 누설 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* FinFET은 접촉 면적이 늘어나 통제력이 강해져 누설이 0이 되며,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수직으로 채널 면적을 넓힌 효과가 있어 전류(성능)가 폭발한다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 넓고 얕은 강물(평면)은 위에서 댐을 누르는 것만으론 바닥 스며드는 물을 못 막는다. 그래서 강을 좁고 깊은 인공 협곡(Fin)으로 파내고 수문을 양옆과 위쪽 벽에 완전히 밀착시켜(FinFET) 완벽히 틀어막은 것이다.
 
@@ -70,7 +68,7 @@ FinFET이 무어의 법칙을 구원했지만, 5nm 이하로 접어들며 심각
 | **게이트 제어 면적** | 1면 (Top) | **3면** (Top, Left, Right) | **4면 360도** (완벽 포위) |
 | **단채널 한계 노드** | ~ 20nm 부근 붕괴 | **14nm ~ 4nm 주력 지배** | 3nm 이하 옹스트롬 필수 |
 | **구동력 튜닝 단위** | 채널 폭(W) 연속 확장 | 핀 개수(1, 2, 3..) 단위 뜀 | 나노시트 폭 연속 튜닝 가능 |
-| **태생적 부작용** | 엄청난 바닥 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | **핀 사이의 기생 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 폭증** | 극악의 3D 식각 공정 난이도 |
+| **태생적 부작용** | 엄청난 바닥 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | <strong>핀 사이의 기생 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a> 폭증</strong> | 극악의 3D 식각 공정 난이도 |
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리려 좁은 게이트 안에 핀(Fin) 3~4개를 10nm 간격으로 빽빽이 세우면, 두 금속 벽이 마주 보는 완벽한 축전기([Capacitor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/))가 되어 엄청난 기생 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)이 생긴다. 스위치를 켤 때마다 여기에 전기를 채우느라 속도가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(RC Delay)되고 끔찍한 발열이 쏟아져 나와 칩이 타죽게 된다. 이것이 FinFET의 생명이 4nm에서 끝난 이유다.
 
@@ -108,28 +106,31 @@ FinFET은 평면 구조의 단채널 붕괴 위기를 3D 입체 제어라는 혁
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **단채널 효과 (Short Channel Effect)** | 소스와 드레인이 너무 가까워져 평면 구조에서 전기가 줄줄 새는 재앙으로, FinFET이 세상에 등장한 원인 |
-| **[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))** | FinFET이 5nm에서 겪는 기생 용량과 바닥 누설 한계를 부수기 위해 채널 4면을 모두 튜브로 감싸버린 차세대 아키텍처 |
-| **기생 커패시턴스 (Parasitic [Capacitance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/))** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려 핀(Fin)을 여러 개 촘촘히 꽂았을 때 핀 사이에 형성되는 원치 않는 축전지로, FinFET을 멸망시킨 최대의 적 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">GAA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">Gate-All-Around</a>)</strong> | FinFET이 5nm에서 겪는 기생 용량과 바닥 누설 한계를 부수기 위해 채널 4면을 모두 튜브로 감싸버린 차세대 아키텍처 |
+| <strong>기생 커패시턴스 (Parasitic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/">Capacitance</a>)</strong> | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려 핀(Fin)을 여러 개 촘촘히 꽂았을 때 핀 사이에 형성되는 원치 않는 축전지로, FinFET을 멸망시킨 최대의 적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Planar MOSFET — 단채널 효과로 20nm 이하 붕괴]
-    │
-    ▼
-[FinFET (핀 전계효과 트랜지스터) — 3면 게이트로 14nm~5nm 지배]
-    │
-    ▼
-[GAA (Gate-All-Around) — 4면 360° 포위, 3nm 이하 필수]
-    │
-    ▼
-[나노리본 / CFET — 수직 적층으로 2nm 이하 도전]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Planar MOSFET — 단채널 효과로 20nm 이하 붕괴</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FinFET (핀 전계효과 트랜지스터) — 3면 게이트로 14nm~5nm 지배</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GAA (Gate-All-Around) — 4면 360° 포위, 3nm 이하 필수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나노리본 / CFET — 수직 적층으로 2nm 이하 도전</div></div>
+</div>
+</div>
+
+
 Planar 구조의 단채널 한계를 FinFET이 3D 입체 구조로 극복했고, 5nm 이하에서는 채널을 완전히 감싸는 [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) 구조로 진화하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 핀펫(FinFET)은 물이 옆으로 질질 새는 고무호스를 꽉 잠그기 위해 발명된 **로봇의 세 손가락 집게**예요!
+1. 핀펫(FinFET)은 물이 옆으로 질질 새는 고무호스를 꽉 잠그기 위해 발명된 <strong>로봇의 세 손가락 집게</strong>예요!
 2. 예전 스위치는 손가락 하나로만 호스를 위에서 꾹 눌러 물이 엄청 샜는데, 핀펫은 호스를 위로 들어 올려 양옆과 위 세 군데에서 입체적으로 꽉 쥐어짜요!
 3. 단 한 방울의 물(배터리)도 안 새게 잠글 수 있어서, 컴퓨터 두뇌 안에 이 스위치를 수백억 개나 넣고도 스마트폰이 뜨거워지지 않게 막아주었답니다.
 

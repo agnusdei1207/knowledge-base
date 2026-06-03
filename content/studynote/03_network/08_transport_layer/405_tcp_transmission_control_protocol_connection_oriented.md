@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 전송 계층(Transport Layer)에서 종단 간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 전송을 보장하는, 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 슈트(TCP/IP)의 핵심 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 793).
-- **필요성**: 내가 미국 구글 서버에 1GB짜리 영화를 다운받으려 한다. 인터넷망(IP)은 불안정해서 중간에 패킷 3개가 짤려 먹히고, 5번 패킷이 1번 패킷보다 먼저 도착하는 개판이 벌어진다. 만약 이걸 보정해 주지 않으면 내 노트북에 받아진 1GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 깨져서 재생조차 안 된다. **"야! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 보낼 때마다 번호표 딱딱 붙여! 그리고 못 받은 번호 있으면 구글한테 다시 보내라고(재전송) 화내! 그리고 순서 섞여 오면 1, 2, 3, 4번 순서대로 다시 맞춰서 합체해!!"**라는 완벽한 뒷수습([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 시스템이 절대적으로 필요했다.
+- **필요성**: 내가 미국 구글 서버에 1GB짜리 영화를 다운받으려 한다. 인터넷망(IP)은 불안정해서 중간에 패킷 3개가 짤려 먹히고, 5번 패킷이 1번 패킷보다 먼저 도착하는 개판이 벌어진다. 만약 이걸 보정해 주지 않으면 내 노트북에 받아진 1GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 깨져서 재생조차 안 된다. <strong>"야! <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 하나 보낼 때마다 번호표 딱딱 붙여! 그리고 못 받은 번호 있으면 구글한테 다시 보내라고(재전송) 화내! 그리고 순서 섞여 오면 1, 2, 3, 4번 순서대로 다시 맞춰서 합체해!!"</strong>라는 완벽한 뒷수습([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 시스템이 절대적으로 필요했다.
 
 - **💡 비유**: 
-  - **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) (우편엽서)**: 엽서 100장을 써서 우체통에 냅다 넣습니다. 친구가 몇 장을 잃어버렸는지, 어떤 엽서가 먼저 도착했는지 나는 알 바 없습니다. 빠르지만 무책임합니다.
-  - **TCP (우체국 등기 소포)**: 100쪽짜리 책을 한 장 한 장 뜯어서 번호표를 붙여 보냅니다. 친구는 1쪽을 받으면 "나 1쪽 받았어! 2쪽 줘!"라고 문자를 보냅니다. 만약 "7쪽 받았어!"가 와야 하는데 안 오면, 내가 7쪽을 잽싸게 복사해서 다시 보냅니다. **조금 느리고 번거롭지만, 친구의 책이 100% 완벽하게 조립됨을 보장**합니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> (우편엽서)</strong>: 엽서 100장을 써서 우체통에 냅다 넣습니다. 친구가 몇 장을 잃어버렸는지, 어떤 엽서가 먼저 도착했는지 나는 알 바 없습니다. 빠르지만 무책임합니다.
+  - **TCP (우체국 등기 소포)**: 100쪽짜리 책을 한 장 한 장 뜯어서 번호표를 붙여 보냅니다. 친구는 1쪽을 받으면 "나 1쪽 받았어! 2쪽 줘!"라고 문자를 보냅니다. 만약 "7쪽 받았어!"가 와야 하는데 안 오면, 내가 7쪽을 잽싸게 복사해서 다시 보냅니다. <strong>조금 느리고 번거롭지만, 친구의 책이 100% 완벽하게 조립됨을 보장</strong>합니다.
 
-```text
-[소켓 주소 = IP 주소 + 포트 번호]
-    │
-    ▼
-[TCP]
-    │
-    └──▶ [UDP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** TCP는 택배가 파손될까 봐 뽁뽁이를 10겹으로 감싸고, 배송 기사에게 반드시 **"수취인 친필 서명(ACK)을 받아오라"**고 시키는 편집증 걸린 배달 시스템입니다. 비용(헤더 오버헤드)과 시간([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 들지만, 중요한 서류(웹, 메일, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 보낼 때 이보다 완벽할 순 없습니다.
 
@@ -43,14 +47,18 @@ tags = ["studynote-network"]
 
 TCP는 종단 간 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 흐름·혼잡 제어를 다루는 축라는 관점에서 이해해야 한다. [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[소켓 주소 = IP 주소 + 포트 번호]
-    │
-    ▼
-[TCP]
-    │
-    └──▶ [UDP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,18 +81,18 @@ TCP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **연결 지향형 (Connection-Oriented)**: 통신 전에 반드시 3-Way Handshake로 세션을 연다.
-2. **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장 ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))**: Sequence Number(번호표)와 Acknowledgment(수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), ACK) 번호를 교환하여 중간에 유실된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 귀신같이 잡아내어 재전송(Retransmission)한다.
-3. **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))**: 내 컴퓨터 램(RAM)이 100MB 찼는데 구글이 1GB를 쏴버리면 터진다. 내 컴퓨터가 구글에게 "야, 나 지금 10MB밖에 못 받으니까 천천히 좀 보내!([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 조절)"라며 멱살을 잡고 속도를 낮춘다.
-4. **혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/))**: 너와 나 사이의 문제가 아니라 인터넷(KT) 망 자체가 막혀서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 증발할 때, TCP 스스로 "앗! 톨게이트 막힌다!" 눈치채고 자발적으로 송신 속도를 확 줄여버리는 선진 시민 의식([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), Congestion Avoidance)을 발휘한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 보장 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>)</strong>: Sequence Number(번호표)와 Acknowledgment(수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), ACK) 번호를 교환하여 중간에 유실된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 귀신같이 잡아내어 재전송(Retransmission)한다.
+3. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>: 내 컴퓨터 램(RAM)이 100MB 찼는데 구글이 1GB를 쏴버리면 터진다. 내 컴퓨터가 구글에게 "야, 나 지금 10MB밖에 못 받으니까 천천히 좀 보내!([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 조절)"라며 멱살을 잡고 속도를 낮춘다.
+4. <strong>혼잡 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a>)</strong>: 너와 나 사이의 문제가 아니라 인터넷(KT) 망 자체가 막혀서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 증발할 때, TCP 스스로 "앗! 톨게이트 막힌다!" 눈치채고 자발적으로 송신 속도를 확 줄여버리는 선진 시민 의식([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), Congestion Avoidance)을 발휘한다.
 
 ### 2. 무거운 TCP 헤더 (최소 20바이트 ~ 60바이트)
 저 4가지 깐깐한 짓을 다 하려다 보니 TCP 헤더 안에는 온갖 기능의 스위치와 도장들이 빼곡하게 박혀 있다.
-- **출발지/목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (16비트씩)**: 다중화를 위한 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/).
+- <strong>출발지/목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (16비트씩)</strong>: 다중화를 위한 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/).
 - **Sequence Number (32비트)**: 내가 보내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 첫 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서 번호. "이거 1,000번 조각이야!"
 - **Acknowledgment Number (32비트)**: 상대방에게 "나 1,000번까지 잘 받았어. 이제 1,001번 보낼 차례야!"라고 요구하는 징표.
 - **Header Length (4비트)**: 헤더가 워낙 가변적(옵션이 붙음)이라, 헤더가 어디까지인지 알려주는 구분선.
-- **[Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) (16비트)**: 내 컴퓨터가 한 번에 소화할 수 있는 남은 램(버퍼) 공간. [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)의 핵심.
-- **[Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) (16비트)**: 가다가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌그러졌는지 검사하는 도장.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a> (16비트)</strong>: 내 컴퓨터가 한 번에 소화할 수 있는 남은 램(버퍼) 공간. [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)의 핵심.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> (16비트)</strong>: 가다가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌그러졌는지 검사하는 도장.
 
 ### 3. TCP의 핵심 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (6 Control Flags)
 TCP 헤더 안에는 6개의 전등([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))이 스위치처럼 달려 있어, 불이 켜지냐 꺼지냐에 따라 패킷의 성격이 180도 달라진다.
@@ -95,24 +103,23 @@ TCP 헤더 안에는 6개의 전등([비트](/knowledge-base/studynote/01_comput
 5. **PSH (Push)**: 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쌓일 때까지 기다리지 말고 지금 있는 거 당장 화면에 쏴주라는 급행 불.
 6. **URG (Urgent)**: 이거 폭탄 해체 암호니까 순서 무시하고 제일 먼저 처리해!! 라는 응급 불.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 바이트 스트림(Byte Stream)의 쪼개기 마법      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구글 서버 ] ── 10MB짜리 압축 파일 전송 준비!                  │
- │                                                             │
- │   TCP 왈: "야! MTU가 1500이니까, 1460 바이트(MSS)씩 톱으로 썰어!"   │
- │                                                             │
- │   1번 조각: [ TCP 헤더 (Seq: 1) ] [ 데이터 1460 바이트 ] ──▶ 슝! │
- │   2번 조각: [ TCP 헤더 (Seq: 1461) ] [ 데이터 1460 바이트 ] ──▶ 슝!│
- │   3번 조각: [ TCP 헤더 (Seq: 2921) ] [ 데이터 1460 바이트 ] ──▶ 슝!│
- │                                                             │
- │   * 내 PC의 조립: "오, 1번 다음에 1461번 왔고... 2921번 오면,         │
- │                  이 번호표(Seq) 순서대로 본드로 다시 붙이면           │
- │                  10MB짜리 원본 100% 복구 완료네!"                 │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 바이트 스트림(Byte Stream)의 쪼개기 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구글 서버</div><div class="kb-diagram-note">── 10MB짜리 압축 파일 전송 준비!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 왈: "야! MTU가 1500이니까, 1460 바이트(MSS)씩 톱으로 썰어!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 1)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 1461)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 2921)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 PC의 조립: "오, 1번 다음에 1461번 왔고... 2921번 오면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 번호표(Seq) 순서대로 본드로 다시 붙이면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10MB짜리 원본 100% 복구 완료네!"</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -120,7 +127,7 @@ TCP 헤더 안에는 6개의 전등([비트](/knowledge-base/studynote/01_comput
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** TCP의 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)들은 야구 경기의 **"포수 사인"**과 같습니다. 투수(송신자)가 함부로 공을 던지지 못하게, 포수(수신자)가 손가락으로 SYN(시작), ACK(잘 받음), FIN(그만 던져) 사인을 끊임없이 주고받으며 완벽한 호흡으로 경기를 이끌어갑니다.
+- **📢 섹션 요약 비유**: <strong> TCP의 제어 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>들은 야구 경기의 </strong>"포수 사인"**과 같습니다. 투수(송신자)가 함부로 공을 던지지 못하게, 포수(수신자)가 손가락으로 SYN(시작), ACK(잘 받음), FIN(그만 던져) 사인을 끊임없이 주고받으며 완벽한 호흡으로 경기를 이끌어갑니다.
 
 ---
 
@@ -143,15 +150,19 @@ TCP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 소켓 주소 = IP 주소 + 포트 번호]
-    │
-    ▼
-[현재 개념: TCP]
-    │
-    ├──▶ [확장 A: UDP]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소켓 주소 = IP 주소 + 포트 번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UDP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 TCP는 [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 UDP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

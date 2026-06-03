@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU나 프로그래머가 만들어내는 환상의 세계([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))를 깨부수고, **마더보드에 꽂혀있는 푸른색 실리콘 램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 칩스틱 상의 진짜 나노미터급 물리적 구멍 번지수**를 상징하는 원초적 하드웨어 실체다.
-> 2. **가치**: 아무리 OS가 "공간은 무한하고 깨끗하다"고 사기를 쳐도, 결국 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 어딘가의 물리적 그리드(Grid)에 정확히 배달되어야 하며, 그것을 유일무이하게 식별해 내는 **하드웨어 메모리 컨트롤러 전용 좌표계**로서 기능한다.
+> 1. **본질**: CPU나 프로그래머가 만들어내는 환상의 세계([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))를 깨부수고, <strong>마더보드에 꽂혀있는 푸른색 실리콘 램(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a>) 칩스틱 상의 진짜 나노미터급 물리적 구멍 번지수</strong>를 상징하는 원초적 하드웨어 실체다.
+> 2. **가치**: 아무리 OS가 "공간은 무한하고 깨끗하다"고 사기를 쳐도, 결국 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 어딘가의 물리적 그리드(Grid)에 정확히 배달되어야 하며, 그것을 유일무이하게 식별해 내는 <strong>하드웨어 메모리 컨트롤러 전용 좌표계</strong>로서 기능한다.
 > 3. **융합**: [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 포장지를 뜯어내고 물리 주소를 발가벗기는 과정은 전적으로 하드웨어 칩인 `MMU (메모리 관리 유닛)`에 의해 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/))를 타는 순간 순식간에 탈바꿈되는 마법의 연동 구조를 거친다.
 
 ---
@@ -22,31 +22,31 @@ tags = ["studynote-operating-system"]
 컴퓨터 안의 거의 모든 소프트웨어와 CPU는 '[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(Virtual Address)'라는 달콤한 환각에 취해 산다. 그들은 "내 주소는 예쁜 0번지부터 100번지야!"라고 굳게 믿는다.
 그러나, 실제 램(RAM)을 관리하는 메모리 컨트롤러 하드웨어 장난감은 그딴 환상을 취급하지 않는다. 
 
-**"그래서 그 망상 속의 50번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 우리 구리선 전자회로(RAM)의 몇 동 몇 호에 전기를 쏴야 저장이 되는 건데?"**
+<strong>"그래서 그 망상 속의 50번지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 우리 구리선 전자회로(RAM)의 몇 동 몇 호에 전기를 쏴야 저장이 되는 건데?"</strong>
 
-이 어둡고 복잡하고 지저분하게 파편화된 진짜 실리콘 세상의 바닥 좌표가 바로 **물리 주소 (Physical Address)**다.
+이 어둡고 복잡하고 지저분하게 파편화된 진짜 실리콘 세상의 바닥 좌표가 바로 <strong>물리 주소 (Physical Address)</strong>다.
 누군가는 가짜 주소([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))를 이 날것의 기계 주소(물리)로 변환해 주어야만 비로소 디램 셀 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)([Capacitor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/))에 0과 1의 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 각인될 수 있다.
 
 **💡 비유**: 당신이 인터넷 쇼핑몰에 "우리집 로켓 배송이요!([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))"라고 입력한다. 쇼핑몰 시스템은 당신이 세상의 주인공인 것처럼 대한다. 하지만 물류센터의 컨베이어 벨트와 지게차 로봇(메모리 장치)은 "우리집"이 뭔지 모른다. 그들은 오로지 "위도 37.5 경도 126.9 지점의 3번째 골목 건물(물리 주소)"이라는 콜드하고 정확한 기계 좌표계가 있어야만 물건을 내려놓을 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         환상(Logical)에서 실체(Physical)로의 충돌의 벽          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ CPU 연산부 ] (환상 주의자)                                   │
-│    "야! 10번지에 있는 총알 데이터 꺼내와!" (명령어 LDR 내뿜음)  │
-│       │                                                         │
-│       ▼ (논리 주소 = 10)                                        │
-│  [ MMU (Memory Management Unit) ] (냉혹한 통역사)               │
-│    "허탈하군. 또 환상 속의 주소를 뱉었어. 현실을 알려주지."     │
-│    계산: 베이스 레지스터 10000 + 10 = 10010번지! 변환 발사!     │
-│       │                                                         │
-│       ▼ (물리 주소 = 10010) (시스템 주소 버스에 전압 빵 쏴짐)   │
-│  [ RAM 메모리 모듈 ] (기계 부품)                                │
-│    "삑! 10010번째 전자 소자 오픈! 총알 데이터 뱉어냅니다."      │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환상(Logical)에서 실체(Physical)로의 충돌의 벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 연산부</div><div class="kb-diagram-note">(환상 주의자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야! 10번지에 있는 총알 데이터 꺼내와!" (명령어 LDR 내뿜음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (논리 주소 = 10)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MMU (Memory Management Unit)</div><div class="kb-diagram-note">(냉혹한 통역사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"허탈하군. 또 환상 속의 주소를 뱉었어. 현실을 알려주지."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산: 베이스 레지스터 10000 + 10 = 10010번지! 변환 발사!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (물리 주소 = 10010) (시스템 주소 버스에 전압 빵 쏴짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAM 메모리 모듈</div><div class="kb-diagram-note">(기계 부품)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"삑! 10010번째 전자 소자 오픈! 총알 데이터 뱉어냅니다."</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 물리 주소는 낭만 따윈 1%도 없는 군대 관물대 고유 번호표입니다. 신병(프로그램)은 자기가 "1번 훈련병"인 줄 알지만, 조교(메모리 장치) 입장에서는 그저 연병장 "3열 5종 대대의 1420번째 인간 위치 좌표"로 전기 쏘듯 관리할 뿐입니다.
 
@@ -58,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 물리 주소는 순수한 하드웨어의 언어다. CPU 다이(Die) 바깥으로 나가는 순간, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 물리 주소로만 실어나른다.
 
-1. **[Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)) 핀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**: 메인보드에 금빛 선([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))이 32가닥 깔려있다고 치자. MMU가 번역해 낸 방금 그 물리 주소 "10010번"을 이 금빛 선 32개에 0과 1의 전기 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(High/Low)으로 일제히 쫙 쏜다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/">Address Bus</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/">주소 버스</a>) 핀 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>: 메인보드에 금빛 선([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))이 32가닥 깔려있다고 치자. MMU가 번역해 낸 방금 그 물리 주소 "10010번"을 이 금빛 선 32개에 0과 1의 전기 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(High/Low)으로 일제히 쫙 쏜다.
 2. **Memory Controller (메모리 컨트롤러)**: 램 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(DIMM)에 달려있는 칩은 이 물리 주소 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아 "디램 칩의 2번째 뱅크, 3번째 Row, 5번째 Column 교차점 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)" 스위치를 올려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼낸다. 이 장치들은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)/가상이 뭔지 단어조차 존재하지 않는 무산소 구역이다.
 
 **📢 섹션 요약 비유**: CPU 안방에서 나온 명령이 방문([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))을 딱 여는 순간 밖은 서리 내리는 시베리아 벌판(메인보드 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))입니다. 여기서부터는 꿈속의 닉네임(가상 주소)은 버리고 진짜 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 좌표(물리 주소) 주민등록증을 달고서만 걸어 다닐 수 있습니다.
@@ -69,8 +69,8 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 접근 주체 | 가변성 | 주소의 한계치 (크기) |
 |:---|:---|:---|:---|
-| **[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 공간** | C언어 코드 포인터, CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 실행마다 MMU가 배치를 막 바꿀 수 있음 ([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)) | CPU 아키텍처(64bit)에 지배됨 (무한대급 16EB) |
-| **물리 주소 공간** | **[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 부품, 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핀** | **그 자리는 그 자리다 ([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 납땜 된 절대 위치)** | **메인보드에 꽂은 실제 램 용량 (예: 16GB)에 지배됨** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a> 공간</strong> | C언어 코드 포인터, CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 실행마다 MMU가 배치를 막 바꿀 수 있음 ([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)) | CPU 아키텍처(64bit)에 지배됨 (무한대급 16EB) |
+| **물리 주소 공간** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> 부품, 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 핀</strong> | <strong>그 자리는 그 자리다 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>에 납땜 된 절대 위치)</strong> | **메인보드에 꽂은 실제 램 용량 (예: 16GB)에 지배됨** |
 
 **📢 섹션 요약 비유**: [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)는 상상력이니까 지구 크기만큼 무한대로 그릴 수 있지만, 물리 주소 공간은 아빠 지갑에서 나온 돈으로 직접 이마트에서 사다 메인보드에 꽂아버린 초록색 16GB 램 막대기, 딱 그 콘크리트 크기 안에서만 존재합니다.
 
@@ -79,10 +79,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 장치의 반란**: 하드디스크 컨트롤러나 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 등 일부 무시무시한 하드웨어 부품들은 답답하게 CPU 거쳐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 옮기지 않고 **자기가 직접 램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))에 손을 집어넣어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼간다([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))**. 이 기계들은 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 통역기를 거치지 않는 조폭들이라 **가상/[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 아예 이해하지 못하며, 오직 이 날것의 '물리 주소'만을 이용해** 램의 옆구리를 후벼파 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고속도로로 직행 전송시킨다.
-2. **[커널 덤프](/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/) ([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) & Physical Dump)**: 컴퓨터가 완전 블루스크린 떴을 때, 화면 불꽃을 뿜으며 %가 올라가며 만들어내는 메모리 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`memory.dmp`)은 "물리 주소 0번지부터 끝번지까지 실리콘 위에 남아있던 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 얼려서 퍼 다 담은" 거칠고 무시무시한 물리 공간의 증거 채집본이다. 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>) 장치의 반란</strong>: 하드디스크 컨트롤러나 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 등 일부 무시무시한 하드웨어 부품들은 답답하게 CPU 거쳐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 옮기지 않고 <strong>자기가 직접 램(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a>)에 손을 집어넣어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 빼간다(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>)</strong>. 이 기계들은 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 통역기를 거치지 않는 조폭들이라 <strong>가상/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a>를 아예 이해하지 못하며, 오직 이 날것의 '물리 주소'만을 이용해</strong> 램의 옆구리를 후벼파 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고속도로로 직행 전송시킨다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/660_kernel_crash_dump_kdump_architecture/">커널 덤프</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a> &amp; Physical Dump)</strong>: 컴퓨터가 완전 블루스크린 떴을 때, 화면 불꽃을 뿜으며 %가 올라가며 만들어내는 메모리 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`memory.dmp`)은 "물리 주소 0번지부터 끝번지까지 실리콘 위에 남아있던 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 얼려서 퍼 다 담은" 거칠고 무시무시한 물리 공간의 증거 채집본이다. 
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **사용자 프로세스(User Mode)의 물리 주소 직접 터치 시도**: 당신이 짠 미친 파이썬 코드가 어떻게든 MMU를 우회해 `물리 주소 50번지`에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려 했다고 치자. 옛날 도스 시절엔 가능했지만 현대 OS 환경에선 그 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 망치로 머리를 내리쳐([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) 프로그램을 즉사시킨다. 물리 주소 공간은 오직 신(OS 하드웨어)만이 배척 없이 다룰 수 있는 성역이다.
 
 **📢 섹션 요약 비유**: 물리 주소 구역(RAM 하드웨어)은 그래픽카드 장군이나 디스크 대장 같은 거대한 하드웨어 짐승들이 "야! [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 비켜!" 하면서 기계 주소로 뛰어다니는 야생 사파리입니다. 연약한 어플리케이션 나부랭이가 가짜 주소 방패 없이 직접 들어왔다간 그 즉시 치여 죽는 엄격한 통제 구역입니다.
@@ -96,7 +96,7 @@ tags = ["studynote-operating-system"]
 | 프로그래머 시각 | 내가 램의 어느 구멍에 쓰는지 지리 감각(주소)을 알아야 함 | 램이 어떻게 생겼는지 단 1도 몰라도 코딩 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 구현 |
 | 하드웨어 유연성 | 메모리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 불량이 1개 생기면 그 주소 쓰는 프로그램 다 터짐 | 고장 난 물리 주소 빼고 딴 곳으로 몰래 연결해 줘 생명 연장 |
 
-`물리 주소 (Physical Address)`는 이 거대한 컴퓨터 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 매트릭스 속에서 유일하게 **"실제로 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 박히고 구리가 달아오르는 궁극적 현실 닻(Anchor)"**이다. 모든 가상 메모리와 화려한 코딩 기법들은 결국 이 제한되고 차가운 물리 주소의 실리콘 셀이라는 좁은 땅콩 방 한 칸에 낙서하기 위한 엄청난 연극에 불과하다. 이 낭만 없는 기계 좌표를 감추기 위한 인류의 처절한 노력([주소 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 덕분에 현대의 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 소프트웨어 제국이 온전하게 세워질 수 있었음이 기술사의 결정적 웅장함이다.
+`물리 주소 (Physical Address)`는 이 거대한 컴퓨터 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 매트릭스 속에서 유일하게 <strong>"실제로 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>이 박히고 구리가 달아오르는 궁극적 현실 닻(Anchor)"</strong>이다. 모든 가상 메모리와 화려한 코딩 기법들은 결국 이 제한되고 차가운 물리 주소의 실리콘 셀이라는 좁은 땅콩 방 한 칸에 낙서하기 위한 엄청난 연극에 불과하다. 이 낭만 없는 기계 좌표를 감추기 위한 인류의 처절한 노력([주소 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 덕분에 현대의 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 소프트웨어 제국이 온전하게 세워질 수 있었음이 기술사의 결정적 웅장함이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -113,15 +113,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[논리 주소 (Logical/Virtual Address)]
-    │
-    ▼
-[물리 주소 (Physical Address)]
-    │
-    ├──▶ [주소 바인딩 (Address Binding) 3단계 시점]
-    └──▶ [컴파일 시간 바인딩 (Compile Time)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 (Logical/Virtual Address)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 바인딩 (Address Binding) 3단계 시점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

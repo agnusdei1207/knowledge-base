@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 노트북이나 데스크탑(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 단 한 대의 자원만으로, 수백 대의 가상 호스트(서버), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)), 가상 링크(랜선)로 이루어진 거대한 **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 네트워크 토폴로지(네트워크 망 구조)를 눈 깜짝할 새 소프트웨어로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Emulation)해 내는 초경량 네트워크 에뮬레이터**입니다.
+- **개념**: 노트북이나 데스크탑(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 단 한 대의 자원만으로, 수백 대의 가상 호스트(서버), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)), 가상 링크(랜선)로 이루어진 거대한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 네트워크 토폴로지(네트워크 망 구조)를 눈 깜짝할 새 소프트웨어로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Emulation)해 내는 초경량 네트워크 에뮬레이터</strong>입니다.
 - **용도**: 대학원생, 개발자, 네트워크 엔지니어들이 새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘이나 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(ONOS, ODL 등)를 개발했을 때, 실 장비를 사지 않고 그 작동을 검증해 볼 수 있는 절대적인 테스트베드 샌드박스입니다.
 
-```text
-[OVS]
-    │
-    ▼
-[미니넷]
-    │
-    └──▶ [ONOS / OpenDaylight]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 미니넷은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,20 +45,24 @@ tags = ["studynote-network"]
 
 ### 1. 네트워크 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) (Network [Namespaces](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/)) 🌟
 - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 경량 격리 기술인 '[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)(컨테이너의 원리)'를 기가 막히게 악용(?)합니다.
-- 미니넷에서 호스트(Host)를 100개 만든다고 컴퓨터 100대를 켜는 게 아닙니다. 그냥 리눅스 뱃속에 **네트워크 IP와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(장부)만 100개로 쪼개어 가벽을 쳐둔 독립된 100개의 방([네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))**을 만듭니다. CPU와 메모리 소모가 파리 목숨처럼 작아서 노트북 1대에 방 1,000개를 파도 끄떡없습니다.
+- 미니넷에서 호스트(Host)를 100개 만든다고 컴퓨터 100대를 켜는 게 아닙니다. 그냥 리눅스 뱃속에 <strong>네트워크 IP와 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블(장부)만 100개로 쪼개어 가벽을 쳐둔 독립된 100개의 방(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>)</strong>을 만듭니다. CPU와 메모리 소모가 파리 목숨처럼 작아서 노트북 1대에 방 1,000개를 파도 끄떡없습니다.
 
 ### 2. [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) ([Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)) 연동
-- 방(Host) 1,000개를 이을 거대한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 필요합니다. 미니넷은 앞서 860번에서 배운 리눅스의 자랑, 최강의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) **[OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)([Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))**를 냅다 띄웁니다. 
+- 방(Host) 1,000개를 이을 거대한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 필요합니다. 미니넷은 앞서 860번에서 배운 리눅스의 자랑, 최강의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">OVS</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">Open vSwitch</a>)</strong>를 냅다 띄웁니다. 
 - 그리고 이 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) 구멍들에 1,000개의 방(Host)을 가상의 랜선(veth pair)으로 푹푹 꽂아버립니다.
 
-```text
-[OVS]
-    │
-    ▼
-[미니넷]
-    │
-    └──▶ [ONOS / OpenDaylight]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 미니넷의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 - `veth pair`라는 마법의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(소프트웨어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 허공에 만듭니다. 한쪽 구멍은 호스트 1번 방에 넣고, 반대쪽 구멍은 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂습니다. 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에는 패킷 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay=10ms), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제한([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)=100Mbps), 패킷 드랍율 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 등 내가 원하는 '물리적 랜선의 한계'를 코딩으로 똑같이 흉내(에뮬레이션) 내어 조작할 수 있습니다.
 
 - 미니넷이 노트북 안에서 1,000대짜리 가상의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)을 띄웠습니다.
-- 사용자는 이 미니넷 가상 망을, 자기 컴퓨터 밖 클라우드에 띄워둔 **'진짜 리얼 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(ONOS 등)'**와 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 프로토콜로 묶어버립니다.
+- 사용자는 이 미니넷 가상 망을, 자기 컴퓨터 밖 클라우드에 띄워둔 <strong>'진짜 리얼 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 컨트롤러(ONOS 등)'</strong>와 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 프로토콜로 묶어버립니다.
 - 실제 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 멍청해서 자기가 조종하는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1,000대가 진짜 쇳덩어리 기계인지, 아니면 미니넷이 노트북에 그린 가짜 게임 속 그림(에뮬레이터)인지 절대 눈치채지 못합니다. 완벽하게 속아서 룰을 내려주며 실전과 100% 동일한 통신 핑퐁 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테스트가 진행됩니다.
 
 미니넷을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. OVS가 기반 조건을 만든다면, 미니넷은 그 위에서 핵심 메커니즘을 구현하고, ONOS / OpenDaylight는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 망 테스트를 위해 진짜 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 100대와 컴퓨터 1,000대를 사서 렌선을 꽂는 짓은, 도로 교통체증을 연구하겠다고 실제 자동차 1만 대를 사서 고속도로를 짓는 멍청한 토목 공사입니다. **미니넷(Mininet)**은 내 노트북 안에 깔아 둔 완벽한 물리 엔진을 갖춘 '심시티(SimCity) 네트워크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)' 게임입니다. 이 게임 안에서는 마우스 드래그(파이썬 코드 3줄)만 하면 자동차 1만 대([네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 호스트)와 도로, 톨게이트 100개([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))가 1초 만에 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면 속에 세팅됩니다. 이 가짜 도로망을 실제 교통 통제탑([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)과 연결하면 통제탑은 화면 속 도로가 진짜인 줄 알고 완벽하게 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(플로우 테이블)를 떨어뜨려 주며, 돈 한 푼 들이지 않고 노트북 안에서 국가 단위 통신망 테스트를 마칠 수 있는 천재적인 에뮬레이션 공간입니다.
+- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 망 테스트를 위해 진짜 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 100대와 컴퓨터 1,000대를 사서 렌선을 꽂는 짓은, 도로 교통체증을 연구하겠다고 실제 자동차 1만 대를 사서 고속도로를 짓는 멍청한 토목 공사입니다. <strong>미니넷(Mininet)</strong>은 내 노트북 안에 깔아 둔 완벽한 물리 엔진을 갖춘 '심시티(SimCity) 네트워크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)' 게임입니다. 이 게임 안에서는 마우스 드래그(파이썬 코드 3줄)만 하면 자동차 1만 대([네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 호스트)와 도로, 톨게이트 100개([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))가 1초 만에 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면 속에 세팅됩니다. 이 가짜 도로망을 실제 교통 통제탑([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)과 연결하면 통제탑은 화면 속 도로가 진짜인 줄 알고 완벽하게 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(플로우 테이블)를 떨어뜨려 주며, 돈 한 푼 들이지 않고 노트북 안에서 국가 단위 통신망 테스트를 마칠 수 있는 천재적인 에뮬레이션 공간입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OVS]
-    │
-    ▼
-[현재 개념: 미니넷]
-    │
-    ├──▶ [확장 A: ONOS / OpenDaylight]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OVS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 미니넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ONOS / OpenDaylight</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 미니넷는 OVS에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

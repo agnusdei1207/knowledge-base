@@ -25,14 +25,18 @@ tags = ["studynote-network"]
 
 이것이 검사합의 본질입니다. 단, 실제 컴퓨터는 십진수가 아니라 16비트(또는 8비트) 이진수로 이 더하기 연산을 수행합니다.
 
-```text
-[패리티 검사]
-    │
-    ▼
-[검사합]
-    │
-    └──▶ [CRC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 검사합은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,21 +50,25 @@ tags = ["studynote-network"]
 1. 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 16비트 단위로 뚝뚝 끊습니다.
 2. 이 조각들을 몽땅 이진수 덧셈으로 다 더합니다.
 3. 더하다가 자릿수가 16자리를 넘어가서 맨 앞으로 툭 튀어나온 올림수(Carry)가 생기면 버리지 않고, **다시 끄트머리 1의 자리에 가져가서 한 번 더 더해줍니다(Wrap-around).**
-4. 이렇게 얻어낸 최종 합계 값의 **0과 1을 모두 거꾸로 뒤집어버립니다(1의 보수 취하기/NOT 연산).** ➔ 이것이 최종 생성된 **'[Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 값'**입니다.
+4. 이렇게 얻어낸 최종 합계 값의 **0과 1을 모두 거꾸로 뒤집어버립니다(1의 보수 취하기/NOT 연산).** ➔ 이것이 최종 생성된 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> 값'</strong>입니다.
 
 ### 수신 측 (검사하는 법)
 1. 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들 + 꼬리에 달린 '[Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 값'까지 남김없이 **몽땅 다 더합니다.** (마찬가지로 올림수는 뒤로 돌려 더함).
-2. 에러 없이 무사히 도착했다면, **이 덧셈의 최종 결과는 무조건 모든 자리가 `1` (`1111111111111111`)**이 나오게 수학적으로 설계되어 있습니다.
+2. 에러 없이 무사히 도착했다면, <strong>이 덧셈의 최종 결과는 무조건 모든 자리가 <code>1</code> (<code>1111111111111111</code>)</strong>이 나오게 수학적으로 설계되어 있습니다.
 3. 만약 1이 아닌 0이 단 한 자리라도 섞여 있다면 "에러 났네!" 하고 패킷을 폐기합니다.
 
-```text
-[패리티 검사]
-    │
-    ▼
-[검사합]
-    │
-    └──▶ [CRC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 검사합의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **장점**: 덧셈과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒤집기(NOT)라는 극단적으로 단순한 연산만 사용하므로, 컴퓨터 CPU나 라우터 칩셋이 소프트웨어적으로 계산하기에 엄청나게 가볍고 속도가 빠릅니다. 그래서 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 검사나 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/UDP에서 널리 쓰입니다.
-- **치명적 단점 (상쇄 에러)**: 덧셈의 한계가 있습니다. 만약 첫 번째 숫자의 1이 0으로 깨지고(-1), 두 번째 숫자의 0이 1로 깨지면(+1)? $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) + (-1) + 20 + (+1) = 30$으로 합계 자체는 똑같아집니다. **서로 다른 두 개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 상쇄되는 방향으로 동시에 깨지면 검사합은 이를 100% 정상으로 오해하고 패스시켜 버립니다.** (이 허점을 잡기 위해 2계층에서는 무거운 CRC를 씁니다.)
+- **치명적 단점 (상쇄 에러)**: 덧셈의 한계가 있습니다. 만약 첫 번째 숫자의 1이 0으로 깨지고(-1), 두 번째 숫자의 0이 1로 깨지면(+1)? $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) + (-1) + 20 + (+1) = 30$으로 합계 자체는 똑같아집니다. <strong>서로 다른 두 개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 상쇄되는 방향으로 동시에 깨지면 검사합은 이를 100% 정상으로 오해하고 패스시켜 버립니다.</strong> (이 허점을 잡기 위해 2계층에서는 무거운 CRC를 씁니다.)
 
 검사합을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)가 기반 조건을 만든다면, 검사합은 그 위에서 핵심 메커니즘을 구현하고, CRC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 패리티 검사]
-    │
-    ▼
-[현재 개념: 검사합]
-    │
-    ├──▶ [확장 A: CRC]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패리티 검사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 검사합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 검사합는 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CRC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

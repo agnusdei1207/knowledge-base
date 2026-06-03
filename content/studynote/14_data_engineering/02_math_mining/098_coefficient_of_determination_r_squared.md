@@ -32,26 +32,26 @@ tags = ["studynote-data-engineering"]
 R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명하지 못한 부분으로 분해(Decomposition)하여 계산한다. 
 
 - **SST (Total Sum of Squares)**: 실제값들이 평균에서 얼마나 떨어져 있는지를 나타내는 전체 변동량.
-- **[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) (Regression Sum of Squares)**: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
-- **[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) (Sum of Squared Errors)**: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Regression Sum of Squares)</strong>: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong>: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          R-Squared 분해 원리 (SST = SSR + SSE)            │
-├─────────────────────────────────────────────────────────────┤
-│                 ▲ Y (종속 변수)                            │
-│                 │          ● (실제 데이터 포인트)          │
-│                 │          │                             │
-│ 전체 변동(SST)  │          │ ◀─ 설명 못 한 오차 (SSE)      │
-│                 │          ▼                             │
-│                 │       ／ ◼ ◀─ 회귀 모델 (예측값 Ŷ)     │
-│                 │    ／    │                             │
-│                 │ ／       │ ◀─ 모델이 설명한 부분 (SSR) │
-│                 ├──────────▼─ ◀─ 평균선 (Ȳ)              │
-│                 │                                        │
-│                 └────────────────────────────────────▶ X │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R-Squared 분해 원리 (SST = SSR + SSE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Y (종속 변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● (실제 데이터 포인트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 변동(SST)</div><div class="kb-diagram-cell">◀─ 설명 못 한 오차 (SSE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ◼ ◀─ 회귀 모델 (예측값 Ŷ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／</div><div class="kb-diagram-cell">◀─ 모델이 설명한 부분 (SSR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼─ ◀─ 평균선 (Ȳ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ X</div></div>
+</div>
+</div>
+
+
 
 결정 계수의 수식은 **$R^2 = \frac{[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)}{SST} = 1 - \frac{[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)}{SST}$** 이다. 모델의 예측이 완벽하면 오차([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 0이 되어 $R^2$는 1이 되고, 모델이 단순히 평균값(Ȳ)으로만 예측한다면 SSR이 0이 되어 $R^2$는 0이 된다.
 
@@ -81,12 +81,12 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 실무에서 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 또는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보고할 때 $R^2$ 수치만 맹신하는 것은 위험하며, 다음과 같은 기준을 통해 종합적으로 판단해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
-1. **도메인별 목표치 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**:
+1. <strong>도메인별 목표치 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
    - 물리/제조 공정 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 노이즈가 적으므로 $R^2$가 0.90 이상이어야 유의미함.
    - 마케팅/사회과학 설문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 인간 행동의 변동성이 커서 $R^2$가 0.3~0.5만 되어도 실무 적용을 고려함.
 2. **복합 지표 모니터링**:
    - $R^2$는 높지만 RMSE가 비즈니스 허용 한계를 초과한다면 그 모델은 쓸 수 없다. 항상 상대 지표($R^2$)와 절대 오차(RMSE, MAE)를 대시보드에 함께 구성해야 한다.
-3. **F-통계량 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**:
+3. <strong>F-통계량 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>:
    - $R^2$가 아무리 높아도, [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) 분석을 통한 F-검정(F-test)의 p-value가 0.05 이상이라면 통계적으로 유의미하지 않은 모델로 판정하고 폐기해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -111,24 +111,30 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **상관계수 ([Pearson Correlation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/), $r$)** | 단순 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서 $R^2$는 상관계수 $r$을 제곱한 값과 정확히 일치함 |
-| **RMSE (Root Mean [Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) Error)** | $R^2$와 상호보완적으로 쓰이는 모델의 물리적(절대적) 예측 오차 지표 |
-| **다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))** | 모델 전체의 $R^2$는 높으나 개별 변수의 p-value가 높게 나올 때 의심되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
+| <strong>RMSE (Root Mean <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/">Square</a> Error)</strong> | $R^2$와 상호보완적으로 쓰이는 모델의 물리적(절대적) 예측 오차 지표 |
+| <strong>다중공선성 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> | 모델 전체의 $R^2$는 높으나 개별 변수의 p-value가 높게 나올 때 의심되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
 | **F-검정 (F-test)** | 산출된 $R^2$값이 통계적으로 우연이 아닌 진짜 유의미한 값인지 검증하는 테스트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절대 오차 측정 (MSE, RMSE)
-    │ 데이터 스케일 의존성 한계
-    ▼
-상대적 설명력 지표 (R-Squared)
-    │ 다중 변수 투입 시 과적합 발생 (맹목적 증가)
-    ▼
-패널티 적용 모델 (Adjusted R-Squared)
-    │ 비선형 모델 로지스틱 회귀 등으로의 확장
-    ▼
-유사 결정 계수 (McFadden's Pseudo R-Squared)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절대 오차 측정 (MSE, RMSE)</div>
+<div class="kb-diagram-note">데이터 스케일 의존성 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상대적 설명력 지표 (R-Squared)</div>
+<div class="kb-diagram-note">다중 변수 투입 시 과적합 발생 (맹목적 증가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패널티 적용 모델 (Adjusted R-Squared)</div>
+<div class="kb-diagram-note">비선형 모델 로지스틱 회귀 등으로의 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유사 결정 계수 (McFadden's Pseudo R-Squared)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 오차 측정에서 시작하여 표준화된 설명력($R^2$)을 얻고, 다시 과적합을 방어(Adjusted $R^2$)하며 비선형 환경(Pseudo $R^2$)으로 확장되는 모델 평가 지표의 발전 과정을 보여준다.
 

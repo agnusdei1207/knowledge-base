@@ -23,11 +23,15 @@ tags = ["studynote-ict-convergence"]
 
 반대로 이런 구조가 없으면 검토는 형식만 남고, 숫자와 문서와 현장이 서로 어긋난다. 그래서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식은 단순 설명이 아니라, 실제 운영에서 판단선을 세우는 도구로 읽어야 한다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 이 그림은 입력이 결과로 바로 가는 것이 아니라, 중간의 기준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거치며 의미가 바뀐다는 점을 보여준다.
 
@@ -45,11 +49,15 @@ tags = ["studynote-ict-convergence"]
 | 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/))과(와) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 이 흐름을 보강하는 대표 축이다. 하나는 기준을 넓히는 관점이고, 다른 하나는 실행을 좁히는 관점이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 

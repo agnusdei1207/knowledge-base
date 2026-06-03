@@ -23,24 +23,24 @@ RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 기본 구성 요소
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              Property Graph 모델                          │
-│                                                          │
-│  ┌──────────────────┐         ┌──────────────────┐       │
-│  │    Node (노드)    │         │   Node (노드)     │       │
-│  │  Label: Person   │  엣지   │  Label: Product  │       │
-│  │  Properties:     │─────────│  Properties:     │       │
-│  │  - name: "홍길동" │ BOUGHT │  - name: "키보드" │       │
-│  │  - age: 30       │  since: │  - price: 89000  │       │
-│  │  - city: "서울"  │ "2026"  │  - stock: 15     │       │
-│  └──────────────────┘         └──────────────────┘       │
-│                                                          │
-│  노드(Node): 엔티티  |  엣지(Edge/Relationship): 관계      │
-│  라벨(Label): 타입   |  속성(Property): 메타데이터          │
-│  방향(Direction): 단방향 또는 양방향                       │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Property Graph 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node (노드)</div><div class="kb-diagram-cell">Node (노드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Label: Person</div><div class="kb-diagram-cell">엣지</div><div class="kb-diagram-cell">Label: Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Properties:</div><div class="kb-diagram-cell">Properties:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name: "홍길동"</div><div class="kb-diagram-cell">BOUGHT</div><div class="kb-diagram-cell">- name: "키보드"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- age: 30</div><div class="kb-diagram-cell">since:</div><div class="kb-diagram-cell">- price: 89000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- city: "서울"</div><div class="kb-diagram-cell">"2026"</div><div class="kb-diagram-cell">- stock: 15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드(Node): 엔티티</div><div class="kb-diagram-cell">엣지(Edge/Relationship): 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라벨(Label): 타입</div><div class="kb-diagram-cell">속성(Property): 메타데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향(Direction): 단방향 또는 양방향</div></div>
+</div>
+</div>
+
+
 
 ### 대표 솔루션 비교
 
@@ -61,53 +61,52 @@ RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이
 
 ### [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 인접성 ([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)-Free [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))
 
-```text
-RDBMS의 관계 탐색 (JOIN 기반):
-┌────────────────────────────────────────────────────────┐
-│  SELECT u2.name FROM users u1                          │
-│  JOIN follows f ON u1.id = f.follower_id               │
-│  JOIN users u2 ON f.following_id = u2.id               │
-│  WHERE u1.name = '홍길동'                              │
-│                                                        │
-│  → 전체 follows 테이블 스캔 → O(N) 비용                 │
-│  → 깊이 3홉: 3중 JOIN → O(N³) 최악의 경우               │
-└────────────────────────────────────────────────────────┘
 
-그래프 DB의 관계 탐색 (포인터 추적):
-┌────────────────────────────────────────────────────────┐
-│  Node[홍길동] → Edge[FOLLOWS] → Node[이몽룡]            │
-│                                    ↓ 포인터             │
-│                               Node[이몽룡] → Edge[FOLLOWS]→ ...
-│                                                        │
-│  → 각 노드가 인접 노드의 직접 포인터 보유                  │
-│  → 홉당 O(1) 탐색 → 깊이와 무관하게 빠름                  │
-└────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDBMS의 관계 탐색 (JOIN 기반):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT u2.name FROM users u1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JOIN follows f ON u1.id = f.follower_id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JOIN users u2 ON f.following_id = u2.id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE u1.name = '홍길동'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 follows 테이블 스캔 → O(N) 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 깊이 3홉: 3중 JOIN → O(N³) 최악의 경우</div></div>
+<div class="kb-diagram-note">그래프 DB의 관계 탐색 (포인터 추적):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node</div><div class="kb-diagram-node">홍길동</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FOLLOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">이몽룡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 포인터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node</div><div class="kb-diagram-node">이몽룡</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FOLLOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 노드가 인접 노드의 직접 포인터 보유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 홉당 O(1) 탐색 → 깊이와 무관하게 빠름</div></div>
+</div>
+</div>
+
+
 
 ### Neo4j 내부 저장 구조
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│            Neo4j 저장 파일 구조                            │
-│                                                          │
-│  neostore.nodestore.db       ← 노드 레코드 (고정 15바이트) │
-│  neostore.relationshipstore  ← 관계 레코드 (34바이트)      │
-│  neostore.propertystore.db   ← 속성 레코드 (가변 길이)     │
-│  neostore.labeltokenstore    ← 라벨 저장                  │
-│                                                          │
-│  노드 레코드 구조:                                         │
-│  ┌──┬─────────┬─────────┬─────────┬─────────┐           │
-│  │ID│  첫 관계 │  첫 속성 │  라벨    │ 플래그   │           │
-│  └──┴─────────┴─────────┴─────────┴─────────┘           │
-│  → 노드에서 관계 체인을 직접 포인터로 탐색                    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Neo4j 저장 파일 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">neostore.nodestore.db ← 노드 레코드 (고정 15바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">neostore.relationshipstore ← 관계 레코드 (34바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">neostore.propertystore.db ← 속성 레코드 (가변 길이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">neostore.labeltokenstore ← 라벨 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 레코드 구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">첫 관계</div><div class="kb-diagram-cell">첫 속성</div><div class="kb-diagram-cell">라벨</div><div class="kb-diagram-cell">플래그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 노드에서 관계 체인을 직접 포인터로 탐색</div></div>
+</div>
+</div>
+
+
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 유형 비교
 
 | 모델 | 표현 방식 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | 특징 |
 |:---:|:---:|:---:|:---|
-| **Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)** | 노드/엣지 + [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
+| <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a></strong> | 노드/엣지 + [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
 | **RDF (Resource Description Framework)** | 주어-술어-목적어 트리플 | SPARQL | [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/), [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) |
 | **Hypergraph** | N개 노드를 잇는 하이퍼엣지 | 전용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델링 |
 
@@ -151,25 +150,28 @@ Amazon Neptune (조정 가능):
 
 ### 사기 탐지 시나리오 (금융권 활용 사례)
 
-```text
-시나리오: 여러 계좌가 동일 휴대폰 번호를 공유하고
-         짧은 시간에 순환 송금하는 패턴 탐지
 
-그래프 표현:
-Account A ─[SENT_TO]─→ Account B
-Account B ─[SENT_TO]─→ Account C
-Account C ─[SENT_TO]─→ Account A  ← 순환 고리(Ring) 탐지!
 
-Phone: 010-xxxx ←[REGISTERED]── Account A
-                ←[REGISTERED]── Account B  ← 동일 번호 공유!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시나리오: 여러 계좌가 동일 휴대폰 번호를 공유하고</div>
+<div class="kb-diagram-note">짧은 시간에 순환 송금하는 패턴 탐지</div>
+<div class="kb-diagram-note">그래프 표현:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Account A ─</div><div class="kb-diagram-node">SENT_TO</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Account B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Account B ─</div><div class="kb-diagram-node">SENT_TO</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Account C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Account C ─</div><div class="kb-diagram-node">SENT_TO</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Account A ← 순환 고리(Ring) 탐지!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">REGISTERED</div><div class="kb-diagram-note">── Account A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">REGISTERED</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동일 번호 공유!</div></div>
+<div class="kb-diagram-note">Cypher 쿼리:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">MATCH path=(a:Account)-</div><div class="kb-diagram-node">:SENT_TO*2..5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(a)</div></div>
+<div class="kb-diagram-note">WHERE ALL(r IN relationships(path)</div>
+<div class="kb-diagram-note">WHERE r.amount &gt; 1000000</div>
+<div class="kb-diagram-note">AND r.time &gt; timestamp() - 3600000)</div>
+<div class="kb-diagram-note">RETURN path</div>
+</div>
+</div>
 
-Cypher 쿼리:
-MATCH path=(a:Account)-[:SENT_TO*2..5]->(a)
-WHERE ALL(r IN relationships(path)
-      WHERE r.amount > 1000000
-      AND r.time > timestamp() - 3600000)
-RETURN path
-```
+
 
 ### 기술사 판단: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 도입 기준
 
@@ -205,7 +207,7 @@ RDBMS 유지 기준:
 | 미디어 | 콘텐츠 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Netflix 유사 추천 |
 
 ### 결론
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 기술사 시험에서는 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 인접성 원리**, **Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) vs RDF 모델 차이**, **사기 탐지·추천 엔진 적용 시나리오**, **Cypher 패턴 매칭 문법**이 핵심 논점이다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"인 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 없는 인접성 원리</strong>, <strong>Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> vs RDF 모델 차이</strong>, **사기 탐지·추천 엔진 적용 시나리오**, <strong>Cypher 패턴 매칭 문법</strong>이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 도입은 지도 앱이 없던 시대에 지도 앱을 도입하는 것과 같다. "서울에서 부산까지 최단 경로"를 묻는 질문에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선 전체 목록을 뒤지는 것(RDBMS)과 지도를 보는 것([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)은 차원이 다른 접근이다.
@@ -224,21 +226,23 @@ RDBMS 유지 기준:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[관계형 DB (RDBMS) — 조인(Join)으로 관계 탐색, 깊은 연결에서 성능 저하]
-    │
-    ▼
-[그래프 DB (Graph DB) — 노드·엣지·속성으로 관계를 네이티브 저장·탐색]
-    │
-    ▼
-[그래프 쿼리 언어 (Cypher / Gremlin / SPARQL) — 경로 탐색·패턴 매칭 전용 쿼리]
-    │
-    ▼
-[지식 그래프 (Knowledge Graph) — 개체 간 시맨틱 관계로 AI 추론 강화]
-    │
-    ▼
-[그래프 머신러닝 (Graph ML) — GNN으로 구조적 패턴 학습, 사기 탐지·추천에 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB (RDBMS) — 조인(Join)으로 관계 탐색, 깊은 연결에서 성능 저하</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 DB (Graph DB) — 노드·엣지·속성으로 관계를 네이티브 저장·탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 쿼리 언어 (Cypher / Gremlin / SPARQL) — 경로 탐색·패턴 매칭 전용 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 (Knowledge Graph) — 개체 간 시맨틱 관계로 AI 추론 강화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 머신러닝 (Graph ML) — GNN으로 구조적 패턴 학습, 사기 탐지·추천에 적용</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 조인 한계를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB가 극복하고 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)·GNN으로 AI와 융합하는 발전 경로를 나타낸다.
 

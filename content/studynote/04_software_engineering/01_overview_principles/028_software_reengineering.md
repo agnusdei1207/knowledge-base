@@ -18,18 +18,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│          리엔지니어링 Horseshoe 모델                  │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  기존 시스템 → [역공학] → 설계 복원 → [재구조화]       │
-│                                ↓                     │
-│  새 시스템  ← [순공학] ← 개선 설계 ←─────────────     │
-│                                                       │
-│  좌측(역공학): 이해 단계   우측(순공학): 구현 단계     │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리엔지니어링 Horseshoe 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">역공학</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">재구조화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">순공학</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">개선 설계 ←</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좌측(역공학): 이해 단계 우측(순공학): 구현 단계</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 리엔지니어링은 낡은 집을 리모델링하는 것이다. 집을 허물고 새로 짓는 대신(재개발), 기초(비즈니스 로직)는 유지하면서 내부 구조·배관·전기를 현대화한다.
 
@@ -41,11 +41,11 @@ tags = ["studynote-software-engineering"]
 
 | 활동 | 정의 |
 |:---|:---|
-| **[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) (Reverse Eng.)** | 소스 코드·바이너리에서 설계·요구사항 추출 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a> (Reverse Eng.)</strong> | 소스 코드·바이너리에서 설계·요구사항 추출 |
 | **재구조화 (Restructuring)** | 같은 기능을 더 명확한 구조로 변환 |
 | **재문서화 (Redocumentation)** | 소스 코드에서 문서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **마이그레이션 (Migration)** | 다른 플랫폼·언어로 이식 |
-| **순공학 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Eng.)** | 추출된 설계를 기반으로 개선 구현 |
+| <strong>순공학 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Eng.)</strong> | 추출된 설계를 기반으로 개선 구현 |
 
 ### [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/))
 
@@ -95,8 +95,8 @@ tags = ["studynote-software-engineering"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소** | 레거시 아키텍처 현대화 |
-| **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상** | 코드 구조 개선, 문서화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 해소</strong> | 레거시 아키텍처 현대화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a> 향상</strong> | 코드 구조 개선, 문서화 |
 | **비용 절감** | 완전 재개발 대비 저비용 |
 
 GenAI 기반 코드 마이그레이션 도구(Amazon Q, IBM WCA)는 대규모 레거시 코드베이스를 자동으로 분석하고 현대 언어·아키텍처로 변환하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 리엔지니어링 플랫폼으로 발전하고 있다.
@@ -109,29 +109,31 @@ GenAI 기반 코드 마이그레이션 도구(Amazon Q, IBM WCA)는 대규모 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)** | 리엔지니어링의 이해 단계 |
-| **[스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)** | 점진적 레거시 교체 패턴 |
-| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)** | 리엔지니어링의 해결 대상 |
-| **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)** | 리엔지니어링의 목표 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a></strong> | 리엔지니어링의 이해 단계 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/">스트랭글러 피그</a></strong> | 점진적 레거시 교체 패턴 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a></strong> | 리엔지니어링의 해결 대상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a></strong> | 리엔지니어링의 목표 아키텍처 |
 | **GenAI 마이그레이션** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 코드 변환 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[레거시 시스템 — 기술 부채 누적, 유지보수 어려움]
-    │
-    ▼
-[역공학 — 코드에서 설계·요구사항 추출]
-    │
-    ▼
-[재구조화/마이그레이션 — 현대 언어·아키텍처로 전환]
-    │
-    ▼
-[스트랭글러 피그 — 점진적 마이크로서비스 교체]
-    │
-    ▼
-[AI 리엔지니어링 — LLM 기반 자동 코드 변환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">레거시 시스템 — 기술 부채 누적, 유지보수 어려움</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역공학 — 코드에서 설계·요구사항 추출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재구조화/마이그레이션 — 현대 언어·아키텍처로 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트랭글러 피그 — 점진적 마이크로서비스 교체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 리엔지니어링 — LLM 기반 자동 코드 변환</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

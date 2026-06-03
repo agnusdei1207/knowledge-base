@@ -20,8 +20,8 @@ tags = ["studynote-it-management"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-과거의 기업 경영진에게 IT 부서는 단순히 PC를 고쳐주고 네트워크 선을 연결하는 **'비용 먹는 하마(Cost Center)'**에 불과했다. 하지만 디지털 트랜스포메이션(DX) 시대가 도래하면서, IT 인프라의 장애(예: 카카오톡 데이터센터 화재)가 곧바로 국가적 비즈니스 마비와 기업의 주가 폭락을 초래하는 시대로 바뀌었다. 
-**IT 경영 및 관리(IT Management)**는 기술(Technology)과 비즈니스(Business) 사이의 거대한 간극을 메우는 통역사다. 최고정보책임자(CIO)는 단순히 최신 AI나 클라우드 기술을 맹목적으로 도입하는 것이 아니라, "이 기술이 회사의 영업 이익을 얼마나 늘리고, 비용을 어떻게 절감하며, 해킹 리스크를 어떻게 통제할 것인가?"를 COBIT이나 ITIL과 같은 정교한 프레임워크를 통해 이사회에 증명하고 통제(Control)해야만 한다.
+과거의 기업 경영진에게 IT 부서는 단순히 PC를 고쳐주고 네트워크 선을 연결하는 <strong>'비용 먹는 하마(Cost Center)'</strong>에 불과했다. 하지만 디지털 트랜스포메이션(DX) 시대가 도래하면서, IT 인프라의 장애(예: 카카오톡 데이터센터 화재)가 곧바로 국가적 비즈니스 마비와 기업의 주가 폭락을 초래하는 시대로 바뀌었다. 
+<strong>IT 경영 및 관리(IT Management)</strong>는 기술(Technology)과 비즈니스(Business) 사이의 거대한 간극을 메우는 통역사다. 최고정보책임자(CIO)는 단순히 최신 AI나 클라우드 기술을 맹목적으로 도입하는 것이 아니라, "이 기술이 회사의 영업 이익을 얼마나 늘리고, 비용을 어떻게 절감하며, 해킹 리스크를 어떻게 통제할 것인가?"를 COBIT이나 ITIL과 같은 정교한 프레임워크를 통해 이사회에 증명하고 통제(Control)해야만 한다.
 
 ---
 
@@ -39,28 +39,25 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 | **Outsourcing/SLA**| 외부 자원 활용 및 품질 통제 | 서비스 수준 협약(SLA), BPO, 클라우드 매니지드 | OLA, Underpinning Contract | 하청업체 계약서 |
 
 #### 2. ITIL v4 서비스 가치 체계 (SVS) 및 COBIT 거버넌스 연계 (ASCII)
-```text
-    [ Enterprise IT Governance & Service Value Architecture / 기업 IT 거버넌스 및 서비스 가치 아키텍처 ]
-    
-    [ Board of Directors / 이사회 ] --- (Direct / Evaluate / Monitor) ---> [ COBIT Governance / 통제 체계 ]
-             |
-          (Alignment / 정렬)
-             v
-    [ ITIL Service Value System (SVS) / 서비스 가치 체계 ]
-    +---------------------------------------------------------------------------------+
-    |  Opportunity / Demand (요구)   ==========>   Value (가치 창출)                  |
-    |                                                                                 |
-    |  +---(Guiding Principles / 지도 원칙)----------------------------------------+  |
-    |  |                                                                           |  |
-    |  |  [ Service Value Chain / 서비스 가치 사슬 ]                               |  |
-    |  |  Plan(계획) -> Improve(개선) -> Engage(참여) -> Design/Transition(설계)   |  |
-    |  |             -> Obtain/Build(구축) -> Deliver/Support(인도 및 지원)        |  |
-    |  |                                                                           |  |
-    |  +---------------------------------------------------------------------------+  |
-    |                                                                                 |
-    |  (Practices / 34개 관리 프랙티스) / (Continual Improvement / 지속적 개선)       |
-    +---------------------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Enterprise IT Governance &amp; Service Value Architecture / 기업 IT 거버넌스 및 서비스 가치 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Board of Directors / 이사회</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">COBIT Governance / 통제 체계</div></div>
+<div class="kb-diagram-note">(Alignment / 정렬)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ITIL Service Value System (SVS) / 서비스 가치 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Opportunity / Demand (요구) ==========&gt; Value (가치 창출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---(Guiding Principles / 지도 원칙)----------------------------------------+</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service Value Chain / 서비스 가치 사슬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan(계획) -&gt; Improve(개선) -&gt; Engage(참여) -&gt; Design/Transition(설계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Obtain/Build(구축) -&gt; Deliver/Support(인도 및 지원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Practices / 34개 관리 프랙티스) / (Continual Improvement / 지속적 개선)</div></div>
+</div>
+</div>
+
+
 
 #### 3. 핵심 재무 수학 공식 (투자의 타당성 검증)
 - **순현재가치 (NPV, Net Present Value)**: $NPV = \sum_{t=1}^{n} \frac{CF_t}{(1+r)^t} - C_0$ (NPV > 0 이면 투자 타당성 있음. $CF_t$: 현금흐름, $r$: 할인율, $C_0$: 초기 투자비용)
@@ -91,14 +88,14 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 
 **시나리오 1: 핵심 클라우드 벤더(AWS) 리전 장애 발생에 따른 서비스 마비**
 - **문제 상황**: 기업의 핵심 서비스가 단일 클라우드 리전에 결합(Lock-in)되어 있어, AWS 데이터센터 장애 시 자사의 서비스도 수 시간 동안 동반 중단되는 파단 발생.
-- **기술사적 결단**: 이사회 차원에서 **재난 복구(DR, Disaster Recovery) 거버넌스**를 발동한다. 목표 복구 시간(RTO)을 15분으로 설정하고, Active-Active 구조의 **멀티 클라우드(Multi-Cloud) 아키텍처**를 구성. 평소 인프라 유지 비용(TCO)은 증가하더라도 장애로 인한 브랜드 신뢰도 추락과 기회 손실 비용(Opportunity Cost)을 정량적(NPV)으로 분석하여 이사회를 설득하고 예산을 확보한다.
+- **기술사적 결단**: 이사회 차원에서 <strong>재난 복구(DR, Disaster Recovery) 거버넌스</strong>를 발동한다. 목표 복구 시간(RTO)을 15분으로 설정하고, Active-Active 구조의 <strong>멀티 클라우드(Multi-Cloud) 아키텍처</strong>를 구성. 평소 인프라 유지 비용(TCO)은 증가하더라도 장애로 인한 브랜드 신뢰도 추락과 기회 손실 비용(Opportunity Cost)을 정량적(NPV)으로 분석하여 이사회를 설득하고 예산을 확보한다.
 
 **시나리오 2: 잦은 기능 배포로 인한 주말 야간 장애 발생 (개발 vs 운영 충돌)**
 - **문제 상황**: 애자일 개발팀은 무차별적으로 새 코드를 배포하려 하고, 운영팀(Ops)은 안정성을 위해 배포를 막으려 하여 ITIL의 '변경 관리(Change Management)' 프로세스가 마비됨.
-- **기술사적 결단**: 구글의 SRE(Site Reliability Engineering) 철학을 ITIL 거버넌스에 융합한다. 비즈니스 부서와 합의하여 시스템 가용성 목표를 99.9%로 설정하고, 남은 0.1%를 **에러 버짓(Error Budget)**으로 할당. 버짓이 남아있을 때는 자동화된 CAB(변경승인위원회)를 통해 프리패스로 배포를 허용하고, 버짓 고갈 시 모든 신규 기능 배포를 강제 동결(Freeze)하는 정량적 통제 체계를 결착시킨다.
+- **기술사적 결단**: 구글의 SRE(Site Reliability Engineering) 철학을 ITIL 거버넌스에 융합한다. 비즈니스 부서와 합의하여 시스템 가용성 목표를 99.9%로 설정하고, 남은 0.1%를 <strong>에러 버짓(Error Budget)</strong>으로 할당. 버짓이 남아있을 때는 자동화된 CAB(변경승인위원회)를 통해 프리패스로 배포를 허용하고, 버짓 고갈 시 모든 신규 기능 배포를 강제 동결(Freeze)하는 정량적 통제 체계를 결착시킨다.
 
 **도입 시 고려사항 (안티패턴)**
-- **Watermelon SLA (수박 지표) 안티패턴**: IT 부서가 측정하는 서버 CPU 가동률이나 핑(Ping) 테스트는 100% 정상(겉은 초록색)인데, 실제 고객은 DB 병목으로 인해 서비스를 전혀 쓰지 못해 불만이 폭발(속은 빨간색)하는 현상. 기술사는 인프라 지표가 아닌, 사용자 체감 여정(User Journey) 기반의 엔드투엔드 **XLA(eXperience Level Agreement)**로 평가 체계를 전면 개편해야 전 진정한 관리를 할 수 있다.
+- **Watermelon SLA (수박 지표) 안티패턴**: IT 부서가 측정하는 서버 CPU 가동률이나 핑(Ping) 테스트는 100% 정상(겉은 초록색)인데, 실제 고객은 DB 병목으로 인해 서비스를 전혀 쓰지 못해 불만이 폭발(속은 빨간색)하는 현상. 기술사는 인프라 지표가 아닌, 사용자 체감 여정(User Journey) 기반의 엔드투엔드 <strong>XLA(eXperience Level Agreement)</strong>로 평가 체계를 전면 개편해야 전 진정한 관리를 할 수 있다.
 
 ---
 
@@ -112,7 +109,7 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 | **EA (엔터프라이즈 아키텍처)** | 중복 투자된 레거시 시스템 통폐합 (Silo 파괴) | 신규 비즈니스 Time-to-Market 리드타임 40% 단축 |
 
 **미래 전망 및 진화 방향**:
-IT 관리는 단순한 하드웨어 통제를 넘어, 클라우드 사용료를 극도로 최적화하는 **FinOps(재무+데브옵스)** 체계로 진화하고 있다. 또한, AI가 장애의 징후를 예측하고 사람이 개입하기 전에 스스로 복구 스크립트를 실행하는 **AIOps(인공지능 기반 IT 운영)**의 도입으로, IT 부서의 역할은 '고장 수리'에서 '비즈니스 가치 설계'로 완벽히 전환될 것이다.
+IT 관리는 단순한 하드웨어 통제를 넘어, 클라우드 사용료를 극도로 최적화하는 **FinOps(재무+데브옵스)** 체계로 진화하고 있다. 또한, AI가 장애의 징후를 예측하고 사람이 개입하기 전에 스스로 복구 스크립트를 실행하는 <strong>AIOps(인공지능 기반 IT 운영)</strong>의 도입으로, IT 부서의 역할은 '고장 수리'에서 '비즈니스 가치 설계'로 완벽히 전환될 것이다.
 
 **※ 참고 표준/가이드**:
 - COBIT 2019 (ISACA): 기업 IT 거버넌스 및 통제를 위한 글로벌 사실상(De facto) 표준 프레임워크.
@@ -130,6 +127,6 @@ IT 관리는 단순한 하드웨어 통제를 넘어, 클라우드 사용료를 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **IT 경영(Governance)**은 회사 사장님이 되어서 한정된 용돈을 어떤 컴퓨터와 프로그램에 가장 효율적으로 쓸지 결정하는 거예요.
-2. **IT 서비스 관리(ITSM)**는 마치 최고의 AS 센터를 만들어서, 고장 난 컴퓨터를 번개처럼 빠르게 고쳐주도록 119 같은 규칙을 세우는 거랍니다.
+1. <strong>IT 경영(Governance)</strong>은 회사 사장님이 되어서 한정된 용돈을 어떤 컴퓨터와 프로그램에 가장 효율적으로 쓸지 결정하는 거예요.
+2. <strong>IT 서비스 관리(ITSM)</strong>는 마치 최고의 AS 센터를 만들어서, 고장 난 컴퓨터를 번개처럼 빠르게 고쳐주도록 119 같은 규칙을 세우는 거랍니다.
 3. 이 두 가지를 잘하면 돈만 많이 쓰던 컴퓨터 부서가 회사를 부자로 만들어 주는 마법의 황금 거위로 변신해요!

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 누군가를 **생명과 함께 날려버리는([Process Termination](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/))** 대신, 그 녀석의 목숨([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로세스 자체)은 살려둔 채로 그가 손에 쥐고 있던 **자원(프린터, 락, 디스크 등)만 '폭력적으로 빼앗아(Preempt)' 다른 대기자에게 넘겨주어 사이클(Cycle)을 강제 해소**하는 우회 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이다.
-> 2. **가치**: 앱 자체를 팅기게(강제 종료) 해버려서 사용자에게 빡침(Crash)을 안기는 대신, "앗, 자원을 잠깐 뺏겼네? 뒤로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)했다가 이따 다시 받아야지" 라며 데이지 체인을 살려둘 수 있어 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 극상향을 달성하는 현대 RDBMS [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 해결의 절대 표준**이다.
-> 3. **융합**: 하지만 뺏을 대상(Victim)을 골라 무사히 빼앗기 위해서는 "뺏은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과거 멀쩡했던 상태로 복원"하는 엄청난 **[후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)/[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)) 메커니즘**과 동기화되어 있어야만 쓸 수 있는, 구현 난이도가 가장 극악인 백엔드 철학이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 누군가를 <strong>생명과 함께 날려버리는(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/">Process Termination</a>)</strong> 대신, 그 녀석의 목숨([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로세스 자체)은 살려둔 채로 그가 손에 쥐고 있던 <strong>자원(프린터, 락, 디스크 등)만 '폭력적으로 빼앗아(Preempt)' 다른 대기자에게 넘겨주어 사이클(Cycle)을 강제 해소</strong>하는 우회 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이다.
+> 2. **가치**: 앱 자체를 팅기게(강제 종료) 해버려서 사용자에게 빡침(Crash)을 안기는 대신, "앗, 자원을 잠깐 뺏겼네? 뒤로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)했다가 이따 다시 받아야지" 라며 데이지 체인을 살려둘 수 있어 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 극상향을 달성하는 현대 RDBMS <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 해결의 절대 표준</strong>이다.
+> 3. **융합**: 하지만 뺏을 대상(Victim)을 골라 무사히 빼앗기 위해서는 "뺏은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과거 멀쩡했던 상태로 복원"하는 엄청난 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">후퇴</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>/<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>) 메커니즘</strong>과 동기화되어 있어야만 쓸 수 있는, 구현 난이도가 가장 극악인 백엔드 철학이다.
 
 ---
 
@@ -21,30 +21,30 @@ tags = ["studynote-operating-system"]
 
 교착에 빠진 P1, P2가 있다. `Termination(강제 종료)`는 그냥 경찰(OS)이 와서 P1을 권총으로 쏴 죽여버리고(앱 팅김 에러) P2를 보내는 무식한 진압이다. 유저 입장에선 10시간짜리 영화 인코딩 앱이 바탕화면으로 튕기는(Crash) 참극을 겪는다.
 
-반면 **자원 선점 (Resource Preemption)**은 영리하다.
+반면 <strong>자원 선점 (Resource Preemption)</strong>은 영리하다.
 경찰(OS)은 P1을 죽이지 않는다. 단지 P1이 손에 꽉 쥐고 있던 '비디오 카드의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 강제로 비틀어 열어 압수(Preempt)한 뒤 P2에게 던져준다. P1은 비록 놀라서 자빠지지만(에러 코드 반환), 죽진 않고 구석에 쪼그려 앉아있다가(대기), P2가 지나가고 나면 아까 뺏긴 락을 다시 주워들고 작업을 이어나간다([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) & Retry).
 
 **💡 비유**: 길거리 4명 멱살잡이(데드락). 한 명을 총살(Termination)하는 게 아니라, 경찰이 한 명의 팔을 비틀어 등에 업고 있던 가방(자원)만 쑥 빼서(선점) 다른 놈에게 던져준다. 가방 뺏겨 울던 놈은 뒤로 자빠져([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 대기했다가 저놈 지나가면 다시 자기 가방 달라고 줄(대기) 서서 무사히 집으로 걸어간다(생존).
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         종료(Termination) vs 선점(Preemption)의 복구 차이       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [교착 확진: P1과 P2가 서로의 DB Row 락을 잡고 대결 중]         │
-│                                                                 │
-│  [복구 루트 A: 강제 종료]                                       │
-│  OS: "야 빡치네 P1 죽여!" ▶ P1 `Fatal Error` (프로세스 즉사)    │
-│  결과: P1의 10시간 연산 스레기 지그시 날아감.                   │
-│                                                                 │
-│  [복구 루트 B: 자원 선점 (Preemption)]                          │
-│  OS: "P1아, 네가 잡고 있는 Row 락 10번만 당장 내놔(선점)!"      │
-│  P1: "앗 락을 뺏겼네? 에러코드 1211 (Deadlock Found).           │
-│       나 안 죽었으니 트랜잭션 코드 지우고 위로 올라가야지(롤백)"│
-│  → P1은 조용히 시작점으로 돌아가(Retry) P2 지나갈 때까지 Wait.  │
-│  결과: 앱은 안 죽고(무한 재시도) 무사히 스레드 2개 다 완료!     │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종료(Termination) vs 선점(Preemption)의 복구 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 확진: P1과 P2가 서로의 DB Row 락을 잡고 대결 중</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복구 루트 A: 강제 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 빡치네 P1 죽여!" ▶ P1 <code>Fatal Error</code> (프로세스 즉사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: P1의 10시간 연산 스레기 지그시 날아감.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복구 루트 B: 자원 선점 (Preemption)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "P1아, 네가 잡고 있는 Row 락 10번만 당장 내놔(선점)!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: "앗 락을 뺏겼네? 에러코드 1211 (Deadlock Found).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나 안 죽었으니 트랜잭션 코드 지우고 위로 올라가야지(롤백)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ P1은 조용히 시작점으로 돌아가(Retry) P2 지나갈 때까지 Wait.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 앱은 안 죽고(무한 재시도) 무사히 스레드 2개 다 완료!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 선점(Preemption) 방식은 목숨(생명줄)은 보장해 줄 테니 손에 쥔 딱지만 내놓고 저 뒤에 가서 새로 다시 줄 서라고 밀쳐내는 매우 인도적인(?) 회생 시스템입니다.
 
@@ -56,9 +56,9 @@ tags = ["studynote-operating-system"]
 
 자원을 강제로 뺐고 돌리는 아름다운 그림을 구현하려면 OS(또는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))는 미친 듯이 복잡한 3가지 내부 서브 시스템 체인을 가동해야 한다.
 
-1. **[희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/))**: "누구에게서 자원을 빼앗아야 가장 타격(비용)이 적고 가장 짭짤한 이득(사이클 파괴)이 나올까?"를 수치 공식으로 채점한다.
-2. **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))**: 자원을 뺏긴 놈이 억울하게 죽지 않으려면, 자원을 뺏긴 순간 그동안 했던 작업을 **안전한 과거 지점([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) / Checkpoint)**으로 무효화시켜 주는 타임머신 복원 모듈이 100% 필수불가결하다. (가장 어려운 기술).
-3. **기아 방지 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) Check)**: 만만하다고 항상 '그놈' 자원만 뺏어대면 걔는 백 년 동안 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)만 하다 죽는다. (횟수 제한 리미터를 설계해야 함).
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">희생자 선택</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">Victim Selection</a>)</strong>: "누구에게서 자원을 빼앗아야 가장 타격(비용)이 적고 가장 짭짤한 이득(사이클 파괴)이 나올까?"를 수치 공식으로 채점한다.
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>: 자원을 뺏긴 놈이 억울하게 죽지 않으려면, 자원을 뺏긴 순간 그동안 했던 작업을 <strong>안전한 과거 지점(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a> / Checkpoint)</strong>으로 무효화시켜 주는 타임머신 복원 모듈이 100% 필수불가결하다. (가장 어려운 기술).
+3. <strong>기아 방지 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a> Check)</strong>: 만만하다고 항상 '그놈' 자원만 뺏어대면 걔는 백 년 동안 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)만 하다 죽는다. (횟수 제한 리미터를 설계해야 함).
 
 **📢 섹션 요약 비유**: 이 메커니즘은 단순히 뺏는 게 끝이 아닙니다. 뺏은 애를 과거로 살려놓을 '타임머신([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))'을 반드시 탑재해야 하기 때문에, 타임머신 기능이 없는 일반 시골 컴퓨터(OS 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O)는 이 방식을 못 쓰고 몽둥이(종료)만 씁니다.
 
@@ -79,9 +79,9 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **DB의 데드락 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 살려내기 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Found, Try restarting [transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))**: 선점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 최고 권위자는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL InnoDB)다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) T1, T2가 꼬였을 때, 갓 MySQL은 T1을 아예 터트려 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버를 디스커넥트(Termination)시키는 짓을 절대로 하지 않는다! 그저 T1이 물고 있는 락 하나를 '강제 해제(선점)'하고, T1에게 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 에러(`ER_LOCK_DEADLOCK`)를 던져 백그라운드에서 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log를 써서 T1을 시작 전으로 조용히 물린 뒤, 앱 레벨 개발자가 `retryTemplate` 등으로 다시 타게끔 설계된 고결한 회생 인프라다.
+1. <strong>DB의 데드락 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 살려내기 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Found, Try restarting <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">transaction</a>)</strong>: 선점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 최고 권위자는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL InnoDB)다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) T1, T2가 꼬였을 때, 갓 MySQL은 T1을 아예 터트려 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버를 디스커넥트(Termination)시키는 짓을 절대로 하지 않는다! 그저 T1이 물고 있는 락 하나를 '강제 해제(선점)'하고, T1에게 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 에러(`ER_LOCK_DEADLOCK`)를 던져 백그라운드에서 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log를 써서 T1을 시작 전으로 조용히 물린 뒤, 앱 레벨 개발자가 `retryTemplate` 등으로 다시 타게끔 설계된 고결한 회생 인프라다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **외부 I/O에 자원 선점 시도하기**: 위에서 말한 치명적 무능의 사례다. P1이 `Network Socket`으로 외부에 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쏘고 있는데(네트워크 자원 점유) P2와 데드락 났다. 탐지 데몬이 똑똑한 척 "자원 선점(Preemption)하자!"고 `소켓 락`을 뺏어 P2에게 줬다. 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 입장에선 통신 패킷이 반쯤 들어오다 잘렸고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)도 안 된다. 결국 돈은 결제되고 물건은 안 나가는 거대한 쇼핑몰 비즈니스 폭동의 장애([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption)가 터진다. => "되돌릴 수 없는 것에 선점을 명하지 마라."
 
 **📢 섹션 요약 비유**: 자원 선점([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 부스트)은 물감통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리)을 뺏어 지우개로 지우는 건 완벽하지만, 이미 도화지(디스크/네트워크)에 물감을 흩뿌려버린 뒤에는 과거로 돌릴 수 없어 도화지를 찢어버려야만 하는 치명적 무능([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))을 지닙니다.
@@ -95,7 +95,7 @@ tags = ["studynote-operating-system"]
 | 자원(앱)의 생존 | 무작위로 바탕화면 앱이 꺼짐 (크래시 덤프) | 묵묵히 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 후 유저가 원하던 작업을 끝냄 |
 | 매몰 비용 증발 | 최악 (1시간 작업 팅김) | 지점을 잡아서(체크포인트) 최소 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 발생! |
 
-`자원 선점 (Resource Preemption)` 모델은, 데드락이 낳은 "누구 한 명은 무조건 죽여야 한다"는 사형의 전제 조건을 **"죽이지 말고 잠시 뺏었다가 과거로 비틀어 무마시키자"**는 유연한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지향 탄성(Elasticity)으로 우회 돌파해 낸 소프트웨어 엔지니어링의 최고 예술품이다. 오늘날 "앱이 멈추지 않고 버벅거리다 끝끝내 돌아가는 기적"의 90%는 이 보이지 않는 OS의 자원 박탈과 재시도([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 튜닝 덕분에 유지되고 있다.
+`자원 선점 (Resource Preemption)` 모델은, 데드락이 낳은 "누구 한 명은 무조건 죽여야 한다"는 사형의 전제 조건을 <strong>"죽이지 말고 잠시 뺏었다가 과거로 비틀어 무마시키자"</strong>는 유연한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지향 탄성(Elasticity)으로 우회 돌파해 낸 소프트웨어 엔지니어링의 최고 예술품이다. 오늘날 "앱이 멈추지 않고 버벅거리다 끝끝내 돌아가는 기적"의 90%는 이 보이지 않는 OS의 자원 박탈과 재시도([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 튜닝 덕분에 유지되고 있다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -112,15 +112,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[종료 대상 선택 (희생자 선택) 기준]
-    │
-    ▼
-[자원 선점 (Resource Preemption) 방식]
-    │
-    ├──▶ [희생자 선택 (Victim Selection) 최소 비용 기준]
-    └──▶ [후퇴 (Rollback)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 대상 선택 (희생자 선택) 기준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 선점 (Resource Preemption) 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">희생자 선택 (Victim Selection) 최소 비용 기준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">후퇴 (Rollback)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

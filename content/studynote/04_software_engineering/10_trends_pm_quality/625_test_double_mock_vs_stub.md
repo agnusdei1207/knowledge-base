@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 회원 가입 로직을 테스트하려면 DB에 연결하고, 메일 서버([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))에 연결해야 한다. 만약 메일 서버가 점검 중이면 내 코드에 버그가 없어도 테스트는 실패(False Negative)한다. 또한 DB에 매번 데이터를 넣었다 지웠다 하면 테스트가 너무 느려져서 개발자가 테스트 실행 버튼을 누르기 싫어지게 된다. 진짜 객체를 빠르고 통제 가능한 '가짜([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))'로 갈아 끼워야만 완벽한 고립([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 테스트가 가능해진다.
 
-- **💡 비유**: 조종사가 비행 연습을 할 때, 매번 진짜 수백억 원짜리 비행기를 타고 하늘로 올라가서 추락해 볼 수는 없습니다. 그래서 조종석과 똑같이 생겼지만 날지는 않는 '비행 시뮬레이터([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))'에 앉아 연습을 하죠. 이때 버튼을 누르면 미리 입력된 풍속 수치를 화면에 띄워주는 것이 **[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)**이고, 비상 탈출 버튼을 매뉴얼 순서대로 정확하게 눌렀는지 기계가 감시하고 채점하는 것이 **[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)**입니다.
+- **💡 비유**: 조종사가 비행 연습을 할 때, 매번 진짜 수백억 원짜리 비행기를 타고 하늘로 올라가서 추락해 볼 수는 없습니다. 그래서 조종석과 똑같이 생겼지만 날지는 않는 '비행 시뮬레이터([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))'에 앉아 연습을 하죠. 이때 버튼을 누르면 미리 입력된 풍속 수치를 화면에 띄워주는 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a></strong>이고, 비상 탈출 버튼을 매뉴얼 순서대로 정확하게 눌렀는지 기계가 감시하고 채점하는 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a></strong>입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단위 테스트의 어려움**: 코드가 덩어리(Monolithic)로 짜여있어 외부 의존성을 끊어내고 테스트하기가 불가능에 가까웠다.
-  2. **[의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))의 확산**: Spring 프레임워크처럼 생성자로 객체를 주입(Inject)받는 패턴이 표준화되면서, 운영 시에는 '진짜 DB'를 넣고 테스트 시에는 '가짜 DB'를 밀어 넣는 것이 매우 쉬워졌다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 단위 테스트의 어려움</strong>: 코드가 덩어리(Monolithic)로 짜여있어 외부 의존성을 끊어내고 테스트하기가 불가능에 가까웠다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>)의 확산</strong>: Spring 프레임워크처럼 생성자로 객체를 주입(Inject)받는 패턴이 표준화되면서, 운영 시에는 '진짜 DB'를 넣고 테스트 시에는 '가짜 DB'를 밀어 넣는 것이 매우 쉬워졌다.
   3. **Mockito 등 프레임워크의 대중화**: 수동으로 가짜 클래스를 코딩하던 시절을 지나, Mockito(Java), Jest(Node.js) 같은 라이브러리가 등장하며 어노테이션 한 줄로 Mock과 Stub을 찍어내는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 시대가 열렸다.
 
 - **📢 섹션 요약 비유**: 실제 배우(외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 스케줄이 안 맞거나 너무 비싸서 못 올 때, 감독(테스터)이 지시한 대사만 딱딱 읽어주는 엑스트라([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))나, 주인공과 약속된 동작(합)을 정확히 맞추는지 감시해 주는 스턴트맨([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))을 대신 부르는 것과 같습니다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) Mock과 Stub의 차의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  테스트 더블 Mock과 Stub의 차                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 더블 Mock과 Stub의 차</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) Mock과 Stub의 차가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) Mock과 Stub의 차이의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) Mock과 Stub의 차이의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) Mock과 Stub의 차이의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-테스트 더블 Mock과 Stub의 차이 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 더블 Mock과 Stub의 차이 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

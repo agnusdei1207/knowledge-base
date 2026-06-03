@@ -38,44 +38,28 @@ tags = ["studynote-bigdata"]
 
 ### 에너지 빅데이터 통합 플랫폼
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                에너지 빅데이터 플랫폼                              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 수집                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
-│  │ AMI      │ │ 기상 데이터│ │ SCADA    │ │ 발전사 데이터     │   │
-│  │ 스마트   │ │ (기온/풍속 │ │ (그리드  │ │ (발전량 실적/     │   │
-│  │ 미터     │ │  일사량)   │ │  상태)   │ │  계획)           │   │
-│  └─────┬────┘ └─────┬────┘ └─────┬────┘ └────────┬─────────┘   │
-│        └────────────┴────────────┴─────────────────┘            │
-│                               │                                  │
-│                               ▼                                  │
-│               ┌──────────────────────────┐                      │
-│               │ 에너지 빅데이터 플랫폼    │                      │
-│               │ (한전 AMI + 에너지 플랫폼)│                      │
-│               └──────────────┬───────────┘                      │
-│                              │                                   │
-│            ┌─────────────────┼───────────────────┐              │
-│            ▼                 ▼                   ▼              │
-│  ┌──────────────┐  ┌──────────────────┐  ┌───────────────┐     │
-│  │ 수요 예측    │  │ 신재생 출력 예측  │  │ 이상 탐지      │     │
-│  │ (LSTM)       │  │ (기상 ML 모델)   │  │ (전력 손실/     │     │
-│  │              │  │                  │  │  절도 탐지)    │     │
-│  └──────────────┘  └──────────────────┘  └───────────────┘     │
-│            │                 │                   │              │
-│            └─────────────────┴───────────────────┘              │
-│                              │                                   │
-│                              ▼                                   │
-│               ┌──────────────────────────┐                      │
-│               │ EMS (에너지 관리 시스템)  │                      │
-│               │ - 발전 스케줄 최적화      │                      │
-│               │ - ESS 충방전 제어         │                      │
-│               │ - DR 프로그램 실행        │                      │
-│               └──────────────────────────┘                      │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 빅데이터 플랫폼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMI</div><div class="kb-diagram-cell">기상 데이터</div><div class="kb-diagram-cell">SCADA</div><div class="kb-diagram-cell">발전사 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트</div><div class="kb-diagram-cell">(기온/풍속</div><div class="kb-diagram-cell">(그리드</div><div class="kb-diagram-cell">(발전량 실적/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미터</div><div class="kb-diagram-cell">일사량)</div><div class="kb-diagram-cell">상태)</div><div class="kb-diagram-cell">계획)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 빅데이터 플랫폼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(한전 AMI + 에너지 플랫폼)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수요 예측</div><div class="kb-diagram-cell">신재생 출력 예측</div><div class="kb-diagram-cell">이상 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LSTM)</div><div class="kb-diagram-cell">(기상 ML 모델)</div><div class="kb-diagram-cell">(전력 손실/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절도 탐지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMS (에너지 관리 시스템)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 발전 스케줄 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ESS 충방전 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DR 프로그램 실행</div></div>
+</div>
+</div>
+
+
 
 ### 전력 수요 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
 
@@ -88,13 +72,19 @@ tags = ["studynote-bigdata"]
 
 ### 스마트미터 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)
 
-```
-정상 패턴:   07시~09시 ▲ / 12시~13시 ▲ / 18시~21시 ▲
-이상 신호:
-  - 야간 과소비 (전기 절도 의심)
-  - 급격한 소비 감소 (독거노인 고립 위험)
-  - 계기 불규칙 패턴 (계기 고장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정상 패턴: 07시~09시 ▲ / 12시~13시 ▲ / 18시~21시 ▲</div>
+<div class="kb-diagram-note">이상 신호:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">야간 과소비 (전기 절도 의심)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">급격한 소비 감소 (독거노인 고립 위험)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">계기 불규칙 패턴 (계기 고장)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 스마트미터는 "전기 사용 패턴을 기억하는 스마트 전력 계기판"이다. 갑자기 이상하게 많이 쓰거나 전혀 안 쓰면 이상한 일이 생긴 것이다.
 
@@ -142,7 +132,7 @@ tags = ["studynote-bigdata"]
 **기술사 핵심 판단**:
 - **ISO 50001**: 에너지 관리 시스템 국제 표준 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 에너지 경영의 프레임워크.
 - **사이버 보안**: 전력 인프라([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)는 [ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 보안 취약점이 국가 안보 위험 → [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 분리 설계 필수.
-- **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)**: 스마트미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴 노출 → 집계 단위 제한, 동의 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 참여.
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong>: 스마트미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴 노출 → 집계 단위 제한, 동의 기반 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 참여.
 
 > 📢 **섹션 요약 비유**: 에너지 빅데이터의 설계 원칙은 "전기를 안정적으로 공급하면서도, 내 전기 사용 패턴이 누군가에게 감시당하지 않아야 한다"는 것이다. 안전과 프라이버시가 동시에 필요하다.
 
@@ -175,21 +165,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스마트 미터 (Smart Meter) — 전력·가스 사용량 실시간 측정 및 디지털 전송]
-    │
-    ▼
-[에너지 빅데이터 (Energy Big Data) — AMI·SCADA·기상 데이터 대규모 수집·분석]
-    │
-    ▼
-[수요 예측 (Load Forecasting) — 머신러닝으로 전력 수요 패턴 예측, 공급 최적화]
-    │
-    ▼
-[에너지 거래 플랫폼 (P2P Energy Trading) — 재생에너지 잉여분 블록체인 기반 직거래]
-    │
-    ▼
-[탄소 중립 최적화 (Carbon Neutral Optimization) — 빅데이터 분석으로 ESG 목표 달성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 미터 (Smart Meter) — 전력·가스 사용량 실시간 측정 및 디지털 전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에너지 빅데이터 (Energy Big Data) — AMI·SCADA·기상 데이터 대규모 수집·분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수요 예측 (Load Forecasting) — 머신러닝으로 전력 수요 패턴 예측, 공급 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에너지 거래 플랫폼 (P2P Energy Trading) — 재생에너지 잉여분 블록체인 기반 직거래</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">탄소 중립 최적화 (Carbon Neutral Optimization) — 빅데이터 분석으로 ESG 목표 달성</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 스마트 미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 출발한 에너지 빅데이터 분석이 수요 예측과 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 거래 플랫폼으로 발전하고, 탄소 중립 목표 달성의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 진화하는 과정을 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개발자가 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴 환상 속의 별명 변수나 0번지 `논리 주소(Virtual)`를, 도대체 **"언제쯤" 실제 램의 차가운 나노미터급 `물리 주소(Physical)` 닻으로 단단히 채워 넣을(Bind) 것인가**를 결정하는 타이밍 역사 발전의 3단 기어 변속 과정이다.
+> 1. **본질**: 개발자가 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴 환상 속의 별명 변수나 0번지 `논리 주소(Virtual)`를, 도대체 <strong>"언제쯤" 실제 램의 차가운 나노미터급 <code>물리 주소(Physical)</code> 닻으로 단단히 채워 넣을(Bind) 것인가</strong>를 결정하는 타이밍 역사 발전의 3단 기어 변속 과정이다.
 > 2. **가치**: 바인딩이 일찍 일어날수록(컴파일 타임) 주소 변환 하드웨어 돈이 안 들어서 컴퓨터는 날게 되지만 오직 평생 한 프로그램만 돌릴 수 있고, 가장 늦게 일어날수록(실행 타임) 미친 성능의 변환기([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 칩셋 비용을 치러야 하지만 수백 개의 앱과 해킹 방어용 동적 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 셔플을 자유자재로 해내는 현대 멀티태스킹의 기적을 탄생시켰다.
 > 3. **융합**: `컴파일 시간(절대 코드)` → `적재 시간(재배치 코드)` → `실행 시간(MMU 동적 바인딩)`으로 이어지는 기술사적 이양은 하드웨어와 OS 커널이 서로의 멱살을 잡고 어떻게 소프트웨어의 자유도를 찢어발기며 무한 확장시켜왔는지를 단적으로 보여주는 OS 융합 마일스톤이다.
 
@@ -30,23 +30,23 @@ tags = ["studynote-operating-system"]
 [2단계] 극장 입구 매표소에서 들어가는 순간 "오늘 남는 자리 여기네요" 하고 빈자리 도장 찍어줌 (적재 타임). 앉으면 다시 못 일어남.
 [3단계] 극장 안을 쏘다니고 있는데 스태프([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 1초마다 다가와서 "잠깐만요, 다른 분 들어오니 옆자리로 스르륵 옮기시죠!" 라며 실시간으로 앉을 자리를 무한 재배치해 줌 (실행 타임). 복잡하지만 황제급 유연성!
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         주소 바인딩 타이밍에 따른 자유도와 굴레                      │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│            바인딩 시점 (Binding Time)                                │
-│   [빠름/고지식함]                             [늦음/천재적임]        │
-│   ◀──────────────┼──────────────┼──────────────▶                     │
-│          컴파일 시간           적재 시간            실행 시간        │
-│         (Compile Time)      (Load Time)     (Execution Time)         │
-│                                                                      │
-│ 주소결정: 목적코드 덤프시     메모리 적재(올릴)시  CPU가 명령어 쏠때 │
-│ 주소개념: 절대 주소 강제      상대 주소 변환      가상↔물리 동적변환 │
-│ 재배치:  절대 불가 (죽음)    적재할 때만 가능    실행 중에도 이사감  │
-│ 지원장비: 없음 (천원짜리칩)   링커/로더 (OS)      MMU 반도체 (비쌈)  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 바인딩 타이밍에 따른 자유도와 굴레</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바인딩 시점 (Binding Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빠름/고지식함</div><div class="kb-diagram-node">늦음/천재적임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일 시간 적재 시간 실행 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Compile Time) (Load Time) (Execution Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소결정: 목적코드 덤프시 메모리 적재(올릴)시 CPU가 명령어 쏠때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소개념: 절대 주소 강제 상대 주소 변환 가상↔물리 동적변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재배치: 절대 불가 (죽음) 적재할 때만 가능 실행 중에도 이사감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원장비: 없음 (천원짜리칩) 링커/로더 (OS) MMU 반도체 (비쌈)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 주소 바인딩이란, 종이비행기에 목적지 주소를 "종이접기 시작할 때(컴파일)" 적을지, "날리기 직전에(적재)" 적을지, 아니면 "공중에 날아가는 도중에 미사일처럼 경로를 실시간 변경(실행)"할 건지 선택하는 기술 진화의 3보약입니다.
 
@@ -56,12 +56,12 @@ tags = ["studynote-operating-system"]
 
 ### 1. [컴파일 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/) ([Compile Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/))
 - **방식**: 소스코드(`.c`)를 목적코드(`.obj`)로 컴파일하는 기계어 번역 그 찰나의 순간에, 프로그래머나 컴파일러가 "야. 이건 무조건 램 2000번지에 올려." 라고 쾅 박아버린다.
-- **결과**: 이렇게 만들어진 기계어를 **절대 코드 (Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**라 부른다.
+- **결과**: 이렇게 만들어진 기계어를 <strong>절대 코드 (Absolute <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>라 부른다.
 - **한계**: 만약 램 2000번지에 윈도우 커널이 깔려있거나 남의 게임이 돌고 있으면? 이 프로그램은 켜보지도 못하고 메모리 에러로 폭사한다. 도스(MS-DOS)나 싸구려 아두이노 장난감에서나 쓰는 선사시대 기술.
 
 ### 2. [적재 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))
 - **방식**: 컴파일러가 바보가 됐다. "어디 박힐진 난 모르겠고 대충 임시 0번지(상대 주소)로 계산해서 넘겨둘게." 그리고 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe)을 더블클릭해서 OS가 **메모리에 올리는(Load) 순간**, 텅 빈 여유 공간(예: 5000번지)을 찾아서 소스 코드 모든 주소에 `+5000`을 더해 수정을 싹 때리고 적재한다.
-- **결과**: 이 코드를 **재배치 가능 코드 (Relocatable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**라 부른다.
+- **결과**: 이 코드를 <strong>재배치 가능 코드 (Relocatable <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>라 부른다.
 - **한계**: 한 번 5000번지에 안착해 실행을 시작했다면, 프로그램 끝날 때까지 다신 방을 옮기지 못한다. 가변 메모리 디프래그먼트(조각모음) 같은 환상적인 기술 적용 불가!
 
 ### 3. [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) ([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))
@@ -75,10 +75,10 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 **실무 시나리오**:
-1. **[ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (보안 랜덤 배치 기술)**: 해킹을 뚫는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 폭격기 해커들은 메모리 주소를 고정값으로 예상하고 공격한다. 하지만 현대 OS는 `실행 시간 바인딩(Execution Time)`을 통해 카카오톡을 켤 때마다, 함수를 호출할 때마다 스택과 힙의 **실제 물리적 메모리([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 매핑) 주소를 주사위 굴려 그물망 섞듯 무작위 재배치 패를 돌려버린다 ([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))**. 해커가 옛날 해킹법으로 예측 주소에 총알을 쏘면 총알은 허공의 안방으로 날아가 박히며 프로그램이 해킹당하는 대신 그냥 크래쉬되어 안전하게 서버가 보호된다.
-2. **동적 링킹 ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/), .DLL)**: 컴파일 때 다 박아버리면(컴파일 타임) 윈도우 그래픽 카드 드라이버 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 용량까지 내 엑셀 프로그램 안에 우겨 넣어져서 앱 용량이 수십 GB가 넘칠 거다. 하지만 실행 시간에 바인딩을 미루면서, 수십 개의 앱이 메모리 어딘가 덜렁 하나만 떠 있는 `user32.dll` 하나를 각자의 가상 빈 자리에 끈(Binding)으로 연결해 우르르 공유해 먹는 눈물겨운 메모리 아끼기 똥꼬쇼 기적이 가능해졌다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> (보안 랜덤 배치 기술)</strong>: 해킹을 뚫는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 폭격기 해커들은 메모리 주소를 고정값으로 예상하고 공격한다. 하지만 현대 OS는 `실행 시간 바인딩(Execution Time)`을 통해 카카오톡을 켤 때마다, 함수를 호출할 때마다 스택과 힙의 <strong>실제 물리적 메모리(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 매핑) 주소를 주사위 굴려 그물망 섞듯 무작위 재배치 패를 돌려버린다 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a>)</strong>. 해커가 옛날 해킹법으로 예측 주소에 총알을 쏘면 총알은 허공의 안방으로 날아가 박히며 프로그램이 해킹당하는 대신 그냥 크래쉬되어 안전하게 서버가 보호된다.
+2. <strong>동적 링킹 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/">Dynamic Linking</a>, .DLL)</strong>: 컴파일 때 다 박아버리면(컴파일 타임) 윈도우 그래픽 카드 드라이버 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 용량까지 내 엑셀 프로그램 안에 우겨 넣어져서 앱 용량이 수십 GB가 넘칠 거다. 하지만 실행 시간에 바인딩을 미루면서, 수십 개의 앱이 메모리 어딘가 덜렁 하나만 떠 있는 `user32.dll` 하나를 각자의 가상 빈 자리에 끈(Binding)으로 연결해 우르르 공유해 먹는 눈물겨운 메모리 아끼기 똥꼬쇼 기적이 가능해졌다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **임베디드 하드코딩 패망**: 저사양 냉장고나 세탁기 OS(RTOS)를 짜는데, 최신 데스크탑뽕에 취해서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리와 [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) 커널을 넣어 코딩을 했다. 결과? 냉장고 온도 센서 체크하는데 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 장비가 없어서 OS가 주소 변환 소프트웨어 연산하다가 CPU 불타 터지고 얼음 다 녹아버린다! 초저사양 싸구려 칩에는 아직도 `컴파일 시간 절대 주소 바인딩`이 최고의 최적화 미학이자 무기라는 걸 망각하면 하드웨어 파산을 겪는다.
 
 **📢 섹션 요약 비유**: 비싼 맥북 프로에서는 "[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)"이라는 억대 연봉 호텔 매니저([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 서빙하지만, 동네 구멍가게(세탁기 칩)에서는 매니저 고용 포기하고 그냥 "물건 위치 절대 고정! 아무도 옮기지 마!(컴파일 고정 바인딩)" 라고 사장님이 소리치는 룰(구세대 기술의 생존)이 여전히 먹히는 법입니다.
@@ -118,15 +118,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[물리 주소 (Physical Address)]
-    │
-    ▼
-[주소 바인딩 (Address Binding) 3단계 시점]
-    │
-    ├──▶ [컴파일 시간 바인딩 (Compile Time)]
-    └──▶ [적재 시간 바인딩 (Load Time)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주소 바인딩 (Address Binding) 3단계 시점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">적재 시간 바인딩 (Load Time)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

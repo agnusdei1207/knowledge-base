@@ -31,26 +31,25 @@ SOLID는 5가지 원칙([SRP](/knowledge-base/studynote/04_software_engineering/
 
 SOLID의 5가지 원칙은 각각 객체의 책임, 확장, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 인터페이스, 의존성에 대한 명확한 규칙을 정의한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [SOLID 5대 원칙의 메커니즘]                   │
-├──────────────────────────────────────────────────────────────┤
-│ 1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.  │
-│    [User] ──(분리)──▶ [UserAuthenticator], [UserRepository]  │
-│                                                              │
-│ 2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.    │
-│    [Payment] ──▶ [interface PayMethod] ◀── [Card], [Cash]    │
-│                                                              │
-│ 3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.│
-│    [Bird] ◀── [Penguin] (날기 기능 오버라이딩 시 계약 위반 발생)  │
-│                                                              │
-│ 4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.│
-│    [IWorker] ──(분리)──▶ [IEater], [IDuty]                   │
-│                                                              │
-│ 5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.│
-│    [Service] ──▶ (Interface) ◀── [Database MySQL]           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOLID 5대 원칙의 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UserAuthenticator</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">UserRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Payment</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">interface PayMethod</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Card</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Cash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bird</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Penguin</div><div class="kb-diagram-note">(날기 기능 오버라이딩 시 계약 위반 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IWorker</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEater</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">IDuty</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Database MySQL</div></div>
+</div>
+</div>
+
+
 
 SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변경 여파를 막는다. LSP는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 신뢰성을 보장하고, ISP는 비대한 인터페이스를 잘게 쪼갠다. 마지막으로 DIP는 이 모든 객체가 구체적인 클래스가 아닌 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존하도록 의존성의 화살표를 뒤집는다.
 
@@ -64,11 +63,11 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 | 원칙 | 위반 시 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 해결을 위한 연결 패턴 / 기법 |
 | :--- | :--- | :--- |
-| **[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)** (단일 책임) | 갓 클래스 (God Class, 만능 객체) | 파사드 ([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) |
-| **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)** (개방-폐쇄) | if-else 조건문의 무한 증식 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) |
-| **[LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)** (리스코프) | 자식 클래스에서 예외(Exception) 던지기 | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) ([Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)) |
-| **[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)** (인터페이스) | 뚱뚱하고 쓸모없는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 메서드 구현 | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) |
-| **[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)** (의존성 역전) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 강결합으로 인한 테스트 불가 | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a></strong> (단일 책임) | 갓 클래스 (God Class, 만능 객체) | 파사드 ([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a></strong> (개방-폐쇄) | if-else 조건문의 무한 증식 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a></strong> (리스코프) | 자식 클래스에서 예외(Exception) 던지기 | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) ([Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a></strong> (인터페이스) | 뚱뚱하고 쓸모없는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 메서드 구현 | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a></strong> (의존성 역전) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 강결합으로 인한 테스트 불가 | [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) |
 
 최근의 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 설계에서도 이 원칙들이 적용된다. SRP는 각 서비스의 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))를 나누는 기준이 되고, DIP는 외부 API와의 통신을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 장애 격리를 돕는다. 결국 SOLID는 단일 메모리 상의 객체 지향을 넘어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 설계의 근간으로 확장된다.
 
@@ -83,7 +82,7 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **변경의 발생**: 코드가 실제로 변경될 확률이 높은가? 한 번 짜고 버릴 스크립트에 OCP를 위한 인터페이스를 도입하는 것은 낭비다. ([YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) 원칙 고려)
 2. **테스트 용이성**: 현재 클래스에 대한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 작성이 어려운가? 모의 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 주입이 힘들다면 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙을 위반한 강결합 상태인지 확인해야 한다.
-3. **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 오용**: 코드 재사용만을 목적으로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 사용했는가? 부모 클래스의 메서드를 자식이 억지로 퇴화시키거나 UnsupportedException을 던진다면 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반이므로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신 합성(Composition)을 고려해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>의 오용</strong>: 코드 재사용만을 목적으로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 사용했는가? 부모 클래스의 메서드를 자식이 억지로 퇴화시키거나 UnsupportedException을 던진다면 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반이므로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신 합성(Composition)을 고려해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 처음부터 있지도 않은 미래의 확장을 대비해 모든 클래스에 무의미한 인터페이스를 1:1로 매핑하는 습관.
@@ -114,21 +113,23 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절차적 프로그래밍 · 스파게티 코드 방치
-    │
-    ▼
-객체 지향 프로그래밍 (OOP) · 캡슐화, 상속, 다형성 도입
-    │
-    ▼
-SOLID 설계 원칙 · 유지보수성과 확장성의 체계화
-    │
-    ▼
-디자인 패턴 (GoF) · 원칙에 기반한 정형화된 해결책
-    │
-    ▼
-클린 아키텍처 및 MSA · 분산 시스템과 모듈 경계로의 원칙 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절차적 프로그래밍 · 스파게티 코드 방치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 지향 프로그래밍 (OOP) · 캡슐화, 상속, 다형성 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SOLID 설계 원칙 · 유지보수성과 확장성의 체계화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디자인 패턴 (GoF) · 원칙에 기반한 정형화된 해결책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클린 아키텍처 및 MSA · 분산 시스템과 모듈 경계로의 원칙 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

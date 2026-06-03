@@ -21,16 +21,16 @@ tags = ["studynote-bigdata"]
 
 ### 기존 비식별화의 한계
 
-[k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/), [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 등 전통적 비식별화 기법은 **공격자 모델(Adversary Model)**을 가정하지 않는다. 공격자가 일부 배경 지식을 가지고 있을 경우 재식별이 가능하다.
+[k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/), [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 등 전통적 비식별화 기법은 <strong>공격자 모델(Adversary Model)</strong>을 가정하지 않는다. 공격자가 일부 배경 지식을 가지고 있을 경우 재식별이 가능하다.
 
 예시: "Netflix Prize [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋" 사건
 - Netflix가 영화 평점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 익명화해 공개
 - Narayanan & Shmatikoff(2008)가 공개 IMDb 리뷰와 연결하여 개인 특정
 - 기존 익명화는 수학적 보증이 없었다
 
-**차등 프라이버시의 혁신**: 공격자의 배경 지식에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 **수학적으로 보장된 프라이버시**를 제공한다.
+**차등 프라이버시의 혁신**: 공격자의 배경 지식에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 <strong>수학적으로 보장된 프라이버시</strong>를 제공한다.
 
-**📢 섹션 요약 비유**: 차등 프라이버시는 **노이즈로 위장한 사실**과 같다. 통계를 물어볼 때마다 정확한 답이 아닌 노이즈가 섞인 답을 주면, 개인의 정보를 알아낼 수 없다. 마치 "지금 몇 명이 있나요?" 질문에 항상 "100명 ± 랜덤값"으로 대답하는 것이다.
+**📢 섹션 요약 비유**: 차등 프라이버시는 <strong>노이즈로 위장한 사실</strong>과 같다. 통계를 물어볼 때마다 정확한 답이 아닌 노이즈가 섞인 답을 주면, 개인의 정보를 알아낼 수 없다. 마치 "지금 몇 명이 있나요?" 질문에 항상 "100명 ± 랜덤값"으로 대답하는 것이다.
 
 ---
 
@@ -55,21 +55,23 @@ tags = ["studynote-bigdata"]
 
 ### DP 주요 메커니즘
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│              차등 프라이버시 메커니즘 비교                   │
-├──────────────────┬──────────────────┬───────────────────────┤
-│   Laplace 메커니즘│  Gaussian 메커니즘│   Exponential 메커니즘│
-├──────────────────┼──────────────────┼───────────────────────┤
-│ 수치형 쿼리 전용 │ (ε,δ)-DP용       │ 비수치형 쿼리용       │
-│                  │ Gaussian 노이즈  │ (최적 응답 선택)      │
-│ 노이즈 크기:     │ 노이즈 크기:     │                       │
-│ Lap(Δf/ε)       │ N(0, σ²)        │                       │
-│ Δf = 민감도      │ σ ≥ Δf√(2ln(1.25/δ))/ε│              │
-│ (sensitivity)   │                  │                       │
-│ 강한 ε-DP 보장  │ 약한 (ε,δ)-DP   │                       │
-└──────────────────┴──────────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차등 프라이버시 메커니즘 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Laplace 메커니즘</div><div class="kb-diagram-cell">Gaussian 메커니즘</div><div class="kb-diagram-cell">Exponential 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수치형 쿼리 전용</div><div class="kb-diagram-cell">(ε,δ)-DP용</div><div class="kb-diagram-cell">비수치형 쿼리용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gaussian 노이즈</div><div class="kb-diagram-cell">(최적 응답 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노이즈 크기:</div><div class="kb-diagram-cell">노이즈 크기:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lap(Δf/ε)</div><div class="kb-diagram-cell">N(0, σ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δf = 민감도</div><div class="kb-diagram-cell">σ ≥ Δf√(2ln(1.25/δ))/ε</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sensitivity)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강한 ε-DP 보장</div><div class="kb-diagram-cell">약한 (ε,δ)-DP</div></div>
+</div>
+</div>
+
+
 
 ### 전역 DP vs 로컬 DP
 
@@ -77,11 +79,11 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | **신뢰 모델** | 중앙 신뢰 기관(Trusted Curator)이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 후 노이즈 추가 | 각 사용자 기기에서 전송 전 노이즈 추가 |
 | **노이즈 위치** | 집계 결과에 추가 | 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 추가 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성** | 높음 (전체 노이즈 양 적음) | 낮음 (개별 노이즈가 누적) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유용성</strong> | 높음 (전체 노이즈 양 적음) | 낮음 (개별 노이즈가 누적) |
 | **실제 적용** | US Census Bureau 2020 | Apple iOS, Google RAPPOR |
 | **장점** | 높은 정확도 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙에 보낼 필요 없음 |
 
-**📢 섹션 요약 비유**: 전역 DP vs 로컬 DP는 **국가 통계청(전역) vs 개인 익명 투표(로컬)**의 차이다. 통계청은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집해 집계 후 노이즈를 추가하지만, 투표는 각자의 투표지에 이미 무작위 요소가 포함된 채로 제출한다.
+**📢 섹션 요약 비유**: 전역 DP vs 로컬 DP는 <strong>국가 통계청(전역) vs 개인 익명 투표(로컬)</strong>의 차이다. 통계청은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집해 집계 후 노이즈를 추가하지만, 투표는 각자의 투표지에 이미 무작위 요소가 포함된 채로 제출한다.
 
 ---
 
@@ -112,12 +114,12 @@ tags = ["studynote-bigdata"]
 
 | 기법 | 수학적 보증 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 적용 난이도 |
 |:---|:---:|:---:|:---:|
-| **[k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)** | 없음 (공격자 모델 미정의) | 낮음 | 중간 |
-| **[데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/)** | 없음 | 낮음 | 낮음 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/">k-익명성</a></strong> | 없음 (공격자 모델 미정의) | 낮음 | 중간 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a></strong> | 없음 | 낮음 | 낮음 |
 | **차등 프라이버시** | 있음 (ε으로 정량화) | 중간-높음 | 높음 |
-| **[합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)** | 간접적 (멤버십 추론 평가) | 높음 | 높음 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/">합성 데이터</a></strong> | 간접적 (멤버십 추론 평가) | 높음 | 높음 |
 
-**📢 섹션 요약 비유**: 프라이버시 예산은 **무선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금제**와 같다. 월 100GB를 할당받았는데(ε=총 예산), 유튜브([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 1)에 50GB, 영상통화([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 2)에 50GB 쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 소진된다. 이후 요청은 거부된다.
+**📢 섹션 요약 비유**: 프라이버시 예산은 <strong>무선 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 요금제</strong>와 같다. 월 100GB를 할당받았는데(ε=총 예산), 유튜브([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 1)에 50GB, 영상통화([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 2)에 50GB 쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 소진된다. 이후 요청은 거부된다.
 
 ---
 
@@ -145,7 +147,7 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 - 이진 스트링 무작위화 + 영구 랜덤 응답(PRR) + 순간 랜덤 응답([IRR](/knowledge-base/studynote/12_it_management/01_governance_strategy/014_irr_internal_rate_of_return/))
 - 약 100만 사용자 이상에서 유의미한 통계 추출 가능
 
-**📢 섹션 요약 비유**: Apple의 로컬 DP는 **익명 여론조사 기법**과 같다. 각자 자신의 의견을 말하기 전에 동전을 던져, 앞면이 나오면 실제 의견을, 뒷면이 나오면 무작위 대답을 한다. 집계하면 전체 경향은 파악되지만 개인의 실제 답변은 알 수 없다.
+**📢 섹션 요약 비유**: Apple의 로컬 DP는 <strong>익명 여론조사 기법</strong>과 같다. 각자 자신의 의견을 말하기 전에 동전을 던져, 앞면이 나오면 실제 의견을, 뒷면이 나오면 무작위 대답을 한다. 집계하면 전체 경향은 파악되지만 개인의 실제 답변은 알 수 없다.
 
 ---
 
@@ -157,14 +159,14 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 |:---|:---|
 | **수학적 프라이버시 보증** | 임의의 공격자에 대해 ε 수준의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수학적 증명 |
 | **규정 준수** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/PIPA "기술적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)조치" 요건 충족 |
-| **[데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)** | DP 처리된 통계를 안심하고 공개 가능 |
+| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/">데이터 공유</a></strong> | DP 처리된 통계를 안심하고 공개 가능 |
 | **ML 모델 프라이버시** | DP-SGD (DP [Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))로 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 ### 결론
 
-차등 프라이버시는 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 **과학적 표준**으로 부상하고 있다. [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) 등 기존 기법과 달리 수학적으로 정의된 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 보증을 제공한다. 그러나 프라이버시-유용성 트레이드오프, 프라이버시 예산 소비 관리, 소규모 집단에서의 부정확성 등 실무 적용 상의 도전도 존재한다. 정보통신기술사는 DP를 "완벽한 해결책"이 아닌 **정량화 가능한 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 도구**로 이해하고 적절한 ε 값 선택과 예산 관리 설계를 제시해야 한다.
+차등 프라이버시는 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 <strong>과학적 표준</strong>으로 부상하고 있다. [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) 등 기존 기법과 달리 수학적으로 정의된 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 보증을 제공한다. 그러나 프라이버시-유용성 트레이드오프, 프라이버시 예산 소비 관리, 소규모 집단에서의 부정확성 등 실무 적용 상의 도전도 존재한다. 정보통신기술사는 DP를 "완벽한 해결책"이 아닌 <strong>정량화 가능한 프라이버시 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 도구</strong>로 이해하고 적절한 ε 값 선택과 예산 관리 설계를 제시해야 한다.
 
-**📢 섹션 요약 비유**: 차등 프라이버시는 **수학적으로 증명된 우산**이다. 기존 비식별화가 "대충 막아보자"는 접근이라면, DP는 "비가 얼마나 와도 ε 수준 이상은 절대 안 맞는다"는 수학적 보증이 붙은 우산이다.
+**📢 섹션 요약 비유**: 차등 프라이버시는 <strong>수학적으로 증명된 우산</strong>이다. 기존 비식별화가 "대충 막아보자"는 접근이라면, DP는 "비가 얼마나 와도 ε 수준 이상은 절대 안 맞는다"는 수학적 보증이 붙은 우산이다.
 
 ---
 
@@ -182,26 +184,28 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 익명화 — 재식별 공격에 취약한 단순 마스킹]
-    │
-    ▼
-[차등 프라이버시 (Differential Privacy) — ε 보장, 수학적 프라이버시]
-    │
-    ▼
-[로컬 차등 프라이버시 (Local DP) — 데이터 수집 전 단말에서 노이즈 추가]
-    │
-    ▼
-[연합 학습 + DP (FL + DP) — 분산 학습에 프라이버시 보장 결합]
-    │
-    ▼
-[프라이버시 예산 관리 (Privacy Budget) — ε 누적 소모 모니터링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 익명화 — 재식별 공격에 취약한 단순 마스킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차등 프라이버시 (Differential Privacy) — ε 보장, 수학적 프라이버시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 차등 프라이버시 (Local DP) — 데이터 수집 전 단말에서 노이즈 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 + DP (FL + DP) — 분산 학습에 프라이버시 보장 결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프라이버시 예산 관리 (Privacy Budget) — ε 누적 소모 모니터링</div></div>
+</div>
+</div>
+
+
 차등 프라이버시는 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 여부를 수학적으로 숨기는 엄격한 프라이버시 보장을 제공하며, 로컬 DP·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 결합해 프라이버시 보존 AI의 표준이 되어가고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- 차등 프라이버시는 **퀴즈 대답에 약간의 랜덤 변형**을 주는 것이에요: "몇 명이 초콜릿을 좋아하나요?" 물어볼 때 정확한 숫자 대신 "20명쯤"(노이즈 포함)이라고 답해요 — 전체 경향은 알 수 있지만 누가 좋아하는지는 알 수 없어요.
+- 차등 프라이버시는 <strong>퀴즈 대답에 약간의 랜덤 변형</strong>을 주는 것이에요: "몇 명이 초콜릿을 좋아하나요?" 물어볼 때 정확한 숫자 대신 "20명쯤"(노이즈 포함)이라고 답해요 — 전체 경향은 알 수 있지만 누가 좋아하는지는 알 수 없어요.
 - ε(엡실론)은 "얼마나 정확하게 대답할지"를 결정하는 숫자예요 — 작을수록 더 많이 바꿔 말해서 더 안전하지만, 너무 많이 바꾸면 답이 무의미해져요.
 - Apple, Google, 미국 통계청이 실제로 이 방법을 써서 수백만 사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하면서도 개인 프라이버시를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 있어요.
 

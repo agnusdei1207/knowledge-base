@@ -20,23 +20,21 @@ tags = ["studynote-security"]
 
 보안 지침 구현은 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)(상위 방향)을 현장에서 실행 가능한 절차로 변환하는 과정이다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│          보안 문서 계층 구조                              │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  정책 (Policy) — "무엇을 해야 하는가" [경영진 승인]       │
-│       ↓                                                │
-│  지침 (Guideline) — "권장 실행 방법" [유연성 있음]        │
-│       ↓                                                │
-│  표준 (Standard) — "필수 준수 사항" [강제]               │
-│       ↓                                                │
-│  절차 (Procedure) — "단계별 실행 방법" [현장 직원용]      │
-│                                                        │
-│  예) 암호화 정책 → 암호화 지침 → AES-256 표준 →          │
-│      "DB 연결 시 TLS 1.3 설정 절차"                     │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 문서 계층 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">정책 (Policy) — "무엇을 해야 하는가"</div><div class="kb-diagram-node">경영진 승인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">지침 (Guideline) — "권장 실행 방법"</div><div class="kb-diagram-node">유연성 있음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">표준 (Standard) — "필수 준수 사항"</div><div class="kb-diagram-node">강제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">절차 (Procedure) — "단계별 실행 방법"</div><div class="kb-diagram-node">현장 직원용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) 암호화 정책 → 암호화 지침 → AES-256 표준 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"DB 연결 시 TLS 1.3 설정 절차"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)은 헌법(원칙), 지침은 법률(방향), 표준은 시행령(의무), 절차는 업무 매뉴얼(실행)이다. 헌법만 있고 매뉴얼이 없으면 현장에서 아무도 어떻게 해야 할지 모른다.
 
@@ -54,17 +52,20 @@ tags = ["studynote-security"]
 
 ### NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 5대 기능과 구현 매핑
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│           NIST CSF 구현 사이클                            │
-├─────────────────────────────────────────────────────────┤
-│  Identify → 자산 목록, 위험 평가                          │
-│  Protect  → MFA, 암호화, 접근 제어, 교육                  │
-│  Detect   → SIEM, IDS, 이상 탐지                         │
-│  Respond  → 인시던트 대응 계획, 격리 절차                  │
-│  Recover  → BCP/DR, 백업 복원 절차                        │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST CSF 구현 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identify → 자산 목록, 위험 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protect → MFA, 암호화, 접근 제어, 교육</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Detect → SIEM, IDS, 이상 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Respond → 인시던트 대응 계획, 격리 절차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recover → BCP/DR, 백업 복원 절차</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 5단계는 건강 관리와 같다. 내 몸 상태 파악(Identify) → 예방 접종·운동(Protect) → 정기 검진(Detect) → 치료(Respond) → 재활(Recover). 예방과 탐지가 없으면 사고 후 대응만 반복된다.
 
@@ -75,9 +76,9 @@ tags = ["studynote-security"]
 | 프레임워크 | 범위 | 특징 |
 |:---|:---|:---|
 | **ISO 27001** | 전체 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 가능, 국제 표준 |
-| **NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)** | 사이버보안 중심 | 미국 정부·민간 표준 |
-| **[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)** | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 | 한국 법령, 과징금 |
-| **[PIMS](/knowledge-base/studynote/09_security/17_framework_compliance/844_iso_27701_pims/) ([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 관리 체계)** | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 특화 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) | 국내 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| <strong>NIST <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a></strong> | 사이버보안 중심 | 미국 정부·민간 표준 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/">개인정보보호법</a></strong> | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 | 한국 법령, 과징금 |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/844_iso_27701_pims/">PIMS</a> (<a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 관리 체계)</strong> | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 특화 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) | 국내 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
 
 ISO 27001의 Annex A 93개 통제 항목이 실제 구현의 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 역할을 하며, 기업 규모와 위험 수준에 따라 적용 통제를 선택(Statement of Applicability)한다.
 
@@ -92,7 +93,7 @@ ISO 27001의 Annex A 93개 통제 항목이 실제 구현의 [체크리스트](/
 2. **위험 평가**: 자산 × 위협 × 취약점 → 위험도 산정.
 3. **구현 우선순위**: 고위험 통제 항목 먼저 구현 (접근 제어, 암호화, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 관리).
 4. **절차 문서화**: 패스워드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 접근 권한 신청·승인 절차, 침해 대응 절차.
-5. **내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사**: 증적 자료 제출 (접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 교육 이수 기록).
+5. <strong>내부 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> → <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 심사</strong>: 증적 자료 제출 (접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 교육 이수 기록).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 보안 지침을 문서로만 작성하고 실제 시스템에 반영하지 않는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("페이퍼 컴플라이언스"). ISO 27001 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 받았지만 실제 시스템에는 패스워드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 미적용인 경우가 대표적이다. 기술적 통제의 실제 설정값(Configuration)과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 증적이 되어야 한다.
@@ -120,28 +121,30 @@ ISO 27001의 Annex A 93개 통제 항목이 실제 구현의 [체크리스트](/
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ISO 27001 Annex A** | 93개 통제 항목 구현 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) |
-| **NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)** | Identify→Protect→Detect→Respond→Recover 사이클 |
+| <strong>NIST <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a></strong> | Identify→Protect→Detect→Respond→Recover 사이클 |
 | **위험 기반 접근** | 고위험 영역 우선 통제 구현 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)** | "절대 신뢰하지 않고, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"하는 현대 보안 원칙 |
-| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | 한국 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 포함 정보보호 관리체계 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong> | "절대 신뢰하지 않고, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"하는 현대 보안 원칙 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 한국 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 포함 정보보호 관리체계 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[보안 정책 수립 — 경영진 방향성, ISMS 기반]
-    │
-    ▼
-[위험 평가 — 자산·위협·취약점 분석, 위험도 산정]
-    │
-    ▼
-[통제 선택 및 구현 — 기술/관리/물리 통제 배포]
-    │
-    ▼
-[감사 및 인증 — ISO 27001, ISMS-P 심사]
-    │
-    ▼
-[Zero Trust / 클라우드 보안 — 경계 없는 보안 패러다임]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 수립 — 경영진 방향성, ISMS 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 평가 — 자산·위협·취약점 분석, 위험도 산정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통제 선택 및 구현 — 기술/관리/물리 통제 배포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감사 및 인증 — ISO 27001, ISMS-P 심사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Trust / 클라우드 보안 — 경계 없는 보안 패러다임</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

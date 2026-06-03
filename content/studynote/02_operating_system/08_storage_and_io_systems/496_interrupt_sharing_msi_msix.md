@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고전적인 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 방식(IRQ)은 메인보드의 물리적인 '구리 핀'에 의존했기 때문에 핀 개수가 모자라자 랜카드와 사운드카드가 같은 핀을 돌려쓰는 끔찍한 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 공유([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Sharing) 병목 지옥**이 발생했다. 이를 타파하기 위해 물리적인 핀을 부수고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷처럼 메모리에 쏘아 올리는 **소프트웨어 메시지 기반의 가상화된 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)/[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X)** 규격으로 진화한 통신 체계다.
+> 1. **본질**: 고전적인 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 방식(IRQ)은 메인보드의 물리적인 '구리 핀'에 의존했기 때문에 핀 개수가 모자라자 랜카드와 사운드카드가 같은 핀을 돌려쓰는 끔찍한 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 공유(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Sharing) 병목 지옥</strong>이 발생했다. 이를 타파하기 위해 물리적인 핀을 부수고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷처럼 메모리에 쏘아 올리는 <strong>소프트웨어 메시지 기반의 가상화된 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X)</strong> 규격으로 진화한 통신 체계다.
 > 2. **가치**: 100GbE 랜카드 하나에 엄청난 트래픽이 쏟아져도 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X(최대 2,048개의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 CPU 코어 64개에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리(수신 알림)를 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))시켜 때려줄 수 있어, 단일 코어만 독박을 쓰고 CPU가 100% 락백 걸려 터지는 스루풋 병목 참사를 완전히 해방시켰다.
 > 3. **한계**: [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 기반의 고속 네트워크 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 매초 수십만 번씩 빗발치게 쏟아지면 아무리 코어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 쳐도 잦은 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching 때문에 OS가 오버헤드 늪에 빠질 수 있으므로, 현대 시스템에서는 패킷을 일정량 모아서 한 번에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때리는 NAPI([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Coalescing) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 기법과 융합 결합해야만 진정한 100기가망 폼 결착 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다.
 
@@ -19,42 +19,37 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터 부품(랜카드, 디스크 부품)이 일이 끝났을 때 CPU 대장에게 "작업 다 됐어요 가져가세요 팍!" 하고 전기 충격을 주는 것이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) / IRQ)다. 옛날 컴퓨터([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))엔 메인보드에 CPU와 기판을 잇는 이 물리적 구리 선(IRQ Line)이 15개밖에 없었다. 기계는 늘어나는데 핀은 모자라니, 공유기 멀티탭처럼 두 기계가 9번 핀 하나를 같이 쓰는 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 공유(Sharing)** 꼼수가 생겼다. 그러나 CPU는 9번 핀에서 전기가 오면 "이게 그래픽카드가 찌른 건지, 랜카드가 찌른 건지" 몰라서 양쪽 드라이버를 하나씩 다 깨워서 "너냐? 너야?" 하고 순서대로 색출 심문해야 하는 엄청난 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 병목 스로틀([Interrupt Handler](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))에 시달렸다.
+- **개념**: 컴퓨터 부품(랜카드, 디스크 부품)이 일이 끝났을 때 CPU 대장에게 "작업 다 됐어요 가져가세요 팍!" 하고 전기 충격을 주는 것이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) / IRQ)다. 옛날 컴퓨터([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))엔 메인보드에 CPU와 기판을 잇는 이 물리적 구리 선(IRQ Line)이 15개밖에 없었다. 기계는 늘어나는데 핀은 모자라니, 공유기 멀티탭처럼 두 기계가 9번 핀 하나를 같이 쓰는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 공유(Sharing)</strong> 꼼수가 생겼다. 그러나 CPU는 9번 핀에서 전기가 오면 "이게 그래픽카드가 찌른 건지, 랜카드가 찌른 건지" 몰라서 양쪽 드라이버를 하나씩 다 깨워서 "너냐? 너야?" 하고 순서대로 색출 심문해야 하는 엄청난 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 병목 스로틀([Interrupt Handler](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))에 시달렸다.
 - **필요성**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 3.0 시대가 오며 1초에 4만 번씩 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쏴대는 미친 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 플래시와 10기가 랜카드가 쏟아져 들어왔다. 이런 괴물들에게 구시대적 "같은 구리 핀 공유해서 써" 라고 하면, OS는 "누가 찔렀지?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하다가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 붕괴 장애로 서버가 통째로 멈춰버리는 재앙에 무지성 빠진다. 그래서 물리적 핀 제약을 부수고, [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에다가 "나 랜카드 7번 큐 3번 포트야!" 라고 메모리 주소판(Message)에다 편지 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 값을 탁 꽂아 써넣는 통신([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/), [Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)) 기법이 탄생해 메인보드의 구조적 통신 패러다임을 혁명적으로 박살 치환 전환했다. 
 
 - **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 회선 구조의 진화 (물리 핀 공유 -> 메모리 메시지 아키텍처)**:
 CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 어떻게 찢겨지고 가상화되었는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각 체계화하면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 인터럽트 전달 아키텍처의 혁명적 진화 스택도                    │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  [ 과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증) ]                │
-  │     ┌─────────┐   (IRQ 10번 구리 핀)    ┌──────────────────────────┐           │
-  │     │ 랜카드   ├───────────┬────────▶│ 😱 CPU 0번 (독박 코어)    │             │
-  │     └─────────┘           │          └──────────────────────────┘              │
-  │     ┌─────────┐           │     * CPU는 전기가 오면 통역 드라이버 두 개를      │
-  │     │ 그래픽 칩├───────────┘       모두 깨워서 "누가 불렀어?" 루프검사 해야함. │
-  │     └─────────┘                      (처리속도 개판망, 코어 확장불가)          │
-  │                                                                                │
-  │  =============================================================                 │
-  │                                                                                │
-  │  [ 현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포 ]                │
-  │     ┌─────────┐                                                                │
-  │     │ 최신 PCIe│ ──(이더넷 패킷처럼 메모리에 번호 씀)─▶ CPU 메모리 컨트롤러    │
-  │     │ 100G 칩 │                                                                │
-  │     │ (큐가 여러개 있음)                                                       │
-  │     │  ├─ Queue0 ── (MSI-X 메시지 0x01번) ──▶ 😎 CPU 코어 0 전담               │
-  │     │  ├─ Queue1 ── (MSI-X 메시지 0x02번) ──▶ 😎 CPU 코어 1 전담               │
-  │     │  └─ Queue2 ── (MSI-X 메시지 0x03번) ──▶ 😎 CPU 코어 2 전담               │
-  │     └─────────┘                                                                │
-  │                                                                                │
-  │  * 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,        │
-  │         메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출! │
-  │         (수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)    │
-  └────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 전달 아키텍처의 혁명적 진화 스택도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IRQ 10번 구리 핀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜카드 ▶</div><div class="kb-diagram-cell">😱 CPU 0번 (독박 코어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CPU는 전기가 오면 통역 드라이버 두 개를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래픽 칩 모두 깨워서 "누가 불렀어?" 루프검사 해야함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(처리속도 개판망, 코어 확장불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 PCIe</div><div class="kb-diagram-cell">──(이더넷 패킷처럼 메모리에 번호 씀)─▶ CPU 메모리 컨트롤러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100G 칩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(큐가 여러개 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue0 ── (MSI-X 메시지 0x01번) ──▶ 😎 CPU 코어 0 전담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue1 ── (MSI-X 메시지 0x02번) ──▶ 😎 CPU 코어 1 전담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue2 ── (MSI-X 메시지 0x03번) ──▶ 😎 CPU 코어 2 전담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 고전적인 방식은 "전선" 이라는 하드웨어 매체에 갇혀있어 확장성(Scalability)이 완전히 1차원적으로 붕괴해있었다. [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X는 그걸 소프트웨어적인 "메모리 맵 변수(Memory Mapped I/O 주소 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))" 구조로 변환했다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에 타고 있는 머신이 특정 주소(`0xFEE00000`)에 값을 패킷 데이터로 "Write" 쏴버린다. 그러면 이 메인보드 길목을 지키고 있던 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 매니저(IOAPIC 등)가 이를 낚아채 "어? 랜카드 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 2번에서 쏜 메시지네? 이건 OS가 CPU 3번 깨우라고 설정해뒀지!" 하고 지정된 코어의 잠을 다이렉트로 깨운다. 이 무결점 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 덕에 수백 개의 CPU 코어가 달린 서버에서 통신 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분배가 퍼즐처럼 끼워 맞춰 가능해진 것이다.
 
@@ -70,14 +65,14 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 | 통신 아키텍처 규격 세대 구분 | 동작 특성 및 할당 스케일 (가상 핀 개수 포팅) | 현대 인프라 적용 한계 스펙 |
 |:---|:---|:---|
 | **Legacy IRQ (하드웨어 핀)** | 기판에서 나온 구리선. 핀이 부족해 장치 2개가 1개를 공유(Sharing). | 20년 전 도태 붕괴 패턴. 드라이버단 루프 오버헤드 킹 |
-| **[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) (Message Signaled Int.)** | 메시지 통신 1세대. 단일 장치에 최대 **32개**의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ID 발급 제공. | 좋긴 한데 장치가 멀티 큐(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 증폭되면서 32개론 택도 없이 CPU 수에 부족해짐. |
-| **[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X (eXtended 최강 확장)** | 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치의 황금 표준 체계. 단일 장비당 무려 **2,048개**의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발급 무한 배포! | 100기가 랜카드 안에 큐포트 호스가 64개 뚫려있어도, 각 큐마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 따로따로 1:1 (코어 64개 매핑) 핑퐁 부여할 수 있는 무적 스케일 기반 확립. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a> (Message Signaled Int.)</strong> | 메시지 통신 1세대. 단일 장치에 최대 <strong>32개</strong>의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ID 발급 제공. | 좋긴 한데 장치가 멀티 큐(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 증폭되면서 32개론 택도 없이 CPU 수에 부족해짐. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X (eXtended 최강 확장)</strong> | 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치의 황금 표준 체계. 단일 장비당 무려 <strong>2,048개</strong>의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발급 무한 배포! | 100기가 랜카드 안에 큐포트 호스가 64개 뚫려있어도, 각 큐마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 따로따로 1:1 (코어 64개 매핑) 핑퐁 부여할 수 있는 무적 스케일 기반 확립. |
 
 ### 2. 멀티 큐 (Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 구조와의 영혼의 단짝 결합 (RSS 바인딩)
 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 가 진정으로 파괴력을 가지는 이유는 서버 칩의 멀티 코어(Multi-Core) 체인과 하나 될 때 발현 파생된다. 요즘 10G 그물 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 자기가 데이터를 받을 바구니(RX [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 하나만 쓰지 않고 8개, 16개씩 여러 개로 파열해 뚫어놓는다. 
 
 - **RSS (Receive Side Scaling)**: 랜카드 칩셋이 패킷을 쭉 빨아들이면 헤더 해시를 까보고 "아 이건 IP A대역, 이건 B대역이네" 라며 16개의 바구니([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 고르게 패킷을 팍팍 나누어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 담는다.
-- **[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 합체 어피니티 ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))**: 16개 바구니가 다 찼다는 알림([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 CPU 0번 코어 혼자 16번 두드려 맞으면 CPU 0은 부서져 뻗고 1~15번 코어는 놀고먹는 "독박 병목" 참사가 뜬다. 이때 OS는 **[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 를 이용해 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 1번 알림은 코어 1번에만 꽂고, [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 2번 알림은 코어 2번에만 꽂히게 철저하게 IRQ 1:1 맵핑 록(IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))**을 가닥 잡아준다. 이 궁극의 조화 덕분에 초당 천만 단위 트래픽이 쏟아져도 서버 코어 16개가 고르게 땀을 흘리며 방어하는 무적의 스웜 결합 서빙 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 달성 이룩된다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X 합체 어피니티 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)</strong>: 16개 바구니가 다 찼다는 알림([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 CPU 0번 코어 혼자 16번 두드려 맞으면 CPU 0은 부서져 뻗고 1~15번 코어는 놀고먹는 "독박 병목" 참사가 뜬다. 이때 OS는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X 를 이용해 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> 1번 알림은 코어 1번에만 꽂고, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> 2번 알림은 코어 2번에만 꽂히게 철저하게 IRQ 1:1 맵핑 록(IRQ <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)</strong>을 가닥 잡아준다. 이 궁극의 조화 덕분에 초당 천만 단위 트래픽이 쏟아져도 서버 코어 16개가 고르게 땀을 흘리며 방어하는 무적의 스웜 결합 서빙 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 달성 이룩된다.
 
 - **📢 섹션 요약 비유**: 이 놀라운 매핑 구조는, 마트 계산대에 컨베이어 벨트([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 16개 뚫려있는데, 벨트마다 "가득 찼어!" 라고 울리는 파란 버튼([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X)이 있고, 이 알림이 캐셔 1명(단일 CPU)의 뚝배기 이마를 계속 치는 게 아니라, 벨트마다 계산원(멀티 코어)을 정확히 1명씩 전담 배치해서 자기 앞 알람(IRQ 바인딩)만 듣고 퍼붓는 물량을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통쾌 방어하는(멀티 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 다수확) 시스템과 본질적으로 같습니다!
 
@@ -87,9 +82,9 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 
 ### 15년 차 네트워크/OS 엔지니어의 핵심 서버 장애 진단술
 
-"서버 CPU 전체 사용률은 20%밖에 안 되는데, 갑자기 네트워크 트래픽 통신이 렉 걸리며 뚝뚝 패킷 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나고 끊겨요!" 라는 후배 트러블 슈팅을 받을 때가 있다. 이건 100% **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 락백 쏠림 독박 병목** 장애 늪이다. 
+"서버 CPU 전체 사용률은 20%밖에 안 되는데, 갑자기 네트워크 트래픽 통신이 렉 걸리며 뚝뚝 패킷 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나고 끊겨요!" 라는 후배 트러블 슈팅을 받을 때가 있다. 이건 100% <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 락백 쏠림 독박 병목</strong> 장애 늪이다. 
 
-1. **원인 증상 ([안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**: 리눅스에서 `top` 을 치거나 `cat /proc/interrupts` 를 까보면, 64개 CPU 코어 중에 0번 한 놈의 `si` (소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 패킷 까기 점유율)만 100% 한계에 도달해 불타고 터져 죽어가고 있고 나머지는 0% 로 퍼질러 놀고 있다. 이건 최신 서버 머신을 샀으면서 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 기반의 장치 멀티큐 배열이나 `irqbalance` 데몬 통제 설정을 개판 맹탕으로 세팅해 놓아서 생긴 비빔밥 참사다. 
+1. <strong>원인 증상 (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">안티 패턴</a>)</strong>: 리눅스에서 `top` 을 치거나 `cat /proc/interrupts` 를 까보면, 64개 CPU 코어 중에 0번 한 놈의 `si` (소프트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 패킷 까기 점유율)만 100% 한계에 도달해 불타고 터져 죽어가고 있고 나머지는 0% 로 퍼질러 놀고 있다. 이건 최신 서버 머신을 샀으면서 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 기반의 장치 멀티큐 배열이나 `irqbalance` 데몬 통제 설정을 개판 맹탕으로 세팅해 놓아서 생긴 비빔밥 참사다. 
 2. **해법 패치 (아키텍처 튜닝)**: 엔지니어가 곧바로 랜카드 드라이버(ethtool)를 쑤셔 랜카드에 바구니([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 CPU 개수인 64개로 확 찢어버려 늘린다(`ethtool -L eth0 combined 64`). 그리고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데몬 스크립트를 재구동하여 이 64개의 각 큐 고유 알람선([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X ID)이 CPU 0번부터 63번까지 골고루 하나씩 점을 찍어 `irq affinity (smp_affinity_list)` 에 꼼꼼히 이식 본딩 묶어버리면? 패킷 스루풋이 그물망으로 쫙 펴지면서 100기가 대역을 병목 마찰 없이 풀로 흡수해 내는 마법의 구원 구성을 창출해 쏜다. 
 
 | 시스템 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조 지표 | 고전 핀 병목 단일코어 쏠림 시절 (비응답 상태) | [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X + RSS 멀티큐 전사 방어 체계 포팅 시 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지수 변화 임팩트 |
@@ -137,15 +132,19 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[장치 드라이버 (Device Driver) 커널 인터페이스 구현]
-    │
-    ▼
-[인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]
-    │
-    ├──▶ [SR-IOV (Single Root I/O Virtualization)]
-    └──▶ [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장치 드라이버 (Device Driver) 커널 인터페이스 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV (Single Root I/O Virtualization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

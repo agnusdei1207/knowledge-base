@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-희생자 캐시 (Victim Cache)는 상위 캐시에서 교체된 라인을 하위 메모리로 곧바로 내려보내지 않고 잠시 붙잡아 두는 보조 캐시다. 핵심은 캐시 미스 전체를 없애는 것이 아니라, **방금 내보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 다시 찾는 상황**을 저비용으로 막는 데 있다.
+희생자 캐시 (Victim Cache)는 상위 캐시에서 교체된 라인을 하위 메모리로 곧바로 내려보내지 않고 잠시 붙잡아 두는 보조 캐시다. 핵심은 캐시 미스 전체를 없애는 것이 아니라, <strong>방금 내보낸 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 곧바로 다시 찾는 상황</strong>을 저비용으로 막는 데 있다.
 
 [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) 캐시 (Direct-Mapped Cache)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산이 단순해 히트 시간이 짧고 회로도 가볍다. 그러나 서로 다른 두 주소가 같은 캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 공유하면, 실제로는 캐시에 여유 공간이 있어도 둘이 번갈아 서로를 축출한다. 이때 프로그램은 작은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 두 개만 반복 접근해도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락하는데, 이런 현상이 바로 충돌 미스 중심의 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이다.
 
@@ -27,19 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 희생자 캐시가 [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) 캐시에 특히 잘 맞는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│      같은 인덱스를 쓰는 A, B가 번갈아 접근될 때의 차이                │
-├───────────────────────────────┬────────────────────────────────────────┤
-│ 희생자 캐시 없음              │ 희생자 캐시 있음                     │
-├───────────────────────────────┼────────────────────────────────────────┤
-│ A 적재 → 히트                 │ A 적재 → 히트                        │
-│ B 접근 → A 축출, B 적재       │ B 접근 → A는 Victim Cache로 이동     │
-│ A 재접근 → 또 미스            │ A 재접근 → Victim Cache 히트         │
-│ B 재접근 → 또 미스            │ B는 L1에서 내려와 교환(Swap)         │
-│                               │ 메모리까지 가지 않고 왕복 종료       │
-└───────────────────────────────┴────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 인덱스를 쓰는 A, B가 번갈아 접근될 때의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희생자 캐시 없음</div><div class="kb-diagram-cell">희생자 캐시 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 적재 → 히트</div><div class="kb-diagram-cell">A 적재 → 히트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 접근 → A 축출, B 적재</div><div class="kb-diagram-cell">B 접근 → A는 Victim Cache로 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 재접근 → 또 미스</div><div class="kb-diagram-cell">A 재접근 → Victim Cache 히트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 재접근 → 또 미스</div><div class="kb-diagram-cell">B는 L1에서 내려와 교환(Swap)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리까지 가지 않고 왕복 종료</div></div>
+</div>
+</div>
+
+
 
 즉 희생자 캐시는 “미스를 줄이는 큰 창고”라기보다 “방금 퇴장당한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 문 앞에 세워 두는 대기석”에 가깝다. 그래서 적은 엔트리만으로도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 바꿀 수 있다.
 
@@ -69,23 +71,22 @@ tags = ["studynote-computer-architecture"]
 
 이 구조의 핵심은 “[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)”가 아니라 “교환”이다. 희생자 캐시 히트가 나면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사만 하는 것이 아니라, 현재 L1에 있는 충돌 상대를 내려보내고 필요한 라인을 올려 보낸다. 그래서 A와 B가 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두고 싸울 때, 두 라인이 L1과 희생자 캐시 사이를 오가며 메모리 왕복을 차단한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                 Victim Cache hit 시 데이터 이동                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ CPU Request X                                                         │
-│     │                                                                  │
-│     ▼                                                                  │
-│ L1 Lookup ── Miss ──▶ Victim Cache Lookup ── Hit ──▶ Swap              │
-│     │                                             ┌──────────────────┐ │
-│     │                                             │ X : VC → L1      │ │
-│     │                                             │ Y : L1 → VC      │ │
-│     ▼                                             └──────────────────┘ │
-│ 하위 메모리 접근 없음                                                  │
-└────────────────────────────────────────────────────────────────────────┘
-```
 
-정량적으로 보면, 희생자 캐시는 **미스율 자체보다 미스 페널티 체감값**을 낮추는 효과가 크다. L1 히트가 1~4사이클, L2 접근이 수~수십 사이클, 메인 메모리 접근이 수백 사이클인 구조에서, 방금 축출된 라인을 몇 사이클 안에 되살릴 수 있다는 점이 중요하다. 결국 희생자 캐시는 작은 저장공간으로 큰 지연을 잘라내는 장치다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim Cache hit 시 데이터 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Request X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Lookup ── Miss ──▶ Victim Cache Lookup ── Hit ──▶ Swap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X : VC → L1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y : L1 → VC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 메모리 접근 없음</div></div>
+</div>
+</div>
+
+
+
+정량적으로 보면, 희생자 캐시는 <strong>미스율 자체보다 미스 페널티 체감값</strong>을 낮추는 효과가 크다. L1 히트가 1~4사이클, L2 접근이 수~수십 사이클, 메인 메모리 접근이 수백 사이클인 구조에서, 방금 축출된 라인을 몇 사이클 안에 되살릴 수 있다는 점이 중요하다. 결국 희생자 캐시는 작은 저장공간으로 큰 지연을 잘라내는 장치다.
 
 - **📢 섹션 요약 비유**: 계산대 앞에서 물건을 잘못 골라 뒤로 뺐다가 곧바로 다시 필요해질 때, 매장 창고까지 다시 뛰는 대신 계산대 옆 임시 바구니에서 꺼내 오는 셈이다. 바구니는 작지만, 왕복 시간을 줄이는 효과는 매우 크다.
 
@@ -103,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 | 용량 미스 대응 | 일부 도움 | 제한적 |
 | 설계 철학 | “처음부터 덜 충돌하게” | “쫓겨난 것을 다시 살리기” |
 
-하위 캐시 확대와도 목적이 다르다. L2 캐시나 L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/))는 더 큰 작업 집합을 담기 위한 용량 중심 계층이다. 반면 희생자 캐시는 용량이 아니라 **최근 축출 이력**을 활용하는 구조다. 따라서 용량 미스가 지배적인 워크로드에서는 L2 확장이 더 중요하고, 충돌이 지배적이면 희생자 캐시가 더 높은 투자 대비 효과를 낸다.
+하위 캐시 확대와도 목적이 다르다. L2 캐시나 L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/))는 더 큰 작업 집합을 담기 위한 용량 중심 계층이다. 반면 희생자 캐시는 용량이 아니라 <strong>최근 축출 이력</strong>을 활용하는 구조다. 따라서 용량 미스가 지배적인 워크로드에서는 L2 확장이 더 중요하고, 충돌이 지배적이면 희생자 캐시가 더 높은 투자 대비 효과를 낸다.
 
 또한 희생자 캐시의 철학은 배타적 캐시 (Exclusive Cache) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과도 연결된다. 배타적 캐시는 L1과 L2에 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중복 저장하지 않고, 상위에서 밀려난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하위로 내려가며 전체 유효 용량을 키운다. 즉 별도의 초소형 희생자 캐시가 아니라, 하위 캐시 전체가 “넓은 희생자 공간”처럼 동작하도록 확장한 개념으로 볼 수 있다.
 
@@ -121,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 
 1. **미스 유형을 먼저 구분할 것**: 충돌 미스가 주원인인지, 용량 미스가 주원인인지 식별해야 한다.
 2. **L1 히트 시간 유지가 중요한지 볼 것**: 고클럭 설계에서는 히트 경로 보존 가치가 크다.
-3. **엔트리 수와 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 볼 것**: 엔트리가 너무 적으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위가 좁고, 너무 크면 완전 연관 비교 비용이 늘어난다.
+3. <strong>엔트리 수와 교체 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 함께 볼 것</strong>: 엔트리가 너무 적으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위가 좁고, 너무 크면 완전 연관 비교 비용이 늘어난다.
 4. **소프트웨어 패턴 개선과 병행할 것**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 루프 순서 변경으로 충돌 자체를 줄이면 하드웨어 의존도를 낮출 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -129,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 - [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))를 캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 충돌이 극대화되도록 설계해 놓고, 희생자 캐시가 모든 문제를 해결해 줄 것이라 기대하는 경우
 - 희생자 캐시가 있으니 [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) 캐시의 충돌 분석은 생략해도 된다고 생각하는 경우
 
-즉 희생자 캐시는 설계 실패를 덮는 만능 패치가 아니라, **충돌 중심 병목을 값싸게 완화하는 정밀 도구**로 봐야 한다.
+즉 희생자 캐시는 설계 실패를 덮는 만능 패치가 아니라, <strong>충돌 중심 병목을 값싸게 완화하는 정밀 도구</strong>로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 우산 한 개는 갑작스러운 소나기에는 매우 유용하지만, 태풍 속에서 집 전체를 지켜 주지는 못한다. 희생자 캐시는 “짧고 반복적인 충돌비”를 막는 우산이지, 모든 메모리 폭우를 막는 지붕은 아니다.
 
@@ -159,20 +160,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 사상 캐시 (Direct-Mapped Cache)
-        │
-        ▼
-충돌 미스 (Conflict Miss) · 스래싱 (Thrashing)
-        │
-        ▼
-희생자 캐시 (Victim Cache)
-        │
-        ├──────────────▶ 완전 연관 탐색 · 교환 (Swap) 로직
-        │
-        ▼
-배타적 캐시 (Exclusive Cache) · 다계층 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 사상 캐시 (Direct-Mapped Cache)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">충돌 미스 (Conflict Miss) · 스래싱 (Thrashing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">희생자 캐시 (Victim Cache)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 완전 연관 탐색 · 교환 (Swap) 로직</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배타적 캐시 (Exclusive Cache) · 다계층 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 “단순한 빠른 캐시 → 충돌 문제 발생 → 축출 라인 임시 보관 → 계층 전체의 배타적 활용”으로 사고가 확장되는 과정을 보여준다.
 

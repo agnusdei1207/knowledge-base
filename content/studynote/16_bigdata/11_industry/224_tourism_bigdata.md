@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 관광 빅데이터는 **이동통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)·카드 결제·검색 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)**를 결합하여 "사람의 발길"을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 측정하는 것이 핵심이다.
+- 관광 빅데이터는 <strong>이동통신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>·카드 결제·검색 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>를 결합하여 "사람의 발길"을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 측정하는 것이 핵심이다.
 - 혼잡도 실시간 분석은 명승지 과잉 관광(Over-tourism) 문제를 완화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 관리 수단이다.
 - 한국관광데이터랩은 통신·카드·SNS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합한 공공 관광 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 대표 사례다.
 
@@ -38,78 +38,72 @@ tags = ["studynote-bigdata"]
 
 ### 관광 수요 예측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 관광 수요 예측 파이프라인                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력 데이터                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌────────────┐ ┌──────────────┐    │
-│  │ 검색 트렌 │ │ 예약 건수 │ │ SNS 언급량  │ │ 이전 방문   │    │
-│  │ 드 지수   │ │ (D-60~   │ │ (#여행지명) │ │ 이력        │    │
-│  │ (구글/네이│ │  D-7)    │ │             │ │             │    │
-│  │ 버)       │ │          │ │             │ │             │    │
-│  └─────┬────┘ └─────┬────┘ └──────┬──────┘ └──────┬──────┘    │
-│        └────────────┴─────────────┴────────────────┘            │
-│                               │                                  │
-│                               ▼                                  │
-│              ┌────────────────────────────┐                     │
-│              │ 시계열 예측 모델            │                     │
-│              │ - Prophet (계절성·공휴일)   │                     │
-│              │ - LSTM (복잡한 비선형 패턴)  │                     │
-│              │ - 앙상블 (단기/중기 분리)   │                     │
-│              └──────────────┬─────────────┘                     │
-│                             │                                    │
-│                             ▼                                    │
-│              ┌─────────────────────────────┐                    │
-│              │ 관광지별 예측 방문객 수       │                    │
-│              │ - 일/주/월 단위              │                    │
-│              │ - 국내/외국인 구분           │                    │
-│              │ - 불확실성 구간 제공         │                    │
-│              └─────────────────────────────┘                    │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관광 수요 예측 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검색 트렌</div><div class="kb-diagram-cell">예약 건수</div><div class="kb-diagram-cell">SNS 언급량</div><div class="kb-diagram-cell">이전 방문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드 지수</div><div class="kb-diagram-cell">(D-60~</div><div class="kb-diagram-cell">(#여행지명)</div><div class="kb-diagram-cell">이력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구글/네이</div><div class="kb-diagram-cell">D-7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 예측 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Prophet (계절성·공휴일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LSTM (복잡한 비선형 패턴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앙상블 (단기/중기 분리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관광지별 예측 방문객 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일/주/월 단위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 국내/외국인 구분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 불확실성 구간 제공</div></div>
+</div>
+</div>
+
+
 
 ### 실시간 혼잡도 분석
 
-```
-이동통신 기지국 신호
-  (5분 단위 집계)
-        │
-        ▼
-  비식별화 · 격자 집계
-        │
-        ▼
-  ┌────────────────────────┐
-  │ 혼잡도 산출             │
-  │ = 현재 인원 / 정상 용량 │
-  │                        │
-  │ < 70%: 여유            │
-  │ 70~90%: 보통            │
-  │ > 90%: 혼잡            │
-  │ > 110%: 위험           │
-  └────────────────────────┘
-        │
-        ▼
-  실시간 대시보드 + 시민 앱 알림 + 관리 기관 경보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이동통신 기지국 신호</div>
+<div class="kb-diagram-note">(5분 단위 집계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비식별화 · 격자 집계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼잡도 산출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 현재 인원 / 정상 용량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 70%: 여유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">70~90%: 보통</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 90%: 혼잡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 110%: 위험</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실시간 대시보드 + 시민 앱 알림 + 관리 기관 경보</div>
+</div>
+</div>
+
+
 
 ### GPS 궤적 클러스터링 → 관광 패턴 발견
 
-```
-개별 GPS 로그 (스마트폰 앱 동의)
-        │
-        ▼
-DBSCAN 클러스터링
-  (방문 체류 포인트 추출)
-        │
-        ▼
-이동 순서 시퀀스 마이닝
-  (A→B→C 관광 코스 패턴)
-        │
-        ▼
-인기 관광 코스 발견 + 개인화 추천
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 GPS 로그 (스마트폰 앱 동의)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DBSCAN 클러스터링</div>
+<div class="kb-diagram-note">(방문 체류 포인트 추출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이동 순서 시퀀스 마이닝</div>
+<div class="kb-diagram-note">(A→B→C 관광 코스 패턴)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인기 관광 코스 발견 + 개인화 추천</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 혼잡도 분석은 "놀이공원 줄이 너무 길면 다른 놀이기구로 안내해주는 것처럼, 관광지가 너무 붐비면 다른 곳을 추천해주는 것"이다.
 
@@ -156,7 +150,7 @@ DBSCAN 클러스터링
 
 **기술사 핵심 판단**:
 - **프라이버시**: 이동통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 반드시 집계·비식별화 후 사용. 개인 위치 추적 금지.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 격차**: 외국인 관광객 이동통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에 국가 간 협약 필요 ([로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)).
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 격차</strong>: 외국인 관광객 이동통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에 국가 간 협약 필요 ([로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)).
 - **예측 불확실성 제공**: 날씨·갑작스러운 이벤트로 예측 오류 발생 시 불확실성 구간을 함께 제공.
 
 > 📢 **섹션 요약 비유**: 관광 혼잡도 관리 시스템은 "놀이공원 입장객 수를 실시간으로 세고, 가득 차면 입장을 잠시 멈추는 스마트 게이트"다. 단지 훨씬 더 넓은 관광지 전체에 적용된다.
@@ -190,21 +184,23 @@ DBSCAN 클러스터링
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[관광 데이터 수집 (Tourism Data Collection) — 카드 결제·SNS·GPS·예약 데이터 수집]
-    │
-    ▼
-[관광 패턴 분석 (Pattern Analysis) — 방문객 이동 경로·체류 시간·소비 패턴 도출]
-    │
-    ▼
-[수요 예측 (Demand Forecasting) — 시계열 분석으로 관광지 방문객 수 예측]
-    │
-    ▼
-[맞춤형 추천 (Personalized Recommendation) — 개인 선호 기반 관광 코스·숙소 추천]
-    │
-    ▼
-[스마트 관광 정책 (Smart Tourism Policy) — 데이터 기반 혼잡 관리·인프라 투자 의사결정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">관광 데이터 수집 (Tourism Data Collection) — 카드 결제·SNS·GPS·예약 데이터 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관광 패턴 분석 (Pattern Analysis) — 방문객 이동 경로·체류 시간·소비 패턴 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수요 예측 (Demand Forecasting) — 시계열 분석으로 관광지 방문객 수 예측</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">맞춤형 추천 (Personalized Recommendation) — 개인 선호 기반 관광 코스·숙소 추천</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 관광 정책 (Smart Tourism Policy) — 데이터 기반 혼잡 관리·인프라 투자 의사결정</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 관광 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 패턴 분석·예측·추천을 거쳐 스마트 관광 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립까지 이어지는 관광 빅데이터 활용 사이클을 나타낸다.
 

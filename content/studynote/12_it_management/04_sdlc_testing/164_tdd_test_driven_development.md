@@ -33,20 +33,22 @@ TDD는 켄트 벡 (Kent Beck)이 익스트림 프로그래밍 ([Extreme Programm
 
 TDD의 기본 사이클은 Red → Green → Refactor다. 먼저 실패하는 테스트를 작성해 요구사항을 코드로 표현하고(Red), 그 테스트를 통과시키는 가장 단순한 구현을 만든 뒤(Green), 마지막으로 중복 제거와 구조 개선을 수행한다([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)). 여기서 중요한 것은 Green 단계에서 "정답 같은 코드"를 만들려 하지 않는 것이다. 우선 통과시키고, 설계 개선은 리팩터 단계로 분리해야 주기가 짧아진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 TDD의 Red → Green → Refactor               │
-├──────────────────────────────────────────────────────────────┤
-│ 1) RED      : 실패하는 테스트 작성                          │
-│                └─ 요구사항을 실행 가능한 명세로 표현        │
-│ 2) GREEN    : 최소 코드로 테스트 통과                       │
-│                └─ 과설계 금지, 일단 동작 우선               │
-│ 3) REFACTOR : 중복 제거, 이름 개선, 책임 분리               │
-│                └─ 테스트가 안전망 역할 수행                 │
-│                      ▲                                      │
-│                      └──────── 다음 요구사항으로 반복        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD의 Red → Green → Refactor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) RED : 실패하는 테스트 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 요구사항을 실행 가능한 명세로 표현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) GREEN : 최소 코드로 테스트 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 과설계 금지, 일단 동작 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) REFACTOR : 중복 제거, 이름 개선, 책임 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 테스트가 안전망 역할 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 요구사항으로 반복</div></div>
+</div>
+</div>
+
+
 
 좋은 TDD를 위해서는 테스트 자체의 품질도 중요하다. 흔히 FIRST 원칙이라 하여 빠름 (Fast), 독립성 (Independent), 반복 가능성 (Repeatable), 자기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)성 (Self-Validating), 시기적절함 (Timely)을 요구한다. 테스트 실행이 몇 분씩 걸리거나 외부 환경에 따라 흔들리면, 개발자는 점점 테스트를 덜 돌리게 되고 TDD의 피드백 루프가 끊긴다.
 
@@ -77,19 +79,22 @@ TDD는 단순히 테스트를 많이 쓰는 것과 다르다. 테스트 후 개�
 
 또한 TDD는 [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) (Behavior Driven Development, [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)), 인수 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) (Acceptance [Test Driven Development](/knowledge-base/studynote/04_software_engineering/11_testing_validation/470_tdd_lifecycle/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/))과도 연결된다. TDD가 개발자 관점의 단위 수준 명세에 강하다면, BDD는 사용자 행위와 시나리오 표현에, ATDD는 비즈니스 수용 기준 합의에 강하다. 실무에서는 세 접근이 경쟁 관계라기보다 계층 관계에 가깝다. 아래층은 TDD의 빠른 단위 피드백, 위층은 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)·ATDD의 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 구성된다.
 
-```text
-           사용자 가치 검증
-                  ▲
-                  │  ATDD / BDD
-                  │
-           통합 시나리오 검증
-                  ▲
-                  │
-           TDD 기반 단위 테스트
-                  ▲
-                  │
-             구현 설계 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 가치 검증</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">ATDD / BDD</div>
+<div class="kb-diagram-note">통합 시나리오 검증</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">TDD 기반 단위 테스트</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">구현 설계 개선</div>
+</div>
+</div>
+
+
 
 따라서 TDD는 테스트 피라미드의 가장 넓은 하단을 튼튼하게 만드는 방식으로 이해하면 좋다. 상단의 종단간 테스트 ([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) Test, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) Test)는 꼭 필요하지만 느리고 비싸다. 반대로 TDD로 만든 단위 테스트는 빠르고 세밀하게 실패 지점을 알려 주므로, 전체 품질 비용을 낮추는 기반이 된다.
 
@@ -148,24 +153,25 @@ TDD를 꾸준히 적용하면 [결함](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 명세
-    │
-    ▼
-실패 테스트 작성 (Red)
-    │
-    ▼
-최소 구현 (Green)
-    │
-    ▼
-리팩터링 (Refactor)
-    │
-    ▼
-테스트 스위트 축적
-    │
-    ▼
-CI 기반 회귀 방지 · 지속적 설계 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 명세</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실패 테스트 작성 (Red)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 구현 (Green)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리팩터링 (Refactor)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 스위트 축적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI 기반 회귀 방지 · 지속적 설계 개선</div>
+</div>
+</div>
+
+
 
 이 흐름은 "명세를 실행 코드로 고정"한 뒤, 반복 가능한 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자산으로 성장시키는 TDD의 본질을 보여준다.
 

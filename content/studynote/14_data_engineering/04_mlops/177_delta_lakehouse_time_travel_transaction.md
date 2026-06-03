@@ -23,17 +23,19 @@ Delta Lakehouse는 객체 스토리지나 [분산](/knowledge-base/studynote/08_
 
 특히 분석 파이프라인이 `append only`가 아니라 `update`, `delete`, [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 재처리를 요구하는 순간 문제가 선명해진다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 새로 쓰는 것은 쉽지만, "테이블 전체가 어느 시점에 일관된 상태였는가"를 보장하기는 어렵다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse처럼 신뢰성을 원하면서도 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake처럼 개방성과 확장성을 유지하려다 보니 Delta [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 같은 테이블 포맷이 등장했다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Plain Parquet Lake의 난점                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Writer A : part-001, part-002 갱신 중                        │
-│ Writer B : part-003 삭제 반영                                │
-│ Reader   : 어떤 파일 집합이 같은 시점 snapshot인지 불명확     │
-│                                                              │
-│ 파일 저장은 쉬워도 테이블 단위 commit / rollback은 약하다     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plain Parquet Lake의 난점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer A : part-001, part-002 갱신 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer B : part-003 삭제 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reader : 어떤 파일 집합이 같은 시점 snapshot인지 불명확</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 저장은 쉬워도 테이블 단위 commit / rollback은 약하다</div></div>
+</div>
+</div>
+
+
 
 이 구조에서는 "어제 오전 9시 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 다시 학습해 달라" 같은 요구가 매우 비싸다. 결국 별도 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 복제하거나 수동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 보관해야 하고, 그만큼 저장 비용과 운영 복잡도가 늘어난다. Delta의 Time Travel은 이 문제를 테이블 수준 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리로 흡수한다.
 
@@ -53,19 +55,23 @@ Delta 테이블의 실체는 `data files + _delta_log` 조합이다. 실제 레�
 | `protocol` | reader/writer 최소 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 선언 | 엔진 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 보장 |
 | `txn` / `commitInfo` | 작업 종류, 앱 ID, 커밋 시간 기록 | 스트리밍 멱등성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
 
-아래 흐름은 Delta의 커밋과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 재구성이 어떻게 이뤄지는지 보여준다. 핵심은 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 먼저 쓰고, 마지막에 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 올리는 **[낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)([Optimistic Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/))**다. 커밋 전까지 독자는 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)만 보고, 커밋이 성공한 뒤에만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 본다.
+아래 흐름은 Delta의 커밋과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 재구성이 어떻게 이뤄지는지 보여준다. 핵심은 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 먼저 쓰고, 마지막에 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 올리는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">낙관적 동시성 제어</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">Optimistic Concurrency Control</a>)</strong>다. 커밋 전까지 독자는 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)만 보고, 커밋이 성공한 뒤에만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 본다.
 
-```text
-┌──────────────────── Delta Commit ────────────────────┐
-│ 1. New Parquet files written                         │
-│ 2. Read current table version N                      │
-│ 3. Conflict check (optimistic concurrency)           │
-│ 4. Commit _delta_log/000...N+1.json                  │
-│ 5. Readers jump atomically from snapshot N to N+1    │
-└──────────────────────────────────────────────────────┘
 
-snapshot v127 = checkpoint v120.parquet + 121.json ... 127.json
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Delta Commit</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. New Parquet files written</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Read current table version N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Conflict check (optimistic concurrency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Commit _delta_log/000...N+1.json</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Readers jump atomically from snapshot N to N+1</div></div>
+<div class="kb-diagram-note">snapshot v127 = checkpoint v120.parquet + 121.json ... 127.json</div>
+</div>
+</div>
+
+
 
 체크포인트(checkpoint)는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 끝없이 길어지는 문제를 줄인다. 일정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)마다 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 형식의 체크포인트를 만들어 두면, 독자는 오래된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 처음부터 재생하지 않고 최근 체크포인트 이후만 읽어 빠르게 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 복원할 수 있다. 이것이 대용량 테이블에서도 Time Travel이 실제로 가능해지는 이유다.
 
@@ -92,7 +98,7 @@ Delta를 이해할 때는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/
 | 잘 맞는 상황 | 업데이트가 많은 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | Trino·Spark·Flink 혼합 환경 | 실시간 변경 반영 비중이 큰 환경 |
 | 주의점 | 보존 정책과 생태계 의존성 | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 설계 학습 비용 | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모드 복잡성 |
 
-Time Travel도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과 같은 의미는 아니다. Time Travel은 **테이블 단위 운영 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**에 강하고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 **재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 장기 보존**에 강하다. 예를 들어 잘못된 `DELETE`나 품질 사고에는 Delta의 `RESTORE`가 빠르지만, 리전 전체 손실이나 저장소 오염까지 커버하려면 별도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 전략이 필요하다.
+Time Travel도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과 같은 의미는 아니다. Time Travel은 <strong>테이블 단위 운영 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>에 강하고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 <strong>재해 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>와 장기 보존</strong>에 강하다. 예를 들어 잘못된 `DELETE`나 품질 사고에는 Delta의 `RESTORE`가 빠르지만, 리전 전체 손실이나 저장소 오염까지 커버하려면 별도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 전략이 필요하다.
 
 또 Delta는 Medallion Architecture와도 잘 맞는다. Bronze, Silver, Gold 계층을 모두 Delta로 운영하면 같은 저장소 위에서 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리할 수 있다. [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 같은 실험 추적 도구에 `versionAsOf`를 함께 기록하면 모델 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재현성도 크게 높아진다.
 
@@ -138,7 +144,7 @@ Delta Lakehouse를 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 그러나 Delta가 만능은 아니다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 관리, 저장 비용, 엔진 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 운영 자동화가 뒷받침되지 않으면 오히려 복잡한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 계층만 얹은 셈이 된다. 특히 Time Travel은 보존된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에서만 성립하므로, 저장 정책을 가볍게 다루면 핵심 가치가 바로 사라진다.
 
-결론적으로 Delta Lakehouse는 단순히 "Parquet에 기능이 좀 더 붙은 것"이 아니다. 기억해야 할 핵심은 **오픈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장소 위에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 보존 규칙을 올려, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블을 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 있는 자산으로 바꾸는 기술**이라는 점이다.
+결론적으로 Delta Lakehouse는 단순히 "Parquet에 기능이 좀 더 붙은 것"이 아니다. 기억해야 할 핵심은 <strong>오픈 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 저장소 위에 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>와 보존 규칙을 올려, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 테이블을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 있는 자산으로 바꾸는 기술</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: Delta Lakehouse는 창고에 타임머신을 붙인 시스템이 아니라, 입출고 장부와 재고 기준일을 함께 관리하는 창고다. 장부와 재고를 같이 관리할 때만 과거 상태로 정확히 돌아갈 수 있다.
 
@@ -157,21 +163,23 @@ Delta Lakehouse를 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Parquet 중심 Data Lake
-    │
-    ▼
-Delta Log 추가
-    │
-    ▼
-ACID Snapshot · Schema Enforcement · MERGE
-    │
-    ▼
-Time Travel · RESTORE · CDF
-    │
-    ▼
-Lakehouse Governance · ML Reproducibility
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Parquet 중심 Data Lake</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Delta Log 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACID Snapshot · Schema Enforcement · MERGE</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Time Travel · RESTORE · CDF</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lakehouse Governance · ML Reproducibility</div>
+</div>
+</div>
+
+
 
 이 흐름은 "저장소" 중심 사고에서 "[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 있는 테이블 자산" 중심 사고로 발전하는 과정을 보여준다.
 

@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 웹(Web)의 창시자 팀 버너스리가 만든 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜의 장점을 극대화하기 위해 탄생한 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/)(설계 철학)입니다.
-- **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**: 내 앱이 카카오톡 서버에게 "친구 목록 좀 줘!"라고 요청할 때 쓰는 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 소통 창구'입니다.
-- 이 API를 **"REST의 철학(규칙)을 완벽하게 지켜서(RESTful) 아름답게 만들자!"**는 것이 핵심입니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>)</strong>: 내 앱이 카카오톡 서버에게 "친구 목록 좀 줘!"라고 요청할 때 쓰는 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 소통 창구'입니다.
+- 이 API를 <strong>"REST의 철학(규칙)을 완벽하게 지켜서(RESTful) 아름답게 만들자!"</strong>는 것이 핵심입니다.
 
-```text
-[HTTP/2 멀티플렉싱]
-    │
-    ▼
-[RESTful API]
-    │
-    └──▶ [웹소켓]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹소켓</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RESTful API는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,22 +50,26 @@ tags = ["studynote-network"]
 ### 2. 행위 (Verb)는 오직 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Method로만 하라! (CRUD 맵핑) 🌟
 자원(URI)을 찾았으면, 그 자원을 지지고 볶는 행위는 오직 4대 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드로만 표현해야 합니다.
 - **GET (조회, Read)**: "5번 유저 정보 가져와!" ➜ `GET /users/5`
-- **POST ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), Create)**: "새 유저 만들어!" ➜ `POST /users` ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 본문에 숨겨서)
+- <strong>POST (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>, Create)</strong>: "새 유저 만들어!" ➜ `POST /users` ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 본문에 숨겨서)
 - **PUT / PATCH (수정, Update)**: "5번 유저 이름 철수로 수정해!" ➜ `PUT /users/5`
 - **DELETE (삭제, Delete)**: "5번 유저 탈퇴시켜!" ➜ `DELETE /users/5`
 - (똑같은 `/users/5` 라는 주소 하나만 가지고도, 앞에 어떤 메서드(동사)를 붙이냐에 따라 서버가 완벽하게 다르게 동작하는 미니멀리즘의 극치입니다.)
 
 ### 3. 표현 (Representation) - [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 대통합
-- 서버가 "5번 유저 정보 여기 있어!"라고 답장을 줄 때 옛날엔 무거운 XML을 썼지만, 요즘 RESTful API는 100% **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation)** 형식(중괄호 덩어리)으로 던져주는 것이 산업 표준(De facto)이 되었습니다.
+- 서버가 "5번 유저 정보 여기 있어!"라고 답장을 줄 때 옛날엔 무거운 XML을 썼지만, 요즘 RESTful API는 100% <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> (JavaScript Object Notation)</strong> 형식(중괄호 덩어리)으로 던져주는 것이 산업 표준(De facto)이 되었습니다.
 
-```text
-[HTTP/2 멀티플렉싱]
-    │
-    ▼
-[RESTful API]
-    │
-    └──▶ [웹소켓]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹소켓</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RESTful API의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 아키텍처가 클라우드 시대를 지배한 치명적 이유입니다.
-- **[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)**: 서버는 클라이언트(폰)의 과거 상태(로그인 여부 등)를 절대 기억하지 않습니다. 
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong>: 서버는 클라이언트(폰)의 과거 상태(로그인 여부 등)를 절대 기억하지 않습니다. 
 - 클라이언트는 매번 요청(GET)을 날릴 때마다 "저 로그인 한 철수인데요, 5번 유저 주세요"라고 토큰(인증표)을 패킷에 포함해서 쏴야 합니다.
 - **클라우드의 축복**: 서버가 고객의 기억(상태)을 뇌(RAM)에 저장하지 않으니 서버가 엄청 가벼워집니다. 트래픽이 폭주해서 카카오 서버를 1대에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대로 늘려도([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)), எந்த 서버로 요청이 들어가든 100% 완벽하게 처리됩니다.
 
@@ -89,7 +97,7 @@ RESTful API를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - RESTful은 완벽하지만, 화면 하나에 유저 정보, 댓글, 좋아요 개수 등 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요할 때 서버에 `GET` 요청을 3~4번 날려야 하는 단점(Over-fetching)이 있습니다.
-- 이를 박살 내기 위해 페이스북은 "그냥 쿼리문 한 줄로 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 골라서 한 방에 뽑아오자!"며 **[GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)(478번 문서)**을 만들었고, 구글은 **[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)(479번 문서)**를 만들어 REST와 경쟁하고 있습니다.
+- 이를 박살 내기 위해 페이스북은 "그냥 쿼리문 한 줄로 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 골라서 한 방에 뽑아오자!"며 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a>(478번 문서)</strong>을 만들었고, 구글은 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>(479번 문서)</strong>를 만들어 REST와 경쟁하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -97,7 +105,7 @@ RESTful API를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 시스템은 동네 식당의 '주먹구구식 주문'과 같았습니다. 어떤 손님은 "사장님, 김치찌개 하나 취소요!", 어떤 손님은 "메뉴판에서 3번 빼주세요!" 라며 규칙 없이 아무 말이나 던져서 주방장(서버)이 헷갈려 요리를 망쳤습니다. **RESTful [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**는 이 식당에 완벽한 **'전 세계 공통 키오스크 터치 주문 규칙'**을 세운 것입니다. 1. 메뉴(자원)는 무조건 메뉴판 번호(URI 명사)로만 찍습니다. ("3번 찌개"). 2. 주문 행동(행위)은 무조건 4개의 버튼(GET 보기, POST 주문, PUT 변경, DELETE 취소)만 누를 수 있습니다. "3번 찌개"를 고르고 "DELETE" 버튼을 누르면 군말 없이 주문이 취소됩니다. 전 세계 어떤 개발자가 와도 1초 만에 메뉴판([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 쓱 보고 직관적으로 코드를 짤 수 있게 만든 가장 아름답고 규격화된 대화법입니다.
+- **📢 섹션 요약 비유**: 옛날 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 시스템은 동네 식당의 '주먹구구식 주문'과 같았습니다. 어떤 손님은 "사장님, 김치찌개 하나 취소요!", 어떤 손님은 "메뉴판에서 3번 빼주세요!" 라며 규칙 없이 아무 말이나 던져서 주방장(서버)이 헷갈려 요리를 망쳤습니다. <strong>RESTful <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>는 이 식당에 완벽한 <strong>'전 세계 공통 키오스크 터치 주문 규칙'</strong>을 세운 것입니다. 1. 메뉴(자원)는 무조건 메뉴판 번호(URI 명사)로만 찍습니다. ("3번 찌개"). 2. 주문 행동(행위)은 무조건 4개의 버튼(GET 보기, POST 주문, PUT 변경, DELETE 취소)만 누를 수 있습니다. "3번 찌개"를 고르고 "DELETE" 버튼을 누르면 군말 없이 주문이 취소됩니다. 전 세계 어떤 개발자가 와도 1초 만에 메뉴판([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 쓱 보고 직관적으로 코드를 짤 수 있게 만든 가장 아름답고 규격화된 대화법입니다.
 
 ---
 
@@ -120,15 +128,19 @@ RESTful API는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HTTP/2 멀티플렉싱]
-    │
-    ▼
-[현재 개념: RESTful API]
-    │
-    ├──▶ [확장 A: 웹소켓]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RESTful API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 웹소켓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 RESTful API는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

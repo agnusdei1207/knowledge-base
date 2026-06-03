@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 여러 장치가 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 공유할 때, 중앙 제어기 없이 각 장치가 동일한 규칙으로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권을 결정하는 방식이다. CPU (Central Processing Unit), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 제어기, 통신 컨트롤러처럼 여러 마스터가 동시에 전송을 요구하면 충돌은 피할 수 없다. 중앙 아비터가 있으면 구현은 단순하지만 그 장치가 고장 나는 순간 전체 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 멈출 수 있다.
 
-이 때문에 항공, 차량, 산업 제어처럼 **"한 부품 고장이 전체 마비로 이어지면 안 되는 시스템"** 에서는 권한 집중보다 권한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 중요해졌다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 각 노드가 자신도 요청을 내고, 동시에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 읽어 가며, 더 높은 우선순위가 보이면 스스로 물러나는 구조를 택한다. 즉 핵심 목적은 단순한 속도 경쟁이 아니라, **중재 기능 자체를 시스템 전체에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해 생존성을 높이는 것** 이다.
+이 때문에 항공, 차량, 산업 제어처럼 **"한 부품 고장이 전체 마비로 이어지면 안 되는 시스템"** 에서는 권한 집중보다 권한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 중요해졌다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 각 노드가 자신도 요청을 내고, 동시에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 읽어 가며, 더 높은 우선순위가 보이면 스스로 물러나는 구조를 택한다. 즉 핵심 목적은 단순한 속도 경쟁이 아니라, <strong>중재 기능 자체를 시스템 전체에 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>해 생존성을 높이는 것</strong> 이다.
 
 이 개념이 없으면 멀티마스터 시스템은 두 가지 극단에 부딪힌다. 하나는 중앙 중재기의 고장에 취약한 구조이고, 다른 하나는 충돌을 감수하며 비효율적으로 재전송을 반복하는 구조다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 이 둘 사이에서, 충돌을 통제 가능한 규칙으로 바꾸는 해법이다.
 
@@ -40,28 +40,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 자기 선택 방식의 흐름을 보여준다. 이 방식에서는 각 노드가 자신의 우선순위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 공용 선에 올리고, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 남은 실제 값을 읽으면서 자신이 계속 경쟁할지 포기할지 결정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      자기 선택(Self-Selection) 기반 분산식 중재의 비트 비교 흐름      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 우선순위 비트: 상위 비트부터 비교, 1이 0보다 우선한다고 가정          │
-│                                                                      │
-│ Master A : 1 0 1                                                     │
-│ Master B : 1 1 0                                                     │
-│ Master C : 0 1 1                                                     │
-│             │ │ │                                                    │
-│ 공용 중재선 : 1 1 1   ← wired-OR / dominant bit 결과                  │
-│             │                                                        │
-│ 판정 과정                                                            │
-│  1) 첫 비트: A,B 생존 / C 탈락                                       │
-│  2) 둘째 비트: B 생존 / A 탈락                                       │
-│  3) 셋째 비트: B 단독 승리                                            │
-│                                                                      │
-│ 결과: 더 낮은 비트를 낸 노드는 "내 우선순위가 밀렸다"고 스스로 철수    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 중요한 점은 **중앙 심판이 판정하지 않아도, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 자체가 비교 결과를 드러낸다** 는 것이다. 이를 가능하게 하려면 노드들은 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 의미, 같은 비교 순서, 같은 전기적 우선 규칙을 공유해야 한다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 단순히 "모두가 알아서 한다"가 아니라, **모두가 완전히 같은 약속을 하드웨어 수준에서 지킨다** 는 전제가 있어야 성립한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자기 선택(Self-Selection) 기반 분산식 중재의 비트 비교 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 비트: 상위 비트부터 비교, 1이 0보다 우선한다고 가정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master A : 1 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master B : 1 1 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master C : 0 1 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공용 중재선 : 1 1 1 ← wired-OR / dominant bit 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판정 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 첫 비트: A,B 생존 / C 탈락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 둘째 비트: B 생존 / A 탈락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 셋째 비트: B 단독 승리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 더 낮은 비트를 낸 노드는 "내 우선순위가 밀렸다"고 스스로 철수</div></div>
+</div>
+</div>
+
+
+
+이 그림의 중요한 점은 <strong>중앙 심판이 판정하지 않아도, <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 자체가 비교 결과를 드러낸다</strong> 는 것이다. 이를 가능하게 하려면 노드들은 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 의미, 같은 비교 순서, 같은 전기적 우선 규칙을 공유해야 한다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 단순히 "모두가 알아서 한다"가 아니라, **모두가 완전히 같은 약속을 하드웨어 수준에서 지킨다** 는 전제가 있어야 성립한다.
 
 CAN (Controller Area Network) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 비파괴 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 중재가 대표 사례다. 우선순위가 낮은 ECU (Electronic [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))는 자신이 recessive [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 냈는데 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 dominant [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽는 순간 즉시 전송을 중단한다. 덕분에 충돌이 발생해도 높은 우선순위 프레임은 깨지지 않고 계속 진행된다.
 
@@ -83,7 +82,7 @@ CAN (Controller Area Network) [버스](/knowledge-base/studynote/01_computer_arc
 
 또한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 단순한 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 제어"를 넘어 네트워크 접근 제어와도 연결된다. 예를 들어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 이더넷의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))는 중앙 제어기 없이 여러 노드가 충돌을 감지하고 다시 전송 시점을 조정했다는 점에서 철학적으로 닮아 있다. 다만 이더넷은 충돌 후 재시도 중심이고, CAN은 충돌 중에도 상위 우선순위 메시지를 계속 살린다는 점에서 더 엄격한 실시간성에 맞춰져 있다.
 
-즉, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재의 본질은 "통제자가 없다"가 아니라 **통제 규칙이 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안으로 녹아 있다** 는 데 있다. 그래서 컴퓨터구조, 네트워크, 임베디드 시스템을 가로질러 같은 사고방식이 반복된다. 어느 계층에서든 핵심 질문은 같다. **충돌이 생겼을 때 누가, 어떤 비용으로, 얼마나 빨리 물러날 것인가?**
+즉, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재의 본질은 "통제자가 없다"가 아니라 <strong>통제 규칙이 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 안으로 녹아 있다</strong> 는 데 있다. 그래서 컴퓨터구조, 네트워크, 임베디드 시스템을 가로질러 같은 사고방식이 반복된다. 어느 계층에서든 핵심 질문은 같다. **충돌이 생겼을 때 누가, 어떤 비용으로, 얼마나 빨리 물러날 것인가?**
 
 - **📢 섹션 요약 비유**: 중앙 집중식은 교차로 경찰 한 명이 손짓으로 차를 세우는 방식이고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식은 모든 운전자가 같은 도로 규칙을 알고 먼저 온급·우선 차량을 보고 스스로 멈추는 방식이다.
 
@@ -93,7 +92,7 @@ CAN (Controller Area Network) [버스](/knowledge-base/studynote/01_computer_arc
 
 실무에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 "좋아 보이니 쓰자"가 아니라, **장애 허용성과 실시간성이 비용 증가를 정당화하는가** 로 판단해야 한다. 자동차 제어망에서는 브레이크, 조향, 파워트레인 메시지가 공존하므로, 우선순위 높은 프레임이 즉시 통과해야 한다. 이때 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식 중재는 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 고장을 피하면서도 긴급 메시지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄일 수 있어 적합하다.
 
-반대로 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 내부 인터커넥트는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)처럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 구조가 일반적이며, 중앙화된 스케줄링과 버퍼링으로 높은 처리량을 낸다. 이런 환경에서 굳이 모든 장치에 동일한 중재 규칙을 강제하면 하드웨어 복잡도만 늘고 얻는 이점은 작다. 즉 **멀티마스터 고신뢰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)** 에는 적합하지만, **범용 고속 인터커넥트** 에는 대개 과한 선택이 된다.
+반대로 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 내부 인터커넥트는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)처럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 구조가 일반적이며, 중앙화된 스케줄링과 버퍼링으로 높은 처리량을 낸다. 이런 환경에서 굳이 모든 장치에 동일한 중재 규칙을 강제하면 하드웨어 복잡도만 늘고 얻는 이점은 작다. 즉 <strong>멀티마스터 고신뢰 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a></strong> 에는 적합하지만, **범용 고속 인터커넥트** 에는 대개 과한 선택이 된다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,25 +135,25 @@ CAN (Controller Area Network) [버스](/knowledge-base/studynote/01_computer_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 아비터 기반 버스 공유
-    │
-    ▼
-SPOF (Single Point of Failure) 문제 인식
-    │
-    ▼
-분산식 중재 (Distributed Arbitration)
-    │
-    ├─▶ 분산 데이지 체인 (Distributed Daisy Chain)
-    │
-    └─▶ 자기 선택 (Self-Selection)
-              │
-              ▼
-CAN (Controller Area Network) 비파괴 중재
-              │
-              ▼
-고신뢰 멀티마스터 제어 네트워크 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 아비터 기반 버스 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPOF (Single Point of Failure) 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산식 중재 (Distributed Arbitration)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 분산 데이지 체인 (Distributed Daisy Chain)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 자기 선택 (Self-Selection)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAN (Controller Area Network) 비파괴 중재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고신뢰 멀티마스터 제어 네트워크 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "중앙 의존의 한계 발견 → 중재 규칙의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) → 실시간 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장"이라는 맥락을 보여준다.
 

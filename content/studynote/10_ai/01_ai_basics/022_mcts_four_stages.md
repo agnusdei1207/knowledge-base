@@ -14,7 +14,7 @@ tags = ["studynote-ai"]
 > ⚠️ 이 문서는 무한대에 가까운 경우의 수를 가진 탐색 공간에서, 딥러닝과 결합하여 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 정점인 알파고(AlphaGo)를 탄생시킨 핵심 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 MCTS의 '선택-확장-시뮬레이션-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)' 4단계 메커니즘을 심층 분석합니다.
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MCTS의 4단계는 거대한 검색 트리에서 유망한 노드를 고르는 **선택(Selection)**, 새로운 가능성을 추가하는 **확장(Expansion)**, 끝까지 무작위로 가상 플레이를 돌려보는 **시뮬레이션(Simulation)**, 그리고 그 승패 결과를 조상 노드들에 업데이트하는 **[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))**의 무한 루프이다.
+> 1. **본질**: MCTS의 4단계는 거대한 검색 트리에서 유망한 노드를 고르는 **선택(Selection)**, 새로운 가능성을 추가하는 **확장(Expansion)**, 끝까지 무작위로 가상 플레이를 돌려보는 **시뮬레이션(Simulation)**, 그리고 그 승패 결과를 조상 노드들에 업데이트하는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>의 무한 루프이다.
 > 2. **가치**: [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/))처럼 모든 경로를 계산하다가 뻗어버리는 대신, 이 4단계를 통해 제한된 시간 내에 컴퓨팅 파워를 '이길 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 경로(Exploitation)'와 '아직 안 가본 낯선 경로([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))' 사이에서 황금비율(UCT 공식)로 배분하는 지능적 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 수행한다.
 > 3. **융합**: 순수 4단계 구조 중 가장 연산량이 낭비되는 '시뮬레이션(Rollout)' 단계를, [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망/가치망으로 융합(대체)해 버린 것이 바로 현대 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 아키텍처의 혁신이자 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제어의 뼈대이다.
 
@@ -39,35 +39,35 @@ tags = ["studynote-ai"]
 ### 1. MCTS의 4단계 동작 메커니즘 (Step-by-Step)
 루트 노드(현재 게임 상태)에서 출발하여 시간이 다 될 때까지 아래 4단계를 반복합니다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             [ MCTS 4단계 순환 아키텍처 (Flow Chart) ]           │
-│                                                             │
-│       [1. Selection]                [2. Expansion]          │
-│        (유망한 노드 탐색)             (트리에 새 노드 추가)          │
-│           ( O ) ◀──────┐               ( O )              │
-│          ／   ＼         │              ／   ＼             │
-│       ( O )    ( )      │             ( O )  ( N ) <-- 신규│
-│      ／   ＼            │            ／   ＼               │
-│    ( O )   ( )          │           ( O )   ( )             │
-│                         │                                  │
-│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
-│                         │                                  │
-│  [4. Backpropagation]   │           [3. Simulation]         │
-│     (승패 통계 업데이트)    │           (무작위 롤아웃 테스트)       │
-│        (+1 Win)         │                ( N )              │
-│          ／   ＼         │                  |  <-- Random  │
-│       (+1)     ( )      │                  |      Playout │
-│      ／   ＼            │                  |              │
-│    (+1)    ( ) ─────────┘               [Win!] (승리/패배) │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS 4단계 순환 아키텍처 (Flow Chart)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Selection</div><div class="kb-diagram-node">2. Expansion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유망한 노드 탐색) (트리에 새 노드 추가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ◀ ( O )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ( )</div><div class="kb-diagram-cell">( O ) ( N ) &lt;-- 신규</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ( )</div><div class="kb-diagram-cell">( O ) ( )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. Backpropagation</div><div class="kb-diagram-node">3. Simulation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(승패 통계 업데이트)</div><div class="kb-diagram-cell">(무작위 롤아웃 테스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1 Win)</div><div class="kb-diagram-cell">( N )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">&lt;-- Random</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1) ( )</div><div class="kb-diagram-cell">Playout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(+1) ( )</div><div class="kb-diagram-node">Win!</div><div class="kb-diagram-note">(승리/패배)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 상세 해설]**
-1. **선택 (Selection)**: 루트에서 시작해 자식 노드들을 거쳐 내려갑니다. 이때 단순히 승률만 보는 것이 아니라, **UCT (Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound for Trees)** 공식을 사용하여 '승률이 높은 곳(활용)'과 '아직 덜 가본 곳([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))' 사이의 점수가 가장 높은 노드를 선택해 나갑니다. (트리의 끝, 리프 노드에 도달할 때까지)
+1. **선택 (Selection)**: 루트에서 시작해 자식 노드들을 거쳐 내려갑니다. 이때 단순히 승률만 보는 것이 아니라, <strong>UCT (Upper <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Bound for Trees)</strong> 공식을 사용하여 '승률이 높은 곳(활용)'과 '아직 덜 가본 곳([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))' 사이의 점수가 가장 높은 노드를 선택해 나갑니다. (트리의 끝, 리프 노드에 도달할 때까지)
 2. **확장 (Expansion)**: 도달한 리프 노드에서 게임이 종료되지 않았다면, 가능한 다음 수 중 하나 이상을 트리에 새로운 노드로 '확장([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))'합니다.
-3. **시뮬레이션 (Simulation, Rollout)**: 방금 확장된 노드에서 출발하여 게임이 끝날 때까지 **완전히 무작위(Random)**로 수를 둡니다. (마치 취객 두 명이 바둑을 두듯 미친 듯이 끝까지 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해 승/무/패의 결과를 도출합니다.)
-4. **[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))**: 시뮬레이션에서 얻은 승패 결과(예: Win)를 바탕으로, 방금 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 노드부터 루트 노드까지 거슬러 올라가며 방문 횟수(Visit Count)와 승리 횟수(Win Count)를 갱신합니다. 
+3. **시뮬레이션 (Simulation, Rollout)**: 방금 확장된 노드에서 출발하여 게임이 끝날 때까지 <strong>완전히 무작위(Random)</strong>로 수를 둡니다. (마치 취객 두 명이 바둑을 두듯 미친 듯이 끝까지 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해 승/무/패의 결과를 도출합니다.)
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong>: 시뮬레이션에서 얻은 승패 결과(예: Win)를 바탕으로, 방금 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 노드부터 루트 노드까지 거슬러 올라가며 방문 횟수(Visit Count)와 승리 횟수(Win Count)를 갱신합니다. 
 
 ### 2. UCT 공식: 1단계 Selection의 심장
 단순 무작위가 아니라 MCTS가 천재가 되는 이유는 1단계에서 사용하는 UCT 공식 때문입니다.
@@ -85,12 +85,12 @@ tags = ["studynote-ai"]
 | :--- | :--- | :--- | :--- |
 | **1. Selection** | 낮음 (O(d)) | 낮음 (트리 순회) | UCT 수식을 계산하는 수준의 가벼운 연산. |
 | **2. Expansion** | 아주 낮음 | **높음 (객체 할당)**| 메모리 공간에 노드 객체를 지속적으로 찍어내야 함. Out of Memory의 주범. |
-| **3. Simulation**| **극상 (Heavy CPU)**| 낮음 (변수 상태 변경) | 완전히 게임이 끝날 때까지 수천~수만 번의 턴을 돌려야 하므로 MCTS에서 **가장 최악의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(Trade-off)**을 일으키는 구간. |
+| **3. Simulation**| **극상 (Heavy CPU)**| 낮음 (변수 상태 변경) | 완전히 게임이 끝날 때까지 수천~수만 번의 턴을 돌려야 하므로 MCTS에서 <strong>가장 최악의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목(Trade-off)</strong>을 일으키는 구간. |
 | **4. Backprop.** | 낮음 (O(d)) | 낮음 (변수 갱신) | 방문한 노드를 타고 올라가며 +1 더하는 연산. 빠름. |
 
 ### ⚡ 트레이드오프 극복: 왜 딥러닝과 결합했는가?
 3단계 시뮬레이션(Random Playout)은 치명적인 단점이 있습니다. 바둑 고수라면 절대 두지 않을 자리에 무작위로 수천 번 돌을 놔보느라 CPU 시간을 낭비합니다.
-- **알파고의 [파괴적 혁신](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/)**: 알파고는 3단계 시뮬레이션을 아예 제거하거나 대폭 축소했습니다. 끝까지 바둑을 두어보는 대신, 이세돌 9단의 기보를 학습한 **가치 신경망(Value Network)**이 방금 '확장(Expansion)'된 노드의 판세를 스캔한 뒤 "이 판은 끝까지 안 가봐도 승률 70% 짜리야"라고 단숨에 추론(Inference)해 버립니다.
+- <strong>알파고의 <a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/037_disruptive_innovation/">파괴적 혁신</a></strong>: 알파고는 3단계 시뮬레이션을 아예 제거하거나 대폭 축소했습니다. 끝까지 바둑을 두어보는 대신, 이세돌 9단의 기보를 학습한 <strong>가치 신경망(Value Network)</strong>이 방금 '확장(Expansion)'된 노드의 판세를 스캔한 뒤 "이 판은 끝까지 안 가봐도 승률 70% 짜리야"라고 단숨에 추론(Inference)해 버립니다.
 - 이로 인해 어마어마한 CPU 낭비가 사라지고, 대신 빠르고 강력한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산의 세계로 패러다임이 진화했습니다.
 
 - **📢 섹션 요약 비유**: 순수 4단계가 "바보 수만 명이 모여서 우당탕 끝까지 게임을 해보고 통계를 내는 짓"이라면, 딥러닝 융합은 "바보들을 해고하고, 최고수 프로기사(신경망) 한 명을 모셔와 판을 슬쩍 보고 승패를 점치게 하는 것"으로, 속도와 정확도를 우주급으로 끌어올렸습니다.
@@ -102,12 +102,12 @@ tags = ["studynote-ai"]
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| **비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - 언제 MCTS를 아키텍처에 채택하는가?)*
 - **실무 문제 공간이 명확히 수식화되지 않을 때**: 게임뿐만 아니라 물류창고 최적 로봇 동선 배치, 신약 후보 물질 결합 시뮬레이션 등 "규칙은 명확하지만 경우의 수가 미친 듯이 많은" 엔터프라이즈 환경에서 MCTS는 완벽한 해결책입니다.
-- **Anytime Algorithm의 이점**: 자율주행 회피나 금융 자동 매매 봇 설계 시, 시간이 부족하면 0.1초 만에 루프를 강제 종료해도 됩니다. MCTS는 **종료된 시점까지 모인 통계(루트 노드 자식 중 방문율 1위)**를 그대로 정답으로 사용할 수 있는(Anytime [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 엄청난 실무적 유연성을 가집니다.
+- **Anytime Algorithm의 이점**: 자율주행 회피나 금융 자동 매매 봇 설계 시, 시간이 부족하면 0.1초 만에 루프를 강제 종료해도 됩니다. MCTS는 <strong>종료된 시점까지 모인 통계(루트 노드 자식 중 방문율 1위)</strong>를 그대로 정답으로 사용할 수 있는(Anytime [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 엄청난 실무적 유연성을 가집니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. "시간이 없어서 50%만 지어진 집"이라도 비를 피할 수 있도록 보장하는 아키텍처가 바로 MCTS의 4단계 순환 로직입니다.
 
@@ -115,7 +115,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **강화학습 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 엔진화**
+1. <strong>강화학습 훈련(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 엔진화</strong>
    알파고 제로(AlphaGo [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))부터 MCTS는 단순 탐색기가 아니라 강화학습의 **스승(Teacher)** 역할을 합니다. MCTS가 심사숙고해서 뽑아낸 가장 질 좋은 한 수를 타겟 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(정답)로 삼아, [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)(Neural Network)이 이 MCTS의 통찰력을 흉내 내도록 딥러닝을 스스로 훈련시키는 거대한 셀프 플레이(Self-play) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 부품이 되었습니다.
 
 2. **비완전 정보 게임 (Imperfect Information) 정복**
@@ -127,15 +127,15 @@ tags = ["studynote-ai"]
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-*   **MCTS의 4단계 코어 루프 (Loop [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))**
+*   <strong>MCTS의 4단계 코어 루프 (Loop <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a>)</strong>
     *   Selection (선택) -> UCT 수식 적용 지능적 편향
     *   Expansion (확장) -> 딥러닝 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 후보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
     *   Simulation (롤아웃) -> 딥러닝 가치망(Value)으로 스킵/대체
     *   [Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) -> 승률, 방문수 업데이트
-*   **MCTS의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 가치 (Trade-offs)**
+*   <strong>MCTS의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 가치 (Trade-offs)</strong>
     *   [Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) ([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) vs Exploitation (활용) 딜레마 극복
     *   Anytime [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (언제든 중단 가능한 연산 구조)
-*   **현대 강화학습 융합 (AlphaZero [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**
+*   <strong>현대 강화학습 융합 (AlphaZero <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>
     *   [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) + [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/) (DNN) + 셀프 플레이
 
 ---
@@ -144,29 +144,31 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **UCT 공식 (Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound for Trees)** | [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 선택 단계에서 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 황금 균형을 수학적으로 결정하는 핵심 수식 |
+| <strong>UCT 공식 (Upper <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Bound for Trees)</strong> | [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 선택 단계에서 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 황금 균형을 수학적으로 결정하는 핵심 수식 |
 | **롤아웃 (Rollout / Playout)** | 시뮬레이션 단계에서 게임 종료까지 무작위로 플레이하여 승패 통계를 빠르게 수집하는 가상 플레이 |
 | **AlphaGo / AlphaZero** | MCTS의 시뮬레이션 단계를 딥러닝 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망·가치망으로 대체하여 인간을 넘어선 바둑 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처 |
-| **[미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) ([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/))** | [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 이전의 완전 트리 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 분기 계수 폭발로 바둑에서 한계를 보인 선행 기술 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/">미니맥스</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/">Minimax</a>)</strong> | [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 이전의 완전 트리 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 분기 계수 폭발로 바둑에서 한계를 보인 선행 기술 |
 | **몬테카를로 방법 (Monte Carlo Method)** | 무작위 샘플링으로 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)을 추정하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 방법 — MCTS의 수학적 토대 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[거대 상태 공간 (바둑 — 10^170 경우의 수)]
-    │
-    ▼
-[MCTS 4단계 루프: 선택 → 확장 → 시뮬레이션 → 역전파]
-    │
-    ▼
-[UCT 공식 — 탐험/활용 균형 자동 조정]
-    │
-    ▼
-[딥러닝 정책망·가치망으로 롤아웃 대체 (AlphaGo)]
-    │
-    ▼
-[AlphaZero 셀프 플레이 — 순수 강화학습 현대 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">거대 상태 공간 (바둑 — 10^170 경우의 수)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS 4단계 루프: 선택 → 확장 → 시뮬레이션 → 역전파</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UCT 공식 — 탐험/활용 균형 자동 조정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 정책망·가치망으로 롤아웃 대체 (AlphaGo)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaZero 셀프 플레이 — 순수 강화학습 현대 아키텍처</div></div>
+</div>
+</div>
+
+
 불가능한 완전 탐색을 UCT 기반 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 4단계 루프로 실용화하고, 딥러닝이 롤아웃을 대체하여 AlphaGo·AlphaZero가 탄생한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전의 핵심 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -176,7 +178,7 @@ tags = ["studynote-ai"]
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
+> <strong>🛡️ 3.1 Pro Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
 
 ---
 

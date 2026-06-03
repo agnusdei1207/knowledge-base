@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 'Choreography'는 무용수들이 정해진 룰(음악)에 맞춰 각자 지 알아서 춤을 추는 '안무'를 뜻한다. 주문, 결제, 배송 서버가 중앙의 지시를 받지 않고, "나 주문 만들었음!(Event)"을 허공에 던진다. 결제 서버는 그냥 평소에 "주문 만들어졌나?" [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 쳐다보고(구독, Subscribe) 있다가 잽싸게 낚아채서 돈을 빼고 "나 돈 뺐음!"을 던지는 자율적 퍼스텝 릴레이 구조다.
 
-- **필요성**: MSA로 서버를 예쁘게 찢어놨는데, 552장의 오케스트레이션처럼 중앙 대빵 서버를 띄워서 "네가 해!"라고 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API를 쏘는 짓을 하면, 결국 그 대빵 서버 코드가 비대해지는 **스파게티 몬스터(God Object)**가 된다. "아니, MSA의 핵심은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))잖아! 왜 또 중앙 통제기를 만들어? 그냥 쿨하게 이벤트 허공에 던지고 남남으로 살자!"는 궁극의 무결합(Zero-Coupling) 이상주의가 코레오그래피를 대세로 만들었다.
+- **필요성**: MSA로 서버를 예쁘게 찢어놨는데, 552장의 오케스트레이션처럼 중앙 대빵 서버를 띄워서 "네가 해!"라고 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API를 쏘는 짓을 하면, 결국 그 대빵 서버 코드가 비대해지는 <strong>스파게티 몬스터(God Object)</strong>가 된다. "아니, MSA의 핵심은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))잖아! 왜 또 중앙 통제기를 만들어? 그냥 쿨하게 이벤트 허공에 던지고 남남으로 살자!"는 궁극의 무결합(Zero-Coupling) 이상주의가 코레오그래피를 대세로 만들었다.
 
-- **💡 비유**: 코레오그래피는 동네 골목길의 **'쓰레기 수거 시스템'**과 똑같습니다. 시민(주문 앱)은 쓰레기를 버릴 때, 청소부(배송 앱)한테 전화([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)해서 "쓰레기 가져가세요"라고 중앙 지시를 내리지 않습니다. 그냥 전봇대 밑([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 쓰레기봉투(이벤트)를 툭 던져두고 자기 할 일 하러 갑니다. 청소부 역시 시민을 알 필요가 없습니다. 새벽에 트럭 타고 돌다가 전봇대 밑에 쓰레기가 있으면 묵묵히 주워다가 처리합니다. 둘은 평생 얼굴 한번 안 보고도 도시의 쓰레기(비즈니스 룰)를 완벽하게 순환시킵니다.
+- **💡 비유**: 코레오그래피는 동네 골목길의 <strong>'쓰레기 수거 시스템'</strong>과 똑같습니다. 시민(주문 앱)은 쓰레기를 버릴 때, 청소부(배송 앱)한테 전화([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)해서 "쓰레기 가져가세요"라고 중앙 지시를 내리지 않습니다. 그냥 전봇대 밑([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 쓰레기봉투(이벤트)를 툭 던져두고 자기 할 일 하러 갑니다. 청소부 역시 시민을 알 필요가 없습니다. 새벽에 트럭 타고 돌다가 전봇대 밑에 쓰레기가 있으면 묵묵히 주워다가 처리합니다. 둘은 평생 얼굴 한번 안 보고도 도시의 쓰레기(비즈니스 룰)를 완벽하게 순환시킵니다.
 
 - **등장 배경 및 발전 과정**:
   1. **ESB의 붕괴 (2010s 초반)**: 옛날엔 중앙 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))가 모든 메시지를 쥐락펴락했다. 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 뻗으면 전사가 뻗었다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 사람들은 중앙 통제에 학를 뗐다.
-  2. **Kafka의 혁명 (2010s 중반)**: 링크드인에서 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))라는 미친 속도의 이벤트 큐를 발명했다. "야, 그냥 다 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)로 쏴. 중앙 통제기 없애!" 이른바 **덤 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) & 스마트 엔드포인트(Dumb [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) & Smart Endpoint)** 사상의 전성기가 열렸다.
+  2. **Kafka의 혁명 (2010s 중반)**: 링크드인에서 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))라는 미친 속도의 이벤트 큐를 발명했다. "야, 그냥 다 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)로 쏴. 중앙 통제기 없애!" 이른바 <strong>덤 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> &amp; 스마트 엔드포인트(Dumb <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">Pipe</a> &amp; Smart Endpoint)</strong> 사상의 전성기가 열렸다.
   3. **복잡성의 역습 (현재)**: 코레오그래피가 유행하자 스타트업들이 무지성으로 도입했다. 그런데 이벤트가 10번 핑퐁을 치니, 버그가 났을 때 아무도 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 흐름을 파악하지 못해 회사가 파산하는 사례가 속출하며 "작을 땐 코레오그래피, 클 땐 오케스트레이터"라는 하이브리드 국룰이 세워졌다.
 
-- **📢 섹션 요약 비유**: 오케스트레이션이 **'지휘자의 손끝만 보는 100인 교향악단'**이라면, 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 무대 위에서 각자 상대방의 춤(이벤트)을 보고 알아서 다음 스텝을 밟는 **'길거리 비보이 댄스 배틀'**입니다. 지휘자가 없으니 프리스타일(민첩성)은 최고지만, 한 명이 춤을 망치면(에러) 나머지 애들이 스텝이 꼬여서 무대가 개판(스파게티)이 되는 리스크를 안고 뜁니다.
+- **📢 섹션 요약 비유**: 오케스트레이션이 <strong>'지휘자의 손끝만 보는 100인 교향악단'</strong>이라면, 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 무대 위에서 각자 상대방의 춤(이벤트)을 보고 알아서 다음 스텝을 밟는 <strong>'길거리 비보이 댄스 배틀'</strong>입니다. 지휘자가 없으니 프리스타일(민첩성)은 최고지만, 한 명이 춤을 망치면(에러) 나머지 애들이 스텝이 꼬여서 무대가 개판(스파게티)이 되는 리스크를 안고 뜁니다.
 
 ---
 
 다음은 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Choreogra의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  코레오그래피 사가 (Choreogra                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코레오그래피 사가 (Choreogra</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Choreogra가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Choreography [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Choreography [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Choreography [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-코레오그래피 사가 (Choreography Saga) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코레오그래피 사가 (Choreography Saga) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -29,50 +29,60 @@ tags = ["studynote-design-supervision"]
 
 위임 (Delegation) 은 "객체 A가 받은 요청을 처리하기 위해 객체 B에게 처리를 위임하는 것"이다. A는 요청의 존재를 알지만 **실제 처리 로직은 B에 있다**. 이는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Inheritance) 의 대안으로, 구성 (Composition) 을 통한 동작 확장을 가능하게 한다.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 회사 대표가 법무 문제를 처리할 때 직접 법률 공부를 하는 대신 법무팀에 위임하는 것 — 대표는 "법무 처리해줘"라는 메시지만 보낸다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-[ 메시지 패싱 기본 구조 ]
-┌──────────┐   메시지(요청)   ┌──────────────┐
-│  Sender  │ ──────────────▶ │  Receiver    │
-│          │                 │              │
-│          │ ◀────────────── │  처리 후 응답 │
-└──────────┘   응답(결과)    └──────────────┘
 
-[ 위임 체인 구조 ]
-┌──────────┐   위임   ┌─────────────┐   위임   ┌──────────────┐
-│  Client  │ ───────▶ │  Handler A  │ ───────▶ │  Delegate B  │
-│          │          │ (책임 일부) │          │ (실제 처리)  │
-└──────────┘          └─────────────┘          └──────────────┘
-                              ▲
-                              │ 책임 분산 (Responsibility Distribution)
-```
 
-```
-┌────────────────────────────────────────────────────────┐
-│  class PrinterManager {                                │
-│    private PrintJob job;          // 구성              │
-│    private PrintQueue queue;      // 위임 대상         │
-│    private PrintDevice device;    // 위임 대상         │
-│                                                        │
-│    void print(Document doc) {                          │
-│      job = new PrintJob(doc);                          │
-│      queue.enqueue(job);          // 큐잉 위임         │
-│      device.execute(queue.next()); // 실행 위임        │
-│    }                                                   │
-│  }                                                     │
-│  // PrinterManager는 조율만, 실제 처리는 위임          │
-└────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 패싱 기본 구조</div></div>
+<div class="kb-diagram-note">메시지(요청)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Receiver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">처리 후 응답</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">응답(결과)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위임 체인 구조</div></div>
+<div class="kb-diagram-note">위임 위임</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Handler A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Delegate B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(책임 일부)</div><div class="kb-diagram-cell">(실제 처리)</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">책임 분산 (Responsibility Distribution)</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class PrinterManager {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private PrintJob job; // 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private PrintQueue queue; // 위임 대상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private PrintDevice device; // 위임 대상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void print(Document doc) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">job = new PrintJob(doc);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">queue.enqueue(job); // 큐잉 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">device.execute(queue.next()); // 실행 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// PrinterManager는 조율만, 실제 처리는 위임</div></div>
+</div>
+</div>
+
+
 
 메서드가 다른 클래스의 데이터에 집착 (Feature Envy 스멜) 하면, 그 메서드를 해당 클래스로 이동 (Move Method) 하거나, 해당 클래스 객체에게 위임하도록 재구성한다.
 
@@ -113,18 +123,24 @@ GoF (Gang of Four) 의 『[디자인 패턴](/knowledge-base/studynote/04_softwa
 ## Ⅳ. 실무 적용 및 기술사 판단
 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/): [Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/)) 는 메시지 패싱의 비동기 버전이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 직접 메서드 호출 대신 **이벤트 브로커 (Event Broker)** ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ) 를 통해 메시지를 전달한다.
 
-```
-[ 동기 메시지 패싱 ]           [ 비동기 메시지 패싱 (EDA) ]
-OrderService                  OrderService
-  → PaymentService.pay()        → Kafka.publish(OrderCreated)
-  → InventoryService.reserve()    ← PaymentService 구독·처리
-                                  ← InventoryService 구독·처리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동기 메시지 패싱</div><div class="kb-diagram-node">비동기 메시지 패싱 (EDA)</div></div>
+<div class="kb-diagram-note">OrderService OrderService</div>
+<div class="kb-diagram-note">→ PaymentService.pay() → Kafka.publish(OrderCreated)</div>
+<div class="kb-diagram-note">→ InventoryService.reserve() ← PaymentService 구독·처리</div>
+<div class="kb-diagram-note">← InventoryService 구독·처리</div>
+</div>
+</div>
+
+
 
 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/) ([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) Pattern) 은 메시지를 처리할 수 있는 핸들러를 체인으로 연결해 적합한 핸들러에게 위임하는 구조다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 미들웨어 체인, 예외 처리 체인, 로깅 파이프라인 등에 활용된다.
 
-- **[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)와 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)**: 위임은 클래스 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) 를 높이고 클래스 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 를 낮추는 핵심 수단임을 수치로 표현
-- **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신이 메시지 패싱이며, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단일 책임 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) 을 가져야 함을 논거로 활용
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong>: 위임은 클래스 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) 를 높이고 클래스 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 를 낮추는 핵심 수단임을 수치로 표현
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a>)</strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신이 메시지 패싱이며, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단일 책임 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) 을 가져야 함을 논거로 활용
 - **테스트 용이성**: 위임 대상 객체를 목([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 으로 교체해 격리 테스트 가능
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -145,7 +161,7 @@ OrderService                  OrderService
 | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 격리 용이성 | 낮음 | 높음 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입) |
 | 새 기능 추가 수정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 | 많음 | 적음 (위임 객체 1개) |
 
-메시지 패싱 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 과 위임 (Delegation) 은 객체지향 설계의 **두 기둥**이다. 메시지 패싱은 객체 간 협력의 언어이고, 위임은 책임을 적합한 전문가에게 분배하는 조직 원리다. "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 구성, 직접 처리보다 위임"이라는 GoF (Gang of Four) 의 격언은 지금도 유효하며, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)) 시대에 더욱 중요해지고 있다.
+메시지 패싱 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 과 위임 (Delegation) 은 객체지향 설계의 <strong>두 기둥</strong>이다. 메시지 패싱은 객체 간 협력의 언어이고, 위임은 책임을 적합한 전문가에게 분배하는 조직 원리다. "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 구성, 직접 처리보다 위임"이라는 GoF (Gang of Four) 의 격언은 지금도 유효하며, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)) 시대에 더욱 중요해지고 있다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

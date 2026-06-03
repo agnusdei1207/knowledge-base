@@ -37,14 +37,17 @@ tags = ["studynote-ai"]
 - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 잡음(Noise) 과다
 - [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부재
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 과대적합은 수능 특정 기출문제만 통째로 외운 수험생과 같다. 그 문제들은 100점이지만, 조금이라도 변형된 새 문제 앞에서는 속수무책이다.
 
@@ -54,54 +57,58 @@ tags = ["studynote-ai"]
 
 ### 2.1 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/))
 
-```
-  오차
-  │
-  │  총 오차 = 편향² + 분산 + 노이즈
-  │
-  │   ╲  분산(Variance)
-  │    ╲          ╱
-  │     ╲        ╱
-  │      ╲      ╱  편향(Bias)
-  │       ╲    ╱
-  │        ╲  ╱
-  │     최적점╲╱
-  └─────────────────────────── 모델 복잡도
-       단순  ←→  복잡
-  [과소적합]     [과대적합]
-```
 
-- **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 → 과소적합
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**: 모델이 복잡하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 → 과대적합
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오차</div>
+<div class="kb-diagram-note">총 오차 = 편향² + 분산 + 노이즈</div>
+<div class="kb-diagram-note">╲ 분산(Variance)</div>
+<div class="kb-diagram-note">╲ ╱</div>
+<div class="kb-diagram-note">╲ ╱</div>
+<div class="kb-diagram-note">╲ ╱ 편향(Bias)</div>
+<div class="kb-diagram-note">╲ ╱</div>
+<div class="kb-diagram-note">╲ ╱</div>
+<div class="kb-diagram-note">최적점╲╱</div>
+<div class="kb-diagram-tree-item" style="--depth:1">모델 복잡도</div>
+<div class="kb-diagram-note">단순 ←→ 복잡</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과소적합</div><div class="kb-diagram-node">과대적합</div></div>
+</div>
+</div>
+
+
+
+- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 → 과소적합
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 모델이 복잡하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 → 과대적합
 - 둘은 반비례 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이므로 **트레이드오프(Trade-off)** 존재
 
 ### 2.2 과대적합 완화 기법
 
 | 기법 | 원리 | 효과 |
 |:---|:---|:---|
-| **L1 규제([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/))** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값 합 패널티 추가 | 불필요한 특성 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0으로 만들어 희소 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong>L1 규제(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong> | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값 합 패널티 추가 | 불필요한 특성 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0으로 만들어 희소 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **L2 규제(Ridge)** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합 패널티 추가 | 모든 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 작게 유지하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 |
-| **[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))** | 학습 시 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 비활성화 | 특정 뉴런에 의존하지 않는 강건한 표현 학습 |
-| **[조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차가 증가하면 학습 중단 | 최적 에폭(Epoch)에서 학습 종료 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation)** | 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환하여 다양성 추가 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효과적 확장 |
-| **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))** | 여러 모델의 예측 결합 | 개별 모델의 과대적합 평균화 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a>)</strong> | 학습 시 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 비활성화 | 특정 뉴런에 의존하지 않는 강건한 표현 학습 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>)</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차가 증가하면 학습 중단 | 최적 에폭(Epoch)에서 학습 종료 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증강(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Augmentation)</strong> | 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변환하여 다양성 추가 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효과적 확장 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">Ensemble</a>)</strong> | 여러 모델의 예측 결합 | 개별 모델의 과대적합 평균화 |
 
 ### 2.3 학습 곡선 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 해석
 
-```
-┌──────────────────────────────────────────────┐
-│          학습 곡선 - 과대적합 패턴              │
-│                                              │
-│  오차                                         │
-│  ↑                                           │
-│  │  ─ ─ ─ ─ ─ ─ ─ ─ ─    ← 검증 오차 (높음)   │
-│  │                                           │
-│  │                                           │
-│  │ ─────────────────────  ← 훈련 오차 (낮음)   │
-│  └────────────────────────────────→ 에폭     │
-│        훈련 데이터 증가 / 반복 학습              │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 곡선 - 과대적합 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ ─ ─ ─ ← 검증 오차 (높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 훈련 오차 (낮음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 에폭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 데이터 증가 / 반복 학습</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 높다는 것은 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 결과가 들쑥날쑥하다는 뜻이다. 마치 같은 요리사가 날씨에 따라 음식 맛이 완전히 달라지는 상황—오늘은 미슐랭, 내일은 급식이다.
 
@@ -122,7 +129,7 @@ tags = ["studynote-ai"]
 
 ### 3.2 규제화 공식 비교
 - **L2 (Ridge)**: `손실함수 + λΣw²` → [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 유지
-- **L1 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/))**: `손실함수 + λΣ|w|` → 일부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만들어 특성 선택 효과
+- <strong>L1 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a>)</strong>: `손실함수 + λΣ|w|` → 일부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 0으로 만들어 특성 선택 효과
 - **ElasticNet**: L1 + L2 혼합
 
 - **📢 섹션 요약 비유**: 과대적합은 공책을 달달 외웠지만 시험장에서 "왜?" 라고 묻는 서술형 문제 앞에 굳어버리는 학생이고, 과소적합은 공책 자체를 읽지 않아 객관식도 틀리는 학생이다.
@@ -139,18 +146,24 @@ tags = ["studynote-ai"]
 
 ### 4.2 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 동작
 
-```
-훈련 시 (Dropout 적용):        추론 시 (Dropout 미적용):
-  [입력] → [○][○][×][○][×]       [입력] → [○][○][○][○][○]
-           (× = 비활성화)                 (전체 뉴런 사용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">훈련 시 (Dropout 적용): 추론 시 (Dropout 미적용):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">입력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div></div>
+<div class="kb-diagram-note">(× = 비활성화) (전체 뉴런 사용)</div>
+</div>
+</div>
+
+
 
 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 비율(p)이 0.5일 경우 추론 시 각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p)로 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하거나, 훈련 시 역스케일링(Inverted [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 적용.
 
 ### 4.3 기술사 핵심 판단 포인트
-- 과대적합 해결 시 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 vs 규제 강화** 중 어느 것이 더 효과적인지 상황별 판단
-- 딥러닝에서는 **[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) + [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))** 조합이 표준
-- L1/L2 선택은 **희소성(Sparsity) 필요 여부**로 결정
+- 과대적합 해결 시 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 증가 vs 규제 강화</strong> 중 어느 것이 더 효과적인지 상황별 판단
+- 딥러닝에서는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a> + <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> 조합이 표준
+- L1/L2 선택은 <strong>희소성(Sparsity) 필요 여부</strong>로 결정
 
 - **📢 섹션 요약 비유**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 훈련에서 매번 무작위로 몇 명을 빠지게 해서 나머지 팀원들이 빠진 자리를 메우는 연습을 반복하는 것과 같다. 실전에서 전원이 나오면 팀은 더 강해져 있다.
 
@@ -189,7 +202,7 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 과대적합은 **답안지를 달달 외웠는데 문제가 조금만 바뀌어도 틀리는 것**이에요.
+1. 과대적합은 <strong>답안지를 달달 외웠는데 문제가 조금만 바뀌어도 틀리는 것</strong>이에요.
 2. 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 너무 열심히 암기해서 새로운 문제는 못 푸는 상태예요.
 3. 이럴 때는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)(공부할 때 일부러 헷갈리게 연습)이나 규제(너무 세세하게 외우지 못하게 제한)로 고쳐줄 수 있어요!
 

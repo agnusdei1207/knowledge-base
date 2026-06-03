@@ -41,33 +41,29 @@ tags = ["studynote-cloud-architecture"]
 | 브라우저 지원 | 직접 | [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 레이어 필요 |
 | 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 없음 (OpenAPI 도구) | `.proto` → 다국어 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    gRPC 통신 구조                                  │
-│                                                                    │
-│  .proto 파일 정의:                                                 │
-│  service OrderService {                                            │
-│    rpc GetOrder (OrderRequest) returns (OrderResponse);            │
-│    rpc StreamOrders (Empty) returns (stream OrderResponse);        │
-│  }                                                                 │
-│                                                                    │
-│  ┌──────────────────┐          ┌──────────────────────────────┐   │
-│  │   gRPC 클라이언트 │          │      gRPC 서버               │   │
-│  │                  │          │                              │   │
-│  │  Stub (자동생성) │─HTTP/2──►│  Handler                    │   │
-│  │  GetOrder(req)   │◄─────────│  ProcessOrder(req, res)     │   │
-│  │  [Protobuf 직렬화│ 바이너리  │  [Protobuf 역직렬화]        │   │
-│  └──────────────────┘          └──────────────────────────────┘   │
-│                                                                    │
-│  HTTP/2 멀티플렉싱:                                                │
-│  ┌───────────────────────────────────────────────────────────┐    │
-│  │  단일 TCP 연결                                            │    │
-│  │  Stream 1: 주문 조회 ──────────────────────────────►     │    │
-│  │  Stream 2: 재고 확인 ───────────────────────────────►    │    │
-│  │  Stream 3: 배송 조회 ────────────────────────────────►   │    │
-│  └───────────────────────────────────────────────────────────┘    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gRPC 통신 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.proto 파일 정의:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">service OrderService {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rpc GetOrder (OrderRequest) returns (OrderResponse);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rpc StreamOrders (Empty) returns (stream OrderResponse);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gRPC 클라이언트</div><div class="kb-diagram-cell">gRPC 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stub (자동생성)</div><div class="kb-diagram-cell">─HTTP/2──►</div><div class="kb-diagram-cell">Handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GetOrder(req)</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">ProcessOrder(req, res)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ [Protobuf 직렬화│ 바이너리</div><div class="kb-diagram-node">Protobuf 역직렬화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP/2 멀티플렉싱:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 TCP 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream 1: 주문 조회 ►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream 2: 재고 확인 ►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream 3: 배송 조회 ►</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.zip) — 같은 내용이지만 텍스트([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 대신 바이너리로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 전송하므로 용량이 훨씬 작고 빠르다.
 
@@ -95,7 +91,7 @@ gRPC의 4가지 통신 패턴은 REST가 Unary에만 자연스럽게 맞는 것�
 - 실시간 스트리밍 ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 실시간 대시보드) → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) Bidirectional Streaming
 - 브라우저 직접 호출 → [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)-Web 또는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
 
-**[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 도입 시 고려사항**
+<strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a> 도입 시 고려사항</strong>
 1. `.proto` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 → [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Buf [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등)
 2. [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) → L7 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 지원 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (AWS ALB 지원)
 3. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd) 연동 → 자동 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) + 트래픽 관리
@@ -130,18 +126,22 @@ gRPC는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-REST/JSON (텍스트 기반, 사람 친화)
-    │
-    ▼
-gRPC: Protocol Buffers + HTTP/2
-    ├─► 바이너리 직렬화: 10x 빠름, 70% 작은 페이로드
-    ├─► 스트리밍: Unary · Server · Client · Bidirectional
-    └─► IDL 기반 코드 생성: 타입 안전
-    │
-    ▼
-내부 MSA 통신: gRPC | 외부 API: REST · GraphQL
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">REST/JSON (텍스트 기반, 사람 친화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">gRPC: Protocol Buffers + HTTP/2</div>
+<div class="kb-diagram-tree-item" style="--depth:2">바이너리 직렬화: 10x 빠름, 70% 작은 페이로드</div>
+<div class="kb-diagram-tree-item" style="--depth:2">스트리밍: Unary · Server · Client · Bidirectional</div>
+<div class="kb-diagram-tree-item" style="--depth:2">IDL 기반 코드 생성: 타입 안전</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내부 MSA 통신: gRPC | 외부 API: REST · GraphQL</div>
+</div>
+</div>
+
+
 2. [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)/Protobuf는 모스 부호로 통신하기 — 사람은 바로 못 읽지만 훨씬 짧고 빠르게 전달돼요.
 3. 두 컴퓨터([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 초고속으로 대화해야 할 때는 사람이 읽을 필요가 없으니 모스 부호([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/))가 훨씬 유리해요.
 

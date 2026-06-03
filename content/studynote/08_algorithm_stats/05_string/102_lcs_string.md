@@ -23,16 +23,20 @@ tags = ["studynote-algorithm"]
 
 ### 부분수열 vs 부분 문자열
 
-```
-문자열: "ABCDE"
 
-부분수열 (Subsequence): 순서 유지, 연속 불필요
-  "ACE", "BD", "ABCDE", "A", ""  ← 모두 유효
 
-부분 문자열 (Substring): 순서 유지, 연속 필수
-  "ABC", "BCD", "CDE"            ← 연속된 것만 유효
-  "ACE"                           ← X (연속 아님)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문자열: "ABCDE"</div>
+<div class="kb-diagram-note">부분수열 (Subsequence): 순서 유지, 연속 불필요</div>
+<div class="kb-diagram-note">"ACE", "BD", "ABCDE", "A", "" ← 모두 유효</div>
+<div class="kb-diagram-note">부분 문자열 (Substring): 순서 유지, 연속 필수</div>
+<div class="kb-diagram-note">"ABC", "BCD", "CDE" ← 연속된 것만 유효</div>
+<div class="kb-diagram-note">"ACE" ← X (연속 아님)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: LCS는 두 악보에서 같은 음표들이 같은 순서로 나타나는 가장 긴 멜로디를 찾는 것—연속일 필요 없이 순서만 지키면 된다.
 
@@ -67,25 +71,37 @@ LCS 길이 = dp[7][5] = 4
 
 ### 역추적 ([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))으로 [LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/) 복원
 
-```
-dp 테이블 역추적:
-  dp[7][5]=4: s1[6]='B'==s2[4]='B' → 'B' 선택, dp[6][4]로 이동
-  dp[6][4]=3: s1[5]='A'==s2[3]='A' → 'A' 선택, dp[5][3]으로 이동
-  dp[5][3]=2: s1[4]='D'≠s2[2]='C' → max 방향(dp[4][3])으로 이동
-  dp[4][3]=2: s1[3]='B'≠s2[2]='C' → max 방향(dp[3][3])으로 이동
-  dp[3][3]=2: s1[2]='C'==s2[2]='C' → 'C' 선택, dp[2][2]로 이동
-  dp[2][2]=1: s1[1]='B'==s2[1]='D'? 아니오, dp[1][2] 방향
-  ...
-  LCS = "BCAB" (4글자)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">dp 테이블 역추적:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">=4: s1</div><div class="kb-diagram-node">6</div><div class="kb-diagram-note">='B'==s2</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">6</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=3: s1</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">='A'==s2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">으로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=2: s1</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">='D'≠s2</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">)으로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=2: s1</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">='B'≠s2</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">)으로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=2: s1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">='C'==s2</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">=1: s1</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">='B'==s2</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">='D'? 아니오, dp</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">방향</div></div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">LCS = "BCAB" (4글자)</div>
+</div>
+</div>
+
+
 
 ### 공간 최적화: O(min(m,n))
 
-```
-dp 테이블 전체 O(mn)이 불필요한 경우:
-  LCS 길이만 필요 → 이전 행 하나만 유지 O(min(m,n))
-  LCS 복원 필요   → 전체 테이블 O(mn) 또는 Hirschberg 알고리즘 O(mn) 시간 O(min(m,n)) 공간
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">dp 테이블 전체 O(mn)이 불필요한 경우:</div>
+<div class="kb-diagram-note">LCS 길이만 필요 → 이전 행 하나만 유지 O(min(m,n))</div>
+<div class="kb-diagram-note">LCS 복원 필요 → 전체 테이블 O(mn) 또는 Hirschberg 알고리즘 O(mn) 시간 O(min(m,n)) 공간</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: DP 테이블은 두 서열을 격자판 위에 놓고 공통 체크포인트를 이어가는 게임—각 칸은 "여기까지의 최선 공통 경로 길이"를 기억한다.
 
@@ -115,18 +131,23 @@ LCS 길이 = L, 두 문자열 길이 m, n이면:
 
 ### 실제 응용: git diff의 Myers [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-git diff는 LCS 기반 Myers 알고리즘 사용:
-  두 파일 버전을 줄(line) 단위로 LCS 계산
-  LCS에 없는 줄 → 삭제(-)
-  상대방에만 있는 줄 → 추가(+)
 
-예:
-  파일1: [a, b, c, d]
-  파일2: [a, c, e, d]
-  LCS:   [a, c, d]
-  diff:  - b (삭제), + e (추가)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">git diff는 LCS 기반 Myers 알고리즘 사용:</div>
+<div class="kb-diagram-note">두 파일 버전을 줄(line) 단위로 LCS 계산</div>
+<div class="kb-diagram-note">LCS에 없는 줄 → 삭제(-)</div>
+<div class="kb-diagram-note">상대방에만 있는 줄 → 추가(+)</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">파일1:</div><div class="kb-diagram-node">a, b, c, d</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">파일2:</div><div class="kb-diagram-node">a, c, e, d</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LCS:</div><div class="kb-diagram-node">a, c, d</div></div>
+<div class="kb-diagram-note">diff: - b (삭제), + e (추가)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: git diff는 두 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 책 두 권으로 보고, 공통 문장([LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/))을 기준으로 달라진 부분만 표시하는 거야—빨간 줄(삭제)과 초록 줄(추가)이 그 결과다.
 
@@ -136,21 +157,27 @@ git diff는 LCS 기반 Myers 알고리즘 사용:
 
 ### 주요 활용 사례
 
-- **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 (Version Control)**: git diff, SVN, Mercurial의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 비교 핵심
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리 (Version Control)</strong>: git diff, SVN, Mercurial의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 비교 핵심
 - **DNA 서열 정렬 (Sequence Alignment)**: 두 게놈의 공통 서열 분석 (Smith-Waterman, Needleman-Wunsch 변형)
-- **표절 검사 (Plagiarism [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**: 문서 간 공통 문장 구조 탐지
+- <strong>표절 검사 (Plagiarism <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: 문서 간 공통 문장 구조 탐지
 - **텍스트 편집기 Merge**: 3-way merge에서 공통 베이스와 두 분기 간 [LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/)
 - **음악 유사도 분석**: 멜로디 시퀀스 비교
 
 ### 기술사 판단 기준
 
-```
-두 파일/서열 비교 + 공통 구조 추출      →  LCS O(mn)
-두 문자열 변환 최소 비용                →  편집 거리 O(mn)
-단일 시퀀스 증가 부분수열 최장화        →  LIS O(n log n)
-연속 공통 부분 문자열                   →  LCS Substring 또는 서픽스 배열
-빠른 LCS (큰 파일, 주로 동일)          →  Myers 알고리즘 O(nd)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">두 파일/서열 비교 + 공통 구조 추출 → LCS O(mn)</div>
+<div class="kb-diagram-note">두 문자열 변환 최소 비용 → 편집 거리 O(mn)</div>
+<div class="kb-diagram-note">단일 시퀀스 증가 부분수열 최장화 → LIS O(n log n)</div>
+<div class="kb-diagram-note">연속 공통 부분 문자열 → LCS Substring 또는 서픽스 배열</div>
+<div class="kb-diagram-note">빠른 LCS (큰 파일, 주로 동일) → Myers 알고리즘 O(nd)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: LCS는 두 음악가가 각자 연주한 악보에서 공통 악절을 찾는 작업—멀리 떨어진 음표도 순서만 같으면 공통으로 인정한다.
 
@@ -179,21 +206,23 @@ LCS는 두 시퀀스의 공통 구조를 추출하는 핵심 DP [알고리즘](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단순 비교(완전 탐색)]
-    │
-    ▼
-[동적 프로그래밍(DP)]
-    │
-    ▼
-[LCS 점화식]
-    │
-    ▼
-[LCS 역추적]
-    │
-    ▼
-[편집 거리(Edit Distance) 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 비교(완전 탐색)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 프로그래밍(DP)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LCS 점화식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LCS 역추적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">편집 거리(Edit Distance) 응용</div></div>
+</div>
+</div>
+
+
 
 LCS는 부분수열 비교를 동적 계획법으로 풀며 역추적과 [편집 거리](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/)로 확장된다.
 

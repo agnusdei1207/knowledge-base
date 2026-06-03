@@ -21,17 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 클라우드 서버는 한 번 침해되면 수많은 테넌트에 영향을 줄 수 있다. 특히 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 레벨 공격은 운영체제를 재설치해도 남을 수 있어 훨씬 치명적이다. Microsoft Titan은 이런 문제에 대응하기 위해 Azure 서버에서 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 경로를 하드웨어로 통제하고, 손상이 발견되면 신뢰 가능한 상태로 되돌리는 구조를 취한다. 즉 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"에 더해 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"를 설계 중심에 둔 하드웨어 보안이라는 점이 중요하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          Titan watches firmware path and recovery           │
-├──────────────────────────────────────────────────────────────┤
-│ CPU <-> SPI flash path                                       │
-│        ▲                                                     │
-│        └── Titan interposes / filters / measures            │
-│                                                              │
-│ On failure: block boot or restore trusted image             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Titan watches firmware path and recovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU &lt;-&gt; SPI flash path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Titan interposes / filters / measures</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On failure: block boot or restore trusted image</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 건물 경비원이 출입만 막는 것이 아니라, 벽이 훼손되면 안전 도면대로 바로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 유지보수 팀 역할까지 함께 하는 셈이다.
 
@@ -48,17 +49,18 @@ Titan 아키텍처는 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_t
 | [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Store | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 골든 이미지 보관 | 항상 최신 신뢰 상태 유지 필요 |
 | Attestation [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 상태 보고 | 대규모 클라우드 관리와 연계 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 PFR loop around firmware state              │
-├──────────────────────────────────────────────────────────────┤
-│ Protect -> Detect -> Recover                                │
-│    │         │         │                                     │
-│ write block  hash/sign  restore known-good image            │
-│                                                              │
-│ Security goal includes getting back to trusted runtime      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFR loop around firmware state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protect -&gt; Detect -&gt; Recover</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write block hash/sign restore known-good image</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security goal includes getting back to trusted runtime</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 문을 잠그는 것만으로 끝내지 않고, 문이 부서졌을 때 교체 문짝까지 준비해 두는 보안 체계와 같다.
 
@@ -105,18 +107,21 @@ Microsoft Titan은 대규모 클라우드에서 [펌웨어](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Firmware Path Protection]
-    │
-    ▼
-[Integrity Detection]
-    │
-    ▼
-[Recovery to Known-Good State]
-    │
-    ├──▶ [Host Boot Release]
-    └──▶ [Attestation / Audit]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Firmware Path Protection</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Integrity Detection</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Recovery to Known-Good State</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Host Boot Release</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Attestation / Audit</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 Titan이 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·탐지한 뒤, 단순 차단이 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 감사로 이어지는 구조임을 보여준다. 즉 운영 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력이 아키텍처의 일부다.
 

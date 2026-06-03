@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Windows [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))가 시스템을 오래 멈추는 것을 막기 위해, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 긴급한 부분만 ISR에서 끝내고, 덜 긴급한 나머지 작업은 나중에 처리하도록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 **DPC (Deferred Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))**와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 특정 비동기 작업인 **APC (Asynchronous Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))** 메커니즘을 사용한다. (리눅스의 Top/Bottom Half와 유사)
-> 2. **DPC ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 호출)**: [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(IRQL: DIRQL)보다 한 단계 낮은 IRQL(DISPATCH_LEVEL)에서 실행되며, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문맥이 아니라 '프로세서(CPU 코어)' 자체에 묶여 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 막고 시스템 전역의 I/O 후처리를 담당한다.
+> 1. **본질**: Windows [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))가 시스템을 오래 멈추는 것을 막기 위해, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 긴급한 부분만 ISR에서 끝내고, 덜 긴급한 나머지 작업은 나중에 처리하도록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 <strong>DPC (Deferred Procedure <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong>와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 특정 비동기 작업인 <strong>APC (Asynchronous Procedure <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong> 메커니즘을 사용한다. (리눅스의 Top/Bottom Half와 유사)
+> 2. <strong>DPC (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>된 호출)</strong>: [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(IRQL: DIRQL)보다 한 단계 낮은 IRQL(DISPATCH_LEVEL)에서 실행되며, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문맥이 아니라 '프로세서(CPU 코어)' 자체에 묶여 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 막고 시스템 전역의 I/O 후처리를 담당한다.
 > 3. **APC (비동기 호출)**: 특정 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(IRQL: APC_LEVEL)에서 실행되며, 주로 I/O 비동기 완료 통보(Completion Routine)나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 일시 정지/강제 종료 등 유저 스페이스와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 간의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 통신에 사용된다.
 
 ---
@@ -20,21 +20,21 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-- **IRQL ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Request Level)**: Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU의 우선순위를 0(PASSIVE_LEVEL, 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))부터 31(HIGH_LEVEL, 치명적 하드웨어)까지 나누어 관리하는 권한 레벨. (우선순위가 높은 작업이 낮은 작업을 선점함)
-- **DPC (Deferred Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))**: [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(DIRQL)가 발생했을 때, "이건 조금 이따가 처리할게"라고 DPC 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 넣어두고 IRQL 2 (DISPATCH_LEVEL)에서 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수.
-- **APC (Asynchronous Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))**: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 "너 이 일 좀 비동기로 처리해 줘"라고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 APC 큐에 넣어두고 IRQL 1 (APC_LEVEL)에서 처리하는 함수.
+- <strong>IRQL (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Request Level)</strong>: Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU의 우선순위를 0(PASSIVE_LEVEL, 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))부터 31(HIGH_LEVEL, 치명적 하드웨어)까지 나누어 관리하는 권한 레벨. (우선순위가 높은 작업이 낮은 작업을 선점함)
+- <strong>DPC (Deferred Procedure <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong>: [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(DIRQL)가 발생했을 때, "이건 조금 이따가 처리할게"라고 DPC 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 넣어두고 IRQL 2 (DISPATCH_LEVEL)에서 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수.
+- <strong>APC (Asynchronous Procedure <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong>: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 "너 이 일 좀 비동기로 처리해 줘"라고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 APC 큐에 넣어두고 IRQL 1 (APC_LEVEL)에서 처리하는 함수.
 
-- **필요성 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 스케줄링의 딜레마 극복)**:
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>과 스케줄링의 딜레마 극복)</strong>:
 - 네트워크 카드로 1GB 패킷이 들어와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))가 걸렸다. 만약 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서 이 1GB를 모두 메모리로 복사하고 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 검사까지 다 해버린다면?
 - ISR이 도는 동안(DIRQL) CPU는 마우스 입력, 키보드 입력 등 다른 모든 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 무시하게 된다([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Disable). 결국 마우스가 멈추고 시스템이 버벅거린다.
 - **해결책**: ISR은 딱 1초만 일하고 "패킷 왔음!" 깃발만 꽂은 채 재빨리 CPU를 반환해야 한다. 남은 1GB 패킷 복사 작업은 나중에 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)보다는 중요하지만 하드웨어보단 덜 중요한 중간 단계(DPC/APC)로 넘겨서 여유 있게 처리하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 구조가 필요했다.
 
-- **[하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))**: 구급차 도착. 의사(CPU)는 하던 수술을 즉시 멈추고 구급차로 뛰어나가 피만 닦고 지혈만 한다(초긴급).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">하드웨어 인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong>: 구급차 도착. 의사(CPU)는 하던 수술을 즉시 멈추고 구급차로 뛰어나가 피만 닦고 지혈만 한다(초긴급).
 - **DPC**: 피를 닦은 환자를 응급실 베드(DPC 큐)에 눕혀놓는다. 의사는 당장 죽을 사람(다른 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))이 없으면, 응급실 베드를 차례대로 돌며 뼈를 맞추고 붕대를 감는다(후처리).
 - **APC**: 붕대를 다 감고 병실로 올라간 환자(특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))에게 간호사가 메모지(APC)를 남긴다. "환자분, 링거 다 맞으면 직접 퇴원 수속 밟으세요." 환자([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 깨어나면 이 메모지를 보고 자기 몸([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))으로 스스로 퇴원 수속(I/O 완료 처리)을 밟는다.
 
 - **발전 과정**:
-1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) OS (Single [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 중첩되지 않고 한 번에 하나씩 다 처리함. 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극심.
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> OS (Single <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 중첩되지 않고 한 번에 하나씩 다 처리함. 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극심.
 2. **Windows NT 계열 (IRQL 도입)**: 하드웨어 설계(PIC, APIC)에 맞춰 소프트웨어적으로 IRQL 0~31 단계를 정의.
 3. **DPC/APC 구조 완성**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(DISPATCH_LEVEL)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어(APC_LEVEL)를 명확히 분리하여 현대 Windows의 고성능 비동기 I/O (IOCP)의 토대가 됨.
 
@@ -52,7 +52,7 @@ DPC와 APC를 이해하려면 윈도우의 심장인 IRQL 계층을 알아야 �
 |:---|:---|:---|:---|
 | **0** | **PASSIVE_LEVEL** | 일반적인 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행 | 자유로움 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 허용, Sleep 허용) |
 | **1** | **APC_LEVEL** | **APC (비동기 프로시저 호출) 실행** | [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 허용 |
-| **2** | **DISPATCH_LEVEL** | **DPC 실행**, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 작동 | **[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 절대 금지! (발생 시 블루스크린 IRQL_NOT_LESS_OR_EQUAL)**, Sleep 불가 |
+| **2** | **DISPATCH_LEVEL** | **DPC 실행**, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 작동 | <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> 절대 금지! (발생 시 블루스크린 IRQL_NOT_LESS_OR_EQUAL)</strong>, Sleep 불가 |
 | **3 ~ 26**| **DIRQL (Device IRQL)**| 실제 하드웨어 디바이스 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 실행 | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리 필수, 모든 메모리 접근은 Non-paged Pool만 가능 |
 | **27 ~ 31**| HIGH_LEVEL 등 | 시스템 패닉, 머신 체크 예외 등 절대 권력 | - |
 
@@ -62,8 +62,8 @@ DPC와 APC를 이해하려면 윈도우의 심장인 IRQL 계층을 알아야 �
 
 DPC는 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 속하지 않는다. CPU 코어(프로세서) 자체의 큐에 쌓여서 실행된다.
 
-1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 (DIRQL)**: 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))가 패킷을 받아 CPU에 INT를 날림.
-2. **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 실행 (DIRQL)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `NIC_ISR()` 함수를 실행. "패킷이 왔군, 복사는 나중에 해야지." -> `KeInsertQueueDpc()`를 호출하여 DPC 객체를 현재 CPU의 DPC 큐에 넣음.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 발생 (DIRQL)</strong>: 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))가 패킷을 받아 CPU에 INT를 날림.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> 실행 (DIRQL)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `NIC_ISR()` 함수를 실행. "패킷이 왔군, 복사는 나중에 해야지." -> `KeInsertQueueDpc()`를 호출하여 DPC 객체를 현재 CPU의 DPC 큐에 넣음.
 3. **IRQL 강등 (DIRQL $\rightarrow$ DISPATCH_LEVEL)**: 더 이상 처리할 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)가 없으면 CPU의 IRQL이 2(DISPATCH_LEVEL)로 낮아짐.
 4. **DPC 실행**: IRQL이 2로 내려오자마자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(0)로 넘어가기 전에 DPC 큐를 뒤져서 쌓여있는 `NIC_DPC_Handler()`를 꺼내 패킷 복사([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 처리)를 수행함.
 5. **결과**: 무거운 패킷 처리 작업이 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 막지 않게 되어 시스템 반응성이 유지됨.
@@ -72,11 +72,11 @@ DPC는 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_proce
 
 ### APC (Asynchronous Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 동작 메커니즘
 
-DPC가 "CPU 코어"의 숙제라면, APC는 **"특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))"**의 숙제다.
+DPC가 "CPU 코어"의 숙제라면, APC는 <strong>"특정 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)"</strong>의 숙제다.
 
 1. **I/O 완료 보고**: DPC에서 패킷 처리가 다 끝났다. 이제 이 패킷을 기다리던 앱([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A)에게 "완료됐어!"라고 알려줘야 한다.
 2. **APC 큐 삽입**: DPC 루틴이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A의 KAPC([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) APC) 큐나 UAPC(유저 APC) 큐에 `완료_루틴()` 객체를 밀어 넣는다.
-3. **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A 깨어남 (APC_LEVEL)**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 CPU를 할당받아 실행되려 할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A의 IRQL을 1(APC_LEVEL)로 살짝 올리고 APC 큐에 있는 `완료_루틴()`을 먼저 강제로 실행시킨다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> A 깨어남 (APC_LEVEL)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 CPU를 할당받아 실행되려 할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A의 IRQL을 1(APC_LEVEL)로 살짝 올리고 APC 큐에 있는 `완료_루틴()`을 먼저 강제로 실행시킨다.
 4. **유저 코드 복귀 (PASSIVE_LEVEL)**: APC 루틴이 끝나면 IRQL이 0으로 떨어지며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A의 원래 코드가 마저 실행된다. (유저 앱 입장에서는 자기도 모르게 비동기 콜백 함수가 실행된 셈이다.)
 
 - **📢 섹션 요약 비유**: DPC는 공장 전체의 컨베이어 벨트를 치우는 '공통 청소부(CPU 소속)'이고, APC는 특정 직원([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 책상 위에 올려놓은 '개인 우편물'입니다. 직원이 출근하면 무조건 자기 우편물부터 읽어야 본업을 시작할 수 있습니다.
@@ -91,15 +91,15 @@ DPC가 "CPU 코어"의 숙제라면, APC는 **"특정 [스레드](/knowledge-bas
 
 | 기능 | Linux (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | Windows (NT [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | 차이점 / 특징 |
 |:---|:---|:---|:---|
-| **긴급 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Top Half)**| **Hard IRQ ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))** | **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (DIRQL)** | [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 직접 처리하고 차단하는 영역 |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 처리 (Bottom Half)**| **SoftIRQ / Tasklet** | **DPC (DISPATCH_LEVEL)** | CPU 단위로 동작하며, I/O의 무거운 처리를 대행함 |
-| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문맥 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Bottom Half)**| **Workqueue** | **System Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** | Sleep이 필요할 때 사용하는 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기반 작업 |
-| **비동기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 알림** | [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (시그널) | **APC (APC_LEVEL)** | 윈도우의 APC가 리눅스의 Signal보다 훨씬 정교한 비동기 I/O (IOCP) 지원 가능 |
+| <strong>긴급 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (Top Half)</strong>| <strong>Hard IRQ (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (DIRQL)</strong> | [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 직접 처리하고 차단하는 영역 |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>된 처리 (Bottom Half)</strong>| **SoftIRQ / Tasklet** | **DPC (DISPATCH_LEVEL)** | CPU 단위로 동작하며, I/O의 무거운 처리를 대행함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 문맥 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Bottom Half)</strong>| **Workqueue** | <strong>System Worker <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> | Sleep이 필요할 때 사용하는 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기반 작업 |
+| <strong>비동기 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 알림</strong> | [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (시그널) | **APC (APC_LEVEL)** | 윈도우의 APC가 리눅스의 Signal보다 훨씬 정교한 비동기 I/O (IOCP) 지원 가능 |
 
 ### 과목 융합 관점
 
 - **시스템 프로그래밍 (System Programming)**: Windows에서 비동기 I/O를 짤 때 `ReadFileEx` 같은 API를 쓰면, 작업 완료 시 호출될 콜백(Completion Routine)을 등록한다. 이 콜백 함수가 실행되는 근본적인 원리가 바로 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 **User APC** 큐에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 객체를 삽입하고 알람(Alertable Wait [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 주기 때문이다.
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이나 상용 안티바이러스(백신)는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.sys)을 올려 특정 프로세스를 강제로 죽일 때 `KeInsertQueueApc`를 악용한다. 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 APC 큐에 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료(Terminate)' 명령을 몰래 끼워 넣으면, 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 켜지자마자 자기 자신을 자살(Suicide)시키는 해킹 기법으로 쓰인다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)([Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/))이나 상용 안티바이러스(백신)는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.sys)을 올려 특정 프로세스를 강제로 죽일 때 `KeInsertQueueApc`를 악용한다. 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 APC 큐에 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료(Terminate)' 명령을 몰래 끼워 넣으면, 타겟 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 켜지자마자 자기 자신을 자살(Suicide)시키는 해킹 기법으로 쓰인다.
 
 - **📢 섹션 요약 비유**: 리눅스와 윈도우 모두 "급한 불부터 끄고([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)), 남은 재는 나중에 치운다(DPC)"는 철학은 똑같습니다. 다만 윈도우는 IRQL이라는 계급(0~31)을 명확하게 나누어 군대처럼 통제하는 방식을 택했을 뿐입니다.
 
@@ -114,39 +114,36 @@ DPC가 "CPU 코어"의 숙제라면, APC는 **"특정 [스레드](/knowledge-bas
 - **대응 (기술사적 가이드)**: DPC나 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 같은 높은 IRQL 환경(IRQL >= 2)에서는 절대로 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 유발할 수 있는 코드를 짜면 안 된다. 메모리 할당은 무조건 물리 램에 고정된 `NonPagedPool`을 써야 하며, 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 같은 Sleep 가능한 락을 쓰면 안 되고 무조건 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 써야 한다.
 
 2. **시나리오 — 오디오/영상 편집기에서의 끊김(Audio Stuttering/Glitch) 현상**: 고사양 Windows PC에서 DAW(음악 작업 프로그램)를 돌리는데, 마우스를 움직이거나 랜선에 데이터를 받을 때마다 스피커에서 "찌직" 하는 소리가 난다.
-- **원인 분석 (DPC [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 네트워크 카드나 그래픽 카드의 후잡한 드라이버가 DPC 루틴을 너무 길게(수 밀리초 이상) 잡고 있는 것이 원인이다. DPC가 큐를 독점(DISPATCH_LEVEL)하면, IRQL 0에서 도는 오디오 처리 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(아무리 우선순위가 높아도)가 CPU를 배정받지 못해 오디오 버퍼가 고갈(Under-run)되어 소리가 끊기는 것이다.
+- <strong>원인 분석 (DPC <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 네트워크 카드나 그래픽 카드의 후잡한 드라이버가 DPC 루틴을 너무 길게(수 밀리초 이상) 잡고 있는 것이 원인이다. DPC가 큐를 독점(DISPATCH_LEVEL)하면, IRQL 0에서 도는 오디오 처리 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(아무리 우선순위가 높아도)가 CPU를 배정받지 못해 오디오 버퍼가 고갈(Under-run)되어 소리가 끊기는 것이다.
 - **대응**: `LatencyMon` 같은 DPC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 분석 도구를 통해 어느 `.sys` (예: `ndis.sys`, `nvlddmkm.sys`)가 DPC 시간을 깎아 먹고 있는지 찾아내어 드라이버를 롤백하거나 전원 옵션([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ASPM)을 튜닝해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Windows 커널 드라이버 비동기 처리 설계 플로우 │
-├───────────────────────────────────────────────────────────────────┤
-│ │
-│ [하드웨어 인터럽트(ISR) 발생 후 대용량 데이터 처리 로직 구현] │
-│ │ │
-│ ▼ │
-│ 처리해야 할 작업이 밀리초(ms) 단위 이상 오래 걸리거나 Sleep이 필요한가? │
-│ ├─ 예 ─────▶ [System Worker Thread (PASSIVE_LEVEL) 위임] │
-│ │ (DPC에서 워커 스레드로 큐잉하여 안전하게 처리) │
-│ └─ 아니오 (순수 메모리 연산, 매우 빠름) │
-│ │ │
-│ ▼ │
-│ 결과를 특정 사용자 스레드(User Thread)의 컨텍스트에서 실행해야 하는가? │
-│ ├─ 예 ─────▶ [APC (Asynchronous Procedure Call) 삽입] │
-│ │ (해당 스레드가 Alertable 상태가 되면 콜백 실행) │
-│ │ │
-│ └─ 아니오 ──▶ [DPC (Deferred Procedure Call) 로 직접 처리] │
-│ (단, Page Fault 주의, NonPagedPool만 사용) │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows 커널 드라이버 비동기 처리 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 인터럽트(ISR) 발생 후 대용량 데이터 처리 로직 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리해야 할 작업이 밀리초(ms) 단위 이상 오래 걸리거나 Sleep이 필요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">System Worker Thread (PASSIVE_LEVEL) 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DPC에서 워커 스레드로 큐잉하여 안전하게 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 메모리 연산, 매우 빠름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과를 특정 사용자 스레드(User Thread)의 컨텍스트에서 실행해야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">APC (Asynchronous Procedure Call) 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해당 스레드가 Alertable 상태가 되면 콜백 실행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DPC (Deferred Procedure Call) 로 직접 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, Page Fault 주의, NonPagedPool만 사용)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 윈도우 시스템 프로그래밍의 정수는 "IRQL의 룰을 거스르지 않는 것"이다. 초보 드라이버 개발자들은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 DPC 안에서 무거운 암호화 연산을 돌리거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 날려 시스템 전체를 벽돌로 만든다. 우수한 아키텍트는 작업을 3단계([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) $\rightarrow$ DPC $\rightarrow$ Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))로 폭포수처럼 잘게 쪼개어 시스템의 반응성(Responsiveness)을 극한으로 끌어올린다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **Threaded DPC**: 실시간성(Real-time)이 요구되는 오디오/산업용 윈도우 환경에서는, 악성 DPC가 시스템을 멈추는 것을 막기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 튜닝하여 DPC를 아예 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)처럼 우선순위를 깎아버리는 기능(Threaded DPC)의 적용을 검토했는가?
-- **Alertable Wait [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)**: 유저 스페이스에서 앱이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 APC 콜백(I/O 완료 등)을 받으려면, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멍청하게 무한 루프를 돌면 안 되고 반드시 `SleepEx()`, `WaitForSingleObjectEx()` 같은 함수를 호출해 자신을 "Alertable(알람을 받을 수 있는 상태)"로 만들어야 APC가 꽂힌다는 점을 숙지했는가?
+- <strong>Alertable Wait <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong>: 유저 스페이스에서 앱이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 APC 콜백(I/O 완료 등)을 받으려면, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멍청하게 무한 루프를 돌면 안 되고 반드시 `SleepEx()`, `WaitForSingleObjectEx()` 같은 함수를 호출해 자신을 "Alertable(알람을 받을 수 있는 상태)"로 만들어야 APC가 꽂힌다는 점을 숙지했는가?
 
 - **📢 섹션 요약 비유**: IRQL은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 세계의 엄격한 '신분제도'입니다. 평민([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), IRQL 0)은 잠을 자도 되지만, 귀족(DPC, IRQL 2)은 근무 중 절대 졸아서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))는 안 되며, 왕([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/), IRQL 3+)은 아주 잠깐만 통치하고 물러나야 나라가 평화롭습니다.
 
@@ -158,13 +155,13 @@ DPC가 "CPU 코어"의 숙제라면, APC는 **"특정 [스레드](/knowledge-bas
 
 | 구분 | 단일 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구조 (Legacy) | DPC/APC 분할 구조 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))**| 수 밀리초 동안 하드웨어 멈춤 | **수 마이크로초(µs) 내 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 종료** | 시스템 응답성 및 Jitter 대폭 감소 |
-| **정량 (I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 동기식 I/O로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대기 낭비 | APC/IOCP를 통한 비동기 처리 | 웹 서버/DB의 초당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS) 극대화 |
+| <strong>정량 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong>| 수 밀리초 동안 하드웨어 멈춤 | <strong>수 마이크로초(µs) 내 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> 종료</strong> | 시스템 응답성 및 Jitter 대폭 감소 |
+| <strong>정량 (I/O <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)</strong> | 동기식 I/O로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대기 낭비 | APC/IOCP를 통한 비동기 처리 | 웹 서버/DB의 초당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS) 극대화 |
 | **정성 (안정성)** | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 간 충돌로 패닉 발생 | IRQL 레벨 기반의 안전한 락킹 보장 | 고가용성 드라이버 아키텍처 완성 |
 
 ### 미래 전망
-- **IOCP (I/O Completion [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와의 결합 강화**: Windows 서버가 Nginx나 Node.js(libuv)를 돌릴 때 리눅스의 `epoll`에 필적하거나 그 이상으로 빠른 이유가 바로 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 DPC/APC 기반 비동기 I/O(IOCP) 덕분이다. 향후 클라우드 네이티브의 하이퍼 스케일 웹 서버 환경에서도 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 비동기 큐잉 기술은 변함없는 코어로 동작할 것이다.
-- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) for Windows**: 윈도우에도 리눅스의 eBPF가 이식되고 있다. 과거에는 패킷 필터링이나 보안 감시를 위해 DPC/APC 레벨의 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 필터 드라이버(WFP)를 짜야 했으나, 미래에는 안전한 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 샌드박스가 이를 대체하여 윈도우 시스템의 블루스크린(BSOD) 공포를 획기적으로 줄여줄 것이다.
+- <strong>IOCP (I/O Completion <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)와의 결합 강화</strong>: Windows 서버가 Nginx나 Node.js(libuv)를 돌릴 때 리눅스의 `epoll`에 필적하거나 그 이상으로 빠른 이유가 바로 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 DPC/APC 기반 비동기 I/O(IOCP) 덕분이다. 향후 클라우드 네이티브의 하이퍼 스케일 웹 서버 환경에서도 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 비동기 큐잉 기술은 변함없는 코어로 동작할 것이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> for Windows</strong>: 윈도우에도 리눅스의 eBPF가 이식되고 있다. 과거에는 패킷 필터링이나 보안 감시를 위해 DPC/APC 레벨의 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 필터 드라이버(WFP)를 짜야 했으나, 미래에는 안전한 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 샌드박스가 이를 대체하여 윈도우 시스템의 블루스크린(BSOD) 공포를 획기적으로 줄여줄 것이다.
 
 ### 결론
 Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 DPC(Deferred Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))와 APC(Asynchronous Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))는 "복잡하고 무거운 작업은 하드웨어와 사용자의 눈에 띄지 않는 곳으로 숨긴다"는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 비동기 철학의 결정체다. IRQL이라는 정교한 우선순위 계단 위에서 물 흐르듯 작업을 미루고(Defer) 넘겨주는(Async) 이 톱니바퀴 설계 덕분에, 윈도우는 무거운 GUI와 수천 개의 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 10기가비트 네트워크를 동시에 돌리면서도 마우스 커서가 끊기지 않는 마법을 유지할 수 있었다.
@@ -184,15 +181,19 @@ Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
-│
-▼
-[Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
-│
-├──▶ [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
-└──▶ [보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

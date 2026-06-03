@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (단일 고장점)**: 컨트롤러 서버 1대에 전국망 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 맡기면, 1대가 죽었을 때 전국 통신이 마비됩니다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (단일 고장점)</strong>: 컨트롤러 서버 1대에 전국망 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 맡기면, 1대가 죽었을 때 전국 통신이 마비됩니다. 
 - **해결책**: 컨트롤러 서버를 3대, 5대, 7대로 여러 대 묶어서(Cluster) 구축합니다. 한 놈이 죽으면 옆에 놈이 리더(Master) 자리를 물려받아 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통제를 멈춤 없이 이어나갑니다(Active-Standby 또는 Active-Active 구조의 고가용성, HA 보장).
 
-```text
-[ONOS / OpenDaylight]
-    │
-    ▼
-[SDN 분산 컨트롤러 이중화]
-    │
-    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 분산 컨트롤러 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,18 +43,22 @@ tags = ["studynote-network"]
 
 클러스터링의 가장 치명적인 부작용입니다.
 
-- **상황**: 5대의 컨트롤러가 완벽하게 동기화되어 일하다가, 중간 네트워크 선이 끊어져 **[A그룹: 2대]**와 **[B그룹: 3대]**로 네트워크가 단절(Network [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))됩니다.
+- **상황**: 5대의 컨트롤러가 완벽하게 동기화되어 일하다가, 중간 네트워크 선이 끊어져 <strong>[A그룹: 2대]</strong>와 <strong>[B그룹: 3대]</strong>로 네트워크가 단절(Network [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))됩니다.
 - **뇌의 분열**: 양쪽 그룹은 상대방이 진짜 죽어서 통신이 안 되는 건지, 아니면 선만 끊긴 건지 구별하지 못합니다. 
-- 그래서 양쪽이 모두 "아, 저쪽 대장이 죽었구나! 이제 우리 그룹이 리더로 승격해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 명령(플로우 테이블)을 내리자!"라고 스스로 착각하여 **하나의 망에 두 명의 왕(Master)이 동시에 존재**하게 됩니다. 이들이 서로 모순되는 경로(명령)를 하달하면서 네트워크 전체 트래픽이 지옥(블랙홀)으로 빠집니다.
+- 그래서 양쪽이 모두 "아, 저쪽 대장이 죽었구나! 이제 우리 그룹이 리더로 승격해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 명령(플로우 테이블)을 내리자!"라고 스스로 착각하여 <strong>하나의 망에 두 명의 왕(Master)이 동시에 존재</strong>하게 됩니다. 이들이 서로 모순되는 경로(명령)를 하달하면서 네트워크 전체 트래픽이 지옥(블랙홀)으로 빠집니다.
 
-```text
-[ONOS / OpenDaylight]
-    │
-    ▼
-[SDN 분산 컨트롤러 이중화]
-    │
-    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 분산 컨트롤러 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 ### 1. 쿼럼 (Quorum, 정족수) 기반 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) ([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) / Paxos) 🌟
 - 가장 확실한 민주주의 투표 시스템입니다.
 - **법칙: "전체 멤버의 절반 이상(과반수, Majority)이 살아남아 투표할 수 있는 그룹만이 진짜 리더(Master) 자격을 가진다!"**
-  - 전체가 5대일 때 과반수는 **3대**입니다.
+  - 전체가 5대일 때 과반수는 <strong>3대</strong>입니다.
   - 아까처럼 네트워크가 끊어져 [A그룹: 2대]와 [B그룹: 3대]로 쪼개졌을 때를 봅니다.
   - **A그룹(2대)**: "우리끼리 대장 뽑자! 어? 우리 둘뿐이네? 5대 중 과반수(3표)가 안 되잖아? 우린 가짜구나. 입 닥치고 가만히 있자(운영 중지)."
   - **B그룹(3대)**: "우리끼리 투표하자! 오, 우리가 3표(과반수)를 확보했네! 우리가 찐이다! 계속 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 명령 내려!"
@@ -98,7 +106,7 @@ ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studyno
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터가 5명의 똑똑한 '공동 함장'들이 몰고 가는 거대한 우주 전함이라면, **[스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)**은 함장실 한가운데에 투명한 방음벽(네트워크 단절)이 떨어져 2명과 3명이 서로의 목소리를 못 듣게 된 대재앙입니다. 방음벽 양쪽에서 서로 자기가 유일한 생존자인 줄 알고 "오른쪽으로 꺾어라!", "왼쪽으로 꺾어라!" 조종간([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 반대로 잡아당겨 전함이 찢어질 위기에 처합니다. 이를 막는 **쿼럼([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)) 방어 시스템**은 함장들의 생명줄과 같은 '다수결 절대 원칙'입니다. 조종간을 당기려면 무조건 전체 함장 5명 중 3명(과반수)의 지문 인식이 겹쳐야만 작동합니다. 방음벽에 갇힌 2명 쪽은 지문이 부족해 조종간이 아예 잠겨버리고(침묵), 3명이 살아남은 쪽만이 조종간의 지배권을 합법적으로 쥐게 되어 전함(통신망)이 혼돈 없이 안전하게 항해할 수 있는 민주주의 생존 시스템입니다.
+- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터가 5명의 똑똑한 '공동 함장'들이 몰고 가는 거대한 우주 전함이라면, <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a></strong>은 함장실 한가운데에 투명한 방음벽(네트워크 단절)이 떨어져 2명과 3명이 서로의 목소리를 못 듣게 된 대재앙입니다. 방음벽 양쪽에서 서로 자기가 유일한 생존자인 줄 알고 "오른쪽으로 꺾어라!", "왼쪽으로 꺾어라!" 조종간([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 반대로 잡아당겨 전함이 찢어질 위기에 처합니다. 이를 막는 <strong>쿼럼(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a>) 방어 시스템</strong>은 함장들의 생명줄과 같은 '다수결 절대 원칙'입니다. 조종간을 당기려면 무조건 전체 함장 5명 중 3명(과반수)의 지문 인식이 겹쳐야만 작동합니다. 방음벽에 갇힌 2명 쪽은 지문이 부족해 조종간이 아예 잠겨버리고(침묵), 3명이 살아남은 쪽만이 조종간의 지배권을 합법적으로 쥐게 되어 전함(통신망)이 혼돈 없이 안전하게 항해할 수 있는 민주주의 생존 시스템입니다.
 
 ---
 
@@ -121,15 +129,19 @@ ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ONOS / OpenDaylight]
-    │
-    ▼
-[현재 개념: SDN 분산 컨트롤러 이중화]
-    │
-    ├──▶ [확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ONOS / OpenDaylight</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 분산 컨트롤러 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 ONOS / OpenDaylight에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스템 보안의 양대 산맥은 "너구구냐?([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))"와 "너 그거 할 자격 있어?([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) / [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))"다. 해커가 정상적인 일반 유저로 로그인을 했다. 그런 뒤 브라우저 주소창에서 `http://bank.com/account?id=123` (내 계좌)의 뒷번호를 `?id=124`로 슥 바꿨다. 띠용? 남의 계좌 정보와 100억 잔고가 화면에 그대로 뜬다. 서버가 "어? 로그인한 유저네? 그냥 보여줘!"라며 **그 계좌의 '주인(Owner)'이 맞는지 검사하는 단 1줄의 `if`문을 빼먹은 것**, 이게 바로 Broken Access Control의 적나라한 실체다.
+- **개념**: 시스템 보안의 양대 산맥은 "너구구냐?([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))"와 "너 그거 할 자격 있어?([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) / [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))"다. 해커가 정상적인 일반 유저로 로그인을 했다. 그런 뒤 브라우저 주소창에서 `http://bank.com/account?id=123` (내 계좌)의 뒷번호를 `?id=124`로 슥 바꿨다. 띠용? 남의 계좌 정보와 100억 잔고가 화면에 그대로 뜬다. 서버가 "어? 로그인한 유저네? 그냥 보여줘!"라며 <strong>그 계좌의 '주인(Owner)'이 맞는지 검사하는 단 1줄의 <code>if</code>문을 빼먹은 것</strong>, 이게 바로 Broken Access Control의 적나라한 실체다.
 
 - **필요성**: 개발자들은 프론트엔드 화면에서 '관리자 메뉴 버튼'을 일반 유저에게 안 보이게 숨기면(UI Hiding) 보안이 끝난 줄 안다(최악의 착각). 해커는 버튼 따위는 누르지 않는다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 툴([Burp Suite](/knowledge-base/studynote/09_security/05_web_app_security/486_burp_suite/))로 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) URL(`/admin/deleteUser`)을 직접 찔러버린다. 뒷문(백엔드)에서 깐깐한 경비원(접근 제어 로직)이 "이봐, 당신 관리자 맞아?"라고 막아서지 않으면 시스템의 심장부가 무혈입성으로 털린다. **눈에 보이는 껍데기가 아니라 보이지 않는 진짜 데이터의 빗장을 걸어 잠그기 위해** 절대적인 방어 철학이 필요하다.
 
-- **💡 비유**: [취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/)는 **'신분증만 보고 펜트하우스 열쇠를 내주는 호텔 프론트'**와 같습니다. 손님이 호텔 정문(로그인)을 통과했습니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료). 손님이 프론트에 가서 "저 1004호 VIP 펜트하우스 키 주세요"라고 당당하게 요구합니다. 멍청한 직원(취약한 서버)은 "아, 우리 호텔 손님이시군요! 여기 있습니다!"라며 그냥 내어줍니다. 진짜 유능한 직원은 "손님, 투숙 명단(권한/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 보니 1004호 예약자가 아니신데요? 경비원!"이라며 쫓아내야 합니다. 이 투숙 명단 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 빼먹는 대형 사고가 바로 Broken Access Control입니다.
+- **💡 비유**: [취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/)는 <strong>'신분증만 보고 펜트하우스 열쇠를 내주는 호텔 프론트'</strong>와 같습니다. 손님이 호텔 정문(로그인)을 통과했습니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료). 손님이 프론트에 가서 "저 1004호 VIP 펜트하우스 키 주세요"라고 당당하게 요구합니다. 멍청한 직원(취약한 서버)은 "아, 우리 호텔 손님이시군요! 여기 있습니다!"라며 그냥 내어줍니다. 진짜 유능한 직원은 "손님, 투숙 명단(권한/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 보니 1004호 예약자가 아니신데요? 경비원!"이라며 쫓아내야 합니다. 이 투숙 명단 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 빼먹는 대형 사고가 바로 Broken Access Control입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **단순 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 시대**: 과거엔 ID/PW 뚫는 것 자체가 힘들어, 로그인만 통과하면 내부망은 신뢰(Trust)하는 바보 같은 낭만의 시대였다.
-  2. **[IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/) (안전하지 않은 직접 객체 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))의 유행**: 2010년대 해커들이 URL 파라미터(`id=1` -> `id=2`)만 바꾸면 남의 정보가 술술 새어 나오는 마법의 꿀통([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/))을 발견하고 미친 듯이 털어먹기 시작했다. (웹 해킹의 르네상스)
+  1. <strong>단순 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>의 시대</strong>: 과거엔 ID/PW 뚫는 것 자체가 힘들어, 로그인만 통과하면 내부망은 신뢰(Trust)하는 바보 같은 낭만의 시대였다.
+  2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/418_idor/">IDOR</a> (안전하지 않은 직접 객체 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)의 유행</strong>: 2010년대 해커들이 URL 파라미터(`id=1` -> `id=2`)만 바꾸면 남의 정보가 술술 새어 나오는 마법의 꿀통([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/))을 발견하고 미친 듯이 털어먹기 시작했다. (웹 해킹의 르네상스)
   3. **OWASP 부동의 1위 지배 (현재)**: 클라우드와 MSA로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신이 수천 개로 폭발하면서, 모든 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구멍마다 권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 깐깐히 체크하는 것을 개발자들이 빼먹기 시작했다. 결국 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))을 밀어내고 2021년 영광의 해킹 수법 1위 왕좌에 등극했다.
 
-- **📢 섹션 요약 비유**: 이것은 **'도둑이 아니라 뻔뻔한 위장 손님'**을 막는 일입니다. 창문을 깨고 들어오는 도둑([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 프레임워크(방범창)가 막아줍니다. 하지만 멀쩡하게 카드를 찍고 들어온 손님이, 갑자기 사장님 의자에 앉아서 금고 비밀번호를 바꾸려 할 때([권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)), 그 자리에서 멱살을 잡고 끌어내리는 보이지 않는 내부 경호원(접근 제어 로직)이 없으면 회사는 그날로 파산합니다.
+- **📢 섹션 요약 비유**: 이것은 <strong>'도둑이 아니라 뻔뻔한 위장 손님'</strong>을 막는 일입니다. 창문을 깨고 들어오는 도둑([인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 프레임워크(방범창)가 막아줍니다. 하지만 멀쩡하게 카드를 찍고 들어온 손님이, 갑자기 사장님 의자에 앉아서 금고 비밀번호를 바꾸려 할 때([권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)), 그 자리에서 멱살을 잡고 끌어내리는 보이지 않는 내부 경호원(접근 제어 로직)이 없으면 회사는 그날로 파산합니다.
 
 ---
 
 다음은 Broken Access Contro의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Broken Access Contro                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broken Access Contro</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Broken Access Contro가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[Broken Access Control](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/) ([취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[Broken Access Control](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/) ([취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [Broken Access Control](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/) ([취약한 접근 제어](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Broken Access Control (취약한 접근 제어) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Broken Access Control (취약한 접근 제어) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

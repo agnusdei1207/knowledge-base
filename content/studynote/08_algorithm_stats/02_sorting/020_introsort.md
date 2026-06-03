@@ -18,7 +18,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균 O(n log n)으로 빠르지만 최악 O(n²)가 문제다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 최악 O(n log n)이지만 캐시 효율이 나쁘다. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 소규모 배열에서 오버헤드가 적어 빠르다. **Introsort**는 이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장점만 취합해 1997년 David Musser가 제안한 **실용적 최강 정렬**이다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균 O(n log n)으로 빠르지만 최악 O(n²)가 문제다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 최악 O(n log n)이지만 캐시 효율이 나쁘다. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 소규모 배열에서 오버헤드가 적어 빠르다. <strong>Introsort</strong>는 이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장점만 취합해 1997년 David Musser가 제안한 <strong>실용적 최강 정렬</strong>이다.
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 로직
 
@@ -36,43 +36,46 @@ tags = ["studynote-algorithm"]
 
 ### Introsort [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 흐름 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
-```
-IntroSort(arr, depthLimit):
-┌─────────────────────────────────────────────────┐
-│  len(arr) <= 16?                                │
-│       │ Yes                                     │
-│       ▼                                         │
-│  InsertionSort(arr) ← 소규모, 오버헤드 최소     │
-│       │ No                                      │
-│       ▼                                         │
-│  depthLimit == 0?                               │
-│       │ Yes                                     │
-│       ▼                                         │
-│  HeapSort(arr) ← 재귀 깊이 초과, 최악 방지      │
-│       │ No                                      │
-│       ▼                                         │
-│  pivot = MedianOfThree(arr[0], arr[mid], arr[-1])│
-│  partition(arr, pivot)                          │
-│  IntroSort(left,  depthLimit - 1)               │
-│  IntroSort(right, depthLimit - 1)               │
-│       ↑                                         │
-│  QuickSort 재귀 ← 일반 케이스, 빠른 평균        │
-└─────────────────────────────────────────────────┘
 
-초기 depthLimit = 2 * floor(log₂(n))
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IntroSort(arr, depthLimit):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">len(arr) &lt;= 16?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InsertionSort(arr) ← 소규모, 오버헤드 최소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">depthLimit == 0?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HeapSort(arr) ← 재귀 깊이 초과, 최악 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pivot = MedianOfThree(arr</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">, arr</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">, arr</div><div class="kb-diagram-node">-1</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition(arr, pivot)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IntroSort(left, depthLimit - 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IntroSort(right, depthLimit - 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QuickSort 재귀 ← 일반 케이스, 빠른 평균</div></div>
+<div class="kb-diagram-note">초기 depthLimit = 2 * floor(log₂(n))</div>
+</div>
+</div>
+
+
 
 ### [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 임계값의 의미
 
-```
-n = 1,000,000 일 때:
-  log₂(1,000,000) ≈ 20
-  depthLimit = 40
 
-퀵 정렬 정상: 재귀 깊이 ~20 (충분히 여유)
-퀵 정렬 최악: 재귀 깊이 ~1,000,000 (스택 오버플로우!)
-  → 깊이 40 초과 즉시 힙 정렬로 전환 → 안전 보장
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">n = 1,000,000 일 때:</div>
+<div class="kb-diagram-note">log₂(1,000,000) ≈ 20</div>
+<div class="kb-diagram-note">depthLimit = 40</div>
+<div class="kb-diagram-note">퀵 정렬 정상: 재귀 깊이 ~20 (충분히 여유)</div>
+<div class="kb-diagram-note">퀵 정렬 최악: 재귀 깊이 ~1,000,000 (스택 오버플로우!)</div>
+<div class="kb-diagram-note">→ 깊이 40 초과 즉시 힙 정렬로 전환 → 안전 보장</div>
+</div>
+</div>
+
+
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -152,18 +155,20 @@ void IntroSort(Iter first, Iter last, int depthLimit) {
 
 ### 기술사 판단 포인트
 
-```
-┌──────────────────────────────────────────────────────┐
-│  Introsort 선택 기준                                  │
-│                                                      │
-│  ✅ C++ std::sort 사용 = Introsort 자동 적용          │
-│  ✅ 성능이 최우선이고 안정성이 불필요한 경우           │
-│  ✅ 최악 케이스 O(n log n) 보장이 필요한 경우         │
-│                                                      │
-│  ❌ 안정 정렬이 필요 → std::stable_sort (병합 기반)  │
-│  ❌ 이미 정렬된 데이터 → Timsort가 O(n)으로 빠름    │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Introsort 선택 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ C++ std::sort 사용 = Introsort 자동 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 성능이 최우선이고 안정성이 불필요한 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 최악 케이스 O(n log n) 보장이 필요한 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안정 정렬이 필요 → std::stable_sort (병합 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 이미 정렬된 데이터 → Timsort가 O(n)으로 빠름</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Introsort를 선택한다는 것은 에어백과 ABS 브레이크가 달린 스포츠카를 타는 것이다. 평상시엔 스포츠 드라이빙을, 위험 상황엔 안전장치가 자동으로 발동한다.
 
@@ -171,7 +176,7 @@ void IntroSort(Iter first, Iter last, int depthLimit) {
 
 ## Ⅴ. 기대효과 및 결론
 
-Introsort는 **현실적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장의 상징**이다. 이론적 최악 보장과 실용적 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성함으로써 C++ 표준 라이브러리의 정렬 기준이 되었다.
+Introsort는 <strong>현실적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 보장의 상징</strong>이다. 이론적 최악 보장과 실용적 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성함으로써 C++ 표준 라이브러리의 정렬 기준이 되었다.
 
 ### 효과 정리
 
@@ -198,21 +203,23 @@ Introsort는 **현실적 [성능](/knowledge-base/studynote/04_software_engineer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[퀵 정렬 (Quicksort) — 평균 O(N log N), 최악 O(N²) 위험]
-    │
-    ▼
-[힙 정렬 (Heapsort) — 최악 O(N log N) 보장, 캐시 효율 낮음]
-    │
-    ▼
-[삽입 정렬 (Insertion Sort) — 소규모 배열에서 상수 인수 최소]
-    │
-    ▼
-[인트로 정렬 (Introsort) — 세 알고리즘의 장점을 재귀 깊이 기준으로 통합]
-    │
-    ▼
-[C++ std::sort / Java Arrays.sort — 인트로 정렬 기반 표준 라이브러리 구현]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (Quicksort) — 평균 O(N log N), 최악 O(N²) 위험</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 (Heapsort) — 최악 O(N log N) 보장, 캐시 효율 낮음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — 소규모 배열에서 상수 인수 최소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인트로 정렬 (Introsort) — 세 알고리즘의 장점을 재귀 깊이 기준으로 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C++ std::sort / Java Arrays.sort — 인트로 정렬 기반 표준 라이브러리 구현</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 퀵·힙·[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 각 장단점을 파악한 뒤, 인트로 정렬이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이에 따라 동적으로 전환하여 실용적 최적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 과정을 보여준다.
 

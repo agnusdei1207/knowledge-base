@@ -45,35 +45,25 @@ tags = ["ict_convergence"]
 
 ### 머클 트리구조
 
-```
-거래 목록 (Leaf Nodes):
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│ TX Hash1 │ │ TX Hash2 │ │ TX Hash3 │ │ TX Hash4 │
-└────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘
-│ │ │ │
-▼ ▼ ▼ ▼
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│H(1) │ │H(2) │ │H(3) │ │H(4) │
-└────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘
-│ │ │ │
-└─────┬──────┘ └─────┬──────┘
-│ │
-▼ ▼
-┌──────────┐ ┌──────────┐
-│H(1,2) │ │H(3,4) │
-│ = Hash │ │ = Hash │
-│(H1│H2) │ │(H3│H4) │
-└────┬────┘ └────┬────┘
-│ │
-└───────────┬─────────────┘
-▼
-┌──────────────────┐
-│ 머클 루트 │
-│ (Merkle Root) │
-│ = Hash │
-│ (H(1,2)│H(3,4)) │
-└──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">거래 목록 (Leaf Nodes):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX Hash1</div><div class="kb-diagram-cell">TX Hash2</div><div class="kb-diagram-cell">TX Hash3</div><div class="kb-diagram-cell">TX Hash4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1)</div><div class="kb-diagram-cell">H(2)</div><div class="kb-diagram-cell">H(3)</div><div class="kb-diagram-cell">H(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2)</div><div class="kb-diagram-cell">H(3,4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Hash</div><div class="kb-diagram-cell">= Hash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H1</div><div class="kb-diagram-cell">H2)</div><div class="kb-diagram-cell">(H3</div><div class="kb-diagram-cell">H4)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Merkle Root)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Hash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H(1,2)</div><div class="kb-diagram-cell">H(3,4))</div></div>
+</div>
+</div>
+
+
 
 머클 트리의 핵심 원리를하면 다음과 같다. 트리 깊이에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)는 항상크기(비트코인에서는 32바이트)이다. 노드부터까지의 경로에 있는 노드들을 활용하면, 전체 노드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이도 특정 노드의 존재를 증명할 수 있다. 이것이 머클 증명(Merkle Proof)이다.
 
@@ -151,82 +141,66 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```
-+------------------------------------------------------------------+
-| 머클 트리 동작 원리 |
-+------------------------------------------------------------------+
-| |
-│ 거래 목록 (Leaf Nodes) │
-│ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐│
-│ │ TX1 │ │ TX2 │ │ TX3 │ │ TX4 │ │ TX5 │ │ TX6 │ │ TX7 ││
-│ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘│
-│ │ │ │ │ │ │ │ │
-│ ▼ ▼ ▼ ▼ ▼ ▼ ▼ │
-│ [H1] [H2] [H3] [H4] [H5] [H6] [H7] │
-│ │
-│ Level 1: 노드의형제 결합 │
-│ ┌───┴───┐ ┌───┴───┐ ┌───┴───┐ ┌───┴───┐ │
-│ │ H(1,2) │ │ H(3,4) │ │ H(5,6) │ │ H(7,7) │ │
-│ └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘ │
-│ │ │ │ │ │
-│ ▼ ▼ ▼ ▼ │
-│ Level 2: │
-│ ┌──────────────┴──────────────┐ │
-│ │ H(1,2,3,4) │ │
-│ └──────────────┬──────────────┘ │
-│ │ │
-│ ▼ │
-│ Level 3: ┌──────────────┴──────────────┐ │
-│ │ 머클 루트 │ │
-│ │ (Merkle Root) │ │
-│ └────────────────────────────┘ │
-│ │
-+------------------------------------------------------------------+
-| 머클 증명 (Merkle Proof) 예시: TX5를 증명하려면? |
-| │
-| TX5의형제: H6 ──► H(5,6) │
-| H(5,6)의형제: H(7,7) ──► H(5,6,7) │
-| H(5,6,7)의형제: H(1,2,3,4) ──► 머클 루트 |
-| │
-| → 필요한형제 노드: H6, H(7,7), H(1,2,3,4) = 3개 (log₂8) │
-| → 전체 노드(8개)를모두 확인할 필요가 없음! │
-+------------------------------------------------------------------+
-| 핵심 특성: |
-| - 효율적 무결성 검증 (전체 대신 log N 개 검증) |
-| - 머클 증명으로 특정 노드 존재 proofs |
-| - 노드 하나라도 변경되면 최종 루트가 달라짐 |
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 트리 동작 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 목록 (Leaf Nodes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX1</div><div class="kb-diagram-cell">TX2</div><div class="kb-diagram-cell">TX3</div><div class="kb-diagram-cell">TX4</div><div class="kb-diagram-cell">TX5</div><div class="kb-diagram-cell">TX6</div><div class="kb-diagram-cell">TX7</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">H1</div><div class="kb-diagram-node">H2</div><div class="kb-diagram-node">H3</div><div class="kb-diagram-node">H4</div><div class="kb-diagram-node">H5</div><div class="kb-diagram-node">H6</div><div class="kb-diagram-node">H7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 노드의형제 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2)</div><div class="kb-diagram-cell">H(3,4)</div><div class="kb-diagram-cell">H(5,6)</div><div class="kb-diagram-cell">H(7,7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2,3,4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Merkle Root)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 증명 (Merkle Proof) 예시: TX5를 증명하려면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX5의형제: H6 ──► H(5,6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(5,6)의형제: H(7,7) ──► H(5,6,7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(5,6,7)의형제: H(1,2,3,4) ──► 머클 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 필요한형제 노드: H6, H(7,7), H(1,2,3,4) = 3개 (log₂8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 노드(8개)를모두 확인할 필요가 없음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효율적 무결성 검증 (전체 대신 log N 개 검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 머클 증명으로 특정 노드 존재 proofs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 노드 하나라도 변경되면 최종 루트가 달라짐</div></div>
+</div>
+</div>
+
+
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))** | 각 노드 값을 만들고 상위 노드로 연결하는 기본 연산 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong> | 각 노드 값을 만들고 상위 노드로 연결하는 기본 연산 |
 | **머클 트리 (Merkle Tree)** | 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계층적으로 묶어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 요약하는 구조 |
-| **[머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) ([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))** | 전체 거래 집합을 대표하는 단일 해시값 |
-| **SPV 경량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 머클 증명으로 전체 블록 없이 거래 포함 여부를 확인하는 방식 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/">머클 루트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/">Merkle Root</a>)</strong> | 전체 거래 집합을 대표하는 단일 해시값 |
+| <strong>SPV 경량 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Simplified Payment <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 머클 증명으로 전체 블록 없이 거래 포함 여부를 확인하는 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[해시 함수 (Hash Function)]
-│
-▼
-[해시 트리 (Hash Tree)]
-│
-▼
-[머클 트리 (Merkle Tree)]
-│
-▼
-[머클 루트 (Merkle Root)]
-│
-▼
-[SPV 경량 검증 (Simplified Payment Verification)]
-│
-▼
-[Verkle 트리 (Verkle Tree)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수 (Hash Function)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 트리 (Hash Tree)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리 (Merkle Tree)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 루트 (Merkle Root)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPV 경량 검증 (Simplified Payment Verification)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Verkle 트리 (Verkle Tree)</div></div>
+</div>
+</div>
+
+
 
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서 출발하여 머클 트리로 구조화되고 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거쳐 차세대 Verkle 트리로 진화하는 흐름이다.
 

@@ -20,10 +20,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 ChatGPT와 같은 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 놀라운 문장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력을 보여주었지만, 엔터프라이즈 환경에 도입하기에는 치명적인 두 가지 약점이 있었다.
-1. **[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))**: 모르는 질문을 받으면 "모른다"고 하지 않고 그럴싸하게 거짓말을 지어낸다. (예: 판례를 물어봤더니 가짜 판례를 만들어냄)
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)</strong>: 모르는 질문을 받으면 "모른다"고 하지 않고 그럴싸하게 거짓말을 지어낸다. (예: 판례를 물어봤더니 가짜 판례를 만들어냄)
 2. **지식의 단절**: 2023년까지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습된 모델은 2024년의 회사 최신 규정을 전혀 알지 못한다.
 
-이를 해결하기 위해 기업의 매뉴얼, 이메일, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 통째로 LLM에 추가 학습([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))시키려 했으나, 문서를 수정할 때마다 수억 원어치의 GPU를 돌려 다시 학습시켜야 하는 물리적 한계에 부딪혔다. 이에 대한 가장 현실적이고 강력한 대안으로, **"AI에게 답을 묻기 전에, 우리가 먼저 사내 문서에서 정답이 있는 페이지를 찾아 AI에게 쥐여주며 읽고 대답하게 만들자"**는 **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))** 아키텍처가 글로벌 표준으로 자리 잡았다.
+이를 해결하기 위해 기업의 매뉴얼, 이메일, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 통째로 LLM에 추가 학습([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))시키려 했으나, 문서를 수정할 때마다 수억 원어치의 GPU를 돌려 다시 학습시켜야 하는 물리적 한계에 부딪혔다. 이에 대한 가장 현실적이고 강력한 대안으로, <strong>"AI에게 답을 묻기 전에, 우리가 먼저 사내 문서에서 정답이 있는 페이지를 찾아 AI에게 쥐여주며 읽고 대답하게 만들자"</strong>는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>)</strong> 아키텍처가 글로벌 표준으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: LLM이 모든 지식을 외워서 시험을 보는 '수능 수험생'이라면, RAG는 두꺼운 전공서적(사내 DB)을 펼쳐놓고 찾아보며 답을 적는 '오픈북 테스트(Open-book Test)'다. 오픈북이라서 지어낼 일([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))이 없고, 책만 새 버전으로 바꿔주면 항상 최신 지식을 쓸 수 있다.
 
@@ -31,18 +31,17 @@ ChatGPT와 같은 [대규모 언어 모델](/knowledge-base/studynote/04_softwar
 
 다음은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  LLM 환각 방지 RAG 아키텍처                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 환각 방지 RAG 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ ChatGPT와 같은 [대규모 언어 모델](/knowledge-base/studynote/04_softwar
 
 | 비교 항목 | [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) | 파인튜닝 ([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) |
 |:---|:---|:---|:---|
-| **핵심 원리** | 질문을 아주 정교하게 씀 | 사내 지식을 **검색**하여 프롬프트에 주입 | LLM의 **파라미터(뇌 구조) 자체를 수정** |
+| **핵심 원리** | 질문을 아주 정교하게 씀 | 사내 지식을 <strong>검색</strong>하여 프롬프트에 주입 | LLM의 **파라미터(뇌 구조) 자체를 수정** |
 | **비용 및 시간** | 매우 낮음 | 중간 (DB 구축 비용) | **매우 높음** (막대한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 리소스) |
 | **최신 정보 업데이트**| 프롬프트 수정 | **매우 쉬움** (Vector DB에 문서만 덮어쓰면 끝) | 어려움 (매번 다시 재학습해야 함) |
-| **[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**| 낮음 | **매우 높음** (검색된 근거만 말하므로) | 중간 (학습했더라도 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)은 발생 가능) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>(거짓말) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>| 낮음 | **매우 높음** (검색된 근거만 말하므로) | 중간 (학습했더라도 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)은 발생 가능) |
 | **적용 사례** | 단순 번역, 톤앤매너 변경 | 사내 규정 챗봇, 사내 위키 검색 엔진 | 특수한 문법(사내 전용 언어)이나 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어링에서는 RAG를 90% 비중으로 우선 적용하고, RAG로 해결되지 않는 특수한 포맷의 지식만 파인튜닝([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%)을 섞어 쓰는 하이브리드 전략이 기본이다.
@@ -96,7 +95,7 @@ ChatGPT와 같은 [대규모 언어 모델](/knowledge-base/studynote/04_softwar
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 RAG를 도입해보면 "사내 문서를 다 넣었는데도 답변을 이상하게 해요"라는 불만이 터져 나온다. RAG의 실패는 LLM의 실패가 아니라 100% **'검색(Retrieval)의 실패'**다.
+실무에서 RAG를 도입해보면 "사내 문서를 다 넣었는데도 답변을 이상하게 해요"라는 불만이 터져 나온다. RAG의 실패는 LLM의 실패가 아니라 100% <strong>'검색(Retrieval)의 실패'</strong>다.
 
 - **📢 섹션 요약 비유**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 방지 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -133,21 +132,23 @@ ChatGPT와 같은 [대규모 언어 모델](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-LLM 환각 방지 RAG 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM 환각 방지 RAG 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

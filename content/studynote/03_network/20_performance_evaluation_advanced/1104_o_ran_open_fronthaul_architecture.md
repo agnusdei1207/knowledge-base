@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - 과거 이 세 덩어리를 잇는 핏줄([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/), [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/))은 노키아, 에릭슨 등 제조사가 지들 맘대로 짠 '독자 블랙박스 언어'를 썼습니다. 
 - **독과점의 눈물**: SKT는 서울 강남에 에릭슨 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1개를 세우려면, 강남 지하에 깔리는 DU 서버도 무조건 에릭슨 장비를 울며 겨자 먹기로 100억 주고 사야 했습니다(벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 중소기업이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 아무리 잘 만들어도 시장에 명함도 못 내밀었습니다.
 
-```text
-[WDM 무손실 광 증폭]
-    │
-    ▼
-[O-RAN 프론트홀 개방 사양]
-    │
-    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,7 +42,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 통신사(AT&T, SKT, 도코모 등)들이 모여서 만든 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 얼라이언스가 주도합니다. **기지국을 구성하는 RU, DU, CU 사이의 핏줄(인터페이스) 규격을 100% 오픈(Open) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준으로 까발려서, A회사 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 B회사 두뇌 서버를 섞어서 꽂아도 완벽하게 연동되도록 만든 개방형 기지국 아키텍처**입니다.
+- **개념**: 통신사(AT&T, SKT, 도코모 등)들이 모여서 만든 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 얼라이언스가 주도합니다. <strong>기지국을 구성하는 RU, DU, CU 사이의 핏줄(인터페이스) 규격을 100% 오픈(Open) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 표준으로 까발려서, A회사 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>와 B회사 두뇌 서버를 섞어서 꽂아도 완벽하게 연동되도록 만든 개방형 기지국 아키텍처</strong>입니다.
 - **철학**: "네트워크 장비도 조립식 PC처럼 껍데기(하드웨어)는 싸구려 범용 서버를 쓰고, 기능은 리눅스 소프트웨어([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))로 돌려라!"
 
 마피아의 독점을 어떻게 부쉈을까요?
@@ -50,7 +54,7 @@ tags = ["studynote-network"]
 
 ### 2. 하드웨어와 소프트웨어 분리 (vRAN / 베어메탈)
 - 1055번 화이트박스 스위치의 기지국 버전입니다.
-- DU(두뇌)와 CU(통제) 장비를 노키아의 전용 쇳덩어리로 사지 않습니다. 그냥 용산에서 파는 **인텔 x86 깡통 서버(HP, 델)**를 수백 대 사서 데이터센터에 쌓아둡니다(베어메탈).
+- DU(두뇌)와 CU(통제) 장비를 노키아의 전용 쇳덩어리로 사지 않습니다. 그냥 용산에서 파는 <strong>인텔 x86 깡통 서버(HP, 델)</strong>를 수백 대 사서 데이터센터에 쌓아둡니다(베어메탈).
 - 그 위에 클라우드 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(CaaS)를 깔고 기지국 소프트웨어(vRAN)를 앱처럼 다운받아 실행합니다. 통신 장비가 '소프트웨어 앱'으로 전락([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/))한 것입니다.
 
 ### 3. RIC (RAN Intelligent Controller) - 기지국의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 뇌
@@ -59,14 +63,18 @@ tags = ["studynote-network"]
   - "어? 홍대 1번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 뻗을 거 같네? 2번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파 방향 10도 꺾어서 커버 쳐줘!" 
   - 이 명령을 내리는 앱을 'rApp', 'xApp'이라고 부르며, 구글 플레이스토어에서 앱 다운받듯 통신사가 입맛대로 골라 깔 수 있습니다.
 
-```text
-[WDM 무손실 광 증폭]
-    │
-    ▼
-[O-RAN 프론트홀 개방 사양]
-    │
-    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -88,7 +96,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 핑퐁의 딜레마**: 노키아가 영혼을 갈아 최적화한 일체형 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))보다, 범용 인텔 깡통 서버 위에서 소프트웨어로 돌리는 O-RAN의 연산 속도나 전력 효율은 떨어질 수밖에 없습니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 핑퐁의 딜레마</strong>: 노키아가 영혼을 갈아 최적화한 일체형 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))보다, 범용 인텔 깡통 서버 위에서 소프트웨어로 돌리는 O-RAN의 연산 속도나 전력 효율은 떨어질 수밖에 없습니다.
 - 하지만 하드웨어 독점을 부수고 구축 비용을 50% 박살 내는 이 미친 매력 때문에, 일본 라쿠텐 모바일, 미국 디시 네트워크 등 전 세계 통신망이 완전한 100% 오픈랜([O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/))으로 싹 다 갈아엎어지는 통신 역사상 최대의 지각 변동이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -97,7 +105,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존의 **전통 기지국 장비**는 **'애플 생태계([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), iPhone, 에어팟)'**입니다. 아이폰을 샀으면 이어폰도 비싼 에어팟을 사야 하고 충전기도 멍청한 라이트닝(독자 규격)을 써야만 했습니다. 부품을 다른 회사 걸로 섞으면 아예 호환이 안 되게 묶어놔서 애플에 돈을 다 바쳐야 했습니다(벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). **[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)([오픈 랜](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/155_oran_open_radio_access_network/))**은 이 독재를 부순 **'조립식 깡통 데스크탑 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)'**입니다. 마더보드는 아수스(O-DU), 그래픽 카드는 기가바이트(O-RU), CPU는 인텔(서버)로 중소기업이 만든 가성비 최고의 부품들을 용산에서 따로따로 사서 한 본체에 꽂습니다. 부품끼리 연결하는 슬롯(오픈 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 규격)이 USB-C 타입처럼 전 세계 공용이라 무조건 호환됩니다. 장비 회사들이 독점하던 폭리를 쳐부수고, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 따로, 서버 따로 마음대로 갈아 끼우며 통신망의 무한한 자율성과 가격 후려치기를 달성한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 통신사들의 가장 위대한 독립운동입니다.
+- **📢 섹션 요약 비유**: 기존의 <strong>전통 기지국 장비</strong>는 <strong>'애플 생태계(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">Mac</a>, iPhone, 에어팟)'</strong>입니다. 아이폰을 샀으면 이어폰도 비싼 에어팟을 사야 하고 충전기도 멍청한 라이트닝(독자 규격)을 써야만 했습니다. 부품을 다른 회사 걸로 섞으면 아예 호환이 안 되게 묶어놔서 애플에 돈을 다 바쳐야 했습니다(벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/155_oran_open_radio_access_network/">오픈 랜</a>)</strong>은 이 독재를 부순 <strong>'조립식 깡통 데스크탑 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>'</strong>입니다. 마더보드는 아수스(O-DU), 그래픽 카드는 기가바이트(O-RU), CPU는 인텔(서버)로 중소기업이 만든 가성비 최고의 부품들을 용산에서 따로따로 사서 한 본체에 꽂습니다. 부품끼리 연결하는 슬롯(오픈 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 규격)이 USB-C 타입처럼 전 세계 공용이라 무조건 호환됩니다. 장비 회사들이 독점하던 폭리를 쳐부수고, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 따로, 서버 따로 마음대로 갈아 끼우며 통신망의 무한한 자율성과 가격 후려치기를 달성한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 통신사들의 가장 위대한 독립운동입니다.
 
 ---
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WDM 무손실 광 증폭]
-    │
-    ▼
-[현재 개념: O-RAN 프론트홀 개방 사양]
-    │
-    ├──▶ [확장 A: vCPE NFV 고객 구내 망 통합 전환]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: O-RAN 프론트홀 개방 사양</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: vCPE NFV 고객 구내 망 통합 전환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양는 WDM 무손실 광 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

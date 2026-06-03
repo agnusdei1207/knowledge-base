@@ -32,13 +32,18 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 
 ### [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 동작 흐름
 
-```
-.tf 파일 작성       terraform plan        terraform apply
-(HCL 코드)   →   (변경 계획 미리보기)  →  (실제 인프라 생성·변경)
-     ↓                   ↓                       ↓
-  Git 저장소        콘솔에 변경 diff        terraform.tfstate
-  (버전 관리)        출력, 검토 가능         (현재 상태 기록)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">.tf 파일 작성 terraform plan terraform apply</div>
+<div class="kb-diagram-note">(HCL 코드) → (변경 계획 미리보기) → (실제 인프라 생성·변경)</div>
+<div class="kb-diagram-note">Git 저장소 콘솔에 변경 diff terraform.tfstate</div>
+<div class="kb-diagram-note">(버전 관리) 출력, 검토 가능 (현재 상태 기록)</div>
+</div>
+</div>
+
+
 
 | 개념 | 설명 |
 |:---|:---|
@@ -75,13 +80,13 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 워크플로 4단계:**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a> 워크플로 4단계:</strong>
 1. `terraform init` — [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/) 플러그인 다운로드
 2. `terraform plan` — 변경 사항 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (diff 출력)
 3. `terraform apply` — 실제 인프라 변경 수행
 4. `terraform destroy` — 인프라 전체 삭제
 
-**팀 협업 [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/):**
+<strong>팀 협업 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a>:</strong>
 - Remote Backend(S3 + [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 잠금): [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 및 동시 수정 방지
 - [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 검토: `terraform plan` 결과를 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 코멘트에 자동 게시
 - Terragrunt: 대규모 환경에서 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 코드 중복 제거
@@ -117,17 +122,21 @@ IaC를 도입하면 인프라 변경 리드타임이 주 단위에서 분 단위
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 콘솔 클릭 (재현 불가, 드리프트)
-    │
-    ▼
-IaC: 인프라를 코드로 선언 (Terraform · Pulumi · CDK)
-    ├─► terraform plan → apply → state 관리
-    └─► 버전 관리: Git + PR 리뷰 + CI 검증
-    │
-    ▼
-Policy as Code (OPA · Sentinel) → GitOps 연동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 콘솔 클릭 (재현 불가, 드리프트)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IaC: 인프라를 코드로 선언 (Terraform · Pulumi · CDK)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">terraform plan → apply → state 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버전 관리: Git + PR 리뷰 + CI 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy as Code (OPA · Sentinel) → GitOps 연동</div>
+</div>
+</div>
+
+
 2. 예전에는 손으로 하나하나 클릭해서 서버를 만들었지만, 이제는 코드로 한 번에 뚝딱 만들어요.
 3. 설명서(코드)가 있으면 실수로 성이 무너져도 똑같이 다시 만들 수 있어서 걱정이 없어요!
 

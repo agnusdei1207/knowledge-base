@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: `cloud-init`은 클라우드 환경(AWS, GCP, OpenStack)에서 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 인스턴스가 **최초로 부팅([Bootstrapping](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/))될 때, 사용자의 개입 없이 OS를 자동으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화**해 주는 파이썬 기반의 업계 표준 패키지다.
+> 1. **본질**: `cloud-init`은 클라우드 환경(AWS, GCP, OpenStack)에서 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 인스턴스가 <strong>최초로 부팅(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a>)될 때, 사용자의 개입 없이 OS를 자동으로 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>하고 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong>해 주는 파이썬 기반의 업계 표준 패키지다.
 > 2. **메커니즘**: VM이 부팅될 때 클라우드 플랫폼이 제공하는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버(예: `169.254.169.254`)에 접속하여 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 공개키, 호스트 이름, 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 그리고 사용자가 주입한 `User-Data`(스크립트)를 가져와 OS 내부의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 자동으로 박아 넣는다.
-> 3. **가치**: 골든 이미지(미리 다 세팅된 무거운 OS 이미지)를 수백 개씩 만들어 관리하는 대신, 단 하나의 '바닐라(Vanilla) 이미지'와 'cloud-init 스크립트'의 조합만으로 언제든 1분 안에 원하는 형태의 서버를 수천 대씩 찍어낼 수 있는 **[Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))**의 시작점이다.
+> 3. **가치**: 골든 이미지(미리 다 세팅된 무거운 OS 이미지)를 수백 개씩 만들어 관리하는 대신, 단 하나의 '바닐라(Vanilla) 이미지'와 'cloud-init 스크립트'의 조합만으로 언제든 1분 안에 원하는 형태의 서버를 수천 대씩 찍어낼 수 있는 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>)</strong>의 시작점이다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **게스트 OS (Guest OS)**: 클라우드 인스턴스 내부에서 도는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (예: Ubuntu, Amazon Linux 2023).
-  - **부트스트랩 ([Bootstrapping](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/))**: OS가 부팅되는 극초기 단계에 스스로 자신의 환경을 구축하는 과정.
+  - <strong>부트스트랩 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a>)</strong>: OS가 부팅되는 극초기 단계에 스스로 자신의 환경을 구축하는 과정.
   - **Cloud-init**: Canonical(우분투 제작사)이 만들어 AWS 등에 표준으로 정착시킨 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 도구. 인스턴스가 켜질 때 딱 한 번(또는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 매 부팅 시) 실행되어 OS를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 
 - **필요성 (서버 찍어내기의 딜레마)**: 
@@ -33,9 +33,9 @@ tags = ["studynote-operating-system"]
   - **Cloud-init 방식**: 공장에는 아무 맛도 안 나는 '기본 빵(바닐라 OS)'만 1만 개 쌓아둔다. 손님이 주문서(User-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 "딸기 시럽 뿌려줘"라고 적어서 내면, 빵이 오븐(부팅)에서 나오는 순간 로봇(cloud-init)이 주문서를 읽고 1초 만에 딸기 시럽을 쫙 뿌려서 완성한다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 쉘 스크립트 주입**: 단순한 Bash 스크립트를 파라미터로 넘겨 부팅 시 실행.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 쉘 스크립트 주입</strong>: 단순한 Bash 스크립트를 파라미터로 넘겨 부팅 시 실행.
   2. **Cloud-init 등장**: Canonical이 개발. 다양한 클라우드 프로바이더(AWS, Azure, DigitalOcean)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 형식을 단일 인터페이스로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/).
-  3. **Cloud-[config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (YAML) 포맷 정착**: 쉘 스크립트 대신, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 보장하는 선언적 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 주입하는 것이 업계 표준이 됨.
+  3. <strong>Cloud-<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">config</a> (YAML) 포맷 정착</strong>: 쉘 스크립트 대신, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 보장하는 선언적 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 주입하는 것이 업계 표준이 됨.
 
 - **📢 섹션 요약 비유**: 로봇(서버)이 처음 태어날 때(부팅), 신(클라우드 컨트롤러)이 허공([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버)에서 지혜의 칩(User-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 내려주면, 로봇이 스스로 자신의 이름과 직업을 깨닫고 즉시 업무에 돌입하는 자동화 의식입니다.
 
@@ -50,8 +50,8 @@ tags = ["studynote-operating-system"]
 | 실행 단계 (systemd 타겟) | 수행하는 작업 (Action) | 비유 |
 |:---|:---|:---|
 | **1. Generator (Local)**| 부팅 극초기. 디스크에 남은 캐시를 확인해 네트워크 없이 할 수 있는 로컬 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 등을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/). | 기상 직후 스트레칭 |
-| **2. Network** | **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버(169.254.169.254)**에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 날려 Instance ID, Hostname, User-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등을 다운로드함. 네트워크 인터페이스 활성화. | 오늘의 할 일(지시서) 이메일 수신 |
-| **3. [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | 다운받은 YAML [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 `apt-get` 패키지 설치, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 키 등록, 디스크 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 등을 수행. | 지시서대로 옷 입고 장비 세팅 |
+| **2. Network** | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 서버(169.254.169.254)</strong>에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 날려 Instance ID, Hostname, User-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등을 다운로드함. 네트워크 인터페이스 활성화. | 오늘의 할 일(지시서) 이메일 수신 |
+| <strong>3. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a></strong> | 다운받은 YAML [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 `apt-get` 패키지 설치, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 키 등록, 디스크 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 등을 수행. | 지시서대로 옷 입고 장비 세팅 |
 | **4. Final** | 사용자가 주입한 커스텀 쉘 스크립트(`#!/bin/bash`)를 최종적으로 실행. (모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 완료 후) | 사장님(유저)의 특별 명령 수행 |
 
 ---
@@ -60,32 +60,30 @@ tags = ["studynote-operating-system"]
 
 가장 신기한 점은, 인터넷이 안 되는 폐쇄망 안에서도 VM은 자기가 누구인지, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 공개키가 뭔지 알아낸다는 것이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Cloud-init과 메타데이터 서버 통신 아키텍처               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [가상머신 (Guest OS) 내부]                                          │
-  │   - 부팅 중 Network 통신이 가능해지자마자,                             │
-  │     `curl http://169.254.169.254/latest/meta-data` 실행!          │
-  │            │                                                      │
-  │            ▼ (이 패킷은 외부 인터넷으로 나가지 않음)                     │
-  │  ========================= [ 하이퍼바이저 격리망 ] ===================│
-  │            │                                                      │
-  │            ▼                                                      │
-  │  [클라우드 컨트롤 플레인 (AWS Nitro / OpenStack Neutron)]              │
-  │   - KVM 가상 스위치가 IP "169.254.169.254" 로 향하는 패킷을 가로챔.     │
-  │   - 하이퍼바이저는 "아, 이 패킷을 보낸 놈은 가상 랜카드 MAC 주소가         │
-  │     aa:bb:cc 구나! 얜 인스턴스 ID가 i-1234 구만!" 하고 식별.             │
-  │   - DB를 뒤져서 i-1234 생성 시 사용자가 입력했던 User-data를 던져줌.       │
-  │            │                                                      │
-  │            ▼ (응답 반환)                                             │
-  │  [가상머신 (Guest OS) 내부]                                          │
-  │   - Cloud-init 데몬이 응답을 받아 파싱.                               │
-  │   - "내 호스트 이름은 web-server-01, ubuntu 계정에 넣을 SSH 키는 이거군!"│
-  │   - /etc/hostname, /home/ubuntu/.ssh/authorized_keys 파일 자동 갱신! │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud-init과 메타데이터 서버 통신 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 (Guest OS) 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부팅 중 Network 통신이 가능해지자마자,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>curl http://169.254.169.254/latest/meta-data</code> 실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (이 패킷은 외부 인터넷으로 나가지 않음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">하이퍼바이저 격리망</div><div class="kb-diagram-note">===================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 컨트롤 플레인 (AWS Nitro / OpenStack Neutron)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- KVM 가상 스위치가 IP "169.254.169.254" 로 향하는 패킷을 가로챔.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하이퍼바이저는 "아, 이 패킷을 보낸 놈은 가상 랜카드 MAC 주소가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">aa:bb:cc 구나! 얜 인스턴스 ID가 i-1234 구만!" 하고 식별.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB를 뒤져서 i-1234 생성 시 사용자가 입력했던 User-data를 던져줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (응답 반환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 (Guest OS) 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Cloud-init 데몬이 응답을 받아 파싱.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "내 호스트 이름은 web-server-01, ubuntu 계정에 넣을 SSH 키는 이거군!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- /etc/hostname, /home/ubuntu/.ssh/authorized_keys 파일 자동 갱신!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** `169.254.169.254`는 Link-local 주소로, 전 세계 모든 클라우드(AWS, GCP, Azure, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))가 약속한 마법의 IP다. 공유기나 라우터를 타지 않고 VM과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 사이에서만 통신된다. Cloud-init은 어떤 클라우드에 배포되든 무조건 이 주소로 먼저 찔러보고, 클라우드 사업자가 내려주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))를 파싱하여 이질적인 환경을 동일한 방식으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화한다.
 
@@ -127,19 +125,19 @@ runcmd:
 
 | 단계 | 도구 예시 | 작업 시점 | 장점 | 한계 |
 |:---|:---|:---|:---|:---|
-| **1. Image [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)** | **[Packer](/knowledge-base/studynote/15_devops_sre/05_devsecops/199_packer_aws_ami_baking/)** (HashiCorp) | 부팅 **전** (이미지 굽기) | 부팅이 극도로 빠름 (다 깔려있음) | 패스워드나 IP 등 동적 정보를 구울 수 없음 |
+| <strong>1. Image <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a></strong> | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/199_packer_aws_ami_baking/">Packer</a></strong> (HashiCorp) | 부팅 **전** (이미지 굽기) | 부팅이 극도로 빠름 (다 깔려있음) | 패스워드나 IP 등 동적 정보를 구울 수 없음 |
 | **2. Bootstrapper** | **Cloud-init** | 부팅 **중** (최초 1회) | IP, SSH키 부여. 동적 스크립트 실행 | 너무 무거운 패키지 설치 시 부팅 시간이 수 분 지연됨 |
-| **3. [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Manager**| **[Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef** | 부팅 **후** (런타임 지속 관리)| 수만 대 서버 동시 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 가능 | 타겟 서버에 Python, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등이 미리 열려 있어야 함 |
+| <strong>3. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> Manager</strong>| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/">Ansible</a>, Chef</strong> | 부팅 **후** (런타임 지속 관리)| 수만 대 서버 동시 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 가능 | 타겟 서버에 Python, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등이 미리 열려 있어야 함 |
 
-**최상의 조합 ([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/))**: 
+<strong>최상의 조합 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>)</strong>: 
 1) Packer로 Nginx, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 등 무거운 패키지만 미리 깔아서 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(이미지)를 구워 둔다.
 2) Cloud-init은 부팅될 때 딱 필요한 '[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)'나 '최신 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)' 1개만 다운받게 한다. (부팅 10초 컷)
 3) 부팅 후에는 아무것도 건드리지 않고, 업데이트가 필요하면 1번부터 다시 구워서 클러스터를 통째로 교체해 버린다.
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: Cloud-init은 `systemd` 서비스의 의존성 관리 기능에 전적으로 기대고 있다. 네트워크 인터페이스가 완전히 올라오기 전(`network-online.target` 도달 전)에 `cloud-init.service`가 돌아버리면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버 통신에 실패하여 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 영원히 꼬여버리는 레이스 컨디션 문제가 발생한다.
-- **[클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) (Cloud)**: [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) Group(ASG) 아키텍처의 필수 요건이다. 트래픽이 폭주하여 10대의 새 서버가 추가될 때, 이 서버들이 사람의 개입 없이 스스로 소스코드를 `git pull` 받고 로드밸런서에 자기를 등록([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))하는 모든 행위가 Cloud-init의 `runcmd`를 통해 달성된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: Cloud-init은 `systemd` 서비스의 의존성 관리 기능에 전적으로 기대고 있다. 네트워크 인터페이스가 완전히 올라오기 전(`network-online.target` 도달 전)에 `cloud-init.service`가 돌아버리면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버 통신에 실패하여 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 영원히 꼬여버리는 레이스 컨디션 문제가 발생한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) Group(ASG) 아키텍처의 필수 요건이다. 트래픽이 폭주하여 10대의 새 서버가 추가될 때, 이 서버들이 사람의 개입 없이 스스로 소스코드를 `git pull` 받고 로드밸런서에 자기를 등록([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))하는 모든 행위가 Cloud-init의 `runcmd`를 통해 달성된다.
 
 - **📢 섹션 요약 비유**: Packer가 붕어빵의 '틀'을 만드는 것이라면, Cloud-init은 구워져 나온 붕어빵의 뱃속에 팥을 넣을지 슈크림을 넣을지 결정하는 '앙금 자동 주입기'입니다. 두 가지가 결합해야 맞춤형 붕어빵이 1초 만에 쏟아집니다.
 
@@ -149,48 +147,46 @@ runcmd:
 
 ### 실무 시나리오
 
-1. **시나리오 — AWS EC2 인스턴스의 비밀번호 분실 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Cloud-init 마술)**: 실수로 접속용 `.pem` 키를 잃어버려서 EC2 서버에 영영 접속할 수 없게 된 주니어 개발자의 절망적인 상황.
+1. <strong>시나리오 — AWS EC2 인스턴스의 비밀번호 분실 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Cloud-init 마술)</strong>: 실수로 접속용 `.pem` 키를 잃어버려서 EC2 서버에 영영 접속할 수 없게 된 주니어 개발자의 절망적인 상황.
    - **원리 파악**: 인스턴스는 한 번 부팅되어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 끝나면, 재부팅을 해도 Cloud-init의 `User-Data`를 다시 실행하지 않는다(방어 기제). 
    - **대응 (기술사적 가이드)**: AWS 콘솔에서 인스턴스를 중지(Stop)한다. `User-Data` 편집 창을 열고, 스크립트 상단에 새 텍스트를 추가한다. 그리고 재부팅할 때 Cloud-init이 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 옛날에 실행한 게 아니라 새 거네!"라고 인식하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식을 멀티파트([MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/))로 조작하거나, AWS Systems Manager(SSM)를 우회하여 찔러 넣는다. 
    - **결과**: 부팅 단계에서 Cloud-init이 강제 재실행되며 `/home/ubuntu/.ssh/authorized_keys` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 나의 새 공개키를 덮어쓰고, 서버를 포맷하지 않고도 접속 권한을 되찾게 된다.
 
-2. **시나리오 — 보안에 취약한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서버 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/)([Server-Side Request Forgery](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/487_ssrf_server_side_request_forgery/)) 공격 방어**: 해커가 내 웹 서버의 엉성한 이미지 다운로드 기능을 악용하여, `http://169.254.169.254/latest/meta-data/iam/security-credentials/` 주소로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 쏘게 만들었다. 서버는 자기가 요쳥한 줄 알고 AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role의 토큰을 고스란히 해커에게 반환했고([SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) 공격), 해커는 내 클라우드를 장악했다. (실제 2019년 캐피털원 1억 명 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 사건의 원인)
-   - **아키텍처 적용**: Cloud-init이 사용하는 이 마법의 주소가 양날의 검이 되었다. AWS는 즉각 **IMDSv2 (Instance [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) v2)**를 출시했다.
+2. <strong>시나리오 — 보안에 취약한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 서버 <a href="/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/">SSRF</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/487_ssrf_server_side_request_forgery/">Server-Side Request Forgery</a>) 공격 방어</strong>: 해커가 내 웹 서버의 엉성한 이미지 다운로드 기능을 악용하여, `http://169.254.169.254/latest/meta-data/iam/security-credentials/` 주소로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 쏘게 만들었다. 서버는 자기가 요쳥한 줄 알고 AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role의 토큰을 고스란히 해커에게 반환했고([SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) 공격), 해커는 내 클라우드를 장악했다. (실제 2019년 캐피털원 1억 명 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 사건의 원인)
+   - **아키텍처 적용**: Cloud-init이 사용하는 이 마법의 주소가 양날의 검이 되었다. AWS는 즉각 <strong>IMDSv2 (Instance <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> v2)</strong>를 출시했다.
    - **방어 메커니즘**: 이제 `169.254.169.254`에 단순히 GET 요청을 날리면 거부된다. 반드시 사전에 PUT 요청을 날려 1분짜리 임시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰(Token)을 발급받아야 하며, 이 과정에서 X-Forwarded-For 같은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 헤더가 있으면 토큰 발급을 거부한다. OS의 Cloud-init 패키지도 이 IMDSv2 프로토콜을 사용하도록 전면 패치되었다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 클라우드 서버 부트스트래핑(Bootstrapping) 아키텍처 플로우  │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [오토 스케일링으로 하루에도 수십 번씩 인스턴스가 켜지고 꺼지는 환경]         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      인스턴스가 켜지고 실제 서비스 트래픽을 받을 때까지의 시간이 1분 이상 걸리는가?│
-  │          ├─ 예 ─────▶ [Cloud-init의 과부하 (Anti-pattern)]          │
-  │          │            원인: User-data 안에 `apt update && apt install`│
-  │          │                  같은 무거운 네트워크 다운로드 명령이 들어있음.     │
-  │          │            대책: 이 과정들을 미리 수행한 Packer 커스텀 이미지(AMI)│
-  │          │                  를 만들고, Cloud-init은 환경 변수만 주입.     │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      User-Data 텍스트 박스 안에 DB 비밀번호나 API 키가 하드코딩 되어 있는가?  │
-  │          ├─ 예 ─────▶ [심각한 보안 취약점]                            │
-  │          │            이유: 누구나 `curl 169.254.../user-data`를 치면  │
-  │          │                  그 스크립트 평문이 그대로 다 보임.            │
-  │          │            대책: AWS Secrets Manager나 HashiCorp Vault에서  │
-  │          │                  IAM Role을 이용해 실행 시점에 땡겨오도록 코드 수정│
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** Cloud-init은 너무 강력해서 개발자들이 모든 것을 다 User-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창에 때려 넣는 실수를 범한다. 부팅할 때 소스코드를 컴파일하고, 자바를 깔고 앉아 있으면 서버가 트래픽을 받기까지 5분이 걸린다. 5분 뒤면 이미 서비스는 폭주해서 죽은 뒤다. 클라우드 아키텍처의 정수는 **"베이크(Bake)할 것인가, 프라이(Fry)할 것인가"**의 비율 조절이다. 무거운 짐은 무조건 미리 구워(Bake, [Packer](/knowledge-base/studynote/15_devops_sre/05_devsecops/199_packer_aws_ami_baking/))두고, IP나 토큰 같은 마지막 양념만 현장에서 튀겨야(Fry, Cloud-init) 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 서버 부트스트래핑(Bootstrapping) 아키텍처 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오토 스케일링으로 하루에도 수십 번씩 인스턴스가 켜지고 꺼지는 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스턴스가 켜지고 실제 서비스 트래픽을 받을 때까지의 시간이 1분 이상 걸리는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cloud-init의 과부하 (Anti-pattern)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인: User-data 안에 <code>apt update &amp;&amp; apt install</code></div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 무거운 네트워크 다운로드 명령이 들어있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 이 과정들을 미리 수행한 Packer 커스텀 이미지(AMI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">를 만들고, Cloud-init은 환경 변수만 주입.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User-Data 텍스트 박스 안에 DB 비밀번호나 API 키가 하드코딩 되어 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">심각한 보안 취약점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: 누구나 <code>curl 169.254.../user-data</code>를 치면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 스크립트 평문이 그대로 다 보임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: AWS Secrets Manager나 HashiCorp Vault에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IAM Role을 이용해 실행 시점에 땡겨오도록 코드 수정</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** Cloud-init은 너무 강력해서 개발자들이 모든 것을 다 User-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창에 때려 넣는 실수를 범한다. 부팅할 때 소스코드를 컴파일하고, 자바를 깔고 앉아 있으면 서버가 트래픽을 받기까지 5분이 걸린다. 5분 뒤면 이미 서비스는 폭주해서 죽은 뒤다. 클라우드 아키텍처의 정수는 <strong>"베이크(Bake)할 것인가, 프라이(Fry)할 것인가"</strong>의 비율 조절이다. 무거운 짐은 무조건 미리 구워(Bake, [Packer](/knowledge-base/studynote/15_devops_sre/05_devsecops/199_packer_aws_ami_baking/))두고, IP나 토큰 같은 마지막 양념만 현장에서 튀겨야(Fry, Cloud-init) 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)**: Cloud-init이 실행되다 중간에 에러가 나면 서버는 먹통이 되지만, 에러를 콘솔에 띄워주지 않는다. 반드시 접속해서 `/var/log/cloud-init-output.log` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 끝자락을 보고 어떤 Bash 명령어가 실패했는지 디버깅하는 습관을 들여야 한다.
-- **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 실행 순서 (Boot Stages)**: Cloud-[config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) YAML에서 디스크 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(`mounts:`)가 실행되기 전에 패키지 설치(`packages:`)가 동작해서 엉뚱한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깔리지 않는지, Cloud-init의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 실행 단계(stage) 우선순위를 검토했는가?
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a></strong>: Cloud-init이 실행되다 중간에 에러가 나면 서버는 먹통이 되지만, 에러를 콘솔에 띄워주지 않는다. 반드시 접속해서 `/var/log/cloud-init-output.log` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 끝자락을 보고 어떤 Bash 명령어가 실패했는지 디버깅하는 습관을 들여야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 실행 순서 (Boot Stages)</strong>: Cloud-[config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) YAML에서 디스크 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(`mounts:`)가 실행되기 전에 패키지 설치(`packages:`)가 동작해서 엉뚱한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깔리지 않는지, Cloud-init의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 실행 단계(stage) 우선순위를 검토했는가?
 
 - **📢 섹션 요약 비유**: Cloud-init(요리사)에게 너무 복잡한 100줄짜리 레시피를 주면 요리(부팅)가 하루 종일 걸리고 실수를 합니다. 반조리 식품(미리 만든 이미지)을 건네주고 "전자레인지 3분만 돌려!"라고 짧은 메모만 주는 것이 클라우드의 미덕입니다.
 
@@ -203,7 +199,7 @@ runcmd:
 | 구분 | 레거시 (수동 세팅 / 골든 이미지 의존) | Cloud-init 기반 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 적용 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (부팅/배포)** | 수십 종류의 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 이미지 관리 파편화 | 1개의 베이스 이미지 + N개의 YAML | 이미지 관리 비용(Storage) **90% 절감** |
-| **정량 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | 장애 시 관리자 접속 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (30분) | [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 그룹이 자동 재시작 (1분) | 무인화된 자가 치유(Self-Healing) 달성 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong> | 장애 시 관리자 접속 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (30분) | [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 그룹이 자동 재시작 (1분) | 무인화된 자가 치유(Self-Healing) 달성 |
 | **정성 (보안)** | 패스워드나 인증서가 디스크에 영구 박힘 | 부팅 시 주입되고 인스턴스와 함께 소멸 | [Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 및 보안 격리 |
 
 ### 미래 전망
@@ -228,15 +224,19 @@ Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Virtio]
-    │
-    ▼
-[클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
-    │
-    ├──▶ [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
-    └──▶ [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Virtio</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

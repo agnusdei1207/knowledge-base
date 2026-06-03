@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **위치 지정(Location-based Addressing)**: 현재 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜은 "저기 판교 3번 서버 C드라이브 /img 폴더에 있는 사진을 가져와!"라는 철저한 장소, **위치 기반의 지시**입니다.
+- **위치 지정(Location-based Addressing)**: 현재 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜은 "저기 판교 3번 서버 C드라이브 /img 폴더에 있는 사진을 가져와!"라는 철저한 장소, <strong>위치 기반의 지시</strong>입니다.
 - **재앙의 씨앗**: 
   - 중앙 서버(판교)가 디도스를 맞거나 파산해 서버 코드를 뽑으면, 전 세계 모든 사람이 그 사진을 잃어버립니다(단일 고장점 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 
   - 만약 해커가 서버 안의 원본 사진을 야한 사진으로 몰래 바꿔치기해도 주소(URL)는 그대로이기 때문에 접속자는 속아 넘어갑니다.
 
-```text
-[에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
-[IPFS]
-    │
-    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IPFS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Labs가 창안한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로토콜로, 전 세계의 모든 수백만 대의 컴퓨터들을 거대한 하나의 **[P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), 토렌트 방식) [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) 스토리지망**으로 묶어버리는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(Decentralized) 웹 기술입니다.
+- **개념**: [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Labs가 창안한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로토콜로, 전 세계의 모든 수백만 대의 컴퓨터들을 거대한 하나의 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">Peer-to-Peer</a>, 토렌트 방식) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/">분산 파일 시스템</a> 스토리지망</strong>으로 묶어버리는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(Decentralized) 웹 기술입니다.
 - **이름의 의미**: "행성 간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템". 지구가 망하고 화성에 가서 접속해도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 사라지지 않는, 우주 끝까지 가는 궁극의 영구 보존 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 웹을 지향한다는 미친 스케일의 철학입니다.
 
-```text
-[에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
-[IPFS]
-    │
-    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IPFS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ IPFS의 심장이자 기존 웹을 전복시킨 절대 원리입니다.
 ### 2. 위변조 절대 불가 및 영구 저장 ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 연계)
 - 만약 해커가 그 사진에 픽셀 점 하나만 까맣게 칠해서 위조(해킹)했다고 칩시다. 
 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 단 1비트라도 바뀌는 순간, 믹서기가 내놓는 해시값 지문(`QmYw...`)이 완전히 다른 알파벳 덩어리로 변해버립니다. 
-- 사람들은 원래 해시 주소를 치고 들어가므로, 해커가 위조한 가짜 사진은 검색조차 되지 않고 영원히 버려집니다. 이것이 **가짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(위변조)을 원천 차단하는 궁극의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**입니다. (이 때문에 NFT 미술품 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 무조건 이 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 해시값을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 새겨서 보관합니다.)
+- 사람들은 원래 해시 주소를 치고 들어가므로, 해커가 위조한 가짜 사진은 검색조차 되지 않고 영원히 버려집니다. 이것이 <strong>가짜 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(위변조)을 원천 차단하는 궁극의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>입니다. (이 때문에 NFT 미술품 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 무조건 이 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) 해시값을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 새겨서 보관합니다.)
 
 IPFS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE가 기반 조건을 만든다면, IPFS는 그 위에서 핵심 메커니즘을 구현하고, V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ IPFS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 해시값을 전 세계 컴퓨터가 어떻게 찾을까요? **DHT([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장부)**라는 916번 문서에서 배울 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 통신망 기술을 씁니다. 중앙 네이버 서버에 묻지 않고, 이웃 컴퓨터들끼리 귀엣말로 "야 너 이 해시값 가진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각 1번 가지고 있냐?"라고 물어물어 전 세계에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 빛의 속도로 긁어모아 흩뿌립니다(BitSwap [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 체계). [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용이 증발합니다.
+- 이 해시값을 전 세계 컴퓨터가 어떻게 찾을까요? <strong>DHT(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 장부)</strong>라는 916번 문서에서 배울 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 통신망 기술을 씁니다. 중앙 네이버 서버에 묻지 않고, 이웃 컴퓨터들끼리 귀엣말로 "야 너 이 해시값 가진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각 1번 가지고 있냐?"라고 물어물어 전 세계에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 빛의 속도로 긁어모아 흩뿌립니다(BitSwap [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 체계). [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용이 증발합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ IPFS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 인터넷([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 책을 찾을 때 **'도서관 고정 위치'**를 적어놓는 것입니다. "강남 도서관 3층 4번 책장의 세 번째 칸에 있는 책(www.naver/book.pdf)을 가져와!" 만약 강남 도서관에 불이 나거나 도둑이 책을 다른 책으로 바꿔치기하면 평생 찾을 길이 없고 당하게 됩니다. **[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)(행성 간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)**는 전 세계 사람들의 책장([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망)을 하나로 엮고, 책의 내용 전체를 분석해 절대 위조할 수 없는 100자리짜리 **'바코드 지문 도장(콘텐츠 해시 주소)'**을 쾅 찍어버리는 마법입니다. 이제 나는 강남 도서관에 가지 않고, 확성기에 대고 외칩니다. "바코드 [QmX7b...]번 책 조각 가진 놈들 다 던져!" 강남 도서관이 불타 폭삭 주저앉았더라도, 미국, 아프리카, 일본의 수만 명의 사람들이 자기 책꽂이에 있던 그 바코드의 책 조각을 던져주어 내 눈앞에서 완벽한 책 한 권으로 조립됩니다. 내용이 단 한 글자라도 바뀐 가짜 책은 바코드가 일치하지 않아 원천 폐기되는 영원불멸의 무결점 보존 도서관입니다.
+- **📢 섹션 요약 비유**: 기존 인터넷([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 책을 찾을 때 <strong>'도서관 고정 위치'</strong>를 적어놓는 것입니다. "강남 도서관 3층 4번 책장의 세 번째 칸에 있는 책(www.naver/book.pdf)을 가져와!" 만약 강남 도서관에 불이 나거나 도둑이 책을 다른 책으로 바꿔치기하면 평생 찾을 길이 없고 당하게 됩니다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/">IPFS</a>(행성 간 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템)</strong>는 전 세계 사람들의 책장([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망)을 하나로 엮고, 책의 내용 전체를 분석해 절대 위조할 수 없는 100자리짜리 <strong>'바코드 지문 도장(콘텐츠 해시 주소)'</strong>을 쾅 찍어버리는 마법입니다. 이제 나는 강남 도서관에 가지 않고, 확성기에 대고 외칩니다. "바코드 [QmX7b...]번 책 조각 가진 놈들 다 던져!" 강남 도서관이 불타 폭삭 주저앉았더라도, 미국, 아프리카, 일본의 수만 명의 사람들이 자기 책꽂이에 있던 그 바코드의 책 조각을 던져주어 내 눈앞에서 완벽한 책 한 권으로 조립됩니다. 내용이 단 한 글자라도 바뀐 가짜 책은 바코드가 일치하지 않아 원천 폐기되는 영원불멸의 무결점 보존 도서관입니다.
 
 ---
 
@@ -113,15 +121,19 @@ IPFS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 에지 보안 SASE 진화 모델 SSE]
-    │
-    ▼
-[현재 개념: IPFS]
-    │
-    ├──▶ [확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 에지 보안 SASE 진화 모델 SSE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 IPFS는 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE에서 출발해 현재 메커니즘을 정교화하고, 이후 V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

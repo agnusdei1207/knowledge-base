@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - **국가의 검열**: 유저가 불법 사이트에 들어가려 할 때, 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))는 유저의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 중간에 까보고 "어? 불법 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이네?" 하고 가짜 IP 주소(경찰청 Warning.or.kr)를 던져주어 강제 차단시켰습니다. ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 차단, SNI는 다음 1064번에서 설명)
 - 1062번 DNSSEC을 켜도 주소가 안 바뀔 뿐이지, 남이 내 질문 내용을 훔쳐보는 것(스니핑)은 못 막았습니다.
 
-```text
-[DNSSEC 존]
-    │
-    ▼
-[DoH / DoT]
-    │
-    └──▶ [ESNI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESNI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,23 +45,27 @@ tags = ["studynote-network"]
 그래서 IETF는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷 자체를 철갑 암호화 터널 안에 집어넣는 두 가지 표준을 제정했습니다.
 
 ### 1. [DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) ([DNS over TLS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)) - "[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전용 암호화 고속도로"
-- **개념**: 은행 앱에서 쓰는 강력한 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(전송 계층 보안, 488번)** 암호화 터널을 하나 뚫고, 그 껌껌한 터널 안으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 던져버리는 기술입니다.
-- **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: 기존 53번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 버리고, 아예 **전용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인 853번([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))**을 씁니다.
+- **개념**: 은행 앱에서 쓰는 강력한 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>(전송 계층 보안, 488번)</strong> 암호화 터널을 하나 뚫고, 그 껌껌한 터널 안으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 던져버리는 기술입니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 기존 53번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 버리고, 아예 <strong>전용 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>인 853번(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>을 씁니다.
 - **특징**: 안드로이드 스마트폰에 기본 내장(Private [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))되어 있습니다. 통신사는 내가 '어떤' 사이트에 가는지는 암호화되어 못 보지만, "아 얘가 853번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))를 썼으니까 지금 주소 물어보고 있네?"라는 사실 자체는 알 수 있습니다.
 
 ### 2. [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) ([DNS over HTTPS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/)) 🌟 최강의 스텔스 🌟
-- **개념**: TLS보다 한술 더 뜹니다. 아예 우리가 웹 서핑할 때 쓰는 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 443번)** 안에다가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 잘게 다져서 구겨 넣어버립니다.
-- **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: 유튜브, 네이버 들어갈 때 쓰는 **443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**를 똑같이 씁니다.
+- **개념**: TLS보다 한술 더 뜹니다. 아예 우리가 웹 서핑할 때 쓰는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 443번)</strong> 안에다가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 잘게 다져서 구겨 넣어버립니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 유튜브, 네이버 들어갈 때 쓰는 <strong>443 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>를 똑같이 씁니다.
 - **스텔스 기능 (검열 무력화)**: 크롬(Chrome)이나 파이어폭스 브라우저가 이 방식을 씁니다. 통신사(검열기)가 패킷을 까봐도 이게 네이버 뉴스를 보는 평범한 웹 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))인지, 아니면 불법 사이트 주소를 물어보는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질문([DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))인지 절대 구분할 수가 없습니다. 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 아예 다 차단하면 국가 전체의 인터넷이 죽어버리기 때문에 정부의 검열을 가장 빡치게 만드는 궁극의 우회/암호화 기술입니다.
 
-```text
-[DNSSEC 존]
-    │
-    ▼
-[DoH / DoT]
-    │
-    └──▶ [ESNI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESNI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,8 +76,8 @@ tags = ["studynote-network"]
 - **프라이버시의 승리**: 구글(8.8.8.8), 클라우드플레어(1.1.1.1) 등 글로벌 퍼블릭 DNS들이 DoH를 완벽 지원하며 국가 검열은 무너졌습니다.
 - **기업 보안팀의 비명**: 회사 직원이 회사 PC에서 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) 브라우저를 켜고 악성코드 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(명령 서버)에 접속합니다. 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 100억짜리 차단 장비가 이 암호화된 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 까보질 못해서 악성 사이트 접속을 차단하지 못하고 랜섬웨어에 감염되는 대참사가 터집니다. (가시성의 상실)
 
-- **[DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)**: 해커가 가짜 주소로 **'조작'**하는 걸 막아주는 **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(도장)** 기술. (편지 내용물은 남이 읽을 수 있음)
-- **[DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / [DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)**: 내 질문 내용을 남이 **'훔쳐보는 것'**을 막아주는 **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(암호화 터널)** 기술. (편지 내용을 금고에 숨김)
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/">DNSSEC</a></strong>: 해커가 가짜 주소로 <strong>'조작'</strong>하는 걸 막아주는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(도장)</strong> 기술. (편지 내용물은 남이 읽을 수 있음)
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/">DoH</a> / <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/">DoT</a></strong>: 내 질문 내용을 남이 <strong>'훔쳐보는 것'</strong>을 막아주는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(암호화 터널)</strong> 기술. (편지 내용을 금고에 숨김)
 - 현대 클라우드는 이 두 기술을 동시에 섞어 써야 비로소 완벽한 인터넷 주소록 보안이 달성됩니다.
 
 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존이 기반 조건을 만든다면, [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 그 위에서 핵심 메커니즘을 구현하고, ESNI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 **쌩얼 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)**는 엽서 뒤에 **"저기요! 포르노 사이트 주소 좀 알려주세요!"라고 대문짝만하게 적어서 우체통에 넣는 짓**입니다. 우체부(통신사, 정부)가 편지를 나르다가 내용을 다 훔쳐보고 부끄러워하며 쓰레기통에 버립니다(차단). 이를 숨기기 위한 첫 번째 방법 **[DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)([DNS over TLS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))**는 이 엽서를 **'검은 봉투([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화)'**에 밀봉하고 우표에 **'[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전용 마크([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 853)'**를 찍어 보내는 겁니다. 우체부는 내용은 못 보지만 "아, 이놈 또 주소 물어보네?"라고 눈치는 챕니다. 두 번째 궁극의 방법 **[DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/)([DNS over HTTPS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))**는 이 엽서를 아예 **'일반 쇼핑몰 홈쇼핑 택배 박스([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 443)'** 안에 쇼핑몰 잡지들과 함께 숨겨서 택배로 부쳐버리는 미친 스텔스 작전입니다. 우체부가 택배 엑스레이를 찍어도, 이게 그냥 옷을 산 건지(일반 웹 서핑), 안에 음흉한 주소 질문 엽서([DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))가 들어있는지 절대 구분할 수 없어서, 국가의 불법 사이트 검열망을 완벽하게 바보로 만들어버리는 인터넷 프라이버시 최후의 철갑탄입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>쌩얼 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a></strong>는 엽서 뒤에 <strong>"저기요! 포르노 사이트 주소 좀 알려주세요!"라고 대문짝만하게 적어서 우체통에 넣는 짓</strong>입니다. 우체부(통신사, 정부)가 편지를 나르다가 내용을 다 훔쳐보고 부끄러워하며 쓰레기통에 버립니다(차단). 이를 숨기기 위한 첫 번째 방법 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/">DoT</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/">DNS over TLS</a>)</strong>는 이 엽서를 <strong>'검은 봉투(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화)'</strong>에 밀봉하고 우표에 <strong>'<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 전용 마크(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 853)'</strong>를 찍어 보내는 겁니다. 우체부는 내용은 못 보지만 "아, 이놈 또 주소 물어보네?"라고 눈치는 챕니다. 두 번째 궁극의 방법 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/">DoH</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/">DNS over HTTPS</a>)</strong>는 이 엽서를 아예 <strong>'일반 쇼핑몰 홈쇼핑 택배 박스(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 443)'</strong> 안에 쇼핑몰 잡지들과 함께 숨겨서 택배로 부쳐버리는 미친 스텔스 작전입니다. 우체부가 택배 엑스레이를 찍어도, 이게 그냥 옷을 산 건지(일반 웹 서핑), 안에 음흉한 주소 질문 엽서([DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))가 들어있는지 절대 구분할 수 없어서, 국가의 불법 사이트 검열망을 완벽하게 바보로 만들어버리는 인터넷 프라이버시 최후의 철갑탄입니다.
 
 ---
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DNSSEC 존]
-    │
-    ▼
-[현재 개념: DoH / DoT]
-    │
-    ├──▶ [확장 A: ESNI]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNSSEC 존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoH / DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ESNI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존에서 출발해 현재 메커니즘을 정교화하고, 이후 ESNI와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

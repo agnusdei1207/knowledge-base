@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대의 모든 인터넷 통신([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), 은행 결제, 공인인증서)은 RSA나 타원곡선암호([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 같은 **'공개키 암호 방식'**을 사용한다. 이 암호들은 "아무리 슈퍼컴퓨터라도 아주 큰 소수(Prime Number)를 인수분해하는 데는 수백만 년이 걸린다"는 수학적 난제에 안전성을 기대고 있다.
+현대의 모든 인터넷 통신([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), 은행 결제, 공인인증서)은 RSA나 타원곡선암호([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 같은 <strong>'공개키 암호 방식'</strong>을 사용한다. 이 암호들은 "아무리 슈퍼컴퓨터라도 아주 큰 소수(Prime Number)를 인수분해하는 데는 수백만 년이 걸린다"는 수학적 난제에 안전성을 기대고 있다.
 
-그런데 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)([Quantum Computer](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))의 '쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'이 등장했다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 완성되면 수백만 년 걸리던 암호 해독을 단 몇 시간 만에 끝낼 수 있게 된다. 이 암호 붕괴의 날을 **[Q-Day](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Day)**라고 부른다.
+그런데 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)([Quantum Computer](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))의 '쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'이 등장했다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 완성되면 수백만 년 걸리던 암호 해독을 단 몇 시간 만에 끝낼 수 있게 된다. 이 암호 붕괴의 날을 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/">Q-Day</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Day)</strong>라고 부른다.
 
-이에 대응하기 위해 미국 국립표준기술연구소(NIST)는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 무식한 계산력으로도 절대 풀 수 없는 새로운 수학적 문제(격자 문제 등)를 활용한 **[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))** 표준을 제정하고 있다. 기술 리더들은 다가올 Q-Day에 대비하여 시스템의 암호 모듈을 PQC로 들어내는 대공사를 준비해야 한다.
+이에 대응하기 위해 미국 국립표준기술연구소(NIST)는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 무식한 계산력으로도 절대 풀 수 없는 새로운 수학적 문제(격자 문제 등)를 활용한 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>)</strong> 표준을 제정하고 있다. 기술 리더들은 다가올 Q-Day에 대비하여 시스템의 암호 모듈을 PQC로 들어내는 대공사를 준비해야 한다.
 
 - **📢 섹션 요약 비유**: 지금의 암호([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 천문학적으로 복잡한 '자물쇠'라서 도둑(해커)이 열쇠를 수억 번 끼워봐야 열 수 있다. 하지만 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)라는 '만능 절단기'가 발명되면 자물쇠 자체가 무용지물이 된다. PQC는 절단기로도 썰리지 않는 완전히 새로운 신소재로 자물쇠를 교체하는 작업이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 대비 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 소프트웨어 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  양자 컴퓨팅 대비 PQC 소프트웨어                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 컴퓨팅 대비 PQC 소프트웨어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 대비 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 소프트웨어 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,11 +71,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-양자 시대를 대비하는 보안 기술에는 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 외에도 **[양자 암호 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/)([QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/))**이 있다. 두 기술은 상호 보완적이다.
+양자 시대를 대비하는 보안 기술에는 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 외에도 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">양자 암호 통신</a>(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">QKD</a>)</strong>이 있다. 두 기술은 상호 보완적이다.
 
 | 비교 항목 | [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) ([양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) | [QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/) (양자 키 분배, [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution) |
 |:---|:---|:---|
-| **본질** | [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 풀기 힘든 **"수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(소프트웨어)"** | 양자 역학의 물리 법칙을 이용한 **"하드웨어 통신"** |
+| **본질** | [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 풀기 힘든 <strong>"수학적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(소프트웨어)"</strong> | 양자 역학의 물리 법칙을 이용한 **"하드웨어 통신"** |
 | **방어 원리** | 계산의 복잡성 (해독 불가능) | 빛의 입자(광자) 상태 변화 ([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 시 즉각 발각) |
 | **적용 비용** | 저렴함 (소프트웨어 패치만으로 가능) | **천문학적** (전용 광케이블과 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/) 하드웨어 필요) |
 | **실무 적용** | **일반 인터넷, 클라우드, 스마트폰 등 범용 적용** | 국가 기밀망, 은행 간 전용망 등 특수 환경에만 적용 |
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-양자 컴퓨팅 대비 PQC 소프트웨어 구조 전환 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자 컴퓨팅 대비 PQC 소프트웨어 구조 전환 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

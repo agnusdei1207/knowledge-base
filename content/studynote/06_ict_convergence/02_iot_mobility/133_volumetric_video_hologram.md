@@ -10,21 +10,27 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 볼류메트릭 비디오(Volumetric Video)는 **피사체를 360도 다방향 카메라로 촬영하여 3D 포인트 클라우드/메시로 재구성**한 콘텐츠이며, 시청자가 **자유 시점(Free Viewpoint)**에서 감상할 수 있다.
-> 2. **가치**: 기존 2D 영상은 촬영 각도에 고정되지만, 볼류메트릭은 **원하는 각도에서 자유롭게 관찰**할 수 있어 XR·스포츠 중계·공연·교육에 혁신적 경험을 제공한다.
-> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량이 막대(프레임당 수백MB)하여 **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·스트리밍·렌더링 최적화**가 핵심 과제이며, NeRF·3D Gaussian Splatting이 차세대 기술이다.
+> 1. **본질**: 볼류메트릭 비디오(Volumetric Video)는 <strong>피사체를 360도 다방향 카메라로 촬영하여 3D 포인트 클라우드/메시로 재구성</strong>한 콘텐츠이며, 시청자가 <strong>자유 시점(Free Viewpoint)</strong>에서 감상할 수 있다.
+> 2. **가치**: 기존 2D 영상은 촬영 각도에 고정되지만, 볼류메트릭은 <strong>원하는 각도에서 자유롭게 관찰</strong>할 수 있어 XR·스포츠 중계·공연·교육에 혁신적 경험을 제공한다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량이 막대(프레임당 수백MB)하여 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·스트리밍·렌더링 최적화</strong>가 핵심 과제이며, NeRF·3D Gaussian Splatting이 차세대 기술이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-촬영: 다방향 카메라(30~100대) → 포인트 클라우드 → 3D 메시
-재생: XR 헤드셋 또는 홀로그래픽 디스플레이
-시청: 자유 시점에서 360도 감상
-```
 
-- **📢 섹션 요약 비유**: 2D 영상은 **사진(고정 각도)**, 볼류메트릭은 **조각상(어느 각도에서든 감상 가능)**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">촬영: 다방향 카메라(30~100대) → 포인트 클라우드 → 3D 메시</div>
+<div class="kb-diagram-note">재생: XR 헤드셋 또는 홀로그래픽 디스플레이</div>
+<div class="kb-diagram-note">시청: 자유 시점에서 360도 감상</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 2D 영상은 **사진(고정 각도)**, 볼류메트릭은 <strong>조각상(어느 각도에서든 감상 가능)</strong>이다.
 
 ---
 
@@ -34,13 +40,13 @@ tags = ["studynote-ict-convergence"]
 |:---|:---|:---|:---|
 | **시점** | 고정 | 회전 | **자유** |
 | **깊이** | 없음 | 없음 | **있음** |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 소 | 중 | **대** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 소 | 중 | **대** |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-볼류메트릭 비디오는 **차세대 실감 콘텐츠의 핵심**이며, NeRF·Gaussian Splatting으로 제작 비용이 급감하고 있다.
+볼류메트릭 비디오는 <strong>차세대 실감 콘텐츠의 핵심</strong>이며, NeRF·Gaussian Splatting으로 제작 비용이 급감하고 있다.
 
 ---
 
@@ -56,14 +62,20 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[2D 영상] → [360 영상 (2016)] → [볼류메트릭 (2018~)]
-    → [NeRF (2020)] → [3D Gaussian Splatting (2023)]
-    → [현재: 실시간 볼류메트릭 스트리밍]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">2D 영상</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">360 영상 (2016)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">볼류메트릭 (2018~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NeRF (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3D Gaussian Splatting (2023)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 실시간 볼류메트릭 스트리밍</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 2D 영상은 **사진(한 방향)**이에요. 볼류메트릭은 **조각상(모든 방향)**이에요.
+1. 2D 영상은 <strong>사진(한 방향)</strong>이에요. 볼류메트릭은 <strong>조각상(모든 방향)</strong>이에요.
 2. 조각상처럼 **어느 각도에서든** 자유롭게 볼 수 있어요.
 3. VR 헤드셋에서 **가수 공연을 바로 앞에서** 보는 것처럼 느낄 수 있어요!
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 해커가 본격적인 해킹 공격을 감행하기 전, **타겟 서버(컴퓨터)에 어떤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 입구)가 열려있고 어떤 프로그램이 돌아가고 있는지 탐색(정찰)하는 정보 수집 행위**입니다.
+- 해커가 본격적인 해킹 공격을 감행하기 전, <strong>타겟 서버(컴퓨터)에 어떤 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 입구)가 열려있고 어떤 프로그램이 돌아가고 있는지 탐색(정찰)하는 정보 수집 행위</strong>입니다.
 - 유명한 해킹 툴인 **Nmap, nmap, masscan** 등이 쓰입니다. 80번이 열려있으면 웹 해킹을 시도하고, 22번이 열려있으면 비밀번호 무차별 대입 공격을 시도할 계획을 세웁니다.
 
-```text
-[다크 웹 Tor]
-    │
-    ▼
-[스키밍 공격]
-    │
-    └──▶ [무차별 대입 공격 통신 로그인/SSH 타격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스키밍 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,24 +48,28 @@ tags = ["studynote-network"]
   1. 해커가 서버 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 `[SYN]`을 던집니다.
   2. 서버가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있으면 `[SYN+ACK]`로 화답합니다.
   3. 해커가 쿨하게 `[ACK]`로 화답하며 **연결을 완벽하게 맺어버립니다.** "아, 80번 열려있네!" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 완료.
-- **치명적 단점 (기록이 다 남음)**: 통신이 100% 정상적으로 완성되었으므로, **타겟 서버의 보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(장부)에 해커의 IP 주소와 방문 기록이 뚜렷하게 도장처럼 꽝 박혀버립니다.** [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자가 아침에 출근해 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 보고 "이놈이 밤새 내 서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 털어보려고 쑤셨구나!"라며 해커 IP를 경찰에 넘길 수 있습니다.
+- **치명적 단점 (기록이 다 남음)**: 통신이 100% 정상적으로 완성되었으므로, <strong>타겟 서버의 보안 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(장부)에 해커의 IP 주소와 방문 기록이 뚜렷하게 도장처럼 꽝 박혀버립니다.</strong> [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자가 아침에 출근해 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 보고 "이놈이 밤새 내 서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 털어보려고 쑤셨구나!"라며 해커 IP를 경찰에 넘길 수 있습니다.
 
 ### 2. Stealth 스캔 (Half Open / [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN 스캔) - "흔적 없는 닌자 문고리 돌리기" 🌟
 해커가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장부에 자기 흔적을 남기지 않기 위해 발명한 꼼수 스캔입니다. 보안 전문가들이 가장 애용하는 스캔(nmap의 `-sS` 옵션)입니다.
 - **원리**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake를 **일부러 끝까지 안 맺고 중간에 끊어버립니다 (Half-Open).**
   1. 해커가 서버에 `[SYN]`을 던집니다.
   2. 서버가 `[SYN+ACK]`로 화답합니다. (여기까지 보면 "오 80번 열려있군!" 정보 획득 끝)
-  3. **닌자 회피술**: 해커는 `[ACK]`를 보내는 대신, **돌연 `[RST]`(리셋, 강제 종료) 패킷을 냅다 던져버리며 싹 도망쳐버립니다.**
-- **효과 (스텔스 마법)**: 서버의 OS는 최종 `[ACK]`를 못 받았기 때문에 "아, 연결이 실패했네. 그냥 지나가던 쓰레기 패킷인가 보네"라고 착각하고, **서버의 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 장부)에 이 연결 시도 자체를 아예 적지 않습니다.** 해커는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있다는 정보만 쏙 빼먹고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 흔적 없이 유유히 사라지는 완벽한 스텔스 정찰을 완성합니다.
+  3. **닌자 회피술**: 해커는 `[ACK]`를 보내는 대신, <strong>돌연 <code>[RST]</code>(리셋, 강제 종료) 패킷을 냅다 던져버리며 싹 도망쳐버립니다.</strong>
+- **효과 (스텔스 마법)**: 서버의 OS는 최종 `[ACK]`를 못 받았기 때문에 "아, 연결이 실패했네. 그냥 지나가던 쓰레기 패킷인가 보네"라고 착각하고, <strong>서버의 시스템 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">방문자</a> 장부)에 이 연결 시도 자체를 아예 적지 않습니다.</strong> 해커는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있다는 정보만 쏙 빼먹고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 흔적 없이 유유히 사라지는 완벽한 스텔스 정찰을 완성합니다.
 
-```text
-[다크 웹 Tor]
-    │
-    ▼
-[스키밍 공격]
-    │
-    └──▶ [무차별 대입 공격 통신 로그인/SSH 타격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스키밍 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 다크 웹 Tor]
-    │
-    ▼
-[현재 개념: 스키밍 공격]
-    │
-    ├──▶ [확장 A: 무차별 대입 공격 통신 로그인/SSH 타격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 웹 Tor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스키밍 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 스키밍 공격는 다크 웹 Tor에서 출발해 현재 메커니즘을 정교화하고, 이후 무차별 대입 공격 통신 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -34,81 +34,79 @@ tags = ["studynote-design-supervision"]
 | JavaScript | Terser, javascript-obfuscator | 미니파이, 변수명 치환 |
 | .NET | Dotfuscator, ConfuserEx | 이름 변경, 안티-디버깅 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "책의 내용을 암호로 쓰는 것"이 아니라 "글씨체를 해독하기 어렵게 흘려 쓰는 것"이다. 충분한 시간과 노력이 있으면 해독이 가능하지만, 공격자가 포기하게 만드는 것이 목표다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────┐
-│              난독화 4계층 방어 모델                          │
-│                                                            │
-│  Level 4 ┌──────────────────────────────────────┐          │
-│  (최고)   │  패킹 / 안티-디버깅 / 루트 감지        │          │
-│           │  (Packing / Anti-Debug / Root Check) │          │
-│           └──────────────────────────────────────┘          │
-│  Level 3 ┌──────────────────────────────────────┐          │
-│           │  제어 흐름 난독화                      │          │
-│           │  (Control Flow Obfuscation)           │          │
-│           └──────────────────────────────────────┘          │
-│  Level 2 ┌──────────────────────────────────────┐          │
-│           │  문자열 암호화                         │          │
-│           │  (String Encryption)                  │          │
-│           └──────────────────────────────────────┘          │
-│  Level 1 ┌──────────────────────────────────────┐          │
-│  (기본)   │  이름 변경 (Renaming)                  │          │
-│           │  클래스/메서드/변수명 → a, b, c        │          │
-│           └──────────────────────────────────────┘          │
-│                                                            │
-│  적용 원칙: Level 1은 기본, 금융·의료는 Level 3~4 권장      │
-└────────────────────────────────────────────────────────────┘
-```
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  원본 코드                 난독화 후                       │
-│                                                          │
-│  if (isValid) {            int x = 0x1A3F;               │
-│    process();              switch(x ^ 0x2B1C) {          │
-│  } else {                    case 0x317C:                │
-│    reject();                   if(!(!isValid))           │
-│  }                               process_a1b2();         │
-│                                  break;                  │
-│                              case 0x4E2A:                │
-│                                  reject_c3d4();          │
-│                            }                             │
-│                                                          │
-│  → 의미: 동일하지만 역공학 시 흐름 추적이 극도로 어려움    │
-└──────────────────────────────────────────────────────────┘
-```
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│              앱 무결성 검증 흐름                              │
-│                                                             │
-│  앱 배포 시 서명 값 계산 및 내장                              │
-│       │                                                     │
-│       ▼                                                     │
-│  ┌──────────────────────────────────────┐                   │
-│  │  실행 시 자기 서명 해시 계산           │                   │
-│  │  Hash(APK binary) = H_runtime        │                   │
-│  └─────────────────────┬────────────────┘                   │
-│                        │                                   │
-│       ┌────────────────┴───────────────┐                    │
-│       │                                │                    │
-│       ▼ H_runtime == H_embedded        ▼ H_runtime != H_embedded │
-│  ┌──────────────┐                ┌──────────────┐           │
-│  │  정상 실행    │                │  앱 종료 /   │           │
-│  └──────────────┘                │  서버 보고   │           │
-│                                  └──────────────┘           │
-└─────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난독화 4계층 방어 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최고)</div><div class="kb-diagram-cell">패킹 / 안티-디버깅 / 루트 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Packing / Anti-Debug / Root Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 흐름 난독화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Control Flow Obfuscation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자열 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(String Encryption)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기본)</div><div class="kb-diagram-cell">이름 변경 (Renaming)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스/메서드/변수명 → a, b, c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적용 원칙: Level 1은 기본, 금융·의료는 Level 3~4 권장</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 코드 난독화 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (isValid) { int x = 0x1A3F;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">process(); switch(x ^ 0x2B1C) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else { case 0x317C:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject(); if(!(!isValid))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} process_a1b2();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">break;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">case 0x4E2A:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject_c3d4();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 의미: 동일하지만 역공학 시 흐름 추적이 극도로 어려움</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 무결성 검증 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 배포 시 서명 값 계산 및 내장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 시 자기 서명 해시 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash(APK binary) = H_runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ H_runtime == H_embedded ▼ H_runtime != H_embedded</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 실행</div><div class="kb-diagram-cell">앱 종료 /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 보고</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -173,7 +171,7 @@ tags = ["studynote-design-supervision"]
 ## Ⅴ. 기대효과 및 결론
 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)와 [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) 방어를 계층적으로 적용하면 공격자의 분석 시간이 수 분에서 수 주 이상으로 늘어나 경제적 타당성을 잃게 만든다. 특히 금융·의료·공공 모바일 앱에서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키 노출, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 우회, 위변조 앱 배포를 방지하는 핵심 수단이다.
 
-감리인은 빌드 설정과 실행 결과를 병행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 적용되었더라도 **실제 역컴파일 시도 결과**를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 적극적 감리를 수행해야 한다.
+감리인은 빌드 설정과 실행 결과를 병행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 적용되었더라도 <strong>실제 역컴파일 시도 결과</strong>를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 적극적 감리를 수행해야 한다.
 
 확장 방향은 ① [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
 

@@ -29,13 +29,19 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Threat Surface
-  ↓
-STRIDE Categories
-  ↓
-Mitigation Ideas
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Threat Surface</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">STRIDE Categories</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigation Ideas</div>
+</div>
+</div>
+
+
 
 | 범주 | 의미 | 예시 |
 | :-- | :-- | :-- |
@@ -101,29 +107,41 @@ STRIDE를 쓰면 설계 리뷰가 빠지고, 공격 범주가 빠짐없이 정�
 
 ## 관련 개념 맵
 
-```text
-Data Flow
-  ↓
-STRIDE
-  ↓
-Mitigations
-  ↓
-Secure Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Flow</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">STRIDE</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigations</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Secure Design</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Threat Modeling
-  ↓
-STRIDE
-  ↓
-DREAD
-  ↓
-Security Review
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Threat Modeling</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">STRIDE</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DREAD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security Review</div>
+</div>
+</div>
+
+
 
 ---
 

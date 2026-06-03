@@ -25,7 +25,7 @@ tags = ["studynote-ict-convergence"]
 
 1. **H₀(귀무가설, Null Hypothesis)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): "효과 없음"이 기본 가정.
 2. **H₁(대립가설, Alternative Hypothesis)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 증명하고자 하는 주장.
-3. **[유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)(α, Significance Level)** 결정: 통상 α=0.05 (5%).
+3. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/">유의 수준</a>(α, Significance Level)</strong> 결정: 통상 α=0.05 (5%).
 4. **검정 통계량** 계산 및 **p-값** 산출.
 5. **판정**: p < α이면 H₀ 기각, p ≥ α이면 H₀ 채택 불충분한 증거.
 
@@ -37,17 +37,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 오류 행렬과 검정력
 
-```
-                   실제 상황
-                ┌──────────┬──────────┐
-                │  H₀ 참   │  H₁ 참   │
- 판정  H₀ 채택  │  정확 ✓  │ β(2종↑)  │
-       H₀ 기각  │ α(1종↑)  │  검정력  │
-                └──────────┴──────────┘
-  α = P(H₀ 기각 | H₀ 참)  ← 1종 오류(False Positive)
-  β = P(H₀ 채택 | H₁ 참)  ← 2종 오류(False Negative)
-  Power = 1 - β            ← 통계적 검정력
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실제 상황</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H₀ 참</div><div class="kb-diagram-cell">H₁ 참</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판정 H₀ 채택</div><div class="kb-diagram-cell">정확 ✓</div><div class="kb-diagram-cell">β(2종↑)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H₀ 기각</div><div class="kb-diagram-cell">α(1종↑)</div><div class="kb-diagram-cell">검정력</div></div>
+<div class="kb-diagram-note">α = P(H₀ 기각 | H₀ 참) ← 1종 오류(False Positive)</div>
+<div class="kb-diagram-note">β = P(H₀ 채택 | H₁ 참) ← 2종 오류(False Negative)</div>
+<div class="kb-diagram-note">Power = 1 - β ← 통계적 검정력</div>
+</div>
+</div>
+
+
 
 ### p-값 vs [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) 구분
 
@@ -88,7 +92,7 @@ tags = ["studynote-ict-convergence"]
 - n=200, t-통계량 = −3.2, p-값 = 0.0008 < 0.01 → H₀ 기각
 - Cohen's d = 0.65 (중간 효과 크기) → 임상적으로도 의미 있음
 
-**검정력 분석 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Analysis)**:
+<strong>검정력 분석 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Analysis)</strong>:
 - 목표 검정력 0.80, α=0.05, Cohen's d=0.5 → 필요 표본 크기 n≈64 (per group).
 - 표본이 작으면 실제 효과가 있어도 놓칠 수 있음(2종 오류 위험↑).
 

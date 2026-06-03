@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 앞선 726번 문서에서, 해커가 성공적으로 웹사이트에 악성 자바스크립트 코드(`<script> ... </script>`)를 심어두면, 접속한 사용자의 브라우저에서 이 코드가 실행됩니다.
-- 이때 해커의 코드는 자바스크립트의 기본 기능인 **`document.cookie`**라는 내장 명령어를 딱 한 줄만 실행합니다. 이 명령어가 실행되면 현재 브라우저에 저장된 내 네이버 아이디 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 은행 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 텍스트 형태로 툭 튀어나옵니다. 해커는 이걸 자기 서버로 쓱 날려버리면 끝입니다([세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)).
+- 이때 해커의 코드는 자바스크립트의 기본 기능인 <strong><code>document.cookie</code></strong>라는 내장 명령어를 딱 한 줄만 실행합니다. 이 명령어가 실행되면 현재 브라우저에 저장된 내 네이버 아이디 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 은행 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 텍스트 형태로 툭 튀어나옵니다. 해커는 이걸 자기 서버로 쓱 날려버리면 끝입니다([세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)).
 
-```text
-[무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
-[XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    └──▶ [크로스 사이트 스크립팅 (XSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 가장 근본적으로는 개발자가 꼼꼼해야 합니다.
-- **입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**: 사용자가 게시판에 글을 쓸 때 꺾쇠 괄호 `<`나 `>` 같은 특수문자를 아예 못 쓰게 막아버립니다.
+- <strong>입력값 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>: 사용자가 게시판에 글을 쓸 때 꺾쇠 괄호 `<`나 `>` 같은 특수문자를 아예 못 쓰게 막아버립니다.
 - **HTML 인코딩 (치환)**: 사용자가 억지로 `<script>`라고 치면, 서버는 이를 `&lt;script&gt;` 같은 무의미한 텍스트 기호로 싹 다 강제 변환해서 DB에 저장합니다. 나중에 다른 사람이 그 글을 봐도 브라우저는 이를 실행 코드가 아닌 단순한 "글자"로 인식해 악성 행위가 차단됩니다. (보안 코딩의 기초)
 
-```text
-[무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
-[XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    └──▶ [크로스 사이트 스크립팅 (XSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,13 +67,13 @@ tags = ["studynote-network"]
 만약 개발자가 실수로 필터링을 빼먹어서 악성 자바스크립트가 내 화면에서 실행되어 버렸다면? 그래도 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 지켜주는 최후의 안전장치가 바로 `HttpOnly`입니다.
 
 ### 1. `HttpOnly`의 동작 원리
-- 웹 서버(네이버 등)가 로그인에 성공한 사용자에게 임시 통행증인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답 헤더 끝에 **`HttpOnly`**라는 꼬리표 옵션을 딱 달아서 보내줍니다.
+- 웹 서버(네이버 등)가 로그인에 성공한 사용자에게 임시 통행증인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답 헤더 끝에 <strong><code>HttpOnly</code></strong>라는 꼬리표 옵션을 딱 달아서 보내줍니다.
   - `Set-Cookie: session_id=1234567; HttpOnly;`
-- 이 꼬리표가 붙은 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 받은 브라우저(크롬, 사파리)는 맹세합니다. **"앞으로 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는, 오직 정상적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신(서버에 화면 달라고 요청할 때)을 할 때만 브라우저가 알아서 꺼내서 쓴다. 그 외에 웹페이지 안에서 돌아가는 자바스크립트 따위가 `document.cookie` 명령어로 감히 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 보여달라고 요구하면 무조건 거절(Access Denied)하겠다!"**
+- 이 꼬리표가 붙은 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 받은 브라우저(크롬, 사파리)는 맹세합니다. <strong>"앞으로 이 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>는, 오직 정상적인 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 통신(서버에 화면 달라고 요청할 때)을 할 때만 브라우저가 알아서 꺼내서 쓴다. 그 외에 웹페이지 안에서 돌아가는 자바스크립트 따위가 <code>document.cookie</code> 명령어로 감히 이 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 보여달라고 요구하면 무조건 거절(Access Denied)하겠다!"</strong>
 
 ### 2. 해커의 절망
 - 해커의 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 코드가 무사히 실행되어 `document.cookie`를 외쳐도, 브라우저는 텅 빈 문자열만 뱉어줍니다. 핵심 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 `HttpOnly` 방탄유리 안에 들어있어 자바스크립트의 손길이 절대 닿지 않기 때문입니다.
-- 결과적으로 **[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 취약점이 뚫리더라도, 가장 치명적인 타격인 '[세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)(계정 탈취)'만큼은 완벽하게 방어해 내는 최고의 가성비 보호막**이 됩니다.
+- 결과적으로 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> 취약점이 뚫리더라도, 가장 치명적인 타격인 '<a href="/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/">세션 하이재킹</a>(계정 탈취)'만큼은 완벽하게 방어해 내는 최고의 가성비 보호막</strong>이 됩니다.
 
 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 무차별 대입 공격 통신 로그인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격이 기반 조건을 만든다면, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 그 위에서 핵심 메커니즘을 구현하고, [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 탈취당하는 또 다른 구멍은, 와이파이를 몰래 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)하는 것입니다. 
-- 이를 막기 위해 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 **`Secure`**라는 옵션도 같이 달아줍니다. 이 꼬리표가 붙으면, 브라우저는 평문 통신인 `http://`에서는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 절대 내보내지 않고, 완벽히 암호화된 **`https://` 통신을 할 때만 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 안전하게 실어 보냅니다.**
+- 이를 막기 위해 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 <strong><code>Secure</code></strong>라는 옵션도 같이 달아줍니다. 이 꼬리표가 붙으면, 브라우저는 평문 통신인 `http://`에서는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 절대 내보내지 않고, 완벽히 암호화된 <strong><code>https://</code> 통신을 할 때만 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 안전하게 실어 보냅니다.</strong>
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무차별 대입 공격 통신 로그인/SSH 타격]
-    │
-    ▼
-[현재 개념: XSS 방어 HttpOnly 쿠키 속성 설정…]
-    │
-    ├──▶ [확장 A: 크로스 사이트 스크립팅 (XSS]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무차별 대입 공격 통신 로그인/SSH 타격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 크로스 사이트 스크립팅 (XSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 무차별 대입 공격 통신 로그인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격에서 출발해 현재 메커니즘을 정교화하고, 이후 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

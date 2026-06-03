@@ -11,9 +11,9 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), [비잔틴 장애 허용](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/))는 최대 **f개의 악의적 노드**가 존재해도 정상 합의를 보장하기 위해 **3f+1개 이상의 노드**가 필요하다는 수학적 원리다.
-> 2. **가치**: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)([Practical BFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/))의 3단계(Pre-prepare → Prepare → Commit)와 현대적 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Tendermint, HotStuff)은 허가형 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 **결정적 최종성(Deterministic [Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))**을 가능하게 한다.
-> 3. **판단 포인트**: [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 기반 합의는 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 모델**([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용)에 해당하며, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 희생해 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지킨다.
+> 1. **본질**: [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), [비잔틴 장애 허용](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/))는 최대 <strong>f개의 악의적 노드</strong>가 존재해도 정상 합의를 보장하기 위해 <strong>3f+1개 이상의 노드</strong>가 필요하다는 수학적 원리다.
+> 2. **가치**: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)([Practical BFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/))의 3단계(Pre-prepare → Prepare → Commit)와 현대적 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Tendermint, HotStuff)은 허가형 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 <strong>결정적 최종성(Deterministic <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/">Finality</a>)</strong>을 가능하게 한다.
+> 3. **판단 포인트**: [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 기반 합의는 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a> 모델</strong>([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용)에 해당하며, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 희생해 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지킨다.
 
 ---
 
@@ -47,33 +47,32 @@ tags = ["studynote-ict-convergence"]
 
 ### [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 3단계 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                PBFT 합의 3단계 (뷰 v)                     │
-│                                                          │
-│  클라이언트  리더(Primary)    복제 노드 R1  복제 노드 R2  │
-│      │           │                │              │       │
-│      │──Request──►               │              │       │
-│      │           │                │              │       │
-│      │    [1] Pre-prepare         │              │       │
-│      │           │──Pre-prepare──►│──Pre-prepare─►       │
-│      │           │                │              │       │
-│      │    [2] Prepare             │              │       │
-│      │           │◄──Prepare─────►│◄─Prepare─────►       │
-│      │           │    (2f+1개 수신 후 진행)       │       │
-│      │    [3] Commit              │              │       │
-│      │           │◄──Commit──────►│◄─Commit──────►       │
-│      │           │    (2f+1개 수신 후 실행)       │       │
-│      │           │                │              │       │
-│      │◄──────────Reply────────────────────────────       │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBFT 합의 3단계 (뷰 v)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 리더(Primary) 복제 노드 R1 복제 노드 R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──Request──►</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">Pre-prepare │ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──Pre-prepare──►</div><div class="kb-diagram-cell">──Pre-prepare─►</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">Prepare │ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄──Prepare ►</div><div class="kb-diagram-cell">◄─Prepare ►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2f+1개 수신 후 진행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">Commit │ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄──Commit ►</div><div class="kb-diagram-cell">◄─Commit ►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2f+1개 수신 후 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄ Reply</div></div>
+</div>
+</div>
+
+
 
 ### 현대 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 메시지 복잡도 | 특징 | 사용처 |
 |:---|:---:|:---|:---|
-| **[PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)** | O(n²) | 최초 실용 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), 소규모 최적 | Hyperledger |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/">PBFT</a></strong> | O(n²) | 최초 실용 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), 소규모 최적 | Hyperledger |
 | **Tendermint** | O(n²) | 라운드 기반, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 특화 | Cosmos, [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) |
 | **HotStuff** | O(n) | 선형 복잡도, 파이프라인 | LibraBFT/Diem |
 | **SBFT** | O(n) | 리더 집합, 실용 최적화 | 엔터프라이즈 |
@@ -95,9 +94,9 @@ tags = ["studynote-ict-convergence"]
 
 ### [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-[BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) + [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance)** 모델이다:
-- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(네트워크 분리) 발생 시 → 2f+1 정족수 미달 → **블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 중단** ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 희생)
-- 대신 **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장**: 두 서로 다른 블록이 동시에 최종화되는 상황(Fork) 방지
+[BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a> + <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> Tolerance)</strong> 모델이다:
+- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(네트워크 분리) 발생 시 → 2f+1 정족수 미달 → <strong>블록 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 중단</strong> ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 희생)
+- 대신 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 보장</strong>: 두 서로 다른 블록이 동시에 최종화되는 상황(Fork) 방지
 
 - **📢 섹션 요약 비유**: — "BFT는 '틀린 답보다 답 없음이 낫다'는 원칙 — 거짓 합의보다 합의 중단을 선택한다.
 
@@ -107,12 +106,12 @@ tags = ["studynote-ict-convergence"]
 
 ### 구현별 특성과 판단 기준
 
-1. **[Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)**: 채널(Channel)별 [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) → 기업 내부망, 소수 노드 환경 적합
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/">Hyperledger Fabric</a></strong>: 채널(Channel)별 [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) → 기업 내부망, 소수 노드 환경 적합
 2. **Tendermint(Cosmos)**: 라운드-로빈 리더 선출, 2/3 투표 → 빠른 최종성, 퍼블릭 체인 적합
 3. **HotStuff(Diem/Aptos)**: O(n) 선형 메시지 → 대규모 검증자 집합도 효율적
 
 ### 뷰 체인지([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Change)
-PBFT는 리더(Primary)가 비잔틴 행동 시 **뷰 체인지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**로 새 리더를 선출한다. 이 때도 2f+1 노드의 동의가 필요하다.
+PBFT는 리더(Primary)가 비잔틴 행동 시 <strong>뷰 체인지 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로 새 리더를 선출한다. 이 때도 2f+1 노드의 동의가 필요하다.
 
 ### 기술사 판단: 언제 BFT인가?
 - 노드 수가 수십~수백 수준 (대규모 퍼블릭 체인 부적합)
@@ -129,7 +128,7 @@ PBFT는 리더(Primary)가 비잔틴 행동 시 **뷰 체인지 [프로토콜](/
 |:---|:---|
 | **결정적 최종성** | 한 번 확정된 블록은 절대 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 불가 |
 | **포크 방지** | 네트워크 분리 시에도 이중 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 차단 |
-| **허가형 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 핵심** | 금융·의료·[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 엔터프라이즈 활용 기반 |
+| <strong>허가형 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> 핵심</strong> | 금융·의료·[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 엔터프라이즈 활용 기반 |
 | **보안 경계 명확** | f < n/3 범위 내에서 수학적 안전 보장 |
 
 BFT는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 악의적 행위자까지 허용하는 가장 강한 수준의 내결함성이다. 3f+1 원리와 [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 3단계 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 이해하면 현대 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 철학을 꿰뚫을 수 있다.

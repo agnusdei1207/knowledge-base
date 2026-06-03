@@ -20,31 +20,33 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 아키텍처의 진화
 
-```
-1세대: 데이터 웨어하우스 (DW)
-  장점: ACID, 스키마 관리, BI 연동
-  단점: 고비용, 정형 데이터만, 확장성 한계
 
-      ↓ (비정형/반정형 데이터 폭증)
 
-2세대: 데이터 레이크 (Data Lake)
-  장점: 저비용(S3), 정형+비정형, 무한 확장
-  단점: ACID 없음, 스키마 관리 어려움, 데이터 늪(Data Swamp)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1세대: 데이터 웨어하우스 (DW)</div>
+<div class="kb-diagram-note">장점: ACID, 스키마 관리, BI 연동</div>
+<div class="kb-diagram-note">단점: 고비용, 정형 데이터만, 확장성 한계</div>
+<div class="kb-diagram-note">↓ (비정형/반정형 데이터 폭증)</div>
+<div class="kb-diagram-note">2세대: 데이터 레이크 (Data Lake)</div>
+<div class="kb-diagram-note">장점: 저비용(S3), 정형+비정형, 무한 확장</div>
+<div class="kb-diagram-note">단점: ACID 없음, 스키마 관리 어려움, 데이터 늪(Data Swamp)</div>
+<div class="kb-diagram-note">↓ (ML 워크로드 + 실시간 분석 요구)</div>
+<div class="kb-diagram-note">3세대: 데이터 레이크하우스 (Data Lakehouse)</div>
+<div class="kb-diagram-note">장점: DW + 레이크 장점 통합</div>
+<div class="kb-diagram-note">핵심: Delta Lake / Apache Iceberg / Apache Hudi</div>
+</div>
+</div>
 
-      ↓ (ML 워크로드 + 실시간 분석 요구)
 
-3세대: 데이터 레이크하우스 (Data Lakehouse)
-  장점: DW + 레이크 장점 통합
-  핵심: Delta Lake / Apache Iceberg / Apache Hudi
-```
 
 ### 1.2 세 아키텍처 비교
 
 | 항목 | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) | [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) |
 |:---|:---|:---|:---|
 | **ACID 지원** | ✅ | ❌ | ✅ |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)** | 엄격([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) | 유연([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) | 진화형([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형** | 정형 | 정형·반정형·비정형 | 정형·반정형·비정형 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a></strong> | 엄격([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) | 유연([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) | 진화형([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유형</strong> | 정형 | 정형·반정형·비정형 | 정형·반정형·비정형 |
 | **ML 지원** | 제한적 | ✅ | ✅ |
 | **비용** | 높음 | 낮음 | 낮음 |
 | **대표 기술** | Teradata, Redshift | S3+[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Iceberg |
@@ -59,19 +61,25 @@ tags = ["studynote-data-engineering"]
 
 Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스토리지 레이어로, [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) 위에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`_delta_log/`)를 추가해 ACID를 구현한다.
 
-```
-S3 또는 ADLS 버킷
-├── _delta_log/                ← 트랜잭션 로그 (JSON 파일들)
-│   ├── 00000000000000000000.json   (커밋 0: 초기 생성)
-│   ├── 00000000000000000001.json   (커밋 1: 데이터 추가)
-│   ├── 00000000000000000002.json   (커밋 2: 업데이트)
-│   └── 00000000000000000010.checkpoint.parquet (체크포인트)
-├── part-00000-abc.parquet     ← 실제 데이터 파일
-├── part-00001-def.parquet
-└── part-00002-ghi.parquet
-```
 
-**[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 동작 원리**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">S3 또는 ADLS 버킷</div>
+<div class="kb-diagram-tree-item" style="--depth:0">_delta_log/ ← 트랜잭션 로그 (JSON 파일들)</div>
+<div class="kb-diagram-note">── 00000000000000000000.json (커밋 0: 초기 생성)</div>
+<div class="kb-diagram-note">── 00000000000000000001.json (커밋 1: 데이터 추가)</div>
+<div class="kb-diagram-note">── 00000000000000000002.json (커밋 2: 업데이트)</div>
+<div class="kb-diagram-note">── 00000000000000000010.checkpoint.parquet (체크포인트)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00000-abc.parquet ← 실제 데이터 파일</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00001-def.parquet</div>
+<div class="kb-diagram-tree-item" style="--depth:0">part-00002-ghi.parquet</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 동작 원리</strong>:
 - 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업(INSERT, UPDATE, DELETE, MERGE)은 먼저 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 원자적(Atomic)으로 커밋되어야 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 반영
 - 충돌 시 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)([Optimistic Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/))로 재시도
@@ -80,31 +88,31 @@ S3 또는 ADLS 버킷
 
 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)([파케이](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/))는 Apache에서 개발한 컬럼 지향(Columnar) 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식으로, 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 최적화되어 있다.
 
-```
-행 지향 저장 (Row-oriented, CSV/JSON):
-┌────┬──────────┬────────┬────────┐
-│ ID │   이름   │  나이  │  매출  │
-├────┼──────────┼────────┼────────┤
-│  1 │  홍길동  │   30   │  1000  │
-│  2 │  김철수  │   25   │  2000  │
-│  3 │  이영희  │   35   │  1500  │
-└────┴──────────┴────────┴────────┘
-→ "매출 합계"를 구하려면 모든 행을 읽어야 함
 
-컬럼 지향 저장 (Columnar, Parquet):
-┌──────────────────────────────────┐
-│ 매출 컬럼만 읽기: [1000,2000,1500]│
-│ → SUM = 4500  ← 다른 컬럼 스킵  │
-└──────────────────────────────────┘
-```
 
-**[Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율**: 동일 타입의 값이 연속 저장되어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 매우 높다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">행 지향 저장 (Row-oriented, CSV/JSON):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">매출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">1000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">25</div><div class="kb-diagram-cell">2000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">1500</div></div>
+<div class="kb-diagram-note">→ "매출 합계"를 구하려면 모든 행을 읽어야 함</div>
+<div class="kb-diagram-note">컬럼 지향 저장 (Columnar, Parquet):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">매출 컬럼만 읽기:</div><div class="kb-diagram-node">1000,2000,1500</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SUM = 4500 ← 다른 컬럼 스킵</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 효율</strong>: 동일 타입의 값이 연속 저장되어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 매우 높다.
 
 | 형식 | 평균 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 | 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 |
 |:---|:---|:---|
 | CSV | [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) | 느림 (전체 파싱 필요) |
 | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) | 1.5~2x | 느림 |
-| **[Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)** | **5~10x** | **빠름 (컬럼 프루닝)** |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a></strong> | **5~10x** | **빠름 (컬럼 프루닝)** |
 | ORC | 4~8x | 빠름 |
 
 ### 2.3 ACID ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 보장
@@ -150,27 +158,22 @@ RESTORE TABLE orders TO VERSION AS OF 3;
 
 ### 3.2 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 전체 아키텍처
 
-```
-┌────────────────────────────────────────────────────────┐
-│                   데이터 레이크하우스                    │
-│                                                        │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐             │
-│  │ BI 도구  │  │ ML 플랫폼│  │ SQL 엔진 │             │
-│  │ Tableau  │  │ MLflow   │  │ Spark SQL│             │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘            │
-│       └─────────────┴─────────────┘                   │
-│                      │ 통합 쿼리                        │
-│  ┌───────────────────▼──────────────────────────────┐  │
-│  │         Delta Lake / Iceberg / Hudi               │  │
-│  │    (ACID + 스키마 관리 + 타임 트래블)             │  │
-│  └───────────────────┬──────────────────────────────┘  │
-│                      │                                 │
-│  ┌───────────────────▼──────────────────────────────┐  │
-│  │     오브젝트 스토리지 (S3 / Azure ADLS / GCS)    │  │
-│  │     Parquet 파일 + _delta_log/ 트랜잭션 로그     │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 레이크하우스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 도구</div><div class="kb-diagram-cell">ML 플랫폼</div><div class="kb-diagram-cell">SQL 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau</div><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">Spark SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 쿼리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake / Iceberg / Hudi</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ACID + 스키마 관리 + 타임 트래블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오브젝트 스토리지 (S3 / Azure ADLS / GCS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet 파일 + _delta_log/ 트랜잭션 로그</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 '스마트 물류창고'다 — 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 거대한 야외 창고(S3)에 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 박스로 쌓이고, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 모든 입출고 기록을 ACID로 보장하며, ML·BI 팀이 같은 창고를 공유한다.
 
@@ -198,9 +201,9 @@ VACUUM delta.`/data/orders` RETAIN 168 HOURS;  -- 7일 이내 보존
 | 단계 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목 |
 |:---|:---|
 | **레이어 설계** | Bronze([RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) → Silver(정제) → Gold(집계) 3계층 |
-| **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)** | 날짜·지역 등 자주 필터링하는 컬럼으로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) |
-| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 형식** | [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) + Snappy [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기본 적용 |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화** | `mergeSchema=true`로 컬럼 추가 허용 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong> | 날짜·지역 등 자주 필터링하는 컬럼으로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 형식</strong> | [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) + Snappy [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기본 적용 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 진화</strong> | `mergeSchema=true`로 컬럼 추가 허용 |
 | **접근 제어** | [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)) 또는 AWS Lake Formation |
 
 📢 **섹션 요약 비유**: [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 운영은 도서관 관리와 같다 — OPTIMIZE는 흩어진 책을 두꺼운 전집으로 묶기, VACUUM은 낡은 책 폐기, Z-ORDER는 자주 찾는 책을 앞으로 배치하는 것이다.
@@ -215,12 +218,12 @@ VACUUM delta.`/data/orders` RETAIN 168 HOURS;  -- 7일 이내 보존
 |:---|:---|
 | **비용 절감** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대비 스토리지 비용 70~90% 절감 (S3 기반) |
 | **ML 통합** | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 BI와 ML 동시 서빙 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이중 관리 제거 |
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | ACID + 타임 트래블로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 보장 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | ACID + 타임 트래블로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 보장 |
 | **개방성** | 벤더 락인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 없이 표준 포맷([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)) 사용 |
 
 ### 5.2 결론 — 기술사 작성 포인트
 
-기술사 답안에서는 **"Delta Lake가 왜 ACID를 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 구현하는가"**를 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 불변성(Immutability)과 연결해 논술해야 한다. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 한번 쓰이면 수정되지 않고 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 생성되며, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 유효한지 관리하는 방식으로 ACID가 달성됨을 설명하면 고득점이다.
+기술사 답안에서는 <strong>"Delta Lake가 왜 ACID를 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>로 구현하는가"</strong>를 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 불변성(Immutability)과 연결해 논술해야 한다. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 한번 쓰이면 수정되지 않고 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 생성되며, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 유효한지 관리하는 방식으로 ACID가 달성됨을 설명하면 고득점이다.
 
 📢 **섹션 요약 비유**: Lakehouse는 '모든 것을 담는 현명한 창고'다 — 저렴한 공간(S3), 정확한 재고 관리([Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)), 어제 상태 복원(타임 트래블), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)) — 이 네 가지가 한 지붕 아래 합쳐진 것이다.
 
@@ -243,18 +246,23 @@ VACUUM delta.`/data/orders` RETAIN 168 HOURS;  -- 7일 이내 보존
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Data Lake (유연 · 거버넌스 부족)
-    │         ╳
-    ▼     Data Warehouse (정확 · 유연성 부족)
-Lakehouse 통합
-    ├─► Delta Lake: ACID + Time Travel + Parquet
-    ├─► Apache Iceberg: Hidden Partitioning
-    └─► Apache Hudi: Upsert + CDC 특화
-    │
-    ▼
-Unity Catalog · Open Table Format 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Lake (유연 · 거버넌스 부족)</div>
+<div class="kb-diagram-note">╳</div>
+<div class="kb-diagram-note">▼ Data Warehouse (정확 · 유연성 부족)</div>
+<div class="kb-diagram-note">Lakehouse 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Delta Lake: ACID + Time Travel + Parquet</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Apache Iceberg: Hidden Partitioning</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Apache Hudi: Upsert + CDC 특화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unity Catalog · Open Table Format 표준화</div>
+</div>
+</div>
+
+
 2. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 블록을 종류별로 꽉꽉 눌러서 지퍼백에 담아 놓은 것 — 같은 종류끼리 있으니 공간도 적게 차지하고, 필요한 것만 꺼내기도 쉬워.
 3. 타임 트래블은 '되감기 버튼'이야 — 실수로 블록을 버렸어도 어제 창고 상태로 되돌릴 수 있으니 걱정 없어!
 

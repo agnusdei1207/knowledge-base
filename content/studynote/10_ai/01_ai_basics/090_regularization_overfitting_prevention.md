@@ -31,18 +31,19 @@ tags = ["studynote-ai"]
 
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 가장 대표적인 방식인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 ([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 크기에 비례하는 벌점 (Penalty) 항을 추가하여 작동한다. 이를 통해 모델은 예측 오차를 줄이는 동시에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 크기도 작게 유지해야 하는 이중 과제를 안게 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           정규화가 적용된 손실 함수 (Loss Function)          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Total Loss = [ 기존 예측 오차 (MSE, Cross Entropy 등) ]     │
-│             + [ λ × (가중치 페널티) ]                        │
-│                                                              │
-│  * λ (Lambda): 규제의 강도를 조절하는 하이퍼파라미터         │
-│  * 가중치 페널티: L1(절댓값의 합) 또는 L2(제곱의 합)         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화가 적용된 손실 함수 (Loss Function)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Total Loss =</div><div class="kb-diagram-node">기존 예측 오차 (MSE, Cross Entropy 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+</div><div class="kb-diagram-node">λ × (가중치 페널티)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* λ (Lambda): 규제의 강도를 조절하는 하이퍼파라미터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가중치 페널티: L1(절댓값의 합) 또는 L2(제곱의 합)</div></div>
+</div>
+</div>
+
+
 
 이 수식에서 페널티 항이 커질수록 모델은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) $W$ 값을 0에 가깝게 유지하려 압박을 받는다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작아지면 신경망을 구성하는 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)들이 선형적인 구간에서 동작하게 되어, 결과적으로 결정 경계(Decision Boundary)가 날카로운 곡선에서 부드러운 직선 형태로 완화되며 과적합이 해소된다.
 
@@ -71,9 +72,9 @@ L1 규제는 수많은 입력 변수 중 불필요한 것을 걸러내는 "특�
 실무에서 과적합을 막는 것은 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 가장 중요한 방어선이다. 단순히 규제 기법 하나만 쓰는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강부터 학습 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링까지 다층적인 방어벽을 구축해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **규제 강도 (λ) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 하이퍼파라미터 λ값이 너무 크면 과소적합 ([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))이 발생하므로 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross Validation](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/))을 통해 최적점을 찾았는가?
-2. **[조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)) 적용**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Validation Set](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/))의 오차가 줄어들다가 다시 증가하는 변곡점에서 학습을 자동으로 멈추도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
-3. **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 혼용**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)과 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)를 동시에 사용할 때 발생하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이동 ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Shift) 문제를 인지하고 네트워크를 설계했는가?
+1. <strong>규제 강도 (λ) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 하이퍼파라미터 λ값이 너무 크면 과소적합 ([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))이 발생하므로 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross Validation](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/))을 통해 최적점을 찾았는가?
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>) 적용</strong>: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Validation Set](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/))의 오차가 줄어들다가 다시 증가하는 변곡점에서 학습을 자동으로 멈추도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
+3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>) 혼용</strong>: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)과 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)를 동시에 사용할 때 발생하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이동 ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Shift) 문제를 인지하고 네트워크를 설계했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수에 비해 지나치게 파라미터가 많은 거대 모델을 선택하면서 아무런 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 적용하지 않는 설계.
@@ -97,28 +98,30 @@ L1 규제는 수많은 입력 변수 중 불필요한 것을 걸러내는 "특�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))** | [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이 해결하고자 하는 핵심 문제 현상 |
-| **[편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance](/knowledge-base/studynote/10_ai/05_data_science_ml/379_ensemble_bias_variance_math/))** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도를 조절하여 밸런스를 맞추어야 하는 이론적 배경 |
-| **[조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 증가 시 학습을 멈추어 과적합을 물리적으로 차단하는 기법 |
-| **[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))** | 신경망 노드를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 끄며 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과를 내는 구조적 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| <strong>과적합 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong> | [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이 해결하고자 하는 핵심 문제 현상 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/">편향-분산 트레이드오프</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/379_ensemble_bias_variance_math/">Bias-Variance</a>)</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도를 조절하여 밸런스를 맞추어야 하는 이론적 배경 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>)</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 증가 시 학습을 멈추어 과적합을 물리적으로 차단하는 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a>)</strong> | 신경망 노드를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 끄며 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과를 내는 구조적 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-과적합 (Overfitting) 발생 인식
-    │
-    ▼
-파라미터 제어: L1 규제 (Lasso) / L2 규제 (Ridge)
-    │
-    ▼
-구조적 제어: 드롭아웃 (Dropout)
-    │
-    ▼
-훈련 과정 제어: 조기 종료 (Early Stopping)
-    │
-    ▼
-현대적 최적화 결합: 배치 정규화 (Batch Normalization) 및 가중치 감쇠 (Weight Decay) 혼용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과적합 (Overfitting) 발생 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파라미터 제어: L1 규제 (Lasso) / L2 규제 (Ridge)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 제어: 드롭아웃 (Dropout)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">훈련 과정 제어: 조기 종료 (Early Stopping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대적 최적화 결합: 배치 정규화 (Batch Normalization) 및 가중치 감쇠 (Weight Decay) 혼용</div>
+</div>
+</div>
+
+
 
 이 흐름도는 과적합이라는 문제를 해결하기 위해 수학적 접근에서 시작하여 구조적, 절차적 접근으로 [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)이 발전하고 융합되는 과정을 보여준다.
 

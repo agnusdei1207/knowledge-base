@@ -34,22 +34,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)별 위협 수준**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>별 위협 수준</strong>:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│              양자 위협 분류                                   │
-│                                                             │
-│  공개키 암호 (비대칭키)        대칭키 암호                    │
-│  ┌──────────────────────┐   ┌──────────────────────┐       │
-│  │ RSA-2048/4096        │   │ AES-128              │       │
-│  │ ECC P-256/P-384      │   │ → 그로버: 64비트 수준  │       │
-│  │ → 쇼어: 완전 붕괴     │   │ AES-256              │       │
-│  │   (다항 시간 공격)    │   │ → 그로버: 128비트 수준 │       │
-│  └──────────────────────┘   └──────────────────────┘       │
-│  해결: PQC 표준으로 교체      해결: 키 길이 2배 (AES-256 유지)│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 위협 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공개키 암호 (비대칭키) 대칭키 암호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA-2048/4096</div><div class="kb-diagram-cell">AES-128</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECC P-256/P-384</div><div class="kb-diagram-cell">→ 그로버: 64비트 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 쇼어: 완전 붕괴</div><div class="kb-diagram-cell">AES-256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다항 시간 공격)</div><div class="kb-diagram-cell">→ 그로버: 128비트 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: PQC 표준으로 교체 해결: 키 길이 2배 (AES-256 유지)</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 내용 |
 |:---|:---|
@@ -58,10 +59,10 @@ tags = ["studynote-ict-convergence"]
 | NISQ (Noisy Intermediate-Scale [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | 현재 수준(수백~수천 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)), 오류율 높아 실용 공격 불가 |
 | 암호화 관련 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 해독에 약 400만 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 필요(현재 1,000개 수준) |
 
-**NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) 표준 (2024 최종)**:
-- **CRYSTALS-Kyber([ML-KEM](/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/))**: 키 교환 및 공개키 암호화 — 격자 기반(Lattice-based)
-- **[CRYSTALS-Dilithium](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)([ML-DSA](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/))**: [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) — 격자 기반
-- **[SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+([SLH-DSA](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/))**: [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) — 해시 기반(Hash-based), 보수적 선택
+<strong>NIST <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">Post-Quantum Cryptography</a>) 표준 (2024 최종)</strong>:
+- <strong>CRYSTALS-Kyber(<a href="/knowledge-base/studynote/09_security/03_network_security/146_crystals_kyber_ml_kem/">ML-KEM</a>)</strong>: 키 교환 및 공개키 암호화 — 격자 기반(Lattice-based)
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/">CRYSTALS-Dilithium</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/">ML-DSA</a>)</strong>: [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) — 격자 기반
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/">SPHINCS</a>+(<a href="/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/">SLH-DSA</a>)</strong>: [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) — 해시 기반(Hash-based), 보수적 선택
 - **FALCON**: 소형 서명 크기 — 격자 기반
 
 - **📢 섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 건물 열쇠를 양자 자물쇠로 바꾸는 것이다 — 기존 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 만능 열쇠([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))에 무력화될 수 있으므로, 아직 열쇠가 만들어지기 전에 바꿔야 한다.
@@ -73,7 +74,7 @@ tags = ["studynote-ict-convergence"]
 **하베스팅 공격(Harvest Now, Decrypt Later)**:
 국가 수준 공격자가 현재 암호화된 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대량 수집·저장하고, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 실용화되면 소급하여 해독하는 공격 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). 장기 기밀(군사, 외교, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/))이 특히 취약하다.
 
-**[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3와 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 통합**: 현재 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3의 키 교환([X25519](/knowledge-base/studynote/09_security/03_network_security/127_x25519/))을 CRYSTALS-Kyber와 하이브리드로 병행 사용하는 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 권고된다. 하이브리드 방식은 고전 암호와 PQC를 동시에 사용하여 어느 한 쪽에라도 취약점이 없으면 안전하다.
+<strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3와 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> 통합</strong>: 현재 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3의 키 교환([X25519](/knowledge-base/studynote/09_security/03_network_security/127_x25519/))을 CRYSTALS-Kyber와 하이브리드로 병행 사용하는 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 권고된다. 하이브리드 방식은 고전 암호와 PQC를 동시에 사용하여 어느 한 쪽에라도 취약점이 없으면 안전하다.
 
 - **📢 섹션 요약 비유**: 하베스팅 공격은 오늘 잠긴 금고를 훔쳐 창고에 쌓아두고, 나중에 만능 열쇠가 생기면 열어보는 것이다 — 지금 잠겨 있어도 미래에 위험하다.
 
@@ -95,7 +96,7 @@ tags = ["studynote-ict-convergence"]
 ## Ⅴ. 기대효과 및 결론
 
 양자 보안 전환을 선제적으로 추진하면:
-- **장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안**: 하베스팅 공격 무력화
+- <strong>장기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보안</strong>: 하베스팅 공격 무력화
 - **표준 준수**: NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 기반 글로벌 상호 운용성
 - **규제 선점**: 각국 양자 보안 규제 대응 조기 완료
 - **기술 역량 축적**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현 경험 확보

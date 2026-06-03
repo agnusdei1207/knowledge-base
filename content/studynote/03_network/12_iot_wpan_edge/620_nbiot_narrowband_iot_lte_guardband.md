@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-이동통신 표준화 기구인 3GPP에서, 비면허 대역의 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))와 시그폭스에 대항하기 위해 **기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 이동통신망을 기반으로 하여 초저전력, 장거리, 소용량 데이터를 전송할 수 있도록 제정한 국제 표준 기술**입니다. (Narrowband = 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
+이동통신 표준화 기구인 3GPP에서, 비면허 대역의 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))와 시그폭스에 대항하기 위해 <strong>기존 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 이동통신망을 기반으로 하여 초저전력, 장거리, 소용량 데이터를 전송할 수 있도록 제정한 국제 표준 기술</strong>입니다. (Narrowband = 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
 
-```text
-[면허 대역 LPWAN 분야]
-    │
-    ▼
-[NB-IoT]
-    │
-    └──▶ [LTE-M]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE-M</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NB-IoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,20 +40,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NB-IoT는 광활한 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 주파수 덩어리 중, 고작 **200kHz(약 LTE의 서브캐리어 1개 블록 크기)**라는 바늘구멍 같은 좁은 폭만을 사용하여 통신합니다. 이 200kHz를 심는 3가지 꼼수(모드)가 핵심입니다.
+NB-IoT는 광활한 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 주파수 덩어리 중, 고작 <strong>200kHz(약 LTE의 서브캐리어 1개 블록 크기)</strong>라는 바늘구멍 같은 좁은 폭만을 사용하여 통신합니다. 이 200kHz를 심는 3가지 꼼수(모드)가 핵심입니다.
 
 1. **In-band (대역 내 모드)**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 스마트폰들이 쌩쌩 달리는 10차선 정규 차로 중에서, **가장 장사가 안되는 끄트머리 1개 차선을 빼앗아서** NB-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 전용 차로로 쓰는 방식입니다.
-2. **Guard-band ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/) 모드) 🌟**: 가장 천재적인 방법입니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 고속도로와 옆 통신사 고속도로가 부딪히지 않도록(간섭 방지) 사이에 비워둔 **'안전지대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)) 갓길'에다가 NB-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 200kHz 차선을 쏙 끼워 넣는 방식**입니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 트래픽에 1도 피해를 주지 않고 공짜로 갓길 통행을 완성합니다.
-3. **[Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) (독립 모드)**: 옛날 2G 시대에 쓰다가 버려져 텅텅 빈 낡은 좁은 구 국도(GSM 대역) 하나를 아예 통째로 NB-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 전용 도로로 쓰는 방식입니다.
+2. <strong>Guard-band (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/">보호 대역</a> 모드) 🌟</strong>: 가장 천재적인 방법입니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 고속도로와 옆 통신사 고속도로가 부딪히지 않도록(간섭 방지) 사이에 비워둔 <strong>'안전지대(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/">Guard Band</a>) 갓길'에다가 NB-<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 200kHz 차선을 쏙 끼워 넣는 방식</strong>입니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 트래픽에 1도 피해를 주지 않고 공짜로 갓길 통행을 완성합니다.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> (독립 모드)</strong>: 옛날 2G 시대에 쓰다가 버려져 텅텅 빈 낡은 좁은 구 국도(GSM 대역) 하나를 아예 통째로 NB-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 전용 도로로 쓰는 방식입니다.
 
-```text
-[면허 대역 LPWAN 분야]
-    │
-    ▼
-[NB-IoT]
-    │
-    └──▶ [LTE-M]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE-M</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NB-IoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -111,15 +119,19 @@ NB-IoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 면허 대역 LPWAN 분야]
-    │
-    ▼
-[현재 개념: NB-IoT]
-    │
-    ├──▶ [확장 A: LTE-M]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NB-IoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LTE-M</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 NB-IoT는 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야에서 출발해 현재 메커니즘을 정교화하고, 이후 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

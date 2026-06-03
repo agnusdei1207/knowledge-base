@@ -35,21 +35,21 @@ tags = ["studynote-ai"]
 
 아래 그림은 학습과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 정보가 어떻게 흐르는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│       Diffusion pipeline: train by noise prediction, infer by denoising   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Train                                                                      │
-│   x0 ──noise schedule βt──▶ xt ──U-Net(xt, t, text)──▶ ε^                 │
-│    │                                          │                            │
-│    └──────────── injected noise ε 와 비교하여 loss 계산 ──────────────────┘
-│                                                                            │
-│ Infer                                                                      │
-│   zT (pure noise) ──repeat T..1──▶ zt-1 ──repeat──▶ z0                     │
-│                                   │                                        │
-│                                   └─ guidance / sampler 가 복원 방향 제어  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diffusion pipeline: train by noise prediction, infer by denoising</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x0 ──noise schedule βt──▶ xt ──U-Net(xt, t, text)──▶ ε^</div></div>
+<div class="kb-diagram-note">injected noise ε 와 비교하여 loss 계산</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Infer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">zT (pure noise) ──repeat T..1──▶ zt-1 ──repeat──▶ z0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ guidance / sampler 가 복원 방향 제어</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 모델이 이미지를 직접 그리는 것이 아니라, 각 단계에서 제거해야 할 노이즈를 얼마나 정확히 예측하느냐다. 샘플러 (Sampler)는 복원 경로의 속도와 품질을 조정하고, 가이던스 (Guidance)는 프롬프트를 얼마나 강하게 반영할지 정한다.
 
@@ -127,22 +127,24 @@ tags = ["studynote-ai"]
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-VAE의 흐림 · GAN의 불안정성
-    │
-    ▼
-DDPM 기반 디퓨전 모델
-    │
-    ▼
-잠재 디퓨전 (Latent Diffusion)
-    │
-    ├─▶ LoRA 기반 경량 미세 조정
-    ├─▶ ControlNet 기반 구조 제어
-    └─▶ DDIM · 증류 모델 기반 추론 가속
-    │
-    ▼
-텍스트-이미지 → 비디오 · 3D · 멀티모달 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VAE의 흐림 · GAN의 불안정성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DDPM 기반 디퓨전 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잠재 디퓨전 (Latent Diffusion)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ LoRA 기반 경량 미세 조정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ ControlNet 기반 구조 제어</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ DDIM · 증류 모델 기반 추론 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">텍스트-이미지 → 비디오 · 3D · 멀티모달 생성</div>
+</div>
+</div>
+
+
 
 이 흐름은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 모델의 한계 보완에서 출발해, 디퓨전이 상용 플랫폼으로 확장되는 과정을 보여 준다.
 

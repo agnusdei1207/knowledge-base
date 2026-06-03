@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - 하지만 VPN은 결국 누구나 다 쓰는 꽉 막힌 '일반 인터넷 고속도로' 위를 달리는 것입니다.
 - 명절이나 수강 신청 날에 일반 인터넷망 전체가 뻗어버리면, 우리 회사 1급 트래픽도 꼼짝없이 같이 막혀버립니다. 통신 속도가 10ms였다가 100ms였다가 들쭉날쭉하는 치명적 딜레이(지터) 현상이 불가피합니다.
 
-```text
-[클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-    │
-    ▼
-[클라우드 전용선]
-    │
-    └──▶ [퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 전용선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 클라우드 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 일반 인터넷망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 단 1%도 타지 않고, 통신사(SKT, KT 등)의 **물리적 전용 광케이블([Leased Line](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))을 사용해 기업의 로컬 전산실([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 라우터와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)(AWS, Azure) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 라우터를 다이렉트로 1:1로 꽂아버리는 프리미엄 프라이빗 연결 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
-- **명칭**: 아마존 AWS는 **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Connect ([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))**, 마이크로소프트 Azure는 **ExpressRoute**, 구글 GCP는 **Cloud Interconnect**라는 상품명으로 팝니다.
+- **개념**: 일반 인터넷망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 단 1%도 타지 않고, 통신사(SKT, KT 등)의 <strong>물리적 전용 광케이블(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">Leased Line</a>)을 사용해 기업의 로컬 전산실(<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a>) 라우터와 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">퍼블릭 클라우드</a>(AWS, Azure) <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 라우터를 다이렉트로 1:1로 꽂아버리는 프리미엄 프라이빗 연결 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>입니다.
+- **명칭**: 아마존 AWS는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> Connect (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>)</strong>, 마이크로소프트 Azure는 **ExpressRoute**, 구글 GCP는 <strong>Cloud Interconnect</strong>라는 상품명으로 팝니다.
 
-```text
-[클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-    │
-    ▼
-[클라우드 전용선]
-    │
-    └──▶ [퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 전용선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 클라우드 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,8 +89,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 땅굴([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))을 파놨는데 포크레인이 땅을 파다 선을 끊어먹으면 회사가 파산합니다.
-- **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 필수**: 무조건 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 2가닥 이상, 서로 다른 통신사(SKT, KT)를 통해 우회 경로로 물리적으로 다르게 파야 합니다.
-- **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 연계**: 사옥의 라우터와 AWS의 라우터(VGW) 사이를 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜로 엮어둡니다. 1번 광케이블이 툭 끊기면, BGP가 0.1초 만에 2번 우회 광케이블로 트래픽을 싹 돌려서([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) 직원들이 끊긴 줄도 모르게 방어합니다(Active-Active 구성).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 필수</strong>: 무조건 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 2가닥 이상, 서로 다른 통신사(SKT, KT)를 통해 우회 경로로 물리적으로 다르게 파야 합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 연계</strong>: 사옥의 라우터와 AWS의 라우터(VGW) 사이를 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜로 엮어둡니다. 1번 광케이블이 툭 끊기면, BGP가 0.1초 만에 2번 우회 광케이블로 트래픽을 싹 돌려서([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) 직원들이 끊긴 줄도 모르게 방어합니다(Active-Active 구성).
 - 돈이 없다면, 1번 메인 길은 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))으로 뚫고, 2번 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 길은 싸구려 인터넷 VPN으로 뚫어서 평소엔 1번으로만 쌩쌩 달리다 끊어지면 VPN으로 기어가는 가성비 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)망을 구성하기도 합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: VPN이 일반 아스팔트 국도 위를 무장 경찰차 1대로 에스코트 받으며 달리는 것이라면(보안은 되지만 차가 막히면 같이 서야 함), **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Connect([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))**는 우리 회사 본사 지하실에서부터 아마존 서버실까지 아예 땅 밑으로 삽을 파서 수백 킬로미터짜리 '전용 지하 터널 고속도로'를 개통해 버린 것입니다. 일반 차량(인터넷 트래픽)은 이 지하 터널의 존재조차 모르기 때문에 평생 차가 막힐 일이 없으며, 비가 오나 눈이 오나 시속 300km의 쾌속 질주를 영원히 보장받는 VVIP 하이패스 통신망입니다.
+- **📢 섹션 요약 비유**: VPN이 일반 아스팔트 국도 위를 무장 경찰차 1대로 에스코트 받으며 달리는 것이라면(보안은 되지만 차가 막히면 같이 서야 함), <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> Connect(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>)</strong>는 우리 회사 본사 지하실에서부터 아마존 서버실까지 아예 땅 밑으로 삽을 파서 수백 킬로미터짜리 '전용 지하 터널 고속도로'를 개통해 버린 것입니다. 일반 차량(인터넷 트래픽)은 이 지하 터널의 존재조차 모르기 때문에 평생 차가 막힐 일이 없으며, 비가 오나 눈이 오나 시속 300km의 쾌속 질주를 영원히 보장받는 VVIP 하이패스 통신망입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-    │
-    ▼
-[현재 개념: 클라우드 전용선]
-    │
-    ├──▶ [확장 A: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우드 전용선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 클라우드 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)는 클라우드 서브넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 인터넷 게이트웨이,…에서 출발해 현재 메커니즘을 정교화하고, 이후 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -30,14 +30,18 @@ tags = ["studynote-network"]
 - 하필 B도 A 소리를 못 듣고 "아무도 없네!" 하고 공유기에 쏩니다. 
 - 공유기 입장에선 양쪽에서 전파가 동시에 날아와 쾅! 부딪혀(충돌) 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지는 참사가 터집니다.
 
-```text
-[반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
-[은닉 단말 문제]
-    │
-    └──▶ [매체 접근 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">매체 접근 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 은닉 단말 문제는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,21 +49,25 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)(와이파이) 표준은 사후 약방문(CD)을 버리고, **"쏘기 전에 미친 듯이 눈치 보고 기다려서 애초에 충돌을 피하자([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))"**라는 방어 철학을 들고나왔습니다.
+IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)(와이파이) 표준은 사후 약방문(CD)을 버리고, <strong>"쏘기 전에 미친 듯이 눈치 보고 기다려서 애초에 충돌을 피하자(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)"</strong>라는 방어 철학을 들고나왔습니다.
 
 ### 눈치 게임의 시작 (DIFS와 백오프)
 - 전파가 조용해져도 951번(유선)처럼 즉시 쏘지 않습니다.
 - **DIFS (의무 휴식 시간)**: "조용해졌네? 그래도 혹시 모르니까 딱 0.05초만 더 숨 참고 기다려보자!" 강제 휴식(DIFS)을 취합니다.
 - **백오프 (랜덤 대기)**: 그 후에도 바로 안 쏘고 주사위를 굴려 1~10초 사이의 랜덤 타임(백오프)을 마음속으로 또 센 뒤에야 조심스레 패킷을 밀어 넣습니다. (충돌 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 극저하)
 
-```text
-[반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
-[은닉 단말 문제]
-    │
-    └──▶ [매체 접근 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">매체 접근 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 은닉 단말 문제의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,16 +75,16 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 
 ## Ⅲ. 비교 및 연결
 
-[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 눈치 게임만으로는 은닉 단말(A와 B가 서로 안 보이는 현상)을 100% 막을 수 없습니다. 그래서 **가상 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지(Virtual Carrier Sense)**라는 예약 시스템을 도입합니다.
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 눈치 게임만으로는 은닉 단말(A와 B가 서로 안 보이는 현상)을 100% 막을 수 없습니다. 그래서 <strong>가상 <a href="/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a> 감지(Virtual Carrier Sense)</strong>라는 예약 시스템을 도입합니다.
 
 1. **RTS (Request To Send) - "저 쏠게요!"**:
    - A가 진짜 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 전에, 아주 쪼그만 쪽지 패킷(RTS)을 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에 던집니다. "공유기님! 저 10초 동안 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 건데 허락 좀?"
 2. **CTS (Clear To Send) - "A만 쏴! 나머지는 조용!" 🌟**:
    - 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))가 RTS를 받으면, 주변의 모든 단말기(A, B, C)에게 들리도록 **CTS(Clear To Send)** 방송을 때립니다. "지금부터 10초 동안 A가 나한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏜다! 다른 놈들은 10초 동안 입 닥치고 대기해!"
    - 이 CTS 방송은 거실 공유기에서 나가는 거라, A와 B가 서로 안 보여도 공유기의 소리는 둘 다 완벽하게 듣습니다.
-3. **NAV (Network Allocation Vector) - 타이머 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**:
+3. <strong>NAV (Network Allocation Vector) - 타이머 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
    - B는 CTS 방송을 듣고 "아, 10초 동안은 건드리면 안 되네" 하고 자기 컴퓨터 시계(NAV 타이머)를 10초로 맞춰두고 강제 취침(대기)에 들어갑니다. 은닉 단말 문제가 완벽히 차단됩니다!
-4. **[DATA](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ➜ ACK**: A가 10초 동안 편안하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고, 공유기가 잘 받았다고 ACK를 날리면 락이 풀립니다.
+4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">DATA</a> ➜ ACK</strong>: A가 10초 동안 편안하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고, 공유기가 잘 받았다고 ACK를 날리면 락이 풀립니다.
 
 은닉 단말 문제를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출이 기반 조건을 만든다면, 은닉 단말 문제는 그 위에서 핵심 메커니즘을 구현하고, [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -86,7 +94,7 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 은닉 단말(Hidden Terminal) 문제는 '가운데 선생님(공유기)을 두고, 왼쪽 짝꿍(A)과 오른쪽 짝꿍(B)이 서로 칸막이에 가려 안 보이는 교실'입니다. A가 짝꿍이 안 보이니 손도 안 들고 선생님께 질문을 외치고, B도 동시에 질문을 외쳐 선생님 귀에서 말이 섞여버립니다. 이를 해결하는 **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 RTS/CTS 룰**은 철저한 '발언권 예약 시스템'입니다. A가 헛기침(RTS)을 살짝 하며 "선생님 저 10초만 말할게요"라고 예약증을 던집니다. 선생님이 칠판에 크게 적습니다. "지금부터 10초간 A만 말해!(CTS 방송)" 칸막이에 가려 A가 안 보이던 B도 선생님의 목소리와 칠판은 보입니다. B는 입을 꾹 다물고(NAV 타이머 10초) 기다려주어, 무선 전파라는 혼돈의 교실을 충돌 없는 평화로운 토론장으로 정리하는 와이파이의 절대 규칙입니다.
+- **📢 섹션 요약 비유**: 은닉 단말(Hidden Terminal) 문제는 '가운데 선생님(공유기)을 두고, 왼쪽 짝꿍(A)과 오른쪽 짝꿍(B)이 서로 칸막이에 가려 안 보이는 교실'입니다. A가 짝꿍이 안 보이니 손도 안 들고 선생님께 질문을 외치고, B도 동시에 질문을 외쳐 선생님 귀에서 말이 섞여버립니다. 이를 해결하는 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CA의 RTS/CTS 룰</strong>은 철저한 '발언권 예약 시스템'입니다. A가 헛기침(RTS)을 살짝 하며 "선생님 저 10초만 말할게요"라고 예약증을 던집니다. 선생님이 칠판에 크게 적습니다. "지금부터 10초간 A만 말해!(CTS 방송)" 칸막이에 가려 A가 안 보이던 B도 선생님의 목소리와 칠판은 보입니다. B는 입을 꾹 다물고(NAV 타이머 10초) 기다려주어, 무선 전파라는 혼돈의 교실을 충돌 없는 평화로운 토론장으로 정리하는 와이파이의 절대 규칙입니다.
 
 ---
 
@@ -128,15 +136,19 @@ IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_stati
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ▼
-[현재 개념: 은닉 단말 문제]
-    │
-    ├──▶ [확장 A: 매체 접근 제어]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 은닉 단말 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 매체 접근 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 은닉 단말 문제는 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출에서 출발해 현재 메커니즘을 정교화하고, 이후 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

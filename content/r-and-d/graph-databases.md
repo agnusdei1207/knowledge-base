@@ -8,7 +8,7 @@ tags = ["r-and-d"]
 tags = ["r-and-d"]
 +++
 
-본 문서는 사내 지식 그래프(Knowledge Graph) 인프라 확장 및 차세대 Graph RAG 아키텍처 설계를 대비하여, 대표적인 그래프 데이터베이스인 **Neo4j**와 **Dgraph**의 아키텍처, 성능, 확장성 및 비즈니스 적합성을 비교 분석한 기술 아카이브입니다.
+본 문서는 사내 지식 그래프(Knowledge Graph) 인프라 확장 및 차세대 Graph RAG 아키텍처 설계를 대비하여, 대표적인 그래프 데이터베이스인 <strong>Neo4j</strong>와 <strong>Dgraph</strong>의 아키텍처, 성능, 확장성 및 비즈니스 적합성을 비교 분석한 기술 아카이브입니다.
 
 ---
 
@@ -22,11 +22,11 @@ tags = ["r-and-d"]
 
 ## 2. Neo4j (Property Graph의 강자)
 
-Neo4j는 전 세계적으로 가장 널리 쓰이는 네이티브 **속성 그래프(Property Graph) 데이터베이스**입니다.
+Neo4j는 전 세계적으로 가장 널리 쓰이는 네이티브 <strong>속성 그래프(Property Graph) 데이터베이스</strong>입니다.
 
 ### ⚙️ 핵심 아키텍처 및 특징
 *   **데이터 모델**: 노드(Node), 관계(Relationship), 그리고 각 요소의 속성(Property)을 키-값 쌍으로 저장합니다.
-*   **질의 언어**: 선언형 그래프 질의 언어인 **Cypher**를 사용합니다. Cypher는 아스키 아트 형식으로 관계를 직관적으로 묘사하여 코딩 생산성이 매우 높습니다.
+*   **질의 언어**: 선언형 그래프 질의 언어인 <strong>Cypher</strong>를 사용합니다. Cypher는 아스키 아트 형식으로 관계를 직관적으로 묘사하여 코딩 생산성이 매우 높습니다.
     *   *예시:* `MATCH (a:Developer)-[:USES]->(b:Language {name: "Python"}) RETURN a`
 *   **GDS (Graph Data Science)**: PageRank, 중심성(Centrality), 커뮤니티 탐지(Louvain) 등 방대한 그래프 수학 알고리즘 라이브러리를 기본 패키지로 내장하고 있습니다.
 
@@ -43,10 +43,10 @@ Neo4j는 전 세계적으로 가장 널리 쓰이는 네이티브 **속성 그�
 
 ## 3. Dgraph (분산형 클라우드 네이티브)
 
-Dgraph는 처음부터 **대규모 수평 확장(Horizontal Scaling)**을 목적으로 Go 언어로 개발된 클라우드 네이티브 분산 그래프 데이터베이스입니다.
+Dgraph는 처음부터 <strong>대규모 수평 확장(Horizontal Scaling)</strong>을 목적으로 Go 언어로 개발된 클라우드 네이티브 분산 그래프 데이터베이스입니다.
 
 ### ⚙️ 핵심 아키텍처 및 특징
-*   **GraphQL-Native**: 데이터 스키마 정의부터 조회까지 표준 **GraphQL** 규격을 네이티브로 탑재하고 있으며, Dgraph 고유의 분산 그래프 쿼리 언어인 **DQL**을 제공합니다.
+*   **GraphQL-Native**: 데이터 스키마 정의부터 조회까지 표준 **GraphQL** 규격을 네이티브로 탑재하고 있으며, Dgraph 고유의 분산 그래프 쿼리 언어인 <strong>DQL</strong>을 제공합니다.
 *   **아키텍처 분리 (Alpha & Zero)**:
     *   **Dgraph Alpha**: 실제 데이터(Triple 및 인덱스)를 디스크에 쓰고 쿼리를 실행하는 노드.
     *   **Dgraph Zero**: 클러스터를 관리하고 그룹 리밸런싱, 트랜잭션 타임스탬프 관리를 수행하는 코디네이터 노드.
@@ -82,16 +82,21 @@ Dgraph는 처음부터 **대규모 수평 확장(Horizontal Scaling)**을 목적
 
 ### 💡 아키텍처적 의사결정 프레임워크 (Decision Tree)
 
-```text
- 1. 복잡한 추론 및 그래프 데이터 분석(PageRank, Centrality 등)이 필수적인가?
-     ├── 예 ──▶ [ Neo4j 채택 ] (풍부한 GDS 알고리즘 적극 활용)
-     └── 아니오
-          │
-          ▼
- 2. 데이터 크기가 테라바이트 급으로 확장되어 샤딩 및 고가용성 분산 환경이 절대적인가?
-     ├── 예 ──▶ [ Dgraph 채택 ] (클라우드 분산 샤딩 효율성 극대화)
-     └── 아니오 ──▶ [ 로컬 파일 기반 Quartz + Vector DB ] (현재 인프라 제로 협업 환경 유지)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 복잡한 추론 및 그래프 데이터 분석</div><div class="kb-diagram-node">PageRank, Centrality 등</div><div class="kb-diagram-note">이 필수적인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Neo4j 채택</div><div class="kb-diagram-node">풍부한 GDS 알고리즘 적극 활용</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">아니오</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2. 데이터 크기가 테라바이트 급으로 확장되어 샤딩 및 고가용성 분산 환경이 절대적인가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dgraph 채택</div><div class="kb-diagram-node">클라우드 분산 샤딩 효율성 극대화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 파일 기반 Quartz + Vector DB</div><div class="kb-diagram-node">현재 인프라 제로 협업 환경 유지</div></div>
+</div>
+</div>
+
+
 
 > [!IMPORTANT]
-> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 **[N-gram 링커](/knowledge-base/r-and-d/n-gram-linker/)**를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.
+> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 <strong><a href="/knowledge-base/r-and-d/n-gram-linker/">N-gram 링커</a></strong>를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.

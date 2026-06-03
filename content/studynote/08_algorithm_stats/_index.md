@@ -20,8 +20,8 @@ tags = ["studynote-algorithm"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-프로그래밍 문법을 아는 것은 단순히 '글씨를 쓸 줄 아는 것'에 불과하다. **알고리즘(Algorithm)과 자료구조(Data Structure)**는 그 글씨로 '위대한 문학 작품을 구성하는 뼈대와 철학'이다. 하드웨어가 아무리 무어의 법칙을 따라 진화하더라도, 알고리즘이 $\mathcal{O}(N^2)$이나 지수적($\mathcal{O}(2^N)$) 복잡도로 작성되어 있다면 데이터가 폭증하는 순간 시스템은 서버가 타오르며 반드시 파단(Crash)에 이른다. 
-또한 현대 IT 인프라의 꽃인 빅데이터와 인공지능은 순수한 논리만으로는 풀 수 없는 '불확실성'의 영역에 도달했다. 이 모호한 세상을 컴퓨터가 이해할 수 있도록 확률(Probability)과 정규분포라는 차가운 수학적 잣대를 들이대어 결정론적 모델로 맵핑하는 학문이 바로 **통계(Statistics)**다. 이 두 축은 소프트웨어 공학을 지탱하는 가장 거대하고 원초적인 기초 과학이다.
+프로그래밍 문법을 아는 것은 단순히 '글씨를 쓸 줄 아는 것'에 불과하다. <strong>알고리즘(Algorithm)과 자료구조(Data Structure)</strong>는 그 글씨로 '위대한 문학 작품을 구성하는 뼈대와 철학'이다. 하드웨어가 아무리 무어의 법칙을 따라 진화하더라도, 알고리즘이 $\mathcal{O}(N^2)$이나 지수적($\mathcal{O}(2^N)$) 복잡도로 작성되어 있다면 데이터가 폭증하는 순간 시스템은 서버가 타오르며 반드시 파단(Crash)에 이른다. 
+또한 현대 IT 인프라의 꽃인 빅데이터와 인공지능은 순수한 논리만으로는 풀 수 없는 '불확실성'의 영역에 도달했다. 이 모호한 세상을 컴퓨터가 이해할 수 있도록 확률(Probability)과 정규분포라는 차가운 수학적 잣대를 들이대어 결정론적 모델로 맵핑하는 학문이 바로 <strong>통계(Statistics)</strong>다. 이 두 축은 소프트웨어 공학을 지탱하는 가장 거대하고 원초적인 기초 과학이다.
 
 ---
 
@@ -40,27 +40,31 @@ tags = ["studynote-algorithm"]
 
 #### 2. 다익스트라(Dijkstra) 최단 경로 탐색 알고리즘 데이터 흐름 (ASCII)
 가중치가 있는 그래프에서 시작점(A)으로부터 다른 모든 노드까지의 최단 경로를 탐욕적(Greedy)으로 찾아내는 알고리즘. (OSPF 라우팅 프로토콜의 근간)
-```text
-    [ 다익스트라 알고리즘 흐름 / Dijkstra Algorithm Flow ]
-    
-        (2)       (3)
-     A -----> B ----> D
-      \       |       ^
-   (4) \  (1) |       | (1)
-        v     v       |
-         +--> C ------+
-               \ (5)
-                v
-                 E
-                 
-    [ 단계별 우선순위 큐(최소 힙) 상태 / Step-by-Step Min-Heap State ]
-    1. A(0) 시작. 이웃 업데이트: B(2), C(4).  => Q: [B(2), C(4)]
-    2. B(2) 꺼냄. C 업데이트: min(4, 2+1)=3. D 업데이트: 2+3=5. => Q: [C(3), D(5)]
-    3. C(3) 꺼냄. D 업데이트: min(5, 3+1)=4. E 업데이트: 3+5=8. => Q: [D(4), E(8)]
-    4. D(4) 꺼냄. D에서 E로의 직접 경로 없음. => Q: [E(8)]
-    5. E(8) 꺼냄. 완료 (Done).
-    => A->E 최단 경로(Shortest Path)는 A-B-C-E, 거리는 8.
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 알고리즘 흐름 / Dijkstra Algorithm Flow</div></div>
+<div class="kb-diagram-note">(2) (3)</div>
+<div class="kb-diagram-note">A -----&gt; B ----&gt; D</div>
+<div class="kb-diagram-note">\ | ^</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) \ (1)</div><div class="kb-diagram-cell">(1)</div></div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-note">+--&gt; C ------+</div>
+<div class="kb-diagram-note">\ (5)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">E</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계별 우선순위 큐(최소 힙) 상태 / Step-by-Step Min-Heap State</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. A(0) 시작. 이웃 업데이트: B(2), C(4). =&gt; Q:</div><div class="kb-diagram-node">B(2), C(4)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. B(2) 꺼냄. C 업데이트: min(4, 2+1)=3. D 업데이트: 2+3=5. =&gt; Q:</div><div class="kb-diagram-node">C(3), D(5)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. C(3) 꺼냄. D 업데이트: min(5, 3+1)=4. E 업데이트: 3+5=8. =&gt; Q:</div><div class="kb-diagram-node">D(4), E(8)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4. D(4) 꺼냄. D에서 E로의 직접 경로 없음. =&gt; Q:</div><div class="kb-diagram-node">E(8)</div></div>
+<div class="kb-diagram-note">5. E(8) 꺼냄. 완료 (Done).</div>
+<div class="kb-diagram-note">=&gt; A-&gt;E 최단 경로(Shortest Path)는 A-B-C-E, 거리는 8.</div>
+</div>
+</div>
+
+
 
 #### 3. 핵심 수학: 베이즈 정리 (Bayes' Theorem)
 인공지능과 통계적 머신러닝(스팸 필터 등)의 근원이 되는, "새로운 증거(B)가 주어졌을 때 기존의 믿음(A)을 어떻게 업데이트할 것인가?"를 정의한 절대적 수식.
@@ -96,14 +100,14 @@ tags = ["studynote-algorithm"]
 
 **시나리오 1: 초대용량 분산 시스템에서의 멤버십 쿼리 (캐시 스탬피드 방어)**
 - **문제 상황**: 사용자가 존재하지 않는 데이터를 지속적으로 조회하여, 캐시(Redis)를 우회해 바로 DB(MySQL)로 트래픽이 쏟아지는 '캐시 무효화 폭풍(Cache Stampede)'과 DB 락다운 발생.
-- **기술사적 결단**: 1억 건의 데이터 존재 여부를 $\mathcal{O}(1)$로 파악하기 위해 일반 해시 맵을 쓰면 수 GB의 메모리가 고갈된다. 이에 공간 복잡도를 극도로 압축한 **확률적 자료구조인 블룸 필터(Bloom Filter)**를 앞단에 배치한다. "절대 없다"는 100% 보장하고, "있을 수 있다(False Positive)"는 일부 오차를 허용하는 대신 메모리 사용량을 수 MB로 압살하여 DB를 완벽히 보호한다.
+- **기술사적 결단**: 1억 건의 데이터 존재 여부를 $\mathcal{O}(1)$로 파악하기 위해 일반 해시 맵을 쓰면 수 GB의 메모리가 고갈된다. 이에 공간 복잡도를 극도로 압축한 <strong>확률적 자료구조인 블룸 필터(Bloom Filter)</strong>를 앞단에 배치한다. "절대 없다"는 100% 보장하고, "있을 수 있다(False Positive)"는 일부 오차를 허용하는 대신 메모리 사용량을 수 MB로 압살하여 DB를 완벽히 보호한다.
 
 **시나리오 2: 추천 시스템 알고리즘 튜닝 (그래프 vs 행렬 분해)**
 - **문제 상황**: 넷플릭스 형태의 플랫폼에서 사용자-아이템 추천 알고리즘의 연산 시간이 배치(Batch) 처리 윈도우인 24시간을 초과하기 시작.
 - **기술사적 결단**: 유저와 콘텐츠 간의 관계를 탐색하는 Graph BFS 방식을 폐기하고, 사용자-아이템의 빈 공간(Sparse Matrix)을 두 개의 잠재 의미 행렬로 분해하여 연산하는 **SVD(특이값 분해) 기반 행렬 분해(Matrix Factorization)** 기법으로 전환. 이는 Spark와 같은 분산 인메모리 엔진에서 행렬 곱셈을 병렬 처리(MapReduce)하기에 최적화된 아키텍처적 결단이다.
 
 **도입 시 고려사항 (안티패턴)**
-- **P=NP 문제의 과소평가 (Anti-pattern)**: 외판원 순회 문제(TSP)나 복잡한 차량 라우팅 문제(VRP)를 완벽한 최적해(Exact Solution)로 구하려다 무한 루프에 빠지는 현상. 기술사는 시스템의 응답 제한 시간(SLA)을 고려하여, 완벽한 해답을 포기하는 대신 **휴리스틱(Heuristic) 알고리즘**이나 **유전 알고리즘(Genetic Algorithm)**을 통해 '충분히 훌륭한 근사해(Approximation)'를 짧은 시간 내에 도출하는 타협을 이끌어내야 한다.
+- **P=NP 문제의 과소평가 (Anti-pattern)**: 외판원 순회 문제(TSP)나 복잡한 차량 라우팅 문제(VRP)를 완벽한 최적해(Exact Solution)로 구하려다 무한 루프에 빠지는 현상. 기술사는 시스템의 응답 제한 시간(SLA)을 고려하여, 완벽한 해답을 포기하는 대신 <strong>휴리스틱(Heuristic) 알고리즘</strong>이나 <strong>유전 알고리즘(Genetic Algorithm)</strong>을 통해 '충분히 훌륭한 근사해(Approximation)'를 짧은 시간 내에 도출하는 타협을 이끌어내야 한다.
 
 ---
 
@@ -117,7 +121,7 @@ tags = ["studynote-algorithm"]
 | **통계적 A/B 테스트 도입** | 신규 UI/기능 배포 검증 | 가설 검정(p-value)을 통한 기능 롤백 비율 40% 저감 (확률적 의사결정) |
 
 **미래 전망 및 진화 방향**:
-알고리즘의 미래는 하드웨어의 진화 방향과 궤를 같이한다. CPU의 단일 코어 연산에 의존하던 직렬 알고리즘은 도태되고, GPU의 수만 개 코어를 활용하는 **병렬 알고리즘(Parallel Algorithm, CUDA 파이썬 프로그래밍)**이 대세로 자리 잡았다. 궁극적으로 양자 컴퓨터 시대가 도래하면 얽힘(Entanglement) 상태를 이용해 데이터베이스 검색을 $\mathcal{O}(\sqrt{N})$에 끝내는 그로버 알고리즘(Grover's Algorithm)이 인류의 컴퓨팅 한계를 재정의할 것이다.
+알고리즘의 미래는 하드웨어의 진화 방향과 궤를 같이한다. CPU의 단일 코어 연산에 의존하던 직렬 알고리즘은 도태되고, GPU의 수만 개 코어를 활용하는 <strong>병렬 알고리즘(Parallel Algorithm, CUDA 파이썬 프로그래밍)</strong>이 대세로 자리 잡았다. 궁극적으로 양자 컴퓨터 시대가 도래하면 얽힘(Entanglement) 상태를 이용해 데이터베이스 검색을 $\mathcal{O}(\sqrt{N})$에 끝내는 그로버 알고리즘(Grover's Algorithm)이 인류의 컴퓨팅 한계를 재정의할 것이다.
 
 **※ 참고 표준/가이드**:
 - C++ STL / Java Collections Framework: 전 세계 산업 표준으로 굳어진 최고 효율의 자료구조 구현체 라이브러리.
@@ -140,18 +144,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-알고리즘 + 자료구조 = 프로그래밍의 기초
-    │
-    ├─► 복잡도 분석: Big-O / Omega / Theta
-    ├─► 정렬: 비교 기반 O(n log n) / 비비교 O(n)
-    ├─► 탐색: 그래프 BFS/DFS → 최단경로 → 최소신장트리
-    ├─► 동적 프로그래밍: 메모이제이션 → 최적 부분구조
-    └─► 문자열: KMP · Rabin-Karp · 접미사 배열
-    │
-    ▼
-NP 이론 → 근사 알고리즘 / 휴리스틱
-    │
-    ▼
-수치 알고리즘 → 통계·정보이론·선형대수 → ML 알고리즘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">알고리즘 + 자료구조 = 프로그래밍의 기초</div>
+<div class="kb-diagram-tree-item" style="--depth:2">복잡도 분석: Big-O / Omega / Theta</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정렬: 비교 기반 O(n log n) / 비비교 O(n)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">탐색: 그래프 BFS/DFS → 최단경로 → 최소신장트리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">동적 프로그래밍: 메모이제이션 → 최적 부분구조</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문자열: KMP · Rabin-Karp · 접미사 배열</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NP 이론 → 근사 알고리즘 / 휴리스틱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수치 알고리즘 → 통계·정보이론·선형대수 → ML 알고리즘</div>
+</div>
+</div>
+
+

@@ -44,28 +44,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 FHE용 모듈러 곱셈기가 왜 "큰 곱셈기 1개"보다 "많은 lane + 감소 + 메모리" 구조로 설계되는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│       FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Ciphertext Coefficients                                                    │
-│        │                                                                   │
-│        ▼                                                                   │
-│ RNS Split ──▶ Lane 0 (q0) ──┐                                              │
-│             Lane 1 (q1) ──┼──▶ Mod Multiply ─▶ Mod Reduce ─▶ NTT / iNTT    │
-│             Lane 2 (q2) ──┤                         │                        │
-│             ...           ├─────────────────────────┘                        │
-│             Lane N (qN) ──┘                                                  │
-│                                      │                                       │
-│                                      ▼                                       │
-│                       Rescale / Relinearize / Key Switching                  │
-│                                      │                                       │
-│                                      ▼                                       │
-│                            Next Ciphertext Stage                             │
-│                                                                            │
-│ 병목 포인트: reduction latency · memory bandwidth · lane utilization        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ciphertext Coefficients</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNS Split ──▶ Lane 0 (q0) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane 1 (q1) ── ──▶ Mod Multiply ─▶ Mod Reduce ─▶ NTT / iNTT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane 2 (q2) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane N (qN) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rescale / Relinearize / Key Switching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Next Ciphertext Stage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: reduction latency · memory bandwidth · lane utilization</div></div>
+</div>
+</div>
+
+
 
 핵심은 모듈러 감소를 "진짜 나눗셈"으로 하지 않는다는 점이다. FHE에서는 같은 모듈러스 집합에 대해 반복 계산이 많으므로, 미리 준비한 상수와 시프트·곱셈 조합으로 감소를 처리하는 것이 훨씬 효율적이다. 또한 NTT와 곱셈기를 가깝게 배치하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부 메모리까지 내보내지 않고 바로 다음 스테이지로 전달할 수 있어, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력을 함께 줄일 수 있다.
 
@@ -90,7 +86,7 @@ FHE용 모듈러 곱셈기를 이해하려면 범용 다중정밀 산술과 무�
 
 또한 FHE는 인접 주제인 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))나 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 가속과도 수학적 친연성이 있다. 셋 다 모듈러 산술과 NTT를 활용하지만, FHE는 노이즈 관리와 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) 때문에 "같은 연산을 더 긴 파이프라인으로 오래 유지"해야 한다는 차이가 있다. 그래서 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속기가 일회성 대형 증명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 최적화된다면, FHE용 모듈러 곱셈기는 장시간 스트리밍 처리와 메모리 재사용 효율이 특히 중요하다.
 
-결국 이 주제는 곱셈기 하나만의 문제가 아니라, **암호 수학이 어떤 실행 패턴으로 하드웨어에 들어오는가**의 문제다. 같은 모듈러 연산이라도 워크로드 성격에 따라 최적 구조가 달라진다.
+결국 이 주제는 곱셈기 하나만의 문제가 아니라, <strong>암호 수학이 어떤 실행 패턴으로 하드웨어에 들어오는가</strong>의 문제다. 같은 모듈러 연산이라도 워크로드 성격에 따라 최적 구조가 달라진다.
 
 - **📢 섹션 요약 비유**: 범용 곱셈기가 만능 공구함이라면, FHE용 모듈러 곱셈기는 대량 생산용 컨베이어 공장이다. 둘 다 같은 못을 다룰 수 있지만, 하루에 몇 개를 박을지에 따라 필요한 장비가 달라진다.
 
@@ -123,7 +119,7 @@ FHE용 모듈러 곱셈기를 이해하려면 범용 다중정밀 산술과 무�
 
 ## Ⅴ. 기대효과 및 결론
 
-FHE용 대규모 모듈러 곱셈기가 성숙하면, 지금까지 "가능하지만 너무 느린" 기술로 여겨졌던 암호화 상태 연산이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 안으로 들어올 가능성이 커진다. 이는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 규제가 강한 의료, 금융, 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 분야에서 특히 큰 의미가 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덜 모으는 것이 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 열지 않고도 계산하는 방식**으로 운영 패러다임을 바꿀 수 있기 때문이다.
+FHE용 대규모 모듈러 곱셈기가 성숙하면, 지금까지 "가능하지만 너무 느린" 기술로 여겨졌던 암호화 상태 연산이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 안으로 들어올 가능성이 커진다. 이는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 규제가 강한 의료, 금융, 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 분야에서 특히 큰 의미가 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덜 모으는 것이 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 열지 않고도 계산하는 방식</strong>으로 운영 패러다임을 바꿀 수 있기 때문이다.
 
 다만 한계도 분명하다. 모듈러 곱셈기만 빨라져도 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) 전체 비용이 자동으로 사라지는 것은 아니며, 파라미터 선택이 보안과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 직결되므로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 민첩성도 필요하다. 앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 기반 확장, 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 결합, NTT와 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) switching의 근접 배치 같은 방향이 더 중요해질 가능성이 높다.
 
@@ -147,24 +143,25 @@ FHE용 대규모 모듈러 곱셈기가 성숙하면, 지금까지 "가능하지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-큰 정수 모듈러 산술
-        │
-        ▼
-잔여수계 (RNS) 기반 분해
-        │
-        ▼
-병렬 모듈러 곱셈 + Montgomery / Barrett 감소
-        │
-        ▼
-NTT 결합형 FHE 산술 파이프라인
-        │
-        ▼
-재선형화 · 부트스트래핑 통합 가속
-        │
-        ▼
-암호화된 AI 추론 · 프라이버시 데이터 처리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">큰 정수 모듈러 산술</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잔여수계 (RNS) 기반 분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">병렬 모듈러 곱셈 + Montgomery / Barrett 감소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NTT 결합형 FHE 산술 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재선형화 · 부트스트래핑 통합 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암호화된 AI 추론 · 프라이버시 데이터 처리</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 큰 수 연산에서 출발해, FHE 전용 파이프라인과 실제 프라이버시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라로 확장되는 과정을 보여 준다.
 

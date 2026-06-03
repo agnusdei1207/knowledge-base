@@ -29,26 +29,24 @@ tags = ["software_engineering"]
 
 스포티파이 모델의 핵심은 수직적 목적 뼈대(스쿼드, 트라이브)와 수평적 전문성 혈관(챕터, 길드)의 절묘한 권력 분산이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         스포티파이 매트릭스 조직 구조 (씨줄과 날줄)          │
-├──────────────────────────────────────────────────────────────┤
-│             [ Tribe (부족: 넓은 비전 공유, 최대 150명) ]     │
-│                                                              │
-│  [ Chapter (직군) ] ▼ (수평적 기술/표준화 묶음)             │
-│    프론트엔드 리드 ──┼──────────┼──────────┼────▶           │
-│    백엔드 리드   ────┼──────────┼──────────┼────▶           │
-│    디자인 리드   ────┼──────────┼──────────┼────▶           │
-│                    │          │          │                  │
-│               [Squad A]  [Squad B]  [Squad C]               │
-│                 (결제)     (추천)     (검색)                │
-│                    ▲                                        │
-│                    └─ 자율적 미니 스타트업 (수직적 목적 묶음)│
-│                                                              │
-│ ============================================================ │
-│ [ Guild (길드) ]: 트라이브 경계를 넘나드는 자발적 동호회     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스포티파이 매트릭스 조직 구조 (씨줄과 날줄)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tribe (부족: 넓은 비전 공유, 최대 150명)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chapter (직군)</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">(수평적 기술/표준화 묶음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프론트엔드 리드 ── ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 리드 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 리드 ▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Squad A</div><div class="kb-diagram-node">Squad B</div><div class="kb-diagram-node">Squad C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결제) (추천) (검색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자율적 미니 스타트업 (수직적 목적 묶음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guild (길드)</div><div class="kb-diagram-note">: 트라이브 경계를 넘나드는 자발적 동호회</div></div>
+</div>
+</div>
+
+
 
 1. **스쿼드 (Squad)**: 6~12명으로 구성된 다기능(Cross-functional) 실무 팀이다. PO(Product Owner)가 무엇을 할지 방향만 정하면, 팀원들이 스스로 결정하고 배포까지 책임진다.
 2. **트라이브 (Tribe)**: 연관된 목적을 가진 스쿼드들의 집합(최대 150명 제한). 트라이브 리더는 스쿼드 간의 일감이 꼬이지 않게 교통정리를 담당한다.
@@ -70,7 +68,7 @@ tags = ["software_engineering"]
 | **인사/기술 평가**| 실무를 지시하는 팀장이 평가 | 실무와 무관한 직군 멘토(챕터 리드)가 평가 | How(어떻게 할까)의 질적 향상 |
 | **지식 전파** | 부서 내부로 고립([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) | 챕터와 길드를 통한 전사적 유기적 전파 | 코드 표준화 및 기술 파편화 방지 |
 
-전통적 조직에서는 "상사가 시키는 일"을 하는 반면, 매트릭스 구조에서는 **"무엇을 만들 것인가(What)"는 스쿼드의 PO가 정하고, "어떻게 잘 만들 것인가(How)"는 챕터 리드가 지원하는 구조**로 권력이 분산되어 있어, 속도와 기술적 안정성이라는 두 마리 토끼를 잡을 수 있다.
+전통적 조직에서는 "상사가 시키는 일"을 하는 반면, 매트릭스 구조에서는 <strong>"무엇을 만들 것인가(What)"는 스쿼드의 PO가 정하고, "어떻게 잘 만들 것인가(How)"는 챕터 리드가 지원하는 구조</strong>로 권력이 분산되어 있어, 속도와 기술적 안정성이라는 두 마리 토끼를 잡을 수 있다.
 
 - **📢 섹션 요약 비유**: 한 명의 셰프가 지시하는 거대한 공장형 주방이 아니라, 여러 대의 푸드트럭(스쿼드)이 각자의 메뉴를 뽐내며 장사하되 매주 요리사 협회(챕터)에 모여 위생 규칙과 칼질 비법을 공유하는 골목 시장이다.
 
@@ -81,8 +79,8 @@ tags = ["software_engineering"]
 스포티파이 모델은 마법의 지팡이가 아니며, 문화적 토대 없이 껍데기만 흉내 내면 극심한 혼란을 초래한다.
 
 ### 1. 실무 의사결정 포인트
-- **조직 규모 확장 (Scaling [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 3~5개를 넘어가면서 중복 작업이 발생하고 개발자 간 기술 편차가 벌어질 때, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장의 강력한 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 등) 대안으로 도입을 검토해야 한다.
-- **인프라 독립성 확보**: 스쿼드가 자율적으로 움직이려면 남의 팀 코드를 건드리지 않고 독립적으로 배포할 수 있는 **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**와 강력한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 물리적으로 선행되어야 한다. [모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 환경에서는 조직만 쪼개봐야 병목이 그대로 남는다.
+- <strong>조직 규모 확장 (Scaling <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong>: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 3~5개를 넘어가면서 중복 작업이 발생하고 개발자 간 기술 편차가 벌어질 때, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장의 강력한 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/), [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 등) 대안으로 도입을 검토해야 한다.
+- **인프라 독립성 확보**: 스쿼드가 자율적으로 움직이려면 남의 팀 코드를 건드리지 않고 독립적으로 배포할 수 있는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>와 강력한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인이 물리적으로 선행되어야 한다. [모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 환경에서는 조직만 쪼개봐야 병목이 그대로 남는다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 직급 체계는 그대로 둔 채 "오늘부터 너희는 1팀이 아니라 스쿼드다"라고 이름표만 바꿔 달고, 여전히 본부장의 결재를 받아야 배포할 수 있게 만드는 가짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) in Name Only) 현상.
@@ -93,7 +91,7 @@ tags = ["software_engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-스포티파이 모델은 고도로 훈련된 전문가들이 위에서 내려오는 세세한 지시 없이도 스스로 가치를 창출하게 만드는 **완벽한 권한 위임(Empowerment) 플랫폼**이다. 이를 제대로 이식하면 엔터프라이즈 규모에서도 타 부서 의존도를 끊어내어 극단적으로 짧은 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 달성할 수 있다.
+스포티파이 모델은 고도로 훈련된 전문가들이 위에서 내려오는 세세한 지시 없이도 스스로 가치를 창출하게 만드는 <strong>완벽한 권한 위임(Empowerment) 플랫폼</strong>이다. 이를 제대로 이식하면 엔터프라이즈 규모에서도 타 부서 의존도를 끊어내어 극단적으로 짧은 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 달성할 수 있다.
 
 그러나 스포티파이 창립자들조차 "이것은 완성된 정답이 아니라 우리가 진화해 온 과정일 뿐"이라고 경고했듯, 실무 리더는 이 매트릭스 템플릿을 그대로 복사해 붙여넣기보다는 자사의 인프라 수준과 문화적 성숙도에 맞게 재단([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하여 유연하게 적용해야 한다.
 
@@ -105,27 +103,29 @@ tags = ["software_engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 및 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))** | 스포티파이 스쿼드의 철학적 근간. 변화에 빠르게 대응하는 소규모 반복 개발론 |
-| **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** | 스쿼드가 완전히 독립적으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기능)를 개발하고 배포할 수 있게 해주는 필수 물리적 인프라 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong> | 스포티파이 스쿼드의 철학적 근간. 변화에 빠르게 대응하는 소규모 반복 개발론 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | 스쿼드가 완전히 독립적으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(기능)를 개발하고 배포할 수 있게 해주는 필수 물리적 인프라 |
 | **매트릭스 조직 (Matrix Organization)** | 목적(프로젝트)과 직무(기능)를 교차시켜 직원들이 두 명 이상의 관리자/멘토를 갖게 만드는 현대적 조직 뼈대 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 기능 조직 (Silo, 폭포수 모델) 병목 심화
-    │
-    ▼
-소규모 단일 스크럼 (Scrum) 팀 도입 (애자일 시작)
-    │
-    ▼
-대규모 애자일 확장 필요성 대두 (Scaling Agile)
-    │
-    ▼
-스포티파이 모델 완성 (Squad, Tribe, Chapter, Guild)
-    │
-    ▼
-MSA 및 DevOps 인프라 융합을 통한 클라우드 네이티브 조직 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 기능 조직 (Silo, 폭포수 모델) 병목 심화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소규모 단일 스크럼 (Scrum) 팀 도입 (애자일 시작)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 애자일 확장 필요성 대두 (Scaling Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스포티파이 모델 완성 (Squad, Tribe, Chapter, Guild)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA 및 DevOps 인프라 융합을 통한 클라우드 네이티브 조직 정착</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

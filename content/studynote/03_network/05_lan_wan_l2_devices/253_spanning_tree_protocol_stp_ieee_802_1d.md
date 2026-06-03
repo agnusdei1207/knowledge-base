@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) (Spanning Tree [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 IEEE 802.1D로 표준화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층(2계층) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 물리적으로 루프가 존재하는 네트워크 위에서 논리적으로 루프를 끊어낸 안전한 '트리' 구조의 경로를 실시간으로 자동 연산해 내는 알고리즘이다. 라디아 펄만(Radia Perlman)이 발명했다.
 - **필요성**: 기업 네트워크에서 메인 선로 하나가 끊어졌다고 직원 1000명이 인터넷을 못 쓰면 난리가 난다. 그래서 네트워크 설계자들은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간에 백업용 선(Redundancy)을 주렁주렁 달아 놓는다. 하지만 이렇게 다중 연결을 하면 100% 확률로 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(L2 루핑)이 발생해 1초 만에 망이 박살 난다. "선은 연결하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한히 돌지 못하게 한쪽 길을 임시로 잠가줄 똑똑한 신호등"이 절실했다.
 
-- **💡 비유**: 한강 다리가 끊어질까 봐 다리를 2개(메인 다리, 예비 다리) 지어 놨습니다. 그런데 차들이 두 다리를 통해 뺑글뺑글 꼬리물기(루핑)를 하며 교통 체증([브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/))을 유발합니다. STP는 **예비 다리 입구에 "바리케이드(Block)"를 쳐서 평소엔 못 지나가게 막아두다가, 메인 다리가 무너지면 바리케이드를 치우고 예비 다리를 쓰게 해주는 톨게이트 관리자**입니다.
+- **💡 비유**: 한강 다리가 끊어질까 봐 다리를 2개(메인 다리, 예비 다리) 지어 놨습니다. 그런데 차들이 두 다리를 통해 뺑글뺑글 꼬리물기(루핑)를 하며 교통 체증([브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/))을 유발합니다. STP는 <strong>예비 다리 입구에 "바리케이드(Block)"를 쳐서 평소엔 못 지나가게 막아두다가, 메인 다리가 무너지면 바리케이드를 치우고 예비 다리를 쓰게 해주는 톨게이트 관리자</strong>입니다.
 
-```text
-[MAC 주소 호핑]
-    │
-    ▼
-[스패닝 트리 프로토콜]
-    │
-    └──▶ [BPDU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소 호핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BPDU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** STP는 거미줄처럼 엉킨 실타래(루프 네트워크)를 가위로 싹둑싹둑 잘라서, 물이 역류하지 않고 폭포수처럼 위에서 아래로만 흐르는 **"완벽한 나무뿌리 모양(Spanning Tree)의 물길"**로 정돈해 주는 조경사입니다.
 
@@ -42,46 +46,47 @@ tags = ["studynote-network"]
 STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜자마자 자기들끼리 "[BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)"라는 엽서를 주고받으며 다음의 3단계 선거와 계산을 수행한다.
 
 ### 1단계: 전체 대장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선출 ([Root Bridge](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 마을에 단 한 명의 대장(Root)을 뽑는다. 기준은 **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID)**가 가장 낮은(작은) 놈이다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 마을에 단 한 명의 대장(Root)을 뽑는다. 기준은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> ID)</strong>가 가장 낮은(작은) 놈이다.
 - [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID = `우선순위 번호(Priority) + 스위치의 MAC 주소`.
 - 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 기본 우선순위는 32,768이다. 우선순위가 같으면 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 가장 낮은(공장에서 제일 옛날에 생산된) 고물 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대장이 되는 참사가 벌어질 수 있으므로, 관리자는 메인 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 우선순위를 `4096` 등 낮게 강제 설정하여 대장으로 만들어야 한다.
 
 ### 2단계: 대장에게 가는 가장 빠른 길 찾기 (Root [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 선출)
-- 대장([루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))이 아닌 나머지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Non-[Root Bridge](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))들은 "내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들 중에 대장님한테 가는 가장 빠른 길이 어디지?"를 계산한다. 이 가장 빠르고 짧은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 **루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))**라 부르며, 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)당 무조건 딱 1개만 열린다.
+- 대장([루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))이 아닌 나머지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Non-[Root Bridge](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))들은 "내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들 중에 대장님한테 가는 가장 빠른 길이 어디지?"를 계산한다. 이 가장 빠르고 짧은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 <strong>루트 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/">RP</a>)</strong>라 부르며, 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)당 무조건 딱 1개만 열린다.
 - 기준(Cost)은 100Mbps 선은 Cost 19, 1Gbps 광랜은 Cost 4로, 값이 적을수록 빠른 길이다.
 
 ### 3단계: 도로의 통행권 배분 (Designated [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / Block [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
-- 이제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 연결하는 '각각의 랜선([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))'마다 "이 선을 주도적으로 쓸 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 둘 중 누구지?"를 가린다. 이 뚫려 있는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 **지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP)**다.
+- 이제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 연결하는 '각각의 랜선([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))'마다 "이 선을 주도적으로 쓸 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 둘 중 누구지?"를 가린다. 이 뚫려 있는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 <strong>지정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(DP)</strong>다.
 - 대장(Root) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 항상 DP다.
 - 남은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 중에서, RP도 아니고 DP도 못 된 불쌍한 패배자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 **차단(Block, Non-Designated)** 모드로 들어가 입을 다문다. 루프가 완벽히 끊어지는 순간이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 동작 결과 도식 (루프 차단 과정)               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │            [ 루트 브리지 (대장!) ]                             │
- │             (우선순위: 4096)                                │
- │             DP ↙            ↘ DP                          │
- │      (Cost 4) /              \ (Cost 4)                   │
- │             ↙                  ↘                          │
- │         RP ↙                    ↘ RP                      │
- │    [ 스위치 B ] ──── (예비선) ──── [ 스위치 C ]                 │
- │              DP                BLOCK                        │
- │                                                             │
- │   * 설명:                                                     │
- │   1) 대장은 우선순위가 낮은 위쪽 스위치.                          │
- │   2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.           │
- │   3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.          │
- │   4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.             │
- │   5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 동작 결과 도식 (루프 차단 과정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트 브리지 (대장!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우선순위: 4096)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP ↙ ↘ DP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cost 4) / \ (Cost 4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ↘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP ↙ ↘ RP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div><div class="kb-diagram-note">(예비선)</div><div class="kb-diagram-node">스위치 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP BLOCK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 설명:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 대장은 우선순위가 낮은 위쪽 스위치.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!</div></div>
+</div>
+</div>
+
+
 
 ### 3. STP의 50초 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 문제
-초창기 802.1D 표준 STP는 선로가 끊어졌을 때(장애 발생), 막아두었던 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어 통신을 복구하는 데 무려 **50초(Max Age 20 + Listening 15 + [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 15)**라는 끔찍하게 긴 시간이 걸렸다. 현대의 고속 네트워크에서 50초 단절은 치명적이므로, 이를 개선하여 1초 만에 복구하는 **[RSTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/) ([Rapid STP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/), 802.1w)**가 현재 업계의 기본 표준으로 자리 잡았다.
+초창기 802.1D 표준 STP는 선로가 끊어졌을 때(장애 발생), 막아두었던 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어 통신을 복구하는 데 무려 <strong>50초(Max Age 20 + Listening 15 + <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> 15)</strong>라는 끔찍하게 긴 시간이 걸렸다. 현대의 고속 네트워크에서 50초 단절은 치명적이므로, 이를 개선하여 1초 만에 복구하는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">RSTP</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">Rapid STP</a>, 802.1w)</strong>가 현재 업계의 기본 표준으로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: ** STP는 각 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 서로 명함([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))을 교환하여 **서열(대장, 중간, 쫄따구)을 딱 정리한 다음, 쓸데없는 곁가지 도로에 바리케이드를 치는 완벽한 계급 기반의 교통정리 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
+- **📢 섹션 요약 비유**: <strong> STP는 각 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들이 서로 명함(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a>)을 교환하여 </strong>서열(대장, 중간, 쫄따구)을 딱 정리한 다음, 쓸데없는 곁가지 도로에 바리케이드를 치는 완벽한 계급 기반의 교통정리 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
 
 ---
 
@@ -137,15 +142,19 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MAC 주소 호핑]
-    │
-    ▼
-[현재 개념: 스패닝 트리 프로토콜]
-    │
-    ├──▶ [확장 A: BPDU]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC 주소 호핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스패닝 트리 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BPDU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑에서 출발해 현재 메커니즘을 정교화하고, 이후 BPDU와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

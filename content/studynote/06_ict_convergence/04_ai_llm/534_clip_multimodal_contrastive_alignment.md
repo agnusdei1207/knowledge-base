@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 전통적 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), ViT)은 고정된 클래스 레이블을 학습하므로 새로운 클래스 추가 시 재훈련이 필요하다. CLIP은 자연어 설명을 활용해 이 한계를 극복했다.
 
-**OpenAI [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) 혁신 포인트**
+<strong>OpenAI <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>) 혁신 포인트</strong>
 - 4억 쌍의 (이미지, 텍스트) 쌍으로 대조 학습
 - 이미지 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(ViT-L/14)와 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(GPT-스타일 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))를 함께 학습
 - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 없던 1,000 ImageNet 클래스에서 제로샷으로 76.2% 정확도 달성
@@ -32,28 +32,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                CLIP 대조 학습 구조                        │
-│                                                         │
-│  이미지 배치 (N개)         텍스트 배치 (N개)              │
-│  ┌──────┐                 ┌──────────────┐              │
-│  │img_1 │──►[이미지 인코더]─►│ v_1 (임베딩) │              │
-│  │img_2 │  (ViT)          │ v_2          │              │
-│  │ ...  │                 │ ...          │              │
-│  │img_N │                 │ v_N          │              │
-│  └──────┘                 └──────────────┘              │
-│                                   │                     │
-│  ┌──────────────────────┐          │ 코사인 유사도 행렬    │
-│  │ t_1 (텍스트 임베딩)  │◄─────────┘ (N×N)             │
-│  │ t_2                  │  대각선: 매칭 쌍 ↑ (당기기)    │
-│  │ ...                  │  비대각: 비매칭 ↓ (밀기)       │
-│  │ t_N                  │                              │
-│  └──────────────────────┘                              │
-└─────────────────────────────────────────────────────────┘
-```
 
-**대조 학습(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 손실 (InfoNCE)**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLIP 대조 학습 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 배치 (N개) 텍스트 배치 (N개)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│img_1 │──►</div><div class="kb-diagram-node">이미지 인코더</div><div class="kb-diagram-note">─►│ v_1 (임베딩) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">img_2</div><div class="kb-diagram-cell">(ViT)</div><div class="kb-diagram-cell">v_2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">img_N</div><div class="kb-diagram-cell">v_N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_1 (텍스트 임베딩)</div><div class="kb-diagram-cell">◄ (N×N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_2</div><div class="kb-diagram-cell">대각선: 매칭 쌍 ↑ (당기기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">비대각: 비매칭 ↓ (밀기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_N</div></div>
+</div>
+</div>
+
+
+
+<strong>대조 학습(Contrastive <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>) 손실 (InfoNCE)</strong>
 
 배치 내 N개 이미지-텍스트 쌍에서:
 - 매칭 쌍(i, i)의 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) 최대화 (**당기기**)
@@ -61,7 +60,7 @@ tags = ["studynote-ict-convergence"]
 
 배치 크기가 클수록(최대 32,768) 학습 효과 향상 → CLIP은 256개 TPU로 학습.
 
-**제로샷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방법**
+<strong>제로샷 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 방법</strong>
 
 | 단계 | 내용 |
 |:---:|:---|
@@ -102,7 +101,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 파인튜닝 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> 파인튜닝 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
 ```python
 # OpenCLIP 기반 제로샷 분류
@@ -126,7 +125,7 @@ text_features = model.encode_text(texts)
 **기술사 판단 포인트**
 
 1. **의료 영상 적용**: CLIP의 일반 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 학습 → 의료 특화 BioViL, MedCLIP 파인튜닝 필요
-2. **프롬프트 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)**: 단일 프롬프트 대신 "a photo of {cls}", "an image of {cls}" 등 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) → 정확도 향상
+2. <strong>프롬프트 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong>: 단일 프롬프트 대신 "a photo of {cls}", "an image of {cls}" 등 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) → 정확도 향상
 3. **검색 파이프라인**: [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) → FAISS [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) 인덱싱 → 실시간 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 검색 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구현
 4. **라이선스**: OpenAI CLIP은 MIT 라이선스, 상업 사용 가능. LAION [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 모델은 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 주의
 

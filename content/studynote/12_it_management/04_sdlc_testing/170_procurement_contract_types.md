@@ -21,17 +21,20 @@ tags = ["studynote-it-management"]
 
 조달 계약 방식은 프로젝트 대가를 얼마로 정하느냐보다 "예상과 다르게 흘렀을 때 누가 부담할 것인가"를 정하는 규칙이다. 소프트웨어 사업에서는 요구사항 변경, 기술 탐색, 외부 솔루션 연동, 법규 변화처럼 불확실성이 많기 때문에, 동일한 범위 문서라도 계약 구조에 따라 예산 통제와 협업 분위기가 크게 달라진다.
 
-계약 방식이 중요한 이유는 인센티브가 달라지기 때문이다. 완전 고정가 계약에서는 공급자가 원가 절감 동기를 강하게 갖지만, 반대로 변경 요구를 방어하거나 품질 투자에 소극적일 유인도 생긴다. 실비정산 계약에서는 발주자가 비용 초과 위험을 더 많이 부담하는 대신, 탐색적 연구나 불확실한 개발을 무리하게 고정가로 묶지 않아도 된다. 즉 계약 유형은 법무 문서가 아니라 **프로젝트 운영 메커니즘**이다.
+계약 방식이 중요한 이유는 인센티브가 달라지기 때문이다. 완전 고정가 계약에서는 공급자가 원가 절감 동기를 강하게 갖지만, 반대로 변경 요구를 방어하거나 품질 투자에 소극적일 유인도 생긴다. 실비정산 계약에서는 발주자가 비용 초과 위험을 더 많이 부담하는 대신, 탐색적 연구나 불확실한 개발을 무리하게 고정가로 묶지 않아도 된다. 즉 계약 유형은 법무 문서가 아니라 <strong>프로젝트 운영 메커니즘</strong>이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Contract type selection asks three questions                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) How stable is the scope?                                          │
-│ 2) Who absorbs cost / schedule / performance risk?                   │
-│ 3) How much buyer oversight is realistically available?              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Contract type selection asks three questions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) How stable is the scope?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Who absorbs cost / schedule / performance risk?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) How much buyer oversight is realistically available?</div></div>
+</div>
+</div>
+
+
 
 따라서 조달 계약의 첫 판단은 "가장 익숙한 계약이 무엇인가"가 아니라, "이 프로젝트의 불확실성을 누가 더 잘 통제할 수 있는가"여야 한다.
 
@@ -43,15 +46,18 @@ tags = ["studynote-it-management"]
 
 조달 계약은 크게 고정가 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), Fixed Price), 실비정산 (CR, Cost Reimbursable), 시간·자재 (T&M, Time and Material) 세 축으로 나뉜다. 핵심 차이는 가격이 고정되는 범위와, 비용 초과 시 어느 쪽이 더 큰 충격을 받는가에 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Scope certainty / risk allocation spectrum                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ seller risk high                                      buyer risk high│
-│ FFP ── FP-EPA ── FPIF ── T&M ── CPIF ── CPAF ── CPFF                │
-│ stable scope                                           unclear scope │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scope certainty / risk allocation spectrum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seller risk high buyer risk high</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FFP ── FP-EPA ── FPIF ── T&amp;M ── CPIF ── CPAF ── CPFF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stable scope unclear scope</div></div>
+</div>
+</div>
+
+
 
 | 계약 유형 | 가격 메커니즘 | 적합한 상황 | 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -91,7 +97,7 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 | PWS ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Work Statement) | 달성해야 할 성과와 기준 중심 | FPIF, CPIF, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계약 |
 | SOO (Statement of Objectives) | 목표만 제시하고 제안은 공급자가 설계 | T&M, CPFF, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 탐색형 조달 |
 
-이 연결이 중요한 이유는 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경 때문이다. 백로그가 계속 바뀌는데도 SOW 기반 FFP만 고집하면, 계약은 안정적이어도 제품은 경직된다. 반대로 결과 기준 없이 CPFF만 선택하면 실행은 유연해도 통제가 약해진다. 그래서 실제 현장에서는 **탐색 단계는 T&M 또는 CPFF, 구현 단계는 FFP 또는 FPIF, 운영 단계는 T&M**처럼 단계별 혼합 전략을 쓰기도 한다.
+이 연결이 중요한 이유는 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경 때문이다. 백로그가 계속 바뀌는데도 SOW 기반 FFP만 고집하면, 계약은 안정적이어도 제품은 경직된다. 반대로 결과 기준 없이 CPFF만 선택하면 실행은 유연해도 통제가 약해진다. 그래서 실제 현장에서는 <strong>탐색 단계는 T&M 또는 CPFF, 구현 단계는 FFP 또는 FPIF, 운영 단계는 T&M</strong>처럼 단계별 혼합 전략을 쓰기도 한다.
 
 - **📢 섹션 요약 비유**: "이 재료로 이 요리를 정확히 만들어 주세요"는 SOW이고, "이 맛을 내 주세요"는 PWS다. "손님을 만족시킬 메뉴를 제안해 주세요"는 SOO에 가깝다.
 
@@ -120,10 +126,10 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 - **법규 준수형 시스템 구축**: 명확한 요구와 [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) → FFP
 - **장기 운영/헬프데스크**: 월별 티켓량 변동 큼 → T&M + NTE + [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)
-- **연구개발·PoC (Proof of [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/))**: 결과보다 탐색이 중요 → CPFF
+- <strong>연구개발·PoC (Proof of <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a>)</strong>: 결과보다 탐색이 중요 → CPFF
 - **원가 절감이 핵심인 대형 구축**: 비용 절감 동기 필요 → FPIF 또는 CPIF
 
-즉 계약 유형은 서류 분류가 아니라, 프로젝트 특성에 맞는 통제 장치를 조합하는 일이다. 발주자에게 필요한 것은 "가장 안전해 보이는 계약"이 아니라, **현실의 불확실성을 감당하면서도 분쟁을 줄이는 계약**이다.
+즉 계약 유형은 서류 분류가 아니라, 프로젝트 특성에 맞는 통제 장치를 조합하는 일이다. 발주자에게 필요한 것은 "가장 안전해 보이는 계약"이 아니라, <strong>현실의 불확실성을 감당하면서도 분쟁을 줄이는 계약</strong>이다.
 
 - **📢 섹션 요약 비유**: 비 오는 날에도 갈지, 짐이 얼마나 늘어날지 모르는 여행이라면 표 한 장만 미리 끊는다고 끝나지 않는다. 우산 규정, 수하물 규정, 환불 규정까지 함께 봐야 진짜 안전한 계획이 된다.
 
@@ -135,7 +141,7 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 하지만 어떤 유형도 만능은 아니다. FFP는 변경에 약하고, CR은 통제 비용이 크며, T&M은 관리 없이는 총액이 쉽게 불어난다. 그래서 가장 좋은 계약은 "프로젝트 전 기간에 하나"가 아니라, 단계별 불확실성에 맞게 조합되는 경우가 많다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 탐색은 유연하게, 구축은 명확하게, 운영은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 중심으로 나누는 식이다.
 
-결국 조달 계약 방식은 가격표가 아니라 **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 인센티브의 설계도**로 기억해야 한다. 무엇을 살 것인가보다, 예상이 빗나갔을 때 누가 어떤 규칙으로 대응할 것인가를 정하는 것이 핵심이다.
+결국 조달 계약 방식은 가격표가 아니라 <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>와 인센티브의 설계도</strong>로 기억해야 한다. 무엇을 살 것인가보다, 예상이 빗나갔을 때 누가 어떤 규칙으로 대응할 것인가를 정하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 계약 방식은 경기 규칙과 같다. 선수 실력만 좋아도 이길 수 있는 것이 아니라, 어떤 반칙이 벌어졌을 때 누가 책임지고 어떻게 점수를 매길지까지 정해져 있어야 경기가 공정해진다.
 
@@ -154,23 +160,23 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Project uncertainty assessment
-            │
-            ▼
-Choose contract family
-   ┌────────┼─────────┐
-   ▼        ▼         ▼
- Fixed   T&M      Cost Reimbursable
- Price               │
-   │                 │
-   └──────┬──────────┘
-          ▼
-Incentive design + governance + acceptance criteria
-          │
-          ▼
-Delivery / change control / operation management
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Project uncertainty assessment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Choose contract family</div>
+<div class="kb-diagram-note">Fixed T&amp;M Cost Reimbursable</div>
+<div class="kb-diagram-note">Price</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Incentive design + governance + acceptance criteria</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Delivery / change control / operation management</div>
+</div>
+</div>
+
+
 
 이 흐름은 조달 계약 선택이 단순 가격 협상이 아니라, 불확실성 평가에서 시작해 인센티브 설계와 운영 통제까지 이어지는 관리 프로세스임을 보여 준다.
 

@@ -23,17 +23,19 @@ tags = ["studynote-enterprise"]
 
 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 에서는 이 충돌이 더 커진다. 주문, 회원, 상품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되면 과거처럼 하나의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 복잡한 조인을 수행하기 어렵다. 게이트웨이에서 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 호출해 결과를 합칠 수도 있지만, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이 누적되고 장애 전파가 쉬워지며, 화면별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 만들기 위해 애플리케이션 코드가 지나치게 복잡해진다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Single model overload                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ same domain model + same schema + same database                    │
-│   ├─ Command needs transaction, validation, invariant              │
-│   └─ Query needs join, search, pagination, denormalized view       │
-│                                                                    │
-│ 결과: 하나의 모델이 두 종류의 요구를 모두 억지로 떠안음              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single model overload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same domain model + same schema + same database</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command needs transaction, validation, invariant</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Query needs join, search, pagination, denormalized view</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 하나의 모델이 두 종류의 요구를 모두 억지로 떠안음</div></div>
+</div>
+</div>
+
+
 
 CQRS는 바로 이 지점에서 출발한다. "같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다"와 "같은 모델로 다뤄야 한다"는 가정을 분리하는 것이다. 즉 업무 규칙을 지키는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델과, 사용자가 빨리 읽을 수 있게 재구성한 조회 모델을 나누어 각자 다른 목표에 최적화한다.
 
@@ -57,29 +59,24 @@ CQRS는 바로 이 지점에서 출발한다. "같은 [데이터](/knowledge-bas
 
 아래 그림은 CQRS의 전형적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ CQRS flow                                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ User command                                                       │
-│   │                                                                │
-│   ▼                                                                │
-│ Command handler ─▶ Write model ─▶ Write store                      │
-│                                 │                                  │
-│                                 └─ outbox / event                  │
-│                                            │                       │
-│                                            ▼                       │
-│                                      projector / consumer          │
-│                                            │                       │
-│                                            ▼                       │
-│                                      Read model store              │
-│                                            │                       │
-│ User query  ───────────────────────────────┘                       │
-│   └─ Query API reads optimized projection                          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 것은 읽기 저장소가 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 아니라는 점이다. 조회 모델은 "주문 상세 화면", "고객별 최근 주문 목록", "검색 자동완성"처럼 **사용 사례별로 미리 가공된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뷰**가 될 수 있다. 그래서 CQRS는 종종 머티리얼라이즈드 뷰 (Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 나 이벤트 기반 프로젝션과 함께 설명된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User command</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command handler ─▶ Write model ─▶ Write store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ outbox / event</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">projector / consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read model store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User query</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Query API reads optimized projection</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 것은 읽기 저장소가 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 아니라는 점이다. 조회 모델은 "주문 상세 화면", "고객별 최근 주문 목록", "검색 자동완성"처럼 <strong>사용 사례별로 미리 가공된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 뷰</strong>가 될 수 있다. 그래서 CQRS는 종종 머티리얼라이즈드 뷰 (Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 나 이벤트 기반 프로젝션과 함께 설명된다.
 
 물론 이 구조는 즉시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 포기하는 대가를 요구한다. 명령이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 저장소에 반영된 직후 조회 모델로 전파되기까지는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생길 수 있다. 따라서 CQRS의 핵심 원리는 "읽기 모델이 순간적으로 늦을 수 있음"을 받아들이되, 그 대신 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 각자 가장 적합한 구조로 분리하는 데 있다.
 
@@ -98,9 +95,9 @@ CQRS를 제대로 이해하려면 읽기 [복제](/knowledge-base/studynote/14_d
 | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) | 분리 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 저장소 + 조회 저장소 | 사용 사례별 최적화, 독립 확장 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 운영 복잡도 증가 |
 | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) + [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) | 분리 | 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 재생·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적에 강함 | 설계 난이도와 운영 부담 큼 |
 
-또한 CQRS는 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) ([Transactional Outbox](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)), [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)), 이벤트 브로커와 자주 연결된다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 측의 변경 사실을 안정적으로 조회 모델이나 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 퍼뜨리려면 Outbox 같은 패턴이 필요하고, 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 걸친 장기 업무 흐름은 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 로 이어질 수 있다. 즉 CQRS는 단독 기술이라기보다 **이벤트 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 한 축**으로 이해하는 편이 정확하다.
+또한 CQRS는 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/) ([Transactional Outbox](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)), [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)), 이벤트 브로커와 자주 연결된다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 측의 변경 사실을 안정적으로 조회 모델이나 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 퍼뜨리려면 Outbox 같은 패턴이 필요하고, 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 걸친 장기 업무 흐름은 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 로 이어질 수 있다. 즉 CQRS는 단독 기술이라기보다 <strong>이벤트 기반 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템의 한 축</strong>으로 이해하는 편이 정확하다.
 
-실무에서 자주 생기는 오해는 "[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 둘로 나누면 다 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)" 라는 생각이다. 하지만 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에 같은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 놓았다면 그건 대부분 읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에 가깝다. CQRS의 본질은 DB 개수보다 **모델 책임의 분리**에 있다.
+실무에서 자주 생기는 오해는 "[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 둘로 나누면 다 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)" 라는 생각이다. 하지만 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에 같은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 놓았다면 그건 대부분 읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에 가깝다. CQRS의 본질은 DB 개수보다 <strong>모델 책임의 분리</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 같은 책을 다른 선반에 한 권 더 두는 것은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이고, 어린이용 요약본을 따로 만드는 것은 CQRS에 가깝다. 둘 다 읽기 편하게 만들지만 방식과 목적이 다르다.
 
@@ -138,7 +135,7 @@ CQRS는 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_da
 
 CQRS를 올바르게 적용하면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 측은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 단단하게 유지하고, 읽기 측은 화면과 검색 요구에 맞게 자유롭게 최적화할 수 있다. 그 결과 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 독립 확장, 단순한 조회 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 화면별 비정규화, 검색 엔진 결합, 장애 격리 같은 효과를 기대할 수 있다. 특히 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 지키면서도 복합 조회를 빠르게 제공하는 방법으로 큰 의미가 있다.
 
-하지만 그 이면에는 저장소 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복, 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 처리, 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영, 재처리 비용이 따라온다. 즉 CQRS는 "더 멋진 아키텍처"가 아니라, **읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불균형을 다른 복잡도로 교환하는 선택**이다. 그래서 도입 판단은 기술 유행보다, 읽기 모델 분리로 얻는 사업적 가치가 충분한지를 기준으로 해야 한다.
+하지만 그 이면에는 저장소 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복, 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 처리, 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영, 재처리 비용이 따라온다. 즉 CQRS는 "더 멋진 아키텍처"가 아니라, <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 불균형을 다른 복잡도로 교환하는 선택</strong>이다. 그래서 도입 판단은 기술 유행보다, 읽기 모델 분리로 얻는 사업적 가치가 충분한지를 기준으로 해야 한다.
 
 결론적으로 CQRS를 기억할 때 가장 중요한 문장은 이것이다. **같은 사실을 다루더라도, 상태를 바꾸는 모델과 보여 주기 위한 모델은 같을 필요가 없다.** 이 관점을 이해하면 CQRS는 단순한 패턴 이름이 아니라, 대규모 시스템에서 책임을 분리하는 설계 원칙으로 남는다.
 
@@ -161,24 +158,25 @@ CQRS를 올바르게 적용하면 [쓰기](/knowledge-base/studynote/13_cloud_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사용자 명령
-    │
-    ▼
-Command Handler + Write Model
-    │
-    ▼
-Write Store + Outbox/Event
-    │
-    ▼
-Projector / Consumer
-    │
-    ▼
-Read Model (projection)
-    │
-    ▼
-Query API · 검색 · 화면 응답
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 명령</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Command Handler + Write Model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write Store + Outbox/Event</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Projector / Consumer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Read Model (projection)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Query API · 검색 · 화면 응답</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "명령 처리 → 변경 사실 전달 → 조회 모델 투영 → 읽기 응답"이라는 CQRS의 핵심 작동 순서를 요약한다.
 

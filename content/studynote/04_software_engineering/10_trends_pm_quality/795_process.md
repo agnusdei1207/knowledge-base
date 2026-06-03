@@ -23,11 +23,15 @@ tags = ["studynote-software-engineering"]
 
 반대로 이런 구조가 없으면 검토는 형식만 남고, 숫자와 문서와 현장이 서로 어긋난다. 그래서 단계와 산출물을 표준화해 품질 편차를 줄이는 절차 방식은 단순 설명이 아니라, 실제 운영에서 판단선을 세우는 도구로 읽어야 한다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력           │──▶│ 절차           │──▶│ 산출물          │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">절차</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">산출물</div></div>
+</div>
+</div>
+
+
 
 이 그림은 입력이 결과로 바로 가는 것이 아니라, 중간의 기준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거치며 의미가 바뀐다는 점을 보여준다.
 
@@ -51,11 +55,15 @@ tags = ["studynote-software-engineering"]
 | 절차 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 산출물 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 입력           │──▶│ 절차           │──▶│ 산출물          │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">절차</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">산출물</div></div>
+</div>
+</div>
+
+
 
 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)과(와) requirements traceability은 이 흐름을 보강하는 대표 축이다. 하나는 기준을 넓히는 관점이고, 다른 하나는 실행을 좁히는 관점이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -129,21 +137,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-린 개발 7원칙 낭비 제거 전체 최적화 배포망 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">린 개발 7원칙 낭비 제거 전체 최적화 배포망 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - YANG 모델 도입 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 표준화된 뼈대가 없다 보니(Native YANG), 제조사들은 각자 자기 장비의 특성을 뽐내기 위해 파편화된 서식([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))을 만들었습니다.
 - **개발자의 지옥**: 자동화 프로그램(파이썬 스크립트)을 짤 때, 시스코 장비로 IP를 보낼 때는 `{"ipv4-address": "1.1.1.1"}`, 주니퍼 장비로 보낼 때는 `{"address-v4": "1.1.1.1"}`이라고 일일이 if문을 걸어 분기 처리를 해줘야 했습니다. 제조사 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이 여전했습니다.
 
-```text
-[RESTCONF]
-    │
-    ▼
-[오픈컨피그]
-    │
-    └──▶ [텔레메트리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레메트리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오픈컨피그는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 구글, AT&T, 마이크로소프트 등 거대 네트워크 소비자(망을 직접 깔아 쓰는 빅테크/통신사)들이 주도하는 실무 연합체입니다. 특정 벤더(제조사)의 입김을 완전히 배제하고, **전 세계 모든 라우터와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들이 100% 동일하게 사용해야 하는 '벤더 중립적인 공통 YANG [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(Standardized YANG Models)' 스키마를 찍어내어 배포하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트**입니다.
+- **개념**: 구글, AT&T, 마이크로소프트 등 거대 네트워크 소비자(망을 직접 깔아 쓰는 빅테크/통신사)들이 주도하는 실무 연합체입니다. 특정 벤더(제조사)의 입김을 완전히 배제하고, <strong>전 세계 모든 라우터와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비들이 100% 동일하게 사용해야 하는 '벤더 중립적인 공통 YANG <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>(Standardized YANG Models)' 스키마를 찍어내어 배포하는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 프로젝트</strong>입니다.
 
-```text
-[RESTCONF]
-    │
-    ▼
-[오픈컨피그]
-    │
-    └──▶ [텔레메트리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레메트리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오픈컨피그의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-오픈컨피그는 단순히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 양식만 통일한 게 아닙니다. 다음 879번 문서에서 다룰 **[스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)([Streaming Telemetry](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/))**의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 양식까지 통일해 버렸습니다.
+오픈컨피그는 단순히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 양식만 통일한 게 아닙니다. 다음 879번 문서에서 다룰 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/">Streaming Telemetry</a>)</strong>의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 양식까지 통일해 버렸습니다.
 - 전국의 수만 대 이기종 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 1초마다 중앙 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(그라파나, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/))로 자신의 CPU 온도와 트래픽 양을 보고합니다. 
 - 제조사가 달라도 쏘아 보내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 100% 일치(OpenConfig 모델)하므로, 중앙 서버는 복잡한 파싱이나 번역 툴 없이 수만 대의 빅데이터를 1초 만에 모아 글로벌 시야(Global [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 대시보드로 띄울 수 있습니다.
 
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날엔 회사에 이력서를 낼 때, 시스코 전용 이력서, 주니퍼 전용 이력서 등 100가지의 각기 다른 양식에 맞춰 지원자(개발자)가 일일이 내용을 고쳐서 써야 하는 미친듯한 비효율([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/))이 있었습니다. **오픈컨피그(OpenConfig)**는 거대 대기업(구글) 연합이 빡쳐서 선언한 '전국 공통 표준 이력서 양식'입니다. 구글은 선언합니다. "앞으로 우리와 거래하고 싶은 모든 기업은 무조건 이 '오픈컨피그 표준 이력서 1장'만 써라! 주민번호는 3번 칸, 이름은 1번 칸 무조건 고정이다!" 지원자(엔지니어)는 이제 단 한 번만 이력서(자동화 스크립트)를 작성해 두면, 전 세계 수만 개의 각기 다른 회사(이종 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 똑같은 종이를 팩스로 밀어 넣어도 100% 서류 심사가 통과되는 마법 같은 범용 자동화 인프라를 손에 쥐게 되었습니다.
+- **📢 섹션 요약 비유**: 옛날엔 회사에 이력서를 낼 때, 시스코 전용 이력서, 주니퍼 전용 이력서 등 100가지의 각기 다른 양식에 맞춰 지원자(개발자)가 일일이 내용을 고쳐서 써야 하는 미친듯한 비효율([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/))이 있었습니다. <strong>오픈컨피그(OpenConfig)</strong>는 거대 대기업(구글) 연합이 빡쳐서 선언한 '전국 공통 표준 이력서 양식'입니다. 구글은 선언합니다. "앞으로 우리와 거래하고 싶은 모든 기업은 무조건 이 '오픈컨피그 표준 이력서 1장'만 써라! 주민번호는 3번 칸, 이름은 1번 칸 무조건 고정이다!" 지원자(엔지니어)는 이제 단 한 번만 이력서(자동화 스크립트)를 작성해 두면, 전 세계 수만 개의 각기 다른 회사(이종 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 똑같은 종이를 팩스로 밀어 넣어도 100% 서류 심사가 통과되는 마법 같은 범용 자동화 인프라를 손에 쥐게 되었습니다.
 
 ---
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RESTCONF]
-    │
-    ▼
-[현재 개념: 오픈컨피그]
-    │
-    ├──▶ [확장 A: 텔레메트리]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RESTCONF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오픈컨피그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 텔레메트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 오픈컨피그는 RESTCONF에서 출발해 현재 메커니즘을 정교화하고, 이후 텔레메트리와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

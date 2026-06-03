@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 
 ### Ⅰ. 개요 (Context & Background)
 과거의 소프트웨어 릴리즈는 두 달에 한 번 새벽 2시에 모여 서버를 내리고 수동으로 스크립트를 실행하는 피말리는 의식(Ceremony)이었다. 개발자가 코드를 던지고 운영자는 버그 폭탄을 막아내기 급급한 '사일로(Silo)' 구조는 IT 딜리버리 속도를 끔찍하게 늦췄다.
-**데브옵스(DevOps)**는 이 장벽을 박살내기 위해 CAMS(Culture, Automation, Measurement, Sharing) 철학을 들고 나왔다. 그리고 구글(Google)은 이 추상적인 철학에 "소프트웨어 엔지니어가 운영 작업을 설계한다면 어떻게 될까?"라는 질문을 던져 **SRE(Site Reliability Engineering)**라는 완벽한 수학적, 공학적 규율을 창안해 냈다. 이제 SRE는 SLI/SLO라는 정량적 잣대와 '에러 버짓(Error Budget)'이라는 타협의 마법을 통해, 100% 무결성이라는 환상을 버리고 속도와 안정성 사이의 완벽한 최적점을 도출해 내는 IT 운영의 절대적 바이블이 되었다.
+<strong>데브옵스(DevOps)</strong>는 이 장벽을 박살내기 위해 CAMS(Culture, Automation, Measurement, Sharing) 철학을 들고 나왔다. 그리고 구글(Google)은 이 추상적인 철학에 "소프트웨어 엔지니어가 운영 작업을 설계한다면 어떻게 될까?"라는 질문을 던져 <strong>SRE(Site Reliability Engineering)</strong>라는 완벽한 수학적, 공학적 규율을 창안해 냈다. 이제 SRE는 SLI/SLO라는 정량적 잣대와 '에러 버짓(Error Budget)'이라는 타협의 마법을 통해, 100% 무결성이라는 환상을 버리고 속도와 안정성 사이의 완벽한 최적점을 도출해 내는 IT 운영의 절대적 바이블이 되었다.
 
 ---
 
@@ -40,31 +40,30 @@ DevOps와 SRE는 사람의 수작업을 시스템 코드로 대체하는 추상�
 
 #### 2. GitOps 기반의 완벽한 CI/CD 및 관측성 피드백 루프 (ASCII)
 가장 진보한 클라우드 네이티브 배포 아키텍처인 'Pull-based GitOps' 모델.
-```text
-    [ End-to-End DevSecOps & GitOps Pipeline Architecture / 엔드투엔드 DevSecOps & GitOps 파이프라인 아키텍처 ]
-    
-    (Developer / 개발자)
-        | 1. 코드 커밋 & PR
-        v
-    [ Git Repository (App Code) / 앱 코드 깃 저장소 ] ----(Webhook)----> [ CI Server (GitHub Actions) ]
-                                                                          | 2. 테스트 실행 (JUnit)
-                                                                          | 3. SAST 보안 스캔 (Sonar)
-                                                                          | 4. 도커 이미지 빌드
-                                                                          | 5. 레지스트리 푸시 (ECR)
-                                                                          v
-    [ Git Repository (Manifests) / 인프라 매니페스트 ] <---- 6. 이미지 태그 업데이트 (커밋)
-        ^
-        | 7. 풀 (변경 감지)
-        |
-    +---+-----------------------------------------------------------------------------------+
-    | Kubernetes Cluster (Production) / 쿠버네티스 운영 클러스터                              |
-    |                                                                                       |
-    |   [ ArgoCD (GitOps Operator) ] --- 8. 동기화 (매니페스트 적용) ---> [ Pods / 파드 ]   |
-    |                                                                            |          |
-    +----------------------------------------------------------------------------|----------+
-                                                                                 |
-    (SRE / 운영자) <---- 9. 알림 (PagerDuty) <---- [ Prometheus / Grafana ] (메트릭/로그 모니터링)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">End-to-End DevSecOps &amp; GitOps Pipeline Architecture / 엔드투엔드 DevSecOps &amp; GitOps 파이프라인 아키텍처</div></div>
+<div class="kb-diagram-note">(Developer / 개발자)</div>
+<div class="kb-diagram-note">1. 코드 커밋 &amp; PR</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository (App Code) / 앱 코드 깃 저장소</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CI Server (GitHub Actions)</div></div>
+<div class="kb-diagram-note">2. 테스트 실행 (JUnit)</div>
+<div class="kb-diagram-note">3. SAST 보안 스캔 (Sonar)</div>
+<div class="kb-diagram-note">4. 도커 이미지 빌드</div>
+<div class="kb-diagram-note">5. 레지스트리 푸시 (ECR)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository (Manifests) / 인프라 매니페스트</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-- 6. 이미지 태그 업데이트 (커밋)</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">7. 풀 (변경 감지)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Cluster (Production) / 쿠버네티스 운영 클러스터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ArgoCD (GitOps Operator)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Pods / 파드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">Prometheus / Grafana</div><div class="kb-diagram-note">(메트릭/로그 모니터링)</div></div>
+</div>
+</div>
+
+
 
 #### 3. 핵심 수학적 논리 (에러 버짓과 가용성)
 시스템의 100% 무결성을 추구하면 새로운 기능 배포 속도는 '0'이 된다. SRE는 이를 수식으로 타협한다.
@@ -97,14 +96,14 @@ DevOps와 SRE는 사람의 수작업을 시스템 코드로 대체하는 추상�
 
 **시나리오 1: 마이크로서비스(MSA)의 거대한 파단 - 원인 불명 장애의 디버깅**
 - **문제 상황**: 50개의 마이크로서비스가 맞물려 돌아가는 환경에서, 결제 API의 응답 지연이 10초로 치솟았으나 어느 서버의 병목인지 전통적 로그(Log)만으로는 파악이 불가능함.
-- **기술사적 결단**: 단순 로깅(Logging)을 버리고 3차원 **관측성(Observability)** 인프라를 구축한다. 각 요청의 진입점(Gateway)에서 생성된 고유 ID(Trace ID)를 헤더에 담아 전파하는 **분산 추적(Distributed Tracing, 예: Jaeger)**을 적용하여, A $\rightarrow$ B $\rightarrow$ C 서비스 호출 중 C의 특정 DB 쿼리가 9초를 소모했음을 시각적인 스팬(Span)으로 압살하듯 색출해낸다.
+- **기술사적 결단**: 단순 로깅(Logging)을 버리고 3차원 **관측성(Observability)** 인프라를 구축한다. 각 요청의 진입점(Gateway)에서 생성된 고유 ID(Trace ID)를 헤더에 담아 전파하는 <strong>분산 추적(Distributed Tracing, 예: Jaeger)</strong>을 적용하여, A $\rightarrow$ B $\rightarrow$ C 서비스 호출 중 C의 특정 DB 쿼리가 9초를 소모했음을 시각적인 스팬(Span)으로 압살하듯 색출해낸다.
 
 **시나리오 2: 예기치 못한 AWS 리전 다운에 대비한 카오스 엔지니어링**
 - **문제 상황**: 아무리 이중화를 잘해두어도, 실제 클라우드 가용 영역(AZ) 전체가 죽는 재난이 발생했을 때 시스템이 설계대로 Failover 하는지 검증할 수 없음.
 - **기술사적 결단**: 넷플릭스가 창안한 **카오스 엔지니어링(Chaos Engineering)** 철학을 주입한다. 평온한 평일 낮 영업시간에 의도적으로 프로덕션 DB를 차단하거나 랜덤한 컨테이너를 사살(Chaos Monkey)하는 훈련(Game Day)을 실시한다. 이를 통해 시스템의 자가 치유(Self-healing) 로직과 서킷 브레이커가 정상 작동하는지 실전 데이터로 증명하여 숨은 단일 장애점(SPOF)을 뿌리 뽑는다.
 
 **도입 시 고려사항 (안티패턴)**
-- **경고 피로(Alert Fatigue) 안티패턴**: CPU 가동률이 80%를 넘을 때마다 담당자에게 문자와 이메일 알람을 쏘아대는 행위. 결국 엔지니어는 늑대소년 양치기처럼 알람을 무시하게 되고, 진짜 치명적인 장애를 놓치게 된다. 기술사는 인프라 지표가 아닌, 사용자 관점의 지표(예: "장바구니 담기 에러율 5% 초과")를 기반으로 한 **징후 기반 알람(Symptom-based Alerting)**으로 정책을 대대적으로 개편해야 한다.
+- **경고 피로(Alert Fatigue) 안티패턴**: CPU 가동률이 80%를 넘을 때마다 담당자에게 문자와 이메일 알람을 쏘아대는 행위. 결국 엔지니어는 늑대소년 양치기처럼 알람을 무시하게 되고, 진짜 치명적인 장애를 놓치게 된다. 기술사는 인프라 지표가 아닌, 사용자 관점의 지표(예: "장바구니 담기 에러율 5% 초과")를 기반으로 한 <strong>징후 기반 알람(Symptom-based Alerting)</strong>으로 정책을 대대적으로 개편해야 한다.
 
 ---
 
@@ -118,7 +117,7 @@ DevOps와 SRE는 사람의 수작업을 시스템 코드로 대체하는 추상�
 | **IaC 기반 인프라 파이프라인** | 재해 복구(DR) 불능 및 설정 드리프트 | 목표 복구 시간(RTO) 수일 $\rightarrow$ **10분 내 인프라 풀 리스토어** |
 
 **미래 전망 및 진화 방향**:
-데브옵스의 종착점은 **NoOps(운영 제로)**다. 인프라의 규모가 인간의 인지 능력을 넘어서면서, 향후에는 생성형 AI가 SRE의 관측성 데이터를 학습하여 장애를 예측하고 스스로 코드를 롤백하거나 서버를 증설하는 **AIOps(인공지능 IT 운영)** 아키텍처가 메인 스트림이 될 것이다. 또한, 사내 개발자들에게 플랫폼과 도구를 셀프 서비스로 제공하는 **플랫폼 엔지니어링(Platform Engineering)** 조직이 기존 DevOps 팀을 흡수하며 인지 부하(Cognitive Load)를 극도로 낮추는 방향으로 결착될 것이다.
+데브옵스의 종착점은 <strong>NoOps(운영 제로)</strong>다. 인프라의 규모가 인간의 인지 능력을 넘어서면서, 향후에는 생성형 AI가 SRE의 관측성 데이터를 학습하여 장애를 예측하고 스스로 코드를 롤백하거나 서버를 증설하는 **AIOps(인공지능 IT 운영)** 아키텍처가 메인 스트림이 될 것이다. 또한, 사내 개발자들에게 플랫폼과 도구를 셀프 서비스로 제공하는 **플랫폼 엔지니어링(Platform Engineering)** 조직이 기존 DevOps 팀을 흡수하며 인지 부하(Cognitive Load)를 극도로 낮추는 방향으로 결착될 것이다.
 
 **※ 참고 표준/가이드**:
 - DORA Metrics: DevOps의 성과를 측정하는 4대 절대 지표 (배포 빈도, 리드타임, MTTR, 변경 실패율).
@@ -136,6 +135,6 @@ DevOps와 SRE는 사람의 수작업을 시스템 코드로 대체하는 추상�
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **데브옵스(DevOps)**는 장난감을 발명하는 친구와 장난감을 고쳐주는 친구가 사이좋게 한 팀이 되어 일하는 방법이에요.
+1. <strong>데브옵스(DevOps)</strong>는 장난감을 발명하는 친구와 장난감을 고쳐주는 친구가 사이좋게 한 팀이 되어 일하는 방법이에요.
 2. 예전에는 손으로 하나씩 장난감을 조립하다가 불량품이 나오기 쉬웠는데, 지금은 완벽한 컨베이어 벨트 로봇을 만들어서 알아서 착착 만들어진답니다.
 3. 이 로봇 덕분에 매일매일 고장 나지 않는 새롭고 멋진 장난감을 전 세계 친구들에게 엄청나게 빨리 나누어 줄 수 있어요!

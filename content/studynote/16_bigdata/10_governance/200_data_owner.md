@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유자([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner)는 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적·법적 책임을 지는 시니어 비즈니스 임원으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정과 규제 준수에 대한 최종 책임을 진다.
 - **가치**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 체계에서 Owner가 명확해야 접근 승인·규제 대응·품질 기준 결정이 일원화되고, 분쟁 발생 시 책임 소재가 명확해진다.
-- **판단 포인트**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 기술적 역할이 아니라 **비즈니스 책임 역할**이며, GDPR의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컨트롤러([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller) 개념과 유사하다는 점이 기술사 답안의 핵심 포인트다.
+- **판단 포인트**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 기술적 역할이 아니라 <strong>비즈니스 책임 역할</strong>이며, GDPR의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컨트롤러([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Controller) 개념과 유사하다는 점이 기술사 답안의 핵심 포인트다.
 
 ---
 
@@ -23,8 +23,8 @@ tags = ["studynote-bigdata"]
 
 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유자)는 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 대해:
 - **누가 접근할 수 있는지** 결정하는 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 권한
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 규제를 준수하는지** 보장하는 컴플라이언스 책임
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 보관하고 언제 삭제하는지** 결정하는 생명주기 책임
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 규제를 준수하는지</strong> 보장하는 컴플라이언스 책임
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 얼마나 보관하고 언제 삭제하는지</strong> 결정하는 생명주기 책임
 
 을 갖는 **시니어 비즈니스 임원급** 역할이다.
 
@@ -38,7 +38,7 @@ tags = ["studynote-bigdata"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 불이행 | 보유 기간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 부재 → 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 축적 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 방치 | 품질 기준 결정 권한자 없음 |
 
-**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **무주공산()**과 같다. 아무도 책임지지 않으면 누구나 사용하다가 결국 아무도 관리하지 않게 된다.
+**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>무주공산()</strong>과 같다. 아무도 책임지지 않으면 누구나 사용하다가 결국 아무도 관리하지 않게 된다.
 
 ---
 
@@ -46,28 +46,24 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 위치와 책임 구조
 
-```
-┌───────────────────────────────────────────────────────────────┐
-│ 데이터 거버넌스 책임 계층 │
-│ │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ CDO (Chief Data Officer) │ │
-│ │ 전사 데이터 전략 및 거버넌스 총괄 │ │
-│ └───────────────────────────────────┬─────────────────────┘ │
-│ │ 도메인별 위임 │
-│ ┌──────────────┬──────────────┬─────▼─────────────────────┐ │
-│ │ Customer DO │ Finance DO │ Product DO │ │
-│ │ (CMO급) │ (CFO급) │ (CPO급) │ │
-│ │ │ │ │ │
-│ │ 고객 도메인 │ 재무 도메인 │ 제품 도메인 │ │
-│ │ 접근정책 결정 │ 접근정책 결정 │ 접근정책 결정 │ │
-│ └──────┬───────┴──────┬───────┴────────────┬──────────────┘ │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ Data Steward Data Steward Data Steward │
-│ (운영 위임) (운영 위임) (운영 위임) │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 책임 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDO (Chief Data Officer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전사 데이터 전략 및 거버넌스 총괄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인별 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer DO</div><div class="kb-diagram-cell">Finance DO</div><div class="kb-diagram-cell">Product DO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CMO급)</div><div class="kb-diagram-cell">(CFO급)</div><div class="kb-diagram-cell">(CPO급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 도메인</div><div class="kb-diagram-cell">재무 도메인</div><div class="kb-diagram-cell">제품 도메인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근정책 결정</div><div class="kb-diagram-cell">접근정책 결정</div><div class="kb-diagram-cell">접근정책 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Steward Data Steward Data Steward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(운영 위임) (운영 위임) (운영 위임)</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner의 핵심 책임 6가지
 
@@ -88,7 +84,7 @@ tags = ["studynote-bigdata"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 실행자 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processor ([Art](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/).4(8)) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Custodian / IT |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주체 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subject | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Consumer (고객 기준) |
 
-**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 **아파트 입주자 대표**와 같다. 공용 공간([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 사용 규칙을 정하고, 외부인(외부 접근자) 출입을 승인하며, 관리비(보유 비용) 결정도 책임진다.
+**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 <strong>아파트 입주자 대표</strong>와 같다. 공용 공간([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 사용 규칙을 정하고, 외부인(외부 접근자) 출입을 승인하며, 관리비(보유 비용) 결정도 책임진다.
 
 ---
 
@@ -123,25 +119,25 @@ tags = ["studynote-bigdata"]
 
 ### 4.1 접근 요청 승인 프로세스
 
-```
-[접근 요청자가 시스템에 요청]
-│
-▼
-[Data Steward: 비즈니스 필요성·위험 검토]
-│
-┌────▼────┐
-│ 저위험 │──▶ Steward가 직접 승인 (위임 권한 내)
-└────┬────┘
-│고위험 / 대량 데이터
-▼
-[Data Owner: 최종 승인/거부]
-│
-▼
-[Data Custodian: 기술적 권한 부여]
-│
-▼
-[감사 로그에 이력 기록]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 요청자가 시스템에 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Steward: 비즈니스 필요성·위험 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저위험</div><div class="kb-diagram-cell">──▶ Steward가 직접 승인 (위임 권한 내)</div></div>
+<div class="kb-diagram-note">고위험 / 대량 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Owner: 최종 승인/거부</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Custodian: 기술적 권한 부여</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감사 로그에 이력 기록</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패 패턴
 
@@ -155,7 +151,7 @@ tags = ["studynote-bigdata"]
 - [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 24: Controller는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subject 권리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 적절한 기술·조직적 조치를 취해야 함 → [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할의 법적 근거
 - 조직이 클수록 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Owner를 세분화하고, 작은 조직은 CDO가 Owner 기능 겸직 가능
 
-**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패는 **선장 없는 배**와 같다. 선원(Steward, Custodian)이 아무리 잘 해도, 배의 방향([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 결정하는 선장이 없으면 항구에 도착하지 못한다.
+**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패는 <strong>선장 없는 배</strong>와 같다. 선원(Steward, Custodian)이 아무리 잘 해도, 배의 방향([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 결정하는 선장이 없으면 항구에 도착하지 못한다.
 
 ---
 
@@ -173,9 +169,9 @@ tags = ["studynote-bigdata"]
 
 ### 5.2 결론
 
-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 **정치적(organizational) 중심축**이다. 아무리 좋은 기술 도구와 프로세스가 있어도, 비즈니스 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임을 받아들이지 않으면 거버넌스는 형식화된다. 기술사는 조직 설계(organizational design) 관점에서 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할을 제도화하는 방법을 제시해야 한다.
+[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 <strong>정치적(organizational) 중심축</strong>이다. 아무리 좋은 기술 도구와 프로세스가 있어도, 비즈니스 임원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임을 받아들이지 않으면 거버넌스는 형식화된다. 기술사는 조직 설계(organizational design) 관점에서 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 역할을 제도화하는 방법을 제시해야 한다.
 
-**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 **국가의 장관**이다. 각 부처([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 장관이 그 부처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예산·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 책임지고, 국무총리([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 전체를 조율하며, 대통령(이사회)이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 제시한다.
+**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner는 <strong>국가의 장관</strong>이다. 각 부처([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 장관이 그 부처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예산·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 책임지고, 국무총리([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 전체를 조율하며, 대통령(이사회)이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 제시한다.
 
 ---
 
@@ -194,24 +190,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 생성 (Data Creation) — 비즈니스 프로세스에서 데이터 발생]
-│
-▼
-[데이터 오너 (Data Owner) — 데이터 자산의 최종 책임자 지정]
-│
-▼
-[데이터 스튜어드 (Data Steward) — 일상적 품질·분류 관리 담당자]
-│
-▼
-[데이터 거버넌스 위원회 (DGC) — 정책 수립·충돌 조정 조직]
-│
-▼
-[데이터 메시 도메인 오너십 — 도메인팀이 데이터 제품 소유·배포]
-│
-▼
-[GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생성 (Data Creation) — 비즈니스 프로세스에서 데이터 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 오너 (Data Owner) — 데이터 자산의 최종 책임자 지정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스튜어드 (Data Steward) — 일상적 품질·분류 관리 담당자</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 위원회 (DGC) — 정책 수립·충돌 조정 조직</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 도메인 오너십 — 도메인팀이 데이터 제품 소유·배포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합</div></div>
+</div>
+</div>
+
+
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오너는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 책임 주체로, 스튜어드와의 역할 분담을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·컴플라이언스를 조직적으로 보장한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

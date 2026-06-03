@@ -13,24 +13,27 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) ([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))은 대규모 비라벨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 사전 학습되어 폭넓은 일반 지식을 내재화한 뒤, [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 또는 프롬프트로 다양한 다운스트림 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 적응할 수 있는 범용 대형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이다.
 > 2. **가치**: 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)마다 처음부터 모델을 훈련하는 대신, 하나의 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 위에 소량의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))만 수행하여 전문화된 모델을 신속하게 구축함으로써 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발 비용과 시간을 혁신적으로 절감한다.
-> 3. **판단 포인트**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 증폭**, **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))**, **[저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 문제**, **에너지 소비**가 있으며, 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance) 및 윤리적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Ethical [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 논의의 핵심 쟁점이다.
+> 3. **판단 포인트**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>) 증폭</strong>, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> 문제</strong>, <strong>에너지 소비</strong>가 있으며, 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance) 및 윤리적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Ethical [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 논의의 핵심 쟁점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-2021년 스탠퍼드 대학교의 센터 보고서에서 처음 명명된 "[파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))"은 말 그대로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 생태계의 **기반(Foundation)**이 되는 모델이다. 기존 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발 패러다임은 "각 애플리케이션마다 전용 모델을 처음부터 훈련"하는 방식이었다. 이는 막대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·컴퓨팅·시간 자원을 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)마다 중복 투자하는 비효율의 극치였다.
+2021년 스탠퍼드 대학교의 센터 보고서에서 처음 명명된 "[파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))"은 말 그대로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 생태계의 <strong>기반(Foundation)</strong>이 되는 모델이다. 기존 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발 패러다임은 "각 애플리케이션마다 전용 모델을 처음부터 훈련"하는 방식이었다. 이는 막대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·컴퓨팅·시간 자원을 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)마다 중복 투자하는 비효율의 극치였다.
 
 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 이 비효율을 혁파한다. 수천억 개의 텍스트·이미지·코드에서 한 번의 대규모 사전 학습으로 일반 지식을 흡수하고, 이 하나의 "기반" 위에 번역·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의료 진단·법률 분석 등 수백 가지 전문 애플리케이션을 소량 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)으로 올리는 구조다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))다. Windows나 Linux를 한 번 설치하면 그 위에 수만 가지 앱(다운스트림 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 설치·실행할 수 있다. 매번 앱마다 CPU·메모리 관리 코드를 짜는 것과 비교하면 개발 효율이 수천 배 차이 난다.
 
@@ -38,32 +41,24 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         파운데이션 모델 생태계 구조                                    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① 사전 학습 (Pre-training) 단계:                                  │
-│  ┌───────────────────────────────────────────────────────────┐   │
-│  │  수조 토큰의 다양한 데이터 (웹 텍스트, 코드, 논문, 책...)       │   │
-│  │             │                                             │   │
-│  │  수천 GPU × 수개월의 대규모 학습                              │   │
-│  │             │                                             │   │
-│  │  파운데이션 모델 (수십억~수조 파라미터)                       │   │
-│  │  "언어·코드·상식·추론 등 범용 능력 내재화"                    │   │
-│  └───────────────────────────────────────────────────────────┘   │
-│                      │                                           │
-│  ② 적응 (Adaptation) 단계:                                        │
-│  ┌────────────┐  ┌───────────┐  ┌────────────┐  ┌───────────┐   │
-│  │ 파인 튜닝   │  │ 프롬프트   │  │ PEFT/LoRA  │  │ RAG 연동  │   │
-│  │(Fine-Tune) │  │ 엔지니어링 │  │  경량 적응  │  │ 지식 보강 │   │
-│  └────────────┘  └───────────┘  └────────────┘  └───────────┘   │
-│         │               │              │               │         │
-│  ┌──────▼───────────────▼──────────────▼───────────────▼──────┐  │
-│  │  법률 AI  │  의료 AI  │  코드 AI  │  챗봇  │  번역기  │ ... │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파운데이션 모델 생태계 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 사전 학습 (Pre-training) 단계:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수조 토큰의 다양한 데이터 (웹 텍스트, 코드, 논문, 책...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수천 GPU × 수개월의 대규모 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파운데이션 모델 (수십억~수조 파라미터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"언어·코드·상식·추론 등 범용 능력 내재화"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 적응 (Adaptation) 단계:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파인 튜닝</div><div class="kb-diagram-cell">프롬프트</div><div class="kb-diagram-cell">PEFT/LoRA</div><div class="kb-diagram-cell">RAG 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Fine-Tune)</div><div class="kb-diagram-cell">엔지니어링</div><div class="kb-diagram-cell">경량 적응</div><div class="kb-diagram-cell">지식 보강</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법률 AI</div><div class="kb-diagram-cell">의료 AI</div><div class="kb-diagram-cell">코드 AI</div><div class="kb-diagram-cell">챗봇</div><div class="kb-diagram-cell">번역기</div><div class="kb-diagram-cell">...</div></div>
+</div>
+</div>
+
+
 
 | 대표 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) | 개발사 | 파라미터 | 특징 |
 |:---|:---|:---|:---|
@@ -79,7 +74,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**일반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) vs [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)**:
+<strong>일반 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a></strong>:
 - 기존: 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) = 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 처음부터 학습 → 의료에만 사용 가능
 - [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/): 범용 지식 사전 학습 → 의료 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) → 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 법률 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) → 법률 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)
 - 핵심 차이: 범용성(Generality)과 전문성(Specialization) 동시 달성
@@ -96,10 +91,10 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 도입 시 고려사항**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a> 도입 시 고려사항</strong>:
 1. **비용**: 사전 학습에 수십억~수천억 원의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 비용 발생. 대부분 기업은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(LLaMA) 또는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 활용
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프라이버시**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용 시 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 서버로 전송 → 의료·금융·법률 등 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 배포 필요
-3. **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 관리**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 없는 사실을 있는 것처럼 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))나 팩트체킹 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 필수
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 프라이버시</strong>: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용 시 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 서버로 전송 → 의료·금융·법률 등 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 배포 필요
+3. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a> 관리</strong>: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 없는 사실을 있는 것처럼 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))나 팩트체킹 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 필수
 4. **규제 준수**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등 규정에서 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 고위험(High-[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) AI로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 투명성·안전성 요구
 
 - **📢 섹션 요약 비유**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 도입은 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 도입과 같다. AWS([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 쓰면 빠르고 편하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부로 나간다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 서버([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) LLaMA)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제권이 있지만 구축 비용이 크다. 의료·금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 반드시 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)를 고려해야 한다.
@@ -132,9 +127,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)**은 마치 스마트폰의 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)**처럼, 수많은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 앱(번역기, 챗봇, 코딩 도우미)의 **기반**이 되는 아주 큰 AI예요!
-2. 이 거대한 AI를 처음에 **엄청난 양의 글과 정보**로 학습시켜 두면, 나중에 특정 분야(의료, 법률)에 **조금만 더 가르쳐서** 전문 AI로 만들 수 있어요.
-3. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude, NAVER의 HyperCLOVA X 같은 것들이 **[파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)**이에요!
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a></strong>은 마치 스마트폰의 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)</strong>처럼, 수많은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 앱(번역기, 챗봇, 코딩 도우미)의 <strong>기반</strong>이 되는 아주 큰 AI예요!
+2. 이 거대한 AI를 처음에 <strong>엄청난 양의 글과 정보</strong>로 학습시켜 두면, 나중에 특정 분야(의료, 법률)에 **조금만 더 가르쳐서** 전문 AI로 만들 수 있어요.
+3. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude, NAVER의 HyperCLOVA X 같은 것들이 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a></strong>이에요!
 
 ---
 

@@ -23,24 +23,24 @@ tags = ["studynote-design-supervision"]
 
 레거시 시스템을 빅뱅(big bang) 방식으로 완전 재작성하면 수년간의 개발 기간 동안 기존 시스템을 동결해야 하고, 완성 후 일제 전환 시 예상치 못한 버그와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 문제가 한꺼번에 터진다. [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 이 위험을 기능 단위로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         스트랭글러 피그 전환 단계 흐름                        │
-├─────────────────────────────────────────────────────────────┤
-│  1단계: 프록시(게이트웨이) 전면 배치                          │
-│  클라이언트 → [Proxy] → [레거시 시스템 100%]                 │
-│                                                             │
-│  2단계: 신규 기능부터 신규 서비스로 라우팅                   │
-│  클라이언트 → [Proxy] → [신규 서비스 A] (기능 A 가로챔)      │
-│                      → [레거시 시스템] (나머지)              │
-│                                                             │
-│  3단계: 기능을 하나씩 신규 시스템으로 이전                   │
-│  클라이언트 → [Proxy] → [신규 서비스 A, B, C, ...]           │
-│                      → [레거시 시스템] (점점 줄어듦)         │
-│                                                             │
-│  4단계: 레거시 완전 고사 → 프록시 단순화 또는 제거           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트랭글러 피그 전환 단계 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 프록시(게이트웨이) 전면 배치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Proxy</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레거시 시스템 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 신규 기능부터 신규 서비스로 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Proxy</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">신규 서비스 A</div><div class="kb-diagram-note">(기능 A 가로챔)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레거시 시스템</div><div class="kb-diagram-note">(나머지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 기능을 하나씩 신규 시스템으로 이전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Proxy</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">신규 서비스 A, B, C, ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레거시 시스템</div><div class="kb-diagram-note">(점점 줄어듦)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: 레거시 완전 고사 → 프록시 단순화 또는 제거</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 낡은 다리를 철거하면서 동시에 옆에 새 다리를 건설하고, 새 경간(Span)이 완성될 때마다 교통을 그쪽으로 우회시켜 결국 낡은 다리를 사용하지 않게 되는 방식이다.
 
@@ -57,19 +57,20 @@ tags = ["studynote-design-supervision"]
 | 대부분 전환 | 레거시 최소화 | 높음 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 부담) |
 | 레거시 제거 | 신규 시스템 완전 이관 | 낮음 ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 후) |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       레거시-신규 데이터 동기화 전략                          │
-├─────────────────────────────────────────────────────────────┤
-│  전환 기간 중 레거시 DB와 신규 DB 간 데이터 일관성 유지      │
-│                                                             │
-│  옵션 1: 이중 쓰기 (Dual Write)                             │
-│   신규 서비스 → 신규 DB (기본) + 레거시 DB (동기)           │
-│                                                             │
-│  옵션 2: CDC (Change Data Capture)                          │
-│   레거시 DB → CDC → 신규 DB (비동기 동기화)                 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시-신규 데이터 동기화 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전환 기간 중 레거시 DB와 신규 DB 간 데이터 일관성 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵션 1: 이중 쓰기 (Dual Write)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 서비스 → 신규 DB (기본) + 레거시 DB (동기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵션 2: CDC (Change Data Capture)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 DB → CDC → 신규 DB (비동기 동기화)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기존 집을 리모델링할 때 한 방씩 공사하면서 나머지 방에서 생활하는 것과 같다. 전체 집을 비우고 공사하는(빅뱅) 대신 방 하나씩 순서대로 새로 만든다.
 

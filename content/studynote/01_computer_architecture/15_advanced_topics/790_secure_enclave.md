@@ -21,16 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 일반 CPU와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 기능이 많아 공격 표면도 넓다. 그래서 중요한 키, 생체 정보, 서명 연산까지 모두 같은 주소 공간에 두면 시스템 전체가 하나의 운명 공동체가 된다. 보안 엔클레이브는 이 문제를 해결하기 위해, 메인 시스템이 뚫려도 가장 민감한 자산만은 별도 구역에서 지키는 구조다. 즉 "전체 시스템 신뢰"가 아니라 "핵심 자산만의 신뢰"를 하드웨어로 확보하려는 접근이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Rich OS and isolated enclave coexist             │
-├──────────────────────────────────────────────────────────────┤
-│ Apps / OS / drivers      |   Secure processor / secure RAM  │
-│                          |                                   │
-│ Compromise here does not |   Keys and critical logic stay   │
-│ imply direct compromise  |   inside isolated boundary       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rich OS and isolated enclave coexist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apps / OS / drivers</div><div class="kb-diagram-cell">Secure processor / secure RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compromise here does not</div><div class="kb-diagram-cell">Keys and critical logic stay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">imply direct compromise</div><div class="kb-diagram-cell">inside isolated boundary</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 은행 건물이 혼잡해도 가장 중요한 금고실은 따로 잠가 두는 것과 같다. 로비가 어수선해져도 금고실 출입 규칙은 독립적으로 유지된다.
 
@@ -47,18 +49,19 @@ tags = ["studynote-computer-architecture"]
 | Secure Memory | 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관 | 외부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노출 최소화 |
 | Mailbox [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | 일반 세계와의 통신 | 명령 집합 최소화 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               Secure enclave request-response path          │
-├──────────────────────────────────────────────────────────────┤
-│ App -> OS -> Mailbox -> Enclave Service                     │
-│                             │                                │
-│                             ├─ use internal key material     │
-│                             └─ return result only            │
-│                                                              │
-│ Goal: command goes in, secret itself stays inside            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure enclave request-response path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App -&gt; OS -&gt; Mailbox -&gt; Enclave Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ use internal key material</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ return result only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: command goes in, secret itself stays inside</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비밀 요리법을 보여 주지 않고, 재료만 맡기면 안쪽 주방에서 완성된 음식만 내오는 구조와 같다.
 
@@ -105,18 +108,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Root of Trust Boot]
-    │
-    ▼
-[Isolated Secure Processor]
-    │
-    ▼
-[Key / Sensitive Operation]
-    │
-    ├──▶ [Result to Rich OS]
-    └──▶ [Secret remains inside]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Root of Trust Boot</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Isolated Secure Processor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Key / Sensitive Operation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Result to Rich OS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Secret remains inside</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 신뢰 부팅에서 시작한 엔클레이브가 민감 연산을 수행하되, 결과만 외부에 전달하는 구조를 보여준다. 핵심은 기능 공유가 아니라 비밀 비반출이다.
 

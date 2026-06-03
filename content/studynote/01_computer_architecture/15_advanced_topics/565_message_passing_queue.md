@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메시지 패싱 하드웨어 큐 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) Hardware [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 공유 캐시 라인을 붙잡고 싸우는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 소유권을 **명시적 메시지**로 옮겨 코어·가속기 사이 협업을 만드는 하드웨어 통신 구조다.
+> 1. **본질**: 메시지 패싱 하드웨어 큐 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) Hardware [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 공유 캐시 라인을 붙잡고 싸우는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 소유권을 <strong>명시적 메시지</strong>로 옮겨 코어·가속기 사이 협업을 만드는 하드웨어 통신 구조다.
 > 2. **가치**: [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 트래픽과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개입을 줄여, 매니코어 (Many-core)·[칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)·비일관성 가속기 환경에서도 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 확장성을 동시에 확보하게 해 준다.
 > 3. **판단 포인트**: 작은 제어 메시지와 뚜렷한 소유권 이동에는 매우 강하지만, 큰 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합을 자주 함께 수정하는 워크로드에는 복사 비용과 프로그래밍 복잡도가 다시 병목이 될 수 있다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-메시지 패싱 하드웨어 큐는 발신자가 수신자의 큐에 메시지를 넣고, 수신자가 이를 꺼내 처리하는 과정을 실리콘 내부에서 직접 지원하는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out) 통신 장치다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 "같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 여러 코어가 번갈아 소유"하는 방식이라면, 메시지 패싱은 "필요한 정보만 상대 큐로 전달하고 책임도 함께 넘기는 방식"에 가깝다. 그래서 이 구조의 핵심은 단순 버퍼가 아니라 **공유 상태를 줄이는 통신 규칙**에 있다.
+메시지 패싱 하드웨어 큐는 발신자가 수신자의 큐에 메시지를 넣고, 수신자가 이를 꺼내 처리하는 과정을 실리콘 내부에서 직접 지원하는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out) 통신 장치다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 "같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 여러 코어가 번갈아 소유"하는 방식이라면, 메시지 패싱은 "필요한 정보만 상대 큐로 전달하고 책임도 함께 넘기는 방식"에 가깝다. 그래서 이 구조의 핵심은 단순 버퍼가 아니라 <strong>공유 상태를 줄이는 통신 규칙</strong>에 있다.
 
 이 개념이 중요해진 이유는 코어 수가 늘수록 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 편의성이 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용으로 되돌아오기 때문이다. [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 큐나 공유 링 버퍼도 결국 헤드·테일 포인터, 캐시 라인 소유권, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 경로를 놓고 경합하게 되며, 수십~수백 코어에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체보다 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 더 커질 수 있다. 반면 하드웨어 큐는 네트워크 온 칩 (Network-on-Chip, [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))과 연동해 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/), 순서 보장, 백프레셔 (Backpressure)를 전용 경로에서 처리해 이런 병목을 줄인다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메시지 패싱 하드웨어 큐의 기본 경로는 `발신 코어 → 로컬 네트워크 인터페이스 → NoC 라우터 → 수신 큐 → 이벤트 통지`로 이어진다. 발신자는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무조건 복사하는 것이 아니라, 작은 제어 메시지·디스크립터·주소 핸들을 큐에 넣고, 실제 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬 버퍼나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 경로에서 읽도록 설계한다. 이렇게 하면 큐는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 통로"가 아니라 **작업과 소유권을 이동시키는 제어면**으로 동작한다.
+메시지 패싱 하드웨어 큐의 기본 경로는 `발신 코어 → 로컬 네트워크 인터페이스 → NoC 라우터 → 수신 큐 → 이벤트 통지`로 이어진다. 발신자는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무조건 복사하는 것이 아니라, 작은 제어 메시지·디스크립터·주소 핸들을 큐에 넣고, 실제 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬 버퍼나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 경로에서 읽도록 설계한다. 이렇게 하면 큐는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 통로"가 아니라 <strong>작업과 소유권을 이동시키는 제어면</strong>으로 동작한다.
 
 또한 하드웨어 큐는 소프트웨어 큐보다 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 훨씬 직접적이다. 수신 큐 깊이를 기준으로 크레딧 (Credit)을 관리하고, 크레딧이 부족하면 발신을 막아 오버플로를 피한다. 이 덕분에 수신자가 느려지면 시스템 전체가 조용히 감속하고, 무한 재시도나 캐시 라인 스톰 대신 명확한 백프레셔가 형성된다.
 
@@ -45,18 +45,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 메시지 패싱 하드웨어 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "공유"하지 않고 "도착 순서와 여유 공간"으로 제어한다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core A            NI / Send Port           NoC            Queue at Core B    │
-│ [payload 준비] ─▶ [enqueue + tag] ───────▶ [route] ─────▶ [Ingress FIFO]    │
-│      ▲                  │                                     │              │
-│      │                  └──── credit 부족 시 발신 보류 ───────┘              │
-│      │                                                                      │
-│      └──────────────────── credit return / dequeue done ────────────────────┘
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A NI / Send Port NoC Queue at Core B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">payload 준비</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">enqueue + tag</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">route</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingress FIFO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">credit 부족 시 발신 보류</div></div>
+<div class="kb-diagram-note">credit return / dequeue done</div>
+</div>
+</div>
+
+
 
 이 구조에서 병목은 보통 세 곳에서 생긴다. 첫째, 메시지가 너무 커서 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 대신하려 할 때 헤드 오브 라인 블로킹 ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이 발생한다. 둘째, 여러 발신자가 하나의 중앙 큐만 바라보면 다시 공유 병목으로 돌아간다. 셋째, 크레딧 회수 경로가 느리면 큐가 비어 있어도 발신자가 오래 기다리게 된다.
 
@@ -78,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 
 이 비교가 중요한 이유는 메시지 패싱 하드웨어 큐가 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 상위호환"이 아니기 때문이다. 작업이 짧고 상태 소유권이 명확한 파이프라인형 워크로드에서는 큰 이점을 내지만, 거대한 그래프나 해시 구조처럼 모두가 같은 자료구조를 자주 조회·갱신해야 하는 경우에는 복사와 메시지 설계 부담이 커진다. 그래서 실제 시스템은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)와 메시지 패싱을 섞어 쓰며, 제어면은 큐로, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면은 DMA나 공유 버퍼로 나누는 하이브리드 구성이 흔하다.
 
-또한 이 개념은 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))의 다중 큐, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 패브릭, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (Distributed [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), DSM)와도 이어진다. 즉 메시지 큐는 단지 코어 간 우편함이 아니라, **메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 어디까지 하드웨어가 책임질지 정하는 경계선**이기도 하다.
+또한 이 개념은 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))의 다중 큐, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 패브릭, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (Distributed [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), DSM)와도 이어진다. 즉 메시지 큐는 단지 코어 간 우편함이 아니라, <strong>메모리 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 어디까지 하드웨어가 책임질지 정하는 경계선</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 큐가 공동 냉장고라면, 메시지 패싱 하드웨어 큐는 도시락 배달 시스템과 같다. 공동 냉장고는 편하지만 문을 열 때마다 부딪히고, 도시락 배달은 규칙이 필요하지만 훨씬 덜 엉킨다.
 
@@ -88,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 메시지 패싱 하드웨어 큐가 빛나는 곳은 비일관성 타일 기반 프로세서, 네트워크/스토리지 오프로드 엔진, 비디오·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스트리밍 파이프라인처럼 작업 단위가 자연스럽게 쪼개지는 환경이다. 예를 들어 패킷 분류기, 암호화 엔진, 추론 가속기가 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 파이프라인으로 연결된 경우, 각 단계 사이에 작은 디스크립터만 큐로 넘기고 실제 버퍼는 로컬 메모리나 DMA로 접근하면 높은 처리량과 좋은 전력 효율을 함께 얻을 수 있다.
 
-반대로 모든 단계가 같은 대형 자료구조를 실시간으로 함께 고쳐야 하는 구조라면, 하드웨어 큐가 만능 해법이 아니다. 메시지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용, 복사 비용, 큐 깊이 튜닝, 디버깅 난도가 생기므로 "공유 상태를 줄일 수 있는가"를 먼저 판단해야 한다. 즉 채택 기준은 단순히 빠르냐가 아니라 **소유권을 명확히 분리할 수 있느냐**다.
+반대로 모든 단계가 같은 대형 자료구조를 실시간으로 함께 고쳐야 하는 구조라면, 하드웨어 큐가 만능 해법이 아니다. 메시지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용, 복사 비용, 큐 깊이 튜닝, 디버깅 난도가 생기므로 "공유 상태를 줄일 수 있는가"를 먼저 판단해야 한다. 즉 채택 기준은 단순히 빠르냐가 아니라 <strong>소유권을 명확히 분리할 수 있느냐</strong>다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 한계도 분명하다. 프로그래밍 모델이 더 명시적이어서 개발 난도가 올라가고, 큐 메모리와 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 로직이 추가되며, 잘못 설계하면 오히려 복사 비용과 디버깅 비용이 커진다. 앞으로는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 영역과 메시지 패싱 영역을 동적으로 섞는 하이브리드 패브릭, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 표준화된 메시지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 품질 보장 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))형 큐 스케줄링이 더 중요해질 것이다.
 
-따라서 이 개념은 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 대체품"이 아니라, **경합을 줄이기 위해 소유권 이동 자체를 아키텍처에 올린 방식**으로 기억하는 것이 맞다. 언제 공유하고 언제 전달할지를 나누는 순간, 시스템 확장성의 상한이 달라진다.
+따라서 이 개념은 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 대체품"이 아니라, <strong>경합을 줄이기 위해 소유권 이동 자체를 아키텍처에 올린 방식</strong>으로 기억하는 것이 맞다. 언제 공유하고 언제 전달할지를 나누는 순간, 시스템 확장성의 상한이 달라진다.
 
 - **📢 섹션 요약 비유**: 잘 만든 메시지 패싱 하드웨어 큐는 여러 주방 사이를 오가는 주문 전표 시스템과 같다. 재료 창고를 같이 뒤지는 대신, 필요한 주문만 정확히 넘기면 주방 전체가 훨씬 덜 엉킨다.
 
@@ -134,21 +135,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스 기반 공유 메모리
-        │
-        ▼
-메일박스 · 소프트웨어 큐
-        │
-        ▼
-NoC 기반 메시지 패싱 하드웨어 큐
-        │
-        ▼
-크레딧 제어 · 가상 채널 · QoS
-        │
-        ▼
-칩렛 · 가속기 패브릭 · 하이브리드 공유/메시지 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스 기반 공유 메모리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메일박스 · 소프트웨어 큐</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NoC 기반 메시지 패싱 하드웨어 큐</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">크레딧 제어 · 가상 채널 · QoS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩렛 · 가속기 패브릭 · 하이브리드 공유/메시지 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 "같이 본다"에서 출발한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 모델이, 점차 "필요한 것만 정확히 넘긴다"는 방향으로 진화하는 과정을 보여 준다.
 

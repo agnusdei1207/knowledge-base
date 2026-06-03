@@ -11,45 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pinning / [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))은 운영체제가 램(RAM)이 모자라 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)을 돌려 희생양을 쫓아내려 할 때, **특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 닻([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 내려 절대로 디스크 스왑(Swap) 영역으로 쫓겨나지 않고 램에 영구 상주(Pinned)하도록 강제하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술**이다.
-> 2. **가치**: [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 하드웨어 장치가 램에 비동기적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부을 때, 만약 그 램 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑으로 쫓겨가고 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와 있으면 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염(Memory Corruption)이 발생하므로 이를 물리적으로 막아내는 절대적인 생명선**이다.
-> 3. **융합**: 유저 프로그램 레벨에서는 `mlock()` 시스템 콜을 통해 핵심 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 캐시나 암호화 키를 메모리에 묶어두는 튜닝과 결합되며, 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))의 램 통제 아키텍처 등 **하이엔드 서버 인프라 최적화의 핵심 무기로 융합**된다.
+> 1. **본질**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pinning / [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))은 운영체제가 램(RAM)이 모자라 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)을 돌려 희생양을 쫓아내려 할 때, <strong>특정 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>에 닻(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 내려 절대로 디스크 스왑(Swap) 영역으로 쫓겨나지 않고 램에 영구 상주(Pinned)하도록 강제하는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 기술</strong>이다.
+> 2. **가치**: [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 하드웨어 장치가 램에 비동기적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부을 때, 만약 그 램 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑으로 쫓겨가고 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와 있으면 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오염(Memory Corruption)이 발생하므로 이를 물리적으로 막아내는 절대적인 생명선</strong>이다.
+> 3. **융합**: 유저 프로그램 레벨에서는 `mlock()` 시스템 콜을 통해 핵심 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 캐시나 암호화 키를 메모리에 묶어두는 튜닝과 결합되며, 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))의 램 통제 아키텍처 등 <strong>하이엔드 서버 인프라 최적화의 핵심 무기로 융합</strong>된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 락킹([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 또는 피닝(Pinning)은 프레임 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 장부에 특수한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 1로 세팅하는 것이다. 램이 고갈되어 OS의 빗자루 데몬(kswapd)이 시곗바늘을 뱅글뱅글 돌리며 쫓아낼 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾을 때, 이 락 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 켜진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 **무적의 면책 특권**을 가지고 빗자루질을 튕겨낸다. 전원이 꺼질 때까지, 또는 락을 직접 풀 때까지 해당 가상 주소는 그 물리 프레임에 영원히 알박기를 한다.
-- **필요성**: 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 100MB의 유튜브 영상 패킷이 밀려오고 있다. 하드웨어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러가 CPU 대신 램의 10번 프레임에 이 영상을 쓰고 있다. 이 작업은 0.1초가 걸린다. 그런데 0.05초쯤 지났을 때, 갑자기 OS가 램이 모자란다고 10번 프레임의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스왑 디스크로 내쫓아버리고 그 자리에 엑셀 문서를 올려버렸다! [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어는 OS의 이런 사정을 모른 채 10번 프레임에 계속 영상을 쓴다. **결과적으로 엑셀 문서가 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의해 난도질당해 박살 난다([커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)).** OS는 I/O가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 방에는 무조건 **"공사 중 접근 금지(Pinning)"** 팻말을 걸어 스왑 데몬이 절대 건드리지 못하게 막아야만 했다.
+- **개념**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 락킹([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 또는 피닝(Pinning)은 프레임 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 장부에 특수한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 1로 세팅하는 것이다. 램이 고갈되어 OS의 빗자루 데몬(kswapd)이 시곗바늘을 뱅글뱅글 돌리며 쫓아낼 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾을 때, 이 락 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 켜진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 <strong>무적의 면책 특권</strong>을 가지고 빗자루질을 튕겨낸다. 전원이 꺼질 때까지, 또는 락을 직접 풀 때까지 해당 가상 주소는 그 물리 프레임에 영원히 알박기를 한다.
+- **필요성**: 네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 100MB의 유튜브 영상 패킷이 밀려오고 있다. 하드웨어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러가 CPU 대신 램의 10번 프레임에 이 영상을 쓰고 있다. 이 작업은 0.1초가 걸린다. 그런데 0.05초쯤 지났을 때, 갑자기 OS가 램이 모자란다고 10번 프레임의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스왑 디스크로 내쫓아버리고 그 자리에 엑셀 문서를 올려버렸다! [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어는 OS의 이런 사정을 모른 채 10번 프레임에 계속 영상을 쓴다. <strong>결과적으로 엑셀 문서가 영상 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 의해 난도질당해 박살 난다(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a>).</strong> OS는 I/O가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 방에는 무조건 **"공사 중 접근 금지(Pinning)"** 팻말을 걸어 스왑 데몬이 절대 건드리지 못하게 막아야만 했다.
 
 - **등장 배경 및 비동기 I/O의 충돌**:
   1. **요구 페이징의 야생성**: 램의 모든 프레임은 언제든 쫓겨날 수 있는 시한부 생명이라는 게 페이징의 기본 철학이었다.
-  2. **비동기 하드웨어([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))의 발전**: CPU 몰래 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 가는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩이 발명되면서, OS의 소프트웨어 교체 로직과 하드웨어의 물리적 전송 타이밍이 꼬이는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 붕괴 사태가 터짐.
+  2. <strong>비동기 하드웨어(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>)의 발전</strong>: CPU 몰래 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 가는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩이 발명되면서, OS의 소프트웨어 교체 로직과 하드웨어의 물리적 전송 타이밍이 꼬이는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 붕괴 사태가 터짐.
   3. **Pinning 락의 도입**: OS는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부에 '절대 쫓아내지 마'라는 예외 조항을 급히 신설하여 I/O [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 하드캐리하게 되었다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사           │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 1. 정상적인 I/O 시작 ]                                                 │
-│ 하드웨어 랜카드 ──(DMA 전송 시작)──▶ [ 물리 램 5번 프레임 ]              │
-│ (네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)                 │
-│                                                                          │
-│ [ 2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점) ]                │
-│ OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"          │
-│ OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)                │
-│                                                                          │
-│ [ 3. 끔찍한 데이터 파괴 (Memory Corruption) ]                            │
-│ 하드웨어 랜카드 ──(나머지 데이터 계속 전송)──▶ [ 물리 램 5번 프레임 ]    │
-│ ✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.  │
-│         5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.│
-│                                                                          │
-│ 🛡️ [ 해결책: Page Pinning (페이지 고정) ]                                │
-│ 1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에 [ 🔒 락 ]을 검.      │
-│ 2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.  │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정상적인 I/O 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램 5번 프레임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 끔찍한 데이터 파괴 (Memory Corruption)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램 5번 프레임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">해결책: Page Pinning (페이지 고정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에</div><div class="kb-diagram-node">🔒 락</div><div class="kb-diagram-note">을 검.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 시스템([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))은 소프트웨어적인 눈속임이다. 하지만 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러는 이런 눈속임을 모르는 순수 하드웨어다. "5번 방에 쏴라" 하면 진짜 구리선 5번 구역에 전기를 쏜다. 소프트웨어의 스왑과 하드웨어의 전송이 부딪히는 이 끔찍한 사고를 막는 유일한 방파제가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정(Pinning) 기술이다.
 
 - **📢 섹션 요약 비유**: 택배(I/O)가 오기로 해서 현관문(램 프레임)을 열어놨는데, 엄마(OS)가 집이 좁다고 그 현관문을 떼어다가 창고(디스크)에 치워버리고 그 자리에 벽돌(다른 앱)을 쌓아버리면 택배 기사는 벽돌에 택배를 집어 던지고 갑니다. 택배가 오는 동안엔 절대 현관문 인테리어([페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/))를 바꾸지 못하게 테이프로 꽁꽁 묶어두는(Pinning) 안전장치입니다.
@@ -62,8 +61,8 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Frame) 한 장 한 장마다 `struct page`라는 관리 구조체를 램 구석에 수백만 개 가지고 있다. 
 - 이 구조체 안에는 상태를 나타내는 `flags` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵이 있다.
-- 여기에 **`PG_locked`** 또는 **`PG_reserved`** [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1로 세팅되면 피닝이 된 것이다.
-- `kswapd` 데몬(교체 청소부)이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트를 뺑글뺑글 돌면서 희생양을 찾을 때, 이 `flags`를 슬쩍 보고 락이 걸려 있으면 **무조건 패스(Skip)**하고 다음 불쌍한 희생양을 찾으러 간다. 
+- 여기에 <strong><code>PG_locked</code></strong> 또는 <strong><code>PG_reserved</code></strong> [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1로 세팅되면 피닝이 된 것이다.
+- `kswapd` 데몬(교체 청소부)이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트를 뺑글뺑글 돌면서 희생양을 찾을 때, 이 `flags`를 슬쩍 보고 락이 걸려 있으면 <strong>무조건 패스(Skip)</strong>하고 다음 불쌍한 희생양을 찾으러 간다. 
 - 이 락은 I/O(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기, 네트워크 수신)가 100% 완료되는 하드웨어 인터럽트가 떨어져야만 OS가 0으로 풀어준다.
 
 ---
@@ -72,8 +71,8 @@ tags = ["studynote-operating-system"]
 
 만약 일반 유저 프로그램(카카오톡)이 자기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 버퍼에 하드디스크 파일을 다이렉트로([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 읽어오라고 시스템 콜을 때리면 어떻게 될까? OS는 유저의 램 영역 전체에 Pinning 락을 걸어야 할까?
 - 유저 메모리에 락을 남발하면 악의적인 유저가 램 16GB를 전부 락 걸어놓고 스왑을 마비시키는 램 테러(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 일어난다.
-- **OS의 방어 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 바운싱)**: OS는 절대 유저 램에 다이렉트로 I/O를 꽂지 않는다. 
-  1. I/O 장치에게는 **OS 소유의 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼(미리 Pinning 된 놈)'**에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘라고 지시한다.
+- <strong>OS의 방어 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼 바운싱)</strong>: OS는 절대 유저 램에 다이렉트로 I/O를 꽂지 않는다. 
+  1. I/O 장치에게는 <strong>OS 소유의 '<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼(미리 Pinning 된 놈)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘라고 지시한다.
   2. 하드웨어 전송이 끝나면, OS가 그 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 유저 버퍼로 소프트웨어적으로 쓱 복사(Memcpy)해 준다.
   3. 이렇게 하면 유저 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 락을 걸 필요가 없어져, 언제든 자유롭게 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)될 수 있는 아름다운 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 상태를 유지한다.
 
@@ -98,16 +97,19 @@ tags = ["studynote-operating-system"]
 해커로부터 비밀번호나 인증서를 다루는 C/C++ 암호화 프로그램은 메모리를 무조건 `mlock()`으로 피닝한다.
 왜일까? 만약 패스워드가 적힌 메모리가 스왑(Swap) 디스크로 쫓겨났다고 치자. 
 나중에 서버 전원을 끄고 해커가 그 하드디스크를 뜯어가 포렌식 툴로 스왑 파티션을 뒤져보면 내 비밀번호 평문이 고스란히 하드디스크 조각에 남아있다. 램은 전원을 끄면 날아가지만 디스크는 영원히 남기 때문이다.
-**"내 메모리는 절대 하드디스크 스왑에 적히면 안 돼!"**라는 극강의 보안 철학을 달성하기 위한 유일한 함수가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 피닝(`mlock`)이다.
+<strong>"내 메모리는 절대 하드디스크 스왑에 적히면 안 돼!"</strong>라는 극강의 보안 철학을 달성하기 위한 유일한 함수가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 피닝(`mlock`)이다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 메모리 성격│ 스와핑(Swap) │ 보안 취약점  │ mlock 적용 후              │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ 일반 변수  │ 자유롭게 이동 │ 스왑 디스크에 남음│ 적용 안 함 (자유로움)│
-│ 암호 키   │ ☠️ 절대 금지  │ 치명적 정보 유출│ 🔒 램에 영구 상주       │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 성격</div><div class="kb-diagram-cell">스와핑(Swap)</div><div class="kb-diagram-cell">보안 취약점</div><div class="kb-diagram-cell">mlock 적용 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 변수</div><div class="kb-diagram-cell">자유롭게 이동</div><div class="kb-diagram-cell">스왑 디스크에 남음</div><div class="kb-diagram-cell">적용 안 함 (자유로움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호 키</div><div class="kb-diagram-cell">☠️ 절대 금지</div><div class="kb-diagram-cell">치명적 정보 유출</div><div class="kb-diagram-cell">🔒 램에 영구 상주</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 부리는 스왑의 마법은 편하지만 보안 관점에서는 램에 있어야 할 휘발성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비휘발성 디스크로 질질 흘리고 다니는 무서운 정보 유출 펌프다. 보안 개발자에게 피닝은 속도 튜닝을 넘어서는 생명 지킴이다.
 
 - **📢 섹션 요약 비유**: 첩보원이 1급 기밀문서(비밀번호)를 머릿속(램)에만 외우고 있어야 고문당해도(전원 꺼짐) 죽으면 끝입니다. 하지만 머리 용량이 모자라다고 무심코 일기장(스왑 디스크)에 적어놓으면 적에게 일기장이 털려서 작전이 망합니다. 절대 머릿속에서 지우지 않고 일기장에 쓰지 않겠다고 스스로 뇌에 맹세하는 것이 mlock() 입니다.
@@ -124,7 +126,7 @@ tags = ["studynote-operating-system"]
 2. **개발자의 반격 (OS를 불신하라)**:
    - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔지니어들은 OS의 "내가 알아서 잘 교체해 줄게"라는 말을 절대 믿지 않는다.
    - DB 서버 켤 때 아예 **Lock_SGA (또는 memlock)** 설정을 `True`로 박아버린다.
-   - 이 설정은 수십 GB의 오라클 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) 전체에 `mlock()` 시스템 콜을 때려버려 **"OS야 램이 모자라건 말건 이 수십 GB는 절대 스왑으로 내쫓지 마. 알박기 할 거야!"**라고 강제 피닝을 시전한다.
+   - 이 설정은 수십 GB의 오라클 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) 전체에 `mlock()` 시스템 콜을 때려버려 <strong>"OS야 램이 모자라건 말건 이 수십 GB는 절대 스왑으로 내쫓지 마. 알박기 할 거야!"</strong>라고 강제 피닝을 시전한다.
 3. **결과**: OS는 파이썬이 아무리 램을 달라고 울부짖어도 오라클의 램은 절대 뺏을 수 없다(피닝의 절대 방어). 결국 램 모자란 파이썬들끼리 싸우다 OOM으로 터져 죽고, 오라클 DB는 1년 내내 캐시 미스 없이 0.001초 응답 속도를 철벽 방어한다.
 
 ### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer와의 딜레마
@@ -140,9 +142,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **하드웨어 I/O [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/)** | 디바이스 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 도중 물리 램의 주인이 바뀌는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 모순을 막아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 박살(Corruption)을 100% 원천 차단 |
+| <strong>하드웨어 I/O <a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a></strong> | 디바이스 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 도중 물리 램의 주인이 바뀌는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 모순을 막아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 박살(Corruption)을 100% 원천 차단 |
 | **절대적 Low-Latency 보장**| 스왑 디스크로 쫓겨날 확률을 0으로 만들어, 실시간 처리(RTOS) 환경에서 디스크 I/O 렉(8ms)을 0초로 완벽하게 평탄화 |
-| **크립토 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 강화** | 비밀키나 개인정보가 비휘발성 저장장치([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 기록되는 것을 막아 램 추출 해킹이 아니면 뚫을 수 없는 철통 샌드박스 구축 |
+| <strong>크립토 보안(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 강화</strong> | 비밀키나 개인정보가 비휘발성 저장장치([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 기록되는 것을 막아 램 추출 해킹이 아니면 뚫을 수 없는 철통 샌드박스 구축 |
 
 ### 결론 및 미래 전망
 
@@ -163,15 +165,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[커널 메모리 할당의 특징]
-    │
-    ▼
-[페이지 고정 (Page Pinning / Locking)]
-    │
-    ├──▶ [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
-    └──▶ [ZRAM / 커널 스왑 압축 기술]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당의 특징</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZRAM / 커널 스왑 압축 기술</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

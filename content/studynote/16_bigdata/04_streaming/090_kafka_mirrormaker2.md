@@ -49,22 +49,24 @@ tags = ["studynote-bigdata"]
 
 ### 1. MM2 아키텍처 구성
 
-```
-[Active-Passive DR 구성]
 
-Primary Cluster (US-East)              Secondary Cluster (US-West, DR)
-┌──────────────────────────┐           ┌──────────────────────────┐
-│  Topic: orders           │           │  Topic: us-east.orders   │
-│  Partition 0: msg1..1000 │  MM2 복제 │  Partition 0: msg1..1000 │
-│  Partition 1: msg2..800  │ ─────────→│  Partition 1: msg2..800  │
-│  Consumer offset: 950    │           │  Consumer offset: 950    │
-│                          │           │  (오프셋 변환 자동 저장)  │
-└──────────────────────────┘           └──────────────────────────┘
 
-[Active-Active 양방향 구성]
-US-East ←──────────────────→ US-East.us-west.events (접두사 자동 추가)
-US-West ←──────────────────→ US-West.us-east.events (무한 루프 방지)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active-Passive DR 구성</div></div>
+<div class="kb-diagram-note">Primary Cluster (US-East) Secondary Cluster (US-West, DR)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: orders</div><div class="kb-diagram-cell">Topic: us-east.orders</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 0: msg1..1000</div><div class="kb-diagram-cell">MM2 복제</div><div class="kb-diagram-cell">Partition 0: msg1..1000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 1: msg2..800</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Partition 1: msg2..800</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer offset: 950</div><div class="kb-diagram-cell">Consumer offset: 950</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오프셋 변환 자동 저장)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active-Active 양방향 구성</div></div>
+<div class="kb-diagram-note">US-East ← → US-East.us-west.events (접두사 자동 추가)</div>
+<div class="kb-diagram-note">US-West ← → US-West.us-east.events (무한 루프 방지)</div>
+</div>
+</div>
+
+
 
 ### 2. MM2 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
 
@@ -93,19 +95,22 @@ offset-syncs.topic.replication.factor = 3
 
 ### 3. 오프셋 변환(Offset Translation)
 
-```
-원본 클러스터 (Primary):
-  orders 파티션 0: 오프셋 0~10,000
 
-복제 클러스터 (Secondary):
-  us-east.orders 파티션 0: 오프셋 0~10,000 (같음, 또는 다를 수 있음)
 
-MM2가 저장하는 오프셋 변환 맵:
-  Primary:orders:0:9500 → Secondary:us-east.orders:0:9500
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 클러스터 (Primary):</div>
+<div class="kb-diagram-note">orders 파티션 0: 오프셋 0~10,000</div>
+<div class="kb-diagram-note">복제 클러스터 (Secondary):</div>
+<div class="kb-diagram-note">us-east.orders 파티션 0: 오프셋 0~10,000 (같음, 또는 다를 수 있음)</div>
+<div class="kb-diagram-note">MM2가 저장하는 오프셋 변환 맵:</div>
+<div class="kb-diagram-note">Primary:orders:0:9500 → Secondary:us-east.orders:0:9500</div>
+<div class="kb-diagram-note">DR 전환 후 Consumer 재시작:</div>
+<div class="kb-diagram-note">원래 오프셋(9500) → Secondary에서 9500 위치 → 중단 없이 재시작!</div>
+</div>
+</div>
 
-DR 전환 후 Consumer 재시작:
-  원래 오프셋(9500) → Secondary에서 9500 위치 → 중단 없이 재시작!
-```
+
 
 ### 4. 주요 내부 토픽
 
@@ -150,21 +155,25 @@ DR 전환 후 Consumer 재시작:
 
 ### 1. [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환 절차
 
-```
-정상 운영:
-  Primary ─ MM2 복제 ──→ Secondary (읽기 전용)
-  Consumer ← Primary 읽기
 
-Primary 장애 발생:
-1. Secondary의 오프셋 변환 맵 확인
-2. Consumer 연결을 Secondary로 전환
-3. 토픽 이름 변경: us-east.orders → orders (Alias 설정)
-4. Consumer 재시작 (오프셋 변환으로 처리 위치 복원)
 
-Primary 복구 후:
-5. 역방향 복제(Secondary → Primary) 실행
-6. 오프셋 재동기화 후 Primary 복귀
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정상 운영:</div>
+<div class="kb-diagram-note">Primary ─ MM2 복제 ──→ Secondary (읽기 전용)</div>
+<div class="kb-diagram-note">Consumer ← Primary 읽기</div>
+<div class="kb-diagram-note">Primary 장애 발생:</div>
+<div class="kb-diagram-note">1. Secondary의 오프셋 변환 맵 확인</div>
+<div class="kb-diagram-note">2. Consumer 연결을 Secondary로 전환</div>
+<div class="kb-diagram-note">3. 토픽 이름 변경: us-east.orders → orders (Alias 설정)</div>
+<div class="kb-diagram-note">4. Consumer 재시작 (오프셋 변환으로 처리 위치 복원)</div>
+<div class="kb-diagram-note">Primary 복구 후:</div>
+<div class="kb-diagram-note">5. 역방향 복제(Secondary → Primary) 실행</div>
+<div class="kb-diagram-note">6. 오프셋 재동기화 후 Primary 복귀</div>
+</div>
+</div>
+
+
 
 ### 2. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -192,7 +201,7 @@ Primary 복구 후:
 
 ### 2. 결론
 
-[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2는 엔터프라이즈 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영에서 **DR과 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 핵심 인프라**다. 기술사 답안에서는 MM1의 한계(오프셋 비동기화), MM2의 개선([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect 기반, 오프셋 변환), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Passive vs [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 토폴로지 선택 기준, 그리고 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환 절차를 함께 서술하는 것이 핵심이다.
+[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) MirrorMaker 2는 엔터프라이즈 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영에서 <strong>DR과 글로벌 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>의 핵심 인프라</strong>다. 기술사 답안에서는 MM1의 한계(오프셋 비동기화), MM2의 개선([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect 기반, 오프셋 변환), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Passive vs [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 토폴로지 선택 기준, 그리고 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환 절차를 함께 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
 > MirrorMaker 2는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터의 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템"이다. 매 순간 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하고, 복사본 위치(오프셋)도 자동으로 매핑하여, 원본이 사라져도 복사본에서 정확히 어디서부터 계속할 수 있는지 알고 있다.
@@ -212,21 +221,23 @@ Primary 복구 후:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 클러스터 Kafka — 하나의 데이터센터 내 메시지 브로커, 장애 시 단일 장애점]
-    │
-    ▼
-[Kafka MirrorMaker 1 — 간단한 컨슈머+프로듀서 복제, 오프셋 변환 미지원]
-    │
-    ▼
-[Kafka MirrorMaker 2 (MM2) — Kafka Connect 기반, 오프셋 변환·자동 토픽 동기화 지원]
-    │
-    ▼
-[Active-Passive DR — MM2로 보조 클러스터를 원본과 동기화, 장애 시 Failover 전환]
-    │
-    ▼
-[Active-Active 다중 리전 — 양방향 복제로 지역 간 고가용성 메시지 처리 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 클러스터 Kafka — 하나의 데이터센터 내 메시지 브로커, 장애 시 단일 장애점</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka MirrorMaker 1 — 간단한 컨슈머+프로듀서 복제, 오프셋 변환 미지원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka MirrorMaker 2 (MM2) — Kafka Connect 기반, 오프셋 변환·자동 토픽 동기화 지원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active-Passive DR — MM2로 보조 클러스터를 원본과 동기화, 장애 시 Failover 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active-Active 다중 리전 — 양방향 복제로 지역 간 고가용성 메시지 처리 아키텍처</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 클러스터의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험을 해소하기 위해 MirrorMaker 1에서 오프셋 변환과 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 지원하는 MM2로 진화하고, [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Passive DR을 거쳐 완전한 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 다중 리전 아키텍처로 발전하는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 핵심 계보를 보여준다.
 

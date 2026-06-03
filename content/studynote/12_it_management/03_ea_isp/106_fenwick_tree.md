@@ -30,31 +30,29 @@ tags = ["it_management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)의 가장 놀라운 점은 복잡한 트리 구조를 포인터로 연결하지 않고, 크기가 $N$인 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나로 트리를 표현한다는 것이다. 이 원리는 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호의 2진수 표현**에 숨어 있다.
+[펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)의 가장 놀라운 점은 복잡한 트리 구조를 포인터로 연결하지 않고, 크기가 $N$인 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나로 트리를 표현한다는 것이다. 이 원리는 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 번호의 2진수 표현</strong>에 숨어 있다.
 
 핵심 로직은 `최하위 비트 (Last Set Bit)`를 추출하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산 `idx & (-idx)`다. 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 관리하는 구간의 길이는 바로 이 최하위 1비트가 나타내는 값(예: 2, 4, 8)과 같다. 업데이트를 할 때는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 더해가며 위로 올라가고, 합을 구할 때는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 빼가며 아래로 내려온다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             [펜윅 트리의 2진수 기반 구간 관리 원리]            │
-├──────────────────────────────────────────────────────────────┤
-│ * 인덱스의 마지막 1비트가 커버하는 구간(길이)을 결정함             │
-│                                                              │
-│ [인덱스 8 (1000₂)] ─▶ 커버 길이: 8 ─▶ 범위: arr[1] ~ arr[8]의 합│
-│     │                                                        │
-│     ├─ [인덱스 4 (0100₂)] ─▶ 길이: 4 ─▶ 범위: arr[1]~arr[4]    │
-│     │     │                                                  │
-│     │     ├─ [인덱스 2 (0010₂)] ─▶ 범위: arr[1]~arr[2]        │
-│     │     │    ├─ [인덱스 1 (0001₂)]: 범위 arr[1]             │
-│     │     │                                                  │
-│     │     ├─ [인덱스 3 (0011₂)] ─▶ 범위: arr[3]               │
-│                                                              │
-│ [값 업데이트 예시: 인덱스 3에 값 추가 시 변경되는 노드]            │
-│ 1) idx = 3 (0011₂) ─▶ 트리[3] 업데이트                        │
-│ 2) idx = 3 + (3 & -3) = 4 (0100₂) ─▶ 트리[4] 업데이트         │
-│ 3) idx = 4 + (4 & -4) = 8 (1000₂) ─▶ 트리[8] 업데이트         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리의 2진수 기반 구간 관리 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 인덱스의 마지막 1비트가 커버하는 구간(길이)을 결정함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인덱스 8 (1000₂)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">~ arr</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">의 합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">인덱스 4 (0100₂)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">~arr</div><div class="kb-diagram-node">4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─</div><div class="kb-diagram-node">인덱스 2 (0010₂)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">~arr</div><div class="kb-diagram-node">2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ ─</div><div class="kb-diagram-node">인덱스 1 (0001₂)</div><div class="kb-diagram-note">: 범위 arr</div><div class="kb-diagram-node">1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─</div><div class="kb-diagram-node">인덱스 3 (0011₂)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">값 업데이트 예시: 인덱스 3에 값 추가 시 변경되는 노드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">업데이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">업데이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">업데이트</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 볼 수 있듯, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 3번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하면 3번, 4번, 8번 등 상위 노드만 징검다리 건너듯 점프($O(\log N)$)하며 업데이트하여 연산량을 최소화한다.
 
@@ -87,8 +85,8 @@ tags = ["it_management"]
 게임에서 "현재 점수가 X점 이상인 유저가 몇 명인가?"를 실시간 추적할 때, 점수대를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 하는 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)를 구성하면 유저 점수 변동($O(\log N)$)과 랭킹 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)($O(\log N)$)를 완벽하게 동시에 처리할 수 있다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 구간 안의 최댓값을 구하는 요구사항에 무리하게 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)를 적용하려다 실패하는 경우. [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)는 뺄셈(역연산)을 통해 구간을 분리하는 로직이므로 역연산이 안 되는 Max/Min [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에는 적합하지 않다.
-- **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 사용해야 할 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 $N$이 주어진 메모리 제한에 아슬아슬하게 걸쳐 있는가? 그렇다면 공간을 적게 차지하는 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 구원 투수가 될 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 구간 안의 최댓값을 구하는 요구사항에 무리하게 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)를 적용하려다 실패하는 경우. [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)는 뺄셈(역연산)을 통해 구간을 분리하는 로직이므로 역연산이 안 되는 Max/Min [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에는 적합하지 않다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 사용해야 할 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 $N$이 주어진 메모리 제한에 아슬아슬하게 걸쳐 있는가? 그렇다면 공간을 적게 차지하는 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 구원 투수가 될 수 있다.
 
 - **📢 섹션 요약 비유**: 무게 제한이 엄격한 우주선을 발사할 때, 다용도지만 무거운 맥가이버칼([세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)) 대신 목적이 뚜렷하고 아주 가벼운 전용 렌치([펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 챙겨가는 판단과 같다.
 
@@ -108,25 +106,28 @@ tags = ["it_management"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking)** | 정수의 2진수 표현을 이용해 상태나 구간을 조작하는 기반 기술 |
-| **[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) ([Segment Tree](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/))** | [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)의 상위 호환이지만 더 무겁고 다목적인 트리 구조 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스킹 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Masking)</strong> | 정수의 2진수 표현을 이용해 상태나 구간을 조작하는 기반 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">Segment Tree</a>)</strong> | [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)의 상위 호환이지만 더 무겁고 다목적인 트리 구조 |
 | **구간 합 (Range Sum Query)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)부터 다른 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)까지의 합을 구하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 문제 |
 | **누적 합 (Prefix Sum)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변하지 않을 때 $O(1)$의 속도로 구간 합을 구하는 기본 테크닉 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배열 기반 순차 탐색 (업데이트 O(1), 구간합 O(N))
-    │
-    ▼
-단순 누적 합 배열 (업데이트 O(N), 구간합 O(1))
-    │
-    ▼
-균형의 달성: 세그먼트 트리 (업데이트 O(log N), 쿼리 O(log N) / 고비용)
-    │
-    ▼
-메모리 및 속도 극대화: 펜윅 트리 / BIT (비트 연산으로 O(log N) 최적화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배열 기반 순차 탐색 (업데이트 O(1), 구간합 O(N))</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단순 누적 합 배열 (업데이트 O(N), 구간합 O(1))</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">균형의 달성: 세그먼트 트리 (업데이트 O(log N), 쿼리 O(log N) / 고비용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 및 속도 극대화: 펜윅 트리 / BIT (비트 연산으로 O(log N) 최적화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

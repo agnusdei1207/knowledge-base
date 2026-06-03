@@ -30,18 +30,24 @@ DR은 BCP (Business Continuity Plan)의 일부이지만, 특히 정보시스템�
 
 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 설계의 출발점은 [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ([Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/))다. 어떤 업무가 먼저 살아야 하는지 정해야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 순서가 정해진다.
 
-```text
-BIA
-  ↓
-핵심 업무 선정
-  ↓
-RTO / RPO 설정
-  ↓
-복구 사이트와 백업 전략 결정
-```
 
-- **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)**는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 다시 켜져야 하는 최대 시간이다.
-- **[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)**는 허용 가능한 최대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 시점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">핵심 업무 선정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO 설정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 사이트와 백업 전략 결정</div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a></strong>는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 다시 켜져야 하는 최대 시간이다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a></strong>는 허용 가능한 최대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 시점이다.
 
 이 두 값이 작을수록 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용은 급격히 올라간다.
 
@@ -53,10 +59,10 @@ RTO / RPO 설정
 
 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표에 따라 사이트 수준이 달라진다.
 
-- **[Mirror Site](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)**: 거의 실시간으로 주 센터와 동일하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
-- **[Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)**: 즉시 전환이 가능한 대기 센터다.
-- **[Warm Site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)**: 일부만 준비되어 있어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 시간이 더 걸린다.
-- **[Cold Site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)**: 기본 공간만 준비된 저비용 방식이다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/">Mirror Site</a></strong>: 거의 실시간으로 주 센터와 동일하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/">Hot Site</a></strong>: 즉시 전환이 가능한 대기 센터다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/">Warm Site</a></strong>: 일부만 준비되어 있어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 시간이 더 걸린다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/">Cold Site</a></strong>: 기본 공간만 준비된 저비용 방식이다.
 
 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 엄격할수록 비용이 커지지만, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 위험은 줄어든다.
 
@@ -99,15 +105,21 @@ DR은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_
 
 ## 관련 개념 맵
 
-```text
-BIA
-   ↓
-RTO / RPO
-   ↓
-Mirror / Hot / Warm / Cold site
-   ↓
-복구 훈련 / 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mirror / Hot / Warm / Cold site</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 훈련 / 검증</div>
+</div>
+</div>
+
+
 
 ---
 

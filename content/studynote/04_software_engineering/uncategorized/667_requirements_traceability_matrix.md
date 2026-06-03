@@ -26,35 +26,33 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: RTM은 복잡한 택배 시스템의 "운송장 번호 추적 시스템"과 같다. 고객이 주문한 상품(요구사항)이 물류 센터(설계), 배송 차량(구현)을 거쳐 최종 고객의 문 앞(테스트 완료)까지 안전하게 도착했는지 모든 구간에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(매핑)할 수 있게 해준다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) SDLC의 블랙박스 문제**: 과거 폭포수 (Waterfall) 모델에서는 요구사항 명세서가 작성된 후 코딩과 테스트 단계로 넘어가면 중간 과정이 블랙박스가 되어, 테스트 단계에서야 요구사항 누락을 발견하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) (Late [Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 문제가 심각했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> SDLC의 블랙박스 문제</strong>: 과거 폭포수 (Waterfall) 모델에서는 요구사항 명세서가 작성된 후 코딩과 테스트 단계로 넘어가면 중간 과정이 블랙박스가 되어, 테스트 단계에서야 요구사항 누락을 발견하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) (Late [Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 문제가 심각했다.
   2. **V 모델과 매트릭스의 도입**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 강조하는 V 모델이 도입되면서, 각 개발 단계의 산출물이 상응하는 테스트 단계와 매핑되어야 한다는 사상이 RTM이라는 표 형태로 구체화되었다.
 
 RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'를 시각화하면 다음과 같다. 추적성이 없으면 변경의 파급 효과를 예측할 수 없다.
 
-```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         추적성 부재(단절) vs RTM 기반 양방향 추적성          │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [추적성 부재 시의 혼돈]                                      │
-  │  요구사항 A ──────?─────▶ 설계 X ──────?─────▶ 테스트 1    │
-  │  요구사항 B ──────?─────▶ 구현 Y ──────?─────▶ 테스트 2    │
-  │   (고객 요청 변경 시, 어디를 수정해야 하는지 파악 불가)           │
-  │                                                           │
-  │  [RTM 기반 양방향 추적 (Bidirectional Traceability)]         │
-  │                                                           │
-  │  [Req]       [Design]        [Code]        [Test]         │
-  │  REQ-01 ───▶ DES-101 ──┬──▶ MOD-A ──┬──▶ TC-001 (Pass)   │
-  │  (로그인)     (인증 모듈) │            │                    │
-  │                         └──▶ MOD-B ──┴──▶ TC-002 (Fail)   │
-  │                                                           │
-  │  ◀────────────────── 역방향 추적 (Backward)                  │
-  │    (TC-002 실패 원인은 REQ-01 명세 오류인가? 코드 버그인가?)    │
-  │                                                           │
-  │  순방향 추적 (Forward) ──────────────────▶                  │
-  │    (REQ-01이 모두 구현되고 테스트되었는가? 누락 확인)            │
-  └───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추적성 부재(단절) vs RTM 기반 양방향 추적성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추적성 부재 시의 혼돈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 A ? ▶ 설계 X ? ▶ 테스트 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 B ? ▶ 구현 Y ? ▶ 테스트 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고객 요청 변경 시, 어디를 수정해야 하는지 파악 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTM 기반 양방향 추적 (Bidirectional Traceability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Req</div><div class="kb-diagram-node">Design</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-node">Test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-01 ▶ DES-101 ── ──▶ MOD-A ── ──▶ TC-001 (Pass)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로그인) (인증 모듈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ MOD-B ── ──▶ TC-002 (Fail)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 역방향 추적 (Backward)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TC-002 실패 원인은 REQ-01 명세 오류인가? 코드 버그인가?)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순방향 추적 (Forward) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(REQ-01이 모두 구현되고 테스트되었는가? 누락 확인)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 그림 상단은 추적성이 없을 때 요구사항이 설계와 테스트로 어떻게 연결되는지 알 수 없는 혼돈 상태를 나타낸다. 하단의 RTM 기반 체계에서는 단일 요구사항 (REQ-01)이 설계 문서 (DES-101), 실제 소스 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (MOD-A, MOD-B), 그리고 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) (TC-001, TC-002)와 명시적으로 연결되어 있다. 순방향 추적은 요구사항이 최종 제품에 누락 없이 반영되었는지 보장하며, 역방향 추적은 특정 테스트 실패나 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 요구사항을 위해 존재하는지 근거를 제공한다. 이는 변경 영향도 분석의 핵심 기반이 된다.
 
@@ -79,7 +77,7 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추적성 매트릭스 (RTM)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추적성 매트릭스 (RTM)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추적성 매트릭스 (RTM)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -155,21 +153,23 @@ RTM이 해결하고자 하는 '요구사항과 산출물 간의 단절 문제'�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-요구사항 검증 추적성 매트릭스 (RTM) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항 검증 추적성 매트릭스 (RTM) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

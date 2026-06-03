@@ -18,27 +18,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 클럭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 기초
 
-```
-클럭 신호 파형:
 
-HIGH (1) ───┐   ┌───┐   ┌───
-            │   │   │   │
-LOW  (0) ───┘   └───┘   └───
 
-주기(T): Rising Edge → 다음 Rising Edge
-주파수(f): f = 1/T  (Hz, MHz, GHz)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭 신호 파형:</div>
+<div class="kb-diagram-note">HIGH (1)</div>
+<div class="kb-diagram-note">LOW (0)</div>
+<div class="kb-diagram-note">주기(T): Rising Edge → 다음 Rising Edge</div>
+<div class="kb-diagram-note">주파수(f): f = 1/T (Hz, MHz, GHz)</div>
+<div class="kb-diagram-note">예: 3 GHz CPU</div>
+<div class="kb-diagram-note">T = 1/3GHz = 0.333 ns (나노초)</div>
+<div class="kb-diagram-note">클럭 에지:</div>
+<div class="kb-diagram-note">Rising Edge (↑): 0→1 전환 — 대부분 순차 회로 트리거</div>
+<div class="kb-diagram-note">Falling Edge (↓): 1→0 전환 — 일부 회로 사용</div>
+<div class="kb-diagram-note">듀티 사이클 (Duty Cycle):</div>
+<div class="kb-diagram-note">HIGH 시간 / 전체 주기 × 100%</div>
+<div class="kb-diagram-note">이상적: 50% (HIGH = LOW 시간)</div>
+</div>
+</div>
 
-예: 3 GHz CPU
-  T = 1/3GHz = 0.333 ns (나노초)
 
-클럭 에지:
-  Rising Edge  (↑): 0→1 전환 — 대부분 순차 회로 트리거
-  Falling Edge (↓): 1→0 전환 — 일부 회로 사용
-
-듀티 사이클 (Duty Cycle):
-  HIGH 시간 / 전체 주기 × 100%
-  이상적: 50% (HIGH = LOW 시간)
-```
 
 > 📢 **섹션 요약 비유**: 클럭은 지휘자의 박자 — 오케스트라(디지털 회로)가 지휘자 박자에 맞춰 동시에 연주하듯, 모든 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 클럭 에지에 맞춰 동작해요.
 
@@ -46,33 +46,32 @@ LOW  (0) ───┘   └───┘   └───
 
 ## Ⅱ. 셋업/홀드 타임
 
-```
-셋업 타임 (Setup Time, tsu):
-  클럭 에지 이전에 데이터가 안정되어야 하는 최소 시간
 
-홀드 타임 (Hold Time, th):
-  클럭 에지 이후에 데이터가 유지되어야 하는 최소 시간
 
-타이밍 다이어그램:
-           tsu  th
-           |←→| |←→|
-Data: ─────XXXX│XXXX─────
-              ↑
-          Clock Edge
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">셋업 타임 (Setup Time, tsu):</div>
+<div class="kb-diagram-note">클럭 에지 이전에 데이터가 안정되어야 하는 최소 시간</div>
+<div class="kb-diagram-note">홀드 타임 (Hold Time, th):</div>
+<div class="kb-diagram-note">클럭 에지 이후에 데이터가 유지되어야 하는 최소 시간</div>
+<div class="kb-diagram-note">타이밍 다이어그램:</div>
+<div class="kb-diagram-note">tsu th</div>
+<div class="kb-diagram-note">Data: XXXX│XXXX</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">Clock Edge</div>
+<div class="kb-diagram-note">위반 결과:</div>
+<div class="kb-diagram-note">셋업 타임 위반: 데이터 캡처 실패 → 오동작</div>
+<div class="kb-diagram-note">홀드 타임 위반: 데이터 변질 → 오동작</div>
+<div class="kb-diagram-note">Critical Path (임계 경로):</div>
+<div class="kb-diagram-note">두 플립플롭 사이 최장 조합 논리 경로</div>
+<div class="kb-diagram-note">최대 클럭 주파수 결정:</div>
+<div class="kb-diagram-note">T ≥ tclk-q + t_combinational + tsu</div>
+<div class="kb-diagram-note">예: tclk-q=0.1ns, 조합논리=2.5ns, tsu=0.1ns</div>
+<div class="kb-diagram-note">T_min = 2.7ns → f_max = 370 MHz</div>
+</div>
+</div>
 
-위반 결과:
-  셋업 타임 위반: 데이터 캡처 실패 → 오동작
-  홀드 타임 위반: 데이터 변질 → 오동작
 
-Critical Path (임계 경로):
-  두 플립플롭 사이 최장 조합 논리 경로
-  
-  최대 클럭 주파수 결정:
-  T ≥ tclk-q + t_combinational + tsu
-  
-  예: tclk-q=0.1ns, 조합논리=2.5ns, tsu=0.1ns
-      T_min = 2.7ns → f_max = 370 MHz
-```
 
 > 📢 **섹션 요약 비유**: 셋업/홀드 타임은 사진 찍기 규칙 — 셔터(클럭 에지) 전에 피사체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 멈춰야 하고(셋업), 셔터 후에도 잠깐 유지해야(홀드) 블러 없는 사진이 나와요.
 
@@ -80,42 +79,37 @@ Critical Path (임계 경로):
 
 ## Ⅲ. 클럭 스큐와 클럭 트리
 
-```
-클럭 스큐 (Clock Skew):
-  동일 클럭 신호가 칩 여러 지점에 다른 시간에 도달
-  
-  원인:
-  - 배선 길이 차이
-  - 버퍼 지연 차이
-  - 온도/공정 변이
-  
-클럭 스큐 영향:
-  FF1 ─(긴 배선)─→ 클럭 도착: t+δ
-  FF2 ─(짧은 배선)→ 클럭 도착: t
-  
-  δ = 클럭 스큐 (Clock Skew)
-  
-  긍정적 스큐: 데이터 경로와 같은 방향 → 도움
-  부정적 스큐: 데이터 경로와 반대 방향 → 해로움
 
-클럭 트리 합성 (CTS, Clock Tree Synthesis):
-  목표: 모든 플립플롭에 클럭 동시 도달
-  
-  방법: 버퍼 트리 구조
-        클럭 소스
-           │
-       ┌───┴───┐
-     BUF     BUF
-    ┌─┴─┐   ┌─┴─┐
-   FF  FF   FF  FF
-   
-  현대 CPU: 수십억 개 플립플롭
-  CTS 목표: 스큐 < 50 ps
 
-글로벌 vs 로컬 클럭:
-  글로벌 클럭: 칩 전체 동기화
-  로컬 클럭: 특정 도메인 독립 (클럭 게이팅, 다중 클럭 도메인)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭 스큐 (Clock Skew):</div>
+<div class="kb-diagram-note">동일 클럭 신호가 칩 여러 지점에 다른 시간에 도달</div>
+<div class="kb-diagram-note">원인:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">배선 길이 차이</div>
+<div class="kb-diagram-tree-item" style="--depth:1">버퍼 지연 차이</div>
+<div class="kb-diagram-tree-item" style="--depth:1">온도/공정 변이</div>
+<div class="kb-diagram-note">클럭 스큐 영향:</div>
+<div class="kb-diagram-note">FF1 ─(긴 배선)─→ 클럭 도착: t+δ</div>
+<div class="kb-diagram-note">FF2 ─(짧은 배선)→ 클럭 도착: t</div>
+<div class="kb-diagram-note">δ = 클럭 스큐 (Clock Skew)</div>
+<div class="kb-diagram-note">긍정적 스큐: 데이터 경로와 같은 방향 → 도움</div>
+<div class="kb-diagram-note">부정적 스큐: 데이터 경로와 반대 방향 → 해로움</div>
+<div class="kb-diagram-note">클럭 트리 합성 (CTS, Clock Tree Synthesis):</div>
+<div class="kb-diagram-note">목표: 모든 플립플롭에 클럭 동시 도달</div>
+<div class="kb-diagram-note">방법: 버퍼 트리 구조</div>
+<div class="kb-diagram-note">클럭 소스</div>
+<div class="kb-diagram-note">BUF BUF</div>
+<div class="kb-diagram-note">FF FF FF FF</div>
+<div class="kb-diagram-note">현대 CPU: 수십억 개 플립플롭</div>
+<div class="kb-diagram-note">CTS 목표: 스큐 &lt; 50 ps</div>
+<div class="kb-diagram-note">글로벌 vs 로컬 클럭:</div>
+<div class="kb-diagram-note">글로벌 클럭: 칩 전체 동기화</div>
+<div class="kb-diagram-note">로컬 클럭: 특정 도메인 독립 (클럭 게이팅, 다중 클럭 도메인)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 클럭 스큐는 마라톤 출발 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) — 같은 총소리(클럭)에 일부 선수([플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))가 늦게 듣는 현상. CTS는 각 선수 바로 앞에 스피커를 두는 것!
 
@@ -123,39 +117,36 @@ Critical Path (임계 경로):
 
 ## Ⅳ. 클럭 게이팅과 저전력
 
-```
-클럭 게이팅 (Clock Gating):
-  동작하지 않는 회로의 클럭 공급 차단
-  
-  목적: 소비전력 감소
-  
-  메커니즘:
-  Enable ─┐
-           AND Gate → 게이팅된 클럭
-  Clock  ─┘
-  
-  효과: 동적 전력 P = α × C × V² × f
-  클럭 비활성 → α(활동 인자) = 0 → P = 0
 
-DVFS (Dynamic Voltage Frequency Scaling):
-  동적 전압-주파수 조절
-  
-  부하 낮을 때: f↓, V↓ → 전력 절감 (V² 효과!)
-  부하 높을 때: f↑, V↑ → 성능 최대화
-  
-  스마트폰 CPU: 코어당 DVFS 독립 조절
 
-클럭 도메인 교차 (CDC, Clock Domain Crossing):
-  서로 다른 주파수 도메인 간 데이터 전달
-  
-  위험: 메타스태빌리티 (Metastability)
-  해결: 동기화 플립플롭 (2-stage sync), FIFO
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭 게이팅 (Clock Gating):</div>
+<div class="kb-diagram-note">동작하지 않는 회로의 클럭 공급 차단</div>
+<div class="kb-diagram-note">목적: 소비전력 감소</div>
+<div class="kb-diagram-note">메커니즘:</div>
+<div class="kb-diagram-note">Enable ─</div>
+<div class="kb-diagram-note">AND Gate → 게이팅된 클럭</div>
+<div class="kb-diagram-note">Clock ─</div>
+<div class="kb-diagram-note">효과: 동적 전력 P = α × C × V² × f</div>
+<div class="kb-diagram-note">클럭 비활성 → α(활동 인자) = 0 → P = 0</div>
+<div class="kb-diagram-note">DVFS (Dynamic Voltage Frequency Scaling):</div>
+<div class="kb-diagram-note">동적 전압-주파수 조절</div>
+<div class="kb-diagram-note">부하 낮을 때: f↓, V↓ → 전력 절감 (V² 효과!)</div>
+<div class="kb-diagram-note">부하 높을 때: f↑, V↑ → 성능 최대화</div>
+<div class="kb-diagram-note">스마트폰 CPU: 코어당 DVFS 독립 조절</div>
+<div class="kb-diagram-note">클럭 도메인 교차 (CDC, Clock Domain Crossing):</div>
+<div class="kb-diagram-note">서로 다른 주파수 도메인 간 데이터 전달</div>
+<div class="kb-diagram-note">위험: 메타스태빌리티 (Metastability)</div>
+<div class="kb-diagram-note">해결: 동기화 플립플롭 (2-stage sync), FIFO</div>
+<div class="kb-diagram-note">현대 CPU 클럭:</div>
+<div class="kb-diagram-note">Intel Core i9-13900K: P코어 5.8 GHz 부스트</div>
+<div class="kb-diagram-note">Apple M3 Max: 4.05 GHz</div>
+<div class="kb-diagram-note">Qualcomm X Elite: 3.8 GHz</div>
+</div>
+</div>
 
-현대 CPU 클럭:
-  Intel Core i9-13900K: P코어 5.8 GHz 부스트
-  Apple M3 Max: 4.05 GHz
-  Qualcomm X Elite: 3.8 GHz
-```
+
 
 > 📢 **섹션 요약 비유**: 클럭 게이팅은 사용 안 하는 방 전등 끄기 — 쓰지 않는 회로(방)는 클럭(전기) 차단, DVFS는 조명 밝기 조절기(부하에 따라 밝기 조정)!
 
@@ -163,38 +154,38 @@ DVFS (Dynamic Voltage Frequency Scaling):
 
 ## Ⅴ. 실무 시나리오 — 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭 설계
 
-```
-Qualcomm Snapdragon SoC 클럭 구조:
 
-클럭 소스:
-  TCXO (Temperature-Compensated Crystal Oscillator): 19.2 MHz
-  PLL (Phase-Locked Loop): 주파수 체배
-  → CPU 코어: 19.2 MHz → 3.2 GHz 체배
 
-클럭 도메인:
-  CPU Big Core:  3.2 GHz (고성능, DVFS)
-  CPU Little Core: 1.8 GHz (저전력, DVFS)
-  GPU:           900 MHz
-  DSP:           800 MHz  
-  LPDDR5 Memory: 3.2 GHz (DDR: 양방향 6.4 GT/s)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Qualcomm Snapdragon SoC 클럭 구조:</div>
+<div class="kb-diagram-note">클럭 소스:</div>
+<div class="kb-diagram-note">TCXO (Temperature-Compensated Crystal Oscillator): 19.2 MHz</div>
+<div class="kb-diagram-note">PLL (Phase-Locked Loop): 주파수 체배</div>
+<div class="kb-diagram-note">→ CPU 코어: 19.2 MHz → 3.2 GHz 체배</div>
+<div class="kb-diagram-note">클럭 도메인:</div>
+<div class="kb-diagram-note">CPU Big Core: 3.2 GHz (고성능, DVFS)</div>
+<div class="kb-diagram-note">CPU Little Core: 1.8 GHz (저전력, DVFS)</div>
+<div class="kb-diagram-note">GPU: 900 MHz</div>
+<div class="kb-diagram-note">DSP: 800 MHz</div>
+<div class="kb-diagram-note">LPDDR5 Memory: 3.2 GHz (DDR: 양방향 6.4 GT/s)</div>
+<div class="kb-diagram-note">소비전력 최적화:</div>
+<div class="kb-diagram-note">화면 꺼짐: CPU Little 300 MHz, GPU OFF</div>
+<div class="kb-diagram-note">영상 재생: DSP ON, CPU Little 1.2 GHz</div>
+<div class="kb-diagram-note">게임: CPU Big 3.2 GHz, GPU 900 MHz</div>
+<div class="kb-diagram-note">열 제어 (Thermal Throttling):</div>
+<div class="kb-diagram-note">온도 &gt; 90°C → 주파수 자동 감소</div>
+<div class="kb-diagram-note">클럭 ↓ = 성능 ↓ + 발열 ↓</div>
+<div class="kb-diagram-note">스마트폰 방열 한계 → 지속 성능 &lt; 피크 성능</div>
+<div class="kb-diagram-note">검증 (Timing Closure):</div>
+<div class="kb-diagram-note">EDA 도구: Synopsys PrimeTime</div>
+<div class="kb-diagram-note">목표: 모든 타이밍 경로 셋업/홀드 마진 &gt; 0</div>
+<div class="kb-diagram-note">수백만 개 경로 타이밍 분석</div>
+<div class="kb-diagram-note">공정 코너: SS(Slow-Slow), FF(Fast-Fast), TT</div>
+</div>
+</div>
 
-소비전력 최적화:
-  화면 꺼짐: CPU Little 300 MHz, GPU OFF
-  영상 재생: DSP ON, CPU Little 1.2 GHz
-  게임:      CPU Big 3.2 GHz, GPU 900 MHz
 
-열 제어 (Thermal Throttling):
-  온도 > 90°C → 주파수 자동 감소
-  클럭 ↓ = 성능 ↓ + 발열 ↓
-  
-  스마트폰 방열 한계 → 지속 성능 < 피크 성능
-
-검증 (Timing Closure):
-  EDA 도구: Synopsys PrimeTime
-  목표: 모든 타이밍 경로 셋업/홀드 마진 > 0
-  수백만 개 경로 타이밍 분석
-  공정 코너: SS(Slow-Slow), FF(Fast-Fast), TT
-```
 
 > 📢 **섹션 요약 비유**: 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭은 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) — 필요한 곳에 필요한 만큼 전기(클럭) 공급, 안 쓰는 구역은 차단, 과부하 시 자동 감압(스로틀링)!
 

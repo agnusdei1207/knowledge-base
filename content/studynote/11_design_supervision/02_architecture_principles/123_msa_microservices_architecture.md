@@ -23,24 +23,22 @@ MSA는 마틴 파울러(Martin Fowler)와 제임스 루이스(James Lewis)가 20
 
 모놀리식 시스템의 한계는 세 가지다. ① 배포 병목: 하나의 기능 변경에도 전체 시스템 재배포가 필요, ② 확장 제약: 특정 기능만 확장하려 해도 전체를 스케일 아웃해야 함, ③ 기술 잠금: 하나의 언어·프레임워크가 전체 시스템을 구속. MSA는 이 세 문제를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립성으로 해결한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         모놀리식 → MSA 전환 구조 비교                        │
-├─────────────────────────────────────────────────────────────┤
-│  [모놀리식]                                                 │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  주문 | 결제 | 배송 | 회원 | 알림 | 정산 (단일 배포) │     │
-│  └────────────────────────────────────────────────────┘     │
-│                                                             │
-│  [MSA]                                                      │
-│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐   │
-│  │ 주문 │ │ 결제 │ │ 배송 │ │ 회원 │ │ 알림 │ │ 정산 │   │
-│  │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│ │ 서비스│   │
-│  │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │ │ +DB  │   │
-│  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘   │
-│   각각 독립 배포, 독립 확장, 독립 기술 스택                  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 → MSA 전환 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문</div><div class="kb-diagram-cell">결제</div><div class="kb-diagram-cell">배송</div><div class="kb-diagram-cell">회원</div><div class="kb-diagram-cell">알림</div><div class="kb-diagram-cell">정산 (단일 배포)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MSA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문</div><div class="kb-diagram-cell">결제</div><div class="kb-diagram-cell">배송</div><div class="kb-diagram-cell">회원</div><div class="kb-diagram-cell">알림</div><div class="kb-diagram-cell">정산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+DB</div><div class="kb-diagram-cell">+DB</div><div class="kb-diagram-cell">+DB</div><div class="kb-diagram-cell">+DB</div><div class="kb-diagram-cell">+DB</div><div class="kb-diagram-cell">+DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각각 독립 배포, 독립 확장, 독립 기술 스택</div></div>
+</div>
+</div>
+
+
 
 MSA에서 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자체 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Database per Service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/) 패턴)를 갖는다. 공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 MSA에서 가장 나쁜 안티패턴으로, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 수준에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 강결합이 발생하여 독립 배포가 불가능해진다.
 
@@ -60,21 +58,20 @@ MSA의 12가지 핵심 패턴은 [서비스 설계](/knowledge-base/studynote/12
 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), 재시도 | 장애 격리 |
 | 운영 | [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), 중앙 로깅 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       MSA 핵심 운영 인프라 구성                               │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│       │                                                     │
-│  [API Gateway] ─── 인증·라우팅·로드밸런싱                   │
-│       │                                                     │
-│  [Service Mesh (Istio)] ── mTLS·트래픽 제어·관찰성          │
-│       │                                                     │
-│  [서비스들] ── [서비스 디스커버리(Consul/Eureka)]            │
-│       │                                                     │
-│  [분산 트레이싱(Jaeger)] + [중앙 로깅(ELK)] + [메트릭(Prometheus)]│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA 핵심 운영 인프라 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-note">인증·라우팅·로드밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service Mesh (Istio)</div><div class="kb-diagram-note">── mTLS·트래픽 제어·관찰성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스들</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">서비스 디스커버리(Consul/Eureka)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 트레이싱(Jaeger)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">중앙 로깅(ELK)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">메트릭(Prometheus)</div></div>
+</div>
+</div>
+
+
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴은 MSA에서 장애 전파를 차단하는 핵심 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 패턴이다. 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 실패율이 임계치를 초과하면 회로를 "열어" 즉각 실패(fail-fast)를 반환하고, 일정 시간 후 반개방 상태로 전환하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 복구를 시험한다.
 
@@ -88,7 +85,7 @@ MSA의 12가지 핵심 패턴은 [서비스 설계](/knowledge-base/studynote/12
 | 비교 축 | A | B |
 |:---|:---|:---|
 | **배포 단위** | 전체 시스템 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 즉각적 (ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 즉각적 (ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **팀 구조** | 기술 조직 (DB팀·개발팀) | 비즈니스 조직 (주문팀·결제팀) |
 | **운영 복잡도** | 단순 | 높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템) |
 | **최소 권장 팀** | 소규모 | "피자 두 판 팀" (5~8명) 이상 |

@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - IPsec은 실제로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화해서 쏘는 트럭([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)/[AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/))입니다.
-- **[IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)**: 트럭이 달리기 전에 먼저 라우터 양쪽이 만나서 "우리 어떤 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 쓸래? 암호 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 뭘로 할래?"라고 **규칙을 정하고 보안 터널([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/), [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association)을 뚫어주는 '사전 협상 전문 외교관 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'**입니다. ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 사용)
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/">IKE</a></strong>: 트럭이 달리기 전에 먼저 라우터 양쪽이 만나서 "우리 어떤 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 쓸래? 암호 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 뭘로 할래?"라고 <strong>규칙을 정하고 보안 터널(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Association)을 뚫어주는 '사전 협상 전문 외교관 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>'</strong>입니다. ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 사용)
 
-```text
-[다크 웹 Tor 통신 프로토콜 암호화층]
-    │
-    ▼
-[IPsec IKEv2 터널 협상]
-    │
-    └──▶ [WireGuard 라우팅 고속망 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,14 +45,18 @@ tags = ["studynote-network"]
 - Main Mode(6번 핑퐁) 또는 Aggressive Mode(3번 핑퐁)로 1단계 터널을 뚫고, 다시 Quick Mode(3번 핑퐁)로 2단계 진짜 터널을 뚫는 미친 짓(최대 9번의 메시지 교환)을 하느라 CPU 오버헤드가 크고 연결이 느렸습니다.
 - 모바일(스마트폰) 지원 기능이 아예 없었습니다.
 
-```text
-[다크 웹 Tor 통신 프로토콜 암호화층]
-    │
-    ▼
-[IPsec IKEv2 터널 협상]
-    │
-    └──▶ [WireGuard 라우팅 고속망 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,16 +67,16 @@ tags = ["studynote-network"]
 IETF에서 복잡한 걸 싹 다 갈아엎고 모바일 시대에 맞게 재창조했습니다.
 
 ### 1. 4-Way 핑퐁으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (속도 향상)
-- 9번 핑퐁 치던 걸 **단 4개의 메시지(2번의 왕복, 4-Way Handshake)**로 싹 다 욱여넣었습니다.
+- 9번 핑퐁 치던 걸 <strong>단 4개의 메시지(2번의 왕복, 4-Way Handshake)</strong>로 싹 다 욱여넣었습니다.
   - **IKE_SA_INIT (2번)**: "야 나랑 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 할래? 우리 암호 방식 이거 쓰자!" (1단계 뼈대 터널 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))
   - **IKE_AUTH (2번)**: "콜! 내 인증서(신분증) 여기 있어, 너도 인증서 내놔. 그리고 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 터널(Child [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))도 같이 바로 뚫자!" (신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) + 2단계 진짜 터널 동시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))
 - 협상이 빛의 속도로 끝나서 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 접속 버튼을 누르자마자 1초 만에 철컥 붙습니다.
 
 ### 2. MOBIKE ([IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) Mobility and Multihoming) 🌟 최강 무기 🌟
-- **스마트폰 VPN의 구원자**입니다.
+- <strong>스마트폰 VPN의 구원자</strong>입니다.
 - KTX를 타고 폰으로 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN을 켰습니다. 와이파이 존에서 IP가 `10.x.x.x` 였는데, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국으로 넘어가면서 IP가 `11.x.x.x` 로 바뀌었습니다.
 - [IKEv1](/knowledge-base/studynote/09_security/03_network_security/279_ikev1/): IP가 바뀌었으니 터널을 다 때려 부수고 1번부터 다시 협상(접속 끊김 발생).
-- **MOBIKE 탑재 [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/)**: 폰이 서버한테 `UPDATE_SA_ADDRESSES` 패킷을 하나 툭 던집니다. "야! 나 터널 그대로 둔 채 내 IP만 11번으로 바뀌었으니까 장부 수정만 해!" 서버가 오케이 하면 **화상 회의가 단 1초도 끊기지 않고 부드럽게(Seamless) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널이 유지됩니다.**
+- <strong>MOBIKE 탑재 <a href="/knowledge-base/studynote/09_security/03_network_security/280_ikev2/">IKEv2</a></strong>: 폰이 서버한테 `UPDATE_SA_ADDRESSES` 패킷을 하나 툭 던집니다. "야! 나 터널 그대로 둔 채 내 IP만 11번으로 바뀌었으니까 장부 수정만 해!" 서버가 오케이 하면 <strong>화상 회의가 단 1초도 끊기지 않고 부드럽게(Seamless) <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 터널이 유지됩니다.</strong>
 
 ### 3. 디도스(DDoS) 방어: [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)) 챌린지
 - 해커가 가짜 IP로 1단계(INIT) 요청만 100만 번 쏴서 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 라우터의 메모리를 터뜨리는 공격을 막습니다.
@@ -96,7 +104,7 @@ IETF에서 복잡한 걸 싹 다 갈아엎고 모바일 시대에 맞게 재창�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[IKEv1](/knowledge-base/studynote/09_security/03_network_security/279_ikev1/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 협상**은 조선시대 **'양국 사신들의 외교 회담'**이었습니다. 양쪽 사신이 길 위에서 만나 인사하고(1번), 신분증 검사하고(2번), 암호 맞추고(3번), 세부 룰 정하고(4번)... 총 9번이나 왕복으로 편지를 주고받아야 비로소 터널 공사가 시작되어 연결이 한 세월이었습니다. 게다가 폰으로 와이파이에서 LTE로 바뀌어 주소가 달라지면 "너 신분증 다시 꺼내!"라며 터널을 다 때려 부수고 처음부터 다시 협상해야 했습니다(끊김 현상). 최신 **[IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 협상**은 현대의 **'[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전자 계약 시스템'**입니다. 만나는 즉시 서로 신분증과 암호화 룰을 한 봉투에 다 쓸어 담아서 딱 2번만 왕복 교환(4-Way)하면 1초 만에 공사가 끝납니다. 특히 스마트폰 IP가 와이파이에서 LTE로 바뀌어도, **MOBIKE**라는 흑마법을 통해 터널을 부수지 않고 서버에 "나 방금 이사했어 주소만 바꿔!"라고 쪽지 하나만 날리면 끊김 0.1초도 없이 VPN이 완벽히 이어지는 기업형 모바일 보안망의 최강자입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/279_ikev1/">IKEv1</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 협상</strong>은 조선시대 <strong>'양국 사신들의 외교 회담'</strong>이었습니다. 양쪽 사신이 길 위에서 만나 인사하고(1번), 신분증 검사하고(2번), 암호 맞추고(3번), 세부 룰 정하고(4번)... 총 9번이나 왕복으로 편지를 주고받아야 비로소 터널 공사가 시작되어 연결이 한 세월이었습니다. 게다가 폰으로 와이파이에서 LTE로 바뀌어 주소가 달라지면 "너 신분증 다시 꺼내!"라며 터널을 다 때려 부수고 처음부터 다시 협상해야 했습니다(끊김 현상). 최신 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/280_ikev2/">IKEv2</a> 협상</strong>은 현대의 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 전자 계약 시스템'</strong>입니다. 만나는 즉시 서로 신분증과 암호화 룰을 한 봉투에 다 쓸어 담아서 딱 2번만 왕복 교환(4-Way)하면 1초 만에 공사가 끝납니다. 특히 스마트폰 IP가 와이파이에서 LTE로 바뀌어도, <strong>MOBIKE</strong>라는 흑마법을 통해 터널을 부수지 않고 서버에 "나 방금 이사했어 주소만 바꿔!"라고 쪽지 하나만 날리면 끊김 0.1초도 없이 VPN이 완벽히 이어지는 기업형 모바일 보안망의 최강자입니다.
 
 ---
 
@@ -119,15 +127,19 @@ IETF에서 복잡한 걸 싹 다 갈아엎고 모바일 시대에 맞게 재창�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 다크 웹 Tor 통신 프로토콜 암호화층]
-    │
-    ▼
-[현재 개념: IPsec IKEv2 터널 협상]
-    │
-    ├──▶ [확장 A: WireGuard 라우팅 고속망 체계]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPsec IKEv2 터널 협상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WireGuard 라우팅 고속망 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상는 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층에서 출발해 현재 메커니즘을 정교화하고, 이후 [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 구리선이나 무선 전파로 0과 1을 보내면 번개, 노이즈 때문에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 무조건 뒤집힙니다(`0 ➜ 1`).
 - 수신자는 엉망진창으로 바뀐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원래 무슨 글자였는지 눈치채야 합니다(오류 검출 및 정정 FEC, 908번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)). 이를 해결하는 물리학적/수학적 기준점이 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)입니다.
 
-```text
-[OFDM 사이클릭 프리픽스]
-    │
-    ▼
-[해밍 거리]
-    │
-    └──▶ [자동 재전송 요구 선택적/GBN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,20 +41,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 길이가 같은 두 개의 이진수(0과 1의 문자열)를 나란히 비교했을 때, **서로 값이 일치하지 않고 다르게 튀는 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))의 개수'**를 의미합니다.
+- **개념**: 길이가 같은 두 개의 이진수(0과 1의 문자열)를 나란히 비교했을 때, <strong>서로 값이 일치하지 않고 다르게 튀는 '<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)의 개수'</strong>를 의미합니다.
 - **예시**:
   - `A = 1011101`
   - `B = 1001001`
-  - 앞에서 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다르고, 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다릅니다. 두 자리가 다르므로, A와 B 사이의 **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 2**입니다. (수학적으로는 두 숫자를 XOR 연산하여 1의 개수를 세면 됩니다.)
+  - 앞에서 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다르고, 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다릅니다. 두 자리가 다르므로, A와 B 사이의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>는 2</strong>입니다. (수학적으로는 두 숫자를 XOR 연산하여 1의 개수를 세면 됩니다.)
 
-```text
-[OFDM 사이클릭 프리픽스]
-    │
-    ▼
-[해밍 거리]
-    │
-    └──▶ [자동 재전송 요구 선택적/GBN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ tags = ["studynote-network"]
 눈치채는 걸 넘어, 부서진 글자를 원래 글자로 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(치유)하는 능력입니다.
 - **공식**: $D_{min} \ge 2t + 1$  (또는 $t = \lfloor \frac{D_{min} - 1}{2} \rfloor$)
 - **해석**: 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)를 3($D_{min}=3$)으로 띄워놨다면, **최대 1개($t=1$)의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깨진 것까지는 100% 원래 단어로 완벽 복원(정정)해 낼 수 있습니다.**
-- **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 증명**: 사전에 `000`과 `111` 두 단어만 등록했습니다(최소 거리 3). 수신자가 `001`을 받았습니다. 사전에 없는 말이니 에러(검출)입니다! 그런데 `001`은 `000`에서 1보 거리이고, `111`에서는 2보 거리입니다. "아! 1보밖에 안 떨어진 `000`이 한 글자 깨진 거구나!" 하고 수신기가 즉시 `000`으로 정답을 꿰맞춰버립니다(정정).
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 증명</strong>: 사전에 `000`과 `111` 두 단어만 등록했습니다(최소 거리 3). 수신자가 `001`을 받았습니다. 사전에 없는 말이니 에러(검출)입니다! 그런데 `001`은 `000`에서 1보 거리이고, `111`에서는 2보 거리입니다. "아! 1보밖에 안 떨어진 `000`이 한 글자 깨진 거구나!" 하고 수신기가 즉시 `000`으로 정답을 꿰맞춰버립니다(정정).
 
 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. OFDM 사이클릭 프리픽스가 기반 조건을 만든다면, [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 그 위에서 핵심 메커니즘을 구현하고, [자동 재전송 요구](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 선택적/GBN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))의 원리는 바다 한가운데서 안전하게 **'등대(정상 단어)'를 세우는 이격 거리의 법칙**입니다. 만약 1km마다 등대를 촘촘하게 세워두면, 폭풍(노이즈/에러)이 몰아쳐 배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 파도에 1km만 휩쓸려도 엉뚱한 B 등대 불빛(다른 글자)을 보고 "오! 잘 도착했군" 착각하여 배가 박살 납니다(에러 검출 실패). **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 확보(거리 늘리기)**는 등대와 등대 사이를 아예 3km씩 확 벌려 지어놓는(최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 3) 수학적 설계입니다. 이제 폭풍이 쳐서 배가 1km(에러 1비트 발생) 휩쓸리더라도, 사방을 둘러봤을 때 가장 가까운 등대는 무조건 원래 목표로 했던 1보 거리의 A 등대밖에 없습니다. 배는 안심하고 "아 내가 살짝 떠내려왔네, 저기 가장 가까운 1km 앞 A 등대로 돌아가야지!" 하고 스스로 원래 항로를 찾아 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(에러 1비트 정정)해 내는 궁극의 오류 치유 내비게이션 법칙입니다.
+- **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))의 원리는 바다 한가운데서 안전하게 <strong>'등대(정상 단어)'를 세우는 이격 거리의 법칙</strong>입니다. 만약 1km마다 등대를 촘촘하게 세워두면, 폭풍(노이즈/에러)이 몰아쳐 배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 파도에 1km만 휩쓸려도 엉뚱한 B 등대 불빛(다른 글자)을 보고 "오! 잘 도착했군" 착각하여 배가 박살 납니다(에러 검출 실패). <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> 확보(거리 늘리기)</strong>는 등대와 등대 사이를 아예 3km씩 확 벌려 지어놓는(최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 3) 수학적 설계입니다. 이제 폭풍이 쳐서 배가 1km(에러 1비트 발생) 휩쓸리더라도, 사방을 둘러봤을 때 가장 가까운 등대는 무조건 원래 목표로 했던 1보 거리의 A 등대밖에 없습니다. 배는 안심하고 "아 내가 살짝 떠내려왔네, 저기 가장 가까운 1km 앞 A 등대로 돌아가야지!" 하고 스스로 원래 항로를 찾아 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(에러 1비트 정정)해 내는 궁극의 오류 치유 내비게이션 법칙입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OFDM 사이클릭 프리픽스]
-    │
-    ▼
-[현재 개념: 해밍 거리]
-    │
-    ├──▶ [확장 A: 자동 재전송 요구 선택적/GBN]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OFDM 사이클릭 프리픽스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해밍 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자동 재전송 요구 선택적/GBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 OFDM 사이클릭 프리픽스에서 출발해 현재 메커니즘을 정교화하고, 이후 [자동 재전송 요구](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 선택적/GBN와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

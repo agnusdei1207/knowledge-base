@@ -23,10 +23,10 @@ tags = ["studynote-operating-system"]
 
 "서버에 접속자가 10배 늘어서 CPU 코어를 4개에서 40개로 늘렸는데, 왜 속도는 똑같이 느리죠?"
 
-이 현상의 99%는 **락 경합([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Contention)** 때문이다. 코어가 40개면 뭐 하는가? 화장실(공유 자원)이 1칸이고 문구멍([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 1개면, 39개의 코어는 문 밖에서 아무 일도 못 하고 멍하니 기다려야 한다.
+이 현상의 99%는 <strong>락 경합(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Contention)</strong> 때문이다. 코어가 40개면 뭐 하는가? 화장실(공유 자원)이 1칸이고 문구멍([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 1개면, 39개의 코어는 문 밖에서 아무 일도 못 하고 멍하니 기다려야 한다.
 
 * **증상 1 (CPU 사용률 하락)**: 접속자가 폭주하는데 CPU 사용률은 20%를 넘지 못한다. (다들 락을 기다리며 Block 상태로 자고 있기 때문)
-* **증상 2 ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 폭증)**: OS가 "어? 락이 걸렸네? 넌 자라, 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 들어와!"를 미친 듯이 반복하며 시스템 자원만 갉아먹는다.
+* <strong>증상 2 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> 폭증)</strong>: OS가 "어? 락이 걸렸네? 넌 자라, 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 들어와!"를 미친 듯이 반복하며 시스템 자원만 갉아먹는다.
 
 이 보이지 않는 '문 앞의 대기 줄'이 어디서 발생했는지 눈으로 코드를 읽어서 찾는 건 미친 짓이다. 이때 의사(엔지니어)의 청진기가 되어주는 것이 바로 모니터링 도구들이다.
 
@@ -37,16 +37,16 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 #### 1. Linux 내장 도구 (`perf`, `strace`, `pidstat`)
-* **`strace -c`**: 프로세스가 OS에 락을 요청하는 시스템 콜(`futex`, `epoll_wait`)을 얼마나 자주 호출하고 멈췄는지 통계를 내준다.
+* <strong><code>strace -c</code></strong>: 프로세스가 OS에 락을 요청하는 시스템 콜(`futex`, `epoll_wait`)을 얼마나 자주 호출하고 멈췄는지 통계를 내준다.
   - "이 프로그램은 1초에 `futex`(Linux의 빠른 락)를 10만 번 호출하며 대기했군!"
-* **`perf lock` (Linux Perf)**: 리눅스 커널의 최강 프로파일러. 어떤 락이 가장 오랫동안 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 물고 늘어지는지, 락 획득에 걸린 최대/최소/평균 대기 시간(Wait Time)을 마이크로초 단위로 추적한다.
+* <strong><code>perf lock</code> (Linux Perf)</strong>: 리눅스 커널의 최강 프로파일러. 어떤 락이 가장 오랫동안 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 물고 늘어지는지, 락 획득에 걸린 최대/최소/평균 대기 시간(Wait Time)을 마이크로초 단위로 추적한다.
 
 #### 2. Java 진영의 구원자 (JFR & JMC)
 자바 엔지니어들에게 락 경합은 일상이다. JVM은 이를 위해 극강의 도구를 내장했다.
 * **JFR (Java Flight Recorder)**: 비행기 블랙박스처럼 켜두면, 오버헤드 1% 미만으로 JVM 내부의 모든 락 경합 이벤트(Java [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) Blocked)를 기록한다.
 * **JMC (Java Mission Control)**: JFR이 기록한 데이터를 시각화한다.
   - "앗! `HashMap.get()` 메서드에서 1초 동안 500개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 빨간불(Block)을 켜고 대기했네요. 이 클래스를 `ConcurrentHashMap`으로 바꿔야겠어요!" 라고 정확한 처방을 내려준다.
-* **[Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Dump (`jstack`)**: 고전적이지만 가장 확실하다. 터미널에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 떠보면 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 `BLOCKED (on object monitor)` 상태로 0x1234 주소의 락을 기다리고 있음"이 적나라하게 찍혀 나온다.
+* <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump (<code>jstack</code>)</strong>: 고전적이지만 가장 확실하다. 터미널에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 떠보면 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 `BLOCKED (on object monitor)` 상태로 0x1234 주소의 락을 기다리고 있음"이 적나라하게 찍혀 나온다.
 
 #### 3. 하드웨어 레벨 프로파일러 (Intel VTune Profiler)
 * 하드웨어 장인들이 쓰는 도구다. 단순히 락이 걸린 걸 넘어서, "CPU 캐시 라인이 박살 나서([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 하드웨어적으로 락 경합이 극심해지고 있다"는 실리콘 레벨의 병목까지 시각화해 낸다.
@@ -59,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 도구가 병목을 찾아줬다면 어떻게 수술해야 할까?
 
-1. **락의 범위를 줄여라 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Shrinking)**
+1. <strong>락의 범위를 줄여라 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Shrinking)</strong>
    - 1만 줄의 코드 전체를 락으로 감싸지 말고, 꼭 필요한 3줄(공유 변수 수정 부분)만 락으로 감싼다. 화장실 쓰는 시간을 줄이는 것이다.
-2. **락을 쪼개라 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Striping)**
+2. <strong>락을 쪼개라 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Striping)</strong>
    - 100칸짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 락을 1개만 걸지 말고, 1번~10번 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 락, 11번~20번 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 락 등 10개로 쪼갠다. (자바 `ConcurrentHashMap`의 핵심 원리다. 화장실 칸수를 늘리는 것!)
-3. **락을 없애라 ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) / [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 연산)**
+3. <strong>락을 없애라 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> / <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a> 연산)</strong>
    - 가장 완벽한 해결책. OS에 락을 요청하지 않고, CPU 하드웨어의 `Compare-And-Swap (CAS)` 명령어를 사용해 동시성을 제어한다 (예: `AtomicInteger`). 문을 달지 않고 그냥 회전문을 통과하게 만드는 기법이다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -98,15 +98,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[임계 구역 크기 최소화 기법]
-    │
-    ▼
-[락 경합 (Lock Contention) 모니터링 도구]
-    │
-    ├──▶ [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-    └──▶ [세마포어를 이용한 순서 제어 (Ordering)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 크기 최소화 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">락 경합 (Lock Contention) 모니터링 도구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데드락 회피를 위한 Lock Hierarchy (락 순서화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세마포어를 이용한 순서 제어 (Ordering)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

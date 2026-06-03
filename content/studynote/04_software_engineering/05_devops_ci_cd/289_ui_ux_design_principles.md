@@ -26,10 +26,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 은행 앱을 열었는데 송금 버튼이 어디 있는지 한참 찾아야 한다면(직관성 부족), 기껏 10자리의 비밀번호를 쳤더니 에러가 나서 처음부터 다시 쳐야 한다면(유효성 부족), 앱이 업데이트될 때마다 조작법이 완전히 바뀌어 매번 다시 배워야 한다면(학습성 부족), 왼손잡이나 저시력자를 위한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경이 안 된다면(유연성 부족) 사용자는 화를 내며 다른 은행 앱으로 갈아탈 것이다.
 
-- **💡 비유**: 훌륭한 UI/UX는 **'좋은 문 손잡이'**와 같습니다. 손잡이가 평평한 판(Push)이면 사람들은 본능적으로 밀고, 튀어나온 바(Pull) 형태면 당깁니다(직관성). 문을 열 때 큰 힘이 들지 않아야 하며(유효성), 처음 보는 문이라도 어떻게 여는지 한눈에 알 수 있고(학습성), 어린아이나 휠체어 탄 사람도 쉽게 문을 열게 도와주는 장치(유연성)가 있는 문이 완벽한 디자인입니다.
+- **💡 비유**: 훌륭한 UI/UX는 <strong>'좋은 문 손잡이'</strong>와 같습니다. 손잡이가 평평한 판(Push)이면 사람들은 본능적으로 밀고, 튀어나온 바(Pull) 형태면 당깁니다(직관성). 문을 열 때 큰 힘이 들지 않아야 하며(유효성), 처음 보는 문이라도 어떻게 여는지 한눈에 알 수 있고(학습성), 어린아이나 휠체어 탄 사람도 쉽게 문을 열게 도와주는 장치(유연성)가 있는 문이 완벽한 디자인입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **초창기 CLI ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Line Interface)**: 오직 전문가만이 검은 화면에 텍스트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(학습성 극악)를 입력해 시스템을 썼다. 기능만 돌아가면 장땡이던 시절.
+  1. <strong>초창기 CLI (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> Line Interface)</strong>: 오직 전문가만이 검은 화면에 텍스트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(학습성 극악)를 입력해 시스템을 썼다. 기능만 돌아가면 장땡이던 시절.
   2. **GUI (Graphic User Interface) 패러다임**: 애플과 마이크로소프트의 등장으로 화면에 휴지통, 폴더 등 현실 세계를 본뜬 은유(Metaphor)가 등장해 직관성과 학습성이 혁명적으로 상승했다.
   3. **UX (사용자 경험) 시대**: 스티브 잡스와 돈 노먼(Don Norman)에 의해 "기능과 디자인을 넘어 사용자의 감정과 여정 전체를 설계해야 한다"는 UX 철학이 확립되어 오늘날 모바일, VR/AR의 4대 설계 원칙으로 굳어졌다.
 
@@ -39,18 +39,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 UI/UX 설계 원칙의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  UI/UX 설계 원칙                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI/UX 설계 원칙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 UI/UX 설계 원칙가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ UI/UX 설계 원칙 - 직관성, 유효성, 학습성, 유연성의 핵심 원�
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-UI/UX 설계 원칙의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+UI/UX 설계 원칙의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: UI/UX 설계 원칙의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ UI/UX 설계 원칙은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-UI/UX 설계 원칙 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UI/UX 설계 원칙 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

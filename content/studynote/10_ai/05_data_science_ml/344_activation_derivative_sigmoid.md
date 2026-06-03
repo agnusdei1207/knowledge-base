@@ -23,12 +23,17 @@ tags = ["studynote-ai"]
 
 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 으로 기울기를 전파한다. 레이어 수가 L 이면:
 
-```
-  ∂L/∂w₁ = ∂L/∂aL · ∏ᵢ σ'(zᵢ)
-  ─────────────────────────────────────
-  Sigmoid 의 경우: σ'(zᵢ) ≤ 0.25
-  L=10 레이어: 0.25¹⁰ = 9.5 × 10⁻⁷  → 사실상 0!
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">∂L/∂w₁ = ∂L/∂aL · ∏ᵢ σ'(zᵢ)</div>
+<div class="kb-diagram-note">Sigmoid 의 경우: σ'(zᵢ) ≤ 0.25</div>
+<div class="kb-diagram-note">L=10 레이어: 0.25¹⁰ = 9.5 × 10⁻⁷ → 사실상 0!</div>
+</div>
+</div>
+
+
 
 | 레이어 수 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 기울기 크기 | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 기울기 크기 |
 |:---:|:---:|:---:|
@@ -45,39 +50,47 @@ tags = ["studynote-ai"]
 
 ### [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 도함수 유도 수식
 
-```
-  Sigmoid 함수:
-  σ(x) = 1 / (1 + e⁻ˣ)
 
-  도함수 유도:
-  σ'(x) = d/dx [1 / (1 + e⁻ˣ)]
-         = e⁻ˣ / (1 + e⁻ˣ)²      ← 몫의 미분 규칙
-         = [1/(1+e⁻ˣ)] · [e⁻ˣ/(1+e⁻ˣ)]
-         = σ(x) · [1 - σ(x)]      ← 최종 도함수
 
-  최대값 증명:
-  σ'(x) = σ(x)(1 - σ(x)) ≤ [σ(x) + (1-σ(x))]²/4 = 1/4 = 0.25
-  (AM-GM 부등식: ab ≤ (a+b)²/4)
-  등호 성립: σ(x) = 1-σ(x) → σ(x) = 0.5 → x = 0
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sigmoid 함수:</div>
+<div class="kb-diagram-note">σ(x) = 1 / (1 + e⁻ˣ)</div>
+<div class="kb-diagram-note">도함수 유도:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">σ'(x) = d/dx</div><div class="kb-diagram-node">1 / (1 + e⁻ˣ)</div></div>
+<div class="kb-diagram-note">= e⁻ˣ / (1 + e⁻ˣ)² ← 몫의 미분 규칙</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=</div><div class="kb-diagram-node">1/(1+e⁻ˣ)</div><div class="kb-diagram-note">·</div><div class="kb-diagram-node">e⁻ˣ/(1+e⁻ˣ)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">= σ(x) ·</div><div class="kb-diagram-node">1 - σ(x)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">최종 도함수</div></div>
+<div class="kb-diagram-note">최대값 증명:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">σ'(x) = σ(x)(1 - σ(x)) ≤</div><div class="kb-diagram-node">σ(x) + (1-σ(x))</div><div class="kb-diagram-note">²/4 = 1/4 = 0.25</div></div>
+<div class="kb-diagram-note">(AM-GM 부등식: ab ≤ (a+b)²/4)</div>
+<div class="kb-diagram-note">등호 성립: σ(x) = 1-σ(x) → σ(x) = 0.5 → x = 0</div>
+</div>
+</div>
+
+
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 도함수 비교 다이어그램
 
-```
-  σ'(x) 크기 비교 (x 축 = 입력값)
 
-  1.0 ┤                                          ReLU'
-      │                                          ─────
-  0.5 ┤                               Leaky ReLU'(x<0)
-      │                              ─── (작은 양수)
-  0.25┤─── ─── ─── Sigmoid'(최대) ─── ─── ─── ─── ───
-      │        ╱‾‾‾‾‾‾╲
-  0.0 ┤──────╱          ╲───────────────────────────
-      └──────────────────────────────────────────────→ x
-        -5   -3   -1    0    1    3    5
-  Sigmoid' 범위: (0, 0.25]
-  ReLU'   범위: {0 (x≤0), 1 (x>0)}
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">σ'(x) 크기 비교 (x 축 = 입력값)</div>
+<div class="kb-diagram-note">1.0 ReLU'</div>
+<div class="kb-diagram-note">0.5 Leaky ReLU'(x&lt;0)</div>
+<div class="kb-diagram-note">(작은 양수)</div>
+<div class="kb-diagram-note">0.25 Sigmoid'(최대)</div>
+<div class="kb-diagram-note">╱‾‾‾‾‾‾╲</div>
+<div class="kb-diagram-note">0.0 ╱ ╲</div>
+<div class="kb-diagram-tree-item" style="--depth:3">→ x</div>
+<div class="kb-diagram-tree-item" style="--depth:4">5 -3 -1 0 1 3 5</div>
+<div class="kb-diagram-note">Sigmoid' 범위: (0, 0.25]</div>
+<div class="kb-diagram-note">ReLU' 범위: {0 (x≤0), 1 (x&gt;0)}</div>
+</div>
+</div>
+
+
 
 ### 주요 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 도함수
 
@@ -128,15 +141,20 @@ tags = ["studynote-ai"]
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택 기준
 
-```
-  은닉층 기본 선택: ReLU (빠르고 효과적)
-  ─────────────────────────────────────────
-  Dead ReLU 우려  → Leaky ReLU or ELU
-  Transformer 모델 → GELU (GPT-2/3/4 채택)
-  출력층 분류     → Softmax (다중 클래스)
-  출력층 이진 분류 → Sigmoid
-  출력층 회귀     → Linear (활성화 없음)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">은닉층 기본 선택: ReLU (빠르고 효과적)</div>
+<div class="kb-diagram-note">Dead ReLU 우려 → Leaky ReLU or ELU</div>
+<div class="kb-diagram-note">Transformer 모델 → GELU (GPT-2/3/4 채택)</div>
+<div class="kb-diagram-note">출력층 분류 → Softmax (다중 클래스)</div>
+<div class="kb-diagram-note">출력층 이진 분류 → Sigmoid</div>
+<div class="kb-diagram-note">출력층 회귀 → Linear (활성화 없음)</div>
+</div>
+</div>
+
+
 
 ### 기술사 출제 포인트
 
@@ -152,7 +170,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 채택**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 없이 수십~수백 레이어 학습 가능
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a> 채택</strong>: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 없이 수십~수백 레이어 학습 가능
 - **이론적 이해**: 도함수 값의 크기가 학습 가능성을 좌우함을 정량적으로 설명
 - **GELU/Swish**: 부드러운 비선형성으로 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 - **한계**: 어떤 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)도 만능이 아님 — 문제에 따른 선택 필요

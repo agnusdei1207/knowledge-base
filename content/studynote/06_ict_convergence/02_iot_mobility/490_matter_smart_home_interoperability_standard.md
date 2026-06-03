@@ -19,12 +19,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**스마트홈 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파편화 문제**
+<strong>스마트홈 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 파편화 문제</strong>
 
 2020년 이전 스마트홈 시장은 다음과 같이 극도로 파편화되어 있었다.
 
-- **[ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)**: Philips Hue, IKEA 조명 등 다양한 제조사 지원
-- **[Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/)**: 주로 북미 보안·도어록 중심
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">ZigBee</a></strong>: Philips Hue, IKEA 조명 등 다양한 제조사 지원
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/">Z-Wave</a></strong>: 주로 북미 보안·도어록 중심
 - **HomeKit**: Apple 생태계 전용
 - **SmartThings/Works with Alexa**: 각각 Samsung/Amazon 생태계
 
@@ -38,26 +38,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                Matter 생태계 아키텍처                        │
-├────────────────────────────────────────────────────────────┤
-│  [Matter 컨트롤러]  Apple Home / Google Home / Amazon Alexa │
-│         │                                                  │
-│         │  Matter 프로토콜 (IPv6 기반)                      │
-│         │                                                  │
-│  [전송 계층]                                                │
-│  ┌──────────┬─────────────┬────────────────┐              │
-│  │ Thread   │   Wi-Fi     │   Ethernet     │              │
-│  │ (IPv6메시)│ (2.4/5GHz) │ (유선)          │              │
-│  └──────────┴─────────────┴────────────────┘              │
-│         │                                                  │
-│  [Matter 기기]                                              │
-│  조명·스위치·잠금장치·온도조절기·센서·가전 등               │
-│         │                                                  │
-│  [Border Router]  Thread ↔ Wi-Fi/Ethernet 브릿지           │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matter 생태계 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 컨트롤러</div><div class="kb-diagram-note">Apple Home / Google Home / Amazon Alexa</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matter 프로토콜 (IPv6 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전송 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread</div><div class="kb-diagram-cell">Wi-Fi</div><div class="kb-diagram-cell">Ethernet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IPv6메시)</div><div class="kb-diagram-cell">(2.4/5GHz)</div><div class="kb-diagram-cell">(유선)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 기기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조명·스위치·잠금장치·온도조절기·센서·가전 등</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Border Router</div><div class="kb-diagram-note">Thread ↔ Wi-Fi/Ethernet 브릿지</div></div>
+</div>
+</div>
+
+
 
 ### [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 핵심 구성 요소
 
@@ -75,7 +72,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**기존 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) vs [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 비교**
+<strong>기존 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> vs <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> 비교</strong>
 
 | 항목 | [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) | [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) | HomeKit | [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) |
 |:---:|:---:|:---:|:---:|:---:|
@@ -85,11 +82,11 @@ tags = ["studynote-ict-convergence"]
 | IP 기반 | 부분적 | 아니오 | 예 | 예 |
 | [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) | 동일 프로필 내 | [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) 기기끼리 | Apple만 | 모든 생태계 |
 
-**[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 보안 모델**
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> 보안 모델</strong>
 
 - **DAC(Device Attestation Certificate)**: 기기 제조 시 공장에서 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 심어 위조 방지.
-- **PASE(Passcode-Authenticated [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Establishment)**: QR코드/PIN을 사용한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 페어링.
-- **CASE(Certificate-Authenticated [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Establishment)**: 이후 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 보안.
+- <strong>PASE(Passcode-Authenticated <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Establishment)</strong>: QR코드/PIN을 사용한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 페어링.
+- <strong>CASE(Certificate-Authenticated <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Establishment)</strong>: 이후 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 보안.
 
 - **📢 섹션 요약 비유**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 보안은 여권 시스템이다. 기기(여권 = DAC)는 공장(정부)에서 발급되고, 처음 입국할 때(PASE로 페어링)는 여권 검사를 거친다. 이후 재입국(CASE)은 자동 통과된다.
 
@@ -105,7 +102,7 @@ tags = ["studynote-ict-convergence"]
 
 **Multi-Admin의 의미**: 동일 [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 기기를 Apple Home·Google Home·Amazon Alexa가 동시에 관리 가능. 소비자는 특정 생태계에 종속되지 않음.
 
-**기술사 답안 핵심**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 도입의 핵심 가치는 ① 표준화를 통한 **파편화 해소**, ② IP 기반 **네이티브 보안**, ③ **멀티 생태계 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)**의 세 가지를 항상 언급해야 한다.
+**기술사 답안 핵심**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 도입의 핵심 가치는 ① 표준화를 통한 **파편화 해소**, ② IP 기반 **네이티브 보안**, ③ <strong>멀티 생태계 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong>의 세 가지를 항상 언급해야 한다.
 
 - **📢 섹션 요약 비유**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) Multi-Admin은 하나의 TV를 리모컨 세 개로 켜는 것이다. 어떤 리모컨(Apple/Google/Amazon)을 써도 같은 TV가 켜지고, 리모컨을 잃어버려도 다른 걸 쓰면 된다.
 

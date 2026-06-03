@@ -20,12 +20,12 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안의 역사는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 따라 발전해 왔다.
-1. **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) (저장 중인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: 하드디스크에 저장될 때 암호화 (예: DB 암호화, AES-256).
-2. **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Transit (전송 중인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: 네트워크로 날아갈 때 암호화 (예: [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)).
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> at <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">Rest</a> (저장 중인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>: 하드디스크에 저장될 때 암호화 (예: DB 암호화, AES-256).
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> in Transit (전송 중인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>: 네트워크로 날아갈 때 암호화 (예: [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)).
 
-과거에는 이 두 가지만 완벽히 암호화하면 안전하다고 믿었다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내와 CPU가 덧셈 뺄셈을 하려면, 필연적으로 메모리(RAM)에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'평문(Plaintext)'** 상태로 올라가야만 했다. **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Use(사용 중인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**의 순간이다.
+과거에는 이 두 가지만 완벽히 암호화하면 안전하다고 믿었다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내와 CPU가 덧셈 뺄셈을 하려면, 필연적으로 메모리(RAM)에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'평문(Plaintext)'** 상태로 올라가야만 했다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> in Use(사용 중인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>의 순간이다.
 
-[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 시대가 되면서 이는 치명적인 약점이 되었다. 클라우드 인프라를 관리하는 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))나, 같은 물리적 서버를 공유하는 다른 해커가 악의적으로 메모리를 덤프(Dump) 떠버리면 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 훔쳐볼 수 있기 때문이다. 이를 원천 차단하기 위해 CPU 제조사(Intel, AMD)와 클라우드 벤더들이 협력하여 만든 기술이 바로 **[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))**이다.
+[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 시대가 되면서 이는 치명적인 약점이 되었다. 클라우드 인프라를 관리하는 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))나, 같은 물리적 서버를 공유하는 다른 해커가 악의적으로 메모리를 덤프(Dump) 떠버리면 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 훔쳐볼 수 있기 때문이다. 이를 원천 차단하기 위해 CPU 제조사(Intel, AMD)와 클라우드 벤더들이 협력하여 만든 기술이 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/">기밀 컴퓨팅</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/">Confidential Computing</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 편지를 금고(저장)에 보관하고 장갑차(전송)로 안전하게 배달할 수는 있다. 하지만 결국 편지를 읽으려면(사용) 봉투를 뜯고 밖으로 꺼내야만 한다. [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)은 다른 사람은 절대 볼 수 없는 마법의 투명 망토 안에서만 편지를 꺼내 읽게 해주는 기술이다.
 
@@ -33,18 +33,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인 유즈(In U의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  기밀 컴퓨팅 데이터 인 유즈(In U                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기밀 컴퓨팅 데이터 인 유즈(In U</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인 유즈(In U가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -56,7 +55,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 핵심은 하드웨어 기반의 **[신뢰 실행 환경](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), [Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))**, 즉 '엔클레이브([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/))'를 구축하는 것이다.
+[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 핵심은 하드웨어 기반의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">신뢰 실행 환경</a>(<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a>, <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/">Trusted Execution Environment</a>)</strong>, 즉 '엔클레이브([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/))'를 구축하는 것이다.
 
 - **📢 섹션 요약 비유**: [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인 유즈(In Use) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -78,10 +77,10 @@ tags = ["studynote-software-engineering"]
 
 | 방어 기술 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 | 핵심 원리 및 한계 |
 |:---|:---|:---|
-| **DB 암호화 ([TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/) 등)** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)** (저장) | 디스크를 도난당해도 안전함. 단, 쿼리를 실행하려면 메모리에 평문 복호화 키가 올라가야 함. |
-| **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Transit** (전송) | 네트워크 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 방어. 서버에 도착하면 복호화됨. |
-| **[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) (Homomorphic)**| [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Use** (소프트웨어적) | 암호화된 상태 그대로 덧셈/곱셈을 수행함. 안전하지만 **연산 속도가 수만 배 느려져** 상용화에 제약이 큼. |
-| **[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) ([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/))** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Use** (하드웨어적) | 암호화된 메모리 구역 안에서만 복호화하여 연산함. **속도 저하가 거의 없고 가장 현실적인 대안.** |
+| <strong>DB 암호화 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/">TDE</a> 등)</strong> | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) <strong>at <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">Rest</a></strong> (저장) | 디스크를 도난당해도 안전함. 단, 쿼리를 실행하려면 메모리에 평문 복호화 키가 올라가야 함. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>/SSL (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)</strong> | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Transit** (전송) | 네트워크 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 방어. 서버에 도착하면 복호화됨. |
+| <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a> (Homomorphic)</strong>| [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Use** (소프트웨어적) | 암호화된 상태 그대로 덧셈/곱셈을 수행함. 안전하지만 **연산 속도가 수만 배 느려져** 상용화에 제약이 큼. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/">기밀 컴퓨팅</a> (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a>)</strong> | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **in Use** (하드웨어적) | 암호화된 메모리 구역 안에서만 복호화하여 연산함. **속도 저하가 거의 없고 가장 현실적인 대안.** |
 
 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)가 순수 수학과 소프트웨어의 궁극의 마법이라면, [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)은 하드웨어 제조사의 물리적 격리 기술을 믿고 가는 실용주의적 접근이다.
 
@@ -134,21 +133,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-기밀 컴퓨팅 데이터 인 유즈(In Use) 보호 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기밀 컴퓨팅 데이터 인 유즈(In Use) 보호 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

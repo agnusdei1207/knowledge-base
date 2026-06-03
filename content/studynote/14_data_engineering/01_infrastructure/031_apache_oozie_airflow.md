@@ -18,22 +18,26 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-워크플로 스케줄러 비교:
 
-  Oozie:                    Airflow:
-  workflow.xml              from airflow import DAG
-  <workflow-app>            from airflow.operators import *
-    <action name="hive">    
-      <hive>...</hive>      with DAG('etl', ...) as dag:
-      <ok to="next"/>         t1 = HiveOperator(...)
-      <error to="fail"/>      t2 = SparkSubmitOperator(...)
-    </action>                 t1 >> t2
-  </workflow-app>
-  
-  XML 설정 → Python 코드
-  복잡하고 장황 → 직관적
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">워크플로 스케줄러 비교:</div>
+<div class="kb-diagram-note">Oozie: Airflow:</div>
+<div class="kb-diagram-note">workflow.xml from airflow import DAG</div>
+<div class="kb-diagram-note">&lt;workflow-app&gt; from airflow.operators import *</div>
+<div class="kb-diagram-note">&lt;action name="hive"&gt;</div>
+<div class="kb-diagram-note">&lt;hive&gt;...&lt;/hive&gt; with DAG('etl', ...) as dag:</div>
+<div class="kb-diagram-note">&lt;ok to="next"/&gt; t1 = HiveOperator(...)</div>
+<div class="kb-diagram-note">&lt;error to="fail"/&gt; t2 = SparkSubmitOperator(...)</div>
+<div class="kb-diagram-note">&lt;/action&gt; t1 &gt;&gt; t2</div>
+<div class="kb-diagram-note">&lt;/workflow-app&gt;</div>
+<div class="kb-diagram-note">XML 설정 → Python 코드</div>
+<div class="kb-diagram-note">복잡하고 장황 → 직관적</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Oozie vs Airflow는 요리 레시피 형식이다. Oozie(XML)는 고대 문서처럼 태그로 작성해야 하고, Airflow(Python)는 자연스러운 한국어 레시피처럼 읽기 쉽고 작성하기 편하다.
 
@@ -48,9 +52,9 @@ tags = ["studynote-data-engineering"]
 | **Scheduler** | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 파싱·실행 스케줄링 |
 | **Executor** | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 (Local/Celery/K8s) |
 | **Worker** | 실제 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 수행 |
-| **[Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) DB** | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)·[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 저장 (PostgreSQL) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a> DB</strong> | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)·[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 저장 (PostgreSQL) |
 | **Webserver** | 모니터링 UI |
-| **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Bag** | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디렉토리 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> Bag</strong> | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디렉토리 |
 
 ### Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
 
@@ -103,22 +107,25 @@ with DAG(
 
 ### Oozie → Airflow 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-1단계: Oozie XML 분석
-  - workflow.xml → 태스크 그래프 추출
-  - coordinator.xml → 스케줄 패턴 추출
 
-2단계: Airflow DAG 변환
-  - Oozie Action → Airflow Operator 매핑
-  - Oozie OK/Error → Airflow trigger_rule
-  - Oozie 변수 → Airflow Jinja 템플릿
 
-3단계: 병행 운영
-  - 동일 파이프라인 양쪽 실행 비교
-  - 결과 일치 확인
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1단계: Oozie XML 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:1">workflow.xml → 태스크 그래프 추출</div>
+<div class="kb-diagram-tree-item" style="--depth:1">coordinator.xml → 스케줄 패턴 추출</div>
+<div class="kb-diagram-note">2단계: Airflow DAG 변환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Oozie Action → Airflow Operator 매핑</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Oozie OK/Error → Airflow trigger_rule</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Oozie 변수 → Airflow Jinja 템플릿</div>
+<div class="kb-diagram-note">3단계: 병행 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:1">동일 파이프라인 양쪽 실행 비교</div>
+<div class="kb-diagram-tree-item" style="--depth:1">결과 일치 확인</div>
+<div class="kb-diagram-note">4단계: Oozie 종료</div>
+</div>
+</div>
 
-4단계: Oozie 종료
-```
+
 
 ### 관리형 Airflow [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
@@ -160,29 +167,31 @@ Azure Data Factory:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)** | Airflow 워크플로 표현 단위 |
-| **[Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)** | Airflow [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 단위 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a></strong> | Airflow 워크플로 표현 단위 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a></strong> | Airflow [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 단위 |
 | **Celery Executor** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 엔진 |
 | **AWS MWAA** | 관리형 Airflow 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **Prefect/Dagster** | 차세대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오케스트레이터 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Cron + 쉘 스크립트 — 기초 배치 스케줄링]
-    │
-    ▼
-[Apache Oozie — Hadoop 전용 XML 스케줄러]
-    │
-    ▼
-[Apache Airflow — Python DAG 범용 오케스트레이터]
-    │
-    ▼
-[관리형 Airflow — AWS MWAA, GCP Composer]
-    │
-    ▼
-[LLM DAG 생성 — 자연어 → 파이프라인 자동 생성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cron + 쉘 스크립트 — 기초 배치 스케줄링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Oozie — Hadoop 전용 XML 스케줄러</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Airflow — Python DAG 범용 오케스트레이터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관리형 Airflow — AWS MWAA, GCP Composer</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM DAG 생성 — 자연어 → 파이프라인 자동 생성</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

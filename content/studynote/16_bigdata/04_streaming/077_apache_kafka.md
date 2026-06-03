@@ -24,14 +24,14 @@ tags = ["studynote-bigdata"]
 
 ### 1. 전통적 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐(MOM)의 구조적 제약
 Apache Kafka가 탄생하기 전, 기업들은 RabbitMQ, ActiveMQ, IBM MQ 등의 전통적 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 지향 미들웨어(Message-Oriented Middleware, MOM)를 사용하여 비동기 통신을 구현했습니다.
-- **포인트 투 포인트 ([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 모델**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 하나의 큐에 들어가면, 하나의 컨슈머만이 이를 Consumption하고 큐에서 제거합니다. 1:N 배포(하나의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 여러 시스템이 동시에 읽기)가 필요하면 동일한 내용의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 N개 큐에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해야 하는 비효율이 발생했습니다.
-- **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 삭제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 대부분의 MOM은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 Consumption되면 즉시 삭제합니다. 따라서"[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 재처리(Replay)"나"이벤트 소스를()"이 불가능하여, 컨슈머 어플리케이션의 버그로 인해 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 처리 누락이 발생하면 이를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 치명적인 한계가 있었습니다.
+- <strong>포인트 투 포인트 (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/">Point-to-Point</a>) 모델</strong>: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 하나의 큐에 들어가면, 하나의 컨슈머만이 이를 Consumption하고 큐에서 제거합니다. 1:N 배포(하나의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 여러 시스템이 동시에 읽기)가 필요하면 동일한 내용의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 N개 큐에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해야 하는 비효율이 발생했습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 삭제 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 대부분의 MOM은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 Consumption되면 즉시 삭제합니다. 따라서"[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 재처리(Replay)"나"이벤트 소스를()"이 불가능하여, 컨슈머 어플리케이션의 버그로 인해 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 처리 누락이 발생하면 이를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 치명적인 한계가 있었습니다.
 - **확장성의 한계**: 기존 MOM은 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 보장하기 위해 단일 큐에 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 집중시켰고, 이로 인해 단일 브로커의 처리 능력에 병목이 발생하여 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에서 확장성에 한계가 있었습니다.
 
 ### 2. LinkedIn의 실제 문제: 실시간 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 긴급한 수요
 LinkedIn은 2010년경 수십 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 서로 직접 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출하는"지저분한 통합(Spaghetti Integration)" 상태에 있었습니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 장애가 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 전파되는 (Cascading Failure)가 빈번하게 발생했으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이"사용자 활동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 실시간으로 분석하여 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)을 개선"하려는 시도가 현재 인프라의 한계로 인해되어했다。
 - **LinkedIn 내부 개발 단계**: LinkedIn 엔지니어 Jay Kreps, Neha Narkhede, Jun Rao 등은"하나의 중앙 집중식 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)"을 구축하여 모든 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 एक स्थान에서 수집하고, 이를 inúmer 받는 소비자에게 전달하는"[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시스템"을 구상했습니다.
-- **2011년 [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 공개**: 이 구상은 2011년 Apache Kafka라는 이름으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)화되었으며, 2012년 Apache Incubator에 합류, 2014년 Apache Top-Level [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) 등용되며 글로벌 표준 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 시스템으로 자리잡았습니다.
+- <strong>2011년 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/">Apache Kafka</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 공개</strong>: 이 구상은 2011년 Apache Kafka라는 이름으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)화되었으며, 2012년 Apache Incubator에 합류, 2014년 Apache Top-Level [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) 등용되며 글로벌 표준 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 시스템으로 자리잡았습니다.
 
 - **📢 섹션 요약 비유**: 전통적 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐와 Apache Kafka의 차이는"기차 의전 알림 시스템"에 비유할 수 있습니다. 전통적 MOM은"새벽 기상 알람을 한 번만 울리고 끝"([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 Consumption 후 삭제)으로, Alarm을 놓치면 끝까지 깨어나지 못합니다. 반면 Kafka는"기차 관제실에서 모든 열차의 위치를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 실시간 추적 시스템"(Append-only Log)으로, 현재 열차 위치뿐 아니라 과거 24시간 동안의 열차 궤적([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))을저장하며, 관제실에는 수많은 운영팀이 동시에 접속하여 필요한 정보를 추출할 수 있습니다. 만약 어떤 열차가 관제실 communication 단절로 현재 위치를 알 수 없으면, 과거 궤적만 보고도"어느 구간에서 문제가 발생했는지"를 역추적할 수 있습니다.
 
@@ -39,43 +39,35 @@ LinkedIn은 2010년경 수십 개의 [마이크로서비스](/knowledge-base/stu
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Apache Kafka 아키텍처 ] │
-│ │
-│ [Producer] ─── 씀 -> [Topic: 주문 정보] ── 씀 -> [Consumer] │
-│ │ │ │ │
-│ │ │Partition 0: [msg0][msg1][msg2]... │
-│ │ │Partition 1: [msg0][msg1][msg2]... │
-│ │ │Partition 2: [msg0][msg1][msg2]... │
-│ │ │ │ │
-│ │ ▼ ▼ │
-│ │ ┌─────────────────────────────┐ │
-│ │ │ Broker 1/2/3... │ │
-│ │ │ 각 브로커가 Partition 보유 │ │
-│ │ │ ISR (In-Sync Replica) 관리 │ │
-│ │ └─────────────────────────────┘ │
-│ │ │
-│ [ ZooKeeper / KRaft (Kafka 3.3+) ] │
-│ ├─ 브로커 활성 상태 관리 (누가 컨트롤러?) │
-│ ├─ 토픽/파티션 메타데이터 관리 │
-│ └─ 리더 선출 (Leader Election) │
-│ │
-│ [디스크 기록 구조: Append-only Log] │
-│ ┌──────────────────────────────────────────────────────────┐ │
-│ │ 오프셋 0 │ 오프셋 1 │ 오프셋 2 │ 오프셋 3 │ ... │ │
-│ │ [msg A] │ [msg B] │ [msg C] │ [msg D] │ │ │
-│ │ │ │ │ │ │ │
-│ │ Sequential Write → 디스크 I/O 병목 완전 제거! │ │
-│ └──────────────────────────────────────────────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Producer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Topic: 주문 정보</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Consumer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │Partition 0:</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │Partition 1:</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │Partition 2:</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broker 1/2/3...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 브로커가 Partition 보유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR (In-Sync Replica) 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZooKeeper / KRaft (Kafka 3.3+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 브로커 활성 상태 관리 (누가 컨트롤러?)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 토픽/파티션 메타데이터 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 리더 선출 (Leader Election)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 기록 구조: Append-only Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋 0</div><div class="kb-diagram-cell">오프셋 1</div><div class="kb-diagram-cell">오프셋 2</div><div class="kb-diagram-cell">오프셋 3</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">msg A</div><div class="kb-diagram-node">msg B</div><div class="kb-diagram-node">msg C</div><div class="kb-diagram-node">msg D</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential Write → 디스크 I/O 병목 완전 제거!</div></div>
+</div>
+</div>
+
+
 
 ### 1. Kafka의 핵심 개념: Topic, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), Offset
 
 - **Topic (토픽)**: Kafka에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 릴리스되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 채널입니다. RDBMS의 테이블과 유사하지만, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 없으며 단순히"이름이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림"입니다.
-- **[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))**: 토픽을 물리적으로 분할한 단위입니다. 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 클러스터의 여러 브로커에하여설정되며, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 순차적으로 Append-only로 기록됩니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 토픽의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 수준을 결정하며, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 만큼의 컨슈머가 동시에 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 소비할 수 있습니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>)</strong>: 토픽을 물리적으로 분할한 단위입니다. 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 클러스터의 여러 브로커에하여설정되며, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 순차적으로 Append-only로 기록됩니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 토픽의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 수준을 결정하며, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 만큼의 컨슈머가 동시에 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 소비할 수 있습니다.
 - **Offset (오프셋)**: 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지의 고유한 위치 번호입니다. `offset=0`이 첫 번째 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지이며, 이후 각 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지는 고유한 오프셋을 가집니다. Consumer는 자신이 마지막으로한 오프셋(`committed offset`)을、의부터합니다。
 
 ### 2. Producer와 Consumer의 분리 (Decoupling)
@@ -101,12 +93,12 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 | 비교 항목 | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | RabbitMQ / ActiveMQ (전통적 MOM) |
 |:---|:---|:---|
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보존 ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기간(시간~무제한) 동안 보존, Replay 가능 | Consumption 후 즉시 삭제 (일반적) |
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 순서 보장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서 순서 보장 | 큐 단위 순서 보장, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에선 제한적 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 보존 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a>)</strong> | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기간(시간~무제한) 동안 보존, Replay 가능 | Consumption 후 즉시 삭제 (일반적) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 순서 보장</strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서 순서 보장 | 큐 단위 순서 보장, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에선 제한적 |
 | **컨슈머 모델** | [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)별 독립 (Pub-Sub) | 포인트 투 포인트 (하나만 소비) |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** | 초당 수백만 건 (Sequential I/O) | 초당수~수 건 |
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 필터링/[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)** | 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)만 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위) | exchange 타입별 다양한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (topic, headers, etc.) |
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 크기** | 기본 1MB, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 수 MB까지 | 일반적으로 수 KB ~ 수십 KB |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> | 초당 수백만 건 (Sequential I/O) | 초당수~수 건 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 필터링/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)만 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위) | exchange 타입별 다양한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (topic, headers, etc.) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 크기</strong> | 기본 1MB, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 수 MB까지 | 일반적으로 수 KB ~ 수십 KB |
 
 - **Kafka의 가장 큰 강점**: "[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))"과 "[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))" 아키텍처에서 Kafka는 핵심 인프라로 활용됩니다. 예를 들어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 모든 변경 사항(INSERT/UPDATE/DELETE)을 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) topic으로 publish하고, 이를 여러 Sink(Redshift, [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 등)가 동시에하면, 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본(DB)에서 다양한 목적지(분석, 검색, 캐시 갱신 등)로의Real-time [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)을 구성할 수 있습니다.
 
@@ -118,15 +110,15 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 순서 요구** | 순서 보장이 필수 (예: 금융 거래) → 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 필수 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 키별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 고려 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 순서 요구</strong> | 순서 보장이 필수 (예: 금융 거래) → 키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 필수 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 키별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 고려 |
 | **내구성 요구 수준** | 장애 시 절대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 불가 → acks=all + min.insync.replicas=2 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실 허용 수준에 따라 acks 조절 |
 | **리텐션 기간** | Replay 필요 (예: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) → 긴 [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) | 일회성 처리면 짧은 Retention으로 스토리지 절약 |
 | **컨슈머 독립성** | 다수의 독립적인 컨슈머가동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | 하나의 컨슈머만 필요 → RabbitMQ 고려 |
 
 *(추가 실무 적용 가이드 - [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Topic 설계 Best Practices)*
-- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 결정**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 컨슈머 수의 상한을 결정합니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 동시 컨슈머 수로 설계하되, 향후을 고려하여 을 둡니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가 후에는 키와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 매핑이 변경될 수 있어 주의가 필요합니다.
-- **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 키 활용**: 순서 보장이 필요한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지(예:동일 사용자의 모든 이벤트)에는동일 키(예: user_id)를 사용하여동일 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 순서대로 기록되도록 합니다.
-- **컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 컴팩션 모드를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면,동일 키의 최신 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지만 보존하여 무제한 Retention이 가능하며, 최신 상태 조회(테이블 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 유사)가 가능합니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 수 결정</strong>: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 컨슈머 수의 상한을 결정합니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 동시 컨슈머 수로 설계하되, 향후을 고려하여 을 둡니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가 후에는 키와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 매핑이 변경될 수 있어 주의가 필요합니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 키 활용</strong>: 순서 보장이 필요한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지(예:동일 사용자의 모든 이벤트)에는동일 키(예: user_id)를 사용하여동일 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 순서대로 기록되도록 합니다.
+- <strong>컴팩션(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)</strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 컴팩션 모드를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면,동일 키의 최신 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지만 보존하여 무제한 Retention이 가능하며, 최신 상태 조회(테이블 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 유사)가 가능합니다.
 - **실무 의사결정**: Kafka를 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)([Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/), [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)) 대안으로 활용할 때는, 토픽 수와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수가 클러스터 자원의 한계에 도달하지 않도록 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 필요한 경우 주기적으로토픽을 아카이브/삭제하는 kebijakan를 수립해야 합니다.
 
 - **📢 섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Topic 설계는"백화점의 시스템"과 같습니다. 매출 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오는 토픽(예: `sales-events`)에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을많이 배치([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 100개)하면처리 능력이되지만, Cashier(컨슈머)는처리에 따라 적절한 수를 배치해야하며, 무한정 Cashier를 늘려도 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 초과하면추가이/가 없습니다. 또한 매출 영수증([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)에"어떤 Cashier가 처리했는지"(키)를 기록해두면, 동일한 Cashier의 매출은 모두 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 순서대로 모이며,동일 Cashier의 Record만 추적하여"어떤 Cashier적 실적을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"하는 것이 가능합니다.
@@ -135,13 +127,13 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **KRaft ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)) 모드의 일상화: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 의존성 제거**
+1. <strong>KRaft (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a>) 모드의 일상화: <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a> 의존성 제거</strong>
 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.3 (2022)에서 정식 도입된 KRaft 모드는, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이션을 위해 외부 의존성([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))을 제거하고 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 자체의 [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구현(KRaft)을 사용하여 클러스터 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 내부에서관리합니다. 이를 통해" [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 제거"와"운영 복잡성 감소"라는 두 가지 목표를 동시에 달성하며, 향후 모든 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터가 KRaft 모드로 마이그레이션되는 것이 예상됩니다.
 
-2. **Kafka와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)/스트리밍 SQL의 심화 통합**
+2. <strong>Kafka와 <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a>/스트리밍 SQL의 심화 통합</strong>
 Confluent의 ksqlDB, [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) SQL, [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) 등 다양한 스트리밍 SQL 엔진이 Kafka를 네이티브 소스로 활용하는 사례가 급증하고 있습니다. 특히"[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) topic을 테이블로 조회"하거나"[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams를 사용하여 실시간 aggregated view를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"하는이/가 표준화됨에 따라, Kafka는 단순한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 Infra에서"실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 위한 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))" 역할로 진화하고 있습니다.
 
-3. **[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Kafka와 Managed Service의 확산**
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a> Kafka와 Managed Service의 확산</strong>
 AWS MSK [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Cloud의 [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Tier 등 완전 관리형 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확산됨에 따라, 클러스터 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 브로커 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 리밸런싱 등의 운영 부담이 크게 감소하고 있습니다. 이는 엔지니어가"[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영"이 아닌"Kafka를 활용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림 설계"에 집중할 수 있는 환경을 만들어, Kafka의 진입 장벽을 획기적으로 낮추고 있습니다.
 
 - **📢 섹션 요약 비유**: Kafka의 미래는"도시의 도로 시스템"에서"도시의 순환 시스템"으로의 변화와 합니다. 과거 도시는 물건이 도착하면 창고에 넣고 삭제하는"단순 보관소"(기존 MQ)였지만, 현대 도시는"모든 화물 운행 기록이 보존되고,(컨슈머)가 필요한 구간의를에서링하며,(장애) 발생 시 SAME 기록을 토대로을 역추적"하는성능 물류 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)로 기능합니다. 이러한 시스템이"KRaft(도로 자체가 기능)"으로화되고, "[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(도로가 알아서를 관리)"하면, 도시 시민(엔지니어)은 도로 관리(운영)를 신경 쓰지 않고"어떤 물건을 어디로 보낼지"([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계)만 고민하면 되는 세상이 됩니다.
@@ -150,17 +142,17 @@ AWS MSK [Serverless](/knowledge-base/studynote/12_it_management/05_security_comp
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) 핵심개념**
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/">Apache Kafka</a> 핵심개념</strong>
 * **Topic**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)들의)
-* **[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)**: 물리적 처리 단위, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은ordered, [immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) sequence of records
+* <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a></strong>: 물리적 처리 단위, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은ordered, [immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) sequence of records
 * **Offset**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 레코드 고유 위치 번호
 * **Producer**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 게시자 (키 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))
-* **[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)**: 컨슈머들의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 그룹 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 공유)
-* **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 내구성 메커니즘**
-* **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (In-Sync Replica)**: 리더와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 집합
+* <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a></strong>: 컨슈머들의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 그룹 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 공유)
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> 내구성 메커니즘</strong>
+* <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (In-Sync Replica)</strong>: 리더와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 집합
 * **acks**: 생산자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (0, 1, all)
 * **min.insync.replicas**: [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 최소 리플리카 수
-* **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변화**
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 변화</strong>
 * [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 0.8~2.x: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 의존 (컨트롤러, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))
 * [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.3+ (KRaft): [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 제거, 자체 [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
@@ -168,18 +160,21 @@ AWS MSK [Serverless](/knowledge-base/studynote/12_it_management/05_security_comp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통적 MOM]
-│
-▼
-[Pub/Sub]
-│
-▼
-[Append-only Log]
-│
-▼
-[KRaft/Serverless Kafka]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 MOM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pub/Sub</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Append-only Log</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KRaft/Serverless Kafka</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 전통적 MOM에서 Pub/Sub와 Append-only Log로 발전해 KRaft/[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Kafka로 진화하는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 구조의 변화를 보여준다.
 
@@ -189,7 +184,7 @@ AWS MSK [Serverless](/knowledge-base/studynote/12_it_management/05_security_comp
 3. 여러 친구들이 동시에 같은 게시판을 보면서 필요한 정보를 가져갈 수 있어요!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 Apache Kafka의 핵심 개념(Topic, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), Offset, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))과 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 시스템과의 비교를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 Apache Kafka의 핵심 개념(Topic, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), Offset, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))과 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 시스템과의 비교를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

@@ -23,13 +23,16 @@ tags = ["studynote-devops-sre"]
 
 수동 점검과 perimeter-only 보안은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 런타임, 아이덴티티 공격을 제때 막기 어렵다. 따라서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 안티 디버깅 모바일 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 주입을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
-```text
-Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inventory</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Policy &amp; Scan</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Enforcement</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Response &amp; Evidence</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 안티 디버깅 모바일 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 주입이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,13 +51,16 @@ Deployment / Control / Feedback Flow
 | Enforcement | 빌드 실패, admission deny, network block 등으로 차단 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제 수준을 명확히 분리 |
 | Response & Evidence | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기록, remediation workflow를 관리 | 탐지만큼 조치와 증적이 중요 |
 
-```text
-Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Inventory            │──▶│ Policy & Scan        │──▶│ Enforcement          │──▶│ Response & Evidence  │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Reference Architecture</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inventory</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Policy &amp; Scan</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Enforcement</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Response &amp; Evidence</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -121,16 +127,20 @@ Reference Architecture
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Anti-debugging]
-    │
-    ▼
-[난독화 안티 디버깅 모바일 빌드 파이프라인 주입]
-    │
-    ├──▶ [Mobile Security]
-    ├──▶ [SBOM]
-    └──▶ [CVE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Anti-debugging</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">난독화 안티 디버깅 모바일 빌드 파이프라인 주입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Mobile Security</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SBOM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CVE</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 안티 디버깅 모바일 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 주입이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

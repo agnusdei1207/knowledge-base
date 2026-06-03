@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 인터넷에서 쏟아져 들어오는 막대한 트래픽 폭풍([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Requests)을, 뒤에 버티고 있는 여러 대의 서버 팜(Server Farm)이나 클라우드 인스턴스로 **'부하(Load)가 한곳에 몰리지 않게 공평하고 똑똑하게 균형을 맞춰 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Balancing)시켜 주는 네트워크 통신 분배 기술'**입니다. (시스템 무중단, 고가용성의 핵심)
+- **개념**: 인터넷에서 쏟아져 들어오는 막대한 트래픽 폭풍([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Requests)을, 뒤에 버티고 있는 여러 대의 서버 팜(Server Farm)이나 클라우드 인스턴스로 <strong>'부하(Load)가 한곳에 몰리지 않게 공평하고 똑똑하게 균형을 맞춰 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Balancing)시켜 주는 네트워크 통신 분배 기술'</strong>입니다. (시스템 무중단, 고가용성의 핵심)
 - **VIP (가상 IP)**: 사용자(클라이언트)는 서버 100대의 진짜 IP를 모릅니다. 오직 로드밸런서가 들고 있는 허공의 가짜 IP(VIP, Virtual IP) 하나로만 접속합니다. 로드밸런서가 이 패킷을 낚아채 진짜 서버 IP로 목적지를 바꿔치기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))해서 던져줍니다.
 
-```text
-[트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
-[로드 밸런싱]
-    │
-    └──▶ [라운드 로빈]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라운드 로빈</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 로드 밸런싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 1. 동작 원리 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 분배)
 - OSI 7계층 중 4계층(전송 계층)의 정보만 봅니다.
-- **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준**: **출발지 IP, 목적지 IP, [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80 등)** 딱 겉봉투만 1초 스캔하고, "아, 웹 트래픽이네" 판단 후 뒤에 있는 서버 10대 중 순서대로 아무 데나([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)) 냅다 던져버립니다.
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 기준</strong>: <strong>출발지 IP, 목적지 IP, <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 80 등)</strong> 딱 겉봉투만 1초 스캔하고, "아, 웹 트래픽이네" 판단 후 뒤에 있는 서버 10대 중 순서대로 아무 데나([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)) 냅다 던져버립니다.
 - 패킷의 본문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용)은 절대 뜯어보지 않습니다.
 
 ### 2. 장점과 한계
@@ -49,19 +53,23 @@ tags = ["studynote-network"]
 - 하지만 사용자가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면으로 네이버 뉴스를 보려는지, 로그인을 하려는지 목적을 모르기 때문에 디테일한 서버 맞춤 분배가 불가능합니다.
 
 실제 거대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(카카오, 토스 등)는 하나만 쓰지 않습니다. 
-- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 입구에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) **대형 쇳덩어리 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**를 방패막이로 세워 수천만 명의 트래픽을 큼직하게 1차로 박살 내어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킵니다. 
-- 그 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뒤에 수십 대의 똑똑한 소프트웨어 **L7 라우터(Nginx, HAProxy 등)**를 배열하여 세밀한 서비스별 분배(2차 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 융합하는 2단 콤보 전술을 사용합니다.
+- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 입구에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) <strong>대형 쇳덩어리 L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 방패막이로 세워 수천만 명의 트래픽을 큼직하게 1차로 박살 내어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킵니다. 
+- 그 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뒤에 수십 대의 똑똑한 소프트웨어 <strong>L7 라우터(Nginx, HAProxy 등)</strong>를 배열하여 세밀한 서비스별 분배(2차 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 융합하는 2단 콤보 전술을 사용합니다.
 
-```text
-[트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
-[로드 밸런싱]
-    │
-    └──▶ [라운드 로빈]
-```
 
-- **📢 섹션 요약 비유**: **L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 대형 공항의 '주차장 입구 안내요원'입니다. 들어오는 차(패킷)의 번호판(IP)만 보고, 창문 안은 들여다보지도 않은 채 "1번 구역으로 가세요~ 2번 구역으로 가세요~" 라며 차가 안 막히게 무작정 빈자리로 밀어 넣습니다(무식하지만 극강의 속도). 반면 **L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 특급 호텔의 '도어맨(안내 컨시어지)'입니다. 손님이 오면 차 문을 열고 들어가 여권([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 방문 목적([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URI)을 깐깐하게 물어봅니다. "아, 스파 예약 손님이시군요! 스파 전용 엘리베이터로 모시겠습니다. 앗, 식당 VIP 손님이시군요! 식당가로 안내하겠습니다!" 시간이 조금 더 걸리지만 손님의 목적(애플리케이션 내용)에 맞춰 100% 최적의 방으로 꽂아주는 천재적인 맞춤형 안내 시스템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라운드 로빈</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong>L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 대형 공항의 '주차장 입구 안내요원'입니다. 들어오는 차(패킷)의 번호판(IP)만 보고, 창문 안은 들여다보지도 않은 채 "1번 구역으로 가세요~ 2번 구역으로 가세요~" 라며 차가 안 막히게 무작정 빈자리로 밀어 넣습니다(무식하지만 극강의 속도). 반면 <strong>L7 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 특급 호텔의 '도어맨(안내 컨시어지)'입니다. 손님이 오면 차 문을 열고 들어가 여권([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 방문 목적([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URI)을 깐깐하게 물어봅니다. "아, 스파 예약 손님이시군요! 스파 전용 엘리베이터로 모시겠습니다. 앗, 식당 VIP 손님이시군요! 식당가로 안내하겠습니다!" 시간이 조금 더 걸리지만 손님의 목적(애플리케이션 내용)에 맞춰 100% 최적의 방으로 꽂아주는 천재적인 맞춤형 안내 시스템입니다.
 
 ---
 
@@ -71,15 +79,15 @@ tags = ["studynote-network"]
 
 ### 1. 동작 원리 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 본문 심층 해부)
 - OSI 7계층(응용 계층) 끝단까지 짐을 전부 다 까봅니다.
-- **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준**: **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URI 경로, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)) 값, 페이로드 본문 내용**을 현미경처럼 뜯어봅니다.
-- **마법 같은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: 
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 기준</strong>: <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> URI 경로, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 헤더, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>) 값, 페이로드 본문 내용</strong>을 현미경처럼 뜯어봅니다.
+- <strong>마법 같은 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: 
   - 사용자가 `domain.com/video`를 치면 ➜ [동영상 스트리밍 서버 10대]로 찢어줍니다.
   - 사용자가 `domain.com/pay`를 치면 ➜ [보안 결제 서버 5대]로 안전하게 찢어줍니다.
   - 헤더에 `Mobile=True`라고 적혀 있으면 ➜ [스마트폰 전용 가벼운 UI 서버]로 보내버립니다.
 
 ### 2. 추가 고급 기능 (L4가 못하는 것들)
-- **SSL [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Termination)**: 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 패킷을 웹서버 대신 L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 중간에서 복호화(비밀번호 풀기)해 주어, 뒤에 있는 웹서버의 CPU 부담을 덜어줍니다.
-- **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 (Sticky [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))**: 사용자의 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)' 값을 기억해서, A 사용자가 로그인했던 그 1번 서버로만 계속 연결을 유지해 주어 로그인이 안 풀리게(장바구니 유지) 꽉 잡아줍니다.
+- <strong>SSL <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> Termination)</strong>: 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 패킷을 웹서버 대신 L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 중간에서 복호화(비밀번호 풀기)해 주어, 뒤에 있는 웹서버의 CPU 부담을 덜어줍니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 유지 (Sticky <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)</strong>: 사용자의 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)' 값을 기억해서, A 사용자가 로그인했던 그 1번 서버로만 계속 연결을 유지해 주어 로그인이 안 풀리게(장바구니 유지) 꽉 잡아줍니다.
 
 로드 밸런싱을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…가 기반 조건을 만든다면, 로드 밸런싱은 그 위에서 핵심 메커니즘을 구현하고, [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -131,15 +139,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    │
-    ▼
-[현재 개념: 로드 밸런싱]
-    │
-    ├──▶ [확장 A: 라운드 로빈]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로드 밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 라운드 로빈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 로드 밸런싱는 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…에서 출발해 현재 메커니즘을 정교화하고, 이후 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

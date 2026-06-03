@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Address Table에서 특정 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 정보(예: `Port 1 -> Port 3 -> Port 1`)가 쉴 새 없이 변경되며 팔랑거리는(Flapping) 현상이다.
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 '학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))' 기능은 새로운 출발지 MAC을 보면 즉각 지도를 갱신하는 훌륭한 기능이지만, 맹점이 있다. "과연 정말로 노트북을 들고 1초 만에 저쪽 방으로 뛰어간 것일까?"라는 논리적 의심을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 하지 못한다. 관리자는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 로그에 "[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flapping" 에러가 뜨는 것을 보고 "아! 선이 어디선가 루프(동그랗게)로 꼬였구나!"라는 장애 상황을 즉각 인지해야 한다.
 
-- **💡 비유**: 길동이라는 학생 한 명이 있는데, 교문 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 보기에 **"길동이가 정문으로 들어왔다가 0.1초 만에 후문으로 또 들어오고, 다시 0.1초 만에 정문으로 또 들어오는" 분신술 현상**입니다. 경비 아저씨는 출입 명부를 찢었다 고쳤다 하다가 결국 정신을 잃고 쓰러집니다.
+- **💡 비유**: 길동이라는 학생 한 명이 있는데, 교문 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 보기에 <strong>"길동이가 정문으로 들어왔다가 0.1초 만에 후문으로 또 들어오고, 다시 0.1초 만에 정문으로 또 들어오는" 분신술 현상</strong>입니다. 경비 아저씨는 출입 명부를 찢었다 고쳤다 하다가 결국 정신을 잃고 쓰러집니다.
 
-```text
-[루프 문제]
-    │
-    ▼
-[MAC 주소 호핑]
-    │
-    └──▶ [스패닝 트리 프로토콜]
-```
 
-- **📢 섹션 요약 비유**: ** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 플래핑은 나침반의 자침이 북쪽을 가리키지 못하고 강력한 자기장(루프)에 휘말려 **"빙글빙글 미친 듯이 회전하여 길을 잃어버린 상태"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소 호핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스패닝 트리 프로토콜</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 플래핑은 나침반의 자침이 북쪽을 가리키지 못하고 강력한 자기장(루프)에 휘말려 </strong>"빙글빙글 미친 듯이 회전하여 길을 잃어버린 상태"**입니다.
 
 ---
 
@@ -48,28 +52,28 @@ tags = ["studynote-network"]
 4. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3번으로 들어온 패킷을 뜯어보니 출발지가 또 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A다! [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 기존 지도를 지우고 `MAC A = Port 3`이라고 수정(Flapping)해 버린다.
 5. 이 핑퐁이 빛의 속도로 일어난다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MAC Flapping (호핑) 발생 알고리즘                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A (MAC A) ] ────▶ (Port 1)                           │
- │                                │ (학습: MAC A는 1번에 있네)     │
- │                           [ 스위치 A ]                        │
- │                                │ ◀─ (Port 3)               │
- │                  (Port 2) ───┐ │ ┌───                      │
- │   * 선이 둥글게 꼬임           ▼ │ │                          │
- │                           [ 스위치 B ]                        │
- │           (패킷이 2번 포트로 나갔다가 3번 포트로 다시 돌아옴)         │
- │                                                             │
- │   * 스위치 A의 멘탈 붕괴 (CAM Table 갱신 릴레이)                │
- │   0.000초: [ MAC A : Port 1 ]                               │
- │   0.001초: [ MAC A : Port 3 ] (어? 3번으로 이사했나?)          │
- │   0.002초: [ MAC A : Port 1 ] (어? 다시 1번으로 왔나?)          │
- │   0.003초: [ MAC A : Port 3 ] (무한 반복)                     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC Flapping (호핑) 발생 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC A (MAC A)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Port 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학습: MAC A는 1번에 있네)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ (Port 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Port 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 선이 둥글게 꼬임 ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(패킷이 2번 포트로 나갔다가 3번 포트로 다시 돌아옴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스위치 A의 멘탈 붕괴 (CAM Table 갱신 릴레이)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0.000초:</div><div class="kb-diagram-node">MAC A : Port 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0.001초:</div><div class="kb-diagram-node">MAC A : Port 3</div><div class="kb-diagram-note">(어? 3번으로 이사했나?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0.002초:</div><div class="kb-diagram-node">MAC A : Port 1</div><div class="kb-diagram-note">(어? 다시 1번으로 왔나?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0.003초:</div><div class="kb-diagram-node">MAC A : Port 3</div><div class="kb-diagram-note">(무한 반복)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 치명적인 증상 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하)
 CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 통제 두뇌인 CPU의 개입([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 필요로 한다.
@@ -78,7 +82,7 @@ CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [�
 ### 3. 보안 측면의 원인 ([ARP Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/))
 해커가 공격 목적으로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flapping을 유도하기도 한다. 해커가 자신의 노트북을 꽂고 "내가 게이트웨이 라우터([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) R)다!"라고 가짜 패킷을 마구 뿌리면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 진짜 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 해커 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사이에서 갈팡질팡(Flapping)하게 되고, 결국 해커 쪽으로 모든 중요 데이터가 흘러 들어가게 된다.
 
-- **📢 섹션 요약 비유**: ** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 호핑 현상은 우체국 직원이 전산망에 **"홍길동의 주소가 서울, 부산, 서울, 부산으로 1초마다 바뀌어 찍히는 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)"**에 걸린 것과 같습니다. 직원은 도대체 편지를 서울로 보내야 할지 부산으로 보내야 할지 몰라 그 자리에 얼어붙고 맙니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 호핑 현상은 우체국 직원이 전산망에 </strong>"홍길동의 주소가 서울, 부산, 서울, 부산으로 1초마다 바뀌어 찍히는 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)"**에 걸린 것과 같습니다. 직원은 도대체 편지를 서울로 보내야 할지 부산으로 보내야 할지 몰라 그 자리에 얼어붙고 맙니다.
 
 ---
 
@@ -134,15 +138,19 @@ CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 루프 문제]
-    │
-    ▼
-[현재 개념: MAC 주소 호핑]
-    │
-    ├──▶ [확장 A: 스패닝 트리 프로토콜]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 루프 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MAC 주소 호핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스패닝 트리 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑는 [루프 문제](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

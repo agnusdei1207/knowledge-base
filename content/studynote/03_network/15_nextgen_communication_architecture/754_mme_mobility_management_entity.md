@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **정의**: 4G LTE의 핵심 코어망인 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)(Evolved Packet Core) 내에서, **오직 제어 평면(Control Plane)의 패킷(Signaling)만을 전담하여 처리하는 중앙 통제 서버**입니다.
+- **정의**: 4G LTE의 핵심 코어망인 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)(Evolved Packet Core) 내에서, <strong>오직 제어 평면(Control Plane)의 패킷(Signaling)만을 전담하여 처리하는 중앙 통제 서버</strong>입니다.
 - **특징**: 스마트폰이 다운받는 유튜브 영상 같은 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(User Plane)는 MME를 절대 거치지 않습니다. 철저하게 두뇌와 근육(S/P-GW)이 분리되어 있습니다.
 
-```text
-[EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
-[MME]
-    │
-    └──▶ [HSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MME</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MME는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,16 +52,20 @@ tags = ["studynote-network"]
 ### 3. [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) ([Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)) - "폰 위치 추적 및 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)" 🌟
 이름(MME)에 걸맞은 가장 중요한 기능입니다.
 - **위치 관리 (Tracking)**: 스마트폰이 배터리를 아끼려고 잠자기 모드([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에 들어갔을 때도, MME는 이 폰이 어느 동네(Tracking Area) 즈음에 있는지 엑셀 장부에 계속 업데이트합니다. 카톡이 오면 그 동네 기지국 전체에 "일어나라!"라는 호출([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 방송을 때립니다. (앞선 561번 HLR/VLR 위치 관리의 진화형입니다.)
-- **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 제어 ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**: 고속도로를 달리는 단말기가 A 기지국에서 B 기지국으로 넘어갈 때, A와 B가 "내가 넘겨줄게, 네가 받아라"라고 싸인(Signaling)을 주고받는 모든 중재와 승인 과정을 중앙에서 MME가 지휘합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 제어 (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong>: 고속도로를 달리는 단말기가 A 기지국에서 B 기지국으로 넘어갈 때, A와 B가 "내가 넘겨줄게, 네가 받아라"라고 싸인(Signaling)을 주고받는 모든 중재와 승인 과정을 중앙에서 MME가 지휘합니다.
 
-```text
-[EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
-[MME]
-    │
-    └──▶ [HSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MME</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MME의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,15 +127,19 @@ MME는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ▼
-[현재 개념: MME]
-    │
-    ├──▶ [확장 A: HSS]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MME</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 MME는 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) S-GW, P-GW 제어 망 트래픽…에서 출발해 현재 메커니즘을 정교화하고, 이후 HSS와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

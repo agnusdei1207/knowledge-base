@@ -25,21 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 왜 CPU와 도구 체인의 공통 문법인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        명령어 형식은 "비트열을 뜻으로 바꾸는 공용 문법"       │
-├──────────────────────────────────────────────────────────────┤
-│ 어셈블리: ADD R1, R2, #8                                     │
-│          │                                                   │
-│          ▼                                                   │
-│ 바이너리: [opcode][dst][src][imm]                            │
-│          │                                                   │
-│          ├─ opcode -> ALU (Arithmetic Logic Unit)에 덧셈 지시│
-│          ├─ dst    -> 결과를 기록할 레지스터 선택            │
-│          ├─ src    -> 입력 레지스터 선택                     │
-│          └─ imm    -> 즉시값 8 제공                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 형식은 "비트열을 뜻으로 바꾸는 공용 문법"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어셈블리: ADD R1, R2, #8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">바이너리:</div><div class="kb-diagram-node">opcode</div><div class="kb-diagram-node">dst</div><div class="kb-diagram-node">src</div><div class="kb-diagram-node">imm</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ opcode -&gt; ALU (Arithmetic Logic Unit)에 덧셈 지시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dst -&gt; 결과를 기록할 레지스터 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ src -&gt; 입력 레지스터 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ imm -&gt; 즉시값 8 제공</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 단순 저장 포맷이 아니라는 점이다. 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배열을 컴파일러는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙으로, CPU 전단부는 해독 규칙으로 사용한다. 이 약속이 흔들리면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 정렬, 분기 목표 계산, 파이프라인 해독 모두가 동시에 복잡해진다.
 
@@ -60,18 +60,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 예시는 32비트 [고정 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/171_fixed_length_instruction/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 예산을 어떻게 나누는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               32비트 명령어의 비트 예산 예시                 │
-├────────┬──────┬──────┬──────┬────────────────────────────────┤
-│ opcode │  rd  │ rs1  │ rs2  │ immediate / funct / offset    │
-│  6bit  │ 5bit │ 5bit │ 5bit │            11bit              │
-├────────┴──────┴──────┴──────┴────────────────────────────────┤
-│ 6bit opcode  -> 최대 64개 기본 연산                          │
-│ 5bit reg     -> 레지스터 32개 지정 가능                      │
-│ 11bit imm    -> 짧은 상수·분기 범위만 직접 내장              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32비트 명령어의 비트 예산 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">opcode</div><div class="kb-diagram-cell">rd</div><div class="kb-diagram-cell">rs1</div><div class="kb-diagram-cell">rs2</div><div class="kb-diagram-cell">immediate / funct / offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6bit</div><div class="kb-diagram-cell">5bit</div><div class="kb-diagram-cell">5bit</div><div class="kb-diagram-cell">5bit</div><div class="kb-diagram-cell">11bit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6bit opcode -&gt; 최대 64개 기본 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5bit reg -&gt; 레지스터 32개 지정 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11bit imm -&gt; 짧은 상수·분기 범위만 직접 내장</div></div>
+</div>
+</div>
+
+
 
 이 구조는 "모든 것을 한 줄에 넣을 수는 없다"는 사실을 드러낸다. 예를 들어 큰 상수를 자주 쓰는 ISA라면 [Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 넓히거나, 상수 로드 전용 명령을 따로 둬야 한다. 반대로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반 연산을 많이 하는 설계라면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 필드 수와 폭을 충분히 확보하는 편이 전체 성능에 유리하다.
 
@@ -112,25 +114,24 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 "이 ISA를 어디에 쓸 것인가"라는 질문과 함께 판단해야 한다. 플래시 메모리가 작은 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/), MCU)에서는 코드 밀도가 중요하므로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 큰 가치가 있다. 반대로 초당 수십억 개 명령을 해독해야 하는 고성능 CPU 전단부에서는 규칙적인 필드 배치와 고정 길이 해독이 더 중요하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            명령어 형식 설계 시 가장 먼저 볼 질문             │
-├──────────────────────────────────────────────────────────────┤
-│ 전단부 해독 속도가 병목인가?                                │
-│   ├─ 예  -> 필드 위치 고정, 고정 길이 형식 우선              │
-│   └─ 아니오                                                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 메모리 용량과 코드 크기가 더 민감한가?                      │
-│   ├─ 예  -> 가변 길이 또는 압축 형식 검토                    │
-│   └─ 아니오                                                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 미래 확장 명령이 필요한가?                                  │
-│   ├─ 예  -> reserved opcode / funct 영역 확보                │
-│   └─ 아니오 -> 현재 워크로드 최적화에 집중                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 형식 설계 시 가장 먼저 볼 질문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전단부 해독 속도가 병목인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 필드 위치 고정, 고정 길이 형식 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 용량과 코드 크기가 더 민감한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 가변 길이 또는 압축 형식 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미래 확장 명령이 필요한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; reserved opcode / funct 영역 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 -&gt; 현재 워크로드 최적화에 집중</div></div>
+</div>
+</div>
+
+
 
 실무 시나리오를 보면 판단 기준이 더 분명해진다. 첫째, 임베디드 제어기처럼 프로그램 저장 공간이 256KB 안팎으로 작은 시스템은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 형식의 효과가 매우 크다. 둘째, 서버 CPU처럼 분기 예측과 다중 해독이 핵심인 시스템은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계가 빠르게 드러나는 형식이 유리하다. 셋째, 커스텀 가속기나 벡터 확장을 염두에 둔 ISA는 현재 성능뿐 아니라 미래 명령 확장을 위한 예약 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 남겨 둬야 한다.
 
@@ -176,18 +177,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령 의미 정의
-    │
-    ▼
-비트 필드 분할 (opcode · register · immediate)
-    │
-    ├──────────────▶ 주소 개수 설계 (0/1/2/3-주소)
-    ├──────────────▶ 고정 길이 vs 가변 길이 선택
-    ├──────────────▶ 주소 지정 방식 부호화
-    ▼
-디코더 구조 · 코드 밀도 · 확장성 결정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령 의미 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 필드 분할 (opcode · register · immediate)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 주소 개수 설계 (0/1/2/3-주소)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 고정 길이 vs 가변 길이 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 주소 지정 방식 부호화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디코더 구조 · 코드 밀도 · 확장성 결정</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 단순 저장 포맷을 넘어서, 주소 방식·[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 구조·미래 확장 정책까지 연쇄적으로 결정하는 과정을 보여준다.
 

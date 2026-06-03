@@ -10,28 +10,34 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: FGI(Focus Group Interview)는 **6~10명의 대상 사용자를 모아 모더레이터가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 구조화된 그룹 토론**으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.
-> 2. **가치**: 1:1 인터뷰는 개인 의견만 듣지만, FGI는 **참가자 간 상호작용(동의·반박·영감)**에서 개인 인터뷰로는 나오지 않는 **집단적 인사이트**를 발견한다.
+> 1. **본질**: FGI(Focus Group Interview)는 <strong>6~10명의 대상 사용자를 모아 모더레이터가 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>하는 구조화된 그룹 토론</strong>으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.
+> 2. **가치**: 1:1 인터뷰는 개인 의견만 듣지만, FGI는 <strong>참가자 간 상호작용(동의·반박·영감)</strong>에서 개인 인터뷰로는 나오지 않는 <strong>집단적 인사이트</strong>를 발견한다.
 > 3. **판단 포인트**: 모더레이터의 중립성·[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 스킬이 성패를 좌우하며, 2~3회 반복 실시하여 포화(Saturation)에 도달해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-FGI 진행: 모더레이터 + 6~10명 참가자
-  도입(5분) → 주제 토론(60분) → 정리(10분)
-  녹음·녹화 → 전사(Transcript) → 코딩·분석
-  → 2~3회 반복하여 포화점 확인
-```
 
-- **📢 섹션 요약 비유**: FGI는 **토크쇼**이다. MC(모더레이터)가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FGI 진행: 모더레이터 + 6~10명 참가자</div>
+<div class="kb-diagram-note">도입(5분) → 주제 토론(60분) → 정리(10분)</div>
+<div class="kb-diagram-note">녹음·녹화 → 전사(Transcript) → 코딩·분석</div>
+<div class="kb-diagram-note">→ 2~3회 반복하여 포화점 확인</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: FGI는 <strong>토크쇼</strong>이다. MC(모더레이터)가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-FGI는 **사용자 인식·태도 파악의 핵심 정성 기법**이며, 그룹 상호작용이 개인 인터뷰 대비 풍부한 인사이트를 제공한다.
+FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>이며, 그룹 상호작용이 개인 인터뷰 대비 풍부한 인사이트를 제공한다.
 
 ---
 
@@ -47,16 +53,22 @@ FGI는 **사용자 인식·태도 파악의 핵심 정성 기법**이며, 그룹
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비공식 그룹 토론] → [FGI (마케팅, 1950s)]
-    → [UX FGI (2005~)] → [온라인 FGI (Zoom, 2020)]
-    → [현재: AI FGI 분석 — 토론 자동 전사·감성 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비공식 그룹 토론</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FGI (마케팅, 1950s)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UX FGI (2005~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">온라인 FGI (Zoom, 2020)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI FGI 분석 — 토론 자동 전사·감성 분석</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. FGI는 **토크쇼**예요. MC가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 **여러 사람이 의견**을 나눠요.
+1. FGI는 <strong>토크쇼</strong>예요. MC가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 <strong>여러 사람이 의견</strong>을 나눠요.
 2. 혼자 말할 때와 달리 **서로 이야기하면** 새로운 아이디어가 나와요.
-3. "아, 나도 그래!" 하면서 **숨겨진 생각**이 드러나요!
+3. "아, 나도 그래!" 하면서 <strong>숨겨진 생각</strong>이 드러나요!
 
 ---
 

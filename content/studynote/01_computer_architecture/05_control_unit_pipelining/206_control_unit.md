@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 제어 유닛은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해독하고 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 발생시켜 프로세서의 각 구성 요소를 올바른 순서로 움직이게 만드는 회로다. 메모리에서 `ADD`, `LOAD`, `BRANCH` 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어와도, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), 메모리 인터페이스, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))는 스스로 무엇을 해야 하는지 판단하지 못한다. 이 비트열을 실제 행동으로 바꾸는 번역 계층이 바로 제어 유닛이다.
 
-제어 유닛이 필요한 이유는 하드웨어가 단순히 "계산 가능한 부품"의 집합에 그치지 않기 때문이다. 같은 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)라도 어떤 순간에는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽고, 다음 순간에는 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산을 선택하고, 그다음 순간에는 결과를 다시 써야 한다. 이 순서가 흐트러지면 잘못된 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 값이 기록되거나, 메모리를 읽기도 전에 다음 단계가 진행되어 오동작이 발생한다. 결국 제어 유닛은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위한 장치이기 전에, 먼저 **정확한 순서를 보장하는 장치**다.
+제어 유닛이 필요한 이유는 하드웨어가 단순히 "계산 가능한 부품"의 집합에 그치지 않기 때문이다. 같은 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)라도 어떤 순간에는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽고, 다음 순간에는 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산을 선택하고, 그다음 순간에는 결과를 다시 써야 한다. 이 순서가 흐트러지면 잘못된 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 값이 기록되거나, 메모리를 읽기도 전에 다음 단계가 진행되어 오동작이 발생한다. 결국 제어 유닛은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위한 장치이기 전에, 먼저 <strong>정확한 순서를 보장하는 장치</strong>다.
 
 특히 파이프라인 구조에서는 제어 유닛의 중요성이 더 커진다. 단일 사이클 구조에서는 "한 번에 끝낸다"는 단순함이 있지만, 다중 사이클과 파이프라인 구조에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 여러 단계에 걸쳐 동시에 진행된다. 따라서 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 종류뿐 아니라 단계 정보, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 해저드 여부까지 함께 고려해 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만들어야 한다. 제어 유닛이 정교해질수록 CPU는 더 빠르게 움직일 수 있지만, 동시에 설계 복잡도와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난도도 커진다.
 
@@ -35,23 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 제어 유닛이 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석"을 "배선 제어"로 바꾸는 전체 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                제어 유닛의 입력-판단-출력 흐름                              │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ [입력]                 [해독/판단]                    [출력]                 │
-│ IR Opcode ───────┐                                                     ┌──▶ │
-│ 상태 플래그 ───┐ │   ┌──────────────────────────────┐                  │ALU │
-│ 사이클 단계 ─┐ │ └──▶│ 명령어 디코더               │──┐               └──▶ │
-│ 인터럽트 ──┐ │ │     │ 상태/타이밍 판단 로직       │  ├── 제어 신호 ─────▶ │
-│            ▼ ▼ ▼     │ 우선순위/예외 처리           │──┘               ┌──▶ │
-│          조건 조합 ─▶│ (분기, 스톨, 인터럽트 반영)  │                  │MEM │
-│                    └──────────────────────────────┘                  └──▶ │
-│                                                                         ┌▶ │
-│                                                                         │PC│
-│                                                                         └▶ │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 유닛의 입력-판단-출력 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-node">해독/판단</div><div class="kb-diagram-node">출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR Opcode ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 플래그</div><div class="kb-diagram-cell">ALU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 단계 ─</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">명령어 디코더</div><div class="kb-diagram-cell">── ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 ──</div><div class="kb-diagram-cell">상태/타이밍 판단 로직</div><div class="kb-diagram-cell">── 제어 신호 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ ▼</div><div class="kb-diagram-cell">우선순위/예외 처리</div><div class="kb-diagram-cell">── ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 조합 ─▶</div><div class="kb-diagram-cell">(분기, 스톨, 인터럽트 반영)</div><div class="kb-diagram-cell">MEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 제어 유닛이 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계산하지 않는다는 점이다. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)가 움직이고, 제어 유닛은 어느 경로를 열고 닫을지만 결정한다. 그래서 제어 유닛 설계 품질은 "연산 능력"보다 "올바른 순간에 올바른 스위치를 켜는 능력"으로 평가된다. 파이프라인 환경에서는 단계별로 필요한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다르기 때문에, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 한 번에 다 뿌리는 것이 아니라 각 단계에 맞춰 분배하고 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 함께 전달한다.
 
@@ -62,7 +62,7 @@ tags = ["studynote-computer-architecture"]
 | 상태 판단 로직 | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/), Carry, [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등 반영 | 예외 처리 우선순위 충돌 방지 |
 | 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기 | [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) 각 블록으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 배포 | 팬아웃, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 글리치 방지 |
 
-실제로는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 하나가 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하기도 한다. 예를 들어 분기 명령에서 `PCSel` 판단이 늦어지면 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고, 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 한 사이클만 잘못 활성화되어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상이 일어난다. 따라서 제어 유닛은 기능 블록이라기보다 **프로세서의 타이밍 규칙을 물리 회로로 고정한 계층**으로 이해하는 편이 정확하다.
+실제로는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 하나가 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하기도 한다. 예를 들어 분기 명령에서 `PCSel` 판단이 늦어지면 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고, 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 한 사이클만 잘못 활성화되어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상이 일어난다. 따라서 제어 유닛은 기능 블록이라기보다 <strong>프로세서의 타이밍 규칙을 물리 회로로 고정한 계층</strong>으로 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 제어 유닛은 철도 분기실과 같다. 열차 자체를 끌지는 않지만, 선로 전환기를 어느 순간에 바꾸느냐에 따라 열차가 목적지에 정확히 도착할 수도 있고 완전히 다른 곳으로 갈 수도 있다.
 
@@ -102,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 
 - **고속 파이프라인 프로세서**: 분기 결과가 늦게 나오면 잘못 인출한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 여러 단계에서 폐기해야 하므로, 제어 유닛은 분기 판단을 앞당기거나 예측 실패 시 빠르게 플러시할 수 있어야 한다.
 - **보안 패치가 중요한 범용 프로세서**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 의미를 바꾸거나 우회 로직을 추가해야 할 가능성이 있으므로, 마이크로코드 패치가 가능한 구조가 운영 측면에서 유리하다.
-- **초저전력 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU)**: 복잡한 명령 확장보다 낮은 전력과 짧은 응답 시간이 우선이므로, 단순 [하드와이어드 제어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/)가 적합하다.
+- <strong>초저전력 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">마이크로컨트롤러</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">Microcontroller</a> Unit, MCU)</strong>: 복잡한 명령 확장보다 낮은 전력과 짧은 응답 시간이 우선이므로, 단순 [하드와이어드 제어](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/214_hardwired_control/)가 적합하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -120,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 제어 유닛은 무조건 복잡할수록 좋은 구조가 아니다. 제어 규칙이 많아질수록 회로 길이가 늘고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 조합 수가 급증하며, 임계 경로가 쉽게 길어진다. 그래서 현대 프로세서는 단순한 핵심 실행 경로는 빠르게 고정하고, 복잡한 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 요구는 별도 번역 계층이나 마이크로코드로 흡수하는 하이브리드 방식을 택한다.
 
-정리하면 제어 유닛은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해석하는 부품"이 아니라, **프로세서 전체에 질서를 부여하는 타이밍 헌법**으로 기억하는 것이 좋다. [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)가 힘이라면, 제어 유닛은 그 힘이 낭비되지 않게 만드는 규칙이다.
+정리하면 제어 유닛은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해석하는 부품"이 아니라, <strong>프로세서 전체에 질서를 부여하는 타이밍 헌법</strong>으로 기억하는 것이 좋다. [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)가 힘이라면, 제어 유닛은 그 힘이 낭비되지 않게 만드는 규칙이다.
 
 - **📢 섹션 요약 비유**: 좋은 제어 유닛은 도로를 더 넓히는 것이 아니라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 더 똑똑하게 만드는 일과 같다. 차는 원래 엔진으로 달리지만, 도시의 흐름은 결국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 결정한다.
 
@@ -138,20 +138,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령어 해독 필요
-    │
-    ▼
-제어 유닛 (Control Unit)
-    │
-    ├─▶ 하드와이어드 제어
-    │       │
-    │       └─▶ 고속 파이프라인 · 저전력 RISC
-    │
-    └─▶ 마이크로프로그래밍 제어
-            │
-            └─▶ 복잡한 ISA · 마이크로코드 패치 · μOps 번역
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령어 해독 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 유닛 (Control Unit)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 하드와이어드 제어</div>
+<div class="kb-diagram-note">─▶ 고속 파이프라인 · 저전력 RISC</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 마이크로프로그래밍 제어</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 복잡한 ISA · 마이크로코드 패치 · μOps 번역</div>
+</div>
+</div>
+
+
 
 이 흐름은 제어 유닛이 단순한 해독기에서 출발해, 속도 중심 경로와 유연성 중심 경로로 분화한 뒤 현대 프로세서에서는 다시 하이브리드 형태로 수렴하는 과정을 보여준다.
 

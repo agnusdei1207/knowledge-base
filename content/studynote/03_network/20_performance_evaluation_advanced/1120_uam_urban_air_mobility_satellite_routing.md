@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 에어택시는 자율주행차(1024번 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))보다 백 배 더 빡센 통신이 필요합니다.
-- **안전 절대주의**: 에어택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))는 시속 300km로 날아다니는 날아다니는 폭탄입니다. 통신이 1초([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 끊겨서 옆 비행기랑 부딪히면 승객 전원이 즉사합니다(도심 추락 대참사). [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연)는 기본이고, **[C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)([Command & Control](/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/), 비행 제어 명령) 통신**은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 99.9999% 무중단이 생명줄입니다.
+- **안전 절대주의**: 에어택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))는 시속 300km로 날아다니는 날아다니는 폭탄입니다. 통신이 1초([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 끊겨서 옆 비행기랑 부딪히면 승객 전원이 즉사합니다(도심 추락 대참사). [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연)는 기본이고, <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/">C2</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/">Command & Control</a>, 비행 제어 명령) 통신</strong>은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 99.9999% 무중단이 생명줄입니다.
 - **커버리지의 맹점**: 기존 통신사 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑은 15도 각도로 '아래(땅)'를 향해 전파를 쏩니다(Tilt). 고도 300m ~ 600m 허공을 나는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 기체에는 전파 찌꺼기(사이드 로브 노이즈)만 미세하게 닿거나 아예 전파가 죽어버립니다(No [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)).
 
-```text
-[6G 융합 테라헤르츠 예측 지표망]
-    │
-    ▼
-[위성 기반 도심항공교통 라우팅 통신 구조 모…]
-    │
-    └──▶ [1121번 개념]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1121번 개념</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,28 +46,32 @@ tags = ["studynote-network"]
 
 ### 1. 지상 5G망의 상공 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) (Air-to-Ground) 🌟
 땅의 기지국을 개조해서 하늘로 쏩니다.
-- 1115번에서 배운 **[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)([대규모 다중 안테나](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))**를 활용합니다.
-- 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩셋이 만드는 정밀한 레이저 빔(3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))의 각도를 아예 **하늘 위(수직 빔 조향, Vertical Beam Steering)**로 확 꺾어 올려버립니다.
+- 1115번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">대규모 다중 안테나</a>)</strong>를 활용합니다.
+- 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩셋이 만드는 정밀한 레이저 빔(3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))의 각도를 아예 <strong>하늘 위(수직 빔 조향, Vertical Beam Steering)</strong>로 확 꺾어 올려버립니다.
 - 시속 300km로 날아가는 UAM의 궤적을 AI가 0.001초 단위로 쫓아가며(Beam Tracking) 레이저를 정확히 기체의 꼬리에 꽂아 넣어, 500m 허공에서도 1Gbps 속도로 영화를 보게 해줍니다.
 
 ### 2. [저궤도 위성망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) ([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Space-to-Air) 🌟
 이게 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 생존의 궁극기입니다.
 - 하늘을 날다가 에어택시가 남산 서울타워 뒤편 건물 그림자(사각지대)로 쏙 들어가 버렸습니다. 땅에서 쏘는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 빔이 벽에 막혀 끊겼습니다.
-- **0.1초의 기적**: 에어택시 뚜껑에 달려있던 위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 땅바닥 통신을 즉시 포기하고, **우주 500km 고도에 떠 있는 1022번 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(스타링크/원웹)과 즉각 1:1 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 뚫어버립니다(하이브리드 통신 절체).**
+- **0.1초의 기적**: 에어택시 뚜껑에 달려있던 위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 땅바닥 통신을 즉시 포기하고, <strong>우주 500km 고도에 떠 있는 1022번 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">저궤도 위성</a>(스타링크/원웹)과 즉각 1:1 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>을 뚫어버립니다(하이브리드 통신 절체).</strong>
 - 우주 위성은 에어택시를 하늘에서 땅으로 내리꽂아 수직으로 비춰주기 때문에, 남산타워 뒤 건물 그림자에 100% 구애받지 않는 절대 끊기지 않는 100% 무중단 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)(조종) 통신망을 수호합니다.
 
 ### 3. V2V 기체 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) (Air-to-Air)
 - 1024번 자동차 V2X처럼 에어택시들끼리도 전파를 쏩니다. 
 - 앞 에어택시가 갑자기 돌풍을 만나 고도를 확 낮추면, 지상 기지국을 거칠 틈도 없이 뒷 기체로 다이렉트로 브로드캐스트 경보(V2V)를 날려 공중 충돌을 0.01초 만에 회피해 냅니다.
 
-```text
-[6G 융합 테라헤르츠 예측 지표망]
-    │
-    ▼
-[위성 기반 도심항공교통 라우팅 통신 구조 모…]
-    │
-    └──▶ [1121번 개념]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1121번 개념</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,7 +80,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 에어택시 수백 대와 위성 수천 대가 동시에 하늘을 날아다닙니다. 목적지로 가는 최단 경로([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등)가 1초마다 박살 나고 바뀝니다.
-- **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)**: 지상 관제 센터([UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/))의 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컨트롤러가 기체와 위성의 궤도 궤적을 미리 계산해서, "1번 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)! 너 10초 뒤에 빌딩 그림자 들어가니까, 지금 당장 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 끊고 35번 위성 쪽으로 통신 꺾어놔!" 라며 1초 앞의 길 찾기 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 실시간으로 강제 주입(Make-before-break)하는 미친 선제적 융합망 기술이 6G의 최종 목표입니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>/<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/">동적 라우팅</a></strong>: 지상 관제 센터([UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/))의 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 컨트롤러가 기체와 위성의 궤도 궤적을 미리 계산해서, "1번 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)! 너 10초 뒤에 빌딩 그림자 들어가니까, 지금 당장 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 끊고 35번 위성 쪽으로 통신 꺾어놔!" 라며 1초 앞의 길 찾기 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 실시간으로 강제 주입(Make-before-break)하는 미친 선제적 융합망 기술이 6G의 최종 목표입니다.
 
 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망이 기반 조건을 만든다면, 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…는 그 위에서 핵심 메커니즘을 구현하고, 1121번 개념은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존의 **지상 통신망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))**은 운동장(땅)에 모여있는 학생들을 향해 스탠드 위 교장 선생님이 **'아래로 내리쬐는 확성기 방송'**입니다. 하늘 높이 던져 올린 종이비행기([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))에는 선생님 목소리가 잘 닿지 않아 통제 불능(사각지대)이 됩니다. **[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 통신망**은 종이비행기가 떨어지지 않게 3방향에서 입체적으로 보호하는 **'우주-공중-지상 완벽 3D 트라이앵글 빔망'**입니다. 첫 번째로 운동장 스피커 여러 개를 아예 하늘로 틀어서 종이비행기를 따라가며 소리를 쏩니다(상공 3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)). 하지만 비행기가 큰 나무(고층 빌딩) 뒤로 숨어 땅의 소리가 끊어지는 찰나의 순간! 하늘 우주 끝에 떠 있던 **'거대한 드론([저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))'**이 수직으로 비행기를 향해 무전(위성 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 내리꽂아 1초의 조종 끊김도 없이 비행기를 완벽하게 잡아채어 살려냅니다. 지상의 사각지대를 우주의 시야로 메꿔내어, 수백 대의 무인 택시가 도심 빌딩 숲 하늘을 날아다녀도 절대 엉켜서 부딪히지 않게 통제하는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 입체 통신의 최종 보스 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존의 <strong>지상 통신망(<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>은 운동장(땅)에 모여있는 학생들을 향해 스탠드 위 교장 선생님이 <strong>'아래로 내리쬐는 확성기 방송'</strong>입니다. 하늘 높이 던져 올린 종이비행기([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))에는 선생님 목소리가 잘 닿지 않아 통제 불능(사각지대)이 됩니다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a>(도심 항공 모빌리티) 통신망</strong>은 종이비행기가 떨어지지 않게 3방향에서 입체적으로 보호하는 <strong>'우주-공중-지상 완벽 3D 트라이앵글 빔망'</strong>입니다. 첫 번째로 운동장 스피커 여러 개를 아예 하늘로 틀어서 종이비행기를 따라가며 소리를 쏩니다(상공 3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)). 하지만 비행기가 큰 나무(고층 빌딩) 뒤로 숨어 땅의 소리가 끊어지는 찰나의 순간! 하늘 우주 끝에 떠 있던 <strong>'거대한 드론(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">저궤도 위성</a>)'</strong>이 수직으로 비행기를 향해 무전(위성 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 내리꽂아 1초의 조종 끊김도 없이 비행기를 완벽하게 잡아채어 살려냅니다. 지상의 사각지대를 우주의 시야로 메꿔내어, 수백 대의 무인 택시가 도심 빌딩 숲 하늘을 날아다녀도 절대 엉켜서 부딪히지 않게 통제하는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 입체 통신의 최종 보스 아키텍처입니다.
 
 ---
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 6G 융합 테라헤르츠 예측 지표망]
-    │
-    ▼
-[현재 개념: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
-    │
-    ├──▶ [확장 A: 1121번 개념]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 6G 융합 테라헤르츠 예측 지표망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 1121번 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망에서 출발해 현재 메커니즘을 정교화하고, 이후 1121번 개념와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

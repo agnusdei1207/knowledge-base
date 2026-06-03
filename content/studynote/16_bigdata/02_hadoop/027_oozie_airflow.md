@@ -43,43 +43,38 @@ Airflow는 2014년 Airbnb(현 [Apache Airflow](/knowledge-base/studynote/14_data
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Apache Airflow 아키텍처 ] │
-│ │
-│ [Web Server] ─────── UI 대시보드 (DAG 모니터링) │
-│ │ │
-│ [Triggerer] ─────── DAG 실행 트리거 (이벤트 기반) │
-│ │ │
-│ [Scheduler] ─────── DAG 실행 스케줄링 ( Cron 기반) │
-│ │ 메타스토어에서 실행대상 DAG 탐색 │
-│ │ → Task Instance 생성 → 메시지 큐에 │
-│ │ │
-│ [Executor] ───────── 작업 실행 방식 결정 │
-│ ├─ LocalExecutor: 같은 프로세스 내 병렬 실행 (개발용) │
-│ ├─ CeleryExecutor: Celery Workers에 작업 분산 (확장성) │
-│ ├─ KubernetesExecutor: Kubernetes Pod 단위 실행 (격리성) │
-│ └─ CeleryKubernetesExecutor: Hybrid │
-│ │ │
-│ [Message Queue (Celery Backend)] │
-│ └─ Redis / RabbitMQ ─── Task를 Worker에 전달 │
-│ │ │
-│ [Workers] ─────────── 실제 태스크 실행 │
-│ ├─ Worker 1: [Task A], [Task C] 실행 │
-│ ├─ Worker 2: [Task B], [Task D] 실행 │
-│ └─ Worker 3: [Task E] 실행 │
-│ │ │
-│ [메타스토어 (Metadata Database)] │
-│ ├─ DAG 정의 (Python 코드) │
-│ ├─ Task Instance 상태 (queued/running/success/failed) │
-│ ├─ 실행 로그 │
-│ └─ XCom (태스크 간 데이터 공유) │
-│ │ │
-│ [Airflow Plugins / Providers] │
-│ └─ Snowflake, BigQuery, Databricks, Kafka, etc. (400+ 통합) │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Airflow 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Web Server</div><div class="kb-diagram-note">UI 대시보드 (DAG 모니터링)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Triggerer</div><div class="kb-diagram-note">DAG 실행 트리거 (이벤트 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scheduler</div><div class="kb-diagram-note">DAG 실행 스케줄링 ( Cron 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타스토어에서 실행대상 DAG 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Task Instance 생성 → 메시지 큐에</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executor</div><div class="kb-diagram-note">작업 실행 방식 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ LocalExecutor: 같은 프로세스 내 병렬 실행 (개발용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CeleryExecutor: Celery Workers에 작업 분산 (확장성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ KubernetesExecutor: Kubernetes Pod 단위 실행 (격리성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CeleryKubernetesExecutor: Hybrid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Message Queue (Celery Backend)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Redis / RabbitMQ Task를 Worker에 전달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Workers</div><div class="kb-diagram-note">실제 태스크 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Worker 1:</div><div class="kb-diagram-node">Task A</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Task C</div><div class="kb-diagram-note">실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Worker 2:</div><div class="kb-diagram-node">Task B</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Task D</div><div class="kb-diagram-note">실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Worker 3:</div><div class="kb-diagram-node">Task E</div><div class="kb-diagram-note">실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타스토어 (Metadata Database)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DAG 정의 (Python 코드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Task Instance 상태 (queued/running/success/failed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실행 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ XCom (태스크 간 데이터 공유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Airflow Plugins / Providers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Snowflake, BigQuery, Databricks, Kafka, etc. (400+ 통합)</div></div>
+</div>
+</div>
+
+
 
 ### 1. Apache Oozie의 Workflow 구조
 Oozie의 Workflow는 XML로 정의되며, HDFS에 배포되어 YARN에서 실행됩니다.
@@ -162,9 +157,9 @@ ingest_task >> transform_task >> check_quality
 |:---|:---|:---|
 | **정의 방식** | XML ([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 배포) | Python 코드 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리) |
 | **실행 환경** | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계) | 자체 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) + Worker (독립적) |
-| **[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 모델** | Action/Control Node | [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) (Python, Bash, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), etc.) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 모델</strong> | Action/Control Node | [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) (Python, Bash, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), etc.) |
 | **에러 핸들링** | 기본 (error-to, retry) | 풍부 (Trigger Rules, Callback, Slack 알림) |
-| **UI/[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링** | 기본 | 풍부 (Gantt, Tree, [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 뷰) |
+| <strong>UI/<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong> | 기본 | 풍부 (Gantt, Tree, [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 뷰) |
 | **확장성** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 스케일, 하지만 제한적 | Celery/K8s로 대규모 확장 |
 | **주요 사용자** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 레거시 | 모던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 |
 
@@ -178,9 +173,9 @@ ingest_task >> transform_task >> check_quality
 |:---|:---|:---|
 | **학습 곡선** | 상대적으로 완만한 (XML) | Python 엔지니어에게 친숙 |
 | **계통합** | Hadoop와/과 | 400+ 외부 시스템Integration ([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)) |
-| **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링** | 기본적 | 매우 풍부 (Gantt, Tree, Slack 연동) |
-| **에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 기본 (재시도, 알림) | 세밀함 (Trigger Rules, Depends on Past, Backfill) |
-| **[멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)** | 제한적 | Celery + K8s로원활한 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong> | 기본적 | 매우 풍부 (Gantt, Tree, Slack 연동) |
+| <strong>에러 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 기본 (재시도, 알림) | 세밀함 (Trigger Rules, Depends on Past, Backfill) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">멀티 테넌시</a></strong> | 제한적 | Celery + K8s로원활한 |
 | **Python 활용** | 불가 (별도 Python [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 필요) | 네이티브 Python 활용 |
 | **현재 유지보수** | 크게 활발하지 않음 | 매우 활발 ([Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) + Astronomer, AWS MWAA 등) |
 
@@ -195,9 +190,9 @@ ingest_task >> transform_task >> check_quality
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
 | **기존 인프라** | 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 환경 → Oozie 스럽게 Integration | 신규 / Cloud 환경 → Airflow |
-| **팀 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)** | Java 중심 → Oozie XML (Java [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) | Python 중심 → Airflow (네이티브) |
+| <strong>팀 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | Java 중심 → Oozie XML (Java [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) | Python 중심 → Airflow (네이티브) |
 | **통합 필요성** | Hadoop → Oozie | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등 400+ → Airflow |
-| **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 요구** |모니터링 → Oozie | 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 알람 → Airflow |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 요구</strong> |모니터링 → Oozie | 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 알람 → Airflow |
 
 *(추가 실무 적용 가이드 - Airflow 도입 [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))*
 - **Airflow가 적합한 경우**: Python 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)/[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)/[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 등 모던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 활용, 상세 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 필요, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)/CD/CD 요구
@@ -210,13 +205,13 @@ ingest_task >> transform_task >> check_quality
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **Airflow의 완전히 관리되는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확산**
+1. <strong>Airflow의 완전히 관리되는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 확산</strong>
 AWS MWAA (Managed Workflows for [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)), Astronomer Cloud, Google Cloud Composer 등 fully managed Airflow [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확산됨에 따라,"[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)/웹서버/Worker 관리"의 운영 부담이 크게 줄어들고 있습니다. 이는"[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Airflow"라는 개념으로 진화하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가"[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 logic 설계"에만 집중할 수 있는 환경을 제공합니다.
 
-2. **Dagster의 : "엔지니어링 우선" [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)**
+2. <strong>Dagster의 : "엔지니어링 우선" <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a></strong>
 Prefect와 Dagster는 Airflow의"단점"(예: 테스트 어려움, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 외부 시스템의,세밀한 리소스 격리 어려움)을 개선한"차세대" [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구로 떠오르고 있습니다. 특히 Dagster는"소스 코드 수준의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 테스트", "타ипа 기반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링", "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 완벽한 분리"를 통해"엔지니어링 품질"을 한 단계 끌어올립니다.
 
-3. **Temporal의: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 스타일의 워크플로우**
+3. <strong>Temporal의: <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 스타일의 워크플로우</strong>
 Temporal은" طول 수명Workflow( Long-Running Workflow)"와"[분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)"을 네이티브하게 지원하는 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼으로,거래나 주문 처리처럼"여러 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 참여하는 장기간의 Workflow"에 적합합니다. 이는"단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)"을 넘어"비즈니스 프로세스 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)"으로의 확장을 보여줍니다.
 
 - **📢 섹션 요약 비유**: 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 미래 진화는"의"에 비유할 수 있습니다. 현재의 Airflow는" Recipe를 따라 조리하는 자동시스템"로, 레시피( [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))대로 조리하고, 각 단계( [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))를 실행하며, 실패하면합니다. 미래의 Dagster는" kitchenAssistant"으로, 각 조리 단계뿐 아니라" 식재료 선별-검수-조리-서빙" 전 과정에 대해"품질 테스트"와"영양소 분석"까지 수행합니다. Temporal은""으로, Receita관리에 국한되지 않고" 발주-검수-조리-포장-배송"까지자동하다 Hybrid시스템입니다.
@@ -227,13 +222,13 @@ Temporal은" طول 수명Workflow( Long-Running Workflow)"와"[분산 트랜잭
 
 * **Apache Oozie핵심컴포넌트**
 * **Workflow**: [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 작업 순서 (XML 정의)
-* **[Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)**: 시간/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 Workflow [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+* <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a></strong>: 시간/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 Workflow [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
 * **Bundle**: 복수의 [Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/) 그룹관리
 * **Action**: 실제 실행할 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) ([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/), Spark, [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/), Shell)
 * **Apache Airflow핵심컴포넌트**
-* **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)**: Python으로 정의된 방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
-* **[Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)**: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 단위 (Python, Bash, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), etc.)
-* **[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)**: [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 실행 인스턴스
+* <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a></strong>: Python으로 정의된 방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a></strong>: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 단위 (Python, Bash, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), etc.)
+* <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a></strong>: [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 실행 인스턴스
 * **Executor**: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행 방식 (Local, Celery, K8s)
 * **XCom**: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 간 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 메커니즘
 * **Connection**: 외부 시스템 연결 정보 관리
@@ -246,21 +241,23 @@ Temporal은" طول 수명Workflow( Long-Running Workflow)"와"[분산 트랜잭
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Apache Oozie]
-│
-▼
-[Apache Airflow]
-│
-▼
-[DAG (Directed Acyclic Graph)]
-│
-▼
-[Celery/Kubernetes Executor]
-│
-▼
-[Dagster / Prefect]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Oozie</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Airflow</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DAG (Directed Acyclic Graph)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Celery/Kubernetes Executor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dagster / Prefect</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 Apache Oozie에서 출발해 Dagster / Prefect까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
@@ -270,7 +267,7 @@ Temporal은" طول 수명Workflow( Long-Running Workflow)"와"[분산 트랜잭
 3. Airflow는 여러 단계를 Python이라는 컴퓨팅 친구들이 아는 말로 적어둬서 더 많은 컴퓨터들과 이야기할 수 있어요!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 Apache Oozie와 Airflow의 아키텍처 차이와 각 도구의 적합한 활용 시나리오를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 Apache Oozie와 Airflow의 아키텍처 차이와 각 도구의 적합한 활용 시나리오를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

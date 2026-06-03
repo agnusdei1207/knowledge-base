@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 28GHz나 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 전파는 직진성이 너무 강해, 중간에 건물이나 벽 같은 장애물이 있으면 전파가 회절(휘어짐)하지 않고 그냥 막혀 뚝 떨어집니다(음영 지역 발생).
 - 이를 뚫기 위해 전력을 무식하게 높여 쏘면 전기세가 폭발하고 전파 간섭이 생깁니다. 보조 기지국(중계기, 릴레이)을 골목마다 박자니 전기를 먹고 구축 비용이 조 단위로 깨집니다.
 
-```text
-[6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    ▼
-[지능형 반사 표면]
-    │
-    └──▶ [비지상 네트워크망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비지상 네트워크망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지능형 반사 표면은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 자연계에 존재하지 않는 인공적인 특수 소자(메타 물질, Metamaterial)를 평평한 보드나 벽지 스티커 형태로 만들고, 여기에 소프트웨어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통제망을 연결하여 **기지국에서 날아온 전파의 반사/투과 각도, 위상(Phase), 흡수율을 실시간으로 자유자재로 조작(경로 조작)해 내는 혁신적인 무전원 전파 제어 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술**입니다.
+- **개념**: 자연계에 존재하지 않는 인공적인 특수 소자(메타 물질, Metamaterial)를 평평한 보드나 벽지 스티커 형태로 만들고, 여기에 소프트웨어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통제망을 연결하여 <strong>기지국에서 날아온 전파의 반사/투과 각도, 위상(Phase), 흡수율을 실시간으로 자유자재로 조작(경로 조작)해 내는 혁신적인 무전원 전파 제어 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 기술</strong>입니다.
 
-```text
-[6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    ▼
-[지능형 반사 표면]
-    │
-    └──▶ [비지상 네트워크망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비지상 네트워크망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 지능형 반사 표면의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ### 2. 초저전력 / 무전원 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 한계 돌파
 - 기존 중계기 장비는 스스로 전파를 증폭시키려 220V 전기를 엄청 꽂아 먹고 발열이 심했습니다.
-- RIS 보드는 스스로 전파를 증폭([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))시키지 않고, 날아오는 전파를 반사(Passive)만 시키는 **수동형 구조**입니다. 거울 각도만 살짝 돌리는 정도의 극소량의 전력(수 밀리와트)만으로 구동되거나, 심지어 **날아오는 전파 에너지 자체를 줏어 먹고 자가 발전하는 무전원 구동**까지 연구되고 있습니다. 창문 유리나 간판에도 그냥 스티커처럼 붙일 수 있어 환경 파괴가 제로입니다.
+- RIS 보드는 스스로 전파를 증폭([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))시키지 않고, 날아오는 전파를 반사(Passive)만 시키는 <strong>수동형 구조</strong>입니다. 거울 각도만 살짝 돌리는 정도의 극소량의 전력(수 밀리와트)만으로 구동되거나, 심지어 <strong>날아오는 전파 에너지 자체를 줏어 먹고 자가 발전하는 무전원 구동</strong>까지 연구되고 있습니다. 창문 유리나 간판에도 그냥 스티커처럼 붙일 수 있어 환경 파괴가 제로입니다.
 
 ### 3. 노이즈 상쇄 및 통신 보안
 - 해커가 내 전파를 훔쳐 들으려 할 때, RIS 패널이 해커 쪽으로 날아가는 전파 에너지만 귀신같이 흡수(소멸)시켜 버리거나 반대 위상을 쏴버려 해킹을 원천 차단하는 물리적 공간 보안 역할도 수행합니다.
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 6G 비전 네트워크 커버리지 입체망 스펙트럼…]
-    │
-    ▼
-[현재 개념: 지능형 반사 표면]
-    │
-    ├──▶ [확장 A: 비지상 네트워크망]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지능형 반사 표면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비지상 네트워크망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 지능형 반사 표면는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…에서 출발해 현재 메커니즘을 정교화하고, 이후 [비지상 네트워크망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/788_ntn_non_terrestrial_network_leo_satellite/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

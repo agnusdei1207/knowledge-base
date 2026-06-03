@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 임의의 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패킷을 다른 임의의 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 캡슐화하여, 논리적인 지점 간([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 가상 터널을 생성하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 2784). IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 47번을 사용한다.
-- **필요성**: 서울 본사 라우터와 부산 지사 라우터를 인터넷망 위에서 마치 직통 케이블을 꽂은 것처럼 연결하고 싶다. 두 라우터끼리 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)) 지도를 교환해야 하는데, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 패킷은 목적지 주소가 `224.0.0.5(멀티캐스트)`다. 이걸 일반 인터넷(KT 망)에 쏘면 인터넷 라우터들은 "이게 뭔 개소리야" 하고 다 버려버린다. **"이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷을 통째로 박스에 담아, 겉면엔 유니캐스트(공인 IP) 주소를 붙여서 KT 망을 속여서 통과시키자!"** 이럴 때 가장 빠르고 가볍게 씌울 수 있는 박스가 바로 GRE였다.
+- **필요성**: 서울 본사 라우터와 부산 지사 라우터를 인터넷망 위에서 마치 직통 케이블을 꽂은 것처럼 연결하고 싶다. 두 라우터끼리 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)) 지도를 교환해야 하는데, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 패킷은 목적지 주소가 `224.0.0.5(멀티캐스트)`다. 이걸 일반 인터넷(KT 망)에 쏘면 인터넷 라우터들은 "이게 뭔 개소리야" 하고 다 버려버린다. <strong>"이 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 패킷을 통째로 박스에 담아, 겉면엔 유니캐스트(공인 IP) 주소를 붙여서 KT 망을 속여서 통과시키자!"</strong> 이럴 때 가장 빠르고 가볍게 씌울 수 있는 박스가 바로 GRE였다.
 
-- **💡 비유**: GRE는 편의점에서 파는 **"반투명 범용 쓰레기봉투"**와 같습니다.
+- **💡 비유**: GRE는 편의점에서 파는 <strong>"반투명 범용 쓰레기봉투"</strong>와 같습니다.
   - 모양이 이상하든 액체가 흐르든([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 구형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 가리지 않고 욱여넣을 수 있습니다 (Generic 범용성).
   - 봉투 겉면에 매직으로 도착지 주소를 쓱 써놓으면 택배 기사가 배달은 잘 해줍니다.
   - 하지만 봉투가 반투명이라서(No Encryption), 지나가는 동네 사람들(해커)이 쳐다보면 안에 **무슨 쓰레기가 들었는지 적나라하게 다 보입니다 (보안 취약)**.
 
-```text
-[터널링 메커니즘 개요]
-    │
-    ▼
-[GRE]
-    │
-    └──▶ [L2TP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">터널링 메커니즘 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">L2TP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** GRE는 자동차 겉면에 씌우는 **"위장막"**입니다. 내 차가 트럭이든 버스든 덮어씌워서 그냥 '승용차'인 척 톨게이트를 무사통과하게 해주지만, 방탄 기능(암호화)은 전혀 없어서 돌멩이(해킹)를 던지면 그대로 유리가 박살 나는 얇은 천에 불과합니다.
 
@@ -46,36 +50,36 @@ tags = ["studynote-network"]
 GRE 터널이 뚫리면 원본 패킷은 아래처럼 3겹으로 무거워진다(24바이트 증가).
 1. **Original IP Header**: 사내 직원 PC가 보낸 원래 IP (목적지: `10.1.1.2`).
 2. **GRE Header (4~8 Bytes)**: "내 뱃속에 든 건 OSPF야! ([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Type = 0x89)"라고 적혀 있는 접착제. 부가 기능 없이 순수 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 역할만 한다.
-3. **[New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP Header (20 Bytes)**: 인터넷(KT 망)을 뚫고 가기 위해 라우터가 새로 씌운 껍데기 (출발지: `서울 공인 IP`, 목적지: `부산 공인 IP`). [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 칸에는 **`47번 (GRE)`**이라고 쾅 찍혀 있다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP Header (20 Bytes)</strong>: 인터넷(KT 망)을 뚫고 가기 위해 라우터가 새로 씌운 껍데기 (출발지: `서울 공인 IP`, 목적지: `부산 공인 IP`). [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 칸에는 <strong><code>47번 (GRE)</code></strong>이라고 쾅 찍혀 있다.
 
 ### 2. GRE의 멸망과 부활 (GRE over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))
 GRE는 편하지만 암호화가 없어서 보안 감사에 걸리면 즉각 징계를 먹는다. 
-반면 최고의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술인 IPsec은 암호화는 신급인데, 치명적이게도 **[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)나 브로드캐스트 패킷을 아예 캡슐화하지 못하는 멍청함**을 가졌다. 즉, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 단독으로는 두 지사 간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 맵을 교환할 수가 없다.
+반면 최고의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술인 IPsec은 암호화는 신급인데, 치명적이게도 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>나 브로드캐스트 패킷을 아예 캡슐화하지 못하는 멍청함</strong>을 가졌다. 즉, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 단독으로는 두 지사 간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 맵을 교환할 수가 없다.
 - **천재적 결합**: 엔지니어들은 이 둘을 융합했다.
-- **1단계**: 먼저 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷을 잡식성인 **GRE 비닐봉지**에 집어넣어 유니캐스트 IP 패킷으로 포장한다. ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 해결!)
-- **2단계**: 이 GRE 비닐봉지를 통째로 **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 금고([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더)** 안에 집어넣어 자물쇠를 꽉 채운다. (보안 해결!)
+- **1단계**: 먼저 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷을 잡식성인 <strong>GRE 비닐봉지</strong>에 집어넣어 유니캐스트 IP 패킷으로 포장한다. ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 해결!)
+- **2단계**: 이 GRE 비닐봉지를 통째로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 금고(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 헤더)</strong> 안에 집어넣어 자물쇠를 꽉 채운다. (보안 해결!)
 - 결과적으로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)도 완벽히 돌고, 해커가 훔쳐봐도 내용물이 100% 암호화된 완벽한 사내망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))이 완성된다. 현대 기업망 Site-to-Site VPN의 표준 교과서 설정이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                GRE over IPsec 패킷 캡슐화 4단 콤보               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 완벽 포장된 VPN 패킷의 단면도 ]                                │
- │                                                             │
- │   [ 뉴 공인 IP ] ◀─ 인터넷 통과용 배달 봉투                         │
- │     └── [ IPsec (ESP) 헤더 ] ◀─ 암호화 자물쇠 (여기서부터 안 보임!)│
- │             └── [ GRE 헤더 ] ◀─ 멀티캐스트를 유니캐스트로 포장  │
- │                     └── [ 오리지널 OSPF 패킷 ] ◀─ 내 소중한 정보│
- │                             └── [ ESP 암호화 꼬리표 ]           │
- │                                                             │
- │   ▶ 단점: 포장지 두께(오버헤드)만 거의 50~70바이트에 달해           │
- │           MTU 블랙홀(패킷 잘림 현상)이 미친 듯이 발생하므로           │
- │           라우터 터널 인터페이스에 tcp mss 1360 세팅 필수!!        │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** GRE over IPsec은 부서진 유리컵([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))을 배송하는 완벽한 꼼수입니다. 컵을 먼저 **"뽁뽁이(GRE)"**로 칭칭 감아서 유니캐스트 모양으로 둥글게(배송 가능하게) 만든 다음, 그걸 도둑이 절대 못 여는 **"강철 금고([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))"**에 넣어서 안전하게 택배로 쏘는 이중 포장술의 극치입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GRE over IPsec 패킷 캡슐화 4단 콤보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완벽 포장된 VPN 패킷의 단면도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뉴 공인 IP</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 인터넷 통과용 배달 봉투</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">IPsec (ESP) 헤더</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 암호화 자물쇠 (여기서부터 안 보임!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">GRE 헤더</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 멀티캐스트를 유니캐스트로 포장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">오리지널 OSPF 패킷</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 내 소중한 정보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">ESP 암호화 꼬리표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단점: 포장지 두께(오버헤드)만 거의 50~70바이트에 달해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTU 블랙홀(패킷 잘림 현상)이 미친 듯이 발생하므로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 터널 인터페이스에 tcp mss 1360 세팅 필수!!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> GRE over IPsec은 부서진 유리컵(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)을 배송하는 완벽한 꼼수입니다. 컵을 먼저 </strong>"뽁뽁이(GRE)"**로 칭칭 감아서 유니캐스트 모양으로 둥글게(배송 가능하게) 만든 다음, 그걸 도둑이 절대 못 여는 **"강철 금고([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))"**에 넣어서 안전하게 택배로 쏘는 이중 포장술의 극치입니다.
 
 ---
 
@@ -131,15 +135,19 @@ GRE는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 터널링 메커니즘 개요]
-    │
-    ▼
-[현재 개념: GRE]
-    │
-    ├──▶ [확장 A: L2TP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 터널링 메커니즘 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GRE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: L2TP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 GRE는 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 메커니즘 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 L2TP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

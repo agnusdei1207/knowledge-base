@@ -29,15 +29,21 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Mode
-  ↓
-MUX / XOR
-  ↓
-Flip-Flop Chain
-  ↓
-Count Up or Down
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Mode</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MUX / XOR</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Flip-Flop Chain</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Count Up or Down</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -104,31 +110,43 @@ M=1 -> Down
 
 ## 관련 개념 맵
 
-```text
-Mode Signal
-   ↓
-MUX / XOR
-   ↓
-Flip-Flop Chain
-   ↓
-Up/Down Count
-   ↓
-State Control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Mode Signal</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MUX / XOR</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Flip-Flop Chain</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Up/Down Count</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">State Control</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Up Counter
-   ↓
-Down Counter
-   ↓
-Up/Down Counter
-   ↓
-Mode-driven Control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Up Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Down Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Up/Down Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mode-driven Control</div>
+</div>
+</div>
+
+
 
 ---
 

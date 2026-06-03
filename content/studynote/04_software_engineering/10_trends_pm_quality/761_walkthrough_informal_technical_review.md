@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)** 상태다. 
+소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure)</strong> 상태다. 
 
 이를 막으려면 김 대리가 짠 코드를 다른 팀원들도 알아야 한다. 하지만 남이 짠 수천 줄의 코드를 혼자 읽고 이해하는 것은 불가능에 가깝다. 그렇다고 공식적인 '[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)' 회의를 열자니 준비 기간이 너무 길고 비용이 비싸다.
 
-그래서 개발자들은 좀 더 캐주얼한 방법을 찾았다. 피자나 커피를 시켜놓고, 코드를 짠 사람이 빔 프로젝터에 코드를 띄운 뒤 "제가 이 부분은 이렇게 짰고요, 저 부분은 이런 로직입니다"라고 훑어보는(Walk-through) 방식이다. 이것이 바로 실무에서 가장 흔하게 쓰이는 리뷰 기법인 **[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(Walkthrough)**의 탄생이다.
+그래서 개발자들은 좀 더 캐주얼한 방법을 찾았다. 피자나 커피를 시켜놓고, 코드를 짠 사람이 빔 프로젝터에 코드를 띄운 뒤 "제가 이 부분은 이렇게 짰고요, 저 부분은 이런 로직입니다"라고 훑어보는(Walk-through) 방식이다. 이것이 바로 실무에서 가장 흔하게 쓰이는 리뷰 기법인 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/">워크스루</a>(Walkthrough)</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 딱딱한 양복을 입고 발표하는 '졸업 논문 심사'라면, [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 동아리 방에 모여 떡볶이를 먹으며 "내가 어제 짠 코드인데 한 번 볼래?" 하고 보여주는 '스터디 모임'이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  워크스루 비공식 기술 검토 회의                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크스루 비공식 기술 검토 회의</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,8 +76,8 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) (Walkthrough) | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) |
 |:---|:---|:---|:---|
 | **회의 형태** | 매우 공식적 (엄격함) | **비공식적 (자유로움)** | 가장 캐주얼함 (1:1 또는 비동기) |
-| **[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자** | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) ([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | **저자 (Author)** | 없음 (보통 GitHub PR로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) |
-| **주요 목적** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 100% 색출 및 제거 | **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 색출 + 지식 공유 + 교육** | 오타, 얕은 버그, 컨벤션 검사 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>자</strong> | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) ([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | **저자 (Author)** | 없음 (보통 GitHub PR로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) |
+| **주요 목적** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 100% 색출 및 제거 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 색출 + 지식 공유 + 교육</strong> | 오타, 얕은 버그, 컨벤션 검사 |
 | **사전 준비** | 며칠 전부터 코드 분석 필수 | **최소한의 구조만 파악** | 보통 즉석에서 코드를 읽음 |
 | **비용 및 시간**| 매우 비싸고 오래 걸림 | **가성비가 좋음** | 일상적으로 계속 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)됨 |
 
@@ -106,9 +105,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 조직에 정착시키면 버그가 줄어드는 것은 물론이고, **'조직 전체의 코딩 상향 평준화'**라는 위대한 결실을 얻게 된다. 주니어 개발자는 시니어 개발자의 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 들으며 "아, 저런 엣지 케이스(Edge Case)를 저렇게 처리하는구나"를 배우고, 시니어는 남에게 설명하다가 스스로 로직의 허점을 발견하는 유레카 모멘트(Rubber Duck Debugging)를 경험한다.
+[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 조직에 정착시키면 버그가 줄어드는 것은 물론이고, <strong>'조직 전체의 코딩 상향 평준화'</strong>라는 위대한 결실을 얻게 된다. 주니어 개발자는 시니어 개발자의 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 들으며 "아, 저런 엣지 케이스(Edge Case)를 저렇게 처리하는구나"를 배우고, 시니어는 남에게 설명하다가 스스로 로직의 허점을 발견하는 유레카 모멘트(Rubber Duck Debugging)를 경험한다.
 
-결론적으로 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 단순한 테스트 기법이 아니라 **'팀 빌딩(Team Building)'이자 '집단 지성의 훈련장'**이다. 기술사는 개발팀이 바쁘다는 핑계로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 뒤에 숨어 각자 코딩만 하도록 내버려 두면 안 된다. 피자를 사주면서라도 개발자들을 한 회의실에 끌어모아 코드를 띄우고 토론하게 만들어야 한다.
+결론적으로 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 단순한 테스트 기법이 아니라 <strong>'팀 빌딩(Team Building)'이자 '집단 지성의 훈련장'</strong>이다. 기술사는 개발팀이 바쁘다는 핑계로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 뒤에 숨어 각자 코딩만 하도록 내버려 두면 안 된다. 피자를 사주면서라도 개발자들을 한 회의실에 끌어모아 코드를 띄우고 토론하게 만들어야 한다.
 
 - **📢 섹션 요약 비유**: 옛날 선비들이 모여서 자신이 읽은 책의 뜻을 토론하는 '강독회'와 같다. 혼자 방에서 책만 읽으면 자기 생각에 갇히지만, 강독회를 통해 서로의 생각을 나누면 혼자서는 평생 깨닫지 못했을 깊은 진리를 얻게 된다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-워크스루 비공식 기술 검토 회의 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워크스루 비공식 기술 검토 회의 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

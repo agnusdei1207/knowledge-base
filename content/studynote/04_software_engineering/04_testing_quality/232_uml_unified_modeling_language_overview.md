@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 UML (Unified Modelin의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  UML (Unified Modelin                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UML (Unified Modelin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 UML (Unified Modelin가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 1997년, 전 세계 객체지향의 거장 3인방(Booch, Rumbaugh, Jacobson)이 힘을 합쳐 **"앞으로 객체지향 소프트웨어 설계 도면을 그릴 때는, 무조건 우리가 정한 이 네모 상자와 화살표 기호(표준)만 써라!"라고 하나로 통일(Unified)해버린, 국제 표준(OMG 제정) 객체지향 모델링 언어(그림 언어)**입니다.
+- **개념**: 1997년, 전 세계 객체지향의 거장 3인방(Booch, Rumbaugh, Jacobson)이 힘을 합쳐 <strong>"앞으로 객체지향 소프트웨어 설계 도면을 그릴 때는, 무조건 우리가 정한 이 네모 상자와 화살표 기호(표준)만 써라!"라고 하나로 통일(Unified)해버린, 국제 표준(OMG 제정) 객체지향 모델링 언어(그림 언어)</strong>입니다.
 - **용도**: 시스템의 뼈대와 흐름을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)(가시화), 명세화, 구축, 문서화하는 데 쓰이는 전 세계 개발자의 공통 나침반입니다.
 
 - **📢 섹션 요약 비유**: UML (Unified Modeling Language)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -89,9 +88,9 @@ UML (Unified Modeling Language)을(를) 유사 개념과 비교하면 경계와 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 정보처리기사와 감리사 등 모든 IT 시험에서 **UML의 다이어그램 종류 구별(이게 정적이냐 동적이냐?)**과 **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 화살표의 모양 해석**은 매년 100% 무조건 최소 2문제가 고정으로 출제되는 절대 족보 구역입니다. 앞으로 이어지는 233번~241번 문서들을 통해 이 그림 맞추기 퀴즈를 싹 다 부숴버릴 것입니다.
+- 정보처리기사와 감리사 등 모든 IT 시험에서 <strong>UML의 다이어그램 종류 구별(이게 정적이냐 동적이냐?)</strong>과 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 화살표의 모양 해석</strong>은 매년 100% 무조건 최소 2문제가 고정으로 출제되는 절대 족보 구역입니다. 앞으로 이어지는 233번~241번 문서들을 통해 이 그림 맞추기 퀴즈를 싹 다 부숴버릴 것입니다.
 
-> 📢 **섹션 요약 비유**: **UML(통일 모델링 언어)**은 레고 장난감 회사에서 전 세계 아이들을 위해 만든 **'글씨가 단 한 줄도 없는 만국 공통 레고 조립 설명서(도면)'**입니다. 만약 레고 조립 설명서를 한국어로 빽빽하게 글로 적어놨다면, 미국 아이는 우주선을 조립할 수 없습니다. 레고 회사는 글씨를 싹 다 지우고, 무조건 **'블록 모양 그림(사물)'**과 **'화살표([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))'**만으로 설명서(다이어그램)를 완벽하게 통일(Unified)해버렸습니다. 긴 직사각형 그림과 짧은 정사각형 그림이 있고, 두 개를 끼우라는 굵은 화살표가 그려져 있다면, 국적이나 언어에 상관없이 전 세계 누구나 똑같이 블록을 찰칵 조립해 냅니다. UML도 똑같습니다. "로그인 기능 만들어 줘"라고 말로 하는 대신, 동그라미(유스케이스)와 막대라 인간(액터)을 화살표로 이은 UML 다이어그램 1장만 던져주면, 한국 자바 개발자든 러시아 파이썬 개발자든 머릿속에 100% 동일한 로직 구조를 떠올리고 에러 없이 똑같은 프로그램을 찍어내게 만드는 숭고한 그림판 헌법입니다.
+> 📢 **섹션 요약 비유**: <strong>UML(통일 모델링 언어)</strong>은 레고 장난감 회사에서 전 세계 아이들을 위해 만든 <strong>'글씨가 단 한 줄도 없는 만국 공통 레고 조립 설명서(도면)'</strong>입니다. 만약 레고 조립 설명서를 한국어로 빽빽하게 글로 적어놨다면, 미국 아이는 우주선을 조립할 수 없습니다. 레고 회사는 글씨를 싹 다 지우고, 무조건 <strong>'블록 모양 그림(사물)'</strong>과 <strong>'화살표(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)'</strong>만으로 설명서(다이어그램)를 완벽하게 통일(Unified)해버렸습니다. 긴 직사각형 그림과 짧은 정사각형 그림이 있고, 두 개를 끼우라는 굵은 화살표가 그려져 있다면, 국적이나 언어에 상관없이 전 세계 누구나 똑같이 블록을 찰칵 조립해 냅니다. UML도 똑같습니다. "로그인 기능 만들어 줘"라고 말로 하는 대신, 동그라미(유스케이스)와 막대라 인간(액터)을 화살표로 이은 UML 다이어그램 1장만 던져주면, 한국 자바 개발자든 러시아 파이썬 개발자든 머릿속에 100% 동일한 로직 구조를 떠올리고 에러 없이 똑같은 프로그램을 찍어내게 만드는 숭고한 그림판 헌법입니다.
 
 - **📢 섹션 요약 비유**: UML (Unified Modeling Language)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -136,21 +135,23 @@ UML (Unified Modeling Language)은 '어떻게 빠르게 짜는가'가 아니라 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-UML (Unified Modeling Language) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UML (Unified Modeling Language) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

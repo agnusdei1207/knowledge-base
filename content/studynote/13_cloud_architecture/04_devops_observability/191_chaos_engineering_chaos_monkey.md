@@ -19,11 +19,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 수십~수천 개의 마이크로서비스와 네트워크 홉으로 구성되어, 임의 지점의 고장이 언제든 발생할 수 있다. 전통적 QA 테스트는 예상된 실패 경로만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 운영 환경에서는 예상 밖 조합이 장애를 유발한다. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 이 간극을 메우기 위해 **프로덕션 환경 자체를 실험실**로 삼는 규율이다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 수십~수천 개의 마이크로서비스와 네트워크 홉으로 구성되어, 임의 지점의 고장이 언제든 발생할 수 있다. 전통적 QA 테스트는 예상된 실패 경로만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 운영 환경에서는 예상 밖 조합이 장애를 유발한다. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 이 간극을 메우기 위해 <strong>프로덕션 환경 자체를 실험실</strong>로 삼는 규율이다.
 
-넷플릭스는 2010년 AWS EC2 클라우드로 이전하면서 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 장애 내성 확보를 위해 **[Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)**를 만들었다. Chaos Monkey는 프로덕션 EC2 인스턴스를 무작위로 종료하여 엔지니어들이 단일 인스턴스에 의존하지 않도록 강제했다. 이후 Chaos Gorilla(가용영역 전체 비활성화), Chaos Kong(리전 전체 비활성화), [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Monkey([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 주입) 등으로 확장되어 **Simian Army** 생태계를 형성했다.
+넷플릭스는 2010년 AWS EC2 클라우드로 이전하면서 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 장애 내성 확보를 위해 <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">Chaos Monkey</a></strong>를 만들었다. Chaos Monkey는 프로덕션 EC2 인스턴스를 무작위로 종료하여 엔지니어들이 단일 인스턴스에 의존하지 않도록 강제했다. 이후 Chaos Gorilla(가용영역 전체 비활성화), Chaos Kong(리전 전체 비활성화), [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Monkey([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 주입) 등으로 확장되어 **Simian Army** 생태계를 형성했다.
 
-[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 단순한 "서버를 죽이는 행위"가 아니라, **과학적 실험 방법론**이다. 실험 전 Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(안정 상태 가설: "p99 응답시간 < 200ms, 에러율 < 0.1%")를 정의하고, 실험 후 이 지표가 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 유지되면 시스템의 복원력이 증명되고, 벗어나면 취약점이 발견된 것이다.
+[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 단순한 "서버를 죽이는 행위"가 아니라, <strong>과학적 실험 방법론</strong>이다. 실험 전 Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(안정 상태 가설: "p99 응답시간 < 200ms, 에러율 < 0.1%")를 정의하고, 실험 후 이 지표가 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 유지되면 시스템의 복원력이 증명되고, 벗어나면 취약점이 발견된 것이다.
 
 📢 **섹션 요약 비유**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 소방관이 화재 발생 전에 일부러 건물에 작은 불을 질러 방화문·스프링클러가 실제 작동하는지 훈련하는 것과 같다. 연습 때 실패를 발견해야 진짜 화재 때 살 수 있다.
 
@@ -44,39 +44,43 @@ tags = ["studynote-cloud-architecture"]
 
 ### 장애 주입 유형
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                   카오스 실험 장애 주입 유형                       │
-├──────────────────┬───────────────────────────────────────────────┤
-│ 인프라 장애       │ EC2 인스턴스 종료, Pod Kill, 노드 격리          │
-│ 네트워크 장애     │ 지연(Latency) 주입, 패킷 손실, DNS 실패         │
-│ 리소스 고갈      │ CPU 포화(100%), 메모리 소진, 디스크 가득 채움    │
-│ 의존성 장애      │ DB 연결 차단, 외부 API 타임아웃, 캐시 비우기     │
-│ 애플리케이션     │ 예외(Exception) 주입, 프로세스 스로틀링          │
-└──────────────────┴───────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카오스 실험 장애 주입 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 장애</div><div class="kb-diagram-cell">EC2 인스턴스 종료, Pod Kill, 노드 격리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 장애</div><div class="kb-diagram-cell">지연(Latency) 주입, 패킷 손실, DNS 실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 고갈</div><div class="kb-diagram-cell">CPU 포화(100%), 메모리 소진, 디스크 가득 채움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 장애</div><div class="kb-diagram-cell">DB 연결 차단, 외부 API 타임아웃, 캐시 비우기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션</div><div class="kb-diagram-cell">예외(Exception) 주입, 프로세스 스로틀링</div></div>
+</div>
+</div>
+
+
 
 ### 넷플릭스 Simian Army 구조
 
-```
-  [프로덕션 클러스터]
-        │
-        ▼
-  ┌────────────────────────────────────────────┐
-  │            Chaos Monkey (인스턴스 Kill)     │
-  │            Chaos Gorilla (AZ 비활성화)      │
-  │            Chaos Kong (리전 Failover)       │
-  │            Latency Monkey (지연 주입)       │
-  │            Doctor Monkey (성능 이상 감지)   │
-  └────────────────────────────────────────────┘
-        │
-        ▼
-  [결과 → Steady State 유지 여부 자동 판정]
-        │
-  유지 ─┼─ 이탈 → 취약점 리포트 → 개선
-        ▼
-  [신뢰도 누적 및 실험 자동화 반복]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로덕션 클러스터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Monkey (인스턴스 Kill)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Gorilla (AZ 비활성화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Kong (리전 Failover)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Latency Monkey (지연 주입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doctor Monkey (성능 이상 감지)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과 → Steady State 유지 여부 자동 판정</div></div>
+<div class="kb-diagram-note">유지 ─ ─ 이탈 → 취약점 리포트 → 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰도 누적 및 실험 자동화 반복</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 카오스 도구들은 마치 비행 시뮬레이터의 고장 시나리오 버튼과 같다. 조종사는 시뮬레이터에서 엔진 2개 동시 꺼짐을 연습하고, 그래야 실전에서 손이 먼저 움직인다.
 
@@ -129,7 +133,7 @@ spec:
 ```
 
 **기술사 판단 포인트**:
-- 카오스 실험은 반드시 **Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 정의 → 가설 → 실험 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** 순서를 지켜야 한다.
+- 카오스 실험은 반드시 <strong>Steady <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 정의 → 가설 → 실험 → <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 순서를 지켜야 한다.
 - 폭발 반경(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 최소화하고 단계적으로 확대한다.
 - [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), 리트라이 로직, 그레이스풀 디그레이드션이 없으면 카오스 실험 전에 먼저 구현해야 한다.
 
@@ -148,7 +152,7 @@ spec:
 
 **한계**: 프로덕션 실험은 항상 위험을 수반한다. 충분한 관찰성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))과 빠른 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘 없이 시작하면 고객 피해가 발생한다. 또한 경영진·사업부의 이해와 동의 없이는 조직 문화적 저항이 크다.
 
-[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 "시스템을 부수는 행위"가 아닌 **"신뢰를 구축하는 과학"**이다. 넷플릭스가 연간 수억 명의 트래픽을 안정적으로 처리할 수 있는 근저에는 수십만 번의 카오스 실험이 있었다.
+[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 "시스템을 부수는 행위"가 아닌 <strong>"신뢰를 구축하는 과학"</strong>이다. 넷플릭스가 연간 수억 명의 트래픽을 안정적으로 처리할 수 있는 근저에는 수십만 번의 카오스 실험이 있었다.
 
 📢 **섹션 요약 비유**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 목표는 시스템을 망가뜨리는 것이 아니라, 망가지지 않는다는 *증거*를 쌓는 것이다. 의사가 백신을 투여해 면역을 키우듯, 소량의 고장으로 시스템의 면역력을 높인다.
 
@@ -171,18 +175,22 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장애 대응: 사후 대응 (Reactive)
-    │
-    ▼
-Chaos Engineering: 사전 실험 (Proactive)
-    ├─► Chaos Monkey: Netflix 오리진
-    ├─► Litmus · Chaos Mesh: K8s 네이티브
-    └─► GameDay: 조직 차원 모의 훈련
-    │
-    ▼
-Steady State 가설 → 실험 → 관찰 → 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장애 대응: 사후 대응 (Reactive)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chaos Engineering: 사전 실험 (Proactive)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Chaos Monkey: Netflix 오리진</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Litmus · Chaos Mesh: K8s 네이티브</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GameDay: 조직 차원 모의 훈련</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Steady State 가설 → 실험 → 관찰 → 개선</div>
+</div>
+</div>
+
+
 2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 거야.
 3. 이렇게 미리미리 약한 곳을 찾아서 고치면, 갑자기 진짜 고장 났을 때도 괜찮아.
 

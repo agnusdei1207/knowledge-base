@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Renaming)은 프로그램이 보는 적은 수의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 이름을, 하드웨어 내부의 더 많은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호로 동적으로 치환해 **이름 충돌과 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 공간을 분리**하는 기술이다.
+> 1. **본질**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Renaming)은 프로그램이 보는 적은 수의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 이름을, 하드웨어 내부의 더 많은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호로 동적으로 치환해 <strong>이름 충돌과 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장 공간을 분리</strong>하는 기술이다.
 > 2. **가치**: 이 분리 덕분에 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 코어는 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Write After Read](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/), [WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/)), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Write After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/), [WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/)) 같은 가짜 의존성을 제거하고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)을 크게 늘린다.
 > 3. **판단 포인트**: 리네이밍은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이지만, 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식·전력 비용이 함께 따라오므로 "얼마나 넓게 추측하고 얼마나 빨리 되돌릴 것인가"가 설계의 핵심이다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍은 **같은 이름을 쓰더라도 서로 다른 저장 공간을 배정해 의존성을 다시 정의하는 기법**이다. 프로그램은 여전히 `R1`, `R2` 같은 소수의 아키텍처 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 본다. 하지만 CPU (Central Processing Unit) 내부는 이 이름을 그대로 믿지 않고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어올 때마다 더 넓은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 풀에서 실제 저장 위치를 새로 배정한다.
+[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍은 <strong>같은 이름을 쓰더라도 서로 다른 저장 공간을 배정해 의존성을 다시 정의하는 기법</strong>이다. 프로그램은 여전히 `R1`, `R2` 같은 소수의 아키텍처 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 본다. 하지만 CPU (Central Processing Unit) 내부는 이 이름을 그대로 믿지 않고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어올 때마다 더 넓은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 풀에서 실제 저장 위치를 새로 배정한다.
 
 이 기술이 필요한 이유는 파이프라인 병목의 상당수가 "계산이 아직 안 끝났다"가 아니라 "이름이 겹친다"에서 생기기 때문이다. 예를 들어 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 `R1`을 읽는 동안 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 새로운 값을 다시 `R1`에 쓰려 하면, 순차 파이프라인은 둘을 충돌로 본다. 그러나 실제로는 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 과거의 `R1`만 읽으면 되고, 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 미래의 `R1`을 만들면 되므로 저장 공간만 분리하면 동시에 진행할 수 있다.
 
@@ -35,29 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 새 목적 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 등장할 때 매핑이 어떻게 바뀌고, 언제 이전 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 해제되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│               리네이밍의 핵심 흐름: 이름은 유지, 저장 위치만 교체            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R1, R2, R3                                                      │
-│          │                                                                   │
-│          ▼                                                                   │
-│ RAT 조회: R2 -> P08, R3 -> P11, 기존 R1 -> P05                              │
-│          │                                                                   │
-│          ▼                                                                   │
-│ Free List에서 새 PRF 할당: P19                                               │
-│          │                                                                   │
-│          ▼                                                                   │
-│ 리네임 결과: ADD P19, P08, P11                                               │
-│          │                                                                   │
-│          ├─ RAT 갱신: R1 -> P19                                               │
-│          └─ ROB 기록: "이전 R1 = P05, 새 R1 = P19"                          │
-│                                                                              │
-│ Commit 시점: 명령어가 안전하게 완료되면 P05 반환 -> Free List 복귀           │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 것은 **소스는 현재 매핑을 읽고, 목적지는 새 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 받는다는 점**이다. 그래서 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/))와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/))는 이름 수준에서만 존재하던 충돌로 바뀌고, 실제 저장 위치가 달라지면서 사라진다. 반면 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))는 앞선 연산 결과 자체가 필요하므로 여전히 남는다. 즉 리네이밍은 모든 의존성을 없애는 기술이 아니라, **가짜 의존성만 정밀하게 제거하는 기술**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리네이밍의 핵심 흐름: 이름은 유지, 저장 위치만 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: ADD R1, R2, R3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAT 조회: R2 -&gt; P08, R3 -&gt; P11, 기존 R1 -&gt; P05</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Free List에서 새 PRF 할당: P19</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리네임 결과: ADD P19, P08, P11</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RAT 갱신: R1 -&gt; P19</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ROB 기록: "이전 R1 = P05, 새 R1 = P19"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit 시점: 명령어가 안전하게 완료되면 P05 반환 -&gt; Free List 복귀</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 것은 <strong>소스는 현재 매핑을 읽고, 목적지는 새 물리 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>를 받는다는 점</strong>이다. 그래서 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/))와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/))는 이름 수준에서만 존재하던 충돌로 바뀌고, 실제 저장 위치가 달라지면서 사라진다. 반면 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))는 앞선 연산 결과 자체가 필요하므로 여전히 남는다. 즉 리네이밍은 모든 의존성을 없애는 기술이 아니라, <strong>가짜 의존성만 정밀하게 제거하는 기술</strong>이다.
 
 실제 구현에서는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 예외 상황에 대비한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)도 중요하다. 이를 위해 리네이밍 시점의 RAT [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 저장하거나, ROB에 이전 매핑을 기록해 롤백한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 코어일수록 "빨리 이름을 붙이는 속도"만큼 "빨리 옛 상태로 되돌리는 속도"도 중요하다.
 
@@ -99,9 +94,9 @@ tags = ["studynote-computer-architecture"]
 ### 설계 판단 체크포인트
 
 1. **PRF 개수**: 너무 적으면 rename stall이 자주 발생해 OoO의 이점이 줄어든다. 너무 많으면 PRF 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 누설 전력이 증가해 클럭과 전성비가 악화된다.
-2. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식**: [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 시 RAT 전체 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복원은 빠르지만 저장 비용이 크다. 이전 매핑을 ROB에 기록하는 방식은 저장 효율이 좋지만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 길어질 수 있다.
-3. **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수와 폭**: 4-way, 6-way [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 코어는 한 사이클에 여러 소스·목적지 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 동시에 읽고 갱신해야 하므로 RAT 다중 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 비용이 급격히 커진다.
-4. **[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 특성**: x86처럼 가시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 적고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 복잡한 ISA는 리네이밍의 체감 이득이 크다. 반대로 비교적 단순한 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열은 컴파일러 최적화와 함께 더 균형 있게 설계할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 방식</strong>: [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 시 RAT 전체 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복원은 빠르지만 저장 비용이 크다. 이전 매핑을 ROB에 기록하는 방식은 저장 효율이 좋지만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 길어질 수 있다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 수와 폭</strong>: 4-way, 6-way [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 코어는 한 사이클에 여러 소스·목적지 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 동시에 읽고 갱신해야 하므로 RAT 다중 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 비용이 급격히 커진다.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 특성</strong>: x86처럼 가시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 적고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 복잡한 ISA는 리네이밍의 체감 이득이 크다. 반대로 비교적 단순한 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열은 컴파일러 최적화와 함께 더 균형 있게 설계할 수 있다.
 
 ### 실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -109,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 - PRF 고갈 경보 없이 창 크기만 키우는 설계
 - 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 정수 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 특성을 무시하고 동일한 비용 구조로 취급하는 설계
 
-기술사 관점에서는 "리네이밍 = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"으로만 쓰면 부족하다. 반드시 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증가와 함께 복잡도, 소비전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도도 함께 증가한다**는 점을 적어야 한다. 특히 멀티이슈 폭이 커질수록 리네임 로직이 프런트엔드 임계 경로에 가까워지므로, 좋은 설계는 더 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 주는 것이 아니라 "가장 비싼 충돌을 가장 효율적으로 없애는 수준"을 찾는 것이다.
+기술사 관점에서는 "리네이밍 = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"으로만 쓰면 부족하다. 반드시 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 증가와 함께 복잡도, 소비전력, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 난이도도 함께 증가한다</strong>는 점을 적어야 한다. 특히 멀티이슈 폭이 커질수록 리네임 로직이 프런트엔드 임계 경로에 가까워지므로, 좋은 설계는 더 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 주는 것이 아니라 "가장 비싼 충돌을 가장 효율적으로 없애는 수준"을 찾는 것이다.
 
 - **📢 섹션 요약 비유**: 창고에 상자를 많이 쌓아 두는 것만으로 물류가 빨라지지는 않는다. 바코드 시스템, 반품 처리, 출고선 정리가 함께 갖춰져야 진짜로 빠른 창고가 되듯, 리네이밍도 저장 공간보다 운영 정책이 더 중요하다.
 
@@ -117,11 +112,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍의 가장 큰 효과는 **프로그래머에게는 단순한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 모델을 유지하면서, 하드웨어 내부에서는 훨씬 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 공간을 만드는 것**이다. 이 덕분에 현대 CPU는 오래된 ISA를 버리지 않고도 높은 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/))를 달성할 수 있었다. 다시 말해 리네이밍은 호환성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 지키게 해 준 핵심 완충 장치다.
+[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍의 가장 큰 효과는 <strong>프로그래머에게는 단순한 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 모델을 유지하면서, 하드웨어 내부에서는 훨씬 넓은 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행 공간을 만드는 것</strong>이다. 이 덕분에 현대 CPU는 오래된 ISA를 버리지 않고도 높은 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/))를 달성할 수 있었다. 다시 말해 리네이밍은 호환성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 지키게 해 준 핵심 완충 장치다.
 
 다만 이 기술은 공짜가 아니다. PRF, RAT, ROB, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직이 커질수록 면적과 전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 함께 증가한다. 또한 보안 관점에서는 추측 실행 상태가 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 흔적을 남길 수 있어, 리네이밍을 포함한 내부 상태 관리가 사이드채널 분석 대상이 되기도 한다.
 
-앞으로의 방향은 단순히 PRF를 더 늘리는 것이 아니라, 워크로드별로 리네이밍 자원을 더 영리하게 배분하는 쪽에 가깝다. 예를 들어 정수·벡터·메모리 의존성을 분리해 관리하거나, 저전력 구간에서는 리네임 폭을 동적으로 줄이는 방식이 중요해진다. 따라서 리네이밍은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 많이 숨겨 둔 기술"이 아니라, **거짓 병목만 걷어내고 진짜 병목에 자원을 집중하게 만드는 질서 재편 기술**로 기억하는 것이 정확하다.
+앞으로의 방향은 단순히 PRF를 더 늘리는 것이 아니라, 워크로드별로 리네이밍 자원을 더 영리하게 배분하는 쪽에 가깝다. 예를 들어 정수·벡터·메모리 의존성을 분리해 관리하거나, 저전력 구간에서는 리네임 폭을 동적으로 줄이는 방식이 중요해진다. 따라서 리네이밍은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 많이 숨겨 둔 기술"이 아니라, <strong>거짓 병목만 걷어내고 진짜 병목에 자원을 집중하게 만드는 질서 재편 기술</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 무대 감독은 배우 이름표를 바꾸려는 사람이 아니라, 무대 뒤 대기실과 출연 순서를 정리해 공연이 끊기지 않게 만드는 사람이다. 리네이밍도 바로 그런 보이지 않는 무대 운영 기술이다.
 
@@ -139,29 +134,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가시 레지스터 부족
-    │
-    ▼
-가짜 의존성 식별
-(WAR, WAW)
-    │
-    ▼
-레지스터 리네이밍
-(RAT + PRF + Free List)
-    │
-    ├──▶ 비순차 실행 (OoO)
-    │        │
-    │        ▼
-    │    예약역 · 다중 발행
-    │
-    ▼
-재주문 버퍼 (ROB)
-기반 순차 커밋
-    │
-    ▼
-넓은 수퍼스칼라 · 추측 실행 · 전성비 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가시 레지스터 부족</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가짜 의존성 식별</div>
+<div class="kb-diagram-note">(WAR, WAW)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 리네이밍</div>
+<div class="kb-diagram-note">(RAT + PRF + Free List)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 비순차 실행 (OoO)</div>
+<div class="kb-diagram-note">예약역 · 다중 발행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재주문 버퍼 (ROB)</div>
+<div class="kb-diagram-note">기반 순차 커밋</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">넓은 수퍼스칼라 · 추측 실행 · 전성비 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족 인식 → 가짜 의존성 제거 → 동적 실행 확대 → 정확한 커밋 보장 → 고성능 코어 최적화"로 이어지는 발전 방향을 보여준다.
 

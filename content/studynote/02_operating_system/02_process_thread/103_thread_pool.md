@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 
 "요청당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-per-request)" 방식에서는 클라이언트가 접속할 때마다 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 새로 만들고 끝나면 폐기해야 했다. 이 방식은 트래픽 폭증(Traffic [Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 시 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시 생성되며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 고갈시키고([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)), CPU (Central Processing Unit)가 비즈니스 로직 대신 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)에만 리소스를 낭비하는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 상태를 유발한다. 시스템 다운을 방어하고 안정적인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 유지하기 위해서는, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 재사용과 동시 실행 한계치([Cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 메커니즘이 절대적으로 필요해졌다.
 
-- **📢 섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀은 대형 마트의 **'상주 계산대 직원'**과 같다. 손님이 올 때마다 직원을 집에서 새로 출근시키고 바로 퇴근시키면 길에서 버리는 시간이 더 많지만, 미리 정해진 5명의 직원이 계산대에 상주(풀)하며 대기줄(큐)의 손님을 처리하면 효율이 극대화된다.
+- **📢 섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀은 대형 마트의 <strong>'상주 계산대 직원'</strong>과 같다. 손님이 올 때마다 직원을 집에서 새로 출근시키고 바로 퇴근시키면 길에서 버리는 시간이 더 많지만, 미리 정해진 5명의 직원이 계산대에 상주(풀)하며 대기줄(큐)의 손님을 처리하면 효율이 극대화된다.
 
 ---
 
@@ -30,34 +30,28 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀은 작업과 실행 주체를 철저히 분리한 생산자-소비자 패턴 (Producer-Consumer Pattern)으로 동작한다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              Thread Pool Asynchronous Architecture                        │
-├───────────────────────────────────────────────────────────────────────────┤
-│ [ Client / Main Thread (Producer) ]                                       │
-│       작업(Task) 요청 제출 (submit)                                            │
-│            │                                                              │
-│            ▼                                                              │
-│ ┌───────────────────────────────────────────────────────────────────────┐ │
-│ │                    Thread Pool Manager (Executor)                     │ │
-│ │                                                                       │ │
-│ │  ┌─────────────────────────┐         ┌─────────────────────────────┐  │ │
-│ │  │  Task Queue (Blocking)  │         │   Worker Threads (Pool)     │  │ │
-│ │  │                         │         │                             │  │ │
-│ │  │ [ Task3 ][ Task2 ]      │ ◀──take │  [ Thread 1 (Idle)    ]     │  │ │
-│ │  │                         │         │  [ Thread 2 (Running) ]     │  │ │
-│ │  └─────────────────────────┘         │  [ Thread 3 (Running) ]     │  │ │
-│ │                                      └─────────────────────────────┘  │ │
-│ └───────────────────────────────────────────────────────────────────────┘ │
-│                                                                           │
-│ * 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).│
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool Asynchronous Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Main Thread (Producer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업(Task) 요청 제출 (submit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool Manager (Executor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Queue (Blocking)</div><div class="kb-diagram-cell">Worker Threads (Pool)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Task3</div><div class="kb-diagram-node">Task2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Thread 1 (Idle)</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ │</div><div class="kb-diagram-node">Thread 2 (Running)</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Thread 3 (Running)</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).</div></div>
+</div>
+</div>
+
+
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 관리자는 다음과 같은 핵심 생명주기 파라미터를 통해 탄력적으로 동작한다:
-1. **작업 큐 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**: 들어온 작업을 보관하는 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 블로킹 큐([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)).
-2. **코어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 (Core Pool Size)**: 트래픽이 없어도 기본적으로 유지하는 최소 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 개수.
-3. **최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 (Maximum Pool Size)**: 큐가 가득 찼을 때 임시로 늘릴 수 있는 최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 한도.
+1. <strong>작업 큐 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 들어온 작업을 보관하는 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 블로킹 큐([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)).
+2. <strong>코어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 수 (Core Pool Size)</strong>: 트래픽이 없어도 기본적으로 유지하는 최소 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 개수.
+3. <strong>최대 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 수 (Maximum Pool Size)</strong>: 큐가 가득 찼을 때 임시로 늘릴 수 있는 최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 한도.
 4. **유휴 대기 시간 (Keep-Alive Time)**: 임시로 늘어난 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 작업을 끝내고 대기할 때, 이 시간이 지나면 스스로 종료하여 메모리를 반환한다.
 
 - **📢 섹션 요약 비유**: 식당에 평소(Core Size)에는 홀 직원 3명을 유지하다가, 대기명단([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))마저 꽉 차면 임시 알바(Max Size)를 급히 부르고, 바쁜 시간이 지나면(Keep-alive time) 알바를 퇴근시켜 인건비를 아끼는 스마트 매장 관리 시스템이다.
@@ -73,7 +67,7 @@ tags = ["studynote-operating-system"]
 | **CPU 바운드** | 프로세서 연산 능력 | `CPU 코어 수 + 1` | 암호화나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 등 연산 위주 작업. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 많아지면 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드만 급증함. `+1`은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 대비용. |
 | **I/O 바운드** | 디스크/[네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) | `CPU 코어 수 * (1 + 대기/계산 시간 비율)` | DB 쿼리나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 대기 시 CPU가 쉬게 되므로, 이를 메꾸기 위해 수십~수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 투입되어야 함. |
 
-아키텍처 관점에서, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀로 모든 트래픽을 처리하는 방식과 장애 격리를 위해 타겟 도메인별로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 나누는 **[벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/) 패턴([Bulkhead Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/))** 간의 비교도 중요하다. [벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/) 패턴은 한 서비스의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 전체를 고갈시켜 시스템을 연쇄 붕괴시키는 것을 방지한다.
+아키텍처 관점에서, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀로 모든 트래픽을 처리하는 방식과 장애 격리를 위해 타겟 도메인별로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 나누는 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">벌크헤드</a> 패턴(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">Bulkhead Pattern</a>)</strong> 간의 비교도 중요하다. [벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/) 패턴은 한 서비스의 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 전체를 고갈시켜 시스템을 연쇄 붕괴시키는 것을 방지한다.
 
 - **📢 섹션 요약 비유**: 고속도로의 차선(CPU 코어)이 4개인데 진입 차량([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 무한정 늘리면, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이라는 심각한 교통체증이 발생해 주차장이 되어버린다. 작업 특성에 맞춰 최적의 차량 대수만 통과시켜야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
 
@@ -84,10 +78,10 @@ tags = ["studynote-operating-system"]
 실무 운영에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀의 큐 적체([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Accumulation) 상황 발생 시 적용해야 하는 거절 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Rejection [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 판단이 매우 중요하다. 무제한 큐(Unbounded [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 사용할 경우, 트래픽 폭주 시 JVM [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리 OOM으로 서버가 비정상 종료된다. 반드시 크기가 제한된 Bounded Queue를 써야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 거절 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Rejection [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 판단
-1. **Abort [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (기본값)**: 큐가 가득 차면 에러 예외(Exception)를 즉시 발생시킨다. 클라이언트에게 거절을 명확히 알릴 때 쓴다.
-2. **Caller Runs [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 작업을 요청한 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 작업을 실행하도록 강제한다. 생산자(호출자)의 속도를 물리적으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시켜 백프레셔(Back-pressure) 효과를 낸다. 유실되면 안 되는 중요한 비즈니스 로직에 필수적이다.
-3. **Discard [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 조용히 새 작업을 무시한다. 통계 핑이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 전송처럼 최신 정보가 아니면 버려도 되는 비핵심 로직에 사용한다.
-4. **Discard Oldest [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 큐의 맨 앞(가장 오래된) 작업을 버리고 새 작업을 넣는다. 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신에 유용하다.
+1. <strong>Abort <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> (기본값)</strong>: 큐가 가득 차면 에러 예외(Exception)를 즉시 발생시킨다. 클라이언트에게 거절을 명확히 알릴 때 쓴다.
+2. <strong>Caller Runs <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: 작업을 요청한 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 작업을 실행하도록 강제한다. 생산자(호출자)의 속도를 물리적으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시켜 백프레셔(Back-pressure) 효과를 낸다. 유실되면 안 되는 중요한 비즈니스 로직에 필수적이다.
+3. <strong>Discard <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: 조용히 새 작업을 무시한다. 통계 핑이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 전송처럼 최신 정보가 아니면 버려도 되는 비핵심 로직에 사용한다.
+4. <strong>Discard Oldest <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: 큐의 맨 앞(가장 오래된) 작업을 버리고 새 작업을 넣는다. 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신에 유용하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **ThreadLocal 변수 누수 (Leak)**: `ThreadLocal`에 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 정보 등을 저장한 후, 로직 종료 시 명시적으로 `remove()` 하지 않는 행위. 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 소멸되지 않고 풀로 돌아가 재사용되므로, 다음 요청을 처리할 때 이전 사용자의 권한이 그대로 남아 치명적인 보안 사고(권한 탈취)로 이어진다.
@@ -110,27 +104,32 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 크기를 통제하지 않을 경우 발생하는 가장 치명적인 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인 |
-| **[벌크헤드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/) 패턴 ([Bulkhead Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/))** | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 타겟 도메인별로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 분리하여 장애 전파를 차단하는 아키텍처 |
-| **가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매핑되는 비용을 우회하기 위해 런타임이 유저 레벨에서 수백만 개를 관리하는 차세대 모델 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 크기를 통제하지 않을 경우 발생하는 가장 치명적인 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">벌크헤드</a> 패턴 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">Bulkhead Pattern</a>)</strong> | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 타겟 도메인별로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 분리하여 장애 전파를 차단하는 아키텍처 |
+| <strong>가상 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (Virtual <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매핑되는 비용을 우회하기 위해 런타임이 유저 레벨에서 수백만 개를 관리하는 차세대 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요청당 스레드 생성 (Thread-per-request)
-    │ (문맥 교환 폭증, OOM 발생)
-    ▼
-스레드 풀 (Thread Pool) 패턴 도입
-    │ 작업 대기 큐(Task Queue) + 한계 설정(Cap)
-    ▼
-벌크헤드 패턴 (Bulkhead) 및 서킷 브레이커
-    │ 도메인별 풀 분리로 장애 격리
-    ▼
-이벤트 루프 (Event Loop) 기반 논블로킹 I/O
-    │
-    ▼
-경량 사용자 스레드 (Virtual Threads / Goroutines)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요청당 스레드 생성 (Thread-per-request)</div>
+<div class="kb-diagram-note">(문맥 교환 폭증, OOM 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스레드 풀 (Thread Pool) 패턴 도입</div>
+<div class="kb-diagram-note">작업 대기 큐(Task Queue) + 한계 설정(Cap)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벌크헤드 패턴 (Bulkhead) 및 서킷 브레이커</div>
+<div class="kb-diagram-note">도메인별 풀 분리로 장애 격리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 루프 (Event Loop) 기반 논블로킹 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경량 사용자 스레드 (Virtual Threads / Goroutines)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

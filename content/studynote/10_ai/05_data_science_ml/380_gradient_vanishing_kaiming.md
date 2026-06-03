@@ -35,18 +35,23 @@ L번의 행렬-벡터 곱이 연속되면, 각 활성화 도함수의 절댓값�
 
 ### 소실/폭발 발생 조건
 
-```
-기울기 = Π_{l=1}^{L} W_l · σ'(z_l)
 
-σ'(Sigmoid) ≤ 0.25  → L층 후 기울기 ≤ (0.25)^L ≈ 0
-σ'(ReLU)    = 1(x>0), 0(x≤0) → 소실 최소화 (Dead Neuron 문제 있음)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기울기 = Π_{l=1}^{L} W_l · σ'(z_l)</div>
+<div class="kb-diagram-note">σ'(Sigmoid) ≤ 0.25 → L층 후 기울기 ≤ (0.25)^L ≈ 0</div>
+<div class="kb-diagram-note">σ'(ReLU) = 1(x&gt;0), 0(x≤0) → 소실 최소화 (Dead Neuron 문제 있음)</div>
+</div>
+</div>
+
+
 
 ### Kaiming He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 
 He et al. (2015) - "Delving Deep into Rectifiers" 논문:
 
-ReLU의 경우 음수 입력이 모두 0이므로 **활성화 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 입력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 절반**이 된다.
+ReLU의 경우 음수 입력이 모두 0이므로 <strong>활성화 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 입력 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>의 절반</strong>이 된다.
 
 ```
 Xavier 초기화 (Sigmoid/Tanh):
@@ -58,17 +63,19 @@ W ~ N(0, 2/nᵢₙ)    ← 분모가 2배 작음
 nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 ```
 
-```
-┌──────────────────────────────────────────────────┐
-│  분산 유지 체인 (Variance Propagation)            │
-│                                                  │
-│  입력 Var=1  →  W ~ N(0, 2/n)  →  ReLU          │
-│  → 출력 Var ≈ 1  →  다음 레이어로 전달           │
-│                                                  │
-│  Kaiming 없이:  Var → 0 또는 → ∞                 │
-│  Kaiming 적용:  Var ≈ 1 안정적 유지              │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 유지 체인 (Variance Propagation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 Var=1 → W ~ N(0, 2/n) → ReLU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 출력 Var ≈ 1 → 다음 레이어로 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kaiming 없이: Var → 0 또는 → ∞</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kaiming 적용: Var ≈ 1 안정적 유지</div></div>
+</div>
+</div>
+
+
 
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공식 | 비고 |
 |:---|:---|:---|:---|
@@ -79,10 +86,10 @@ nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 
 ### 추가 해결책
 
-- **잔차 연결 (Residual Connection, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))**: F(x) + x → 기울기 고속도로
-- **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))**: 중간 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 안정화
-- **기울기 클리핑 (Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))**: 폭발 방지, RNN에서 주로 사용
-- **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)**: 게이트 구조로 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 보존
+- <strong>잔차 연결 (Residual Connection, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a>)</strong>: F(x) + x → 기울기 고속도로
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong>: 중간 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 안정화
+- <strong>기울기 클리핑 (Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a>)</strong>: 폭발 방지, RNN에서 주로 사용
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a>/<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong>: 게이트 구조로 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 보존
 
 - **📢 섹션 요약 비유**: Kaiming [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화는 "스피커 볼륨을 처음부터 정확히 맞춰서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 너무 작아지거나 너무 커지지 않도록" 세팅하는 것이다.
 

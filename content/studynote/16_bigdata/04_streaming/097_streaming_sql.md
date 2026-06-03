@@ -167,8 +167,8 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ### 2. 연결 개념
 
-- **[Window Operations](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)**: 스트리밍 SQL의 [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) TUMBLE/HOP/[SESSION](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)
-- **[Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)**: Flink SQL의 [WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 선언으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/">Window Operations</a></strong>: 스트리밍 SQL의 [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) TUMBLE/HOP/[SESSION](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a></strong>: Flink SQL의 [WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 선언으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용
 - **Exactly-Once**: Flink SQL의 [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)과 연계
 
 **📢 섹션 요약 비유**
@@ -214,7 +214,7 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ### 2. 결론
 
-스트리밍 SQL은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 민주화**를 가능하게 하는 핵심 기술이다. 기술사 답안에서는 ksqlDB/Flink SQL/[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) SQL의 특성 비교, 스트리밍 고유 SQL 구문(TUMBLE, HOP, [WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/), EMIT CHANGES), 그리고 스트림-테이블 조인의 실무적 활용을 서술하면 된다.
+스트리밍 SQL은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 엔지니어링의 민주화</strong>를 가능하게 하는 핵심 기술이다. 기술사 답안에서는 ksqlDB/Flink SQL/[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) SQL의 특성 비교, 스트리밍 고유 SQL 구문(TUMBLE, HOP, [WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/), EMIT CHANGES), 그리고 스트림-테이블 조인의 실무적 활용을 서술하면 된다.
 
 **📢 섹션 요약 비유**
 > 스트리밍 SQL은 "강이 되어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 SQL 낚시 면허증"을 부여한 것이다. 이제 엔지니어뿐 아니라 SQL을 아는 분석가도 흐르는 강에서 직접 물고기(인사이트)를 잡을 수 있게 되었다.
@@ -233,21 +233,23 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정적 배치 SQL — 저장된 테이블 대상 질의]
-    │
-    ▼
-[스트리밍 SQL — 흐르는 스트림에 SQL 적용]
-    │
-    ▼
-[Window 연산 (TUMBLE·HOP·SESSION) — 시간 구간 집계]
-    │
-    ▼
-[Watermark — 이벤트 지연 허용 및 집계 완료 트리거]
-    │
-    ▼
-[ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 배치 SQL — 저장된 테이블 대상 질의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 SQL — 흐르는 스트림에 SQL 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Window 연산 (TUMBLE·HOP·SESSION) — 시간 구간 집계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Watermark — 이벤트 지연 허용 및 집계 완료 트리거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준</div></div>
+</div>
+</div>
+
+
 정적 SQL 문법을 흐르는 스트림에 적용하고, 창(Window)과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))로 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 처리하며, ksqlDB와 Flink SQL이 각각 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)·범용 스트리밍 표준으로 자리잡는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

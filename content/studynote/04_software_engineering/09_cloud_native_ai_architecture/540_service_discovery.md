@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 모놀리식 시절에는 서버가 1대였다. 통신할 때 IP `192.168.0.5` 를 코드 안에 쌩으로 하드코딩해서(박아놓고) 평생 썼다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 왔다. 결제 서버가 10대 떠 있다. 주문 서버가 결제 서버에 통신([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))을 하려면 저 10대의 IP 주소를 다 알고 있어야 한다. 그런데 결제 서버 3번이 갑자기 죽고(Crash), AWS가 새 결제 서버 11번을 IP `10.0.1.99` 로 허공에 띄웠다. **주문 서버는 새로 태어난 11번 서버의 IP를 도대체 어떻게 알아채고 통신을 할 것인가?** 이 미친 동적 꼬리잡기를 해결하는 유일한 전화번호부가 '[Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)'다.
 
-- **필요성**: 개발자가 50개의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 서버의 IP를 엑셀이나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.yml`)에 텍스트로 치는 순간 회사는 멸망한다. 트래픽이 몰리면 서버는 1분 만에 10대에서 100대로 불어난다([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)). 그 100대의 IP를 언제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 적어서 재배포할 것인가? **"IP는 신뢰할 수 없는 임시 껍데기일 뿐이다. 나는 상대방의 IP를 몰라도, 그냥 '결제(Payment)'라는 고정된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름만 허공에 부르면 누군가가 나를 살아있는 가장 건강한 결제 서버 IP로 꽂아줘야 한다."** 이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 역동성(Agility)을 받쳐줄 100% 자율 주행 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 시스템이 생사결단으로 필요해졌다.
+- **필요성**: 개발자가 50개의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 서버의 IP를 엑셀이나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.yml`)에 텍스트로 치는 순간 회사는 멸망한다. 트래픽이 몰리면 서버는 1분 만에 10대에서 100대로 불어난다([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)). 그 100대의 IP를 언제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 적어서 재배포할 것인가? <strong>"IP는 신뢰할 수 없는 임시 껍데기일 뿐이다. 나는 상대방의 IP를 몰라도, 그냥 '결제(Payment)'라는 고정된 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 이름만 허공에 부르면 누군가가 나를 살아있는 가장 건강한 결제 서버 IP로 꽂아줘야 한다."</strong> 이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)의 역동성(Agility)을 받쳐줄 100% 자율 주행 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 시스템이 생사결단으로 필요해졌다.
 
-- **💡 비유**: [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 스마트폰의 **'114 전화번호부 자동 연결 앱'**과 똑같습니다. 옛날(하드코딩)에는 짜장면을 시키려 할 때 수첩에 적힌 '02-123-4567(IP 주소)'로 전화를 걸었습니다. 중국집이 망해서 이사가면 결번이 뜨고 난리가 납니다(장애 발생). [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)를 쓰면 수첩을 버려도 됩니다. 그냥 핸드폰에 대고 **"동네 짜장면집 연결해 줘!([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Name)"**라고 소리칩니다. 그러면 114 앱(디스커버리 서버)이 "지금 문 열려있고 제일 가까운 중국집 전화번호 3개 띄워줄게!"라며 실시간으로 살아있는 번호(IP)들만 딱 뽑아서 넘겨줍니다. 중국집이 100개가 생기든 다 망하든 나는 신경 쓸 필요 없이 편안하게 주문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신)만 하면 됩니다.
+- **💡 비유**: [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 스마트폰의 <strong>'114 전화번호부 자동 연결 앱'</strong>과 똑같습니다. 옛날(하드코딩)에는 짜장면을 시키려 할 때 수첩에 적힌 '02-123-4567(IP 주소)'로 전화를 걸었습니다. 중국집이 망해서 이사가면 결번이 뜨고 난리가 납니다(장애 발생). [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)를 쓰면 수첩을 버려도 됩니다. 그냥 핸드폰에 대고 <strong>"동네 짜장면집 연결해 줘!(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Name)"</strong>라고 소리칩니다. 그러면 114 앱(디스커버리 서버)이 "지금 문 열려있고 제일 가까운 중국집 전화번호 3개 띄워줄게!"라며 실시간으로 살아있는 번호(IP)들만 딱 뽑아서 넘겨줍니다. 중국집이 100개가 생기든 다 망하든 나는 신경 쓸 필요 없이 편안하게 주문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신)만 하면 됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **정적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 라운드로빈의 한계**: 옛날엔 사내 DNS에 IP 3개를 묶어놓고 돌려 썼다. 1대가 뻗었는데 DNS는 그걸 모르고 죽은 서버로 트래픽을 쏴서 에러 33% 빵꾸가 났다(Health Check 부재).
+  1. <strong>정적 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 라운드로빈의 한계</strong>: 옛날엔 사내 DNS에 IP 3개를 묶어놓고 돌려 썼다. 1대가 뻗었는데 DNS는 그걸 모르고 죽은 서버로 트래픽을 쏴서 에러 33% 빵꾸가 났다(Health Check 부재).
   2. **넷플릭스 유레카(Eureka)의 낭만 (2010s 중반)**: 넷플릭스가 "자바(Spring) 코드 안에 전화번호부 로직을 내장시켜 버리자!"라며 유레카를 만들었다. 자바 앱들이 서로 "나 켜졌어!", "나 죽어!" 핑퐁을 치며 전화번호부를 실시간 갱신하는 낭만적이지만 무거운 시대.
-  3. **인프라 K8s DNS와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시의 천하통일 (현재)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)가 나오며 게임이 끝났다. 개발자가 자바 코드로 전화번호부를 짤 필요가 아예 없어졌다. 인프라(K8s CoreDNS)가 밑바닥에서 "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 이름만 부르면 내가 IP 알아서 다 찾아주고 통신선 뚫어줄게"라며 전화번호부 책임을 인프라 계층으로 완전히 빼앗아 버리는(Decoupling) 완벽한 진화를 이루었다.
+  3. <strong>인프라 K8s DNS와 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 메시의 천하통일 (현재)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)가 나오며 게임이 끝났다. 개발자가 자바 코드로 전화번호부를 짤 필요가 아예 없어졌다. 인프라(K8s CoreDNS)가 밑바닥에서 "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 이름만 부르면 내가 IP 알아서 다 찾아주고 통신선 뚫어줄게"라며 전화번호부 책임을 인프라 계층으로 완전히 빼앗아 버리는(Decoupling) 완벽한 진화를 이루었다.
 
-- **📢 섹션 요약 비유**: 옛날 배달 기사(서버 통신)는 **'종이 지도를 보고 주소(IP)를 직접 찾아가는 수동 주행'**을 했습니다. 주소가 바뀌면 길을 잃었죠. [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 배달 오토바이에 **'최첨단 실시간 티맵(T-map) 내비게이션'**을 박아버린 것입니다. 목적지의 건물(서버) 이름만 치면, 1초 전에 길이 무너져(서버 다운) 폐쇄된 도로(IP)는 싹 다 빨간색으로 지우고, 방금 새로 뚫린 우회로(신규 스케일아웃 서버) 3개를 파란색으로 쫙 그려주어 단 0.1초의 막힘도 없이 목적지에 다이렉트로 꽂히게 만드는 자율 주행의 심장입니다.
+- **📢 섹션 요약 비유**: 옛날 배달 기사(서버 통신)는 <strong>'종이 지도를 보고 주소(IP)를 직접 찾아가는 수동 주행'</strong>을 했습니다. 주소가 바뀌면 길을 잃었죠. [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 배달 오토바이에 <strong>'최첨단 실시간 티맵(T-map) 내비게이션'</strong>을 박아버린 것입니다. 목적지의 건물(서버) 이름만 치면, 1초 전에 길이 무너져(서버 다운) 폐쇄된 도로(IP)는 싹 다 빨간색으로 지우고, 방금 새로 뚫린 우회로(신규 스케일아웃 서버) 3개를 파란색으로 쫙 그려주어 단 0.1초의 막힘도 없이 목적지에 다이렉트로 꽂히게 만드는 자율 주행의 심장입니다.
 
 ---
 
 다음은 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) D의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 디스커버리 (Service D                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 디스커버리 (Service D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) D가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 디스커버리 (Service Discovery) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 디스커버리 (Service Discovery) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 인터넷의 99%는 중앙의 Server(제공자)가 있고, 우리 스마트폰 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)(소비자)가 접속해 데이터를 구걸하는 방식입니다.
 - **문제점**: 중앙 서버 1대가 터지면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 국민이 카카오톡을 못 합니다. 또한 트래픽 100%를 서버가 부담해야 하니 인프라 유지 비용이 천문학적입니다.
 
-```text
-[해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
-[P2P]
-    │
-    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: P2P는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,28 +44,32 @@ tags = ["studynote-network"]
 P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다.
 
 ### 1. 하이브리드 P2P (1세대, 냅스터 Napster)
-- **방식**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 주고받는 건 개인 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))끼리 1:1로 직거래합니다. 하지만, **"누가 어떤 MP3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 갖고 있는지(목차 장부)"는 무조건 중앙 서버(디렉토리 서버)에 접속해서 검색**해야 합니다.
+- **방식**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 주고받는 건 개인 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))끼리 1:1로 직거래합니다. 하지만, <strong>"누가 어떤 MP3 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 갖고 있는지(목차 장부)"는 무조건 중앙 서버(디렉토리 서버)에 접속해서 검색</strong>해야 합니다.
 - **최후**: 음원 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 협회가 소송을 걸어 중앙 장부 서버 1대만 경찰이 압수수색해 전원을 뽑아버리자, 전 세계 P2P 통신망이 그날로 아예 멸망해 버렸습니다(단일 고장점의 저주). 
 
 ### 2. 순수 P2P (2세대, Gnutella) - "진정한 바퀴벌레망"
 - **방식**: 경찰한테 털릴 '중앙 서버'라는 존재 자체를 시스템에서 100% 삭제해 버렸습니다.
-- **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색 (Flooding)**: 내가 야동을 찾고 싶으면, 내 옆에 붙은 3명의 이웃 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))에게 "야동 있어?"라고 방송(Flooding)합니다. 없으면 그 이웃이 자기 이웃 3명에게 또 묻습니다. 다단계 피라미드처럼 전 세계 컴퓨터에 수소문(비집중 탐색)해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아냅니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 탐색 (Flooding)</strong>: 내가 야동을 찾고 싶으면, 내 옆에 붙은 3명의 이웃 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))에게 "야동 있어?"라고 방송(Flooding)합니다. 없으면 그 이웃이 자기 이웃 3명에게 또 묻습니다. 다단계 피라미드처럼 전 세계 컴퓨터에 수소문(비집중 탐색)해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아냅니다.
 - **최후**: 경찰이 서버를 털 수 없어 영원불멸의 망이 되었지만, 전 세계 모든 컴퓨터가 서로에게 "야동 있어?"라고 물어대는 무식한 브로드캐스트(Broadcasting Storm) 트래픽 때문에 인터넷망 전체가 멈춰버리는 재앙([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭발)이 터져 멸망했습니다.
 
 ### 3. 슈퍼 노드 P2P (3세대, Skype / 최신 Gnutella) 🌟 핵심 🌟
 1세대와 2세대의 장점만 합친 현실적 타협안입니다.
-- **방식**: 중앙 서버는 없습니다. 대신 동네 컴퓨터들 중에서 **인터넷 속도가 유독 빵빵하고 컴퓨터를 24시간 켜놓는 놈(PC방 컴퓨터 등)을 벼슬을 줘서 '슈퍼 노드(Super Node, 반장)'로 강제 승격**시킵니다.
+- **방식**: 중앙 서버는 없습니다. 대신 동네 컴퓨터들 중에서 <strong>인터넷 속도가 유독 빵빵하고 컴퓨터를 24시간 켜놓는 놈(PC방 컴퓨터 등)을 벼슬을 줘서 '슈퍼 노드(Super Node, 반장)'로 강제 승격</strong>시킵니다.
 - 이 슈퍼 노드는 동네 피어(일반 컴퓨터) 1,000명의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목차 장부를 대신 모아서 들고 있습니다.
 - **탐색**: 내가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾고 싶으면 멍청하게 온 동네에 소리치지 않고(플러딩 X), 우리 동네 반장(슈퍼 노드)에게 귓속말로 물어봅니다. 속도가 미친 듯이 빠르며 망 트래픽 낭비도 0%가 되는 혁명입니다. 스카이프(Skype)가 이 기술로 전 세계 무료 음성통화 망을 구축했습니다.
 
-```text
-[해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
-[P2P]
-    │
-    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: P2P의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 
 ## Ⅲ. 비교 및 연결
 
-- P2P망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 **트래커(Tracker)**입니다. 
+- P2P망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 <strong>트래커(Tracker)</strong>입니다. 
 - 트래커는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가지고 있지 않습니다. 오직 "이 해시(Hash)값 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 IP 1.1.1.1 놈이랑 IP 2.2.2.2 놈이 들고 있으니 걔네 둘한테 가서 뜯어내렴" 하고 짝짓기(매칭)만 시켜줍니다. (917번 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 문서에서 완성됩니다.)
 
 P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…가 기반 조건을 만든다면, P2P는 그 위에서 핵심 메커니즘을 구현하고, [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 서버-클라이언트(C/S) 방식은 **'중앙 통제식 대형 도서관'**입니다. 100만 명의 학생이 백과사전을 빌리러 사서(서버) 1명에게 우르르 몰려가니 사서가 과로사합니다. **순수 P2P(2세대)**는 도서관을 불태워버리고, 동네 골목에서 확성기를 들고 "백과사전 1페이지 가진 사람!!" 소리치며 물어물어 동네방네 시끄럽게 책을 복사하는 무식한 짓입니다. 이를 완성시킨 **슈퍼 노드 P2P(3세대)**는 동네마다 기억력이 좋은 '똑똑한 통장 아저씨(슈퍼 노드)'를 한 명씩 임명한 체계입니다. 확성기를 켤 필요 없이 통장 아저씨한테 가서 "백과사전 누구네 집에 있어요?"라고 조용히 물어보면, 통장이 "앞집 철수네 하드디스크에 있다!"고 1초 만에 짝을 지어줍니다. 사서(중앙 서버)가 없어도 전 국민이 지들끼리 조용하고 빛의 속도로 백과사전 조각을 복사해서 나눠 갖는 궁극의 품앗이 지식 공유망입니다.
+- **📢 섹션 요약 비유**: 기존 서버-클라이언트(C/S) 방식은 <strong>'중앙 통제식 대형 도서관'</strong>입니다. 100만 명의 학생이 백과사전을 빌리러 사서(서버) 1명에게 우르르 몰려가니 사서가 과로사합니다. <strong>순수 P2P(2세대)</strong>는 도서관을 불태워버리고, 동네 골목에서 확성기를 들고 "백과사전 1페이지 가진 사람!!" 소리치며 물어물어 동네방네 시끄럽게 책을 복사하는 무식한 짓입니다. 이를 완성시킨 <strong>슈퍼 노드 P2P(3세대)</strong>는 동네마다 기억력이 좋은 '똑똑한 통장 아저씨(슈퍼 노드)'를 한 명씩 임명한 체계입니다. 확성기를 켤 필요 없이 통장 아저씨한테 가서 "백과사전 누구네 집에 있어요?"라고 조용히 물어보면, 통장이 "앞집 철수네 하드디스크에 있다!"고 1초 만에 짝을 지어줍니다. 사서(중앙 서버)가 없어도 전 국민이 지들끼리 조용하고 빛의 속도로 백과사전 조각을 복사해서 나눠 갖는 궁극의 품앗이 지식 공유망입니다.
 
 ---
 
@@ -122,15 +130,19 @@ P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 해상 통신망 LTE-M / e-Navigat…]
-    │
-    ▼
-[현재 개념: P2P]
-    │
-    ├──▶ [확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해상 통신망 LTE-M / e-Navigat…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: P2P</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 P2P는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

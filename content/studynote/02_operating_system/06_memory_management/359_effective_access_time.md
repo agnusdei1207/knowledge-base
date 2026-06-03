@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio)은 CPU가 요청한 가상 주소를 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에서 1번 만에 찾아내는 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이며, 실질 메모리 접근 시간(EAT: Effective Access Time)은 히트 시의 빠른 시간과 미스 시의 느린 시간을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중 평균 낸 **'실제 사용자가 체감하는 평균 메모리 속도'**를 의미한다.
+> 1. **본질**: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio)은 CPU가 요청한 가상 주소를 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에서 1번 만에 찾아내는 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이며, 실질 메모리 접근 시간(EAT: Effective Access Time)은 히트 시의 빠른 시간과 미스 시의 느린 시간을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중 평균 낸 <strong>'실제 사용자가 체감하는 평균 메모리 속도'</strong>를 의미한다.
 > 2. **가치**: "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 테이블 장부를 읽느라 무조건 2배 느려진다"는 구조적 약점을, 99%에 달하는 극단적인 히트율을 수학적으로 증명함으로써 "사실상 1배([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없음)의 속도에 수렴한다"며 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처의 정당성을 방어하는 핵심 지표다.
 > 3. **융합**: 이 수학 공식은 프로그램의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성(Locality)이라는 소프트웨어적 특성과, 연관 메모리(CAM)라는 하드웨어의 검색 속도가 완벽하게 융합되어야만 성립하는 컴퓨터 구조론의 가장 중요한 트레이드오프 계산식이다.
 
@@ -19,34 +19,34 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)**은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 횟수 대비 성공 횟수의 비율(예: 0.99 = 99%)이다. **실질 메모리 접근 시간(EAT)**은 이 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 바탕으로, 히트 시 걸리는 시간과 미스 시 걸리는 시간을 통계적으로 평균 낸 실제 소요 시간 값이다.
+- **개념**: **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)**은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 횟수 대비 성공 횟수의 비율(예: 0.99 = 99%)이다. <strong>실질 메모리 접근 시간(EAT)</strong>은 이 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 바탕으로, 히트 시 걸리는 시간과 미스 시 걸리는 시간을 통계적으로 평균 낸 실제 소요 시간 값이다.
 - **필요성**: 공학자들이 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템을 도입하자고 제안했을 때, 가장 큰 반발은 "메모리에 접근할 때마다 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 읽느라 속도가 반토막(100ns -> 200ns) 나는데 이걸 어떻게 쓰냐!"는 것이었다. 공학자들은 TLB라는 하드웨어를 도입한 뒤, "잠깐만 수학적으로 계산해 봐! 99번은 100ns에 끝나고 딱 1번만 200ns가 걸리니까, 평균 내면 101ns밖에 안 걸려! 1ns 느려진 건 티도 안 난다구!"라며 경영진을 설득하기 위해 이 계산 공식(EAT)이 절대적으로 필요했다.
 
-- **등장 배경 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증명의 척도**:
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 증명의 척도</strong>:
   1. **오버헤드의 공포**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 테이블 조회가 필수불가결해지면서 2회 접근 패널티는 확정되었다.
-  2. **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 하드웨어 투입**: 이를 막으려 TLB를 넣었지만, 하드웨어가 너무 비싸서 64칸밖에 못 만들었다. "겨우 64개 외워서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오겠냐?"는 의구심이 터졌다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 하드웨어 투입</strong>: 이를 막으려 TLB를 넣었지만, 하드웨어가 너무 비싸서 64칸밖에 못 만들었다. "겨우 64개 외워서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오겠냐?"는 의구심이 터졌다.
   3. **지역성(Locality) 기반 증명**: 컴퓨터는 루프(for/while)를 돌기 때문에 64칸만 있어도 히트율이 99%에 달한다는 사실을 EAT 수식으로 완벽하게 수치화하여 증명해 냈다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        EAT (Effective Access Time)를 도출하는 마법의 분기점       │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 전제 조건 가설 ]                                                │
-│ - TLB 검색 시간: 1 ns (거의 0에 가깝지만 계산을 위해)             │
-│ - RAM 접근 시간: 100 ns                                           │
-│ - TLB 적중률: 99% (알파 = 0.99)                                   │
-│                                                                   │
-│ [ 길 1: TLB Hit 🟢 (99% 확률) ]                                   │
-│  "TLB에서 주소를 찾음(1ns) + 램 가서 진짜 데이터 가져옴(100ns)"   │
-│   ▶ Hit 경로 총 소요 시간 = 101 ns                                │
-│                                                                   │
-│ [ 길 2: TLB Miss 🔴 (1% 확률) ]                                   │
-│  "TLB 찾다 실패(1ns) + 램 장부 읽으러 감(100ns)                   │
-│   + 장부 알아낸 후 램 진짜 데이터 가러 감(100ns)"                 │
-│   ▶ Miss 경로 총 소요 시간 = 201 ns                               │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EAT (Effective Access Time)를 도출하는 마법의 분기점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건 가설</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 검색 시간: 1 ns (거의 0에 가깝지만 계산을 위해)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAM 접근 시간: 100 ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 적중률: 99% (알파 = 0.99)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">길 1: TLB Hit 🟢 (99% 확률)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"TLB에서 주소를 찾음(1ns) + 램 가서 진짜 데이터 가져옴(100ns)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Hit 경로 총 소요 시간 = 101 ns</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">길 2: TLB Miss 🔴 (1% 확률)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"TLB 찾다 실패(1ns) + 램 장부 읽으러 감(100ns)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 장부 알아낸 후 램 진짜 데이터 가러 감(100ns)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Miss 경로 총 소요 시간 = 201 ns</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 두 갈래 길이 시스템의 운명을 결정한다. Hit가 나면 1번만 램에 가면 되니 100ns 수준에 방어하지만, Miss가 나면 장부를 읽느라 램에 2번 가야 해서 200ns라는 끔찍한 시간이 걸린다. 관건은 이 200ns 지뢰밭을 밟을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 극도로 낮추는 것이다. 
 
 - **📢 섹션 요약 비유**: 복권 뽑기 상자에서 당첨([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))을 뽑으면 1초 만에 젤리를 먹지만, 꽝(Miss)을 뽑으면 창고에 가서 열쇠를 가져와야 해 2초가 걸립니다. 다행히 이 상자에는 당첨표가 99장 들어있어 평균적으로는 매번 1초 언저리로 젤리를 먹는 마술 상자입니다.
@@ -59,7 +59,7 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시험과 아키텍처 설계에서 영원히 변하지 않는 황금 공식이다.
 
-> **EAT = ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 시 걸리는 시간) + (Miss [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × Miss 시 걸리는 시간)**
+> <strong>EAT = (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> × <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 시 걸리는 시간) + (Miss <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> × Miss 시 걸리는 시간)</strong>
 
 기호로 풀면 다음과 같다.
 - $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$ ([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)): [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio)
@@ -67,7 +67,7 @@ tags = ["studynote-operating-system"]
 - $M$: 메모리 1번 접근 시간
 
 **[ 완벽한 계산식 ]**
-- **[Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 시간**: $\epsilon + M$ ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 + 램에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꺼내기)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 시간</strong>: $\epsilon + M$ ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 + 램에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꺼내기)
 - **Miss 시간**: $\epsilon + M + M$ ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 실패 + 램에서 장부 읽기 + 램에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꺼내기)
 - **$EAT = \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)(\epsilon + M) + (1 - \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/))(\epsilon + 2M)$**
 
@@ -76,15 +76,15 @@ tags = ["studynote-operating-system"]
 ### 시뮬레이션 계산 (숫자로 보는 위력)
 
 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 검색 시간($\epsilon$)을 10ns, 메모리 접근 시간($M$)을 100ns라고 가정해 보자.
-- 만약 **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 없음)**: 무조건 2번 읽어야 함. `100 + 100 = 200ns`
-- 만약 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 80%**라면: 
+- 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 없음)</strong>: 무조건 2번 읽어야 함. `100 + 100 = 200ns`
+- 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>이 80%</strong>라면: 
   `EAT = 0.8 * (10 + 100) + 0.2 * (10 + 100 + 100)`
   `= 0.8 * 110 + 0.2 * 210`
   `= 88 + 42 = 130 ns` (여전히 30% 정도 느림)
-- 만약 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 99%**라면:
+- 만약 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>이 99%</strong>라면:
   `EAT = 0.99 * 110 + 0.01 * 210 = 108.9 + 2.1 = 111 ns`
 
-**결론**: 장부를 읽어야 한다는 약점을 가졌음에도, [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 99%에 도달하는 순간 원래의 메모리 접근 시간(100ns)에 불과 **[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%의 딜레이(111ns)만 추가**되는 기적을 이뤄낸다. 즉 2배 느려질 뻔한 시스템을 거의 정상 속도로 구원해 낸 것이다.
+**결론**: 장부를 읽어야 한다는 약점을 가졌음에도, [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 99%에 도달하는 순간 원래의 메모리 접근 시간(100ns)에 불과 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>%의 딜레이(111ns)만 추가</strong>되는 기적을 이뤄낸다. 즉 2배 느려질 뻔한 시스템을 거의 정상 속도로 구원해 낸 것이다.
 
 - **📢 섹션 요약 비유**: 식당에서 매번 레시피 책(장부)을 보며 요리하면 원래 10분 걸리던 요리가 20분 걸리게 되는데, 주방장이 100개 레시피 중 99개를 머리([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에 완벽히 외워버렸기 때문에, 가끔 1번 책을 펴보더라도 하루 전체 요리 평균 시간은 거의 10분에 가깝게 유지되는 장인의 퍼포먼스입니다.
 
@@ -102,24 +102,27 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 | **99%** | 111 ns | 정상 대비 약 1% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (쾌적) |
 | **95%** | 115 ns | 정상 대비 약 5% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (버틸 만함) |
 | **80% (재앙)** | 130 ns | 정상 대비 약 20% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (시스템 체감 렉 폭발) |
-| **50% ([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))**| 160 ns | 서버 마비 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
+| <strong>50% (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>)</strong>| 160 ns | 서버 마비 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
 
 표에서 보듯, [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 100%에서 80%로 떨어지면 메모리 속도가 무려 20% 가까이 곤두박질친다. CPU가 3GHz에서 2.4GHz로 강제 다운클럭 당하는 것과 똑같은 체감 효과다. 
 
 ### 왜 TLB는 64개밖에 안 되는데 99%가 맞을까? (Locality)
 - 캐시 방이 달랑 64~1024개뿐인데 어떻게 수백만 개의 주소 중 99%를 맞힐까?
-- 해답은 소프트웨어의 **지역성(Locality)**이다. 
+- 해답은 소프트웨어의 <strong>지역성(Locality)</strong>이다. 
 - **공간 지역성(Spatial)**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `A[0]`을 읽으면 곧바로 `A[1]`을 읽는다. 즉, 같은 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 계속 놀기 때문에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시는 한 번 올려두면 수천 번의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되는 동안 절대 Miss가 나지 않는다.
 - **시간 지역성(Temporal)**: `for` 루프를 수만 번 돌면, 똑같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드가 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 계속 반복해서 부른다. 
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 최적화 포인트│ 소프트웨어 코딩│ 하드웨어(TLB)│ EAT 결과          │
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ 좋은 케이스 │ 배열(Array)연속│ 한 칸 유지(Hit)│ 100ns 수렴       │
-│ 최악 케이스 │ 무작위 포인터 점프│ 매번 쫓겨남(Miss)│ 200ns 붕괴  │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 포인트</div><div class="kb-diagram-cell">소프트웨어 코딩</div><div class="kb-diagram-cell">하드웨어(TLB)</div><div class="kb-diagram-cell">EAT 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좋은 케이스</div><div class="kb-diagram-cell">배열(Array)연속</div><div class="kb-diagram-cell">한 칸 유지(Hit)</div><div class="kb-diagram-cell">100ns 수렴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최악 케이스</div><div class="kb-diagram-cell">무작위 포인터 점프</div><div class="kb-diagram-cell">매번 쫓겨남(Miss)</div><div class="kb-diagram-cell">200ns 붕괴</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 실질 메모리 접근 시간(EAT)은 하드웨어 혼자서 만드는 것이 아니다. 개발자가 메모리 파편화를 무시하고 포인터 점프(Linked List나 흩어진 객체)로 떡칠한 코드를 짜면, 하드웨어 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 견디지 못하고 계속 미스를 뿜어대어 EAT가 박살 난다.
 
 - **📢 섹션 요약 비유**: 수첩에 번호를 64개밖에 못 적지만 99% 통화가 성공하는 이유는, 내가 평소에 전화 거는 사람이 엄마, 아빠, 여친 등 딱 5명(지역성) 안에서 뺑글뺑글 돌기 때문입니다. 하지만 갑자기 콜센터 직원이 되어 무작위 1000명에게 전화를 건다면 수첩([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))은 아무짝에도 쓸모없어집니다.
@@ -130,10 +133,10 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 
 ### 실무 시나리오: [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 도입과 EAT 최적화
 1. **상황**: 오라클 DB에서 수십 GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 풀 스캔(Full Scan)한다. 포인터가 계속 수백 MB씩 뒤로 넘어가므로 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 시대의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(1024칸)는 단 4MB 스캔 만에 캐시가 전부 박살(Eviction)난다.
-2. **[Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Ratio의 폭락**:
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> Ratio의 폭락</strong>:
    - 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훑고 지나가니 공간 지역성이 무너지고 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)($\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)이 50% 밑으로 추락한다. 
    - EAT가 100ns에서 180ns로 치솟으며 서버 CPU 사용률이 iowait와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타임으로 붉게 물든다.
-3. **엔지니어의 대응 ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))**:
+3. <strong>엔지니어의 대응 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)</strong>:
    - 엔지니어가 리눅스 옵션에서 2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 켠다.
    - 이제 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 1칸에 4KB가 아니라 2MB 면적의 주소가 담긴다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 1024칸이 무려 2GB의 주소를 커버한다!
    - 즉, 2GB를 스캔할 때까지 캐시가 쫓겨나지 않게 되어 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)($\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)이 순식간에 99.9%로 회복된다. EAT 공식에 의해 메모리 딜레이가 사라지고 DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 2배로 수직 상승한다.
@@ -154,8 +157,8 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 
 | 구분 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 나침반** | 개발자나 시스템 관리자가 [TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) Ratio 지표(perf [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 측정)를 보고 아키텍처 병목을 진단하게 함 |
-| **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 패러다임 정당화**| 비연속 할당으로 인한 주소 번역 오버헤드가 통계적으로 1~2% 미만임을 수학적으로 증명해 줌 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝의 나침반</strong> | 개발자나 시스템 관리자가 [TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) Ratio 지표(perf [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 측정)를 보고 아키텍처 병목을 진단하게 함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 패러다임 정당화</strong>| 비연속 할당으로 인한 주소 번역 오버헤드가 통계적으로 1~2% 미만임을 수학적으로 증명해 줌 |
 | **하드웨어 캐시 설계 근거**| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칩셋의 크기(L1/L2)를 무한정 늘리지 않고, 가격 대비 효율이 극대화되는 황금 타협점 도출의 토대 |
 
 ### 결론 및 미래 전망
@@ -177,15 +180,19 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
-    │
-    ▼
-[TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
-    │
-    ├──▶ [ASID (Address-Space Identifier)]
-    └──▶ [다단계 페이징 (Hierarchical Paging)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASID (Address-Space Identifier)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 페이징 (Hierarchical Paging)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

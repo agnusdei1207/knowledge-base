@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오버샘플링 ([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)), 언더샘플링 (Undersampling), [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) ([Synthetic Minority Over-sampling Technique](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/))는 클래스 불균형 (Class Imbalance) 문제를 완화하기 위해 **학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 자체를 재조정**하는 기법이다.
+> 1. **본질**: 오버샘플링 ([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)), 언더샘플링 (Undersampling), [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) ([Synthetic Minority Over-sampling Technique](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/))는 클래스 불균형 (Class Imbalance) 문제를 완화하기 위해 <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분포 자체를 재조정</strong>하는 기법이다.
 > 2. **가치**: 다수 클래스가 압도적으로 많은 상황에서는 모델이 정확도는 높아 보여도 소수 클래스 탐지를 거의 못 하게 되는데, 재표본화는 이런 편향을 줄여 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))과 F1-score를 개선한다.
 > 3. **판단 포인트**: 단순 오버샘플링은 과적합 위험, 언더샘플링은 정보 손실 위험이 있으며, SMOTE는 이웃 간 선형 보간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 늘리지만 노이즈와 클래스 경계 왜곡을 함께 관리해야 한다.
 
@@ -23,17 +23,19 @@ tags = ["studynote-ai"]
 
 재표본화는 이 문제를 가장 직접적으로 다룬다. [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 바꾸기 전에, 학습에 들어가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비율부터 조정해 모델이 소수 클래스를 충분히 보도록 만드는 것이다. 그래서 불균형 학습의 가장 기본적이면서도 실무적인 출발점으로 여겨진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           클래스 불균형이 만드는 학습 편향                   │
-├──────────────────────────────────────────────────────────────┤
-│ 원본 데이터 :  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○   ●                    │
-│                 다수 클래스가 의사결정을 지배                │
-│                                                              │
-│ 재표본화 후 : ○ ○ ○ ○ ○ ○   ● ● ● ●                         │
-│                 소수 클래스가 학습에서 보이기 시작           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 불균형이 만드는 학습 편향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 : ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다수 클래스가 의사결정을 지배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재표본화 후 : ○ ○ ○ ○ ○ ○ ● ● ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소수 클래스가 학습에서 보이기 시작</div></div>
+</div>
+</div>
+
+
 
 핵심은 "현실 비율"을 바꾸는 것이 아니라 "학습이 보게 되는 비율"을 바꾸는 데 있다. 운영 환경의 클래스 비율은 그대로 두더라도, 학습 단계에서만 분포를 조정해 의사결정 경계를 더 공정하게 만들 수 있다.
 
@@ -49,7 +51,7 @@ tags = ["studynote-ai"]
 | :------------- | :------------------------------ | :------------------- | :-------------------------- |
 | **오버샘플링** | 소수 클래스 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)                | 정보 손실 없음       | 중복 학습으로 과적합 가능   |
 | **언더샘플링** | 다수 클래스 일부 제거           | 학습 속도 향상       | 중요한 패턴 손실 가능       |
-| **[SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)**      | 이웃 소수 샘플 사이를 선형 보간 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 일반화 유도 | 경계 왜곡, 노이즈 증폭 가능 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a></strong>      | 이웃 소수 샘플 사이를 선형 보간 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 일반화 유도 | 경계 왜곡, 노이즈 증폭 가능 |
 
 SMOTE의 기본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙은 다음과 같다.
 
@@ -59,17 +61,18 @@ $$
 
 여기서 `x_i`는 소수 클래스 샘플, `x_{nn}`은 그 최근접 이웃이다. 즉, 소수 클래스 공간 안에서 두 점을 잇는 선분 위에 새로운 샘플을 만든다. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 덜 경직되지만, 경계 바깥까지 샘플을 밀어내면 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 혼란스럽게 할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                SMOTE의 합성 샘플 생성 원리                   │
-├──────────────────────────────────────────────────────────────┤
-│ minority point xi ●──────● xnn nearest minority              │
-│                     \    /                                    │
-│                      \ ● /  new synthetic sample              │
-│                       \  /                                   │
-│ 핵심: 소수 클래스 내부 이웃 사이를 보간한다                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMOTE의 합성 샘플 생성 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">minority point xi ● ● xnn nearest minority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ ● / new synthetic sample</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 소수 클래스 내부 이웃 사이를 보간한다</div></div>
+</div>
+</div>
+
+
 
 이 구조는 [K-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([K-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/))에 기반하므로, 특징 공간이 잘 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되어 있어야 한다. 거리 기반 이웃이 왜곡되면 잘못된 방향으로 합성 샘플이 생긴다. 따라서 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 표준화, 범주형 처리 여부가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 영향을 준다.
 
@@ -124,7 +127,7 @@ SMOTE는 ADASYN, Borderline-[SMOTE](/knowledge-base/studynote/14_data_engineerin
 
 재표본화 기법은 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 모델이 다수 클래스만 편애하는 현상을 줄여, 실제로 중요한 소수 이벤트를 더 잘 잡아내게 한다. 특히 탐지·경보 시스템에서는 이 차이가 운영 품질을 크게 바꾼다.
 
-결론적으로 오버샘플링, 언더샘플링, SMOTE의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비율을 예쁘게 맞추는 것이 아니라 **의사결정 경계가 소수 클래스를 무시하지 않게 만드는 것**이다. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 삭제, 합성의 트레이드오프를 이해하고, 평가지표와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수를 함께 관리해야 한다.
+결론적으로 오버샘플링, 언더샘플링, SMOTE의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비율을 예쁘게 맞추는 것이 아니라 <strong>의사결정 경계가 소수 클래스를 무시하지 않게 만드는 것</strong>이다. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 삭제, 합성의 트레이드오프를 이해하고, 평가지표와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수를 함께 관리해야 한다.
 
 - **📢 섹션 요약 비유**: 모두가 비슷하게 말할 기회를 주는 것이 목적이지, 사람 수를 억지로 맞추는 게 목적은 아니다. 균형 잡힌 토론이 결국 더 좋은 결론을 만든다.
 

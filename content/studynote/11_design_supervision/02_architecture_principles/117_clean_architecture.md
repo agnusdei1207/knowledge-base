@@ -23,27 +23,21 @@ tags = ["studynote-design-supervision"]
 
 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)가 해결하는 핵심 문제는 기술적 선택이 비즈니스 결정에 종속되어야 함에도 현실에서는 종종 반대가 되는 현상이다. 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 프레임워크를 먼저 결정하고 비즈니스 로직을 그 위에 맞추는 방식은 기술이 바뀔 때 비즈니스 로직도 함께 흔들리는 취약한 구조를 만든다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│        클린 아키텍처 동심원 구조                             │
-├─────────────────────────────────────────────────────────────┤
-│  ┌───────────────────────────────────────────────┐         │
-│  │  프레임워크·드라이버 (Frameworks & Drivers)     │         │
-│  │  ┌────────────────────────────────────────┐   │         │
-│  │  │  인터페이스 어댑터 (Interface Adapters)  │   │         │
-│  │  │  ┌────────────────────────────────┐    │   │         │
-│  │  │  │  유스케이스 (Use Cases)          │    │   │         │
-│  │  │  │  ┌──────────────────────────┐  │    │   │         │
-│  │  │  │  │    엔티티 (Entities)      │  │    │   │         │
-│  │  │  │  │  (핵심 비즈니스 규칙)     │  │    │   │         │
-│  │  │  │  └──────────────────────────┘  │    │   │         │
-│  │  │  └────────────────────────────────┘    │   │         │
-│  │  └────────────────────────────────────────┘   │         │
-│  └───────────────────────────────────────────────┘         │
-│                                                             │
-│  의존성 방향: 항상 ─────────────────────────────▶ 안쪽     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클린 아키텍처 동심원 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크·드라이버 (Frameworks &amp; Drivers)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터페이스 어댑터 (Interface Adapters)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 (Use Cases)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔티티 (Entities)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(핵심 비즈니스 규칙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 방향: 항상 ▶ 안쪽</div></div>
+</div>
+</div>
+
+
 
 의존성 규칙(Dependency Rule)은 "소스 코드 의존성은 항상 안쪽 원을 향해야 하며, 안쪽 원은 바깥쪽 원의 어떤 것도 알면 안 된다"는 단 하나의 규칙이다. 이 규칙 하나가 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) 전체를 정의한다.
 
@@ -62,22 +56,22 @@ tags = ["studynote-design-supervision"]
 | 인터페이스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) | 외부↔유스케이스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 / UI, DB 인터페이스 변경 | 유스케이스 |
 | 프레임워크·드라이버 | 웹, DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연동 / 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 변경 | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│     경계를 넘는 데이터 흐름: DTO로 계층 격리                │
-├─────────────────────────────────────────────────────────────┤
-│  [Web Controller]                                           │
-│       │ HTTP 요청 → Request DTO                             │
-│       ▼                                                     │
-│  [Use Case Interactor] ← Input Port interface               │
-│       │ Domain Entity 사용                                  │
-│       ▼                                                     │
-│  [Output Port interface] → Presenter/Repository 어댑터       │
-│       │ Response DTO                                        │
-│       ▼                                                     │
-│  [Presenter/View]                                           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경계를 넘는 데이터 흐름: DTO로 계층 격리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Web Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 요청 → Request DTO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Use Case Interactor</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Input Port interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Entity 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Output Port interface</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Presenter/Repository 어댑터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response DTO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Presenter/View</div></div>
+</div>
+</div>
+
+
 
 계층 경계를 넘을 때는 반드시 DTO ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 객체)를 사용한다. 엔티티 객체가 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층으로 그대로 전달되면 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 구조가 외부에 노출되어 결합이 발생한다.
 

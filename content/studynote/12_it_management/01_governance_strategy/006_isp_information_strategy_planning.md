@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))는 기업의 비즈니스 목표(매출, 시장점유율)를 달성하기 위해, 수백억 원짜리 IT 시스템을 언제, 어떻게, 어떤 기술로 구축할 것인지 밑그림을 그리는 **전사적 마스터플랜(최상위 아키텍처 청사진)**이다.
+> 1. **본질**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))는 기업의 비즈니스 목표(매출, 시장점유율)를 달성하기 위해, 수백억 원짜리 IT 시스템을 언제, 어떻게, 어떤 기술로 구축할 것인지 밑그림을 그리는 <strong>전사적 마스터플랜(최상위 아키텍처 청사진)</strong>이다.
 > 2. **가치**: 마케팅팀은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 재무팀은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 영업팀은 CRM을 사달라고 떼쓸 때, 회사의 한정된 예산과 비즈니스 우선순위에 맞춰 중복 투자를 막고 '돈이 되는' IT 시스템부터 구축하도록 순서를 쇳덩어리처럼 강제하는 거버넌스의 시작점이다.
 > 3. **판단 포인트**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 없이 덜컥 100억짜리 차세대 시스템 개발부터 시작하면 부서 간 요구사항 충돌과 아키텍처 누더기 현상으로 100% 프로젝트가 폭망하므로, 시스템 구축 전 최소 3~6개월간 경영 컨설턴트와 아키텍트가 머리를 맞대고 수행하는 필수 사전 정지 작업이다.
 
@@ -31,33 +31,29 @@ tags = ["studynote-it-management"]
 ### [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립의 표준 4단계 방법론 ([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ➔ To-Be)
 ISP는 경영 컨설팅의 언어로 시작해 IT 아키텍처의 언어로 끝난다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           ISP (정보화 전략 계획) 수행 프레임워크 4단계 구조         │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 1. 환경 분석 (Environment Analysis) ]                │
-│   - 경영진 인터뷰: "우리 회사 내년 목표는 모바일 매출 50%!"      │
-│   - 외부 트렌드: "경쟁사들은 다 AI 챗봇 도입했네?"             │
-│            │                                           │
-│            ▼                                           │
-│  [ 2. 현행 업무 및 IT 분석 (As-Is Analysis) ]            │
-│   - 현재 쇳덩어리 까보기: "서버는 10년 된 유닉스고, 데이터는 엑셀" │
-│   - 문제점 도출: "모바일 매출을 늘릴 모바일 인프라가 전혀 없음!"   │
-│            │                                           │
-│            ▼                                           │
-│  [ 3. 목표 모델 수립 (To-Be Architecture) ]              │
-│   - 비즈니스/데이터/어플리케이션/기술(EA) 목표 아키텍처 설계      │
-│   - "퍼블릭 클라우드 도입하고, 통합 고객 DB 구축하자!"          │
-│            │                                           │
-│            ▼                                           │
-│  [ 4. 이행 계획 수립 (Implementation Plan) ]             │
-│   - 프로젝트 쪼개기: 과제 1(클라우드), 과제 2(DB), 과제 3(앱)     │
-│   - ROI(투자수익률) 분석 및 우선순위(예산 편성) 쇳덩어리 확정     │
-└────────────────────────────────────────────────────────┘
-```
 
-가장 핵심은 **현행([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))과 목표(To-Be) 사이의 차이(Gap)**를 발견하는 것이다. 이 Gap을 메우기 위해 필요한 시스템들을 리스트업(List-up)하고, 한정된 예산을 바탕으로 1순위, 2순위, 3순위로 줄을 세우는 것이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 프로젝트의 최종 산출물(마스터플랜 보고서)이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP (정보화 전략 계획) 수행 프레임워크 4단계 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 환경 분석 (Environment Analysis)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경영진 인터뷰: "우리 회사 내년 목표는 모바일 매출 50%!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 외부 트렌드: "경쟁사들은 다 AI 챗봇 도입했네?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 현행 업무 및 IT 분석 (As-Is Analysis)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 쇳덩어리 까보기: "서버는 10년 된 유닉스고, 데이터는 엑셀"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제점 도출: "모바일 매출을 늘릴 모바일 인프라가 전혀 없음!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 목표 모델 수립 (To-Be Architecture)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스/데이터/어플리케이션/기술(EA) 목표 아키텍처 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "퍼블릭 클라우드 도입하고, 통합 고객 DB 구축하자!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 이행 계획 수립 (Implementation Plan)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로젝트 쪼개기: 과제 1(클라우드), 과제 2(DB), 과제 3(앱)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ROI(투자수익률) 분석 및 우선순위(예산 편성) 쇳덩어리 확정</div></div>
+</div>
+</div>
+
+
+
+가장 핵심은 <strong>현행(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a>)과 목표(To-Be) 사이의 차이(Gap)</strong>를 발견하는 것이다. 이 Gap을 메우기 위해 필요한 시스템들을 리스트업(List-up)하고, 한정된 예산을 바탕으로 1순위, 2순위, 3순위로 줄을 세우는 것이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 프로젝트의 최종 산출물(마스터플랜 보고서)이다.
 
 - **📢 섹션 요약 비유**: ISP의 과정은 '다이어트 계획 짜기'다. 1. 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(여름에 비키니 입기), 2. 현상계측(현재 몸무게 80kg, 체지방 측정), 3. 목표 몸매(To-Be 50kg), 4. 이행 계획(1월엔 헬스장 등록, 2월엔 닭가슴살 100박스 구매, 총예산 100만 원). 이렇게 치밀하게 짜놓지 않고 무턱대고 굶기부터 하면 무조건 실패한다.
 
@@ -84,11 +80,11 @@ ISP는 경영 컨설팅의 언어로 시작해 IT 아키텍처의 언어로 끝�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **차세대 시스템(Next-Generation System) 구축 전 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수행**: 은행이 20년 된 메인프레임(코어뱅킹)을 유닉스/리눅스로 바꾸는 3천억 원짜리 프로젝트를 띄우기 전, 반드시 글로벌 컨설팅 펌(PwC, EY 등)이나 대형 SI 업체를 불러 6개월짜리 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 컨설팅을 먼저 수행한다. 컨설턴트들은 전 부서 임원을 인터뷰하고, 현존하는 수천 개의 프로그램을 조사한 뒤, "올해는 고객 정보 통합 DB만 구축(100억)하고, 내년에 여신/수신 코어를 바꾸는(2,000억) 3단계 빅뱅 방식을 제안합니다"라는 1,000페이지짜리 로드맵을 제출한다. 은행장은 이 로드맵이 있어야 이사회의 예산 통과 도장을 받을 수 있다.
-2. **[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))로의 진화**: 과거 ISP는 너무 뜬구름 잡는 경영 얘기([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))만 많아서, 막상 ISP가 끝나고 실제 개발자들에게 외주를 주려면 제안요청서(RFP)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 막막했다. 아키텍트들은 ISP의 후반부에 현행 시스템의 화면(UI) 수준 요구사항과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 볼륨까지 쇳덩어리처럼 구체적으로 산정해 내는 **[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)(Information System Master Plan)**를 도입했다. ISMP가 끝나면 곧바로 "서버 10대 사 오고, 개발자 50명 투입하시오"라는 명확한 견적서가 튀어나온다.
+1. <strong>차세대 시스템(Next-Generation System) 구축 전 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> 수행</strong>: 은행이 20년 된 메인프레임(코어뱅킹)을 유닉스/리눅스로 바꾸는 3천억 원짜리 프로젝트를 띄우기 전, 반드시 글로벌 컨설팅 펌(PwC, EY 등)이나 대형 SI 업체를 불러 6개월짜리 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 컨설팅을 먼저 수행한다. 컨설턴트들은 전 부서 임원을 인터뷰하고, 현존하는 수천 개의 프로그램을 조사한 뒤, "올해는 고객 정보 통합 DB만 구축(100억)하고, 내년에 여신/수신 코어를 바꾸는(2,000억) 3단계 빅뱅 방식을 제안합니다"라는 1,000페이지짜리 로드맵을 제출한다. 은행장은 이 로드맵이 있어야 이사회의 예산 통과 도장을 받을 수 있다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">정보시스템 마스터플랜</a>)로의 진화</strong>: 과거 ISP는 너무 뜬구름 잡는 경영 얘기([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))만 많아서, 막상 ISP가 끝나고 실제 개발자들에게 외주를 주려면 제안요청서(RFP)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 막막했다. 아키텍트들은 ISP의 후반부에 현행 시스템의 화면(UI) 수준 요구사항과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 볼륨까지 쇳덩어리처럼 구체적으로 산정해 내는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a>(Information System Master Plan)</strong>를 도입했다. ISMP가 끝나면 곧바로 "서버 10대 사 오고, 개발자 50명 투입하시오"라는 명확한 견적서가 튀어나온다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **ISP를 위한 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (캐비닛 낭비)**: 사장님이 지시하니까 수억 원을 들여 유명 컨설팅펌에 ISP를 맡겼다. 아주 예쁜 PPT 로드맵이 나왔지만, 막상 현업 부서에서는 "우리 지금 당장 급한 이 기능부터 만들어줘!"라며 로드맵을 깡그리 무시하고 자기들 예산으로 시스템을 마구잡이 발주([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))한다. 결국 수억짜리 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 보고서는 캐비닛에 처박혀 먼지만 쌓이고 회사의 아키텍처는 다시 누더기가 된다. 경영진의 강력한 통제(Governance) 의지 없이 작성된 ISP는 비싼 쓰레기에 불과하다.
+- <strong>ISP를 위한 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> (캐비닛 낭비)</strong>: 사장님이 지시하니까 수억 원을 들여 유명 컨설팅펌에 ISP를 맡겼다. 아주 예쁜 PPT 로드맵이 나왔지만, 막상 현업 부서에서는 "우리 지금 당장 급한 이 기능부터 만들어줘!"라며 로드맵을 깡그리 무시하고 자기들 예산으로 시스템을 마구잡이 발주([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))한다. 결국 수억짜리 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 보고서는 캐비닛에 처박혀 먼지만 쌓이고 회사의 아키텍처는 다시 누더기가 된다. 경영진의 강력한 통제(Governance) 의지 없이 작성된 ISP는 비싼 쓰레기에 불과하다.
 
 - **📢 섹션 요약 비유**: 실행력 없는 ISP는 '비싼 돈 주고 끊은 헬스장 PT(개인 트레이닝) 식단표'다. 트레이너(컨설턴트)가 완벽한 식단과 운동 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 짜줬지만, 회장님(사장)이 밤마다 몰래 치킨을 시켜 먹으면(로드맵 무시) 그 식단표는 냉장고에 붙은 비싼 종이쪼가리로 전락하고 몸은 계속 망가진다.
 
@@ -108,27 +104,29 @@ ISP는 경영 컨설팅의 언어로 시작해 IT 아키텍처의 언어로 끝�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 정렬 ([Strategic Alignment](/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/))** | ISP가 존재하는 유일한 이유. "회사가 스마트폰을 팔려고 하는데, IT 부서는 왜 냉장고 만드는 기계를 사고 있냐?"는 어긋남을 막고 둘의 목표를 100% 일치시키는 족쇄 |
-| **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))** | ISP가 그린 '3년 뒤 목표(To-Be)'를 달성하기 위해, 매일매일 지켜야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/서버/애플리케이션의 건축 설계 표준(법규) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 정렬 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/002_it_governance_5_domains/">Strategic Alignment</a>)</strong> | ISP가 존재하는 유일한 이유. "회사가 스마트폰을 팔려고 하는데, IT 부서는 왜 냉장고 만드는 기계를 사고 있냐?"는 어긋남을 막고 둘의 목표를 100% 일치시키는 족쇄 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/">Enterprise Architecture</a>)</strong> | ISP가 그린 '3년 뒤 목표(To-Be)'를 달성하기 위해, 매일매일 지켜야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/서버/애플리케이션의 건축 설계 표준(법규) |
 | **RFP (제안요청서)** | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 프로젝트가 끝나고 최종 산출물(로드맵)이 나오면, 그걸 들고 SI 업체(수행사)들에게 "이 계획대로 시스템 만들어줄 사람 손들어(입찰)!"라고 뿌리는 요구사항 명세서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IT 기술의 파편화 도입 및 비즈니스 목적과의 불일치 (생산성 패러독스)
-    │
-    ▼
-최고경영자(CEO)의 거시적 IT 투자 통제 필요성 대두
-    │
-    ▼
-컨설팅 방법론 도입 ──▶ ISP (정보화 전략 계획) 방법론 정립 (현상 분석 → 목표 모델 → 이행 계획)
-    │
-    ▼
-뜬구름 잡는 전략의 한계 극복 ──▶ 쇳덩어리 요구사항을 도출하는 ISMP(정보시스템 마스터플랜)로 구체화
-    │
-    ▼
-디지털 트랜스포메이션(DX) 시대 ──▶ EA 프레임워크 기반의 상시적이고 애자일(Agile)한 롤링 플랜(Rolling Plan)으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 기술의 파편화 도입 및 비즈니스 목적과의 불일치 (생산성 패러독스)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최고경영자(CEO)의 거시적 IT 투자 통제 필요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨설팅 방법론 도입 ──▶ ISP (정보화 전략 계획) 방법론 정립 (현상 분석 → 목표 모델 → 이행 계획)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">뜬구름 잡는 전략의 한계 극복 ──▶ 쇳덩어리 요구사항을 도출하는 ISMP(정보시스템 마스터플랜)로 구체화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 트랜스포메이션(DX) 시대 ──▶ EA 프레임워크 기반의 상시적이고 애자일(Agile)한 롤링 플랜(Rolling Plan)으로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "무계획/중복 투자 → 전사적 5개년 마스터플랜 통제([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) → 실행력 강화를 위한 구체화([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)) → 현대적인 상시 계획 체계([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 연계)"라는 거시적 IT 거버넌스의 발전 궤적을 보여준다.
 

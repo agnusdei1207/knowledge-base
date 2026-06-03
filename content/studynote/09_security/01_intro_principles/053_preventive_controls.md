@@ -111,21 +111,23 @@ Threat → Preventive Control → Block / Limit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-위협 인지
-    │
-    ▼
-예방 통제
-    │
-    ▼
-탐지 통제
-    │
-    ▼
-교정 통제
-    │
-    ▼
-지속 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위협 인지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예방 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">탐지 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">교정 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속 개선</div>
+</div>
+</div>
+
+
 
 이 흐름은 사고를 막고, 못 막은 사고는 빨리 발견하고, 다시 고치는 보안 운영의 순서를 보여준다.
 

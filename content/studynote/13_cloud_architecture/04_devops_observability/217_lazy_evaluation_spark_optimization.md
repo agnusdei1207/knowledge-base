@@ -23,7 +23,7 @@ tags = ["studynote-cloud-architecture"]
 
 `df.filter(df.age > 30).groupBy("dept").count()`라는 Spark 코드를 작성할 때, 처음 두 연산(filter, groupBy)은 즉시 실행되지 않는다. `.count()` 액션이 호출될 때, Spark의 Catalyst Optimizer가 이 세 연산 전체를 하나의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)으로 보고 최적화를 수행한 후 클러스터에 제출한다.
 
-[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 핵심 이점은 **전체 맥락을 알고 최적화한다**는 것이다. 각 연산을 따로 실행하면 filter의 결과를 임시 저장 후 groupBy에 전달해야 하지만, [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 통해 Optimizer가 "filter를 먼저 하면 groupBy의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 줄어든다"는 것을 알고 최적 순서로 실행한다.
+[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 핵심 이점은 <strong>전체 맥락을 알고 최적화한다</strong>는 것이다. 각 연산을 따로 실행하면 filter의 결과를 임시 저장 후 groupBy에 전달해야 하지만, [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 통해 Optimizer가 "filter를 먼저 하면 groupBy의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 줄어든다"는 것을 알고 최적 순서로 실행한다.
 
 📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 출장 여행 계획과 같다. 서울→부산→광주→서울 순서를 바로 예약하지 않고, 모든 방문지를 먼저 정한 후 여행사([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에게 최적 경로(비용·시간 최소화)를 계산해달라고 맡기는 방식이다.
 
@@ -33,41 +33,39 @@ tags = ["studynote-cloud-architecture"]
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 과정
 
-```
-  사용자 코드 (PySpark/Scala)
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │              Catalyst Optimizer                          │
-  │                                                          │
-  │  1단계: Logical Plan (논리적 계획)                        │
-  │     filter(age>30) → groupBy(dept) → count()            │
-  │                    │                                    │
-  │  2단계: Optimized Logical Plan (최적화 논리 계획)          │
-  │     Predicate Pushdown: filter를 데이터 소스로 내림       │
-  │     Column Pruning: 필요한 컬럼만 읽음                    │
-  │                    │                                    │
-  │  3단계: Physical Plan 선택 (물리적 실행 계획)              │
-  │     Join 방식: BroadcastHashJoin vs SortMergeJoin        │
-  │     실제 실행 방식 결정                                   │
-  │                    │                                    │
-  │  4단계: Code Generation (Tungsten)                       │
-  │     JVM 바이트코드 직접 생성 → 최적 실행                  │
-  └─────────────────────────────────────────────────────────┘
-       │
-       ▼
-  Spark Executor에서 최적화된 Job 실행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 코드 (PySpark/Scala)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalyst Optimizer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: Logical Plan (논리적 계획)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">filter(age&gt;30) → groupBy(dept) → count()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: Optimized Logical Plan (최적화 논리 계획)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate Pushdown: filter를 데이터 소스로 내림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Pruning: 필요한 컬럼만 읽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: Physical Plan 선택 (물리적 실행 계획)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Join 방식: BroadcastHashJoin vs SortMergeJoin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 실행 방식 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: Code Generation (Tungsten)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM 바이트코드 직접 생성 → 최적 실행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark Executor에서 최적화된 Job 실행</div>
+</div>
+</div>
+
+
 
 ### 주요 최적화 기법
 
 | 최적화 | 설명 | 효과 |
 |:---|:---|:---|
 | **Predicate Pushdown** | 조건(filter)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 최대한 가까이 적용 | 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양 감소 |
-| **Column [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)** | 필요한 컬럼만 선택하여 읽기 | I/O 최소화 |
-| **[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 재정렬** | 작은 테이블을 먼저 처리 | 네트워크 셔플 감소 |
+| <strong>Column <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a></strong> | 필요한 컬럼만 선택하여 읽기 | I/O 최소화 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a> 재정렬</strong> | 작은 테이블을 먼저 처리 | 네트워크 셔플 감소 |
 | **Constant Folding** | 상수 표현식을 컴파일 타임에 계산 | 런타임 오버헤드 제거 |
-| **Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 작은 테이블을 모든 노드에 브로드캐스트 | 대규모 셔플 제거 |
+| <strong>Broadcast <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a></strong> | 작은 테이블을 모든 노드에 브로드캐스트 | 대규모 셔플 제거 |
 
 ### [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 실습 예시
 
@@ -123,7 +121,7 @@ step3 = step2.map(f3)     # 1M 행 처리
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 함정 - 흔한 실수**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">지연 평가</a>의 함정 - 흔한 실수</strong>:
 ```python
 # ❌ 잘못된 패턴: 루프에서 collect() 호출
 for user_id in user_ids:  # user_ids = large list
@@ -143,7 +141,7 @@ filtered.show()               # Job 실행 1번 + 캐시
 filtered.groupBy().show()     # 캐시에서 즉시 처리
 ```
 
-**`explain()`으로 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석**:
+<strong><code>explain()</code>으로 <a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a> 분석</strong>:
 ```python
 # 실행 계획 확인 (성능 진단의 시작)
 df.filter(df.age > 30).groupBy("dept").count().explain()
@@ -176,7 +174,7 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 | 파이프라인 융합 | 여러 연산을 하나의 단계로 합쳐 중간 저장 제거 |
 | Pushdown 최적화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 레벨에서 필터링으로 I/O 최소화 |
 
-[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 Spark를 단순한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진을 넘어 **자동 최적화 플랫폼**으로 만드는 핵심이다. 개발자는 "무엇을 처리할 것인가"(논리적 계획)만 표현하고, Catalyst Optimizer가 "어떻게 처리할 것인가"(물리적 계획)를 결정한다. 이 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 프로그래밍 모델이 Spark DataFrame의 가장 강력한 특성이다.
+[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 Spark를 단순한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진을 넘어 <strong>자동 최적화 플랫폼</strong>으로 만드는 핵심이다. 개발자는 "무엇을 처리할 것인가"(논리적 계획)만 표현하고, Catalyst Optimizer가 "어떻게 처리할 것인가"(물리적 계획)를 결정한다. 이 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 프로그래밍 모델이 Spark DataFrame의 가장 강력한 특성이다.
 
 📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)와 Catalyst Optimizer의 관계는 요리사(개발자)와 자동 주방 시스템([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))의 관계다. 요리사는 "오늘 메뉴는 파스타, 스테이크, 디저트"만 결정하고, 시스템이 재료 구매 순서·조리 시간·오븐 온도를 자동으로 최적화한다.
 
@@ -199,17 +197,21 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Eager Evaluation: 즉시 실행 (최적화 기회 없음)
-    │
-    ▼
-Lazy Evaluation: DAG 구축 → Action 호출 시 실행
-    ├─► Catalyst Optimizer: 실행 계획 최적화
-    └─► Predicate Pushdown · Partition Pruning
-    │
-    ▼
-Adaptive Query Execution (AQE): 런타임 동적 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Eager Evaluation: 즉시 실행 (최적화 기회 없음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lazy Evaluation: DAG 구축 → Action 호출 시 실행</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Catalyst Optimizer: 실행 계획 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Predicate Pushdown · Partition Pruning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adaptive Query Execution (AQE): 런타임 동적 최적화</div>
+</div>
+</div>
+
+
 2. Spark도 filter, groupBy, count 같은 연산을 모두 모아두었다가, "결과를 줘!"(액션) 할 때 한 번에 최적화해서 실행해.
 3. 덕분에 "필요한 자료만 가져오기(Pushdown)", "중간 저장 없이 연속 처리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion)" 등의 자동 최적화가 가능해.
 

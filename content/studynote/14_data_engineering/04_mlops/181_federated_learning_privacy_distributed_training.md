@@ -27,22 +27,24 @@ tags = ["studynote-data-engineering"]
 
 아래 그림은 중앙집중 학습과 연방 학습의 경계 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 중앙집중 학습 vs 연방 학습                                   │
-├──────────────────────────────────────────────────────────────┤
-│ 중앙집중 학습                                                │
-│  데이터 A ─┐                                                 │
-│  데이터 B ─┼─▶ 중앙 저장소 ─▶ 모델 학습                      │
-│  데이터 C ─┘                                                 │
-│                                                              │
-│ 연방 학습                                                    │
-│  전역 모델 ─▶ 노드 A 로컬 학습 ─┐                            │
-│  전역 모델 ─▶ 노드 B 로컬 학습 ─┼─▶ 업데이트 집계            │
-│  전역 모델 ─▶ 노드 C 로컬 학습 ─┘                            │
-│  원시 데이터는 각 노드에 남음                                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙집중 학습 vs 연방 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙집중 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 B ─ ─▶ 중앙 저장소 ─▶ 모델 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 C ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연방 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 모델 ─▶ 노드 A 로컬 학습 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 모델 ─▶ 노드 B 로컬 학습 ─ ─▶ 업데이트 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 모델 ─▶ 노드 C 로컬 학습 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터는 각 노드에 남음</div></div>
+</div>
+</div>
+
+
 
 핵심은 연방 학습이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 한 종류이되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치와 신뢰 모델이 완전히 다르다는 점이다. 고정된 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안의 고속 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클러스터를 다루는 것이 아니라, 느리고 불안정하며 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가진 참여자 집합을 다루는 문제다.
 
@@ -73,26 +75,22 @@ N = Σ_k n_k
 
 아래 그림은 한 번의 연방 학습 라운드를 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 연방 학습 1라운드                                            │
-├──────────────────────────────────────────────────────────────┤
-│ 1) Coordinator가 전역 모델 w_t 배포                         │
-│          │                                                   │
-│          ▼                                                   │
-│    Client A / B / C 가 로컬 데이터로 E epoch 학습           │
-│          │                                                   │
-│          ├─ Gradient Clipping                               │
-│          ├─ 필요 시 Differential Privacy 노이즈 추가        │
-│          └─ Secure Aggregation용 마스킹                     │
-│          │                                                   │
-│          ▼                                                   │
-│ 2) 업데이트 수집  ─────────▶  3) FedAvg 집계                │
-│                                      │                       │
-│                                      ▼                       │
-│                               다음 전역 모델 w_(t+1)         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연방 학습 1라운드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Coordinator가 전역 모델 w_t 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A / B / C 가 로컬 데이터로 E epoch 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Gradient Clipping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 필요 시 Differential Privacy 노이즈 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Secure Aggregation용 마스킹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 업데이트 수집 ▶ 3) FedAvg 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 전역 모델 w_(t+1)</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 오해가 하나 있다. 연방 학습은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 줄일 뿐, 자동으로 완전한 프라이버시를 보장하지는 않는다. 업데이트만 보더라도 [Membership Inference](/knowledge-base/studynote/09_security/19_ai_advanced_security/952_membership_inference/) Attack ([멤버십 추론 공격](/knowledge-base/studynote/09_security/19_ai_advanced_security/952_membership_inference/))이나 Gradient Leakage 공격이 가능하므로, 실무에서는 Secure Aggregation과 Differential Privacy를 결합하는 경우가 많다.
 
@@ -115,7 +113,7 @@ N = Σ_k n_k
 
 또한 연방 학습 안에서도 Cross-Device와 Cross-Silo를 구분해야 한다. Cross-Device는 수만~수백만 모바일 기기가 느슨하게 참여하는 형태라 참여율과 배터리 조건이 핵심이고, Cross-Silo는 병원·은행처럼 기관 수는 적지만 각 노드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 크고 책임 주체가 명확한 형태다. 전자는 통신 효율과 확률적 참여가 중요하고, 후자는 법적 계약과 모델 품질 검증이 더 중요하다.
 
-연방 학습은 [Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/), Secure Aggregation, [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/), 계층형 집계와도 연결된다. Differential Privacy는 개별 참여자의 흔적을 통계적으로 감추고, Secure Aggregation은 서버가 개별 업데이트를 직접 보지 못하게 하며, 계층형 집계는 지사·지역·중앙 서버처럼 여러 단계로 나눠 통신 병목을 줄인다. 즉 연방 학습은 단독 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 **프라이버시 공학 + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 + [Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/) ([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)**의 조합에 가깝다.
+연방 학습은 [Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/), Secure Aggregation, [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/), 계층형 집계와도 연결된다. Differential Privacy는 개별 참여자의 흔적을 통계적으로 감추고, Secure Aggregation은 서버가 개별 업데이트를 직접 보지 못하게 하며, 계층형 집계는 지사·지역·중앙 서버처럼 여러 단계로 나눠 통신 병목을 줄인다. 즉 연방 학습은 단독 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 <strong>프라이버시 공학 + <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 + <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/">Machine Learning Operations</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a>) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a></strong>의 조합에 가깝다.
 
 - **📢 섹션 요약 비유**: 일반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이 한 체육관 안의 합창 연습이라면, 연방 학습은 각 도시 학교가 제각각 연습한 뒤 영상만 보내 전국 합창을 맞추는 일과 같다. 음향, 실력, 인터넷 상태가 모두 달라 훨씬 더 까다롭다.
 
@@ -142,7 +140,7 @@ N = Σ_k n_k
 
 안티패턴도 분명하다. 첫째, "원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 보내니 법적 검토가 끝났다"고 보는 태도다. 둘째, 대형 모델을 저사양 엣지 디바이스에 그대로 배포하는 태도다. 셋째, 악의적 노드의 모델 오염(Model Poisoning)을 무시하는 태도다. 넷째, 중앙집중 학습 하이퍼파라미터를 그대로 가져와 수렴 실패를 반복하는 태도다.
 
-기술사 답안에서는 FedAvg 수식만 쓰고 끝내기보다, **왜 중앙집중 학습이 불가능한지 → 어떻게 집계하는지 → 어떤 프라이버시 보강과 Non-IID 대응이 필요한지 → 언제 오히려 부적합한지**까지 함께 제시해야 설계 답안이 된다.
+기술사 답안에서는 FedAvg 수식만 쓰고 끝내기보다, <strong>왜 중앙집중 학습이 불가능한지 → 어떻게 집계하는지 → 어떤 프라이버시 보강과 Non-IID 대응이 필요한지 → 언제 오히려 부적합한지</strong>까지 함께 제시해야 설계 답안이 된다.
 
 - **📢 섹션 요약 비유**: 연방 학습 도입은 각 병원이 환자 기록을 내놓지 않고도 함께 의학 교과서를 쓰는 일과 같다. 하지만 모두가 같은 용어를 쓰고, 가짜 보고서를 막고, 전달 과정이 안전해야만 좋은 교과서가 나온다.
 
@@ -154,7 +152,7 @@ N = Σ_k n_k
 
 그러나 비용도 분명하다. 수렴 속도는 느려질 수 있고, 노드 이질성과 네트워크 편차 때문에 실험 재현성이 낮아질 수 있다. 프라이버시도 구조적으로 좋아질 뿐 자동 보장되지는 않으므로, 안전한 집계와 노이즈 주입, 참여자 검증이 빠지면 기대보다 위험할 수 있다.
 
-앞으로는 Personalized [Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) (개인화 연방 학습), Hierarchical [Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) (계층형 연방 학습), On-device Acceleration (온디바이스 가속) 같은 방향이 더 중요해질 것이다. 결론적으로 연방 학습은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 옮기는 학습"이 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 최소화하면서도 품질·보안·운영 복잡도를 함께 통제하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 아키텍처**로 기억해야 한다.
+앞으로는 Personalized [Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) (개인화 연방 학습), Hierarchical [Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) (계층형 연방 학습), On-device Acceleration (온디바이스 가속) 같은 방향이 더 중요해질 것이다. 결론적으로 연방 학습은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 옮기는 학습"이 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동을 최소화하면서도 품질·보안·운영 복잡도를 함께 통제하는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 학습 아키텍처</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 연방 학습은 각자 집에서 연습한 음악을 모아 오케스트라를 만드는 일과 같다. 악보를 한곳에 모으지 않아도 합주는 가능하지만, 지휘 방식과 조율 규칙이 없으면 소음만 커진다.
 
@@ -174,22 +172,25 @@ N = Σ_k n_k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙집중 Machine Learning
-    │ 개인정보 · 전송 비용 · 데이터 주권 한계
-    ▼
-연방 학습 (Federated Learning)
-    │
-    ├─ 로컬 학습 + FedAvg 집계
-    ├─ Secure Aggregation 결합
-    └─ Differential Privacy 결합
-    │
-    ▼
-Cross-Device / Cross-Silo 운영
-    │
-    ▼
-개인화 연방 학습 · 계층형 집계 · 강건 집계 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙집중 Machine Learning</div>
+<div class="kb-diagram-note">개인정보 · 전송 비용 · 데이터 주권 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연방 학습 (Federated Learning)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">로컬 학습 + FedAvg 집계</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Secure Aggregation 결합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Differential Privacy 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cross-Device / Cross-Silo 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개인화 연방 학습 · 계층형 집계 · 강건 집계 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중앙화 모델이 규제와 비용 한계에 부딪힌 뒤, 프라이버시 보존 집계와 운영 자동화를 결합한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습으로 발전하는 과정을 보여 준다.
 

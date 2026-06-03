@@ -85,21 +85,22 @@ tags = ["studynote-bigdata"]
 
 ## III. 관련 법령 체계
 
-```
-한국 데이터 관련 법령 체계:
 
-                 [헌법: 개인정보 보호 기본권]
-                        |
-        +---------------+---------------+
-        |                               |
-[개인정보 보호법]              [데이터기본법]
-(PIPA - 개인 데이터 보호)      (산업 데이터 활용)
-        |                               |
-[정보통신망법]              [데이터 산업 지원 정책]
-[신용정보법]               [데이터 거래소 운영 지침]
-[의료법]                   [공공데이터 제공 및 이용 활성화법]
-[금융거래법]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">한국 데이터 관련 법령 체계:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">헌법: 개인정보 보호 기본권</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호법</div><div class="kb-diagram-node">데이터기본법</div></div>
+<div class="kb-diagram-note">(PIPA - 개인 데이터 보호) (산업 데이터 활용)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신망법</div><div class="kb-diagram-node">데이터 산업 지원 정책</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신용정보법</div><div class="kb-diagram-node">데이터 거래소 운영 지침</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">의료법</div><div class="kb-diagram-node">공공데이터 제공 및 이용 활성화법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">금융거래법</div></div>
+</div>
+</div>
+
+
 
 | 법률             | 주요 대상          | 목적            |
 |---------------|-----------------|----------------|
@@ -143,28 +144,31 @@ EU (GDPR, 2018):
 
 ## V. 실무 시나리오 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바우처 활용
 
-```
-지원 내용 (2024 기준):
-  공급기업: 데이터 보유 기업 (네이버, KCB 등 인증 기업)
-  수요기업: 중소기업, 스타트업
-  지원 규모: 기업당 최대 7,000만원
 
-활용 절차:
-  1. 수요기업 신청 (K-Data 포털)
-  2. 지원 대상 선정 (심사)
-  3. 바우처 발급
-  4. 공급기업으로부터 데이터 구매/가공 서비스 이용
-  5. 대금 청구 시 바우처로 결제
 
-성과 사례:
-  의료 스타트업:
-    병원 임상 데이터 바우처로 구매
-    AI 진단 모델 학습 -> 제품 출시 가속
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지원 내용 (2024 기준):</div>
+<div class="kb-diagram-note">공급기업: 데이터 보유 기업 (네이버, KCB 등 인증 기업)</div>
+<div class="kb-diagram-note">수요기업: 중소기업, 스타트업</div>
+<div class="kb-diagram-note">지원 규모: 기업당 최대 7,000만원</div>
+<div class="kb-diagram-note">활용 절차:</div>
+<div class="kb-diagram-note">1. 수요기업 신청 (K-Data 포털)</div>
+<div class="kb-diagram-note">2. 지원 대상 선정 (심사)</div>
+<div class="kb-diagram-note">3. 바우처 발급</div>
+<div class="kb-diagram-note">4. 공급기업으로부터 데이터 구매/가공 서비스 이용</div>
+<div class="kb-diagram-note">5. 대금 청구 시 바우처로 결제</div>
+<div class="kb-diagram-note">성과 사례:</div>
+<div class="kb-diagram-note">의료 스타트업:</div>
+<div class="kb-diagram-note">병원 임상 데이터 바우처로 구매</div>
+<div class="kb-diagram-note">AI 진단 모델 학습 -&gt; 제품 출시 가속</div>
+<div class="kb-diagram-note">물류 스타트업:</div>
+<div class="kb-diagram-note">배송 데이터 구매 -&gt; 경로 최적화 AI 개발</div>
+<div class="kb-diagram-note">투자 유치 성공</div>
+</div>
+</div>
 
-  물류 스타트업:
-    배송 데이터 구매 -> 경로 최적화 AI 개발
-    투자 유치 성공
-```
+
 
 > 📢 **섹션 요약 비유**: 정부가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구매 상품권을 주는 것 — 돈이 없는 스타트업도 양질의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이용해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제품을 만들 수 있게 해준다.
 
@@ -195,29 +199,31 @@ EU (GDPR, 2018):
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-[개인정보보호법 제정 (2011)]
-개인정보 보호 기반 마련
-      |
-      v
-[공공데이터법 (2013)]
-공공기관 데이터 개방 촉진
-      |
-      v
-[데이터 3법 개정 (2020)]
-개인정보보호법+정보통신망법+신용정보법
-가명정보 개념 도입, 데이터 활용 확대
-      |
-      v
-[데이터기본법 시행 (2022)]
-산업 데이터 전반 기본 체계 마련
-      |
-      v
-[현재: 데이터 거버넌스 고도화]
-AI 학습 데이터 규정 (AI 기본법 준비)
-데이터 거래소 활성화
-마이데이터 금융→의료→공공 확산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보보호법 제정 (2011)</div></div>
+<div class="kb-diagram-note">개인정보 보호 기반 마련</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공공데이터법 (2013)</div></div>
+<div class="kb-diagram-note">공공기관 데이터 개방 촉진</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 3법 개정 (2020)</div></div>
+<div class="kb-diagram-note">개인정보보호법+정보통신망법+신용정보법</div>
+<div class="kb-diagram-note">가명정보 개념 도입, 데이터 활용 확대</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터기본법 시행 (2022)</div></div>
+<div class="kb-diagram-note">산업 데이터 전반 기본 체계 마련</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 거버넌스 고도화</div></div>
+<div class="kb-diagram-note">AI 학습 데이터 규정 (AI 기본법 준비)</div>
+<div class="kb-diagram-note">데이터 거래소 활성화</div>
+<div class="kb-diagram-note">마이데이터 금융→의료→공공 확산</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -29,19 +29,25 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Assets
-  ↓
-Data Flow Diagram
-  ↓
-Trust Boundaries
-  ↓
-Threat Identification
-  ↓
-Risk Prioritization
-  ↓
-Mitigation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Assets</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Flow Diagram</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Trust Boundaries</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Threat Identification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Risk Prioritization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigation</div>
+</div>
+</div>
+
+
 
 | [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 의미 | 예시 |
 | :-- | :-- | :-- |
@@ -113,29 +119,41 @@ Mitigation
 
 ## 관련 개념 맵
 
-```text
-Assets
-  ↓
-Threat Modeling
-  ↓
-STRIDE / DREAD
-  ↓
-Mitigation Plan
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Assets</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Threat Modeling</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">STRIDE / DREAD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigation Plan</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-DFD
-  ↓
-Trust Boundary
-  ↓
-Threat Modeling
-  ↓
-Secure Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DFD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Trust Boundary</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Threat Modeling</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Secure Design</div>
+</div>
+</div>
+
+
 
 ---
 

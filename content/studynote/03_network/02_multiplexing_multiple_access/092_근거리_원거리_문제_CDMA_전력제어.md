@@ -19,7 +19,7 @@ tags = ["network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 모든 사용자가 동일한 주파수를 같은 시간에 공유하되, 오직 수학적 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 직교성만을 이용해 각자의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 구별하는 통신 방식이다. 이 거대한 공용 공간에서 가장 치명적인 문제는 물리적 거리에 따른 전파 감쇠 현상, 즉 **근거리-원거리 문제 (Near-Far Problem)**였다.
+[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 모든 사용자가 동일한 주파수를 같은 시간에 공유하되, 오직 수학적 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 직교성만을 이용해 각자의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 구별하는 통신 방식이다. 이 거대한 공용 공간에서 가장 치명적인 문제는 물리적 거리에 따른 전파 감쇠 현상, 즉 <strong>근거리-원거리 문제 (Near-Far Problem)</strong>였다.
 
 자연계에서 전파의 세기는 거리의 제곱(도심 환경에서는 3~4제곱)에 반비례하여 급격히 줄어든다. 기지국에서 100m 거리에 있는 A 단말기와 3km 거리에 있는 B 단말기가 동일한 전력으로 송신할 경우, 기지국에 도달한 A의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 B보다 수만 배 강력하다. CDMA는 코드가 다르면 서로의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 '백색 잡음(Noise)'으로 취급하는데, A가 뿜어내는 거대한 잡음이 B의 미약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완전히 집어삼켜 버린다. 결과적으로 가까운 1~2명만 통신이 가능해지는 셀 마비 사태가 발생한다. 
 
@@ -33,31 +33,27 @@ tags = ["network"]
 
 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시스템은 개루프(Open Loop)와 폐루프(Closed Loop) 전력 제어라는 정밀한 이중 방어 아키텍처를 통해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 레벨을 평탄화(Equalization)한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        CDMA 폐루프 전력 제어 (Closed Loop Power Control)       │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [제어국 / 상위 계층] (Outer Loop: 타겟 품질 재설정)          │
-│                │ (FER, BLER 기반으로 Target SIR 동적 변경)      │
-│                ▼                                             │
-│       [기지국 (Node B)] ─────────────────────────┐           │
-│       │ 1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정│           │
-│       │ 2. 목표치(Target SIR)와 실시간 비교          │           │
-│       │ 3. 전력 조절 명령 (TPC Bit) 생성            │           │
-│       └────────────────┬─────────────────────────┘           │
-│                        │                                     │
-│ (Down-link) 초당 1,500회 │ TPC Bit 전송 (0: 올림, 1: 내림)      │
-│                        ▼                                     │
-│       [단말기 (UE)] ─────────────────────────────┐           │
-│       │ 1. 기지국 명령 수신                          │           │
-│       │ 2. 송신 전력을 ±1dB 단위로 즉각 증감 조정     │           │
-│       └────────────────┬─────────────────────────────┘           │
-│                        │ (Up-link) 평탄화된 출력으로 데이터 쏨  │
-│                        ▼                                     │
-│             [ 다시 기지국으로 피드백 순환 (Inner Loop) ]          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDMA 폐루프 전력 제어 (Closed Loop Power Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어국 / 상위 계층</div><div class="kb-diagram-note">(Outer Loop: 타겟 품질 재설정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(FER, BLER 기반으로 Target SIR 동적 변경)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 (Node B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 목표치(Target SIR)와 실시간 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 전력 조절 명령 (TPC Bit) 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Down-link) 초당 1,500회</div><div class="kb-diagram-cell">TPC Bit 전송 (0: 올림, 1: 내림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단말기 (UE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기지국 명령 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 송신 전력을 ±1dB 단위로 즉각 증감 조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Up-link) 평탄화된 출력으로 데이터 쏨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다시 기지국으로 피드백 순환 (Inner Loop)</div></div>
+</div>
+</div>
+
+
 
 1. **개루프 전력 제어 (Open Loop)**: 단말기가 처음 전원을 켤 때 기지국 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하여 스스로 대략적인 송신 전력을 맞춘다. 오차가 커서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 충돌 방지에만 쓰인다.
 2. **내부 폐루프 (Inner Loop)**: 기지국이 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(SIR)를 측정해, 목표치보다 낮으면 "전력 올려([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Up)", 높으면 "내려(Down)"라는 1비트짜리 명령을 초당 1,500번([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) 기준) 단말기에게 폭격하듯 쏜다. 이 극도로 빠른 피드백 속도만이 건물을 지날 때 발생하는 고속 레일리 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)(Rayleigh [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))의 진폭 요동을 억제할 수 있다.
@@ -73,9 +69,9 @@ tags = ["network"]
 
 | [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식 | 전파 분리 축 | 근거리-원거리 문제 체감도 | 전력 제어 중요도 |
 |:---|:---|:---|:---|
-| **[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (1G)** | 주파수 분리 | 낮음 (서로 다른 주파수라 안 들림) | 배터리 절약 목적 정도로만 사용 |
-| **[TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (2G)** | 시간 분리 | 중간 (발언 시간이 달라 겹치지 않음) | 중간 수준 통제 |
-| **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (3G)** | **코드 분리** | **절대적 (한 방에서 모두가 섞임)** | **시스템의 생존을 결정하는 코어 엔진** |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a> (1G)</strong> | 주파수 분리 | 낮음 (서로 다른 주파수라 안 들림) | 배터리 절약 목적 정도로만 사용 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (2G)</strong> | 시간 분리 | 중간 (발언 시간이 달라 겹치지 않음) | 중간 수준 통제 |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (3G)</strong> | **코드 분리** | **절대적 (한 방에서 모두가 섞임)** | **시스템의 생존을 결정하는 코어 엔진** |
 
 CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/) 비트를 전송하느라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역폭을 희생하는 엄청난 '통신 오버헤드'를 감수하면서도 이 방식을 택한 이유는 분명하다. 완벽한 수신 전력 평탄화가 이루어지는 순간, 셀(Cell) 내의 간섭 파워가 최저치로 통제되어 하나의 기지국이 수용할 수 있는 가입자 용량(Capacity)이 기하급수적으로 늘어나기 때문이다. 트레이드오프의 극적인 승리다.
 
@@ -89,7 +85,7 @@ CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_comput
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
 1. **핑퐁 효과(Ping-Pong) 및 최대 출력 제한 제어**: 단말기가 지하 주차장 같은 음영 지역에 깊숙이 들어가면 목표 SIR을 맞추기 위해 출력을 한계치까지 올린다. 기지국은 여전히 "전력 올려"라고 지시하지만 단말기는 응답할 여력이 없어 배터리만 방전되다 결국 통화가 끊긴다([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop). 이를 막기 위해 Max [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit 도달 시 무의미한 제어 루프를 끊고 인접 기지국으로 빠르게 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 시키는 최적화가 필수다.
-2. **[셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)([Cell Breathing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)) 방어**: CDMA에서 가입자가 몰려 간섭 전력이 폭증하면 기지국은 모든 단말기의 전력을 올리게 만들고, 결국 전파 커버리지 자체가 수축해버린다. 실무자는 Outer Loop의 Target SIR 임계값을 무리하게 높이지 않고 통신 품질의 최소치(FER 1%)로 타협하여 전체 셀 커버리지를 방어해야 한다.
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">셀 호흡</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">Cell Breathing</a>) 방어</strong>: CDMA에서 가입자가 몰려 간섭 전력이 폭증하면 기지국은 모든 단말기의 전력을 올리게 만들고, 결국 전파 커버리지 자체가 수축해버린다. 실무자는 Outer Loop의 Target SIR 임계값을 무리하게 높이지 않고 통신 품질의 최소치(FER 1%)로 타협하여 전체 셀 커버리지를 방어해야 한다.
 
 - **📢 섹션 요약 비유**: 전력 제어 시스템을 잘못 튜닝하는 것은, 자동차가 터널에 갇혀 속도를 낼 수 없는데도 액셀을 계속 밟으라고 지시하여 엔진(배터리)을 태워 먹는 것과 같다. 한계를 인지하는 차단 로직이 필요하다.
 
@@ -109,37 +105,38 @@ CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_comput
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) ([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))** | 이동 중 건물에 반사된 전파로 인해 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 급격히 변동하는 현상. 이 고속 요동을 잡기 위해 폐루프 제어가 초당 1,500회 수행된다. |
-| **[셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) ([Cell Breathing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/))** | 가입자 증가로 간섭 잡음이 상승하면, 단말기 전력이 최대치를 쳐서 결국 기지국의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어드는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 특유의 현상. |
-| **[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))** | 단말기가 두 기지국의 경계에 있을 때 양쪽 기지국의 폐루프 전력 제어 명령을 동시에 받아 가장 유리한 쪽의 출력을 따르는 결합 기술. |
-| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** | 4G/5G의 접속 방식. 주파수 분할 직교성을 써서 근거리-원거리 문제가 크게 완화되었으나 기지국 간 간섭 억제를 위해 전력 제어 유산을 승계했다. |
+| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/">페이딩</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/">Fading</a>)</strong> | 이동 중 건물에 반사된 전파로 인해 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 급격히 변동하는 현상. 이 고속 요동을 잡기 위해 폐루프 제어가 초당 1,500회 수행된다. |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">셀 호흡</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">Cell Breathing</a>)</strong> | 가입자 증가로 간섭 잡음이 상승하면, 단말기 전력이 최대치를 쳐서 결국 기지국의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어드는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 특유의 현상. |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/">소프트 핸드오버</a> (Soft <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong> | 단말기가 두 기지국의 경계에 있을 때 양쪽 기지국의 폐루프 전력 제어 명령을 동시에 받아 가장 유리한 쪽의 출력을 따르는 결합 기술. |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> | 4G/5G의 접속 방식. 주파수 분할 직교성을 써서 근거리-원거리 문제가 크게 완화되었으나 기지국 간 간섭 억제를 위해 전력 제어 유산을 승계했다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-근거리 단말기의 강한 신호 송출
-    │
-    ▼
-원거리 단말기 신호 차폐 (근거리-원거리 문제 발생)
-    │
-    ▼
-단말기 자체 판단 기반 전력 초기화 (개루프 전력 제어)
-    │
-    ▼
-기지국-단말기 간 1,500회/초 피드백 (내부 폐루프 전력 제어)
-    │
-    ▼
-FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)
-    │
-    ▼
-4G/5G OFDMA 셀 간 간섭 조정(Fractional Power Control)으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">근거리 단말기의 강한 신호 송출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원거리 단말기 신호 차폐 (근거리-원거리 문제 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단말기 자체 판단 기반 전력 초기화 (개루프 전력 제어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기지국-단말기 간 1,500회/초 피드백 (내부 폐루프 전력 제어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">4G/5G OFDMA 셀 간 간섭 조정(Fractional Power Control)으로 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **근거리-원거리 문제**는 선생님 바로 앞의 친구가 너무 크게 떠들어서, 맨 뒤에 앉은 친구의 목소리가 아예 지워져 안 들리는 현상이에요.
-2. 그래서 선생님(기지국)은 1초에 1천 번 넘게 학생들에게 **"너는 목소리 줄여! 너는 키워!"(전력 제어)**라고 실시간으로 지시를 내려요.
-3. 이 깐깐한 규칙 덕분에 수십 명의 친구들 목소리가 선생님 귀에는 마법처럼 **전부 똑같은 크기**로 예쁘게 들려서 통신이 안 끊기게 된답니다!
+1. <strong>근거리-원거리 문제</strong>는 선생님 바로 앞의 친구가 너무 크게 떠들어서, 맨 뒤에 앉은 친구의 목소리가 아예 지워져 안 들리는 현상이에요.
+2. 그래서 선생님(기지국)은 1초에 1천 번 넘게 학생들에게 <strong>"너는 목소리 줄여! 너는 키워!"(전력 제어)</strong>라고 실시간으로 지시를 내려요.
+3. 이 깐깐한 규칙 덕분에 수십 명의 친구들 목소리가 선생님 귀에는 마법처럼 <strong>전부 똑같은 크기</strong>로 예쁘게 들려서 통신이 안 끊기게 된답니다!
 
 ---
 

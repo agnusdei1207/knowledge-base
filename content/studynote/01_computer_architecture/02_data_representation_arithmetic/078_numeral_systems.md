@@ -21,13 +21,19 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 움직이고, 사람은 십진수로 생각한다. 그래서 진법은 "같은 값을 서로 다른 언어로 옮기는 방법"이 된다.
 hex는 binary를 4비트씩 묶어 보기 쉽게 만든 것이고, octal은 옛 시스템에서 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) group을 줄여 읽기 쉽게 만든 것이다.
-```text
-값 255
-├─ binary 11111111
-├─ octal 377
-├─ decimal 255
-└─ hex FF
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">값 255</div>
+<div class="kb-diagram-tree-item" style="--depth:0">binary 11111111</div>
+<div class="kb-diagram-tree-item" style="--depth:0">octal 377</div>
+<div class="kb-diagram-tree-item" style="--depth:0">decimal 255</div>
+<div class="kb-diagram-tree-item" style="--depth:0">hex FF</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 컴퓨터와 사람이 같은 숫자를 다른 언어로 읽는다.
 
@@ -105,21 +111,23 @@ BCD는 각 숫자를 4비트로 따로 담아 십진 표현을 보존하고, pur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-digit
-  │
-  ▼
-place value
-  │
-  ▼
-radix conversion
-  │
-  ▼
-memory / logic representation
-  │
-  ▼
-debugging
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">digit</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">place value</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">radix conversion</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">memory / logic representation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">debugging</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

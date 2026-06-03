@@ -29,27 +29,26 @@ Gartner는 2026년까지 엔지니어링 조직의 80%가 Platform Engineering�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+--------------------------------------------------------------+
-|                  IDP (Internal Developer Platform) 구조       |
-+--------------------------------------------------------------+
-|                                                              |
-|  개발자 (Developer)                                           |
-|       | Self-service 요청                                    |
-|       v                                                      |
-|  +----------------------------------------------------------+ |
-|  |  Backstage (개발자 포털)                                 | |
-|  |  - 서비스 카탈로그 (Service Catalog)                    | |
-|  |  - Golden Path 템플릿                                   | |
-|  |  - 기술 문서 (TechDocs)                                 | |
-|  +----------------------------+-----------------------------+ |
-|                               | 자동 프로비저닝               |
-|         +-----------+---------+----------+                   |
-|         v           v                    v                   |
-|  Kubernetes     CI/CD 파이프라인      모니터링/로그            |
-|  (Helm, ArgoCD) (GitHub Actions)     (Grafana, Loki)         |
-+--------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDP (Internal Developer Platform) 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 (Developer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-service 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backstage (개발자 포털)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서비스 카탈로그 (Service Catalog)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Golden Path 템플릿</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술 문서 (TechDocs)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 프로비저닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v v v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes CI/CD 파이프라인 모니터링/로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Helm, ArgoCD) (GitHub Actions) (Grafana, Loki)</div></div>
+</div>
+</div>
+
+
 
 | 개념 | 설명 |
 |:---|:---|
@@ -100,7 +99,7 @@ Team Topologies: Platform Team이 [Stream](/knowledge-base/studynote/03_network/
 
 [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 도입으로 개발팀의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 줄고, 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 출시 시간이 단축된다. Golden Path로 보안·컴플라이언스가 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 자동 적용되어 보안 사고도 감소한다.
 
-Platform Engineering의 본질은 **"개발자가 비즈니스에 집중할 수 있게 하는 것"**이다. 인프라와 운영 복잡성을 플랫폼이 흡수해, 개발자는 사용자 가치 창출에 시간을 쓴다.
+Platform Engineering의 본질은 <strong>"개발자가 비즈니스에 집중할 수 있게 하는 것"</strong>이다. 인프라와 운영 복잡성을 플랫폼이 흡수해, 개발자는 사용자 가치 창출에 시간을 쓴다.
 
 > 📢 **섹션 요약 비유**: IDP는 세탁기다. 빨래 방법을 몰라도 세탁기에 넣으면 깨끗하게 나온다. 개발자는 코드(빨래)를 넣고, 플랫폼(세탁기)이 모든 과정을 처리한다.
 
@@ -119,14 +118,19 @@ Platform Engineering의 본질은 **"개발자가 비즈니스에 집중할 수 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DevOps 초기             Platform Engineering 등장          IDP 성숙 시대
-------------------   --------------------------   ------------------------
-개발자가 인프라 직접  ->  Spotify Backstage 오픈소스  ->  IDP 표준화
-Kubernetes 높은 진입   Team Topologies 이론             Backstage 생태계 확장
-팀마다 다른 파이프라인   Golden Path 개념               AI 기반 Self-service
-인지 부하 과부하         Platform Team 전담화             IDP as Product
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DevOps 초기 Platform Engineering 등장 IDP 성숙 시대</div>
+<div class="kb-diagram-note">개발자가 인프라 직접 -&gt; Spotify Backstage 오픈소스 -&gt; IDP 표준화</div>
+<div class="kb-diagram-note">Kubernetes 높은 진입 Team Topologies 이론 Backstage 생태계 확장</div>
+<div class="kb-diagram-note">팀마다 다른 파이프라인 Golden Path 개념 AI 기반 Self-service</div>
+<div class="kb-diagram-note">인지 부하 과부하 Platform Team 전담화 IDP as Product</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

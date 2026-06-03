@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **국가망 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)**: 제주도나 거대한 공단은 한전(Macrogrid)의 전력선 하나에 목숨이 묶여있습니다. 북한 해커나 지진으로 변전소가 하나라도 터지면 수백만 명이 동시에 블랙아웃의 지옥을 겪습니다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
+- <strong>국가망 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong>: 제주도나 거대한 공단은 한전(Macrogrid)의 전력선 하나에 목숨이 묶여있습니다. 북한 해커나 지진으로 변전소가 하나라도 터지면 수백만 명이 동시에 블랙아웃의 지옥을 겪습니다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
 - **재생에너지의 낭비**: 각 가정에 태양광을 달아도 남는 전기를 옆집에 팔지 못하고 썩혀버리는 중앙 집권의 한계가 터졌습니다.
 
-```text
-[vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
-[마이크로그리드 통신 규격]
-    │
-    └──▶ [산업용 이더넷 PROFINET 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 마을, 대학 캠퍼스, 섬, 공단 같은 소규모 지역에 **태양광/풍력([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전원, DER)과 거대 배터리([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/))를 설치하여, 평소에는 한전(메인 망)과 연결되어 전기를 사고팔다가(Grid-connected), 정전 시에는 한전을 끊어버리고 자기들끼리 독립적으로 전기를 자급자족(Islanded)하여 살아남는 지능형 소규모 독립 전력망**입니다.
+- **개념**: 마을, 대학 캠퍼스, 섬, 공단 같은 소규모 지역에 <strong>태양광/풍력(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 전원, DER)과 거대 배터리(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/">ESS</a>)를 설치하여, 평소에는 한전(메인 망)과 연결되어 전기를 사고팔다가(Grid-connected), 정전 시에는 한전을 끊어버리고 자기들끼리 독립적으로 전기를 자급자족(Islanded)하여 살아남는 지능형 소규모 독립 전력망</strong>입니다.
 
-```text
-[vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
-[마이크로그리드 통신 규격]
-    │
-    └──▶ [산업용 이더넷 PROFINET 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,7 +68,7 @@ tags = ["studynote-network"]
 전기 기계들끼리의 언어를 완벽 통일시킨 절대 표준입니다.
 - 옛날엔 태양광 인버터는 LS산전, 배터리는 삼성 꺼라 서로 말이 안 통했습니다.
 - **IEC 61850**: 기계가 벤더와 상관없이 통신할 수 있게 만든 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)/IP) 기반의 전력망 헌법입니다.
-- **GOOSE (Generic Object Oriented Substation Event) 메시지**: 이 규격의 핵심 무기입니다. "야! 한전 전선 터졌다!"라는 초비상 경보를, IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 이런 거 다 무시하고 **L2 계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 쌩바닥에서 멀티캐스트로 0.003초(3ms) 만에 공장 안의 모든 차단기 기계에 꽂아버려 동시에 스위치를 콱 닫게 만드는 우주 초광속 구조 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
+- **GOOSE (Generic Object Oriented Substation Event) 메시지**: 이 규격의 핵심 무기입니다. "야! 한전 전선 터졌다!"라는 초비상 경보를, IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 이런 거 다 무시하고 <strong>L2 계층(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>) 쌩바닥에서 멀티캐스트로 0.003초(3ms) 만에 공장 안의 모든 차단기 기계에 꽂아버려 동시에 스위치를 콱 닫게 만드는 우주 초광속 구조 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 
 ### 2. [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)의 두 얼굴 (동작 모드 전환 통신)
 - **계통 연계 모드 (Grid-Connected)**:
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 캠퍼스 기숙사와 공대가 서로 전기를 주고받을 때, 중간에 한전을 낄 필요가 없습니다.
-- 스마트 미터기([AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))들이 **1083번 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/)**로 직접 연결되어, "기숙사가 공대 남는 전기 1kW 샀음"이라는 장부([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))를 자기들끼리 코인으로 결제해 버리는([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 전력 거래) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 경제 시스템의 실험장이 되고 있습니다.
+- 스마트 미터기([AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))들이 <strong>1083번 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/">블록체인 가십 프로토콜</a></strong>로 직접 연결되어, "기숙사가 공대 남는 전기 1kW 샀음"이라는 장부([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))를 자기들끼리 코인으로 결제해 버리는([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 전력 거래) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 경제 시스템의 실험장이 되고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **한전 중앙 전력망(매크로그리드)**은 전 국민이 **'거대한 국가 배급소의 빵'**만 쳐다보고 입을 벌리고 있는 상태입니다. 배급소로 오는 고속도로가 무너지면 온 국민이 동시에 굶어 죽습니다. **[마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)**는 동네 아파트 단지에 아예 **'자체 밀밭(태양광)과 지하 대형 빵 창고([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) 배터리)'**를 지어버린 기적의 벙커입니다. 평소에는 국가 배급소(한전)와 고속도로를 연결해 두고, 빵이 남으면 배급소에 비싸게 팔아먹습니다(계통 연계 모드). 그러다 좀비 사태가 터져 고속도로가 마비되는 찰나! 단지 입구의 경비원(GOOSE 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 0.001초 만에 아파트 철문을 쾅 닫고 통행을 완벽히 차단해 좀비(블랙아웃)의 유입을 막습니다(Island Mode 무인도 모드). 철문이 닫히자마자 지하 빵 창고의 문이 자동으로 열리며 자체 생산한 빵을 아파트 주민들에게 뿌리기 시작하여, 나라가 망해도 우리 동네 불은 1년 365일 찬란하게 켜져 있는 절대 무적의 생존 요새 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>한전 중앙 전력망(매크로그리드)</strong>은 전 국민이 <strong>'거대한 국가 배급소의 빵'</strong>만 쳐다보고 입을 벌리고 있는 상태입니다. 배급소로 오는 고속도로가 무너지면 온 국민이 동시에 굶어 죽습니다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/">마이크로그리드</a></strong>는 동네 아파트 단지에 아예 <strong>'자체 밀밭(태양광)과 지하 대형 빵 창고(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/">ESS</a> 배터리)'</strong>를 지어버린 기적의 벙커입니다. 평소에는 국가 배급소(한전)와 고속도로를 연결해 두고, 빵이 남으면 배급소에 비싸게 팔아먹습니다(계통 연계 모드). 그러다 좀비 사태가 터져 고속도로가 마비되는 찰나! 단지 입구의 경비원(GOOSE 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 0.001초 만에 아파트 철문을 쾅 닫고 통행을 완벽히 차단해 좀비(블랙아웃)의 유입을 막습니다(Island Mode 무인도 모드). 철문이 닫히자마자 지하 빵 창고의 문이 자동으로 열리며 자체 생산한 빵을 아파트 주민들에게 뿌리기 시작하여, 나라가 망해도 우리 동네 불은 1년 365일 찬란하게 켜져 있는 절대 무적의 생존 요새 시스템입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: vCPE NFV 고객 구내 망 통합 전환]
-    │
-    ▼
-[현재 개념: 마이크로그리드 통신 규격]
-    │
-    ├──▶ [확장 A: 산업용 이더넷 PROFINET 망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: vCPE NFV 고객 구내 망 통합 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 산업용 이더넷 PROFINET 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격는 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환에서 출발해 현재 메커니즘을 정교화하고, 이후 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

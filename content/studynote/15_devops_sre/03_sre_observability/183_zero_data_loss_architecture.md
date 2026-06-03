@@ -19,22 +19,25 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 제로 아키텍처는 "장애가 나도 안 잃는다"는 모호한 구호가 아니다. 더 정확히 말하면, 시스템이 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성공"을 반환한 시점 이후에는 서버 하나, 가용 영역 하나, 심지어 리더 노드 하나가 사라져도 그 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 결과가 반드시 복원 가능해야 한다는 약속이다. 그래서 핵심은 저장 장치 수보다 **응답을 언제 주는가**에 있다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 제로 아키텍처는 "장애가 나도 안 잃는다"는 모호한 구호가 아니다. 더 정확히 말하면, 시스템이 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성공"을 반환한 시점 이후에는 서버 하나, 가용 영역 하나, 심지어 리더 노드 하나가 사라져도 그 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 결과가 반드시 복원 가능해야 한다는 약속이다. 그래서 핵심은 저장 장치 수보다 <strong>응답을 언제 주는가</strong>에 있다.
 
 이 개념이 중요한 이유는 고객이 장애보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실을 더 오래 기억하기 때문이다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 잠깐 느린 것은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 잊힐 수 있지만, 결제는 되었는데 주문 내역이 없거나, 환자 기록 한 줄이 사라지거나, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 신뢰는 구조적으로 무너진다. [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)의 하위 기능이 아니라, 고객과 조직이 "시스템의 약속을 믿어도 되는가"를 가르는 경계다.
 
 아래 그림은 같은 장애라도 ACK 시점에 따라 결과가 완전히 달라짐을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ACK timing defines data loss                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Early ACK path : write -> primary ACK -> primary crash -> lost    │
-│ Safe ACK path  : write -> quorum durable -> ACK -> crash -> safe  │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-또한 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) = 0과 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전환이 느리면 고객 체감 중단은 여전히 크다. 따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 "무손실"과 "빠른 전환"을 분리해 설계하되, 우선순위는 **잃지 않는 ACK 규칙**에 둬야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK timing defines data loss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early ACK path : write -&gt; primary ACK -&gt; primary crash -&gt; lost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Safe ACK path : write -&gt; quorum durable -&gt; ACK -&gt; crash -&gt; safe</div></div>
+</div>
+</div>
+
+
+
+또한 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) = 0과 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전환이 느리면 고객 체감 중단은 여전히 크다. 따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 "무손실"과 "빠른 전환"을 분리해 설계하되, 우선순위는 <strong>잃지 않는 ACK 규칙</strong>에 둬야 한다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 제로는 숙제를 냈다고 표시하기 전에 선생님이 실제로 공책을 받아 보관함에 넣는 것과 같다. "냈어요"라는 말만 듣고 체크하면 나중에 공책이 사라질 수 있다.
 
@@ -42,7 +45,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss를 구현하는 핵심 원리는 단순하다. **클라이언트에게 성공을 응답하기 전에, 최소한 하나의 독립된 실패 영역 밖까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안전하게 기록되어 있어야 한다.** 이를 위해서는 WAL, 쿼럼 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 리더 선출, 펜싱, 하류 이벤트 재생이 한 묶음으로 움직여야 한다.
+[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss를 구현하는 핵심 원리는 단순하다. <strong>클라이언트에게 성공을 응답하기 전에, 최소한 하나의 독립된 실패 영역 밖까지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 안전하게 기록되어 있어야 한다.</strong> 이를 위해서는 WAL, 쿼럼 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 리더 선출, 펜싱, 하류 이벤트 재생이 한 묶음으로 움직여야 한다.
 
 | 계층 | 핵심 역할 | 놓치기 쉬운 포인트 |
 | :--- | :--- | :--- |
@@ -55,17 +58,19 @@ tags = ["studynote-devops-sre"]
 
 아래 경로는 "무손실 ACK"가 어떤 순서를 따라야 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Zero Data Loss write path                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ Client -> API -> WAL append -> quorum fsync -> commit index       │
-│                                 │                                  │
-│                                 ├-> ACK to client                 │
-│                                 ├-> replicated outbox / CDC feed  │
-│                                 └-> failover candidate eligible   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Data Loss write path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; API -&gt; WAL append -&gt; quorum fsync -&gt; commit index</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ACK to client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; replicated outbox / CDC feed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; failover candidate eligible</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 "리더가 기록했다"가 아니라 "페일오버 후에도 살아남는 상태로 기록되었다"는 점이다. 예를 들어 3노드 합의라면 보통 2노드 이상이 내구성 있게 기록한 뒤에만 커밋 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 올라간다. 이 원리가 있어야 리더 장애 후 새 리더가 커밋된 마지막 상태를 그대로 이어받을 수 있다.
 
@@ -93,7 +98,7 @@ tags = ["studynote-devops-sre"]
 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우선(Event Log First) 구조 | 재생과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 강함 | 소비자 중복 제어가 필수 |
 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 중심 | 비용 낮음 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0 불가, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 손실 존재 |
 
-따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 단순히 "동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 사용 여부"를 묻는 문제가 아니다. **ACK 규칙, 리더 선출, 하류 재생, 복귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**까지 같은 설계 축에 놓고 봐야 진짜 경계가 드러난다.
+따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 단순히 "동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 사용 여부"를 묻는 문제가 아니다. <strong>ACK 규칙, 리더 선출, 하류 재생, 복귀 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>까지 같은 설계 축에 놓고 봐야 진짜 경계가 드러난다.
 
 - **📢 섹션 요약 비유**: 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 차이는 영수증을 주기 전에 카드 결제가 실제 승인됐는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 가게와, "아마 됐겠지" 하고 먼저 영수증을 주는 가게의 차이와 같다.
 
@@ -130,7 +135,7 @@ tags = ["studynote-devops-sre"]
 
 하지만 대가도 분명하다. 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 합의는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘리고, 쿼럼 손실 시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 희생할 수 있다. 또한 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 네트워크 왕복 시간이 그대로 비용이 되므로, "어디까지를 무손실 범위로 정의할 것인가"를 현실적으로 그어야 한다.
 
-결론적으로 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 마법처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 날리는 기능이 아니다. **클라이언트에게 성공이라고 말하는 순간을 가장 보수적으로 설계하는 아키텍처 원칙**이다. 이 원칙이 지켜질 때만 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 문서가 아니라 실제 고객 신뢰가 된다.
+결론적으로 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 마법처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 날리는 기능이 아니다. <strong>클라이언트에게 성공이라고 말하는 순간을 가장 보수적으로 설계하는 아키텍처 원칙</strong>이다. 이 원칙이 지켜질 때만 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 문서가 아니라 실제 고객 신뢰가 된다.
 
 - **📢 섹션 요약 비유**: [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 사진을 찍은 뒤 카메라에만 남겨 두는 것이 아니라, 앨범과 클라우드에 모두 저장된 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고서야 "보관 완료"라고 말하는 습관과 같다.
 
@@ -150,24 +155,25 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-로컬 커밋 중심 저장
-    │
-    ▼
-WAL 기반 내구성 확보
-    │
-    ▼
-Quorum 복제 · 동기 ACK
-    │
-    ▼
-Failover / Fencing / Replay
-    │
-    ▼
-Outbox · CDC · End-to-End 무손실
-    │
-    ▼
-고객 신뢰 기반의 Zero Data Loss 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">로컬 커밋 중심 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WAL 기반 내구성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quorum 복제 · 동기 ACK</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Failover / Fencing / Replay</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Outbox · CDC · End-to-End 무손실</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고객 신뢰 기반의 Zero Data Loss 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 노드 내구성에서 시작해, 다중 노드 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 하류 이벤트 정합성까지 확장되어야 비로소 "무손실"이 완성된다는 점을 보여 준다.
 

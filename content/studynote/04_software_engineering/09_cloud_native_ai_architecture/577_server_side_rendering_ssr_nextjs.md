@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 브라우저 화면([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))을 어디서 만들(Render) 것인가의 싸움.
-  - **[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) (Client-Side Rendering)**: 서버는 빈 껍데기 HTML 1장과 JS 100MB 뭉치만 툭 던짐. 브라우저가 JS를 다운받아 그제야 화면을 꾸미고 DB([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찔러 데이터를 채움 (SPA의 뼈대).
-  - **[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) (Server-Side Rendering)**: 유저가 접속하면 서버(Node.js)가 DB([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 직접 찔러서, 텅 빈 껍데기 HTML 안에 데이터를 예쁘게 다 채워 넣은 **'완제품 HTML'**을 1초 만에 찍어내 브라우저로 쏴줌.
+  - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a> (Client-Side Rendering)</strong>: 서버는 빈 껍데기 HTML 1장과 JS 100MB 뭉치만 툭 던짐. 브라우저가 JS를 다운받아 그제야 화면을 꾸미고 DB([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찔러 데이터를 채움 (SPA의 뼈대).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Server-Side Rendering)</strong>: 유저가 접속하면 서버(Node.js)가 DB([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 직접 찔러서, 텅 빈 껍데기 HTML 안에 데이터를 예쁘게 다 채워 넣은 <strong>'완제품 HTML'</strong>을 1초 만에 찍어내 브라우저로 쏴줌.
 
-- **필요성 (SPA CSR의 3대 재앙: 하얀 화면, SEO 멸망, 똥폰 차별)**: 2015년 리액트(React)가 세상을 지배하며 모두가 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)(SPA)로 갈아탔다. 그런데 쇼핑몰 메인 화면을 열었더니 5초 동안 뱅글뱅글 도는 **'하얀 화면(White Screen of Death)'**이 떴다. 유저 50%가 빡쳐서 나갔다. 구글 검색 로봇(Bot)이 사이트를 긁으러 왔는데 빈 HTML 껍데기밖에 없어서 네이버 검색어 노출이 다 박살 났다(SEO 파탄). 아프리카의 구형 스마트폰 유저는 무거운 JS 100MB를 다운받느라 브라우저가 터졌다. **"아 ㅆㅂ 옛날 JSP, PHP 시절엔 화면 바로 떴고 검색도 짱 잘 됐는데! 리액트의 부드러움은 살리면서, 첫 화면 속도랑 검색 노출만 옛날 서버 렌더링처럼 되돌릴 방법 없어?!"** 이 피맺힌 갈망이 Next.js([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))를 발명하게 했다.
+- **필요성 (SPA CSR의 3대 재앙: 하얀 화면, SEO 멸망, 똥폰 차별)**: 2015년 리액트(React)가 세상을 지배하며 모두가 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)(SPA)로 갈아탔다. 그런데 쇼핑몰 메인 화면을 열었더니 5초 동안 뱅글뱅글 도는 <strong>'하얀 화면(White Screen of Death)'</strong>이 떴다. 유저 50%가 빡쳐서 나갔다. 구글 검색 로봇(Bot)이 사이트를 긁으러 왔는데 빈 HTML 껍데기밖에 없어서 네이버 검색어 노출이 다 박살 났다(SEO 파탄). 아프리카의 구형 스마트폰 유저는 무거운 JS 100MB를 다운받느라 브라우저가 터졌다. **"아 ㅆㅂ 옛날 JSP, PHP 시절엔 화면 바로 떴고 검색도 짱 잘 됐는데! 리액트의 부드러움은 살리면서, 첫 화면 속도랑 검색 노출만 옛날 서버 렌더링처럼 되돌릴 방법 없어?!"** 이 피맺힌 갈망이 Next.js([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))를 발명하게 했다.
 
-- **💡 비유**: CSR은 식당에서 **'밀키트(생고기와 야채)'**를 손님 테이블에 던져주는 것입니다. 손님(브라우저)이 직접 가스불 켜고 요리(JS 실행)를 해야 해서 첫 입을 먹기까지 오래 걸리고, 요리할 줄 모르는 바보 손님(검색 로봇)은 굶어 죽습니다. SSR은 주방장(서버)이 **'다 구워진 완벽한 스테이크(HTML)'**를 접시에 담아 내어오는 것입니다. 손님은 받자마자 0.1초 만에 바로 칼질(FCP)을 시작할 수 있고 냄새(SEO)도 끝내줍니다.
+- **💡 비유**: CSR은 식당에서 <strong>'밀키트(생고기와 야채)'</strong>를 손님 테이블에 던져주는 것입니다. 손님(브라우저)이 직접 가스불 켜고 요리(JS 실행)를 해야 해서 첫 입을 먹기까지 오래 걸리고, 요리할 줄 모르는 바보 손님(검색 로봇)은 굶어 죽습니다. SSR은 주방장(서버)이 <strong>'다 구워진 완벽한 스테이크(HTML)'</strong>를 접시에 담아 내어오는 것입니다. 손님은 받자마자 0.1초 만에 바로 칼질(FCP)을 시작할 수 있고 냄새(SEO)도 끝내줍니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **전통적 [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) (JSP/PHP/ASP)**: 화면 그리는 걸 무조건 백엔드 자바 서버가 다 했다. 새로고침 누를 때마다 화면 전체가 하얗게 깜빡거려서 UX가 최악이었다.
-  2. **[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) (React / Vue SPA 시대)**: 2010년대 중반, 폰 앱처럼 깜빡임 없이 부드러운 전환을 위해 프론트(브라우저)한테 화면 그리는 권한을 100% 넘겨버렸다. (SEO, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 박살 남).
-  3. **Universal / Isomorphic [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) (Next.js / Nuxt.js 현재)**: "첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1방만 서버에서 완제품([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))으로 예쁘게 쏴주고, 두 번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동부터는 React가 브라우저 안에서 부드럽게 렌더링([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 쳐서 이어받게 하자!" 장점만 스깐 궁극의 하이브리드 아키텍처가 프론트엔드 천하를 통일했다.
+  1. <strong>전통적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (JSP/PHP/ASP)</strong>: 화면 그리는 걸 무조건 백엔드 자바 서버가 다 했다. 새로고침 누를 때마다 화면 전체가 하얗게 깜빡거려서 UX가 최악이었다.
+  2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a> (React / Vue SPA 시대)</strong>: 2010년대 중반, 폰 앱처럼 깜빡임 없이 부드러운 전환을 위해 프론트(브라우저)한테 화면 그리는 권한을 100% 넘겨버렸다. (SEO, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 박살 남).
+  3. <strong>Universal / Isomorphic <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Next.js / Nuxt.js 현재)</strong>: "첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1방만 서버에서 완제품([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))으로 예쁘게 쏴주고, 두 번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동부터는 React가 브라우저 안에서 부드럽게 렌더링([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 쳐서 이어받게 하자!" 장점만 스깐 궁극의 하이브리드 아키텍처가 프론트엔드 천하를 통일했다.
 
-- **📢 섹션 요약 비유**: 이 하이브리드(Next.js)는 **'우주선 대기권 돌파'**와 같습니다. 처음 우주로 쏘아 올릴 때(첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로딩)는 엄청난 힘이 필요하니 거대한 **'서버 부스터([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))'**를 써서 한 번에 궤도에 올려줍니다. 하지만 우주에 도착한 뒤([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동)엔 부스터를 버리고, 가볍고 날렵한 **'우주선 자체 엔진([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))'**으로만 슉슉 날아다니는 완벽한 역할 분담입니다.
+- **📢 섹션 요약 비유**: 이 하이브리드(Next.js)는 <strong>'우주선 대기권 돌파'</strong>와 같습니다. 처음 우주로 쏘아 올릴 때(첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로딩)는 엄청난 힘이 필요하니 거대한 <strong>'서버 부스터(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a>)'</strong>를 써서 한 번에 궤도에 올려줍니다. 하지만 우주에 도착한 뒤([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동)엔 부스터를 버리고, 가볍고 날렵한 <strong>'우주선 자체 엔진(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a>)'</strong>으로만 슉슉 날아다니는 완벽한 역할 분담입니다.
 
 ---
 
 다음은 [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 컴포넌의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서버 사이드 렌더링 (SSR) 컴포넌                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 사이드 렌더링 (SSR) 컴포넌</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 컴포넌가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 아키텍처 (Next.js, Nuxt.js)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 아키텍처 (Next.js, Nuxt.js)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 아키텍처 (Next.js, Nuxt.js)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서버 사이드 렌더링 (SSR) 컴포넌트 아키텍처 (Next.js, Nuxt.js) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버 사이드 렌더링 (SSR) 컴포넌트 아키텍처 (Next.js, Nuxt.js) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -31,15 +31,21 @@ GDPR의 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relation
 
 PbD는 보통 7대 원칙으로 설명한다. 설계, 기본값, 생명주기, 투명성, 사용자 중심이 핵심이다.
 
-```text
-설계 단계
-   ↓
-데이터 최소화
-   ↓
-기본값 보호
-   ↓
-생명주기 보안
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">설계 단계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 최소화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기본값 보호</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">생명주기 보안</div>
+</div>
+</div>
+
+
 
 | 원칙 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ PbD는 규제 대응을 넘어서 고객 신뢰를 만드는 구조다. [초기]
 
 ## 관련 개념 맵
 
-```text
-데이터 최소화
-   ↓
-Privacy by Design
-   ↓
-기본값 프라이버시
-   ↓
-생명주기 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 최소화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Privacy by Design</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기본값 프라이버시</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">생명주기 보호</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-사후 보안
-   ↓
-Security by Design
-   ↓
-Privacy by Design
-   ↓
-GDPR / 기본값 프라이버시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사후 보안</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security by Design</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Privacy by Design</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">GDPR / 기본값 프라이버시</div>
+</div>
+</div>
+
+
 
 ---
 

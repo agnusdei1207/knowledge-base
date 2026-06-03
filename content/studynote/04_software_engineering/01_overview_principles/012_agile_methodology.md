@@ -23,29 +23,32 @@ tags = ["software_engineering"]
 
 소프트웨어 개발 초창기에는 건설이나 토목 공학을 본뜬 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)(계획 주도 방식)이 지배적이었다. 그러나 2000년대 들어 인터넷과 모바일의 발달로 비즈니스 환경이 급변하면서, 수개월에 걸쳐 완벽한 요구사항 명세서를 작성하더라도 막상 제품이 출시될 즈음에는 시장의 요구가 완전히 달라져 있는 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'가 빈번하게 발생했다. 
 
-**[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Methodology)**은 이러한 문제를 해결하기 위해 등장했다. 2001년 제정된 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 소프트웨어 개발 선언문([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))'을 기점으로, 프로세스와 도구보다 **개인과 상호작용**을, 포괄적인 문서보다 **작동하는 소프트웨어**를, 계약 협상보다 **고객과의 협력**을, 계획을 따르기보다 **변화에 대응**하는 것을 더 가치 있게 여기는 새로운 패러다임이 확립되었다. 이는 개발 프로세스를 경량화(Lightweight)하고 고객에게 가치 있는 기능을 최우선으로 빠르게 인도(Delivery)하기 위함이다.
+<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 방법론(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Methodology)</strong>은 이러한 문제를 해결하기 위해 등장했다. 2001년 제정된 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 소프트웨어 개발 선언문([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))'을 기점으로, 프로세스와 도구보다 <strong>개인과 상호작용</strong>을, 포괄적인 문서보다 <strong>작동하는 소프트웨어</strong>를, 계약 협상보다 <strong>고객과의 협력</strong>을, 계획을 따르기보다 <strong>변화에 대응</strong>하는 것을 더 가치 있게 여기는 새로운 패러다임이 확립되었다. 이는 개발 프로세스를 경량화(Lightweight)하고 고객에게 가치 있는 기능을 최우선으로 빠르게 인도(Delivery)하기 위함이다.
 
-💡 **비유**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)이 처음부터 끝까지 정해진 악보대로 연주해야 하는 **클래식 오케스트라**라면, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 관객의 반응과 연주자 간의 호흡에 따라 멜로디를 실시간으로 변형하며 곡을 완성해 나가는 **재즈 밴드의 즉흥 연주**와 같다.
+💡 **비유**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)이 처음부터 끝까지 정해진 악보대로 연주해야 하는 <strong>클래식 오케스트라</strong>라면, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 관객의 반응과 연주자 간의 호흡에 따라 멜로디를 실시간으로 변형하며 곡을 완성해 나가는 <strong>재즈 밴드의 즉흥 연주</strong>와 같다.
 
 다음은 계획 주도(Plan-Driven) 모델과 가치 주도(Value-Driven) [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 모델의 패러다임 차이를 보여주는 도식이다.
 
-```text
-[기존 폭포수: Plan-Driven]
-요구사항 고정 (Fixed)
-  │
-  ├─► [설계] ──► [구현] ──► [테스트] ──► [결과]
-                                           ▼
-일정과 자원은 가변적 (Estimated)           (고객이 원하는 것과 다름!)
 
-[애자일: Value-Driven]
-일정과 자원 고정 (Timeboxed, Sprint)
-  │
-  ├─► [Sprint 1] ──► (작동하는 SW) ──► 피드백
-  ├─► [Sprint 2] ──► (기능 추가) ──► 피드백
-  └─► [Sprint 3] ──► (방향 수정) ──► 피드백
-                                           ▼
-요구사항은 가변적 (Estimated)              (고객의 현재 니즈에 완벽 부합!)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 폭포수: Plan-Driven</div></div>
+<div class="kb-diagram-note">요구사항 고정 (Fixed)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">구현</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">결과</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일정과 자원은 가변적 (Estimated) (고객이 원하는 것과 다름!)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일: Value-Driven</div></div>
+<div class="kb-diagram-note">일정과 자원 고정 (Timeboxed, Sprint)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 1</div><div class="kb-diagram-note">──► (작동하는 SW) ──► 피드백</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 2</div><div class="kb-diagram-note">──► (기능 추가) ──► 피드백</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 3</div><div class="kb-diagram-note">──► (방향 수정) ──► 피드백</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항은 가변적 (Estimated) (고객의 현재 니즈에 완벽 부합!)</div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 '무엇을 고정하고 무엇을 유연하게 둘 것인가'의 차이다. 폭포수는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항을 신성불가침 영역으로 고정하고 맞추려다 보니 일정과 비용이 초과된다. 반면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)라는 짧은 시간(일정)과 인력(비용)을 고정해두고, 그 제약 안에서 "지금 시점에 가장 가치 있는 요구사항이 무엇인가?"를 끊임없이 재평가한다. 따라서 개발 중간에 시장이 변하더라도 언제든 기민하게 방향([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))을 틀 수 있다.
 
@@ -55,38 +58,40 @@ tags = ["software_engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 하나의 구체적인 기법이 아니라 '철학'이며, 이를 실천하기 위한 다양한 프레임워크가 존재한다. 그 중 가장 대표적인 것이 관리 측면의 **[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))**과 공학적 실천 측면의 **익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/), [eXtreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))**이다. 실무에서는 이 둘을 결합하여 사용한다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 하나의 구체적인 기법이 아니라 '철학'이며, 이를 실천하기 위한 다양한 프레임워크가 존재한다. 그 중 가장 대표적인 것이 관리 측면의 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong>과 공학적 실천 측면의 <strong>익스트림 프로그래밍(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">eXtreme Programming</a>)</strong>이다. 실무에서는 이 둘을 결합하여 사용한다.
 
 | 구성 요소 | 역할 | 내부 동작 ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) & [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)) | 핵심 원칙 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))** | [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) | 시스템에 필요한 모든 기능([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))을 가치와 위험도에 따라 우선순위화하여 나열 | 변화 수용, 투명성 | 뷔페의 전체 메뉴판 |
-| **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))** | 타임박스 개발 주기 | 1~4주 단위의 짧은 개발 주기로, 분석/설계/구현/테스트를 한 사이클 내에 모두 완료 | 반복적/점진적 인도 | 단거리 전력 질주 |
-| **일일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Daily Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/))** | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 장애 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 매일 15분간 팀원들이 어제 한 일, 오늘 할 일, 장애 요소를 공유하여 상태를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 투명성 | 운동경기 전 작전 타임 |
-| **회고 ([Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/))** | 프로세스 개선 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 후, 제품이 아닌 '팀의 일하는 방식'에 대해 피드백하고 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 개선 | 지속적 학습 | 시험 후 오답 노트 작성 |
-| **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))** | 품질 내재화 | ([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 기법) 실패하는 테스트 코드를 먼저 작성한 후, 이를 통과하는 코드를 구현하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방 | 품질의 좌측 이동 | 그물을 먼저 치고 고기 잡기 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">제품 백로그</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">Product Backlog</a>)</strong> | [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) | 시스템에 필요한 모든 기능([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))을 가치와 위험도에 따라 우선순위화하여 나열 | 변화 수용, 투명성 | 뷔페의 전체 메뉴판 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">Sprint</a>)</strong> | 타임박스 개발 주기 | 1~4주 단위의 짧은 개발 주기로, 분석/설계/구현/테스트를 한 사이클 내에 모두 완료 | 반복적/점진적 인도 | 단거리 전력 질주 |
+| <strong>일일 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/">Daily Scrum</a>)</strong> | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 장애 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 매일 15분간 팀원들이 어제 한 일, 오늘 할 일, 장애 요소를 공유하여 상태를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 투명성 | 운동경기 전 작전 타임 |
+| <strong>회고 (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/">Retrospective</a>)</strong> | 프로세스 개선 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 후, 제품이 아닌 '팀의 일하는 방식'에 대해 피드백하고 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 개선 | 지속적 학습 | 시험 후 오답 노트 작성 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/">테스트 주도 개발</a>)</strong> | 품질 내재화 | ([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 기법) 실패하는 테스트 코드를 먼저 작성한 후, 이를 통과하는 코드를 구현하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방 | 품질의 좌측 이동 | 그물을 먼저 치고 고기 잡기 |
 
 아래 다이어그램은 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크의 전체 흐름과 피드백 루프를 보여준다.
 
-```text
-[스크럼 프레임워크 동작 흐름도]
 
-(Product Owner)         (Sprint Planning)            (Development Team)
-[제품 백로그] ───────► [스프린트 백로그] ───────► ┌──────────────────┐
- 우선순위가 높은          이번 스프린트(2주)에        │   [Sprint]       │
- 사용자 스토리들          할당된 작업 목록            │  설계/개발/테스트│
-       ▲                                              │      ↑           │
-       │                                              │      │ 24h       │
-       │                                              │  [Daily Scrum]   │
-       │                                              └────────┬─────────┘
-       │                                                       │
-       │     (Sprint Retrospective)                    (Sprint Review)
-       └──────── [회고: 프로세스 개선] ◄──────── [잠재적으로 출시 가능한 제품]
-                 팀의 업무 방식 성찰             고객 시연 및 요구사항 피드백
-```
 
-이 구조도의 핵심은 **피드백 루프가 이중으로 돌아간다는 점**이다.
-1) **제품 피드백 ([Sprint Review](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/))**: 고객과 PO가 완성된 소프트웨어를 시연해 보고, 요구사항([제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))을 수정한다. 이는 '올바른 제품을 만들고 있는가([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'를 보장한다.
-2) **프로세스 피드백 ([Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/))**: 개발팀 스스로가 일하는 방식을 점검하고 개선한다. 이는 '올바르게 제품을 만들고 있는가([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & Efficiency)'를 보장한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스크럼 프레임워크 동작 흐름도</div></div>
+<div class="kb-diagram-note">(Product Owner) (Sprint Planning) (Development Team)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제품 백로그</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">스프린트 백로그</div><div class="kb-diagram-note">►</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">우선순위가 높은 이번 스프린트(2주)에</div><div class="kb-diagram-node">Sprint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 스토리들 할당된 작업 목록</div><div class="kb-diagram-cell">설계/개발/테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">24h</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Daily Scrum</div></div>
+<div class="kb-diagram-note">(Sprint Retrospective) (Sprint Review)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">회고: 프로세스 개선</div><div class="kb-diagram-note">◄</div><div class="kb-diagram-node">잠재적으로 출시 가능한 제품</div></div>
+<div class="kb-diagram-note">팀의 업무 방식 성찰 고객 시연 및 요구사항 피드백</div>
+</div>
+</div>
+
+
+
+이 구조도의 핵심은 <strong>피드백 루프가 이중으로 돌아간다는 점</strong>이다.
+1) <strong>제품 피드백 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/">Sprint Review</a>)</strong>: 고객과 PO가 완성된 소프트웨어를 시연해 보고, 요구사항([제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))을 수정한다. 이는 '올바른 제품을 만들고 있는가([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'를 보장한다.
+2) <strong>프로세스 피드백 (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/">Retrospective</a>)</strong>: 개발팀 스스로가 일하는 방식을 점검하고 개선한다. 이는 '올바르게 제품을 만들고 있는가([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & Efficiency)'를 보장한다.
 이 두 개의 톱니바퀴가 짧은 주기로 맞물려 돌아가기 때문에, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 시간이 지날수록 개발 속도와 품질이 기하급수적으로 상승(Velocity 향상)하게 된다.
 
 📢 **섹션 요약 비유**: 로켓을 쏘아 올릴 때 출발 전에 모든 궤도를 계산하고 눈을 감는 것이 아니라, 날아가는 내내 GPS로 위치를 확인하고 실시간으로 궤도를 수정하는 제어 시스템과 같습니다.
@@ -102,9 +107,9 @@ tags = ["software_engineering"]
 | **가치 초점** | 계획의 완수, 비용/일정 준수 | 사용자 가치의 지속적 인도 | 극심한 불확실성 속에서의 학습 | 프로젝트의 불확실성 수준 |
 | **요구사항** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 확정 (변경을 통제) | 지속적 진화 (변경을 환영) | 가설 기반 (MVP로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 도메인에 대한 지식 수준 |
 | **팀 구조** | 직군별 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) (기획팀->개발팀) | 다기능 자율 조직 (Cross-functional) | 크로스펑셔널 + 비즈니스 밀착 | 조직 문화의 수평성 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분석 단계에서 전부 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 매 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)마다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/완화 | 가장 위험한 가설부터 우선 테스트 | 장애 발생 시 파급 효과 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분석 단계에서 전부 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 매 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)마다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/완화 | 가장 위험한 가설부터 우선 테스트 | 장애 발생 시 파급 효과 |
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 소프트웨어 공학의 타 영역과 강력한 시너지를 발생시킨다. 특히 **[클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** 및 **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)**와의 결합은 필수적이다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 소프트웨어 공학의 타 영역과 강력한 시너지를 발생시킨다. 특히 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/">클라우드 네이티브 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> 및 <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a></strong>와의 결합은 필수적이다.
 
 ```text
 [Agile, DevOps, MSA의 삼위일체 시너지 구조]
@@ -130,18 +135,23 @@ tags = ["software_engineering"]
 
 #### 1. 실무 시나리오 기반 의사결정
 - **시나리오 A (B2C 신규 모바일 앱 개발)**: 시장 반응을 예측할 수 없다. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 기반으로 2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 돌리고, 첫 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 결제 등 핵심 기능만 담은 MVP를 릴리즈하여 A/B 테스트로 사용자 데이터를 수집한다. (최적 적용)
-- **시나리오 B (공공/국방 차세대 시스템 차세대 사업)**: 요구사항이 법과 제도로 엄격히 고정되어 있고 수천 명의 인력이 투입된다. 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 도입은 실패한다. 전체 마일스톤은 폭포수로 잡되, 개발 단계를 짧게 쪼개어 반복하는 **하이브리드([Water-Scrum-Fall](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))** 모델이나 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))를 고려해야 한다.
-- **시나리오 C (레거시 금융 시스템 유지보수)**: 긴급한 장애 처리와 티켓 처리가 주 업무다. [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)로 일정을 묶는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)보다는 워크플로우를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 WIP([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 작업)를 제한하여 병목을 푸는 **[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))** 방식을 적용하는 것이 유리하다.
+- **시나리오 B (공공/국방 차세대 시스템 차세대 사업)**: 요구사항이 법과 제도로 엄격히 고정되어 있고 수천 명의 인력이 투입된다. 순수 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 도입은 실패한다. 전체 마일스톤은 폭포수로 잡되, 개발 단계를 짧게 쪼개어 반복하는 <strong>하이브리드(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">Water-Scrum-Fall</a>)</strong> 모델이나 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))를 고려해야 한다.
+- **시나리오 C (레거시 금융 시스템 유지보수)**: 긴급한 장애 처리와 티켓 처리가 주 업무다. [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)로 일정을 묶는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)보다는 워크플로우를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 WIP([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 작업)를 제한하여 병목을 푸는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>)</strong> 방식을 적용하는 것이 유리하다.
 
 #### 2. 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): "[Water-Scrum-Fall](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))"
 
-```text
-[Water-Scrum-Fall 안티패턴의 병목 시각화]
 
-[요구사항] ===> [기획/디자인] ===> [ 2주 단위 개발 (Scrum) ] ===> [QA 및 배포]
-(수개월 소요)   (수개월 소요)      │Sprint1│Sprint2│Sprint3│    (수개월 대기)
-  병목!                            │       │       │       │       병목!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Water-Scrum-Fall 안티패턴의 병목 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">기획/디자인</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">2주 단위 개발 (Scrum)</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">QA 및 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수개월 소요) (수개월 소요)</div><div class="kb-diagram-cell">Sprint1</div><div class="kb-diagram-cell">Sprint2</div><div class="kb-diagram-cell">Sprint3</div><div class="kb-diagram-cell">(수개월 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목!</div><div class="kb-diagram-cell">병목!</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 가장 흔한 실패 사례의 핵심은, 개발팀 내부만 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 돌리고 전단(기획)과 후단(배포)은 여전히 폭포수 방식에 머물러 있는 상태다. 이 경우 개발자는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 압박과 잦은 요구사항 변경에 시달리지만, 실제 고객에게 가치가 전달되는 속도는 폭포수 때와 똑같이 느리다. 실무에서는 이러한 병목 지점을 파악하고, 비즈니스 부서부터 IT 운영 부서까지 전체 가치 스트림(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)화해야 한다.
 
@@ -160,7 +170,7 @@ tags = ["software_engineering"]
 | **정량적 효과** | - 타임투마켓(Time-to-Market) 단축 (기존 대비 50% 이상 향상)<br>- 릴리즈 빈도 증가 및 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 감소 | 빠른 출시로 인한 시장 선점 효과 극대화 및 기회비용 감소 |
 | **정성적 효과** | - 잦은 시연을 통한 고객 만족도 및 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 상승<br>- 팀원의 권한 위임을 통한 직무 만족도 및 동기부여 향상 | 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(프로젝트 드랍) 최소화, 고객의 실질적 니즈에 부합하는 제품 완성 |
 
-**미래 전망**: 단일 팀 수준의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 넘어, 엔터프라이즈 전체(인사, 재무, 마케팅 포함)를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 운영하는 **비즈니스 어질리티(Business Agility)**로 확장되고 있다. [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)), [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 같은 대규모 확장 프레임워크의 도입이 금융 및 대기업을 중심으로 가속화되고 있으며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 등)를 활용하여 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) 분석, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 테스트 작성을 자동화하여 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 속도를 극단적으로 끌어올리는 방향으로 진화 중이다.
+**미래 전망**: 단일 팀 수준의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 넘어, 엔터프라이즈 전체(인사, 재무, 마케팅 포함)를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 운영하는 <strong>비즈니스 어질리티(Business Agility)</strong>로 확장되고 있다. [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)), [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) 같은 대규모 확장 프레임워크의 도입이 금융 및 대기업을 중심으로 가속화되고 있으며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 등)를 활용하여 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/) 분석, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 테스트 작성을 자동화하여 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 속도를 극단적으로 끌어올리는 방향으로 진화 중이다.
 
 **참고 표준**: [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Institute(PMI)의 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 가이드도 최신 7판부터 전통적 방식에서 벗어나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 가치 인도 시스템(Value Delivery System)을 전면에 내세우며 사실상의 글로벌 표준으로 자리 잡았다.
 
@@ -177,21 +187,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[워터폴 (Waterfall) — 단계별 산출물 중심의 순차 개발]
-    │
-    ▼
-[애자일 선언 (Agile Manifesto) — 변화 대응과 고객 협업의 가치 정립]
-    │
-    ▼
-[스크럼 (Scrum) — 스프린트로 반복 학습하는 프레임워크]
-    │
-    ▼
-[스케일드 애자일 (SAFe, Scaled Agile Framework) — 대규모 조직 확장]
-    │
-    ▼
-[비즈니스 어질리티 (Business Agility) — AI 자동화로 빠른 의사결정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터폴 (Waterfall) — 단계별 산출물 중심의 순차 개발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 선언 (Agile Manifesto) — 변화 대응과 고객 협업의 가치 정립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스크럼 (Scrum) — 스프린트로 반복 학습하는 프레임워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케일드 애자일 (SAFe, Scaled Agile Framework) — 대규모 조직 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 어질리티 (Business Agility) — AI 자동화로 빠른 의사결정</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 순차 개발의 한계를 넘어 선언과 프레임워크로 민첩성을 체계화하고, 결국 기업 전체의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 적응력으로 확장되는 진화를 보여준다.
 

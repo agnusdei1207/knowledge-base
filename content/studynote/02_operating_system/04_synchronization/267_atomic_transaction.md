@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 여러 개의 개별적인 연산([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))들을 논리적으로 **'쪼갤 수 없는 단일 작업(Atomic)'**으로 묶어, "All or Nothing (전부 성공하거나 아예 실패하거나)" 원칙을 강제하는 시스템 메커니즘이다.
+> 1. **본질**: 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 여러 개의 개별적인 연산([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))들을 논리적으로 <strong>'쪼갤 수 없는 단일 작업(Atomic)'</strong>으로 묶어, "All or Nothing (전부 성공하거나 아예 실패하거나)" 원칙을 강제하는 시스템 메커니즘이다.
 > 2. **가치**: 중간에 시스템이 정전되거나 예기치 않은 오류가 발생했을 때, 데이터가 '반만 처리된(Inconsistent)' 끔찍한 상태로 남는 것을 방지하고, 시스템을 항상 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 유지되는 안전한 상태로 보호한다.
 > 3. **융합**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Journaling), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 ACID 특성 제어, [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서의 메모리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)([STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)) 등 시스템 소프트웨어 전반을 지탱하는 가장 근본적인 아키텍처 철학이다.
 
@@ -26,7 +26,7 @@ tags = ["studynote-operating-system"]
 2. `B 계좌에 10,000원 입금` **(이때 서버 전원 차단됨!)**
 
 시스템이 재부팅된 후, A의 돈 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000원은 공중으로 증발해 버렸다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 입장에서 이렇게 '연산의 중간 상태'가 디스크나 메모리에 영구적으로 기록되는 것은 시스템의 신뢰성을 완전히 파괴하는 재앙이다. 
-학자들은 "여러 개의 코드로 이루어진 작업이지만, 바깥에서 볼 때는 **완벽하게 한방에 실행된 것처럼 보이거나 아예 시작도 안 한 것처럼 보여야 한다**"는 철학을 고안했다. 이것이 물리학의 쪼갤 수 없는 입자인 '원자(Atom)'의 이름을 딴 **원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Atomic [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))**이다.
+학자들은 "여러 개의 코드로 이루어진 작업이지만, 바깥에서 볼 때는 **완벽하게 한방에 실행된 것처럼 보이거나 아예 시작도 안 한 것처럼 보여야 한다**"는 철학을 고안했다. 이것이 물리학의 쪼갤 수 없는 입자인 '원자(Atom)'의 이름을 딴 <strong>원자적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(Atomic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -39,32 +39,28 @@ tags = ["studynote-operating-system"]
 1. **커밋 (Commit)**
    - [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내의 모든 연산이 단 하나의 에러도 없이 완벽하게 끝났을 때 선언한다.
    - 커밋이 떨어지는 순간, 임시 공간에 적어둔 변경 사항들이 '실제 시스템 상태(메모리/디스크)'에 영구적(Durable)으로 반영되며 쾅 도장이 찍힌다.
-2. **어보트 (Abort) & [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))**
+2. <strong>어보트 (Abort) &amp; <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>
    - 연산 도중 하드웨어 오류, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)), 권한 오류 등 단 하나라도 문제가 발생하면 즉시 작업을 중단(Abort)한다.
-   - 이때 임시로 끄적여두었던 변경 사항들을 모두 쓰레기통에 버리고, 시스템 상태를 **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 시작되기 바로 직전의 완벽한 상태로 되돌린다([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))**.
-   - 사용자 입장에서는 아예 아무 일도 일어나지 않았던 것과 똑같아진다. (All or **Nothing**의 Nothing 달성)
+   - 이때 임시로 끄적여두었던 변경 사항들을 모두 쓰레기통에 버리고, 시스템 상태를 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>이 시작되기 바로 직전의 완벽한 상태로 되돌린다(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>.
+   - 사용자 입장에서는 아예 아무 일도 일어나지 않았던 것과 똑같아진다. (All or <strong>Nothing</strong>의 Nothing 달성)
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│           원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름        │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 트랜잭션 시작 (Begin) ]                                              │
-│         │                                                              │
-│         ▼                                                              │
-│    연산 1 수행 ──▶ (로그에 기록, 실제 데이터는 변경 안 함)             │
-│         │                                                              │
-│         ▼          💣 에러 발생! (시스템 다운 등)                      │
-│    연산 2 수행 ─────▶ [ Abort 발동 ] ──▶ (로그 폐기, 롤백) ──┐         │
-│         │                                                │             │
-│         ▼ (모두 성공 시)                                     ▼         │
-│ [ 트랜잭션 완료 (Commit) ]                              [ 원상 복구 ]  │
-│         │                                                │             │
-│         ▼                                                ▼             │
-│  (로그를 실제 데이터에 덮어씀)                           (Nothing)     │
-│       (All)                                                            │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 시작 (Begin)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 1 수행 ──▶ (로그에 기록, 실제 데이터는 변경 안 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 💣 에러 발생! (시스템 다운 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Abort 발동</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(로그 폐기, 롤백) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (모두 성공 시) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 완료 (Commit)</div><div class="kb-diagram-node">원상 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로그를 실제 데이터에 덮어씀) (Nothing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(All)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 핵심은 "작업을 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 공간([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등)에서 미리 연습해 본 뒤, 완벽하게 성공할 확신이 들 때만 진짜 데이터에 덮어쓰는 것"이다. 에러가 나면 그냥 연습장을 찢어버리면 그만이다. 이것이 원자성을 보장하는 가장 고전적이면서도 완벽한 기법인 '[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Log-based Recovery](/knowledge-base/studynote/05_database/04_transactions_concurrency/237_log_based_recovery_redo_undo_records/))'의 원리다.
 
@@ -74,11 +70,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)뿐만 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)도 자체적으로 이 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 매초마다 수천 번씩 사용한다. 가장 대표적인 것이 **[저널링 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/539_journaling_file_system/)([Journaling File System](/knowledge-base/studynote/02_operating_system/09_file_system/539_journaling_file_system/))**이다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)뿐만 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)도 자체적으로 이 원자적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 매초마다 수천 번씩 사용한다. 가장 대표적인 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/539_journaling_file_system/">저널링 파일 시스템</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/539_journaling_file_system/">Journaling File System</a>)</strong>이다.
 
 * **문제 상황**: 사용자가 1GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지우고 있다. OS는 디스크의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(inode)를 지우고, 비트맵을 업데이트하는 3~4개의 작업을 순서대로 진행한다. 그런데 중간에 플러그가 뽑힌다.
 * **비극**: inode는 지워졌는데 비트맵은 업데이트가 안 되어, 디스크 용량이 영원히 증발해 버린 '고아 블록(Orphan Block)' 상태가 된다. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 깨짐)
-* **저널링([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))의 방어**: OS는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 지우기 전에, 디스크의 구석진 일기장(Journal)에 "나 이제 이거 지울 거야"라고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남긴다. 플러그가 뽑혀 재부팅되면, OS는 일기장부터 뒤져본다. "어? 지우다가 말았네? 그럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 꼬이지 않게 아예 지우기 전 상태로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시켜!" [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 절대 깨지지 않게 방어해 낸다.
+* <strong>저널링(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>)의 방어</strong>: OS는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 지우기 전에, 디스크의 구석진 일기장(Journal)에 "나 이제 이거 지울 거야"라고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남긴다. 플러그가 뽑혀 재부팅되면, OS는 일기장부터 뒤져본다. "어? 지우다가 말았네? 그럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 꼬이지 않게 아예 지우기 전 상태로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시켜!" [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 절대 깨지지 않게 방어해 낸다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -112,15 +108,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비관적 병행성 제어 (Pessimistic Concurrency Control)]
-    │
-    ▼
-[원자적 트랜잭션 (Atomic Transaction) 개념]
-    │
-    ├──▶ [소프트웨어 트랜잭셔널 메모리 (STM)]
-    └──▶ [하드웨어 트랜잭셔널 메모리 (HTM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 트랜잭셔널 메모리 (STM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

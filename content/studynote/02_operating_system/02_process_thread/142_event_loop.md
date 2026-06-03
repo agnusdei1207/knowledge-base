@@ -25,28 +25,31 @@ tags = ["studynote-operating-system"]
 
 > **비유:** 식당 주방장이 혼자서 주문서를 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 조리가 오래 걸리는 음식은 오븐에 맡겨놓고 다음 주문을 처리하는 방식과 같다.
 
-```
-┌─────────────────────────────────────────────────┐
-│                 Event Loop                       │
-│                                                   │
-│   ┌─────────┐    ┌──────────┐    ┌──────────┐   │
-│   │  Event   │───>│ Dispatch  │───>│ Callback │   │
-│   │  Queue   │    │  & Exec  │    │ Complete │   │
-│   └─────────┘    └──────────┘    └──────────┘   │
-│        ^                               │          │
-│        └───────────────────────────────┘          │
-└─────────────────────────────────────────────────┘
-```
 
-```
-┌─────────────────── Single Thread Timeline ───────────────────┐
-│                                                              │
-│  [A]──request──>[B]──request──>[A]──callback──>[C]──...     │
-│   non-blocking   non-blocking   result                       │
-│                                                              │
-│  Legend: [A],[B],[C] = async operations                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">Dispatch</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">Callback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue</div><div class="kb-diagram-cell">&amp; Exec</div><div class="kb-diagram-cell">Complete</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single Thread Timeline</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-note">──request──&gt;</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">──request──&gt;</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">──callback──&gt;</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">──...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">non-blocking non-blocking result</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Legend:</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">= async operations</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -68,20 +71,21 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 | 4 | **Check** | `setImmediate` 콜백 실행 |
 | 5 | **Close** | `close` 이벤트 콜백 실행 |
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                   Event Loop Phases                      │
-│                                                          │
-│   ┌────────┐  ┌────────┐  ┌──────┐  ┌───────┐  ┌─────┐│
-│   │ Timers │─>│Pending │─>│ Poll │─>│ Check │─>│Close││
-│   └────────┘  │Callback│  └──────┘  └───────┘  └─────┘│
-│      ^        └────────┘     │                         │
-│      └───────────────────────┘  (다시 반복)              │
-│                                                          │
-│   [Microtask Queue: Promise.then, process.nextTick]     │
-│   > 각 페이즈 사이마다 우선 실행                          │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Loop Phases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timers</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">Pending</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">Poll</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">Check</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">Close</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Callback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다시 반복)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Microtask Queue: Promise.then, process.nextTick</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 각 페이즈 사이마다 우선 실행</div></div>
+</div>
+</div>
+
+
 
 ### 3. 구현체별 특징
 
@@ -102,27 +106,25 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ### 1. 콜백 기반 vs 프로미스 기반
 
-```
-┌────────────────── Callback Style ──────────────────┐
-│                                                     │
-│  readFile("data.txt", function(err, data) {        │
-│      if (err) throw err;    // 콜백 지옥 가능       │
-│      console.log(data);                             │
-│  });                                                │
-│                                                     │
-└─────────────────────────────────────────────────────┘
 
-┌────────────────── Promise Style ───────────────────┐
-│                                                     │
-│  readFile("data.txt")                               │
-│      .then(data => console.log(data))               │
-│      .catch(err => console.error(err));             │
-│                                                     │
-│  // async/await 변환                                 │
-│  const data = await readFile("data.txt");           │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Callback Style</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">readFile("data.txt", function(err, data) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (err) throw err; // 콜백 지옥 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">console.log(data);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">});</div></div>
+<div class="kb-diagram-note">Promise Style</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">readFile("data.txt")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.then(data =&gt; console.log(data))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.catch(err =&gt; console.error(err));</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// async/await 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">const data = await readFile("data.txt");</div></div>
+</div>
+</div>
+
+
 
 ### 2. 마이크로태스크와 매크로태스크
 
@@ -146,21 +148,23 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ### 2. 한계: CPU 연산 집약적 작업
 
-```
-┌──────── CPU-Bound Blocking ────────┐
-│                                     │
-│  [Event Loop]──[Task A]────────────>│ BLOCKED!
-│                   │                 │ (다른 이벤트 전부 지연)
-│                   │  CPU 100%      │
-│                   │  10초 소요     │
-│                   ▼                 │
-│              [완료]                  │
-│  [Task B, C, D... 지연됨]          │
-│                                     │
-└─────────────────────────────────────┘
-```
 
-해결책: **Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** 분리, **클러스터 모드** (멀티프로세스), **C++ Addon** [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU-Bound Blocking</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Event Loop</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Task A</div><div class="kb-diagram-note">&gt;│ BLOCKED!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다른 이벤트 전부 지연)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10초 소요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Task B, C, D... 지연됨</div></div>
+</div>
+</div>
+
+
+
+해결책: <strong>Worker <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> 분리, **클러스터 모드** (멀티프로세스), **C++ Addon** [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -168,36 +172,42 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ## Ⅴ. 기대효과 및 결론
 
-```
-이벤트 루프 기반 비동기 처리
-├── 핵심 개념
-│   ├── 단일 스레드 이벤트 구동 아키텍처
-│   ├── 논블로킹 I/O
-│   └── 콜백 큐 순회 및 디스패치
-├── 이벤트 루프 페이즈
-│   ├── Timers (setTimeout/setInterval)
-│   ├── Pending Callbacks (지연된 I/O)
-│   ├── Poll (새 이벤트 수집)
-│   ├── Check (setImmediate)
-│   └── Close (닫기 콜백)
-├── 구현체
-│   ├── libuv (Node.js)
-│   ├── Browser Web API
-│   ├── Python asyncio
-│   └── Go runtime scheduler
-├── 비동기 패턴
-│   ├── Callback (콜백 지옥)
-│   ├── Promise (then/catch/finally)
-│   └── Async/Await (코루틴)
-├── 장점
-│   ├── 스레드 오버헤드 제거
-│   ├── 적은 메모리 사용
-│   └── C10K 문제 해결
-└── 한계 및 해결책
-    ├── CPU-bound 작업 시 블로킹
-    ├── Worker Thread 분리
-    └── 클러스터 (멀티프로세스)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이벤트 루프 기반 비동기 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 개념</div>
+<div class="kb-diagram-note">── 단일 스레드 이벤트 구동 아키텍처</div>
+<div class="kb-diagram-note">── 논블로킹 I/O</div>
+<div class="kb-diagram-note">── 콜백 큐 순회 및 디스패치</div>
+<div class="kb-diagram-tree-item" style="--depth:0">이벤트 루프 페이즈</div>
+<div class="kb-diagram-note">── Timers (setTimeout/setInterval)</div>
+<div class="kb-diagram-note">── Pending Callbacks (지연된 I/O)</div>
+<div class="kb-diagram-note">── Poll (새 이벤트 수집)</div>
+<div class="kb-diagram-note">── Check (setImmediate)</div>
+<div class="kb-diagram-note">── Close (닫기 콜백)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구현체</div>
+<div class="kb-diagram-note">── libuv (Node.js)</div>
+<div class="kb-diagram-note">── Browser Web API</div>
+<div class="kb-diagram-note">── Python asyncio</div>
+<div class="kb-diagram-note">── Go runtime scheduler</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비동기 패턴</div>
+<div class="kb-diagram-note">── Callback (콜백 지옥)</div>
+<div class="kb-diagram-note">── Promise (then/catch/finally)</div>
+<div class="kb-diagram-note">── Async/Await (코루틴)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">장점</div>
+<div class="kb-diagram-note">── 스레드 오버헤드 제거</div>
+<div class="kb-diagram-note">── 적은 메모리 사용</div>
+<div class="kb-diagram-note">── C10K 문제 해결</div>
+<div class="kb-diagram-tree-item" style="--depth:0">한계 및 해결책</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CPU-bound 작업 시 블로킹</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Worker Thread 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">클러스터 (멀티프로세스)</div>
+</div>
+</div>
+
+
 
 ---
 
@@ -205,7 +215,7 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 |------|-----------|
 | **libuv** | [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) for UV (Unified [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) |
 | **I/O** | Input/Output |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)** | [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | **C10K** | [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 Problem |
 
 ---
@@ -229,15 +239,19 @@ I/O 연산이 완료될 때까지 [스레드](/knowledge-base/studynote/02_opera
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[코루틴 (Coroutine)]
-    │
-    ▼
-[이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
-    │
-    ├──▶ [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
-    └──▶ [CPU 친화성 (CPU Affinity)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코루틴 (Coroutine)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 친화성 (CPU Affinity)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

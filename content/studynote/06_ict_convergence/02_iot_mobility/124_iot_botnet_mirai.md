@@ -10,25 +10,28 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 **보안이 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스(IP 카메라·공유기 등)를 악성코드로 감염시켜 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)을 구성**하고, 이를 이용해 대규모 DDoS 공격을 수행하는 사이버 위협이다.
-> 2. **가치**: Mirai [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)(2016)은 **기본 비밀번호(admin/admin)를 사용하는 수십만 대 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스**를 감염시켜 Dyn DNS에 1.2Tbps DDoS를 가해 트위터·넷플릭스 등 주요 서비스를 마비시켰다.
-> 3. **판단 포인트**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스는 **업데이트 어려움·기본 비밀번호·리소스 제한(보안 SW 설치 불가)**으로 취약하며, 네트워크 세그먼테이션·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 자동 업데이트(FOTA)·기본 비밀번호 변경 의무화가 대응 방안이다.
+> 1. **본질**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 <strong>보안이 취약한 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스(IP 카메라·공유기 등)를 악성코드로 감염시켜 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>을 구성</strong>하고, 이를 이용해 대규모 DDoS 공격을 수행하는 사이버 위협이다.
+> 2. **가치**: Mirai [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)(2016)은 <strong>기본 비밀번호(admin/admin)를 사용하는 수십만 대 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스</strong>를 감염시켜 Dyn DNS에 1.2Tbps DDoS를 가해 트위터·넷플릭스 등 주요 서비스를 마비시켰다.
+> 3. **판단 포인트**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스는 <strong>업데이트 어려움·기본 비밀번호·리소스 제한(보안 SW 설치 불가)</strong>으로 취약하며, 네트워크 세그먼테이션·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 자동 업데이트(FOTA)·기본 비밀번호 변경 의무화가 대응 방안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    Mirai 봇넷 공격 흐름                               │
-├───────────────────────────────────────────────────────┤
-│  1. Mirai 스캔: Telnet(23) 포트 열린 IoT 디바이스 탐색│
-│  2. 기본 비밀번호(admin/admin) 무차별 대입 → 감염    │
-│  3. 수십만 대 봇넷 구성 (C&C 서버 제어)              │
-│  4. C&C 명령 → 타겟 서버에 대규모 DDoS 공격         │
-│  5. 2016년: Dyn DNS 공격 → 주요 인터넷 서비스 마비  │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirai 봇넷 공격 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Mirai 스캔: Telnet(23) 포트 열린 IoT 디바이스 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 기본 비밀번호(admin/admin) 무차별 대입 → 감염</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 수십만 대 봇넷 구성 (C&amp;C 서버 제어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. C&amp;C 명령 → 타겟 서버에 대규모 DDoS 공격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 2016년: Dyn DNS 공격 → 주요 인터넷 서비스 마비</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Mirai는 비밀번호를 안 바꾼 수십만 개의 현관문([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))을 열고 들어가서, 좀비 군대([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))를 만들어 건물(서버)을 공격하는 것이다.
 
@@ -71,7 +74,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 **연결된 디바이스 수 증가와 비례**하여 위험이 커지며, 기본 비밀번호 금지·FOTA 의무화·네트워크 분리가 핵심 대응 전략이다.
+[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)은 <strong>연결된 디바이스 수 증가와 비례</strong>하여 위험이 커지며, 기본 비밀번호 금지·FOTA 의무화·네트워크 분리가 핵심 대응 전략이다.
 
 ---
 
@@ -87,26 +90,28 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 PC 봇넷 (2000s)]
-    │
-    ▼
-[Mirai IoT 봇넷 (2016) — 1.2Tbps DDoS]
-    │
-    ▼
-[IoT 보안 표준화 (NIST, 2018~)]
-    │
-    ▼
-[기본 비밀번호 금지법 (영국 PSTI Act, 2024)]
-    │
-    ▼
-[현재: AI 기반 IoT 이상 트래픽 탐지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 PC 봇넷 (2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mirai IoT 봇넷 (2016) — 1.2Tbps DDoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 보안 표준화 (NIST, 2018~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 비밀번호 금지법 (영국 PSTI Act, 2024)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 IoT 이상 트래픽 탐지</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Mirai는 비밀번호를 안 바꾼 **수십만 대의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 좀비([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))**로 만들었어요.
-2. 좀비 군대가 한 곳을 **한꺼번에 공격(DDoS)**해서 트위터·넷플릭스가 멈췄어요.
-3. 비밀번호를 **반드시 바꾸고**, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기도 **업데이트(FOTA)**해야 안전하답니다!
+1. Mirai는 비밀번호를 안 바꾼 <strong>수십만 대의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기를 좀비(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a>)</strong>로 만들었어요.
+2. 좀비 군대가 한 곳을 <strong>한꺼번에 공격(DDoS)</strong>해서 트위터·넷플릭스가 멈췄어요.
+3. 비밀번호를 **반드시 바꾸고**, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기도 <strong>업데이트(FOTA)</strong>해야 안전하답니다!
 
 ---
 

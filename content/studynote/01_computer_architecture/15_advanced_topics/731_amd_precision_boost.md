@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-AMD 프리시전 부스트는 Ryzen 세대에서 본격화된, **센서 중심의 세밀한 자동 클럭 제어 기술**이다. 과거의 고정 클럭 중앙처리장치 (Central Processing Unit, CPU)나 단순 단계형 전력 관리는 "안전한 최악의 경우"를 넉넉히 잡아 두는 대신, 실제 순간순간의 여유를 충분히 활용하지 못했다. 특히 코어 수가 늘고 워크로드 패턴이 복잡해지면서, 어떤 순간에는 한두 코어만 매우 바쁘고, 다른 순간에는 많은 코어가 중간 정도로 바쁜 상황이 반복되었다.
+AMD 프리시전 부스트는 Ryzen 세대에서 본격화된, <strong>센서 중심의 세밀한 자동 클럭 제어 기술</strong>이다. 과거의 고정 클럭 중앙처리장치 (Central Processing Unit, CPU)나 단순 단계형 전력 관리는 "안전한 최악의 경우"를 넉넉히 잡아 두는 대신, 실제 순간순간의 여유를 충분히 활용하지 못했다. 특히 코어 수가 늘고 워크로드 패턴이 복잡해지면서, 어떤 순간에는 한두 코어만 매우 바쁘고, 다른 순간에는 많은 코어가 중간 정도로 바쁜 상황이 반복되었다.
 
-이때 단순한 고정 터보 빈만으로는 남는 여유를 세밀하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다. 여유가 조금만 있어도 조금 더 올리고, 한계에 가까워지면 아주 조금만 내리는 정밀 제어가 필요해진다. [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 바로 이 지점을 겨냥한다. 즉 AMD가 Cool'n'Quiet로 익숙해진 "상황에 따라 낮추는 철학"을 한 단계 더 발전시켜, **상황에 따라 매우 미세하게 올리고 내리는 철학**으로 확장한 것이다.
+이때 단순한 고정 터보 빈만으로는 남는 여유를 세밀하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다. 여유가 조금만 있어도 조금 더 올리고, 한계에 가까워지면 아주 조금만 내리는 정밀 제어가 필요해진다. [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 바로 이 지점을 겨냥한다. 즉 AMD가 Cool'n'Quiet로 익숙해진 "상황에 따라 낮추는 철학"을 한 단계 더 발전시켜, <strong>상황에 따라 매우 미세하게 올리고 내리는 철학</strong>으로 확장한 것이다.
 
-또한 이 기술의 등장은 수동 오버클러킹 문화에도 변화를 만들었다. 예전에는 사용자가 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 직접 조정해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 끌어낼 수 있었지만, 현대 Ryzen에서는 하드웨어 내부 제어기가 이미 매우 공격적으로 헤드룸을 활용한다. 그래서 이제는 "얼마나 높게 고정할까"보다, **자동 부스트가 잘 작동할 수 있도록 냉각·전원·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 어떻게 맞출까**가 더 중요해졌다.
+또한 이 기술의 등장은 수동 오버클러킹 문화에도 변화를 만들었다. 예전에는 사용자가 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 직접 조정해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 끌어낼 수 있었지만, 현대 Ryzen에서는 하드웨어 내부 제어기가 이미 매우 공격적으로 헤드룸을 활용한다. 그래서 이제는 "얼마나 높게 고정할까"보다, <strong>자동 부스트가 잘 작동할 수 있도록 냉각·전원·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>를 어떻게 맞출까</strong>가 더 중요해졌다.
 
 - **📢 섹션 요약 비유**: [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 계단식 엑셀 대신 발끝 힘을 아주 미세하게 조절하는 숙련 운전자와 같다. 도로가 조금만 비어도 바로 조금 더 밟고, 과열 기미가 보이면 즉시 살짝 풀어 가장 빠른 안전 속도를 유지한다.
 
@@ -31,7 +31,7 @@ AMD 프리시전 부스트는 Ryzen 세대에서 본격화된, **센서 중심�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 핵심은 Ryzen 내부의 SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Unit)와 다수의 센서가 만드는 폐루프 제어다. 센서는 코어 온도, 패키지 전력, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 활성 코어 수, 부하 성격 같은 정보를 계속 수집하고, SMU는 그 값을 바탕으로 다음 순간에 허용 가능한 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 결정한다. 중요한 점은 이것이 단순한 온도 스위치가 아니라, 여러 제약 조건을 동시에 만족시키는 **다변수 최적화 문제**라는 것이다.
+[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 핵심은 Ryzen 내부의 SMU (System [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Unit)와 다수의 센서가 만드는 폐루프 제어다. 센서는 코어 온도, 패키지 전력, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 활성 코어 수, 부하 성격 같은 정보를 계속 수집하고, SMU는 그 값을 바탕으로 다음 순간에 허용 가능한 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 결정한다. 중요한 점은 이것이 단순한 온도 스위치가 아니라, 여러 제약 조건을 동시에 만족시키는 <strong>다변수 최적화 문제</strong>라는 것이다.
 
 AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
@@ -46,27 +46,22 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 아래 그림은 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost가 단순히 "온도 낮으면 올리고 높으면 내린다"가 아니라, 여러 한계선을 동시에 보고 결정을 내리는 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│            Precision Boost control loop on Ryzen processors           │
-├────────────────────────────────────────────────────────────────────────┤
-│ Telemetry inputs: temperature + PPT + TDC + EDC + active cores       │
-│                │                                                       │
-│                ▼                                                       │
-│         SMU evaluates safe next frequency step                         │
-│                │                                                       │
-│      ┌─────────┴─────────┐                                             │
-│      ▼                   ▼                                             │
-│ headroom exists      limit is close                                    │
-│ -> raise boost       -> hold or lower boost                            │
-│      │                   │                                             │
-│      └─────────┬─────────┘                                             │
-│                ▼                                                       │
-│     repeat continuously for mixed single / multi-core load            │
-└────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조가 중요한 이유는, 실제 워크로드가 극단적인 싱글 코어 또는 풀로드 둘 중 하나만으로 이루어지지 않기 때문이다. 웹 브라우저, 게임, 개발 도구, 백그라운드 서비스가 뒤섞인 현실의 부하에서는 순간마다 병목이 달라지며, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 그 변화를 가능한 빨리 따라간다. 그래서 Ryzen [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 볼 때는 단순 base/boost 숫자보다, **부스트가 얼마나 오래, 얼마나 유연하게 유지되는지**가 더 본질적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Precision Boost control loop on Ryzen processors</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Telemetry inputs: temperature + PPT + TDC + EDC + active cores</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMU evaluates safe next frequency step</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">headroom exists limit is close</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; raise boost -&gt; hold or lower boost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">repeat continuously for mixed single / multi-core load</div></div>
+</div>
+</div>
+
+
+
+이 구조가 중요한 이유는, 실제 워크로드가 극단적인 싱글 코어 또는 풀로드 둘 중 하나만으로 이루어지지 않기 때문이다. 웹 브라우저, 게임, 개발 도구, 백그라운드 서비스가 뒤섞인 현실의 부하에서는 순간마다 병목이 달라지며, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 그 변화를 가능한 빨리 따라간다. 그래서 Ryzen [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 볼 때는 단순 base/boost 숫자보다, <strong>부스트가 얼마나 오래, 얼마나 유연하게 유지되는지</strong>가 더 본질적이다.
 
 - **📢 섹션 요약 비유**: [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 조리사가 냄비 불을 강·중·약 세 단계로만 조절하는 것이 아니라, 내용물이 끓는 정도를 보며 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 불을 아주 세밀하게 조절하는 인덕션 화력 제어와 같다. 재료가 넘치지 않게 하면서도 가능한 빨리 끓인다.
 
@@ -74,7 +69,7 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 ## Ⅲ. 비교 및 연결
 
-[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 인텔 터보부스트와 같은 목적을 가진 경쟁 기술이지만, AMD는 이를 더 연속적이고 센서 밀도가 높은 제어 철학으로 설명해 왔다. 터보부스트가 "가능한 터보 빈을 선택"하는 느낌이 강하다면, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 **헤드룸을 잘게 잘라 끝까지 쓰는 곡선형 제어**에 가깝다. 물론 실제 구현은 세대별로 달라지며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost에서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost 2로 오면서 다중 코어 부하에서도 더 부드럽고 공격적인 상승이 가능해졌다.
+[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 인텔 터보부스트와 같은 목적을 가진 경쟁 기술이지만, AMD는 이를 더 연속적이고 센서 밀도가 높은 제어 철학으로 설명해 왔다. 터보부스트가 "가능한 터보 빈을 선택"하는 느낌이 강하다면, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 <strong>헤드룸을 잘게 잘라 끝까지 쓰는 곡선형 제어</strong>에 가깝다. 물론 실제 구현은 세대별로 달라지며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost에서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost 2로 오면서 다중 코어 부하에서도 더 부드럽고 공격적인 상승이 가능해졌다.
 
 | 비교 항목 | Cool'n'Quiet | [Turbo Boost](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/730_turbo_boost/) | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost | PBO |
 | :--- | :--- | :--- | :--- | :--- |
@@ -85,7 +80,7 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 여기서 PBO ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost Overdrive)는 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 대체제가 아니라 확장판으로 보는 것이 정확하다. 기본 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 공장 기본 한계 안에서 가장 잘 달리게 만들고, PBO는 메인보드와 냉각이 충분하다고 판단될 때 PPT·TDC·EDC 등의 한계를 더 넓혀 헤드룸 자체를 키운다. 즉 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost가 운전 기술이라면, PBO는 경기장 규칙을 조금 더 넓혀 주는 셈이다.
 
-또 하나 중요한 연결점은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 스케줄러다. 최신 Windows와 AMD CPPC (Collaborative Processor [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Control) 협업은 더 우수한 코어에 가벼운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 배치해 높은 부스트를 끌어내는 데 도움을 준다. 따라서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 CPU 내부 기술이지만, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 **[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**과도 맞물린다.
+또 하나 중요한 연결점은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 스케줄러다. 최신 Windows와 AMD CPPC (Collaborative Processor [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Control) 협업은 더 우수한 코어에 가벼운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 배치해 높은 부스트를 끌어내는 데 도움을 준다. 따라서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 CPU 내부 기술이지만, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>·스케줄링 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>과도 맞물린다.
 
 - **📢 섹션 요약 비유**: Cool'n'Quiet가 조용히 쉬는 법을 가르친 코치라면, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 선수의 심박과 체온을 보며 한계 직전까지 페이스를 끌어올리는 전문 트레이너다. PBO는 그 트레이너에게 조금 더 큰 훈련장을 열어 주는 옵션이다.
 
@@ -95,7 +90,7 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 실무에서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost를 다룰 때는 수동 올코어 오버클럭과 자동 부스트의 장단을 구분해야 한다. 예전에는 모든 코어를 일정한 높은 클럭으로 고정하는 것이 간단하고 강력한 튜닝처럼 보였지만, 현대 Ryzen에서는 그 방식이 가벼운 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 작업의 최고 부스트를 오히려 희생시키는 경우가 많다. 즉 혼합 부하 환경에서는 자동 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost가 더 똑똑한 선택일 수 있다.
 
-다만 자동이라고 해서 환경의 영향을 안 받는 것은 아니다. 같은 CPU라도 공랭과 수랭, 보급형 보드와 고급 전원부 보드, 보수적 BIOS (Basic Input/Output System)와 공격적 BIOS에 따라 실효 클럭이 달라진다. 또한 Eco Mode처럼 의도적으로 전력 한계를 낮추면 멀티코어 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 줄더라도 전성비와 소음이 좋아질 수 있다. 결국 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 설계 판단은 "얼마나 높게 올릴까"보다, **어떤 전력·열·소음 균형이 목표인가**에 더 가깝다.
+다만 자동이라고 해서 환경의 영향을 안 받는 것은 아니다. 같은 CPU라도 공랭과 수랭, 보급형 보드와 고급 전원부 보드, 보수적 BIOS (Basic Input/Output System)와 공격적 BIOS에 따라 실효 클럭이 달라진다. 또한 Eco Mode처럼 의도적으로 전력 한계를 낮추면 멀티코어 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 줄더라도 전성비와 소음이 좋아질 수 있다. 결국 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 설계 판단은 "얼마나 높게 올릴까"보다, <strong>어떤 전력·열·소음 균형이 목표인가</strong>에 더 가깝다.
 
 ### 실무 체크포인트
 
@@ -120,9 +115,9 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost의 가장 큰 장점은 실리콘의 여유를 사람이 수동으로 계산하지 않아도 꽤 높은 수준으로 자동 활용한다는 점이다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 피크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 절충 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 일반 데스크톱 혼합 부하 반응성을 함께 높일 수 있으며, 이는 Ryzen이 범용 데스크톱과 노트북에서 경쟁력을 확보하는 데 큰 역할을 했다. 특히 사용자는 복잡한 수동 튜닝 없이도, 더 좋은 쿨러와 적절한 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만으로 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 얻을 수 있다.
 
-하지만 이 기술은 어디까지나 물리 한계 안의 최적화다. 온도가 빠르게 오르거나 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계가 낮게 잡히면 부스트 폭은 줄어들고, 보드 제조사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 공격적이면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 늘어도 전력과 소음이 커질 수 있다. 따라서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost를 볼 때는 "자동이라 공짜"가 아니라, **자동으로 최적화하지만 그 최적점은 플랫폼이 정한다**는 관점이 필요하다.
+하지만 이 기술은 어디까지나 물리 한계 안의 최적화다. 온도가 빠르게 오르거나 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계가 낮게 잡히면 부스트 폭은 줄어들고, 보드 제조사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 공격적이면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 늘어도 전력과 소음이 커질 수 있다. 따라서 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost를 볼 때는 "자동이라 공짜"가 아니라, <strong>자동으로 최적화하지만 그 최적점은 플랫폼이 정한다</strong>는 관점이 필요하다.
 
-결론적으로 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 Ryzen 시대 AMD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 철학을 대표하는 기술이다. 과거 Cool'n'Quiet가 효율 중심의 하향 제어를 대중화했다면, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 그 기반 위에서 상향·하향 제어를 모두 정밀하게 수행하는 현대적 부스트 체계로 진화했다. 그래서 이 기술은 단순한 부스트 기능이 아니라, **센서·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·전원·냉각이 결합된 플랫폼 수준 제어 체계**로 기억하는 것이 가장 정확하다.
+결론적으로 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 Ryzen 시대 AMD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 철학을 대표하는 기술이다. 과거 Cool'n'Quiet가 효율 중심의 하향 제어를 대중화했다면, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 그 기반 위에서 상향·하향 제어를 모두 정밀하게 수행하는 현대적 부스트 체계로 진화했다. 그래서 이 기술은 단순한 부스트 기능이 아니라, <strong>센서·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>·전원·냉각이 결합된 플랫폼 수준 제어 체계</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 운전자가 악셀을 한 번 밟고 끝나는 방식이 아니라, 길 상태와 엔진 상태를 보며 1초에도 여러 번 미세하게 속도를 다듬는 적응형 크루즈 컨트롤과 같다. 잘 세팅된 차일수록 그 똑똑함이 더 잘 드러난다.
 
@@ -140,24 +135,26 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 클럭 CPU + 수동 오버클럭 문화
-    │
-    ▼
-Cool'n'Quiet
-: 효율 중심의 동적 V/f 제어
-    │
-    ▼
-Ryzen SenseMI / 센서 중심 제어
-    │
-    ▼
-Precision Boost
-: 헤드룸을 세밀하게 성능으로 환원
-    │
-    ▼
-Precision Boost 2 · PBO · Eco Mode
-: 플랫폼 특성에 맞춘 확장형 자동 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 클럭 CPU + 수동 오버클럭 문화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cool'n'Quiet</div>
+<div class="kb-diagram-note">: 효율 중심의 동적 V/f 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ryzen SenseMI / 센서 중심 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Precision Boost</div>
+<div class="kb-diagram-note">: 헤드룸을 세밀하게 성능으로 환원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Precision Boost 2 · PBO · Eco Mode</div>
+<div class="kb-diagram-note">: 플랫폼 특성에 맞춘 확장형 자동 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 AMD 전력 관리가 "절전 중심"에서 "센서 기반 정밀 부스트 중심"으로 확장된 과정을 보여 준다.
 

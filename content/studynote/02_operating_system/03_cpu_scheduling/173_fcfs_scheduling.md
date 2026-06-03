@@ -25,15 +25,18 @@ FCFS 스케줄링은 "먼저 온 작업부터 처리한다"는 가장 직관적�
 
 아래 그림은 FCFS의 기본 실행 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ FCFS ready queue                                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ arrival -> [ P1 ][ P2 ][ P3 ] -> CPU                             │
-│ running process keeps CPU until exit or I/O wait                 │
-│ next dispatch always removes queue head                          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS ready queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">running process keeps CPU until exit or I/O wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next dispatch always removes queue head</div></div>
+</div>
+</div>
+
+
 
 이 구조의 장점은 분명하다. 우선순위 계산도, 예상 burst 길이 추정도 필요 없다. 반면 단점도 분명하다. 앞에 선 작업이 오래 걸리면 뒤에 온 짧은 작업들은 아무리 빨리 끝날 수 있어도 그냥 기다려야 한다. 즉 FCFS는 공정한 순서와 나쁜 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 가질 수 있다.
 
@@ -47,17 +50,20 @@ FCFS의 핵심은 Ready Queue의 선입선출 보존이다. 새 프로세스는 
 
 아래 예시는 FCFS가 평균 대기 시간을 어떻게 결정하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example: P1=10ms, P2=3ms, P3=2ms, all arrive at t=0              │
-├────────────────────────────────────────────────────────────────────┤
-│ 0            10        13      15                                │
-│ |---- P1 ----|-- P2 ---|-- P3 -|                                 │
-│ waiting  : P1=0,  P2=10, P3=13                                   │
-│ response : P1=0,  P2=10, P3=13                                   │
-│ turnaround: P1=10, P2=13, P3=15                                  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example: P1=10ms, P2=3ms, P3=2ms, all arrive at t=0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 10 13 15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---- P1 ----</div><div class="kb-diagram-cell">-- P2 ---</div><div class="kb-diagram-cell">-- P3 -</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting : P1=0, P2=10, P3=13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">response : P1=0, P2=10, P3=13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">turnaround: P1=10, P2=13, P3=15</div></div>
+</div>
+</div>
+
+
 
 위 예시에서 평균 대기 시간은 `(0 + 10 + 13) / 3 = 7.67ms`다. 중요한 점은 P2와 P3가 매우 짧은 작업이어도, 긴 P1 뒤에 서 있다는 이유만으로 응답과 대기가 모두 늦어진다는 것이다. [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) FCFS에서는 첫 프로세스의 burst 길이가 뒤 프로세스들의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 거의 결정한다.
 
@@ -89,26 +95,27 @@ FCFS는 세 가지 시간 지표와도 직접 연결된다. [비선점](/knowled
 
 실무에서 FCFS를 채택할지 말지는 "작업 시간이 얼마나 들쭉날쭉한가"로 먼저 판단하는 것이 좋다. 모든 작업이 짧고 비슷하다면 FCFS는 단순하고 안정적이다. 그러나 1ms 작업과 1초 작업이 같은 큐로 들어오면, FCFS는 긴 작업을 기준으로 전체 체감 품질을 떨어뜨린다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When is FCFS acceptable?                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ response time critical?                                           │
-│   ├─ yes -> choose preemptive policy                              │
-│   └─ no                                                           │
-│       │                                                           │
-│       ▼                                                           │
-│ job sizes similar and bounded?                                    │
-│   ├─ yes -> FCFS/FIFO reasonable                                  │
-│   └─ no  -> convoy risk; add RR, priority, or class split         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When is FCFS acceptable?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">response time critical?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; choose preemptive policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">job sizes similar and bounded?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; FCFS/FIFO reasonable</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; convoy risk; add RR, priority, or class split</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)**: 야간 정산, 단순 배치 잡처럼 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)보다 순서와 구현 안정성이 중요한 경우 FCFS가 적합하다.
+1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: 야간 정산, 단순 배치 잡처럼 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)보다 순서와 구현 안정성이 중요한 경우 FCFS가 적합하다.
 2. **작업 크기 분포**: 작업 길이 편차가 크면 separate [queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), priority, [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 같은 보완이 필요하다.
-3. **사용자 체감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 터미널, 웹 서버, 그래픽 사용자 인터페이스 (Graphical User Interface, GUI)처럼 즉각 반응이 중요하면 FCFS는 피하는 편이 맞다.
+3. <strong>사용자 체감 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 터미널, 웹 서버, 그래픽 사용자 인터페이스 (Graphical User Interface, GUI)처럼 즉각 반응이 중요하면 FCFS는 피하는 편이 맞다.
 4. **애플리케이션 큐**: 이벤트 루프나 메시지 소비기도 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 자체는 많이 쓰지만, long task를 차단하지 않도록 [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)·분할 실행·backpressure를 함께 둬야 한다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -117,7 +124,7 @@ FCFS는 세 가지 시간 지표와도 직접 연결된다. [비선점](/knowled
 - "순서가 공정하다"는 이유만으로 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 악화를 무시하는 것
 - FCFS 문제를 CPU만의 문제로 보고, I/O 장치 유휴와 convoy effect를 함께 보지 않는 것
 
-기술사 답안에서는 FCFS를 "가장 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이라고만 쓰면 약하다. **왜 단순성이 장점이 되는지, 그리고 왜 그 대가가 응답성 악화와 convoy effect로 나타나는지**를 함께 설명해야 한다.
+기술사 답안에서는 FCFS를 "가장 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이라고만 쓰면 약하다. <strong>왜 단순성이 장점이 되는지, 그리고 왜 그 대가가 응답성 악화와 convoy effect로 나타나는지</strong>를 함께 설명해야 한다.
 
 - **📢 섹션 요약 비유**: FCFS를 실무에 쓰는 일은 우편물을 접수 순서대로 처리하는 것과 같아서 물건 크기가 비슷하면 좋지만, 냉장고 한 대가 섞이면 작은 봉투들도 같이 늦어진다.
 
@@ -129,7 +136,7 @@ FCFS의 가장 큰 효과는 예측 가능한 순서와 낮은 관리 비용이�
 
 하지만 이 장점은 workload가 균질할 때만 빛난다. 실제 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 짧은 interactive [task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/), 긴 CPU [task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/), 잦은 I/O task가 섞여 있기 때문에 FCFS만으로는 좋은 응답성을 만들기 어렵다. 그래서 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 FCFS를 단독 해답이 아니라, 더 복잡한 스케줄러를 이해하기 위한 출발점 혹은 일부 큐 계층의 기본 규칙으로 사용한다.
 
-결론적으로 FCFS는 "가장 공정해 보이는 순서"와 "가장 좋은 사용자 체감"이 다를 수 있음을 보여 주는 고전적 사례다. 기억할 핵심은 **순서를 지키는 단순성은 강력하지만, 작업 길이를 무시하는 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용이 크게 돌아온다**는 점이다.
+결론적으로 FCFS는 "가장 공정해 보이는 순서"와 "가장 좋은 사용자 체감"이 다를 수 있음을 보여 주는 고전적 사례다. 기억할 핵심은 <strong>순서를 지키는 단순성은 강력하지만, 작업 길이를 무시하는 순간 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 비용이 크게 돌아온다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: FCFS는 줄 세우기 규칙으로는 아주 깔끔하지만, 놀이기구 앞에서 한 팀이 오래 타면 뒤 사람 모두가 같이 지루해지는 상황과 같다.
 
@@ -148,22 +155,23 @@ FCFS의 가장 큰 효과는 예측 가능한 순서와 낮은 관리 비용이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-process arrival
-    │
-    ▼
-FIFO ready queue
-    │
-    ▼
-head dispatch
-    │
-    ├──────────────▶ run until exit / I/O wait
-    │
-    └──────────────▶ long burst first
-                           │
-                           ▼
-                    convoy effect
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">process arrival</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FIFO ready queue</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">head dispatch</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ run until exit / I/O wait</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ long burst first</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">convoy effect</div>
+</div>
+</div>
+
+
 
 이 흐름도는 FCFS의 장점인 단순한 head dispatch와, 그 바로 뒤에 붙는 구조적 약점인 convoy effect가 같은 규칙에서 동시에 나온다는 점을 보여준다.
 

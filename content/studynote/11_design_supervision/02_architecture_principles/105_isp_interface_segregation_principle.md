@@ -23,13 +23,16 @@ tags = ["studynote-design-supervision"]
 
 설계감리에서 [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)은 '멋진 구조'를 말하기 위한 주제가 아니라, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 왜 우선했는지 설명하기 위한 기준이다. 그래서 정의를 외우는 것보다, 어디서 경계를 긋고 무엇을 고정하며 무엇을 유연하게 남길지를 이해하는 것이 더 중요하다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Requirement  │──▶│ Decision     │──▶│ Structure    │
-└──────────────┘   └──────┬───────┘   └──────┬───────┘
-                          │                  │
-                          └──────▶ Quality Attribute
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Decision</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Structure</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ Quality Attribute</div>
+</div>
+</div>
+
+
 
 이 다이어그램은 요구사항이 그대로 코드가 되는 것이 아니라, 중간의 설계 결정과 책임 분할을 거쳐 구조와 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 연결된다는 점을 보여 준다.
 
@@ -108,18 +111,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 요구사항]
-    │
-    ▼
-[현재 개념: 인터페이스 분리 원칙]
-    │
-    ├──▶ [확장 A: ISP]
-    └──▶ [확장 B: 품질 속성]
-            │
-            ▼
-        [다음 단계: 구조 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 요구사항</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 인터페이스 분리 원칙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ISP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 품질 속성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다음 단계: 구조 진화</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 문제 정의에서 구조 결정으로, 다시 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 진화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 이어지는 설계 사고 흐름을 압축한다.
 

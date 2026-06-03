@@ -37,23 +37,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 같은 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류"가 어떤 경로를 통해 서로 다른 대응으로 갈라지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               비트 오류의 두 갈래: 일시 교란 vs 물리 결함            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 외부 입자/노이즈                                                     │
-│      │                                                               │
-│      ├────▶ [임계 전하 초과] ─────▶ 비트 반전 ─────▶ 재기록 시 정상    │
-│      │                                   │                           │
-│      │                                   └────▶ 소프트 에러          │
-│      │                                                               │
-│ 장기 열화/제조 결함/배선 손상                                         │
-│      │                                                               │
-│      ├────▶ [소자 구조 손상] ─────▶ 같은 셀 반복 오류 ─▶ 교체/리맵핑   │
-│                                          │                           │
-│                                          └────▶ 하드 에러            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트 오류의 두 갈래: 일시 교란 vs 물리 결함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 입자/노이즈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 전하 초과</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">비트 반전 ▶ 재기록 시 정상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 소프트 에러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장기 열화/제조 결함/배선 손상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소자 구조 손상</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">같은 셀 반복 오류 ─▶ 교체/리맵핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 하드 에러</div></div>
+</div>
+</div>
+
+
 
 설계 관점에서는 탐지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로도 다르게 준비해야 한다. 소프트 에러는 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 패리티, [메모리 스크러빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/) ([Memory Scrubbing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/)), 재시도 (Retry) 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계층 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 효과적이다. 하드 에러는 스페어 행/열 (Spare Row/Column) 재매핑, 불량 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 격리, 예지 교체, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)처럼 하드웨어 자원과 운영 정책이 함께 들어가야 한다.
 
@@ -140,21 +138,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 비트의 불안정성 인식
-        │
-        ▼
-소프트 에러 (Soft Error) · 하드 에러 (Hard Error) 구분
-        │
-        ├───────────────┬────────────────┐
-        ▼               ▼                ▼
-ECC (Error-Correcting   스크러빙         결함 격리·부품 교체
-Code)                   (Scrubbing)      (Remapping / RMA)
-        │               │                │
-        └───────────────┴────────────────┘
-                        ▼
-        계층형 신뢰성 설계 · 고가용성 시스템 · 방사선 내성 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 비트의 불안정성 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트 에러 (Soft Error) · 하드 에러 (Hard Error) 구분</div>
+<div class="kb-diagram-note">ECC (Error-Correcting 스크러빙 결함 격리·부품 교체</div>
+<div class="kb-diagram-note">Code) (Scrubbing) (Remapping / RMA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계층형 신뢰성 설계 · 고가용성 시스템 · 방사선 내성 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "오류 인식 → 유형 분리 → [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 정정 → 물리 대응 → 시스템 수준 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)"으로 확장되는 학습 축을 보여준다.
 

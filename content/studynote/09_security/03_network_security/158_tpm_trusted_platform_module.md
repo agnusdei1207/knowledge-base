@@ -35,22 +35,24 @@ TPM의 핵심 기능은 안전한 키 저장, 플랫폼 측정, 조건부 키 �
 
 아래 그림은 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 기반 측정 부팅과 키 해제 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ TPM measured boot and key release                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Power on                                                          │
-│   -> Firmware hash   -> PCR extend                               │
-│   -> Bootloader hash -> PCR extend                               │
-│   -> Kernel hash     -> PCR extend                               │
-│                                                                    │
-│ Sealed key release rule: PCR value must match trusted state       │
-│   Match    -> release disk key / device secret                    │
-│   Mismatch -> deny release, recovery or alert                     │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 TPM이 단순 저장소가 아니라 **상태를 조건으로 키 사용을 통제하는 장치**라는 점이다. 키 자체를 빼내 쓰게 하는 것이 아니라, "이 장치가 정상 상태일 때만 이 키를 사용하라"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제한다. 따라서 공격자가 디스크만 떼어 가거나 부팅 경로를 바꿔도, 필요한 키를 쉽게 얻지 못한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPM measured boot and key release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Firmware hash -&gt; PCR extend</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Bootloader hash -&gt; PCR extend</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Kernel hash -&gt; PCR extend</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sealed key release rule: PCR value must match trusted state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Match -&gt; release disk key / device secret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mismatch -&gt; deny release, recovery or alert</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 TPM이 단순 저장소가 아니라 <strong>상태를 조건으로 키 사용을 통제하는 장치</strong>라는 점이다. 키 자체를 빼내 쓰게 하는 것이 아니라, "이 장치가 정상 상태일 때만 이 키를 사용하라"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제한다. 따라서 공격자가 디스크만 떼어 가거나 부팅 경로를 바꿔도, 필요한 키를 쉽게 얻지 못한다.
 
 | 구성 요소 | 역할 | 보안 의미 |
 | :--- | :--- | :--- |
@@ -111,7 +113,7 @@ TPM은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_se
 
 TPM의 기대효과는 명확하다. 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 소프트웨어 권한 관리에서 하드웨어 신뢰 경계로 끌어올리고, 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 단말 상태를 원격에서 판단할 근거를 제공한다. 이 덕분에 디스크 탈취, 부팅 변조, 비정상 단말 접속 같은 위험에 대한 방어력이 높아진다.
 
-하지만 TPM은 만능 해결책이 아니다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 취약점, 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 부실, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계 미흡, 사용자 권한 남용은 여전히 문제를 만든다. 따라서 TPM은 "모든 보안을 대신하는 칩"이 아니라, **엔드포인트 신뢰를 하드웨어에서 시작하게 만드는 기초 구성 요소**로 이해해야 한다.
+하지만 TPM은 만능 해결책이 아니다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 취약점, 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 부실, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계 미흡, 사용자 권한 남용은 여전히 문제를 만든다. 따라서 TPM은 "모든 보안을 대신하는 칩"이 아니라, <strong>엔드포인트 신뢰를 하드웨어에서 시작하게 만드는 기초 구성 요소</strong>로 이해해야 한다.
 
 결론적으로 TPM은 현대 단말 보안에서 중요한 전환점을 만든다. 보안을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안쪽에서만 보지 않고, 부팅과 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 출발점을 하드웨어까지 내리는 사고방식을 정착시켰기 때문이다. 그래서 TPM은 작은 칩이지만, 실제로는 장치 신뢰 사슬의 첫 고리다.
 
@@ -131,22 +133,24 @@ TPM의 기대효과는 명확하다. 키 [보호](/knowledge-base/studynote/02_o
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Local key storage problem
-    │
-    ▼
-Secure Boot / Measured Boot
-    │
-    ▼
-TPM 2.0
-  (key sealing + platform measurement)
-    │
-    ▼
-Remote Attestation
-    │
-    ▼
-Zero Trust endpoint verification
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Local key storage problem</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Boot / Measured Boot</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TPM 2.0</div>
+<div class="kb-diagram-note">(key sealing + platform measurement)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Remote Attestation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Trust endpoint verification</div>
+</div>
+</div>
+
+
 
 이 흐름도는 TPM이 단순 키 저장소를 넘어, 장치 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 접속 판단으로 확장되는 경로를 보여준다.
 

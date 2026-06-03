@@ -23,24 +23,21 @@ K8s는 서버 한 대의 [설정](/knowledge-base/studynote/15_devops_sre/01_cul
 
 이 분리가 필요한 이유는 규모와 장애 때문이다. 워커 노드가 늘수록 수동 배치는 불가능해지고, 노드가 한 번 죽을 때마다 사람이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 복원 시간이 너무 길어진다. 그래서 K8s는 의도를 저장하는 Control Plane과 실제 일을 하는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane을 분리했다.
 
-```text
-┌────────────────────┐      ┌──────────────────┐
-│ kubectl / Manifest │ ---> │ API Server       │
-└────────────────────┘      └─────────┬────────┘
-                                        │
-                                        v
-                                 ┌────────────┐
-                                 │ etcd       │
-                                 └────┬───────┘
-                                      v
-                      ┌───────────────┐   ┌───────────────┐
-                      │ Scheduler     │   │ Controller    │
-                      └──────┬────────┘   └──────┬────────┘
-                             v                   v
-                            ┌────────────────────────────┐
-                            │ Worker Node / kubelet / Pod │
-                            └────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl / Manifest</div><div class="kb-diagram-cell">---&gt;</div><div class="kb-diagram-cell">API Server</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Controller</div></div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Node / kubelet / Pod</div></div>
+</div>
+</div>
+
+
 
 핵심은 K8s가 실행기이면서도 상태 재조정 루프라는 점이다.
 
@@ -123,29 +120,28 @@ K8s는 서버 묶음을 하나의 컴퓨터처럼 보이게 하되, 실제로는
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-Desired State
-    │
-    ▼
-API Server
-    │
-    ▼
-etcd
-    │
-    ▼
-Scheduler / Controller
-    │
-    ▼
-kubelet
-    │
-    ▼
-Container Runtime
-    │
-    ▼
-Pod
-    │
-    └──────────────► Status back to Control Plane
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Desired State</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Server</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">etcd</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scheduler / Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kubelet</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Container Runtime</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pod</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Status back to Control Plane</div>
+</div>
+</div>
+
+
 
 ### 어린이를 위한 3줄 비유 설명
 

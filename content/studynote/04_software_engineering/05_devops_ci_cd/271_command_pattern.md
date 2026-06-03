@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 만능 스마트 리모컨을 만든다고 가정하자. 1번 버튼은 TV를 켜고, 2번 버튼은 전등을 꺼야 한다. 리모컨 내부 버튼 코드에 `TV.turnOn()`이나 `Light.turnOff()`를 직접(하드코딩) 작성하면, 나중에 1번 버튼으로 에어컨을 켜고 싶을 때 리모컨 코드를 뜯어고쳐야 한다. 리모컨(버튼)은 자신이 누굴 제어하는지 모른 채 "나한테 할당된 무언가를 실행(`execute()`)한다"는 행위만 하도록 완전히 분리해야 한다.
 
-- **💡 비유**: 식당에서 손님이 웨이터에게 주문을 하는 과정과 같습니다. 손님이 요리사에게 직접 "스테이크 구워주세요"라고 말하지 않습니다. 손님은 웨이터에게 말하고, 웨이터는 그것을 **'주문서(Command 객체)'**라는 종이에 적어 주방에 전달합니다. 웨이터는 요리법을 몰라도 그저 "주문 들어왔다(`execute()`)"라고만 외치면 됩니다. 주문서 덕분에 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))나 예약(Queueing)도 가능해집니다.
+- **💡 비유**: 식당에서 손님이 웨이터에게 주문을 하는 과정과 같습니다. 손님이 요리사에게 직접 "스테이크 구워주세요"라고 말하지 않습니다. 손님은 웨이터에게 말하고, 웨이터는 그것을 <strong>'주문서(Command 객체)'</strong>라는 종이에 적어 주방에 전달합니다. 웨이터는 요리법을 몰라도 그저 "주문 들어왔다(`execute()`)"라고만 외치면 됩니다. 주문서 덕분에 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))나 예약(Queueing)도 가능해집니다.
 
 - **등장 배경 및 발전 과정**:
   1. **강결합에 의한 재사용성 저하**: UI 버튼과 비즈니스 로직이 엉겨 있어, '복사' 기능 버튼과 '복사' 단축키(Ctrl+C), '복사' 메뉴를 각각 따로 짜야 했다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 커맨드 (Command)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  커맨드 (Command)                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커맨드 (Command)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 커맨드 (Command)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-커맨드 (Command)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+커맨드 (Command)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 커맨드 (Command)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-커맨드 (Command) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커맨드 (Command) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 마케팅팀에서 "고객 설문조사 입력 앱"을 만들어 달라고 IT 부서에 요청했다. IT 부서는 "지금 백엔드 개발자 다 바빠서 6개월 뒤에나 해줄 수 있어요"라고 답한다. 답답한 마케팅 직원은 구글 폼이나 인터넷에 돌아다니는 노코드 툴(No-code)을 이용해 주말 동안 스스로 앱을 만들어 부서 사람들에게 배포해 버렸다.
 
-이것이 바로 **시티즌 디벨로퍼([Citizen Developer](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/), [시민 개발자](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/))**의 탄생이자 **섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))**의 시작이다.
+이것이 바로 <strong>시티즌 디벨로퍼(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/">Citizen Developer</a>, <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/259_citizen_developer/">시민 개발자</a>)</strong>의 탄생이자 <strong>섀도우 IT(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a>)</strong>의 시작이다.
 
 현업 부서가 스스로 앱을 만드는 **로우코드/노코드(LC/NC)** 플랫폼은 개발자 부족 현상을 해결할 구세주로 등장했다. 하지만 IT 부서의 허락이나 보안 검수 없이 이런 앱들이 수백 개씩 만들어지면, 회사 고객의 개인정보가 알 수 없는 클라우드 서버로 새 나가고, 그 앱을 만든 직원이 퇴사하면 앱이 멈춰 부서 전체 업무가 마비되는 재앙이 벌어진다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 로우코드/노코드 섀도우 IT 거버넌스의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  로우코드/노코드 섀도우 IT 거버넌스                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로우코드/노코드 섀도우 IT 거버넌스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 로우코드/노코드 섀도우 IT 거버넌스가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -107,7 +106,7 @@ LC/NC 플랫폼은 코딩을 없애는 것이 아니라, 코딩의 복잡성을 
 
 로우코드 플랫폼과 올바른 거버넌스가 정착되면 기업의 '개발 적체(Backlog)'가 순식간에 해소된다. 전문 개발자들은 뻔한 사내 어드민(Admin) 게시판을 만드느라 시간을 낭비하지 않아도 되며, 현업 부서는 자신들의 아이디어를 하루 만에 앱으로 만들어 현장에 적용하는 극강의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 조직으로 거듭난다.
 
-결론적으로 기술사는 로우코드를 '초보자들의 장난감'으로 폄하해서는 안 된다. 로우코드/노코드는 소프트웨어 개발의 진입 장벽을 무너뜨리는 **'개발의 민주화(Democratization of Development)'**다. IT 부서의 진정한 역량은 전 직원이 안전하게 개발에 참여할 수 있는 튼튼한 운동장(플랫폼 거버넌스)을 깔아주는 데 있다.
+결론적으로 기술사는 로우코드를 '초보자들의 장난감'으로 폄하해서는 안 된다. 로우코드/노코드는 소프트웨어 개발의 진입 장벽을 무너뜨리는 <strong>'개발의 민주화(Democratization of Development)'</strong>다. IT 부서의 진정한 역량은 전 직원이 안전하게 개발에 참여할 수 있는 튼튼한 운동장(플랫폼 거버넌스)을 깔아주는 데 있다.
 
 - **📢 섹션 요약 비유**: 과거에는 글을 아는 소수의 귀족(전문 개발자)만 책을 쓸 수 있었다. 로우코드는 누구나 쉽게 글을 쓸 수 있는 한글(세종대왕)과 같다. 글을 쓸 줄 아는 사람(시티즌 디벨로퍼)이 많아지면, 회사의 지식과 생산성은 폭발적으로 성장한다.
 
@@ -130,21 +129,23 @@ LC/NC 플랫폼은 코딩을 없애는 것이 아니라, 코딩의 복잡성을 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-로우코드/노코드 섀도우 IT 거버넌스 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로우코드/노코드 섀도우 IT 거버넌스 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 한 대의 컴퓨터가 아니라 전 세계에 흩어진 노드끼리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 쏘아댈 때, A서버는 B서버의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 완료를 기다리고 B서버는 A서버를 기다리는 등 **지구 스케일로 맞물려버린 거대한 통신 단절(Global [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 원형 고리를 찾아내 끊어내는 네트워크 추적망 기술**이다.
-> 2. **가치**: 한 서버(Node)의 OS는 자기 앞마당의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)만 보므로 데드락이 났는지 평생 모르며 대기만 탄다. 이를 분쇄하기 위해 각 노드가 쥐고 있는 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)(WFG) 조각 파편을 합쳐 **"중앙에 보고(Centralized)"**하거나 **"서로 쪽지를 돌려보는(Edge-Chasing)"** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탐지 융합을 사용해야만 행성급 스케일의 교착 마비를 박해할 수 있다.
-> 3. **융합**: 네트워크 딜레이 탓에 멀쩡하게 풀린 대기를 데드락이라 착각하는 '가짜 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)(Phantom [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))' 등의 타이밍 버그가 존재하므로, 실무에선 이 무거운 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)들을 통신시키기 극도로 꺼려하여 99% 무지성 **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))**이나 **[토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)(Token)** 등으로 대체, 회피되는 딜레마를 지닌다.
+> 1. **본질**: 한 대의 컴퓨터가 아니라 전 세계에 흩어진 노드끼리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 쏘아댈 때, A서버는 B서버의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 완료를 기다리고 B서버는 A서버를 기다리는 등 <strong>지구 스케일로 맞물려버린 거대한 통신 단절(Global <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 원형 고리를 찾아내 끊어내는 네트워크 추적망 기술</strong>이다.
+> 2. **가치**: 한 서버(Node)의 OS는 자기 앞마당의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)만 보므로 데드락이 났는지 평생 모르며 대기만 탄다. 이를 분쇄하기 위해 각 노드가 쥐고 있는 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)(WFG) 조각 파편을 합쳐 <strong>"중앙에 보고(Centralized)"</strong>하거나 **"서로 쪽지를 돌려보는(Edge-Chasing)"** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탐지 융합을 사용해야만 행성급 스케일의 교착 마비를 박해할 수 있다.
+> 3. **융합**: 네트워크 딜레이 탓에 멀쩡하게 풀린 대기를 데드락이라 착각하는 '가짜 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)(Phantom [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))' 등의 타이밍 버그가 존재하므로, 실무에선 이 무거운 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)들을 통신시키기 극도로 꺼려하여 99% 무지성 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong>이나 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/">토큰 패싱</a>(Token)</strong> 등으로 대체, 회피되는 딜레마를 지닌다.
 
 ---
 
@@ -25,33 +25,31 @@ tags = ["studynote-operating-system"]
 한국 서버의 P1이 미국 서버의 DB락(X)을 잡았고, 미국 서버의 P2가 한국 서버의 DB락(Y)을 잡으려 찔렀다 치자.
 한국 서버 CPU 입장: "P1이 X 잡기 기다리네, 딱히 사이클 없네."
 미국 서버 CPU 입장: "P2가 Y 잡기 기다리네, 딱히 사이클 없네."
-서로 각자의 좁은 대기표만 보기 때문에 **서로 영원히 뻗어있는 완벽한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 교착(Global [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**이 터졌음에도 이 우주에는 이를 알아챌 신(God)이 없다. 
+서로 각자의 좁은 대기표만 보기 때문에 <strong>서로 영원히 뻗어있는 완벽한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 교착(Global <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>이 터졌음에도 이 우주에는 이를 알아챌 신(God)이 없다. 
 
-이걸 수습하기 위해 고안된 것이 찢어진 지도를 이어붙여 사이클을 찾아내는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) (Distributed [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+이걸 수습하기 위해 고안된 것이 찢어진 지도를 이어붙여 사이클을 찾아내는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/">교착 상태 탐지</a> (Distributed <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 **💡 비유**: 한국 파출소와 미국 파출소. 한국 조폭이 미국 돈 뜯고 도망갔고, 미국 조폭이 한국 돈 뜯고 도망갔다. 양측 경찰은 자기 동네 서류만 봐선 "그냥 용의자 1명 해외 도주 중(정상 대기)"이라고만 써 둔다. 두 나라 경찰국장([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탐지기)이 국제전화(통신)를 연결해 "야 네가 쫓는 놈이 내가 쫓는 놈을 쫓고 있었어?" 라고 글로벌 단서(노드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 하나로 조립해야만 거대한 국제 사이클(데드락)을 확진할 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         태평양을 건너 맞물린 환상형 분산 데드락(Global)         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ Node A (한국 서버) ]         [ Node B (미국 서버) ]          │
-│                                                                 │
-│  T1 트랜잭션 (락 X 가짐)         T2 트랜잭션 (락 Y 가짐)        │
-│    │                              │                             │
-│    └─요청(Wait)─▶ [원격 락 Y]    └─요청(Wait)─▶ [원격 락 X]     │
-│                                                                 │
-│  ▶ 이 파편들을 어떻게 하나로 볼까? 2가지 철학적 접근            │
-│                                                                 │
-│  ① 중앙 집중형 (Centralized): "런던에 코디네이터 서버 1대를     │
-│     두자! 한국/미국 서버야! 3분마다 지도를 런던으로 우편 부쳐라"│
-│  ② 분산 에지 체이싱 (Edge-Chasing): "전화 없어? 야 T1아 네가    │
-│     보낸 사신의 바톤(Probe)을 락 Y 가진 애(미국)한테 넘겨봐라"  │
-│     => 바톤이 미국을 찍고 다시 한국 T1에게 날아들어 오면,       │
-│        자기가 보낸 부메랑에 자기가 맞은 셈이므로 글로벌 데드락! │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태평양을 건너 맞물린 환상형 분산 데드락(Global)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node A (한국 서버)</div><div class="kb-diagram-node">Node B (미국 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 트랜잭션 (락 X 가짐) T2 트랜잭션 (락 Y 가짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원격 락 Y</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원격 락 X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이 파편들을 어떻게 하나로 볼까? 2가지 철학적 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 중앙 집중형 (Centralized): "런던에 코디네이터 서버 1대를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두자! 한국/미국 서버야! 3분마다 지도를 런던으로 우편 부쳐라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 분산 에지 체이싱 (Edge-Chasing): "전화 없어? 야 T1아 네가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보낸 사신의 바톤(Probe)을 락 Y 가진 애(미국)한테 넘겨봐라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 바톤이 미국을 찍고 다시 한국 T1에게 날아들어 오면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자기가 보낸 부메랑에 자기가 맞은 셈이므로 글로벌 데드락!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 로컬 데드락이 "우리 반 안에서 주먹 날아다니는 멱살잡이"라면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데드락은 "세상의 모든 마피아 조직 5개가 서로 빚보증을 서 얽힌 상태"입니다. 찢어진 장부들을 무선망을 통해 어떻게 합쳐볼 것인가가 이 설계의 핵심 과제입니다.
 
@@ -65,7 +63,7 @@ tags = ["studynote-operating-system"]
 
 1. **프로브 발사 창설 (Probe Launch)**: T1이 T2(원격)를 기다리며 딜레이를 겪을 때, `(나는 T1, 보내는 곳 T1, 받는 곳 T2)` 라는 짤막한 쪽지(Probe)를 미국 서버 T2에게 던진다.
 2. **프로브 전파 (Probe Forwarding)**: 미국 서버 T2가 부메랑 쪽지를 받았다. 근데 자기도 지금 락을 못 쥐고 T3(타노드)를 기다린다네? 그럼 쪽지 내용을 갱신한다. `(최초 발송자 T1, 보내는 곳 T2, 받는 곳 T3)` 하고 릴레이 바톤 넘기듯 이웃 노드들에 브로드캐스트한다.
-3. **부메랑 귀환 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Detected)**: 그러다 우연히 어떤 노드에서 `받는 곳 T1`인 쪽지가 도착했는데 거기가 바로 자신(최초 발송 노드 T1)이다! **"내 이름이 적힌 쪽지가 세상을 한 바퀴 돌고 나한테 박혔다? 이건 빼도 박도 못하는 무적권 순환 사이클(Cycle)이다!!"** 즉각 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모듈을 가동해 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
+3. <strong>부메랑 귀환 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Detected)</strong>: 그러다 우연히 어떤 노드에서 `받는 곳 T1`인 쪽지가 도착했는데 거기가 바로 자신(최초 발송 노드 T1)이다! **"내 이름이 적힌 쪽지가 세상을 한 바퀴 돌고 나한테 박혔다? 이건 빼도 박도 못하는 무적권 순환 사이클(Cycle)이다!!"** 즉각 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모듈을 가동해 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
 
 **📢 섹션 요약 비유**: 각 서버가 커다란 장부를 팩스로 보내는 건 너무 돈이 많이 드니까, "내 이름 적어놓은 종이비행기 좀 옆 동네로 계속 넘겨줘 봐" 라고 한 뒤, 언젠가 그 종이비행기가 지구 한 바퀴 반을 돌아 내 뒤통수에 날아와 꽂히면 "아 데드락이 꼬였구나"라고 눈치채는 소름 돋는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 에지 체이싱 마법입니다.
 
@@ -85,11 +83,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오 / 아키텍처 현실의 벽**:
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 논문상으로는 노벨상 감으로 아름답지만 **실무 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 운영자들은 이 짓거리를 사실상 아무도 쓰지 않는다.**
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 논문상으로는 노벨상 감으로 아름답지만 <strong>실무 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 서버(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>) 운영자들은 이 짓거리를 사실상 아무도 쓰지 않는다.</strong>
 
-**진짜 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(환영 데드락 - Phantom [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**:
+<strong>진짜 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>(환영 데드락 - Phantom <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>:
 - 코디네이터 A가 한국 서버 노드1의 락 정보("T1->T2 대기중")를 수집했다. 그리고 1초 뒤 노드2의 락 정보("T2->T1 대기중")를 받아서 "오! 데드락 사이클이네 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시켜!" 하고 데드락 터졌다고 사형시켰다.
-- **진실은?**: 노드 1이 락 풀고 다 끝난 지 이미 0.5초가 넘었다. 단지 그 락 푼 해제 메시지가 태평양 해저 케이블 느린 속도 탓에 늦게 도착했을 뿐이다!! 즉, 네트워크 시간차 때문에 코디네이터 뇌 속에서만 환상으로 만들어진 **'가짜 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)(Phantom [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))'**인 것이다. 잘 끝난 애를 강제로 사형시켜서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 전체를 개박살 내버렸다. 통신 릴레이라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 절대적 한계다. 
+- **진실은?**: 노드 1이 락 풀고 다 끝난 지 이미 0.5초가 넘었다. 단지 그 락 푼 해제 메시지가 태평양 해저 케이블 느린 속도 탓에 늦게 도착했을 뿐이다!! 즉, 네트워크 시간차 때문에 코디네이터 뇌 속에서만 환상으로 만들어진 <strong>'가짜 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(Phantom <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)'</strong>인 것이다. 잘 끝난 애를 강제로 사형시켜서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 전체를 개박살 내버렸다. 통신 릴레이라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 절대적 한계다. 
 
 **📢 섹션 요약 비유**: 선생님(코디네이터)이 철수한테 엽서를 받고, 영수한테 엽서를 받아서 "너네 둘 멱살 잡고 있네 사형!" 이라고 외쳤지만, 사실 그 엽서는 3일 전에 붙인 거고 지금 둘은 어깨동무하고 술 먹고 집에 간 상태(팬텀 데드락)입니다. 글로벌 탐지기는 이런 뒷북 정보의 공포 때문에 실무에서 배척받았습니다.
 
@@ -102,7 +100,7 @@ tags = ["studynote-operating-system"]
 | 판단 방식 | 지구 반대편의 글로벌 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)까지 부메랑 보내서 조립 | "너 5초 안에 통신 안 돌려줬어? 볼 것도 무조건 끊어 데드락 간주!" |
 | 맹점 제어 | 팬텀 데드락의 억울한 사형에 대처 X | 오버헤드 0, 시스템 죽을 일 절대 없는 철통 방어성 달성 |
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)는 학계에서 `Chandy-Misra-Haas` 등의 예술적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 화려하게 만개했으나, 냉혹한 비즈니스 실무에서는 치명적인 통신 비용과 네트워크 지연에 따른 `가상/팬텀 데드락`의 틈바구니에서 살아남지 못했다. 현대 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(K8s)과 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 호출은 이 거대한 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 버리고, 가장 무식하지만 극단적으로 빠른 **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) = 3초 딜레이 넘어가면 무지성 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 조치)** 혹은 **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)** 룰로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 해법을 압도적으로 완전히 대체해 버렸다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)는 학계에서 `Chandy-Misra-Haas` 등의 예술적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 화려하게 만개했으나, 냉혹한 비즈니스 실무에서는 치명적인 통신 비용과 네트워크 지연에 따른 `가상/팬텀 데드락`의 틈바구니에서 살아남지 못했다. 현대 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(K8s)과 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 호출은 이 거대한 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 버리고, 가장 무식하지만 극단적으로 빠른 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> = 3초 딜레이 넘어가면 무지성 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 조치)</strong> 혹은 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">보상 트랜잭션</a></strong> 룰로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 해법을 압도적으로 완전히 대체해 버렸다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -119,15 +117,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
-    │
-    ▼
-[분산 시스템에서의 교착 상태 탐지 (Distributed Deadlock Detection)]
-    │
-    ├──▶ [교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용]
-    └──▶ [2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 시스템에서의 교착 상태 탐지 (Distributed Deadlock Detection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

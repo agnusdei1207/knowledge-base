@@ -29,15 +29,21 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-[업무 시스템]
-    ↓
-[서버 / 스토리지 / 네트워크]
-    ↓
-[전산실 / 데이터센터]
-    ↓
-[전원 / 냉각 / 물리 보안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">업무 시스템</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버 / 스토리지 / 네트워크</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전산실 / 데이터센터</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전원 / 냉각 / 물리 보안</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -103,33 +109,45 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-```text
-On-Premise
-   ↓
-Data Center
-   ↓
-Hybrid Cloud
-   ↓
-Direct Connect
-   ↓
-Shared Architecture
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">On-Premise</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Center</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hybrid Cloud</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Direct Connect</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Shared Architecture</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-메인프레임
-   ↓
-클라이언트-서버
-   ↓
-온프레미스
-   ↓
-클라우드
-   ↓
-하이브리드 클라우드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메인프레임</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">클라이언트-서버</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">온프레미스</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">클라우드</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">하이브리드 클라우드</div>
+</div>
+</div>
+
+
 
 ---
 

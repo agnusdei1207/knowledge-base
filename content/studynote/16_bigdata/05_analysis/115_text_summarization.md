@@ -30,28 +30,27 @@ tags = ["studynote-bigdata"]
 
 ### 추출적 vs 추상적 요약
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│              텍스트 요약 방법론 비교                                 │
-├─────────────────────────────────┬───────────────────────────────────┤
-│  추출적 (Extractive)             │  추상적 (Abstractive)             │
-├─────────────────────────────────┼───────────────────────────────────┤
-│  원문 문장을 그대로 선택          │  새로운 문장을 생성               │
-│                                 │                                   │
-│  "A라고 했다. B이다."            │  "A는 B를 의미한다."              │
-│  → 원문 그대로 추출              │  → 의미를 재구성하여 표현          │
-│                                 │                                   │
-│  알고리즘:                       │  모델:                            │
-│  - TextRank (그래프 기반)        │  - seq2seq + Attention            │
-│  - BERT 문장 임베딩 + 순위       │  - T5 (Text-to-Text Transfer)     │
-│  - Lead-3 (첫 3문장 선택)        │  - GPT 계열 (생성 모델)           │
-│                                 │  - BART (Bidirectional            │
-│                                 │    AutoRegressive Transformer)    │
-├─────────────────────────────────┼───────────────────────────────────┤
-│  장점: 사실 오류 없음, 빠름      │  장점: 자연스러움, 압축률 높음    │
-│  단점: 비자연스러운 문장 조합    │  단점: 환각 위험, 느림, 비용      │
-└─────────────────────────────────┴───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 요약 방법론 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추출적 (Extractive)</div><div class="kb-diagram-cell">추상적 (Abstractive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원문 문장을 그대로 선택</div><div class="kb-diagram-cell">새로운 문장을 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A라고 했다. B이다."</div><div class="kb-diagram-cell">"A는 B를 의미한다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원문 그대로 추출</div><div class="kb-diagram-cell">→ 의미를 재구성하여 표현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘:</div><div class="kb-diagram-cell">모델:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TextRank (그래프 기반)</div><div class="kb-diagram-cell">- seq2seq + Attention</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BERT 문장 임베딩 + 순위</div><div class="kb-diagram-cell">- T5 (Text-to-Text Transfer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Lead-3 (첫 3문장 선택)</div><div class="kb-diagram-cell">- GPT 계열 (생성 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BART (Bidirectional</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AutoRegressive Transformer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 사실 오류 없음, 빠름</div><div class="kb-diagram-cell">장점: 자연스러움, 압축률 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 비자연스러운 문장 조합</div><div class="kb-diagram-cell">단점: 환각 위험, 느림, 비용</div></div>
+</div>
+</div>
+
+
 
 ### ROUGE 평가 지표
 
@@ -75,8 +74,8 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 |:---|:---|:---|
 | **사실 정확도** | 원문 그대로 → 높음 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정에서 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 위험 |
 | **자연스러움** | 문장 간 연결 어색할 수 있음 | 자연스럽고 유창 |
-| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률** | 제한적 (원문 문장 길이 유지) | 높은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능 |
-| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 적응** | 쉬움 ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적) | 파인튜닝 필요 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률</strong> | 제한적 (원문 문장 길이 유지) | 높은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 적응</strong> | 쉬움 ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적) | 파인튜닝 필요 |
 | **연산 비용** | 낮음 | 높음 ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 필요) |
 | **대표 도구** | NLTK, Sumy, BERTSum | T5, BART, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini |
 
@@ -90,14 +89,14 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 
 ### 적용 시나리오
 
-1. **뉴스 집계 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 수천 개 기사를 3줄 요약 → 독자 스캔 시간 80% 절감
+1. <strong>뉴스 집계 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 수천 개 기사를 3줄 요약 → 독자 스캔 시간 80% 절감
 2. **법률 계약서 리뷰**: 조항별 추출적 요약 → [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조항 빠른 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
 3. **회의 전사 요약**: [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) (Speech-to-Text) + 추상적 요약 → 액션 아이템 자동 추출
 4. **고객 리뷰 요약**: 수만 건 상품 리뷰를 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 요약 → 제품 개선 인사이트
 
 ### 빅데이터 처리 고려사항
 
-- **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)**: 수백만 건의 문서를 Spark로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 요약 모델 적용
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: 수백만 건의 문서를 Spark로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별로 요약 모델 적용
 - **모델 경량화**: 엣지 디바이스 배포 시 DistilBART, TinyBERT 같은 경량화 모델
 - **다국어**: mBART (multilingual BART), mT5 로 한국어 포함 다국어 요약
 
@@ -143,21 +142,23 @@ PageRank를 문장에 적용: 문장을 노드, 문장 간 유사도를 엣지�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[TF-IDF 기반 추출적 요약 — 단어 빈도·역문서 빈도로 핵심 문장 선택]
-    │
-    ▼
-[그래프 기반 추출 (TextRank) — 문장 유사도 그래프에서 PageRank로 핵심 문장 도출]
-    │
-    ▼
-[Seq2Seq 추상적 요약 — 인코더·디코더 LSTM으로 새로운 문장 생성]
-    │
-    ▼
-[Transformer 기반 요약 (BART / T5 / PEGASUS) — 사전학습·파인튜닝으로 고품질 추상 요약]
-    │
-    ▼
-[LLM 제로샷·프롬프트 요약 (GPT-4 / Claude) — 별도 학습 없이 지시문만으로 요약, RAG 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TF-IDF 기반 추출적 요약 — 단어 빈도·역문서 빈도로 핵심 문장 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 기반 추출 (TextRank) — 문장 유사도 그래프에서 PageRank로 핵심 문장 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Seq2Seq 추상적 요약 — 인코더·디코더 LSTM으로 새로운 문장 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer 기반 요약 (BART / T5 / PEGASUS) — 사전학습·파인튜닝으로 고품질 추상 요약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 제로샷·프롬프트 요약 (GPT-4 / Claude) — 별도 학습 없이 지시문만으로 요약, RAG 통합</div></div>
+</div>
+</div>
+
+
 이 흐름은 단어 빈도 통계 기반의 단순 추출에서 의미 이해 기반의 추상적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 진화하고, [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)이 프롬프트 하나로 모든 요약 작업을 통합하는 텍스트 요약 기술의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

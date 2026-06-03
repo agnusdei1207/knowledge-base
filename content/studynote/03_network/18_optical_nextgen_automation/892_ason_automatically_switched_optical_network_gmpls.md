@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **지옥 같은 수동 할당(Manual [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))**: 과거의 WDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다. 
+- <strong>지옥 같은 수동 할당(Manual <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong>: 과거의 WDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다. 
 - 망을 하나 개통하는 데 짧게는 며칠, 길게는 한 달이 걸렸고 트래픽 변화에 유연한 대응이 불가능했습니다.
 
-```text
-[장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-    │
-    ▼
-[ASON]
-    │
-    └──▶ [OTN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OTN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ASON는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,27 +41,31 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: ITU-T에서 제정한 국제 광통신 표준으로, 멍청하고 수동적인 광전송 네트워크(Optical Network) 장비들 위에 **'[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 지능형 제어 평면(Control Plane)'을 탑재하여, 사람이 개입하지 않고도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들 스스로 경로를 계산하고 광 파장(빛의 길)을 1초 만에 동적으로 개통(Switched), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 내는 차세대 지능형 광 백본망 아키텍처**입니다.
-- **SDN과의 차이**: 850번대의 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의망)은 뇌 1개를 **중앙 클라우드(Centralized)**에 모아두는 방식이라면, 이 ASON은 각 광스위치 기계마다 똑똑한 미니 뇌를 하나씩 박아두고 자기들끼리 대화하며 길을 찾는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형(Distributed)** [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)/GMPLS) 제어 방식입니다.
+- **개념**: ITU-T에서 제정한 국제 광통신 표준으로, 멍청하고 수동적인 광전송 네트워크(Optical Network) 장비들 위에 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 지능형 제어 평면(Control Plane)'을 탑재하여, 사람이 개입하지 않고도 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들 스스로 경로를 계산하고 광 파장(빛의 길)을 1초 만에 동적으로 개통(Switched), <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>해 내는 차세대 지능형 광 백본망 아키텍처</strong>입니다.
+- **SDN과의 차이**: 850번대의 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의망)은 뇌 1개를 <strong>중앙 클라우드(Centralized)</strong>에 모아두는 방식이라면, 이 ASON은 각 광스위치 기계마다 똑똑한 미니 뇌를 하나씩 박아두고 자기들끼리 대화하며 길을 찾는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>형(Distributed)</strong> [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)/GMPLS) 제어 방식입니다.
 
 ASON은 인프라 구조를 완벽히 3가지 세상으로 쪼갰습니다.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 (Transport / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)**:
-   - 땅바닥에 깔려있는 **진짜 광케이블과 쇳덩어리 광 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들(OXC 등)**입니다. 위에서 내려온 명령대로 빨간빛, 파란빛을 꺾어서 투명하게 넘겨주기만 합니다.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 (Transport / <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)</strong>:
+   - 땅바닥에 깔려있는 <strong>진짜 광케이블과 쇳덩어리 광 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비들(OXC 등)</strong>입니다. 위에서 내려온 명령대로 빨간빛, 파란빛을 꺾어서 투명하게 넘겨주기만 합니다.
 2. **제어 평면 (Control Plane) 🌟 핵심 🌟**:
    - ASON의 심장이자 뇌입니다. GMPLS(범용 다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 라벨 스위칭)라는 고도의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘이 탑재된 소프트웨어 뇌들입니다.
-   - 뇌들끼리 1초 만에 통신하며 **"서울에서 부산 가는 빛의 최단 거리 경로"를 스스로 찾고([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), "여기부터 여기까지 파란색 파장으로 길 뚫어라!"라고 바닥의 기계에 신호를 쏴서 길을 동적으로 뚫어줍니다(Signaling & [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)).**
-3. **관리 평면 ([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Plane)**:
+   - 뇌들끼리 1초 만에 통신하며 <strong>"서울에서 부산 가는 빛의 최단 거리 경로"를 스스로 찾고(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>), "여기부터 여기까지 파란색 파장으로 길 뚫어라!"라고 바닥의 기계에 신호를 쏴서 길을 동적으로 뚫어줍니다(Signaling &amp; <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
+3. <strong>관리 평면 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Plane)</strong>:
    - 가장 위에 있는 인간 관리자용 대시보드 화면(NMS)입니다. 장비의 고장 감시, 요금 청구, 장애 알람 등의 운영(OAM)을 담당합니다.
 
-```text
-[장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-    │
-    ▼
-[ASON]
-    │
-    └──▶ [OTN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OTN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ASON의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -85,7 +93,7 @@ ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ### 2. 자동 우회 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Dynamic Restoration / Self-Healing)
 - 공사 포크레인이 1번 메인 광케이블을 찍어서 끊어먹었습니다.
-- 옛날엔 통신이 다 죽었습니다. **ASON 망에서는 케이블이 끊긴 지 0.05초 만에 제어 평면(뇌)이 "우회로 찾아!"라고 소리치며 알아서 2번 보조 케이블 쪽으로 빛의 방향(거울)을 싹 꺾어 통신을 100% 자동 치유([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))해 냅니다.**
+- 옛날엔 통신이 다 죽었습니다. <strong>ASON 망에서는 케이블이 끊긴 지 0.05초 만에 제어 평면(뇌)이 "우회로 찾아!"라고 소리치며 알아서 2번 보조 케이블 쪽으로 빛의 방향(거울)을 싹 꺾어 통신을 100% 자동 치유(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)해 냅니다.</strong>
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ ASON를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 광통신망은 수동으로 차단기를 올렸다 내리는 '수동 기차역 선로 변경'이었습니다. 기차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 하나 지나가려면 10개의 기차역 역장들(관리자)이 전화를 돌려가며 철길 레일을 수동으로 일일이 돌려놔야(수동 할당) 했기 때문에 며칠이 걸렸습니다. **ASON(자동 교환 광망)**은 각 기차역에 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 내비게이션 관제 시스템(제어 평면)'을 도입한 혁명입니다. 기차가 "부산으로 가겠다!"라고 출발하면, 기차역 내비게이션들끼리 0.1초 만에 서로 통신하여 최적의 경로를 짠 뒤, 전 구간의 철길 레일(광 파장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 자기들 스스로 찰칵찰칵 꺾어서 논스톱 고속도로를 1초 만에 깔아버립니다. 철길에 벼락이 떨어지면 스스로 즉시 샛길로 레일을 꺾어버리는 완벽한 0.1초 컷 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자율 철도망입니다.
+- **📢 섹션 요약 비유**: 기존 광통신망은 수동으로 차단기를 올렸다 내리는 '수동 기차역 선로 변경'이었습니다. 기차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 하나 지나가려면 10개의 기차역 역장들(관리자)이 전화를 돌려가며 철길 레일을 수동으로 일일이 돌려놔야(수동 할당) 했기 때문에 며칠이 걸렸습니다. <strong>ASON(자동 교환 광망)</strong>은 각 기차역에 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 내비게이션 관제 시스템(제어 평면)'을 도입한 혁명입니다. 기차가 "부산으로 가겠다!"라고 출발하면, 기차역 내비게이션들끼리 0.1초 만에 서로 통신하여 최적의 경로를 짠 뒤, 전 구간의 철길 레일(광 파장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 자기들 스스로 찰칵찰칵 꺾어서 논스톱 고속도로를 1초 만에 깔아버립니다. 철길에 벼락이 떨어지면 스스로 즉시 샛길로 레일을 꺾어버리는 완벽한 0.1초 컷 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자율 철도망입니다.
 
 ---
 
@@ -116,15 +124,19 @@ ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 장거리 백본 해저 광케이블 아키텍처 및 증폭…]
-    │
-    ▼
-[현재 개념: ASON]
-    │
-    ├──▶ [확장 A: OTN]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ASON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OTN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 ASON는 장거리 백본 [해저 광케이블 아키텍처](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…에서 출발해 현재 메커니즘을 정교화하고, 이후 OTN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

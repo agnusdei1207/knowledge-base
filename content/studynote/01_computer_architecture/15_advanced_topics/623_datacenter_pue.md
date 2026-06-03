@@ -23,7 +23,7 @@ PUE는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 
 이 지표가 특히 중요해진 이유는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 고밀도 서버가 랙당 수십 kW 이상의 열을 만들기 시작했기 때문이다. 같은 IT 장비 10MW를 돌린다고 가정하면 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.6 센터는 총 16MW를 끌어와야 하지만, [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.2 센터는 12MW면 된다. 시설 관점에서 보면 4MW 차이는 추가 서버 증설 가능량, 전기요금, 비상전원 규모, 탄소 배출량을 동시에 바꾼다.
 
-PUE가 없으면 운영 조직은 서버 효율만 보고 안심하기 쉽다. 하지만 실제 현장에서는 냉동기, 공조기, 펌프, 무정전 전원장치 ([UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/), Uninterruptible [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply), 전력 분배 손실이 큰 비용을 만든다. 따라서 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계는 컴퓨팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경쟁이면서 동시에 **열과 전력 손실을 줄이는 건축·설비 경쟁**이기도 하다.
+PUE가 없으면 운영 조직은 서버 효율만 보고 안심하기 쉽다. 하지만 실제 현장에서는 냉동기, 공조기, 펌프, 무정전 전원장치 ([UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/), Uninterruptible [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply), 전력 분배 손실이 큰 비용을 만든다. 따라서 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계는 컴퓨팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경쟁이면서 동시에 <strong>열과 전력 손실을 줄이는 건축·설비 경쟁</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: PUE는 주방에서 요리 불보다 환풍기와 냉장고가 얼마나 많은 전기를 먹는지 따져 보는 계산표와 같다. 음식이 같아도 주방 설계가 나쁘면 전기세는 훨씬 더 많이 나온다.
 
@@ -48,22 +48,21 @@ $$
 
 아래 그림은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력이 어디로 갈라지는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             Facility power path: only part reaches the IT load            │
-├────────────────────────────────────────────────────────────────────────────┤
-│  Grid                                                                      │
-│   │                                                                        │
-│   ▼                                                                        │
-│  UPS / PDU ───────────────▶ IT Load (Servers / Storage / Network)         │
-│   │                                                                        │
-│   ├──────── Cooling (CRAC / Chiller / Pump / Fan)                         │
-│   ├──────── Power conversion loss                                         │
-│   └──────── Lighting / Security / Misc                                    │
-│                                                                            │
-│  PUE = Total Facility Power / IT Equipment Power                          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Facility power path: only part reaches the IT load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS / PDU ▶ IT Load (Servers / Storage / Network)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cooling (CRAC / Chiller / Pump / Fan)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power conversion loss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lighting / Security / Misc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUE = Total Facility Power / IT Equipment Power</div></div>
+</div>
+</div>
+
+
 
 예를 들어 IT 장비가 10MW를 사용하고, 냉각 1.2MW, 전력 변환 손실 0.5MW, 기타 설비 0.3MW가 더 들어간다면 총 전력은 12MW이므로 PUE는 1.2가 된다. 중요한 점은 PUE가 부하율에 따라 달라질 수 있다는 것이다. 부분 부하에서는 냉각과 UPS의 고정 오버헤드 비중이 커져 값이 나빠지므로, 이상적으로는 연중 평균과 시간대별 추이를 함께 봐야 한다.
 
@@ -82,7 +81,7 @@ PUE는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 | CUE | 탄소 배출 / IT 전력 | 전력원의 친환경성 | 설비 자체의 전력 낭비 |
 | WUE (Water Usage Effectiveness) | 수자원 사용 / IT 전력 | 냉각 과정의 물 사용량 | 전력 효율 자체 |
 
-따라서 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.1이라도 서버가 놀고 있다면 좋은 센터라고만 말할 수 없다. 반대로 PUE가 다소 높아도 혹서지, 고가용성 요구, 일부 특수 냉각 구조 때문에 불가피한 상황도 있다. 이 지표는 절대평가보다 **측정 경계와 운영 조건을 통일한 비교**에서 가장 큰 힘을 발휘한다.
+따라서 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 1.1이라도 서버가 놀고 있다면 좋은 센터라고만 말할 수 없다. 반대로 PUE가 다소 높아도 혹서지, 고가용성 요구, 일부 특수 냉각 구조 때문에 불가피한 상황도 있다. 이 지표는 절대평가보다 <strong>측정 경계와 운영 조건을 통일한 비교</strong>에서 가장 큰 힘을 발휘한다.
 
 - **📢 섹션 요약 비유**: PUE는 자동차 연비, CUE는 그 차가 어떤 연료를 쓰는지에 가깝다. 연비가 좋아도 석탄으로 만든 전기를 쓰면 다른 질문이 남는다.
 
@@ -99,7 +98,7 @@ PUE는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 3. PUE와 함께 서버 활용률, 탄소 집약도, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 용량 계획을 같이 보는가?
 4. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 랙처럼 고밀도 부하에 맞는 냉각 방식을 선택했는가?
 
-안티패턴은 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 숫자만 마케팅처럼 좇는 것이다. 예를 들어 유휴 서버를 잔뜩 켜 둔 채 낮은 PUE를 자랑하면, 시설은 효율적일지 몰라도 기업 전체 관점에서는 낭비다. 반대로 이미 1.2 수준인 센터에서 막대한 투자로 1.1을 만들려다가 회수 기간이 지나치게 길어질 수도 있다. 결국 PUE는 목표치가 아니라, **시설 효율·사업성·탄소 전략을 함께 묶는 의사결정 도구**로 봐야 한다.
+안티패턴은 [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 숫자만 마케팅처럼 좇는 것이다. 예를 들어 유휴 서버를 잔뜩 켜 둔 채 낮은 PUE를 자랑하면, 시설은 효율적일지 몰라도 기업 전체 관점에서는 낭비다. 반대로 이미 1.2 수준인 센터에서 막대한 투자로 1.1을 만들려다가 회수 기간이 지나치게 길어질 수도 있다. 결국 PUE는 목표치가 아니라, <strong>시설 효율·사업성·탄소 전략을 함께 묶는 의사결정 도구</strong>로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 주방 전기요금을 줄인다고 무조건 최고급 환풍기만 사는 게 답은 아니다. 얼마나 자주 요리하는지, 가게 규모가 얼마나 되는지까지 같이 따져야 진짜 이익이 남는다.
 
@@ -109,7 +108,7 @@ PUE는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 
 PUE를 낮추면 같은 전력 계약 용량 안에서 더 많은 IT 장비를 운영할 수 있고, 운영비와 탄소 배출을 함께 줄일 수 있다. 또한 냉각 설비 여유가 늘어나 장애 위험을 낮추고, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 확장 시 건물·전력 인프라 재투자 시점을 늦출 수 있다. 특히 대형 클라우드와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 센터에서는 이 차이가 사업 경쟁력으로 직결된다.
 
-다만 PUE는 어디까지나 시설 관점의 지표이므로, 업무 효율이나 서버 사용률을 대신 설명하지는 못한다. 앞으로는 PUE와 함께 CUE, WUE, 폐열 재활용, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 시설 제어가 함께 논의될 가능성이 높다. 따라서 이 주제는 "숫자를 1.0에 가깝게 만드는 게임"이 아니라, **컴퓨팅을 위한 전기 중 얼마나 덜 새게 만들 것인가를 설계하는 문제**로 기억하는 것이 바람직하다.
+다만 PUE는 어디까지나 시설 관점의 지표이므로, 업무 효율이나 서버 사용률을 대신 설명하지는 못한다. 앞으로는 PUE와 함께 CUE, WUE, 폐열 재활용, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 시설 제어가 함께 논의될 가능성이 높다. 따라서 이 주제는 "숫자를 1.0에 가깝게 만드는 게임"이 아니라, <strong>컴퓨팅을 위한 전기 중 얼마나 덜 새게 만들 것인가를 설계하는 문제</strong>로 기억하는 것이 바람직하다.
 
 - **📢 섹션 요약 비유**: 좋은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 같은 양의 물을 붓더라도 새는 틈이 적은 수조와 같다. 더 많이 붓는 것보다 덜 새게 만드는 쪽이 오래 버틴다.
 
@@ -127,21 +126,23 @@ PUE를 낮추면 같은 전력 계약 용량 안에서 더 많은 IT 장비를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전산실 총 전력 계측
-    │
-    ▼
-PUE 도입 및 기준선 설정
-    │
-    ▼
-Hot/Cold Aisle · 고효율 UPS 최적화
-    │
-    ▼
-Free Cooling · Liquid Cooling 확대
-    │
-    ▼
-PUE + CUE + WUE 통합 지속가능 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전산실 총 전력 계측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PUE 도입 및 기준선 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hot/Cold Aisle · 고효율 UPS 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Free Cooling · Liquid Cooling 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PUE + CUE + WUE 통합 지속가능 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 효율 관리가 단순 전기 절감에서 지속가능성과 고밀도 냉각 설계로 진화하고 있음을 보여준다.
 

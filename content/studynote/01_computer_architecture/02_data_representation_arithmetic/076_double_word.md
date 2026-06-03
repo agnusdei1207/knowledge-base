@@ -23,12 +23,17 @@ tags = ["studynote-computer-architecture"]
 
 용어는 환경마다 다르다. 16비트 시대의 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)와 32비트 시대의 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)는 같은 말이 아니고, 따라서 더블 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)도 고정된 숫자가 아니다. Windows API의 `DWORD`는 역사적으로 32비트를 뜻하지만, 현대 64비트 시스템의 기본 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)와는 관계가 달라진다.
 
-```text
-바이트(8b) ─▶ 워드 ─▶ 더블 워드 ─▶ 쿼드 워드
-                 │        │
-                 │        └─ 2개의 워드를 묶은 확장 폭
-                 └─ 기준은 아키텍처마다 다름
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">바이트(8b) ─▶ 워드 ─▶ 더블 워드 ─▶ 쿼드 워드</div>
+<div class="kb-diagram-note">─ 2개의 워드를 묶은 확장 폭</div>
+<div class="kb-diagram-tree-item" style="--depth:8">기준은 아키텍처마다 다름</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 "두 개를 묶어서 하나로 본다"는 점이다. 단순히 크기가 아니라 연산과 저장의 관점을 바꾼다.
 
@@ -120,21 +125,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-8비트 바이트
-    │
-    ▼
-16/32비트 워드
-    │
-    ▼
-더블 워드(DWORD)
-    │
-    ▼
-64비트 주소/정밀도
-    │
-    ▼
-ABI 호환성과 데이터 포맷 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">8비트 바이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">16/32비트 워드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">더블 워드(DWORD)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">64비트 주소/정밀도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ABI 호환성과 데이터 포맷 표준화</div>
+</div>
+</div>
+
+
 
 이 흐름은 하드웨어의 폭 확장이 곧 소프트웨어 경계 정의로 이어진다는 점을 보여준다. 이후에는 64비트가 기본이 되면서 더블 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)라는 이름 자체도 역사적 표현이 되었다.
 

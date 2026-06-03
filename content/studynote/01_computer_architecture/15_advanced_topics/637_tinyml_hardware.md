@@ -19,20 +19,23 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-타이니 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 작은 칩에서 돌아가는 작은 AI가 아니라, **극단적으로 작은 예산 안에서 유용한 판단만 남기는 컴퓨터 구조 문제**에 가깝다. 배터리로 수개월에서 수년 버텨야 하는 센서 노드에서는 모델 정확도 1~2%보다, 평소에는 거의 잠들어 있다가 필요한 순간에만 깨어나 추론을 수행하는 구조가 더 중요하다.
+타이니 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 작은 칩에서 돌아가는 작은 AI가 아니라, <strong>극단적으로 작은 예산 안에서 유용한 판단만 남기는 컴퓨터 구조 문제</strong>에 가깝다. 배터리로 수개월에서 수년 버텨야 하는 센서 노드에서는 모델 정확도 1~2%보다, 평소에는 거의 잠들어 있다가 필요한 순간에만 깨어나 추론을 수행하는 구조가 더 중요하다.
 
 이 개념이 등장한 이유는 모든 센서 데이터를 무선망으로 보내는 방식이 전력과 비용 면에서 비싸기 때문이다. 온도, 진동, 음성, 가속도처럼 연속 데이터는 대부분 평소에는 아무 일도 없는데도 계속 전송해야 한다. TinyML은 단말기 안에서 먼저 의미 있는 이벤트만 골라내어, 네트워크와 클라우드가 감당해야 할 부하를 크게 줄인다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ TinyML budget is defined by four limits, not one benchmark  │
-├──────────────────────────────────────────────────────────────┤
-│ Flash : model weights + inference code                      │
-│ SRAM  : input buffer + activations + stack                  │
-│ Power : sensing + inference + radio wake-up                 │
-│ Time  : sampling window < response deadline                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TinyML budget is defined by four limits, not one benchmark</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flash : model weights + inference code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRAM : input buffer + activations + stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power : sensing + inference + radio wake-up</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time : sampling window &lt; response deadline</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은 TinyML이 연산 성능만 조금 있으면 되는 문제가 아니라는 점이다. 네 가지 예산 중 하나라도 넘치면 시스템 전체가 성립하지 않으므로, TinyML 설계는 언제나 메모리·전력·시간의 동시 최적화를 요구한다.
 
@@ -54,16 +57,19 @@ TinyML 시스템은 보통 센서, 전처리, 정수화된 모델, 이벤트 전
 실무에서는 보통 다음 식으로 SRAM을 가늠한다.  
 `필요 SRAM ≈ 입력 버퍼 + 최대 활성 텐서 + 작업 스택 + 운영 여유`
 
-```text
-┌──────────┐   ┌────────────┐   ┌──────────────┐   ┌────────────┐
-│ Sensor   │-->| Preprocess │-->| INT8 Model   │-->| Decision   │
-└──────────┘   └────────────┘   └──────────────┘   └────────────┘
-     │               │                    │                │
-     │               └─ window buffer     └─ SRAM peak     └─ wake radio only
-     └─ low-power sample                      ops budget       on meaningful event
-```
 
-이 구조의 핵심은 모든 단계를 항상 최고 품질로 만드는 것이 아니라, **의미 있는 이벤트를 놓치지 않을 만큼만 계산하는 것**이다. 그래서 TinyML 모델은 대형 모델 축소판이라기보다, 특정 센서 패턴을 빠르게 구분하도록 설계된 초경량 분류기인 경우가 많다. 최근에는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor, DSP)나 초소형 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))가 MCU 옆에 붙어, 일부 합성곱이나 행렬 곱셈만 저전력으로 가속하는 형태도 늘고 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">Preprocess</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">INT8 Model</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">Decision</div></div>
+<div class="kb-diagram-note">─ window buffer ─ SRAM peak ─ wake radio only</div>
+<div class="kb-diagram-tree-item" style="--depth:2">low-power sample ops budget on meaningful event</div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 모든 단계를 항상 최고 품질로 만드는 것이 아니라, <strong>의미 있는 이벤트를 놓치지 않을 만큼만 계산하는 것</strong>이다. 그래서 TinyML 모델은 대형 모델 축소판이라기보다, 특정 센서 패턴을 빠르게 구분하도록 설계된 초경량 분류기인 경우가 많다. 최근에는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor, DSP)나 초소형 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))가 MCU 옆에 붙어, 일부 합성곱이나 행렬 곱셈만 저전력으로 가속하는 형태도 늘고 있다.
 
 - **📢 섹션 요약 비유**: TinyML은 작은 분식집 주방과 같다. 손님이 몰릴 때마다 대형 호텔 주방처럼 요리할 수 없으니, 메뉴를 줄이고 동선을 짧게 만들어 같은 불로도 빠르게 내보내는 것이 핵심이다.
 
@@ -80,7 +86,7 @@ TinyML은 온디바이스 AI의 하위 영역이지만, 제약의 강도가 훨�
 | 연산 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | INT8, INT4, Binary 중심 | INT8, FP16 혼용 | FP16, BF16, FP32 |
 | 실패 원인 | 메모리 초과, 배터리 소모 | 발열, 비용 | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 운영비 |
 
-이 비교가 중요한 이유는 **TinyML의 병목이 정확도가 아니라 예산 초과**이기 때문이다. 예를 들어 스마트폰에서는 가능한 음성 모델이 MCU에서는 중간 버퍼 때문에 바로 탈락할 수 있다. 반대로 TinyML이 잘 맞는 영역에서는 클라우드보다 훨씬 빠르고 싸게 동작한다. 이벤트가 드문 센서 시스템일수록 항상 전송보다 현장에서 걸러서 전송이 압도적으로 효율적이다.
+이 비교가 중요한 이유는 <strong>TinyML의 병목이 정확도가 아니라 예산 초과</strong>이기 때문이다. 예를 들어 스마트폰에서는 가능한 음성 모델이 MCU에서는 중간 버퍼 때문에 바로 탈락할 수 있다. 반대로 TinyML이 잘 맞는 영역에서는 클라우드보다 훨씬 빠르고 싸게 동작한다. 이벤트가 드문 센서 시스템일수록 항상 전송보다 현장에서 걸러서 전송이 압도적으로 효율적이다.
 
 또한 TinyML은 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))과 연결될 수 있지만, 보통 학습 자체는 더 큰 장치나 서버에서 하고 MCU에는 추론 전용 모델만 배포한다. 즉 TinyML은 학습의 장소보다 추론의 자리를 결정하는 아키텍처라고 기억하는 편이 정확하다.
 
@@ -92,7 +98,7 @@ TinyML은 온디바이스 AI의 하위 영역이지만, 제약의 강도가 훨�
 
 TinyML은 항상 켜져 있어야 하지만 항상 복잡할 필요는 없는 업무에 가장 잘 맞는다. 대표적으로 낙상 감지, 이상 진동 감지, 웨이크 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 인식, 배터리 구동 환경 센서가 그렇다. 이런 영역에서는 수 밀리초에서 수십 밀리초 안에 이벤트를 판별하고, 필요할 때만 무선 송신을 켜는 편이 전체 시스템 전력 예산에 유리하다.
 
-반대로 고해상도 영상 분석, 생성형 모델, 잦은 모델 업데이트가 필요한 업무는 TinyML에 맞지 않는 경우가 많다. 이때는 TinyML을 억지로 쓰기보다 모바일 SoC나 엣지 서버로 계층을 올리는 편이 전체 비용과 유지보수성에서 낫다. 기술사 관점의 판단 문장은 단순하다. **현장에서 바로 잘라낼수록 이득인가, 아니면 더 큰 장치로 모아서 보는 편이 낫는가를 먼저 묻는 것**이다.
+반대로 고해상도 영상 분석, 생성형 모델, 잦은 모델 업데이트가 필요한 업무는 TinyML에 맞지 않는 경우가 많다. 이때는 TinyML을 억지로 쓰기보다 모바일 SoC나 엣지 서버로 계층을 올리는 편이 전체 비용과 유지보수성에서 낫다. 기술사 관점의 판단 문장은 단순하다. <strong>현장에서 바로 잘라낼수록 이득인가, 아니면 더 큰 장치로 모아서 보는 편이 낫는가를 먼저 묻는 것</strong>이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,7 +121,7 @@ TinyML은 항상 켜져 있어야 하지만 항상 복잡할 필요는 없는 �
 
 TinyML이 잘 적용되면 네트워크 트래픽, 배터리 소모, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 노출을 동시에 줄일 수 있다. 특히 평소에는 조용하다가 가끔 의미 있는 이벤트만 발생하는 시스템에서 효과가 크다. 센서 수가 많아질수록 중앙 서버보다 현장 추론의 경제성이 커지는 이유도 여기에 있다.
 
-다만 TinyML은 만능이 아니다. 모델 설명력과 업데이트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 현장 디버깅, 극단적 환경에서의 오탐·미탐까지 함께 관리해야 한다. 앞으로는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)), 근접 센서 연산, 초경량 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 확산으로 TinyML의 적용 범위가 넓어지겠지만, 본질은 여전히 같다. **큰 모델을 억지로 넣는 기술이 아니라, 작은 예산으로 충분한 판단을 만드는 기술**이라는 점이다.
+다만 TinyML은 만능이 아니다. 모델 설명력과 업데이트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 현장 디버깅, 극단적 환경에서의 오탐·미탐까지 함께 관리해야 한다. 앞으로는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)), 근접 센서 연산, 초경량 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 확산으로 TinyML의 적용 범위가 넓어지겠지만, 본질은 여전히 같다. <strong>큰 모델을 억지로 넣는 기술이 아니라, 작은 예산으로 충분한 판단을 만드는 기술</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: TinyML은 성냥갑 안에 든 공구 세트와 같다. 대형 공방 전체를 넣을 수는 없지만, 꼭 필요한 공구만 있으면 현장에서 대부분의 급한 문제를 바로 해결할 수 있다.
 
@@ -133,18 +139,21 @@ TinyML이 잘 적용되면 네트워크 트래픽, 배터리 소모, [개인정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-임계치 기반 센서 처리
-    │
-    ▼
-특징 추출 중심 임베디드 분석
-    │
-    ▼
-TinyML (정수화 · 정적 메모리 계획)
-    │
-    ├─▶ 초경량 NPU / DSP 가속
-    └─▶ 온디바이스 AI · 연합 학습 배포와 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">임계치 기반 센서 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">특징 추출 중심 임베디드 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TinyML (정수화 · 정적 메모리 계획)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 초경량 NPU / DSP 가속</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 온디바이스 AI · 연합 학습 배포와 결합</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 감지에서 경량 추론으로, 다시 하드웨어 가속과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영으로 역할이 확장되는 과정을 보여준다.
 

@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 빅데이터 시대가 되면서 기업들은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))에 엄청난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓았다. 하지만 비즈니스 팀이 "어제 출시한 마케팅 캠페인의 클릭률 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 달라"고 하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 며칠 밤을 새워 SQL을 짜고 파이프라인([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))을 돌려야만 했다.
 
-더 심각한 문제는 **품질(Quality)**이었다. 기껏 대시보드를 만들어 임원진에게 보고했는데, "어? 여기 클릭 수가 왜 마이너스(-)지?"라는 지적이 나오면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 팀은 발칵 뒤집혔다. 원본 DB에서 누군가 컬럼명을 바꿨거나 Null 값이 섞여 들어왔기 때문이다.
+더 심각한 문제는 <strong>품질(Quality)</strong>이었다. 기껏 대시보드를 만들어 임원진에게 보고했는데, "어? 여기 클릭 수가 왜 마이너스(-)지?"라는 지적이 나오면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 팀은 발칵 뒤집혔다. 원본 DB에서 누군가 컬럼명을 바꿨거나 Null 값이 섞여 들어왔기 때문이다.
 
-소프트웨어 개발팀이 DevOps를 도입해 매일 버그 없이 코드를 배포하는 것을 본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀들은 깨달았다. **"우리도 코드처럼 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)을 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어올 때마다 에러를 잡아내는 자동 테스트(Automated Testing)를 돌리자!"** 이것이 바로 **[데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))**의 탄생이다.
+소프트웨어 개발팀이 DevOps를 도입해 매일 버그 없이 코드를 배포하는 것을 본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀들은 깨달았다. <strong>"우리도 코드처럼 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a>을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리하고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 들어올 때마다 에러를 잡아내는 자동 테스트(Automated Testing)를 돌리자!"</strong> 이것이 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/">데이터옵스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/">DataOps</a>)</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: 수제비 공장에서 밀가루 반죽을 사람이 일일이 치대고(수동 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)), 요리가 다 끝난 뒤에야 손님이 "돌이 씹혀요!"라고 항의하던 시절이 있었다. DataOps는 반죽 기계에 이물질 탐지기(자동 테스트)를 달아, 돌이 발견되면 즉시 기계를 멈추고 컨베이어 벨트 전체를 자동화하는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 자동화의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터옵스 (DataOps) 자동화                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터옵스 (DataOps) 자동화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 자동화가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ DataOps는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 
 | 비교 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) |
 |:---|:---|:---|:---|
-| **관리 대상** | 소프트웨어 소스코드 | **[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) (SQL, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 |
-| **핵심 과제** | 코드 빌드 시간 단축, 배포 | **[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 병목 해소, 정합성** | 모델 재학습, [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) |
-| **테스트 내용**| [Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), 단위 로직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 퀄리티 (Null, [Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 검사)** | 모델 정확도 (Accuracy) |
+| **관리 대상** | 소프트웨어 소스코드 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> (SQL, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a>)</strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 |
+| **핵심 과제** | 코드 빌드 시간 단축, 배포 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> 병목 해소, 정합성</strong> | 모델 재학습, [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) |
+| **테스트 내용**| [Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), 단위 로직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 퀄리티 (Null, <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> 검사)</strong> | 모델 정확도 (Accuracy) |
 | **주요 도구** | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions | **Airflow, dbt, Fivetran** | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/), [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) |
 
-즉, 완벽한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 서비스하기 위해서는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)(서버 인프라) 기반 위에 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)(깨끗한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급)가 깔려 있어야만 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습)가 돌아가는 **'3-Ops의 피라미드 구조'**가 완성된다.
+즉, 완벽한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 서비스하기 위해서는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)(서버 인프라) 기반 위에 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)(깨끗한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급)가 깔려 있어야만 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습)가 돌아가는 <strong>'3-Ops의 피라미드 구조'</strong>가 완성된다.
 
 - **📢 섹션 요약 비유**: DevOps가 '튼튼한 냄비'를 만드는 기술이라면, DataOps는 '신선한 식재료'를 씻어서 준비하는 기술이고, MLOps는 그 냄비와 식재료를 가지고 '최고의 요리'를 끊임없이 끓여내는 기술이다.
 
@@ -95,7 +94,7 @@ DataOps는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-DataOps의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 **[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/), [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/))**를 확보하는 것이다.
+DataOps의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/">관측 가능성</a>)</strong>를 확보하는 것이다.
 
 - **📢 섹션 요약 비유**: [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/) ([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 자동화은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -132,21 +131,23 @@ DataOps를 내재화하면 [데이터](/knowledge-base/studynote/05_database/01_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데이터옵스 (DataOps) 자동화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터옵스 (DataOps) 자동화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

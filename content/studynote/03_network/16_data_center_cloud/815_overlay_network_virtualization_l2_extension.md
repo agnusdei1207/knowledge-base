@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 클라우드 시대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 망([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))을 이해하는 가장 절대적인 2개의 축입니다.
 
-1. **[언더레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/) ([Underlay Network](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/))**: 눈에 보이는 진짜 쇳덩어리 장비들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블)이 깔려 있는 **실제 물리적인 뼈대 네트워크(하부 인프라)**입니다. 오직 패킷을 빠르고 무식하게 목적지(IP)까지 실어 나르는 도로(아스팔트) 역할만 합니다. (상세는 다음 816번 문서)
-2. **오버레이 네트워크 (Overlay Network)**: 이 언더레이 아스팔트 도로 위에 허공에 둥둥 떠서 그려진 **'소프트웨어로 만든 100% 가상의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 네트워크(상부망)'**입니다. 물리적 선이 어떻게 연결되었든 무시하고, 내 마음대로 서버끼리 가상의 랜선(터널)을 푹푹 꽂아 연결해 버리는 마법입니다. VPN이 가장 대표적인 오버레이망입니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/">언더레이 네트워크</a> (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/">Underlay Network</a>)</strong>: 눈에 보이는 진짜 쇳덩어리 장비들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블)이 깔려 있는 <strong>실제 물리적인 뼈대 네트워크(하부 인프라)</strong>입니다. 오직 패킷을 빠르고 무식하게 목적지(IP)까지 실어 나르는 도로(아스팔트) 역할만 합니다. (상세는 다음 816번 문서)
+2. **오버레이 네트워크 (Overlay Network)**: 이 언더레이 아스팔트 도로 위에 허공에 둥둥 떠서 그려진 <strong>'소프트웨어로 만든 100% 가상의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 네트워크(상부망)'</strong>입니다. 물리적 선이 어떻게 연결되었든 무시하고, 내 마음대로 서버끼리 가상의 랜선(터널)을 푹푹 꽂아 연결해 버리는 마법입니다. VPN이 가장 대표적인 오버레이망입니다.
 
-```text
-[iWARP]
-    │
-    ▼
-[오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    └──▶ [언더레이 네트워크 오버레이 터널을 품는 물리…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,20 +45,24 @@ tags = ["studynote-network"]
 
 클라우드 센터에서 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 운용할 때 오버레이 망이 왜 미치도록 필수적일까요?
 
-- **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 마이그레이션의 딜레마**: 1층 서버실 랙(192.168.1.x 대역)에서 돌던 가상머신을, 유지보수를 위해 5층 서버실 랙(192.168.5.x 대역)으로 살아서 움직이는 채로 쓱 이사(마이그레이션)시키고 싶습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 마이그레이션의 딜레마</strong>: 1층 서버실 랙(192.168.1.x 대역)에서 돌던 가상머신을, 유지보수를 위해 5층 서버실 랙(192.168.5.x 대역)으로 살아서 움직이는 채로 쓱 이사(마이그레이션)시키고 싶습니다.
 - **물리망의 장벽**: 물리적 라우터 세팅상 5층으로 가면 VM의 IP 주소를 192.168.5.x로 바꿔야만 통신이 됩니다. IP가 바뀌면 접속 중이던 손님들은 100% 에러가 나며 튕깁니다.
-- **오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 마법 🌟**: 
+- <strong>오버레이 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>) 마법 🌟</strong>: 
   - VMWare나 오픈스택(OpenStack) 컨트롤러가 **1층과 5층 서버 사이에 거대한 소프트웨어 투명 튜브(터널)를 허공에 뚫어버립니다.**
   - 이 터널을 통해, VM이 5층으로 이사를 가도 옛날 1층 IP(192.168.1.x)를 그대로 유지(L2 확장)한 채 옆방 서버와 통신하게 만듭니다. 밑바닥 라우터들(언더레이)은 그냥 자기 머리 위로 투명 튜브가 지나가는 줄만 알고 속아 넘어갑니다.
 
-```text
-[iWARP]
-    │
-    ▼
-[오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    └──▶ [언더레이 네트워크 오버레이 터널을 품는 물리…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,9 +71,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 이 투명 튜브를 만드는 껍데기 캡슐화 포장 기술들의 종류입니다.
-1. **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) (가장 대세 🌟)**: 오리지널 L2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷을 냅다 일반 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 택배 박스에 넣어버립니다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 가상화의 알파이자 오메가입니다. (817번 상세)
-2. **[NVGRE](/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/)**: 마이크로소프트가 밀었던 방식, [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널 껍데기 사용. (818번 상세)
-3. **[STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 껍데기를 흉내 내어 터널을 뚫는 방식. (819번 상세)
+1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (가장 대세 🌟)</strong>: 오리지널 L2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷을 냅다 일반 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 택배 박스에 넣어버립니다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 가상화의 알파이자 오메가입니다. (817번 상세)
+2. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/">NVGRE</a></strong>: 마이크로소프트가 밀었던 방식, [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널 껍데기 사용. (818번 상세)
+3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/">STT</a></strong>: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 껍데기를 흉내 내어 터널을 뚫는 방식. (819번 상세)
 
 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. iWARP가 기반 조건을 만든다면, 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 그 위에서 핵심 메커니즘을 구현하고, [언더레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/) 오버레이 터널을 품는 물리…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: iWARP]
-    │
-    ▼
-[현재 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ├──▶ [확장 A: 언더레이 네트워크 오버레이 터널을 품는 물리…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: iWARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 iWARP에서 출발해 현재 메커니즘을 정교화하고, 이후 [언더레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/) 오버레이 터널을 품는 물리…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

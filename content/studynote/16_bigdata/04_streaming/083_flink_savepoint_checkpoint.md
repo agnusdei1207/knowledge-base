@@ -25,7 +25,7 @@ tags = ["studynote-bigdata"]
 
 - **집계**: 지난 5분간 사용자별 구매 금액 합계 → 이전 이벤트 기억 필요
 - **조인**: 클릭과 구매 이벤트를 사용자 ID로 연결 → 두 스트림 상태 유지
-- **[CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)**: 이상 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 3회 → 계정 잠금) → 이벤트 시퀀스 기억
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a></strong>: 이상 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 3회 → 계정 잠금) → 이벤트 시퀀스 기억
 
 이 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 대용량 장기 실행 스트리밍에서 중요해지면, 장애 시 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 운영 중 상태 보존이 핵심 과제가 된다.
 
@@ -47,30 +47,29 @@ tags = ["studynote-bigdata"]
 
 ### 1. Chandy-Lamport [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-[Checkpoint 동작 과정]
 
-JobManager의 CheckpointCoordinator
-    │
-    │ 1. Barrier 주입 (Checkpoint ID N)
-    ▼
-Source Operator ──── [Barrier N] ────→
-                                       ┌─────────────────────────┐
-                 ──── 이벤트 ─────────→ │  Operator A             │
-                 ──── [Barrier N] ────→ │  Barrier 수신           │
-                                       │  → 현재 상태 스냅샷 저장 │
-                                       │  → Barrier 하류로 전달  │
-                                       └────────────┬────────────┘
-                                                    │ Barrier N 전달
-                                                    ▼
-                                       ┌─────────────────────────┐
-                                       │  Sink Operator          │
-                                       │  모든 입력 Barrier N 수신│
-                                       │  → 체크포인트 완료 확인  │
-                                       └─────────────────────────┘
-                                                    │
-                                       JobManager에 완료 보고
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Checkpoint 동작 과정</div></div>
+<div class="kb-diagram-note">JobManager의 CheckpointCoordinator</div>
+<div class="kb-diagram-note">1. Barrier 주입 (Checkpoint ID N)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Source Operator</div><div class="kb-diagram-node">Barrier N</div><div class="kb-diagram-connector">→</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 →</div><div class="kb-diagram-cell">Operator A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Barrier N</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Barrier 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 현재 상태 스냅샷 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Barrier 하류로 전달</div></div>
+<div class="kb-diagram-note">Barrier N 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sink Operator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 입력 Barrier N 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 체크포인트 완료 확인</div></div>
+<div class="kb-diagram-note">JobManager에 완료 보고</div>
+</div>
+</div>
+
+
 
 **Barrier (배리어)**: 체크포인트 ID를 담은 특수 마커 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 삽입되어 각 연산자가 배리어 도착 시점의 상태를 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)으로 저장하게 한다.
 
@@ -191,7 +190,7 @@ UID 없이는 자동 [생성](/knowledge-base/studynote/02_operating_system/02_p
 
 ### 2. 결론
 
-Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 운영성을 보장하는 두 기둥**이다. 기술사 답안에서는 Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 배리어 메커니즘, 체크포인트(자동·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 세이브포인트(수동·업그레이드)의 차이, 연산자 UID의 중요성을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 서술하는 것이 핵심이다.
+Flink의 체크포인트와 세이브포인트는 <strong>상태 기반 스트리밍의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 운영성을 보장하는 두 기둥</strong>이다. 기술사 답안에서는 Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 배리어 메커니즘, 체크포인트(자동·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 세이브포인트(수동·업그레이드)의 차이, 연산자 UID의 중요성을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
 > Flink의 체크포인트는 "비행 중 자동 기록되는 블랙박스"이고, 세이브포인트는 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿이 장거리 비행 전 수동으로 만드는 비행 계획서 사본"이다. 사고(장애)는 블랙박스로 분석하고, 항로 변경(업그레이드)은 계획서 사본으로 새 항로를 이어간다.
@@ -210,21 +209,23 @@ Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스트리밍 상태 (Streaming State) — 연산자 상태]
-    │
-    ▼
-[Chandy-Lamport 알고리즘 (글로벌 스냅샷)]
-    │
-    ▼
-[체크포인트 (Checkpoint) — 자동 장애 복구]
-    │
-    ▼
-[세이브포인트 (Savepoint) — 수동 버전 마이그레이션]
-    │
-    ▼
-[정확히 한 번 처리 (Exactly-Once Semantics)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 상태 (Streaming State) — 연산자 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chandy-Lamport 알고리즘 (글로벌 스냅샷)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">체크포인트 (Checkpoint) — 자동 장애 복구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세이브포인트 (Savepoint) — 수동 버전 마이그레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정확히 한 번 처리 (Exactly-Once Semantics)</div></div>
+</div>
+</div>
+
+
 
 스트리밍 처리의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 글로벌 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이론에서 자동 체크포인트와 수동 세이브포인트를 거쳐 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 처리로 실현된 흐름이다.
 

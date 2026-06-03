@@ -25,17 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 인출이 단순 복사가 아니라, "다음 위치 결정"과 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 확보"를 동시에 수행하는 출발 단계임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    인출 사이클이 맡는 두 가지 책임                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1) 어디를 읽을지 결정                    2) 읽은 명령어를 내부로 전달     │
-│                                                                            │
-│ PC ──▶ 주소 생성 ──▶ 메모리 계층 ──▶ 명령어 수신 ──▶ 명령어 보관 버퍼       │
-│ │                          │                           │                    │
-│ └──────────── 다음 PC 갱신 ◀┴──── 적중/미스 판단 ─────┘                    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인출 사이클이 맡는 두 가지 책임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 어디를 읽을지 결정 2) 읽은 명령어를 내부로 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC ──▶ 주소 생성 ──▶ 메모리 계층 ──▶ 명령어 수신 ──▶ 명령어 보관 버퍼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 PC 갱신 ◀ 적중/미스 판단</div></div>
+</div>
+</div>
+
+
 
 핵심은 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽는 순간과 동시에 다음 PC도 준비해야 한다는 점이다. 그래서 인출 단계는 항상 현재 한 건만 보는 것이 아니라, 다음 접근을 끊기지 않게 유지하는 예측과 버퍼링까지 함께 포함한다.
 
@@ -58,21 +59,23 @@ tags = ["studynote-computer-architecture"]
 
 고전적 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)으로 보면 인출은 보통 아래 순서로 표현된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   인출 사이클의 전형적 마이크로 오퍼레이션                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ T0 : MAR ← PC                                                              │
-│ T1 : MBR ← M[MAR] , PC ← PC + 1 또는 PC + 명령어 길이                      │
-│ T2 : IR  ← MBR                                                             │
-│                                                                            │
-│ 현대 확장                                                                   │
-│ T0' : 명령어 캐시와 변환 색인 버퍼 (Translation Lookaside Buffer, TLB) 조회 │
-│       , 분기 예측기로 다음 PC 계산                                          │
-│ T1' : Fetch Buffer 적재, 정렬/경계 처리                                    │
-│ T2' : Decode Stage로 다중 명령어 전달                                      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인출 사이클의 전형적 마이크로 오퍼레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T0 : MAR ← PC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">MAR</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">PC + 1 또는 PC + 명령어 길이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2 : IR ← MBR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T0' : 명령어 캐시와 변환 색인 버퍼 (Translation Lookaside Buffer, TLB) 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">, 분기 예측기로 다음 PC 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1' : Fetch Buffer 적재, 정렬/경계 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2' : Decode Stage로 다중 명령어 전달</div></div>
+</div>
+</div>
+
+
 
 이 흐름에서 중요한 병목은 세 가지다. 첫째, 메모리 계층 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길면 IR이 비어 디코더가 놀게 된다. 둘째, [가변 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/172_variable_length_instruction/) 구조에서는 읽어 온 바이트를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계에 맞게 재정렬해야 한다. 셋째, 분기 명령이 섞이면 `PC + 4` 같은 단순 증가만으로는 다음 인출 위치를 확정할 수 없어 예측기가 개입해야 한다.
 
@@ -95,17 +98,19 @@ tags = ["studynote-computer-architecture"]
 
 또한 인출은 폰 노이만 구조와 수정 하버드 구조를 비교할 때도 핵심이 된다. 단일 메모리·단일 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 같은 통로를 두고 경쟁해 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/) ([Structural Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))가 생긴다. 반면 현대 CPU는 보통 L1 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 L1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 분리해, 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 동시에 진행되도록 만든다.
 
-```text
-┌─────────────────────────────┬──────────────────────────────────────────────┐
-│ 단일 통로 구조              │ 분리된 통로 구조                             │
-├─────────────────────────────┼──────────────────────────────────────────────┤
-│ Fetch ─┐                    │ Fetch ─────▶ L1 I-Cache                      │
-│        ├─▶ 공용 메모리/버스 │                                              │
-│ Data  ─┘                    │ Data  ─────▶ L1 D-Cache                      │
-├─────────────────────────────┼──────────────────────────────────────────────┤
-│ 동시 접근 시 충돌           │ 명령어·데이터 동시 공급 가능                 │
-└─────────────────────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 통로 구조</div><div class="kb-diagram-cell">분리된 통로 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch ─</div><div class="kb-diagram-cell">Fetch ▶ L1 I-Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 공용 메모리/버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data ─</div><div class="kb-diagram-cell">Data ▶ L1 D-Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 접근 시 충돌</div><div class="kb-diagram-cell">명령어·데이터 동시 공급 가능</div></div>
+</div>
+</div>
+
+
 
 이 비교가 중요한 이유는, 파이프라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 대부분이 실행 유닛 추가만으로는 달성되지 않기 때문이다. 앞단에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 안정적으로 넣어 주지 못하면 뒤단의 고성능 자원은 놀게 된다. 그래서 인출은 캐시, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 파이프라인 설계와 모두 연결되는 프론트엔드 핵심 개념이다.
 
@@ -127,7 +132,7 @@ tags = ["studynote-computer-architecture"]
 ### 대표 시나리오
 
 - **루프 최적화**: 자주 도는 짧은 루프는 I-Cache와 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) 캐시 ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) Cache)에 잘 머물러 인출 비용이 작다. 반대로 거대한 함수와 잦은 간접 분기가 섞인 코드는 fetch miss와 branch miss가 겹쳐 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급감한다.
-- **[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)**: 제어 시스템은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로, 인출 경로의 미스 패널티와 예측 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 보수적으로 설계해야 한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a></strong>: 제어 시스템은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로, 인출 경로의 미스 패널티와 예측 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 보수적으로 설계해야 한다.
 - **고성능 코어 설계**: 6-wide 이상 슈퍼스칼라에서는 실행기 수보다 앞단 공급 능력이 먼저 한계에 도달하기 쉬우므로, 인출 폭·프리디코드·[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도를 함께 늘려야 의미가 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -165,24 +170,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로그램 카운터 (PC) 기반 순차 인출
-    │
-    ▼
-메모리 주소 레지스터 (MAR) · 명령어 레지스터 (IR)
-    │
-    ▼
-명령어 캐시 (I-Cache) 기반 저지연 인출
-    │
-    ▼
-분기 예측기 (Branch Predictor) · 프리페치 (Prefetch)
-    │
-    ▼
-다중 명령어 인출 폭 · Fetch Buffer
-    │
-    ▼
-마이크로 오퍼레이션 캐시 (uOP Cache) 중심 프론트엔드 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로그램 카운터 (PC) 기반 순차 인출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 주소 레지스터 (MAR) · 명령어 레지스터 (IR)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 캐시 (I-Cache) 기반 저지연 인출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 예측기 (Branch Predictor) · 프리페치 (Prefetch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 명령어 인출 폭 · Fetch Buffer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 오퍼레이션 캐시 (uOP Cache) 중심 프론트엔드 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 메모리 읽기에서 시작해, 캐시·예측·버퍼링을 결합한 현대 프론트엔드로 발전하는 과정을 보여준다.
 

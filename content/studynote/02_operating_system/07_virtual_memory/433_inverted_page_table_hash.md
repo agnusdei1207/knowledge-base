@@ -12,8 +12,8 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))은 메모리 낭비를 줄이기 위해 전 세계(시스템)에 장부를 딱 1개만 두어 $O(N)$의 끔찍한 순차 탐색 렉을 유발하는데, 이를 **단 1~2회의 메모리 접근만으로 끊어내기 위해 `[PID, Page Number]`를 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 삼아 $O(1)$ 속도로 인덱스를 꽂아주는 하드웨어 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)) 융합 아키텍처**다.
-> 2. **가치**: 64비트의 무한한 가상 주소 공간이 낳는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) 트리(4~5번 램 접근)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)을 무력화시키고, **램 용량 절약과 주소 번역 속도라는 절대 잡을 수 없는 두 마리 토끼를 극한의 수학적 해싱으로 멱살 잡아 캐리**한다.
-> 3. **융합**: 필연적으로 터지는 '[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))와 결합되며, 해시 포인터를 저장하는 **해시 앵커 테이블(Hash Anchor Table)이라는 보조 장부가 역 테이블과 2단 융합**하여 슈퍼컴퓨터 급 서버의 메모리를 지배한다.
+> 2. **가치**: 64비트의 무한한 가상 주소 공간이 낳는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) 트리(4~5번 램 접근)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty)을 무력화시키고, <strong>램 용량 절약과 주소 번역 속도라는 절대 잡을 수 없는 두 마리 토끼를 극한의 수학적 해싱으로 멱살 잡아 캐리</strong>한다.
+> 3. **융합**: 필연적으로 터지는 '[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'을 해결하기 위해 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))와 결합되며, 해시 포인터를 저장하는 <strong>해시 앵커 테이블(Hash Anchor Table)이라는 보조 장부가 역 테이블과 2단 융합</strong>하여 슈퍼컴퓨터 급 서버의 메모리를 지배한다.
 
 ---
 
@@ -23,34 +23,32 @@ tags = ["studynote-operating-system"]
 - **필요성**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))도 아니고, 그냥 평범한 메모리를 1바이트 읽을 때마다 램 장부를 100만 번 뒤지는 컴퓨터는 아무도 쓰지 않는다. (부팅만 10년 걸림). [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)은 장부를 4번 읽어서 느리다고 욕먹었는데, [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)의 100만 번 탐색은 아예 폐기물 수준이었다. 이 쓰레기통에 처박힐 뻔한 위대한 아이디어(램 극한 절약)를 살려내기 위해, 컴퓨터 공학자들은 "주소를 찾지 말고, 주소를 계산식으로 찍어내자!"라는 해시 알고리즘을 하드웨어 칩셋([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에 실리콘으로 납땜해 넣는 무리수를 감행했다.
 
 - **등장 배경 및 O(N) 탐색의 구원**:
-  1. **[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)의 좌절**: 램 아끼려다 탐색 속도가 멸망함.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/">역 페이지 테이블</a>의 좌절</strong>: 램 아끼려다 탐색 속도가 멸망함.
   2. **하드웨어 해시(Hash)의 투입**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 안에 곱셈/나눗셈/XOR 연산을 빛의 속도로 하는 해시 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 강제 삽입함.
   3. **Hash Anchor Table의 탄생**: 해시가 뱉어낸 결과값이 바로 물리 프레임 주소가 아니라, "[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 장부의 진짜 위치를 가리키는 중간 포인터 역할"을 하도록 2단 구조가 확립됨.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        해시(Hash) 융합 역 페이지 테이블의 초고속 번역 파이프라인 시각화 │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 1. CPU의 메모리 접근 요구 ]                                           │
-│   - "나 프로세스 A (PID=5)인데, 가상 페이지 10번 데이터 줘!"            │
-│                                                                         │
-│ [ 2. 하드웨어 해시 함수 가동 (MMU 내부 1클럭 컷) ]                      │
-│   - `Hash( PID 5, Page 10 ) = 결과값 88 도출!`                          │
-│                                                                         │
-│ [ 3. 해시 앵커 테이블 (Hash Anchor Table) 1차 방문 - RAM ]              │
-│   - 앵커 테이블의 88번째 인덱스로 쏜살같이 직행.                        │
-│   - 88번 칸: "역 페이지 테이블의 [ 405번 줄 ]을 가보셈!" ──┐            │
-│                                              │                          │
-│ [ 4. 역 페이지 테이블 (Inverted Page Table) 2차 방문 - RAM ]            │
-│   - 405번 줄을 확인해 봄. ◀────────────────────────┘                    │
-│   - 장부 내용: [ PID: 5 | Page: 10 ]                                    │
-│   - 🟢 빙고! 내가 찾던 그놈이 맞음. 405번이 곧 진짜 램 프레임 번호임!   │
-│                                                                         │
-│ 🚀 결과: 100만 번의 장부 스캔(O(N))을 버리고, 단 2번의 램 접근(O(1))    │
-│         만으로 진짜 물리 메모리 주소를 쟁취해 내는 기적!                │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시(Hash) 융합 역 페이지 테이블의 초고속 번역 파이프라인 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. CPU의 메모리 접근 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "나 프로세스 A (PID=5)인데, 가상 페이지 10번 데이터 줘!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 하드웨어 해시 함수 가동 (MMU 내부 1클럭 컷)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>Hash( PID 5, Page 10 ) = 결과값 88 도출!</code></div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 해시 앵커 테이블 (Hash Anchor Table) 1차 방문 - RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앵커 테이블의 88번째 인덱스로 쏜살같이 직행.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 88번 칸: "역 페이지 테이블의</div><div class="kb-diagram-node">405번 줄</div><div class="kb-diagram-note">을 가보셈!" ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 역 페이지 테이블 (Inverted Page Table) 2차 방문 - RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 405번 줄을 확인해 봄. ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 장부 내용:</div><div class="kb-diagram-node">PID: 5 | Page: 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🟢 빙고! 내가 찾던 그놈이 맞음. 405번이 곧 진짜 램 프레임 번호임!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 결과: 100만 번의 장부 스캔(O(N))을 버리고, 단 2번의 램 접근(O(1))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만으로 진짜 물리 메모리 주소를 쟁취해 내는 기적!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 405번 줄 = 실제 물리 램 405번 프레임" 이라는 것이 역 테이블의 핵심 철학이다. 장부의 인덱스가 곧 실제 램의 방 번호다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 이 405번이라는 방 번호를 한 방에 찔러주기 위해 존재하는 마법의 내비게이션이다. [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)이 4~5번 램을 덜그럭거리며 읽는 것에 비해, 이 방식은 캐시 충돌만 안 나면 램을 2번만 읽고 번역을 끝내는 무시무시한 효율을 자랑한다.
 
 - **📢 섹션 요약 비유**: 두꺼운 백과사전(역 테이블)에서 단어를 찾을 때 첫 장부터 끝까지 한 장씩 다 넘겨보며 찾는 건 바보 짓입니다. 책의 맨 뒷장에 있는 '가나다순 색인표(해시 앵커 테이블)'를 딱 1번만 펼쳐서 단어 옆에 적힌 '405페이지'라는 숫자를 보고, 한 번에 405페이지로 훅 건너뛰어버리는 압도적인 탐색 단축 스킬입니다.
@@ -61,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 ### [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이라는 최악의 딜레마
 
-세상에 완벽한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 없다. 가상 주소 공간은 무한(64비트)인데, 해시가 뱉어내는 앵커 테이블 방 개수는 유한(예: 10만 개)하기 때문에 **비둘기집 원리**에 의해 무조건 충돌이 난다.
+세상에 완벽한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 없다. 가상 주소 공간은 무한(64비트)인데, 해시가 뱉어내는 앵커 테이블 방 개수는 유한(예: 10만 개)하기 때문에 <strong>비둘기집 원리</strong>에 의해 무조건 충돌이 난다.
 - **상황**: `프로세스 B의 20번 페이지`를 해시에 돌렸더니, 우연히 아까랑 똑같이 `결과값 88`이 튀어나왔다.
-- **해결책 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), 체이닝)**: 
+- <strong>해결책 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>, 체이닝)</strong>: 
   - 88번 앵커를 타고 역 테이블 405번 줄에 갔더니 내가 찾는 `[PID: B, Page: 20]`이 아니라 아까 들어간 `[PID: A, Page: 10]`이 있다! (충돌/Miss).
-  - 당황하지 않는다. 405번 줄 끝에는 **`Next Pointer (다음 줄 번호)`**가 달려 있다. (예: `Next = 912번 줄`).
+  - 당황하지 않는다. 405번 줄 끝에는 <strong><code>Next Pointer (다음 줄 번호)</code></strong>가 달려 있다. (예: `Next = 912번 줄`).
   - MMU는 912번 줄로 다시 점프(RAM 3차 방문)해서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 거기에 `[PID: B, Page: 20]`이 있으면 성공이다.
 - **비극**: 만약 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 구려서 수백 개의 주소가 전부 88번으로 몰리면, Linked List를 타고 램을 수백 번 점프하며 찾아가야 하는 $O(N)$ 지옥이 부분적으로 부활해 버린다 ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)).
 
@@ -73,9 +71,9 @@ tags = ["studynote-operating-system"]
 
 ### [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))의 멱살 캐리
 
-해시 테이블이고 체이닝이고 나발이고, 램을 2번 3번 방문하는 것 자체가 현대 3GHz짜리 CPU에게는 피를 말리는 페널티다. 이 해시 체계가 실무에서 성립할 수 있는 단 하나의 이유는 바로 찰떡궁합인 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시** 덕분이다.
+해시 테이블이고 체이닝이고 나발이고, 램을 2번 3번 방문하는 것 자체가 현대 3GHz짜리 CPU에게는 피를 말리는 페널티다. 이 해시 체계가 실무에서 성립할 수 있는 단 하나의 이유는 바로 찰떡궁합인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 캐시</strong> 덕분이다.
 
-- CPU가 주소를 번역할 때, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 돌리기 **전에 무조건 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시부터 먼저 찔러본다.**
+- CPU가 주소를 번역할 때, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 돌리기 <strong>전에 무조건 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 캐시부터 먼저 찔러본다.</strong>
 - TLB에는 "내가 방금 전에 해시랑 체이닝 고생해서 알아낸 결과값"이 들어있다.
 - [TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) Ratio가 99%에 달하기 때문에, 99번은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)고 나발이고 1클럭 만에 주소를 통과시킨다.
 - 딱 1%의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss 상황에서만 이 복잡한 해시 연산과 앵커 테이블 체이닝 지옥이 백그라운드에서 조용히 돌아가 뒷수습을 해주는 완벽한 이중 방어 아키텍처다.
@@ -93,8 +91,8 @@ tags = ["studynote-operating-system"]
 | 비교 척도 | [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) 트리 (인텔 x86_64) | 해시 기반 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) (IBM [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), Itanium) |
 |:---|:---|:---|
 | **메모리(RAM) 낭비** | 프로세스 100개면 장부가 100배로 폭증하여 램을 수십 GB 파먹음 (최악) | 프로세스가 만 개 떠도 **장부 크기가 물리 램 크기에 100% 영구 고정** (최고) |
-| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 시 램 접근**| 무조건 4번 (예측 가능하고 안정적임) | 충돌 없으면 2번, 충돌 나면 10번도 가능 (불안정) |
-| **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)(Shared)**| 두 프로세스의 장부에서 화살표만 이어주면 되므로 구현이 엄청 쉬움 | **1프레임당 주인이 1명만 적히는 구조라 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(.so) 구현이 지옥임 ☠️** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 미스 시 램 접근</strong>| 무조건 4번 (예측 가능하고 안정적임) | 충돌 없으면 2번, 충돌 나면 10번도 가능 (불안정) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>(Shared)</strong>| 두 프로세스의 장부에서 화살표만 이어주면 되므로 구현이 엄청 쉬움 | <strong>1프레임당 주인이 1명만 적히는 구조라 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">공유 라이브러리</a>(.so) 구현이 지옥임 ☠️</strong> |
 | **현실의 승자** | 범용 데스크톱, 클라우드 시장 100% 장악 | 초거대 엔터프라이즈 특수 서버 시장의 유물 |
 
 ### [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))의 통계적 방어선
@@ -103,14 +101,17 @@ tags = ["studynote-operating-system"]
 - "램 아끼려고 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 쓴다며 앵커 테이블 크기를 키우면 무슨 소용이야?"라고 반문할 수 있다.
 - 하지만 앵커 테이블은 한 줄에 달랑 '포인터 4바이트'만 들어가는 아주 얇은 뼈대 장부다. 4단계를 겹쳐 짓는 트리(다단계) 장부 용량 폭발에 비하면, 앵커 테이블을 4배 키우는 건 새 발의 피 수준의 극한의 메모리 절약 효율을 낸다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 해시 함수 질 │ 앵커 장부 크기 │ 충돌 확률(체인)│ TLB Miss 지연 시간   │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ 멍청함 (Poor)│ 램 크기와 같음 │ ☠️ 매우 잦음  │ 수십 회 램 읽기 (마비)│
-│ 똑똑함 (Good)│ 램 크기의 2배  │ 🟢 가끔 터짐  │ 2~3회 램 읽기 (양호)  │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수 질</div><div class="kb-diagram-cell">앵커 장부 크기</div><div class="kb-diagram-cell">충돌 확률(체인)</div><div class="kb-diagram-cell">TLB Miss 지연 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멍청함 (Poor)</div><div class="kb-diagram-cell">램 크기와 같음</div><div class="kb-diagram-cell">☠️ 매우 잦음</div><div class="kb-diagram-cell">수십 회 램 읽기 (마비)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑똑함 (Good)</div><div class="kb-diagram-cell">램 크기의 2배</div><div class="kb-diagram-cell">🟢 가끔 터짐</div><div class="kb-diagram-cell">2~3회 램 읽기 (양호)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터 공학에서 해시(Hash)를 쓸 때는 항상 Space-Time Trade-off (공간과 시간의 교환)가 발생한다. 공간(앵커 테이블)을 넉넉히 주면 체인(충돌)이 줄어 속도가 오르고, 공간을 아끼면 겹치는 놈들이 많아져 속도가 지옥으로 간다. IBM 엔지니어들은 이 줄타기의 황금비율을 찾아 하드웨어 실리콘에 박아넣었다.
 
 - **📢 섹션 요약 비유**: 식당 예약 명부(해시 앵커)를 딱 손님 수(램)만큼 100칸만 만들어두면, '김 씨' 칸에 수십 명이 겹쳐서 예약 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(충돌 체이닝) 하느라 줄이 끝없이 길어집니다. 하지만 예약 명부를 400칸짜리로 넉넉하게 사 오면 '김민준, 김철수' 등 이름이 분산되어 1초 만에 예약 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나는 통계적 튜닝입니다.
@@ -120,15 +121,15 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 빅데이터 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 노드와 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))
-1. **문제 상황**: 인텔 x86_64 리눅스 서버에 램을 1TB 꽂고 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터를 돌린다. 그런데 수천 개의 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 워커 프로세스가 뜨자, 이놈들이 들고 있는 [다단계 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/)(장부) 트리 구조만 다 합쳐도 **100GB의 램**을 파먹는 미친 상황이 발생했다. (진짜 데이터가 아니라 목차 장부에만 100GB를 낭비함).
-2. **[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)의 그리움**:
+1. **문제 상황**: 인텔 x86_64 리눅스 서버에 램을 1TB 꽂고 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터를 돌린다. 그런데 수천 개의 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 워커 프로세스가 뜨자, 이놈들이 들고 있는 [다단계 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/)(장부) 트리 구조만 다 합쳐도 <strong>100GB의 램</strong>을 파먹는 미친 상황이 발생했다. (진짜 데이터가 아니라 목차 장부에만 100GB를 낭비함).
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/">역 페이지 테이블</a>의 그리움</strong>:
    - 서버 엔지니어들은 이 장부 용량 폭발([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Bloat)을 보며 "아, IBM PowerPC 서버의 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))이었으면, 앱이 만 개가 떠도 장부 크기가 1TB 램의 0.1%인 1GB로 완벽히 고정될 텐데..."라며 x86 아키텍처의 한계를 한탄한다.
-3. **실무적 타협 ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 투입)**:
+3. <strong>실무적 타협 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 투입)</strong>:
    - x86 리눅스에서는 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)로 도망칠 수 없으니, 억지로 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 버리고 2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 켜서 장부의 뎁스(트리 깊이)를 잘라내어 장부 용량을 100GB에서 100MB로 극단적으로 다이어트시키는 튜닝을 목숨 걸고 걸어준다.
 
 ### 왜 x86(인텔/AMD)은 해시 기반 역 테이블을 포기했나?
 서버 시장의 99%를 장악한 인텔 x86은 왜 이 완벽한 램 절약 기술을 버렸을까?
-가장 큰 이유는 **'[공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/))'와 '[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))' 흑마술의 구현이 너무 더럽기 때문**이다.
+가장 큰 이유는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">공유 라이브러리</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">Shared Library</a>)'와 '<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)' 흑마술의 구현이 너무 더럽기 때문</strong>이다.
 - 크롬 브라우저 100개가 1번 프레임(`libc.so`)을 공유한다고 치자.
 - 역 테이블의 1번 줄에는 "주인이 뉘신지?(PID)" 적는 칸이 딱 1칸밖에 없다. 100명의 크롬 PID를 다 적을 공간이 없다!
 - 이걸 우회하려고 별도의 거대한 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 장부를 또 만들고 예외 처리를 하느라 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 걸레짝이 되고 속도가 박살 났다. "램 좀 아끼겠다고 다중 프로그래밍의 핵심인 공유(Sharing)를 버리는 건 바보짓이다"라는 인텔의 결단이 결국 시장의 표준이 되었다.
@@ -144,7 +145,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **물리 램(RAM) 극강 절약** | 프로세스의 개수와 가상 공간 크기(64비트)에 상관없이, 오직 꽂혀있는 물리 램의 크기에 비례하여 장부 크기를 완벽하게 고정(O(1) Space) |
-| **[Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk 페널티 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**| 4~5번 램을 거쳐야 하는 다단계 트리의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 가속을 통해 1~2회의 램 직접 접근([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access)으로 분쇄 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Walk 페널티 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>| 4~5번 램을 거쳐야 하는 다단계 트리의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 가속을 통해 1~2회의 램 직접 접근([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access)으로 분쇄 |
 | **TLB와의 최강 시너지** | [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)과 체이닝 탐색의 불안정성(Jitter)을 99% 적중률의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 밑에 숨겨버려 런타임 성능을 하드캐리 보장 |
 
 ### 결론 및 미래 전망
@@ -166,15 +167,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
-    │
-    ▼
-[역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)]
-    │
-    ├──▶ [비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
-    └──▶ [TLB 슛다운 (TLB Shootdown)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

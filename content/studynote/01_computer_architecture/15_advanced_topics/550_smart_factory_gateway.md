@@ -42,19 +42,20 @@ tags = ["studynote-computer-architecture"]
 | 보안 루트 | 신뢰 플랫폼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/), [Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 또는 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) | 안전 부팅, 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | 전원/열 설계 | 24V 산업 전원, 팬리스 섀시, 이중 입력 | 고온·먼지·진동 환경 지속 운전 |
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ smart factory edge gateway HW                                             │
-├────────────── southbound OT ──────────────┬──────────── northbound IT ────┤
-│ RS-485 │ CAN │ DI/DO │ Industrial Eth.    │ OPC UA │ MQTT │ HTTPS / VPN   │
-├────────┴─────┴───────┴─────────────┬──────┴─────────┬─────────────────────┤
-│ Isolation PHY / Surge Protection   │ Protocol Model │ TLS / Firewall      │
-├────────────────────────────────────┼─────────────────┼─────────────────────┤
-│ Industrial CPU / NPU               │ Rules Engine   │ Store-and-Forward    │
-├────────────────────────────────────┴─────────────────┴─────────────────────┤
-│ TPM / Secure Boot · eMMC/SSD · Dual Power · Fanless Thermal Design        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">smart factory edge gateway HW</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">southbound OT northbound IT</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RS-485</div><div class="kb-diagram-cell">CAN</div><div class="kb-diagram-cell">DI/DO</div><div class="kb-diagram-cell">Industrial Eth.</div><div class="kb-diagram-cell">OPC UA</div><div class="kb-diagram-cell">MQTT</div><div class="kb-diagram-cell">HTTPS / VPN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Isolation PHY / Surge Protection</div><div class="kb-diagram-cell">Protocol Model</div><div class="kb-diagram-cell">TLS / Firewall</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Industrial CPU / NPU</div><div class="kb-diagram-cell">Rules Engine</div><div class="kb-diagram-cell">Store-and-Forward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPM / Secure Boot · eMMC/SSD · Dual Power · Fanless Thermal Design</div></div>
+</div>
+</div>
+
+
 
 이 구조의 중요한 점은 남향과 북향이 단순히 포트만 다른 것이 아니라, 시간 특성과 보안 정책이 다르다는 사실이다. 남향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 설비 이벤트와 최대한 가깝게 받아야 하므로 타임스탬프와 손실 방지가 중요하고, 북향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 표준 정보모델과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·암호화가 중요하다. 따라서 좋은 게이트웨이는 라우터처럼 패킷만 넘기지 않고, 현장 이벤트를 "수집 가능한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"에서 "운영 가능한 정보"로 바꾸는 계층을 내부에 갖는다.
 
@@ -113,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 만능은 아니다. 레거시 드라이버 유지보수, 장기 보안 패치, 현장 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 장치 수명 주기 관리가 뒤따르지 않으면 오히려 새로운 장애 지점이 된다. 앞으로는 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 기반 [결정론적 이더넷](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), 사설 5세대 이동통신 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 5th Generation) 연결, 온디바이스 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)형 엣지 애플리케이션이 결합되면서 게이트웨이가 더 작은 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼으로 발전할 가능성이 크다.
 
-결론적으로 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 엣지 게이트웨이 HW는 **공장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 받아, 현장에서 의미를 만들고, 상위 시스템으로 신뢰 있게 올려 보내는 경계 장치**로 기억해야 한다. 이 관점을 잡으면 왜 인터페이스, 보안, 열설계가 같은 문제로 묶이는지 자연스럽게 이해된다.
+결론적으로 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 엣지 게이트웨이 HW는 <strong>공장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 안전하게 받아, 현장에서 의미를 만들고, 상위 시스템으로 신뢰 있게 올려 보내는 경계 장치</strong>로 기억해야 한다. 이 관점을 잡으면 왜 인터페이스, 보안, 열설계가 같은 문제로 묶이는지 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: 좋은 게이트웨이는 문을 여는 열쇠이면서 동시에 문지기다. 필요한 사람과 정보는 들이고, 위험한 것과 불필요한 것은 걸러 내며, 안에서 생긴 일을 바깥에 알아들을 말로 전달한다.
 
@@ -132,21 +133,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Isolated fieldbus islands
-        │
-        ▼
-Protocol converter boxes
-        │
-        ▼
-Industrial IoT gateway
-        │
-        ▼
-Edge analytics gateway with store-and-forward
-        │
-        ▼
-TSN + OPC UA PubSub based software-defined factory edge
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Isolated fieldbus islands</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Protocol converter boxes</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Industrial IoT gateway</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Edge analytics gateway with store-and-forward</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TSN + OPC UA PubSub based software-defined factory edge</div>
+</div>
+</div>
+
+
 
 이 흐름은 "연결만 하던 상자"가 점차 "보안·모델링·분석을 함께 수행하는 현장 플랫폼"으로 진화하는 과정을 보여 준다.
 

@@ -19,26 +19,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-에뮬레이션 (Emulation)은 어떤 시스템의 결과만 흉내 내는 것이 아니라, 그 시스템이 가진 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 메모리 맵, 장치 반응까지 가능한 한 같은 의미로 재현하는 기술이다. 그래서 동일 ISA를 거의 직접 실행하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 달리, 에뮬레이션은 **매 실행 단계마다 의미 변환**이 필요하다. 한 줄의 타깃 명령이 여러 개의 호스트 명령, 헬퍼 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 계산, 메모리 모델 보정으로 풀리기 때문에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
+에뮬레이션 (Emulation)은 어떤 시스템의 결과만 흉내 내는 것이 아니라, 그 시스템이 가진 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 메모리 맵, 장치 반응까지 가능한 한 같은 의미로 재현하는 기술이다. 그래서 동일 ISA를 거의 직접 실행하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 달리, 에뮬레이션은 <strong>매 실행 단계마다 의미 변환</strong>이 필요하다. 한 줄의 타깃 명령이 여러 개의 호스트 명령, 헬퍼 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 계산, 메모리 모델 보정으로 풀리기 때문에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
 
-그럼에도 에뮬레이션이 필요한 이유는 분명하다. 레거시 산업 장비를 유지해야 할 수도 있고, x86 바이너리를 ARM 서버로 옮겨야 할 수도 있으며, 아직 실물 칩이 나오기 전 개발 보드를 미리 시험해야 할 수도 있다. 즉 에뮬레이션 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 피하고 싶은 낭비이면서도, **하드웨어 경계를 넘어 소프트웨어 자산을 살리는 비용**이기도 하다.
+그럼에도 에뮬레이션이 필요한 이유는 분명하다. 레거시 산업 장비를 유지해야 할 수도 있고, x86 바이너리를 ARM 서버로 옮겨야 할 수도 있으며, 아직 실물 칩이 나오기 전 개발 보드를 미리 시험해야 할 수도 있다. 즉 에뮬레이션 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 피하고 싶은 낭비이면서도, <strong>하드웨어 경계를 넘어 소프트웨어 자산을 살리는 비용</strong>이기도 하다.
 
 이 그림은 왜 에뮬레이션이 단순 실행보다 느릴 수밖에 없는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          에뮬레이션 지연의 근원: 의미를 번역한 뒤 다시 실행해야 함         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Target code / device access                                                │
-│      │                                                                     │
-│      ├─ ISA 해석                                                           │
-│      ├─ 레지스터·플래그·메모리 모델 변환                                  │
-│      ├─ Host 연산 실행                                                     │
-│      └─ 타깃 상태로 결과 되맞춤                                           │
-│                                                                            │
-│ 직접 실행이 아니라 "번역 + 실행 + 동기화"가 함께 일어나므로 지연 발생     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에뮬레이션 지연의 근원: 의미를 번역한 뒤 다시 실행해야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target code / device access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ISA 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 레지스터·플래그·메모리 모델 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Host 연산 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타깃 상태로 결과 되맞춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 실행이 아니라 "번역 + 실행 + 동기화"가 함께 일어나므로 지연 발생</div></div>
+</div>
+</div>
+
+
 
 따라서 에뮬레이션을 볼 때는 단순히 "느리다"가 아니라, 무엇을 대신 얻는지를 같이 봐야 한다. 이식성, 보존, 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 능력이 그 대가를 정당화하는 대표 가치다.
 
@@ -52,7 +53,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 다음 식으로 생각하면 이해가 쉽다.
 
-> **총 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ≈ 번역 비용 + 코드 캐시 미스 비용 + 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용 + Soft-MMU/장치 모델 비용**
+> <strong>총 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> ≈ 번역 비용 + 코드 캐시 미스 비용 + 상태 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 비용 + Soft-MMU/장치 모델 비용</strong>
 
 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원천 | 왜 느린가 | 줄이는 방법 |
 | :--- | :--- | :--- |
@@ -64,23 +65,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 DBT 기반 에뮬레이터가 어떻게 빠른 경로와 느린 경로를 나누는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 DBT 기반 에뮬레이터의 빠른 경로와 느린 경로               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Target Basic Block]                                                       │
-│          │                                                                 │
-│          ├─ 코드 캐시 hit ───────────────▶ [Translated Host Block 실행]    │
-│          │                                                                 │
-│          └─ 코드 캐시 miss ─▶ Decode/Lift ─▶ Translate ─▶ Cache 저장      │
-│                                                        │                   │
-│ MMIO / 특수 명령 / 예외 ───────────────────────────────┴─▶ Helper / Device │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBT 기반 에뮬레이터의 빠른 경로와 느린 경로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Target Basic Block</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Translated Host Block 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 코드 캐시 miss ─▶ Decode/Lift ─▶ Translate ─▶ Cache 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMIO / 특수 명령 / 예외 ─▶ Helper / Device</div></div>
+</div>
+</div>
+
+
 
 DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번 번역해 코드 캐시에 저장하고 재사용한다는 점에서, 매 명령을 다시 읽는 인터프리터보다 훨씬 유리하다. 반대로 게스트 안에서 또 JIT가 동작하거나 self-modifying code가 많으면 캐시가 자주 무효화되어 DBT 이점이 줄어든다.
 
-현대 사례로는 Rosetta 2처럼 ahead-of-time 번역과 런타임 보정을 섞는 방식이 있다. 많은 x86_64 코드는 실행 전에 미리 번역해 시작 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 동적 코드나 시스템 인터페이스 차이만 런타임에 처리한다. 즉 최신 에뮬레이션은 "매번 즉석 번역"보다 **미리 바꿀 수 있는 것은 먼저 바꾸고, 남은 차이만 동적으로 메우는 방향**으로 진화하고 있다.
+현대 사례로는 Rosetta 2처럼 ahead-of-time 번역과 런타임 보정을 섞는 방식이 있다. 많은 x86_64 코드는 실행 전에 미리 번역해 시작 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 동적 코드나 시스템 인터페이스 차이만 런타임에 처리한다. 즉 최신 에뮬레이션은 "매번 즉석 번역"보다 <strong>미리 바꿀 수 있는 것은 먼저 바꾸고, 남은 차이만 동적으로 메우는 방향</strong>으로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: DBT는 자주 나오는 문장을 미리 번역해서 포스트잇으로 붙여 두는 것과 같다. 반복해서 등장하는 문장을 매번 사전에서 다시 찾지 않으니 훨씬 빨라진다.
 
@@ -88,7 +89,7 @@ DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번
 
 ## Ⅲ. 비교 및 연결
 
-에뮬레이션의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이해하려면 인터프리터, DBT, 정적 번역, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 함께 봐야 한다. 이들은 모두 "다른 환경의 프로그램을 실행한다"는 점은 같지만, **언제 번역하느냐와 얼마나 직접 실행하느냐**가 다르다.
+에뮬레이션의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이해하려면 인터프리터, DBT, 정적 번역, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 함께 봐야 한다. 이들은 모두 "다른 환경의 프로그램을 실행한다"는 점은 같지만, <strong>언제 번역하느냐와 얼마나 직접 실행하느냐</strong>가 다르다.
 
 | 방식 | 번역 시점 | 실행 속도 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -133,9 +134,9 @@ DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번
 
 에뮬레이션의 가장 큰 효과는 하드웨어 수명보다 소프트웨어 수명이 더 긴 현실을 버틸 수 있게 해 준다는 점이다. 덕분에 오래된 운영체제와 바이너리를 보존하고, 새로운 ISA로 천천히 이전하며, 실물 장비가 없을 때도 개발과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 이어 갈 수 있다. 이것은 단순한 편의가 아니라, 대규모 소프트웨어 자산을 지키는 중요한 보험이다.
 
-물론 한계는 분명하다. 정밀한 호환성을 유지할수록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 메모리 오버헤드가 커지고, 일부 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장이나 디바이스 타이밍은 완벽히 재현하기 어렵다. 앞으로는 profile-guided translation, 더 똑똑한 코드 캐시, 사용자 공간 번역과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가속의 결합처럼 **자주 쓰는 경로는 미리 최적화하고, 드문 경로만 느린 해석으로 남기는 방향**이 더 중요해질 것이다.
+물론 한계는 분명하다. 정밀한 호환성을 유지할수록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 메모리 오버헤드가 커지고, 일부 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장이나 디바이스 타이밍은 완벽히 재현하기 어렵다. 앞으로는 profile-guided translation, 더 똑똑한 코드 캐시, 사용자 공간 번역과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가속의 결합처럼 <strong>자주 쓰는 경로는 미리 최적화하고, 드문 경로만 느린 해석으로 남기는 방향</strong>이 더 중요해질 것이다.
 
-결론적으로 에뮬레이션 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손해가 아니라, 서로 다른 하드웨어 세계를 이어 주기 위해 치르는 번역 비용이다. 따라서 기억할 핵심은 "에뮬레이션은 느리다"가 아니라 **어떤 의미 차이를 소프트웨어가 메우고 있는가**다.
+결론적으로 에뮬레이션 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손해가 아니라, 서로 다른 하드웨어 세계를 이어 주기 위해 치르는 번역 비용이다. 따라서 기억할 핵심은 "에뮬레이션은 느리다"가 아니라 <strong>어떤 의미 차이를 소프트웨어가 메우고 있는가</strong>다.
 
 - **📢 섹션 요약 비유**: 에뮬레이션은 오래된 비디오테이프를 새 TV에서 보게 해 주는 변환기와 같다. 화질과 반응은 조금 손해 봐도, 덕분에 옛 영상 자체를 잃지 않고 계속 볼 수 있다.
 
@@ -154,24 +155,25 @@ DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령어 단위 인터프리터
-        │
-        ▼
-DBT · 코드 캐시 기반 재사용
-        │
-        ▼
-Soft-MMU · 장치 모델 정교화
-        │
-        ▼
-AOT 번역 + 런타임 보정 하이브리드
-        │
-        ▼
-가상화 + 에뮬레이션 + VirtIO 혼합 구조
-        │
-        ▼
-프로파일 기반 적응형 번역
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령어 단위 인터프리터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DBT · 코드 캐시 기반 재사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Soft-MMU · 장치 모델 정교화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AOT 번역 + 런타임 보정 하이브리드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화 + 에뮬레이션 + VirtIO 혼합 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로파일 기반 적응형 번역</div>
+</div>
+</div>
+
+
 
 이 흐름은 에뮬레이션이 "모든 것을 실시간 해석"하는 단계에서 벗어나, 반복 경로와 장치 경로를 분리 최적화하는 방향으로 발전했음을 보여 준다.
 

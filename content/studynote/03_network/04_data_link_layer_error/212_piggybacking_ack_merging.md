@@ -23,18 +23,22 @@ tags = ["studynote-network"]
 
 - **기존의 낭비 방식**:
   - A가 B에게 "안녕([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"을 보냅니다.
-  - B는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘 받았다는 표시로 **껍데기만 있고 내용물은 텅 빈 'ACK 전용 프레임'**을 A에게 굳이 하나 날려야 합니다.
+  - B는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘 받았다는 표시로 <strong>껍데기만 있고 내용물은 텅 빈 'ACK 전용 프레임'</strong>을 A에게 굳이 하나 날려야 합니다.
   - 그리고 0.1초 뒤, B도 할 말이 있어서 "너 밥 먹었냐?([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"를 담은 새로운 프레임을 A에게 또 쏩니다.
   - A에게 갈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 2개(ACK 1개, B의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개)로 쪼개져서 두 번 전송되므로, 톨게이트(네트워크) 비용과 헤더(껍데기) 용량이 2배로 낭비됩니다.
 
-```text
-[NAK]
-    │
-    ▼
-[피기배킹]
-    │
-    └──▶ [흐름 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흐름 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 피기배킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,17 +51,21 @@ tags = ["studynote-network"]
 1. A가 "안녕"을 쏘았습니다.
 2. B는 "안녕"을 잘 받고 마음속으로 ACK를 날려야지 생각하지만, **잠시(수 밀리초) 기다립니다(Delay).**
 3. B의 컴퓨터([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 "어? 나도 A한테 보낼 '밥 먹었냐' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려왔네?"라고 파악합니다.
-4. B는 자기가 보낼 **"밥 먹었냐" 프레임의 헤더(머리 부분)에 빈칸을 파서, 아까 빚졌던 "A야, 나 아까 네 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잘 받았어(ACK)"라는 도장을 슬쩍 같이 찍어서 한 방에 쏴버립니다.**
+4. B는 자기가 보낼 <strong>"밥 먹었냐" 프레임의 헤더(머리 부분)에 빈칸을 파서, 아까 빚졌던 "A야, 나 아까 네 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 잘 받았어(ACK)"라는 도장을 슬쩍 같이 찍어서 한 방에 쏴버립니다.</strong>
 5. A는 한 개의 프레임을 받았는데, 그 안에 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘 갔다는 영수증(ACK)과 B가 보낸 새로운 메시지가 짬짜면처럼 동시에 들어있는 마법을 경험합니다.
 
-```text
-[NAK]
-    │
-    ▼
-[피기배킹]
-    │
-    └──▶ [흐름 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흐름 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 피기배킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,9 +75,9 @@ tags = ["studynote-network"]
 
 - **장점**: 텅 빈 ACK 프레임이 차지하는 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(쓰레기 트래픽)을 획기적으로 줄여주어 회선 효율성을 극대화합니다.
 - **단점 (딜레마 발생)**:
-  - B가 A에게 ACK를 업어 보내려고 꾹 참고 기다리는데, **B의 위층(사용자)에서 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하루 종일 안 내려옵니다.**
+  - B가 A에게 ACK를 업어 보내려고 꾹 참고 기다리는데, <strong>B의 위층(사용자)에서 보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 하루 종일 안 내려옵니다.</strong>
   - 너무 오래 참으면? A는 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송 실패한 줄 알고([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 아까 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 또 쏘는 재앙(재전송 폭풍)이 터집니다.
-  - **해결책**: B는 무한정 기다리지 않습니다. "보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 딱 **50ms(타이머 제한)**까지만 기다려보고, 그래도 내 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 내려오면 그냥 눈물을 머금고 빈 껍데기 ACK만 쏴주자!"라는 룰([Delayed ACK](/knowledge-base/studynote/03_network/08_transport_layer/427_delayed_ack_tcp_optimization/))을 사용하여 균형을 맞춥니다.
+  - **해결책**: B는 무한정 기다리지 않습니다. "보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 딱 <strong>50ms(타이머 제한)</strong>까지만 기다려보고, 그래도 내 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 내려오면 그냥 눈물을 머금고 빈 껍데기 ACK만 쏴주자!"라는 룰([Delayed ACK](/knowledge-base/studynote/03_network/08_transport_layer/427_delayed_ack_tcp_optimization/))을 사용하여 균형을 맞춥니다.
 
 피기배킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NAK가 기반 조건을 만든다면, 피기배킹은 그 위에서 핵심 메커니즘을 구현하고, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,7 +87,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 피기배킹은 **'택배 아저씨에게 반품 물건 들려 보내기'**입니다. 쇼핑몰에 반품할 물건이 있을 때, 내가 내 돈 내고 우체국에 가서 택배(단독 ACK)를 부치면 배송비가 낭비됩니다. 대신, 며칠 뒤 쇼핑몰에서 내게 새 물건을 배달하러 택배 아저씨가 온 순간, 아저씨의 빈 트럭([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임)에 내 반품 물건(ACK)을 쓱 **업어 태워 보내면(Piggybacking)** 배송비를 완벽히 굳힐 수 있는 기적의 효율입니다.
+- **📢 섹션 요약 비유**: ** 피기배킹은 **'택배 아저씨에게 반품 물건 들려 보내기'<strong>입니다. 쇼핑몰에 반품할 물건이 있을 때, 내가 내 돈 내고 우체국에 가서 택배(단독 ACK)를 부치면 배송비가 낭비됩니다. 대신, 며칠 뒤 쇼핑몰에서 내게 새 물건을 배달하러 택배 아저씨가 온 순간, 아저씨의 빈 트럭(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 프레임)에 내 반품 물건(ACK)을 쓱 </strong>업어 태워 보내면(Piggybacking)** 배송비를 완벽히 굳힐 수 있는 기적의 효율입니다.
 
 ---
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NAK]
-    │
-    ▼
-[현재 개념: 피기배킹]
-    │
-    ├──▶ [확장 A: 흐름 제어]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 피기배킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 피기배킹는 NAK에서 출발해 현재 메커니즘을 정교화하고, 이후 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

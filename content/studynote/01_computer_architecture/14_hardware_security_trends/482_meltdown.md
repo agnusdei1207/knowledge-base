@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 멜트다운이 가능했던 오래된 전제를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Old fast design: kernel stays mapped even in user mode                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User process page table                                                    │
-│  ├─ user pages            : accessible                                     │
-│  └─ kernel pages          : mapped, supervisor-only                        │
-│                                                                            │
-│ Faulting load on kernel address                                            │
-│    ├─ transient data use happens first                                     │
-│    └─ permission exception arrives later                                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old fast design: kernel stays mapped even in user mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User process page table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ user pages : accessible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ kernel pages : mapped, supervisor-only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Faulting load on kernel address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ transient data use happens first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ permission exception arrives later</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 핵심은 "권한 없음"과 "물리적으로 아직 읽지 않음"이 같지 않다는 점이다. 멜트다운 이후 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 단순 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 믿지 않고, 애초에 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 매핑을 보지 못하게 만드는 방향으로 설계를 바꿨다.
 
@@ -61,25 +63,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 멜트다운의 시간 순서를 한눈에 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Meltdown timeline: fault is late, cache footprint is early               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Load kernel_addr                                                           │
-│      │                                                                     │
-│      ├─ address translation + permission check ............... pending      │
-│      └─ transient load returns byte B                                      │
-│                        │                                                    │
-│                        ▼                                                    │
-│                 probe[B * 4096] touched                                    │
-│                        │                                                    │
-│                        ▼                                                    │
-│            exception raised / architectural state squashed                 │
-│                        │                                                    │
-│                        ▼                                                    │
-│               attacker times probe array and learns B                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Meltdown timeline: fault is late, cache footprint is early</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load kernel_addr</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ address translation + permission check ............... pending</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ transient load returns byte B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">probe</div><div class="kb-diagram-node">B * 4096</div><div class="kb-diagram-note">touched</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exception raised / architectural state squashed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">attacker times probe array and learns B</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 멜트다운은 직접 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 값을 출력하지 않아도 성립한다. 공격자는 CPU가 순간적으로 남긴 캐시 발자국만 있으면 된다. 그래서 이 취약점은 "권한 예외가 떴으니 안전하다"는 직관을 완전히 깨뜨렸다.
 
@@ -113,10 +111,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 패치**: [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 또는 동등한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 분리 패치가 적용되어 있는가?
-2. **[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·마이크로코드**: 서버 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 CPU 마이크로코드가 벤더 권고 수준까지 올라가 있는가?
-3. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 점검**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모두 패치되어, 테넌트 간 영향 범위를 줄였는가?
-4. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 재측정**: [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 비중이 높은 업무에 대해 패치 전후 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 처리량을 비교했는가?
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 패치</strong>: [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 또는 동등한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 분리 패치가 적용되어 있는가?
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>·마이크로코드</strong>: 서버 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 CPU 마이크로코드가 벤더 권고 수준까지 올라가 있는가?
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 점검</strong>: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모두 패치되어, 테넌트 간 영향 범위를 줄였는가?
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 재측정</strong>: [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 비중이 높은 업무에 대해 패치 전후 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 처리량을 비교했는가?
 5. **레거시 장비 관리**: 패치가 어려운 구형 장비를 고신뢰 업무에서 분리했는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -136,7 +134,7 @@ tags = ["studynote-computer-architecture"]
 
 멜트다운 대응의 가장 큰 효과는 권한 경계를 다시 "주소 공간 설계" 수준에서 분명히 했다는 점이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 더 이상 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로 충분하다고 보지 않고, 사용자 모드가 볼 수 있는 매핑 자체를 줄이는 쪽으로 바뀌었다. 그 결과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 캐시, 다른 테넌트 관련 정보가 사용자 코드에 노출될 가능성을 크게 낮출 수 있었다.
 
-하지만 비용도 분명하다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전환 증가, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 효율 저하, [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 경로 부담은 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 이어진다. 앞으로는 권한 검사가 끝나기 전 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하위 구조로 전달되지 않도록 하는 코어 설계, 일시적 실행에 대한 형식적 보안 모델, 더 세분화된 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 격리가 중요해질 것이다. 멜트다운이 남긴 가장 큰 교훈은 분명하다. **보안 검사는 retire 시점이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흔적을 남기기 전 시점에 끝나 있어야 한다.**
+하지만 비용도 분명하다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전환 증가, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 효율 저하, [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 경로 부담은 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 이어진다. 앞으로는 권한 검사가 끝나기 전 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하위 구조로 전달되지 않도록 하는 코어 설계, 일시적 실행에 대한 형식적 보안 모델, 더 세분화된 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 격리가 중요해질 것이다. 멜트다운이 남긴 가장 큰 교훈은 분명하다. <strong>보안 검사는 retire 시점이 아니라, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 흔적을 남기기 전 시점에 끝나 있어야 한다.</strong>
 
 - **📢 섹션 요약 비유**: 멜트다운 이후 좋은 건물 설계는 "걸리면 다시 돌려보내면 돼"가 아니라, 애초에 출입 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나기 전에는 비밀 서류가 손님 눈앞에 나오지 않게 만드는 설계와 같다.
 
@@ -155,19 +153,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유된 사용자/커널 매핑
-        │
-        ▼
-비순차 실행 · 일시적 실행
-        │
-        ▼
-멜트다운 (Meltdown)
-        │
-        ├────────▶ 캐시 타이밍 기반 데이터 유출
-        │
-        └────────▶ KPTI · 마이크로코드 · 하이퍼바이저 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유된 사용자/커널 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비순차 실행 · 일시적 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멜트다운 (Meltdown)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐시 타이밍 기반 데이터 유출</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ KPTI · 마이크로코드 · 하이퍼바이저 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 매핑 공유"가 "일시적 실행 취약점"으로 이어지고, 다시 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어가 함께 경계를 재설계하는 방향으로 발전한 과정을 보여 준다.
 

@@ -17,29 +17,26 @@ tags = ["data_engineering"]
 
 ### 알고리즘에서 엔진으로: 데이터 과학의 공학적 측면
 
-데이터 사이언티스트가 로컬 노트북에서 돌리는 파이썬 코드는 수백만 명의 유저 데이터가 흐르는 실무 환경에서는 작동하지 않는다. **마이닝 공학**은 수학적 모델을 실제 인프라에서 수용 가능하도록 최적화하고, 대용량 연산 시 발생하는 수치적 불안정성 (Numerical Stability)과 메모리 고갈 문제를 해결하는 과정이다.
+데이터 사이언티스트가 로컬 노트북에서 돌리는 파이썬 코드는 수백만 명의 유저 데이터가 흐르는 실무 환경에서는 작동하지 않는다. <strong>마이닝 공학</strong>은 수학적 모델을 실제 인프라에서 수용 가능하도록 최적화하고, 대용량 연산 시 발생하는 수치적 불안정성 (Numerical Stability)과 메모리 고갈 문제를 해결하는 과정이다.
 
-수학 및 마이닝 공학이 필요한 이유는 세 가지이다. 첫째, **연산 비용의 최적화**를 위해서이다. 무작정 계산하는 게 아니라, 수학적 근사를 통해 정확도를 유지하면서 연산량을 줄여야 한다. 둘째, **분산 연산의 정합성 확보**를 위해서이며 (여러 노드가 나누어 계산하고 합치는 과정), 셋째, 모델의 결과가 실제 비즈니스 가치로 이어지는 **성능 지표 (Metric)**를 공학적으로 설계하기 위함이다.
+수학 및 마이닝 공학이 필요한 이유는 세 가지이다. 첫째, <strong>연산 비용의 최적화</strong>를 위해서이다. 무작정 계산하는 게 아니라, 수학적 근사를 통해 정확도를 유지하면서 연산량을 줄여야 한다. 둘째, <strong>분산 연산의 정합성 확보</strong>를 위해서이며 (여러 노드가 나누어 계산하고 합치는 과정), 셋째, 모델의 결과가 실제 비즈니스 가치로 이어지는 <strong>성능 지표 (Metric)</strong>를 공학적으로 설계하기 위함이다.
 
 이 그림은 수학적 이론이 어떻게 물리적인 데이터 엔진으로 승화되는지 계층 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 From Math Theory to Mining Engine           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Layer 3: Application ] ──▶ 추천, 사기 탐지, 수요 예측   │
-│          ▲                                                  │
-│   [ Layer 2: Algorithms ]  ──▶ K-Means, XGBoost, PageRank   │
-│          ▲                                                  │
-│   [ Layer 1: Engineering ] ──▶ Spark MLlib, Distributed GD  │
-│          ▲                                                  │
-│   [ Layer 0: Math Found ]  ──▶ Matrix, Calculus, Stats      │
-│                                                             │
-│   * 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From Math Theory to Mining Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 3: Application</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">추천, 사기 탐지, 수요 예측</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2: Algorithms</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">K-Means, XGBoost, PageRank</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1: Engineering</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Spark MLlib, Distributed GD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 0: Math Found</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Matrix, Calculus, Stats</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Layer 1 (Engineering)'의 역할이다. 행렬 곱셈 (Matrix Multiplication)이라는 수학적 수식이 GPU의 수만 개 코어나 하둡의 수백 개 노드에서 어떻게 쪼개져서 실행되는지가 엔지니어링의 정수이다. 실무에서는 이 단계에서의 최적화가 분석 리드 타임을 수 일에서 수 분으로 단축시킨다.
 
@@ -68,25 +65,24 @@ tags = ["data_engineering"]
 - **원리**: 데이터의 분산을 가장 잘 보존하는 새로운 축 (주성분)을 찾아 투영.
 - **공학적 가치**: 데이터 용량을 90% 이상 줄이면서도 정보 손실은 최소화하여 분석 속도와 정확도를 동시에 잡음.
 
-이 구조도는 대규모 추천 시스템의 핵심인 **협업 필터링 (Collaborative Filtering)**의 행렬 분해 (Matrix Factorization) 과정을 보여준다.
+이 구조도는 대규모 추천 시스템의 핵심인 <strong>협업 필터링 (Collaborative Filtering)</strong>의 행렬 분해 (Matrix Factorization) 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Matrix Factorization for Recommendation     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User-Item Matrix ] ≈ [ User Latent ] x [ Item Latent ]  │
-│       (Large/Sparse)         (Dense)           (Dense)      │
-│                                                             │
-│   - R (m x n) ──▶ P (m x k) x Q^T (k x n)                   │
-│                                                             │
-│   * 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이   │
-│     분산 연산(ALS 알고리즘 등)으로 구현할 것인가?           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'Latent Factor (잠재 요인)'의 추출이다. 사용자의 취향을 '로맨스 지수', '액션 지수'와 같은 몇 개의 숫자로 압축하여 저장한다. 실무에서는 이 분해된 행렬을 실시간 검색이 가능한 **벡터 인덱스**에 태우는 것이 엔지니어링의 최종 단계이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matrix Factorization for Recommendation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User-Item Matrix</div><div class="kb-diagram-note">≈</div><div class="kb-diagram-node">User Latent</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">Item Latent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Large/Sparse) (Dense) (Dense)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- R (m x n) ──▶ P (m x k) x Q^T (k x n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 연산(ALS 알고리즘 등)으로 구현할 것인가?</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'Latent Factor (잠재 요인)'의 추출이다. 사용자의 취향을 '로맨스 지수', '액션 지수'와 같은 몇 개의 숫자로 압축하여 저장한다. 실무에서는 이 분해된 행렬을 실시간 검색이 가능한 <strong>벡터 인덱스</strong>에 태우는 것이 엔지니어링의 최종 단계이다.
 
 📢 **섹션 요약 비유**: 행렬 분해는 '복잡한 음식 맛을 기본 조미료들의 조합으로 표현하는 것'과 같습니다. 김치찌개라는 복잡한 정보(행렬)를 소금, 설탕, 고춧가루(잠재 요인)의 배합 비율로 정리하는 과정입니다.
 
@@ -108,7 +104,7 @@ tags = ["data_engineering"]
 과적합을 막기 위해 가중치에 페널티를 주는 두 가지 수학적 전략이다.
 - **L1 (Lasso)**: 불필요한 변수의 가중치를 0으로 만듦. (특징 선택 효과)
 - **L2 (Ridge)**: 가중치를 전체적으로 작게 만듦. (안정적 모델)
-- **Synergy**: 두 방식을 섞은 **Elastic Net**은 고차원 실무 데이터 분석의 정석이다.
+- **Synergy**: 두 방식을 섞은 <strong>Elastic Net</strong>은 고차원 실무 데이터 분석의 정석이다.
 
 📢 **섹션 요약 비유**: 규제화는 '공부할 때 핵심만 요약하는 것'과 같습니다. 너무 지엽적인 내용(노이즈)까지 다 외우려다 시험(실제 데이터)을 망치는 것을 막기 위해, 중요한 내용만 남기라고 강제하는 필터입니다.
 
@@ -119,29 +115,27 @@ tags = ["data_engineering"]
 ### 기술사적 판단: 알고리즘 선정 및 모델 최적화 전략
 
 **시나리오 1: 소량의 데이터만 있는 특수한 도메인의 불량 탐지 시스템**
-- **판단**: 복잡한 딥러닝은 과적합 위험이 크다. 수학적으로 견고한 **SVM (Support Vector Machine)**이나 **랜덤 포레스트**를 주 엔진으로 제안한다. 또한 데이터가 적으므로 **K-Fold 교차 검증**을 통해 모델의 일반화 성능을 정밀 검증하고, 이상치 처리에 민감한 수학적 거리를 보정하는 **StandardScaler** 전처리를 공학적으로 강제한다.
+- **판단**: 복잡한 딥러닝은 과적합 위험이 크다. 수학적으로 견고한 <strong>SVM (Support Vector Machine)</strong>이나 <strong>랜덤 포레스트</strong>를 주 엔진으로 제안한다. 또한 데이터가 적으므로 <strong>K-Fold 교차 검증</strong>을 통해 모델의 일반화 성능을 정밀 검증하고, 이상치 처리에 민감한 수학적 거리를 보정하는 **StandardScaler** 전처리를 공학적으로 강제한다.
 
 **시나리오 2: 초당 수만 건의 텍스트에서 감성 통계를 실시간으로 산출**
-- **판단**: 모든 텍스트를 정밀 분석하기엔 자원이 부족하다. **해시 기반의 단어 임베딩 (Hashing Trick)**을 사용하여 어휘 사전을 메모리에 다 올리지 않고도 연산 가능한 구조를 만든다. 또한 정확한 형태소 분석 대신 연산 속도가 빠른 **FastText** 모델을 적용하고, 결과값의 신뢰 구간을 **중심극한정리** 기반으로 산출하여 대시보드에 표시하는 통계적 거버넌스를 수립한다.
+- **판단**: 모든 텍스트를 정밀 분석하기엔 자원이 부족하다. <strong>해시 기반의 단어 임베딩 (Hashing Trick)</strong>을 사용하여 어휘 사전을 메모리에 다 올리지 않고도 연산 가능한 구조를 만든다. 또한 정확한 형태소 분석 대신 연산 속도가 빠른 **FastText** 모델을 적용하고, 결과값의 신뢰 구간을 **중심극한정리** 기반으로 산출하여 대시보드에 표시하는 통계적 거버넌스를 수립한다.
 
 이 도식은 데이터 마이닝 프로젝트의 '성공을 위한 의사결정 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Data Mining Decision Workflow                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Data Prep ] ──▶ [ Feature Eng. (수학적 가공) ] ──┐      │
-│          ▲                    │                      │      │
-│          │          [ Model Selection & Train ] ◀────┘      │
-│          │                    │                             │
-│   [ Re-tuning ] ◀── [ Validation & Metric Check ]           │
-│                               │                             │
-│   * 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에      │
-│     수학적 피처링(Feature Eng.)을 먼저 의심해야 함          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mining Decision Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Prep</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Feature Eng. (수학적 가공)</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Model Selection &amp; Train</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Re-tuning</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Validation &amp; Metric Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 피처링(Feature Eng.)을 먼저 의심해야 함</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 마이닝 판단은 '요리 재료 손질 전문가'와 같습니다. 요리(알고리즘)를 하기 전, 재료(데이터)를 어떤 모양으로 썰고(피처링) 어떤 양념(파라미터)을 쳐야 가장 맛있는 결과가 나올지 수학적 안목으로 결정하는 마스터 셰프입니다.
 
@@ -156,7 +150,7 @@ tags = ["data_engineering"]
 
 ### 미래 전망: 양자 마이닝과 미분 가능한 프로그래밍
 
-향후 마이닝 공학은 고전적 연산을 넘어서는 **양자 기계 학습 (QML)**으로 확장될 것이다. 복잡한 행렬 분해를 순식간에 끝내는 양자 알고리즘이 상용화될 전망이다. 또한 프로그램의 모든 코드가 미분 가능하게 설계되어 AI가 코드를 직접 최적화하는 **미분 가능한 프로그래밍 (Differentiable Programming)**이 표준이 될 것이다. 기술사는 정적인 수식을 넘어, 데이터와 인프라가 실시간으로 상호작용하며 스스로 성능을 개선하는 '자율 지능형 수학 엔진'의 시대를 준비해야 한다.
+향후 마이닝 공학은 고전적 연산을 넘어서는 <strong>양자 기계 학습 (QML)</strong>으로 확장될 것이다. 복잡한 행렬 분해를 순식간에 끝내는 양자 알고리즘이 상용화될 전망이다. 또한 프로그램의 모든 코드가 미분 가능하게 설계되어 AI가 코드를 직접 최적화하는 <strong>미분 가능한 프로그래밍 (Differentiable Programming)</strong>이 표준이 될 것이다. 기술사는 정적인 수식을 넘어, 데이터와 인프라가 실시간으로 상호작용하며 스스로 성능을 개선하는 '자율 지능형 수학 엔진'의 시대를 준비해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 마이닝은 '보이지 않는 수학적 자율주행'과 같아질 것입니다. 우리가 목적지만 말하면 시스템이 스스로 최적의 수학 모델을 고르고, 데이터를 학습하여 가장 빠른 길(인사이트)을 우리에게 보여주는 지능형 세상이 올 것입니다.
 
@@ -177,23 +171,26 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수학 기초 (선형대수 · 미적분 · 확률론)
-    │
-    ▼
-데이터 마이닝 알고리즘
-    ├─► 분류: SVM · Random Forest · XGBoost
-    ├─► 군집화: K-Means · DBSCAN · GMM
-    ├─► 연관 분석: Apriori · FP-Growth
-    └─► 회귀: 선형 · Lasso · Ridge · Elastic Net
-    │
-    ▼
-마이닝 공학 (Engineering)
-    ├─► 분산 학습: Parameter Server · AllReduce
-    ├─► 피처 엔지니어링: PCA · 인코딩 · 정규화
-    └─► 행렬 분해: SVD · ALS · NMF
-    │
-    ▼
-딥러닝 임베딩 → 벡터 검색 → LLM 시대 (미래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수학 기초 (선형대수 · 미적분 · 확률론)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 마이닝 알고리즘</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분류: SVM · Random Forest · XGBoost</div>
+<div class="kb-diagram-tree-item" style="--depth:2">군집화: K-Means · DBSCAN · GMM</div>
+<div class="kb-diagram-tree-item" style="--depth:2">연관 분석: Apriori · FP-Growth</div>
+<div class="kb-diagram-tree-item" style="--depth:2">회귀: 선형 · Lasso · Ridge · Elastic Net</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이닝 공학 (Engineering)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분산 학습: Parameter Server · AllReduce</div>
+<div class="kb-diagram-tree-item" style="--depth:2">피처 엔지니어링: PCA · 인코딩 · 정규화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">행렬 분해: SVD · ALS · NMF</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝 임베딩 → 벡터 검색 → LLM 시대 (미래)</div>
+</div>
+</div>
+
+
 

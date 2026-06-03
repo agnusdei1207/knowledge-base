@@ -21,19 +21,17 @@ tags = ["studynote-design-supervision"]
 마이크로세그멘테이션([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))과 수평 이동(Lateral Movement) 방어는 위협과 통제를 함께 보는 보안 감리 주제다. 최근 환경에서는 워크로드 경계, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 통신 허용, 우회 경로 차단가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 마이크로세그멘테이션과 수평 이동 방어은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-```text
-┌──────────────┐
-│ 자산·위협 식별 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 예방 통제 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 증적·재검증   │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자산·위협 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예방 통제 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증적·재검증</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 성문, 경비병, 순찰 기록이 함께 있어야 침입을 막는 것과 같다.
 
@@ -48,11 +46,15 @@ tags = ["studynote-design-supervision"]
 | [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 통신 허용와 연결된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·코드·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 심는다. | 우회 경로를 먼저 차단해야 한다. |
 | 증적·조치 | 우회 경로 차단를 중심으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
 
-```text
-┌────────────┬────────────┬────────────┐
-│ 정책·설계   │ 운영 설정   │ 로그·조치   │
-└────────────┴────────────┴────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·설계</div><div class="kb-diagram-cell">운영 설정</div><div class="kb-diagram-cell">로그·조치</div></div>
+</div>
+</div>
+
+
 
 또한 마이크로세그멘테이션과 수평 이동 방어은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 방화문만 달아 놓는다고 안전한 게 아니라 점검표와 경보 연결까지 갖춰야 하는 것과 같다.

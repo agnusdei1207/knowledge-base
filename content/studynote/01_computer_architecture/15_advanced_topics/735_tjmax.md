@@ -19,18 +19,18 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-TjMax는 통상 **Tjunction Max [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)**를 뜻하며, 본 문서는 키워드 리스트 제목 표기를 그대로 따른다. 여기서 junction은 CPU 코어 내부 트랜지스터가 실제로 열을 내는 가장 미세한 접합부를 의미한다. 즉 TjMax는 히트싱크 표면 온도나 IHS (Integrated Heat Spreader) 온도가 아니라, **실리콘 내부 hotspot이 어디까지 버틸 수 있는가**를 나타내는 기준이다.
+TjMax는 통상 <strong>Tjunction Max <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a></strong>를 뜻하며, 본 문서는 키워드 리스트 제목 표기를 그대로 따른다. 여기서 junction은 CPU 코어 내부 트랜지스터가 실제로 열을 내는 가장 미세한 접합부를 의미한다. 즉 TjMax는 히트싱크 표면 온도나 IHS (Integrated Heat Spreader) 온도가 아니라, <strong>실리콘 내부 hotspot이 어디까지 버틸 수 있는가</strong>를 나타내는 기준이다.
 
 이 기준이 중요한 이유는 표면 온도와 내부 hotspot 온도가 항상 같지 않기 때문이다. 열은 die 내부에서 발생해 IHS와 쿨러로 빠져나가므로, 겉면은 아직 괜찮아 보여도 내부 접합부는 이미 위험 구간에 들어갈 수 있다. 제조사는 공정, 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 전기적 마진을 고려해 SKU별 TjMax를 정하고, CPU는 이 값을 넘기지 않도록 스스로 제어한다.
 
-따라서 TjMax는 "권장 온도"라기보다 **실리콘이 안전하게 넘지 않아야 하는 절대 경계선**으로 이해해야 한다.
+따라서 TjMax는 "권장 온도"라기보다 <strong>실리콘이 안전하게 넘지 않아야 하는 절대 경계선</strong>으로 이해해야 한다.
 - **📢 섹션 요약 비유**: TjMax는 사람의 피부 온도가 아니라 몸속 장기 깊은 곳의 위험 체온과 같다. 겉으로는 멀쩡해 보여도 내부 장기가 한계를 넘으면 즉시 응급 조치가 필요하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-최신 CPU는 die 내부 여러 지점에 DTS (Digital Thermal Sensor)를 두고, PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))가 이 값을 읽어 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조절한다. 특히 인텔 계열에서는 절대 온도보다 **TjMax까지 남은 거리(distance to TjMax)**를 보고하는 방식이 널리 쓰인다. 예를 들어 TjMax가 100°C이고 margin이 15°C라면, 모니터링 도구는 이를 현재 약 85°C로 환산해 보여 준다.
+최신 CPU는 die 내부 여러 지점에 DTS (Digital Thermal Sensor)를 두고, PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))가 이 값을 읽어 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조절한다. 특히 인텔 계열에서는 절대 온도보다 <strong>TjMax까지 남은 거리(distance to TjMax)</strong>를 보고하는 방식이 널리 쓰인다. 예를 들어 TjMax가 100°C이고 margin이 15°C라면, 모니터링 도구는 이를 현재 약 85°C로 환산해 보여 준다.
 
 | 상태 | TjMax와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 대표 하드웨어 동작 |
 | :--- | :--- | :--- |
@@ -41,25 +41,21 @@ TjMax는 통상 **Tjunction Max [Temperature](/knowledge-base/studynote/10_ai/05
 
 이 그림은 센서 값이 어떻게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작으로 이어지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        Hotspot sensing -> control -> protect: TjMax는 제어 기준점이다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Core / Cache Hotspot]                                                     │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [DTS : distance to TjMax 측정]                                             │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [PCU / Firmware] ---- margin 충분 ----> boost 유지                         │
-│          │                                                                 │
-│          ├─ margin 감소 -----------> 배수·전압 하향                        │
-│          │                                                                 │
-│          ├─ margin = 0 -----------> PROCHOT# / throttling                  │
-│          │                                                                 │
-│          └─ 보호 실패 ------------> THERMTRIP# / emergency shutdown        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hotspot sensing -&gt; control -&gt; protect: TjMax는 제어 기준점이다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core / Cache Hotspot</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTS : distance to TjMax 측정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCU / Firmware</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">boost 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ margin 감소 -----------&gt; 배수·전압 하향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ margin = 0 -----------&gt; PROCHOT# / throttling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 실패 ------------&gt; THERMTRIP# / emergency shutdown</div></div>
+</div>
+</div>
+
+
 
 핵심은 TjMax가 단순 경고선이 아니라는 점이다. 이 값은 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 로직의 기준점이며, 운영체제가 응답하기 전에 CPU가 먼저 행동할 수 있다.
 - **📢 섹션 요약 비유**: TjMax는 절벽 가장자리다. 내비게이션이 "앞으로 10m, 5m"라고 계속 알려 주다가 0m가 되면, 운전자가 늦게 반응하더라도 자동차가 스스로 급브레이크를 밟는 것과 같다.
@@ -68,7 +64,7 @@ TjMax는 통상 **Tjunction Max [Temperature](/knowledge-base/studynote/10_ai/05
 
 ## Ⅲ. 비교 및 연결
 
-TjMax를 정확히 이해하려면 Tcase, package [temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/), core temperature와 구분해야 한다. Tcase는 전통적으로 IHS 표면 중앙 근처의 기준 온도였고, package temperature는 패키지 전체를 대표하는 관리용 값이다. 반면 TjMax는 **가장 뜨거운 접합부 기준의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 온도**이므로 의미가 더 직접적이고 보수적이다.
+TjMax를 정확히 이해하려면 Tcase, package [temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/), core temperature와 구분해야 한다. Tcase는 전통적으로 IHS 표면 중앙 근처의 기준 온도였고, package temperature는 패키지 전체를 대표하는 관리용 값이다. 반면 TjMax는 <strong>가장 뜨거운 접합부 기준의 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 온도</strong>이므로 의미가 더 직접적이고 보수적이다.
 
 | 온도 지표 | 측정 위치 | 주된 용도 | 한계 |
 | :--- | :--- | :--- | :--- |
@@ -86,7 +82,7 @@ TjMax를 정확히 이해하려면 Tcase, package [temperature](/knowledge-base/
 
 실무에서는 TjMax에 잠깐 닿았다는 사실만으로 즉시 불량 판정을 내리면 안 된다. 현대 CPU는 TjMax 근처에서 스로틀링하며 스스로를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하도록 설계되어 있어, 짧은 피크는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작의 일부일 수 있다. 그러나 장시간 지속적으로 PROCHOT#가 걸리거나, workload 대비 너무 빨리 TjMax에 도달한다면 쿨러 장착 불량, 팬 제어 오류, [TIM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) 열화, 먼지 누적, 과도한 PL2 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 같은 원인을 의심해야 한다.
 
-기술사 답안에서는 단순히 "온도가 100°C라서 위험"이라고 쓰기보다, **어떤 센서 값인지와 어떤 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 단계가 발동했는지**를 구분해야 한다. 패키지 평균값이 아니라 특정 코어 hotspot만 치솟을 수도 있고, AVX 부하처럼 국소 전력 밀도가 높은 작업은 전력 자체보다 hotspot 형성 속도가 더 문제가 되기도 한다. 서버와 워크스테이션에서는 sustained margin을, 노트북에서는 소음·표면 온도·배터리까지 함께 봐야 한다.
+기술사 답안에서는 단순히 "온도가 100°C라서 위험"이라고 쓰기보다, <strong>어떤 센서 값인지와 어떤 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 단계가 발동했는지</strong>를 구분해야 한다. 패키지 평균값이 아니라 특정 코어 hotspot만 치솟을 수도 있고, AVX 부하처럼 국소 전력 밀도가 높은 작업은 전력 자체보다 hotspot 형성 속도가 더 문제가 되기도 한다. 서버와 워크스테이션에서는 sustained margin을, 노트북에서는 소음·표면 온도·배터리까지 함께 봐야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,7 +108,7 @@ TjMax 기준이 명확해야 CPU는 가능한 한 빠르게 달리면서도 실�
 
 다만 TjMax는 목표 온도가 아니라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 상한이다. 지속적으로 이 값에 매달리는 시스템은 이미 냉각 여유가 부족하다는 뜻일 수 있으며, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정성·소음·부품 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 측면에서 바람직하지 않다. 앞으로는 코어별 hotspot, workload 종류, 온도 상승 속도까지 반영하는 예측형 열 관리가 더 중요해질 것이다.
 
-결론적으로 TjMax는 "온도 모니터링 숫자 하나"가 아니라, **부스트와 스로틀링, 긴급 차단을 연결하는 최종 열 안전 기준점**으로 기억해야 한다.
+결론적으로 TjMax는 "온도 모니터링 숫자 하나"가 아니라, <strong>부스트와 스로틀링, 긴급 차단을 연결하는 최종 열 안전 기준점</strong>으로 기억해야 한다.
 - **📢 섹션 요약 비유**: TjMax는 경기장 기록판이 아니라 안전 펜스다. 선수는 펜스 근처까지 갈 수 있지만, 펜스를 넘기 시작하면 경기는 즉시 중단된다.
 
 ---
@@ -130,21 +126,23 @@ TjMax 기준이 명확해야 CPU는 가능한 한 빠르게 달리면서도 실�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 온도 다이오드 모니터링
-        │
-        ▼
-DTS 기반 per-core 온도 감지
-        │
-        ▼
-TjMax 기준 thermal throttling
-        │
-        ▼
-PROCHOT# / THERMTRIP# 하드웨어 보호
-        │
-        ▼
-hotspot·상승률 반영 예측형 열 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 온도 다이오드 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DTS 기반 per-core 온도 감지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TjMax 기준 thermal throttling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PROCHOT# / THERMTRIP# 하드웨어 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">hotspot·상승률 반영 예측형 열 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 열 관리가 단순 감시에서 출발해, 이제는 실리콘 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어를 동시에 수행하는 하드웨어 정책으로 발전했음을 보여 준다.
 

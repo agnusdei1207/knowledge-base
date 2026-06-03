@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 영문 뜻 그대로 "너 아직 안 죽었니?"라는 조롱 섞인 해킹 툴의 이름에서 유래했습니다.
-- 학술적 명칭은 **Slow [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) POST 공격**입니다. 슬로우로리스가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 요청의 헤더를 악용했다면, RUDY는 게시판에 글을 쓰거나 사진을 올릴 때 쓰는 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `POST` 요청의 본문(Body, Payload) 크기 속성을 교묘하게 조작하여 서버의 연결 자원을 말려 죽이는 애플리케이션(L7) 타겟형 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격**입니다.
+- 학술적 명칭은 <strong>Slow <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> POST 공격</strong>입니다. 슬로우로리스가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 요청의 헤더를 악용했다면, RUDY는 게시판에 글을 쓰거나 사진을 올릴 때 쓰는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <code>POST</code> 요청의 본문(Body, Payload) 크기 속성을 교묘하게 조작하여 서버의 연결 자원을 말려 죽이는 애플리케이션(L7) 타겟형 <a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a> 공격</strong>입니다.
 
-```text
-[트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    ▼
-[RUDY]
-    │
-    └──▶ [다크 웹 Tor]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RUDY</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RUDY는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,20 +48,24 @@ tags = ["studynote-network"]
 
 ### 2. 해커의 기만 (거짓말과 달팽이 전송)
 1. 해커는 타겟 서버에 접속해 똑같이 `POST` 요청을 날립니다.
-2. 이때 헤더에 **`Content-Length: 99999999` (나 1기가바이트짜리 보낼 거야!)**라고 엄청나게 큰 뻥을 쳐서 던집니다.
+2. 이때 헤더에 <strong><code>Content-Length: 99999999</code> (나 1기가바이트짜리 보낼 거야!)</strong>라고 엄청나게 큰 뻥을 쳐서 던집니다.
 3. 멍청한 서버는 해커의 말을 찰떡같이 믿고, 1기가바이트가 다 올 때까지 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 활짝 열어둔 채 무작정 대기합니다.
-4. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 전송 (Slow Rate)**: 해커는 1기가바이트를 보내주지 않습니다. 대신 **1바이트(글자 한 개)짜리 쓰레기 데이터를 1분마다 하나씩 아주 천천히 찔끔찔끔 보냅니다.**
+4. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 전송 (Slow Rate)</strong>: 해커는 1기가바이트를 보내주지 않습니다. 대신 **1바이트(글자 한 개)짜리 쓰레기 데이터를 1분마다 하나씩 아주 천천히 찔끔찔끔 보냅니다.**
 5. 서버는 "아직 1기가 다 안 왔어. 조금만 더 기다리자..."라며 바보같이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 절대 끊지 않고 물고 있습니다. 
 6. 해커가 이 짓을 수천 개 띄워놓으면 서버의 연결 풀(Connection Pool)이 모조리 바닥나 정상 고객이 접속할 수 없게 뻗어버립니다.
 
-```text
-[트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    ▼
-[RUDY]
-    │
-    └──▶ [다크 웹 Tor]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RUDY</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RUDY의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) (GET 공격)**: 편지 '봉투(Header)'의 끝(빈 줄, `\r\n\r\n`)을 안 맺고 말을 더듬으며 서버를 괴롭힙니다.
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/258_slowloris/">Slowloris</a> (GET 공격)</strong>: 편지 '봉투(Header)'의 끝(빈 줄, `\r\n\r\n`)을 안 맺고 말을 더듬으며 서버를 괴롭힙니다.
 - **RUDY (POST 공격)**: 편지 봉투는 정상적으로 다 보냈지만, 봉투 안에 들어갈 '편지지 내용물(Body [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 뻥튀기해 놓고 달팽이처럼 천천히 보내서 괴롭힙니다.
 
 RUDY를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [트래픽 혼잡공격](/knowledge-base/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) 유도 및 캡챠 적용이 기반 조건을 만든다면, RUDY는 그 위에서 핵심 메커니즘을 구현하고, 다크 웹 Tor는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +91,7 @@ RUDY를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 슬로우로리스의 방어 대책과 거의 비슷하지만 몸통(Body)을 감시해야 합니다.
-1. **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 강화**: 클라이언트가 데이터를 전송하는 속도가 비정상적으로 느리거나(예: 초당 10바이트 이하), 일정 시간(예: 30초) 동안 본문 전송이 다 안 끝나면 서버가 가차 없이 강제로 쫓아내버립니다(Connection Drop).
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>) 강화</strong>: 클라이언트가 데이터를 전송하는 속도가 비정상적으로 느리거나(예: 초당 10바이트 이하), 일정 시간(예: 30초) 동안 본문 전송이 다 안 끝나면 서버가 가차 없이 강제로 쫓아내버립니다(Connection Drop).
 2. **동시 접속과 POST 크기 제한**: 동일 IP에서 수백 개의 POST [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 물고 있으면 IP를 차단하고, 쓸데없이 큰 `Content-Length`를 요구하면 입구 컷을 때립니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -115,15 +123,19 @@ RUDY는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    ▼
-[현재 개념: RUDY]
-    │
-    ├──▶ [확장 A: 다크 웹 Tor]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RUDY</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 웹 Tor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 RUDY는 [트래픽 혼잡공격](/knowledge-base/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) 유도 및 캡챠 적용에서 출발해 현재 메커니즘을 정교화하고, 이후 다크 웹 Tor와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

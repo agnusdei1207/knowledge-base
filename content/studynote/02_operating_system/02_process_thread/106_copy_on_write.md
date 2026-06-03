@@ -33,31 +33,29 @@ COW는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_
 | 단계 | 구성 요소 | 동작 원리 |
 |:---|:---|:---|
 | **1. fork() 호출** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | 부모의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 복사하되, 물리 메모리는 복사하지 않음. 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 엔트리를 읽기 전용 (Read-Only)으로 설정함. |
-| **2. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 감지** | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) | 자식(또는 부모)이 공유 중인 읽기 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도하면 접근 위반 예외인 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 발생시킴. |
-| **3. 물리 [프레임 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/397_frame_allocation/)** | 폴트 핸들러 | 예외를 가로챈 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 상황임을 인지하고, 새로운 빈 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임을 하나 할당함. |
+| <strong>2. <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 시도 감지</strong> | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) | 자식(또는 부모)이 공유 중인 읽기 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도하면 접근 위반 예외인 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 발생시킴. |
+| <strong>3. 물리 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/397_frame_allocation/">프레임 할당</a></strong> | 폴트 핸들러 | 예외를 가로챈 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 상황임을 인지하고, 새로운 빈 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임을 하나 할당함. |
 | **4. 복사 및 권한 갱신**| 폴트 핸들러 | 기존 내용을 새 프레임에 복사하고, 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 새 프레임으로 연결한 뒤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한 (Read-Write)을 부여함. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Copy-on-Write (COW) 메커니즘 흐름도                │
-├──────────────────────────────────────────────────────────────┤
-│ [1. fork() 직후 - 자원 공유]                                     │
-│ 부모 프로세스 (PTE: Read-Only) ────┐                            │
-│                                  ▼                            │
-│                             [물리 메모리 페이지 A]                │
-│                                  ▲                            │
-│ 자식 프로세스 (PTE: Read-Only) ────┘                            │
-│                                                              │
-│ [2. 자식 프로세스가 쓰기(Write) 시도]                            │
-│ 자식 ──(쓰기 명령)──▶ MMU가 읽기 전용 위반 감지 ──▶ Page Fault 발생 │
-│                                                              │
-│ [3. 커널의 개입 및 페이지 개별 복사]                             │
-│ 부모 프로세스 (PTE: Read-Only) ────▶ [물리 메모리 페이지 A]      │
-│                                                              │
-│ 자식 프로세스 (PTE: Read-Write) ───▶ [새로운 물리 페이지 A']     │
-│ (새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Copy-on-Write (COW) 메커니즘 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. fork() 직후 - 자원 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 프로세스 (PTE: Read-Only)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 페이지 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스 (PTE: Read-Only)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 자식 프로세스가 쓰기(Write) 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 ──(쓰기 명령)──▶ MMU가 읽기 전용 위반 감지 ──▶ Page Fault 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 커널의 개입 및 페이지 개별 복사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 메모리 페이지 A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">새로운 물리 페이지 A'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주듯 COW의 마법은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 '오류'를 적극적인 '[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)'로 활용한다는 점이다. MMU가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도를 감시하고 있다가 걸러내면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 비로소 단 1개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(일반적으로 4KB)만 복사하는 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))를 수행한다.
 
@@ -71,9 +69,9 @@ COW는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_
 
 | 비교 항목 | 깊은 복사 (전통적 fork) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 복사 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 기반 fork) |
 |:---|:---|:---|
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도** | 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 비례 (매우 느림) | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 복사만 수행 (매우 빠름) |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메모리 사용량**| 정확히 2배 소모 | 공유하므로 추가 소모 거의 0바이트 |
-| **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 오버헤드** | 이미 복사되어 있어 오버헤드 없음 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생 시마다 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Micro-sec) 발생 |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 속도</strong> | 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 비례 (매우 느림) | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 복사만 수행 (매우 빠름) |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 메모리 사용량</strong>| 정확히 2배 소모 | 공유하므로 추가 소모 거의 0바이트 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 시 오버헤드</strong> | 이미 복사되어 있어 오버헤드 없음 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생 시마다 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Micro-sec) 발생 |
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 철학 측면에서 COW는 동일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 병합 (KSM, [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Same-[page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Merging) 기법과 직접적으로 연결된다. COW가 같은 부모에서 나온 동일한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 나눌 때 복사를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)한다면, KSM은 서로 다른 프로그램이 우연히 똑같은 내용의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 가질 때 이를 하나로 합치고 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 플래그를 달아 메모리를 극단적으로 쥐어짜는 진화형 기법이다. 이는 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 환경에서 획기적인 역할을 한다.
 
@@ -86,9 +84,9 @@ COW는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_
 실무에서 개발자와 인프라 엔지니어는 COW의 이면을 반드시 인지하고 장애를 피해야 한다.
 
 ### 실무 시나리오 및 판단 기준
-1. **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) RDB [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)**: 인메모리 DB인 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 저장하기 위해 `BGSAVE` 명령어를 내리며 백그라운드 프로세스를 `fork()` 한다. 이때 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 덕분에 수십 GB의 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 메모리가 순간적으로 복사되지 않고 순식간에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 
-2. **메모리 부족 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단**: 만약 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 뜨는 중에 원본 DB에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽이 폭주한다면, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 일어난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들이 계속 새롭게 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))되면서 시스템의 물리 메모리 가용량을 급격히 갉아먹게 된다. 최악의 경우 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러가 발동해 DB 자체가 죽어버리므로, 여유 메모리를 충분히 확보해야 한다.
-3. **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경**: Docker의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(OverlayFS 등)도 COW를 채택했다. 베이스 이미지는 공유하고 변경된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 상위 레이어로 끌어올려 저장하는 방식으로 공간을 최적화한다.
+1. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> RDB <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a></strong>: 인메모리 DB인 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 저장하기 위해 `BGSAVE` 명령어를 내리며 백그라운드 프로세스를 `fork()` 한다. 이때 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 덕분에 수십 GB의 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 메모리가 순간적으로 복사되지 않고 순식간에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 프로세스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 
+2. <strong>메모리 부족 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>) <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 판단</strong>: 만약 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 뜨는 중에 원본 DB에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽이 폭주한다면, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 일어난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들이 계속 새롭게 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))되면서 시스템의 물리 메모리 가용량을 급격히 갉아먹게 된다. 최악의 경우 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러가 발동해 DB 자체가 죽어버리므로, 여유 메모리를 충분히 확보해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 환경</strong>: Docker의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(OverlayFS 등)도 COW를 채택했다. 베이스 이미지는 공유하고 변경된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 상위 레이어로 끌어올려 저장하는 방식으로 공간을 최적화한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 프로세스를 `fork()` 한 후, 자식 프로세스가 전역 배열을 처음부터 끝까지 순차적으로 덮어쓰는 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 로직을 구현하는 행위 (수백만 번의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생해 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락과 무의미한 오버헤드를 야기함).
@@ -112,24 +110,27 @@ Copy-on-Write는 "필요해질 때까지 일하지 않는다"는 컴퓨터 과�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **fork() 및 exec()** | COW의 직접적인 혜택을 받는 시스템 콜 쌍. fork의 복사 비용을 줄이고 exec 시 낭비를 완벽히 차단함 |
-| **[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/))** | MMU가 하드웨어적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위반을 감지해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 복사를 수행하도록 호출하는 작동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
-| **KSM ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Same-[page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Merging)** | 동일한 내용을 가진 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내 COW로 강제 병합하여 자원을 절약하는 리눅스 기술 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>)</strong> | MMU가 하드웨어적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위반을 감지해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 복사를 수행하도록 호출하는 작동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| <strong>KSM (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Same-<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">page</a> Merging)</strong> | 동일한 내용을 가진 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내 COW로 강제 병합하여 자원을 절약하는 리눅스 기술 |
 | **OverlayFS** | 메모리가 아닌 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (디스크) 계층에 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 철학을 적용하여 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 가볍게 만드는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Deep Copy (물리적 전체 복사, 높은 지연)
-    │
-    ▼
-Copy-on-Write (메모리 지연 복사, fork() 속도 최적화)
-    │
-    ▼
-KSM (Kernel Same-page Merging, 가상화 메모리 중복 제거 병합)
-    │
-    ▼
-OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 최적화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deep Copy (물리적 전체 복사, 높은 지연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Copy-on-Write (메모리 지연 복사, fork() 속도 최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KSM (Kernel Same-page Merging, 가상화 메모리 중복 제거 병합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 최적화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

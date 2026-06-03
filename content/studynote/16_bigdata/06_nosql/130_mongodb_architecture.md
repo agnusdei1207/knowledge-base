@@ -22,23 +22,26 @@ tags = ["studynote-bigdata"]
 
 | 구성 요소 | 역할 | 특징 |
 |:---:|:---|:---:|
-| **[ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)** | 고가용성 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 자동 프라이머리 선출 |
-| **[Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)** | 수평 확장 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 청크(Chunk) 기반 분배 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/">ReplicaSet</a></strong> | 고가용성 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 자동 프라이머리 선출 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a></strong> | 수평 확장 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 청크(Chunk) 기반 분배 |
 | **Mongos** | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 라우터 | 클라이언트 단일 접점 |
 
 ### WiredTiger 스토리지 엔진 특징
 
-```text
-┌────────────────────────────────────────────────────┐
-│          WiredTiger 스토리지 엔진 (기본값)            │
-├────────────────────────────────────────────────────┤
-│  ■ 잠금 수준: 문서(Document) 수준 — 행 잠금보다 세밀   │
-│  ■ 압축: Snappy/zlib/zstd 지원 (스토리지 50~80% 절감)│
-│  ■ MVCC: 읽기/쓰기 충돌 없음                        │
-│  ■ 캐시: 기본 50% RAM 할당 (wiredTigerCacheSizeGB)  │
-│  ■ 저널: 100ms 간격 Journaling (내구성 보장)         │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiredTiger 스토리지 엔진 (기본값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 잠금 수준: 문서(Document) 수준 — 행 잠금보다 세밀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 압축: Snappy/zlib/zstd 지원 (스토리지 50~80% 절감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ MVCC: 읽기/쓰기 충돌 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 캐시: 기본 50% RAM 할당 (wiredTigerCacheSizeGB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 저널: 100ms 간격 Journaling (내구성 보장)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 아키텍처는 대형 물류 센터와 같다. ReplicaSet은 각 창고의 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템이고, Sharding은 물건을 여러 창고에 나눠 보관하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장이며, Mongos는 어느 창고에 뭐가 있는지 알고 배송 경로를 안내하는 물류 AI다.
@@ -49,59 +52,48 @@ tags = ["studynote-bigdata"]
 
 ### [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 구조 및 장애 조치
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                 MongoDB ReplicaSet 구조                   │
-│                                                          │
-│  ┌─────────────┐    복제     ┌─────────────┐             │
-│  │  Primary    │ ──────────→ │ Secondary 1 │             │
-│  │  (읽기/쓰기) │             │  (읽기 가능) │             │
-│  └─────────────┘             └─────────────┘             │
-│         │                          │                     │
-│         │  복제                    │                     │
-│         ↓                          ↓                     │
-│  ┌─────────────┐          ┌──────────────┐               │
-│  │ Secondary 2 │          │   Arbiter    │               │
-│  │ (읽기 가능) │          │ (투표만, 데이터 │              │
-│  └─────────────┘          │  저장 안 함)  │               │
-│                            └──────────────┘               │
-│                                                          │
-│  ■ 장애 조치(Failover) 과정:                              │
-│    1. Primary 다운 감지 (heartbeat 실패)                  │
-│    2. Secondaries + Arbiter 투표 (과반수 득표)             │
-│    3. 새 Primary 선출 (보통 10~30초)                      │
-│    4. 클라이언트 자동 재연결                               │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MongoDB ReplicaSet 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Secondary 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽기/쓰기)</div><div class="kb-diagram-cell">(읽기 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secondary 2</div><div class="kb-diagram-cell">Arbiter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽기 가능)</div><div class="kb-diagram-cell">(투표만, 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 안 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 장애 조치(Failover) 과정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Primary 다운 감지 (heartbeat 실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Secondaries + Arbiter 투표 (과반수 득표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 새 Primary 선출 (보통 10~30초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 클라이언트 자동 재연결</div></div>
+</div>
+</div>
+
+
 
 ### [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 전체 구조
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│                  MongoDB Sharding 아키텍처                  │
-│                                                            │
-│  [Application]                                             │
-│       │                                                    │
-│       ↓                                                    │
-│  ┌──────────────────────────────────┐                      │
-│  │     Mongos (Query Router)        │  ← 여러 개 배치 가능  │
-│  └──────────────────────────────────┘                      │
-│       │ 샤드 키 기반 라우팅                                   │
-│       ├────────────────┬───────────────┐                   │
-│       ↓                ↓               ↓                   │
-│  ┌─────────┐     ┌─────────┐    ┌─────────┐               │
-│  │ Shard 1 │     │ Shard 2 │    │ Shard 3 │               │
-│  │(RSset1) │     │(RSset2) │    │(RSset3) │               │
-│  │ Chunk   │     │ Chunk   │    │ Chunk   │               │
-│  │ 0~33%  │     │ 34~66%  │    │ 67~100% │               │
-│  └─────────┘     └─────────┘    └─────────┘               │
-│       ↑                ↑               ↑                   │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │         Config Servers (ReplicaSet)                 │   │
-│  │   샤드 메타데이터: 청크 범위, 샤드 위치 정보 저장        │   │
-│  └─────────────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MongoDB Sharding 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mongos (Query Router)</div><div class="kb-diagram-cell">← 여러 개 배치 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샤드 키 기반 라우팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shard 1</div><div class="kb-diagram-cell">Shard 2</div><div class="kb-diagram-cell">Shard 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RSset1)</div><div class="kb-diagram-cell">(RSset2)</div><div class="kb-diagram-cell">(RSset3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chunk</div><div class="kb-diagram-cell">Chunk</div><div class="kb-diagram-cell">Chunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0~33%</div><div class="kb-diagram-cell">34~66%</div><div class="kb-diagram-cell">67~100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Config Servers (ReplicaSet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샤드 메타데이터: 청크 범위, 샤드 위치 정보 저장</div></div>
+</div>
+</div>
+
+
 
 ### [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
@@ -121,7 +113,7 @@ tags = ["studynote-bigdata"]
 | **텍스트(Text)** | 전문 검색 | `{description: "text"}` |
 | **지리공간(Geospatial)** | 위치 기반 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | `{location: "2dsphere"}` |
 | **와일드카드(Wildcard)** | 동적 필드 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | `{"$**": 1}` |
-| **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)** | 문서 자동 만료 | `{createdAt:1}, {expireAfterSeconds:3600}` |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a></strong> | 문서 자동 만료 | `{createdAt:1}, {expireAfterSeconds:3600}` |
 
 📢 **섹션 요약 비유**
 > [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 선택은 도서관 도서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방법을 정하는 것과 같다. '가나다순 첫 글자'로만 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면 'ㄱ'으로 시작하는 책이 너무 많아 한 선반이 터진다(핫스팟). '주제+저자'의 복합 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 균형 잡힌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 만든다.
@@ -135,7 +127,7 @@ tags = ["studynote-bigdata"]
 | 관점 | [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) | [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) |
 |:---:|:---:|:---:|
 | **목적** | 고가용성(HA) + 읽기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 수평 확장 + [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 모든 노드에 전체 복사본 | 노드별 부분 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 모든 노드에 전체 복사본 | 노드별 부분 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **노드 실패 시** | 자동 페일오버 | 해당 샤드만 영향 |
 | **언제 도입** | 항상 (최소 구성) | 단일 ReplicaSet이 한계 도달 시 |
 
@@ -157,20 +149,23 @@ nearest            : 네트워크 지연 최소 노드
 
 ### 배포 아키텍처 결정 트리
 
-```text
-데이터 볼륨 < 1TB / 쓰기 TPS < 10K?
-        │
-   YES ─┼─ NO ──→ Sharding 도입 필요
-        │         (최소 3 Shard × ReplicaSet)
-        ↓
-단순 ReplicaSet (1 Primary + 2 Secondary)
-        │
-읽기 부하 높음? ──YES──→ Secondary 읽기 분산 + ReadPreference
-        │
-       NO
-        ↓
-기본 구성 유지, 모니터링 기반 단계적 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 볼륨 &lt; 1TB / 쓰기 TPS &lt; 10K?</div>
+<div class="kb-diagram-note">YES ─ ─ NO ──→ Sharding 도입 필요</div>
+<div class="kb-diagram-note">(최소 3 Shard × ReplicaSet)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">단순 ReplicaSet (1 Primary + 2 Secondary)</div>
+<div class="kb-diagram-note">읽기 부하 높음? ──YES──→ Secondary 읽기 분산 + ReadPreference</div>
+<div class="kb-diagram-note">NO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기본 구성 유지, 모니터링 기반 단계적 확장</div>
+</div>
+</div>
+
+
 
 ### 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -198,7 +193,7 @@ nearest            : 네트워크 지연 최소 노드
 | 대규모 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+ Shard × [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) | ~500K+ TPS |
 
 ### 결론
-MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)-[Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 이중 구조는 고가용성과 무제한 확장을 동시에 달성하는 현존 최선의 문서형 DB 아키텍처다. 그러나 **[샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 선택 실수는 수정 비용이 극히 높으므로** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴 분석에 충분한 시간을 투자해야 한다. 기술사 시험에서는 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 선출 메커니즘, [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 핫스팟 문제, Mongos 역할이 단골 출제 포인트다.
+MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)-[Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 이중 구조는 고가용성과 무제한 확장을 동시에 달성하는 현존 최선의 문서형 DB 아키텍처다. 그러나 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/">샤드 키</a> 선택 실수는 수정 비용이 극히 높으므로</strong> [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴 분석에 충분한 시간을 투자해야 한다. 기술사 시험에서는 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 선출 메커니즘, [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/) 핫스팟 문제, Mongos 역할이 단골 출제 포인트다.
 
 📢 **섹션 요약 비유**
 > [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 아키텍처 설계는 도시 건설 계획과 같다. 처음에 도로([샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/))를 잘못 놓으면 나중에 뜯어고치는 비용이 엄청나다. 처음부터 교통 흐름([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴)을 고려해 넓은 도로(높은 카디널리티 [샤드 키](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/281_nosql_modeling_strategy/))를 설계하면, 도시가 아무리 커져도 원활하게 확장된다.
@@ -217,21 +212,23 @@ MongoDB의 [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[문서 지향 DB (Document-Oriented DB)]
-    │
-    ▼
-[WiredTiger 스토리지 엔진 — MVCC]
-    │
-    ▼
-[레플리카 셋 (Replica Set) — 자동 장애 조치]
-    │
-    ▼
-[샤딩 (Sharding) — 수평 확장]
-    │
-    ▼
-[Atlas (클라우드 MongoDB) — 서버리스 Document DB]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문서 지향 DB (Document-Oriented DB)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WiredTiger 스토리지 엔진 — MVCC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레플리카 셋 (Replica Set) — 자동 장애 조치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">샤딩 (Sharding) — 수평 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Atlas (클라우드 MongoDB) — 서버리스 Document DB</div></div>
+</div>
+</div>
+
+
 
 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 아키텍처가 단일 노드에서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)을 거쳐 완전 관리형 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 발전한 흐름이다.
 

@@ -17,16 +17,19 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 "이 클래스가 왜 존재하는가"에 대한 답을 얼마나 선명하게 해 주는지를 측정한다. 하나의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 계산, 저장, 출력, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 통계 같은 이질적 책임이 섞이면 수정 이유가 많아지고 장애 분석이 어려워진다. 그래서 아키텍처 설계에서는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부의 책임 집중도를 먼저 높여야 전체 구조도 건강해진다.
 
-```text
-┌───────────────────────┐      ┌───────────────────────┐
-│ 낮은 응집도           │      │ 높은 응집도           │
-├───────────────────────┤      ├───────────────────────┤
-│ 주문 계산             │      │ 주문 금액 계산         │
-│ 이메일 발송           │      │ 할인 적용             │
-│ 로그 파일 삭제        │      │ 가격 검증             │
-│ 사용자 권한 확인      │      │ 세 항목이 한 목적 공유 │
-└───────────────────────┘      └───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 응집도</div><div class="kb-diagram-cell">높은 응집도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 계산</div><div class="kb-diagram-cell">주문 금액 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이메일 발송</div><div class="kb-diagram-cell">할인 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 파일 삭제</div><div class="kb-diagram-cell">가격 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 권한 확인</div><div class="kb-diagram-cell">세 항목이 한 목적 공유</div></div>
+</div>
+</div>
+
+
 
 높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 단순히 "짧은 클래스"를 의미하지 않는다. 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 행위가 한곳에 모여 있고, 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 존재 이유가 하나로 설명될 수 있는 상태를 뜻한다.
 - **📢 섹션 요약 비유**: 필통 안에 연필과 지우개가 있는 건 자연스럽지만, 숟가락과 양말까지 들어 있으면 무엇을 위한 통인지 헷갈립니다.
@@ -34,12 +37,17 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분해의 기준이 된다. 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드를 함께 두고, 관련 없는 책임은 밖으로 밀어낼수록 기능적 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)에 가까워진다.
 
-```text
-┌──────────────┐      분리       ┌──────────────┐  ┌──────────────┐
-│ God Class    │──────────────▶│ PricingSvc   │  │ MailSender   │
-│ 계산/저장/통지│               │ 금액·할인·검증│  │ 발송 책임만   │
-└──────────────┘               └──────────────┘  └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분리</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">God Class</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">PricingSvc</div><div class="kb-diagram-cell">MailSender</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산/저장/통지</div><div class="kb-diagram-cell">금액·할인·검증</div><div class="kb-diagram-cell">발송 책임만</div></div>
+</div>
+</div>
+
+
 
 | 응집 수준 | 의미 | 설계 판단 |
 | :--- | :--- | :--- |
@@ -84,27 +92,29 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 도시락 반찬이 칸마다 잘 나뉘어 있으면 먹기 편하지만, 전부 한데 섞이면 맛도 찾기 어렵고 정리도 힘듭니다.
 
 ### 📌 관련 개념 맵
-- **[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)**: 하나의 변경 이유만 가지게 하여 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)를 높인다.
-- **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화**: 관련 기능을 같은 경계 안에 배치한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a></strong>: 하나의 변경 이유만 가지게 하여 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)를 높인다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화</strong>: 관련 기능을 같은 경계 안에 배치한다.
 - **갓 클래스 방지**: 이질적 책임 집중을 해소한다.
-- **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 저감**: 내부 집중이 높을수록 외부 연결은 단순해진다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 저감</strong>: 내부 집중이 높을수록 외부 연결은 단순해진다.
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-기능 혼재와 God Class 증가
-    │
-    ▼
-변경 이유 다중화와 테스트 복잡화
-    │
-    ▼
-응집도 중심 책임 재분해
-    │
-    ▼
-SRP·모듈화·경계 명확화
-    │
-    ▼
-유지보수성과 재사용성 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기능 혼재와 God Class 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변경 이유 다중화와 테스트 복잡화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응집도 중심 책임 재분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRP·모듈화·경계 명확화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유지보수성과 재사용성 향상</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 필통에는 공부할 때 쓰는 물건만 모여 있어야 찾기 쉬워요.

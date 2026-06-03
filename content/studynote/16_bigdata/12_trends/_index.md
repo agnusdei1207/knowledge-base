@@ -8,7 +8,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 최신 동향은 **생성형 AI(LLM)와 데이터 플랫폼의 융합**, 중앙 집중에서 **데이터 메시(Data Mesh)로의 분산 전환**, 실시간 처리의 기본화(Zero-ETL·Streaming-First) 세 축으로 수렴되고 있다.
 > 2. **가치**: 이 트렌드들은 기업의 데이터 조직을 재편하고, 데이터 엔지니어링·분석·ML의 경계를 허물며, 데이터 자체가 제품(Data as a Product)이 되는 시대를 열고 있다.
-> 3. **판단 포인트**: 기술 트렌드 채택보다 중요한 것은 **조직의 데이터 문화 성숙도**다. 최신 기술을 도입해도 데이터 리터러시(Data Literacy)와 거버넌스가 없으면 효과가 없다.
+> 3. **판단 포인트**: 기술 트렌드 채택보다 중요한 것은 <strong>조직의 데이터 문화 성숙도</strong>다. 최신 기술을 도입해도 데이터 리터러시(Data Literacy)와 거버넌스가 없으면 효과가 없다.
 
 ---
 
@@ -24,35 +24,42 @@ tags = ["studynote-bigdata"]
 
 ### 1. 생성형 AI + 빅데이터 융합
 
-```text
-Text-to-SQL / 자연어 데이터 분석
 
-  사용자: "지난 달 매출이 가장 높은 지역 3곳을 알려줘"
-      │
-      ▼ LLM (GPT-4, Gemini, Claude)
-  SQL 생성: SELECT region, SUM(sales) ... ORDER BY DESC LIMIT 3
-      │
-      ▼ 데이터 웨어하우스 실행
-  결과: [서울: 15억, 부산: 8억, 인천: 5억]
-      │
-      ▼ LLM 자연어 요약
-  "지난 달 서울이 15억으로 1위..."
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Text-to-SQL / 자연어 데이터 분석</div>
+<div class="kb-diagram-note">사용자: "지난 달 매출이 가장 높은 지역 3곳을 알려줘"</div>
+<div class="kb-diagram-note">▼ LLM (GPT-4, Gemini, Claude)</div>
+<div class="kb-diagram-note">SQL 생성: SELECT region, SUM(sales) ... ORDER BY DESC LIMIT 3</div>
+<div class="kb-diagram-note">▼ 데이터 웨어하우스 실행</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">서울: 15억, 부산: 8억, 인천: 5억</div></div>
+<div class="kb-diagram-note">▼ LLM 자연어 요약</div>
+<div class="kb-diagram-note">"지난 달 서울이 15억으로 1위..."</div>
+</div>
+</div>
+
+
 
 **영향**: SQL 없이도 데이터 분석 가능 → 비개발자의 데이터 접근성 혁신. BI 도구에 LLM 통합이 가속화(Looker Studio AI, Tableau Pulse 등).
 
 ### 2. 데이터 메시 (Data Mesh)
 
-```text
-전통 중앙 집중 vs. 데이터 메시
 
-  [중앙 집중]                    [데이터 메시]
-  데이터 팀 (병목)               주문팀 ──── 주문 데이터 (소유)
-  ↑    ↑    ↑                   배송팀 ──── 배송 데이터 (소유)
-  영업  물류  재무                결제팀 ──── 결제 데이터 (소유)
-  팀   팀   팀                       ↓
-                                셀프서비스 인프라 (공통)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 중앙 집중 vs. 데이터 메시</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 집중</div><div class="kb-diagram-node">데이터 메시</div></div>
+<div class="kb-diagram-note">데이터 팀 (병목) 주문팀 주문 데이터 (소유)</div>
+<div class="kb-diagram-note">↑ ↑ ↑ 배송팀 배송 데이터 (소유)</div>
+<div class="kb-diagram-note">영업 물류 재무 결제팀 결제 데이터 (소유)</div>
+<div class="kb-diagram-note">팀 팀 팀 ↓</div>
+<div class="kb-diagram-note">셀프서비스 인프라 (공통)</div>
+</div>
+</div>
+
+
 
 **4대 원칙**: ① 도메인 소유권, ② 데이터 as a 제품, ③ 셀프서비스 인프라, ④ 연합 거버넌스.
 
@@ -135,30 +142,30 @@ Text-to-SQL / 자연어 데이터 분석
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-빅데이터 1.0 (Hadoop, 수집·저장 중심)
-    │
-    ▼
-빅데이터 2.0 (Spark, 처리 고속화)
-    │
-    ▼
-빅데이터 3.0 (레이크하우스, 배치+스트리밍 통합)
-    │
-    ├─► 데이터 메시 (도메인 분산 소유권)
-    ├─► Zero-ETL (파이프라인 단순화)
-    │
-    ▼
-빅데이터 4.0 (AI-Native, LLM 통합)
-    │
-    ├─► Text-to-SQL / 자연어 분석
-    ├─► AI 에이전트 기반 파이프라인 자동화
-    │
-    ▼
-데이터 민주화 (모든 구성원이 데이터 분석가)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">빅데이터 1.0 (Hadoop, 수집·저장 중심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅데이터 2.0 (Spark, 처리 고속화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅데이터 3.0 (레이크하우스, 배치+스트리밍 통합)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 메시 (도메인 분산 소유권)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Zero-ETL (파이프라인 단순화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅데이터 4.0 (AI-Native, LLM 통합)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Text-to-SQL / 자연어 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">AI 에이전트 기반 파이프라인 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 민주화 (모든 구성원이 데이터 분석가)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 빅데이터 최신 동향에서 가장 핫한 것은 **"AI에게 말로 물어보면 데이터를 분석해주는 것"** 이에요! "지난달 가장 많이 팔린 장난감이 뭐야?"라고 물으면 AI가 데이터베이스를 뒤져서 답해줘요.
-2. **데이터 메시**는 학교에서 선생님(중앙 팀) 한 명이 모든 과목을 가르치는 대신, **각 과목 선생님이 직접 자기 과목 데이터를 관리**하는 것처럼, 각 팀이 자기 데이터를 스스로 책임지는 방식이에요.
-3. 빅데이터는 이제 전문가만의 것이 아니에요. 마치 스마트폰처럼 **모든 사람이 데이터를 쉽게 활용**하는 시대로 빠르게 가고 있답니다!
+2. <strong>데이터 메시</strong>는 학교에서 선생님(중앙 팀) 한 명이 모든 과목을 가르치는 대신, <strong>각 과목 선생님이 직접 자기 과목 데이터를 관리</strong>하는 것처럼, 각 팀이 자기 데이터를 스스로 책임지는 방식이에요.
+3. 빅데이터는 이제 전문가만의 것이 아니에요. 마치 스마트폰처럼 <strong>모든 사람이 데이터를 쉽게 활용</strong>하는 시대로 빠르게 가고 있답니다!

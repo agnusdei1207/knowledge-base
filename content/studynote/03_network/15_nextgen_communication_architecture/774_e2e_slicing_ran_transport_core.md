@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 가입자의 스마트폰에서 시작하여 무선 기지국(RAN), 중간 전송망(Transport), 최종 심장부인 코어망(Core)에 이르는 **통신망의 처음부터 끝까지 전체 경로(종단 간)를, 단절 없이 하나의 완벽한 가상 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(독립된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))로 꿰뚫어서 맵핑하고 격리를 보장하는 아키텍처**입니다.
+- **개념**: 가입자의 스마트폰에서 시작하여 무선 기지국(RAN), 중간 전송망(Transport), 최종 심장부인 코어망(Core)에 이르는 <strong>통신망의 처음부터 끝까지 전체 경로(종단 간)를, 단절 없이 하나의 완벽한 가상 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>(독립된 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)로 꿰뚫어서 맵핑하고 격리를 보장하는 아키텍처</strong>입니다.
 - **필요성**: 어느 한 구간이라도 쪼개져 있지 않고 섞여서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 생기면, '초저지연 1ms 보장'이라는 슬라이싱의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)가 와르르 무너지기 때문입니다.
 
-```text
-[네트워크 슬라이싱]
-    │
-    ▼
-[E2E 슬라이싱 보장 모델 관리]
-    │
-    └──▶ [MEC 기반 가속 통신망 라우팅 최적]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,20 +49,24 @@ tags = ["studynote-network"]
 
 ### 2. 전송망 (Transport Slicing) - "땅속 광케이블 쪼개기"
 - 동네 기지국에서 서울 코어망까지 이어지는 길고 긴 유선 광케이블 라우터망 구간입니다.
-- 여기서는 **FlexE(플렉스 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))나 SRv6([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))** 같은 최신 전송 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 씁니다. 라우터들이 패킷의 꼬리표([슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) ID)를 보고 "아, 이건 자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)구나"라며 전용 고속도로 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)(파장) 차선으로만 데이터를 흘려보내, 일반 유튜브 데이터와 물리적으로 섞이지 않게 차단합니다.
+- 여기서는 <strong>FlexE(플렉스 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)나 SRv6(<a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong> 같은 최신 전송 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 씁니다. 라우터들이 패킷의 꼬리표([슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) ID)를 보고 "아, 이건 자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)구나"라며 전용 고속도로 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)(파장) 차선으로만 데이터를 흘려보내, 일반 유튜브 데이터와 물리적으로 섞이지 않게 차단합니다.
 
 ### 3. 코어망 (Core Slicing) - "서버 쪼개기"
 - 서울 본사 서버실 구간입니다. (앞서 773번에서 배운 5GC의 클라우드 분리 기술)
 - 자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 위해 독립된 컨테이너에 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), UPF 서버를 따로 띄워 배포해 둡니다. 이 컨테이너는 오직 자율주행차의 데이터만 100% 처리합니다.
 
-```text
-[네트워크 슬라이싱]
-    │
-    ▼
-[E2E 슬라이싱 보장 모델 관리]
-    │
-    └──▶ [MEC 기반 가속 통신망 라우팅 최적]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,8 +74,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 단말기가 자기가 어떤 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)에 들어가야 하는지 기지국에 알려주는 **'ID 카드(식별표)'**입니다.
-- **SST ([Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)/[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Type)**: 이 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 1번)인지, [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연, 2번)인지, [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/)(초연결, 3번)인지 굵직한 목적을 나타내는 8비트 고유 번호입니다.
+- 단말기가 자기가 어떤 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)에 들어가야 하는지 기지국에 알려주는 <strong>'ID 카드(식별표)'</strong>입니다.
+- <strong>SST (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">Slice</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Type)</strong>: 이 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 1번)인지, [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연, 2번)인지, [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/)(초연결, 3번)인지 굵직한 목적을 나타내는 8비트 고유 번호입니다.
 - 폰이 기지국에 이 NSSAI 번호를 제시하면, 기지국은 "아, 넌 2번 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)네" 하고 끝까지 2번 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로만 데이터를 쫙 밀어 넣어줍니다.
 
 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)이 기반 조건을 만든다면, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 그 위에서 핵심 메커니즘을 구현하고, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네트워크 슬라이싱]
-    │
-    ▼
-[현재 개념: E2E 슬라이싱 보장 모델 관리]
-    │
-    ├──▶ [확장 A: MEC 기반 가속 통신망 라우팅 최적]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 슬라이싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MEC 기반 가속 통신망 라우팅 최적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

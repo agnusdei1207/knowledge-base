@@ -16,32 +16,34 @@ tags = ["ict_convergence"]
 
 블록체인은 2008년 사토시 나카모토 (Satoshi Nakamoto)라는 가명의 인물(또는 그룹)이 비트코인 (Bitcoin, BTC) 백서에서 처음 제안한 혁신적 기술이다.
 
-기존의 인터넷은 정보의 복제가 자유로운 것이 기본 철학이다. 내가 당신에게 파일을 보내면 내 컴퓨터에는 그 파일의 사본이 그대로 남아있다. 하지만 화폐, 계약, 신원정보처럼 "전달하면 보내는 쪽에서는 없어져야 하는 것"은 디지털로 복제되면 치명적인 문제가 된다. 그래서 우리는 항상 은행, PayPal, 정부 같은 **신뢰의 제3자 (Trusted Third Party)**를 중간에 세워 거래를 중개하게 된다.
+기존의 인터넷은 정보의 복제가 자유로운 것이 기본 철학이다. 내가 당신에게 파일을 보내면 내 컴퓨터에는 그 파일의 사본이 그대로 남아있다. 하지만 화폐, 계약, 신원정보처럼 "전달하면 보내는 쪽에서는 없어져야 하는 것"은 디지털로 복제되면 치명적인 문제가 된다. 그래서 우리는 항상 은행, PayPal, 정부 같은 <strong>신뢰의 제3자 (Trusted Third Party)</strong>를 중간에 세워 거래를 중개하게 된다.
 
 이 중개자 기반 구조는 몇 가지 근본적 한계를 가진다. 첫째, 중개자가 장애가 나거나 파산하면 전체 거래가 마비된다. 둘째, 중개자가 자체 데이터베이스를 마음대로 수정할 수 있어 (부패)의 여지가 있다. 셋째, 중개자에게 수수료를 내야 하므로 소액 거래의 비용 효율이 극히 낮다.
 
 블록체인은 이 구조를 근본부터 뒤집는다. "중개자가 아니라, 모두에게 동일한 원본이 존재하면 어떨까?"라는 질문에서 출발한다. 거래가 발생할 때마다 이를 하나의 블록 (Block)에 기록하고, 이 블록을 암호학적으로 이전 블록에 꼬아 붙이면(해시 체인), 과거 기록을 바꾸려면 이후 모든 블록을 동시에 계산해서 바꿔야 하므로 수학적으로 불가능에 가깝게 만든다.
 
-```text
-[중앙화 versus 탈중앙화 거래 구조 비교도]
 
-[ 중앙화 구조 (기존) ]
-[ 사용자 A ] ──> [ 은행/PayPal ] ──> [ 사용자 B ]
-↑
-모든 거래가 이 중개자를 통과
-└─ 중개자 장애 시 전체 마비
-└─ 중개자가 데이터 조작 가능
-└─ 수수료 3~5% 발생
 
-[ 탈중앙화 구조 (블록체인) ]
-[ 사용자 A ] ──> 거래 기록 ──> [ 전체 노드 분산 저장 ]
-│ ↑
-└──────────────────────────────┘
-모든 노드가 동일한 사본 보유
-└─ 단일 장애 지점 (SPOF) 없음
-└─ 합의 알고리즘이 조작 차단
-└─ 중개자 제거로 수수료 절감
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙화 versus 탈중앙화 거래 구조 비교도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙화 구조 (기존)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 A</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">은행/PayPal</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">사용자 B</div></div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">모든 거래가 이 중개자를 통과</div>
+<div class="kb-diagram-tree-item" style="--depth:0">중개자 장애 시 전체 마비</div>
+<div class="kb-diagram-tree-item" style="--depth:0">중개자가 데이터 조작 가능</div>
+<div class="kb-diagram-tree-item" style="--depth:0">수수료 3~5% 발생</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">탈중앙화 구조 (블록체인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 A</div><div class="kb-diagram-note">──&gt; 거래 기록 ──&gt;</div><div class="kb-diagram-node">전체 노드 분산 저장</div></div>
+<div class="kb-diagram-note">모든 노드가 동일한 사본 보유</div>
+<div class="kb-diagram-tree-item" style="--depth:0">단일 장애 지점 (SPOF) 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:0">합의 알고리즘이 조작 차단</div>
+<div class="kb-diagram-tree-item" style="--depth:0">중개자 제거로 수수료 절감</div>
+</div>
+</div>
+
+
 
 이 도식은 중앙화된 중개자 구조의 취약점(단일 장애점, 조작 가능성, 비용 문제)과 블록체인 기반 탈중앙화 구조의 근본적 차이를 보여준다. 따라서 실무에서 고가치 거래 시스템을 설계할 때는 이러한 구조적 차이를 반드시 고려해야 한다.
 
@@ -57,85 +59,63 @@ tags = ["ict_convergence"]
 
 블록은 크게 헤더 (Header)와 바디 (Body)로 나뉜다. 헤더에는 이전 블록의 해시값, 현재 블록의 생성 시간, 거래 데이터의 머클 루트 (Merkle Root), 논스 (Nonce) 값 등이 포함된다.
 
-```text
-[블록 내부 구조 및 해시 체인 연결 도식]
 
-┌──────────────────────────────────────────────────────────┐
-│ 블록 N 의 구조 │
-├────────────────────────────┬─────────────────────────────┤
-│ 블록 헤더 (Header) │ 거래 데이터 (Body) │
-├────────────────────────────┼─────────────────────────────┤
-│ 버전 (Version) │ 트랜잭션 1: A -> B, 1 BTC │
-│ 이전 블록 해시 (Prev Hash) ──┼─> 이전 블록(N-1)의 해시값 │
-│ 머클 루트 (Merkle Root) │ 트랜잭션 2: C -> D, 2 BTC │
-│ 타임스탬프 (Timestamp) │ 트랜잭션 3: E -> F, 0.5 BTC │
-│ 논스 (Nonce) │ ... │
-│ 난이도 목표 (Difficulty) │ (머클 트리로 묶임) │
-└────────────────────────────┴─────────────────────────────┘
-│
-│ 해시 함수(SHA-256 등)를 통과하면
-▼
-┌──────────────────────────────────────────────────────────┐
-│ 블록 N+1 의 이전 블록 해시 │
-│ (N의 해시값이 N+1 블록 헤더에 기록되어 꼬임) │
-└──────────────────────────────────────────────────────────┘
-```
 
-이 구조의 핵심은 **머클 트리 (Merkle Tree)**를 통해 거래 데이터의 무결성을 효율적으로 검증할 수 있다는 점이다. 수만 건의 거래를 하나의 해시값(머클 루트)으로 요약할 수 있어서, 전체 데이터가 아니라 해시값만 비교하면 변조 여부를 알 수 있다. 실무에서 블록체인 상태 검증은 이 머클 증명 (Merkle Proof)을 통해 가볍고 빠르게 이루어진다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 내부 구조 및 해시 체인 연결 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 N 의 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더 (Header)</div><div class="kb-diagram-cell">거래 데이터 (Body)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전 (Version)</div><div class="kb-diagram-cell">트랜잭션 1: A -&gt; B, 1 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 블록 해시 (Prev Hash) ── ─&gt; 이전 블록(N-1)의 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트 (Merkle Root)</div><div class="kb-diagram-cell">트랜잭션 2: C -&gt; D, 2 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프 (Timestamp)</div><div class="kb-diagram-cell">트랜잭션 3: E -&gt; F, 0.5 BTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논스 (Nonce)</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난이도 목표 (Difficulty)</div><div class="kb-diagram-cell">(머클 트리로 묶임)</div></div>
+<div class="kb-diagram-note">해시 함수(SHA-256 등)를 통과하면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 N+1 의 이전 블록 해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(N의 해시값이 N+1 블록 헤더에 기록되어 꼬임)</div></div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 <strong>머클 트리 (Merkle Tree)</strong>를 통해 거래 데이터의 무결성을 효율적으로 검증할 수 있다는 점이다. 수만 건의 거래를 하나의 해시값(머클 루트)으로 요약할 수 있어서, 전체 데이터가 아니라 해시값만 비교하면 변조 여부를 알 수 있다. 실무에서 블록체인 상태 검증은 이 머클 증명 (Merkle Proof)을 통해 가볍고 빠르게 이루어진다.
 
 #### 2-2. 작업 증명 (PoW) versus 지분 증명 (PoS) 합의 알고리즘
 
 블록체인의 핵심 난제는 "분산 환경에서 누가 다음 블록을 만들 권한을 가지는가?"이다. 이를 합의 알고리즘이 결정한다.
 
-```text
-[PoW (작업 증명) versus PoS (지분 증명) 동작 메커니즘 비교]
 
-┌──────────────────────────────────────────────────────────────┐
-│ PoW (Proof of Work, 비트코인) │
-├──────────────────────────────────────────────────────────────┤
-│ 마이닝 (Mining) 과정: │
-│ [거래 데이터 수집] │
-│ │ │
-│ ▼ │
-│ [블록 헤더 구성] ──> 이전 해시, 머클 루트, 타임스탬프 │
-│ │ │
-│ ▼ │
-│ ┌─────────────────────────┐ │
-│ │ while (해시 > 난이도 목표): │ │
-│ │ Nonce 값을 1 증가 │ <-- 수학 퍼즐 풀기 │
-│ │ 해시를 다시 계산 │ (전기를 엄청 먹음) │
-│ └─────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ [최초로 조건 충족한 해시를 찾은 노드] │
-│ │ │
-│ ▼ │
-│ [블록을 브로드캐스트] ──> 다른 노드가 검증 후 체인에 추가 │
-│ │
-│ 장점: 확실한 탈중앙화, 오랜 검증 역사 │
-│ 단점: 막대한 전력 소비 (비트코인 1건 처리 ≈ 호주 1 가구 하루 전력)│
-└──────────────────────────────────────────────────────────────┘
 
-┌──────────────────────────────────────────────────────────────┐
-│ PoS (Proof of Stake, 이더리움 2.0) │
-├──────────────────────────────────────────────────────────────┤
-│ 밸리데이터 (Validator) 과정: │
-│ [보증을 예치한 검증자 풀] │
-│ │ │
-│ ▼ │
-│ [난수 + 검증자 지분 금액 기반 선출] │
-│ (더 많은 지분을 가진 검증자 = 더 높은 선출 확률) │
-│ │ │
-│ ▼ │
-│ [선출된 검증자가 블록 제안/검증] │
-│ │ │
-│ ▼ │
-│ [2/3 이상 검증자가 동의] ──> 블록 최종 확정 │
-│ │
-│ 장점: 전력 소비 99.95% 절감, 공격 비용이 지분 금액 대비 극대화 │
-│ 단점: "Nothing at Stake" 문제, 중앙화 위험 (부자가 더 많이 Stake)│
-└──────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (작업 증명) versus PoS (지분 증명) 동작 메커니즘 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoW (Proof of Work, 비트코인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이닝 (Mining) 과정:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거래 데이터 수집</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 헤더 구성</div><div class="kb-diagram-note">──&gt; 이전 해시, 머클 루트, 타임스탬프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (해시 &gt; 난이도 목표):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce 값을 1 증가</div><div class="kb-diagram-cell">&lt;-- 수학 퍼즐 풀기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시를 다시 계산</div><div class="kb-diagram-cell">(전기를 엄청 먹음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최초로 조건 충족한 해시를 찾은 노드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록을 브로드캐스트</div><div class="kb-diagram-note">──&gt; 다른 노드가 검증 후 체인에 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 확실한 탈중앙화, 오랜 검증 역사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 막대한 전력 소비 (비트코인 1건 처리 ≈ 호주 1 가구 하루 전력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoS (Proof of Stake, 이더리움 2.0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밸리데이터 (Validator) 과정:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보증을 예치한 검증자 풀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">난수 + 검증자 지분 금액 기반 선출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(더 많은 지분을 가진 검증자 = 더 높은 선출 확률)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">선출된 검증자가 블록 제안/검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2/3 이상 검증자가 동의</div><div class="kb-diagram-note">──&gt; 블록 최종 확정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 전력 소비 99.95% 절감, 공격 비용이 지분 금액 대비 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: "Nothing at Stake" 문제, 중앙화 위험 (부자가 더 많이 Stake)</div></div>
+</div>
+</div>
+
+
 
 PoW는 물리적 에너지 소모를 통해 보안을 확보하는 구조로, 51% 공격 (불량 노드가 전체 해시파워의 과반을 점유하여 체인 통제)을 하려면 막대한 컴퓨팅 파워가 필요해 경제적으로 비합리적이다. 반면 PoS는 에너지를 적게 쓰지만, 가진 사람이 더 많이 벌게 되는 경제적 불평등과 "아무것도 걸 것이 없다(Nothing at Stake)"는 이론적 취약성이 존재한다. 실무에서 이더리움 (Ethereum)은 2022년 The Merge를 통해 PoS로 완전 전환하여 에너지 효율을 획기적으로 개선했다.
 
@@ -143,31 +123,30 @@ PoW는 물리적 에너지 소모를 통해 보안을 확보하는 구조로, 51
 
 스마트 계약은 블록체인 위에 배포된 자기 실행 프로그램 (Self-executing Program)이다. If-This-Then-That (IFTTT) 형태의 로직으로, 약속된 조건이 충족되면 사람이 개입하지 않고도 계약이 자동으로 이행된다.
 
-```text
-[스마트 계약 배포 및 실행 플로우]
 
-[ 개발자: 솔리디티 (Solidity) 언어로 계약 코드 작성 ]
-│
-▼
-[블록체인 네트워크에 계약 배포 (Deploy)]
-│
-▼
-[거래로 계약 호출]
-[사용자: "NFT를 1 ETH에 판매합니다"라는 조건을 계약에 등록]
-│
-▼
-[이더리움 가상 머신 (EVM)에서 계약 코드 실행]
-│
-├─ 조건 충족 여부 확인 (If)
-│ └─ 사람이 1 ETH를 계약 예치금에 전달
-│
-└─ 조건 충족 시 자동 실행 (Then)
-└─ NFT 소유권이자에게 자동 이전
-└─ 1 ETH가 판매자에게 자동 전송
-└─ 중개자 불필요, 수수료 0
 
-[블록에 최종 상태 기록]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 계약 배포 및 실행 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자: 솔리디티 (Solidity) 언어로 계약 코드 작성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크에 계약 배포 (Deploy)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거래로 계약 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자: "NFT를 1 ETH에 판매합니다"라는 조건을 계약에 등록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 가상 머신 (EVM)에서 계약 코드 실행</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">조건 충족 여부 확인 (If)</div>
+<div class="kb-diagram-note">─ 사람이 1 ETH를 계약 예치금에 전달</div>
+<div class="kb-diagram-tree-item" style="--depth:0">조건 충족 시 자동 실행 (Then)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">NFT 소유권이자에게 자동 이전</div>
+<div class="kb-diagram-tree-item" style="--depth:0">1 ETH가 판매자에게 자동 전송</div>
+<div class="kb-diagram-tree-item" style="--depth:0">중개자 불필요, 수수료 0</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록에 최종 상태 기록</div></div>
+</div>
+</div>
+
+
 
 이 플로우의 핵심은 계약이 Immutable (변경 불가)하다는 점이다. 한번 배포되면 개발자조차 코드를 수정할 수 없어, 버그가 있으면 그대로 남아 역사상 가장 유명한 Dev DAO 해킹 사건(6000만 달러)처럼 치명적 손실로 이어질 수 있다. 따라서 스마트 계약 개발에서는 형식적 검증 (Formal Verification)과 감사 (Audit)가 필수적이다.
 
@@ -181,43 +160,39 @@ PoW는 물리적 에너지 소모를 통해 보안을 확보하는 구조로, 51
 
 #### 퍼블릭 versus 프라이빗 블록체인 기술 비교
 
-```text
-[퍼블릭 체인 versus 프라이빗 체인의 구조적 차이]
 
-┌─────────────────────────────────────────────────────────────┐
-│ 퍼블릭 (Public) 블록체인 │
-│ (비트코인, 이더리움, 솔라나) │
-├─────────────────────────────────────────────────────────────┤
-│ 참여 제한: 누구나 노드 참여 및 거래 검증 가능 │
-│ consensus: 경제적 인센티브(굴 보상) + 암호학 │
-│ 투명성: 모든 거래가 누구나 열람 가능 (익명성 일부 보호) │
-│ 속도: 느림 (비트코인 7 TPS, 이더리움 15~30 TPS) │
-│ 비용: 가스비 (Gas Fee) 변동, 공정한 경제 생태계 │
-│ 사례: Cryptocurrency, DeFi, NFT, DAO │
-├─────────────────────────────────────────────────────────────┤
-│ √ 완전한 탈중앙화 │
-│ √ 가장 높은 검열 저항성 │
-│ √ 글로벌 접근성 │
-│ × 속도 및 확장성 병목 ( trilemma ) │
-└─────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────┐
-│ 프라이빗 (Private / 허가형) 블록체인 │
-│ (Hyperledger Fabric, Corda, Quorum) │
-├─────────────────────────────────────────────────────────────┤
-│ 참여 제한: 미리 승인된 노드만 참여 가능 │
-│ consensus: PBFT, Raft 등 가볍고 빠른 알고리즘 │
-│ 투명성: 참여자 간만 공유, 선별적 공개 │
-│ 속도: 빠름 (수천 TPS 가능) │
-│ 비용: 합의된 거버넌스 관리비 │
-│ 사례: 기업 (B2B) 거래 정산, Supply Chain, RBA(Registro│
-├─────────────────────────────────────────────────────────────┤
-│ √ 빠른 처리 속도 │
-│ √ 규제 준수 용이 (GDPR 등) │
-│ √ 참여자 identity 알고 있음 │
-│ × 부분적 탈중앙화 (필요한 만큼만) │
-└─────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 체인 versus 프라이빗 체인의 구조적 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼블릭 (Public) 블록체인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비트코인, 이더리움, 솔라나)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참여 제한: 누구나 노드 참여 및 거래 검증 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">consensus: 경제적 인센티브(굴 보상) + 암호학</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">투명성: 모든 거래가 누구나 열람 가능 (익명성 일부 보호)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도: 느림 (비트코인 7 TPS, 이더리움 15~30 TPS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 가스비 (Gas Fee) 변동, 공정한 경제 생태계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: Cryptocurrency, DeFi, NFT, DAO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 완전한 탈중앙화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 가장 높은 검열 저항성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 글로벌 접근성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× 속도 및 확장성 병목 ( trilemma )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프라이빗 (Private / 허가형) 블록체인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hyperledger Fabric, Corda, Quorum)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참여 제한: 미리 승인된 노드만 참여 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">consensus: PBFT, Raft 등 가볍고 빠른 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">투명성: 참여자 간만 공유, 선별적 공개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도: 빠름 (수천 TPS 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 합의된 거버넌스 관리비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: 기업 (B2B) 거래 정산, Supply Chain, RBA(Registro</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 빠른 처리 속도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 규제 준수 용이 (GDPR 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√ 참여자 identity 알고 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× 부분적 탈중앙화 (필요한 만큼만)</div></div>
+</div>
+</div>
+
+
 
 퍼블릭 체인의 느린 속도 문제는 레이어 2 (Layer 2) 솔루션으로 해결하려는 노력이 활발하다. 라이트닝 네트워크 (Lightning Network)는 비트코인 위에 결제 채널을 열어 소액 거래를 체인 외부에서 즉시 처리한 뒤 최종 결과만 메인 체인에 기록하여, 이론상 수백만 TPS를 달성할 수 있다.
 
@@ -227,31 +202,34 @@ PoW는 물리적 에너지 소모를 통해 보안을 확보하는 구조로, 51
 - **네트워크 (P2P)**: 블록체인의 노드 간 통신은 P2P (Peer-to-Peer) 프로토콜을 사용한다. 토렌트 파일 공유와 동일한 기술로, 특정 서버가 없어도 노드들이 직접 데이터를 주고받을 수 있어에 강하고 단일 장애점이 없다.
 - **보안 (Cryptography)**: SHA-256, ECDSA (타원 곡선 디지탈 서명 알고리즘), 머클 트리 등 고급 암호학이 블록체인의 보안 기반을 형성한다. 특히 양자 컴퓨터 시대에 RSA와 ECDSA가 깨질 가능성에 대비한 후 암호학 (Post-Quantum Cryptography) 연구가 활발하다.
 
-```text
-[블록체인 트릴레마 (Blockchain Trilemma) 와 레이어 구조]
 
-분산성 (Decentralization)
-▲
-╱ ╲
-╱ ╲
-╱ ╲
-╱ 안 ╲
-╱ ╲
-╱ 전 ╲
-╱ 보 ╲
-╱ 안 ╲
-╱ ↓ ╲
-╱ 확장성 (Scalability) ╲
-└────────────────────────┘
-핵심 문제: 3가지를 동시에 다 만족시키지 못함
 
-[ 레이어 1 솔루션 ] [ 레이어 2 솔루션 ]
-블록 크기 증가, 결제 채널, 롤업 (Rollup),
-샤딩 (Sharding), 사이드체인,
-DAG 기반 신세대 체인 플라즈마 (Plasma)
-├─ 메인 체인에서 직접 해결 ├─ 메인 체인 위에 부수적 네트워크
-├─ 근본적 아키텍처 변경 ├─ 메인 체인은 보안만 담당
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 트릴레마 (Blockchain Trilemma) 와 레이어 구조</div></div>
+<div class="kb-diagram-note">분산성 (Decentralization)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-note">╱ 안 ╲</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-note">╱ 전 ╲</div>
+<div class="kb-diagram-note">╱ 보 ╲</div>
+<div class="kb-diagram-note">╱ 안 ╲</div>
+<div class="kb-diagram-note">╱ ↓ ╲</div>
+<div class="kb-diagram-note">╱ 확장성 (Scalability) ╲</div>
+<div class="kb-diagram-note">핵심 문제: 3가지를 동시에 다 만족시키지 못함</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레이어 1 솔루션</div><div class="kb-diagram-node">레이어 2 솔루션</div></div>
+<div class="kb-diagram-note">블록 크기 증가, 결제 채널, 롤업 (Rollup),</div>
+<div class="kb-diagram-note">샤딩 (Sharding), 사이드체인,</div>
+<div class="kb-diagram-note">DAG 기반 신세대 체인 플라즈마 (Plasma)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">메인 체인에서 직접 해결 ─ 메인 체인 위에 부수적 네트워크</div>
+<div class="kb-diagram-tree-item" style="--depth:0">근본적 아키텍처 변경 ─ 메인 체인은 보안만 담당</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 퍼블릭 블록체인은 항의 식당과 같습니다. 누구나 들어와서 요리하는 과정을 볼 수 있지만 (투명성), 주방이 비좁아서 (확장성) 음식을 서빙하는 속도가 느립니다. 프라이빗 블록체인은 특정 회원만 들어갈 수 있는 프라이빗 레스토랑으로, 요리는 빨리 나오지만 당연히 탈중앙화는 부분적으로만 가능합니다.
 
@@ -278,21 +256,26 @@ DAG 기반 신세대 체인 플라즈마 (Plasma)
 - **의사결정**: 이더리움 (Ethereum)이나 솔라나 (Solana) 같은 퍼블릭 체인에 NFT 표준 (ERC-721, ERC-1155)을 준수하여 발행.
 - **이유**: NFT는 특정 토큰 ID에 메타데이터(그림 파일, 음악 파일 등)를 연결하여 희소성과 진위를 증명한다. 그러나 실제 예술 시장에서 NFT의 가치는 투기에 가까우며, 스마트 계약 버그로 NFT가 영원히 동결되는도 발생한다. 기술적 구현보다 지적재산권 (IP) 법률 framework이 더 중요한 경우가 많다.
 
-```text
-[블록체인 도입 여부 판별 트리]
 
-[질문 1] 거래 당사자 간에 신뢰가 부족한가?
-└─ No ──> 기존 중앙화된 DB/서비스로 충분
-└─ Yes ──> [질문 2] 단일 중개자/서버에 의존하는 것이 비용/리스크가 큰가?
-└─ No ──> 중앙화 솔루션 고려
-└─ Yes ──> [질문 3] 많은 참여자가 동시에 기록을 열람/검증하는가?
-└─ No ──> 프라이빗 DB + 암호화 서명으로 충분
-└─ Yes ──> [질문 4] 데이터가 변하지 않아야 하는가?
-└─ No ──> 블록체인 불필요 (일반 DB 사용)
-└─ Yes ──> [질문 5] 규제/법적 책임을 명확히 할 수 있는가?
-└─ No ──> 법적 gray zone 위험, 도입 보류
-└─ Yes ──> ✓ 블록체인 도입 적합!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 도입 여부 판별 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">질문 1</div><div class="kb-diagram-note">거래 당사자 간에 신뢰가 부족한가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 기존 중앙화된 DB/서비스로 충분</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 2</div><div class="kb-diagram-note">단일 중개자/서버에 의존하는 것이 비용/리스크가 큰가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 중앙화 솔루션 고려</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 3</div><div class="kb-diagram-note">많은 참여자가 동시에 기록을 열람/검증하는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 프라이빗 DB + 암호화 서명으로 충분</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 4</div><div class="kb-diagram-note">데이터가 변하지 않아야 하는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 블록체인 불필요 (일반 DB 사용)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">질문 5</div><div class="kb-diagram-note">규제/법적 책임을 명확히 할 수 있는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">No ──&gt; 법적 gray zone 위험, 도입 보류</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Yes ──&gt; ✓ 블록체인 도입 적합!</div>
+</div>
+</div>
+
+
 
 **운영 및 아키텍처 도입 체크리스트**
 - [ ] 합의 알고리즘 선택 시, 네트워크 참여 노드 수와 지연 시간을 고려하여 PoW/PoS/PBFT 중 적합한 것을 선정했는가? (노드 수 100개 이하에서는 PBFT가 효율적)

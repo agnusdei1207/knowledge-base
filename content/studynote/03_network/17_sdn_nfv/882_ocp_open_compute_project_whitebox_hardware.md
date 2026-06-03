@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 전통적으로 서버 컴퓨터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 시스코, HP, Dell 같은 회사가 만들고 내부 설계도는 며느리도 모르는 1급 기밀(Blackbox)이었습니다. 필요 없는 불빛 화려한 플라스틱 껍데기와 쓰레기 부가기능이 덕지덕지 붙어 전기세만 먹었습니다.
-- 2011년, 메타(페이스북)는 이 독점을 부수기 위해 **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/))**를 창설했습니다. (소프트웨어의 리눅스(Linux) 혁명이 '하드웨어 쇳덩어리' 버전으로 나타난 대사건입니다.)
+- 2011년, 메타(페이스북)는 이 독점을 부수기 위해 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/">Open Compute Project</a>)</strong>를 창설했습니다. (소프트웨어의 리눅스(Linux) 혁명이 '하드웨어 쇳덩어리' 버전으로 나타난 대사건입니다.)
 
-```text
-[마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-    │
-    ▼
-[OCP]
-    │
-    └──▶ [SONiC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONiC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OCP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 세계 최대 규모의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 굴리는 페이스북, 구글, 마이크로소프트, 인텔 등이 주도하는 연합체로, **[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 들어가는 서버 메인보드, 랙(Rack), 냉각 장치, 전원 공급기, 그리고 '[화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)(Bare-metal [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))'의 규격과 설계도를 100% [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Open Source)로 공개하여 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)을 탈피하고 가장 효율적인 범용 인프라 장비를 찍어내는 개방형 하드웨어 생태계**입니다.
+- **개념**: 세계 최대 규모의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 굴리는 페이스북, 구글, 마이크로소프트, 인텔 등이 주도하는 연합체로, <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>에 들어가는 서버 메인보드, 랙(Rack), 냉각 장치, 전원 공급기, 그리고 '<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/">화이트박스 스위치</a>(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)'의 규격과 설계도를 100% <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>(Open Source)로 공개하여 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>을 탈피하고 가장 효율적인 범용 인프라 장비를 찍어내는 개방형 하드웨어 생태계</strong>입니다.
 
-```text
-[마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-    │
-    ▼
-[OCP]
-    │
-    └──▶ [SONiC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONiC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,7 +89,7 @@ OCP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현재 네이버, 카카오, AWS의 수만 대의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버 뚜껑을 열어보면, 번쩍거리는 HP나 시스코 로고는 없고 시커먼 철판때기([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 규격 화이트박스 서버)만 촘촘하게 꽂혀 있습니다. 그 안에 다음 883번 문서의 **[SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)(개방형 네트워크 OS)**이나 리눅스를 입맛대로 깔아 돌리는 완벽한 하드웨어 독립 만세의 시대가 완성되었습니다.
+현재 네이버, 카카오, AWS의 수만 대의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버 뚜껑을 열어보면, 번쩍거리는 HP나 시스코 로고는 없고 시커먼 철판때기([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 규격 화이트박스 서버)만 촘촘하게 꽂혀 있습니다. 그 안에 다음 883번 문서의 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a>(개방형 네트워크 OS)</strong>이나 리눅스를 입맛대로 깔아 돌리는 완벽한 하드웨어 독립 만세의 시대가 완성되었습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -89,7 +97,7 @@ OCP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 벤더 장비(시스코/HP)는 껍데기에 화려한 크롬 장식이 박혀있고 필요 없는 가죽 시트가 깔린 '벤츠 고급 세단'입니다. 가격이 미친 듯이 비싸서 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 나르는 영업용 트럭으로 쓰기엔 수지타산이 안 맞습니다. **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/))**는 화난 대형 택배회사(페이스북)가 직접 자동차 도면을 그려 전 세계에 무료로 뿌린 **'뼈대만 남은 깡통 화물차 설계도'**입니다. 에어컨, 라디오, 푹신한 의자, 화려한 자동차 껍데기 장식을 전기톱으로 싹 다 잘라버렸습니다. 오직 '바퀴(랜카드)'와 '강력한 엔진(CPU)' 딱 두 개만 덩그러니 남겨둔 궁극의 원가 절감형 깡통 트럭(화이트박스)입니다. 대만 하청 공장에서 이 도면대로 1,000만 원짜리 트럭을 100만 원에 미친 듯이 찍어내어([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 파괴), [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)라는 거대한 화물 운송 기지의 극한 효율과 마진을 이끌어낸 위대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 하드웨어 혁명입니다.
+- **📢 섹션 요약 비유**: 기존 벤더 장비(시스코/HP)는 껍데기에 화려한 크롬 장식이 박혀있고 필요 없는 가죽 시트가 깔린 '벤츠 고급 세단'입니다. 가격이 미친 듯이 비싸서 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 나르는 영업용 트럭으로 쓰기엔 수지타산이 안 맞습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/">Open Compute Project</a>)</strong>는 화난 대형 택배회사(페이스북)가 직접 자동차 도면을 그려 전 세계에 무료로 뿌린 <strong>'뼈대만 남은 깡통 화물차 설계도'</strong>입니다. 에어컨, 라디오, 푹신한 의자, 화려한 자동차 껍데기 장식을 전기톱으로 싹 다 잘라버렸습니다. 오직 '바퀴(랜카드)'와 '강력한 엔진(CPU)' 딱 두 개만 덩그러니 남겨둔 궁극의 원가 절감형 깡통 트럭(화이트박스)입니다. 대만 하청 공장에서 이 도면대로 1,000만 원짜리 트럭을 100만 원에 미친 듯이 찍어내어([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 파괴), [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)라는 거대한 화물 운송 기지의 극한 효율과 마진을 이끌어낸 위대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 하드웨어 혁명입니다.
 
 ---
 
@@ -112,15 +120,19 @@ OCP는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로세그멘테이션 방화벽 SDN 접목 내부…]
-    │
-    ▼
-[현재 개념: OCP]
-    │
-    ├──▶ [확장 A: SONiC]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SONiC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 OCP는 [마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 접목 내부…에서 출발해 현재 메커니즘을 정교화하고, 이후 SONiC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

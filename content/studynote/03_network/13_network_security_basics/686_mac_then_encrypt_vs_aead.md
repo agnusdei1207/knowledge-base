@@ -21,18 +21,22 @@ tags = ["studynote-network"]
 
 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)에서 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(평문)에 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(암호)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 도장)을 적용하는 순서는 역사적으로 3가지가 있었습니다.
 
-1. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-and-Encrypt**: 원본 편지에 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 쾅 찍어 따로 두고, 원본 편지를 암호화한 뒤 두 개를 나란히 묶어서 보냅니다. ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 취약, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델)
-2. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt (MtE) 🌟**: 원본 편지 뒤에 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 찰싹 붙인 다음, **[편지+도장] 전체를 커다란 암호화 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-CBC 등)로 통째로 잠가서 보냅니다.** (과거 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2까지의 기본 표준 방식이었습니다.)
-3. **Encrypt-then-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (EtM)**: 원본 편지부터 먼저 꽁꽁 암호화(잠그기)를 한 다음, **그 겉면 암호문 껍데기 위에다가 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 쾅 찍어 보냅니다.** (IPsec에서 쓰는 가장 안전한 방식입니다.)
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-and-Encrypt</strong>: 원본 편지에 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 쾅 찍어 따로 두고, 원본 편지를 암호화한 뒤 두 개를 나란히 묶어서 보냅니다. ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 취약, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델)
+2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-then-Encrypt (MtE) 🌟</strong>: 원본 편지 뒤에 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 찰싹 붙인 다음, <strong>[편지+도장] 전체를 커다란 암호화 자물쇠(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-CBC 등)로 통째로 잠가서 보냅니다.</strong> (과거 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2까지의 기본 표준 방식이었습니다.)
+3. <strong>Encrypt-then-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (EtM)</strong>: 원본 편지부터 먼저 꽁꽁 암호화(잠그기)를 한 다음, <strong>그 겉면 암호문 껍데기 위에다가 도장(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)을 쾅 찍어 보냅니다.</strong> (IPsec에서 쓰는 가장 안전한 방식입니다.)
 
-```text
-[TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
-[MAC-then-Encrypt 패러다임 /…]
-    │
-    └──▶ [세션 재개 기능 구성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,18 +44,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신에서 10년 넘게 써오던 MtE 방식이 해커들에게 와르르 무너졌습니다. 그 이유는 **'[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))'** 때문이었습니다.
+[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신에서 10년 넘게 써오던 MtE 방식이 해커들에게 와르르 무너졌습니다. 그 이유는 <strong>'<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)'</strong> 때문이었습니다.
 - **약점 원리**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 블록 암호는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 16바이트 단위로 딱딱 맞게 잘라야 하므로, 끄트머리에 빈자리가 생기면 쓰레기 값([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 채워 넣습니다. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 방식은 [편지+도장]을 먼저 묶고 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 채운 뒤 암호화를 합니다.
-- **해커의 꼼수 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)**: 해커가 암호문 끄트머리 비트를 살짝 조작해서 서버로 툭툭 던져봅니다. 서버가 에러 메시지를 뱉을 때 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌네!" 에러와 "도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이 틀렸네!" 에러를 다르게 뱉어주는 것을(오라클) 악용하여, 수천 번 찔러보며 수학적 역산을 통해 암호문을 통째로 해독(평문 추출)해 버리는 대재앙([POODLE](/knowledge-base/studynote/09_security/03_network_security/294_poodle/), [BEAST](/knowledge-base/studynote/09_security/03_network_security/295_beast/) 공격 등)이 터졌습니다.
+- <strong>해커의 꼼수 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Attack)</strong>: 해커가 암호문 끄트머리 비트를 살짝 조작해서 서버로 툭툭 던져봅니다. 서버가 에러 메시지를 뱉을 때 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌네!" 에러와 "도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이 틀렸네!" 에러를 다르게 뱉어주는 것을(오라클) 악용하여, 수천 번 찔러보며 수학적 역산을 통해 암호문을 통째로 해독(평문 추출)해 버리는 대재앙([POODLE](/knowledge-base/studynote/09_security/03_network_security/294_poodle/), [BEAST](/knowledge-base/studynote/09_security/03_network_security/295_beast/) 공격 등)이 터졌습니다.
 
-```text
-[TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
-[MAC-then-Encrypt 패러다임 /…]
-    │
-    └──▶ [세션 재개 기능 구성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,8 +68,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 도장을 먼저 찍네 마네, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 어디 채우네 하는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 때문에 털리는 것을 본 암호학자들은 결단을 내립니다.
-- **해결책**: "아예 암호화와 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 찍는 과정을 분리하지 말고, **하나의 거대한 수학 공식(블랙박스) 안에 집어넣어 단 한 번의 연산으로 [암호화 + [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장]을 동시에 완벽하게 찍어내는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)된 암호화)** 구조로 완전히 갈아타자!"
-- **AEAD의 위력**: 659번 문서에서 배운 **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)(Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)**이나 **ChaCha20-Poly1305**가 바로 이 AEAD의 대표 주자입니다.
+- **해결책**: "아예 암호화와 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 찍는 과정을 분리하지 말고, <strong>하나의 거대한 수학 공식(블랙박스) 안에 집어넣어 단 한 번의 연산으로 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">암호화 + [무결성</a> 도장]을 동시에 완벽하게 찍어내는 <a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>된 암호화)</strong> 구조로 완전히 갈아타자!"
+- **AEAD의 위력**: 659번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a>(Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>이나 <strong>ChaCha20-Poly1305</strong>가 바로 이 AEAD의 대표 주자입니다.
   - [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격이 물리적으로 불가능해집니다.
   - 두 번 돌리던 연산을 한 번에 끝내므로 속도(CPU 효율)가 미친 듯이 빨라집니다.
 
@@ -79,7 +87,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최신 웹 브라우저 통신 표준인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3은, 해킹당할 여지가 있는 과거의 구질구질한 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 조합(예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-CBC + [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) 방식을 법으로 완전히 폐지(삭제)**해 버렸습니다. 현재 인터넷은 오직 무결점이 입증된 **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 구조의 암호 알고리즘만 쓰도록 강제**되어 있습니다.
+최신 웹 브라우저 통신 표준인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3은, 해킹당할 여지가 있는 과거의 구질구질한 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-then-Encrypt 조합(예: <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-CBC + <a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a>) 방식을 법으로 완전히 폐지(삭제)</strong>해 버렸습니다. 현재 인터넷은 오직 무결점이 입증된 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> 구조의 암호 알고리즘만 쓰도록 강제</strong>되어 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ▼
-[현재 개념: MAC-then-Encrypt 패러다임 /…]
-    │
-    ├──▶ [확장 A: 세션 재개 기능 구성]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MAC-then-Encrypt 패러다임 /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 세션 재개 기능 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 패러다임 /…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션 재개](/knowledge-base/studynote/03_network/13_network_security_basics/687_tls_session_resumption_ticket/) 기능 구성와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

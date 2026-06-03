@@ -22,18 +22,21 @@ tags = ["studynote-ai"]
 딥러닝 모델의 90% 이상의 연산은 행렬 곱셈으로 이루어진다. 기존의 범용 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어는 스칼라 연산 위주로 설계되어 거대 행렬 연산 시 수많은 클럭이 소요되는 한계가 있었다. [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 '행렬 자체를 기본 연산 단위'로 취급함으로써 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 연산의 패러다임을 바꿨다.
 
 **필요성**:
-- **연산 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 극대화**: 한 클럭에 4x4, 16x16 행렬 연산을 동시에 수행하여 TFLOPS [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비약적으로 향상
-- **혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 지원**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 저장은 FP16으로 하여 메모리를 아끼고, 연산 결과는 FP32로 누적하여 수치적 안정성 확보
+- <strong>연산 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) 극대화</strong>: 한 클럭에 4x4, 16x16 행렬 연산을 동시에 수행하여 TFLOPS [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비약적으로 향상
+- <strong>혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 지원</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 저장은 FP16으로 하여 메모리를 아끼고, 연산 결과는 FP32로 누적하여 수치적 안정성 확보
 - **거대 모델 학습 가속**: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반의 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습에 필수적인 고속 행렬 연산 자원 제공
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 일반 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어가 한 번에 한 칸씩 색칠하는 붓이라면, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 도장을 찍듯이 한 번에 수십 칸의 행렬을 채워버리는 대형 스탬프와 같다.
 
@@ -48,23 +51,22 @@ tags = ["studynote-ai"]
 | **FMA (Matrix FMA)** | 행렬 곱셈 후 덧셈을 한 번에 수행 | 반올림 오차를 줄이고 속도를 높임 |
 | **TF32 (Tensor Float 32)** | FP32의 범위와 FP16의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 결합 | 코드 수정 없이 FP32 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 가속 (Ampere 이후) |
 | **FP8 / INT8** | 더 낮은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 지원 | 추론(Inference) 가속 및 메모리 점유 극단적 축소 |
-| **Sparse [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)** | 값이 0인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 건너뛰는 연산 가속 | 2:4 구조의 희소성(Sparsity)을 활용해 2배 속도 향상 |
+| <strong>Sparse <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a></strong> | 값이 0인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 건너뛰는 연산 가속 | 2:4 구조의 희소성(Sparsity)을 활용해 2배 속도 향상 |
 
-```text
-[ 텐서 코어 연산 메커니즘 (Mixed Precision) ]
 
-   Input A (FP16)  x  Input B (FP16)  +  Input C (FP32)
-   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-   │ 4x4 Matrix  │    │ 4x4 Matrix  │    │ 4x4 Matrix  │
-   └─────────────┘    └─────────────┘    └─────────────┘
-          │                  │                  │
-          └────────┬─────────┘                  │
-                   ▼                            │
-        [ Tensor Core Unit ] ◀──────────────────┘
-                   │
-                   ▼
-            Output D (FP32) ◀── 고정밀 누산 결과
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텐서 코어 연산 메커니즘 (Mixed Precision)</div></div>
+<div class="kb-diagram-note">Input A (FP16) x Input B (FP16) + Input C (FP32)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4x4 Matrix</div><div class="kb-diagram-cell">4x4 Matrix</div><div class="kb-diagram-cell">4x4 Matrix</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tensor Core Unit</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Output D (FP32) ◀── 고정밀 누산 결과</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 수학 문제를 풀 때 암산 대신 전용 계산기를 쓰는 것과 같다. 특히 '곱하기'와 '더하기'가 동시에 되는 마법의 계산기다.
 
@@ -79,7 +81,7 @@ tags = ["studynote-ai"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 밀도 | 보통 (그래픽, 물리 연산 적합) | 매우 높음 (딥러닝 학습/추론 적합) |
 | 도입 세대 | 이전부터 존재 | Volta(V100) 아키텍처부터 탑재 |
 
-[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 기술은 312번의 **[모델 양자화](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))**를 하드웨어적으로 뒷받침하며, 405번의 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 기법**들과 결합되어 모델 학습 시간을 며칠에서 몇 시간으로 단축한다.
+[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 기술은 312번의 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/">모델 양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>를 하드웨어적으로 뒷받침하며, 405번의 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 학습 기법</strong>들과 결합되어 모델 학습 시간을 며칠에서 몇 시간으로 단축한다.
 
 - **📢 섹션 요약 비유**: [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어가 승용차라면, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 한 번에 수백 명을 실어 나르는 고속열차와 같다. 정해진 노선(행렬 연산)에서는 압도적으로 빠르다.
 
@@ -89,11 +91,11 @@ tags = ["studynote-ai"]
 
 ### 실무 고려 사항
 1. **Dimension Alignment**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0% 끌어내려면 행렬의 크기([배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/), 히든 레이어 크기)가 8 또는 16의 배수여야 한다. ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 필요)
-2. **Automatic Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (AMP)**: PyTorch나 TensorFlow에서 제공하는 AMP 기능을 활성화하여 수동 최적화 없이 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 사용하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
+2. <strong>Automatic Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a> (AMP)</strong>: PyTorch나 TensorFlow에서 제공하는 AMP 기능을 활성화하여 수동 최적화 없이 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 사용하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 3. **Loss Scaling**: FP16 사용 시 그래디언트 값이 너무 작아져 0으로 수렴하는 [Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 문제를 막기 위해 Loss Scaling 기법이 필수적이다.
 
 ### 기술사 판단 포인트
-- [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 발전은 단순히 속도 경쟁이 아니라 **'[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 경제학'**이다. 최신 H100 GPU의 FP8 지원처럼, 실제 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 어디까지 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 낮춰 연산 밀도를 높일 수 있는지가 하드웨어와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공동 목표임을 강조해야 한다.
+- [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 발전은 단순히 속도 경쟁이 아니라 <strong>'<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>의 경제학'</strong>이다. 최신 H100 GPU의 FP8 지원처럼, 실제 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 어디까지 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 낮춰 연산 밀도를 높일 수 있는지가 하드웨어와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공동 목표임을 강조해야 한다.
 
 - **📢 섹션 요약 비유**: 기차가 빨리 가려면 승객 수도 중요하지만, 역 간격(행렬 크기)을 일정하게 맞추고 선로 상태([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 제어)를 잘 관리해야 사고 없이 최고 속도를 낼 수 있다.
 

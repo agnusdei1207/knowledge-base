@@ -25,23 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "프로세스가 보는 주소"와 "하드웨어가 접근하는 주소"가 다른 계층에 속한다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               주소 가상화의 핵심: 보는 주소와 찍히는 주소 분리      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로세스 A                                                          │
-│   load 0x0040  ─┐                                                   │
-│                 ├─▶ MMU (Memory Management Unit) ─▶ 물리 0x9A40     │
-│ store 0x1F20 ───┘                                                   │
-│                                                                      │
-│ 프로세스 B                                                          │
-│   load 0x0040  ─┐                                                   │
-│                 ├─▶ MMU (Memory Management Unit) ─▶ 물리 0x2C40     │
-│ store 0x1F20 ───┘                                                   │
-│                                                                      │
-│ 같은 논리 주소라도 프로세스가 다르면 다른 물리 주소로 번역될 수 있다 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 가상화의 핵심: 보는 주소와 찍히는 주소 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load 0x0040 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ MMU (Memory Management Unit) ─▶ 물리 0x9A40</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store 0x1F20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load 0x0040 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ MMU (Memory Management Unit) ─▶ 물리 0x2C40</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store 0x1F20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 논리 주소라도 프로세스가 다르면 다른 물리 주소로 번역될 수 있다</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 CPU (Central Processing Unit)가 직접 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 계산하지 않는다는 것이다. CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 요구하는 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)만 내보내고, 실제 배치 정보는 운영체제가 만든 매핑 자료와 MMU가 처리한다. 덕분에 프로그램은 이식성과 단순성을 얻고, 시스템은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 유연성을 얻는다.
 
@@ -65,35 +66,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름도는 주소 변환 과정에서 병목과 예외가 어디서 생기는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 논리 주소가 물리 주소가 되기까지의 경로             │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 논리 주소 생성                                                │
-│        │                                                            │
-│        ▼                                                            │
-│ 페이지 번호 + 오프셋 분리                                           │
-│        │                                                            │
-│        ▼                                                            │
-│ TLB 조회 ────────────────┬───────────────▶ 적중(Hit)                │
-│        │                 │                     │                     │
-│        │                 └───────────────▶ 미적중(Miss)             │
-│        │                                       │                     │
-│        │                                       ▼                     │
-│        │                              페이지 테이블 조회            │
-│        │                                       │                     │
-│        ▼                                       ▼                     │
-│ 권한 확인 / 존재 확인                    프레임 번호 획득            │
-│        │                                                            │
-│        ├─ 실패 ▶ 페이지 폴트 (Page Fault) / 보호 예외               │
-│        │                                                            │
-│        ▼                                                            │
-│ 물리 프레임 번호 + 오프셋 결합                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ RAM 접근                                                            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소가 물리 주소가 되기까지의 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 논리 주소 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 번호 + 오프셋 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB 조회 ▶ 적중(Hit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 미적중(Miss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권한 확인 / 존재 확인 프레임 번호 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실패 ▶ 페이지 폴트 (Page Fault) / 보호 예외</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 프레임 번호 + 오프셋 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM 접근</div></div>
+</div>
+</div>
+
+
 
 예를 들어 4킬로바이트(KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는 시스템에서 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 하위 12비트는 오프셋으로 그대로 유지된다. 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 다른 물리 프레임으로 바뀌므로, 프로그램은 연속 공간처럼 보이는 메모리를 사용하면서도 운영체제는 실제 RAM을 떨어진 여러 프레임에 나누어 배치할 수 있다. 이것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연성, 그리고 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)의 기술적 출발점이다.
 
@@ -171,24 +161,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 물리 배치 중심 메모리 사용
-            │
-            ▼
-논리 주소 (Logical Address) / 물리 주소 (Physical Address) 분리
-            │
-            ▼
-MMU (Memory Management Unit) + 페이지 테이블 (Page Table)
-            │
-            ▼
-TLB (Translation Lookaside Buffer) 기반 고속 주소 변환
-            │
-            ▼
-가상 메모리 (Virtual Memory) · 페이지 폴트 (Page Fault) 처리
-            │
-            ▼
-ASLR (Address Space Layout Randomization) · 가상화 · 격리 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 물리 배치 중심 메모리 사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">논리 주소 (Logical Address) / 물리 주소 (Physical Address) 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MMU (Memory Management Unit) + 페이지 테이블 (Page Table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) 기반 고속 주소 변환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 메모리 (Virtual Memory) · 페이지 폴트 (Page Fault) 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASLR (Address Space Layout Randomization) · 가상화 · 격리 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 주소 변환에서 시작해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), 보안 강화로 확장되는 발전 방향을 보여준다.
 

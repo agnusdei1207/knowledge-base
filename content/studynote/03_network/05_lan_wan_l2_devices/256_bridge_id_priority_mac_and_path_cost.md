@@ -23,19 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 10대가 연결된 망에서 "누가 대장 할래?"라고 물으면 기계들은 결정을 내릴 수 없다. 반드시 모든 기계가 동의할 수 있는 객관적이고 유일무이한 숫자 값이 필요하다. 또한 대장까지 가는 길이 여러 갈래일 때 "어느 길이 제일 빠른가?"를 판단할 거리 단위도 필요하다. 이 두 가지 기준이 없으면 트리 구조 자체가 그려지지 않는다.
 
 - **💡 비유**: 반장 선거와 같습니다. 
-  - **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID**: 반장(대장)을 뽑을 때 무조건 **"출석 번호(우선순위+[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))가 제일 빠른(낮은) 사람"**이 반장이 된다는 엄격한 학교 규칙입니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID</strong>: 반장(대장)을 뽑을 때 무조건 <strong>"출석 번호(우선순위+<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)가 제일 빠른(낮은) 사람"</strong>이 반장이 된다는 엄격한 학교 규칙입니다.
   - **비용(Cost)**: 반장 집까지 놀러 갈 때 좁은 흙길(10Mbps)로 가면 피로도(Cost)가 100이고, 넓은 고속도로(1Gbps)로 가면 피로도가 4입니다. 당연히 덜 피곤한(Cost가 낮은) 길을 선택합니다.
 
-```text
-[루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ▼
-[브리지 ID, 비용]
-    │
-    └──▶ [STP 4단계 상태 전이]
-```
 
-- **📢 섹션 요약 비유**: ** [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 **"군번(계급장)"**이고, Path Cost는 도로의 넓이에 따라 매겨진 **"통행료"**입니다. 군번이 가장 빠른 자가 지휘관이 되고, 통행료가 가장 싼 길만 남겨두고 비싼 길은 모두 통제(Block)해 버립니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브리지 ID, 비용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STP 4단계 상태 전이</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 </strong>"군번(계급장)"**이고, Path Cost는 도로의 넓이에 따라 매겨진 **"통행료"**입니다. 군번이 가장 빠른 자가 지휘관이 되고, 통행료가 가장 싼 길만 남겨두고 비싼 길은 모두 통제(Block)해 버립니다.
 
 ---
 
@@ -43,36 +47,37 @@ tags = ["studynote-network"]
 
 ### 1. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID ([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID)의 구성
 총 8바이트(64비트)로 이루어져 있다.
-- **Priority (2바이트 / 16비트)**: 관리자가 0부터 65535까지 수동으로 바꿀 수 있는 우선순위 값. 기본값은 **32,768**이다. (보통 4096 단위로 증가/감소하도록 강제됨).
-- **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 (6바이트 / 48비트)**: 해당 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 하드웨어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소.
+- **Priority (2바이트 / 16비트)**: 관리자가 0부터 65535까지 수동으로 바꿀 수 있는 우선순위 값. 기본값은 <strong>32,768</strong>이다. (보통 4096 단위로 증가/감소하도록 강제됨).
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 (6바이트 / 48비트)</strong>: 해당 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 하드웨어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소.
 
 **선출의 법칙**: 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 BPDU를 주고받을 때, 무조건 숫자가 '작은' 쪽이 승리한다.
 - 먼저 Priority를 비교한다. 관리자가 A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 Priority를 `4096`으로 세팅했다면, 기본값 `32768`을 가진 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 다 이기고 대장(Root)이 된다.
 - 만약 Priority가 같다면? [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 비교하여 더 작은 놈이 이긴다. 공장에서 옛날에 생산된 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일수록 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 앞 번호이므로, 관리자가 Priority 설정을 안 해두면 회사 내의 가장 낡고 구린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대장이 되어 망 전체가 느려지는 대참사가 발생한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                브리지 ID (Bridge ID) 비교 예시                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스위치 A ]                      [ 스위치 B ]               │
- │   Priority: 32768                 Priority: 32768           │
- │   MAC: 00:00:AA:11:22:33          MAC: 00:00:BB:11:22:33    │
- │                                                             │
- │   * 대결 결과: Priority가 같으므로 MAC 주소가 더 낮은(AA < BB) │
- │     스위치 A가 승리하여 Root Bridge가 된다!                    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브리지 ID (Bridge ID) 비교 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 A</div><div class="kb-diagram-node">스위치 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Priority: 32768 Priority: 32768</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC: 00:00:AA:11:22:33 MAC: 00:00:BB:11:22:33</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대결 결과: Priority가 같으므로 MAC 주소가 더 낮은(AA &lt; BB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A가 승리하여 Root Bridge가 된다!</div></div>
+</div>
+</div>
+
+
 
 ### 2. 비용 (Path Cost)의 기준과 누적 연산
 Root Bridge가 선출되면, 나머지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 대장에게 가는 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 찾아야 한다. 이때 IEEE가 정의한 선로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(속도)별 Cost를 합산한다. 속도가 빠를수록 값이 낮다.
-- **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Mbps** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **100**
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Mbps</strong> [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **100**
 - **100 Mbps** 패스트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **19**
 - **1 Gbps** 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **4**
-- **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **2**
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Gbps</strong> [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **2**
 
 **누적 계산(Accumulation)**: 내가 대장한테 가기 위해 거쳐야 하는 '수신 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)'들의 Cost를 전부 더한다.
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B를 거쳐(100M 선, Cost 19), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A(대장)로(100M 선, Cost 19) 간다면 총 누적 Cost는 19 + 19 = **38**이다. 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C에서 A로 다이렉트로 가는 1Gbps 선(Cost 4)이 있다면, C는 Cost가 4인 다이렉트 선을 RP로 삼고, Cost가 38인 우회로는 Block(차단) 시켜 버린다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B를 거쳐(100M 선, Cost 19), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A(대장)로(100M 선, Cost 19) 간다면 총 누적 Cost는 19 + 19 = <strong>38</strong>이다. 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C에서 A로 다이렉트로 가는 1Gbps 선(Cost 4)이 있다면, C는 Cost가 4인 다이렉트 선을 RP로 삼고, Cost가 38인 우회로는 Block(차단) 시켜 버린다.
 
 - **📢 섹션 요약 비유**: ** 숫자가 작을수록 좋다는 STP의 철칙은 마치 **"골프(Golf)"** 경기와 같습니다. 랭킹 점수(Priority)도 작아야 1등이고, 구멍에 넣기까지 친 타수(Cost)도 적어야 승리합니다.
 
@@ -130,15 +135,19 @@ Root Bridge가 선출되면, 나머지 [스위치](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ▼
-[현재 개념: 브리지 ID, 비용]
-    │
-    ├──▶ [확장 A: STP 4단계 상태 전이]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브리지 ID, 비용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용는 [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…에서 출발해 현재 메커니즘을 정교화하고, 이후 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

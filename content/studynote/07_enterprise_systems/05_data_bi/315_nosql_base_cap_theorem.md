@@ -21,9 +21,9 @@ tags = ["studynote-enterprise-systems"]
 그러나 수평 확장이 필요한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 네트워크 분단([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 반드시 발생하므로, Eric Brewer가 2000년에 발표한 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에 따라 C 또는 A 중 하나를 타협해야 한다.
 
 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 3 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/):
-- **[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (C)**: 모든 노드가 동일 시점에 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 봄
-- **[Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) (A)**: 모든 요청이 응답을 받음 (오류 없이)
-- **[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance (P)**: 네트워크 분단 상황에서도 동작 지속
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a> (C)</strong>: 모든 노드가 동일 시점에 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 봄
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a> (A)</strong>: 모든 요청이 응답을 받음 (오류 없이)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> Tolerance (P)</strong>: 네트워크 분단 상황에서도 동작 지속
 
 실제 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 P는 포기할 수 없으므로 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 또는 AP를 선택한다.
 
@@ -51,34 +51,30 @@ tags = ["studynote-enterprise-systems"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 삼각형과 DB 배치
 
-```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                  CAP 삼각형                                  │
-  │                                                             │
-  │                Consistency (C)                              │
-  │                      △                                      │
-  │                     / \                                     │
-  │                    /   \                                    │
-  │                   /     \                                   │
-  │         CP 영역  /       \  (불가능 영역)                    │
-  │                 /         \                                 │
-  │        HBase   /           \  MongoDB                      │
-  │     Zookeeper ●             ● (default)                    │
-  │               /    ×전부     \                              │
-  │              / (이론상 불가)  \                              │
-  │             /─────────────────\                            │
-  │            /                   \                           │
-  │ Partition ●                     ● Availability             │
-  │ Tolerance  \       AP 영역      /  (A)                     │
-  │    (P)      \                  /                           │
-  │              \ Cassandra      /                            │
-  │               ● DynamoDB ●   /                             │
-  │                \  CouchDB   /                              │
-  │                 ●──────────●                               │
-  │                                                             │
-  │  RDBMS (MySQL, PostgreSQL): 단일 서버 → CA 영역 (P 포기)    │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAP 삼각형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consistency (C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">△</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CP 영역 / \ (불가능 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBase / \ MongoDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zookeeper ● ● (default)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ×전부 \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (이론상 불가) \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition ● ● Availability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tolerance \ AP 영역 / (A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P) \ /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ Cassandra /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● DynamoDB ● /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ CouchDB /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS (MySQL, PostgreSQL): 단일 서버 → CA 영역 (P 포기)</div></div>
+</div>
+</div>
+
+
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 레벨 스펙트럼
 
@@ -151,21 +147,23 @@ CAP의 한계를 보완한 [PACELC](/knowledge-base/studynote/13_cloud_architect
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-RDB ACID 트랜잭션 - 분산 환경 확장 한계
-    │
-    ▼
-CAP 정리 - 일관성·가용성·분할내성 동시 불가
-    │
-    ▼
-NoSQL BASE - 결과적 일관성으로 가용성 극대화
-    │
-    ▼
-CP 계열 (HBase, ZooKeeper) vs AP 계열 (Cassandra)
-    │
-    ▼
-NewSQL (CockroachDB, Spanner) - ACID + 수평 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDB ACID 트랜잭션 - 분산 환경 확장 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAP 정리 - 일관성·가용성·분할내성 동시 불가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NoSQL BASE - 결과적 일관성으로 가용성 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CP 계열 (HBase, ZooKeeper) vs AP 계열 (Cassandra)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NewSQL (CockroachDB, Spanner) - ACID + 수평 확장</div>
+</div>
+</div>
+
+
 
 > **키워드**: [CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/), BASE, ACID, [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/), [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance, [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/), [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/)
 

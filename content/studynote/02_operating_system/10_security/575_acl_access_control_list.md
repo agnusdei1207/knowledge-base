@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))은 [접근 제어 행렬](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)을 **객체([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 기준**으로 분할하여, 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "누구(Object)가 어떤 권한(Subject)을 가지는지" 목록을 저장하는 방식이다.
+> 1. **본질**: [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))은 [접근 제어 행렬](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)을 <strong>객체(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>) 기준</strong>으로 분할하여, 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "누구(Object)가 어떤 권한(Subject)을 가지는지" 목록을 저장하는 방식이다.
 > 2. **가치**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 시 해당 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 ACL만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 되므로 **중앙 테이블 탐색 없이** $O(1)$ 시간에 접근 권한을 검증할 수 있다.
-> 3. **한계**: 사용자가 퇴사하거나 권한을 회수할 때, 해당 사용자가 포함된 **모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 ACL을 찾아 업데이트**해야 하는 $O(N)$ 작업이 필요하다.
+> 3. **한계**: 사용자가 퇴사하거나 권한을 회수할 때, 해당 사용자가 포함된 <strong>모든 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 ACL을 찾아 업데이트</strong>해야 하는 $O(N)$ 작업이 필요하다.
 
 ---
 
@@ -22,14 +22,14 @@ tags = ["studynote-operating-system"]
 ### 1.1 [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)의 한계
 
 [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)에서는 사용자 퇴사 시:
-- 시스템의 **모든 권한 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)**을 스캔
+- 시스템의 <strong>모든 권한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/">튜플</a></strong>을 스캔
 - 해당 사용자가 포함된 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 모두 삭제
 
-수백만 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 환경에서 이는 **수시간에서 수일**이 소요될 수 있다.
+수백만 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 환경에서 이는 <strong>수시간에서 수일</strong>이 소요될 수 있다.
 
 ### 1.2 ACL의 해결책
 
-ACL은 **"[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Object)와/과에(각각)"** 권한 목록을 저장한다:
+ACL은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Object)와/과에(각각)"</strong> 권한 목록을 저장한다:
 
 ```text
 [ 파일 A의 ACL ]
@@ -85,7 +85,7 @@ setfacl -m u:alice:rw /data/report.txt
 
 ### 3.1 Windows 보안 탭
 
-Windows 탐색기에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 우클릭 → [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) → 보안 탭에서 보는 것이 바로 **NTFS [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)**이다.
+Windows 탐색기에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 우클릭 → [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) → 보안 탭에서 보는 것이 바로 <strong>NTFS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong>이다.
 
 ### 3.2 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 항의구조
 
@@ -103,7 +103,7 @@ NETWORK SERVICE | Deny | Full Control
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **권한 회수의 용이성**: 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 권한 변경 시 해당 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL만 수정
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 관리**: 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가 직접 권한을 관리 가능
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 관리</strong>: 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가 직접 권한을 관리 가능
 - **역방향 조회 어려움**: "이 사용자가 접근 가능한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록" 조회 시 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스캔 필요
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -129,25 +129,29 @@ NETWORK SERVICE | Deny | Full Control
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
-│
-▼
-[접근 제어 목록 (ACL, Access Control List)]
-│
-├──▶ [자격 증명 리스트 (Capability List / Ticket)]
-└──▶ [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">롤 기반 접근 제어 (RBAC, Role-Based Access Control)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)**은 각 교실마다 **"이 교실에 출입 가능한 학생 명단"**을 게시하는 것과 같다. 교실 문 앞에 명단이 붙어있어, 학생이 들어올 때 문지기가 명단을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 된다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong>은 각 교실마다 <strong>"이 교실에 출입 가능한 학생 명단"</strong>을 게시하는 것과 같다. 교실 문 앞에 명단이 붙어있어, 학생이 들어올 때 문지기가 명단을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 된다.
 
-2. **권한 회수**는 퇴사하는 직원이 작업한 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 앞명부를 수정해야 하는 것과 같다. 만약 그가 100개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 접근했다면, 100개 모든 명부를 찾아 수정해야 한다.
+2. <strong>권한 회수</strong>는 퇴사하는 직원이 작업한 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 앞명부를 수정해야 하는 것과 같다. 만약 그가 100개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 접근했다면, 100개 모든 명부를 찾아 수정해야 한다.
 
-3. **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) vs Capability**는 "교실별 명부"와 "학생별 출입증"의 차이와 같다. 교실별 명부는 수정이 쉽지만, "이 학생은 어디 갈 수 있나"를 알려면 모든 명부를 뒤져야 한다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a> vs Capability</strong>는 "교실별 명부"와 "학생별 출입증"의 차이와 같다. 교실별 명부는 수정이 쉽지만, "이 학생은 어디 갈 수 있나"를 알려면 모든 명부를 뒤져야 한다.
 
 ---
 

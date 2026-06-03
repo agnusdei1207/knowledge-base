@@ -38,52 +38,45 @@ tags = ["studynote-bigdata"]
 
 ### 네트워크 장애 예측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              네트워크 장애 예측 아키텍처                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  기지국·코어망·전송 장비                                           │
-│  (수천 개 노드 × 수백 KPI × 1분 단위)                             │
-│          │                                                       │
-│          ▼  (Apache Kafka)                                       │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │ 스트리밍 처리 (Flink)                                      │  │
-│  │  - 이상 KPI 패턴 탐지 (임계 기반 + ML)                    │  │
-│  │  - 다중 KPI 상관관계 분석                                  │  │
-│  │  - 선행 지표 (leading indicator) 추출                      │  │
-│  └────────────────────────────┬──────────────────────────────┘  │
-│                               │                                  │
-│                 ┌─────────────┴──────────────────┐              │
-│                 ▼                                ▼              │
-│  ┌──────────────────────┐       ┌──────────────────────────┐   │
-│  │ 단기 예측 (1~6시간)   │       │ 장기 예측 (1~7일)         │   │
-│  │ LSTM + 슬라이딩 윈도우│       │ Gradient Boosting         │   │
-│  └──────────────────────┘       └──────────────────────────┘   │
-│                 │                                │              │
-│                 └─────────────────┬──────────────┘              │
-│                                   ▼                             │
-│                 ┌─────────────────────────────────┐            │
-│                 │ 자동 장애 예방 조치               │            │
-│                 │ - 트래픽 우회 (Traffic Rerouting) │            │
-│                 │ - 사전 유지보수 작업 지시          │            │
-│                 │ - NOC 알림 (Network Ops Center)   │            │
-│                 └─────────────────────────────────┘            │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 장애 예측 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국·코어망·전송 장비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수천 개 노드 × 수백 KPI × 1분 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Apache Kafka)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍 처리 (Flink)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이상 KPI 패턴 탐지 (임계 기반 + ML)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다중 KPI 상관관계 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 선행 지표 (leading indicator) 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단기 예측 (1~6시간)</div><div class="kb-diagram-cell">장기 예측 (1~7일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM + 슬라이딩 윈도우</div><div class="kb-diagram-cell">Gradient Boosting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 장애 예방 조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 트래픽 우회 (Traffic Rerouting)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사전 유지보수 작업 지시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NOC 알림 (Network Ops Center)</div></div>
+</div>
+</div>
+
+
 
 ### 고객 이탈 생존 분석 (Churn Survival Analysis)
 
-```
-생존 함수 S(t) = P(이탈 시점 T > t)
-                = 시간 t까지 고객이 남아있을 확률
 
-Cox Proportional Hazard 모델:
-  h(t) = h₀(t) × exp(β₁·사용량 감소 + β₂·민원 횟수 + ...)
 
-→ 각 고객의 30/60/90일 이탈 확률 산출
-→ 위험 그룹에 사전 프로모션 개입
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">생존 함수 S(t) = P(이탈 시점 T &gt; t)</div>
+<div class="kb-diagram-note">= 시간 t까지 고객이 남아있을 확률</div>
+<div class="kb-diagram-note">Cox Proportional Hazard 모델:</div>
+<div class="kb-diagram-note">h(t) = h₀(t) × exp(β₁·사용량 감소 + β₂·민원 횟수 + ...)</div>
+<div class="kb-diagram-note">→ 각 고객의 30/60/90일 이탈 확률 산출</div>
+<div class="kb-diagram-note">→ 위험 그룹에 사전 프로모션 개입</div>
+</div>
+</div>
+
+
 
 ### QoE 측정 지표
 
@@ -111,15 +104,18 @@ Cox Proportional Hazard 모델:
 
 ### [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수익화
 
-```
-5G 데이터 자산
-      │
-      ├── B2C (소비자): QoE 최적화 → 프리미엄 요금제 차별화
-      │
-      ├── B2B (기업): 네트워크 슬라이싱 → 산업별 맞춤 SLA
-      │
-      └── B2B2C (데이터 판매): 이동 패턴·상권 분석 → 지자체·유통사 판매
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">5G 데이터 자산</div>
+<div class="kb-diagram-tree-item" style="--depth:3">B2C (소비자): QoE 최적화 → 프리미엄 요금제 차별화</div>
+<div class="kb-diagram-tree-item" style="--depth:3">B2B (기업): 네트워크 슬라이싱 → 산업별 맞춤 SLA</div>
+<div class="kb-diagram-tree-item" style="--depth:3">B2B2C (데이터 판매): 이동 패턴·상권 분석 → 지자체·유통사 판매</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 통신사는 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통로)를 파는 것"에서 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 흐르는 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 새로운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만드는 것"으로 진화 중이다.
 
@@ -131,7 +127,7 @@ Cox Proportional Hazard 모델:
 
 **목표**: 계약 만료 60일 전 이탈 위험 고객에게 최적 오퍼(offer) 자동 제공.
 
-**[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**:
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>:
 
 | 단계 | 처리 | 기술 |
 |:---|:---|:---|
@@ -142,7 +138,7 @@ Cox Proportional Hazard 모델:
 | 효과 측정 | 오퍼 수락률·이탈율 변화 | A/B 테스트 |
 
 **기술사 핵심 판단**:
-- **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)**: CDR [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 통신비밀보호법 적용 대상 → 내부 분석 목적 외 제3자 제공 엄격 제한.
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong>: CDR [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 통신비밀보호법 적용 대상 → 내부 분석 목적 외 제3자 제공 엄격 제한.
 - **설명가능성**: 이탈 예측 결과에 대한 고객 이의 제기 시 근거 설명 가능해야 함.
 - **공정성**: 이탈 방지 오퍼가 특정 고객 집단에만 집중되는 차별 방지 필요.
 
@@ -177,21 +173,23 @@ Cox Proportional Hazard 모델:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[통화 상세 기록 (CDR, Call Detail Record) — 통화 기록 수집]
-    │
-    ▼
-[네트워크 이상 탐지 (Network Anomaly Detection) — 실시간 분석]
-    │
-    ▼
-[가입자 이탈 예측 (Churn Prediction) — ML 모델]
-    │
-    ▼
-[네트워크 디지털 트윈 (Network Digital Twin) — 가상 시뮬레이션]
-    │
-    ▼
-[5G 트래픽 지능화 (5G Traffic Intelligence) — AI 자원 배분]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">통화 상세 기록 (CDR, Call Detail Record) — 통화 기록 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 이상 탐지 (Network Anomaly Detection) — 실시간 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가입자 이탈 예측 (Churn Prediction) — ML 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 디지털 트윈 (Network Digital Twin) — 가상 시뮬레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G 트래픽 지능화 (5G Traffic Intelligence) — AI 자원 배분</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 통화 기록을 실시간 분석하고, 이탈 예측과 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 거쳐 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 자원을 지능적으로 배분하는 통신 빅데이터의 발전을 보여준다.
 

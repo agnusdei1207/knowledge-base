@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: 이벤트 시간(Event Time)은 이벤트가 실제로 발생한 시각([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내 타임스탬프)이고, 처리 시간(Processing Time)은 스트리밍 시스템이 해당 이벤트를 처리한 시각(시스템 시계)으로, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)·장애·배치 재처리 등에 의해 둘 사이에 수 분~수 시간의 차이([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 생긴다.
 - **가치**: 사기 탐지·세금 계산·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 측정 등 비즈니스 로직이 "언제 일어난 일인가"에 의존할 때는 이벤트 시간이 필수이며, 처리 시간은 구현이 단순하지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 이벤트로 인해 집계 결과가 틀릴 수 있다.
-- **판단 포인트**: 이벤트 시간 처리는 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ([워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))를 통해 "얼마나 늦은 이벤트까지 기다릴 것인가"를 결정해야 하며, 이는 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Accuracy)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 트레이드오프**로 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)가 클수록 정확하지만 늦게 결과가 나온다.
+- **판단 포인트**: 이벤트 시간 처리는 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ([워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))를 통해 "얼마나 늦은 이벤트까지 기다릴 것인가"를 결정해야 하며, 이는 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(Accuracy)과 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)의 트레이드오프</strong>로 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)가 클수록 정확하지만 늦게 결과가 나온다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-bigdata"]
 
 ### 1. 시간 개념의 중요성
 
-스트리밍 처리에서 "시간"은 단순한 타임스탬프가 아니라 **집계 결과의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 결정하는 핵심 기준**이다.
+스트리밍 처리에서 "시간"은 단순한 타임스탬프가 아니라 <strong>집계 결과의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>을 결정하는 핵심 기준</strong>이다.
 
 ```
 실제 발생 타임라인:
@@ -55,25 +55,26 @@ tags = ["studynote-bigdata"]
 
 ### 1. 이벤트 시간 vs 처리 시간 집계 차이
 
-```
-이벤트 스트림 (도착 순서):
-──────────────────────────────────────────────────────────
-시간축(시스템):  10:00   10:05   10:10   10:15   10:20
-                  │       │       │       │       │
-이벤트(처리시간): [A]     [C]     [B]              [D]
-이벤트 시간:      A=10:00 C=10:08 B=10:03         D=10:18
-                  ↑       ↑       ↑
-                  도착                 20초 지연 후 도착
 
-[처리 시간 기준 10분 윈도우]
-  윈도우 1 (10:00~10:10): A, C, B
-  윈도우 2 (10:10~10:20): D
 
-[이벤트 시간 기준 10분 윈도우]
-  윈도우 1 (10:00~10:10): A, B, C (B는 10:03에 발생)
-  윈도우 2 (10:10~10:20): D
-  → 더 정확! (B가 올바른 윈도우에 포함됨)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이벤트 스트림 (도착 순서):</div>
+<div class="kb-diagram-note">시간축(시스템): 10:00 10:05 10:10 10:15 10:20</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">이벤트(처리시간):</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">D</div></div>
+<div class="kb-diagram-note">이벤트 시간: A=10:00 C=10:08 B=10:03 D=10:18</div>
+<div class="kb-diagram-note">도착 20초 지연 후 도착</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리 시간 기준 10분 윈도우</div></div>
+<div class="kb-diagram-note">윈도우 1 (10:00~10:10): A, C, B</div>
+<div class="kb-diagram-note">윈도우 2 (10:10~10:20): D</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간 기준 10분 윈도우</div></div>
+<div class="kb-diagram-note">윈도우 1 (10:00~10:10): A, B, C (B는 10:03에 발생)</div>
+<div class="kb-diagram-note">윈도우 2 (10:10~10:20): D</div>
+<div class="kb-diagram-note">→ 더 정확! (B가 올바른 윈도우에 포함됨)</div>
+</div>
+</div>
+
+
 
 ### 2. 처리 시간 사용법 (Flink)
 
@@ -126,7 +127,7 @@ withTimestamps
 
 1. **무시(Drop)**: 기본 동작 — 이미 닫힌 윈도우의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트는 버림
 2. **Side Output**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트를 별도 스트림으로 분기하여 이후 처리
-3. **허용 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 확장**: `allowedLateness(Time.minutes(5))` — 윈도우를 조금 더 열어둠
+3. <strong>허용 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 확장</strong>: `allowedLateness(Time.minutes(5))` — 윈도우를 조금 더 열어둠
 
 ```java
 // 지연 이벤트 Side Output 처리
@@ -144,8 +145,8 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ### 2. 연결 개념
 
-- **[Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)**: 이벤트 시간 처리의 핵심 — [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용 임계값
-- **[Window Operations](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)**: 이벤트 시간 기반 윈도우의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 위한 기반
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a></strong>: 이벤트 시간 처리의 핵심 — [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용 임계값
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/">Window Operations</a></strong>: 이벤트 시간 기반 윈도우의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 위한 기반
 - **Exactly-Once**: 이벤트 시간 재처리 시 결정론적 결과 보장
 
 **📢 섹션 요약 비유**
@@ -190,7 +191,7 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ### 2. 결론
 
-이벤트 시간 vs 처리 시간의 선택은 **"얼마나 정확한 비즈니스 시간 기반 분석이 필요한가"**에 달려 있다. 기술사 답안에서는 두 개념의 정의, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Skew)이 발생하는 원인, Watermark를 통한 이벤트 시간 처리 메커니즘, 그리고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Side Output, allowedLateness)을 함께 서술해야 한다.
+이벤트 시간 vs 처리 시간의 선택은 <strong>"얼마나 정확한 비즈니스 시간 기반 분석이 필요한가"</strong>에 달려 있다. 기술사 답안에서는 두 개념의 정의, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Skew)이 발생하는 원인, Watermark를 통한 이벤트 시간 처리 메커니즘, 그리고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Side Output, allowedLateness)을 함께 서술해야 한다.
 
 **📢 섹션 요약 비유**
 > 이벤트 시간은 "과거를 정확히 재구성하는 역사가의 도구"이고, 처리 시간은 "지금 이 순간을 빠르게 기록하는 저널리스트의 도구"다. 정확한 역사서(이벤트 시간 집계)를 쓰려면 느려도 출처를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하고, 속보(처리 시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)는 빠르게 발행해야 한다.
@@ -209,21 +210,23 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스트림 데이터 수집]
-    │
-    ▼
-[처리 시간(Processing Time)]
-    │
-    ▼
-[이벤트 시간(Event Time)]
-    │
-    ▼
-[워터마크(Watermark)]
-    │
-    ▼
-[지연 데이터 처리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 데이터 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리 시간(Processing Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간(Event Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크(Watermark)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지연 데이터 처리</div></div>
+</div>
+</div>
+
+
 
 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)는 처리 시간에서 이벤트 시간과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 중심으로 발전했다.
 

@@ -18,32 +18,33 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리
 
-```
-GCD (Greatest Common Divisor, 최대공약수):
 
-두 수 a, b의 최대공약수 GCD(a, b):
-  a와 b를 동시에 나누는 가장 큰 정수
 
-예: GCD(48, 18)
-  약수 48: {1, 2, 3, 4, 6, 8, 12, 16, 24, 48}
-  약수 18: {1, 2, 3, 6, 9, 18}
-  공약수: {1, 2, 3, 6}
-  최대공약수: 6
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GCD (Greatest Common Divisor, 최대공약수):</div>
+<div class="kb-diagram-note">두 수 a, b의 최대공약수 GCD(a, b):</div>
+<div class="kb-diagram-note">a와 b를 동시에 나누는 가장 큰 정수</div>
+<div class="kb-diagram-note">예: GCD(48, 18)</div>
+<div class="kb-diagram-note">약수 48: {1, 2, 3, 4, 6, 8, 12, 16, 24, 48}</div>
+<div class="kb-diagram-note">약수 18: {1, 2, 3, 6, 9, 18}</div>
+<div class="kb-diagram-note">공약수: {1, 2, 3, 6}</div>
+<div class="kb-diagram-note">최대공약수: 6</div>
+<div class="kb-diagram-note">유클리드 호제법 핵심 원리:</div>
+<div class="kb-diagram-note">GCD(a, b) = GCD(b, a mod b)</div>
+<div class="kb-diagram-note">GCD(48, 18) 계산:</div>
+<div class="kb-diagram-note">단계 1: GCD(48, 18) = GCD(18, 48 mod 18) = GCD(18, 12)</div>
+<div class="kb-diagram-note">단계 2: GCD(18, 12) = GCD(12, 18 mod 12) = GCD(12, 6)</div>
+<div class="kb-diagram-note">단계 3: GCD(12, 6) = GCD(6, 12 mod 6) = GCD(6, 0)</div>
+<div class="kb-diagram-note">단계 4: b = 0 → a가 GCD → GCD = 6 ✓</div>
+<div class="kb-diagram-note">왜 작동하는가?</div>
+<div class="kb-diagram-note">d가 a와 b 둘 다 나누면 → d는 (a - kb)도 나눔</div>
+<div class="kb-diagram-note">즉, d가 a와 b의 공약수이면 → a mod b의 약수이기도 함</div>
+<div class="kb-diagram-note">역도 성립 → GCD(a, b) = GCD(b, a mod b)</div>
+</div>
+</div>
 
-유클리드 호제법 핵심 원리:
-  GCD(a, b) = GCD(b, a mod b)
-  
-  GCD(48, 18) 계산:
-  단계 1: GCD(48, 18) = GCD(18, 48 mod 18) = GCD(18, 12)
-  단계 2: GCD(18, 12) = GCD(12, 18 mod 12) = GCD(12, 6)
-  단계 3: GCD(12, 6) = GCD(6, 12 mod 6) = GCD(6, 0)
-  단계 4: b = 0 → a가 GCD → GCD = 6 ✓
 
-왜 작동하는가?
-  d가 a와 b 둘 다 나누면 → d는 (a - kb)도 나눔
-  즉, d가 a와 b의 공약수이면 → a mod b의 약수이기도 함
-  역도 성립 → GCD(a, b) = GCD(b, a mod b)
-```
 
 > 📢 **섹션 요약 비유**: 유클리드 호제법은 토지 측량 — 48m×18m 직사각형 땅을 정사각형으로 나눌 때 가장 큰 정사각형 크기가 [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/). "나머지로 다시 측량" 반복 = 유클리드!
 
@@ -146,40 +147,39 @@ print(d)  # 2753 (RSA 개인키 d 계산)
 
 ## Ⅳ. 응용 문제
 
-```
-1. 분수 약분:
-  48/18 = 48/GCD(48,18) / 18/GCD(48,18) = 8/3
 
-2. 여러 수의 GCD:
-  GCD(a, b, c) = GCD(GCD(a, b), c)
-  
-  GCD(12, 18, 24):
-  GCD(12, 18) = 6
-  GCD(6, 24) = 6
 
-3. 배열의 GCD (Python):
-  from math import gcd
-  from functools import reduce
-  nums = [12, 18, 24, 48]
-  result = reduce(gcd, nums)  # 6
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 분수 약분:</div>
+<div class="kb-diagram-note">48/18 = 48/GCD(48,18) / 18/GCD(48,18) = 8/3</div>
+<div class="kb-diagram-note">2. 여러 수의 GCD:</div>
+<div class="kb-diagram-note">GCD(a, b, c) = GCD(GCD(a, b), c)</div>
+<div class="kb-diagram-note">GCD(12, 18, 24):</div>
+<div class="kb-diagram-note">GCD(12, 18) = 6</div>
+<div class="kb-diagram-note">GCD(6, 24) = 6</div>
+<div class="kb-diagram-note">3. 배열의 GCD (Python):</div>
+<div class="kb-diagram-note">from math import gcd</div>
+<div class="kb-diagram-note">from functools import reduce</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">nums =</div><div class="kb-diagram-node">12, 18, 24, 48</div></div>
+<div class="kb-diagram-note">result = reduce(gcd, nums) # 6</div>
+<div class="kb-diagram-note">4. 타일링 문제:</div>
+<div class="kb-diagram-note">m×n 방을 a×a 정사각형 타일로 채울 때</div>
+<div class="kb-diagram-note">가장 큰 a = GCD(m, n)</div>
+<div class="kb-diagram-note">5. 코딩테스트 패턴:</div>
+<div class="kb-diagram-note">"두 수의 공약수 개수" → 1~GCD(a,b) 범위에서 탐색</div>
+<div class="kb-diagram-note">"주기 최소화" → LCM 활용</div>
+<div class="kb-diagram-note">"톱니바퀴 회전" → LCM</div>
+<div class="kb-diagram-note">6. 복잡도 비교:</div>
+<div class="kb-diagram-note">소인수분해 GCD: O(√max(a,b))</div>
+<div class="kb-diagram-note">유클리드 GCD: O(log min(a,b))</div>
+<div class="kb-diagram-note">1,000,000 입력:</div>
+<div class="kb-diagram-note">소인수분해: ~1,000번</div>
+<div class="kb-diagram-note">유클리드: ~20번 → 50배 빠름</div>
+</div>
+</div>
 
-4. 타일링 문제:
-  m×n 방을 a×a 정사각형 타일로 채울 때
-  가장 큰 a = GCD(m, n)
 
-5. 코딩테스트 패턴:
-  "두 수의 공약수 개수" → 1~GCD(a,b) 범위에서 탐색
-  "주기 최소화" → LCM 활용
-  "톱니바퀴 회전" → LCM
-  
-6. 복잡도 비교:
-  소인수분해 GCD: O(√max(a,b))
-  유클리드 GCD: O(log min(a,b))
-  
-  1,000,000 입력:
-  소인수분해: ~1,000번
-  유클리드: ~20번 → 50배 빠름
-```
 
 > 📢 **섹션 요약 비유**: 유클리드 응용 — 타일 크기(공약수), 공통 주기(공배수), 암호 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(모듈러 역원)까지. 고등학교 GCD가 프로그래밍 면접, [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/), 게임 로직에 모두 등장!
 
@@ -187,40 +187,40 @@ print(d)  # 2753 (RSA 개인키 d 계산)
 
 ## Ⅴ. 실무 시나리오 — [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과 암호화
 
-```
-시나리오 1: 작업 스케줄링 (LCM)
-  작업 A: 4분마다 실행
-  작업 B: 6분마다 실행
-  작업 C: 10분마다 실행
-  
-  세 작업이 동시 실행되는 주기:
-  LCM(4, 6) = 12
-  LCM(12, 10) = 60분
-  → 1시간마다 동시 실행
-  
-  응용: 정기 배치 작업 충돌 예방
-  LCM이 너무 크면 → 스케줄 분산
 
-시나리오 2: RSA 키 생성 (Extended GCD)
-  1. 두 소수 선택: p=61, q=53
-  2. n = p×q = 3233
-  3. φ(n) = (p-1)(q-1) = 3120
-  4. e = 17 (GCD(17, 3120) = 1 확인)
-  5. d = mod_inverse(17, 3120) = 2753
-  
-  공개키: (17, 3233)
-  개인키: (2753, 3233)
-  
-  메시지 65 암호화: 65^17 mod 3233 = 2790
-  복호화: 2790^2753 mod 3233 = 65 ✓
 
-시나리오 3: 게임 파티클 동기화
-  30 FPS 물리 엔진 + 60 FPS 렌더러
-  GCD(30, 60) = 30
-  LCM(30, 60) = 60 → 매 1/60초마다 동기화 가능
-  물리: 매 2프레임(1/30초) 업데이트
-  렌더: 매 프레임(1/60초) 렌더링
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시나리오 1: 작업 스케줄링 (LCM)</div>
+<div class="kb-diagram-note">작업 A: 4분마다 실행</div>
+<div class="kb-diagram-note">작업 B: 6분마다 실행</div>
+<div class="kb-diagram-note">작업 C: 10분마다 실행</div>
+<div class="kb-diagram-note">세 작업이 동시 실행되는 주기:</div>
+<div class="kb-diagram-note">LCM(4, 6) = 12</div>
+<div class="kb-diagram-note">LCM(12, 10) = 60분</div>
+<div class="kb-diagram-note">→ 1시간마다 동시 실행</div>
+<div class="kb-diagram-note">응용: 정기 배치 작업 충돌 예방</div>
+<div class="kb-diagram-note">LCM이 너무 크면 → 스케줄 분산</div>
+<div class="kb-diagram-note">시나리오 2: RSA 키 생성 (Extended GCD)</div>
+<div class="kb-diagram-note">1. 두 소수 선택: p=61, q=53</div>
+<div class="kb-diagram-note">2. n = p×q = 3233</div>
+<div class="kb-diagram-note">3. φ(n) = (p-1)(q-1) = 3120</div>
+<div class="kb-diagram-note">4. e = 17 (GCD(17, 3120) = 1 확인)</div>
+<div class="kb-diagram-note">5. d = mod_inverse(17, 3120) = 2753</div>
+<div class="kb-diagram-note">공개키: (17, 3233)</div>
+<div class="kb-diagram-note">개인키: (2753, 3233)</div>
+<div class="kb-diagram-note">메시지 65 암호화: 65^17 mod 3233 = 2790</div>
+<div class="kb-diagram-note">복호화: 2790^2753 mod 3233 = 65 ✓</div>
+<div class="kb-diagram-note">시나리오 3: 게임 파티클 동기화</div>
+<div class="kb-diagram-note">30 FPS 물리 엔진 + 60 FPS 렌더러</div>
+<div class="kb-diagram-note">GCD(30, 60) = 30</div>
+<div class="kb-diagram-note">LCM(30, 60) = 60 → 매 1/60초마다 동기화 가능</div>
+<div class="kb-diagram-note">물리: 매 2프레임(1/30초) 업데이트</div>
+<div class="kb-diagram-note">렌더: 매 프레임(1/60초) 렌더링</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 실무 유클리드 — 배치 작업 충돌 방지(LCM), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Extended [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)), 게임 프레임 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)). 고대 수학이 현대 소프트웨어 어디에나!
 

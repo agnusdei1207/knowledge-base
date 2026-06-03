@@ -23,7 +23,7 @@ MIL-HDBK-217은 전자장비의 예상 고장률을 설계 단계에서 계산�
 
 이 방식이 필요했던 이유는 군수, 항공, 통신 장비처럼 현장 투입 전에 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보증서를 요구하는 산업에서는 "일단 써 보고 고장 나면 알자"가 통하지 않기 때문이다. 같은 기능의 시스템이라도 부품 수가 많고, 접합 온도가 높고, 진동이 심한 환경에서 동작하면 고장 가능성이 달라진다. 따라서 설계 도면과 부품표([BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))만으로도 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 위험을 정량화할 공통 언어가 필요했다.
 
-또한 이 예측은 "영원히 안 고장 나는지"를 묻는 것이 아니라, 통상 **유효 수명 구간의 거의 일정한 고장률**을 가정해 비교 가능한 숫자를 만드는 일에 가깝다. 그래서 MIL-HDBK-217은 시험 답안에서는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예측의 출발점이고, 실무에서는 부품 선정·환경 등급·중복 설계 필요성을 논의하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 회계 장부 역할을 한다.
+또한 이 예측은 "영원히 안 고장 나는지"를 묻는 것이 아니라, 통상 <strong>유효 수명 구간의 거의 일정한 고장률</strong>을 가정해 비교 가능한 숫자를 만드는 일에 가깝다. 그래서 MIL-HDBK-217은 시험 답안에서는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예측의 출발점이고, 실무에서는 부품 선정·환경 등급·중복 설계 필요성을 논의하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 회계 장부 역할을 한다.
 
 - **📢 섹션 요약 비유**: MIL-HDBK-217은 건물을 짓기 전에 자재 명세서를 보고 "어느 기둥이 약하고 어느 층이 위험한지"를 먼저 계산해 보는 구조 계산서와 같다. 실제 태풍을 맞아 보기 전에도 설계상 위험한 곳을 미리 숫자로 표시해 주는 셈이다.
 
@@ -31,7 +31,7 @@ MIL-HDBK-217은 전자장비의 예상 고장률을 설계 단계에서 계산�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MIL-HDBK-217의 기본 사고방식은 **부품 단위 고장률을 계산한 뒤 시스템 수준으로 합산**하는 것이다. 실무에서는 크게 **Part Count Method**와 **Part Stress Analysis** 두 접근으로 쓴다. 전자는 상세 회로 정보가 부족한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계에, 후자는 실제 전기적 스트레스와 온도를 알 수 있는 상세 설계에 적합하다.
+MIL-HDBK-217의 기본 사고방식은 <strong>부품 단위 고장률을 계산한 뒤 시스템 수준으로 합산</strong>하는 것이다. 실무에서는 크게 <strong>Part Count Method</strong>와 **Part Stress Analysis** 두 접근으로 쓴다. 전자는 상세 회로 정보가 부족한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계에, 후자는 실제 전기적 스트레스와 온도를 알 수 있는 상세 설계에 적합하다.
 
 | 방법 | 입력 정보 | 주 사용 시점 | 특징 |
 | :--- | :--- | :--- | :--- |
@@ -54,22 +54,21 @@ MIL-HDBK-217의 기본 사고방식은 **부품 단위 고장률을 계산한 �
 
 아래 흐름은 MIL-HDBK-217 계산이 왜 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예산 편성"으로 불리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ BOM -> Base rate(λb) -> Pi factors(πT, πE, πQ) -> Part λp       │
-│                                   │                              │
-│                                   └──────────────┐               │
-│                                                  ▼               │
-│                     Sum of all part rates = λsys                │
-│                                                  │               │
-│                                                  ▼               │
-│                         MTBF / reliability budget                │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOM -&gt; Base rate(λb) -&gt; Pi factors(πT, πE, πQ) -&gt; Part λp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sum of all part rates = λsys</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTBF / reliability budget</div></div>
+</div>
+</div>
+
+
 
 이 구조의 장점은 어디서 고장률이 커지는지 역추적이 가능하다는 점이다. 예를 들어 같은 전원보드라도 접합 온도가 높은 전해 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 팬, 커넥터가 전체 예측 고장률을 지배할 수 있다. 즉 MIL-HDBK-217은 단순 계산법이 아니라 "어떤 부품이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 병목인가"를 찾는 분해 도구이기도 하다.
 
-다만 공식의 형태는 단순해 보여도, 실제 값은 부품군별 세부 모델과 환경 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 크게 좌우된다. 사무실 서버실과 차량 탑재 장비를 같은 계수로 놓으면 숫자가 그럴듯해 보여도 의미가 없다. 결국 정확한 예측보다 **일관된 가정 아래 상대 비교**를 잘하는 것이 더 중요하다.
+다만 공식의 형태는 단순해 보여도, 실제 값은 부품군별 세부 모델과 환경 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 크게 좌우된다. 사무실 서버실과 차량 탑재 장비를 같은 계수로 놓으면 숫자가 그럴듯해 보여도 의미가 없다. 결국 정확한 예측보다 <strong>일관된 가정 아래 상대 비교</strong>를 잘하는 것이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 이 방법은 한 달 가계부를 쓰는 방식과 같다. 큰돈이 어디서 새는지 알려면 월급만 보는 게 아니라 식비, 교통비, 고정비를 항목별로 쪼개 더해야 한다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)도 마찬가지로 "어디서 고장이 새는지"를 부품별로 계산해야 보인다.
 
@@ -77,7 +76,7 @@ MIL-HDBK-217의 기본 사고방식은 **부품 단위 고장률을 계산한 �
 
 ## Ⅲ. 비교 및 연결
 
-MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, **현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**의 경계를 구분해야 한다. 핸드북은 아직 고장이 나지 않은 시스템을 문헌 기반으로 추정하고, ALT는 실제 스트레스를 걸어 수명을 역산하며, FRACAS (Failure Reporting, Analysis, and [Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Action System) 같은 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 체계는 실제 운영 중 발생한 고장을 되먹임한다.
+MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, <strong>현장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>의 경계를 구분해야 한다. 핸드북은 아직 고장이 나지 않은 시스템을 문헌 기반으로 추정하고, ALT는 실제 스트레스를 걸어 수명을 역산하며, FRACAS (Failure Reporting, Analysis, and [Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Action System) 같은 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 체계는 실제 운영 중 발생한 고장을 되먹임한다.
 
 | 관점 | MIL-HDBK-217 | [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) ([Accelerated Life Testing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)) | Physics of Failure / 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | :--- | :--- | :--- | :--- |
@@ -88,7 +87,7 @@ MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, 
 
 현대 산업에서는 MIL-HDBK-217만으로 끝내지 않고, 통신 장비에서는 Telcordia SR-332, 항공·산업전자에서는 FIDES, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 수준에서는 Physics of Failure 모델을 함께 본다. 이유는 간단하다. 최신 패키징, 미세공정, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존성, 복합 스트레스는 오래된 핸드북 표만으로 다 담기 어렵기 때문이다.
 
-그럼에도 이 표준이 여전히 자주 언급되는 이유는 **부품 기반 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 사고방식의 원형**이기 때문이다. "부품 수 감소", "접합 온도 하향", "고품질 등급 채택", "중복 구성"이 왜 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상으로 이어지는지 설명하는 데 매우 직관적이다. 따라서 기술사 답안에서는 MIL-HDBK-217을 단독 정답이 아니라, 최신 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 방법론으로 이어지는 출발점으로 연결하면 좋다.
+그럼에도 이 표준이 여전히 자주 언급되는 이유는 <strong>부품 기반 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 사고방식의 원형</strong>이기 때문이다. "부품 수 감소", "접합 온도 하향", "고품질 등급 채택", "중복 구성"이 왜 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상으로 이어지는지 설명하는 데 매우 직관적이다. 따라서 기술사 답안에서는 MIL-HDBK-217을 단독 정답이 아니라, 최신 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 방법론으로 이어지는 출발점으로 연결하면 좋다.
 
 - **📢 섹션 요약 비유**: MIL-HDBK-217이 지도책이라면 ALT는 현장 답사이고, 현장 고장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 기록이다. 지도만 보면 길을 대략 알 수 있고, 답사를 하면 실제 지형을 보고, CCTV를 보면 어디서 진짜 사고가 났는지 확인할 수 있다.
 
@@ -96,11 +95,11 @@ MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MIL-HDBK-217 수치는 계약, 제안서, 부품 선정 회의에서 자주 등장하지만, 숫자를 그대로 외우는 것보다 **가정의 품질**을 점검하는 것이 더 중요하다. 특히 다음 네 가지는 결과를 크게 흔든다.
+실무에서 MIL-HDBK-217 수치는 계약, 제안서, 부품 선정 회의에서 자주 등장하지만, 숫자를 그대로 외우는 것보다 <strong>가정의 품질</strong>을 점검하는 것이 더 중요하다. 특히 다음 네 가지는 결과를 크게 흔든다.
 
-1. **환경 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 현실적으로 잡았는가**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터용 보드와 차량 탑재 제어기를 같은 환경으로 놓으면 예측이 왜곡된다.
+1. <strong>환경 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>를 현실적으로 잡았는가</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터용 보드와 차량 탑재 제어기를 같은 환경으로 놓으면 예측이 왜곡된다.
 2. **접합 온도와 전기적 스트레스를 실제 값에 가깝게 넣었는가**: 실내 온도만 적고 부품 자체 발열을 무시하면 `π_T`가 과소평가된다.
-3. **부품 품질 수준을 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 현실에 맞게 썼는가**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 등급 부품과 범용 저가 부품의 `π_Q`를 같게 둘 수 없다.
+3. <strong>부품 품질 수준을 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 현실에 맞게 썼는가</strong>: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 등급 부품과 범용 저가 부품의 `π_Q`를 같게 둘 수 없다.
 4. **예측값을 절대 진실처럼 해석하지 않았는가**: 최신 CPU, [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))처럼 복합 구조 장비는 핸드북 수치만으로 현장 수명을 확정하면 위험하다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -116,7 +115,7 @@ MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, 
 - 운영 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모른 채 실온 가정으로만 계산하는 것
 - 다른 표준에서 나온 숫자를 같은 축으로 단순 비교하는 것
 
-결론적으로 MIL-HDBK-217은 "정답 생성기"가 아니라 **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계 대화의 시작점**으로 써야 한다. 이때 가장 좋은 사용법은 고장률이 큰 항목을 찾아 설계 변경, 방열 개선, 부품 교체, 중복 설계를 연결하는 것이다.
+결론적으로 MIL-HDBK-217은 "정답 생성기"가 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 설계 대화의 시작점</strong>으로 써야 한다. 이때 가장 좋은 사용법은 고장률이 큰 항목을 찾아 설계 변경, 방열 개선, 부품 교체, 중복 설계를 연결하는 것이다.
 
 - **📢 섹션 요약 비유**: 건강검진 수치는 병의 전부가 아니지만, 어디를 먼저 정밀검사해야 하는지 알려 준다. MIL-HDBK-217도 장비의 미래를 완벽히 맞히는 점쟁이가 아니라, 어디를 먼저 의심하고 보강할지 알려 주는 검진표에 가깝다.
 
@@ -124,9 +123,9 @@ MIL-HDBK-217을 제대로 이해하려면 **예측 모델**, **가속 시험**, 
 
 ## Ⅴ. 기대효과 및 결론
 
-MIL-HDBK-217의 가장 큰 효과는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 막연한 감이 아니라 **비교 가능한 설계 지표**로 바꿔 준다는 점이다. 덕분에 부품 교체, 방열 구조 개선, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 투자, 유지보수 정책을 숫자로 설명할 수 있다. 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 이런 공통 언어가 있으면 후속 [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) 계획이나 예비품 정책도 훨씬 체계적으로 잡힌다.
+MIL-HDBK-217의 가장 큰 효과는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 막연한 감이 아니라 <strong>비교 가능한 설계 지표</strong>로 바꿔 준다는 점이다. 덕분에 부품 교체, 방열 구조 개선, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 투자, 유지보수 정책을 숫자로 설명할 수 있다. 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 이런 공통 언어가 있으면 후속 [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) 계획이나 예비품 정책도 훨씬 체계적으로 잡힌다.
 
-반면 한계도 분명하다. 최신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정, 패키지 상호작용, 소프트웨어 기인 장애, 공통 원인 고장(Common Cause Failure), 실제 운용 패턴 변화는 핸드북만으로 충분히 반영되지 않는다. 그래서 오늘날의 올바른 자세는 **MIL-HDBK-217로 초안을 만들고, 시험과 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 계속 보정하는 것**이다.
+반면 한계도 분명하다. 최신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정, 패키지 상호작용, 소프트웨어 기인 장애, 공통 원인 고장(Common Cause Failure), 실제 운용 패턴 변화는 핸드북만으로 충분히 반영되지 않는다. 그래서 오늘날의 올바른 자세는 <strong>MIL-HDBK-217로 초안을 만들고, 시험과 운영 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 계속 보정하는 것</strong>이다.
 
 정리하면 이 개념은 "고장률을 부품별로 예산화하는 언어"로 기억하면 좋다. 숫자 하나를 맹신하는 것이 아니라, 어떤 설계 선택이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 어떤 방향으로 작용하는지를 설명하는 프레임으로 이해할 때 가장 유용하다.
 
@@ -147,24 +146,25 @@ MIL-HDBK-217의 가장 큰 효과는 [신뢰성](/knowledge-base/studynote/04_so
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부품 목록(BOM)
-    │
-    ▼
-MIL-HDBK-217 Part Count
-    │
-    ▼
-Part Stress Analysis
-    │
-    ▼
-ALT · HALT · 현장 고장 데이터
-    │
-    ▼
-Telcordia SR-332 · FIDES
-    │
-    ▼
-Physics of Failure · 데이터 기반 신뢰성 공학
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부품 목록(BOM)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIL-HDBK-217 Part Count</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Part Stress Analysis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ALT · HALT · 현장 고장 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Telcordia SR-332 · FIDES</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Physics of Failure · 데이터 기반 신뢰성 공학</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

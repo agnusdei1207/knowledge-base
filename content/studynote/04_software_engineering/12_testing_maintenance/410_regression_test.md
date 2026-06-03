@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 회귀 테스트 (Regression Test)는 수정, 개선, 또는 패치 작업 이후에 소프트웨어 프로그램이 이전에 가지고 있던 본래의 기능들을 그대로 유지하고 있는지 확인하는 일련의 과정을 의미한다. '회귀(Regression)'란 이전 상태로 되돌아가는 것을 의미하며, [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 '과거의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 다시 나타나거나 새로운 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 생겨 품질이 후퇴하는 현상'을 뜻한다. 이를 막기 위한 것이 바로 회귀 테스트다.
 - **필요성**: 소프트웨어는 한 번 개발되면 끝나는 것이 아니라, 사용자 요구사항 변화와 환경의 변화에 따라 지속적으로 진화(Evolution)한다. 리먼의 소프트웨어 진화 법칙 (Lehman's Laws of Software Evolution)에 따르면, 소프트웨어는 지속적으로 변경되며 그 과정에서 복잡성은 증가한다. 개발자가 특정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 버그를 수정하기 위해 코드를 변경하면, 해당 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 참조하는 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 예기치 않은 오류(Side Effect)가 발생할 확률이 매우 높다. 따라서 "새로운 코드가 기존 시스템을 망가뜨리지 않았음"을 수학적으로 증명하는 유일한 방법이 전체 테스트 스위트(Test Suite)의 재실행이다.
-- **[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 극복**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경에서는 하루에도 수십 번의 배포가 발생한다. 매 배포마다 인간이 직접 시스템 전체를 테스트하는 것은 물리적으로 불가능하며 시간과 비용의 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 된다. 자동화된 회귀 테스트는 이 병목을 해소하고 릴리즈 주기를 단축시키는 가장 중요한 기술적 기반이 된다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">소프트웨어 위기</a> 극복</strong>: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경에서는 하루에도 수십 번의 배포가 발생한다. 매 배포마다 인간이 직접 시스템 전체를 테스트하는 것은 물리적으로 불가능하며 시간과 비용의 심각한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 된다. 자동화된 회귀 테스트는 이 병목을 해소하고 릴리즈 주기를 단축시키는 가장 중요한 기술적 기반이 된다.
 
 - **📢 섹션 요약 비유**: 마치 거대한 젠가(Jenga) 탑에서 나무 블록 하나를 빼서 다른 곳에 쌓을 때, 탑 전체가 흔들리거나 무너지지 않는지 탑의 모든 층을 다시 한 번 꼼꼼히 점검하는 과정과 같습니다. 블록 하나를 만졌을 뿐이지만, 그 영향은 탑 전체의 붕괴로 이어질 수 있기 때문입니다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 회귀 테스트 (Regression T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  회귀 테스트 (Regression T                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀 테스트 (Regression T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 회귀 테스트 (Regression T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,24 +53,21 @@ tags = ["studynote-software-engineering"]
 
 회귀 테스트가 왜 필수적인지 이해하기 위해서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 전파(Propagation)되는지 그 내부 메커니즘을 분석해야 한다. 
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          소프트웨어 결함 전파 및 회귀(Regression) 메커니즘        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [모듈 A] (결함 발생) ──────(수정 작업)──────▶ [모듈 A']       │
-│      │                                        │             │
-│      │ (의존성)                                │ (의존성)      │
-│      ▼                                        ▼             │
-│   [모듈 B] (정상 동작) ───(기존 로직 유지)──▶ [모듈 B] (오류!)   │
-│      │                                        │             │
-│      ▼                                        ▼             │
-│   [모듈 C] (정상 동작) ───(기존 로직 유지)──▶ [모듈 C] (오류!)   │
-│                                                             │
-│   * 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던    │
-│           B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 결함 전파 및 회귀(Regression) 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 A'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(의존성)</div><div class="kb-diagram-cell">(의존성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-note">(오류!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 C</div><div class="kb-diagram-note">(오류!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]**
 위 다이어그램은 소프트웨어 시스템 내에서 발생할 수 있는 의존성 기반의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파 과정을 시각화한 것이다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A에 존재하던 논리적 오류를 수정하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A'를 만들었다고 가정하자. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A를 개발한 개발자는 A'가 독립적으로 완벽하게 동작한다고 믿는다. 하지만 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B와 C는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A가 뱉어내던 '잘못된(하지만 예측 가능했던) 출력값'에 은연중에 맞춰져(Coupled) 있었을 수 있다. A가 정확한 값을 내뿜기 시작하자, 오히려 B와 C는 처리 불능 상태에 빠지게 된다.
@@ -79,8 +75,8 @@ tags = ["studynote-software-engineering"]
 - **발생 주요 시나리오**:
   1. **버그 패치 (Bug Fix)**: 보고된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 제거하기 위해 특정 로직을 변경했을 때.
   2. **기능 개선/추가 (Enhancement/Feature Addition)**: 새로운 요구사항을 반영하기 위해 기존 아키텍처에 새로운 컴포넌트를 붙일 때.
-  3. **환경 변경 ([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) Change)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 업그레이드했을 때.
-  4. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Tuning)**: 로직의 결과는 동일하되 알고리즘이나 자료구조를 변경하여 실행 속도를 높였을 때.
+  3. <strong>환경 변경 (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a> Change)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 업그레이드했을 때.
+  4. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Tuning)</strong>: 로직의 결과는 동일하되 알고리즘이나 자료구조를 변경하여 실행 속도를 높였을 때.
 
 이처럼 시스템 내부 상태가 단 1비트라도 변경되었다면, 시스템의 무결성은 파괴된 것으로 간주하고 다시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다는 것이 회귀 테스트의 근본 철학이다.
 
@@ -120,7 +116,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 회귀 테스트는 인간의 개입을 완전히 배제한 **자동화 (Automation)**를 전제로 한다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 서버는 개발자의 코드가 중앙 저장소에 병합(Merge)되는 즉시 회귀 테스트 스위트를 가동한다.
+현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 회귀 테스트는 인간의 개입을 완전히 배제한 <strong>자동화 (Automation)</strong>를 전제로 한다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 서버는 개발자의 코드가 중앙 저장소에 병합(Merge)되는 즉시 회귀 테스트 스위트를 가동한다.
 
 - **📢 섹션 요약 비유**: 회귀 테스트 (Regression Test)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -134,13 +130,13 @@ tags = ["studynote-software-engineering"]
 
 회귀 테스트 스위트를 구축하고 유지보수하는 것은 매우 비용이 많이 드는 작업이다. 시간이 지남에 따라 '테스트 코드 자체가 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'가 되는 것을 막기 위해 실무에서는 다음의 원칙들을 준수해야 한다.
 
-1. **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 기반 테스트 추가 (Bug-driven Test Addition)**:
-   - 운영 환경에서 버그가 발견되어 패치를 수행할 때, 수정된 코드를 커밋하기 **전**에 반드시 해당 버그를 재현하는 '실패하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)'를 먼저 작성해야 한다([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 철학). 이 테스트가 회귀 테스트 스위트에 영구히 추가됨으로써, 동일한 버그는 평생 다시 발생할 수 없게 된다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 기반 테스트 추가 (Bug-driven Test Addition)</strong>:
+   - 운영 환경에서 버그가 발견되어 패치를 수행할 때, 수정된 코드를 커밋하기 <strong>전</strong>에 반드시 해당 버그를 재현하는 '실패하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)'를 먼저 작성해야 한다([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 철학). 이 테스트가 회귀 테스트 스위트에 영구히 추가됨으로써, 동일한 버그는 평생 다시 발생할 수 없게 된다.
 
 2. **테스트 스위트 유지보수 (Test Suite Maintenance)**:
    - 요구사항이 변경되어 기존 기능이 삭제되거나 스펙이 바뀌었다면, 그에 해당하는 회귀 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)도 반드시 함께 업데이트하거나 삭제해야 한다. 그렇지 않으면 더 이상 유효하지 않은 '거짓 실패(False Negative)' 알람이 계속 울려, 개발자들이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버의 경고를 무시하게 되는 '양치기 소년 효과'가 발생한다.
 
-3. **테스트 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 확보**:
+3. <strong>테스트 <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>) 확보</strong>:
    - 회귀 테스트는 언제, 어디서, 몇 번을 실행하든 항상 동일한 결과를 내야 한다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 이전 상태에 의존하거나, 외부 API의 응답 속도에 따라 성공/실패가 갈리는 테스트(Flaky Test)는 회귀 테스트 스위트의 신뢰성을 근본적으로 파괴한다. 반드시 셋업(Setup)과 티어다운(Teardown) 과정을 철저히 구성하여 독립된 환경을 보장해야 한다.
 
 - **📢 섹션 요약 비유**: 오케스트라 단원들이 매일 연습할 때 튜닝(조율)을 하는 것처럼, 회귀 테스트 스위트 자체도 끊임없이 조율하고 불필요한 악보를 제거해 주어야만 실전에서 훌륭한 하모니([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지)를 만들어 낼 수 있습니다.
@@ -150,7 +146,7 @@ tags = ["studynote-software-engineering"]
 ## 👶 어린이를 위한 3줄 비유 설명
 1. 레고 블록으로 멋진 성을 만들었는데, 1층에 있는 못생긴 블록 하나를 예쁜 블록으로 교체하려고 해요.
 2. 예쁜 블록을 끼워 넣고 났더니, 갑자기 성의 꼭대기 층에 있던 깃발이 툭 하고 떨어져 버릴 수도 있겠죠?
-3. **회귀 테스트**는 블록 하나를 바꿀 때마다, 성문이 잘 열리는지, 깃발이 잘 달려있는지 성의 모든 곳을 샅샅이 다시 확인해서 옛날의 완벽했던 모습 그대로인지 매번 검사하는 똑똑한 로봇 경비원이랍니다!
+3. <strong>회귀 테스트</strong>는 블록 하나를 바꿀 때마다, 성문이 잘 열리는지, 깃발이 잘 달려있는지 성의 모든 곳을 샅샅이 다시 확인해서 옛날의 완벽했던 모습 그대로인지 매번 검사하는 똑똑한 로봇 경비원이랍니다!
 
 ---
 
@@ -169,21 +165,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-회귀 테스트 (Regression Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회귀 테스트 (Regression Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 바코드를 죽이고 물류 혁명을 일으킨 3총사입니다.
 1. **태그 (Tag, 스티커)**: 건전지도 없는 멍청한 스티커. 리더기가 쏘는 전파의 힘(전자기 유도)에 의해 0.1초 깨어나 자기 일련번호를 반사해 내뱉습니다.
-2. **리더기 (Reader, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 총)**: 전파를 쏴서 밥(전기)을 먹여주고 데이터를 읽어냅니다.
+2. <strong>리더기 (Reader, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 총)</strong>: 전파를 쏴서 밥(전기)을 먹여주고 데이터를 읽어냅니다.
 3. **호스트 서버**: 읽어 들인 일련번호를 데이터베이스에서 찾아 "아, M사이즈 파란색 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 3만 원!" 매핑합니다. (1036번 EPCglobal 연계)
 
-```text
-[NFC 표준]
-    │
-    ▼
-[RFID 충돌 방지 알고리즘]
-    │
-    └──▶ [EPCglobal 망 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,14 +47,18 @@ tags = ["studynote-network"]
 - 허공에서 100개의 파동이 겹치면서 삐-이-익 하는 노이즈 쓰레기로 변해, 리더기는 100벌 중 단 1벌의 바코드도 해독하지 못합니다. 
 - 이를 1초 만에 깔끔하게 줄 세워 1명씩 입을 열게 만드는 것이 **안티 콜리전(Anti-Collision, 충돌 방지)** 알고리즘입니다.
 
-```text
-[NFC 표준]
-    │
-    ▼
-[RFID 충돌 방지 알고리즘]
-    │
-    └──▶ [EPCglobal 망 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,7 +90,7 @@ RFID 충돌 방지 알고리즘을 볼 때는 앞뒤 개념과의 경계를 함�
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 박스 안에 100명의 학생(RFID 태그)이 갇혀 있습니다. 선생님(리더기)이 "이름 불러!"라고 외치자 100명이 동시에 이름을 소리쳐서 교실이 폭발할 뻔했습니다(태그 충돌). 이를 통제하는 **알로하([ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/))** 방식은 선생님이 주사위를 던지게 하는 겁니다. "주사위 던져서 1 나온 사람만 이름 말해!" 3명이 나오면 "너넨 탈락! 주사위 다시!" 하다가 딱 1명만 1이 나오면 "오케이, 홍길동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)! 넌 엎드려 자!" 이걸 1초에 100번 반복해 전원을 색출합니다. 반면 **트리(Tree) 검색** 방식은 지독한 스무고개입니다. "성씨가 김씨인 사람? 30명 충돌! 그럼 김씨 중 두 번째 글자가 '민'인 사람? 5명 충돌! 그럼 김민철! 오, 너 하나구나. 통과!" 이렇게 조건을 반씩 계속 좁혀가며 절대 두 명이 겹치지 않는 바늘구멍 질문을 던져 100명을 완벽하게 핀셋으로 한 명씩 골라내 침묵시키는 미친 속도의 출석부 검사 시스템입니다.
+- **📢 섹션 요약 비유**: 박스 안에 100명의 학생(RFID 태그)이 갇혀 있습니다. 선생님(리더기)이 "이름 불러!"라고 외치자 100명이 동시에 이름을 소리쳐서 교실이 폭발할 뻔했습니다(태그 충돌). 이를 통제하는 <strong>알로하(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/">ALOHA</a>)</strong> 방식은 선생님이 주사위를 던지게 하는 겁니다. "주사위 던져서 1 나온 사람만 이름 말해!" 3명이 나오면 "너넨 탈락! 주사위 다시!" 하다가 딱 1명만 1이 나오면 "오케이, 홍길동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)! 넌 엎드려 자!" 이걸 1초에 100번 반복해 전원을 색출합니다. 반면 **트리(Tree) 검색** 방식은 지독한 스무고개입니다. "성씨가 김씨인 사람? 30명 충돌! 그럼 김씨 중 두 번째 글자가 '민'인 사람? 5명 충돌! 그럼 김민철! 오, 너 하나구나. 통과!" 이렇게 조건을 반씩 계속 좁혀가며 절대 두 명이 겹치지 않는 바늘구멍 질문을 던져 100명을 완벽하게 핀셋으로 한 명씩 골라내 침묵시키는 미친 속도의 출석부 검사 시스템입니다.
 
 ---
 
@@ -124,15 +132,19 @@ RFID 충돌 방지 알고리즘은 [성능](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NFC 표준]
-    │
-    ▼
-[현재 개념: RFID 충돌 방지 알고리즘]
-    │
-    ├──▶ [확장 A: EPCglobal 망 아키텍처]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFC 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RFID 충돌 방지 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EPCglobal 망 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 RFID 충돌 방지 알고리즘는 NFC 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 EPCglobal 망 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

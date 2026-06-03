@@ -25,17 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 같은 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 필드가 모드에 따라 완전히 다른 뜻을 갖는다는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same operand field, different meaning                             │
-├────────────────────────────────────────────────────────────────────┤
-│ LOAD R1, X                                                        │
-│   immediate    -> R1 <- X                                         │
-│   direct       -> EA <- X       -> R1 <- M[EA]                    │
-│   reg indirect -> EA <- R[X]    -> R1 <- M[EA]                    │
-│   PC-relative  -> EA <- PC + X  -> branch/data target             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same operand field, different meaning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOAD R1, X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">immediate -&gt; R1 &lt;- X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC-relative -&gt; EA &lt;- PC + X -&gt; branch/data target</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 곧바로 "주소"가 아니라는 점이다. CPU는 opcode만 읽는 것이 아니라, 그 뒤에 붙은 mode 정보까지 함께 해석해 비로소 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치나 즉시값의 의미를 확정한다. 따라서 주소 지정 방식은 메모리 접근 문법이면서 동시에 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) 설계의 핵심 축이다.
 
@@ -57,20 +60,22 @@ tags = ["studynote-computer-architecture"]
 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)/스케일 ([Indexed](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/)/Scaled) | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) = base + [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)×scale + d | 메모리 1회 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소 접근 |
 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 ([PC-Relative](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/)) | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) = [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) + d | 메모리/분기 대상 계산 | 분기, 위치 독립 코드 |
 
-고전 교재의 간접 주소 지정은 `EA = M[A]`처럼 메모리에서 다시 주소를 읽는 **메모리 간접 (Memory [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))**도 포함한다. 이 방식은 포인터의 포인터를 하드웨어가 직접 처리하는 느낌을 주지만, 실제로는 메모리 접근이 한 번 더 필요해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다. 그래서 현대 범용 ISA는 대부분 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간접을 중심으로 설계하고, 깊은 간접 참조는 소프트웨어와 캐시 계층이 감당하게 만든다.
+고전 교재의 간접 주소 지정은 `EA = M[A]`처럼 메모리에서 다시 주소를 읽는 <strong>메모리 간접 (Memory <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/">Indirect</a>)</strong>도 포함한다. 이 방식은 포인터의 포인터를 하드웨어가 직접 처리하는 느낌을 주지만, 실제로는 메모리 접근이 한 번 더 필요해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다. 그래서 현대 범용 ISA는 대부분 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간접을 중심으로 설계하고, 깊은 간접 참조는 소프트웨어와 캐시 계층이 감당하게 만든다.
 
 아래 그림은 현대 파이프라인에서 주소 계산이 어디에 위치하는지를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Address generation in a modern pipeline                           │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction -> mode decode -> operand select -> AGU -> EA         │
-│                                  │                  │             │
-│                                  │                  └-> data cache │
-│                                  └-> imm/reg bypass               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address generation in a modern pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction -&gt; mode decode -&gt; operand select -&gt; AGU -&gt; EA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; data cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; imm/reg bypass</div></div>
+</div>
+</div>
+
+
 
 즉시값과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 AGU를 거치지 않고 곧바로 실행 단계로 들어간다. 반면 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 mode decode 결과에 따라 [base register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/), [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), displacement를 조합해 EA를 만든 뒤 캐시와 메모리 계층으로 전달된다. 이 과정이 늦어지면 load-use stall, branch target [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), fetch 경계 복잡도가 생기므로 주소 모드 설계는 단순 문법이 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계 문제이기도 하다.
 
@@ -102,24 +107,27 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 접근 패턴에 맞는 주소 지정 방식 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 이식성을 좌우한다. 상수는 즉시값으로 두는 것이 가장 싸고, 반복문 내부의 핵심 변수는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 오래 머물수록 좋다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·구조체는 베이스+변위 또는 스케일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용해야 하며, 공유 라이브러리와 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 재배치를 고려하는 코드는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정을 우선 사용해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Access-pattern driven mode choice                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ constant?        -> immediate                                     │
-│ hot local value? -> register                                      │
-│ array/struct?    -> base + offset / scaled index                  │
-│ relocatable code?-> PC-relative                                   │
-│ pointer chain?   -> reg indirect, but watch cache stalls          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access-pattern driven mode choice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">constant? -&gt; immediate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hot local value? -&gt; register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">array/struct? -&gt; base + offset / scaled index</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">relocatable code?-&gt; PC-relative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pointer chain? -&gt; reg indirect, but watch cache stalls</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **위치 독립 코드**: [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (Address Space Layout Randomization)과 공유 라이브러리를 고려하면 절대 주소보다 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소가 안전하다.
 2. **루프 최적화**: 연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회는 base register를 고정하고 offset만 바꾸는 편이 유리하다.
 3. **포인터 체인 경계**: 깊은 간접 참조는 주소 계산보다 캐시 미스 비용이 더 커지므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체를 평탄화할지 검토해야 한다.
-4. **[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 복잡도 선택**: 범용 고성능 코어는 일부 복합 모드를 감당할 수 있지만, 임베디드·가속기 코어는 단순 모드가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 전력 측면에서 유리하다.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 복잡도 선택</strong>: 범용 고성능 코어는 일부 복합 모드를 감당할 수 있지만, 임베디드·가속기 코어는 단순 모드가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 전력 측면에서 유리하다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -127,7 +135,7 @@ tags = ["studynote-computer-architecture"]
 - 포인터를 여러 단계로 중첩해 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 주소 모드 문제로 오해하는 것
 - 복합 주소 식을 무조건 빠르다고 보고, 실제 캐시 지역성이나 파이프라인 제약을 무시하는 것
 
-기술사 답안에서는 주소 지정 방식을 종류만 나열하기보다, **어떤 모드가 어떤 소프트웨어 패턴을 얼마나 적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 몇 번의 메모리 접근으로 표현하는지**까지 설명해야 깊이가 살아난다.
+기술사 답안에서는 주소 지정 방식을 종류만 나열하기보다, <strong>어떤 모드가 어떤 소프트웨어 패턴을 얼마나 적은 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>와 몇 번의 메모리 접근으로 표현하는지</strong>까지 설명해야 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: 주소 모드 선택은 배달 경로를 정하는 일과 같아서, 물건 하나는 손에 들고 가면 되지만 창고 물건은 선반 번호 체계를 잘 써야 가장 빨리 찾을 수 있다.
 
@@ -137,9 +145,9 @@ tags = ["studynote-computer-architecture"]
 
 좋은 주소 지정 방식 설계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합을 더 작고 더 유연하게 만든다. 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 표현할 수 있어 코드 크기를 줄이고, 컴파일러가 고급 언어 구조를 자연스럽게 기계어로 매핑할 수 있게 된다. 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 포인터, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 위치 독립 코드처럼 현대 소프트웨어의 기본 구조가 주소 모드 덕분에 효율적으로 구현된다.
 
-반면 주소 모드가 많아질수록 하드웨어가 더 똑똑해져야 한다. decode 경로가 길어지고, AGU 설계가 복잡해지며, 예외 처리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용도 증가한다. 그래서 현대 아키텍처는 "무조건 많은 모드"보다 **자주 쓰는 패턴을 단순하게 빠르게 처리하는 방향**으로 최적화한다.
+반면 주소 모드가 많아질수록 하드웨어가 더 똑똑해져야 한다. decode 경로가 길어지고, AGU 설계가 복잡해지며, 예외 처리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용도 증가한다. 그래서 현대 아키텍처는 "무조건 많은 모드"보다 <strong>자주 쓰는 패턴을 단순하게 빠르게 처리하는 방향</strong>으로 최적화한다.
 
-결론적으로 주소 지정 방식은 메모리 주소를 적는 기술이 아니라, **제한된 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) 안에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세계를 효율적으로 호출하는 문법**이다. 기억할 핵심은 "주소 모드가 곧 코드 표현력이며, 그 대가는 하드웨어 복잡도"라는 균형이다.
+결론적으로 주소 지정 방식은 메모리 주소를 적는 기술이 아니라, <strong>제한된 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/">명령어 형식</a> 안에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 세계를 효율적으로 호출하는 문법</strong>이다. 기억할 핵심은 "주소 모드가 곧 코드 표현력이며, 그 대가는 하드웨어 복잡도"라는 균형이다.
 
 - **📢 섹션 요약 비유**: 주소 지정 방식의 진화는 작은 서랍장에 많은 물건을 넣기 위해, 물건 이름표 대신 위치 규칙과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙을 정교하게 만든 과정과 같다.
 
@@ -158,23 +166,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-operand field
-    │
-    ▼
-mode decode
-    │
-    ├──────────────▶ immediate / register
-    │
-    └──────────────▶ EA generation
-                         │
-                         ├─ base + displacement
-                         ├─ index / scale
-                         └─ PC-relative
-                              │
-                              ▼
-                   load/store · branch · position-independent code
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">operand field</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">mode decode</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ immediate / register</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ EA generation</div>
+<div class="kb-diagram-tree-item" style="--depth:8">base + displacement</div>
+<div class="kb-diagram-tree-item" style="--depth:8">index / scale</div>
+<div class="kb-diagram-tree-item" style="--depth:8">PC-relative</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">load/store · branch · position-independent code</div>
+</div>
+</div>
+
+
 
 이 흐름도는 주소 지정 방식이 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 아니라, [operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 해석에서 실제 메모리 접근과 코드 재배치까지 이어지는 실행 경로임을 보여준다.
 

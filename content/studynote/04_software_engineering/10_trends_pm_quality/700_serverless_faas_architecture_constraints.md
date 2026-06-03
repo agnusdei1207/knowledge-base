@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거에는 웹 서비스를 하려면 서버 1대를 24시간 켜둬야 했다. 새벽에 아무도 접속하지 않아도 서버 임대료는 계속 나갔다. 클라우드 시대가 열리고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))가 등장했지만, 여전히 개발자는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 개수를 조절하고 서버를 띄워두는 '인프라 관리'를 해야만 했다.
 
-이러한 인프라 관리의 수고스러움을 0으로 만들자는 철학에서 등장한 것이 **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))**다. 그중에서도 핵심인 **[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**, 즉 AWS Lambda는 "서버는 우리가 알아서 띄우고 지울 테니, 넌 코딩(Function)만 해. 돈은 코드가 실행된 0.1초 단위로만 받을게"라는 혁명적인 과금 모델과 관리 모델을 들고나왔다.
+이러한 인프라 관리의 수고스러움을 0으로 만들자는 철학에서 등장한 것이 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a>)</strong>다. 그중에서도 핵심인 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a>(Function <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>, 즉 AWS Lambda는 "서버는 우리가 알아서 띄우고 지울 테니, 넌 코딩(Function)만 해. 돈은 코드가 실행된 0.1초 단위로만 받을게"라는 혁명적인 과금 모델과 관리 모델을 들고나왔다.
 
 - **📢 섹션 요약 비유**: 뷔페(전통적 서버)는 손님이 없어도 셰프를 24시간 고용해 월급을 줘야 한다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))는 배달 앱 기사님과 같아서, 콜(이벤트)이 들어올 때만 배달을 뛰고 그 건당 수수료(실행 시간)만 주면 된다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 아키텍처 제약의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서버리스 FaaS 아키텍처 제약                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 FaaS 아키텍처 제약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 아키텍처 제약가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FaaS는 철저하게 **이벤트 주도(Event-Driven)**로 움직인다. 서버가 항상 대기(Listen)하고 있는 것이 아니라, 누군가 찌르면 그때 깨어나서 작동한다.
+FaaS는 철저하게 <strong>이벤트 주도(Event-Driven)</strong>로 움직인다. 서버가 항상 대기(Listen)하고 있는 것이 아니라, 누군가 찌르면 그때 깨어나서 작동한다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 아키텍처 제약은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -76,8 +75,8 @@ FaaS는 철저하게 **이벤트 주도(Event-Driven)**로 움직인다. 서버�
 |:---|:---|:---|
 | **과금 기준** | **코드 실행 시간 (밀리초 단위)** | 서버를 띄워둔 시간 (초/분 단위) |
 | **확장성(Scaling)** | 0에서 1만 개까지 수초 내 무한 자동 확장 | 규칙에 따라 점진적 확장 (수십 초~분) |
-| **운영 부담([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))** | 거의 제로 (서버/OS 패치 불필요) | 높음 (클러스터 노드 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 관리 필요) |
-| **상태 유지([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**| **불가 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 강제)** | 가능 (볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 등 활용) |
+| <strong>운영 부담(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a>)</strong> | 거의 제로 (서버/OS 패치 불필요) | 높음 (클러스터 노드 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 관리 필요) |
+| <strong>상태 유지(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>| <strong>불가 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 강제)</strong> | 가능 (볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 등 활용) |
 | **최대 실행 시간** | **제한됨 (AWS 기준 15분)** | 무제한 (계속 실행 가능) |
 
 따라서 무거운 딥러닝 학습이나 24시간 스트리밍 서버는 FaaS로 만들면 실행 시간제한에 걸리거나 비용 폭탄을 맞는다.
@@ -131,21 +130,23 @@ FaaS는 철저하게 **이벤트 주도(Event-Driven)**로 움직인다. 서버�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서버리스 FaaS 아키텍처 제약 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버리스 FaaS 아키텍처 제약 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

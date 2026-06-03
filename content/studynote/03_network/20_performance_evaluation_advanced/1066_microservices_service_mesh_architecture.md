@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - 옛날: 개발자가 A의 자바 코드 안에 `if (B가 3초간 응답 없으면) { 3번 더 찔러보고, 그래도 안 되면 백업 서버 C로 가라 }` 라는 더러운 네트워크 에러 처리 코드([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), 재전송 로직)를 수천 줄씩 박아 넣어야 했습니다.
 - 수백 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 언어(Node.js, Python, Go)가 다 달라서, 언어마다 이 통신 코드를 다 따로 짜야 하는 유지보수 지옥이 열렸습니다.
 
-```text
-[HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    ▼
-[마이크로서비스 서비스 메시 패싱]
-    │
-    └──▶ [이스티오 사이드카 프록시]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로서비스 서비스 메시 패싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이스티오 사이드카 프록시</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 같은 거대한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서, 흩어진 수많은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))들끼리 얽히고설킨 **동서(East-West) 통신 트래픽의 암호화, 로드밸런싱, 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 관측성(모니터링)을 비즈니스 로직(앱 코드)과 완벽하게 분리하여, 네트워크 인프라단에서 투명하게 통제해 주는 가상의 거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 전용 통신 계층**입니다.
+- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 같은 거대한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서, 흩어진 수많은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))들끼리 얽히고설킨 <strong>동서(East-West) 통신 트래픽의 암호화, 로드밸런싱, 에러 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>, 관측성(모니터링)을 비즈니스 로직(앱 코드)과 완벽하게 분리하여, 네트워크 인프라단에서 투명하게 통제해 주는 가상의 거미줄(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>) 전용 통신 계층</strong>입니다.
 
-```text
-[HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    ▼
-[마이크로서비스 서비스 메시 패싱]
-    │
-    └──▶ [이스티오 사이드카 프록시]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로서비스 서비스 메시 패싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이스티오 사이드카 프록시</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,8 +65,8 @@ tags = ["studynote-network"]
 
 ### 1. 트래픽 제어와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))
 개발자가 코드를 짜지 않아도 인프라가 알아서 트래픽을 꺾어줍니다.
-- **A/B 테스트([카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/))**: "오늘 새로 만든 결제 V2 서버로 트래픽 딱 5%만 흘려보내고, 95%는 구버전 V1으로 보내!" (L7 계층의 미친 로드밸런싱)
-- **[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)**: 재고 서버 B가 과부하로 뻗어서 핑이 치솟습니다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 딱 감지하고 B로 가는 길목(차단기)을 콱 끊어버립니다(Open). 뒤에 줄 서 있던 결제 패킷들이 B에서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 걸려 다 같이 뻗는 연쇄 붕괴(Cascading Failure)를 그 자리에서 칼같이 차단해 버리는 생명줄입니다.
+- <strong>A/B 테스트(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a>)</strong>: "오늘 새로 만든 결제 V2 서버로 트래픽 딱 5%만 흘려보내고, 95%는 구버전 V1으로 보내!" (L7 계층의 미친 로드밸런싱)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a></strong>: 재고 서버 B가 과부하로 뻗어서 핑이 치솟습니다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 딱 감지하고 B로 가는 길목(차단기)을 콱 끊어버립니다(Open). 뒤에 줄 서 있던 결제 패킷들이 B에서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 걸려 다 같이 뻗는 연쇄 붕괴(Cascading Failure)를 그 자리에서 칼같이 차단해 버리는 생명줄입니다.
 
 ### 2. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) (상호 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 눈먼 암호화
 - 1044번에서 말했듯 내부망(East-West)이라도 해커가 훔쳐볼 수 있어 암호화가 필수입니다.
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 위대한 짓을 어떻게 개발자 코드 수정 없이 해낼까요? 그 핵심 원리가 바로 다음 1067번에서 배울 **[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Sidecar Proxy](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)) 패턴과 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))** 아키텍처입니다.
+이 위대한 짓을 어떻게 개발자 코드 수정 없이 해낼까요? 그 핵심 원리가 바로 다음 1067번에서 배울 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">Sidecar Proxy</a>) 패턴과 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/">이스티오</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>)</strong> 아키텍처입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 모놀리식 통짜 서버는 한 사무실 안에 사장, 총무, 영업 직원이 옹기종기 모여 앉아 **'고개만 돌려서 대화하는 환경'**이었습니다. 그런데 클라우드([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대가 되며 직원을 전 세계 100개 도시 빌딩에 뿔뿔이 찢어놨습니다. 직원이 서류를 전달하려면 우체국, 택배사, 보안 검색대 규정을 다 외워야(더러운 네트워크 통신 코드 작성) 해서 정작 본업을 못 했습니다. **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))**는 100명의 전 세계 직원들의 등 뒤에 아예 **'만능 비서(네트워크 전용 인프라)'**를 한 명씩 강제로 붙여버린 것입니다. 직원은 그냥 책상 위 아웃박스에 서류를 툭 던지기만 하면 끝입니다(비즈니스 로직 집중). 뒤에 서 있던 비서가 잽싸게 서류를 챙겨서, 튼튼한 금고([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 암호화)에 넣고, 상대방 빌딩에 폭설이 내리면 알아서 우회 경로([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/))로 비행기를 태워 완벽하게 배달해 냅니다. 개발자들의 머릿속에서 '통신'이라는 두 글자를 완벽히 지워내고 100% 인프라의 책임으로 떠넘긴 구름 위의 신경망 혁명입니다.
+- **📢 섹션 요약 비유**: 과거 모놀리식 통짜 서버는 한 사무실 안에 사장, 총무, 영업 직원이 옹기종기 모여 앉아 <strong>'고개만 돌려서 대화하는 환경'</strong>이었습니다. 그런데 클라우드([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대가 되며 직원을 전 세계 100개 도시 빌딩에 뿔뿔이 찢어놨습니다. 직원이 서류를 전달하려면 우체국, 택배사, 보안 검색대 규정을 다 외워야(더러운 네트워크 통신 코드 작성) 해서 정작 본업을 못 했습니다. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a>)</strong>는 100명의 전 세계 직원들의 등 뒤에 아예 <strong>'만능 비서(네트워크 전용 인프라)'</strong>를 한 명씩 강제로 붙여버린 것입니다. 직원은 그냥 책상 위 아웃박스에 서류를 툭 던지기만 하면 끝입니다(비즈니스 로직 집중). 뒤에 서 있던 비서가 잽싸게 서류를 챙겨서, 튼튼한 금고([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 암호화)에 넣고, 상대방 빌딩에 폭설이 내리면 알아서 우회 경로([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/))로 비행기를 태워 완벽하게 배달해 냅니다. 개발자들의 머릿속에서 '통신'이라는 두 글자를 완벽히 지워내고 100% 인프라의 책임으로 떠넘긴 구름 위의 신경망 혁명입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    ▼
-[현재 개념: 마이크로서비스 서비스 메시 패싱]
-    │
-    ├──▶ [확장 A: 이스티오 사이드카 프록시]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로서비스 서비스 메시 패싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이스티오 사이드카 프록시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식에서 출발해 현재 메커니즘을 정교화하고, 이후 [이스티오](/knowledge-base/studynote/03_network/16_data_center_cloud/829_istio_envoy_service_mesh_control_plane/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

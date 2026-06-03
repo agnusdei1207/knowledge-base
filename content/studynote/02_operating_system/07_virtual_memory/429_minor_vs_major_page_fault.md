@@ -11,47 +11,47 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 환경에서 발생하는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))는 해결하기 위해 겪어야 하는 고통의 무게에 따라, **디스크(I/O) 접근 없이 램 내부의 조작만으로 0.001초 만에 쓱 해결되는 '마이너(Minor) 폴트'**와 **무거운 하드디스크(Swap)까지 덜그럭거리며 데이터를 퍼와야 해서 1초 이상 서버를 마비시키는 '메이저(Major) 폴트'**로 극명하게 나뉜다.
+> 1. **본질**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 환경에서 발생하는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))는 해결하기 위해 겪어야 하는 고통의 무게에 따라, <strong>디스크(I/O) 접근 없이 램 내부의 조작만으로 0.001초 만에 쓱 해결되는 '마이너(Minor) 폴트'</strong>와 <strong>무거운 하드디스크(Swap)까지 덜그럭거리며 데이터를 퍼와야 해서 1초 이상 서버를 마비시키는 '메이저(Major) 폴트'</strong>로 극명하게 나뉜다.
 > 2. **가치**: 마이너 폴트는 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) 연결이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation)을 램 안에서 초고속으로 이어주는 효율적이고 '착한' 인터럽트지만, 메이저 폴트는 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹고 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 유발하는 치명적인 '악성' 병목 지표다.
-> 3. **융합**: 실무 시스템 엔지니어는 서버에 렉이 걸렸을 때 `sar`나 `vmstat` 명령어를 통해 두 폴트의 발생 비율을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하며, **단순 CPU 과부하인지, 아니면 물리 램 부족으로 디스크 I/O가 터진 메모리 파산 상태인지를 진단하는 가장 절대적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 융합 척도**로 사용한다.
+> 3. **융합**: 실무 시스템 엔지니어는 서버에 렉이 걸렸을 때 `sar`나 `vmstat` 명령어를 통해 두 폴트의 발생 비율을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하며, <strong>단순 CPU 과부하인지, 아니면 물리 램 부족으로 디스크 I/O가 터진 메모리 파산 상태인지를 진단하는 가장 절대적인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a> 융합 척도</strong>로 사용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: CPU가 램에 없는 가상 주소를 찔러서 MMU가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 던지는 현상 자체는 똑같다. 하지만 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 그 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 받아들고 뒷수습을 하러 갈 때, **목적지가 물리 램(RAM) 안쪽이냐(마이너), 저 멀리 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 밖이냐(메이저)**에 따라 두 계급으로 엄격히 분류된다.
-- **필요성**: 개발자가 "팀장님, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 1초에 1만 번 터져요! 서버 램 증설해야 합니다!"라고 했을 때, 그 폴트가 마이너인지 메이저인지 모르면 바보 취급을 받는다. 1만 번의 폴트가 '마이너'라면 그건 리눅스 OS가 게으른 할당 꼼수를 부리며 램을 엄청 효율적으로 팍팍 퍼주고 있다는 정상적이고 아름다운 증거다. 하지만 1만 번의 폴트가 '메이저'라면 디스크를 1만 번 긁었다는 뜻이므로 10분 뒤에 서버가 타버린다. 즉, **"이 렉의 원인이 OS의 정상적인 스케줄링 탓인가, 아니면 물리 램 용량이 진짜 박살 나서 스왑 치고 있는 건가?"**를 정확히 가려낼 뼈저린 진단 도구가 필요했다.
+- **개념**: CPU가 램에 없는 가상 주소를 찔러서 MMU가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 던지는 현상 자체는 똑같다. 하지만 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 그 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 받아들고 뒷수습을 하러 갈 때, <strong>목적지가 물리 램(RAM) 안쪽이냐(마이너), 저 멀리 하드디스크(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>) 밖이냐(메이저)</strong>에 따라 두 계급으로 엄격히 분류된다.
+- **필요성**: 개발자가 "팀장님, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 1초에 1만 번 터져요! 서버 램 증설해야 합니다!"라고 했을 때, 그 폴트가 마이너인지 메이저인지 모르면 바보 취급을 받는다. 1만 번의 폴트가 '마이너'라면 그건 리눅스 OS가 게으른 할당 꼼수를 부리며 램을 엄청 효율적으로 팍팍 퍼주고 있다는 정상적이고 아름다운 증거다. 하지만 1만 번의 폴트가 '메이저'라면 디스크를 1만 번 긁었다는 뜻이므로 10분 뒤에 서버가 타버린다. 즉, <strong>"이 렉의 원인이 OS의 정상적인 스케줄링 탓인가, 아니면 물리 램 용량이 진짜 박살 나서 스왑 치고 있는 건가?"</strong>를 정확히 가려낼 뼈저린 진단 도구가 필요했다.
 
-- **등장 배경 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표의 분리**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 이중성**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 램을 쪼개주는 논리적 기능과 디스크를 긁어오는 물리적 기능을 동시에 짬뽕해 놨다.
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표의 분리</strong>:
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 이중성</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 램을 쪼개주는 논리적 기능과 디스크를 긁어오는 물리적 기능을 동시에 짬뽕해 놨다.
   2. **오버헤드의 격차**: 램 연결(수 마이크로초) vs 디스크 로드(수 밀리초). 만 배의 차이가 나는 이 두 작업을 하나의 '[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)'라는 단어로 뭉뚱그리기엔 너무 달랐다.
-  3. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 분리**: 리눅스/윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 철저히 구분하여 `minflt`(Minor)와 `majflt`(Major)라는 두 개의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수로 나눠 서버 관리자에게 보고하는 감시 체계를 확립했다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링의 분리</strong>: 리눅스/윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 철저히 구분하여 `minflt`(Minor)와 `majflt`(Major)라는 두 개의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수로 나눠 서버 관리자에게 보고하는 감시 체계를 확립했다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        Minor Fault vs Major Fault의 뒷수습 동선(경로) 차이 시각화       │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 💥 CPU가 없는 주소를 찔러 Page Fault 트랩 발생! ]                     │
-│ OS가 VMA 장부를 쓱 훑어봄.                                              │
-│                                                                         │
-│ ▶ 1번 경로: Minor Page Fault (Soft Fault) 🚀                            │
-│   OS: "아! 네가 방금 malloc() 한 그 텅 빈 공간(익명) 찔렀구나?"         │
-│       "디스크 갈 필요 없이, 그냥 램에 있는 [빈 4KB 프레임 하나]         │
-│        꺼내서 0으로 닦아줄게(ZFOD). 써라!"                              │
-│   ✅ 찰나의 지연: 램 내부에서 포인터만 이어주고 끝남 (매우 빠름)        │
-│                                                                         │
-│ ▶ 2번 경로: Major Page Fault (Hard Fault) 🐢                            │
-│   OS: "아... 네가 예전에 안 써서 내가 [하드디스크 스왑]에 묻어둔        │
-│        그 무거운 데이터를 지금 찔렀구나?"                               │
-│   OS: "잠깐 넌 잠이나 자고 있어(Sleep). 내가 디스크 바늘 돌려서         │
-│        퍼 올게. (드르륵.. 드르륵.. 8ms 경과)"                           │
-│   ☠️ 끔찍한 지연: 디스크 I/O가 동반되어 시스템이 체감상 완전히 멈춤.    │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 이 두 경로는 하늘과 땅 차이다. 특히 카카오톡 2개를 띄울 때, 두 번째 카톡이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`libc.so`)를 부르면 **마이너 폴트**가 터진다. 첫 번째 카톡이 이미 램에 올려놓은 `libc.so` 물리 주소를 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 화살표만 '쓱' 이어주면 되기 때문이다(디스크 갈 필요 없음). 마이너 폴트는 램의 공유(Sharing)와 절약을 실현하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 우아한 지휘봉이다.
 
-- **📢 섹션 요약 비유**: 마이너 폴트는 선생님이 "문제집 안 가져온 사람?" 했을 때 짝꿍과 같이 보라고 **책상을 붙여주는(램 공유) 1초짜리 조치**입니다. 메이저 폴트는 짝꿍도 책이 없어서 선생님이 "집(디스크)에 가서 책 가져와!"라고 밖으로 내쫓아버려서 **1시간 동안 벌서는 끔찍한 벌칙**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Minor Fault vs Major Fault의 뒷수습 동선(경로) 차이 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 CPU가 없는 주소를 찔러 Page Fault 트랩 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 VMA 장부를 쓱 훑어봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1번 경로: Minor Page Fault (Soft Fault) 🚀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아! 네가 방금 malloc() 한 그 텅 빈 공간(익명) 찔렀구나?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"디스크 갈 필요 없이, 그냥 램에 있는</div><div class="kb-diagram-node">빈 4KB 프레임 하나</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">꺼내서 0으로 닦아줄게(ZFOD). 써라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 찰나의 지연: 램 내부에서 포인터만 이어주고 끝남 (매우 빠름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2번 경로: Major Page Fault (Hard Fault) 🐢</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">OS: "아... 네가 예전에 안 써서 내가</div><div class="kb-diagram-node">하드디스크 스왑</div><div class="kb-diagram-note">에 묻어둔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 무거운 데이터를 지금 찔렀구나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "잠깐 넌 잠이나 자고 있어(Sleep). 내가 디스크 바늘 돌려서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼 올게. (드르륵.. 드르륵.. 8ms 경과)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 끔찍한 지연: 디스크 I/O가 동반되어 시스템이 체감상 완전히 멈춤.</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 이 두 경로는 하늘과 땅 차이다. 특히 카카오톡 2개를 띄울 때, 두 번째 카톡이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`libc.so`)를 부르면 <strong>마이너 폴트</strong>가 터진다. 첫 번째 카톡이 이미 램에 올려놓은 `libc.so` 물리 주소를 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 화살표만 '쓱' 이어주면 되기 때문이다(디스크 갈 필요 없음). 마이너 폴트는 램의 공유(Sharing)와 절약을 실현하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 우아한 지휘봉이다.
+
+- **📢 섹션 요약 비유**: 마이너 폴트는 선생님이 "문제집 안 가져온 사람?" 했을 때 짝꿍과 같이 보라고 <strong>책상을 붙여주는(램 공유) 1초짜리 조치</strong>입니다. 메이저 폴트는 짝꿍도 책이 없어서 선생님이 "집(디스크)에 가서 책 가져와!"라고 밖으로 내쫓아버려서 <strong>1시간 동안 벌서는 끔찍한 벌칙</strong>입니다.
 
 ---
 
@@ -61,14 +61,14 @@ tags = ["studynote-operating-system"]
 
 디스크를 안 긁고 램 속도로 끝나는 착한 폴트는 언제 터질까?
 
-1. **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill-On-Demand (ZFOD)**
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill-On-Demand (ZFOD)</strong>
    - 앱이 `malloc(10GB)`을 불렀을 때 OS는 뻥카를 치고 램을 1도 안 준다고 했다.
    - 앱이 그 배열에 `arr[0]=1` 이라고 값을 쓸 때 터지는 폴트.
    - 램의 남는 프리 리스트(Free list)에서 4KB 방 하나를 꺼내 0으로 싹 닦아서 연결해 준다. 디스크 I/O 0회.
-2. **[공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) ([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) / DLL) 재활용**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">공유 라이브러리</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">Shared Library</a> / DLL) 재활용</strong>
    - 딴 놈이 이미 디스크에서 퍼와서 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 올려둔 코드 영역을 내가 건드릴 때.
    - OS가 내 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 장부 화살표만 그 램으로 꽂아주고 끝. I/O 0회.
-3. **[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 찢어지기**
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>) 찢어지기</strong>
    - `fork()`로 부모-자식이 같은 램을 보고 있다가(Read-Only), 누군가 값을 덮어쓸(Write) 때.
    - OS가 램 안에 4KB 빈방을 구해서 부모 거를 램에서 램으로 고속 복사(Memcpy)해 주고 락을 풀어줌. I/O 0회.
 
@@ -81,7 +81,7 @@ tags = ["studynote-operating-system"]
 1. **Swap In (스왑에서 퍼오기)**
    - 램이 꽉 차서 1시간 전에 하드디스크 스왑 파티션에 묻어버렸던 엑셀의 잠든 탭을 클릭했을 때.
    - 디스크 섹터에서 데이터를 램으로 낑낑대며 복원해 와야 함. (느림의 끝판왕).
-2. **[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처음 긁어오기 ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 처음 긁어오기 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)</strong>
    - 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap`으로 매핑만 해두고 아직 한 번도 안 읽었다가, 유저가 플레이 버튼을 누르는 최초의 그 순간.
    - 아직 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 아무것도 안 올라와 있으므로, 진짜 원본 `.mp4` 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 4KB를 최초로 뜯어와야 함.
 
@@ -98,8 +98,8 @@ tags = ["studynote-operating-system"]
 | 에러 명칭 | 죄질 (불법/합법) | 디스크(I/O) 개입 여부 | 해결 시 CPU 체감 렉 | 최종 결과 |
 |:---|:---|:---|:---|:---|
 | **마이너 폴트** | 🟢 100% 합법 | **안 함 (램 내부 해결)** | 약 1 ~ 5 마이크로초 (사실상 제로) | 스무스하게 넘어감 |
-| **메이저 폴트** | 🟡 100% 합법 | **무조건 함 ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 읽음)**| 약 1 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) **밀리초** (1000배 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 버벅대지만 안 죽고 실행됨 |
-| **SegFault** | ☠️ **명백한 불법** | 안 함 (디스크 가기 전 사살)| 0초 컷 (OS가 즉결 심판) | **앱 강제 종료 ([코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))**|
+| **메이저 폴트** | 🟡 100% 합법 | <strong>무조건 함 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 읽음)</strong>| 약 1 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) **밀리초** (1000배 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | 버벅대지만 안 죽고 실행됨 |
+| **SegFault** | ☠️ **명백한 불법** | 안 함 (디스크 가기 전 사살)| 0초 컷 (OS가 즉결 심판) | <strong>앱 강제 종료 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/">코어 덤프</a>)</strong>|
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 진범 찾기
 
@@ -108,14 +108,17 @@ tags = ["studynote-operating-system"]
 - 만약 반대로 마이너는 100번인데, 메이저 폴트(`majflt/s`)가 초당 5,000번 찍힌다면?
   -> "큰일 났다. 램 16GB가 다 터져나가서 스왑 핑퐁([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 치느라 디스크가 불타고 있다. 당장 앱 하나 죽이거나 램 32GB 꽂아야 서버가 산다."
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 모니터링   │ 마이너 폭발 📈│ 메이저 0 유지 │ 시스템 진단 결과    │
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ 앱 부팅 시 │ 매우 정상   │ 매우 정상   │ 건강함 (Lazy 할당 중)   │
-│ 앱 런타임 │ 메이저 폭발 📈│ 마이너 무관  │ ☠️ 스래싱 (뇌사 직전) │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">마이너 폭발 📈</div><div class="kb-diagram-cell">메이저 0 유지</div><div class="kb-diagram-cell">시스템 진단 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 부팅 시</div><div class="kb-diagram-cell">매우 정상</div><div class="kb-diagram-cell">매우 정상</div><div class="kb-diagram-cell">건강함 (Lazy 할당 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 런타임</div><div class="kb-diagram-cell">메이저 폭발 📈</div><div class="kb-diagram-cell">마이너 무관</div><div class="kb-diagram-cell">☠️ 스래싱 (뇌사 직전)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 폴트는 죄악이 아니다. 폴트가 아예 안 난다는 건 `malloc`을 한 번도 안 하는 멍청한 정적(Static) 프로그램이라는 뜻이다. 마이너 폴트는 현대 비동기/[동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 언어(Java, Node.js)가 숨 쉬기 위해 당연히 치러야 할 호흡과 같다. 오직 메이저 폴트의 폭발만이 시스템 관리자가 총([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))을 빼 들어야 할 유일한 적색경보(Red Alert)다.
 
 - **📢 섹션 요약 비유**: 마이너 폴트는 숨을 쉴 때 살짝 헉헉대는 뜀박질(정상적인 고강도 운동)이지만, 메이저 폴트는 숨구멍이 막혀서 피를 토하는 응급 상황(질식)입니다. 심박수(폴트 횟수)가 높다고 무조건 병에 걸린 게 아니라, 뛰어서 높은 건지 숨막혀 높은 건지를 구분해야 명의(엔지니어)입니다.
@@ -146,9 +149,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **정밀한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 디버깅 ([Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/))** | 서버가 느려질 때, CPU 병목인지(마이너 폴트의 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) 램/디스크 병목인지(메이저 폴트 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))를 명확히 가르는 십자선 제공 |
+| <strong>정밀한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 디버깅 (<a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">Profiling</a>)</strong> | 서버가 느려질 때, CPU 병목인지(마이너 폴트의 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) 램/디스크 병목인지(메이저 폴트 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))를 명확히 가르는 십자선 제공 |
 | **메모리 오버헤드의 양극화 관리**| 램 내부에서의 포인터 매핑(0.001ms)과 디스크 I/O(8ms)를 분리하여, OS가 스케줄러에게 양보할 타임 퀀텀([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 여부를 똑똑하게 판별 |
-| **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 투명성 방어** | 디스크 접근 없는 마이너 폴트를 일상화시킴으로써, 물리 램을 안 주고도 무한한 램이 있는 것처럼 앱을 속이는 가상화의 근본 동력 제공 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 투명성 방어</strong> | 디스크 접근 없는 마이너 폴트를 일상화시킴으로써, 물리 램을 안 주고도 무한한 램이 있는 것처럼 앱을 속이는 가상화의 근본 동력 제공 |
 
 ### 결론 및 미래 전망
 
@@ -169,15 +172,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
-    │
-    ▼
-[마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
-    │
-    ├──▶ [수요 페이지 제로화 (Demand Zero Paging)]
-    └──▶ [더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수요 페이지 제로화 (Demand Zero Paging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

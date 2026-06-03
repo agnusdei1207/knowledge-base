@@ -29,13 +29,19 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Plaintext
-  ↓ key repeat
-Multiple Caesar-like shifts
-  ↓
-Ciphertext
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-note">↓ key repeat</div>
+<div class="kb-diagram-note">Multiple Caesar-like shifts</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ciphertext</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -103,27 +109,39 @@ Ciphertext
 
 ## 관련 개념 맵
 
-```text
-Plaintext
-  ↓
-Vigenère
-  ↓
-Polyalphabetic Cipher
-  ↓
-Ciphertext
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Vigenère</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Polyalphabetic Cipher</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ciphertext</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Monoalphabetic
-  ↓
-Vigenère
-  ↓
-Cryptanalysis
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Monoalphabetic</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Vigenère</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cryptanalysis</div>
+</div>
+</div>
+
+
 
 ---
 

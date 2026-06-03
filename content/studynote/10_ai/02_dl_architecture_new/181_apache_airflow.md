@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
 
 단순한 Cron은 시간 기반 예약에는 강하지만 의존성, 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 실행 이력 관리에는 약하다. 스크립트가 중간에 실패해도 뒤 작업이 그냥 시작되거나, 어느 날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비어 있었는지 추적하기 어렵고, 과거 날짜를 다시 계산하는 백필도 번거롭다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 커질수록 이런 문제는 "스크립트 몇 개"의 수준을 넘어 운영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 된다.
 
-Airflow는 이 문제를 DAG라는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꿔 해결한다. 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 노드로, 선행 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 에지로 표현하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 단순 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 모음이 아니라 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)"이 된다. 그래서 Airflow의 필요성은 멋진 UI가 아니라, **배치와 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 반복 가능하고 관찰 가능한 운영 자산으로 만드는 데** 있다.
+Airflow는 이 문제를 DAG라는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꿔 해결한다. 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 노드로, 선행 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 에지로 표현하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 단순 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 모음이 아니라 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)"이 된다. 그래서 Airflow의 필요성은 멋진 UI가 아니라, <strong>배치와 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인을 반복 가능하고 관찰 가능한 운영 자산으로 만드는 데</strong> 있다.
 
 - **📢 섹션 요약 비유**: Airflow는 알람시계가 아니라 공연 무대 감독과 같다. 배우가 준비되지 않았는데 다음 장면을 시작시키지 않고, 누가 늦었는지와 어디서 다시 시작해야 하는지를 끝까지 관리한다.
 
@@ -44,25 +44,25 @@ Airflow의 핵심 구성은 [DAG](/knowledge-base/studynote/06_ict_convergence/0
 
 아래 그림은 Airflow가 "작업을 직접 처리하는 엔진"이 아니라 "상태와 순서를 제어하는 플랫폼"이라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Apache Airflow control plane                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ DAG code (.py)                                                      │
-│    │ parse                                                          │
-│    ▼                                                                │
-│ Scheduler <-> Metadata DB <-> Web UI                               │
-│    │ create task instances                                          │
-│    ▼                                                                │
-│ Executor (Local / Celery / Kubernetes)                              │
-│    │ dispatch                                                       │
-│    ├─ SQL task                                                      │
-│    ├─ Spark submit                                                  │
-│    └─ Python / Bash task                                            │
-│    ▼                                                                │
-│ Worker / Pod -> log + state -> queued / running / success / retry   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Airflow control plane</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG code (.py)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler &lt;-&gt; Metadata DB &lt;-&gt; Web UI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">create task instances</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor (Local / Celery / Kubernetes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL task</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Spark submit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Python / Bash task</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker / Pod -&gt; log + state -&gt; queued / running / success / retry</div></div>
+</div>
+</div>
+
+
 
 Airflow의 중요한 원리는 세 가지다. 첫째, DAG가 있으므로 선행 작업이 완료되어야 후행 작업이 실행된다. 둘째, 실패한 작업은 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 알림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 통제된다. 셋째, 실행 날짜(Logical Date)와 백필 개념 덕분에 "오늘 못 돌린 어제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 다시 계산할 수 있다.
 
@@ -119,7 +119,7 @@ Airflow를 도입할 때 가장 먼저 판단할 것은 "의존성이 있는 반
 - 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로에 의존해 개발 환경에서는 되지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행에서 깨지는 배포
 - Catchup과 Backfill 개념을 이해하지 못해 과거 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)이 대량으로 밀려 실행되는 사고
 
-기술사 답안에서는 **"Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배치 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 제어 평면으로서 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 의존성 관리, 재시도, 백필, 실행 이력 관리를 제공하며, 실제 대용량 연산은 외부 처리 엔진으로 분리하는 것이 핵심 설계 원칙"**이라고 정리하면 된다.
+기술사 답안에서는 <strong>"Airflow는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 배치 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인의 제어 평면으로서 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 기반 의존성 관리, 재시도, 백필, 실행 이력 관리를 제공하며, 실제 대용량 연산은 외부 처리 엔진으로 분리하는 것이 핵심 설계 원칙"</strong>이라고 정리하면 된다.
 
 - **📢 섹션 요약 비유**: Airflow를 잘 쓰는 팀은 무대 뒤에서 조명·음향·배우 순서를 정확히 맞추는 공연팀과 같고, 못 쓰는 팀은 감독에게 직접 무대 장치까지 들게 만드는 셈이다.
 
@@ -129,7 +129,7 @@ Airflow를 도입할 때 가장 먼저 판단할 것은 "의존성이 있는 반
 
 Airflow를 도입하면 배치 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 "누가 알음알음 돌리던 스크립트"에서 "조직이 관리하는 운영 자산"으로 바뀐다. 실행 이력, 실패 지점, 재시도, 백필, 알림이 표준화되므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제와 운영 공백을 더 빨리 발견할 수 있다. 특히 여러 시스템을 엮는 ETL과 모델 재학습 환경에서는 이 효과가 크다.
 
-다만 Airflow는 도입만으로 품질이 보장되는 도구는 아니다. DAG가 무분별하게 늘어나거나, 워커가 처리 엔진 역할까지 떠맡거나, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 병목이 되면 오히려 새로운 운영 문제를 만든다. 그래서 Airflow는 "자동화 도구"라기보다 **[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 규율을 강제하는 플랫폼**으로 보는 편이 정확하다.
+다만 Airflow는 도입만으로 품질이 보장되는 도구는 아니다. DAG가 무분별하게 늘어나거나, 워커가 처리 엔진 역할까지 떠맡거나, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 병목이 되면 오히려 새로운 운영 문제를 만든다. 그래서 Airflow는 "자동화 도구"라기보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 규율을 강제하는 플랫폼</strong>으로 보는 편이 정확하다.
 
 결론적으로 Airflow는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 계산 능력이 아니라 통제 능력을 높이는 도구다. 무엇을 언제 어떤 순서로 실행하고, 실패하면 어떻게 다시 돌릴지 명확히 설명할 수 있을 때 Airflow의 진짜 가치가 드러난다.
 
@@ -150,22 +150,24 @@ Airflow를 도입하면 배치 [파이프](/knowledge-base/studynote/02_operatin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Cron 기반 단일 스크립트
-    │
-    ▼
-DAG 기반 의존성 관리
-    │
-    ├─ retry / alert / SLA
-    ├─ logical date / backfill
-    └─ metadata-driven observability
-    │
-    ▼
-분산 Executor와 외부 처리 엔진 연동
-    │
-    ▼
-ETL + MLOps 파이프라인 오케스트레이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cron 기반 단일 스크립트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAG 기반 의존성 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">retry / alert / SLA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">logical date / backfill</div>
+<div class="kb-diagram-tree-item" style="--depth:2">metadata-driven observability</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 Executor와 외부 처리 엔진 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ETL + MLOps 파이프라인 오케스트레이션</div>
+</div>
+</div>
+
+
 
 이 흐름은 Airflow가 단순 예약에서 출발해, 실행 상태와 재현성을 포함한 운영 플랫폼으로 확장되는 과정을 보여 준다.
 

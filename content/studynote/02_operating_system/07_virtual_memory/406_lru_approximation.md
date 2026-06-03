@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 순수 LRU가 요구하는 "모든 메모리 접근마다 타임스탬프를 기록하는 극악의 오버헤드"를 버리고, 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 제공하는 단 1비트짜리 **[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**만을 활용해 **LRU와 '비슷하게(Approximation)' 동작하도록 설계된 현실적인 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들의 총칭**이다.
-> 2. **가치**: 100% 완벽하게 가장 오래된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내는 예리함은 포기했지만, "최소한 최근에 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내는 자해 공갈"만큼은 100% 확률로 완벽하게 방어하여, **사실상 순수 LRU와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Page Fault Rate](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)) 차이가 거의 없으면서도 하드웨어 비용은 0에 가깝게 수렴시키는 극강의 가성비**를 제공한다.
+> 1. **본질**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 순수 LRU가 요구하는 "모든 메모리 접근마다 타임스탬프를 기록하는 극악의 오버헤드"를 버리고, 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 제공하는 단 1비트짜리 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>만을 활용해 <strong>LRU와 '비슷하게(Approximation)' 동작하도록 설계된 현실적인 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>들의 총칭</strong>이다.
+> 2. **가치**: 100% 완벽하게 가장 오래된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내는 예리함은 포기했지만, "최소한 최근에 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내는 자해 공갈"만큼은 100% 확률로 완벽하게 방어하여, <strong>사실상 순수 LRU와 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/">Page Fault Rate</a>) 차이가 거의 없으면서도 하드웨어 비용은 0에 가깝게 수렴시키는 극강의 가성비</strong>를 제공한다.
 > 3. **융합**: 이 근사 철학은 단순한 1비트 검사를 넘어 8비트 히스토리를 기록하는 부가적 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))과, 둥글게 시곗바늘을 돌리는 2차 기회([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등으로 분화 및 융합되며 현재 전 세계 모든 범용 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 절대적인 심장부 로직으로 자리 잡았다.
 
 ---
@@ -24,33 +24,33 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 아키텍처의 항복**:
   1. **순수 LRU의 참패**: 하드웨어 구현 비용이 미쳐 날뛰어 상용화 불가 판정.
-  2. **하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))의 최소 지원 합의**: 인텔 등 CPU 벤더가 OS에게 타협을 제안했다. "무거운 시계는 못 넣어주겠고, 대신 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 남는 자리에 1비트짜리 **[Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))** 달아줄게. 네가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽을 때마다 하드웨어적으로 1로 세팅만 해줄 테니까 나머지는 OS 네가 알아서 써라."
-  3. **[근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 탄생**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 1비트를 가지고 8비트 히스토리를 만들거나([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 시곗바늘을 돌리는([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 등 눈물겨운 소프트웨어적 기교를 부리며 가짜 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 생태계를 개척해 냈다.
+  2. <strong>하드웨어(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)의 최소 지원 합의</strong>: 인텔 등 CPU 벤더가 OS에게 타협을 제안했다. "무거운 시계는 못 넣어주겠고, 대신 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 남는 자리에 1비트짜리 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong> 달아줄게. 네가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽을 때마다 하드웨어적으로 1로 세팅만 해줄 테니까 나머지는 OS 네가 알아서 써라."
+  3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/">근사 알고리즘</a>의 탄생</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 1비트를 가지고 8비트 히스토리를 만들거나([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 시곗바늘을 돌리는([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 등 눈물겨운 소프트웨어적 기교를 부리며 가짜 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 생태계를 개척해 냈다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        순수 LRU와 LRU 근사 알고리즘(1비트)의 교체 타겟 선정 차이        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 램에 4개의 페이지(A, B, C, D)가 꽉 찬 상태 ]                          │
-│                                                                         │
-│ ▶ 1. 순수 LRU의 매의 눈 (정확도 100%, 비용 100%)                        │
-│  - A: 13시 05분 10초에 마지막 사용                                      │
-│  - B: 13시 02분 00초에 마지막 사용                                      │
-│  - C: 12시 50분 30초에 마지막 사용 ◀ (가장 오래됨. 무조건 너 당첨!)     │
-│  - D: 13시 06분 20초에 마지막 사용                                      │
-│  => 매 순간 이 시간을 정렬하고 비교하는 끔찍한 오버헤드 발생.           │
-│                                                                         │
-│ ▶ 2. LRU 근사의 대충 눈대중 (정확도 80%, 비용 1%)                       │
-│  - 하드웨어가 읽을 때마다 R비트를 1로 켜둠. OS가 주기적으로 0으로 끔.   │
-│  - A: R = 1 (아 방금 썼네)                                              │
-│  - B: R = 0 (최근에 안 썼네) ◀ 당첨! (C가 더 오래됐지만 알 바 아님)     │
-│  - C: R = 0 (최근에 안 썼네) ◀ 당첨!                                    │
-│  - D: R = 1 (아 방금 썼네)                                              │
-│  => OS는 B와 C 중 그냥 눈에 먼저 띄는 B를 쫓아냄. 가장 늙은 놈을        │
-│     고르진 못했지만, 최소한 최근에 쓴 A와 D를 쫓아내는 짓은 완벽 방어함!│
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순수 LRU와 LRU 근사 알고리즘(1비트)의 교체 타겟 선정 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">램에 4개의 페이지(A, B, C, D)가 꽉 찬 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 순수 LRU의 매의 눈 (정확도 100%, 비용 100%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A: 13시 05분 10초에 마지막 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B: 13시 02분 00초에 마지막 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C: 12시 50분 30초에 마지막 사용 ◀ (가장 오래됨. 무조건 너 당첨!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D: 13시 06분 20초에 마지막 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 매 순간 이 시간을 정렬하고 비교하는 끔찍한 오버헤드 발생.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. LRU 근사의 대충 눈대중 (정확도 80%, 비용 1%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하드웨어가 읽을 때마다 R비트를 1로 켜둠. OS가 주기적으로 0으로 끔.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A: R = 1 (아 방금 썼네)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B: R = 0 (최근에 안 썼네) ◀ 당첨! (C가 더 오래됐지만 알 바 아님)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C: R = 0 (최근에 안 썼네) ◀ 당첨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D: R = 1 (아 방금 썼네)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; OS는 B와 C 중 그냥 눈에 먼저 띄는 B를 쫓아냄. 가장 늙은 놈을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고르진 못했지만, 최소한 최근에 쓴 A와 D를 쫓아내는 짓은 완벽 방어함!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사의 철학은 "베스트(최적의 1놈)를 찾는 게 아니라, 워스트(최근에 쓴 놈)를 피하는 것"이다. B를 쫓아내든 C를 쫓아내든, 어차피 둘 다 '최근에 버림받은 쓰레기'라는 사실은 변함이 없기 때문에 통계적으로 보면 최종 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 횟수에서 순수 LRU와 고작 1~2%밖에 차이가 나지 않는 기적이 일어난다. 비용은 1/100인데 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 98%인 궁극의 가성비다.
 
 - **📢 섹션 요약 비유**: 시험에서 1등부터 100등까지 완벽하게 등수를 매기는 것(순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))은 채점 시간이 너무 오래 걸립니다. 그래서 그냥 60점 이상은 패스(R=1), 60점 미만은 과락(R=0)으로 두 그룹만 나눈 뒤, 과락 맞은 애들 중 아무나 무작위로 퇴학시키는([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사) 절대평가 시스템입니다.
@@ -62,9 +62,9 @@ tags = ["studynote-operating-system"]
 ### 하드웨어의 보조: [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))
 
 모든 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 척추 역할을 하는 단 1개의 마법 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다.
-- **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태**: 운영체제가 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 램에 올려줄 때, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 `Reference Bit`를 **`0`**으로 세팅한다.
-- **하드웨어의 개입 (Auto-Set)**: CPU가 램을 읽거나(Read) 쓸 때(Write), MMU가 주소를 번역하면서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 슥 훑고 지나가며 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 묻지도 따지지도 않고 **`1`**로 바꿔치기한다. (하드웨어 로직이므로 지연시간 0).
-- **소프트웨어의 개입 (Clear)**: OS 안의 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Timer Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/))가 0.1초마다 깨어난다. 램을 쫙 스캔하며 `1`로 되어있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 모조리 **`0`**으로 리셋시킨다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 운영체제가 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 램에 올려줄 때, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 `Reference Bit`를 <strong><code>0</code></strong>으로 세팅한다.
+- **하드웨어의 개입 (Auto-Set)**: CPU가 램을 읽거나(Read) 쓸 때(Write), MMU가 주소를 번역하면서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 슥 훑고 지나가며 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 묻지도 따지지도 않고 <strong><code>1</code></strong>로 바꿔치기한다. (하드웨어 로직이므로 지연시간 0).
+- **소프트웨어의 개입 (Clear)**: OS 안의 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Timer Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/))가 0.1초마다 깨어난다. 램을 쫙 스캔하며 `1`로 되어있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 모조리 <strong><code>0</code></strong>으로 리셋시킨다.
 - **결과 판독**: 램이 꽉 차서 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)가 터졌을 때, `R=1`인 놈은 "아, 방금 0.1초 사이에 터치된 뜨거운(Hot) 놈이구나" 하고 살려주고, `R=0`인 놈은 "0.1초가 넘도록 한 번도 안 불린 차가운(Cold) 놈이네" 하고 가차 없이 스왑으로 쫓아낸다.
 
 ---
@@ -73,28 +73,27 @@ tags = ["studynote-operating-system"]
 
 "1비트(0과 1)만으로는 누가 더 오래된 쓰레기인지 알기 힘들다"며 아쉬워한 공학자들이 고안한 소프트웨어적 확장([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법이다. ([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대다).
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│              8비트 시프트(Shift) 연산을 통한 과거 추적 시뮬레이션            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│ [ 원리: OS가 페이지마다 8비트(1 Byte)짜리 히스토리 변수를 소프트웨어로 만듦 ]│
-│                                                                              │
-│ 1. 타이머 인터럽트(0.1초)마다, 하드웨어의 1비트짜리 R비트 값을 읽어옴.       │
-│ 2. 그 R비트 값을 내 8비트 히스토리의 '맨 왼쪽(MSB)'에 끼워 넣고,             │
-│    기존 비트들은 오른쪽으로 한 칸씩 밈 (Right Shift 연산).                   │
-│ 3. 하드웨어 R비트는 다시 0으로 클리어.                                       │
-│                                                                              │
-│ [ 0.5초 경과 후의 두 페이지 히스토리 상태 비교 ]                             │
-│ ▶ 페이지 A: `1 1 0 0 0 0 0 0` (십진수 192)                                   │
-│ ▶ 페이지 B: `0 0 0 1 1 1 1 1` (십진수 31)                                    │
-│                                                                              │
-│ ✅ OS의 냉혹한 판정:                                                         │
-│ "A는 옛날엔 안 썼지만 최근 0.2초 동안 연속으로 쓰였다 (MSB가 11). 생존!"     │
-│ "B는 옛날엔 미친 듯이 썼지만, 최근 0.3초 동안 완전히 버림받았다. 처형!"      │
-│ (십진수 숫자가 작을수록 오랫동안 안 쓰인 놈이므로 정수로 비교해버리면 끝)    │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8비트 시프트(Shift) 연산을 통한 과거 추적 시뮬레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원리: OS가 페이지마다 8비트(1 Byte)짜리 히스토리 변수를 소프트웨어로 만듦</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 타이머 인터럽트(0.1초)마다, 하드웨어의 1비트짜리 R비트 값을 읽어옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 그 R비트 값을 내 8비트 히스토리의 '맨 왼쪽(MSB)'에 끼워 넣고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 비트들은 오른쪽으로 한 칸씩 밈 (Right Shift 연산).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하드웨어 R비트는 다시 0으로 클리어.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0.5초 경과 후의 두 페이지 히스토리 상태 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 A: <code>1 1 0 0 0 0 0 0</code> (십진수 192)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 B: <code>0 0 0 1 1 1 1 1</code> (십진수 31)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OS의 냉혹한 판정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A는 옛날엔 안 썼지만 최근 0.2초 동안 연속으로 쓰였다 (MSB가 11). 생존!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"B는 옛날엔 미친 듯이 썼지만, 최근 0.3초 동안 완전히 버림받았다. 처형!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(십진수 숫자가 작을수록 오랫동안 안 쓰인 놈이므로 정수로 비교해버리면 끝)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 하드웨어는 단 1비트만 지원하지만, OS 소프트웨어가 주기적인 시프트(>> 1) 연산을 통해 과거 8틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 동안의 역사를 완벽하게 복원해 내는 천재적인 기법이다. 순수 LRU처럼 무거운 시계를 쓰지 않고도, 8비트 정수(Integer) 값 하나만 대소 비교하여 가장 '[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)+[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)'에 가까운 이상적인 희생양을 찾아낸다.
 
@@ -111,14 +110,14 @@ tags = ["studynote-operating-system"]
 | **히스토리 깊이** | 무한대 (완벽한 절대 시간) | **단 1틱 (방금 썼다/안 썼다)** | **최근 8틱 (0.8초의 기록)** |
 | **정확도** | 100% | 80% (동점자가 너무 많음) | 95% (동점자를 정수 비교로 가름) |
 | **시스템 부하** | ☠️ 재앙 수준 | **🟢 거의 0 (가장 가벼움)** | 🟡 약간의 타이머 오버헤드 |
-| **채택 환경** | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자체 캐시 | **현대 OS ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반)** | 일부 정밀한 캐시 컨트롤러 |
+| **채택 환경** | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자체 캐시 | <strong>현대 OS (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 기반)</strong> | 일부 정밀한 캐시 컨트롤러 |
 
 ### 1비트의 맹점: 동점자(Tie) 폭발의 딜레마
-1비트만 쓰는 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 가장 큰 문제는 **"변별력 부족"**이다.
+1비트만 쓰는 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 가장 큰 문제는 <strong>"변별력 부족"</strong>이다.
 - 1초 뒤에 OS가 램 400만 장을 스캔했더니, 300만 장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 `R=1` 이고 100만 장이 `R=0` 이다.
 - "100만 장 중에 누구를 죽여야 하지?"
 - 1비트 근사 체제에서는 이 100만 장이 모두 똑같은 0이기 때문에 순위를 가릴 수 없다. 결국 이 100만 장 중 아무거나 큐의 맨 앞에 있는 놈을 무작위(랜덤)에 가깝게 죽이게 된다.
-- 이 문제를 완벽하게(가장 싸게) 해결하면서 1비트의 한계를 뚫어낸 것이 바로 다음 장에서 배울 원형 큐 기반의 **[2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)([Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))**이다. 모든 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 최종 진화 종착지다.
+- 이 문제를 완벽하게(가장 싸게) 해결하면서 1비트의 한계를 뚫어낸 것이 바로 다음 장에서 배울 원형 큐 기반의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/">2차 기회 알고리즘</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/">Clock Algorithm</a>)</strong>이다. 모든 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 최종 진화 종착지다.
 
 - **📢 섹션 요약 비유**: 수능을 100점 만점이 아니라 "합격 / 불합격" 두 개로만 채점하니까(1비트 근사), 불합격자 10만 명 중에 제일 꼴통 1명을 골라내 퇴학시키기가 불가능해진 난감한 상황입니다.
 
@@ -128,14 +127,14 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: Nginx와 OS의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache) 쟁탈전
 1. **상황**: Nginx 웹 서버가 수만 명에게 이미지(Static [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 서빙하고 있다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 잔뜩 띄워놓고 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사 로직으로 캐시를 비우며 버티고 있다.
-2. **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 조짐)**:
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a> 조짐)</strong>:
    - 밤이 되어 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트가 100GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 한 번 쓱(Sequential) 읽고 지나갔다.
    - 하드웨어 MMU는 바보같이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 100GB어치에 전부 `R=1` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 찍어줬다.
    - OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "우와 100GB짜리 초핵심 핫(Hot) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어왔다!"라고 착각하고, 원래 잘 캐싱되어 있던 Nginx의 소중한 이미지 램들을 몽땅 스왑으로 쫓아내 버렸다. (Cache Pollution).
-3. **리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Inactive 이중 리스트 튜닝**:
-   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 이 1비트 근사의 한계(한 번만 터치해도 VIP가 되는 맹점)를 막기 위해, 램 리스트를 **[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) List(진짜 단골)**와 **Inactive List(뜨내기 대기석)** 두 개로 쪼갰다.
+3. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>/Inactive 이중 리스트 튜닝</strong>:
+   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 이 1비트 근사의 한계(한 번만 터치해도 VIP가 되는 맹점)를 막기 위해, 램 리스트를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> List(진짜 단골)</strong>와 **Inactive List(뜨내기 대기석)** 두 개로 쪼갰다.
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음 램에 오면 무조건 Inactive(대기석)에 넣는다.
-   - 한 번 터치(R=1)된 걸론 어림없고, 대기석에 있는 동안 **두 번 이상 터치(Double Touch)**되어야만 비로소 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(VIP석)로 올려주는 깐깐한 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사 방어막(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 구현했다.
+   - 한 번 터치(R=1)된 걸론 어림없고, 대기석에 있는 동안 <strong>두 번 이상 터치(Double Touch)</strong>되어야만 비로소 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(VIP석)로 올려주는 깐깐한 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사 방어막(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 구현했다.
    - 이것이 현대 리눅스 서버가 한 번 읽고 버리는 스캔 작업에도 서버가 멈추지 않고 미친 듯이 잘 버티는 숨겨진 실무 아키텍처다.
 
 - **📢 섹션 요약 비유**: 클럽(램)에 손님([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 들어올 때, 한 번 입장했다고 무조건 VIP석(R=1)을 내주는 게 아니라([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1비트 근사), 일단 일반석(Inactive)에 앉히고 술을 두 병 이상 시켜야만(Double Touch) VIP석으로 옮겨주어, 자리만 차지하고 나가는 진상 뜨내기 손님([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스캔)으로부터 진짜 단골(Nginx 캐시)을 보호하는 가드(OS)의 완벽한 컷트입니다.
@@ -150,7 +149,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | **하드웨어 오버헤드 소멸** | 매 클럭 발생하는 타임스탬프 기록을 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 1개짜리 1비트(R [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 토글로 압축하여 CPU 발열과 지연을 0에 수렴시킴 |
 | **소프트웨어 탐색 $O(1)$ 근접**| 완벽한 정렬을 포기하고 O/X 이분법을 채택함으로써, OS의 교체 타겟 스캔 데몬(kswapd)의 CPU 점유율을 바닥으로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하이브리드의 초석**| 1비트라는 제한된 정보를 바탕으로 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 이중 리스트 등 수백 가지의 천재적인 튜닝 기법들을 탄생시킨 갈라파고스적 진화의 토대 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 하이브리드의 초석</strong>| 1비트라는 제한된 정보를 바탕으로 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 이중 리스트 등 수백 가지의 천재적인 튜닝 기법들을 탄생시킨 갈라파고스적 진화의 토대 |
 
 ### 결론 및 미래 전망
 
@@ -171,15 +170,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[LRU (Least Recently Used) 교체]
-    │
-    ▼
-[LRU 근사 알고리즘 (LRU Approximation)]
-    │
-    ├──▶ [2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
-    └──▶ [개선된 2차 기회 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">개선된 2차 기회 알고리즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

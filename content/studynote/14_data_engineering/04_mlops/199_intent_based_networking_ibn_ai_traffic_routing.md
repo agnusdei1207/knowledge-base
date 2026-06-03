@@ -34,20 +34,23 @@ IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무�
 
 ### 1.3 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 동작 개요
 
-```
-비즈니스 의도 입력 예시:
 
-"영업팀은 CRM 시스템에 99.9% 가용성으로 접근 가능해야 하며,
- 의료 데이터는 반드시 암호화되어 전송되어야 한다."
 
-                    ↓ IBN 시스템
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 의도 입력 예시:</div>
+<div class="kb-diagram-note">"영업팀은 CRM 시스템에 99.9% 가용성으로 접근 가능해야 하며,</div>
+<div class="kb-diagram-note">의료 데이터는 반드시 암호화되어 전송되어야 한다."</div>
+<div class="kb-diagram-note">↓ IBN 시스템</div>
+<div class="kb-diagram-note">자동 생성 네트워크 정책:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VLAN 분리: 영업팀 VLAN 100, 의료 VLAN 200</div>
+<div class="kb-diagram-tree-item" style="--depth:1">QoS: 영업팀 CRM 트래픽 우선순위 높음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">암호화: VLAN 200 모든 트래픽 TLS 강제</div>
+<div class="kb-diagram-tree-item" style="--depth:1">모니터링: 가용성 99.9% 미만 시 즉시 경보</div>
+</div>
+</div>
 
-자동 생성 네트워크 정책:
-  ├─ VLAN 분리: 영업팀 VLAN 100, 의료 VLAN 200
-  ├─ QoS: 영업팀 CRM 트래픽 우선순위 높음
-  ├─ 암호화: VLAN 200 모든 트래픽 TLS 강제
-  └─ 모니터링: 가용성 99.9% 미만 시 즉시 경보
-```
+
 
 📢 **섹션 요약 비유**: IBN은 "스마트 건물 관리 시스템"과 같다. "오전 9시 회의실은 20도로 유지"라고 말하면, 시스템이 보일러·에어컨·환기를 자동으로 조절한다. 관리자는 "무엇을"만 정하고, "어떻게"는 시스템이 해결한다.
 
@@ -57,34 +60,26 @@ IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무�
 
 ### 2.1 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 3단계 루프 아키텍처
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                   IBN 핵심 루프                              │
-│                                                            │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  1단계: 변환 (Translation)                           │   │
-│  │                                                     │   │
-│  │  비즈니스 의도 입력 → 네트워크 정책으로 변환           │   │
-│  │  자연어 / GUI / API → 구성 명세 (Intent Spec)        │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                           │                                │
-│  ┌────────────────────────▼────────────────────────────┐   │
-│  │  2단계: 활성화 (Activation)                          │   │
-│  │                                                     │   │
-│  │  정책 검증 → 충돌 감지 → 네트워크 장비에 배포         │   │
-│  │  SDN 컨트롤러 / 장비별 드라이버 통한 설정 적용        │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                           │                                │
-│  ┌────────────────────────▼────────────────────────────┐   │
-│  │  3단계: 보증 (Assurance)                             │   │
-│  │                                                     │   │
-│  │  실시간 모니터링 → 의도 상태 검증 → 이탈 시 자가 치유  │   │
-│  │  AI/ML 기반 이상 감지 + 자동 재구성                  │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                           │ 피드백 루프                     │
-│                           └──────→ 변환 단계으로 재입력      │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IBN 핵심 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 변환 (Translation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 의도 입력 → 네트워크 정책으로 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자연어 / GUI / API → 구성 명세 (Intent Spec)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 활성화 (Activation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 검증 → 충돌 감지 → 네트워크 장비에 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN 컨트롤러 / 장비별 드라이버 통한 설정 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 보증 (Assurance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 모니터링 → 의도 상태 검증 → 이탈 시 자가 치유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI/ML 기반 이상 감지 + 자동 재구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피드백 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 변환 단계으로 재입력</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 구성요소 상세
 
@@ -98,24 +93,25 @@ IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무�
 
 ### 2.3 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 활용 영역
 
-```
-IBN에서 AI/ML 활용
 
-1. 의도 해석 (NLP)
-   "영업팀 트래픽 우선 보장" → DSCP 46 마킹, 대역폭 보장
 
-2. 트래픽 예측 (Time-series)
-   과거 트래픽 패턴 → 미래 혼잡 예측 → 선제적 경로 최적화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IBN에서 AI/ML 활용</div>
+<div class="kb-diagram-note">1. 의도 해석 (NLP)</div>
+<div class="kb-diagram-note">"영업팀 트래픽 우선 보장" → DSCP 46 마킹, 대역폭 보장</div>
+<div class="kb-diagram-note">2. 트래픽 예측 (Time-series)</div>
+<div class="kb-diagram-note">과거 트래픽 패턴 → 미래 혼잡 예측 → 선제적 경로 최적화</div>
+<div class="kb-diagram-note">3. 이상 감지 (Anomaly Detection)</div>
+<div class="kb-diagram-note">정상 베이스라인 모델링 → 이탈 감지 → 알림 또는 자동 수정</div>
+<div class="kb-diagram-note">4. 자율 최적화 (Reinforcement Learning)</div>
+<div class="kb-diagram-note">트래픽 분산 환경에서 최적 라우팅 정책 자율 학습</div>
+<div class="kb-diagram-note">5. 장애 예측 (Predictive Maintenance)</div>
+<div class="kb-diagram-note">장비 성능 지표 분석 → 장애 발생 전 예방 조치</div>
+</div>
+</div>
 
-3. 이상 감지 (Anomaly Detection)
-   정상 베이스라인 모델링 → 이탈 감지 → 알림 또는 자동 수정
 
-4. 자율 최적화 (Reinforcement Learning)
-   트래픽 분산 환경에서 최적 라우팅 정책 자율 학습
-
-5. 장애 예측 (Predictive Maintenance)
-   장비 성능 지표 분석 → 장애 발생 전 예방 조치
-```
 
 ### 2.4 주요 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 제품 비교
 
@@ -147,31 +143,28 @@ IBN에서 AI/ML 활용
 
 ### 3.2 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))과 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 연계
 
-```
-5G 슬라이싱 + IBN 아키텍처
 
-비즈니스 의도:
-  "자율주행 차량에 5ms 이하 지연 보장"
-  "스트리밍 서비스에 100Mbps 보장"
-  "IoT 센서에 저전력 저대역 연결"
 
-             ↓ IBN이 자동 슬라이스 설정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">5G 슬라이싱 + IBN 아키텍처</div>
+<div class="kb-diagram-note">비즈니스 의도:</div>
+<div class="kb-diagram-note">"자율주행 차량에 5ms 이하 지연 보장"</div>
+<div class="kb-diagram-note">"스트리밍 서비스에 100Mbps 보장"</div>
+<div class="kb-diagram-note">"IoT 센서에 저전력 저대역 연결"</div>
+<div class="kb-diagram-note">↓ IBN이 자동 슬라이스 설정</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 코어 네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice 1</div><div class="kb-diagram-cell">Slice 2</div><div class="kb-diagram-cell">Slice 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URLLC</div><div class="kb-diagram-cell">eMBB</div><div class="kb-diagram-cell">mMTC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초저지연)</div><div class="kb-diagram-cell">(고대역폭)</div><div class="kb-diagram-cell">(대규모IoT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행</div><div class="kb-diagram-cell">스트리밍</div><div class="kb-diagram-cell">센서 통신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5ms 이하</div><div class="kb-diagram-cell">100Mbps+</div><div class="kb-diagram-cell">저전력</div></div>
+<div class="kb-diagram-note">IBN이 각 슬라이스 SLA(Service Level Agreement) 자동 모니터링</div>
+<div class="kb-diagram-note">위반 시 리소스 자동 재할당</div>
+</div>
+</div>
 
-┌───────────────────────────────────────────────────┐
-│            5G 코어 네트워크                         │
-│                                                   │
-│  ┌──────────────┐ ┌──────────────┐ ┌────────────┐ │
-│  │ Slice 1      │ │ Slice 2      │ │ Slice 3    │ │
-│  │ URLLC        │ │ eMBB         │ │ mMTC       │ │
-│  │ (초저지연)    │ │ (고대역폭)    │ │ (대규모IoT)│ │
-│  │ 자율주행      │ │ 스트리밍     │ │ 센서 통신  │ │
-│  │ 5ms 이하     │ │ 100Mbps+    │ │ 저전력     │ │
-│  └──────────────┘ └──────────────┘ └────────────┘ │
-└───────────────────────────────────────────────────┘
 
-IBN이 각 슬라이스 SLA(Service Level Agreement) 자동 모니터링
-위반 시 리소스 자동 재할당
-```
 
 ### 3.3 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언어 예시
 
@@ -219,49 +212,51 @@ intent:
 
 ### 4.2 [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) DNA Center [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 구현
 
-```
-Cisco DNA Center 적용 예시
 
-1. 의도 정의 (UI/API)
-   보안 그룹 설정: "개발팀 ↔ 운영팀 통신 차단"
 
-2. 정책 변환
-   TrustSec 태그: DEV_GROUP=100, OPS_GROUP=200
-   SGACL 정책: DENY DEV→OPS, DENY OPS→DEV
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cisco DNA Center 적용 예시</div>
+<div class="kb-diagram-note">1. 의도 정의 (UI/API)</div>
+<div class="kb-diagram-note">보안 그룹 설정: "개발팀 ↔ 운영팀 통신 차단"</div>
+<div class="kb-diagram-note">2. 정책 변환</div>
+<div class="kb-diagram-note">TrustSec 태그: DEV_GROUP=100, OPS_GROUP=200</div>
+<div class="kb-diagram-note">SGACL 정책: DENY DEV→OPS, DENY OPS→DEV</div>
+<div class="kb-diagram-note">3. 배포</div>
+<div class="kb-diagram-note">ISE(Identity Services Engine) 연계</div>
+<div class="kb-diagram-note">스위치/라우터/무선AP에 자동 배포</div>
+<div class="kb-diagram-note">4. 보증</div>
+<div class="kb-diagram-note">Network Assurance: 실시간 경로 추적</div>
+<div class="kb-diagram-note">AI-driven Issues: 자동 근원 원인 분석</div>
+<div class="kb-diagram-note">5. 자가 치유</div>
+<div class="kb-diagram-note">연결 이상 감지 → 대체 경로 자동 전환</div>
+<div class="kb-diagram-note">VLAN 충돌 감지 → 자동 재구성</div>
+</div>
+</div>
 
-3. 배포
-   ISE(Identity Services Engine) 연계
-   스위치/라우터/무선AP에 자동 배포
 
-4. 보증
-   Network Assurance: 실시간 경로 추적
-   AI-driven Issues: 자동 근원 원인 분석
-
-5. 자가 치유
-   연결 이상 감지 → 대체 경로 자동 전환
-   VLAN 충돌 감지 → 자동 재구성
-```
 
 ### 4.3 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 도입 성숙도 모델
 
-```
-IBN 도입 단계
 
-0단계: 수동 관리
-  └─ CLI 명령어, 엑셀 관리
 
-1단계: 자동화
-  └─ Ansible/Python 스크립트, 일부 자동화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IBN 도입 단계</div>
+<div class="kb-diagram-note">0단계: 수동 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:1">CLI 명령어, 엑셀 관리</div>
+<div class="kb-diagram-note">1단계: 자동화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Ansible/Python 스크립트, 일부 자동화</div>
+<div class="kb-diagram-note">2단계: SDN</div>
+<div class="kb-diagram-tree-item" style="--depth:1">중앙 컨트롤러, API 기반 관리</div>
+<div class="kb-diagram-note">3단계: IBN 기초</div>
+<div class="kb-diagram-tree-item" style="--depth:1">정책 기반 관리, 분석 도구 도입</div>
+<div class="kb-diagram-note">4단계: 완전 IBN</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AI 기반 의도 해석, 자가 치유, 예측 운영</div>
+</div>
+</div>
 
-2단계: SDN
-  └─ 중앙 컨트롤러, API 기반 관리
 
-3단계: IBN 기초
-  └─ 정책 기반 관리, 분석 도구 도입
-
-4단계: 완전 IBN
-  └─ AI 기반 의도 해석, 자가 치유, 예측 운영
-```
 
 ### 4.4 기술사 논술 핵심 포인트
 
@@ -290,27 +285,30 @@ IBN 도입 단계
 
 ### 5.2 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 미래 발전 방향
 
-```
-IBN 진화 방향
 
-현재 (2024):
-  ├─ 엔터프라이즈 캠퍼스/데이터센터 자동화
-  └─ SDN 위에 정책 레이어 추가
 
-단기 (2025~2027):
-  ├─ 5G/6G 코어 네트워크 통합
-  ├─ 멀티클라우드 의도 기반 연결
-  └─ AI-Native 네트워크 구성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IBN 진화 방향</div>
+<div class="kb-diagram-note">현재 (2024):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">엔터프라이즈 캠퍼스/데이터센터 자동화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">SDN 위에 정책 레이어 추가</div>
+<div class="kb-diagram-note">단기 (2025~2027):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">5G/6G 코어 네트워크 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:1">멀티클라우드 의도 기반 연결</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AI-Native 네트워크 구성</div>
+<div class="kb-diagram-note">장기 (2028+):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">완전 자율 네트워크 (Autonomous Network)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자연어 인터페이스 (LLM + IBN)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">제로 터치 프로비저닝 (ZTP) 완성</div>
+</div>
+</div>
 
-장기 (2028+):
-  ├─ 완전 자율 네트워크 (Autonomous Network)
-  ├─ 자연어 인터페이스 (LLM + IBN)
-  └─ 제로 터치 프로비저닝 (ZTP) 완성
-```
+
 
 ### 5.3 결론 요약
 
-IBN은 복잡한 네트워크 운영을 비즈니스 의도 중심으로 단순화하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML로 자율 최적화·자가 치유를 실현하는 차세대 네트워킹 패러다임이다. 기술사 관점에서는 **[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) vs SDN의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준 차이, 변환-활성화-보증 3단계 루프, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 슬라이싱과의 결합**을 명확히 이해해야 한다.
+IBN은 복잡한 네트워크 운영을 비즈니스 의도 중심으로 단순화하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML로 자율 최적화·자가 치유를 실현하는 차세대 네트워킹 패러다임이다. 기술사 관점에서는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/">IBN</a> vs SDN의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 수준 차이, 변환-활성화-보증 3단계 루프, <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 슬라이싱과의 결합</strong>을 명확히 이해해야 한다.
 
 📢 **섹션 요약 비유**: IBN은 네트워크 운영의 "자율 주행 자동차"다. 목적지(비즈니스 의도)를 입력하면 센서(모니터링)로 주변 상황을 파악하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진)가 최적 경로(네트워크 구성)를 실시간으로 조정하며 안전하게 목적지에 도달한다.
 
@@ -336,23 +334,26 @@ IBN은 복잡한 네트워크 운영을 비즈니스 의도 중심으로 단순�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 네트워크 관리 (CLI 기반 설정)
-    │
-    ▼
-SDN (Software-Defined Networking): 제어 평면 분리
-    │
-    ▼
-IBN (Intent-Based Networking)
-    ├─► 인텐트 정의: "웹 서버 → DB 10ms 이내" (선언적)
-    ├─► 자동 변환: 인텐트 → 네트워크 정책 → 장비 설정
-    └─► 지속 검증: 실시간 모니터링 · 의도 준수 확인
-    │
-    ▼
-AI 기반 트래픽 라우팅
-    ├─► 트래픽 예측 · 경로 최적화
-    └─► 자가 치유 (Self-Healing) 네트워크
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 네트워크 관리 (CLI 기반 설정)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SDN (Software-Defined Networking): 제어 평면 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IBN (Intent-Based Networking)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인텐트 정의: "웹 서버 → DB 10ms 이내" (선언적)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동 변환: 인텐트 → 네트워크 정책 → 장비 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">지속 검증: 실시간 모니터링 · 의도 준수 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 트래픽 라우팅</div>
+<div class="kb-diagram-tree-item" style="--depth:2">트래픽 예측 · 경로 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자가 치유 (Self-Healing) 네트워크</div>
+</div>
+</div>
+
+
 2. IBN의 3단계는 요리사의 작업과 같아요. 레시피 이해(변환) → 요리 실행(활성화) → 맛 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(보증)이 계속 반복되고, 맛이 이상하면 자동으로 조리법을 수정해요.
 3. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 슬라이싱 + IBN은 고속도로 자동 차선 배정이에요. 응급차에는 항상 비어있는 차선을, 일반 차량에는 빈 차선을 자동으로 배정해 모두가 목적지에 빠르게 도달하게 해요.
 

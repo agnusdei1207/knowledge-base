@@ -29,38 +29,33 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 정보시스템 감리기준이 감리의 을 관통하는 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [정보시스템 감리기준 영역 맵] │
-│ │
-│ ┌─────────────────────────────────────────────────┐ │
-│ │ 감리 전 과정 (End-to-End) │ │
-│ │ │ │
-│ │ [계획] ──► [준비] ──► [실시] ──► [보고] ──► [] │ │
-│ │ │ │ │ │
-│ │ └──────── 감리기준 적용 (전 단계 관통) ────┘ │ │
-│ └─────────────────────────────────────────────────┘ │
-│ │ │
-│ ┌─────────────────────┼─────────────────────────┐ │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ [관리] [응용시스템] [DB/보안] │
-│ - 통합관리 - 기능요구 - 데이터 │
-│ - 범위관리 - UI/UX - DB 성능 │
-│ - 일정관리 - 테스트 - 접근통제 │
-│ - 품질관리 - 화면구현 - 암호화 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보시스템 감리기준 영역 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 전 과정 (End-to-End)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계획</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">준비</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">실시</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">보고</div><div class="kb-diagram-note">──► [] │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리기준 적용 (전 단계 관통)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관리</div><div class="kb-diagram-node">응용시스템</div><div class="kb-diagram-node">DB/보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통합관리 - 기능요구 - 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 범위관리 - UI/UX - DB 성능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일정관리 - 테스트 - 접근통제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질관리 - 화면구현 - 암호화</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 감리기준이 단순히 하나의만 적용하는 것이 아니라, 감리프로세스의 모든 단계([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/))를 관통하며, 감리 영역의 모든(사업관리, 응용시스템, DB/보안)를 포괄한다는 구조라는 점이다.
 
-📢 **섹션 요약 비유**: 정보시스템 감리기준은 **'음식물안전'의 축제 '**과 같습니다. HACCP(위생관리체계)은 음식점을 점검할 때 전 과정을 빠짐없이 확인하듯이, 감리기준도 정보화 사업의 전 영역을 빠짐없이 점검하도록 하는 방위적 검사 표준입니다.
+📢 **섹션 요약 비유**: 정보시스템 감리기준은 <strong>'음식물안전'의 축제 '</strong>과 같습니다. HACCP(위생관리체계)은 음식점을 점검할 때 전 과정을 빠짐없이 확인하듯이, 감리기준도 정보화 사업의 전 영역을 빠짐없이 점검하도록 하는 방위적 검사 표준입니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-정보시스템 감리기준의 내용은 크게 **감리 실시 일반**, **감리 영역별 상세 기준**, **감리 절차 및 방법**, **[감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/) 작성 기준**의 네 가지 축으로 구성된다.
+정보시스템 감리기준의 내용은 크게 **감리 실시 일반**, **감리 영역별 상세 기준**, **감리 절차 및 방법**, <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/">감리 보고서</a> 작성 기준</strong>의 네 가지 축으로 구성된다.
 
 **[정보시스템 감리기준 체계]**
 
@@ -73,29 +68,29 @@ tags = ["design_supervision"]
 
 감리기준의 영역별 검사 항목을 수준대별로 정리한 표는 다음과 같다.
 
-```text
-[감리영역별 수준 구분표]
 
-┌─────────────────────────────────────────────────────┐
-│ 수준 1 (기본) │ 수준 2 (표준) │ 수준 3 (고급) │
-├─────────────────────────────────────────────────────┤
-│ 사업관리 │ - 진척 관리 │ - 진척 관리 │ - EVM 기반 │
-│ │ - 예산 관리 │ - 예산 관리 │ - 원가 관리 │
-│ │ │ - 위험 관리 │ - 리스크 │
-├─────────────────────────────────────────────────────┤
-│ 응용시스템 │ - 화면구현 │ - 화면구현 │ - UX 심화 │
-│ │ - 테스트 항목 │ - 테스트 적정성 │ - 성능 테스트 │
-│ │ │ - 코드 분석 │ - SAST 적용 │
-├─────────────────────────────────────────────────────┤
-│ DB/보안 │ - ERD 충실성 │ - ERD 충실성 │ - DB 최적화 │
-│ │ - 백업 확인 │ - 백업/복구 │ - DR 실태 │
-│ │ │ - 보안 점검 │ - 모의해킹 │
-└─────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리영역별 수준 구분표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수준 1 (기본)</div><div class="kb-diagram-cell">수준 2 (표준)</div><div class="kb-diagram-cell">수준 3 (고급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사업관리</div><div class="kb-diagram-cell">- 진척 관리</div><div class="kb-diagram-cell">- 진척 관리</div><div class="kb-diagram-cell">- EVM 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예산 관리</div><div class="kb-diagram-cell">- 예산 관리</div><div class="kb-diagram-cell">- 원가 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위험 관리</div><div class="kb-diagram-cell">- 리스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용시스템</div><div class="kb-diagram-cell">- 화면구현</div><div class="kb-diagram-cell">- 화면구현</div><div class="kb-diagram-cell">- UX 심화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테스트 항목</div><div class="kb-diagram-cell">- 테스트 적정성</div><div class="kb-diagram-cell">- 성능 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 분석</div><div class="kb-diagram-cell">- SAST 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB/보안</div><div class="kb-diagram-cell">- ERD 충실성</div><div class="kb-diagram-cell">- ERD 충실성</div><div class="kb-diagram-cell">- DB 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 백업 확인</div><div class="kb-diagram-cell">- 백업/복구</div><div class="kb-diagram-cell">- DR 실태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안 점검</div><div class="kb-diagram-cell">- 모의해킹</div></div>
+</div>
+</div>
+
+
 
 이 수준 구분표의 핵심은 감리가 프로젝트의 규모와 중요도에 따라 적정한 수준의 점검을 수행해야 한다는 점이다. 규모가 작은 사업에 고난도 수준의 감리를 적용하면 오히려 업무이/가하고, 중요한 사업에 기본 수준만 적용하면 risk를 놓칠 수 있다. 감리인은 프로젝트의 특성에 맞게 점검 수준을 조절하는 것이 핵심이다.
 
-📢 **섹션 요약 비유**: 감리기준의 수준 구분은 **'의료 검사 단계'**와 같습니다. 일반 건강검진(수준 1)에서는 기본 혈압,만 보고, 정밀 검사(수준 2)에서는 초음파, MRI를 추가하며, 종합 건강검진(수준 3)에서는 유전체 분석까지 실시하듯이, 감리도 사업 규모에 맞게 적절한 깊이의 점검을 수행합니다.
+📢 **섹션 요약 비유**: 감리기준의 수준 구분은 <strong>'의료 검사 단계'</strong>와 같습니다. 일반 건강검진(수준 1)에서는 기본 혈압,만 보고, 정밀 검사(수준 2)에서는 초음파, MRI를 추가하며, 종합 건강검진(수준 3)에서는 유전체 분석까지 실시하듯이, 감리도 사업 규모에 맞게 적절한 깊이의 점검을 수행합니다.
 
 ---
 
@@ -115,32 +110,26 @@ tags = ["design_supervision"]
 
 이러한 차이에도 불구하고, 두은 상호 보완적으로될 수 있다. 즉, 공공 사업 감리 시에는 국내 기준의 항목과 의 보편적 방법론을 함께 적용하여, 적법성과 적을 동시에 확보할 수 있다.
 
-```text
-[국내 감리기준 + 표준 ]
 
-┌─────────────────────────┐
-│ 한국형 Fusion Audit Model │
-└────────────┬────────────┘
-│
-┌───────────────┼───────────────┐
-│ │ │
-▼ ▼ ▼
-[행정안전부] [ISACA/CISA] [COBIT]
-방법론 기업 거버넌스
-검사프로젝트 프로세스 benchmark
-│ │ │
-└───────────────┼───────────────┘
-│
-▼
-┌─────────────────┐
-│ 감리 결과 │
-│ (+ 적법) │
-└─────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">국내 감리기준 + 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국형 Fusion Audit Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행정안전부</div><div class="kb-diagram-node">ISACA/CISA</div><div class="kb-diagram-node">COBIT</div></div>
+<div class="kb-diagram-note">방법론 기업 거버넌스</div>
+<div class="kb-diagram-note">검사프로젝트 프로세스 benchmark</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+ 적법)</div></div>
+</div>
+</div>
+
+
 
 이 융합 모델의 핵심은 감리기준의 검사프로젝트에 표준의 방법론을 입혀, 모두에서 가능한 감리 결과를 산출하는 것이다. 예를 들어, [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) [47개 보안 약점](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/497_kisa_secure_coding_guide/) 검사는 기준의 필수이지만, 이를 검사하는 기법은 ISACA의 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 방법론을 적용하는 식이다.
 
-📢 **섹션 요약 비유**: 감리기준과 표준의는 **'한국 음식 레시피 + French 기술'**과 같습니다. 기본은 한국 전통 불고기( 기준)이지만, 요리 기술을 French 미식 배운 기술( 방법론)로 보완하여, 한국인도 인도 맛있게 먹는 레스토랑 요리를 만들 수 있습니다.
+📢 **섹션 요약 비유**: 감리기준과 표준의는 <strong>'한국 음식 레시피 + French 기술'</strong>과 같습니다. 기본은 한국 전통 불고기( 기준)이지만, 요리 기술을 French 미식 배운 기술( 방법론)로 보완하여, 한국인도 인도 맛있게 먹는 레스토랑 요리를 만들 수 있습니다.
 
 ---
 
@@ -152,34 +141,36 @@ tags = ["design_supervision"]
 * **상황**: 사업자가 "사용자 만족도 향상을 위한 화면 디자인 개선"이라고 주장하며 추가 비용을 요구했다. 그러나 발주자 RFP에는 없는 항목이었다.
 * **기술사적 판단**: 감리기준 제3편 제2장 응용시스템 감리에서 "[요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 대비 기능 구현 여부"를 반드시 점검하도록 규정하고 있다. 따라서 감리인은 RFP 원본 요구사항과 실제 구현 내용을 1:1 대조하여, 해당 항목이 신규 기능인지 단순 디자인 변경인지 명확히 구분해야 한다. 명세에 없는 기능은 추가 비용 소명이 필요하며, 이를 확인하는 것이 감리인의 역할이다.
 
-**2.새로운 기술 적용 판단: "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇을 도입했는데, 감리기준에 해당 항목이 없습니다"**
+<strong>2.새로운 기술 적용 판단: "<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 챗봇을 도입했는데, 감리기준에 해당 항목이 없습니다"</strong>
 * **상황**:[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 민원 답변 챗봇을 도입했는데, 감리기준의 응용시스템 검사에는AI 관련 세부 기준이 없다.
 * **기술사적 판단**: 감리기준은 mínimos 요구사항이지, 기술을하지 않는다.[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇도 시스템의이므로 기능적 요구사항(민원 자동 답변 정확도), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구사항([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)), 보안요구사항([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) )을 기존 기준프레임워크에 맞춰 적용하면 된다. 핵심은 "기술 중심"이 아닌 "목적 중심"으로 감리기준을 적용하는 유연성이다.
 
-**3.감리 지적 강도 판단: "이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 Mandatory 개선 대상인가, 권고 대상인가?"**
+<strong>3.감리 지적 강도 판단: "이 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>은 Mandatory 개선 대상인가, 권고 대상인가?"</strong>
 * **상황**: 감리 결과 일부 화면에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직이 빠져 있지만, 전체 시스템 동작에는 영향을 주지 않는 상황이다.
 * **기술사적 판단**: 감리기준에는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 등급을 Major(필수 시정), Minor(권고 사항)로 구분하는 가이드가 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직의는 보호와 직결되므로, 현재 영향이 적더라도 보호조치 미흡은 Major 지적 대상이다. 감리인은 기준의에 얽매이지 말고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 질과 잠재적 영향를 예측하여 적절한 등급을 부여해야 한다.
 
-```text
-[감리기준 적용 의사결정프로세스]
-1. 해당 항목이 검사인가?
-│
-2. Yes ──> 기준 조항 (제○편 제○장 제○조)
-│
-3. 결함 발견 ──> 영향도 분석 (개인정보/보안/성능/기능)
-│
-4. │ 영향도 High? (보안, 법령 위반)
-│ ├── YES ──> [Major 지적] ──> 시정 조치 확인 의무
-│ └── NO
-│
-└──> │ 즉각적 장애 발생 위험?
-├── YES ──> [Major 지적]
-└── NO ──> [Minor 권고] ──> 향후 고도화에서 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리기준 적용 의사결정프로세스</div></div>
+<div class="kb-diagram-note">1. 해당 항목이 검사인가?</div>
+<div class="kb-diagram-note">2. Yes ──&gt; 기준 조항 (제○편 제○장 제○조)</div>
+<div class="kb-diagram-note">3. 결함 발견 ──&gt; 영향도 분석 (개인정보/보안/성능/기능)</div>
+<div class="kb-diagram-note">4. │ 영향도 High? (보안, 법령 위반)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── YES ──&gt;</div><div class="kb-diagram-node">Major 지적</div><div class="kb-diagram-note">──&gt; 시정 조치 확인 의무</div></div>
+<div class="kb-diagram-note">── NO</div>
+<div class="kb-diagram-tree-item" style="--depth:0">즉각적 장애 발생 위험?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── YES ──&gt;</div><div class="kb-diagram-node">Major 지적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── NO ──&gt;</div><div class="kb-diagram-node">Minor 권고</div><div class="kb-diagram-note">──&gt; 향후 고도화에서 반영</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 플로우의 핵심은 감리기준이 까지_framework일 뿐, 감리인의 전문적 판단을할 수 없다는 점이다. 동일한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 대해서도 감리인의 경험과 뎁스에 따라 다른 등급이 부여될 수 있으므로, 감리인의 역량이 곧 감리의을 결정한다.
 
-📢 **섹션 요약 비유**: 감리기준 적용의 판단은 **'교통 신호등의 판단'**과 같습니다. 신호등(감리기준)이 녹색(기준 충족)인지 빨간색(기준 위반)인지는 명확하지만, 황색(기준 위반이인 경우)은 운전자의 판단(감리인 판단)에 따라 멈출지 진행할지가 결정됩니다.
+📢 **섹션 요약 비유**: 감리기준 적용의 판단은 <strong>'교통 신호등의 판단'</strong>과 같습니다. 신호등(감리기준)이 녹색(기준 충족)인지 빨간색(기준 위반)인지는 명확하지만, 황색(기준 위반이인 경우)은 운전자의 판단(감리인 판단)에 따라 멈출지 진행할지가 결정됩니다.
 
 ---
 
@@ -197,7 +188,7 @@ tags = ["design_supervision"]
 **미래 전망:**
 감리기준은 Fourth Industrial Revolution 기술([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Cloud, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 등장에 따라 지속업데이트될 전망이다. 특히 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서의 감리 추가, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 및 윤리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목, 그리고 실시간 모니터링 기반의 지속적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 방법론의 제도화가 주요 검토로되고 있다.
 
-📢 **섹션 요약 비유**: 미래의 감리기준 발전은 **'자동차 검사 기준 의'**과 같습니다. 처음에는 차체 흠집과 브레이크만 확인했지만, 이제는 연비, 배기가스, 전자제어장치, 자율주행 기능까지 확인하듯이, 정보시스템 감리기준도에 맞춰 계속 진화할 것입니다.
+📢 **섹션 요약 비유**: 미래의 감리기준 발전은 <strong>'자동차 검사 기준 의'</strong>과 같습니다. 처음에는 차체 흠집과 브레이크만 확인했지만, 이제는 연비, 배기가스, 전자제어장치, 자율주행 기능까지 확인하듯이, 정보시스템 감리기준도에 맞춰 계속 진화할 것입니다.
 
 ---
 
@@ -210,21 +201,23 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[행정안전부 고시]
-│
-▼
-[COBIT (Control Objectives for IT)]
-│
-▼
-[CISA (Certified IS Auditor)]
-│
-▼
-[시큐어 코딩 (Secure Coding)]
-│
-▼
-[PDCA (Plan-Do-Check-Act)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">행정안전부 고시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT (Control Objectives for IT)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CISA (Certified IS Auditor)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시큐어 코딩 (Secure Coding)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PDCA (Plan-Do-Check-Act)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 행정안전부 고시에서 출발해 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

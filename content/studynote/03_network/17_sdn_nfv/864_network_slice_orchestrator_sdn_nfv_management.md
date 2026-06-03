@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 슬라이싱(가상 독립망) 하나를 찍어내려면(Instantiation), 기지국(RAN) ➜ 중간 광통신망(Transport) ➜ 코어망 서버(Core) 세 구간의 장비를 모조리 건드려야 합니다.
 - **과거의 절망**: 기지국은 에릭슨 장비, 광통신망은 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 코어망은 삼성 장비를 씁니다. 관리자가 3개 회사의 장비에 일일이 로그인해 기계어(CLI)로 세팅을 치려면 1개의 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 만드는 데 몇 주가 걸리고 에러가 납니다. 클라우드의 의미가 없습니다.
 
-```text
-[SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
-[네트워크 슬라이스 오케스트레이터]
-    │
-    └──▶ [NFV]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFV</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **"어떤 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가진 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 만들어라!"라는 비즈니스 주문([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))을 받아, 서로 다른 수백 대의 제조사 장비(RAN, 전송, 코어)들을 위에서 하나로 통합 통제하고, 자동화된 소프트웨어 명령으로 1초 만에 종단 간([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 가상 파이프를 찍어내고 관리하는 '최상위 글로벌 지휘/배포 통제 시스템'**입니다.
+- **개념**: <strong>"어떤 품질(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)과 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 가진 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>를 만들어라!"라는 비즈니스 주문(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>)을 받아, 서로 다른 수백 대의 제조사 장비(RAN, 전송, 코어)들을 위에서 하나로 통합 통제하고, 자동화된 소프트웨어 명령으로 1초 만에 종단 간(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/">E2E</a>) 가상 파이프를 찍어내고 관리하는 '최상위 글로벌 지휘/배포 통제 시스템'</strong>입니다.
 
-```text
-[SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
-[네트워크 슬라이스 오케스트레이터]
-    │
-    └──▶ [NFV]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFV</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 - "자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 만들 거니까, 서울 서버실 클라우드에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 서버(UPF) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개 당장 찍어내라!" NFV가 1초 만에 서버를 가상으로 복제해 세팅합니다.
 
 ### 2. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (길 뚫기 요정)을 통한 전송망(광케이블) 격리
-- 서버는 만들어졌으니 중간 고속도로를 뚫어야 합니다. 오케스트레이터가 이번엔 850번대의 **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(뇌)**에게 지시를 팍 내립니다.
+- 서버는 만들어졌으니 중간 고속도로를 뚫어야 합니다. 오케스트레이터가 이번엔 850번대의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 컨트롤러(뇌)</strong>에게 지시를 팍 내립니다.
 - "야 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)! 아까 만든 자율주행 코어 서버로 가는 광케이블 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 길(Path) 터라! 그리고 그 라우터 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에는 1번 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 꼬리표 붙은 트래픽 말고 일반 유튜브 패킷 들어오면 가차 없이 버리게 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 큐) 빡세게 걸어놔!" SDN이 수천 대의 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 룰을 하달해 길을 격리시킵니다.
 
 ### 3. RAN 컨트롤러 (무선 뇌) 통제
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 창조주는 만드는 것뿐만 아니라, **수거(소멸)**도 빛의 속도로 합니다.
+이 창조주는 만드는 것뿐만 아니라, <strong>수거(소멸)</strong>도 빛의 속도로 합니다.
 - 평창 동계올림픽 기간에 방송국 전용 8K VR 중계 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(가상망)를 돈을 받고 만들어 주었습니다. 올림픽이 딱 끝나자마자, 오케스트레이터는 버튼 하나로 그 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 구성하던 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 룰과 코어 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들을 허공에 연기처럼 싹 지워버립니다(Terminate). 통신사는 회수한 컴퓨팅 자원(RAM, 빔)을 다른 사람에게 재활용하여 팔아먹습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 네트워크 슬라이싱이 전용 'VIP 고속도로 차선'이라면, **[슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터**는 이 차선을 하룻밤 만에 지었다가 허물어버리는 '전지전능한 도로교통부 장관'입니다. 장관은 톨게이트 직원을 일일이 찾아가 지시하지 않습니다. 컴퓨터에 앉아 "내일 국빈 방한용 VIP 1호 차선 만들어!"라고 버튼(의도)만 딱 누릅니다. 그러면 장관 밑의 하청업체들(SDN과 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 컨트롤러)이 번개처럼 움직입니다. NFV는 톨게이트 부스(가상 서버)를 하루 만에 새로 짓고, SDN은 도로 한가운데 빨간색 차선([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로와 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 큐)을 1,000km에 걸쳐 쫙 그려버립니다. 행사가 끝나면 장관의 클릭 한 번으로 모든 빨간 차선과 톨게이트 부스가 모래알처럼 지워지고 다시 일반 도로로 복원되는 극한의 자원 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 통제 마법입니다.
+- **📢 섹션 요약 비유**: 네트워크 슬라이싱이 전용 'VIP 고속도로 차선'이라면, <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> 오케스트레이터</strong>는 이 차선을 하룻밤 만에 지었다가 허물어버리는 '전지전능한 도로교통부 장관'입니다. 장관은 톨게이트 직원을 일일이 찾아가 지시하지 않습니다. 컴퓨터에 앉아 "내일 국빈 방한용 VIP 1호 차선 만들어!"라고 버튼(의도)만 딱 누릅니다. 그러면 장관 밑의 하청업체들(SDN과 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 컨트롤러)이 번개처럼 움직입니다. NFV는 톨게이트 부스(가상 서버)를 하루 만에 새로 짓고, SDN은 도로 한가운데 빨간색 차선([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로와 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 큐)을 1,000km에 걸쳐 쫙 그려버립니다. 행사가 끝나면 장관의 클릭 한 번으로 모든 빨간 차선과 톨게이트 부스가 모래알처럼 지워지고 다시 일반 도로로 복원되는 극한의 자원 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 통제 마법입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
-    │
-    ▼
-[현재 개념: 네트워크 슬라이스 오케스트레이터]
-    │
-    ├──▶ [확장 A: NFV]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 슬라이스 오케스트레이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFV</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 NFV와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

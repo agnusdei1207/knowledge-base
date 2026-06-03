@@ -11,42 +11,41 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 그래프는 램(RAM)에 동시에 올려놓은 프로그램의 개수([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))가 늘어날 때, CPU가 얼마나 쉬지 않고 100% 팽팽하게 일하는가(Utilization)를 보여주는 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 스케줄링의 알파이자 오메가 곡선**이다.
-> 2. **가치**: 프로그램 개수를 늘리면 램 효율과 CPU 가동률이 아름답게 상승하다가, 어느 한계점(램의 물리적 수용 한계)을 넘는 단 1개의 프로그램이 추가되는 순간 곡선이 수직으로 절벽을 타듯 곤두박질치는 **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 극적인 재앙을 시각적으로 가장 완벽하게 증명**한다.
-> 3. **융합**: 이 꺾이는 변곡점(Knee)을 찾아내기 위해, OS 커널은 멍청한 [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))의 무지성 앱 띄우기를 버리고, **동적 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 추적과 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)([페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)) 제어라는 고도화된 소프트웨어 브레이크 장치와 융합**하게 되었다.
+> 1. **본질**: 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 그래프는 램(RAM)에 동시에 올려놓은 프로그램의 개수([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))가 늘어날 때, CPU가 얼마나 쉬지 않고 100% 팽팽하게 일하는가(Utilization)를 보여주는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 스케줄링의 알파이자 오메가 곡선</strong>이다.
+> 2. **가치**: 프로그램 개수를 늘리면 램 효율과 CPU 가동률이 아름답게 상승하다가, 어느 한계점(램의 물리적 수용 한계)을 넘는 단 1개의 프로그램이 추가되는 순간 곡선이 수직으로 절벽을 타듯 곤두박질치는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)의 극적인 재앙을 시각적으로 가장 완벽하게 증명</strong>한다.
+> 3. **융합**: 이 꺾이는 변곡점(Knee)을 찾아내기 위해, OS 커널은 멍청한 [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))의 무지성 앱 띄우기를 버리고, <strong>동적 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 추적과 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/">페이지 부재 빈도</a>) 제어라는 고도화된 소프트웨어 브레이크 장치와 융합</strong>하게 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: X축은 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 정도(메모리에 떠 있는 프로세스의 수)', Y축은 'CPU 이용률(가동률)'이다. 그래프는 초반에 산을 오르듯 가파르게 쑥쑥 올라가다가 꼭대기를 찍고, 어느 한순간 **수직 낙하**하여 바닥에 처박힌다. 이 꼭대기 지점이 시스템이 뿜어낼 수 있는 궁극의 가성비 포인트고, 바닥에 처박힌 상태가 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥'이다.
+- **개념**: X축은 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 정도(메모리에 떠 있는 프로세스의 수)', Y축은 'CPU 이용률(가동률)'이다. 그래프는 초반에 산을 오르듯 가파르게 쑥쑥 올라가다가 꼭대기를 찍고, 어느 한순간 <strong>수직 낙하</strong>하여 바닥에 처박힌다. 이 꼭대기 지점이 시스템이 뿜어낼 수 있는 궁극의 가성비 포인트고, 바닥에 처박힌 상태가 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥'이다.
 - **필요성**: 1970년대 OS 공학자들은 환상에 빠져 있었다. "메모리에 앱을 많이 띄워둘수록, 한 놈이 디스크 I/O를 할 때 다른 놈이 CPU를 쓰면 되니까 CPU 이용률은 영원히 100%에 가까워지겠지!"라고 순진하게 믿었다. 하지만 현실의 서버를 돌려보니, 앱을 50개 띄웠을 땐 CPU가 90%로 일했는데, 51개를 띄우는 순간 갑자기 CPU가 1%로 바닥을 치며 뻗어버렸다. "왜 1개 더 띄웠다고 시스템 전체가 붕괴하는가?"를 경영진과 하드웨어 설계자에게 직관적으로 설명하고 방어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 짤 명분을 제공할 '치명적인 차트'가 절대적으로 필요했다.
 
 - **등장 배경 및 관념의 파괴**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 과신**: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 도입 후, "램 안 써도 디스크 스왑으로 돌리면 되니까 무한대로 앱 띄울 수 있음!"이라는 오만이 팽배했다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 과신</strong>: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 도입 후, "램 안 써도 디스크 스왑으로 돌리면 되니까 무한대로 앱 띄울 수 있음!"이라는 오만이 팽배했다.
   2. **I/O 병목의 과소평가**: 디스크 속도가 램보다 수만 배 느리다는 사실이 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 맞물렸을 때 터질 나비효과를 계산하지 못했다.
   3. **Denning의 논문**: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 이론을 창시한 피터 데닝이 이 절벽 그래프를 발표하며, 무작정 앱을 많이 띄우는 것이 선(Good)이 아님을 수학적으로 증명해 냈다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        [그림] 다중 프로그래밍 정도와 CPU 이용률의 절벽 그래프        │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ CPU 이용률 (%)                                                       │
-│ 100 │                 ⭐ 최적점 (Optimal Point)                      │
-│     │               / |                                              │
-│  80 │             /  |                                               │
-│     │           /    |                                               │
-│  60 │         /      |                                               │
-│     │       /        | 💥 스래싱 (Thrashing) 발생!                   │
-│  40 │     /          | 뚝!                                           │
-│     │   /            |  |                                            │
-│  20 │ /              |  |                                            │
-│     │/               |  ▼  (절벽 낙하)                               │
-│   0 └────────────────┴───|────────────▶                              │
-│             다중 프로그래밍의 정도 (Degree / 띄운 앱 개수)           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">그림</div><div class="kb-diagram-note">다중 프로그래밍 정도와 CPU 이용률의 절벽 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 이용률 (%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">⭐ 최적점 (Optimal Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">80</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">60</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">💥 스래싱 (Thrashing) 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">40</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">뚝!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">▼ (절벽 낙하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 프로그래밍의 정도 (Degree / 띄운 앱 개수)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 초반의 상승 곡선은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)(Multi-programming)의 위대함을 보여준다. 한 앱이 쉬면 다른 앱이 CPU를 즉시 빼앗아 연산하므로 놀라운 효율을 보인다. 그러나 ⭐최적점을 넘어가는 순간, 램(RAM) 잔고가 0이 되어 누군가를 쫓아내야만([Page Replacement](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)) 램을 얻을 수 있는 상태가 된다. 앱들이 0.1초마다 서로의 램을 뺏고 뺏기느라 디스크 I/O만 폭발적으로 터지고, 정작 CPU는 일감을 못 받아 굶어 죽어버리는 수직 절벽 현상이 일어난다.
 
 - **📢 섹션 요약 비유**: 풍선에 바람(앱 개수)을 불어넣으면 풍선이 커지며 예뻐집니다(CPU 이용률 상승). 하지만 고무의 한계점(램 크기)을 모른 채 "한 번만 더 불면 더 예뻐지겠지?" 하고 딱 한 입 더 불어넣는 순간, 펑! 하고 터져서 0이 되어버리는 과유불급의 절대 곡선입니다.
@@ -61,13 +60,13 @@ tags = ["studynote-operating-system"]
 - 프로세스 A 하나만 떠 있으면, A가 하드디스크에서 파일을 긁어올 때 CPU는 10밀리초 동안 아무 일도 못 하고 놀아야([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 한다 (이용률 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%).
 - 이때 프로세스 B, C, D를 같이 띄워놓는다.
 - A가 디스크를 읽으러 쉬러 가면, 그 10밀리초 동안 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 재빨리 B를 CPU에 태워 연산을 시킨다. B도 쉬면 C를 태운다.
-- 빈틈없이 CPU를 혹사시키는 이 **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 촘촘한 맞물림** 덕분에, 앱을 띄울수록 CPU 이용률이 99%를 향해 아름답게 치솟는다. 이것이 현대 OS의 핵심 철학이다.
+- 빈틈없이 CPU를 혹사시키는 이 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)의 촘촘한 맞물림</strong> 덕분에, 앱을 띄울수록 CPU 이용률이 99%를 향해 아름답게 치솟는다. 이것이 현대 OS의 핵심 철학이다.
 
 ---
 
 ### 수직 낙하 구간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) ([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 치명적 자해)
 
-그래프의 꼭대기에서 나락으로 떨어지는 끔찍한 과정의 이면에는 **'바보 같은 [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))'**의 오판이 도사리고 있다.
+그래프의 꼭대기에서 나락으로 떨어지는 끔찍한 과정의 이면에는 <strong>'바보 같은 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">장기 스케줄러</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">Long-term Scheduler</a>)'</strong>의 오판이 도사리고 있다.
 1. 메모리에 앱을 너무 많이 띄워서(과포화), 각 앱들이 자기가 돌아가는 데 꼭 필요한 '최소한의 램([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'조차 배급받지 못하는 지경이 되었다.
 2. 램이 모자라니 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))이 터지기 시작한다.
 3. 모든 앱이 디스크 I/O를 기다리느라 뻗어버렸다 (Sleep 상태).
@@ -99,18 +98,21 @@ tags = ["studynote-operating-system"]
 | 대처 방식 | 튜닝 로직 | 곡선의 변화 | 결과 |
 |:---|:---|:---|:---|
 | **물리 RAM 2배 증설** | (돈으로 때움) | 꺾이는 절벽의 시점 자체가 오른쪽으로 2배 뒤로 밀려남 | 가장 무식하고 확실하며 100% 성공하는 해결책 |
-| **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체 ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)** | 가장 늙은 놈을 쫓아냄 | 절벽으로 떨어지는 경사를 아주 미세하게 완만하게 버텨줌 | 근본적인 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 부족 앞에서는 결국 터짐 (한계 뚜렷) |
-| **[PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 동적 제어** | 폴트가 잦으면 앱을 **강제 Suspend(일시 정지)** 시킴 | 꼭대기에서 무리하게 안 늘리고 **스스로 브레이크를 욺** | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽을 아예 회피하여 고원(Plateau) 상태 유지 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> 교체 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 등)</strong> | 가장 늙은 놈을 쫓아냄 | 절벽으로 떨어지는 경사를 아주 미세하게 완만하게 버텨줌 | 근본적인 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 부족 앞에서는 결국 터짐 (한계 뚜렷) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a> 동적 제어</strong> | 폴트가 잦으면 앱을 **강제 Suspend(일시 정지)** 시킴 | 꼭대기에서 무리하게 안 늘리고 **스스로 브레이크를 욺** | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽을 아예 회피하여 고원(Plateau) 상태 유지 |
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 상황       │ CPU 이용률  │ 디스크 I/O량 │ OS의 올바른 대처        │
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ 앱 10개 (정상)│ 90% 높음   │ 낮음        │ 놔둠 (더 띄워도 됨)    │
-│ 앱 50개 (경고)│ 99% 최고조 │ 슬슬 높아짐   │ 🛑 신규 앱 진입 차단 │
-│ 앱 51개 (재앙)│ 1% (수직낙하)│ 100% 불탐   │ 🔪 기존 앱 몇 개 사살│
-└──────────┴────────────┴────────────┴──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">CPU 이용률</div><div class="kb-diagram-cell">디스크 I/O량</div><div class="kb-diagram-cell">OS의 올바른 대처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 10개 (정상)</div><div class="kb-diagram-cell">90% 높음</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">놔둠 (더 띄워도 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 50개 (경고)</div><div class="kb-diagram-cell">99% 최고조</div><div class="kb-diagram-cell">슬슬 높아짐</div><div class="kb-diagram-cell">🛑 신규 앱 진입 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 51개 (재앙)</div><div class="kb-diagram-cell">1% (수직낙하)</div><div class="kb-diagram-cell">100% 불탐</div><div class="kb-diagram-cell">🔪 기존 앱 몇 개 사살</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 이 매트릭스가 바로 현대 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러와 Auto-scaling(자동 확장)의 핵심 로직이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 CPU 가동률이 높다고 안심해선 안 된다. 디스크 I/O가 치솟기 시작하는 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 전조 증상'을 잡아내서, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 발목을 묶어버리는 브레이크 장치(Admission Control)가 반드시 필요하다.
 
 - **📢 섹션 요약 비유**: 엘리베이터에 꽉 타서 삐- 소리가 나면([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 초과), 가장 나중에 탄 사람을 강제로 내리게(앱 Suspend) 해야 엘리베이터가 정상적으로 올라갑니다. 억지로 우겨 넣고 문 닫기 버튼을 연타([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))해 봐야 엘리베이터는 고장 나서 평생 출발하지 못합니다.
@@ -124,7 +126,7 @@ tags = ["studynote-operating-system"]
 2. **과거의 멍청한 대응**: 로드밸런서가 "어라? 1번 서버 응답이 없네? 일감이 밀렸으니 2번 서버에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개 더 띄워!"라고 무지성 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 때린다 (멍청한 [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)의 재현). 2번 서버도 즉각 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽에 빠져 클러스터 전체가 10분 만에 잿더미가 된다 (Cascading Failure).
 3. **현대 K8s의 철벽 방어 (Memory Request/Limit)**:
    - 클라우드 엔지니어는 이 절벽 그래프를 완벽히 이해하고 있다.
-   - 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄울 때 `resources.requests.memory="1Gi"` (나 최소 1GB 램 필요해, 안 주면 안 켜질 거야!) 라고 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 하한선을 명시**한다.
+   - 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄울 때 `resources.requests.memory="1Gi"` (나 최소 1GB 램 필요해, 안 주면 안 켜질 거야!) 라고 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 하한선을 명시</strong>한다.
    - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 서버(Node)의 남은 램 총합과 저 Request를 계산해서, 램이 모자라면 아예 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 그 서버에 띄우지 않고 대기(Pending) 상태로 막아버린다.
    - 즉, OS가 절벽을 향해 달려가는 것 자체를 입구 컷(Admission Control)으로 원천 차단해 버리는 신의 한 수 아키텍처다.
 
@@ -142,8 +144,8 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **스케줄링 패러다임의 진화** | CPU 가동률만 맹신하던 바보 같은 스케줄링([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 환상을 박살 내고, 메모리 폴트율을 연계한 멀티 차원 스케줄링 시대를 엶 |
-| **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 촉발**| 이 그래프의 모순을 해결하기 위해, 각 앱이 숨 쉬기 위해 필요한 '최소 영토'를 동적으로 추적하는 획기적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구가 폭발함 |
-| **오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Auto-Scaling) 지표**| 클라우드 환경에서 램 사용률 80% 언저리를 임계점으로 잡고, 절벽에 떨어지기 직전에 서버를 증설([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하게 만드는 경고 나침반 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 모델 촉발</strong>| 이 그래프의 모순을 해결하기 위해, 각 앱이 숨 쉬기 위해 필요한 '최소 영토'를 동적으로 추적하는 획기적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구가 폭발함 |
+| <strong>오토 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Auto-Scaling) 지표</strong>| 클라우드 환경에서 램 사용률 80% 언저리를 임계점으로 잡고, 절벽에 떨어지기 직전에 서버를 증설([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하게 만드는 경고 나침반 |
 
 ### 결론 및 미래 전망
 
@@ -164,15 +166,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스래싱 (Thrashing)]
-    │
-    ▼
-[다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-    │
-    ├──▶ [스래싱 원인]
-    └──▶ [지역성 모델 (Locality Model)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱 원인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역성 모델 (Locality Model)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

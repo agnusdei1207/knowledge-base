@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) Object ([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 객체) 패턴은 멀티스레드 환경에서 객체의 메서드를 **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))**로 실행하도록 보장하며, Java의 `synchronized` 키워드가 바로 이 패턴의 언어 내장 구현이다.
+> 1. **본질**: [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) Object ([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 객체) 패턴은 멀티스레드 환경에서 객체의 메서드를 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>로 실행하도록 보장하며, Java의 `synchronized` 키워드가 바로 이 패턴의 언어 내장 구현이다.
 > 2. **가치**: 객체 자신이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 캡슐화하여, 사용자가 명시적 락 관리 없이 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 객체를 사용할 수 있게 한다.
 > 3. **판단 포인트**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 4요소([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), 진입 대기열, 조건 대기열, [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))를 이해하면 `synchronized` + `wait/notify` 동작을 완전히 예측하고 제어할 수 있다.
 
@@ -46,62 +46,60 @@ class SynchronizedCounter {
 
 Hoare(1974)가 제안한 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 개념을 Java(1995)가 언어 수준으로 통합했다. C++, Python에서는 별도 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`std::mutex`, `threading.Lock`) 필요하지만, Java는 모든 객체가 기본적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 내장한다.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화장실 잠금장치([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) — 한 번에 한 사람만 들어갈 수 있고, 나올 때 잠금이 자동으로 해제된다. 들어가려는 다른 사람들은 밖에서 대기한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  ┌──────────────────────────────────────────────────────────┐
-  │                   Monitor Object                         │
-  │                                                          │
-  │  1. Mutual Exclusion (상호 배제)                         │
-  │     → 한 번에 하나의 스레드만 synchronized 메서드 실행   │
-  │                                                          │
-  │  2. Entry Set (진입 대기열)                              │
-  │     → synchronized 진입을 위해 대기하는 스레드 집합      │
-  │     → 락 해제 시 Entry Set에서 하나가 진입              │
-  │                                                          │
-  │  3. Wait Set (조건 대기열)                               │
-  │     → wait() 호출 후 대기 중인 스레드 집합               │
-  │     → notify()/notifyAll()로 재활성화                   │
-  │                                                          │
-  │  4. Condition Variable (조건 변수)                       │
-  │     → wait()/notify() 기반 조건 동기화                  │
-  └──────────────────────────────────────────────────────────┘
-```
 
-```
-                     진입 시도
-                         │
-              ┌──────────▼──────────┐
-              │  Entry Set (대기)   │
-              │  Thread B, Thread C │
-              └──────────┬──────────┘
-                         │ 락 획득
-                         ▼
-  ┌──────────────────────────────────────┐
-  │  Monitor Object (실행 중: Thread A)  │
-  │                                      │
-  │  Thread A가 wait() 호출              │
-  │           │                          │
-  │           ▼                          │
-  │  ┌────────────────────┐              │
-  │  │  Wait Set (대기)   │              │
-  │  │  Thread A          │◄─ notify() ─┐│
-  │  └────────────────────┘             ││
-  │                                     ││
-  └─────────────────────────────────────┘│
-                                         │
-                          notify()/notifyAll() 호출 시
-                          → Wait Set → Entry Set으로 이동
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor Object</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Mutual Exclusion (상호 배제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 한 번에 하나의 스레드만 synchronized 메서드 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Entry Set (진입 대기열)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ synchronized 진입을 위해 대기하는 스레드 집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 락 해제 시 Entry Set에서 하나가 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Wait Set (조건 대기열)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ wait() 호출 후 대기 중인 스레드 집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ notify()/notifyAll()로 재활성화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Condition Variable (조건 변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ wait()/notify() 기반 조건 동기화</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">진입 시도</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry Set (대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B, Thread C</div></div>
+<div class="kb-diagram-note">락 획득</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor Object (실행 중: Thread A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A가 wait() 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait Set (대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A</div><div class="kb-diagram-cell">◄─ notify() ─</div></div>
+<div class="kb-diagram-note">notify()/notifyAll() 호출 시</div>
+<div class="kb-diagram-note">→ Wait Set → Entry Set으로 이동</div>
+</div>
+</div>
+
+
 
 ```java
 // Java에서 모든 객체는 Intrinsic Lock(Monitor Lock)을 보유
@@ -139,7 +137,7 @@ public static synchronized void staticMethod() {
 | 항목 | [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) | [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) |
 |:---|:---|:---|:---|
 | **기본 개념** | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 락 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) + 조건 대기 통합 | 카운팅 기반 접근 제어 |
-| **허용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** | 1개 | 1개 (조건 대기 포함) | N개 (세마포 값) |
+| <strong>허용 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a></strong> | 1개 | 1개 (조건 대기 포함) | N개 (세마포 값) |
 | **조건 대기** | ❌ (별도 구현) | ✅ (wait/notify 내장) | ❌ |
 | **소유권** | 획득 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 해제 | 획득 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 해제 | 누구든 해제 가능 |
 | **Java 구현** | ReentrantLock | synchronized | [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) |
@@ -150,8 +148,8 @@ public static synchronized void staticMethod() {
 | **코드 간결성** | ✅ 자동 해제 | 수동 unlock() 필요 |
 | **세밀한 제어** | ❌ 제한적 | ✅ tryLock, lockInterruptibly |
 | **여러 조건** | ❌ 1개 (wait/notify) | ✅ 여러 Condition |
-| **공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** | ❌ | ✅ fair=true |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | JVM 최적화됨 | 유사 |
+| <strong>공정성 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong> | ❌ | ✅ fair=true |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | JVM 최적화됨 | 유사 |
 
 - **📢 섹션 요약 비유**: Mutex는 "열쇠", Monitor는 "열쇠 + 대기실 + 호출벨을 포함한 완전한 접수 시스템", Semaphore는 "주차장 입구의 빈 자리 수 표시".
 
@@ -187,21 +185,25 @@ public class MonitorCounter {
 }
 ```
 
-```
-  ❌ 흔한 실수들:
-  1. notify() vs notifyAll()
-     - notify(): Wait Set에서 임의 1개만 깨움 → 특정 조건 대기 스레드 미깨움 위험
-     - notifyAll(): 모두 깨움 → 안전하지만 오버헤드
-     → 일반적으로 notifyAll() 권장
 
-  2. wait()를 if가 아닌 while 안에서 사용
-     - Spurious Wakeup(허위 깨움): notify 없이 깨어나는 경우
-     - while(condition) wait(); 로 조건 재확인 필수
 
-  3. synchronized 범위 최소화
-     - synchronized(this) { ... } 블록 안을 최소화
-     - I/O, 원격 호출 등을 synchronized 밖으로 이동
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">❌ 흔한 실수들:</div>
+<div class="kb-diagram-note">1. notify() vs notifyAll()</div>
+<div class="kb-diagram-tree-item" style="--depth:2">notify(): Wait Set에서 임의 1개만 깨움 → 특정 조건 대기 스레드 미깨움 위험</div>
+<div class="kb-diagram-tree-item" style="--depth:2">notifyAll(): 모두 깨움 → 안전하지만 오버헤드</div>
+<div class="kb-diagram-note">→ 일반적으로 notifyAll() 권장</div>
+<div class="kb-diagram-note">2. wait()를 if가 아닌 while 안에서 사용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Spurious Wakeup(허위 깨움): notify 없이 깨어나는 경우</div>
+<div class="kb-diagram-tree-item" style="--depth:2">while(condition) wait(); 로 조건 재확인 필수</div>
+<div class="kb-diagram-note">3. synchronized 범위 최소화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">synchronized(this) { ... } 블록 안을 최소화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">I/O, 원격 호출 등을 synchronized 밖으로 이동</div>
+</div>
+</div>
+
+
 
 - Monitor의 **4요소** ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), Entry Set, Wait Set, [Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)) 명시
 - Java `synchronized`가 언어 수준의 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 구현임을 설명
@@ -225,9 +227,9 @@ public class MonitorCounter {
 | 조건 기반 협력 | wait/notify로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협력 구현 |
 | JVM 최적화 | 비경합 상황에서 Biased [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) 등으로 오버헤드 최소화 |
 
-- **[Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)**: 높은 경합 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
-- **교착상태([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**: 잘못된 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 순서로 발생 가능
-- **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 범위**: 너무 넓으면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 감소, 너무 좁으면 관리 복잡
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock Contention</a></strong>: 높은 경합 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- <strong>교착상태(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>: 잘못된 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 순서로 발생 가능
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> 범위</strong>: 너무 넓으면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 감소, 너무 좁으면 관리 복잡
 
 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) Object ([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 객체) 패턴은 Java [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 근간이다. `synchronized`, `wait/notify`, `Object.notify/wait` 모두 이 패턴의 구현이다. 4요소([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), Entry Set, Wait Set, [Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))를 이해하면 Java [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 동작을 완전히 예측할 수 있다.
 

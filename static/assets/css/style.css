@@ -179,23 +179,21 @@ footer {
 .darkmode {
   width: 34px;
   height: 34px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sun-icon,
 .moon-icon {
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-}
-
-.sun-icon {
-  border: 2px solid var(--dark);
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .moon-icon {
   display: none;
-  box-shadow: -5px 0 0 0 var(--dark);
 }
 
 :root[saved-theme="dark"] .sun-icon {
@@ -496,13 +494,13 @@ footer {
   background: var(--highlight);
   height: 220px;
   position: relative;
+  overflow: hidden;
 }
 
-#global-graph {
+.global-graph-outer svg {
   width: 100%;
-  height: 220px;
+  height: 100%;
   display: block;
-  cursor: default;
 }
 
 .graph-tooltip {
@@ -607,6 +605,78 @@ footer {
   border-radius: 8px;
   padding: 16px;
   background: var(--highlight);
+}
+
+.kb-diagram {
+  margin: 1.25rem 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--light) 92%, var(--secondary));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.kb-diagram-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.9rem;
+}
+
+.kb-diagram-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.kb-diagram-grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  justify-content: stretch;
+}
+
+.kb-diagram-node,
+.kb-diagram-cell,
+.kb-diagram-note,
+.kb-diagram-tree-item {
+  min-width: 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  padding: 0.45rem 0.65rem;
+  background: var(--light);
+  color: var(--darkgray);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.kb-diagram-node {
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.kb-diagram-cell {
+  min-height: 2.25rem;
+}
+
+.kb-diagram-note {
+  width: fit-content;
+  max-width: 100%;
+  background: var(--highlight);
+}
+
+.kb-diagram-connector {
+  align-self: center;
+  color: var(--secondary);
+  font-weight: 700;
+  padding: 0.1rem 0.25rem;
+  line-height: 1.2;
+}
+
+.kb-diagram-tree-item {
+  margin-left: calc(var(--depth, 0) * 1rem);
+  border-left: 3px solid var(--secondary);
 }
 
 @media (max-width: 1200px) {

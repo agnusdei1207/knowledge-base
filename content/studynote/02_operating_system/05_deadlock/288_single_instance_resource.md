@@ -12,40 +12,38 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 단일 인스턴스 자원 환경은 시스템에 존재하는 특정 유형의 자원(예: 유일한 프린터 1대, 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개)의 개수가 정확히 1개뿐인 가장 제한적인 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 생태계를 의미한다.
-> 2. **가치**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에서 프로세스 간 대기가 사이클(Cycle)을 형성할 때, 여분의 대체 자원이 전혀 없으므로 **"사이클의 존재가 곧 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 발발"**인 것으로 100% 확정(충분조건)지을 수 있는 기준이 된다.
+> 2. **가치**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에서 프로세스 간 대기가 사이클(Cycle)을 형성할 때, 여분의 대체 자원이 전혀 없으므로 <strong>"사이클의 존재가 곧 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>) 발발"</strong>인 것으로 100% 확정(충분조건)지을 수 있는 기준이 된다.
 > 3. **융합**: [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 `O(N)` 수준의 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)) 사이클 탐색만으로 빠르고 정확하게 Victim을 색출해낼 수 있어, 대부분 1개 단위로 걸리는 DB 행(Row) 락 탐지기의 코어 로직으로 활약한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자원(Resource)은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 메모리 공간처럼 "여러 개"가 있는 경우(다중 인스턴스)도 있지만, 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 레코드 권한이나 하나뿐인 스피커처럼 "단 하나"만 존재하는 경우도 있다. 이를 **단일 인스턴스 자원 환경**이라 한다.
+자원(Resource)은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 메모리 공간처럼 "여러 개"가 있는 경우(다중 인스턴스)도 있지만, 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 레코드 권한이나 하나뿐인 스피커처럼 "단 하나"만 존재하는 경우도 있다. 이를 <strong>단일 인스턴스 자원 환경</strong>이라 한다.
 
-이 환경이 중요한 이유는, **[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 판단의 수학적 명쾌함** 때문이다. 복잡하게 여유 공간이나 타 프로세스의 반환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산할 필요 없이, "어? 둥글게 원(루프)이 그려졌네? 그럼 넌 100% 데드락이야 죽여!" 라고 OS가 즉각 단죄할 수 있다.
+이 환경이 중요한 이유는, <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 판단의 수학적 명쾌함</strong> 때문이다. 복잡하게 여유 공간이나 타 프로세스의 반환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산할 필요 없이, "어? 둥글게 원(루프)이 그려졌네? 그럼 넌 100% 데드락이야 죽여!" 라고 OS가 즉각 단죄할 수 있다.
 
 **💡 비유**: 화장실 변기가 단 한 칸뿐인 식당. 내가 안에 들어가 문을 잠그면, 밖에서 기다리는 사람은 내가 나오기 전까진 지구상 어떤 방법을 써도 절대 볼일을 볼 수 없는 완벽히 꽉 막힌(결정적) 외나무다리.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         단일 인스턴스 환경에서의 완벽한 교착 증명            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [시나리오] 프린터 1대(R1), 스캐너 1대(R2)                   │
-│                                                              │
-│        (점유)                   (요청, 0개 남음)             │
-│  P1 ──────────▶ [ R1 (•) ] ──────────┐                       │
-│   ▲                                    │                     │
-│   │                                    ▼                     │
-│   │ (요청, 0개 남음)               (점유)                    │
-│   └────────── [ R2 (•) ] ◀────────── P2                      │
-│                                                              │
-│  결과 해석:                                                  │
-│  1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.    │
-│  2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.    │
-│  → 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !           │
-│  → 사이클 = 교착상태 (절대적 공식)                           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 인스턴스 환경에서의 완벽한 교착 증명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오</div><div class="kb-diagram-note">프린터 1대(R1), 스캐너 1대(R2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) (요청, 0개 남음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (•)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청, 0개 남음) (점유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">R2 (•)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 해석:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사이클 = 교착상태 (절대적 공식)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 단일 인스턴스 사이클은 여분 열쇠가 없는 밀실 탈출 게임 — 서로 방 열쇠를 상대방 방에 숨겨둔 채 문을 잠갔다면, 외부 도우미가 없는 한 절대 나올 수 없는 상태입니다.
 
@@ -55,10 +53,10 @@ tags = ["studynote-operating-system"]
 
 ### [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))로의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
 
-단일 인스턴스 환경에서는 자원(R) 노드를 그릴 필요마저도 없다. 자원이 1개뿐이므로 "A가 자원 1개를 대기 중인데, 그걸 B가 가지고 있다"는 말은 결국 **"A가 B를 대기 중이다"**라는 말과 완전히 동치다.
+단일 인스턴스 환경에서는 자원(R) 노드를 그릴 필요마저도 없다. 자원이 1개뿐이므로 "A가 자원 1개를 대기 중인데, 그걸 B가 가지고 있다"는 말은 결국 <strong>"A가 B를 대기 중이다"</strong>라는 말과 완전히 동치다.
 
 - 원래 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 모델: `P1 → R1 → P2`
-- **강등된 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))**: `P1 → P2` (P1은 P2가 끝날 때까지 블록)
+- <strong>강등된 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a>)</strong>: `P1 → P2` (P1은 P2가 끝날 때까지 블록)
 
 이 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)에서 사이클(예: `P1 → P2 → P3 → P1`)이 검출되는 순간 무조건 데드락 징표가 된다. OS는 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색을 매우 빠른 속도(`O(V+E)`)로 돌려 범인을 찾을 수 있다.
 
@@ -80,10 +78,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **RDBMS의 락 탐지기 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Detector)**: DB에서 특정 컬럼의 특정 레코드(Row) 데이터는 구조상 정확히 1개(단일 인스턴스)다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수백 개가 복잡하게 얽혀도 내부적으로 Wait-For Graph를 생성해 사이클이 만들어지는 순간 즉각 희생자(Victim, 주로 로그가 가장 적은 놈)를 찾아 강제 Abort 에러를 던져버린다([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) `ORA-00060 데드락 감지`). 단일 인스턴스의 수학적 우월성을 DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지에 접목한 예술적 응용이다.
-2. **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 토큰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Token Ring](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)/[Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))**: 발언권(Token)이 네트워크 상에 오로지 1개(단일 인스턴스)만 돈다. 만약 누군가 두 개를 요구하도록 꼬였다면 영구 교착이 발생한다.
+1. <strong>RDBMS의 락 탐지기 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Detector)</strong>: DB에서 특정 컬럼의 특정 레코드(Row) 데이터는 구조상 정확히 1개(단일 인스턴스)다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수백 개가 복잡하게 얽혀도 내부적으로 Wait-For Graph를 생성해 사이클이 만들어지는 순간 즉각 희생자(Victim, 주로 로그가 가장 적은 놈)를 찾아 강제 Abort 에러를 던져버린다([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) `ORA-00060 데드락 감지`). 단일 인스턴스의 수학적 우월성을 DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지에 접목한 예술적 응용이다.
+2. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 토큰 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/">Token Ring</a>/<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>)</strong>: 발언권(Token)이 네트워크 상에 오로지 1개(단일 인스턴스)만 돈다. 만약 누군가 두 개를 요구하도록 꼬였다면 영구 교착이 발생한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **다중 자원을 억지로 단일 뮤텍스로 래핑**: 프린터가 5대 있는데 관리가 귀찮다고 "프린터 매니저 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)" 1개로 전체를 감싸 단일 인스턴스처럼 코딩. 1개라도 망가지거나 대기 사이클이 생기면 4대의 여유 프린터가 있음에도 서버 전체 출력이 마비되는 최악의 병목 허브를 형성한다.
 
 **📢 섹션 요약 비유**: 5명씩 탈 수 있는 롤러코스터 대기줄에, 안전바 고장 관리가 귀찮다고 "가족 단위로 1명만 타라"고 룰을 바꾼 격 — 뒤에 빈자리가 남아도는데도 손님 줄(대기열)은 미친 듯이 길어집니다.
@@ -114,15 +112,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자원 할당 그래프 (Resource-Allocation Graph)]
-    │
-    ▼
-[단일 인스턴스 자원 환경 (Single Instance Resource)]
-    │
-    ├──▶ [다중 인스턴스 자원 환경]
-    └──▶ [교착 상태 처리 방법 3가지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 자원 환경 (Single Instance Resource)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 인스턴스 자원 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 처리 방법 3가지</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

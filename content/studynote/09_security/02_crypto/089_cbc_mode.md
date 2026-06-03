@@ -12,7 +12,7 @@ tags = ["studynote-security"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CBC (Cipher Block [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 모드는 현재 블록의 평문을 암호화하기 직전에, **이전 블록에서 튀어나온 암호문 찌꺼기를 끌어와 XOR(배타적 논리합)로 비벼서 마치 쇠사슬(Chain)처럼 블록들을 엮는** 가장 대중적인 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드다.
 > 2. **가치**: 똑같은 내용의 글자(예: "AAAA")가 여러 번 반복되어 들어오더라도, 매번 이전 블록에서 넘어온 완전히 다른 난수 찌꺼기와 섞이기 때문에, 출력되는 암호문이 매번 달라져 평문의 윤곽선(패턴)을 100% 소멸시킨다.
-> 3. **판단 포인트**: 앞 블록의 암호화가 끝나야만 뒷 블록의 암호화를 시작할 수 있는 **'[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 병목([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가)'**이라는 치명적 한계 탓에, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신이 필수인 현대 클라우드와 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 표준에서는 퇴출당하는 신세가 되었다.
+> 3. **판단 포인트**: 앞 블록의 암호화가 끝나야만 뒷 블록의 암호화를 시작할 수 있는 <strong>'<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 처리 병목(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 불가)'</strong>이라는 치명적 한계 탓에, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신이 필수인 현대 클라우드와 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 표준에서는 퇴출당하는 신세가 되었다.
 
 ---
 
@@ -28,37 +28,32 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 **연쇄([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))** 과정과, 아무것도 없는 1번 블록을 위해 투입되는 무작위 난수 **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 벡터([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), Initialization Vector)**다.
+CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 <strong>연쇄(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong> 과정과, 아무것도 없는 1번 블록을 위해 투입되는 무작위 난수 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>, Initialization Vector)</strong>다.
 
 | 과정 | 핵심 작동 원리 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 여부 |
 | :--- | :--- | :--- |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투입 ([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))** | 1번 블록에는 섞을 '이전 암호문'이 없으므로, 예측 불가능한 난수([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 생성해 평문 1과 XOR 연산한다. | - |
-| **암호화 (Encryption)** | (현재 평문 $\oplus$ **이전 암호문**) $\rightarrow$ [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) $\rightarrow$ 현재 암호문 출력 | **불가 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 병목)** |
-| **복호화 (Decryption)** | (현재 암호문 $\rightarrow$ 복호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) $\oplus$ **이전 암호문(파일에 이미 있음)** $\rightarrow$ 평문 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | **가능 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 쾌속)** |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 투입 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>)</strong> | 1번 블록에는 섞을 '이전 암호문'이 없으므로, 예측 불가능한 난수([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 생성해 평문 1과 XOR 연산한다. | - |
+| **암호화 (Encryption)** | (현재 평문 $\oplus$ **이전 암호문**) $\rightarrow$ [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) $\rightarrow$ 현재 암호문 출력 | <strong>불가 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong> |
+| **복호화 (Decryption)** | (현재 암호문 $\rightarrow$ 복호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) $\oplus$ **이전 암호문(파일에 이미 있음)** $\rightarrow$ 평문 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | <strong>가능 (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 쾌속)</strong> |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CBC 모드의 암호화(직렬) vs 복호화(병렬) 비대칭 구조     │
-├──────────────────────────────────────────────────────────────┤
-│ [ 암호화: 앞 차가 가야 뒷 차가 감 (직렬 병목 ☠️) ]                │
-│    IV 난수                                                   │
-│      │                                                       │
-│      ▼              (앞의 결과가 만들어져서 넘어와야 함!)       │
-│   [평문 1] ──▶ (AES) ──┬──▶ [암호문 1 생성]                    │
-│                        │                                     │
-│                        └────────┐                            │
-│                                 ▼                            │
-│   [평문 2] ─────────────(XOR)──▶ (AES) ──▶ [암호문 2 생성]      │
-│                                                              │
-│                                                              │
-│ [ 복호화: 남을 안 기다리고 한 번에 처리 (병렬 쾌속 🚀) ]          │
-│   [암호문 1] ──▶ (역 AES) ──(XOR: IV 난수 호출) ──▶ [평문 1 복구]  │
-│                                                              │
-│   [암호문 2] ──▶ (역 AES) ──(XOR: 1번 암호문 호출) ─▶ [평문 2 복구]  │
-│                                                              │
-│   * 복호화 시엔 1번 암호문이 디스크에 이미 존재하므로 동시 작업 가능!  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBC 모드의 암호화(직렬) vs 복호화(병렬) 비대칭 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화: 앞 차가 가야 뒷 차가 감 (직렬 병목 ☠️)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IV 난수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (앞의 결과가 만들어져서 넘어와야 함!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평문 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 1 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평문 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 2 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복호화: 남을 안 기다리고 한 번에 처리 (병렬 쾌속 🚀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">평문 1 복구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">평문 2 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 복호화 시엔 1번 암호문이 디스크에 이미 존재하므로 동시 작업 가능!</div></div>
+</div>
+</div>
+
+
 이 다이어그램이 보여주는 아키텍처의 가장 큰 약점은 암호화의 종속성이다. 2번 평문을 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 믹서기에 넣으려면 반드시 1번 암호문이 튀어나올 때까지 CPU가 손을 놓고 기다려야 한다.
 
 - **📢 섹션 요약 비유**: 도미노(CBC 암호화)를 세울 때는 앞 도미노가 무조건 넘어와야 뒷 도미노가 쓰러지는 순서([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))를 지켜야 해서 느리다. 하지만 바닥에 쓰러진 도미노를 다시 주워 담을 때(CBC 복호화)는 친구 10명이 동시에 10군데에서 막 주워 담아도 문제없어 엄청 빠르다.
@@ -72,10 +67,10 @@ CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 **
 | 모드 비교 | [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) (패턴 은닉) | 암호화 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 (속도) | 복호화 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | 치명적 약점 |
 | :--- | :--- | :--- | :--- | :--- |
 | **ECB 모드** | ❌ (완전 노출) | 🟢 가능 (매우 빠름) | 🟢 가능 | 똑같은 평문에 똑같은 암호문 출력 |
-| **CBC 모드** | 🟢 (완벽 은닉) | ❌ **불가능 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 병목)** | 🟢 가능 | **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)** |
-| **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) ([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 기반)**| 🟢 (완벽 은닉) | 🟢 가능 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) | 🟢 가능 | 구현 복잡도가 높음 |
+| **CBC 모드** | 🟢 (완벽 은닉) | ❌ <strong>불가능 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong> | 🟢 가능 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 공격 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Attack)</strong> |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 기반)</strong>| 🟢 (완벽 은닉) | 🟢 가능 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) | 🟢 가능 | 구현 복잡도가 높음 |
 
-CBC 모드는 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 얻은 대신 속도를 희생했다. 또한 **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)** 이라는 구조적 아킬레스건이 있다. 블록 크기(16바이트)를 맞추기 위해 덧댄 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 값을 해커가 조금씩 변조해 서버에 던졌을 때, 서버가 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌다"는 에러 메시지를 뱉으면 해커는 그 반응(오라클)을 이용해 비밀키 없이도 암호문을 야금야금 풀어버린다.
+CBC 모드는 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 얻은 대신 속도를 희생했다. 또한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 공격(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Attack)</strong> 이라는 구조적 아킬레스건이 있다. 블록 크기(16바이트)를 맞추기 위해 덧댄 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 값을 해커가 조금씩 변조해 서버에 던졌을 때, 서버가 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌다"는 에러 메시지를 뱉으면 해커는 그 반응(오라클)을 이용해 비밀키 없이도 암호문을 야금야금 풀어버린다.
 
 - **📢 섹션 요약 비유**: CBC는 자물쇠를 여러 개 겹쳐 묶은 튼튼한 금고 같지만, 도둑이 열쇠구멍을 찔러볼 때마다 안에서 "삑! 틀렸습니다. 오른쪽으로 더 돌리세요"라고 친절하게 에러 소리(오라클)를 내주는 바람에 도둑이 소리만 듣고 비밀번호를 유추해 내는 치명적 약점을 가졌다.
 
@@ -85,8 +80,8 @@ CBC 모드는 [보안성](/knowledge-base/studynote/04_software_engineering/05_d
 
 과거에는 인터넷 뱅킹과 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이하) 통신에서 무조건 CBC 모드를 썼다. 하지만 실무에서 시스템 아키텍트와 보안 담당자는 이제 다음과 같은 냉정한 판단을 내려야 한다.
 
-1. **신규 시스템 설계 시 도태(Deprecation) 선언**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3과 같은 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 표준에서는 암호화 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 안 되는 CBC 모드를 아예 규격에서 쫓아냈다. 신규 시스템 구축 시 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화는 무조건 **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)(Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)**을 최우선 채택해야 한다.
-2. **레거시 시스템의 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 방어**: 낡은 시스템 때문에 어쩔 수 없이 CBC를 써야 한다면, 해커가 에러를 눈치채지 못하게 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 틀렸을 때와 비밀번호가 틀렸을 때 똑같은 무반응(일반 오류)을 뱉도록" 에러 메시지를 완벽하게 숨기는 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 방어 코딩을 강제해야 한다.
+1. **신규 시스템 설계 시 도태(Deprecation) 선언**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3과 같은 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 표준에서는 암호화 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 안 되는 CBC 모드를 아예 규격에서 쫓아냈다. 신규 시스템 구축 시 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화는 무조건 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a>(Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>을 최우선 채택해야 한다.
+2. <strong>레거시 시스템의 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 방어</strong>: 낡은 시스템 때문에 어쩔 수 없이 CBC를 써야 한다면, 해커가 에러를 눈치채지 못하게 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 틀렸을 때와 비밀번호가 틀렸을 때 똑같은 무반응(일반 오류)을 뱉도록" 에러 메시지를 완벽하게 숨기는 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 방어 코딩을 강제해야 한다.
 3. **MAC-then-Encrypt 구조 탈피**: CBC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 변조되었는지([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 확인할 길이 없다. 반드시 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 같은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드를 함께 결합해 써야 하지만, 이마저도 설계가 까다로워 현대에는 암호화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 동시에 해주는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화, 예: [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))로 대체되었다.
 
 - **📢 섹션 요약 비유**: 10년 된 고물 트럭(CBC)을 굳이 고속도로에 올려야 한다면 짐칸 자물쇠([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))가 털리지 않게 두꺼운 철판으로 덮어 용접해야 하지만, 애초에 새로 차를 산다면 튼튼하고 빠른 최신형 스포츠카([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))를 사는 것이 기술사의 올바른 판단이다.
@@ -108,27 +103,29 @@ CBC 모드의 탄생은 초창기 암호학의 가장 큰 골칫거리였던 '[�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **ECB (Electronic Codebook)** | CBC가 극복하고자 했던 최악의 운영 모드 (패턴이 그대로 노출됨) |
-| **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 벡터)** | CBC의 첫 블록을 암호화하기 위해 반드시 투입되어야 하는 마중물 난수 |
-| **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)** | 해커가 서버의 에러 응답을 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 삼아 CBC 암호문을 풀어버리는 치명적 약점 |
-| **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)** | CBC의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 병목을 해결하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방패를 두른 현대의 대체자 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터)</strong> | CBC의 첫 블록을 암호화하기 위해 반드시 투입되어야 하는 마중물 난수 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 공격 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Attack)</strong> | 해커가 서버의 에러 응답을 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 삼아 CBC 암호문을 풀어버리는 치명적 약점 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong> | CBC의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 병목을 해결하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방패를 두른 현대의 대체자 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ECB 모드 (단순 치환, 똑같은 평문 = 똑같은 암호문 ➔ 패턴 노출)
-    │
-    ▼
-CBC 모드 (초기화 벡터 IV 도입, 블록 체이닝 ➔ 패턴 완벽 은닉)
-    │
-    ▼
-패딩 오라클 공격 발생 및 직렬 암호화 병목(느림) 문제 대두
-    │
-    ▼
-CTR 모드 (카운터 방식, 완벽한 병렬 처리 지원으로 속도 극대화)
-    │
-    ▼
-GCM 모드 (CTR 기반 병렬화 + 메시지 인증 MAC 결합 ➔ 최신 표준, TLS 1.3 채택)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ECB 모드 (단순 치환, 똑같은 평문 = 똑같은 암호문 ➔ 패턴 노출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBC 모드 (초기화 벡터 IV 도입, 블록 체이닝 ➔ 패턴 완벽 은닉)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패딩 오라클 공격 발생 및 직렬 암호화 병목(느림) 문제 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CTR 모드 (카운터 방식, 완벽한 병렬 처리 지원으로 속도 극대화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GCM 모드 (CTR 기반 병렬화 + 메시지 인증 MAC 결합 ➔ 최신 표준, TLS 1.3 채택)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 암호화에서 패턴을 지우려는 연쇄(Chain)로 진화했다가, 속도의 한계에 부딪혀 결국 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))로 패러다임이 이동하는 과정을 명확히 보여준다.
 

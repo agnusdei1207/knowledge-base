@@ -31,17 +31,23 @@ tags = ["studynote-design-supervision"]
 
 감리의 핵심은 계획 대비 실제를 비교할 수 있는 기준과 기록을 갖추는 것이다. [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), PMIS([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Information System), 변경 요청서가 이 기준을 만든다.
 
-```text
-계약 종료일
-   ↓
-기준 계획(Baseline)
-   ↓
-실제 진척 / 변경 요청
-   ↓
-지연 사유 분류
-   ↓
-지체 상금 여부 판단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">계약 종료일</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기준 계획(Baseline)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">실제 진척 / 변경 요청</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지연 사유 분류</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지체 상금 여부 판단</div>
+</div>
+</div>
+
+
 
 | 항목 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 포인트 |
 | :-- | :-- |
@@ -112,31 +118,43 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-```text
-계약 종료일
-   ↓
-진척도 측정
-   ↓
-지연 사유 분류
-   ↓
-지체 상금 판단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">계약 종료일</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">진척도 측정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지연 사유 분류</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지체 상금 판단</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-계약 기준
-   ↓
-WBS / PMIS
-   ↓
-변경 요청 관리
-   ↓
-증빙 기반 진척도 검증
-   ↓
-분쟁 예방과 책임 비율 산정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">계약 기준</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">WBS / PMIS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">변경 요청 관리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">증빙 기반 진척도 검증</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분쟁 예방과 책임 비율 산정</div>
+</div>
+</div>
+
+
 
 ---
 

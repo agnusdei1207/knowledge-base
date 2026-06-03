@@ -11,9 +11,9 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 랜선을 꽂았다고 해서 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(인터넷)가 통과하는 것이 아니라, [스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 혹시 모를 루프(Loop)를 감지하고 예방하기 위해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 **4단계의 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차([상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))**를 거쳐 서서히 열어준다.
-> 2. **가치**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 **차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) ──▶ 청취(Listening) ──▶ 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) ──▶ 전송(Forwarding)**의 4단계를 순서대로 거치며, 중간에 루프 위험이 발견되면 언제든지 다시 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 상태로 되돌아간다.
-> 3. **판단 포인트**: 이 엄격한 검역 절차 덕분에 링(Ring) 구조에서 브로드캐스트 스톰이 일어나지 않지만, PC를 꽂고 나서 통신이 되기(Forwarding)까지 무려 **약 30~50초라는 매우 긴 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)**을 감수해야만 한다.
+> 1. **본질**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 랜선을 꽂았다고 해서 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(인터넷)가 통과하는 것이 아니라, [스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 혹시 모를 루프(Loop)를 감지하고 예방하기 위해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 <strong>4단계의 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 절차(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>)</strong>를 거쳐 서서히 열어준다.
+> 2. **가치**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 <strong>차단(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>) ──▶ 청취(Listening) ──▶ 학습(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>) ──▶ 전송(Forwarding)</strong>의 4단계를 순서대로 거치며, 중간에 루프 위험이 발견되면 언제든지 다시 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 상태로 되돌아간다.
+> 3. **판단 포인트**: 이 엄격한 검역 절차 덕분에 링(Ring) 구조에서 브로드캐스트 스톰이 일어나지 않지만, PC를 꽂고 나서 통신이 되기(Forwarding)까지 무려 <strong>약 30~50초라는 매우 긴 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong>을 감수해야만 한다.
 
 ---
 
@@ -24,16 +24,20 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 비행기에 탑승(랜선 연결)하자마자 바로 이륙([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)할 수는 없습니다. 기장은 먼저 문을 닫고([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)), 관제탑과 무전을 주고받으며 이륙 허가를 듣고(Listening), 비행기 계기판을 세팅하며 활주로를 구른([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 뒤에야, 비로소 창공을 향해 날아오릅니다(Forwarding).
 
-```text
-[브리지 ID, 비용]
-    │
-    ▼
-[STP 4단계 상태 전이]
-    │
-    └──▶ [컨버전스 시간]
-```
 
-- **📢 섹션 요약 비유**: ** [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계는 건물을 짓기 전 지반이 튼튼한지 검사하는 **"안전 진단 기간"**입니다. 루프라는 싱크홀이 없는지 한참을 두드려본 후에야 비로소 인터넷이라는 건물을 올리기 시작합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브리지 ID, 비용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨버전스 시간</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 4단계는 건물을 짓기 전 지반이 튼튼한지 검사하는 </strong>"안전 진단 기간"**입니다. 루프라는 싱크홀이 없는지 한참을 두드려본 후에야 비로소 인터넷이라는 건물을 올리기 시작합니다.
 
 ---
 
@@ -44,45 +48,41 @@ tags = ["studynote-network"]
 
 ### 2. [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) (차단 상태) - "가만히 듣기만 해라"
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 랜선이 꽂히면 가장 먼저 진입하는 상태다.
-- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(웹서핑 패킷 등)는 절대 통과시키지 않는다. 오로지 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 보내는 **[BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 엽서만 조용히 수신**하며 마을의 대장이 누군지, 루프가 있는지 눈치를 본다.
+- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(웹서핑 패킷 등)는 절대 통과시키지 않는다. 오로지 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 보내는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> 엽서만 조용히 수신</strong>하며 마을의 대장이 누군지, 루프가 있는지 눈치를 본다.
 - **지속 시간**: 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 차단 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Block [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 결정되면 평생 이 상태에 머문다. 포워딩 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP, [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))로 나가야 한다고 판정되면 즉시 다음 단계로 넘어간다. (장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시에는 Max Age 20초 대기 발생)
 
 ### 3. Listening (청취 상태) - "나도 명함을 돌려볼까?"
-- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 차단된다. 하지만 이제 남의 BPDU를 듣기만 하는 게 아니라, **나의 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)(명함)를 만들어 상대방에게 전송**하기 시작한다. 
+- **동작**: 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 차단된다. 하지만 이제 남의 BPDU를 듣기만 하는 게 아니라, <strong>나의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a>(명함)를 만들어 상대방에게 전송</strong>하기 시작한다. 
 - "이 선의 주인(DP)은 나야!"라고 서로 선거 유세를 벌이며 옥신각신하는 기간이다. 만약 유세에서 지면 다시 Blocking으로 쫓겨난다.
 - **지속 시간**: 15초 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Delay)
 
 ### 4. [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (학습 상태) - "동네 지도를 그려라"
-- **동작**: 승리가 확정되어 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열기로 한 상태다. 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 아직 안 되지만, 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오는 프레임의 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 슬쩍슬쩍 훔쳐보며 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블(CAM Table)을 부지런히 채워 넣기 시작**한다. (문을 열기 전 지도부터 그리는 것)
+- **동작**: 승리가 확정되어 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열기로 한 상태다. 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 아직 안 되지만, 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오는 프레임의 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 슬쩍슬쩍 훔쳐보며 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 테이블(CAM Table)을 부지런히 채워 넣기 시작</strong>한다. (문을 열기 전 지도부터 그리는 것)
 - **지속 시간**: 15초 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Delay)
 
 ### 5. Forwarding (전송 상태) - "문이 열리네요"
-- **동작**: 모든 안전 검사가 끝났다! 드디어 **사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(IP 패킷 등)를 주고받을 수 있는 완전한 통신 개통 상태**다. [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 전송과 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 학습도 동시에 계속 이루어진다.
+- **동작**: 모든 안전 검사가 끝났다! 드디어 <strong>사용자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(IP 패킷 등)를 주고받을 수 있는 완전한 통신 개통 상태</strong>다. [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 전송과 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 학습도 동시에 계속 이루어진다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 포트 상태 전이 타이밍 (요약)                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ Link UP ! ] (랜선 꽂힘)                                   │
- │       │                                                     │
- │       ▼                                                     │
- │   [ Blocking ]   ──▶ (사용자 데이터 ❌ / BPDU 수신 ⭕)          │
- │       │ 즉시 이동                                             │
- │       ▼                                                     │
- │   [ Listening ]  ──▶ (사용자 데이터 ❌ / BPDU 송수신 ⭕)        │
- │       │ 15초 소요                                            │
- │       ▼                                                     │
- │   [ Learning ]   ──▶ (사용자 데이터 ❌ / MAC 주소 학습 시작 ⭕) │
- │       │ 15초 소요                                            │
- │       ▼                                                     │
- │   [ Forwarding ] ──▶ (사용자 데이터 ⭕ / 정상 통신 개시!)        │
- │                                                             │
- │  * 결론: 랜선을 꽂고 실제로 인터넷이 되기까지 "최소 30초"가 걸린다!    │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계는 신병 훈련소입니다. 입소하자마자 제자리에 엎드려 조교의 말만 듣고(**[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)**), 점호 때 목소리를 크게 내보고(**Listening**), 군대 수칙을 머릿속에 외운(**[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)**) 뒤에야 비로소 자대에 배치되어 총을 쏘며 작전을 수행(**Forwarding**)하게 됩니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 포트 상태 전이 타이밍 (요약)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Link UP !</div><div class="kb-diagram-note">(랜선 꽂힘)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Blocking</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / BPDU 수신 ⭕)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Listening</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / BPDU 송수신 ⭕)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15초 소요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Learning</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / MAC 주소 학습 시작 ⭕)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15초 소요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Forwarding</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ⭕ / 정상 통신 개시!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 랜선을 꽂고 실제로 인터넷이 되기까지 "최소 30초"가 걸린다!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 4단계는 신병 훈련소입니다. 입소하자마자 제자리에 엎드려 조교의 말만 듣고(</strong>[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)**), 점호 때 목소리를 크게 내보고(**Listening**), 군대 수칙을 머릿속에 외운(**[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)**) 뒤에야 비로소 자대에 배치되어 총을 쏘며 작전을 수행(**Forwarding**)하게 됩니다.
 
 ---
 
@@ -138,15 +138,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 브리지 ID, 비용]
-    │
-    ▼
-[현재 개념: STP 4단계 상태 전이]
-    │
-    ├──▶ [확장 A: 컨버전스 시간]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브리지 ID, 비용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STP 4단계 상태 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 컨버전스 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용에서 출발해 현재 메커니즘을 정교화하고, 이후 [컨버전스 시간](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

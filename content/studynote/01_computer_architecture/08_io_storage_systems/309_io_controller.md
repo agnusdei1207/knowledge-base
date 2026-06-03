@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 없으면 CPU는 장치마다 다른 제어 절차, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방식, 오류 처리 규칙을 모두 알아야 한다. 그렇게 되면 장치 종류가 늘어날수록 CPU 구조와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 드라이버가 함께 복잡해지고, 장치 하나의 지연이나 오류가 시스템 전체 병목으로 번진다. 반대로 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 있으면 CPU는 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Control [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) ([Status Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 같은 공통 인터페이스만 다루고, 장치별 물리 동작은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부 제어 로직이 맡는다.
 
-결국 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 단순 포트가 아니라 **속도 차이 완충기**, **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번역기**, **장애 격리 지점**을 동시에 담당한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 장치 독립성 (Device [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))을 가능하게 하고, 컴퓨터구조 관점에서는 CPU가 계산 중심 구조를 유지하도록 해 주는 핵심 분업 장치다.
+결국 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 단순 포트가 아니라 **속도 차이 완충기**, <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 번역기</strong>, <strong>장애 격리 지점</strong>을 동시에 담당한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 장치 독립성 (Device [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))을 가능하게 하고, 컴퓨터구조 관점에서는 CPU가 계산 중심 구조를 유지하도록 해 주는 핵심 분업 장치다.
 
 📢 섹션 요약 비유: I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 본사 임원(CPU)과 현장 작업자(장치) 사이의 현장소장과 같다. 임원은 "자재를 옮겨라"만 지시하고, 현장소장이 실제 장비 속도와 작업 순서를 맞춰 주기 때문에 공사가 멈추지 않는다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 내부는 크게 **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 인터페이스**, **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합**, **버퍼**, **장치 인터페이스**, **제어 로직**으로 나뉜다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 인터페이스는 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 주소·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아들이고, 주소 디코딩을 통해 자신에게 온 요청인지 판별한다. 이후 제어 로직은 CPU 명령을 해석해 장치 쪽 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 바꾸고, 상태 변화가 생기면 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)를 갱신하거나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 올린다.
+I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 내부는 크게 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 인터페이스</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 집합</strong>, **버퍼**, **장치 인터페이스**, <strong>제어 로직</strong>으로 나뉜다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 인터페이스는 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 주소·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아들이고, 주소 디코딩을 통해 자신에게 온 요청인지 판별한다. 이후 제어 로직은 CPU 명령을 해석해 장치 쪽 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 바꾸고, 상태 변화가 생기면 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)를 갱신하거나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 올린다.
 
 | 구성 요소 | 핵심 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -44,40 +44,30 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 아래 그림은 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 "명령 경로"와 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"를 어떻게 분리해 병목을 줄이는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   I/O 모듈의 중개 구조와 흐름                        │
-├──────────────────────────────────────────────────────────────────────┤
-│  CPU / Memory Side                                                  │
-│  ┌─────────┐      명령/상태       ┌──────────────────────────────┐   │
-│  │   CPU   │ ◀──────────────────▶ │ Bus Interface + Registers    │   │
-│  └────┬────┘                      │ - Control Register           │   │
-│       │                           │ - Status Register            │   │
-│       │                           │ - Data Register              │   │
-│       │                           └──────────────┬───────────────┘   │
-│       │                                          │                   │
-│       │                             제어 해석    │ 데이터 완충       │
-│       │                                          ▼                   │
-│       │                           ┌──────────────────────────────┐   │
-│       └──────────────────────────▶│ Control Logic + Local Buffer │   │
-│                                   └──────────────┬───────────────┘   │
-│                                                  │                   │
-│                                        장치별 프로토콜 변환          │
-│                                                  ▼                   │
-│                                   ┌──────────────────────────────┐   │
-│                                   │ Device Interface             │   │
-│                                   └──────────────┬───────────────┘   │
-│                                                  │                   │
-│                                                  ▼                   │
-│                                   ┌──────────────────────────────┐   │
-│                                   │ Peripheral Device            │   │
-│                                   └──────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 모듈의 중개 구조와 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / Memory Side</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령/상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Bus Interface + Registers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Control Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Status Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Data Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 해석</div><div class="kb-diagram-cell">데이터 완충</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Control Logic + Local Buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치별 프로토콜 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device Interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peripheral Device</div></div>
+</div>
+</div>
+
+
 
 동작 순서는 대체로 ① CPU가 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 명령 기록, ② I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 장치 준비 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), ③ 로컬 버퍼를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 또는 송신, ④ 완료/오류 상태 갱신, ⑤ 필요하면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 또는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 통보의 흐름을 따른다. 핵심은 CPU가 매 바이트의 전송 타이밍을 직접 맞추지 않아도 된다는 점이다. 특히 장치가 순간적으로 burst 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내거나 받는 경우 로컬 버퍼가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 속도와 장치 속도 사이의 충격을 흡수해 준다.
 
-즉 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 대역폭만이 아니라 **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 설계의 명확성**, **[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**, **오류 보고 체계**, **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)/[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 연계성**으로 결정된다. 같은 저장장치라도 어떤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 쓰느냐에 따라 CPU 점유율, 평균 지연시간, 처리량이 크게 달라진다.
+즉 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 대역폭만이 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 설계의 명확성</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>, **오류 보고 체계**, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>/<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 연계성</strong>으로 결정된다. 같은 저장장치라도 어떤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 쓰느냐에 따라 CPU 점유율, 평균 지연시간, 처리량이 크게 달라진다.
 
 📢 섹션 요약 비유: I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 통역사이자 물류창고다. 말이 다른 두 사람 사이에서는 통역을 하고, 물건 흐름이 한꺼번에 몰리면 창고에 잠시 쌓아 두었다가 질서 있게 내보낸다.
 
@@ -94,9 +84,9 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 | [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 지원 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 메모리 직접 전송 보조 | 낮음 | 디스크, 고속 네트워크 |
 | [IOP](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/321_iop_channel/) (I/O Processor) | 독립적 I/O 시퀀스 실행 | 매우 낮음 | 메인프레임, 대규모 채널 I/O |
 
-또한 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 뒤이어 등장하는 **메모리 맵 I/O (Memory-Mapped I/O)**, **고립형 I/O (Isolated I/O)**, **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))**, **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))**, **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)**의 공통 기반이다. 주소 공간을 어떻게 배치하든, CPU가 장치 상태를 어떻게 통지받든, 실제 장치와 만나는 접점은 결국 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 제어 로직이다. 즉 이후 개념들은 "I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 CPU가 어떤 방식으로 다룰 것인가"의 선택지라고 볼 수 있다.
+또한 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 뒤이어 등장하는 **메모리 맵 I/O (Memory-Mapped I/O)**, **고립형 I/O (Isolated I/O)**, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a></strong>의 공통 기반이다. 주소 공간을 어떻게 배치하든, CPU가 장치 상태를 어떻게 통지받든, 실제 장치와 만나는 접점은 결국 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 제어 로직이다. 즉 이후 개념들은 "I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 CPU가 어떤 방식으로 다룰 것인가"의 선택지라고 볼 수 있다.
 
-경계 비교의 핵심은 이것이다. **주변장치 자체는 일을 하는 대상**이고, **I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 그 일을 다루기 쉬운 형태로 포장하는 계층**이다. 시험이나 실무에서 둘을 혼동하면 디스크가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 직접 처리한다고 오해하거나, DMA가 모든 장치 문제를 자동 해결한다고 잘못 결론 내리기 쉽다.
+경계 비교의 핵심은 이것이다. <strong>주변장치 자체는 일을 하는 대상</strong>이고, <strong>I/O <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>은 그 일을 다루기 쉬운 형태로 포장하는 계층</strong>이다. 시험이나 실무에서 둘을 혼동하면 디스크가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 직접 처리한다고 오해하거나, DMA가 모든 장치 문제를 자동 해결한다고 잘못 결론 내리기 쉽다.
 
 📢 섹션 요약 비유: 주변장치는 실제 짐을 나르는 트럭이고, I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 물류센터 접수창구다. 트럭이 아무리 많아도 접수창구가 없으면 창고 번호, 하역 순서, 사고 보고가 엉켜 전체 물류가 마비된다.
 
@@ -104,9 +94,9 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 장치 종류보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성**과 **CPU 개입 허용치**를 기준으로 설계해야 한다. 예를 들어 키보드처럼 이벤트는 드물지만 응답성이 중요한 장치는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 적합하다. 반대로 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) SSD나 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/25/100Gbps [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 네트워크 카드처럼 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속 유입되는 환경에서는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 지원과 충분한 큐 버퍼가 없는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 곧바로 병목이 된다.
+실무에서 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 장치 종류보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성</strong>과 <strong>CPU 개입 허용치</strong>를 기준으로 설계해야 한다. 예를 들어 키보드처럼 이벤트는 드물지만 응답성이 중요한 장치는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 적합하다. 반대로 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) SSD나 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/25/100Gbps [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 네트워크 카드처럼 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속 유입되는 환경에서는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 지원과 충분한 큐 버퍼가 없는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 곧바로 병목이 된다.
 
-기술사형 판단 포인트도 분명하다. 소량 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 위주의 장치라면 단순한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 인터페이스와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만으로 충분하지만, 대용량 스트림 장치라면 **버퍼 깊이**, **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 결합 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Coalescing)**, **오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로**, **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터링 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Mastering)** 지원 여부를 함께 봐야 한다. 특히 고속 I/O에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 버퍼가 얕으면 장치는 충분히 빠른데도 오버런, 언더런, 재전송 때문에 전체 처리량이 떨어진다.
+기술사형 판단 포인트도 분명하다. 소량 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 위주의 장치라면 단순한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 인터페이스와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만으로 충분하지만, 대용량 스트림 장치라면 **버퍼 깊이**, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 결합 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Coalescing)</strong>, <strong>오류 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 경로</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 마스터링 (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> Mastering)</strong> 지원 여부를 함께 봐야 한다. 특히 고속 I/O에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 버퍼가 얕으면 장치는 충분히 빠른데도 오버런, 언더런, 재전송 때문에 전체 처리량이 떨어진다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -133,7 +123,7 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 다만 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 모든 문제를 해결하는 것은 아니다. 버퍼가 작거나 오류 상태 정의가 빈약하면 오히려 디버깅이 어려워지고, 장치별 특성을 지나치게 숨기면 최적화 기회를 놓칠 수 있다. 그래서 현대 시스템은 단순 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 끝나지 않고, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 엔진·큐 기반 인터페이스·SmartNIC (Smart Network Interface Card)·[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))처럼 더 많은 제어 기능을 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부로 끌어들이는 방향으로 발전하고 있다.
 
-따라서 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 "CPU 밖에 붙어 있는 부품"으로 외우기보다, **계산 세계와 물리 세계를 연결하는 질서화 계층**으로 기억하는 것이 좋다. 이후 학습하는 메모리 맵 I/O, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 채널 I/O는 모두 이 계층을 얼마나 더 효율적으로 활용하느냐의 문제다.
+따라서 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 "CPU 밖에 붙어 있는 부품"으로 외우기보다, <strong>계산 세계와 물리 세계를 연결하는 질서화 계층</strong>으로 기억하는 것이 좋다. 이후 학습하는 메모리 맵 I/O, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 채널 I/O는 모두 이 계층을 얼마나 더 효율적으로 활용하느냐의 문제다.
 
 📢 섹션 요약 비유: I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 항구의 관제탑과 같다. 배가 직접 도시 행정과 대화하지 않고 관제탑을 거치기 때문에, 입항 순서도 정리되고 사고도 줄고 도시 전체 물류가 안정된다.
 
@@ -152,24 +142,25 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-주변장치 직접 제어의 한계
-        │
-        ▼
-입출력 모듈 (I/O Module)
-        │
-        ├─▶ 메모리 맵 I/O (Memory-Mapped I/O)
-        ├─▶ 고립형 I/O (Isolated I/O)
-        │
-        ▼
-인터럽트 기반 통보
-        │
-        ▼
-DMA (Direct Memory Access) 기반 대량 전송
-        │
-        ▼
-I/O 프로세서 · SmartNIC · DPU
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주변장치 직접 제어의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">입출력 모듈 (I/O Module)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 메모리 맵 I/O (Memory-Mapped I/O)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 고립형 I/O (Isolated I/O)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 기반 통보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access) 기반 대량 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">I/O 프로세서 · SmartNIC · DPU</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 연결 → 표준화된 제어 → 비동기 통보 → 전송 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) → 지능형 I/O"로 발전하는 축을 보여준다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 가상화된 오버레이망([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 등)을 떠받치기 위해, 서버, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블 등으로 구성된 **실제 눈에 보이고 손으로 만질 수 있는 물리적인 기저(바닥) 네트워크 인프라 구조**를 의미합니다.
+- **개념**: 가상화된 오버레이망([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 등)을 떠받치기 위해, 서버, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블 등으로 구성된 <strong>실제 눈에 보이고 손으로 만질 수 있는 물리적인 기저(바닥) 네트워크 인프라 구조</strong>를 의미합니다.
 - **철학**: "나(언더레이)는 내 머리 위로 지나가는 오버레이 터널 안에 무슨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(서버 가상 IP)가 들었는지 1도 관심 없어. 나는 그저 **겉면에 적힌 도착지 주소(VTEP IP)만 보고 빛의 속도로 포워딩(전달)만 할 뿐이야!**"
 
-```text
-[오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
-[언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    └──▶ [VXLAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,24 +45,28 @@ tags = ["studynote-network"]
 
 ### 1. 극단적인 단순성과 고속 포워딩 (Dumb but Fast)
 - 낡은 3-Tier 방식처럼 라우터 하나에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 1,000줄, 접근 제어([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000줄을 덕지덕지 바르지 않습니다.
-- 언더레이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 그런 똑똑한 짓(보안, 가상 IP 관리)은 전부 상위 오버레이 소프트웨어 컨트롤러에게 떠넘깁니다(Offload). 자신은 뇌를 비우고 **오직 들어오는 IP 패킷을 목적지로 쳐내는 단순 무식한 스위칭(L3 [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**에만 칩셋 성능을 100% 올인하여 테라급 속도를 뽑아냅니다.
+- 언더레이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 그런 똑똑한 짓(보안, 가상 IP 관리)은 전부 상위 오버레이 소프트웨어 컨트롤러에게 떠넘깁니다(Offload). 자신은 뇌를 비우고 <strong>오직 들어오는 IP 패킷을 목적지로 쳐내는 단순 무식한 스위칭(L3 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>에만 칩셋 성능을 100% 올인하여 테라급 속도를 뽑아냅니다.
 
 ### 2. 완벽한 IP 도달성 (IP Reachability)
-- 1번 랙(Rack)에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 100번 랙에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내의 **어떤 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) IP에서 출발하든, 다른 모든 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) IP로 100% 길을 찾아갈 수 있어야 합니다.** 
-- 이를 위해 밑바닥 장비들끼리는 보통 가장 튼튼하고 안정적인 **OSPF나 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)(eBGP/[iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/))** 같은 검증된 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜로 징그럽게 엮어둡니다.
+- 1번 랙(Rack)에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 100번 랙에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내의 <strong>어떤 물리적 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> IP에서 출발하든, 다른 모든 물리적 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> IP로 100% 길을 찾아갈 수 있어야 합니다.</strong> 
+- 이를 위해 밑바닥 장비들끼리는 보통 가장 튼튼하고 안정적인 <strong>OSPF나 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(eBGP/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/">iBGP</a>)</strong> 같은 검증된 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜로 징그럽게 엮어둡니다.
 
 ### 3. [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) 기반의 무한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장성 ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))
-- 802번, 804번 문서에서 배운 **Spine-Leaf 2-Tier 구조와 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통신**이 바로 이 언더레이 네트워크를 구축하는 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 절대적인 표준 설계도입니다.
+- 802번, 804번 문서에서 배운 <strong>Spine-Leaf 2-Tier 구조와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 통신</strong>이 바로 이 언더레이 네트워크를 구축하는 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 절대적인 표준 설계도입니다.
 - 장애가 나거나 선이 끊어지면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 1초 만에 다른 우회 도로를 찾아내어 위에 떠 있는 오버레이 터널이 끊어진 줄도 모르게 밑구멍에서 수리를 끝내야 합니다(고가용성).
 
-```text
-[오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
-[언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    └──▶ [VXLAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…]
-    │
-    ▼
-[현재 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    ├──▶ [확장 A: VXLAN]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VXLAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 언더레이 네트워크 오버레이 터널을 품는 물리…는 [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…에서 출발해 현재 메커니즘을 정교화하고, 이후 VXLAN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

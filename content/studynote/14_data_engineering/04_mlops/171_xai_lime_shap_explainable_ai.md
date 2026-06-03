@@ -21,18 +21,20 @@ tags = ["studynote-data-engineering"]
 
 설명 가능한 AI는 "모델이 맞았는가?"를 넘어서 "왜 이렇게 판단했는가?"를 묻는 접근이다. 딥러닝과 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 모델은 높은 예측력을 주지만, 내부 계산 경로가 복잡해 사람이 그대로 읽기 어렵다. 이 때문에 정확도가 높아도 대출 거절, 의료 판정, 사기 탐지 같은 의사결정에 바로 쓰기에는 신뢰 장벽이 생긴다.
 
-실무에서 필요한 설명은 보통 두 층위로 나뉜다. 하나는 **이 한 건의 예측이 왜 이렇게 나왔는가**라는 국소 설명이고, 다른 하나는 **전체적으로 어떤 변수가 자주 영향을 미치는가**라는 전역 설명이다. LIME과 SHAP이 자주 언급되는 이유도 이 두 질문을 가장 실용적으로 다루는 대표 기법이기 때문이다.
+실무에서 필요한 설명은 보통 두 층위로 나뉜다. 하나는 <strong>이 한 건의 예측이 왜 이렇게 나왔는가</strong>라는 국소 설명이고, 다른 하나는 <strong>전체적으로 어떤 변수가 자주 영향을 미치는가</strong>라는 전역 설명이다. LIME과 SHAP이 자주 언급되는 이유도 이 두 질문을 가장 실용적으로 다루는 대표 기법이기 때문이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│             같은 예측이라도 설명은 두 층위에서 필요하다            │
-├────────────────────────────────────────────────────────────────────┤
-│ 입력 특징 ──▶ 블랙박스 모델 ──▶ "대출 거절"                        │
-│                    │                                               │
-│                    ├─ Local  : 이 신청자는 왜 거절되었는가?        │
-│                    └─ Global : 전체적으로 어떤 특징이 자주 작용?  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 예측이라도 설명은 두 층위에서 필요하다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 특징 ──▶ 블랙박스 모델 ──▶ "대출 거절"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Local : 이 신청자는 왜 거절되었는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Global : 전체적으로 어떤 특징이 자주 작용?</div></div>
+</div>
+</div>
+
+
 
 설명이 없으면 모델 개선도 어렵다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수 (Feature Leakage), 편향된 대리 변수, 특정 구간에서의 예측 불안정은 점수만 보고는 발견하기 힘들다. 반대로 설명을 보면 "모델이 신용 점수보다 우편번호를 과도하게 본다"처럼 설계상 위험을 더 빨리 찾아낼 수 있다.
 
@@ -44,20 +46,22 @@ tags = ["studynote-data-engineering"]
 
 LIME과 SHAP은 모두 "원래 모델을 직접 뜯어보지 못하더라도 예측 주변의 기여도를 추정한다"는 점에서는 비슷하지만, 계산 철학은 다르다. LIME은 특정 샘플 주변을 흔들어 보고 그 근방에서 잘 맞는 단순 대리 모델을 학습한다. 반면 SHAP은 기준점 대비 예측값이 얼마나 올라갔는지를 각 특징이 공정하게 나눠 가진다고 보고, 게임이론의 Shapley Value를 사용해 기여도를 분배한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     LIME vs SHAP 계산 관점                         │
-├───────────────────────────────┬────────────────────────────────────┤
-│ LIME                          │ SHAP                               │
-├───────────────────────────────┼────────────────────────────────────┤
-│ target sample x0 선택         │ target sample x0 선택              │
-│ 주변 데이터 perturbation      │ 기준 예측값 E[f(X)] 계산           │
-│ 원모델 예측값 질의            │ feature coalition 기여도 추정      │
-│ 거리 가까울수록 가중치 증가   │ φ1 + φ2 + ... + φn 분해            │
-│ 선형 surrogate 적합           │ E[f(X)] + Σφi = f(x)               │
-│ 국소 계수로 설명              │ 각 feature 기여도 합으로 설명      │
-└───────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME vs SHAP 계산 관점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME</div><div class="kb-diagram-cell">SHAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target sample x0 선택</div><div class="kb-diagram-cell">target sample x0 선택</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">주변 데이터 perturbation │ 기준 예측값 E</div><div class="kb-diagram-node">f(X)</div><div class="kb-diagram-note">계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원모델 예측값 질의</div><div class="kb-diagram-cell">feature coalition 기여도 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리 가까울수록 가중치 증가</div><div class="kb-diagram-cell">φ1 + φ2 + ... + φn 분해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">선형 surrogate 적합 │ E</div><div class="kb-diagram-node">f(X)</div><div class="kb-diagram-note">+ Σφi = f(x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국소 계수로 설명</div><div class="kb-diagram-cell">각 feature 기여도 합으로 설명</div></div>
+</div>
+</div>
+
+
 
 | 기법 | 핵심 아이디어 | 잘하는 질문 | 장점 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -86,7 +90,7 @@ LIME과 SHAP을 제대로 쓰려면 다른 설명 기법과의 경계를 알아�
 
 또 하나 중요한 연결은 "설명"과 "인과"의 차이다. [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값이 높다고 해서 그 변수를 사람이 바꾸면 결과가 반드시 개선된다는 뜻은 아니다. 예를 들어 병원 입원 기간이 중증도를 대변하는 변수일 수는 있지만, 입원 기간을 인위적으로 줄인다고 환자 위험이 낮아지는 것은 아니다. 설명은 모델의 판단 구조를 보여 주는 것이지, 세상을 바꾸는 원인을 증명하는 것이 아니다.
 
-실무에서는 세 기법을 조합하는 경우가 많다. 먼저 전역적으로 이상한 특징이 있는지 Permutation Importance나 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) plot으로 보고, 특정 오판 샘플은 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 local SHAP으로 뜯어본다. 즉 XAI는 하나의 차트가 아니라, **전역 점검과 국소 진단을 연결하는 해석 파이프라인**으로 보는 편이 맞다.
+실무에서는 세 기법을 조합하는 경우가 많다. 먼저 전역적으로 이상한 특징이 있는지 Permutation Importance나 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) plot으로 보고, 특정 오판 샘플은 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 local SHAP으로 뜯어본다. 즉 XAI는 하나의 차트가 아니라, <strong>전역 점검과 국소 진단을 연결하는 해석 파이프라인</strong>으로 보는 편이 맞다.
 
 - **📢 섹션 요약 비유**: LIME은 한 학생의 답안지를 자세히 보는 것이고, SHAP은 학생 여러 명의 성적 패턴까지 함께 보는 것이며, 전역 중요도 기법은 과목별 평균점수 통계를 보는 것과 같다.
 
@@ -118,7 +122,7 @@ LIME과 SHAP을 제대로 쓰려면 다른 설명 기법과의 경계를 알아�
 - 설명 결과를 사람 의사결정에 붙이면서 안정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 생략하기
 - 예측 성능이 나쁜 모델을 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 차트로만 포장하기
 
-기술사 관점에서는 **설명 목적, 기법 선택, 안정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 규제·윤리 연결**을 함께 적어야 답안이 완성된다. XAI는 모델을 예쁘게 포장하는 시각화가 아니라, 위험한 자동화를 사람이 통제 가능한 자동화로 바꾸는 장치다.
+기술사 관점에서는 <strong>설명 목적, 기법 선택, 안정성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 규제·윤리 연결</strong>을 함께 적어야 답안이 완성된다. XAI는 모델을 예쁘게 포장하는 시각화가 아니라, 위험한 자동화를 사람이 통제 가능한 자동화로 바꾸는 장치다.
 
 - **📢 섹션 요약 비유**: [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 실무 적용은 의사가 검사 수치만 보는 것이 아니라, 왜 그런 수치가 나왔는지 병력과 생활 습관까지 같이 해석하는 과정과 같다. 숫자만 맞는다고 진료가 끝나지 않는다.
 
@@ -130,7 +134,7 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 
 그러나 설명이 있다고 해서 모델이 공정하거나 인과적으로 올바르다는 뜻은 아니다. 설명은 근사치일 수 있고, 입력 분포가 바뀌면 금방 낡을 수 있으며, 상관 특징이 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 기여도 분배가 해석 논쟁을 낳는다. 따라서 XAI는 정확도 이후의 부가 기능이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 운영 모니터링과 함께 관리되어야 한다.
 
-결론적으로 LIME과 SHAP은 "블랙박스를 완전히 투명하게 만드는 마법"이 아니라, **사람이 모델을 질문할 수 있게 해 주는 통역기**로 기억하는 것이 가장 정확하다. 모델이 중요한 결정을 내릴수록, 이 통역기의 품질도 함께 관리되어야 한다.
+결론적으로 LIME과 SHAP은 "블랙박스를 완전히 투명하게 만드는 마법"이 아니라, <strong>사람이 모델을 질문할 수 있게 해 주는 통역기</strong>로 기억하는 것이 가장 정확하다. 모델이 중요한 결정을 내릴수록, 이 통역기의 품질도 함께 관리되어야 한다.
 
 - **📢 섹션 요약 비유**: XAI는 외국어로 말하는 친구 옆에 통역사를 세우는 것과 같다. 통역이 있다고 친구 마음을 전부 읽는 것은 아니지만, 적어도 왜 그런 말을 했는지 훨씬 잘 이해할 수 있다.
 
@@ -149,19 +153,23 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-블랙박스 모델 고도화
-    │
-    ├─ 문제: 높은 정확도, 낮은 해석 가능성
-    ▼
-설명 가능한 AI (XAI)
-    │
-    ├─ LIME  : 국소 대리 모델
-    ├─ SHAP  : 기여도 분해
-    └─ Global Importance / PDP
-    ▼
-모델 디버깅 · 규제 대응 · 편향 점검 · Human-in-the-Loop 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블랙박스 모델 고도화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문제: 높은 정확도, 낮은 해석 가능성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설명 가능한 AI (XAI)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LIME : 국소 대리 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SHAP : 기여도 분해</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Global Importance / PDP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 디버깅 · 규제 대응 · 편향 점검 · Human-in-the-Loop 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 모델 운영의 관심사가 "정확도 향상"에서 "설명 가능성과 책임 있는 사용"까지 확장되는 과정을 보여준다.
 

@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: IP 주소를 '네트워크 ID(동네 번호)'와 '호스트 ID(집 번호)'로 나눌 때, 고정된 8비트, 16비트 단위의 클래스 제약을 없애고, 임의의 길이(Prefix Length)로 경계를 자유롭게 이동시키는 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 아키텍처.
 - **필요성**: 클라스풀([Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/)) 시대에는 IP 주소를 남한테 줄 때 S(254개), L(6만 개), XXL(1600만 개) 사이즈 딱 세 개뿐이었다. M 사이즈(500개)를 원하는 고객에게 L 사이즈를 줘서 버려지는 천이 너무 많았다. "바보같이 왜 정해진 패턴으로만 잘라? 내가 원하는 크기에 맞게 가위([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))로 딱 맞게 잘라서([Subnetting](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)) 팔자!"라는 기조가 확립되었다.
 
-- **💡 비유**: CIDR은 기성복 정장만 팔던 옷가게에 **"줄자([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))를 들고 치수를 재서 옷을 잘라주는 맞춤복(Tailor-made) 장인"**이 등장한 것입니다. 더 이상 팔이나 바짓단이 남아돌아서 버려지는 천(IP 낭비)이 사라졌습니다.
+- **💡 비유**: CIDR은 기성복 정장만 팔던 옷가게에 <strong>"줄자(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>)를 들고 치수를 재서 옷을 잘라주는 맞춤복(Tailor-made) 장인"</strong>이 등장한 것입니다. 더 이상 팔이나 바짓단이 남아돌아서 버려지는 천(IP 낭비)이 사라졌습니다.
 
-```text
-[브로드캐스트 주소]
-    │
-    ▼
-[클래스리스 라우팅]
-    │
-    └──▶ [서브네팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 주소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스리스 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서브네팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** CIDR은 케이크를 조각낼 때 "무조건 4등분이나 8등분으로만 잘라라!"라는 규칙을 박살 내고, **"먹을 사람이 원하는 그램(g) 수에 맞춰서 칼을 아무 데나 들이대어 잘라도 합법"**으로 만들어준 극강의 유연성입니다.
 
@@ -41,13 +45,13 @@ tags = ["studynote-network"]
 
 ### 1. [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) ([Subnet Mask](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))의 작동 원리
 클래스라는 고정된 규칙이 사라졌으니, 이제 라우터는 어떤 IP를 받았을 때 **어디까지가 동네 번호(Network ID)인지 눈치껏 알아낼 방법이 없다.**
-그래서 IP 주소 뒤에 반드시 **[서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)**라는 "정답지"를 세트로 붙여 다니게 만들었다.
-- [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)에서 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `1`인 구간**은 "여기까지가 동네 번호(Network ID)야!"라는 뜻이고, **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `0`인 구간**은 "여기부턴 집 번호(Host ID)야!"라는 뜻이다.
-- IP 주소와 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)를 컴퓨터가 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) AND 연산** 하면 순수한 동네 번호(Network Address)만 툭 튀어나온다.
+그래서 IP 주소 뒤에 반드시 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a></strong>라는 "정답지"를 세트로 붙여 다니게 만들었다.
+- [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)에서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>1</code>인 구간</strong>은 "여기까지가 동네 번호(Network ID)야!"라는 뜻이고, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>0</code>인 구간</strong>은 "여기부턴 집 번호(Host ID)야!"라는 뜻이다.
+- IP 주소와 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)를 컴퓨터가 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> AND 연산</strong> 하면 순수한 동네 번호(Network Address)만 툭 튀어나온다.
 
 ### 2. CIDR 슬래시 표기법 (Slash Notation)
 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)를 `255.255.255.0`처럼 길게 쓰는 게 귀찮았던 엔지니어들은, "어차피 1이 앞에서부터 연속해서 몇 개냐가 중요한 거잖아? 그럼 1의 개수만 숫자로 적자!"라고 합의했다.
-- `192.168.1.1 255.255.255.0` ──▶ 앞 24비트가 1이므로 **`192.168.1.1 /24`**로 적는다.
+- `192.168.1.1 255.255.255.0` ──▶ 앞 24비트가 1이므로 <strong><code>192.168.1.1 /24</code></strong>로 적는다.
 - `/24`는 동네 번호가 24칸, 집 번호가 남은 8칸($2^8=256$개)이라는 뜻이다.
 
 ### 3. [VLSM](/knowledge-base/studynote/03_network/06_network_layer_ip/306_vlsm_variable_length_subnet_mask/) (Variable Length [Subnet Mask](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/))
@@ -55,27 +59,26 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 - 직원 100명인 영업부는 `/25` (512개)
 - 직원 50명인 인사부는 `/26` (128개)
 - 달랑 2대의 라우터만 마주 보고 있는 시리얼 점대점([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 링크는 `/30` (가용 IP 딱 2개)
-이렇게 **각 부서의 인원수에 딱 들어맞게 가변적(Variable)으로 서브넷을 칼질**할 수 있어 사설망 안에서도 IP의 낭비를 제로(0)에 가깝게 만들었다.
+이렇게 <strong>각 부서의 인원수에 딱 들어맞게 가변적(Variable)으로 서브넷을 칼질</strong>할 수 있어 사설망 안에서도 IP의 낭비를 제로(0)에 가깝게 만들었다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                CIDR 기반 서브넷 쪼개기 (VLSM) 예시              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 통신사에서 받은 원본 땅 ] 192.168.10.0 /24 (256개 공간)         │
- │                                                             │
- │   "영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"               │
- │   ▶ 192.168.10.0 /25 (128개) ── 영업부 할당                  │
- │                                                             │
- │   "남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"           │
- │   ▶ 192.168.10.128 /26 (64개) ── 인사부 할당                 │
- │                                                             │
- │   * 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는     │
- │          정확히 "반의반 토막"으로 쪼개진다!                        │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** CIDR 표기법(`/24, /26`)은 **"피자 커팅 지시서"**와 같습니다. 숫자가 커진다는 것은 칼질을 그만큼 많이 했다는 뜻이므로, 내가 먹을 수 있는 한 조각(네트워크 크기)의 양은 정확히 반씩 작아집니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CIDR 기반 서브넷 쪼개기 (VLSM) 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신사에서 받은 원본 땅</div><div class="kb-diagram-note">192.168.10.0 /24 (256개 공간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 192.168.10.0 /25 (128개) ── 영업부 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 192.168.10.128 /26 (64개) ── 인사부 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 "반의반 토막"으로 쪼개진다!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> CIDR 표기법(<code>/24, /26</code>)은 </strong>"피자 커팅 지시서"**와 같습니다. 숫자가 커진다는 것은 칼질을 그만큼 많이 했다는 뜻이므로, 내가 먹을 수 있는 한 조각(네트워크 크기)의 양은 정확히 반씩 작아집니다.
 
 ---
 
@@ -131,15 +134,19 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 브로드캐스트 주소]
-    │
-    ▼
-[현재 개념: 클래스리스 라우팅]
-    │
-    ├──▶ [확장 A: 서브네팅]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브로드캐스트 주소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클래스리스 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서브네팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 클래스리스 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

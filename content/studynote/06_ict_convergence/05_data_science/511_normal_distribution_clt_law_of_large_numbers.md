@@ -25,7 +25,7 @@ tags = ["studynote-ict-convergence"]
 
 - **68-95-99.7% 규칙**: μ±1σ 내 68%, μ±2σ 내 95%, μ±3σ 내 99.7%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 존재.
 - **Z-점수 (Z-Score)**: Z = (X − μ) / σ — 특정 값이 평균에서 몇 표준편차 떨어져 있는지.
-- **표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) (Standard Normal)**: μ=0, σ=1로 표준화한 N(0,1).
+- <strong>표준 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a> (Standard Normal)</strong>: μ=0, σ=1로 표준화한 N(0,1).
 
 - **📢 섹션 요약 비유**: [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)는 종 모양 언덕이야. 중간(평균)에 사람이 제일 많고, 양쪽 끝으로 갈수록 사람이 줄어들어. 거의 모든 사람이 중간에서 3칸(3σ) 이내에 모여 있어.
 
@@ -35,23 +35,23 @@ tags = ["studynote-ict-convergence"]
 
 ### CLT와 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-```
-모집단 분포 (임의 형태)
-        │
-        │ 반복 무작위 표본 추출 (n ≥ 30)
-        ▼
-┌───────────────────────────┐
-│  표본 평균의 분포           │
-│  X̄ ~ N(μ, σ²/n)          │  ← CLT 보장
-│  (모집단과 관계없이 정규화) │
-└───────────────────────────┘
-        │
-        │ n → ∞
-        ▼
-┌───────────────────────────┐
-│  X̄ → μ (모집단 평균)      │  ← 대수의 법칙
-└───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모집단 분포 (임의 형태)</div>
+<div class="kb-diagram-note">반복 무작위 표본 추출 (n ≥ 30)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표본 평균의 분포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X̄ ~ N(μ, σ²/n)</div><div class="kb-diagram-cell">← CLT 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모집단과 관계없이 정규화)</div></div>
+<div class="kb-diagram-note">n → ∞</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X̄ → μ (모집단 평균)</div><div class="kb-diagram-cell">← 대수의 법칙</div></div>
+</div>
+</div>
+
+
 
 ### 관련 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 비교
 
@@ -78,7 +78,7 @@ tags = ["studynote-ict-convergence"]
 | 약한 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (WLLN) | n→∞에서 X̄가 μ에 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 수렴 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 수렴 |
 | 강한 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) (SLLN) | 거의 확실하게(Almost Surely) 수렴 | 더 강한 보장 |
 
-**CLT와 [중심 극한 정리](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)의 통계 추론 연결**:
+<strong>CLT와 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/">중심 극한 정리</a>의 통계 추론 연결</strong>:
 - 표본 평균의 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)([Confidence Interval](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)): X̄ ± Z(α/2) · σ/√n
 - 모비율 추론: p̂ ± Z(α/2) · √(p̂(1-p̂)/n)
 
@@ -107,7 +107,7 @@ CLT와 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_
 
 - **통계 추론 범용성**: 모집단 분포를 몰라도 표본 평균 기반 추론이 가능.
 - **ML 학습 안정성**: 미니배치 크기와 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 설계에 이론적 근거 제공.
-- **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리**: 포아송·이항 분포와 정규 근사 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이해해 시스템 용량·이상 탐지에 활용.
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong>: 포아송·이항 분포와 정규 근사 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이해해 시스템 용량·이상 탐지에 활용.
 
 - **📢 섹션 요약 비유**: [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/)과 CLT는 통계학의 날개 두 개야. 하나([대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/))는 "많이 하면 정확해진다"고 가르쳐 주고, 다른 하나([CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/))는 "그 정확해진 결과가 항상 같은 종 모양이 된다"고 알려줘.
 

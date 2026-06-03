@@ -20,8 +20,8 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 패턴은 빠른 개발을 가능하게 하지만, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체와 DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 테이블 구조가 달라지거나 비즈니스 로직이 복잡해지면 한계가 드러난다. 특히:
 
-- **테이블 구조 ≠ [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델**: `User`가 세 개의 테이블에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장되어야 할 경우
-- **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층과 DB**: 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 어떻게 테이블에 매핑할지 (STI, CTI 등)
+- <strong>테이블 구조 ≠ <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델</strong>: `User`가 세 개의 테이블에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장되어야 할 경우
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 계층과 DB</strong>: 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 어떻게 테이블에 매핑할지 (STI, CTI 등)
 - **비즈니스 로직의 순수성**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체가 `save()`를 알면 테스트 시 DB가 항상 필요
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴은 이러한 문제를 **분리(Separation)** 로 해결한다. Mapper 클래스 (또는 현대의 Repository) 가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ↔ DB 변환을 전담하며, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 완전히 무지한 상태(Persistence Ignorant) 를 유지한다.
@@ -33,39 +33,40 @@ tags = ["studynote-design-supervision"]
 | 2010s | Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA | Repository 인터페이스로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
 | 현재 | TypeORM, Prisma, SQLAlchemy | 현대 언어 구현체 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 외교관이 두 나라 사이에서 번역과 협상을 담당하듯, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼는 객체 세계와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 세계 사이의 전문 통역사다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────────┐
-│                  Data Mapper 아키텍처                           │
-│                                                                │
-│  [도메인 레이어]         [매퍼 레이어]          [영속성 레이어]   │
-│                                                                │
-│  ┌──────────────┐       ┌─────────────────┐  ┌──────────────┐ │
-│  │  User        │       │   UserMapper    │  │  DB Table    │ │
-│  │  (순수 객체) │◀─────▶│  (변환 전담)     │◀─▶│  users       │ │
-│  │  - id        │       │  + toEntity()   │  │  id          │ │
-│  │  - name      │       │  + toRow()      │  │  name        │ │
-│  │  - email     │       │  + findById()   │  │  email       │ │
-│  │              │       │  + save()       │  │  created_at  │ │
-│  │  DB 모름!    │       └─────────────────┘  └──────────────┘ │
-│  └──────────────┘                                              │
-│                                                                │
-│  ┌──────────────┐       ┌─────────────────┐                   │
-│  │  Service     │──────▶│  UserRepository │ ← 현대적 추상화    │
-│  │  (비즈니스)   │       │  (인터페이스)    │                   │
-│  └──────────────┘       └─────────────────┘                   │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mapper 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 레이어</div><div class="kb-diagram-node">매퍼 레이어</div><div class="kb-diagram-node">영속성 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User</div><div class="kb-diagram-cell">UserMapper</div><div class="kb-diagram-cell">DB Table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(순수 객체)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">(변환 전담)</div><div class="kb-diagram-cell">◀─▶</div><div class="kb-diagram-cell">users</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- id</div><div class="kb-diagram-cell">+ toEntity()</div><div class="kb-diagram-cell">id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name</div><div class="kb-diagram-cell">+ toRow()</div><div class="kb-diagram-cell">name</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- email</div><div class="kb-diagram-cell">+ findById()</div><div class="kb-diagram-cell">email</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ save()</div><div class="kb-diagram-cell">created_at</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 모름!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">UserRepository</div><div class="kb-diagram-cell">← 현대적 추상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스)</div><div class="kb-diagram-cell">(인터페이스)</div></div>
+</div>
+</div>
+
+
 
 ```java
 // 도메인 객체 - DB 완전 무지
@@ -119,24 +120,21 @@ public class UserJpaRepository implements UserRepository {
 | 학습 곡선 | 높음 | 낮음 |
 | 대표 프레임워크 | Hibernate, JPA, TypeORM | Rails, Laravel Eloquent |
 
-```
-┌────────────────────────────────────────────────────┐
-│            Clean Architecture 레이어                │
-│                                                    │
-│  ┌──────────────────┐  ← 데이터 매퍼가 보호하는 영역│
-│  │   Entities (도메인) │                           │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐                             │
-│  │   Use Cases      │                             │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐  ← 데이터 매퍼/리포지토리     │
-│  │   Interface Adapters │  (Infrastructure)       │
-│  └──────────────────┘                             │
-│  ┌──────────────────┐                             │
-│  │   Frameworks/DB  │                             │
-│  └──────────────────┘                             │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clean Architecture 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 데이터 매퍼가 보호하는 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entities (도메인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use Cases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 데이터 매퍼/리포지토리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interface Adapters</div><div class="kb-diagram-cell">(Infrastructure)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frameworks/DB</div></div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴은 Clean Architecture의 **Infrastructure Layer** 에 위치하며, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Layer를 DB 변화로부터 보호한다.
 
@@ -190,7 +188,7 @@ class UserService {
 
 - **테스트 가능성**: Repository를 Mock으로 교체하면 DB 없이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레이어 완전 테스트
 - **DB 변경 격리**: PostgreSQL → [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 이전 시 매퍼만 교체, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드 변경 없음
-- **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 풍부화**: DB 제약 없이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 비즈니스 메서드 자유롭게 추가
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 풍부화</strong>: DB 제약 없이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 비즈니스 메서드 자유롭게 추가
 - **팀 분업**: 백엔드 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개발자와 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) ([Database Administrator](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) 가 독립적으로 작업
 
 기술사 관점에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼는 **"좋은 설계는 변화에 강하다"** 는 원칙의 구체적 구현이다. DB가 바뀌어도 비즈니스 로직은 흔들리지 않아야 한다는 Clean Architecture의 핵심 철학과 일치한다.

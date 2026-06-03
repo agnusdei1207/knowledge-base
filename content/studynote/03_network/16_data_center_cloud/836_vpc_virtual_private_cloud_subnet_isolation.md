@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 퍼블릭 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 환경(AWS, GCP, Azure 등)의 거대한 공용(Public) 물리 자원 속에서, **특정 고객(기업 테넌트) 전용으로 할당된 논리적으로 완벽하게 격리된 가상의 사설(Private) 네트워크 공간**입니다.
+- **개념**: 퍼블릭 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 환경(AWS, GCP, Azure 등)의 거대한 공용(Public) 물리 자원 속에서, <strong>특정 고객(기업 테넌트) 전용으로 할당된 논리적으로 완벽하게 격리된 가상의 사설(Private) 네트워크 공간</strong>입니다.
 - **배경**: 과거 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)는 네트워크망이 공용(EC2-Classic)이라 보안에 매우 취약했습니다. VPC 도입 이후, 기업들은 자신의 본사 지하실 전산실([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))과 똑같이 안전한 자신만의 네트워크 섬을 클라우드 위에 만들 수 있게 되었습니다.
 
-```text
-[DSR]
-    │
-    ▼
-[VPC]
-    │
-    └──▶ [클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VPC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,21 +50,25 @@ VPC를 만들면, 192.168.x.x 같은 가짜 사설 IP 대역(CIDR) 덩어리를 
 
 ### 2. Private Subnet (비밀 방 / 내부 보안 구역) 🌟
 - **역할**: 외부 인터넷과 완전히 단절된, 창문 하나 없는 밀실입니다. 
-- **적용**: 해커가 절대 해킹하면 안 되는 **고객 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 서버, 핵심 비즈니스 로직(WAS) 서버** 등을 이 방에 꽁꽁 숨겨둡니다.
+- **적용**: 해커가 절대 해킹하면 안 되는 <strong>고객 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB) 서버, 핵심 비즈니스 로직(WAS) 서버</strong> 등을 이 방에 꽁꽁 숨겨둡니다.
 - **접근 방법**: 이 비밀 방에 있는 DB 서버는 밖(인터넷)에서 절대로 직접 IP를 치고 들어올 수 없습니다. 오직 아까 Public Subnet에 띄워놓은 '안전한 우리 회사 웹 서버'만이 이 DB 서버에 1:1로 접속(East-West)하여 데이터를 빼 갈 수 있습니다(보안 격리망의 본질).
 
 ### 3. 보안 통제막 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group & NACL)
-- **[Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group (보안 그룹)**: 서버(EC2 가상머신) 1대 1대의 피부에 찰싹 달라붙어 있는 '방탄조끼'입니다. "내 서버에는 웹(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 들어올 수 있다!"라고 설정하는 단위 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Stateful 방식)입니다.
-- **NACL (네트워크 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))**: 방(Subnet) 전체를 둘러싸는 '두꺼운 콘크리트 성벽'입니다. "이 1번 방 전체에는 중국 해커 IP의 출입을 전면 차단하라!"라고 설정하는 거시적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 방식)입니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Group (보안 그룹)</strong>: 서버(EC2 가상머신) 1대 1대의 피부에 찰싹 달라붙어 있는 '방탄조끼'입니다. "내 서버에는 웹(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 들어올 수 있다!"라고 설정하는 단위 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Stateful 방식)입니다.
+- <strong>NACL (네트워크 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>)</strong>: 방(Subnet) 전체를 둘러싸는 '두꺼운 콘크리트 성벽'입니다. "이 1번 방 전체에는 중국 해커 IP의 출입을 전면 차단하라!"라고 설정하는 거시적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 방식)입니다.
 
-```text
-[DSR]
-    │
-    ▼
-[VPC]
-    │
-    └──▶ [클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VPC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ VPC를 만들면, 192.168.x.x 같은 가짜 사설 IP 대역(CIDR) 덩어리를 
 
 ## Ⅲ. 비교 및 연결
 
-- 수백만 기업의 VPC가 겹치지 않게 돌아가는 마법의 기반은 앞서 배운 817번의 **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) (가상 확장 랜)** 같은 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술입니다. 
+- 수백만 기업의 VPC가 겹치지 않게 돌아가는 마법의 기반은 앞서 배운 817번의 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (가상 확장 랜)</strong> 같은 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술입니다. 
 - 삼성이 `10.0.0.1`을 쓰고 구글도 `10.0.0.1`을 쓰더라도, VPC 소프트웨어 엔진이 밑바닥에서 터널 ID(VNI)를 다르게 씌워버리기 때문에 패킷이 절대 엉뚱한 회사 방으로 흘러 들어가지 않는 100% 논리적 격리성을 완성합니다.
 
 VPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DSR가 기반 조건을 만든다면, VPC는 그 위에서 핵심 메커니즘을 구현하고, 클라우드 서브넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 인터넷 게이트웨이,…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -79,7 +87,7 @@ VPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: AWS 클라우드는 전 세계인 누구나 들어와서 텐트를 치고 자는 거대한 '공용 캠핑장([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))'입니다. 도둑질당하기 딱 좋습니다. **VPC([가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))**는 이 캠핑장 한가운데에 회사 전용으로 친 '두꺼운 철조망 펜스 텐트'입니다. 이 텐트는 두 칸으로 나뉩니다. 바깥세상과 뚫려있는 거실(Public Subnet)에는 손님을 맞이하는 알바생(웹서버)을 둡니다. 하지만 철문으로 잠긴 굳건한 안방(Private Subnet)에는 금고(DB 서버)를 둡니다. 외부 강도는 거실까진 들어올 수 있어도 안방 철문은 절대 열 수 없고, 오직 우리 알바생만이 안방에서 금괴를 꺼내다 손님에게 줄 수 있는 완벽한 2중 철통 보안 네트워크입니다.
+- **📢 섹션 요약 비유**: AWS 클라우드는 전 세계인 누구나 들어와서 텐트를 치고 자는 거대한 '공용 캠핑장([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))'입니다. 도둑질당하기 딱 좋습니다. <strong>VPC(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">가상 사설망</a>)</strong>는 이 캠핑장 한가운데에 회사 전용으로 친 '두꺼운 철조망 펜스 텐트'입니다. 이 텐트는 두 칸으로 나뉩니다. 바깥세상과 뚫려있는 거실(Public Subnet)에는 손님을 맞이하는 알바생(웹서버)을 둡니다. 하지만 철문으로 잠긴 굳건한 안방(Private Subnet)에는 금고(DB 서버)를 둡니다. 외부 강도는 거실까진 들어올 수 있어도 안방 철문은 절대 열 수 없고, 오직 우리 알바생만이 안방에서 금괴를 꺼내다 손님에게 줄 수 있는 완벽한 2중 철통 보안 네트워크입니다.
 
 ---
 
@@ -121,15 +129,19 @@ VPC는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DSR]
-    │
-    ▼
-[현재 개념: VPC]
-    │
-    ├──▶ [확장 A: 클라우드 서브넷 라우팅, 인터넷 게이트웨이,…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DSR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우드 서브넷 라우팅, 인터넷 게이트웨이,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 VPC는 DSR에서 출발해 현재 메커니즘을 정교화하고, 이후 클라우드 서브넷 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 인터넷 게이트웨이,…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

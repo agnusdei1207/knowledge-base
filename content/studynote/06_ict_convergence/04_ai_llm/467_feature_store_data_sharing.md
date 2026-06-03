@@ -22,8 +22,8 @@ tags = ["studynote-ict-convergence"]
 쇼핑몰에서 추천 AI를 만드는 A팀이 있다. A팀은 "고객의 최근 7일 장바구니 담은 횟수"라는 변수([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/))를 파이썬으로 힘들게 계산해서 모델을 만들었다.
 다음 주, 사기 결제 탐지 AI를 만드는 B팀이 꾸려졌다. B팀도 똑같이 "고객의 최근 7일 장바구니 담은 횟수"가 필요한데, A팀이 짜놓은 코드를 몰라서 자기들이 또 밤을 새워 똑같은 계산 코드를 짜고 있다. 
 
-"이거 완전 인력 낭비 아니야? **한 팀이 잘 깎아놓은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(반찬)를 회사 중앙에 진열해 두고, 다른 팀들이 그냥 가져다 쓰게(재사용) 만들 순 없을까?**"
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자들이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노가다)에 들이는 80%의 시간을 0으로 만들기 위해 우버(Uber)와 에어비앤비(Airbnb)가 고안해 낸 현대 MLOps의 척추가 바로 **[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))**다.
+"이거 완전 인력 낭비 아니야? <strong>한 팀이 잘 깎아놓은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>(반찬)를 회사 중앙에 진열해 두고, 다른 팀들이 그냥 가져다 쓰게(재사용) 만들 순 없을까?</strong>"
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자들이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노가다)에 들이는 80%의 시간을 0으로 만들기 위해 우버(Uber)와 에어비앤비(Airbnb)가 고안해 낸 현대 MLOps의 척추가 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">Feature Store</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 매일 아침 집집마다 엄마들이 양파를 썰고 마늘을 깐다(비효율적 전처리). [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 동네 한가운데 생긴 완벽한 '반찬 가게'다. 썰어놓은 양파, 다진 마늘([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/))을 여기서 사다가 바로 냄비(모델)에 넣고 끓이기만 하면 되니 요리(학습) 시간이 10배로 빨라진다.
 
@@ -33,24 +33,25 @@ tags = ["studynote-ict-convergence"]
 
 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하는 '오프라인 창고'와 실시간으로 쏴주는 '온라인 매대'의 듀얼 아키텍처로 구성된다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             [ 피처 스토어 (Feature Store)의 듀얼 아키텍처 ]     │
-├────────────────────────────────────────────────────────┤
-│ 1. 피처 파이프라인 (Feature Pipeline)                   │
-│    - 원본 데이터(Raw)를 끌어와서 가공함 (나이 -> 연령대로 변경 등)│
-│    - 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음              │
-│                                                        │
-│ 2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고     │
-│    - 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고│
-│    - 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.  │
-│                                                        │
-│ 3. 온라인 스토어 (Online Store) : '추론용' 번개 매대      │
-│    - 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB│
-│    - 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"│
-│      할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)         │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피처 스토어 (Feature Store)의 듀얼 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 피처 파이프라인 (Feature Pipeline)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원본 데이터(Raw)를 끌어와서 가공함 (나이 -&gt; 연령대로 변경 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 온라인 스토어 (Online Store) : '추론용' 번개 매대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)</div></div>
+</div>
+</div>
+
+
 
 1. **단일 진실 공급원 (SSOT, Single Source of Truth)**: A팀이 계산한 "우수 고객"의 정의와 B팀이 계산한 "우수 고객"의 정의가 다르면 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬인다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 전사적으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 정의와 계산 로직을 딱 한 곳으로 통일하여, 모든 부서가 똑같은 잣대(단일 진실)로 AI를 훈련하게 강제한다.
 2. **Training-Serving Skew(학습/서빙 편향) 방지**: 과거엔 학습할 땐 파이썬(Pandas)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전처리하고, 실제 서비스할 땐 속도 때문에 자바(Java)나 C++로 전처리 코드를 다시 짰다. 언어가 다르니 오차가 발생해 모델 성능이 떡락했다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 이 두 개의 코드를 완벽하게 하나로 통일시켜 주는 번역기 역할을 한다.
@@ -63,14 +64,14 @@ tags = ["studynote-ict-convergence"]
 
 기존의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소들과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 전용 저장소([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))를 전격 비교해 본다.
 
-| 비교 항목 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) | **[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))** |
+| 비교 항목 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">Feature Store</a>)</strong> |
 |:---:|:---|:---|:---|
 | **저장하는 것** | 정제된 엑셀 표 (정형) | 날것 그대로의 늪 (비정형 포함) | **ML 모델이 바로 삼킬 수 있는 조리된 변수들** |
-| **주요 사용자** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 (BI, 통계) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 | **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델** |
-| **핵심 기능** | 과거 매출 요약, 보고서 작성 | 무한한 확장성과 저장 | **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 전사적 공유 및 실시간 서빙(Serving)** |
+| **주요 사용자** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 (BI, 통계) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 모델</strong> |
+| **핵심 기능** | 과거 매출 요약, 보고서 작성 | 무한한 확장성과 저장 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>의 전사적 공유 및 실시간 서빙(Serving)</strong> |
 | **속도 요구사항**| 수 분 ~ 수 시간 (배치) | 수 분 ~ 수 시간 (배치) | **오프라인은 배치, 온라인은 밀리초(ms) 필수** |
 
-DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 인간이 눈으로 보고 의사결정을 하기 위해 만든 거대한 도서관이다. 하지만 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 인간이 아니라 **'기계([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)'가 0.1초 만에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼먹기 위해 만든 식당**이다. 목적 자체가 아예 다르다.
+DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 인간이 눈으로 보고 의사결정을 하기 위해 만든 거대한 도서관이다. 하지만 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 인간이 아니라 <strong>'기계(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델)'가 0.1초 만에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼먹기 위해 만든 식당</strong>이다. 목적 자체가 아예 다르다.
 
 - **📢 섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 물고기가 펄떡거리는 바다라면, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 생선을 깔끔하게 포장해 둔 냉동 창고다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 이 생선을 전자레인지에 딱 1분만 돌리면 바로 먹을 수 있게 요리해 놓은 '밀키트(Meal Kit)' 매장이다. 기계(모델)는 요리할 줄 모르기 때문에 밀키트만 먹는다.
 
@@ -80,13 +81,13 @@ DW나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_securi
 
 **실무 적용 시나리오:**
 배달 앱 회사에서 '실시간 도착 시간 예측 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)'를 만든다. 이 AI는 "해당 식당의 최근 10분간 주문 밀집도"라는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)가 반드시 필요하다.
-기술사는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)인 **Feast**를 도입한다. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 스트리밍을 통해 들어온 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스파크(Spark)로 1초마다 계산하여 Feast의 온라인 스토어([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))에 찔러 넣는다. 고객이 배달 앱을 켜는 순간, 백엔드 서버는 Feast에서 이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 0.01초 만에 꺼내어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델에 던져주고, AI는 즉시 "35분 뒤 도착"이라는 소름 돋게 정확한 예측을 뱉어낸다.
+기술사는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)인 <strong>Feast</strong>를 도입한다. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 스트리밍을 통해 들어온 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스파크(Spark)로 1초마다 계산하여 Feast의 온라인 스토어([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))에 찔러 넣는다. 고객이 배달 앱을 켜는 순간, 백엔드 서버는 Feast에서 이 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 0.01초 만에 꺼내어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델에 던져주고, AI는 즉시 "35분 뒤 도착"이라는 소름 돋게 정확한 예측을 뱉어낸다.
 
 **기술사 판단 포인트 (Trade-off):**
-[데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 설계 시 기술사는 **'[피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 도입'과 '인프라 오버헤드'**를 냉정하게 저울질해야 한다.
+[데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 설계 시 기술사는 <strong>'<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a> 도입'과 '인프라 오버헤드'</strong>를 냉정하게 저울질해야 한다.
 1. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델이 사내에 1~2개밖에 없고 실시간 추론이 필요 없다면, [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)를 도입하는 것은 배보다 배꼽이 더 큰 짓이다. (그냥 DW의 테이블 뷰로 퉁치면 된다).
 2. 하지만 사내 모델이 10개가 넘어가고, 추천/검색처럼 유저의 클릭에 따라 0.1초 만에 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)가 갱신되어야 하는 **실시간(Real-time) 서빙** 도메인이라면 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 선택이 아닌 필수다.
-3. 기술사는 처음부터 거창한 엔터프라이즈 솔루션(Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 등)을 사지 말고, 깃허브 기반의 가벼운 **Feast**로 파이프라인의 뼈대만 잡아본 뒤, 트래픽이 커질 때 Redis와 오로라([Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/)) DB를 분리하는 스케일업 전략을 짜야 한다.
+3. 기술사는 처음부터 거창한 엔터프라이즈 솔루션(Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 등)을 사지 말고, 깃허브 기반의 가벼운 <strong>Feast</strong>로 파이프라인의 뼈대만 잡아본 뒤, 트래픽이 커질 때 Redis와 오로라([Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/)) DB를 분리하는 스케일업 전략을 짜야 한다.
 
 - **📢 섹션 요약 비유**: 혼자 사는 자취생이 굳이 1,000만 원짜리 식당용 대형 식기세척기([피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))를 살 필요는 없다. 하지만 가족이 10명이 넘고 매일 손님이 찾아오는 대가족이라면, 설거지([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중복 계산) 하느라 하루가 다 가기 때문에 식기세척기 도입이 생존의 문제가 된다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 DoH는 평문으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의를 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 내부에 캡슐화하여 전송하는 국제 표준(RFC 8484) 기술입니다. 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보이므로, 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 기업의 방화벽이 사용자의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 내역을 엿보거나 특정 사이트 접속을 차단(검열)하는 것을 불가능하게 만듭니다.
 
-```text
-[DoT]
-    │
-    ▼
-[DoH]
-    │
-    └──▶ [mDNS / LMNR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mDNS / LMNR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,19 +43,23 @@ DoH는 평문으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_a
 
 | 구분 | [DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) ([DNS over TLS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)) | DoH ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) over [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) |
 |:---|:---|:---|
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853 (전용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 443** (일반 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong> | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 853 (전용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 443</strong> (일반 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) |
 | **은닉성** | 암호화는 되지만 "[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통신을 하고 있다"는 사실은 노출됨 | 완벽한 은닉 (웹 서핑인지 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의인지 구분 불가) |
 | **차단 난이도**| 방화벽에서 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막으면 쉽게 차단됨 | 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막으면 인터넷 전체가 먹통이 되므로 차단 불가 |
 | **주요 주체** | OS 수준 지원 (Android 등) | 브라우저 수준 지원 (Chrome, Firefox 등) |
 
-```text
-[DoT]
-    │
-    ▼
-[DoH]
-    │
-    └──▶ [mDNS / LMNR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mDNS / LMNR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoH의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,10 +67,10 @@ DoH는 평문으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_a
 
 ## Ⅲ. 비교 및 연결
 
-1. **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 브라우저(클라이언트)가 DoH를 지원하는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 구글 8.8.8.8, 클라우드플레어 1.1.1.1)와 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 연결을 맺습니다.
-2. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 내 캡슐화**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `www.example.com`의 IP는?)를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 또는 `POST` 메서드의 페이로드에 담아 전송합니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a> 연결 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 브라우저(클라이언트)가 DoH를 지원하는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 구글 8.8.8.8, 클라우드플레어 1.1.1.1)와 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 연결을 맺습니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 요청 내 캡슐화</strong>: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `www.example.com`의 IP는?)를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 또는 `POST` 메서드의 페이로드에 담아 전송합니다.
    - 예: `GET /dns-query?dns=Base64로_인코딩된_DNS질의`
-3. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `200 OK` 응답 바디에 암호화된 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 결과를 담아 반환합니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 응답</strong>: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `200 OK` 응답 바디에 암호화된 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 결과를 담아 반환합니다.
 
 DoH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DoT가 기반 조건을 만든다면, DoH는 그 위에서 핵심 메커니즘을 구현하고, [mDNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/) / LMNR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,7 +87,7 @@ DoH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **프라이버시 강화 (장점)**: 공공 와이파이나 독재 국가 등에서 중간자가 사용자의 접속 사이트를 수집하고 검열하는 것을 완벽히 방어합니다.
-- **보안 통제 무력화 (단점)**: 기업이나 학교 방화벽에서 악성코드(C&C 서버) 통신이나 유해 사이트 접속을 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 단에서 차단해왔는데, DoH를 사용하면 이러한 **엔터프라이즈 보안 정책이 무력화**됩니다.
+- **보안 통제 무력화 (단점)**: 기업이나 학교 방화벽에서 악성코드(C&C 서버) 통신이나 유해 사이트 접속을 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 단에서 차단해왔는데, DoH를 사용하면 이러한 <strong>엔터프라이즈 보안 정책이 무력화</strong>됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,15 +118,19 @@ DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DoT]
-    │
-    ▼
-[현재 개념: DoH]
-    │
-    ├──▶ [확장 A: mDNS / LMNR]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: mDNS / LMNR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 DoH는 DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [mDNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/) / LMNR와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

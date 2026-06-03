@@ -54,55 +54,50 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 섀도우 트래픽 구현
 
-```
-섀도우 트래픽 아키텍처:
 
-  클라이언트 요청
-      │
-      ↓
-  [Proxy/Gateway] ────────────────────────────────
-      │                                          │
-      │ (동기, 사용자 응답)             (비동기, 복제)
-      ↓                                          ↓
-  [기존 서비스 v1]                    [신규 서비스 v2]
-      │                                          │
-      │ 응답 → 사용자에게 반환          응답 수집 (로깅)
-      │                                          │
-      └──────────────────────────────────────────┘
-                                          비교 분석 (Shadow Comparison)
 
-구현 도구:
-  Nginx Mirror (mirror_requests):
-    location /api {
-        mirror /shadow;
-        proxy_pass http://v1-service;
-    }
-    location /shadow {
-        proxy_pass http://v2-service;
-    }
-    
-  Envoy Proxy (Mirror Policy):
-    route:
-      cluster: v1-service
-      request_mirror_policies:
-        - cluster: v2-service
-          runtime_fraction:
-            default_value:
-              numerator: 100
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">섀도우 트래픽 아키텍처:</div>
+<div class="kb-diagram-note">클라이언트 요청</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Proxy/Gateway</div></div>
+<div class="kb-diagram-note">(동기, 사용자 응답) (비동기, 복제)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 서비스 v1</div><div class="kb-diagram-node">신규 서비스 v2</div></div>
+<div class="kb-diagram-note">응답 → 사용자에게 반환 응답 수집 (로깅)</div>
+<div class="kb-diagram-note">비교 분석 (Shadow Comparison)</div>
+<div class="kb-diagram-note">구현 도구:</div>
+<div class="kb-diagram-note">Nginx Mirror (mirror_requests):</div>
+<div class="kb-diagram-note">location /api {</div>
+<div class="kb-diagram-note">mirror /shadow;</div>
+<div class="kb-diagram-note">proxy_pass http://v1-service;</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">location /shadow {</div>
+<div class="kb-diagram-note">proxy_pass http://v2-service;</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">Envoy Proxy (Mirror Policy):</div>
+<div class="kb-diagram-note">route:</div>
+<div class="kb-diagram-note">cluster: v1-service</div>
+<div class="kb-diagram-note">request_mirror_policies:</div>
+<div class="kb-diagram-tree-item" style="--depth:4">cluster: v2-service</div>
+<div class="kb-diagram-note">runtime_fraction:</div>
+<div class="kb-diagram-note">default_value:</div>
+<div class="kb-diagram-note">numerator: 100</div>
+<div class="kb-diagram-note">쓰기 요청 처리:</div>
+<div class="kb-diagram-note">GET: 안전하게 복제 가능</div>
+<div class="kb-diagram-note">POST/PUT/DELETE: 데이터 변조 위험</div>
+<div class="kb-diagram-note">대응책:</div>
+<div class="kb-diagram-note">1. 격리된 Shadow DB에만 쓰기</div>
+<div class="kb-diagram-note">2. 쓰기 요청은 복제하되 트랜잭션 롤백</div>
+<div class="kb-diagram-note">3. 읽기 요청만 섀도우 처리 (쓰기 제외)</div>
+<div class="kb-diagram-note">비교 로깅:</div>
+<div class="kb-diagram-note">응답 상태 코드 일치 여부</div>
+<div class="kb-diagram-note">응답 시간 비교 (P50, P95, P99)</div>
+<div class="kb-diagram-note">응답 바디 비교 (특정 필드)</div>
+</div>
+</div>
 
-쓰기 요청 처리:
-  GET: 안전하게 복제 가능
-  POST/PUT/DELETE: 데이터 변조 위험
-    대응책:
-      1. 격리된 Shadow DB에만 쓰기
-      2. 쓰기 요청은 복제하되 트랜잭션 롤백
-      3. 읽기 요청만 섀도우 처리 (쓰기 제외)
 
-비교 로깅:
-  응답 상태 코드 일치 여부
-  응답 시간 비교 (P50, P95, P99)
-  응답 바디 비교 (특정 필드)
-```
 
 > 📢 **섹션 요약 비유**: 섀도우 트래픽은 복사본 채점 — 원본 시험지(기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 점수를 주고, 복사본(신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))도 동시에 채점해서 결과 비교. 학생(사용자)에게는 원본 점수만 알려줌.
 
@@ -110,38 +105,38 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. 사용 사례
 
-```
-다크 런칭/섀도우 트래픽 실전 사례:
 
-1. Facebook: 뉴스피드 알고리즘 교체:
-   신규 랭킹 알고리즘 → 다크 런칭
-   사용자는 기존 피드 보되, 신규 알고리즘 결과 내부 수집
-   성능/CPU 사용량 비교 후 점진적 노출
 
-2. Netflix: 마이크로서비스 전환:
-   Monolith 서비스 → 새 마이크로서비스
-   섀도우 트래픽으로 마이크로서비스 부하 검증
-   완전 전환 전 레이턴시/에러율 비교
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다크 런칭/섀도우 트래픽 실전 사례:</div>
+<div class="kb-diagram-note">1. Facebook: 뉴스피드 알고리즘 교체:</div>
+<div class="kb-diagram-note">신규 랭킹 알고리즘 → 다크 런칭</div>
+<div class="kb-diagram-note">사용자는 기존 피드 보되, 신규 알고리즘 결과 내부 수집</div>
+<div class="kb-diagram-note">성능/CPU 사용량 비교 후 점진적 노출</div>
+<div class="kb-diagram-note">2. Netflix: 마이크로서비스 전환:</div>
+<div class="kb-diagram-note">Monolith 서비스 → 새 마이크로서비스</div>
+<div class="kb-diagram-note">섀도우 트래픽으로 마이크로서비스 부하 검증</div>
+<div class="kb-diagram-note">완전 전환 전 레이턴시/에러율 비교</div>
+<div class="kb-diagram-note">3. GitHub: Spokes 분산 스토리지:</div>
+<div class="kb-diagram-note">Git 파일 접근 요청을 신규 분산 스토리지에 섀도우</div>
+<div class="kb-diagram-note">6개월간 프로덕션 트래픽 패턴 검증 후 전환</div>
+<div class="kb-diagram-note">4. Amazon: 추천 알고리즘 교체:</div>
+<div class="kb-diagram-note">신규 ML 모델 → 다크 런칭</div>
+<div class="kb-diagram-note">A/B 테스트 전 기술적 문제 사전 탐지</div>
+<div class="kb-diagram-note">5. 데이터베이스 마이그레이션:</div>
+<div class="kb-diagram-note">온프레미스 DB → RDS</div>
+<div class="kb-diagram-note">읽기 쿼리를 양쪽으로 보내 결과 일치 확인</div>
+<div class="kb-diagram-note">6주 검증 후 쓰기 전환</div>
+<div class="kb-diagram-note">기대 효과:</div>
+<div class="kb-diagram-note">문제 조기 발견: 스테이징에서 못 잡은 트래픽 패턴 문제</div>
+<div class="kb-diagram-note">성능 검증: 실제 트래픽으로 P99 레이턴시 측정</div>
+<div class="kb-diagram-note">신뢰도 향상: 엔지니어 확신 후 전환 → 롤백 감소</div>
+<div class="kb-diagram-note">사용자 영향 제로: 프로덕션 검증이면서 사용자 위험 없음</div>
+</div>
+</div>
 
-3. GitHub: Spokes 분산 스토리지:
-   Git 파일 접근 요청을 신규 분산 스토리지에 섀도우
-   6개월간 프로덕션 트래픽 패턴 검증 후 전환
 
-4. Amazon: 추천 알고리즘 교체:
-   신규 ML 모델 → 다크 런칭
-   A/B 테스트 전 기술적 문제 사전 탐지
-
-5. 데이터베이스 마이그레이션:
-   온프레미스 DB → RDS
-   읽기 쿼리를 양쪽으로 보내 결과 일치 확인
-   6주 검증 후 쓰기 전환
-
-기대 효과:
-  문제 조기 발견: 스테이징에서 못 잡은 트래픽 패턴 문제
-  성능 검증: 실제 트래픽으로 P99 레이턴시 측정
-  신뢰도 향상: 엔지니어 확신 후 전환 → 롤백 감소
-  사용자 영향 제로: 프로덕션 검증이면서 사용자 위험 없음
-```
 
 > 📢 **섹션 요약 비유**: 다크 런칭 사례는 새 항공 관제 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) — 실제 비행기들이 날면서(프로덕션 트래픽), 새 관제 시스템을 그림자 훈련(섀도우). 실제 관제는 기존 시스템이 담당.
 
@@ -149,36 +144,37 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합
 
-```
-DevOps CD 파이프라인에서 다크 런칭:
 
-표준 파이프라인:
-  코드 커밋 → CI 빌드 → 단위 테스트 → 스테이징 배포
-  → 통합 테스트 → 프로덕션 배포
 
-다크 런칭 통합:
-  ... → 프로덕션 배포 (피처 플래그 OFF)
-       → 다크 런칭 활성화 (내부 트래픽)
-       → 섀도우 트래픽 비교 분석 (1~2주)
-       → 카나리 배포 (5% 사용자)
-       → 점진적 증가 (25% → 50% → 100%)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DevOps CD 파이프라인에서 다크 런칭:</div>
+<div class="kb-diagram-note">표준 파이프라인:</div>
+<div class="kb-diagram-note">코드 커밋 → CI 빌드 → 단위 테스트 → 스테이징 배포</div>
+<div class="kb-diagram-note">→ 통합 테스트 → 프로덕션 배포</div>
+<div class="kb-diagram-note">다크 런칭 통합:</div>
+<div class="kb-diagram-note">... → 프로덕션 배포 (피처 플래그 OFF)</div>
+<div class="kb-diagram-note">→ 다크 런칭 활성화 (내부 트래픽)</div>
+<div class="kb-diagram-note">→ 섀도우 트래픽 비교 분석 (1~2주)</div>
+<div class="kb-diagram-note">→ 카나리 배포 (5% 사용자)</div>
+<div class="kb-diagram-note">→ 점진적 증가 (25% → 50% → 100%)</div>
+<div class="kb-diagram-note">자동화 판단 기준:</div>
+<div class="kb-diagram-note">에러율 &lt; 0.1% → 다음 단계 진행</div>
+<div class="kb-diagram-note">P99 레이턴시 &lt; 기준값 + 20% → 통과</div>
+<div class="kb-diagram-note">Shadow 응답 불일치 &lt; 5% → 통과</div>
+<div class="kb-diagram-note">자동 롤백 트리거: 에러율 &gt; 1% 또는 레이턴시 3배 이상</div>
+<div class="kb-diagram-note">Diffy (Twitter): 오픈소스 섀도우 비교 도구</div>
+<div class="kb-diagram-note">두 서비스 응답의 구조적 차이 자동 분석</div>
+<div class="kb-diagram-note">노이즈(타임스탬프, 랜덤 ID) 자동 제거</div>
+<div class="kb-diagram-note">실제 로직 차이만 리포트</div>
+<div class="kb-diagram-note">LaunchDarkly 통합:</div>
+<div class="kb-diagram-note">피처 플래그 → 다크 런칭 제어</div>
+<div class="kb-diagram-note">특정 조건 (내부 IP, 알파 테스터) 자동 활성화</div>
+<div class="kb-diagram-note">트래픽 % 제어 (shadow %, canary %)</div>
+</div>
+</div>
 
-자동화 판단 기준:
-  에러율 < 0.1% → 다음 단계 진행
-  P99 레이턴시 < 기준값 + 20% → 통과
-  Shadow 응답 불일치 < 5% → 통과
-  자동 롤백 트리거: 에러율 > 1% 또는 레이턴시 3배 이상
 
-Diffy (Twitter): 오픈소스 섀도우 비교 도구
-  두 서비스 응답의 구조적 차이 자동 분석
-  노이즈(타임스탬프, 랜덤 ID) 자동 제거
-  실제 로직 차이만 리포트
-
-LaunchDarkly 통합:
-  피처 플래그 → 다크 런칭 제어
-  특정 조건 (내부 IP, 알파 테스터) 자동 활성화
-  트래픽 % 제어 (shadow %, canary %)
-```
 
 > 📢 **섹션 요약 비유**: 다크 런칭 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 비행기 시험 비행 순서 — 격납고 점검([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) → 활주로 주행(스테이징) → 저고도 비행(다크 런칭) → 정식 운항(100% 배포).
 
@@ -186,46 +182,43 @@ LaunchDarkly 통합:
 
 ## Ⅴ. 실무 시나리오 — 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션
 
-```
-결제 API v1 → v2 섀도우 트래픽 마이그레이션:
 
-배경:
-  결제 서비스 v1: Java Monolith
-  결제 서비스 v2: Python Microservice
-  위험도: 매우 높음 (결제 오류 = 직접 손실)
 
-섀도우 전략:
-  GET 요청만 복제 (결제 금액 조회, 주문 내역)
-  POST 요청 (실제 결제): 절대 복제 금지
-  
-  이유: POST 복제 시 이중 결제 발생 가능
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">결제 API v1 → v2 섀도우 트래픽 마이그레이션:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">결제 서비스 v1: Java Monolith</div>
+<div class="kb-diagram-note">결제 서비스 v2: Python Microservice</div>
+<div class="kb-diagram-note">위험도: 매우 높음 (결제 오류 = 직접 손실)</div>
+<div class="kb-diagram-note">섀도우 전략:</div>
+<div class="kb-diagram-note">GET 요청만 복제 (결제 금액 조회, 주문 내역)</div>
+<div class="kb-diagram-note">POST 요청 (실제 결제): 절대 복제 금지</div>
+<div class="kb-diagram-note">이유: POST 복제 시 이중 결제 발생 가능</div>
+<div class="kb-diagram-note">Envoy 설정:</div>
+<div class="kb-diagram-note">GET /payments → v1 + v2 (100% mirror)</div>
+<div class="kb-diagram-note">POST /payments → v1만 (mirror 없음)</div>
+<div class="kb-diagram-note">비교 지표 모니터링 (4주):</div>
+<div class="kb-diagram-note">Week 1: GET 기본 조회 일치율 → 99.2% (우수)</div>
+<div class="kb-diagram-note">Week 2: 복잡한 할부 조회 일치율 → 87% (문제 발견!)</div>
+<div class="kb-diagram-note">발견된 버그:</div>
+<div class="kb-diagram-note">할부 수수료 계산 공식 차이</div>
+<div class="kb-diagram-note">v1: 원금 × 이율 (단리)</div>
+<div class="kb-diagram-note">v2: 복리 계산 오류</div>
+<div class="kb-diagram-note">수정 후 Week 3: 일치율 99.8%</div>
+<div class="kb-diagram-note">Week 4: 전체 지표 만족 → 카나리 배포 시작</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">섀도우 기간: 4주</div>
+<div class="kb-diagram-note">발견된 버그: 3개 (스테이징에서 미탐지)</div>
+<div class="kb-diagram-note">전환 후 장애: 0건</div>
+<div class="kb-diagram-note">엔지니어 확신도: "섀도우 없었으면 결제 오류 발생했을 것"</div>
+<div class="kb-diagram-note">ROI:</div>
+<div class="kb-diagram-note">섀도우 4주 비용: 추가 인프라 $500</div>
+<div class="kb-diagram-note">예방된 결제 오류 비용 (예상): $5만~50만</div>
+</div>
+</div>
 
-Envoy 설정:
-  GET /payments → v1 + v2 (100% mirror)
-  POST /payments → v1만 (mirror 없음)
 
-비교 지표 모니터링 (4주):
-  Week 1: GET 기본 조회 일치율 → 99.2% (우수)
-  Week 2: 복잡한 할부 조회 일치율 → 87% (문제 발견!)
-  
-  발견된 버그:
-    할부 수수료 계산 공식 차이
-    v1: 원금 × 이율 (단리)
-    v2: 복리 계산 오류
-    
-  수정 후 Week 3: 일치율 99.8%
-  Week 4: 전체 지표 만족 → 카나리 배포 시작
-
-결과:
-  섀도우 기간: 4주
-  발견된 버그: 3개 (스테이징에서 미탐지)
-  전환 후 장애: 0건
-  엔지니어 확신도: "섀도우 없었으면 결제 오류 발생했을 것"
-
-ROI:
-  섀도우 4주 비용: 추가 인프라 $500
-  예방된 결제 오류 비용 (예상): $5만~50만
-```
 
 > 📢 **섹션 요약 비유**: 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 섀도우는 수술 전 모의 훈련 — 실제 환자(사용자)에게는 기존 집도의(v1)가 수술하고, 새 의사(v2)는 옆에서 같은 수술을 동시에 연습. 판단 오류 발견 후 실전 투입.
 

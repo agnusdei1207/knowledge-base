@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) AER는 이런 문제를 해결하기 위해 등장했다. 장치나 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 오류를 만나면, 무엇이 잘못되었는지 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 헤더 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남기고, 그 오류가 Corrected인지, Uncorrectable-Non-Fatal인지, Fatal인지 구분해 상위 소프트웨어가 다르게 대응할 수 있게 만든다.
 
-즉 AER의 필요성은 단순한 오류 감지가 아니라 **오류의 등급화와 가시화**에 있다. 그래야 운영체제와 드라이버가 전체 시스템을 불필요하게 멈추지 않고, 가능한 범위에서 장치만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하거나 격리할 수 있다.
+즉 AER의 필요성은 단순한 오류 감지가 아니라 <strong>오류의 등급화와 가시화</strong>에 있다. 그래야 운영체제와 드라이버가 전체 시스템을 불필요하게 멈추지 않고, 가능한 범위에서 장치만 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하거나 격리할 수 있다.
 
 - **📢 섹션 요약 비유**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) AER는 공항 관제탑의 사고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 같다. 활주로에 작은 돌멩이가 있는지, 한 비행기의 장비가 고장 났는지, 활주로 자체가 막혔는지를 구분해야 전체 공항을 멈출지 부분 통제할지 결정할 수 있다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpoint)와 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(root [port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 오류 상태를 기록하고 전달하는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합으로 구현된다. 여기에는 Correctable Error Status/Mask, Uncorrectable Error Status/Mask, [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/), Header Log, Root Error Status 같은 필드가 포함된다. 즉 AER는 "오류를 고치는 회로"라기보다 **오류를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·기록·전파해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루프를 여는 계층**이다.
+AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpoint)와 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(root [port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 오류 상태를 기록하고 전달하는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합으로 구현된다. 여기에는 Correctable Error Status/Mask, Uncorrectable Error Status/Mask, [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/), Header Log, Root Error Status 같은 필드가 포함된다. 즉 AER는 "오류를 고치는 회로"라기보다 <strong>오류를 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>·기록·전파해 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 루프를 여는 계층</strong>이다.
 
 ### 동작 흐름
 
@@ -51,16 +51,19 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 아래 그림은 AER가 단일 장치 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 장치→루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)→운영체제로 이어지는 보고 경로임을 나타낸다.
 
-```text
-┌──────────────┐      error       ┌──────────────┐      report      ┌──────────────┐
-│ Endpoint /   ├────────────────▶ │ Root Port    ├────────────────▶ │ Operating    │
-│ Switch Port  │                  │ AER Registers│                  │ System AER   │
-└──────┬───────┘                  └──────┬───────┘                  └──────┬───────┘
-       │                                  │                                 │
-       │ set status bits                  │ root error status               │
-       ▼                                  ▼                                 ▼
-  Header Log                        ERR_COR / NONFATAL / FATAL        Reset / Quarantine
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">error report</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint / ▶</div><div class="kb-diagram-cell">Root Port ▶</div><div class="kb-diagram-cell">Operating</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Switch Port</div><div class="kb-diagram-cell">AER Registers</div><div class="kb-diagram-cell">System AER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">set status bits</div><div class="kb-diagram-cell">root error status</div></div>
+<div class="kb-diagram-note">Header Log ERR_COR / NONFATAL / FATAL Reset / Quarantine</div>
+</div>
+</div>
+
+
 
 여기서 중요한 점은 Corrected 오류가 AER 자체로 "수리"되는 것이 아니라, 대개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 재전송(replay)이나 하위 메커니즘으로 이미 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되었다는 사실이다. AER는 그 사실을 구조적으로 알리고, 반복 빈도를 운영자가 볼 수 있게 만든다. 반대로 Uncorrectable 오류는 [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) 설정에 따라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향이 달라지며, Fatal이면 더 강한 차단과 리셋이 뒤따른다.
 
@@ -94,7 +97,7 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 AER [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 특히 고속 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 백플레인, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버, 라이저 카드, 리타이머가 많은 플랫폼에서 중요하다. Linux에서는 `dmesg`, `journalctl`, `lspci -vv` 등으로 AER 상태를 추적할 수 있고, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)에서는 BIOS/UEFI에서 AER·DPC 활성화 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 문제는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 떴다는 사실보다 **빈도와 위치**다.
+실무에서 AER [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 특히 고속 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 백플레인, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버, 라이저 카드, 리타이머가 많은 플랫폼에서 중요하다. Linux에서는 `dmesg`, `journalctl`, `lspci -vv` 등으로 AER 상태를 추적할 수 있고, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)에서는 BIOS/UEFI에서 AER·DPC 활성화 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 문제는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 떴다는 사실보다 <strong>빈도와 위치</strong>다.
 
 ### 실무 판단 기준
 
@@ -110,7 +113,7 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 - AER는 켰지만 드라이버의 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 콜백은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않음
 - 고속 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 5.0/6.0 플랫폼에서 케이블·백플레인 SI ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 운영
 
-기술사 관점에서는 AER를 **[RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) 향상 메커니즘**으로 서술해야 한다. 즉 오류를 조기에 감지하고, 영향 범위를 장치나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수준으로 제한하고, 반복 패턴을 통해 사전 교체까지 연결하는 구조다. 특히 DPC, Hot-Plug, 드라이버 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) 체계와 함께 설명하면 답안의 입체감이 커진다.
+기술사 관점에서는 AER를 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/">RAS</a> 향상 메커니즘</strong>으로 서술해야 한다. 즉 오류를 조기에 감지하고, 영향 범위를 장치나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수준으로 제한하고, 반복 패턴을 통해 사전 교체까지 연결하는 구조다. 특히 DPC, Hot-Plug, 드라이버 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) 체계와 함께 설명하면 답안의 입체감이 커진다.
 
 - **📢 섹션 요약 비유**: AER [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 자동차 계기판의 경고등과 같다. 한 번 반짝이고 끝나면 경과 관찰이 가능하지만, 같은 경고가 계속 뜨면 엔진을 열어 봐야지 테이프로 가리고 운전해서는 안 된다.
 
@@ -122,7 +125,7 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 하지만 AER는 물리적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 마법처럼 치유하지 않는다. 반복되는 Corrected 오류는 결국 링크 품질 불량, 슬롯 마모, 케이블 문제, 발열, 전원 불안정 등 하드웨어 근본 원인을 해결해야 끝난다. 또한 고속 세대로 갈수록 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)량과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 복잡도도 함께 증가한다.
 
-정리하면 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) AER는 "[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기능"이 아니라, **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 장애를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 범위로 묶어 시스템 복원력을 높이는 [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) 계층**으로 기억해야 한다.
+정리하면 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) AER는 "[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기능"이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 장애를 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>하고 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능한 범위로 묶어 시스템 복원력을 높이는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/">RAS</a> 계층</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 안전벨트는 사고를 없애 주지 않지만, 사고가 났을 때 피해 범위를 줄여 준다. AER도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세계에서 그런 역할을 한다.
 
@@ -140,22 +143,24 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-PCIe Link Errors
-      │
-      ▼
-Replay / Retry at Data Link Layer
-      │
-      ▼
-AER Status + Header Log + Severity
-      │
-      ├──▶ Operating System Error Handling
-      ├──▶ Driver Recovery / Reset
-      └──▶ DPC Containment
-      │
-      ▼
-Higher RAS for GPU / NVMe / NIC Platforms
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCIe Link Errors</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Replay / Retry at Data Link Layer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AER Status + Header Log + Severity</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Operating System Error Handling</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Driver Recovery / Reset</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ DPC Containment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Higher RAS for GPU / NVMe / NIC Platforms</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 재전송에서 구조적 오류 보고와 격리, 그리고 플랫폼 수준 복원력 강화로 이어지는 과정을 보여준다.
 

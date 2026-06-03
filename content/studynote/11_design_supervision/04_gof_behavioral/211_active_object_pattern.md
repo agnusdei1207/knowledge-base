@@ -18,68 +18,79 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-```
-  동기 호출:
-  Client → method() → [실행, 대기, 대기, 대기...] → 결과 반환
-                       (Client는 실행이 완료될 때까지 블록됨)
 
-  예: HTTP 요청 처리 중 DB 조회 10초 → UI 10초 동안 멈춤
-```
 
-```
-  Active Object 호출:
-  Client → method() → Future 즉시 반환
-                          │
-                          ▼ (별도 스레드에서 비동기 실행)
-                       Scheduler → 실행 완료 → Future에 결과 저장
-  Client는 나중에 future.get() 또는 콜백으로 결과 수신
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동기 호출:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실행, 대기, 대기, 대기...</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">결과 반환</div></div>
+<div class="kb-diagram-note">(Client는 실행이 완료될 때까지 블록됨)</div>
+<div class="kb-diagram-note">예: HTTP 요청 처리 중 DB 조회 10초 → UI 10초 동안 멈춤</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Active Object 호출:</div>
+<div class="kb-diagram-note">Client → method() → Future 즉시 반환</div>
+<div class="kb-diagram-note">▼ (별도 스레드에서 비동기 실행)</div>
+<div class="kb-diagram-note">Scheduler → 실행 완료 → Future에 결과 저장</div>
+<div class="kb-diagram-note">Client는 나중에 future.get() 또는 콜백으로 결과 수신</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 |
 |:---|:---|
-| **[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)** | 클라이언트가 보는 인터페이스, 호출을 MethodRequest로 변환 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong> | 클라이언트가 보는 인터페이스, 호출을 MethodRequest로 변환 |
 | **MethodRequest** | 메서드 호출 정보(메서드명, 인자)를 캡슐화한 객체 |
 | **ActivationQueue** | MethodRequest를 순서대로 보관하는 큐 |
 | **Scheduler** | ActivationQueue에서 꺼내 적절한 시점에 Servant에게 전달 |
 | **Servant** | 실제 메서드를 실행하는 객체 |
 | **Future** | 비동기 실행 결과를 나중에 받을 수 있는 핸들 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 식당 주문 시스템 — 손님([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))이 주문서(MethodRequest)를 제출하고 주문 번호표(Future)를 받는다. 주방(Servant)은 주문 큐(ActivationQueue) 순서대로 조리한다. 손님은 음식을 기다리지 않고 앉아서 다른 일을 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  Client Thread                    Active Object Thread
-  ─────────────                    ─────────────────────
-       │                                    │
-       │ proxy.doWork(args)                 │
-       ▼                                    │
-  ┌─────────────┐                           │
-  │   Proxy     │  enqueue(MethodRequest)   │
-  │  (대리자)   │──────────────────────────►│
-  └──────┬──────┘                     ┌────┴──────────────┐
-         │                            │  ActivationQueue  │
-         │ Future 즉시 반환            │  [Req1, Req2, ...] │
-         ▼                            └────┬──────────────┘
-  ┌──────────────┐                         │ dequeue()
-  │  Future<T>   │                    ┌────▼──────────────┐
-  │  (결과 수신  │                    │    Scheduler      │
-  │   핸들)      │                    │  (실행 타이밍     │
-  └──────┬───────┘                    │   제어)           │
-         │                            └────┬──────────────┘
-         │ future.get() [나중에]           │ execute()
-         │                            ┌────▼──────────────┐
-         └◄───────────────────────────│    Servant        │
-            result                   │  (실제 실행)       │
-                                      └───────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Client Thread Active Object Thread</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy.doWork(args)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">enqueue(MethodRequest)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대리자)</div><div class="kb-diagram-cell">►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ActivationQueue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Future 즉시 반환</div><div class="kb-diagram-node">Req1, Req2, ...</div></div>
+<div class="kb-diagram-note">│ dequeue()</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Future&lt;T&gt;</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과 수신</div><div class="kb-diagram-cell">Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들)</div><div class="kb-diagram-cell">(실행 타이밍</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">future.get()</div><div class="kb-diagram-node">나중에</div><div class="kb-diagram-note">execute()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">Servant</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result</div><div class="kb-diagram-cell">(실제 실행)</div></div>
+</div>
+</div>
+
+
 
 ```java
 // Active Object 패턴 직접 구현 (단순화)
@@ -144,11 +155,11 @@ String result = future
 ## Ⅲ. 비교 및 연결
 | 패턴 | 호출 방식 | 결과 수신 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 |
 |:---|:---|:---|:---|
-| **[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Object** | 비동기 + Future | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) or 콜백 | Scheduler가 제어 |
+| <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Object</strong> | 비동기 + Future | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) or 콜백 | Scheduler가 제어 |
 | **CompletableFuture** | 비동기 체인 | thenApply/get | ForkJoinPool |
 | **Reactor** | 이벤트 기반 | 핸들러 콜백 | [Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) |
 | **async/await** | 문법 기반 비동기 | await 키워드 | 런타임 제어 |
-| **[Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)** | Runnable 제출 | Future.get() | [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a></strong> | Runnable 제출 | Future.get() | [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |
 
 | 패턴 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
@@ -162,18 +173,21 @@ String result = future
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-```
-  Android 아키텍처:
-  UI Thread (Main Thread)          Worker Thread
-       │                                │
-       │ viewModel.loadData()           │
-       │ → 즉시 반환 (LiveData Future)  │
-       │                                │
-       │ [다른 UI 업데이트 계속]        │ 데이터 로딩 중...
-       │                                │
-       │◄──────────────────────────────│ liveData.postValue(result)
-       │ UI 자동 업데이트 (Observer)    │
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Android 아키텍처:</div>
+<div class="kb-diagram-note">UI Thread (Main Thread) Worker Thread</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">viewModel.loadData()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 즉시 반환 (LiveData Future)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다른 UI 업데이트 계속</div><div class="kb-diagram-note">데이터 로딩 중...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">liveData.postValue(result)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI 자동 업데이트 (Observer)</div></div>
+</div>
+</div>
+
+
 
 ```java
 // Spring의 @Async = Active Object 패턴의 선언적 구현

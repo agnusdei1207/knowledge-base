@@ -23,22 +23,20 @@ tags = ["studynote-design-supervision"]
 
 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) 구조: ① [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 이벤트를 EventBus(미디에이터)에 발행(publish), ② EventBus가 해당 이벤트를 구독한 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 통지(notify), ③ 구독자가 이벤트를 처리. [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)는 서로를 직접 알지 못하고, 이벤트 타입으로만 통신한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│     미디에이터 + 옵저버 통합 (이벤트 버스)                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  CompA --publish(EventX)-→ EventBus(Mediator+Subject)       │
-│                                │                            │
-│                     notify(EventX) to subscribers          │
-│                                │                            │
-│                    ┌───────────┼────────────┐               │
-│               CompB(Observer)  CompC        CompD           │
-│               handles EventX   handles EventX               │
-│                                                             │
-│  CompA와 CompB/C/D는 서로를 알지 못함                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미디에이터 + 옵저버 통합 (이벤트 버스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CompA --publish(EventX)-→ EventBus(Mediator+Subject)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">notify(EventX) to subscribers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CompB(Observer) CompC CompD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">handles EventX handles EventX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CompA와 CompB/C/D는 서로를 알지 못함</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 공항 방송 시스템(EventBus)이 탑승 안내(EventX)를 방송하면, 해당 항공기 탑승객([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))만 반응한다. 방송 시스템이 미디에이터이자 Subject 역할을 한다.
 
@@ -55,28 +53,29 @@ tags = ["studynote-design-supervision"]
 | 스프링 @Async 이벤트 | ApplicationEventPublisher / @Async @EventListener | 비동기 |
 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Broker / Consumer | 비동기·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링 두 패턴 통합 구현                               │
-├─────────────────────────────────────────────────────────────┤
-│  // 발행 (미디에이터 통해 이벤트 발행)                       │
-│  @Service class OrderService {                              │
-│    applicationEventPublisher.publishEvent(                  │
-│      new OrderCompletedEvent(orderId));                     │
-│  }                                                          │
-│                                                             │
-│  // 구독 (옵저버)                                           │
-│  @Component class EmailService {                            │
-│    @EventListener                                           │
-│    void onOrderCompleted(OrderCompletedEvent e) { ... }     │
-│  }                                                          │
-│                                                             │
-│  @Component class InventoryService {                        │
-│    @EventListener                                           │
-│    void onOrderCompleted(OrderCompletedEvent e) { ... }     │
-│  }                                                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링 두 패턴 통합 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 발행 (미디에이터 통해 이벤트 발행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Service class OrderService {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">applicationEventPublisher.publishEvent(</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new OrderCompletedEvent(orderId));</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 구독 (옵저버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Component class EmailService {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@EventListener</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void onOrderCompleted(OrderCompletedEvent e) { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Component class InventoryService {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@EventListener</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void onOrderCompleted(OrderCompletedEvent e) { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 쇼핑몰(OrderService)이 주문 완료(이벤트)를 방송하면, 이메일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))가 각자의 방식으로 처리한다. 쇼핑몰은 두 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 직접 알 필요 없다.
 

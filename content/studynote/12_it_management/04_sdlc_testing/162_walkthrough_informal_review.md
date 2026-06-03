@@ -35,22 +35,21 @@ tags = ["studynote-it-management"]
 
 아래 그림은 워크스루가 "저자 설명 → 참여자 질문 → 수정 후보 정리"로 이어지는 피드백 루프임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Walkthrough의 기본 진행 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│  1. 저자 준비                                               │
-│     산출물 선정 · 핵심 쟁점 정리 · 참여자 초대              │
-│                         │                                    │
-│                         ▼                                    │
-│  2. 회의 진행                                                │
-│     저자 설명 ──▶ 참여자 질문 ──▶ 가정·누락·위험 확인       │
-│                         │                                    │
-│                         ▼                                    │
-│  3. 결과 정리                                                │
-│     수정 항목 · 추가 검토 필요 사항 · 후속 담당자 합의      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Walkthrough의 기본 진행 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 저자 준비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산출물 선정 · 핵심 쟁점 정리 · 참여자 초대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 회의 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저자 설명 ──▶ 참여자 질문 ──▶ 가정·누락·위험 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과 정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수정 항목 · 추가 검토 필요 사항 · 후속 담당자 합의</div></div>
+</div>
+</div>
+
+
 
 | 역할 | 주요 책임 | 성공 포인트 |
 | :--- | :--- | :--- |
@@ -134,20 +133,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-품질 관리 (Quality Assurance / Quality Control)
-    │
-    ▼
-리뷰 기법 선택
-    │
-    ├─▶ 인스펙션 (Inspection)
-    │        └─ 공식 결함 검출 · 추적
-    │
-    └─▶ 워크스루 (Walkthrough)
-             ├─ 저자 주도 설명
-             ├─ 조기 피드백
-             └─ 동료 검토 (Peer Review)와 실무 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">품질 관리 (Quality Assurance / Quality Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리뷰 기법 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 인스펙션 (Inspection)</div>
+<div class="kb-diagram-note">─ 공식 결함 검출 · 추적</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 워크스루 (Walkthrough)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">저자 주도 설명</div>
+<div class="kb-diagram-tree-item" style="--depth:6">조기 피드백</div>
+<div class="kb-diagram-tree-item" style="--depth:6">동료 검토 (Peer Review)와 실무 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 리뷰 기법이 공식성 수준과 목적에 따라 갈라지며, 워크스루가 조기 합의와 지식 공유 축에 놓인다는 점을 보여 준다.
 

@@ -21,12 +21,18 @@ tags = ["studynote-cloud"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), 리더 선출처럼 모두가 같은 값을 봐야 하는 순간이 많다. etcd는 그런 "공통 메모" 역할을 한다.
 특히 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 같은 클라우드 제어면에서는 노드 상태와 오브젝트 상태가 흔들리면 전체 운영이 불안정해진다.
-```text
-Client -> Leader -> Followers
-         | Raft log commit |
-         v
-     snapshot / watch event
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Client -&gt; Leader -&gt; Followers</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raft log commit</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">snapshot / watch event</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 모두가 같은 상태를 봐야 흔들리지 않는다.
 
@@ -104,21 +110,23 @@ etcd를 잘 쓰면 동적 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-write request
-  │
-  ▼
-Raft consensus
-  │
-  ▼
-commit to log
-  │
-  ▼
-watch event
-  │
-  ▼
-controllers react
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">write request</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Raft consensus</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">commit to log</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">watch event</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">controllers react</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

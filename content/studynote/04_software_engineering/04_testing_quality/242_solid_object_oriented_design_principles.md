@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 객체지향의 3대 특징(캡슐화, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성)은 그저 도구일 뿐입니다.
-- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 할지 결정하는 것은 결국 개발자의 **'설계 철학(Principle)'**입니다. 
+- 이 도구를 칼처럼 휘둘러 강도질(스파게티 코드)을 할지, 메스처럼 휘둘러 수술([클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))을 할지 결정하는 것은 결국 개발자의 <strong>'설계 철학(Principle)'</strong>입니다. 
 - 코드가 썩지 않게([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)), 기능 추가가 쉽도록(확장성), 그리고 남이 봐도 이해하기 쉽게([가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)) 만들기 위해 전 세계 천재들이 5가지 룰을 집대성했습니다.
 
 - **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 객체지향 설계 원칙 (SOLID)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 설계 원칙 (SOLID)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 설계 원칙 (SOLID)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 설계 원칙 (SOLID)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,10 +67,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-- 다음다음 장(251번)부터 끝도 없이 배울 위대한 **'GoF의 23가지 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)'**들은 우연히 뚝딱 나온 게 아닙니다.
-- **"어떻게 하면 저 더럽게 어려운 SOLID 5원칙을 지키면서 자바 코드를 짤 수 있을까?"**를 수십 년간 고민하던 천재들이 만들어낸 '실전 코딩 모범 답안지'가 바로 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)입니다. 즉, SOLID는 무공의 근본 '내공'이고, [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 그 내공을 쓰는 '초식(기술)'입니다.
+- 다음다음 장(251번)부터 끝도 없이 배울 위대한 <strong>'GoF의 23가지 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>'</strong>들은 우연히 뚝딱 나온 게 아닙니다.
+- <strong>"어떻게 하면 저 더럽게 어려운 SOLID 5원칙을 지키면서 자바 코드를 짤 수 있을까?"</strong>를 수십 년간 고민하던 천재들이 만들어낸 '실전 코딩 모범 답안지'가 바로 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)입니다. 즉, SOLID는 무공의 근본 '내공'이고, [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 그 내공을 쓰는 '초식(기술)'입니다.
 
-> 📢 **섹션 요약 비유**: **SOLID 설계 원칙**은 무너지지 않는 성벽을 쌓기 위한 전설적인 석공들의 **'절대 5계명(건축법)'**입니다. 옛날 바보들은 그냥 진흙에 볏짚(절차지향 코드)을 섞어 무식하게 벽을 쌓았습니다. 폭우가 오면 몽땅 녹아내려 집이 무너졌습니다(유지보수 실패). 깨달음을 얻은 마스터 석공(로버트 마틴)이 돌벽돌(객체지향 클래스)을 가져와 5계명을 반포합니다. **"1. S(단일 책임): 한 벽돌은 하나의 역할만 지탱하게 깎아라! 2. O(개방-폐쇄): 성벽을 넓힐(확장 Open) 때, 이미 쌓아둔 멀쩡한 벽돌을 빼서 뜯어고치지(수정 Closed 금지) 말고 그냥 새 벽돌을 이어 붙이게 설계해라! 3. L(리스코프 치환): 낡은 벽돌(부모)을 빼고 새 벽돌(자식)을 갈아 끼워도 성벽이 무너지지 않게 똑같은 강도의 규격을 지켜라! 4. I(인터페이스 분리): 쓸데없이 무겁고 거대한 만능 돌덩이를 찍어내어 인부들을 고생시키지 말고, 용도에 맞게 작게 쪼개라! 5. D(의존 역전): 벽돌을 진흙(구체적 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 붙이지 말고, 언제든 뺐다 낄 수 있는 표준화된 철제 레일 규격([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 인터페이스)에 맞춰서 끼워 넣어라!"** 이 5가지 헌법을 지켜서 쌓은 성벽(소프트웨어 시스템)은 대포를 맞든 성벽을 10배로 늘리든 평생 무너지지 않는(유연성과 확장성) 영원불멸의 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)로 우뚝 서게 됩니다.
+> 📢 **섹션 요약 비유**: <strong>SOLID 설계 원칙</strong>은 무너지지 않는 성벽을 쌓기 위한 전설적인 석공들의 <strong>'절대 5계명(건축법)'</strong>입니다. 옛날 바보들은 그냥 진흙에 볏짚(절차지향 코드)을 섞어 무식하게 벽을 쌓았습니다. 폭우가 오면 몽땅 녹아내려 집이 무너졌습니다(유지보수 실패). 깨달음을 얻은 마스터 석공(로버트 마틴)이 돌벽돌(객체지향 클래스)을 가져와 5계명을 반포합니다. <strong>"1. S(단일 책임): 한 벽돌은 하나의 역할만 지탱하게 깎아라! 2. O(개방-폐쇄): 성벽을 넓힐(확장 Open) 때, 이미 쌓아둔 멀쩡한 벽돌을 빼서 뜯어고치지(수정 Closed 금지) 말고 그냥 새 벽돌을 이어 붙이게 설계해라! 3. L(리스코프 치환): 낡은 벽돌(부모)을 빼고 새 벽돌(자식)을 갈아 끼워도 성벽이 무너지지 않게 똑같은 강도의 규격을 지켜라! 4. I(인터페이스 분리): 쓸데없이 무겁고 거대한 만능 돌덩이를 찍어내어 인부들을 고생시키지 말고, 용도에 맞게 작게 쪼개라! 5. D(의존 역전): 벽돌을 진흙(구체적 하위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)으로 붙이지 말고, 언제든 뺐다 낄 수 있는 표준화된 철제 레일 규격(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 인터페이스)에 맞춰서 끼워 넣어라!"</strong> 이 5가지 헌법을 지켜서 쌓은 성벽(소프트웨어 시스템)은 대포를 맞든 성벽을 10배로 늘리든 평생 무너지지 않는(유연성과 확장성) 영원불멸의 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)로 우뚝 서게 됩니다.
 
 - **📢 섹션 요약 비유**: 객체지향 설계 원칙 (SOLID)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -126,21 +125,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 설계 원칙 (SOLID) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 설계 원칙 (SOLID) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -33,27 +33,26 @@ tags = ["studynote-data-engineering"]
 
 1. **승산 (Odds)**: 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($P$)과 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($1-P$)의 비율이다. ($Odds = P / (1-P)$)
 2. **로짓 (Logit) 변환**: 승산에 자연로그를 취해, $0 \sim 1$ 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 $-\infty \sim +\infty$ 범위의 실수로 확장한다. 이를 통해 선형 회귀식($\beta_0 + \beta_1 X$)과 연결 고리를 만든다.
-3. **[시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) Function)**: 로짓 함수의 역함수로, 무한대의 선형식 결과를 다시 $0 \sim 1$ 사이의 곡선으로 압축한다. $\sigma(z) = 1 / (1 + e^{-z})$
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/">시그모이드 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a> Function)</strong>: 로짓 함수의 역함수로, 무한대의 선형식 결과를 다시 $0 \sim 1$ 사이의 곡선으로 압축한다. $\sigma(z) = 1 / (1 + e^{-z})$
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  로지스틱 회귀의 데이터 변환 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [입력 데이터 X] ───▶ 선형 결합 (Linear Combination)          │
-│                          z = β0 + β1X1 + β2X2 + ...          │
-│                                 │                            │
-│ 2. [시그모이드 S-곡선] ◀──────────┘                            │
-│      1.0 ┤         .──────                                   │
-│          │       /                                           │
-│      0.5 ┤   ──*── (임계값 Threshold)                        │
-│          │    /                                              │
-│      0.0 ┤──/───────────  (z값)                              │
-│                                 │                            │
-│ 3. [출력 확률 P] ◀───────────────┘                            │
-│      P > 0.5 이면 클래스 1 (합격/양성)                          │
-│      P ≤ 0.5 이면 클래스 0 (불합격/음성)                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로지스틱 회귀의 데이터 변환 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">입력 데이터 X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">선형 결합 (Linear Combination)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = β0 + β1X1 + β2X2 + ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">시그모이드 S-곡선</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0 .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5 ──*── (임계값 Threshold)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 ──/ (z값)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">출력 확률 P</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P &gt; 0.5 이면 클래스 1 (합격/양성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P ≤ 0.5 이면 클래스 0 (불합격/음성)</div></div>
+</div>
+</div>
+
+
 
 최적의 파라미터($\beta$)를 찾을 때 선형 회귀는 최소제곱법([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))을 쓰지만, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 [최대 우도 추정법](/knowledge-base/studynote/06_ict_convergence/05_data_science/332_maximum_likelihood_estimation_mle/) ([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation)을 사용하여 실제 관측치가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 가장 극대화하는 계수를 찾는다.
 
@@ -68,11 +67,11 @@ tags = ["studynote-data-engineering"]
 | 항목 | 선형 회귀 (Linear) | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) (Logistic) | [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 회귀 ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) |
 | :--- | :--- | :--- | :--- |
 | **목적** | 연속형 수치 예측 | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary) | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Multi-class) |
-| **[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)** | 항등 함수 (Identity) | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a></strong> | 항등 함수 (Identity) | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) |
 | **오차 함수** | 평균 제곱 오차 ([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) | 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))| 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))|
 | **결과 해석** | 단위 변화 당 값 증감 | 단위 변화 당 승산(Odds) 증감 | 클래스 간 상대적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 비교 |
 
-[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)가 두 개의 선택지(합격/불합격)만 처리한다면, [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 회귀는 이를 확장하여 여러 선택지(A학점/B학점/C학점)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합이 1이 되도록 일반화한 모델이다. 또한 [시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)와 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 구조는 딥러닝 신경망에서 가장 작은 단위인 **[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) ([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))**의 활성화 과정과 완벽히 동일하다.
+[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)가 두 개의 선택지(합격/불합격)만 처리한다면, [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 회귀는 이를 확장하여 여러 선택지(A학점/B학점/C학점)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합이 1이 되도록 일반화한 모델이다. 또한 [시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/)와 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 구조는 딥러닝 신경망에서 가장 작은 단위인 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">퍼셉트론</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">Perceptron</a>)</strong>의 활성화 과정과 완벽히 동일하다.
 
 - **📢 섹션 요약 비유**: 선형 회귀가 주관식 답안의 점수를 맞추는 것이라면, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 O/X 퀴즈의 정답을 찍는 것이고, [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 4지선다 객관식의 정답을 고르는 것이다.
 
@@ -85,7 +84,7 @@ tags = ["studynote-data-engineering"]
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
 
 1. **임계값 (Threshold) 튜닝**: 기본 임계값은 0.5지만 목적에 따라 조정해야 한다. 암 진단처럼 병을 놓치지 않는 것([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/), [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 중시)이 중요하면 0.3으로 낮추고, 스팸 필터처럼 정상 메일을 실수로 버리지 않는 것([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 중시)이 중요하면 0.8로 높여 방어적으로 설정한다.
-2. **다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 점검**: 입력 변수끼리 상관관계가 너무 높으면 회귀 계수가 왜곡되므로, VIF(분산팽창지수)를 확인하고 변수를 제거해야 한다.
+2. <strong>다중공선성 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>) 점검</strong>: 입력 변수끼리 상관관계가 너무 높으면 회귀 계수가 왜곡되므로, VIF(분산팽창지수)를 확인하고 변수를 제거해야 한다.
 3. **선형성 가정의 한계**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 기본적으로 X와 로짓 간의 '선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'를 가정한다. 비선형적인 복잡한 패턴이 강하다면 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))나 비선형 SVM으로 넘어가야 한다.
 
 - **📢 섹션 요약 비유**: 임계값 튜닝은 보안 검색대의 민감도를 조절하는 것과 같다. 도둑을 무조건 잡으려면 민감도를 올려 모든 사람의 주머니를 뒤져야 하고([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)), 무고한 시민의 불편을 줄이려면 확실한 사람만 잡아야([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) 한다.
@@ -113,21 +112,23 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-선형 예측의 한계 (Linear Regression)
-    │
-    ▼
-승산 및 로짓 변환 (Odds & Logit)
-    │
-    ▼
-확률 매핑 함수 도입 (Sigmoid Function)
-    │
-    ▼
-이진 분류의 표준 (Logistic Regression)
-    │
-    ▼
-다중 분류 (Softmax) 및 신경망(Deep Learning)으로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">선형 예측의 한계 (Linear Regression)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">승산 및 로짓 변환 (Odds &amp; Logit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확률 매핑 함수 도입 (Sigmoid Function)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이진 분류의 표준 (Logistic Regression)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 분류 (Softmax) 및 신경망(Deep Learning)으로 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

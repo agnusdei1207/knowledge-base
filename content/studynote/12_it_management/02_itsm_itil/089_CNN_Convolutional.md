@@ -38,27 +38,28 @@ CNN은 특징을 추출하는 '[합성곱](/knowledge-base/studynote/10_ai/03_ll
 
 | 핵심 구성 요소 | 동작 원리 및 역할 |
 | :--- | :--- |
-| **[합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/) (Conv Layer)** | 여러 개의 필터가 이미지를 훑으며 모서리, 질감 등의 특징 패턴을 추출한다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유를 통해 연산량을 극적으로 줄인다. |
-| **[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) ([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))** | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 결과에 비선형성을 부여한다. 음수 값을 0으로 차단하여 네트워크가 깊어져도 수렴할 수 있게 한다. |
-| **[풀링 층](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/) ([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))** | [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) 등을 통해 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기(해상도)를 반으로 줄여, 계산량을 압축하고 미세한 위치 변화에 강건해지도록 만든다. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/">합성곱 층</a> (Conv Layer)</strong> | 여러 개의 필터가 이미지를 훑으며 모서리, 질감 등의 특징 패턴을 추출한다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유를 통해 연산량을 극적으로 줄인다. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a>)</strong> | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 결과에 비선형성을 부여한다. 음수 값을 0으로 차단하여 네트워크가 깊어져도 수렴할 수 있게 한다. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/">풀링 층</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling Layer</a>)</strong> | [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) 등을 통해 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기(해상도)를 반으로 줄여, 계산량을 압축하고 미세한 위치 변화에 강건해지도록 만든다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  합성곱 (Convolution) 연산의 과정             │
-├──────────────────────────────────────────────────────────────┤
-│  [입력 이미지 (5x5)]         [필터 (3x3)]       [특성 맵 (3x3)] │
-│  ┌─┬─┬─┬─┬─┐                                                   │
-│  │1│1│1│0│0│          ┌─┬─┬─┐               ┌─┬─┬─┐          │
-│  ├─┼─┼─┼─┼─┤          │1│0│1│               │4│3│4│          │
-│  │0│1│1│1│0│   (X)    ├─┼─┼─┤     ───▶      ├─┼─┼─┤          │
-│  ├─┼─┼─┼─┼─┤          │0│1│0│               │2│4│3│          │
-│  │0│0│1│1│1│          ├─┼─┼─┤               ├─┼─┼─┤          │
-│  ├─┼─┼─┼─┼─┤          │1│0│1│               │2│3│4│          │
-│  │0│0│1│1│0│          └─┴─┴─┘               └─┴─┴─┘          │
-│  └─┴─┴─┴─┴─┘                                                   │
-│  * 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성곱 (Convolution) 연산의 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 이미지 (5x5)</div><div class="kb-diagram-node">필터 (3x3)</div><div class="kb-diagram-node">특성 맵 (3x3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">(X) ─ ─ ─ ▶ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움</div></div>
+</div>
+</div>
+
+
 
 얕은 층에서는 선, 윤곽 등 단순한 특징을 잡고, 층이 깊어질수록 눈, 코, 귀처럼 복잡한 추상적 패턴을 조합해 나가는 계층적 학습 구조를 가진다.
 
@@ -72,7 +73,7 @@ CNN은 특징을 추출하는 '[합성곱](/knowledge-base/studynote/10_ai/03_ll
 
 | 특성 | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 신경망) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/)) | ViT (비전 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) |
 | :--- | :--- | :--- | :--- |
-| **타겟 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 2D 이미지, 공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 텍스트 | 대규모 이미지 패치 |
+| <strong>타겟 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 2D 이미지, 공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 텍스트 | 대규모 이미지 패치 |
 | **핵심 기법** | 공간적 국소 연결, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유 | 이전 상태의 순환 메모리 | 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)) 메커니즘 |
 | **문맥 파악 범위** | 지역적 특징 중심 (Local) | 순차적 흐름 파악 | 전체적 특징 동시 파악 (Global) |
 | **연산 복잡도** | 상대적으로 낮음 | 순차 연산으로 병렬화 어려움 | 파라미터가 매우 방대함 |
@@ -90,8 +91,8 @@ CNN은 특징을 추출하는 '[합성곱](/knowledge-base/studynote/10_ai/03_ll
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **실시간성이 중요한가?**: 자율주행이나 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 등 실시간 탐지가 생명이라면 정확도 최상단 모델보다는 연산량이 압축된 MobileNet, YOLO 등 경량화 1-Stage 구조를 도입해야 한다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨 한계 극복**: 의료 이미지처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1,000장 구하기가 하늘의 별 따기라면, 모델을 바닥부터 학습시키지 말고 이미 ImageNet으로 학습된 거대 모델을 가져와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))하는 전략이 필수다.
-3. **글로벌 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 필요성**: 이미지 안의 물체들이 서로 너무 멀리 떨어져 있어서 전체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 파악이 중요하다면, 순수 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 대신 어텐션(Attention)이 가미된 모델을 혼합해야 한다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 볼륨 한계 극복</strong>: 의료 이미지처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1,000장 구하기가 하늘의 별 따기라면, 모델을 바닥부터 학습시키지 말고 이미 ImageNet으로 학습된 거대 모델을 가져와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))하는 전략이 필수다.
+3. <strong>글로벌 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>의 필요성</strong>: 이미지 안의 물체들이 서로 너무 멀리 떨어져 있어서 전체 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 파악이 중요하다면, 순수 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 대신 어텐션(Attention)이 가미된 모델을 혼합해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -116,28 +117,30 @@ CNN은 이미지 처리 기술의 패러다임을 사람이 일일이 특징 수
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))** | 입력에 필터를 통과시켜 얻어낸 결과물, 이미지의 특징을 압축한 장 |
-| **[스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))** | 필터의 이동 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))과 입력 가장자리의 정보 손실을 막는 여백([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) |
-| **[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) ([Residual Network](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))** | 깊은 CNN에서 발생하는 기울기 소실을 잔차 연결(Skip Connection)로 해결한 혁신적 구조 |
-| **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))** | 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미리 학습된 CNN의 앞쪽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 내 프로젝트에 재활용하는 실무 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/">특성 맵</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/">Feature Map</a>)</strong> | 입력에 필터를 통과시켜 얻어낸 결과물, 이미지의 특징을 압축한 장 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>)와 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 필터의 이동 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))과 입력 가장자리의 정보 손실을 막는 여백([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">Residual Network</a>)</strong> | 깊은 CNN에서 발생하는 기울기 소실을 잔차 연결(Skip Connection)로 해결한 혁신적 구조 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>)</strong> | 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미리 학습된 CNN의 앞쪽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 내 프로젝트에 재활용하는 실무 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이미지 플래트닝 (Flattening) 문제점 대두
-    │
-    ▼
-CNN (합성곱, 풀링) · 가중치 공유 (Weight Sharing)
-    │
-    ▼
-LeNet (초기 구조) · AlexNet (GPU 도입 딥러닝 부흥)
-    │
-    ▼
-VGG (깊이 심화) · ResNet (잔차 연결로 초심층 학습)
-    │
-    ▼
-YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이미지 플래트닝 (Flattening) 문제점 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CNN (합성곱, 풀링) · 가중치 공유 (Weight Sharing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LeNet (초기 구조) · AlexNet (GPU 도입 딥러닝 부흥)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VGG (깊이 심화) · ResNet (잔차 연결로 초심층 학습)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

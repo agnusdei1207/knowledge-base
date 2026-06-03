@@ -23,54 +23,57 @@ tags = ["studynote-network"]
 - **필요성**: 회사에 출근해서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 전원을 켰는데, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 STP가 30초(Listening+[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 동안 패킷을 막아버려서 IP를 받아오는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 요청이 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))으로 실패하고 인터넷이 안 되는 문제가 매일 아침 발생했다. "어차피 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대 꽂히는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인데 굳이 루프 검사를 30초나 해야 해?"라는 짜증에서 출발하여, PC용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 예외 처리(PortFast)를 해주기로 했다. 하지만 예외를 악용한 해킹을 막기 위해 방어막([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard)도 세트로 붙이게 되었다.
 
 - **💡 비유**: 
-  - **PortFast**: 클럽 입구에서 위험한 폭주족([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))들은 30분씩 몸수색(30초 검역)을 하지만, 누가 봐도 평범한 모범생([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))들은 **몸수색 프리패스로 1초 만에 바로 입장**시켜 주는 VIP 전용 출입구입니다.
-  - **[BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard**: 모범생인 줄 알고 프리패스로 들여보내 줬는데, 갑자기 주머니에서 폭주족 가죽잠바([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 엽서)가 툭 떨어지는 순간, 즉시 **경호원들이 몽둥이로 때려눕혀 클럽 밖으로 던져버리고 문을 폐쇄하는([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 셧다운) 보안 시스템**입니다.
+  - **PortFast**: 클럽 입구에서 위험한 폭주족([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))들은 30분씩 몸수색(30초 검역)을 하지만, 누가 봐도 평범한 모범생([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))들은 <strong>몸수색 프리패스로 1초 만에 바로 입장</strong>시켜 주는 VIP 전용 출입구입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard</strong>: 모범생인 줄 알고 프리패스로 들여보내 줬는데, 갑자기 주머니에서 폭주족 가죽잠바([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 엽서)가 툭 떨어지는 순간, 즉시 <strong>경호원들이 몽둥이로 때려눕혀 클럽 밖으로 던져버리고 문을 폐쇄하는(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 셧다운) 보안 시스템</strong>입니다.
 
-```text
-[컨버전스 시간]
-    │
-    ▼
-[포트 패스트 / BPDU Guard]
-    │
-    └──▶ [RSTP]
-```
 
-- **📢 섹션 요약 비유**: ** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패스트가 **"묻지도 따지지도 않고 결제해 주는 하이패스 차로"**라면, [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard는 그 하이패스 차로에 화물차([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 진입하는 순간 **바닥에서 스파이크를 튀어 오르게 해 타이어를 다 터뜨려버리는(Error-disable) 무시무시한 지뢰**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨버전스 시간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 패스트 / BPDU Guard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSTP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 패스트가 </strong>"묻지도 따지지도 않고 결제해 주는 하이패스 차로"<strong>라면, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard는 그 하이패스 차로에 화물차(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)가 진입하는 순간 </strong>바닥에서 스파이크를 튀어 오르게 해 타이어를 다 터뜨려버리는(Error-disable) 무시무시한 지뢰**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. PortFast의 동작 원리
-- 명령어가 활성화된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(`spanning-tree portfast`)에 링크업(Link-up) 이벤트가 발생하면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 STP의 `Blocking -> Listening(15초) -> Learning(15초)` 단계를 완전히 건너뛰고, 0.1초 만에 곧바로 **Forwarding 상태**로 전이시킨다.
+- 명령어가 활성화된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(`spanning-tree portfast`)에 링크업(Link-up) 이벤트가 발생하면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 STP의 `Blocking -> Listening(15초) -> Learning(15초)` 단계를 완전히 건너뛰고, 0.1초 만에 곧바로 <strong>Forwarding 상태</strong>로 전이시킨다.
 - 또한 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 PC가 켜지거나 꺼질 때(링크업/다운) "토폴로지가 변했다!"라며 대장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 TCN [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 경보를 날리지 않게 된다. 덕분에 불필요한 전체 네트워크 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 테이블 초기화(플러딩) 현상이 방지되어 네트워크가 매우 조용해진다.
 
 ### 2. 치명적인 약점과 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard의 결합
-PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 직원이 멍청하게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 싸구려 허브를 꽂고 반대쪽 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)도 벽 랜선 구멍에 꽂아버리면(루프 형성), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 문을 1초 만에 열어버렸기 때문에 0.001초 만에 100% 확률로 **[브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)**이 발생해 층 전체의 네트워크가 죽어버린다.
-- 이를 방지하기 위해 PortFast가 적용된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에는 바늘과 실처럼 **[BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard**(`spanning-tree bpduguard enable`)를 세트로 설정해야 한다.
-- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 데이터만 들어와야 정상이다. 만약 **단 1개의 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 언어)라도 수신되면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋이 즉각 하드웨어적으로 해당 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 전기 신호를 차단(Error-Disabled 상태)**해 버린다.
+PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 직원이 멍청하게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 싸구려 허브를 꽂고 반대쪽 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)도 벽 랜선 구멍에 꽂아버리면(루프 형성), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 문을 1초 만에 열어버렸기 때문에 0.001초 만에 100% 확률로 <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/">브로드캐스트 스톰</a></strong>이 발생해 층 전체의 네트워크가 죽어버린다.
+- 이를 방지하기 위해 PortFast가 적용된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에는 바늘과 실처럼 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard</strong>(`spanning-tree bpduguard enable`)를 세트로 설정해야 한다.
+- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 데이터만 들어와야 정상이다. 만약 <strong>단 1개의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 언어)라도 수신되면, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 칩셋이 즉각 하드웨어적으로 해당 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>의 전기 신호를 차단(Error-Disabled 상태)</strong>해 버린다.
 - [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 빨간불로 변하며 죽어버리고, 관리자가 직접 콘솔에 들어가 `shutdown` 후 `no shutdown` 명령어로 수동 복구해 주기 전까지 절대 부활하지 않는다(강력한 제재).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │             PortFast와 BPDU Guard의 완벽한 콤보               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 벽 랜포트 (PortFast + BPDU Guard 적용) ]                   │
- │                                                             │
- │   상황 A) 직원이 노트북(PC)을 꽂음                             │
- │   - PC는 IP 패킷만 보냄 (BPDU 안 보냄)                          │
- │   - 결과: 30초 대기 없이 즉시 인터넷 팡팡 잘 됨! (Forwarding)     │
- │                                                             │
- │   상황 B) 직원이 몰래 공유기(스위치)를 가져와 꽂음                 │
- │   - 공유기가 켜지면서 스위치 종특으로 "BPDU 엽서"를 뿜어냄           │
- │   - 포트 센서: "어? VIP 문으로 BPDU가 들어와? 이놈 스위치다 죽여!!"   │
- │   - 결과: 포트 즉시 셧다운(Err-Disable). 공유기 먹통 됨. 안전!     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 실무 네트워크 관리자에게 PortFast와 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard는 떼려야 뗄 수 없는 **"가속 페달과 안전벨트"**입니다. 직원들이 아침마다 인터넷이 안 된다고 짜증 내는 것을 막아주면서도, 몰래 가져온 불법 장비로 회사 망을 날려 먹는 대형 사고를 동시에 막아주는 궁극의 방어막입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PortFast와 BPDU Guard의 완벽한 콤보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">벽 랜포트 (PortFast + BPDU Guard 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 A) 직원이 노트북(PC)을 꽂음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PC는 IP 패킷만 보냄 (BPDU 안 보냄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 30초 대기 없이 즉시 인터넷 팡팡 잘 됨! (Forwarding)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 B) 직원이 몰래 공유기(스위치)를 가져와 꽂음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공유기가 켜지면서 스위치 종특으로 "BPDU 엽서"를 뿜어냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포트 센서: "어? VIP 문으로 BPDU가 들어와? 이놈 스위치다 죽여!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 포트 즉시 셧다운(Err-Disable). 공유기 먹통 됨. 안전!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 실무 네트워크 관리자에게 PortFast와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> Guard는 떼려야 뗄 수 없는 </strong>"가속 페달과 안전벨트"**입니다. 직원들이 아침마다 인터넷이 안 된다고 짜증 내는 것을 막아주면서도, 몰래 가져온 불법 장비로 회사 망을 날려 먹는 대형 사고를 동시에 막아주는 궁극의 방어막입니다.
 
 ---
 
@@ -126,15 +129,19 @@ PortFast가 걸린 [포트](/knowledge-base/studynote/02_operating_system/08_sto
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 컨버전스 시간]
-    │
-    ▼
-[현재 개념: 포트 패스트 / BPDU Guard]
-    │
-    ├──▶ [확장 A: RSTP]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 컨버전스 시간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 포트 패스트 / BPDU Guard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RSTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 패스트 / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard는 [컨버전스 시간](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)에서 출발해 현재 메커니즘을 정교화하고, 이후 RSTP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

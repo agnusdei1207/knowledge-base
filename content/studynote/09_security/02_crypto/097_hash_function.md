@@ -21,7 +21,7 @@ tags = ["studynote-security"]
 
 네트워크를 통해 10GB짜리 중요 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 전송받았을 때, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 전송 과정에서 1비트라도 깨지진 않았는지, 혹은 해커가 몰래 악성코드를 심어두진 않았는지 어떻게 확신할 수 있을까? 10GB 사본을 원본과 1비트씩 통째로 대조하는 것은 물리적으로 불가능에 가깝다.
 
-이때 필요한 기술이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **'고유한 지문(Fingerprint)'**을 추출하는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 통과시키면 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 고작 256비트 크기의 짧은 고유 값(해시값)으로 압축된다. 수신자는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 비교할 필요 없이, 전송받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값을 직접 돌려본 뒤 송신자가 알려준 원본 해시값과 일치하는지만 확인하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 100% 확신할 수 있다.
+이때 필요한 기술이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>'고유한 지문(Fingerprint)'</strong>을 추출하는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 통과시키면 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 고작 256비트 크기의 짧은 고유 값(해시값)으로 압축된다. 수신자는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 비교할 필요 없이, 전송받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값을 직접 돌려본 뒤 송신자가 알려준 원본 해시값과 일치하는지만 확인하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 100% 확신할 수 있다.
 
 - **📢 섹션 요약 비유**: [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 거대한 돼지 한 마리를 통째로 갈아서 고정된 길이의 소시지 하나를 만드는 마법의 고기 분쇄기다. 소시지 맛만 보면 원래 돼지가 건강했는지 알 수 있고, 원래 고기에 소금 1톨만 더 들어가도 소시지 맛이 완전히 달라진다.
 
@@ -33,25 +33,26 @@ tags = ["studynote-security"]
 
 | 저항성 요건 | 개념 (수학적 정의) | 방어하는 해커의 공격 시나리오 |
 | :--- | :--- | :--- |
-| **제1역상 저항성 ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)성)** | $y=H(x)$ 에서 결과값 $y$를 알 때 원본 $x$를 구하기 불가능할 것 | 유출된 비밀번호 해시값을 보고 원래 비밀번호 평문을 역추적하려는 공격 |
+| <strong>제1역상 저항성 (<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a>성)</strong> | $y=H(x)$ 에서 결과값 $y$를 알 때 원본 $x$를 구하기 불가능할 것 | 유출된 비밀번호 해시값을 보고 원래 비밀번호 평문을 역추적하려는 공격 |
 | **제2역상 저항성 (약한 충돌 저항성)** | $x$와 $H(x)$를 알 때 $H(x) = H(x')$인 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $x'$ 찾기 불가 | 정상 계약서를 해시값이 같은 위조 계약서(금액 변경)로 바꿔치기하려는 공격 |
 | **충돌 저항성 (강한 충돌 저항성)** | $H(x_1) = H(x_2)$가 되는 무작위의 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $(x_1, x_2)$ 쌍을 찾기 불가 | 백신 검증을 우회하기 위해 정상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 해시값이 똑같은 악성코드를 미리 준비하는 공격 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           해시 함수의 단방향성과 눈사태 효과 시각화          │
-├──────────────────────────────────────────────────────────────┤
-│ [ 원본 데이터 입력 ]                 [ 해시 함수 (SHA-256) ]   │
-│   "Hello World"    ───────(믹서기 윙윙)──────▶   3A8B...9F2C   │
-│                                                              │
-│ [ 1비트 변조 데이터 입력 ]                                     │
-│   "Hello World."   ───────(믹서기 윙윙)──────▶   Z9!P...1Q8@   │
-│    (마침표 추가)                           (결과가 완벽히 달라짐)│
-│                                                              │
-│ [ 역산 시도 (해커) ]                                           │
-│   3A8B...9F2C      ───────(거꾸로 돌려!)─────▶   🚨 역산 절대 불가 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수의 단방향성과 눈사태 효과 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터 입력</div><div class="kb-diagram-node">해시 함수 (SHA-256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Hello World" (믹서기 윙윙) ▶ 3A8B...9F2C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1비트 변조 데이터 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Hello World." (믹서기 윙윙) ▶ Z9!P...1Q8@</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(마침표 추가) (결과가 완벽히 달라짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역산 시도 (해커)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3A8B...9F2C (거꾸로 돌려!) ▶ 🚨 역산 절대 불가</div></div>
+</div>
+</div>
+
+
 
 단 1비트의 변화에도 결과물이 단 한 글자도 겹치지 않고 완전히 다른 쓰레기 값이 튀어나온다. 이를 통해 눈사태 효과 (Avalanche Effect)를 달성한다.
 
@@ -65,10 +66,10 @@ tags = ["studynote-security"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구분 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 길이 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) | 보안 평가 |
 | :--- | :--- | :--- | :--- |
-| **[MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)** | 128 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 사용 금지 (사망) | 1996년 치명적 충돌 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 체크용으로만 일부 남음 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a></strong> | 128 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 사용 금지 (사망) | 1996년 치명적 충돌 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 체크용으로만 일부 남음 |
 | **SHA-1** | 160 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 사용 금지 (사망) | 2017년 구글(SHAttered)이 동일 해시의 충돌 PDF [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시연 성공 |
 | **SHA-2 (SHA-256)** | 256/512 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 현재 표준 현역 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 등 현대 인터넷을 지배하는 가장 완벽한 표준 |
-| **[SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) ([Keccak](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/))** | 가변 길이 | 차세대 예비용 | SHA-2가 뚫릴 만일의 사태를 대비해 구조 자체(스폰지)를 갈아엎은 예비 표준 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/101_sha_3/">SHA-3</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/101_sha_3/">Keccak</a>)</strong> | 가변 길이 | 차세대 예비용 | SHA-2가 뚫릴 만일의 사태를 대비해 구조 자체(스폰지)를 갈아엎은 예비 표준 |
 
 특히 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인 네트워크에서는 [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/) (PoW) 과정에서 특정 조건의 앞자리 '0'이 연속되는 해시값을 무식하게 찾아내는 과정 자체가 채굴(Mining)의 핵심 원리로 연결된다.
 
@@ -81,12 +82,12 @@ tags = ["studynote-security"]
 실무 개발 환경에서 사용자 비밀번호를 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 안전하게 저장하기 위해 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 날것으로 쓰면 대형 보안 사고가 터진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 빠른 속도가 부르는 재앙
-해커들은 `password123`처럼 흔한 비밀번호 10억 개를 미리 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)로 돌려 만든 **레인보우 테이블 ([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))** 쌍을 가지고 있다. DB를 털어서 해시값을 빼내면 이 사전에서 단 몇 초 만에 원래 비밀번호를 찾아낸다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 연산 속도가 너무 빠르기 때문에 역설적으로 [브루트포스](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/) 공격에 취약한 것이다.
+해커들은 `password123`처럼 흔한 비밀번호 10억 개를 미리 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)로 돌려 만든 <strong>레인보우 테이블 (<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a>)</strong> 쌍을 가지고 있다. DB를 털어서 해시값을 빼내면 이 사전에서 단 몇 초 만에 원래 비밀번호를 찾아낸다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 연산 속도가 너무 빠르기 때문에 역설적으로 [브루트포스](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/) 공격에 취약한 것이다.
 
 ### 실무적 의사결정 (보완책 적용)
-1. **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 추가**: 패스워드 원본 앞뒤에 무작위 문자열(소금)을 뿌려 해시한다. 해커의 기존 레인보우 테이블을 완전한 휴지조각으로 만든다.
-2. **[키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) ([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))**: 믹서기를 한 번만 돌리지 않고, 수천 번 반복해서 돌려 연산 시간을 고의로 지연시킨다. 해커가 대입 공격을 시도할 때 컴퓨터가 과부하 걸리게 만든다. 
-3. **권장 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 채택**: 실무에서는 단순히 SHA-256을 쓰지 않고, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 스트레칭이 내장된 `Bcrypt`, `PBKDF2`, `Argon2` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크를 기본 탑재해야 한다.
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>) 추가</strong>: 패스워드 원본 앞뒤에 무작위 문자열(소금)을 뿌려 해시한다. 해커의 기존 레인보우 테이블을 완전한 휴지조각으로 만든다.
+2. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>)</strong>: 믹서기를 한 번만 돌리지 않고, 수천 번 반복해서 돌려 연산 시간을 고의로 지연시킨다. 해커가 대입 공격을 시도할 때 컴퓨터가 과부하 걸리게 만든다. 
+3. <strong>권장 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 채택</strong>: 실무에서는 단순히 SHA-256을 쓰지 않고, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 스트레칭이 내장된 `Bcrypt`, `PBKDF2`, `Argon2` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크를 기본 탑재해야 한다.
 
 - **📢 섹션 요약 비유**: 문이 너무 튼튼하지만 너무 빨리 열린다면 도둑이 수만 개의 열쇠를 순식간에 꽂아볼 수 있다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)는 도둑의 만능 열쇠 묶음을 버리게 만드는 것이고, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)은 열쇠를 돌리는 데 무조건 1초씩 뻑뻑하게 걸리게 만들어 도둑을 지치게 하는 방어벽이다.
 
@@ -105,28 +106,30 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) ([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을 비대칭키 쌍(개인키)으로 암호화하여 서명자를 증명하는 기술 |
-| **레인보우 테이블 ([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))** | 해커가 평문과 해시값 쌍을 미리 계산해 둔 거대한 해킹 사전 |
-| **[키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) (Bcrypt, PBKDF2)** | 해시 연산을 의도적으로 수천 번 반복하여 무차별 대입 공격을 지연시키는 패스워드 방어 기법 |
-| **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))** | 레인보우 테이블 공격을 무력화하기 위해 평문 암호에 추가하는 난수 문자열 |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong> | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을 비대칭키 쌍(개인키)으로 암호화하여 서명자를 증명하는 기술 |
+| <strong>레인보우 테이블 (<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a>)</strong> | 해커가 평문과 해시값 쌍을 미리 계산해 둔 거대한 해킹 사전 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a> (Bcrypt, PBKDF2)</strong> | 해시 연산을 의도적으로 수천 번 반복하여 무차별 대입 공격을 지연시키는 패스워드 방어 기법 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>)</strong> | 레인보우 테이블 공격을 무력화하기 위해 평문 암호에 추가하는 난수 문자열 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비밀번호 평문 저장 및 통신 위조 위험 대두
-    │
-    ▼
-암호학적 해시 알고리즘 등장 (MD5, SHA-1)
-    │
-    ▼
-무결성 보장 및 단방향 패스워드 저장 실현
-    │
-    ▼
-컴퓨터 성능 향상으로 인한 해시 충돌 및 레인보우 테이블 공격 위협
-    │
-    ▼
-안전한 해시 표준(SHA-256) 채택 및 솔트/키 스트레칭(Bcrypt) 적용 필수화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비밀번호 평문 저장 및 통신 위조 위험 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암호학적 해시 알고리즘 등장 (MD5, SHA-1)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무결성 보장 및 단방향 패스워드 저장 실현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴퓨터 성능 향상으로 인한 해시 충돌 및 레인보우 테이블 공격 위협</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안전한 해시 표준(SHA-256) 채택 및 솔트/키 스트레칭(Bcrypt) 적용 필수화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

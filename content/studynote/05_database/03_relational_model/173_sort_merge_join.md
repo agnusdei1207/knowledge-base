@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소트 머지 조인 (Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 양쪽 입력을 조인 키 순서로 맞춘 뒤, 앞에서부터 한 번씩만 전진하며 매칭하는 **순서 기반 조인**이다.
+> 1. **본질**: 소트 머지 조인 (Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 양쪽 입력을 조인 키 순서로 맞춘 뒤, 앞에서부터 한 번씩만 전진하며 매칭하는 <strong>순서 기반 조인</strong>이다.
 > 2. **가치**: 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 비동등 조인, 이미 정렬된 입력, 그리고 `ORDER BY`·`GROUP BY`에 재사용할 순서가 필요한 상황에서 특히 강점을 보인다.
 > 3. **판단 포인트**: 정렬 비용과 임시 작업 공간이 핵심 대가이므로, 단순 대량 동등 조인이고 메모리가 충분하면 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/))이 더 유리한 경우가 많다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-소트 머지 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 대량 조인을 처리할 때 선택하는 대표적인 물리 연산이다. 핵심 아이디어는 단순하다. **처음에 정렬 비용을 한 번 내고, 이후에는 양쪽 집합을 순차적으로만 읽으며 조인 비용을 낮추는 것**이다.
+소트 머지 조인은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 대량 조인을 처리할 때 선택하는 대표적인 물리 연산이다. 핵심 아이디어는 단순하다. <strong>처음에 정렬 비용을 한 번 내고, 이후에는 양쪽 집합을 순차적으로만 읽으며 조인 비용을 낮추는 것</strong>이다.
 
 이 방식이 필요한 이유는 다른 조인 방식의 한계가 분명하기 때문이다. [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 은 외부 집합이 커질수록 내부 탐색이 반복되어 랜덤 입출력 (I/O, Input/Output) 이 폭증한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)) 은 대량 동등 조인에 강하지만, 조인 조건이 범위 비교나 비동등 비교로 바뀌면 적용이 제한된다.
 
@@ -27,19 +27,21 @@ tags = ["studynote-database"]
 
 이 그림은 왜 소트 머지 조인이 등장하는지, 다른 조인과 어떤 비용 구조 차이를 가지는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│            Why a merge-based join becomes attractive               │
-├────────────────────────────────────────────────────────────────────┤
-│ small outer + good index   -> Nested Loop Join                    │
-│ large equality join        -> Hash Join                           │
-│ large range join or order reuse needed -> Sort Merge Join         │
-│                                                                    │
-│ pay sort once, then scan both sides forward in order              │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-소트 머지 조인의 핵심은 결과가 아니라 **도달 경로의 성격**을 바꾸는 데 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 여기저기 찌르던 조인을, 정렬된 두 흐름을 맞춰 내려가는 순차 작업으로 바꾸는 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why a merge-based join becomes attractive</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">small outer + good index -&gt; Nested Loop Join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">large equality join -&gt; Hash Join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">large range join or order reuse needed -&gt; Sort Merge Join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pay sort once, then scan both sides forward in order</div></div>
+</div>
+</div>
+
+
+
+소트 머지 조인의 핵심은 결과가 아니라 <strong>도달 경로의 성격</strong>을 바꾸는 데 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 여기저기 찌르던 조인을, 정렬된 두 흐름을 맞춰 내려가는 순차 작업으로 바꾸는 것이다.
 
 - **📢 섹션 요약 비유**: 정리되지 않은 두 명단을 대조하면 한쪽 이름을 찾을 때마다 다른 명단을 처음부터 뒤져야 한다. 하지만 둘 다 가나다순으로 정리해 두면 책갈피 두 개만 움직이며 끝까지 맞출 수 있다.
 
@@ -57,20 +59,20 @@ tags = ["studynote-database"]
 
 아래 그림은 병합 단계의 핵심 동작을 보여 준다. 두 입력이 같은 키 순서로 정렬되어 있으면, 포인터는 뒤로 돌아가지 않고 앞으로만 움직인다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Merge phase: two pointers move forward             │
-├────────────────────────────────────────────────────────────────────┤
-│ A : 10   20   20   40   70                                        │
-│       ▲                                                           │
-│ B : 15   20   20   60                                             │
-│       ▲                                                           │
-│                                                                    │
-│ A < B  -> advance A                                                │
-│ A > B  -> advance B                                                │
-│ A = B  -> join equal-key runs, then advance both runs             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge phase: two pointers move forward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A : 10 20 20 40 70</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B : 15 20 20 60</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A &lt; B -&gt; advance A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A &gt; B -&gt; advance B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A = B -&gt; join equal-key runs, then advance both runs</div></div>
+</div>
+</div>
+
+
 
 동등 조인에서는 같은 키 값이 만나는 순간 해당 키 구간(run)을 묶어서 결과를 만들어 낸다. 예를 들어 A에 `20, 20`, B에 `20, 20` 이 있으면 병합 단계에서 이 동등 키 묶음을 조합해 출력한다. 비동등 조인에서는 정렬 순서를 이용해 어느 쪽 포인터를 전진시킬지 판단하므로, [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)으로는 어려운 범위 매칭을 다룰 수 있다.
 
@@ -92,9 +94,9 @@ tags = ["studynote-database"]
 | 정렬 결과 활용 | 거의 없음 | 없음 | `ORDER BY`·`GROUP BY` 재활용 가능 |
 | 주요 약점 | 외부 집합이 커지면 급격히 비싸짐 | 동등 비교 중심, 메모리 압박에 민감 | 정렬 비용, 임시 공간 사용 |
 
-실무에서 자주 나오는 경계는 이렇다. **대량 동등 조인**이면 [Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) 이 먼저 검토되고, **대량 비동등 조인**이면 Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 이 사실상 유력 후보가 된다. 또한 입력이 이미 정렬되어 있거나 조인 결과의 순서를 뒤 연산에서 그대로 써야 한다면, 정렬 비용이 상쇄되면서 Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 이 예상보다 강해진다.
+실무에서 자주 나오는 경계는 이렇다. <strong>대량 동등 조인</strong>이면 [Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) 이 먼저 검토되고, <strong>대량 비동등 조인</strong>이면 Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 이 사실상 유력 후보가 된다. 또한 입력이 이미 정렬되어 있거나 조인 결과의 순서를 뒤 연산에서 그대로 써야 한다면, 정렬 비용이 상쇄되면서 Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 이 예상보다 강해진다.
 
-이 특성은 분석계 Structured Query Language (SQL) 과도 잘 맞는다. 예를 들어 기간 이력 테이블과 사실 테이블을 `BETWEEN valid_from AND valid_to` 로 결합하는 유효시점 조인에서는, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 반복 탐색보다 [정렬 후 병합](/knowledge-base/studynote/05_database/07_exam_summary/432_sort_merge_join/)이 더 자연스럽다. 즉 소트 머지 조인은 단순히 "해시가 안 될 때 쓰는 조인"이 아니라, **정렬을 활용하는 별도의 문제 풀이 방식**이다.
+이 특성은 분석계 Structured Query Language (SQL) 과도 잘 맞는다. 예를 들어 기간 이력 테이블과 사실 테이블을 `BETWEEN valid_from AND valid_to` 로 결합하는 유효시점 조인에서는, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 반복 탐색보다 [정렬 후 병합](/knowledge-base/studynote/05_database/07_exam_summary/432_sort_merge_join/)이 더 자연스럽다. 즉 소트 머지 조인은 단순히 "해시가 안 될 때 쓰는 조인"이 아니라, <strong>정렬을 활용하는 별도의 문제 풀이 방식</strong>이다.
 
 - **📢 섹션 요약 비유**: 세 방식은 모두 짝 맞추기 게임이지만, 한 명씩 돌아다니며 찾을지, 색깔별 상자를 먼저 만들지, 두 줄을 번호순으로 세워 내려갈지가 다르다. 소트 머지 조인은 "줄을 세워 놓고 맞추는 방법"에 해당한다.
 
@@ -102,7 +104,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 소트 머지 조인이 빛나는 대표 장면은 **유효 기간 이력 조인**이다. 예를 들어 `sales.sale_date BETWEEN price_hist.valid_from AND price_hist.valid_to` 처럼 시점 범위를 붙이는 경우, [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)은 조건 특성상 어렵고, [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 은 판매 건수만큼 이력 테이블 탐색이 반복되어 비싸다. 이때 두 집합을 날짜 축으로 정렬해 병합하면 대량 처리에 훨씬 안정적이다.
+실무에서 소트 머지 조인이 빛나는 대표 장면은 <strong>유효 기간 이력 조인</strong>이다. 예를 들어 `sales.sale_date BETWEEN price_hist.valid_from AND price_hist.valid_to` 처럼 시점 범위를 붙이는 경우, [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)은 조건 특성상 어렵고, [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/) 은 판매 건수만큼 이력 테이블 탐색이 반복되어 비싸다. 이때 두 집합을 날짜 축으로 정렬해 병합하면 대량 처리에 훨씬 안정적이다.
 
 반대로 단순 동등 조인인데 양쪽 모두 정렬이 필요하고, 조인 후에도 정렬 순서를 재사용하지 못한다면 소트 머지 조인을 억지로 고를 이유는 크지 않다. 특히 작업 메모리가 부족해 정렬 결과가 임시 테이블스페이스 (Temp Tablespace) 로 자주 밀려나면, 순차 병합의 이점보다 정렬 준비 비용이 더 크게 느껴진다.
 
@@ -128,11 +130,11 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-소트 머지 조인은 대량 조인을 **순차적이고 예측 가능한 패턴**으로 바꿔 준다. 비동등 조인 대응, 이미 정렬된 입력 활용, 후속 정렬 연산과의 시너지라는 점에서 다른 조인 방식과 뚜렷한 역할 구분이 있다.
+소트 머지 조인은 대량 조인을 <strong>순차적이고 예측 가능한 패턴</strong>으로 바꿔 준다. 비동등 조인 대응, 이미 정렬된 입력 활용, 후속 정렬 연산과의 시너지라는 점에서 다른 조인 방식과 뚜렷한 역할 구분이 있다.
 
 하지만 정렬이 공짜는 아니다. 충분한 작업 메모리, 임시 공간, 그리고 정렬 순서를 실제로 활용할 수 있는 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이 함께 있어야 장점이 살아난다. 이 전제가 약하면 Sort Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 은 강력한 무기보다 무거운 준비 과정이 될 수 있다.
 
-따라서 이 개념은 "해시가 안 될 때 쓰는 차선책"보다 **정렬을 통해 병합 비용을 낮추는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 조인 방식**으로 기억하는 것이 옳다. 특히 범위 조인, 이력 조인, 정렬 결과 재사용이 중요한 SQL에서 그 가치가 분명하게 드러난다.
+따라서 이 개념은 "해시가 안 될 때 쓰는 차선책"보다 <strong>정렬을 통해 병합 비용을 낮추는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 조인 방식</strong>으로 기억하는 것이 옳다. 특히 범위 조인, 이력 조인, 정렬 결과 재사용이 중요한 SQL에서 그 가치가 분명하게 드러난다.
 
 - **📢 섹션 요약 비유**: 소트 머지 조인은 먼저 책장을 번호순으로 정리한 뒤 원하는 책을 한 줄로 훑어 찾는 방식이다. 정리 시간이 들지만, 이후 탐색은 훨씬 단순하고 질서 있게 바뀐다.
 
@@ -151,21 +153,23 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Large join requirement
-        │
-        ▼
-Need ordered inputs or range comparison
-        │
-        ▼
-Sort both sides on join key
-        │
-        ▼
-Merge scan with forward-only pointers
-        │
-        ▼
-Reuse ordered result for group/order analytics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Large join requirement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Need ordered inputs or range comparison</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Sort both sides on join key</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Merge scan with forward-only pointers</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Reuse ordered result for group/order analytics</div>
+</div>
+</div>
+
+
 
 이 흐름은 "대량 조인 필요 → 정렬 기반 준비 → 병합 스캔 → 정렬 재활용"으로 이어지는 소트 머지 조인의 사고 순서를 보여 준다.
 

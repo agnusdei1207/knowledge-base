@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - DRDoS나 대규모 볼류메트릭(Volumetric) 디도스 공격은 패킷의 덩치가 수십~수백 기가비트(Gbps)에 달합니다. 
-- 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 **물리적인 랜선 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 자체가 꽉 차버려 병목(Choke point)**이 발생해 결국 서버가 마비됩니다.
+- 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 <strong>물리적인 랜선 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>) 자체가 꽉 차버려 병목(Choke point)</strong>이 발생해 결국 서버가 마비됩니다.
 
-```text
-[Memcached 증폭 서버 공격 방어 미흡]
-    │
-    ▼
-[DRDoS 스크러빙 센터 완화 트래픽 정제…]
-    │
-    └──▶ [트래픽 혼잡공격 유도 및 캡챠 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **DDoS 공격이 발생했을 때, 타겟으로 쏟아지는 엄청난 양의 트래픽을 기업 내부망이 아닌 외부의 거대한 클라우드 대피소로 강제로 돌려(우회), 그곳에서 쓰레기 악성 트래픽을 깨끗하게 씻어내고(Scrubbing) 오직 정상적인 트래픽만 걸러서 다시 기업 서버로 보내주는 디도스 완화([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 전용 아키텍처**입니다.
+- **개념**: <strong>DDoS 공격이 발생했을 때, 타겟으로 쏟아지는 엄청난 양의 트래픽을 기업 내부망이 아닌 외부의 거대한 클라우드 대피소로 강제로 돌려(우회), 그곳에서 쓰레기 악성 트래픽을 깨끗하게 씻어내고(Scrubbing) 오직 정상적인 트래픽만 걸러서 다시 기업 서버로 보내주는 디도스 완화(<a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/">Mitigation</a>) 전용 아키텍처</strong>입니다.
 - **제공자**: 주로 전 세계적인 네트워크망을 가진 Akamai, Cloudflare, Imperva 같은 글로벌 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 업체나 KT, SKT 같은 대형 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 제공합니다. (Anti-DDoS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
-```text
-[Memcached 증폭 서버 공격 방어 미흡]
-    │
-    ▼
-[DRDoS 스크러빙 센터 완화 트래픽 정제…]
-    │
-    └──▶ [트래픽 혼잡공격 유도 및 캡챠 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,10 +65,10 @@ tags = ["studynote-network"]
 
 디도스 공격이 터지는 순간 마법처럼 동작합니다.
 
-1. **평상시 (Normal [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**: 고객들은 `naver.com`의 진짜 IP 주소를 보고 정상적으로 서버에 직접 접속합니다. [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)는 개입하지 않고 조용히 관전합니다.
-2. **공격 감지 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**: 서버로 들어오는 트래픽이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 넘어 폭주하기 시작하면, 네트워크 앞단의 라우터나 모니터링 시스템이 "디도스다!"라고 경고를 울립니다.
-3. **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 변경 (트래픽 우회)** 🌟:
-   - 이것이 핵심입니다. 관리자는 **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)(경계 경로 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**나 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**을 건드려, 인터넷의 이정표를 슬쩍 바꿔버립니다.
+1. <strong>평상시 (Normal <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 고객들은 `naver.com`의 진짜 IP 주소를 보고 정상적으로 서버에 직접 접속합니다. [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)는 개입하지 않고 조용히 관전합니다.
+2. <strong>공격 감지 (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: 서버로 들어오는 트래픽이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)를 넘어 폭주하기 시작하면, 네트워크 앞단의 라우터나 모니터링 시스템이 "디도스다!"라고 경고를 울립니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 변경 (트래픽 우회)</strong> 🌟:
+   - 이것이 핵심입니다. 관리자는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(경계 경로 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>나 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>을 건드려, 인터넷의 이정표를 슬쩍 바꿔버립니다.
    - 전 세계 라우터들에게 "지금부터 `naver.com`으로 가는 모든 패킷은 원래 주소가 아니라, 저기 멀리 있는 '[스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)'로 먼저 보내라!"라고 방송([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast)합니다.
 4. **정제 및 정수 (Scrubbing)**:
    - 해커가 쏜 100Gbps의 쓰레기 트래픽이 거대한 클라우드 [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)로 빨려 들어갑니다. (이곳은 10Tbps도 견디는 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 있음).
@@ -113,15 +121,19 @@ DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_sec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Memcached 증폭 서버 공격 방어 미흡]
-    │
-    ▼
-[현재 개념: DRDoS 스크러빙 센터 완화 트래픽 정제…]
-    │
-    ├──▶ [확장 A: 트래픽 혼잡공격 유도 및 캡챠 적용]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Memcached 증폭 서버 공격 방어 미흡</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…는 Memcached 증폭 서버 공격 방어 미흡에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 혼잡공격](/knowledge-base/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) 유도 및 캡챠 적용와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

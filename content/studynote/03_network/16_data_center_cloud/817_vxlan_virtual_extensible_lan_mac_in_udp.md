@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 고갈**: 전통적인 스위치의 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), IEEE 802.1Q)은 꼬리표(Tag) 길이가 12비트라 **최대 4,096개**의 논리적 네트워크만 만들 수 있습니다. 수백만 개의 가상 독립망(테넌트)을 파야 하는 클라우드 센터에서는 턱없이 모자랐습니다.
+- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> ID 고갈</strong>: 전통적인 스위치의 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), IEEE 802.1Q)은 꼬리표(Tag) 길이가 12비트라 <strong>최대 4,096개</strong>의 논리적 네트워크만 만들 수 있습니다. 수백만 개의 가상 독립망(테넌트)을 파야 하는 클라우드 센터에서는 턱없이 모자랐습니다.
 - **L2 확장 불가**: VLAN은 기본적으로 같은 라우터 밑바닥 동네(서브넷) 안에서만 놀 수 있습니다. 1층 스위치의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10번 서버를 5층 다른 라우터 밑으로 이사(마이그레이션)시키려면 물리적으로 통신이 끊어지는 재앙이 따릅니다.
 
-```text
-[언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    ▼
-[VXLAN]
-    │
-    └──▶ [NVGRE MS 주도 캡슐화 통신 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VXLAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,24 +41,28 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기존의 L2([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 완전히 통째로 집어삼킨 뒤, 이를 흔해 빠진 **L4([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 4789번) 택배 박스 안에 밀어 넣고 겉면에 L3(IP 주소)를 붙여서([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-in-[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 캡슐화), L3 물리망(언더레이) 위로 쏴 보내는 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술 표준**입니다.
+- **개념**: 기존의 L2([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 완전히 통째로 집어삼킨 뒤, 이를 흔해 빠진 <strong>L4(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 4789번) 택배 박스 안에 밀어 넣고 겉면에 L3(IP 주소)를 붙여서(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-in-<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 캡슐화), L3 물리망(언더레이) 위로 쏴 보내는 오버레이 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> 기술 표준</strong>입니다.
 
 ### VXLAN의 압도적 2대 스펙 혁신 🌟
-1. **1,600만 개의 무한한 VNI (가상망 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))**:
-   - 4,096개밖에 없던 12비트 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 대신, 캡슐화 박스 겉면에 24비트짜리 **VNI(VXLAN Network [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))**라는 무지막지한 이름표를 새로 붙였습니다. 
-   - 이제 $2^{24}$, 즉 **약 1,677만 개**의 완벽히 독립된 논리적 가상 네트워크 조각을 만들어낼 수 있어 클라우드 회사가 무한대로 테넌트(세입자)를 받을 수 있습니다.
-2. **IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 타는 L2 (마이그레이션의 자유)**:
+1. <strong>1,600만 개의 무한한 VNI (가상망 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>)</strong>:
+   - 4,096개밖에 없던 12비트 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 대신, 캡슐화 박스 겉면에 24비트짜리 <strong>VNI(VXLAN Network <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong>라는 무지막지한 이름표를 새로 붙였습니다. 
+   - 이제 $2^{24}$, 즉 <strong>약 1,677만 개</strong>의 완벽히 독립된 논리적 가상 네트워크 조각을 만들어낼 수 있어 클라우드 회사가 무한대로 테넌트(세입자)를 받을 수 있습니다.
+2. <strong>IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>을 타는 L2 (마이그레이션의 자유)</strong>:
    - 옛날 L2 패킷은 라우터를 만나면 버려졌습니다. VXLAN은 겉면에 진짜 물리 IP([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/IP)가 적혀 있으므로, 패킷이 언더레이망 라우터들을 자유자재로 타고 넘어 부산 데이터센터까지 광속으로 날아갑니다. 
    - 부산에 도착해 박스를 뜯으면 안에는 감쪽같이 옛날 192.168.0.x(L2) 패킷이 그대로 살아있습니다. 서울에서 부산으로 IP 변경 없이 VM이 살아 움직이는 'L2 확장 마법'이 완성됩니다.
 
-```text
-[언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    ▼
-[VXLAN]
-    │
-    └──▶ [NVGRE MS 주도 캡슐화 통신 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VXLAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,15 +127,19 @@ VXLAN는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…]
-    │
-    ▼
-[현재 개념: VXLAN]
-    │
-    ├──▶ [확장 A: NVGRE MS 주도 캡슐화 통신 체계]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VXLAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NVGRE MS 주도 캡슐화 통신 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 VXLAN는 [언더레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/) 오버레이 터널을 품는 물리…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NVGRE](/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/) MS 주도 캡슐화 통신 체계와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

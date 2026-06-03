@@ -25,31 +25,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 테스트 환경(Staging)에 1억 명의 가상 데이터를 쑤셔 넣고, 아마존 AWS 서버 100대를 똑같이 복제하려면 서버 비용만 한 달에 수억 원이 깨진다(환경 복제의 불가능성). 게다가 아무리 복제해도 고객의 이상한 클릭 패턴(엣지 케이스)이나 진짜 결제 PG사망의 네트워크 지연까지 복제할 수는 없다. **소프트웨어의 진짜 민낯은 오직 '운영 환경의 흙탕물' 속에서만 드러난다.** 그래서 위험을 감수하고라도, 그 위험을 완벽히 통제할 장치([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 토글 등)를 두른 채 운영 서버의 문을 따고 들어가 테스팅을 돌려야만 하는 시대가 왔다.
 
-- **💡 비유**: 운영 환경 테스트(TiP)는 **'비행 중인 여객기 엔진 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 점검'**과 같습니다. 격납고(테스트 서버)에서 아무리 엔진을 돌려봐야 고도 1만 미터의 영하 50도 추위와 난기류(라이브 환경)는 똑같이 재현할 수 없습니다. 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면, 승객들(실제 유저) 모르게 부조종사가 날아가는 비행기 안에서 엔진의 밸브를 살짝 열어보며(TiP) 계기판을 체크해야만 가장 완벽하고 신뢰할 수 있는 데이터가 나옵니다.
+- **💡 비유**: 운영 환경 테스트(TiP)는 <strong>'비행 중인 여객기 엔진 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 점검'</strong>과 같습니다. 격납고(테스트 서버)에서 아무리 엔진을 돌려봐야 고도 1만 미터의 영하 50도 추위와 난기류(라이브 환경)는 똑같이 재현할 수 없습니다. 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면, 승객들(실제 유저) 모르게 부조종사가 날아가는 비행기 안에서 엔진의 밸브를 살짝 열어보며(TiP) 계기판을 체크해야만 가장 완벽하고 신뢰할 수 있는 데이터가 나옵니다.
 
 - **등장 배경 및 발전 과정**:
   1. **"운영망 절대 접근 금지" 시대**: [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 시절엔 운영 서버 접근은 신성모독이었다. 
-  2. **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 거미줄**: 100개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 얽히자, QA 서버 하나에 100개 서버를 똑같이 띄워두는 게 불가능해졌다(테스트 환경 붕괴).
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)의 거미줄</strong>: 100개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 얽히자, QA 서버 하나에 100개 서버를 똑같이 띄워두는 게 불가능해졌다(테스트 환경 붕괴).
   3. **인프라 관측성/분리의 성숙 (현재)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 덕분에 트래픽을 마음대로 자르고, 꼬리표(Header)를 달아 테스트 트래픽과 진짜 결제 트래픽을 완벽히 격리할 수 있는 기술이 완성되면서 TiP가 글로벌 빅테크의 표준으로 등극했다.
 
-- **📢 섹션 요약 비유**: 샌드박스 테스트는 **수영장(통제된 환경)에서 수영 치는 것**입니다. 파도도 없고 물도 따뜻합니다. 반면 TiP는 **동해 바다(운영 환경) 한가운데 밧줄을 매달고 수영하는 것**입니다. 진짜 상어가 언제 튀어나올지 모르는 야생에서, 언제든 배로 당겨 끌어올릴 수 있는 밧줄(안전장치)만 매단 채 진짜 파도의 힘을 느껴보는 궁극의 실전 검증입니다.
+- **📢 섹션 요약 비유**: 샌드박스 테스트는 <strong>수영장(통제된 환경)에서 수영 치는 것</strong>입니다. 파도도 없고 물도 따뜻합니다. 반면 TiP는 <strong>동해 바다(운영 환경) 한가운데 밧줄을 매달고 수영하는 것</strong>입니다. 진짜 상어가 언제 튀어나올지 모르는 야생에서, 언제든 배로 당겨 끌어올릴 수 있는 밧줄(안전장치)만 매단 채 진짜 파도의 힘을 느껴보는 궁극의 실전 검증입니다.
 
 ---
 
 다음은 운영 환경 테스트 (Testing i의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  운영 환경 테스트 (Testing i                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 환경 테스트 (Testing i</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 운영 환경 테스트 (Testing i가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-운영 환경 테스트 (Testing in Production / TiP)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+운영 환경 테스트 (Testing in Production / TiP)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 운영 환경 테스트 (Testing in Production / TiP)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-운영 환경 테스트 (Testing in Production / TiP) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 환경 테스트 (Testing in Production / TiP) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

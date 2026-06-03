@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 수요 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)(Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 또는 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill-On-Demand, ZFOD)는 프로그램이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되지 않은 거대 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 영역이나 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 할당받을 때, **OS가 램을 즉시 주지 않고 빈껍데기만 매핑해 두었다가, 실제 쓸 때(Demand) 빈 프레임을 가져와 보안을 위해 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))으로 가득 채워(세탁) 건네주는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당 기법**이다.
-> 2. **가치**: 10GB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 `malloc` 하더라도 10GB의 램을 0으로 덮어쓰는 끔찍한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 루프 렉(Initialization Overhead)을 0초로 뭉개버려 **프로세스의 부팅/할당 속도를 극한으로 끌어올리는 속임수의 절정**이다.
-> 3. **융합**: 이 0으로 채우는([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill) 작업은 이전 사용자가 램에 남기고 간 카카오톡 비밀번호나 인증서 등 더러운 쓰레기 값(Garbage [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 해커가 훔쳐보지 못하게 막는 **하드웨어 샌드박싱의 가장 중요한 1차 보안 방어선으로 융합**된다.
+> 1. **본질**: 수요 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)(Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 또는 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill-On-Demand, ZFOD)는 프로그램이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되지 않은 거대 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 영역이나 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 할당받을 때, <strong>OS가 램을 즉시 주지 않고 빈껍데기만 매핑해 두었다가, 실제 쓸 때(Demand) 빈 프레임을 가져와 보안을 위해 0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)으로 가득 채워(세탁) 건네주는 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 할당 기법</strong>이다.
+> 2. **가치**: 10GB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 `malloc` 하더라도 10GB의 램을 0으로 덮어쓰는 끔찍한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 루프 렉(Initialization Overhead)을 0초로 뭉개버려 <strong>프로세스의 부팅/할당 속도를 극한으로 끌어올리는 속임수의 절정</strong>이다.
+> 3. **융합**: 이 0으로 채우는([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill) 작업은 이전 사용자가 램에 남기고 간 카카오톡 비밀번호나 인증서 등 더러운 쓰레기 값(Garbage [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 해커가 훔쳐보지 못하게 막는 <strong>하드웨어 샌드박싱의 가장 중요한 1차 보안 방어선으로 융합</strong>된다.
 
 ---
 
@@ -24,33 +24,32 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 보안 결함의 방어**:
   1. **정보 유출의 공포**: OS가 빈 램을 그냥 줬더니, 그 램에 예전에 죽은 은행 앱이 남기고 간 남의 통장 비밀번호가 고스란히 남아있었다(Information Leak).
-  2. **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill의 의무화**: 해킹을 막기 위해 무조건 0으로 덮어쓰고(세탁하고) 줘야 한다는 헌법이 제정됨.
-  3. **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/))**: 근데 0으로 덮어쓰는 짓이 CPU 클럭을 너무 많이 파먹자, 이 세탁 과정을 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)과 결합해 최대한 뒤로 미뤄버림.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill의 의무화</strong>: 해킹을 막기 위해 무조건 0으로 덮어쓰고(세탁하고) 줘야 한다는 헌법이 제정됨.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>)</strong>: 근데 0으로 덮어쓰는 짓이 CPU 클럭을 너무 많이 파먹자, 이 세탁 과정을 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)과 결합해 최대한 뒤로 미뤄버림.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        Demand Zero Paging(ZFOD)의 아찔한 0초 할당 마술 시각화            │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 상황: C/C++ 개발자가 `int arr[1,000,000]` (약 4MB) 선언! ]             │
-│                                                                          │
-│ ▶ 1. OS의 뻥카 (Allocation 0초 컷)                                       │
-│   - 가상 메모리 장부에 4MB짜리 구역(VMA)만 쓱 그려 넣음.                 │
-│   - 1000장의 페이지 테이블 엔트리(PTE)를 전부 💥 Invalid(I)로 세팅.      │
-│   - 물리 RAM 할당 0바이트, 0으로 채우는 헛수고 0회. 1클럭 만에 리턴!     │
-│                                                                          │
-│ ▶ 2. 유저의 첫 번째 타격 (Demand)                                        │
-│   개발자: `arr[5] = 99;` (배열의 첫 페이지를 건드림!)                    │
-│                                                                          │
-│ ▶ 3. 하드웨어의 비명과 커널의 0.1초 세탁 (Minor Page Fault)              │
-│   - MMU: "앗 I 비트다! 에러 펑!" (Trap)                                  │
-│   - OS 커널: "휴 올게 왔군. 램에 굴러다니는 남는 빈방(Free) 하나 가져와. │
-│             여기에 남의 비밀번호 잔뜩 묻어있네? 00000000 으로 싹 밀어!"  │
-│             (이게 바로 Zero-Fill !)                                      │
-│   - OS 커널: 방금 0으로 닦은 그 4KB 방을 `arr[0~1023]` 주소에 매핑!      │
-│   - V 비트로 고치고 다시 재실행! (`arr[5] = 99` 정상 입력됨)             │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand Zero Paging(ZFOD)의 아찔한 0초 할당 마술 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[ 상황: C/C++ 개발자가 <code>int arr</div><div class="kb-diagram-node">1,000,000</div><div class="kb-diagram-note"></code> (약 4MB) 선언! ]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. OS의 뻥카 (Allocation 0초 컷)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 메모리 장부에 4MB짜리 구역(VMA)만 쓱 그려 넣음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1000장의 페이지 테이블 엔트리(PTE)를 전부 💥 Invalid(I)로 세팅.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 물리 RAM 할당 0바이트, 0으로 채우는 헛수고 0회. 1클럭 만에 리턴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 유저의 첫 번째 타격 (Demand)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">개발자: <code>arr</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 99;</code> (배열의 첫 페이지를 건드림!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 하드웨어의 비명과 커널의 0.1초 세탁 (Minor Page Fault)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MMU: "앗 I 비트다! 에러 펑!" (Trap)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널: "휴 올게 왔군. 램에 굴러다니는 남는 빈방(Free) 하나 가져와.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기에 남의 비밀번호 잔뜩 묻어있네? 00000000 으로 싹 밀어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이게 바로 Zero-Fill !)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- OS 커널: 방금 0으로 닦은 그 4KB 방을 <code>arr</div><div class="kb-diagram-node">0~1023</div><div class="kb-diagram-note"></code> 주소에 매핑!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- V 비트로 고치고 다시 재실행! (<code>arr</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 99</code> 정상 입력됨)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 C언어의 `calloc()` (0으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화해서 힙 할당)이나 전역 변수([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))가 1초 만에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되는 엄청난 꼼수의 실체다. OS는 절대로 4MB 전체를 미리 0으로 닦지 않는다. 1000장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중 유저가 실제로 건드린 딱 그 1장(4KB)만 그 찰나의 순간에 0으로 세탁([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill)해서 던져준다. 나머지 999장은 유저가 안 건드리면 평생 빈껍데기인 채로 프로그램이 종료되며 램을 소름 끼치게 아낀다.
 
 - **📢 섹션 요약 비유**: 중국집에서 손님이 100명 예약했다고 짜장면 100그릇을 1시간 전부터 미리 볶아두면(과거 방식), 손님이 안 오거나 짬뽕을 시킬 때 다 버리게 됩니다. 주문(Demand)이 들어오는 딱 그 순간에만 1그릇씩 미친 듯이 웍을 돌려([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill) 내어가는 극강의 주문 생산 효율화 시스템입니다.
@@ -62,11 +61,11 @@ tags = ["studynote-operating-system"]
 ### 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))라는 만능 방패 한 장
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 여기서 한 술 더 뜨는 '전설의 흑마술'을 하나 더 창조했다.
-- 만약 유저가 `arr[5]`에 값을 쓰진 않고 **"읽기(Read)"**만 시도한다면?
+- 만약 유저가 `arr[5]`에 값을 쓰진 않고 <strong>"읽기(Read)"</strong>만 시도한다면?
 - C언어 규칙상 아직 안 쓴 곳을 읽으면 무조건 `0`이 반환되어야 한다.
 - 이걸 위해 빈 프레임을 하나 가져와서 0으로 닦아줄 필요가 있을까? 어차피 `0`만 읽고 갈 텐데.
-- **해결책 (The [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))**: 리눅스는 부팅될 때 딱 1장(4KB)짜리, 내용물이 100% `0x00`으로 꽉 찬 **"전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Global [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))"**를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 예쁘게 만들어둔다.
-- 누군가 안 쓴 익명 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽으려(Read) 폴트를 내면, OS는 **모든 놈들의 가상 주소 화살표를 이 1장짜리 '제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'에 몽땅 꽂아버리고 Read-Only 락을 걸어버린다!**
+- <strong>해결책 (The <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong>: 리눅스는 부팅될 때 딱 1장(4KB)짜리, 내용물이 100% `0x00`으로 꽉 찬 <strong>"전역 제로 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(Global <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)"</strong>를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 예쁘게 만들어둔다.
+- 누군가 안 쓴 익명 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽으려(Read) 폴트를 내면, OS는 <strong>모든 놈들의 가상 주소 화살표를 이 1장짜리 '제로 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>'에 몽땅 꽂아버리고 Read-Only 락을 걸어버린다!</strong>
 - 10만 개의 앱이 "앗싸 나 0으로 꽉 찬 4KB 받았어!"라고 기뻐하며 0을 읽어 가지만, 사실 10만 놈이 물리 램 딱 1장(4KB)의 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 거울처럼 다 같이 쳐다보고 있는 눈물겨운 램 절약 사기극이 펼쳐진다.
 
 ---
@@ -77,7 +76,7 @@ tags = ["studynote-operating-system"]
 - 그러다 어느 놈이 `arr[0] = 5;` 하고 값 하나를 쓰려고(Write) 칼을 든다.
 - 공용 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 Read-Only 락이 걸려있으므로 즉시 💥 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))이 터진다!
 - OS가 깨어나서 "아, 이 자식 진짜 글씨 쓰려나 보네. 0짜리 가짜 방 빼고, 진짜 빈 방 가져와서 0으로 닦아준 다음 5를 쓰게 해줘야겠다."
-- 이것이 정확히 앞 장에서 배운 **[Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))** 메커니즘과 완벽히 동일하다. 제로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 COW의 특수 응용판이다.
+- 이것이 정확히 앞 장에서 배운 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-On-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> 메커니즘과 완벽히 동일하다. 제로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 COW의 특수 응용판이다.
 
 - **📢 섹션 요약 비유**: 미술 학원에서 도화지(램)를 아끼려고, 벽에 커다란 '흰색 스크린(전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))' 하나를 쏴놓고 100명의 아이에게 "너희 각자 흰 도화지 한 장씩 받았지? 눈으로만 봐!" 하고 뻥을 칩니다. 아이가 진짜로 물감을 칠하려고 붓을 드는(Write) 그 찰나의 순간에만, 원장님(OS)이 빛의 속도로 진짜 하얀 종이를 꺼내 밑에 깔아줘서 붓을 칠하게 해주는 극악무도한 자재 절약술입니다.
 
@@ -91,9 +90,9 @@ tags = ["studynote-operating-system"]
 
 | 종류 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (언제 터지는가?) | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뒷수습 조치 | 결과 |
 |:---|:---|:---|:---|
-| **Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 안 된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), 힙)을 찌를 때 | 남이 버린 램 방을 가져와 **0으로 깨끗이 세탁([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Fill) 후** 줌 | 쓰레기값 보안 유출 완벽 차단 |
-| **[Copy On Write](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))** | `fork()`한 자식이 부모 변수를 덮어쓸 때 | 새 빈방을 가져와 **부모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통째로 복사(Memcpy)** 해줌 | 프로세스 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(fork) 오버헤드 박멸 |
-| **Shared [Mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)** | 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(.so)를 찌를 때 | **이미 다른 앱이 올려놓은 램 주소에 포인터 화살표만 이어줌** | 램 낭비 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) (중복 적재 방지) |
+| <strong>Demand <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a></strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 안 된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), 힙)을 찌를 때 | 남이 버린 램 방을 가져와 <strong>0으로 깨끗이 세탁(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill) 후</strong> 줌 | 쓰레기값 보안 유출 완벽 차단 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/">Copy On Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> | `fork()`한 자식이 부모 변수를 덮어쓸 때 | 새 빈방을 가져와 <strong>부모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 통째로 복사(Memcpy)</strong> 해줌 | 프로세스 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(fork) 오버헤드 박멸 |
+| <strong>Shared <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">Mmap</a></strong> | 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(.so)를 찌를 때 | **이미 다른 앱이 올려놓은 램 주소에 포인터 화살표만 이어줌** | 램 낭비 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) (중복 적재 방지) |
 
 ### 왜 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))에 그렇게 목을 매는가?
 
@@ -101,17 +100,20 @@ tags = ["studynote-operating-system"]
 - 1번 앱 (은행 앱) : 유저가 비밀번호 `1234`를 입력해 램 50번 프레임에 저장했다. 은행 볼일이 끝나고 앱이 꺼지며 램 50번을 OS에 반납했다.
 - 2번 앱 (해커가 만든 악성 앱) : 1초 뒤 `malloc`을 왕창 때려 램 50번 프레임을 배정받았다.
 - **만약 ZFOD(세탁)가 없다면?** 해커 앱이 자기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 읽었을 뿐인데, 조금 전 은행 앱이 버리고 간 `1234`라는 비밀번호가 고스란히 텍스트로 남아있다. (이른바 Information Leakage 공격).
-- 그래서 리눅스와 윈도우는 아무리 CPU 사이클이 깎여나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지더라도 하늘이 두 쪽 나도 **"유저에게 빈 램을 넘기기 전 무조건 100% 0으로 밀어버린다"**는 강박적 결벽증(ZFOD)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최우선 헌법으로 박아넣었다. 
+- 그래서 리눅스와 윈도우는 아무리 CPU 사이클이 깎여나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지더라도 하늘이 두 쪽 나도 <strong>"유저에게 빈 램을 넘기기 전 무조건 100% 0으로 밀어버린다"</strong>는 강박적 결벽증(ZFOD)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최우선 헌법으로 박아넣었다. 
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 최적화 옵션│ 초기화 속도  │ 램 낭비(Overcommit)│ 타 앱 정보 유출(해킹)│
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ 무식한 할당│ ☠️ 최악(느림) │ ☠️ 다 줌 (낭비) │ 🟢 안 터짐(미리 닦음)  │
-│ ZFOD 생략 │ 🚀 빛의 속도 │ 🟢 1장씩 줌   │ ☠️ 100% 털림 (재앙)        │
-│ **ZFOD** │ **🚀 빠름** │ **🟢 1장씩 줌** │ **🟢 원천 봉쇄**           │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 옵션</div><div class="kb-diagram-cell">초기화 속도</div><div class="kb-diagram-cell">램 낭비(Overcommit)</div><div class="kb-diagram-cell">타 앱 정보 유출(해킹)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무식한 할당</div><div class="kb-diagram-cell">☠️ 최악(느림)</div><div class="kb-diagram-cell">☠️ 다 줌 (낭비)</div><div class="kb-diagram-cell">🟢 안 터짐(미리 닦음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZFOD 생략</div><div class="kb-diagram-cell">🚀 빛의 속도</div><div class="kb-diagram-cell">🟢 1장씩 줌</div><div class="kb-diagram-cell">☠️ 100% 털림 (재앙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZFOD</div><div class="kb-diagram-cell">🚀 빠름</div><div class="kb-diagram-cell">🟢 1장씩 줌</div><div class="kb-diagram-cell">🟢 원천 봉쇄</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(ZFOD)은 속도, 램 절약, 보안이라는 절대로 동시에 잡을 수 없는 트릴레마(Trilemma)를 모두 완벽하게 잡아낸 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 공학의 마스터피스다. 
 
 - **📢 섹션 요약 비유**: 이전에 살던 세입자(은행 앱)가 놓고 간 비밀 금고 번호(쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 다음 세입자(해커 앱)가 못 보게 하려면, 집주인(OS)이 무조건 입주 직전에 도배와 장판([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill)을 싹 새로 해서 과거의 흔적을 0%로 지워버려야만 원룸 건물(시스템)에 범죄가 끊이지 않는 치안을 유지할 수 있습니다.
@@ -123,13 +125,13 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: C언어 `malloc()` vs `calloc()` [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 배신
 1. **면접 단골 질문**: "0으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화해 주는 `calloc`이 쓰레기값을 뱉는 `malloc`보다 느린가요?"
 2. **초보자의 대답**: "네! `calloc`은 0으로 채우는 루프(`memset`)를 돌아야 하니까 당연히 O(N)으로 무겁고 느립니다."
-3. **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어의 코웃음 (ZFOD의 흑마술)**:
+3. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 엔지니어의 코웃음 (ZFOD의 흑마술)</strong>:
    - 만약 당신이 1GB짜리 거대 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 `calloc(1GB)`으로 불렀다 치자.
    - OS는 바보가 아니다. "어? 이놈이 1GB를 달라고 하네? 근데 어차피 0으로 채워 달라고? 개꿀 ㅋ"
-   - OS는 1GB 전체의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 저 위에 있는 **단 1장의 '전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Global [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'에 몽땅 꽂아버린다.**
+   - OS는 1GB 전체의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 저 위에 있는 <strong>단 1장의 '전역 제로 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(Global <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)'에 몽땅 꽂아버린다.</strong>
    - 1GB를 0으로 채우는 루프(Memset)를 아예 돌리지 않는다! 0.001초 만에 1GB짜리 `calloc`이 빵 터지며 할당이 끝난다.
    - 나중에 유저가 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 글을 쓰려 할 때(Write) 비로소 COW가 터지며 1장씩 떨어져 나가 세탁(ZFOD)된다.
-4. **결론**: 최신 리눅스 환경에서 거대 메모리를 할당할 때는 `malloc`을 하고 유저가 직접 `memset` 0을 먹이는 것보다, 차라리 OS의 전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 흑마술을 타는 **`calloc`이 속도와 램 절약 측면에서 수천 배 더 빠르고 위대한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 낸다.
+4. **결론**: 최신 리눅스 환경에서 거대 메모리를 할당할 때는 `malloc`을 하고 유저가 직접 `memset` 0을 먹이는 것보다, 차라리 OS의 전역 제로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 흑마술을 타는 <strong><code>calloc</code>이 속도와 램 절약 측면에서 수천 배 더 빠르고 위대한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 불필요한 이중 세탁 
 자바(Java)는 보안을 위해 객체를 띄울 때 멤버 변수를 무조건 0이나 null로 밀어버린다.
@@ -146,8 +148,8 @@ OS가 피땀 흘려 0으로 닦아준 깨끗한 램을, JVM이 건네받자마�
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 보안([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 철벽 방어**| 타 프로세스가 쓰던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잔재를 0으로 밀어버림으로써 크로스-프로세스 해킹(Information Leak) 원천 봉쇄 |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩(Allocation) 속도 0화** | 수 기가바이트의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 선언([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)/[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 단 한 번의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑(Invalid/[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 끝내 부팅 페널티 압살 |
+| <strong>메모리 보안(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 철벽 방어</strong>| 타 프로세스가 쓰던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잔재를 0으로 밀어버림으로써 크로스-프로세스 해킹(Information Leak) 원천 봉쇄 |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 로딩(Allocation) 속도 0화</strong> | 수 기가바이트의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 선언([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)/[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))을 단 한 번의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑(Invalid/[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 끝내 부팅 페널티 압살 |
 | **램(RAM) Overcommit의 정당화**| "0으로 채울 공간"은 실제로 쓰이기 전까지 물리 램을 1바이트도 먹지 않으므로, 리눅스가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 수백 배 뻥튀기해 파는 기적 장사의 원동력 |
 
 ### 결론 및 미래 전망
@@ -169,15 +171,19 @@ OS가 피땀 흘려 0으로 닦아준 깨끗한 램을, JVM이 건네받자마�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
-    │
-    ▼
-[수요 페이지 제로화 (Demand Zero Paging)]
-    │
-    ├──▶ [더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
-    └──▶ [캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수요 페이지 제로화 (Demand Zero Paging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

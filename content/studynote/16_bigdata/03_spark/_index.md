@@ -19,29 +19,23 @@ tags = ["bigdata"]
 
 1세대 빅데이터 기술인 하둡 맵리듀스 (MapReduce)는 각 단계마다 처리 결과를 디스크에 썼다 읽는 방식을 반복했다. 이는 데이터 유실 방지에는 유리했으나, 반복적인 연산이 필요한 머신러닝이나 인터랙티브 쿼리에서는 극심한 속도 저하를 초래했다. 아파치 스파크는 이러한 한계를 극복하기 위해 모든 중간 데이터를 메모리에 유지하는 **인메모리 연산** 패러다임을 제시하며 등장했다.
 
-스파크가 필요한 이유는 명확하다. 첫째, **초고속 데이터 처리**가 필요한 실시간 비즈니스 요구사항을 충족하기 위해서이며, 둘째, 하나의 프레임워크로 **다양한 워크로드 (Batch, Stream, ML, SQL)**를 처리하여 운영 복잡성을 낮추기 위해서이고, 셋째, 개발자가 분산 시스템의 복잡성을 신경 쓰지 않고 **고수준 API**로 로직에만 집중할 수 있게 하기 위함이다.
+스파크가 필요한 이유는 명확하다. 첫째, <strong>초고속 데이터 처리</strong>가 필요한 실시간 비즈니스 요구사항을 충족하기 위해서이며, 둘째, 하나의 프레임워크로 <strong>다양한 워크로드 (Batch, Stream, ML, SQL)</strong>를 처리하여 운영 복잡성을 낮추기 위해서이고, 셋째, 개발자가 분산 시스템의 복잡성을 신경 쓰지 않고 <strong>고수준 API</strong>로 로직에만 집중할 수 있게 하기 위함이다.
 
 이 그림은 스파크의 통합 기술 스택을 보여준다. 하나의 코어 엔진 위에서 다양한 데이터 분석 요구사항이 어떻게 처리되는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 아파치 스파크 통합 스택                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │
-│   │ Spark SQL│ │ Spark    │ │ MLlib    │ │ GraphX   │       │
-│   │ (SQL/DF) │ │ Streaming│ │ (ML)     │ │ (그래프) │       │
-│   └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘       │
-│        └────────────┴──────┬─────┴────────────┘             │
-│                            ▼                                │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │          스파크 코어 (RDD, 스케줄러)                │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                            ▼                                │
-│   [ 리소스 관리: YARN, Kubernetes, Mesos, Standalone ]      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아파치 스파크 통합 스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark SQL</div><div class="kb-diagram-cell">Spark</div><div class="kb-diagram-cell">MLlib</div><div class="kb-diagram-cell">GraphX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL/DF)</div><div class="kb-diagram-cell">Streaming</div><div class="kb-diagram-cell">(ML)</div><div class="kb-diagram-cell">(그래프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파크 코어 (RDD, 스케줄러)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리소스 관리: YARN, Kubernetes, Mesos, Standalone</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '통합 (Unified)'이다. 과거에는 SQL 분석을 위해 Hive를, 스트리밍을 위해 Storm을, ML을 위해 Mahout을 따로 배워야 했으나, 이제는 스파크 하나로 모든 영역을 커버할 수 있다. 실무에서는 이러한 통합 능력이 데이터 파이프라인의 일관성을 높이고 유지보수 비용을 획기적으로 낮추는 결정적 요인이 된다.
 
@@ -60,7 +54,7 @@ tags = ["bigdata"]
 
 ### 스파크 실행 아키텍처 (Driver & Executor)
 
-스파크 클러스터는 마스터 역할을 하는 **Driver**와 실제 연산을 수행하는 **Executor**들로 구성된다.
+스파크 클러스터는 마스터 역할을 하는 <strong>Driver</strong>와 실제 연산을 수행하는 <strong>Executor</strong>들로 구성된다.
 
 1. **Driver**: 코드를 실행하여 SparkContext를 생성하고, 전체 작업을 DAG (방향성 비순환 그래프)로 구성하여 태스크 (Task) 단위로 쪼갠다.
 2. **Cluster Manager**: YARN이나 K8s 등으로부터 자원을 할당받아 Executor를 띄운다.
@@ -68,30 +62,26 @@ tags = ["bigdata"]
 
 이 구조도는 스파크 작업의 처리 흐름과 데이터 지역성 (Data Locality)을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 스파크 클러스터 실행 모델                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 드라이버 프로그램 ]                                     │
-│   (SparkSession) ──▶ [ DAG 스케줄러 ] ──▶ [ 태스크 스케줄러 ]│
-│                                                 │           │
-│          ┌──────────────────────────────────────┴──┐        │
-│          ▼                                         ▼        │
-│   [ 익스큐터 1 ]                            [ 익스큐터 2 ]  │
-│   ┌─────────────┐                           ┌─────────────┐ │
-│   │ [태스크][태스크]│                         │ [태스크][태스크]│ │
-│   │   (캐시)    │                           │   (캐시)    │ │
-│   └─────────────┘                           └─────────────┘ │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'DAG Scheduler'의 역할이다. 사용자가 정의한 일련의 연산들을 분석하여, 셔플이 일어나는 지점을 기준으로 **Stage**를 나누고 연산을 최적화한다. 실무에서는 이 DAG 시각화 도구를 통해 어느 지점에서 연산이 느려지는지, 데이터가 한쪽으로 쏠리는 스큐 (Skew) 현상이 있는지 파악하는 것이 튜닝의 핵심이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파크 클러스터 실행 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드라이버 프로그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DAG 스케줄러</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">태스크 스케줄러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">익스큐터 1</div><div class="kb-diagram-node">익스큐터 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">태스크</div><div class="kb-diagram-node">태스크</div><div class="kb-diagram-node">태스크</div><div class="kb-diagram-node">태스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시)</div><div class="kb-diagram-cell">(캐시)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'DAG Scheduler'의 역할이다. 사용자가 정의한 일련의 연산들을 분석하여, 셔플이 일어나는 지점을 기준으로 <strong>Stage</strong>를 나누고 연산을 최적화한다. 실무에서는 이 DAG 시각화 도구를 통해 어느 지점에서 연산이 느려지는지, 데이터가 한쪽으로 쏠리는 스큐 (Skew) 현상이 있는지 파악하는 것이 튜닝의 핵심이다.
 
 ### RDD와 Lineage: 장애 복구의 마법
 
-스파크는 데이터를 복제하는 대신, 데이터가 생성된 **계보 (Lineage)**를 기억한다. 데이터가 유실되면 드라이버가 기억하는 리니지를 따라 원래 소스부터 다시 계산하여 복구한다.
+스파크는 데이터를 복제하는 대신, 데이터가 생성된 <strong>계보 (Lineage)</strong>를 기억한다. 데이터가 유실되면 드라이버가 기억하는 리니지를 따라 원래 소스부터 다시 계산하여 복구한다.
 
 📢 **섹션 요약 비유**: 드라이버는 '현장 소장'이고 익제큐터는 '현장 인부'입니다. 소장은 작업 지시서(DAG)를 들고 전체 일정을 관리하며, 인부 한 명이 다치면(노드 장애) 지시서를 보고 다른 인부에게 그 일을 처음부터 다시 시키는 것과 같습니다.
 
@@ -129,27 +119,25 @@ tags = ["bigdata"]
 ### 기술사적 판단: 스파크 성능 최적화 시나리오
 
 **시나리오 1: 데이터 셔플 (Shuffle)로 인한 네트워크 병목**
-- **판단**: 스파크에서 셔플은 가장 비싼 연산이다. Join이나 GroupBy 수행 전, **Broadcast Join**을 고려한다. 작은 테이블을 모든 노드의 메모리에 복사해 두면 네트워크 이동 없이 로컬에서 Join을 끝낼 수 있다. 또한 데이터를 미리 특정 키로 파티셔닝해두는 **Bucketing** 기법을 적용한다.
+- **판단**: 스파크에서 셔플은 가장 비싼 연산이다. Join이나 GroupBy 수행 전, <strong>Broadcast Join</strong>을 고려한다. 작은 테이블을 모든 노드의 메모리에 복사해 두면 네트워크 이동 없이 로컬에서 Join을 끝낼 수 있다. 또한 데이터를 미리 특정 키로 파티셔닝해두는 **Bucketing** 기법을 적용한다.
 
 **시나리오 2: 특정 노드만 죽는 Out of Memory (OOM) 발생**
-- **판단**: 데이터가 특정 키에 쏠려 있는 **Data Skew** 현상을 의심한다. Salting 기법(키에 랜덤 숫자를 붙여 분산)을 사용하여 데이터를 골고루 퍼뜨린다. 또한 JVM의 힙 메모리 관리 설정을 점검하고, **Storage Level**을 조정하여 메모리 대신 디스크를 혼용하도록 가이드한다.
+- **판단**: 데이터가 특정 키에 쏠려 있는 **Data Skew** 현상을 의심한다. Salting 기법(키에 랜덤 숫자를 붙여 분산)을 사용하여 데이터를 골고루 퍼뜨린다. 또한 JVM의 힙 메모리 관리 설정을 점검하고, <strong>Storage Level</strong>을 조정하여 메모리 대신 디스크를 혼용하도록 가이드한다.
 
 이 도식은 스파크 튜닝을 위한 기술사적 판단 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               스파크 튜닝 의사결정 프레임워크               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [앱 지연?] ───▶ [DAG UI 확인] ────▶ [병목 구간 식별]      │
-│                          │                  │               │
-│          ┌───────────────┴──────────┬───────┴────────┐      │
-│          ▼                          ▼                ▼      │
-│   [데이터 스큐?]             [디스크 스필?]   [네트워크 부하?]│
-│   -> 솔팅 적용              -> 메모리 증설   -> 브로드캐스트│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파크 튜닝 의사결정 프레임워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱 지연?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DAG UI 확인</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">병목 구간 식별</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스큐?</div><div class="kb-diagram-node">디스크 스필?</div><div class="kb-diagram-node">네트워크 부하?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 솔팅 적용 -&gt; 메모리 증설 -&gt; 브로드캐스트</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 스파크 튜닝은 꽉 막힌 고속도로에서 병목 지점(셔플)을 찾아내고, 차선(파티션)을 늘리거나 전용 차로(브로드캐스트)를 만들어 소통을 원활하게 하는 것과 같습니다.
 
@@ -164,7 +152,7 @@ tags = ["bigdata"]
 
 ### 미래 전망: 서버리스 스파크와 레이크하우스
 
-최근 스파크는 클라우드 네이티브 환경에 최적화된 **Serverless Spark** (Databricks, AWS Glue)로 진화하고 있다. 또한 Delta Lake나 Iceberg와 결합하여 데이터 레이크의 유연성과 DW의 트랜잭션을 동시에 제공하는 **데이터 레이크하우스 (Data Lakehouse)**의 핵심 엔진으로서 독보적인 위치를 굳히고 있다. 기술사는 단순 연산 엔진으로서의 스파크를 넘어, 전체 데이터 거버넌스와 결합된 전략적 자산으로서 스파크를 바라봐야 한다.
+최근 스파크는 클라우드 네이티브 환경에 최적화된 **Serverless Spark** (Databricks, AWS Glue)로 진화하고 있다. 또한 Delta Lake나 Iceberg와 결합하여 데이터 레이크의 유연성과 DW의 트랜잭션을 동시에 제공하는 <strong>데이터 레이크하우스 (Data Lakehouse)</strong>의 핵심 엔진으로서 독보적인 위치를 굳히고 있다. 기술사는 단순 연산 엔진으로서의 스파크를 넘어, 전체 데이터 거버넌스와 결합된 전략적 자산으로서 스파크를 바라봐야 한다.
 
 📢 **섹션 요약 비유**: 미래의 스파크는 수도꼭지를 틀면 물이 나오듯, 인프라 걱정 없이 쿼리만 던지면 즉시 인사이트를 쏟아내는 '데이터 인텔리전스'의 핵심 혈관이 될 것입니다.
 
@@ -185,20 +173,22 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Hadoop MapReduce (디스크 기반, 느림)
-    │
-    ▼
-Apache Spark (RDD → DataFrame → Dataset)
-    │
-    ├─► Spark SQL — SQL 기반 분산 처리
-    ├─► Spark Streaming → Structured Streaming
-    ├─► MLlib — 분산 머신러닝
-    └─► GraphX — 그래프 연산
-    │
-    ▼
-Spark on Kubernetes / Delta Lake 통합
-    │
-    ▼
-Apache Flink (스트리밍 우선 아키텍처)와 경쟁·공존
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hadoop MapReduce (디스크 기반, 느림)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Apache Spark (RDD → DataFrame → Dataset)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Spark SQL — SQL 기반 분산 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Spark Streaming → Structured Streaming</div>
+<div class="kb-diagram-tree-item" style="--depth:2">MLlib — 분산 머신러닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GraphX — 그래프 연산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark on Kubernetes / Delta Lake 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Apache Flink (스트리밍 우선 아키텍처)와 경쟁·공존</div>
+</div>
+</div>
+
+

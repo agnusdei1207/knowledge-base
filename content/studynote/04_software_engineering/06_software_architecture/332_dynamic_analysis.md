@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: C++나 Java로 게시판 서버를 만들었다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))는 "버그 0개, 완벽함!"이라고 통과시켰다. 그런데 서버를 배포하고 3일이 지나자 톰캣(Tomcat) 서버가 `OutOfMemory(OOM)` 에러를 뿜으며 픽 쓰러졌다. 소스 코드(글자)만 봐서는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(List) 안에 객체가 10개 쌓일지 1억 개가 쌓일지 알 길이 없다. 오직 코드를 진짜로 실행해 보고, 사용자 클릭 이벤트(트래픽)를 쏴보면서 **"메모리 해제가 안 되고 점점 쓰레기가 쌓이고 있네?"라고 런타임 현상을 관찰해야만** 잡을 수 있는 병목이 존재했기 때문이다.
 
-- **💡 비유**: **[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)**이 자동차 설계도를 보며 "이 브레이크 패드는 너무 얇아서 끊어지겠네"라고 수학적으로 계산해 내는 것이라면, **동적 분석**은 만들어진 차를 트랙에 올리고 시속 200km로 3박 4일 동안 직접 몰아보는(크래시 테스트) 것입니다. 설계도에는 안 보였지만 실제로 차를 과격하게 굴렸더니 1,000km쯤 달렸을 때 바퀴 축이 열을 받아 녹아내리는 걸 발견하는 것이 동적 분석의 진짜 가치입니다.
+- **💡 비유**: <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a></strong>이 자동차 설계도를 보며 "이 브레이크 패드는 너무 얇아서 끊어지겠네"라고 수학적으로 계산해 내는 것이라면, <strong>동적 분석</strong>은 만들어진 차를 트랙에 올리고 시속 200km로 3박 4일 동안 직접 몰아보는(크래시 테스트) 것입니다. 설계도에는 안 보였지만 실제로 차를 과격하게 굴렸더니 1,000km쯤 달렸을 때 바퀴 축이 열을 받아 녹아내리는 걸 발견하는 것이 동적 분석의 진짜 가치입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **디버거(Debugger)와 Print의 시대**: 예전에는 코드 중간중간에 `printf`나 브레이크포인트(Breakpoint)를 찍어가며 변수값을 런타임에 일일이 까보는 것이 동적 분석의 전부였다.
   2. **프로파일러(Profiler)의 등장**: [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 심각해지자, Valgrind(C/C++)나 JProfiler(Java) 같은 전문 도구가 등장하여 함수 실행 시간 0.001초까지 추적([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/))하고 메모리 힙을 엑스레이처럼 까보기 시작했다.
-  3. **APM과 [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/) (현재)**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 클라우드 시대가 도래하며, 내 서버 하나가 아니라 50개의 서버를 거쳐가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(동적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 추적해야 했다. Scouter, Datadog 같은 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)(Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)) 솔루션이 24시간 내내 운영 서버의 동적 상태를 스캔하는 거대한 인프라로 발전했다.
+  3. <strong>APM과 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/">분산 트레이싱</a> (현재)</strong>: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 클라우드 시대가 도래하며, 내 서버 하나가 아니라 50개의 서버를 거쳐가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(동적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 추적해야 했다. Scouter, Datadog 같은 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)(Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)) 솔루션이 24시간 내내 운영 서버의 동적 상태를 스캔하는 거대한 인프라로 발전했다.
 
 - **📢 섹션 요약 비유**: 동적 분석은 심장 홀터 검사입니다. 가만히 누워서 찍는 엑스레이([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))로는 절대 잡히지 않는 부정맥(가끔 터지는 버그)을 잡기 위해, 24시간 동안 기계를 몸에 달고 일상생활(실행)을 하면서 심장이 언제 느려지고(병목) 피가 멈추는지([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))를 잡아내는 것입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 동적 분석 (Dynamic Analy의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  동적 분석 (Dynamic Analy                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 분석 (Dynamic Analy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 동적 분석 (Dynamic Analy가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-동적 분석 (Dynamic Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+동적 분석 (Dynamic Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 동적 분석 (Dynamic Analysis)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-동적 분석 (Dynamic Analysis) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 분석 (Dynamic Analysis) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

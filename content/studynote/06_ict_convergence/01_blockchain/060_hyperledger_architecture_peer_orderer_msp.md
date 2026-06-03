@@ -31,17 +31,23 @@ Fabric은 모든 노드가 모든 일을 하지 않는다. 신원 확인은 MSP�
 
 Fabric의 핵심은 역할 분담이다. 각 노드는 자기 역할만 맡고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 절차를 거쳐 원장에 반영된다.
 
-```text
-Client
-  ↓ proposal
-Endorsing Peer
-  ↓ execute chaincode
-Endorsement
-  ↓
-Orderer
-  ↓ sort blocks
-Peers validate / commit
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Client</div>
+<div class="kb-diagram-note">↓ proposal</div>
+<div class="kb-diagram-note">Endorsing Peer</div>
+<div class="kb-diagram-note">↓ execute chaincode</div>
+<div class="kb-diagram-note">Endorsement</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Orderer</div>
+<div class="kb-diagram-note">↓ sort blocks</div>
+<div class="kb-diagram-note">Peers validate / commit</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ Fabric은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockch
 
 ## 관련 개념 맵
 
-```text
-MSP
-   ↓
-Peer / Orderer
-   ↓
-Execute-Order-Validate
-   ↓
-기업형 블록체인 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MSP</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Peer / Orderer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Execute-Order-Validate</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기업형 블록체인 거버넌스</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-퍼블릭 블록체인
-   ↓
-퍼미션드 블록체인
-   ↓
-Hyperledger Fabric
-   ↓
-MSP / Peer / Orderer 분리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">퍼블릭 블록체인</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">퍼미션드 블록체인</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hyperledger Fabric</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MSP / Peer / Orderer 분리</div>
+</div>
+</div>
+
+
 
 ---
 

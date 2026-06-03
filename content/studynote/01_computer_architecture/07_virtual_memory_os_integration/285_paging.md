@@ -27,19 +27,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 필요한지를, [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)과 고정 크기 매핑의 차이로 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              연속 할당의 한계와 페이징의 해결 방식 비교                   │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 연속 할당                     │ 페이징                                    │
-│                               │                                            │
-│ [P1][빈칸][P2][빈칸][P3]      │ [F0][F1][F2][F3][F4][F5]                 │
-│      ↑     ↑                 │   │   │   │   │   │   │                  │
-│ 총합은 충분하지만             │  Pg2 Pg0  -  Pg1  -  Pg3                 │
-│ 큰 프로세스를 넣을 연속 구간  │                                            │
-│ 이 없음                       │ 빈 프레임이면 어디든 적재 가능            │
-└───────────────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 할당의 한계와 페이징의 해결 방식 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 할당</div><div class="kb-diagram-cell">페이징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">F0</div><div class="kb-diagram-node">F1</div><div class="kb-diagram-node">F2</div><div class="kb-diagram-node">F3</div><div class="kb-diagram-node">F4</div><div class="kb-diagram-node">F5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총합은 충분하지만</div><div class="kb-diagram-cell">Pg2 Pg0 - Pg1 - Pg3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 프로세스를 넣을 연속 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 없음</div><div class="kb-diagram-cell">빈 프레임이면 어디든 적재 가능</div></div>
+</div>
+</div>
+
+
 
 왼쪽은 빈 공간의 총량과 실제 적재 가능성이 다를 수 있음을 보여주고, 오른쪽은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 통일하면 빈 프레임만 있으면 된다는 점을 보여준다. 그래서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 단순 저장 기법이 아니라, 메모리 배치를 주소 변환으로 추상화한 구조적 해법이다.
 
@@ -65,29 +66,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 CPU가 가상 주소를 실제 물리 주소로 바꾸는 최소 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    페이징 기반 주소 변환의 핵심 경로                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU 가상 주소                                                              │
-│      │                                                                     │
-│      ▼                                                                     │
-│  [ 페이지 번호 | 오프셋 ]                                                   │
-│      │                                                                     │
-│      ├──────────────▶ TLB 조회 ────── Hit ─────▶ [ 프레임 번호 | 오프셋 ]  │
-│      │                                                                     │
-│      └──────────────▶ 페이지 테이블 조회 ── Present=1 ─▶ 물리 주소 생성    │
-│                                   │                                        │
-│                                   └─ Present=0 ─▶ 페이지 부재 (Page Fault) │
-│                                                     │                      │
-│                                                     ▼                      │
-│                                            OS가 디스크에서 적재             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징 기반 주소 변환의 핵심 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 가상 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 번호 | 오프셋</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 번호 | 오프셋</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 테이블 조회 ── Present=1 ─▶ 물리 주소 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Present=0 ─▶ 페이지 부재 (Page Fault)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 디스크에서 적재</div></div>
+</div>
+</div>
+
+
 
 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애는 대신 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))를 감수한다. 예를 들어 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 4KB인데 프로세스의 마지막 조각이 1KB만 필요하면 나머지 3KB는 남더라도 그 프레임을 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 공유할 수 없다. 그러나 이 낭비는 보통 "마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 일부"에 국한되므로, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 큰 프로세스 전체가 못 들어가는 상황보다 훨씬 관리 가능하다.
 
-결국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 핵심 원리는 **고정 크기 매핑 + [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 제어 + 오프셋 보존**이다. 이 세 가지가 함께 있어야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 큰 주소 공간, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 교체, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재를 하나의 메커니즘으로 통합할 수 있다.
+결국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 핵심 원리는 <strong>고정 크기 매핑 + <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위 제어 + 오프셋 보존</strong>이다. 이 세 가지가 함께 있어야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 큰 주소 공간, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 교체, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재를 하나의 메커니즘으로 통합할 수 있다.
 
 - **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 아파트 동·호수 체계와 같다. 몇 동인지가 프레임을 찾는 정보라면, 몇 호인지 오프셋은 그대로 유지된다. 집 내부 위치는 같고 건물 배치만 바뀌는 셈이다.
 
@@ -115,7 +112,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 단순히 "메모리를 잘게 쪼갠다"가 아니라 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 변환 비용, 교체 비용, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계하는 문제다. 특히 기술사 관점에서는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 장점만 말하는 답안보다, **어떤 워크로드에서 어떤 크기와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유리한지**를 판단하는 문장이 중요하다.
+실무에서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 단순히 "메모리를 잘게 쪼갠다"가 아니라 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 변환 비용, 교체 비용, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계하는 문제다. 특히 기술사 관점에서는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 장점만 말하는 답안보다, <strong>어떤 워크로드에서 어떤 크기와 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 유리한지</strong>를 판단하는 문장이 중요하다.
 
 대표적인 의사결정 포인트는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)다. 기본 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 줄이고 세밀한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에 유리하지만, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 인메모리 분석처럼 수십 GB~수 TB 영역을 자주 순차 접근하는 워크로드에서는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리가 너무 빨리 소진된다. 이 경우 Huge Page를 쓰면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 적중률과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 효율이 개선된다. 반대로 작은 객체가 많고 접근 패턴이 산발적이면 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 낭비와 I/O 증폭을 키울 수 있다.
 
@@ -146,7 +143,7 @@ tags = ["studynote-computer-architecture"]
 
 앞으로의 방향도 이 연장선에 있다. 첫째, 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)과 역페이지 테이블 같은 구조로 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 부담을 줄인다. 둘째, Huge Page와 하드웨어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워커 개선으로 변환 비용을 낮춘다. 셋째, 가상화와 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 같은 확장 메모리 환경에서도 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 추상화를 유지하되 계층 간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 차이를 더 정교하게 다룬다.
 
-결국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 "메모리를 잘게 자르는 기술"이 아니라 **주소 공간을 질서 있게 운영하기 위한 고정 크기 계약**으로 기억해야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애고 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 기반을 제공했지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 언제나 변환 비용과 지역성 관리 위에서만 성립한다.
+결국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 "메모리를 잘게 자르는 기술"이 아니라 <strong>주소 공간을 질서 있게 운영하기 위한 고정 크기 계약</strong>으로 기억해야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애고 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 기반을 제공했지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 언제나 변환 비용과 지역성 관리 위에서만 성립한다.
 
 - **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 도시 전체 땅을 같은 크기 필지로 정리한 도시계획과 같다. 구획이 일정해지면 배치와 관리가 쉬워지지만, 교통과 인프라를 함께 설계하지 않으면 도시가 넓어도 살기 불편해진다.
 
@@ -166,24 +163,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 할당 · 외부 단편화 (External Fragmentation)
-        │
-        ▼
-페이징 (Paging) · 페이지/프레임 고정 크기 분할
-        │
-        ▼
-페이지 테이블 (Page Table) · PTE (Page Table Entry)
-        │
-        ▼
-TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블
-        │
-        ▼
-요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)
-        │
-        ▼
-Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 할당 · 외부 단편화 (External Fragmentation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging) · 페이지/프레임 고정 크기 분할</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 테이블 (Page Table) · PTE (Page Table Entry)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 → 주소 변환 정립 → 변환 가속 → [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) → 현대 확장"으로 이어지는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 발전 맥락을 보여준다.
 

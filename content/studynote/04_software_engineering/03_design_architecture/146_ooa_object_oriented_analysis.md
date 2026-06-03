@@ -10,9 +10,9 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: OOA는 **문제 영역(Problem [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 객체·클래스·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·메서드·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 모델링**하는 분석 기법이며, [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))의 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스 분리"와 달리 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+행위를 객체로 캡슐화**한다.
-> 2. **가치**: 현실 세계를 객체로 모델링하므로 **분석 결과가 설계·구현으로 자연스럽게 전이([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))**되며, 재사용·확장성이 높다.
-> 3. **판단 포인트**: Rumbaugh OMT(객체·동적·기능 모델)·Booch Method·Jacobson OOSE(유스케이스)가 통합되어 **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))**이 탄생(1997)했다.
+> 1. **본질**: OOA는 <strong>문제 영역(Problem <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)을 객체·클래스·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>·메서드·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>로 모델링</strong>하는 분석 기법이며, [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))의 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스 분리"와 달리 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>+행위를 객체로 캡슐화</strong>한다.
+> 2. **가치**: 현실 세계를 객체로 모델링하므로 <strong>분석 결과가 설계·구현으로 자연스럽게 전이(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>되며, 재사용·확장성이 높다.
+> 3. **판단 포인트**: Rumbaugh OMT(객체·동적·기능 모델)·Booch Method·Jacobson OOSE(유스케이스)가 통합되어 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>이 탄생(1997)했다.
 
 ---
 
@@ -26,13 +26,13 @@ OOA 산출물:
   상태 다이어그램 (객체 생명주기)
 ```
 
-- **📢 섹션 요약 비유**: OOA는 **레고 설계**이다. 레고 블록(객체)의 모양([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))과 연결 방법([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))을 먼저 설계한다.
+- **📢 섹션 요약 비유**: OOA는 <strong>레고 설계</strong>이다. 레고 블록(객체)의 모양([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))과 연결 방법([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))을 먼저 설계한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-OOA는 **현실→모델 전이가 자연스러운 분석 방법**이며, UML이 표준 표현 도구이다.
+OOA는 <strong>현실→모델 전이가 자연스러운 분석 방법</strong>이며, UML이 표준 표현 도구이다.
 
 ---
 
@@ -43,21 +43,27 @@ OOA는 **현실→모델 전이가 자연스러운 분석 방법**이며, UML이
 | **OOA** | 객체지향 분석 |
 | **유스케이스** | 기능 범위 |
 | **클래스** | 구조·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)** | 통합 표현 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a></strong> | 통합 표현 |
 | **OMT** | Rumbaugh 3모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[구조적 분석 (DFD, 1978)] → [OMT (Rumbaugh, 1991)]
-    → [OOSE (Jacobson, 1992)] → [UML 통합 (1997)]
-    → [현재: UML + Agile — 경량 모델링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 분석 (DFD, 1978)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OMT (Rumbaugh, 1991)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OOSE (Jacobson, 1992)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML 통합 (1997)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: UML + Agile — 경량 모델링</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. OOA는 **레고 설계**예요. 블록(객체)의 **모양과 연결 방법**을 정해요.
-2. "학생" 블록은 **이름·학번([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**이 있고, "수업 듣기(행위)"를 해요.
-3. 레고 설계도([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))를 그리면 **조립(구현)**이 쉬워요!
+1. OOA는 <strong>레고 설계</strong>예요. 블록(객체)의 <strong>모양과 연결 방법</strong>을 정해요.
+2. "학생" 블록은 <strong>이름·학번(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)</strong>이 있고, "수업 듣기(행위)"를 해요.
+3. 레고 설계도([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))를 그리면 <strong>조립(구현)</strong>이 쉬워요!
 
 ---
 

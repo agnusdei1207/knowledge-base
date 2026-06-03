@@ -21,32 +21,31 @@ tags = ["studynote-operating-system"]
 
 데드락의 세 번째 조건인 '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))'은 "내가 내 손으로 내려놓기 전엔 아무도 못 뺏어!"라는 철칙이다. 
 
-이걸 깨버리는 **[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정**은 아주 무자비하지만 확실한 해결책이다. 
+이걸 깨버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 부정</strong>은 아주 무자비하지만 확실한 해결책이다. 
 "네가 자원 A를 쥐고 B를 달라고 손을 내밀었지? 근데 B가 당장 없어? 그럼 넌 괘씸죄로 당장 네가 쥐고 있던 A마저 강제로 뱉어내고 쫓겨나라!"
 
 **💡 비유**: 줄을 서서 식판(A)을 받고 반찬(B)을 받으려는데 반찬이 다 떨어져 멈춰 서면, 배식원이 "뒤에 식판 필요한 사람 있으니까, 너 식판 도로 뺏고 반찬 채워질 때까지 아예 식당 밖으로 나가!" 하고 내쫓는 것. 내 뒤통수에 붙어있던 대기열(데드락 후보군)은 해소된다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         비선점(No Preemption) 부정을 통한 교착상태 타파       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [상황] 프로세스 P1이 자원 R1(프린터) 점유 중.                │
-│         이제 R2(디스크)를 요청하는데 꽉 쳐서 막힘!            │
-│                                                               │
-│  [비선점 (오리지널 룰)]                                       │
-│  P1은 R2가 나올 때까지 R1 안 놓고 그 자리에서 꿀잠.           │
-│  → 누군가 R1을 원하면 영구 데드락(Deadlock) 발동!             │
-│                                                               │
-│  [비선점 부정 (강제 선점으로 룰 파괴)]                        │
-│  OS: "야 P1, R2 없으니까 눈 감아. 그리고 네가 쥔 R1 내놔!"    │
-│  P1: 프린트 절반 출력 중인데요? (강제로 뽑히고 상태 소멸)     │
-│  → 대기 중이던 P2가 R1을 쓰며 스무스하게 진행.                │
-│                                                               │
-│  문제: P1이 다시 깨어날 때, 절반 인쇄된 문서는 어떻게         │
-│  롤백하고 다시 복원할 것인가? (엄청난 복구 오버헤드 장벽)     │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비선점(No Preemption) 부정을 통한 교착상태 타파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">프로세스 P1이 자원 R1(프린터) 점유 중.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 R2(디스크)를 요청하는데 꽉 쳐서 막힘!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (오리지널 룰)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1은 R2가 나올 때까지 R1 안 놓고 그 자리에서 꿀잠.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 누군가 R1을 원하면 영구 데드락(Deadlock) 발동!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 부정 (강제 선점으로 룰 파괴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 P1, R2 없으니까 눈 감아. 그리고 네가 쥔 R1 내놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: 프린트 절반 출력 중인데요? (강제로 뽑히고 상태 소멸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 대기 중이던 P2가 R1을 쓰며 스무스하게 진행.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: P1이 다시 깨어날 때, 절반 인쇄된 문서는 어떻게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤백하고 다시 복원할 것인가? (엄청난 복구 오버헤드 장벽)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정은 수채화 그리다 물감이 모자라 기다리니, 미술 선생님이 "기다리는 동안 도화지도 딴 친구 줘!" 하고 뺏어버리는 겁니다. 교실 안 그림 그리는 사람은 계속 돌아가지만(데드락 없음) 뺏긴 내 도화지는 다시 처음부터 스케치해야 합니다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)의 피로도).
 
@@ -58,8 +57,8 @@ tags = ["studynote-operating-system"]
 
 이론적으론 아주 간단히 "뺏어!" 하면 될 것 같지만 현대 컴퓨터 아키텍처는 이를 완강히 거부한다.
 
-1. **상태([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) 복사 비용의 폭증**: CPU는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 깨진다. 
-2. **소프트웨어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)**: 만약 굳이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하고 뺏어 오려면, DBMS처럼 그동안 해온 모든 작업을 추적하는 [UNDO](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 촘촘히 짜서 "뺏김과 동시에 예전 상태로 무결점 타임머신 복원"을 수행해야 하는데 엄청난 연산 부하가 터진다.
+1. <strong>상태(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>) 복사 비용의 폭증</strong>: CPU는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 버리면 그만이다(완벽한 선점 부정). 그러나 프린터나 DVD 버너, 혹은 DB 테이블 업데이트는 중간에 뺏기면 잉크가 번지고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 깨진다. 
+2. <strong>소프트웨어 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log)</strong>: 만약 굳이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하고 뺏어 오려면, DBMS처럼 그동안 해온 모든 작업을 추적하는 [UNDO](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 촘촘히 짜서 "뺏김과 동시에 예전 상태로 무결점 타임머신 복원"을 수행해야 하는데 엄청난 연산 부하가 터진다.
 
 **📢 섹션 요약 비유**: 강제 선점이 CPU에선 쉽지만, 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 에선 불가능한 건 블럭 쌓기(CPU-쉽게 멈추고 기록)와 찰흙 빚기(디스크-중간에 남이 만지면 아예 망함)의 차이입니다. 찰흙은 절대 뺏으면 안 되는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 룰의 성역입니다.
 
@@ -80,11 +79,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반)**: 데드락 관점이 아니라 코어 병발성을 위해 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(10ms)가 지나거나 더 높은 우선순위 태스크가 오면 즉시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) Context를 PCB에 우겨넣고 강제 탈취(응용형 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정)한다. 이 덕분에 코어 위에서는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 단어가 성립하지 않는다.
-2. **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) (RDBMS)**: 락이 꼬였을 때 오라클/MySQL은 Victim을 골라 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Segment를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옛날로 되돌리고 락을 다 강제로 풀어버린다. "너 하던 업데이트 다 취소하고 자원 뱉아!" 이는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정을 고도화된 SW 로직([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))으로 가장 극적으로 융합시킨 실무 최고의 사례다.
+1. <strong>CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 기반)</strong>: 데드락 관점이 아니라 코어 병발성을 위해 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(10ms)가 지나거나 더 높은 우선순위 태스크가 오면 즉시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) Context를 PCB에 우겨넣고 강제 탈취(응용형 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정)한다. 이 덕분에 코어 위에서는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 단어가 성립하지 않는다.
+2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> Victim <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (RDBMS)</strong>: 락이 꼬였을 때 오라클/MySQL은 Victim을 골라 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Segment를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옛날로 되돌리고 락을 다 강제로 풀어버린다. "너 하던 업데이트 다 취소하고 자원 뱉아!" 이는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정을 고도화된 SW 로직([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))으로 가장 극적으로 융합시킨 실무 최고의 사례다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **외부 I/O 장치를 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 안에서 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)**: 외부 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) API나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O는 본질적으로 '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)' 자원이다. 이걸 쥔 채 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수십 개가 데드락에 빠지면, 어플리케이션 개발자는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘을 짠 적이 없으므로 영원히 서버가 마비되는 참사를 유발한다. "절대 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)/블로킹 I/O를 [Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에 두지 마라."
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>외부 I/O 장치를 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 안에서 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a></strong>: 외부 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) API나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O는 본질적으로 '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)' 자원이다. 이걸 쥔 채 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수십 개가 데드락에 빠지면, 어플리케이션 개발자는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘을 짠 적이 없으므로 영원히 서버가 마비되는 참사를 유발한다. "절대 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)/블로킹 I/O를 [Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에 두지 마라."
 
 **📢 섹션 요약 비유**: DBMS가 데드락 꼬였을 때 한 명을 강제로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 파괴) 시킬 수 있는 건, 뒤로 감기([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)) 기능의 타임머신을 구현하느라 피땀을 쏟았기 때문입니다. 타임머신이 없는 평범한 프로그램에서 강제로 뺏으면 시스템이 다 부서집니다.
 
@@ -115,15 +114,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[점유 대기 부정]
-    │
-    ▼
-[비선점 부정 (Deny No Preemption)]
-    │
-    ├──▶ [순환 대기 부정]
-    └──▶ [교착 상태 회피 (Deadlock Avoidance)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">점유 대기 부정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 부정 (Deny No Preemption)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 부정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

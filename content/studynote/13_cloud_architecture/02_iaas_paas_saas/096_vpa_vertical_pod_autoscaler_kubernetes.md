@@ -37,21 +37,20 @@ VPA 아키텍처는 관찰, 추천, 그리고 실행을 담당하는 3개의 핵
 | **Updater** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 라이프사이클 관리 | 권장값과 현재값이 다를 경우, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 축출(Evict)하여 재시작 유도 |
 | **Admission Controller** | Webhook을 통한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때(재시작 시), Recommender의 권장값을 YAML에 덮어쓰기 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  VPA 자원 갱신 메커니즘                     │
-├──────────────────────────────────────────────────────────────┤
-│  [Metric Server] ─▶ (1.사용량 이력) ─▶ [VPA Recommender]   │
-│                                              │               │
-│  [VPA Updater] ◀── (3.축출 지시) ◀── (2.권장값 계산)       │
-│        │                                     │               │
-│        ▼ (4.파드 강제 종료)                  ▼ (5.YAML 덮어쓰기)│
-│  [기존 Pod (RAM 256M)]             [Admission Controller]    │
-│                                              │               │
-│                                              ▼               │
-│                                    [새 Pod 생성 (RAM 512M)]  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPA 자원 갱신 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Metric Server</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPA Recommender</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPA Updater</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (3.축출 지시) ◀── (2.권장값 계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (4.파드 강제 종료) ▼ (5.YAML 덮어쓰기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 Pod (RAM 256M)</div><div class="kb-diagram-node">Admission Controller</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새 Pod 생성 (RAM 512M)</div></div>
+</div>
+</div>
+
+
 
 VPA의 가장 큰 제약은 리눅스 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 특성상 런타임 중에 리소스를 부드럽게 늘릴 수 없다는 점이다. 따라서 자원을 변경하려면 어쩔 수 없이 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이고 새로운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가진 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다시 띄워야 한다. 이를 '파괴적 재시작'이라 부르며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일시적 단절을 유발할 수 있다.
 
@@ -67,7 +66,7 @@ VPA의 가장 큰 제약은 리눅스 [컨테이너](/knowledge-base/studynote/0
 | :--- | :--- | :--- |
 | **확장 방식** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 **개수(Replicas)** 증가 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 **크기(CPU/RAM)** 증가 |
 | **적합한 워크로드** | 상태가 없는 웹 서버 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) | DB, 캐시 등 단일 인스턴스 (Stateful) |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 여부** | 중단 없음 (새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 추가) | 일시 중단 발생 (기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 여부</strong> | 중단 없음 (새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 추가) | 일시 중단 발생 (기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작) |
 
 가장 흔한 안티패턴은 HPA와 VPA가 동일한 CPU [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 바라보게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이다. 트래픽이 몰릴 때 HPA는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 2개에서 4개로 늘리려 하고, 동시에 VPA는 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이고 더 큰 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 교체하려 든다. 두 컨트롤러가 서로 멱살을 잡고 싸우게 되어, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 무한정 재시작되는 플래핑(Flapping) 상태에 빠진다. 따라서 두 기술을 혼용하려면 지표를 완벽히 분리해야 한다.
 
@@ -107,28 +106,30 @@ VPA를 적절히 활용하면 클러스터의 오버 프로비저닝을 제거�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer** | VPA가 없어서 메모리 한계치를 초과할 때 발생하는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 강제 종료 현상 |
-| **[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) ([Horizontal Pod Autoscaler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))** | VPA와 함께 사용할 때 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 충돌을 주의해야 하는 수평 확장 컨트롤러 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) Killer</strong> | VPA가 없어서 메모리 한계치를 초과할 때 발생하는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 강제 종료 현상 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/">HPA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/">Horizontal Pod Autoscaler</a>)</strong> | VPA와 함께 사용할 때 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 충돌을 주의해야 하는 수평 확장 컨트롤러 |
 | **Admission Controller** | VPA가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 권장 자원량을 개입하여 덮어쓰는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
-| **[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) ([Cloud Financial Operations](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/))** | VPA를 통한 자원 최적화가 궁극적으로 달성하고자 하는 클라우드 비용 절감 체계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/">Cloud Financial Operations</a>)</strong> | VPA를 통한 자원 최적화가 궁극적으로 달성하고자 하는 클라우드 비용 절감 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 자원 할당 (Manual Allocation)
-    │
-    ▼
-OOM 장애 및 오버 프로비저닝 (Over-provisioning) 발생
-    │
-    ▼
-HPA (Horizontal Pod Autoscaler) 도입 (개수 확장)
-    │
-    ▼
-VPA (Vertical Pod Autoscaler) 도입 (크기 최적화 및 추천)
-    │
-    ▼
-In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 자원 할당 (Manual Allocation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OOM 장애 및 오버 프로비저닝 (Over-provisioning) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HPA (Horizontal Pod Autoscaler) 도입 (개수 확장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VPA (Vertical Pod Autoscaler) 도입 (크기 최적화 및 추천)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 자원 관리 방식이 "수동 추측 → 수평 확장 → 수직 맞춤화 → 무중단 갱신"으로 진화하는 과정을 보여준다.
 

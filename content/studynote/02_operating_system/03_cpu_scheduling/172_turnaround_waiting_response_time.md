@@ -25,16 +25,19 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 하나의 프로세스 생애에서 세 지표가 서로 다른 구간을 가리킨다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ One process, three stopwatches                              │
-├──────────────────────────────────────────────────────────────┤
-│ arrival -> ready -> run -> I/O wait -> ready -> run -> exit │
-│ response   = arrival -> first run start                     │
-│ waiting    = all ready intervals added                      │
-│ turnaround = arrival -> exit                                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One process, three stopwatches</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">arrival -&gt; ready -&gt; run -&gt; I/O wait -&gt; ready -&gt; run -&gt; exit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">response = arrival -&gt; first run start</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting = all ready intervals added</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">turnaround = arrival -&gt; exit</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 세 값이 서로 완전히 독립적이지 않다는 점이다. 반환 시간은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)보다 항상 크거나 같고, 대기 시간은 그 안에 부분적으로 포함된다. 결국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 같은 생애를 서로 다른 기준으로 좋게 보이게 할 수 있지만, 모든 지표를 동시에 최적으로 만들 수는 없다.
 
@@ -54,16 +57,19 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 실제로 어떤 구간을 가장 많이 바꿀 수 있는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ What the scheduler can really change                        │
-├──────────────────────────────────────────────────────────────┤
-│ CPU burst time   -> workload property                       │
-│ I/O service time -> device / subsystem property             │
-│ ready-queue wait -> scheduler's main control lever          │
-│ therefore waiting time is the cleanest scheduling signal    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What the scheduler can really change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU burst time -&gt; workload property</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O service time -&gt; device / subsystem property</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready-queue wait -&gt; scheduler's main control lever</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">therefore waiting time is the cleanest scheduling signal</div></div>
+</div>
+</div>
+
+
 
 이 말은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 모든 시간을 마음대로 조작할 수 있다는 뜻이 아니다. 실제 CPU burst 길이와 디스크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 애플리케이션과 장치가 좌우한다. 그래서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 비교에서 대기 시간이 자주 핵심 지표가 되고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 사용자 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보여 주는 별도 렌즈로 다뤄진다.
 
@@ -79,16 +85,19 @@ tags = ["studynote-operating-system"]
 
 예를 들어 모든 프로세스가 `t=0`에 도착하고 CPU burst가 `P1=8ms`, `P2=4ms`, `P3=1ms`라고 하자. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드는 무시하면 아래처럼 해석할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Same workload: P1=8, P2=4, P3=1                             │
-├──────────────────────────────────────────────────────────────┤
-│ FCFS   : | P1 0-8 | P2 8-12 | P3 12-13 |                    │
-│ SJF    : | P3 0-1 | P2 1-5  | P1 5-13  |                    │
-│ RR q=2 : |P1|P2|P3|P1|P2|P1|P1|                             │
-│ insight: SJF lowers avg wait, RR improves first response    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same workload: P1=8, P2=4, P3=1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS :</div><div class="kb-diagram-cell">P1 0-8</div><div class="kb-diagram-cell">P2 8-12</div><div class="kb-diagram-cell">P3 12-13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SJF :</div><div class="kb-diagram-cell">P3 0-1</div><div class="kb-diagram-cell">P2 1-5</div><div class="kb-diagram-cell">P1 5-13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RR q=2 :</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">insight: SJF lowers avg wait, RR improves first response</div></div>
+</div>
+</div>
+
+
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 평균 대기 시간 | 평균 반환 시간 | 해석 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -106,20 +115,21 @@ tags = ["studynote-operating-system"]
 
 실무에서는 워크로드 성격에 따라 지표 우선순위를 달리 잡아야 한다. 사용자 클릭, 입력, 화면 갱신처럼 사람을 상대하는 시스템은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 핵심이며, 여기서는 평균보다 tail latency와 jitter가 더 중요하다. 반대로 야간 정산, 대규모 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리, 모델 학습처럼 결과 완료 시점이 중요한 작업은 반환 시간과 처리량이 더 중요한 판단 기준이 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Metric-first scheduling choice                              │
-├──────────────────────────────────────────────────────────────┤
-│ interactive and user-facing?                                │
-│   ├─ yes -> response time / variance first                  │
-│   └─ no                                                     │
-│       │                                                     │
-│       ▼                                                     │
-│ batch or deadline completion critical?                      │
-│   ├─ yes -> turnaround time / throughput first              │
-│   └─ mixed -> class-based policy and fairness balance       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metric-first scheduling choice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interactive and user-facing?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; response time / variance first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">batch or deadline completion critical?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; turnaround time / throughput first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mixed -&gt; class-based policy and fairness balance</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -146,7 +156,7 @@ tags = ["studynote-operating-system"]
 
 물론 한계도 있다. 세 값 모두 CPU 스케줄링을 중심으로 설명되므로, 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 저장장치 병목처럼 시스템 외부 요소를 혼자 설명하지는 못한다. 또한 평균값만 보면 [starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/), tail [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 클래스 간 불공정 문제를 놓칠 수 있으므로 분포와 편차를 함께 봐야 한다.
 
-결론적으로 반환 시간, 대기 시간, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 서로 다른 개념이 아니라 **하나의 작업 생애를 세 방향에서 읽는 좌표계**다. 좋은 스케줄링은 이 세 값을 모두 최소화하는 마법이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목적에 맞는 지표를 우선 보호하면서 다른 지표의 희생을 통제 가능한 범위에 두는 설계라고 기억하는 것이 정확하다.
+결론적으로 반환 시간, 대기 시간, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 서로 다른 개념이 아니라 <strong>하나의 작업 생애를 세 방향에서 읽는 좌표계</strong>다. 좋은 스케줄링은 이 세 값을 모두 최소화하는 마법이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목적에 맞는 지표를 우선 보호하면서 다른 지표의 희생을 통제 가능한 범위에 두는 설계라고 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 같은 여행도 집을 나선 뒤 돌아오기까지 걸린 총시간, 공항 줄에서 보낸 시간, 탑승 안내를 처음 받은 시간을 따로 재면 여행 품질 평가가 달라지는 것과 같다.
 
@@ -166,22 +176,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-process arrival
-    │
-    ▼
-first CPU dispatch
-    │
-    ├──────────────▶ response time
-    ▼
-ready-queue accumulations
-    │
-    ├──────────────▶ waiting time
-    ▼
-process completion
-    │
-    └──────────────▶ turnaround time
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">process arrival</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">first CPU dispatch</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ response time</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ready-queue accumulations</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ waiting time</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">process completion</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ turnaround time</div>
+</div>
+</div>
+
+
 
 이 흐름도는 세 지표가 각각 다른 시점에서 잘려 나오는 값이지만, 결국 하나의 프로세스 생애를 단계별로 측정한 결과임을 보여준다.
 

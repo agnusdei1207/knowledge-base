@@ -11,46 +11,45 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 폭발하는 가장 근본적이고 기계적인 원인은, 각 프로세스가 에러 없이 단 1개의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하기 위해 **하드웨어적으로 절대 보장받아야 하는 '최소 프레임 수(Minimum Frames)'조차 운영체제가 빼앗아 가버렸기 때문**이다.
-> 2. **가치**: 이 원인 분석은 "램이 넉넉하면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 안 난다"는 1차원적 생각을 넘어, 특정 CPU 아키텍처(예: x86 [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))가 태생적으로 요구하는 **하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 한계와 메모리 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))의 모순이 충돌하는 지점을 정확히 타격**한다.
-> 3. **융합**: 운영체제는 이 참사를 막기 위해 단순히 앱의 개수를 제한하는 것을 넘어, 런타임에 동적으로 각 앱의 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 크기를 측정하고 이를 최소 프레임 보장선과 융합**하여 방어벽을 세우는 진화된 스케줄링을 완성했다.
+> 1. **본질**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 폭발하는 가장 근본적이고 기계적인 원인은, 각 프로세스가 에러 없이 단 1개의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하기 위해 <strong>하드웨어적으로 절대 보장받아야 하는 '최소 프레임 수(Minimum Frames)'조차 운영체제가 빼앗아 가버렸기 때문</strong>이다.
+> 2. **가치**: 이 원인 분석은 "램이 넉넉하면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 안 난다"는 1차원적 생각을 넘어, 특정 CPU 아키텍처(예: x86 [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))가 태생적으로 요구하는 <strong>하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>의 한계와 메모리 교체 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>)의 모순이 충돌하는 지점을 정확히 타격</strong>한다.
+> 3. **융합**: 운영체제는 이 참사를 막기 위해 단순히 앱의 개수를 제한하는 것을 넘어, 런타임에 동적으로 각 앱의 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 크기를 측정하고 이를 최소 프레임 보장선과 융합</strong>하여 방어벽을 세우는 진화된 스케줄링을 완성했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(CPU 가동률 1% 미만, 디스크 I/O 100%)에 빠지는 원인을 파고들면, 결국 프로세스가 '숨을 쉴 수 있는 최소한의 램 공간'인 **최소 프레임(Minimum Frames)**을 확보하지 못했기 때문이다. 여기서 '최소 프레임'이란 쾌적하게 도는 권장 사양이 아니라, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 치기 위해 하드웨어 적으로 동시에 램에 올려둬야 하는 낱장 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 개수"를 뜻한다.
-- **필요성**: 왜 OS가 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))를 하다 보면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 터지는가? 램 16GB가 꽉 차서 남의 램을 뺏는 건 좋다. 하지만 OS가 눈이 돌아가서 어떤 앱(A)의 램을 너무 많이 뺏어버린 나머지, A가 가진 램이 딱 2장밖에 안 남았다고 치자. A가 `C = A + B`라는 덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하려면 1) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 2) A 변수 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 3) B 변수 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 등 최소 3장이 동시에 램에 있어야 한다. 램이 2장뿐이면? 1, 2장을 가져온 뒤 3장을 가져오려고 1장을 버리고, 다시 1장을 부르느라 영원히 덧셈 1번을 끝내지 못하고 디스크만 긁는 **무한 루프(Infinite [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))**에 갇힌다. 시스템 개발자는 이 하드웨어적 최소 요구치를 정확히 계산하여 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어주는 안전장치가 반드시 필요했다.
+- **개념**: 시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(CPU 가동률 1% 미만, 디스크 I/O 100%)에 빠지는 원인을 파고들면, 결국 프로세스가 '숨을 쉴 수 있는 최소한의 램 공간'인 <strong>최소 프레임(Minimum Frames)</strong>을 확보하지 못했기 때문이다. 여기서 '최소 프레임'이란 쾌적하게 도는 권장 사양이 아니라, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 치기 위해 하드웨어 적으로 동시에 램에 올려둬야 하는 낱장 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 개수"를 뜻한다.
+- **필요성**: 왜 OS가 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))를 하다 보면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 터지는가? 램 16GB가 꽉 차서 남의 램을 뺏는 건 좋다. 하지만 OS가 눈이 돌아가서 어떤 앱(A)의 램을 너무 많이 뺏어버린 나머지, A가 가진 램이 딱 2장밖에 안 남았다고 치자. A가 `C = A + B`라는 덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하려면 1) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 2) A 변수 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 3) B 변수 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 등 최소 3장이 동시에 램에 있어야 한다. 램이 2장뿐이면? 1, 2장을 가져온 뒤 3장을 가져오려고 1장을 버리고, 다시 1장을 부르느라 영원히 덧셈 1번을 끝내지 못하고 디스크만 긁는 <strong>무한 루프(Infinite <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>에 갇힌다. 시스템 개발자는 이 하드웨어적 최소 요구치를 정확히 계산하여 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어주는 안전장치가 반드시 필요했다.
 
 - **등장 배경 및 아키텍처의 비극**:
   1. **요구 페이징의 오만**: 필요할 때마다 1장씩 가져오면 무한대의 앱을 돌릴 수 있을 줄 알았다.
-  2. **[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조)의 복잡성**: 인텔 x86 같은 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 1개의 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 램의 6곳(간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 등)을 찌를 수 있는 복잡한 구조로 진화했다.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 집합 구조)의 복잡성</strong>: 인텔 x86 같은 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 1개의 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 램의 6곳(간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 등)을 찌를 수 있는 복잡한 구조로 진화했다.
   3. **충돌과 파국**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄 실행에 필요한 램 공간(최소 6장)조차 배급해주지 못한 OS의 무자비한 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 만나며 컴퓨터가 완전히 얼어붙는 시스템 버그로 터져 나왔다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        최소 프레임(Minimum Frames) 부족으로 터지는 무한 폴트 지옥        │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 전제 조건 ]                                                            │
-│ - 하드웨어 CPU 명령어: `MOV [주소1], [주소2]` (값 복사 명령)             │
-│ - 이 명령어를 1클럭에 끝내기 위해 필요한 절대 '최소 램 페이지 수': 3장   │
-│   1) 명령어가 쓰여진 텍스트 페이지 1장                                   │
-│   2) Source 데이터(주소2)가 있는 페이지 1장                              │
-│   3) Target 데이터(주소1)가 있는 페이지 1장                              │
-│                                                                          │
-│ [ 💥 비극의 발생: OS가 이 프로세스에게 램을 '2장'만 줬을 때 ]            │
-│                                                                          │
-│ 1. CPU가 명령어(MOV)를 램으로 가져옴. [램 남은 방 1개]                   │
-│ 2. Source(주소2)를 램으로 가져옴. [램 남은 방 0개 - 꽉참!]               │
-│ 3. Target(주소1)을 램으로 가져와야 하는데 램이 꽉 찼네? 교체 발동!       │
-│ 4. OS가 '명령어' 페이지를 스왑으로 쫓아내고 Target을 램에 올림.          │
-│ 5. CPU 왈: "어? 나 방금 무슨 명령어 치고 있었지? (명령어 날아감)"        │
-│ 6. 명령어를 다시 디스크에서 읽어오기 위해 Target을 쫓아냄... (무한 반복) │
-│                                                                          │
-│ ✅ 결과: 명령어 딱 1줄을 치는데 디스크만 평생 긁는 순수 100% 스래싱 도래.│
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 프레임(Minimum Frames) 부족으로 터지는 무한 폴트 지옥</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 하드웨어 CPU 명령어: <code>MOV</div><div class="kb-diagram-node">주소1</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">주소2</div><div class="kb-diagram-note"></code> (값 복사 명령)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 명령어를 1클럭에 끝내기 위해 필요한 절대 '최소 램 페이지 수': 3장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 명령어가 쓰여진 텍스트 페이지 1장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Source 데이터(주소2)가 있는 페이지 1장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Target 데이터(주소1)가 있는 페이지 1장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 비극의 발생: OS가 이 프로세스에게 램을 '2장'만 줬을 때</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. CPU가 명령어(MOV)를 램으로 가져옴.</div><div class="kb-diagram-node">램 남은 방 1개</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. Source(주소2)를 램으로 가져옴.</div><div class="kb-diagram-node">램 남은 방 0개 - 꽉참!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Target(주소1)을 램으로 가져와야 하는데 램이 꽉 찼네? 교체 발동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. OS가 '명령어' 페이지를 스왑으로 쫓아내고 Target을 램에 올림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. CPU 왈: "어? 나 방금 무슨 명령어 치고 있었지? (명령어 날아감)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 명령어를 다시 디스크에서 읽어오기 위해 Target을 쫓아냄... (무한 반복)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 명령어 딱 1줄을 치는데 디스크만 평생 긁는 순수 100% 스래싱 도래.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 현상은 소프트웨어 버그가 아니다. 운영체제의 '메모리 수탈([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))' [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 CPU 하드웨어의 설계 한계선(Minimum)을 침범했을 때 발생하는 완벽한 물리적 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))다. 이 지뢰를 밟는 순간, 시스템 전체가 CPU는 놀고 디스크만 미친 듯이 타오르는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 절벽으로 추락한다.
 
 - **📢 섹션 요약 비유**: 은행 강도를 잡으려고 경찰 3명이 포위망을 짜야 하는데(최소 필요 인원), 서장이 병력이 모자라다고 경찰 2명만 보냈습니다. 앞문을 지키던 경찰이 뒷문을 막으러 뛰어가면 강도가 앞문으로 도망가고, 다시 앞문으로 뛰어가면 뒷문으로 도망가는 영원한 숨바꼭질 헛수고([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 벌어지는 최악의 병력 배분 실패입니다.
@@ -62,14 +61,14 @@ tags = ["studynote-operating-system"]
 ### 하드웨어 아키텍처별 최소 프레임 요구량 차이
 
 CPU를 만드는 제조사([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))마다 이 "최소 프레임(Minimum Frames)"의 개수는 판이하다.
-- **단순한 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ARM, [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/))**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 4바이트로 고정되어 있고, 메모리 접근도 단순한 `Load/Store` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나뿐이다. 이들은 보통 **최소 2~3프레임**만 있으면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 안 멈추고 돈다.
-- **복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (인텔 x86_64, VAX)**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 1바이트부터 15바이트까지 가변적이라 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2장에 걸쳐 쪼개질 수 있다. 게다가 [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)([Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/): 주소에 적힌 주소를 또 찾아가는 것) 기능 때문에, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 4~5개를 연속으로 찔러볼 수 있다. 인텔 계열은 최악의 경우 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나 실행을 위해 **최소 6~8개의 프레임**을 램에 깔아놔야 한다.
+- <strong>단순한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/">RISC</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> ARM, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a>)</strong>: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 4바이트로 고정되어 있고, 메모리 접근도 단순한 `Load/Store` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나뿐이다. 이들은 보통 <strong>최소 2~3프레임</strong>만 있으면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 안 멈추고 돈다.
+- <strong>복잡한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/">CISC</a> (인텔 x86_64, VAX)</strong>: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 1바이트부터 15바이트까지 가변적이라 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2장에 걸쳐 쪼개질 수 있다. 게다가 [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)([Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/): 주소에 적힌 주소를 또 찾아가는 것) 기능 때문에, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 4~5개를 연속으로 찔러볼 수 있다. 인텔 계열은 최악의 경우 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나 실행을 위해 <strong>최소 6~8개의 프레임</strong>을 램에 깔아놔야 한다.
 
 ---
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 유발의 2차 원인: "[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) ([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))"의 오만
 
-최소 프레임이 깨지는 근본적인 이유는 OS가 쓰는 **'[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)'** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 때문이다.
+최소 프레임이 깨지는 근본적인 이유는 OS가 쓰는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>'</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 때문이다.
 - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)는 특정 앱 A가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 마구 뿜어내면 "아 이놈 램이 고프구나" 하고, 가만히 잘 돌고 있는 착한 앱 B의 램을 뺏어다가 A에게 상납한다.
 - A가 미쳐 날뛰며 B, C, D의 램을 모조리 뺏어가 버리면, B, C, D가 가진 램 개수가 **'하드웨어 최소 프레임 수(예: 6장)' 이하로 강제로 깎여버리게 된다.**
 - 그 순간 B, C, D도 덧셈 1번을 하기 위해 모자란 프레임을 찾느라 폴트를 뿜어대고, 그 폴트 때문에 다시 A의 램을 뺏어오는 진흙탕 개싸움(전역적 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 터지며 서버가 완전히 마비된다.
@@ -95,17 +94,20 @@ CPU를 만드는 제조사([ISA](/knowledge-base/studynote/01_computer_architect
 
 - **프레임 < 최소 프레임**: 시스템 즉사. 폴트율([Page Fault Rate](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)) 100%. (아예 측정 불가)
 - **최소 프레임 < 프레임 < [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)**: 명령은 먹히지만, 루프 돌 때마다 디스크 긁어옴. 폴트율이 매우 높아 체감 렉 심함.
-- **프레임 = [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)**: 폴트율이 바닥에 달라붙는 **'무릎(Knee)'** 지점. 가성비 극강의 황금 포인트.
+- <strong>프레임 = <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a></strong>: 폴트율이 바닥에 달라붙는 **'무릎(Knee)'** 지점. 가성비 극강의 황금 포인트.
 - **프레임 > [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)**: 램을 10GB 더 꽂아줘도 어차피 쓰는 변수만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 폴트율은 더 떨어지지 않음. 램 낭비 구간.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 램 할당량 │ 1~5장 (최소미달)│ 100장 (워킹셋 미달)│ 1만장 (워킹셋 충족)│
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ 시스템 상태│ ☠️ 무한 스래싱 │ 🐢 렉 걸림 (느림) │ 🚀 최고 속도 도달   │
-│ 디스크 I/O│ 100% 락 걸림 │ 잦은 드르륵 소리 │ 0% (고요함)             │
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 할당량</div><div class="kb-diagram-cell">1~5장 (최소미달)</div><div class="kb-diagram-cell">100장 (워킹셋 미달)</div><div class="kb-diagram-cell">1만장 (워킹셋 충족)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 상태</div><div class="kb-diagram-cell">☠️ 무한 스래싱</div><div class="kb-diagram-cell">🐢 렉 걸림 (느림)</div><div class="kb-diagram-cell">🚀 최고 속도 도달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 I/O</div><div class="kb-diagram-cell">100% 락 걸림</div><div class="kb-diagram-cell">잦은 드르륵 소리</div><div class="kb-diagram-cell">0% (고요함)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 운영체제의 지상 목표는 모든 프로세스의 램 할당량을 딱 저 '1만 장([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))' 언저리에 칼같이 맞춰주는 것이다. 10만 장을 주는 건 낭비고, 5장 밑으로 빼앗는 건 살인 행위다. 이 절묘한 줄타기를 위해 OS는 '[Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/))'라는 실시간 모니터링 레이더를 켜두고 앱들을 감시한다.
 
 - **📢 섹션 요약 비유**: 최소 프레임은 사람이 살기 위한 '물과 산소'입니다. 없으면 1분 만에 죽습니다. [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 행복하게 살기 위한 '집과 밥'입니다. 없어도 고통받으며 살 순 있지만 삶의 질(속도)이 박살 납니다. [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)보다 더 많은 램을 주는 건 부자에게 '금송아지'를 주는 격으로, 행복도(속도)는 더 오르지 않는 낭비입니다.
@@ -120,9 +122,9 @@ CPU를 만드는 제조사([ISA](/knowledge-base/studynote/01_computer_architect
 2. **리눅스의 딜레마**: 
    - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)가 돌며 램을 미친 듯이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(디스크)으로 쫓아낸다.
    - 자바의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)가 한 번 돌면 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 전체를 다 훑어봐야(Full Scan) 한다.
-   - 쫓겨났던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 램으로 퍼오느라 다른 자바 앱의 핵심 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(최소 프레임)마저 스왑으로 쫓겨나는 **초대형 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))**이 폭발한다.
+   - 쫓겨났던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 램으로 퍼오느라 다른 자바 앱의 핵심 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(최소 프레임)마저 스왑으로 쫓겨나는 <strong>초대형 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>이 폭발한다.
 3. **신의 한 수 튜닝**:
-   - 실무자들은 이런 깡패 짓을 막기 위해 애초에 서버의 **Swap(스왑) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 100% 꺼버린다(Swapoff)**. ([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 표준).
+   - 실무자들은 이런 깡패 짓을 막기 위해 애초에 서버의 <strong>Swap(스왑) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>을 100% 꺼버린다(Swapoff)</strong>. ([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 표준).
    - "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥(최소 프레임 붕괴)에 빠져 서버 전체가 10분 동안 뻗어버리느니, 차라리 램이 모자랄 때 1개의 자바 앱을 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러로 총 쏴 죽이고(Kill) 즉시 새 컨테이너로 재시작(Fail-fast)시키는 게 아키텍처 상 수만 배 안전하다"는 냉혹한 실무적 진리에 도달한 것이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 무분별한 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 생성과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 파편화
@@ -139,8 +141,8 @@ C++이나 Python에서 [스레드](/knowledge-base/studynote/02_operating_system
 
 | 구분 | 내용 |
 |:---|:---|
-| **스케줄링의 레드라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(Degree)를 무한정 높이려는 어리석은 스케줄러에게, "이 선 넘으면 시스템 뇌사 옴"이라는 수학적 브레이크를 제공 |
-| **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 정당성**| "램 모자라면 그냥 죽이자"는 과격한 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 로직이, 사실은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이라는 더 끔찍한 동반 자살을 막기 위한 불가피한 성전임을 입증 |
+| <strong>스케줄링의 레드라인 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(Degree)를 무한정 높이려는 어리석은 스케줄러에게, "이 선 넘으면 시스템 뇌사 옴"이라는 수학적 브레이크를 제공 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) 정당성</strong>| "램 모자라면 그냥 죽이자"는 과격한 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 로직이, 사실은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이라는 더 끔찍한 동반 자살을 막기 위한 불가피한 성전임을 입증 |
 | **아키텍처 맞춤형 OS 최적화** | x86의 무거운 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조와 ARM의 가벼운 구조를 OS 커널이 인지하여, 하드웨어 칩셋 맞춤형으로 램 할당 하한선을 세팅하는 토대 마련 |
 
 ### 결론 및 미래 전망
@@ -162,15 +164,19 @@ C++이나 Python에서 [스레드](/knowledge-base/studynote/02_operating_system
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-    │
-    ▼
-[스래싱 원인 (Cause Of Thrashing)]
-    │
-    ├──▶ [지역성 모델 (Locality Model)]
-    └──▶ [워킹 셋 모델 (Working-Set Model)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 원인 (Cause Of Thrashing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역성 모델 (Locality Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">워킹 셋 모델 (Working-Set Model)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

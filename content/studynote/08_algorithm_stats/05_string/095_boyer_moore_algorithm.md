@@ -43,10 +43,10 @@ Result:  X X X X X A B C D X X X
 | 비교 항목 | 보이어-무어 (Boyer-Moore) | [KMP](/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 호스풀 (Horspool) 변형 |
 | :--- | :--- | :--- | :--- |
 | **비교 순서** | 뒤 → 앞 (Backwards) | 앞 → 뒤 (Forwards) | 뒤 → 앞 |
-| **평균 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(N/M)$ (매우 우수) | $O(N+M)$ | $O(N/M)$ |
-| **최악 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(N \cdot M)$ (이론적) | $O(N+M)$ | $O(N \cdot M)$ |
+| <strong>평균 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(N/M)$ (매우 우수) | $O(N+M)$ | $O(N/M)$ |
+| <strong>최악 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(N \cdot M)$ (이론적) | $O(N+M)$ | $O(N \cdot M)$ |
 | **주요 장점** | 패턴이 길수록 빨라짐 | 최악의 경우 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장 | 구현이 단순 (Bad Char만 사용) |
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)** | $O(\Sigma + M)$ | $O(M)$ | $O(\Sigma)$ |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a></strong> | $O(\Sigma + M)$ | $O(M)$ | $O(\Sigma)$ |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **실무 적용**: GNU `grep` 도구, 텍스트 에디터의 검색 엔진, 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분석 시스템.
@@ -63,15 +63,19 @@ Result:  X X X X X A B C D X X X
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상위 개념: 문자열 탐색 (String Searching)]
-    │
-    ▼
-[하위/변형: Horspool Algorithm, Sunday Algorithm (스킵 성능 극대화)]
-    │
-    ▼
-[관련 자료구조: 전처리 테이블 (Pre-processing Tables)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 문자열 탐색 (String Searching)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하위/변형: Horspool Algorithm, Sunday Algorithm (스킵 성능 극대화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">관련 자료구조: 전처리 테이블 (Pre-processing Tables)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 상위 개념: 문자열 탐색 (String Searching)에서 출발해 관련 자료구조: 전처리 테이블 (Pre-processing Tables)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

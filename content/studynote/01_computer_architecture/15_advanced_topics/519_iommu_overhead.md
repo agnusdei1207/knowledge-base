@@ -35,29 +35,27 @@ IOMMU는 장치가 보는 IOVA (I/O Virtual Address)를 실제 물리 주소로 
 
 이 그림은 오버헤드가 어디에서 생기는지 한눈에 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          DMA fast path와 map/unmap control path가 함께 비용을 만든다 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Device DMA (IOVA)                                                    │
-│      │                                                               │
-│      ▼                                                               │
-│ [ device translation cache via ATS ]                                 │
-│      │ hit                                                           │
-│      ├──────────────────────────────▶ translated request             │
-│      │ miss                                                          │
-│      ▼                                                               │
-│ [ IOMMU IOTLB ]                                                      │
-│      │ hit                                                           │
-│      ├──────────────────────────────▶ translated request             │
-│      │ miss                                                          │
-│      ▼                                                               │
-│ I/O page walk in memory  ─────────▶ fill IOTLB ───────▶ memory       │
-│                                                                      │
-│ Driver / Kernel path                                                 │
-│   pin pages → map buffer list → DMA start → unmap → IOTLB invalidate │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA fast path와 map/unmap control path가 함께 비용을 만든다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device DMA (IOVA)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">device translation cache via ATS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ translated request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IOMMU IOTLB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ translated request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O page walk in memory ▶ fill IOTLB ▶ memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver / Kernel path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pin pages → map buffer list → DMA start → unmap → IOTLB invalidate</div></div>
+</div>
+</div>
+
+
 
 | 비용원 | 언제 커지는가 | 대표 증상 | 완화 방향 |
 | :--- | :--- | :--- | :--- |
@@ -68,7 +66,7 @@ IOMMU는 장치가 보는 IOVA (I/O Virtual Address)를 실제 물리 주소로 
 
 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 IOMMU에서 중요한 이유도 같다. 4KB 대신 2MB 매핑을 쓰면 IOTLB 엔트리 하나가 커버하는 범위가 커져 miss가 줄고, 장치가 DMA를 찍어 나갈 때 번역 캐시 압박이 낮아진다. 또 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)의 PRI ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Request Interface), PASID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Address Space ID), ATS 같은 기능은 장치가 더 똑똑하게 번역을 요청하고 재사용하게 만들어, CPU 중심의 매핑 비용을 일부 완화한다.
 
-즉 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 오버헤드는 단일 숫자가 아니라, **번역 miss 비용 + 매핑 관리 비용 + 무효화 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용**의 합으로 이해해야 한다. 어느 항이 지배적인지에 따라 해법도 달라진다.
+즉 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 오버헤드는 단일 숫자가 아니라, <strong>번역 miss 비용 + 매핑 관리 비용 + 무효화 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 비용</strong>의 합으로 이해해야 한다. 어느 항이 지배적인지에 따라 해법도 달라진다.
 
 - **📢 섹션 요약 비유**: IOTLB는 자주 오는 방문객 명단이고, map/unmap은 출입증을 새로 발급하고 회수하는 일이다. 출입증 발급 창구와 검색대를 둘 다 봐야 실제 대기열이 보인다.
 
@@ -76,7 +74,7 @@ IOMMU는 장치가 보는 IOVA (I/O Virtual Address)를 실제 물리 주소로 
 
 ## Ⅲ. 비교 및 연결
 
-IOMMU를 사용할 때 가장 흔한 비교는 strict 모드, 완화된 비엄격 모드, 사실상 우회에 가까운 identity / [passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) 설정이다. 여기서 핵심은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋으냐"보다 **격리와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 어디서 절충하느냐**다.
+IOMMU를 사용할 때 가장 흔한 비교는 strict 모드, 완화된 비엄격 모드, 사실상 우회에 가까운 identity / [passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) 설정이다. 여기서 핵심은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋으냐"보다 <strong>격리와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 어디서 절충하느냐</strong>다.
 
 | 운영 방식 | 장점 | 약점 | 잘 맞는 환경 |
 | :--- | :--- | :--- | :--- |
@@ -118,11 +116,11 @@ CPU의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/
 
 ## Ⅴ. 기대효과 및 결론
 
-IOMMU를 잘 설계하고 튜닝하면, 장치 격리와 고성능 I/O를 동시에 얻을 수 있다. 즉 보안을 위해 장치를 묶어 두는 것이 아니라, **안전한 DMA를 빠르게 흘려보내는 구조**를 만드는 것이다. 이 점이 중요하다. IOMMU가 없으면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치는 좋아 보여도 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 외부 장치 보안, 다중 테넌트 격리는 흔들린다.
+IOMMU를 잘 설계하고 튜닝하면, 장치 격리와 고성능 I/O를 동시에 얻을 수 있다. 즉 보안을 위해 장치를 묶어 두는 것이 아니라, <strong>안전한 DMA를 빠르게 흘려보내는 구조</strong>를 만드는 것이다. 이 점이 중요하다. IOMMU가 없으면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치는 좋아 보여도 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 외부 장치 보안, 다중 테넌트 격리는 흔들린다.
 
 앞으로는 장치 자체의 번역 캐시 고도화, 더 효율적인 invalidate [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), SVA와 가속기 메모리 공유, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장과 함께 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 역할이 더 커질 가능성이 높다. 즉 "있을 때만 귀찮은 기능"이 아니라, 이종 장치가 공존하는 미래 시스템의 기본 관문이 된다.
 
-결론적으로 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드는 **격리된 DMA를 위한 세금**이지만, 그 세금은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 매핑 수명, [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/), [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 기능을 조절함으로써 크게 줄일 수 있다. 따라서 정답은 "끄느냐 켜느냐"가 아니라, **어떤 장치에 어떤 강도의 번역과 보호를 적용할 것인가**다.
+결론적으로 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드는 <strong>격리된 DMA를 위한 세금</strong>이지만, 그 세금은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 매핑 수명, [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/), [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 기능을 조절함으로써 크게 줄일 수 있다. 따라서 정답은 "끄느냐 켜느냐"가 아니라, <strong>어떤 장치에 어떤 강도의 번역과 보호를 적용할 것인가</strong>다.
 
 - **📢 섹션 요약 비유**: IOMMU는 항구의 세관과 같다. 검사를 없애면 배는 빨라지지만 항구 전체가 위험해지고, 절차를 잘 설계하면 안전을 지키면서도 물류 흐름을 충분히 빠르게 만들 수 있다.
 
@@ -141,24 +139,25 @@ IOMMU를 잘 설계하고 튜닝하면, 장치 격리와 고성능 I/O를 동시
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리 주소 기반 전통 DMA
-        │
-        ▼
-가상화 · DMA 공격 대응 필요
-        │
-        ▼
-IOMMU (VT-d / AMD-Vi / ARM System Memory Management Unit)
-        │
-        ├─▶ IOTLB · huge page 최적화
-        ├─▶ ATS / PRI / PASID
-        │
-        ▼
-VFIO · SR-IOV · SVA
-        │
-        ▼
-CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 주소 기반 전통 DMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화 · DMA 공격 대응 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IOMMU (VT-d / AMD-Vi / ARM System Memory Management Unit)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ IOTLB · huge page 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ ATS / PRI / PASID</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VFIO · SR-IOV · SVA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역</div>
+</div>
+</div>
+
+
 
 이 흐름은 "장치는 물리 주소만 본다"는 단순 모델에서 출발해, "장치도 보호된 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 안에서 동작하는" 방향으로 발전하는 과정을 보여준다.
 

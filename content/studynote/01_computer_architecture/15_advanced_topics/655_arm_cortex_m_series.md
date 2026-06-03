@@ -25,17 +25,18 @@ ARM Cortex-M 시리즈는 ARM 계열 중 가장 널리 쓰이는 MCU 프로파�
 
 아래 그림은 Cortex-M이 이벤트가 올 때만 깨어나 일을 처리하는 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sensor / Button / Timer / UART Event                        │
-├──────────────────────────────────────────────────────────────┤
-│ NVIC ─▶ Cortex-M Core ─▶ GPIO / PWM / ADC / SPI / I2C       │
-├──────────────────────────────────────────────────────────────┤
-│ Internal Flash / SRAM · Simple Memory Map                   │
-├──────────────────────────────────────────────────────────────┤
-│ Sleep / Deep Sleep / Wake-up Logic                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / Button / Timer / UART Event</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVIC ─▶ Cortex-M Core ─▶ GPIO / PWM / ADC / SPI / I2C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Internal Flash / SRAM · Simple Memory Map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sleep / Deep Sleep / Wake-up Logic</div></div>
+</div>
+</div>
+
+
 
 즉 Cortex-M의 본질은 "작은 CPU"가 아니라 "이벤트 기반 저전력 제어 플랫폼"이다. 일을 안 할 때 얼마나 잘 쉬는지도 설계의 일부다.
 
@@ -61,17 +62,17 @@ Cortex-M 계열은 제품군도 다양하다. M0/M0+는 극저비용·극저전�
 
 아래 그림은 Cortex-M이 낮은 전력과 빠른 반응을 어떻게 양립시키는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Idle ──▶ Sleep ──▶ Event Arrival ──▶ NVIC Wake-up           │
-│                                        │                     │
-│                                        ▼                     │
-│                              ISR / Control Routine           │
-│                                        │                     │
-│                                        ▼                     │
-│                                   Return to Sleep            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Idle ──▶ Sleep ──▶ Event Arrival ──▶ NVIC Wake-up</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR / Control Routine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Return to Sleep</div></div>
+</div>
+</div>
+
+
 
 결국 Cortex-M은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 계속 높이는 방향보다, "필요할 때만 짧게 깨어 정확히 일한다"는 철학으로 이해하는 것이 맞다.
 
@@ -152,21 +153,23 @@ Cortex-M을 적절히 선택하면 긴 배터리 수명, 빠른 기동, 안정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-8비트 MCU 중심 제어기
-    │
-    ▼
-Cortex-M0 / M3: 32비트 MCU 표준화
-    │
-    ▼
-M4 / M7: DSP · 고성능 제어 확대
-    │
-    ▼
-M33: 보안 강화형 Armv8-M 확산
-    │
-    ▼
-TinyML · 초저전력 IoT · 스마트 센서 노드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">8비트 MCU 중심 제어기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cortex-M0 / M3: 32비트 MCU 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">M4 / M7: DSP · 고성능 제어 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">M33: 보안 강화형 Armv8-M 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TinyML · 초저전력 IoT · 스마트 센서 노드</div>
+</div>
+</div>
+
+
 
 이 흐름은 Cortex-M이 단순 제어기에서 저전력 엣지 지능 플랫폼으로 진화하는 방향을 보여준다.
 

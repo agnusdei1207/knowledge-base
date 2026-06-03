@@ -20,40 +20,39 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 세상엔 수백 개의 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 있지만 그 뼈대는 딱 3개다. 
-  1. **대칭키 ([Symmetric Key](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) - [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**: 잠글 때 쓴 열쇠와 풀 때 쓰는 열쇠가 똑같다. (자물쇠 1개, 열쇠 1개)
-  2. **비대칭키 (Asymmetric [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) - [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))**: 잠글 때 쓴 열쇠(공개키)로는 절대 못 풀고, 나만 몰래 가진 열쇠(개인키)로만 풀 수 있다. (열쇠가 2개 1세트)
+  1. <strong>대칭키 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">Symmetric Key</a> - <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>: 잠글 때 쓴 열쇠와 풀 때 쓰는 열쇠가 똑같다. (자물쇠 1개, 열쇠 1개)
+  2. <strong>비대칭키 (Asymmetric <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> - <a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>)</strong>: 잠글 때 쓴 열쇠(공개키)로는 절대 못 풀고, 나만 몰래 가진 열쇠(개인키)로만 풀 수 있다. (열쇠가 2개 1세트)
   3. **일방향 해시 (One-way Hash - SHA)**: 고기를 갈아서 햄버거 패티로 만든다. 패티를 다시 소고기 모양으로 되돌릴 수(복호화) 없는 '파괴적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)' 믹서기다.
 
-- **필요성**: 주니어 개발자들은 "가장 안전한 거 하나만 쓰면 안 돼?"라고 묻는다. 불가능하다. 비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 무적에 가깝지만 너무 무거운 수학(소인수분해) 연산을 써서, 동영상 1GB짜리를 암호화하려면 서버 CPU가 터지고 1시간이 걸린다. 반면 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 빛처럼 빠르지만, 처음에 친구한테 이 열쇠를 건네주다 해커(우체부)한테 뺏기면 세상이 끝난다. **이 끔찍한 장단점을 교묘하게 섞어서 "열쇠 교환은 무거운 비대칭키로, 1GB짜리 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 빠른 대칭키로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 여부는 가벼운 해시로" 짬짜면처럼 섞어 써야(하이브리드 암호화) 1초 만에 안전한 결제 시스템이 켜지기 때문**에 3가지 잣대를 완벽히 숙지해야 한다.
+- **필요성**: 주니어 개발자들은 "가장 안전한 거 하나만 쓰면 안 돼?"라고 묻는다. 불가능하다. 비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 무적에 가깝지만 너무 무거운 수학(소인수분해) 연산을 써서, 동영상 1GB짜리를 암호화하려면 서버 CPU가 터지고 1시간이 걸린다. 반면 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 빛처럼 빠르지만, 처음에 친구한테 이 열쇠를 건네주다 해커(우체부)한테 뺏기면 세상이 끝난다. <strong>이 끔찍한 장단점을 교묘하게 섞어서 "열쇠 교환은 무거운 비대칭키로, 1GB짜리 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송은 빠른 대칭키로, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 훼손 여부는 가벼운 해시로" 짬짜면처럼 섞어 써야(하이브리드 암호화) 1초 만에 안전한 결제 시스템이 켜지기 때문</strong>에 3가지 잣대를 완벽히 숙지해야 한다.
 
 - **💡 비유**: 
-  - **대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**는 **'집 현관문 열쇠'**입니다. 열쇠 1개로 잠그고 엽니다. 복사해서 엄마랑 나눠 가지면 엄청 빠르고 편하지만, 우편함에 넣어두고 몰래 가져가라고 하다 도둑이 채가면 끝장납니다(키 교환의 위험).
-  - **비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))**는 **'입구가 하나뿐인 투입형 우체통'**입니다. 동네 사람 누구나(공개키) 우체통에 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣을 수 있습니다. 하지만 한 번 들어가면 아무도 못 꺼냅니다. 오직 우체통 바닥을 여는 유일한 마스터키(개인키)를 가진 집배원 아저씨 딱 1명만 편지를 꺼내 읽을(복호화) 수 있습니다.
-  - **해시(SHA)**는 **'문서 파쇄기'**입니다. 100장짜리 비밀 문서를 징~ 하고 갈아서 '3cm 뭉치'로 만들어버립니다. 다시 종이로 되돌릴 수 없지만, 나중에 똑같은 100장을 가져와서 파쇄기에 넣으면 완벽히 똑같은 모양의 '3cm 뭉치'가 나옵니다. 원본이 같은지만 확인할 때 쓰는 지독한 마법입니다.
+  - <strong>대칭키(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>는 <strong>'집 현관문 열쇠'</strong>입니다. 열쇠 1개로 잠그고 엽니다. 복사해서 엄마랑 나눠 가지면 엄청 빠르고 편하지만, 우편함에 넣어두고 몰래 가져가라고 하다 도둑이 채가면 끝장납니다(키 교환의 위험).
+  - <strong>비대칭키(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)</strong>는 <strong>'입구가 하나뿐인 투입형 우체통'</strong>입니다. 동네 사람 누구나(공개키) 우체통에 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣을 수 있습니다. 하지만 한 번 들어가면 아무도 못 꺼냅니다. 오직 우체통 바닥을 여는 유일한 마스터키(개인키)를 가진 집배원 아저씨 딱 1명만 편지를 꺼내 읽을(복호화) 수 있습니다.
+  - <strong>해시(SHA)</strong>는 <strong>'문서 파쇄기'</strong>입니다. 100장짜리 비밀 문서를 징~ 하고 갈아서 '3cm 뭉치'로 만들어버립니다. 다시 종이로 되돌릴 수 없지만, 나중에 똑같은 100장을 가져와서 파쇄기에 넣으면 완벽히 똑같은 모양의 '3cm 뭉치'가 나옵니다. 원본이 같은지만 확인할 때 쓰는 지독한 마법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **대칭키의 독재와 배달 사고**: 로마 시대(시저 암호)부터 세계 대전(에니그마)까지 대칭키만 썼다. 하지만 "이 암호 열쇠를 저 멀리 있는 연합군에게 어떻게 몰래 배달하지?"라는 '키 분배 문제([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution Problem)' 때문에 독일군이 파멸했다.
-  2. **디피-헬먼과 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 혁명 (1970년대)**: 수학 천재들이 "열쇠 배달하다 털리는 문제를 아예 없애버리자! 잠그는 키와 푸는 키를 수학적으로 쪼개버리자!"라며 인류 역사상 최고의 혁명인 **비대칭키(공개키 암호화)**를 발명하며 인터넷 전자상거래의 길을 뚫었다.
-  3. **ECC와 하이브리드의 대통일 (현재)**: 스마트폰 시대가 왔다. RSA는 키 길이가 무려 2048비트라 모바일 배터리를 광탈시켰다. 그래서 타원 곡선 수학을 써서 키 길이를 256비트로 10배 다이어트시킨 **[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)([타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 암호)**가 모바일과 블록체인을 점령했고, 이 3대장이 모여 완벽한 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 생태계를 지배 중이다.
+  2. <strong>디피-헬먼과 <a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> 혁명 (1970년대)</strong>: 수학 천재들이 "열쇠 배달하다 털리는 문제를 아예 없애버리자! 잠그는 키와 푸는 키를 수학적으로 쪼개버리자!"라며 인류 역사상 최고의 혁명인 <strong>비대칭키(공개키 암호화)</strong>를 발명하며 인터넷 전자상거래의 길을 뚫었다.
+  3. **ECC와 하이브리드의 대통일 (현재)**: 스마트폰 시대가 왔다. RSA는 키 길이가 무려 2048비트라 모바일 배터리를 광탈시켰다. 그래서 타원 곡선 수학을 써서 키 길이를 256비트로 10배 다이어트시킨 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/">타원곡선</a> 암호)</strong>가 모바일과 블록체인을 점령했고, 이 3대장이 모여 완벽한 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 생태계를 지배 중이다.
 
-- **📢 섹션 요약 비유**: 이 3가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 특수부대의 **'전술 포메이션'**입니다. **[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)(비대칭키)**는 헬기를 타고 적진에 투입할 좌표와 무전 암구호를 조용하고 안전하게 건네주는 '은밀한 침투 부대'입니다. **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)(대칭키)**는 헬기에서 내리자마자 M16 소총을 미친 듯이 난사하며 적의 본진 100만 명을 빛의 속도로 뚫어버리는 '람보 돌격대'입니다. **SHA(해시)**는 전투가 끝난 뒤 우리 편 시체에 남의 DNA가 섞였는지 지문만 톡 찍어서 확인하고 버려버리는 깐깐한 '과학 수사대'입니다.
+- **📢 섹션 요약 비유**: 이 3가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 특수부대의 <strong>'전술 포메이션'</strong>입니다. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>(비대칭키)</strong>는 헬기를 타고 적진에 투입할 좌표와 무전 암구호를 조용하고 안전하게 건네주는 '은밀한 침투 부대'입니다. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>(대칭키)</strong>는 헬기에서 내리자마자 M16 소총을 미친 듯이 난사하며 적의 본진 100만 명을 빛의 속도로 뚫어버리는 '람보 돌격대'입니다. <strong>SHA(해시)</strong>는 전투가 끝난 뒤 우리 편 시체에 남의 DNA가 섞였는지 지문만 톡 찍어서 확인하고 버려버리는 깐깐한 '과학 수사대'입니다.
 
 ---
 
 다음은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (대칭키-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 비의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  암호화 알고리즘 (대칭키-AES, 비                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호화 알고리즘 (대칭키-AES, 비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (대칭키-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 비가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (대칭키-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 비대칭키-[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 일방향-SHA) 적용 기준의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (대칭키-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 비대칭키-[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 일방향-SHA) 적용 기준의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (대칭키-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 비대칭키-[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 일방향-SHA) 적용 기준의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-암호화 알고리즘 (대칭키-AES, 비대칭키-RSA/ECC, 일방향-SHA) 적용 기준 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암호화 알고리즘 (대칭키-AES, 비대칭키-RSA/ECC, 일방향-SHA) 적용 기준 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

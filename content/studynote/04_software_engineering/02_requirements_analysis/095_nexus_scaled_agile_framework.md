@@ -28,38 +28,32 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-넥서스의 가장 강력한 아키텍처적 심장은 바로 **넥서스 통합팀 (NIT, Nexus Integration Team)**이라는 전담 부대의 신설이다.
+넥서스의 가장 강력한 아키텍처적 심장은 바로 <strong>넥서스 통합팀 (NIT, Nexus Integration Team)</strong>이라는 전담 부대의 신설이다.
 
 | 구성 요소 | 역할 및 핵심 임무 |
 | :--- | :--- |
 | **넥서스 통합팀 (NIT)** | 8개의 개발팀이 뿜어내는 수만 줄의 코드가 충돌 없이 매일 하나의 시스템([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)으로 병합되도록 돕는 통합 전담반 |
-| **[제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (PO)** | 전체 넥서스에 단 1명만 존재하며, 단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))의 우선순위를 지휘함 |
-| **[스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))** | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a> (PO)</strong> | 전체 넥서스에 단 1명만 존재하며, 단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))의 우선순위를 지휘함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/">스크럼 마스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/">SM</a>)</strong> | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
 | **NIT 팀원 구성** | 개별 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [제품 백로그] ──▶  (단 1명의 PO가 전체 우선순위 통제)               │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 🌟 넥서스 통합팀 (NIT : Nexus Integration Team)           │  │
-│  │  - 구성: PO + SM + 각 팀 대표자 1명씩                      │  │
-│  │  - 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리        │  │
-│  └────────────────────────────────────────────────────────┘  │
-│         ▲                    ▲                    ▲         │
-│         │ (코드 제출)          │ (의존성 해결)       │ (CI/CD)  │
-│  ┌────────────┐       ┌────────────┐       ┌────────────┐  │
-│  │ 스크럼 팀 1  │       │ 스크럼 팀 2  │  ...  │ 스크럼 팀 N  │  │
-│  │ (본연의 코딩) │       │ (본연의 코딩) │       │ (본연의 코딩) │  │
-│  └────────────┘       └────────────┘       └────────────┘  │
-│                                                              │
-│  결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제품 백로그</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(단 1명의 PO가 전체 우선순위 통제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 넥서스 통합팀 (NIT : Nexus Integration Team)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구성: PO + SM + 각 팀 대표자 1명씩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드 제출)</div><div class="kb-diagram-cell">(의존성 해결)</div><div class="kb-diagram-cell">(CI/CD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크럼 팀 1</div><div class="kb-diagram-cell">스크럼 팀 2</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">스크럼 팀 N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(본연의 코딩)</div><div class="kb-diagram-cell">(본연의 코딩)</div><div class="kb-diagram-cell">(본연의 코딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴</div></div>
+</div>
+</div>
+
+
 
 NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩하지 않는다. 그들은 개별 팀으로 돌아가 가이드를 전파하고, 전체 팀의 빌드가 깨졌을 때 소방수처럼 달려가 해결하는 기술 지원 및 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 네트워크의 중심 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 동작한다.
 
@@ -89,9 +83,9 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 넥서스를 실무에 성공적으로 도입하려면 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 이벤트를 변형하는 것이 아니라 어떻게 포개어(Wrap) 운영할 것인지 판단해야 한다.
 
 ### 넥서스 이벤트 실무 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **넥서스 [스프린트 계획 회의](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)**: 개별 팀이 각자 방에 들어가 회의하기 전에, 반드시 각 팀 대표가 먼저 모여 "우리 팀이 이 기능 짤 때 너희 DB 테이블 건드릴 텐데, 괜찮아?"라며 거대한 의존성 지도를 그려내고 사전에 충돌을 조율했는가?
-2. **넥서스 일일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Daily Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/))**: 매일 각 팀의 스탠드업 직전, 각 팀 대표들이 먼저 모여 크로스 팀 에러나 빌드 파괴 이슈를 공유하고, 그 정보를 즉각 자기 단일 팀 스탠드업으로 전파하는 2단 구조를 운영하고 있는가?
-3. **넥서스 [스프린트 리뷰](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)**: 8개의 팀이 각자 흩어져서 자기 코드를 데모하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 막고, 100명이 모인 자리에서 완벽하게 합쳐진 단 1개의 '통합 증분(Integrated Increment)' 시스템만을 PO([제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/))에게 시연하는가?
+1. <strong>넥서스 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/">스프린트 계획 회의</a></strong>: 개별 팀이 각자 방에 들어가 회의하기 전에, 반드시 각 팀 대표가 먼저 모여 "우리 팀이 이 기능 짤 때 너희 DB 테이블 건드릴 텐데, 괜찮아?"라며 거대한 의존성 지도를 그려내고 사전에 충돌을 조율했는가?
+2. <strong>넥서스 일일 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/">Daily Scrum</a>)</strong>: 매일 각 팀의 스탠드업 직전, 각 팀 대표들이 먼저 모여 크로스 팀 에러나 빌드 파괴 이슈를 공유하고, 그 정보를 즉각 자기 단일 팀 스탠드업으로 전파하는 2단 구조를 운영하고 있는가?
+3. <strong>넥서스 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/">스프린트 리뷰</a></strong>: 8개의 팀이 각자 흩어져서 자기 코드를 데모하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 막고, 100명이 모인 자리에서 완벽하게 합쳐진 단 1개의 '통합 증분(Integrated Increment)' 시스템만을 PO([제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/))에게 시연하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): NIT의 권력화
 - NIT를 단순히 짬이 높은 '시니어 아키텍트'들만의 관리/감독 부서로 변질시키는 경우다. NIT는 코드 병합을 돕는 하인(Servant) 부대이지 명령을 내리는 관리자가 아니다. NIT 멤버는 각 개발 실무팀에 소속된 팀원 중에서 통합의 중요성을 아는 자들이 '겸직'하는 구조여야만 현장감을 잃지 않고 코드 통합 지옥을 방어할 수 있다.
@@ -115,27 +109,29 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **NIT (Nexus Integration Team)** | 넥서스의 척추. 개별 팀의 기능 개발보다 1개의 완성된 제품으로 통합되는 과정([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 장애물을 제거하는 특수 조직. |
-| **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))** | 넥서스가 해결하기 힘든 수백 명 이상의 전사적 포트폴리오 관리가 필요할 때 채택하는 초거대 엔터프라이즈 [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/). |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>)</strong> | 넥서스가 해결하기 힘든 수백 명 이상의 전사적 포트폴리오 관리가 필요할 때 채택하는 초거대 엔터프라이즈 [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/). |
 | **의존성 (Dependency)** | 팀 A의 코드가 팀 B의 API에 기대고 있는 상태. 넥서스는 이 보이지 않는 거미줄을 일일 회의와 계획 회의에서 사전 통제하는 데 목숨을 건다. |
-| **단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) (Single [Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))** | 9개의 팀이 있더라도, 우선순위 목록(백로그)과 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)(PO)는 오직 단 1명만 존재하여 난개발을 방지한다. |
+| <strong>단일 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">제품 백로그</a> (Single <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">Product Backlog</a>)</strong> | 9개의 팀이 있더라도, 우선순위 목록(백로그)과 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)(PO)는 오직 단 1명만 존재하여 난개발을 방지한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 스크럼 (Scrum)의 소규모 고속 딜리버리 성공
-    │
-    ▼
-제품 조직의 성장 (3~9개 스크럼 팀 형성)
-    │
-    ▼
-팀 간 코드 통합 지옥 (Integration Hell) 및 의존성 충돌 발생
-    │
-    ▼
-의존성 해결 전담 부대의 신설 필요성 대두
-    │
-    ▼
-넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 스크럼 (Scrum)의 소규모 고속 딜리버리 성공</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제품 조직의 성장 (3~9개 스크럼 팀 형성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팀 간 코드 통합 지옥 (Integration Hell) 및 의존성 충돌 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">의존성 해결 전담 부대의 신설 필요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 성공한 팀이 확장될 때 겪는 필연적인 소프트웨어 통합의 저주를, 어떻게 구조적인 전담팀 하나로 해결하며 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)로 넘어가는지를 명확히 보여준다.
 

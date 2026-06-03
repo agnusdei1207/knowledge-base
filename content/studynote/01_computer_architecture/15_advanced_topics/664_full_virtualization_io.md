@@ -23,21 +23,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) I/O가 왜 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 높고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 불리한지를 한눈에 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              전가상화 I/O의 기본 구조: 가짜 장치를 진짜처럼 연기          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest Driver ─▶ I/O Port 또는 메모리 매핑 입출력 접근                      │
-│                  │                                                         │
-│                  ▼                                                         │
-│             Trap 발생                                                      │
-│                  │                                                         │
-│                  ▼                                                         │
-│        Hypervisor / Device Model ─▶ Host Driver ─▶ Physical Device         │
-│                  │                                                         │
-│                  └────────────── Interrupt Injection ◀─────────────────────┘
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전가상화 I/O의 기본 구조: 가짜 장치를 진짜처럼 연기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest Driver ─▶ I/O Port 또는 메모리 매핑 입출력 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trap 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor / Device Model ─▶ Host Driver ─▶ Physical Device</div></div>
+<div class="kb-diagram-note">Interrupt Injection ◀</div>
+</div>
+</div>
+
+
 
 이 방식이 필요했던 이유는 간단하다. 현실의 시스템에는 최신 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버를 절대 설치할 수 없는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 많기 때문이다. 구형 윈도우, 오래된 산업 제어 시스템, 설치 미디어, 기본 입출력 시스템 (Basic Input/Output System, BIOS) 단계는 가상 환경에 최적화된 장치 모델을 기대하지 않는다. 그래서 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) I/O는 느리더라도 “무조건 부팅되게 하는 기술”로서 계속 필요하다.
 
@@ -126,21 +124,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무수정 게스트 실행 요구
-    │
-    ▼
-장치 에뮬레이션 기반 전가상화 I/O
-    │
-    ▼
-Trap-and-Emulate · MMIO 가로채기
-    │
-    ▼
-설치/부팅 단계 호환성 확보
-    │
-    ▼
-반가상화 I/O · 패스스루로 운영 경로 분화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무수정 게스트 실행 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장치 에뮬레이션 기반 전가상화 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trap-and-Emulate · MMIO 가로채기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설치/부팅 단계 호환성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반가상화 I/O · 패스스루로 운영 경로 분화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) I/O가 “전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경로”에서 “[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구동을 담당하는 기반 경로”로 역할이 이동한 배경을 보여준다.
 

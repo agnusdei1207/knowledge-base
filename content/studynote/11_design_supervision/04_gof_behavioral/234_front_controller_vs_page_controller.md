@@ -20,63 +20,64 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 웹 애플리케이션에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청을 어디서, 어떻게 받을 것인가는 전체 구조를 결정하는 핵심 설계 문제다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Servlet/JSP 기반 개발에서는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러 방식이 자연스러웠다—URL마다 서블릿 하나가 대응하는 형태다. 그러나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 검사, 로깅, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시작, 예외 처리 등 공통 로직이 모든 서블릿에 복사되는 문제가 발생했다.
 
-프론트 컨트롤러 (Front Controller) 패턴은 이를 해결하기 위해 **단일 서블릿**이 모든 요청을 받아 공통 처리 후 적합한 핸들러로 위임하는 구조를 제안한다. Spring MVC의 `DispatcherServlet`, Struts의 `ActionServlet`이 대표적 구현체다.
+프론트 컨트롤러 (Front Controller) 패턴은 이를 해결하기 위해 <strong>단일 서블릿</strong>이 모든 요청을 받아 공통 처리 후 적합한 핸들러로 위임하는 구조를 제안한다. Spring MVC의 `DispatcherServlet`, Struts의 `ActionServlet`이 대표적 구현체다.
 
 | 패턴 | 도입 시기 | 대표 구현체 |
 |:---|:---:|:---|
 | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Servlet (1997~) | 개별 Servlet, ASP [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) |
 | Front Controller | 마틴 파울러 PEAA (2002) | Struts, Spring MVC, Django |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러는 건물 각 방에 별도 입구가 있는 구조이고, 프론트 컨트롤러는 정문 하나에서 모든 방문자를 안내 데스크가 체크하고 안내하는 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌─────────────────────────────────────────────────────────────┐
-│                 Page Controller 구조                         │
-│                                                             │
-│  /login   ──▶  ┌──────────────────┐                        │
-│                │  LoginServlet    │──▶ login.jsp            │
-│                │ (인증 + 뷰 처리)  │                        │
-│                └──────────────────┘                        │
-│  /order   ──▶  ┌──────────────────┐                        │
-│                │  OrderServlet    │──▶ order.jsp            │
-│                │ (인증 + 뷰 처리)  │  ← 중복!               │
-│                └──────────────────┘                        │
-│  /profile ──▶  ┌──────────────────┐                        │
-│                │  ProfileServlet  │──▶ profile.jsp          │
-│                │ (인증 + 뷰 처리)  │  ← 중복!               │
-│                └──────────────────┘                        │
-└─────────────────────────────────────────────────────────────┘
-```
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│               Front Controller 구조                          │
-│                                                             │
-│  모든 요청  ──▶  ┌────────────────────────────────────┐     │
-│                 │  Front Controller (DispatcherServlet)│     │
-│                 │  1. 인증 검사 (공통)                  │     │
-│                 │  2. 로깅 (공통)                       │     │
-│                 │  3. Handler Mapping                  │     │
-│                 └──────────────┬─────────────────────┘     │
-│                                │ 위임 (Dispatch)            │
-│              ┌─────────────────┼──────────────────┐        │
-│              ▼                 ▼                  ▼         │
-│  ┌─────────────────┐ ┌──────────────┐ ┌──────────────────┐ │
-│  │  LoginHandler   │ │ OrderHandler │ │  ProfileHandler  │ │
-│  └────────┬────────┘ └──────┬───────┘ └───────┬──────────┘ │
-│           ▼                 ▼                  ▼            │
-│        login.jsp         order.jsp          profile.jsp     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Controller 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/login ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoginServlet</div><div class="kb-diagram-cell">──▶ login.jsp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/order ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderServlet</div><div class="kb-diagram-cell">──▶ order.jsp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div><div class="kb-diagram-cell">← 중복!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/profile ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ProfileServlet</div><div class="kb-diagram-cell">──▶ profile.jsp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div><div class="kb-diagram-cell">← 중복!</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요청 ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller (DispatcherServlet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인증 검사 (공통)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 로깅 (공통)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Handler Mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임 (Dispatch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoginHandler</div><div class="kb-diagram-cell">OrderHandler</div><div class="kb-diagram-cell">ProfileHandler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">login.jsp order.jsp profile.jsp</div></div>
+</div>
+</div>
+
+
 
 | 단계 | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | Front Controller |
 |:---:|:---|:---|
@@ -100,14 +101,20 @@ tags = ["studynote-design-supervision"]
 | 테스트 용이성 | 낮음 (서블릿 의존) | 높음 (MockMvc 등) |
 | 적합 규모 | 소규모 사이트 | 중대형 웹 애플리케이션 |
 
-```
-요청 → DispatcherServlet
-          → HandlerMapping (URL → Controller 결정)
-          → HandlerAdapter (Controller 실행)
-          → ViewResolver (논리 뷰명 → 물리 경로 변환)
-          → View (렌더링)
-          → 응답
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요청 → DispatcherServlet</div>
+<div class="kb-diagram-note">→ HandlerMapping (URL → Controller 결정)</div>
+<div class="kb-diagram-note">→ HandlerAdapter (Controller 실행)</div>
+<div class="kb-diagram-note">→ ViewResolver (논리 뷰명 → 물리 경로 변환)</div>
+<div class="kb-diagram-note">→ View (렌더링)</div>
+<div class="kb-diagram-note">→ 응답</div>
+</div>
+</div>
+
+
 
 Spring의 `DispatcherServlet`은 [프론트 컨트롤러 패턴](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/)의 교과서적 구현이다. `@Controller`, `@RequestMapping`이 바로 이 구조 위에서 동작한다.
 
@@ -119,13 +126,13 @@ Spring의 `DispatcherServlet`은 [프론트 컨트롤러 패턴](/knowledge-base
 1. **Filter Chain (필터 체인)**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), CORS (Cross-Origin Resource Sharing), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 등을 필터로 조합
 2. **Interceptor (인터셉터)**: preHandle / postHandle로 컨트롤러 전후 처리
 3. **Exception Handler (예외 핸들러)**: `@ControllerAdvice`로 전체 예외를 중앙 처리
-4. **RESTful [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: `/users/{id}` 같은 경로 변수 처리가 자연스럽다
+4. <strong>RESTful <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: `/users/{id}` 같은 경로 변수 처리가 자연스럽다
 
 - 레거시 시스템 유지보수
 - 극단적으로 단순한 정적 사이트 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 수준)
 - PHP (Hypertext Preprocessor) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명 = URL)
 
-"왜 Spring MVC는 프론트 컨트롤러를 채택했는가?" — 답은 **관심사 분리 + 중복 제거**다. 비즈니스 로직과 인프라 로직([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅)을 섞지 않기 위해 단일 진입점을 두고 책임을 위임 체인으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켰다.
+"왜 Spring MVC는 프론트 컨트롤러를 채택했는가?" — 답은 <strong>관심사 분리 + 중복 제거</strong>다. 비즈니스 로직과 인프라 로직([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅)을 섞지 않기 위해 단일 진입점을 두고 책임을 위임 체인으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켰다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -143,7 +150,7 @@ Spring의 `DispatcherServlet`은 [프론트 컨트롤러 패턴](/knowledge-base
 - **중복 코드 감소**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드가 1개 필터로 통합 → 서블릿 N개 × [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 제거
 - **변경 영향 최소화**: 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(예: [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) → [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전환)을 한 곳만 수정
 - **테스트 가능성**: MockMvc로 컨트롤러를 서블릿 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 없이 테스트
-- **[REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 지원**: URL 패턴 매핑, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 분기를 선언적으로 처리
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">Representational State Transfer</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>) 지원</strong>: URL 패턴 매핑, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 분기를 선언적으로 처리
 
 현대 웹 개발에서 프론트 컨트롤러는 사실상 표준이다. Express.js (Node.js), Django (Python), Laravel (PHP) 모두 단일 진입점 구조를 채택한다.
 

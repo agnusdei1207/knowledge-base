@@ -26,17 +26,20 @@ tags = ["studynote-algorithm"]
 | 내부 노드 용량  | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함으로 적음      | 키만 있어 더 많은 키 보유     |
 | 삭제 복잡도     | 복잡 (내부 노드 처리)     | 리프만 처리, 내부는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 키   |
 
-```
-B+트리 구조:
 
-내부 노드: [ 17 ]  ← 라우팅 키만
-           /    \
-     [ 5, 12 ]  [ 24, 30 ]
 
-리프 노드 (체인):
-[1,3] → [5,9] → [12,15] → [17,20] → [24,27] → [30,35]
-  ↑ 실제 데이터(또는 Row Pointer) 저장 + 연결 포인터
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B+트리 구조:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">내부 노드:</div><div class="kb-diagram-node">17</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">라우팅 키만</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5, 12</div><div class="kb-diagram-node">24, 30</div></div>
+<div class="kb-diagram-note">리프 노드 (체인):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1,3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5,9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">12,15</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">17,20</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">24,27</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">30,35</div></div>
+<div class="kb-diagram-note">↑ 실제 데이터(또는 Row Pointer) 저장 + 연결 포인터</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: B+트리는 색인 카드 + 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분리 시스템이다 — 색인(내부 노드)은 위치만 알려주고, 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(리프)은 순서대로 서랍에 연결되어 있다.
 
@@ -53,12 +56,18 @@ SELECT * WHERE age BETWEEN 20 AND 30:
 
 ### B+트리 범위 검색
 
-```
-SELECT * WHERE age BETWEEN 20 AND 30:
-  1. age=20 리프 노드까지 트리 하강 O(log n)
-  2. 리프 체인 → → → age=30까지 순차 스캔 O(k)
-  총: O(log n + k)  ← 매우 효율적
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SELECT * WHERE age BETWEEN 20 AND 30:</div>
+<div class="kb-diagram-note">1. age=20 리프 노드까지 트리 하강 O(log n)</div>
+<div class="kb-diagram-note">2. 리프 체인 → → → age=30까지 순차 스캔 O(k)</div>
+<div class="kb-diagram-note">총: O(log n + k) ← 매우 효율적</div>
+</div>
+</div>
+
+
 
 ```python
 def range_search(root, low, high):
@@ -84,31 +93,39 @@ def range_search(root, low, high):
 
 ### 클러스터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))
 
-```
-InnoDB B+트리 리프 노드:
-┌──────────────────────────────────────┐
-│  PK  │      실제 행 데이터 (Row)      │
-│  1   │  name="Alice", age=25, ...    │
-│  2   │  name="Bob",   age=30, ...    │
-│  3   │  name="Carol", age=28, ...    │
-└──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">InnoDB B+트리 리프 노드:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PK</div><div class="kb-diagram-cell">실제 행 데이터 (Row)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">name="Alice", age=25, ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">name="Bob", age=30, ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">name="Carol", age=28, ...</div></div>
+</div>
+</div>
+
+
 
 ### 세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Secondary [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))
 
-```
-세컨더리 B+트리 리프 노드:
-┌───────────────────────────┐
-│  인덱스 키 │  PK 값       │
-│  age=25   │  PK=1        │  → 클러스터 인덱스에서 row 찾기
-│  age=28   │  PK=3        │
-│  age=30   │  PK=2        │
-└───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">세컨더리 B+트리 리프 노드:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스 키</div><div class="kb-diagram-cell">PK 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">age=25</div><div class="kb-diagram-cell">PK=1</div><div class="kb-diagram-cell">→ 클러스터 인덱스에서 row 찾기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">age=28</div><div class="kb-diagram-cell">PK=3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">age=30</div><div class="kb-diagram-cell">PK=2</div></div>
+</div>
+</div>
+
+
 
 **이중 조회 (Double Lookup) 문제**: 세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 후 PK로 클러스터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 재탐색 필요
 
-→ **커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))**: [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 포함해 이중 조회 방지
+→ <strong>커버링 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> (Covering <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>: [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 포함해 이중 조회 방지
 
 📢 **섹션 요약 비유**: 이중 조회는 책에서 목차(세컨더리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾고, 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 다시 내용을 읽는 것이다. 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 목차에 요약이 다 있어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 안 넘겨도 되는 것이다.
 
@@ -143,12 +160,18 @@ B+트리 특성:
 
 ### [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기와 차수 최적화
 
-```
-MySQL InnoDB 페이지: 16KB 기본
-  내부 노드 키: ~6 bytes + 포인터 6 bytes = 12 bytes
-  → 내부 노드 키 수: 16384 / 12 ≈ 1365개
-  → 높이 3 트리에 최대: 1365² × (16384/행크기) ≈ 수천만 행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MySQL InnoDB 페이지: 16KB 기본</div>
+<div class="kb-diagram-note">내부 노드 키: ~6 bytes + 포인터 6 bytes = 12 bytes</div>
+<div class="kb-diagram-note">→ 내부 노드 키 수: 16384 / 12 ≈ 1365개</div>
+<div class="kb-diagram-note">→ 높이 3 트리에 최대: 1365² × (16384/행크기) ≈ 수천만 행</div>
+</div>
+</div>
+
+
 
 ### 현대 DB에서의 적용
 
@@ -165,48 +188,55 @@ MySQL InnoDB 페이지: 16KB 기본
 
 ## 📌 관련 개념 맵
 
-```
-B+트리 (B+-Tree)
-├── B-트리와의 차이
-│   ├── 데이터: 리프에만
-│   └── 리프 연결 리스트 (Range Scan 최적화)
-├── 인덱스 유형
-│   ├── 클러스터 인덱스 (Clustered)
-│   │   └── InnoDB: 리프에 실제 행 저장
-│   └── 세컨더리 인덱스
-│       └── 리프에 PK 값 저장 → 이중 조회
-├── 최적화 기법
-│   ├── 커버링 인덱스 (이중 조회 방지)
-│   ├── 복합 인덱스 (Composite)
-│   └── 인덱스 선두 컬럼 규칙
-└── 실제 사용
-    ├── MySQL InnoDB
-    ├── PostgreSQL
-    └── Oracle / DB2
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B+트리 (B+-Tree)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">B-트리와의 차이</div>
+<div class="kb-diagram-note">── 데이터: 리프에만</div>
+<div class="kb-diagram-note">── 리프 연결 리스트 (Range Scan 최적화)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">인덱스 유형</div>
+<div class="kb-diagram-note">── 클러스터 인덱스 (Clustered)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── InnoDB: 리프에 실제 행 저장</div></div>
+<div class="kb-diagram-note">── 세컨더리 인덱스</div>
+<div class="kb-diagram-note">── 리프에 PK 값 저장 → 이중 조회</div>
+<div class="kb-diagram-tree-item" style="--depth:0">최적화 기법</div>
+<div class="kb-diagram-note">── 커버링 인덱스 (이중 조회 방지)</div>
+<div class="kb-diagram-note">── 복합 인덱스 (Composite)</div>
+<div class="kb-diagram-note">── 인덱스 선두 컬럼 규칙</div>
+<div class="kb-diagram-tree-item" style="--depth:0">실제 사용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">MySQL InnoDB</div>
+<div class="kb-diagram-tree-item" style="--depth:2">PostgreSQL</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Oracle / DB2</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   B+트리 발전 흐름                               │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1976년       │ B+트리 개념 정립   │ Knuth, 리프 체인 아이디어   │
-│ 1980년대     │ DB 인덱스 표준화   │ IBM DB2·Oracle 채택         │
-│ 2000년대     │ MySQL InnoDB       │ 클러스터 B+트리, 범용화     │
-│ 2010년대     │ SSD 최적화         │ 순차 vs 랜덤 I/O 재분석     │
-│ 2020년대     │ NVMe·인메모리 DB   │ 페이지 크기 조정, Bε-트리  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-B-트리 → B+트리(리프 체인) → 범위 스캔 O(k)
-  ↓              ↓                   ↓
-디스크 최적화  데이터=리프만      ORDER BY 최적화
-  ↓
-클러스터 인덱스 → 커버링 인덱스 → 쿼리 최적화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B+트리 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1976년</div><div class="kb-diagram-cell">B+트리 개념 정립</div><div class="kb-diagram-cell">Knuth, 리프 체인 아이디어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">DB 인덱스 표준화</div><div class="kb-diagram-cell">IBM DB2·Oracle 채택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">MySQL InnoDB</div><div class="kb-diagram-cell">클러스터 B+트리, 범용화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">SSD 최적화</div><div class="kb-diagram-cell">순차 vs 랜덤 I/O 재분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">NVMe·인메모리 DB</div><div class="kb-diagram-cell">페이지 크기 조정, Bε-트리</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">B-트리 → B+트리(리프 체인) → 범위 스캔 O(k)</div>
+<div class="kb-diagram-note">디스크 최적화 데이터=리프만 ORDER BY 최적화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">클러스터 인덱스 → 커버링 인덱스 → 쿼리 최적화</div>
+</div>
+</div>
+
+
 
 ---
 

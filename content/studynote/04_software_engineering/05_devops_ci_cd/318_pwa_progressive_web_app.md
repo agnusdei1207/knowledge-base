@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 커피 쿠폰을 받기 위해 카페의 전단지 QR코드를 찍었다. 그런데 "앱 스토어로 이동 → 100MB 앱 다운로드 → 기다림 → 권한 동의"를 거쳐야 한다. 짜증 난 고객 10명 중 8명은 다운로드 중간에 이탈(Bounce)해 버린다. 만약 QR코드를 찍어 웹 브라우저로 들어온 순간, 화면 하단에 "홈 화면에 추가" 버튼 하나만 누르면 바로 내 폰 바탕화면에 앱 아이콘이 깔리고 푸시 알림까지 온다면? 스토어 심사도 없고 다운로드 대기 시간도 없는, 웹과 앱의 장점만 합친 꿈의 기술이 필요했다.
 
-- **💡 비유**: PWA는 **'밀키트를 시켰더니 요리사가 따라온 것'**과 같습니다. 겉보기엔 그냥 인터넷 접속해서 보는 평범한 웹페이지(웹)인데, 주머니 속에 살짝 숨어있던 요리사([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커)가 내 핸드폰 깊숙이 자리 잡고 인터넷이 끊긴 무인도에서도(오프라인) 요리를 뚝딱 만들어 보여주는 앱의 역할을 합니다.
+- **💡 비유**: PWA는 <strong>'밀키트를 시켰더니 요리사가 따라온 것'</strong>과 같습니다. 겉보기엔 그냥 인터넷 접속해서 보는 평범한 웹페이지(웹)인데, 주머니 속에 살짝 숨어있던 요리사([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커)가 내 핸드폰 깊숙이 자리 잡고 인터넷이 끊긴 무인도에서도(오프라인) 요리를 뚝딱 만들어 보여주는 앱의 역할을 합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **모바일 혁명과 웹의 패배 (2010년~)**: 스마트폰 시대, 부드러운 애니메이션과 푸시 알림을 무기로 한 '네이티브 앱(Native App)'이 세상을 지배했다. 웹은 느리고 답답한 과거의 유물 취급을 받았다.
-  2. **구글의 [PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) 제창 (2015년)**: 검색 광고가 밥줄인 구글은 사람들이 앱 스토어에 갇히는 것을 두려워했다. 웹을 네이티브 앱처럼 진화시키기 위해 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Worker와 Web App Manifest 규격을 제안했다.
+  2. <strong>구글의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/">PWA</a> 제창 (2015년)</strong>: 검색 광고가 밥줄인 구글은 사람들이 앱 스토어에 갇히는 것을 두려워했다. 웹을 네이티브 앱처럼 진화시키기 위해 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Worker와 Web App Manifest 규격을 제안했다.
   3. **Apple의 항복과 글로벌 표준화**: 앱 스토어 수수료를 잃기 싫어 [PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) 지원을 막고 있던 애플(Safari)조차, 전 세계적 기술 표준의 압력을 견디지 못하고 2023년 iOS에 Web Push를 정식 허용하며 PWA의 완전한 황금기가 열렸다.
 
 - **📢 섹션 요약 비유**: PWA는 양서류(개구리)입니다. 물(인터넷 웹) 속에서 자유롭게 수영하다가, 육지(모바일 바탕화면)로 올라와 폐로 숨 쉬며 네이티브 앱처럼 뛰어다닐 수 있는 진화된 생명체입니다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), Pro의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프로그레시브 웹 앱 (PWA, Pro                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그레시브 웹 앱 (PWA, Pro</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), Pro가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Progressive Web App](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Progressive Web App](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 프로그레시브 웹 앱 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Progressive Web App](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/)) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프로그레시브 웹 앱 (PWA, Progressive Web App) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그레시브 웹 앱 (PWA, Progressive Web App) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

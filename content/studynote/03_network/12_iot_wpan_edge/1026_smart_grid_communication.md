@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 과거의 전력망은 발전소에서 전기를 만들어 가정으로 밀어내기만 하는 '[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 폭포수' 시스템이었다. 전력 수요를 실시간으로 알 수 없으므로 발전소는 항상 여름철 최대 피크치(Peak)에 맞춰 전기를 과잉 생산해야 했고, 이는 엄청난 에너지 낭비와 탄소 배출을 낳았다.
 
-여기에 태양광, 풍력 등 날씨에 따라 발전량이 널뛰는 신재생 에너지가 무분별하게 추가되자 기존 전력망은 붕괴 위기(계통 불안정성)에 처했다. 이를 해결하기 위해 전력선 위에 정보 통신(ICT)망을 평행하게 덧씌워, 전기를 주고받음과 동시에 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 주고받게 만든 것이 **[스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/))**다.
+여기에 태양광, 풍력 등 날씨에 따라 발전량이 널뛰는 신재생 에너지가 무분별하게 추가되자 기존 전력망은 붕괴 위기(계통 불안정성)에 처했다. 이를 해결하기 위해 전력선 위에 정보 통신(ICT)망을 평행하게 덧씌워, 전기를 주고받음과 동시에 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 주고받게 만든 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">스마트 그리드</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">Smart Grid</a>)</strong>다.
 
-```text
-[C-V2X / WAVE 매체 제어]
-    │
-    ▼
-[스마트 그리드 통신망]
-    │
-    └──▶ [수중 음파 통신망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수중 음파 통신망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 수돗물을 그냥 틀어놓고 버리던 옛날 방식에서, 각 가정의 수도꼭지에 밸브 센서를 달고 통제실과 카톡을 주고받으며 필요한 만큼만 물을 보내주는 지능형 펌프로 바꾼 것이다.
 
@@ -40,27 +44,26 @@ tags = ["studynote-network"]
 
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망은 크게 가정/빌딩 내부망(HAN), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집망([NAN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/)), 그리고 광역 백본망(WAN)의 3계층 아키텍처를 따른다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [ 전력회사 관제 센터 (WAN) ]                │
-│    (광케이블, 5G/LTE망을 통한 광역 전력 데이터 분석)         │
-└──────────────▲────────────────────────────────▲──────────────┘
-               │                                │
-┌──────────────▼──────────┐        ┌────────────▼────────────┐
-│      [ 데이터 수집장치 (DCU) ]      │        │    [ 변전소 / 송전탑 ]    │
-│  (전신주나 아파트 지하에 설치)│        │   (고압 송전망 관리)      │
-└──────────────▲──────────┘        └─────────────────────────┘
-               │ (NAN 구간: PLC, LoRa, Wi-SUN 등)
-┌──────────────▼────────────────────────────────────▼──────────┐
-│                      [ 가정 / 공장 (HAN) ]                   │
-│   [ 스마트 계량기(AMI) ] ◀──(ZigBee, Wi-Fi)──▶ [ 가전 기기 ] │
-│   (실시간 요금/사용량 측정)                        (원격 제어) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전력회사 관제 센터 (WAN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(광케이블, 5G/LTE망을 통한 광역 전력 데이터 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집장치 (DCU)</div><div class="kb-diagram-node">변전소 / 송전탑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전신주나 아파트 지하에 설치)</div><div class="kb-diagram-cell">(고압 송전망 관리)</div></div>
+<div class="kb-diagram-note">(NAN 구간: PLC, LoRa, Wi-SUN 등)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가정 / 공장 (HAN)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 계량기(AMI)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">가전 기기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 요금/사용량 측정) (원격 제어)</div></div>
+</div>
+</div>
+
+
 
 1. **HAN (Home Area Network)**: 집 안의 스마트 가전과 스마트 미터기([AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))를 연결한다. 주로 [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/), Wi-Fi 등 근거리 저전력 무선 통신을 쓴다.
-2. **[NAN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/) (Neighborhood Area Network)**: 아파트 단지나 골목의 수십~수백 대 AMI에서 모인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전신주에 있는 수집기(DCU)로 모은다. [전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/)([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))이나 Wi-SUN, [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 같은 저주파 장거리 무선 통신을 활용한다.
-3. **[AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))**: [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 가장 핵심적인 엔드포인트다. 옛날처럼 검침원이 한 달에 한 번 돌아다니지 않아도, 15분 단위로 전력 사용량을 관제 센터로 쏴주는 똑똑한 두뇌 역할을 한다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/">NAN</a> (Neighborhood Area Network)</strong>: 아파트 단지나 골목의 수십~수백 대 AMI에서 모인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전신주에 있는 수집기(DCU)로 모은다. [전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/)([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))이나 Wi-SUN, [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 같은 저주파 장거리 무선 통신을 활용한다.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">AMI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/">Advanced Metering Infrastructure</a>)</strong>: [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 가장 핵심적인 엔드포인트다. 옛날처럼 검침원이 한 달에 한 번 돌아다니지 않아도, 15분 단위로 전력 사용량을 관제 센터로 쏴주는 똑똑한 두뇌 역할을 한다.
 
 - **📢 섹션 요약 비유**: 집 안에서는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)(HAN)로 놀고, 동네 골목에서는 동네 무전기([NAN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))로 반장님(DCU)에게 보고하면, 반장님이 인터넷(WAN)으로 시청(관제센터)에 일일이 보고하는 피라미드 조직이다.
 
@@ -73,12 +76,12 @@ tags = ["studynote-network"]
 | 비교 항목 | 전통적 전력망 (Legacy Grid) | [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) ([Smart Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)) |
 |:---:|:---|:---|
 | **전력 흐름** | 발전소 -> 수용가 ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) | 발전소 <-> 수용가 <-> 프로슈머 (양방향) |
-| **정보 흐름** | 없음 (단절) | **양방향 통신 (실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환)** |
+| **정보 흐름** | 없음 (단절) | <strong>양방향 통신 (실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 교환)</strong> |
 | **요금제** | 누진제, 고정 요금제 | **실시간 변동 요금제 (ToU: Time of Use)** |
-| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 수동 (정전 후 신고받고 출동) | 자동 감지 및 자가 치유 (Self-healing) |
+| <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 수동 (정전 후 신고받고 출동) | 자동 감지 및 자가 치유 (Self-healing) |
 | **재생 에너지** | 계통 연결 어려움 (품질 저하) | [V2G](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/)(전기차), [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)(배터리)와 유연한 결합 |
 
-[스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망은 전기차를 굴러다니는 거대한 보조 배터리로 활용하여, 전기가 모자랄 때 전기차의 전기를 아파트로 거꾸로 방전시키는 **[V2G](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) (Vehicle-to-Grid)** 개념과 완벽하게 연결된다.
+[스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망은 전기차를 굴러다니는 거대한 보조 배터리로 활용하여, 전기가 모자랄 때 전기차의 전기를 아파트로 거꾸로 방전시키는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/">V2G</a> (Vehicle-to-Grid)</strong> 개념과 완벽하게 연결된다.
 
 - **📢 섹션 요약 비유**: 옛날 전력망이 마트에서 물건을 일방적으로 사오는 것이라면, [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 당근마켓처럼 집집마다 남는 물건(전기)을 실시간으로 사고팔며 거래하는 양방향 플랫폼이다.
 
@@ -90,7 +93,7 @@ tags = ["studynote-network"]
 '수요 반응([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/): Demand Response)' 사업이 대표적이다. 한여름 오후 2시, 전력 피크가 예상되면 전력회사는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 망을 통해 공장과 빌딩에 "지금 에어컨 온도를 1도 올리면 전기료를 깎아주겠다"는 신호를 쏜다. 빌딩의 시스템은 사람이 개입하지 않고도 자동으로 에어컨 실외기를 제어하여 전력 소비를 깎아낸다.
 
 **기술사 판단 포인트 (Trade-off):**
-[스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망 설계 시 가장 큰 난관은 **'[PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)([전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/))의 노이즈'와 '사이버 보안'**이다.
+[스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망 설계 시 가장 큰 난관은 <strong>'<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/">전력선 통신</a>)의 노이즈'와 '사이버 보안'</strong>이다.
 1. 전선 자체를 통신선으로 쓰는 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 방식은 별도의 통신선 공사가 필요 없어 저렴하지만, 집 안에서 드라이기나 믹서기를 켤 때마다 엄청난 전기적 노이즈가 발생해 통신이 끊어질 수 있다. 따라서 노이즈가 심한 공장 지대는 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 대신 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 기반 무선망으로 이원화(Hybrid) 설계해야 한다.
 2. 수백만 대의 가정용 AMI가 인터넷에 직접 연결되므로, 해커가 악성코드를 심어 전국의 AMI를 일시에 정지시키면 발전소 터빈이 폭주하는 최악의 블랙아웃 테러가 발생할 수 있다. [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 구간의 엔드투엔드 암호화([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 기반) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 접근 제어는 선택이 아닌 필수다.
 
@@ -125,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: C-V2X / WAVE 매체 제어]
-    │
-    ▼
-[현재 개념: 스마트 그리드 통신망]
-    │
-    ├──▶ [확장 A: 수중 음파 통신망]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: C-V2X / WAVE 매체 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 그리드 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 수중 음파 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망는 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어에서 출발해 현재 메커니즘을 정교화하고, 이후 [수중 음파 통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

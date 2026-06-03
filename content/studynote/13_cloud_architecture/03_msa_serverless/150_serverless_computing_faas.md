@@ -39,26 +39,25 @@ tags = ["studynote-cloud-architecture"]
 | 상태 관리 | 무상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) | 외부 스토리지 필수 |
 | 제한 시간 | 최대 15분 (AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 기준) | 장시간 작업 부적합 |
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│                     서버리스 실행 흐름                              │
-│                                                                     │
-│  이벤트 소스                 FaaS 플랫폼              실행 환경     │
-│  ┌──────────┐  트리거         ┌──────────────┐      ┌──────────┐   │
-│  │ HTTP API │────────────────►│              │ 생성 │ Function │   │
-│  │ S3 업로드│                 │  이벤트       │─────►│ Instance │   │
-│  │ SQS 큐   │                 │  라우터       │      │          │   │
-│  │ 스케줄러 │                 │              │◄─────│  결과 반환│   │
-│  └──────────┘                 └──────────────┘ 소멸 └──────────┘   │
-│                                      │                              │
-│                               과금: 실행ms × 메모리                  │
-│                                                                     │
-│  ┌──────────────────────────────────────────────────────────────┐   │
-│  │  외부 연동 (상태 저장)                                        │   │
-│  │  DynamoDB / S3 / RDS Proxy / ElastiCache / SQS              │   │
-│  └──────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 실행 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소스 FaaS 플랫폼 실행 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP API</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">생성</div><div class="kb-diagram-cell">Function</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 업로드</div><div class="kb-diagram-cell">이벤트</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">Instance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQS 큐</div><div class="kb-diagram-cell">라우터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">결과 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소멸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과금: 실행ms × 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 연동 (상태 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB / S3 / RDS Proxy / ElastiCache / SQS</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 함수는 자판기 — 동전(이벤트)을 넣으면 그때만 모터가 돌아가고 음료가 나오면 멈춘다. 24시간 가동하지 않는다.
 
@@ -81,7 +80,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 적합 시나리오**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> 적합 시나리오</strong>
 - 이미지·동영상 변환(S3 이벤트 → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) → 변환 완료 저장)
 - 정기 배치 작업([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계 → DB 저장)
 - [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이벤트 처리(수천 개 디바이스 → 이벤트 큐 → 함수 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)
@@ -121,17 +120,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-항상 가동 서버 (유휴 비용 발생)
-    │
-    ▼
-Serverless / FaaS: 이벤트 기반 · Pay-per-Use
-    ├─► AWS Lambda · GCP Cloud Functions · Azure Functions
-    └─► BaaS: Firebase · Supabase (백엔드 서비스)
-    │
-    ▼
-Cold Start 최적화 · Knative (K8s 기반 서버리스)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">항상 가동 서버 (유휴 비용 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Serverless / FaaS: 이벤트 기반 · Pay-per-Use</div>
+<div class="kb-diagram-tree-item" style="--depth:2">AWS Lambda · GCP Cloud Functions · Azure Functions</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BaaS: Firebase · Supabase (백엔드 서비스)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cold Start 최적화 · Knative (K8s 기반 서버리스)</div>
+</div>
+</div>
+
+
 2. 개발자는 전구(코드) 디자인만 하면 되고, 전선 공사(서버 관리)는 클라우드 회사가 다 해준다.
 3. 손님이 100명 오면 전등이 100개 켜지고, 손님이 0명이면 전등이 꺼져서 요금이 0원이 된다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-앞선 653번 문서에서 **대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 치명적 단점은 "암호화용 열쇠를 어떻게 상대방에게 해커 몰래 전달할 것인가?(키 배송 문제)"**라고 배웠습니다.
-1976년, 휘트필드 디피(Diffie)와 마틴 헬만(Hellman)은 이산대수([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))의 수학적 난제를 이용해, **서로 얼굴을 한 번도 본 적 없는 두 사람이 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)당하는 인터넷상에서 당당하게 평문으로 숫자를 주고받으면서도 둘만이 아는 완벽한 '공통 비밀키'를 만들어내는 기적의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 발명했습니다. (비대칭키 암호학의 시초가 됨)
+앞선 653번 문서에서 <strong>대칭키(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)의 치명적 단점은 "암호화용 열쇠를 어떻게 상대방에게 해커 몰래 전달할 것인가?(키 배송 문제)"</strong>라고 배웠습니다.
+1976년, 휘트필드 디피(Diffie)와 마틴 헬만(Hellman)은 이산대수([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))의 수학적 난제를 이용해, <strong>서로 얼굴을 한 번도 본 적 없는 두 사람이 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>당하는 인터넷상에서 당당하게 평문으로 숫자를 주고받으면서도 둘만이 아는 완벽한 '공통 비밀키'를 만들어내는 기적의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 발명했습니다. (비대칭키 암호학의 시초가 됨)
 
-```text
-[ECDSA, Ed25519]
-    │
-    ▼
-[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    └──▶ [해시 함수]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 함수</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,25 +43,29 @@ tags = ["studynote-network"]
 
 수학(이산대수) 대신 직관적인 물감 섞기로 이해하는 것이 전 세계의 국룰입니다.
 
-1. **공개 정보 공유**: 앨리스와 밥은 인터넷 게시판([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 가능)에 "우리 기본 베이스 물감으로 **노란색**을 쓰자"고 대놓고 약속합니다. (해커도 노란색을 봅니다.)
-2. **개인키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 앨리스는 자신만 아는 **빨간색** 물감을, 밥은 자신만 아는 **파란색** 물감을 각자 몰래 고릅니다. (절대 남에게 안 보여줌)
+1. **공개 정보 공유**: 앨리스와 밥은 인터넷 게시판([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 가능)에 "우리 기본 베이스 물감으로 <strong>노란색</strong>을 쓰자"고 대놓고 약속합니다. (해커도 노란색을 봅니다.)
+2. <strong>개인키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 앨리스는 자신만 아는 **빨간색** 물감을, 밥은 자신만 아는 **파란색** 물감을 각자 몰래 고릅니다. (절대 남에게 안 보여줌)
 3. **혼합 및 전송 (핵심)**: 
-   - 앨리스는 기본(노란색)에 자기꺼(빨간색)를 섞어 **주황색**을 만듭니다.
-   - 밥은 기본(노란색)에 자기꺼(파란색)를 섞어 **초록색**을 만듭니다.
-   - 이 섞인 **주황색**과 **초록색**을 인터넷으로 쿨하게 서로에게 전송합니다. (해커가 중간에 주황색, 초록색 물감을 가로챕니다.)
+   - 앨리스는 기본(노란색)에 자기꺼(빨간색)를 섞어 <strong>주황색</strong>을 만듭니다.
+   - 밥은 기본(노란색)에 자기꺼(파란색)를 섞어 <strong>초록색</strong>을 만듭니다.
+   - 이 섞인 <strong>주황색</strong>과 <strong>초록색</strong>을 인터넷으로 쿨하게 서로에게 전송합니다. (해커가 중간에 주황색, 초록색 물감을 가로챕니다.)
 4. **비밀키 완성**:
-   - 앨리스는 밥에게 받은 **초록색**에 자신의 몰래 간직한 **빨간색**을 섞습니다. 👉 (노랑+파랑) + 빨강 = **똥색** 완성!
-   - 밥은 앨리스에게 받은 **주황색**에 자신의 몰래 간직한 **파란색**을 섞습니다. 👉 (노랑+빨강) + 파랑 = **똥색** 완성!
-   - 두 사람은 서로 열쇠를 직접 주지 않았는데도 **똑같은 '똥색(대칭 암호키)'을 공유**하게 되었습니다.
+   - 앨리스는 밥에게 받은 <strong>초록색</strong>에 자신의 몰래 간직한 <strong>빨간색</strong>을 섞습니다. 👉 (노랑+파랑) + 빨강 = **똥색** 완성!
+   - 밥은 앨리스에게 받은 <strong>주황색</strong>에 자신의 몰래 간직한 <strong>파란색</strong>을 섞습니다. 👉 (노랑+빨강) + 파랑 = **똥색** 완성!
+   - 두 사람은 서로 열쇠를 직접 주지 않았는데도 <strong>똑같은 '똥색(대칭 암호키)'을 공유</strong>하게 되었습니다.
 
-```text
-[ECDSA, Ed25519]
-    │
-    ▼
-[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    └──▶ [해시 함수]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 함수</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,10 +90,10 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-디피-헬만은 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)에는 우주 최강이지만, 중간에 끼어드는 **[중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)([Man-In-The-Middle Attack](/knowledge-base/studynote/09_security/03_network_security/266_mitm_attack/))**에는 무기력하게 당합니다.
+디피-헬만은 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(스니핑)에는 우주 최강이지만, 중간에 끼어드는 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/">중간자 공격</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/266_mitm_attack/">Man-In-The-Middle Attack</a>)</strong>에는 무기력하게 당합니다.
 - **해커의 위장**: 앨리스가 "주황색 물감"을 밥에게 던질 때, 중간에 있는 해커 다스가 잽싸게 가로챕니다. 그리고 다스는 자기가 만든 "보라색 물감"을 마치 앨리스인 척 밥에게 줍니다. 
 - 밥은 다스와 똥색 열쇠를 만들고, 앨리스도 다스와 똥색 열쇠를 만들게 됩니다. 두 사람은 서로 통신한다고 착각하지만, 실제로는 다스가 중간에서 양쪽의 암호를 모두 다 풀어보며([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)/조작) 비웃고 있게 됩니다.
-- **해결책**: 이를 막기 위해 반드시 통신 전, 상대방이 가짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)** 과정을 추가하여 결합해 사용해야 합니다.
+- **해결책**: 이를 막기 위해 반드시 통신 전, 상대방이 가짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong> 과정을 추가하여 결합해 사용해야 합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ECDSA, Ed25519]
-    │
-    ▼
-[현재 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    ├──▶ [확장 A: 해시 함수]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECDSA, Ed25519</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519에서 출발해 현재 메커니즘을 정교화하고, 이후 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

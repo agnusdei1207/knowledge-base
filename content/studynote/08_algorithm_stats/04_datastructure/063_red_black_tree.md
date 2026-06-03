@@ -37,11 +37,11 @@ tags = ["studynote-algorithm"]
      (LL/RR/LR/RL patterns similar to AVL)
 ```
 
-**핵심 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Invariants):**
+<strong>핵심 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(Invariants):</strong>
 1. **노드 색상:** 모든 노드는 레드(Red) 또는 블랙(Black) 중 하나다.
-2. **루트 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/):** 루트 노드는 항상 블랙이다.
-3. **리프 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/):** 모든 리프(NIL) 노드는 블랙이다.
-4. **레드 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/):** 레드 노드의 자식은 반드시 블랙이다 (레드가 연속될 수 없음).
+2. <strong>루트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>:</strong> 루트 노드는 항상 블랙이다.
+3. <strong>리프 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>:</strong> 모든 리프(NIL) 노드는 블랙이다.
+4. <strong>레드 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>:</strong> 레드 노드의 자식은 반드시 블랙이다 (레드가 연속될 수 없음).
 5. **블랙 높이:** 임의의 노드에서 그 자손 리프 노드에 이르는 모든 경로에는 동일한 개수의 블랙 노드가 존재해야 한다.
 
 ---
@@ -51,9 +51,9 @@ tags = ["studynote-algorithm"]
 | 구분 | AVL 트리 | 레드-블랙 트리 (RB-Tree) | B-트리 ([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)) |
 |:---|:---|:---|:---|
 | **균형 유지 강도** | **강함** (Strict) | **중간** (Relaxed) | 강함 (M-way) |
-| **탐색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 매우 우수 (1.44 log n) | 우수 (2 log n) | 매우 우수 (디스크 최적화) |
-| **삽입/삭제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 낮음 (잦은 회전) | **매우 우수** (최대 3회 회전) | 보통 (노드 분할/병합) |
-| **주요 활용** | 검색 전용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | **범용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Map/Set)** | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
+| <strong>탐색 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 매우 우수 (1.44 log n) | 우수 (2 log n) | 매우 우수 (디스크 최적화) |
+| <strong>삽입/삭제 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 낮음 (잦은 회전) | **매우 우수** (최대 3회 회전) | 보통 (노드 분할/병합) |
+| **주요 활용** | 검색 전용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | <strong>범용 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> (Map/Set)</strong> | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 
 ---
 
@@ -76,26 +76,28 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이진 탐색 트리 (BST — Binary Search Tree) — 삽입 순서에 따라 편향 발생]
-    │
-    ▼
-[AVL 트리 (AVL Tree) — 엄격한 높이 균형, 회전 빈도 높음]
-    │
-    ▼
-[레드-블랙 트리 (Red-Black Tree) — 색 속성으로 느슨한 균형·O(log n) 보장]
-    │
-    ▼
-[B-트리 / B+-트리 (B-Tree) — 디스크 I/O 최소화, DBMS 인덱스에 적용]
-    │
-    ▼
-[표준 라이브러리 내장 (STL map·Java TreeMap) — 실무 언어 런타임에서 기본 채택]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST — Binary Search Tree) — 삽입 순서에 따라 편향 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AVL 트리 (AVL Tree) — 엄격한 높이 균형, 회전 빈도 높음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레드-블랙 트리 (Red-Black Tree) — 색 속성으로 느슨한 균형·O(log n) 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 / B+-트리 (B-Tree) — 디스크 I/O 최소화, DBMS 인덱스에 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">표준 라이브러리 내장 (STL map·Java TreeMap) — 실무 언어 런타임에서 기본 채택</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 편향 BST 문제에서 출발해 균형 트리 계보가 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 언어 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 자리 잡는 과정을 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 레드-블랙 트리는 빨강과 검정 색칠 공부를 하며 노는 **규칙쟁이 나무**예요.
+1. 레드-블랙 트리는 빨강과 검정 색칠 공부를 하며 노는 <strong>규칙쟁이 나무</strong>예요.
 2. "빨강 옆에 빨강은 안 돼!", "검정 길이는 똑같아야 해!"라는 규칙을 지키면서 자라요.
 3. 이 규칙들 덕분에 나무가 한쪽으로만 쏠리지 않고 예쁘게 자라서, 숨겨둔 보물을 금방 찾을 수 있답니다!
 

@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) (Progressive Web Apps)**: 평범한 HTML 웹사이트를 구글 플레이스토어 앱처럼 아이콘도 만들고, 푸시 알림도 쏘고, 오프라인 작동도 되게 진화(Progressive)시키는 구글 주도 웹 헌법.
-  - **[Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/) ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커)**: PWA의 뇌(Brain). 브라우저 탭(UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 밖에서 별도로 독립적으로 도는 좀비 자바스크립트 워커(Worker). 백그라운드에서 캐시 가로채기, 푸시 알림 받기를 노가다 뛴다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/">PWA</a> (Progressive Web Apps)</strong>: 평범한 HTML 웹사이트를 구글 플레이스토어 앱처럼 아이콘도 만들고, 푸시 알림도 쏘고, 오프라인 작동도 되게 진화(Progressive)시키는 구글 주도 웹 헌법.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/">Service Worker</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 워커)</strong>: PWA의 뇌(Brain). 브라우저 탭(UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 밖에서 별도로 독립적으로 도는 좀비 자바스크립트 워커(Worker). 백그라운드에서 캐시 가로채기, 푸시 알림 받기를 노가다 뛴다.
   - **Offline-first (오프라인 우선)**: "오프라인을 예외 상황(Error)으로 취급하지 말고, 아예 처음부터 오프라인 상태(Local Cache)에서 화면을 그리고 시작한 뒤 백엔드를 찔러라"는 극한의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/생존 아키텍처 사상.
 
 - **필요성 (오프라인 공룡의 저주와 하얀 화면 렉)**: 웹(Web)의 본질은 치명적인 약점을 안고 태어났다. 무조건 서버(서초구 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))에 HTTP를 쏴서 텍스트를 다운받아야 화면이 뜬다. 엘리베이터 안에서 쇼핑몰 웹을 켜면? 인터넷이 1바이트도 안 통하니 시뻘건 "인터넷 없음(오프라인 공룡)" 페이지가 뜬다. 앱은 어떨까? 당근마켓 앱은 인터넷 끊겨도 어제 보던 중고차 사진과 메뉴 탭 껍데기는 0.1초 만에 다 뜨고, "네트워크 연결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 팝업"만 살짝 뜬다. (UX 극락). **"아 씨발! 웹 프론트엔드도 네이티브 앱(App)처럼 우리 핸드폰 하드디스크(로컬 캐시)에 화면 껍데기를 평생 영구 박제해 두고, 인터넷 터질 때면 서버 찌르지도 말고 폰 안에서 0.1초 컷으로 화면 그려주는 꼼수 안 됨?!"** 이 열등감의 폭발이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커([Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/))를 창조했다.
 
-- **💡 비유**: 일반 웹은 **'매일 아침 우유를 사러 마트(서버)에 걸어가는 짓'**입니다. 마트 문이 닫히거나 길(네트워크)이 막히면 밥을 못 먹고 굶어 죽습니다(하얀 화면 에러). 오프라인 우선([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/))은 집에 **'초거대 양문형 냉장고([Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/) Cache)'**를 떡하니 사두는 겁니다. 1번 마트 갈 때 우유 100개를 냉장고에 꽉 채워둡니다([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)). 다음날부터는 눈 폭풍이 몰아쳐 밖(네트워크)에 못 나가도, 냉장고 문 열고 1초 만에 밥을 완벽히 차려 먹으며 100% 무적 생존하는 압도적인 식량 자급자족 시스템입니다.
+- **💡 비유**: 일반 웹은 <strong>'매일 아침 우유를 사러 마트(서버)에 걸어가는 짓'</strong>입니다. 마트 문이 닫히거나 길(네트워크)이 막히면 밥을 못 먹고 굶어 죽습니다(하얀 화면 에러). 오프라인 우선([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/))은 집에 <strong>'초거대 양문형 냉장고(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/">Service Worker</a> Cache)'</strong>를 떡하니 사두는 겁니다. 1번 마트 갈 때 우유 100개를 냉장고에 꽉 채워둡니다([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)). 다음날부터는 눈 폭풍이 몰아쳐 밖(네트워크)에 못 나가도, 냉장고 문 열고 1초 만에 밥을 완벽히 차려 먹으며 100% 무적 생존하는 압도적인 식량 자급자족 시스템입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **AppCache의 저주 (구석기)**: 옛날 웹표준에 `AppCache`란 게 있었다. 오프라인 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 흉내 냈는데 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업데이트 꼬이고 버그 폭발해서 구글이 빡쳐서 아예 스펙을 폐기(Deprecated) 처분함.
-  2. **구글의 [PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/) 선언 (2015~)**: 모바일 시대가 열리고 앱스토어(애플/구글) 수수료 30%에 빡친 기업들. 구글이 "웹을 앱처럼 껍데기 씌워서 홈 화면 아이콘 깔고 푸시 알림 쏴줄게! 이름하야 [PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/)!" 대선포.
-  3. **[Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/) 표준화 (현재)**: 브라우저 깊숙한 곳에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(문지기) 짓을 하는 자바스크립트 엔진 스펙이 모든 브라우저(사파리 포함)에 장착되며 오프라인 First 개발 시대가 천하 통일됨.
+  2. <strong>구글의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/">PWA</a> 선언 (2015~)</strong>: 모바일 시대가 열리고 앱스토어(애플/구글) 수수료 30%에 빡친 기업들. 구글이 "웹을 앱처럼 껍데기 씌워서 홈 화면 아이콘 깔고 푸시 알림 쏴줄게! 이름하야 [PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/)!" 대선포.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/">Service Worker</a> 표준화 (현재)</strong>: 브라우저 깊숙한 곳에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(문지기) 짓을 하는 자바스크립트 엔진 스펙이 모든 브라우저(사파리 포함)에 장착되며 오프라인 First 개발 시대가 천하 통일됨.
 
-- **📢 섹션 요약 비유**: 이 혁명은 식당 주문이 **'본사 중앙 클라우드 포스기'**에서 **'로컬 진동벨'**로 진화한 것과 같습니다. 중앙 통신선이 끊기면 식당 주문 전체가 먹통이 되는 원시 시대를 벗어나, 손님 손에 쥐여준 진동벨(로컬 기기) 자체에 메뉴판 기억 장치와 칩을 심어두어, 통신이 10분간 끊겨도 손님 폰에서 메뉴판 구경은 쌩쌩 돌아가는 미친 고객 방어술입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 식당 주문이 <strong>'본사 중앙 클라우드 포스기'</strong>에서 <strong>'로컬 진동벨'</strong>로 진화한 것과 같습니다. 중앙 통신선이 끊기면 식당 주문 전체가 먹통이 되는 원시 시대를 벗어나, 손님 손에 쥐여준 진동벨(로컬 기기) 자체에 메뉴판 기억 장치와 칩을 심어두어, 통신이 10분간 끊겨도 손님 폰에서 메뉴판 구경은 쌩쌩 돌아가는 미친 고객 방어술입니다.
 
 ---
 
 다음은 오프라인 우선 (Offline-fir의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오프라인 우선 (Offline-fir                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프라인 우선 (Offline-fir</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 오프라인 우선 (Offline-fir가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-오프라인 우선 (Offline-first) 아키텍처 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/), IndexedDB)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+오프라인 우선 (Offline-first) 아키텍처 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/), IndexedDB)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 오프라인 우선 (Offline-first) 아키텍처 ([PWA](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/702_pwa_progressive_web_app_service_worker/), [Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/), IndexedDB)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오프라인 우선 (Offline-first) 아키텍처 (PWA, Service Worker, IndexedDB) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오프라인 우선 (Offline-first) 아키텍처 (PWA, Service Worker, IndexedDB) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

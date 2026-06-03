@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 개발자들은 너무 착하다. 테스트 코드를 짤 때 `나이=25`, `나이=0`, 기껏해야 `나이=-1` 정도만 넣어보고 "예외 처리 잘 되네! 버그 없음!" 하고 퇴근한다. 하지만 러시아 해커는 착하지 않다. 나이 칸에 1GB짜리 사진 파일을 바이너리로 쪼개서 밀어 넣고, 널 포인터(`\0`)를 섞어 넣어 C언어 서버의 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))를 일으켜 관리자 권한을 탈취한다. **개발자의 '정상적인 사고방식'만으로는 절대 해커의 '미친 공격'을 막아낼 수 없기 때문에**, 기계에게 아예 100만 개의 무식한 쓰레기값을 쏘게 시키는 퍼징이 사이버 보안의 필수가 되었다.
 
-- **💡 비유**: 퍼즈 테스팅은 **'현관문 부수기 막노동'**과 같습니다. 일반 테스트는 열쇠가 잘 맞는지 부드럽게 돌려보는 것입니다. 퍼즈 테스팅은 로봇 팔이 문고리에 망치, 전기톱, 시한폭탄, 드릴, 심지어 젤리(기형적인 값)까지 초당 수천 번씩 갖다 대고 후려치면서(Fuzz), 어떤 미친 무기를 댔을 때 문짝(시스템)이 완전히 박살 나서 떨어져 나가는지(Crash)를 알아내는 무식하지만 가장 확실한 문짝 내구성 검증입니다.
+- **💡 비유**: 퍼즈 테스팅은 <strong>'현관문 부수기 막노동'</strong>과 같습니다. 일반 테스트는 열쇠가 잘 맞는지 부드럽게 돌려보는 것입니다. 퍼즈 테스팅은 로봇 팔이 문고리에 망치, 전기톱, 시한폭탄, 드릴, 심지어 젤리(기형적인 값)까지 초당 수천 번씩 갖다 대고 후려치면서(Fuzz), 어떤 미친 무기를 댔을 때 문짝(시스템)이 완전히 박살 나서 떨어져 나가는지(Crash)를 알아내는 무식하지만 가장 확실한 문짝 내구성 검증입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **폭풍우 속의 아이디어 (1988)**: 바튼 밀러(Barton Miller) 교수가 벼락 치는 날 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 통신에 잡음(노이즈, 쓰레기값)이 섞여 들어가자 유닉스(Unix) 프로그램들이 줄줄이 죽어버리는 현상을 보고 영감을 얻어 최초의 Fuzzer를 만들었다.
-  2. **해커들의 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 자판기**: 2000년대 해커들이 IE(인터넷 익스플로러)나 윈도우(Windows)에 퍼저(Fuzzer)를 24시간 돌려서 나오는 크래시(Crash)를 잡아내어 [제로데이 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/) 해킹 코드를 찍어내듯 팔아먹기 시작했다.
-  3. **AFL의 혁명과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 퍼징 (현재)**: 과거 무식하게 무작위로 쏘던 것을 넘어, 구글의 **AFL(American Fuzzy Lop)**이 소스 코드를 몰래 들여다보며 "어? 이 쓰레기값을 넣으니까 아까 안 타던 `if`문을 타네? 이 값을 더 꼬아서 다시 쏴보자!"라며 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))처럼 진화하는 스마트 퍼징 시대로 도래했다.
+  2. <strong>해커들의 <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/">제로데이</a> 자판기</strong>: 2000년대 해커들이 IE(인터넷 익스플로러)나 윈도우(Windows)에 퍼저(Fuzzer)를 24시간 돌려서 나오는 크래시(Crash)를 잡아내어 [제로데이 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/) 해킹 코드를 찍어내듯 팔아먹기 시작했다.
+  3. <strong>AFL의 혁명과 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 퍼징 (현재)</strong>: 과거 무식하게 무작위로 쏘던 것을 넘어, 구글의 <strong>AFL(American Fuzzy Lop)</strong>이 소스 코드를 몰래 들여다보며 "어? 이 쓰레기값을 넣으니까 아까 안 타던 `if`문을 타네? 이 값을 더 꼬아서 다시 쏴보자!"라며 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))처럼 진화하는 스마트 퍼징 시대로 도래했다.
 
-- **📢 섹션 요약 비유**: 퍼징은 **'아기의 장난감 부수기'**입니다. 어른(개발자)은 장난감 버튼을 누르기만 하지만, 아기(퍼저)는 장난감을 입에 넣고, 던지고, 물통에 빠뜨립니다(무작위 쓰레기 입력). 어른은 몰랐지만 아기처럼 미친 짓을 해봐야 장난감 배터리가 튀어나와 불이 날 수 있다는 무서운 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(버그)을 알아챌 수 있습니다.
+- **📢 섹션 요약 비유**: 퍼징은 <strong>'아기의 장난감 부수기'</strong>입니다. 어른(개발자)은 장난감 버튼을 누르기만 하지만, 아기(퍼저)는 장난감을 입에 넣고, 던지고, 물통에 빠뜨립니다(무작위 쓰레기 입력). 어른은 몰랐지만 아기처럼 미친 짓을 해봐야 장난감 배터리가 튀어나와 불이 날 수 있다는 무서운 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(버그)을 알아챌 수 있습니다.
 
 ---
 
 다음은 퍼즈 테스팅 (Fuzz Testing의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  퍼즈 테스팅 (Fuzz Testing                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼즈 테스팅 (Fuzz Testing</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 퍼즈 테스팅 (Fuzz Testing가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-퍼즈 테스팅 (Fuzz Testing / Fuzzing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+퍼즈 테스팅 (Fuzz Testing / Fuzzing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 퍼즈 테스팅 (Fuzz Testing / Fuzzing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-퍼즈 테스팅 (Fuzz Testing / Fuzzing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">퍼즈 테스팅 (Fuzz Testing / Fuzzing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,17 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 클라우드가 "큰 코어 몇 개"보다 "효율 좋은 코어 많이"를 원하게 되었는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Scale-up to scale-out shift                                              │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Legacy server  : [big core][big core][big core][big core]               │
-│ Cloud service  : [svc][svc][svc][svc][svc][svc] ... many small workers  │
-│                                                                          │
-│ Design target  : predictable core, high perf/W, large memory/I/O         │
-│ Result         : more tenants per rack, lower power per request          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scale-up to scale-out shift</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Legacy server :</div><div class="kb-diagram-node">big core</div><div class="kb-diagram-node">big core</div><div class="kb-diagram-node">big core</div><div class="kb-diagram-node">big core</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cloud service :</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-node">svc</div><div class="kb-diagram-note">... many small workers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design target : predictable core, high perf/W, large memory/I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : more tenants per rack, lower power per request</div></div>
+</div>
+</div>
+
+
 
 이 그림의 요점은 클라우드가 더 이상 "가장 빠른 단일 서버"만 원하지 않는다는 데 있다. 오히려 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 들쭉날쭉함을 줄이고, 같은 랙 전력 한도 안에 더 많은 워크로드를 담는 능력이 중요해졌다.
 
@@ -45,7 +47,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대표적인 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계는 ARM 네오버스 (ARM Neoverse)처럼 효율 좋은 코어를 많이 배치하고, 큰 시스템 레벨 캐시 ([SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/), System Level Cache), 넓은 메모리 채널, 빠른 I/O를 붙이는 방식이다. 또한 많은 구현이 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))을 줄이거나 코어 매핑을 단순화해, 테넌트 간 간섭을 예측하기 쉽게 만든다. 결국 설계 목표는 절대 최고 클럭이 아니라 **안정적인 코어 밀도와 와트당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)**이다.
+대표적인 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계는 ARM 네오버스 (ARM Neoverse)처럼 효율 좋은 코어를 많이 배치하고, 큰 시스템 레벨 캐시 ([SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/), System Level Cache), 넓은 메모리 채널, 빠른 I/O를 붙이는 방식이다. 또한 많은 구현이 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))을 줄이거나 코어 매핑을 단순화해, 테넌트 간 간섭을 예측하기 쉽게 만든다. 결국 설계 목표는 절대 최고 클럭이 아니라 <strong>안정적인 코어 밀도와 와트당 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -58,24 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서가 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 노드 안에서 어떤 구성으로 놓이는지 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Cloud-native processor block view                                        │
-├──────────────────────────────────────────────────────────────────────────┤
-│ NIC / DPU                                                                 │
-│    │                                                                      │
-│    ▼                                                                      │
-│ Mesh interconnect                                                         │
-│ ├─ Core tiles x N   : container / VM execution                            │
-│ ├─ SLC / LLC        : shared cache for tail-latency control               │
-│ ├─ Crypto + virt    : tenant isolation, secure services                   │
-│ └─ DDR5 / PCIe5 / CXL controllers                                         │
-│                                                                            │
-│ Goal: high tenant density with stable latency per watt                     │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 CPU 혼자 모든 일을 떠안는 것도 아니다. 네트워크, 스토리지, 보안 처리 일부는 DPU나 스마트닉으로 오프로드하고, CPU는 애플리케이션과 제어 평면에 집중하는 방향이 많아지고 있다. 따라서 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 단독 칩이 아니라, **CPU + 메모리 + 네트워크 오프로드가 함께 만든 플랫폼**으로 보는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud-native processor block view</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC / DPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mesh interconnect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Core tiles x N : container / VM execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SLC / LLC : shared cache for tail-latency control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Crypto + virt : tenant isolation, secure services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DDR5 / PCIe5 / CXL controllers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: high tenant density with stable latency per watt</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 CPU 혼자 모든 일을 떠안는 것도 아니다. 네트워크, 스토리지, 보안 처리 일부는 DPU나 스마트닉으로 오프로드하고, CPU는 애플리케이션과 제어 평면에 집중하는 방향이 많아지고 있다. 따라서 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 단독 칩이 아니라, <strong>CPU + 메모리 + 네트워크 오프로드가 함께 만든 플랫폼</strong>으로 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 대형 식당 주방과 같다. 요리사 한 명이 모든 걸 다 하는 방식보다, 여러 조리대와 보조 인력이 역할을 나누는 구조가 손님이 많을수록 더 효율적이다.
 
@@ -91,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 | 잘 맞는 용도 | 기존 엔터프라이즈, 특수 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 의존 워크로드 | 웹, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 캐시, 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 패킷 처리, 암호화, 가상 네트워크 |
 | 주의점 | 전력과 비용 증가 가능 | 포팅·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요 | 애플리케이션 본체 실행용은 아님 |
 
-여기서 중요한 점은 "[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) = ARM"으로 단순화하면 안 된다는 것이다. 현재 시장에서 ARM Neoverse 기반 설계가 두드러질 뿐, 본질은 **클라우드 운영 특성에 맞춘 설계 철학**이다. 그래서 멀티아키텍처 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지, 자동 빌드 파이프라인, 런타임 최적화 같은 소프트웨어 계층도 함께 바뀌어야 진짜 효과가 난다.
+여기서 중요한 점은 "[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) = ARM"으로 단순화하면 안 된다는 것이다. 현재 시장에서 ARM Neoverse 기반 설계가 두드러질 뿐, 본질은 <strong>클라우드 운영 특성에 맞춘 설계 철학</strong>이다. 그래서 멀티아키텍처 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지, 자동 빌드 파이프라인, 런타임 최적화 같은 소프트웨어 계층도 함께 바뀌어야 진짜 효과가 난다.
 
 - **📢 섹션 요약 비유**: x86이 만능 공구함이라면, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) CPU는 대형 물류센터용 전동 분류기, DPU는 컨베이어벨트 제어기와 같다. 모두 필요하지만 맡는 일이 다르다.
 
@@ -99,15 +101,15 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 웹 프론트엔드, 자바·고 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 캐시 서버, 관리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제어 노드처럼 수평 확장 ([scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 쉬운 워크로드에서 특히 효과적이다. 반대로 특정 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에 의존하는 [상용 소프트웨어](/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/), 강한 벡터 확장 의존 코드, 라이선스 제약이 큰 제품은 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 옮기면 문제가 생길 수 있다. 따라서 도입 판단은 "ARM이 싸다"가 아니라, **내 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멀티아키텍처 전환 비용을 상쇄할 만큼 수평 확장형인가**로 내려야 한다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 웹 프론트엔드, 자바·고 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 캐시 서버, 관리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제어 노드처럼 수평 확장 ([scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 쉬운 워크로드에서 특히 효과적이다. 반대로 특정 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에 의존하는 [상용 소프트웨어](/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/), 강한 벡터 확장 의존 코드, 라이선스 제약이 큰 제품은 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 옮기면 문제가 생길 수 있다. 따라서 도입 판단은 "ARM이 싸다"가 아니라, <strong>내 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 멀티아키텍처 전환 비용을 상쇄할 만큼 수평 확장형인가</strong>로 내려야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 에이전트가 ARM과 x86을 모두 지원하는가?
-2. **메모리 균형 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 코어 수 대비 메모리 용량과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 충분한가?
-3. **네트워크 경로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 오프로드와 함께 사용할 때 CPU 사용률이 얼마나 줄어드는가?
-4. **실측 벤치마크 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 합성 벤치가 아니라 실제 요청 패턴에서 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 비용을 측정했는가?
-5. **운영 파이프라인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 멀티아키텍처 빌드, 관측성, 디버깅 도구가 준비되어 있는가?
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 에이전트가 ARM과 x86을 모두 지원하는가?
+2. <strong>메모리 균형 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 코어 수 대비 메모리 용량과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 충분한가?
+3. <strong>네트워크 경로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 오프로드와 함께 사용할 때 CPU 사용률이 얼마나 줄어드는가?
+4. <strong>실측 벤치마크 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 합성 벤치가 아니라 실제 요청 패턴에서 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 비용을 측정했는가?
+5. <strong>운영 파이프라인 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 멀티아키텍처 빌드, 관측성, 디버깅 도구가 준비되어 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -125,7 +127,7 @@ tags = ["studynote-computer-architecture"]
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서의 기대효과는 분명하다. 같은 전력과 랙 공간 안에서 더 많은 요청을 처리하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 밀도를 높이며, CSP가 하드웨어와 소프트웨어를 함께 최적화할 수 있다. 이는 단순한 부품 교체가 아니라, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 총소유비용과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조를 바꾸는 전략적 변화다.
 
-하지만 모든 워크로드가 자동으로 이득을 보는 것은 아니다. 포팅 비용, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 편차, 운영 도구 성숙도, 생태계 차이는 여전히 현실적 변수다. 앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장, CPU-[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 협업, 맞춤형 가속기 결합이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 플랫폼을 더 강화할 가능성이 높다. 따라서 이 프로세서는 "ARM이냐 x86이냐"보다, **클라우드 운영 목적에 얼마나 맞춰 설계되었는가**라는 관점으로 기억해야 한다.
+하지만 모든 워크로드가 자동으로 이득을 보는 것은 아니다. 포팅 비용, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 편차, 운영 도구 성숙도, 생태계 차이는 여전히 현실적 변수다. 앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장, CPU-[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 협업, 맞춤형 가속기 결합이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 플랫폼을 더 강화할 가능성이 높다. 따라서 이 프로세서는 "ARM이냐 x86이냐"보다, <strong>클라우드 운영 목적에 얼마나 맞춰 설계되었는가</strong>라는 관점으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 프로세서는 대형 물류회사 전용으로 맞춤 설계한 트럭과 같다. 일반 도로 어디서나 다 쓸 수 있는 차보다, 자기 노선과 짐 패턴에 꼭 맞는 차가 전체 비용을 더 크게 줄인다.
 
@@ -144,21 +146,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 x86 수직 확장 서버
-          │
-          ▼
-대규모 가상화 호스팅
-          │
-          ▼
-컨테이너 · 마이크로서비스
-          │
-          ▼
-ARM Neoverse 기반 맞춤형 CPU
-          │
-          ▼
-DPU + CXL 기반 조합형 클라우드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 x86 수직 확장 서버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 가상화 호스팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 · 마이크로서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARM Neoverse 기반 맞춤형 CPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPU + CXL 기반 조합형 클라우드</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 고성능 서버"에서 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조에 맞춘 맞춤형 클라우드 실리콘"으로 무게중심이 이동하는 과정을 보여 준다.
 

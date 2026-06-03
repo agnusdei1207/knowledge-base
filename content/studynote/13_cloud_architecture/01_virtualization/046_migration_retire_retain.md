@@ -18,49 +18,47 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 6R 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 개요
 
-```
-Gartner 6R 마이그레이션 전략:
 
-R1. Rehost (리호스트 = Lift & Shift):
-  그대로 클라우드로 이전
-  변경 최소화, 빠른 이전
-  예: 온프레미스 VM → EC2
 
-R2. Replatform (리플랫폼):
-  일부 최적화 후 이전
-  예: MySQL → RDS (관리형으로)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Gartner 6R 마이그레이션 전략:</div>
+<div class="kb-diagram-note">R1. Rehost (리호스트 = Lift &amp; Shift):</div>
+<div class="kb-diagram-note">그대로 클라우드로 이전</div>
+<div class="kb-diagram-note">변경 최소화, 빠른 이전</div>
+<div class="kb-diagram-note">예: 온프레미스 VM → EC2</div>
+<div class="kb-diagram-note">R2. Replatform (리플랫폼):</div>
+<div class="kb-diagram-note">일부 최적화 후 이전</div>
+<div class="kb-diagram-note">예: MySQL → RDS (관리형으로)</div>
+<div class="kb-diagram-note">R3. Repurchase (리퍼체이스):</div>
+<div class="kb-diagram-note">SaaS로 교체</div>
+<div class="kb-diagram-note">예: 자체 CRM → Salesforce</div>
+<div class="kb-diagram-note">R4. Refactor/Re-architect (리팩터):</div>
+<div class="kb-diagram-note">클라우드 네이티브 재설계</div>
+<div class="kb-diagram-note">예: 모놀리스 → 마이크로서비스</div>
+<div class="kb-diagram-note">R5. Retire (폐기):</div>
+<div class="kb-diagram-note">더 이상 필요 없는 시스템 종료</div>
+<div class="kb-diagram-note">즉각적 비용 절감</div>
+<div class="kb-diagram-note">R6. Retain (유지):</div>
+<div class="kb-diagram-note">온프레미스 그대로 유지</div>
+<div class="kb-diagram-note">(규정, 기술적 이유)</div>
+<div class="kb-diagram-note">분포 (일반적):</div>
+<div class="kb-diagram-note">Rehost: 30~40%</div>
+<div class="kb-diagram-note">Replatform: 10~15%</div>
+<div class="kb-diagram-note">Repurchase: 5~10%</div>
+<div class="kb-diagram-note">Refactor: 5~10%</div>
+<div class="kb-diagram-note">Retire: 10~20%</div>
+<div class="kb-diagram-note">Retain: 20~30%</div>
+<div class="kb-diagram-note">전략 선택 기준:</div>
+<div class="kb-diagram-note">비즈니스 가치</div>
+<div class="kb-diagram-note">기술 복잡도</div>
+<div class="kb-diagram-note">비용-편익 분석</div>
+<div class="kb-diagram-note">규정 준수 요건</div>
+<div class="kb-diagram-note">마이그레이션 위험</div>
+</div>
+</div>
 
-R3. Repurchase (리퍼체이스):
-  SaaS로 교체
-  예: 자체 CRM → Salesforce
 
-R4. Refactor/Re-architect (리팩터):
-  클라우드 네이티브 재설계
-  예: 모놀리스 → 마이크로서비스
-
-R5. Retire (폐기):
-  더 이상 필요 없는 시스템 종료
-  즉각적 비용 절감
-
-R6. Retain (유지):
-  온프레미스 그대로 유지
-  (규정, 기술적 이유)
-
-분포 (일반적):
-  Rehost: 30~40%
-  Replatform: 10~15%
-  Repurchase: 5~10%
-  Refactor: 5~10%
-  Retire: 10~20%
-  Retain: 20~30%
-
-전략 선택 기준:
-  비즈니스 가치
-  기술 복잡도
-  비용-편익 분석
-  규정 준수 요건
-  마이그레이션 위험
-```
 
 > 📢 **섹션 요약 비유**: 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 이사 계획 — 짐 그대로 옮기기(Rehost), 정리 후 옮기기(Replatform), 새 가구 구매(Repurchase), 집 재설계([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)), 버리기(Retire), 일부 짐 그냥 두기(Retain)!
 
@@ -68,55 +66,50 @@ R6. Retain (유지):
 
 ## Ⅱ. Retire (폐기) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-Retire 전략:
 
-대상 식별:
-  실제 사용되지 않는 애플리케이션
-  중복 기능을 가진 시스템
-  비즈니스 가치 없는 레거시
 
-발견 방법:
-  
-  1. 사용량 분석:
-  네트워크 트래픽 = 0 또는 최소
-  로그인 기록 없음 (6개월 이상)
-  CPU/메모리 활용도 < 1%
-  
-  2. 비즈니스 가치 평가:
-  어떤 비즈니스 프로세스를 지원?
-  현재 사용자가 있는가?
-  다른 시스템으로 기능 대체됨?
-  
-  3. 기술 부채 분석:
-  보안 취약점 수
-  지원 종료된 기술 스택
-  유지보수 비용 vs 가치
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Retire 전략:</div>
+<div class="kb-diagram-note">대상 식별:</div>
+<div class="kb-diagram-note">실제 사용되지 않는 애플리케이션</div>
+<div class="kb-diagram-note">중복 기능을 가진 시스템</div>
+<div class="kb-diagram-note">비즈니스 가치 없는 레거시</div>
+<div class="kb-diagram-note">발견 방법:</div>
+<div class="kb-diagram-note">1. 사용량 분석:</div>
+<div class="kb-diagram-note">네트워크 트래픽 = 0 또는 최소</div>
+<div class="kb-diagram-note">로그인 기록 없음 (6개월 이상)</div>
+<div class="kb-diagram-note">CPU/메모리 활용도 &lt; 1%</div>
+<div class="kb-diagram-note">2. 비즈니스 가치 평가:</div>
+<div class="kb-diagram-note">어떤 비즈니스 프로세스를 지원?</div>
+<div class="kb-diagram-note">현재 사용자가 있는가?</div>
+<div class="kb-diagram-note">다른 시스템으로 기능 대체됨?</div>
+<div class="kb-diagram-note">3. 기술 부채 분석:</div>
+<div class="kb-diagram-note">보안 취약점 수</div>
+<div class="kb-diagram-note">지원 종료된 기술 스택</div>
+<div class="kb-diagram-note">유지보수 비용 vs 가치</div>
+<div class="kb-diagram-note">폐기 프로세스:</div>
+<div class="kb-diagram-note">1. 데이터 보존 분석:</div>
+<div class="kb-diagram-note">법적 보존 의무 (보통 5~10년)</div>
+<div class="kb-diagram-note">→ 데이터: 아카이브 스토리지 (S3 Glacier)</div>
+<div class="kb-diagram-note">→ 시스템: 종료</div>
+<div class="kb-diagram-note">2. 의존성 확인:</div>
+<div class="kb-diagram-note">다른 시스템이 이 시스템 데이터 사용?</div>
+<div class="kb-diagram-note">→ 없으면 폐기</div>
+<div class="kb-diagram-note">→ 있으면 마이그레이션 또는 단계적 폐기</div>
+<div class="kb-diagram-note">3. 공지 및 폐기:</div>
+<div class="kb-diagram-note">30~90일 사전 공지</div>
+<div class="kb-diagram-note">데이터 최종 백업</div>
+<div class="kb-diagram-note">시스템 종료</div>
+<div class="kb-diagram-note">ROI:</div>
+<div class="kb-diagram-note">예: 연 운영비 5,000만원 시스템 폐기</div>
+<div class="kb-diagram-note">→ 즉각 5,000만원/년 절감</div>
+<div class="kb-diagram-note">→ 3년: 1.5억원 절감</div>
+<div class="kb-diagram-note">업계 평균: 마이그레이션 발견 앱의 15%가 Retire</div>
+</div>
+</div>
 
-폐기 프로세스:
-  
-  1. 데이터 보존 분석:
-  법적 보존 의무 (보통 5~10년)
-  → 데이터: 아카이브 스토리지 (S3 Glacier)
-  → 시스템: 종료
-  
-  2. 의존성 확인:
-  다른 시스템이 이 시스템 데이터 사용?
-  → 없으면 폐기
-  → 있으면 마이그레이션 또는 단계적 폐기
-  
-  3. 공지 및 폐기:
-  30~90일 사전 공지
-  데이터 최종 백업
-  시스템 종료
 
-ROI:
-  예: 연 운영비 5,000만원 시스템 폐기
-  → 즉각 5,000만원/년 절감
-  → 3년: 1.5억원 절감
-  
-  업계 평균: 마이그레이션 발견 앱의 15%가 Retire
-```
 
 > 📢 **섹션 요약 비유**: Retire는 이사할 때 버리기 — 쓰지도 않는 10년 된 전자레인지(레거시 앱) 클라우드로 옮기는 대신 버리기. 이사 비용 0 + 관리 비용 0!
 
@@ -124,51 +117,46 @@ ROI:
 
 ## Ⅲ. Retain (유지) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-Retain 전략:
 
-유지가 필요한 이유:
 
-1. 기술적 제약:
-  클라우드 이전 불가능한 기술
-  - 메인프레임 (COBOL 기반)
-  - 독점 하드웨어 의존
-  - 특수 OS (일부 실시간 OS)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Retain 전략:</div>
+<div class="kb-diagram-note">유지가 필요한 이유:</div>
+<div class="kb-diagram-note">1. 기술적 제약:</div>
+<div class="kb-diagram-note">클라우드 이전 불가능한 기술</div>
+<div class="kb-diagram-tree-item" style="--depth:1">메인프레임 (COBOL 기반)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">독점 하드웨어 의존</div>
+<div class="kb-diagram-tree-item" style="--depth:1">특수 OS (일부 실시간 OS)</div>
+<div class="kb-diagram-note">2. 규정 준수:</div>
+<div class="kb-diagram-note">데이터 주권 (Data Sovereignty)</div>
+<div class="kb-diagram-note">일부 국가: "데이터는 국내에만"</div>
+<div class="kb-diagram-note">금융/의료 규제: 온프레미스 요구</div>
+<div class="kb-diagram-note">예: 유럽 GDPR → 특정 데이터 EU 밖 금지</div>
+<div class="kb-diagram-note">예: 국내 금융감독원 → 핵심 금융 데이터 온프레미스</div>
+<div class="kb-diagram-note">3. 레이턴시 요구:</div>
+<div class="kb-diagram-note">극도로 낮은 지연 필요</div>
+<div class="kb-diagram-note">클라우드 네트워크 = 1~10ms</div>
+<div class="kb-diagram-note">온프레미스 로컬 = 0.1ms 이하</div>
+<div class="kb-diagram-note">예: 주식 거래 HFT (초고빈도거래)</div>
+<div class="kb-diagram-note">예: 산업 자동화 (PLC 실시간 제어)</div>
+<div class="kb-diagram-note">4. 비용 합리성:</div>
+<div class="kb-diagram-note">계속 온프레미스가 더 저렴한 경우</div>
+<div class="kb-diagram-note">대용량 고성능 DB: 자체 서버 구매가 저렴</div>
+<div class="kb-diagram-note">5. 라이선스:</div>
+<div class="kb-diagram-note">클라우드 이전 시 라이선스 재구매 필요</div>
+<div class="kb-diagram-note">남은 계약 기간 동안 온프레미스 유지</div>
+<div class="kb-diagram-note">Retain의 결과: 하이브리드 클라우드</div>
+<div class="kb-diagram-note">온프레미스 (Retain):</div>
+<div class="kb-diagram-note">메인프레임, 규제 데이터</div>
+<div class="kb-diagram-note">↑↓ 연결</div>
+<div class="kb-diagram-note">클라우드 (이전된 앱):</div>
+<div class="kb-diagram-note">웹/앱 서버, 분석, 개발</div>
+<div class="kb-diagram-note">연결: VPN, Direct Connect, ExpressRoute</div>
+</div>
+</div>
 
-2. 규정 준수:
-  데이터 주권 (Data Sovereignty)
-  일부 국가: "데이터는 국내에만"
-  금융/의료 규제: 온프레미스 요구
-  
-  예: 유럽 GDPR → 특정 데이터 EU 밖 금지
-  예: 국내 금융감독원 → 핵심 금융 데이터 온프레미스
 
-3. 레이턴시 요구:
-  극도로 낮은 지연 필요
-  클라우드 네트워크 = 1~10ms
-  온프레미스 로컬 = 0.1ms 이하
-  
-  예: 주식 거래 HFT (초고빈도거래)
-  예: 산업 자동화 (PLC 실시간 제어)
-
-4. 비용 합리성:
-  계속 온프레미스가 더 저렴한 경우
-  대용량 고성능 DB: 자체 서버 구매가 저렴
-  
-5. 라이선스:
-  클라우드 이전 시 라이선스 재구매 필요
-  남은 계약 기간 동안 온프레미스 유지
-
-Retain의 결과: 하이브리드 클라우드
-  
-  온프레미스 (Retain):
-  메인프레임, 규제 데이터
-        ↑↓ 연결
-  클라우드 (이전된 앱):
-  웹/앱 서버, 분석, 개발
-  
-  연결: VPN, Direct Connect, ExpressRoute
-```
 
 > 📢 **섹션 요약 비유**: Retain은 어떤 짐은 창고에 두기 — 가족 사진 앨범(규제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 남겨두고, 책상과 의자(일반 앱)만 새집(클라우드)에. 하이브리드 = 두 집 살림!
 
@@ -176,50 +164,46 @@ Retain의 결과: 하이브리드 클라우드
 
 ## Ⅳ. 포트폴리오 분석 도구
 
-```
-마이그레이션 포트폴리오 분석:
 
-Discovery 도구:
-  AWS Migration Hub:
-  에이전트 설치 → 자동 앱 발견
-  의존성 맵, 사용량 분석
-  
-  Azure Migrate:
-  온프레미스 서버 평가
-  클라우드 비용 추정
-  
-  VMware vRealize:
-  VM 활용률 분석
-  → Retire 후보 식별
 
-ABC 분류 (Application Business Classification):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마이그레이션 포트폴리오 분석:</div>
+<div class="kb-diagram-note">Discovery 도구:</div>
+<div class="kb-diagram-note">AWS Migration Hub:</div>
+<div class="kb-diagram-note">에이전트 설치 → 자동 앱 발견</div>
+<div class="kb-diagram-note">의존성 맵, 사용량 분석</div>
+<div class="kb-diagram-note">Azure Migrate:</div>
+<div class="kb-diagram-note">온프레미스 서버 평가</div>
+<div class="kb-diagram-note">클라우드 비용 추정</div>
+<div class="kb-diagram-note">VMware vRealize:</div>
+<div class="kb-diagram-note">VM 활용률 분석</div>
+<div class="kb-diagram-note">→ Retire 후보 식별</div>
+<div class="kb-diagram-note">ABC 분류 (Application Business Classification):</div>
+<div class="kb-diagram-note">A 클래스 (핵심):</div>
+<div class="kb-diagram-note">비즈니스 중단 시 수익 직접 영향</div>
+<div class="kb-diagram-note">→ Rehost 또는 Refactor 우선</div>
+<div class="kb-diagram-note">B 클래스 (중요):</div>
+<div class="kb-diagram-note">운영 효율성에 영향</div>
+<div class="kb-diagram-note">→ Replatform or Rehost</div>
+<div class="kb-diagram-note">C 클래스 (지원):</div>
+<div class="kb-diagram-note">있으면 좋지만 없어도 됨</div>
+<div class="kb-diagram-note">→ Retire 후보 1순위</div>
+<div class="kb-diagram-note">→ 또는 SaaS Repurchase</div>
+<div class="kb-diagram-note">마이그레이션 Wave (단계):</div>
+<div class="kb-diagram-note">Wave 1: Retire 후보 폐기 (즉각 비용 절감)</div>
+<div class="kb-diagram-note">Wave 2: 단순 앱 Rehost (빠른 이전)</div>
+<div class="kb-diagram-note">Wave 3: 중요 앱 Replatform</div>
+<div class="kb-diagram-note">Wave 4: 핵심 앱 Refactor (가장 복잡)</div>
+<div class="kb-diagram-note">ROI 계산:</div>
+<div class="kb-diagram-note">현재 상태 비용: 인프라+라이선스+인력+공간</div>
+<div class="kb-diagram-note">목표 상태 비용: 클라우드+이전 비용+운영</div>
+<div class="kb-diagram-note">Break-Even: 이전 비용 / 월 절감액 = 회수 기간</div>
+<div class="kb-diagram-note">일반 기업: 18~36개월 Break-Even</div>
+</div>
+</div>
 
-A 클래스 (핵심):
-  비즈니스 중단 시 수익 직접 영향
-  → Rehost 또는 Refactor 우선
-  
-B 클래스 (중요):
-  운영 효율성에 영향
-  → Replatform or Rehost
-  
-C 클래스 (지원):
-  있으면 좋지만 없어도 됨
-  → Retire 후보 1순위
-  → 또는 SaaS Repurchase
 
-마이그레이션 Wave (단계):
-  Wave 1: Retire 후보 폐기 (즉각 비용 절감)
-  Wave 2: 단순 앱 Rehost (빠른 이전)
-  Wave 3: 중요 앱 Replatform
-  Wave 4: 핵심 앱 Refactor (가장 복잡)
-
-ROI 계산:
-  현재 상태 비용: 인프라+라이선스+인력+공간
-  목표 상태 비용: 클라우드+이전 비용+운영
-  Break-Even: 이전 비용 / 월 절감액 = 회수 기간
-  
-  일반 기업: 18~36개월 Break-Even
-```
 
 > 📢 **섹션 요약 비유**: 포트폴리오 분석은 이삿짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 먼저 버릴 것(C클래스 → Retire), 그대로 옮길 것(B클래스 → Rehost), 완전히 새로 살 것(A클래스 → [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)!
 
@@ -227,53 +211,48 @@ ROI 계산:
 
 ## Ⅴ. 실무 시나리오 — 제조업 클라우드 마이그레이션
 
-```
-중견 제조사 (직원 3,000명) 마이그레이션:
 
-현황:
-  총 애플리케이션: 120개
-  온프레미스 서버: 400대
-  연간 IT 인프라 비용: 40억원
 
-포트폴리오 분석 결과 (6주):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중견 제조사 (직원 3,000명) 마이그레이션:</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-note">총 애플리케이션: 120개</div>
+<div class="kb-diagram-note">온프레미스 서버: 400대</div>
+<div class="kb-diagram-note">연간 IT 인프라 비용: 40억원</div>
+<div class="kb-diagram-note">포트폴리오 분석 결과 (6주):</div>
+<div class="kb-diagram-note">A 클래스 (핵심) 15개:</div>
+<div class="kb-diagram-note">ERP (SAP S/4HANA)</div>
+<div class="kb-diagram-note">MES (Manufacturing Execution System)</div>
+<div class="kb-diagram-note">→ Retain (SAP는 메인프레임 의존)</div>
+<div class="kb-diagram-note">→ 일부 Replatform (SAP on Azure)</div>
+<div class="kb-diagram-note">B 클래스 (중요) 45개:</div>
+<div class="kb-diagram-note">HR, 재무, CRM</div>
+<div class="kb-diagram-note">→ Rehost: 30개</div>
+<div class="kb-diagram-note">→ Replatform: 15개</div>
+<div class="kb-diagram-note">C 클래스 (지원) 60개:</div>
+<div class="kb-diagram-note">사용 분석:</div>
+<div class="kb-diagram-note">사용 안 함 (6개월 이상 접속 없음): 20개 → Retire</div>
+<div class="kb-diagram-note">SaaS 대체 가능: 10개 → Repurchase (Office 365 등)</div>
+<div class="kb-diagram-note">남은 30개: Rehost</div>
+<div class="kb-diagram-note">마이그레이션 결과 (18개월):</div>
+<div class="kb-diagram-note">Retire: 20개 앱 폐기</div>
+<div class="kb-diagram-note">→ 연 4억원 절감 (라이선스+유지보수)</div>
+<div class="kb-diagram-note">Repurchase: Office 365 전환</div>
+<div class="kb-diagram-note">→ 그룹웨어 3개 폐기</div>
+<div class="kb-diagram-note">→ 연 1억원 절감</div>
+<div class="kb-diagram-note">Rehost/Replatform: 75개 → AWS</div>
+<div class="kb-diagram-note">→ 인프라 비용 40% 절감</div>
+<div class="kb-diagram-note">Retain: SAP + MES 온프레미스</div>
+<div class="kb-diagram-note">하이브리드 연결: AWS Direct Connect</div>
+<div class="kb-diagram-note">전체 결과:</div>
+<div class="kb-diagram-note">연간 IT 비용: 40억원 → 24억원</div>
+<div class="kb-diagram-note">ROI: 3년 내 이전 비용 회수</div>
+<div class="kb-diagram-note">서버: 400대 → 온프레미스 50대 + 클라우드</div>
+</div>
+</div>
 
-A 클래스 (핵심) 15개:
-  ERP (SAP S/4HANA)
-  MES (Manufacturing Execution System)
-  → Retain (SAP는 메인프레임 의존)
-  → 일부 Replatform (SAP on Azure)
 
-B 클래스 (중요) 45개:
-  HR, 재무, CRM
-  → Rehost: 30개
-  → Replatform: 15개
-
-C 클래스 (지원) 60개:
-  사용 분석:
-  사용 안 함 (6개월 이상 접속 없음): 20개 → Retire
-  SaaS 대체 가능: 10개 → Repurchase (Office 365 등)
-  남은 30개: Rehost
-
-마이그레이션 결과 (18개월):
-
-Retire: 20개 앱 폐기
-  → 연 4억원 절감 (라이선스+유지보수)
-
-Repurchase: Office 365 전환
-  → 그룹웨어 3개 폐기
-  → 연 1억원 절감
-
-Rehost/Replatform: 75개 → AWS
-  → 인프라 비용 40% 절감
-
-Retain: SAP + MES 온프레미스
-  하이브리드 연결: AWS Direct Connect
-
-전체 결과:
-  연간 IT 비용: 40억원 → 24억원
-  ROI: 3년 내 이전 비용 회수
-  서버: 400대 → 온프레미스 50대 + 클라우드
-```
 
 > 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
 

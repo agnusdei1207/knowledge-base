@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 다이어그램은 14종류나 되지만, 실무에서 칠판에 가장 많이 그리는 1위가 바로 이 놈입니다.
-- **성격 (정적/구조)**: 시간이 흐르면서 변하는 상태를 그리지 않습니다! 시간이 멈춘 상태(정적, Static)에서 시스템을 구성하는 뼈대 부품(클래스)들이 **어떤 구조(Structure)로 맞물려 얽혀있는지를 보여주는 엑스레이 도면**입니다.
+- **성격 (정적/구조)**: 시간이 흐르면서 변하는 상태를 그리지 않습니다! 시간이 멈춘 상태(정적, Static)에서 시스템을 구성하는 뼈대 부품(클래스)들이 <strong>어떤 구조(Structure)로 맞물려 얽혀있는지를 보여주는 엑스레이 도면</strong>입니다.
 - **용도**: 이 도면을 그대로 자바(Java) 파일로 1:1 복사해서 찍어낼 수 있기 때문에, **객체지향 소스 코드의 뼈대를 만들기 위한 직접적인 청사진** 역할을 합니다.
 
 - **📢 섹션 요약 비유**: 클래스 다이어그램 (Class Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 클래스 다이어그램 (Class Dia의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클래스 다이어그램 (Class Dia                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 다이어그램 (Class Dia</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 클래스 다이어그램 (Class Dia가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클래스를 나타내는 네모 상자는 무조건 **가로선 2개를 그어 3칸(3층)**으로 나눕니다. 맨 위층부터 차례대로 적습니다.
+클래스를 나타내는 네모 상자는 무조건 <strong>가로선 2개를 그어 3칸(3층)</strong>으로 나눕니다. 맨 위층부터 차례대로 적습니다.
 
 - **📢 섹션 요약 비유**: 클래스 다이어그램 (Class Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,10 +71,10 @@ tags = ["studynote-software-engineering"]
 
 | 기호 | 영문 명칭 | 한글 명칭 | 뜻 (가시성) |
 |:---:|:---|:---|:---|
-| **`+`** | **Public** | 공개 | 누구나 다 볼 수 있음. 길거리 전광판. |
-| **`-`** | **Private** | 은닉 | 나 혼자만 봄. 내 속옷 색깔. (가장 많이 씀) |
-| **`#`** | **Protected** | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 나랑 **내 자식(상속받은 놈)들만** 볼 수 있음. 가보. |
-| **`~`** | **Package/Default** | 패키지 | 나랑 **같은 동네(같은 패키지/폴더)**에 사는 이웃들만 볼 수 있음. |
+| <strong><code>+</code></strong> | **Public** | 공개 | 누구나 다 볼 수 있음. 길거리 전광판. |
+| <strong><code>-</code></strong> | **Private** | 은닉 | 나 혼자만 봄. 내 속옷 색깔. (가장 많이 씀) |
+| <strong><code>#</code></strong> | **Protected** | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 나랑 **내 자식(상속받은 놈)들만** 볼 수 있음. 가보. |
+| <strong><code>~</code></strong> | **Package/Default** | 패키지 | 나랑 <strong>같은 동네(같은 패키지/폴더)</strong>에 사는 이웃들만 볼 수 있음. |
 
 - **📢 섹션 요약 비유**: 클래스 다이어그램 (Class Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -87,10 +86,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 3단 상자(클래스)를 10개 그렸으면 끝이 아닙니다. 상자와 상자 사이를 **'선과 화살표'**로 연결해야 진짜 도면이 완성됩니다.
+- 3단 상자(클래스)를 10개 그렸으면 끝이 아닙니다. 상자와 상자 사이를 <strong>'선과 화살표'</strong>로 연결해야 진짜 도면이 완성됩니다.
 - "회원은 장바구니를 소유한다(연관)", "사람은 동물을 상속받는다(일반화)" 등을 6가지 화살표 모양으로 구별해서 그립니다. (이 6가지 화살표 모양은 너무너무 중요해서 다음 장인 234번에서 단독으로 미친 듯이 파고듭니다.)
 
-> 📢 **섹션 요약 비유**: **클래스 다이어그램**은 레고 로봇을 만들기 위한 **'부품 명세서와 조립 뼈대 엑스레이 사진'**입니다. 로봇이 움직이는 동영상(동적)을 보여주는 게 아닙니다. 그냥 설명서 첫 장에 나오는 "이 상자 안에는 [머리 부품 1개], [팔 부품 2개]가 들어있고, 팔은 머리통에 이렇게(선으로 연결) 꽂힌다"는 정지된 구조(정적 뼈대)를 그려놓은 것입니다. 이 도면의 가장 기본 단위인 '레고 블록 1개(클래스 네모 상자)'는 항상 3층으로 나뉘어 있습니다. 1층 스티커엔 **'오른팔(클래스 이름)'**이라 적혀있고, 2층에는 **'길이 10cm, 색깔 빨강([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'**, 3층에는 **'구부러지기, 물건 잡기(오퍼레이션 행동)'**라고 기능이 적혀있습니다. 그리고 앞에 **마이너스 기호(-)**가 붙어있으면 껍데기에 숨겨진 부품(Private)이라 남이 못 건드리고, **플러스 기호(+)**가 붙어있으면 밖에 튀어나온 버튼(Public)이라 누구나 맘대로 누를 수 있다는 걸 뜻합니다. 이 도면 1장만 완벽히 그리면, 개발자들은 그냥 네모 상자를 자바 클래스로 1:1 그대로 베껴 쓰기만 하면 로봇의 뼈대가 100% 에러 없이 완성되는 마법의 청사진입니다.
+> 📢 **섹션 요약 비유**: <strong>클래스 다이어그램</strong>은 레고 로봇을 만들기 위한 <strong>'부품 명세서와 조립 뼈대 엑스레이 사진'</strong>입니다. 로봇이 움직이는 동영상(동적)을 보여주는 게 아닙니다. 그냥 설명서 첫 장에 나오는 "이 상자 안에는 [머리 부품 1개], [팔 부품 2개]가 들어있고, 팔은 머리통에 이렇게(선으로 연결) 꽂힌다"는 정지된 구조(정적 뼈대)를 그려놓은 것입니다. 이 도면의 가장 기본 단위인 '레고 블록 1개(클래스 네모 상자)'는 항상 3층으로 나뉘어 있습니다. 1층 스티커엔 <strong>'오른팔(클래스 이름)'</strong>이라 적혀있고, 2층에는 <strong>'길이 10cm, 색깔 빨강(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)'</strong>, 3층에는 <strong>'구부러지기, 물건 잡기(오퍼레이션 행동)'</strong>라고 기능이 적혀있습니다. 그리고 앞에 <strong>마이너스 기호(-)</strong>가 붙어있으면 껍데기에 숨겨진 부품(Private)이라 남이 못 건드리고, <strong>플러스 기호(+)</strong>가 붙어있으면 밖에 튀어나온 버튼(Public)이라 누구나 맘대로 누를 수 있다는 걸 뜻합니다. 이 도면 1장만 완벽히 그리면, 개발자들은 그냥 네모 상자를 자바 클래스로 1:1 그대로 베껴 쓰기만 하면 로봇의 뼈대가 100% 에러 없이 완성되는 마법의 청사진입니다.
 
 - **📢 섹션 요약 비유**: 클래스 다이어그램 (Class Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -135,21 +134,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클래스 다이어그램 (Class Diagram) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클래스 다이어그램 (Class Diagram) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

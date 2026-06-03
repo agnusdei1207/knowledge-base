@@ -32,7 +32,7 @@ tags = ["studynote-computer-architecture"]
 
 일반적인 서멀 페이스트는 실리콘 오일이나 합성 베이스 안에 산화알루미늄, 산화아연, 질화붕소, 금속 미립자 같은 열전도 충전재를 섞어 만든다. 장착 압력이 걸리면 페이스트가 퍼지면서 미세 홈과 빈틈을 채우고, 결과적으로 bond line thickness를 매우 얇게 만든다. 여기서 중요한 식은 `R_th ≈ t / (k × A)`다. 두께 `t`가 두꺼워질수록, 열전도율 `k`가 낮을수록, 면적 `A`가 작을수록 계면 열저항이 커진다.
 
-따라서 서멀 설계의 핵심은 단순히 "고열전도율 제품을 고르는 것"이 아니다. **공기를 제거할 만큼은 충분히 채우되, 서멀 자체가 두꺼운 단열층이 되지 않도록 얇게 유지하는 것**이 더 중요하다. 상용 페이스트의 열전도율은 대략 4~15 W/m·K 수준이 많고, 이는 구리보다 훨씬 낮지만 공기보다는 압도적으로 높다.
+따라서 서멀 설계의 핵심은 단순히 "고열전도율 제품을 고르는 것"이 아니다. <strong>공기를 제거할 만큼은 충분히 채우되, 서멀 자체가 두꺼운 단열층이 되지 않도록 얇게 유지하는 것</strong>이 더 중요하다. 상용 페이스트의 열전도율은 대략 4~15 W/m·K 수준이 많고, 이는 구리보다 훨씬 낮지만 공기보다는 압도적으로 높다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -43,19 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 서멀이 왜 "금속 대체재"가 아니라 "공기 제거재"인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      TIM fills microscopic voids so the interface is not dominated by air │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Heatsink base   /\    /\      /\                                           │
-│                 ||air||air||air|   -> poor contact, high interface Rth    │
-│ IHS surface     \/____\/______\/                                           │
-│                                                                            │
-│ Heatsink base   /\    /\      /\                                           │
-│                 ||TIM||TIM||TIM|   -> thin filler, lower interface Rth    │
-│ IHS surface     \/____\/______\/                                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TIM fills microscopic voids so the interface is not dominated by air</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatsink base /\ /\ /\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">-&gt; poor contact, high interface Rth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IHS surface \/____\/______\/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatsink base /\ /\ /\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">-&gt; thin filler, lower interface Rth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IHS surface \/____\/______\/</div></div>
+</div>
+</div>
+
+
 
 결국 좋은 서멀 도포는 "많이 바르기"가 아니라 "공기 포켓 없이 얇고 균일하게 퍼지기"를 목표로 해야 한다.
 - **📢 섹션 요약 비유**: 서멀은 두 판을 접착하는 두꺼운 풀칠이 아니라, 타일 사이 줄눈처럼 가장 작은 틈만 메워 물이 새지 않게 만드는 재료에 가깝다.
@@ -73,7 +75,7 @@ tags = ["studynote-computer-architecture"]
 | Liquid Metal | 매우 낮은 계면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 가능 | 전기전도성, 누출·부식 위험 | 극한 튜닝, 특수 direct-die |
 | Solder TIM | 장기 안정성 우수, 열전도 우수 | 제조 공정 복잡, 재작업 어려움 | 패키지 내부 die-IHS 접합 |
 
-이 비교가 중요한 이유는 위치마다 요구 조건이 다르기 때문이다. CPU 코어 계면은 얇은 접촉층이 유리하고, 전원부나 메모리처럼 높이 편차가 큰 영역은 패드가 더 현실적이다. 즉 "어떤 TIM이 최고인가"보다 **어떤 간극, 열밀도, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조건을 다루는가**가 선택 기준이다.
+이 비교가 중요한 이유는 위치마다 요구 조건이 다르기 때문이다. CPU 코어 계면은 얇은 접촉층이 유리하고, 전원부나 메모리처럼 높이 편차가 큰 영역은 패드가 더 현실적이다. 즉 "어떤 TIM이 최고인가"보다 <strong>어떤 간극, 열밀도, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 조건을 다루는가</strong>가 선택 기준이다.
 - **📢 섹션 요약 비유**: 얇은 종이 한 장을 붙일 때는 풀, 문틈이 큰 창문을 막을 때는 고무 패킹, 특별한 실험 장비에는 금속 가스켓을 쓰는 것과 같다. 틈의 크기와 위험도가 재료를 정한다.
 
 ---
@@ -98,7 +100,7 @@ tags = ["studynote-computer-architecture"]
 - VRAM 패드가 필요한 위치를 서멀 페이스트로 대체하는 것
 - 온도 문제의 모든 원인을 서멀 탓으로 돌리는 것
 
-기술사 답안에서는 서멀을 단순 소비자 조립 팁으로 쓰기보다, **계면 열저항 관리와 유지보수 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** 관점까지 연결해야 점수가 높다.
+기술사 답안에서는 서멀을 단순 소비자 조립 팁으로 쓰기보다, <strong>계면 열저항 관리와 유지보수 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> 관점까지 연결해야 점수가 높다.
 - **📢 섹션 요약 비유**: 좋은 타이어를 껴도 공기압과 휠 얼라인먼트가 틀어지면 차가 제대로 안 나가듯, 좋은 서멀도 장착 조건이 틀리면 제 성능을 못 낸다.
 
 ---
@@ -109,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 서멀은 만능이 아니다. 히트싱크 면적, 팬 풍량, 케이스 통풍, [히트파이프](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/) 설계가 부족하면 아무리 좋은 서멀도 시스템 한계를 뒤집지 못한다. 앞으로는 phase-change TIM, 펌프아웃 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 높은 재료, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기용 초고열밀도 계면 솔루션이 더 중요해질 가능성이 크다.
 
-결론적으로 서멀 페이스트는 "열을 잘 통하게 하는 연고"라기보다, **공기라는 최악의 단열층을 제거해 전체 열경로를 정상화하는 계면 공학 부품**으로 기억하는 것이 맞다.
+결론적으로 서멀 페이스트는 "열을 잘 통하게 하는 연고"라기보다, <strong>공기라는 최악의 단열층을 제거해 전체 열경로를 정상화하는 계면 공학 부품</strong>으로 기억하는 것이 맞다.
 - **📢 섹션 요약 비유**: 서멀은 물길을 새게 하는 자갈 틈을 메우는 모르타르와 같다. 물을 직접 만드는 재료는 아니지만, 그 틈을 메워야 물길 전체가 제대로 흐른다.
 
 ---
@@ -127,21 +129,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Bare metal contact
-        │
-        ▼
-Thermal Paste as TIM
-        │
-        ▼
-High durability / high conductivity paste
-        │
-        ▼
-Phase-change TIM and advanced interface control
-        │
-        ▼
-Liquid metal / package-level solder for high heat flux
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bare metal contact</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Thermal Paste as TIM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">High durability / high conductivity paste</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Phase-change TIM and advanced interface control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Liquid metal / package-level solder for high heat flux</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 도포재에서 시작한 계면 관리가, 이제는 고열밀도 칩을 위한 정밀한 열저항 제어 기술로 발전하고 있음을 보여 준다.
 

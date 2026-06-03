@@ -19,38 +19,36 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: WAVE (차량 환경 무선 접속) 시스템은 흔히 **[DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(단거리 전용 통신)**라 불리는 5.9GHz 대역 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신의 원조 규격이다. 하단 물리/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층은 **IEEE 802.11p** 와이파이 엔진을 쓰고, 상단 네트워크/보안 계층은 **IEEE 1609.x** 규격 세트를 덮어씌워 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 보안 서명을 처리하는 거대한 차량용 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))이다.
-- **필요성**: 기존 집에 있는 와이파이(802.11a/g) 칩셋을 자동차에 그대로 달고 고속도로를 달렸더니, 반대 차선(시속 100km)에서 오는 차와 내 차(시속 100km)의 상대 속도가 무려 시속 200km에 달해버렸다. 전파 파동이 찌그러지는 치명적인 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))가 발생했고, 설상가상으로 와이파이에 연결(IP 할당, 비밀번호 4-Way 핸드셰이크)하느라 1초를 허비하는 사이에 차는 이미 30m를 지나쳐버려 접속이 끊겼다. **"시속 200km로 교차하는 찰나의 0.1초 동안, 복잡한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차를 몽땅 패스하고 즉시 목숨이 달린 브레이크 정보를 교환하는 극단적 스피드 통신 규격"**이 수술대에 올랐다.
+- **개념**: WAVE (차량 환경 무선 접속) 시스템은 흔히 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/">DSRC</a>(단거리 전용 통신)</strong>라 불리는 5.9GHz 대역 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신의 원조 규격이다. 하단 물리/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층은 **IEEE 802.11p** 와이파이 엔진을 쓰고, 상단 네트워크/보안 계층은 **IEEE 1609.x** 규격 세트를 덮어씌워 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 보안 서명을 처리하는 거대한 차량용 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))이다.
+- **필요성**: 기존 집에 있는 와이파이(802.11a/g) 칩셋을 자동차에 그대로 달고 고속도로를 달렸더니, 반대 차선(시속 100km)에서 오는 차와 내 차(시속 100km)의 상대 속도가 무려 시속 200km에 달해버렸다. 전파 파동이 찌그러지는 치명적인 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))가 발생했고, 설상가상으로 와이파이에 연결(IP 할당, 비밀번호 4-Way 핸드셰이크)하느라 1초를 허비하는 사이에 차는 이미 30m를 지나쳐버려 접속이 끊겼다. <strong>"시속 200km로 교차하는 찰나의 0.1초 동안, 복잡한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 절차를 몽땅 패스하고 즉시 목숨이 달린 브레이크 정보를 교환하는 극단적 스피드 통신 규격"</strong>이 수술대에 올랐다.
 - **등장 배경**: ① 일반 Wi-Fi 규격의 끔찍한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속(Association) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 극복 필요성 → ② 고속 이동체 간의 통신(V2V) 특성인 도플러 편이로 인한 심각한 패킷 깨짐 방어 → ③ 기지국 없는 완전한 Ad-hoc(애드혹) 상태에서 BSM(기본 안전 메시지)을 무자비하게 뿌리기 위한 IEEE 802.11p(PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)와 1609(상위 계층)의 WAVE [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전격 결합.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             기존 집 와이파이(Wi-Fi) vs 차량용 WAVE(802.11p) 속도전 비교 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 일반 Wi-Fi의 답답한 연결(Association) 과정]                  │
-│   (시속 100km로 반대 차선에서 앞차가 다가옴... 슝~~)                      │
-│                                                             │
-│   내 차: "저기, 나 AP에 붙을래! (Probe Request)" ── 0.1초 허비           │
-│   앞 차: "응, 여기 있어 (Probe Response)" ────── 0.1초 허비           │
-│   내 차: "비밀번호 이거지? (4-Way Handshake)" ─── 0.5초 허비           │
-│   (쾅!!! 💥) => 결과: 인사하고 비번 맞추는 1초 동안 이미 정면충돌 폭발!       │
-│                                                             │
-│   [혁신: WAVE(802.11p) OCB 모드의 '무지성 패킷 난사' 혁명]             │
-│   (시속 100km로 앞차가 다가옴... 슝~~)                                │
-│                                                             │
-│   앞 차: (인사? 비번 묻기? 그딴 거 다 생략!!)                           │
-│          "나 브레이크 터졌어어어!!! 다 피해!!"                          │
-│          ====(0.002초 만에 즉시 Broadcast 빔 무한 발사)====▶         │
-│                                                             │
-│   내 차 컴퓨터: "어? 저 미친 차가 쏘는 경고 패킷이 내 안테나에 꽂혔네!"          │
-│                 (0.01초 만에 자동 급제동 시스템 발동 🛑 멈춤! 생존!)        │
-│   => 결과: BSS(연결 상태)를 만들지 않고, 묻고 따지지도 않고 바로 데이터를 │
-│            뿌려버리는 OCB 기술이 시속 200km 교차 환경에서 인류의 목숨을 구함.│
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** WAVE 아키텍처에서 가장 위대한 공학적 수술은 바로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 **OCB (Outside the [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) of [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))** 모드 도입이다. 일반적인 무선랜은 반드시 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(공유기)와 '나 너랑 연결할게'라는 끈끈한 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺어야만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있다. 하지만 고속도로에서는 1초 뒤면 차가 시야에서 사라지는데 세션을 맺을 여유가 없다. 그래서 802.11p 규격은 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺지 않은 "완벽한 남남(Outside [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))" 상태에서도 패킷을 날릴 수 있도록 와이파이 법을 뜯어고쳤다. 인사를 생략하고 무조건 브레이크 정보(BSM 패킷)부터 허공에 냅다 갈겨버리는(Broadcast) 이 거친 무전기 방식이 WAVE 시스템 생존율의 최고 비결이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 집 와이파이(Wi-Fi) vs 차량용 WAVE(802.11p) 속도전 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 일반 Wi-Fi의 답답한 연결(Association) 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시속 100km로 반대 차선에서 앞차가 다가옴... 슝~~)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차: "저기, 나 AP에 붙을래! (Probe Request)" ── 0.1초 허비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞 차: "응, 여기 있어 (Probe Response)" 0.1초 허비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차: "비밀번호 이거지? (4-Way Handshake)" 0.5초 허비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쾅!!! 💥) =&gt; 결과: 인사하고 비번 맞추는 1초 동안 이미 정면충돌 폭발!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: WAVE(802.11p) OCB 모드의 '무지성 패킷 난사' 혁명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시속 100km로 앞차가 다가옴... 슝~~)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞 차: (인사? 비번 묻기? 그딴 거 다 생략!!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 브레이크 터졌어어어!!! 다 피해!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====(0.002초 만에 즉시 Broadcast 빔 무한 발사)====▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차 컴퓨터: "어? 저 미친 차가 쏘는 경고 패킷이 내 안테나에 꽂혔네!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.01초 만에 자동 급제동 시스템 발동 🛑 멈춤! 생존!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: BSS(연결 상태)를 만들지 않고, 묻고 따지지도 않고 바로 데이터를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뿌려버리는 OCB 기술이 시속 200km 교차 환경에서 인류의 목숨을 구함.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** WAVE 아키텍처에서 가장 위대한 공학적 수술은 바로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 <strong>OCB (Outside the <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> of <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/">BSS</a>)</strong> 모드 도입이다. 일반적인 무선랜은 반드시 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(공유기)와 '나 너랑 연결할게'라는 끈끈한 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺어야만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있다. 하지만 고속도로에서는 1초 뒤면 차가 시야에서 사라지는데 세션을 맺을 여유가 없다. 그래서 802.11p 규격은 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺지 않은 "완벽한 남남(Outside [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))" 상태에서도 패킷을 날릴 수 있도록 와이파이 법을 뜯어고쳤다. 인사를 생략하고 무조건 브레이크 정보(BSM 패킷)부터 허공에 냅다 갈겨버리는(Broadcast) 이 거친 무전기 방식이 WAVE 시스템 생존율의 최고 비결이다.
 
 - **📢 섹션 요약 비유**: 일반 와이파이는 대사관 출입입니다. 신분증 내고, 서류 쓰고, 비밀번호 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 데 10분이 걸립니다(연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)). 고속도로(WAVE OCB)에서는 차가 시속 150km로 날아가서 그럴 틈이 없습니다. 그냥 옆 차 창문 열고 메가폰으로 "야 앞차 사고 났다 멈춰!!!"라고 소리쳐버리고(Broadcast), 들은 차는 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 따위 생략하고 일단 브레이크부터 콱 밟고 보는 초긴급 사이렌 통신 시스템입니다.
 
@@ -60,27 +58,31 @@ tags = ["studynote-network"]
 
 ### 1. 하위 계층 (IEEE 802.11p): 고속 주행 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 방어 설계
 
-WAVE의 뿌리는 옛날 5GHz 와이파이인 802.11a 규격을 자동차용(11p)으로 마개조한 것이다. 핵심 튜닝은 **[도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))**로 인해 전파가 찌그러지는 것을 막기 위해 도로(채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 과감하게 반토막 낸 것이다.
+WAVE의 뿌리는 옛날 5GHz 와이파이인 802.11a 규격을 자동차용(11p)으로 마개조한 것이다. 핵심 튜닝은 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/">도플러 효과</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/">Doppler Effect</a>)</strong>로 인해 전파가 찌그러지는 것을 막기 위해 도로(채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 과감하게 반토막 낸 것이다.
 
 *   **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 반토막의 마법 (20MHz -> 10MHz)**: 옛날 와이파이는 20MHz 차선을 썼다. 이걸 자동차에 달면 200km/h로 교차할 때 파동이 겹치고 흔들려 100% 패킷 에러(ISI)가 터졌다. 802.11p 아키텍트는 과감하게 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절반인 **10MHz로 좁혔다.**
-*   **물리적 시너지**: 차선을 10MHz로 좁히자, 반대로 한 번의 심볼([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파동)을 쏘는 시간이 **2배(3.2us -> 6.4us)**로 넉넉하게 길어졌다. 꼬리표(Guard Interval)도 2배 길어져, 고속 주행 중 산을 맞고 튕겨오는 다중 경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 반사파 노이즈를 넉넉하게 다 무시하고 씹어먹을 수 있는 강력한 맷집(Robustness)을 얻었다. (대신 최대 속도는 54Mbps에서 **27Mbps로 반토막 강등**되었지만, 목숨이 달린 300바이트짜리 경고 메시지를 보내는 데는 속도보다 생존력이 만 배 중요했다).
+*   **물리적 시너지**: 차선을 10MHz로 좁히자, 반대로 한 번의 심볼([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파동)을 쏘는 시간이 <strong>2배(3.2us -> 6.4us)</strong>로 넉넉하게 길어졌다. 꼬리표(Guard Interval)도 2배 길어져, 고속 주행 중 산을 맞고 튕겨오는 다중 경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 반사파 노이즈를 넉넉하게 다 무시하고 씹어먹을 수 있는 강력한 맷집(Robustness)을 얻었다. (대신 최대 속도는 54Mbps에서 <strong>27Mbps로 반토막 강등</strong>되었지만, 목숨이 달린 300바이트짜리 경고 메시지를 보내는 데는 속도보다 생존력이 만 배 중요했다).
 
-밑바닥 엔진(11p)이 전파를 튼튼하게 쏴주면, 위에서 소프트웨어로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요리하는 뇌(Brain)가 바로 **IEEE 1609 규격 세트**다. IP 주소 체계([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)조차 너무 느려서 못 쓰겠다며 버려버린 극단적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이다.
+밑바닥 엔진(11p)이 전파를 튼튼하게 쏴주면, 위에서 소프트웨어로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요리하는 뇌(Brain)가 바로 <strong>IEEE 1609 규격 세트</strong>다. IP 주소 체계([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)조차 너무 느려서 못 쓰겠다며 버려버린 극단적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이다.
 
 | IEEE 규격 이름 | 역할 및 기능 아키텍처 (어떤 모듈인가?) | 생존을 위한 극약 처방 |
 |:---|:---|:---|
 | **1609.4** (Multi-channel) | **라디오 채널 컨트롤러**. WAVE는 안전 채널(CH178) 1개와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 채널 6개로 나뉜다. 이 규격이 0.05초 단위로 "위험 채널 들었다가, 네비 업데이트 채널 들었다가" [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 스위치를 미친 듯이 전환하며 도로 통제를 완수한다. | 1개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩셋으로도 목숨이 걸린 통신(안전 채널)을 절대 놓치지 않도록 **시간 분할(Time Slot) 강제 배분** 기술 융합. |
-| **1609.3** (Network Serv.) | **네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 계층**. 놀랍게도 자동차들은 급박할 때 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 같은 IP 주소를 안 쓴다. (IP 찾느라 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 쏠 시간이 어딨나). 대신 짧고 무식한 **WSMP (WAVE Short Message [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**라는 전용 포맷을 만들어 냅다 쏴버린다. | IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 그 무거운 오버헤드를 다 뜯어내고, 오직 최소 사이즈 헤더만 붙여서 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 1~2ms로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/).** |
-| **1609.2** ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Serv.) | **자동차 공인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)) [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 계층**. 비밀번호 안 묻고(OCB) 마구 연결을 뚫어놨으니 해커가 가짜 브레이크 신호를 뿌릴 위험이 엄청 크다. 이 모듈이 모든 패킷 뒤에 **타원 곡선([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)) 디지털 서명**을 0.001초 만에 쾅쾅 찍고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. | 가짜 신호를 뿌리는 사이코패스 차량을 막기 위해, 패킷 암호화는 안 해도 **서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))만큼은 미친 속도로 강제하는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 엔진.** |
+| **1609.3** (Network Serv.) | <strong>네트워크 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong>. 놀랍게도 자동차들은 급박할 때 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 같은 IP 주소를 안 쓴다. (IP 찾느라 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 쏠 시간이 어딨나). 대신 짧고 무식한 <strong>WSMP (WAVE Short Message <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>라는 전용 포맷을 만들어 냅다 쏴버린다. | IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 그 무거운 오버헤드를 다 뜯어내고, 오직 최소 사이즈 헤더만 붙여서 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 속도(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)를 1~2ms로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>.</strong> |
+| **1609.2** ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Serv.) | <strong>자동차 공인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>) <a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">암호학</a> 계층</strong>. 비밀번호 안 묻고(OCB) 마구 연결을 뚫어놨으니 해커가 가짜 브레이크 신호를 뿌릴 위험이 엄청 크다. 이 모듈이 모든 패킷 뒤에 <strong>타원 곡선(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a>) 디지털 서명</strong>을 0.001초 만에 쾅쾅 찍고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. | 가짜 신호를 뿌리는 사이코패스 차량을 막기 위해, 패킷 암호화는 안 해도 <strong>서명 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)만큼은 미친 속도로 강제하는 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 엔진.</strong> |
 
-```text
-[V2X]
-    │
-    ▼
-[WAVE DSRC]
-    │
-    └──▶ [C-V2X]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAVE DSRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-V2X</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WAVE DSRC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -94,32 +96,30 @@ WAVE 시스템이 20년 동안 표준으로 군림하다가, 결국 최근 이�
 
 | 아키텍처 비교 | WAVE(802.11p)의 철학: 무지성 릴레이 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X의 철학: 중앙 통제 (589번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) |
 |:---|:---|:---|
-| **통신 룰 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))** | **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (듣고 빈자리 쏘기).** 와이파이 종특. 주변 차들이 말 안 할 때 눈치껏 쏜다. | **[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (기지국 스케줄링).** 하늘에 있는 거대한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 차들에게 쏠 타이밍을 순서대로 칼같이 쪼개서 배분해 줌. |
-| **고속도로 1,000대 정체 시 지옥도** | 수천 대의 차가 "나 속도 0! 브레이크 콱!" BSM 패킷을 초당 10번씩 뿜어냄. **서로 눈치 보느라 아무도 전파를 못 쏘거나, 허공에서 패킷이 죄다 꽝꽝 충돌해 깨져서([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 정보 증발.** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 "1번 차 쏘고, 2번 차 쏘고!" 통제해서 **천 대가 꽉 차도 1ms 오차 없이 쾌적하게 정보 쫙쫙 빠짐.** (혼잡 붕괴 방어) |
+| <strong>통신 룰 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)</strong> | <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (듣고 빈자리 쏘기).</strong> 와이파이 종특. 주변 차들이 말 안 할 때 눈치껏 쏜다. | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a> (기지국 스케줄링).</strong> 하늘에 있는 거대한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 차들에게 쏠 타이밍을 순서대로 칼같이 쪼개서 배분해 줌. |
+| **고속도로 1,000대 정체 시 지옥도** | 수천 대의 차가 "나 속도 0! 브레이크 콱!" BSM 패킷을 초당 10번씩 뿜어냄. <strong>서로 눈치 보느라 아무도 전파를 못 쏘거나, 허공에서 패킷이 죄다 꽝꽝 충돌해 깨져서(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>) 정보 증발.</strong> | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 "1번 차 쏘고, 2번 차 쏘고!" 통제해서 **천 대가 꽉 차도 1ms 오차 없이 쾌적하게 정보 쫙쫙 빠짐.** (혼잡 붕괴 방어) |
 | **은닉 노드 문제 (Hidden Node)**| 큰 트레일러 뒤에 숨은 차는 전파 룰상 앞차 소리를 못 들어서 같이 전파를 쏴버려 충돌 지옥 발생. | 중앙 철탑은 위에서 아래로 내려다보기 때문에 트레일러 등 뒤의 꼬마 자동차도 완벽히 통제 가능하여 은닉 노드 0%. |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               WAVE의 CSMA/CA 혼잡 붕괴(Scalability Failure) 시각화   │
-├───────────────────────────────────────────────────────────────┤
-│   [상황: 출퇴근길 올림픽대로, 자동차 1,000대가 꽉 막혀 있음]               │
-│                                                               │
-│   * 1,000대의 WAVE 자동차들이 매 1초마다 10번씩(10Hz) 살았다고 무전기 난사 중 │
-│   (허공에 초당 10,000개의 무전 패킷이 쏟아짐!)                          │
-│                                                               │
-│   WAVE 차 1: "나 지금 브레이크 밟을..." (말하는 도중)                   │
-│   WAVE 차 2: "야 나도 브레이크 밟는..." (동시에 말해버림)                │
-│                                                               │
-│   💥 전파 충돌(Collision): 두 전파가 쾅 부딪혀 쓰레기 잡음(Noise)으로 변질됨. │
-│                                                               │
-│   WAVE 차 3: (귀를 대보니 허공이 쓰레기 잡음으로 꽉 차 있음)               │
-│              "어? 누가 쓰고 있네? 나 카운트다운(Backoff) 하고 기다려야지 ㅠㅠ"│
-│                                                               │
-│   => 대재앙(Scalability 붕괴): 차가 10대일 땐 WAVE가 빛처럼 빨랐지만, 차가    │
-│      1,000대 모이는 꽉 막힌 도로에서는 채널이 100% 터져버리고 패킷 드롭(Drop)이│
-│      폭발하여, 앞차의 급브레이크 경고가 뒷차에 전달되지 않는 치명적 한계 봉착.  │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE의 CSMA/CA 혼잡 붕괴(Scalability Failure) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 출퇴근길 올림픽대로, 자동차 1,000대가 꽉 막혀 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1,000대의 WAVE 자동차들이 매 1초마다 10번씩(10Hz) 살았다고 무전기 난사 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(허공에 초당 10,000개의 무전 패킷이 쏟아짐!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 1: "나 지금 브레이크 밟을..." (말하는 도중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 2: "야 나도 브레이크 밟는..." (동시에 말해버림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 전파 충돌(Collision): 두 전파가 쾅 부딪혀 쓰레기 잡음(Noise)으로 변질됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 3: (귀를 대보니 허공이 쓰레기 잡음으로 꽉 차 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 누가 쓰고 있네? 나 카운트다운(Backoff) 하고 기다려야지 ㅠㅠ"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 대재앙(Scalability 붕괴): 차가 10대일 땐 WAVE가 빛처럼 빨랐지만, 차가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1,000대 모이는 꽉 막힌 도로에서는 채널이 100% 터져버리고 패킷 드롭(Drop)이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭발하여, 앞차의 급브레이크 경고가 뒷차에 전달되지 않는 치명적 한계 봉착.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)/WAVE 아키텍처의 밑바닥은 결국 집에서 쓰던 Wi-Fi(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))다. 와이파이는 근본적으로 무전기(Half-duplex) 눈치 게임([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/))이다. 이 아키텍처는 고속도로에 차가 없을 때는 완벽하고 아름답게 작동한다. 하지만 연휴 고속도로처럼 수천 대의 차가 밀집된 고밀도(High-Density) 잼 상황에 처하면, 차들이 서로 허공의 무선 채널 1개를 차지하겠다고 경쟁하다가 전파가 다 엉켜서 100% 붕괴([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Storm)해버린다. 수천 대의 폰을 완벽히 통제하는 이동통신([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 기반의 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 진영이 이 스케일러빌리티(Scalability) 약점을 미친 듯이 물고 늘어지면서 결국 웨이브 진영이 패권 전쟁에서 백기를 들게 만든 가장 뼈아픈 공학적 패착이다.
 
@@ -131,15 +131,15 @@ WAVE 시스템이 20년 동안 표준으로 군림하다가, 결국 최근 이�
 
 1. **상황**: 한국도로공사는 시속 100km로 달리는 차들이 톨게이트에서 속도를 줄이지 않고 쌩 지나가도, 차량 앞유리의 단말기에서 하이패스 요금을 0.1초 만에 칼같이 빼가는 **다차로 하이패스(스마트 톨링)** 시스템을 구축하려 한다.
 2. **원인 (적외선/RF 구형 방식의 딜레이)**: 옛날 하이패스는 적외선([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))이나 구형 RF 주파수를 썼는데, 차가 100km/h로 날아가면 톨게이트 지붕의 기계([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))와 차량 단말기(OBU)가 비밀번호 묻고 카드 잔액 묻느라 통신 딜레이가 걸려 결제가 씹히고 에러가 났다.
-3. **의사결정 및 아키텍처 조치 (WAVE [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/) 탑재)**:
-   - 인프라 아키텍트는 톨게이트 지붕의 구조물([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/), Road Side Unit)에 **WAVE (5.8GHz [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) 칩셋**을 떡칠한다.
+3. <strong>의사결정 및 아키텍처 조치 (WAVE <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/">DSRC</a> 탑재)</strong>:
+   - 인프라 아키텍트는 톨게이트 지붕의 구조물([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/), Road Side Unit)에 <strong>WAVE (5.8GHz <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/">DSRC</a>) 칩셋</strong>을 떡칠한다.
    - 차가 시속 120km로 톨게이트를 휙 스쳐 지나가는 그 찰나의 순간, OCB 모드([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 프리패스)의 극강의 스피드 덕분에 공유기 연결(Association) 과정이 생략된다.
    - 톨게이트 RSU는 차량이 쏘아 올린 짧은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 패킷을 낚아채어 암호화된 1609.2 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 빛의 속도로 찰칵! [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 내고 "잔액 3,000원 출금 완료!" 메시지를 차로 다시 쏴준다.
    - **결과**: 다차로 톨게이트에서 차가 브레이크를 밟지 않아도 100% 무결점 결제가 이뤄지는 한국형 다차로 하이패스(스마트 톨링)의 거대한 뒷배경이 바로 이 WAVE 통신 엔진이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **C-V2X와의 매몰 비용 및 국가 주파수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌**: 앞서 589번 문서에서 밝혔듯, WAVE와 C-V2X는 같은 **5.9GHz 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) (70MHz 파이)을 두고 밥그릇 싸움**을 벌였다. 두 기술은 근본 뼈대(와이파이 vs [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))가 달라서 서로 대화(호환)가 안 된다. 기업이 자율주행 센서를 만들 때 "우리 회사는 기술적으로 성숙한 WAVE 칩셋(NXP)으로 밀어붙인다!"라고 설계해 놨는데, 다음 해에 국가 국토교통부가 "오늘부터 한국 도로는 100% [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 5G망으로만 깐다"라고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 선회해 버리면? 그 회사가 만든 WAVE 자동차 수십만 대는 고속도로에서 벙어리가 되는 초유의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 록인 실패)을 맞게 된다. 통신 표준은 기술력이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%고, 강대국(미국/중국/유럽)의 입김과 통신사(AT&T, SKT 등)의 로비 권력이 90%를 결정짓는 냉혹한 정치 공학의 결정판이다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (WAVE 보안 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 서명 무시)**: 1609.2(보안) 모듈이 처리하는 타원 곡선 암호 서명([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))은 CPU 자원을 꽤 먹는다. 싸구려 자동차 단말기(OBU)를 만드는 중소 벤더가, 차가 너무 많이 몰려서 CPU에 부하가 오자 **"어차피 다 차단하는 것도 귀찮은데, 다른 차가 뿌리는 경고 패킷 서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Verify) 프로세스를 걍 대충 스킵(Skip)해!"**라는 미친 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 세팅을 해버렸다 치자. 해커가 육교 위에서 "내 차 지금 사고 나서 뒤집어졌다!"라는 가짜 방송을 뿌리면, 그 싸구려 단말기를 단 차들은 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 그 가짜 정보를 맹신하고 고속도로 한복판에서 시속 100km로 달리다 ABS 급브레이크를 꽂아버려 거대한 대형 참사를 일으키는 끔찍한 사이버 물리 살인(Cyber-Physical Murder)을 초래한다.
+- <strong>C-V2X와의 매몰 비용 및 국가 주파수 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 충돌</strong>: 앞서 589번 문서에서 밝혔듯, WAVE와 C-V2X는 같은 <strong>5.9GHz 주파수 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (70MHz 파이)을 두고 밥그릇 싸움</strong>을 벌였다. 두 기술은 근본 뼈대(와이파이 vs [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))가 달라서 서로 대화(호환)가 안 된다. 기업이 자율주행 센서를 만들 때 "우리 회사는 기술적으로 성숙한 WAVE 칩셋(NXP)으로 밀어붙인다!"라고 설계해 놨는데, 다음 해에 국가 국토교통부가 "오늘부터 한국 도로는 100% [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 5G망으로만 깐다"라고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 선회해 버리면? 그 회사가 만든 WAVE 자동차 수십만 대는 고속도로에서 벙어리가 되는 초유의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 록인 실패)을 맞게 된다. 통신 표준은 기술력이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%고, 강대국(미국/중국/유럽)의 입김과 통신사(AT&T, SKT 등)의 로비 권력이 90%를 결정짓는 냉혹한 정치 공학의 결정판이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (WAVE 보안 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 서명 무시)</strong>: 1609.2(보안) 모듈이 처리하는 타원 곡선 암호 서명([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))은 CPU 자원을 꽤 먹는다. 싸구려 자동차 단말기(OBU)를 만드는 중소 벤더가, 차가 너무 많이 몰려서 CPU에 부하가 오자 <strong>"어차피 다 차단하는 것도 귀찮은데, 다른 차가 뿌리는 경고 패킷 서명 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(Verify) 프로세스를 걍 대충 스킵(Skip)해!"</strong>라는 미친 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 세팅을 해버렸다 치자. 해커가 육교 위에서 "내 차 지금 사고 나서 뒤집어졌다!"라는 가짜 방송을 뿌리면, 그 싸구려 단말기를 단 차들은 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 그 가짜 정보를 맹신하고 고속도로 한복판에서 시속 100km로 달리다 ABS 급브레이크를 꽂아버려 거대한 대형 참사를 일으키는 끔찍한 사이버 물리 살인(Cyber-Physical Murder)을 초래한다.
 
 - **📢 섹션 요약 비유**: WAVE의 OCB([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 생략) 모드는 놀이공원 입구를 뚫어둔 프리패스 같습니다. 표 끊는 시간(접속 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 0초라 미친 듯이 차들이 빨리 통과할 수 있지만, 나쁜 악당(해커)도 몰래 들어올 수 있죠. 그래서 입구는 열어두되, 놀이기구를 탈 때마다(패킷 수신 시마다) 초인적인 속도를 가진 경호원(1609.2 보안 엔진)이 0.001초 만에 악당인지 아닌지 얼굴([전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/))을 스캔해버리는 무시무시한 이중 보안 구조를 택했습니다.
 
@@ -149,16 +149,16 @@ WAVE 시스템이 20년 동안 표준으로 군림하다가, 결국 최근 이�
 
 | 구분 | 일반 Wi-Fi (802.11a/g) 장착 | WAVE (802.11p + 1609.x) 장착 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속, Association 시간)** | IP 받고 4-Way 핸드셰이크에 **1~3초** | OCB 모드로 접속 단계 싹둑. **0.002초(2ms)** | 시속 200km 상대 속도 환경에서도 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신 성공률 100배 펌핑.** |
-| **정량 (물리 채널 맷집, Robustness)** | 20MHz. [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)에 의한 ISI 깨짐 폭발 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 10MHz로 반토막 (가드 인터벌 2배) | 다중 경로(산 반사파) 노이즈와 고속 주행 시의 **전파 깨짐 에러([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)) 완벽 흡수.** |
+| <strong>정량 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 접속, Association 시간)</strong> | IP 받고 4-Way 핸드셰이크에 **1~3초** | OCB 모드로 접속 단계 싹둑. **0.002초(2ms)** | 시속 200km 상대 속도 환경에서도 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 송수신 성공률 100배 펌핑.</strong> |
+| **정량 (물리 채널 맷집, Robustness)** | 20MHz. [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)에 의한 ISI 깨짐 폭발 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 10MHz로 반토막 (가드 인터벌 2배) | 다중 경로(산 반사파) 노이즈와 고속 주행 시의 <strong>전파 깨짐 에러(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a>) 완벽 흡수.</strong> |
 | **정성 (통신 패러다임 변화)**| 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 규격 (무거운 헤더) | WSMP 특화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (초경량 헤더) | 군더더기를 다 뜯어내어 오직 생존을 위한 짧은 메세지 타격이라는 **모빌리티 통신의 이데아 달성.** |
 
 ### 미래 전망 및 진화 방향
-- **비운의 왕자, 역사 속으로의 쇠락**: 2000년대 초반에 만들어진 WAVE 기술은 지난 20년간 자율주행 테스트베드(K-City 등)에서 눈부신 역할을 해왔다. 인프라 없이 차들끼리(Ad-hoc) 무선으로 생존할 수 있다는 그 아름다운 철학은 완벽에 가까웠다. 하지만 자동차 수만 대가 뿜어내는 브로드캐스트의 굉음([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 혼잡 붕괴)을 끝내 제어하지 못했고, 결국 중국과 미국 정부가 차세대 지능형 교통 체계([C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/))의 메인 뼈대를 통신사 주도의 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (591번 문서)**로 돌아서며, [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(WAVE) 진영은 시장에서 사실상 사망 선고(End of Life)를 받아가고 있다.
-- **NGV (Next Generation [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/), 802.11bd)의 최후의 반격**: 패배를 직감한 Wi-Fi 진영(IEEE)은 WAVE(11p)의 후속작인 **802.11bd (NGV)** 규격을 깎고 있다. [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(ax)의 무적 기술인 **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)(주파수 쪼개기, 576번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**를 차량용으로 끌고 와서, 기지국 없이도 혼잡 도로에서 BSM 패킷들이 꽝꽝 충돌하는 지옥([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 한계)을 극복하고 C-V2X와 영혼의 맞다이를 뜨려는 설계다. 통신사에 비싼 돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금)을 내야 하는 C-V2X의 종속을 피해, 공짜 비면허 대역의 진정한 애드혹 승리자가 되기 위한 마지막 사투가 벌어지고 있다.
+- **비운의 왕자, 역사 속으로의 쇠락**: 2000년대 초반에 만들어진 WAVE 기술은 지난 20년간 자율주행 테스트베드(K-City 등)에서 눈부신 역할을 해왔다. 인프라 없이 차들끼리(Ad-hoc) 무선으로 생존할 수 있다는 그 아름다운 철학은 완벽에 가까웠다. 하지만 자동차 수만 대가 뿜어내는 브로드캐스트의 굉음([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 혼잡 붕괴)을 끝내 제어하지 못했고, 결국 중국과 미국 정부가 차세대 지능형 교통 체계([C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/))의 메인 뼈대를 통신사 주도의 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a> (591번 문서)</strong>로 돌아서며, [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(WAVE) 진영은 시장에서 사실상 사망 선고(End of Life)를 받아가고 있다.
+- <strong>NGV (Next Generation <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>, 802.11bd)의 최후의 반격</strong>: 패배를 직감한 Wi-Fi 진영(IEEE)은 WAVE(11p)의 후속작인 **802.11bd (NGV)** 규격을 깎고 있다. [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(ax)의 무적 기술인 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a>(주파수 쪼개기, 576번 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 차량용으로 끌고 와서, 기지국 없이도 혼잡 도로에서 BSM 패킷들이 꽝꽝 충돌하는 지옥([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 한계)을 극복하고 C-V2X와 영혼의 맞다이를 뜨려는 설계다. 통신사에 비싼 돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금)을 내야 하는 C-V2X의 종속을 피해, 공짜 비면허 대역의 진정한 애드혹 승리자가 되기 위한 마지막 사투가 벌어지고 있다.
 
 ### 참고 표준
-- **IEEE 802.11p (WAVE PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))**: 자동차 시속 200km 환경에서 튕겨 오는 다중 경로 반사파 노이즈를 씹어먹기 위해 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 10MHz로 좁히고 OCB 모드(남남끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏘기)를 합법화한 와이파이 마개조 문서.
+- <strong>IEEE 802.11p (WAVE PHY/<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)</strong>: 자동차 시속 200km 환경에서 튕겨 오는 다중 경로 반사파 노이즈를 씹어먹기 위해 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 10MHz로 좁히고 OCB 모드(남남끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏘기)를 합법화한 와이파이 마개조 문서.
 - **IEEE 1609.1 ~ 4 규격군**: IP 주소조차 무겁다며 떼어버린 WSMP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(1609.3)과 0.001초 만에 가짜 사이코패스 차를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 내는 타원 곡선 암호 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(1609.2)을 다루는 WAVE의 진짜 소프트웨어 뇌(Brain) 규격.
 
 WAVE (802.11p)는 IT 공학 역사에서 가장 숭고한 뺄셈의 미학([Art](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) of Subtraction)이다. 통신이 100% 안전하고 완벽하게 연결되기를 바랐던 컴퓨터 공학의 고집([TCP 3-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/), IP 할당, [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 암호화 악수)을 가위로 몽땅 무자비하게 싹둑 잘라내 버렸다. "완벽하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하느라 1초를 낭비해서 사람이 트럭에 깔려 죽느니, 인사를 생략하고 그냥 무자비하게 브레이크 경고를 0.002초 만에 뿌려버려 일단 사람 목숨부터 살리고 보자." 이 거칠지만 위대한 생존의 아키텍처 철학은, C-V2X라는 더 큰 괴물에게 자리를 넘겨줄지라도 모빌리티 자율주행 통신의 기초를 닦은 불멸의 영웅으로 통신 역사에 새겨질 것이다.
@@ -178,15 +178,19 @@ WAVE (802.11p)는 IT 공학 역사에서 가장 숭고한 뺄셈의 미학([Art]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: V2X]
-    │
-    ▼
-[현재 개념: WAVE DSRC]
-    │
-    ├──▶ [확장 A: C-V2X]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WAVE DSRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: C-V2X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 WAVE DSRC는 V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 C-V2X와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

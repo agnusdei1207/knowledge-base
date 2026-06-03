@@ -19,25 +19,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-멀티코어 칩 온도 불균형은 칩 위 각 위치의 온도가 균일하지 않고, 일부 코어와 캐시 주변에 열이 집중되는 상태다. 오늘날 프로세서는 평균 패키지 온도는 안전 범위 안이어도, 특정 코어 근처는 그보다 훨씬 높은 온도에 먼저 도달할 수 있다. 이때 문제를 만드는 것은 전체 평균이 아니라 **가장 뜨거운 지점과 그 주변과의 온도 차이**다.
+멀티코어 칩 온도 불균형은 칩 위 각 위치의 온도가 균일하지 않고, 일부 코어와 캐시 주변에 열이 집중되는 상태다. 오늘날 프로세서는 평균 패키지 온도는 안전 범위 안이어도, 특정 코어 근처는 그보다 훨씬 높은 온도에 먼저 도달할 수 있다. 이때 문제를 만드는 것은 전체 평균이 아니라 <strong>가장 뜨거운 지점과 그 주변과의 온도 차이</strong>다.
 
 왜 이런 차이가 생기느냐 하면, 실제 워크로드는 코어마다 다르게 배치되고, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기·벡터 유닛·메모리 컨트롤러처럼 전력 밀도가 높은 블록이 한쪽에 몰리기 쉽기 때문이다. 게다가 열은 전기 신호처럼 즉시 퍼지지 않으므로, 짧은 시간의 급격한 부하 집중도 국소 핫스팟을 만든다. 이 현상을 제어하지 못하면 스로틀링이 먼저 걸리고, 심하면 수명 저하와 [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)으로 이어진다.
 
 이 그림은 평균 온도와 국소 핫스팟이 왜 다른 판단 기준인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Package Avg = 78℃                                                          │
-│                                                                            │
-│ [Core0 94℃] [Core1 76℃] [Cache 79℃] [Core2 71℃] [Fabric 74℃]              │
-│     ▲                                                                      │
-│     └─ Hot Spot -> timing margin down -> leakage up -> early throttling    │
-│                                                                            │
-│ 평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package Avg = 78℃</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core0 94℃</div><div class="kb-diagram-node">Core1 76℃</div><div class="kb-diagram-node">Cache 79℃</div><div class="kb-diagram-node">Core2 71℃</div><div class="kb-diagram-node">Fabric 74℃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hot Spot -&gt; timing margin down -&gt; leakage up -&gt; early throttling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 큰 교실의 평균 온도가 시원해도 창가 한쪽만 햇빛을 정통으로 받으면 그 자리에 앉은 학생은 먼저 지친다. 칩도 전체 평균보다 "제일 더운 자리"가 문제를 만든다.
 
@@ -45,9 +45,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-온도 불균형은 전력 밀도, 열 경로, 시간 상수의 차이에서 생긴다. 같은 10W를 써도 넓은 면적에 퍼뜨리면 괜찮지만, 작은 실행 블록에 몰리면 국소 온도 상승이 훨씬 가파르다. 열 상승은 대체로 **소모 전력 × 열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)**에 비례하고, 실제 온도 변화 속도는 실리콘과 패키지의 열 용량 때문에 지연되어 나타난다. 그래서 센서가 늦게 반응하면 이미 뜨거워진 뒤에야 제어가 들어가기도 한다.
+온도 불균형은 전력 밀도, 열 경로, 시간 상수의 차이에서 생긴다. 같은 10W를 써도 넓은 면적에 퍼뜨리면 괜찮지만, 작은 실행 블록에 몰리면 국소 온도 상승이 훨씬 가파르다. 열 상승은 대체로 <strong>소모 전력 × 열 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong>에 비례하고, 실제 온도 변화 속도는 실리콘과 패키지의 열 용량 때문에 지연되어 나타난다. 그래서 센서가 늦게 반응하면 이미 뜨거워진 뒤에야 제어가 들어가기도 한다.
 
-또한 한 코어의 열은 그 코어에만 머물지 않는다. 인접한 L3 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/), 네트워크 온 칩 (Network-on-Chip, [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)), 메모리 컨트롤러로 열이 옆으로 퍼지며, 이웃 블록의 주파수 여유까지 잠식한다. 결국 열은 "개별 코어 문제"가 아니라 **칩 전체의 공간적 결합 문제**다.
+또한 한 코어의 열은 그 코어에만 머물지 않는다. 인접한 L3 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/), 네트워크 온 칩 (Network-on-Chip, [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)), 메모리 컨트롤러로 열이 옆으로 퍼지며, 이웃 블록의 주파수 여유까지 잠식한다. 결국 열은 "개별 코어 문제"가 아니라 <strong>칩 전체의 공간적 결합 문제</strong>다.
 
 | 요인 | 온도 불균형이 커지는 이유 | 아키텍처 영향 |
 | :--- | :--- | :--- |
@@ -59,21 +59,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 열이 어떻게 한 지점에서 시작해 칩 전체 제약으로 번지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      온도 불균형의 생성 경로: 전력 집중 -> 핫스팟 -> 열 결합 -> 제어 압박      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Workload Concentration                                                     │
-│      │                                                                      │
-│      ▼                                                                      │
-│ High-Power Block -> Local ΔT Up -> Leakage Up -> More Heat                 │
-│      │                    │                                                  │
-│      │                    ├─ Neighbor Core / NoC Heat-Up -> Margin Down     │
-│      │                    └─ Sensor Delay -> Late DVFS / Throttle           │
-│      ▼                                                                      │
-│ 결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도 불균형의 생성 경로: 전력 집중 -&gt; 핫스팟 -&gt; 열 결합 -&gt; 제어 압박</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload Concentration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-Power Block -&gt; Local ΔT Up -&gt; Leakage Up -&gt; More Heat</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Neighbor Core / NoC Heat-Up -&gt; Margin Down</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sensor Delay -&gt; Late DVFS / Throttle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 한 냄비의 국이 한쪽만 세게 끓으면 그 부분이 먼저 넘치고, 옆 재료까지 함께 익어 버린다. 열은 한 점에서 시작해 주변까지 연쇄적으로 영향을 준다.
 
@@ -81,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-온도 불균형을 이해할 때 가장 자주 헷갈리는 개념은 평균 온도, 핫스팟, [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)이다. 평균 온도는 냉각 시스템의 전체 여유를 보게 해 주지만, 핫스팟과 온도 구배는 어느 블록이 먼저 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 잃는지를 보여 준다. [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)은 그 결과로 **모든 블록을 동시에 켤 수 없게 된 구조적 상태**이지, 온도 불균형 그 자체는 아니다.
+온도 불균형을 이해할 때 가장 자주 헷갈리는 개념은 평균 온도, 핫스팟, [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)이다. 평균 온도는 냉각 시스템의 전체 여유를 보게 해 주지만, 핫스팟과 온도 구배는 어느 블록이 먼저 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 잃는지를 보여 준다. [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)은 그 결과로 <strong>모든 블록을 동시에 켤 수 없게 된 구조적 상태</strong>이지, 온도 불균형 그 자체는 아니다.
 
 532번 [동적 써멀 관리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/) ([Dynamic Thermal Management](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/), [DTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/))가 "어떻게 제어할 것인가"의 문제라면, 온도 불균형은 "무엇이 제어 대상인가"의 문제다. 또한 공간적 온도 구배는 floorplan과 배치에, 시간적 온도 변화는 burst workload와 제어 주기에 더 민감하므로 둘을 구분해야 한다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 | 핫스팟 / 온도 불균형 | 블록 간 국소 온도 차이 | 어디가 먼저 한계에 닿는가? | thermal-aware scheduling, [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), 배치 조정 |
 | [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/) ([Dark Silicon](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)) | 동시에 켤 수 없는 비활성 영역 | 어떤 블록을 꺼 두어야 하는가? | [power gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/), 가속기 선택 활성화 |
 
-결국 평균 온도만 보면 "아직 여유 있다"는 오판을 하고, [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)만 보면 "일부를 끄면 된다"는 단순화에 빠진다. 실제 설계는 그 사이에서 **열이 몰리는 위치를 예측하고 활성 자원을 교대시키는 문제**에 가깝다.
+결국 평균 온도만 보면 "아직 여유 있다"는 오판을 하고, [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)만 보면 "일부를 끄면 된다"는 단순화에 빠진다. 실제 설계는 그 사이에서 <strong>열이 몰리는 위치를 예측하고 활성 자원을 교대시키는 문제</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: 체온계로 몸 전체 평균 열만 보는 것과, 손목 한쪽이 심하게 부어 오른 것을 직접 보는 것은 다르다. 온도 불균형은 "어디가 먼저 아픈가"를 찾는 진단이다.
 
@@ -124,11 +123,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-온도 불균형을 잘 제어하면 피크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 더 중요한 **지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 수명 예측 가능성**이 좋아진다. 핫스팟이 줄면 스로틀링 빈도가 낮아지고, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 마진을 덜 보수적으로 잡을 수 있어 동일 전력에서 더 안정적인 주파수를 유지할 수 있다. 또한 열 스트레스와 전자 이동 (Electromigration) 위험이 줄어 장기 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)도 개선된다.
+온도 불균형을 잘 제어하면 피크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 더 중요한 <strong>지속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 수명 예측 가능성</strong>이 좋아진다. 핫스팟이 줄면 스로틀링 빈도가 낮아지고, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 마진을 덜 보수적으로 잡을 수 있어 동일 전력에서 더 안정적인 주파수를 유지할 수 있다. 또한 열 스트레스와 전자 이동 (Electromigration) 위험이 줄어 장기 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)도 개선된다.
 
-하지만 한계도 분명하다. 작업 이동은 캐시 locality를 깨뜨리고, DVFS는 순간 응답성을 낮출 수 있으며, 센서와 제어 루프가 느리면 과열 뒤에 반응하는 사후 대응으로 끝나기 쉽다. 앞으로는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 3D 적층의 수직 열 경로 최적화, 예측형 [DTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/), 액체 냉각 연동 같은 **열-배치 공동 설계**가 더 중요해질 가능성이 크다.
+하지만 한계도 분명하다. 작업 이동은 캐시 locality를 깨뜨리고, DVFS는 순간 응답성을 낮출 수 있으며, 센서와 제어 루프가 느리면 과열 뒤에 반응하는 사후 대응으로 끝나기 쉽다. 앞으로는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 간 열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 3D 적층의 수직 열 경로 최적화, 예측형 [DTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/), 액체 냉각 연동 같은 <strong>열-배치 공동 설계</strong>가 더 중요해질 가능성이 크다.
 
-결론적으로 멀티코어 칩 온도 불균형은 "칩이 얼마나 뜨거운가"보다 **어디가 얼마나 먼저 뜨거워지는가**를 묻는 개념으로 기억하는 것이 정확하다. [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)은 그 질문에 제대로 답하지 못했을 때 나타나는 구조적 경고등이다.
+결론적으로 멀티코어 칩 온도 불균형은 "칩이 얼마나 뜨거운가"보다 <strong>어디가 얼마나 먼저 뜨거워지는가</strong>를 묻는 개념으로 기억하는 것이 정확하다. [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)은 그 질문에 제대로 답하지 못했을 때 나타나는 구조적 경고등이다.
 
 - **📢 섹션 요약 비유**: 좋은 도시 운영은 평균 기온만 보는 것이 아니라, 열섬이 생기는 골목을 찾아 그곳을 먼저 식히는 일과 같다. 칩도 가장 뜨거운 구역을 다뤄야 전체가 오래 버틴다.
 
@@ -147,24 +146,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Dennard Scaling 종료
-        │
-        ▼
-멀티코어 확산 + 국소 핫스팟 문제
-        │
-        ▼
-온칩 센서 · DTM · Thermal-Aware Scheduling
-        │
-        ▼
-DVFS · Migration · Power Gating
-        │
-        ▼
-Dark Silicon · Heterogeneous Accelerator
-        │
-        ▼
-Chiplet / 3D 적층의 열-배치 공동 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Dennard Scaling 종료</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 확산 + 국소 핫스팟 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온칩 센서 · DTM · Thermal-Aware Scheduling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS · Migration · Power Gating</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dark Silicon · Heterogeneous Accelerator</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chiplet / 3D 적층의 열-배치 공동 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 열 문제가 단순 냉각 이슈에서 출발해, 이제는 자원 활성화 전략과 배치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 결정하는 아키텍처 핵심 제약으로 커졌음을 보여 준다.
 

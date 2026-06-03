@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 전 세계 사무실을 장악한 일반 유선 랜(LAN) 기술인 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))를 공장 자동화(FA) 현장에 그대로 쓰려니 큰 문제가 생겼습니다.
-- **충돌과 비결정성 (Non-Deterministic)**: 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 여러 PC가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면 전선에서 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 나고, 눈치를 보다가 무작위 시간(랜덤 딜레이)을 기다렸다가 다시 보냅니다. 이 대기 시간은 때로는 0.001초, 때로는 0.5초로 들쭉날쭉하여 **"이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 1ms 안에 도착한다"는 보장(결정성)을 절대 할 수 없는 치명적 단점**이 있었습니다. (공장 로봇 제어에 부적합)
+- **충돌과 비결정성 (Non-Deterministic)**: 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 여러 PC가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면 전선에서 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 나고, 눈치를 보다가 무작위 시간(랜덤 딜레이)을 기다렸다가 다시 보냅니다. 이 대기 시간은 때로는 0.001초, 때로는 0.5초로 들쭉날쭉하여 <strong>"이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 100% 1ms 안에 도착한다"는 보장(결정성)을 절대 할 수 없는 치명적 단점</strong>이 있었습니다. (공장 로봇 제어에 부적합)
 
-```text
-[마이크로 그리드 / AMI 통신 탑재 방식]
-    │
-    ▼
-[산업용 이더넷 표준]
-    │
-    └──▶ [OPC UA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 저렴한 하드웨어(랜선, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩)와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 강력한 범용성을 그대로 쓰면서도, 소프트웨어([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)와 프로토콜을 뜯어고쳐서 **엄격한 실시간성(Real-time)과 마이크로초(µs) 단위의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도달 보장성(결정성, Determinism)**을 달성한 극한의 특수 네트워크 표준입니다. 노이즈(전자기파)나 진동이 심한 극한 공장 환경을 버티는 내구성도 갖춥니다.
+- 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 저렴한 하드웨어(랜선, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩)와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 강력한 범용성을 그대로 쓰면서도, 소프트웨어([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)와 프로토콜을 뜯어고쳐서 <strong>엄격한 실시간성(Real-time)과 마이크로초(µs) 단위의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 도달 보장성(결정성, Determinism)</strong>을 달성한 극한의 특수 네트워크 표준입니다. 노이즈(전자기파)나 진동이 심한 극한 공장 환경을 버티는 내구성도 갖춥니다.
 
-```text
-[마이크로 그리드 / AMI 통신 탑재 방식]
-    │
-    ▼
-[산업용 이더넷 표준]
-    │
-    └──▶ [OPC UA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 - **특징**: 기존 기업 IT 망([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)과의 호환성이 미친 듯이 좋습니다. 공장 라인의 긴급한 로봇 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP를 우회하여 전용 직행 채널(Real-Time)로 쏘고, 덜 중요한 통계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 일반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 섞어 쏘는 유연성이 최고 장점입니다.
 
 ### 2. EtherCAT (이더캣) - 백호프(Beckhoff) 개발
-- **특징 (온더플라이, On-the-fly)**: 기차(패킷)가 역(노드, 로봇팔)에 멈춰 서서 물건을 내리지 않습니다! 거대한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷(기차)이 전선을 타고 쌩하고 달려가면서, **각 로봇팔 칩셋들이 패킷이 지나가는 찰나의 나노초(ns) 순간에 자기에게 배정된 칸의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 쏙 빼먹고 동시에 자기 센서값을 채워 넣어 그대로 기차를 통과시킵니다.**
+- **특징 (온더플라이, On-the-fly)**: 기차(패킷)가 역(노드, 로봇팔)에 멈춰 서서 물건을 내리지 않습니다! 거대한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷(기차)이 전선을 타고 쌩하고 달려가면서, <strong>각 로봇팔 칩셋들이 패킷이 지나가는 찰나의 나노초(ns) 순간에 자기에게 배정된 칸의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 쏙 빼먹고 동시에 자기 센서값을 채워 넣어 그대로 기차를 통과시킵니다.</strong>
 - 현존하는 산업망 중 가장 딜레이가 없는(오버헤드 제로) 미친듯한 초정밀 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 속도를 자랑하며 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 등 정밀 공정에서 사랑받습니다.
 
 ### 3. Modbus [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) (모드버스 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) - 슈나이더 일렉트릭
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 전력 효율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 언제 도착할지 모르는(비결정성) 시내버스라면, 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 **초 단위 스케줄이 완벽히 짜여 있고 다른 차가 아예 끼어들 수 없는 전용 선로를 달리는 KTX 고속철도(결정성 확보)**입니다. PROFINET은 승객과 화물을 유연하게 섞어 태우는 KTX이고, EtherCAT은 기차가 역에 정차하지도 않고 통과하는 찰나의 순간에 닌자처럼 짐을 빼내고 실어버리는 극강의 무정차 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 특급열차입니다.
+- **📢 섹션 요약 비유**: 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 언제 도착할지 모르는(비결정성) 시내버스라면, 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 <strong>초 단위 스케줄이 완벽히 짜여 있고 다른 차가 아예 끼어들 수 없는 전용 선로를 달리는 KTX 고속철도(결정성 확보)</strong>입니다. PROFINET은 승객과 화물을 유연하게 섞어 태우는 KTX이고, EtherCAT은 기차가 역에 정차하지도 않고 통과하는 찰나의 순간에 닌자처럼 짐을 빼내고 실어버리는 극강의 무정차 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 특급열차입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로 그리드 / AMI 통신 탑재 방식]
-    │
-    ▼
-[현재 개념: 산업용 이더넷 표준]
-    │
-    ├──▶ [확장 A: OPC UA]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 그리드 / AMI 통신 탑재 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 산업용 이더넷 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OPC UA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준는 [마이크로 그리드](/knowledge-base/studynote/03_network/12_iot_wpan_edge/629_microgrid_ami_smart_meter_plc_rf/) / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 OPC UA와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

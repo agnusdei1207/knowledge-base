@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **CMS (Content [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)**: 개발자 없이 글을 쓰고, 이미지를 올리고, 발행(Publish) 버튼을 누르게 해주는 사내 블로그/쇼핑몰 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (ex. 워드프레스).
+  - <strong>CMS (Content <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> System)</strong>: 개발자 없이 글을 쓰고, 이미지를 올리고, 발행(Publish) 버튼을 누르게 해주는 사내 블로그/쇼핑몰 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (ex. 워드프레스).
   - **Headless (머리가 없음)**: 여기서 `Head`는 사용자가 보는 앞단 화면(뷰, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이다. CMS 뱃속에 내장되어 있던 HTML/[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) 템플릿(머리)을 박살 내고 삭제해버림. 남은 건 오직 관리자가 글을 쓰는 에디터와 DB, 그리고 API뿐이다.
 
-- **필요성 (워드프레스 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 지옥과 옴니채널의 한계)**: 과거 전 세계 웹사이트의 40%가 워드프레스로 만들어졌다. 근데 시대가 모바일(앱) 시대로 넘어왔다. 워드프레스는 HTML 화면을 렌더링해서 뱉는다. 이 HTML을 아이폰(Swift)이나 안드로이드 앱에 띄우려니, `WebView` 껍데기를 씌워야 했고 폰 앱 특유의 찰진 맛이 1도 없고 느려 터졌다. **"아 씨발! 우리가 화면(머리)은 리액트로 짱 멋지게 알아서 짤 테니까, CMS 너는 제발 화면에 관여하지 마!! 그냥 기획자가 쓴 글 내용만 순수하게 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 텍스트로 넘겨줘!! 우리가 알아서 예쁘게 디자인해서 폰, 웹, 시계에 다 뿌릴게!!"** 프론트엔드 개발자들의 거룩한 독립 선언이 헤드리스를 발명했다.
+- <strong>필요성 (워드프레스 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a> 지옥과 옴니채널의 한계)</strong>: 과거 전 세계 웹사이트의 40%가 워드프레스로 만들어졌다. 근데 시대가 모바일(앱) 시대로 넘어왔다. 워드프레스는 HTML 화면을 렌더링해서 뱉는다. 이 HTML을 아이폰(Swift)이나 안드로이드 앱에 띄우려니, `WebView` 껍데기를 씌워야 했고 폰 앱 특유의 찰진 맛이 1도 없고 느려 터졌다. <strong>"아 씨발! 우리가 화면(머리)은 리액트로 짱 멋지게 알아서 짤 테니까, CMS 너는 제발 화면에 관여하지 마!! 그냥 기획자가 쓴 글 내용만 순수하게 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 텍스트로 넘겨줘!! 우리가 알아서 예쁘게 디자인해서 폰, 웹, 시계에 다 뿌릴게!!"</strong> 프론트엔드 개발자들의 거룩한 독립 선언이 헤드리스를 발명했다.
 
-- **💡 비유**: 일반 CMS(워드프레스)는 **'다이소의 조립식 완성 책장'**입니다. 색깔이나 모양([테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))이 정해져 있어서, 우리 집(앱) 인테리어에 안 맞아도 억지로 써야 합니다. 맘대로 페인트를 칠하다간 무너집니다. 헤드리스 CMS는 **'질 좋은 참나무 원목([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 딱 택배로 보내주는 목재소'**입니다. 나무를 받으면, 프론트엔드 개발자(목수)가 자기 집 인테리어(React, iOS)에 맞게 깎고 다듬어 식탁으로 쓰든 의자로 쓰든 완벽하게 100% 내 입맛대로 렌더링(디자인)할 수 있는 무한의 자유도입니다.
+- **💡 비유**: 일반 CMS(워드프레스)는 <strong>'다이소의 조립식 완성 책장'</strong>입니다. 색깔이나 모양([테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))이 정해져 있어서, 우리 집(앱) 인테리어에 안 맞아도 억지로 써야 합니다. 맘대로 페인트를 칠하다간 무너집니다. 헤드리스 CMS는 <strong>'질 좋은 참나무 원목(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)만 딱 택배로 보내주는 목재소'</strong>입니다. 나무를 받으면, 프론트엔드 개발자(목수)가 자기 집 인테리어(React, iOS)에 맞게 깎고 다듬어 식탁으로 쓰든 의자로 쓰든 완벽하게 100% 내 입맛대로 렌더링(디자인)할 수 있는 무한의 자유도입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Monolithic CMS (2000s)**: 워드프레스, 드루팔, 그누보드. PHP 엔진이 DB 읽어서 HTML [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)까지 1통으로 구워 뱉어내는 뚱땡이 깡통 시대.
   2. **Decoupled CMS (과도기)**: "야 프론트가 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 달래." 워드프레스가 급하게 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 플러그인을 달고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 뱉어주기 시작함. (근데 뱃속엔 여전히 무거운 HTML 렌더링 엔진이 썩어가고 있었음).
   3. **Headless CMS (현재)**: Contentful, Strapi, Sanity 등. 태생부터 화면 렌더링 엔진 자체가 존재하지 않음. 오직 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신과 초경량 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 반환만을 위해 최적화된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) First, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Only 1티어 플랫폼들의 춘추전국시대.
 
-- **📢 섹션 요약 비유**: 이 변화는 **'방송국 뉴스 앵커'**의 진화입니다. 옛날엔 앵커(CMS)가 직접 화장하고 옷(HTML)을 다 입고 TV에만 송출했습니다(1개 채널 강제). 헤드리스 앵커는 **'얼굴 없이 목소리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 녹음해서 스튜디오 밖으로 던지는 성우'**입니다. 방송국 놈들이 그 목소리를 가져다가 유튜브용 아바타 껍데기(웹)에 씌우든, 라디오(앱)로 내보내든, [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 3D 캐릭터(XR)에 입히든 전혀 상관하지 않습니다. 한 번의 녹음(원소스)으로 전 우주의 채널(멀티유즈)을 장악합니다.
+- **📢 섹션 요약 비유**: 이 변화는 <strong>'방송국 뉴스 앵커'</strong>의 진화입니다. 옛날엔 앵커(CMS)가 직접 화장하고 옷(HTML)을 다 입고 TV에만 송출했습니다(1개 채널 강제). 헤드리스 앵커는 <strong>'얼굴 없이 목소리(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)만 녹음해서 스튜디오 밖으로 던지는 성우'</strong>입니다. 방송국 놈들이 그 목소리를 가져다가 유튜브용 아바타 껍데기(웹)에 씌우든, 라디오(앱)로 내보내든, [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 3D 캐릭터(XR)에 입히든 전혀 상관하지 않습니다. 한 번의 녹음(원소스)으로 전 우주의 채널(멀티유즈)을 장악합니다.
 
 ---
 
 다음은 헤드리스 (Headless) CMS 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  헤드리스 (Headless) CMS                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드리스 (Headless) CMS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 헤드리스 (Headless) CMS 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-헤드리스 (Headless) CMS 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+헤드리스 (Headless) CMS 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 헤드리스 (Headless) CMS 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-헤드리스 (Headless) CMS 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헤드리스 (Headless) CMS 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

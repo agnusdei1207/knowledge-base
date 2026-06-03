@@ -31,11 +31,16 @@ tags = ["studynote-design-supervision"]
 
 감리에서 쓰는 증거는 한 가지가 아니다. 보통은 문서, 관찰, 면담, 테스트를 함께 본다.
 
-```text
-문서 검토 ── 관찰 ── 면담 ── 직접 테스트
-    │            │        │           │
-    └──────────── 신뢰도와 재현성 비교 ────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문서 검토 ── 관찰 ── 면담 ── 직접 테스트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">신뢰도와 재현성 비교</div>
+</div>
+</div>
+
+
 
 - **문서**: 정책서, 설계서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 승인 기록
 - **관찰**: 현장 화면, 절차 수행, 운영 모습
@@ -70,9 +75,9 @@ tags = ["studynote-design-supervision"]
 
 - **관련성**: 이번 지적과 직접 연결되는가
 - **충분성**: 한 장면이 아니라 판단에 충분한가
-- **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**: 같은 방법으로 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능한가
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>: 같은 방법으로 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능한가
 - **원본성**: 편집본이 아니라 원자료인가
-- **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: 수집 후 내용이 바뀌지 않았는가
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 수집 후 내용이 바뀌지 않았는가
 - **적시성**: 현재 상태를 반영하는가
 
 이 기준이 낮으면 감리인은 옳은 말을 해도 설득하지 못한다.
@@ -95,15 +100,21 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-```text
-감리 의견
-   ↓
-문서 / 관찰 / 면담 / 테스트
-   ↓
-원본성 / 무결성 / 재현성
-   ↓
-객관적 결론
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">감리 의견</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">문서 / 관찰 / 면담 / 테스트</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">원본성 / 무결성 / 재현성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">객관적 결론</div>
+</div>
+</div>
+
+
 
 ---
 

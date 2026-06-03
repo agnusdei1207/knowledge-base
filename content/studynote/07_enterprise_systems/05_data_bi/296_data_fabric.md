@@ -20,7 +20,7 @@ tags = ["studynote-enterprise"]
 
 현대 기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단일 시스템이 아닌 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 등 수많은 장소에 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화되어 존재한다. 이를 모두 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)로 옮기는([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) 작업은 시간과 비용이 너무 많이 들며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 순간 신선도(Freshness)가 떨어지는 문제가 발생한다.
 
-[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 대신 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에서 동작하는 지능적인 연결 계층"**을 구축하여, 사용자가 어디에 있든 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 즉시 접근할 수 있도록 돕는다.
+[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 대신 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위에서 동작하는 지능적인 연결 계층"</strong>을 구축하여, 사용자가 어디에 있든 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 즉시 접근할 수 있도록 돕는다.
 
 - **📢 섹션 요약 비유**: 전국에 흩어진 친구들을 한 집으로 모으는([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) 대신, 고속 인터넷망과 화상회의 시스템([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))으로 연결해 마치 한 방에 있는 것처럼 대화하는 것과 같다.
 
@@ -28,20 +28,21 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 **[액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))**다. 단순히 정보를 저장하는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 넘어, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 패턴을 학습하여 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맵핑하고 품질을 관리한다.
+[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>)</strong>다. 단순히 정보를 저장하는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 넘어, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 패턴을 학습하여 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맵핑하고 품질을 관리한다.
 
-```text
-[사용자/애플리케이션] (통합 인터페이스 접근)
-           │
-           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 패브릭 지능형 계층                    │
-│ [AI 기반 메타데이터 분석] [데이터 가상화] [자동 품질 관리]    │
-└──────────────────────────────────────────────────────────────┘
-           │                   │                    │
-           ▼                   ▼                    ▼
-   [AWS S3 저장소]     [온프레미스 Oracle]     [Salesforce SaaS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/애플리케이션</div><div class="kb-diagram-note">(통합 인터페이스 접근)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 패브릭 지능형 계층</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 메타데이터 분석</div><div class="kb-diagram-node">데이터 가상화</div><div class="kb-diagram-node">자동 품질 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AWS S3 저장소</div><div class="kb-diagram-node">온프레미스 Oracle</div><div class="kb-diagram-node">Salesforce SaaS</div></div>
+</div>
+</div>
+
+
 
 | 주요 기능 | 설명 | 기대효과 |
 |:---|:---|:---|
@@ -56,7 +57,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)와 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다는 점은 같지만, **접근 방식**이 상반된다.
+[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)와 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다는 점은 같지만, <strong>접근 방식</strong>이 상반된다.
 
 | 항목 | [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)) | [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)) |
 |:---|:---|:---|
@@ -73,7 +74,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)을 도입할 때는 **[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**과 **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준화**가 관건이다. 물리적 이동이 없으므로 복잡한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수행 시 원천 시스템에 부하를 줄 수 있으며, 각 시스템의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 형식이 다르면 지능형 맵핑이 작동하기 어렵다.
+실무에서 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)을 도입할 때는 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/">데이터 가상화</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 표준화</strong>가 관건이다. 물리적 이동이 없으므로 복잡한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수행 시 원천 시스템에 부하를 줄 수 있으며, 각 시스템의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 형식이 다르면 지능형 맵핑이 작동하기 어렵다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 여러 클라우드와 시스템에 산재해 있어 통합 관리가 불가능한가?
@@ -89,7 +90,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 복잡해진 현대 기업 인프라 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **유기적인 생태계**로 변모시킨다. AI가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 관리하므로 인간은 관리의 늪에서 벗어나 실제 분석과 비즈니스 가치 창출에만 집중할 수 있게 된다.
+[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 복잡해진 현대 기업 인프라 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>유기적인 생태계</strong>로 변모시킨다. AI가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 관리하므로 인간은 관리의 늪에서 벗어나 실제 분석과 비즈니스 가치 창출에만 집중할 수 있게 된다.
 
 결론적으로, [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 파편화된 정보를 연결해 '전사적 통찰력'을 제공하는 신경망이며, 하이브리드/[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 시대의 종착역과 같은 아키텍처다.
 
@@ -107,21 +108,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-사일로화된 이기종 데이터 소스 난립
-    │
-    ▼
-데이터 통합 미들웨어 (ETL 허브) 한계
-    │
-    ▼
-Active Metadata + AI 기반 데이터 패브릭 등장
-    │
-    ▼
-Knowledge Graph + 자동 발견·추천·거버넌스
-    │
-    ▼
-하이브리드/멀티클라우드 통합 지능형 데이터 계층
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사일로화된 이기종 데이터 소스 난립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 통합 미들웨어 (ETL 허브) 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Active Metadata + AI 기반 데이터 패브릭 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Knowledge Graph + 자동 발견·추천·거버넌스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드/멀티클라우드 통합 지능형 데이터 계층</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Integration, [Hybrid Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/), [Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/)
 

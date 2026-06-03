@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Subject (관찰 대상/주제/유튜버)**: 상태를 쥐고 있는 주인공 객체. "나 밥 먹었어 ㅋ 상태 변함!" 이벤트를 쏘는 놈.
-  - **[Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) (관찰자/구독자)**: 주인공을 쳐다보며(구독) 기다리는 놈. "어 쟤 밥 먹었네? 그럼 난 후식 준비해야지!" 하고 자기 할 일(행동)을 시작하는 놈.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">Observer</a> (관찰자/구독자)</strong>: 주인공을 쳐다보며(구독) 기다리는 놈. "어 쟤 밥 먹었네? 그럼 난 후식 준비해야지!" 하고 자기 할 일(행동)을 시작하는 놈.
 
-- **필요성 (무지성 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 무한 대기 렉의 파국)**: 쇼핑몰 결제를 짰다. `주문(Subject)` 클래스가 결제 완료되는 걸 `알림 톡 봇(Observer)`이 기다린다. 봇이 `while(true)` 무한 루프로 0.1초마다 "결제 끝났어?", "끝났어?" 1만 번 질문([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))을 던졌다! 톰캣(Tomcat) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀과 CPU가 1시간 만에 불타서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 즉사 엔딩을 맞았다. **"아 씨발! 왜 대답 안 하는 놈을 1만 번 쳐 찔러서 내 CPU를 태우냐고!! 걍 난 멍때리고 다른 일(비동기) 하고 있을 테니까, 너 결제 끝나면 나한테 다이렉트로 문자(Event) 한 통 쏴주는 우아한 1방 컷 알림 시스템 없어?!"** 이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 파탄과 낭비를 부수기 위한 처절한 갈망이 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴을 낳았다.
+- <strong>필요성 (무지성 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 무한 대기 렉의 파국)</strong>: 쇼핑몰 결제를 짰다. `주문(Subject)` 클래스가 결제 완료되는 걸 `알림 톡 봇(Observer)`이 기다린다. 봇이 `while(true)` 무한 루프로 0.1초마다 "결제 끝났어?", "끝났어?" 1만 번 질문([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))을 던졌다! 톰캣(Tomcat) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀과 CPU가 1시간 만에 불타서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 즉사 엔딩을 맞았다. **"아 씨발! 왜 대답 안 하는 놈을 1만 번 쳐 찔러서 내 CPU를 태우냐고!! 걍 난 멍때리고 다른 일(비동기) 하고 있을 테니까, 너 결제 끝나면 나한테 다이렉트로 문자(Event) 한 통 쏴주는 우아한 1방 컷 알림 시스템 없어?!"** 이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 파탄과 낭비를 부수기 위한 처절한 갈망이 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴을 낳았다.
 
-- **💡 비유**: 일반 통신([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))은 **'우체국 문 앞에서 내 택배(이벤트) 올 때까지 3일 내내 텐트 치고 문 두드리는 노가다'**입니다. 체력이 다 털리죠(서버 뻗음). [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 **'우체국(Subject) 명부에 내 전화번호([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 등록)만 적어두고 집에서 넷플릭스 보며 쿨하게 노는 짓(비동기 논블로킹)'**입니다. 택배가 도착하는 순간 찰나에! 우체국에서 내 폰으로 "택배 옴 ㅋ 찾아가셈(Notify)" 카톡 알람(Push) 1방 쏴줍니다. 나는 그제야 나가서 1분 만에 픽업(행동)해 오면 끝나는 압도적인 에너지 최적화 시스템입니다.
+- **💡 비유**: 일반 통신([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))은 <strong>'우체국 문 앞에서 내 택배(이벤트) 올 때까지 3일 내내 텐트 치고 문 두드리는 노가다'</strong>입니다. 체력이 다 털리죠(서버 뻗음). [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 <strong>'우체국(Subject) 명부에 내 전화번호(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">Observer</a> 등록)만 적어두고 집에서 넷플릭스 보며 쿨하게 노는 짓(비동기 논블로킹)'</strong>입니다. 택배가 도착하는 순간 찰나에! 우체국에서 내 폰으로 "택배 옴 ㅋ 찾아가셈(Notify)" 카톡 알람(Push) 1방 쏴줍니다. 나는 그제야 나가서 1분 만에 픽업(행동)해 오면 끝나는 압도적인 에너지 최적화 시스템입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Tight [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 쌩코딩 (구석기)**: 주문 클래스 뱃속에서 `new Alarm().send()` 쌩 하드코딩. 알림 봇 에러 나면 주문 결제까지 다 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 터져 도미노 죽음.
-  2. **GoF [Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) (1994)**: "야 둘이 결합 끊어! 주문 놈은 인터페이스 `notify()` 껍데기만 쳐! 그 뒤에 10명이 받든 100명이 묶여있든 신경 꺼!" 1:N 방송(Broadcast) 혁명 발발.
-  3. **Reactive (RxJava) & [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 클라우드 팽창 (현재)**: 객체 안의 `List` [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 쪼가리를 넘어섰다. 538장 **[이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)([Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))**, K8s 허공의 **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(Pub/Sub 댐)**로 진화해 수백 대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들이 10만 TPS의 쪽지를 핑퐁 치며 우주 멸망급 트래픽을 처리하는 차세대 아키텍처의 척추로 승천함.
+  1. <strong>Tight <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a> 쌩코딩 (구석기)</strong>: 주문 클래스 뱃속에서 `new Alarm().send()` 쌩 하드코딩. 알림 봇 에러 나면 주문 결제까지 다 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 터져 도미노 죽음.
+  2. <strong>GoF <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">Observer Pattern</a> (1994)</strong>: "야 둘이 결합 끊어! 주문 놈은 인터페이스 `notify()` 껍데기만 쳐! 그 뒤에 10명이 받든 100명이 묶여있든 신경 꺼!" 1:N 방송(Broadcast) 혁명 발발.
+  3. <strong>Reactive (RxJava) &amp; <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a> 클라우드 팽창 (현재)</strong>: 객체 안의 `List` [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 쪼가리를 넘어섰다. 538장 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">이벤트 버스</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">Event Bus</a>)</strong>, K8s 허공의 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>(Pub/Sub 댐)</strong>로 진화해 수백 대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들이 10만 TPS의 쪽지를 핑퐁 치며 우주 멸망급 트래픽을 처리하는 차세대 아키텍처의 척추로 승천함.
 
-- **📢 섹션 요약 비유**: 이 찢어발기기(Decoupling) 마술은 **'방송국 9시 뉴스 앵커(Subject)'**와 똑같습니다. 앵커는 자기를 쳐다보는 국민 5,000만 명([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))의 이름과 직업을 일일이 다 외우지(하드코딩) 않습니다. 그저 허공(전파/Event)에 대고 "비가 옵니다!" 딱 1번 소리치면 끝입니다. 그걸 들은 우산 장수는 우산을 꺼내 팔고, 소풍 가려던 애는 집에서 웁니다. 각자 알아서 찰떡같이 자기가 할 일(비즈니스 로직)만 0.1초 컷으로 해치우는 완벽한 1대 다수 융합 통제술입니다.
+- **📢 섹션 요약 비유**: 이 찢어발기기(Decoupling) 마술은 <strong>'방송국 9시 뉴스 앵커(Subject)'</strong>와 똑같습니다. 앵커는 자기를 쳐다보는 국민 5,000만 명([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))의 이름과 직업을 일일이 다 외우지(하드코딩) 않습니다. 그저 허공(전파/Event)에 대고 "비가 옵니다!" 딱 1번 소리치면 끝입니다. 그걸 들은 우산 장수는 우산을 꺼내 팔고, 소풍 가려던 애는 집에서 웁니다. 각자 알아서 찰떡같이 자기가 할 일(비즈니스 로직)만 0.1초 컷으로 해치우는 완벽한 1대 다수 융합 통제술입니다.
 
 ---
 
 다음은 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴 (Pub/Sub 연계)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  옵저버 패턴 (Pub/Sub 연계)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵저버 패턴 (Pub/Sub 연계)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴 (Pub/Sub 연계)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴 (Pub/Sub 연계)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴 (Pub/Sub 연계)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴 (Pub/Sub 연계)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-옵저버 패턴 (Pub/Sub 연계) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">옵저버 패턴 (Pub/Sub 연계) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

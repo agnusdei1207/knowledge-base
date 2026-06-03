@@ -25,23 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 기존 SSD와 오픈 채널 SSD의 책임 분리를 비교한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 기존 SSD와 오픈 채널 SSD의 책임 분리 차이                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 기존 SSD                                                                  │
-│ Host -> Logical Block -> Device FTL -> Flash Geometry                     │
-│                ▲                                                          │
-│                └─ 호스트는 내부 배치와 정리 시점을 잘 모른다               │
-│                                                                            │
-│ Open-Channel SSD                                                          │
-│ Host Application / File System -> Host FTL -> Physical Placement -> Flash │
-│                           ▲                                                │
-│                           └─ 배치, 정리, 마모 분산을 호스트가 결정          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조가 필요한 이유는 단순한 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상보다 **예측 가능성 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)**에 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조 저장소, 대규모 분석 플랫폼처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 분명한 환경에서는, 장치가 임의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재배치하는 것보다 호스트가 직접 물리 배치를 통제하는 편이 더 안정적일 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 SSD와 오픈 채널 SSD의 책임 분리 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 SSD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host -&gt; Logical Block -&gt; Device FTL -&gt; Flash Geometry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 호스트는 내부 배치와 정리 시점을 잘 모른다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open-Channel SSD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Application / File System -&gt; Host FTL -&gt; Physical Placement -&gt; Flash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 배치, 정리, 마모 분산을 호스트가 결정</div></div>
+</div>
+</div>
+
+
+
+이 구조가 필요한 이유는 단순한 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상보다 <strong>예측 가능성 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a></strong>에 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조 저장소, 대규모 분석 플랫폼처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 분명한 환경에서는, 장치가 임의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재배치하는 것보다 호스트가 직접 물리 배치를 통제하는 편이 더 안정적일 수 있다.
 
 - **📢 섹션 요약 비유**: 냉장고 정리를 냉장고가 몰래 알아서 하는 대신, 주방장이 직접 어떤 칸에 어떤 재료를 둘지 정하는 것과 같다. 편리함은 줄지만, 바쁜 시간에 갑자기 냉장고가 혼자 정리하느라 문이 안 열리는 일은 줄어든다.
 
@@ -61,24 +61,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 호스트가 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 직접 다루는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 Host FTL이 플래시 병렬성과 정리 시점을 직접 제어한다             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host File System / Database                                                │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Host FTL -> PPA Allocation -> Channel 0 / Channel 1 / Channel 2 / ...     │
-│      │                                                                     │
-│      ├─ Hot data placement                                                 │
-│      ├─ GC scheduling                                                      │
-│      └─ Wear leveling                                                      │
-│                                                                            │
-│ Device는 최소한의 read/program/erase와 ECC를 수행한다.                    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 포인트는 open-channel이 "장치 기능이 적어서 단순하다"는 뜻이 아니라, **복잡성이 장치에서 호스트로 이동했다**는 뜻이라는 점이다. 하드웨어가 똑똑하지 않아진 만큼 소프트웨어가 훨씬 더 많은 책임을 져야 하며, 그 책임을 감당할 수 있을 때만 이 구조가 이점을 만든다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host FTL이 플래시 병렬성과 정리 시점을 직접 제어한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host File System / Database</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host FTL -&gt; PPA Allocation -&gt; Channel 0 / Channel 1 / Channel 2 / ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hot data placement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GC scheduling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Wear leveling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device는 최소한의 read/program/erase와 ECC를 수행한다.</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 포인트는 open-channel이 "장치 기능이 적어서 단순하다"는 뜻이 아니라, <strong>복잡성이 장치에서 호스트로 이동했다</strong>는 뜻이라는 점이다. 하드웨어가 똑똑하지 않아진 만큼 소프트웨어가 훨씬 더 많은 책임을 져야 하며, 그 책임을 감당할 수 있을 때만 이 구조가 이점을 만든다.
 
 - **📢 섹션 요약 비유**: 주방 조수가 재료를 임의로 꺼내 정리하던 방식을 멈추고, 주방장이 냉장고 선반별 재고를 직접 관리하는 것과 같다. 마음대로 배치할 수 있어 효율은 좋아지지만, 주방장이 한눈팔면 주방 전체가 바로 꼬인다.
 
@@ -131,11 +130,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-오픈 채널 SSD를 잘 활용하면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 예측 가능성이 크게 좋아지고, 배경 정리 시점을 호스트가 통제할 수 있어 tail latency가 안정된다. 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞춘 배치와 정리를 통해 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 계수 ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) Factor, [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))를 낮추고, 플래시 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 더 직접 활용할 여지도 생긴다. 즉 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 **제어권 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)**이 더 큰 가치다.
+오픈 채널 SSD를 잘 활용하면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 예측 가능성이 크게 좋아지고, 배경 정리 시점을 호스트가 통제할 수 있어 tail latency가 안정된다. 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞춘 배치와 정리를 통해 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 계수 ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) Factor, [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))를 낮추고, 플래시 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 더 직접 활용할 여지도 생긴다. 즉 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 <strong>제어권 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a></strong>이 더 큰 가치다.
 
 그러나 이 구조는 범용성을 희생해 얻는 이점이다. 구현 복잡도가 매우 높고, 벤더 종속성이 크며, 애플리케이션과 저장장치 소프트웨어를 함께 설계할 역량이 필요하다. 그래서 산업 전반은 완전한 open-channel보다 [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) 쪽으로 옮겨 갔지만, host-managed flash라는 아이디어 자체는 여전히 살아 있다.
 
-결론적으로 오픈 채널 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구조는 **블랙박스 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부 정책을 호스트 바깥으로 끌어내 제어권을 되찾으려는 아키텍처적 실험**으로 기억하는 것이 맞다. 이 기술의 본질은 더 똑똑한 SSD가 아니라, 어떤 workload에서는 호스트가 SSD보다 더 똑똑하게 배치와 정리를 할 수 있다는 가정에 있다.
+결론적으로 오픈 채널 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구조는 <strong>블랙박스 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 내부 정책을 호스트 바깥으로 끌어내 제어권을 되찾으려는 아키텍처적 실험</strong>으로 기억하는 것이 맞다. 이 기술의 본질은 더 똑똑한 SSD가 아니라, 어떤 workload에서는 호스트가 SSD보다 더 똑똑하게 배치와 정리를 할 수 있다는 가정에 있다.
 
 - **📢 섹션 요약 비유**: 집안 정리를 모두 자동 로봇에게 맡기면 편하긴 하지만, 내가 어디에 무엇을 자주 쓰는지까지는 로봇이 항상 잘 알지 못한다. 오픈 채널 SSD는 정리의 귀찮음을 감수하고서라도 집 구조를 내가 더 잘 안다고 믿는 선택이다.
 
@@ -154,21 +153,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-블랙박스 SSD + Device FTL
-            │
-            ▼
-host-managed flash 연구
-            │
-            ▼
-Open-Channel SSD
-            │
-            ▼
-애플리케이션 인지 배치 · Host FTL 최적화
-            │
-            ▼
-NVMe ZNS 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블랙박스 SSD + Device FTL</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">host-managed flash 연구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Open-Channel SSD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애플리케이션 인지 배치 · Host FTL 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe ZNS 표준화</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치 설계가 "장치가 전부 숨기는 구조"에서 출발해, 이제는 호스트와 장치가 책임을 더 의식적으로 나누는 방향으로 발전했음을 보여 준다.
 

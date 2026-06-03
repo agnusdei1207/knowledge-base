@@ -32,28 +32,29 @@ tags = ["studynote-design-supervision"]
 
 | 실천 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 상세 내용 및 기준 | [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (경계 대상) |
 | :--- | :--- | :--- |
-| **[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 우선 ([Readability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/))** | 짧고 축약된 코드(Smart [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))보다, 길더라도 영어 문장처럼 술술 읽히고 의도가 드러나는 코드 작성 | 한 줄로 억지로 줄인 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/정규식 남용 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a> 우선 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">Readability</a>)</strong> | 짧고 축약된 코드(Smart [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))보다, 길더라도 영어 문장처럼 술술 읽히고 의도가 드러나는 코드 작성 | 한 줄로 억지로 줄인 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/정규식 남용 |
 | **작은 단위 분해 (Decomposition)** | 큰 문제를 작은 함수/클래스로 쪼개어, 각 조각이 단 하나의 단순한 일([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))만 하도록 격리 | 2천 줄짜리 God Class 방치 |
 | **표준 기술 준수 (Standard)** | 독창적인 자체 프레임워크나 묘수(Trick)보다, 이미 널리 검증된 표준 라이브러리와 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 사용 | "내가 직접 만든" ORM 프레임워크 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           단순함(KISS)과 과잉 설계(Over-engineering)의 비교          │
-├──────────────────────────────────────────────────────────────┤
-│ [ 요구사항: 입력받은 a와 b가 같은지 비교하라 ]                     │
-│                                                              │
-│ [ ❌ 과잉 설계 (Over-Engineering) ] - 똑똑해 보이려는 병            │
-│  Interface EqualityComparer { bool compare(T a, T b); }      │
-│  Class StringComparer implements EqualityComparer { ... }    │
-│  Class ComparerFactory { getComparer() ... }                 │
-│  result = ComparerFactory.get(a.type).compare(a, b);         │
-│  // -> "추적하다가 개발자 퇴사함"                                  │
-│                                                              │
-│ [ 🟢 KISS 원칙 적용 ] - 단순하고 직관적인 해답                     │
-│  result = (a == b);                                          │
-│  // -> "유치원생도 이해함, 버그 발생 확률 0%"                        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순함(KISS)과 과잉 설계(Over-engineering)의 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 입력받은 a와 b가 같은지 비교하라</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 과잉 설계 (Over-Engineering)</div><div class="kb-diagram-note">- 똑똑해 보이려는 병</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interface EqualityComparer { bool compare(T a, T b); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class StringComparer implements EqualityComparer { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class ComparerFactory { getComparer() ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = ComparerFactory.get(a.type).compare(a, b);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// -&gt; "추적하다가 개발자 퇴사함"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 KISS 원칙 적용</div><div class="kb-diagram-note">- 단순하고 직관적인 해답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = (a == b);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// -&gt; "유치원생도 이해함, 버그 발생 확률 0%"</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 확장을 핑계로 불필요한 계층(Layer)을 만들었을 때, 로직을 추적하는 데 들어가는 인지적 부하([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 얼마나 커지는지 극명하게 보여준다. 단순한 로직은 숨겨진 부작용(Side Effect)이 끼어들 틈이 없다.
 
@@ -67,8 +68,8 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 
 | 원칙 명칭 | 핵심 질문 | KISS와의 연결 (시너지) |
 | :--- | :--- | :--- |
-| **[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/)** (Keep It Simple) | "이 코드를 더 쉽게 짤 수 없는가?" | 코드를 직관적으로 유지하여 인지적 부하를 최소화함 |
-| **[YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/)** (You Aren't Gonna Need It) | "이 기능이 '지금 당장' 필요한가?" | "나중에 필요할 거야"라는 착각을 버리고 기능을 깎아내어, 시스템을 강제로 단순하게 만듦 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/">KISS</a></strong> (Keep It Simple) | "이 코드를 더 쉽게 짤 수 없는가?" | 코드를 직관적으로 유지하여 인지적 부하를 최소화함 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a></strong> (You Aren't Gonna Need It) | "이 기능이 '지금 당장' 필요한가?" | "나중에 필요할 거야"라는 착각을 버리고 기능을 깎아내어, 시스템을 강제로 단순하게 만듦 |
 | **DRY** (Don't Repeat Yourself) | "동일한 지식이 중복되고 있는가?" | 흩어진 코드를 한 곳으로 뭉쳐 구조적 단순함을 제공 |
 
 이 세 가지는 본질적으로 '버리기'의 미학이다. YAGNI가 "아직 오지 않은 미래의 요구사항을 버림"으로써 아키텍처의 비만을 막는다면, KISS는 "불필요하게 꼬여있는 현재의 논리적 겉멋을 버림"으로써 혈관을 청소하는 역할을 한다.
@@ -83,7 +84,7 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **지식의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 방지**: 특정 모듈의 로직이 너무 복잡([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))하여, 팀 내에서 오직 그것을 만든 A 개발자 1명만 수정할 수 있는가? A 개발자 퇴사 시 해당 모듈을 새로 짜야 하는가? ([KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 위반의 전형적 징후)
+1. <strong>지식의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>) 방지</strong>: 특정 모듈의 로직이 너무 복잡([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))하여, 팀 내에서 오직 그것을 만든 A 개발자 1명만 수정할 수 있는가? A 개발자 퇴사 시 해당 모듈을 새로 짜야 하는가? ([KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 위반의 전형적 징후)
 2. **제어 흐름의 평탄화**: 중첩된 `if-else`문(Nested If)이 3단계 깊이 이상 파고드는가? 가드 클로즈(Guard Clause)를 사용하여 예외를 맨 위에서 쳐내고 메인 로직을 왼쪽으로 바짝 붙여 선형적으로 읽히게 만들었는가?
 3. **명시적 네이밍**: 변수나 함수명이 `doProcessing()`, `Manager`처럼 뭉툭하고 애매하여 안을 들여다봐야만 알 수 있는가? 코드가 길어지더라도 `calculateMonthlyTax()`처럼 의도를 노골적으로 드러내는가?
 
@@ -99,7 +100,7 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 
 [KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙이 뼛속까지 스며든 시스템은 높은 예측 가능성(Predictability)을 가진다. 코드가 직선적이고 부작용이 없으므로 새로운 기능을 추가하거나 버그를 찾을 때 시스템이 뱉어낼 영향을 쉽게 통제할 수 있다. 이는 곧 비즈니스의 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))로 직결된다.
 
-소프트웨어 공학에서 가장 훌륭한 설계자는 어려운 문제를 복잡하고 화려한 수학 공식으로 푸는 사람이 아니다. **누가 봐도 가장 뻔하고 재미없는 초등학생의 산수처럼 보이도록, 어려운 문제를 가장 쉽고 직관적으로 쪼개서 풀어내는 사람**이다. "단순함은 궁극의 정교함이다([Simplicity](/knowledge-base/studynote/09_security/01_intro_principles/014_simplicity/) is the ultimate sophistication)"라는 레오나르도 다빈치의 말은 현대 IT 아키텍처에서 타협할 수 없는 진리다.
+소프트웨어 공학에서 가장 훌륭한 설계자는 어려운 문제를 복잡하고 화려한 수학 공식으로 푸는 사람이 아니다. <strong>누가 봐도 가장 뻔하고 재미없는 초등학생의 산수처럼 보이도록, 어려운 문제를 가장 쉽고 직관적으로 쪼개서 풀어내는 사람</strong>이다. "단순함은 궁극의 정교함이다([Simplicity](/knowledge-base/studynote/09_security/01_intro_principles/014_simplicity/) is the ultimate sophistication)"라는 레오나르도 다빈치의 말은 현대 IT 아키텍처에서 타협할 수 없는 진리다.
 
 - **📢 섹션 요약 비유**: 최고의 요리사는 수십 가지 화려한 소스와 향신료로 재료의 맛을 가리는(복잡하게 만드는) 사람이 아닙니다. 소금 딱 한 줌([KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/))만 뿌려서 재료 본연의 맛을 폭발시키는 사람이 진정한 마스터입니다.
 
@@ -109,28 +110,30 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[클린 코드](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/) ([Clean Code](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/))** | [KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙을 소스 코드 라인 레벨로 끌어내려, "읽기 좋은 코드가 수정하기도 좋다"를 실천하는 방법론. |
-| **[YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/)** | "나중에 필요할지도 모른다"는 추측성 설계를 금지하여, 아키텍처가 뚱뚱해지는 것을 막고 단순함을 강제하는 원칙. |
-| **[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))** | 거대한 클래스를 하나의 책임만 갖는 작은 클래스로 쪼개어, 각 조각의 로직을 직관적이고 단순하게 만드는 객체지향 원칙. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/">클린 코드</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/">Clean Code</a>)</strong> | [KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙을 소스 코드 라인 레벨로 끌어내려, "읽기 좋은 코드가 수정하기도 좋다"를 실천하는 방법론. |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a></strong> | "나중에 필요할지도 모른다"는 추측성 설계를 금지하여, 아키텍처가 뚱뚱해지는 것을 막고 단순함을 강제하는 원칙. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>)</strong> | 거대한 클래스를 하나의 책임만 갖는 작은 클래스로 쪼개어, 각 조각의 로직을 직관적이고 단순하게 만드는 객체지향 원칙. |
 | **Over-Engineering** | KISS의 안티테제로, 당장 필요 없는 미래 확장성이나 기술적 허영심 때문에 시스템에 인위적 복잡성을 주입하는 행위. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (코드 덩치가 커지면서 스파게티 코드 양산 및 유지보수 불능)
-    │
-    ▼
-구조적 프로그래밍 및 객체지향 철학의 등장 (복잡성을 관리하기 위한 추상화 도입)
-    │
-    ▼
-추상화의 남용과 과잉 설계(Over-Engineering)의 역효과 발생 (코드 해독 불가)
-    │
-    ▼
-KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소한의 명확한 코드가 최고다)
-    │
-    ▼
-클린 코드(Clean Code), 리팩토링(Refactoring), 애자일(Agile) 문화로 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (코드 덩치가 커지면서 스파게티 코드 양산 및 유지보수 불능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 프로그래밍 및 객체지향 철학의 등장 (복잡성을 관리하기 위한 추상화 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상화의 남용과 과잉 설계(Over-Engineering)의 역효과 발생 (코드 해독 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소한의 명확한 코드가 최고다)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클린 코드(Clean Code), 리팩토링(Refactoring), 애자일(Agile) 문화로 정착</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

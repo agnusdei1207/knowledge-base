@@ -111,21 +111,23 @@ Tx → Signature → Block → Hash Chain → Consensus → Ledger
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-트랜잭션
-    │
-    ▼
-해시 / 서명
-    │
-    ▼
-블록 / 합의
-    │
-    ▼
-분산 원장
-    │
-    ▼
-감사 추적 / 통제 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">트랜잭션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시 / 서명</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록 / 합의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 원장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">감사 추적 / 통제 검증</div>
+</div>
+</div>
+
+
 
 이 흐름은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 기록으로 남는지를 보여준다.
 

@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CWPP (Cloud Workload [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Platform, [클라우드 워크로드 보호 플랫폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/255_cwpp_cloud_workload_protection_platform/))은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수 등 런타임 워크로드에서 이상 행동을 실시간 탐지하고 차단하는 보안 솔루션이다. 이미지 취약점은 CWPP 이전에 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)/SAST로 처리하고, 런타임에서 발생하는 예상치 못한 행동은 CWPP가 담당한다.
-> 2. **Falco와 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)**: Falco는 리눅스 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링해 이상 행동(비정상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근, 네트워크 연결, [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 탐지한다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([Extended Berkeley Packet Filter](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/))를 사용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 가시성을 확보하고, seccomp으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 허용된 시스템 콜만 사용하도록 제한한다.
+> 2. <strong>Falco와 <a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong>: Falco는 리눅스 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링해 이상 행동(비정상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근, 네트워크 연결, [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 탐지한다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([Extended Berkeley Packet Filter](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/))를 사용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 가시성을 확보하고, seccomp으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 허용된 시스템 콜만 사용하도록 제한한다.
 > 3. **판단 포인트**: [Container Escape](/knowledge-base/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 탈출)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 호스트 OS로 접근하는 심각한 보안 사고다. CWPP는 이런 탈출 시도를 시스템 콜 패턴으로 탐지한다. 2018년 Tesla [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경의 크립토마이닝 사례가 CWPP 필요성을 보여준다.
 
 ---
@@ -29,29 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+--------------------------------------------------------------+
-|                    CWPP 탐지 구조 (Falco)                     |
-+--------------------------------------------------------------+
-|                                                              |
-|  +----------------------------------------------------------+ |
-|  |  컨테이너 내 프로세스                                    | |
-|  |  (App, Shell, Network 등)                               | |
-|  +---------------------------+------------------------------+ |
-|                               | 시스템 콜 (syscall)           |
-|                               v                              |
-|  +----------------------------------------------------------+ |
-|  |  eBPF / Kernel Module 훅                                 | |
-|  |  - execve, open, connect, ptrace 등 감시                 | |
-|  +---------------------------+------------------------------+ |
-|                               |                              |
-|                               v                              |
-|  +----------------------------------------------------------+ |
-|  |  Falco 룰 엔진                                           | |
-|  |  - 규칙 매칭 -> 경보/차단/대응                           | |
-|  +----------------------------------------------------------+ |
-+--------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWPP 탐지 구조 (Falco)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨테이너 내 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(App, Shell, Network 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 (syscall)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF / Kernel Module 훅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- execve, open, connect, ptrace 등 감시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Falco 룰 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 규칙 매칭 -&gt; 경보/차단/대응</div></div>
+</div>
+</div>
+
+
 
 Falco 룰 예시 (YAML):
 ```yaml
@@ -96,8 +91,8 @@ Falco 룰 예시 (YAML):
 
 - **크립토마이닝**: 비정상적 외부 IP 연결, CPU 과부하
 - **역방향 쉘**: 비정상적 네트워크 바인딩, 쉘 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)
-- **[권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)**: [setuid](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 실행, ptrace 호출
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출**: 비정상적 대용량 외부 전송
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a></strong>: [setuid](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 실행, ptrace 호출
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출</strong>: 비정상적 대용량 외부 전송
 
 > 📢 **섹션 요약 비유**: CWPP는 은행 내부의 이상 행동 탐지 시스템이다. 직원이 갑자기 금고에 접근하거나 대량의 현금을 이동시키면 즉시 보안팀에 알린다.
 
@@ -107,7 +102,7 @@ Falco 룰 예시 (YAML):
 
 CWPP 도입으로 런타임 공격을 수분~수초 내에 탐지하고 대응할 수 있다. Tesla 사례처럼 발견이 늦어져 수만 달러 피해를 입는 상황을 방지한다.
 
-CWPP의 핵심은 **"알려지지 않은 위협(Unknown Threat)도 시스템 콜 패턴으로 탐지한다"**는 것이다. 새로운 취약점이나 공격 기법이 나와도, 이상한 시스템 콜은 항상 발생하기 때문에 탐지된다.
+CWPP의 핵심은 <strong>"알려지지 않은 위협(Unknown Threat)도 시스템 콜 패턴으로 탐지한다"</strong>는 것이다. 새로운 취약점이나 공격 기법이 나와도, 이상한 시스템 콜은 항상 발생하기 때문에 탐지된다.
 
 > 📢 **섹션 요약 비유**: CWPP는 지문 인식이 아니라 걸음걸이로 신원을 파악하는 시스템이다. 공격자가 신분증을 위조해도(코드 우회), 비정상적인 행동 패턴(시스템 콜)으로 탐지된다.
 
@@ -125,14 +120,19 @@ CWPP의 핵심은 **"알려지지 않은 위협(Unknown Threat)도 시스템 콜
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-VM 기반 보안              컨테이너 보안 등장              eBPF 기반 현대 CWPP
-------------------   --------------------------   ------------------------
-호스트 기반 IDS     ->  Docker/K8s 런타임 위협     ->  eBPF 커널 레벨 탐지
-AV/에이전트 중심        Falco 오픈소스 등장             Cilium + Falco 통합
-정적 시그니처         seccomp/AppArmor 강화            CNAPP으로 통합
-                         Tesla 크립토마이닝 사례          AI 기반 이상 탐지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VM 기반 보안 컨테이너 보안 등장 eBPF 기반 현대 CWPP</div>
+<div class="kb-diagram-note">호스트 기반 IDS -&gt; Docker/K8s 런타임 위협 -&gt; eBPF 커널 레벨 탐지</div>
+<div class="kb-diagram-note">AV/에이전트 중심 Falco 오픈소스 등장 Cilium + Falco 통합</div>
+<div class="kb-diagram-note">정적 시그니처 seccomp/AppArmor 강화 CNAPP으로 통합</div>
+<div class="kb-diagram-note">Tesla 크립토마이닝 사례 AI 기반 이상 탐지</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

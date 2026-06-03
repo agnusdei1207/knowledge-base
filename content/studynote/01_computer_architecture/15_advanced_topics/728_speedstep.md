@@ -31,28 +31,26 @@ SpeedStep은 이런 낭비를 줄이기 위해 등장한 Intel의 전력 관리 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SpeedStep의 핵심은 "클럭만 깎는 것"이 아니라 **검증된 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)-주파수 쌍을 선택하는 것**이다. 부하가 커지면 더 높은 주파수를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 함께 올리고, 부하가 작아지면 주파수를 내린 뒤 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 낮춘다. 이 원리가 바로 later generation의 P-State 제어와 연결된다.
+SpeedStep의 핵심은 "클럭만 깎는 것"이 아니라 <strong>검증된 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>-주파수 쌍을 선택하는 것</strong>이다. 부하가 커지면 더 높은 주파수를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 함께 올리고, 부하가 작아지면 주파수를 내린 뒤 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)도 함께 낮춘다. 이 원리가 바로 later generation의 P-State 제어와 연결된다.
 
 아래 그림은 SpeedStep/EIST 계열의 제어 경로를 단순화한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 SpeedStep / EIST operating loop                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Workload + power policy                                             │
-│        │                                                            │
-│        ▼                                                            │
-│ Select P-state target                                               │
-│        │                                                            │
-│        ▼                                                            │
-│ Voltage ID change <-> PLL / multiplier change                       │
-│        │                                                            │
-│        ├── low load  -> lower V / f                                 │
-│        └── high load -> higher V / f                                │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-전환 순서도 중요하다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올릴 때는 보통 **[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 먼저 올리고 주파수를 올려야** 타이밍 위반이 없고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내릴 때는 **주파수를 먼저 낮추고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추는** 편이 안전하다. 따라서 SpeedStep은 단순한 스위치가 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레귤레이터, PLL (Phase-Locked Loop), 배수 제어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 결합된 제어 루프다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SpeedStep / EIST operating loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload + power policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Select P-state target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Voltage ID change &lt;-&gt; PLL / multiplier change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── low load -&gt; lower V / f</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── high load -&gt; higher V / f</div></div>
+</div>
+</div>
+
+
+
+전환 순서도 중요하다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올릴 때는 보통 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 먼저 올리고 주파수를 올려야</strong> 타이밍 위반이 없고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내릴 때는 <strong>주파수를 먼저 낮추고 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 낮추는</strong> 편이 안전하다. 따라서 SpeedStep은 단순한 스위치가 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레귤레이터, PLL (Phase-Locked Loop), 배수 제어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 결합된 제어 루프다.
 
 세대별 특징을 정리하면 다음과 같다.
 
@@ -79,7 +77,7 @@ SpeedStep을 정확히 이해하려면 비슷해 보이는 다른 [성능](/know
 | T-State / [Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 강제 감속 | 과열, 전력 한계 위반 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 안전 우선 |
 | Speed Shift / HWP | 반응 속도 향상 | 더 빠른 P-State 결정 | 짧은 burst workload | 하드웨어가 더 직접적으로 결정 |
 
-이 표에서 핵심은 SpeedStep이 **평상시 효율 최적화**라는 점이다. Turbo Boost는 남는 전력과 열 예산을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 더 쓰는 공격적 기법이고, T-State는 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 비상 브레이크다. 따라서 셋은 상호 배타적 기술이 아니라, 서로 다른 목적을 가진 계층형 제어라고 보는 편이 맞다.
+이 표에서 핵심은 SpeedStep이 <strong>평상시 효율 최적화</strong>라는 점이다. Turbo Boost는 남는 전력과 열 예산을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 더 쓰는 공격적 기법이고, T-State는 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위한 비상 브레이크다. 따라서 셋은 상호 배타적 기술이 아니라, 서로 다른 목적을 가진 계층형 제어라고 보는 편이 맞다.
 
 또한 SpeedStep은 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) P-State 모델과도 긴밀히 연결된다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 "지금 이 정도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이면 충분하다"는 목표를 주고, 하드웨어는 그에 맞는 검증된 operating point로 이동한다. 이후 Speed Shift/HWP는 이 판단 주기를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)보다 훨씬 더 짧은 수준으로 끌어올렸다. 즉 SpeedStep은 P-State 개념의 역사적 실체이자, 현대 하드웨어 P-State의 조상이다.
 
@@ -91,13 +89,13 @@ SpeedStep을 정확히 이해하려면 비슷해 보이는 다른 [성능](/know
 
 실무에서 SpeedStep 계열 기술은 대부분 켜 두는 편이 맞다. 노트북은 물론이고 사무용 데스크톱도 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 시간 비중이 높기 때문에, 저부하 구간에서 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 주파수를 내려 주는 것만으로도 팬 소음과 평균 전력 소모가 눈에 띄게 줄어든다. 특히 배터리 구동 환경에서는 사실상 필수에 가깝다.
 
-다만 예외도 있다. 초저지연 금융 시스템, 특정 실시간 제어, 재현성이 중요한 벤치마크처럼 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차와 주파수 변화 자체가 부담**인 환경에서는 고정 고성능 정책을 선호할 수 있다. 이 경우에도 단순 비활성화보다, 열 여유와 전력 비용, 냉각 능력을 함께 보고 결정해야 한다.
+다만 예외도 있다. 초저지연 금융 시스템, 특정 실시간 제어, 재현성이 중요한 벤치마크처럼 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 편차와 주파수 변화 자체가 부담</strong>인 환경에서는 고정 고성능 정책을 선호할 수 있다. 이 경우에도 단순 비활성화보다, 열 여유와 전력 비용, 냉각 능력을 함께 보고 결정해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **사용 패턴이 burst형인가, 지속 고부하형인가?** burst가 많을수록 자동 주파수 조절 이익이 크다.
 2. **배터리·소음이 중요한가?** 그렇다면 SpeedStep/EIST 유지가 거의 항상 유리하다.
-3. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차 허용 범위가 좁은가?** 그렇다면 governor 또는 최소 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 정책을 재검토할 필요가 있다.
+3. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 편차 허용 범위가 좁은가?</strong> 그렇다면 governor 또는 최소 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 정책을 재검토할 필요가 있다.
 4. **현대 플랫폼인가?** 최신 세대는 Speed Shift/HWP가 반응성을 크게 개선하므로 과거보다 단점이 적다.
 5. **문제의 원인이 진짜 주파수 조절인가?** 발열, 전원부, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 제한을 주파수 scaling 문제로 오진하면 대응이 빗나간다.
 
@@ -107,7 +105,7 @@ SpeedStep을 정확히 이해하려면 비슷해 보이는 다른 [성능](/know
 - 배터리 장비에서 SpeedStep을 꺼 놓고 fan noise와 drain을 감수하는 운영
 - Turbo Boost와 SpeedStep을 같은 개념으로 설명하는 답안
 
-기술사 답안에서는 "클럭을 낮춘다" 수준에서 끝내지 말고, **[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)까지 연동되는 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) P-State와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), Turbo/Throttle과의 경계**를 함께 적어야 한다. 그래야 SpeedStep을 역사 용어가 아니라 현대 전력 관리 체계의 출발점으로 설명할 수 있다.
+기술사 답안에서는 "클럭을 낮춘다" 수준에서 끝내지 말고, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>까지 연동되는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/">DVFS</a>, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/">ACPI</a> P-State와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>, Turbo/Throttle과의 경계</strong>를 함께 적어야 한다. 그래야 SpeedStep을 역사 용어가 아니라 현대 전력 관리 체계의 출발점으로 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: SpeedStep 설정은 건물 냉난방을 자동 모드로 둘지, 하루 종일 최강 풍량으로 고정할지 정하는 선택과 같다. 특별한 이유가 없다면 자동 조절이 더 조용하고 경제적이다.
 
@@ -119,7 +117,7 @@ SpeedStep이 남긴 가장 큰 효과는 컴퓨터가 처음으로 "일하지 �
 
 한계도 있다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) SpeedStep은 단계가 거칠고 반응이 느렸으며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 주도 전환은 짧은 burst workload를 놓치기 쉬웠다. 그래서 현대 CPU는 더 세밀한 telemetry와 하드웨어 자율성을 활용해 SpeedStep의 철학을 더 빠르게 구현한다.
 
-정리하면 SpeedStep은 단순한 옛날 절전 옵션이 아니라, **고정 속도 컴퓨팅에서 적응형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)-전력 제어로 넘어가게 만든 전환점**이다. 따라서 기억할 때도 "클럭을 내리는 기술"이 아니라, "부하에 맞춰 검증된 operating point를 고르는 P-State 기반 제어의 출발점"으로 잡는 편이 정확하다.
+정리하면 SpeedStep은 단순한 옛날 절전 옵션이 아니라, <strong>고정 속도 컴퓨팅에서 적응형 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>-전력 제어로 넘어가게 만든 전환점</strong>이다. 따라서 기억할 때도 "클럭을 내리는 기술"이 아니라, "부하에 맞춰 검증된 operating point를 고르는 P-State 기반 제어의 출발점"으로 잡는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: SpeedStep은 컴퓨터에게 "항상 전력 질주하지 말고, 필요한 순간에만 힘을 쓰라"고 가르친 첫 코치와 같다. 이후의 고급 기술들은 이 기본 훈련 위에 세워진다.
 
@@ -138,24 +136,25 @@ SpeedStep이 남긴 가장 큰 효과는 컴퓨터가 처음으로 "일하지 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Fixed-frequency mobile CPU
-    │
-    ▼
-Intel SpeedStep
-    │
-    ▼
-Enhanced Intel SpeedStep (EIST)
-    │
-    ▼
-ACPI P-state based DVFS
-    │
-    ▼
-Speed Shift / HWP
-    │
-    ▼
-Faster per-core adaptive power control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Fixed-frequency mobile CPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Intel SpeedStep</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Enhanced Intel SpeedStep (EIST)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACPI P-state based DVFS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Speed Shift / HWP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Faster per-core adaptive power control</div>
+</div>
+</div>
+
+
 
 이 흐름은 SpeedStep이 단일 기능으로 끝난 것이 아니라, 현대 CPU의 적응형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어 체계로 이어지는 출발점이었음을 보여 준다.
 

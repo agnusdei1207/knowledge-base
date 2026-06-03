@@ -21,7 +21,7 @@ tags = ["studynote-cloud-architecture"]
 
 ### Ⅰ. 개요 (Context & Background)
 과거 기업들은 트래픽의 최고점(Peak)을 예상하여 막대한 비용을 들여 자체 데이터센터(On-premise)에 서버를 선제적으로 구매했다(Over-provisioning). 그러나 평상시에는 서버의 90%가 유휴 상태로 방치되어 전력과 공간을 낭비하는 치명적 비효율을 낳았다. 
-**클라우드 컴퓨팅(Cloud Computing)**은 가상화(Virtualization) 기술을 통해 물리적 하드웨어를 논리적 자원으로 쪼개어, 수도나 전기처럼 '원하는 시점에 원하는 만큼만 꺼내 쓰는' 유틸리티 컴퓨팅의 이상을 실현했다. 오늘날의 클라우드는 단순한 인프라 대여(IaaS)를 넘어, 머신러닝 가속기, 서버리스 함수(FaaS), 전사적 데이터 웨어하우스를 API 형태로 제공하며 현대 IT 아키텍처의 근간(Backbone)으로 완전히 결착되었다.
+<strong>클라우드 컴퓨팅(Cloud Computing)</strong>은 가상화(Virtualization) 기술을 통해 물리적 하드웨어를 논리적 자원으로 쪼개어, 수도나 전기처럼 '원하는 시점에 원하는 만큼만 꺼내 쓰는' 유틸리티 컴퓨팅의 이상을 실현했다. 오늘날의 클라우드는 단순한 인프라 대여(IaaS)를 넘어, 머신러닝 가속기, 서버리스 함수(FaaS), 전사적 데이터 웨어하우스를 API 형태로 제공하며 현대 IT 아키텍처의 근간(Backbone)으로 완전히 결착되었다.
 
 ---
 
@@ -40,31 +40,26 @@ tags = ["studynote-cloud-architecture"]
 
 #### 2. 쿠버네티스(Kubernetes) 오케스트레이션 아키텍처 (ASCII)
 클라우드 네이티브의 사실상(De facto) 운영체제인 쿠버네티스의 Control Plane과 Worker Node 구조다.
-```text
-    [ Kubernetes (K8s) Cluster Architecture / 쿠버네티스 클러스터 아키텍처 ]
-    
-    (Control Plane - Master / 마스터 노드)
-    +-------------------------------------------------------------+
-    |  [ API Server / API 서버 ] <--- (kubectl / CI/CD Pipeline)  |
-    |       |                                                     |
-    |  +----v-----+    +-------------+    +--------------------+  |
-    |  | etcd (DB)|    | Controller  |    | Scheduler        |  |
-    |  +----------+    +-------------+    +--------------------+  |
-    +-------|-----------------|----------------------|------------+
-            | (gRPC / 통신)   |                      |
-    ========v=================v======================v=============
-    (Worker Node 1 / 워커 노드 1)          (Worker Node 2 / 워커 노드 2)
-    +----------------------------------+   +----------------------+
-    | [ Kubelet ]  [ Kube-proxy ]      |   | [ Kubelet ]          |
-    |   +--------------------------+   |   |   +--------------+   |
-    |   | Pod A (App + Sidecar)    |   |   |   | Pod C (DB)   |   |
-    |   +--------------------------+   |   |   +--------------+   |
-    |   +--------------------------+   |   |                      |
-    |   | Pod B (App + Sidecar)    |   |   |  [ Container Runtime]|
-    |   +--------------------------+   |   +----------------------+
-    |  [ Container Runtime (containerd)]                          |
-    +----------------------------------+                          |
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes (K8s) Cluster Architecture / 쿠버네티스 클러스터 아키텍처</div></div>
+<div class="kb-diagram-note">(Control Plane - Master / 마스터 노드)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API Server / API 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- (kubectl / CI/CD Pipeline)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+----v-----+ +-------------+ +--------------------+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd (DB)</div><div class="kb-diagram-cell">Controller</div><div class="kb-diagram-cell">Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(gRPC / 통신)</div></div>
+<div class="kb-diagram-note">========v=================v======================v=============</div>
+<div class="kb-diagram-note">(Worker Node 1 / 워커 노드 1) (Worker Node 2 / 워커 노드 2)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubelet</div><div class="kb-diagram-node">Kube-proxy</div><div class="kb-diagram-node">Kubelet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A (App + Sidecar)</div><div class="kb-diagram-cell">Pod C (DB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">| Pod B (App + Sidecar) | |</div><div class="kb-diagram-node">Container Runtime</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Container Runtime (containerd)</div></div>
+</div>
+</div>
+
+
 
 #### 3. 서킷 브레이커 (Circuit Breaker) 알고리즘 논리
 MSA 환경에서 하나의 서비스 장애가 전체 시스템으로 전파(Cascading Failure)되는 것을 막는 방파제 로직.
@@ -98,11 +93,11 @@ MSA 환경에서 하나의 서비스 장애가 전체 시스템으로 전파(Cas
 
 **시나리오 1: 대규모 트래픽 폭주 (Ticketing System) 아키텍처 방어**
 - **문제 상황**: 명절 기차표 예매 오픈 시점에 평소 대비 1,000배의 트래픽이 쏟아져 들어와 Web/WAS 서버가 다운되고 DB 커넥션 풀이 마비됨.
-- **기술사적 결단**: K8s의 HPA(Horizontal Pod Autoscaler) 설정만으로는 트래픽 폭발 속도를 따라잡지 못한다. 따라서, 앞단에 **대기열(Queue) 시스템(Redis, Kafka)**을 배치하여 초당 DB 인입량을 제한(Rate Limiting)하고, 읽기 부하를 막기 위해 **CQRS(Command and Query Responsibility Segregation)** 패턴을 적용하여 DB의 Read Replica와 ElastiCache로 트래픽을 완벽히 분산시킨다.
+- **기술사적 결단**: K8s의 HPA(Horizontal Pod Autoscaler) 설정만으로는 트래픽 폭발 속도를 따라잡지 못한다. 따라서, 앞단에 <strong>대기열(Queue) 시스템(Redis, Kafka)</strong>을 배치하여 초당 DB 인입량을 제한(Rate Limiting)하고, 읽기 부하를 막기 위해 **CQRS(Command and Query Responsibility Segregation)** 패턴을 적용하여 DB의 Read Replica와 ElastiCache로 트래픽을 완벽히 분산시킨다.
 
 **시나리오 2: 멀티/하이브리드 클라우드 종속성(Lock-in) 타파**
 - **문제 상황**: 특정 클라우드(예: AWS)의 완전 관리형 서비스(DynamoDB, SQS)에 깊게 결합되어 코드가 작성된 탓에, 클라우드 벤더의 가격 인상 시 타사로의 이전이 불가능함.
-- **기술사적 결단**: 벤더 종속성을 끊기 위해 **헥사고날 아키텍처(Hexagonal Architecture)**를 적용하여 비즈니스 로직과 인프라 어댑터를 분리한다. 인프라 배포는 **Terraform(IaC)**으로 추상화하고, 애플리케이션 컨테이너는 벤더 중립적인 **Kubernetes** 클러스터 위에 배포하여 언제든 AWS에서 GCP나 온프레미스로 무중단 롤오버(Failover)할 수 있는 하이브리드 아키텍처를 강제한다.
+- **기술사적 결단**: 벤더 종속성을 끊기 위해 <strong>헥사고날 아키텍처(Hexagonal Architecture)</strong>를 적용하여 비즈니스 로직과 인프라 어댑터를 분리한다. 인프라 배포는 <strong>Terraform(IaC)</strong>으로 추상화하고, 애플리케이션 컨테이너는 벤더 중립적인 **Kubernetes** 클러스터 위에 배포하여 언제든 AWS에서 GCP나 온프레미스로 무중단 롤오버(Failover)할 수 있는 하이브리드 아키텍처를 강제한다.
 
 **도입 시 고려사항 (안티패턴)**
 - **클라우드 낭비 (Zombie Cloud Anti-pattern)**: "클라우드는 무조건 싸다"는 착각. 사용하지 않는 개발/테스트용 EC2 인스턴스를 주말에도 켜두거나, 과도하게 프로비저닝된(Over-provisioned) RDS를 방치하면 한 달 뒤 상상 초월의 청구서(Bill Shock)를 맞게 된다. 기술사는 **FinOps** 조직을 신설하고 태깅(Tagging) 정책을 강제하여 비용 가시성을 100% 확보해야 한다.
@@ -119,7 +114,7 @@ MSA 환경에서 하나의 서비스 장애가 전체 시스템으로 전파(Cas
 | **Multi-AZ / Multi-Region** | 글로벌 서비스 가용성 (Availability) | 재해 발생 시 RTO 0초 달성, 99.999% (Five Nines) 보장 |
 
 **미래 전망 및 진화 방향**:
-클라우드는 중앙 집중형 하이퍼스케일을 넘어, 데이터가 발생하는 곳에서 직접 연산하는 **분산 클라우드(Distributed Cloud)**와 **엣지 컴퓨팅(Edge Computing)**으로 팽창하고 있다. 또한 클라우드의 모든 설정과 보안, 성능 튜닝을 AI가 자율적으로 조절하는 **지능형 클라우드 제어(Autonomous Cloud)** 시대가 도래하여 아키텍트의 수작업을 완전히 압살할 것이다.
+클라우드는 중앙 집중형 하이퍼스케일을 넘어, 데이터가 발생하는 곳에서 직접 연산하는 <strong>분산 클라우드(Distributed Cloud)</strong>와 <strong>엣지 컴퓨팅(Edge Computing)</strong>으로 팽창하고 있다. 또한 클라우드의 모든 설정과 보안, 성능 튜닝을 AI가 자율적으로 조절하는 **지능형 클라우드 제어(Autonomous Cloud)** 시대가 도래하여 아키텍트의 수작업을 완전히 압살할 것이다.
 
 **※ 참고 표준/가이드**:
 - CNCF (Cloud Native Computing Foundation) Landscape: 클라우드 네이티브 생태계의 오픈소스 기술 표준 나침반.
@@ -137,6 +132,6 @@ MSA 환경에서 하나의 서비스 장애가 전체 시스템으로 전파(Cas
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **클라우드(Cloud)**는 무거운 컴퓨터를 내 방에 사는 대신 하늘에 있는 '슈퍼컴퓨터 렌탈 서비스'를 이용하는 거예요.
+1. <strong>클라우드(Cloud)</strong>는 무거운 컴퓨터를 내 방에 사는 대신 하늘에 있는 '슈퍼컴퓨터 렌탈 서비스'를 이용하는 거예요.
 2. 필요할 때만 빌려 쓰고 쓴 만큼만 돈을 내기 때문에 전기도 아끼고 공간도 절약할 수 있어요.
 3. 1명만 올 줄 알았는데 갑자기 100명의 친구가 놀러 와도, 버튼 하나만 누르면 방이 1초 만에 100개로 뚝딱 늘어나는 신기한 마법이랍니다!

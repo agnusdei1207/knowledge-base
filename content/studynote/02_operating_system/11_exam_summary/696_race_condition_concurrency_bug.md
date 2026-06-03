@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))은 두 개 이상의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 프로세스가 **공유 자원(메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 동시에 접근하여 수정하려 할 때**, 실행 타이밍이나 순서(Scheduling)에 따라 결과값이 제멋대로 달라지는 치명적인 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그다.
+> 1. **본질**: [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))은 두 개 이상의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 프로세스가 <strong>공유 자원(메모리, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)에 동시에 접근하여 수정하려 할 때</strong>, 실행 타이밍이나 순서(Scheduling)에 따라 결과값이 제멋대로 달라지는 치명적인 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그다.
 > 2. **원인**: C언어나 Java의 `count++` 같은 단 한 줄의 코드조차 CPU 내부에서는 [읽기(Read) $\rightarrow$ 수정(Modify) $\rightarrow$ [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)]의 3단계 기계어로 나뉘며, 이 3단계 중간에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 난입([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하기 때문에 발생한다.
-> 3. **해결책**: 이를 막기 위해서는 여러 줄의 명령어가 절대로 중간에 끊기지 않고 한 번에 실행되는 **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))**을 보장해야 하며, 이를 위해 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 락)**를 걸거나 원자적 하드웨어 명령어를 사용해야 한다.
+> 3. **해결책**: 이를 막기 위해서는 여러 줄의 명령어가 절대로 중간에 끊기지 않고 한 번에 실행되는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">Atomicity</a>)</strong>을 보장해야 하며, 이를 위해 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> 락)</strong>를 걸거나 원자적 하드웨어 명령어를 사용해야 한다.
 
 ---
 
@@ -26,10 +26,10 @@ tags = ["studynote-operating-system"]
 - **필요성 (디버깅 지옥의 시작)**: 
   - 싱글 코어 시절이나 단일 프로세스 환경에서는 코드가 항상 1번부터 10번까지 순서대로 실행되므로 결과가 100% 예측 가능(Deterministic)했다.
   - 하지만 멀티스레드 환경에서는 OS 스케줄러가 언제 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 멈추고 남의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 켤지([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 아무도 모른다.
-  - 이로 인해 똑같은 코드를 100번 돌렸을 때 99번은 성공하고 딱 1번만 실패하는, 개발자들을 미치게 만드는 **비결정적(Non-deterministic) 버그**가 탄생했다.
+  - 이로 인해 똑같은 코드를 100번 돌렸을 때 99번은 성공하고 딱 1번만 실패하는, 개발자들을 미치게 만드는 <strong>비결정적(Non-deterministic) 버그</strong>가 탄생했다.
   - **해결책**: "실행 타이밍이 운빨에 좌우되게 두지 마라! 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드리는 순간만큼은 운(스케줄링)이 개입할 수 없게 철저히 통제하라!"는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어의 필요성이 대두되었다.
 
-  - **[경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 발생**: 하나의 은행 공동 계좌(잔고 100만 원)에 남편과 아내가 각자의 카드로 동시에 50만 원씩 입금을 시도한다. 은행 컴퓨터가 남편의 입금을 처리하는 도중(아직 150만 원으로 저장하기 전), 아내의 입금 처리가 끼어들어서 옛날 잔고인 100만 원을 기준으로 50만 원을 더해 150만 원으로 덮어써 버린다. 결과적으로 200만 원이 되어야 할 잔고가 150만 원이 되는 대참사가 발생한다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">경쟁 조건</a> 발생</strong>: 하나의 은행 공동 계좌(잔고 100만 원)에 남편과 아내가 각자의 카드로 동시에 50만 원씩 입금을 시도한다. 은행 컴퓨터가 남편의 입금을 처리하는 도중(아직 150만 원으로 저장하기 전), 아내의 입금 처리가 끼어들어서 옛날 잔고인 100만 원을 기준으로 50만 원을 더해 150만 원으로 덮어써 버린다. 결과적으로 200만 원이 되어야 할 잔고가 150만 원이 되는 대참사가 발생한다.
 
 - **발전 과정**:
   1. **현상 발견**: 멀티프로그래밍이 도입되며 처음으로 프린터 스풀러나 계좌 잔고가 깨지는 현상 발견.
@@ -46,19 +46,21 @@ tags = ["studynote-operating-system"]
 
 왜 `count++` 하나 못해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨질까? 프로그래머의 눈과 CPU의 눈이 다르기 때문이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 count++ 연산의 하드웨어 어셈블리 3단계 분할            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [C언어 코드]                                                      │
-  │   count++;    (개발자: "이건 1줄이니까 한 번에 실행되겠지?")             │
-  │                                                                   │
-  │  [CPU 어셈블리 기계어]                                               │
-  │   1. LOAD  R1, [count]  // 메모리에 있는 count 값을 레지스터 R1으로 가져옴│
-  │   2. ADD   R1, 1        // CPU 내부에서 R1 값에 1을 더함             │
-  │   3. STORE R1, [count]  // 더해진 R1 값을 다시 메모리 count에 덮어씀   │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count++ 연산의 하드웨어 어셈블리 3단계 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C언어 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count++; (개발자: "이건 1줄이니까 한 번에 실행되겠지?")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 어셈블리 기계어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">// 메모리에 있는 count 값을 레지스터 R1으로 가져옴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R1, 1 // CPU 내부에서 R1 값에 1을 더함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">// 더해진 R1 값을 다시 메모리 count에 덮어씀</div></div>
+</div>
+</div>
+
+
 
 **이 3단계는 한 묶음(Atomic)이 아니다.** 1번을 끝내고 2번으로 넘어가려는 찰나에, 타이머 인터럽트가 터져서 OS가 CPU를 뺏어갈 수 있다! 이것이 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)의 핵심이다.
 
@@ -68,32 +70,29 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A와 B가 동시에 `count++`를 실행하는 시나리오다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) `count = 10`. 정상이라면 12가 되어야 한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 문맥 교환(Context Switch)의 절묘한 타이밍에 의한 파괴    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ Thread A ]                           [ Thread B ]             │
-  │                                                                   │
-  │  1. LOAD R1, [count]  (R1=10)                                     │
-  │  2. ADD R1, 1         (R1=11)                                     │
-  │  ========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================│
-  │                                                                   │
-  │                                     3. LOAD R2, [count] (R2=10)   │
-  │                                        ★ B는 A가 아직 STORE를 안 해서 │
-  │                                        옛날 값(10)을 읽어버림!        │
-  │                                                                   │
-  │                                     4. ADD R2, 1        (R2=11)   │
-  │                                     5. STORE R2, [count] (메모리=11)│
-  │  ========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================│
-  │                                                                   │
-  │  6. STORE R1, [count] (메모리=11)                                   │
-  │                                                                   │
-  │  ★ 최종 결과: count는 12가 아니라 11이 됨! (B가 더한 값이 A에 의해 덮어씌워져 날아감)│
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이것을 **[갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))** 현상이라고 부른다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 열심히 1을 더해서 11을 만들어 놨는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 깨어나서 "어? 내 수첩([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에 11이라고 적혀 있네?" 하고 아무 생각 없이 11을 덮어써 버린 것이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 각자의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 볼 뿐, 남이 메모리를 어떻게 바꿨는지는 알 길이 없기 때문에 발생하는 참사다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문맥 교환(Context Switch)의 절묘한 타이밍에 의한 파괴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Thread A</div><div class="kb-diagram-node">Thread B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R1=10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R1, 1 (R1=11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. LOAD R2,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R2=10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ B는 A가 아직 STORE를 안 해서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옛날 값(10)을 읽어버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. ADD R2, 1 (R2=11)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5. STORE R2,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(메모리=11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">6. STORE R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(메모리=11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 최종 결과: count는 12가 아니라 11이 됨! (B가 더한 값이 A에 의해 덮어씌워져 날아감)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이것을 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/">갱신 손실</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/">Lost Update</a>)</strong> 현상이라고 부른다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 열심히 1을 더해서 11을 만들어 놨는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 깨어나서 "어? 내 수첩([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에 11이라고 적혀 있네?" 하고 아무 생각 없이 11을 덮어써 버린 것이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 각자의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 볼 뿐, 남이 메모리를 어떻게 바꿨는지는 알 길이 없기 때문에 발생하는 참사다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -107,14 +106,14 @@ tags = ["studynote-operating-system"]
 
 | 전제 조건 | 설명 | 이것을 깨면 방어 가능한가? (해결책) |
 |:---|:---|:---|
-| **1. 메모리 공유** | 두 개 이상의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 같은 메모리를 바라봄 | **Yes ([Thread Local Storage](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) 도입)** |
-| **2. 동시 수정 (Write)**| 누군가가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '변경'하려고 시도함 | **Yes (불변 객체 [Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) 도입)** |
-| **3. 비원자성 (Non-atomic)**| 연산이 중간에 쪼개질 수 있는 여러 단계임 | **Yes ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 락 / Atomic 연산 도입)** |
+| **1. 메모리 공유** | 두 개 이상의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 같은 메모리를 바라봄 | <strong>Yes (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/">Thread Local Storage</a> 도입)</strong> |
+| **2. 동시 수정 (Write)**| 누군가가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '변경'하려고 시도함 | <strong>Yes (불변 객체 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a> 도입)</strong> |
+| **3. 비원자성 (Non-atomic)**| 연산이 중간에 쪼개질 수 있는 여러 단계임 | <strong>Yes (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> 락 / Atomic 연산 도입)</strong> |
 
 ### 과목 융합 관점
 
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (DB)**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 격리 수준([Isolation Level](/knowledge-base/studynote/05_database/04_transactions_concurrency/227_transaction_isolation_levels_ansi_sql_standard/))이 낮은 상태에서 발생하는 'Read Skew', 'Write Skew', '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)'가 바로 운영체제의 Race Condition과 100% 동일한 현상이다. DB는 이를 막기 위해 행(Row) 락을 걸거나 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)(다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어)를 사용한다.
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: 해커들은 이 짧은 찰나의 시간(Time of Check to Time of Use, **[TOCTOU](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/)**)을 노린다. 프로그램이 `if (파일 권한 확인)`을 통과한 직후, 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 싹 바꿔치기하면, 프로그램은 방금 확인했던 안전한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 줄 알고 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실행해 버린다. 이는 권한 검사와 실행 사이에 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)이 깨져서 생긴 완벽한 보안 레이스 컨디션이다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (DB)</strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 격리 수준([Isolation Level](/knowledge-base/studynote/05_database/04_transactions_concurrency/227_transaction_isolation_levels_ansi_sql_standard/))이 낮은 상태에서 발생하는 'Read Skew', 'Write Skew', '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)'가 바로 운영체제의 Race Condition과 100% 동일한 현상이다. DB는 이를 막기 위해 행(Row) 락을 걸거나 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)(다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어)를 사용한다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 해커들은 이 짧은 찰나의 시간(Time of Check to Time of Use, <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/">TOCTOU</a></strong>)을 노린다. 프로그램이 `if (파일 권한 확인)`을 통과한 직후, 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 싹 바꿔치기하면, 프로그램은 방금 확인했던 안전한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 줄 알고 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실행해 버린다. 이는 권한 검사와 실행 사이에 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)이 깨져서 생긴 완벽한 보안 레이스 컨디션이다.
 
 - **📢 섹션 요약 비유**: 빈집털이범(해커)은 집주인이 문을 잠그고 돌아설 때와, 경비업체 버튼을 누르는 그 1초 사이의 틈([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 노립니다. 동작과 동작 사이의 틈을 없애는 것([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))이 유일한 방어법입니다.
 
@@ -128,42 +127,39 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 웹 서버의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 10만 개가 DB의 `좋아요 수` 레코드를 동시에 읽고 +1을 해서 저장하는 Race Condition이 발생했다. 수만 개의 +1 연산이 허공으로 증발([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))한 것이다.
    - **아키텍처 적용**: 
      - **해결 1 (DB Atomic 연산)**: 앱에서 `좋아요 값`을 읽어와서 더하지 말고, DB에 `UPDATE table SET likes = likes + 1 WHERE id = 1` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날린다. DBMS는 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 자체에 원자적 락(Row [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 Race Condition을 원천 차단한다.
-     - **해결 2 ([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 도입)**: RDBMS 락이 너무 느리다면, 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 동작하여 태생적으로 Race Condition이 발생하지 않는 Redis의 `INCR` 명령어를 사용하여 초고속으로 카운트를 올린 뒤 나중에 DB로 덤프를 뜬다.
+     - <strong>해결 2 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 도입)</strong>: RDBMS 락이 너무 느리다면, 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 동작하여 태생적으로 Race Condition이 발생하지 않는 Redis의 `INCR` 명령어를 사용하여 초고속으로 카운트를 올린 뒤 나중에 DB로 덤프를 뜬다.
 
-2. **시나리오 — 늦은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization)의 이중 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 버그 ([싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 파괴)**: 자바에서 메모리를 아끼려고 객체를 부를 때 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴을 작성했다. `if (instance == null) { instance = new Object(); }`. 그런데 로그를 보니 인스턴스가 2개가 만들어짐.
+2. <strong>시나리오 — 늦은 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Initialization)의 이중 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 버그 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a> 파괴)</strong>: 자바에서 메모리를 아끼려고 객체를 부를 때 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴을 작성했다. `if (instance == null) { instance = new Object(); }`. 그런데 로그를 보니 인스턴스가 2개가 만들어짐.
    - **원인 분석**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `if (null)`을 확인하고 진입하여 `new`를 하려는 찰나 CPU를 뺏겼다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 들어와서 보니 아직 `instance`는 `null`이다. B도 진입해서 `new`를 한다. 다시 깨어난 A도 이어서 `new`를 한다. 전 세계에 딱 1개만 있어야 할 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 객체가 2개가 되어 시스템 설정이 꼬여버렸다 ([TOCTOU](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)).
-   - **대응 (기술사적 가이드)**: 자바에서는 클래스 로딩 시점에 JVM이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장해 주는 성질을 이용한 **Initialization-on-demand holder idiom (Bill Pugh [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/))**을 쓰거나, `volatile` 키워드와 함께 **[Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/) ([DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/))**을 철저하게 구현해야 이 지독한 Race Condition을 피할 수 있다.
+   - **대응 (기술사적 가이드)**: 자바에서는 클래스 로딩 시점에 JVM이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장해 주는 성질을 이용한 <strong>Initialization-on-demand holder idiom (Bill Pugh <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>)</strong>을 쓰거나, `volatile` 키워드와 함께 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/">Double-Checked Locking</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/">DCL</a>)</strong>을 철저하게 구현해야 이 지독한 Race Condition을 피할 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Race Condition (경쟁 조건) 회피 및 동기화 설계 플로우        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 코드 리뷰: 전역 변수나 공유 컬렉션에 접근하는 로직 발견]             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      공유 데이터가 단순히 읽기(Read-only) 전용으로만 쓰이는가?               │
-  │          ├─ 예 ─────▶ [아무 조치 불필요 (동기화 락 걸지 마라!)]          │
-  │          │            (데이터가 변하지 않으므로 레이스 컨디션 발생 확률 0%)  │
-  │          └─ 아니오 (누군가는 반드시 데이터를 쓴다/수정한다)                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      단순한 카운트 증가/감소, 혹은 플래그(Boolean) 변경 작업인가?            │
-  │          ├─ 예 ─────▶ [하드웨어 Atomic 연산 (CAS) 클래스 사용]         │
-  │          │            (Java의 `AtomicInteger`, C++ `std::atomic`) │
-  │          │            - 락(Lock) 없이 하드웨어 명령어로 100% 방어!       │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 여러 줄의 코드가 반드시 한 번에 실행되어야 하는가?    │
-  │                         [Mutex, ReentrantLock, synchronized 적용]  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Race Condition (경쟁 조건) 회피 및 동기화 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 코드 리뷰: 전역 변수나 공유 컬렉션에 접근하는 로직 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 데이터가 단순히 읽기(Read-only) 전용으로만 쓰이는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아무 조치 불필요 (동기화 락 걸지 마라!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터가 변하지 않으므로 레이스 컨디션 발생 확률 0%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (누군가는 반드시 데이터를 쓴다/수정한다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순한 카운트 증가/감소, 혹은 플래그(Boolean) 변경 작업인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 Atomic 연산 (CAS) 클래스 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Java의 <code>AtomicInteger</code>, C++ <code>std::atomic</code>)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 락(Lock) 없이 하드웨어 명령어로 100% 방어!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 여러 줄의 코드가 반드시 한 번에 실행되어야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mutex, ReentrantLock, synchronized 적용</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "Race Condition이 무서우니 일단 `Lock`부터 걸고 보자"는 최악의 설계다. 완벽한 아키텍처는 변수를 '불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 객체'로 만들어 아예 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 막아버리거나, 하드웨어 단의 원자적 연산을 써서 소프트웨어 락의 병목을 회피하는 것이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) 컬렉션 사용**: 개발자가 `ArrayList`나 `HashMap`에 멀티스레드로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣다가 꼬이는([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 사고를 막기 위해, 내부적으로 세밀한 락([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이나 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 연산이 적용된 `ConcurrentHashMap`이나 `CopyOnWriteArrayList`를 사용하도록 코드 컨벤션을 강제했는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/">Thread-safe</a> 컬렉션 사용</strong>: 개발자가 `ArrayList`나 `HashMap`에 멀티스레드로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣다가 꼬이는([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 사고를 막기 위해, 내부적으로 세밀한 락([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이나 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 연산이 적용된 `ConcurrentHashMap`이나 `CopyOnWriteArrayList`를 사용하도록 코드 컨벤션을 강제했는가?
 
 - **📢 섹션 요약 비유**: 수술실([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에 세균([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 들어오는 것을 막는 방법은 세 가지입니다. 첫째, 아예 수술실 문을 폐쇄한다([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)). 둘째, 세균보다 작은 나노 로봇(Atomic 연산)을 쓴다. 셋째, 들어갈 때 철저하게 문을 잠그고 방호복을 입는다([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)).
 
@@ -175,12 +171,12 @@ tags = ["studynote-operating-system"]
 
 | 구분 | [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 방치 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)/락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 기반 제어 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성)**| 결제, 예매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 랜덤 파괴 (재앙) | 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | 시스템 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 100% 확보 |
+| <strong>정성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성)</strong>| 결제, 예매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 랜덤 파괴 (재앙) | 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | 시스템 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 100% 확보 |
 | **정량 (디버깅 비용)** | 원인 불명으로 수 주일 디버깅 낭비 | 논리적 통제로 버그 원천 차단 | 유지보수 공수 기하급수적 절감 |
-| **정량 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 페널티)** | (버그는 나지만) 속도는 가장 빠름 | 직렬화 병목으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 발생 | (Trade-off) 안전을 위해 속도를 희생 |
+| <strong>정량 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 페널티)</strong> | (버그는 나지만) 속도는 가장 빠름 | 직렬화 병목으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 발생 | (Trade-off) 안전을 위해 속도를 희생 |
 
 ### 미래 전망
-- **[Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-Sanitizer (TSan)**: 컴파일러 기술의 발전으로, 구글 등이 만든 TSan 도구를 켜고 컴파일하면, 런타임에 메모리 접근을 추적하여 "A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락 없이 같은 메모리를 건드렸습니다!"라고 Race Condition을 사전에 잡아내는 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 툴이 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 필수 과정이 되었다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>-Sanitizer (TSan)</strong>: 컴파일러 기술의 발전으로, 구글 등이 만든 TSan 도구를 켜고 컴파일하면, 런타임에 메모리 접근을 추적하여 "A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락 없이 같은 메모리를 건드렸습니다!"라고 Race Condition을 사전에 잡아내는 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 툴이 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 필수 과정이 되었다.
 - **Rust의 Ownership 모델**: C/C++이 프로그래머의 실수([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))를 막지 못한 반면, [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어는 소유권(Ownership)과 빌림(Borrow) 규칙을 컴파일러 단위에서 강제하여, "공유 변수인데 락이 없다면 아예 컴파일 자체를 거부(에러)"해 버린다. 이는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그를 런타임에서 컴파일 타임으로 끌어올린 혁명적 진화다.
 
 ### 결론
@@ -201,15 +197,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스레드 동기화 상호 배제]
-    │
-    ▼
-[경쟁 조건 (Race Condition)]
-    │
-    ├──▶ [임계 구역 3가지 요구조건]
-    └──▶ [Test-and-Set 연산 하드웨어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 동기화 상호 배제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 3가지 요구조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test-and-Set 연산 하드웨어</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -10,8 +10,8 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)(Use Case Diagram)은 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 행위 다이어그램의 하나로, **시스템이 어떤 기능(유스케이스)을 누구(액터)에게 제공하는지를 외부 관점에서 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**한다.
-> 2. **가치**: 기능 요구사항(Functional Requirement)을 개발자·고객 모두가 이해할 수 있는 공통 언어로 표현하여 **요구사항 누락과 범위 논쟁([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))을 조기에 방지**한다.
+> 1. **본질**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)(Use Case Diagram)은 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 행위 다이어그램의 하나로, <strong>시스템이 어떤 기능(유스케이스)을 누구(액터)에게 제공하는지를 외부 관점에서 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>한다.
+> 2. **가치**: 기능 요구사항(Functional Requirement)을 개발자·고객 모두가 이해할 수 있는 공통 언어로 표현하여 <strong>요구사항 누락과 범위 논쟁(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)을 조기에 방지</strong>한다.
 > 3. **판단 포인트**: 포함(«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»)은 공통 필수 기능의 재사용, 확장(«extend»)은 조건부 선택 기능의 분리에 사용하며, 이 둘의 방향성 혼동이 가장 흔한 오류다.
 
 ---
@@ -20,9 +20,9 @@ tags = ["studynote-software-engineering"]
 
 [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 시스템을 사용하는 사람(Actor)과 시스템이 제공하는 기능(Use Case) 사이의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명시한 UML의 요구사항 모델링 도구다. Ivar Jacobson이 1992년 객체지향 소프트웨어 공학에서 처음 제안했으며, 현재 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 2.x 표준에 포함되어 있다.
 
-시스템 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 개발자와 고객이 서로 다른 언어로 요구사항을 논의하면 오해가 쌓인다. [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "이 시스템이 누구에게 무엇을 해주는가?"라는 질문에 그림으로 답함으로써, **코드 한 줄 없이도 기능 범위를 합의**할 수 있게 한다.
+시스템 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 개발자와 고객이 서로 다른 언어로 요구사항을 논의하면 오해가 쌓인다. [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "이 시스템이 누구에게 무엇을 해주는가?"라는 질문에 그림으로 답함으로써, <strong>코드 한 줄 없이도 기능 범위를 합의</strong>할 수 있게 한다.
 
-**[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) 없으면 발생하는 문제**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a> 없으면 발생하는 문제</strong>:
 - 요구사항 명세가 모호 → 개발 후반부에 대규모 재작업 발생
 - 기능 누락과 범위 팽창([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) 감지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 - 고객 승인 기준 불명확 → 검수 분쟁
@@ -35,31 +35,23 @@ tags = ["studynote-software-engineering"]
 
 ### 1. 구성 요소
 
-```text
-유스케이스 다이어그램 구성 요소
 
-  ┌─────────────────────────────────────────────────────┐
-  │                     시스템 경계 (System Boundary)    │
-  │                                                     │
-  │     ┌────────────┐        ┌──────────────────────┐  │
-  │     │            │        │                      │  │
-  │     │ 유스케이스 A│◄──────│  유스케이스 B         │  │
-  │     │(타원)       │«incl.»│  (포함 관계)          │  │
-  │     │            │        │                      │  │
-  │     └────────────┘        └──────────────────────┘  │
-  │                                    ▲                │
-  │                               «extend»              │
-  │                          ┌────────────────┐         │
-  │                          │  유스케이스 C   │         │
-  │                          │  (확장 관계)    │         │
-  │                          └────────────────┘         │
-  └─────────────────────────────────────────────────────┘
-         │                              │
-   ┌─────────┐                    ┌─────────────┐
-   │  액터 A  │                    │    액터 B    │
-   │(사람 아이콘)│                  │ (외부 시스템) │
-   └─────────┘                    └─────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">유스케이스 다이어그램 구성 요소</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 경계 (System Boundary)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 A</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">유스케이스 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(타원)</div><div class="kb-diagram-cell">«incl.»</div><div class="kb-diagram-cell">(포함 관계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">«extend»</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확장 관계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 A</div><div class="kb-diagram-cell">액터 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사람 아이콘)</div><div class="kb-diagram-cell">(외부 시스템)</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 표기 | 설명 |
 |:---|:---|:---|
@@ -73,19 +65,23 @@ tags = ["studynote-software-engineering"]
 
 ### 2. «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» vs. «extend» 핵심 비교
 
-```text
-«include» (포함)                «extend» (확장)
-────────────────────            ────────────────────
-기본 UC → «include» → 공통 UC   확장 UC → «extend» → 기본 UC
-                                (화살표 방향 주의!)
 
-예시:                           예시:
-주문하기 → «include» → 로그인   알림 전송 → «extend» → 주문하기
-(주문 시 항상 로그인 필요)        (특정 조건: 회원 동의 시만 알림)
-```
 
-- **포함(«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»)**: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
-- **확장(«extend»)**: 특정 **조건**이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (역방향)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">«include» (포함) «extend» (확장)</div>
+<div class="kb-diagram-note">기본 UC → «include» → 공통 UC 확장 UC → «extend» → 기본 UC</div>
+<div class="kb-diagram-note">(화살표 방향 주의!)</div>
+<div class="kb-diagram-note">예시: 예시:</div>
+<div class="kb-diagram-note">주문하기 → «include» → 로그인 알림 전송 → «extend» → 주문하기</div>
+<div class="kb-diagram-note">(주문 시 항상 로그인 필요) (특정 조건: 회원 동의 시만 알림)</div>
+</div>
+</div>
+
+
+
+- <strong>포함(«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»)</strong>: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
+- **확장(«extend»)**: 특정 <strong>조건</strong>이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (역방향)
 
 - **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 **'피자 주문 시 항상 결제가 포함'** 되는 것이고, «extend»는 **'추가 치즈가 필요할 때만 선택'** 하는 것입니다. 포함은 필수 공통, 확장은 조건부 선택입니다.
 
@@ -111,7 +107,7 @@ tags = ["studynote-software-engineering"]
 | «extend» | 선택적 부가 기능 분리 | 확장 → 기본 | 조건부 실행 |
 | 일반화 | 액터/[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 자식 → 부모 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
 
-- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)», «extend», 일반화의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 **'밥 먹기(기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/))', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'** 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
+- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)», «extend», 일반화의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 <strong>'밥 먹기(기본 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/">UC</a>)', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'</strong> 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
 
 ---
 
@@ -135,7 +131,7 @@ tags = ["studynote-software-engineering"]
 
 **유스케이스를 너무 세부적으로 쪼개기**: "비밀번호 입력", "이메일 입력" 같이 UI 단위로 쪼개면 [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 화면 흐름도가 된다. 유스케이스는 사용자 목표(User Goal) 수준 ("로그인", "회원가입")으로 추상화해야 한다.
 
-**«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»와 «extend» 방향 혼동**: 가장 흔한 오류. «extend»의 화살표는 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 쪽 화살촉). «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/).
+<strong>«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»와 «extend» 방향 혼동</strong>: 가장 흔한 오류. «extend»의 화살표는 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 쪽 화살촉). «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/).
 
 - **📢 섹션 요약 비유**: 유스케이스를 너무 세게 쪼개는 것은 **'건물 도면에 콘센트 위치까지 표시하는 것'** 과 같습니다. 도면은 방 배치를 보여주는 것이지, 전기 배선 설계서가 아닙니다. 세부 단위는 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이 담당합니다.
 
@@ -143,7 +139,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 요구사항 분석 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 소통 도구로서, 고객과 개발팀이 "우리가 만들 것"에 대한 **공통 이해를 확립**하는 데 핵심 역할을 한다. 특히 계약 기반 개발, 공공 SI 프로젝트에서 기능 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 합의의 법적 근거로 활용된다.
+[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 요구사항 분석 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 소통 도구로서, 고객과 개발팀이 "우리가 만들 것"에 대한 <strong>공통 이해를 확립</strong>하는 데 핵심 역할을 한다. 특히 계약 기반 개발, 공공 SI 프로젝트에서 기능 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 합의의 법적 근거로 활용된다.
 
 **한계**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "무엇을"에만 답하고, "어떻게"와 "언제"는 시퀀스·활동 다이어그램이 담당한다. 또한 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 표현하기 어렵다.
 
@@ -159,32 +155,33 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))** | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 속한 표준 모델링 언어 체계 |
-| **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) ([Sequence Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))** | 유스케이스의 내부 흐름(메시지 교환 순서)을 구체화 |
-| **[클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/) ([Class Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/))** | 유스케이스를 구현하는 정적 구조(클래스·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 표현 |
-| **유저 스토리 ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))** | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서 유스케이스를 경량화한 요구사항 표현 기법 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong> | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 속한 표준 모델링 언어 체계 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">Sequence Diagram</a>)</strong> | 유스케이스의 내부 흐름(메시지 교환 순서)을 구체화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">클래스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">Class Diagram</a>)</strong> | 유스케이스를 구현하는 정적 구조(클래스·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 표현 |
+| <strong>유저 스토리 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a>)</strong> | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서 유스케이스를 경량화한 요구사항 표현 기법 |
 | **기능 요구사항 (Functional Requirement)** | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 가시화하는 요구사항 범주 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 수집 (고객 인터뷰 / 워크숍)
-    │
-    ▼
-유스케이스 다이어그램 — 기능 범위 합의
-    │
-    ├─► «include» 공통 기능 추출
-    ├─► «extend» 선택 기능 분리
-    │
-    ▼
-시퀀스 다이어그램 — 흐름 상세화
-    │
-    ▼
-클래스 다이어그램 — 구조 설계
-    │
-    ▼
-코드 구현 / 테스트 케이스 도출
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 수집 (고객 인터뷰 / 워크숍)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유스케이스 다이어그램 — 기능 범위 합의</div>
+<div class="kb-diagram-tree-item" style="--depth:2">«include» 공통 기능 추출</div>
+<div class="kb-diagram-tree-item" style="--depth:2">«extend» 선택 기능 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시퀀스 다이어그램 — 흐름 상세화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클래스 다이어그램 — 구조 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코드 구현 / 테스트 케이스 도출</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

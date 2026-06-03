@@ -12,8 +12,8 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 일반 유저가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 영구 삭제(`Shift+Delete` 또는 `rm -rf` 빔!)" 했다고 믿는 것은, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1의 고기 덩어리)를 지우는 것이 절대 아니라 **"단순히 i-node의 할당 간판 포인터(Free List)만 '빈방 있음' 으로 뜯어버리는 은폐(Hide) 속임수 마스킹"** 에 불과하다. 
-> 2. **가치**: 이 얄팍한 VFS의 삭제(Unlink) 록백 덕분에, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 지워진 직후라면 하드디스크의 해당 블록(Block)은 여전히 물리적으로 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 100% 품고 있다. 경찰 포렌식 수사관들은 **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 고유 머리말(Signature: [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/))을 찾아 디스크 전체를 맨바닥부터 긁어내는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카빙([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving 포렌식 탈곡기)'** 을 통해 이 지워진 고기 덩어리들의 파편을 기적처럼 온전하게 조립 부활시킨다 포팅.
-> 3. **한계**: 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지운 뒤 오랫동안 컴퓨터를 써서 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 "빈방" 위로 새로운 영화나 문서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **'덮어쓰기(Overwrite [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 사형 컷!)'** 해버리면, 그 어떤 최첨단 기술로도 우주 끝까지 망실(Wipe 파단)되어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 불가능해지는 시간 침탈의 트레이드오프 데들락을 껴안고 있다 결착.
+> 2. **가치**: 이 얄팍한 VFS의 삭제(Unlink) 록백 덕분에, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 지워진 직후라면 하드디스크의 해당 블록(Block)은 여전히 물리적으로 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 100% 품고 있다. 경찰 포렌식 수사관들은 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 고유 머리말(Signature: <a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">매직 넘버</a>)을 찾아 디스크 전체를 맨바닥부터 긁어내는 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 카빙(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Carving 포렌식 탈곡기)'</strong> 을 통해 이 지워진 고기 덩어리들의 파편을 기적처럼 온전하게 조립 부활시킨다 포팅.
+> 3. **한계**: 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지운 뒤 오랫동안 컴퓨터를 써서 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 "빈방" 위로 새로운 영화나 문서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'덮어쓰기(Overwrite <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 불가 사형 컷!)'</strong> 해버리면, 그 어떤 최첨단 기술로도 우주 끝까지 망실(Wipe 파단)되어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 불가능해지는 시간 침탈의 트레이드오프 데들락을 껴안고 있다 결착.
 
 ---
 
@@ -25,44 +25,36 @@ tags = ["studynote-operating-system"]
 - **필요성**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 암호화하기 전에 임시로 만든 `A.txt` 원본 찌꺼기나, 범죄자가 포맷(Format) 해버린 비자금 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장부. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살려내지 못하면 사법 제약과 기업 영업 기밀의 파멸을 막을 수 없다. 따라서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 종속성에서 탈피해 원시 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Bytes) 껍데기를 발골하는 우주적 복원 통치 프레임워크가 필연적으로 법의학(Forensic) 필드에 발달했다 증명.
 
   - (일반 삭제 [rm](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 늪): 손님이 체크아웃하면 호텔 지배인(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 프론트 장부(i-node 테이블)에서 그냥 "201호 빈방 됨!" 줄 긋고 끝냅니다(1초 컷 스왑!). 201호 올라가서 청소부가 쓰레기를 치우지도([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill) 않고, 그냥 불만 끕니다 방치 오버헤드!
-  - **(포렌식 카빙 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기전!)**: 똑똑한 경찰 아저씨는 지배인 장부(i-node)가 불타서 없어졌어도 신경 안 씁니다! 1층 1호부터 10층 끝방까지 (디스크 0번 블록부터 끝까지!) 마스터키로 문을 무식하게 박차고 다 엽니다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving 무식한 빔!). "어? 201호 문 열었더니 범인의 피 묻은 칼([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) `PDF` 발견!)이 그 자리에 고대로 널브러져 있네? 압수 포장 컷!" 진짜로 다음 손님이 와서 방을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전(Overwrite 덮어쓰기 파괴 전!)까지는 모든 증거가 온전하게 남아있는 마법의 틈새 사각지대(투명 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부스트)입니다 결속!
+  - <strong>(포렌식 카빙 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 기전!)</strong>: 똑똑한 경찰 아저씨는 지배인 장부(i-node)가 불타서 없어졌어도 신경 안 씁니다! 1층 1호부터 10층 끝방까지 (디스크 0번 블록부터 끝까지!) 마스터키로 문을 무식하게 박차고 다 엽니다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving 무식한 빔!). "어? 201호 문 열었더니 범인의 피 묻은 칼([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) `PDF` 발견!)이 그 자리에 고대로 널브러져 있네? 압수 포장 컷!" 진짜로 다음 손님이 와서 방을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전(Overwrite 덮어쓰기 파괴 전!)까지는 모든 증거가 온전하게 남아있는 마법의 틈새 사각지대(투명 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부스트)입니다 결속!
 
-- **OS 삭제(Unlink) 시 i-node와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 괴리 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭주 뷰**:
+- <strong>OS 삭제(Unlink) 시 i-node와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 블록의 괴리 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 유저가 `rm 해킹증거.pdf` 를 쳤을 때 디스크 물리적 블록과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)에서 어떻게 사기(가짜 삭제)가 쳐지는지 렌더를 까보면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────────┐
-  │                 "방 이름표만 뜯었지, 방 안의 물건은 고스란히 남아 있다!"          │
-  ├───────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                   │
-  │  🚨 [ 정상 상태 (삭제 전 록백) ]                                                  │
-  │                                                                                   │
-  │     [ Directory 노드 (폴더 뷰) ]           [ i-node 테이블 ]                      │
-  │      "해킹증거.pdf" -> 인덱스 45번 빔!      [45번 i-node] 주소포인터              │
-  │                                                  │                                │
-  │  =========================▼======================▼============                    │
-  │                                                                                   │
-  │     [ 실제 볼륨 디스크 고기 덩어리 Data Blocks ]                                  │
-  │       (70번 블록: PDF 시작 헤더 %PDF-1.4 렌더)                                    │
-  │       (71번 블록: 내용 막샬샬)                                                    │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  🔥 [ 1단계: 유저 'rm 해킹증거.pdf' 엔터 타격!! ]                                 │
-  │     => 커널 VFS (디렉터리 파일 조작 붓): "폴더 글자 지운다 컷!"                   │
-  │     => 해당 i-node 45번 포인터 끈을 가위로 싹둑 자르고 Free List 에 반납!         │
-  │        (끝. 하드디스크 모터는 70번 71번 데이터 근처엔 가보지도 않음 늪!)          │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  ✅ [ 2단계: 경찰 카빙 봇 출동 (PhotoRec, Autopsy 탈곡기 빔!) ]                   │
-  │     => 장부(i-node)가 없으니 포인터 추적 불가.                                    │
-  │     => 경찰 봇: (1번 블록부터 무식하게 순차 스캔 얍!)                             │
-  │     => 70번 블록 발견!: "오앗! %PDF-1.4 (머리말 매직 헥사) 찾았다! 록백!"         │
-  │     => 여기서부터 PDF 뒷 꼬리말 (%%EOF) 나올 때까지 71번까지 싹 다 긁어모아       │
-  │        수술 꿰매기 합체! ──> 완전히 죽었던 파일 부활의 멱살 복원 통달!            │
-  └───────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"방 이름표만 뜯었지, 방 안의 물건은 고스란히 남아 있다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">정상 상태 (삭제 전 록백)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Directory 노드 (폴더 뷰)</div><div class="kb-diagram-node">i-node 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">45번 i-node</div><div class="kb-diagram-note">주소포인터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실제 볼륨 디스크 고기 덩어리 Data Blocks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(70번 블록: PDF 시작 헤더 %PDF-1.4 렌더)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(71번 블록: 내용 막샬샬)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">1단계: 유저 'rm 해킹증거.pdf' 엔터 타격!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 VFS (디렉터리 파일 조작 붓): "폴더 글자 지운다 컷!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 해당 i-node 45번 포인터 끈을 가위로 싹둑 자르고 Free List 에 반납!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(끝. 하드디스크 모터는 70번 71번 데이터 근처엔 가보지도 않음 늪!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">2단계: 경찰 카빙 봇 출동 (PhotoRec, Autopsy 탈곡기 빔!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장부(i-node)가 없으니 포인터 추적 불가.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 경찰 봇: (1번 블록부터 무식하게 순차 스캔 얍!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 70번 블록 발견!: "오앗! %PDF-1.4 (머리말 매직 헥사) 찾았다! 록백!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 여기서부터 PDF 뒷 꼬리말 (%%EOF) 나올 때까지 71번까지 싹 다 긁어모아</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수술 꿰매기 합체! ──&gt; 완전히 죽었던 파일 부활의 멱살 복원 통달!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 포렌식 [파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving)의 핵심 생존 아키텍처다. 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지워도, 심지어 디스크를 실수로 날려 빠른 포맷(Quick Format)을 쳐도 절대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 죽지 않는다(OS의 게으른 메타 초기화 스왑). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 폴더 목록과 i-node 장부만 텅 빈 백지로 바꿀 뿐, 수 테라바이트(TB) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 바닥 블록을 청소해주지 않는다. 수사관 봇은 저기 돌아다니는 바닥 고기([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Block)들을 1바이트씩 돋보기로 보면서 `JPG`, `PNG`, `PDF`, `HWP` 의 고유한 시작 유전자 번호(Signature / [Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 503장 연계)를 식별하면 그 파편들을 풀로 붙여 영혼을 소환(Undelete)해 내는 기적을 쏘아버린다 도출.
 
@@ -77,20 +69,20 @@ tags = ["studynote-operating-system"]
 
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시나리오 스왑 아키텍처 뷰 | ✨ [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Undelete (장부 꿰매기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 록백) | 바닥 카빙 Carving (무지성 고기 조립 탈곡기) |
 |:---|:---|:---|
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 발동 조건 및 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)** | 지운 지 몇 초 안 됐고, OS **i-node 장부에 옛 포인터 화살표 찌꺼기가 남아있을 때!** | 하드디스크 **파티션을 날리거나 포맷(Format) 늪**으로 장부가 백지로 불타버렸을 때 아크. |
-| **복원 결과물의 투명성 퀄리티 빔** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) **이름(`비자금.xls`), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 날짜** 까지 고스란히 100% 완전한 기적의 부활 $O(1)$ 비율! | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 모름! `복구파일_01.pdf` 형태로 알맹이 내용만 간신히 부활. 날짜/권한 전부 휘발 멸망 파단. |
-| **디스크 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 극복 데들락** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각이 하드 앞뒤로 여기저기 미친 듯이 쪼개져 찢어진 상태라도 **포인터 연결 끈 덕에 1타 2피 완벽 스루풋 수술.** | 지문으로 위아래 긁었는데 중간에 엉뚱한 동영상 블럭이 껴있으면 꿰매기 대실패. **파편화 찢김에 매우 취약한 모순 구조.** |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 발동 조건 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/">사용성</a></strong> | 지운 지 몇 초 안 됐고, OS **i-node 장부에 옛 포인터 화살표 찌꺼기가 남아있을 때!** | 하드디스크 <strong>파티션을 날리거나 포맷(Format) 늪</strong>으로 장부가 백지로 불타버렸을 때 아크. |
+| **복원 결과물의 투명성 퀄리티 빔** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) <strong>이름(<code>비자금.xls</code>), <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 날짜</strong> 까지 고스란히 100% 완전한 기적의 부활 $O(1)$ 비율! | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 모름! `복구파일_01.pdf` 형태로 알맹이 내용만 간신히 부활. 날짜/권한 전부 휘발 멸망 파단. |
+| <strong>디스크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 극복 데들락</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각이 하드 앞뒤로 여기저기 미친 듯이 쪼개져 찢어진 상태라도 **포인터 연결 끈 덕에 1타 2피 완벽 스루풋 수술.** | 지문으로 위아래 긁었는데 중간에 엉뚱한 동영상 블럭이 껴있으면 꿰매기 대실패. **파편화 찢김에 매우 취약한 모순 구조.** |
 
 ### 2. 치명적 오버헤드 폭발: SSD의 최강의 독살 무기 TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 종말 킬러 랙)
 카빙을 통해 만천하 유저를 해커로부터 지켜주던 포렌식 생태계가, "빠른 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 속도" 하나 때문에 영원히 목숨줄이 끊긴 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 종말의 선고 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (플래시 디스크의 Erase Before Write 지옥과 덮어쓰기 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (플래시 디스크의 Erase Before Write 지옥과 덮어쓰기 파단 랙)</strong>: 
   - (SSD의 선천성 태생적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 늪): 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 모터)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에 그냥 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "덮어쓰기(Overwrite)" 가 1초 컷이다. 그러나 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 플래시(563장 연계)는 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려면? 무조건 그 칸(Block)을 전기로 먼저 "싹 다 비우고 폭쇄(Erase 전기 충격 빔!)" 지운 다음에야 쓸 수 있다. 
   - ([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 발동!): 꽉 찬 SSD를 지우면서 쓰려니 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 속도가 HDD보다 10배나 느려지는 기현상([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 늪) 발현.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 극복 솔루션 패치 타결 조율 (OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 TRIM 명줄 록백!!) / 포렌식의 제삿날 뷰**: 
-  - 엔지니어의 대악마적 타협!: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들이 스토리지 컨트롤러에게 마법의 명령을 던진다. **`TRIM (가비지 컬렉터 출동 지시 렌더!)`** 
-  - OS [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/): "야 SSD야! 유저가 `rm 해킹증거.pdf` 아까 쳐서 방어막(i-node) 뜯어버렸지? 너 아무 때나 새벽에 한가할 때 가서 **그 방에 남은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌꺼기 고기([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Block)들을 전기로 싹 다 태워버려서 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill 물리적 삭제) 0으로 초기화 빔 쏴라!** 그래야 내일 손님이 글씨 쓸 때 빨리 쓸 거 아냐 컷!"
-  - 파멸 결과: 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하고 단 몇 분, 몇 시간 뒤 컨트롤러 백그라운드 봇이 디스크 바닥부터 샅샅이 모든 파편 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 싹 다 태워버려 완전 파괴(Wipe Out 멸종) 시킨다. 이 TRIM 작동 덕분에 현대의 스마트폰, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 랩탑은 수사관이 아무리 카빙(Carving) 기계를 돌려도 **전부 `0000000..` 빈바닥 쓰레기만 나오는 영원한 영구 삭제 데들락 늪(Undelete 불가능 종결)** 에 도달했다 입증 증명 록보장.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 극복 솔루션 패치 타결 조율 (OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 TRIM 명줄 록백!!) / 포렌식의 제삿날 뷰</strong>: 
+  - 엔지니어의 대악마적 타협!: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들이 스토리지 컨트롤러에게 마법의 명령을 던진다. <strong><code>TRIM (가비지 컬렉터 출동 지시 렌더!)</code></strong> 
+  - OS [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/): "야 SSD야! 유저가 `rm 해킹증거.pdf` 아까 쳐서 방어막(i-node) 뜯어버렸지? 너 아무 때나 새벽에 한가할 때 가서 <strong>그 방에 남은 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 찌꺼기 고기(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a> Block)들을 전기로 싹 다 태워버려서 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-fill 물리적 삭제) 0으로 초기화 빔 쏴라!</strong> 그래야 내일 손님이 글씨 쓸 때 빨리 쓸 거 아냐 컷!"
+  - 파멸 결과: 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하고 단 몇 분, 몇 시간 뒤 컨트롤러 백그라운드 봇이 디스크 바닥부터 샅샅이 모든 파편 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 싹 다 태워버려 완전 파괴(Wipe Out 멸종) 시킨다. 이 TRIM 작동 덕분에 현대의 스마트폰, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 랩탑은 수사관이 아무리 카빙(Carving) 기계를 돌려도 <strong>전부 <code>0000000..</code> 빈바닥 쓰레기만 나오는 영원한 영구 삭제 데들락 늪(Undelete 불가능 종결)</strong> 에 도달했다 입증 증명 록보장.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -101,12 +93,12 @@ tags = ["studynote-operating-system"]
 ### 해커들이 기밀문서를 디스크 여백 공간(Slack)에 쑤셔 넣는 마법과 영도장 파괴술(Shredding)
 폴더에도 안 나오고 i-node 도 없는 투명인간 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 심고 지우는지 엔터프라이즈 군사 보안 룰 체계를 뚫는다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 램슬랙 공백 은닉 멸망 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 램슬랙 공백 은닉 멸망 파단 랙)</strong>: 
   - 디스크 블록 1개의 크기는 철저하게 4,096바이트(4KB)다. 
   - 해커가 매우 짧은 `비밀번호.txt` (크기 100바이트)를 1개의 블록에 저장했다.
-  - 빈 공간 생존 결합: 4,096 - 100 = **나머지 3,996바이트([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Slack Space 슬랙 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 늪)!** 이 남는 꼬투리 여백 빈칸! 놀랍게도 이 공간엔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 OS 감시기([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 절대로 개입하지 못하는 맹점 지대다. 
+  - 빈 공간 생존 결합: 4,096 - 100 = <strong>나머지 3,996바이트(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Slack Space 슬랙 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 늪)!</strong> 이 남는 꼬투리 여백 빈칸! 놀랍게도 이 공간엔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 OS 감시기([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 절대로 개입하지 못하는 맹점 지대다. 
   - 해커들은 이곳에 특수 툴을 이용해 군사 기밀이나 악성코드를 숨긴다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Hiding 스왑!). 일반 백신 검사나 유저의 `cat` 명령에는 앞에 100바이트만 보이고 뒤의 3996바이트 외계인 찌꺼기 텍스트는 영원히 마스킹되어 투명하게 잠복하는 악마적 데들락 뷰 도출.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (보안 완전 삭제 Shred & Wipe 아웃 방어 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (보안 완전 삭제 Shred &amp; Wipe 아웃 방어 빔!)</strong>: 
   - 미 국방부 DOD 철칙 발사!: 군대 컴 버릴 때 포맷(i-node 삭제)만 치면 카빙 달인들에게 1분 컷 부활이다.
   - 완전 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 처형: [안티 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/)의 정점 `shred` (터미널 렌더링 록백) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 빔! "야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)아! 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지울 때 i-node 간판만 버리지 말고, 그 디스크 물리 블록 바닥에다가 0과 1 (난수 찌꺼기)을 7번씩 반복해서 구워(Overwrite 미친 덮어쓰기 렌더!) 완전히 갈가리 찢어 발겨라 파단 물리 타격!"
   - 이 고난도 안티-카빙(Anti-Carving) 소각 기술 덕에 기업 퇴사자의 맥북이나 서버 디스크 반납 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 기밀 참사를 $O(1)$ 원천 융합 차단해 냈다 증명.
@@ -119,7 +111,7 @@ tags = ["studynote-operating-system"]
 
 - '삭제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Undelete) 및 포렌식 디스크 카빙 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving 맨바닥 탈곡 렌더)' 아키텍처는 컴퓨터의 모든 지능(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 VFS의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 껍데기)을 걷어내고 태초의 0101 철판 고깃덩어리 자체에 돋보기를 들이밀어, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 장부 파손이라는 극악의 늪을 뛰어넘어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 영생 부활([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Resurrection)을 이룩한 궁극적 사후 통치 뼈대다.
 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 시작점([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 머리말 503장)과 끝점(Footer 꼬리말 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스왑)을 조각조각 퍼즐로 맞추어, 바이러스가 쓸고 간 타버린 디스크 포맷 황무지에서도 수백만 장의 사진(JPG)과 엑셀 타일(ZIP)을 분리 수집해 내는 기적을 완성하며 수십 년간 디지털 과학수사의 성배로 군림하며 사법 정의망을 달성해 냈다 선고.
-- 비록 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 의 대중화와 그 수명을 지연시키는 생존 본능인 백그라운드 **`TRIM 명령어 엔진 (즉시 100% 완전 파기 OOM 태우기 파단 랙 시그널)`** 이 개입하면서 카빙 복원율이 0%로 추락하는 [안티 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/) 트레이드오프 종말을 맞이하게 되었지만, 오히려 이것이 최근 엔터프라이즈 보안 폐기업체들의 디스크 물리 폐기(Wipe Out 비용 부담 오버헤드 늪)를 사실상 공제 구원해 주는 아이러니한 무결 보안 스토리지 영원 진화판으로 록백 보장.
+- 비록 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 의 대중화와 그 수명을 지연시키는 생존 본능인 백그라운드 <strong><code>TRIM 명령어 엔진 (즉시 100% 완전 파기 OOM 태우기 파단 랙 시그널)</code></strong> 이 개입하면서 카빙 복원율이 0%로 추락하는 [안티 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/) 트레이드오프 종말을 맞이하게 되었지만, 오히려 이것이 최근 엔터프라이즈 보안 폐기업체들의 디스크 물리 폐기(Wipe Out 비용 부담 오버헤드 늪)를 사실상 공제 구원해 주는 아이러니한 무결 보안 스토리지 영원 진화판으로 록백 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -144,15 +136,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
-    │
-    ▼
-[삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
-    │
-    ├──▶ [임시 파일 시스템 (tmpfs / ramfs)]
-    └──▶ [가상 장치 파일 시스템 (sysfs, procfs)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 장치 파일 시스템 (sysfs, procfs)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

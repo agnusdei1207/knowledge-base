@@ -33,32 +33,31 @@ tags = ["network"]
 
 | 구성 단계 | 영문 명칭 | 동작 원리 | 핵심 개념 |
 |:---|:---|:---|:---|
-| **[반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지** | Carrier Sense | 케이블의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화를 측정해 누군가 전송 중인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 유휴 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| **[다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)** | [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) | 채널이 비어 있으면 누구든 즉시 전송을 시작함 | 반이중 (Half-Duplex) |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a> 감지</strong> | Carrier Sense | 케이블의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화를 측정해 누군가 전송 중인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 유휴 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a></strong> | [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) | 채널이 비어 있으면 누구든 즉시 전송을 시작함 | 반이중 (Half-Duplex) |
 | **충돌 감지** | [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) | 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 도중에 비정상적 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 감지되면 충돌로 판정 | 최소 프레임 (64Byte) |
 | **임의 대기** | Backoff | 충돌 발생 시 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 뿌린 후 무작위 시간 동안 대기 | BEB [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CSMA/CD 의 충돌 감지 타이밍 딜레마                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [송신자 A] ───────────────── (케이블) ─────────────────▶ [수신자 B] │
-│                                                              │
-│ 시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)          │
-│ 시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작│
-│ 시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!        │
-│ 시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함   │
-│                                                              │
-│ 🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고│
-│             있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!     │
-│             만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?    │
-│             A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.      │
-│                                                              │
-│ ✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가│
-│          돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA/CD 의 충돌 감지 타이밍 딜레마</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 충돌 감지(CD)를 위해 네트워크 케이블의 길이와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최소 크기가 왜 톱니바퀴처럼 맞물려야 하는지 보여준다. 만약 충돌 횟수가 계속 늘어나면, 이진 지수 백오프 (BEB, Binary Exponential Backoff) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 대기 시간의 범위를 2배, 4배, 8배로 지수적으로 늘리며 네트워크의 혼잡을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
 
@@ -73,8 +72,8 @@ tags = ["network"]
 | 비교 항목 | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 방식) | [Token Ring](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) ([토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) 방식) |
 |:---|:---|:---|
 | **제어 구조** | 자율 경쟁 ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 없음) | 토큰 기반 중앙 순차 제어 ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 있음) |
-| **망 부하가 낮을 때**| 대기 없이 즉시 전송 **([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 매우 낮음)** | 차가 없어도 토큰 대기 시간 발생 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 높음) |
-| **망 부하가 높을 때**| 충돌 폭증 및 백오프 누적으로 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 붕괴** | 순차적으로 공평하게 전송 기회 보장 ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 안정) |
+| **망 부하가 낮을 때**| 대기 없이 즉시 전송 <strong>(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 매우 낮음)</strong> | 차가 없어도 토큰 대기 시간 발생 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 높음) |
+| **망 부하가 높을 때**| 충돌 폭증 및 백오프 누적으로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 붕괴</strong> | 순차적으로 공평하게 전송 기회 보장 ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 안정) |
 | **구축 비용** | 장비가 단순해 매우 저렴함 | 컨트롤러 구조가 복잡해 고가임 |
 
 트래픽이 적을 때 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 매우 빠르지만, 망 사용량이 한계치를 넘어가기 시작하면 충돌과 대기가 눈덩이처럼 불어나 실질적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(Goodput)이 수직으로 추락하는 치명적인 네트워크 붕괴 현상이 발생했다. 그럼에도 불구하고 구현의 단순함과 압도적인 저렴한 가격 덕분에 실무 시장은 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)을 도태시키고 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD를 표준으로 채택했다.
@@ -89,10 +88,10 @@ tags = ["network"]
 
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **5-4-3 규칙의 준수**: 네트워크 확장을 위해 리피터를 꽂을 때, 최대 5개의 세그먼트, 4개의 리피터까지만 연결해야 한다. 이 물리적 거리를 초과하면 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 길어져, 64바이트 전송이 끝난 뒤에야 충돌파가 도착하는 치명적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 충돌 (Late [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 장애가 발생한다.
-2. **[충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) ([Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)) 분리**: 사무실 50대 PC의 네트워크 속도가 크게 느려지고 충돌률이 비정상적으로 높다면, 1계층 장비([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 버리고 2계층 장비(L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 즉각 도입하여 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별로 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)을 쪼개야 한다.
+2. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">충돌 도메인</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">Collision Domain</a>) 분리</strong>: 사무실 50대 PC의 네트워크 속도가 크게 느려지고 충돌률이 비정상적으로 높다면, 1계층 장비([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 버리고 2계층 장비(L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 즉각 도입하여 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별로 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)을 쪼개야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 없는 무한 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)**: 부서에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 모자라다고 바닥에 저렴한 소형 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 문어발식으로 무한정 이어 붙이는 행위. 이는 사무실 전체를 거대한 하나의 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)으로 만들어 버려, 한 명만 대용량 다운로드를 해도 회사 전체 인터넷이 끊어지는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 없는 무한 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/">데이지 체인</a></strong>: 부서에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 모자라다고 바닥에 저렴한 소형 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 문어발식으로 무한정 이어 붙이는 행위. 이는 사무실 전체를 거대한 하나의 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)으로 만들어 버려, 한 명만 대용량 다운로드를 해도 회사 전체 인터넷이 끊어지는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 1차선 좁은 골목길([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에서 차들이 마주칠 때마다 후진해야 하는 고통을 겪고 있는데, 골목길을 끝없이 더 연장(문어발 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 연결)하면 결국 아무도 밖으로 나갈 수 없는 거대한 주차장(네트워크 마비)이 되어버리는 이치입니다.
 
@@ -112,25 +111,28 @@ tags = ["network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) ([충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/))** | 패킷 충돌이 파급되는 물리적인 통신 공간의 범위. [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 1개, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수만큼 완전히 분할됨 |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">Collision Domain</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">충돌 도메인</a>)</strong> | 패킷 충돌이 파급되는 물리적인 통신 공간의 범위. [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 1개, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수만큼 완전히 분할됨 |
 | **BEB (Binary Exponential Backoff)** | 충돌 감지 시 즉시 재전송하지 않고 난수 대기 시간을 2, 4, 8배로 지수적으로 팽창시켜 충돌을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **Full-Duplex (전이중 통신)** | 송신 선로와 수신 선로가 독립 분리된 현대 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경. 물리적 충돌이 없으므로 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD가 아예 작동하지 않음 |
-| **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)** | 무선 환경 특성상 충돌 감지(CD)가 불가능해, 쏘기 전 무작위 대기 시간으로 충돌을 아예 회피하는 차세대 와이파이 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> Avoidance)</strong> | 무선 환경 특성상 충돌 감지(CD)가 불가능해, 쏘기 전 무작위 대기 시간으로 충돌을 아예 회피하는 차세대 와이파이 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ALOHA (최초의 무선 패킷 통신망, 단순 경쟁으로 충돌 매우 잦음)
-    │
-    ▼
-CSMA/CD (유선 이더넷, 통신 전 감지 및 충돌 발생 후 백오프 대기)
-    │
-    ▼
-L2 Switch & Full-Duplex (하드웨어 포트 분리, CD 비활성화 및 충돌 원천 봉쇄)
-    │
-    ▼
-CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고리즘으로 진화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ALOHA (최초의 무선 패킷 통신망, 단순 경쟁으로 충돌 매우 잦음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSMA/CD (유선 이더넷, 통신 전 감지 및 충돌 발생 후 백오프 대기)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L2 Switch &amp; Full-Duplex (하드웨어 포트 분리, CD 비활성화 및 충돌 원천 봉쇄)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고리즘으로 진화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

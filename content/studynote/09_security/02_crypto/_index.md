@@ -17,29 +17,27 @@ tags = ["security"]
 
 ### 보이지 않는 방패: 암호학의 역할
 
-정보 보안의 역사에서 암호학은 가장 오래되고 강력한 무기였다. 과거에는 적군이 메시지를 가로채도 내용을 알 수 없게 하는 '비밀 통신'이 주 목적이었으나, 오늘날의 암호학은 **전자상거래의 안전성**, **데이터의 위변조 방지**, 그리고 **신원 확인**에 이르는 광범위한 디지털 신뢰를 책임진다.
+정보 보안의 역사에서 암호학은 가장 오래되고 강력한 무기였다. 과거에는 적군이 메시지를 가로채도 내용을 알 수 없게 하는 '비밀 통신'이 주 목적이었으나, 오늘날의 암호학은 **전자상거래의 안전성**, **데이터의 위변조 방지**, 그리고 <strong>신원 확인</strong>에 이르는 광범위한 디지털 신뢰를 책임진다.
 
-암호학이 필요한 이유는 세 가지이다. 첫째, **데이터의 은닉 (기밀성)**을 위해서이다. 개인정보와 기업 기밀이 네트워크를 떠돌 때 암호화는 필수다. 둘째, **데이터의 무결성**을 보장하기 위해서이며 (해시 함수), 셋째, **거래의 증거력 (부인 방지)**을 확보하여 디지털 경제의 법적 효력을 뒷받침하기 위함이다.
+암호학이 필요한 이유는 세 가지이다. 첫째, <strong>데이터의 은닉 (기밀성)</strong>을 위해서이다. 개인정보와 기업 기밀이 네트워크를 떠돌 때 암호화는 필수다. 둘째, <strong>데이터의 무결성</strong>을 보장하기 위해서이며 (해시 함수), 셋째, <strong>거래의 증거력 (부인 방지)</strong>을 확보하여 디지털 경제의 법적 효력을 뒷받침하기 위함이다.
 
 이 그림은 평문이 암호문을 거쳐 다시 복호화되는 암호 시스템의 기본 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Basic Cryptographic System Flow             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Plaintext (평문) ] ──▶ [ Encryption ] ──▶ [ Ciphertext ]│
-│          │                     ▲ (Key)             │        │
-│          │                     │                   │        │
-│          ▼                     │                   ▼        │
-│   [ Result ] ◀── [ Decryption ] ◀── [ Network ] ◀──┘        │
-│                    ▲ (Key)                                  │
-│                                                             │
-│   * 대칭키: 암호화 키 = 복호화 키                           │
-│   * 비대칭키: 암호화 키 (공개키) ≠ 복호화 키 (개인키)       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Basic Cryptographic System Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Plaintext (평문)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Encryption</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ciphertext</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Key)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Result</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Decryption</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Key)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대칭키: 암호화 키 = 복호화 키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비대칭키: 암호화 키 (공개키) ≠ 복호화 키 (개인키)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '키 (Key) 관리'이다. 아무리 강력한 알고리즘을 써도 키를 뺏기면 보안은 끝난다. 실무에서는 이러한 키 교환의 어려움을 해결하기 위해 공개키 암호 방식을 사용하거나, HSM (Hardware Security Module)과 같은 전용 하드웨어를 통해 키를 보호한다.
 
@@ -72,25 +70,23 @@ tags = ["security"]
 - **특징**: 역산 불가 (일방향성), 미세한 변화에도 결과가 완전히 바뀜 (눈사태 효과), 충돌 방지성.
 - **실무 활용**: 비밀번호 저장 (Salt 사용), 파일 무결성 체크, 블록체인의 연결 고리.
 
-이 구조도는 현대 인터넷 보안의 꽃인 **하이브리드 암호 시스템 (SSL/TLS)**의 원리를 보여준다.
+이 구조도는 현대 인터넷 보안의 꽃인 <strong>하이브리드 암호 시스템 (SSL/TLS)</strong>의 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Hybrid Cryptosystem Logic                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. 비대칭키(RSA/ECC)로 '대칭키'를 안전하게 교환한다.      │
-│   2. 일단 공유된 '대칭키(AES)'로 실제 대량 데이터를         │
-│      빛의 속도로 암호화하여 통신한다.                       │
-│                                                             │
-│   [ Client ] ──── (Encrypted AES Key) ───▶ [ Server ]       │
-│       │                                       │             │
-│       └─── (AES Encrypted Web Data) ◀─────────┘             │
-│                                                             │
-│   * 이점: 비대칭키의 안전성과 대칭키의 성능을 모두 취함     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid Cryptosystem Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 비대칭키(RSA/ECC)로 '대칭키'를 안전하게 교환한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 일단 공유된 '대칭키(AES)'로 실제 대량 데이터를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 속도로 암호화하여 통신한다.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AES Encrypted Web Data) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이점: 비대칭키의 안전성과 대칭키의 성능을 모두 취함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '역할의 조화'이다. 비대칭키는 비밀번호를 처음 정할 때만 쓰고, 실제 수다(데이터 전송)는 대칭키로 한다. 실무에서는 이 복잡한 과정을 TLS 프로토콜이 핸드쉐이크 단계에서 자동으로 수행한다.
 
@@ -103,8 +99,8 @@ tags = ["security"]
 ### 디지털 서명 (Digital Signature)의 융합 원리
 
 해시 함수와 비대칭키 암호화가 결합된 기술의 정점이다.
-- **절차**: 평문을 해시함수로 요약 -> 내 **개인키**로 암호화 (서명) -> 평문과 함께 전송.
-- **검증**: 상대방이 내 **공개키**로 복호화하여 해시값 대조.
+- **절차**: 평문을 해시함수로 요약 -> 내 <strong>개인키</strong>로 암호화 (서명) -> 평문과 함께 전송.
+- **검증**: 상대방이 내 <strong>공개키</strong>로 복호화하여 해시값 대조.
 - **가치**: 무결성 + 인증 + 부인 방지를 동시에 달성.
 
 ### 양자 내성 암호 (PQC) vs 양자 암호 통신 (QKD)
@@ -126,30 +122,27 @@ tags = ["security"]
 ### 기술사적 판단: 보안 시스템 설계 및 규제 준수 전략
 
 **시나리오 1: 1,000만 명 고객의 비밀번호를 저장하는 DB 설계**
-- **판단**: 평문 저장은 절대 금지다. **SHA-256** 이상의 일방향 해시를 사용하되, 무차별 대입 (Brute-force)과 레인보우 테이블 공격을 막기 위해 사용자별로 다른 랜덤값인 **솔트 (Salt)**를 추가한다. 또한 연산 시간을 의도적으로 늦추는 **Key Stretching (PBKDF2, Argon2)** 기법을 적용하여 하드웨어 가속을 통한 해킹 시도를 무력화한다.
+- **판단**: 평문 저장은 절대 금지다. **SHA-256** 이상의 일방향 해시를 사용하되, 무차별 대입 (Brute-force)과 레인보우 테이블 공격을 막기 위해 사용자별로 다른 랜덤값인 <strong>솔트 (Salt)</strong>를 추가한다. 또한 연산 시간을 의도적으로 늦추는 **Key Stretching (PBKDF2, Argon2)** 기법을 적용하여 하드웨어 가속을 통한 해킹 시도를 무력화한다.
 
 **시나리오 2: 국가 기밀 정보를 다루는 공공기관 전용 VPN 구축**
-- **판단**: 외산 알고리즘 대신 국산 표준인 **ARIA**나 **SEED (대칭키)**를 검토한다. 키 분배를 위해 **PKI (공개키 기반 구조)**를 구축하고, 하드웨어 보안 모듈인 **HSM**을 도입하여 개인키가 서버 메모리상에 노출되지 않도록 '물리적 신뢰의 뿌리'를 강화한다. 또한 전송 구간뿐만 아니라 데이터 자체를 암호화하는 **DRP (Data Resource Protection)** 전략을 병행한다.
+- **판단**: 외산 알고리즘 대신 국산 표준인 <strong>ARIA</strong>나 <strong>SEED (대칭키)</strong>를 검토한다. 키 분배를 위해 <strong>PKI (공개키 기반 구조)</strong>를 구축하고, 하드웨어 보안 모듈인 <strong>HSM</strong>을 도입하여 개인키가 서버 메모리상에 노출되지 않도록 '물리적 신뢰의 뿌리'를 강화한다. 또한 전송 구간뿐만 아니라 데이터 자체를 암호화하는 **DRP (Data Resource Protection)** 전략을 병행한다.
 
 이 도식은 해시 함수의 보안성을 높이는 **Salting & Stretching** 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Password Hashing Best Practices               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Password ] + [ Random Salt ] ──▶ [ Hash Function ]      │
-│                                              │              │
-│   ┌────────────────── [ Repeat 5,000 times ] ◀┘              │
-│   │                                                         │
-│   ▼                                                         │
-│   [ Final Secure Hash ] ──▶ [ Store in DB ]                 │
-│                                                             │
-│   * 효과: 1. 똑같은 비밀번호도 해시값이 달라짐 (Salt)       │
-│           2. 해킹 시 연산 부담을 기하급수적으로 늘림 (Stretch)│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Password Hashing Best Practices</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Password</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Random Salt</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash Function</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repeat 5,000 times</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Final Secure Hash</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Store in DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 1. 똑같은 비밀번호도 해시값이 달라짐 (Salt)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 해킹 시 연산 부담을 기하급수적으로 늘림 (Stretch)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 암호 판단은 '금고 전문가의 조언'과 같습니다. 금고의 강도(알고리즘)도 중요하지만, 열쇠를 어디에 숨길지(키 관리), 비밀번호는 얼마나 자주 바꿀지(키 라이프사이클)를 종합하여 털리지 않는 요새를 만드는 것이 핵심입니다.
 
@@ -164,7 +157,7 @@ tags = ["security"]
 
 ### 미래 전망: 동형 암호와 양자 시대의 암호
 
-향후 암호학은 데이터를 복호화하지 않고도 연산할 수 있는 **동형 암호 (Homomorphic Encryption)** 시대로 진화할 것이다. 이를 통해 개인정보를 노출하지 않으면서도 클라우드에서 안전하게 통계 분석이나 AI 학습을 수행할 수 있게 된다. 또한 양자 컴퓨터 상용화에 대비하여 격자 기반 암호 등 **양자 내성 암호 (PQC)**로의 표준 전환이 급격히 일어날 것이다. 기술사는 현재의 표준에 안주하지 않고, 수학과 물리학의 진보가 가져올 보안 패러다임의 변화를 선제적으로 시스템에 반영해야 한다.
+향후 암호학은 데이터를 복호화하지 않고도 연산할 수 있는 **동형 암호 (Homomorphic Encryption)** 시대로 진화할 것이다. 이를 통해 개인정보를 노출하지 않으면서도 클라우드에서 안전하게 통계 분석이나 AI 학습을 수행할 수 있게 된다. 또한 양자 컴퓨터 상용화에 대비하여 격자 기반 암호 등 <strong>양자 내성 암호 (PQC)</strong>로의 표준 전환이 급격히 일어날 것이다. 기술사는 현재의 표준에 안주하지 않고, 수학과 물리학의 진보가 가져올 보안 패러다임의 변화를 선제적으로 시스템에 반영해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 암호는 '금고를 열지 않고도 속의 물건을 정비하는 로봇 팔'과 같아질 것입니다. 정보를 꽁꽁 숨기면서도 필요한 가치는 마음껏 뽑아 쓸 수 있는 완벽한 프라이버시 세상이 올 것입니다.
 

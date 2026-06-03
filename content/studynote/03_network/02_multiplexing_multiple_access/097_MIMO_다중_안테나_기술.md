@@ -35,27 +35,28 @@ MIMO의 내부 구조는 [신호](/knowledge-base/studynote/02_operating_system/
 | :--- | :--- | :--- |
 | **Layer Mapper** | 스트림 분할 | 하나의 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수에 맞게 다중 레이어로 쪼갬 |
 | **Precoder** | 채널 보상 | 채널 상태([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))를 바탕으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 곱함 |
-| **[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** | 다중 방사 | 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 독립적으로 전파를 쏘아 공간적 자유도 확보 |
+| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 다중 방사 | 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 독립적으로 전파를 쏘아 공간적 자유도 확보 |
 | **Channel Estimator**| 상태 측정 | 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 분석하여 송수신 간의 채널 행렬 $H$ 도출 |
 
 MIMO가 지원하는 두 가지 핵심 동작 모드의 메커니즘을 시각화한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           MIMO의 2가지 핵심 동작 모드 (속도 vs 안정성)            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ 1. 공간 다중화 (Spatial Multiplexing) : "전송 속도 배가"        │
-│   [데이터: AB] ─┬─▶ 안테나1 (A 방사) ───(독립 경로)──▶ 수신기 분리│
-│                └─▶ 안테나2 (B 방사) ───(독립 경로)──▶ [복원: AB] │
-│   * 서로 다른 데이터를 병렬로 전송해 대역폭 대비 처리량 극대화      │
-│                                                              │
-│ 2. 공간 다이버시티 (Spatial Diversity) : "수신 신뢰도 극대화"   │
-│   [데이터: X ] ─┬─▶ 안테나1 (X 방사) ───(페이딩)────▶ 수신기 결합│
-│                └─▶ 안테나2 (X 방사) ───(페이딩)────▶ [복원: X ]  │
-│   * 같은 데이터를 중복 전송하여 오류율(PER)을 극단적으로 낮춤     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIMO의 2가지 핵심 동작 모드 (속도 vs 안정성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 공간 다중화 (Spatial Multiplexing) : "전송 속도 배가"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터: AB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">안테나1 (A 방사) (독립 경로)──▶ 수신기 분리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">복원: AB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 서로 다른 데이터를 병렬로 전송해 대역폭 대비 처리량 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 공간 다이버시티 (Spatial Diversity) : "수신 신뢰도 극대화"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터: X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">안테나1 (X 방사) (페이딩) ▶ 수신기 결합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">복원: X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 같은 데이터를 중복 전송하여 오류율(PER)을 극단적으로 낮춤</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 MIMO가 전송 환경에 맞춰 어떻게 동작을 변경하는지 보여준다. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 모드는 서로 다른 정보를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 보내 속도를 선형적으로 높이고, 다이버시티 모드는 동일한 정보를 여러 경로로 보내 중간에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 깨져도 무사히 도달할 수 있게 강건성을 보장한다.
 
@@ -72,9 +73,9 @@ MIMO가 지원하는 두 가지 핵심 동작 모드의 메커니즘을 시각�
 | **SISO** | 1개 / 1개 | 다이버시티 및 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 이득 없음 (기준점) | 구형 레거시 장비 |
 | **SIMO** | 1개 / N개 | 수신 신뢰성만 향상 (수신 다이버시티) | 기지국 상향링크 수신 |
 | **MISO** | N개 / 1개 | 송신 다이버시티 확보 | 소형 단말기 다운링크 |
-| **MIMO** | N개 / M개 | **속도([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))와 안정성(다이버시티) 동시 확보** | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) |
+| **MIMO** | N개 / M개 | <strong>속도(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>)와 안정성(다이버시티) 동시 확보</strong> | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) |
 
-MIMO 아키텍처가 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신을 달성하려면 반드시 **OFDM (직교 [주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/))**과 결합해야 한다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓은 MIMO 환경에서는 다중 경로로 인한 심볼 간 간섭(ISI)이 기하급수적으로 복잡해지는데, OFDM이 광대역 채널을 잘게 쪼개어 단순한 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 환경으로 만들어주기 때문이다. 이 융합(MIMO-OFDM)이 현대 무선 통신 표준의 뼈대다.
+MIMO 아키텍처가 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신을 달성하려면 반드시 <strong>OFDM (직교 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)</strong>과 결합해야 한다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓은 MIMO 환경에서는 다중 경로로 인한 심볼 간 간섭(ISI)이 기하급수적으로 복잡해지는데, OFDM이 광대역 채널을 잘게 쪼개어 단순한 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 환경으로 만들어주기 때문이다. 이 융합(MIMO-OFDM)이 현대 무선 통신 표준의 뼈대다.
 
 - **📢 섹션 요약 비유**: 짐마차 한 대(SISO)로 나르다가 도착지의 창고만 키웠고(SIMO), 결국엔 네 마리 말이 각각의 마차를 끌고 여러 차선으로 동시에 달리는 고속도로(MIMO)로 진화한 것이다.
 
@@ -109,28 +110,30 @@ MIMO는 값비싼 물리적 주파수 [대역폭](/knowledge-base/studynote/01_c
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) ([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))** | 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송하여 MIMO의 최대 처리량을 끌어내는 기법 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">공간 다중화</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">Spatial Multiplexing</a>)</strong> | 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송하여 MIMO의 최대 처리량을 끌어내는 기법 |
 | **공간 다이버시티 (Spatial Diversity)** | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 겹쳐 보내 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 이겨내고 연결 신뢰성을 보장하는 기법 |
-| **OFDM (직교 [주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/))** | 광대역의 복잡한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간섭을 잘게 쪼개어 MIMO 역행렬 계산을 가능케 하는 단짝 기술 |
-| **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))** | 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 위상을 조절해 특정 방향으로만 전파 에너지를 집중 투사하는 시너지 기술 |
+| <strong>OFDM (직교 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)</strong> | 광대역의 복잡한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간섭을 잘게 쪼개어 MIMO 역행렬 계산을 가능케 하는 단짝 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 위상을 조절해 특정 방향으로만 전파 에너지를 집중 투사하는 시너지 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SISO (단일 안테나, 페이딩에 취약)
-    │
-    ▼
-SIMO / MISO (수신 또는 송신 단방향 다이버시티 확보)
-    │
-    ▼
-MIMO (다중화와 다이버시티 동시 달성)
-    │
-    ▼
-MIMO-OFDM (LTE, 5G 표준 융합 아키텍처)
-    │
-    ▼
-Massive MIMO (안테나 수백 개) 및 RIS (6G 지능형 반사 표면)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SISO (단일 안테나, 페이딩에 취약)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMO / MISO (수신 또는 송신 단방향 다이버시티 확보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIMO (다중화와 다이버시티 동시 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIMO-OFDM (LTE, 5G 표준 융합 아키텍처)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Massive MIMO (안테나 수백 개) 및 RIS (6G 지능형 반사 표면)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

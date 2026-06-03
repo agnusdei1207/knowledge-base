@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 트레일(Trail)은 '산길에 남겨진 발자국'이다. 사용자가 장바구니에 물건을 담는 뻔한 일상(Application Log)이 아니라, 관리자가 고객 DB에 접속해 비밀번호를 바꾸거나(권한 행사), 직원이 사내 시스템에서 10만 명의 이메일을 엑셀로 내려받은(민감 정보 조회) **치명적이고 파괴적인 행위의 발자국만을 핀셋으로 뽑아내어 봉인하는 '특수 목적 일기장'**이다.
+- **개념**: 트레일(Trail)은 '산길에 남겨진 발자국'이다. 사용자가 장바구니에 물건을 담는 뻔한 일상(Application Log)이 아니라, 관리자가 고객 DB에 접속해 비밀번호를 바꾸거나(권한 행사), 직원이 사내 시스템에서 10만 명의 이메일을 엑셀로 내려받은(민감 정보 조회) <strong>치명적이고 파괴적인 행위의 발자국만을 핀셋으로 뽑아내어 봉인하는 '특수 목적 일기장'</strong>이다.
 
 - **필요성**: 은행 직원이 연예인의 계좌 잔고를 훔쳐보고 커뮤니티에 유출했다. 경찰이 은행을 압수수색했다. "어떤 직원이 조회했어?" 은행 시스템엔 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500)만 잔뜩 있고, '조회 버튼을 누가 눌렀는지' 기록하는 코드는 아예 없었다. 은행은 범인을 못 찾은 죄로 수백억의 과징금과 영업 정지를 맞았다. **소프트웨어는 완벽하게 작동했지만, 그 완벽한 소프트웨어를 악용한 '합법적 권한을 가진 내부자(혹은 권한을 탈취한 해커)'의 악행을 증명할 수 없다면 그 시스템은 사회적 흉기일 뿐이다.** 책임 추궁(Accountability)을 위해 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일은 생명수와 같다.
 
-- **💡 비유**: 일반 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 **'식당 앞 골목길 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)'**라면, 보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일은 은행 금고 내부의 **'금고 다이얼 전용 초소형 홍채 인식 카메라'**와 같습니다. 골목길 카메라는 지나가는 똥개나 일반인(잡다한 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 다 찍어서 나중에 도둑 찾기가 너무 힘듭니다. 하지만 금고 다이얼 카메라는 금고를 건드리는 놈(High-Value Target)의 눈알과 돌리는 비밀번호만 집중적으로 찰칵! 찍어 보관합니다. 사건이 터졌을 때 군말 없이 1초 만에 범인의 목줄을 쥘 수 있는 스나이퍼형 증거 보존술입니다.
+- **💡 비유**: 일반 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 <strong>'식당 앞 골목길 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a>'</strong>라면, 보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일은 은행 금고 내부의 <strong>'금고 다이얼 전용 초소형 홍채 인식 카메라'</strong>와 같습니다. 골목길 카메라는 지나가는 똥개나 일반인(잡다한 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 다 찍어서 나중에 도둑 찾기가 너무 힘듭니다. 하지만 금고 다이얼 카메라는 금고를 건드리는 놈(High-Value Target)의 눈알과 돌리는 비밀번호만 집중적으로 찰칵! 찍어 보관합니다. 사건이 터졌을 때 군말 없이 1초 만에 범인의 목줄을 쥘 수 있는 스나이퍼형 증거 보존술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **시스템 운영자의 절대 권력 (과거)**: 옛날엔 리눅스 root 계정 하나로 10명이 돌려썼다. 누가 DB를 날려 먹어도 `root`가 날렸다는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 남아서 범인을 잡을 수 없는 무법지대였다.
   2. **컴플라이언스의 강제 철퇴 (2010년대)**: 잇단 내부자 유출 사고로 국가가 빡쳤다. "[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)보호법에 따라, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 취급자가 데이터에 접근한 기록은 무조건 2년간 보존하고 위변조를 막아라!"라고 법령에 쾅 박히며 개발자들의 야근이 시작되었다.
   3. **블록체인과 WORM의 융합 (현재)**: 관리자가 자기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 지우고 튀는 걸 막기 위해, 한 번 찍힌 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 S3 Object [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))이나 해시 체인(Hash Chain)으로 얼려버려 신(God)조차 수정할 수 없는 극강의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 아키텍처로 진화했다.
 
-- **📢 섹션 요약 비유**: [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일 없이 시스템을 굴리는 것은 **'블랙박스 없이 도로를 질주하는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)'**와 같습니다. 사고가 나면 무조건 내가 독박을 씁니다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일은 내 시스템에 **'절대 깨지지 않고, 누가 브레이크를 밟았는지, 누가 엑셀을 밟았는지 0.1초 단위로 저장되는 항공기용 블랙박스'**를 다는 것입니다. 사고(유출)가 나도 "난 최선을 다해 감시했다"며 기업을 파산의 늪에서 건져내는 합법적 방패입니다.
+- **📢 섹션 요약 비유**: [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일 없이 시스템을 굴리는 것은 <strong>'블랙박스 없이 도로를 질주하는 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>'</strong>와 같습니다. 사고가 나면 무조건 내가 독박을 씁니다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 트레일은 내 시스템에 <strong>'절대 깨지지 않고, 누가 브레이크를 밟았는지, 누가 엑셀을 밟았는지 0.1초 단위로 저장되는 항공기용 블랙박스'</strong>를 다는 것입니다. 사고(유출)가 나도 "난 최선을 다해 감시했다"며 기업을 파산의 늪에서 건져내는 합법적 방패입니다.
 
 ---
 
 다음은 보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일 추적의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안 감사 (Audit) 트레일 추적                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 감사 (Audit) 트레일 추적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일 추적가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일 추적 기능의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일 추적 기능의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보안 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일 추적 기능의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보안 감사 (Audit) 트레일 추적 기능 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 감사 (Audit) 트레일 추적 기능 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

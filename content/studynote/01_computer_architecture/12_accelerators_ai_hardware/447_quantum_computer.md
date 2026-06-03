@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "상태를 어떻게 표현하느냐"가 왜 계산 방식의 차이를 만드는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                고전 비트와 큐비트의 상태 표현 차이                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 고전 비트 (Bit)                    │ 큐비트 (Qubit)                       │
-│                                    │                                      │
-│ 1비트 = 0 또는 1                   │ 1큐비트 = α|0⟩ + β|1⟩               │
-│                                    │ (단, |α|² + |β|² = 1)               │
-│ 2비트 = 00 / 01 / 10 / 11 중 하나  │ 2큐비트 = 네 기저 상태의 선형 결합   │
-│                                    │ α|00⟩+β|01⟩+γ|10⟩+δ|11⟩            │
-│                                    │                                      │
-│ 계산 중에도 한 상태만 유지         │ 계산 중에는 여러 진폭이 함께 진화    │
-│ 측정 = 현재 값 읽기                │ 측정 = 확률 분포가 한 결과로 붕괴    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 비트와 큐비트의 상태 표현 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 비트 (Bit)</div><div class="kb-diagram-cell">큐비트 (Qubit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1비트 = 0 또는 1</div><div class="kb-diagram-cell">1큐비트 = α</div><div class="kb-diagram-cell">0⟩ + β</div><div class="kb-diagram-cell">1⟩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단,</div><div class="kb-diagram-cell">α</div><div class="kb-diagram-cell">² +</div><div class="kb-diagram-cell">β</div><div class="kb-diagram-cell">² = 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2비트 = 00 / 01 / 10 / 11 중 하나</div><div class="kb-diagram-cell">2큐비트 = 네 기저 상태의 선형 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α</div><div class="kb-diagram-cell">00⟩+β</div><div class="kb-diagram-cell">01⟩+γ</div><div class="kb-diagram-cell">10⟩+δ</div><div class="kb-diagram-cell">11⟩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산 중에도 한 상태만 유지</div><div class="kb-diagram-cell">계산 중에는 여러 진폭이 함께 진화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정 = 현재 값 읽기</div><div class="kb-diagram-cell">측정 = 확률 분포가 한 결과로 붕괴</div></div>
+</div>
+</div>
+
+
 
 핵심은 "2ⁿ개 상태를 동시에 다 해본다"는 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 비유가 아니라, 양자 상태 전체를 하나의 파동처럼 조작해 원하는 해가 관측될 가능성을 키운다는 점이다. 그래서 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어보다도 상태 준비, 위상 제어, 측정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 본질이 된다.
 
@@ -61,29 +62,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 실제 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 왜 "[큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 칩 하나"가 아니라 거대한 지원 시스템과 함께 움직이는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    양자 컴퓨터의 계층형 실행 구조                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 사용자 알고리즘                                                            │
-│   │                                                                        │
-│   ▼                                                                        │
-│ 고전 호스트 (Classical Host)                                               │
-│ - 회로 생성, 파라미터 최적화, 결과 후처리                                  │
-│   │                                                                        │
-│   ▼                                                                        │
-│ 제어 전자부 (Control Electronics)                                          │
-│ - 마이크로파/레이저 펄스 생성, 캘리브레이션                                │
-│   │                                                                        │
-│   ▼                                                                        │
-│ QPU (Quantum Processing Unit)                                              │
-│ - 단일/이중 큐비트 게이트, 얽힘, 측정                                      │
-│   │                                                                        │
-│   ▼                                                                        │
-│ 환경 계층                                                                  │
-│ - 희석 냉각기, 진공, 자기 차폐                                             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 컴퓨터의 계층형 실행 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 호스트 (Classical Host)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회로 생성, 파라미터 최적화, 결과 후처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 전자부 (Control Electronics)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로파/레이저 펄스 생성, 캘리브레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QPU (Quantum Processing Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단일/이중 큐비트 게이트, 얽힘, 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 희석 냉각기, 진공, 자기 차폐</div></div>
+</div>
+</div>
+
+
 
 양자 계산의 핵심 원리는 세 가지로 정리할 수 있다. 첫째, 중첩 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))은 하나의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 0과 1의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조합으로 준비해 상태공간 표현력을 키운다. 둘째, 얽힘 ([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))은 여러 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 분리된 개체가 아니라 하나의 결합된 상태로 만들어, 고전적 상관관계보다 훨씬 풍부한 상태 구조를 만든다. 셋째, 간섭 (Interference)은 정답 후보의 진폭은 증폭하고 오답 후보의 진폭은 상쇄해 측정 시 유리한 결과가 나오도록 회로를 설계하게 한다.
 
@@ -123,13 +119,13 @@ tags = ["studynote-computer-architecture"]
 2. **오류 허용도**: 회로 깊이가 현재 하드웨어의 오류율과 코히어런스 시간 안에 들어오는가?
 3. **입출력 비용**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비와 결과 후처리 오버헤드를 감안해도 전체 이득이 남는가?
 4. **하이브리드 설계**: 고전 전처리·후처리와 양자 회로 실행의 역할 분담이 명확한가?
-5. **보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 암호 체계 전환이라면 양자 컴퓨터 도입보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 로드맵이 더 시급한가?
+5. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 암호 체계 전환이라면 양자 컴퓨터 도입보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 로드맵이 더 시급한가?
 
 ### 대표 적용 시나리오
 
 - **양자 화학 시뮬레이션**: 분자의 바닥 상태 에너지 추정을 위해 VQE를 적용하면, 전자 상호작용을 자연스럽게 표현할 수 있어 신약·촉매 연구에 의미가 있다.
 - **조합 최적화**: 물류 경로, 포트폴리오 구성, 스케줄링 문제에서 QAOA 기반 근사해를 실험할 수 있지만, 아직은 고전 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 대비 우위가 제한적이다.
-- **보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 같은 공개키 기반 체계는 장기적으로 위협받을 수 있으므로, 지금 당장 중요한 실무 행동은 양자 장비 구매보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 우선순위 수립이다.
+- <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong>: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 같은 공개키 기반 체계는 장기적으로 위협받을 수 있으므로, 지금 당장 중요한 실무 행동은 양자 장비 구매보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 우선순위 수립이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -137,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 - 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수만 보고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교하며 오류율·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수를 무시하는 평가
 - NISQ 장비로 깊은 회로를 그대로 실행해 놓고 "양자 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 나온다"고 결론내리는 접근
 
-실무자 관점에서 가장 중요한 문장은 이것이다. **현재는 FTQC (Fault-Tolerant [Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/))가 아니라 NISQ 단계이므로, 대규모 상용 운영보다 PoC와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적합성 검증이 현실적이다.** 기술사 답안에서도 이 문장이 들어가면 과장 대신 판단력이 드러난다.
+실무자 관점에서 가장 중요한 문장은 이것이다. <strong>현재는 FTQC (Fault-Tolerant <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/">Quantum Computing</a>)가 아니라 NISQ 단계이므로, 대규모 상용 운영보다 PoC와 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 적합성 검증이 현실적이다.</strong> 기술사 답안에서도 이 문장이 들어가면 과장 대신 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: 양자 컴퓨터는 당장 모든 공사 현장에 투입할 불도저가 아니라, 특정 지층을 뚫을 때만 빌려오는 초고가 특수 장비와 같다. 장비가 대단하다고 항상 쓰는 것은 아니다.
 
@@ -149,7 +145,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 전제조건도 분명하다. 실용 수준의 내결함 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) (Fault-Tolerant [Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/), FTQC)에는 많은 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)와 안정적인 오류 정정이 필요하며, 이는 곧 막대한 장비 비용과 긴 기술 축적 시간을 뜻한다. 또한 많은 업무는 여전히 CPU·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·전용 가속기가 더 효율적이므로, 양자 컴퓨터는 "대체재"보다 "특수 가속기 포트폴리오의 한 축"으로 보는 편이 현실적이다.
 
-결국 이 주제의 핵심 기억법은 간단하다. **양자 컴퓨터는 빠른 컴퓨터가 아니라, 다른 규칙으로 계산하는 컴퓨터**다. 그래서 평가 기준도 클럭, 코어 수, 범용성보다 오류 정정 가능성, 문제 적합성, 하이브리드 통합 능력으로 옮겨가야 한다.
+결국 이 주제의 핵심 기억법은 간단하다. <strong>양자 컴퓨터는 빠른 컴퓨터가 아니라, 다른 규칙으로 계산하는 컴퓨터</strong>다. 그래서 평가 기준도 클럭, 코어 수, 범용성보다 오류 정정 가능성, 문제 적합성, 하이브리드 통합 능력으로 옮겨가야 한다.
 
 - **📢 섹션 요약 비유**: 양자 컴퓨터는 더 큰 망치가 아니라, 지금까지 못 열던 자물쇠를 다른 원리로 여는 새 열쇠에 가깝다. 모든 문에 맞지는 않지만, 맞는 문에서는 판을 바꾼다.
 
@@ -168,24 +164,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고전 계산 한계 인식
-    │
-    ▼
-큐비트 (Qubit) · 중첩 (Superposition)
-    │
-    ▼
-얽힘 (Entanglement) · 양자 게이트 (Quantum Gate)
-    │
-    ▼
-NISQ (Noisy Intermediate-Scale Quantum) 하이브리드 계산
-    │
-    ▼
-양자 오류 정정 (Quantum Error Correction)
-    │
-    ▼
-FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고전 계산 한계 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">큐비트 (Qubit) · 중첩 (Superposition)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">얽힘 (Entanglement) · 양자 게이트 (Quantum Gate)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NISQ (Noisy Intermediate-Scale Quantum) 하이브리드 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자 오류 정정 (Quantum Error Correction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속</div>
+</div>
+</div>
+
+
 
 이 흐름은 "새로운 상태 표현 → 제어 메커니즘 → 현실 제약 → 오류 극복 → 산업 영향"으로 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 발전 단계를 묶어 보여준다.
 

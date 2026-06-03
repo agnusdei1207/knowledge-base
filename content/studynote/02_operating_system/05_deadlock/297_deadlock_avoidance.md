@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 회피 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Avoidance)는 자원을 아예 주지 않는 가혹한 '예방(Prevention)'과 터지고 나서 치우는 '[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))'의 타협점으로, 프로세스가 자원을 요청할 때마다 OS가 시뮬레이션을 돌려 향후 **시스템이 파국(교착)으로 갈 위협이 없는 '[안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))'일 때만 자원을 승인**하는 동적 회피 모델이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 회피 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Avoidance)는 자원을 아예 주지 않는 가혹한 '예방(Prevention)'과 터지고 나서 치우는 '[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))'의 타협점으로, 프로세스가 자원을 요청할 때마다 OS가 시뮬레이션을 돌려 향후 <strong>시스템이 파국(교착)으로 갈 위협이 없는 '<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>)'일 때만 자원을 승인</strong>하는 동적 회피 모델이다.
 > 2. **가치**: 상호 배제나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 같은 필요조건 4가지를 전혀 깨트리지 않고 자유롭게 놔두면서도 데드락을 0%로 회피할 수 있어 설계 제약을 극복한 우아한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(안전 시퀀스 계산)으로 컴퓨터 공학의 신세계를 열었다.
 > 3. **융합**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))과 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 구체화되었으나, '프로세스가 시작 전 자신의 최대 사용량(Max Need)을 선언해야 함'과 '매 요청 시 거대한 O(N^2) 회피 매트릭스를 돌려야 함'이라는 비현실적 오버헤드로 인해 실무 OS 커널에선 완전히 사장되고 교과서의 위대한 화석으로만 융합되었다.
 
@@ -25,28 +25,29 @@ tags = ["studynote-operating-system"]
 그래서 천재 에츠허르 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))는 발상을 바꿨다. 
 **"4가지는 그냥 다 하게 냅둬! 대신, 은행 대출 심사관처럼 네가 자원을 요청할 때 이 자원을 내주면 나중에 우리가 망할지 안 망할지 딱 1만 번 계산(시뮬레이션)해보고 확신이 서면 그제야 빌려줄게."**
 
-이것이 **회피(Avoidance)**다. 자원을 요구한다고 족족 퍼주다 교차로가 막히는 대신, OS가 매 순간 매의 눈으로 "수용 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)"를 감시하다 낭떠러지 위험(Unsafe)이 뜨면 요청을 기각해버리는 우회 전략이다.
+이것이 <strong>회피(Avoidance)</strong>다. 자원을 요구한다고 족족 퍼주다 교차로가 막히는 대신, OS가 매 순간 매의 눈으로 "수용 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)"를 감시하다 낭떠러지 위험(Unsafe)이 뜨면 요청을 기각해버리는 우회 전략이다.
 
 **💡 비유**: 고속도로 톨게이트 자율 통제 시스템(회피). 고속도로에 차가 자유롭게 들어가게 냅두는 대신, 매 톨게이트를 통과할 때마다 "지금 이 차 1대를 들여보내면 30분 뒤에 서울IC가 주차장이 될까?" 시뮬레이션 돌려보고 위험하다 싶으면 아예 톨게이트 게이트를 닫아 대기(회피)시키는 것.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         교착 상태 회피 (Avoidance)의 안전성 철학              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [상태 트리 분할 구조]                                        │
-│  전체 시스템 상태 (모든 자원 할당/요청 상태망)                │
-│   ├── 안전 상태 (Safe State): 100% 데드락 없음!               │
-│   └── 불안전 상태 (Unsafe State):                             │
-│       ├── 데드락이 아닐 수도 있으나 (아침 서리길)             │
-│       └── 언제든 데드락이 터질 수 있는 위협 지대 (블랙 아이스)│
-│                                                               │
-│  [OS 회피 시스템의 절대 강령]                                 │
-│  "프로세스의 자원 요청을 허락했을 때 시스템이 단 1%라도       │
-│  Unsafe State로 들어가는 결과가 예측된다면,                   │
-│  설령 지금 당장 자원이 남아돌아도 주지 않고 승인 거절(Wait)!" │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 회피 (Avoidance)의 안전성 철학</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 트리 분할 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템 상태 (모든 자원 할당/요청 상태망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 안전 상태 (Safe State): 100% 데드락 없음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 불안전 상태 (Unsafe State):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 데드락이 아닐 수도 있으나 (아침 서리길)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 언제든 데드락이 터질 수 있는 위협 지대 (블랙 아이스)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS 회피 시스템의 절대 강령</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"프로세스의 자원 요청을 허락했을 때 시스템이 단 1%라도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unsafe State로 들어가는 결과가 예측된다면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설령 지금 당장 자원이 남아돌아도 주지 않고 승인 거절(Wait)!"</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 은행이 고객에게 대출(자원 승인)을 해줄 때 통장에 현찰이 아무리 많아도, 이 고객한테 대출해 줬다가 연쇄 파산(데드락)할 각이 보이면 "현찰은 있지만 안 빌려줍니다([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 유지)" 하고 회피하며 셔터를 내리는 철벽 대출 방어가 바로 회피입니다.
 
@@ -57,16 +58,16 @@ tags = ["studynote-operating-system"]
 ### 1. 전제 조건의 족쇄 (비현실성)
 
 회피 모델이 시뮬레이션을 돌리려면 미래의 정보를 알아야 한다.
-1. 각 프로세스가 **살아있는 동안 최대로 요구하게 될 자원량(Max Claim)**을 OS에게 시작 전 100% 자진 신고(선언)해야 한다.
+1. 각 프로세스가 <strong>살아있는 동안 최대로 요구하게 될 자원량(Max Claim)</strong>을 OS에게 시작 전 100% 자진 신고(선언)해야 한다.
 2. 시스템 총자원 개수가 실행 중간에 뺏기거나 고장 나지 않아야 한다 (정적 자원).
 3. 프로세스는 항상 늦어도 언젠간 자원을 무사히 돌려주리라 신뢰할 수 있어야 한다.
 
 ### 2. 단일 인스턴스 vs 다중 인스턴스 회피
 
-1. **[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) (단일 자원)**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/">자원 할당 그래프</a> (단일 자원)</strong>:
    - 예약 간선(Claim Edge: `P → R` 점선)을 그린다. "언젠간 P가 R을 달라고 할 것임."
    - 이 점선이 실선(실제 할당)으로 변했을 때 사이클(Cycle)이 생기면 Unsafe이므로 자원 불허가.
-2. **은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (다중 자원)**:
+2. <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (다중 자원)</strong>:
    - `Available(남은 돈)`, `Max(니들 빚 최대치)`, `Allocation(이미 빌려준 돈)`, `Need(앞으로 빌릴 돈)` 행렬을 만들어, 은행의 남은 돈으로 니들 중 한 놈이라도 졸업시킬 수 있으면 연쇄 환불로 모두를 구조할 수 있는지 `O(N^2)`를 뺑뺑이 돌려 검사.
 
 **📢 섹션 요약 비유**: 회피를 하려면 손님이 "나 오늘 메뉴 뭐 뭐 먹고 갈 거다(Max 선언)" 다 쓰고 시작해야 하는데, 식당([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에 와서 메뉴판 미리 다 적고 시작하는 손님이 실전에 어딨나요? (치명적 한계점).
@@ -92,8 +93,8 @@ tags = ["studynote-operating-system"]
 1. **항공 관제 / 로봇 제어 (RTOS)**: 비행기 날개 모터, 로켓 추진 연료 밸브 등 1ms의 오차 체류에도 수조 원 폭파 위험이 있는 극히 제한적이고 자원 최대 요구치(Max)가 뻔한(유저 입력 개입이 없는 하드웨어 결합형) 코드에서는 교과서 속 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 예방 매트릭스가 훌륭한 회피 기체로 가동될 수 있다.
 2. **트레이딩(주식) 거래 매칭 엔진 회피 꼼수**: 다중 락이 필요한 계좌 1, 2, 3이 있을 때, 시작 단계에서 "나 오늘 이 계좌 다 잠글 예정이오!" (Max 선언)를 선언하고 한 달의 트랙잭션만 승인케 하는 구조로 차용(단순화된 Avoidance).
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **수만 개의 웹 커넥션에 회피 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 투입**: 웹서버 톰캣에서 1만 개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 스레드가 몰릴 때, 락을 요청할 때마다 `O(N^2)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 행렬 수식을 돌려 '데드락이 생길까 안 생길까' 연산. 데드락 터지기 전에 행렬 곱 계산하다가 CPU가 100%를 찍고 먼저 녹아내린다. (오버엔지니어링의 대참사).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>수만 개의 웹 커넥션에 회피 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 투입</strong>: 웹서버 톰캣에서 1만 개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 스레드가 몰릴 때, 락을 요청할 때마다 `O(N^2)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 행렬 수식을 돌려 '데드락이 생길까 안 생길까' 연산. 데드락 터지기 전에 행렬 곱 계산하다가 CPU가 100%를 찍고 먼저 녹아내린다. (오버엔지니어링의 대참사).
 
 **📢 섹션 요약 비유**: 우주왕복선 점검에나 쓸 10만 달러짜리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시뮬레이션을 동네 김밥천국 포스기 데드락 방비에 쏟아부으니, 포트기가 김밥 1줄 계산하는 데 30분이 걸려 망해버립니다.
 
@@ -123,15 +124,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[순환 대기 부정]
-    │
-    ▼
-[교착 상태 회피 (Deadlock Avoidance)]
-    │
-    ├──▶ [안전 상태 (Safe State)]
-    └──▶ [불안전 상태 (Unsafe State)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">순환 대기 부정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안전 상태 (Safe State)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

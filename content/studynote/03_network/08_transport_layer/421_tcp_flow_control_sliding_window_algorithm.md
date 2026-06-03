@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 송신 측과 수신 측 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 속도 차이로 인해 수신 버퍼가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))되는 것을 방지하기 위해, 수신 측이 `Window Size` 필드를 통해 수신 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양을 송신 측에 지속적으로 통보하는 제어 기법.
-- **필요성**: 구글(슈퍼컴퓨터)이 내 구형 똥컴 노트북에 영화를 다운로드 쏴주고 있다. 구글은 10Gbps로 쏠 수 있는데 내 똥컴 하드디스크는 10Mbps로밖에 저장을 못 한다. 구글이 무자비하게 쏴버리면 내 똥컴의 RAM(수신 버퍼)은 1초 만에 가득 차고, 넘쳐흐른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다 바닥에 떨어져 쓰레기(Drop)가 된다. 구글은 "어? 못 받았네?" 하고 또 10Gbps로 재전송한다. 내 똥컴은 완전히 뻗어버린다. **"야 구글! 내 램(버퍼)에 빈 공간이 얼마나 남았는지 매번 알려줄 테니까, 딱 그 빈 공간 크기([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))만큼만 보내고 숨 참아!!"**
+- **필요성**: 구글(슈퍼컴퓨터)이 내 구형 똥컴 노트북에 영화를 다운로드 쏴주고 있다. 구글은 10Gbps로 쏠 수 있는데 내 똥컴 하드디스크는 10Mbps로밖에 저장을 못 한다. 구글이 무자비하게 쏴버리면 내 똥컴의 RAM(수신 버퍼)은 1초 만에 가득 차고, 넘쳐흐른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다 바닥에 떨어져 쓰레기(Drop)가 된다. 구글은 "어? 못 받았네?" 하고 또 10Gbps로 재전송한다. 내 똥컴은 완전히 뻗어버린다. <strong>"야 구글! 내 램(버퍼)에 빈 공간이 얼마나 남았는지 매번 알려줄 테니까, 딱 그 빈 공간 크기(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>)만큼만 보내고 숨 참아!!"</strong>
 
-- **💡 비유**: [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 식당의 **"회전초밥 레일 통제"**와 같습니다.
+- **💡 비유**: [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 식당의 <strong>"회전초밥 레일 통제"</strong>와 같습니다.
   - **Stop-and-Wait**: 손님이 초밥 1접시를 다 먹고 빈 접시를 내려놓을 때까지, 주방장이 다음 초밥을 레일에 올리지 않고 팔짱 끼고 기다립니다 (속도 최악).
   - **슬라이딩 윈도우**: 주방장이 손님 테이블 빈 공간([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 봅니다. "오, 5접시 놓을 수 있네!" 주방장은 **한 번에 5접시를 레일에 쫙 깝니다**. 손님이 1접시를 다 먹고 빈 그릇을 치우면(ACK), 주방장은 빈자리가 1개 났으므로 기다리지 않고 **새 초밥 1접시를 레일에 바로 밀어 넣습니다(Sliding)**.
 
-```text
-[CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ▼
-[TCP 흐름 제어]
-    │
-    └──▶ [윈도우 스케일옵션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 스케일옵션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 마트 계산대 위 **"컨베이어 벨트"**입니다. 내 앞에 공간(윈도우)이 허락하는 한, 굳이 점원이 바코드를 다 찍을 때까지 안 기다리고 내 장바구니의 물건을 컨베이어 벨트 위에 한꺼번에 쏟아놓을 수 있게 해주는 궁극의 연속 전송 시스템입니다.
 
@@ -41,50 +45,50 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-송신자의 머릿속([송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/))에는 긴 띠 모양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 그 위에 사각형 모양의 **창문(Window)**이 씌워져 있다. 이 창문의 크기는 수신자가 정해준 크기(예: 3개)다.
+송신자의 머릿속([송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/))에는 긴 띠 모양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 그 위에 사각형 모양의 <strong>창문(Window)</strong>이 씌워져 있다. 이 창문의 크기는 수신자가 정해준 크기(예: 3개)다.
 
 ### 1. [송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/)의 3가지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태
 송신자는 자기가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3그룹으로 쪼개어 관리한다.
 1. **창문 왼쪽 (과거)**: 이미 보내서 상대방이 잘 받았다고 영수증(ACK)까지 다 보내준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). 미련 없이 메모리에서 지워버린다.
 2. **창문 안쪽 (현재) ★핵심**: 
-   - 이 창문 크기가 곧 **수신자가 허락한 [Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)**다.
-   - 영수증(ACK)을 아직 못 받았지만, 수신자가 허락했으니 **지금 당장 냅다 쏠 수 있는 (또는 이미 쏜) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**들이다.
+   - 이 창문 크기가 곧 <strong>수신자가 허락한 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a></strong>다.
+   - 영수증(ACK)을 아직 못 받았지만, 수신자가 허락했으니 <strong>지금 당장 냅다 쏠 수 있는 (또는 이미 쏜) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>들이다.
 3. **창문 오른쪽 (미래)**: 아직 창문 안에 못 들어와서, 보내고 싶어도 꾹 참고 대기해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
 ### 2. 창문이 스르륵 밀리는 기적 (Sliding)
 1. 수신자가 허락한 창문 크기가 3개(패킷 1, 2, 3번)다. 
 2. 송신자는 ACK도 안 받고 일단 1, 2, 3번을 빛의 속도로 쏟아붓는다.
-3. 수신자에게서 **"1번 잘 받았어! (ACK 2)"**라는 영수증이 도착했다!
+3. 수신자에게서 <strong>"1번 잘 받았어! (ACK 2)"</strong>라는 영수증이 도착했다!
 4. 송신자의 뇌구조: "오예! 1번은 끝났네! 그럼 내 창문을 오른쪽으로 한 칸 쓱 밀자(Slide)!"
 5. 창문이 오른쪽으로 한 칸 이동하면서, 창문 안에 **2, 3, 4번** 패킷이 들어온다.
-6. 송신자는 기다릴 필요 없이 1번을 지우고, 방금 창문 안에 새로 들어온 **4번 패킷을 즉각 발사**한다.
+6. 송신자는 기다릴 필요 없이 1번을 지우고, 방금 창문 안에 새로 들어온 <strong>4번 패킷을 즉각 발사</strong>한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                슬라이딩 윈도우의 동작 애니메이션 시각화            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 1단계: 최초 전송 ] (윈도우 크기 3칸)                       │
- │   데이터:  [ 1번 | 2번 | 3번 ] | 4번 | 5번 | 6번                │
- │          └─── 윈도우 ────┘                                  │
- │   동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!                  │
- │                                                             │
- │   [ 2단계: 1번 영수증(ACK) 도착! ]                            │
- │   데이터:  1번 | [ 2번 | 3번 | 4번 ] | 5번 | 6번                │
- │                └─── 윈도우 ────┘                            │
- │   동작: 윈도우가 우측으로 한 칸 밀림(Sliding).                     │
- │        새로 창문 안에 들어온 4번을 즉각 발사!!                     │
- │                                                             │
- │   ▶ "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬라이딩 윈도우의 동작 애니메이션 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 최초 전송</div><div class="kb-diagram-note">(윈도우 크기 3칸)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">데이터:</div><div class="kb-diagram-node">1번 | 2번 | 3번</div><div class="kb-diagram-note">4번 | 5번 | 6번</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 1번 영수증(ACK) 도착!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">데이터: 1번</div><div class="kb-diagram-node">2번 | 3번 | 4번</div><div class="kb-diagram-note">5번 | 6번</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작: 윈도우가 우측으로 한 칸 밀림(Sliding).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로 창문 안에 들어온 4번을 즉각 발사!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. Window 0 ([Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))의 딜레마
 만약 수신자 PC가 멈춰서 버퍼가 꽉 찼다. 수신자는 영수증에 `Window Size = 0`을 적어 보낸다.
 송신자의 창문 크기가 0이 되어 완전히 닫힌다(통신 정지).
 문제는 수신자가 3초 뒤에 버퍼를 비우고 `Window Size = 3`을 적어 보냈는데, 하필 그 패킷이 바다에서 유실(Drop)됐다면?
 송신자는 계속 창문이 0인 줄 알고 평생 대기하고, 수신자도 송신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 줘서 평생 대기하는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다.
-이를 막기 위해 송신자는 창문이 0이어도, 가끔 **[Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) Probe(찔러보기)**라는 1바이트짜리 깡통 패킷을 던져 "야, 너 아직도 창고 꽉 찼어?"라고 주기적으로 물어보는 똑똑한 안전장치를 쓴다.
+이를 막기 위해 송신자는 창문이 0이어도, 가끔 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/">Zero Window</a> Probe(찔러보기)</strong>라는 1바이트짜리 깡통 패킷을 던져 "야, 너 아직도 창고 꽉 찼어?"라고 주기적으로 물어보는 똑똑한 안전장치를 쓴다.
 
 - **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 우물에서 불을 끌 때 쓰는 **"인간 사다리 양동이 릴레이"**입니다. 한 사람이 빈 양동이(ACK)가 올 때까지 무작정 기다리는 게 아니라, 양동이 5개([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))를 일정한 간격으로 계속 퍼서 앞사람에게 쉴 새 없이 밀어 던짐(Sliding)으로써, 물이 끊기지 않고 불 난 곳까지 콸콸콸 쏟아지게 만드는 궁극의 연속 작업입니다.
 
@@ -142,15 +146,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CLOSE_WAIT / LAST_ACK 상태]
-    │
-    ▼
-[현재 개념: TCP 흐름 제어]
-    │
-    ├──▶ [확장 A: 윈도우 스케일옵션]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CLOSE_WAIT / LAST_ACK 상태</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 윈도우 스케일옵션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 CLOSE_WAIT / LAST_ACK 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

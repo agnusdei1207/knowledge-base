@@ -21,16 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 고정 패스워드를 주고받는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 한번 새면 오래 위험하다. 반면 CRP는 서버가 임의 질문을 던지고, 장치는 자신의 물리·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 특성으로만 만들 수 있는 정답을 즉시 계산한다. 따라서 어제의 응답을 훔쳐도 오늘의 도전에 그대로 쓸 수 없다. 이 구조는 특히 칩 고유 편차를 이용하는 PUF와 결합할 때, "저장된 비밀"보다 "[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 불가능한 반응"을 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 자산으로 바꾸는 효과가 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Basic challenge-response authentication        │
-├──────────────────────────────────────────────────────────────┤
-│ Verifier -> Challenge C -> Device                           │
-│ Device  -> Response R=f(C) -> Verifier                      │
-│                                                              │
-│ New challenge each session blocks simple replay            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Basic challenge-response authentication</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verifier -&gt; Challenge C -&gt; Device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device -&gt; Response R=f(C) -&gt; Verifier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New challenge each session blocks simple replay</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 매번 다른 질문을 받는 구술시험과 같다. 어제 외운 답을 그대로 말해도 오늘 질문이 바뀌면 통하지 않는다.
 
@@ -47,16 +49,18 @@ CRP 아키텍처는 도전 [생성](/knowledge-base/studynote/02_operating_syste
 | Verifier | 응답 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 허용 오차와 DB [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | Enrollment [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 출고 시 기준값 저장 | 유출 시 모델링 공격 위험 관리 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 CRP enrollment and runtime path             │
-├──────────────────────────────────────────────────────────────┤
-│ Enrollment: measure f(C1..Cn) -> store trusted references    │
-│ Runtime:    issue Ck -> get Rk -> compare / accept / reject  │
-│                                                              │
-│ Stability in same chip + diversity across chips is crucial   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRP enrollment and runtime path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enrollment: measure f(C1..Cn) -&gt; store trusted references</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime: issue Ck -&gt; get Rk -&gt; compare / accept / reject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stability in same chip + diversity across chips is crucial</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 문제집을 미리 만들어 두되, 시험장에서는 그중 아무 문제나 꺼내 채점하는 구조와 같다. 중요한 것은 문제를 많이 갖는 것보다, 정답이 남에게 쉽게 예측되지 않는 것이다.
 
@@ -103,18 +107,21 @@ CRP는 저장된 장기 비밀을 줄이면서도 기기 정품성 [검증](/kno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Random Challenge]
-    │
-    ▼
-[Device Response f(C)]
-    │
-    ▼
-[Verifier Comparison]
-    │
-    ├──▶ [Accept / Reject]
-    └──▶ [Challenge Retirement]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Random Challenge</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Device Response f(C)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Verifier Comparison</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Accept / Reject</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Challenge Retirement</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 CRP가 단순 질의응답이 아니라, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 해당 도전을 재사용하지 않는 운영 절차까지 포함함을 보여준다. 즉 보안은 함수와 정책의 결합에서 나온다.
 

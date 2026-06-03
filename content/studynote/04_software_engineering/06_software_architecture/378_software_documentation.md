@@ -23,32 +23,31 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 소프트웨어 엔지니어링 연구에 따르면, 소프트웨어 비용의 30~40%가 유지보수에 들며, 유지보수 비용의 50% 이상이 코드 이해(Understanding)에 소비된다. 문서화는 이Understanding 비용을 줄이는 가장 효과적인 방법이다. 또한 개발에서은 피할 수 없으며, 이때 부실한 문서화는 조직적 지식의 현명한 금고 (Organizational Knowledge Loss)를 초래한다.
 
-- **💡 비유**: 소프트웨어 문서화는 **'레시피와 요리사 노트'**와 같다. 맛있는 요리를 만들더라도 레시피를화하지 않으면, 그 요리를 만드는 방법은 요리사의 머릿속에만 존재하게 된다. 다른 요리사가 그 요리를 배우거나, 같은 요리사가 다음에 다시 만들려고 할 때레시피가 없으면 어렵다. 마찬가지로 소프트웨어도 문서화되어야만 지식로서되고공유될 수 있다.
+- **💡 비유**: 소프트웨어 문서화는 <strong>'레시피와 요리사 노트'</strong>와 같다. 맛있는 요리를 만들더라도 레시피를화하지 않으면, 그 요리를 만드는 방법은 요리사의 머릿속에만 존재하게 된다. 다른 요리사가 그 요리를 배우거나, 같은 요리사가 다음에 다시 만들려고 할 때레시피가 없으면 어렵다. 마찬가지로 소프트웨어도 문서화되어야만 지식로서되고공유될 수 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)**: 문서 중심 개발 ( большой volumes of documentation)
-2. **1990년대 [agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)**: "문서보다" 추구, 문서화 축소 경향
+1. <strong>1970년대 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/">폭포수 모델</a></strong>: 문서 중심 개발 ( большой volumes of documentation)
+2. <strong>1990년대 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">agile</a></strong>: "문서보다" 추구, 문서화 축소 경향
 3. **2000년대 Wiki**: 팀 협업 문서화 도구 등장 (Confluence, Wikipedia)
 4. **현재**: "문서화는 코드만큼 중요한 투자"라는 인식 확산, Docs-as-Code 운동
 
-- **📢 섹션 요약 비유**: 소프트웨어 문서화는 **'대학 강의 노트'**와 같다. 강의에서 배운 내용을 노트하지 않으면, 시험하거나 강의를 위해 되새기기가 어렵다. 노트는 자신의을 돕는 동시에, 같은 강의의와 sharing할 수 있는 공유된의이다.
+- **📢 섹션 요약 비유**: 소프트웨어 문서화는 <strong>'대학 강의 노트'</strong>와 같다. 강의에서 배운 내용을 노트하지 않으면, 시험하거나 강의를 위해 되새기기가 어렵다. 노트는 자신의을 돕는 동시에, 같은 강의의와 sharing할 수 있는 공유된의이다.
 
 ---
 
 다음은 소프트웨어 문서화 (Documenta의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 소프트웨어 문서화 (Documenta │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 문서화 (Documenta</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 문서화 (Documenta가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 문서화 (Documentation) 표준 및 지식 관리 (Wiki, Confluence) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

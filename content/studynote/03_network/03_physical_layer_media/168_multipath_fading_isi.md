@@ -25,19 +25,21 @@ tags = ["studynote-network"]
 
 이 그림은 하나의 심볼이 여러 경로로 찢어져 들어오며 시간축 꼬리를 만드는 모습을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             one symbol, many arrivals: delay spread         │
-├──────────────────────────────────────────────────────────────┤
-│ Tx symbol S0                                                 │
-│   ├─ direct path ───────────────▶ arrive at t0              │
-│   ├─ reflected path A ──────────▶ arrive at t0 + 0.6 μs     │
-│   └─ reflected path B ──────────▶ arrive at t0 + 1.4 μs     │
-│                                                              │
-│ next symbol S1 starts here ───────────────▶                 │
-│ if S0 tail overlaps S1, receiver sees mixed symbols = ISI    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one symbol, many arrivals: delay spread</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx symbol S0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ direct path ▶ arrive at t0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reflected path A ▶ arrive at t0 + 0.6 μs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reflected path B ▶ arrive at t0 + 1.4 μs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next symbol S1 starts here ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if S0 tail overlaps S1, receiver sees mixed symbols = ISI</div></div>
+</div>
+</div>
+
+
 
 즉 다중 경로 문제는 단순 감쇠가 아니라, 한 심볼이 시간축에서 늘어나 다음 심볼을 침범하는 구조적 왜곡 문제다. 그래서 무선 시스템은 평균 전력만 키우는 방식으로는 충분하지 않다.
 
@@ -91,7 +93,7 @@ ISI는 심볼 시간 `T_s`가 채널의 유효 [지연](/knowledge-base/studynot
 
 1. **실내 고속 무선 LAN**: 80MHz 이상 광대역 채널은 주파수 선택적 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 영향을 받기 쉬우므로 채널 추정과 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)별 적응 변조가 중요하다.
 2. **셀룰러 OFDM 시스템**: LTE나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR는 CP를 두어 다중 경로를 흡수한다. 다만 CP를 길게 잡을수록 견고성은 높지만 순수 전송 효율은 감소한다.
-3. **협대역 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 링크**: [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁으면 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)에 가깝게 보일 수 있어, 복잡한 등화보다 전력 여유와 다이버시티 확보가 더 경제적일 수 있다.
+3. <strong>협대역 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 링크</strong>: [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁으면 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)에 가깝게 보일 수 있어, 복잡한 등화보다 전력 여유와 다이버시티 확보가 더 경제적일 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -133,22 +135,23 @@ ISI는 심볼 시간 `T_s`가 채널의 유효 [지연](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-반사 · 회절 · 산란
-    │
-    ▼
-다중 경로 (Multipath)
-    │
-    ▼
-지연 확산 (Delay Spread)
-    │
-    ├──────────────▶ 평탄 페이딩 (협대역)
-    │
-    └──────────────▶ 주파수 선택적 페이딩 (광대역)
-                              │
-                              ▼
-ISI · 등화기 · OFDM · CP 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">반사 · 회절 · 산란</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 경로 (Multipath)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지연 확산 (Delay Spread)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 평탄 페이딩 (협대역)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 주파수 선택적 페이딩 (광대역)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISI · 등화기 · OFDM · CP 설계</div>
+</div>
+</div>
+
+
 
 이 흐름도는 공간적 반사 현상이 시간축 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 바뀌고, 다시 주파수 선택성과 ISI 문제로 확장되는 과정을 요약한다.
 

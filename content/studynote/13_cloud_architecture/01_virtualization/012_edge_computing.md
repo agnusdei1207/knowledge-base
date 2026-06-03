@@ -27,16 +27,21 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 중앙 집중형 구조가 겪는 과부하 문제와 엣지 도입 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽의 극적인 필터링 효과를 시각화한 것이다.
 
-```text
-┌────────────── 기존 중앙 집중형 (Cloud-Centric) ───────────────┐
-│ [IoT Devices / IoT 기기] ============ (100% 원시 데이터) ===========> [Cloud DB / 클라우드 DB] │
-│ 1,000대의 CCTV         대역폭 포화 / 응답 지연 발생             적체 병목 │
-├────────────── 엣지 분산 처리형 (Edge-Centric) ────────────────┤
-│ [IoT Devices / IoT 기기] ──> [Edge Gateway / 엣지 게이트웨이] ──(1% 요약 메타만 전송)──> [Cloud DB / 클라우드 DB] │
-│                  * 로컬 연산 및 AI 분석                            │
-│                  * 99%의 무의미한 영상 데이터 현장 즉각 폐기         │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 중앙 집중형 (Cloud-Centric)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT Devices / IoT 기기</div><div class="kb-diagram-connector">===========&gt;</div><div class="kb-diagram-node">Cloud DB / 클라우드 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1,000대의 CCTV 대역폭 포화 / 응답 지연 발생 적체 병목</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">엣지 분산 처리형 (Edge-Centric)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT Devices / IoT 기기</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Edge Gateway / 엣지 게이트웨이</div><div class="kb-diagram-note">──(1% 요약 메타만 전송)──&gt;</div><div class="kb-diagram-node">Cloud DB / 클라우드 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 로컬 연산 및 AI 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 99%의 무의미한 영상 데이터 현장 즉각 폐기</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심 지표는 '전송량의 삭감'과 '연산의 전진 배치'이다. 엣지 노드는 단순한 네트워크 라우터가 아니라, 스스로 필터링 정책을 적용하고 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론을 실행하는 지능형 관문(Gatekeeper)이다. 따라서 중앙 클라우드는 거대한 I/O 병목에서 해방되어 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 모델 학습에만 집중할 수 있게 되며, 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다.
 
@@ -61,21 +66,24 @@ tags = ["cloud_architecture"]
 
 아래 도식은 엣지 노드(Gateway) 내부에서 이루어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 처리 및 통제 흐름도이다.
 
-```text
-[Sensor Data Stream / 데이터 스트림] ──MQTT──> ┌──────── Edge Node (Gateway) ────────┐
-                               │ 1. [Ingestion Buffer / 수집 버퍼] (시계열 수집) │
-                               │             ↓                       │
-                               │ 2. [Stream Processing Engine / 스트림 처리 엔진]       │
-                               │    - Filter (노이즈/중복 데이터 제거) │
-                               │    - Aggregation (1분 단위 평균 요약)│
-                               │             ↓                       │
-                               │ 3. [AI Inference / AI 추론] (로컬 모델 추론)  │
-                               │     ──(이상 징후 감지 시)──> 현장 로봇 즉시 정지 제어 │
-                               └─────────────┬───────────────────────┘
-                                             │ (이상 이벤트 로그 및 요약 통계만 전송)
-                                             ▼ HTTPS / gRPC
-                                   [Central Cloud Platform / 중앙 클라우드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor Data Stream / 데이터 스트림</div><div class="kb-diagram-note">──MQTT──&gt; Edge Node (Gateway)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Ingestion Buffer / 수집 버퍼</div><div class="kb-diagram-note">(시계열 수집)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Stream Processing Engine / 스트림 처리 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Filter (노이즈/중복 데이터 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Aggregation (1분 단위 평균 요약)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">AI Inference / AI 추론</div><div class="kb-diagram-note">(로컬 모델 추론)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(이상 징후 감지 시)──&gt; 현장 로봇 즉시 정지 제어</div></div>
+<div class="kb-diagram-note">(이상 이벤트 로그 및 요약 통계만 전송)</div>
+<div class="kb-diagram-note">▼ HTTPS / gRPC</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Central Cloud Platform / 중앙 클라우드</div></div>
+</div>
+</div>
+
+
 
 이 도식의 내부 메커니즘에서 주목할 부분은 '디스크 I/O 없이' 메모리 상에서 스트림 처리가 이루어진다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 저장되기 전에 흐르는 상태에서 즉시 연산되므로, 클라우드 연결망이 절단되는 재난 상황에서도 엣지 노드는 자체적으로 현장 밸브를 잠그는 폐쇄 루프(Closed-loop) 생존 능력을 갖춘다.
 
@@ -102,7 +110,7 @@ tags = ["cloud_architecture"]
 이 매트릭스에서 알 수 있듯 가장 큰 트레이드오프는 연산력과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 교환이다. 클라우드는 막강한 GPU를 제공하지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 존재한다. 실무에서는 이를 극복하기 위해 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 '학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))'은 클라우드의 무한한 자원으로 돌리고, 완료된 모델을 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 등을 통해 가볍게 깎아내어 엣지로 배포한 뒤 현장에서는 '추론(Inference)'만 수행하는 하이브리드 패턴 모델이 가장 완벽한 융합으로 평가받는다.
 
 **과목 융합 관점**
-1. **[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 보안 ([연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/), [Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))**: 엣지 기기들이 로컬에 저장된 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 보내지 않고 자신의 기기 안에서 자체 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습을 수행한다. 이후 각 기기에서 도출된 '[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트 변화량' 숫자만 클라우드로 전송하여 글로벌 모델을 강화함으로써 완벽한 프라이버시 보호망을 융합한다.
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 보안 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a>, <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong>: 엣지 기기들이 로컬에 저장된 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 보내지 않고 자신의 기기 안에서 자체 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습을 수행한다. 이후 각 기기에서 도출된 '[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트 변화량' 숫자만 클라우드로 전송하여 글로벌 모델을 강화함으로써 완벽한 프라이버시 보호망을 융합한다.
 
 📢 **섹션 요약 비유**: 클라우드가 수십만 권의 책과 막대한 지식을 보유한 거대한 중앙 도서관이라면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 당장 현장 업무에 필요한 핵심 지식만 복사해서 주머니에 넣고 다니는 얇은 암기 수첩과 같습니다.
 
@@ -112,23 +120,26 @@ tags = ["cloud_architecture"]
 
 실무에서 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 환경을 구축할 때 가장 흔히 범하는 치명적 실수는 디바이스 관리(Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))의 복잡성을 과소평가하는 것이다. 중앙의 10대 서버를 다루는 것과 현장에 물리적으로 흩어진 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대의 엣지 장비를 관리하는 것은 차원이 다른 문제다.
 
-**실무 의사결정 및 보안 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
-1. **오버엔지니어링 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (Heavy [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**: 엣지 게이트웨이에 RDBMS 기반의 무거운 모놀리식 엔진을 통째로 설치하거나 지나치게 비대한 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 말아 배포하면 안 된다. 리소스가 극히 제한적이므로 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 크래시가 발생해 현장 전체가 마비될 수 있다. 철저히 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 아키텍처와 경량 시계열 DB(TSDB)만을 적용해야 한다.
-2. **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반 배포 자동화 필수**: 수천 대의 엣지 펌웨어를 사람이 직접 SSH로 붙어 업데이트하는 것은 불가능하다. K8s 기반의 ArgoCD 등을 통해 중앙 Git 저장소의 매니페스트 설정이 바뀌면 수천 대의 엣지가 이를 자동으로 감지해 당겨가는(Pull) 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조망이 필수적이다.
+<strong>실무 의사결정 및 보안 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
+1. <strong>오버엔지니어링 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (Heavy <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong>: 엣지 게이트웨이에 RDBMS 기반의 무거운 모놀리식 엔진을 통째로 설치하거나 지나치게 비대한 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 말아 배포하면 안 된다. 리소스가 극히 제한적이므로 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 크래시가 발생해 현장 전체가 마비될 수 있다. 철저히 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 아키텍처와 경량 시계열 DB(TSDB)만을 적용해야 한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 기반 배포 자동화 필수</strong>: 수천 대의 엣지 펌웨어를 사람이 직접 SSH로 붙어 업데이트하는 것은 불가능하다. K8s 기반의 ArgoCD 등을 통해 중앙 Git 저장소의 매니페스트 설정이 바뀌면 수천 대의 엣지가 이를 자동으로 감지해 당겨가는(Pull) 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조망이 필수적이다.
 
 아래는 현장에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디서 처리할지 결정하는 아키텍처 판단 의사결정 트리이다.
 
-```text
-[데이터 스트림 발생 이벤트]
-         │
-[통신 단절 시 생명이나 기계 파손 등 치명적 사고로 직결되는가?]
- ├─ (Yes) ──> [Device Edge 계층: 초정밀 하드웨어 칩(PLC) 직접 제어 배포]
- │
- └─ (No) ──> [데이터의 전송 볼륨이 네트워크 대역폭 허용 비용을 초과하는가? (CCTV 등)]
-              ├─ (Yes) ──> [Thick Edge 계층: 엣지 NPU로 현장 영상 분석 후 로그만 중앙 전송]
-              │
-              └─ (No)  ──> [클라우드 데이터 호수(Data Lake)로 즉시 다이렉트 스트리밍]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스트림 발생 이벤트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신 단절 시 생명이나 기계 파손 등 치명적 사고로 직결되는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Device Edge 계층: 초정밀 하드웨어 칩(PLC) 직접 제어 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">데이터의 전송 볼륨이 네트워크 대역폭 허용 비용을 초과하는가? (CCTV 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Thick Edge 계층: 엣지 NPU로 현장 영상 분석 후 로그만 중앙 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">클라우드 데이터 호수(Data Lake)로 즉시 다이렉트 스트리밍</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 나무는 무조건 엣지가 좋다는 맹신을 방지한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 파일이나 온도 센서 값처럼 트래픽 크기가 매우 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 구태여 엣지에 필터링 인프라를 구축할 필요 없이 클라우드로 직접 보내 일괄 분석하는 것이 시스템 설계 복잡도를 낮추는 현명한 실무 판단이다.
 
@@ -142,9 +153,9 @@ tags = ["cloud_architecture"]
 
 | 기대효과 구분 | 정량적 및 정성적 파급 효과 |
 |:---|:---|
-| **실시간성 (Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 클라우드 왕복 구간을 제거하여 인지 반응 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 5ms 이내로 극한 단축 |
+| <strong>실시간성 (Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 클라우드 왕복 구간을 제거하여 인지 반응 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 5ms 이내로 극한 단축 |
 | **비용 효율성 (Cost Reduction)** | 무의미한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 90% 이상을 현장에서 삭감하여 네트워크 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용 대폭 방어 |
-| **복원력 ([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/))** | 코어 네트워크 단절 및 클라우드 지역 정전 장애 발생 시에도 현장 엣지의 자율 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 무중단 보장 |
+| <strong>복원력 (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">Resiliency</a>)</strong> | 코어 네트워크 단절 및 클라우드 지역 정전 장애 발생 시에도 현장 엣지의 자율 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 무중단 보장 |
 
 **미래 전망**
 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 필터링하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 관문에 머무르던 엣지 노드는 이제 상호 간에 직접 P2P로 통신하며 협력하는 '지능형 엣지 군집(Edge Swarm)'의 형태로 진화 중이다. 소프트웨어적으로는 무거운 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 대체하여 극도의 경량성과 보안 격리를 제공하는 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))가 미래 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 런타임의 글로벌 표준으로 부상할 것이다.
@@ -162,21 +173,23 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[클라우드 중앙 집중 (Cloud Centralized) — 원격 처리 중심]
-    │
-    ▼
-[엣지 컴퓨팅 (Edge Computing) — 현장 가까운 처리]
-    │
-    ▼
-[포그 컴퓨팅 (Fog Computing) — 계층적 분산]
-    │
-    ▼
-[MEC (Multi-access Edge Computing) — 5G 통합 엣지]
-    │
-    ▼
-[엣지 AI (Edge AI) — 온디바이스 추론]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 중앙 집중 (Cloud Centralized) — 원격 처리 중심</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 (Edge Computing) — 현장 가까운 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포그 컴퓨팅 (Fog Computing) — 계층적 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC (Multi-access Edge Computing) — 5G 통합 엣지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 AI (Edge AI) — 온디바이스 추론</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 중앙 클라우드의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이기 위해 처리를 현장으로 옮기고, 계층적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 연동을 거쳐 온디바이스 AI로 좁혀 가는 발전을 보여준다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 DDD에서는 특히 이 문제가 크게 드러난다. 주문, 회원, 결제 같은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 경계를 가진 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위인데, 테이블 단위 접근만 반복하면 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부 규칙이 쉽게 파편화된다. 예를 들어 `OrderItem`만 따로 저장·수정하는 식으로 흐르면, 주문 총액 계산이나 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙이 여러 곳에 흩어진다.
 
-레파지토리는 이런 문제를 막기 위해 등장했다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 "주문을 찾는다", "회원을 저장한다"처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어로 말하고, 실제 영속화는 레파지토리 구현체가 담당한다. 즉 레파지토리의 필요성은 객체 하나 더 만드는 데 있지 않고, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어와 저장 기술 언어 사이에 명확한 번역 경계**를 세우는 데 있다.
+레파지토리는 이런 문제를 막기 위해 등장했다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 "주문을 찾는다", "회원을 저장한다"처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어로 말하고, 실제 영속화는 레파지토리 구현체가 담당한다. 즉 레파지토리의 필요성은 객체 하나 더 만드는 데 있지 않고, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 언어와 저장 기술 언어 사이에 명확한 번역 경계</strong>를 세우는 데 있다.
 
 - **📢 섹션 요약 비유**: 레파지토리는 창고 구조를 외우게 하는 대신 "필요한 책을 도서관에서 빌린다"는 식으로 업무 언어를 단순하게 만드는 사서 역할과 같다.
 
@@ -43,31 +43,29 @@ DDD에서는 특히 이 문제가 크게 드러난다. 주문, 회원, 결제 �
 
 아래 그림은 레파지토리가 계층 사이에서 어떤 역할을 하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Repository in domain-centered architecture                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Application Service                                                  │
-│   │  findByOrderId() / save(order)                                   │
-│   ▼                                                                  │
-│ OrderRepository interface                                            │
-│   │  speaks domain language                                          │
-│   ▼                                                                  │
-│ Repository implementation                                            │
-│   ├─ ORM mapping                                                     │
-│   ├─ SQL / query builder                                             │
-│   └─ transaction / unit-of-work cooperation                          │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Database / cache / external store                                    │
-│                                                                      │
-│ Returned to service: Aggregate Root + Value Objects                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 규칙이 있다. 레파지토리는 보통 **[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트만 외부에 노출**한다. `OrderRepository`는 있어도 `OrderItemRepository`를 따로 두지 않는 식이다. 그래야 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부 규칙이 바깥에서 임의로 깨지지 않는다. 또한 조회 요구가 지나치게 복잡해져 리포트·대시보드·통계 성격이 강해지면, 모든 읽기 작업을 레파지토리에 억지로 넣기보다 Query Service나 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation) 읽기 모델로 분리하는 편이 낫다.
 
-즉 레파지토리는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근의 만능 통로"가 아니라, **[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 저장하고 다시 살려내는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계 장치**로 이해해야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository in domain-centered architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">findByOrderId() / save(order)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderRepository interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">speaks domain language</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository implementation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ORM mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL / query builder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ transaction / unit-of-work cooperation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database / cache / external store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Returned to service: Aggregate Root + Value Objects</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 규칙이 있다. 레파지토리는 보통 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a> 루트만 외부에 노출</strong>한다. `OrderRepository`는 있어도 `OrderItemRepository`를 따로 두지 않는 식이다. 그래야 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부 규칙이 바깥에서 임의로 깨지지 않는다. 또한 조회 요구가 지나치게 복잡해져 리포트·대시보드·통계 성격이 강해지면, 모든 읽기 작업을 레파지토리에 억지로 넣기보다 Query Service나 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation) 읽기 모델로 분리하는 편이 낫다.
+
+즉 레파지토리는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근의 만능 통로"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a>를 저장하고 다시 살려내는 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 경계 장치</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 레파지토리는 책 한 장씩 뜯어 건네는 복사실이 아니라, 책 한 권 전체를 제대로 보관하고 다시 빌려주는 도서관 서가와 같다.
 
@@ -119,7 +117,7 @@ Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 - [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부 객체를 별도 레파지토리로 직접 수정해 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 경계를 깨는 구조
 - 이름만 레파지토리이고 실제로는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 `EntityManager`를 직접 사용하는 반쪽 분리
 
-기술사 답안에서는 **"레파지토리 패턴은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 컬렉션처럼 다루게 해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 저장 기술로부터 보호하는 패턴이며, 단순 CRUD나 대형 조회에는 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)·Query Service와 역할을 분리해야 한다"**라고 정리하면 설계 판단이 분명해진다.
+기술사 답안에서는 <strong>"레파지토리 패턴은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a>를 컬렉션처럼 다루게 해 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델을 저장 기술로부터 보호하는 패턴이며, 단순 CRUD나 대형 조회에는 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a>·Query Service와 역할을 분리해야 한다"</strong>라고 정리하면 설계 판단이 분명해진다.
 
 - **📢 섹션 요약 비유**: 레파지토리를 잘 쓰는 것은 서류를 아무 서랍에나 넣는 대신, 한 사건에 속한 서류 묶음을 한 폴더로 관리해 규칙이 흐트러지지 않게 하는 일과 같다.
 
@@ -127,9 +125,9 @@ Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 ## Ⅴ. 기대효과 및 결론
 
-레파지토리 패턴을 제대로 적용하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드는 저장 방식보다 업무 규칙을 더 선명하게 드러낸다. 테스트에서는 가짜 레파지토리로 비즈니스 규칙을 빠르게 검증할 수 있고, 인프라 계층에서는 ORM 교체, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화, 저장소 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전략을 비교적 독립적으로 조정할 수 있다. 결국 가장 큰 효과는 **변경 비용이 저장 기술 경계 안에 머무르게 만드는 것**이다.
+레파지토리 패턴을 제대로 적용하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드는 저장 방식보다 업무 규칙을 더 선명하게 드러낸다. 테스트에서는 가짜 레파지토리로 비즈니스 규칙을 빠르게 검증할 수 있고, 인프라 계층에서는 ORM 교체, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화, 저장소 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전략을 비교적 독립적으로 조정할 수 있다. 결국 가장 큰 효과는 <strong>변경 비용이 저장 기술 경계 안에 머무르게 만드는 것</strong>이다.
 
-하지만 레파지토리가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 대표하지는 않는다. 단순한 화면 조회나 리포팅까지 모두 레파지토리로 묶으면 인터페이스가 비대해지고 책임이 흐려진다. 그래서 레파지토리는 "무조건 한 계층 더"가 아니라, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 보호할 필요가 있을 때 쓰는 선택적 경계**로 기억하는 것이 맞다.
+하지만 레파지토리가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 대표하지는 않는다. 단순한 화면 조회나 리포팅까지 모두 레파지토리로 묶으면 인터페이스가 비대해지고 책임이 흐려진다. 그래서 레파지토리는 "무조건 한 계층 더"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a>를 보호할 필요가 있을 때 쓰는 선택적 경계</strong>로 기억하는 것이 맞다.
 
 결론적으로 레파지토리 패턴은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 자체보다, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어를 보존하는 구조에 더 가깝다. 즉 "테이블을 감추는 도구"가 아니라, "[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 제대로 다루게 만드는 설계 장치"라고 보는 것이 핵심이다.
 
@@ -150,24 +148,26 @@ Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 SQL / ORM 노출
-    │
-    ▼
-DAO 수준의 저장 분리
-    │
-    ▼
-DDD에서 애그리게이트 경계 인식
-    │
-    ▼
-Repository interface 도입
-    ├─ 도메인 언어 메서드
-    ├─ 테스트 대역 교체
-    └─ 인프라 구현 은닉
-    │
-    ▼
-CQRS · Query Service · Unit of Work와 결합한 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 SQL / ORM 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAO 수준의 저장 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DDD에서 애그리게이트 경계 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Repository interface 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">도메인 언어 메서드</div>
+<div class="kb-diagram-tree-item" style="--depth:2">테스트 대역 교체</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인프라 구현 은닉</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CQRS · Query Service · Unit of Work와 결합한 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 레파지토리가 단순 저장 래퍼가 아니라, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 경계를 더 정교하게 분리하는 방향으로 발전했음을 보여 준다.
 

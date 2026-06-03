@@ -31,7 +31,7 @@ CAA는 인증서 발급 권한을 [도메인](/knowledge-base/studynote/05_datab
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CAA 레코드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 존에 게시되며, CA는 인증서 발급 요청을 받으면 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 상위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 조회해 허용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 확인한다. 대표 태그는 `issue`, `issuewild`, `iodef`이며, 각각 일반 인증서 허용 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), [와일드카드 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) 허용 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 위반 통지 수단을 뜻한다. 따라서 CAA는 암호 알고리즘이 아니라 **발급 전에 수행되는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사**다.
+CAA 레코드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 존에 게시되며, CA는 인증서 발급 요청을 받으면 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 상위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 조회해 허용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 확인한다. 대표 태그는 `issue`, `issuewild`, `iodef`이며, 각각 일반 인증서 허용 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), [와일드카드 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) 허용 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 위반 통지 수단을 뜻한다. 따라서 CAA는 암호 알고리즘이 아니라 <strong>발급 전에 수행되는 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 기반 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 검사</strong>다.
 
 | 태그 | 의미 | 활용 포인트 |
 | :--- | :--- | :--- |
@@ -42,20 +42,19 @@ CAA 레코드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_n
 
 아래 그림은 CAA가 인증서 발급 파이프라인 어디에 개입하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  CAA check in certificate issuance                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant ─▶ CA request                                              │
-│                │                                                     │
-│                ▼                                                     │
-│         CA queries DNS CAA record                                    │
-│                │                                                     │
-│       Allowed? ── Yes ─▶ Validate domain ─▶ Issue certificate        │
-│                │                                                     │
-│                └─ No ─▶ Reject / alert via iodef                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAA check in certificate issuance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant ─▶ CA request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA queries DNS CAA record</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Allowed? ── Yes ─▶ Validate domain ─▶ Issue certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ Reject / alert via iodef</div></div>
+</div>
+</div>
+
+
 
 예를 들어 `example.com. IN CAA 0 issue "digicert.com"`은 DigiCert 계열만 일반 인증서를 발급할 수 있다는 뜻이다. `issuewild`를 비워 두거나 특정 CA만 지정하면 [와일드카드 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) 발급 범위를 더 엄격히 제한할 수 있다. 또한 `iodef`를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 위반 시도나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 오류를 보안팀이 더 빨리 감지할 수 있다.
 
@@ -115,7 +114,7 @@ CAA는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuou
 
 CAA의 가장 큰 장점은 비용 대비 효과가 크다는 점이다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드 몇 줄만으로 허용되지 않은 CA의 발급 시도를 상당 부분 사전에 걸러낼 수 있고, 인증서 거버넌스를 문서가 아니라 실제 발급 절차에 연결할 수 있다. 특히 대형 조직처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수가 많고 위탁 운영이 섞인 환경에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 일관성을 높이는 데 유용하다.
 
-그러나 CAA는 만능 방패가 아니다. 이미 잘못 발급된 인증서를 회수해 주지도 않고, 허용된 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 내부의 운영 실수까지 모두 없애 주지도 않는다. 또한 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 관리가 부정확하거나 응답 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 약하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자체가 흔들릴 수 있으므로, CAA는 **사전 제한 장치**로 기억해야 한다.
+그러나 CAA는 만능 방패가 아니다. 이미 잘못 발급된 인증서를 회수해 주지도 않고, 허용된 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 내부의 운영 실수까지 모두 없애 주지도 않는다. 또한 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 관리가 부정확하거나 응답 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 약하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자체가 흔들릴 수 있으므로, CAA는 <strong>사전 제한 장치</strong>로 기억해야 한다.
 
 결국 CAA의 핵심은 인증서 발급 권한을 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자가 더 명시적으로 통제하게 만드는 데 있다. 웹 PKI가 "모든 신뢰된 CA가 잠재적으로 발급 가능"한 구조였다면, CAA는 그 범위를 줄여 "내가 허락한 CA만 발급 가능"한 구조로 좁혀 준다.
 
@@ -136,22 +135,24 @@ CAA의 가장 큰 장점은 비용 대비 효과가 크다는 점이다. [DNS](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다수 CA를 신뢰하는 웹 PKI
-    │
-    ▼
-오발급 · 약한 고리 문제 부각
-    │
-    ▼
-CAA (Certification Authority Authorization)
-    │
-    ├─ issue / issuewild 정책
-    ├─ iodef 통지
-    └─ 발급 전 DNS 조회
-    │
-    ▼
-DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다수 CA를 신뢰하는 웹 PKI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오발급 · 약한 고리 문제 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAA (Certification Authority Authorization)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">issue / issuewild 정책</div>
+<div class="kb-diagram-tree-item" style="--depth:2">iodef 통지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">발급 전 DNS 조회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스</div>
+</div>
+</div>
+
+
 
 이 흐름은 인증서 보안이 단순 신뢰 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서, 발급 권한 통제와 공개 감시를 함께 갖춘 방향으로 발전하는 모습을 보여 준다.
 

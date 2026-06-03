@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **매크로 셀**: 과거 3G, 4G 시절 동네 산꼭대기나 아파트 옥상에 세우던 반경 수 km 커버리지의 거대 철탑 기지국입니다.
-- **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고주파의 재앙**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 6G의 고주파수([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))는 100m도 못 가서 소멸합니다. 서울 전체를 덮으려면 이 거대 철탑을 강남구에만 수천 개 세워야 하는데 땅값이 비싸고 미관상 주민들이 철거 시위를 벌여 공사가 불가능합니다.
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 고주파의 재앙</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 6G의 고주파수([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))는 100m도 못 가서 소멸합니다. 서울 전체를 덮으려면 이 거대 철탑을 강남구에만 수천 개 세워야 하는데 땅값이 비싸고 미관상 주민들이 철거 시위를 벌여 공사가 불가능합니다.
 
-```text
-[5G SA/NSA 아키텍처 비교망]
-    │
-    ▼
-[스몰 셀 조밀화 간섭 통제망]
-    │
-    └──▶ [Massive MIMO 빔 관리 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,21 +41,25 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 와이파이 공유기 크기부터 여행 가방 크기까지 다양한 **초소형 소출력 기지국([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))들을 도심 곳곳의 가로등, 건물 벽, 실내 천장에 50~100m 간격으로 촘촘하게 도배하듯 밀집(Densification)시켜, 고주파의 짧은 도달 거리를 메꾸고 폭증하는 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하는 차세대 네트워크 구축 아키텍처**입니다.
+- **개념**: 와이파이 공유기 크기부터 여행 가방 크기까지 다양한 <strong>초소형 소출력 기지국(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>)들을 도심 곳곳의 가로등, 건물 벽, 실내 천장에 50~100m 간격으로 촘촘하게 도배하듯 밀집(Densification)시켜, 고주파의 짧은 도달 거리를 메꾸고 폭증하는 트래픽을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리하는 차세대 네트워크 구축 아키텍처</strong>입니다.
 
 ### 스몰 셀의 3대 계급 (크기별)
 1. **마이크로 셀 (Micro)**: 반경 수백 m. 빌딩 밀집 구역 옥상용.
 2. **피코 셀 (Pico)**: 반경 100m 이내. 대형 마트, 야구장, 기차역 지붕용.
 3. **펨토 셀 (Femto)**: 반경 10m. 가정집이나 소규모 사무실 천장용 (초소형 와이파이 공유기 크기).
 
-```text
-[5G SA/NSA 아키텍처 비교망]
-    │
-    ▼
-[스몰 셀 조밀화 간섭 통제망]
-    │
-    └──▶ [Massive MIMO 빔 관리 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 이 전파 엉킴을 해결하는 마법의 교차로 통제술입니다.
 ### 1. eICIC (확장형 셀 간 간섭 제어) - "형이 1초 참을게"
 - 1012번 ICIC의 진화형입니다. 옥상의 거대 기지국(형)과 가로등 미니 기지국(동생)이 무전(X2 인터페이스)을 칩니다.
-- **ABS (Almost Blank Subframe)**: 거대 철탑 형님이 "야! 네 구역 근처에서 폰 전파 엉키지? 내가 1초 동안 전파를 안 쏘고 '텅 빈 시간(ABS)'을 줄 테니까, 그 시간 동안 동생 네가 폰한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 쏴라!" 라며 **시간을 쪼개어 형님이 강제로 양보(침묵)하는 방식**으로 굉음(간섭)을 완전히 회피합니다.
+- **ABS (Almost Blank Subframe)**: 거대 철탑 형님이 "야! 네 구역 근처에서 폰 전파 엉키지? 내가 1초 동안 전파를 안 쏘고 '텅 빈 시간(ABS)'을 줄 테니까, 그 시간 동안 동생 네가 폰한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 쏴라!" 라며 <strong>시간을 쪼개어 형님이 강제로 양보(침묵)하는 방식</strong>으로 굉음(간섭)을 완전히 회피합니다.
 
 ### 2. C-RAN과 [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/) ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 융합
 - 1014번 융합: 스몰 셀에선 고화질 유튜브 영상(고주파 다운로드)을 쏘게 하고, 철탑 매크로 셀에선 안 끊기는 카톡과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(저주파)를 쏘게 만든 뒤, 폰이 이 2개를 하나로 묶어([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 동시에 받아내는 영리한 역할 분담망을 짭니다.
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 스몰 셀을 10만 개 달면 끝이 아닙니다. 이 스몰 셀 10만 대 뒷구멍에 일일이 광케이블([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))을 꽂아서 통신사 전화국으로 연결해야 진짜 인터넷이 됩니다. 땅 파는 공사비가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 값보다 비싸서, 최근엔 **통신사들이 전봇대([스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))와 전봇대 사이를 광케이블 없이 레이저 전파로 쏴서(무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), IAB 기술) 우회하는 꼼수**를 개발 중입니다.
+- 스몰 셀을 10만 개 달면 끝이 아닙니다. 이 스몰 셀 10만 대 뒷구멍에 일일이 광케이블([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))을 꽂아서 통신사 전화국으로 연결해야 진짜 인터넷이 됩니다. 땅 파는 공사비가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 값보다 비싸서, 최근엔 <strong>통신사들이 전봇대(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a>)와 전봇대 사이를 광케이블 없이 레이저 전파로 쏴서(무선 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">백홀</a>, IAB 기술) 우회하는 꼼수</strong>를 개발 중입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **매크로 기지국**은 남산 꼭대기에 설치한 **'초거대 100만 촉광 서치라이트(저주파)'**입니다. 빛이 온 서울을 다 덮지만, 건물 안이나 골목길 뒷골목에는 빛이 닿지 않아 그림자(통신 사각지대)가 크게 집니다. **스몰 셀 조밀화**는 남산의 큰 불빛을 치우지 않은 채, 강남 골목길의 모든 가로등과 전봇대마다 **'1만 촉광짜리 작은 손전등(고주파 스몰 셀)'을 10만 개 촘촘하게 도배해 버린 것**입니다. 덕분에 골목길 구석구석, 심지어 지하실 화장실까지 대낮처럼 훤해져 사각지대가 0%로 소멸했습니다. 하지만 큰 불빛과 작은 불빛 100개가 내 눈앞에서 동시에 비추면 눈이 부셔서 장님이 됩니다(전파 간섭). 이를 막는 **eICIC 간섭 통제**는, 남산의 큰 불빛이 "야 1초 동안 나 불 끌게!" 하고 침묵(ABS)하는 틈을 타, 가로등 손전등들이 일제히 빛을 비춰 나를 안전하게 비춰주는, 빛과 그림자의 완벽한 타이밍 조율 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>매크로 기지국</strong>은 남산 꼭대기에 설치한 <strong>'초거대 100만 촉광 서치라이트(저주파)'</strong>입니다. 빛이 온 서울을 다 덮지만, 건물 안이나 골목길 뒷골목에는 빛이 닿지 않아 그림자(통신 사각지대)가 크게 집니다. <strong>스몰 셀 조밀화</strong>는 남산의 큰 불빛을 치우지 않은 채, 강남 골목길의 모든 가로등과 전봇대마다 <strong>'1만 촉광짜리 작은 손전등(고주파 스몰 셀)'을 10만 개 촘촘하게 도배해 버린 것</strong>입니다. 덕분에 골목길 구석구석, 심지어 지하실 화장실까지 대낮처럼 훤해져 사각지대가 0%로 소멸했습니다. 하지만 큰 불빛과 작은 불빛 100개가 내 눈앞에서 동시에 비추면 눈이 부셔서 장님이 됩니다(전파 간섭). 이를 막는 <strong>eICIC 간섭 통제</strong>는, 남산의 큰 불빛이 "야 1초 동안 나 불 끌게!" 하고 침묵(ABS)하는 틈을 타, 가로등 손전등들이 일제히 빛을 비춰 나를 안전하게 비춰주는, 빛과 그림자의 완벽한 타이밍 조율 시스템입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 5G SA/NSA 아키텍처 비교망]
-    │
-    ▼
-[현재 개념: 스몰 셀 조밀화 간섭 통제망]
-    │
-    ├──▶ [확장 A: Massive MIMO 빔 관리 시스템]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 5G SA/NSA 아키텍처 비교망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스몰 셀 조밀화 간섭 통제망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Massive MIMO 빔 관리 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 스몰 셀 조밀화 간섭 통제망는 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망에서 출발해 현재 메커니즘을 정교화하고, 이후 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

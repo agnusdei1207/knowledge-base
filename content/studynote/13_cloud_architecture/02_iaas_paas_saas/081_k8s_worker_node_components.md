@@ -21,7 +21,7 @@ tags = ["cloud_architecture"]
 
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 통제를 내리는 사령탑 '[마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)'와, 실제 Pod가 배치되어 연산을 수행하는 공장인 수십/수백 개의 '워커 노드(Worker Node)' 로 나뉜다. 마스터가 아무리 "Nginx [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 3개를 띄워라"라고 API로 텍스트 명령을 내려도, 워커 노드 내부에 그 텍스트를 듣고 해석해서 실행할 중간 현장 소장(에이전트)이 없으면 돌아가지 않는다. 그 현장 요소가 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)다.
 - **필요성**: 수천 단위의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 스케줄링하려면 워커 장비 물리 자원(RAM, CPU) 관제, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)(Pulling), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)포워딩 테이블 및 로드밸런싱까지 노드 하나당 처리해야 할 자동 관리 규칙이 십만 개를 넘는다. 이를 리눅스 서버 하나마다 3명의 듬직한 정예 에이전트([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) 등) 가 백그라운드 데몬으로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 관리 체계를 위임받지 않으면 K8s라는 거대한 군대 지휘는 불가능하다.
-- **💡 비유**: 워커 노드는 하나의 거대한 **조립 공장**이다. [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)(회장님)로부터 작업 지시서를 팩스로 받는 **현장 소장([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))** 이 있고, 공장 출입구 앞에서 배달원들에게 교통정리를 서고 문을 열어주는 **수위 아저씨(Kube-Proxy)** 가 있으며, 지시에 따라 실제 쇳물을 들이고 물건을 생산하는 **거대 컨베이어 엔진([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/))** 이 서로 협력하며 공장을 24시간 돌리는 것과 같다.
+- **💡 비유**: 워커 노드는 하나의 거대한 <strong>조립 공장</strong>이다. [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)(회장님)로부터 작업 지시서를 팩스로 받는 <strong>현장 소장(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a>)</strong> 이 있고, 공장 출입구 앞에서 배달원들에게 교통정리를 서고 문을 열어주는 **수위 아저씨(Kube-Proxy)** 가 있으며, 지시에 따라 실제 쇳물을 들이고 물건을 생산하는 <strong>거대 컨베이어 엔진(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/">Container Runtime</a>)</strong> 이 서로 협력하며 공장을 24시간 돌리는 것과 같다.
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Swarm)가 단순 쉘 통신으로 묶였을 때 네트워크 단절과 모니터링 사각지대 이슈가 심했다. K8s는 각 노드마다 명확히 기능을 철저히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 격리(제어, 네트워크, 실행)한 마이크로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데몬 아키텍처를 이식함으로써, 중간에 엔진([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))이 망하거나 단종돼도 다른 규격(CRI) 엔진으로 갈아 끼울 수 있는 압도적 신뢰성을 쟁취했다.
 
 - **📢 섹션 요약 비유**: 두뇌(마스터)가 손가락을 구부리라고 명령하면, 척수 신경망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Kube-proxy)가 피를 통하게 하고, 팔다리의 근육 뉴런 세포([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))가 신호를 직독직해 하여, 뼈와 살점 조직(Runtime)을 역동적으로 움직이게 돕는 신체 장기와 같습니다.
@@ -38,7 +38,7 @@ tags = ["cloud_architecture"]
 
 ### 2. [컨테이너 런타임](/knowledge-base/studynote/02_operating_system/10_security/628_container_runtime_oci/) ([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/), 실제 조립 엔진)
 - **주요 역할**: Kubelet의 지시를 받아 실제로 리눅스 위에 빈 공간을 격리([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/), [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))하고 로컬 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 환경 등에서 이미지를 Pull 땡겨와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)라는 생명체를 가동하는 순수 엔진.
-- **CRI ([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) Interface)**: 과거엔 Docker만 썼지만 Docker가 K8s 의 표준에 맞지 않는 찌꺼기가 많아지자, [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 이미지 표준만 맞추면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)d (containerd), CRI-O 등 어떤 런타임이라도 호환 가능하게 인터페이스(CRI) 플러그인 껍데기로 통합 분리했다.
+- <strong>CRI (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/">Container Runtime</a> Interface)</strong>: 과거엔 Docker만 썼지만 Docker가 K8s 의 표준에 맞지 않는 찌꺼기가 많아지자, [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 이미지 표준만 맞추면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)d (containerd), CRI-O 등 어떤 런타임이라도 호환 가능하게 인터페이스(CRI) 플러그인 껍데기로 통합 분리했다.
 
 ### 3. Kube-Proxy (노드 네트워크 경찰관)
 - **주요 역할**: 각각의 노드는 여러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 담고 있다. 밖에서 클라이언트가 특정한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앱([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) IP)에 접속하려 할 때, 트래픽을 정확히 그 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 있는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 랜선 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))까지 인도하는 네트워크 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 및 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기다.
@@ -50,38 +50,31 @@ tags = ["cloud_architecture"]
 
 컨트롤 플레인(마스터)의 지시가 워커 노드의 3 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 통해 최종 Pod로 태어나는 흐름.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 K8s Worker Node 아키텍처 다이어그램             │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │     [ 마스터 노드 (Control Plane) ]                           │
-  │            ( API Server )                                   │
-  │               ▲      │                                      │
-  │               │      │ 1. Pod 생성 지시 (YAML)                 │
-  │ ──────────────┼──────┼───────────────────────────────────── │
-  │               │      ▼                                      │
-  │     [ 워커 로드 노드 (Worker Node) ]                           │
-  │                                                             │
-  │             ┌────────────────┐   2. CRI 통신 (API)           │
-  │     상태보고  │ 1. Kubelet     │ ─────────┐                   │
-  │     (cAdvisor)└────────────────┘          ▼                   │
-  │                                   ┌────────────────┐        │
-  │                                   │2. Container    │        │
-  │                                   │   Runtime      │        │
-  │                                   │ (containerd)   │        │
-  │  (외부 트래픽/사용자)                     └────────────────┘        │
-  │        │                            │ 3. 네임스페이스 격리 및 실행 │
-  │        ▼                            ▼                       │
-  │  ┌────────────────┐     ┌────────────────────────────┐      │
-  │  │ 3. Kube-Proxy  │ ───▶│          [ Pod ]           │      │
-  │  │ (iptables 규칙) │     │ ┌─────────┐   ┌─────────┐ │      │
-  │  └────────────────┘     │ │ App     │   │ Sidecar │ │      │
-  │       (로드 밸런싱)           │ │ Container│   │ Container│ │      │
-  │                         │ └─────────┘   └─────────┘ │      │
-  │                         └────────────────────────────┘      │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s Worker Node 아키텍처 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 노드 (Control Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( API Server )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Pod 생성 지시 (YAML)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워커 로드 노드 (Worker Node)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CRI 통신 (API)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태보고</div><div class="kb-diagram-cell">1. Kubelet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(cAdvisor) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(containerd)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 트래픽/사용자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 네임스페이스 격리 및 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(iptables 규칙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">Sidecar</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로드 밸런싱)</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 클라이언트 네트워크 트래픽은 하단의 Kube-Proxy를 통과하여 최적의 경로 계산 후 타겟 Pod로 향하게 된다. 동시에 최상단의 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) 데몬은 영원히 돌면서(Systemd [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 마스터에게 "안전 이상 무"를 보고한다. Kubelet은 CRI 호환 규격을 통해 [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Runtime에게 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 구성을 명령한다. 즉, 이 세 명의 거인(에이전트 데몬)이 각각 관리(Control), 네트워크(Traffic), 조립(Execution)의 삼각 밸런스를 맞추어 노드 하나를 거대한 슈퍼컴퓨터의 무결점 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 조각으로 승격시키는 것이다.
 
@@ -117,7 +110,7 @@ Kubelet은 노드의 상태를 점검하는 마스터의 눈동자인데, App Po
 
 ## Ⅴ. 미래 발전 전망
 K8s는 10주년을 넘어가며 워커 노드의 3대 정석에도 근본적인 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 균열이 오고 있다.
-1. **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) ([Serverless Kubernetes](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/112_serverless_kubernetes_fargate/))**: 클라우드 생태계는 아예 워커 노드의 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 사용자가 볼 수 없게 투명하게 감추는 Fargate(AWS), Autopilot(GCP) 모델로 발전하고 있다. 인프라 데몬 업데이트할 걱정 없이 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 리소스만 선언하면 보이지 않는 가상 무한의 거대한 "슈퍼 워커 노드" 하나가 돌아가는 것처럼 추상화된다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/112_serverless_kubernetes_fargate/">Serverless Kubernetes</a>)</strong>: 클라우드 생태계는 아예 워커 노드의 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 사용자가 볼 수 없게 투명하게 감추는 Fargate(AWS), Autopilot(GCP) 모델로 발전하고 있다. 인프라 데몬 업데이트할 걱정 없이 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 리소스만 선언하면 보이지 않는 가상 무한의 거대한 "슈퍼 워커 노드" 하나가 돌아가는 것처럼 추상화된다.
 2. **eBPF의 침공**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 후킹 기술인 eBPF가 발전하면서, 네트워크를 귀찮게 타고 내려오던 iptables Kube-proxy가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 자체에서 0.001초 만에 최적화 라우팅을 갈무리하는 식으로 점차 퇴출되거나 교체 압박을 받고 있다.
 
 ---
@@ -127,8 +120,8 @@ K8s는 10주년을 넘어가며 워커 노드의 3대 정석에도 근본적인 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
 | **컨트롤 플레인 (Master Node)** | 워커의 Kubelet에게 명령을 하다([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server, Scheduler)를 포함한 컨트롤타워. |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server** | 데몬 Kubelet이 살았는지 죽었는지 유일하게 대화(통신 허가)하는 K8s의 단일 창구 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/). |
-| **CRI, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/), [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)** | 런타임(CRI), 네트워크([CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)), 스토리지([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))의 연결 인터페이스 약자 구조로 K8s 워커를 레고 블록처럼 표준 조립하게 해준 핵심 기둥이다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Server</strong> | 데몬 Kubelet이 살았는지 죽었는지 유일하게 대화(통신 허가)하는 K8s의 단일 창구 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/). |
+| <strong>CRI, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a>, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a></strong> | 런타임(CRI), 네트워크([CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)), 스토리지([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))의 연결 인터페이스 약자 구조로 K8s 워커를 레고 블록처럼 표준 조립하게 해준 핵심 기둥이다. |
 | **IPVS (IP Virtual Server)** | iptables [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이슈를 박살 내주는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 고급 로드밸런싱 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 Kube-proxy의 업그레이드 옵션이다. |
 | **Kube-reserved / System-reserved** | 에이전트([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), 백그라운드 관리)들이 안 터지게 하기 위한 피난처 메모리 할당 제한자 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 옵션. |
 
@@ -139,20 +132,24 @@ K8s는 10주년을 넘어가며 워커 노드의 3대 정석에도 근본적인 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 수동 배포
-    │
-    ▼
-K8s Worker Node 3총사
-    ├─► kubelet: Pod 라이프사이클 관리
-    ├─► kube-proxy: 서비스 네트워킹 (iptables · IPVS)
-    └─► Container Runtime: containerd · CRI-O
-    │
-    ▼
-DaemonSet · Static Pod → 노드 레벨 자동화
-```
-2. 마스터 사장님의 명령 쪽지를 읽고 공장장 역할을 하는 녀석이 **[Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)([큐블렛](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))** 이고, 실제 기계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 넣고 물건을 착착 굽는 로봇 팔이 **런타임([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진)** 이에요.
-3. 그리고 밖에서 트럭(네트워크 손님)이 도착하면 헷갈리지 않게 딱 알맞은 창고 문 앞으로 짐을 옮기도록 교통정리 피리를 부는 수위 아저씨가 바로 **Kube-proxy([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))** 랍니다!
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 수동 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s Worker Node 3총사</div>
+<div class="kb-diagram-tree-item" style="--depth:2">kubelet: Pod 라이프사이클 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">kube-proxy: 서비스 네트워킹 (iptables · IPVS)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Container Runtime: containerd · CRI-O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DaemonSet · Static Pod → 노드 레벨 자동화</div>
+</div>
+</div>
+
+
+2. 마스터 사장님의 명령 쪽지를 읽고 공장장 역할을 하는 녀석이 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">큐블렛</a>)</strong> 이고, 실제 기계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 넣고 물건을 착착 굽는 로봇 팔이 <strong>런타임(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 엔진)</strong> 이에요.
+3. 그리고 밖에서 트럭(네트워크 손님)이 도착하면 헷갈리지 않게 딱 알맞은 창고 문 앞으로 짐을 옮기도록 교통정리 피리를 부는 수위 아저씨가 바로 <strong>Kube-proxy(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong> 랍니다!
 
 ---
 

@@ -100,25 +100,37 @@ Primary Key
 
 ## 관련 개념 맵
 
-```text
-Candidate Key
-  ↓ choose
-Primary Key
-  ↓
-Foreign Key
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-note">↓ choose</div>
+<div class="kb-diagram-note">Primary Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Foreign Key</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Candidate Key
-  ↓
-Primary Key
-  ↓
-Referential Integrity
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Primary Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Referential Integrity</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -10,7 +10,7 @@ tags = ["studynote-design-supervision"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)(Action Result [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 감리원이 지적한 결함에 대해 수행사가 제출한 조치 결과서가 '종이(문서)상의 눈속임'인지 '물리적(시스템) 해결'인지 **실사(Physical Inspection)를 통해 참/거짓을 판별하는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 아키텍처**다.
+> 1. **본질**: [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)(Action Result [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 감리원이 지적한 결함에 대해 수행사가 제출한 조치 결과서가 '종이(문서)상의 눈속임'인지 '물리적(시스템) 해결'인지 <strong>실사(Physical Inspection)를 통해 참/거짓을 판별하는 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 아키텍처</strong>다.
 > 2. **가치**: 감리의 사이클(계획-수행-보고)을 종결짓는 최후의 관문으로, 미조치 시 발주처가 수행사에게 잔금을 지급하지 않거나 지체상금을 물릴 수 있는 가장 강력한 법적/재무적 근거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Evidence)를 제공한다.
 > 3. **판단 포인트**: '조치 완료' 판정을 내리기 위해서는 단순히 코드가 수정되었는지 보는 것을 넘어, 대체 조치(Alternative Action)가 원래 요구되었던 비즈니스 목표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 100% 만족하는지에 대한 아키텍트적 쇳덩어리 재평가 역량이 필수적이다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-design-supervision"]
 
 소프트웨어 개발 프로젝트에서 감리원이 "보안 취약점 발견됨: 패스워드가 평문으로 저장됨. 암호화 적용 바람"이라고 지적했다. 한 달 뒤, 수행사(개발사)는 `조치 결과 보고서`라는 문서를 제출한다. 문서에는 "SHA-256 적용 완료"라는 글과 함께 그럴듯한 화면 캡처가 붙어있다. 이것을 믿고 그냥 '조치 완료' 도장을 찍어줄 것인가?
 
-안타깝게도 IT 현장에는 캡처본을 조작하거나 테스트 DB에만 적용하고 운영 DB에는 배포하지 않는 꼼수가 난무한다. 이 거짓말을 잡아내지 못하면 시스템 오픈 날 대형 해킹 사고가 터지고, 감리 법인도 연대 책임을 지고 소송의 늪에 빠진다. **[조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)**은 감리원이 직접 시스템에 접속해 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려보고 소스코드를 뜯어보는 '실사 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)' 과정이다. 이것은 수행사의 숙제 검사 수준을 넘어, 프로젝트의 생사(대금 지급)를 결정하는 최후의 법적 판결문이다.
+안타깝게도 IT 현장에는 캡처본을 조작하거나 테스트 DB에만 적용하고 운영 DB에는 배포하지 않는 꼼수가 난무한다. 이 거짓말을 잡아내지 못하면 시스템 오픈 날 대형 해킹 사고가 터지고, 감리 법인도 연대 책임을 지고 소송의 늪에 빠진다. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/">조치 결과 확인</a></strong>은 감리원이 직접 시스템에 접속해 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려보고 소스코드를 뜯어보는 '실사 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)' 과정이다. 이것은 수행사의 숙제 검사 수준을 넘어, 프로젝트의 생사(대금 지급)를 결정하는 최후의 법적 판결문이다.
 
 - **📢 섹션 요약 비유**: [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 '마약 탐지견의 마지막 냄새 맡기'다. 승객(수행사)이 "가방 안에 나쁜 물건 없습니다"라고 세관 신고서(조치 결과서)를 썼더라도, 그것을 믿고 통과시키는 게 아니라 직접 코를 대고(시스템 실사) 가방을 뒤져서 진실을 밝혀내는 철저한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정이다.
 
@@ -31,32 +31,30 @@ tags = ["studynote-design-supervision"]
 ### [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 판정의 3-Way 메커니즘
 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 주관적인 평가가 아니다. 1:1 매핑을 통한 기계적 판정 프로세스다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           조치 결과 확인(Verification)의 판정 아키텍처 로직        │
-├────────────────────────────────────────────────────────┤
-│   [ 입력(Input): 지적 사항 (과거) ]                        │
-│   "사용자 로그인 시 1초 이상 지연됨 (성능 결함)"                │
-│             │                                          │
-│             ▼                                          │
-│   [ 수행(Process): 검증 방법론 (현재) ]                     │
-│    - 문서 리뷰: 조치 내역서 확인                            │
-│    - 코드 리뷰: 인덱스 추가 및 쿼리 튜닝 내역 확인             │
-│    - 쇳덩어리 실사: 직접 APM/JMeter를 돌려 응답속도 측정       │
-│             │                                          │
-│             ▼                                          │
-│   [ 출력(Output): 판정 결과 (미래 결정) ]                    │
-│    ├──▶ 🟢 조치 완료 (Accept): 0.5초로 개선됨. 통과!       │
-│    ├──▶ 🔴 미조치 (Reject) : 1.2초 나옴. 불합격!          │
-│    └──▶ ⚪ 부분 조치 (Partial): 0.9초 나옴 (조건부 수용)    │
-│                                                        │
-│ * 핵심 논리: 판정의 기준은 절대적으로 '과거에 지적한 문서'다.    │
-│   여기서 새로운 결함(예: "디자인이 구리네요")을 지적하는 것은 │
-│   감리 거버넌스의 범위를 벗어난 심각한 월권행위다.           │
-└────────────────────────────────────────────────────────┘
-```
 
-특히 **대체 조치(Alternative Action)**에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가장 고난도다. 수행사가 "돈이 없어서 상용 보안 솔루션 도입은 못 했지만, 파이썬 스크립트로 짰습니다"라고 할 때, 그 스크립트가 원래 요구했던 보안 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 100% 만족하는지 아키텍처적 관점에서 재평가(Re-evaluation)해야 하기 때문이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조치 결과 확인(Verification)의 판정 아키텍처 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력(Input): 지적 사항 (과거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"사용자 로그인 시 1초 이상 지연됨 (성능 결함)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수행(Process): 검증 방법론 (현재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문서 리뷰: 조치 내역서 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 리뷰: 인덱스 추가 및 쿼리 튜닝 내역 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쇳덩어리 실사: 직접 APM/JMeter를 돌려 응답속도 측정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력(Output): 판정 결과 (미래 결정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 🟢 조치 완료 (Accept): 0.5초로 개선됨. 통과!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 🔴 미조치 (Reject) : 1.2초 나옴. 불합격!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ⚪ 부분 조치 (Partial): 0.9초 나옴 (조건부 수용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 판정의 기준은 절대적으로 '과거에 지적한 문서'다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기서 새로운 결함(예: "디자인이 구리네요")을 지적하는 것은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 거버넌스의 범위를 벗어난 심각한 월권행위다.</div></div>
+</div>
+</div>
+
+
+
+특히 <strong>대체 조치(Alternative Action)</strong>에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가장 고난도다. 수행사가 "돈이 없어서 상용 보안 솔루션 도입은 못 했지만, 파이썬 스크립트로 짰습니다"라고 할 때, 그 스크립트가 원래 요구했던 보안 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 100% 만족하는지 아키텍처적 관점에서 재평가(Re-evaluation)해야 하기 때문이다.
 
 - **📢 섹션 요약 비유**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 판정은 '수학 문제 오답 노트 채점'이다. 선생님(감리원)이 지난번에 틀렸다고 동그라미 친 문제(지적 사항)만 다시 풀어왔는지 채점하는 것이다. 갑자기 다음 단원 문제를 꺼내서 틀렸다고 혼내면(새로운 지적) 안 된다. 오직 지적했던 그 문제의 답이 맞았는지(조치 완료) 틀렸는지(미조치)만 판결한다.
 
@@ -69,11 +67,11 @@ tags = ["studynote-design-supervision"]
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 | 문서 감리 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) | 실사 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (베스트 프랙티스) |
 |:---|:---|:---|
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구** | 수행사가 제출한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)/PPT 화면 캡처 | **실제 운영 서버 접속, 소스 코드, DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 시연** |
-| **조작 가능성**| 포토샵, 타 프로젝트 캡처 재사용에 무방비 | **조작 절대 불가 (기계의 쇳덩어리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 거짓말 안 함)** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 도구</strong> | 수행사가 제출한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)/PPT 화면 캡처 | <strong>실제 운영 서버 접속, 소스 코드, DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>, 시연</strong> |
+| **조작 가능성**| 포토샵, 타 프로젝트 캡처 재사용에 무방비 | <strong>조작 절대 불가 (기계의 쇳덩어리 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>는 거짓말 안 함)</strong> |
 | **감리원 필요 역량**| 문서를 읽을 줄 아는 수준의 비전문가 | **코드를 읽고 아키텍처를 꿰뚫어 보는 기술사/아키텍트** |
-| **법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**| 나중에 시스템 터지면 감리 법인 소송당함 | **완벽한 증거 수집으로 감리 법인 및 발주처 면책** |
-| **결과물 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)**| 모래성 (언제 무너질지 모름) | **콘크리트 (강력한 신뢰 기반의 잔금 지급 근거)** |
+| <strong>법적 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>| 나중에 시스템 터지면 감리 법인 소송당함 | **완벽한 증거 수집으로 감리 법인 및 발주처 면책** |
+| <strong>결과물 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a></strong>| 모래성 (언제 무너질지 모름) | **콘크리트 (강력한 신뢰 기반의 잔금 지급 근거)** |
 
 수행사는 프로젝트 막바지에 시간에 쫓겨 조치를 한 척([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/))만 하고 넘어가려는 강한 유혹을 받는다. 감리원이 시스템에 접속할 권한([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), 계정)조차 받지 못하고 커피숍에서 문서만 보고 있다면, 그 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 프로젝트 예산을 훔치는 범죄 행위나 다름없다.
 
@@ -84,11 +82,11 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **취약점 스캐닝 리포트 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))**: 보안 감리. 수행사가 "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모듈의 Log4j 취약점 패치를 서버 100대에 모두 완료했습니다"라고 보고서를 냈다. 아키텍트(감리원)는 보고서를 책상에 엎어두고, 직접 자사(감리 법인)의 취약점 스캐너(Nessus 등)를 돌려 100대의 서버 IP를 무차별 스캔한다. 스캔 결과 2대의 서버에서 여전히 취약점이 발견되면, 문서 내용과 관계없이 가차 없이 '미조치' 판정을 때리고 발주처에 통보한다. 기계적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만이 유일한 진실이다.
-2. **지체상금([Liquidated Damages](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/)) 청구를 위한 에비던스(Evidence) 구축**: 프로젝트 종료일이 12월 31일인데, 1월 5일에 실시한 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)에서 핵심 기능 3개가 '미조치'로 떴다. 발주처는 시스템 인수를 거부하고, 1월 6일부터 하루 단위로 계약금의 0.15%씩 벌금(지체상금)을 매기기 시작한다. 수행사가 "우리는 다 고쳤는데 감리원이 억지 부리는 거다!"라고 소송을 걸 때, 법정에서 판사가 가장 신뢰하는 증거가 바로 제3자인 기술사(감리원)가 날인한 '미조치 증적([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/코드 화면)'이 담긴 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)서다.
+1. <strong>취약점 스캐닝 리포트 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">Cross-Validation</a>)</strong>: 보안 감리. 수행사가 "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모듈의 Log4j 취약점 패치를 서버 100대에 모두 완료했습니다"라고 보고서를 냈다. 아키텍트(감리원)는 보고서를 책상에 엎어두고, 직접 자사(감리 법인)의 취약점 스캐너(Nessus 등)를 돌려 100대의 서버 IP를 무차별 스캔한다. 스캔 결과 2대의 서버에서 여전히 취약점이 발견되면, 문서 내용과 관계없이 가차 없이 '미조치' 판정을 때리고 발주처에 통보한다. 기계적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만이 유일한 진실이다.
+2. <strong>지체상금(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/">Liquidated Damages</a>) 청구를 위한 에비던스(Evidence) 구축</strong>: 프로젝트 종료일이 12월 31일인데, 1월 5일에 실시한 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)에서 핵심 기능 3개가 '미조치'로 떴다. 발주처는 시스템 인수를 거부하고, 1월 6일부터 하루 단위로 계약금의 0.15%씩 벌금(지체상금)을 매기기 시작한다. 수행사가 "우리는 다 고쳤는데 감리원이 억지 부리는 거다!"라고 소송을 걸 때, 법정에서 판사가 가장 신뢰하는 증거가 바로 제3자인 기술사(감리원)가 날인한 '미조치 증적([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/코드 화면)'이 담긴 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)서다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/) 단계에서의 새로운 요구사항 도출 ([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))**: 최악의 감리원. 과거 지적 사항이 완벽히 조치된 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 놓고는, 갑자기 화면을 보더니 "어, 근데 이 버튼 색깔이 마음에 안 드네? 이것도 바꾸시오. 미조치!"라고 몽니를 부린다. [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 과거와의 약속([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자리이지 새로운 설계를 하는 자리가 아니다. 이런 짓을 하면 수행사는 프로젝트를 영원히 끝내지 못하고 파산하며, 감리 거버넌스의 신뢰는 바닥으로 추락한다.
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/">조치 결과 확인</a> 단계에서의 새로운 요구사항 도출 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)</strong>: 최악의 감리원. 과거 지적 사항이 완벽히 조치된 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 놓고는, 갑자기 화면을 보더니 "어, 근데 이 버튼 색깔이 마음에 안 드네? 이것도 바꾸시오. 미조치!"라고 몽니를 부린다. [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 과거와의 약속([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자리이지 새로운 설계를 하는 자리가 아니다. 이런 짓을 하면 수행사는 프로젝트를 영원히 끝내지 못하고 파산하며, 감리 거버넌스의 신뢰는 바닥으로 추락한다.
 
 - **📢 섹션 요약 비유**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에서 새로운 지적을 하는 것은, 자동차 검사소 직원이 '엔진 오일 갈아오라'고 해서 갈아왔더니 "오일은 갈았네. 근데 차 색깔이 촌스러우니까 불합격!"이라고 말하는 것과 같다. 검사 기준(지적 사항)에 없는 것으로 발목을 잡는 갑질이자 프로세스 붕괴다.
 
@@ -108,27 +106,29 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[확인 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/) ([Follow-up Audit](/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/))** | [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)이라는 행위가 공식적인 프로젝트 마일스톤(단계)으로 격상되어 수행되는 전체 감리 프로세스의 이름. 사실상 같은 쇳덩어리다. |
-| **시정 조치 ([Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) Action)** | 감리원의 지적 사항을 맞닥뜨린 수행사가 소스 코드를 뜯어고치거나 서버 아키텍처를 변경하는 물리적 행위 그 자체 |
-| **지체상금 (LD, [Liquidated Damages](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/))** | [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)에서 '미조치'를 받아 프로젝트 오픈이 늦어질 때마다 발주처가 수행사에게 부과하는 무시무시한 재무적 벌금 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/">확인 감리</a> (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/013_follow_up_audit/">Follow-up Audit</a>)</strong> | [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)이라는 행위가 공식적인 프로젝트 마일스톤(단계)으로 격상되어 수행되는 전체 감리 프로세스의 이름. 사실상 같은 쇳덩어리다. |
+| <strong>시정 조치 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/">Corrective</a> Action)</strong> | 감리원의 지적 사항을 맞닥뜨린 수행사가 소스 코드를 뜯어고치거나 서버 아키텍처를 변경하는 물리적 행위 그 자체 |
+| <strong>지체상금 (LD, <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/">Liquidated Damages</a>)</strong> | [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)에서 '미조치'를 받아 프로젝트 오픈이 늦어질 때마다 발주처가 수행사에게 부과하는 무시무시한 재무적 벌금 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 프로젝트의 부실화 및 탁상 감리(문서 검토 위주) 관행의 한계
-    │
-    ▼
-오픈 후 시스템 장애/해킹 발생 및 책임 소재 불분명 (발주처 vs 수행사)
-    │
-    ▼
-감리의 실효성 확보를 위한 '현장 실사(Physical Verification)' 의무화
-    │
-    ▼
-과거 지적 사항(Baseline)과 현재 조치 내역의 1:1 기계적 매핑 판정 룰 확립
-    │
-    ▼
-대금 지급 보류 및 지체상금 부과라는 강력한 법적/재무적 거버넌스의 판결문으로 안착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 프로젝트의 부실화 및 탁상 감리(문서 검토 위주) 관행의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오픈 후 시스템 장애/해킹 발생 및 책임 소재 불분명 (발주처 vs 수행사)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">감리의 실효성 확보를 위한 '현장 실사(Physical Verification)' 의무화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과거 지적 사항(Baseline)과 현재 조치 내역의 1:1 기계적 매핑 판정 룰 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대금 지급 보류 및 지체상금 부과라는 강력한 법적/재무적 거버넌스의 판결문으로 안착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "탁상행정의 실패 → 실물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 도입 → 주관성 배제를 위한 1:1 기계적 판정 → 법적/재무적 거버넌스와의 완벽한 융합"이라는 감리 종결 과정의 진화를 보여준다.
 

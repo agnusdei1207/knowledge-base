@@ -20,31 +20,33 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 모델 서빙이란?
 
-**모델 서빙 (Model Serving)**은 학습된 ML 모델을 외부 클라이언트가 API를 통해 실시간으로 예측을 요청할 수 있도록 배포·제공하는 과정이다.
+<strong>모델 서빙 (Model Serving)</strong>은 학습된 ML 모델을 외부 클라이언트가 API를 통해 실시간으로 예측을 요청할 수 있도록 배포·제공하는 과정이다.
 
-```
-모델 학습 (오프라인)               모델 서빙 (온라인)
-┌─────────────────────┐          ┌────────────────────────────┐
-│  GPU 클러스터       │          │  서빙 서버                  │
-│  데이터 → 학습 →   │ 배포 →   │                            │
-│  model.pkl         │          │  클라이언트 요청             │
-│  (정적 파일)        │          │  POST /predict             │
-└─────────────────────┘          │  {"input": [1.2, 3.4, ...]}│
-                                  │         ↓                  │
-                                  │  모델 추론 (ms 단위)        │
-                                  │         ↓                  │
-                                  │  {"prediction": 0.95}      │
-                                  └────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 학습 (오프라인) 모델 서빙 (온라인)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 클러스터</div><div class="kb-diagram-cell">서빙 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 → 학습 →</div><div class="kb-diagram-cell">배포 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model.pkl</div><div class="kb-diagram-cell">클라이언트 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정적 파일)</div><div class="kb-diagram-cell">POST /predict</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ {"input":</div><div class="kb-diagram-node">1.2, 3.4, ...</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 추론 (ms 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{"prediction": 0.95}</div></div>
+</div>
+</div>
+
+
 
 ### 1.2 모델 서빙의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표
 
 | 지표 | 설명 | 기준 값 | 영향 요소 |
 |:---|:---|:---|:---|
-| **지연시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 요청~응답 소요 시간 | P99 < 100ms | 배치 크기, 모델 크기 |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** | 초당 처리 가능 요청 수 | QPS (Queries Per Second) | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 배치 |
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정상 운영 비율 | 99.9% 이상 | 복제본, 헬스체크 |
-| **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 유닛 사용 비율 | 70~90% 목표 | 동적 배치, 최적화 |
+| <strong>지연시간 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 요청~응답 소요 시간 | P99 < 100ms | 배치 크기, 모델 크기 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> | 초당 처리 가능 요청 수 | QPS (Queries Per Second) | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 배치 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정상 운영 비율 | 99.9% 이상 | 복제본, 헬스체크 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 활용률</strong> | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 유닛 사용 비율 | 70~90% 목표 | 동적 배치, 최적화 |
 
 📢 **섹션 요약 비유**: 모델 서빙은 패스트푸드 주방과 같다. 레시피(모델)를 미리 준비해두고, 주문이 들어오면 즉시 조리해서 내놓는다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 분당 버거 생산량, 지연시간은 주문 후 수령까지 시간이다.
 
@@ -54,97 +56,96 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 TensorFlow Serving
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  TensorFlow Serving 아키텍처                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  SavedModel 디렉토리 구조                                    │
-│  models/                                                     │
-│  └── fraud_detection/                                        │
-│      ├── 1/  (버전 1)                                        │
-│      │   ├── saved_model.pb                                  │
-│      │   └── variables/                                      │
-│      └── 2/  (버전 2 - 자동으로 최신 버전 서빙)              │
-│          ├── saved_model.pb                                  │
-│          └── variables/                                      │
-│                                                              │
-│  TF Serving 서버                                             │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │  ModelServer                                        │     │
-│  │  ├── HTTP/REST 서버 (포트 8501)                     │     │
-│  │  ├── gRPC 서버 (포트 8500)                          │     │
-│  │  ├── 모델 매니저 (버전 자동 감지)                   │     │
-│  │  └── 동적 배치 (Dynamic Batching)                   │     │
-│  └────────────────────────────────────────────────────┘     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TensorFlow Serving 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SavedModel 디렉토리 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">models/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── fraud_detection/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1/ (버전 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── saved_model.pb</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── variables/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 2/ (버전 2 - 자동으로 최신 버전 서빙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── saved_model.pb</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── variables/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TF Serving 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ModelServer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── HTTP/REST 서버 (포트 8501)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── gRPC 서버 (포트 8500)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모델 매니저 (버전 자동 감지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 동적 배치 (Dynamic Batching)</div></div>
+</div>
+</div>
+
+
 
 #### TF Serving 동적 배치 (Dynamic [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 원리
 
-```
-동적 배치 없음:
-  요청 1 ──→ GPU 추론 ──→ 응답 1    (GPU 활용률: 낮음)
-  요청 2 ──→ GPU 추론 ──→ 응답 2
-  요청 3 ──→ GPU 추론 ──→ 응답 3
 
-동적 배치 적용:
-  요청 1 ──→ 대기 ─┐
-  요청 2 ──→ 대기 ─┼──→ 배치 [1,2,3] ──→ GPU 추론 ──→ 응답 1,2,3
-  요청 3 ──→ 대기 ─┘         (GPU 활용률: 높음, 단 지연시간 약간 증가)
 
-설정:
-  batch_timeout_micros: 5000  # 최대 5ms 대기
-  max_batch_size: 128         # 최대 배치 크기
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동적 배치 없음:</div>
+<div class="kb-diagram-note">요청 1 ──→ GPU 추론 ──→ 응답 1 (GPU 활용률: 낮음)</div>
+<div class="kb-diagram-note">요청 2 ──→ GPU 추론 ──→ 응답 2</div>
+<div class="kb-diagram-note">요청 3 ──→ GPU 추론 ──→ 응답 3</div>
+<div class="kb-diagram-note">동적 배치 적용:</div>
+<div class="kb-diagram-note">요청 1 ──→ 대기 ─</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2,3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">GPU 추론 ──→ 응답 1,2,3</div></div>
+<div class="kb-diagram-note">요청 3 ──→ 대기 ─ (GPU 활용률: 높음, 단 지연시간 약간 증가)</div>
+<div class="kb-diagram-note">설정:</div>
+<div class="kb-diagram-note">batch_timeout_micros: 5000 # 최대 5ms 대기</div>
+<div class="kb-diagram-note">max_batch_size: 128 # 최대 배치 크기</div>
+</div>
+</div>
+
+
 
 ### 2.2 NVIDIA Triton Inference Server
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│              NVIDIA Triton Inference Server 아키텍처          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  클라이언트 요청 (HTTP/gRPC)                                 │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  Triton Server                                    │       │
-│  │                                                   │       │
-│  │  모델 저장소 (Model Repository)                   │       │
-│  │  ├── TensorFlow SavedModel                       │       │
-│  │  ├── PyTorch TorchScript                         │       │
-│  │  ├── ONNX                                        │       │
-│  │  ├── TensorRT Plan                               │       │
-│  │  ├── OpenVINO                                    │       │
-│  │  └── Python 커스텀 모델                          │       │
-│  │                                                   │       │
-│  │  인퍼런스 최적화                                  │       │
-│  │  ├── 동적 배치 (Dynamic Batching)                │       │
-│  │  ├── 동시 모델 실행 (Concurrent Model Execution) │       │
-│  │  ├── 모델 앙상블 파이프라인                       │       │
-│  │  └── 비동기 추론                                  │       │
-│  └──────────────────────────────────────────────────┘       │
-│         │                                                    │
-│         ▼                                                    │
-│  GPU (NVIDIA A100/H100) / CPU                               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVIDIA Triton Inference Server 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 요청 (HTTP/gRPC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Triton Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 저장소 (Model Repository)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TensorFlow SavedModel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PyTorch TorchScript</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ONNX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TensorRT Plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── OpenVINO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Python 커스텀 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인퍼런스 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 동적 배치 (Dynamic Batching)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 동시 모델 실행 (Concurrent Model Execution)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모델 앙상블 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 비동기 추론</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU (NVIDIA A100/H100) / CPU</div></div>
+</div>
+</div>
+
+
 
 #### Triton [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 파이프라인 예시
 
-```
-입력 (이미지)
-     │
-     ▼
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│  전처리 모델  │────→│  추론 모델    │────→│  후처리 모델  │
-│  (Python)     │     │  (TensorRT)   │     │  (Python)     │
-└───────────────┘     └───────────────┘     └───────────────┘
-                                                    │
-                                                    ▼
-                                           예측 결과 반환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 (이미지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전처리 모델</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">추론 모델</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">후처리 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Python)</div><div class="kb-diagram-cell">(TensorRT)</div><div class="kb-diagram-cell">(Python)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 결과 반환</div>
+</div>
+</div>
+
+
 
 ### 2.3 TF Serving vs Triton 비교
 
@@ -152,73 +153,80 @@ tags = ["studynote-data-engineering"]
 |:---|:---|:---|
 | **지원 프레임워크** | TensorFlow 전용 | TF, PyTorch, ONNX, TensorRT, etc. |
 | **배포 복잡도** | 낮음 | 중간 |
-| **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 최적화** | 기본 | TensorRT 통합, 매우 강력 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 최적화</strong> | 기본 | TensorRT 통합, 매우 강력 |
 | **동적 배치** | 지원 | 지원 (더 유연) |
-| **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)** | 제한적 | 완전 지원 (파이프라인) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a></strong> | 제한적 | 완전 지원 (파이프라인) |
 | **동시 모델 실행** | 제한적 | 완전 지원 |
-| **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | 기본 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 통합, 상세 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 기본 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 통합, 상세 |
 | **적합 상황** | TF 단일 모델 서빙 | 멀티 프레임워크, 고성능 |
 
 ### 2.4 모델 최적화 기법
 
 #### [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))
 
-```
-FP32 (32비트 부동소수점) 모델
-  가중치: 4 bytes × N개
-  정확도: 높음, 속도: 느림
 
-INT8 (8비트 정수) 양자화 후
-  가중치: 1 byte × N개
-  정확도: 약간 저하 (<1%), 속도: 2~4배 향상
-  메모리: 1/4
 
-양자화 방법:
-┌────────────────────────────────────────────────────┐
-│  PTQ (Post-Training Quantization):                  │
-│  학습 완료 후 양자화, 빠르고 간단                  │
-│  → 정확도 손실 약간 있음                           │
-│                                                    │
-│  QAT (Quantization-Aware Training):                │
-│  학습 중 양자화 시뮬레이션                         │
-│  → 정확도 손실 최소화, 학습 비용 증가              │
-└────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FP32 (32비트 부동소수점) 모델</div>
+<div class="kb-diagram-note">가중치: 4 bytes × N개</div>
+<div class="kb-diagram-note">정확도: 높음, 속도: 느림</div>
+<div class="kb-diagram-note">INT8 (8비트 정수) 양자화 후</div>
+<div class="kb-diagram-note">가중치: 1 byte × N개</div>
+<div class="kb-diagram-note">정확도: 약간 저하 (&lt;1%), 속도: 2~4배 향상</div>
+<div class="kb-diagram-note">메모리: 1/4</div>
+<div class="kb-diagram-note">양자화 방법:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTQ (Post-Training Quantization):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 완료 후 양자화, 빠르고 간단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정확도 손실 약간 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QAT (Quantization-Aware Training):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 중 양자화 시뮬레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정확도 손실 최소화, 학습 비용 증가</div></div>
+</div>
+</div>
+
+
 
 #### TensorRT 변환
 
-```
-원본 PyTorch/TF 모델
-        │
-        ▼
-TensorRT 변환 과정:
-  1. ONNX 내보내기 (PyTorch → ONNX)
-  2. TensorRT 파서로 네트워크 빌드
-  3. GPU별 최적화 (Layer Fusion, Kernel Selection)
-  4. INT8/FP16 정밀도 최적화
-        │
-        ▼
-TensorRT Plan (.plan)
-  - GPU 특화 최적화 완료
-  - 처음 빌드 시 수분 소요, 이후 ms 추론
-  - 동일 GPU 아키텍처에서만 사용 가능
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 PyTorch/TF 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TensorRT 변환 과정:</div>
+<div class="kb-diagram-note">1. ONNX 내보내기 (PyTorch → ONNX)</div>
+<div class="kb-diagram-note">2. TensorRT 파서로 네트워크 빌드</div>
+<div class="kb-diagram-note">3. GPU별 최적화 (Layer Fusion, Kernel Selection)</div>
+<div class="kb-diagram-note">4. INT8/FP16 정밀도 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TensorRT Plan (.plan)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">GPU 특화 최적화 완료</div>
+<div class="kb-diagram-tree-item" style="--depth:1">처음 빌드 시 수분 소요, 이후 ms 추론</div>
+<div class="kb-diagram-tree-item" style="--depth:1">동일 GPU 아키텍처에서만 사용 가능</div>
+</div>
+</div>
+
+
 
 ### 2.5 서빙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 목표값
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  서빙 SLA 기준 예시                           │
-├────────────────┬────────────────────────────────────────────┤
-│  서비스 유형   │  목표 지연시간            │  목표 처리량    │
-├────────────────┼───────────────────────────┼────────────────┤
-│  실시간 추천   │  P99 < 50ms              │  > 10,000 QPS  │
-│  사기 탐지     │  P99 < 100ms             │  > 5,000 QPS   │
-│  이미지 분류   │  P99 < 200ms             │  > 1,000 QPS   │
-│  LLM 생성      │  TTFT < 1s, TPS > 50    │  > 100 QPS     │
-└────────────────┴───────────────────────────┴────────────────┘
-  TTFT: Time to First Token  TPS: Tokens Per Second
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 SLA 기준 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 유형</div><div class="kb-diagram-cell">목표 지연시간</div><div class="kb-diagram-cell">목표 처리량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 추천</div><div class="kb-diagram-cell">P99 &lt; 50ms</div><div class="kb-diagram-cell">&gt; 10,000 QPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사기 탐지</div><div class="kb-diagram-cell">P99 &lt; 100ms</div><div class="kb-diagram-cell">&gt; 5,000 QPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 분류</div><div class="kb-diagram-cell">P99 &lt; 200ms</div><div class="kb-diagram-cell">&gt; 1,000 QPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 생성</div><div class="kb-diagram-cell">TTFT &lt; 1s, TPS &gt; 50</div><div class="kb-diagram-cell">&gt; 100 QPS</div></div>
+<div class="kb-diagram-note">TTFT: Time to First Token TPS: Tokens Per Second</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: TF Serving vs Triton 비교는 단일 브랜드 전문점(TF Serving, TF 모델만)과 멀티 브랜드 쇼핑몰(Triton, 모든 프레임워크)의 차이다. 전문점은 해당 브랜드에 최적화됐고, 쇼핑몰은 어떤 브랜드든 모두 팔 수 있다. TensorRT는 GPU에 최적화된 터보 엔진이다.
 
@@ -243,7 +251,7 @@ TensorRT Plan (.plan)
 |:---|:---|:---|
 | **배치 구성** | 고정 크기로 전처리 | 런타임에 요청 묶음 |
 | **지연시간** | 낮음 (즉시 처리) | 약간 높음 (대기 시간) |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률↑) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률↑) |
 | **복잡도** | 간단 | 복잡 ([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝) |
 | **적합 상황** | 지연시간 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 엄격 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
@@ -251,9 +259,9 @@ TensorRT Plan (.plan)
 
 | 기법 | 원리 | 속도 향상 | 정확도 손실 | 구현 난이도 |
 |:---|:---|:---:|:---:|:---:|
-| **[Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) (INT8)** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 2~4배 | <1% | 낮음 |
-| **[Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))** | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 1.5~3배 | 1~3% | 중간 |
-| **[Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)** | 큰 모델 → 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a> (INT8)</strong> | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 2~4배 | <1% | 낮음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)</strong> | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 1.5~3배 | 1~3% | 중간 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a></strong> | 큰 모델 → 작은 모델 학습 | 2~10배 | 1~5% | 높음 |
 | **TensorRT** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최적화 | 3~10배 | <0.5% | 중간 |
 | **ONNX 변환** | 중간 표현으로 최적화 | 1.5~3배 | <0.1% | 낮음 |
 
@@ -265,63 +273,63 @@ TensorRT Plan (.plan)
 
 ### 4.1 모델 서빙 아키텍처 설계 패턴
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│              모델 서빙 아키텍처 패턴 선택                     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  단일 모델 서빙                                              │
-│  클라이언트 → Load Balancer → TF Serving / TorchServe       │
-│                                                              │
-│  멀티 모델 서빙 (Triton)                                     │
-│  클라이언트 → Triton Server                                  │
-│               ├── 모델 A (TensorRT, GPU)                    │
-│               ├── 모델 B (ONNX, CPU)                        │
-│               └── 모델 C (Python, 후처리)                   │
-│                                                              │
-│  마이크로서비스 서빙                                         │
-│  클라이언트 → API Gateway                                    │
-│               ├── 서비스 A → 모델 서버 A                    │
-│               ├── 서비스 B → 모델 서버 B                    │
-│               └── 서비스 C → 모델 서버 C                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 서빙 아키텍처 패턴 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 모델 서빙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 → Load Balancer → TF Serving / TorchServe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티 모델 서빙 (Triton)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 → Triton Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모델 A (TensorRT, GPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모델 B (ONNX, CPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모델 C (Python, 후처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 서빙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 → API Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 서비스 A → 모델 서버 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 서비스 B → 모델 서버 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 서비스 C → 모델 서버 C</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 기술사 시험 핵심 포인트
 
-**Q. 동적 배치(Dynamic [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률을 향상시키는 원리와 트레이드오프를 설명하시오.**
+<strong>Q. 동적 배치(Dynamic <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)로 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 활용률을 향상시키는 원리와 트레이드오프를 설명하시오.</strong>
 
 GPU는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산에 최적화되어 있어 단일 요청 처리 시 대부분의 연산 유닛이 유휴 상태다. 동적 배치는 일정 시간(batch_timeout) 동안 들어오는 요청을 모아 배치로 처리하여 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 극대화한다.
 
 **트레이드오프**: 배치 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(수 ms)만큼 지연시간이 증가하지만, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 수배 향상된다. 지연시간 SLA가 엄격한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(50ms 이하)에서는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 매우 짧게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하거나 비활성화해야 한다.
 
-**Q. TensorRT 변환의 원리와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처 의존성 문제를 설명하시오.**
+<strong>Q. TensorRT 변환의 원리와 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 아키텍처 의존성 문제를 설명하시오.</strong>
 
 TensorRT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 딥러닝 추론 최적화 라이브러리다. 변환 시 Layer Fusion(여러 레이어를 하나로 합병), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Auto-Tuning([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처별 최적 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택), [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 최적화(FP16/INT8)를 수행한다. 단, 변환된 `.plan` 파일은 특정 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))에 종속되어, A100용 Plan을 V100에서 실행 불가능하다는 이식성 한계가 있다.
 
 ### 4.3 모델 서빙 최적화 튜닝 가이드
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│             모델 서빙 성능 최적화 순서                        │
-├──────────────────────────────────────────────────────────────┤
-│  Step 1: 베이스라인 측정                                     │
-│  └── 현재 P50/P99 지연시간, QPS, GPU 활용률 측정            │
-│                                                              │
-│  Step 2: 동적 배치 튜닝                                      │
-│  └── batch_timeout: 1ms~10ms 범위 실험                      │
-│  └── max_batch_size: 16~256 범위 실험                       │
-│                                                              │
-│  Step 3: 모델 최적화                                         │
-│  └── FP16 변환 (정확도 검증 필수)                           │
-│  └── TensorRT 변환 (GPU 환경)                               │
-│  └── INT8 양자화 (정확도 허용 범위 확인)                    │
-│                                                              │
-│  Step 4: 인프라 최적화                                       │
-│  └── 복제본 수 조정 (HPA)                                   │
-│  └── GPU 유형 업그레이드 (A10G → A100)                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 서빙 성능 최적화 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 베이스라인 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 현재 P50/P99 지연시간, QPS, GPU 활용률 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 동적 배치 튜닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── batch_timeout: 1ms~10ms 범위 실험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── max_batch_size: 16~256 범위 실험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 모델 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── FP16 변환 (정확도 검증 필수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TensorRT 변환 (GPU 환경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── INT8 양자화 (정확도 허용 범위 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 인프라 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 복제본 수 조정 (HPA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GPU 유형 업그레이드 (A10G → A100)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 모델 서빙 최적화는 요리 경연 속도 올리기와 같다. 동적 배치는 주문 여러 개를 한 번에 몰아서 요리하기, TensorRT는 최신 주방 도구로 업그레이드하기, Quantization은 레시피를 간소화하기(맛은 거의 동일)다. 각 방법을 조합해 최단 시간에 최다 요리를 만든다.
 
@@ -335,8 +343,8 @@ TensorRT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelera
 |:---|:---:|:---:|:---:|
 | **동적 배치** | 약간 증가 ([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) | 3~5배 향상 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 비용 40~60% 절감 |
 | **TensorRT 변환** | 3~10배 감소 | 3~10배 향상 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수 감소 |
-| **INT8 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)** | 2~4배 감소 | 2~4배 향상 | 메모리 75% 절감 |
-| **모델 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) (Triton)** | - | 전체 파이프라인 최적화 | 추가 서버 불필요 |
+| <strong>INT8 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a></strong> | 2~4배 감소 | 2~4배 향상 | 메모리 75% 절감 |
+| <strong>모델 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> (Triton)</strong> | - | 전체 파이프라인 최적화 | 추가 서버 불필요 |
 
 ### 5.2 결론
 
@@ -371,25 +379,28 @@ TensorRT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelera
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-학습된 모델 (.pt / .h5 / .onnx)
-    │
-    ▼
-모델 서빙 엔진
-    ├─► TF Serving: TensorFlow 네이티브
-    ├─► NVIDIA Triton: 멀티 프레임워크 · 동적 배치
-    ├─► TorchServe: PyTorch 네이티브
-    └─► KServe: K8s 기반 통합 서빙
-    │
-    ▼
-추론 최적화
-    ├─► TensorRT: GPU 커널 융합 · FP16/INT8
-    ├─► ONNX Runtime: 크로스 플랫폼
-    └─► 동적 배치 (Dynamic Batching): GPU 활용 극대화
-    │
-    ▼
-API 게이트웨이 → REST/gRPC → 클라이언트 응답 (ms 이내)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">학습된 모델 (.pt / .h5 / .onnx)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 서빙 엔진</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TF Serving: TensorFlow 네이티브</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NVIDIA Triton: 멀티 프레임워크 · 동적 배치</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TorchServe: PyTorch 네이티브</div>
+<div class="kb-diagram-tree-item" style="--depth:2">KServe: K8s 기반 통합 서빙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추론 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TensorRT: GPU 커널 융합 · FP16/INT8</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ONNX Runtime: 크로스 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">동적 배치 (Dynamic Batching): GPU 활용 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API 게이트웨이 → REST/gRPC → 클라이언트 응답 (ms 이내)</div>
+</div>
+</div>
+
+
 
 ---
 

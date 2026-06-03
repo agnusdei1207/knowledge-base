@@ -18,22 +18,27 @@ tags = ["studynote-operating-system"]
 
 ## I. init(PID 1)의 역할
 
-```
-부팅 순서:
-  BIOS/UEFI
-    -> 부트로더 (GRUB)
-      -> 커널 (vmlinuz)
-        -> initramfs (임시 루트)
-          -> init (PID 1) 시작
-            -> 모든 서비스/프로세스 생성
 
-init의 책임:
-  1. 모든 다른 프로세스의 부모
-  2. 고아 프로세스(Orphan) 입양 (reparenting)
-  3. 좀비 프로세스(Zombie) 정리 (reaping)
-  4. 시스템 종료/재시작 관리
-  5. 런레벨/타깃 전환 관리
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부팅 순서:</div>
+<div class="kb-diagram-note">BIOS/UEFI</div>
+<div class="kb-diagram-tree-item" style="--depth:2">부트로더 (GRUB)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">커널 (vmlinuz)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">initramfs (임시 루트)</div>
+<div class="kb-diagram-tree-item" style="--depth:5">init (PID 1) 시작</div>
+<div class="kb-diagram-tree-item" style="--depth:6">모든 서비스/프로세스 생성</div>
+<div class="kb-diagram-note">init의 책임:</div>
+<div class="kb-diagram-note">1. 모든 다른 프로세스의 부모</div>
+<div class="kb-diagram-note">2. 고아 프로세스(Orphan) 입양 (reparenting)</div>
+<div class="kb-diagram-note">3. 좀비 프로세스(Zombie) 정리 (reaping)</div>
+<div class="kb-diagram-note">4. 시스템 종료/재시작 관리</div>
+<div class="kb-diagram-note">5. 런레벨/타깃 전환 관리</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: init은 회사의 첫 직원(PID 1) — 모든 다른 직원을 채용하고, 퇴사한 직원 처리도 담당.
 
@@ -69,32 +74,32 @@ SysV init 런레벨 (Runlevel):
 
 ## III. systemd 혁신
 
-```
-systemd 핵심 개선:
 
-1. 병렬 부팅:
-   의존성 그래프 -> 독립 서비스 동시 시작
-   부팅 시간: 수 분 -> 수 초
 
-2. 소켓 활성화:
-   서비스가 소켓을 미리 열어 요청 대기
-   첫 요청이 올 때 실제 서비스 시작 (on-demand)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">systemd 핵심 개선:</div>
+<div class="kb-diagram-note">1. 병렬 부팅:</div>
+<div class="kb-diagram-note">의존성 그래프 -&gt; 독립 서비스 동시 시작</div>
+<div class="kb-diagram-note">부팅 시간: 수 분 -&gt; 수 초</div>
+<div class="kb-diagram-note">2. 소켓 활성화:</div>
+<div class="kb-diagram-note">서비스가 소켓을 미리 열어 요청 대기</div>
+<div class="kb-diagram-note">첫 요청이 올 때 실제 서비스 시작 (on-demand)</div>
+<div class="kb-diagram-note">3. D-Bus 활성화:</div>
+<div class="kb-diagram-note">D-Bus 버스 이름으로 서비스 활성화</div>
+<div class="kb-diagram-note">4. cgroup 통합:</div>
+<div class="kb-diagram-note">서비스별 CPU/메모리/IO 자원 제한</div>
+<div class="kb-diagram-note">관련 프로세스 그룹 일괄 관리</div>
+<div class="kb-diagram-note">5. 저널 로깅:</div>
+<div class="kb-diagram-note">journald: 구조화된 바이너리 로그</div>
+<div class="kb-diagram-note">journalctl -u nginx / -b (부팅 로그)</div>
+<div class="kb-diagram-note">6. 타깃 (Target):</div>
+<div class="kb-diagram-note">런레벨 대신 선언적 타깃</div>
+<div class="kb-diagram-note">multi-user.target, graphical.target</div>
+</div>
+</div>
 
-3. D-Bus 활성화:
-   D-Bus 버스 이름으로 서비스 활성화
 
-4. cgroup 통합:
-   서비스별 CPU/메모리/IO 자원 제한
-   관련 프로세스 그룹 일괄 관리
-
-5. 저널 로깅:
-   journald: 구조화된 바이너리 로그
-   journalctl -u nginx / -b (부팅 로그)
-
-6. 타깃 (Target):
-   런레벨 대신 선언적 타깃
-   multi-user.target, graphical.target
-```
 
 | SysV 런레벨 | systemd 타깃              |
 |---------|--------------------------|
@@ -141,29 +146,31 @@ systemd 핵심 개선:
 
 ## V. 실무 시나리오 — 부팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석
 
-```
-부팅 분석 명령:
-  systemd-analyze              (총 부팅 시간)
-  systemd-analyze blame        (서비스별 시간 정렬)
-  systemd-analyze critical-chain (임계 경로)
 
-결과 예시:
-  Startup finished in 1.2s (kernel) + 3.8s (userspace)
-  Total: 5.0s
-  
-  systemd-analyze blame:
-    2.1s NetworkManager.service
-    1.5s snapd.service
-    0.8s plymouth-quit-wait.service
 
-최적화:
-  disable snapd (사용 안 함)
-  -> 부팅 시간 5.0s -> 2.8s (44% 단축)
-  
-  실무 서버에서:
-  cloud-init 비활성화 (가상머신 아닌 경우)
-  불필요한 서비스 disable
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부팅 분석 명령:</div>
+<div class="kb-diagram-note">systemd-analyze (총 부팅 시간)</div>
+<div class="kb-diagram-note">systemd-analyze blame (서비스별 시간 정렬)</div>
+<div class="kb-diagram-note">systemd-analyze critical-chain (임계 경로)</div>
+<div class="kb-diagram-note">결과 예시:</div>
+<div class="kb-diagram-note">Startup finished in 1.2s (kernel) + 3.8s (userspace)</div>
+<div class="kb-diagram-note">Total: 5.0s</div>
+<div class="kb-diagram-note">systemd-analyze blame:</div>
+<div class="kb-diagram-note">2.1s NetworkManager.service</div>
+<div class="kb-diagram-note">1.5s snapd.service</div>
+<div class="kb-diagram-note">0.8s plymouth-quit-wait.service</div>
+<div class="kb-diagram-note">최적화:</div>
+<div class="kb-diagram-note">disable snapd (사용 안 함)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">부팅 시간 5.0s -&gt; 2.8s (44% 단축)</div>
+<div class="kb-diagram-note">실무 서버에서:</div>
+<div class="kb-diagram-note">cloud-init 비활성화 (가상머신 아닌 경우)</div>
+<div class="kb-diagram-note">불필요한 서비스 disable</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: systemd-analyze blame은 부팅 시간 낭비 범인 찾기 — 가장 오래 걸린 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 찾아 비활성화.
 

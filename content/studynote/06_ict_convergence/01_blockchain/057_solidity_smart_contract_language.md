@@ -32,16 +32,22 @@ tags = ["ict_convergence"]
 
 - **정적 타입**: 자료형을 명확히 선언해야 한다.
 - **주소 타입**: 지갑 주소를 안전하게 다룬다.
-- **매핑([mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))**: 키-값 저장 구조를 제공한다.
+- <strong>매핑(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">mapping</a>)</strong>: 키-값 저장 구조를 제공한다.
 - **전역 변수**: `msg.sender`, `msg.value` 같은 실행 문맥 정보를 사용할 수 있다.
 
-```text
-contract
- ├─ state variables
- ├─ functions
- ├─ events
- └─ modifiers
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">contract</div>
+<div class="kb-diagram-tree-item" style="--depth:0">state variables</div>
+<div class="kb-diagram-tree-item" style="--depth:0">functions</div>
+<div class="kb-diagram-tree-item" style="--depth:0">events</div>
+<div class="kb-diagram-tree-item" style="--depth:0">modifiers</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 부엌에서 그릇, 재료, 조리법을 미리 라벨링해 두는 것과 같다.
 
@@ -89,15 +95,21 @@ contract
 
 ## 관련 개념 맵
 
-```text
-Solidity
-   ↓
-EVM 바이트코드
-   ↓
-Gas / 상태 저장
-   ↓
-스마트 컨트랙트 배포
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Solidity</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">EVM 바이트코드</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Gas / 상태 저장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스마트 컨트랙트 배포</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이중화 (Dual Redundancy)는 핵심 부품을 두 벌로 구성해 하나가 고장 나도 다른 하나가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받게 만드는 구조이며, 목표는 장비 강화가 아니라 **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거**다.
+> 1. **본질**: 이중화 (Dual Redundancy)는 핵심 부품을 두 벌로 구성해 하나가 고장 나도 다른 하나가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받게 만드는 구조이며, 목표는 장비 강화가 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> 제거</strong>다.
 > 2. **가치**: 두 자원이 독립적으로 배치되고 장애 감지·절체가 빠를수록 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 크게 올라가며, 전원·네트워크·프로세서·스토리지 전 계층의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 함께 개선된다.
 > 3. **판단 포인트**: 단순히 2개를 두는 것만으로는 충분하지 않으며, 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 고장 검출, [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) (Split-Brain) 방지, 공통 원인 장애 분리가 설계 성패를 가른다.
 
@@ -31,33 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이중화의 핵심 원리는 **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 자원 + 장애 감지 + 역할 전환**의 3단계다. 두 자원을 단순 배치만 하면 예비 부품 창고에 불과하고, 실제 운용에서는 어느 쪽이 현재 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 담당하는지, 장애를 어떤 신호로 판단하는지, 전환 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 제어권을 어떻게 이어받는지가 함께 설계되어야 한다. 따라서 이중화는 하드웨어 수량 문제가 아니라 제어 메커니즘 문제다.
+이중화의 핵심 원리는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>된 자원 + 장애 감지 + 역할 전환</strong>의 3단계다. 두 자원을 단순 배치만 하면 예비 부품 창고에 불과하고, 실제 운용에서는 어느 쪽이 현재 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 담당하는지, 장애를 어떤 신호로 판단하는지, 전환 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 제어권을 어떻게 이어받는지가 함께 설계되어야 한다. 따라서 이중화는 하드웨어 수량 문제가 아니라 제어 메커니즘 문제다.
 
 대표 구현은 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby와 [Lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) 기반 DMR (Dual Modular Redundancy)로 나뉜다. [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby는 평소 주 장치가 일하고 예비 장치가 대기하다가 장애 시 절체하는 방식이고, [Lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) DMR은 두 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 동시에 처리해 결과 불일치를 검출하는 방식이다. 전자는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성에, 후자는 연산 오류 검출에 강점이 있다.
 
 아래 그림은 절체 제어가 가상 IP (Virtual IP, VIP)를 중심으로 어떻게 작동하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  이중화의 기본 절체 흐름 (1-out-of-2)               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                         │
-│     │                                                              │
-│     ▼                                                              │
-│ [가상 서비스 주소(VIP)]                                             │
-│     │                                                              │
-│     ├──────────────▶ [주 장치 A : Active] ──────────────┐           │
-│     │                     ▲            │                │           │
-│     │                     │ Heartbeat  │ 서비스 제공    │           │
-│     │                     │            ▼                │           │
-│     └──────────────▶ [예비 장치 B : Standby]            │           │
-│                           │                             │           │
-│                           └─ A 무응답 감지 ─▶ 역할 승계 ┘           │
-│                                            │                        │
-│                                            ▼                        │
-│                                   [B가 새 Active]                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이중화의 기본 절체 흐름 (1-out-of-2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 서비스 주소(VIP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주 장치 A : Active</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heartbeat</div><div class="kb-diagram-cell">서비스 제공</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예비 장치 B : Standby</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A 무응답 감지 ─▶ 역할 승계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B가 새 Active</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 가장 중요한 설계 포인트는 독립성과 검출 속도다. 두 장치가 같은 전원, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 같은 랙, 같은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 묶여 있으면 “2대”여도 사실상 하나와 다르지 않다. 또한 하트비트 (Heartbeat) 간격이 너무 짧으면 오탐이 늘고, 너무 길면 절체 시간이 길어져 중단 시간이 늘어난다.
 
@@ -85,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 | 장애 처리 | 절체 또는 불일치 검출 | 미러 디스크로 지속 운용 | 다수결 투표로 즉시 교정 |
 | 한계 | 두 결과가 다르면 누가 맞는지 단독 판단 어려움 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 삭제·[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 같이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 비용·면적·전력 증가 |
 
-특히 DMR은 TMR과 자주 혼동된다. DMR은 두 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 출력 비교로 오류를 **검출**하는 데 강하지만, 두 출력이 다를 때 어느 쪽이 정답인지 스스로 **결정**하기 어렵다. 반면 TMR은 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 중 두 표를 얻은 결과를 선택해 오류를 가리는 대신, 면적과 전력 비용이 더 커진다. 따라서 안전 필수 제어계는 TMR을, 비용 민감하면서도 빠른 장애 탐지가 필요한 영역은 이중화를 선택하는 경우가 많다.
+특히 DMR은 TMR과 자주 혼동된다. DMR은 두 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 출력 비교로 오류를 <strong>검출</strong>하는 데 강하지만, 두 출력이 다를 때 어느 쪽이 정답인지 스스로 <strong>결정</strong>하기 어렵다. 반면 TMR은 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 중 두 표를 얻은 결과를 선택해 오류를 가리는 대신, 면적과 전력 비용이 더 커진다. 따라서 안전 필수 제어계는 TMR을, 비용 민감하면서도 빠른 장애 탐지가 필요한 영역은 이중화를 선택하는 경우가 많다.
 
 이중화는 운영체제와 네트워크, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와도 연결된다. 운영체제는 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card) Teaming이나 Bonding으로 링크 이중화를 구현하고, 네트워크는 [VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) (Virtual Router Redundancy [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 같은 가상 게이트웨이 절체를 제공한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 자동 승격을 활용하지만, 잘못 설계하면 Split-Brain이 발생하므로 쿼럼 (Quorum)과 펜싱이 필수다.
 
@@ -145,25 +140,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 장비 의존
-    │
-    ▼
-SPOF (Single Point of Failure) 인식
-    │
-    ▼
-전원·링크·서버 이중화 (Dual Redundancy)
-    │
-    ├──▶ 서비스 절체형: Heartbeat → Failover → HA (High Availability)
-    │
-    └──▶ 연산 검출형: DMR (Dual Modular Redundancy) → Comparator
-    │
-    ▼
-쿼럼·펜싱 기반 Split-Brain 방지
-    │
-    ▼
-TMR · Geo-Redundancy · Self-Healing Architecture
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 장비 의존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPOF (Single Point of Failure) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전원·링크·서버 이중화 (Dual Redundancy)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 서비스 절체형: Heartbeat → Failover → HA (High Availability)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 연산 검출형: DMR (Dual Modular Redundancy) → Comparator</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쿼럼·펜싱 기반 Split-Brain 방지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TMR · Geo-Redundancy · Self-Healing Architecture</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에서 출발해, 자동 절체와 판정 로직을 거쳐, 더 넓은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복원력 구조로 확장되는 방향을 보여준다.
 

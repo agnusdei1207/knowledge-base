@@ -11,9 +11,9 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [Exactly-Once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) ([정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 의미론)은 시스템 장애가 발생해도 각 이벤트가 **[정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)만 처리되어 결과에 반영**되는 것을 보장하며, 내부적으로는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)(Chandy-Lamport) + [2단계 커밋](/knowledge-base/studynote/05_database/04_transactions_concurrency/249_two_phase_commit_2pc_distributed/)([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), 2-Phase Commit) + 멱등적(Idempotent) Sink의 조합으로 달성한다.
+- **본질**: [Exactly-Once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) ([정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 의미론)은 시스템 장애가 발생해도 각 이벤트가 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/">정확히 한 번</a>만 처리되어 결과에 반영</strong>되는 것을 보장하며, 내부적으로는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)(Chandy-Lamport) + [2단계 커밋](/knowledge-base/studynote/05_database/04_transactions_concurrency/249_two_phase_commit_2pc_distributed/)([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), 2-Phase Commit) + 멱등적(Idempotent) Sink의 조합으로 달성한다.
 - **가치**: 금융 거래, 재고 차감, 과금(Billing) 시스템에서 중복 처리(At-Least-Once)는 이중 청구·이중 배송을 유발하고, 누락 처리(At-Most-Once)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실을 유발하므로 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 보장이 비즈니스 정합성의 기반이다.
-- **판단 포인트**: Exactly-Once는 세 보장 수준 중 가장 비용이 높다(체크포인트 + [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 오버헤드). 모든 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 적용하면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 줄어들므로 **비즈니스 영향도**가 높은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(결제, 재고)에만 선택적으로 적용하는 것이 최적이다.
+- **판단 포인트**: Exactly-Once는 세 보장 수준 중 가장 비용이 높다(체크포인트 + [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 오버헤드). 모든 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 적용하면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 줄어들므로 <strong>비즈니스 영향도</strong>가 높은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(결제, 재고)에만 선택적으로 적용하는 것이 최적이다.
 
 ---
 
@@ -31,17 +31,20 @@ tags = ["studynote-bigdata"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 Exactly-Once는 근본적으로 어렵다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 전송되었는지, 수신되었는지, 처리되었는지, 결과가 저장되었는지를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 합의해야 하기 때문이다.
 
-```
-[장애 발생 시나리오]
 
-Source → Process → Sink
 
-Sink에 쓰는 도중 프로세스가 죽으면:
-  - 결과가 Sink에 절반 쓰였나? 안 쓰였나?
-  - Source의 오프셋을 커밋했나? 안 했나?
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 발생 시나리오</div></div>
+<div class="kb-diagram-note">Source → Process → Sink</div>
+<div class="kb-diagram-note">Sink에 쓰는 도중 프로세스가 죽으면:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">결과가 Sink에 절반 쓰였나? 안 쓰였나?</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Source의 오프셋을 커밋했나? 안 했나?</div>
+<div class="kb-diagram-note">→ 재시작 시 어디서부터 다시 처리해야 할지 불명확!</div>
+</div>
+</div>
 
-→ 재시작 시 어디서부터 다시 처리해야 할지 불명확!
-```
+
 
 **📢 섹션 요약 비유**
 > Exactly-Once는 "ATM에서 돈을 뽑는 것"과 같다. 잔액 차감 후 현금 미출금(누락), 현금 출금 후 잔액 미차감(중복) — 둘 다 안 되며, 오류가 나도 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)만 처리되어야 한다. 이를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 구현하는 것이 핵심 과제다.
@@ -52,27 +55,28 @@ Sink에 쓰는 도중 프로세스가 죽으면:
 
 ### 1. Flink의 Exactly-Once: 체크포인트 + [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)
 
-```
-[Flink Exactly-Once 동작 흐름]
 
-1. 체크포인트 시작 (JobManager → Barrier 삽입)
-   Kafka Source ──── [Barrier N] ───→ Process ──── [Barrier N] ───→ Sink
-                                                                    (Pre-commit)
 
-2. 모든 연산자 Barrier 수신 → 상태 스냅샷 저장
-   Process: 현재 집계 상태 → HDFS/S3 저장
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flink Exactly-Once 동작 흐름</div></div>
+<div class="kb-diagram-note">1. 체크포인트 시작 (JobManager → Barrier 삽입)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Kafka Source</div><div class="kb-diagram-node">Barrier N</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Barrier N</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Sink</div></div>
+<div class="kb-diagram-note">(Pre-commit)</div>
+<div class="kb-diagram-note">2. 모든 연산자 Barrier 수신 → 상태 스냅샷 저장</div>
+<div class="kb-diagram-note">Process: 현재 집계 상태 → HDFS/S3 저장</div>
+<div class="kb-diagram-note">3. Sink: Pre-commit (2PC Phase 1)</div>
+<div class="kb-diagram-note">Kafka Sink: Transaction 열기, 메시지 쓰기 (미완료 상태)</div>
+<div class="kb-diagram-note">Database Sink: Prepared Statement 실행</div>
+<div class="kb-diagram-note">4. JobManager: 모든 확인 수신 → Commit 신호 (2PC Phase 2)</div>
+<div class="kb-diagram-note">Kafka Sink: Transaction Commit ← Exactly-Once 완료</div>
+<div class="kb-diagram-note">Database Sink: COMMIT 실행</div>
+<div class="kb-diagram-note">5. Source Offset Commit</div>
+<div class="kb-diagram-note">Kafka Source: 처리된 오프셋 커밋 (중복 방지)</div>
+</div>
+</div>
 
-3. Sink: Pre-commit (2PC Phase 1)
-   Kafka Sink: Transaction 열기, 메시지 쓰기 (미완료 상태)
-   Database Sink: Prepared Statement 실행
 
-4. JobManager: 모든 확인 수신 → Commit 신호 (2PC Phase 2)
-   Kafka Sink: Transaction Commit ← Exactly-Once 완료
-   Database Sink: COMMIT 실행
-
-5. Source Offset Commit
-   Kafka Source: 처리된 오프셋 커밋 (중복 방지)
-```
 
 ### 2. [2단계 커밋](/knowledge-base/studynote/05_database/04_transactions_concurrency/249_two_phase_commit_2pc_distributed/)([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)) in [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)
 
@@ -95,18 +99,23 @@ env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 
 ### 3. 멱등적 Sink (Idempotent Sink)
 
-[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 없이도 **멱등적(Idempotent) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)** — 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 써도 결과가 같음 — 로 At-Least-Once + Idempotent = 사실상 Exactly-Once 효과를 낼 수 있다.
+[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 없이도 <strong>멱등적(Idempotent) <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong> — 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 써도 결과가 같음 — 로 At-Least-Once + Idempotent = 사실상 Exactly-Once 효과를 낼 수 있다.
 
-```
-Idempotent Sink 예시:
-  Elasticsearch: 고유 ID로 UPSERT → 중복 써도 같은 결과
-  HBase: Row Key 기반 PUT → 같은 Row Key 중복 써도 덮어씀
-  Parquet: 파티션 덮어쓰기 → 동일 파티션 재처리 시 정확히 한 번과 동일
 
-Non-Idempotent Sink:
-  Kafka Topic 쓰기 → 중복 메시지 발생 (2PC 필요)
-  카운터 업데이트 → INCREMENT 중복 시 값 증가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Idempotent Sink 예시:</div>
+<div class="kb-diagram-note">Elasticsearch: 고유 ID로 UPSERT → 중복 써도 같은 결과</div>
+<div class="kb-diagram-note">HBase: Row Key 기반 PUT → 같은 Row Key 중복 써도 덮어씀</div>
+<div class="kb-diagram-note">Parquet: 파티션 덮어쓰기 → 동일 파티션 재처리 시 정확히 한 번과 동일</div>
+<div class="kb-diagram-note">Non-Idempotent Sink:</div>
+<div class="kb-diagram-note">Kafka Topic 쓰기 → 중복 메시지 발생 (2PC 필요)</div>
+<div class="kb-diagram-note">카운터 업데이트 → INCREMENT 중복 시 값 증가</div>
+</div>
+</div>
+
+
 
 ### 4. 보장 수준 비교
 
@@ -137,14 +146,19 @@ Kafka Transactions:
 
 ### 2. Flink [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Exactly-Once [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)
 
-```
-Kafka Source (읽기 오프셋 관리)
-  → Flink 처리 (체크포인트 기반 상태 저장)
-  → Kafka Sink (Transaction 기반 쓰기)
-  → Consumer (read_committed isolation)
 
-→ 전 구간 Exactly-Once 달성
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Kafka Source (읽기 오프셋 관리)</div>
+<div class="kb-diagram-note">→ Flink 처리 (체크포인트 기반 상태 저장)</div>
+<div class="kb-diagram-note">→ Kafka Sink (Transaction 기반 쓰기)</div>
+<div class="kb-diagram-note">→ Consumer (read_committed isolation)</div>
+<div class="kb-diagram-note">→ 전 구간 Exactly-Once 달성</div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**
 > [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Transaction은 "공증된 계약서"다. 내가 서명([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 전송)하고 공증(커밋)이 완료될 때까지 상대방(Consumer)은 계약 내용을 볼 수 없다. 공증 전에 내가 사고를 당해도(장애) 계약은 없던 일이 된다.
@@ -188,7 +202,7 @@ Kafka Source (읽기 오프셋 관리)
 
 ### 2. 결론
 
-Exactly-Once Semantics는 **스트리밍 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 최고 수준**이다. 기술사 답안에서는 세 보장 수준의 정의와 차이, Flink의 체크포인트 + [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 구현 메커니즘, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과의 연계, 그리고 비용-[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 트레이드오프를 서술하는 것이 핵심이다. "모든 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 Exactly-Once가 필요한 것은 아니다"라는 판단 기준도 함께 제시하면 완성도가 높아진다.
+Exactly-Once Semantics는 <strong>스트리밍 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>의 최고 수준</strong>이다. 기술사 답안에서는 세 보장 수준의 정의와 차이, Flink의 체크포인트 + [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 구현 메커니즘, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과의 연계, 그리고 비용-[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 트레이드오프를 서술하는 것이 핵심이다. "모든 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 Exactly-Once가 필요한 것은 아니다"라는 판단 기준도 함께 제시하면 완성도가 높아진다.
 
 **📢 섹션 요약 비유**
 > Exactly-Once는 "정밀 외과 수술"과 같다. 모든 상처를 완벽하게 봉합하지만 시간이 오래 걸린다. 모든 상처([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)에 정밀 수술이 필요한 것은 아니다. 작은 상처([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계)는 반창고(At-Least-Once)로 충분하고, 심장 수술(결제 시스템)만 정밀 수술(Exactly-Once)이 필요하다.
@@ -207,21 +221,23 @@ Exactly-Once Semantics는 **스트리밍 [신뢰성](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[최대 1회 (At-Most-Once) — 손실 허용]
-    │
-    ▼
-[최소 1회 (At-Least-Once) — 중복 허용]
-    │
-    ▼
-[정확히 1회 (Exactly-Once Semantics) — 완전 보장]
-    │
-    ▼
-[분산 트랜잭션 (Distributed Transaction) — 2PC 커밋]
-    │
-    ▼
-[멱등 프로듀서 (Idempotent Producer) — 트랜잭션 API Kafka]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">최대 1회 (At-Most-Once) — 손실 허용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최소 1회 (At-Least-Once) — 중복 허용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정확히 1회 (Exactly-Once Semantics) — 완전 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 트랜잭션 (Distributed Transaction) — 2PC 커밋</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멱등 프로듀서 (Idempotent Producer) — 트랜잭션 API Kafka</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 손실을 허용하는 최대 1회와 중복을 허용하는 최소 1회 사이에서 출발해, [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)으로 정확히 1회를 구현하는 발전을 보여준다.
 

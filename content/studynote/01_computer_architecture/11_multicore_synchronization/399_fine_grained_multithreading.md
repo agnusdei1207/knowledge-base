@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Fine-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 코어가 **매 클럭 사이클 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Cycle)마다 실행 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸는** 방식으로, 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 즉시 덮어 버리는 하드웨어 스케줄링 기법이다.
+> 1. **본질**: 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Fine-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 코어가 <strong>매 클럭 사이클 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> Cycle)마다 실행 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 바꾸는</strong> 방식으로, 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 즉시 덮어 버리는 하드웨어 스케줄링 기법이다.
 > 2. **가치**: 짧은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 모두 숨겨 파이프라인 유휴 시간을 줄이므로, 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 체감 속도보다 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/), Thread-Level Parallelism)을 극대화하는 데 강하다.
 > 3. **판단 포인트**: [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 중요한 범용 중앙처리장치 (CPU, Central Processing Unit)에는 불리하지만, 대량의 독립 작업을 계속 공급할 수 있는 그래픽 처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 계열에는 매우 잘 맞는다.
 
@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Fine-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 하나의 파이프라인에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교대로 흘려 보내며, 매 사이클마다 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 발행하는 구조다. 핵심은 "스톨이 생기면 바꾸는 것"이 아니라, **스톨이 생기기 전에 이미 계속 바꾸고 있는 것**에 있다. 즉 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 결과를 기다리는 동안 코어가 멈추지 않도록, 하드웨어가 시간을 잘게 쪼개 여러 실행 흐름에 번갈아 배분한다.
+세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Fine-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 하나의 파이프라인에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교대로 흘려 보내며, 매 사이클마다 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 발행하는 구조다. 핵심은 "스톨이 생기면 바꾸는 것"이 아니라, <strong>스톨이 생기기 전에 이미 계속 바꾸고 있는 것</strong>에 있다. 즉 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 결과를 기다리는 동안 코어가 멈추지 않도록, 하드웨어가 시간을 잘게 쪼개 여러 실행 흐름에 번갈아 배분한다.
 
 이 방식이 필요해진 배경은 파이프라인이 생각보다 자주 빈다는 점이다. [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)), 분기 결과 대기, 캐시 미스 (Cache Miss) 같은 사건은 길이가 서로 다르지만 공통적으로 연산 유닛을 놀게 만든다. [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) ([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에는 효과가 있어도, 1~3사이클 수준의 짧은 공백까지 메우기는 어려웠다.
 
-세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 이 문제에 대해 "교체 비용 자체를 거의 0으로 만들고, 아예 모든 사이클을 교대 슬롯으로 보자"라고 답한다. 그 결과 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기준으로는 자기 차례가 늦게 돌아오지만, 코어 전체 관점에서는 빈 사이클이 급격히 줄어든다. 결국 이 기법은 **단일 작업의 속도보다, 연산 자원의 지속 가동률**을 우선하는 설계 철학이다.
+세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 이 문제에 대해 "교체 비용 자체를 거의 0으로 만들고, 아예 모든 사이클을 교대 슬롯으로 보자"라고 답한다. 그 결과 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기준으로는 자기 차례가 늦게 돌아오지만, 코어 전체 관점에서는 빈 사이클이 급격히 줄어든다. 결국 이 기법은 <strong>단일 작업의 속도보다, 연산 자원의 지속 가동률</strong>을 우선하는 설계 철학이다.
 
 - **📢 섹션 요약 비유**: 한 학생의 숙제를 끝까지 봐주는 대신, 선생님이 1분마다 네 학생의 공책을 돌려 가며 검사하는 방식과 같다. 한 학생은 오래 걸린다고 느끼지만, 교실 전체 숙제는 훨씬 빨리 끝난다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 성립하려면, 코어 내부에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 동시에 들고 있어야 한다. [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 같은 **건축 상태 (Architectural [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))** 를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 분리해 두고, 발행 단계에서 매 사이클 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 선택한다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준의 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이도 하드웨어만으로 즉시 전환할 수 있다.
+세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 성립하려면, 코어 내부에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 동시에 들고 있어야 한다. [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 같은 <strong>건축 상태 (Architectural <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> 를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 분리해 두고, 발행 단계에서 매 사이클 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 선택한다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준의 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이도 하드웨어만으로 즉시 전환할 수 있다.
 
 아래 표는 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 가능하게 하는 핵심 요소를 정리한 것이다.
 
@@ -42,20 +42,22 @@ tags = ["studynote-computer-architecture"]
 | 공유 실행 파이프라인 | 서로 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 순차 투입 | 유휴 슬롯 감소 |
 | 스톨 은닉 구조 | 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대기 중 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행 | 짧은/긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 모두 완화 |
 
-이 그림은 왜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 완화되는지 보여 준다. 같은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 끼어들면서 **자연스러운 시간 간격**이 생기기 때문이다.
+이 그림은 왜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 완화되는지 보여 준다. 같은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 끼어들면서 <strong>자연스러운 시간 간격</strong>이 생기기 때문이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Fine-grained multithreading: rotate thread every cycle             │
-├────────┬──────────┬──────────┬──────────┬──────────┬───────────────┤
-│ Cycle  │    1     │    2     │    3     │    4     │       5       │
-├────────┼──────────┼──────────┼──────────┼──────────┼───────────────┤
-│ Issue  │  T0-I1   │  T1-I1   │  T2-I1   │  T3-I1   │    T0-I2      │
-│ T0 view│ execute  │ waiting  │ waiting  │ waiting  │ result usable │
-└────────┴──────────┴──────────┴──────────┴──────────┴───────────────┘
-```
 
-즉 T0의 두 번째 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `T0-I2`는 바로 다음 사이클이 아니라 네 번째 간격 뒤에 들어온다. 이 간격이 짧은 의존성 해소 시간으로 작용해 포워딩 회로나 스톨 부담을 줄여 준다. 물론 메모리 접근이 수십~수백 사이클 걸리는 경우에는 더 많은 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 필요하므로, 이 구조는 본질적으로 **많은 하드웨어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수**를 전제로 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fine-grained multithreading: rotate thread every cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issue</div><div class="kb-diagram-cell">T0-I1</div><div class="kb-diagram-cell">T1-I1</div><div class="kb-diagram-cell">T2-I1</div><div class="kb-diagram-cell">T3-I1</div><div class="kb-diagram-cell">T0-I2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T0 view</div><div class="kb-diagram-cell">execute</div><div class="kb-diagram-cell">waiting</div><div class="kb-diagram-cell">waiting</div><div class="kb-diagram-cell">waiting</div><div class="kb-diagram-cell">result usable</div></div>
+</div>
+</div>
+
+
+
+즉 T0의 두 번째 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `T0-I2`는 바로 다음 사이클이 아니라 네 번째 간격 뒤에 들어온다. 이 간격이 짧은 의존성 해소 시간으로 작용해 포워딩 회로나 스톨 부담을 줄여 준다. 물론 메모리 접근이 수십~수백 사이클 걸리는 경우에는 더 많은 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 필요하므로, 이 구조는 본질적으로 <strong>많은 하드웨어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 수</strong>를 전제로 한다.
 
 하지만 대가는 분명하다. 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 매 사이클 실행되는 것이 아니라 자기 차례가 돌아올 때만 실행되므로, 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 처리하는 데 더 많은 벽시계 시간이 걸릴 수 있다. 다시 말해 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 파이프라인 효율을 얻는 대신 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 희생하는 구조다.
 
@@ -65,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 위치를 이해하려면, [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)과 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 사이에서 어디에 놓이는지 봐야 한다. [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)은 큰 스톨이 생겼을 때만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸고, 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 매 사이클 바꾸며, SMT는 한 사이클 안에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 동시에 섞어 넣는다. 따라서 세 기법은 모두 유휴 자원을 줄이려 하지만, **언제 전환하는가**와 **얼마나 동시에 채우는가**가 다르다.
+세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 위치를 이해하려면, [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)과 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 사이에서 어디에 놓이는지 봐야 한다. [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)은 큰 스톨이 생겼을 때만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸고, 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 매 사이클 바꾸며, SMT는 한 사이클 안에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 동시에 섞어 넣는다. 따라서 세 기법은 모두 유휴 자원을 줄이려 하지만, <strong>언제 전환하는가</strong>와 <strong>얼마나 동시에 채우는가</strong>가 다르다.
 
 | 항목 | [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) | 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) | [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) |
 | :-- | :-- | :-- | :-- |
@@ -76,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 
 이 개념은 후속 개념들과도 연결된다. 그래픽 처리장치의 워프 스케줄링 (Warp Scheduling)은 본질적으로 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 확장판이며, 단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) ([SIMT](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/), Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple Threads)와 결합해 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨긴다. 반대로 범용 CPU는 사용자 체감 응답성과 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 성능이 중요하므로, 세밀한 교대만으로는 만족스럽지 않아 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)), [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) 쪽으로 더 발전했다.
 
-즉 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "범용 CPU의 주류"라기보다, **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 프로세서가 선택한 시간 분할형 은닉 기술**로 기억하는 편이 정확하다. 그것은 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 계보에서 사라진 개념이 아니라, GPU와 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 모델 안으로 이동한 개념이다.
+즉 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "범용 CPU의 주류"라기보다, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 중심 프로세서가 선택한 시간 분할형 은닉 기술</strong>로 기억하는 편이 정확하다. 그것은 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 계보에서 사라진 개념이 아니라, GPU와 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 모델 안으로 이동한 개념이다.
 
 - **📢 섹션 요약 비유**: [거친 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)이 큰 공백이 생길 때만 선수 교체를 하는 야구라면, 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 매 이닝마다 선수를 바꾸는 경기 운영이다. SMT는 한 이닝 안에서 타자와 주자를 동시에 더 적극적으로 활용하는 전술에 가깝다.
 
@@ -84,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 판단의 핵심 질문은 단순하다. **이 시스템이 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 중심인가, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심인가?** [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 중심이라면 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 대체로 불리하다. 사용자가 클릭한 단일 작업, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경로, 게임 로직처럼 "지금 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나를 빨리 끝내야 하는" 상황에서는 자기 차례를 기다리는 비용이 크게 느껴진다.
+실무 판단의 핵심 질문은 단순하다. <strong>이 시스템이 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> 중심인가, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 중심인가?</strong> [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 중심이라면 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 대체로 불리하다. 사용자가 클릭한 단일 작업, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경로, 게임 로직처럼 "지금 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나를 빨리 끝내야 하는" 상황에서는 자기 차례를 기다리는 비용이 크게 느껴진다.
 
 반대로 네트워크 패킷 처리, 그래픽 렌더링, 대규모 행렬 연산처럼 독립 작업이 매우 많고, 각 작업이 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 자주 걸리는 구조라면 이야기가 달라진다. 이때는 몇 개 작업의 즉시 완료보다 연산 유닛이 쉬지 않는 것이 더 중요하다. 그래서 GPU는 많은 워프를 준비해 두고, 어느 워프가 메모리 응답을 기다리면 즉시 다른 워프로 넘어가며 실행 유닛 점유율을 높인다.
 
@@ -101,21 +103,23 @@ tags = ["studynote-computer-architecture"]
 - 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 부족한데도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉이 될 것이라 기대하는 것
 - [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Pressure) 때문에 동시에 올릴 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 줄어드는 현상을 무시하는 것
 
-```text
-Throughput-oriented workload?
-        │
-        ├─ No  ──> prefer low latency core design
-        │
-        └─ Yes
-             │
-             ├─ Many ready threads available?
-             │      ├─ No  ──> hiding effect is limited
-             │      └─ Yes ──> fine-grained MT is effective
-             │
-             └─ Long/short stalls dominate pipeline?
-                    ├─ Yes ──> utilization gain is high
-                    └─ No  ──> benefit may be marginal
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Throughput-oriented workload?</div>
+<div class="kb-diagram-tree-item" style="--depth:4">No ──&gt; prefer low latency core design</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Yes</div>
+<div class="kb-diagram-tree-item" style="--depth:6">Many ready threads available?</div>
+<div class="kb-diagram-note">─ No ──&gt; hiding effect is limited</div>
+<div class="kb-diagram-note">─ Yes ──&gt; fine-grained MT is effective</div>
+<div class="kb-diagram-tree-item" style="--depth:6">Long/short stalls dominate pipeline?</div>
+<div class="kb-diagram-tree-item" style="--depth:8">Yes ──&gt; utilization gain is high</div>
+<div class="kb-diagram-tree-item" style="--depth:8">No ──&gt; benefit may be marginal</div>
+</div>
+</div>
+
+
 
 기술사 답안에서는 "세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) = 빠른 구조"라고 쓰면 틀리기 쉽다. 정확한 표현은 "단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속도를 희생해 전체 자원 활용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 구조"다. 특히 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 네트워크 프로세서, 대량 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진에서는 강점이 크지만, 일반 사용자 인터랙션 중심 CPU에는 제한적이라는 판단을 함께 제시해야 답안이 완성된다.
 
@@ -127,9 +131,9 @@ Throughput-oriented workload?
 
 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 가장 큰 효과는 파이프라인 유휴 시간 감소다. 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 막히더라도 코어 전체가 멈추지 않으므로, 평균 활용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높아진다. 또한 짧은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성과 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 같은 철학으로 다룰 수 있어, "기다리는 동안 다른 일을 한다"는 구조를 하드웨어 수준에서 일관되게 구현할 수 있다.
 
-반면 이 구조는 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 악화시키고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 상태를 많이 저장해야 하므로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 비용이 증가한다. 결국 충분한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업이 없거나, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 제품 경쟁력의 핵심인 시스템에서는 기대효과가 줄어든다. 따라서 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 만능 해법이 아니라 **풍부한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업과 높은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 수요가 있을 때 빛나는 특화 기법**이다.
+반면 이 구조는 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 악화시키고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 상태를 많이 저장해야 하므로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 비용이 증가한다. 결국 충분한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업이 없거나, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 제품 경쟁력의 핵심인 시스템에서는 기대효과가 줄어든다. 따라서 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 만능 해법이 아니라 <strong>풍부한 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 작업과 높은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 은닉 수요가 있을 때 빛나는 특화 기법</strong>이다.
 
-앞으로도 이 철학은 형태를 바꿔 남을 가능성이 크다. GPU의 워프 스케줄링, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 특수 가속기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리에서 계속 재해석되고 있기 때문이다. 그러므로 이 개념은 "매 사이클 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸는 기술"이라는 표면적 정의보다, **코어를 쉬게 두지 않기 위해 시간을 잘게 나누는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 우선 설계**로 기억하는 것이 가장 정확하다.
+앞으로도 이 철학은 형태를 바꿔 남을 가능성이 크다. GPU의 워프 스케줄링, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 특수 가속기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리에서 계속 재해석되고 있기 때문이다. 그러므로 이 개념은 "매 사이클 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸는 기술"이라는 표면적 정의보다, <strong>코어를 쉬게 두지 않기 위해 시간을 잘게 나누는 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 우선 설계</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 세밀한 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 엘리베이터를 한 사람 전용으로 보내지 않고, 여러 층 호출을 촘촘히 묶어 계속 움직이게 만드는 방식이다. 어떤 한 사람은 조금 더 기다리지만, 건물 전체 교통은 훨씬 원활해진다.
 
@@ -147,22 +151,24 @@ Throughput-oriented workload?
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 스레드 파이프라인
-        │
-        ▼
-긴 스톨 문제 인식
-        │
-        ▼
-거친 멀티스레딩 (Coarse-grained MT)
-        │
-        ▼
-세밀한 멀티스레딩 (Fine-grained MT)
-        │
-        ├──▶ 워프 스케줄링 (Warp Scheduling)
-        ├──▶ SIMT (Single Instruction Multiple Threads)
-        └──▶ SMT (Simultaneous Multithreading)와 비교·발전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 스레드 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">긴 스톨 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">거친 멀티스레딩 (Coarse-grained MT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세밀한 멀티스레딩 (Fine-grained MT)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 워프 스케줄링 (Warp Scheduling)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ SIMT (Single Instruction Multiple Threads)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ SMT (Simultaneous Multithreading)와 비교·발전</div>
+</div>
+</div>
+
+
 
 이 흐름은 "큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 숨기기 → 모든 사이클을 활용하기 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) 방향으로 확장"되는 진화 경로를 보여 준다.
 

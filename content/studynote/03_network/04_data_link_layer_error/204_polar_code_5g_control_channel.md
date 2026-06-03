@@ -24,18 +24,22 @@ tags = ["studynote-network"]
 1. **지저분한 채널들**: 무선 전파를 쏠 때, 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(채널)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다고 칩시다. 이 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 모두 노이즈가 껴서 지저분합니다 (에러율 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%씩).
 2. **극성화 마법 (Polarization)**: 폴라 코드는 이 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 서로 수학적으로 비틀고 꼬아서 하나로 묶는 흑마법(나비 연산, Butterfly [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))을 부립니다.
 3. **기적의 결과 (양극화)**: 꼬여진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 다시 열어보니 기적이 일어났습니다. 
-   - 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중 **50개는 노이즈가 단 1도 없는 100% 투명하고 완벽한 무결점 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Capacity 1)**로 변했습니다.
-   - 나머지 **50개는 쓰레기 노이즈로 꽉 차서 1비트도 보낼 수 없는 완전한 똥물 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Capacity 0)**로 변했습니다.
+   - 100개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중 <strong>50개는 노이즈가 단 1도 없는 100% 투명하고 완벽한 무결점 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Capacity 1)</strong>로 변했습니다.
+   - 나머지 <strong>50개는 쓰레기 노이즈로 꽉 차서 1비트도 보낼 수 없는 완전한 똥물 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Capacity 0)</strong>로 변했습니다.
    - 즉, 어중간했던 채널들이 **완벽한 천국(1)과 완벽한 지옥(0) 양극단(Polar)으로 쫙 갈라져 버렸습니다!**
 
-```text
-[LDPC]
-    │
-    ▼
-[폴라 코드]
-    │
-    └──▶ [HARQ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HARQ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 폴라 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,16 +50,20 @@ tags = ["studynote-network"]
 극성화를 시켰으니 이제 통신은 너무 쉽습니다.
 
 - **송신**: 천국으로 변한 50개의 깨끗한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에만 '진짜 소중한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 쑤셔 넣고, 지옥으로 변한 50개의 쓰레기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에는 아무 의미 없는 '0(얼어붙은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), Frozen [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'만 넣어서 기지국으로 쏴버립니다.
-- **수신 (SC [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))**: 수신기는 지옥 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 온 쓰레기들은 쳐다보지도 않고 무시한 뒤, 완벽하게 보존되어 날아온 천국 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 50개에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙쏙 뽑아 해독합니다. (에러가 날 수가 없는 구조).
+- <strong>수신 (SC <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>)</strong>: 수신기는 지옥 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에서 온 쓰레기들은 쳐다보지도 않고 무시한 뒤, 완벽하게 보존되어 날아온 천국 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 50개에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙쏙 뽑아 해독합니다. (에러가 날 수가 없는 구조).
 
-```text
-[LDPC]
-    │
-    ▼
-[폴라 코드]
-    │
-    └──▶ [HARQ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HARQ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 폴라 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 표준을 정할 때, 미국(퀄컴 주도)의 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 진영과 중국(화웨이 주도)의 폴라 코드 진영이 피 튀기는 정치적/기술적 패권 전쟁을 벌였습니다. 결과는 타협(분할 채택)이었습니다.
 
-- **LDPC의 승리 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)**: 유튜브, 게임 등 우리가 쓰는 **대용량 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel)**는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 클 때 효율이 쩌는 LDPC가 가져갔습니다.
-- **폴라 코드의 승리 (제어 채널)**: 기지국과 스마트폰이 서로 핑퐁을 치며 "너 거기 있어? 나 주파수 바꾼다!"라고 통신하는 아주 짧은 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 패킷(제어 채널, Control Channel)**은 크기가 매우 작습니다. 폴라 코드는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리가 짧을 때(수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이하) 에러 정정 능력이 압도적으로 우수**하기 때문에 5G의 제어 채널 표준으로 최종 낙점되었습니다.
+- <strong>LDPC의 승리 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널)</strong>: 유튜브, 게임 등 우리가 쓰는 <strong>대용량 사용자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Channel)</strong>는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 클 때 효율이 쩌는 LDPC가 가져갔습니다.
+- **폴라 코드의 승리 (제어 채널)**: 기지국과 스마트폰이 서로 핑퐁을 치며 "너 거기 있어? 나 주파수 바꾼다!"라고 통신하는 아주 짧은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 패킷(제어 채널, Control Channel)</strong>은 크기가 매우 작습니다. 폴라 코드는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 덩어리가 짧을 때(수백 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 이하) 에러 정정 능력이 압도적으로 우수</strong>하기 때문에 5G의 제어 채널 표준으로 최종 낙점되었습니다.
 
 폴라 코드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. LDPC가 기반 조건을 만든다면, 폴라 코드는 그 위에서 핵심 메커니즘을 구현하고, HARQ는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LDPC]
-    │
-    ▼
-[현재 개념: 폴라 코드]
-    │
-    ├──▶ [확장 A: HARQ]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LDPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 폴라 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 폴라 코드는 LDPC에서 출발해 현재 메커니즘을 정교화하고, 이후 HARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

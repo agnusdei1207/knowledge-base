@@ -19,21 +19,25 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소 공간 중 **`127.0.0.0 /8`** (127.0.0.0 ~ 127.255.255.255) 전체 대역을 가리키며, 호스트가 자기 자신과 통신하기 위해 예약해 둔 특수 가상 주소다. 이 중 **`127.0.0.1`**이 전 세계적인 대표 주소로 쓰인다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 이름으로는 `localhost`와 매핑된다.
-- **필요성**: 웹 개발자가 자기 컴퓨터에서 아파치(Apache) 웹서버를 띄우고 자기가 짠 코드를 웹 브라우저로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 싶다. 공유기나 통신사 인터넷이 끊어지면 테스트를 못 할까? 안 된다. 내 컴퓨터의 "오른손(클라이언트)"이 보낸 데이터를 바깥세상으로 내보내지 않고 내부 지름길을 통해 "왼손(서버)"에게 즉시 전달해 주는 거울 같은 **'가상의 우체통'**이 절실하게 필요했다.
+- **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소 공간 중 <strong><code>127.0.0.0 /8</code></strong> (127.0.0.0 ~ 127.255.255.255) 전체 대역을 가리키며, 호스트가 자기 자신과 통신하기 위해 예약해 둔 특수 가상 주소다. 이 중 <strong><code>127.0.0.1</code></strong>이 전 세계적인 대표 주소로 쓰인다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 이름으로는 `localhost`와 매핑된다.
+- **필요성**: 웹 개발자가 자기 컴퓨터에서 아파치(Apache) 웹서버를 띄우고 자기가 짠 코드를 웹 브라우저로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 싶다. 공유기나 통신사 인터넷이 끊어지면 테스트를 못 할까? 안 된다. 내 컴퓨터의 "오른손(클라이언트)"이 보낸 데이터를 바깥세상으로 내보내지 않고 내부 지름길을 통해 "왼손(서버)"에게 즉시 전달해 주는 거울 같은 <strong>'가상의 우체통'</strong>이 절실하게 필요했다.
 
-- **💡 비유**: 루프백 주소는 우체국 밖으로 배달 나가지 않고, 회사 내부 1층 안내데스크에 마련된 **"부서 간 수발신 전용 내부 우편함"**과 같습니다. 영업부에서 총무부로 서류를 보낼 때 굳이 우체국(인터넷)에 택배를 접수할 필요 없이, 사내 우편함(127.0.0.1)에 넣으면 1초 만에 바로 옆 부서로 전달됩니다.
+- **💡 비유**: 루프백 주소는 우체국 밖으로 배달 나가지 않고, 회사 내부 1층 안내데스크에 마련된 <strong>"부서 간 수발신 전용 내부 우편함"</strong>과 같습니다. 영업부에서 총무부로 서류를 보낼 때 굳이 우체국(인터넷)에 택배를 접수할 필요 없이, 사내 우편함(127.0.0.1)에 넣으면 1초 만에 바로 옆 부서로 전달됩니다.
 
-```text
-[사설 IP 영역: 10.x, 172.16.x…]
-    │
-    ▼
-[루프백 IP]
-    │
-    └──▶ [APIPA / 링크 로컬 주소]
-```
 
-- **📢 섹션 요약 비유**: ** `127.0.0.1`은 컴퓨터의 **"메아리 동굴"**입니다. 바깥세상으로 소리를 지르는 것이 아니라 동굴 벽([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 향해 소리를 지르면, 정확하게 0.001초 만에 자기 귀로 똑같은 소리가 되돌아오는 셀프 테스트 도구입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프백 IP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">APIPA / 링크 로컬 주소</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <code>127.0.0.1</code>은 컴퓨터의 </strong>"메아리 동굴"**입니다. 바깥세상으로 소리를 지르는 것이 아니라 동굴 벽([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 향해 소리를 지르면, 정확하게 0.001초 만에 자기 귀로 똑같은 소리가 되돌아오는 셀프 테스트 도구입니다.
 
 ---
 
@@ -45,26 +49,23 @@ tags = ["studynote-network"]
 2. 목적지 IP가 `127.x.x.x`인 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 윈도우/리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은, 이 패킷을 2계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 랜카드 드라이버)으로 내려보내지 않는다.
 3. 곧바로 방향을 180도 꺾어서 다시 3계층의 '수신 파트(Rx)'로 끌어올린다. (즉, 랜카드 하드웨어는 불도 켜지지 않으며 물리적 통신이 0% 발생한다.)
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                루프백 주소(127.0.0.1)의 내부 U턴 구조          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC 내부 ]                                              │
- │                                                             │
- │   응용 프로그램 (웹 브라우저) ──▶ "http://127.0.0.1 접속!"     │
- │       │                                        ▲             │
- │       ▼ (데이터 보냄)                           │ (데이터 받음)   │
- │   [ TCP/IP 프로토콜 스택 (운영체제 커널) ]               │             │
- │       │ (목적지가 127번이네? 랜카드로 안 보내!)      │             │
- │       └────────────▶(내부 U턴!)───────────────┘             │
- │                                                             │
- │ ───────────── 물리적 단절 선 (아래로는 절대 안 내려감) ───────────── │
- │                                                             │
- │   [ 물리적 랜카드 (NIC) ] ── (랜선 뽑혀있어도 통신 성공!)         │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프백 주소(127.0.0.1)의 내부 U턴 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램 (웹 브라우저) ──▶ "http://127.0.0.1 접속!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (데이터 보냄)</div><div class="kb-diagram-cell">(데이터 받음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP/IP 프로토콜 스택 (운영체제 커널)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목적지가 127번이네? 랜카드로 안 보내!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶(내부 U턴!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 단절 선 (아래로는 절대 안 내려감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 랜카드 (NIC)</div><div class="kb-diagram-note">── (랜선 뽑혀있어도 통신 성공!)</div></div>
+</div>
+</div>
+
+
 
 ### 2. A 클래스 하나를 통째로 낭비한 사연 (`127.0.0.0/8`)
 루프백 테스트를 하는 데는 `127.0.0.1` 주소 딱 1개면 충분하다.
@@ -92,10 +93,10 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 인터넷이 안 될 때 네트워크 엔지니어가 점검하는 국룰 순서다.
-1. **`ping 127.0.0.1`**: 내 PC의 윈도우 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 파일이 깨지지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). (실패하면 포맷 필수)
-2. **`ping 192.168.0.x` (내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) IP)**: 랜카드 드라이버가 꼬이지 않았는지 물리적 칩셋 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-3. **`ping 192.168.0.1` (공유기 게이트웨이)**: 내 자리에서 거실 공유기까지 랜선이 안 끊겼는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-4. **`ping 8.8.8.8` (구글)**: 통신사(KT/SK) 인터넷이 안 끊겼는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+1. <strong><code>ping 127.0.0.1</code></strong>: 내 PC의 윈도우 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 파일이 깨지지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). (실패하면 포맷 필수)
+2. <strong><code>ping 192.168.0.x</code> (내 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> IP)</strong>: 랜카드 드라이버가 꼬이지 않았는지 물리적 칩셋 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+3. <strong><code>ping 192.168.0.1</code> (공유기 게이트웨이)</strong>: 내 자리에서 거실 공유기까지 랜선이 안 끊겼는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+4. <strong><code>ping 8.8.8.8</code> (구글)</strong>: 통신사(KT/SK) 인터넷이 안 끊겼는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -103,7 +104,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** `127.0.0.1`은 가수들이 무대에 오르기 전 자기 목소리가 마이크에 잘 들어가는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 이어폰(인이어)으로 자기 목소리를 들어보는 **"모니터링용 인이어(In-ear) 스피커"**와 같습니다. 외부 관객(인터넷)에게는 소리가 나가지 않습니다.
+- **📢 섹션 요약 비유**: <strong> <code>127.0.0.1</code>은 가수들이 무대에 오르기 전 자기 목소리가 마이크에 잘 들어가는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하기 위해 이어폰(인이어)으로 자기 목소리를 들어보는 </strong>"모니터링용 인이어(In-ear) 스피커"**와 같습니다. 외부 관객(인터넷)에게는 소리가 나가지 않습니다.
 
 ---
 
@@ -126,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 사설 IP 영역: 10.x, 172.16.x…]
-    │
-    ▼
-[현재 개념: 루프백 IP]
-    │
-    ├──▶ [확장 A: APIPA / 링크 로컬 주소]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루프백 IP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: APIPA / 링크 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 루프백 IP는 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…에서 출발해 현재 메커니즘을 정교화하고, 이후 APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

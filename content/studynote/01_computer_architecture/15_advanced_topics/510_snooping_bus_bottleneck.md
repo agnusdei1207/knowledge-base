@@ -25,22 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 스누핑 구조에서 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 전역 직렬화 지점이 되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      스누핑 버스에서는 요청·무효화·응답이 모두 한 줄로 선다        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core0: BusUpgr(A) ─┐                                                │
-│ Core1: BusRd(B)   ─┼──────▶ [ Shared Bus ] ──────▶ one at a time    │
-│ Core2: BusRd(C)   ─┘                                                │
-│                                                                      │
-│ 버스에 실리는 동안                                                   │
-│   1) 모든 캐시가 태그를 snoop                                        │
-│   2) 필요한 코어가 응답 여부를 결정                                  │
-│   3) 메모리 또는 owner가 데이터 전송                                 │
-│                                                                      │
-│ 코어 수↑ · 공유 쓰기↑  → 버스 중재↑ · 태그 탐색↑ · 대기 시간↑       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스누핑 버스에서는 요청·무효화·응답이 모두 한 줄로 선다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0: BusUpgr(A) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Shared Bus</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">one at a time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core2: BusRd(C) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스에 실리는 동안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 모든 캐시가 태그를 snoop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 필요한 코어가 응답 여부를 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 메모리 또는 owner가 데이터 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 수↑ · 공유 쓰기↑ → 버스 중재↑ · 태그 탐색↑ · 대기 시간↑</div></div>
+</div>
+</div>
+
+
 
 즉 스누핑 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목은 단순한 배선 속도 문제가 아니라, 브로드캐스트 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 구조적 한계다. 작은 칩에서는 자연스럽지만, 규모가 커질수록 "모두가 모두를 듣는 비용"이 급격히 무거워진다.
 
@@ -77,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 | 스누프 필터 결합 스누핑 | 후보 캐시에만 probe | 불필요한 snoop 감소 | 필터 miss/오차 관리 필요 |
 | [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) | 실제 sharer 대상 지정 | 대규모 확장에 유리 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·추가 홉 비용 존재 |
 
-이 문제는 MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과도 직결된다. 상태 기계가 아무리 정교해도, 그 상태를 전달하는 물리 경로가 모두 한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 묶여 있으면 공유가 늘수록 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 양이 먼저 폭증한다. 그래서 MESI의 한계라기보다, **브로드캐스트형 운반 수단 위에 올라탄 MESI의 한계**로 보는 편이 정확하다.
+이 문제는 MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과도 직결된다. 상태 기계가 아무리 정교해도, 그 상태를 전달하는 물리 경로가 모두 한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 묶여 있으면 공유가 늘수록 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 양이 먼저 폭증한다. 그래서 MESI의 한계라기보다, <strong>브로드캐스트형 운반 수단 위에 올라탄 MESI의 한계</strong>로 보는 편이 정확하다.
 
 또한 스누핑 병목은 소프트웨어 패턴과도 강하게 연결된다. 전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 락 변수, 큐 헤더처럼 하나의 라인을 여러 코어가 번갈아 쓰면 coherence traffic이 급증한다. 즉 하드웨어 병목처럼 보이지만, 실제로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전략이 병목 강도를 결정한다.
 
@@ -104,7 +105,7 @@ tags = ["studynote-computer-architecture"]
 - 하드웨어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 있으니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패딩과 샤딩은 불필요하다고 보는 판단
 - 코어 수가 늘어도 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비용이 선형 정도로만 늘 것이라고 가정하는 용량 계획
 
-기술사 답안에서는 "스누핑은 빠르지만 확장성이 약하다"로 끝내면 얕다. 더 좋은 답은 **왜 약한가: 전역 브로드캐스트와 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 직렬화 때문**이라고 원인을 분명히 쓰고, **어떻게 완화하는가: 필터·계층화·[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 전환**까지 이어 주는 것이다.
+기술사 답안에서는 "스누핑은 빠르지만 확장성이 약하다"로 끝내면 얕다. 더 좋은 답은 <strong>왜 약한가: 전역 브로드캐스트와 공유 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 직렬화 때문</strong>이라고 원인을 분명히 쓰고, <strong>어떻게 완화하는가: 필터·계층화·<a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 전환</strong>까지 이어 주는 것이다.
 
 - **📢 섹션 요약 비유**: 스누핑 병목을 다루는 일은 인기 많은 식당의 주문 방식을 바꾸는 것과 같다. 손님이 늘었다고 모두가 한 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에만 몰리게 두면 주방이 아니라 주문대가 병목이 된다.
 
@@ -116,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 
 따라서 기대효과는 단순히 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 빠르게 한다"가 아니다. 진짜 효과는 불필요한 snoop를 줄이고, 글로벌 직렬화 지점을 줄이며, 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 현명하게 배치해 coherence traffic 자체를 줄이는 데서 나온다. 앞으로의 방향도 동일하다. 계층형 coherence, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 추적, 부분 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 가속기별 선택적 coherence처럼 "모두가 항상 모두를 보지 않게" 만드는 쪽으로 진화한다.
 
-결론적으로 스누핑 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목 현상은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)의 부작용이 아니라, **브로드캐스트 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 구조가 가진 규모의 한계**다. 이 개념은 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족"이 아니라 "전역 공유 경로에 모든 coherence 비용이 몰리는 현상"으로 기억해야 정확하다.
+결론적으로 스누핑 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목 현상은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)의 부작용이 아니라, <strong>브로드캐스트 기반 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 구조가 가진 규모의 한계</strong>다. 이 개념은 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족"이 아니라 "전역 공유 경로에 모든 coherence 비용이 몰리는 현상"으로 기억해야 정확하다.
 
 - **📢 섹션 요약 비유**: 스누핑 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목은 마을 방송이 도시 방송으로 그대로 커진 상황과 같다. 처음엔 편하지만, 도시가 커지면 방송국이 아니라 도시 전체의 일상 자체가 방송 속도에 묶이게 된다.
 
@@ -135,22 +136,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스 기반 멀티프로세서
-        │
-        ▼
-스누핑 프로토콜 (Snooping Protocol)
-        │
-        ▼
-브로드캐스트 증가 · 버스 중재 병목 · 전기적 부하 증가
-        │
-        ├─▶ 분할 트랜잭션 버스
-        ├─▶ 스누프 필터 (Snoop Filter)
-        ├─▶ 계층형 버스 / 링 / 메시
-        │
-        ▼
-디렉터리 기반 프로토콜 · 대규모 ccNUMA 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스 기반 멀티프로세서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스누핑 프로토콜 (Snooping Protocol)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브로드캐스트 증가 · 버스 중재 병목 · 전기적 부하 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 분할 트랜잭션 버스</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 스누프 필터 (Snoop Filter)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 계층형 버스 / 링 / 메시</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디렉터리 기반 프로토콜 · 대규모 ccNUMA 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 전역 감시"에서 출발해, "불필요한 감시를 줄이고 대상 지정으로 전환하는 방향"으로 진화하는 과정을 보여준다.
 

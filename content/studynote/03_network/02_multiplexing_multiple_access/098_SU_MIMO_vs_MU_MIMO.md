@@ -32,20 +32,22 @@ tags = ["network"]
 
 MU-MIMO의 핵심 원리는 송신 측([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에서 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 고도의 프리코딩 (Precoding) 연산을 수행하여 각 단말 간의 간섭을 완전히 분리하는 데 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           SU-MIMO의 시분할 처리 vs MU-MIMO의 널링(Nulling) 전송         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. SU-MIMO 구조 (Time Slot 분할 순차 전송)                    │
-│    [AP 4x4] ─(스트림1,2)─▶ [UE A (2x2)] (AP 안테나 2개 낭비, B 대기)  │
-│    [AP 4x4] ─(스트림3)──▶ [UE B (1x1)] (AP 안테나 3개 낭비, A 대기)  │
-│                                                              │
-│ 2. MU-MIMO 구조 (Zero-Forcing 기반 동시 전송)                  │
-│    [AP 4x4] ─(빔 A)─────▶ [UE A (2x2)] (단, B방향 간섭은 0이 되게 억제)│
-│             ─(빔 B)─────▶ [UE B (1x1)] (단, A방향 간섭은 0이 되게 억제)│
-│             ─(빔 C)─────▶ [UE C (1x1)] (모든 안테나 100% 활용)      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SU-MIMO의 시분할 처리 vs MU-MIMO의 널링(Nulling) 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SU-MIMO 구조 (Time Slot 분할 순차 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE A (2x2)</div><div class="kb-diagram-note">(AP 안테나 2개 낭비, B 대기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE B (1x1)</div><div class="kb-diagram-note">(AP 안테나 3개 낭비, A 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MU-MIMO 구조 (Zero-Forcing 기반 동시 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE A (2x2)</div><div class="kb-diagram-note">(단, B방향 간섭은 0이 되게 억제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE B (1x1)</div><div class="kb-diagram-note">(단, A방향 간섭은 0이 되게 억제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE C (1x1)</div><div class="kb-diagram-note">(모든 안테나 100% 활용)</div></div>
+</div>
+</div>
+
+
 
 AP가 여러 사용자에게 빔을 쏠 때, A를 향해 쏜 전파가 B에게 닿으면 심각한 잡음(간섭)이 된다. 이를 막기 위해 AP는 사운딩(Sounding) 과정을 거쳐 단말로부터 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 수집한다. 그리고 수학적인 제로포싱 (Zero-Forcing, ZF) 행렬 연산을 통해 A에게 가는 신호가 B의 위치에서는 진폭이 정반대가 되어 완벽히 상쇄(Nulling)되도록 전파를 꺾어서 쏜다. 단말은 복잡한 간섭 제거 없이 자기 신호만 쏙 뽑아먹는다.
 
@@ -78,7 +80,7 @@ SU-MIMO와 MU-MIMO는 흑백의 대립이 아니라, 네트워크 환경과 트�
 
 1. **사용자 공간 밀집 (Spatial Correlation) 문제**: 회의실 좁은 테이블에 4명이 붙어 앉아 있다면 어떻게 될까? 사용자들이 물리적으로 너무 근접해 있어 AP가 쏜 빔들이 서로 겹치고 분리([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))되지 않는다. 이 상태에서 강제로 MU-MIMO를 켜면 간섭으로 인해 속도가 바닥을 친다. 이때는 SU-MIMO로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))해야 한다.
 2. **패킷 페이로드 불일치**: 묶어서 보내는 4명 중 1명은 대용량 영상, 3명은 텍스트 채팅 중이라면? 텍스트 전송이 일찍 끝나도 영상 전송이 끝날 때까지 3개의 공간 스트림은 비효율적으로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 채우며 허공에서 대기해야 한다.
-3. **고이동성 (High Mobility) 환경의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 로봇이나 AGV가 빠르게 달리는 물류 창고에서 MU-MIMO를 강제하면 치명적이다. AP가 파악한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 위치와 전파 도달 시점의 위치가 달라져 허공에 빔을 쏘게 되고 심각한 통신 단절을 겪는다.
+3. <strong>고이동성 (High Mobility) 환경의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 로봇이나 AGV가 빠르게 달리는 물류 창고에서 MU-MIMO를 강제하면 치명적이다. AP가 파악한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 위치와 전파 도달 시점의 위치가 달라져 허공에 빔을 쏘게 되고 심각한 통신 단절을 겪는다.
 
 - **📢 섹션 요약 비유**: 최고의 명궁(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기지국)이라도 과녁(사용자)들이 한곳에 겹쳐 있거나 너무 빨리 뛰어다니면 한 번에 여러 과녁을 쏘는 것을 포기하고, 차라리 한 발씩 조준해서 쏘는 것(SU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))이 훨씬 안전하고 빠릅니다.
 
@@ -98,28 +100,30 @@ SU-MIMO의 한계를 뛰어넘은 MU-MIMO는 제한된 주파수를 추가 구�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상을 조절해 특정 방향으로만 전파를 집중시키는 기술, MU-MIMO의 필수 물리 기반 |
-| **[CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)** | 채널의 왜곡, 위상 정보를 담은 피드백 행렬. 이것이 부정확하면 MU-MIMO는 성립하지 않는다. |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상을 조절해 특정 방향으로만 전파를 집중시키는 기술, MU-MIMO의 필수 물리 기반 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a> (Channel <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Information)</strong> | 채널의 왜곡, 위상 정보를 담은 피드백 행렬. 이것이 부정확하면 MU-MIMO는 성립하지 않는다. |
 | **Zero-Forcing (ZF)** | MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 송신기가 타 사용자 방향으로의 간섭을 수학적 행렬 반전을 통해 0으로 만드는 기술 |
-| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** | MU-MIMO가 공간을 찢는다면, 주파수 축을 잘게 쪼개 다수 사용자를 동시 지원하는 Wi-Fi 6의 쌍두마차 |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> | MU-MIMO가 공간을 찢는다면, 주파수 축을 잘게 쪼개 다수 사용자를 동시 지원하는 Wi-Fi 6의 쌍두마차 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 안테나 무선 통신 (SISO)
-    │
-    ▼
-다중 안테나 도입 및 SU-MIMO (안테나 배열을 통한 개인 피크 속도 향상)
-    │
-    ▼
-빔포밍 (Beamforming) 및 CSI 피드백 정교화
-    │
-    ▼
-MU-MIMO (공간 찢기를 통한 동시 접속 처리, AP 자원 효율 100%)
-    │
-    ▼
-Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 안테나 무선 통신 (SISO)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 안테나 도입 및 SU-MIMO (안테나 배열을 통한 개인 피크 속도 향상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빔포밍 (Beamforming) 및 CSI 피드백 정교화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MU-MIMO (공간 찢기를 통한 동시 접속 처리, AP 자원 효율 100%)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

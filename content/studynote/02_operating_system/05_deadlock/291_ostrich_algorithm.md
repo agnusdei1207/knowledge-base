@@ -21,31 +21,31 @@ tags = ["studynote-operating-system"]
 
 컴퓨터 과학자들은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 악마를 잡기 위해 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 수많은 아름다운 수학 공식을 탄생시켰다. 하지만 정작 이 공식을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 탑재해 돌려보니, 쥐(데드락) 한 마리 잡자고 초가삼간(컴퓨터 퍼포먼스)을 다 태우는 격이 되었다.
 
-그래서 공학자들은 냉정한 타협을 한다. **"데드락이 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 수만 분의 일이다. 터져서 재부팅하는 손실이, 평생 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 느린 채로 타이핑하는 손실보다 싸게 막힌다."** 바로 이 모래밭에 머리 박기가 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+그래서 공학자들은 냉정한 타협을 한다. <strong>"데드락이 일어날 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>은 수만 분의 일이다. 터져서 재부팅하는 손실이, 평생 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 느린 채로 타이핑하는 손실보다 싸게 막힌다."</strong> 바로 이 모래밭에 머리 박기가 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 **💡 비유**: 길 가다 운석에 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)). 이를 방어하겠다고 매일 50kg짜리 티타늄 헬멧(회피 오버헤드)을 쓰고 다닐 것인가? 아니면 헬멧 없이 다니면서 만약 맞으면 재수 없게 병원(재부팅)에 한번 실려 가고 말 것인가? 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 후자다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         방어 비용(Cost) vs 장애 손상(Damage) 그래프          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [예방/회피 알고리즘 (은행원, RAG 탐지)]                     │
-│  방어 비용(CPU 연산): ■■■■■■■■■■ (일상적 막대함)             │
-│  장애 빈도: 거의 0                                           │
-│  → 시스템이 계속 무겁고 느리게 돌아감                        │
-│                                                              │
-│  [타조 알고리즘 (Ostrich Algorithm)]                         │
-│  방어 비용(CPU 연산): ■ (ZERO)                               │
-│  장애 발생: 1년에 1~2회 멈춤                                 │
-│  복구 주체: 사용자(User)가 화내면서 전원 리셋 누름           │
-│  → 시스템은 365일 비행기처럼 빠르고 가벼움                   │
-│                                                              │
-│  결론: 윈도우 블루스크린이나 앱 프리징이 가끔 일어나는       │
-│  이유는 MS가 무능해서가 아니라, 타조 알고리즘을 '선택'했기   │
-│  때문이다.                                                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 비용(Cost) vs 장애 손상(Damage) 그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예방/회피 알고리즘 (은행원, RAG 탐지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 비용(CPU 연산): ■■■■■■■■■■ (일상적 막대함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 빈도: 거의 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시스템이 계속 무겁고 느리게 돌아감</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 비용(CPU 연산): ■ (ZERO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생: 1년에 1~2회 멈춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복구 주체: 사용자(User)가 화내면서 전원 리셋 누름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시스템은 365일 비행기처럼 빠르고 가벼움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: 윈도우 블루스크린이나 앱 프리징이 가끔 일어나는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유는 MS가 무능해서가 아니라, 타조 알고리즘을 '선택'했기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문이다.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 빈대 잡으려 초가삼간 안 태운다 — 평생 어쩌다 한 번 나타나는 빈대(데드락) 때문에 매일 밤 방독면(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쓰고 자면 병이 납니다. 그냥 자다가 물리면 긁는 게 낫습니다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-operating-system"]
 
 OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 채택한다고 해서 데드락이 완전 무법천지가 되는 것은 아니다. 책임을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)할 뿐이다.
 
-1. **OS ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))**: "나는 가만히 있을 테니, 메모리랑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 속도나 최고로 뽑아줄게."
+1. <strong>OS (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>: "나는 가만히 있을 테니, 메모리랑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 속도나 최고로 뽑아줄게."
 2. **응용 프로그램 (App)**: "어쩔 수 없지. 데드락이 치명적인 데이터페이스(DB) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 백엔드 프로그램인 우리가 직접 유저 모드에서 Lock_Timeout 이나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim 킬(Kill)을 코딩하자."
 3. **최종 사용자 (User)**: "어? 웹 브라우저가 안 꺼지네? 작업 관리자 들어가서 `강제 종료` 해야겠다."
 
@@ -82,11 +82,11 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **Linux `Task Hung` 에러**: 리눅스에서 120초 이상 I/O가 멈춰있으면 dmesg에 "[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) blocked for more than 120 seconds" 메시지만 남기고 방치한다. 시스템을 강제 크래시시키거나 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드로 들어가지 않는다. 타조 철학의 명백한 표본이다.
+1. <strong>Linux <code>Task Hung</code> 에러</strong>: 리눅스에서 120초 이상 I/O가 멈춰있으면 dmesg에 "[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) blocked for more than 120 seconds" 메시지만 남기고 방치한다. 시스템을 강제 크래시시키거나 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드로 들어가지 않는다. 타조 철학의 명백한 표본이다.
 2. **Kubernetes의 Liveness Probe**: OS가 타조가 되어버렸으므로, 클라우드 환경에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 멈춰있는지 밖에서 헬스 체크를 날린다. 데드락으로 응답이 없으면 K8s가 가차 없이 팟을 죽이고(Reboot) 새로 띄운다. 현대 인프라의 거대한 타조 뒷바라지 시스템이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 맹신 (No-Timeout [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: "리눅스나 윈도우가 알아서 데드락을 방어해주겠지?" 하고 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 네트워크 응답이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 `무한 대기(Infinite Wait)`로 짜는 행위. 타조는 외면할 뿐 너를 도와주지 않으므로, 그 서비스는 영구 정지(Zombie)된다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 맹신 (No-Timeout <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: "리눅스나 윈도우가 알아서 데드락을 방어해주겠지?" 하고 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 네트워크 응답이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 `무한 대기(Infinite Wait)`로 짜는 행위. 타조는 외면할 뿐 너를 도와주지 않으므로, 그 서비스는 영구 정지(Zombie)된다.
 
 **📢 섹션 요약 비유**: 안전 그물이 없다는 걸 알았으니 내 몸은 내가 지켜야 합니다. 밧줄 없이 번지점프를 뛰고서 "국가가 살려주겠지?" 하면 안 됩니다.
 
@@ -117,15 +117,19 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[교착 상태 처리 방법 3가지]
-    │
-    ▼
-[타조 알고리즘 (Ostrich Algorithm)]
-    │
-    ├──▶ [교착 상태 예방 (Deadlock Prevention)]
-    └──▶ [상호 배제 부정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 처리 방법 3가지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제 부정</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

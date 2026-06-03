@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: DAST는 소스코드를 절대 보지 않는다(눈을 감고 쏜다). 대신 앱을 서버에 띄운다(Runtime). 스캐너 툴(ZAP 등)이 웹 브라우저처럼 행동하며, 쇼핑몰 게시판의 검색창을 찾아낸다. 그리고 검색어 대신 `<script>alert(1)</script>` ([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 공격)나 `' OR 1=1` (SQL 공격) 같은 독극물 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload)를 1초에 1만 번씩 날려본다. 서버가 에러를 뱉거나 뚫리면 "어? 여기 뚫렸다!"라고 팩트 리포트를 출력한다.
 
-- **필요성**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(정적 분석기)만 썼더니 거짓 경고(오탐)가 5만 개나 떠서 개발자들이 쌍욕을 하며 스캐너 코드를 뽑아버렸다. 게다가 SAST는 소스코드(로직)만 보지, **"웹 서버의 방화벽이 어떻게 쳐져 있는지, 톰캣 서버의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 틀렸는지"와 같은 '인프라 환경(Runtime [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))'의 구멍**은 절대 찾을 수 없다. 개발자가 완벽하게 짠 코드라도, 운영 서버의 아파치 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 뚫려있으면 털리는 법이다. 이 때문에 **실제 서버가 켜진 상태에서 밖에서 문을 걷어차 보는 진짜 도둑질 시뮬레이션**이 100% 필수적이다.
+- **필요성**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(정적 분석기)만 썼더니 거짓 경고(오탐)가 5만 개나 떠서 개발자들이 쌍욕을 하며 스캐너 코드를 뽑아버렸다. 게다가 SAST는 소스코드(로직)만 보지, <strong>"웹 서버의 방화벽이 어떻게 쳐져 있는지, 톰캣 서버의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>이 틀렸는지"와 같은 '인프라 환경(Runtime <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)'의 구멍</strong>은 절대 찾을 수 없다. 개발자가 완벽하게 짠 코드라도, 운영 서버의 아파치 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 뚫려있으면 털리는 법이다. 이 때문에 <strong>실제 서버가 켜진 상태에서 밖에서 문을 걷어차 보는 진짜 도둑질 시뮬레이션</strong>이 100% 필수적이다.
 
-- **💡 비유**: DAST는 **'자동차 충돌 크래시 테스트'**와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
+- **💡 비유**: DAST는 <strong>'자동차 충돌 크래시 테스트'</strong>와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/) 노가다**: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST). 
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/">모의 해킹</a> 노가다</strong>: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST). 
   2. **자동화 스캐너의 붐 (2000년대 중반)**: 해커들이 치는 단골 해킹 패턴 1만 개(Payload)를 모아놓고, 기계가 밤새도록 버튼을 누르며 대신 폭격을 쏴주는 `Burp Suite`나 `OWASP ZAP` 같은 위대한 DAST 툴이 상용화되었다.
-  3. **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인 합체 (현재)**: [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 빌드를 끝내고 QA 서버([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 띄우자마자, DAST 툴이 1시간 동안 무자비하게 폭격하고 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인을 부숴버리며 배포를 컷오프(Fail)시키는 파이프라인 자동화의 끝판왕이 되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 파이프라인 합체 (현재)</strong>: [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 빌드를 끝내고 QA 서버([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 띄우자마자, DAST 툴이 1시간 동안 무자비하게 폭격하고 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인을 부숴버리며 배포를 컷오프(Fail)시키는 파이프라인 자동화의 끝판왕이 되었다.
 
-- **📢 섹션 요약 비유**: SAST가 **'공항 엑스레이 검색대'**라면, DAST는 **'경비견 셰퍼드를 풀어놓기'**입니다. 엑스레이([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))는 가방 속의 철(코드) 모양은 잘 보지만 밀봉된 마약 냄새(환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))는 못 찾습니다. 경비견(DAST)은 가방 속은 안 봐도, 밖에서 킁킁대며 냄새(실제 반응)를 맡고 독이 든 가방만 정확히 물어뜯어 갈기갈기 찢어버리는 실전 짐승입니다.
+- **📢 섹션 요약 비유**: SAST가 <strong>'공항 엑스레이 검색대'</strong>라면, DAST는 <strong>'경비견 셰퍼드를 풀어놓기'</strong>입니다. 엑스레이([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))는 가방 속의 철(코드) 모양은 잘 보지만 밀봉된 마약 냄새(환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))는 못 찾습니다. 경비견(DAST)은 가방 속은 안 봐도, 밖에서 킁킁대며 냄새(실제 반응)를 맡고 독이 든 가방만 정확히 물어뜯어 갈기갈기 찢어버리는 실전 짐승입니다.
 
 ---
 
 다음은 DAST (Dynamic Applic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  DAST (Dynamic Applic                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAST (Dynamic Applic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 DAST (Dynamic Applic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engin
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ DAST (Dynamic Application [Security](/knowledge-base/studynote/04_software_engin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-DAST (Dynamic Application Security Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAST (Dynamic Application Security Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

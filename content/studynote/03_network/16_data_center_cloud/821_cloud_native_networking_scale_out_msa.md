@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(물리적 전산실) 환경의 무겁고 고정된 네트워크 인프라 설계 방식을 버리고, **[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)(AWS, GCP)나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 환경에서 돌아가는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들의 폭발적인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸([스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/))에 맞춰, 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 보안, 로드밸런싱을 100% 소프트웨어 기반으로 실시간 자동화하여 연동하는 차세대 네트워크 아키텍처**입니다.
+- **개념**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(물리적 전산실) 환경의 무겁고 고정된 네트워크 인프라 설계 방식을 버리고, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">퍼블릭 클라우드</a>(AWS, GCP)나 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(k8s) 환경에서 돌아가는 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)와 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>들의 폭발적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>/소멸(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>)에 맞춰, 네트워크 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>, 보안, 로드밸런싱을 100% 소프트웨어 기반으로 실시간 자동화하여 연동하는 차세대 네트워크 아키텍처</strong>입니다.
 
-```text
-[EVPN]
-    │
-    ▼
-[클라우드 네이티브 네트워킹]
-    │
-    └──▶ [컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,24 +42,28 @@ tags = ["studynote-network"]
 
 ### 1. IP 주소의 생명주기 (Ephemeral IP)
 - **과거**: 서버 한 대를 사면, IP 주소 `192.168.0.10`을 평생 부여하고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에도 딱 못을 박았습니다(정적 IP).
-- **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 IP는 목숨이 파리 목숨입니다. 서버가 죽었다 켜지거나 트래픽이 몰려 복제될 때마다 매분 매초 **새로운 IP 주소가 랜덤으로 발급되고 사라집니다(임시적, Ephemeral).** 따라서 IP 주소 기반의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통제는 완전히 무의미해집니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a></strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 IP는 목숨이 파리 목숨입니다. 서버가 죽었다 켜지거나 트래픽이 몰려 복제될 때마다 매분 매초 **새로운 IP 주소가 랜덤으로 발급되고 사라집니다(임시적, Ephemeral).** 따라서 IP 주소 기반의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통제는 완전히 무의미해집니다.
 
 ### 2. [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) ([Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)) 도입 🌟
 - IP가 1초마다 바뀌는데, A 서버가 B 서버를 어떻게 찾아갈까요?
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 망에는 **중앙 전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))**가 있습니다. B 서버가 새로 태어나면 스스로 전화번호부에 "나 새로 태어난 B(IP: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x)야!"라고 등록합니다. A 서버는 B의 IP를 외우지 않고, 전화번호부에 "B 어딨어?"라고 물어보고 접속합니다. (동적 위치 탐색)
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 망에는 <strong>중앙 전화번호부(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 기반 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)</strong>가 있습니다. B 서버가 새로 태어나면 스스로 전화번호부에 "나 새로 태어난 B(IP: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x)야!"라고 등록합니다. A 서버는 B의 IP를 외우지 않고, 전화번호부에 "B 어딨어?"라고 물어보고 접속합니다. (동적 위치 탐색)
 
 ### 3. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로드밸런싱과 East-West 트래픽 폭발
 - 옛날엔 중앙 입구(North-South)에 거대한 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나만 뒀습니다.
-- 지금은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수천 개가 지들끼리 통신(East-West)하므로, 중앙 장비로 보내면 병목이 터집니다. 그래서 **로드밸런서([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 기능 자체를 엄청나게 가벼운 소프트웨어로 쪼개어, 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆구리에 하나씩 붙여버리는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/), [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))**로 진화했습니다.
+- 지금은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수천 개가 지들끼리 통신(East-West)하므로, 중앙 장비로 보내면 병목이 터집니다. 그래서 <strong>로드밸런서(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>) 기능 자체를 엄청나게 가벼운 소프트웨어로 쪼개어, 각 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 옆구리에 하나씩 붙여버리는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a>)</strong>로 진화했습니다.
 
-```text
-[EVPN]
-    │
-    ▼
-[클라우드 네이티브 네트워킹]
-    │
-    └──▶ [컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,9 +72,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 이 거대한 동적 핑퐁을 관리하기 위해 인류는 다음 세 가지를 만들어 냈습니다.
-1. **[CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) ([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워크 인터페이스)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 안에서 수만 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들에게 어떻게 자동으로 IP를 뿌리고 서로 통신하게 할 것인지 정하는 밑바닥 배관 표준 (822번 문서).
-2. **Kube-Proxy와 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)**: 외부 인터넷에서 들어온 손님을, IP가 계속 바뀌는 수십 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 중 한 곳으로 잘 넘겨주는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 기본 L4/L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능 (826, 827번 문서).
-3. **[Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) ([서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 통신할 때 암호화(보안)를 걸고, 누가 통신을 많이 하는지 감시(추적)하는 고급 통신 관리 덮개 (828, 829번 문서).
+1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 네트워크 인터페이스)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 안에서 수만 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들에게 어떻게 자동으로 IP를 뿌리고 서로 통신하게 할 것인지 정하는 밑바닥 배관 표준 (822번 문서).
+2. <strong>Kube-Proxy와 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a></strong>: 외부 인터넷에서 들어온 손님을, IP가 계속 바뀌는 수십 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 중 한 곳으로 잘 넘겨주는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 기본 L4/L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능 (826, 827번 문서).
+3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>)</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 통신할 때 암호화(보안)를 걸고, 누가 통신을 많이 하는지 감시(추적)하는 고급 통신 관리 덮개 (828, 829번 문서).
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EVPN가 기반 조건을 만든다면, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹은 그 위에서 핵심 메커니즘을 구현하고, [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 망…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EVPN]
-    │
-    ▼
-[현재 개념: 클라우드 네이티브 네트워킹]
-    │
-    ├──▶ [확장 A: 컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EVPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우드 네이티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹는 EVPN에서 출발해 현재 메커니즘을 정교화하고, 이후 [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 망…와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워킹 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

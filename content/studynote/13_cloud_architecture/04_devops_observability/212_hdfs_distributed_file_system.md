@@ -33,31 +33,28 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 
 ### [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 아키텍처
 
-```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      HDFS 구조                               │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  클라이언트                                                    │
-  │     │ ① 파일 위치 요청                                         │
-  │     ▼                                                        │
-  │  ┌──────────────────────────────┐                            │
-  │  │   NameNode (마스터)           │ ← 메타데이터 저장            │
-  │  │                              │   (파일명, 블록 위치, 권한)   │
-  │  │   Active NameNode            │                            │
-  │  │   Standby NameNode  ←─────── │                            │
-  │  │   JournalNode (로그 공유)     │                            │
-  │  └──────────┬───────────────────┘                            │
-  │             │ ② 블록 위치 응답 (DataNode 목록)                  │
-  │             ▼                                                │
-  │  클라이언트가 DataNode에 직접 읽기/쓰기                         │
-  │                                                              │
-  │  DataNode 1  DataNode 2  DataNode 3  ...  DataNode N         │
-  │  [블록 A-1]  [블록 A-2]  [블록 A-3]       [블록 B-1]         │
-  │  [블록 A-2]  [블록 B-1]  [블록 B-2]                          │
-  │  (복제본)    (복제본)    (복제본)                               │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 파일 위치 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode (마스터)</div><div class="kb-diagram-cell">← 메타데이터 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파일명, 블록 위치, 권한)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active NameNode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standby NameNode ←</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JournalNode (로그 공유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 블록 위치 응답 (DataNode 목록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트가 DataNode에 직접 읽기/쓰기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 1 DataNode 2 DataNode 3 ... DataNode N</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 A-1</div><div class="kb-diagram-node">블록 A-2</div><div class="kb-diagram-node">블록 A-3</div><div class="kb-diagram-node">블록 B-1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 A-2</div><div class="kb-diagram-node">블록 B-1</div><div class="kb-diagram-node">블록 B-2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복제본) (복제본) (복제본)</div></div>
+</div>
+</div>
+
+
 
 ### 블록 분할 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
 
@@ -115,7 +112,7 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 기본 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> 기본 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>:
 ```bash
 # 디렉토리 목록 보기
 hdfs dfs -ls /user/hadoop/
@@ -133,16 +130,21 @@ hdfs fsck /user/hadoop/data/ -files -blocks
 hdfs dfsadmin -report
 ```
 
-**[Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/) 해결 방법**:
-```
-문제: 1MB 파일 1000개 → NameNode에 1000개 메타데이터 항목
-     1GB 파일 1개 → NameNode에 8개 메타데이터 항목 (128MB 블록 8개)
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/">Small File Problem</a> 해결 방법</strong>:
 
-해결책:
-  1. HAR (Hadoop Archive): 작은 파일을 하나의 아카이브로 합침
-  2. SequenceFile: 키-값 쌍으로 작은 파일 합쳐서 저장
-  3. 애플리케이션 레벨: 배치로 합쳐서 저장하는 로직 추가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제: 1MB 파일 1000개 → NameNode에 1000개 메타데이터 항목</div>
+<div class="kb-diagram-note">1GB 파일 1개 → NameNode에 8개 메타데이터 항목 (128MB 블록 8개)</div>
+<div class="kb-diagram-note">해결책:</div>
+<div class="kb-diagram-note">1. HAR (Hadoop Archive): 작은 파일을 하나의 아카이브로 합침</div>
+<div class="kb-diagram-note">2. SequenceFile: 키-값 쌍으로 작은 파일 합쳐서 저장</div>
+<div class="kb-diagram-note">3. 애플리케이션 레벨: 배치로 합쳐서 저장하는 로직 추가</div>
+</div>
+</div>
+
+
 
 **기술사 판단 포인트**:
 - NameNode의 JVM 힙 메모리가 HDFS의 실질적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 한계를 결정한다. 1GB 힙 ≈ 약 100만 개 블록 관리 가능.
@@ -185,14 +187,19 @@ HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-HDFS: NameNode (메타데이터) + DataNode (블록 저장)
-    ├─► 복제 계수 3: 장애 시 데이터 보호
-    └─► Rack Awareness: 랙 분산 저장
-    │
-    ▼
-클라우드 대안: S3 · GCS · ADLS (오브젝트 스토리지)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HDFS: NameNode (메타데이터) + DataNode (블록 저장)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">복제 계수 3: 장애 시 데이터 보호</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Rack Awareness: 랙 분산 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 대안: S3 · GCS · ADLS (오브젝트 스토리지)</div>
+</div>
+</div>
+
+
 2. 각 조각은 3곳에 복사해두어서 한 상자가 망가져도(노드 고장) 다른 상자에서 꺼낼 수 있어.
 3. NameNode는 "어떤 조각이 어느 상자에 있는지" 목록만 관리하는 도서관 사서야. 사서가 없으면 조각들을 못 찾아!
 

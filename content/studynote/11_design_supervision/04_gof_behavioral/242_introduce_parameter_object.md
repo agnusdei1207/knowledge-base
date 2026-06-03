@@ -18,7 +18,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-파라미터 객체화 (Introduce Parameter Object) 는 여러 메서드에 함께 전달되는 매개변수 묶음을 새로운 클래스(또는 레코드)로 추출하고, 해당 클래스의 인스턴스를 대신 전달하는 기법이다. 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 홀더 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Holder) 에서 시작하지만, 이후 관련 비즈니스 로직을 해당 클래스로 이관할 수 있는 **성장 가능한 객체**가 된다.
+파라미터 객체화 (Introduce Parameter Object) 는 여러 메서드에 함께 전달되는 매개변수 묶음을 새로운 클래스(또는 레코드)로 추출하고, 해당 클래스의 인스턴스를 대신 전달하는 기법이다. 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 홀더 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Holder) 에서 시작하지만, 이후 관련 비즈니스 로직을 해당 클래스로 이관할 수 있는 <strong>성장 가능한 객체</strong>가 된다.
 
 ```
 // 변환 전 — 긴 매개변수 목록
@@ -31,49 +31,51 @@ int minAmount, int maxAmount) { ... }
 public Report generate(ReportCriteria criteria) { ... }
 ```
 
-- **[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소**: 매개변수 6개 이상은 호출 시 순서 실수를 유발한다 (특히 동일 타입 연속).
-- **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장**: 날짜 범위(시작·종료)처럼 항상 쌍으로 다녀야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 객체로 묶으면 "시작일 없이 종료일만 전달"하는 실수를 방지한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a> 감소</strong>: 매개변수 6개 이상은 호출 시 순서 실수를 유발한다 (특히 동일 타입 연속).
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 보장</strong>: 날짜 범위(시작·종료)처럼 항상 쌍으로 다녀야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 객체로 묶으면 "시작일 없이 종료일만 전달"하는 실수를 방지한다.
 - **진화 용이성**: 새 조건 추가 시 메서드 시그니처 변경 없이 객체 필드만 추가하면 된다.
 
-```text
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ Problem │──▶│ Core Idea │──▶│ Expected Gain │
-└──────────────┘ └──────────────┘ └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편의점 도시락을 낱개로 들고 다니는 대신, 쇼핑백 하나에 담아 한 번에 전달하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-[ 변환 전 구조 ]
-┌────────────────────────────────────────────────────────┐
-│ searchOrders(Date from, Date to, String region, │
-│ String status, int page, int size) │
-│ exportOrders(Date from, Date to, String region, │
-│ String status, String format) │
-│ countOrders (Date from, Date to, String region, │
-│ String status) │
-└────────────────────────────────────────────────────────┘
-↓ 파라미터 객체화 (Introduce Parameter Object)
-┌──────────────────────────────────────────────────────┐
-│ OrderQuery (Value Object) │
-│ ┌────────────────────────────────────────────────┐ │
-│ │ dateRange : DateRange (from, to) │ │
-│ │ region : String │ │
-│ │ status : OrderStatus │ │
-│ │ + isValid(): boolean │ │
-│ │ + overlaps(DateRange other): boolean │ │
-│ └────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────┘
-↓
-┌──────────────────────────────────────────────────────┐
-│ searchOrders(OrderQuery q, Pageable p) │
-│ exportOrders(OrderQuery q, String format) │
-│ countOrders (OrderQuery q) │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">변환 전 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">searchOrders(Date from, Date to, String region,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String status, int page, int size)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exportOrders(Date from, Date to, String region,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String status, String format)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">countOrders (Date from, Date to, String region,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String status)</div></div>
+<div class="kb-diagram-note">↓ 파라미터 객체화 (Introduce Parameter Object)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderQuery (Value Object)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dateRange : DateRange (from, to)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region : String</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">status : OrderStatus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ isValid(): boolean</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ overlaps(DateRange other): boolean</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">searchOrders(OrderQuery q, Pageable p)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exportOrders(OrderQuery q, String format)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">countOrders (OrderQuery q)</div></div>
+</div>
+</div>
+
+
 
 파라미터 객체는 자연스럽게 **값 객체 (Value Object, VO)** 패턴으로 발전한다.
 
@@ -102,7 +104,7 @@ public Report generate(ReportCriteria criteria) { ... }
 | 메서드 체이닝 (Method [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) | 플루언트 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 계열 호출 | [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 높음 | 디버깅 어려움 |
 | 가변 인수 (Varargs) | 동종 복수 전달 | 동일 타입 N개 | 유연한 개수 | 타입 안전성 저하 |
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 "항상 함께 다니는 변수 묶음"이고, 파라미터 객체화는 그 해결책 중 하나다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프가 **필드**로 나타나면 클래스 분리 (Extract Class) 를, **매개변수**로 나타나면 파라미터 객체화를 적용한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 "항상 함께 다니는 변수 묶음"이고, 파라미터 객체화는 그 해결책 중 하나다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프가 <strong>필드</strong>로 나타나면 클래스 분리 (Extract Class) 를, <strong>매개변수</strong>로 나타나면 파라미터 객체화를 적용한다.
 
 - **📢 섹션 요약 비유**: 학교 소풍 준비물 목록이 공책, 연필, 가방에 따로따로 있으면 혼란스럽다 — "소풍 키트" 하나로 묶는 게 파라미터 객체화다.
 
@@ -124,9 +126,9 @@ return !date.isBefore(from) && !date.isAfter(to);
 }
 ```
 
-외부 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 설계 시, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파라미터 묶음을 **요청 DTO ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object)** 로 캡슐화하면 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 없이 필드를 추가할 수 있어 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) (Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 을 유지한다.
+외부 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 설계 시, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파라미터 묶음을 <strong>요청 DTO (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Transfer Object)</strong> 로 캡슐화하면 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 없이 필드를 추가할 수 있어 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) (Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 을 유지한다.
 
-- **[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))**: 파라미터 객체 → 값 객체 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 엔티티 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity) 로 발전하는 경로를 설명하면 높은 점수를 받는다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/">Domain-Driven Design</a>)</strong>: 파라미터 객체 → 값 객체 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 엔티티 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity) 로 발전하는 경로를 설명하면 높은 점수를 받는다.
 - **유지보수 비용**: 시그니처 변경 없이 기능 확장 가능 → 변경 비용 (Change Cost) 절감 논거로 활용한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -147,7 +149,7 @@ return !date.isBefore(from) && !date.isAfter(to);
 | 신규 조건 추가 변경 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 | 8개 | 1개 |
 | 유효성 검사 중복 코드 | 4곳 | 1곳 (VO 내부) |
 
-파라미터 객체화 (Introduce Parameter Object) 는 단순한 코드 정리를 넘어, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Language) 를 코드에 끌어들이는 출발점**이다. 날짜 범위, 금액 범위, 좌표 쌍 같은 개념은 원시 타입 대신 의미 있는 객체로 표현되어야 시스템 전체의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 신뢰성이 높아진다.
+파라미터 객체화 (Introduce Parameter Object) 는 단순한 코드 정리를 넘어, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 언어 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Language) 를 코드에 끌어들이는 출발점</strong>이다. 날짜 범위, 금액 범위, 좌표 쌍 같은 개념은 원시 타입 대신 의미 있는 객체로 표현되어야 시스템 전체의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 신뢰성이 높아진다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

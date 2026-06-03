@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 딥러닝 모델은 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하지만, 수억 개의 파라미터로 이루어진 의사결정 과정은 인간에게 불투명하다. 이를 "블랙박스(Black Box)" 문제라 한다.
 
-**[XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 필요성**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> 필요성</strong>
 - **신뢰(Trust)**: 의사/법관이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단을 수용하려면 근거가 필요하다
 - **디버깅(Debugging)**: 모델이 잘못된 특징(Feature)을 학습했는지 탐지
 - **규제 준수**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act, GDPR의 "설명을 요청할 권리(Right to Explanation)"
@@ -37,23 +37,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-원본 예측
-    │
-    ├─── LIME ────► 국소 선형 근사 ──► "이 예측에서 X₁가 +0.3 기여"
-    │               (Perturbation 샘플링)
-    │
-    └─── SHAP ────► 섀플리값 계산 ───► "전체 평균 대비 X₂가 -0.15 기여"
-                    (연합 게임 이론)
-```
 
-**[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 작동 원리**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 예측</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LIME ► 국소 선형 근사 ──► "이 예측에서 X₁가 +0.3 기여"</div>
+<div class="kb-diagram-note">(Perturbation 샘플링)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SHAP ► 섀플리값 계산 ► "전체 평균 대비 X₂가 -0.15 기여"</div>
+<div class="kb-diagram-note">(연합 게임 이론)</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> 작동 원리</strong>
 1. 예측하려는 샘플 x 주변에 약한 변형(Perturbation) 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 블랙박스 모델로 각 변형 샘플의 예측값 획득
 3. x에 가까울수록 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여
 4. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 적용 선형 모델(Ridge Regression) 학습 → 계수가 각 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 기여도
 
-**[SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 작동 원리**
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a> 작동 원리</strong>
 게임 이론의 섀플리 값(Shapley Value): 협동 게임에서 각 플레이어의 공정한 기여도를 모든 가능한 연합 순서의 평균으로 계산.
 
 $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(S \cup \{i\}) - f(S)]$$
@@ -84,9 +88,9 @@ $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(
 | 임의 모델 | KernelSHAP | 느림 |
 
 **전역 해석 방법**
-- **Permutation [Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)**: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 값 섞었을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 측정
+- <strong>Permutation <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/">Feature Importance</a></strong>: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 값 섞었을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 측정
 - **Partial Dependence Plot(PDP)**: 단일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 예측값 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
-- **[SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) Plot**: 전체 샘플의 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값 분포 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a> <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/">Summary</a> Plot</strong>: 전체 샘플의 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값 분포 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 - **📢 섹션 요약 비유**: 국소 해석은 "오늘 이 환자가 왜 위험한가"이고, 전역 해석은 "우리 병원 AI가 어떤 증상을 가장 중요하게 보는가"이다.
 
@@ -94,7 +98,7 @@ $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)**
+<strong>적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>
 
 1. **의료**: 암 진단 모델 → 어떤 유전자 마커가 양성 예측에 기여했는지 의사에게 제공
 2. **신용 대출**: 대출 거절 시 "소득 수준(-0.8), 연체 이력(-1.2)"으로 거절 사유 고객 통보
@@ -102,9 +106,9 @@ $$\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F|-|S|-1)!}{|F|!}[f(
 
 **기술사 판단 포인트**
 
-- **[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 단점**: 샘플링 노이즈로 동일 입력에 다른 설명 가능 → 의료처럼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요한 분야엔 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 권장
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> 단점</strong>: 샘플링 노이즈로 동일 입력에 다른 설명 가능 → 의료처럼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요한 분야엔 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 권장
 - **TreeSHAP**: 트리 기반 모델에서 정확하고 빠른 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) — 금융 스코어링에 실질적 선택지
-- **EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 고위험 시스템**: Level 3(고위험)은 설명 가능성 문서화 의무 → [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 리포트 자동화 파이프라인 구축 필요
+- <strong>EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act 고위험 시스템</strong>: Level 3(고위험)은 설명 가능성 문서화 의무 → [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 리포트 자동화 파이프라인 구축 필요
 
 - **📢 섹션 요약 비유**: AI가 "너는 대출 불가"라고만 하면 억울하지만, "소득이 부족해서(-70%), 연체 이력 때문에(-30%)"라고 하면 납득할 수 있다.
 

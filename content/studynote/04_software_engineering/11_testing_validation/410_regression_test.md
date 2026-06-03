@@ -22,23 +22,24 @@ tags = ["studynote-software-engineering"]
 소프트웨어는 거대한 거미줄(Spider Web)과 같습니다. A [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 글꼴 크기를 키웠는데, 그 코드를 같이 공유하던 Z [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 결제 버튼이 갑자기 화면 밖으로 사라지는 마법 같은 버그가 매일 발생합니다. 이를 **부작용(Side Effect)** 또는 물결 효과(Ripple Effect)라고 부릅니다.
 
 개발자는 A [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 고치고 나서 "A [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 잘 되네!" 하고 끝낼 것입니다(이것은 재테스트/[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 테스트입니다).
-하지만 진짜 꼼꼼한 품질보증팀(QA)은 지난주, 작년, 3년 전에 짜놓았던 "B부터 Z까지의 모든 기능이 여전히 멀쩡한지"를 잰걸음으로 전부 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 이렇게 **"시스템의 나쁜 과거 상태로 회귀(Regression)하지 않았음"**을 담보하는 반복 채찍질이 바로 **회귀 테스트(Regression Test)**입니다.
+하지만 진짜 꼼꼼한 품질보증팀(QA)은 지난주, 작년, 3년 전에 짜놓았던 "B부터 Z까지의 모든 기능이 여전히 멀쩡한지"를 잰걸음으로 전부 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 이렇게 <strong>"시스템의 나쁜 과거 상태로 회귀(Regression)하지 않았음"</strong>을 담보하는 반복 채찍질이 바로 <strong>회귀 테스트(Regression Test)</strong>입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  확인 테스트 vs 회귀 테스트의 차이               │
-├──────────────────────────────────────────────────────────────┤
-│ [버그 수정 상황: "결제 모듈 V2 업데이트" 배포]                      │
-│                                                              │
-│  1) 확인 테스트 (Confirmation Test / Re-test)                   │
-│     - 대상: 방금 고친 "결제 모듈 V2"이 제대로 결제되는지 단독 테스트.   │
-│                                                              │
-│  2) 회귀 테스트 (Regression Test)                              │
-│     - 대상: "로그인, 장바구니, 회원가입, 내정보" 등 이번 작업과         │
-│             별 등급 없어 보이는 **기존 정상 기능들** 전체 점검.        │
-│             (V2 모듈이 엮인 캐시나 DB 테이블을 건드려 터졌을까 봐!)    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확인 테스트 vs 회귀 테스트의 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버그 수정 상황: "결제 모듈 V2 업데이트" 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 확인 테스트 (Confirmation Test / Re-test)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대상: 방금 고친 "결제 모듈 V2"이 제대로 결제되는지 단독 테스트.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 회귀 테스트 (Regression Test)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대상: "로그인, 장바구니, 회원가입, 내정보" 등 이번 작업과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">별 등급 없어 보이는 기존 정상 기능들 전체 점검.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(V2 모듈이 엮인 캐시나 DB 테이블을 건드려 터졌을까 봐!)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 찌그러진 자동차 범퍼 하나를 고쳤을 뿐인데, 혹시 정비사가 실수로 배선을 건드려 와이퍼나 에어컨이 고장 나지 않았을까 의심하며 출고 전에 와이퍼부터 트렁크까지 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 다시 다 눌러보는 깐깐함입니다.
 
@@ -53,9 +54,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 회귀 테스트는 인간 테스터에게는 기피 대상 1호입니다.
-시스템이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v1에서 v100으로 커질수록, 테스트해야 하는 **기존 기능 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(TC)**는 눈덩이처럼 불어나 수만 개가 됩니다. "로그인 아이디 10자 이내 입력" 같은 누구나 아는 당연한 테스트를 다음 달도, 내년도, 내후년도 개발자가 뭐 하나 고칠 때마다 사람이 무한 반복해야 합니다. 눈이 빠지고 집중력이 박살 납니다.
+시스템이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) v1에서 v100으로 커질수록, 테스트해야 하는 <strong>기존 기능 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a>(TC)</strong>는 눈덩이처럼 불어나 수만 개가 됩니다. "로그인 아이디 10자 이내 입력" 같은 누구나 아는 당연한 테스트를 다음 달도, 내년도, 내후년도 개발자가 뭐 하나 고칠 때마다 사람이 무한 반복해야 합니다. 눈이 빠지고 집중력이 박살 납니다.
 
-이 끔찍한 부하 때문에, 회귀 테스트는 필연적으로 기계에게 이 단순 반복을 인계하는 **테스트 자동화 도구 (Selenium, JUnit, Playwright 등)**의 존재 이유가 됩니다. 컴퓨터는 밤새 1만 개의 로그인 테스트를 1시간 만에 불평 없이 클릭하여 쳐냅니다.
+이 끔찍한 부하 때문에, 회귀 테스트는 필연적으로 기계에게 이 단순 반복을 인계하는 <strong>테스트 자동화 도구 (Selenium, JUnit, Playwright 등)</strong>의 존재 이유가 됩니다. 컴퓨터는 밤새 1만 개의 로그인 테스트를 1시간 만에 불평 없이 클릭하여 쳐냅니다.
 
 - **📢 섹션 요약 비유**: 매일 아침 건물의 모든 전등 100개가 잘 켜지는지 3년째 똑같이 껐다 켜보는 업무입니다. 사람이 직접 하면 미치지만, 로봇 팔을 만들어 매일 아침 자동으로 켜보라고 시키면 최고의 효율이 나오는 반복의 정수입니다.
 
@@ -99,7 +100,7 @@ tags = ["studynote-software-engineering"]
 오늘날의 회귀 테스트는 '아무 일 없음을 증명하는 공기'와도 같습니다.
 개발자가 GitHub에 코드를 푸시(Push)하는 순간, 클라우드 위에서 백그라운드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions) 파이프라인이 즉각 발동하며 수천 개의 회귀 유닛 테스트와 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 스크립트를 수 분 내에 사격(Firing)합니다. 
 
-만약 단 한 개의 옛날 로직이라도 빨간색(Fail)이 뜨면, 파이프라인은 새 코드가 마스터 브랜치(Main)에 합쳐지는 것을 무자비하게 폭파시켜버립니다. 이것이 바로 "우리의 시스템은 절대로 퇴보하지 않는다"는 확신을 주는 **빌드 파서(Build Breaker) 철학**이자, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 겁 없이 하루에 10번씩 코드를 배포할 수 있는 궁극의 믿음입니다.
+만약 단 한 개의 옛날 로직이라도 빨간색(Fail)이 뜨면, 파이프라인은 새 코드가 마스터 브랜치(Main)에 합쳐지는 것을 무자비하게 폭파시켜버립니다. 이것이 바로 "우리의 시스템은 절대로 퇴보하지 않는다"는 확신을 주는 <strong>빌드 파서(Build Breaker) 철학</strong>이자, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 겁 없이 하루에 10번씩 코드를 배포할 수 있는 궁극의 믿음입니다.
 
 - **📢 섹션 요약 비유**: 요리사가 찌개에 새 양념을 치면, 주방장이 즉시 독이 들지 않았는지 모든 국물을 은수저로 다 한 번씩 맛보는 자동 기계 라인입니다. 은수저 색이 조금이라도 변하면 그 요리는 식당 홀로 절대 나갈 수 없습니다.
 
@@ -114,7 +115,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅴ. 기대효과 및 결론
 
 회귀 테스트는 "앞으로 나아가는 것보다, 뒤로 미끄러지지 않는 것이 훨씬 더 비용을 아낀다"는 소프트웨어 유지보수 공학(Lehman's Laws)의 핵심을 실천하는 행위입니다.
-수동 테스트에만 의존하던 시대의 회귀 테스트는 악몽이었지만, 이제 코드로 작성된 회귀 테스트(Test [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 묶음(Suite) 그 자체가 시스템이 얼마나 안전한지 증명하는 **가장 강력한 방어막 자산(Asset)**으로 칭송받으며 개발 문화의 중심에 서 있습니다.
+수동 테스트에만 의존하던 시대의 회귀 테스트는 악몽이었지만, 이제 코드로 작성된 회귀 테스트(Test [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 묶음(Suite) 그 자체가 시스템이 얼마나 안전한지 증명하는 <strong>가장 강력한 방어막 자산(Asset)</strong>으로 칭송받으며 개발 문화의 중심에 서 있습니다.
 
 - **📢 섹션 요약 비유**: 성을 한 층 더 쌓아 올릴 때마다, 밑에 있는 이전 층들의 벽돌이 찌그러지거나 빠진 곳이 없는지 망치로 일일이 때려보는 기초 공사 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차입니다. 망치질이 두려우면 성을 절대 높게 쌓을 수 없습니다.
 
@@ -137,21 +138,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-회귀 테스트 (Regression Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회귀 테스트 (Regression Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

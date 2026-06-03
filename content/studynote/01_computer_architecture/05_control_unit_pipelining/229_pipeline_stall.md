@@ -25,17 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 스톨이 필요한지를 시간축 관점에서 보여준다. 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과가 아직 도착하지 않았는데 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 그 값을 읽으려 하면, 한 박자 멈춰 순서를 다시 맞춰야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                결과 준비 전 사용 시도 → 스톨로 시간축 보정                 │
-├────────┬────────┬────────┬────────┬────────┬────────────────────────────────┤
-│ Cycle  │   1    │   2    │   3    │   4    │ 의미                           │
-├────────┼────────┼────────┼────────┼────────┼────────────────────────────────┤
-│ I1     │ IF     │ ID     │ EX     │ MEM    │ load 결과는 MEM 끝에서 준비    │
-│ I2     │        │ IF     │ ID     │ stall  │ I1 결과가 아직 없어 대기       │
-│ I2     │        │        │        │ EX     │ 한 사이클 뒤에야 안전하게 실행 │
-└────────┴────────┴────────┴────────┴────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 준비 전 사용 시도 → 스톨로 시간축 보정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">의미</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">load 결과는 MEM 끝에서 준비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">stall</div><div class="kb-diagram-cell">I1 결과가 아직 없어 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">한 사이클 뒤에야 안전하게 실행</div></div>
+</div>
+</div>
+
+
 
 핵심은 스톨이 "느려지는 현상"이 아니라 "순서를 보존하기 위한 제어 행동"이라는 점이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 손해 보지만, 프로그램 의미를 지키지 못하면 더 이상 프로세서라 부를 수 없기 때문이다.
 
@@ -58,20 +60,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 로드-유즈 해저드에서 스톨과 버블이 어떻게 동시에 나타나는지 보여준다. 앞단은 멈추고, 중간 단계에는 빈 슬롯이 흘러가며, 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 한 사이클 늦춰진다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│               Load-Use Hazard에서 Stall과 Bubble이 생기는 위치             │
-├───────────────┬───────────────┬───────────────┬──────────────────────────────┤
-│ Cycle 1       │ Cycle 2       │ Cycle 3       │ Cycle 4                      │
-├───────────────┼───────────────┼───────────────┼──────────────────────────────┤
-│ I1: load      │ ID            │ EX            │ MEM                          │
-│ I2: add       │ IF            │ ID            │ stall                        │
-│ I3: next      │               │ IF            │ IF 유지                      │
-├───────────────┴───────────────┴───────────────┴──────────────────────────────┤
-│ 제어 결과: PC 정지 + IF/ID 정지 + ID/EX에 NOP 삽입                         │
-│ 결과 의미: EX 자리에 빈 버블이 지나가며 I2는 한 사이클 뒤로 밀림           │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load-Use Hazard에서 Stall과 Bubble이 생기는 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1</div><div class="kb-diagram-cell">Cycle 2</div><div class="kb-diagram-cell">Cycle 3</div><div class="kb-diagram-cell">Cycle 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1: load</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2: add</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">stall</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I3: next</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">IF 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 결과: PC 정지 + IF/ID 정지 + ID/EX에 NOP 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 의미: EX 자리에 빈 버블이 지나가며 I2는 한 사이클 뒤로 밀림</div></div>
+</div>
+</div>
+
+
 
 스톨은 단순히 "멈춘다"로 끝나지 않는다. 어느 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 얼리고 어느 단계에 버블을 넣을지 정확히 설계해야 파이프라인 상태가 깨지지 않는다. 그래서 스톨 제어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로만큼이나 제어 경로 품질에 의존하며, 잘못 구현하면 오히려 더 치명적인 오연산과 데드록에 가까운 정지 현상을 만든다.
 
@@ -145,23 +148,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령어 겹쳐 실행
-    │
-    ▼
-파이프라인 해저드 (Pipeline Hazard) 인식
-    │
-    ├─ 데이터 해저드 (RAW) ──▶ 스톨 (Pipeline Stall)
-    │                           │
-    │                           └─ 전방 전달 (Forwarding)
-    │
-    ├─ 구조적 해저드 ─────────▶ 자원 분리 · 포트 확장
-    │
-    └─ 제어 해저드 ───────────▶ 분기 예측 · 플러시 (Flush)
-                                │
-                                ▼
-비순차 실행 (Out-of-Order Execution) · 투기 실행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령어 겹쳐 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 해저드 (Pipeline Hazard) 인식</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 해저드 (RAW) ──▶ 스톨 (Pipeline Stall)</div>
+<div class="kb-diagram-note">─ 전방 전달 (Forwarding)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">구조적 해저드 ▶ 자원 분리 · 포트 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">제어 해저드 ▶ 분기 예측 · 플러시 (Flush)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution) · 투기 실행</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 대기에서 끝나지 않고, 스톨 원인을 해저드별로 분해한 뒤 이를 줄이는 현대 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 기법으로 확장되는 과정을 보여준다.
 

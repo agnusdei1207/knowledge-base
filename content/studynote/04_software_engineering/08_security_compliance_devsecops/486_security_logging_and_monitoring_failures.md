@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 시스템에서 벌어지는 치명적인 사건들(비밀번호 5회 틀림, 관리자 권한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인, 10만 건 엑셀 다운로드)을 하드디스크에 기록([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/))하지 않거나, 기록은 해놨지만 아무도 그 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 쳐다보지 않아(Monitoring 실패) 해킹이 발생해도 속수무책으로 방치되는 상태다.
 
-- **필요성**: 글로벌 해킹 통계에 따르면, 기업이 해킹당했다는 사실을 인지하기까지 걸리는 평균 시간(MTTD)이 무려 **200일**이 넘는다. 해커는 바보가 아니다. 하루 만에 다 털고 도망가지 않는다. 문을 따고 들어와서 6개월 동안 숨어 지내며([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 공격) 최고 관리자 권한을 야금야금 따내고, DB 서버를 훑어보고, 천천히 가장 비싼 고객 데이터를 암호화하여 빼돌린다. **이 200일의 숨바꼭질 기간 동안, 단 한 번이라도 "어? 새벽 3시에 웬 관리자가 엑셀을 다운받지?"라는 경고 알람이 한 번만 울렸다면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 성공) 수백억 원의 파산을 막을 수 있었다.** [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 감시 체계가 없다는 것은 도둑과 한집에 살면서 눈을 가리고 코를 고는 자살 행위와 같다.
+- **필요성**: 글로벌 해킹 통계에 따르면, 기업이 해킹당했다는 사실을 인지하기까지 걸리는 평균 시간(MTTD)이 무려 <strong>200일</strong>이 넘는다. 해커는 바보가 아니다. 하루 만에 다 털고 도망가지 않는다. 문을 따고 들어와서 6개월 동안 숨어 지내며([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 공격) 최고 관리자 권한을 야금야금 따내고, DB 서버를 훑어보고, 천천히 가장 비싼 고객 데이터를 암호화하여 빼돌린다. <strong>이 200일의 숨바꼭질 기간 동안, 단 한 번이라도 "어? 새벽 3시에 웬 관리자가 엑셀을 다운받지?"라는 경고 알람이 한 번만 울렸다면(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 성공) 수백억 원의 파산을 막을 수 있었다.</strong> [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 감시 체계가 없다는 것은 도둑과 한집에 살면서 눈을 가리고 코를 고는 자살 행위와 같다.
 
-- **💡 비유**: 로깅 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패는 미술관의 **'고장 난 CCTV와 잠자는 경비원'**과 같습니다. 세계 최고의 방탄유리(암호화)를 깔았지만 도둑이 다이아몬드 칼로 3달 동안 유리를 조금씩 잘라내고 있습니다. 이때 벽에 달린 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 렌즈가 천장을 향해 꺾여 있어서 도둑이 안 찍히거나(로깅 실패), CCTV는 잘 찍고 있는데 경비실 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 앞의 경비원이 코를 골며 자고 있다면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패), 3달 뒤 그림은 털립니다. 찍고(Log) + 깨어있어야([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 방어가 성립합니다.
+- **💡 비유**: 로깅 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패는 미술관의 <strong>'고장 난 CCTV와 잠자는 경비원'</strong>과 같습니다. 세계 최고의 방탄유리(암호화)를 깔았지만 도둑이 다이아몬드 칼로 3달 동안 유리를 조금씩 잘라내고 있습니다. 이때 벽에 달린 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 렌즈가 천장을 향해 꺾여 있어서 도둑이 안 찍히거나(로깅 실패), CCTV는 잘 찍고 있는데 경비실 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 앞의 경비원이 코를 골며 자고 있다면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패), 3달 뒤 그림은 털립니다. 찍고(Log) + 깨어있어야([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 방어가 성립합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 쓰레기통 시대**: 2000년대 개발자들은 에러 디버깅을 위해 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 잔뜩 텍스트 파일로 쌓아뒀다. 용량이 꽉 차면 지우기 바빴고, [보안 로깅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)이라는 개념 자체가 희박했다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 쓰레기통 시대</strong>: 2000년대 개발자들은 에러 디버깅을 위해 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 잔뜩 텍스트 파일로 쌓아뒀다. 용량이 꽉 차면 지우기 바빴고, [보안 로깅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)이라는 개념 자체가 희박했다.
   2. **빅데이터의 도래와 ELK (2010년대)**: 서버가 수백 대([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 늘어나며, 각 서버에 들어가서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트를 까보는 게 불가능해졌다. ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 모든 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한 우물로 퍼 담아 검색할 수 있는 중앙 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 관제 시대가 열렸다.
-  3. **OWASP의 호통 (현재)**: 아무리 툴이 좋아져도 "로깅 자체를 안 짠다", "경고 알람을 꺼둔다"는 기강 해이가 계속되자, OWASP는 이를 Top 10에 못 박고 **"보안은 코딩이 아니라, 지켜보고 대응([Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/))하는 눈알 싸움이다"**라는 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 패러다임을 강제 선언했다.
+  3. **OWASP의 호통 (현재)**: 아무리 툴이 좋아져도 "로깅 자체를 안 짠다", "경고 알람을 꺼둔다"는 기강 해이가 계속되자, OWASP는 이를 Top 10에 못 박고 <strong>"보안은 코딩이 아니라, 지켜보고 대응(<a href="/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/">Incident Response</a>)하는 눈알 싸움이다"</strong>라는 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 패러다임을 강제 선언했다.
 
-- **📢 섹션 요약 비유**: 이 취약점은 **'뺑소니 사고가 났는데 블랙박스 전원 선이 뽑혀 있는 억울함'**입니다. 차가 튼튼하든 말든 사고(해킹)는 날 수 있습니다. 하지만 블랙박스(로깅)가 켜져 있지 않으면 범인 번호판을 절대 잡을 수 없고, 평생 내가 다 물어내야 합니다. 보험금([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 타기 위한 유일하고도 가장 치명적인 목격자를 끄고 달리는 미친 짓입니다.
+- **📢 섹션 요약 비유**: 이 취약점은 <strong>'뺑소니 사고가 났는데 블랙박스 전원 선이 뽑혀 있는 억울함'</strong>입니다. 차가 튼튼하든 말든 사고(해킹)는 날 수 있습니다. 하지만 블랙박스(로깅)가 켜져 있지 않으면 범인 번호판을 절대 잡을 수 없고, 평생 내가 다 물어내야 합니다. 보험금([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 타기 위한 유일하고도 가장 치명적인 목격자를 끄고 달리는 미친 짓입니다.
 
 ---
 
 다음은 [Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) and의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Security Logging and                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Logging and</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) and가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) and Monitoring Failures ([보안 로깅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) and Monitoring Failures ([보안 로깅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/) and Monitoring Failures ([보안 로깅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 실패)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Security Logging and Monitoring Failures (보안 로깅 및 모니터링 실패) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Security Logging and Monitoring Failures (보안 로깅 및 모니터링 실패) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

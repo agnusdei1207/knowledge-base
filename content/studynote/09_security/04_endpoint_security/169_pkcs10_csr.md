@@ -43,23 +43,25 @@ PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_system
 
 아래 그림은 CSR [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 PKCS#10 CSR generation and validation               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant system                                                    │
-│   1) Generate key pair                                              │
-│   2) Build CertificationRequestInfo                                 │
-│      - Subject DN                                                   │
-│      - SubjectPublicKeyInfo                                         │
-│      - Attributes (SAN, extension requests)                         │
-│   3) Sign request with private key                                  │
-│   4) Send CSR to CA / RA                                            │
-│                                                                     │
-│ CA / RA side                                                        │
-│   Verify signature -> verify identity/domain -> issue certificate   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKCS#10 CSR generation and validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Generate key pair</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Build CertificationRequestInfo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Subject DN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SubjectPublicKeyInfo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Attributes (SAN, extension requests)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Sign request with private key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Send CSR to CA / RA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA / RA side</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verify signature -&gt; verify identity/domain -&gt; issue certificate</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 점은 CSR 안에 인증서가 들어 있는 것이 아니라는 사실이다. CSR은 아직 CA의 서명을 받지 않은 요청서이며, CA는 이 요청서를 검토한 뒤 별도의 X.509 인증서를 발급한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식은 보통 개인 정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메일 (PEM, Privacy-Enhanced Mail) 인코딩의 `-----BEGIN CERTIFICATE REQUEST-----` 형태나, DER (Distinguished Encoding Rules) 바이너리 형태로 저장된다.
 
@@ -109,9 +111,9 @@ PKCS#10은 다른 [PKI](/knowledge-base/studynote/09_security/03_network_securit
 
 ### 실무 시나리오
 
-- **단일/멀티 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: `www.example.com`, `api.example.com`을 동시에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려면 SAN을 포함한 CSR을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다.
-- **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)**: 자동화된 인증서 발급 도구가 내부적으로 CSR을 만들고 제출하므로, 운영자는 키 보관 위치와 인증서 교체 주기를 함께 봐야 한다.
-- **사내 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 환경**: 내부 시스템은 공개 CA가 아니라 사내 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 맞춘 CSR 속성과 템플릿이 중요하다.
+- <strong>단일/멀티 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 웹 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: `www.example.com`, `api.example.com`을 동시에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려면 SAN을 포함한 CSR을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a></strong>: 자동화된 인증서 발급 도구가 내부적으로 CSR을 만들고 제출하므로, 운영자는 키 보관 위치와 인증서 교체 주기를 함께 봐야 한다.
+- <strong>사내 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 환경</strong>: 내부 시스템은 공개 CA가 아니라 사내 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 맞춘 CSR 속성과 템플릿이 중요하다.
 
 - **📢 섹션 요약 비유**: 같은 신청서 양식을 써도 집 허가, 상가 허가, 공장 허가에 필요한 주소와 조건이 다르듯, CSR도 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 위한 것인지에 따라 담아야 할 이름과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식이 달라진다.
 
@@ -121,7 +123,7 @@ PKCS#10은 다른 [PKI](/knowledge-base/studynote/09_security/03_network_securit
 
 PKCS#10을 표준대로 사용하면 다양한 CA와 도구가 상호 운용 가능한 방식으로 인증서 발급 요청을 처리할 수 있다. 신청자는 개인키를 계속 통제하면서 공개키 소유를 증명할 수 있고, 운영팀은 자동화 도구와 수동 발급 절차를 같은 형식으로 다룰 수 있다. 그래서 PKCS#10은 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 운영의 출발점으로 오래 살아남았다.
 
-하지만 CSR만으로 신뢰가 완성되지는 않는다. 신청서가 올바르게 서명돼 있어도 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 조직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 승인, 인증서 배포와 갱신까지 이어져야 실제 보안 효과가 나온다. 따라서 PKCS#10은 "인증서 그 자체"가 아니라, **개인키를 밖으로 내보내지 않고 신뢰 체인을 시작하게 해 주는 요청 형식**으로 기억해야 한다.
+하지만 CSR만으로 신뢰가 완성되지는 않는다. 신청서가 올바르게 서명돼 있어도 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 조직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 승인, 인증서 배포와 갱신까지 이어져야 실제 보안 효과가 나온다. 따라서 PKCS#10은 "인증서 그 자체"가 아니라, <strong>개인키를 밖으로 내보내지 않고 신뢰 체인을 시작하게 해 주는 요청 형식</strong>으로 기억해야 한다.
 
 앞으로는 자동화 도구와 짧은 수명의 인증서가 더 늘어나더라도 CSR의 본질은 그대로다. 누가, 어떤 공개키로, 어떤 이름의 인증서를 받고 싶은지 구조화해서 증명하는 문서라는 점이 PKCS#10의 핵심 가치다.
 
@@ -142,25 +144,26 @@ PKCS#10을 표준대로 사용하면 다양한 CA와 도구가 상호 운용 가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-키 쌍 생성
-    │
-    ▼
-PKCS#10 CSR 작성
-    │
-    ├─ Subject DN
-    ├─ Public Key
-    └─ SAN / Attributes + Signature
-    │
-    ▼
-CA / RA 검증
-    │
-    ▼
-X.509 인증서 발급
-    │
-    ▼
-배포 · 갱신 · 자동화 (ACME / PKCS#12 / TLS 운영)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">키 쌍 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKCS#10 CSR 작성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Subject DN</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Public Key</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SAN / Attributes + Signature</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CA / RA 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">X.509 인증서 발급</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배포 · 갱신 · 자동화 (ACME / PKCS#12 / TLS 운영)</div>
+</div>
+</div>
+
+
 
 이 흐름은 인증서 운영이 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 시작해, 요청·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·발급·배포 자동화로 이어지는 전체 수명주기를 보여 준다.
 

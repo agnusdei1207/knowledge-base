@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 클래식 (Classic, ~3.0)**: 무선 이어폰(오디오 스트리밍)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'끊임없이 연속으로'** 흘러가야 하는 곳에 씁니다. 항상 연결을 유지(Keep-Alive)하느라 전력 소모가 엄청납니다.
-- **[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ([Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/), 4.0~5.0) 🌟**: 스마트 워치의 심박수, 백화점 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))처럼 어쩌다 한 번 **'간헐적이고 찔끔찔끔'** 보내는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 아예 아키텍처를 갈아엎은 초저전력 짠돌이 버전입니다. (둘은 2.4GHz 주파수만 같이 쓸 뿐, 말하는 언어가 아예 다릅니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 클래식 (Classic, ~3.0)</strong>: 무선 이어폰(오디오 스트리밍)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'끊임없이 연속으로'** 흘러가야 하는 곳에 씁니다. 항상 연결을 유지(Keep-Alive)하느라 전력 소모가 엄청납니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">Bluetooth Low Energy</a>, 4.0~5.0) 🌟</strong>: 스마트 워치의 심박수, 백화점 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))처럼 어쩌다 한 번 **'간헐적이고 찔끔찔끔'** 보내는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 아예 아키텍처를 갈아엎은 초저전력 짠돌이 버전입니다. (둘은 2.4GHz 주파수만 같이 쓸 뿐, 말하는 언어가 아예 다릅니다.)
 
-```text
-[NB-IoT 전력 최적화]
-    │
-    ▼
-[블루투스 LE]
-    │
-    └──▶ [지그비 메쉬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지그비 메쉬</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,21 +45,25 @@ tags = ["studynote-network"]
 
 ### 1. 기적의 3밀리초 (3ms) 접속 시간
 - 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 기기 두 개가 연결(페어링 Handshake)되는 데 무려 3~5초가 걸렸고 그동안 배터리가 펑펑 닳았습니다.
-- **BLE는 0.003초(3ms)**면 연결부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송, 그리고 해제 후 수면(Sleep) 전환까지 모든 과정이 찰나에 끝납니다. 눈 깜빡할 새에 일을 끝내고 99.9%의 시간을 완벽한 딥슬립 상태로 유지합니다.
+- <strong>BLE는 0.003초(3ms)</strong>면 연결부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송, 그리고 해제 후 수면(Sleep) 전환까지 모든 과정이 찰나에 끝납니다. 눈 깜빡할 새에 일을 끝내고 99.9%의 시간을 완벽한 딥슬립 상태로 유지합니다.
 
 ### 2. 애드버타이징 (Advertising) 3개 채널의 꼼수
 - 와이파이는 2.4GHz 주파수 14개 채널을 샅샅이 뒤지느라 전기를 다 씁니다.
-- BLE는 40개 채널 중 **딱 3개(37, 38, 39번 채널)**만 '방송 전용(Advertising) 채널'로 고정해 둡니다. 백화점 비콘(송신기)이 "나 여기 있어! 할인 쿠폰 받아!"라고 외칠 때는 무조건 이 3개 채널에만 번갈아 가며 뿌립니다. 
+- BLE는 40개 채널 중 <strong>딱 3개(37, 38, 39번 채널)</strong>만 '방송 전용(Advertising) 채널'로 고정해 둡니다. 백화점 비콘(송신기)이 "나 여기 있어! 할인 쿠폰 받아!"라고 외칠 때는 무조건 이 3개 채널에만 번갈아 가며 뿌립니다. 
 - 내 스마트폰도 이 3개 채널만 0.1초 스캔하면 비콘을 100% 찾아낼 수 있어, 주파수를 뒤지는 공회전 배터리 낭비가 0이 됩니다.
 
-```text
-[NB-IoT 전력 최적화]
-    │
-    ▼
-[블루투스 LE]
-    │
-    └──▶ [지그비 메쉬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지그비 메쉬</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 - 백화점 비콘은 지나가는 내 스마트폰과 1:1로 악수하지 않고, 그냥 라디오 방송국처럼 "이마트 할인 쿠폰 코드: 1234"를 3개 채널에 무지성으로 허공에 뿌립니다(브로드캐스트). 스마트폰은 그 전파를 주워서 쓱 읽고 앱만 띄워주면 끝입니다. 연결 유지 비용([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이 아예 없습니다.
 
 - 기존 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 폰과 워치가 1:1로만 묶이는 성형(Star) 구조였습니다. 폰 멀어지면 툭 끊깁니다.
-- **[Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 5.0 [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)**: 거실 전구, 안방 전구, 부엌 전구에 다 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 칩을 달고 자기들끼리 **거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 922번)**처럼 통신을 토스(릴레이)하게 만듭니다. 스마트폰으로 거실 전구에 "부엌 전구 켜!"라고 명령하면, 거실 전구가 옆의 안방 전구를 거쳐 부엌 전구까지 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 전파를 징검다리로 건네주어 집안 전체를 다 덮는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 확장망을 완성했습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a> 5.0 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a></strong>: 거실 전구, 안방 전구, 부엌 전구에 다 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 칩을 달고 자기들끼리 <strong>거미줄(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>, 922번)</strong>처럼 통신을 토스(릴레이)하게 만듭니다. 스마트폰으로 거실 전구에 "부엌 전구 켜!"라고 명령하면, 거실 전구가 옆의 안방 전구를 거쳐 부엌 전구까지 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 전파를 징검다리로 건네주어 집안 전체를 다 덮는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 확장망을 완성했습니다.
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화가 기반 조건을 만든다면, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 그 위에서 핵심 메커니즘을 구현하고, [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 클래식**은 무전기를 켠 채로 24시간 동안 **"김 병장님 들리십니까? 이상 무!"를 1초마다 반복하는 경계 근무자**입니다. 대화는 안 끊기지만 무전기 배터리가 반나절 만에 방전됩니다. 반면 **[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)([Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))**와 비콘은 산꼭대기의 **'초소형 무인 등대'**입니다. 이 등대는 지나가는 배(스마트폰)와 1:1로 무전을 치며 대화(페어링 연결)하지 않습니다. 그냥 1초에 한 번씩 "여기 암초 있음!"이라는 불빛(애드버타이징 채널 브로드캐스트)을 0.003초 동안 '번쩍!' 하고 쏘고는 전원을 끄고 기절해 버립니다. 배들은 그냥 지나가다가 그 찰나의 불빛을 보고 피하기만 하면 됩니다. 인사를 생략하고 자기 할 말만 0.003초 만에 던지고 자버리기 때문에, 동전만 한 건전지 하나로 길거리에 2년 동안 방치되어도 끄떡없는 마법의 짠돌이 생존 통신입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 클래식</strong>은 무전기를 켠 채로 24시간 동안 <strong>"김 병장님 들리십니까? 이상 무!"를 1초마다 반복하는 경계 근무자</strong>입니다. 대화는 안 끊기지만 무전기 배터리가 반나절 만에 방전됩니다. 반면 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">Bluetooth Low Energy</a>)</strong>와 비콘은 산꼭대기의 <strong>'초소형 무인 등대'</strong>입니다. 이 등대는 지나가는 배(스마트폰)와 1:1로 무전을 치며 대화(페어링 연결)하지 않습니다. 그냥 1초에 한 번씩 "여기 암초 있음!"이라는 불빛(애드버타이징 채널 브로드캐스트)을 0.003초 동안 '번쩍!' 하고 쏘고는 전원을 끄고 기절해 버립니다. 배들은 그냥 지나가다가 그 찰나의 불빛을 보고 피하기만 하면 됩니다. 인사를 생략하고 자기 할 말만 0.003초 만에 던지고 자버리기 때문에, 동전만 한 건전지 하나로 길거리에 2년 동안 방치되어도 끄떡없는 마법의 짠돌이 생존 통신입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NB-IoT 전력 최적화]
-    │
-    ▼
-[현재 개념: 블루투스 LE]
-    │
-    ├──▶ [확장 A: 지그비 메쉬]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스 LE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지그비 메쉬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화에서 출발해 현재 메커니즘을 정교화하고, 이후 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 애플리케이션 실행에 서버가 없다는 의미가 아니라, 개발 조직이 직접 관리해야 하는 서버 계층이 줄어든다는 뜻이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 패치, 인스턴스 확장, 미들웨어 관리 대신, 개발자는 함수 단위 로직과 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합에 집중한다. 그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 본질은 새로운 프로그래밍 문법이 아니라 **운영 책임의 재배치**다.
+[서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 애플리케이션 실행에 서버가 없다는 의미가 아니라, 개발 조직이 직접 관리해야 하는 서버 계층이 줄어든다는 뜻이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 패치, 인스턴스 확장, 미들웨어 관리 대신, 개발자는 함수 단위 로직과 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합에 집중한다. 그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 본질은 새로운 프로그래밍 문법이 아니라 <strong>운영 책임의 재배치</strong>다.
 
 이 모델이 중요해진 이유는 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 트래픽 패턴이 점점 더 예측하기 어려워졌기 때문이다. 이벤트성 캠페인, 모바일 앱 런칭, 비정기 배치, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동은 한동안 요청이 없다가도 특정 순간에 폭증한다. 전통적인 고정 서버 방식은 이런 수요에 맞추려면 평소에도 최대 부하를 기준으로 인프라를 유지해야 해 비용과 운영 부담이 커진다.
 
@@ -43,15 +43,17 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 전형적인 엔터프라이즈 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 통합 경로를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Serverless integration: managed backend + event-driven functions    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Web/Mobile -> API Gateway -> Auth(BaaS) -> FaaS -> DB/Queue/SaaS   │
-│      │                             │                    │           │
-│      └──── Object Storage/Event Bus┴──── Logs/Tracing ─┘           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless integration: managed backend + event-driven functions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web/Mobile -&gt; API Gateway -&gt; Auth(BaaS) -&gt; FaaS -&gt; DB/Queue/SaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Storage/Event Bus Logs/Tracing ─</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심 원리는 "필요할 때만 실행하고, 나머지는 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 위임한다"는 것이다. 예를 들어 사용자가 이미지를 업로드하면 스토리지 이벤트가 발생하고, FaaS가 썸네일을 만든 뒤 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 갱신하며, 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 후속 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 발송한다. 각 단계는 느슨하게 연결되며, 요청량이 증가하면 플랫폼이 동시 실행 수를 자동 확장한다.
 
@@ -93,9 +95,9 @@ tags = ["studynote-enterprise"]
 
 - **적합**: 이벤트 후처리, 백오피스 자동화, [webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) consumer, 이미지/문서 변환, 간헐적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
 - **주의**: 상태가 많은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 서버, 장시간 스트리밍, 초저지연 금융 매칭 엔진
-- **권장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 별도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 유지하고, 주변 통합과 burst성 작업은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)로 분리
+- <strong>권장 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 별도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 유지하고, 주변 통합과 burst성 작업은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)로 분리
 
-기술사 답안에서는 "운영이 없다"는 표현보다, **운영 책임은 줄지만 설계 책임은 더 중요해진다**는 점을 짚어야 한다. 함수 수가 늘수록 권한, 관측성, 비용 통제가 오히려 더 중요한 설계 주제가 된다.
+기술사 답안에서는 "운영이 없다"는 표현보다, <strong>운영 책임은 줄지만 설계 책임은 더 중요해진다</strong>는 점을 짚어야 한다. 함수 수가 늘수록 권한, 관측성, 비용 통제가 오히려 더 중요한 설계 주제가 된다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 가게 임대료를 줄여 주지만, 주문 흐름과 재고 정리를 대신 설계해 주지는 않는다. 주방이 간단해질수록 동선 설계는 더 중요해진다.
 
@@ -105,7 +107,7 @@ tags = ["studynote-enterprise"]
 
 [서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)를 적절히 적용하면 출시 속도를 높이고, 공통 기능 개발을 줄이며, 트래픽 급증에 유연하게 대응할 수 있다. 특히 디지털 채널과 통합 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에서는 작은 기능을 빠르게 실험하고 비용을 사용량에 맞춰 지불할 수 있다는 장점이 크다. 기업 입장에서는 인프라 운영보다 비즈니스 실험에 더 많은 시간을 쓸 수 있게 된다.
 
-그러나 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 만능 해법이 아니다. [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 디버깅 복잡성, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 난립, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성은 반드시 관리해야 할 비용이다. 따라서 이 주제는 "서버를 없애는 기술"이 아니라, **BaaS와 FaaS를 활용해 운영 부담을 줄이되 적용 경계를 엄격히 선택하는 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 가장 정확하다.
+그러나 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 만능 해법이 아니다. [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 디버깅 복잡성, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 난립, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성은 반드시 관리해야 할 비용이다. 따라서 이 주제는 "서버를 없애는 기술"이 아니라, <strong>BaaS와 FaaS를 활용해 운영 부담을 줄이되 적용 경계를 엄격히 선택하는 아키텍처 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 모든 건물을 철거하는 일이 아니라, 자주 쓰는 공용 설비는 임대하고 우리만의 핵심 공간만 직접 짓는 도시 계획과 같다. 무엇을 빌리고 무엇을 직접 지을지 구분하는 눈이 핵심이다.
 
@@ -123,21 +125,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 서버 구축
-    │
-    ▼
-관리형 인증 · 저장소 (BaaS)
-    │
-    ▼
-이벤트 기반 함수 실행 (FaaS)
-    │
-    ▼
-API Gateway · Event Bus 연계
-    │
-    ▼
-하이브리드 서버리스 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 서버 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관리형 인증 · 저장소 (BaaS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 기반 함수 실행 (FaaS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Gateway · Event Bus 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 서버리스 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 "서버 운영 축소 → 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용 → 이벤트 중심 조합 → 혼합형 최적화"로 발전하는 과정을 보여준다.
 

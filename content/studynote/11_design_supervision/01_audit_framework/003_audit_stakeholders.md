@@ -21,31 +21,34 @@ tags = ["design_supervision"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-정보시스템 감리가 작동하려면 반드시 세 가지 주체가 존재해야 한다. 감리의 서비스를 구매하는 **발주자(Client)**, 감리의 대상이 되어 산출물의품질을 검증받는 **피감리인(Auditee)**, 그리고 이 둘 사이에서 독립적인 제3자의 시각으로 객관적 평가를 수행하는 **감리법인(Auditor)**이 그것이다.
+정보시스템 감리가 작동하려면 반드시 세 가지 주체가 존재해야 한다. 감리의 서비스를 구매하는 **발주자(Client)**, 감리의 대상이 되어 산출물의품질을 검증받는 **피감리인(Auditee)**, 그리고 이 둘 사이에서 독립적인 제3자의 시각으로 객관적 평가를 수행하는 <strong>감리법인(Auditor)</strong>이 그것이다.
 
 이 세 주체의 관계를 이해하는 것은 감리 업무의 성격을 이해하는 것과 동의어다. 발주자와 피감리인은 계약(Contract)에 의해 연결된 당사자로, 발주자는 요구사항을 정의하고 예산을 제공하며, 피감리인은 그 요구를 충족하는 시스템을 구축한다. 문제는 이 둘 사이에 본질적인 정보 비대칭성이 존재한다는 점이다. 피감리인은 자신이 구축한 시스템의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 모르거나 알면서도 숨길가 있고, 발주자는 기술적 전문성이 부족하여 이를 검증할 능력이 없다. 바로 이 간극을 메우는 것이 감리법인이다.
 
-감리법인은 발주자도, 피감리인도 아닌 완전한 제3자(Third Party)로서, 특정한 이해관계(재정적 이해관계, 개인적 유대 등)에서 자유롭다는 전제 조건을 충족해야 한다. 만약 감리법인이 발주자로부터추가적인 컨설팅 수익을 얻고 있거나, 피감리인과 인사이드 거래를 한다면 감리 결과의 신뢰성은 근본적으로 무너진다. 따라서 감리의 질을 담보하는 가장 기본적인 조건은 감리법인의 **독립성([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))**과 **객관성(Objectivity)**이다.
+감리법인은 발주자도, 피감리인도 아닌 완전한 제3자(Third Party)로서, 특정한 이해관계(재정적 이해관계, 개인적 유대 등)에서 자유롭다는 전제 조건을 충족해야 한다. 만약 감리법인이 발주자로부터추가적인 컨설팅 수익을 얻고 있거나, 피감리인과 인사이드 거래를 한다면 감리 결과의 신뢰성은 근본적으로 무너진다. 따라서 감리의 질을 담보하는 가장 기본적인 조건은 감리법인의 <strong>독립성(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>과 <strong>객관성(Objectivity)</strong>이다.
 
 다음 다이어그램은 3대 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 역할과 정보 흐름을 보여주는 삼각형 아키텍처이다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [감리 3자 관계도: 독립성 삼각형] │
-│ │
-│ [발주자 (Client)] │
-│ ┃ / │ \ ┃ │
-│ ┃/ 감리 \┃ │
-│ ┃ 서비스 ┃ │
-│ ┃/ 제공 \┃ │
-│ [피감리인]━┛ ┗━[감리법인] │
-│ (Auditee) (Auditor) │
-│ │ 사업자/주관기관 │ 제3자 독립 기관 │
-│ │ - 시스템 구축 이행 │ - 객관적 평가 수행 │
-│ │ - 결함 조치 의무 │ - 지적 사항 발급 │
-│ │ │ - 독립적 판정 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 3자 관계도: 독립성 삼각형</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발주자 (Client)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 감리 \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 제공 \</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피감리인</div><div class="kb-diagram-note">━┛ ┗━</div><div class="kb-diagram-node">감리법인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Auditee) (Auditor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사업자/주관기관</div><div class="kb-diagram-cell">제3자 독립 기관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 구축 이행</div><div class="kb-diagram-cell">- 객관적 평가 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결함 조치 의무</div><div class="kb-diagram-cell">- 지적 사항 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 독립적 판정</div></div>
+</div>
+</div>
+
+
 
 이 삼각형의 핵심은 감리법인이 두 꼭짓점(발주자와 피감리인) 사이의 편향된 정보 흐름을 중립적으로 조정하는 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)) 역할을 수행한다는 점이다. 감리법인은 발주자의 대리인이 아니며, 피감리인의 적도 아니다. 그저 사실을 있는 그대로 보고, 근거에 기반하여 판정하는 중립적 심판이다. 이 구조가 흔들리면 감리는 정치적 도구로 전락한다.
 
@@ -57,7 +60,7 @@ tags = ["design_supervision"]
 
 각 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 역할, 책임, 그리고 상호작용 방식을 상세히 분해하면 다음과 같다.
 
-**[감리 3대 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 상세 분석표]**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">감리 3대 [이해관계자</a> 상세 분석표]</strong>
 
 | 구분 | 발주자 (Client) | 피감리인 (Auditee) | 감리법인 (Auditor) |
 |:---|:---|:---|:---|
@@ -65,38 +68,30 @@ tags = ["design_supervision"]
 | **주요 정의** | 감리 서비스를 요청하고 비용을 지급하는 기관 | 감리 대상 사업의 주무기관 또는 사업자 | 감리를 수행하는 독립된 제3자 전문 기관 |
 | **핵심 역할** | 감리 범위/일정 승인, 예산 확보, 최종 판정 수납 | 감리 협조 (문서/인테뷰 제공), 지적 사항 조치, 이의 제기 | [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/), 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 수행, 보고서 작성 |
 | **권한/의무** | 감리 결과 수령, 시정 조치 요구, 최종 사업 승인 | [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 제공 의무, 감리 지적 수용 의무 | 독립적 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/), 객관적 판정, 비밀 유지 의무 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 감리 결과 불인정 시 예산 손실, 시스템 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유턴 | 감리 지적 미이행 시 계약 위반, 법적 책임 | 감리 결과에 대한 법적 책임, 독립성 상실 시 명망 손실 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 감리 결과 불인정 시 예산 손실, 시스템 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유턴 | 감리 지적 미이행 시 계약 위반, 법적 책임 | 감리 결과에 대한 법적 책임, 독립성 상실 시 명망 손실 |
 
 감리 과정에서 3자 간에 오가는 문서와 데이터의 흐름을 시각화하면 다음과 같다.
 
-```text
-[발주자] [감리법인] [피감리인]
-│ │ │
-│ ① 감리 의뢰 (TOR/요구사항 정의) │ │
-│────────────────────────────────────>│ │
-│ │ │
-│ │ ② 감리 계획서 공유 (일정/범위/방법) │
-│ │<────────────────────────────────────│
-│ │ │
-│ │ ③ 실지 감리 (문서 검토, 인터뷰, 테스트)
-│ │<────────────────────────────────────│
-│ │ │
-│ │ ④ 감리 초안 보고서 전달 │
-│ │<────────────────────────────────────│
-│ │ │
-│ ⑤ 최종 감리 보고서 전달 │ │
-│<────────────────────────────────────│ │
-│ │ │
-│ ⑥ 시정 조치 지시/확인 요청 │ │
-│────────────────────────────────────>│ │
-│ │ │
-│ │ ⑦ 조치 결과 확인 (필요 시 현장 재점검)
-│ │<────────────────────────────────────│
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">발주자</div><div class="kb-diagram-node">감리법인</div><div class="kb-diagram-node">피감리인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 감리 의뢰 (TOR/요구사항 정의)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 감리 계획서 공유 (일정/범위/방법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 실지 감리 (문서 검토, 인터뷰, 테스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 감리 초안 보고서 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 최종 감리 보고서 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 시정 조치 지시/확인 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑦ 조치 결과 확인 (필요 시 현장 재점검)</div></div>
+</div>
+</div>
+
+
 
 이 순환 흐름도의 핵심은 감리 과정이 일방향 지시가 아닌 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)([Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/))를 형성한다는 점이다. 피감리인은 감리 초안에 대해 이의(IDR, Independent Department [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))를 제기할 수 있으며, 감리법인은 이를 재평가하여 최종 판정을 내린다. 이러한 과정이 폐쇄적으로 돌아갈수록 감리의성과 정확성이 높아진다.
 
-📢 **섹션 요약 비유**: 3자 감리 관계는 **'한국형 부정umplings 검역 시스템'**과 같습니다. 학생(발주자)이 선생님(감리법인)에게 시험 답안지(산출물)를 검정해 달라고 요청하고, 친구(피감리인)의 답안지를 선생님이 객관적으로 채점하여 결과증을 발행하는 과정과 동일합니다.
+📢 **섹션 요약 비유**: 3자 감리 관계는 <strong>'한국형 부정umplings 검역 시스템'</strong>과 같습니다. 학생(발주자)이 선생님(감리법인)에게 시험 답안지(산출물)를 검정해 달라고 요청하고, 친구(피감리인)의 답안지를 선생님이 객관적으로 채점하여 결과증을 발행하는 과정과 동일합니다.
 
 ---
 
@@ -114,19 +109,24 @@ tags = ["design_supervision"]
 
 감리법인의 독립성을 위협하는 3대 위험 요소([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Triangle)를 살펴보면 다음과 같다.
 
-```text
-[재정적 의존성 위험]
-▲
-╱ ╲
-╱ ╲ <-- 감리법인이 특정 발주자에게 수익이 집중될 때
-╱ ╲
-▼ ▼
-[개인적 유대] [전문성 부족]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재정적 의존성 위험</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-note">╱ ╲ &lt;-- 감리법인이 특정 발주자에게 수익이 집중될 때</div>
+<div class="kb-diagram-note">╱ ╲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인적 유대</div><div class="kb-diagram-node">전문성 부족</div></div>
+</div>
+</div>
+
+
 
 이 위험 삼각형의 모든 꼭짓점이 감리법인의 독립성을 위협한다. 재정적 의존성은 감리 판정의 형평성을, 개인적 유대는 판단의 객관성을, 전문성 부족은 감리 결과의 신뢰성을 각각 훼손한다. 감리법인은 이 세 가지 위험에 대한 방어 체계를 내부 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Internal Control [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 갖추어야 하며, 발주자도 감리법인을 선정할 때 이러한 위험 요소를 사전 평가해야 한다.
 
-📢 **섹션 요약 비유**: 감리법인의 독립성을 유지하는 것은 **'식품의약품안전처의 검사관'**과 동일합니다.，만일 검사관이 특정 제조사로부터학회 찬스를 받거나 가족이를 보유하고 있으면 그 검사 결과는부터 신뢰받지 못하게 됩니다.
+📢 **섹션 요약 비유**: 감리법인의 독립성을 유지하는 것은 <strong>'식품의약품안전처의 검사관'</strong>과 동일합니다.，만일 검사관이 특정 제조사로부터학회 찬스를 받거나 가족이를 보유하고 있으면 그 검사 결과는부터 신뢰받지 못하게 됩니다.
 
 ---
 
@@ -134,7 +134,7 @@ tags = ["design_supervision"]
 
 실제 감리 현장에서 3자 관계가 실무적 판단에 영향을 미치는 대표적인 사례를 살펴보자.
 
-**1. 감리 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 조정 사례: "검색 기능까지 감리 범위에 넣어야 하나?"**
+<strong>1. 감리 범위(<a href="/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>) 조정 사례: "검색 기능까지 감리 범위에 넣어야 하나?"</strong>
 * **상황**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) RFP에는 없었던 검색 엔진 최적화(SEO) 및 내부 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 효율성이 종료 감리 직전 발주자의 요청으로 추가되었다.
 * **기술사적 판단**: 감리법인은 감리 범위의 중립성을 유지해야 한다. 무분별한 범위 확대는 감리 일정에 영향을 주고, 피감리인의 인적/물적 자원을 낭비시킨다. 따라서 범위 변경은 반드시 사전(착수 단계)에 협의되어야 하며, 긴급 추가의 경우 감리이추가감리 비용을 산정하여 발주자에게 보고해야 한다.
 
@@ -142,22 +142,24 @@ tags = ["design_supervision"]
 * **상황**: 감리법인이 DB 설계서(ERD)와 소스코드 보안을 요청했으나, 피감리인이 지적 사항을 감추기 위해 "보안 상 비밀이므로 제공 불가"라고했다.
 * **기술사적 판단**: 감리계약서에는 감리 대상 문서의 전면 제공 의무가 명시되어 있다. 피감리인이한 없이를 제공하지 않으면, 감리법인은 "[감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 불가(Impossibility to [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))" 판정을 내리고, 이는 곧 프로젝트 관리(부실)로 기록된다.
 
-```text
-[감리 증거 확보 갈등 해결프로세스]
-1. 문서 요청 (감리계획서 기반)
-│
-2. 피감리인 거절 (한제기)
-│
-3. 감리법인: 거절 사유 서면，요구
-│
-4. 합리적 이유 인정 -> (대안 문서 제시) -> 감리 계속 진행
-│
-5. 거절 사유 부적정 -> [감리 수행 불가] 판정 + 발주자 보고
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 증거 확보 갈등 해결프로세스</div></div>
+<div class="kb-diagram-note">1. 문서 요청 (감리계획서 기반)</div>
+<div class="kb-diagram-note">2. 피감리인 거절 (한제기)</div>
+<div class="kb-diagram-note">3. 감리법인: 거절 사유 서면，요구</div>
+<div class="kb-diagram-note">4. 합리적 이유 인정 -&gt; (대안 문서 제시) -&gt; 감리 계속 진행</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">감리 수행 불가</div><div class="kb-diagram-note">판정 + 발주자 보고</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 플로우의 핵심은 감리법인이 어떠한 압력에도 굴하지 않고 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)에 기반한 판정을 고수해야 한다는 점이다. 발주자의 압력에사로 직권으로 범위를 줄이거나, 피감리인의 압력에 떠나서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 은폐하면 감리법인으로서의 존립 이유가 사라진다.
 
-📢 **섹션 요약 비유**: 감리법인의 결단은 **'법원의 호주제()'**와 같습니다. 12명의 호주위원은 피고 또는 검 whatsoever한 영향을 받지 않고 증거만으로 판결을 내리며, 수령을 받으면 그 판결에는 구속력이 있습니다.
+📢 **섹션 요약 비유**: 감리법인의 결단은 <strong>'법원의 호주제()'</strong>와 같습니다. 12명의 호주위원은 피고 또는 검 whatsoever한 영향을 받지 않고 증거만으로 판결을 내리며, 수령을 받으면 그 판결에는 구속력이 있습니다.
 
 ---
 
@@ -174,7 +176,7 @@ tags = ["design_supervision"]
 **미래 전망:**
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))과 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)) 기술이 발전하면서, 감리 증거의 수집과 보존 방식이 근본적으로 변하고 있다. 향후에는 AI가 실시간으로 시스템 로그와 산출물을 분석하여 자동으로 감리 지적 사항을 도출하고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 감리 결과가 해시값으로 영구 저장되어 위변조가 불가능해지는 시대가 도래할 것이다. 감리법인은 이러한 기술 변곡점에서 3자 중립성이라는 본질적 가치를 지키면서 새로운 기술과 융합해야 한다.
 
-📢 **섹션 요약 비유**: 완벽하게 작동하는 3자 감리 체계는 **'완벽한 행정'**과 같습니다.(발주자-요구 제정), (피감리인-실행), (감리법인-검증)이 서로를 견제하면서의 균형과을 도모하며, 어느 한쪽이 을/를도제도는 무너집니다.
+📢 **섹션 요약 비유**: 완벽하게 작동하는 3자 감리 체계는 <strong>'완벽한 행정'</strong>과 같습니다.(발주자-요구 제정), (피감리인-실행), (감리법인-검증)이 서로를 견제하면서의 균형과을 도모하며, 어느 한쪽이 을/를도제도는 무너집니다.
 
 ---
 
@@ -187,26 +189,28 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[독립성 (Independence)]
-│
-▼
-[객관성 (Objectivity)]
-│
-▼
-[이해관계자 매트릭스 (Stakeholder Matrix)]
-│
-▼
-[이의 제기 (IDR, Independent Department Review)]
-│
-▼
-[감리 범위 (Audit Scope)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">독립성 (Independence)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">객관성 (Objectivity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이해관계자 매트릭스 (Stakeholder Matrix)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이의 제기 (IDR, Independent Department Review)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 범위 (Audit Scope)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 독립성 ([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))에서 출발해 감리 범위 ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **개념**: 우리 반 친구들이 공책 문제를 풀면, 선생님이 옆에서 채점해 주면서 어디가 틀렸는지 알려주는 거예요. 여기서 친구는 **'피감리인'**, 선생님은 **'감리법인'**, 그리고 우리 반 전체의 시험을 관리하는 엄마님은 **'발주자'**이에요.
+1. **개념**: 우리 반 친구들이 공책 문제를 풀면, 선생님이 옆에서 채점해 주면서 어디가 틀렸는지 알려주는 거예요. 여기서 친구는 **'피감리인'**, 선생님은 **'감리법인'**, 그리고 우리 반 전체의 시험을 관리하는 엄마님은 <strong>'발주자'</strong>이에요.
 2. **원리**: 선생님은 우리 반 친구의 편이나이지 않고하게만 채점해야 하며, 친구들도의을 솔직히 받아들여야 해요.
 3. **효과**: 이렇게 하면 친구들이 어디서 실수했는지 정확히 알고 다음에는 더 좋은 성적을 받을 수 있게 돼요. 세 사람이 모두 편안해지는 거예요!
 

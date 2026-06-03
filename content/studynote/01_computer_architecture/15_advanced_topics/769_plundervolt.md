@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 플런더버그 (Plundervolt)는 Intel 프로세서의 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 제어 경로를 악용해, 보안 연산 순간에 코어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추고 그 결과 생긴 계산 오류를 공격에 이용하는 **소프트웨어 유도형 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입**이다.
+> 1. **본질**: 플런더버그 (Plundervolt)는 Intel 프로세서의 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) 제어 경로를 악용해, 보안 연산 순간에 코어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추고 그 결과 생긴 계산 오류를 공격에 이용하는 <strong>소프트웨어 유도형 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 주입</strong>이다.
 > 2. **가치**: 외부 프로브 없이도 [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/) ([Software Guard Extensions](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/)) 엔클레이브 내부 암호 연산에 fault를 만들 수 있어, "패키지 밖 소프트웨어는 [enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) 안을 못 건드린다"는 가정을 흔들었다.
 > 3. **판단 포인트**: 핵심 교훈은 SGX만이 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어 인터페이스도 TCB (Trusted Computing Base)의 일부라는 점이며, 대응은 undervolting 경로 차단, 마이크로코드/BIOS 업데이트, fault-aware software까지 함께 가야 한다.
 
@@ -43,25 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 플런더버그가 소프트웨어 요청을 전기적 fault로 바꾸는 흐름을 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Plundervolt attack path                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ Privileged software                                                │
-│   │ write undervolt request (MSR / overclocking mailbox)           │
-│   ▼                                                                │
-│ Power control lowers core voltage for a short window               │
-│   │                                                                │
-│   ▼                                                                │
-│ SGX enclave keeps executing crypto instructions                    │
-│   │                                                                │
-│   ├─ timing margin preserved ──▶ correct result                    │
-│   └─ timing margin collapses ─▶ faulty result                      │
-│                                   │                                │
-│                                   ▼                                │
-│                    DFA reconstructs secret material                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plundervolt attack path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Privileged software</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write undervolt request (MSR / overclocking mailbox)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power control lowers core voltage for a short window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGX enclave keeps executing crypto instructions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ timing margin preserved ──▶ correct result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ timing margin collapses ─▶ faulty result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DFA reconstructs secret material</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 공격 목표가 "재부팅"이 아니라 "조용한 오계산"이라는 것이다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 너무 크게 낮추면 시스템이 멈추거나 리셋되어 실패하고, 너무 약하면 영향이 없다. 그래서 공격자는 엔클레이브 내부 특정 연산 구간에 맞춰 짧고 얕은 undervolt를 반복하며, 정상 결과와 fault 결과를 함께 수집해 비밀 키를 추론한다.
 
@@ -131,22 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전력 최적화용 DVFS 인터페이스
-            │
-            ▼
-소프트웨어 언더볼팅 제어
-            │
-            ▼
-플런더버그 (Plundervolt)
-: SGX 연산 fault 유도
-            │
-            ▼
-DFA 기반 키 복원 위험
-            │
-            ▼
-마이크로코드 잠금 + 전력 제어 보안화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전력 최적화용 DVFS 인터페이스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 언더볼팅 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플런더버그 (Plundervolt)</div>
+<div class="kb-diagram-note">: SGX 연산 fault 유도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DFA 기반 키 복원 위험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로코드 잠금 + 전력 제어 보안화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "편의 기능"이 "[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 경로"로 바뀌고, 다시 "보안이 관리하는 전력 인터페이스"로 재정의되는 과정을 보여 준다.
 

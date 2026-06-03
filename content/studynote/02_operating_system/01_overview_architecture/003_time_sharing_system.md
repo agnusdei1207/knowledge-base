@@ -28,21 +28,23 @@ tags = ["studynote-operating-system"]
 
 이 도식은 일괄 처리와 시분할 방식에서 사용자 체감 대기 시간의 근본적 차이를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│             Batch Processing vs Time-sharing System                 │
-├─────────────────────────────────────────────────────────────────────┤
-│ [Batch Processing] - 순차적 처리 (Sequential)                       │
-│ 사용자 1 : [=========Job A=========] (완료 후 사용 가능)            │
-│ 사용자 2 : -------------------------[=========Job B=========]       │
-│            (사용자 2는 Job A가 끝날 때까지 하염없이 대기)           │
-│                                                                     │
-│ [Time-sharing System] - 동시적 처리 (Concurrent)                    │
-│ 사용자 1 : [A1][  ][A2][  ][A3][  ]                                 │
-│ 사용자 2 : [  ][B1][  ][B2][  ][B3]                                 │
-│            (매우 빠른 전환으로 두 명 모두 동시에 사용 중이라 느낌)  │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch Processing vs Time-sharing System</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Batch Processing</div><div class="kb-diagram-note">- 순차적 처리 (Sequential)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 1 :</div><div class="kb-diagram-node">=========Job A=========</div><div class="kb-diagram-note">(완료 후 사용 가능)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 2 : -------------------------</div><div class="kb-diagram-node">=========Job B=========</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자 2는 Job A가 끝날 때까지 하염없이 대기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Time-sharing System</div><div class="kb-diagram-note">- 동시적 처리 (Concurrent)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 1 :</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">A3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 2 :</div><div class="kb-diagram-node">B1</div><div class="kb-diagram-node">B2</div><div class="kb-diagram-node">B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매우 빠른 전환으로 두 명 모두 동시에 사용 중이라 느낌)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 일괄 처리 ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 시스템에서는 선행 작업이 자원을 독점하므로 후행 사용자의 대기 시간이 작업 길이에 비례하여 늘어난다. 반면 시분할 시스템 (Time-sharing System)은 CPU 사용 시간을 작은 조각 (A1, B1 등)으로 쪼개어 번갈아 할당한다. 이때 조각의 크기인 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))이 충분히 작으면 (보통 10ms~100ms), 사용자는 자신의 작업이 중단되었다고 느끼지 못하고 실시간으로 컴퓨터와 상호작용할 수 있다. 이러한 '[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))'은 실제로는 매우 빠른 '순차적 실행'의 연속이며, 이를 지원하기 위해 하드웨어 타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 메커니즘이 필수적으로 뒷받침되어야 한다.
 
@@ -56,11 +58,11 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))** | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 감지 | 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 CPU 제어권 회수 | 알람 시계 |
-| **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | 공정한 시간 배분 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)의 맨 앞 프로세스 선택 후 뒤로 배치 | 회전목마 운영자 |
-| **[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위처** | [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 저장 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 정보 교체 | 북마크 (책갈피) |
-| **타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))** | 프로세스당 할당된 고정 시간 | CPU 점유 허용 최대 시간 정의 | 발언 제한 시간 |
-| **[준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))** | 실행 대기 프로세스 선입선출 관리 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) ([First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 줄 서기 라인 |
+| <strong>타이머 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a>)</strong> | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 감지 | 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 CPU 제어권 회수 | 알람 시계 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a> (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a>) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 공정한 시간 배분 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)의 맨 앞 프로세스 선택 후 뒤로 배치 | 회전목마 운영자 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 스위처</strong> | [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 저장 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 정보 교체 | 북마크 (책갈피) |
+| <strong>타임 퀀텀 (Time <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a>)</strong> | 프로세스당 할당된 고정 시간 | CPU 점유 허용 최대 시간 정의 | 발언 제한 시간 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/">준비 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/">Ready Queue</a>)</strong> | 실행 대기 프로세스 선입선출 관리 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) ([First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 줄 서기 라인 |
 
 ---
 
@@ -68,24 +70,21 @@ tags = ["studynote-operating-system"]
 
 시분할 시스템의 심장부인 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 스케줄링은 모든 프로세스에게 동일한 우선순위와 시간을 부여하여 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 방지한다.
 
-```text
 
-┌─────────────────────────────────────────────────────────────────┐
-│               Round Robin Scheduling Workflow                   │
-├─────────────────────────────────────────────────────────────────┤
-│   [Ready Queue / 준비 큐] : [ P3 ] [ P2 ] [ P1 ]  <-- (Head)              │
-│                                   │                             │
-│   1. Dispatch P1 (Time Quantum: 20ms) ──▶ [ CPU Running P1  / P1을 실행하는 CPU]    │
-│                                                  │              │
-│   2. Timer Interrupt (20ms Expired) ◀────────────┘              │
-│                                                                 │
-│   3. Context Switch (Save P1, Load P2 / P1 저장, P2 로드)                          │
-│                                                                 │
-│   4. P1 Move to Tail of Ready Queue                             │
-│                                                                 │
-│   [Ready Queue / 준비 큐] : [ P1 ] [ P3 ] [ P2 ]  <-- (Next Target / 다음 대상)       │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round Robin Scheduling Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queue / 준비 큐</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(Head)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU Running P1  / P1을 실행하는 CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Timer Interrupt (20ms Expired) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Context Switch (Save P1, Load P2 / P1 저장, P2 로드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P1 Move to Tail of Ready Queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queue / 준비 큐</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(Next Target / 다음 대상)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), Round Robin) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 순환 구조로 운영한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 큐의 맨 앞에 있는 프로세스 (P1)를 선택하여 CPU를 할당 (Dispatch)한다. 이때 하드웨어 타이머에 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 값을 세팅한다. 지정된 시간이 지나면 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 실행 중인 P1의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값과 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 등을 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/) (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)에 저장한 뒤 큐의 맨 뒤로 보낸다. 이어 다음 순서인 P2를 로드하여 실행을 재개한다. 이 과정이 무한히 반복됨으로써 모든 프로세스는 공평하게 CPU 시간을 나누어 갖게 되며, 특정 프로세스가 자원을 독점하여 타 사용자의 응답성을 저해하는 상황을 구조적으로 방지한다.
 
@@ -95,18 +94,22 @@ tags = ["studynote-operating-system"]
 
 시분할 시스템에서 빈번하게 발생하는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)은 오버헤드 (Overhead)를 수반하므로 효율적인 관리가 중요하다.
 
-```text
-  [프로세스 A 실행 중]
-                           │
-  (타이머 인터럽트 발생) ──┐
-          │               │ [커널 모드 진입]
-          ▼               │ 1. 현재 레지스터 저장 (PCB_A)
-   [유저 모드 중단]        │ 2. 다음 프로세스 선택 (Scheduler)
-                          │ 3. 새 레지스터 복구 (PCB_B)
-          ▲                │
-          │               │ [유저 모드 복귀]
-  (프로세스 B 실행 시작) ──┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A 실행 중</div></div>
+<div class="kb-diagram-note">(타이머 인터럽트 발생) ──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 진입</div></div>
+<div class="kb-diagram-note">▼ │ 1. 현재 레지스터 저장 (PCB_A)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 모드 중단</div><div class="kb-diagram-note">2. 다음 프로세스 선택 (Scheduler)</div></div>
+<div class="kb-diagram-note">3. 새 레지스터 복구 (PCB_B)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 모드 복귀</div></div>
+<div class="kb-diagram-note">(프로세스 B 실행 시작) ──</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)은 CPU가 한 프로세스에서 다른 프로세스로 전환될 때 발생한다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 현재 실행 중인 프로세스의 상태 (CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 등)를 나중에 다시 시작할 수 있도록 PCB에 안전하게 저장하고, 새로 실행할 프로세스의 상태를 PCB로부터 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 과정이다. 시분할 시스템에서는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)마다 이 전환이 일어나기 때문에, 전환에 걸리는 시간이 너무 길어지면 실제 작업을 처리하는 시간보다 관리하는 시간이 더 많아지는 주객전도 상황이 발생한다. 따라서 현대 하드웨어는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트를 여러 개 두거나 전용 명령어를 제공하여 이 오버헤드를 최소화한다. 실무적으로 타임 퀀텀은 이 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드보다 훨씬 커야 시스템 효율이 보장된다.
 
@@ -146,7 +149,7 @@ tags = ["studynote-operating-system"]
 2. **시나리오 — 배치 작업 위주의 백엔드 처리 시스템**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 이미지 렌더링처럼 상호작용이 필요 없는 대규모 계산 작업 환경에서는 타임 퀀텀을 길게 설정하는 것이 유리하다. 잦은 전환은 오히려 전체 처리 완료 시간 ([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/))을 늦추기 때문이다. 실무에서는 작업 성격에 따라 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분리하여 운영한다.
 
 ### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**: 80% 이상의 사용자 요청이 100ms 이내에 CPU 할당을 받는가?
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>: 80% 이상의 사용자 요청이 100ms 이내에 CPU 할당을 받는가?
 - **오버헤드 비율**: 전체 CPU 시간 중 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)에 소모되는 시간이 5% 미만인가?
 - **공정성 보장**: 특정 고부하 프로세스가 CPU를 점유하여 저부하 프로세스의 기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 유발하지 않는가?
 
@@ -169,7 +172,7 @@ tags = ["studynote-operating-system"]
 | **시스템 구조** | 단순 순차 실행 | 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 및 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조 | 현대적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처 확립 |
 
 ### 미래 전망
-미래의 시분할 시스템은 **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반의 마이크로 시분할**로 진화하고 있다. 클라우드 환경에서는 물리 CPU 코어를 수천 개의 마이크로 VM이 시분할로 나누어 쓰며, 이때의 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 하드웨어가 아닌 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준에서 나노초 단위로 제어된다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 사용자의 다음 입력 타이밍을 예측하여 선제적으로 타임 퀀텀을 조절하는 지능형 시분할 기술이 연구되고 있다.
+미래의 시분할 시스템은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 기반의 마이크로 시분할</strong>로 진화하고 있다. 클라우드 환경에서는 물리 CPU 코어를 수천 개의 마이크로 VM이 시분할로 나누어 쓰며, 이때의 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 하드웨어가 아닌 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준에서 나노초 단위로 제어된다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 사용자의 다음 입력 타이밍을 예측하여 선제적으로 타임 퀀텀을 조절하는 지능형 시분할 기술이 연구되고 있다.
 
 ### 참고 표준
 - **POSIX.1b (Real-time extensions)**: 시분할 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (SCHED_RR) 및 타이머 인터페이스 정의.
@@ -182,39 +185,40 @@ tags = ["studynote-operating-system"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (Round Robin)** | 시분할 시스템에서 공정한 시간 배분을 위해 사용되는 핵심 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))** | 한 프로세스가 CPU를 연속적으로 점유할 수 있도록 허용된 최소 시간 단위 |
-| **[컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 시 프로세스를 안전하게 교체하기 위한 상태 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술 |
-| **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))** | 요청 후 첫 번째 반응이 나올 때까지의 시간으로, 시분할 시스템의 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 하드웨어 타이머를 통해 시분할 전환 시점을 OS 커널에 알리는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a> (Round Robin)</strong> | 시분할 시스템에서 공정한 시간 배분을 위해 사용되는 핵심 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong>타임 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> (Time <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">Slice</a>)</strong> | 한 프로세스가 CPU를 연속적으로 점유할 수 있도록 허용된 최소 시간 단위 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/">컨텍스트 스위칭</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 시 프로세스를 안전하게 교체하기 위한 상태 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong> | 요청 후 첫 번째 반응이 나올 때까지의 시간으로, 시분할 시스템의 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | 하드웨어 타이머를 통해 시분할 전환 시점을 OS 커널에 알리는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계 |
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[라운드 로빈 (Round Robin)]
-    │
-    ▼
-[타임 슬라이스 (Time Slice)]
-    │
-    ▼
-[컨텍스트 스위칭 (Context Switching)]
-    │
-    ▼
-[응답 시간 (Response Time)]
-    │
-    ▼
-[인터럽트 (Interrupt)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 (Round Robin)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 슬라이스 (Time Slice)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 스위칭 (Context Switching)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응답 시간 (Response Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 (Interrupt)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 시분할 시스템은 컴퓨터가 **"초능력자 선생님"**이 된 것과 같아요. 반 아이들 30명이 동시에 질문해도, 아주 빠르게 한 명씩 답해주기 때문에 모두가 선생님이랑 1대 1로 대화하는 기분이 들어요.
+1. 시분할 시스템은 컴퓨터가 <strong>"초능력자 선생님"</strong>이 된 것과 같아요. 반 아이들 30명이 동시에 질문해도, 아주 빠르게 한 명씩 답해주기 때문에 모두가 선생님이랑 1대 1로 대화하는 기분이 들어요.
 2. 사실 선생님은 아주 짧은 시간 동안만 한 아이의 말을 들어주고 바로 옆 아이에게로 옮겨가는 건데, 이게 **번개처럼 빨라서** 우리가 눈치채지 못하는 거예요.
 3. 덕분에 우리가 게임도 하고 인터넷도 하면서 동시에 친구랑 채팅도 할 수 있는 거랍니다!
 

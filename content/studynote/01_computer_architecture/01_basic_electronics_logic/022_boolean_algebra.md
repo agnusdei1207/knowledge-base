@@ -32,30 +32,29 @@ tags = ["studynote-computer-architecture"]
 
 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자 | 기호 | 수학적 의미 | 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구조 | 비유 (문지기) |
 |:---|:---|:---|:---|:---|
-| **AND ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)곱)** | $A \cdot B$ | **모든** 입력이 1일 때만 1 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 | "수학과 영어 모두 100점 맞아야 통과" |
-| **OR ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)합)** | $A + B$ | 입력 중 **단 하나라도** 1이면 1 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연결 | "수학이나 영어 둘 중 하나만 100점이어도 통과" |
-| **NOT ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)부정)**| $A'$ | 입력을 무조건 정반대로 뒤집음 | 인버터 회로 | "네 라면 아니오, 아니오 라면 네 하는 청개구리" |
+| <strong>AND (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>곱)</strong> | $A \cdot B$ | **모든** 입력이 1일 때만 1 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 | "수학과 영어 모두 100점 맞아야 통과" |
+| <strong>OR (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>합)</strong> | $A + B$ | 입력 중 **단 하나라도** 1이면 1 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연결 | "수학이나 영어 둘 중 하나만 100점이어도 통과" |
+| <strong>NOT (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>부정)</strong>| $A'$ | 입력을 무조건 정반대로 뒤집음 | 인버터 회로 | "네 라면 아니오, 아니오 라면 네 하는 청개구리" |
 
 부울 대수에는 일반 십진법에는 없는 **흡수 법칙(Absorption Law, $A + A \cdot B = A$)**이나 **보수 법칙($A + A' = 1$)** 같은 특수 법칙이 존재한다. 이 법칙들을 칼처럼 휘두르면 엄청나게 길고 복잡한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 전선 한 가닥으로 날려버릴 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         부울 대수 법칙을 활용한 물리적 하드웨어 간소화           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│   [요구사항 수식]   F = A·B + A·B'                             │
-│   (물리 회로: AND 게이트 2개, OR 게이트 1개, NOT 게이트 1개 소모) │
-│                                                              │
-│   ================= [부울 대수 연금술 발동] ==================     │
-│   F = A·(B + B')  <-- 분배 법칙으로 A를 묶어냄                     │
-│     = A·(1)       <-- 보수 법칙 (나와 반대의 합은 무조건 1)          │
-│     = A          <-- 최종 압축 완료!                            │
-│   ========================================================== │
-│                                                              │
-│   [최적화 도면] F = A                                         │
-│   (게이트가 아예 필요 없음! 그냥 A를 전선으로 이으면 100% 동일 동작) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부울 대수 법칙을 활용한 물리적 하드웨어 간소화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 수식</div><div class="kb-diagram-note">F = A·B + A·B'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(물리 회로: AND 게이트 2개, OR 게이트 1개, NOT 게이트 1개 소모)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=================</div><div class="kb-diagram-node">부울 대수 연금술 발동</div><div class="kb-diagram-note">==================</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F = A·(B + B') &lt;-- 분배 법칙으로 A를 묶어냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= A·(1) &lt;-- 보수 법칙 (나와 반대의 합은 무조건 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= A &lt;-- 최종 압축 완료!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최적화 도면</div><div class="kb-diagram-note">F = A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(게이트가 아예 필요 없음! 그냥 A를 전선으로 이으면 100% 동일 동작)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: "나는 과일을 좋아하고, **그리고** 나는 사과를 포함한 과일을 좋아해"라고 길게 말할(복잡한 회로) 필요 없이, 부울 대수 칼로 쓱싹 잘라 "그냥 너 과일 좋아한다는 거잖아"(단순 회로)라고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해버리는 완벽한 다이어트 과정이다.
 
@@ -67,9 +66,9 @@ tags = ["studynote-computer-architecture"]
 
 | 설계 도구 | 특징 및 목적 | 아키텍처적 한계 및 장점 |
 |:---|:---|:---|
-| **[진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) ([Truth Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/))** | 모든 입력 조합의 경우의 수를 0/1로 무식하게 나열 | 1차원적 요구 명세. 변수가 4개만 넘어도 눈으로 파악 불가 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/">진리표</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/">Truth Table</a>)</strong> | 모든 입력 조합의 경우의 수를 0/1로 무식하게 나열 | 1차원적 요구 명세. 변수가 4개만 넘어도 눈으로 파악 불가 |
 | **부울 대수식** | [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)를 AND/OR 수학 기호로 변환한 식 | 수학적 법칙 체화 필요, 사람의 실수 유발 |
-| **[카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (K-Map)** | [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)를 2차원 지도로 펴서 이웃한 1들을 직관적으로 묶음 | **도형 묶기** 패턴 인식을 통해 누구나 기계적으로 최단 간소화 식 도출 가능 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/">카르노 맵</a> (K-Map)</strong> | [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)를 2차원 지도로 펴서 이웃한 1들을 직관적으로 묶음 | **도형 묶기** 패턴 인식을 통해 누구나 기계적으로 최단 간소화 식 도출 가능 |
 
 이러한 부울 대수는 소프트웨어 최적화에도 쓰인다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 내부적으로 `WHERE (Age > 20 AND Gender = 'M') OR (Age > 20 AND Gender = 'F')` 쿼리를 부울 분배/보수 법칙을 통해 `WHERE Age > 20`으로 자동 간소화하여, 풀스캔을 막고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검색 속도를 수백 배 단축시킨다.
 
@@ -106,32 +105,34 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) (Logic Gate)** | 부울 대수의 추상적 연산(AND, OR, NOT)을 실제 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)) 납땜으로 찍어낸 컴퓨터의 최소 벽돌 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a> (Logic Gate)</strong> | 부울 대수의 추상적 연산(AND, OR, NOT)을 실제 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)) 납땜으로 찍어낸 컴퓨터의 최소 벽돌 |
 | **드모르간의 법칙** | 부울 대수의 부정(NOT)을 전개해 AND와 OR을 뒤집는 궁극의 쌍대성 마법 정리 |
-| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 (Logic Synthesis)** | Verilog 코드를 부울 법칙으로 다이어트시켜 가장 싼 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 도면(Netlist)으로 구워내는 기적의 공정 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 합성 (Logic Synthesis)</strong> | Verilog 코드를 부울 법칙으로 다이어트시켜 가장 싼 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 도면(Netlist)으로 구워내는 기적의 공정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[논리 명제 (Proposition) — 참/거짓]
-    │
-    ▼
-[부울 대수 (Boolean Algebra) — AND·OR·NOT 법칙]
-    │
-    ▼
-[논리 게이트 (Logic Gate) — CMOS 트랜지스터 실현]
-    │
-    ▼
-[논리 합성 (Logic Synthesis) — RTL → 넷리스트 자동 생성]
-    │
-    ▼
-[AI 주도 합성 (RL 기반 Gate Optimization) — 미래 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 명제 (Proposition) — 참/거짓</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부울 대수 (Boolean Algebra) — AND·OR·NOT 법칙</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 게이트 (Logic Gate) — CMOS 트랜지스터 실현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 합성 (Logic Synthesis) — RTL → 넷리스트 자동 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 주도 합성 (RL 기반 Gate Optimization) — 미래 진화</div></div>
+</div>
+</div>
+
+
 조지 불의 추상 수학이 섀논에 의해 전기 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 연결되고, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 도구로 자동화되어 수십억 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 칩의 설계 기반을 이루며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 최적화로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 부울 대수는 수다쟁이 컴퓨터에게 가르쳐주는 **"네(1)"**와 **"아니오(0)"** 두 단어밖에 없는 엄청 간단한 마법 수학책이에요!
+1. 부울 대수는 수다쟁이 컴퓨터에게 가르쳐주는 <strong>"네(1)"</strong>와 **"아니오(0)"** 두 단어밖에 없는 엄청 간단한 마법 수학책이에요!
 2. 우리가 아는 1+1=2가 아니라, "사과(1)랑 사과(1)를 백 번 더해도 그냥 사과(1)야!"라는 신기하고 단순한 치트키들이 가득 적혀 있어요.
 3. 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 치트키 덕분에 칩을 만드는 설계자들은 복잡하게 엉킨 수백만 개의 전선들을 짧고 깔끔하게 정리해 버릴 수 있답니다.
 

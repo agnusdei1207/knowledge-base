@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리식(Monolithic) 시스템은 '하나의 거대한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)'를 썼다. 쇼핑몰에서 고객이 결제하면, 1번 `주문 완료` 테이블과 2번 `재고 감소` 테이블을 하나의 `Transaction(BEGIN ~ COMMIT)`으로 묶었다. 중간에 에러가 나면 1번과 2번이 모두 원래대로 되돌아갔다([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)). 이를 **ACID([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))**라 부르며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 항상 100% 일치했다(Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)).
+모놀리식(Monolithic) 시스템은 '하나의 거대한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)'를 썼다. 쇼핑몰에서 고객이 결제하면, 1번 `주문 완료` 테이블과 2번 `재고 감소` 테이블을 하나의 `Transaction(BEGIN ~ COMMIT)`으로 묶었다. 중간에 에러가 나면 1번과 2번이 모두 원래대로 되돌아갔다([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)). 이를 <strong>ACID(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>)</strong>라 부르며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 항상 100% 일치했다(Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)).
 
-하지만 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대가 되며 '주문 서버'와 '재고 서버'가 쪼개졌고, 당연히 DB도 2개로 쪼개졌다. 주문 서버에서 "주문 완료!"를 외치고 재고 서버로 API를 쏘려는데 네트워크가 끊기면 어떻게 될까? 고객은 결제를 했는데 창고에는 재고가 안 줄어드는 치명적인 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Inconsistency)**가 발생한다.
+하지만 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대가 되며 '주문 서버'와 '재고 서버'가 쪼개졌고, 당연히 DB도 2개로 쪼개졌다. 주문 서버에서 "주문 완료!"를 외치고 재고 서버로 API를 쏘려는데 네트워크가 끊기면 어떻게 될까? 고객은 결제를 했는데 창고에는 재고가 안 줄어드는 치명적인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 불일치(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Inconsistency)</strong>가 발생한다.
 
-이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 DB들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞추기 위해 '[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))'라는 옛날 방식을 썼더니, 두 서버가 서로 응답을 기다리느라([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 쇼핑몰 전체가 마비될 정도로 느려졌다. 결국 아키텍트들은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 100% 완벽한 동기화를 포기하자. 대신 **나중에는 어떻게든 무조건 맞춰지게 만들자**"고 합의했다. 이것이 **[결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))**이다.
+이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 DB들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞추기 위해 '[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))'라는 옛날 방식을 썼더니, 두 서버가 서로 응답을 기다리느라([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 쇼핑몰 전체가 마비될 정도로 느려졌다. 결국 아키텍트들은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 100% 완벽한 동기화를 포기하자. 대신 **나중에는 어떻게든 무조건 맞춰지게 만들자**"고 합의했다. 이것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">결과적 일관성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 친구랑 손을 꼭 잡고 화장실에 같이 들어갔다 같이 나오는 것이다(절대 안 떨어짐). [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)은 "나 먼저 식당에 가 있을게, 너는 화장실 갔다가 식당으로 와!" 하고 각자 움직이는 것이다. 5분 동안은 떨어져 있지만, 5분 뒤(결과적)에는 무조건 식당에서 다시 만나게 된다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 결과적 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로서비스 데이터 일관성 결과적                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 데이터 일관성 결과적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 결과적 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)을 달성하기 위한 가장 대표적인 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처 패턴이 바로 **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)([사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)) 패턴**이다.
+[결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)을 달성하기 위한 가장 대표적인 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처 패턴이 바로 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/">사가</a>) 패턴</strong>이다.
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) 확보은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -77,9 +76,9 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) |
 |:---|:---|:---|
 | **대표 기술** | RDBMS ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL), [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
-| **속도 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 매우 느림 (동기식 락 발생) | **매우 빠름 (비동기 처리)** |
+| <strong>속도 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 매우 느림 (동기식 락 발생) | **매우 빠름 (비동기 처리)** |
 | **사용자 경험** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조회하면 100% 최신값 보장 | **조회 시 약간 옛날 값이 보일 수 있음** |
-| **적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | 은행 계좌 이체, 비행기 좌석 예약 | 페이스북 좋아요, 유튜브 댓글, 쇼핑몰 장바구니 |
+| <strong>적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | 은행 계좌 이체, 비행기 좌석 예약 | 페이스북 좋아요, 유튜브 댓글, 쇼핑몰 장바구니 |
 
 스타벅스 앱에서 사이렌 오더로 커피를 시키면 "주문이 완료되었습니다"라고 뜨지만, 10초 뒤에 "재고가 부족하여 취소되었습니다"라는 카톡이 오는 경험이 바로 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴)이 눈앞에서 작동한 결과다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 아웃박스 패턴과 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)으로 무장한 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) 아키텍처를 완성하면, 트래픽 폭주로 결제 서버가 1시간 다운되더라도 시스템은 멈추지 않는다. 유저의 주문은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(메시지 큐)에 안전하게 쌓여 있고, 결제 서버가 다시 켜지는 순간 밀린 주문들이 순식간에 처리되며 결국 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 아귀가 100% 들어맞게 된다.
 
-결론적으로 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 시대의 아키텍트는 **'순간적인 불일치의 불안함'을 견딜 수 있는 배짱**을 가져야 한다. 시스템의 모든 톱니바퀴를 억지로 묶어두면 결국 톱니가 부러진다. 톱니바퀴들을 느슨하게 풀어놓고, 그 사이에 비동기 이벤트라는 윤활유를 발라 '결국에는 맞춰지게' 설계하는 유연함이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 정수다.
+결론적으로 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 시대의 아키텍트는 <strong>'순간적인 불일치의 불안함'을 견딜 수 있는 배짱</strong>을 가져야 한다. 시스템의 모든 톱니바퀴를 억지로 묶어두면 결국 톱니가 부러진다. 톱니바퀴들을 느슨하게 풀어놓고, 그 사이에 비동기 이벤트라는 윤활유를 발라 '결국에는 맞춰지게' 설계하는 유연함이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 정수다.
 
 - **📢 섹션 요약 비유**: 오케스트라에서 바이올린과 첼로가 0.1초 박자가 어긋났다고 지휘자가 연주를 멈추게 하면 교향곡은 완성될 수 없다. 약간 어긋나더라도 계속 연주를 이어가며 다음 마디에서 다시 호흡을 맞춰가는([결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 유연함이 있어야 위대한 교향곡([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이 완성된다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로서비스 데이터 일관성 결과적 일관성 확보 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 데이터 일관성 결과적 일관성 확보 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

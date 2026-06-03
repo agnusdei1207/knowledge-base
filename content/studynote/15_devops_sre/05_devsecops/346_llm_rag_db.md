@@ -38,17 +38,19 @@ RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해�
 | [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) | 근접 검색 수행 | 필터링, 증분 갱신, 비용 |
 | Generator [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | 검색된 문맥으로 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 인용, 거부 응답, 토큰 예산 |
 
-```text
-┌──────────────┐   chunking   ┌──────────────┐   embed    ┌──────────────┐
-│ Source Docs  │ ───────────▶ │ Chunks       │ ─────────▶ │ Vector DB    │
-└──────────────┘              └──────────────┘            └──────────────┘
-        ▲                              ▲                           │
-        │ refresh                      │ metadata                  │ top-k
-        │                              │                           ▼
-┌──────────────┐   prompt + context ┌──────────────┐   rerank   ┌──────────────┐
-│ User Query   │ ─────────────────▶ │ Retriever    │ ─────────▶ │ LLM Answer   │
-└──────────────┘                    └──────────────┘            └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">chunking embed</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Docs</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Chunks</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Vector DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">refresh</div><div class="kb-diagram-cell">metadata</div><div class="kb-diagram-cell">top-k</div></div>
+<div class="kb-diagram-note">prompt + context rerank</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Query</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Retriever</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">LLM Answer</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 “검색 품질이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질을 결정한다”는 점이다. 벡터 검색만으로는 정확한 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)나 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 놓칠 수 있으므로, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필터와 키워드 검색을 섞는 설계가 자주 쓰인다. 또한 근거가 부족할 때는 답변을 강하게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 대신 “모른다”고 말하게 만드는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어에 중요하다.
 
@@ -116,18 +118,21 @@ RAG를 잘 구축하면 모델 지식 최신성을 높이면서도 재학습 비
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Prompt-only LLM
-   │
-   ▼
-Embedding + Vector Search
-   │
-   ▼
-Hybrid Retrieval + Re-ranking
-   │
-   ▼
-RAG with Evaluation / Citation / Guardrails
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Prompt-only LLM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Embedding + Vector Search</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid Retrieval + Re-ranking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAG with Evaluation / Citation / Guardrails</div>
+</div>
+</div>
+
+
 
 이 흐름은 “기억 기반 답변 → 의미 검색 → 정밀 검색 → 근거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 운영”으로 발전하는 모습을 보여준다.
 

@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **기술 통계 (Descriptive [Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/))**: 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체적인 특징을 요약하고 설명하기 위해 평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 분포 등을 산출하는 기초 통계 방법론.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가시화**: 숫자로 된 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심 경향성(Central Tendency)과 산포도([Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) 지표로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '모양'을 파악함.
+- <strong>기술 통계 (Descriptive <a href="/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a>)</strong>: 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체적인 특징을 요약하고 설명하기 위해 평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 분포 등을 산출하는 기초 통계 방법론.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 가시화</strong>: 숫자로 된 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심 경향성(Central Tendency)과 산포도([Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) 지표로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '모양'을 파악함.
 - **분석의 기초**: [추론 통계](/knowledge-base/studynote/16_bigdata/05_analysis/101_inferential_statistics/)로 나아가기 전, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 변수의 성질을 이해하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학의 필수 관문.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
@@ -20,31 +20,27 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 기술 통계의 주요 측정 지표와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요약 프로세스 아키텍처입니다.
 
-```text
-[ Descriptive Statistics Architecture Map ]
 
-         Raw Data Pool (ZB Scale)
-                |
-                v
-+---------------------------------------+
-|      [ Data Summary Metrics ]         |
-|                                       |
-| 1. Central Tendency (중심 경향성)     |
-|    - Mean, Median, Mode               |
-|                                       |
-| 2. Dispersion / Variability (산포도)  |
-|    - Variance, Std Dev, IQR, Range    |
-|                                       |
-| 3. Shape / Distribution (분포/모양)   |
-|    - Skewness (왜도), Kurtosis (첨도) |
-+---------------------------------------+
-                |
-                v
-+---------------------------------------+
-|      [ Visualization Methods ]        |
-|  (Histogram, Box Plot, Scatter Plot)  |
-+---------------------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Descriptive Statistics Architecture Map</div></div>
+<div class="kb-diagram-note">Raw Data Pool (ZB Scale)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Summary Metrics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Central Tendency (중심 경향성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Mean, Median, Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Dispersion / Variability (산포도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Variance, Std Dev, IQR, Range</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Shape / Distribution (분포/모양)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Skewness (왜도), Kurtosis (첨도)</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Visualization Methods</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Histogram, Box Plot, Scatter Plot)</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리:**
 1. **중심 경향성**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 모여 있는가? (평균은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 민감하므로 중앙값과 함께 고려).
@@ -62,9 +58,9 @@ tags = ["studynote-bigdata"]
 | **핵심 질문** | "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 생겼는가?" | "이 결과가 우연이 아닌가?" |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-* **적용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Implementation [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**:
-  * **[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)**: 기술 통계 산출 시 평균과 중앙값의 차이가 크다면 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 존재를 의심하고, Box Plot의 Whisker를 벗어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 정제 로직(Capping, Trimming) 적용.
-  * **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)**: 분포([왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)/첨도)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)를 따르지 않는 경우 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 통해 ML 모델의 학습 효율 극대화.
+* <strong>적용 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Implementation <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>)</strong>:
+  * <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a></strong>: 기술 통계 산출 시 평균과 중앙값의 차이가 크다면 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 존재를 의심하고, Box Plot의 Whisker를 벗어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 정제 로직(Capping, Trimming) 적용.
+  * <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong>: 분포([왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)/첨도)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)를 따르지 않는 경우 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 통해 ML 모델의 학습 효율 극대화.
 * **기술사적 판단 (Architectural Judgment)**:
   * 빅데이터 환경에서는 극단적인 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 하나가 전체 평균을 왜곡하기 쉬움. 따라서 단순 평균(Arithmetic Mean)보다는 절사 평균(Trimmed Mean)이나 중앙값(Median)을 대표값으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 견고한(Robust) 분석 설계가 필요함.
 
@@ -74,22 +70,25 @@ tags = ["studynote-bigdata"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 * **기초 통계**: Mean/Median/Mode, [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/Standard Deviation
 * **분포 분석**: [Normal Distribution](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/), [Skewness](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)/Kurtosis, Z-Score
-* **[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구**: Histogram, Box-and-Whisker Plot, Five-number [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/)
+* <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> 도구</strong>: Histogram, Box-and-Whisker Plot, Five-number [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기초 통계]
-    │
-    ▼
-[분포 분석]
-    │
-    ▼
-[상관 분석]
-    │
-    ▼
-[시각화 도구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기초 통계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분포 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상관 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 도구</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

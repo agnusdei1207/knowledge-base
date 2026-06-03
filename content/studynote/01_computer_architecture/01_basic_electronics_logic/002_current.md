@@ -24,16 +24,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 전류의 관계를 가장 단순한 회로 관점에서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          전류의 자리: 밀어주는 힘과 흐르는 양의 관계         │
-├──────────────────────────────────────────────────────────────┤
-│  전압 (V) ──▶ [ 회로 경로 / 저항 R ] ──▶ 전류 (I)            │
-│                                                              │
-│  V가 크면 더 밀고, R이 크면 더 막는다                        │
-│  따라서 I는 "얼마나 잘 흐르는가"의 결과값이 된다             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전류의 자리: 밀어주는 힘과 흐르는 양의 관계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">회로 경로 / 저항 R</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전류 (I)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V가 크면 더 밀고, R이 크면 더 막는다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라서 I는 "얼마나 잘 흐르는가"의 결과값이 된다</div></div>
+</div>
+</div>
+
+
 
 핵심은 전류를 단순한 부가 개념으로 보면 안 된다는 점이다. 메모리 읽기, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구동, I/O 출력, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 계산 모두 전류 흐름 위에서 성립한다. 결국 아키텍처가 빠르게 동작한다는 말은 필요한 순간에 필요한 경로로 충분한 전류를 안정적으로 전달했다는 뜻과 같다.
 
@@ -54,21 +56,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 칩에서 전류가 어디서 문제를 만들고, 왜 전력망 설계가 중요한지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            칩 내부 전류의 흐름과 주요 손실 지점              │
-├──────────────────────────────────────────────────────────────┤
-│ Power Source ─▶ Power Grid ─▶ Logic Gate ─▶ Load / Wire      │
-│                    │               │                │         │
-│                    │               │                └─ 충방전 │
-│                    │               └─ 누설 / 단락 전류        │
-│                    └─ IR Drop / 전류 밀도 문제               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칩 내부 전류의 흐름과 주요 손실 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power Source ─▶ Power Grid ─▶ Logic Gate ─▶ Load / Wire</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 충방전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 누설 / 단락 전류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IR Drop / 전류 밀도 문제</div></div>
+</div>
+</div>
+
+
 
 전류 해석의 기본은 옴의 법칙 (Ohm's Law) `I = V / R` 이다. 하지만 칩 설계에서는 여기서 한 단계 더 들어가야 한다. [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 낮다고 무조건 좋은 것이 아니라, 너무 큰 전류가 좁은 배선에 몰리면 일렉트로마이그레이션 (Electromigration)과 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 함께 발생해 오히려 오동작 위험이 커진다.
 
-따라서 핵심 원리는 "많이 흐르게 하라"가 아니라 **필요한 곳에 필요한 만큼만 안정적으로 흐르게 하라**다. 그래서 전력망 메쉬, 디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 전류 제한, 파워 게이팅이 모두 전류 설계의 일부가 된다.
+따라서 핵심 원리는 "많이 흐르게 하라"가 아니라 <strong>필요한 곳에 필요한 만큼만 안정적으로 흐르게 하라</strong>다. 그래서 전력망 메쉬, 디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 전류 제한, 파워 게이팅이 모두 전류 설계의 일부가 된다.
 
 - **📢 섹션 요약 비유**: 전류 설계는 도시 급수망과 같다. 물을 충분히 보내야 하지만, 한 배관에 너무 몰리면 압력이 흔들리고 배관이 상한다.
 
@@ -95,20 +99,23 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 전류를 직접 보는 순간이 많다. 서버 보드에서는 피크 전류 때문에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 생기고, 모바일 칩에서는 누설 전류 때문에 대기 전력이 커진다. 따라서 전류 문제를 만나면 "몇 암페어가 흐르나"보다 먼저 **언제, 어디서, 왜 몰리는가**를 봐야 한다.
+실무에서는 전류를 직접 보는 순간이 많다. 서버 보드에서는 피크 전류 때문에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 생기고, 모바일 칩에서는 누설 전류 때문에 대기 전력이 커진다. 따라서 전류 문제를 만나면 "몇 암페어가 흐르나"보다 먼저 <strong>언제, 어디서, 왜 몰리는가</strong>를 봐야 한다.
 
 이 그림은 전류 관련 실무 판단 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             전류 이상 징후에 대한 실무 판단 흐름             │
-├──────────────────────────────────────────────────────────────┤
-│ 발열 증가 또는 배터리 급감 발견                              │
-│   ├─ 고부하 시에만 심한가? ─▶ 동적 전류 / 전력망 점검        │
-│   ├─ 유휴 상태에서도 큰가? ─▶ 누설 전류 / 파워 게이팅 점검   │
-│   └─ 특정 인터페이스만 문제인가? ─▶ I/O 구동 전류 점검       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전류 이상 징후에 대한 실무 판단 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발열 증가 또는 배터리 급감 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 고부하 시에만 심한가? ─▶ 동적 전류 / 전력망 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 유휴 상태에서도 큰가? ─▶ 누설 전류 / 파워 게이팅 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 특정 인터페이스만 문제인가? ─▶ I/O 구동 전류 점검</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
 
@@ -153,21 +160,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전압 (Voltage)]
-    │
-    ▼
-[저항 (Resistance)]
-    │
-    ▼
-[전력 (Power)]
-    │
-    ▼
-[일렉트로마이그레이션 (Electromigration)]
-    │
-    ▼
-[파워 게이팅 (Power Gating)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전압 (Voltage)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저항 (Resistance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전력 (Power)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일렉트로마이그레이션 (Electromigration)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파워 게이팅 (Power Gating)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))에서 출발해 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

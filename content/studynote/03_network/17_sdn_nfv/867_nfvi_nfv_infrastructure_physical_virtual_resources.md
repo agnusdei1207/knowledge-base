@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 나뉩니다.
-1. **[VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) ([가상 네트워크 기능](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))**: 맨 위에서 도는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 앱 (소프트웨어).
-2. **NFVI ([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) Infrastructure)**: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 도는 밑바닥 흙과 영양분 (하드웨어 + [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)). **(현재 문서)**
-3. **MANO ([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) and [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))**: 이 둘을 관리하는 신(God) 같은 총사령부 (868번 문서).
+1. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a> (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">가상 네트워크 기능</a>)</strong>: 맨 위에서 도는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 앱 (소프트웨어).
+2. <strong>NFVI (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> Infrastructure)</strong>: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 도는 밑바닥 흙과 영양분 (하드웨어 + [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)). **(현재 문서)**
+3. <strong>MANO (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> and <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: 이 둘을 관리하는 신(God) 같은 총사령부 (868번 문서).
 
-```text
-[VNF]
-    │
-    ▼
-[NFVI]
-    │
-    └──▶ [MANO]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MANO</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFVI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,26 +43,30 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 가상의 네트워크 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))들을 실행하고 호스팅하기 위해 필수적으로 제공되어야 하는 **하위의 모든 '물리적 자원(서버 기계)'과, 이를 추상화하여 소프트웨어로 쪼개주는 '[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))'을 모두 합친 기반 인프라 환경 전체**를 의미합니다.
+- **개념**: 가상의 네트워크 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))들을 실행하고 호스팅하기 위해 필수적으로 제공되어야 하는 <strong>하위의 모든 '물리적 자원(서버 기계)'과, 이를 추상화하여 소프트웨어로 쪼개주는 '<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 계층(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">Hypervisor</a>)'을 모두 합친 기반 인프라 환경 전체</strong>를 의미합니다.
 
 ### NFVI를 구성하는 2개의 층 🌟
 
 1. **물리적 자원 계층 (Physical Hardware Resources)**
-   - 대만 폭스콘이나 델(Dell)에서 사 온 껍데기 상표 없는 **[Cots](/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/) (상용 기성품) x86 서버 기계** 수백 대.
+   - 대만 폭스콘이나 델(Dell)에서 사 온 껍데기 상표 없는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/372_cots/">Cots</a> (상용 기성품) x86 서버 기계</strong> 수백 대.
    - 서버 안에 박힌 무식한 Intel CPU, 100Gbps 물리적 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)), 대형 스토리지(하드디스크), 그리고 이 서버들을 엮어놓은 물리적 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들. (즉, 전산실 철물점 그 자체)
 
-2. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층 ([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Layer) 🌟 핵심 🌟**
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 계층 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a> Layer) 🌟 핵심 🌟</strong>
    - 쇳덩어리 서버에 전원만 꽂는다고 그 위에 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))이 돌지 않습니다. 쇳덩어리를 찰흙으로 만들어야 합니다.
-   - **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), VMWare 등)**가 깔려서, 1개의 물리 CPU를 100개의 가상 vCPU로 쪼개고, 1개의 쇳덩어리 랜카드를 100개의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)) 구멍으로 쪼개어 VNF들에게 밥상으로 차려주는 소프트웨어 엔진 계층입니다.
+   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>, VMWare 등)</strong>가 깔려서, 1개의 물리 CPU를 100개의 가상 vCPU로 쪼개고, 1개의 쇳덩어리 랜카드를 100개의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)) 구멍으로 쪼개어 VNF들에게 밥상으로 차려주는 소프트웨어 엔진 계층입니다.
 
-```text
-[VNF]
-    │
-    ▼
-[NFVI]
-    │
-    └──▶ [MANO]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MANO</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFVI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
 NFVI는 일반 웹서버 클라우드(AWS EC2 등)보다 천 배는 더 혹독한 패킷 처리 환경을 버텨야 합니다.
 - **병목 지옥**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 VNF가 초당 20Gbps의 트래픽을 뿜어내면, NFVI의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))이 그 패킷을 물리 랜카드로 밀어 넣느라 CPU를 다 써버리고 마비됩니다.
 - **NFVI 가속 기술 (Acceleration) 필수 장착**:
-  - 그래서 NFVI 환경을 지을 때는 아예 바닥에 **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (847번, 랜카드 직결 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))**와 **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) (846번, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 엔진)**, 그리고 **SmartNIC/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) (848번, 랜카드에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩 박기)** 같은 괴물 같은 가속 기술들을 덕지덕지 발라두어야만 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 숨을 쉬며 돌아갈 수 있습니다.
+  - 그래서 NFVI 환경을 지을 때는 아예 바닥에 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> (847번, 랜카드 직결 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)</strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (846번, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회 엔진)</strong>, 그리고 <strong>SmartNIC/<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> (848번, 랜카드에 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 칩 박기)</strong> 같은 괴물 같은 가속 기술들을 덕지덕지 발라두어야만 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 숨을 쉬며 돌아갈 수 있습니다.
 
 NFVI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. VNF가 기반 조건을 만든다면, NFVI는 그 위에서 핵심 메커니즘을 구현하고, MANO는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -85,7 +93,7 @@ NFVI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 거대한 NFVI 땅덩어리 자원을 "누가 얼마만큼 쓰고 있는지, 1번 서버 램이 꽉 찼는지"를 감시하고 배급하는 관리 소장 소프트웨어가 필요한데, 이것이 바로 **[VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) (Virtualised Infrastructure Manager, 예: 오픈스택, 871번 문서)**입니다.
+- 이 거대한 NFVI 땅덩어리 자원을 "누가 얼마만큼 쓰고 있는지, 1번 서버 램이 꽉 찼는지"를 감시하고 배급하는 관리 소장 소프트웨어가 필요한데, 이것이 바로 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/">VIM</a> (Virtualised Infrastructure Manager, 예: 오픈스택, 871번 문서)</strong>입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ NFVI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 라우터)가 농부가 심은 '사과나무와 포도나무'라면, **NFVI**는 이 나무들이 뿌리를 내리고 자랄 수 있게 만들어진 최첨단 '비닐하우스 토양 인프라'입니다. NFVI는 비닐하우스 철골대와 흙(물리적 x86 서버 장비)으로만 이루어지지 않습니다. 그 흙 속에 물과 비료를 나무의 뿌리([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))에 정확히 쪼개서 공급해 주는 자동화된 최첨단 관개 시스템([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층)까지 완벽하게 깔려 있어야 합니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 나무([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))는 물을 미친 듯이 빨아먹기 때문에, NFVI 토양에는 굵고 거대한 특수 배수관([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 가속 기술)이 필수로 묻혀 있어야만 나무가 썩지 않고 빛의 속도로 열매(패킷)를 맺어낼 수 있습니다.
+- **📢 섹션 요약 비유**: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 라우터)가 농부가 심은 '사과나무와 포도나무'라면, <strong>NFVI</strong>는 이 나무들이 뿌리를 내리고 자랄 수 있게 만들어진 최첨단 '비닐하우스 토양 인프라'입니다. NFVI는 비닐하우스 철골대와 흙(물리적 x86 서버 장비)으로만 이루어지지 않습니다. 그 흙 속에 물과 비료를 나무의 뿌리([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))에 정확히 쪼개서 공급해 주는 자동화된 최첨단 관개 시스템([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층)까지 완벽하게 깔려 있어야 합니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 나무([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))는 물을 미친 듯이 빨아먹기 때문에, NFVI 토양에는 굵고 거대한 특수 배수관([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 가속 기술)이 필수로 묻혀 있어야만 나무가 썩지 않고 빛의 속도로 열매(패킷)를 맺어낼 수 있습니다.
 
 ---
 
@@ -116,15 +124,19 @@ NFVI는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VNF]
-    │
-    ▼
-[현재 개념: NFVI]
-    │
-    ├──▶ [확장 A: MANO]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VNF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFVI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MANO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 NFVI는 VNF에서 출발해 현재 메커니즘을 정교화하고, 이후 MANO와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

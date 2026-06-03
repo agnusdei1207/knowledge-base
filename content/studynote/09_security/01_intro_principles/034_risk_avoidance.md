@@ -18,20 +18,23 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 위험 처리 4대 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-위험 처리 (Risk Treatment) 옵션:
 
-    발생 가능성
-         │ 높음
-         │   [회피]          [감소]
-         │   위험 활동 중단   통제 적용
-         │
-         │   [수용]          [전가]
-         │ 낮음 위험 허용     보험/계약
-         └──────────────────────────
-              낮음            높음
-                    영향도
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 처리 (Risk Treatment) 옵션:</div>
+<div class="kb-diagram-note">발생 가능성</div>
+<div class="kb-diagram-note">높음</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">회피</div><div class="kb-diagram-node">감소</div></div>
+<div class="kb-diagram-note">위험 활동 중단 통제 적용</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수용</div><div class="kb-diagram-node">전가</div></div>
+<div class="kb-diagram-note">낮음 위험 허용 보험/계약</div>
+<div class="kb-diagram-note">낮음 높음</div>
+<div class="kb-diagram-note">영향도</div>
+</div>
+</div>
+
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)        | 정의                          | 적용 상황               |
 |-----------|------------------------------|------------------------|
@@ -48,18 +51,22 @@ tags = ["studynote-security"]
 
 ### 회피 적용 기준
 
-```
-위험 회피 결정 프레임워크:
 
-잔여 위험 = 고유 위험 - 통제 효과
-  └─ 잔여 위험 > 위험 허용 기준 (Risk Appetite)
-     → 위험 회피 고려
 
-추가 판단:
-  1. 통제 비용 > 비즈니스 가치? → 회피
-  2. 규제·법적 요구사항 위반 위험? → 회피
-  3. 평판·브랜드 치명적 영향? → 회피
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 회피 결정 프레임워크:</div>
+<div class="kb-diagram-note">잔여 위험 = 고유 위험 - 통제 효과</div>
+<div class="kb-diagram-tree-item" style="--depth:1">잔여 위험 &gt; 위험 허용 기준 (Risk Appetite)</div>
+<div class="kb-diagram-note">→ 위험 회피 고려</div>
+<div class="kb-diagram-note">추가 판단:</div>
+<div class="kb-diagram-note">1. 통제 비용 &gt; 비즈니스 가치? → 회피</div>
+<div class="kb-diagram-note">2. 규제·법적 요구사항 위반 위험? → 회피</div>
+<div class="kb-diagram-note">3. 평판·브랜드 치명적 영향? → 회피</div>
+</div>
+</div>
+
+
 
 ### 실제 회피 사례
 
@@ -121,18 +128,22 @@ Defense in Depth (심층 방어):
 
 ## Ⅴ. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)와 위험 처리 통합
 
-```
-제로 트러스트 원칙: "절대 신뢰하지 말고, 항상 검증하라"
 
-위험 처리 관점에서:
-  회피: 기본 거부 정책 (All deny, explicit allow)
-  감소: 최소 권한 원칙 + MFA + 마이크로 세그멘테이션
-  전가: 사이버 보험 + SLA 계약
-  수용: 저위험 API 엔드포인트 모니터링만
 
-제로 트러스트 핵심 컴포넌트:
-  IAM → MFA → Conditional Access → SIEM → SOAR
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제로 트러스트 원칙: "절대 신뢰하지 말고, 항상 검증하라"</div>
+<div class="kb-diagram-note">위험 처리 관점에서:</div>
+<div class="kb-diagram-note">회피: 기본 거부 정책 (All deny, explicit allow)</div>
+<div class="kb-diagram-note">감소: 최소 권한 원칙 + MFA + 마이크로 세그멘테이션</div>
+<div class="kb-diagram-note">전가: 사이버 보험 + SLA 계약</div>
+<div class="kb-diagram-note">수용: 저위험 API 엔드포인트 모니터링만</div>
+<div class="kb-diagram-note">제로 트러스트 핵심 컴포넌트:</div>
+<div class="kb-diagram-note">IAM → MFA → Conditional Access → SIEM → SOAR</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 "ID 카드는 있어도 매번 검사"하는 보안이다 — 임직원(신뢰 내부자)도 매번 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))하고, 최소한 접근 권한만 준다.
 
@@ -140,48 +151,55 @@ Defense in Depth (심층 방어):
 
 ## 📌 관련 개념 맵
 
-```
-위험 처리 전략 (Risk Treatment)
-├── 4대 전략
-│   ├── 회피 (Avoidance) — 활동 중단
-│   ├── 감소 (Reduction) — 통제 적용
-│   ├── 전가 (Transfer) — 보험·계약
-│   └── 수용 (Acceptance) — 인식 후 허용
-├── 전가 수단
-│   ├── 사이버 보험
-│   └── 계약 SLA·면책 조항
-├── 감소 기법
-│   ├── 심층 방어 (Defense in Depth)
-│   └── 제로 트러스트 아키텍처
-└── 관련 프레임워크
-    ├── ISO 27005 (위험 관리)
-    ├── NIST SP 800-30
-    └── FAIR 모델 (정량적 위험 분석)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 처리 전략 (Risk Treatment)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">4대 전략</div>
+<div class="kb-diagram-note">── 회피 (Avoidance) — 활동 중단</div>
+<div class="kb-diagram-note">── 감소 (Reduction) — 통제 적용</div>
+<div class="kb-diagram-note">── 전가 (Transfer) — 보험·계약</div>
+<div class="kb-diagram-note">── 수용 (Acceptance) — 인식 후 허용</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전가 수단</div>
+<div class="kb-diagram-note">── 사이버 보험</div>
+<div class="kb-diagram-note">── 계약 SLA·면책 조항</div>
+<div class="kb-diagram-tree-item" style="--depth:0">감소 기법</div>
+<div class="kb-diagram-note">── 심층 방어 (Defense in Depth)</div>
+<div class="kb-diagram-note">── 제로 트러스트 아키텍처</div>
+<div class="kb-diagram-tree-item" style="--depth:0">관련 프레임워크</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ISO 27005 (위험 관리)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NIST SP 800-30</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FAIR 모델 (정량적 위험 분석)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              위험 처리 전략 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2002년       │ NIST SP 800-30 v1  │ 최초 체계적 위험 관리 가이드 │
-│ 2005년       │ ISO 27005:2005     │ 정보보안 위험 관리 국제 표준 │
-│ 2011년       │ FAIR 모델          │ 정량적 사이버 위험 분석      │
-│ 2014년       │ NIST CSF           │ 핵심 보안 프레임워크          │
-│ 2017년       │ GDPR 시행          │ 규제 기반 위험 처리 의무화   │
-│ 2020년대     │ 사이버 보험 급성장 │ 랜섬웨어 → 위험 전가 증가   │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-위험 식별 → 위험 분석 (발생가능성×영향도) → 처리 전략 선택
-    ↓               ↓                           ↓
-자산 목록       위험 매트릭스             회피/감소/전가/수용
-    ↓
-잔여 위험 → 허용 기준 비교 → 보험/제로 트러스트
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 처리 전략 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2002년</div><div class="kb-diagram-cell">NIST SP 800-30 v1</div><div class="kb-diagram-cell">최초 체계적 위험 관리 가이드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2005년</div><div class="kb-diagram-cell">ISO 27005:2005</div><div class="kb-diagram-cell">정보보안 위험 관리 국제 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2011년</div><div class="kb-diagram-cell">FAIR 모델</div><div class="kb-diagram-cell">정량적 사이버 위험 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2014년</div><div class="kb-diagram-cell">NIST CSF</div><div class="kb-diagram-cell">핵심 보안 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2017년</div><div class="kb-diagram-cell">GDPR 시행</div><div class="kb-diagram-cell">규제 기반 위험 처리 의무화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">사이버 보험 급성장</div><div class="kb-diagram-cell">랜섬웨어 → 위험 전가 증가</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">위험 식별 → 위험 분석 (발생가능성×영향도) → 처리 전략 선택</div>
+<div class="kb-diagram-note">자산 목록 위험 매트릭스 회피/감소/전가/수용</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">잔여 위험 → 허용 기준 비교 → 보험/제로 트러스트</div>
+</div>
+</div>
+
+
 
 ---
 

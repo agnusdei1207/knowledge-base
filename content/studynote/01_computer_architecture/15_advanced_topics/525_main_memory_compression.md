@@ -21,25 +21,24 @@ tags = ["studynote-computer-architecture"]
 
 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 메모리 컨트롤러가 주기억장치의 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 형태로 저장하고, CPU에는 원래 크기 그대로 보이게 만드는 투명한 용량 확장 기법이다. 핵심은 "메모리가 부족해졌다고 바로 디스크로 내보내기 전에, 같은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 안에서 먼저 더 작게 접어 넣는다"는 데 있다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 가격과 전력 소모는 여전히 크고, [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/)·가상 머신 밀집 배치·통합 메모리 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 워크로드는 작업 집합을 계속 키우기 때문에 물리 증설만으로는 비용을 감당하기 어렵다.
 
-[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한 이유는 메모리 부족 이후의 비용이 너무 가파르기 때문이다. 캐시를 벗어난 뒤에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 로컬 DRAM에 남아 있으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 수십 ns 수준이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 넘쳐난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑이나 원격 메모리로 밀리면 비용은 수백 ns에서 수 ms까지 커질 수 있다. 즉 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 단순한 저장 공간 절약이 아니라, **비싼 계층 이동을 늦추는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 방어선**이다.
+[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한 이유는 메모리 부족 이후의 비용이 너무 가파르기 때문이다. 캐시를 벗어난 뒤에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 로컬 DRAM에 남아 있으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 수십 ns 수준이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 넘쳐난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑이나 원격 메모리로 밀리면 비용은 수백 ns에서 수 ms까지 커질 수 있다. 즉 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 단순한 저장 공간 절약이 아니라, <strong>비싼 계층 이동을 늦추는 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 방어선</strong>이다.
 
 이 그림은 왜 "조금의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드"가 "큰 계층 이동 비용"보다 유리할 수 있는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Working Set = 96 GB, Physical DRAM = 64 GB                                │
-│                                                                            │
-│ [비압축] 64 GB DRAM ── 초과 32 GB ──▶ swap / 원격 메모리                   │
-│                                  │                                         │
-│                                  └─ page fault, I/O, 수백 ns ~ ms 비용     │
-│                                                                            │
-│ [압축]   64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용                         │
-│                                  │                                         │
-│                                  └─ 메타데이터 조회 + 해제 지연 수십 ns     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Working Set = 96 GB, Physical DRAM = 64 GB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비압축</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">swap / 원격 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page fault, I/O, 수백 ns ~ ms 비용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축</div><div class="kb-diagram-note">64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터 조회 + 해제 지연 수십 ns</div></div>
+</div>
+</div>
+
+
 
 물론 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1.5배로 잘 접히는 것은 아니다. 그러나 0 값이 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 유사한 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/), 희소 행렬처럼 규칙성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 커서 로컬 메모리에 더 오래 남을 수 있다. 반대로 이미 암호화되었거나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 작으므로, 결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 "무엇을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할지"를 똑똑하게 고르는 일이다.
 
@@ -69,26 +68,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 읽기 경로가 어디서 추가 비용을 내는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                메인 메모리 압축 경로: 빠른 경로와 느린 경로                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ LLC Miss / Writeback                                                      │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Compression Engine] ── 압축 가능? ──┬─ Yes ─▶ [Metadata: size / slot]    │
-│        │                             │                    │                │
-│        └────────────── No ───────────┘                    ▼                │
-│                                                  [Compressed DRAM Region]  │
-│                                                                            │
-│ Read Request ──────────────────────────────────────────────────────────────│
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Metadata Lookup] → [Fetch 16/32/48/64B] → [Decompress] → [64B Line 반환]  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 어려운 지점은 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, **빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술**이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 메모리 압축 경로: 빠른 경로와 느린 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLC Miss / Writeback</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Compression Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Metadata: size / slot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Compressed DRAM Region</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read Request</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Metadata Lookup</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fetch 16/32/48/64B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Decompress</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">64B Line 반환</div></div>
+</div>
+</div>
+
+
+
+여기서 어려운 지점은 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, <strong>빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술</strong>이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
 
 - **📢 섹션 요약 비유**: 이 기술은 옷을 접는 법만 좋은 것이 아니라, 접은 옷이 서랍 어디에 들어갔는지 빨리 찾는 수납 시스템까지 함께 좋아야 하는 정리술과 같다.
 
@@ -133,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 - [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 오버헤드를 무시한 용량 계산
 - [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 생긴 tail latency를 측정하지 않고 "평균 메모리 사용률"만 보는 운영
 
-결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 DRAM을 공짜로 늘리는 마법이 아니다. 더 정확하게는 **비싼 계층 이동을 피하기 위해, 싸게 감당 가능한 정도의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드를 미리 지불하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 DRAM을 공짜로 늘리는 마법이 아니다. 더 정확하게는 <strong>비싼 계층 이동을 피하기 위해, 싸게 감당 가능한 정도의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 오버헤드를 미리 지불하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 매일 쓰는 옷은 옷장 안에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 정리하면 편하지만, 당장 입어야 하는 공연 의상을 너무 꽉 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 두면 꺼내는 시간이 더 큰 문제가 되는 것과 같다.
 
@@ -145,7 +141,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 워크로드 의존적이고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리와 재배치 복잡도는 하드웨어 면적과 전력을 증가시킨다. 또한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 여부에 따라 접근 시간이 달라지면 보안 측면의 타이밍 부채널을 점검해야 하며, 이미 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비중이 큰 환경에서는 투자 대비 효과가 작다.
 
-앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 풀과 연계한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)형 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 테넌트별 메모리 품질 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 통합 메모리용 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 더 중요해질 가능성이 크다. 결론적으로 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "DRAM을 더 크게 만드는 기술"이라기보다, **작업 집합을 더 오래 로컬에 붙잡아 두는 계층 제어 기술**로 기억하는 것이 정확하다.
+앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 풀과 연계한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)형 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 테넌트별 메모리 품질 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 통합 메모리용 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 더 중요해질 가능성이 크다. 결론적으로 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "DRAM을 더 크게 만드는 기술"이라기보다, <strong>작업 집합을 더 오래 로컬에 붙잡아 두는 계층 제어 기술</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 결국 이 기술은 작은 냉장고를 조금 더 크게 쓰는 방법이다. 냉장고 문을 자주 열어 멀리 창고까지 가지 않게 해 주지만, 정리 방식이 엉망이면 오히려 필요한 반찬을 찾는 데 시간이 더 걸린다.
 
@@ -164,24 +160,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DRAM 증설 중심 메모리 운영
-        │
-        ▼
-메모리 벽 (Memory Wall) · 스왑 병목
-        │
-        ▼
-운영체제 기반 페이지 압축
-        │
-        ▼
-저지연 캐시라인 압축 (BDI · FPC)
-        │
-        ▼
-LCP · 메타데이터 최적화 · compaction 제어
-        │
-        ▼
-NUMA / CXL 연계 정책형 메인 메모리 압축
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DRAM 증설 중심 메모리 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 벽 (Memory Wall) · 스왑 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영체제 기반 페이지 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">저지연 캐시라인 압축 (BDI · FPC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LCP · 메타데이터 최적화 · compaction 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NUMA / CXL 연계 정책형 메인 메모리 압축</div>
+</div>
+</div>
+
+
 
 이 흐름은 "부족하면 내보내는 메모리 관리"에서 출발해, "먼저 로컬에서 더 작게 담아 보자"는 방향으로 진화한 과정을 보여 준다.
 

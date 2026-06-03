@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 전문가 시스템 (Expert System)은 1970~80년대를 지배했던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 할아버지 격 아키텍처로, 의사나 법률가 같은 스페셜리스트의 머릿속에 있는 규칙(Rule)들을 싹 다 텍스트로 뽑아내어 **[지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(DB)**에 우겨넣고, **추론 엔진(If-Then 코드)**이 이 규칙들을 따라가며 정답을 찍어내는 지극히 깐깐한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기계다.
-> 2. **가치**: 지금의 딥러닝(블랙박스)이 "왜 고양이인지 나도 몰라! 그냥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 그렇게 생겼어!"라고 무책임하게 뱉는 것과 달리, 전문가 시스템은 **"혈압이 높고(If) 맥박이 빠르니까(And) 고혈압 3기(Then)로 판정했음!"이라며 자기가 왜 그런 답을 내렸는지 100% 완벽한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거(설명 가능성, XAI의 시초)를 제시**하는 극강의 투명성을 자랑했다.
-> 3. **판단 포인트**: 이 시스템이 결국 멸망한 이유는 **지식 획득 병목(Knowledge [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))** 때문이다. 세상의 모든 암 진단 규칙을 의사의 입에서 뽑아내 수만 줄의 if-else 코드로 하드코딩하려다 보니 개발자가 피를 토했고, 예외 상황(열은 나는데 맥박은 정상인 낯선 환자)이 들어오면 유연하게 대처하지 못하고 1초 만에 뻗어버리는 끔찍한 취약성(Brittleness)이 발목을 잡았다.
+> 1. **본질**: 전문가 시스템 (Expert System)은 1970~80년대를 지배했던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 할아버지 격 아키텍처로, 의사나 법률가 같은 스페셜리스트의 머릿속에 있는 규칙(Rule)들을 싹 다 텍스트로 뽑아내어 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/">지식 베이스</a>(DB)</strong>에 우겨넣고, <strong>추론 엔진(If-Then 코드)</strong>이 이 규칙들을 따라가며 정답을 찍어내는 지극히 깐깐한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기계다.
+> 2. **가치**: 지금의 딥러닝(블랙박스)이 "왜 고양이인지 나도 몰라! 그냥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 그렇게 생겼어!"라고 무책임하게 뱉는 것과 달리, 전문가 시스템은 <strong>"혈압이 높고(If) 맥박이 빠르니까(And) 고혈압 3기(Then)로 판정했음!"이라며 자기가 왜 그런 답을 내렸는지 100% 완벽한 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 근거(설명 가능성, XAI의 시초)를 제시</strong>하는 극강의 투명성을 자랑했다.
+> 3. **판단 포인트**: 이 시스템이 결국 멸망한 이유는 <strong>지식 획득 병목(Knowledge <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong> 때문이다. 세상의 모든 암 진단 규칙을 의사의 입에서 뽑아내 수만 줄의 if-else 코드로 하드코딩하려다 보니 개발자가 피를 토했고, 예외 상황(열은 나는데 맥박은 정상인 낯선 환자)이 들어오면 유연하게 대처하지 못하고 1초 만에 뻗어버리는 끔찍한 취약성(Brittleness)이 발목을 잡았다.
 
 ---
 
@@ -25,16 +25,19 @@ tags = ["studynote-ai"]
 그렇게 1970년대에 전설의 **MYCIN(마이신)** 시스템이 탄생했다. 혈액에 세균이 감염되었는지 맞추는 이 시스템은 진짜 레지던트 의사보다 더 정확한 진단율을 뿜어내며 세상을 충격에 빠뜨렸다. 원리는 너무나 단순했다.
 의사가 환자를 진단할 때 쓰는 수천 개의 "If (열이 나고) AND (기침을 하면) Then (감기다)"라는 규칙들을 몽땅 텍스트로 적어 지식 창고에 넣고, 프로그램이 이 규칙의 꼬리를 물고 내려가 결론을 도출하는 것이다. 
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 공부하며 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 맞추는 요즘의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))과는 완전히 다르다. 지식을 사람이 직접 손으로 떠먹여 줘야 하는 **규칙 기반(Rule-based) [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)**, 이것이 1980년대 전 세계 기업들의 돈줄을 빨아들였던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 두 번째 황금기를 연 **전문가 시스템 (Expert System)**의 정체다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 공부하며 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 맞추는 요즘의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))과는 완전히 다르다. 지식을 사람이 직접 손으로 떠먹여 줘야 하는 <strong>규칙 기반(Rule-based) <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a></strong>, 이것이 1980년대 전 세계 기업들의 돈줄을 빨아들였던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 두 번째 황금기를 연 <strong>전문가 시스템 (Expert System)</strong>의 정체다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 현재의 딥러닝이 수만 장의 고양이 사진을 보고 스스로 눈치껏 고양이를 구별하는 '천재적인 직감의 예술가'라면, 1980년대 전문가 시스템은 깐깐한 '원리원칙주의자 공무원'이다. 공무원(추론 엔진)은 자기 판단이나 직감 따윈 절대 쓰지 않는다. 오직 책상 서랍 속에 꽂혀있는 거대한 '업무 매뉴얼 북([지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))'을 펴놓고, "매뉴얼 3조 2항에 따라 열이 나니까 감기입니다!"라고 정해진 매뉴얼대로만 딱딱하게 대답하는 도서관 사서 봇이다.
 
@@ -44,33 +47,34 @@ tags = ["studynote-ai"]
 
 전문가 시스템은 지식을 저장하는 뇌(DB)와 그 지식을 꺼내서 결론을 엮어내는 심장(엔진)으로 완벽히 분리된 우아한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 아키텍처를 가졌다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           전문가 시스템 (Expert System)의 논리 추론 아키텍처 도해         │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 지식 베이스 (Knowledge Base) - "의사의 뇌를 텍스트로 박제"]       │
-│   * 수만 개의 지식 룰(Rule)이 하드코딩되어 모여있는 절대 거대한 도서관.     │
-│   * 룰 1: IF (환자 열 > 38도) AND (콧물 = True) THEN (의심 병명 = 감기) │
-│   * 룰 2: IF (의심 병명 = 감기) AND (몸살 = True) THEN (처방 = 타이레놀) │
-│                                                              │
-│  [2. 추론 엔진 (Inference Engine) - "팩트를 엮어 결론을 내는 논리 회로"] │
-│   * 사용자 입력(Fact): "우리 애가 39도고 콧물, 몸살이 있어요!"           │
-│   * 엔진 발동: 도서관(지식 베이스)을 싹 뒤짐.                        │
-│     - 입력값을 [룰 1]에 대입 ─▶ "아, 일단 감기구나!" 팩트 추가.         │
-│     - 새 팩트(감기)를 [룰 2]에 연쇄 대입 ─▶ "최종 정답은 타이레놀!" 도출.  │
-│                                                              │
-│  [3. 설명 기능 모듈 (Explanation Facility)]                      │
-│   * 사용자: "기계야, 왜 타이레놀을 먹으라고 한 거야?"                  │
-│   * 시스템: "왜냐하면 환자 열이 38도를 넘었고 콧물이 났기 때문에 룰 1에 따라 │
-│            감기로 판단했고, 몸살이 있으니 룰 2에 의해 타이레놀을 추천했습니다!"│
-│   ─▶ 100% 팩트에 기반한 압도적인 설명 가능성(Explainability) 폭발!     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전문가 시스템 (Expert System)의 논리 추론 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 지식 베이스 (Knowledge Base) - "의사의 뇌를 텍스트로 박제"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수만 개의 지식 룰(Rule)이 하드코딩되어 모여있는 절대 거대한 도서관.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 룰 1: IF (환자 열 &gt; 38도) AND (콧물 = True) THEN (의심 병명 = 감기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 룰 2: IF (의심 병명 = 감기) AND (몸살 = True) THEN (처방 = 타이레놀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 추론 엔진 (Inference Engine) - "팩트를 엮어 결론을 내는 논리 회로"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자 입력(Fact): "우리 애가 39도고 콧물, 몸살이 있어요!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 엔진 발동: 도서관(지식 베이스)을 싹 뒤짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 입력값을</div><div class="kb-diagram-node">룰 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"아, 일단 감기구나!" 팩트 추가.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 새 팩트(감기)를</div><div class="kb-diagram-node">룰 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"최종 정답은 타이레놀!" 도출.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 설명 기능 모듈 (Explanation Facility)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자: "기계야, 왜 타이레놀을 먹으라고 한 거야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시스템: "왜냐하면 환자 열이 38도를 넘었고 콧물이 났기 때문에 룰 1에 따라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감기로 판단했고, 몸살이 있으니 룰 2에 의해 타이레놀을 추천했습니다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 100% 팩트에 기반한 압도적인 설명 가능성(Explainability) 폭발!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (추론 엔진의 2대 검색 방향)**:
 추론 엔진이 도서관의 룰(Rule) 책을 뒤지는 방법에는 두 가지 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 있다.
-1. **[전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/) - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도)**: 환자의 증상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 먼저 10개 입력하고, 이 증상들과 맞는 If 조건문들을 꼬리에 꼬리를 물고 전진하며 "너는 결국 위암이구나!"라는 최종 결론(목표)으로 나아가는 방식이다. (증상 $\rightarrow$ 원인 찾기)
-2. **[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) - 목표 주도)**: 아예 처음부터 목표(가설)를 찍는다. "얘 위암 아냐?"라고 가설(Then)을 던진 뒤, 위암이 되려면 If 조건에 구토, 체중 감소가 있어야 하네? 하고 거꾸로 내려오며 환자에게 "혹시 구토하셨어요?"라고 질문을 던지며 가설을 채워나가는 방식이다. MYCIN은 이 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)의 귀재였다.
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">전향 추론</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/">Forward Chaining</a> - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주도)</strong>: 환자의 증상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 먼저 10개 입력하고, 이 증상들과 맞는 If 조건문들을 꼬리에 꼬리를 물고 전진하며 "너는 결국 위암이구나!"라는 최종 결론(목표)으로 나아가는 방식이다. (증상 $\rightarrow$ 원인 찾기)
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a> - 목표 주도)</strong>: 아예 처음부터 목표(가설)를 찍는다. "얘 위암 아냐?"라고 가설(Then)을 던진 뒤, 위암이 되려면 If 조건에 구토, 체중 감소가 있어야 하네? 하고 거꾸로 내려오며 환자에게 "혹시 구토하셨어요?"라고 질문을 던지며 가설을 채워나가는 방식이다. MYCIN은 이 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)의 귀재였다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -89,7 +93,7 @@ tags = ["studynote-ai"]
 
 | 시스템 비교 | 1980's 전문가 시스템 (규칙 기반 / 기호주의) | 2020's 딥러닝 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 / 연결주의) | 승패가 갈린 치명적 요인 |
 |:---|:---|:---|:---|
-| **학습/지식 입력 방식** | **지식 획득의 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**. 지식 엔지니어가 의사를 인터뷰해서 1년 내내 타자로 If-Then 룰 1만 개를 하드코딩함 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 글) 1,000만 장을 폴더에 넣고 엔터 누르면 GPU가 알아서 패턴의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 깎아서 배움 | **딥러닝 완승**. 인간이 수작업으로 지식을 코딩하는 건 인건비와 스케일(Scale) 면에서 딥러닝의 자동 학습을 절대 이길 수 없음. |
+| **학습/지식 입력 방식** | <strong>지식 획득의 병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>. 지식 엔지니어가 의사를 인터뷰해서 1년 내내 타자로 If-Then 룰 1만 개를 하드코딩함 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 글) 1,000만 장을 폴더에 넣고 엔터 누르면 GPU가 알아서 패턴의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 깎아서 배움 | **딥러닝 완승**. 인간이 수작업으로 지식을 코딩하는 건 인건비와 스케일(Scale) 면에서 딥러닝의 자동 학습을 절대 이길 수 없음. |
 | **유연성 및 예외 처리** | **극도의 취약성(Brittleness)**. 체온 37.9도인 환자가 오면, 룰(>38도)에 없어서 시스템이 뇌 정지 오고 에러를 뿜으며 즉사함 | 37.9도 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 와도, 대충 근사치 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 90%로 부드럽게 감기로 처리함 (Generalization) | **딥러닝 완승**. 세상일은 칼 자르듯 0과 1로 떨어지지 않는데, 전문가 시스템은 융통성([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 사고)이 전혀 없어서 뻗어버림. |
 | **설명 가능성 (Explainability)** | **100% 완벽한 인과관계 투명성**. 룰 1번과 3번을 타서 이 결과가 나왔다고 추적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 그대로 까발려 줌 | **블랙박스(Black-box) 지옥**. 수억 개의 파라미터가 꼬여있어 AI가 왜 암이라고 했는지 개발자도, 판사도 모름 | **전문가 시스템 유일한 승리**. 의료, 금융, 법률 등 책임 소재가 중요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 아직도 딥러닝 대신 전문가 시스템(룰 엔진)을 섞어 씀. |
 
@@ -131,9 +135,9 @@ tags = ["studynote-ai"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **기호주의 (Symbolism)** | 전문가 시스템이 태어난 딥러닝 이전 시대의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 철학. 세상의 지식을 'If, And, Or' 같은 기호(Symbol) 문자로 번역해서 엮으면 기계도 생각을 할 수 있다는 위대한 아날로그 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)학 |
-| **[XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) (설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | 요즘 딥러닝 블랙박스에 환멸을 느낀 인류가 미친 듯이 쫓고 있는 트렌드. "나한테 왜 징역 1년을 때렸는지 AI가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 설명해 보라"는 기술로, 과거 전문가 시스템이 이미 100% 달성했던 꿈의 기능 |
-| **지식 획득 병목 (Knowledge [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))** | 전문가 시스템을 멸망시킨 암 덩어리. 의사의 지식을 뽑아내 코드로 치려고 했더니, 의사들도 자기가 직감으로 아는 지식을 문장(If-Then)으로 똑 부러지게 설명을 못 해서 코드 작성이 멈춰버린 대참사 사태 |
-| **뉴로-심볼릭 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Neuro-Symbolic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | 눈치가 빠르지만 거짓말을 잘하는 딥러닝(Neuro)의 눈알과, 융통성은 없지만 규칙을 칼같이 지키는 전문가 시스템(Symbolic)의 브레이크를 한 몸에 합쳐놓은 자율주행과 의료 AI의 미래 청사진 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> (설명 가능한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | 요즘 딥러닝 블랙박스에 환멸을 느낀 인류가 미친 듯이 쫓고 있는 트렌드. "나한테 왜 징역 1년을 때렸는지 AI가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 설명해 보라"는 기술로, 과거 전문가 시스템이 이미 100% 달성했던 꿈의 기능 |
+| <strong>지식 획득 병목 (Knowledge <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong> | 전문가 시스템을 멸망시킨 암 덩어리. 의사의 지식을 뽑아내 코드로 치려고 했더니, 의사들도 자기가 직감으로 아는 지식을 문장(If-Then)으로 똑 부러지게 설명을 못 해서 코드 작성이 멈춰버린 대참사 사태 |
+| <strong>뉴로-심볼릭 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (Neuro-Symbolic <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | 눈치가 빠르지만 거짓말을 잘하는 딥러닝(Neuro)의 눈알과, 융통성은 없지만 규칙을 칼같이 지키는 전문가 시스템(Symbolic)의 브레이크를 한 몸에 합쳐놓은 자율주행과 의료 AI의 미래 청사진 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,9 +147,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 딥러닝이 스스로 책을 수만 권 읽고 감으로 정답을 찍어 맞추는 **'눈치 빠른 천재 학생'**이라면, 전문가 시스템은 전혀 달라요.
-2. 전문가 시스템은 머릿속 텅 빈 책장에 선생님이 직접 **"비가 오면(If) 우산을 쓴다(Then)"라는 규칙(매뉴얼) 책 1만 개**를 꼼꼼하게 꽂아준 **'원리원칙 도서관 사서'**예요.
-3. 상황이 터지면 눈치를 보는 게 아니라, 자기가 가진 책을 빨리 뒤져서 **규칙에 딱 적혀있는 정답만 정직하게 대답하고, 왜 그렇게 대답했는지 이유도 100% 설명**해 줄 수 있는 투명한 기계랍니다!
+1. 딥러닝이 스스로 책을 수만 권 읽고 감으로 정답을 찍어 맞추는 <strong>'눈치 빠른 천재 학생'</strong>이라면, 전문가 시스템은 전혀 달라요.
+2. 전문가 시스템은 머릿속 텅 빈 책장에 선생님이 직접 <strong>"비가 오면(If) 우산을 쓴다(Then)"라는 규칙(매뉴얼) 책 1만 개</strong>를 꼼꼼하게 꽂아준 <strong>'원리원칙 도서관 사서'</strong>예요.
+3. 상황이 터지면 눈치를 보는 게 아니라, 자기가 가진 책을 빨리 뒤져서 <strong>규칙에 딱 적혀있는 정답만 정직하게 대답하고, 왜 그렇게 대답했는지 이유도 100% 설명</strong>해 줄 수 있는 투명한 기계랍니다!
 
 ---
 

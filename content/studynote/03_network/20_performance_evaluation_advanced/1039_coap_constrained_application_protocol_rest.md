@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 전 세계 개발자는 `GET http://myhome/light`를 날리면 전구 상태를 읽어오고, `PUT`을 날리면 전구가 켜지는 **[RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/)(466번)** 웹 방식에 미치도록 익숙해져 있습니다.
+- 전 세계 개발자는 `GET http://myhome/light`를 날리면 전구 상태를 읽어오고, `PUT`을 날리면 전구가 켜지는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a>(466번)</strong> 웹 방식에 미치도록 익숙해져 있습니다.
 - 그런데 일반 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 문자열(Text) 기반이라 헤더 껍데기만 수백 바이트이고, 무거운 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 연결([TCP 3-way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/))을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 동전 배터리로 1년 버티는 화재경보기 센서에 욱여넣으면 기계가 타버립니다.
 
-```text
-[MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
-[CoAP 프로토콜 및 REST]
-    │
-    └──▶ [Thread / Matter 표준 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: CPU 메모리가 10KB밖에 안 되고 배터리도 없는 '극도로 제한된 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(Constrained Node)' 환경에서, **기존 인터넷 웹 표준인 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 구조를 그대로 유지하면서 통신 껍데기를 이진수(Binary)로 극단적으로 다이어트시킨 초경량 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) CoRE 워킹 그룹이 제정)
+- **개념**: CPU 메모리가 10KB밖에 안 되고 배터리도 없는 '극도로 제한된 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(Constrained Node)' 환경에서, <strong>기존 인터넷 웹 표준인 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>) 구조를 그대로 유지하면서 통신 껍데기를 이진수(Binary)로 극단적으로 다이어트시킨 초경량 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 웹 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) CoRE 워킹 그룹이 제정)
 
-```text
-[MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
-[CoAP 프로토콜 및 REST]
-    │
-    └──▶ [Thread / Matter 표준 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,15 +65,15 @@ tags = ["studynote-network"]
 어떻게 HTTP와 똑같이 움직이면서 무게는 1/100로 줄였을까요?
 
 - 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화 후 접속)를 쓰레기통에 처넣습니다. 
-- 그냥 목적지 IP를 향해 인사 없이 패킷을 휙 던지고 도망가는 빠르고 가벼운 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(969번)** 위에서 돌아갑니다. 통신 오버헤드와 배터리 소모가 폭발적으로 줄어듭니다.
+- 그냥 목적지 IP를 향해 인사 없이 패킷을 휙 던지고 도망가는 빠르고 가벼운 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(969번)</strong> 위에서 돌아갑니다. 통신 오버헤드와 배터리 소모가 폭발적으로 줄어듭니다.
 
 ### 2. 바이너리 헤더 다이어트
 - [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더는 인간이 읽을 수 있는 긴 영단어(`Content-Type: application/json`)로 도배되어 수백 바이트를 낭비합니다.
-- **[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 헤더**: 인간이 읽는 걸 포기하고, 오직 컴퓨터만 아는 **딱 4바이트짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 이진수(Binary) 코드**로 헤더 껍데기를 확 줄여버렸습니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a> 헤더</strong>: 인간이 읽는 걸 포기하고, 오직 컴퓨터만 아는 <strong>딱 4바이트짜리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 이진수(Binary) 코드</strong>로 헤더 껍데기를 확 줄여버렸습니다.
 
 ### 3. UDP의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 메우기: 자체 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) (Confirmable) 모드
 - UDP로 막 던지면 가다가 패킷이 증발해도 모릅니다. 센서 불이 안 켜지면 곤란합니다.
-- [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 패킷 껍데기에 **`CON` (Confirmable, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 요망)** 이라는 체크박스를 체크해서 보냅니다.
+- [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 패킷 껍데기에 <strong><code>CON</code> (Confirmable, <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 요망)</strong> 이라는 체크박스를 체크해서 보냅니다.
 - 이걸 받은 전구 센서는 불을 켠 뒤, 무조건 "잘 받았고 켰음(`ACK`)" 이라는 영수증 패킷을 되돌려 보내줍니다. 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 뼈대를 쓰지 않고도 애플리케이션 계층에서 자체적으로 필수적인 배달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 메커니즘을 땜질해 놓은 천재적인 구조입니다. (반대로 중요하지 않은 온도는 `NON` 체크박스로 막 던집니다.)
 
 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 퍼블리시 서브스크라이브 모드가 기반 조건을 만든다면, [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 그 위에서 핵심 메커니즘을 구현하고, [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신**은 피자 1판을 시켰는데 **'무게 100kg짜리 철가방 보온통(거대한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/Text 헤더)'**에 넣어서 벤츠를 타고 배달하는 사치스러운 배달부입니다. 동전 배터리로 연명하는 산골짜기 센서는 이 철가방을 열 힘조차 없어 깔려 죽습니다. 앞서 배운 1038번 MQTT가 "직접 배달하지 말고 중간에 우체국(브로커)을 지어!"라고 판을 엎었다면, **[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)**는 기존 1:1 다이렉트 배달 방식([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))을 끝까지 고집하면서 철가방만 뜯어고친 쌍둥이입니다. 무거운 철가방을 다 버리고, 피자를 **'10g짜리 초경량 비닐봉지(바이너리 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))'**에 담아 오토바이를 타고 센서 집 앞마당에 휙 던져버리고 도망갑니다. 센서가 봉지를 까보면 그 안에 든 내용물(GET, POST 명령)은 고급 철가방([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))에 들었던 것과 100% 똑같은 웹의 맛이 나기 때문에, 전 세계 웹 개발자들이 아무 이질감 없이 모기만 한 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 스마트폰으로 쉽게 껐다 켤 수 있게 만들어준 궁극의 다이어트 마법입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 통신</strong>은 피자 1판을 시켰는데 <strong>'무게 100kg짜리 철가방 보온통(거대한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/Text 헤더)'</strong>에 넣어서 벤츠를 타고 배달하는 사치스러운 배달부입니다. 동전 배터리로 연명하는 산골짜기 센서는 이 철가방을 열 힘조차 없어 깔려 죽습니다. 앞서 배운 1038번 MQTT가 "직접 배달하지 말고 중간에 우체국(브로커)을 지어!"라고 판을 엎었다면, <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a></strong>는 기존 1:1 다이렉트 배달 방식([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))을 끝까지 고집하면서 철가방만 뜯어고친 쌍둥이입니다. 무거운 철가방을 다 버리고, 피자를 <strong>'10g짜리 초경량 비닐봉지(바이너리 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>)'</strong>에 담아 오토바이를 타고 센서 집 앞마당에 휙 던져버리고 도망갑니다. 센서가 봉지를 까보면 그 안에 든 내용물(GET, POST 명령)은 고급 철가방([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))에 들었던 것과 100% 똑같은 웹의 맛이 나기 때문에, 전 세계 웹 개발자들이 아무 이질감 없이 모기만 한 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 스마트폰으로 쉽게 껐다 켤 수 있게 만들어준 궁극의 다이어트 마법입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MQTT 퍼블리시 서브스크라이브 모드]
-    │
-    ▼
-[현재 개념: CoAP 프로토콜 및 REST]
-    │
-    ├──▶ [확장 A: Thread / Matter 표준 망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MQTT 퍼블리시 서브스크라이브 모드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CoAP 프로토콜 및 REST</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Thread / Matter 표준 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 퍼블리시 서브스크라이브 모드에서 출발해 현재 메커니즘을 정교화하고, 이후 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

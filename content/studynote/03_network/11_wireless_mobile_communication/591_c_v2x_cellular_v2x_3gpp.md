@@ -20,33 +20,31 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: C-V2X는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 14([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기반)에서 최초 정의되고 Release 16/17([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 기반)로 진화 중인 차량 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) 기술이다. 기존 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(802.11p)와 동일한 5.9GHz 대역을 쓰지만, 내부 엔진은 완전히 다른 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 칩셋을 사용하여 넓은 커버리지와 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 동시에 달성한다.
-- **필요성**: [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 통신은 기지국이 필요 없는 공짜 망이었지만, 치명적인 한계가 있었다. 와이파이 종특상 차가 수백 대 모이면 허공에서 전파가 꽝꽝 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 현상 때문에 속도가 0에 수렴했다. 또한 가시거리(LOS)가 짧아 1km 앞의 정체 상황을 알려면 차와 차 사이를 수십 번 릴레이로 건너가야만 했다. **"수백 대의 차가 동시에 브레이크를 밟아도 단 1밀리초(ms)의 딜레이나 혼선 없이 전파를 통제해 주고, 반경 10km 앞의 광역 정보까지 한 방에 쏴줄 수 있는 거대한 하늘의 지휘자(기지국)"**가 절실했다.
+- **필요성**: [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 통신은 기지국이 필요 없는 공짜 망이었지만, 치명적인 한계가 있었다. 와이파이 종특상 차가 수백 대 모이면 허공에서 전파가 꽝꽝 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 현상 때문에 속도가 0에 수렴했다. 또한 가시거리(LOS)가 짧아 1km 앞의 정체 상황을 알려면 차와 차 사이를 수십 번 릴레이로 건너가야만 했다. <strong>"수백 대의 차가 동시에 브레이크를 밟아도 단 1밀리초(ms)의 딜레이나 혼선 없이 전파를 통제해 주고, 반경 10km 앞의 광역 정보까지 한 방에 쏴줄 수 있는 거대한 하늘의 지휘자(기지국)"</strong>가 절실했다.
 - **등장 배경**: ① 자율주행 레벨 4/5 달성을 위한 초저지연(1ms) 및 99.999% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 요구 폭발 → ② 기존 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 진영([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/))의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 혼잡 붕괴 한계 도달 → ③ 퀄컴(Qualcomm), 5GAA([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 자동차 협회) 등 통신 거인들의 주도로, 스마트폰 통신망(Cellular)을 차량 안전 통신망으로 확장하는 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 전격 발표.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ C-V2X의 핵심: 투 트랙(Two-Track) 인터페이스 융합 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [1. Uu 인터페이스 (Network 통신)] - "거대한 뇌(Brain)와의 대화" │
-│ * 주파수: 통신사 전용 면허 대역 (LTE/5G 주파수) │
-│ * 거리: 반경 3~10km 이상 광역 │
-│ │
-│ [T맵/클라우드 서버] ◀===(유선)===▶ [SKT / KT 5G 기지국 안테나] │
-│ │ │
-│ (3km 밖 낙석 사고 💥) │ (Uu 빔) │
-│ "다 피해!" ◀═════════╝ │
-│ │
-│ [2. PC5 인터페이스 (Sidelink 통신)] - "차들끼리의 다이렉트 무전기" │
-│ * 주파수: 5.9GHz V2X 전용 비면허 대역 │
-│ * 거리: 300~500m 이내 단거리 (기지국 안 거침! 0.001초 컷!) │
-│ │
-│ 내 자동차 (컴퓨터) ◀═══════════════════(PC5 다이렉트 빔)═════════════▶ 앞 차│
-│ (앞차가 10미터 앞에서 브레이크 콱 밟음! 센서보다 빨리 전파 도달) │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 아키텍처의 위대함은 스마트폰의 한계인 "기지국이 없으면 깡통"이라는 약점을 **PC5 (Sidelink)**라는 사이드 샛길 통신으로 완벽히 부쉈다는 점이다. 내 차는 평소에 기지국(Uu망)과 연결되어 반경 10km 앞의 광역 교통 체증 지도를 실시간으로 다운로드받는다(V2N). 그러다가 터널이나 산속에 들어가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수신율이 0칸으로 죽어버려도, 내 차 안에 달린 PC5 통신 칩셋은 5.9GHz 대역을 이용해 앞뒤에 있는 자동차 100대와 다이렉트 무전망(Ad-hoc)을 즉석에서 유지하며 브레이크 정보를 교환(V2V). 이 완벽한 이중 생존(Hybrid) 구조가 자율주행의 핵심 뼈대다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-V2X의 핵심: 투 트랙(Two-Track) 인터페이스 융합 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Uu 인터페이스 (Network 통신)</div><div class="kb-diagram-note">- "거대한 뇌(Brain)와의 대화"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주파수: 통신사 전용 면허 대역 (LTE/5G 주파수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 거리: 반경 3~10km 이상 광역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T맵/클라우드 서버</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">SKT / KT 5G 기지국 안테나</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3km 밖 낙석 사고 💥)</div><div class="kb-diagram-cell">(Uu 빔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"다 피해!" ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. PC5 인터페이스 (Sidelink 통신)</div><div class="kb-diagram-note">- "차들끼리의 다이렉트 무전기"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주파수: 5.9GHz V2X 전용 비면허 대역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 거리: 300~500m 이내 단거리 (기지국 안 거침! 0.001초 컷!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 자동차 (컴퓨터) ◀ (PC5 다이렉트 빔) ▶ 앞 차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앞차가 10미터 앞에서 브레이크 콱 밟음! 센서보다 빨리 전파 도달)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 아키텍처의 위대함은 스마트폰의 한계인 "기지국이 없으면 깡통"이라는 약점을 <strong>PC5 (Sidelink)</strong>라는 사이드 샛길 통신으로 완벽히 부쉈다는 점이다. 내 차는 평소에 기지국(Uu망)과 연결되어 반경 10km 앞의 광역 교통 체증 지도를 실시간으로 다운로드받는다(V2N). 그러다가 터널이나 산속에 들어가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수신율이 0칸으로 죽어버려도, 내 차 안에 달린 PC5 통신 칩셋은 5.9GHz 대역을 이용해 앞뒤에 있는 자동차 100대와 다이렉트 무전망(Ad-hoc)을 즉석에서 유지하며 브레이크 정보를 교환(V2V). 이 완벽한 이중 생존(Hybrid) 구조가 자율주행의 핵심 뼈대다.
 
 - **📢 섹션 요약 비유**: Uu 통신망은 하늘에 떠 있는 거대한 방송국(기지국) 라디오입니다. 서울시 전체의 사고 소식을 한 방에 다 듣죠. 하지만 내 바로 10미터 앞차가 멈추는 긴급 상황을 서울시 방송국에 올렸다가 다시 내 차로 내려받으려면 시간이 너무 오래 걸립니다. 그래서 앞차와 나는 라디오 채널을 끄지 않은 상태로, 손에 든 무전기(PC5)로 "앞차 멈춘다 꽉 잡아!"라고 0.1초 만에 다이렉트 귓속말을 나누는 완벽한 이중 통신망입니다.
 
@@ -54,11 +52,11 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(802.11p)가 몰락하게 된 가장 큰 이유는 고속도로에 차가 1,000대 모였을 때 전파가 꽝꽝 부딪히는 **충돌 지옥**이었다. C-V2X는 통신사의 피가 흐르는 기술답게, 전파를 나누는 '스케줄링'으로 이를 제압했다.
+[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(802.11p)가 몰락하게 된 가장 큰 이유는 고속도로에 차가 1,000대 모였을 때 전파가 꽝꽝 부딪히는 <strong>충돌 지옥</strong>이었다. C-V2X는 통신사의 피가 흐르는 기술답게, 전파를 나누는 '스케줄링'으로 이를 제압했다.
 
 | 전파 통제 룰 | [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) ([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/) 진영) 방식 | [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (Mode 3 / Mode 4) 방식 |
 |:---|:---|:---|
-| **설계 철학** | **자율과 방임 ([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**. "귀를 대보고 남이 말 안 할 때 눈치껏 쏜다." | **철저한 통제와 배분 ([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)/SPS)**. "허공의 전파 덩어리를 블록(Resource Block)으로 잘게 쪼개서 규칙적으로 나눠 갖는다." |
+| **설계 철학** | <strong>자율과 방임 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>. "귀를 대보고 남이 말 안 할 때 눈치껏 쏜다." | <strong>철저한 통제와 배분 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a>/SPS)</strong>. "허공의 전파 덩어리를 블록(Resource Block)으로 잘게 쪼개서 규칙적으로 나눠 갖는다." |
 | **기지국 빵빵할 때 (Mode 3)**| 기지국 통제 기능 아예 없음. 차들이 무조건 각자 알아서 싸우며 쏨. | **기지국 중앙 스케줄링.** [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 "1번 차는 0.1초에 쏘고, 2번 차는 0.2초에 쏴!"라고 순번을 칼같이 정해줘 **충돌률 0% 달성.** |
 | **기지국 터졌을 때 (Mode 4)**| 역시 각자 알아서 눈치 보며 쏨. 차가 1,000대 모이면 전파 100% 터짐. | **SPS (Semi-Persistent Scheduling)**. 기지국이 죽어도 차들이 서로 전파 블록표를 쫙 스캔한 뒤, 남이 안 쓰는 고정된 패턴의 시간표를 선점하여 주기적으로 쏨. **혼잡 붕괴 최소화.** |
 
@@ -66,41 +64,40 @@ tags = ["studynote-network"]
 
 ### 2. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (Release 16)의 진화: URLLC와 군집 주행 ([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/))
 
-초창기 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기반 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(Rel-14)는 사실 WAVE와 성능이 비슷해서 욕을 많이 먹었다. 하지만 3GPP가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 탑재한 **Release 16 ([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))**를 발표하면서 전세가 완전히 뒤집혔다.
+초창기 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기반 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(Rel-14)는 사실 WAVE와 성능이 비슷해서 욕을 많이 먹었다. 하지만 3GPP가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 탑재한 <strong>Release 16 (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/">5G NR</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>)</strong>를 발표하면서 전세가 완전히 뒤집혔다.
 
-* **[URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) (초고신뢰 초저지연 통신)**: 5G의 핵심 무기가 차량 통신에 탑재되었다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절에는 브레이크 패킷이 옆 차로 가는 데 20ms~50ms가 걸렸지만, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X는 미니 슬롯(Mini-slot) 구조를 써서 패킷을 쪼개 쏘아 **1ms~3ms 이내**로 지연을 10배 이상 압축해 버렸다.
+* <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a> (초고신뢰 초저지연 통신)</strong>: 5G의 핵심 무기가 차량 통신에 탑재되었다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절에는 브레이크 패킷이 옆 차로 가는 데 20ms~50ms가 걸렸지만, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X는 미니 슬롯(Mini-slot) 구조를 써서 패킷을 쪼개 쏘아 <strong>1ms~3ms 이내</strong>로 지연을 10배 이상 압축해 버렸다.
 * **군집 주행의 완성**: 40톤짜리 트럭 5대가 1미터 간격으로 바짝 붙어서 시속 100km로 달리는 군집 주행([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/))을 상상해 보라. 앞 트럭이 브레이크를 밟았는데, 통신 딜레이가 50ms라면 2번 트럭은 1.4미터를 더 굴러가서 1번 트럭을 들이박고 대형 참사가 터진다. 오직 1ms 이내로 브레이크 신호를 동기화시키는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X만이 이 숨 막히는 죽음의 간격(1m)을 버텨낼 수 있다.
 
 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 진영은 오직 도로 위의 쇳덩이([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/), 기둥)에 공유기를 박아서 차랑 연결하려고 했다. 돈이 엄청나게 들었다. [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 진영은 비웃으며 "이미 전국 산꼭대기마다 우리가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 10만 개를 박아놨잖아? 그거 그냥 자동차도 쓰게 하면 끝나는 거 아님?" 이라는 깡패 같은 인프라 논리로 시장을 장악했다.
 
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 인프라 융합 아키텍처 (어떻게 엮이는가?) | C-V2X만의 압도적 장점 (V2N) |
 |:---|:---|:---|
-| **[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (에지 컴퓨팅)** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 밑에 초고성능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클라우드 컴퓨터([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))를 달아버림. 차가 카메라 영상(1GB)을 5G로 쏘면 본사(서울)까지 안 가고 기지국 밑에서 AI가 10ms 만에 분석해 줌. | **"비싼 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 반도체를 내 차에 안 박아도 됨."** 차값은 싸지고 딥러닝 연산은 클라우드 기지국이 대신 다 해주는 씬 클라이언트(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 자동차의 완성. |
-| **[Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)** | 통신사가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고속도로를 가상의 칼로 찢어서 차선을 분리함. 하나는 "유튜브용 차선", 하나는 "자율주행 브레이크 전용 VIP 차선"으로 나눔. | 뒤에 탄 아들이 5G로 유튜브 4K를 미친 듯이 다운받아도, **아빠의 브레이크 통신([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 패킷은 1도 렉 안 걸리고 VIP 하이패스로 관통함.** |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (에지 컴퓨팅)</strong> | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 밑에 초고성능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클라우드 컴퓨터([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))를 달아버림. 차가 카메라 영상(1GB)을 5G로 쏘면 본사(서울)까지 안 가고 기지국 밑에서 AI가 10ms 만에 분석해 줌. | <strong>"비싼 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 반도체를 내 차에 안 박아도 됨."</strong> 차값은 싸지고 딥러닝 연산은 클라우드 기지국이 대신 다 해주는 씬 클라이언트(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 자동차의 완성. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/">Network Slicing</a></strong> | 통신사가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고속도로를 가상의 칼로 찢어서 차선을 분리함. 하나는 "유튜브용 차선", 하나는 "자율주행 브레이크 전용 VIP 차선"으로 나눔. | 뒤에 탄 아들이 5G로 유튜브 4K를 미친 듯이 다운받아도, <strong>아빠의 브레이크 통신(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>) 패킷은 1도 렉 안 걸리고 VIP 하이패스로 관통함.</strong> |
 | **예측 및 정밀 측위** | 통신사 기지국 3개가 쏘는 전파(RTK)로 GPS 오차를 보정함. | 터널 안이나 지하 주차장에서도 내 차가 몇 번째 차선에 있는지 **센티미터(cm) 단위로 정밀하게 추적 가능.** |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│ C-V2X의 글로벌 패권 전쟁과 WAVE 진영의 몰락 │
-├───────────────────────────────────────────────────────────────┤
-│ │
-│ [2015년: WAVE(DSRC) 천하] │
-│ 미국 교통부: "우리가 10년 동안 5.9GHz 주파수 주고 밀어준 WAVE가 짱이야! │
-│ 모든 신차에 WAVE 칩셋 달아!" (토요타, NXP 만세!) │
-│ │
-│ [2019년: 거대 자본(5GAA)의 침공] │
-│ 5GAA (퀄컴, 포드, 아우디, 중국 정부): "WAVE 같은 옛날 와이파이 기술로 │
-│ 자율주행을 한다고? 시대착오적임! 5G 기반 C-V2X로 갈아엎는다!" │
-│ │
-│ [2023년: 패권의 확정 (WAVE 사망 선고)] │
-│ 미국 FCC(전파위): "WAVE 안 해! 5.9GHz 주파수 C-V2X 한테 몰빵해 줌!" │
-│ 한국 국토부/과기부: "우리도 5년 넘게 싸웠는데, 대세는 C-V2X네. WAVE 폐기!" │
-│ │
-│ => 결론: 기술적 성숙도(당장 쓸 수 있음)는 WAVE가 앞섰으나, 미래 확장성과 │
-│ 통신 거대 자본(퀄컴, 통신사)의 로비를 업은 C-V2X가 글로벌 1티어 │
-│ 자율주행 표준으로 최종 승리하며 시장을 장악한 정치·공학의 산물. │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-V2X의 글로벌 패권 전쟁과 WAVE 진영의 몰락</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2015년: WAVE(DSRC) 천하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미국 교통부: "우리가 10년 동안 5.9GHz 주파수 주고 밀어준 WAVE가 짱이야!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 신차에 WAVE 칩셋 달아!" (토요타, NXP 만세!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2019년: 거대 자본(5GAA)의 침공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5GAA (퀄컴, 포드, 아우디, 중국 정부): "WAVE 같은 옛날 와이파이 기술로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행을 한다고? 시대착오적임! 5G 기반 C-V2X로 갈아엎는다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2023년: 패권의 확정 (WAVE 사망 선고)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미국 FCC(전파위): "WAVE 안 해! 5.9GHz 주파수 C-V2X 한테 몰빵해 줌!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국 국토부/과기부: "우리도 5년 넘게 싸웠는데, 대세는 C-V2X네. WAVE 폐기!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결론: 기술적 성숙도(당장 쓸 수 있음)는 WAVE가 앞섰으나, 미래 확장성과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 거대 자본(퀄컴, 통신사)의 로비를 업은 C-V2X가 글로벌 1티어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행 표준으로 최종 승리하며 시장을 장악한 정치·공학의 산물.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 표준 전쟁은 단순한 통신 칩셋 싸움이 아니라, "도로의 지배권"을 누가 쥐느냐의 싸움이었다. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(Wi-Fi)는 무료였지만 각국 정부가 수조 원을 들여 고속도로 가로등마다 공유기([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))를 깔아야 했다. 반면 C-V2X는 "이미 통신사가 깔아놓은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑을 그냥 쓰고, 터널에선 PC5(다이렉트) 쓰면 되잖아?"라는 미친 인프라 가성비를 무기로 내세웠다. 게다가 중국이 국가 차원에서 C-V2X를 단일 표준으로 강제 밀어붙이면서 글로벌 자동차 부품망([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))의 규모의 경제가 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 쪽으로 폭발해 버렸다. 결국 20년 역사의 WAVE는 역사의 뒤안길로 사라지고 있다.
 
@@ -126,17 +123,17 @@ C-V2X를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 1. **상황**: 새벽 2시, 비가 쏟아지는 어두운 교차로. 내 자율주행차(카메라 먹통)가 우회전을 하려 한다. 그 교차로 골목길 담벼락 뒤에 검은 옷을 입은 취객이 스마트폰을 보며 걸어 나오고 있다. 레이더도, 카메라도 담벼락을 뚫지 못한다(NLOS 상황).
 2. **원인 (센서의 근본적 물리 한계)**: 차 자체의 센서(카메라/라이다)만으로는 전파나 빛이 닿지 않는 "장애물 뒤의 물체"를 절대 인지할 수 없다. 차에 달린 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)(PC5)로 취객의 폰과 직접 통신하려 해도, 폰에 5.9GHz [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 전용 칩셋이 달려있을 리 만무하다.
-3. **의사결정 및 아키텍처 조치 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Uu망과 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 클라우드 융합)**:
+3. <strong>의사결정 및 아키텍처 조치 (<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> Uu망과 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> 클라우드 융합)</strong>:
 - 교차로 위에 서 있는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 이 사태를 관장한다.
-- 취객의 스마트폰은 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망으로 자신의 GPS 위치를 1초마다 근처 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 아래 달린 **[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)(에지 컴퓨터)**로 무심히 올리고 있다.
+- 취객의 스마트폰은 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망으로 자신의 GPS 위치를 1초마다 근처 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 아래 달린 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>(에지 컴퓨터)</strong>로 무심히 올리고 있다.
 - 내 자동차도 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Uu망으로 내 속도와 방향(우회전 궤적)을 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버로 쏜다.
 - 기지국 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 컴퓨터는 취객의 GPS 궤적과 내 차의 궤적을 순식간에 계산하여 "1.5초 뒤 코너에서 두 놈이 충돌한다!"는 사실을 파악한다.
 - MEC는 즉시 내 차에게 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), 1ms) 빔을 쏴서 "코너 뒤에 사람 있다! 긴급 제동(AEB) 발동!!" 명령을 때려 넣는다.
 - **결과**: 내 차는 취객이 코너에서 모습을 드러내기도 전인 1.5초 전에 이미 끼기긱! 하고 그 자리에 정지한다. 이것이 자동차와 보행자의 폰, 그리고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 완벽하게 삼위일체로 융합된 V2P(보행자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))의 기적이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **차량 해킹([Ransomware](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))과 5G망의 딜레마**: [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 아키텍처의 가장 무서운 점은, 내 자동차가 365일 24시간 통신사 중앙망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드)과 상시 연결(Always-On)되어 있다는 점이다. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 시절엔 차들끼리만 짧게 쏘고 말았지만, 이제는 해커가 통신사 클라우드를 해킹하거나 내 차의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) IP 주소로 악성 코드를 쑤셔 넣을 수 있다. 차가 주행 중에 랜섬웨어에 걸려 브레이크가 먹통이 되고 "1비트코인을 보내지 않으면 시속 150km로 벽에 박아버리겠다"는 해킹 테러가 이론이 아닌 현실이 된다. 따라서 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 시스템은 칩셋 단에서부터 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) OS와 자율주행 조향 OS를 물리적으로 완벽히 끊어버리는 **[에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)(Air-gap) 및 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)) 융합 설계**가 선택이 아닌 필수다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (통신비 과금 모델의 실패)**: C-V2X의 Uu망(네트워크 연결)은 통신사의 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라를 쓴다. 즉, 통신사에 다달이 돈([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plan)을 내야 한다. 자동차 회사가 "고객님, 자율주행 브레이크 패킷 통신료로 한 달에 1만 원 내세요"라고 하면 아무도 차를 사지 않는다. 안전(생명)과 관련된 BSM 방송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 국가 차원에서 '제로 레이팅([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Rating, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공짜)'으로 풀어주고, 인포테인먼트(차에서 넷플릭스 보기) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 과금하는 철저한 망 중립성 분리([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) 정책을 아키텍팅 하지 않으면 비즈니스 모델 자체가 붕괴하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)에 빠진다.
+- <strong>차량 해킹(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">Ransomware</a>)과 5G망의 딜레마</strong>: [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 아키텍처의 가장 무서운 점은, 내 자동차가 365일 24시간 통신사 중앙망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드)과 상시 연결(Always-On)되어 있다는 점이다. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) 시절엔 차들끼리만 짧게 쏘고 말았지만, 이제는 해커가 통신사 클라우드를 해킹하거나 내 차의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) IP 주소로 악성 코드를 쑤셔 넣을 수 있다. 차가 주행 중에 랜섬웨어에 걸려 브레이크가 먹통이 되고 "1비트코인을 보내지 않으면 시속 150km로 벽에 박아버리겠다"는 해킹 테러가 이론이 아닌 현실이 된다. 따라서 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 시스템은 칩셋 단에서부터 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) OS와 자율주행 조향 OS를 물리적으로 완벽히 끊어버리는 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/">에어 갭</a>(Air-gap) 및 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/">하드웨어 보안 모듈</a>(<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/">HSM</a>) 융합 설계</strong>가 선택이 아닌 필수다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (통신비 과금 모델의 실패)</strong>: C-V2X의 Uu망(네트워크 연결)은 통신사의 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라를 쓴다. 즉, 통신사에 다달이 돈([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plan)을 내야 한다. 자동차 회사가 "고객님, 자율주행 브레이크 패킷 통신료로 한 달에 1만 원 내세요"라고 하면 아무도 차를 사지 않는다. 안전(생명)과 관련된 BSM 방송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 국가 차원에서 '제로 레이팅([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Rating, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공짜)'으로 풀어주고, 인포테인먼트(차에서 넷플릭스 보기) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 과금하는 철저한 망 중립성 분리([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) 정책을 아키텍팅 하지 않으면 비즈니스 모델 자체가 붕괴하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)에 빠진다.
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 에지 컴퓨터([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))는 교차로 꼭대기에 앉아있는 거대한 관제탑 요원입니다. 내 눈(카메라)은 골목길 담벼락에 막혀있지만, 하늘에서 내려다보는 관제탑 요원은 담벼락 뒤의 사람과 내 차가 부딪힐 것을 미리 보고 1초 만에 무전기로 "스톱!!"을 외쳐주는 절대적인 천리안입니다.
 
@@ -146,17 +143,17 @@ C-V2X를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 | 구분 | 비전 센서 자율주행 (Camera/[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) | [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 기반 협력형 자율주행 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (충돌 인지 시간, [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 코너 돌고 시야에 보여야 인지 (약 1.5초) | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 선제 경고 10ms 이내 수신 | 사각지대, 악천후, 빙판길 발생 시 **충돌 회피 시간(TTC) 수십 배 확보.** |
+| <strong>정량 (충돌 인지 시간, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 코너 돌고 시야에 보여야 인지 (약 1.5초) | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 선제 경고 10ms 이내 수신 | 사각지대, 악천후, 빙판길 발생 시 **충돌 회피 시간(TTC) 수십 배 확보.** |
 | **정량 (차량 센서 원가 절감)**| 고가 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩셋 차량 당 수백만 원 | 기지국 MEC가 연산 대행 (Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ) | 차량 자체의 고성능 컴퓨팅 부하를 클라우드로 던져 **자율주행차 제조 원가 대폭 절감.** |
 | **정성 (자율주행 레벨 한계 돌파)**| 레벨 3 (특정 구간만 자율) 머무름 | 레벨 4/5 (운전자 개입 0%) 완전 자율 달성 | 도로, 신호등, 모든 차가 5G로 동기화되는 **완전한 무인 로보택시 생태계의 절대적 뼈대 완성.** |
 
 ### 미래 전망 및 진화 방향
-- **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced와 자율주행 Level 4/5의 완벽한 결합**: 사람이 핸들에서 손을 완전히 떼고 뒷자리에서 잠을 자는 완전 자율주행(Level 4 이상)은 센서 기술만으로는 절대로 법적 승인을 받을 수 없다(99.9% 안전으론 부족). 기지국이 1ms 딜레이로 주변 10km의 모든 사고 상황을 차 안으로 우겨 넣어주는 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced C-V2X망**이 전국 도로에 깔리는 순간, 자동차들은 거대한 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 뇌(Brain)의 수족처럼 일사불란하게 움직이며 신호등 자체가 지구상에서 필요 없어지는 진정한 '무정차 교차로' 시대가 열릴 것이다.
-- **V2P (보행자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))와 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(초광대역) 센싱 융합**: 차와 차의 통신을 넘어, 앞으로는 골목길에서 튀어나오는 어린아이 주머니 속의 스마트폰 전파(V2P)를 차가 먼저 감지하여 브레이크를 잡는 시대가 온다. 최근 애플 태그나 갤럭시 스마트폰에 탑재된 센티미터(cm) 단위 정밀 위치 인식 기술인 **[UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/), 598번 문서)** 기술이 차량 통신과 결합하여, 차와 보행자 사이의 거리를 레이더보다 정확하게 무선 전파로 오차 없이 측정해 내는 극강의 보행자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)망으로 진화하고 있다.
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>-Advanced와 자율주행 Level 4/5의 완벽한 결합</strong>: 사람이 핸들에서 손을 완전히 떼고 뒷자리에서 잠을 자는 완전 자율주행(Level 4 이상)은 센서 기술만으로는 절대로 법적 승인을 받을 수 없다(99.9% 안전으론 부족). 기지국이 1ms 딜레이로 주변 10km의 모든 사고 상황을 차 안으로 우겨 넣어주는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>-Advanced C-V2X망</strong>이 전국 도로에 깔리는 순간, 자동차들은 거대한 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 뇌(Brain)의 수족처럼 일사불란하게 움직이며 신호등 자체가 지구상에서 필요 없어지는 진정한 '무정차 교차로' 시대가 열릴 것이다.
+- <strong>V2P (보행자 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>)와 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/">UWB</a>(초광대역) 센싱 융합</strong>: 차와 차의 통신을 넘어, 앞으로는 골목길에서 튀어나오는 어린아이 주머니 속의 스마트폰 전파(V2P)를 차가 먼저 감지하여 브레이크를 잡는 시대가 온다. 최근 애플 태그나 갤럭시 스마트폰에 탑재된 센티미터(cm) 단위 정밀 위치 인식 기술인 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/">UWB</a>(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/">Ultra-Wideband</a>, 598번 문서)</strong> 기술이 차량 통신과 결합하여, 차와 보행자 사이의 거리를 레이더보다 정확하게 무선 전파로 오차 없이 측정해 내는 극강의 보행자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)망으로 진화하고 있다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 16 ([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))**: 통신 공룡들이 모여 "[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(와이파이)는 죽었다 깨어나도 1ms의 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))과 터널 속 군집 주행을 구현할 수 없다"며 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 칩셋 안에 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 다이렉트 통신(PC5 사이드링크)을 융합해 때려 박은 역사적 선언문.
-- **5GAA ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Automotive Association)**: 퀄컴, 에릭슨, 아우디, BMW 등 전 세계 통신+자동차 패권 기업들이 연합하여, C-V2X를 글로벌 자율주행 표준으로 밀어붙이기 위해 세운 무소불위의 로비 및 표준화 카르텔 단체.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> Release 16 (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/">5G NR</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>)</strong>: 통신 공룡들이 모여 "[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(와이파이)는 죽었다 깨어나도 1ms의 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))과 터널 속 군집 주행을 구현할 수 없다"며 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 칩셋 안에 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 다이렉트 통신(PC5 사이드링크)을 융합해 때려 박은 역사적 선언문.
+- <strong>5GAA (<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> Automotive Association)</strong>: 퀄컴, 에릭슨, 아우디, BMW 등 전 세계 통신+자동차 패권 기업들이 연합하여, C-V2X를 글로벌 자율주행 표준으로 밀어붙이기 위해 세운 무소불위의 로비 및 표준화 카르텔 단체.
 
 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) ([Cellular V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))는 자동차 공학과 이동통신 공학이 인류 역사상 가장 치열하게 부딪혀 만들어낸 위대한 하이브리드 돌연변이다. 기지국의 거대한 통제력(Uu)과, 통신망이 끊긴 어둠 속에서도 차들끼리 생존의 끈을 놓지 않는 야생의 무전기(PC5 사이드링크)를 하나의 실리콘 칩셋 안에 기적처럼 융합해 냈다. 레이더와 카메라는 결국 인간의 '눈'을 모방한 것에 불과하지만, [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 전파는 인간이 닿을 수 없는 '시공간 너머의 위협'을 0.001초 만에 뇌로 꽂아버리는 초능력이다. 도로 위의 모든 것(Everything)이 이 거대한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 신경망으로 연결되는 순간, 우리는 매년 수백만 명의 목숨을 앗아가던 '교통사고'라는 인류의 비극과 영원히 작별하게 될 것이다.
 
@@ -175,15 +172,19 @@ C-V2X를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WAVE DSRC]
-│
-▼
-[현재 개념: C-V2X]
-│
-├──▶ [확장 A: 위성 통신 특징]
-└──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WAVE DSRC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: C-V2X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 위성 통신 특징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 C-V2X는 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) DSRC에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 특징와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

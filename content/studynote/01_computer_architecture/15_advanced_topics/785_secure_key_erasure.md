@@ -21,18 +21,19 @@ tags = ["studynote-computer-architecture"]
 
 암호화는 비밀을 잠그는 기술이지만, 키 소거는 그 열쇠를 남기지 않는 기술이다. `free()`나 가비지 컬렉션은 메모리를 재사용 가능 상태로 만들 뿐, 값 자체를 즉시 없애지는 않는다. 따라서 키가 메모리 잔상, 크래시 덤프, 스왑 영역, 디버그 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남아 있으면 강한 알고리즘을 써도 전체 시스템은 약해진다. 보안 키 소거가 필요한 이유는 "연산이 끝난 뒤의 흔적"이 공격자에게는 가장 쉬운 침입 경로이기 때문이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Freeing memory is not erasing secrets           │
-├──────────────────────────────────────────────────────────────┤
-│ Key in buffer -> use for crypto -> free()                   │
-│                            │                                 │
-│                            ├── ordinary free: bytes remain   │
-│                            └── secure erase: overwrite first │
-│                                                              │
-│ Threats: cold boot / crash dump / memory scraping           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Freeing memory is not erasing secrets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key in buffer -&gt; use for crypto -&gt; free()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ordinary free: bytes remain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── secure erase: overwrite first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Threats: cold boot / crash dump / memory scraping</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 책상을 비웠다고 해서 메모가 사라지는 것은 아니다. 종이를 찢고 먹물로 덮어야 흔적이 안 남는 것처럼, 메모리도 반납 전 덮어쓰기가 필요하다.
 
@@ -49,18 +50,19 @@ tags = ["studynote-computer-architecture"]
 | 관리형 런타임 | 불변 객체·복사본 | [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)[]/char[] 사용, 복사 최소화 |
 | 저장 장치 | 삭제 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [키 폐기](/knowledge-base/studynote/09_security/03_network_security/155_key_destruction_crypto_shredding/), crypto-erase |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Secret lifecycle with secure erasure           │
-├──────────────────────────────────────────────────────────────┤
-│ Generate -> Use -> Revoke -> Overwrite -> Release          │
-│             │        │                                      │
-│             │        └─ also clear copies / swap / logs     │
-│             └─ keep in smallest possible scope              │
-│                                                              │
-│ Better yet: keep key inside HSM / enclave, export never     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret lifecycle with secure erasure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Generate -&gt; Use -&gt; Revoke -&gt; Overwrite -&gt; Release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ also clear copies / swap / logs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ keep in smallest possible scope</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Better yet: keep key inside HSM / enclave, export never</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비밀 문서를 복사본 없이 회의실에서만 보고 바로 분쇄하는 절차와 같다. 애초에 밖으로 안 나가게 하는 것이 가장 강한 소거다.
 
@@ -107,18 +109,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Key Generation]
-    │
-    ▼
-[Limited Use in Memory]
-    │
-    ▼
-[Explicit Zeroization]
-    │
-    ├──▶ [Copy / Dump / Swap Control]
-    └──▶ [Crypto-Erase for Storage]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Key Generation</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Limited Use in Memory</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Explicit Zeroization</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Copy / Dump / Swap Control</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Crypto-Erase for Storage</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 키가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 뒤 사용 범위를 최소화하고, 메모리 소거와 저장소 소거가 서로 다른 후속 단계로 이어짐을 보여준다. 즉 소거는 단일 함수 호출이 아니라 라이프사이클 설계다.
 

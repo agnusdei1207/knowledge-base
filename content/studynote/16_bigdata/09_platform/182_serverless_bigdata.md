@@ -19,23 +19,26 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터는 분석 시스템을 위해 서버를 전혀 쓰지 않는다는 뜻이 아니다. 사용자가 직접 클러스터 크기, 노드 수, 패치 주기를 관리하지 않고도, 질의나 작업이 들어올 때만 계산 자원을 임시로 할당받아 쓰는 운영 모델을 뜻한다. 따라서 핵심 변화는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 부재가 아니라 **운영 책임의 이동**이다.
+[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터는 분석 시스템을 위해 서버를 전혀 쓰지 않는다는 뜻이 아니다. 사용자가 직접 클러스터 크기, 노드 수, 패치 주기를 관리하지 않고도, 질의나 작업이 들어올 때만 계산 자원을 임시로 할당받아 쓰는 운영 모델을 뜻한다. 따라서 핵심 변화는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 부재가 아니라 <strong>운영 책임의 이동</strong>이다.
 
 이 모델이 중요해진 배경은 두 가지다. 첫째, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)에 오래 머물지만, 분석 수요는 시간대별로 크게 출렁인다. 둘째, 많은 팀이 매일 24시간 꽉 찬 분석 클러스터가 아니라, 오전 보고서·주간 탐색·월말 집계처럼 산발적이고 예측이 어려운 작업을 수행한다. 이런 환경에서 상시 켜 둔 클러스터는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 유휴 비용이 더 큰 문제가 된다.
 
-그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 모델은 "필요할 때만 계산을 빌려 쓴다"는 점에서 경제성이 높다. 다만 모든 워크로드에 맞는 것은 아니다. 매우 일정하고 지속적인 대량 처리라면 예약 슬롯이나 전용 클러스터가 더 싸고 빠를 수 있다. 즉 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 클러스터의 반대말이 아니라, **변동성이 큰 분석 수요에 맞춘 계산 조달 방식**이다.
+그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 모델은 "필요할 때만 계산을 빌려 쓴다"는 점에서 경제성이 높다. 다만 모든 워크로드에 맞는 것은 아니다. 매우 일정하고 지속적인 대량 처리라면 예약 슬롯이나 전용 클러스터가 더 싸고 빠를 수 있다. 즉 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 클러스터의 반대말이 아니라, <strong>변동성이 큰 분석 수요에 맞춘 계산 조달 방식</strong>이다.
 
 아래 그림은 전용 클러스터와 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 분석의 비용 구조 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Provisioned vs serverless analytics                                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Provisioned cluster : fixed nodes alive 24x7                            │
-│ Serverless query   : compute appears only when query arrives            │
-│ Result             : lower idle cost, but query efficiency matters      │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioned vs serverless analytics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioned cluster : fixed nodes alive 24x7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless query : compute appears only when query arrives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : lower idle cost, but query efficiency matters</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)가 무조건 싸다는 뜻이 아니라, 유휴 비용을 줄이는 대신 개별 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 비효율이 바로 과금으로 드러난다는 점이다.
 
@@ -58,15 +61,17 @@ tags = ["studynote-bigdata"]
 
 아래 구조는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터 엔진의 공통 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Serverless query path                                                   │
-├──────────────────────────────────────────────────────────────────────────┤
-│ SQL -> planner -> catalog -> ephemeral compute -> storage scan         │
-│                    │                         │                           │
-│                    └─ partition metadata     └─ result + cost record    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless query path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL -&gt; planner -&gt; catalog -&gt; ephemeral compute -&gt; storage scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ partition metadata ─ result + cost record</div></div>
+</div>
+</div>
+
+
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 특징은 과금 단위와 강한 사용 시나리오에서 갈린다.
 
@@ -76,7 +81,7 @@ tags = ["studynote-bigdata"]
 | Google [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) | 온디맨드 스캔 또는 슬롯 예약 | 높은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 대규모 조직 분석, Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 연계 | 지속 사용 시 예약 모델과 비교 필요 |
 | Amazon Redshift [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) | RPU (Redshift Processing Unit) 시간 | 기존 Redshift 생태계 연계, 웨어하우스 중심 분석 | 장시간 지속 부하에서는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)과 비용 비교 필요 |
 
-같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 배치 방식에 따라 비용은 크게 달라진다. 예를 들어 1테라바이트의 CSV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 읽는 질의와, 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컬럼형 포맷으로 변환하고 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 잘라 100기가바이트만 읽는 질의는 결과가 같아도 청구 기준은 약 10분의 1 수준으로 달라질 수 있다. 그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서는 인프라 튜닝보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃 튜닝**이 먼저다.
+같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 배치 방식에 따라 비용은 크게 달라진다. 예를 들어 1테라바이트의 CSV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 읽는 질의와, 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컬럼형 포맷으로 변환하고 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 잘라 100기가바이트만 읽는 질의는 결과가 같아도 청구 기준은 약 10분의 1 수준으로 달라질 수 있다. 그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서는 인프라 튜닝보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레이아웃 튜닝</strong>이 먼저다.
 
 또한 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)라고 해서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 항상 짧은 것은 아니다. 첫 질의의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 지나치게 많은 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 과다, 비효율적인 조인이 응답시간을 늘릴 수 있다. 즉 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 운영을 감춰 주지만, 물리적 비용을 없애 주지는 않는다.
 
@@ -146,7 +151,7 @@ tags = ["studynote-bigdata"]
 
 하지만 대가도 분명하다. 비용은 개별 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 더 직접적으로 노출되고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어권은 전용 클러스터보다 낮다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃이 나쁘면 운영이 쉬운 대신 청구서가 복잡해진다. 따라서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 전환의 핵심은 도구 도입이 아니라 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 표준화와 비용 가드레일 정착이다.
 
-앞으로는 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/), 자동 통계 수집, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 추천이 결합되면서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 분석이 더 정교해질 가능성이 높다. 그럼에도 기억해야 할 본질은 같다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터는 **마법처럼 무료인 분석**이 아니라, 잘 정리된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전제로 계산 자원을 순간적으로 빌려 쓰는 경제적 아키텍처다.
+앞으로는 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/), 자동 통계 수집, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 추천이 결합되면서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 분석이 더 정교해질 가능성이 높다. 그럼에도 기억해야 할 본질은 같다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터는 <strong>마법처럼 무료인 분석</strong>이 아니라, 잘 정리된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전제로 계산 자원을 순간적으로 빌려 쓰는 경제적 아키텍처다.
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터는 공유 주방과 같다. 주방을 직접 소유하지 않아도 훌륭한 요리를 만들 수 있지만, 재료를 제멋대로 쌓아 두면 빌리는 시간마다 돈만 더 들게 된다.
 
@@ -166,22 +171,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Managed cluster analytics
-    │
-    ▼
-Serverless query engine
-    │
-    ├─ scan-based pricing
-    ├─ slot / RPU pricing
-    └─ lakehouse metadata optimization
-    │
-    ▼
-FinOps and governance guardrails
-    │
-    ▼
-Open table formats and intelligent query optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Managed cluster analytics</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Serverless query engine</div>
+<div class="kb-diagram-tree-item" style="--depth:2">scan-based pricing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">slot / RPU pricing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">lakehouse metadata optimization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FinOps and governance guardrails</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Open table formats and intelligent query optimization</div>
+</div>
+</div>
+
+
 
 이 흐름은 클러스터 관리 중심 분석이 온디맨드 계산 모델로 이동하고, 이후 비용 통제와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 최적화가 핵심 경쟁력으로 부상하는 과정을 보여 준다.
 

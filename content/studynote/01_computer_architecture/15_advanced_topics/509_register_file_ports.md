@@ -25,24 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 발급 폭이 넓어질수록 왜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 먼저 병목이 되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          발급 폭이 넓어질수록 레지스터 파일 포트 수요가 폭증         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 4-way issue 예시                                                    │
-│                                                                      │
-│ Inst0: srcA, srcB ─┐                                                │
-│ Inst1: srcA, srcB ─┼──────▶ Read Port 8개 필요                      │
-│ Inst2: srcA, srcB ─┤                                                │
-│ Inst3: srcA, srcB ─┘                                                │
-│                                                                      │
-│ Result0,1,2,3 ───────────────▶ Write Port 4개 필요                  │
-│                                                                      │
-│ 실제 포트가 6R / 3W라면                                             │
-│   ready instruction 일부는 다음 사이클로 밀림                       │
-│   └─ 구조적 해저드 발생 → IPC (Instructions Per Cycle) 하락         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발급 폭이 넓어질수록 레지스터 파일 포트 수요가 폭증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-way issue 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst0: srcA, srcB ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst1: srcA, srcB ─ ▶ Read Port 8개 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst2: srcA, srcB ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst3: srcA, srcB ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result0,1,2,3 ▶ Write Port 4개 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 포트가 6R / 3W라면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready instruction 일부는 다음 사이클로 밀림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 구조적 해저드 발생 → IPC (Instructions Per Cycle) 하락</div></div>
+</div>
+</div>
+
+
 
 핵심은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 단순 부품명이 아니라, 실행 폭을 현실로 바꾸는 공급선이라는 점이다. 프런트엔드가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 가져오고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 준비를 마쳐도, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 부족하면 마지막 문턱에서 멈춘다.
 
@@ -107,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 - 정수·벡터·메모리 주소 연산의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수요를 하나의 평균값으로 뭉뚱그리는 평가
 - 뱅크 충돌이나 클러스터 간 이동 비용을 무시한 채 이론적 IPC만 보는 분석
 
-기술사 답안에서는 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수 = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라고 단순화하면 부족하다. 정확한 판단은 **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 충분해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 잠재력이 실현되지만, 과도한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 오히려 주파수와 전력을 무너뜨린다**는 균형점을 짚는 데 있다.
+기술사 답안에서는 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수 = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라고 단순화하면 부족하다. 정확한 판단은 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>가 충분해야 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 잠재력이 실현되지만, 과도한 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 오히려 주파수와 전력을 무너뜨린다</strong>는 균형점을 짚는 데 있다.
 
 - **📢 섹션 요약 비유**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 설계는 고속도로 차로 수를 정하는 일과 같다. 차로를 늘리면 막힘이 줄지만, 톨게이트·진입로·예산까지 함께 감당해야 진짜 효과가 난다.
 
@@ -119,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 
 반대로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 설계를 잘못 잡으면 코어는 두 방향으로 무너진다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 너무 적으면 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/)가 상시화되고, 너무 많으면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체가 거대한 전력·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 덩어리가 된다. 그래서 미래 방향도 단순 증설이 아니라, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 오퍼랜드 캐시 ([Operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) Cache), 클러스터별 로컬 저장, 더 영리한 우회망처럼 "필요한 값만 가까이 두는 구조"로 가고 있다.
 
-결론적으로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 작은 회로 세부항목이 아니라, 현대 프로세서의 병렬성이 실제로 흘러나오는 출입구다. 이 주제는 **연산 유닛 수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 경로가 더 먼저 한계를 만들 수 있다**는 사실로 기억하는 것이 가장 정확하다.
+결론적으로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 작은 회로 세부항목이 아니라, 현대 프로세서의 병렬성이 실제로 흘러나오는 출입구다. 이 주제는 <strong>연산 유닛 수보다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 공급 경로가 더 먼저 한계를 만들 수 있다</strong>는 사실로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 공연장의 출입문과 같다. 무대를 크게 만들고 관객을 많이 불러도 문이 좁으면 공연 시작과 퇴장이 모두 엉키듯, 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 마지막에는 입출구 설계가 결정한다.
 
@@ -138,22 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 파이프라인의 2R / 1W 레지스터 파일
-        │
-        ▼
-수퍼스칼라 발급 폭 확대
-        │
-        ▼
-물리 레지스터 파일 (PRF, Physical Register File) + 리네이밍
-        │
-        ├─▶ 바이패스 / 포워딩 강화
-        ├─▶ 뱅크드 레지스터 파일
-        ├─▶ 클러스터 / 분산 실행 구조
-        │
-        ▼
-오퍼랜드 캐시 · 근접 저장 · 초광폭 코어 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 파이프라인의 2R / 1W 레지스터 파일</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수퍼스칼라 발급 폭 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리 레지스터 파일 (PRF, Physical Register File) + 리네이밍</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 바이패스 / 포워딩 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 뱅크드 레지스터 파일</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 클러스터 / 분산 실행 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오퍼랜드 캐시 · 근접 저장 · 초광폭 코어 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "동시 접근 창구 확보"에서 출발해, "그 창구를 너무 크게 만들지 않고도 병렬성을 유지하는 방향"으로 진화하는 과정을 보여준다.
 

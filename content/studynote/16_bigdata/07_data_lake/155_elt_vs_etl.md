@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)은 변환 후 적재하는 전통 방식으로 스토리지 비용이 비쌌던 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 환경에 최적화되었으나, 클라우드 시대에는 **먼저 적재하고 나중에 변환하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract, Load, Transform)**가 표준으로 전환되었다.
+1. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)은 변환 후 적재하는 전통 방식으로 스토리지 비용이 비쌌던 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 환경에 최적화되었으나, 클라우드 시대에는 <strong>먼저 적재하고 나중에 변환하는 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a> (Extract, Load, Transform)</strong>가 표준으로 전환되었다.
 2. dbt ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 패러다임의 핵심 도구로, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)·[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 내부에서 SQL로 선언적 변환을 수행하며 테스트·문서화·리니지를 자동 관리한다.
-3. ELT는 **원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) 보존**, **반복적 변환 가능**, **타임 트래블 기반 소급 재처리**를 가능하게 하여 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 유연성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성을 극대화한다.
+3. ELT는 <strong>원시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a>) 보존</strong>, **반복적 변환 가능**, <strong>타임 트래블 기반 소급 재처리</strong>를 가능하게 하여 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 유연성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성을 극대화한다.
 
 ---
 
@@ -37,32 +37,27 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│                   ETL vs ELT 비교                               │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  【ETL 흐름】                                                   │
-│                                                                │
-│  [소스] ──Extract──▶ [스테이징 서버]                            │
-│                      Transform (정제·집계)                      │
-│                           │                                    │
-│                           └──Load──▶ [DW] ──▶ [BI 도구]        │
-│                                                                │
-│  【ELT 흐름】                                                   │
-│                                                                │
-│  [소스] ──Extract──▶ [레이크하우스 / 클라우드 DW]               │
-│                      (Bronze: Raw 적재)                         │
-│                           │                                    │
-│                    Transform (dbt / Spark SQL)                  │
-│                    Silver: 정제  Gold: 집계                     │
-│                           │                                    │
-│                           └──▶ [BI / ML 도구]                  │
-│                                                                │
-└────────────────────────────────────────────────────────────────┘
-```
 
-**dbt ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool) 핵심 기능**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETL vs ELT 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【ETL 흐름】</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스테이징 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transform (정제·집계)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DW</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI 도구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【ELT 흐름】</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레이크하우스 / 클라우드 DW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bronze: Raw 적재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transform (dbt / Spark SQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silver: 정제 Gold: 집계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI / ML 도구</div></div>
+</div>
+</div>
+
+
+
+<strong>dbt (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> build tool) 핵심 기능</strong>
 
 | 기능 | 설명 | 장점 |
 |:---|:---|:---|
@@ -98,7 +93,7 @@ WHERE status != 'cancelled'
 
 ## Ⅲ. 비교 및 연결
 
-**[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 도구 비교**
+<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a> 도구 비교</strong>
 
 | 도구 | 실행 위치 | 특징 | 적합 환경 |
 |:---|:---|:---|:---|
@@ -110,9 +105,9 @@ WHERE status != 'cancelled'
 
 **연관 개념 연결**
 
-- **[Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)**: ELT의 Bronze→Silver→Gold가 Medallion 계층과 완벽히 매핑
-- **[Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)**: dbt 모델이 Gold 계층 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)의 변환 로직을 담당
-- **[Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)**: dbt가 자동으로 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 Unity Catalog와 연계
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a></strong>: ELT의 Bronze→Silver→Gold가 Medallion 계층과 완벽히 매핑
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/">Data Product</a></strong>: dbt 모델이 Gold 계층 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)의 변환 로직을 담당
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">Data Lineage</a></strong>: dbt가 자동으로 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 Unity Catalog와 연계
 
 > 📢 **섹션 요약 비유**: ETL은 택배 물건을 포장해서 배송하는 방식이고, ELT는 원재료를 창고에 다 넣어두고 주문이 오면 그때 포장하는 방식이다. 창고(스토리지) 비용이 싸지면서 후자가 더 효율적이 됐다.
 
@@ -120,7 +115,7 @@ WHERE status != 'cancelled'
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 전환 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a> 전환 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Bronze 계층에 보존하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계
 - [ ] dbt 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 및 소스 등록 (`dbt source freshness` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))
 - [ ] Silver 모델: `materialized='incremental'` + `unique_key` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
@@ -149,7 +144,7 @@ WHERE status != 'cancelled'
 | 품질 가시성 | dbt test로 변환 결과 품질 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 협업 향상 | dbt 모델 = SQL 코드 → Git [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 + [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
 
-ETL에서 ELT로의 패러다임 전환은 클라우드 빅데이터 인프라 확산과 함께 이미 완료된 흐름이다. dbt는 현재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 표준 도구로 자리 잡았으며, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 모두 네이티브 dbt 통합을 지원한다. 기술사 시험에서는 **[ETL vs ELT](/knowledge-base/studynote/12_it_management/05_security_compliance/317_etl_vs_elt/) 전환 이유**, **dbt 핵심 기능**, **Incremental 모델 동작 원리**가 핵심 논점이다.
+ETL에서 ELT로의 패러다임 전환은 클라우드 빅데이터 인프라 확산과 함께 이미 완료된 흐름이다. dbt는 현재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀 표준 도구로 자리 잡았으며, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 모두 네이티브 dbt 통합을 지원한다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/317_etl_vs_elt/">ETL vs ELT</a> 전환 이유</strong>, **dbt 핵심 기능**, <strong>Incremental 모델 동작 원리</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 시대는 사진 현상 방식의 변화와 같다. 필름 사진([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))은 찍자마자 현상해야 했지만, 디지털 사진([ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/))은 [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 보관하고 필요할 때 다양한 방식으로 편집할 수 있다.
 
@@ -170,21 +165,23 @@ ETL에서 ELT로의 패러다임 전환은 클라우드 빅데이터 인프라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ETL (Extract-Transform-Load) — 소스에서 추출 후 변환, 타겟 DW에 적재]
-    │
-    ▼
-[데이터 웨어하우스 (DW) — 정제된 구조적 데이터 중앙 저장소, ETL 전제]
-    │
-    ▼
-[ELT (Extract-Load-Transform) — 원시 데이터 먼저 적재, 클라우드 DW에서 변환]
-    │
-    ▼
-[데이터 레이크 (Data Lake) — 원시 데이터 무제한 적재, ELT 패러다임과 친화적]
-    │
-    ▼
-[레이크하우스 (Lakehouse) — Delta Lake·Iceberg 기반 ELT + ACID 트랜잭션 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ETL (Extract-Transform-Load) — 소스에서 추출 후 변환, 타겟 DW에 적재</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 (DW) — 정제된 구조적 데이터 중앙 저장소, ETL 전제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ELT (Extract-Load-Transform) — 원시 데이터 먼저 적재, 클라우드 DW에서 변환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 원시 데이터 무제한 적재, ELT 패러다임과 친화적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — Delta Lake·Iceberg 기반 ELT + ACID 트랜잭션 통합</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) DW를 위한 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 패러다임이 클라우드 규모에서 ELT로 전환되고, [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 아키텍처로 통합·발전하는 과정을 보여준다.
 

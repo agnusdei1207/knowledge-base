@@ -26,33 +26,32 @@ tags = ["studynote-software-engineering"]
   - **A**ffected Users (몇 명이 피해를 보나?)
   - **D**iscoverability (해커가 이 구멍을 찾기 쉬운가?)
 
-- **필요성**: 보안팀이 위협 모델링을 신나게 해서 "잠재적 취약점 50개 발견!" 리포트를 개발팀장에게 던지고 갔다. 다음 주가 앱 출시인데 50개를 언제 다 고치나? 팀장은 분노한다. 이때 리포트를 유심히 보니, 49개는 "해커가 서버실을 도끼로 부수고 들어와서 램(RAM)을 뜯어가면 정보가 털림(현실성 0%)" 같은 헛소리들이고, 단 1개만이 "비밀번호가 평문으로 날아감(현실성 100%)"이었다. 이처럼 **"막연한 공포"를 "정확한 확률과 파괴력([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) = Impact x [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))"으로 분리해 내어, 한정된 자원(인건비)을 급소 방어에만 쏟아붓기 위해** DREAD라는 수학적 저울이 필요하다.
+- **필요성**: 보안팀이 위협 모델링을 신나게 해서 "잠재적 취약점 50개 발견!" 리포트를 개발팀장에게 던지고 갔다. 다음 주가 앱 출시인데 50개를 언제 다 고치나? 팀장은 분노한다. 이때 리포트를 유심히 보니, 49개는 "해커가 서버실을 도끼로 부수고 들어와서 램(RAM)을 뜯어가면 정보가 털림(현실성 0%)" 같은 헛소리들이고, 단 1개만이 "비밀번호가 평문으로 날아감(현실성 100%)"이었다. 이처럼 <strong>"막연한 공포"를 "정확한 확률과 파괴력(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> = Impact x <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)"으로 분리해 내어, 한정된 자원(인건비)을 급소 방어에만 쏟아붓기 위해</strong> DREAD라는 수학적 저울이 필요하다.
 
-- **💡 비유**: DREAD는 응급실의 **'환자 중증도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Triage) 시스템'**과 같습니다. 응급실에 환자 50명이 한꺼번에 몰려왔습니다. 의사가 아무나 먼저 온 순서대로 진료(패치)하면, 감기 환자 고치다가 심장마비 환자는 대기실에서 죽습니다. DREAD는 들어오는 환자 이마에 즉시 "생명 위독(9점, 즉각 수술)", "팔 부러짐(6점, 30분 대기)", "찰과상(1점, 집에 가라)" 딱지를 칼같이 붙여서 의사(개발자)가 누구의 목숨부터 살릴지 정해주는 가장 자비 없는 생존 룰입니다.
+- **💡 비유**: DREAD는 응급실의 <strong>'환자 중증도 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(Triage) 시스템'</strong>과 같습니다. 응급실에 환자 50명이 한꺼번에 몰려왔습니다. 의사가 아무나 먼저 온 순서대로 진료(패치)하면, 감기 환자 고치다가 심장마비 환자는 대기실에서 죽습니다. DREAD는 들어오는 환자 이마에 즉시 "생명 위독(9점, 즉각 수술)", "팔 부러짐(6점, 30분 대기)", "찰과상(1점, 집에 가라)" 딱지를 칼같이 붙여서 의사(개발자)가 누구의 목숨부터 살릴지 정해주는 가장 자비 없는 생존 룰입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **주먹구구식 공포 마케팅**: 90년대 보안 업체들은 취약점 1개만 찾아도 "회사 망합니다! 우리 솔루션 10억 주고 사세요!"라고 사기를 쳤다.
-  2. **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 사고([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)-based Thinking) 도래**: 마이크로소프트가 STRIDE를 만들며 위협을 왕창 찾아냈는데, 개발자들이 고치다 지쳐 쓰러졌다. 그래서 "점수 매겨서 상위 20%만 고쳐라"라며 DREAD를 짝꿍으로 발표했다.
-  3. **CVSS의 대중화와 DREAD의 쇠퇴/진화**: DREAD는 '평가자의 주관적 느낌'이 개입한다는 비판을 받았다. 그래서 전 세계 보안 학계는 이를 더 객관화시킨 **[CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/)(공통 취약점 등급 시스템, 1~10점)**라는 글로벌 절대 표준으로 진화시켰다. 하지만 아키텍처 설계 단계(오픈 전)의 직관적 브레인스토밍용으로는 여전히 DREAD가 사랑받고 있다.
+  2. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 기반 사고(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>-based Thinking) 도래</strong>: 마이크로소프트가 STRIDE를 만들며 위협을 왕창 찾아냈는데, 개발자들이 고치다 지쳐 쓰러졌다. 그래서 "점수 매겨서 상위 20%만 고쳐라"라며 DREAD를 짝꿍으로 발표했다.
+  3. **CVSS의 대중화와 DREAD의 쇠퇴/진화**: DREAD는 '평가자의 주관적 느낌'이 개입한다는 비판을 받았다. 그래서 전 세계 보안 학계는 이를 더 객관화시킨 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a>(공통 취약점 등급 시스템, 1~10점)</strong>라는 글로벌 절대 표준으로 진화시켰다. 하지만 아키텍처 설계 단계(오픈 전)의 직관적 브레인스토밍용으로는 여전히 DREAD가 사랑받고 있다.
 
-- **📢 섹션 요약 비유**: STRIDE가 쓰레기 더미에서 **'금조각 1개와 돌멩이 99개'**를 전부 다 건져 올리는 뜰채라면, DREAD는 그 100개를 감정사 안경을 끼고 쳐다보며 **"이건 10억 원짜리 순금(즉각 패치), 이건 0원짜리 돌멩이(무시)"**라고 가격표를 정확히 매겨 쓰레기를 갖다 버리게 해주는 냉혹한 보석 감정사입니다.
+- **📢 섹션 요약 비유**: STRIDE가 쓰레기 더미에서 <strong>'금조각 1개와 돌멩이 99개'</strong>를 전부 다 건져 올리는 뜰채라면, DREAD는 그 100개를 감정사 안경을 끼고 쳐다보며 <strong>"이건 10억 원짜리 순금(즉각 패치), 이건 0원짜리 돌멩이(무시)"</strong>라고 가격표를 정확히 매겨 쓰레기를 갖다 버리게 해주는 냉혹한 보석 감정사입니다.
 
 ---
 
 다음은 DREAD 모델의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  DREAD 모델                                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DREAD 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 DREAD 모델가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -73,7 +72,7 @@ DREAD 모델 - 위협 [리스크](/knowledge-base/studynote/11_design_supervisio
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-DREAD 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+DREAD 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: DREAD 모델의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -149,21 +148,23 @@ DREAD 모델은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-DREAD 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DREAD 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

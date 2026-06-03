@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 시스템이 해커를 방어하기 위해 갖춰야 할 '능동적인 무기들'을 설계하는 것이다. 단순히 "비밀번호를 암호화하자"가 아니다. "비밀번호는 `Bcrypt` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 암호화하고, 그 해시 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 `AuthService` 안에서만 단일하게 호출되어야 하며, 만약 암호화에 실패하면 `SecurityLogger` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 통해 [Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/) 서버로 알람을 쏜다"라고 부품들의 협력(Collaboration)과 경계를 꼼꼼히 그리는 도면 작업이다.
 
-- **필요성**: 100명의 개발자에게 "자, 각자 맡은 화면에서 비밀번호 암호화 잘 처리하세요!"라고 지시했다. 결과는? A개발자는 `MD5`(구식), B개발자는 `SHA-256`([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 없음), C개발자는 `Bcrypt`를 썼다. 해커가 털어보니 방어막이 누더기다. **보안 기능은 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))되는 순간 그 자체로 취약점이 된다.** 100명의 개발자가 생각 없이 끌어다 써도 전사적으로 100% 똑같은 강도의 방어력이 보장되는 '중앙 집중식 공통 보안 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)'를 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 뿌리 박아두어야 한다.
+- **필요성**: 100명의 개발자에게 "자, 각자 맡은 화면에서 비밀번호 암호화 잘 처리하세요!"라고 지시했다. 결과는? A개발자는 `MD5`(구식), B개발자는 `SHA-256`([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 없음), C개발자는 `Bcrypt`를 썼다. 해커가 털어보니 방어막이 누더기다. <strong>보안 기능은 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)되는 순간 그 자체로 취약점이 된다.</strong> 100명의 개발자가 생각 없이 끌어다 써도 전사적으로 100% 똑같은 강도의 방어력이 보장되는 '중앙 집중식 공통 보안 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)'를 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 뿌리 박아두어야 한다.
 
-- **💡 비유**: 보안 기능 설계는 아파트 짓을 때의 **'중앙 통제형 방범 시스템 배선 공사'**와 같습니다. 각 세대 입주민(개발자)에게 "각자 알아서 열쇠 튼튼한 거 사다 다세요"라고 하면 어떤 집은 최첨단 도어록을, 어떤 집은 숟가락으로 열리는 자물쇠를 답니다. 도둑은 자물쇠 집만 골라서 탑니다. 진정한 아키텍트(시공사)는 건물을 지을 때 벽 속에 이미 **'전 세대 공통 지문 인식기 및 경비실 직통 비상벨(공통 보안 프레임워크)'** 배선을 다 깔아버리고, 입주민은 그냥 손가락만 대게 만들어야 합니다.
+- **💡 비유**: 보안 기능 설계는 아파트 짓을 때의 <strong>'중앙 통제형 방범 시스템 배선 공사'</strong>와 같습니다. 각 세대 입주민(개발자)에게 "각자 알아서 열쇠 튼튼한 거 사다 다세요"라고 하면 어떤 집은 최첨단 도어록을, 어떤 집은 숟가락으로 열리는 자물쇠를 답니다. 도둑은 자물쇠 집만 골라서 탑니다. 진정한 아키텍트(시공사)는 건물을 지을 때 벽 속에 이미 **'전 세대 공통 지문 인식기 및 경비실 직통 비상벨(공통 보안 프레임워크)'** 배선을 다 깔아버리고, 입주민은 그냥 손가락만 대게 만들어야 합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **개인기(Personal Skill) 의존 시대**: 90년대엔 개발자 개개인의 보안 지식(내공)에 100% 의존했다. 천재가 짠 코드는 철벽이었고, 주니어가 짠 코드는 자동문이었다.
   2. **가이드라인의 하달 (2000년대)**: KISA, OWASP 등이 "비밀번호는 이렇게 저장해라"라고 문서(가이드)를 배포했다. 하지만 문서를 읽는 놈과 안 읽는 놈의 격차는 여전했다.
-  3. **프레임워크 주도 방어 (현재)**: 문서를 읽으라고 강요하지 않는다. 아예 Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), Shiro 같은 **보안 전용 프레임워크**를 뼈대로 도입하여, "이 프레임워크 룰대로 안 짜면 아예 로그인이 안 되게(컴파일 실패)" 아키텍처 환경 자체를 멱살 잡고 강제화해 버렸다.
+  3. **프레임워크 주도 방어 (현재)**: 문서를 읽으라고 강요하지 않는다. 아예 Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), Shiro 같은 <strong>보안 전용 프레임워크</strong>를 뼈대로 도입하여, "이 프레임워크 룰대로 안 짜면 아예 로그인이 안 되게(컴파일 실패)" 아키텍처 환경 자체를 멱살 잡고 강제화해 버렸다.
 
-- **📢 섹션 요약 비유**: 보안 기능 설계는 병원의 **'중앙 소독실'**입니다. 의사(개발자)마다 자기가 쓸 수술용 칼을 대충 비누로 씻게 내버려 두면 환자(시스템)는 죽습니다. 무조건 모든 메스는 지하실의 '중앙 고압 멸균기(공통 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))'에 넣었다 뺀 것만 쓰도록 병원 규정(아키텍처)으로 강제해야 100% 무균 수술이 가능해집니다.
+- **📢 섹션 요약 비유**: 보안 기능 설계는 병원의 <strong>'중앙 소독실'</strong>입니다. 의사(개발자)마다 자기가 쓸 수술용 칼을 대충 비누로 씻게 내버려 두면 환자(시스템)는 죽습니다. 무조건 모든 메스는 지하실의 '중앙 고압 멸균기(공통 암호화/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))'에 넣었다 뺀 것만 쓰도록 병원 규정(아키텍처)으로 강제해야 100% 무균 수술이 가능해집니다.
 
 ---
 
 다음은 보안 기능 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Feat의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안 기능 (Security Feat                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 기능 (Security Feat</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보안 기능 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Feat가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보안 기능 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Features)의 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보안 기능 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Features)의 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보안 기능 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Features)의 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보안 기능 (Security Features)의 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 기능 (Security Features)의 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

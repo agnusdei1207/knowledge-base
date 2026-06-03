@@ -20,24 +20,28 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 Go-Back-N의 수신기는 바보같이 방이 1개(수신 윈도우 1)밖에 없어서, 2번이 안 오면 3번이 와도 버려야 했습니다.
-**SR(Selective Repeat)은 송신기 윈도우가 N, 수신기 윈도우도 N**입니다. 즉 수신기도 커다란 저장 창고(버퍼)를 플렉스(Flex)했습니다.
+<strong>SR(Selective Repeat)은 송신기 윈도우가 N, 수신기 윈도우도 N</strong>입니다. 즉 수신기도 커다란 저장 창고(버퍼)를 플렉스(Flex)했습니다.
 
 **[상황의 재구성]**
 1. 송신기가 `0, 1, 2, 3, 4, 5` 프레임을 와다다다 쏩니다.
-2. 역시나 **`2번` 프레임이 벼락을 맞아 깨졌습니다.**
+2. 역시나 <strong><code>2번</code> 프레임이 벼락을 맞아 깨졌습니다.</strong>
 3. 뒤이어 멀쩡한 `3, 4, 5번` 프레임이 수신기에 줄줄이 도착합니다.
-4. **수신기의 유연함**: 수신기는 2번이 안 왔지만 3, 4, 5번을 버리지 않습니다! **"음, 2번이 이빨이 빠졌군. 일단 3, 4, 5번은 내 윈도우 버퍼(창고)에 안전하게 킵(저장)해둘게."**라고 판단하고, 송신기에게 콕 집어 `NAK 2` (2번만 다시 보내!)를 쏩니다.
+4. **수신기의 유연함**: 수신기는 2번이 안 왔지만 3, 4, 5번을 버리지 않습니다! <strong>"음, 2번이 이빨이 빠졌군. 일단 3, 4, 5번은 내 윈도우 버퍼(창고)에 안전하게 킵(저장)해둘게."</strong>라고 판단하고, 송신기에게 콕 집어 `NAK 2` (2번만 다시 보내!)를 쏩니다.
 5. **송신기의 핀셋 발사**: 송신기는 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 2를 받으면, Go-Back-N처럼 2~5를 다 보내는 무식한 짓을 하지 않고, **오직 2번 프레임 딱 한 개만 다시 쏩니다.**
 6. 2번이 무사히 도착하면, 수신기는 아까 창고에 모셔둔 3, 4, 5번과 조립해서 `0, 1, 2, 3, 4, 5`를 예쁘게 위층(네트워크 계층)으로 올려보냅니다.
 
-```text
-[GBN ARQ]
-    │
-    ▼
-[SR ARQ]
-    │
-    └──▶ [NAK]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GBN ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAK</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SR ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,14 +55,18 @@ Go-Back-N의 수신기는 바보같이 방이 1개(수신 윈도우 1)밖에 없
 2. **순서 재조립(Re-sequencing) 로직 지옥**: 수신기에는 프레임이 `0, 1, 3, 4, 5, 2` 순으로 엉망진창 도착하게 됩니다. 수신기의 CPU는 이 이빨 빠진 배열을 임시로 쥐고 있다가 2번이 오면 원래 순서대로 완벽히 정렬(Sorting)해서 위로 올려줘야 하는 무거운 컴퓨팅 오버헤드가 발생합니다.
 3. **타이머 지옥**: 송신기도 프레임 1개당 타이머를 1개씩 수백 개를 켜두고 관리해야 합니다.
 
-```text
-[GBN ARQ]
-    │
-    ▼
-[SR ARQ]
-    │
-    └──▶ [NAK]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GBN ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAK</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SR ARQ의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,15 +128,19 @@ SR ARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: GBN ARQ]
-    │
-    ▼
-[현재 개념: SR ARQ]
-    │
-    ├──▶ [확장 A: NAK]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GBN ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SR ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 SR ARQ는 GBN ARQ에서 출발해 현재 메커니즘을 정교화하고, 이후 NAK와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,7 +35,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-분기 예측의 핵심은 **분기 방향**과 **분기 목적지**를 인출 단계 가까이에서 최대한 빨리 알아내는 것이다. 방향은 "Taken/Not Taken"을 맞히는 문제이고, 목적지는 점프할 주소를 맞히는 문제다. 이 둘이 모두 준비되어야 파이프라인은 다음 사이클에도 끊기지 않고 이어진다.
+분기 예측의 핵심은 <strong>분기 방향</strong>과 <strong>분기 목적지</strong>를 인출 단계 가까이에서 최대한 빨리 알아내는 것이다. 방향은 "Taken/Not Taken"을 맞히는 문제이고, 목적지는 점프할 주소를 맞히는 문제다. 이 둘이 모두 준비되어야 파이프라인은 다음 사이클에도 끊기지 않고 이어진다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -47,27 +47,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 분기 예측이 파이프라인 프론트엔드에서 어떻게 개입하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         분기 예측의 기본 흐름: 인출 전에 다음 PC를 먼저 정한다            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 현재 PC                                                                    │
-│   │                                                                         │
-│   ├─▶ BTB (Branch Target Buffer) ──────▶ 타겟 주소 후보                    │
-│   │                                                                         │
-│   ├─▶ BHT (Branch History Table) ─────▶ Taken / Not Taken 예측             │
-│   │                                                                         │
-│   └────────────────────────────────────▶ 순차 주소 (PC + 4)                │
-│                                                                             │
-│ 예측기 선택                                                                  │
-│   ├─ Taken 예측     ─────────────────▶ BTB가 준 타겟 주소로 Fetch           │
-│   └─ Not Taken 예측 ─────────────────▶ 순차 주소로 Fetch                    │
-│                                                                             │
-│ 이후 EX (Execute) 단계에서 실제 분기 결과 확인                              │
-│   ├─ 예측 성공  ─────────────────────▶ 파이프라인 계속 진행                 │
-│   └─ 예측 실패  ─────────────────────▶ Flush + 올바른 PC 재시작 + 학습      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 예측의 기본 흐름: 인출 전에 다음 PC를 먼저 정한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 PC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ BTB (Branch Target Buffer) ▶ 타겟 주소 후보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ BHT (Branch History Table) ▶ Taken / Not Taken 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 순차 주소 (PC + 4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측기 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Taken 예측 ▶ BTB가 준 타겟 주소로 Fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Not Taken 예측 ▶ 순차 주소로 Fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후 EX (Execute) 단계에서 실제 분기 결과 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 성공 ▶ 파이프라인 계속 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 실패 ▶ Flush + 올바른 PC 재시작 + 학습</div></div>
+</div>
+</div>
+
+
 
 실무에서 널리 쓰이는 기본 메커니즘은 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)다. 상태는 강한 Taken, 약한 Taken, 약한 Not Taken, 강한 Not Taken 네 단계로 두고, 결과가 한 번 틀렸다고 즉시 반대편으로 넘어가지 않게 만든다. 그래서 반복문처럼 대부분 Taken이고 마지막 한 번만 Not Taken인 패턴에서 높은 효율을 낸다. 이것이 1비트 예측기보다 2비트 예측기가 오래 살아남은 이유다.
 
@@ -79,7 +77,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-분기 예측을 이해하려면 [정적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/) ([Static Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/))과 [동적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/) ([Dynamic Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/))의 차이를 먼저 잡아야 한다. 정적 예측은 분기 방향, 코드 배치, 컴파일러 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)처럼 **실행 전 규칙**에 기대고, 동적 예측은 실제 실행 이력과 패턴을 바탕으로 **실행 중 학습**한다. 따라서 정적 예측은 빠르고 싸지만 둔하고, 동적 예측은 정확하지만 복잡하고 비싸다.
+분기 예측을 이해하려면 [정적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/) ([Static Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/))과 [동적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/) ([Dynamic Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/))의 차이를 먼저 잡아야 한다. 정적 예측은 분기 방향, 코드 배치, 컴파일러 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)처럼 <strong>실행 전 규칙</strong>에 기대고, 동적 예측은 실제 실행 이력과 패턴을 바탕으로 <strong>실행 중 학습</strong>한다. 따라서 정적 예측은 빠르고 싸지만 둔하고, 동적 예측은 정확하지만 복잡하고 비싸다.
 
 | 비교 항목 | [정적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/) | [동적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/) |
 | :--- | :--- | :--- |
@@ -98,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 분기 예측은 "예측기를 넣을까 말까"의 문제가 아니라, **어디까지 복잡도를 투자할 가치가 있는가**의 문제다. 서버용 고성능 코어처럼 오예측 패널티가 큰 환경에서는 예측 정확도 1~2% 차이도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 크게 반영된다. 반대로 저전력 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/))처럼 파이프라인이 짧은 코어는 거대한 예측기를 넣기보다 간단한 정적 규칙이나 소형 BHT만 두는 편이 총전력과 면적 측면에서 유리하다.
+실무에서 분기 예측은 "예측기를 넣을까 말까"의 문제가 아니라, <strong>어디까지 복잡도를 투자할 가치가 있는가</strong>의 문제다. 서버용 고성능 코어처럼 오예측 패널티가 큰 환경에서는 예측 정확도 1~2% 차이도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 크게 반영된다. 반대로 저전력 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/))처럼 파이프라인이 짧은 코어는 거대한 예측기를 넣기보다 간단한 정적 규칙이나 소형 BHT만 두는 편이 총전력과 면적 측면에서 유리하다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -124,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 
 좋은 분기 예측기는 파이프라인 앞단을 끊기지 않게 만들어 평균 처리량을 높이고, 슈퍼스칼라 코어가 넓은 발행 폭을 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸게 해 준다. 특히 깊은 파이프라인일수록 분기 예측의 가치는 기하급수적으로 커진다. 클럭을 높였는데도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 생각만큼 안 나오는 시스템은, 종종 실행 유닛이 아니라 분기 오예측 때문에 앞단이 비어 있는 경우가 많다.
 
-다만 기대효과만 있는 것은 아니다. 더 복잡한 예측기는 더 큰 테이블, 더 많은 전력, 더 긴 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 더 넓은 공격 표면을 가져온다. 그래서 최근 방향은 무조건 거대화가 아니라, 하이브리드 구성·태그 최적화·보안 완화·워크로드 특화 정책을 함께 고려하는 쪽으로 가고 있다. 결론적으로 분기 예측은 "미래를 맞히는 기술"이라기보다, **실패 비용을 감수하면서도 전체 평균을 이기는 시스템적 추론 장치**로 기억하는 것이 가장 정확하다.
+다만 기대효과만 있는 것은 아니다. 더 복잡한 예측기는 더 큰 테이블, 더 많은 전력, 더 긴 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 더 넓은 공격 표면을 가져온다. 그래서 최근 방향은 무조건 거대화가 아니라, 하이브리드 구성·태그 최적화·보안 완화·워크로드 특화 정책을 함께 고려하는 쪽으로 가고 있다. 결론적으로 분기 예측은 "미래를 맞히는 기술"이라기보다, <strong>실패 비용을 감수하면서도 전체 평균을 이기는 시스템적 추론 장치</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 분기 예측기는 앞을 완벽히 보는 점쟁이가 아니라, 틀릴 때 손해를 줄이면서 대부분의 갈림길에서 차를 멈추지 않게 해 주는 숙련된 길 안내자와 같다.
 
@@ -143,27 +141,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분기 결과 대기
-    │
-    ▼
-정적 분기 예측 (Static Prediction)
-    │
-    ▼
-동적 분기 예측 (Dynamic Prediction)
-    │
-    ├─▶ BHT (Branch History Table) · 2비트 포화 카운터
-    │
-    ├─▶ BTB (Branch Target Buffer) · RAS (Return Address Stack)
-    │
-    ▼
-하이브리드 예측기 (Hybrid Predictor)
-    │
-    ▼
-추측 실행 (Speculative Execution) · 보안 완화 설계
-```
 
-이 흐름은 분기 처리 기술이 **대기 회피 → 학습 기반 예측 → 프론트엔드 통합 → 보안 고려**로 확장되는 방향을 보여준다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분기 결과 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 분기 예측 (Static Prediction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 분기 예측 (Dynamic Prediction)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ BHT (Branch History Table) · 2비트 포화 카운터</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ BTB (Branch Target Buffer) · RAS (Return Address Stack)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 예측기 (Hybrid Predictor)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추측 실행 (Speculative Execution) · 보안 완화 설계</div>
+</div>
+</div>
+
+
+
+이 흐름은 분기 처리 기술이 <strong>대기 회피 → 학습 기반 예측 → 프론트엔드 통합 → 보안 고려</strong>로 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

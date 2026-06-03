@@ -25,17 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 즉 캐시는 "있느냐"보다 "얼마나 자주 맞히느냐"가 중요하다. 작은 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 공간으로도 높은 적중률을 만들 수 있다면, 시스템은 큰 DRAM이 있는 것처럼 동작하면서도 체감 속도는 훨씬 빨라진다. 반대로 적중률이 낮으면 캐시는 우회로가 아니라, 한 번 더 들르는 톨게이트가 되어 버린다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      적중률이 필요한 이유: 빠른 코어와 느린 메모리의 간극 완충      │
-├──────────────────────────────────────────────────────────────┤
-│ CPU 요청 ──▶ L1 Cache 확인 ──▶ Hit  ──▶ 즉시 실행 계속            │
-│                    │                                          │
-│                    └────▶ Miss ──▶ L2/L3/DRAM 탐색 ──▶ 지연 증가 │
-│                                                              │
-│ 적중률이 높을수록 "느린 경로"로 내려가는 횟수가 줄어든다.          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적중률이 필요한 이유: 빠른 코어와 느린 메모리의 간극 완충</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청 ──▶ L1 Cache 확인 ──▶ Hit ──▶ 즉시 실행 계속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Miss ──▶ L2/L3/DRAM 탐색 ──▶ 지연 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적중률이 높을수록 "느린 경로"로 내려가는 횟수가 줄어든다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 적중률은 자주 쓰는 물건을 책상 서랍에 얼마나 잘 넣어 두었는지를 보여주는 수치다. 서랍에서 바로 찾으면 1초지만, 창고까지 내려가면 10분이 걸린다.
 
@@ -53,18 +54,20 @@ tags = ["studynote-computer-architecture"]
 
 여기서 `Miss Rate = 1 - Hit Ratio`다. 예를 들어 적중 시간 ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Time)이 1클럭이고 미스 패널티가 100클럭일 때, 적중률 90%면 `AMAT = 1 + 0.1 × 100 = 11클럭`이고, 적중률 97%면 `AMAT = 1 + 0.03 × 100 = 4클럭`이 된다. 적중률 차이는 7%p뿐인데 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 거의 3배 가까이 차이 난다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            적중률이 AMAT를 줄이는 방식의 핵심 구조             │
-├──────────────────────────────────────────────────────────────┤
-│ 요청 100회                                                   │
-│   ├─ 97회 Hit  ─▶ 1클럭 수준 처리                            │
-│   └─  3회 Miss ─▶ 100클럭 수준 하위 계층 접근                │
-│                                                              │
-│ 평균 지연 = (대부분의 짧은 처리) + (소수의 긴 처리)           │
-│        => Miss 비율이 조금만 커져도 평균값이 빠르게 악화됨    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적중률이 AMAT를 줄이는 방식의 핵심 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 100회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 97회 Hit ─▶ 1클럭 수준 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3회 Miss ─▶ 100클럭 수준 하위 계층 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 지연 = (대부분의 짧은 처리) + (소수의 긴 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; Miss 비율이 조금만 커져도 평균값이 빠르게 악화됨</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 적중률에 주는 영향 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -137,21 +140,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조 지역성 (Locality)
-    │
-    ▼
-캐시 히트/미스 (Cache Hit/Miss)
-    │
-    ▼
-적중률 (Hit Ratio) · 미스율 (Miss Ratio)
-    │
-    ▼
-평균 메모리 접근 시간 (AMAT)
-    │
-    ▼
-다단계 캐시 · 프리페칭 · 데이터 배치 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조 지역성 (Locality)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 히트/미스 (Cache Hit/Miss)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적중률 (Hit Ratio) · 미스율 (Miss Ratio)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">평균 메모리 접근 시간 (AMAT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 캐시 · 프리페칭 · 데이터 배치 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "패턴 인식 → 결과 측정 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 계산 → 구조 최적화"로 이어지는 캐시 설계의 사고 순서를 보여준다.
 

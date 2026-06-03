@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 단순히 "정상 운영 중"을 표시하는 전광판이 아니다. 고객이 장애를 겪을 때 가장 먼저 묻는 세 가지, 즉 **무엇이 영향을 받는가, 언제부터 문제인가, 다음 업데이트는 언제 나오는가**에 답하는 공식 창구다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 보면, 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내부 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) 프로세스가 외부 고객 커뮤니케이션으로 이어지는 마지막 단계다.
+상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 단순히 "정상 운영 중"을 표시하는 전광판이 아니다. 고객이 장애를 겪을 때 가장 먼저 묻는 세 가지, 즉 <strong>무엇이 영향을 받는가, 언제부터 문제인가, 다음 업데이트는 언제 나오는가</strong>에 답하는 공식 창구다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 보면, 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내부 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/) 프로세스가 외부 고객 커뮤니케이션으로 이어지는 마지막 단계다.
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈췄는데 회사가 침묵하면 사용자는 지원팀, 커뮤니티, 사회관계망서비스를 돌며 정보를 추측하게 된다. 그 순간 운영팀은 장애 자체보다 문의 폭주와 오해에 더 많은 시간을 쓰게 된다. 반대로 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 빠르게 갱신되면 고객은 같은 정보를 같은 문장으로 받아들이고, 지원 조직도 반복 답변 대신 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자체에 집중할 수 있다.
 
@@ -27,14 +27,17 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 왜 인시던트 시점의 공통 진실 공급원인지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Incident communication gap                                              │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Alert -> silence      -> rumor / ticket flood                           │
-│ Alert -> status page  -> shared truth / queued updates                  │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident communication gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert -&gt; silence -&gt; rumor / ticket flood</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert -&gt; status page -&gt; shared truth / queued updates</div></div>
+</div>
+</div>
+
+
 
 이 차이는 단순 공지 채널의 유무가 아니라, 장애 대응의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 어디에 쓰느냐를 가른다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 있으면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)팀은 같은 질문에 백 번 답하는 대신, 한 번 정리한 사실을 모두와 공유할 수 있다.
 
@@ -56,17 +59,20 @@ tags = ["studynote-devops-sre"]
 
 아래 구조는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 내부 감지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 외부 공지를 어떻게 연결하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Status page control loop                                                │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Synthetic probes -> incident platform -> public status page            │
-│ Manual commander update ------------------------------^                 │
-│ Public page -> subscribers / history / maintenance notices             │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 원칙은 **독립 호스팅**이다. 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같은 계정, 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network), 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리면 대형 장애 시 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)도 함께 사라진다. 따라서 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰거나, 최소한 다른 계정·다른 배포 경로·다른 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 체계로 분리해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Status page control loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Synthetic probes -&gt; incident platform -&gt; public status page</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manual commander update ------------------------------^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public page -&gt; subscribers / history / maintenance notices</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 원칙은 <strong>독립 호스팅</strong>이다. 주 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같은 계정, 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network), 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 올리면 대형 장애 시 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)도 함께 사라진다. 따라서 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰거나, 최소한 다른 계정·다른 배포 경로·다른 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 체계로 분리해야 한다.
 
 상태 표현도 세밀해야 한다. "전체 장애"와 "일부 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 구분하지 못하면 고객은 불필요한 공포를 느끼거나 반대로 상황을 과소평가한다.
 
@@ -134,7 +140,7 @@ tags = ["studynote-devops-sre"]
 
 물론 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 만능은 아니다. 공지가 빠르더라도 탐지 자체가 늦으면 의미가 없고, 공지가 성실해도 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력이 없으면 신뢰는 오래가지 않는다. 또한 지나치게 많은 세부 정보를 공개하면 보안 위험이나 오해를 낳을 수 있으므로, 고객에게 필요한 정보와 공격자에게 도움이 될 정보를 구분해야 한다.
 
-앞으로는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 단순 게시판을 넘어, 실시간 구독 세분화·자동 번역·장애 영향 예측과 결합될 가능성이 크다. 그럼에도 변하지 않는 핵심은 같다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 **고객에게 보여 주는 관측성의 얼굴**이며, 투명한 조직은 장애가 없어서가 아니라 장애 때 어떻게 설명하는지가 다르다.
+앞으로는 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 단순 게시판을 넘어, 실시간 구독 세분화·자동 번역·장애 영향 예측과 결합될 가능성이 크다. 그럼에도 변하지 않는 핵심은 같다. 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 <strong>고객에게 보여 주는 관측성의 얼굴</strong>이며, 투명한 조직은 장애가 없어서가 아니라 장애 때 어떻게 설명하는지가 다르다.
 
 - **📢 섹션 요약 비유**: 상태 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 회사의 비상 방송과 같다. 사고가 안 나는 회사보다, 사고가 났을 때 차분하고 정확하게 알리는 회사가 더 오래 신뢰받는다.
 
@@ -154,25 +160,26 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Internal alerts and probes
-    │
-    ▼
-Incident declaration
-    │
-    ▼
-Public status page update
-    │
-    ├─ component state
-    ├─ maintenance notice
-    └─ subscriber notification
-    │
-    ▼
-Uptime history and public SLA evidence
-    │
-    ▼
-Postmortem linkage and trust building
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Internal alerts and probes</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Incident declaration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Public status page update</div>
+<div class="kb-diagram-tree-item" style="--depth:2">component state</div>
+<div class="kb-diagram-tree-item" style="--depth:2">maintenance notice</div>
+<div class="kb-diagram-tree-item" style="--depth:2">subscriber notification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Uptime history and public SLA evidence</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Postmortem linkage and trust building</div>
+</div>
+</div>
+
+
 
 이 흐름은 내부 경보가 외부 공지와 이력 관리로 이어지고, 결국 고객 신뢰 자산으로 축적되는 과정을 보여 준다.
 

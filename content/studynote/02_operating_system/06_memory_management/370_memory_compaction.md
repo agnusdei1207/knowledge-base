@@ -11,45 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리눅스 메모리 컴팩션(Memory [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))은 장시간 가동된 서버의 물리 램(RAM)이 극심한 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 조각났을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드에서 **사용 중인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 메모리 앞쪽으로 이동(Migration)시키고 빈 공간을 뒤쪽으로 몰아 거대한 연속 프레임을 창출해 내는 물리적 셔플 연산**이다.
+> 1. **본질**: 리눅스 메모리 컴팩션(Memory [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))은 장시간 가동된 서버의 물리 램(RAM)이 극심한 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 조각났을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드에서 <strong>사용 중인 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들을 메모리 앞쪽으로 이동(Migration)시키고 빈 공간을 뒤쪽으로 몰아 거대한 연속 프레임을 창출해 내는 물리적 셔플 연산</strong>이다.
 > 2. **가치**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 하에서도 디바이스 드라이버나 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 등은 '물리적으로 끊기지 않은 거대한 램 공간'을 요구하는데, 이 조각 모음 없이는 램 총량이 남아돌아도 `kmalloc`이나 2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 할당이 모조리 실패([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))하는 굴레를 구원해 준다.
-> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑이 실시간으로 변해야 하므로 **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 업데이트 로직**과 결합되어 동작하며, 과거 고전적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))이 유발하던 극악의 시스템 멈춤(STW)을 막기 위해 디스크 스왑을 최소화하는 스마트한 마이그레이션 아키텍처로 진화했다.
+> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑이 실시간으로 변해야 하므로 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 업데이트 로직</strong>과 결합되어 동작하며, 과거 고전적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))이 유발하던 극악의 시스템 멈춤(STW)을 막기 위해 디스크 스왑을 최소화하는 스마트한 마이그레이션 아키텍처로 진화했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 메모리 컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))은 물리 메모리의 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))를 해소하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 청소 메커니즘이다. 흩어진 빈 프레임(Free Frame)을 하나로 모으기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 든 프레임을 빈 프레임 쪽으로 복사(Copy)하고 기존 자리를 반환하여 커다란 '연속된 텅 빈 공간'을 확보한다. (윈도우의 '디스크 조각 모음'과 원리가 완벽히 같다.)
-- **필요성**: "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쓰면 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 0%라며? 왜 조각 모음을 해?"라는 의문이 들 수 있다. 유저 프로그램은 4KB 단위로 찢어져도 MMU가 이어주니 상관없지만, **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 디바이스 드라이버([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))나 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)(2MB, 1GB)는 반드시 물리 램 자체가 2MB씩 쫙 연속으로 이어져 있어야만 한다.** 서버가 1년 동안 켜져 있으면 램이 4KB 단위로 걸레짝처럼 찢어져 연속된 2MB를 찾을 수 없게 된다. 100GB 램이 남아도 2MB [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)이 실패해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뻗는 사태를 막으려면, 흩어진 4KB들을 한쪽으로 싹 치우는 빗자루질(컴팩션)이 절실했다.
+- **필요성**: "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쓰면 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 0%라며? 왜 조각 모음을 해?"라는 의문이 들 수 있다. 유저 프로그램은 4KB 단위로 찢어져도 MMU가 이어주니 상관없지만, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 디바이스 드라이버(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>)나 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>(2MB, 1GB)는 반드시 물리 램 자체가 2MB씩 쫙 연속으로 이어져 있어야만 한다.</strong> 서버가 1년 동안 켜져 있으면 램이 4KB 단위로 걸레짝처럼 찢어져 연속된 2MB를 찾을 수 없게 된다. 100GB 램이 남아도 2MB [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)이 실패해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뻗는 사태를 막으려면, 흩어진 4KB들을 한쪽으로 싹 치우는 빗자루질(컴팩션)이 절실했다.
 
 - **등장 배경 및 리눅스의 고뇌**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스왑(Swap)의 재앙**: 예전 리눅스는 큰 연속 공간이 필요하면 램에 있는 걸 냅다 하드디스크로 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out) 시켜버렸다. 이 때문에 시스템이 수십 초씩 멈춰버리는 끔찍한 렉이 발생했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 스왑(Swap)의 재앙</strong>: 예전 리눅스는 큰 연속 공간이 필요하면 램에 있는 걸 냅다 하드디스크로 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out) 시켜버렸다. 이 때문에 시스템이 수십 초씩 멈춰버리는 끔찍한 렉이 발생했다.
   2. **디스크 I/O 회피**: "제발 램 안에서만 좀 해결해 보자!" 디스크로 쫓아내지 않고 램 안에서 빈자리로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 살짝 옮기는(Migration) 로직 구상.
-  3. **Memory [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (2.6.35 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 도입)**: 리눅스의 천재 개발자 Mel Gorman이 스왑 없이 램 내부에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이동시키는 고도화된 마이그레이션 스캐너 아키텍처를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합(Merge)하며 파편화 문제의 숨통을 텄다.
+  3. <strong>Memory <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> (2.6.35 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 도입)</strong>: 리눅스의 천재 개발자 Mel Gorman이 스왑 없이 램 내부에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이동시키는 고도화된 마이그레이션 스캐너 아키텍처를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합(Merge)하며 파편화 문제의 숨통을 텄다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 컴팩션 전: 걸레짝이 된 물리 램 프레임들 ]                             │
-│ (왼쪽 끝)                                       (오른쪽 끝)             │
-│ [ █ ][   ][ █ ][ █ ][   ][ █ ][   ][ █ ][ █ ][   ]                      │
-│  ※ █: 데이터 있음, [ ]: 4KB 빈 방.                                      │
-│  ⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!                  │
-│                                                                         │
-│                    ↓↓ 컴팩션 발동 ↓↓                                    │
-│                                                                         │
-│ 1. 왼쪽 스캐너 ─▶ 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음              │
-│ 2. 오른쪽 스캐너 ◀─ 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음  │
-│ 3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!     │
-│ 4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush) │
-│                                                                         │
-│ [ 컴팩션 후: 깨끗한 연속 구역 확보 ]                                    │
-│ [   ][   ][   ][   ][   ][ █ ][ █ ][ █ ][ █ ][ █ ]                      │
-│ └─ 20KB 연속된 텅 빈 공간(Big Hole) 탄생! ──┘                           │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴팩션 전: 걸레짝이 된 물리 램 프레임들</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 끝) (오른쪽 끝)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">※ █: 데이터 있음,</div><div class="kb-diagram-note">: 4KB 빈 방.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓ 컴팩션 발동 ↓↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 왼쪽 스캐너 ─▶ 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 오른쪽 스캐너 ◀─ 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴팩션 후: 깨끗한 연속 구역 확보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 20KB 연속된 텅 빈 공간(Big Hole) 탄생! ──</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 리눅스 컴팩션의 핵심은 '양방향 스캐너(Two-Finger Scan)'다. 왼쪽에서는 마이그레이션(이사) 시킬 블록을 찾고, 오른쪽에서는 이사 갈 빈집을 찾는다. 둘이 중간에서 만날 때까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 오른쪽 끝으로 복사해 던져버리면, 기적처럼 메모리 왼쪽 절반에 거대하고 깨끗한 텅 빈 활주로(연속 공간)가 뚫린다. [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))은 이 거대한 공간을 덥석 집어 1MB, 2MB짜리 굵직한 블록으로 쾌재를 부르며 묶어버린다.
 
 - **📢 섹션 요약 비유**: 스마트폰 바탕화면에 앱 아이콘과 빈칸이 더럽게 섞여 있을 때, 아이콘들을 손가락으로 꾹 눌러 폴더(오른쪽)에 다 쑤셔 박아버리면, 바탕화면 메인 창(왼쪽)에 거대한 빈 공간이 생겨 커다란 위젯([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))을 달 수 있게 되는 쾌감입니다.
@@ -67,8 +66,8 @@ tags = ["studynote-operating-system"]
    - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache). 
    - 이들은 램 위치가 바뀌어도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PT) 화살표만 슬쩍 바꿔주면 CPU가 알아서 따라가므로 완벽하게 이사 가능하다.
 2. **이동 불가 (Unmovable Pages)**:
-   - **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조체([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 등)**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 마법을 안 거치고 하드웨어가 직접 주소를 물고 있는 경우가 많아 옮기면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패닉(Crash)에 빠진다.
-   - **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 버퍼**: 네트워크 카드가 이 주소로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 있는데 몰래 주소를 옮기면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 허공에 증발한다.
+   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조체(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/">슬랩</a> 등)</strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 마법을 안 거치고 하드웨어가 직접 주소를 물고 있는 경우가 많아 옮기면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패닉(Crash)에 빠진다.
+   - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 버퍼</strong>: 네트워크 카드가 이 주소로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 있는데 몰래 주소를 옮기면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 허공에 증발한다.
    - 📌 **문제**: 100만 평 땅에 1평짜리 Unmovable 조각 하나만 박혀 있어도, 그 땅은 영원히 연속된 100만 평으로 합쳐질 수 없다 (컴팩션 실패의 주원인).
 
 ---
@@ -77,25 +76,25 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 4KB를 이사시키는 숨 막히는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 과정이다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              페이지 마이그레이션의 무거운 오버헤드 사이클                 │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ 1. 격리 (Isolation)                                                       │
-│    - 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.       │
-│    - 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).         │
-│                                                                           │
-│ 2. 복사 및 매핑 갱신 (Copy & Update)                                      │
-│    - 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)     │
-│    - 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!     │
-│    - 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!        │
-│                                                                           │
-│ 3. 반환 (Putback)                                                         │
-│    - பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.  │
-│    - 유저 앱 락(Lock) 해제, 정상 동작 재개.                               │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 마이그레이션의 무거운 오버헤드 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 격리 (Isolation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 복사 및 매핑 갱신 (Copy &amp; Update)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반환 (Putback)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 앱 락(Lock) 해제, 정상 동작 재개.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 복사한다고 끝나는 게 아니다. 주소가 바뀌었으니 그 주소를 물고 있던 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)' 장부를 뜯어고쳐야 하고, 장부가 고쳐졌으니 CPU 코어들 안의 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시'를 모조리 강제로 날려버려야(Flush) 한다. 즉, 메모리 컴팩션이 백그라운드에서 너무 격렬하게 돌면 멀티코어 서버 전체가 캐시 미스와 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합으로 덜덜 떨며 렉에 빠지는 치명상을 입는다.
 
@@ -111,8 +110,8 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 메모리 반환 (Reclaim / Swap-out) | 메모리 컴팩션 ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) |
 |:---|:---|:---|
-| **목적** | 램(RAM)의 **총 용량 잔고** 자체를 늘리기 위함 | 램 용량은 놔두고, **물리적으로 연속된 큰 덩어리**를 뭉치기 위함 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동선** | RAM ──▶ 하드디스크(Swap)로 내쫓음 | RAM (A번지) ──▶ RAM (B번지)로 램 내부에서 셔플링 |
+| **목적** | 램(RAM)의 **총 용량 잔고** 자체를 늘리기 위함 | 램 용량은 놔두고, <strong>물리적으로 연속된 큰 덩어리</strong>를 뭉치기 위함 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동선</strong> | RAM ──▶ 하드디스크(Swap)로 내쫓음 | RAM (A번지) ──▶ RAM (B번지)로 램 내부에서 셔플링 |
 | **속도(페널티)**| 디스크 I/O 발생으로 **최악의 시스템 정지(수 초)** 발생 | 램 내부 복사라 상대적으로 **양호함(수 밀리초 수준)** |
 | **발동 조건** | 램 사용률이 100%에 도달해 램이 터지기 직전 | 남은 램은 많은데 파편화가 심해 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 생성에 실패할 때 |
 
@@ -123,14 +122,17 @@ tags = ["studynote-operating-system"]
 2. **kcompactd (정리정돈 청소부)**: `kswapd`가 잔고를 채워줬음에도 램이 너무 찢어져(파편화) 2MB짜리 덩어리를 못 만들면 얘가 깨어난다. CPU 코어 하나를 점유하고 램 안의 박스들을 왼쪽 오른쪽으로 미친 듯이 밀어대며 거대 구멍(Huge Hole)을 조각해 낸다.
 이 둘의 적절한 백그라운드 활약 덕분에, 유저가 메모리를 요구했을 때 시스템이 얼어붙는 일([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Reclaim / [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 미연에 방지할 수 있다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 트리거 상황│ 총 메모리 상태│ 파편화 상태  │ 출동하는 데몬 스레드│
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 잔고 고갈  │ 부족 🚨     │ 상관없음    │ kswapd (버리기)        │
-│ 거대 할당  │ 여유 🟢     │ 걸레짝 🚨  │ kcompactd (밀기)        │
-└──────────┴────────────┴────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거 상황</div><div class="kb-diagram-cell">총 메모리 상태</div><div class="kb-diagram-cell">파편화 상태</div><div class="kb-diagram-cell">출동하는 데몬 스레드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔고 고갈</div><div class="kb-diagram-cell">부족 🚨</div><div class="kb-diagram-cell">상관없음</div><div class="kb-diagram-cell">kswapd (버리기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대 할당</div><div class="kb-diagram-cell">여유 🟢</div><div class="kb-diagram-cell">걸레짝 🚨</div><div class="kb-diagram-cell">kcompactd (밀기)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 실무에서 서버의 Load Average가 갑자기 미친 듯이 치솟을 때, 많은 엔지니어가 `top`이나 `vmstat`을 보며 원인을 찾는다. CPU 연산이 아니라 %system, %iowait이 치솟는다면 이 두 청소부 데몬이 살기 위해 램을 뒤엎으며 멱살 캐리를 하고 있는 현장일 확률이 99%다.
 
 - **📢 섹션 요약 비유**: 방에 물건이 꽉 차서 발 디딜 틈이 없으면 헌옷수거함(디스크)에 내다 버리는 게 `Reclaim`이고, 물건 총량은 적은데 바닥에 널브러져 있어서 침대를 놓을 자리가 없을 때 물건들을 서랍(램 한쪽)으로 싹 밀어 넣는 게 `Compaction`입니다.
@@ -142,11 +144,11 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: Transparent [Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) (THP)의 파국과 Defrag 튜닝
 1. **문제 상황**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)) 서버가 잘 돌다가 며칠에 한 번씩 1~2초간 뚝뚝 끊기는 치명적인 렉([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes)이 발생했다.
 2. **원인 분석**:
-   - 범인은 리눅스의 **THP (투명한 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))** 설정과 **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**의 환장할 콜라보다.
+   - 범인은 리눅스의 <strong>THP (투명한 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>)</strong> 설정과 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a></strong>의 환장할 콜라보다.
    - 리눅스는 속도를 높여주려고 유저가 요구하지도 않았는데 억지로 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 뭉쳐 2MB Huge Page로 승격시키려 든다.
-   - 램이 파편화되어 2MB가 없으면? 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저 앱(DB)의 동작을 잠시 멈추고 **강제로([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) 메모리 컴팩션(조각 모음)**을 냅다 돌려버린다. 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 시간 동안 DB의 초당 10만 건 처리가 올스톱된다.
+   - 램이 파편화되어 2MB가 없으면? 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저 앱(DB)의 동작을 잠시 멈추고 <strong>강제로(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>) 메모리 컴팩션(조각 모음)</strong>을 냅다 돌려버린다. 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 시간 동안 DB의 초당 10만 건 처리가 올스톱된다.
 3. **실무 튜닝 해법**:
-   - 시스템 엔지니어의 바이블 튜닝이다. `/sys/kernel/mm/transparent_hugepage/defrag` 옵션 값을 `always`에서 **`madvise`**나 **`never`**로 바꿔버린다.
+   - 시스템 엔지니어의 바이블 튜닝이다. `/sys/kernel/mm/transparent_hugepage/defrag` 옵션 값을 `always`에서 <strong><code>madvise</code></strong>나 <strong><code>never</code></strong>로 바꿔버린다.
    - 번역하자면: "파편화 심해서 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 못 만들겠으면 제발 앱 멈추고 조각 모음(defrag) 하지 마! 그냥 쿨하게 포기하고 일반 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 던져줘서 렉이나 안 걸리게 해!"라는 뜻이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 변동성(Jitter)을 죽도록 싫어하는 백엔드 서버의 국룰 세팅이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 영구적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 핀(Pinning)
@@ -162,7 +164,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 활용률 극대화** | 2MB, 1GB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 생성을 지원하여 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 억제하고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수배 향상 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 활용률 극대화</strong> | 2MB, 1GB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 생성을 지원하여 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 억제하고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수배 향상 |
 | **디스크 I/O(스왑) 회피** | 램 내부에서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션만으로 큰 공간을 뚫어내어, 수십 초가 걸리는 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 재앙을 사전 차단 |
 | **시스템 수명(Uptime) 연장**| 서버를 재부팅 하지 않고도 백그라운드에서 지속적으로 파편화를 치유하여, 수년간 끄지 않는 무중단([Zero-downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 서버 운영의 기반 제공 |
 
@@ -185,15 +187,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메모리 풀 (Memory Pool) 기법]
-    │
-    ▼
-[파편화 관리 및 조각 모음]
-    │
-    ├──▶ [거대 페이지 (Huge Pages / Transparent Huge Pages)]
-    └──▶ [아키텍처 종속적인 MMU 인터페이스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 풀 (Memory Pool) 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파편화 관리 및 조각 모음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

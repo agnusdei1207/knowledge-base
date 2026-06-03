@@ -22,75 +22,76 @@ tags = ["studynote-network"]
 - **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 데이터를 올바르게 보내기 위해 수행하는 일련의 자율적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 프로세스다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 막 켜면 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 텅 비어있다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 네트워크 트래픽을 관찰하며 스스로 학습하고, 적절히 버리거나 전달한다.
 - **필요성**: 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 IP 라우터처럼 관리자가 일일이 "1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 무슨 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 무슨 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)"를 수동으로 입력([Static Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/))해줘야 한다면, 사무실에서 직원이 자리를 옮기거나 노트북을 껐다 켤 때마다 네트워크 관리자는 퇴근을 못 할 것이다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 위대함은 **전원만 꽂으면 스스로 네트워크 지형을 학습하는 "Plug and Play"** 기능에 있다.
 
-- **💡 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 기억력이 좋은 **"호텔 로비의 신입 벨보이"**와 같습니다. 처음엔 투숙객이 몇 호에 있는지 아무도 모릅니다. 그런데 302호에서 손님이 내려와 "나 302호 홍길동인데, 501호 이몽룡한테 편지 좀 전해줘"라고 하면, 로비보이는 머릿속에 **"홍길동 = 302호"라고 학습(Learning)**합니다. 하지만 이몽룡이 몇 호인지는 아직 모르니 호텔 전 객실에 방송을 때립니다 **(Flooding)**. 나중에 이몽룡이 "나 501호 이몽룡이야"라고 답장을 보내면, 그때 **"이몽룡 = 501호"를 학습**하고, 다음번 편지부터는 501호로 조용히 가져다줍니다 **(Forwarding)**.
+- **💡 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 기억력이 좋은 <strong>"호텔 로비의 신입 벨보이"</strong>와 같습니다. 처음엔 투숙객이 몇 호에 있는지 아무도 모릅니다. 그런데 302호에서 손님이 내려와 "나 302호 홍길동인데, 501호 이몽룡한테 편지 좀 전해줘"라고 하면, 로비보이는 머릿속에 <strong>"홍길동 = 302호"라고 학습(Learning)</strong>합니다. 하지만 이몽룡이 몇 호인지는 아직 모르니 호텔 전 객실에 방송을 때립니다 **(Flooding)**. 나중에 이몽룡이 "나 501호 이몽룡이야"라고 답장을 보내면, 그때 <strong>"이몽룡 = 501호"를 학습</strong>하고, 다음번 편지부터는 501호로 조용히 가져다줍니다 **(Forwarding)**.
 
-```text
-[MAC 주소 테이블]
-    │
-    ▼
-[수신/학습 / 전달 / 플러딩]
-    │
-    └──▶ [에이징 / 포트 미러링]
-```
 
-- **📢 섹션 요약 비유**: ** [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 동작 원리는 낯선 동네에 발령받은 우체부가 **"편지를 주고받는 사람들을 눈치껏 지켜보며 동네 지도를 완성해 나가는 완벽한 독학(Self-study) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소 테이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신/학습 / 전달 / 플러딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에이징 / 포트 미러링</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 동작 원리는 낯선 동네에 발령받은 우체부가 </strong>"편지를 주고받는 사람들을 눈치껏 지켜보며 동네 지도를 완성해 나가는 완벽한 독학(Self-study) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. Learning (학습) - "출발지를 기억하라"
-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 프레임이 들어오면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 가장 먼저 프레임 헤더의 **출발지(Source) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소**를 까본다.
+[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 프레임이 들어오면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 가장 먼저 프레임 헤더의 <strong>출발지(Source) <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소</strong>를 까본다.
 - "1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 `MAC A`가 보낸 편지가 들어왔네? 그럼 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 끝에는 `MAC A`라는 PC가 매달려 있구나!"
 - 이를 즉시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블에 `[MAC A - Port 1]`이라고 기록한다.
 
 ### 2. Flooding (플러딩) - "모르면 전부 뿌려라"
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이제 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 어디로 보낼지 결정해야 한다. 목적지가 `MAC B`인데, 아직 테이블에 `MAC B`가 어디 있는지 정보가 없다.
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **"모르는 유니캐스트(Unknown Unicast)"** 또는 아예 전체 방송용인 **"브로드캐스트(FF:FF...)"** 프레임을 받으면, 편지가 들어온 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 제외한 **나머지 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 편지를 복사해서 쏟아낸다**. 이것이 플러딩이다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **"모르는 유니캐스트(Unknown Unicast)"** 또는 아예 전체 방송용인 **"브로드캐스트(FF:FF...)"** 프레임을 받으면, 편지가 들어온 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 제외한 <strong>나머지 모든 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 편지를 복사해서 쏟아낸다</strong>. 이것이 플러딩이다.
 
 ### 3. Forwarding (전달) - "아는 길은 조용히"
 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 테이블을 뒤졌는데 목적지 `MAC B`가 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 있다는 것을 이미 학습(Learning)한 상태라면?
-- 플러딩하지 않고, **오직 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로만 프레임을 조용히 전달**한다. 이것이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 진면목인 포워딩이다.
+- 플러딩하지 않고, <strong>오직 3번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로만 프레임을 조용히 전달</strong>한다. 이것이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 진면목인 포워딩이다.
 
 ### 4. Filtering (여과) - "쓸데없는 전송은 차단한다"
 테이블에 `[MAC A - Port 1]`, `[MAC B - Port 1]`이라고 적혀있다고 가정하자. (1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 작은 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 달려있는 상황)
 - A가 B에게 편지를 보냈다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 편지를 받아보니, 목적지 B도 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 있다.
-- "어? 어차피 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 안에서 너희들끼리 주고받았겠네? 내가 굳이 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 이걸 넘겨줄 필요가 없지!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 프레임을 즉시 **폐기(버림)**한다. 이것이 필터링이다. 덕분에 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 막는다.
+- "어? 어차피 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 안에서 너희들끼리 주고받았겠네? 내가 굳이 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 이걸 넘겨줄 필요가 없지!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 프레임을 즉시 <strong>폐기(버림)</strong>한다. 이것이 필터링이다. 덕분에 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 막는다.
 
 ### 5. [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) ([노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) - "오래된 기억은 잊어라"
 - 한 번 학습된 정보가 평생 남으면, 노트북을 뽑아서 다른 자리로 갔을 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 계속 옛날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 데이터를 보낼 것이다.
-- 그래서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 테이블에 적힌 정보가 기본값 300초([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Time) 동안 사용되지 않으면(데이터가 안 들어오면) **테이블에서 쿨하게 삭제**해 버리고, 다음번에 다시 Learning을 수행한다.
+- 그래서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 테이블에 적힌 정보가 기본값 300초([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Time) 동안 사용되지 않으면(데이터가 안 들어오면) <strong>테이블에서 쿨하게 삭제</strong>해 버리고, 다음번에 다시 Learning을 수행한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                스위치의 Learning과 Flooding 과정                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. PC A가 PC B로 핑(Ping) 전송                             │
- │   [ PC A ] ────▶(Port 1) [ 스위치 ] (Port 3)──── [ PC B ]   │
- │   (MAC A)                  테이블 비어있음          (MAC B)   │
- │                                                             │
- │   2. Learning (학습)                                         │
- │   스위치: "출발지가 MAC A네? Port 1에 MAC A 등록!"               │
- │   CAM Table: [ MAC A : Port 1 ]                             │
- │                                                             │
- │   3. Flooding (플러딩)                                       │
- │   스위치: "목적지 MAC B는 어딨는지 모르겠네? 1번 빼고 다 뿌려!"      │
- │   스위치 ──▶ Port 2, Port 3, Port 4... 전송                   │
- │                                                             │
- │   4. PC B의 응답 및 재학습                                     │
- │   PC B가 응답 프레임 보냄 ──▶ 스위치 (Port 3로 들어옴)            │
- │   스위치: "출발지가 MAC B네? Port 3에 MAC B 등록!"               │
- │   CAM Table: [ MAC A : Port 1 ]                             │
- │              [ MAC B : Port 3 ]                             │
- │                                                             │
- │   5. Forwarding (포워딩)                                     │
- │   스위치: "이제 목적지 MAC A 위치(Port 1) 아니까 조용히 전송!"      │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 처음엔 **"스피커로 온 동네방네 방송(Flooding)"**을 하며 사람들을 찾지만, 한 번 명함(출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 건네받고 나면 **"수첩(테이블)에 적어두고(Learning) 다음부터는 조용히 귓속말(Forwarding)"**만 하는 센스 있는 통신 교환수입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치의 Learning과 Flooding 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. PC A가 PC B로 핑(Ping) 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스위치</div><div class="kb-diagram-note">(Port 3)</div><div class="kb-diagram-node">PC B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MAC A) 테이블 비어있음 (MAC B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Learning (학습)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치: "출발지가 MAC A네? Port 1에 MAC A 등록!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CAM Table:</div><div class="kb-diagram-node">MAC A : Port 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Flooding (플러딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치: "목적지 MAC B는 어딨는지 모르겠네? 1번 빼고 다 뿌려!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 ──▶ Port 2, Port 3, Port 4... 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. PC B의 응답 및 재학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC B가 응답 프레임 보냄 ──▶ 스위치 (Port 3로 들어옴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치: "출발지가 MAC B네? Port 3에 MAC B 등록!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CAM Table:</div><div class="kb-diagram-node">MAC A : Port 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC B : Port 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Forwarding (포워딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치: "이제 목적지 MAC A 위치(Port 1) 아니까 조용히 전송!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>는 처음엔 </strong>"스피커로 온 동네방네 방송(Flooding)"<strong>을 하며 사람들을 찾지만, 한 번 명함(출발지 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)을 건네받고 나면 </strong>"수첩(테이블)에 적어두고(Learning) 다음부터는 조용히 귓속말(Forwarding)"**만 하는 센스 있는 통신 교환수입니다.
 
 ---
 
@@ -146,15 +147,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MAC 주소 테이블]
-    │
-    ▼
-[현재 개념: 수신/학습 / 전달 / 플러딩]
-    │
-    ├──▶ [확장 A: 에이징 / 포트 미러링]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC 주소 테이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 수신/학습 / 전달 / 플러딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 에이징 / 포트 미러링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 수신/학습 / 전달 / 플러딩는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블에서 출발해 현재 메커니즘을 정교화하고, 이후 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

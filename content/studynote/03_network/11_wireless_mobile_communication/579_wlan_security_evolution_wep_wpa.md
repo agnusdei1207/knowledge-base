@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-유선 랜(LAN)은 도둑이 내 컴퓨터에 물리적으로 선을 꽂아야만 해킹할 수 있지만, 무선 랜은 공유기 전파 반경(수십 미터) 안에만 있으면 누구나 공기 중에 떠다니는 패킷을 수집(Sniffing)할 수 있습니다. 따라서 **무선 링크 구간의 강력한 암호화(Encryption)**와 올바른 사용자만 접속하게 하는 **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**이 필수적입니다.
+유선 랜(LAN)은 도둑이 내 컴퓨터에 물리적으로 선을 꽂아야만 해킹할 수 있지만, 무선 랜은 공유기 전파 반경(수십 미터) 안에만 있으면 누구나 공기 중에 떠다니는 패킷을 수집(Sniffing)할 수 있습니다. 따라서 <strong>무선 링크 구간의 강력한 암호화(Encryption)</strong>와 올바른 사용자만 접속하게 하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>이 필수적입니다.
 
-```text
-[11be]
-    │
-    ▼
-[무선 LAN 보안 진화]
-    │
-    └──▶ [WEP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WEP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,35 +42,39 @@ tags = ["studynote-network"]
 
 ### 1. 1세대: [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) ([Wired Equivalent Privacy](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)) - "1997년"
 - **개념**: "유선 랜과 비슷한 수준의 프라이버시를 보장하자"는 목표로 만든 가장 초창기 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 기본 암호화 표준입니다.
-- **방식**: **[RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 사용하며, 공유기와 단말기가 **하나의 고정된 비밀번호(정적 키)**를 계속 똑같이 사용합니다.
-- **치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**: [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)라는 암호화 씨앗 값이 너무 짧아 쉽게 반복됩니다. 해커가 허공의 패킷을 5분만 뜰채로 떠서 암호해독 툴(Aircrack-ng)을 돌리면 **비밀번호가 100% 털려버리는(Crack) 휴지조각**이 되었습니다. 현재는 절대 사용해선 안 됩니다.
+- **방식**: <strong><a href="/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/">RC4</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 사용하며, 공유기와 단말기가 <strong>하나의 고정된 비밀번호(정적 키)</strong>를 계속 똑같이 사용합니다.
+- <strong>치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)라는 암호화 씨앗 값이 너무 짧아 쉽게 반복됩니다. 해커가 허공의 패킷을 5분만 뜰채로 떠서 암호해독 툴(Aircrack-ng)을 돌리면 <strong>비밀번호가 100% 털려버리는(Crack) 휴지조각</strong>이 되었습니다. 현재는 절대 사용해선 안 됩니다.
 
 ### 2. 2세대: [WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/) (Wi-Fi Protected Access) - "2003년"
 - **개념**: WEP가 너무 허무하게 뚫리자, 다급해진 Wi-Fi Alliance 협회가 정식 802.11i 표준이 완성되기 전에 급하게 내놓은 땜질용 임시 보안 규격입니다.
-- **방식**: WEP와 똑같은 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓰되, **TKIP (Temporal [Key Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**이라는 마법을 더했습니다. 패킷을 보낼 때마다 **암호키를 계속 다른 무작위 키로 바꿔버리는(동적 키 할당)** 방식을 써서 WEP의 취약점을 막아냈습니다.
+- **방식**: WEP와 똑같은 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓰되, <strong>TKIP (Temporal <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/">Key Integrity</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>이라는 마법을 더했습니다. 패킷을 보낼 때마다 **암호키를 계속 다른 무작위 키로 바꿔버리는(동적 키 할당)** 방식을 써서 WEP의 취약점을 막아냈습니다.
 
 ### 3. 3세대: [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) (802.11i 표준) - "2004년"
 - **개념**: IEEE가 드디어 완성한 정식 보안 표준(802.11i)을 그대로 가져온 완벽한 무선 보안 체계입니다. 지난 15년 넘게 전 세계 공유기의 기본 세팅으로 군림했습니다.
-- **방식**: 허접한 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 완전히 버리고, 미국 정부가 쓰는 최강의 암호화 표준인 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**와 이를 무선에 맞춘 **CCMP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**을 적용하여 철통같은 암호화를 자랑합니다. (단, 2017년에 KRACK 이라는 심각한 취약점이 발견되긴 했습니다.)
+- **방식**: 허접한 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 완전히 버리고, 미국 정부가 쓰는 최강의 암호화 표준인 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">Advanced Encryption Standard</a>)</strong>와 이를 무선에 맞춘 <strong>CCMP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>을 적용하여 철통같은 암호화를 자랑합니다. (단, 2017년에 KRACK 이라는 심각한 취약점이 발견되긴 했습니다.)
 
 ### 4. 4세대: [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) - "2018년"
 - **개념**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대에 맞춰 WPA2의 오프라인 사전 공격 취약점을 보완한 최신 무선 보안 표준입니다.
 - **방식**: 
-  - **SAE (Simultaneous [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) of Equals)** 기술을 도입하여, 비밀번호 추측용 무차별 대입 공격(Brute-force)을 막아냅니다. 비밀번호를 몇 번 틀리면 락이 걸려버립니다.
+  - <strong>SAE (Simultaneous <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> of Equals)</strong> 기술을 도입하여, 비밀번호 추측용 무차별 대입 공격(Brute-force)을 막아냅니다. 비밀번호를 몇 번 틀리면 락이 걸려버립니다.
   - 오픈 와이파이(스타벅스 무료 와이파이 등)에 접속할 때 비밀번호를 치지 않아도, OWE 기술을 통해 허공의 전파를 개별적으로 암호화하여 옆 사람이 스니핑할 수 없게 만들어줍니다 (Enhanced Open).
 
-> - **[WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)**: 현관문에 자물쇠를 걸었지만 비밀번호가 항상 '0000'으로 고정되어 있어 도둑이 금방 열고 들어옵니다.
-> - **[WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/)**: 자물쇠는 그대로지만, 문을 열 때마다 비밀번호가 '1234', '5678'로 매번 자동으로 바뀌게(TKIP) 만들었습니다.
-> - **[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)**: 자물쇠 자체를 아예 폭탄이 터져도 안 부서지는 티타늄 군사용 특수 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 교체해 버렸습니다.
+> - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/">WEP</a></strong>: 현관문에 자물쇠를 걸었지만 비밀번호가 항상 '0000'으로 고정되어 있어 도둑이 금방 열고 들어옵니다.
+> - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/">WPA</a></strong>: 자물쇠는 그대로지만, 문을 열 때마다 비밀번호가 '1234', '5678'로 매번 자동으로 바뀌게(TKIP) 만들었습니다.
+> - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/">WPA2</a></strong>: 자물쇠 자체를 아예 폭탄이 터져도 안 부서지는 티타늄 군사용 특수 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 교체해 버렸습니다.
 
-```text
-[11be]
-    │
-    ▼
-[무선 LAN 보안 진화]
-    │
-    └──▶ [WEP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WEP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 11be]
-    │
-    ▼
-[현재 개념: 무선 LAN 보안 진화]
-    │
-    ├──▶ [확장 A: WEP]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11be</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 무선 LAN 보안 진화는 11be에서 출발해 현재 메커니즘을 정교화하고, 이후 WEP와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

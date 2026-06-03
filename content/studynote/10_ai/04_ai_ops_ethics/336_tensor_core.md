@@ -29,14 +29,17 @@ tags = ["studynote-ai"]
 | [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) | 행렬 4×4 FP16 | 312 TFLOPS | 행렬 곱 전용 |
 | [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) FP8 | 행렬 FP8 (H100) | 3,958 TFLOPS | 추론 특화 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 "계산기 대신 행렬 덧셈 전용 슈퍼 계산기"다. 일반 계산기([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Core)로 행렬 덧셈을 하면 하나씩 더해야 하지만, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 4×4 블록을 한 번에 처리한다.
 
@@ -46,27 +49,23 @@ tags = ["studynote-ai"]
 
 ### WMMA (Warp Matrix Multiply Accumulate) 연산 구조
 
-```
-  텐서 코어 WMMA 연산: D = A × B + C
-  ┌─────────────────────────────────────────────────────────┐
-  │ A (FP16, 16×16) × B (FP16, 16×16) + C (FP32, 16×16)   │
-  │ ─────────────────────────────────────────────────────── │
-  │              D (FP32, 16×16)                            │
-  │  한 클록 사이클에 16×16×16 = 4,096 회 FMA 수행          │
-  └─────────────────────────────────────────────────────────┘
 
-  GPU SM (Streaming Multiprocessor) 내부 구조
-  ┌───────────────────────────────────────┐
-  │          SM (A100 기준)               │
-  │  ┌──────────────┐  ┌──────────────┐  │
-  │  │  CUDA Core   │  │ Tensor Core  │  │
-  │  │    × 128     │  │    × 4       │  │
-  │  └──────────────┘  └──────────────┘  │
-  │  ┌──────────────────────────────┐    │
-  │  │    L1 Cache / Shared Memory  │    │
-  │  └──────────────────────────────┘    │
-  └───────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">텐서 코어 WMMA 연산: D = A × B + C</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A (FP16, 16×16) × B (FP16, 16×16) + C (FP32, 16×16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D (FP32, 16×16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 클록 사이클에 16×16×16 = 4,096 회 FMA 수행</div></div>
+<div class="kb-diagram-note">GPU SM (Streaming Multiprocessor) 내부 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM (A100 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CUDA Core</div><div class="kb-diagram-cell">Tensor Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× 128</div><div class="kb-diagram-cell">× 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Cache / Shared Memory</div></div>
+</div>
+</div>
+
+
 
 ### [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 포맷 비교
 
@@ -82,25 +81,24 @@ tags = ["studynote-ai"]
 
 ### 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 학습 ([Mixed Precision Training](/knowledge-base/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/)) 흐름
 
-```
-  ┌──────────────────────────────────────────────────────────┐
-  │           Mixed Precision Training 파이프라인             │
-  ├──────────────────────────────────────────────────────────┤
-  │  FP32 마스터 가중치  ──▶  FP16 복사본 생성               │
-  │         │                        │                       │
-  │         │              순전파 (FP16 텐서 코어 가속)       │
-  │         │                        │                       │
-  │         │              역전파 (FP16 그래디언트 계산)      │
-  │         │                        │                       │
-  │         │     Loss Scaling 적용  │  (FP16 언더플로우 방지)│
-  │         │                        │                       │
-  │         └──◀ FP32 변환 후 가중치 업데이트 ───────────────┘
-  └──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed Precision Training 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 마스터 가중치 ──▶ FP16 복사본 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (FP16 텐서 코어 가속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (FP16 그래디언트 계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss Scaling 적용</div><div class="kb-diagram-cell">(FP16 언더플로우 방지)</div></div>
+<div class="kb-diagram-note">──◀ FP32 변환 후 가중치 업데이트</div>
+</div>
+</div>
+
+
 
 ### Loss Scaling (손실 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)) 필요성
 
-FP16 의 최솟값 약 6×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁵ 보다 작은 그래디언트는 **[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))** 로 0이 된다. 해결책: Loss 에 2¹⁶ 를 곱해 그래디언트를 증폭한 뒤, FP32 변환 후 스케일 나눔.
+FP16 의 최솟값 약 6×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁵ 보다 작은 그래디언트는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">언더플로우</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">Underflow</a>)</strong> 로 0이 된다. 해결책: Loss 에 2¹⁶ 를 곱해 그래디언트를 증폭한 뒤, FP32 변환 후 스케일 나눔.
 
 - **📢 섹션 요약 비유**: 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 "초안(FP16)은 빠른 볼펜으로, 최종 서명(FP32)은 정확한 만년필로" 하는 것과 같다. 속도를 위해 낮은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 계산하되, 핵심 보관은 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 유지한다.
 
@@ -110,8 +108,8 @@ FP16 의 최솟값 약 6×[10](/knowledge-base/studynote/02_operating_system/08_
 
 ### cuDNN / cuBLAS 와 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 연동
 
-- **cuBLAS ([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Basic Linear Algebra Subroutines)**: GEMM 을 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)로 자동 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
-- **cuDNN ([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Deep Neural Network [library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 시 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 우선 활용
+- <strong>cuBLAS (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/">CUDA</a> Basic Linear Algebra Subroutines)</strong>: GEMM 을 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)로 자동 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
+- <strong>cuDNN (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/">CUDA</a> Deep Neural Network <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">library</a>)</strong>: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 시 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 우선 활용
 - **PyTorch**: `torch.set_float32_matmul_precision('high')` 로 TF32 활성화
 
 ### 세대별 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 발전

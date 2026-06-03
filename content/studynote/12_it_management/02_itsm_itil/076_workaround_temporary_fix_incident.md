@@ -23,17 +23,20 @@ tags = ["studynote-it-management"]
 
 워크어라운드는 "고치는 것"이 아니라 "돌아가게 만드는 것"이다. 예를 들어 프로세스 재기동, 보조 서버로 우회, 기능 비활성화, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)처럼 즉시 효과가 있는 조치를 먼저 넣는다. 그렇게 해야 고객은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단을 덜 느끼고, [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/) 팀은 뒤에서 원인을 깊게 파고들 수 있다.
 
-```text
-장애 발생
-  │
-  ▼
-초기 분류
-  ├─ 원인 미상 / 즉시 복구 필요 → 워크어라운드
-  │                                     │
-  │                                     ▼
-  │                               서비스 복구
-  └─ 근본 원인 분석 → Problem Management → Permanent Fix
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장애 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초기 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:1">원인 미상 / 즉시 복구 필요 → 워크어라운드</div>
+<div class="kb-diagram-note">서비스 복구</div>
+<div class="kb-diagram-tree-item" style="--depth:1">근본 원인 분석 → Problem Management → Permanent Fix</div>
+</div>
+</div>
+
+
 
 이 흐름이 없으면 운영자는 분석만 하다가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타이밍을 놓친다. 워크어라운드는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 분석의 시간을 분리해 준다.
 
@@ -120,19 +123,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장애 발생
-    │
-    ▼
-인시던트 분류
-    │
-    ├─ 즉시 복구 → 워크어라운드
-    │                  │
-    │                  ▼
-    │              서비스 정상화
-    ▼
-문제 관리 / 원인 분석 / 영구 수정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장애 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인시던트 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:2">즉시 복구 → 워크어라운드</div>
+<div class="kb-diagram-note">서비스 정상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문제 관리 / 원인 분석 / 영구 수정</div>
+</div>
+</div>
+
+
 
 이 흐름은 "먼저 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 나중에 분석"의 순서를 강제한다. 이후 지식화와 자동화가 더해지면 반복 장애에 같은 조치를 더 빨리 적용할 수 있다.
 

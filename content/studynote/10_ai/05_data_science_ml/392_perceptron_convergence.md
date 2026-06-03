@@ -22,11 +22,17 @@ tags = ["studynote-ai"]
 1957년 Rosenblatt의 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 최초의 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 신경망 이론의 시작점이다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 "반드시 학습된다"는 수학적 보장을 증명한 것이 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 정리다.
 
 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙:
-```
-y = sign(w·x + b)
-오분류 시: w ← w + η·y_true·x
-           b ← b + η·y_true
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">y = sign(w·x + b)</div>
+<div class="kb-diagram-note">오분류 시: w ← w + η·y_true·x</div>
+<div class="kb-diagram-note">b ← b + η·y_true</div>
+</div>
+</div>
+
+
 
 선형 분리 가능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 반드시 수렴, 불가능 → 무한 루프
 
@@ -62,20 +68,22 @@ cos(θ) ≤ 1 이므로:
 최대 업데이트 횟수 T ≤ (R/γ)²
 ```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  2D 선형 분리 가능 예시                               │
-│                                                      │
-│  ●  ●                                               │
-│  ●    ●   ← 클래스 +1                               │
-│        ┆  ←  결정 경계 (w·x + b = 0)                │
-│  ○    ○  ← 클래스 -1                               │
-│  ○  ○                                               │
-│                                                      │
-│  마진 γ: 결정 경계에서 가장 가까운 점까지 거리        │
-│  γ가 클수록 수렴 빠름: T ≤ (R/γ)²                   │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2D 선형 분리 가능 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ● ← 클래스 +1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┆ ← 결정 경계 (w·x + b = 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○ ← 클래스 -1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마진 γ: 결정 경계에서 가장 가까운 점까지 거리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ가 클수록 수렴 빠름: T ≤ (R/γ)²</div></div>
+</div>
+</div>
+
+
 
 | 개념 | 정의 | 수렴과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
@@ -93,7 +101,7 @@ cos(θ) ≤ 1 이므로:
 **XOR 문제**: 선형 분리 불가능 → [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 불가 → [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) 필요
 **SVM으로의 발전**: 마진 γ 최대화 = 수렴 보장 강화 → 하드 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
 **Minsky & Papert (1969)**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 XOR 한계 비판 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 암흑기 촉발
-**[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 발견**: MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 XOR 해결 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 르네상스
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 발견</strong>: MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 XOR 해결 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 르네상스
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -108,9 +116,9 @@ cos(θ) ≤ 1 이므로:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 수렴 정리는 현대 딥러닝과 직접 연관은 적지만, 다음 개념의 기초:
-1. **[SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 마진 최대화**: 수렴 속도 향상의 극한 → 최적 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
-2. **선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 이론**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), 선형 SVM의 이론적 기반
-3. **표현 능력 (Representational [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))**: 단층 → 다층으로 확장의 필요성
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> 마진 최대화</strong>: 수렴 속도 향상의 극한 → 최적 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
+2. <strong>선형 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>기 이론</strong>: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), 선형 SVM의 이론적 기반
+3. <strong>표현 능력 (Representational <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong>: 단층 → 다층으로 확장의 필요성
 
 기술사 포인트: 수렴 정리의 가정(선형 분리 가능), 결론(유한 스텝 수렴), 마진과 수렴 속도의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정확히 설명.
 

@@ -11,8 +11,8 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [토큰 이코노미](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/)([Token Economy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/))는 FT(Fungible Token, 대체 가능 토큰)와 NFT([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/), 대체 불가 토큰)로 디지털·실물 자산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올려 **프로그래머블 자산**으로 만드는 생태계다.
-> 2. **가치**: ICO(Initial Coin Offering)→STO([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)→RWA(Real World Asset) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)로 진화하면서 자본 시장의 **유동성 민주화**와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 가능해졌다.
+> 1. **본질**: [토큰 이코노미](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/)([Token Economy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/026_token_economy/))는 FT(Fungible Token, 대체 가능 토큰)와 NFT([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/), 대체 불가 토큰)로 디지털·실물 자산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올려 <strong>프로그래머블 자산</strong>으로 만드는 생태계다.
+> 2. **가치**: ICO(Initial Coin Offering)→STO([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)→RWA(Real World Asset) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)로 진화하면서 자본 시장의 <strong>유동성 민주화</strong>와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 가능해졌다.
 > 3. **판단 포인트**: [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)(동질 토큰)과 ERC-721(NFT) 표준의 차이가 토큰 유용성을 결정하며, 인센티브 설계(Incentive Design) 실패가 토큰 생태계 붕괴의 핵심 원인이다.
 
 ---
@@ -23,9 +23,9 @@ tags = ["studynote-ict-convergence"]
 
 전통 자산(주식·채권·부동산·예술품)은 분할 소유·즉시 이전·글로벌 거래가 어렵다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)는 이 자산들을 24시간 365일 글로벌 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 거래가 가능한 디지털 자산으로 변환한다.
 
-- **FT([ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/))**: 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) = 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) (완전 대체 가능) → 화폐·유틸리티·거버넌스 토큰
+- <strong>FT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/">ERC-20</a>)</strong>: 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) = 1 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) (완전 대체 가능) → 화폐·유틸리티·거버넌스 토큰
 - **NFT(ERC-721)**: 각 토큰이 고유 ID를 보유 → 예술·게임 아이템·자격증
-- **SFT([ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/))**: FT+NFT 혼합 → 게임 아이템 다량 발행 최적화
+- <strong>SFT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/">ERC-1155</a>)</strong>: FT+NFT 혼합 → 게임 아이템 다량 발행 최적화
 
 - **📢 섹션 요약 비유**: — "FT는 현금(모든 1만원권이 동일), NFT는 희귀 우표(하나하나 고유), RWA는 부동산 지분 증서(실물이 뒷받침)다.
 
@@ -35,25 +35,26 @@ tags = ["studynote-ict-convergence"]
 
 ### 토큰 표준 비교 구조
 
-```
-┌──────────────────────────────────────────────────┐
-│              이더리움 토큰 표준                   │
-│                                                  │
-│  ERC-20 (Fungible Token)                         │
-│  ├ transfer(address, uint256)                    │
-│  ├ balanceOf(address) → uint256                  │
-│  └ totalSupply() → uint256                       │
-│                                                  │
-│  ERC-721 (Non-Fungible Token)                    │
-│  ├ ownerOf(tokenId) → address                    │
-│  ├ transferFrom(from, to, tokenId)               │
-│  └ tokenURI(tokenId) → string (메타데이터 링크)  │
-│                                                  │
-│  ERC-1155 (Multi-Token)                          │
-│  ├ balanceOf(account, id) → uint256              │
-│  └ safeTransferFrom(from, to, id, amount, data)  │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더리움 토큰 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-20 (Fungible Token)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transfer(address, uint256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanceOf(address) → uint256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">totalSupply() → uint256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-721 (Non-Fungible Token)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ownerOf(tokenId) → address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transferFrom(from, to, tokenId)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tokenURI(tokenId) → string (메타데이터 링크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-1155 (Multi-Token)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanceOf(account, id) → uint256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">safeTransferFrom(from, to, id, amount, data)</div></div>
+</div>
+</div>
+
+
 
 ### ICO / STO / IEO / RWA 비교
 
@@ -74,13 +75,19 @@ tags = ["studynote-ict-convergence"]
 
 성공적인 토큰 생태계는 세 집단의 인센티브가 정렬되어야 한다:
 
-```
-  사용자(User)
-      │ 토큰으로 서비스 이용
-      ▼
-  프로토콜(Protocol)  ←→  투자자/검증자
-  (수수료 수익)            (토큰 가치 상승)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자(User)</div>
+<div class="kb-diagram-note">토큰으로 서비스 이용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로토콜(Protocol) ←→ 투자자/검증자</div>
+<div class="kb-diagram-note">(수수료 수익) (토큰 가치 상승)</div>
+</div>
+</div>
+
+
 
 **실패 사례**: 토큰 발행 → 가격 펌핑 → 창업자 Exit → 생태계 붕괴 (Rug Pull)
 **성공 사례**: Uniswap UNI, Compound [COMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) → 실사용 가치 + 거버넌스 권한 결합
@@ -103,14 +110,14 @@ tags = ["studynote-ict-convergence"]
 ### RWA [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/) 프로세스
 
 1. **법적 구조화**: SPV(Special Purpose Vehicle) 설립, 자산 신탁
-2. **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 발행**: [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 또는 ERC-1400(증권 토큰 표준)
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 발행</strong>: [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 또는 ERC-1400(증권 토큰 표준)
 3. **오라클 연동**: 자산 가치를 온체인에 반영 (Chainlink 등)
 4. **규제 준수**: KYC/AML, 투자자 화이트리스트
 
 ### 기술사 핵심 판단
 - **토큰 유형 선택**: 화폐성([ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)) vs 고유성(ERC-721) vs 혼합([ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/))
-- **규제 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: ICO는 대부분 국가에서 미등록 증권 가능성, STO 필요
-- **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 보안**: 토큰 로직 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 필수 (OpenZeppelin 표준 사용)
+- <strong>규제 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: ICO는 대부분 국가에서 미등록 증권 가능성, STO 필요
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 보안</strong>: 토큰 로직 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 필수 (OpenZeppelin 표준 사용)
 - **유동성 풀**: AMM(Automated Market Maker)과 토큰 경제 연결성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 - **📢 섹션 요약 비유**: — "토큰 설계는 게임 화폐 시스템 설계와 같다 — 인플레이션, 소각, 유통량을 잘못 설계하면 게임 경제가 붕괴된다.
@@ -122,7 +129,7 @@ tags = ["studynote-ict-convergence"]
 | 효과 항목 | 내용 |
 |:---|:---|
 | **유동성 확대** | 비유동 자산(부동산·예술품)을 분할 거래 가능 |
-| **글로벌 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)** | 인터넷만 있으면 전 세계 자산 투자 |
+| <strong>글로벌 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | 인터넷만 있으면 전 세계 자산 투자 |
 | **투명한 소유권** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기록으로 위변조 불가 이력 관리 |
 | **새 수익 모델** | 크리에이터가 NFT 2차 판매 로열티 자동 수령 |
 

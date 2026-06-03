@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 메모리를 같은 크기 조각이 아니라 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 **의미가 다른 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위**로 나누어 주소화하는 방식이다.
+> 1. **본질**: [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 메모리를 같은 크기 조각이 아니라 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 <strong>의미가 다른 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 단위</strong>로 나누어 주소화하는 방식이다.
 > 2. **가치**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위별로 길이와 권한을 따로 둘 수 있어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 공유 (Sharing), 오류 검출을 사람의 프로그램 구조에 맞춰 설명하기 쉽다.
 > 3. **판단 포인트**: 세그먼트 크기가 가변적이라 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 생기므로, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)보다 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 중심 구조에 선택적으로 결합한다.
 
@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이 "같은 크기로 자르는 방식"이 아니라 "역할별로 다른 크기를 허용하는 방식"임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          논리 구조 중심 분할: 세그먼트마다 의미와 길이가 다름            │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 논리 주소 공간                │ 물리 메모리 배치                           │
-├───────────────────────────────┼────────────────────────────────────────────┤
-│ Segment 0 : Code   (24 KB)    │ [ Code   24 KB ]                           │
-│ Segment 1 : Data   (10 KB)    │ [ Free    6 KB ]  ← 작은 빈틈              │
-│ Segment 2 : Heap   (18 KB)    │ [ Data   10 KB ]                           │
-│ Segment 3 : Stack   (8 KB)    │ [ Heap   18 KB ]                           │
-│                               │ [ Free    4 KB ]                           │
-│                               │ [ Stack   8 KB ]                           │
-└───────────────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 구조 중심 분할: 세그먼트마다 의미와 길이가 다름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 공간</div><div class="kb-diagram-cell">물리 메모리 배치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Segment 0 : Code (24 KB)</div><div class="kb-diagram-node">Code   24 KB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Segment 1 : Data (10 KB)</div><div class="kb-diagram-node">Free    6 KB</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">작은 빈틈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Segment 2 : Heap (18 KB)</div><div class="kb-diagram-node">Data   10 KB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Segment 3 : Stack (8 KB)</div><div class="kb-diagram-node">Heap   18 KB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Free    4 KB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stack   8 KB</div></div>
+</div>
+</div>
+
+
 
 핵심은 프로그램의 구조와 메모리 관리 단위가 서로 대응된다는 점이다. 대신 물리 메모리에서는 세그먼트 크기가 제각각이라 빈틈이 남기 쉬우며, 이 빈틈이 누적되면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 문제가 나타난다.
 
@@ -48,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 주소는 보통 `세그먼트 번호 + 오프셋 (Offset)`으로 표현된다. 메모리 관리 장치인 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 세그먼트 번호로 세그먼트 테이블을 찾고, 그 안의 기준 주소와 길이, 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 확인한 뒤 실제 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 계산한다. 즉 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 단순 위치 계산이 아니라 **범위 검사와 권한 검사**를 함께 수행하는 주소 변환 방식이다.
+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 주소는 보통 `세그먼트 번호 + 오프셋 (Offset)`으로 표현된다. 메모리 관리 장치인 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 세그먼트 번호로 세그먼트 테이블을 찾고, 그 안의 기준 주소와 길이, 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 확인한 뒤 실제 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 계산한다. 즉 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 단순 위치 계산이 아니라 <strong>범위 검사와 권한 검사</strong>를 함께 수행하는 주소 변환 방식이다.
 
 | 구성 요소 | 의미 | 핵심 역할 |
 | :-- | :-- | :-- |
@@ -60,26 +62,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 세그먼트 테이블을 이용한 주소 변환 흐름을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          세그먼트 주소 변환: 선택 → 검사 → 실제 주소 계산                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = (s, d)                                                        │
-│      │                                                                    │
-│      ├─ s = Segment Number ────────┐                                      │
-│      │                             ▼                                      │
-│      │                    ┌────────────────────────────┐                   │
-│      │                    │ Segment Table Entry[s]     │                   │
-│      │                    │ Base  = 40,000             │                   │
-│      │                    │ Limit = 8,192              │                   │
-│      │                    │ Perm  = Read / Write       │                   │
-│      │                    └────────────────────────────┘                   │
-│      │                             │                                      │
-│      └─ d = Offset ────────────────┼─ d < Limit ? ── No ─▶ Fault          │
-│                                    │                                      │
-│                                    └─ Yes ──────────▶ Physical = Base + d │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 주소 변환: 선택 → 검사 → 실제 주소 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 = (s, d)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ s = Segment Number</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ Segment Table Entry</div><div class="kb-diagram-node">s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base = 40,000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Limit = 8,192</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Perm = Read / Write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ d = Offset ─ d &lt; Limit ? ── No ─▶ Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ▶ Physical = Base + d</div></div>
+</div>
+</div>
+
+
 
 이 구조의 장점은 단순하다. 코드 세그먼트는 실행 가능하지만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 금지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트는 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트는 자동 확장 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 줄 수 있다. 반면 세그먼트 길이가 고정되지 않으므로 새 세그먼트를 넣거나 기존 세그먼트를 키울 때 연속 공간을 찾아야 하고, 이것이 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용과 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 부른다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 제대로 이해하려면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과의 차이를 같이 봐야 한다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 프로그램 의미에 맞는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성을 얻는 대신 공간 배치가 어렵고, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 고정 크기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 나누어 배치 효율과 치환 관리를 쉽게 만드는 대신 프로그램 의미를 직접 드러내지는 못한다. 즉 둘의 차이는 단순히 "가변 vs 고정"이 아니라 **무엇을 기준으로 메모리를 설명할 것인가**의 차이다.
+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 제대로 이해하려면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과의 차이를 같이 봐야 한다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 프로그램 의미에 맞는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성을 얻는 대신 공간 배치가 어렵고, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 고정 크기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 나누어 배치 효율과 치환 관리를 쉽게 만드는 대신 프로그램 의미를 직접 드러내지는 못한다. 즉 둘의 차이는 단순히 "가변 vs 고정"이 아니라 <strong>무엇을 기준으로 메모리를 설명할 것인가</strong>의 차이다.
 
 | 비교 항목 | [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) |
 | :-- | :-- | :-- |
@@ -159,25 +158,25 @@ x86 계열도 이런 흐름을 보여준다. 32비트 환경에서는 세그먼�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 메모리 할당
-    │
-    ▼
-세그멘테이션 (Segmentation)
-    │
-    ├─ 보호·공유 강화
-    │
-    └─ 외부 단편화 심화
-           │
-           ▼
-페이징 (Paging) 결합
-    │
-    ▼
-현대 평면 주소 공간 + 페이지 기반 가상 메모리
-    │
-    ▼
-제한적 세그먼트 활용 (FS/GS, TLS, 보호 모델 이해)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 메모리 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">보호·공유 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">외부 단편화 심화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging) 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 평면 주소 공간 + 페이지 기반 가상 메모리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제한적 세그먼트 활용 (FS/GS, TLS, 보호 모델 이해)</div>
+</div>
+</div>
+
+
 
 이 흐름은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이 폐기된 개념이 아니라, 순수 구현에서는 물러났지만 현대 가상 메모리와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델의 사고방식 안에 흡수되었음을 보여준다.
 

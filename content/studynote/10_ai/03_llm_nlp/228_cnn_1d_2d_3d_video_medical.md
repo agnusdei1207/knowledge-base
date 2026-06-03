@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 단순히 평면 사진(2D)의 강아지를 찾는 눈알에 불과했던 것을 넘어, 필터(도장)의 움직이는 방향(차원)을 1차원(선), 2차원(면), 3차원(공간/시간)으로 구부리고 확장시켜 **세상의 모든 센서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 시공간의 흐름을 뜯어먹는 만능 비전(Vision) 아키텍처**로 진화했다.
+> 1. **본질**: [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))은 단순히 평면 사진(2D)의 강아지를 찾는 눈알에 불과했던 것을 넘어, 필터(도장)의 움직이는 방향(차원)을 1차원(선), 2차원(면), 3차원(공간/시간)으로 구부리고 확장시켜 <strong>세상의 모든 센서 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>와 시공간의 흐름을 뜯어먹는 만능 비전(Vision) 아키텍처</strong>로 진화했다.
 > 2. **가치**: 이 차원의 확장은 혁명이다. 가로로만 훑는 1D-CNN은 심전도(ECG) 기계의 심박수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)나 주식 차트를 빛의 속도로 꿰뚫어 보고, 앞뒤는 물론 깊이(Depth)까지 훑고 지나가는 3D-CNN은 MRI/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 병원 스캔에서 암세포의 둥근 부피를 스캔해 내고, 넷플릭스 비디오에서 "사람이 주먹을 날리는 움직임(시간)"을 인식해 내는 4차원적 마법을 부린다.
 > 3. **판단 포인트**: 차원(D)을 하나 높일 때마다 파라미터(뇌세포) 연산량이 수백 배씩 우주로 폭발한다. 특히 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(비디오)을 쌩으로 돌리면 GPU가 녹아내리므로, 3차원 큐브 필터를 `(공간 2D) + (시간 1D)`로 찢어버려서 연산량을 박살 내는 **(2+1)D 합성곱 최적화(Pseudo-3D)** 구조 설계가 인프라 아키텍트의 생명선이다.
 
@@ -24,17 +24,20 @@ tags = ["studynote-ai"]
 하지만 인간의 현실 세계는 평면 사진첩이 아니다. 
 병원 중환자실의 심박수 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 삐-삐- 소리는 가로로만 쭉 이어지는 '선(1D)'의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 유튜브 동영상은 수만 장의 평면 사진들이 시간 순서대로 겹겹이 쌓인 '큐브(3D)' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 병원 MRI 단층 촬영 사진들도 인간의 몸을 100장으로 썰어서 쌓아둔 '공간 큐브(3D)'다. 
 
-공학자들은 2D 사진에만 갇혀있는 위대한 CNN의 눈알(필터)을 뽑아내 차원을 개조하기 시작했다. "필터가 위아래로만 움직이지 말고, **좌우 선을 따라 일직선으로만 미끄러지게 해 봐(1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))!** 아니, 아예 필터에 깊이(Depth)를 줘서 **동영상 뭉텅이를 한 번에 관통하며 뚫고 지나가게 해 봐(3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))!**"
+공학자들은 2D 사진에만 갇혀있는 위대한 CNN의 눈알(필터)을 뽑아내 차원을 개조하기 시작했다. "필터가 위아래로만 움직이지 말고, <strong>좌우 선을 따라 일직선으로만 미끄러지게 해 봐(1D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)!</strong> 아니, 아예 필터에 깊이(Depth)를 줘서 <strong>동영상 뭉텅이를 한 번에 관통하며 뚫고 지나가게 해 봐(3D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)!</strong>"
 이렇게 필터의 슬라이딩 방향과 차원을 뒤틀어버림으로써, CNN은 심전도(1D), 사진(2D), 비디오 및 MRI(3D)라는 인류의 모든 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 씹어먹는 전능한 파서(Parser)로 각성하게 되었다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 2D-CNN은 '창문 청소부'다. 밀대(필터)를 들고 유리창(사진)의 가로세로를 문지르며 얼룩(고양이 귀)을 찾는다. 여기서 밀대를 얇게 잘라서 줄자처럼 '한 줄'만 길게 쭉 문지르며 심전도 선의 떨림을 찾는 게 1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(줄타기 청소부)이다. 반대로 창문 수백 장을 겹쳐놓고 긴 송곳 모양의 두꺼운 브러시로 창문 전체를 앞뒤로 뚫고 지나가면서 "시간이 지날수록 얼룩이 어떻게 움직이는지(비디오)" 한 방에 긁어내는 괴물이 바로 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(관통형 청소부)이다.
 
@@ -42,36 +45,37 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 차원의 마법은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태가 아니라, 도장(Filter/[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 움직이는 **'슬라이딩 차원(Sliding Dimension)'**이 몇 개냐에 따라 아키텍처가 완전히 갈라진다.
+[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 차원의 마법은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태가 아니라, 도장(Filter/[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 움직이는 <strong>'슬라이딩 차원(Sliding Dimension)'</strong>이 몇 개냐에 따라 아키텍처가 완전히 갈라진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           1D, 2D, 3D CNN (합성곱)의 차원 확장 아키텍처 도해               │
-├──────────────────────────────────────────────────────────────┤
-│  [1D-CNN: 선형(Time-series) 데이터 파싱 - "시간의 흐름만 훑는다"]        │
-│   * 입력: 심전도 그래프, 주식 1년 치 차트 (길쭉한 1차원 선 데이터)           │
-│   * 커널 붓: [1 x 3] 얇은 막대기 붓.                                  │
-│   * 움직임: 가로(오른쪽)로만 쭉- 미끄러지며(Sliding) 파동의 특징을 추출!     │
-│   ─▶ 결과: RNN/LSTM보다 100배 빠르면서도 패턴(심장병 전조 증상) 기가 막히게 찾음.│
-│                                                              │
-│  [2D-CNN: 평면 공간(Spatial) 파싱 - "가로세로 면적을 훑는다"]            │
-│   * 입력: 1920x1080 일반 강아지 사진 (2차원 면 데이터)                   │
-│   * 커널 붓: [3 x 3] 정사각형 도장.                                   │
-│   * 움직임: 가로로 밀고, 세로로 내려가며 사진 전체의 면적(귀, 눈)을 훑음!     │
-│   ─▶ 결과: 우리가 아는 가장 흔하고 완벽한 이미지 분류(ResNet)의 심장.       │
-│                                                              │
-│  [3D-CNN: 시공간 및 부피(Spatiotemporal) 파싱 - "앞뒤 공간까지 뚫는다"]   │
-│   * 입력: 3초짜리 비디오(100프레임 쌓임) 또는 MRI 단층 100장 (3차원 큐브)     │
-│   * 커널 붓: [3 x 3 x 3] 입방체(큐브) 모양의 두꺼운 주사위 도장!           │
-│   * 움직임: 가로세로를 밀면서 동시에 뒤통수(시간/깊이 축) 방향으로 뚫고 들어감! │
-│   ─▶ 결과: "어? 1초 전엔 손이 여기 있었는데 3초 뒤엔 손이 저기 있네?"       │
-│            공간(모양)과 시간(움직임)을 동시에 깨우치는 궁극의 행동 인식 뇌!    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1D, 2D, 3D CNN (합성곱)의 차원 확장 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1D-CNN: 선형(Time-series) 데이터 파싱 - "시간의 흐름만 훑는다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력: 심전도 그래프, 주식 1년 치 차트 (길쭉한 1차원 선 데이터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 커널 붓:</div><div class="kb-diagram-node">1 x 3</div><div class="kb-diagram-note">얇은 막대기 붓.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 움직임: 가로(오른쪽)로만 쭉- 미끄러지며(Sliding) 파동의 특징을 추출!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: RNN/LSTM보다 100배 빠르면서도 패턴(심장병 전조 증상) 기가 막히게 찾음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2D-CNN: 평면 공간(Spatial) 파싱 - "가로세로 면적을 훑는다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력: 1920x1080 일반 강아지 사진 (2차원 면 데이터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 커널 붓:</div><div class="kb-diagram-node">3 x 3</div><div class="kb-diagram-note">정사각형 도장.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 움직임: 가로로 밀고, 세로로 내려가며 사진 전체의 면적(귀, 눈)을 훑음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: 우리가 아는 가장 흔하고 완벽한 이미지 분류(ResNet)의 심장.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3D-CNN: 시공간 및 부피(Spatiotemporal) 파싱 - "앞뒤 공간까지 뚫는다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력: 3초짜리 비디오(100프레임 쌓임) 또는 MRI 단층 100장 (3차원 큐브)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 커널 붓:</div><div class="kb-diagram-node">3 x 3 x 3</div><div class="kb-diagram-note">입방체(큐브) 모양의 두꺼운 주사위 도장!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 움직임: 가로세로를 밀면서 동시에 뒤통수(시간/깊이 축) 방향으로 뚫고 들어감!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: "어? 1초 전엔 손이 여기 있었는데 3초 뒤엔 손이 저기 있네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간(모양)과 시간(움직임)을 동시에 깨우치는 궁극의 행동 인식 뇌!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (공간적 차원과 시간/깊이 축의 융합)**:
 3D-CNN의 압도적인 무기는 차원 축의 융합이다. 비디오에서 사람이 춤을 추는 걸 파악하려면, 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 백날 돌려봐야 "이 사진엔 사람이 서 있네, 다음 사진엔 손을 들었네"라고 정지 화면만 분석한다. 동적인 '움직임(Motion)' 자체를 이해하지 못한다. 
-3D 필터(`[시간 T x 가로 H x 세로 W]`)를 쓰면 도장이 여러 장의 프레임(시간)을 한 번에 덮어버린다. 프레임 1번의 픽셀과 3번의 픽셀 차이를 도장 하나 안에서 수학적으로 섞어버리므로, 네트워크가 숨 쉬듯 자연스럽게 **"동작(Action Recognition)"이나 "MRI 암 종양의 구형 부피(Volumetric [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))"를 뇌에 각인**시킬 수 있다.
+3D 필터(`[시간 T x 가로 H x 세로 W]`)를 쓰면 도장이 여러 장의 프레임(시간)을 한 번에 덮어버린다. 프레임 1번의 픽셀과 3번의 픽셀 차이를 도장 하나 안에서 수학적으로 섞어버리므로, 네트워크가 숨 쉬듯 자연스럽게 <strong>"동작(Action Recognition)"이나 "MRI 암 종양의 구형 부피(Volumetric <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)"를 뇌에 각인</strong>시킬 수 있다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -90,11 +94,11 @@ tags = ["studynote-ai"]
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 전통적 딥러닝 해결책 (올드 스쿨) | 현대적 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 차원 확장 솔루션 (뉴 스쿨) | 차원 확장([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))이 거둔 압도적 승리 포인트 |
 |:---|:---|:---|:---|
-| **시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** (주식, 심전도 ECG, 음성파형) | **[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) / [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** (과거 기억을 계속 넘겨가며 순차적으로 계산, 미치도록 느림) | **1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)** (필터를 일직선으로 쏴버림) | 앞뒤 순서대로 안 읽고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 한 번에 필터를 덮어버려 **연산 속도가 100배 빠르면서도 국소적 파동 패턴을 귀신같이 잡아냄.** |
-| **정지 이미지** (자율주행 표지판, 얼굴 인식) | [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, 픽셀을 일렬로 세워서 학습해 모양 다 부서짐) | **2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)** (면적 유지) | 설명이 필요 없는 비전(Vision) 딥러닝의 황제 (현재는 Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), ViT와 경쟁 중). |
-| **비디오 (움직임 인식)** / **의료 3D (MRI/[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))** | 2D-CNN으로 사진 특징 뽑고 + 뒤에 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 붙여서 시간 흐름 계산 (투-트랙 방식이라 병목 심함) | **3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)** (아예 도장을 큐브로 만들어서 한 방에 뚫음) | 공간(형태)과 시간(움직임)을 두 개의 네트워크로 찢지 않고 **하나의 거대한 큐브 필터 안에서 완벽히 섞어 융합해 냄(C3D 아키텍처).** |
+| <strong>시계열 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> (주식, 심전도 ECG, 음성파형) | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a> / <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> (과거 기억을 계속 넘겨가며 순차적으로 계산, 미치도록 느림) | <strong>1D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a></strong> (필터를 일직선으로 쏴버림) | 앞뒤 순서대로 안 읽고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 한 번에 필터를 덮어버려 **연산 속도가 100배 빠르면서도 국소적 파동 패턴을 귀신같이 잡아냄.** |
+| **정지 이미지** (자율주행 표지판, 얼굴 인식) | [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, 픽셀을 일렬로 세워서 학습해 모양 다 부서짐) | <strong>2D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a></strong> (면적 유지) | 설명이 필요 없는 비전(Vision) 딥러닝의 황제 (현재는 Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), ViT와 경쟁 중). |
+| **비디오 (움직임 인식)** / <strong>의료 3D (MRI/<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>)</strong> | 2D-CNN으로 사진 특징 뽑고 + 뒤에 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 붙여서 시간 흐름 계산 (투-트랙 방식이라 병목 심함) | <strong>3D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a></strong> (아예 도장을 큐브로 만들어서 한 방에 뚫음) | 공간(형태)과 시간(움직임)을 두 개의 네트워크로 찢지 않고 **하나의 거대한 큐브 필터 안에서 완벽히 섞어 융합해 냄(C3D 아키텍처).** |
 
-특히 의료 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Medical Imaging)에서 **V-Net(3D [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))**이나 **3D U-Net**은 노벨상급 기여를 했다. [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 촬영 100장을 2D-CNN으로 보면 그냥 단면 100장일 뿐이지만, 3D U-Net에 넣고 큐브 필터로 돌리면 환자의 뇌 속에 있는 종양 덩어리가 입체적인 '공 구슬' 모양으로 정확히 모델링되어 완벽한 부피 수술 범위를 예측해 낸다.
+특히 의료 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Medical Imaging)에서 <strong>V-Net(3D <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)</strong>이나 <strong>3D U-Net</strong>은 노벨상급 기여를 했다. [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 촬영 100장을 2D-CNN으로 보면 그냥 단면 100장일 뿐이지만, 3D U-Net에 넣고 큐브 필터로 돌리면 환자의 뇌 속에 있는 종양 덩어리가 입체적인 '공 구슬' 모양으로 정확히 모델링되어 완벽한 부피 수술 범위를 예측해 낸다.
 
 - **📢 섹션 요약 비유**: 1D-CNN은 '바코드 스캐너'다. 빨간 줄(레이저)이 가로로 한 번 쭉 훑고 지나가며 1초 만에 물건값(주식 차트의 특징)을 찍어낸다. 옛날 RNN은 바코드 숫자를 사람이 한 글자씩 돋보기로 읽는 끔찍한 속도였다. 3D-CNN은 '초음파 검사기'다. 겉(2D)만 찍는 사진기가 아니라 아기 엄마의 뱃속 깊이(Depth)까지 전파를 밀어 넣어서 입체적인 아기 얼굴(종양 부피) 전체를 한 화면에 입체적으로 잡아내는 마법의 의료 도구다.
 
@@ -105,11 +109,11 @@ tags = ["studynote-ai"]
 유튜브 폭력 영상 자동 검출기(비디오)나 의료용 MRI 진단 시스템을 만들려고 무작정 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(C3D)을 서버에 올리는 순간, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))로 서버실이 불타오른다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **차원의 저주와 (2+1)D 필터 분해 결단 (R(2+1)D 아키텍처)**: 2D 필터(3x3)는 파라미터가 9개다. 3D 필터(3x3x3)는 27개다. 차원이 하나 늘었을 뿐인데 파라미터와 메모리 연산량이 3배, 10배씩 기하급수적으로 터져 나간다(차원의 저주). 실무에서는 이 무식한 3x3x3 큐브 필터를 버린다. 대신 **공간을 찾는 [1x3x3] 2D 필터 1개와, 시간을 찾는 [3x1x1] 1D 필터 1개로 가위로 쪼개어 연달아 계산하게 분리(Factorization)시키는 (2+1)D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 아키텍처**를 짜야 한다. 이렇게 하면 공간과 시간의 특징을 똑같이 잡아내면서도 파라미터 수는 반 토막이 나서 가벼운 GPU에서도 실시간 비디오 처리가 가능해진다.
-2. **1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 수용 영역 (Receptive Field) 확장 설계**: 심전도나 주식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(1D)를 분석할 때 필터 사이즈를 3([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이즈 3)으로 너무 작게 잡으면, 모델은 아주 미세한 0.1초짜리 떨림만 볼 뿐 "1년짜리 거대한 하락장([Long-term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))"이라는 큰 그림을 절대 파악하지 못한다. 1차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 넓은 시야를 확보하려면 일반 1D-CNN이 아니라, 필터 사이에 구멍을 뻥뻥 뚫어서 시야를 10배로 벌려버리는 **팽창 합성곱(Dilated 1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) / TCN 아키텍처)**을 투입하여 RNN의 장기 기억력을 완벽히 찍어 눌러야 한다.
+1. **차원의 저주와 (2+1)D 필터 분해 결단 (R(2+1)D 아키텍처)**: 2D 필터(3x3)는 파라미터가 9개다. 3D 필터(3x3x3)는 27개다. 차원이 하나 늘었을 뿐인데 파라미터와 메모리 연산량이 3배, 10배씩 기하급수적으로 터져 나간다(차원의 저주). 실무에서는 이 무식한 3x3x3 큐브 필터를 버린다. 대신 <strong>공간을 찾는 [1x3x3] 2D 필터 1개와, 시간을 찾는 [3x1x1] 1D 필터 1개로 가위로 쪼개어 연달아 계산하게 분리(Factorization)시키는 (2+1)D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 아키텍처</strong>를 짜야 한다. 이렇게 하면 공간과 시간의 특징을 똑같이 잡아내면서도 파라미터 수는 반 토막이 나서 가벼운 GPU에서도 실시간 비디오 처리가 가능해진다.
+2. <strong>1D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 수용 영역 (Receptive Field) 확장 설계</strong>: 심전도나 주식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(1D)를 분석할 때 필터 사이즈를 3([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이즈 3)으로 너무 작게 잡으면, 모델은 아주 미세한 0.1초짜리 떨림만 볼 뿐 "1년짜리 거대한 하락장([Long-term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))"이라는 큰 그림을 절대 파악하지 못한다. 1차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 넓은 시야를 확보하려면 일반 1D-CNN이 아니라, 필터 사이에 구멍을 뻥뻥 뚫어서 시야를 10배로 벌려버리는 <strong>팽창 합성곱(Dilated 1D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> / TCN 아키텍처)</strong>을 투입하여 RNN의 장기 기억력을 완벽히 찍어 눌러야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **비디오 처리에 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 무지성 투입 (프레임 찢기 버그)**: "동영상은 어차피 사진 수십 장이잖아? 2D-CNN에 사진 100장 각각 넣고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 더하면 되겠네!"라는 가장 멍청하고 원시적인 접근. 유튜브에서 어떤 남자가 문을 '열고 들어오는지', 아니면 '닫고 나가는지'는 사진 1장씩 떼어놓고 보면 절대 알 수 없다(동일한 동작 프레임). 시간의 순서(Temporal Information)가 완전히 날아갔기 때문이다. 비디오를 다룰 때는 프레임을 찢어서 2D에 던지지 말고, 무조건 **프레임 덩어리를 묶어서([Clip](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)) 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(시간 축 포함) 필터나 Optical Flow(광학 흐름) 투-스트림(Two-[stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 네트워크의 아가리에 밀어 넣어야**만 동작의 앞뒤 문맥을 파악할 수 있다.
+- <strong>비디오 처리에 2D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 무지성 투입 (프레임 찢기 버그)</strong>: "동영상은 어차피 사진 수십 장이잖아? 2D-CNN에 사진 100장 각각 넣고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 더하면 되겠네!"라는 가장 멍청하고 원시적인 접근. 유튜브에서 어떤 남자가 문을 '열고 들어오는지', 아니면 '닫고 나가는지'는 사진 1장씩 떼어놓고 보면 절대 알 수 없다(동일한 동작 프레임). 시간의 순서(Temporal Information)가 완전히 날아갔기 때문이다. 비디오를 다룰 때는 프레임을 찢어서 2D에 던지지 말고, 무조건 <strong>프레임 덩어리를 묶어서(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">Clip</a>) 3D-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>(시간 축 포함) 필터나 Optical Flow(광학 흐름) 투-스트림(Two-<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">stream</a>) 네트워크의 아가리에 밀어 넣어야</strong>만 동작의 앞뒤 문맥을 파악할 수 있다.
 
 - **📢 섹션 요약 비유**: 무식한 3D 큐브 필터는 요리사가 '수박(비디오)'을 칼 하나로 한 번에 네모나게 썰어버리려는 미친 힘자랑이다. 손목([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이 부러진다. (2+1)D 분해 최적화는 '스마트한 썰기'다. 먼저 칼로 수박을 평면으로 둥글게 탁 썰고(공간 2D 필터), 그다음 눕혀서 세로로 탁탁 썬다(시간 1D 필터). 결과물(조각난 수박)은 똑같이 입체적이지만, 요리사의 손목 힘(연산량)은 절반도 안 들게 하는 가장 우아한 아키텍트의 주방 꼼수다.
 
@@ -131,8 +135,8 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) / VGG (2D [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))** | 차원 확장의 영원한 고향이자 기준점. 평면 이미지의 끝판왕 뼈대이며, 이 녀석들의 3x3 필터에 깊이 축만 추가해서 3x3x3으로 부풀리면 그게 바로 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델이 된다 |
-| **[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) / [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))** | 1D-CNN이 무참히 박살 내고 있는 과거의 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 제왕. 시간을 한 땀 한 땀 순서대로 읽느라 답답했던 RNN의 목을, 1D 필터로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 긁어버리는 CNN이 완전히 꺾어버렸다 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> / VGG (2D <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a>)</strong> | 차원 확장의 영원한 고향이자 기준점. 평면 이미지의 끝판왕 뼈대이며, 이 녀석들의 3x3 필터에 깊이 축만 추가해서 3x3x3으로 부풀리면 그게 바로 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델이 된다 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a> / <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/">순환 신경망</a>)</strong> | 1D-CNN이 무참히 박살 내고 있는 과거의 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 제왕. 시간을 한 땀 한 땀 순서대로 읽느라 답답했던 RNN의 목을, 1D 필터로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 긁어버리는 CNN이 완전히 꺾어버렸다 |
 | **U-Net / 3D U-Net** | 일반 사진 픽셀 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 쓰던 U-Net을 3차원 MRI 부피 공간으로 끌고 올라가, 환자의 뇌 속 종양 덩어리를 3D 그래픽으로 예쁘게 오려내주는([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) 의료계의 절대 성배 모델 |
 | **Optical Flow (광학 흐름)** | 3D-CNN의 연산량이 너무 무거워서 서버가 터질 때 꺼내 드는 꼼수. 비디오에서 '움직이는 픽셀의 방향 화살표(모션)'만 따로 뽑아내서 2D-CNN에 먹이는 가벼운 행동 인식 꼼수 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 
@@ -144,9 +148,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 일반 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 **'네모난 평면 돋보기'**를 들고 도화지(사진) 위를 쓱쓱 밀고 다니며 고양이를 찾는 똑똑한 로봇이에요.
-2. 1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 돋보기를 **'얇은 일직선'**으로 자른 다음, 심박수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(선) 위를 줄타기하듯 빠르게 훑고 지나가며 병을 찾아내요.
-3. 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 돋보기를 엄청 크고 두꺼운 **'마법의 정육면체 상자'**로 업그레이드했어요! 100장의 사진을 뚫고 지나가면서 "아하! 동영상 속 사람이 춤을 추고 있네!" 하고 움직임까지 완벽하게 잡아낸답니다!
+1. 일반 2D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 <strong>'네모난 평면 돋보기'</strong>를 들고 도화지(사진) 위를 쓱쓱 밀고 다니며 고양이를 찾는 똑똑한 로봇이에요.
+2. 1D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 돋보기를 <strong>'얇은 일직선'</strong>으로 자른 다음, 심박수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(선) 위를 줄타기하듯 빠르게 훑고 지나가며 병을 찾아내요.
+3. 3D-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 로봇은 돋보기를 엄청 크고 두꺼운 <strong>'마법의 정육면체 상자'</strong>로 업그레이드했어요! 100장의 사진을 뚫고 지나가면서 "아하! 동영상 속 사람이 춤을 추고 있네!" 하고 움직임까지 완벽하게 잡아낸답니다!
 
 ---
 

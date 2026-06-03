@@ -30,18 +30,20 @@ tags = ["studynote-computer-architecture"]
 
 반도체의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 제어는 순수 실리콘 (Intrinsic Semiconductor)에 불순물을 주입하는 도핑 (Doping) 과정을 통해 완성된다. 15족 원소(인 등)를 주입하면 전자가 남는 N형 (N-Type) 반도체가 되고, 13족 원소(붕소 등)를 주입하면 전자가 부족한 정공 (Hole)이 생기는 P형 (P-Type) 반도체가 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           에너지 밴드 갭(Band Gap)에 따른 물질의 분류           │
-├──────────────────────────────────────────────────────────────┤
-│  [절연체]                 [반도체]                  [도체]     │
-│ 전도대 ────               전도대 ────            전도대 ━━━━━━│
-│    ▲                       ▲ (약 1eV)      (전도대/가전자대 겹침)│
-│    │ 5eV 이상               │ 외부 에너지 인가시 점프 가능 │
-│    ▼                       ▼                       ▼        │
-│ 가전자대 ────             가전자대 ────            가전자대 ━━━━━━│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 밴드 갭(Band Gap)에 따른 물질의 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">절연체</div><div class="kb-diagram-node">반도체</div><div class="kb-diagram-node">도체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전도대 전도대 전도대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ ▲ (약 1eV) (전도대/가전자대 겹침)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5eV 이상</div><div class="kb-diagram-cell">외부 에너지 인가시 점프 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가전자대 가전자대 가전자대</div></div>
+</div>
+</div>
+
+
 
 밴드 갭 구조에서 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)는 갭이 너무 커서 전자가 넘어갈 수 없고, 도체는 이미 겹쳐 있어 항상 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐른다. 반도체의 $1 \text{ [eV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)}$ 내외 밴드 갭은 인간이 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)하는 $1 \sim 1.5V$ [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만으로 제어가 가능한 마법의 문턱이다.
 
@@ -67,7 +69,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 **열 폭주 (Thermal Runaway)**다. 반도체는 도체와 달리 온도가 오를수록 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다. 
+실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 <strong>열 폭주 (Thermal Runaway)</strong>다. 반도체는 도체와 달리 온도가 오를수록 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다. 
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **열 설계 전력 (TDP)** 한계 내에서 쿨링 솔루션이 접합 온도(Tj)를 방어할 수 있는가?
@@ -100,21 +102,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[진성 반도체 — 전하 이동이 거의 없음]
-    │
-    ▼
-[불순물 도핑 — 전도도 조절]
-    │
-    ▼
-[P형/N형 반도체 — 정공/전자 우세]
-    │
-    ▼
-[PN 접합 — 정류 특성 형성]
-    │
-    ▼
-[집적회로(IC)/VLSI — 대규모 집적]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">진성 반도체 — 전하 이동이 거의 없음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">불순물 도핑 — 전도도 조절</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P형/N형 반도체 — 정공/전자 우세</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PN 접합 — 정류 특성 형성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">집적회로(IC)/VLSI — 대규모 집적</div></div>
+</div>
+</div>
+
+
 
 반도체는 진성 반도체에서 도핑과 PN 접합을 거쳐 집적회로와 VLSI로 발전한 흐름이다.
 

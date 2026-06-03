@@ -21,32 +21,25 @@ tags = ["studynote-computer-architecture"]
 
 분기 목표 주입은 피해자 코드가 아직 간접 분기의 진짜 목적지를 계산하기 전, CPU (Central Processing Unit)가 과거 예측 이력을 믿고 먼저 달려가는 습관을 노리는 공격이다. 현대 프로세서는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)과 투기 실행으로 분기 대기 시간을 줄이는데, 이때 간접 호출과 간접 점프는 이전에 비슷한 상황에서 어디로 갔는지를 참고해 다음 목적지를 미리 추정한다. 원래는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 장치지만, 그 예측 상태가 보안 경계를 넘어서 공유되면 공격자가 남긴 흔적이 피해자의 미래 실행 방향을 왜곡할 수 있다.
 
-핵심 문제는 "잘못 예측된 실행도 잠깐은 실제로 돌아간다"는 점이다. 나중에 오예측이 밝혀지면 레지스터와 아키텍처 상태는 되돌려지지만, 그 사이 캐시와 예측기에는 미세한 흔적이 남는다. 공격자는 바로 그 흔적을 시간 측정으로 읽어, 원래 접근할 수 없던 비밀 값을 간접적으로 복원한다. 즉 분기 목표 주입은 제어 흐름을 오래 훔치는 공격이 아니라, **짧은 투기 경로를 정보 유출 통로로 바꾸는 공격**이다.
+핵심 문제는 "잘못 예측된 실행도 잠깐은 실제로 돌아간다"는 점이다. 나중에 오예측이 밝혀지면 레지스터와 아키텍처 상태는 되돌려지지만, 그 사이 캐시와 예측기에는 미세한 흔적이 남는다. 공격자는 바로 그 흔적을 시간 측정으로 읽어, 원래 접근할 수 없던 비밀 값을 간접적으로 복원한다. 즉 분기 목표 주입은 제어 흐름을 오래 훔치는 공격이 아니라, <strong>짧은 투기 경로를 정보 유출 통로로 바꾸는 공격</strong>이다.
 
 이 그림은 공격이 왜 "틀린 점프 -> 흔적 남김 -> 취소 후 유출" 순서로 이해되어야 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Branch Target Injection attack chain                                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Attacker trains shared predictor / BTB alias                              │
-│                          │                                                 │
-│                          ▼                                                 │
-│ Victim reaches indirect branch                                             │
-│                          │                                                 │
-│                          ▼                                                 │
-│ transient jump to gadget                                                   │
-│                          │                                                 │
-│                          ▼                                                 │
-│ secret-dependent cache touch                                               │
-│                          │                                                 │
-│                          ▼                                                 │
-│ misprediction resolved -> architectural rollback                           │
-│                          │                                                 │
-│                          ▼                                                 │
-│ cache timing still reveals secret                                          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch Target Injection attack chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker trains shared predictor / BTB alias</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim reaches indirect branch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transient jump to gadget</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret-dependent cache touch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">misprediction resolved -&gt; architectural rollback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cache timing still reveals secret</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 분기 목표 주입은 누군가 내비게이션의 최근 목적지 기록을 몰래 바꿔 놓아, 내가 잠깐 엉뚱한 골목으로 들어가게 만드는 일과 같다. 곧바로 길을 바로잡아도 타이어 자국은 남아서 내가 어디를 스쳤는지 들켜 버린다.
 
@@ -68,26 +61,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 공격자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 피해자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 어떻게 예측기 상태 하나로 연결되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Shared predictor state becomes a covert cross-domain hint                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Attacker domain]                                                          │
-│   indirect branch training -> poison BTB entry -> target = gadget         │
-│                                   │                                        │
-│                                   ▼                                        │
-│                       predictor alias survives switch                      │
-│                                   │                                        │
-│                                   ▼                                        │
-│ [Victim domain]                                                            │
-│   indirect call / jmp -> transiently redirected to gadget                 │
-│                                   │                                        │
-│                                   ▼                                        │
-│              secret load -> cache footprint -> timing-based leak           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 점은 공격자가 피해자 분기의 "정답 주소"를 바꾸는 것이 아니라, **정답이 준비되기 전 잠깐 믿게 만들 가짜 주소**를 심는다는 사실이다. 그래서 소스 코드만 보면 멀쩡한 간접 호출도, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 보안 경계를 가로지르는 예측 오염 통로가 될 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared predictor state becomes a covert cross-domain hint</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Attacker domain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect branch training -&gt; poison BTB entry -&gt; target = gadget</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">predictor alias survives switch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Victim domain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect call / jmp -&gt; transiently redirected to gadget</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret load -&gt; cache footprint -&gt; timing-based leak</div></div>
+</div>
+</div>
+
+
+
+중요한 점은 공격자가 피해자 분기의 "정답 주소"를 바꾸는 것이 아니라, <strong>정답이 준비되기 전 잠깐 믿게 만들 가짜 주소</strong>를 심는다는 사실이다. 그래서 소스 코드만 보면 멀쩡한 간접 호출도, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 보안 경계를 가로지르는 예측 오염 통로가 될 수 있다.
 
 - **📢 섹션 요약 비유**: 이 구조는 공용 화이트보드에 다음 회의실 번호를 적어 두는 회사와 같다. 앞 팀이 장난으로 가짜 회의실 번호를 써 두면, 뒤 팀은 잠깐 그 방으로 잘못 들어갔다가 나오면서 내부 배치를 엿보게 된다.
 
@@ -104,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 | 대표 결과 | 경계 검사 우회 | 잘못된 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 투기 실행 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 일시적 노출 |
 | 대표 대응 | 경계 직후 fence, 코드 정리 | [Retpoline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/), [IBPB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/), IBRS, STIBP | [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) |
 
-이 차이를 구분해야 578번 KPTI가 왜 분기 목표 주입의 직접 대응이 아닌지 이해할 수 있다. KPTI는 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 페이지를 거의 보이지 않게 만들어 Meltdown류를 막는 기술이고, 분기 목표 주입은 예측기 오염이 핵심이므로 579번 IBPB와 580번 Retpoline처럼 **예측기 상태나 간접 분기 자체를 다루는 기술**이 더 직접적이다.
+이 차이를 구분해야 578번 KPTI가 왜 분기 목표 주입의 직접 대응이 아닌지 이해할 수 있다. KPTI는 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 페이지를 거의 보이지 않게 만들어 Meltdown류를 막는 기술이고, 분기 목표 주입은 예측기 오염이 핵심이므로 579번 IBPB와 580번 Retpoline처럼 <strong>예측기 상태나 간접 분기 자체를 다루는 기술</strong>이 더 직접적이다.
 
 또한 최신 하드웨어가 제공하는 IBRS와 STIBP는 소프트웨어 재작성 없이도 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간 예측 영향 범위를 줄이는 방향이다. 즉 분기 목표 주입은 하나의 취약점 이름이면서, 동시에 "공유 예측 상태를 보안 자원으로 봐야 한다"는 설계 전환의 출발점이기도 하다.
 
@@ -132,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 보호하고 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 런타임, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 예전 코드 그대로 두는 배포
 - 미세한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 싫다는 이유로 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서 완화 기능을 통째로 비활성화하는 판단
 
-기술사 답안에서는 "[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이 위험하다"에서 멈추지 말고, 어떤 경계에서 오염이 전파되는지와 그 경계를 끊는 수단이 무엇인지까지 써야 한다. 핵심은 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자체를 비난하는 것이 아니라, 공유 예측 상태를 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 캐시이자 동시에 보안 자원**으로 다루는 관점을 갖는 것이다.
+기술사 답안에서는 "[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이 위험하다"에서 멈추지 말고, 어떤 경계에서 오염이 전파되는지와 그 경계를 끊는 수단이 무엇인지까지 써야 한다. 핵심은 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자체를 비난하는 것이 아니라, 공유 예측 상태를 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 캐시이자 동시에 보안 자원</strong>으로 다루는 관점을 갖는 것이다.
 
 - **📢 섹션 요약 비유**: 실무 대응은 공용 회의실 화이트보드를 아무나 그대로 다음 팀에 넘기지 않는 규칙과 같다. 팀이 바뀔 때 지우고, 민감한 회의는 별도 방에서 하고, 중요한 일정은 아예 화이트보드에 쓰지 않도록 바꾸는 식의 다층 대응이 필요하다.
 
@@ -142,7 +132,7 @@ tags = ["studynote-computer-architecture"]
 
 분기 목표 주입을 제대로 이해하고 완화하면, 프로세서의 공격 표면을 "아키텍처 명령"에서 "[마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 흔적"까지 넓게 볼 수 있게 된다. 실제 효과는 크다. 예측기 초기화와 간접 분기 제어를 적절히 적용하면, 프로세스·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)·가상 머신 사이에 남아 있던 보이지 않는 유출 통로를 상당 부분 줄일 수 있다. 브라우저, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)처럼 권한 경계가 촘촘한 환경일수록 이 이득은 더 크다.
 
-하지만 비용과 한계도 분명하다. 예측기 장벽은 분기 warm-up 비용을 만들고, Retpoline은 간접 분기 경로를 우회하므로 call-heavy 코드에서 오버헤드가 나타날 수 있다. 또한 분기 목표 주입만 막는다고 모든 투기 실행 문제가 끝나는 것도 아니다. 앞으로는 eIBRS (Enhanced [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Restricted Speculation), 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 태그가 붙은 예측기, 더 세밀한 코어 스케줄링처럼 **처음부터 예측 상태를 격리 가능한 자원으로 설계하는 방향**이 중요해질 가능성이 크다.
+하지만 비용과 한계도 분명하다. 예측기 장벽은 분기 warm-up 비용을 만들고, Retpoline은 간접 분기 경로를 우회하므로 call-heavy 코드에서 오버헤드가 나타날 수 있다. 또한 분기 목표 주입만 막는다고 모든 투기 실행 문제가 끝나는 것도 아니다. 앞으로는 eIBRS (Enhanced [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Restricted Speculation), 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 태그가 붙은 예측기, 더 세밀한 코어 스케줄링처럼 <strong>처음부터 예측 상태를 격리 가능한 자원으로 설계하는 방향</strong>이 중요해질 가능성이 크다.
 
 결론적으로 분기 목표 주입은 "잘못된 분기 하나"의 문제가 아니라, 공유된 예측 기억이 보안 경계를 넘는다는 사실을 폭로한 사건이다. 그래서 이 주제는 단순 취약점 암기보다, 현대 CPU 설계에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 엄연한 보안 자산이라는 관점으로 기억하는 것이 맞다.
 
@@ -164,21 +154,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고성능 분기 예측 · 투기 실행
-                │
-                ▼
-간접 분기 예측기 · BTB 공유
-                │
-                ▼
-분기 목표 주입 (Spectre variant 2)
-                │
-                ▼
-Retpoline · IBPB · IBRS · STIBP
-                │
-                ▼
-eIBRS · predictor domain partitioning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고성능 분기 예측 · 투기 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">간접 분기 예측기 · BTB 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 목표 주입 (Spectre variant 2)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Retpoline · IBPB · IBRS · STIBP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eIBRS · predictor domain partitioning</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화였던 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이, 이제는 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리와 함께 설계되어야 하는 핵심 자원으로 재해석되고 있음을 보여 준다.
 

@@ -10,27 +10,33 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 분석 갈등 해결은 **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간 상충되는 요구(보안↔편의, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↔비용)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·협상·우선순위화**하여 합의를 도출하는 과정이다.
-> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 **요구 변경 폭발([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))**이 발생하며, 초기에 갈등을 해결하면 변경 비용을 **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배** 절감한다.
+> 1. **본질**: 요구 분석 갈등 해결은 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 간 상충되는 요구(보안↔편의, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>↔비용)를 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>·협상·우선순위화</strong>하여 합의를 도출하는 과정이다.
+> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 <strong>요구 변경 폭발(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)</strong>이 발생하며, 초기에 갈등을 해결하면 변경 비용을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~100배</strong> 절감한다.
 > 3. **판단 포인트**: MoSCoW(Must·Should·Could·Won't)·AHP([Analytic Hierarchy Process](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/))·Kano 모델이 우선순위화 기법이며, 트레이드오프 매트릭스로 갈등을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-MoSCoW: Must(필수) > Should(중요) > Could(선택) > Won't(제외)
-AHP: 쌍대 비교 → 가중치 산출 → 정량적 우선순위
-Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
-```
 
-- **📢 섹션 요약 비유**: 갈등 해결은 **예산 편성**이다. 모든 부서가 원하는 것을 다 줄 수 없으므로 우선순위로 배분한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MoSCoW: Must(필수) &gt; Should(중요) &gt; Could(선택) &gt; Won't(제외)</div>
+<div class="kb-diagram-note">AHP: 쌍대 비교 → 가중치 산출 → 정량적 우선순위</div>
+<div class="kb-diagram-note">Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 갈등 해결은 <strong>예산 편성</strong>이다. 모든 부서가 원하는 것을 다 줄 수 없으므로 우선순위로 배분한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-요구 갈등 해결은 **프로젝트 성패의 핵심**이며, MoSCoW·AHP로 정량적 우선순위를 부여한다.
+요구 갈등 해결은 <strong>프로젝트 성패의 핵심</strong>이며, MoSCoW·AHP로 정량적 우선순위를 부여한다.
 
 ---
 
@@ -42,20 +48,26 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 | **AHP** | 정량적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
 | **Kano** | 요구 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | **트레이드오프** | 상충 요구 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
-| **[Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)** | 미해결 갈등의 결과 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a></strong> | 미해결 갈등의 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비공식 협상 (~2000s)] → [MoSCoW (DSDM, 1994)]
-    → [AHP (Saaty, 1980)] → [Kano 모델 (1984)]
-    → [현재: AI 요구 충돌 탐지 — 자동 상충 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비공식 협상 (~2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MoSCoW (DSDM, 1994)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AHP (Saaty, 1980)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kano 모델 (1984)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI 요구 충돌 탐지 — 자동 상충 분석</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 갈등 해결은 **예산 나누기**예요. 모든 걸 다 할 수는 없어요.
-2. MoSCoW로 **꼭 해야 할 것(Must)**과 **나중에 할 것(Won't)**을 나눠요.
-3. 먼저 중요한 것부터 하면 **예산(시간) 낭비**를 줄일 수 있어요!
+1. 갈등 해결은 <strong>예산 나누기</strong>예요. 모든 걸 다 할 수는 없어요.
+2. MoSCoW로 <strong>꼭 해야 할 것(Must)</strong>과 <strong>나중에 할 것(Won't)</strong>을 나눠요.
+3. 먼저 중요한 것부터 하면 <strong>예산(시간) 낭비</strong>를 줄일 수 있어요!
 
 ---
 

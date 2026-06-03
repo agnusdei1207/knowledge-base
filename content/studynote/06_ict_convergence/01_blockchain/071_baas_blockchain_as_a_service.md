@@ -28,15 +28,21 @@ tags = ["ict_convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Cloud Platform
-  ↓
-BaaS
-  ↓
-Blockchain Network
-  ↓
-Application
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cloud Platform</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BaaS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Blockchain Network</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Application</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ BaaS는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchai
 
 ## 관련 개념 맵
 
-```text
-Cloud
-  ↓
-BaaS
-  ↓
-Blockchain Network
-  ↓
-Application
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cloud</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BaaS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Blockchain Network</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Application</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Blockchain Infrastructure
-  ↓
-BaaS
-  ↓
-Managed Service
-  ↓
-PoC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Blockchain Infrastructure</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BaaS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Managed Service</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PoC</div>
+</div>
+</div>
+
+
 
 ---
 

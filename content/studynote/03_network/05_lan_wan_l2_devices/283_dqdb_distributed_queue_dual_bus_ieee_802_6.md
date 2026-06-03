@@ -24,18 +24,22 @@ tags = ["studynote-network"]
   - LAN(근거리 망)은 거리가 너무 짧았고, WAN(광역 망)인 X.25 전용선은 너무 느리고 비쌌다. "서울시 전체, 부산시 전체에 있는 대학과 관공서를 하나로 묶어주는 적당한 거리(50km)의 고속 광통신망을 만들자!"라는 도시권 망(MAN)의 수요가 생겼다.
   - [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)(이중 링)를 쓰자니 수십 km짜리 링을 완벽히 둥글게 공사하는 게 너무 빡셌다. "그냥 곧게 쭉 뻗은 선 2개(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 쫙 깔고 양방향 통신을 시키자!"라는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 토폴로지 기반의 DQDB가 탄생했다.
 
-- **💡 비유**: 이더넷이 **"건물 내 복도"**, X.25가 **"도시 간 고속도로"**라면, DQDB는 서울시 내부의 주요 구청과 대학교들만을 뺑뺑 돌며 짐을 실어 나르는 **"수도권 광역 순환 급행 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(MAN)"**를 만들기 위한 도로 설계도였습니다.
+- **💡 비유**: 이더넷이 **"건물 내 복도"**, X.25가 <strong>"도시 간 고속도로"</strong>라면, DQDB는 서울시 내부의 주요 구청과 대학교들만을 뺑뺑 돌며 짐을 실어 나르는 <strong>"수도권 광역 순환 급행 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(MAN)"</strong>를 만들기 위한 도로 설계도였습니다.
 
-```text
-[FDDI]
-    │
-    ▼
-[DQDB]
-    │
-    └──▶ [PON / AON]
-```
 
-- **📢 섹션 요약 비유**: ** DQDB는 양방향 통행이 불가능해 툭하면 사고가 나던 1차선 좁은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 망에, 서로 반대 방향으로 질주하는 **"상행선/하행선 두 개의 거대한 컨베이어 벨트(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))"**를 깔아 도시 전체의 택배를 해결하려 했던 물류 시스템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FDDI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQDB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PON / AON</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> DQDB는 양방향 통행이 불가능해 툭하면 사고가 나던 1차선 좁은 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>) 망에, 서로 반대 방향으로 질주하는 </strong>"상행선/하행선 두 개의 거대한 컨베이어 벨트(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))"**를 깔아 도시 전체의 택배를 해결하려 했던 물류 시스템입니다.
 
 ---
 
@@ -43,43 +47,41 @@ tags = ["studynote-network"]
 
 ### 1. 토폴로지: 끊어진 링 (Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))
 DQDB는 물리적으로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B, 두 개의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 광케이블로 이루어진다.
-- **[Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A (상행선)**: 왼쪽 끝(헤드)에서 오른쪽으로 끊임없이 빈 상자(슬롯)를 만들어 뿜어낸다.
-- **[Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B (하행선)**: 오른쪽 끝에서 왼쪽으로 빈 상자를 만들어 뿜어낸다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> A (상행선)</strong>: 왼쪽 끝(헤드)에서 오른쪽으로 끊임없이 빈 상자(슬롯)를 만들어 뿜어낸다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> B (하행선)</strong>: 오른쪽 끝에서 왼쪽으로 빈 상자를 만들어 뿜어낸다.
 - 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(노드)는 이 두 선에 동시에 걸쳐 있다. 만약 노드 2가 자기보다 오른쪽에 있는 노드 4에게 데이터를 보내려면 [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A를 타고, 왼쪽에 있는 노드 1에게 보내려면 [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B를 타면 된다. 방향이 명확하여 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 0%다.
 
 ### 2. 기가 막힌 예약 시스템: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큐(Distributed [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 토큰 링처럼 토큰이 올 때까지 멍하니 기다릴 필요가 없다.
 만약 노드 3이 오른쪽 노드 5에게 데이터를 보내려 한다고 치자 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A 사용).
 1. 노드 3은 무작정 [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A의 빈 상자에 물건을 싣지 않는다. 내 오른쪽(노드 4, 5) 애들이 먼저 싣겠다고 예약해 둔 물건이 있을 수 있기 때문이다.
-2. 그래서 노드 3은 반대쪽으로 흘러가는 **[Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B에다가 "나 상행선([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A)에 짐 하나 실을 거다!"라고 예약증(Request [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)=1)을 써서 던진다**.
+2. 그래서 노드 3은 반대쪽으로 흘러가는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> B에다가 "나 상행선(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> A)에 짐 하나 실을 거다!"라고 예약증(Request <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>=1)을 써서 던진다</strong>.
 3. 내 왼쪽에 있는 노드 1, 2는 [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B를 타고 오는 예약증을 읽고, "아, 오른쪽에 있는 3번 녀석이 짐 실을 게 있구나! 그럼 내가 뿜어내는 상행선([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A) 빈 상자 중 하나는 3번을 위해 쓰지 말고 통과시켜 줘야겠다!"라고 속으로 카운트([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 올린다.
 4. 노드 1, 2가 양보해서 흘려보내 준 빈 상자가 노드 3에 도착하면, 그때 노드 3이 짐을 싣는다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │               DQDB 분산 큐 (상행선 짐 싣기 예약 과정)           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [노드 1]        [노드 2]        [노드 3]        [노드 4]       │
- │                                    │ 나 짐 실을래! (오른쪽으로)  │
- │                                    ▼                        │
- │  ======================= Bus A (상행선 빈 상자 뿜뿜) =====▶    │
- │                                    │                        │
- │  ◀======== Bus B (하행선, 여기에 "예약증" 던짐) ===========    │
- │     ▲               ▲             │                        │
- │     │ (예약증 확인)   │ (예약증 확인) ┘                        │
- │   "아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"     │
- │                                                             │
- │   * 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로       │
- │     양보하는 '분산(Distributed)' 대기열(Queue) 시스템.          │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DQDB 분산 큐 (상행선 짐 싣기 예약 과정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노드 1</div><div class="kb-diagram-node">노드 2</div><div class="kb-diagram-node">노드 3</div><div class="kb-diagram-node">노드 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나 짐 실을래! (오른쪽으로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================= Bus A (상행선 빈 상자 뿜뿜) =====▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀======== Bus B (하행선, 여기에 "예약증" 던짐) ===========</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예약증 확인)</div><div class="kb-diagram-cell">(예약증 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양보하는 '분산(Distributed)' 대기열(Queue) 시스템.</div></div>
+</div>
+</div>
+
+
 
 ### 3. DQDB의 몰락
 이 천재적인 예약 시스템은, 데이터를 53바이트(헤더 5+페이로드 48) 단위의 슬롯으로 잘라 보낸다. (어디서 많이 보지 않았는가? 바로 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격과 100% 동일하다). 
 DQDB 위원회는 [B-ISDN](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)([ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/))과의 호환성을 위해 이 규격을 맞췄지만, 정작 통신사들은 "어차피 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격 쓸 거면, 뭐하러 복잡하게 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망 예약 시스템을 까냐? 그냥 처음부터 끝까지 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 다 깔아버리자!"라며 망을 넘어가 버렸고, DQDB는 상용화 직전에 사장되었다.
 
-- **📢 섹션 요약 비유**: ** DQDB의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큐는 회전초밥집에서 **"나 연어초밥 먹을 거니까 주방장(상류)님! 내 앞사람들이 다 먹어 치우지 못하게 연어초밥 하나만 따로 빼서 흘려보내 주세요!"**라고 반대편 레일로 쪽지를 날리는 극강의 민주적 컨베이어 벨트 시스템이었습니다.
+- **📢 섹션 요약 비유**: <strong> DQDB의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 큐는 회전초밥집에서 </strong>"나 연어초밥 먹을 거니까 주방장(상류)님! 내 앞사람들이 다 먹어 치우지 못하게 연어초밥 하나만 따로 빼서 흘려보내 주세요!"**라고 반대편 레일로 쪽지를 날리는 극강의 민주적 컨베이어 벨트 시스템이었습니다.
 
 ---
 
@@ -135,15 +137,19 @@ DQDB는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FDDI]
-    │
-    ▼
-[현재 개념: DQDB]
-    │
-    ├──▶ [확장 A: PON / AON]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FDDI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DQDB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PON / AON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 DQDB는 FDDI에서 출발해 현재 메커니즘을 정교화하고, 이후 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) / AON와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

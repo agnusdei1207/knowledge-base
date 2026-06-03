@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 쿠팡에 1억 개의 상품이 있다고 치자. 이 상품들을 그냥 한 화면에 다 뿌려놓으면 아무도 물건을 살 수 없다. '가전디지털 > 컴퓨터 > 노트북 > 맥북'이라는 명확한 경로가 필요하다. 만약 '아이패드'가 '컴퓨터'가 아니라 '문구/오피스'에 들어있다면? 사용자는 평생 아이패드를 찾을 수 없을 것이다. 정보의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 논리적이지 않으면 시스템은 쓰레기장이 된다.
 
-- **💡 비유**: 대형 마트의 **코너 배치도**와 같습니다. 정육 코너 옆에 생선 코너를 두고, 그 옆에 쌈장과 상추를 두는 것은 소비자의 '동선(네비게이션)'과 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(조직화)'를 철저히 계산한 정보 아키텍처입니다. 정육 코너 옆에 갑자기 세탁기 코너가 있으면 손님은 혼란에 빠집니다.
+- **💡 비유**: 대형 마트의 <strong>코너 배치도</strong>와 같습니다. 정육 코너 옆에 생선 코너를 두고, 그 옆에 쌈장과 상추를 두는 것은 소비자의 '동선(네비게이션)'과 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(조직화)'를 철저히 계산한 정보 아키텍처입니다. 정육 코너 옆에 갑자기 세탁기 코너가 있으면 손님은 혼란에 빠집니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **사서학과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)학**: 책을 물리적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하던 듀이 십진분류법 등의 아날로그 사서학([Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) Science)이 시초다.
+  1. <strong>사서학과 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>학</strong>: 책을 물리적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하던 듀이 십진분류법 등의 아날로그 사서학([Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) Science)이 시초다.
   2. **1990년대 웹의 폭발적 성장**: 수백만 페이지의 웹사이트가 생겨나면서, 하이퍼링크의 미로 속에서 사용자가 길을 잃는 '로스트 인 하이퍼스페이스(Lost in Hyperspace)' 현상을 막기 위해 정보건축(IA) 전문가가 등장했다.
   3. **오늘날의 동적 IA**: 과거에는 기획자가 정해준 고정된 트리(GNB 메뉴)를 썼지만, 지금은 넷플릭스처럼 사용자의 취향에 따라 "당신이 좋아할 만한 스릴러"라는 태그 기반의 유동적인 정보 구조(Folksonomy, 동적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))로 진화했다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 정보 아키텍처 (Information의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  정보 아키텍처 (Information                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 아키텍처 (Information</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 정보 아키텍처 (Information가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-정보 아키텍처 (Information [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+정보 아키텍처 (Information [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 정보 아키텍처 (Information [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-정보 아키텍처 (Information Architecture) 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 아키텍처 (Information Architecture) 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

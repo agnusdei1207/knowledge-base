@@ -11,7 +11,7 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프래그먼트 프리 (Fragment-free)는 컷스루(Cut-through)의 맹속과 스토어 앤 포워드(Store-and-forward)의 에러 검사 장점을 반반씩 섞은 **절충형(Hybrid) [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)**이다.
+> 1. **본질**: 프래그먼트 프리 (Fragment-free)는 컷스루(Cut-through)의 맹속과 스토어 앤 포워드(Store-and-forward)의 에러 검사 장점을 반반씩 섞은 <strong>절충형(Hybrid) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/">스위칭 방식</a></strong>이다.
 > 2. **가치**: 프레임 전체를 다 받지 않고, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 충돌이 주로 발생하는 **맨 앞 64바이트(최소 프레임 길이)까지만 딱 읽어보고** 충돌 찌꺼기(Runt)가 아니라고 판단되면 즉시 포워딩을 시작한다.
 > 3. **판단 포인트**: 초창기 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 네트워크 환경에서 흔히 발생하던 충돌 조각([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Fragment)들이 네트워크에 퍼지는 것은 막아내면서도, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간은 크게 줄인 기술이었으나 전이중(Full-Duplex) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 시대인 현재는 거의 쓰이지 않는다.
 
@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 스위칭 처리 방식의 중간 단계. Modified Cut-through(수정된 컷스루)라고도 부른다. 데이터의 앞머리 64바이트만 수신([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))하여 검사한 후 곧바로 내보낸다.
-- **필요성**: 컷스루는 너무 빨라서 깨진 쓰레기 데이터까지 다 보내버렸고, 스토어 앤 포워드는 끝까지 기다리느라 너무 느렸다. 과거 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 환경의 통계를 보니 **"네트워크 에러의 대부분은 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 충돌 때문에 발생하는 64바이트 이하의 찌꺼기(Fragment/Runt) 프레임들이다"**라는 사실을 발견했다. "그럼 딱 64바이트까지만 받아서 충돌 조각인지 아닌지만 검사하고 얼른 쏴버리자!"라는 아이디어에서 탄생했다.
+- **필요성**: 컷스루는 너무 빨라서 깨진 쓰레기 데이터까지 다 보내버렸고, 스토어 앤 포워드는 끝까지 기다리느라 너무 느렸다. 과거 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 환경의 통계를 보니 <strong>"네트워크 에러의 대부분은 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD 충돌 때문에 발생하는 64바이트 이하의 찌꺼기(Fragment/Runt) 프레임들이다"</strong>라는 사실을 발견했다. "그럼 딱 64바이트까지만 받아서 충돌 조각인지 아닌지만 검사하고 얼른 쏴버리자!"라는 아이디어에서 탄생했다.
 
-- **💡 비유**: 과일 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 공장에서, 컷스루가 과일이 떨어지자마자 박스에 넣고, 스토어 앤 포워드가 과일을 현미경으로 끝까지 다 검사하는 것이라면, 프래그먼트 프리는 과일의 **"가장 썩기 쉬운 꼭지 부분(64바이트)만 딱 1초 살펴보고"** 괜찮다 싶으면 바로 통과시키는 **합리적인 타협안**입니다.
+- **💡 비유**: 과일 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 공장에서, 컷스루가 과일이 떨어지자마자 박스에 넣고, 스토어 앤 포워드가 과일을 현미경으로 끝까지 다 검사하는 것이라면, 프래그먼트 프리는 과일의 **"가장 썩기 쉬운 꼭지 부분(64바이트)만 딱 1초 살펴보고"** 괜찮다 싶으면 바로 통과시키는 <strong>합리적인 타협안</strong>입니다.
 
-```text
-[스위칭 방식]
-    │
-    ▼
-[스위칭 방식]
-    │
-    └──▶ [가상 랜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 랜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 프래그먼트 프리는 **"음주단속 검문소"**와 같습니다. 운전자(프레임)의 피를 뽑아 정밀 검사(전체 FCS 검사)를 하지 않고, 창문을 열고 "후~ 불어보세요(앞 64바이트 검사)"라고 짧게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 정상 같으면 바로 통과시켜 도로 정체([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 줄입니다.
 
@@ -40,31 +44,31 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 64바이트의 마법 (충돌 윈도우)
-[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 환경에서 두 컴퓨터가 동시에 데이터를 보내 충돌이 나면, 이 충돌 찌꺼기는 물리적 규칙(Slot Time)에 의해 **반드시 64바이트보다 작은 크기(Runt Frame)**를 갖게 된다. 
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 환경에서 두 컴퓨터가 동시에 데이터를 보내 충돌이 나면, 이 충돌 찌꺼기는 물리적 규칙(Slot Time)에 의해 <strong>반드시 64바이트보다 작은 크기(Runt Frame)</strong>를 갖게 된다. 
 - 프래그먼트 프리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 데이터가 들어오면 64바이트(512비트)를 카운트하며 버퍼에 담는다.
 - 64바이트를 넘어가면 "아, 이 프레임은 최소한 충돌로 인해 박살 난 프레임 조각(Fragment)은 아니구나!"라고 확신한다.
 - 64바이트 검증이 끝난 직후, 프레임의 나머지 꼬리 부분이 들어오고 있음에도 불구하고 앞머리를 목적지 포트로 전송하기 시작한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                프래그먼트 프리 (Fragment-free) 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ FCS |      Payload (Data)     | 출발지 MAC | 목적지 MAC ] │
- │                                     └─ 딱 요만큼(64B)만 검사 ─┘ │
- │                                       (충돌 찌꺼기 여부 확인)    │
- │                                                             │
- │   * 판정 프로세스                                             │
- │   1) 64바이트가 안 들어왔는데 신호가 끊김 ──▶ "이건 충돌 쓰레기(Runt)다! 버려!" │
- │   2) 64바이트 이상 무사히 들어옴 ──▶ "정상 데이터 확률 99%! 포워딩 시작!"     │
- │                                                             │
- │   ▶ 결과: 앞부분 오류는 걸러내고, 뒷부분의 지연 시간은 컷스루처럼 짧게 가져감.   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프래그먼트 프리 (Fragment-free) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCS |      Payload (Data)     | 출발지 MAC | 목적지 MAC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 딱 요만큼(64B)만 검사 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(충돌 찌꺼기 여부 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 판정 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 64바이트가 안 들어왔는데 신호가 끊김 ──▶ "이건 충돌 쓰레기(Runt)다! 버려!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 64바이트 이상 무사히 들어옴 ──▶ "정상 데이터 확률 99%! 포워딩 시작!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 앞부분 오류는 걸러내고, 뒷부분의 지연 시간은 컷스루처럼 짧게 가져감.</div></div>
+</div>
+</div>
+
+
 
 ### 2. 현대 네트워크에서의 퇴장
 프래그먼트 프리는 영리한 방법이었으나, 두 가지 이유로 현대(1Gbps 이상) 환경에서는 도태되었다.
-- **전이중(Full-Duplex) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 보급**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 보급되면서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 은퇴했다. 즉, 물리적인 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))' 자체가 아예 발생하지 않기 때문에 64바이트 충돌 찌꺼기를 검사할 필요가 없어졌다.
+- <strong>전이중(Full-Duplex) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 보급</strong>: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 보급되면서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 은퇴했다. 즉, 물리적인 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))' 자체가 아예 발생하지 않기 때문에 64바이트 충돌 찌꺼기를 검사할 필요가 없어졌다.
 - **FCS 무시의 한계**: 64바이트 이후에 발생하는 데이터의 변형(케이블 노이즈 등에 의한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러)은 여전히 잡아내지 못하고 그대로 전송하는 컷스루의 단점을 그대로 안고 있다.
 
 - **📢 섹션 요약 비유**: ** 프래그먼트 프리는 **"과거 충돌 사고([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))가 빈번하던 비포장도로 시절에 만들어진 구식 범퍼(64바이트 검사)"**입니다. 오늘날처럼 길이 뻥 뚫리고 사고가 안 나는 고속도로(전이중 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 시대에는 필요 없는 기술이 되어버렸습니다.
@@ -122,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스위칭 방식]
-    │
-    ▼
-[현재 개념: 스위칭 방식]
-    │
-    ├──▶ [확장 A: 가상 랜]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가상 랜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)는 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

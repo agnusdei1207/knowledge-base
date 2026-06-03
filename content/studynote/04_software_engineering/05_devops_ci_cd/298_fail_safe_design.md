@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 엘리베이터의 줄이 툭 끊어졌다 치자. 중력에 의해 엘리베이터는 자유 낙하하고 탑승자는 전원 사망한다. 이것은 '페일 언세이프(Fail-Unsafe)'다. 엘리베이터 줄이 끊어지면 그 장력이 사라지는 물리적 힘을 이용해 즉시 브레이크가 벽을 꽉 물도록(고장 나면 멈추도록) 설계해야 한다. 소프트웨어도 마찬가지다. 결제망에 고장이 났을 때 "에라 모르겠다" 하고 결제를 승인해버리면 회사는 파산한다. 고장 나면 무조건 '결제 거절(거부)' 상태로 떨어져야 한다.
 
-- **💡 비유**: 다리미나 난로에 들어있는 온도 센서와 같습니다. 만약 센서가 고장 나서 온도를 못 재면, 난로는 계속 뜨거워져서 불이 날 것입니다. 그래서 똑똑한 난로는 **"센서가 고장 나면 무조건 전원을 차단한다([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))"**로 설계되어 있습니다. 고장 나서 추운 건 참을 수 있어도, 불이 나서 죽는 건 안 되니까요.
+- **💡 비유**: 다리미나 난로에 들어있는 온도 센서와 같습니다. 만약 센서가 고장 나서 온도를 못 재면, 난로는 계속 뜨거워져서 불이 날 것입니다. 그래서 똑똑한 난로는 <strong>"센서가 고장 나면 무조건 전원을 차단한다(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a>)"</strong>로 설계되어 있습니다. 고장 나서 추운 건 참을 수 있어도, 불이 나서 죽는 건 안 되니까요.
 
 - **등장 배경 및 발전 과정**:
   1. **산업혁명과 하드웨어 안전 공학**: 기차가 발명되면서 기차 차단기가 고장 났을 때 차단기가 올라가 있으면 대참사가 났다. "고장 나면 무조건 차단기가 내려가게 중력으로 설계하자"는 철도 공학에서 파생되었다.
   2. **미션 크리티컬 소프트웨어 적용**: 항공 우주, 원자력, 의료 기기 소프트웨어로 넘어오며, 코드에 예외(Exception)가 발생하면 시스템을 정지시키고 안전 모드로 진입하게 하는 코딩 표준이 정립되었다.
-  3. **현대 백엔드 아키텍처의 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 서버가 죽었을 때 에러 화면을 내는 대신, "기본값(Default)을 보여준다"는 논리적인 [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)(Circuit Breaker의 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))로 진화했다.
+  3. <strong>현대 백엔드 아키텍처의 <a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a></strong>: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 서버가 죽었을 때 에러 화면을 내는 대신, "기본값(Default)을 보여준다"는 논리적인 [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)(Circuit Breaker의 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))로 진화했다.
 
 - **📢 섹션 요약 비유**: 정전이 되었을 때, 은행의 자동문은 사람들이 갇히지 않게 '활짝 열려야(Fail-Open)' 안전하고, 은행의 금고문은 도둑이 못 털어가게 '굳게 닫혀야(Fail-Closed)' 안전합니다. 고장 났을 때 무엇이 안전한 상태인지를 정의하는 것이 [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  페일 세이프 (Fail-Safe)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페일 세이프 (Fail-Safe)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-페일 세이프 (Fail-Safe) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페일 세이프 (Fail-Safe) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

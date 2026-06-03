@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벨-라파둘라 모델은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/))에서 적용되는 **"정보 유출([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 침해)을 방지"**하기 위한 두 가지 기본 규칙을 제시한다. **No Read Up (NRU)**과 **No Write Down (NWD)**이 핵심이다.
+> 1. **본질**: 벨-라파둘라 모델은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/))에서 적용되는 <strong>"정보 유출(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 침해)을 방지"</strong>하기 위한 두 가지 기본 규칙을 제시한다. <strong>No Read Up (NRU)</strong>과 <strong>No Write Down (NWD)</strong>이 핵심이다.
 > 2. **가치**: 이 규칙들에 의해 정보는 **항상 같거나 더 높은 보안 등급으로만 흐를 수** 있어, 낮은 등급의 사용자가 높은 등급의(비밀)에 접근하거나, 높은 등급의 정보를 낮은 등급으로 유출하는 것이 차단된다.
-> 3. **한계**: 정보의 **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 보장하지 않는다. 높은 등급 사용자가 낮은 등급에 **허용되지 않은 정보를 쓸 수 있는(Write-Up)** 가능성으로 인해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조가 발생할 수 있다.
+> 3. **한계**: 정보의 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong> [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 보장하지 않는다. 높은 등급 사용자가 낮은 등급에 **허용되지 않은 정보를 쓸 수 있는(Write-Up)** 가능성으로 인해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조가 발생할 수 있다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 ### 1.1 모델의 목적
 
-벨-라파둘라 모델은 1970년대 미국 군사 시스템에서 개발되었으며, **"어떻게 하면(비밀) 정보가 낮은 등급으로 유출되는 것을 방지할 수 있는가?"**라는 질문을 수학적으로 해결한다.
+벨-라파둘라 모델은 1970년대 미국 군사 시스템에서 개발되었으며, <strong>"어떻게 하면(비밀) 정보가 낮은 등급으로 유출되는 것을 방지할 수 있는가?"</strong>라는 질문을 수학적으로 해결한다.
 
 ### 1.2 보안 등급 체계
 
@@ -42,8 +42,8 @@ TOP SECRET > SECRET > CONFIDENTIAL > UNCLASSIFIED
 
 | 사용자 등급 | 읽기 가능 | 읽기 불가 |
 |:---|:---|:---|
-| **TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)** | 모든 등급 | - |
-| **[SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)** | [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), CONFIDENTIAL, UNCLASSIFIED | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) |
+| <strong>TOP <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">SECRET</a></strong> | 모든 등급 | - |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">SECRET</a></strong> | [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), CONFIDENTIAL, UNCLASSIFIED | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) |
 | **CONFIDENTIAL** | CONFIDENTIAL, UNCLASSIFIED | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) |
 
 ### 2.2 *-Property (Star Property, No Write Down, NWD)
@@ -52,19 +52,24 @@ TOP SECRET > SECRET > CONFIDENTIAL > UNCLASSIFIED
 
 | 사용자 등급 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 |
 |:---|:---|:---|
-| **TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)** | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) | [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), CONFIDENTIAL, UNCLASSIFIED |
-| **[SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)** | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) | CONFIDENTIAL, UNCLASSIFIED |
+| <strong>TOP <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">SECRET</a></strong> | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) | [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), CONFIDENTIAL, UNCLASSIFIED |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">SECRET</a></strong> | TOP [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/), [SECRET](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) | CONFIDENTIAL, UNCLASSIFIED |
 | **CONFIDENTIAL** | 모든 등급 | - |
 
 ### 2.3 두 규칙의
 
-```text
-[ 정보 흐름 ]
-TOP SECRET 정보 -> SECRET 사용자가 읽기 불가 (NRU)
--> TOP SECRET 사용자가 SECRET에 쓰기 불가 (NWD)
 
-결과: 정보는 항상 같거나 높은 등급으로만 흐른다 -> 유출 방지
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 흐름</div></div>
+<div class="kb-diagram-note">TOP SECRET 정보 -&gt; SECRET 사용자가 읽기 불가 (NRU)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">TOP SECRET 사용자가 SECRET에 쓰기 불가 (NWD)</div>
+<div class="kb-diagram-note">결과: 정보는 항상 같거나 높은 등급으로만 흐른다 -&gt; 유출 방지</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -72,7 +77,7 @@ TOP SECRET 정보 -> SECRET 사용자가 읽기 불가 (NRU)
 
 ## Ⅲ. 비교 및 연결
 
-DSP는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))을 통해 **[임의적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/)**를 허용한다:
+DSP는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/))을 통해 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/">임의적 접근 제어</a></strong>를 허용한다:
 
 ```text
 [ DSP 규칙 ]
@@ -88,7 +93,7 @@ DSP는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_ac
 
 ### 4.1 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 미보장
 
-NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)은 보장하지만, **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 보장하지 않는다**:
+NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)은 보장하지만, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>은 보장하지 않는다</strong>:
 
 ```text
 [ 문제 상황 ]
@@ -99,7 +104,7 @@ NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles
 
 ### 4.2 Practical Issue: 신뢰받는 Subject
 
-실제 시스템에서는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 로깅 등을 위해 **신뢰받는 Subject**는 NWD 규칙을 면제받는다:
+실제 시스템에서는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 로깅 등을 위해 <strong>신뢰받는 Subject</strong>는 NWD 규칙을 면제받는다:
 
 ```text
 [ 예외 ]
@@ -112,9 +117,9 @@ NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 완벽 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: 수학적 증명을 통해 정보 유출이 원천 차단됨
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 완벽 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 수학적 증명을 통해 정보 유출이 원천 차단됨
 - **군사/정부 시스템 적합**: 국가 보안 수준의 접근 제어에 적합
-- **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 미보장**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 가능성이 남아 있으므로, Biba 모델 등과의 병행 사용이 필요
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 미보장</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 가능성이 남아 있으므로, Biba 모델 등과의 병행 사용이 필요
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -131,27 +136,31 @@ NRU/NWD는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[강제적 접근 제어 (MAC, Mandatory Access Control)]
-│
-▼
-[벨-라파둘라 모델 (Bell-LaPadula)]
-│
-├──▶ [비바 모델 (Biba Model)]
-└──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">강제적 접근 제어 (MAC, Mandatory Access Control)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">벨-라파둘라 모델 (Bell-LaPadula)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비바 모델 (Biba Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 보안 모듈 (LSM, Linux Security Modules)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **벨-라파둘라 모델**은 놀이공원의 **"급제도(등급 제도)"**와 같다. 상위 등급 사람은 하위 등급 놀이기구에는 접근할 수 없고, 하위 등급 사람은 상위 등급 놀이기구를활용(이용)할 수 없다.
+1. <strong>벨-라파둘라 모델</strong>은 놀이공원의 <strong>"급제도(등급 제도)"</strong>와 같다. 상위 등급 사람은 하위 등급 놀이기구에는 접근할 수 없고, 하위 등급 사람은 상위 등급 놀이기구를활용(이용)할 수 없다.
 
-2. **NRU (No Read Up)**는 **"아래 계급 사람은 위 계급의 문서를 읽을 수 없다"**는 병영 규칙과 같다. 이등병은 대대장의 문서를 볼 수 없다.
+2. <strong>NRU (No Read Up)</strong>는 <strong>"아래 계급 사람은 위 계급의 문서를 읽을 수 없다"</strong>는 병영 규칙과 같다. 이등병은 대대장의 문서를 볼 수 없다.
 
-3. **NWD (No Write Down)**는 **"위 계급 사람은 아래 계급에게 기밀 정보를 줄 수 없다"**는 규칙과 같다. 대대장이 이등병에게 비밀 작전 내용을 알려줄 수 없다.
+3. <strong>NWD (No Write Down)</strong>는 <strong>"위 계급 사람은 아래 계급에게 기밀 정보를 줄 수 없다"</strong>는 규칙과 같다. 대대장이 이등병에게 비밀 작전 내용을 알려줄 수 없다.
 
-4. **한계**는 **"위 계급 사람이 아래 계급의 보고서를 수정할 수 있다"**는 점이다. 이등병의 순찰 보고서를 대대장이 고쳐버리면, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨질 수 있다.
+4. <strong>한계</strong>는 <strong>"위 계급 사람이 아래 계급의 보고서를 수정할 수 있다"</strong>는 점이다. 이등병의 순찰 보고서를 대대장이 고쳐버리면, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨질 수 있다.
 
 ---
 

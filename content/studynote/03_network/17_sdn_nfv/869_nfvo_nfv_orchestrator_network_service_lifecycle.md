@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 868번 MANO 프레임워크의 3계층 중 **가장 최상위(맨 꼭대기)에 위치하는 중앙 오케스트레이터(지휘자)**입니다.
-- **역할**: 하위 관리자인 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/)(인프라 자원 관리)과 [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)(개별 앱 관리)을 총괄 지휘하여, 개별 조각([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))들이 모여 완성되는 **'종단 간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체의 생명주기(Lifecycle)'를 100% 자동화하여 기획, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수정, 삭제하는 거시적 뇌 역할**을 수행합니다.
+- **개념**: 868번 MANO 프레임워크의 3계층 중 <strong>가장 최상위(맨 꼭대기)에 위치하는 중앙 오케스트레이터(지휘자)</strong>입니다.
+- **역할**: 하위 관리자인 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/)(인프라 자원 관리)과 [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)(개별 앱 관리)을 총괄 지휘하여, 개별 조각([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))들이 모여 완성되는 <strong>'종단 간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>) 네트워크 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 전체의 생명주기(Lifecycle)'를 100% 자동화하여 기획, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>, 수정, 삭제하는 거시적 뇌 역할</strong>을 수행합니다.
 
-```text
-[MANO]
-    │
-    ▼
-[NFVO]
-    │
-    └──▶ [VNFM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MANO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNFM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFVO는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,24 +43,28 @@ tags = ["studynote-network"]
 
 ### 1. 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 온보딩 및 인스턴스화 (Network [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Instantiation)
 - 사장님이 `웹 서버 ➜ 방화벽 ➜ L4 스위치 ➜ DB 서버`로 이어지는 웅장한 설계도(NSD, Network [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Descriptor) 파일을 하나 던져줍니다.
-- NFVO는 이 설계도를 읽어보고(온보딩), **전국에 깔린 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 인프라 자원([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/)) 현황을 싹 훑어봅니다.** "서울은 꽉 찼네. 부산 클라우드에 빈방 많으니까 부산 VIM한테 지시해서 인프라 껍데기 세팅하고, [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) 시켜서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱 띄워라!" 라며 전체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 지휘(인스턴스화)합니다.
+- NFVO는 이 설계도를 읽어보고(온보딩), <strong>전국에 깔린 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 인프라 자원(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/">VIM</a>) 현황을 싹 훑어봅니다.</strong> "서울은 꽉 찼네. 부산 클라우드에 빈방 많으니까 부산 VIM한테 지시해서 인프라 껍데기 세팅하고, [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) 시켜서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱 띄워라!" 라며 전체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 지휘(인스턴스화)합니다.
 
 ### 2. [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 포워딩 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)) 엮기 🌟
 - [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 라우터)들을 허공에 띄워놨다고 알아서 통신되는 게 아닙니다.
-- NFVO는 이 동떨어진 가상 앱들을 실로 꿰듯이 묶어줍니다. "야! 밖에서 들어온 패킷은 무조건 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(1번 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))을 먼저 거친 다음에, 이상 없으면 라우터(2번 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))로 흘러가게 길을 뚫어라!" (이것이 872번 문서에서 배울 **[서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)([SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/))**의 마법이며, NFVO가 이 실을 엮는 장인입니다.)
+- NFVO는 이 동떨어진 가상 앱들을 실로 꿰듯이 묶어줍니다. "야! 밖에서 들어온 패킷은 무조건 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(1번 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))을 먼저 거친 다음에, 이상 없으면 라우터(2번 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))로 흘러가게 길을 뚫어라!" (이것이 872번 문서에서 배울 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/">서비스 체이닝</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/">SFC</a>)</strong>의 마법이며, NFVO가 이 실을 엮는 장인입니다.)
 
 ### 3. 글로벌 자원(Resource) 총괄 할당 및 분배 최적화
 - [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) A(보안팀)가 "우리 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 터질 거 같으니까 서버 자원 10GB만 더 줘!"라고 요청하고, [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) B(영상팀)가 "우리도 20GB 더 줘!"라고 아우성칩니다.
-- NFVO는 이 요청들을 다 승인하지 않습니다. 국가 전체의 가용 자원을 내려다보며 "영상팀은 안 급하니까 기각! 보안팀 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에만 자원 10GB 할당([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))해!"라고 **자원 충돌을 중재하고 거시적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 분배하는 판사 역할**을 합니다.
+- NFVO는 이 요청들을 다 승인하지 않습니다. 국가 전체의 가용 자원을 내려다보며 "영상팀은 안 급하니까 기각! 보안팀 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에만 자원 10GB 할당([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))해!"라고 <strong>자원 충돌을 중재하고 거시적 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>에 따라 분배하는 판사 역할</strong>을 합니다.
 
-```text
-[MANO]
-    │
-    ▼
-[NFVO]
-    │
-    └──▶ [VNFM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MANO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNFM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFVO의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- NFVO의 바로 위에는 인간 통신사 직원들이 보는 요금/고객 관리 시스템인 **[OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/[BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) / Business [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) System)**가 있습니다.
+- NFVO의 바로 위에는 인간 통신사 직원들이 보는 요금/고객 관리 시스템인 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">OSS</a>/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/">BSS</a>(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a> / Business <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> System)</strong>가 있습니다.
 - 고객이 웹 포털에서 "월 100만 원짜리 고급 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 1개 구독" 버튼을 누르면([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)), 그 명령이 바로 NFVO로 떨어집니다. NFVO가 망을 뚝딱 만들어 내면, 다시 BSS로 "망 다 만들었으니까 100만 원 요금 청구 시작해!"라고 보고하는 완벽한 톱니바퀴 연동 체계입니다.
 
 NFVO를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. MANO가 기반 조건을 만든다면, NFVO는 그 위에서 핵심 메커니즘을 구현하고, VNFM는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -75,7 +83,7 @@ NFVO를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: NFVO는 초거대 '오케스트라 총괄 지휘자 겸 기획자'입니다. 첼로 파트장([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))이나 무대 청소부([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))는 자기 앞가림만 할 줄 아지 전체 음악이 어떻게 흘러가는지 숲을 볼 줄 모릅니다. **NFVO(총사령관)**는 모차르트 악보(설계도, NSD)를 들고 무대 전체를 조율합니다. "자, 무대 청소부([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))는 의자 100개 깔아! 첼로 파트장([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))은 연주자 10명 자리에 앉혀! 그리고 1번 코러스가 노래 부르면 바로 이어서 2번 바이올린이 연주해([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/))!" 지휘자의 지휘봉이 한 번 흔들릴 때마다, 수백 명의 연주자와 무대 장치들이 하나의 완벽한 교향곡(종단 간 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 생명을 얻어 웅장하게 울려 퍼지게 만드는 통신망 최고 존엄의 뇌입니다.
+- **📢 섹션 요약 비유**: NFVO는 초거대 '오케스트라 총괄 지휘자 겸 기획자'입니다. 첼로 파트장([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))이나 무대 청소부([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))는 자기 앞가림만 할 줄 아지 전체 음악이 어떻게 흘러가는지 숲을 볼 줄 모릅니다. <strong>NFVO(총사령관)</strong>는 모차르트 악보(설계도, NSD)를 들고 무대 전체를 조율합니다. "자, 무대 청소부([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))는 의자 100개 깔아! 첼로 파트장([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))은 연주자 10명 자리에 앉혀! 그리고 1번 코러스가 노래 부르면 바로 이어서 2번 바이올린이 연주해([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/))!" 지휘자의 지휘봉이 한 번 흔들릴 때마다, 수백 명의 연주자와 무대 장치들이 하나의 완벽한 교향곡(종단 간 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 생명을 얻어 웅장하게 울려 퍼지게 만드는 통신망 최고 존엄의 뇌입니다.
 
 ---
 
@@ -117,15 +125,19 @@ NFVO는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MANO]
-    │
-    ▼
-[현재 개념: NFVO]
-    │
-    ├──▶ [확장 A: VNFM]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MANO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFVO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VNFM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 NFVO는 MANO에서 출발해 현재 메커니즘을 정교화하고, 이후 VNFM와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

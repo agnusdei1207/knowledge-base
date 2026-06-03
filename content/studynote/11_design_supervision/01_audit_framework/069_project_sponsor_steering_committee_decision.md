@@ -29,13 +29,19 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Project Team
-  ↓ issues
-PM / Sponsor / Steering Committee
-  ↓ decision
-Direction / Budget / Escalation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Project Team</div>
+<div class="kb-diagram-note">↓ issues</div>
+<div class="kb-diagram-note">PM / Sponsor / Steering Committee</div>
+<div class="kb-diagram-note">↓ decision</div>
+<div class="kb-diagram-note">Direction / Budget / Escalation</div>
+</div>
+</div>
+
+
 
 | 역할 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ Direction / Budget / Escalation
 
 ## 관련 개념 맵
 
-```text
-Sponsor
-  ↓
-Steering Committee
-  ↓
-PM
-  ↓
-Project Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sponsor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Steering Committee</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Project Governance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Governance
-  ↓
-Sponsor
-  ↓
-Steering Committee
-  ↓
-Decision Making
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Governance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sponsor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Steering Committee</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Decision Making</div>
+</div>
+</div>
+
+
 
 ---
 

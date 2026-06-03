@@ -41,21 +41,24 @@ tags = ["studynote-data-engineering"]
 
 ### 1.3 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 핵심 아이디어
 
-```
-Hard Label (전통 학습) vs Soft Target (지식 증류)
 
-[분류 문제: 개, 고양이, 자동차]
 
-Hard Label (원핫 인코딩):
-  실제 정답: 개 → [1, 0, 0]
-  → 클래스 간 관계 정보 없음
-  → "개와 고양이가 자동차보다 유사하다"는 정보 손실
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hard Label (전통 학습) vs Soft Target (지식 증류)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분류 문제: 개, 고양이, 자동차</div></div>
+<div class="kb-diagram-note">Hard Label (원핫 인코딩):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 0, 0</div></div>
+<div class="kb-diagram-note">→ 클래스 간 관계 정보 없음</div>
+<div class="kb-diagram-note">→ "개와 고양이가 자동차보다 유사하다"는 정보 손실</div>
+<div class="kb-diagram-note">Soft Target (교사 모델 출력):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0.7, 0.25, 0.05</div></div>
+<div class="kb-diagram-note">→ "개랑 고양이가 비슷함" 정보 포함!</div>
+<div class="kb-diagram-note">→ 학생 모델이 더 풍부한 정보로 학습</div>
+</div>
+</div>
 
-Soft Target (교사 모델 출력):
-  교사 모델 확률: 개 → [0.7, 0.25, 0.05]
-  → "개랑 고양이가 비슷함" 정보 포함!
-  → 학생 모델이 더 풍부한 정보로 학습
-```
+
 
 📢 **섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 대학교수(교사 모델)가 학생(학생 모델)을 가르칠 때, 단순히 "정답은 A"가 아니라 "A가 가장 맞고 B도 일부 맞으며 C는 전혀 아니다"는 뉘앙스까지 전달하는 것이다.
 
@@ -65,81 +68,81 @@ Soft Target (교사 모델 출력):
 
 ### 2.1 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)
 
-```
-지식 증류 학습 구조
 
-교사 모델 (Teacher, 고정)
-  입력 x → 소프트맥스(logits/T) → 소프트 타겟 q_T
-                                      │
-학생 모델 (Student, 학습 중)           │
-  입력 x → 소프트맥스(logits/T) → q_S ↓
-                                  KL Divergence 손실
-                                  L_distill = KL(q_T || q_S)
-  입력 x → 소프트맥스(logits/1) → 하드 예측
-                                  L_ce = CrossEntropy(y, q_S)
 
-최종 손실 함수:
-  L_total = α × T² × L_distill + (1-α) × L_ce
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지식 증류 학습 구조</div>
+<div class="kb-diagram-note">교사 모델 (Teacher, 고정)</div>
+<div class="kb-diagram-note">입력 x → 소프트맥스(logits/T) → 소프트 타겟 q_T</div>
+<div class="kb-diagram-note">학생 모델 (Student, 학습 중)</div>
+<div class="kb-diagram-note">입력 x → 소프트맥스(logits/T) → q_S ↓</div>
+<div class="kb-diagram-note">KL Divergence 손실</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_distill = KL(q_T</div><div class="kb-diagram-cell">q_S)</div></div>
+<div class="kb-diagram-note">입력 x → 소프트맥스(logits/1) → 하드 예측</div>
+<div class="kb-diagram-note">L_ce = CrossEntropy(y, q_S)</div>
+<div class="kb-diagram-note">최종 손실 함수:</div>
+<div class="kb-diagram-note">L_total = α × T² × L_distill + (1-α) × L_ce</div>
+<div class="kb-diagram-note">α: 증류 손실 가중치 (보통 0.5~0.9)</div>
+<div class="kb-diagram-note">T: 온도 매개변수 (보통 2~20)</div>
+<div class="kb-diagram-note">T²: 온도 스케일링 보정 (그래디언트 크기 정규화)</div>
+</div>
+</div>
 
-  α: 증류 손실 가중치 (보통 0.5~0.9)
-  T: 온도 매개변수 (보통 2~20)
-  T²: 온도 스케일링 보정 (그래디언트 크기 정규화)
-```
+
 
 ### 2.2 온도 매개변수 ([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) 효과
 
-```
-온도(T)에 따른 확률 분포 변화
 
-원본 logits: [3.0, 0.5, -1.5]
 
-T=1 (Hard, 기본):
-  소프트맥스: [0.87, 0.12, 0.01]
-  → 개 압도적 우세, 고양이/자동차 구분 어려움
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온도(T)에 따른 확률 분포 변화</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">원본 logits:</div><div class="kb-diagram-node">3.0, 0.5, -1.5</div></div>
+<div class="kb-diagram-note">T=1 (Hard, 기본):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">소프트맥스:</div><div class="kb-diagram-node">0.87, 0.12, 0.01</div></div>
+<div class="kb-diagram-note">→ 개 압도적 우세, 고양이/자동차 구분 어려움</div>
+<div class="kb-diagram-note">T=5 (Soft):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">소프트맥스:</div><div class="kb-diagram-node">0.55, 0.35, 0.10</div></div>
+<div class="kb-diagram-note">→ 고양이와의 유사성 정보 드러남</div>
+<div class="kb-diagram-note">T=10 (Very Soft):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">소프트맥스:</div><div class="kb-diagram-node">0.40, 0.38, 0.22</div></div>
+<div class="kb-diagram-note">→ 모든 클래스 관계 정보 최대 활용</div>
+<div class="kb-diagram-note">T→∞:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">소프트맥스:</div><div class="kb-diagram-node">0.33, 0.33, 0.33</div></div>
+<div class="kb-diagram-note">→ 균등 분포 (정보 없음)</div>
+<div class="kb-diagram-note">최적 T: 태스크와 교사 모델에 따라 실험적으로 결정</div>
+</div>
+</div>
 
-T=5 (Soft):
-  소프트맥스: [0.55, 0.35, 0.10]
-  → 고양이와의 유사성 정보 드러남
 
-T=10 (Very Soft):
-  소프트맥스: [0.40, 0.38, 0.22]
-  → 모든 클래스 관계 정보 최대 활용
-
-T→∞:
-  소프트맥스: [0.33, 0.33, 0.33]
-  → 균등 분포 (정보 없음)
-
-최적 T: 태스크와 교사 모델에 따라 실험적으로 결정
-```
 
 ### 2.3 3가지 증류 방식
 
-```
-┌───────────────────────────────────────────────────────────┐
-│              지식 증류 3가지 방식                           │
-│                                                           │
-│  ① 응답 기반 (Response-based Distillation)                │
-│     교사 모델의 최종 출력 확률 분포만 모방                  │
-│                                                           │
-│     Teacher: [레이어1] → [레이어N] → 소프트맥스 출력       │
-│                                              ↓ 전이         │
-│     Student: [레이어1] → [레이어M] → 소프트맥스 모방       │
-│                                                           │
-│  ② 피처 기반 (Feature-based Distillation)                 │
-│     중간 피처 표현(Feature Map)도 함께 모방                 │
-│                                                           │
-│     Teacher: [레이어1] → [레이어k] → [레이어N]             │
-│                              ↓ 중간 피처 전이              │
-│     Student: [레이어1] → [레이어j] → [레이어M]             │
-│                                                           │
-│  ③ 관계 기반 (Relation-based Distillation)                │
-│     샘플 간 관계(거리, 각도)를 모방                        │
-│                                                           │
-│     데이터 포인트 A, B, C 간의 거리 관계:                  │
-│     Teacher: dist(A,B) < dist(A,C)                       │
-│     Student: 동일한 거리 관계 유지하도록 학습              │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지식 증류 3가지 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 응답 기반 (Response-based Distillation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교사 모델의 최종 출력 확률 분포만 모방</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Teacher:</div><div class="kb-diagram-node">레이어1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어N</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">소프트맥스 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Student:</div><div class="kb-diagram-node">레이어1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어M</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">소프트맥스 모방</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 피처 기반 (Feature-based Distillation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간 피처 표현(Feature Map)도 함께 모방</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Teacher:</div><div class="kb-diagram-node">레이어1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어k</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 중간 피처 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Student:</div><div class="kb-diagram-node">레이어1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어j</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">레이어M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 관계 기반 (Relation-based Distillation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플 간 관계(거리, 각도)를 모방</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 포인트 A, B, C 간의 거리 관계:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Teacher: dist(A,B) &lt; dist(A,C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Student: 동일한 거리 관계 유지하도록 학습</div></div>
+</div>
+</div>
+
+
 
 | 방식 | 전이 정보 | 구현 난이도 | 효과 |
 |:---|:---|:---|:---|
@@ -185,18 +188,22 @@ DistilBERT 증류 과정
 
 ### 3.2 Self-Distillation (자기 증류)
 
-```
-교사와 학생이 동일 아키텍처인 경우
 
-Self-KD (Self-Knowledge Distillation):
-  에포크 초기 모델 → 교사 역할
-  현재 학습 중 모델 → 학생 역할
 
-Born Again Networks (BAN):
-  학습 완료 모델 → 교사
-  동일 크기 새 모델 → 학생
-  → 앙상블 없이 앙상블 효과
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">교사와 학생이 동일 아키텍처인 경우</div>
+<div class="kb-diagram-note">Self-KD (Self-Knowledge Distillation):</div>
+<div class="kb-diagram-note">에포크 초기 모델 → 교사 역할</div>
+<div class="kb-diagram-note">현재 학습 중 모델 → 학생 역할</div>
+<div class="kb-diagram-note">Born Again Networks (BAN):</div>
+<div class="kb-diagram-note">학습 완료 모델 → 교사</div>
+<div class="kb-diagram-note">동일 크기 새 모델 → 학생</div>
+<div class="kb-diagram-note">→ 앙상블 없이 앙상블 효과</div>
+</div>
+</div>
+
+
 
 ### 3.3 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) vs [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 비교
 
@@ -296,27 +303,29 @@ for inputs, labels in dataloader:
 
 ### 5.2 최신 증류 기법 동향
 
-```
-지식 증류 발전 방향
 
-1. LLM 증류 (Large Language Model Distillation)
-   ├─ GPT-4 → GPT-3.5급 성능으로 증류
-   └─ Alpaca: GPT-4 52K 샘플로 LLaMA 7B 파인튜닝
 
-2. 멀티모달 증류 (Multimodal Distillation)
-   └─ 텍스트+이미지 교사 → 경량 단일 모달 학생
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지식 증류 발전 방향</div>
+<div class="kb-diagram-note">1. LLM 증류 (Large Language Model Distillation)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">GPT-4 → GPT-3.5급 성능으로 증류</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Alpaca: GPT-4 52K 샘플로 LLaMA 7B 파인튜닝</div>
+<div class="kb-diagram-note">2. 멀티모달 증류 (Multimodal Distillation)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">텍스트+이미지 교사 → 경량 단일 모달 학생</div>
+<div class="kb-diagram-note">3. Online Distillation</div>
+<div class="kb-diagram-tree-item" style="--depth:1">교사 학습과 학생 학습 동시 진행 (코-학습)</div>
+<div class="kb-diagram-note">4. Task-Agnostic Distillation</div>
+<div class="kb-diagram-tree-item" style="--depth:1">태스크 무관하게 일반 표현 증류</div>
+<div class="kb-diagram-note">(DistilBERT, TinyBERT 방식)</div>
+</div>
+</div>
 
-3. Online Distillation
-   └─ 교사 학습과 학생 학습 동시 진행 (코-학습)
 
-4. Task-Agnostic Distillation
-   └─ 태스크 무관하게 일반 표현 증류
-      (DistilBERT, TinyBERT 방식)
-```
 
 ### 5.3 결론 요약
 
-[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 엣지 배포와 실시간 서빙을 가능하게 하는 핵심 경량화 기법이다. 소프트 타겟이 하드 레이블 대비 더 풍부한 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 제공하는 원리를 이해하고, 기술사 관점에서는 **3가지 증류 방식의 차이, 온도 매개변수의 역할, [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) → DistilBERT 같은 실제 적용 사례**를 명확히 설명할 수 있어야 한다.
+[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 엣지 배포와 실시간 서빙을 가능하게 하는 핵심 경량화 기법이다. 소프트 타겟이 하드 레이블 대비 더 풍부한 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 제공하는 원리를 이해하고, 기술사 관점에서는 <strong>3가지 증류 방식의 차이, 온도 매개변수의 역할, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> → DistilBERT 같은 실제 적용 사례</strong>를 명확히 설명할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 거대한 백과사전(교사 모델)의 핵심 내용을 작은 포켓북(학생 모델)으로 압축하는 작업이다. 단순히 내용을 잘라내는 것이 아니라, 전문가(교사)가 "이것이 왜 중요한지"(소프트 타겟)를 함께 기록해서 포켓북만 봐도 본질을 이해할 수 있게 한다.
 
@@ -342,24 +351,27 @@ for inputs, labels in dataloader:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대형 Teacher 모델 (높은 정확도 · 느린 추론)
-    │
-    ▼
-지식 증류 (Knowledge Distillation)
-    ├─► 소프트 타겟: Teacher의 확률 분포 전달
-    ├─► Temperature Scaling: 분포 평탄화 (T>1)
-    └─► KL Divergence 손실: Student ↔ Teacher 분포 매칭
-    │
-    ▼
-경량 Student 모델 (엣지 배포 가능)
-    │
-    ▼
-결합 기법
-    ├─► 양자화 + 증류: INT8 Student
-    ├─► 프루닝 + 증류: 희소 Student
-    └─► Self-Distillation: 같은 모델 내 증류
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 Teacher 모델 (높은 정확도 · 느린 추론)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지식 증류 (Knowledge Distillation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">소프트 타겟: Teacher의 확률 분포 전달</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Temperature Scaling: 분포 평탄화 (T&gt;1)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">KL Divergence 손실: Student ↔ Teacher 분포 매칭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경량 Student 모델 (엣지 배포 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결합 기법</div>
+<div class="kb-diagram-tree-item" style="--depth:2">양자화 + 증류: INT8 Student</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프루닝 + 증류: 희소 Student</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Self-Distillation: 같은 모델 내 증류</div>
+</div>
+</div>
+
+
 2. 온도 매개변수는 아이스크림 온도예요. 너무 딱딱하면(낮은 온도) 한 맛만 강하게 느껴지고, 살짝 녹으면(높은 온도) 여러 맛이 고루 느껴지죠.
 3. DistilBERT는 두꺼운 사전을 얇은 포켓 사전으로 만든 거예요. 40%는 줄었지만 97%의 내용은 그대로 담겨 있어요.
 

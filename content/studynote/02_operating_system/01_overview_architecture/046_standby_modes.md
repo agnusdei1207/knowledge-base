@@ -18,47 +18,45 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) 전력 상태
 
-```
-ACPI (Advanced Configuration and Power Interface):
-  OS와 하드웨어 간 전력 관리 표준
-  Intel/Microsoft/Toshiba 공동 개발 (1996)
 
-글로벌 시스템 상태 (G-States):
-  G0: 활성 (Working)
-  G1: 슬리핑 (Sleeping) → S1~S4
-  G2: 소프트 파워오프 (Soft Off) → S5
-  G3: 메카니컬 파워오프 (전원 완전 차단)
 
-슬리핑 상태 (S-States):
-  S0: 완전 활성 (Full Working)
-  
-  S1 (Power on Suspend):
-    CPU 캐시 플러시, CLK 정지
-    RAM 유지, 빠른 복귀
-    소비전력: 약간 감소
-    
-  S2: CPU 전원 OFF, 메모리 유지
-  
-  S3 (Suspend to RAM, STR):
-    RAM 유지, 나머지 OFF
-    복귀 시간: 수초
-    대부분 노트북의 "슬립" 모드
-    소비전력: 1~2W
-    
-  S4 (Suspend to Disk, STD, Hibernation):
-    RAM → 디스크 저장 → 전원 OFF
-    복귀 시간: 수십초 (디스크에서 로드)
-    소비전력: 0W (전원 OFF)
-    
-  S5 (Soft Off):
-    시스템 종료 (WOL 대기 가능)
-    소비전력: < 1W
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ACPI (Advanced Configuration and Power Interface):</div>
+<div class="kb-diagram-note">OS와 하드웨어 간 전력 관리 표준</div>
+<div class="kb-diagram-note">Intel/Microsoft/Toshiba 공동 개발 (1996)</div>
+<div class="kb-diagram-note">글로벌 시스템 상태 (G-States):</div>
+<div class="kb-diagram-note">G0: 활성 (Working)</div>
+<div class="kb-diagram-note">G1: 슬리핑 (Sleeping) → S1~S4</div>
+<div class="kb-diagram-note">G2: 소프트 파워오프 (Soft Off) → S5</div>
+<div class="kb-diagram-note">G3: 메카니컬 파워오프 (전원 완전 차단)</div>
+<div class="kb-diagram-note">슬리핑 상태 (S-States):</div>
+<div class="kb-diagram-note">S0: 완전 활성 (Full Working)</div>
+<div class="kb-diagram-note">S1 (Power on Suspend):</div>
+<div class="kb-diagram-note">CPU 캐시 플러시, CLK 정지</div>
+<div class="kb-diagram-note">RAM 유지, 빠른 복귀</div>
+<div class="kb-diagram-note">소비전력: 약간 감소</div>
+<div class="kb-diagram-note">S2: CPU 전원 OFF, 메모리 유지</div>
+<div class="kb-diagram-note">S3 (Suspend to RAM, STR):</div>
+<div class="kb-diagram-note">RAM 유지, 나머지 OFF</div>
+<div class="kb-diagram-note">복귀 시간: 수초</div>
+<div class="kb-diagram-note">대부분 노트북의 "슬립" 모드</div>
+<div class="kb-diagram-note">소비전력: 1~2W</div>
+<div class="kb-diagram-note">S4 (Suspend to Disk, STD, Hibernation):</div>
+<div class="kb-diagram-note">RAM → 디스크 저장 → 전원 OFF</div>
+<div class="kb-diagram-note">복귀 시간: 수십초 (디스크에서 로드)</div>
+<div class="kb-diagram-note">소비전력: 0W (전원 OFF)</div>
+<div class="kb-diagram-note">S5 (Soft Off):</div>
+<div class="kb-diagram-note">시스템 종료 (WOL 대기 가능)</div>
+<div class="kb-diagram-note">소비전력: &lt; 1W</div>
+<div class="kb-diagram-note">Windows 대응:</div>
+<div class="kb-diagram-note">S3 → 절전 (Sleep)</div>
+<div class="kb-diagram-note">S4 → 최대 절전 (Hibernate)</div>
+<div class="kb-diagram-note">Modern Standby → S0ix</div>
+</div>
+</div>
 
-Windows 대응:
-  S3 → 절전 (Sleep)
-  S4 → 최대 절전 (Hibernate)
-  Modern Standby → S0ix
-```
+
 
 > 📢 **섹션 요약 비유**: [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State는 회사 퇴근 단계 — S0=열심히 일하는 중, S1=잠깐 자리 비움, S3=퇴근(짐 두고), S4=완전 퇴근([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 끔), S5=전원 off. 빠른 복귀 vs 완전 절전 트레이드오프!
 
@@ -66,47 +64,44 @@ Windows 대응:
 
 ## Ⅱ. CPU C-State와 P-State
 
-```
-CPU 절전 상태 (C-States):
-  각 CPU 코어의 유휴(Idle) 절전 단계
 
-C-State 계층:
-  C0: 활성 (Active, 명령 실행 중)
-  C1: Halt (클럭 게이팅, 즉시 복귀)
-  C1E: C1 + 전압 감소
-  C3: Sleep (캐시 플러시)
-  C6: Deep Power Down (코어 전원 OFF 일부)
-  C7: Enhanced Deep Power Down
-  C10: 가장 깊은 절전 (최신 CPU)
-  
-  진입: OS 스케줄러 유휴 감지 → Halt 명령
-  
-  복귀 지연:
-  C1: <1 μs, C3: <100 μs, C6: <1 ms, C10: <10ms
 
-CPU P-State (성능 상태):
-  DVFS: 전압+주파수 동적 조절
-  
-  P0: 최고 주파수/전압 (최대 성능)
-  P1, P2, ...: 낮은 주파수/전압
-  
-  전력: P ≈ α × C × V² × f
-  V 20% 감소 → 전력 36% 감소 (V² 효과)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 절전 상태 (C-States):</div>
+<div class="kb-diagram-note">각 CPU 코어의 유휴(Idle) 절전 단계</div>
+<div class="kb-diagram-note">C-State 계층:</div>
+<div class="kb-diagram-note">C0: 활성 (Active, 명령 실행 중)</div>
+<div class="kb-diagram-note">C1: Halt (클럭 게이팅, 즉시 복귀)</div>
+<div class="kb-diagram-note">C1E: C1 + 전압 감소</div>
+<div class="kb-diagram-note">C3: Sleep (캐시 플러시)</div>
+<div class="kb-diagram-note">C6: Deep Power Down (코어 전원 OFF 일부)</div>
+<div class="kb-diagram-note">C7: Enhanced Deep Power Down</div>
+<div class="kb-diagram-note">C10: 가장 깊은 절전 (최신 CPU)</div>
+<div class="kb-diagram-note">진입: OS 스케줄러 유휴 감지 → Halt 명령</div>
+<div class="kb-diagram-note">복귀 지연:</div>
+<div class="kb-diagram-note">C1: &lt;1 μs, C3: &lt;100 μs, C6: &lt;1 ms, C10: &lt;10ms</div>
+<div class="kb-diagram-note">CPU P-State (성능 상태):</div>
+<div class="kb-diagram-note">DVFS: 전압+주파수 동적 조절</div>
+<div class="kb-diagram-note">P0: 최고 주파수/전압 (최대 성능)</div>
+<div class="kb-diagram-note">P1, P2, ...: 낮은 주파수/전압</div>
+<div class="kb-diagram-note">전력: P ≈ α × C × V² × f</div>
+<div class="kb-diagram-note">V 20% 감소 → 전력 36% 감소 (V² 효과)</div>
+<div class="kb-diagram-note">Linux cpufreq 드라이버:</div>
+<div class="kb-diagram-note">Governor (정책):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">performance: 항상 최고 주파수</div>
+<div class="kb-diagram-tree-item" style="--depth:1">powersave: 항상 최저 주파수</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ondemand: 부하에 따라 동적 (기본)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">schedutil: CFS 스케줄러 연계 (현대적)</div>
+<div class="kb-diagram-note">확인: cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</div>
+<div class="kb-diagram-note">변경: echo schedutil &gt; .../scaling_governor</div>
+<div class="kb-diagram-note">Package C-State:</div>
+<div class="kb-diagram-note">모든 코어 C-State 진입 시 패키지(CPU 전체) 절전</div>
+<div class="kb-diagram-note">PC0, PC2, PC6, PC8, PC10 등</div>
+</div>
+</div>
 
-Linux cpufreq 드라이버:
-  Governor (정책):
-  - performance: 항상 최고 주파수
-  - powersave: 항상 최저 주파수
-  - ondemand: 부하에 따라 동적 (기본)
-  - schedutil: CFS 스케줄러 연계 (현대적)
-  
-  확인: cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-  변경: echo schedutil > .../scaling_governor
 
-Package C-State:
-  모든 코어 C-State 진입 시 패키지(CPU 전체) 절전
-  PC0, PC2, PC6, PC8, PC10 등
-```
 
 > 📢 **섹션 요약 비유**: C-State는 공장 가동 단계 — C0(풀가동), C1(일시정지), C6(라인 셧다운). 주문 없으면(유휴) 라인 끄고 절전!
 
@@ -114,45 +109,43 @@ Package C-State:
 
 ## Ⅲ. Modern Standby (S0ix)
 
-```
-Modern Standby (Windows S0ix):
-  스마트폰처럼 네트워크 연결 유지하면서 저전력
 
-기존 S3 대비:
-  S3: 네트워크 완전 차단 → 이메일/알림 수신 불가
-  S0ix: 저전력 상태에서 Wi-Fi 유지 → 알림 수신
 
-S0ix 동작:
-  디스플레이 꺼짐 → 화면 전원 OFF
-  → 앱 정지 (일시 중단)
-  → CPU C10 절전
-  → Wi-Fi 저전력 수신 유지 (Wi-Fi DTIM)
-  → 이메일 도착 → CPU 웨이크업 → 처리 → 다시 C10
-  
-  목표 전력: < 5~10 mW (화면 꺼진 상태)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Modern Standby (Windows S0ix):</div>
+<div class="kb-diagram-note">스마트폰처럼 네트워크 연결 유지하면서 저전력</div>
+<div class="kb-diagram-note">기존 S3 대비:</div>
+<div class="kb-diagram-note">S3: 네트워크 완전 차단 → 이메일/알림 수신 불가</div>
+<div class="kb-diagram-note">S0ix: 저전력 상태에서 Wi-Fi 유지 → 알림 수신</div>
+<div class="kb-diagram-note">S0ix 동작:</div>
+<div class="kb-diagram-note">디스플레이 꺼짐 → 화면 전원 OFF</div>
+<div class="kb-diagram-note">→ 앱 정지 (일시 중단)</div>
+<div class="kb-diagram-note">→ CPU C10 절전</div>
+<div class="kb-diagram-note">→ Wi-Fi 저전력 수신 유지 (Wi-Fi DTIM)</div>
+<div class="kb-diagram-note">→ 이메일 도착 → CPU 웨이크업 → 처리 → 다시 C10</div>
+<div class="kb-diagram-note">목표 전력: &lt; 5~10 mW (화면 꺼진 상태)</div>
+<div class="kb-diagram-note">S0ix 문제:</div>
+<div class="kb-diagram-note">배경 프로세스 미관리 → 전력 소모</div>
+<div class="kb-diagram-note">배터리 드레인 원인:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">전력 비효율 드라이버 깨어남</div>
+<div class="kb-diagram-tree-item" style="--depth:1">백그라운드 앱 웨이크락 남용</div>
+<div class="kb-diagram-note">진단 도구:</div>
+<div class="kb-diagram-note">powercfg /sleepstudy → 수면 품질 리포트</div>
+<div class="kb-diagram-note">powercfg /energy → 전력 이슈 진단</div>
+<div class="kb-diagram-note">Linux: 유사 개념</div>
+<div class="kb-diagram-note">SATA Link Power Management</div>
+<div class="kb-diagram-note">PCIe ASPM (Active State Power Management)</div>
+<div class="kb-diagram-note">Suspend-to-Idle (s2idle): S0ix 유사</div>
+<div class="kb-diagram-note">Android Doze 모드:</div>
+<div class="kb-diagram-note">S0ix와 유사한 모바일 개념</div>
+<div class="kb-diagram-note">화면 꺼짐 + 일정 시간 후 Doze 진입</div>
+<div class="kb-diagram-note">네트워크 제한 + CPU 활동 제한</div>
+<div class="kb-diagram-note">유지보수 윈도우(Maintenance Window)에서만 동기화</div>
+</div>
+</div>
 
-S0ix 문제:
-  배경 프로세스 미관리 → 전력 소모
-  
-  배터리 드레인 원인:
-  - 전력 비효율 드라이버 깨어남
-  - 백그라운드 앱 웨이크락 남용
-  
-  진단 도구:
-  powercfg /sleepstudy → 수면 품질 리포트
-  powercfg /energy → 전력 이슈 진단
 
-Linux: 유사 개념
-  SATA Link Power Management
-  PCIe ASPM (Active State Power Management)
-  Suspend-to-Idle (s2idle): S0ix 유사
-
-Android Doze 모드:
-  S0ix와 유사한 모바일 개념
-  화면 꺼짐 + 일정 시간 후 Doze 진입
-  네트워크 제한 + CPU 활동 제한
-  유지보수 윈도우(Maintenance Window)에서만 동기화
-```
 
 > 📢 **섹션 요약 비유**: Modern Standby는 스마트워치 대기 모드 — 손목에 차고 있어도 배터리 오래가면서 카카오 알림(네트워크)은 계속 받아요!
 
@@ -160,47 +153,45 @@ Android Doze 모드:
 
 ## Ⅳ. OS 전력 관리 메커니즘
 
-```
-OS 전력 관리 소프트웨어 스택:
 
-Linux 전력 관리:
-  
-  사용자공간: powertop, tlp, laptop-mode-tools
-  ↓
-  커널 전력 관리 서브시스템:
-  - pm-utils
-  - /sys/power/ 인터페이스
-  ↓
-  디바이스 드라이버 PM 콜백:
-  - suspend(), resume()
-  - runtime_suspend(), runtime_resume()
-  ↓
-  하드웨어: ACPI, 칩셋
 
-Linux Runtime PM:
-  장치 사용 없을 때 자동 절전
-  
-  USB 마우스: 움직임 없으면 USB 포트 절전
-  SATA 드라이브: 활동 없으면 스핀다운
-  
-  커널 코드 패턴:
-  pm_runtime_put_autosuspend(dev) → 절전
-  pm_runtime_get_sync(dev) → 깨우기
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OS 전력 관리 소프트웨어 스택:</div>
+<div class="kb-diagram-note">Linux 전력 관리:</div>
+<div class="kb-diagram-note">사용자공간: powertop, tlp, laptop-mode-tools</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">커널 전력 관리 서브시스템:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">pm-utils</div>
+<div class="kb-diagram-tree-item" style="--depth:1">/sys/power/ 인터페이스</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">디바이스 드라이버 PM 콜백:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">suspend(), resume()</div>
+<div class="kb-diagram-tree-item" style="--depth:1">runtime_suspend(), runtime_resume()</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">하드웨어: ACPI, 칩셋</div>
+<div class="kb-diagram-note">Linux Runtime PM:</div>
+<div class="kb-diagram-note">장치 사용 없을 때 자동 절전</div>
+<div class="kb-diagram-note">USB 마우스: 움직임 없으면 USB 포트 절전</div>
+<div class="kb-diagram-note">SATA 드라이브: 활동 없으면 스핀다운</div>
+<div class="kb-diagram-note">커널 코드 패턴:</div>
+<div class="kb-diagram-note">pm_runtime_put_autosuspend(dev) → 절전</div>
+<div class="kb-diagram-note">pm_runtime_get_sync(dev) → 깨우기</div>
+<div class="kb-diagram-note">Windows 전력 계획:</div>
+<div class="kb-diagram-note">균형 (Balanced): 성능-전력 균형</div>
+<div class="kb-diagram-note">고성능 (High Performance): 절전 없음</div>
+<div class="kb-diagram-note">절전 (Power Saver): 최대 절전</div>
+<div class="kb-diagram-note">Modern Standby 정책:</div>
+<div class="kb-diagram-note">PowerCfg /setactive &lt;GUID&gt;</div>
+<div class="kb-diagram-note">Connected Standby vs Disconnected</div>
+<div class="kb-diagram-note">macOS:</div>
+<div class="kb-diagram-note">App Nap: 포커스 없는 앱 자동 제한</div>
+<div class="kb-diagram-note">Power Nap: 슬립 중 이메일 동기화</div>
+<div class="kb-diagram-note">Compressed Memory: 절전 RAM 사용</div>
+</div>
+</div>
 
-Windows 전력 계획:
-  균형 (Balanced): 성능-전력 균형
-  고성능 (High Performance): 절전 없음
-  절전 (Power Saver): 최대 절전
-  
-  Modern Standby 정책:
-  PowerCfg /setactive <GUID>
-  Connected Standby vs Disconnected
 
-macOS:
-  App Nap: 포커스 없는 앱 자동 제한
-  Power Nap: 슬립 중 이메일 동기화
-  Compressed Memory: 절전 RAM 사용
-```
 
 > 📢 **섹션 요약 비유**: OS 전력 관리는 스마트 사무실 — 아무도 없으면(유휴) 에어컨·조명 자동 끄기(C-State), 퇴근 전 프린터 대기 모드(S3), 주말엔 전원 차단(S5)!
 

@@ -19,15 +19,15 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 마르코프 체인의 정의
 
-**[SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)(Stochastic [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정)**란 시간에 따라 변화하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 수열 {X₀, X₁, X₂, ...}이다. 이 중 **[마르코프 성질](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/))**을 만족하는 것이 마르코프 체인이다.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a>(Stochastic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 과정)</strong>란 시간에 따라 변화하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 수열 {X₀, X₁, X₂, ...}이다. 이 중 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>을 만족하는 것이 마르코프 체인이다.
 
 ```
 P(X_{t+1} = j | X_t = i, X_{t-1}, ..., X_0) = P(X_{t+1} = j | X_t = i)
 ```
 
-과거 전체 이력은 무관하고, **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) i만 알면 다음 상태 j의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 결정할 수 있다**.
+과거 전체 이력은 무관하고, <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a> i만 알면 다음 상태 j의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>을 결정할 수 있다</strong>.
 
-**전이 행렬(Transition Matrix) P**는 이 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 행렬로 표현한 것이다.
+<strong>전이 행렬(Transition Matrix) P</strong>는 이 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 행렬로 표현한 것이다.
 
 - P_ij = P(X_{t+1} = j | X_t = i)
 - 각 행의 합 = 1 ([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 합 = 1)
@@ -52,7 +52,7 @@ n 상태 체인의 전이 행렬은 n×n [확률](/knowledge-base/studynote/08_a
 | 흡수 상태 | Absorbing [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | P_ii = 1, 탈출 불가 | 최종 종착지 |
 | 에르고딕 | Ergodic | 양의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 비주기적 | 유일 정상 분포로 수렴 |
 
-**에르고딕(Ergodic) 체인**은 특히 중요하다. 어떤 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태에서 출발해도 동일한 정상 분포 π로 수렴하는 성질을 보장한다.
+<strong>에르고딕(Ergodic) 체인</strong>은 특히 중요하다. 어떤 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태에서 출발해도 동일한 정상 분포 π로 수렴하는 성질을 보장한다.
 
 📢 **섹션 요약 비유**: 상태 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 "도시 간 이동 패턴"과 같다. 흡수 상태는 한번 들어가면 나올 수 없는 블랙홀 도시, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 상태는 언젠간 반드시 돌아오는 고향 도시, 일시적 상태는 잠깐 거쳐 가는 경유지다.
 
@@ -60,15 +60,15 @@ n 상태 체인의 전이 행렬은 n×n [확률](/knowledge-base/studynote/08_a
 
 ## Ⅲ. 정상 분포와 수렴
 
-**정상 분포(Stationary Distribution) π**는 전이 후에도 분포가 변하지 않는 균형 상태다.
+<strong>정상 분포(Stationary Distribution) π</strong>는 전이 후에도 분포가 변하지 않는 균형 상태다.
 
 ```
 πP = π,  Σπᵢ = 1,  πᵢ ≥ 0
 ```
 
-에르고딕 체인에서는 t → ∞ 일 때 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 π⁽⁰⁾에 무관하게 **π⁽⁰⁾P^t → π**가 성립한다.
+에르고딕 체인에서는 t → ∞ 일 때 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포 π⁽⁰⁾에 무관하게 <strong>π⁽⁰⁾P^t → π</strong>가 성립한다.
 
-**믹싱 타임(Mixing Time)**은 현재 분포와 정상 분포의 전변동 거리(Total Variation Distance)가 ε 이하로 줄어드는 데 필요한 최소 단계 수다.
+<strong>믹싱 타임(Mixing Time)</strong>은 현재 분포와 정상 분포의 전변동 거리(Total Variation Distance)가 ε 이하로 줄어드는 데 필요한 최소 단계 수다.
 
 ```
 t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
@@ -78,21 +78,22 @@ t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
 
 **3-상태 마르코프 체인 전이 다이어그램**:
 
-```
-         0.3
-    ┌─────────────┐
-    │             ▼
-  ┌─┴──┐  0.5  ┌────┐
-  │ A  │──────▶│ B  │
-  └────┘       └─┬──┘
-    ▲     0.2    │
-    │  ┌────┐   │0.6
-    └──│ C  │◀──┘
-  0.4  └────┘
-       │  ▲
-       └──┘
-        0.4
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">0.3</div>
+<div class="kb-diagram-note">─ ── 0.5</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">B</div></div>
+<div class="kb-diagram-note">▲ 0.2</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">◀──</div></div>
+<div class="kb-diagram-note">0.4</div>
+<div class="kb-diagram-note">0.4</div>
+</div>
+</div>
+
+
 
 (각 상태 A, B, C 간 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예시. 실선 방향이 전이 방향, 숫자가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
 
@@ -106,12 +107,12 @@ t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
 
 복잡한 분포 π에서 직접 샘플링이 불가능할 때, π를 정상 분포로 갖는 마르코프 체인을 설계해 충분히 오랜 시간 실행 후 표본을 수집한다.
 
-**Metropolis-Hastings [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**:
+<strong>Metropolis-Hastings <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 1. 제안 분포(Proposal Distribution) q(x'|x)에서 후보 x' [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 수락 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) α = min(1, π(x')·q(x|x') / π(x)·q(x'|x))
 3. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) α로 x' 수락, 아니면 현재 x 유지
 
-**Gibbs [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: 다변량 분포에서 한 번에 한 변수씩 조건부 분포로 갱신. Metropolis-Hastings의 특수 케이스(수락률 = 1).
+<strong>Gibbs <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 다변량 분포에서 한 번에 한 변수씩 조건부 분포로 갱신. Metropolis-Hastings의 특수 케이스(수락률 = 1).
 
 ### PageRank ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)랭크)
 
@@ -132,26 +133,27 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 ## Ⅴ. 응용 분야
 
-**텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 바이그램(Bigram) 모델에서 현재 단어 → 다음 단어 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 문장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 이전 언어 모델의 핵심.
+<strong>텍스트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 바이그램(Bigram) 모델에서 현재 단어 → 다음 단어 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 문장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 이전 언어 모델의 핵심.
 
 **대기 이론 (Queuing Theory)**: M/M/1 큐 — 포아송 도착, 지수 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 서버 1개. 정상 분포로 평균 대기 시간, 큐 길이 분석.
 
-**강화학습 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))**: 환경을 마르코프 체인으로 모델링. 에이전트의 행동에 따라 상태가 전이되고 보상을 받는 구조.
+<strong>강화학습 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/">Markov Decision Process</a>)</strong>: 환경을 마르코프 체인으로 모델링. 에이전트의 행동에 따라 상태가 전이되고 보상을 받는 구조.
 
-```
-┌──────────────────────────────────────────────────────┐
-│              마르코프 체인 응용 계층                   │
-├────────────────┬────────────────┬────────────────────┤
-│  텍스트 생성   │   대기 이론    │    강화학습 MDP    │
-│ (언어 모델)    │ (M/M/1 큐)    │   (Q-Learning)     │
-├────────────────┴────────────────┴────────────────────┤
-│                  마르코프 체인                         │
-│         (전이 행렬 P + 정상 분포 π)                   │
-├──────────────────────────────────────────────────────┤
-│                   MCMC 샘플링                         │
-│       (Metropolis-Hastings / Gibbs)                   │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 체인 응용 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 생성</div><div class="kb-diagram-cell">대기 이론</div><div class="kb-diagram-cell">강화학습 MDP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(언어 모델)</div><div class="kb-diagram-cell">(M/M/1 큐)</div><div class="kb-diagram-cell">(Q-Learning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 체인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전이 행렬 P + 정상 분포 π)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCMC 샘플링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Metropolis-Hastings / Gibbs)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 마르코프 체인 응용은 "규칙 하나로 다 설명하는 만능 레시피"다. 날씨 예측이든, 구글 검색이든, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임 플레이든 — "현재만 보면 미래가 결정된다"는 단 하나의 원리가 모든 것을 가능하게 한다.
 
@@ -172,21 +174,23 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[확률 과정 (Stochastic Process) — 시간에 따라 상태가 확률적으로 변화]
-    │
-    ▼
-[마르코프 체인 (Markov Chain) — 미래 상태가 현재 상태만 의존 (마르코프 성질)]
-    │
-    ▼
-[정상 분포 (Stationary Distribution) — 장기 실행 후 수렴하는 확률 분포]
-    │
-    ▼
-[은닉 마르코프 모델 (HMM — Hidden Markov Model) — 상태 관측 불가 환경에 확장]
-    │
-    ▼
-[마르코프 결정 과정 (MDP — Markov Decision Process) — 강화학습 이론 기반]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확률 과정 (Stochastic Process) — 시간에 따라 상태가 확률적으로 변화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 체인 (Markov Chain) — 미래 상태가 현재 상태만 의존 (마르코프 성질)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 분포 (Stationary Distribution) — 장기 실행 후 수렴하는 확률 분포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 마르코프 모델 (HMM — Hidden Markov Model) — 상태 관측 불가 환경에 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP — Markov Decision Process) — 강화학습 이론 기반</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에서 강화학습의 MDP까지 마르코프 이론의 확장 계보를 나타낸다.
 

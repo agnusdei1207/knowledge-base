@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-AIOps는 운영 환경에서 발생하는 대량의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 사람이 모두 해석하기 어려워지면서 등장했다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 멀티클라우드 환경에서는 하나의 장애가 수십 개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 수백 개 알람으로 번지기 쉽다. 이때 운영자는 알람을 많이 받는 것이 아니라, **어떤 알람이 같은 사건에서 파생되었는지**를 빨리 알아야 한다.
+AIOps는 운영 환경에서 발생하는 대량의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 사람이 모두 해석하기 어려워지면서 등장했다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 멀티클라우드 환경에서는 하나의 장애가 수십 개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 수백 개 알람으로 번지기 쉽다. 이때 운영자는 알람을 많이 받는 것이 아니라, <strong>어떤 알람이 같은 사건에서 파생되었는지</strong>를 빨리 알아야 한다.
 
 전통적인 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 기반 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 CPU 80% 초과처럼 미리 정의한 규칙에는 강하지만, 평소 패턴에서 벗어난 미묘한 이상을 잡는 데는 한계가 있다. AIOps는 정상 패턴을 학습하고, 시계열 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)와 이벤트 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)을 통해 "지금 이 조합은 평소와 다르다"를 찾아낸다. 그래서 단순 경보 시스템보다 한 단계 높은 운영 분석 계층으로 볼 수 있다.
 
@@ -33,30 +33,25 @@ AIOps는 운영 환경에서 발생하는 대량의 [신호](/knowledge-base/stu
 
 AIOps는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집층, 분석층, 실행층으로 나뉜다. 먼저 관측성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 변경 이력을 모으고, [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/), [Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)) 같은 자산 정보까지 함께 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한다. 그 뒤 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)와 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) 모델이 사건 후보를 만들고, 우선순위를 정해 사람에게 알리거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 런북으로 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    AIOps 파이프라인: 탐지 → 판단 → 실행             │
-├──────────────────────────────────────────────────────────────────────┤
-│  데이터 수집                                                         │
-│  메트릭 · 로그 · 트레이스 · 이벤트 · 배포 이력 · CMDB               │
-│      │                                                               │
-│      ▼                                                               │
-│  정규화 / 상관 분석                                                  │
-│  시간축 정렬 · 서비스 관계 맵 · 중복 알람 묶기                      │
-│      │                                                               │
-│      ▼                                                               │
-│  이상 탐지 / 원인 추정                                               │
-│  정상 패턴 이탈 탐지 · 근접한 원인 후보 도출                        │
-│      │                                                               │
-│      ▼                                                               │
-│  조치 결정                                                           │
-│  사람 승인 요청 또는 자동 런북 실행                                 │
-│      │                                                               │
-│      ▼                                                               │
-│  결과 학습                                                           │
-│  실제 조치 결과를 다시 피드백해 모델과 룰 보정                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIOps 파이프라인: 탐지 → 판단 → 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭 · 로그 · 트레이스 · 이벤트 · 배포 이력 · CMDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 / 상관 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간축 정렬 · 서비스 관계 맵 · 중복 알람 묶기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 탐지 / 원인 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 패턴 이탈 탐지 · 근접한 원인 후보 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조치 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사람 승인 요청 또는 자동 런북 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 조치 결과를 다시 피드백해 모델과 룰 보정</div></div>
+</div>
+</div>
+
+
 
 | 기능 | 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 출력 가치 |
 | :--- | :--- | :--- |
@@ -65,7 +60,7 @@ AIOps는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 | 근본 원인 분석 (Root Cause Analysis) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 변경 이력 | 의심 원인 후보의 우선순위 |
 | 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Auto-remediation) | 런북, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 승인 규칙 | 반복 장애의 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 
-AIOps의 핵심 원리는 "더 많이 수집"이 아니라 "맥락 있게 연결"이다. CPU 급등만 보면 단순 고부하처럼 보일 수 있지만, 같은 시점의 배포 이벤트, 오류율 상승, 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 함께 보면 더 정확한 판단이 가능하다. 그래서 AIOps는 단일 지표의 AI가 아니라, **여러 운영 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 묶어 사건으로 해석하는 계층**이라고 보는 편이 맞다.
+AIOps의 핵심 원리는 "더 많이 수집"이 아니라 "맥락 있게 연결"이다. CPU 급등만 보면 단순 고부하처럼 보일 수 있지만, 같은 시점의 배포 이벤트, 오류율 상승, 특정 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 함께 보면 더 정확한 판단이 가능하다. 그래서 AIOps는 단일 지표의 AI가 아니라, <strong>여러 운영 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 묶어 사건으로 해석하는 계층</strong>이라고 보는 편이 맞다.
 
 또한 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 가장 마지막 단계여야 한다. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)와 알람 그룹핑은 비교적 넓게 적용할 수 있지만, 자동 조치는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 시나리오에만 제한적으로 붙여야 한다. 예를 들어 프로세스 재시작, 캐시 비우기, 잘 알려진 장애 노드 격리처럼 실패 비용이 낮고 되돌리기 쉬운 작업부터 자동화하는 것이 안전하다.
 
@@ -141,21 +136,23 @@ AIOps가 잘 자리 잡으면 중복 알람이 줄고, 인시던트 [식별](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-헬스 체크 · 기본 모니터링
-    │
-    ▼
-AIOps (이상 탐지 · 알람 상관 분석)
-    │
-    ▼
-APM · RUM · 합성 모니터링 데이터 결합
-    │
-    ▼
-서비스 메시 텔레메트리 · 운영 토폴로지 이해
-    │
-    ▼
-런북 기반 자동 복구 · 예측 운영 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">헬스 체크 · 기본 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AIOps (이상 탐지 · 알람 상관 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">APM · RUM · 합성 모니터링 데이터 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 메시 텔레메트리 · 운영 토폴로지 이해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">런북 기반 자동 복구 · 예측 운영 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 시작해, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 해석, 사용자 경험 결합, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 발전하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관측성 확장 경로를 보여 준다.
 

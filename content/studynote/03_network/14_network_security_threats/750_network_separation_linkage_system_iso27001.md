@@ -19,23 +19,27 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **배경**: 앞서 642번 문서에서 다루었듯, ISO 27001 국제 정보보호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 한국의 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)([개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 관리체계) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사를 통과하려면, 금융권/공공기관/[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 취급 기업 등은 의무적으로 **외부 인터넷망(해커 놀이터)**과 **내부 업무망(고객 DB, 사내 기밀)**을 철저히 격리(분리)해야 합니다.
+- **배경**: 앞서 642번 문서에서 다루었듯, ISO 27001 국제 정보보호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 한국의 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)([개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) 관리체계) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 심사를 통과하려면, 금융권/공공기관/[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 취급 기업 등은 의무적으로 <strong>외부 인터넷망(해커 놀이터)</strong>과 <strong>내부 업무망(고객 DB, 사내 기밀)</strong>을 철저히 격리(분리)해야 합니다.
 - **분리 아키텍처 구조**:
-  1. **물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) (가장 빡셈)**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 두 대, 랜선 두 줄을 씁니다. 직원 책상이 복잡해지고 비용이 수백억 원 깨지지만 완벽합니다.
-  2. **논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) ([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 중심)**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대를 씁니다. 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/): Virtual Desktop Infrastructure) 기술을 써서, 인터넷 서핑을 할 때는 클릭 한 번으로 저 멀리 있는 회사 중앙 서버에 떠 있는 '가상 윈도우 화면'으로 접속해 유튜브를 봅니다. 바이러스가 걸려도 중앙 가상 서버만 날아가고 내 물리적 업무용 PC는 안전하게 보호되는 스마트한 설계 방식입니다.
+  1. <strong>물리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (가장 빡셈)</strong>: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 두 대, 랜선 두 줄을 씁니다. 직원 책상이 복잡해지고 비용이 수백억 원 깨지지만 완벽합니다.
+  2. <strong>논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 중심)</strong>: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대를 씁니다. 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/): Virtual Desktop Infrastructure) 기술을 써서, 인터넷 서핑을 할 때는 클릭 한 번으로 저 멀리 있는 회사 중앙 서버에 떠 있는 '가상 윈도우 화면'으로 접속해 유튜브를 봅니다. 바이러스가 걸려도 중앙 가상 서버만 날아가고 내 물리적 업무용 PC는 안전하게 보호되는 스마트한 설계 방식입니다.
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)가 완벽하게 끝났습니다. 이제 외부망과 내부망은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신조차 불가능하게 물리적으로 단절되었습니다.
-- **문제 발생**: 외부 협력업체가 인터넷 이메일로 보내온 '계약서.pdf' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 업무망 PC로 다운받아서 봐야 합니다. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 사용은 사내 보안상 금지되어 있습니다. **선이 싹둑 잘렸는데 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내부망으로 어떻게 넘겨올까요?**
-- **해결책**: 바로 이때 두 개의 망 사이에 걸쳐 서서, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져주는 중계 박스인 **망 연계 시스템(보안 게이트웨이)**이 등장합니다.
+- **문제 발생**: 외부 협력업체가 인터넷 이메일로 보내온 '계약서.pdf' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 업무망 PC로 다운받아서 봐야 합니다. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 사용은 사내 보안상 금지되어 있습니다. <strong>선이 싹둑 잘렸는데 이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 내부망으로 어떻게 넘겨올까요?</strong>
+- **해결책**: 바로 이때 두 개의 망 사이에 걸쳐 서서, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져주는 중계 박스인 <strong>망 연계 시스템(보안 게이트웨이)</strong>이 등장합니다.
 
-```text
-[다크 데이터 / Data Loss Preve…]
-    │
-    ▼
-[ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    └──▶ [3GPP 표준 개발]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,14 +49,18 @@ tags = ["studynote-network"]
 
 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 공격 유형과 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 경계를 설명하는 축라는 관점에서 이해해야 한다. [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…와 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[다크 데이터 / Data Loss Preve…]
-    │
-    ▼
-[ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    └──▶ [3GPP 표준 개발]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3GPP 표준 개발</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,11 +70,11 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 해커가 이 중계 박스를 타고 내부로 넘어오지 못하게 통신 규약을 뭉개버리는 엄청난 기술을 씁니다.
 
-1. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 연결의 강제 단절**: 인터넷망과 업무망 사이에 직접적인 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 통신) 경로는 존재하지 않습니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 연결의 강제 단절</strong>: 인터넷망과 업무망 사이에 직접적인 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 통신) 경로는 존재하지 않습니다.
 2. **스토리지(공유 폴더) 공유 방식**: 가장 전통적입니다. 인터넷망 PC에서 망 연계 솔루션 프로그램에 로그인해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 업로드합니다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 중간 완충 지대([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/))에 있는 스토리지(공유 폴더) 저장소에 떨어집니다. 내부망 PC가 그 저장소에 접속해 쓱 다운받아 갑니다.
-3. **비-[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 기반 고속 스트림([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 연계 연동 기술 🌟**:
+3. <strong>비-<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 기반 고속 스트림(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>) 연계 연동 기술 🌟</strong>:
    - 엄청나게 빠른 실시간 처리가 필요할 때 씁니다(예: 내부망 DB와 외부망 웹서버 연동).
-   - 두 망 사이에 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선이 아닌, **시리얼 케이블(RS-232), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 케이블, 또는 특수 규격([Infiniband](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/), IEEE 1394 등 비-[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))** 선을 꽂아둡니다.
+   - 두 망 사이에 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선이 아닌, <strong>시리얼 케이블(RS-232), <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 케이블, 또는 특수 규격(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">Infiniband</a>, IEEE 1394 등 비-<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong> 선을 꽂아둡니다.
    - 외부망 서버에서 온 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 중간 연계 장비가 받습니다. 장비는 패킷의 껍데기(IP, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 헤더)를 완전히 다 찢어버리고 버립니다(해커의 네트워크 해킹 시도 완전 무력화). 그리고 오직 순수한 알맹이 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(스트림)만 남겨서 시리얼 케이블의 좁은 구멍으로 쏩니다.
    - 반대편 내부망 연계 장비가 그 텍스트를 받아 다시 내부용 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷으로 새롭게 포장해서 내부 서버로 보냅니다. (바이러스는 중간 백신 엔진을 거쳐 100% 필터링됩니다.)
 
@@ -120,15 +128,19 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 다크 데이터 / Data Loss Preve…]
-    │
-    ▼
-[현재 개념: ISO 27001 네트워크 통제 및 개인정보…]
-    │
-    ├──▶ [확장 A: 3GPP 표준 개발]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 3GPP 표준 개발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…에서 출발해 현재 메커니즘을 정교화하고, 이후 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,28 +11,32 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 **전에** 정형 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 강제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장하는 전통적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. **가치**: [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인에서 사전 정제·변환을 완료하므로 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **즉시 분석 가능한 고품질 상태**이며, [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 예측 가능하다.
-> 3. **판단 포인트**: 유연성과 민첩성이 떨어지므로 **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 비용이 크다**. [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 시대에는 Schema-on-Read와 병행하는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현대적 접근이다.
+> 2. **가치**: [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인에서 사전 정제·변환을 완료하므로 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>즉시 분석 가능한 고품질 상태</strong>이며, [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 예측 가능하다.
+> 3. **판단 포인트**: 유연성과 민첩성이 떨어지므로 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경 비용이 크다</strong>. [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 시대에는 Schema-on-Read와 병행하는 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현대적 접근이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장소에 기록되기 **이전 단계**에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(컬럼명, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NOT NULL, FK 등)를 강제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식이다. 전통적 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 이 철학을 따른다.
+Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장소에 기록되기 <strong>이전 단계</strong>에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(컬럼명, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NOT NULL, FK 등)를 강제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식이다. 전통적 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)와 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 이 철학을 따른다.
 
-이 방식이 필요한 이유는 명확하다. 분석·BI 시스템에서는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 의사결정 품질과 직결**되기 때문이다. 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NULL 값, 중복 레코드가 섞인 채로 집계된 KPI는 비즈니스 판단 오류로 이어진다.
+이 방식이 필요한 이유는 명확하다. 분석·BI 시스템에서는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질이 의사결정 품질과 직결</strong>되기 때문이다. 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NULL 값, 중복 레코드가 섞인 채로 집계된 KPI는 비즈니스 판단 오류로 이어진다.
 
-```
-[Schema-on-Write 데이터 흐름]
-┌─────────┐    ┌─────────────────────────────┐    ┌──────────────┐
-│ 소스 DB  │ →  │       ETL 파이프라인           │ →  │  Data Warehouse │
-│         │    │  ① Extract  ② Transform       │    │  (스키마 정의   │
-│ ERP/CRM │    │  ③ Validate ④ Load            │    │   완벽한 테이블) │
-└─────────┘    │  - NULL 체크  - 타입 변환       │    └──────────────┘
-               │  - 중복 제거  - 도메인 코드 변환 │
-               └─────────────────────────────┘
-                   저장 전 모든 규칙 통과 강제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Write 데이터 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">ETL 파이프라인</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Data Warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Extract ② Transform</div><div class="kb-diagram-cell">(스키마 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP/CRM</div><div class="kb-diagram-cell">③ Validate ④ Load</div><div class="kb-diagram-cell">완벽한 테이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NULL 체크 - 타입 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중복 제거 - 도메인 코드 변환</div></div>
+<div class="kb-diagram-note">저장 전 모든 규칙 통과 강제</div>
+</div>
+</div>
+
+
 
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 위반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **거부(Reject)** 처리되거나 오류 로그로 격리된다. 이를 통해 DW에는 항상 "믿을 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 존재하게 된다.
 
@@ -44,30 +48,35 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 상세 흐름
 
-```
-소스 시스템                 ETL 서버                      DW 테이블
-┌──────────┐    Extract    ┌──────────────────┐  Load  ┌────────────────┐
-│ Oracle   │ ──────────▶  │  Staging Area     │ ─────▶ │ fact_sales     │
-│ MySQL    │              │  ┌─────────────┐  │        │ (컬럼 타입 고정) │
-│ SAP ERP  │    Transform │  │ 타입 변환     │  │        └────────────────┘
-└──────────┘              │  │ NULL 처리    │  │        ┌────────────────┐
-                          │  │ 중복 제거    │  │ ─────▶ │ dim_customer   │
-                          │  │ 코드 매핑   │  │        └────────────────┘
-                          │  │ 비즈니스 룰  │  │
-                          │  │ 검증         │  │   ← Reject 로그
-                          │  └─────────────┘  │   ← 실패 데이터 격리
-                          └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소스 시스템 ETL 서버 DW 테이블</div>
+<div class="kb-diagram-note">Extract Load</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Staging Area</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">fact_sales</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL</div><div class="kb-diagram-cell">(컬럼 타입 고정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAP ERP</div><div class="kb-diagram-cell">Transform</div><div class="kb-diagram-cell">타입 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 제거</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">dim_customer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 룰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">← Reject 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 실패 데이터 격리</div></div>
+</div>
+</div>
+
+
 
 ### [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형 | 내용 | 예시 |
 |:---|:---|:---|
-| **타입 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 컬럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 일치 | 날짜 컬럼에 문자열 입력 거부 |
+| <strong>타입 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 컬럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 일치 | 날짜 컬럼에 문자열 입력 거부 |
 | **NULL 제약** | NOT NULL 컬럼 값 존재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 고객 ID NULL 거부 |
-| **범위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 허용 값 범위 내 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 나이 컬럼 0~150 범위 |
-| **[참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)** | FK [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대상 존재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 없는 상품 코드 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 거부 |
-| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코드** | 허용된 코드값만 입력 | 성별: M/F 이외 거부 |
+| <strong>범위 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 허용 값 범위 내 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 나이 컬럼 0~150 범위 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/">참조 무결성</a></strong> | FK [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대상 존재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 없는 상품 코드 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 거부 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 코드</strong> | 허용된 코드값만 입력 | 성별: M/F 이외 거부 |
 | **비즈니스 룰** | 복합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 반품일 > 구매일 거부 |
 
 📢 **섹션 요약 비유**: ETL의 Transform 단계는 공장 품질 관리 라인과 같다. 불량품([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 위반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 라인에서 걸러내고, 합격품만 창고([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 입고한다.
@@ -80,26 +89,32 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 | 비교 항목 | [Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) | [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) |
 |:---|:---|:---|
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 적용 시점** | 저장 전 (강제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 조회 시 (동적 적용) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질** | 매우 높음 (Reject 메커니즘) | 낮음~중간 (원시 그대로) |
-| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 우수 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 통계 활용) | 보통 (Full Scan 빈번) |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 비용** | 높음 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 수정) | 낮음 (읽기 코드만 변경) |
-| **신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 속도** | 느림 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요) | 빠름 (즉시 저장) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 적용 시점</strong> | 저장 전 (강제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 조회 시 (동적 적용) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | 매우 높음 (Reject 메커니즘) | 낮음~중간 (원시 그대로) |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 우수 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 통계 활용) | 보통 (Full Scan 빈번) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경 비용</strong> | 높음 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 수정) | 낮음 (읽기 코드만 변경) |
+| <strong>신규 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 속도</strong> | 느림 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요) | 빠름 (즉시 저장) |
 | **탐색적 분석 지원** | 제한적 | 우수 |
-| **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 처리** | 불가 | 가능 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 처리</strong> | 불가 | 가능 |
 | **저장 비용** | 고비용 | 저비용 |
 | **주요 플랫폼** | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift | S3 [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/), Azure DL |
 
 ### 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)
 
-```
-[현대적 전략: 레이크하우스]
-원시 데이터                        정제 데이터
-(Schema-on-Read)    Delta Lake    (Schema-on-Write)
-S3 Bronze Zone  ──▶  Silver Zone ──▶  Gold Zone
-원시 JSON/CSV         ACID 보장         BI 분석용
-스키마 추론            스키마 진화         스키마 확정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대적 전략: 레이크하우스</div></div>
+<div class="kb-diagram-note">원시 데이터 정제 데이터</div>
+<div class="kb-diagram-note">(Schema-on-Read) Delta Lake (Schema-on-Write)</div>
+<div class="kb-diagram-note">S3 Bronze Zone ──▶ Silver Zone ──▶ Gold Zone</div>
+<div class="kb-diagram-note">원시 JSON/CSV ACID 보장 BI 분석용</div>
+<div class="kb-diagram-note">스키마 추론 스키마 진화 스키마 확정</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Schema-on-Write와 Schema-on-Read는 "선불" vs "후불" 방식이다. 선불(Write)은 입장할 때 검사해 믿을 수 있지만 절차가 번거롭고, 후불(Read)은 자유롭게 들어오지만 나중에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 든다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 두 방식을 구역별로 나눠 쓴다.
 
@@ -109,23 +124,26 @@ S3 Bronze Zone  ──▶  Silver Zone ──▶  Gold Zone
 
 ### [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 비용 관리
 
-Schema-on-Write의 가장 큰 실무 도전은 **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경**이다. 비즈니스 요건이 바뀌어 새 컬럼을 추가하거나 타입을 변경해야 할 때, 하위 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 전체를 수정해야 한다.
+Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경</strong>이다. 비즈니스 요건이 바뀌어 새 컬럼을 추가하거나 타입을 변경해야 할 때, 하위 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 전체를 수정해야 한다.
 
-```
-스키마 변경 영향 범위
-┌──────────────────────────────────────────────────┐
-│ 스키마 변경 (예: orders 테이블에 신규 컬럼 추가)    │
-│                                                  │
-│ 영향받는 항목:                                    │
-│  ① ETL 추출 SQL 수정                              │
-│  ② Transform 매핑 로직 수정                       │
-│  ③ DW 테이블 DDL ALTER                           │
-│  ④ 파티셔닝 재설계 가능성                          │
-│  ⑤ BI 도구 데이터 모델 수정                        │
-│  ⑥ 하위 데이터 마트 ETL 수정                       │
-│  ⑦ 테스트·배포 사이클 전체                         │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스키마 변경 영향 범위</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 변경 (예: orders 테이블에 신규 컬럼 추가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향받는 항목:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① ETL 추출 SQL 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Transform 매핑 로직 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ DW 테이블 DDL ALTER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 파티셔닝 재설계 가능성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ BI 도구 데이터 모델 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 하위 데이터 마트 ETL 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑦ 테스트·배포 사이클 전체</div></div>
+</div>
+</div>
+
+
 
 ### 실무 권장 패턴
 
@@ -148,8 +166,8 @@ Schema-on-Write의 가장 큰 실무 도전은 **[스키마](/knowledge-base/stu
 
 | 효과 | 내용 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과, 즉시 분석 신뢰 가능 |
-| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화** | 사전 정의된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계·파티션으로 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과, 즉시 분석 신뢰 가능 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 최적화</strong> | 사전 정의된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계·파티션으로 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **규정 준수** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 요건 자동 충족 |
 | **BI 단순화** | 분석가가 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 없이 바로 집계 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 작성 가능 |
 
@@ -157,10 +175,10 @@ Schema-on-Write의 가장 큰 실무 도전은 **[스키마](/knowledge-base/stu
 
 | 한계 | 내용 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민첩성 부족** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 추가 시 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요 |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 드리프트** | 소스 시스템 변경 시 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 장애 발생 |
-| **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 불가** | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, 비정형 텍스트 저장 불리 |
-| **[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 병목** | 변환 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 수집 속도 제한 (ELT로 해소) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민첩성 부족</strong> | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 추가 시 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 설계 선행 필요 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 드리프트</strong> | 소스 시스템 변경 시 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 장애 발생 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 불가</strong> | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, 비정형 텍스트 저장 불리 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 병목</strong> | 변환 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 수집 속도 제한 (ELT로 해소) |
 
 📢 **섹션 요약 비유**: Schema-on-Write는 엄격한 학교 제복 규정과 같다. 등교(저장) 전 복장([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)) 검사를 통과해야 입장 가능하므로 교내([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 늘 단정하지만, 복장 규정 변경([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경) 시 전교생에게 공지하고 새 교복을 맞춰야 하는 비용이 든다.
 
@@ -182,14 +200,19 @@ Schema-on-Write의 가장 큰 실무 도전은 **[스키마](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Schema-on-Write: ETL → 스키마 검증 → DW 적재
-    ├─► 장점: 쿼리 성능 우수 · 데이터 품질 보장
-    └─► 단점: 스키마 변경 비용 높음
-    │
-    ▼
-Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Schema-on-Write: ETL → 스키마 검증 → DW 적재</div>
+<div class="kb-diagram-tree-item" style="--depth:2">장점: 쿼리 성능 우수 · 데이터 품질 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">단점: 스키마 변경 비용 높음</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)</div>
+</div>
+</div>
+
+
 2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장될 수 있다.
 3. 이렇게 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 누구나 믿고 사용할 수 있지만, 새로운 종류의 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 들어오려면 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 바꿔야 하는 번거로움이 있다.
 

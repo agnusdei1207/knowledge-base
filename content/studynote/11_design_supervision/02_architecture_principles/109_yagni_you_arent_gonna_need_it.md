@@ -23,22 +23,20 @@ YAGNI는 켄트 벡(Kent Beck)의 [XP](/knowledge-base/studynote/04_software_eng
 
 개발자가 미래 확장성을 위해 선행 구현을 시도하는 이유는 크게 세 가지다. 첫째, 나중에 수정하면 비용이 더 들 것이라는 걱정, 둘째, 지금이 기술적으로 올바른 구조를 만들 기회라는 믿음, 셋째, 사용자 요구보다 기술적 완성도를 우선시하는 개발자의 본능이다. YAGNI는 이 세 가지 이유 모두를 실증적 관찰로 반박한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          YAGNI 위반 시 낭비 경로                             │
-├─────────────────────────────────────────────────────────────┤
-│ 추측 기반 기능 구현                                          │
-│        │                                                    │
-│        ▼                                                    │
-│  코딩 비용 + 테스트 비용 + 문서 비용                         │
-│        │                                                    │
-│        ▼                                                    │
-│  미사용(실제 요구와 불일치) ─────────▶ 80% 확률로 제거      │
-│        │                                                    │
-│        ▼                           추가 비용 발생           │
-│  제거 비용 + 코드베이스 복잡도 유산 → 기술 부채로 축적       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YAGNI 위반 시 낭비 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추측 기반 기능 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코딩 비용 + 테스트 비용 + 문서 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미사용(실제 요구와 불일치) ▶ 80% 확률로 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 추가 비용 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제거 비용 + 코드베이스 복잡도 유산 → 기술 부채로 축적</div></div>
+</div>
+</div>
+
+
 
 이 낭비 경로가 반복되면 출시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 초과, [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 복잡도 증가라는 삼중 타격이 발생한다. YAGNI는 이 순환을 "지금 필요한 것만" 원칙으로 차단한다.
 
@@ -57,24 +55,20 @@ YAGNI를 실천하는 핵심 메커니즘은 반복적 개발(Iterative Developm
 | 아키텍처 | 트래픽 예상으로 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 선제 적용 | 모놀리스 시작 후 필요 시 분리 |
 | 플러그인 구조 | 아직 없는 플러그인을 위한 프레임워크 | 두 번째 플러그인 등장 시 추출 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          YAGNI 실천: 반복적 진화 설계 사이클                 │
-├─────────────────────────────────────────────────────────────┤
-│  현재 요구사항 확정                                          │
-│        │                                                    │
-│        ▼                                                    │
-│  최소한의 구현 (Simplest Thing That Could Possibly Work)     │
-│        │                                                    │
-│        ▼                                                    │
-│  배포·피드백 수집                                            │
-│        │                                                    │
-│        ▼                                                    │
-│  새 요구사항 확정 → 리팩토링 후 확장                         │
-│        │                                                    │
-│        └──────────── 반복 ────────────────────────▶         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YAGNI 실천: 반복적 진화 설계 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 요구사항 확정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소한의 구현 (Simplest Thing That Could Possibly Work)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포·피드백 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 요구사항 확정 → 리팩토링 후 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 ▶</div></div>
+</div>
+</div>
+
+
 
 YAGNI와 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))은 상호 강화 관계다. TDD는 "통과해야 할 테스트가 없는 코드는 작성하지 않는다"는 규칙으로 YAGNI를 자연스럽게 강제한다.
 

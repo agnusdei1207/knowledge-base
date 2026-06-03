@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: '회귀(Regression)'란 원래 상태로 돌아간다는 뜻이다. 버그를 고쳤는데, 예전에 잘 돌아가던 기능이 다시 버그가 나던 예전 상태로 '회귀'해버렸는지 검사한다고 해서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)라 부른다. 사람이 눈과 손으로 하는 매뉴얼 테스트(Manual Testing)로는 절대 감당할 수 없기 때문에, JUnit, Selenium 같은 자동화 도구로 스크립트를 짜놓고 매일 밤 수천 개의 스크립트를 기계가 돌리게 만든다.
 
-- **필요성**: 만약 쇼핑몰 시스템에서 '포인트 적립' 로직을 1줄 수정했다고 하자. 개발자는 포인트 적립 테스트만 해보고 운영 서버에 배포한다. 그런데 이 1줄이 '장바구니 담기' 로직과 변수를 공유하고 있었다면? 장바구니 기능이 뻗어버려 그날 매출이 0원이 된다. 즉, 변경된 코드 라인과 전혀 상관없어 보이는 **'연관 없는 기능들의 생존성'**을 보장하는 것이 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)의 존재 이유다.
+- **필요성**: 만약 쇼핑몰 시스템에서 '포인트 적립' 로직을 1줄 수정했다고 하자. 개발자는 포인트 적립 테스트만 해보고 운영 서버에 배포한다. 그런데 이 1줄이 '장바구니 담기' 로직과 변수를 공유하고 있었다면? 장바구니 기능이 뻗어버려 그날 매출이 0원이 된다. 즉, 변경된 코드 라인과 전혀 상관없어 보이는 <strong>'연관 없는 기능들의 생존성'</strong>을 보장하는 것이 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)의 존재 이유다.
 
 - **💡 비유**: 젠가(Jenga) 게임을 상상해 보자. 탑의 10층에 새로운 나무블록을 하나 끼워 넣거나(기능 추가), 3층에 썩은 블록을 빼내고 새 블록으로 교체(버그 수정)했습니다. 이때 내가 건드린 블록은 멀쩡하지만, 그 충격으로 1층이나 15층이 무너져버렸는지를 알아보기 위해 젠가 탑 전체를 흔들어보고 튼튼한지 확인하는 과정이 바로 '[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)'입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **수동 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 시대**: 과거에는 QA 팀이 엑셀에 적힌 수백 개의 테스트 시나리오를 새 버전이 나올 때마다 사람이 일일이 마우스로 클릭하며 밤새워 테스트했다. (속도 느림, 휴먼 에러 발생).
+  1. <strong>수동 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/">회귀 테스트</a> 시대</strong>: 과거에는 QA 팀이 엑셀에 적힌 수백 개의 테스트 시나리오를 새 버전이 나올 때마다 사람이 일일이 마우스로 클릭하며 밤새워 테스트했다. (속도 느림, 휴먼 에러 발생).
   2. **자동화 프레임워크의 탄생**: JUnit(단위), Selenium/Cypress([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 등 테스트 코드를 짜는 프레임워크가 보급되면서, [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)는 인간의 영역에서 기계(서버)의 영역으로 완전히 넘어갔다.
-  3. **[지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 커버리지의 융합**: 이제는 코드를 Git에 푸시(Push)하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 수만 개의 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)를 자동으로 돌리고, 테스트 커버리지 도구(JaCoCo)가 "당신의 새 코드는 테스트율이 80% 미만이므로 배포 거부!"라며 품질 게이트를 막아버리는 수준으로 진화했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)과 커버리지의 융합</strong>: 이제는 코드를 Git에 푸시(Push)하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 수만 개의 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)를 자동으로 돌리고, 테스트 커버리지 도구(JaCoCo)가 "당신의 새 코드는 테스트율이 80% 미만이므로 배포 거부!"라며 품질 게이트를 막아버리는 수준으로 진화했다.
 
 - **📢 섹션 요약 비유**: 건물에 새로운 인테리어 공사(기능 추가)를 하고 났을 때, 공사한 방만 확인하는 것이 아니라 건물 전체의 전기, 수도, 가스관이 다른 곳에서 터지지 않았는지 모든 스위치를 한 번씩 다 껐다 켜보는 건물 전체 안전 점검입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  회귀 테스트 커버리지 도구                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀 테스트 커버리지 도구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 커버리지 도구의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-회귀 테스트 커버리지 도구 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회귀 테스트 커버리지 도구 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

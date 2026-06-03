@@ -18,43 +18,41 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 역사와 구조
 
-```
-ITIL 발전 역사:
 
-ITIL v1 (1989): 영국 정부 CCTA
-  31권의 책자 → IT 운영 모범 사례
 
-ITIL v2 (2000): 표준화·통합
-  서비스 지원 + 서비스 전달 핵심
-  전 세계 확산 (ISO 20000 기반)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ITIL 발전 역사:</div>
+<div class="kb-diagram-note">ITIL v1 (1989): 영국 정부 CCTA</div>
+<div class="kb-diagram-note">31권의 책자 → IT 운영 모범 사례</div>
+<div class="kb-diagram-note">ITIL v2 (2000): 표준화·통합</div>
+<div class="kb-diagram-note">서비스 지원 + 서비스 전달 핵심</div>
+<div class="kb-diagram-note">전 세계 확산 (ISO 20000 기반)</div>
+<div class="kb-diagram-note">ITIL v3 (2007): 서비스 수명주기</div>
+<div class="kb-diagram-note">서비스 전략, 설계, 전환, 운영, 지속적 개선</div>
+<div class="kb-diagram-note">5권 구조</div>
+<div class="kb-diagram-note">ITIL 4 (2019): 가치 중심 + 애자일</div>
+<div class="kb-diagram-note">SVS (Service Value System)</div>
+<div class="kb-diagram-note">4차원 모델</div>
+<div class="kb-diagram-note">34개 관리 관행</div>
+<div class="kb-diagram-note">ITIL 4 구조:</div>
+<div class="kb-diagram-note">서비스 가치 시스템 (SVS):</div>
+<div class="kb-diagram-note">외부 기회/수요 → 가치 창출</div>
+<div class="kb-diagram-note">구성 요소:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">거버넌스 (Governance)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">서비스 가치 체인 (SVC)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">지속적 개선</div>
+<div class="kb-diagram-tree-item" style="--depth:1">관리 관행 (34개)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">안내 원칙 (7개)</div>
+<div class="kb-diagram-note">4차원 모델:</div>
+<div class="kb-diagram-note">1. 조직 및 인력</div>
+<div class="kb-diagram-note">2. 정보 및 기술</div>
+<div class="kb-diagram-note">3. 파트너 및 공급자</div>
+<div class="kb-diagram-note">4. 가치 흐름 및 프로세스</div>
+</div>
+</div>
 
-ITIL v3 (2007): 서비스 수명주기
-  서비스 전략, 설계, 전환, 운영, 지속적 개선
-  5권 구조
 
-ITIL 4 (2019): 가치 중심 + 애자일
-  SVS (Service Value System)
-  4차원 모델
-  34개 관리 관행
-
-ITIL 4 구조:
-
-서비스 가치 시스템 (SVS):
-  외부 기회/수요 → 가치 창출
-  
-  구성 요소:
-  - 거버넌스 (Governance)
-  - 서비스 가치 체인 (SVC)
-  - 지속적 개선
-  - 관리 관행 (34개)
-  - 안내 원칙 (7개)
-
-4차원 모델:
-  1. 조직 및 인력
-  2. 정보 및 기술
-  3. 파트너 및 공급자
-  4. 가치 흐름 및 프로세스
-```
 
 > 📢 **섹션 요약 비유**: ITIL은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 레시피북 — 수십 년간 쌓인 IT 운영 모범 사례를 책으로 정리. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 4는 "요즘 트렌드([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 반영 개정판"!
 
@@ -62,49 +60,44 @@ ITIL 4 구조:
 
 ## Ⅱ. 핵심 관리 관행 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Practices)
 
-```
-ITIL 4 주요 관리 관행:
 
-인시던트 관리 (Incident Management):
-  목적: 비정상적 서비스 복구
-  
-  흐름:
-  인시던트 발생 → 분류/우선순위
-  → 조사/진단 → 해결 → 종료
-  
-  SLA 준수:
-  P1 (Critical): 1시간 내 해결
-  P2 (High): 4시간
-  P3 (Medium): 8시간
 
-문제 관리 (Problem Management):
-  목적: 인시던트 근본 원인 제거
-  
-  반응적: 반복 인시던트 → 근본 원인 분석
-  예방적: 잠재 문제 사전 식별
-  
-  RCA (Root Cause Analysis):
-  5 Whys, 피시본(Ishikawa) 다이어그램
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ITIL 4 주요 관리 관행:</div>
+<div class="kb-diagram-note">인시던트 관리 (Incident Management):</div>
+<div class="kb-diagram-note">목적: 비정상적 서비스 복구</div>
+<div class="kb-diagram-note">흐름:</div>
+<div class="kb-diagram-note">인시던트 발생 → 분류/우선순위</div>
+<div class="kb-diagram-note">→ 조사/진단 → 해결 → 종료</div>
+<div class="kb-diagram-note">SLA 준수:</div>
+<div class="kb-diagram-note">P1 (Critical): 1시간 내 해결</div>
+<div class="kb-diagram-note">P2 (High): 4시간</div>
+<div class="kb-diagram-note">P3 (Medium): 8시간</div>
+<div class="kb-diagram-note">문제 관리 (Problem Management):</div>
+<div class="kb-diagram-note">목적: 인시던트 근본 원인 제거</div>
+<div class="kb-diagram-note">반응적: 반복 인시던트 → 근본 원인 분석</div>
+<div class="kb-diagram-note">예방적: 잠재 문제 사전 식별</div>
+<div class="kb-diagram-note">RCA (Root Cause Analysis):</div>
+<div class="kb-diagram-note">5 Whys, 피시본(Ishikawa) 다이어그램</div>
+<div class="kb-diagram-note">변경 가능화 (Change Enablement):</div>
+<div class="kb-diagram-note">목적: 위험 최소화하며 변경 구현</div>
+<div class="kb-diagram-note">변경 유형:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">표준 변경: 사전 승인 (낮은 위험)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">일반 변경: CAB 승인 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:1">긴급 변경: ECAB 긴급 승인</div>
+<div class="kb-diagram-note">CAB: Change Advisory Board</div>
+<div class="kb-diagram-note">서비스 데스크 (Service Desk):</div>
+<div class="kb-diagram-note">단일 접촉 창구 (SPOC)</div>
+<div class="kb-diagram-note">인시던트/서비스 요청 접수·조율</div>
+<div class="kb-diagram-note">변경 설정 관리 (CMDB):</div>
+<div class="kb-diagram-note">CI (Configuration Item): IT 구성 요소</div>
+<div class="kb-diagram-note">CMDB: CI 정보·관계 데이터베이스</div>
+<div class="kb-diagram-note">→ 변경 영향 분석 기반</div>
+</div>
+</div>
 
-변경 가능화 (Change Enablement):
-  목적: 위험 최소화하며 변경 구현
-  
-  변경 유형:
-  - 표준 변경: 사전 승인 (낮은 위험)
-  - 일반 변경: CAB 승인 필요
-  - 긴급 변경: ECAB 긴급 승인
-  
-  CAB: Change Advisory Board
 
-서비스 데스크 (Service Desk):
-  단일 접촉 창구 (SPOC)
-  인시던트/서비스 요청 접수·조율
-
-변경 설정 관리 (CMDB):
-  CI (Configuration Item): IT 구성 요소
-  CMDB: CI 정보·관계 데이터베이스
-  → 변경 영향 분석 기반
-```
 
 > 📢 **섹션 요약 비유**: [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 관행들은 병원 운영 — [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)(응급실 접수), 인시던트(응급 처치), [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)(병원균 박멸), [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(수술 계획 승인)!
 
@@ -154,53 +147,49 @@ ITIL 4 안내 원칙 (Guiding Principles):
 
 ## Ⅳ. [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구 — ServiceNow
 
-```
-ITSM 플랫폼 대표: ServiceNow
 
-모듈:
-  ITSM:
-  - Incident Management
-  - Problem Management
-  - Change Management
-  - Service Catalog
-  - CMDB
 
-  ITOM (IT Operations Management):
-  - 인프라 모니터링
-  - 자동화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ITSM 플랫폼 대표: ServiceNow</div>
+<div class="kb-diagram-note">모듈:</div>
+<div class="kb-diagram-note">ITSM:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Incident Management</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Problem Management</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Change Management</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Service Catalog</div>
+<div class="kb-diagram-tree-item" style="--depth:1">CMDB</div>
+<div class="kb-diagram-note">ITOM (IT Operations Management):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">인프라 모니터링</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자동화</div>
+<div class="kb-diagram-note">HRSD, CSM 등 ITSM 개념 확장</div>
+<div class="kb-diagram-note">CMDB 활용:</div>
+<div class="kb-diagram-note">CI 관계 맵:</div>
+<div class="kb-diagram-note">서버A ──(호스팅)──&gt; 애플리케이션X</div>
+<div class="kb-diagram-note">애플리케이션X ──(의존)──&gt; 데이터베이스Y</div>
+<div class="kb-diagram-note">변경 영향 분석:</div>
+<div class="kb-diagram-note">"서버A 패치 → 어떤 서비스 영향?"</div>
+<div class="kb-diagram-note">→ CMDB 관계 조회 → 영향 범위 자동 계산</div>
+<div class="kb-diagram-note">인시던트 자동화:</div>
+<div class="kb-diagram-note">모니터링 경보 → ServiceNow API → 인시던트 자동 생성</div>
+<div class="kb-diagram-note">AI 분류기 → 우선순위·담당자 자동 배정</div>
+<div class="kb-diagram-note">MTTR 단축:</div>
+<div class="kb-diagram-note">수동 생성: 15분 → 자동 생성: 2분</div>
+<div class="kb-diagram-note">지식 관리:</div>
+<div class="kb-diagram-note">반복 인시던트 → 지식 베이스 문서화</div>
+<div class="kb-diagram-note">→ 검색 → 1차 해결율 향상</div>
+<div class="kb-diagram-note">KPI:</div>
+<div class="kb-diagram-note">FCR (First Contact Resolution): 70%+ 목표</div>
+<div class="kb-diagram-note">CSAT (Customer Satisfaction): 4.0/5.0 이상</div>
+<div class="kb-diagram-note">기타 ITSM 도구:</div>
+<div class="kb-diagram-note">Jira Service Management (Atlassian)</div>
+<div class="kb-diagram-note">Freshservice</div>
+<div class="kb-diagram-note">BMC Remedy</div>
+<div class="kb-diagram-note">Zendesk (IT 응용)</div>
+</div>
+</div>
 
-  HRSD, CSM 등 ITSM 개념 확장
 
-CMDB 활용:
-  CI 관계 맵:
-  서버A ──(호스팅)──> 애플리케이션X
-  애플리케이션X ──(의존)──> 데이터베이스Y
-  
-  변경 영향 분석:
-  "서버A 패치 → 어떤 서비스 영향?"
-  → CMDB 관계 조회 → 영향 범위 자동 계산
-
-인시던트 자동화:
-  모니터링 경보 → ServiceNow API → 인시던트 자동 생성
-  AI 분류기 → 우선순위·담당자 자동 배정
-  
-  MTTR 단축:
-  수동 생성: 15분 → 자동 생성: 2분
-
-지식 관리:
-  반복 인시던트 → 지식 베이스 문서화
-  → 검색 → 1차 해결율 향상
-  
-  KPI:
-  FCR (First Contact Resolution): 70%+ 목표
-  CSAT (Customer Satisfaction): 4.0/5.0 이상
-
-기타 ITSM 도구:
-  Jira Service Management (Atlassian)
-  Freshservice
-  BMC Remedy
-  Zendesk (IT 응용)
-```
 
 > 📢 **섹션 요약 비유**: ServiceNow는 IT팀 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) — 인시던트(고장 신고), 변경(수리 계획), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)(부품 목록) 모두 한 시스템에서 관리. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 프로세스를 디지털화!
 
@@ -208,43 +197,42 @@ CMDB 활용:
 
 ## Ⅴ. 실무 시나리오 — 대기업 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도입
 
-```
-금융그룹 ITSM 혁신 프로젝트:
 
-현황 문제:
-  - IT 장애 시 담당자 파악에 1시간+
-  - 변경 관리 없이 배포 → 장애 빈발
-  - MTTR: 평균 4시간
-  - 장애 원인 분석 없이 임시 처방 반복
 
-ITSM 도입 계획 (6개월):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융그룹 ITSM 혁신 프로젝트:</div>
+<div class="kb-diagram-note">현황 문제:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">IT 장애 시 담당자 파악에 1시간+</div>
+<div class="kb-diagram-tree-item" style="--depth:1">변경 관리 없이 배포 → 장애 빈발</div>
+<div class="kb-diagram-tree-item" style="--depth:1">MTTR: 평균 4시간</div>
+<div class="kb-diagram-tree-item" style="--depth:1">장애 원인 분석 없이 임시 처방 반복</div>
+<div class="kb-diagram-note">ITSM 도입 계획 (6개월):</div>
+<div class="kb-diagram-note">Phase 1 (1-2개월): 기반 구축</div>
+<div class="kb-diagram-note">CMDB 구축: 서버 500대, 애플리케이션 100개</div>
+<div class="kb-diagram-note">CI 관계 맵핑</div>
+<div class="kb-diagram-note">ServiceNow 기본 설정</div>
+<div class="kb-diagram-note">Phase 2 (3-4개월): 프로세스 확립</div>
+<div class="kb-diagram-note">인시던트 관리: 우선순위 체계, SLA 설정</div>
+<div class="kb-diagram-note">변경 관리: CAB 구성, 변경 절차</div>
+<div class="kb-diagram-note">서비스 데스크: 헬프데스크 → SPOC 전환</div>
+<div class="kb-diagram-note">Phase 3 (5-6개월): 자동화</div>
+<div class="kb-diagram-note">모니터링 → 인시던트 자동 생성</div>
+<div class="kb-diagram-note">표준 변경 자동 승인</div>
+<div class="kb-diagram-note">AI 기반 분류·배정</div>
+<div class="kb-diagram-note">결과 (1년 후):</div>
+<div class="kb-diagram-note">MTTR: 4시간 → 45분 (배정 자동화 효과)</div>
+<div class="kb-diagram-note">변경 관련 장애: 40% 감소</div>
+<div class="kb-diagram-note">FCR: 45% → 68%</div>
+<div class="kb-diagram-note">장애 재발률: 60% 감소 (문제 관리 효과)</div>
+<div class="kb-diagram-note">핵심 교훈:</div>
+<div class="kb-diagram-note">"도구는 20%, 프로세스와 문화가 80%"</div>
+<div class="kb-diagram-note">CAB 참석자 저항 → 변경 관리 문화 정착 6개월 소요</div>
+<div class="kb-diagram-note">CMDB 정확도 유지가 지속 과제</div>
+</div>
+</div>
 
-Phase 1 (1-2개월): 기반 구축
-  CMDB 구축: 서버 500대, 애플리케이션 100개
-  CI 관계 맵핑
-  ServiceNow 기본 설정
 
-Phase 2 (3-4개월): 프로세스 확립
-  인시던트 관리: 우선순위 체계, SLA 설정
-  변경 관리: CAB 구성, 변경 절차
-  서비스 데스크: 헬프데스크 → SPOC 전환
-
-Phase 3 (5-6개월): 자동화
-  모니터링 → 인시던트 자동 생성
-  표준 변경 자동 승인
-  AI 기반 분류·배정
-
-결과 (1년 후):
-  MTTR: 4시간 → 45분 (배정 자동화 효과)
-  변경 관련 장애: 40% 감소
-  FCR: 45% → 68%
-  장애 재발률: 60% 감소 (문제 관리 효과)
-
-핵심 교훈:
-  "도구는 20%, 프로세스와 문화가 80%"
-  CAB 참석자 저항 → 변경 관리 문화 정착 6개월 소요
-  CMDB 정확도 유지가 지속 과제
-```
 
 > 📢 **섹션 요약 비유**: 금융그룹 ITSM은 소방서 체계화 — 불 나면(인시던트) 빨리 끄고(해결), 왜 났는지([문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)) 분석, 건물 공사(변경) 전 심사([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)). 체계가 없으면 매번 같은 불!
 

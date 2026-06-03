@@ -100,29 +100,41 @@ tanh는 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid
 
 ## 관련 개념 맵
 
-```text
-Input
-  ↓
-tanh
-  ↓
-Zero-centered Output
-  ↓
-Hidden Layer
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">tanh</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Zero-centered Output</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hidden Layer</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Sigmoid
-  ↓
-tanh
-  ↓
-ReLU
-  ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sigmoid</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">tanh</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 

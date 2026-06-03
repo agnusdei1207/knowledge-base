@@ -25,20 +25,20 @@ DDR [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarc
 
 아래 그림은 SDR과 DDR이 같은 클럭 틱을 어떻게 다르게 활용하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                SDR과 DDR의 데이터 전송 방식 비교                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Clock      : ┌─┐   ┌─┐   ┌─┐   ┌─┐                                 │
-│              └─┘   └─┘   └─┘   └─┘                                 │
-│ Edge       :  ↑ ↓   ↑ ↓   ↑ ↓   ↑ ↓                               │
-│                                                                      │
-│ SDR Data   :  D0    -    D1    -    D2    -    D3    -             │
-│ DDR Data   :  D0   D1    D2   D3    D4   D5    D6   D7             │
-│                                                                      │
-│ 의미       : SDR은 상승 에지만 사용, DDR은 상승·하강 에지를 모두 사용 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDR과 DDR의 데이터 전송 방식 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock : ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge : ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDR Data : D0 - D1 - D2 - D3 -</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDR Data : D0 D1 D2 D3 D4 D5 D6 D7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미 : SDR은 상승 에지만 사용, DDR은 상승·하강 에지를 모두 사용</div></div>
+</div>
+</div>
+
+
 
 핵심은 DDR이 "메모리를 두 배로 빠르게 만든 기술"이 아니라, 같은 클럭 이벤트를 더 촘촘하게 활용해 전송 밀도를 높인 기술이라는 점이다. 그래서 DDR을 이해할 때는 단순 주파수보다 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타이밍과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처 방식이 더 중요하다.
 
@@ -62,19 +62,19 @@ DDR의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 
 아래 그림은 내부 코어와 외부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 속도 차이를 프리페치가 어떻게 메우는지 압축해서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 DDR의 내부 코어와 외부 버스 연결 구조               │
-├──────────────────────────────────────────────────────────────────────┤
-│   메모리 셀 코어            프리페치 버퍼              I/O 버스      │
-│ ┌──────────────┐         ┌──────────────┐         ┌──────────────┐   │
-│ │ Cell Array   │ ─────▶  │ D0 D1 D2 D3  │ ─────▶  │ Edge마다 전송 │   │
-│ │ 느리지만 넓음 │         │ 묶음 적재     │         │ D0 D1 D2 D3   │   │
-│ └──────────────┘         └──────────────┘         └──────────────┘   │
-│        │                         │                         │          │
-│        └─ 내부 접근 지연 흡수 ───┴─ 여러 비트 선적 ────────┘          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDR의 내부 코어와 외부 버스 연결 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 셀 코어 프리페치 버퍼 I/O 버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cell Array</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">D0 D1 D2 D3</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Edge마다 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">느리지만 넓음</div><div class="kb-diagram-cell">묶음 적재</div><div class="kb-diagram-cell">D0 D1 D2 D3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 내부 접근 지연 흡수 ─ 여러 비트 선적</div></div>
+</div>
+</div>
+
+
 
 또 하나의 핵심은 소스 동기식 (Source-[Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 전송이다. 고속 DDR에서는 시스템 클럭만 믿고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받기 어렵기 때문에, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함께 DQS를 보내 수신 측이 샘플링 기준을 직접 맞춘다. 이 덕분에 MHz가 높아질수록 심해지는 스큐 (Skew)와 위상 오차를 줄일 수 있다. DDR4 이후에는 뱅크 그룹, 훈련 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)), 온다이 종단 (On-Die Termination) 같은 보조 기술까지 결합되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 무결성을 더 정교하게 다룬다.
 
@@ -109,8 +109,8 @@ DDR을 제대로 이해하려면 SDR [SDRAM](/knowledge-base/studynote/01_comput
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목인가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목인가**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론·내장 그래픽·대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리라면 높은 MT/s와 채널 수가 우선이다.
-2. **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 무결성을 감당할 보드인가**: 고속 DDR일수록 PCB (Printed Circuit Board) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 종단, 슬롯 구조가 품질을 좌우한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목인가 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 병목인가</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론·내장 그래픽·대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리라면 높은 MT/s와 채널 수가 우선이다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 무결성을 감당할 보드인가</strong>: 고속 DDR일수록 PCB (Printed Circuit Board) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 종단, 슬롯 구조가 품질을 좌우한다.
 3. **확장성과 유지보수가 중요한가**: 서버와 워크스테이션은 슬롯형 DIMM이 유리하지만, 초경량 기기는 온보드 LPDDR이 더 적합할 수 있다.
 4. **ECC와 전력 특성이 필요한가**: 안정성이 최우선이면 서버용 규격을, 배터리가 최우선이면 LPDDR 계열을 고려해야 한다.
 
@@ -151,28 +151,27 @@ DDR SDRAM의 가장 큰 효과는 범용 컴퓨팅 환경에서 비용 대비 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SDR SDRAM
-    │
-    ▼
-DDR SDRAM
-    │
-    ├─ 2n/4n/8n/16n 프리페치 확대
-    │
-    ├─ DQS 기반 고속 타이밍 정밀화
-    │
-    ├─ DDR3 → DDR4 → DDR5
-    │        (저전압 · 고속화 · 서브채널)
-    │
-    ├─ LPDDR
-    │   (저전력 · 모바일 최적화)
-    │
-    ├─ GDDR
-    │   (그래픽 대역폭 최적화)
-    │
-    ▼
-HBM · CXL 메모리 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SDR SDRAM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DDR SDRAM</div>
+<div class="kb-diagram-tree-item" style="--depth:2">2n/4n/8n/16n 프리페치 확대</div>
+<div class="kb-diagram-tree-item" style="--depth:2">DQS 기반 고속 타이밍 정밀화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">DDR3 → DDR4 → DDR5</div>
+<div class="kb-diagram-note">(저전압 · 고속화 · 서브채널)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LPDDR</div>
+<div class="kb-diagram-note">(저전력 · 모바일 최적화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GDDR</div>
+<div class="kb-diagram-note">(그래픽 대역폭 최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HBM · CXL 메모리 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "동기식 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) → 이중 에지 전송 → 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 강화 → 용도별 분화 → 차세대 확장"으로 이어지는 발전 방향을 보여준다.
 

@@ -18,7 +18,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)과 [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 정수에 특화된 반면, **버킷 정렬 (Bucket Sort)**은 **[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수나 실수** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 적용 가능한 비비교 정렬이다. 핵심 아이디어는 전체 값 범위를 n개의 동일한 구간(버킷)으로 나누고, 각 원소를 해당 버킷에 배분한 뒤, 각 버킷 내부를 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))로 정렬하는 것이다.
+[계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)과 [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 정수에 특화된 반면, <strong>버킷 정렬 (Bucket Sort)</strong>은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 수나 실수</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 적용 가능한 비비교 정렬이다. 핵심 아이디어는 전체 값 범위를 n개의 동일한 구간(버킷)으로 나누고, 각 원소를 해당 버킷에 배분한 뒤, 각 버킷 내부를 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))로 정렬하는 것이다.
 
 ### 기본 전제
 
@@ -42,34 +42,34 @@ tags = ["studynote-algorithm"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 버킷 분배 과정
 
-```
-입력: [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68]
-n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 
-분배 단계:
-┌────────┬─────────────────────────┐
-│ Bucket │ Elements                │
-├────────┼─────────────────────────┤
-│  [0]   │ (비어있음)               │
-│  [1]   │ 0.17, 0.12              │
-│  [2]   │ 0.26, 0.21, 0.23        │
-│  [3]   │ 0.39                    │
-│  [4]   │ (비어있음)               │
-│  [5]   │ (비어있음)               │
-│  [6]   │ 0.68                    │
-│  [7]   │ 0.78, 0.72              │
-│  [8]   │ (비어있음)               │
-│  [9]   │ 0.94                    │
-└────────┴─────────────────────────┘
 
-각 버킷 내부 정렬:
-  [1]: [0.12, 0.17]
-  [2]: [0.21, 0.23, 0.26]
-  [7]: [0.72, 0.78]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68</div></div>
+<div class="kb-diagram-note">n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)</div>
+<div class="kb-diagram-note">분배 단계:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bucket</div><div class="kb-diagram-cell">Elements</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-note">(비어있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">0.17, 0.12</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">0.26, 0.21, 0.23</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">0.39</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">(비어있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5</div><div class="kb-diagram-note">(비어있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6</div><div class="kb-diagram-note">0.68</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-note">0.78, 0.72</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">8</div><div class="kb-diagram-note">(비어있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">9</div><div class="kb-diagram-note">0.94</div></div>
+<div class="kb-diagram-note">각 버킷 내부 정렬:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.12, 0.17</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.21, 0.23, 0.26</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.72, 0.78</div></div>
+<div class="kb-diagram-note">수집:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94</div><div class="kb-diagram-note">✅</div></div>
+</div>
+</div>
 
-수집:
-[0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94] ✅
-```
+
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -83,14 +83,19 @@ n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 
 ### 평균 복잡도 유도
 
-```
-n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
-삽입 정렬 비용: O(1²) = O(1) per bucket
-전체: O(n·1) = O(n)
 
-분포가 편중되면:
-최악의 경우 한 버킷에 모든 원소 → O(n²) 삽입 정렬
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1</div>
+<div class="kb-diagram-note">삽입 정렬 비용: O(1²) = O(1) per bucket</div>
+<div class="kb-diagram-note">전체: O(n·1) = O(n)</div>
+<div class="kb-diagram-note">분포가 편중되면:</div>
+<div class="kb-diagram-note">최악의 경우 한 버킷에 모든 원소 → O(n²) 삽입 정렬</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 파티 참석자 배분과 같다. 10개 테이블에 100명이 고르게 앉으면 각 테이블은 10명만 관리하면 되지만, 모두가 테이블 1에 몰리면 그 테이블은 100명을 혼자 감당해야 한다.
 
@@ -122,29 +127,32 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 ### 적합한 사용 사례
 
-**시나리오 1 — [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 정렬**: [0, 1) 사이 확률값, 측정치 n=100만  
+<strong>시나리오 1 — <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 정렬</strong>: [0, 1) 사이 확률값, 측정치 n=100만  
 → 균등 분포 가정 시 O(n) ≈ 100만 연산  
 → 퀵소트 O(n log n) ≈ 2,000만 연산 대비 약 20배 빠름
 
 **시나리오 2 — 연령 분포 분석**: 0~120세, n=1억 명  
 → 연령은 균등 분포에 가까움 → 버킷 수 121개, 각 버킷 평균 826,446명  
-→ 이 경우 각 버킷이 여전히 크므로 **[계수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/)**이 더 적합
+→ 이 경우 각 버킷이 여전히 크므로 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/016_counting_sort/">계수 정렬</a></strong>이 더 적합
 
-**시나리오 3 — 지형 고도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: GPS 고도 0~8,848m (균등 분포)  
+<strong>시나리오 3 — 지형 고도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: GPS 고도 0~8,848m (균등 분포)  
 → 버킷 정렬로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 후 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-┌──────────────────────────────────────────────────────┐
-│  버킷 정렬 성능 저하 방지 체크리스트                  │
-│                                                      │
-│  1. 분포 분석 먼저: 히스토그램으로 편중 확인          │
-│  2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드│
-│  3. 내부 정렬 선택: 소규모 버킷 → 삽입 정렬 최적     │
-│  4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정      │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버킷 정렬 성능 저하 방지 체크리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 분포 분석 먼저: 히스토그램으로 편중 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내부 정렬 선택: 소규모 버킷 → 삽입 정렬 최적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리는 물의 수압 조절과 같다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(버킷)가 균등하게 설계되어야 물이 고르게 흐른다. 한쪽이 막히면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중) 전체 시스템이 비효율적이 된다.
 
@@ -152,7 +160,7 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 ## Ⅴ. 기대효과 및 결론
 
-버킷 정렬은 **분포 정보를 활용한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**의 아이디어로, 비교 기반 정렬의 한계를 실수 도메인에서 극복한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 전처리, 통계 분석, 지리정보 처리 등 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 분야에서 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
+버킷 정렬은 <strong>분포 정보를 활용한 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>의 아이디어로, 비교 기반 정렬의 한계를 실수 도메인에서 극복한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 전처리, 통계 분석, 지리정보 처리 등 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 분야에서 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
 
 ### 효과 정리
 
@@ -179,21 +187,23 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비교 기반 정렬 (Comparison Sort) — 최선 O(n log n) 하한 한계]
-    │
-    ▼
-[계수 정렬 (Counting Sort) — 정수 범위 제한 시 O(n) 달성]
-    │
-    ▼
-[버킷 정렬 (Bucket Sort) — 균등 분포 데이터를 구간 버킷으로 분산]
-    │
-    ▼
-[기수 정렬 (Radix Sort) — 자릿수 단위 안정 정렬로 O(kn) 달성]
-    │
-    ▼
-[병렬 분산 정렬 (Parallel Sort) — 대용량 빅데이터 환경에서 파티션 기반 병렬 처리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비교 기반 정렬 (Comparison Sort) — 최선 O(n log n) 하한 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계수 정렬 (Counting Sort) — 정수 범위 제한 시 O(n) 달성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버킷 정렬 (Bucket Sort) — 균등 분포 데이터를 구간 버킷으로 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기수 정렬 (Radix Sort) — 자릿수 단위 안정 정렬로 O(kn) 달성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 분산 정렬 (Parallel Sort) — 대용량 빅데이터 환경에서 파티션 기반 병렬 처리</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 비교 기반 정렬의 한계를 분배 기반 선형 시간 정렬이 극복하며 발전하는 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 계보를 나타낸다.
 
@@ -201,7 +211,7 @@ n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
 
 🎯 **다트 과녁 던지기**: 과녁을 여러 구역으로 나누고, 각 구역에 몇 개가 꽂혔는지 세어서 순서대로 꺼내면 정렬이 돼요!  
 🏪 **편의점 진열대**: 음료를 종류별 진열대에 먼저 넣고, 각 진열대 안에서 가격순으로 정리하면 전체 음료를 빠르게 정렬할 수 있어요.  
-🌈 **무지개 색 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**: 빨간색부터 보라색까지 통에 나눠 담고, 각 통 안에서 밝기 순으로 정리하면 전체 색을 아주 빠르게 정렬할 수 있어요!
+🌈 <strong>무지개 색 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 빨간색부터 보라색까지 통에 나눠 담고, 각 통 안에서 밝기 순으로 정리하면 전체 색을 아주 빠르게 정렬할 수 있어요!
 
 ---
 

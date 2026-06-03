@@ -24,16 +24,20 @@ tags = ["studynote-network"]
   - **Source Quench**: 라우터의 큐(버퍼)가 넘치려 할 때 송신자의 전송 속도를 억제하기 위해 보내던 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 혼잡 알림 메시지 (Type 4).
 - **필요성**: 웹 브라우저를 켰는데 네이버가 안 열린다. 내 PC가 문제인지, 공유기가 문제인지, 네이버가 터진 건지 알 수가 없다. "[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake처럼 무겁게 통신을 시도하지 말고, 그냥 가벼운 공 하나를 탁 튕겨서 벽(목적지)에 맞고 다시 튕겨 돌아오는지(Echo, 메아리)만 테스트해 보자!"라는 직관적인 헬스 체크(Health Check) 툴이 바로 Ping이다.
 
-- **💡 비유**: 깊은 동굴(네트워크 망)에 사람이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때, "거기 누구 있나요? (Echo Request, Type 8)"라고 소리를 지르면, 반대편에서 똑같이 "네~ 여기 있어요! (Echo Reply, Type 0)"라고 **메아리(Echo)**가 튕겨 돌아오는 원리와 완벽히 일치합니다. 대답이 돌아오기까지 걸린 시간을 재면 동굴이 얼마나 깊은지(Ping 속도, ms)도 알 수 있습니다.
+- **💡 비유**: 깊은 동굴(네트워크 망)에 사람이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때, "거기 누구 있나요? (Echo Request, Type 8)"라고 소리를 지르면, 반대편에서 똑같이 "네~ 여기 있어요! (Echo Reply, Type 0)"라고 <strong>메아리(Echo)</strong>가 튕겨 돌아오는 원리와 완벽히 일치합니다. 대답이 돌아오기까지 걸린 시간을 재면 동굴이 얼마나 깊은지(Ping 속도, ms)도 알 수 있습니다.
 
-```text
-[Destination Unreachable…]
-    │
-    ▼
-[Echo Request/Reply / Sou…]
-    │
-    └──▶ [Redirect 메시지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Destination Unreachable…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Echo Request/Reply / Sou…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Redirect 메시지</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 핑(Ping) 테스트는 잠수함이 어두운 바닷속에서 쏘는 **"음파 탐지기(Sonar)"**입니다. '핑~' 하고 음파를 쐈을 때 적 잠수함에 맞고 튕겨 돌아오면, 적이 살아있고 거리가 얼마나 되는지 정확히 탐지할 수 있습니다.
 
@@ -47,34 +51,33 @@ tags = ["studynote-network"]
 2. **구글의 응답 (Type 0)**: 이 패킷을 받은 구글 서버의 OS는, 내가 보낸 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`abcd...`)를 단 1바이트도 수정하지 않고 그대로 복사해서 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 0 봉투에 담아 내 PC로 돌려보내 준다.
 3. **결과 계산**: 내 PC는 쏜 시간과 받은 시간의 차이([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))를 밀리초(ms) 단위로 화면에 출력한다. (예: `time=30ms`)
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Ping의 실패 메시지별 원인 분석 (T/S)              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1) Reply from 8.8.8.8: bytes=32 time=30ms TTL=115         │
- │      ▶ Type 0 (Echo Reply) 무사 도착! 통신 100% 정상.             │
- │                                                             │
- │   2) Request timed out (요청 시간 초과)                       │
- │      ▶ 목적지가 죽었거나, 방화벽이 Ping을 먹어 치워버렸음(Drop).     │
- │                                                             │
- │   3) Destination net unreachable (대상 네트워크 도달 불가)     │
- │      ▶ 가는 길 중간에 라우터가 길을 못 찾아 Type 3 (Unreachable) │
- │        에러를 대신 뱉어준 상황.                                │
- │                                                             │
- │   4) TTL expired in transit (전송 중 TTL 만료)               │
- │      ▶ 핑이 가다가 중간에 루핑이 돌아서 라우터가 쏴 죽이고(Type 11)   │
- │        시체 통지서를 날린 상황.                                │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ping의 실패 메시지별 원인 분석 (T/S)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Reply from 8.8.8.8: bytes=32 time=30ms TTL=115</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Type 0 (Echo Reply) 무사 도착! 통신 100% 정상.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Request timed out (요청 시간 초과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 목적지가 죽었거나, 방화벽이 Ping을 먹어 치워버렸음(Drop).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Destination net unreachable (대상 네트워크 도달 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 가는 길 중간에 라우터가 길을 못 찾아 Type 3 (Unreachable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러를 대신 뱉어준 상황.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) TTL expired in transit (전송 중 TTL 만료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핑이 가다가 중간에 루핑이 돌아서 라우터가 쏴 죽이고(Type 11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시체 통지서를 날린 상황.</div></div>
+</div>
+</div>
+
+
 
 ### 2. 해커들의 스머프(Smurf) 공격과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 대응
 해커는 이 "핑을 때리면 무조건 핑퐁이 돌아온다"는 맹목적이고 착한 규칙을 악용한다. (앞서 배운 브로드캐스트 스머프 공격). 출발지 IP를 희생자 IP로 위조한 Echo Request(Type 8)를 동네방네 뿌리면, 5000대의 PC가 일제히 희생자를 향해 Echo Reply(Type 0) 폭격을 날려버린다.
-- **방어**: 최신 윈도우 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/11과 기업용 리눅스 서버들은 **외부에서 들어오는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo Request(Type 8)를 기본적으로 아예 무시(Drop)**하도록 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 잠겨 있다. 그래서 옆자리 동료 PC에 핑을 쳐도 `Request timed out`이 뜨는 것이 정상이며, 핑이 안 나간다고 무작정 네트워크 단절로 착각하면 안 된다.
+- **방어**: 최신 윈도우 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/11과 기업용 리눅스 서버들은 <strong>외부에서 들어오는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Echo Request(Type 8)를 기본적으로 아예 무시(Drop)</strong>하도록 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 잠겨 있다. 그래서 옆자리 동료 PC에 핑을 쳐도 `Request timed out`이 뜨는 것이 정상이며, 핑이 안 나간다고 무작정 네트워크 단절로 착각하면 안 된다.
 
 ### 3. Source Quench (Type 4)의 멸망
-과거에는 라우터가 트래픽을 처리하다가 메모리(큐)가 터질 것 같으면, 송신자에게 **"Type 4 (Source Quench): 야! 나 죽을 것 같아! 속도 좀 확 줄여!"**라고 쏘아 보냈다.
-하지만 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 에러 메시지를 억지로 만들어 보내는 행위 자체가 죽어가는 라우터의 CPU를 더 잡아먹는 삽질이었기 때문에, 현재는 이 기능을 완전히 폐기하고, 아까 배운 **"혼잡 제어는 라우터가 조용히 패킷을 버리고 TCP가 알아서 속도를 줄이게 한다"**는 방식으로 진화했다.
+과거에는 라우터가 트래픽을 처리하다가 메모리(큐)가 터질 것 같으면, 송신자에게 <strong>"Type 4 (Source Quench): 야! 나 죽을 것 같아! 속도 좀 확 줄여!"</strong>라고 쏘아 보냈다.
+하지만 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 에러 메시지를 억지로 만들어 보내는 행위 자체가 죽어가는 라우터의 CPU를 더 잡아먹는 삽질이었기 때문에, 현재는 이 기능을 완전히 폐기하고, 아까 배운 <strong>"혼잡 제어는 라우터가 조용히 패킷을 버리고 TCP가 알아서 속도를 줄이게 한다"</strong>는 방식으로 진화했다.
 
 - **📢 섹션 요약 비유**: ** Ping 테스트는 깊은 밤 산속에서 앞차를 향해 쏘는 **"상향등(쌍라이트)"**과 같습니다. 내가 빛(Type 8)을 쏘았을 때 반사되어 내 눈에 빛이 들어오면(Type 0) 앞차가 정상적으로 달리고 있다는 증거지만, 요새 차들([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 눈부심 방지 코팅이 되어 있어 빛을 쏴도 반사해주지 않습니다.
 
@@ -132,15 +135,19 @@ Echo Request/Reply / Sou…는 네트워크 계층과 IP를 이해할 때 핵심
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Destination Unreachable…]
-    │
-    ▼
-[현재 개념: Echo Request/Reply / Sou…]
-    │
-    ├──▶ [확장 A: Redirect 메시지]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Destination Unreachable…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Echo Request/Reply / Sou…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Redirect 메시지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Echo Request/Reply / Sou…는 Destination Unreachable…에서 출발해 현재 메커니즘을 정교화하고, 이후 Redirect 메시지와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,24 +23,21 @@ tags = ["studynote-algorithm"]
 
 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)의 정의에서 출발한다:
 
-```
-P(A|B) = P(A∩B) / P(B)
-P(B|A) = P(A∩B) / P(A)
 
-두 식에서 P(A∩B) = P(B|A)·P(A) 를 대입하면:
 
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│   P(A|B) = P(B|A) · P(A)                           │
-│             ─────────────                           │
-│                 P(B)                                │
-│                                                     │
-│   = P(B|A) · P(A)                                  │
-│     ─────────────────────────────────────────────  │
-│     P(B|A)·P(A)  +  P(B|Ā)·P(Ā)   (전확률 공식)   │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">P(A|B) = P(A∩B) / P(B)</div>
+<div class="kb-diagram-note">P(B|A) = P(A∩B) / P(A)</div>
+<div class="kb-diagram-note">두 식에서 P(A∩B) = P(B|A)·P(A) 를 대입하면:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A</div><div class="kb-diagram-cell">B) = P(B</div><div class="kb-diagram-cell">A) · P(A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= P(B</div><div class="kb-diagram-cell">A) · P(A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(B</div><div class="kb-diagram-cell">A)·P(A) + P(B</div><div class="kb-diagram-cell">Ā)·P(Ā) (전확률 공식)</div></div>
+</div>
+</div>
+
+
 
 ### 각 항의 이름과 역할
 
@@ -57,7 +54,7 @@ P(B|A) = P(A∩B) / P(A)
 
 ## Ⅱ. 전확률 법칙 — P(B) 계산
 
-**전확률 법칙 (Law of Total [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**:  
+<strong>전확률 법칙 (Law of Total <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>:  
 사건 A₁, A₂, ..., Aₙ 이 Ω 를 분할 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 할 때:
 
 ```
@@ -67,22 +64,22 @@ P(B) = Σᵢ P(B|Aᵢ) · P(Aᵢ)
 
 **베이즈 업데이트 흐름도**:
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                  베이즈 추론 파이프라인                    │
-│                                                          │
-│  ┌──────────┐   관찰 증거   ┌──────────┐   ┌──────────┐ │
-│  │  사전    │  ──────────→  │  우도    │   │  사후    │ │
-│  │  확률    │               │  계산    │ → │  확률    │ │
-│  │  P(A)    │               │ P(B|A)   │   │ P(A|B)   │ │
-│  └──────────┘               └──────────┘   └──────────┘ │
-│       ↑                         ↓                ↓      │
-│   도메인 지식                전확률 법칙          다음    │
-│  이전 실험 결과              P(B) 계산         사전 확률 │
-│                                                          │
-│  → 증거가 쌓일수록 사후 확률은 더욱 정밀해짐             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이즈 추론 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관찰 증거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">우도</div><div class="kb-diagram-cell">사후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확률</div><div class="kb-diagram-cell">계산</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">확률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A)</div><div class="kb-diagram-cell">P(B</div><div class="kb-diagram-cell">A)</div><div class="kb-diagram-cell">P(A</div><div class="kb-diagram-cell">B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 지식 전확률 법칙 다음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 실험 결과 P(B) 계산 사전 확률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 증거가 쌓일수록 사후 확률은 더욱 정밀해짐</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 전확률 법칙은 "비가 올 전체 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 구할 때, "봄에 비 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 봄일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)" + "여름에 비 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 여름일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)" + ...처럼 모든 경로를 합산하는 것이다.
 
@@ -96,7 +93,7 @@ P(B) = Σᵢ P(B|Aᵢ) · P(Aᵢ)
 - 검사 민감도 (Sensitivity) = 99% → 실제 환자 중 99%를 양성으로 판별
 - 검사 특이도 (Specificity) = 95% → 정상인 중 95%를 음성으로 판별
 
-**양성 판정을 받았을 때 실제 환자일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (PPV, Positive Predictive Value)?**
+<strong>양성 판정을 받았을 때 실제 환자일 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (PPV, Positive Predictive Value)?</strong>
 
 ```
 P(질환) = 0.001,   P(정상) = 0.999
@@ -122,7 +119,7 @@ P(질환|양성) = 0.99 × 0.001 / 0.05094 ≈ 0.019 = 약 1.9%
 - **민감도 (Sensitivity)** = TP / (TP + FN)
 - **특이도 (Specificity)** = TN / (TN + [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))
 - **PPV (Positive Predictive Value, 양성 예측값)** = TP / (TP + [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))
-- **[NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/) (Negative Predictive Value, 음성 예측값)** = TN / (TN + FN)
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/">NPV</a> (Negative Predictive Value, 음성 예측값)</strong> = TN / (TN + FN)
 
 📢 **섹션 요약 비유**: 희귀한 보물이 숨겨진 넓은 사막에서 탐지기가 "여기 있다!"고 했을 때, 탐지기 정확도가 높더라도 실제 보물이 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 낮다 — 왜냐하면 사막은 넓고 보물은 희귀하기 때문이다(기저율의 힘).
 
@@ -130,7 +127,7 @@ P(질환|양성) = 0.99 × 0.001 / 0.05094 ≈ 0.019 = 약 1.9%
 
 ## Ⅳ. 스팸 필터 예시 — [나이브 베이즈 분류기](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/)
 
-**[나이브 베이즈 분류기](/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/) ([Naive Bayes Classifier](/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/))** 는 베이즈 정리에 "특징 간 조건부 독립" 가정을 추가한 실용 모델이다.
+<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/060_naive_bayes_classifier_conditional_independence/">나이브 베이즈 분류기</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/101_naive_bayes_classifier/">Naive Bayes Classifier</a>)</strong> 는 베이즈 정리에 "특징 간 조건부 독립" 가정을 추가한 실용 모델이다.
 
 ### 스팸 판별 과정
 
@@ -166,20 +163,26 @@ P(정상|단어들) ∝ 0.7 × 0.05 × 0.10 × 0.20 = 0.0007
 
 ## Ⅴ. 베이즈 추론 — 증거 축적과 순차적 업데이트
 
-베이즈 추론 (Bayesian Inference) 의 강점은 **증거가 들어올 때마다 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 새로운 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 재활용**할 수 있다는 점이다.
+베이즈 추론 (Bayesian Inference) 의 강점은 <strong>증거가 들어올 때마다 사후 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>을 새로운 사전 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>로 재활용</strong>할 수 있다는 점이다.
 
-```
-초기: P(θ)  (사전 지식)
-증거 1 관찰: P(θ|x₁) ← 새로운 사전 확률로 사용
-증거 2 관찰: P(켭|x₁,x₂) ← 다시 업데이트
-...
-증거 n 관찰: P(θ|x₁,...,xₙ) ← 최종 사후 확률
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기: P(θ) (사전 지식)</div>
+<div class="kb-diagram-note">증거 1 관찰: P(θ|x₁) ← 새로운 사전 확률로 사용</div>
+<div class="kb-diagram-note">증거 2 관찰: P(켭|x₁,x₂) ← 다시 업데이트</div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">증거 n 관찰: P(θ|x₁,...,xₙ) ← 최종 사후 확률</div>
+</div>
+</div>
+
+
 
 **응용 분야**:
 
 - **A/B 테스팅**: 실험 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 실시간 결과 업데이트
-- **의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**: 검사 결과가 추가될 때마다 진단 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신
+- <strong>의료 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 검사 결과가 추가될 때마다 진단 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신
 - **자율주행**: 센서 데이터를 받을 때마다 위치 추정 업데이트 (칼만 필터, Kalman Filter)
 - **NLP (Natural Language Processing)**: 문맥이 추가될수록 단어 의미 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 업데이트
 
@@ -202,21 +205,23 @@ P(정상|단어들) ∝ 0.7 × 0.05 × 0.10 × 0.20 = 0.0007
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[베이즈 정리]
-    │
-    ▼
-[사전 확률]
-    │
-    ▼
-[전확률 법칙]
-    │
-    ▼
-[나이브 베이즈]
-    │
-    ▼
-[민감도·특이도]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 정리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사전 확률</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전확률 법칙</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나이브 베이즈</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">민감도·특이도</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 베이즈 정리에서 출발해 베이즈 추론까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

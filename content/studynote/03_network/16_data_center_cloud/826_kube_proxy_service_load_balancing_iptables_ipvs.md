@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터의 모든 워커 노드(물리/가상 서버)마다 1개씩 무조건 설치되어 돌아가는 **네트워크 데몬(에이전트) 프로그램**입니다.
-- **역할**: 외부나 내부에서 **'[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (가상 IP, VIP)'**로 들어온 트래픽 요청을, 그 뒤에서 실제로 살아서 돌아가고 있는 수많은 **'진짜 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))들의 IP'**들 중 하나로 공평하게 분배(로드밸런싱)해 주는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 라우터 역할**을 전담합니다.
+- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터의 모든 워커 노드(물리/가상 서버)마다 1개씩 무조건 설치되어 돌아가는 <strong>네트워크 데몬(에이전트) 프로그램</strong>입니다.
+- **역할**: 외부나 내부에서 <strong>'<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (가상 IP, VIP)'</strong>로 들어온 트래픽 요청을, 그 뒤에서 실제로 살아서 돌아가고 있는 수많은 <strong>'진짜 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)들의 IP'</strong>들 중 하나로 공평하게 분배(로드밸런싱)해 주는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 라우터 역할</strong>을 전담합니다.
 
-```text
-[Cilium]
-    │
-    ▼
-[Kube-Proxy 서비스 로드밸런싱]
-    │
-    └──▶ [Ingress / Egress 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 서비스 로드밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingress / Egress 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,23 +49,27 @@ tags = ["studynote-network"]
 
 ### 2. iptables 모드 (현재 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기본 디폴트 값) 🌟
 - Kube-Proxy가 패킷을 직접 만지지 않습니다! 대신 자기는 **'룰(Rule) 작성자'** 역할만 합니다.
-- **동작**: Kube-Proxy가 중앙 통제실([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server)을 감시하다가, "어? 새로운 DB [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 3개가 떴네?"라는 소식을 들으면, 곧바로 자기가 깔려있는 리눅스 서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 **`iptables` (리눅스 기본 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰북)**에다가 수천 줄의 규칙을 코딩해 박아 넣습니다.
+- **동작**: Kube-Proxy가 중앙 통제실([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server)을 감시하다가, "어? 새로운 DB [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 3개가 떴네?"라는 소식을 들으면, 곧바로 자기가 깔려있는 리눅스 서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><code>iptables</code> (리눅스 기본 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 룰북)</strong>에다가 수천 줄의 규칙을 코딩해 박아 넣습니다.
 - **효과**: 패킷이 들어오면 Kube-Proxy 프로그램까지 올라올 필요도 없이, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥이 `iptables` 장부를 보고 0.1초 만에 "아, 이 패킷은 1번 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)로 가라네!" 하고 튕겨(DNAT) 줍니다. (훨씬 빠름)
 - **단점**: 앞서 825번 문서에서 배웠듯, [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 1만 개로 늘어나면 `iptables` 규칙이 10만 줄이 되어버려 패킷이 이거 읽느라 또 렉이 걸립니다(O(N) 순차 스캔의 저주).
 
 ### 3. IPVS 모드 (대규모 클러스터용 끝판왕) 🌟
-- 이 `iptables`의 렉을 해결하기 위해 도입된 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 진짜배기 **L4 로드밸런싱 전용 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(IP Virtual Server)**입니다.
+- 이 `iptables`의 렉을 해결하기 위해 도입된 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 진짜배기 <strong>L4 로드밸런싱 전용 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(IP Virtual Server)</strong>입니다.
 - **동작**: Kube-Proxy가 `iptables` 대신 이 `IPVS` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 룰을 심습니다.
-- **장점**: IPVS는 무식하게 첫 줄부터 읽는 게 아니라, **[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))**을 써서 룰이 10만 개든 100만 개든 0.001초 만에 목적지를 한 방에 찾아냅니다(O(1)의 마법). 또한 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(순서대로 주기), 최소 연결(손님 적은 곳 주기) 등 훨씬 똑똑한 로드밸런싱 분배 알고리즘을 지원합니다.
+- **장점**: IPVS는 무식하게 첫 줄부터 읽는 게 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)</strong>을 써서 룰이 10만 개든 100만 개든 0.001초 만에 목적지를 한 방에 찾아냅니다(O(1)의 마법). 또한 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(순서대로 주기), 최소 연결(손님 적은 곳 주기) 등 훨씬 똑똑한 로드밸런싱 분배 알고리즘을 지원합니다.
 
-```text
-[Cilium]
-    │
-    ▼
-[Kube-Proxy 서비스 로드밸런싱]
-    │
-    └──▶ [Ingress / Egress 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 서비스 로드밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingress / Egress 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,8 +77,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인(822번)**: "[포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A와 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B가 물리적으로 대화할 수 있는 **진짜 도로(터널, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**를 까는 역할" (도로 공사).
-- **Kube-Proxy**: "도로는 CNI가 이미 깔아놨으니, 나는 사거리에서 깃발을 들고 **트래픽을 1번 도로로 보낼지 2번 도로로 보낼지 트래픽 비율을 나누는 역할**만 할게!" (교통경찰). 둘은 완벽히 분업하여 함께 돌아갑니다. (단, 825번의 [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/)([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))은 Kube-Proxy마저 자기가 먹어 치웁니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a> 플러그인(822번)</strong>: "[포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A와 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B가 물리적으로 대화할 수 있는 <strong>진짜 도로(터널, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>를 까는 역할" (도로 공사).
+- **Kube-Proxy**: "도로는 CNI가 이미 깔아놨으니, 나는 사거리에서 깃발을 들고 <strong>트래픽을 1번 도로로 보낼지 2번 도로로 보낼지 트래픽 비율을 나누는 역할</strong>만 할게!" (교통경찰). 둘은 완벽히 분업하여 함께 돌아갑니다. (단, 825번의 [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/)([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))은 Kube-Proxy마저 자기가 먹어 치웁니다.)
 
 Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Cilium가 기반 조건을 만든다면, Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱은 그 위에서 핵심 메커니즘을 구현하고, [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) / [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +88,7 @@ Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: Kube-Proxy는 놀이공원의 '안내 매표소 직원'입니다. 롤러코스터([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 타러 손님이 몰려오면, 안내 직원이 "지금 1번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A), 2번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B), 3번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) C)가 운행 중입니다. 줄을 서세요!"라고 분배해 줍니다(로드밸런싱). **iptables 모드**는 직원이 두꺼운 '종이 장부'를 첫 장부터 끝까지 넘겨가며 어느 열차가 비었는지 수동으로 찾는 방식이라 열차가 1만 대가 되면 줄이 밀립니다. **IPVS 모드**는 직원이 '최첨단 전산 태블릿([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))'을 써서 검색어 1방에 가장 텅 빈 열차를 즉각 찾아내어 승객을 0.01초 만에 꽂아 넣어주는 대규모 전용 하이패스 시스템입니다.
+- **📢 섹션 요약 비유**: Kube-Proxy는 놀이공원의 '안내 매표소 직원'입니다. 롤러코스터([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 타러 손님이 몰려오면, 안내 직원이 "지금 1번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A), 2번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B), 3번 열차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) C)가 운행 중입니다. 줄을 서세요!"라고 분배해 줍니다(로드밸런싱). <strong>iptables 모드</strong>는 직원이 두꺼운 '종이 장부'를 첫 장부터 끝까지 넘겨가며 어느 열차가 비었는지 수동으로 찾는 방식이라 열차가 1만 대가 되면 줄이 밀립니다. <strong>IPVS 모드</strong>는 직원이 '최첨단 전산 태블릿([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))'을 써서 검색어 1방에 가장 텅 빈 열차를 즉각 찾아내어 승객을 0.01초 만에 꽂아 넣어주는 대규모 전용 하이패스 시스템입니다.
 
 ---
 
@@ -122,15 +130,19 @@ Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_p
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Cilium]
-    │
-    ▼
-[현재 개념: Kube-Proxy 서비스 로드밸런싱]
-    │
-    ├──▶ [확장 A: Ingress / Egress 트래픽]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Cilium</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Kube-Proxy 서비스 로드밸런싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Ingress / Egress 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 Kube-Proxy [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱는 Cilium에서 출발해 현재 메커니즘을 정교화하고, 이후 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) / [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

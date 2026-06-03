@@ -20,7 +20,7 @@ tags = ["r-and-d", "quartz", "knowledge-base"]
 
 ### 1.1 백링크 — 데이터
 
-**백링크**는 "이 문서를 언급(링크)한 다른 문서 목록"이다.
+<strong>백링크</strong>는 "이 문서를 언급(링크)한 다른 문서 목록"이다.
 
 
 <div class="rd-backlink-container">
@@ -41,7 +41,7 @@ tags = ["r-and-d", "quartz", "knowledge-base"]
 
 ### 1.2 그래프 뷰 — 시각화
 
-**그래프 뷰**는 백링크(+포워드 링크) 관계를 **노드(문서)와 엣지(링크)**로 시각화한 것이다.
+<strong>그래프 뷰</strong>는 백링크(+포워드 링크) 관계를 <strong>노드(문서)와 엣지(링크)</strong>로 시각화한 것이다.
 
 
 <div class="rd-graph-container">
@@ -197,5 +197,5 @@ tags = ["r-and-d", "quartz", "knowledge-base"]
 ---
 
 > [!TIP]
-> Quartz의 강점은 **기능의 풍부함**이고, 약점은 **빌드 성능**이다.
+> Quartz의 강점은 <strong>기능의 풍부함</strong>이고, 약점은 <strong>빌드 성능</strong>이다.
 > "옮길 것인가"보다 "언제 옮길 것인가"의 판단 기준을 미리 세워두는 것이 핵심이다.

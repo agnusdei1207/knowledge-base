@@ -24,33 +24,32 @@ tags = ["studynote-software-engineering"]
   - **Remote (리모트 / 조각)**: 장바구니 버튼 같은 작은 조각 앱. 자기 코드를 밖으로 '수출(Expose)'하는 역할.
   - 이 둘은 서로의 소스코드가 어떻게 생겼는지 볼 수도 없고(Git 분리), 런타임 이전엔 서로 1바이트도 섞이지 않는다.
 
-- **필요성(기존 MFE 통합 방식의 붕괴)**: 앞 장(556장)에서 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)(MFE) 사상을 배웠다. 백엔드는 네트워크 API로 부르면 되지만 프론트 JS 코드는 어떻게 합칠까? npm 패키지로 만들어서 붙이자니(Build-time), 장바구니 버튼 색깔 하나 바꿨다고 메인 앱 전체를 `npm install` 쳐서 10분 동안 껍데기를 통째로 다시 빌드해서 배포해야 했다(독립성 상실). 런타임에 합치고 싶어서 `iframe`을 썼더니 URL 파라미터가 끊기고 글로벌 팝업창(모달)이 iframe 감옥 밖으로 튀어나오질 못해 잘렸다. **"빌드 타임 결합의 지옥과 iframe 감옥을 동시에 깨부수면서, 실시간(Runtime)으로 남의 코드를 내 뱃속(메모리)으로 끌고 와 실행할 마법"**이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션이다.
+- **필요성(기존 MFE 통합 방식의 붕괴)**: 앞 장(556장)에서 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)(MFE) 사상을 배웠다. 백엔드는 네트워크 API로 부르면 되지만 프론트 JS 코드는 어떻게 합칠까? npm 패키지로 만들어서 붙이자니(Build-time), 장바구니 버튼 색깔 하나 바꿨다고 메인 앱 전체를 `npm install` 쳐서 10분 동안 껍데기를 통째로 다시 빌드해서 배포해야 했다(독립성 상실). 런타임에 합치고 싶어서 `iframe`을 썼더니 URL 파라미터가 끊기고 글로벌 팝업창(모달)이 iframe 감옥 밖으로 튀어나오질 못해 잘렸다. <strong>"빌드 타임 결합의 지옥과 iframe 감옥을 동시에 깨부수면서, 실시간(Runtime)으로 남의 코드를 내 뱃속(메모리)으로 끌고 와 실행할 마법"</strong>이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션이다.
 
-- **💡 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션은 **'도라에몽의 만능 주문 배달 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'**와 같습니다. 옛날(빌드 타임)엔 내가 피자(장바구니 버튼)를 먹으려면 마트에 가서 냉동 피자를 사 와서(npm install) 내 주방에서 직접 오븐에 돌려야(통짜 빌드) 했습니다. 피자집 레시피가 바뀌면 다시 마트에 다녀와야 했죠. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션은 거실에 '배달 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)' 하나만 놔둡니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 누르는 순간(Runtime), 피자집(Remote 서버)에서 갓 구운 피자가 차원 이동 홀을 타고 0.1초 만에 내 거실 테이블(Host 앱) 위에 뿅! 하고 나타납니다. 피자집이 레시피를 바꾸면 다음번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 누를 때 알아서 바뀐 피자가 튀어나오는, 궁극의 실시간 배달입니다.
+- **💡 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션은 <strong>'도라에몽의 만능 주문 배달 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>'</strong>와 같습니다. 옛날(빌드 타임)엔 내가 피자(장바구니 버튼)를 먹으려면 마트에 가서 냉동 피자를 사 와서(npm install) 내 주방에서 직접 오븐에 돌려야(통짜 빌드) 했습니다. 피자집 레시피가 바뀌면 다시 마트에 다녀와야 했죠. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션은 거실에 '배달 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)' 하나만 놔둡니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 누르는 순간(Runtime), 피자집(Remote 서버)에서 갓 구운 피자가 차원 이동 홀을 타고 0.1초 만에 내 거실 테이블(Host 앱) 위에 뿅! 하고 나타납니다. 피자집이 레시피를 바꾸면 다음번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 누를 때 알아서 바뀐 피자가 튀어나오는, 궁극의 실시간 배달입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **NPM 패키지 빌드 공유 (구석기)**: UI 컴포넌트를 npm에 올렸다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 올릴 때마다 지옥의 의존성 업데이트 핑퐁이 이어졌다.
   2. **SystemJS / ESI 엣지 통합 (중세)**: 브라우저에 오기 직전 Nginx 서버 단에서 HTML 조각을 엮어치기 했다. SPA의 부드러운 맛이 없고 매번 페이지가 새로 고쳐졌다.
-  3. **Zack Jackson의 웹팩 5 [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 발명 (신인류)**: "브라우저 자바스크립트 V8 엔진 안에서 그냥 옆 동네 JS 청크(Chunk) 파일을 동적으로 `import()` 쳐서 땡겨와 버려!"라는 미친 천재성이 발휘되며 전 세계 MFE 생태계가 웹팩으로 천하 통일되었다.
+  3. <strong>Zack Jackson의 웹팩 5 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> <a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a> 발명 (신인류)</strong>: "브라우저 자바스크립트 V8 엔진 안에서 그냥 옆 동네 JS 청크(Chunk) 파일을 동적으로 `import()` 쳐서 땡겨와 버려!"라는 미친 천재성이 발휘되며 전 세계 MFE 생태계가 웹팩으로 천하 통일되었다.
 
-- **📢 섹션 요약 비유**: 이 흑마법은 **'합체 로봇 볼트론'**입니다. 5마리의 사자 로봇(Remote)이 각자 싸우다가, 위기 순간 대장(Host)이 부르면 공중에서 실시간으로 합체(Runtime Integration)하여 1마리의 거대 로봇이 됩니다. 합체할 때 드라이버로 나사를 조이거나(통짜 빌드) 용접(NPM 락인)하지 않습니다. 그냥 자석 찰칵! 끝입니다.
+- **📢 섹션 요약 비유**: 이 흑마법은 <strong>'합체 로봇 볼트론'</strong>입니다. 5마리의 사자 로봇(Remote)이 각자 싸우다가, 위기 순간 대장(Host)이 부르면 공중에서 실시간으로 합체(Runtime Integration)하여 1마리의 거대 로봇이 됩니다. 합체할 때 드라이버로 나사를 조이거나(통짜 빌드) 용접(NPM 락인)하지 않습니다. 그냥 자석 찰칵! 끝입니다.
 
 ---
 
 다음은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션 ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Fed의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  모듈 페더레이션 (Module Fed                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈 페더레이션 (Module Fed</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션 ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Fed가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션 ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)) (Webpack)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션 ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)) (Webpack)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 페더레이션 ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)) (Webpack)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-모듈 페더레이션 (Module Federation) (Webpack) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈 페더레이션 (Module Federation) (Webpack) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

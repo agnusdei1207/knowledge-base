@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)는 CPU가 하드웨어 디바이스에 일을 시킨 뒤 무식하게 쳐다보며 기다리지([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 않고, **제 갈 길을 가다가(다른 앱 실행) 디바이스가 일을 끝내고 하드웨어 전기 핀(IRQ)을 찔러 알림을 주면 그때 돌아와서 뒷수습을 하는 비동기(Asynchronous) 통신 아키텍처**다.
-> 2. **가치**: 느려 터진 디스크(8ms)를 기다리며 허공에 증발하던 CPU의 막대한 연산 사이클(수천만 클럭)을 완벽하게 회수하여, **한 번에 수십 개의 프로그램을 동시에 매끄럽게 돌려주는 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))' 운영체제의 근간을 완성**했다.
-> 3. **융합(한계)**: 하던 일을 멈추고 상태를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하는 무거운 셋업 비용이 발생하므로, 초당 수백만 번 찌르는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장비 앞에서는 시스템이 뻗는([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm) 약점을 가져 **현대에는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))이나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/))와 융합된 하이브리드 형태로 진화**했다.
+> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)는 CPU가 하드웨어 디바이스에 일을 시킨 뒤 무식하게 쳐다보며 기다리지([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 않고, <strong>제 갈 길을 가다가(다른 앱 실행) 디바이스가 일을 끝내고 하드웨어 전기 핀(IRQ)을 찔러 알림을 주면 그때 돌아와서 뒷수습을 하는 비동기(Asynchronous) 통신 아키텍처</strong>다.
+> 2. **가치**: 느려 터진 디스크(8ms)를 기다리며 허공에 증발하던 CPU의 막대한 연산 사이클(수천만 클럭)을 완벽하게 회수하여, <strong>한 번에 수십 개의 프로그램을 동시에 매끄럽게 돌려주는 '<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>)' 운영체제의 근간을 완성</strong>했다.
+> 3. **융합(한계)**: 하던 일을 멈추고 상태를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하는 무거운 셋업 비용이 발생하므로, 초당 수백만 번 찌르는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장비 앞에서는 시스템이 뻗는([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm) 약점을 가져 <strong>현대에는 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)이나 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/">직접 메모리 접근</a>)와 융합된 하이브리드 형태로 진화</strong>했다.
 
 ---
 
@@ -27,29 +27,25 @@ tags = ["studynote-operating-system"]
   2. **하드웨어 칩셋(PIC/APIC)의 도입**: 수십 개의 디바이스가 동시에 쏘는 전기 충격을 줄 세우고 우선순위를 매기는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러가 메인보드에 이식됨.
   3. **비동기 OS의 탄생**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 굴레를 벗은 운영체제는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 기반으로 한 '이벤트 드리븐(Event-Driven)' 생태계로 폭발적인 진화를 이루었다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        인터럽트(Interrupt)가 구원한 CPU 가동률의 마법 시각화            │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 상황: 카카오톡이 디스크에서 4KB 파일 A를 읽으려 함 ]                  │
-│                                                                         │
-│ 1. [ 카카오톡 ] "OS야, 파일 A 디스크에서 좀 퍼와!"                      │
-│                                                                         │
-│ 2. [ OS ] 디스크 컨트롤러(하드웨어)에게 "A 파일 읽기 시작해" 명령 던짐. │
-│                                                                         │
-│ 3. ♻️ [ OS의 신들린 스위칭 ] "디스크 바늘 돌아갈 때까지 카톡 너 자!"    │
-│    ──▶ 즉시 '엑셀(Excel)' 앱을 깨워서 CPU에 태워 계산을 미친듯이 돌림!  │
-│    (디스크가 8ms 동안 덜그럭거리는 사이 CPU는 엑셀 1만 줄 연산 완료)    │
-│                                                                         │
-│ 4. [ 하드디스크 완료 ] "다 읽었음! 찌릿 ⚡ (인터럽트 빵!)"              │
-│                                                                         │
-│ 5. [ 💥 CPU 멈칫 ] 엑셀 하던 거 스탑(저장). "누가 전기 쐈냐?"           │
-│    OS: "오 디스크가 짐 다 가져왔네! 커널 버퍼에서 유저 버퍼로 복사!"    │
-│                                                                         │
-│ 6. [ 카카오톡 부활 ] 잠자던 카톡을 깨워서 파일 A를 주고 실행 재개!      │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트(Interrupt)가 구원한 CPU 가동률의 마법 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 카카오톡이 디스크에서 4KB 파일 A를 읽으려 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">카카오톡</div><div class="kb-diagram-note">"OS야, 파일 A 디스크에서 좀 퍼와!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">OS</div><div class="kb-diagram-note">디스크 컨트롤러(하드웨어)에게 "A 파일 읽기 시작해" 명령 던짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. ♻️</div><div class="kb-diagram-node">OS의 신들린 스위칭</div><div class="kb-diagram-note">"디스크 바늘 돌아갈 때까지 카톡 너 자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 즉시 '엑셀(Excel)' 앱을 깨워서 CPU에 태워 계산을 미친듯이 돌림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크가 8ms 동안 덜그럭거리는 사이 CPU는 엑셀 1만 줄 연산 완료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">하드디스크 완료</div><div class="kb-diagram-note">"다 읽었음! 찌릿 ⚡ (인터럽트 빵!)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">💥 CPU 멈칫</div><div class="kb-diagram-note">엑셀 하던 거 스탑(저장). "누가 전기 쐈냐?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "오 디스크가 짐 다 가져왔네! 커널 버퍼에서 유저 버퍼로 복사!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">6.</div><div class="kb-diagram-node">카카오톡 부활</div><div class="kb-diagram-note">잠자던 카톡을 깨워서 파일 A를 주고 실행 재개!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 바로 스티브 잡스나 빌 게이츠가 자랑하던 "우리 OS는 수십 개의 앱이 동시에 돌아갑니다!"라는 뻥카의 물리적 실체다. 사실 CPU는 한 번에 1개밖에 못 하지만, 누군가 I/O를 하러 갈 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 믿고 냅다 다른 앱으로 갈아타는 짓(Time-sharing)을 1초에 수백 번씩 시전 하니, 유저 눈에는 카톡과 엑셀이 동시에 도는 기적이 연출되는 것이다.
 
 - **📢 섹션 요약 비유**: 요리사(CPU)가 스테이크를 오븐(디스크)에 넣었습니다. 오븐 앞에서 다 익을 때까지 가만히 서 있는 게([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 아니라, 곧바로 도마로 돌아와 양파(엑셀)를 미친 듯이 썹니다. 오븐이 "땡!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))" 하고 울리면 양파 썰기를 멈추고 고기를 꺼낸 뒤, 다시 양파를 마저 써는 100점짜리 주방(OS) 운영법입니다.
@@ -63,8 +59,8 @@ tags = ["studynote-operating-system"]
 메인보드에는 쥐똥만 한 `PIC` (최신은 `APIC`)라는 하드웨어 칩이 꽂혀있다.
 - **키보드, 마우스, 랜카드, 디스크** 등 수십 개의 기기가 각자 자기가 끝났다고 1초에 수천 번씩 전기를 쏴댄다.
 - 만약 CPU에 이 30가닥의 전선이 다이렉트로 꽂히면 CPU가 터져버린다.
-- 그래서 기계들은 먼저 이 **PIC 칩**에 전기를 쏜다.
-- PIC는 이 빗발치는 전기 신호들의 **'우선순위(Priority)'**를 매긴다. "마우스 움직인 거보다 하드디스크 다 읽은 게 1순위니까 하드디스크 꺼 먼저 CPU로 1가닥 보내!"
+- 그래서 기계들은 먼저 이 <strong>PIC 칩</strong>에 전기를 쏜다.
+- PIC는 이 빗발치는 전기 신호들의 <strong>'우선순위(Priority)'</strong>를 매긴다. "마우스 움직인 거보다 하드디스크 다 읽은 게 1순위니까 하드디스크 꺼 먼저 CPU로 1가닥 보내!"
 - CPU는 PIC가 잘 정제해서 보내준 딱 1가닥의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀(IRQ)만 맞고 고개를 돌리면 된다.
 
 ---
@@ -72,7 +68,7 @@ tags = ["studynote-operating-system"]
 ### [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/), [Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/))
 
 CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점프해야 한다. 어디로 갈까?
-- 램(RAM)의 가장 깊은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역에는 **[인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블(IVT)**이라는 우체국 사서함이 있다.
+- 램(RAM)의 가장 깊은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역에는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> 테이블(IVT)</strong>이라는 우체국 사서함이 있다.
 - "1번 전기가 오면 타이머 코드(0x100)로 뛰어라"
 - "14번 전기가 오면 하드디스크 드라이버 코드(0x800)로 뛰어라"
 - CPU는 전기를 맞자마자 지금 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태(엑셀 하던 변수들)를 스택에 팍 밀어놓고(Push), IVT가 가리키는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 점프하여 데이터를 쓱싹 수거한 뒤, 아까 스택에 둔 엑셀 상태를 꺼내와([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 다시 아무 일 없었던 듯 돌아간다.
@@ -90,7 +86,7 @@ CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점�
 | 비교 척도 | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) (Programmed I/O) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-Driven) |
 |:---|:---|:---|
 | **CPU 낭비** | 최악 (기계가 응답할 때까지 영원히 헛돎) | **최고 (안 기다리고 남의 일 100% 돌림)** |
-| **반응 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**| 0초 컷 (보고 있다가 1클럭 만에 낚아챔) | **수 마이크로초 렉 발생 ([컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 셋업 비용)** |
+| <strong>반응 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| 0초 컷 (보고 있다가 1클럭 만에 낚아챔) | <strong>수 마이크로초 렉 발생 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 저장/<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 셋업 비용)</strong> |
 | **적합한 기기** | 겁나 빠른 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 100G 랜카드 | **느려 터진 하드디스크, 키보드, 마우스** |
 | **개발자 난이도** | 쉬움 (`while` 루프 하나면 끝) | 더러움 (비동기 콜백 꼬임, [Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 지옥) |
 
@@ -100,17 +96,20 @@ CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점�
 - 1Gbps 랜카드에 디도스(DDoS) 공격이 들어와서 초당 패킷이 100만 개가 쏟아진다.
 - 랜카드가 1초에 100만 번 "택배 왔어!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))"를 CPU에 때린다.
 - CPU는 엑셀을 0.0001초 하다가 벼락([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 맞고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 들어가 패킷을 줍고 엑셀로 돌아온다. 돌아오자마자 또 벼락을 맞고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 끌려간다.
-- **결과**: CPU 코어 사용률이 100%(`si` Software [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 찍는데, 정작 엑셀이나 유저 앱 처리는 0.1%도 못 하고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 함수로 널뛰기([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하다가 클럭을 다 날려버리는 **[라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))** 상태에 빠진다. (서버 다운의 주원인).
+- **결과**: CPU 코어 사용률이 100%(`si` Software [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 찍는데, 정작 엑셀이나 유저 앱 처리는 0.1%도 못 하고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 함수로 널뛰기([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하다가 클럭을 다 날려버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">라이브락</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">Livelock</a>)</strong> 상태에 빠진다. (서버 다운의 주원인).
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────────────────────┐
-│ 트래픽 양  │ 폴링의 성능  │ 인터럽트 성능 │ 시스템 최후 결단                   │
-├──────────┼────────────┼────────────┼───────────────────────────────────────────┤
-│ 가끔 옴   │ ☠️ CPU 낭비 │ 🚀 극강의 효율│ 인터럽트가 지배함                    │
-│ 미친듯 쏟아짐│ 🚀 초고속 흡수│ ☠️ 서버 멈춤 폭발│ **폴링으로 다시 회귀 (NAPI)**│
-└──────────┴────────────┴────────────┴───────────────────────────────────────────┘
-```
-**[매트릭스 해설]** 리눅스 해커들은 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 견디지 못하고 결국 무릎을 꿇었다. 패킷이 폭우처럼 쏟아질 때는, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀을 강제로 뽑아버리고(Disable) CPU가 무식하게 루프를 돌며 덩어리로 퍼오는 **'[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)' 방식으로 자동 전환하는 하이브리드 아키텍처(NAPI, [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**를 도입하여 10G 네트워크 서버의 숨통을 틔웠다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 양</div><div class="kb-diagram-cell">폴링의 성능</div><div class="kb-diagram-cell">인터럽트 성능</div><div class="kb-diagram-cell">시스템 최후 결단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가끔 옴</div><div class="kb-diagram-cell">☠️ CPU 낭비</div><div class="kb-diagram-cell">🚀 극강의 효율</div><div class="kb-diagram-cell">인터럽트가 지배함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미친듯 쏟아짐</div><div class="kb-diagram-cell">🚀 초고속 흡수</div><div class="kb-diagram-cell">☠️ 서버 멈춤 폭발</div><div class="kb-diagram-cell">폴링으로 다시 회귀 (NAPI)</div></div>
+</div>
+</div>
+
+
+**[매트릭스 해설]** 리눅스 해커들은 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 견디지 못하고 결국 무릎을 꿇었다. 패킷이 폭우처럼 쏟아질 때는, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀을 강제로 뽑아버리고(Disable) CPU가 무식하게 루프를 돌며 덩어리로 퍼오는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>' 방식으로 자동 전환하는 하이브리드 아키텍처(NAPI, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>를 도입하여 10G 네트워크 서버의 숨통을 틔웠다.
 
 - **📢 섹션 요약 비유**: 카톡이 1시간에 1번 올 땐 '소리 알림([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))'을 켜두고 폰 끄고 노는 게 최고입니다. 하지만 인기스타가 되어 카톡이 1초에 100개씩 쏟아지면, 폰이 "카톡!카톡!" 울리다 렉걸려 뻗어버립니다([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스톰). 이때는 아예 무음([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 차단)으로 해놓고 내가 화면을 계속 켜둔 채로 직접 읽어대는([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 게 눈과 귀가 편한 이치입니다.
 
@@ -122,17 +121,17 @@ CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점�
 서버 엔지니어가 리눅스 쉘에 `top` 명령어를 쳤는데 CPU 사용률(%)이 다음과 같이 나온다.
 `%Cpu(s):  5.0 us,  2.0 sy,  0.0 ni, 50.0 id,  0.0 wa, 30.0 hi, 13.0 si`
 초보자는 "아 CPU 50% 남았네요 널널하네~"라고 하지만 고수는 식은땀을 흘린다.
-1. **`hi` ([Hardware Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/))**: 랜카드나 디스크가 전기 충격을 쏴서 CPU가 멱살 잡혀 끌려간 비율이 30%다!
-2. **`si` (Software [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))**: 전기를 맞은 CPU가 뻗지 않으려고 "아 이건 이따 백그라운드(SoftIRQ)로 치울게" 하고 넘긴 일처리에 13%가 탄다.
+1. <strong><code>hi</code> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">Hardware Interrupt</a>)</strong>: 랜카드나 디스크가 전기 충격을 쏴서 CPU가 멱살 잡혀 끌려간 비율이 30%다!
+2. <strong><code>si</code> (Software <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>: 전기를 맞은 CPU가 뻗지 않으려고 "아 이건 이따 백그라운드(SoftIRQ)로 치울게" 하고 넘긴 일처리에 13%가 탄다.
 3. **분석 및 튜닝**: 
    - 총 43%의 CPU 코어가 유저의 앱(5.0 us)을 돌리는 게 아니라 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비명 소리'를 수습하느라 박살 나고 있다. 
    - 1번 코어에만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전선이 몰려 박혀있을 확률이 99%다(IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 쏠림).
-   - 엔지니어는 **`irqbalance` 데몬을 켜거나 `/proc/irq/` 값을 조작해 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벼락을 64개 코어 전체에 공평하게 N빵으로 찢어 꽂아주는 하드코어 튜닝(IRQ Pinning)**을 수행하여 1번 코어의 질식사를 막아낸다.
+   - 엔지니어는 <strong><code>irqbalance</code> 데몬을 켜거나 <code>/proc/irq/</code> 값을 조작해 이 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 벼락을 64개 코어 전체에 공평하게 N빵으로 찢어 꽂아주는 하드코어 튜닝(IRQ Pinning)</strong>을 수행하여 1번 코어의 질식사를 막아낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)) 안에서 꿀잠(Sleep) 자기
 C언어 디바이스 드라이버를 짤 때 절대 하면 안 되는 우주 최악의 짓이다.
 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 맞고 실행되는 함수(`ISR`) 안에서, `malloc`을 하거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `read()`를 때리는 등 0.001초라도 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)/Sleep) 되는 코드를 넣으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체가 그 자리에서 얼음([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))이 된다.
-[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)에서는 OS 스케줄러가 개입할 수 없는 '신(God)의 시간'이기 때문에, 잠드는 순간 누구도 깨워줄 수 없기 때문이다. 그래서 고수 드라이버 해커들은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서는 딱 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 하나 꽂아놓고 0.0001초 만에 튄 뒤, 진짜 무거운 일은 나중에 OS가 짬 날 때 처리하게 하는 **Top-half / Bottom-half 분리 설계**를 철칙으로 삼는다.
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)에서는 OS 스케줄러가 개입할 수 없는 '신(God)의 시간'이기 때문에, 잠드는 순간 누구도 깨워줄 수 없기 때문이다. 그래서 고수 드라이버 해커들은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서는 딱 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 하나 꽂아놓고 0.0001초 만에 튄 뒤, 진짜 무거운 일은 나중에 OS가 짬 날 때 처리하게 하는 <strong>Top-half / Bottom-half 분리 설계</strong>를 철칙으로 삼는다.
 
 - **📢 섹션 요약 비유**: 응급실 수술([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리) 도중에 의사가 "잠깐 화장실 좀(Sleep)" 하고 나가버리면 환자(OS)는 바로 죽습니다. 응급 수술은 무조건 피만 멎게(Top-half 깃발 꽂기) 해서 1분 만에 꿰매놓고, 상처 아무는 거나 뼈 붙이는 치료(Bottom-half 무거운 작업)는 나중에 일반 병동으로 옮겨서 천천히 처리하는 것이 생명을 살리는 프로그래머의 기본기입니다.
 
@@ -146,7 +145,7 @@ C언어 디바이스 드라이버를 짤 때 절대 하면 안 되는 우주 최
 |:---|:---|
 | **CPU 자원 낭비율 0% 수렴** | 디스크나 네트워크를 기다리는 시간 수십 밀리초를 완벽히 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 해제시켜, 백그라운드의 타 앱 연산에 100% 펌핑 |
 | **실시간 이벤트(Event-driven) 생태계 창조** | 하드웨어의 상태 변화를 찰나에 감지하는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 신호를 통해, Node.js의 epoll이나 비동기 프로그래밍 모델의 궁극적 하드웨어 뼈대 제공 |
-| **[전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) 극단적 다이어트**| 모바일 기기(ARM)에서 키보드나 마우스 입력이 없을 때 CPU를 깊은 수면(Deep Sleep)에 빠뜨리고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 튈 때만 0.1초 깨우는 배터리 혁명 달성 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>) 극단적 다이어트</strong>| 모바일 기기(ARM)에서 키보드나 마우스 입력이 없을 때 CPU를 깊은 수면(Deep Sleep)에 빠뜨리고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 튈 때만 0.1초 깨우는 배터리 혁명 달성 |
 
 ### 결론 및 미래 전망
 
@@ -167,15 +166,19 @@ C언어 디바이스 드라이버를 짤 때 절대 하면 안 되는 우주 최
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[폴링 (Polling / Programmed I/O)]
-    │
-    ▼
-[인터럽트 구동 I/O (Interrupt-driven I/O)]
-    │
-    ├──▶ [직접 메모리 접근 (DMA, Direct Memory Access)]
-    └──▶ [사이클 스틸링 (Cycle Stealing)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이클 스틸링 (Cycle Stealing)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

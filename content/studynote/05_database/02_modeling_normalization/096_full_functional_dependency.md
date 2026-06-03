@@ -32,29 +32,29 @@ tags = ["database"]
 
 | 요소 | 역할 및 메커니즘 |
 | :--- | :--- |
-| **[결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) ([Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/))** | 튜플을 유일하게 식별하는 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합 (예: `{학번, 과목코드}`) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">결정자</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">Determinant</a>)</strong> | 튜플을 유일하게 식별하는 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합 (예: `{학번, 과목코드}`) |
 | **종속자 (Dependent)** | [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)의 값에 의해 유일한 값이 정해지는 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (예: `성적`) |
 | **완전 종속 조건** | `{학번, 과목코드} \rightarrow 성적` 성립, 단 `{학번} \rightarrow 성적`이나 `{과목코드} \rightarrow 성적`은 불성립 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           완전 함수적 종속 vs 부분 함수적 종속 비교          │
-├──────────────────────────────────────────────────────────────┤
-│ [복합키]                [일반 속성]                          │
-│ ┌─────────┐                                                  │
-│ │   학번  │──────────┐                                       │
-│ └─────────┘          │   완전 함수적 종속                    │
-│      +               ├──────────▶ 성적 (O)                 │
-│ ┌─────────┐          │   두 조건이 모두 필요함               │
-│ │과목코드 │──────────┘                                       │
-│ └─────────┘                                                  │
-│                                                              │
-│ [복합키의 일부]                                              │
-│ ┌─────────┐              부분 함수적 종속                    │
-│ │   학번  │─────────────────────────▶ 학생이름 (X)         │
-│ └─────────┘              (제2정규화로 분리 대상)             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 함수적 종속 vs 부분 함수적 종속 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복합키</div><div class="kb-diagram-node">일반 속성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 함수적 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ ▶ 성적 (O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 조건이 모두 필요함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복합키의 일부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 함수적 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶ 학생이름 (X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제2정규화로 분리 대상)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 완전 함수적 종속이 복합키 전체 집합에 의해 온전히 결정되는 반면, [부분 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)은 복합키의 일부에 의해 독립적으로 결정되는 치명적인 구조적 결함임을 보여준다.
 
@@ -70,8 +70,8 @@ tags = ["database"]
 | :--- | :--- | :--- | :--- |
 | **발생 조건** | 복합키 기반 테이블 | 복합키 기반 테이블 | 단일키/복합키 무관 |
 | **의존 대상** | 기본키(PK) 전체 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 기본키(PK)의 일부 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간 의존 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계** | [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) 달성 | 분리하여 [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) 만족 | 분리하여 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 만족 |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)** | 발생 안 함 | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 발생 | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 발생 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 단계</strong> | [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) 달성 | 분리하여 [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) 만족 | 분리하여 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 만족 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a></strong> | 발생 안 함 | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 발생 | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 발생 |
 
 이러한 차이 때문에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정은 '[부분 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/) 제거([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) $\rightarrow$ [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))' 이후에 '이행적 함수 종속 제거([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) $\rightarrow$ [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))' 순서로 단계적으로 쪼개진다. 완전 함수적 종속은 2NF의 완성 기준점이 된다.
 
@@ -84,9 +84,9 @@ tags = ["database"]
 실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 복합키를 사용할 때는 [부분 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)을 반드시 색출해 내야 한다. 특히 이력 관리 테이블이나 주문 상세 테이블을 설계할 때 잦은 실수가 발생한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **복합키 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 현재 테이블의 기본키(PK)가 2개 이상의 컬럼으로 구성되어 있는가?
-2. **부분 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 일반 컬럼 중 일부 PK 컬럼만으로 결정되는 값이 존재하는가? (예: `주문번호+상품코드`가 PK인데 일반 컬럼으로 `상품명`이 있는 경우)
-3. **분리 및 외래키(FK) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 발견된 부분 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 새로운 마스터 테이블로 떼어내고, 기존 테이블에서 외래키로 참조하게 만들었는가?
+1. <strong>복합키 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 현재 테이블의 기본키(PK)가 2개 이상의 컬럼으로 구성되어 있는가?
+2. <strong>부분 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 일반 컬럼 중 일부 PK 컬럼만으로 결정되는 값이 존재하는가? (예: `주문번호+상품코드`가 PK인데 일반 컬럼으로 `상품명`이 있는 경우)
+3. <strong>분리 및 외래키(FK) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 발견된 부분 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 새로운 마스터 테이블로 떼어내고, 기존 테이블에서 외래키로 참조하게 만들었는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 설계 귀찮음을 이유로 복합키 테이블에 모든 마스터 정보를 다 때려 넣는 '슈퍼 테이블' 설계 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복으로 인한 스토리지 낭비 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 위험 증가)
@@ -110,28 +110,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/))** | 모든 도메인이 원자값을 갖는 상태, 완전 종속을 논하기 위한 기본 전제 |
-| **[제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))** | [제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)을 만족하고, 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기본키에 '완전 함수적 종속'된 상태 |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | 부분 종속을 제거하지 않았을 때 발생하는 삽입, 삭제, 갱신 오류 |
-| **[결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) ([Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/))** | 함수 종속 관계에서 종속자의 값을 결정하는 주체, 여기서는 복합 기본키 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/">제1정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/">1NF</a>)</strong> | 모든 도메인이 원자값을 갖는 상태, 완전 종속을 논하기 위한 기본 전제 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">제2정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a>)</strong> | [제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)을 만족하고, 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기본키에 '완전 함수적 종속'된 상태 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 부분 종속을 제거하지 않았을 때 발생하는 삽입, 삭제, 갱신 오류 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">결정자</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/">Determinant</a>)</strong> | 함수 종속 관계에서 종속자의 값을 결정하는 주체, 여기서는 복합 기본키 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-제1정규형 (1NF) 달성 (원자값)
-    │
-    ▼
-함수 종속성 분석 (부분 함수적 종속 식별)
-    │
-    ▼
-테이블 분해 (제2정규형, 2NF 달성)
-    │
-    ▼
-완전 함수적 종속 (Full Functional Dependency) 확보
-    │
-    ▼
-제3정규형 (3NF) 및 이행적 함수 종속 제거로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제1정규형 (1NF) 달성 (원자값)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수 종속성 분석 (부분 함수적 종속 식별)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테이블 분해 (제2정규형, 2NF 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완전 함수적 종속 (Full Functional Dependency) 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제3정규형 (3NF) 및 이행적 함수 종속 제거로 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

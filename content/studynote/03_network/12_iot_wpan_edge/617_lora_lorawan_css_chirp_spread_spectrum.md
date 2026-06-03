@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **LoRa (Long Range)**: 프랑스의 사이클레오(Cycleo)가 개발하고 현재 미국의 셈텍(Semtech)이 독점 소유한, 900MHz 비면허 대역을 이용하는 **'물리 계층(PHY)의 무선 전조/송수신 기술' 이름**입니다.
-- **LoRaWAN**: 셈텍이 주도하는 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) 얼라이언스(LoRa Alliance)에서 제정한, LoRa 칩셋 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 어떻게 길을 찾아가고([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Network Layer) 보안 암호를 걸지 정의한 **'개방형 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(소프트웨어) 아키텍처'**입니다.
+- **LoRa (Long Range)**: 프랑스의 사이클레오(Cycleo)가 개발하고 현재 미국의 셈텍(Semtech)이 독점 소유한, 900MHz 비면허 대역을 이용하는 <strong>'물리 계층(PHY)의 무선 전조/송수신 기술' 이름</strong>입니다.
+- **LoRaWAN**: 셈텍이 주도하는 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) 얼라이언스(LoRa Alliance)에서 제정한, LoRa 칩셋 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 어떻게 길을 찾아가고([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Network Layer) 보안 암호를 걸지 정의한 <strong>'개방형 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(소프트웨어) 아키텍처'</strong>입니다.
 
-```text
-[비면허 대역 LPWAN 분야]
-    │
-    ▼
-[LoRa / LoRaWAN 표준]
-    │
-    └──▶ [Sigfox]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sigfox</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LoRa / LoRaWAN 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,21 +43,25 @@ tags = ["studynote-network"]
 
 저전력으로 수십 km를 날아가면서 간섭을 이겨내는 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)의 최고 무기입니다.
 - **원리**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때 하나의 얇은 주파수만 쓰는 게 아니라, 펄스의 주파수를 시간에 따라 점진적으로 쫙 올리거나(Up-chirp) 쫙 내리는(Down-chirp) 넓게 퍼진 파형을 만듭니다. (이를 군사 레이더나 돌고래, 박쥐가 쓰는 Chirp 신호라고 합니다.)
-- **위력**: 신호가 넓게 흩뿌려져 전송되므로, 주변의 와이파이나 다른 공장 기기에서 강력한 방해 전파(협대역 노이즈)가 내 신호를 때려도, 수신기에 도착한 뒤 흩어진 짹짹(Chirp) 소리 조각들을 쫙 모아보면 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기적처럼 완벽하게 복원됩니다. 주변 잡음(Noise)보다 내 전파 힘이 약해도 통신이 되는 **극강의 간섭 저항력**을 가집니다.
+- **위력**: 신호가 넓게 흩뿌려져 전송되므로, 주변의 와이파이나 다른 공장 기기에서 강력한 방해 전파(협대역 노이즈)가 내 신호를 때려도, 수신기에 도착한 뒤 흩어진 짹짹(Chirp) 소리 조각들을 쫙 모아보면 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기적처럼 완벽하게 복원됩니다. 주변 잡음(Noise)보다 내 전파 힘이 약해도 통신이 되는 <strong>극강의 간섭 저항력</strong>을 가집니다.
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 같은 릴레이(메시망) 구조를 쓰지 않습니다. (릴레이를 하면 중간 노드의 배터리가 너무 빨리 닳기 때문입니다.)
 1. **End Node (종단 센서)**: 배터리를 장착한 말단 센서입니다. 센서값이 나오면 무조건 한 번의 점프(Single-hop)로 바로 허공에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 냅다 던져버립니다. 
 2. **Gateway (게이트웨이)**: 산 꼭대기에 달린 듬직한 수집 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))입니다. 주변 수십 km 안에서 센서들이 쏘아 올린 신호를 싹 다 빨아들여, 인터넷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/유선)을 타고 중앙 서버로 넘겨줍니다. (별 모양의 Star 토폴로지)
 3. **Network Server**: 게이트웨이들이 던져준 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 걸러내고 패킷을 해석하는 중앙 두뇌입니다.
 
-```text
-[비면허 대역 LPWAN 분야]
-    │
-    ▼
-[LoRa / LoRaWAN 표준]
-    │
-    └──▶ [Sigfox]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sigfox</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LoRa / LoRaWAN 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -109,15 +117,19 @@ LoRa / LoRaWAN 표준은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비면허 대역 LPWAN 분야]
-    │
-    ▼
-[현재 개념: LoRa / LoRaWAN 표준]
-    │
-    ├──▶ [확장 A: Sigfox]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Sigfox</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 LoRa / LoRaWAN 표준는 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야에서 출발해 현재 메커니즘을 정교화하고, 이후 Sigfox와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

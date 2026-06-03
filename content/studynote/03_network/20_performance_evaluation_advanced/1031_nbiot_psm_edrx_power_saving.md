@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 3GPP가 주도하는 셀룰러(통신사) 기반의 저전력 장거리 통신망([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)) 표준입니다. 기존 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망의 찌꺼기 주파수 대역(180kHz 폭)을 재활용하여 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기들을 연결합니다.
-- **[로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))와의 차이점**: [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)는 기지국을 새로 세워야 하지만, NB-IoT는 **전국에 이미 깔린 수십만 개의 촘촘한 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국을 그대로 재활용(소프트웨어 업그레이드)**하므로 지하 주차장 5층 벽도 뚫어버리는 극강의 커버리지(통신사 망 품질)를 자랑합니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>)와의 차이점</strong>: [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)는 기지국을 새로 세워야 하지만, NB-IoT는 <strong>전국에 이미 깔린 수십만 개의 촘촘한 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 기지국을 그대로 재활용(소프트웨어 업그레이드)</strong>하므로 지하 주차장 5층 벽도 뚫어버리는 극강의 커버리지(통신사 망 품질)를 자랑합니다.
 
-```text
-[시그폭스 협대역 통신]
-    │
-    ▼
-[NB-IoT 전력 최적화]
-    │
-    └──▶ [블루투스 LE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 LE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,16 +52,20 @@ tags = ["studynote-network"]
 ### 2. eDRX (extended Discontinuous Reception, 확장된 불연속 수신)
 PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립니다. 가끔은 센서가 깨어있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다.
 - **기존 DRX (폰 방식)**: 스마트폰은 1초에 한 번씩 살짝살짝 눈을 떠서 기지국이 보낸 카톡([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 알람)이 있는지 힐끗 쳐다봅니다(대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 심함).
-- **eDRX ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 방식)**: 눈을 뜨는 주기를 극단적으로 늘려버립니다(extended). "야, 넌 1초 말고 **2시간에 딱 한 번만 0.01초 동안 눈을 떠서** 기지국 방송([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다시 자!" 기지국이 센서에 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 지시하고 싶으면, 센서가 2시간 뒤에 눈 뜰 때까지 기지국 버퍼에 메시지를 담아두고 기다려주는 인내심 스케줄링입니다.
+- <strong>eDRX (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 방식)</strong>: 눈을 뜨는 주기를 극단적으로 늘려버립니다(extended). "야, 넌 1초 말고 **2시간에 딱 한 번만 0.01초 동안 눈을 떠서** 기지국 방송([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다시 자!" 기지국이 센서에 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 지시하고 싶으면, 센서가 2시간 뒤에 눈 뜰 때까지 기지국 버퍼에 메시지를 담아두고 기다려주는 인내심 스케줄링입니다.
 
-```text
-[시그폭스 협대역 통신]
-    │
-    ▼
-[NB-IoT 전력 최적화]
-    │
-    └──▶ [블루투스 LE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 LE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,8 +75,8 @@ PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립
 
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 차선은 넓은데 IoT는 차선 폭이 180kHz(자전거 도로)밖에 안 됩니다. 통신사는 빈틈을 파고듭니다.
 1. **In-Band (대역 내 배치)**: 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 트럭이 달리는 넓은 고속도로 아스팔트 차선 중간중간에 비어있는 짜투리 공간에 자전거([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 그냥 쑤셔 넣습니다.
-2. **[Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/) 배치)**: 고속도로 1차선과 2차선 사이에는 차끼리 부딪히지 말라고 비워두는 중앙 분리대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)) 공터가 있습니다. 이 좁은 공터를 깎아서 자전거 전용 도로로 만듭니다. (가장 많이 씀)
-3. **[Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) (독립 배치)**: 통신사가 옛날에 쓰다 버린 2G GSM 주파수 도로를 아예 재포장해서 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전용 도로로 줍니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/">Guard Band</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/">보호 대역</a> 배치)</strong>: 고속도로 1차선과 2차선 사이에는 차끼리 부딪히지 말라고 비워두는 중앙 분리대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)) 공터가 있습니다. 이 좁은 공터를 깎아서 자전거 전용 도로로 만듭니다. (가장 많이 씀)
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> (독립 배치)</strong>: 통신사가 옛날에 쓰다 버린 2G GSM 주파수 도로를 아예 재포장해서 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전용 도로로 줍니다.
 
 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 협대역 통신이 기반 조건을 만든다면, [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화는 그 위에서 핵심 메커니즘을 구현하고, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -78,7 +86,7 @@ PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 스마트폰([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))은 **'1초마다 비서(기지국)에게 전화가 왔는지 묻는 예민한 회장님'**입니다. 연락을 안 놓쳐서 좋지만 스트레스([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))로 배터리가 하루 만에 바닥납니다. 반면 **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 센서**는 통신사 기지국에 등록된 **'겨울잠을 자는 곰'**입니다. 곰은 기지국 비서에게 "나 지금부터 1달 잘 테니까(PSM), 네트워크 장부에 내 이름 지우지 말고 그대로 둬라! 깨어나서 출근 카드 다시 찍기 귀찮으니까!"라고 명령하고 심장 박동(전원)을 아예 멈춥니다. 비서는 곰이 연락 두절이어도 퇴사 처리(IP 연결 해제)를 하지 않습니다. 곰은 1달 뒤 눈을 뜨자마자 출근 절차 없이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 서류만 1초 만에 비서 얼굴에 집어 던지고 다시 1달 수면에 들어갑니다. 어쩌다 비서가 곰에게 지시할 게 있으면, 곰이 2시간에 한 번씩 화장실 가려고 0.1초 깰 때(eDRX)를 노렸다가 재빨리 메모를 찔러 넣어주는, 극강의 짠돌이 생존 수면 스케줄링입니다.
+- **📢 섹션 요약 비유**: 스마트폰([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))은 <strong>'1초마다 비서(기지국)에게 전화가 왔는지 묻는 예민한 회장님'</strong>입니다. 연락을 안 놓쳐서 좋지만 스트레스([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))로 배터리가 하루 만에 바닥납니다. 반면 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a> 센서</strong>는 통신사 기지국에 등록된 <strong>'겨울잠을 자는 곰'</strong>입니다. 곰은 기지국 비서에게 "나 지금부터 1달 잘 테니까(PSM), 네트워크 장부에 내 이름 지우지 말고 그대로 둬라! 깨어나서 출근 카드 다시 찍기 귀찮으니까!"라고 명령하고 심장 박동(전원)을 아예 멈춥니다. 비서는 곰이 연락 두절이어도 퇴사 처리(IP 연결 해제)를 하지 않습니다. 곰은 1달 뒤 눈을 뜨자마자 출근 절차 없이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 서류만 1초 만에 비서 얼굴에 집어 던지고 다시 1달 수면에 들어갑니다. 어쩌다 비서가 곰에게 지시할 게 있으면, 곰이 2시간에 한 번씩 화장실 가려고 0.1초 깰 때(eDRX)를 노렸다가 재빨리 메모를 찔러 넣어주는, 극강의 짠돌이 생존 수면 스케줄링입니다.
 
 ---
 
@@ -120,15 +128,19 @@ PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 시그폭스 협대역 통신]
-    │
-    ▼
-[현재 개념: NB-IoT 전력 최적화]
-    │
-    ├──▶ [확장 A: 블루투스 LE]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 시그폭스 협대역 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NB-IoT 전력 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블루투스 LE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화는 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 협대역 통신에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

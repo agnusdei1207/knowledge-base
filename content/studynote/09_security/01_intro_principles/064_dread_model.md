@@ -29,17 +29,23 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Threat
-  ↓
-DREAD Factors
-  ↓
-Score
-  ↓
-Priority
-  ↓
-Mitigation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Threat</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DREAD Factors</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Score</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Priority</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigation</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ DREAD를 쓰면 보안 논의가 구체적이고 반복 가능해진다. 무엇�
 
 ## 관련 개념 맵
 
-```text
-Threat
-  ↓
-DREAD
-  ↓
-Priority
-  ↓
-Mitigation Plan
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Threat</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DREAD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Priority</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mitigation Plan</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Threat Identification
-  ↓
-Risk Scoring
-  ↓
-DREAD
-  ↓
-Security Backlog
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Threat Identification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Risk Scoring</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DREAD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security Backlog</div>
+</div>
+</div>
+
+
 
 ---
 

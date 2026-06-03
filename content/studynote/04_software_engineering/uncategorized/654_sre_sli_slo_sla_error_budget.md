@@ -26,38 +26,34 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 이것은 마치 자동차의 '제한 속도'와 '연료 게이지'와 같다. 목적지(새로운 기능)에 빨리 도달하고 싶지만, 무조건 밟으면 사고(장애)가 난다. SLO라는 제한 속도를 지키면서, [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이라는 연료가 남아있는 한 엑셀을 밟을 수 있고, 연료가 떨어지면 주유소(안정성 작업)에 들러야만 하는 규칙을 만드는 것이다.
 
 - **등장 배경 및 발전 과정**:
-  1. **전통적 운영의 한계 ([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) & Conflict)**: 개발과 운영이 분리된 조직에서는 장애 발생 시 서로 책임을 회피하는 블레임(Blame) 문화가 팽배했다. 안정성을 100%로 유지하려는 비현실적인 목표는 혁신의 발목을 잡았다.
-  2. **구글의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 도입**: 시스템 규모가 기하급수적으로 커지면서 사람의 수작업으로는 확장이 불가능해졌다. 구글은 "운영을 소프트웨어 문제로 취급하자"는 철학 아래 SRE를 도입하고, 100% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 불가능하며 비용 효율적이지 않다는 사실을 인정했다.
+  1. <strong>전통적 운영의 한계 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a> &amp; Conflict)</strong>: 개발과 운영이 분리된 조직에서는 장애 발생 시 서로 책임을 회피하는 블레임(Blame) 문화가 팽배했다. 안정성을 100%로 유지하려는 비현실적인 목표는 혁신의 발목을 잡았다.
+  2. <strong>구글의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 도입</strong>: 시스템 규모가 기하급수적으로 커지면서 사람의 수작업으로는 확장이 불가능해졌다. 구글은 "운영을 소프트웨어 문제로 취급하자"는 철학 아래 SRE를 도입하고, 100% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 불가능하며 비용 효율적이지 않다는 사실을 인정했다.
 
   전통적인 Dev vs Ops의 갈등 구조와 SRE가 이를 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)으로 중재하는 패러다임 변화를 시각화하면 다음과 같다. 기존의 대립 구조가 단일 지표를 통한 협력 구조로 어떻게 진화했는지 이해할 수 있다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         전통적 개발-운영 갈등 vs SRE 에러 예산 중재 모델           │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [과거: 목표의 충돌]                                             │
-  │   개발팀 (Dev) ───────── (장벽/마찰) ─────────▶ 운영팀 (Ops)   │
-  │   "기능을 빨리 배포하자!"                      "시스템을 변경하지 마라!" │
-  │   (Velocity ↑)                               (Stability ↑)   │
-  │                                                               │
-  │                                                               │
-  │  [SRE: 정량적 지표 기반의 타협점]                                   │
-  │                                                               │
-  │             ┌─────── 협의된 기준선 (SLO) ───────┐               │
-  │             │                                 │               │
-  │   개발팀 ─────▶      에러 예산 (Error Budget)      ◀───── 운영팀 │
-  │             │   (SLO 99.9% → 예산 0.1% 실패 허용) │               │
-  │             └─────────────────────────────────┘               │
-  │                                                               │
-  │   * 예산 잔여 시: 신기능 배포 허용 (개발팀 주도)                     │
-  │   * 예산 고갈 시: 배포 동결, 안정성 작업 강제 (운영팀 권한)             │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 개발-운영 갈등 vs SRE 에러 예산 중재 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 목표의 충돌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 (Dev) (장벽/마찰) ▶ 운영팀 (Ops)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"기능을 빨리 배포하자!" "시스템을 변경하지 마라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Velocity ↑) (Stability ↑)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SRE: 정량적 지표 기반의 타협점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협의된 기준선 (SLO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 ▶ 에러 예산 (Error Budget) ◀ 운영팀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SLO 99.9% → 예산 0.1% 실패 허용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예산 잔여 시: 신기능 배포 허용 (개발팀 주도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예산 고갈 시: 배포 동결, 안정성 작업 강제 (운영팀 권한)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 도식은 단순한 개념도를 넘어 조직의 역학 관계가 어떻게 변하는지를 묘사한다. 과거에는 개발과 운영이 각자의 [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))를 달성하기 위해 충돌했다면, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 모델에서는 '[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)'이라는 단일화된 파이프를 통해 양측이 소통한다. 이 체계에서 운영팀은 무조건적인 배포 거부가 불가능해지며(예산이 남아있으므로), 개발팀 역시 무리한 배포를 강행할 수 없다(예산이 고갈되면 시스템이 배포 파이프라인을 잠그기 때문). 따라서 조직 간의 정치적 싸움이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 의사결정으로 투명하게 전환된다.
 
-  3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리**: 이제 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 감각이 아니라, 요청 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 에러율, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등을 측정하는 SLI를 통해 정량화되며, 이를 비즈니스 요구사항에 맞춰 SLO로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 고객과의 법적 계약인 SLA로 구체화하는 일련의 표준 프레임워크로 자리 잡았다.
+  3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 관리</strong>: 이제 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 감각이 아니라, 요청 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 에러율, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등을 측정하는 SLI를 통해 정량화되며, 이를 비즈니스 요구사항에 맞춰 SLO로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 고객과의 법적 계약인 SLA로 구체화하는 일련의 표준 프레임워크로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 부모가 아이에게 "무조건 돈을 아껴 써라"고 잔소리(전통적 운영)하는 대신, 한 달 용돈([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))을 정해주고 그 안에서는 자유롭게 쓰되 다 쓰면 간식을 못 산다(배포 동결)는 명확한 규칙을 정해주는 것과 같습니다.
 
@@ -80,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -156,21 +152,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SRE SLI, SLO, SLA 에러 예산 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRE SLI, SLO, SLA 에러 예산 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

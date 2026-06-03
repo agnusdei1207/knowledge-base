@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-**IEEE 802.3**은 유선 LAN(Local Area Network)의 대표적인 기술인 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**의 물리 계층(Physical Layer)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 서브계층을 정의하는 국제 표준입니다. 
+<strong>IEEE 802.3</strong>은 유선 LAN(Local Area Network)의 대표적인 기술인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>의 물리 계층(Physical Layer)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 서브계층을 정의하는 국제 표준입니다. 
 
 네트워크에서 장비들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받으려면 전기적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 케이블의 핀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 빛의 파장 등이 정확히 일치해야 하는데, 이를 통일시켜 서로 다른 제조사의 장비(시스코 라우터와 인텔 랜카드 등)가 완벽히 호환되도록 만드는 것이 PHY 표준의 역할입니다.
 
-```text
-[자유 공간 광통신 / 레이저 통신]
-    │
-    ▼
-[이더넷 물리 계층 표준]
-    │
-    └──▶ [10BASE-T, 100BASE-TX]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자유 공간 광통신 / 레이저 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 물리 계층 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">10BASE-T, 100BASE-TX</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층의 표준 이름은 직관적인 규칙에 따라 작성됩니다.  
-규칙: **`[속도] [전송 방식] - [매체 또는 거리]`**
+규칙: <strong><code>[속도] [전송 방식] - [매체 또는 거리]</code></strong>
 
-```text
-       100      BASE      -      TX
-      ─────    ──────           ────
-        │         │               │
-  ① 속도(Speed)  ② 전송 방식    ③ 매체 특성 (Medium)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">100 BASE - TX</div>
+<div class="kb-diagram-note">① 속도(Speed) ② 전송 방식 ③ 매체 특성 (Medium)</div>
+</div>
+</div>
+
+
 
 ### 1. 속도 (Speed)
 숫자는 기본적으로 **Mbps(Megabits per second)** 단위입니다.
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 - `10G` : [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps
 
 ### 2. 전송 방식 (Signaling)
-- `BASE` : **[Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) ([기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/))** 전송. 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 변조하지 않고 원래 주파수 그대로 케이블에 싣는 방식입니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 대부분 BASE를 사용합니다.
+- `BASE` : <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/">Baseband</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/">기저대역</a>)</strong> 전송. 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 변조하지 않고 원래 주파수 그대로 케이블에 싣는 방식입니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 대부분 BASE를 사용합니다.
 - `BROAD` : Broadband (대역통과) 전송 (과거 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 등에서 사용, 현재 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에선 거의 안 씀).
 
 ### 3. [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 또는 거리 특성 (Medium / Distance)
@@ -68,29 +76,31 @@ tags = ["studynote-network"]
 - `L` (Long): 장파장 광케이블, 장거리 (예: 1000BASE-LX)
 - `E` (Extended): 초장거리 광케이블 (예: 1000BASE-ZX)
 
-- **📢 섹션 요약 비유**: ** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 명명법은 **"100km/h로(100), 일반도로를(BASE), 트럭(T)으로 달린다"**처럼 차량의 제원표를 읽는 것과 같아, 이름만 보고도 연결 방식을 단번에 알 수 있습니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 명명법은 </strong>"100km/h로(100), 일반도로를(BASE), 트럭(T)으로 달린다"**처럼 차량의 제원표를 읽는 것과 같아, 이름만 보고도 연결 방식을 단번에 알 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 내부에는 **PHY 칩**과 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩**이 존재합니다.
+네트워크 카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 내부에는 <strong>PHY 칩</strong>과 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 칩</strong>이 존재합니다.
 
-```text
-┌───────────────── NIC (Network Interface Card) ────────────────┐
-│                                                               │
-│  ┌──────────┐ MII/GMII  ┌──────────┐        ┌──────────────┐  │
-│  │ MAC Chip │◀────────▶│ PHY Chip │◀──────▶│ RJ-45 / SFP  │  │
-│  │ (Layer 2)│ Interface │ (Layer 1)│   MDI  │ Connector    │  │
-│  └──────────┘           └──────────┘        └──────┬───────┘  │
-└────────────────────────────────────────────────────┼──────────┘
-                                                     │
-                                               UTP / 광케이블
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NIC (Network Interface Card)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MII/GMII</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC Chip</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">PHY Chip</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">RJ-45 / SFP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Layer 2)</div><div class="kb-diagram-cell">Interface</div><div class="kb-diagram-cell">(Layer 1)</div><div class="kb-diagram-cell">MDI</div><div class="kb-diagram-cell">Connector</div></div>
+<div class="kb-diagram-note">UTP / 광케이블</div>
+</div>
+</div>
+
+
 
 1. **MAC과 PHY의 분리**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩은 프레임을 조립/분해하는 논리적 작업(L2)을 하고, PHY 칩은 이 프레임을 1과 0의 전기적/광학적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꾸는 물리적 작업(L1)을 수행합니다.
 2. **MII / GMII 인터페이스**: MAC과 PHY 칩 사이의 통신 규격입니다. ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) Independent Interface)
-3. **MDI ([Medium Dependent Interface](/knowledge-base/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/))**: PHY 칩에서 랜선이 꽂히는 RJ-45 포트로 나가는 최종 물리적 인터페이스입니다.
+3. <strong>MDI (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/">Medium Dependent Interface</a>)</strong>: PHY 칩에서 랜선이 꽂히는 RJ-45 포트로 나가는 최종 물리적 인터페이스입니다.
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -101,8 +111,8 @@ tags = ["studynote-network"]
 | 규격 이름 | 속도 | 케이블 타입 | 주요 특징 |
 | :--- | :--- | :--- | :--- |
 | **10BASE-T** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Mbps | Cat 3 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | 최초로 RJ-45와 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블을 대중화시킨 스타 토폴로지 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/). |
-| **100BASE-TX** | 100 Mbps | Cat 5 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | **[Fast Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/)**. 4B/5B 인코딩과 MLT-3 스킴을 사용하여 100Mbps 달성. |
-| **[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)** | 1 Gbps | Cat 5e [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | **[Gigabit Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)**. 4쌍(8가닥)의 선을 모두 양방향으로 동시 송수신. PAM-5 변조 사용. |
+| **100BASE-TX** | 100 Mbps | Cat 5 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/138_10base_t_100base_tx_fast_ethernet/">Fast Ethernet</a></strong>. 4B/5B 인코딩과 MLT-3 스킴을 사용하여 100Mbps 달성. |
+| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/">1000BASE-T</a></strong> | 1 Gbps | Cat 5e [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/">Gigabit Ethernet</a></strong>. 4쌍(8가닥)의 선을 모두 양방향으로 동시 송수신. PAM-5 변조 사용. |
 | **10GBASE-T** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps | Cat 6a [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | 구리선 한계 극복을 위해 복잡한 DSP와 PAM-16을 사용, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 위주 도입. |
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -134,15 +144,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 자유 공간 광통신 / 레이저 통신]
-    │
-    ▼
-[현재 개념: 이더넷 물리 계층 표준]
-    │
-    ├──▶ [확장 A: 10BASE-T, 100BASE-TX]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자유 공간 광통신 / 레이저 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이더넷 물리 계층 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 10BASE-T, 100BASE-TX</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준는 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/) / 레이저 통신에서 출발해 현재 메커니즘을 정교화하고, 이후 10BASE-T, 100BASE-TX와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

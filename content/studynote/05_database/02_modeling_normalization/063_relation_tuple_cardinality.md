@@ -28,15 +28,21 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Relation Schema
-  ↓
-Relation Instance
-  ↓
-Tuples (Rows)
-  ↓
-Cardinality
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Relation Schema</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Relation Instance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Tuples (Rows)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cardinality</div>
+</div>
+</div>
+
+
 
 | 용어 | 의미 |
 | :-- | :-- |
@@ -45,12 +51,18 @@ Cardinality
 | Degree | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 개수 |
 | Cardinality | 튜플의 개수 |
 
-```text
-R(A, B, C)
-  ├─ (1, a, x)
-  ├─ (2, b, y)
-  └─ (3, c, z)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">R(A, B, C)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(1, a, x)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(2, b, y)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(3, c, z)</div>
+</div>
+</div>
+
+
 
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)는 "형식"이고, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 인스턴스는 "실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"다. 따라서 같은 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)라도 튜플이 바뀌면 인스턴스는 달라진다.
 
@@ -107,29 +119,41 @@ R(A, B, C)
 
 ## 관련 개념 맵
 
-```text
-Relation Schema
-  ↓
-Tuple / Attribute
-  ↓
-Degree / Cardinality
-  ↓
-SQL Query Result
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Relation Schema</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Tuple / Attribute</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Degree / Cardinality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SQL Query Result</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Relation
-  ↓
-Tuple
-  ↓
-Cardinality
-  ↓
-Relational Model
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Relation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Tuple</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cardinality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Relational Model</div>
+</div>
+</div>
+
+
 
 ---
 

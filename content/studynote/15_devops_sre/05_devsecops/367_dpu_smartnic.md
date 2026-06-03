@@ -29,24 +29,25 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              DPU 기반 서버 인프라 구조                           │
-├──────────────────────────────────────────────────────────────────┤
-│  [호스트 CPU + DRAM]                                             │
-│  애플리케이션 / VM / 컨테이너 실행                               │
-│         │ PCIe 버스                                              │
-│  [DPU (SmartNIC)]                                               │
-│  ┌─────────────────────────────────┐                            │
-│  │ ARM Cortex-A72 코어 (DPU OS)    │                            │
-│  │ P4 프로그래밍 가능 파이프라인   │                            │
-│  │ TLS/IPSec HW 가속기             │                            │
-│  │ VXLAN/GRE/Geneve 오프로드       │                            │
-│  └─────────────────────────────────┘                            │
-│         │ 100GbE / 400GbE 포트                                  │
-│  [데이터센터 패브릭 스위치]                                      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPU 기반 서버 인프라 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">호스트 CPU + DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 / VM / 컨테이너 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe 버스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPU (SmartNIC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM Cortex-A72 코어 (DPU OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 프로그래밍 가능 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS/IPSec HW 가속기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN/GRE/Geneve 오프로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100GbE / 400GbE 포트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 패브릭 스위치</div></div>
+</div>
+</div>
+
+
 
 | 기능              | CPU 소프트웨어        | [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 오프로드  |
 | :---------------- | :-------------------- | :--------------------- |
@@ -55,9 +56,9 @@ tags = ["studynote-devops-sre"]
 | [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) ([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2)    | OS [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)          | 마이크로초 레이턴시      |
 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)        | iptables(느림)        | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)/[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 와이어속도      |
 
-**[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 처리를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어로 프로그래밍. PISA 기반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 패킷 파싱, 테이블 조회, 액션을 정의한다.
+<strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 처리를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어로 프로그래밍. PISA 기반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 패킷 파싱, 테이블 조회, 액션을 정의한다.
 
-**[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) / [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에서 안전하게 실행되는 프로그래밍 프레임워크. [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) ([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))로 드라이버 레벨에서 패킷을 처리해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버헤드를 제거한다.
+<strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> / <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a></strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에서 안전하게 실행되는 프로그래밍 프레임워크. [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) ([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))로 드라이버 레벨에서 패킷을 처리해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버헤드를 제거한다.
 
 - 📢 섹션 요약 비유: P4는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하드웨어를 위한 프로그래밍 언어다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 코드로 정의해, 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이나 규칙을 하드웨어 교체 없이 업데이트할 수 있다.
 
@@ -79,14 +80,14 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>/SmartNIC 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 오프로드 대상 선정: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)·[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)·[IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 중 CPU 병목 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 우선
 2. 벤더 선정: NVIDIA BlueField ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속 포함), Intel [IPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/437_ipu/), Marvell OCTEON
 3. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)/[XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) 애플리케이션: [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/), Katran 로드밸런서 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 배포 검토
 4. 관리 평면 분리: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 독립 관리 네트워크([BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 연동) 구성
 5. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) testpmd로 오프로드 전/후 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·레이턴시 비교
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 없이 100Gbps 전체 소프트웨어 처리 → CPU 과부하
 - [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 관리 평면 미분리 → 호스트 침해 시 DPU도 공격 경로
 
@@ -116,24 +117,25 @@ NVIDIA BlueField-3 [DPU](/knowledge-base/studynote/01_computer_architecture/12_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-일반 NIC (소프트웨어 처리)
-    │
-    ▼
-DPDK — 커널 우회 패킷 처리
-    │
-    ▼
-eBPF / XDP — 커널 내 프로그래밍 가능 처리
-    │
-    ▼
-SmartNIC — 부분 하드웨어 오프로드
-    │
-    ▼
-DPU (BlueField, Intel IPU) — 풀 인프라 오프로드
-    │
-    ▼
-DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 NIC (소프트웨어 처리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPDK — 커널 우회 패킷 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eBPF / XDP — 커널 내 프로그래밍 가능 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SmartNIC — 부분 하드웨어 오프로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPU (BlueField, Intel IPU) — 풀 인프라 오프로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

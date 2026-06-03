@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU가 메모리에 접근할 때 MMU가 주소를 변환하듯, 주변기기([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 등)가 메모리에 직접 접근([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))할 때 주소를 변환하고 접근 권한을 통제하는 하드웨어 장치가 **IOMMU (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))**이다.
+> 1. **본질**: CPU가 메모리에 접근할 때 MMU가 주소를 변환하듯, 주변기기([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 등)가 메모리에 직접 접근([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))할 때 주소를 변환하고 접근 권한을 통제하는 하드웨어 장치가 <strong>IOMMU (Input/Output <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)</strong>이다.
 > 2. **해결**: 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 물리적 장치([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기기)를 직접 할당([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/))할 때, 장치는 게스트 OS의 가상 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(GPA)만 알기 때문에 잘못된 물리 메모리([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))를 덮어쓰는 치명적 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 공격이나 오류가 발생할 수 있다. IOMMU는 장치의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 요청을 중간에서 가로채 GPA를 올바른 HPA로 변환(Remapping)하여 이를 방지한다.
 > 3. **가치**: IOMMU(Intel VT-d, AMD-Vi)의 도입으로 클라우드 인프라에서 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 네트워크 카드나 물리 GPU를 VM에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 직접 꽂아주면서도, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 간 완벽한 보안 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 달성하는 하드웨어 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 완성되었다.
 
@@ -19,16 +19,16 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IOMMU는 메인보드 칩셋(기존의 북브릿지)이나 CPU 내부에 위치하며, [PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스와 메인 메모리 사이에 연결되어 **디바이스가 발생시키는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 요청의 주소를 변환하고 접근 제어**를 수행하는 하드웨어 유닛이다. 
+- **개념**: IOMMU는 메인보드 칩셋(기존의 북브릿지)이나 CPU 내부에 위치하며, [PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스와 메인 메모리 사이에 연결되어 <strong>디바이스가 발생시키는 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>) 요청의 주소를 변환하고 접근 제어</strong>를 수행하는 하드웨어 유닛이다. 
 
 - **필요성 (DMA의 양날의 검)**: 
   - **문제 1 (물리적 한계)**: 과거 32비트 장치들은 4GB 이상의 메모리 영역에 DMA를 수행할 수 없었다(Bounce Buffer 오버헤드 발생).
-  - **문제 2 ([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 보안 붕괴)**: 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 물리적 네트워크 카드를 직접 연결해 주면([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/)), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 해커(혹은 버그)가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 카드에게 "물리 메모리 0번지부터 100번지까지 네트워크로 전송해"라고 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 명령을 내릴 수 있다. 장치는 MMU를 거치지 않고 메모리에 직행하므로, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 메모리나 다른 VM의 메모리가 통째로 털리는 '[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 공격([DMA Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0993_dma_attack/))'에 무방비로 노출되었다.
+  - <strong>문제 2 (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 보안 붕괴)</strong>: 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 물리적 네트워크 카드를 직접 연결해 주면([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/)), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 해커(혹은 버그)가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 카드에게 "물리 메모리 0번지부터 100번지까지 네트워크로 전송해"라고 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 명령을 내릴 수 있다. 장치는 MMU를 거치지 않고 메모리에 직행하므로, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 메모리나 다른 VM의 메모리가 통째로 털리는 '[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 공격([DMA Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0993_dma_attack/))'에 무방비로 노출되었다.
   - **해결**: 디바이스가 메모리에 접근하는 길목에 IOMMU라는 '검문소'를 설치하여, 디바이스의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 요청 주소를 검사하고 변환(Remapping)해야만 했다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Emulation)**: QEMU/[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 가상의 랜카드(e1000)를 소프트웨어로 만들어 줌. 매우 느림.
-  2. **IOMMU 없는 [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/)**: 물리 기기를 연결할 수 있으나, 호스트 메모리 보호가 불가능하여 상용 클라우드에서 불가.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> I/O <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (Emulation)</strong>: QEMU/[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 가상의 랜카드(e1000)를 소프트웨어로 만들어 줌. 매우 느림.
+  2. <strong>IOMMU 없는 <a href="/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/">Passthrough</a></strong>: 물리 기기를 연결할 수 있으나, 호스트 메모리 보호가 불가능하여 상용 클라우드에서 불가.
   3. **IOMMU의 등장 (Intel VT-d, AMD-Vi)**: 디바이스별로 별도의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 유지하여 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 주소를 하드웨어적으로 매핑 및 격리 완비.
 
 - **📢 섹션 요약 비유**: 외부 업체 배달원(디바이스)이 우리 회사 창고(메모리)에 물건을 직접 넣게 하려면, 그들이 다른 부서의 물건을 훔쳐가지 못하게 하는 배달원 전용 출입 통제 시스템(IOMMU)이 필요합니다.
@@ -43,7 +43,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **요청 주체** | CPU (소프트웨어 프로세스) | I/O 디바이스 (네트워크 카드, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 등) | 사람 vs 지게차 |
 | **변환 대상** | 가상 주소 (VA) $\rightarrow$ [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (PA) | **장치 주소 (IOVA) $\rightarrow$ [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (PA)** | 주소 번역 |
-| **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 시 변환** | GVA $\rightarrow$ (EPT) $\rightarrow$ [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) | **GPA $\rightarrow$ (IOMMU) $\rightarrow$ [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)** | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 내부 주소 변환 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 시 변환</strong> | GVA $\rightarrow$ (EPT) $\rightarrow$ [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) | **GPA $\rightarrow$ (IOMMU) $\rightarrow$ [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)** | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 내부 주소 변환 |
 | **보안 목적** | 프로세스 간 메모리 침범 방지 | 디바이스를 통한 메모리 임의 접근([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 방지 | 프로세스 격리 vs 하드웨어 격리 |
 | **관리 단위** | 프로세스 ID (CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) | 디바이스 ID ([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) Requestor ID: BDF) | 신분증 vs 차량 번호판 |
 
@@ -51,40 +51,32 @@ tags = ["studynote-operating-system"]
 
 ### IOMMU 기반 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 매핑 아키텍처
 
-IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스를 타고 들어오는 트랜잭션의 **BDF ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), Device, Function)** 번호를 읽어, 이 요청이 어느 디바이스에서 왔는지 식별하고 해당 디바이스 전용의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 탐색한다.
+IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스를 타고 들어오는 트랜잭션의 <strong>BDF (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>, Device, Function)</strong> 번호를 읽어, 이 요청이 어느 디바이스에서 왔는지 식별하고 해당 디바이스 전용의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 탐색한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 IOMMU 아키텍처 및 DMA 주소 변환 매커니즘                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [가상머신 (Guest OS)]                                              │
-  │   - 가상 물리 주소(GPA) 0x1000을 물리 장치에 DMA 하라고 지시           │
-  │          │                                                        │
-  │          ▼ (하이퍼바이저 개입 없이 디바이스로 직접 명령 하달)             │
-  │                                                                   │
-  │  [물리 디바이스 (예: SR-IOV NIC, GPU)]                                │
-  │   - "주소 0x1000 에 패킷을 기록(Write)하겠다" (DMA 요청 발생)           │
-  │          │                                                        │
-  │          ▼ (PCIe 버스를 통해 메모리로 이동 중...)                       │
-  │  ========================= [ IOMMU 검문소 ] ========================│
-  │  │                                                               ││
-  │  │ 1. Requestor ID 확인: "이 DMA는 PCIe 03:00.1 장치에서 옴"         ││
-  │  │                                                               ││
-  │  │ 2. Device Table 탐색: 하이퍼바이저가 설정해둔 BDF 03:00.1 테이블 조회 ││
-  │  │                                                               ││
-  │  │ 3. DMA Remapping: "해당 VM의 GPA 0x1000은                     ││
-  │  │                     실제 Host 물리 주소 HPA 0x9000 임!"         ││
-  │  │                                                               ││
-  │  │ 4. 권한 검사: 쓰기 권한(W) 확인 후 통과                            ││
-  │  =================================================================│
-  │          │                                                        │
-  │          ▼ (변환된 올바른 주소)                                       │
-  │                                                                   │
-  │  [물리 메모리 (Host RAM)]                                           │
-  │   - HPA 0x9000 에 데이터가 안전하게 기록됨                            │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOMMU 아키텍처 및 DMA 주소 변환 매커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 (Guest OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 물리 주소(GPA) 0x1000을 물리 장치에 DMA 하라고 지시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (하이퍼바이저 개입 없이 디바이스로 직접 명령 하달)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 디바이스 (예: SR-IOV NIC, GPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "주소 0x1000 에 패킷을 기록(Write)하겠다" (DMA 요청 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (PCIe 버스를 통해 메모리로 이동 중...)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">IOMMU 검문소</div><div class="kb-diagram-note">========================</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Requestor ID 확인: "이 DMA는 PCIe 03:00.1 장치에서 옴"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Device Table 탐색: 하이퍼바이저가 설정해둔 BDF 03:00.1 테이블 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DMA Remapping: "해당 VM의 GPA 0x1000은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 Host 물리 주소 HPA 0x9000 임!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 권한 검사: 쓰기 권한(W) 확인 후 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (변환된 올바른 주소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (Host RAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HPA 0x9000 에 데이터가 안전하게 기록됨</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 디바이스가 패스스루([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/))되어 있으면, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버는 진짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))를 알지 못하므로 자신이 아는 가짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(GPA)를 디바이스의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록해 버린다. 디바이스는 그 GPA가 진짜인 줄 알고 메인 보드로 DMA를 쏜다. 이때 중간에 IOMMU가 없다면 엉뚱한 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 영역이 덮어써져 호스트 서버가 즉각 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠진다. IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 패킷 헤더에서 장치 고유 번호(Requestor ID)를 추출한 뒤, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 세팅해둔 IOMMU [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 참조하여 이 GPA를 올바른 HPA로 실시간 변환(Remapping)한다. 이렇게 하여 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 소프트웨어적 개입 없이, 하드웨어 속도 그대로 DMA가 성공한다.
 
@@ -92,10 +84,10 @@ IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus
 
 ### [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 리매핑 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Remapping)
 
-IOMMU (Intel VT-d)의 또 다른 핵심 기능은 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 리매핑**이다. 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치들은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 선(IRQ) 대신 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/), Message Signaled [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 CPU에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시킨다.
+IOMMU (Intel VT-d)의 또 다른 핵심 기능은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 리매핑</strong>이다. 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치들은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 선(IRQ) 대신 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/), Message Signaled [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 CPU에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시킨다.
 
 1. **위협**: 악의적인 VM이 디바이스를 조작해 호스트 시스템의 치명적인 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/)(예: 하드웨어 리셋, [NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/)) 주소로 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))를 발생시킬 수 있다.
-2. **방어 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Remapping)**: IOMMU는 장치가 보내는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 가로챈다. 테이블을 참조하여 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 어느 VM의 어느 가상 CPU(vCPU)로 가야 하는 안전한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)인지 검사하고, 하드웨어적으로 올바른 CPU 코어에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 배달한다.
+2. <strong>방어 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Remapping)</strong>: IOMMU는 장치가 보내는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 가로챈다. 테이블을 참조하여 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 어느 VM의 어느 가상 CPU(vCPU)로 가야 하는 안전한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)인지 검사하고, 하드웨어적으로 올바른 CPU 코어에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 배달한다.
 
 - **📢 섹션 요약 비유**: IOMMU는 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 배송지를 고쳐줄 뿐만 아니라, 배달원이 엉뚱한 사무실에 가서 비상벨([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 누르지 못하게 차단하는 역할까지 겸합니다.
 
@@ -107,17 +99,17 @@ IOMMU (Intel VT-d)의 또 다른 핵심 기능은 **[인터럽트](/knowledge-ba
 
 | 기술 (패러다임) | 설명 | IOMMU 필요성 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준 |
 |:---|:---|:---|:---|
-| **Emulation ([전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))** | QEMU가 가짜 장치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 모든 I/O를 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit) | 불필요 | 매우 낮음 |
-| **Virtio ([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/))** | Guest와 Host가 링 버퍼 공유, Vhost로 처리 | 선택적 (보안 강화 시) | 높음 |
-| **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) (VT-d)** | 장치를 VM에 통째로 줌 (장치 1개당 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1개) | **필수 (없으면 보안 붕괴)** | 최고 (Native 99%) |
-| **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (단일 루트 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))**| 장치 1개가 여러 가상 장치(VF)로 쪼개져 여러 VM에 분배 | **필수 (VF 간 격리)** | 최고 (네트워크 클라우드 표준) |
+| <strong>Emulation (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>)</strong> | QEMU가 가짜 장치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 모든 I/O를 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit) | 불필요 | 매우 낮음 |
+| <strong>Virtio (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>)</strong> | Guest와 Host가 링 버퍼 공유, Vhost로 처리 | 선택적 (보안 강화 시) | 높음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/">Passthrough</a> (VT-d)</strong> | 장치를 VM에 통째로 줌 (장치 1개당 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1개) | **필수 (없으면 보안 붕괴)** | 최고 (Native 99%) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> (단일 루트 I/O <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>)</strong>| 장치 1개가 여러 가상 장치(VF)로 쪼개져 여러 VM에 분배 | **필수 (VF 간 격리)** | 최고 (네트워크 클라우드 표준) |
 
 IOMMU는 단순히 주소만 변환하는 것이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 디바이스를 여러 조각으로 나누어 안전하게 분배하는 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 기술의 대전제 조건이다.
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: CPU의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(VT-x)와 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(EPT)가 완성되었더라도, 외부로 통하는 문인 디바이스 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(VT-d, IOMMU)가 없으면 시스템은 반쪽짜리에 불과하다. 이 3대 하드웨어 기술이 모여야 완전한 클라우드 아키텍처가 성립한다.
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: 악성 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 카드(예: [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 랜카드나 썬더볼트 기기로 위장한 해킹 툴)를 물리 서버에 꽂아 메모리를 통째로 덤프 뜨는 공격([DMA Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0993_dma_attack/))을 막을 수 있는 유일한 하드웨어 방어막이 IOMMU다. 최근 Windows [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/11의 '코어 격리(Memory Access [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))' 기술도 이 IOMMU에 기반한다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: CPU의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(VT-x)와 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(EPT)가 완성되었더라도, 외부로 통하는 문인 디바이스 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(VT-d, IOMMU)가 없으면 시스템은 반쪽짜리에 불과하다. 이 3대 하드웨어 기술이 모여야 완전한 클라우드 아키텍처가 성립한다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 악성 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 카드(예: [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 랜카드나 썬더볼트 기기로 위장한 해킹 툴)를 물리 서버에 꽂아 메모리를 통째로 덤프 뜨는 공격([DMA Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0993_dma_attack/))을 막을 수 있는 유일한 하드웨어 방어막이 IOMMU다. 최근 Windows [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/11의 '코어 격리(Memory Access [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))' 기술도 이 IOMMU에 기반한다.
 
 - **📢 섹션 요약 비유**: 두뇌(CPU)를 속이고(VT-x), 시력([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))을 속여도(EPT), 결국 손발(I/O 장치)이 움직일 때 벽에 부딪히지 않게 조율해 주는 관절 컨트롤러(IOMMU)가 있어야 로봇([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 완벽하게 움직입니다.
 
@@ -127,47 +119,42 @@ IOMMU는 단순히 주소만 변환하는 것이 아니라, [가상화](/knowled
 
 ### 실무 시나리오
 
-1. **시나리오 — [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 패스스루 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/))를 이용한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 클라우드 서버**: AWS나 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) KVM에서 엔비디아(NVIDIA) GPU를 가상머신에 직접 할당해야 한다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 패스스루 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/">Passthrough</a>)를 이용한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습 클라우드 서버</strong>: AWS나 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) KVM에서 엔비디아(NVIDIA) GPU를 가상머신에 직접 할당해야 한다.
    - **대응**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(Linux Host)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부팅 파라미터에 `intel_iommu=on` 또는 `amd_iommu=on`을 명시하여 IOMMU를 켠다. 그리고 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 해당 GPU를 사용하지 못하도록 `vfio-pci` 드라이버로 바인딩(Binding)한다. 이렇게 IOMMU 그룹(IOMMU Group, 보안 최소 단위) 단위로 분리된 GPU는 VM으로 통째로 넘겨져 네이티브와 100% 동일한 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘하게 된다.
 
-2. **시나리오 — [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 100Gbps 네트워크 환경에서의 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 적용**: 통신사 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 환경에서 VM에 가상 랜카드를 쓰면 CPU 오버헤드(소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))로 패킷 처리가 지연된다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 100Gbps 네트워크 환경에서의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> 적용</strong>: 통신사 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 환경에서 VM에 가상 랜카드를 쓰면 CPU 오버헤드(소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))로 패킷 처리가 지연된다.
    - **설계 (기술사적 가이드)**: 물리 네트워크 카드의 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 기능을 켜서 수십 개의 VF(Virtual Function)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. IOMMU는 이 각각의 VF마다 별도의 메모리 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 적용할 수 있다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 각 VM에 VF를 하나씩 패스스루로 꽂아주어, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) $\leftrightarrow$ 물리 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 간에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit) 없이 수백만 PPS(Packets Per Second)의 라인 레이트(Line-rate) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 I/O 가상화 및 패스스루 튜닝 의사결정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [VM에 고성능 하드웨어(GPU, NIC, NVMe) 직접 할당 (Passthrough) 요구]    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서버 BIOS에서 VT-d (또는 AMD-Vi) 기능이 켜져 있는가?                │
-  │          ├─ 아니오 ────▶ 부팅 불가 / 물리 장치 할당 옵션 비활성화됨       │
-  │          └─ 예                                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      동일한 물리 장치를 여러 VM이 "동시에" 공유해야 하는가?               │
-  │          ├─ 아니오 ────▶ [PCIe Passthrough (VFIO)]               │
-  │          │            (장치 전체를 1개 VM에 독점 할당)               │
-  │          │                                                        │
-  │          └─ 예                                                    │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      물리 장치가 하드웨어 차원의 분할(SR-IOV 등)을 지원하는가?            │
-  │          ├─ 예 ─────▶ [SR-IOV 적용 후 VF를 VM에 분배]             │
-  │          │            (IOMMU가 VF 별로 DMA 완벽 격리 수행)          │
-  │          └─ 아니오 ──▶ [vGPU(그리드) 소프트웨어 라이선스 활용] 또는    │
-  │                         [Virtio 반가상화 모델 타협 적용]              │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 가상화 및 패스스루 튜닝 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM에 고성능 하드웨어(GPU, NIC, NVMe) 직접 할당 (Passthrough) 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 BIOS에서 VT-d (또는 AMD-Vi) 기능이 켜져 있는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ▶ 부팅 불가 / 물리 장치 할당 옵션 비활성화됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 물리 장치를 여러 VM이 "동시에" 공유해야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCIe Passthrough (VFIO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장치 전체를 1개 VM에 독점 할당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 장치가 하드웨어 차원의 분할(SR-IOV 등)을 지원하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV 적용 후 VF를 VM에 분배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IOMMU가 VF 별로 DMA 완벽 격리 수행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vGPU(그리드) 소프트웨어 라이선스 활용</div><div class="kb-diagram-note">또는</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Virtio 반가상화 모델 타협 적용</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** IOMMU는 마법이 아니다. 하나의 물리 디바이스(예: 평범한 그래픽 카드)를 반으로 쪼개서 두 VM에 주는 기능은 디바이스 자체 하드웨어 기능([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), vGPU)에 달려 있다. IOMMU는 분할된 디바이스들이 서로 메모리를 훔쳐보지 못하게 '독립된 벽(IOMMU Group)'을 세워주는 인프라 보호막 역할을 할 뿐이다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치를 할당할 때는 항상 동일한 IOMMU 그룹에 속한 장치들은 세트로 넘겨야 한다는 점이 실무 설계의 함정(Caveat)이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **운영/격리 관점**: 패스스루 하려는 장치와 마더보드의 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 컨트롤러 등이 같은 'IOMMU Group'으로 묶여 있지 않은가? (같은 그룹이면 하나만 VM에 줘도 나머지 장치의 호스트 제어권이 상실될 수 있음)
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점**: IOMMU 자체도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(메모리)을 탐색하므로 지연이 발생할 수 있다. 디바이스의 IOTLB(I/O [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 이를 캐싱하여 속도 저하를 막고 있는지 벤치마크해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 관점</strong>: IOMMU 자체도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(메모리)을 탐색하므로 지연이 발생할 수 있다. 디바이스의 IOTLB(I/O [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 이를 캐싱하여 속도 저하를 막고 있는지 벤치마크해야 한다.
 
 - **📢 섹션 요약 비유**: 물리적 금고(장치)를 세입자([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에게 내어줄 때, 그 금고를 옮기다 다른 방의 벽(메모리)을 부수지 않도록 전용 레일(IOMMU Group)이 제대로 깔려 있는지 확인하는 안전 검사입니다.
 
@@ -184,8 +171,8 @@ IOMMU는 단순히 주소만 변환하는 것이 아니라, [가상화](/knowled
 | **정성** | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 붕괴 위험 ([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 공격 노출) | VM별 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 영역 완벽한 하드웨어 격리 | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 및 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 완성 |
 
 ### 미래 전망
-- **SVA (Shared Virtual Addressing) / [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) PASID**: 디바이스가 CPU와 완전히 동일한 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)(프로세스 포인터)을 공유하는 기술이다. IOMMU가 프로세스 단위(PASID)로 식별력을 가지게 되어, 굳이 드라이버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 핀 고정 없이 응용 프로그램이 GPU나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에 다이렉트로 메모리 포인터를 넘길 수 있게 된다 (Unified Memory 구조).
-- **[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 인프라에서의 IOMMU 확장**: 미래의 [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 버스인 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 환경에서 서로 다른 호스트가 붙은 디바이스들의 메모리 접근 권한을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어하는 중추적인 보안 매니저 역할을 IOMMU가 수행하게 될 것이다.
+- <strong>SVA (Shared Virtual Addressing) / <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> PASID</strong>: 디바이스가 CPU와 완전히 동일한 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)(프로세스 포인터)을 공유하는 기술이다. IOMMU가 프로세스 단위(PASID)로 식별력을 가지게 되어, 굳이 드라이버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 핀 고정 없이 응용 프로그램이 GPU나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에 다이렉트로 메모리 포인터를 넘길 수 있게 된다 (Unified Memory 구조).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 인프라에서의 IOMMU 확장</strong>: 미래의 [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 버스인 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 환경에서 서로 다른 호스트가 붙은 디바이스들의 메모리 접근 권한을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어하는 중추적인 보안 매니저 역할을 IOMMU가 수행하게 될 것이다.
 
 ### 결론
 IOMMU(Intel VT-d)는 단순히 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위한 부품이 아니다. 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 누르면 물리적 실체가 논리적(가상)으로 완벽하게 잘려 나가고, 소프트웨어([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 짐을 제로(0)로 만들어 주는 "물리와 가상의 완벽한 브릿지"다. 현대 클라우드의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인스턴스, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 베어메탈 급 스토리지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 IOMMU의 격리 보장이 없었다면 결코 상용화될 수 없었을 핵심 인프라 기술이다.
@@ -205,15 +192,19 @@ IOMMU(Intel VT-d)는 단순히 I/O [성능](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]
-    │
-    ▼
-[IOMMU (Input/Output MMU) 역할]
-    │
-    ├──▶ [컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
-    └──▶ [라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IOMMU (Input/Output MMU) 역할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 런타임 (runc, containerd) OCI 규격 표준화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

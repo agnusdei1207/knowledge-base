@@ -23,13 +23,16 @@ tags = ["studynote-devops-sre"]
 
 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 확장, 보안, 저장소를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 제각각 구현하면 운영 복잡도가 기하급수적으로 늘어난다. 따라서 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 아키텍처를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
-```text
-Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ API Server           │──▶│ Controller / Schedul │──▶│ Worker Node / Kubele │──▶│ Service / Ingress    │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Controller / Schedul</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Worker Node / Kubele</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Service / Ingress</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 아키텍처가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,13 +51,16 @@ Deployment / Control / Feedback Flow
 | Worker Node / [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) | 실제 워크로드 실행 | 노드 자원 한계와 격리가 중요 |
 | [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) / [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) | 내부·외부 트래픽을 연결 | 네트워크 모델과 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 함께 봐야 함 |
 
-```text
-Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ API Server           │──▶│ Controller / Schedul │──▶│ Worker Node / Kubele │──▶│ Service / Ingress    │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Reference Architecture</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Controller / Schedul</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Worker Node / Kubele</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Service / Ingress</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -121,16 +127,20 @@ Reference Architecture
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Control Plane]
-    │
-    ▼
-[컨테이너 오케스트레이션 아키텍처]
-    │
-    ├──▶ [Node]
-    ├──▶ [Pod]
-    └──▶ [Controller]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Control Plane</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 오케스트레이션 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Node</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Controller</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 아키텍처가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

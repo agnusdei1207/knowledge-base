@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 현실은 다르다. 개발자가 10분 만에 짠 코드는 리뷰를 받기 위해 2일을 기다리고, QA 테스트 서버에 올라가기 위해 3일을 기다리며, 보안팀의 배포 승인 도장을 받기 위해 1주일을 대기한다. 결국 고객은 2주일 뒤에야 버튼 색깔이 바뀐 것을 본다.
 
-이때 **개발자의 코딩 시간(10분)**은 중요하지 않다. 고객이 느끼는 속도는 오직 **전체 대기 시간(2주일)**뿐이다. 린 소프트웨어 개발([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Software Development)은 이 전체 시간을 **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))**이라고 부르며, 이 시간을 극단적으로 줄여야만 비즈니스가 살아남는다고 규정했다.
+이때 <strong>개발자의 코딩 시간(10분)</strong>은 중요하지 않다. 고객이 느끼는 속도는 오직 <strong>전체 대기 시간(2주일)</strong>뿐이다. 린 소프트웨어 개발([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Software Development)은 이 전체 시간을 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">Lead Time</a>)</strong>이라고 부르며, 이 시간을 극단적으로 줄여야만 비즈니스가 살아남는다고 규정했다.
 
 - **📢 섹션 요약 비유**: 식당에서 짜장면을 주문했다. 주방장이 짜장면을 1분 만에 볶았더라도(코딩 시간), 웨이터가 바빠서 10분 동안 그릇을 들고 서 있었다면 손님이 느끼는 짜장면 나오는 시간([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))은 11분이고, 짜장면은 퉁퉁 불어터진다. 손님은 주방장의 속도에 관심이 없다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 프로세스 시작부터 배포 완의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  리드 타임 프로세스 시작부터 배포 완                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리드 타임 프로세스 시작부터 배포 완</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 프로세스 시작부터 배포 완가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 철학 / 프레임워크 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 적용 |
 |:---|:---|:---|
-| **[Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) (린)** | 낭비(Muda)와 대기 시간 제거 | 결재 서류 없애기, 개발과 QA 사이의 핸드오프(Handoff) 대기 없애기 |
-| **[Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))** | **WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한**| 한 번에 5개 이상의 티켓을 동시에 개발하지 못하게 강제하여 속도 높이기 |
-| **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)** | 파이프라인 자동화 | 사람이 마우스로 배포하던 것을 Jenkins나 GitHub Actions로 완전 자동화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> (린)</strong> | 낭비(Muda)와 대기 시간 제거 | 결재 서류 없애기, 개발과 QA 사이의 핸드오프(Handoff) 대기 없애기 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a>)</strong> | <strong>WIP (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/">Work In Progress</a>) 제한</strong>| 한 번에 5개 이상의 티켓을 동시에 개발하지 못하게 강제하여 속도 높이기 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a></strong> | 파이프라인 자동화 | 사람이 마우스로 배포하던 것을 Jenkins나 GitHub Actions로 완전 자동화 |
 
 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)에서 WIP([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업)를 제한하는 이유는 수학적인 팩트인 **리틀의 법칙(Little's Law)** 때문이다. `리드 타임 = WIP 갯수 ÷ 처리율`. 즉, 개발자들이 이것저것 동시에 많이 건드리고 있으면(WIP 증가), [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 무조건 길어진다. 
 
@@ -94,7 +93,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 중 **'변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) for Changes)'**은 기술 리더가 인프라 아키텍처를 뜯어고쳐서 가장 확실하게 줄일 수 있는 지표다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 중 <strong>'변경 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">Lead Time</a> for Changes)'</strong>은 기술 리더가 인프라 아키텍처를 뜯어고쳐서 가장 확실하게 줄일 수 있는 지표다.
 
 - **📢 섹션 요약 비유**: [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 프로세스 시작부터 배포 완료은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -108,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 '수 주일'에서 '1시간 이내'로 단축한 엘리트(Elite) 조직은 엄청난 비즈니스 경쟁력을 얻는다. 마케팅팀이 아침 회의에서 기획한 할인 배너를 점심시간에 바로 라이브 서버에 띄울 수 있고, 고객이 에러를 제보하면 10분 만에 패치할 수 있다.
 
-결론적으로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 소프트웨어 아키텍처와 조직 구조가 얼마나 '건강하게([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))' 연결되어 있는지를 보여주는 최종 성적표다. 기술사는 파이프라인을 멈추게 하는 모든 **'사람의 개입([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))'과 '부서 간의 장벽([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))'**을 기계적인 자동화로 녹여버려, 아이디어가 코드가 되고 코드가 가치로 환전되는 시간을 극한으로 수축시켜야 한다.
+결론적으로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 소프트웨어 아키텍처와 조직 구조가 얼마나 '건강하게([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))' 연결되어 있는지를 보여주는 최종 성적표다. 기술사는 파이프라인을 멈추게 하는 모든 <strong>'사람의 개입(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a>)'과 '부서 간의 장벽(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)'</strong>을 기계적인 자동화로 녹여버려, 아이디어가 코드가 되고 코드가 가치로 환전되는 시간을 극한으로 수축시켜야 한다.
 
 - **📢 섹션 요약 비유**: [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축은 공장에서 불필요한 컨베이어 벨트를 뜯어내고 직통 파이프를 까는 작업이다. 파이프가 굵고 매끄러울수록 아이디어라는 물방울이 고객의 입으로 들어가는 시간이 0초에 가까워진다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-리드 타임 프로세스 시작부터 배포 완료 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리드 타임 프로세스 시작부터 배포 완료 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

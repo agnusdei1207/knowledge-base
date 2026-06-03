@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), 996번)**: 전 세계 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))들끼리 길을 공유하는 프로토콜입니다.
-- **재앙의 원인**: BGP는 서로를 100% 믿습니다. 러시아 해커([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 123)가 BGP로 **"나 구글(8.8.8.8) 가는 길이야!"**라고 거짓 광고([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Hijacking)를 뿌리면, 전 세계 라우터들은 의심 없이 그 길을 주소록에 적어버립니다. 누군가의 실수(Route Leak)나 악의적 해킹으로 전 세계 금융망이 한순간에 마비될 수 있는 구조적 폭탄이었습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>, 996번)</strong>: 전 세계 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))들끼리 길을 공유하는 프로토콜입니다.
+- **재앙의 원인**: BGP는 서로를 100% 믿습니다. 러시아 해커([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 123)가 BGP로 <strong>"나 구글(8.8.8.8) 가는 길이야!"</strong>라고 거짓 광고([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Hijacking)를 뿌리면, 전 세계 라우터들은 의심 없이 그 길을 주소록에 적어버립니다. 누군가의 실수(Route Leak)나 악의적 해킹으로 전 세계 금융망이 한순간에 마비될 수 있는 구조적 폭탄이었습니다.
 
-```text
-[양자 암호 키 분배]
-    │
-    ▼
-[BGP RPKI 라우팅 보안 망]
-    │
-    └──▶ [DNSSEC 존]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNSSEC 존</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,32 +41,36 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: IP 주소와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호의 '진짜 소유자'를 암호학적으로 증명하기 위해, **국제 인터넷 주소 관리 기구(RIR, 한국은 KISA)가 공인 인증서 체계([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))를 도입하여 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 광고의 진위 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 프레임워크**입니다.
+- **개념**: IP 주소와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호의 '진짜 소유자'를 암호학적으로 증명하기 위해, <strong>국제 인터넷 주소 관리 기구(RIR, 한국은 KISA)가 공인 인증서 체계(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)를 도입하여 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 광고의 진위 여부를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 보안 프레임워크</strong>입니다.
 
 ### 1. ROA (Route Origin [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 발급 - "땅문서"
 - 네이버([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.0/24 IP 대역을 샀습니다.
-- 네이버는 국제기구에 가서 **ROA(경로 발원지 인증서)**를 발급받습니다. ROA에는 "이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.0/24 대역은 무조건 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100번만 방송할 수 있다!"라고 적혀있고, 기관의 전자서명이 쾅 찍혀 있습니다. 이 ROA들은 전 세계 중앙 클라우드 저장소([RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) Repository)에 모조리 저장됩니다.
+- 네이버는 국제기구에 가서 <strong>ROA(경로 발원지 인증서)</strong>를 발급받습니다. ROA에는 "이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.0/24 대역은 무조건 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100번만 방송할 수 있다!"라고 적혀있고, 기관의 전자서명이 쾅 찍혀 있습니다. 이 ROA들은 전 세계 중앙 클라우드 저장소([RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) Repository)에 모조리 저장됩니다.
 
 ### 2. 라우터의 ROV (Route Origin [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) - "신분증 검사"
 - KT 라우터가 러시아 해커([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 123)로부터 "나 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.0/24 구글 가는 길이야!"라는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 광고를 받습니다.
 - KT 라우터는 주소록을 업데이트하기 전에, 중앙 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 저장소에 보관된 **ROA(땅문서)와 대조해 봅니다.**
 - **결과 판정**:
   - `Valid (정상)`: ROA에 적힌 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호와 광고한 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호가 일치함 (수락)
-  - `Invalid (비정상)`: ROA에는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100번 거라고 적혀있는데, 광고는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 123번이 함 ➜ **"이거 해커 놈의 구라 핑이네! [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에서 즉시 삭제(Drop)!"**
+  - `Invalid (비정상)`: ROA에는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100번 거라고 적혀있는데, 광고는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 123번이 함 ➜ <strong>"이거 해커 놈의 구라 핑이네! <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블에서 즉시 삭제(Drop)!"</strong>
   - `Not Found (미등록)`: ROA가 발급되지 않은 옛날 주소 (일단 봐줌)
 
 ### 3. BGPsec ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))로의 진화 (경로 전체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))
 - [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (ROV)는 "출발지(Origin)"가 진짜인지만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)합니다. 중간에 길을 전달하는 놈들이 구라를 치는 건 못 잡습니다.
-- **BGPsec**: 출발지뿐만 아니라 패킷이 거쳐 온 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1번 ➜ [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 2번 ➜ [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 3번 **모든 경로마다 각 라우터가 릴레이로 전자서명을 덧씌우며(Path [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 암호학적으로 길 전체를 증명**하는 궁극의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 보안 기술입니다. (연산이 너무 무거워서 전 세계 상용화는 지지부진합니다.)
+- **BGPsec**: 출발지뿐만 아니라 패킷이 거쳐 온 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1번 ➜ [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 2번 ➜ [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 3번 <strong>모든 경로마다 각 라우터가 릴레이로 전자서명을 덧씌우며(Path <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>) 암호학적으로 길 전체를 증명</strong>하는 궁극의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 보안 기술입니다. (연산이 너무 무거워서 전 세계 상용화는 지지부진합니다.)
 
-```text
-[양자 암호 키 분배]
-    │
-    ▼
-[BGP RPKI 라우팅 보안 망]
-    │
-    └──▶ [DNSSEC 존]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNSSEC 존</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 인터넷망은 아무나 자기 집에 **'구글 본사 가는 길' 표지판**을 달아놓으면 모든 택시 기사(라우터)들이 그 표지판을 의심 없이 믿고 따라가는 **'순진한 동네'**였습니다. 나쁜 놈(해커)이 자기 집 앞에 '구글' 표지판을 걸어두면 전 세계 택시가 나쁜 놈 집으로 빨려 들어갔습니다([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 하이재킹). **[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 보안망**은 택시 기사들에게 **'경찰청 공인 땅문서(ROA) 조회 앱'**을 깔아준 것입니다. 길가에 '구글' 표지판이 보이면 기사는 무조건 앱을 켜서 조회합니다. "이 땅주인 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호랑 표지판 세운 놈 번호랑 다르네? 이거 가짜 표지판이네!" 하고 즉시 표지판을 부숴버립니다. 국제기구의 엄격한 암호화 인증서를 통해 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 사기극을 원천 차단하는 BGP의 절대 면역 백신입니다.
+- **📢 섹션 요약 비유**: 기존 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 인터넷망은 아무나 자기 집에 <strong>'구글 본사 가는 길' 표지판</strong>을 달아놓으면 모든 택시 기사(라우터)들이 그 표지판을 의심 없이 믿고 따라가는 <strong>'순진한 동네'</strong>였습니다. 나쁜 놈(해커)이 자기 집 앞에 '구글' 표지판을 걸어두면 전 세계 택시가 나쁜 놈 집으로 빨려 들어갔습니다([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 하이재킹). <strong><a href="/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/">RPKI</a> 보안망</strong>은 택시 기사들에게 <strong>'경찰청 공인 땅문서(ROA) 조회 앱'</strong>을 깔아준 것입니다. 길가에 '구글' 표지판이 보이면 기사는 무조건 앱을 켜서 조회합니다. "이 땅주인 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호랑 표지판 세운 놈 번호랑 다르네? 이거 가짜 표지판이네!" 하고 즉시 표지판을 부숴버립니다. 국제기구의 엄격한 암호화 인증서를 통해 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 사기극을 원천 차단하는 BGP의 절대 면역 백신입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양자 암호 키 분배]
-    │
-    ▼
-[현재 개념: BGP RPKI 라우팅 보안 망]
-    │
-    ├──▶ [확장 A: DNSSEC 존]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 암호 키 분배</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNSSEC 존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망는 양자 암호 키 분배에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

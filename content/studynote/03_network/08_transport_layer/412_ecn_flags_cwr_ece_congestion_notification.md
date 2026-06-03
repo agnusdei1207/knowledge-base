@@ -23,64 +23,67 @@ tags = ["studynote-network"]
 - **필요성**: 오리지널 TCP는 심각한 길치다. 인터넷망이 꽉 막혔는지 뚫렸는지 알 방법이 없었다. 그래서 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10개를 쐈다가 대답(ACK)이 1개라도 안 오면(패킷이 톨게이트에서 짤려 죽으면) "헉! 막혔구나!" 하고 그제서야 속도를 확 줄였다. (이것을 패킷 유실 기반 혼잡 제어라 한다). 
   **"아니, 차들이 연쇄 추돌로 다 부서지고 나서야 브레이크를 밟는 게 말이 돼? 라우터 톨게이트가 차기 직전에, 지나가는 패킷 이마에 '나 막히기 직전임'이라고 펜으로 글씨를 써주면, TCP가 그걸 읽고 부딪히기 전에 브레이크를 밟게 하자!"**
 
-- **💡 비유**: ECN [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 고속도로 톨게이트의 **"하이패스 전광판과 네비 연동"**과 같습니다.
+- **💡 비유**: ECN [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 고속도로 톨게이트의 <strong>"하이패스 전광판과 네비 연동"</strong>과 같습니다.
   - 구형 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/): 전광판이 없어서 톨게이트 차단기에 앞 유리를 **시원하게 들이박고 박살이 난 뒤에야(패킷 Drop)** 비로소 차가 밀리는 줄 알고 브레이크를 밟습니다.
-  - ECN 도입: 톨게이트 직원이 지나가는 차(패킷) 유리창에 **"전방 10km 정체 됨"이라는 딱지(CE 마킹)**를 붙여줍니다. 이 딱지를 본 차가 목적지에 도착하면, 목적지 친구가 전화를 걸어(ECE [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 출발지 친구에게 "야, 거기 막힌대! 천천히 출발해!"라고 알려주어(CWR [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 완벽히 사고를 예방합니다.
+  - ECN 도입: 톨게이트 직원이 지나가는 차(패킷) 유리창에 <strong>"전방 10km 정체 됨"이라는 딱지(CE 마킹)</strong>를 붙여줍니다. 이 딱지를 본 차가 목적지에 도착하면, 목적지 친구가 전화를 걸어(ECE [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 출발지 친구에게 "야, 거기 막힌대! 천천히 출발해!"라고 알려주어(CWR [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 완벽히 사고를 예방합니다.
 
-```text
-[TCP 제어 플래그]
-    │
-    ▼
-[ECN 징후 플래그]
-    │
-    └──▶ [윈도우 크기]
-```
 
-- **📢 섹션 요약 비유**: ** ECE와 CWR [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 투수가 공을 던질 때, 포수가 **"야, 타자 타이밍이 딱 맞아서 홈런 칠 거 같아! 견제구 던져!(ECE)"**라고 사인(경고)을 보내고, 투수가 **"알았어, 템포 좀 늦출게(CWR)"**라고 모자 챙을 만지며 호흡을 맞추는 환상적인 배터리 사인 교환입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 제어 플래그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 플래그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 크기</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> ECE와 CWR <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>는 투수가 공을 던질 때, 포수가 </strong>"야, 타자 타이밍이 딱 맞아서 홈런 칠 거 같아! 견제구 던져!(ECE)"**라고 사인(경고)을 보내고, 투수가 **"알았어, 템포 좀 늦출게(CWR)"**라고 모자 챙을 만지며 호흡을 맞추는 환상적인 배터리 사인 교환입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 시스템이 완성되려면 **3계층 라우터의 협조**와 **4계층 TCP의 핑퐁**이 완벽하게 맞물려야 한다. 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 6개 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 바로 앞에 2개의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(CWR, ECE)가 덧붙여졌다.
+이 시스템이 완성되려면 <strong>3계층 라우터의 협조</strong>와 <strong>4계층 TCP의 핑퐁</strong>이 완벽하게 맞물려야 한다. 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 6개 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 바로 앞에 2개의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(CWR, ECE)가 덧붙여졌다.
 
 ### 1단계: 라우터의 이마 찌르기 (CE 마킹, IP 계층)
 - 라우터 큐(대기열)가 80% 정도 찼다. ([WRED](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/) 기술이 켜져 있다).
-- 라우터는 패킷을 무식하게 죽이는(Drop) 대신, 지나가는 IP 패킷의 헤더(TOS 필드) 맨 끝 2비트를 **`11 (Congestion Experienced, CE)`**로 슬쩍 고쳐 적는다.
+- 라우터는 패킷을 무식하게 죽이는(Drop) 대신, 지나가는 IP 패킷의 헤더(TOS 필드) 맨 끝 2비트를 <strong><code>11 (Congestion Experienced, CE)</code></strong>로 슬쩍 고쳐 적는다.
 - "너 나한테 죽진 않았는데, 내 뒤통수가 많이 아프니까 목적지 가면 나 막힌다고 소문내라!"
 
 ### 2단계: 수신자의 경고등 발동 (ECE - ECN-Echo [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))
 - 목적지 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(수신자)가 패킷을 받았다. "어? IP 헤더에 CE([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))라고 적혀있네? 오는 길에 라우터 하나가 터지기 직전이구나!"
-- 수신자는 송신자에게 영수증(ACK)을 돌려보낼 때, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 **`ECE` 전등 스위치를 탁! 켜서(1로 세팅)** 보낸다.
+- 수신자는 송신자에게 영수증(ACK)을 돌려보낼 때, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 <strong><code>ECE</code> 전등 스위치를 탁! 켜서(1로 세팅)</strong> 보낸다.
 - "송신자야!! 네가 쏜 길목에 있는 라우터가 꽉 찼대! 당장 전송 속도([Congestion Window](/knowledge-base/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/)) 줄여!!"
 - 수신자는 송신자가 알아들을 때까지 보내는 모든 영수증에 `ECE` 불을 켜서 보낸다.
 
 ### 3단계: 송신자의 굴복과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (CWR - [Congestion Window](/knowledge-base/studynote/03_network/19_frequent_topics_terms/969_congestion_window_cwnd_tcp_network_overload/) Reduced [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))
 - 송신자 PC가 `ECE` 불이 켜진 영수증을 받았다. 
 - "헐! 라우터 터지기 직전이네. 오케이 나 쫄았음. 100개씩 쏘던 거 50개로 확 줄일게!" (전송 속도 반토막).
-- 속도를 줄인 송신자는 다음번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 **`CWR` 전등 스위치를 탁! 켜서(1로 세팅)** 보낸다.
+- 속도를 줄인 송신자는 다음번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 <strong><code>CWR</code> 전등 스위치를 탁! 켜서(1로 세팅)</strong> 보낸다.
 - "수신자야!! 나 경고등 잘 봤고, 방금 속도 줄였어(CWR). 그러니까 이제 제발 그 미친 ECE 경고등 좀 그만 켜!"
 - 수신자는 `CWR` 불이 켜진 패킷을 받으면 비로소 `ECE` 경고등을 끄고 평화로운 통신으로 돌아간다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ECN 조기 경보 시스템의 핑퐁 시나리오               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ] ──▶ (패킷 슝~) ──▶ [ 막혀가는 라우터 ] ──▶ [ 수신자 ] │
- │                                 (IP 겉면에 CE 딱지 쾅!)       │
- │                                                             │
- │   [ 송신자 ] ◀── (TCP 헤더에 [ ECE ] 불 켜서 쏨!) ─────── [ 수신자 ] │
- │   "아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"                      │
- │                                                             │
- │   [ 송신자 ] ── (TCP 헤더에 [ CWR ] 불 켜서 쏨!) ───────▶ [ 수신자 ] │
- │                   "나 속도 줄였으니까 이제 경고등 꺼라!"               │
- │                                                             │
- │   ▶ 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** ECE와 CWR의 교환은 전투기 조종석의 **"락온(Lock-on) 경고음"**과 같습니다. 적의 미사일 기지(혼잡 라우터)가 레이더를 비추면, 전투기 경보음이 미친 듯이 울립니다(ECE). 조종사가 즉시 회피 기동(속도 감속)을 한 뒤 **방어 버튼(CWR)**을 누르면, 그제야 삑삑거리던 경보음이 꺼지고 비행기는 격추(패킷 드랍)를 면하게 됩니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECN 조기 경보 시스템의 핑퐁 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">막혀가는 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP 겉면에 CE 딱지 쾅!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">ECE</div><div class="kb-diagram-note">불 켜서 쏨!)</div><div class="kb-diagram-node">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-note">── (TCP 헤더에</div><div class="kb-diagram-node">CWR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 속도 줄였으니까 이제 경고등 꺼라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** ECE와 CWR의 교환은 전투기 조종석의 **"락온(Lock-on) 경고음"<strong>과 같습니다. 적의 미사일 기지(혼잡 라우터)가 레이더를 비추면, 전투기 경보음이 미친 듯이 울립니다(ECE). 조종사가 즉시 회피 기동(속도 감속)을 한 뒤 </strong>방어 버튼(CWR)**을 누르면, 그제야 삑삑거리던 경보음이 꺼지고 비행기는 격추(패킷 드랍)를 면하게 됩니다.
 
 ---
 
@@ -136,15 +139,19 @@ ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TCP 제어 플래그]
-    │
-    ▼
-[현재 개념: ECN 징후 플래그]
-    │
-    ├──▶ [확장 A: 윈도우 크기]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 제어 플래그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ECN 징후 플래그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 윈도우 크기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

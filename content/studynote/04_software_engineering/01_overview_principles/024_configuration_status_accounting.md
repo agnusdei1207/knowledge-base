@@ -20,23 +20,22 @@ tags = ["studynote-software-engineering"]
 
 형상 상태 기록(CSA)은 SCM의 네 가지 핵심 활동([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 통제 → 상태 기록 → [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 중 세 번째로, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 CI가 어떻게 변경되고 승인되었는지의 전 이력을 데이터베이스에 기록·보관하고 필요 시 보고서를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 활동이다.
 
-```text
-┌───────────────────────────────────────────────────────┐
-│ SCM 4대 활동과 CSA의 위치 │
-├───────────────────────────────────────────────────────┤
-│ │
-│ 1. CI 식별 (Configuration Identification) │
-│ ↓ │
-│ 2. 형상 통제 (Configuration Control) — CCB 승인 │
-│ ↓ │
-│ 3. ★ 형상 상태 기록 (CSA) ← 지금 여기 │
-│ ├─ 변경 이력 DB 기록 │
-│ ├─ 상태 보고서(CSR) 생성 │
-│ └─ 이해관계자 배포 │
-│ ↓ │
-│ 4. 형상 감사 (Configuration Audit) — 검증 │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 4대 활동과 CSA의 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CI 식별 (Configuration Identification)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 형상 통제 (Configuration Control) — CCB 승인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ★ 형상 상태 기록 (CSA) ← 지금 여기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변경 이력 DB 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태 보고서(CSR) 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이해관계자 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 형상 감사 (Configuration Audit) — 검증</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CSA는 병원 진료 기록부다. 환자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 진료 이력(변경 이력), 처방전(승인 내용), 현재 복용약(현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))이 모두 기록되어 있어 언제든 현황을 파악하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)할 수 있다.
 
@@ -48,25 +47,29 @@ tags = ["studynote-software-engineering"]
 
 | 항목 | 내용 |
 |:---|:---|
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)** | 이름, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 날짜 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a></strong> | 이름, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 날짜 |
 | **변경 요청(CR) 번호** | 연결된 CR ID |
 | **변경 이유** | 결함수정, 기능추가, 개선 |
 | **승인자** | [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
-| **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** | 포함된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> | 포함된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) |
 | **상태** | 요청→검토→승인→구현→완료 |
 
 ### 형상 상태 보고서([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 예시
 
-```text
-프로젝트: 결제시스템 v3.2 기준일: 2026-04-29
-─────────────────────────────────────────────
-CI 버전 상태 CR 번호 완료일
-PaymentAPI 3.2.1 ✅완료 CR-2041 04-25
-OrderService 3.1.9 🔄진행 CR-2055 미정
-DBSchema 3.2.0 ✅완료 CR-2038 04-20
-─────────────────────────────────────────────
-미해결 CR: 1개 (CR-2055), 완료율 66.7%
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로젝트: 결제시스템 v3.2 기준일: 2026-04-29</div>
+<div class="kb-diagram-note">CI 버전 상태 CR 번호 완료일</div>
+<div class="kb-diagram-note">PaymentAPI 3.2.1 ✅완료 CR-2041 04-25</div>
+<div class="kb-diagram-note">OrderService 3.1.9 🔄진행 CR-2055 미정</div>
+<div class="kb-diagram-note">DBSchema 3.2.0 ✅완료 CR-2038 04-20</div>
+<div class="kb-diagram-note">미해결 CR: 1개 (CR-2055), 완료율 66.7%</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CSR은 공사 현장의 진도표다. 어떤 공사([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))가 어느 단계(상태)에 있는지, 누가 허가했는지([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)), 언제 완료되는지(일정)가 한눈에 보여 감독관(프로젝트 관리자)이 즉시 파악할 수 있다.
 
@@ -76,10 +79,10 @@ DBSchema 3.2.0 ✅완료 CR-2038 04-20
 
 | 활동 | 목적 | 산출물 |
 |:---|:---|:---|
-| **[형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 정의 및 명명 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 목록, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 정의 |
-| **[형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)** | 변경 승인 프로세스 | 변경 요청서, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 회의록 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/">형상 식별</a></strong> | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 정의 및 명명 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 목록, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 정의 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/">형상 통제</a></strong> | 변경 승인 프로세스 | 변경 요청서, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 회의록 |
 | **형상 상태 기록 (CSA)** | 이력 기록 및 보고 | [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/), 변경 이력 DB |
-| **[형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)** | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 일치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 보고서 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/">형상 감사</a></strong> | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 일치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 보고서 |
 
 현대 SW 개발에서 CSA는 Git 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·JIRA 이슈 트래커·[Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드 이력이 자동으로 수행하는 역할과 동일하다.
 
@@ -110,7 +113,7 @@ DO-178C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 |:---|:---|
 | **가시성** | 언제든 SW 구성 현황 즉시 파악 |
 | **추적성** | 변경 원인·승인·결과 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 연결 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·계약 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서 증적 즉시 제출 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 대응</strong> | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·계약 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서 증적 즉시 제출 |
 
 CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) + JIRA 자동화로 실시간 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·대시보드화되는 방향으로 발전하고 있으며, 소프트웨어 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/))과 결합하여 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)([Supply Chain Security](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 핵심 도구로 확장되고 있다.
 
@@ -122,29 +125,31 @@ CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))** | CSA가 속하는 상위 관리 체계 |
-| **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))** | CSA가 기록하는 승인 주체 |
-| **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** | CSA가 추적하는 공식 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 집합 |
-| **소프트웨어 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)** | CSA의 현대적 확장; [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | CSA를 자동화하는 현대 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방식 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a>)</strong> | CSA가 속하는 상위 관리 체계 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>)</strong> | CSA가 기록하는 승인 주체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> | CSA가 추적하는 공식 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 집합 |
+| <strong>소프트웨어 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a></strong> | CSA의 현대적 확장; [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | CSA를 자동화하는 현대 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SCM 형상 식별 — CI 정의 및 기준선 설정]
-│
-▼
-[형상 통제 — CCB 변경 승인 프로세스]
-│
-▼
-[CSA — 변경 이력 기록, CSR 생성 (★ 지금 여기)]
-│
-▼
-[형상 감사 — 기준선 일치 검증, 인증 증적]
-│
-▼
-[SW BOM + GitOps — 자동화 CSA, 공급망 보안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SCM 형상 식별 — CI 정의 및 기준선 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형상 통제 — CCB 변경 승인 프로세스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSA — 변경 이력 기록, CSR 생성 (★ 지금 여기)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형상 감사 — 기준선 일치 검증, 인증 증적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SW BOM + GitOps — 자동화 CSA, 공급망 보안</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

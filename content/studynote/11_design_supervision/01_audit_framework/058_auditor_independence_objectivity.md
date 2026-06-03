@@ -31,8 +31,8 @@ tags = ["studynote-design-supervision"]
 
 감리 독립성은 두 가지로 본다.
 
-- **독립성의 마음([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) of Mind)**: 실제로 편향 없이 판단하는가
-- **독립성의 외형([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) in Appearance)**: 밖에서 봐도 독립적으로 보이는가
+- <strong>독립성의 마음(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> of Mind)</strong>: 실제로 편향 없이 판단하는가
+- <strong>독립성의 외형(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> in Appearance)</strong>: 밖에서 봐도 독립적으로 보이는가
 
 둘 중 하나라도 흔들리면 감리의 신뢰가 약해진다.
 
@@ -84,15 +84,21 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-```text
-독립성
-   ↓
-이해상충 제거
-   ↓
-객관적 판단
-   ↓
-감리 신뢰성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">독립성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">이해상충 제거</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">객관적 판단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">감리 신뢰성</div>
+</div>
+</div>
+
+
 
 ---
 

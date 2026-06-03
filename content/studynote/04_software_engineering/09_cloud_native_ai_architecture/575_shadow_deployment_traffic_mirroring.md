@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Shadow (그림자/유령)**: 유저 눈에는 보이지 않지만, 본체(V1 서버) 뒤에 똑같이 찰싹 붙어 행동을 똑같이 따라 하는 V2 샌드박스(테스트) 서버.
-  - **Traffic Mirroring (거울 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))**: 1개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 라우터에 닿는 순간, 거울에 반사되듯 2개의 똑같은 패킷으로 100% [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))되어 하나는 V1으로, 하나는 V2로 흩어져 날아가는 인프라 네트워크 꺾기 마술.
+  - <strong>Traffic Mirroring (거울 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>)</strong>: 1개의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 라우터에 닿는 순간, 거울에 반사되듯 2개의 똑같은 패킷으로 100% [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))되어 하나는 V1으로, 하나는 V2로 흩어져 날아가는 인프라 네트워크 꺾기 마술.
 
-- **필요성 ([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 1% 배포조차 피가 튀는 초핵심 코어 도메인의 한계)**: 결제 코어 엔진을 C++에서 Java(V2)로 완전히 싹 갈아엎었다. 547장 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 배포로 1% 트래픽만 살짝 흘려보려 했다. 그런데 앗! 1% 유저가 결제하다가 V2 버그 터져서 돈만 빠지고 화면이 하얗게 뻗어버렸다! 이 1% 유저의 환불 민원(CS)과 법적 소송 폭주로 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 팀이 공중분해 됐다. **"아 ㅆㅂ 결제나 통장 잔고 도메인은, 단 1%의 유저 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)(희생양) 테스트조차 용납이 안 돼!! 유저한테 피 1방울도 안 튀게 방탄유리 치면서, V2가 100만 명 트래픽 쳐맞고 뒤지는지([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)) 확인해 볼 완벽한 모의 시뮬레이터 없어?!"** 이 피 맺힌 극강의 무결점 런칭에 대한 집착이 섀도우 배포를 이끌어냈다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 1% 배포조차 피가 튀는 초핵심 코어 도메인의 한계)</strong>: 결제 코어 엔진을 C++에서 Java(V2)로 완전히 싹 갈아엎었다. 547장 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 배포로 1% 트래픽만 살짝 흘려보려 했다. 그런데 앗! 1% 유저가 결제하다가 V2 버그 터져서 돈만 빠지고 화면이 하얗게 뻗어버렸다! 이 1% 유저의 환불 민원(CS)과 법적 소송 폭주로 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 팀이 공중분해 됐다. <strong>"아 ㅆㅂ 결제나 통장 잔고 도메인은, 단 1%의 유저 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a>(희생양) 테스트조차 용납이 안 돼!! 유저한테 피 1방울도 안 튀게 방탄유리 치면서, V2가 100만 명 트래픽 쳐맞고 뒤지는지(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a>) 확인해 볼 완벽한 모의 시뮬레이터 없어?!"</strong> 이 피 맺힌 극강의 무결점 런칭에 대한 집착이 섀도우 배포를 이끌어냈다.
 
-- **💡 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 **'신약 백신(V2)을 10명(1%)한테 직접 주사 놔보고, 1명 죽으면 그제야 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 치는(1명은 진짜 죽음) 임상 실험'**이라면, 섀도우 배포([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))는 **'유저의 몸에 100% 똑같은 쌍둥이 가짜 인형(Shadow 샌드박스)을 만들어두고, 그 인형한테만 신상 백신(V2) 주사를 1만 방 때려보는 짓'**입니다. 인형이 터져나가고 팔다리가 뜯어져도 팝콘 먹으며 "아 부작용 오지네 ㅋ" 구경만 할 뿐, 실제 환자(유저)는 평화롭게 구형 안전 백신(V1) 맞으며 1도 다치지 않는(Zero-Impact) 궁극의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 샌드박스 테스트입니다.
+- **💡 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 <strong>'신약 백신(V2)을 10명(1%)한테 직접 주사 놔보고, 1명 죽으면 그제야 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 치는(1명은 진짜 죽음) 임상 실험'</strong>이라면, 섀도우 배포([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))는 <strong>'유저의 몸에 100% 똑같은 쌍둥이 가짜 인형(Shadow 샌드박스)을 만들어두고, 그 인형한테만 신상 백신(V2) 주사를 1만 방 때려보는 짓'</strong>입니다. 인형이 터져나가고 팔다리가 뜯어져도 팝콘 먹으며 "아 부작용 오지네 ㅋ" 구경만 할 뿐, 실제 환자(유저)는 평화롭게 구형 안전 백신(V1) 맞으며 1도 다치지 않는(Zero-Impact) 궁극의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 샌드박스 테스트입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Staging / QA 섭 테스트 (구석기)**: QA 엔지니어가 Jmeter 툴 켜고 10만 건 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 쏘며 자위하던 시대. "QA 100점 통과!" ➡ 운영 배포하자마자 진짜 유저들의 창의적인 더러운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴에 맞고 1초 컷 셧다운(운영과 개발 환경의 치명적 괴리).
-  2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 툴 등장 (과도기)**: `GoReplay(Gor)` 같은 툴이 떴다. 리눅스 서버에 바이너리로 깔아두면 패킷을 복사해 딴 데로 쏴줬다. 근데 툴 세팅이 까다롭고 무거웠다.
-  3. **[Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) 천하 통일 (현재, [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))**: 쿠버네티스와 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 세상을 덮었다. 개발자 코드 1줄, 무거운 툴 설치 1개 없이 `mirror: subset: v2` YAML [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 1줄 띡 엔터 치면 K8s 전 우주 허공 패킷이 마법처럼 2갈래로 쫙 갈라져 유령 서버에 꽂히는 무적의 인프라 흑마법 시대가 도래했다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a> 툴 등장 (과도기)</strong>: `GoReplay(Gor)` 같은 툴이 떴다. 리눅스 서버에 바이너리로 깔아두면 패킷을 복사해 딴 데로 쏴줬다. 근데 툴 세팅이 까다롭고 무거웠다.
+  3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> 천하 통일 (현재, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>)</strong>: 쿠버네티스와 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 세상을 덮었다. 개발자 코드 1줄, 무거운 툴 설치 1개 없이 `mirror: subset: v2` YAML [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 1줄 띡 엔터 치면 K8s 전 우주 허공 패킷이 마법처럼 2갈래로 쫙 갈라져 유령 서버에 꽂히는 무적의 인프라 흑마법 시대가 도래했다.
 
-- **📢 섹션 요약 비유**: QA 환경에서의 가짜 테스트가 **'수영장(QA 서버)에서 구명조끼 입고 헤엄치기 훈련 100시간 하기'**라면, 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 테스트는 **'태풍 몰아치는 진짜 한가운데 찐 바다(운영 라이브 트래픽)에, 나랑 똑같은 로봇 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(V2)를 집어 던져놓고 걔가 파도에 휩쓸려 박살 나는지 망원경으로 안전하게 관찰만 하는 것'**입니다. 진짜 바다의 파도(Real World Complexity)를 그대로 맞으면서도 나는 뽀송뽀송한 미친 모의고사입니다.
+- **📢 섹션 요약 비유**: QA 환경에서의 가짜 테스트가 <strong>'수영장(QA 서버)에서 구명조끼 입고 헤엄치기 훈련 100시간 하기'</strong>라면, 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 테스트는 <strong>'태풍 몰아치는 진짜 한가운데 찐 바다(운영 라이브 트래픽)에, 나랑 똑같은 로봇 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a>(V2)를 집어 던져놓고 걔가 파도에 휩쓸려 박살 나는지 망원경으로 안전하게 관찰만 하는 것'</strong>입니다. 진짜 바다의 파도(Real World Complexity)를 그대로 맞으면서도 나는 뽀송뽀송한 미친 모의고사입니다.
 
 ---
 
 다음은 섀도우 배포 (Shadow Deplo의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  섀도우 배포 (Shadow Deplo                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섀도우 배포 (Shadow Deplo</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 섀도우 배포 (Shadow Deplo가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-섀도우 배포 ([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) / 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+섀도우 배포 ([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) / 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 섀도우 배포 ([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) / 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-섀도우 배포 (Shadow Deployment / 트래픽 미러링) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">섀도우 배포 (Shadow Deployment / 트래픽 미러링) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

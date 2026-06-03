@@ -35,24 +35,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 이기종 컴퓨팅에서 실제 병목이 어디서 생기는지를 보여준다. 연산이 빠른 가속기를 붙여도 입력 복사와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 크면 전체 응답시간은 거의 줄지 않는다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Heterogeneous offload path                                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ App Thread                                                                │
-│    │                                                                       │
-│    ▼                                                                       │
-│ CPU prepares task                                                          │
-│    │                                                                       │
-│    ├── copy input ──▶ Shared/Device Memory ──▶ Accelerator compute         │
-│    │                     ▲                         │                        │
-│    │                     │                         ├── sync / interrupt     │
-│    │                     │                         ▼                        │
-│    └── wait or overlap ◀─┴──────── result writeback / pointer handoff      │
-│                                                                            │
-│ Key bottlenecks: copy latency, memory coherence, launch overhead, sync     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heterogeneous offload path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Thread</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU prepares task</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── copy input ──▶ Shared/Device Memory ──▶ Accelerator compute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── sync / interrupt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── wait or overlap ◀─ result writeback / pointer handoff</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key bottlenecks: copy latency, memory coherence, launch overhead, sync</div></div>
+</div>
+</div>
+
+
 
 핵심 설계 포인트는 다음과 같다.
 
@@ -147,24 +144,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 CPU 중심 처리
-    │
-    ▼
-GPU · DSP 기반 부분 가속
-    │
-    ▼
-SoC (System on Chip) 통합 이기종 구조
-    │
-    ▼
-UMA (Unified Memory Architecture) · HSA (Heterogeneous System Architecture)
-    │
-    ▼
-NPU (Neural Processing Unit) 중심 AI 가속
-    │
-    ▼
-Chiplet · CXL (Compute Express Link) 기반 확장형 이기종 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 CPU 중심 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU · DSP 기반 부분 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SoC (System on Chip) 통합 이기종 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UMA (Unified Memory Architecture) · HSA (Heterogeneous System Architecture)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NPU (Neural Processing Unit) 중심 AI 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chiplet · CXL (Compute Express Link) 기반 확장형 이기종 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 처리 → 부분 가속 → 칩 내부 통합 → 메모리 공유 강화 → 랙 단위 확장"으로 이기종 컴퓨팅의 초점이 이동해 온 과정을 보여준다.
 

@@ -23,8 +23,8 @@ tags = ["studynote-ict-convergence"]
 
 기존 클라우드 아키텍처는 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 서버로 전송해 처리한다. 수백만 기기가 연결될수록 세 가지 병목이 심화된다.
 
-- **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 클라우드 왕복 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 50~200ms. 자율주행 충돌 회피(요구 < 10ms) 불가.
-- **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 공장 카메라 1,000대가 4K 스트리밍을 클라우드로 쏘면 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 회선 포화.
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 클라우드 왕복 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 50~200ms. 자율주행 충돌 회피(요구 < 10ms) 불가.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 공장 카메라 1,000대가 4K 스트리밍을 클라우드로 쏘면 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 회선 포화.
 - **프라이버시(Privacy)**: 의료·생체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 인터넷을 통해 외부로 전송되는 규제·법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/).
 
 - **📢 섹션 요약 비유**: 클라우드 집중화는 전국 요리사가 모두 서울 중앙 주방에서 요리하는 것이다. 부산 손님은 요리가 식어서 도착하고, 서울 주방은 터져 나간다. 엣지·포그는 각 동네에 주방을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 전략이다.
@@ -33,21 +33,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│       클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처        │
-├──────────────────────────────────────────────────────────┤
-│  [클라우드 계층]  대규모 학습·장기 저장·글로벌 정책 관리          │
-│       │  WAN / 인터넷 (지연 50~200ms)                     │
-│  [포그 계층]    지역 집계·전처리·정책 실행                      │
-│  (포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)               │
-│       │  LAN / 5G 백홀 (지연 5~20ms)                     │
-│  [엣지 계층]    실시간 추론·제어·필터링                         │
-│  (엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)       │
-│       │  직접 연결 (지연 < 1ms)                            │
-│  [디바이스]     센서·액추에이터 (데이터 생성)                    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 계층</div><div class="kb-diagram-note">대규모 학습·장기 저장·글로벌 정책 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAN / 인터넷 (지연 50~200ms)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포그 계층</div><div class="kb-diagram-note">지역 집계·전처리·정책 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LAN / 5G 백홀 (지연 5~20ms)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 계층</div><div class="kb-diagram-note">실시간 추론·제어·필터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 연결 (지연 &lt; 1ms)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스</div><div class="kb-diagram-note">센서·액추에이터 (데이터 생성)</div></div>
+</div>
+</div>
+
+
 
 ### 엣지 vs 포그 vs 클라우드 비교
 
@@ -59,7 +62,7 @@ tags = ["studynote-ict-convergence"]
 | 비용 | 높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 중간 | 낮음 (규모의 경제) |
 | 프라이버시 | 최상 | 양호 | 낮음 |
 
-**엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/)) 핵심 기술**
+<strong>엣지 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/">Edge AI</a>) 핵심 기술</strong>
 
 - **TensorFlow Lite**: 모바일·임베디드용 경량 추론 런타임. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) INT8 지원.
 - **ONNX Runtime**: 이기종 하드웨어([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·CPU) 가속 지원 범용 추론 엔진.
@@ -82,7 +85,7 @@ tags = ["studynote-ict-convergence"]
 **엣지와 포그의 차이점**
 
 - **엣지**: 디바이스와 물리적으로 동일 위치 또는 바로 인접. 극초저지연 전용.
-- **포그(Fog, [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 제안)**: 네트워크 엣지와 클라우드 사이의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 중간 계층. 지리적으로 더 넓은 범위 커버.
+- <strong>포그(Fog, <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> 제안)</strong>: 네트워크 엣지와 클라우드 사이의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 중간 계층. 지리적으로 더 넓은 범위 커버.
 
 - **📢 섹션 요약 비유**: 엣지는 현장 응급처치, 포그는 지역 병원, 클라우드는 대형 종합병원이다. 심정지는 현장에서 CPR(엣지)부터, 수술은 병원(포그), 희귀 질환 연구는 대형병원(클라우드).
 
@@ -92,10 +95,10 @@ tags = ["studynote-ict-convergence"]
 
 **엣지·포그 설계 결정 기준**
 
-1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구** < 10ms → 반드시 엣지 처리. 클라우드 불가.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도** 높음(의료·생체) → 엣지·포그 내 처리, 클라우드 전송 최소화.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구</strong> < 10ms → 반드시 엣지 처리. 클라우드 불가.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민감도</strong> 높음(의료·생체) → 엣지·포그 내 처리, 클라우드 전송 최소화.
 3. **모델 크기** > 1GB → 클라우드 학습 후 경량화하여 엣지 배포.
-4. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계** → 포그에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·필터링 후 클라우드로 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> → 포그에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·필터링 후 클라우드로 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송.
 
 **보안 고려사항**: 엣지 노드는 물리 접근이 쉬워 탬퍼링(Tampering) 위험. [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)), [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)) 필수.
 

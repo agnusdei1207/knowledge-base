@@ -19,44 +19,39 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/))**는 다수의 개발자가 작성한 코드를 중앙 저장소(Main Branch)에 하루에도 여러 번 빈번하게 병합(Merge)하고, 이 과정에서 자동화된 빌드와 단위 테스트를 수행하여 통합 버그를 조기에 발견하는 실천법이다. **CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))**는 CI를 통과한 코드([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 스테이징 환경을 거쳐 프로덕션 환경까지 안정적으로 릴리스하는 일련의 파이프라인 자동화 체계를 의미한다.
+- **개념**: <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>)</strong>는 다수의 개발자가 작성한 코드를 중앙 저장소(Main Branch)에 하루에도 여러 번 빈번하게 병합(Merge)하고, 이 과정에서 자동화된 빌드와 단위 테스트를 수행하여 통합 버그를 조기에 발견하는 실천법이다. <strong>CD (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>)</strong>는 CI를 통과한 코드([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 스테이징 환경을 거쳐 프로덕션 환경까지 안정적으로 릴리스하는 일련의 파이프라인 자동화 체계를 의미한다.
 
 - **필요성**: 전통적인 개발 환경에서는 '통합의 지옥(Integration Hell)'이 존재했다. 수개월간 각자 개발한 코드를 배포 직전에 합칠 때, 수많은 의존성 충돌과 미처 발견하지 못한 사이드 이펙트가 폭발하여 밤샘 수작업 배포가 일상이었다. 소프트웨어 릴리스가 '두려운 이벤트'가 아닌 '일상적인 숨쉬기'처럼 자연스러워지려면, 사람의 수동 개입을 배제한 완벽한 자동화 파이프라인이 필수적이다.
 
 - **💡 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동차 공장의 '컨베이어 벨트(조립 라인)'와 같습니다. 부품(코드)이 벨트에 올려지면, 로봇 팔들이 자동으로 조립(빌드)하고 엑스레이로 결함을 검사(테스트)한 뒤, 완성된 자동차를 대리점(프로덕션 서버)까지 탁송(배포)하는 전체 과정이 사람의 개입 없이 물 흐르듯 진행됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **수동 배포의 병목 현상 (Manual [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**: 과거에는 FTP를 이용해 소스 파일을 운영 서버에 직접 덮어쓰거나, 관리자가 두꺼운 '배포 매뉴얼'을 보며 수십 개의 명령어를 직접 타이핑했다. 한 단계라도 순서를 틀리면 서버가 다운되었다.
+  1. <strong>수동 배포의 병목 현상 (Manual <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 과거에는 FTP를 이용해 소스 파일을 운영 서버에 직접 덮어쓰거나, 관리자가 두꺼운 '배포 매뉴얼'을 보며 수십 개의 명령어를 직접 타이핑했다. 한 단계라도 순서를 틀리면 서버가 다운되었다.
 
   수동 릴리스 환경에서 발생하는 병목과 커뮤니케이션 오버헤드를 시각화하면, 왜 자동화가 선택이 아닌 생존의 문제인지 명확해진다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         CI/CD 도입 전: 수작업 통합과 배포의 "병목 지옥"          │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [개발자 A] ─▶ 개발완료 (1개월) ─┐                            │
-  │                                │                            │
-  │  [개발자 B] ─▶ 개발완료 (1개월) ─┼─▶ "통합의 날 (Merge Day)"   │
-  │                                │        (수동 병합)         │
-  │  [개발자 C] ─▶ 개발완료 (1개월) ─┘             │               │
-  │                                             ▼               │
-  │                         [수많은 충돌과 버그 폭발 (수주 소요)] │
-  │                                             │               │
-  │                                             ▼               │
-  │  [운영팀/옵스] ◀─ "여기 빌드 파일이요, 배포 매뉴얼대로 해주세요"  │
-  │       │                                                     │
-  │       └─▶ 수동 스크립트 실행 ─▶ 설정 누락 ─▶ 프로덕션 장애 발생 │
-  │                                                             │
-  │  ─────────────────────────────────────────────────────────  │
-  │   결과: 배포 리드 타임 장기화, 인간 에러(Human Error) 극대화       │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 도입 전: 수작업 통합과 배포의 "병목 지옥"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─ ─▶ "통합의 날 (Merge Day)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수동 병합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수많은 충돌과 버그 폭발 (수주 소요)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영팀/옵스</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ "여기 빌드 파일이요, 배포 매뉴얼대로 해주세요"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 수동 스크립트 실행 ─▶ 설정 누락 ─▶ 프로덕션 장애 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 배포 리드 타임 장기화, 인간 에러(Human Error) 극대화</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 도식은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언 이전의 전통적인 개발 팀이 겪던 치명적 안티패턴을 보여준다. 개발 주기가 길어 코드를 모아서 한 번에 병합하려다 보니 '통합 지옥'에 빠지게 된다. 간신히 통합에 성공해도, 개발 환경과 운영 환경의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))로 인해 운영팀이 수동 배포를 진행하다가 장애를 유발한다. 개발자는 "내 로컬에선 되는데 운영팀이 잘못 배포했다"고 비난하고, 운영팀은 "개발자가 엉터리 코드를 던졌다"고 맞서는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 팽배했다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 이 두 조직 사이의 '벽'을 허물어 자동화된 다리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))를 놓는 철학적, 기술적 해결책이다.
 
-  2. **[지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 탄생**: 익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))에서 제안된 "하루에 여러 번 묻지 말고 병합하라"는 원칙을 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Hudson) 같은 도구가 자동화하면서 CI가 확립되었다.
-  3. **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 혁명과 CD의 완성**: Docker와 같이 어플리케이션과 실행 환경을 통째로 묶는 불변 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))가 등장하면서, 테스트를 통과한 이미지를 프로덕션까지 오차 없이 전달(Delivery)하는 CD가 보편화되었다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)의 탄생</strong>: 익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))에서 제안된 "하루에 여러 번 묻지 말고 병합하라"는 원칙을 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Hudson) 같은 도구가 자동화하면서 CI가 확립되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 혁명과 CD의 완성</strong>: Docker와 같이 어플리케이션과 실행 환경을 통째로 묶는 불변 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))가 등장하면서, 테스트를 통과한 이미지를 프로덕션까지 오차 없이 전달(Delivery)하는 CD가 보편화되었다.
 
 - **📢 섹션 요약 비유**: 복잡한 요리 레시피를 매번 사람 손으로 만들며 실수를 반복하다가, 재료만 넣으면 항상 똑같은 맛을 내는 '완전 자동화된 요리 로봇([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)'을 주방에 들여놓은 것과 같습니다.
 
@@ -79,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -155,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-CI/CD 지속적 통합, 배포 파이프라인 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 지속적 통합, 배포 파이프라인 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

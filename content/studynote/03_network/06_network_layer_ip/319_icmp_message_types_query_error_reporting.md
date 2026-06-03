@@ -19,24 +19,28 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 헤더의 맨 첫 1바이트인 **타입(Type)**과 그다음 1바이트인 **코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** 숫자를 조합하여, 수십 가지의 다양한 장애 원인과 진단 결과를 코드화해 놓은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계.
+- **개념**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 헤더의 맨 첫 1바이트인 <strong>타입(Type)</strong>과 그다음 1바이트인 <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> 숫자를 조합하여, 수십 가지의 다양한 장애 원인과 진단 결과를 코드화해 놓은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계.
 - **필요성**: 병원에 환자(패킷)가 죽어서 왔는데 의사가 그냥 "죽었습니다"라고만 하면 유가족(송신자)은 답답해 미칠 것이다. "심장 마비로 죽었는지, 교통사고로 죽었는지, 아니면 그냥 살아있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 좀 해달라는 건지" 사유를 번호표로 만들어 일목요연하게 전달해야, 네트워크 엔지니어가 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 고치든 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫든 조치를 취할 수 있다.
 
-- **💡 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 번호는 관공서의 **"민원 서류 양식 번호"**와 같습니다.
+- **💡 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Type 번호는 관공서의 <strong>"민원 서류 양식 번호"</strong>와 같습니다.
   - Type 8번 (질의): "이 사람 살아있나요?" (생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 요청서)
   - Type 3번 (오류): "도로가 끊겨서 물건 배송 못 했음." (반송 사유서)
   - Type 11번 (오류): "유통기한이 지나서 폐기했음." (폐기 통지서)
 
-```text
-[ICMP 진단/오류 알림]
-    │
-    ▼
-[ICMP 메시지 종류]
-    │
-    └──▶ [Time Exceeded]
-```
 
-- **📢 섹션 요약 비유**: ** [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지의 종류는 자동차 계기판의 경고등(Type)과 같습니다. **엔진 오일 경고등(Type 3)**인지, **타이어 공기압 경고등(Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))**인지 불빛의 종류만 봐도 정비사가 어디를 고쳐야 할지 1초 만에 알 수 있게 해주는 암호입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 진단/오류 알림</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 메시지 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Time Exceeded</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> 메시지의 종류는 자동차 계기판의 경고등(Type)과 같습니다. </strong>엔진 오일 경고등(Type 3)<strong>인지, </strong>타이어 공기압 경고등(Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))**인지 불빛의 종류만 봐도 정비사가 어디를 고쳐야 할지 1초 만에 알 수 있게 해주는 암호입니다.
 
 ---
 
@@ -47,42 +51,42 @@ tags = ["studynote-network"]
 ### 1. 질의 메시지 (Query Message) - 능동적 진단
 네트워크가 정상인지 사람이 일부러 찔러보는(Ping) 메시지.
 
-- **`Type 8` (Echo Request)**: 송신자가 목적지로 "살아있니?" 하고 던지는 핑 요청 패킷. (해커들이 정찰용으로 많이 쓰므로 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 주로 이 Type 8을 차단해 버린다).
-- **`Type 0` (Echo Reply)**: Type 8을 받은 서버가 "응 나 살아있어!"라고 던져주는 핑 응답 패킷.
+- <strong><code>Type 8</code> (Echo Request)</strong>: 송신자가 목적지로 "살아있니?" 하고 던지는 핑 요청 패킷. (해커들이 정찰용으로 많이 쓰므로 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 주로 이 Type 8을 차단해 버린다).
+- <strong><code>Type 0</code> (Echo Reply)</strong>: Type 8을 받은 서버가 "응 나 살아있어!"라고 던져주는 핑 응답 패킷.
 
 ### 2. 오류 보고 메시지 (Error Reporting Message) - 수동적 경고
 패킷이 죽었을 때 라우터가 자발적으로 뱉어내는 사망 진단서.
 
-#### **`Type 3` (Destination Unreachable - 목적지 도달 불가)**
+#### <strong><code>Type 3</code> (Destination Unreachable - 목적지 도달 불가)</strong>
 가장 흔하게 겪는 에러다. 라우터가 길을 찾으려 했는데 도저히 찾을 수 없을 때 뿜어낸다. 세부 이유([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 중요하다.
-- **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0 (Net Unreachable)**: "내 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(지도)에 네가 말한 그 동네로 가는 길이 아예 안 적혀있어!" (라우터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류 시 발생)
-- **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1 (Host Unreachable)**: "그 동네까지는 무사히 왔어. 근데 그 동네 안에서 네가 말한 그 IP를 가진 PC가 전원이 꺼져 있거나 없네!"
-- **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 3 ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Unreachable)**: "그 PC까지 정확히 도착했어! 근데 그 PC가 네가 요구한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 80번 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 안 열어두고 닫아놨네!"
-- **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 4 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) Needed but DF set)**: [PMTU](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) 원리에서 배웠듯, "문이 좁아서 찢어야 하는데 네가 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 달아놔서 찢지도 못하고 그냥 버렸음!"
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 0 (Net Unreachable)</strong>: "내 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(지도)에 네가 말한 그 동네로 가는 길이 아예 안 적혀있어!" (라우터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류 시 발생)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 1 (Host Unreachable)</strong>: "그 동네까지는 무사히 왔어. 근데 그 동네 안에서 네가 말한 그 IP를 가진 PC가 전원이 꺼져 있거나 없네!"
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 3 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Unreachable)</strong>: "그 PC까지 정확히 도착했어! 근데 그 PC가 네가 요구한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 80번 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 안 열어두고 닫아놨네!"
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 4 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a> Needed but DF set)</strong>: [PMTU](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) 원리에서 배웠듯, "문이 좁아서 찢어야 하는데 네가 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 달아놔서 찢지도 못하고 그냥 버렸음!"
 
-#### **`Type 11` ([Time Exceeded](/knowledge-base/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/) - 시간 초과)**
+#### <strong><code>Type 11</code> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/">Time Exceeded</a> - 시간 초과)</strong>
 패킷의 수명이 다해 터져 죽었을 때 나오는 메시지다.
-- **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Expired in Transit)**: 패킷이 라우터를 지날 때마다 깎이는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 값이 0이 되어 라우터가 패킷을 사살하고 뱉는 에러. ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프가 돌 때 주로 발생하며, Traceroute 툴이 바로 이 에러 메시지를 수집해 라우터 IP를 따내는 원리다.)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 0 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> Expired in Transit)</strong>: 패킷이 라우터를 지날 때마다 깎이는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 값이 0이 되어 라우터가 패킷을 사살하고 뱉는 에러. ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프가 돌 때 주로 발생하며, Traceroute 툴이 바로 이 에러 메시지를 수집해 라우터 IP를 따내는 원리다.)
 
-#### **`Type 5` (Redirect - 경로 재지정)**
+#### <strong><code>Type 5</code> (Redirect - 경로 재지정)</strong>
 - 라우터가 멍청한 PC에게 "야! 나한테 패킷 던지지 말고, 저기 옆에 있는 B 라우터한테 던지는 게 훨씬 빨라! 다음부턴 쟤한테 바로 줘!"라고 더 좋은 지름길을 알려주며 경로를 꺾어주는 메시지.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Ping (핑) 쳤을 때 터미널 출력 결과 해독          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1) Reply from 8.8.8.8: bytes=32 time=10ms TTL=115         │
- │      ▶ Type 0 (Echo Reply)가 무사히 돌아옴. (100% 정상 통신)    │
- │                                                             │
- │   2) Request timed out (요청 시간 초과)                       │
- │      ▶ Type 8을 보냈는데 상대방이 아예 씹었거나(방화벽),           │
- │        상대방이 보낸 Type 0 응답이 오다가 중간에 증발함.           │
- │                                                             │
- │   3) Destination net unreachable (대상 네트워크 도달 불가)     │
- │      ▶ Type 3, Code 0 날아옴. 내 앞의 공유기가 길을 못 찾아 버림.  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ping (핑) 쳤을 때 터미널 출력 결과 해독</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Reply from 8.8.8.8: bytes=32 time=10ms TTL=115</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Type 0 (Echo Reply)가 무사히 돌아옴. (100% 정상 통신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Request timed out (요청 시간 초과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Type 8을 보냈는데 상대방이 아예 씹었거나(방화벽),</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대방이 보낸 Type 0 응답이 오다가 중간에 증발함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Destination net unreachable (대상 네트워크 도달 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Type 3, Code 0 날아옴. 내 앞의 공유기가 길을 못 찾아 버림.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ICMP는 **Type 8(질문)과 Type 0(대답)**으로 친구의 안부를 묻고, 만약 가는 길에 다리가 끊기면 집배원이 **Type 3(배송 불가 사유서)**을 들고 돌아오며, 유통기한이 지나 썩어버리면 **Type [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)(폐기 처분 통지서)**을 날려주는 완벽한 인터넷 보고 체계입니다.
 
@@ -140,15 +144,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ICMP 진단/오류 알림]
-    │
-    ▼
-[현재 개념: ICMP 메시지 종류]
-    │
-    ├──▶ [확장 A: Time Exceeded]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ICMP 진단/오류 알림</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ICMP 메시지 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Time Exceeded</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지 종류는 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 진단/오류 알림에서 출발해 현재 메커니즘을 정교화하고, 이후 Time Exceeded와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,18 +35,20 @@ SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료�
 
 아래 그림은 현재 시점에서 계획 가치와 실제 획득 가치의 차이로 SV를 읽는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Schedule is read as value gap at the same review date               │
-├──────────────────────────────────────────────────────────────────────┤
-│ review date t                                                       │
-│ PV: [████████████████████] 600                                      │
-│ EV: [███████████████     ] 450                                      │
-│                                                                      │
-│ SV = EV - PV = 450 - 600 = -150                                    │
-│ meaning: work worth 150 is still unfinished at date t              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schedule is read as value gap at the same review date</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">review date t</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">PV:</div><div class="kb-diagram-node">████████████████████</div><div class="kb-diagram-note">600</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">EV:</div><div class="kb-diagram-node">███████████████</div><div class="kb-diagram-note">450</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SV = EV - PV = 450 - 600 = -150</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">meaning: work worth 150 is still unfinished at date t</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 | 해석 |
 | :--- | :--- | :--- |
@@ -112,7 +114,7 @@ SV를 정확히 이해하려면 SPI와 ES를 함께 봐야 한다. SV가 절대 
 
 SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수치로 관리할 수 있다. 이는 조기 경보, 작업 단위 원인 분석, 비용 지표와의 통합 보고라는 세 가지 효과를 만든다. 특히 [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))와 함께 보면 "늦으면서 비싼 프로젝트"인지, "늦지만 비용은 통제되는 프로젝트"인지 구분할 수 있어 대응 우선순위가 선명해진다.
 
-한편 SV는 그 자체로 완결된 지표가 아니다. 종료 시점 수렴 한계, 금액 단위 표현의 직관 부족, 주공정 정보 미포함이라는 제약이 있기 때문이다. 그래서 SV는 독립 지표가 아니라 **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 기반 일정 진단의 출발점**으로 기억하는 것이 정확하다.
+한편 SV는 그 자체로 완결된 지표가 아니다. 종료 시점 수렴 한계, 금액 단위 표현의 직관 부족, 주공정 정보 미포함이라는 제약이 있기 때문이다. 그래서 SV는 독립 지표가 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 기반 일정 진단의 출발점</strong>으로 기억하는 것이 정확하다.
 
 결론적으로 SV는 일정 성과를 가치로 읽는 관리 언어다. 프로젝트 관리자는 이 숫자를 단순한 결과값이 아니라, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)·ES·주공정 분석으로 이어지는 의사결정의 첫 신호로 사용해야 한다.
 
@@ -133,21 +135,22 @@ SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수�
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-Planned Value (PV)
-       │
-       ├──▶ Earned Value (EV)
-       │         │
-       │         ▼
-       └──────▶ SV = EV - PV
-                   │
-                   ├──▶ SPI = EV / PV
-                   ├──▶ Earned Schedule (ES)
-                   └──▶ Critical Path Review
-                   │
-                   ▼
-Schedule Compression / Replanning / Stakeholder Reporting
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Planned Value (PV)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Earned Value (EV)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ SV = EV - PV</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ SPI = EV / PV</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ Earned Schedule (ES)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ Critical Path Review</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Schedule Compression / Replanning / Stakeholder Reporting</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 → 성과 측정 → 일정 차이 해석 → 보완 지표와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
 

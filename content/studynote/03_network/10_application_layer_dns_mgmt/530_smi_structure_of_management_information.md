@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 프레임워크에서 **[MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)([Management Information Base](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/))를 정의하고 구축하기 위한 문법적이고 논리적인 규칙(구조)** 을 의미합니다. (RFC 1155, 2578)
+[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 프레임워크에서 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">MIB</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">Management Information Base</a>)를 정의하고 구축하기 위한 문법적이고 논리적인 규칙(구조)</strong> 을 의미합니다. (RFC 1155, 2578)
 네트워크 장비마다 제조사가 다르고 하드웨어가 다르더라도, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 매니저와 에이전트 간에 오가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 온도, 트래픽 양, 이름)의 '형식([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Type)'과 '이름 부여 방식'을 통일하기 위해 IETF에서 만든 엄격한 문법 체계입니다.
 
-```text
-[MIB / OID]
-    │
-    ▼
-[SMI]
-    │
-    └──▶ [SNMPv1, v2c]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MIB / OID</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMPv1, v2c</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SMI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,23 +41,27 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1. **객체 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Object [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), OID)**
+1. <strong>객체 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a> (Object <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, OID)</strong>
    - [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 트리 구조에서 각각의 객체(관리 정보)에 어떻게 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/), `.1.3.6...`)을 찍어서 고유한 이름을 부여할 것인지 그 체계를 정의합니다.
-2. **구문 / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 (Syntax / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Types)**
+2. <strong>구문 / <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 타입 (Syntax / <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Types)</strong>
    - 관리 객체가 어떤 형태의 값을 가질 수 있는지 제한합니다. SMI는 ASN.1 (Abstract Syntax Notation One)이라는 범용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표기법의 부분집합을 사용합니다.
    - **기본 타입**: `INTEGER` (정수), `OCTET STRING` (문자열), `OBJECT IDENTIFIER` (OID 주소)
    - **애플리케이션 타입**: 네트워크 관리에 특화된 타입들로, `IpAddress` (IP 주소), `Counter32` (계속 증가만 하는 누적 값), `Gauge32` (올라갔다 내려갔다 하는 값, 예: 온도), `TimeTicks` (장비 부팅 후 지난 시간) 등이 있습니다.
 3. **객체의 부가 정보 (Encoding / Encoding Rules)**
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실제 네트워크 선로로 전송할 때, 이 값들을 어떻게 0과 1의 비트열로 인코딩(BER, Basic Encoding Rules)할 것인지에 대한 규칙을 포함합니다.
 
-```text
-[MIB / OID]
-    │
-    ▼
-[SMI]
-    │
-    └──▶ [SNMPv1, v2c]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MIB / OID</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMPv1, v2c</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SMI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 매니저가 라우터에게 "현재 인바운드 트래픽 양(InOctets)"을 물어봤을 때, 라우터(Agent)는 **SMI 규칙에 따라 해당 값을 `Counter32` 타입으로 포장하여 응답**합니다. 매니저 역시 SMI 규칙을 알고 있으므로, 받은 값이 무조건 증가만 하는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값임을 인지하고 이전 값과의 차이를 계산하여 트래픽 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(bps) 그래프를 그려냅니다.
+[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 매니저가 라우터에게 "현재 인바운드 트래픽 양(InOctets)"을 물어봤을 때, 라우터(Agent)는 <strong>SMI 규칙에 따라 해당 값을 <code>Counter32</code> 타입으로 포장하여 응답</strong>합니다. 매니저 역시 SMI 규칙을 알고 있으므로, 받은 값이 무조건 증가만 하는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값임을 인지하고 이전 값과의 차이를 계산하여 트래픽 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(bps) 그래프를 그려냅니다.
 
 SMI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) / OID가 기반 조건을 만든다면, SMI는 그 위에서 핵심 메커니즘을 구현하고, SNMPv1, v2c는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -113,15 +121,19 @@ SMI는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MIB / OID]
-    │
-    ▼
-[현재 개념: SMI]
-    │
-    ├──▶ [확장 A: SNMPv1, v2c]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIB / OID</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SMI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMPv1, v2c</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 SMI는 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) / OID에서 출발해 현재 메커니즘을 정교화하고, 이후 SNMPv1, v2c와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

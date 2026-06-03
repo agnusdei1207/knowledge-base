@@ -11,8 +11,8 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))은 1바이트(8비트)를 초과하는 멀티바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(int, float 등)를 연속된 메모리 주소나 네트워크 스트림에 **어떤 순서로 끊어 배치할 것인지** 약속한 아키텍처 규약이다.
-> 2. **가치**: 이기종 시스템(x86, ARM, 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 물리적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 발생하는 **'해석의 오해(Endianness [War](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/))'를 차단**하고, 일관된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화(Serialization)를 보장한다.
-> 3. **판단 포인트**: 설계자는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 정렬 순서(Big/Little)만 통제하며, 그보다 작은 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 순서([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Order, [MSb](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)/[LSb](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))**는 하드웨어 시리얼라이저(Serializer)가 물리 계층에서 자동 처리하므로 S/W 레벨에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된다.
+> 2. **가치**: 이기종 시스템(x86, ARM, 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))이 물리적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 발생하는 <strong>'해석의 오해(Endianness <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/">War</a>)'를 차단</strong>하고, 일관된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화(Serialization)를 보장한다.
+> 3. **판단 포인트**: 설계자는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 정렬 순서(Big/Little)만 통제하며, 그보다 작은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 순서(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Order, <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/">MSb</a>/<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/">LSb</a>)</strong>는 하드웨어 시리얼라이저(Serializer)가 물리 계층에서 자동 처리하므로 S/W 레벨에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된다.
 
 ---
 
@@ -33,27 +33,24 @@ tags = ["studynote-computer-architecture"]
 ### 호스트 규격과 네트워크 규격의 충돌
 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬 아키텍처는 크게 호스트 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서(HBO)와 네트워크 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서(NBO)의 2-Tier 구조로 분리되어 동작한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           바이트 정렬 스와핑(Swapping) 방어 아키텍처        │
-├────────────────────────────────────────────────────────┤
-│   [ x86 호스트 (Little Endian) ]                       │
-│   원본 데이터 `0x11223344` (메모리엔 `44 33 22 11`로 누워있음) │
-│                        │                               │
-│                        ▼                               │
-│      [ htonl() 함수 (Host to Network Long) 실행 ]       │
-│   ──▶ S/W가 강제로 바이트를 뒤집어 버림: `11 22 33 44`     │
-│                        │                               │
-│                        ▼                               │
-│   [ 인터넷 세계 (Network Byte Order = Big Endian) ]    │
-│   전송되는 스트림: `11 22 33 44` (라우터가 보고 좋아함!)       │
-│                        │                               │
-│                        ▼                               │
-│   [ ARM 호스트 (수신측) ]                                │
-│      [ ntohl() 함수 (Network to Host) 실행 ]           │
-│   ──▶ 자기 뇌 구조(Endian)에 맞게 알아서 재배치 후 연산!     │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 정렬 스와핑(Swapping) 방어 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x86 호스트 (Little Endian)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 <code>0x11223344</code> (메모리엔 <code>44 33 22 11</code>로 누워있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">htonl() 함수 (Host to Network Long) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ S/W가 강제로 바이트를 뒤집어 버림: <code>11 22 33 44</code></div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 세계 (Network Byte Order = Big Endian)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송되는 스트림: <code>11 22 33 44</code> (라우터가 보고 좋아함!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARM 호스트 (수신측)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ntohl() 함수 (Network to Host) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 자기 뇌 구조(Endian)에 맞게 알아서 재배치 후 연산!</div></div>
+</div>
+</div>
+
+
 
 운영체제가 제공하는 `htonl`, `ntohs` 같은 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) API는 일종의 통역사다. 이 매크로는 컴파일러가 알아서 현재 시스템이 [리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/)이면 순서를 180도 뒤집고, 이미 [빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 시스템이라면 연산을 통째로 무시(Null)하는 스마트한 전처리기로 융합되어 오버헤드를 막는다.
 
@@ -64,11 +61,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅲ. 비교 및 연결
 
 ### [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order) vs [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 순서([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Order)
-엔지니어들이 가장 헷갈려하는 맹점이다. 엔디안(Endian)은 오직 **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위(8비트) 묶음**의 배치만 결정한다.
+엔지니어들이 가장 헷갈려하는 맹점이다. 엔디안(Endian)은 오직 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 단위(8비트) 묶음</strong>의 배치만 결정한다.
 
 | 항목 | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서 ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 순서 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) |
 |:---|:---|:---|
-| **제어 계층** | **S/W, CPU 아키텍처 (빅/[리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/))** | **H/W 물리 계층 (랜카드 시리얼라이저)** |
+| **제어 계층** | <strong>S/W, CPU 아키텍처 (빅/<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/">리틀 엔디안</a>)</strong> | **H/W 물리 계층 (랜카드 시리얼라이저)** |
 | **처리 단위** | 8비트(1바이트) 묶음 단위로 순서 바꿈 | 1바이트 내부의 개별 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(0,1) 송출 순서 |
 | **규격 사례** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP ([빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)) | RS-232, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 10Base-T ([LSb](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) 먼저 쏨) |
 | **개발자 개입**| 코드에서 `htonl()` 류의 함수로 직접 통제 | 개발자가 칩 내부 로직에 신경 쓸 필요 없음([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) |
@@ -82,11 +79,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Binary) 파싱 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 C언어 구조체(`struct`)로 통째로 덤프(fwrite) 떠서 저장했는가? 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다른 컴퓨터에서 불러올 때 엔디안이 다르면 필드값이 완전히 붕괴된다. 디스크에 바이너리 저장 시 무조건 'NBO([빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/))'으로 고정해서 저장하거나, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 헤더에 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark) 매직 넘버를 박아두었는가?
-2. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)-field) 구조체 남용 금지**: C/C++에서 메모리를 아끼겠다고 `struct { int flag:3; int mode:5; }` 형태로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 짜면, 컴파일러와 아키텍처의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬 방식에 따라 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 채워지는 순서가 180도 달라진다. 크로스 플랫폼 네트워크 통신 시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 구조체를 그대로 쏘는 행위는 시한폭탄을 던지는 것과 같다.
+1. <strong>바이너리 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Binary) 파싱 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 C언어 구조체(`struct`)로 통째로 덤프(fwrite) 떠서 저장했는가? 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다른 컴퓨터에서 불러올 때 엔디안이 다르면 필드값이 완전히 붕괴된다. 디스크에 바이너리 저장 시 무조건 'NBO([빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/))'으로 고정해서 저장하거나, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 헤더에 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark) 매직 넘버를 박아두었는가?
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 필드(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>-field) 구조체 남용 금지</strong>: C/C++에서 메모리를 아끼겠다고 `struct { int flag:3; int mode:5; }` 형태로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 짜면, 컴파일러와 아키텍처의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬 방식에 따라 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 채워지는 순서가 180도 달라진다. 크로스 플랫폼 네트워크 통신 시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 구조체를 그대로 쏘는 행위는 시한폭탄을 던지는 것과 같다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **문자열(String) 타입에 엔디안 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 함수 적용**: "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 뒤집어서 보내야 해!"라며 1바이트짜리 문자열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`char str[10]`)나 1바이트 정수(`int8_t`) 배열을 루프 돌리며 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)하는 멍청한 로직. [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬은 2바이트 이상 멀티바이트를 묶어서 의미를 가질 때만 유효하다. 독립된 1바이트짜리 알파벳은 뒤집어봤자 자기 자신이다. 이 행위는 귀중한 CPU 사이클만 무의미하게 태우는 만행이다.
+- <strong>문자열(String) 타입에 엔디안 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 함수 적용</strong>: "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 뒤집어서 보내야 해!"라며 1바이트짜리 문자열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`char str[10]`)나 1바이트 정수(`int8_t`) 배열을 루프 돌리며 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)하는 멍청한 로직. [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬은 2바이트 이상 멀티바이트를 묶어서 의미를 가질 때만 유효하다. 독립된 1바이트짜리 알파벳은 뒤집어봤자 자기 자신이다. 이 행위는 귀중한 CPU 사이클만 무의미하게 태우는 만행이다.
 
 - **📢 섹션 요약 비유**: 문자열을 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)하는 것은 구슬 목걸이 전체의 앞뒤를 뒤집는 게 아니라, 꿰어져 있는 구슬 한 알을 제자리에서 뱅글뱅글 돌려대는 것과 같다. 구슬은 둥글기 때문에 혼자 돌아봤자 모양([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 전혀 변하지 않는다.
 
@@ -106,27 +103,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark)** | [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/), UTF-32) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞에 `0xFEFF`를 찍어, 이 문서의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)들이 빅/리틀 중 어떤 정렬로 쓰였는지 운영체제에 선언하는 깃발 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order Mark)</strong> | [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/), UTF-32) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 앞에 `0xFEFF`를 찍어, 이 문서의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)들이 빅/리틀 중 어떤 정렬로 쓰였는지 운영체제에 선언하는 깃발 |
 | **시리얼라이제이션 (Serialization)** | 메모리에 입체적으로 퍼져있는 객체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬 규칙에 맞춰 한 줄짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 열([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))로 직렬화하여 네트워크로 쏘는 기술 |
-| **NBO (Network [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order)** | 인터넷 상공을 날아다니는 모든 패킷의 멀티바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 '[빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)'이어야만 한다는 전 세계 라우터들의 철칙 |
+| <strong>NBO (Network <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order)</strong> | 인터넷 상공을 날아다니는 모든 패킷의 멀티바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 '[빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)'이어야만 한다는 전 세계 라우터들의 철칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이기종 아키텍처(IBM, Intel) 간 통신 규격 부재로 인한 데이터 붕괴
-    │
-    ▼
-엔디안(Endianness) 전쟁 및 바이트 정렬(Byte Ordering) 개념 부상
-    │
-    ▼
-호스트 바이트 순서(HBO)와 네트워크 바이트 순서(NBO)의 2-Tier 분리
-    │
-    ▼
-S/W 레벨의 바이트 스와핑(hton, ntoh 매크로) 융합
-    │
-    ▼
-현대 분산 시스템의 직렬화(Protobuf, Thrift) 프레임워크 내재화 추상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이기종 아키텍처(IBM, Intel) 간 통신 규격 부재로 인한 데이터 붕괴</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엔디안(Endianness) 전쟁 및 바이트 정렬(Byte Ordering) 개념 부상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">호스트 바이트 순서(HBO)와 네트워크 바이트 순서(NBO)의 2-Tier 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S/W 레벨의 바이트 스와핑(hton, ntoh 매크로) 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 분산 시스템의 직렬화(Protobuf, Thrift) 프레임워크 내재화 추상화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "시스템 파편화 → 충돌 발생 → 글로벌 네트워크 통일 표준(NBO) 제정 → 소프트웨어 번역 계층 도입 → 현대 프레임워크의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)"로 이어지는 통신 규격의 발전사를 보여준다.
 

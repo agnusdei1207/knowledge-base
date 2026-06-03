@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산 대상의 위치를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적지 않고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단의 값들을 암묵적으로 사용하는 **0-주소 실행 모델**이다.
+> 1. **본질**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산 대상의 위치를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적지 않고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단의 값들을 암묵적으로 사용하는 <strong>0-주소 실행 모델</strong>이다.
 > 2. **가치**: [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 주소 필드가 사라지므로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 짧아지고, 바이트코드 크기와 구현 복잡도를 줄이기 쉬워진다.
 > 3. **판단 포인트**: 코드 밀도와 이식성에는 강하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (ILP, [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism)과 임의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근에는 약해 **실물 CPU보다는 가상 머신에 더 잘 맞는다**.
 
@@ -31,25 +31,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 핵심은 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치를 말하지 않아도 된다**는 점이다. 이를 위해 시스템은 보통 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 캐시, 산술논리장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), 그리고 `PUSH`/`POP`/연산 명령으로 구성된다. 연산 명령은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 맨 위 1~2개 값을 암묵적으로 읽고, 결과를 다시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위에 쌓는다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치를 말하지 않아도 된다</strong>는 점이다. 이를 위해 시스템은 보통 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 캐시, 산술논리장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), 그리고 `PUSH`/`POP`/연산 명령으로 구성된다. 연산 명령은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 맨 위 1~2개 값을 암묵적으로 읽고, 결과를 다시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위에 쌓는다.
 
 아래 그림은 `A B + C *` 같은 후위 표기식이 어떻게 처리되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      스택 머신의 기본 실행 흐름: 위치 지정 대신 "순서"로 계산      │
-├───────────┬──────────────────────────────┬───────────────────────────┤
-│ 명령어    │ 스택 상태                     │ 동작 의미                  │
-├───────────┼──────────────────────────────┼───────────────────────────┤
-│ PUSH A    │ [A]                          │ A를 스택에 적재            │
-│ PUSH B    │ [A, B]                       │ B를 스택에 적재            │
-│ ADD       │ [A+B]                        │ B, A를 꺼내 더해 재적재    │
-│ PUSH C    │ [A+B, C]                     │ C를 스택에 적재            │
-│ MUL       │ [(A+B)×C]                    │ C, A+B를 꺼내 곱해 재적재  │
-└───────────┴──────────────────────────────┴───────────────────────────┘
-```
 
-이 모델에서 `ADD`나 `MUL`은 **[0-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) ([Zero-Address Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/))** 로 동작한다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에는 목적지와 소스 주소가 없고, 하드웨어나 가상 머신이 "최상단 두 값을 사용한다"는 규칙을 알고 있다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 단순해지지만, 값을 원하는 순서로 미리 쌓아 두는 컴파일러 또는 해석기 역할이 중요해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 머신의 기본 실행 흐름: 위치 지정 대신 "순서"로 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어</div><div class="kb-diagram-cell">스택 상태</div><div class="kb-diagram-cell">동작 의미</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">A를 스택에 적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH B</div><div class="kb-diagram-node">A, B</div><div class="kb-diagram-note">B를 스택에 적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">ADD</div><div class="kb-diagram-node">A+B</div><div class="kb-diagram-note">B, A를 꺼내 더해 재적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH C</div><div class="kb-diagram-node">A+B, C</div><div class="kb-diagram-note">C를 스택에 적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">MUL</div><div class="kb-diagram-node">(A+B)×C</div><div class="kb-diagram-note">C, A+B를 꺼내 곱해 재적재</div></div>
+</div>
+</div>
+
+
+
+이 모델에서 `ADD`나 `MUL`은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">0-주소 명령어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">Zero-Address Instruction</a>)</strong> 로 동작한다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에는 목적지와 소스 주소가 없고, 하드웨어나 가상 머신이 "최상단 두 값을 사용한다"는 규칙을 알고 있다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 단순해지지만, 값을 원하는 순서로 미리 쌓아 두는 컴파일러 또는 해석기 역할이 중요해진다.
 
 | 구성 요소 | 역할 | 설계상 의미 |
 | :-- | :-- | :-- |
@@ -66,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신을 제대로 이해하려면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine)과 비교해야 한다. 두 구조의 가장 큰 차이는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 명시적으로 가리키느냐, 암묵적으로 소비하느냐**다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 `ADD R1, R2, R3`처럼 위치를 직접 지정해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 재사용성을 높이고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 `PUSH`, `ADD` 중심으로 코드 밀도와 단순성을 높인다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신을 제대로 이해하려면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine)과 비교해야 한다. 두 구조의 가장 큰 차이는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 명시적으로 가리키느냐, 암묵적으로 소비하느냐</strong>다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 `ADD R1, R2, R3`처럼 위치를 직접 지정해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 재사용성을 높이고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 `PUSH`, `ADD` 중심으로 코드 밀도와 단순성을 높인다.
 
 | 비교 항목 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 |
 | :-- | :-- | :-- |
@@ -86,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 좋은가 나쁜가"보다 **어떤 계층에서 쓰느냐**가 더 중요하다. 물리 CPU의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 채택하기에는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당 최적화, 깊은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 비용 문제가 크다. 반면 가상 머신의 중간 코드로 쓰면 구현 단순성, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기, 이식성이 큰 장점이 된다.
+실무에서는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 좋은가 나쁜가"보다 <strong>어떤 계층에서 쓰느냐</strong>가 더 중요하다. 물리 CPU의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 채택하기에는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당 최적화, 깊은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 비용 문제가 크다. 반면 가상 머신의 중간 코드로 쓰면 구현 단순성, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기, 이식성이 큰 장점이 된다.
 
 ### 적용이 유리한 경우
 
@@ -106,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 - 바이트코드 크기 절감이 실제 배포 이점으로 이어지는가?
 - 최종 실행 단계에서 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러나 해석기가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 연산을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 잘 매핑할 수 있는가?
 
-실무적으로는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 표현하고, 실제 실행 직전에는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반으로 최적화"하는 절충이 자주 쓰인다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 최종 하드웨어보다 **중간 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층**에서 더 큰 힘을 발휘한다.
+실무적으로는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 표현하고, 실제 실행 직전에는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반으로 최적화"하는 절충이 자주 쓰인다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 최종 하드웨어보다 <strong>중간 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>에서 더 큰 힘을 발휘한다.
 
 - **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 전국 공용 택배 규격 상자와 같다. 상자 규격이 단순하면 어디서나 보내기 쉽지만, 창고 내부에서 가장 빠르게 분류하려면 결국 창고 사정에 맞게 다시 정리해야 한다.
 
@@ -118,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 
 반면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 모든 문제의 답은 아니다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기 중심 모델은 중간값을 자유롭게 재사용하거나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 끌어내는 데 불리하다. 따라서 현대 컴퓨터구조 관점에서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 "최고 성능을 위한 주류 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)"라기보다, "간결한 중간 표현과 실행 모델"로 기억하는 것이 정확하다.
 
-정리하면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 대체한 실패작이 아니라, 목적이 다른 설계 철학이다. 메모리 제약 시대에는 코드 밀도를 위해 의미가 있었고, 오늘날에는 JVM과 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 같은 가상 실행 환경에서 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 이식성을 위해 다시 의미를 가진다. 즉 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 본질은 **느린 구조**가 아니라, **주소를 생략해 계산을 표현하는 구조**에 있다.
+정리하면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 대체한 실패작이 아니라, 목적이 다른 설계 철학이다. 메모리 제약 시대에는 코드 밀도를 위해 의미가 있었고, 오늘날에는 JVM과 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 같은 가상 실행 환경에서 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 이식성을 위해 다시 의미를 가진다. 즉 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 본질은 <strong>느린 구조</strong>가 아니라, <strong>주소를 생략해 계산을 표현하는 구조</strong>에 있다.
 
 - **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 고속 경주차보다 표준 컨테이너에 가깝다. 가장 빠르지는 않아도, 어디서나 같은 규격으로 싣고 내릴 수 있어 넓은 생태계에서 오래 살아남는다.
 
@@ -136,23 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수식 계산 단순화 요구
-        │
-        ▼
-후위 표기법 (RPN, Reverse Polish Notation)
-        │
-        ▼
-스택 머신 (Stack Machine)
-        │
-        ├──────────────▶ 0-주소 명령어 (Zero-Address Instruction)
-        │
-        ▼
-가상 머신 바이트코드 설계
-        │
-        ├──────────────▶ JVM (Java Virtual Machine)
-        └──────────────▶ WebAssembly
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수식 계산 단순화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">후위 표기법 (RPN, Reverse Polish Notation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스택 머신 (Stack Machine)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 0-주소 명령어 (Zero-Address Instruction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 머신 바이트코드 설계</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ JVM (Java Virtual Machine)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ WebAssembly</div>
+</div>
+</div>
+
+
 
 이 흐름은 "식 표현 단순화 → [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 실행 → 주소 생략형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) → 현대 바이트코드 활용"으로 이어지는 진화를 보여준다.
 

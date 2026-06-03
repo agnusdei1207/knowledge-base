@@ -20,27 +20,29 @@ tags = ["studynote-algorithm"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 #### 1. KMP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 메커니즘
-- **LPS (Longest Proper Prefix which is also Suffix) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**: 패턴 내부에서 중복되는 하위 패턴을 찾아 매칭 실패 시 되돌아갈 위치를 지정함.
+- <strong>LPS (Longest Proper Prefix which is also Suffix) <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>: 패턴 내부에서 중복되는 하위 패턴을 찾아 매칭 실패 시 되돌아갈 위치를 지정함.
 
-```text
-[ KMP Matching Logic & LPS Table ]
-Text:    A B A B C A B A B A B D
-Pattern: A B A B A B D
-         | | | | | x (Mismatch at index 4)
-         
-[ LPS Array Construction ]
-Pattern: A B A B A B D
-Index:   0 1 2 3 4 5 6
-LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 
-[ State Transition Logic ]
-(State) ---[Match]--> (Next State)
-   |
-[Mismatch]
-   |
-   V
-(Backtrack to LPS[index-1])
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMP Matching Logic &amp; LPS Table</div></div>
+<div class="kb-diagram-note">Text: A B A B C A B A B A B D</div>
+<div class="kb-diagram-note">Pattern: A B A B A B D</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x (Mismatch at index 4)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPS Array Construction</div></div>
+<div class="kb-diagram-note">Pattern: A B A B A B D</div>
+<div class="kb-diagram-note">Index: 0 1 2 3 4 5 6</div>
+<div class="kb-diagram-note">LPS: 0 0 1 2 3 4 0 &lt;-- Prefix matching suffix lengths</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">State Transition Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(State) ---</div><div class="kb-diagram-node">Match</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Next State)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mismatch</div></div>
+<div class="kb-diagram-note">V</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(Backtrack to LPS</div><div class="kb-diagram-node">index-1</div><div class="kb-diagram-note">)</div></div>
+</div>
+</div>
+
+
 
 #### 2. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 분석
 - **LPS 계산**: 패턴 길이 $M$에 대해 $O(M)$ 소요.
@@ -51,7 +53,7 @@ LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 
 | 비교 항목 | 단순 비교 (Naive) | KMP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [보이어-무어](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/) ([Boyer-Moore](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)) |
 | :--- | :--- | :--- | :--- |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(N \times M)$ | $O(N + M)$ | $O(N/M) \sim O(N \times M)$ |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(N \times M)$ | $O(N + M)$ | $O(N/M) \sim O(N \times M)$ |
 | **탐색 방향** | 왼쪽 → 오른쪽 | 왼쪽 → 오른쪽 | 오른쪽 → 왼쪽 (Backwards) |
 | **주요 특징** | 구현이 단순함 | 최악의 경우에도 선형 시간 보장 | 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 우수함 (스킵 큼) |
 | **추가 공간** | $O(1)$ | $O(M)$ - LPS [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | $O(\Sigma + M)$ - Skip Tables |
@@ -71,18 +73,21 @@ LPS:     0 0 1 2 3 4 0  <-- Prefix matching suffix lengths
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Naive 문자열 매칭]
-    │
-    ▼
-[부분 일치 테이블]
-    │
-    ▼
-[KMP 알고리즘]
-    │
-    ▼
-[선형 시간 검색]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Naive 문자열 매칭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부분 일치 테이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMP 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 시간 검색</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

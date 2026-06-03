@@ -25,29 +25,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 메모리 접근이 단순히 “주소→[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)”로 끝나지 않고, 중간에 권한 판정 계층을 반드시 거친다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            메모리 보호의 본질: 접근 전에 반드시 자격 심사           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 사용자 프로세스                                                     │
-│   load / store / fetch 요청                                         │
-│            │                                                         │
-│            ▼                                                         │
-│   가상 주소 (Virtual Address) + 접근 종류 (R / W / X)               │
-│            │                                                         │
-│            ▼                                                         │
-│ MMU (Memory Management Unit)                                         │
-│   ├─ 주소 변환 가능? ──────────────── 아니오 ─▶ 예외 처리            │
-│   ├─ 현재 모드 권한 적합? ─────────── 아니오 ─▶ 보호 위반            │
-│   └─ 페이지 권한 비트 일치? ──────── 아니오 ─▶ Segmentation Fault    │
-│            │                                                         │
-│            예                                                        │
-│            ▼                                                         │
-│ 물리 메모리 (Physical Memory) 접근 허용                             │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 점은, 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 메모리 부족 문제를 해결하는 기능이 아니라 **잘못된 접근의 파급 범위를 국소화**하는 기능이라는 사실이다. 프로그램 하나는 죽을 수 있어도 시스템 전체는 살아남게 만드는 것이 목표다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 보호의 본질: 접근 전에 반드시 자격 심사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load / store / fetch 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 (Virtual Address) + 접근 종류 (R / W / X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU (Memory Management Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주소 변환 가능? 아니오 ─▶ 예외 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 현재 모드 권한 적합? 아니오 ─▶ 보호 위반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 페이지 권한 비트 일치? 아니오 ─▶ Segmentation Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리 (Physical Memory) 접근 허용</div></div>
+</div>
+</div>
+
+
+
+중요한 점은, 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 메모리 부족 문제를 해결하는 기능이 아니라 <strong>잘못된 접근의 파급 범위를 국소화</strong>하는 기능이라는 사실이다. 프로그램 하나는 죽을 수 있어도 시스템 전체는 살아남게 만드는 것이 목표다.
 
 - **📢 섹션 요약 비유**: 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 도서관 좌석표와 같다. 모두 같은 건물 안에 있지만, 내 좌석에서만 공부할 수 있고 서고나 사서실까지 마음대로 들어가면 즉시 제지당한다.
 
@@ -55,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 보통 세 층이 함께 동작할 때 완성된다. 첫째는 **실행 모드 분리**이고, 둘째는 **주소 공간 분리**, 셋째는 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 권한 분리**다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 기록하고, MMU는 실제 접근 순간마다 그 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 기계적으로 집행한다.
+메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 보통 세 층이 함께 동작할 때 완성된다. 첫째는 <strong>실행 모드 분리</strong>이고, 둘째는 **주소 공간 분리**, 셋째는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위 권한 분리</strong>다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 기록하고, MMU는 실제 접근 순간마다 그 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 기계적으로 집행한다.
 
 ### 1) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 이루는 핵심 구성 요소
 
@@ -73,31 +70,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 번의 메모리 접근이 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 실행 모드를 어떻게 함께 통과하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                페이지 기반 메모리 보호의 판정 흐름                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 명령 수행                                                     │
-│   │                                                                  │
-│   ├─ 명령 인출(Execute)                                              │
-│   ├─ 데이터 읽기(Read)                                               │
-│   └─ 데이터 쓰기(Write)                                              │
-│            │                                                         │
-│            ▼                                                         │
-│ TLB 조회 ── 적중 ─▶ 권한 확인 ── 통과 ─▶ 메모리 접근 허용            │
-│   │                                                                  │
-│   └─ 실패                                                            │
-│       ▼                                                              │
-│   PTE 조회                                                           │
-│   ├─ Present = 0          ─▶ Page Fault                              │
-│   ├─ User = 0, 사용자 모드 ─▶ Protection Fault                       │
-│   ├─ Write = 0, 쓰기 시도 ─▶ Protection Fault                        │
-│   ├─ Execute = 0, 실행 시도 ─▶ NX Fault                              │
-│   └─ 조건 충족              ─▶ TLB 갱신 후 접근 허용                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 구분은 **[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))** 와 **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반 ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Fault)** 이 다르다는 점이다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 “해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 아직 메모리에 없다”는 상태 문제라면, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반은 “메모리에 있더라도 네가 그렇게 접근할 권한이 없다”는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다. 두 예외를 구분해야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 적재할지, 프로세스를 종료할지 올바르게 결정할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 기반 메모리 보호의 판정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 명령 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 명령 인출(Execute)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 읽기(Read)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 쓰기(Write)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB 조회 ── 적중 ─▶ 권한 확인 ── 통과 ─▶ 메모리 접근 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTE 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Present = 0 ─▶ Page Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ User = 0, 사용자 모드 ─▶ Protection Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Write = 0, 쓰기 시도 ─▶ Protection Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Execute = 0, 실행 시도 ─▶ NX Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조건 충족 ─▶ TLB 갱신 후 접근 허용</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 구분은 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong> 와 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 위반 (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Fault)</strong> 이 다르다는 점이다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 “해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 아직 메모리에 없다”는 상태 문제라면, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 위반은 “메모리에 있더라도 네가 그렇게 접근할 권한이 없다”는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다. 두 예외를 구분해야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 적재할지, 프로세스를 종료할지 올바르게 결정할 수 있다.
 
 또한 현대 보안에서는 W^X (Write xor Execute) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심이다. 하나의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능하고 실행 가능하게 두지 않으면, 공격자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 심어 둔 코드를 그대로 실행하기 어려워진다. 이처럼 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 단순한 안정화 기술을 넘어, 실행 제어 기반 보안 모델로 확장된다.
 
@@ -107,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 제대로 이해하려면 비슷해 보이는 개념들과 경계를 분명히 해야 한다. 특히 **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))**, **격리 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))**, **[메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) ([Memory Safety](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/))** 은 연결되지만 같은 말이 아니다.
+메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 제대로 이해하려면 비슷해 보이는 개념들과 경계를 분명히 해야 한다. 특히 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a>)</strong>, <strong>격리 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">메모리 안전성</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">Memory Safety</a>)</strong> 은 연결되지만 같은 말이 아니다.
 
 | 비교 항목 | 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | 주소 공간 격리 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) | [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) ([Memory Safety](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)) |
 | :-- | :-- | :-- | :-- |
@@ -134,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 이론보다 훨씬 구체적인 장애와 연결된다. 대표적인 사례는 **읽기 전용 코드/상수 영역**, **가드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Guard Page](/knowledge-base/studynote/02_operating_system/02_process_thread/154_thread_stack_overflow_prevention/))**, **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 선택적 권한 부여**다. 중요한 판단은 “모든 접근을 허용한 뒤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻을 것인가”가 아니라, “어디까지 열어도 안전한가”를 먼저 정하는 것이다.
+실무에서 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 이론보다 훨씬 구체적인 장애와 연결된다. 대표적인 사례는 **읽기 전용 코드/상수 영역**, <strong>가드 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/154_thread_stack_overflow_prevention/">Guard Page</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>의 선택적 권한 부여</strong>다. 중요한 판단은 “모든 접근을 허용한 뒤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻을 것인가”가 아니라, “어디까지 열어도 안전한가”를 먼저 정하는 것이다.
 
 ### 실무 시나리오 1: 읽기 전용 상수 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도
 
@@ -174,7 +169,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 한계도 분명하다. 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 같은 프로세스 내부의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류까지 모두 고쳐 주지 못하고, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)·[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)·예외 처리에는 분명한 하드웨어 비용이 따른다. 또한 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 장치 메모리 매핑, 고성능 입출력처럼 특수 권한이 필요한 구간에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계가 허술하면 오히려 큰 공격면이 열린다.
 
-따라서 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 “메모리를 막아 두는 기술”이 아니라, **신뢰 경계를 정교하게 설계하는 기술**로 기억하는 것이 맞다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 공간을 나누는 기술이라면, 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 그 공간에 법과 질서를 부여하는 기술이다.
+따라서 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 “메모리를 막아 두는 기술”이 아니라, <strong>신뢰 경계를 정교하게 설계하는 기술</strong>로 기억하는 것이 맞다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 공간을 나누는 기술이라면, 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 그 공간에 법과 질서를 부여하는 기술이다.
 
 - **📢 섹션 요약 비유**: 좋은 도시는 도로만 잘 깔린 곳이 아니라, 차선·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)·출입 제한이 함께 설계된 곳이다. 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)도 주소만 있는 시스템을 안전한 도시로 바꿔 준다.
 
@@ -193,24 +188,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Base / Limit Register
-        │
-        ▼
-세그멘테이션 (Segmentation)
-        │
-        ▼
-페이징 (Paging) + PTE (Page Table Entry) 권한 비트
-        │
-        ▼
-사용자 / 커널 모드 분리 + MMU (Memory Management Unit)
-        │
-        ▼
-NX (No-eXecute) · W^X 정책 · 가드 페이지 (Guard Page)
-        │
-        ▼
-ASLR (Address Space Layout Randomization) · 샌드박싱 · 하드웨어 격리 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Base / Limit Register</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging) + PTE (Page Table Entry) 권한 비트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사용자 / 커널 모드 분리 + MMU (Memory Management Unit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NX (No-eXecute) · W^X 정책 · 가드 페이지 (Guard Page)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASLR (Address Space Layout Randomization) · 샌드박싱 · 하드웨어 격리 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 범위 검사에서 출발해, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 권한 제어와 실행 금지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 거쳐 현대 보안형 메모리 모델로 확장되는 과정을 보여준다.
 

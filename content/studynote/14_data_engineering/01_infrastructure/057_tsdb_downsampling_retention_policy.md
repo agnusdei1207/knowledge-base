@@ -31,15 +31,21 @@ tags = ["studynote-data-engineering"]
 
 다운샘플링은 일정 구간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어 평균, 최대, 최소 같은 대표값으로 바꾸는 작업이다.
 
-```text
-1초 단위 원본
-   ↓
-1분 집계
-   ↓
-1시간 집계
-   ↓
-장기 보관
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1초 단위 원본</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1분 집계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1시간 집계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">장기 보관</div>
+</div>
+</div>
+
+
 
 이렇게 하면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훨씬 적은 공간에 저장할 수 있고, 조회도 빨라진다.
 
@@ -92,15 +98,21 @@ TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## 관련 개념 맵
 
-```text
-원본 시계열 데이터
-   ↓
-다운샘플링
-   ↓
-집계 데이터
-   ↓
-보존 정책
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 시계열 데이터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다운샘플링</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">집계 데이터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">보존 정책</div>
+</div>
+</div>
+
+
 
 ---
 

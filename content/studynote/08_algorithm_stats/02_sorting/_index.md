@@ -28,21 +28,26 @@ tags = ["algorithm_stats"]
 
 ### 정렬 알고리즘 발전 과정
 
-```
-[정렬 알고리즘 진화사]
 
-1950년대 이전: 초기 정렬
-↓ (버블 정렬, 선택 정렬, 삽입 정렬)
-1959년: 퀵 정렬 탄생 (토니 호어)
-↓ (불안정 정렬, 제자리 정렬)
-1964년: 힙 정렬 탄생 (윌리엄스)
-↓ (안정 정렬, 제자리)
-1970년대: 병합 정렬 최적화, 외부 정렬 연구
-↓
-1990년대~: 인트로 정렬, 팀 정렬
-↓
-2000년대~현재: 병렬 정렬, 분산 정렬, 캐시 인식 정렬
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정렬 알고리즘 진화사</div></div>
+<div class="kb-diagram-note">1950년대 이전: 초기 정렬</div>
+<div class="kb-diagram-note">↓ (버블 정렬, 선택 정렬, 삽입 정렬)</div>
+<div class="kb-diagram-note">1959년: 퀵 정렬 탄생 (토니 호어)</div>
+<div class="kb-diagram-note">↓ (불안정 정렬, 제자리 정렬)</div>
+<div class="kb-diagram-note">1964년: 힙 정렬 탄생 (윌리엄스)</div>
+<div class="kb-diagram-note">↓ (안정 정렬, 제자리)</div>
+<div class="kb-diagram-note">1970년대: 병합 정렬 최적화, 외부 정렬 연구</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1990년대~: 인트로 정렬, 팀 정렬</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2000년대~현재: 병렬 정렬, 분산 정렬, 캐시 인식 정렬</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 정렬 알고리즘의 역사를 보면, 1950년대에 현재까지 사용되는 대부분의 기본 정렬 알고리즘이 탄생했다. 퀵 정렬은 불필요한 비교를 피하는 파티션으로 평균 O(n log n)을 달성했지만 불안정 정렬이다. 힙 정렬은 제자리 정렬이면서 최악의 경우에도 O(n log n)을 보장하지만 상수 계수가 커서 실무에서는 힙과 퀵의 장점을 결합한 인트로 정렬이 많이 사용된다.
 
@@ -58,41 +63,34 @@ tags = ["algorithm_stats"]
 
 정렬 알고리즘은 여러 기준으로 분류되며, 각 분류는 서로 다른 특성과 적용 시나리오를 갖는다. 분류 기준에는 비교 기반 vs 비비교 기반, 안정성, 제자리 여부 등이 있다.
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│ 정렬 알고리즘 분류 체계 │
-├────────────────────────────────────────────────────────────────┤
-│ │
-│ [정렬 알고리즘] │
-│ │ │
-│ ├── [비교 기반 정렬] │
-│ │ │ │
-│ │ ├── O(n제곱): 버블, 선택, 삽입 정렬 │
-│ │ ├── O(n log n): 퀵, 병합, 힙, 정렬 │
-│ │ └── 하한: Ω(n log n) (비교 기반) │
-│ │ │
-│ └── [비 비교 기반 정렬] │
-│ │ │
-│ ├── 계수 정렬 O(n + k) │
-│ ├── 기수 정렬 O(dn) │
-│ └── 버킷 정렬 O(n) │
-│ │
-│ [안정성 기준] │
-│ │ │
-│ ├── 안정 정렬: 동일 키 순서 유지 │
-│ │ (삽입, 병합, 버블, 버킷) │
-│ └── 불안정 정렬: 동일 키 순서 보장 안 함 │
-│ (퀵, 선택, 힙,) │
-│ │
-│ [제자리 여부] │
-│ │ │
-│ ├── 제자리 정렬: 추가 공간 O(1) │
-│ │ (퀵, 힙,, 선택) │
-│ └── 추가 공간 필요: O(n) 이상 │
-│ (병합, 버킷, 계수) │
-│ │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 알고리즘 분류 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정렬 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">비교 기반 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── O(n제곱): 버블, 선택, 삽입 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── O(n log n): 퀵, 병합, 힙, 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 하한: Ω(n log n) (비교 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">비 비교 기반 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 계수 정렬 O(n + k)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 기수 정렬 O(dn)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 버킷 정렬 O(n)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">안정성 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 안정 정렬: 동일 키 순서 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(삽입, 병합, 버블, 버킷)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 불안정 정렬: 동일 키 순서 보장 안 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(퀵, 선택, 힙,)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제자리 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 제자리 정렬: 추가 공간 O(1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(퀵, 힙,, 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 추가 공간 필요: O(n) 이상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병합, 버킷, 계수)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 정렬 알고리즘 선택에서 가장 중요한 기준은 입력 크기, 필요한 안정성, 메모리 제약이다. 비교 기반 정렬은 Ω(n log n) 이하로 줄일 수 없음이 증명되어 있어, 이보다 빠른 정렬이 필요하면 비 비교 기반 정렬을 사용해야 한다. 안정성은 동일 키를 가진 원소들의 상대적 순서가 중요한 경우에 필수적이다. 예를 들어을 가격순으로 정렬한 후 이름순으로 다시 정렬할 때, 안정 정렬이라면 같은 가격의 자산 간 이름순이 유지된다.
 
@@ -100,36 +98,30 @@ tags = ["algorithm_stats"]
 
 퀵 정렬은 평균적으로 가장 빠른 정렬 알고리즘으로, 파티션과 재귀의 조합으로 작동한다. 핵심은 피벗 선택에 따라 성능이 크게 달라진다는 점이다.
 
-```
-[퀵 정렬 파티션 동작]
 
-초기: [8, 3, 1, 7, 4, 6, 5, 2] 피벗=6 (일반적으로 마지막 원소)
 
-단계 1: 파티셔닝
-─────────────────────────────
-왼쪽 포인터 → 8 3 1 7 4 6 5 2 ← 오른쪽 포인터
-↑ ↑
-< 6 > 6
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 파티션 동작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기:</div><div class="kb-diagram-node">8, 3, 1, 7, 4, 6, 5, 2</div><div class="kb-diagram-note">피벗=6 (일반적으로 마지막 원소)</div></div>
+<div class="kb-diagram-note">단계 1: 파티셔닝</div>
+<div class="kb-diagram-note">왼쪽 포인터 → 8 3 1 7 4 6 5 2 ← 오른쪽 포인터</div>
+<div class="kb-diagram-note">&lt; 6 &gt; 6</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">8 &gt; 6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2, 3, 1, 7, 4, 6, 5, 8</div></div>
+<div class="kb-diagram-note">오른쪽 포인터 이동</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 &lt; 6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2, 3, 1, 7, 4, 6, 5, 8</div></div>
+<div class="kb-diagram-note">왼쪽 포인터 이동</div>
+<div class="kb-diagram-note">계속 진행...</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">최종 파티션:</div><div class="kb-diagram-node">2, 3, 1, 5, 4</div><div class="kb-diagram-node">6</div><div class="kb-diagram-node">7, 8</div></div>
+<div class="kb-diagram-note">모두 &lt; 6 모두 &gt; 6</div>
+<div class="kb-diagram-note">단계 2: 재귀적 정렬</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2, 3, 1, 5, 4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2, 3, 1</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7, 8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결합:</div><div class="kb-diagram-node">1, 2, 3, 4, 5, 6, 7, 8</div></div>
+</div>
+</div>
 
-[8 > 6] 교환 → [2, 3, 1, 7, 4, 6, 5, 8]
-오른쪽 포인터 이동
 
-[1 < 6] 교환 → [2, 3, 1, 7, 4, 6, 5, 8]
-왼쪽 포인터 이동
-
-계속 진행...
-
-최종 파티션: [2, 3, 1, 5, 4] [6] [7, 8]
-↑ ↑
-모두 < 6 모두 > 6
-
-단계 2: 재귀적 정렬
-─────────────────────────────
-[2, 3, 1, 5, 4] → 피벗 4 → [2, 3, 1] [4] [5]
-[7, 8] → 피벗 7 → [7] [8]
-
-결합: [1, 2, 3, 4, 5, 6, 7, 8]
-```
 
 **[다이어그램 해설]** 퀵 정렬의 핵심은 배열을 피벗을 기준으로 두 부분으로 나누는 파티션 작업이다. 피벗보다 작은 원소는 왼쪽, 큰 원소는 오른쪽으로 이동한다. 파티션이 완료되면 피벗은 최종 위치에 놓이고, 양쪽 부분 배열을 재귀적으로 정렬한다. 최악의 경우(피벗이 항상 최소 또는 최대값) 시간 복잡도는 O(n제곱)가 되지만, 무작위 피벗 선택이나 중앙값 선택으로 방지할 수 있다. 실무에서는 더치 파티션 문제 변형으로 파티션을 개선한 3-way 파티션 퀵 정렬이 자주 사용된다.
 
@@ -137,37 +129,35 @@ tags = ["algorithm_stats"]
 
 힙 정렬은 바이너리 힙 자료구조를활용한 정렬 알고리즘으로, 항상 O(n log n) 시간 복잡도를 보장한다. 힙은 완전 이진 트리 구조로, 부모 노드가 항상 자식보다 크거나(최대 힙) 작다는(최소 힙) 속성을 갖는다.
 
-```
-[힙 정렬 동작 과정]
 
-초기 배열: [4, 10, 3, 5, 1]
 
-힙 구성 (Max Heap):
-10
-/ \
-5 3
-/ \
-4 1
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 동작 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기 배열:</div><div class="kb-diagram-node">4, 10, 3, 5, 1</div></div>
+<div class="kb-diagram-note">힙 구성 (Max Heap):</div>
+<div class="kb-diagram-note">10</div>
+<div class="kb-diagram-note">5 3</div>
+<div class="kb-diagram-note">4 1</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열 표현:</div><div class="kb-diagram-node">10, 5, 3, 4, 1</div></div>
+<div class="kb-diagram-note">부모 자식 관계</div>
+<div class="kb-diagram-note">(i-1)/2 = 부모 인덱스</div>
+<div class="kb-diagram-note">2i+1 = 왼쪽 자식</div>
+<div class="kb-diagram-note">2i+2 = 오른쪽 자식</div>
+<div class="kb-diagram-note">힙 정렬 단계:</div>
+<div class="kb-diagram-note">1단계: 최대 힙 구성</div>
+<div class="kb-diagram-note">2단계: 최대값(루트)과 마지막 원소 교환</div>
+<div class="kb-diagram-note">3단계: 힙 크기 1 감소, 최대 힙 속성 회복</div>
+<div class="kb-diagram-note">4단계: 2-3 반복</div>
+<div class="kb-diagram-note">진행 과정:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10, 5, 3, 4, 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 5, 3, 4, 10</div><div class="kb-diagram-note">(고정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">힙화:</div><div class="kb-diagram-node">5, 4, 3, 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 4, 3, 5, 10</div><div class="kb-diagram-note">(고정)</div></div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">최종:</div><div class="kb-diagram-node">1, 3, 4, 5, 10</div></div>
+</div>
+</div>
 
-배열 표현: [10, 5, 3, 4, 1]
-부모 자식 관계
-(i-1)/2 = 부모 인덱스
-2i+1 = 왼쪽 자식
-2i+2 = 오른쪽 자식
 
-힙 정렬 단계:
-─────────────────────────────
-1단계: 최대 힙 구성
-2단계: 최대값(루트)과 마지막 원소 교환
-3단계: 힙 크기 1 감소, 최대 힙 속성 회복
-4단계: 2-3 반복
-
-진행 과정:
-[10, 5, 3, 4, 1] → 1과 10 교환 → [1, 5, 3, 4, 10] (고정)
-힙화: [5, 4, 3, 1] → 최대값 5와 1 교환 → [1, 4, 3, 5, 10] (고정)
-...
-최종: [1, 3, 4, 5, 10]
-```
 
 **[다이어그램 해설]** 힙 정렬의 핵심은 바이너리 힙의 최대(또는 최소) 속성을활용하는 것이다. 완전 이진 트리 구조에서 부모 노드가 항상 자식보다 크면(최대 힙), 루트는 전체의 최대값이 된다. 이 특성을활용하여 루트를 추출하고, 트리를 다시 힙화하는 과정을 반복한다. 힙 정렬은 불안정 정렬이지만 제자리 정렬이며, 항상 O(n log n)을 보장한다.우선순위 큐 구현에도 활용되며, 실시간 시스템에서 일정 예약에 사용된다.
 
@@ -175,39 +165,34 @@ tags = ["algorithm_stats"]
 
 병합 정렬은 분할 정복 패러다임을 따르는 안정 정렬이다. 배열을 반으로 나누고, 각 절반을 재귀적으로 정렬한 뒤, 두 정렬된 절반을 병합한다.
 
-```
-[병합 정렬 동작]
 
-분할 단계:
-─────────────────────────────
-[38, 27, 43, 3, 9, 82, 10]
-│
-▼ 반으로 분할
-[38, 27, 43, 3] [9, 82, 10]
-│
-▼ 계속 분할
-[38, 27] [43, 3] [9, 82] [10]
-│
-▼ 원소 단위까지 분할
-[38] [27] [43] [3] [9] [82] [10]
 
-병합 단계:
-─────────────────────────────
-[27, 38] [3, 43] [9, 82] [10]
-│
-▼ 병합
-[3, 27, 38, 43] [9, 10, 82]
-│
-▼ 병합
-[3, 9, 10, 27, 38, 43, 82]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">병합 정렬 동작</div></div>
+<div class="kb-diagram-note">분할 단계:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3, 9, 82, 10</div></div>
+<div class="kb-diagram-note">▼ 반으로 분할</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3</div><div class="kb-diagram-node">9, 82, 10</div></div>
+<div class="kb-diagram-note">▼ 계속 분할</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27</div><div class="kb-diagram-node">43, 3</div><div class="kb-diagram-node">9, 82</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-note">▼ 원소 단위까지 분할</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38</div><div class="kb-diagram-node">27</div><div class="kb-diagram-node">43</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">82</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-note">병합 단계:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">27, 38</div><div class="kb-diagram-node">3, 43</div><div class="kb-diagram-node">9, 82</div><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-note">▼ 병합</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 27, 38, 43</div><div class="kb-diagram-node">9, 10, 82</div></div>
+<div class="kb-diagram-note">▼ 병합</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 9, 10, 27, 38, 43, 82</div></div>
+<div class="kb-diagram-note">시간 복잡도:</div>
+<div class="kb-diagram-note">분할: O(1)</div>
+<div class="kb-diagram-note">병합: O(n)</div>
+<div class="kb-diagram-note">재귀 깊이: log n</div>
+<div class="kb-diagram-note">총합: O(n log n)</div>
+</div>
+</div>
 
-시간 복잡도:
-─────────────────────────────
-분할: O(1)
-병합: O(n)
-재귀 깊이: log n
-총합: O(n log n)
-```
+
 
 **[다이어그램 해설]** 병합 정렬의 핵심은 분할 단계에서 추가 작업이 필요 없으며, 모든 작업이 병합 단계에서 이루어진다는 점이다. 각 병합은 O(n)이고 병합이 log n번 발생하므로 총 O(n log n)이다. 병합 정렬의 가장 큰 장점은 안정 정렬이라는 점과 전체 시간 복잡도가 항상 O(n log n)으로 보장된다는 점이다. 그러나 O(n) 공간이 필요하여 메모리 제약이 있는 환경에서는 부적합할 수 있다.
 
@@ -231,23 +216,23 @@ tags = ["algorithm_stats"]
 
 ### 비교 2: 정렬 알고리즘 선택 기준
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│ 정렬 알고리즘 선택 의사결정 매트릭스 │
-├────────────────────────────────────────────────────────────────┤
-│ │
-│ 상황 │ 추천 알고리즘 │ 이유 │
-│ ─────────────────────────┼────────────────┼──────────────── │
-│ 데이터 거의 정렬됨 │ 삽입 정렬 │ O(n)에 근접 │
-│ 메모리 제약 심함 │ 힙 정렬 │ O(1) 공간 │
-│ 안정성 필수 │ 병합/계수/기수 │ 안정 정렬 │
-│ 일반적 상황에서 최고 속도 │ 인트로 정렬 │ 퀵+힙+삽입 hybrid│
-│ 정수 키, 범위 제한 │ 계수/기수 정렬 │ O(n) 가능 │
-│ 외부 정렬 (디스크 사용) │ 병합 정렬 (외부) │ 순차 접근 최적 │
-│ 병렬 처리 환경 │ 병합 정렬 │ 분할 후 병렬 처리│
-│ │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 알고리즘 선택 의사결정 매트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">추천 알고리즘</div><div class="kb-diagram-cell">이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거의 정렬됨</div><div class="kb-diagram-cell">삽입 정렬</div><div class="kb-diagram-cell">O(n)에 근접</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 제약 심함</div><div class="kb-diagram-cell">힙 정렬</div><div class="kb-diagram-cell">O(1) 공간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정성 필수</div><div class="kb-diagram-cell">병합/계수/기수</div><div class="kb-diagram-cell">안정 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반적 상황에서 최고 속도</div><div class="kb-diagram-cell">인트로 정렬</div><div class="kb-diagram-cell">퀵+힙+삽입 hybrid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정수 키, 범위 제한</div><div class="kb-diagram-cell">계수/기수 정렬</div><div class="kb-diagram-cell">O(n) 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 정렬 (디스크 사용)</div><div class="kb-diagram-cell">병합 정렬 (외부)</div><div class="kb-diagram-cell">순차 접근 최적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 처리 환경</div><div class="kb-diagram-cell">병합 정렬</div><div class="kb-diagram-cell">분할 후 병렬 처리</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 정렬 알고리즘 선택은 문제의 특정 제약 조건에 의해 결정된다. 메모리가 부족한 임베디드 시스템에서는 힙 정렬이 적합하고, 안정성이 중요한 재무 데이터 처리에서는 병합 정렬이나 계수 정렬이 적합하다. 데이터가 거의 정렬되어 있는 경우에는 삽입 정렬이 퀵 정렬보다 실제로 더 빠른데, 이는 퀵 정렬의 오버헤드가 정렬된 부분에서 무시할 수 없기 때문이다.
 
@@ -255,25 +240,27 @@ tags = ["algorithm_stats"]
 
 운영체제의 가상 메모리와 디스크 I/O 관점에서 외부 정렬은 중요한 주제다. 메인 메모리에 올릴 수 없는 대규모 데이터를 정렬할 때, 블록 단위 정렬과 병합이 필요하다.
 
-```
-[외부 병합 정렬 구조]
 
-디스크의 큰 파일 (메모리에 담기 힘듦)
-│
-▼
-[Run 생성 단계]
-├─ 블록 1: 메모리에서 정렬 → 디스크에 저장
-├─ 블록 2: 메모리에서 정렬 → 디스크에 저장
-└─ ...
-→ 여러 개의 정렬된 작은 파일 (Run)
 
-│
-▼ 병합 단계
-[K-way 병합]
-├─ Run 1: [1, 5, 9, ...]
-├─ Run 2: [2, 4, 8, ...] → 병합 버퍼 → 정렬된 출력
-└─ Run 3: [3, 6, 7, ...]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 병합 정렬 구조</div></div>
+<div class="kb-diagram-note">디스크의 큰 파일 (메모리에 담기 힘듦)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Run 생성 단계</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">블록 1: 메모리에서 정렬 → 디스크에 저장</div>
+<div class="kb-diagram-tree-item" style="--depth:0">블록 2: 메모리에서 정렬 → 디스크에 저장</div>
+<div class="kb-diagram-tree-item" style="--depth:0">...</div>
+<div class="kb-diagram-note">→ 여러 개의 정렬된 작은 파일 (Run)</div>
+<div class="kb-diagram-note">▼ 병합 단계</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K-way 병합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Run 1:</div><div class="kb-diagram-node">1, 5, 9, ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Run 2:</div><div class="kb-diagram-node">2, 4, 8, ...</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">병합 버퍼 → 정렬된 출력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Run 3:</div><div class="kb-diagram-node">3, 6, 7, ...</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 외부 정렬의 핵심은 디스크 I/O 횟수를 최소화하는 것이다. 각 블록을 메모리에서 정렬하여 디스크에 저장하는 Run을 만들고, 이 Run들을 K-way 병합으로 합친다. Run 수가 적을수록 디스크 탐색 횟수가 줄어들고, 따라서 Run 생성을 최적화하는 것이 중요하다. 실제로 데이터베이스의 ORDER BY 연산이나 대규모 파일 처리에서 이러한 외부 정렬이 활용된다.
 
@@ -287,19 +274,20 @@ tags = ["algorithm_stats"]
 
 웹 서버 로그 1테라바이트를 분석하여 응답 시간 순으로 정렬해야 하는 상황이다. 전체 데이터를 메모리에 담을 수 없으므로 외부 정렬이 필요하다. 그러나 단순한 외부 병합은 I/O 횟수가 너무 많다. 팀 정렬을 사용하여 Run 생성과 병합 단계를 동시에 진행하면 I/O를시킬 수 있다.
 
-```
-[팀 정렬 동작]
 
-Phase 1: Run 생성 + 병합 (동시 진행)
 
-디스크 ←━━━━━━━━━━━━━━━━━━━━━━━━━━━→ 디스크
-│ │ │
-▼ ▼ ▼
-[버퍼 1] [버퍼 2] [버퍼 M]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">팀 정렬 동작</div></div>
+<div class="kb-diagram-note">Phase 1: Run 생성 + 병합 (동시 진행)</div>
+<div class="kb-diagram-note">디스크 ← → 디스크</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 1</div><div class="kb-diagram-node">버퍼 2</div><div class="kb-diagram-node">버퍼 M</div></div>
+<div class="kb-diagram-note">각 버퍼: 정렬 + 즉시 병합</div>
+<div class="kb-diagram-note">→ 디스크 쓰기 횟수 대폭 감소</div>
+</div>
+</div>
 
-각 버퍼: 정렬 + 즉시 병합
-→ 디스크 쓰기 횟수 대폭 감소
-```
+
 
 **[다이어그램 해설]** 팀 정렬의 핵심은 Run 생성과 병합 단계를 분리하지 않고 동시에 진행하는 것이다. 각 버퍼는 정렬된 Run을 생성하면서 동시에 이전 Run과 병합한다. 이를 통해 전체 I/O 횟수를 전통적인 외부 병합 대비 크게 줄일 수 있다. 구글, 야후, 마이크로소프트 등 대규모 데이터 처리 회사에서 내부적으로 사용하는 정렬 알고리즘이다.
 
@@ -367,21 +355,24 @@ Phase 1: Run 생성 + 병합 (동시 진행)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비교 기반 정렬
-├─► O(n²): 버블·선택·삽입 정렬
-└─► O(n log n): 합병·퀵·힙 정렬
-│
-▼
-비비교 기반 정렬 (O(n))
-├─► 계수 정렬 (Counting Sort)
-├─► 기수 정렬 (Radix Sort)
-└─► 버킷 정렬 (Bucket Sort)
-│
-▼
-안정 정렬 (Stable): 합병·삽입·계수
-불안정 정렬 (Unstable): 퀵·선택·힙
-│
-▼
-비교 기반 정렬의 이론적 하한: Ω(n log n)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비교 기반 정렬</div>
+<div class="kb-diagram-tree-item" style="--depth:0">O(n²): 버블·선택·삽입 정렬</div>
+<div class="kb-diagram-tree-item" style="--depth:0">O(n log n): 합병·퀵·힙 정렬</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비비교 기반 정렬 (O(n))</div>
+<div class="kb-diagram-tree-item" style="--depth:0">계수 정렬 (Counting Sort)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">기수 정렬 (Radix Sort)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">버킷 정렬 (Bucket Sort)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안정 정렬 (Stable): 합병·삽입·계수</div>
+<div class="kb-diagram-note">불안정 정렬 (Unstable): 퀵·선택·힙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비교 기반 정렬의 이론적 하한: Ω(n log n)</div>
+</div>
+</div>
+
+

@@ -10,9 +10,9 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: ADAS(Advanced Driver Assistance System)는 **카메라·레이더·초음파 센서로 운전자를 보조**하는 SAE Level 1~2 시스템이며, ACC(적응형 크루즈)·LKA(차선 유지)·AEB(자동 긴급제동)가 핵심이다.
-> 2. **가치**: L2는 **종방향(가감속) + 횡방향(조향)을 동시 보조**하지만 운전자가 항상 감시해야 하며(Hands-on), 법적 책임은 운전자에게 있다. Tesla Autopilot·Hyundai HDA2가 대표이다.
-> 3. **판단 포인트**: L2와 L3의 결정적 차이는 **책임 주체**이다. L2는 운전자, L3+는 시스템이며, L2+는 마케팅 용어이지 공식 SAE 등급이 아니다.
+> 1. **본질**: ADAS(Advanced Driver Assistance System)는 <strong>카메라·레이더·초음파 센서로 운전자를 보조</strong>하는 SAE Level 1~2 시스템이며, ACC(적응형 크루즈)·LKA(차선 유지)·AEB(자동 긴급제동)가 핵심이다.
+> 2. **가치**: L2는 <strong>종방향(가감속) + 횡방향(조향)을 동시 보조</strong>하지만 운전자가 항상 감시해야 하며(Hands-on), 법적 책임은 운전자에게 있다. Tesla Autopilot·Hyundai HDA2가 대표이다.
+> 3. **판단 포인트**: L2와 L3의 결정적 차이는 <strong>책임 주체</strong>이다. L2는 운전자, L3+는 시스템이며, L2+는 마케팅 용어이지 공식 SAE 등급이 아니다.
 
 ---
 
@@ -26,13 +26,13 @@ L2 ADAS 핵심 기능:
   → 운전자 감시 필수 (Hands-on)
 ```
 
-- **📢 섹션 요약 비유**: L2는 **부조종사**이다. 도와주지만 기장(운전자)이 항상 봐야 한다.
+- **📢 섹션 요약 비유**: L2는 <strong>부조종사</strong>이다. 도와주지만 기장(운전자)이 항상 봐야 한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-L2 ADAS는 **현재 양산 차량의 표준 수준**이며, L3(조건부 자율)으로의 전환이 산업 과제이다.
+L2 ADAS는 <strong>현재 양산 차량의 표준 수준</strong>이며, L3(조건부 자율)으로의 전환이 산업 과제이다.
 
 ---
 
@@ -48,14 +48,20 @@ L2 ADAS는 **현재 양산 차량의 표준 수준**이며, L3(조건부 자율)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ABS (1970s)] → [ACC (2000s)] → [LKA (2010s)]
-    → [L2 ADAS (Tesla AP, 2015)] → [L2+ (HDA2, 2020)]
-    → [L3 (Mercedes, 2023)] → [현재: L2++ → L3 전환 과도기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ABS (1970s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ACC (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LKA (2010s)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2 ADAS (Tesla AP, 2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2+ (HDA2, 2020)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 (Mercedes, 2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: L2++ → L3 전환 과도기</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. ADAS는 자동차의 **부조종사**예요. 앞차 따라가기, 차선 지키기를 도와줘요.
+1. ADAS는 자동차의 <strong>부조종사</strong>예요. 앞차 따라가기, 차선 지키기를 도와줘요.
 2. 하지만 운전자(기장)가 **항상 봐야** 해요. 눈을 떼면 안 돼요!
 3. 다음 단계(L3)가 되면 **특정 구간에서 눈을 떼도** 괜찮아요!
 

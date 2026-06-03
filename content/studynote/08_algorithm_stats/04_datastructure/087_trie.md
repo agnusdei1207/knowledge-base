@@ -18,20 +18,22 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-트라이 구조 ("CAT", "CAR", "CAN", "DOG" 삽입):
 
-      루트
-      /       C    D
-     |    |
-     A    O
-   / | \  |
-  T  R  N  G
-(CAT)(CAR)(CAN)(DOG)
 
-공통 접두사 "CA"를 두 노드가 공유!
-검색 "CAR": C→A→R 이동, O(3) = O(L)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">트라이 구조 ("CAT", "CAR", "CAN", "DOG" 삽입):</div>
+<div class="kb-diagram-note">루트</div>
+<div class="kb-diagram-note">/ C D</div>
+<div class="kb-diagram-note">A O</div>
+<div class="kb-diagram-note">T R N G</div>
+<div class="kb-diagram-note">(CAT)(CAR)(CAN)(DOG)</div>
+<div class="kb-diagram-note">공통 접두사 "CA"를 두 노드가 공유!</div>
+<div class="kb-diagram-note">검색 "CAR": C→A→R 이동, O(3) = O(L)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 트라이는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. "컴퓨터과학" 서가 안에 "컴퓨터과학-알고리즘", "컴퓨터과학-네트워크"가 함께 있어서 "컴퓨터과학"이라는 공통 접두사를 공유한다.
 
@@ -124,18 +126,22 @@ def autocomplete(trie, prefix, max_results=5):
 
 ### [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)
 
-```text
-일반 트라이:
-  C → A → T (3 노드)
 
-압축 트라이:
-  CAT (1 노드에 "CAT" 저장)
-  CAR → R (공통 접두사 "CA" 이후 분기)
 
-  "CA" ─── "T" (CAT)
-            └── "R" (CAR)
-            └── "N" (CAN)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 트라이:</div>
+<div class="kb-diagram-note">C → A → T (3 노드)</div>
+<div class="kb-diagram-note">압축 트라이:</div>
+<div class="kb-diagram-note">CAT (1 노드에 "CAT" 저장)</div>
+<div class="kb-diagram-note">CAR → R (공통 접두사 "CA" 이후 분기)</div>
+<div class="kb-diagram-note">"CA" "T" (CAT)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">"R" (CAR)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">"N" (CAN)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이는 주소 약어 시스템이다. "서울특별시 강남구"를 매번 쓰는 대신 공통 부분을 하나로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 "서울강남-역삼", "서울강남-삼성"으로 저장하는 것과 같다.
 
@@ -147,7 +153,7 @@ def autocomplete(trie, prefix, max_results=5):
 |:---|:---|
 | **자동 완성** | 접두사 기반 O(L) 검색 |
 | **사전 구현** | 효율적 단어 저장·검색 |
-| **IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)** | CIDR 접두사 매칭 (Longest Prefix Match) |
+| <strong>IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | CIDR 접두사 매칭 (Longest Prefix Match) |
 
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)에서 트라이는 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)([Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)) 단계에서 활용된다. BPE([Byte Pair Encoding](/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/))·WordPiece 같은 서브워드 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)에서 어휘 사전 탐색에 트라이 기반 빠른 매칭이 사용된다. 수백만 토큰의 어휘에서 O(L) 검색이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 추론 속도를 지킨다.
 
@@ -159,29 +165,31 @@ def autocomplete(trie, prefix, max_results=5):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이** | 메모리 효율화 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 트라이</strong> | 메모리 효율화 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree) |
 | **자동 완성** | 트라이의 핵심 응용 |
 | **Longest Prefix Match** | IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 트라이 활용 |
-| **BPE [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)** | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 어휘 트라이 매칭 |
-| **[Aho-Corasick](/knowledge-base/studynote/08_algorithm_stats/05_string/098_aho_corasick/)** | 다중 패턴 매칭 트라이 확장 |
+| <strong>BPE <a href="/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/">토큰화</a></strong> | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 어휘 트라이 매칭 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/098_aho_corasick/">Aho-Corasick</a></strong> | 다중 패턴 매칭 트라이 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[해시맵·BST — 일반 문자열 저장·검색]
-    │
-    ▼
-[트라이 (Trie) — 접두사 공유 O(L) 검색]
-    │
-    ▼
-[압축 트라이 (Radix Tree) — 메모리 최적화]
-    │
-    ▼
-[Aho-Corasick — 다중 패턴 매칭 (실패 링크 추가)]
-    │
-    ▼
-[LLM 토큰화 — BPE 어휘 사전 트라이 매칭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시맵·BST — 일반 문자열 저장·검색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie) — 접두사 공유 O(L) 검색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축 트라이 (Radix Tree) — 메모리 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Aho-Corasick — 다중 패턴 매칭 (실패 링크 추가)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 토큰화 — BPE 어휘 사전 트라이 매칭</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

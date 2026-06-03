@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: IP 주소 공간을 더 작은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 네트워크 단위(서브넷)로 분할하는 과정. 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 일부를 네트워크 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 편입시키는 작업이다.
 - **필요성**: 내가 `192.168.1.0/24` (256대 연결 가능) 대역을 하나 받았다. 근데 영업부 100대, 인사부 100대를 그냥 큰 덩어리에 다 꽂아버리면? 영업부 PC가 날리는 쓸데없는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 방송(브로드캐스트)을 인사부 PC까지 다 받아서 처리하느라 전체 CPU가 버벅대고 통신이 마비(Broadcast Storm)된다. 또한 영업부와 인사부 사이에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(보안)을 칠 수도 없다. 이를 막으려면 **라우터를 하나 두고 양쪽을 아예 남남(다른 네트워크)으로 찢어놔야 한다.**
 
-- **💡 비유**: 서브네팅은 256명이 밥을 먹는 **"거대한 통짜 연회장"**을 리모델링하는 것과 같습니다. 벽(라우터)을 하나 세워서 연회장을 **"두 개의 128인용 룸"**으로 쪼개면(서브네팅), A룸에서 소리(브로드캐스트)를 질러도 B룸은 조용히 밥을 먹을 수 있고, 문에 경호원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 세워 서로 맘대로 오가지 못하게 막을 수도 있습니다.
+- **💡 비유**: 서브네팅은 256명이 밥을 먹는 <strong>"거대한 통짜 연회장"</strong>을 리모델링하는 것과 같습니다. 벽(라우터)을 하나 세워서 연회장을 <strong>"두 개의 128인용 룸"</strong>으로 쪼개면(서브네팅), A룸에서 소리(브로드캐스트)를 질러도 B룸은 조용히 밥을 먹을 수 있고, 문에 경호원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 세워 서로 맘대로 오가지 못하게 막을 수도 있습니다.
 
-```text
-[클래스리스 라우팅]
-    │
-    ▼
-[서브네팅]
-    │
-    └──▶ [슈퍼네팅 / 경로 요약]
-```
 
-- **📢 섹션 요약 비유**: ** 서브네팅은 커다란 피자 한 판을 그냥 들고 먹지 않고, 칼([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 가져와 **2조각, 4조각, 8조각으로 정확히 등분하여 나누어주는(분할) 완벽한 칼질 기술**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스리스 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브네팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슈퍼네팅 / 경로 요약</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 서브네팅은 커다란 피자 한 판을 그냥 들고 먹지 않고, 칼(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)을 가져와 </strong>2조각, 4조각, 8조각으로 정확히 등분하여 나누어주는(분할) 완벽한 칼질 기술**입니다.
 
 ---
 
@@ -41,9 +45,9 @@ tags = ["studynote-network"]
 
 ### 1. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뺏어오기와 서브넷 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 기본 C 클래스 `192.168.1.0/24` ([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) `255.255.255.0`)를 2개의 부서로 쪼개고 싶다.
-- 호스트에게 주어진 8비트(`00000000`) 중 **맨 앞 1비트**를 뺏어와서 네트워크 몫으로 넘긴다.
+- 호스트에게 주어진 8비트(`00000000`) 중 <strong>맨 앞 1비트</strong>를 뺏어와서 네트워크 몫으로 넘긴다.
 - 이제 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)의 '1'은 24개에서 25개로 늘었다 (`/25`). 마스크 값은 `255.255.255.128`이 된다.
-- 뺏어온 1비트는 `0`과 `1` 두 가지 경우의 수를 가지므로, 정확히 **2개의 서브넷**이 탄생한다.
+- 뺏어온 1비트는 `0`과 `1` 두 가지 경우의 수를 가지므로, 정확히 <strong>2개의 서브넷</strong>이 탄생한다.
   - 서브넷 1 (`0`번 방): `192.168.1.0 ~ 127`
   - 서브넷 2 (`1`번 방): `192.168.1.128 ~ 255`
 
@@ -51,17 +55,21 @@ tags = ["studynote-network"]
 방 하나(서브넷)를 만들었으면, 그 방에 컴퓨터(호스트)를 몇 대 꽂을 수 있는지 계산해야 한다.
 호스트에 남은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 7비트라면 $2^7 = 128$개의 IP가 생긴다. 하지만 여기서 **반드시 2개를 빼야 한다(-2)**.
 - **네트워크 주소**: 맨 앞 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0인 것) ──▶ 그 동네 자체를 의미하는 대표 이름이라 PC에 부여 불가.
-- **[브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)**: 맨 뒷 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 것) ──▶ 동네 전체에 방송 때릴 때 쓰는 주소라 PC에 부여 불가.
-- 결과: 한 부서에 $128 - 2 =$ **126대**의 PC를 세팅할 수 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a></strong>: 맨 뒷 번호 (모든 호스트 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 것) ──▶ 동네 전체에 방송 때릴 때 쓰는 주소라 PC에 부여 불가.
+- 결과: 한 부서에 $128 - 2 =$ <strong>126대</strong>의 PC를 세팅할 수 있다.
 
-```text
-[클래스리스 라우팅]
-    │
-    ▼
-[서브네팅]
-    │
-    └──▶ [슈퍼네팅 / 경로 요약]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스리스 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브네팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슈퍼네팅 / 경로 요약</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 서브네팅의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -86,20 +94,20 @@ tags = ["studynote-network"]
 내 PC의 IP가 `192.168.1.130`이고, 마스크가 `255.255.255.128`이다. PC는 자기가 어느 동네 소속인지 어떻게 알까?
 두 숫자를 이진수로 바꾸어 위아래로 나란히 두고 **AND (둘 다 1일 때만 1)** 연산을 곱해버린다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                네트워크 주소를 찾는 이진수 AND 연산              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   IP 주소     : 11000000 . 10101000 . 00000001 . 10000010   │
- │   서브넷 마스크 : 11111111 . 11111111 . 11111111 . 10000000   │
- │   --------------------------------------------------------- │
- │   [ AND 결과 ]  11000000 . 10101000 . 00000001 . 10000000   │
- │                                                             │
- │   ▶ 십진수 변환: 192 . 168 . 1 . 128                           │
- │   ▶ 내 PC 왈: "아! 나는 192.168.1.128 번지 동네(서브넷) 소속이구나!" │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 주소를 찾는 이진수 AND 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 주소 : 11000000 . 10101000 . 00000001 . 10000010</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브넷 마스크 : 11111111 . 11111111 . 11111111 . 10000000</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AND 결과</div><div class="kb-diagram-note">11000000 . 10101000 . 00000001 . 10000000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 십진수 변환: 192 . 168 . 1 . 128</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 내 PC 왈: "아! 나는 192.168.1.128 번지 동네(서브넷) 소속이구나!"</div></div>
+</div>
+</div>
+
+
 
 이 AND 연산의 강력함은 CPU 내부 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트에서 1클럭 만에 끝나는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하드웨어 연산이기 때문에, 라우터가 수십만 개의 패킷을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 포워딩할 수 있게 해 준다.
 
@@ -132,15 +140,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클래스리스 라우팅]
-    │
-    ▼
-[현재 개념: 서브네팅]
-    │
-    ├──▶ [확장 A: 슈퍼네팅 / 경로 요약]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클래스리스 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서브네팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 슈퍼네팅 / 경로 요약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 서브네팅는 [클래스리스](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / 경로 요약와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

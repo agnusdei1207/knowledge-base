@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 존 스토리지가 어떤 규칙을 노출하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Zoned storage exposes the media rule: write forward, reclaim by reset     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Zone 0 : [data][data][data][WP.........................]                  │
-│ Zone 1 : [data][data][WP..............................]                   │
-│ Zone 2 : [empty......................................]                   │
-│                                                                            │
-│ Read  : random read is allowed                                             │
-│ Write : only at the current Write Pointer (WP)                             │
-│ Reuse : reset the whole zone, then WP returns to the start                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zoned storage exposes the media rule: write forward, reclaim by reset</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 0 :</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">WP.........................</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 1 :</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">WP..............................</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 2 :</div><div class="kb-diagram-node">empty......................................</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read : random read is allowed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write : only at the current Write Pointer (WP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reuse : reset the whole zone, then WP returns to the start</div></div>
+</div>
+</div>
+
+
 
 핵심은 장치가 내부에서 몰래 정리하던 일을 소프트웨어가 더 잘 예측할 수 있는 규칙으로 바꿨다는 점이다. 이 덕분에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 “장치가 언젠가 알아서 정리하겠지”를 기대하는 대신, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쌓고 세그먼트를 회수하는 식으로 저장 패턴을 명시적으로 설계할 수 있다.
 
@@ -47,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-존은 독립적인 순차 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 세그먼트처럼 동작한다. 호스트는 존의 크기, 상태, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터를 보고 어떤 존에 기록할지 결정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 이상 필요 없게 되면 다른 존으로 살아 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 옮긴 뒤 원래 존을 reset해서 재사용한다. 즉 장치 내부의 invisible garbage collection을 완전히 없앤다기보다, **정리의 주체와 시점을 호스트 쪽으로 끌어올린다**고 이해하는 편이 정확하다.
+존은 독립적인 순차 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 세그먼트처럼 동작한다. 호스트는 존의 크기, 상태, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터를 보고 어떤 존에 기록할지 결정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 이상 필요 없게 되면 다른 존으로 살아 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 옮긴 뒤 원래 존을 reset해서 재사용한다. 즉 장치 내부의 invisible garbage collection을 완전히 없앤다기보다, <strong>정리의 주체와 시점을 호스트 쪽으로 끌어올린다</strong>고 이해하는 편이 정확하다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -60,22 +62,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 존의 생애주기를 단순화한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Zone lifecycle: open -> append -> full -> reclaim -> reset                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Empty Zone                                                                 │
-│     │ open                                                                  │
-│     ▼                                                                       │
-│ Open Zone -- append --> [WP moves forward] --> ... --> Full Zone           │
-│     │                                                                       │
-│     └──────── close / reopen as needed ───────────────────────────────┐     │
-│                                                                        │     │
-│ Reclaim path: migrate valid data to another zone -> reset -> Empty ----┘     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 추가 조건이 열린 존(open zone) 수와 활성 존([active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) zone) 수 제한이다. 장치는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자원을 이유로 동시에 관리할 수 있는 존 수를 제한할 수 있으므로, 호스트는 무한정 많은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동시에 열어 둘 수 없다. 그래서 존 스토리지는 단순히 “순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하면 된다”가 아니라, **세그먼트 수명주기와 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 예산을 함께 다루는 인터페이스**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone lifecycle: open -&gt; append -&gt; full -&gt; reclaim -&gt; reset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Empty Zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">open</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WP moves forward</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">... --&gt; Full Zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">close / reopen as needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reclaim path: migrate valid data to another zone -&gt; reset -&gt; Empty ----</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 추가 조건이 열린 존(open zone) 수와 활성 존([active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) zone) 수 제한이다. 장치는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자원을 이유로 동시에 관리할 수 있는 존 수를 제한할 수 있으므로, 호스트는 무한정 많은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동시에 열어 둘 수 없다. 그래서 존 스토리지는 단순히 “순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하면 된다”가 아니라, <strong>세그먼트 수명주기와 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 예산을 함께 다루는 인터페이스</strong>다.
 
 - **📢 섹션 요약 비유**: 여러 줄의 계산대를 가진 마트라도 한꺼번에 열 수 있는 계산대 수에는 한계가 있다. 존 스토리지도 빈 줄을 마음껏 만들 수 있는 게 아니라, 열어 둔 줄 수를 관리하면서 손님 흐름을 조절해야 효율이 난다.
 
@@ -83,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-존 스토리지는 전통적인 블록 SSD와 오픈 채널 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사이의 절충안으로 자주 이해된다. 일반 블록 SSD는 가장 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽지만 내부 동작이 불투명하고, 오픈 채널 SSD는 물리 지오메트리까지 호스트가 직접 다뤄야 해서 통제력은 크지만 부담도 크다. 존 스토리지는 이 둘 사이에서 **플래시의 세부 배치까지 노출하지는 않되, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서라는 핵심 제약만은 호스트가 알게 만든다**는 점이 특징이다.
+존 스토리지는 전통적인 블록 SSD와 오픈 채널 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사이의 절충안으로 자주 이해된다. 일반 블록 SSD는 가장 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽지만 내부 동작이 불투명하고, 오픈 채널 SSD는 물리 지오메트리까지 호스트가 직접 다뤄야 해서 통제력은 크지만 부담도 크다. 존 스토리지는 이 둘 사이에서 <strong>플래시의 세부 배치까지 노출하지는 않되, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 순서라는 핵심 제약만은 호스트가 알게 만든다</strong>는 점이 특징이다.
 
 | 항목 | 전통적 블록 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 오픈 채널 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 존 스토리지 / 존 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Zoned Namespace](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/), [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)) |
 | :--- | :--- | :--- | :--- |
@@ -105,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 존 스토리지가 특히 잘 맞는 곳은 append-heavy 구조가 이미 존재하는 시스템이다. 예를 들어 [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 기반 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 원래도 정렬 문자열 테이블 (Sorted String Table, SSTable)을 순차적으로 만들고, 객체 저장소는 [immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) segment를 길게 쓰는 경우가 많다. 이런 시스템은 존 하나를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나, 세그먼트 하나, 또는 [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) output 하나와 맞추기 쉬워서 WAF와 tail latency를 동시에 낮출 수 있다.
 
-반대로 기존 랜덤 overwrite 중심 응용을 거의 손대지 않고 올리는 것은 전형적인 실패 패턴이다. in-place update를 기대하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 작은 hot object를 수시로 수정하는 워크로드는 존 회수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 잦아져, 장치 내부 GC를 없앤 대신 애플리케이션이 더 복잡한 cleaning 비용을 떠안게 된다. 즉 존 스토리지는 저장장치만의 기술이 아니라, **상위 소프트웨어가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조적으로 사고할 수 있는가를 묻는 아키텍처 선택**이다.
+반대로 기존 랜덤 overwrite 중심 응용을 거의 손대지 않고 올리는 것은 전형적인 실패 패턴이다. in-place update를 기대하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 작은 hot object를 수시로 수정하는 워크로드는 존 회수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 잦아져, 장치 내부 GC를 없앤 대신 애플리케이션이 더 복잡한 cleaning 비용을 떠안게 된다. 즉 존 스토리지는 저장장치만의 기술이 아니라, <strong>상위 소프트웨어가 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 구조적으로 사고할 수 있는가를 묻는 아키텍처 선택</strong>이다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -130,9 +132,9 @@ tags = ["studynote-computer-architecture"]
 
 존 스토리지를 제대로 활용하면 장치 내부의 예측 불가능한 relocation이 줄어들어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정성이 좋아지고, over-provisioning에 기대던 여유 공간도 덜 필요해진다. 플래시 관점에서는 WAF가 낮아져 수명이 늘고, 운영 관점에서는 tail latency가 덜 흔들리므로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 예측하기 쉬워진다. 특히 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 “최고 속도”보다 “항상 비슷한 속도”가 더 중요할 때가 많은데, 존 스토리지는 바로 그 지점을 노린다.
 
-물론 대가도 분명하다. 장치가 숨기던 정리 책임이 소프트웨어 쪽으로 이동하므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직이 더 똑똑해져야 한다. 앞으로의 방향은 존 스토리지를 단독 기술로 보는 것이 아니라, zone-aware [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 엔진, 계산형 스토리지 계층과 결합해 **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 규칙을 아는 저장 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)**으로 확장하는 쪽에 가깝다.
+물론 대가도 분명하다. 장치가 숨기던 정리 책임이 소프트웨어 쪽으로 이동하므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직이 더 똑똑해져야 한다. 앞으로의 방향은 존 스토리지를 단독 기술로 보는 것이 아니라, zone-aware [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 엔진, 계산형 스토리지 계층과 결합해 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 규칙을 아는 저장 소프트웨어 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>으로 확장하는 쪽에 가깝다.
 
-결론적으로 존 스토리지는 “스토리지를 더 복잡하게 만든 기술”이 아니라, **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 물리적 제약을 인터페이스에 정직하게 반영해 전체 시스템을 더 예측 가능하게 만든 기술**로 기억하는 것이 맞다. 편리한 환상을 조금 버리는 대신, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 수명에서 훨씬 통제 가능한 시스템을 얻는 선택이다.
+결론적으로 존 스토리지는 “스토리지를 더 복잡하게 만든 기술”이 아니라, <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>의 물리적 제약을 인터페이스에 정직하게 반영해 전체 시스템을 더 예측 가능하게 만든 기술</strong>로 기억하는 것이 맞다. 편리한 환상을 조금 버리는 대신, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 수명에서 훨씬 통제 가능한 시스템을 얻는 선택이다.
 
 - **📢 섹션 요약 비유**: 좋은 주방은 아무 냄비나 아무 불에 올리는 곳이 아니라, 재료와 조리 순서를 알고 불을 맞추는 곳이다. 존 스토리지는 저장장치의 “불 조절 규칙”을 숨기지 않고 드러내어, 전체 요리를 더 안정적으로 만드는 방식이다.
 
@@ -151,24 +153,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-블록 인터페이스의 overwrite 환상
-            │
-            ▼
-Device FTL · SMR translation의 숨은 정리 비용
-            │
-            ▼
-매체 규칙 노출: Zoned Storage
-            │
-            ▼
-ZNS · Zone Append · Zone Reset
-            │
-            ▼
-Zone-aware LSM-Tree · Object Storage
-            │
-            ▼
-Low-WAF · 예측 가능한 대규모 저장 시스템
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블록 인터페이스의 overwrite 환상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Device FTL · SMR translation의 숨은 정리 비용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">매체 규칙 노출: Zoned Storage</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZNS · Zone Append · Zone Reset</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zone-aware LSM-Tree · Object Storage</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Low-WAF · 예측 가능한 대규모 저장 시스템</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치가 “무작위 갱신을 몰래 흉내 내는 단계”에서 벗어나, 이제는 소프트웨어가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제약을 알고 협력하는 방향으로 진화하고 있음을 보여 준다.
 

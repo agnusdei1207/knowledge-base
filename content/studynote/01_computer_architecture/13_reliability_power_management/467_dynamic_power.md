@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-동적 전력은 **회로가 일을 할 때 드는 전기적 활동 비용**이다. 특히 상보형 금속 산화막 반도체인 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 회로에서는 출력 노드가 0에서 1로 올라갈 때 부하 커패시턴스가 충전되고, 1에서 0으로 내려갈 때 저장된 에너지가 방전된다. 즉, 계산 자체보다도 **값을 바꾸는 행위**가 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)의 직접 원인이 된다.
+동적 전력은 <strong>회로가 일을 할 때 드는 전기적 활동 비용</strong>이다. 특히 상보형 금속 산화막 반도체인 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 회로에서는 출력 노드가 0에서 1로 올라갈 때 부하 커패시턴스가 충전되고, 1에서 0으로 내려갈 때 저장된 에너지가 방전된다. 즉, 계산 자체보다도 <strong>값을 바꾸는 행위</strong>가 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)의 직접 원인이 된다.
 
 이 개념이 중요해진 이유는 고성능 프로세서가 초당 수십억 번의 스위칭을 반복하기 때문이다. 클럭이 올라가고 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 늘어나면, 각 스위칭이 작아 보여도 전체 합은 큰 발열과 배터리 소모로 이어진다. 그래서 동적 전력은 모바일 기기의 사용 시간, 서버의 냉각 비용, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 전력 효율을 동시에 좌우하는 핵심 지표가 된다.
 
@@ -31,29 +31,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-동적 전력의 대표식은 `P_dynamic ≈ α × C × V² × f`로 정리한다. 여기서 `α`는 활동도(Activity Factor), `C`는 부하 커패시턴스(Load [Capacitance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)), `V`는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), `f`는 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)다. 이 식은 **스위칭이 많을수록**, **배선과 게이트가 클수록**, **[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 높을수록**, **더 자주 동작할수록** 전력이 증가함을 보여 준다.
+동적 전력의 대표식은 `P_dynamic ≈ α × C × V² × f`로 정리한다. 여기서 `α`는 활동도(Activity Factor), `C`는 부하 커패시턴스(Load [Capacitance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)), `V`는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), `f`는 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)다. 이 식은 **스위칭이 많을수록**, **배선과 게이트가 클수록**, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>이 높을수록</strong>, **더 자주 동작할수록** 전력이 증가함을 보여 준다.
 
 아래 그림은 한 번의 0→1→0 전환이 어떻게 동적 전력으로 연결되는지 보여 준다. 핵심은 전력이 회로 안에서 갑자기 사라지는 것이 아니라, 전원에서 커패시턴스로 에너지가 이동하고 그 일부가 열로 바뀐다는 점이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│            동적 전력의 발생 경로: "전환"이 곧 에너지 이동          │
-├────────────────────────────────────────────────────────────────────┤
-│  0 → 1 전환                                                       │
-│  전원 ──▶ [상단/하단 트랜지스터 전환] ──▶ [Load C 충전] ──▶ 상승    │
-│                                                                    │
-│  1 → 0 전환                                                       │
-│  [Load C 저장 에너지] ──▶ [하단 경로 방전] ──▶ 접지로 소모          │
-│                                                                    │
-│  반복 스위칭 빈도 증가                                             │
-│      ├─ 활동도 α 증가  : 더 많은 노드가 실제로 토글됨              │
-│      ├─ 커패시턴스 C 증가: 더 큰 배선·팬아웃을 충전해야 함         │
-│      ├─ 전압 V 증가    : 한 번 충전당 에너지 비용이 제곱으로 증가   │
-│      └─ 주파수 f 증가  : 같은 일을 더 자주 반복                    │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-실무적으로는 이 식에 **단락 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Short-Circuit [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))** 도 함께 고려한다. 입력이 천천히 바뀌는 동안 PMOS와 NMOS가 잠깐 동시에 켜지면, 전원과 접지 사이에 직접 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르기 때문이다. 따라서 교과서적 `αCV²f`는 동적 전력의 주성분을 설명하는 식이고, 실제 칩 분석에서는 셀 특성·배선·파형 기울기까지 포함한 전력 모델이 사용된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 전력의 발생 경로: "전환"이 곧 에너지 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 → 1 전환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상단/하단 트랜지스터 전환</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load C 충전</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">상승</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 → 0 전환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Load C 저장 에너지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하단 경로 방전</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">접지로 소모</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 스위칭 빈도 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 활동도 α 증가 : 더 많은 노드가 실제로 토글됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 커패시턴스 C 증가: 더 큰 배선·팬아웃을 충전해야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전압 V 증가 : 한 번 충전당 에너지 비용이 제곱으로 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주파수 f 증가 : 같은 일을 더 자주 반복</div></div>
+</div>
+</div>
+
+
+
+실무적으로는 이 식에 <strong>단락 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a>(Short-Circuit <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a>)</strong> 도 함께 고려한다. 입력이 천천히 바뀌는 동안 PMOS와 NMOS가 잠깐 동시에 켜지면, 전원과 접지 사이에 직접 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르기 때문이다. 따라서 교과서적 `αCV²f`는 동적 전력의 주성분을 설명하는 식이고, 실제 칩 분석에서는 셀 특성·배선·파형 기울기까지 포함한 전력 모델이 사용된다.
 
 | 요소 | 무엇을 의미하나 | 줄이는 대표 방법 |
 | :--- | :--- | :--- |
@@ -62,7 +63,7 @@ tags = ["studynote-computer-architecture"]
 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) `V` | 한 번 전환에 필요한 에너지 크기 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 하향, [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) 적용 |
 | 주파수 `f` | 전환 반복 횟수 | 저클럭 모드, 병렬화로 동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확보 |
 
-중요한 정량 감각은 다음과 같다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 1.0V에서 0.8V로 낮추면 동적 전력은 약 `(0.8/1.0)² = 0.64`가 되어 약 36% 줄어든다. 반면 주파수를 20% 낮추면 전력도 대체로 20% 줄어든다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 감당할 수 있는 범위에서는 **주파수 조정보다 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정이 더 강력한 절감 수단**이 된다.
+중요한 정량 감각은 다음과 같다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 1.0V에서 0.8V로 낮추면 동적 전력은 약 `(0.8/1.0)² = 0.64`가 되어 약 36% 줄어든다. 반면 주파수를 20% 낮추면 전력도 대체로 20% 줄어든다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 감당할 수 있는 범위에서는 <strong>주파수 조정보다 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 조정이 더 강력한 절감 수단</strong>이 된다.
 
 - **📢 섹션 요약 비유**: 동적 전력은 물통을 계속 채웠다 비우는 일과 같다. 물통이 크면 더 힘들고(C 증가), 수압이 세면 더 힘들며(V 증가), 이 동작을 자주 반복할수록(f 증가) 금방 지친다.
 
@@ -80,9 +81,9 @@ tags = ["studynote-computer-architecture"]
 | 잘 듣는 대책 | [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), 배선 최적화 | [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/), 멀티 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 설계 |
 | 설계 관점 | 활동도 관리가 핵심 | 공정·소자 특성이 핵심 |
 
-또한 동적 전력 절감 기법은 서로 역할이 다르다. [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/))은 `α`를 줄여 **불필요한 토글 자체를 막는 방법**이고, DVFS는 `V`와 `f`를 함께 조정해 **같은 토글의 비용을 낮추는 방법**이다. 반면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))은 블록 전원을 끊어 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/)을 강하게 억제하지만, 상태 보존과 재기동 지연이라는 대가가 따른다.
+또한 동적 전력 절감 기법은 서로 역할이 다르다. [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/))은 `α`를 줄여 <strong>불필요한 토글 자체를 막는 방법</strong>이고, DVFS는 `V`와 `f`를 함께 조정해 <strong>같은 토글의 비용을 낮추는 방법</strong>이다. 반면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))은 블록 전원을 끊어 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/)을 강하게 억제하지만, 상태 보존과 재기동 지연이라는 대가가 따른다.
 
-컴퓨터 구조 바깥과의 연결도 뚜렷하다. 운영체제는 작업 부하를 보고 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) 정책을 정하고, 컴파일러는 불필요한 메모리 접근과 분기 변동을 줄여 활동도를 낮추며, 물리 설계는 배선 길이와 팬아웃을 줄여 커패시턴스를 낮춘다. 즉 동적 전력은 회로식 하나로 끝나는 주제가 아니라 **아키텍처·시스템 소프트웨어·레이아웃이 만나는 접점**이다.
+컴퓨터 구조 바깥과의 연결도 뚜렷하다. 운영체제는 작업 부하를 보고 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) 정책을 정하고, 컴파일러는 불필요한 메모리 접근과 분기 변동을 줄여 활동도를 낮추며, 물리 설계는 배선 길이와 팬아웃을 줄여 커패시턴스를 낮춘다. 즉 동적 전력은 회로식 하나로 끝나는 주제가 아니라 <strong>아키텍처·시스템 소프트웨어·레이아웃이 만나는 접점</strong>이다.
 
 - **📢 섹션 요약 비유**: 동적 전력과 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/)의 차이는 "뛰어서 드는 힘"과 "가만히 서 있어도 드는 힘"의 차이와 같다. 뛰는 횟수를 줄일지, 몸의 기본 소모를 줄일지에 따라 운동 전략이 달라진다.
 
@@ -115,11 +116,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-동적 전력을 잘 제어하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)당 전력비가 개선되고, 같은 냉각 여건에서 더 높은 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다. 모바일에서는 배터리 사용 시간이 늘고, 서버에서는 랙 전력 밀도와 냉각 비용이 낮아지며, 고집적 칩에서는 열로 인한 주파수 제한을 완화할 수 있다. 결국 동적 전력 관리는 단순 절전이 아니라 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 오래 유지하게 만드는 구조적 투자**다.
+동적 전력을 잘 제어하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)당 전력비가 개선되고, 같은 냉각 여건에서 더 높은 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다. 모바일에서는 배터리 사용 시간이 늘고, 서버에서는 랙 전력 밀도와 냉각 비용이 낮아지며, 고집적 칩에서는 열로 인한 주파수 제한을 완화할 수 있다. 결국 동적 전력 관리는 단순 절전이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 오래 유지하게 만드는 구조적 투자</strong>다.
 
 다만 한계도 분명하다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 지나치게 낮추면 지연이 증가해 타이밍 오류가 발생할 수 있고, 주파수를 낮추면 응답시간 목표를 만족하지 못할 수 있다. 또한 미세 공정으로 갈수록 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/) 비중이 커지므로, 동적 전력만 줄여서는 전체 전력 문제를 해결할 수 없다.
 
-따라서 동적 전력을 기억하는 가장 좋은 관점은 "스위칭의 가격표"다. 시스템이 값을 얼마나 자주 바꾸는지, 그 값을 옮기기 위해 얼마나 큰 배선과 얼마나 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 쓰는지에 따라 가격이 결정된다. 좋은 설계는 무조건 덜 일하는 회로가 아니라, **필요한 순간에만 정확히 일하는 회로**다.
+따라서 동적 전력을 기억하는 가장 좋은 관점은 "스위칭의 가격표"다. 시스템이 값을 얼마나 자주 바꾸는지, 그 값을 옮기기 위해 얼마나 큰 배선과 얼마나 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 쓰는지에 따라 가격이 결정된다. 좋은 설계는 무조건 덜 일하는 회로가 아니라, <strong>필요한 순간에만 정확히 일하는 회로</strong>다.
 
 - **📢 섹션 요약 비유**: 좋은 운전은 무조건 천천히 가는 것이 아니라, 꼭 필요할 때만 가속하고 나머지 시간에는 연료를 아끼는 운전과 같다. 동적 전력도 마찬가지로 "언제 얼마나 세게 움직일지"를 잘 조절하는 기술이다.
 
@@ -138,20 +139,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전력 소모 (Power Consumption)
-    │
-    ▼
-동적 전력 (Dynamic Power)
-    │
-    ├─ 활동도 제어 ──▶ 클럭 게이팅 (Clock Gating)
-    │
-    ├─ 전압·주파수 제어 ──▶ DVFS (Dynamic Voltage and Frequency Scaling)
-    │
-    ├─ 배선·부하 최적화 ──▶ 저커패시턴스 레이아웃
-    │
-    └─ 열·시스템 관점 확장 ──▶ TDP · 에너지 비례 컴퓨팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전력 소모 (Power Consumption)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 전력 (Dynamic Power)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">활동도 제어 ──▶ 클럭 게이팅 (Clock Gating)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">전압·주파수 제어 ──▶ DVFS (Dynamic Voltage and Frequency Scaling)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">배선·부하 최적화 ──▶ 저커패시턴스 레이아웃</div>
+<div class="kb-diagram-tree-item" style="--depth:2">열·시스템 관점 확장 ──▶ TDP · 에너지 비례 컴퓨팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 동적 전력이 단일 공식에서 끝나지 않고, 활동도 제어·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어·물리 설계·시스템 전력 정책으로 확장되는 과정을 보여 준다.
 

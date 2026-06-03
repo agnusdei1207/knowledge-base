@@ -42,31 +42,35 @@ subject to gᵢ(x) = 0    (등호 제약, i = 1,...,m)
 
 등호 제약 g(x) = 0에 대해:
 
-```
-L(x, λ) = f(x) - λ · g(x)
 
-∂L/∂x = 0  →  ∇f(x) = λ · ∇g(x)    [∇f ∥ ∇g]
-∂L/∂λ = 0  →  g(x) = 0               [제약 만족]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">L(x, λ) = f(x) - λ · g(x)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">∇f ∥ ∇g</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">제약 만족</div></div>
+</div>
+</div>
+
+
 
 λ: 라그랑주 승수 (Lagrange Multiplier) — 제약을 1단위 완화할 때 목적 함수의 변화율.
 
 ### 기하적 해석
 
-```
-등고선 f(x) = c₁, c₂, c₃   제약 g(x) = 0 (파란 곡선)
 
-             ╭─────────────────╮
-            ╭───────────────────╮
-           ╭─────────────────────╮
-          ╭───────────────────────╮
-          │                  ★ 최적점
-──────────┼────────────────────────── g(x) = 0
-          ╰───────────────────────╯
 
-최적점 ★ 에서: ∇f와 ∇g가 평행 (접선 일치)
-→ f의 등고선과 g(x)=0이 접하는 지점!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">등고선 f(x) = c₁, c₂, c₃ 제약 g(x) = 0 (파란 곡선)</div>
+<div class="kb-diagram-note">★ 최적점</div>
+<div class="kb-diagram-tree-item" style="--depth:0">g(x) = 0</div>
+<div class="kb-diagram-note">최적점 ★ 에서: ∇f와 ∇g가 평행 (접선 일치)</div>
+<div class="kb-diagram-note">→ f의 등고선과 g(x)=0이 접하는 지점!</div>
+</div>
+</div>
+
+
 
 ### KKT (Karush-Kuhn-Tucker) 조건 — 부등호 제약 확장
 
@@ -112,27 +116,37 @@ L(w, b, α) = ½‖w‖² - Σᵢ αᵢ[yᵢ(wᵀxᵢ + b) - 1]
 
 듀얼 문제 (Dual) — αᵢ에 대한 최대화:
 
-```
-max_{α}  Σᵢ αᵢ - ½ Σᵢ Σⱼ αᵢαⱼyᵢyⱼ xᵢᵀxⱼ
-s.t.     Σᵢ αᵢyᵢ = 0,  αᵢ ≥ 0
 
-내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체!  ← 커널 트릭 가능
-```
 
-KKT 상보 여유: αᵢ > 0인 샘플이 **지지 벡터 ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector)**.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">max_{α} Σᵢ αᵢ - ½ Σᵢ Σⱼ αᵢαⱼyᵢyⱼ xᵢᵀxⱼ</div>
+<div class="kb-diagram-note">s.t. Σᵢ αᵢyᵢ = 0, αᵢ ≥ 0</div>
+<div class="kb-diagram-note">내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체! ← 커널 트릭 가능</div>
+</div>
+</div>
+
+
+
+KKT 상보 여유: αᵢ > 0인 샘플이 <strong>지지 벡터 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Vector)</strong>.
 
 ### 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 라그랑주
 
 특성 함수 fₖ에 대한 기대값 제약 E[fₖ] = c̃ₖ 하에서 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 분포:
 
-```
-maximize   H(P) = -Σ P(x) log P(x)
-s.t.       Σ P(x)·fₖ(x) = c̃ₖ   ∀k
-           Σ P(x) = 1
 
-→ 라그랑주 → Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))
-                         (로지스틱 회귀의 분포 형태와 동일!)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">maximize H(P) = -Σ P(x) log P(x)</div>
+<div class="kb-diagram-note">s.t. Σ P(x)·fₖ(x) = c̃ₖ ∀k</div>
+<div class="kb-diagram-note">Σ P(x) = 1</div>
+<div class="kb-diagram-note">→ 라그랑주 → Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))</div>
+<div class="kb-diagram-note">(로지스틱 회귀의 분포 형태와 동일!)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 듀얼의 지지 벡터는 "결정의 경계를 만드는 필수 증인"이다 — 무수히 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 경계에서 딱 접하는 몇 개(αᵢ>0)만 결정 경계를 완전히 결정한다.
 
@@ -156,14 +170,14 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 ### 신경망 제약 최적화 응용
 
 딥러닝에서 제약이 있는 학습:
-- **L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** = ‖w‖² ≤ c 제약 최적화의 라그랑지안 → λ‖w‖² 페널티
-- **스펙트럼 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** = 각 레이어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 최대 특이값 ≤ 1
+- <strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> = ‖w‖² ≤ c 제약 최적화의 라그랑지안 → λ‖w‖² 페널티
+- <strong>스펙트럼 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> = 각 레이어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 최대 특이값 ≤ 1
 - **페어니스 제약** = 인구통계 집단 간 오류율 차이 ≤ ε
 
 ### 기술사 판단 포인트
 
 1. **"라그랑주 승수 λ의 의미는?"** → 제약 완화 시 목적 함수 변화율 (Shadow Price, 경제학의 가격 해석)
-2. **"SVM에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭이 가능한 이유?"** → 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 대체 가능
+2. <strong>"SVM에서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 트릭이 가능한 이유?"</strong> → 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 대체 가능
 3. **"KKT 조건이 충분조건이 되는 경우?"** → 볼록 최적화 (원 문제와 듀얼 강한 쌍대성 성립 시)
 
 📢 **섹션 요약 비유**: 라그랑주 승수 λ는 "제약의 가격표"다 — 제약을 1단위 완화할 때 목적 함수가 얼마나 개선되는지, 그 한계 가치가 λ다.
@@ -172,7 +186,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 ## Ⅴ. 기대효과 및 결론
 
-라그랑주 승수법과 KKT 조건은 **제약 최적화의 통일 언어**다. 물리학(에너지 최소화), 경제학(효용 최대화), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)), 공학(설계 최적화) 모두 같은 수학 도구를 공유한다.
+라그랑주 승수법과 KKT 조건은 <strong>제약 최적화의 통일 언어</strong>다. 물리학(에너지 최소화), 경제학(효용 최대화), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)), 공학(설계 최적화) 모두 같은 수학 도구를 공유한다.
 
 강한 쌍대성 (Strong Duality): 볼록 + Slater 조건 만족 → 원 문제와 듀얼 문제의 최적값 일치 → 쉬운 듀얼로 원 문제 해결 가능.
 
@@ -192,24 +206,25 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[무제약 최적화 (Unconstrained Optimization)]
-    │
-    ▼
-[등식 제약 (Equality Constraint)]
-    │
-    ▼
-[라그랑주 승수법 (Lagrange Multiplier)]
-    │
-    ▼
-[KKT 조건 (Karush-Kuhn-Tucker Conditions)]
-    │
-    ▼
-[볼록 최적화 (Convex Optimization)]
-    │
-    ▼
-[SVM 최적화 (Support Vector Machine Optimization)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무제약 최적화 (Unconstrained Optimization)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">등식 제약 (Equality Constraint)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라그랑주 승수법 (Lagrange Multiplier)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KKT 조건 (Karush-Kuhn-Tucker Conditions)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">볼록 최적화 (Convex Optimization)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SVM 최적화 (Support Vector Machine Optimization)</div></div>
+</div>
+</div>
+
+
 
 제약 조건 하에서의 최적화 문제를 라그랑주 승수법으로 해결하고 기계 학습 최적화로 이어지는 흐름이다.
 

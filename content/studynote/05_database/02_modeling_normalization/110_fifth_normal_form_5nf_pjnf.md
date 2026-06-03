@@ -10,29 +10,31 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 제5정규형(5NF, Project-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Normal Form)은 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 존재하는 모든 **비자명 [조인 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/)(JD)이 후보 키에 의해 내재(Implied)**되어야 하는 조건이며, JD에 의한 마지막 이상 현상까지 제거하는 **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 이론의 최종 종착점**이다.
-> 2. **가치**: 4NF를 만족하는 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 **3개 이상 분해가 필요한 순환 제약 구조**가 남아있을 수 있으며, 5NF는 이를 투영·조인으로 완전 분해하여 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))의 마지막 찌꺼기를 박멸한다.
-> 3. **판단 포인트**: 5NF 위반 사례는 실무에서 극히 드물며, **3중 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용**이 크기 때문에 대부분의 OLTP는 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)~4NF에서 멈추고 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보하는 것이 현장의 상식이다.
+> 1. **본질**: 제5정규형(5NF, Project-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Normal Form)은 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 존재하는 모든 <strong>비자명 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/">조인 종속성</a>(JD)이 후보 키에 의해 내재(Implied)</strong>되어야 하는 조건이며, JD에 의한 마지막 이상 현상까지 제거하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 이론의 최종 종착점</strong>이다.
+> 2. **가치**: 4NF를 만족하는 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 이상 분해가 필요한 순환 제약 구조</strong>가 남아있을 수 있으며, 5NF는 이를 투영·조인으로 완전 분해하여 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))의 마지막 찌꺼기를 박멸한다.
+> 3. **판단 포인트**: 5NF 위반 사례는 실무에서 극히 드물며, <strong>3중 조인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 비용</strong>이 크기 때문에 대부분의 OLTP는 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)~4NF에서 멈추고 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보하는 것이 현장의 상식이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 단계별로 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거한다: [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)(부분 FD), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)(이행 FD), [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건), [4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)). 4NF까지 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 **3개 속성이 순환 꼬리물기(A→B→C→A)**를 하는 특수 구조에서 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생할 수 있다.
+[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 단계별로 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거한다: [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)(부분 FD), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)(이행 FD), [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건), [4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)). 4NF까지 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 속성이 순환 꼬리물기(A→B→C→A)</strong>를 하는 특수 구조에서 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생할 수 있다.
 
-```text
-┌───────────────────────────────────────────────────────┐
-│       5NF 수술: 순환 종속 3단 분해                      │
-├───────────────────────────────────────────────────────┤
-│  [원본 R(과목, 강사, 교재)] — 3속성이 기본키           │
-│  → 2개 분해 시 Spurious Tuple 발생 (손실!)            │
-│  → 3개 분해 시 무손실 복원 ✅                          │
-│                                                       │
-│  R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R    │
-│  → 각 테이블에 2속성만 저장 → 갱신 이상 완전 제거     │
-│  → 이것이 5NF (PJ-NF) 달성                           │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5NF 수술: 순환 종속 3단 분해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 R(과목, 강사, 교재)</div><div class="kb-diagram-note">— 3속성이 기본키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 2개 분해 시 Spurious Tuple 발생 (손실!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 3개 분해 시 무손실 복원 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 테이블에 2속성만 저장 → 갱신 이상 완전 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이것이 5NF (PJ-NF) 달성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 5NF는 결벽증 정리 전문가가 물건을 1종류씩 진공포장하여 서랍 100개에 따로 넣은 무균실이다.
 
@@ -42,7 +44,7 @@ tags = ["studynote-database"]
 
 ### 5NF 조건
 
-[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) R이 5NF를 만족하려면, R에 존재하는 **모든 비자명 JD가 R의 후보 키에 의해 내재**되어야 한다. 후보 키로 설명되지 않는 JD가 남으면 해당 JD에 따라 분해해야 한다.
+[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) R이 5NF를 만족하려면, R에 존재하는 <strong>모든 비자명 JD가 R의 후보 키에 의해 내재</strong>되어야 한다. 후보 키로 설명되지 않는 JD가 남으면 해당 JD에 따라 분해해야 한다.
 
 | 정규형 | 제거 대상 | 분해 수 | 실무 빈도 |
 |:---|:---|:---|:---|
@@ -60,7 +62,7 @@ tags = ["studynote-database"]
 | **분해 조각** | 2개 | 3개 이상 |
 | **발생 조건** | [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 순환 제약 (A↔B↔C) |
 | **실무 적용** | 자주 | 극히 드묾 |
-| **조인 비용** | 2-way [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | **3-way [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부담)** |
+| **조인 비용** | 2-way [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | <strong>3-way <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">join</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 부담)</strong> |
 
 ---
 
@@ -86,31 +88,33 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[조인 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/) (JD)** | 5NF가 제거하려는 대상 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) |
-| **[4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)** | 5NF의 선행 조건 ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) 제거 완료) |
-| **[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)** | 5NF 분해의 핵심 성질 |
-| **[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)** | 실무에서 5NF 대신 택하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/109_join_dependency_jd/">조인 종속성</a> (JD)</strong> | 5NF가 제거하려는 대상 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/">4NF</a></strong> | 5NF의 선행 조건 ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) 제거 완료) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a></strong> | 5NF 분해의 핵심 성질 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a></strong> | 실무에서 5NF 대신 택하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[1NF~3NF (Codd, 1970s) — FD 기반 정규화]
-    │
-    ▼
-[BCNF (1974) — 결정자 조건 강화]
-    │
-    ▼
-[4NF (Fagin, 1977) — MVD 제거]
-    │
-    ▼
-[5NF/PJ-NF (Fagin, 1979) — JD 제거, 정규화 이론 완결]
-    │
-    ▼
-[현재: 실무에서는 BCNF~4NF + 역정규화로 성능 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1NF~3NF (Codd, 1970s) — FD 기반 정규화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BCNF (1974) — 결정자 조건 강화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4NF (Fagin, 1977) — MVD 제거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5NF/PJ-NF (Fagin, 1979) — JD 제거, 정규화 이론 완결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 실무에서는 BCNF~4NF + 역정규화로 성능 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 5NF는 방 청소의 **최종 단계**예요. 먼지 한 톨까지 진공 포장해서 서랍에 넣는 거예요!
+1. 5NF는 방 청소의 <strong>최종 단계</strong>예요. 먼지 한 톨까지 진공 포장해서 서랍에 넣는 거예요!
 2. 곰팡이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류)는 절대 안 피지만, 라면 끓이려면 면·스프·건더기를 서랍 3개에서 꺼내야 해요.
 3. 그래서 보통은 적당히 깨끗한 수준([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/))에서 멈추고, 필요한 것만 한 서랍에 모아두는 게 편하답니다!
 

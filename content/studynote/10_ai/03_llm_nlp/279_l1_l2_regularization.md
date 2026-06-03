@@ -19,12 +19,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 모델의 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 **예측 오차(Prediction Error)만 최소화**하도록 설계되므로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 불필요하게 커져도 제약이 없다. 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는:
+딥러닝 모델의 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 <strong>예측 오차(Prediction Error)만 최소화</strong>하도록 설계되므로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 불필요하게 커져도 제약이 없다. 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는:
 
 - 특정 특성에 과도하게 의존 → 과적합
 - 입력의 미세한 변화에 극단적으로 반응 → 불안정
 
-L1/L2 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기에 비례하는 페널티(Penalty)를 추가**해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작게 유지되도록 강제한다:
+L1/L2 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 크기에 비례하는 페널티(Penalty)를 추가</strong>해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작게 유지되도록 강제한다:
 
 ```
 규제된 손실 = 원래 손실 + λ · 규제항
@@ -40,41 +40,44 @@ L2: J(w) = L(w) + λΣw_i²
 
 ### L1 vs L2 규제 수식 비교
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                  L1 vs L2 규제 비교                        │
-├──────────────────────────┬─────────────────────────────────┤
-│        L1 규제 (Lasso)   │       L2 규제 (Ridge)           │
-├──────────────────────────┼─────────────────────────────────┤
-│  페널티: λΣ|w_i|         │  페널티: λΣw_i²                │
-│                          │                                 │
-│  미분: λ·sign(w_i)       │  미분: 2λ·w_i                  │
-│  (부호 함수)             │  (선형 비례)                    │
-│                          │                                 │
-│  w → 0 에서 불연속       │  w → 0 에서 연속               │
-│  (Subgradient 필요)      │  (Smooth)                       │
-│                          │                                 │
-│  결과: 일부 w = 0 (희소) │  결과: 모든 w ≈ 0 (작게 축소)  │
-└──────────────────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 vs L2 규제 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 규제 (Lasso)</div><div class="kb-diagram-cell">L2 규제 (Ridge)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페널티: λΣ</div><div class="kb-diagram-cell">w_i</div><div class="kb-diagram-cell">페널티: λΣw_i²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미분: λ·sign(w_i)</div><div class="kb-diagram-cell">미분: 2λ·w_i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부호 함수)</div><div class="kb-diagram-cell">(선형 비례)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w → 0 에서 불연속</div><div class="kb-diagram-cell">w → 0 에서 연속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Subgradient 필요)</div><div class="kb-diagram-cell">(Smooth)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 일부 w = 0 (희소)</div><div class="kb-diagram-cell">결과: 모든 w ≈ 0 (작게 축소)</div></div>
+</div>
+</div>
+
+
 
 ### 기하학적 해석
 
-```
-L1 제약 (다이아몬드)           L2 제약 (원/구)
 
-      w2                             w2
-       │   ●                          │     ●
-       │  /│\        손실 등고선       │    /│\
-       │ / │ \       접점에서 최솟값   │   / │ \
-     ──┼───●──┼──→ w1           ──────┼───●────┼──→ w1
-       │ \ │ /                        │   \ │ /
-       │  \│/      ◆ L1의 꼭짓점에서  │    \│/
-       │   ●       접하면 w=0 발생     │     ●
-                   → 희소 해!         반드시 꼭짓점 없음
-```
 
-L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할 가능성이 높아, 해당 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 **정확히 0**이 된다 → 특성 선택 효과.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">L1 제약 (다이아몬드) L2 제약 (원/구)</div>
+<div class="kb-diagram-note">w2 w2</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ 손실 등고선</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ 접점에서 최솟값</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">●── ──→ w1 ● ──→ w1</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/ ◆ L1의 꼭짓점에서</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 접하면 w=0 발생</div><div class="kb-diagram-cell">●</div></div>
+<div class="kb-diagram-note">→ 희소 해! 반드시 꼭짓점 없음</div>
+</div>
+</div>
+
+
+
+L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할 가능성이 높아, 해당 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 <strong>정확히 0</strong>이 된다 → 특성 선택 효과.
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신에서의 차이
 
@@ -106,16 +109,22 @@ Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i²
 
 ### λ ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도)의 역할
 
-```
-λ = 0       →  규제 없음 (원래 손실만 최적화)
-λ = 작음    →  약한 규제 (원래 목적 + 약한 가중치 제약)
-λ = 적당    →  균형 잡힌 일반화
-λ = 큰 값   →  강한 규제 (가중치 → 0, 과소적합 위험)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">λ = 0 → 규제 없음 (원래 손실만 최적화)</div>
+<div class="kb-diagram-note">λ = 작음 → 약한 규제 (원래 목적 + 약한 가중치 제약)</div>
+<div class="kb-diagram-note">λ = 적당 → 균형 잡힌 일반화</div>
+<div class="kb-diagram-note">λ = 큰 값 → 강한 규제 (가중치 → 0, 과소적합 위험)</div>
+</div>
+</div>
+
+
 
 ### 딥러닝에서의 L2 사용 = [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))
 
-딥러닝에서 L2 규제는 주로 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))**라는 이름으로 사용된다. [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)에서는 L2 규제를 그래디언트에 더하는 방식과, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 직접 감쇠를 적용하는 AdamW 방식이 구분된다.
+딥러닝에서 L2 규제는 주로 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 감쇠(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/">Weight Decay</a>)</strong>라는 이름으로 사용된다. [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)에서는 L2 규제를 그래디언트에 더하는 방식과, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 직접 감쇠를 적용하는 AdamW 방식이 구분된다.
 
 ### L1이 자주 사용되는 경우
 
@@ -138,15 +147,15 @@ Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i²
 ### 기술사 시험 판단 포인트
 
 1. **L1 희소 해 원인**: 다이아몬드 모양 제약 조건의 꼭짓점에서 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)와 접하기 때문
-2. **L2 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠**: 기울기 갱신 시 w_t+1 = (1-2αλ)·w_t - α·∇L(w_t)로 매 스텝 w를 일정 비율 감소
+2. <strong>L2 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 감쇠</strong>: 기울기 갱신 시 w_t+1 = (1-2αλ)·w_t - α·∇L(w_t)로 매 스텝 w를 일정 비율 감소
 3. **λ 선택**: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))으로 최적 λ 탐색
-4. **[Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) 적용**: L1+L2가 모두 필요할 때, r=0.5로 시작해 탐색
+4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a> 적용</strong>: L1+L2가 모두 필요할 때, r=0.5로 시작해 탐색
 
 ### 실무 시나리오
 
-- **신경망 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 레이어**: L2([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 1e-4) + [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 조합이 표준
-- **선형 회귀/[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)**: 특성이 많으면 L1([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)), [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)이 있으면 L2(Ridge)
-- **모델 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))**: L1 규제로 0이 된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 제거해 경량 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+- <strong>신경망 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/">FC</a> 레이어</strong>: L2([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 1e-4) + [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 조합이 표준
+- <strong>선형 회귀/<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/">로지스틱 회귀</a></strong>: 특성이 많으면 L1([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)), [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)이 있으면 L2(Ridge)
+- <strong>모델 프루닝(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong>: L1 규제로 0이 된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 제거해 경량 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ### L1/L2 규제 코드 패턴
 
@@ -175,7 +184,7 @@ L1/L2 규제의 적용 효과:
 3. **학습 안정화 (L2)**: 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)해 그래디언트 폭발 방지
 4. **모델 경량화**: L1 규제 후 0 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거로 추론 속도 향상
 
-λ의 최적값은 문제에 따라 다르므로 반드시 **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))** 또는 **하이퍼파라미터 탐색(Hyperparameter Search)**을 통해 결정해야 한다.
+λ의 최적값은 문제에 따라 다르므로 반드시 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">Cross-Validation</a>)</strong> 또는 <strong>하이퍼파라미터 탐색(Hyperparameter Search)</strong>을 통해 결정해야 한다.
 
 - **📢 섹션 요약 비유**: L1/L2 규제는 모델이 가진 정보를 "필요한 것만 남기는" 미니멀리즘이다. L1은 "쓰지 않는 건 다 버려", L2는 "모든 걸 조금씩 줄여"라는 원칙으로, 결국 더 가볍고 일반적인 모델을 만들어낸다.
 

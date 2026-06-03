@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 좁은 주파수 대역(예: 1차선 도로)에 에너지를 꽉꽉 뭉쳐서(출력 집중) 보내는 방식입니다.
 - **문제점**: 길(주파수)이 딱 정해져 있으니, 해커나 적군이 그 주파수 대역에 똑같은 방해 전파(Jamming)를 쏘면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 씹혀서 파괴됩니다(통신 두절). 또한 주변에 에너지가 너무 튀어서 적의 레이더에 위치가 100% 발각됩니다.
 
-```text
-[매체 접근 제어]
-    │
-    ▼
-[확산 스펙트럼]
-    │
-    └──▶ [FHSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FHSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전송할 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요로 하는 최소한의 주파수 대역폭보다 **훨씬 더 넓은(수십 배) 주파수 대역(광대역)으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 에러지를 넓고 얇게 쫙 펴 발라서(확산) 전송하는 무선 통신 기술**입니다.
+- **개념**: 전송할 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요로 하는 최소한의 주파수 대역폭보다 <strong>훨씬 더 넓은(수십 배) 주파수 대역(광대역)으로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 에러지를 넓고 얇게 쫙 펴 발라서(확산) 전송하는 무선 통신 기술</strong>입니다.
 - 2차 대전 어뢰 유도용으로 발명되었다가, 현대 3G 이동통신([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), GPS, 군사 통신의 절대적인 뼈대가 되었습니다.
 
-```text
-[매체 접근 제어]
-    │
-    ▼
-[확산 스펙트럼]
-    │
-    └──▶ [FHSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FHSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,10 +69,10 @@ tags = ["studynote-network"]
 
 ### 2. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 은닉 및 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 (LPI, Low [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) of Intercept)
 - 에너지를 엄청 넓게 퍼뜨리다 보니, 100MHz 지점을 찍어보면 전파 에너지가 자연계의 '백색 소음(바람 소리 등)'보다 더 낮게 바닥에 깔려있습니다.
-- 해커가 안테나를 들고 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)을 시도해도 "이거 그냥 자연 잡음(노이즈)이네" 하고 지나쳐버립니다(레이더 스텔스 효과). **오직 송신자와 수신자 둘만이 공유하는 '비밀 암호 코드(확산 코드)'를 알아야만, 바닥에 깔린 먼지들을 싹 긁어모아 뾰족한 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 부활(역확산, De-spreading)시킬 수 있습니다.**
+- 해커가 안테나를 들고 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)을 시도해도 "이거 그냥 자연 잡음(노이즈)이네" 하고 지나쳐버립니다(레이더 스텔스 효과). <strong>오직 송신자와 수신자 둘만이 공유하는 '비밀 암호 코드(확산 코드)'를 알아야만, 바닥에 깔린 먼지들을 싹 긁어모아 뾰족한 원본 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>로 부활(역확산, De-spreading)시킬 수 있습니다.</strong>
 
 ### 3. [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (CDMA의 탄생)
-- 넓은 운동장에 서로 다른 암호 코드(언어)를 가진 수백 명이 겹쳐서 소리쳐도, 서로의 언어를 백색 소음(노이즈)으로 취급하고 내 친구의 목소리만 핀셋으로 뽑아 들을 수 있습니다. 이것이 957번 문서의 위대한 3G 통신 **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)(코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** 혁명입니다.
+- 넓은 운동장에 서로 다른 암호 코드(언어)를 가진 수백 명이 겹쳐서 소리쳐도, 서로의 언어를 백색 소음(노이즈)으로 취급하고 내 친구의 목소리만 핀셋으로 뽑아 들을 수 있습니다. 이것이 957번 문서의 위대한 3G 통신 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 혁명입니다.
 
 확산 스펙트럼을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)가 기반 조건을 만든다면, 확산 스펙트럼은 그 위에서 핵심 메커니즘을 구현하고, FHSS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,8 +89,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 어떻게 넓게 퍼뜨릴까요?
-1. **[FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) ([주파수 도약](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) 확산, 955번)**: 메뚜기처럼 1초에 1,000번씩 보내는 주파수를 이리저리 랜덤으로 널뛰기하며 쏘는 방식. ([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 적용)
-2. **[DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) ([직접 확산](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/), 956번)**: 원본 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개(0)에 쓰레기 암호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 10개(`1011001...`)를 곱해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이를 10배로 길게 엿가락처럼 찢어 늘려버리는 방식. ([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 적용)
+1. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">주파수 도약</a> 확산, 955번)</strong>: 메뚜기처럼 1초에 1,000번씩 보내는 주파수를 이리저리 랜덤으로 널뛰기하며 쏘는 방식. ([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 적용)
+2. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">직접 확산</a>, 956번)</strong>: 원본 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개(0)에 쓰레기 암호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 10개(`1011001...`)를 곱해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이를 10배로 길게 엿가락처럼 찢어 늘려버리는 방식. ([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 적용)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 협대역 통신은 두꺼운 마커펜 하나로 '한 줄의 굵은 선(좁은 주파수)'을 긋는 것입니다. 적군이 그 선 위에 검은 먹물(재밍 방해 전파)을 딱 한 방울만 떨어뜨려도 선이 끊겨버립니다. **확산 스펙트럼([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))**은 마커펜 대신 1,000가닥으로 갈라진 '빗자루 붓(넓은 주파수 대역)'으로 벽 전체에 연하게 페인트 칠(에너지 확산)을 하는 마법입니다. 물감이 벽 전체에 안개처럼 연하게 퍼져 있어서 적군은 이게 글씨인지 그냥 먼지 얼룩인지 알 길이 없습니다([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 및 레이더 스텔스). 적군이 벽 가운데에 시커먼 페인트탄(재밍)을 던져도, 수신자는 돋보기(비밀 암호 코드)를 들고 벽 전체의 연한 물감을 싹 긁어모아(역확산) 원래의 선명한 글씨를 완벽하게 100% 복원해 내는 전쟁 무적의 암호화 융합 통신술입니다.
+- **📢 섹션 요약 비유**: 협대역 통신은 두꺼운 마커펜 하나로 '한 줄의 굵은 선(좁은 주파수)'을 긋는 것입니다. 적군이 그 선 위에 검은 먹물(재밍 방해 전파)을 딱 한 방울만 떨어뜨려도 선이 끊겨버립니다. <strong>확산 스펙트럼(<a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>)</strong>은 마커펜 대신 1,000가닥으로 갈라진 '빗자루 붓(넓은 주파수 대역)'으로 벽 전체에 연하게 페인트 칠(에너지 확산)을 하는 마법입니다. 물감이 벽 전체에 안개처럼 연하게 퍼져 있어서 적군은 이게 글씨인지 그냥 먼지 얼룩인지 알 길이 없습니다([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 및 레이더 스텔스). 적군이 벽 가운데에 시커먼 페인트탄(재밍)을 던져도, 수신자는 돋보기(비밀 암호 코드)를 들고 벽 전체의 연한 물감을 싹 긁어모아(역확산) 원래의 선명한 글씨를 완벽하게 100% 복원해 내는 전쟁 무적의 암호화 융합 통신술입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 매체 접근 제어]
-    │
-    ▼
-[현재 개념: 확산 스펙트럼]
-    │
-    ├──▶ [확장 A: FHSS]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 매체 접근 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 확산 스펙트럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FHSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 확산 스펙트럼는 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FHSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

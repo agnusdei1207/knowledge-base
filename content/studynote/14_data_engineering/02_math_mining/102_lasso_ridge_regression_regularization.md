@@ -30,24 +30,21 @@ tags = ["studynote-data-engineering"]
 
 라쏘와 릿지 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 패널티 항을 더하는 방식은 같지만, 패널티의 형태(L1 Norm, L2 Norm)에 따라 제약 조건의 기하학적 형태가 달라진다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [Lasso - 마름모 제약]          [Ridge - 원형 제약]     │
-│             |  /                           |  /              │
-│          /\ | /                        ╭───┴───╮             │
-│         /  \|/                        │    |  / │            │
-│       ─+────+────+─ β1              ─+─────+─────+─ β1       │
-│         \  /|                         │    |    │            │
-│          \/ |                          ╰───┬───╯             │
-│             |                              |                 │
-│                                                              │
-│  => 최적점이 축(Axis) 위에서       => 최적점이 축에 닿지 않고    │
-│     만나 계수가 정확히 0이 됨.        0에 가깝게 수축만 함.       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lasso - 마름모 제약</div><div class="kb-diagram-node">Ridge - 원형 제약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/\</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─+ + +─ β1 ─+ + +─ β1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 최적점이 축(Axis) 위에서 =&gt; 최적점이 축에 닿지 않고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만나 계수가 정확히 0이 됨. 0에 가깝게 수축만 함.</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램에서 보듯, 라쏘 (L1)는 패널티가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 절대값 합으로 주어지며 마름모꼴의 제약 영역을 형성한다. 이로 인해 최적점이 모서리(축)에서 발생할 확률이 높아, 덜 중요한 변수의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0이 되는 자동 변수 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 효과를 낸다. 반면 릿지 (L2)는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합을 사용하여 원형 제약 영역을 만들며, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 작게 만들지만 완전히 0으로 소거하지는 않는다.
 
@@ -81,7 +78,7 @@ tags = ["studynote-data-engineering"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **변수의 수와 의미**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 상 변수의 의미 파악이 중요하고 불필요한 특성이 많다면 Lasso를 우선 고려하였는가?
 2. **다중공선성 존재 여부**: 변수 간 상관관계가 높거나 변수 수가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수보다 많은 경우 Ridge를 선택하였는가?
-3. **[하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/)**: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))을 통해 최적의 λ값을 결정하여 과소적합과 과적합 사이의 최적점을 찾았는가?
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/">하이퍼파라미터 튜닝</a></strong>: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))을 통해 최적의 λ값을 결정하여 과소적합과 과적합 사이의 최적점을 찾았는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Feature Scaling, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)/표준화) 없이 규제 모델을 학습시키는 설계 (변수 단위에 따라 패널티가 왜곡됨)
@@ -105,28 +102,30 @@ tags = ["studynote-data-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))** | 규제를 적용하여 해결하고자 하는 가장 근본적인 문제 상태 |
+| <strong>과적합 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong> | 규제를 적용하여 해결하고자 하는 가장 근본적인 문제 상태 |
 | **L1 / L2 Norm** | 벡터의 크기를 측정하는 수학적 기준으로 패널티를 계산하는 기반 |
-| **다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))** | 변수 간 상관관계가 높아 회귀계수가 불안정해지는 현상 (Ridge로 완화) |
-| **[엘라스틱 넷](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) ([Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/))** | Lasso의 변수 선택과 Ridge의 다중공선성 방어를 혼합한 하이브리드 모델 |
+| <strong>다중공선성 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> | 변수 간 상관관계가 높아 회귀계수가 불안정해지는 현상 (Ridge로 완화) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">엘라스틱 넷</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a>)</strong> | Lasso의 변수 선택과 Ridge의 다중공선성 방어를 혼합한 하이브리드 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-OLS (단순 선형 회귀) · 오차 제곱합 최소화
-    │
-    ▼
-과적합 발생 · 편향-분산 트레이드오프 (Bias-Variance Tradeoff)
-    │
-    ▼
-라쏘 (Lasso, L1) · 릿지 (Ridge, L2) 규제 도입
-    │
-    ▼
-엘라스틱 넷 (Elastic Net) · 규제 혼합
-    │
-    ▼
-딥러닝의 가중치 감소 (Weight Decay, L2 규제 적용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OLS (단순 선형 회귀) · 오차 제곱합 최소화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과적합 발생 · 편향-분산 트레이드오프 (Bias-Variance Tradeoff)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">라쏘 (Lasso, L1) · 릿지 (Ridge, L2) 규제 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엘라스틱 넷 (Elastic Net) · 규제 혼합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝의 가중치 감소 (Weight Decay, L2 규제 적용)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 선형 회귀는 선생님이 알려준 정답을 토씨 하나 안 틀리고 외우려다 응용 문제를 틀리는 바보 학생이에요.

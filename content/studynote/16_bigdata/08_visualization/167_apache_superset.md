@@ -25,7 +25,7 @@ tags = ["studynote-bigdata"]
 
 **Apache Preset**: Superset의 매니지드 클라우드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — 설치·운영 없이 SaaS로 Superset 사용.
 
-**📢 섹션 요약 비유**: Apache Superset은 **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 레스토랑 레시피**와 같다. 레시피가 공개되어 있어 누구나 음식(BI 플랫폼)을 만들 수 있고, 자신의 취향(비즈니스 요구사항)에 맞게 수정할 수 있다.
+**📢 섹션 요약 비유**: Apache Superset은 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 레스토랑 레시피</strong>와 같다. 레시피가 공개되어 있어 누구나 음식(BI 플랫폼)을 만들 수 있고, 자신의 취향(비즈니스 요구사항)에 맞게 수정할 수 있다.
 
 ---
 
@@ -33,33 +33,28 @@ tags = ["studynote-bigdata"]
 
 ### Superset [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  Apache Superset 아키텍처                    │
-├──────────────────────────────────────────────────────────────┤
-│  프론트엔드 (React + TypeScript)                             │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  SQL Lab: 고급 SQL 에디터                               │ │
-│  │  Chart Builder: 데이터셋 기반 차트 제작                 │ │
-│  │  Dashboard: 차트 조합·공유                              │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  백엔드 (Python Flask)                                       │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Superset Core: 쿼리 실행, 보안, API                   │ │
-│  │  Celery: 비동기 쿼리 실행, 캐시 갱신                   │ │
-│  │  SQLAlchemy: 다양한 DB 연결                             │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  인프라                                                      │
-│  ┌────────────────┬───────────────┬──────────────────────┐  │
-│  │ Redis          │ PostgreSQL/   │ 데이터 소스           │  │
-│  │ (캐시+메시지큐)│ MySQL         │ (Druid, ClickHouse,   │  │
-│  │                │ (메타데이터)  │  BigQuery, Snowflake, │  │
-│  │                │               │  Trino, PostgreSQL)   │  │
-│  └────────────────┴───────────────┴──────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Superset 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프론트엔드 (React + TypeScript)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Lab: 고급 SQL 에디터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chart Builder: 데이터셋 기반 차트 제작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dashboard: 차트 조합·공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 (Python Flask)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Superset Core: 쿼리 실행, 보안, API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Celery: 비동기 쿼리 실행, 캐시 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQLAlchemy: 다양한 DB 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis</div><div class="kb-diagram-cell">PostgreSQL/</div><div class="kb-diagram-cell">데이터 소스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시+메시지큐)</div><div class="kb-diagram-cell">MySQL</div><div class="kb-diagram-cell">(Druid, ClickHouse,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메타데이터)</div><div class="kb-diagram-cell">BigQuery, Snowflake,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trino, PostgreSQL)</div></div>
+</div>
+</div>
+
+
 
 ### SQL Lab: 핵심 기능
 
@@ -79,24 +74,27 @@ SQL Lab 주요 기능:
 
 Superset의 차트 제작 흐름:
 
-```
-[데이터 소스 연결]
-      │
-      ▼
-[데이터셋 생성]
-  테이블 직접 연결 또는 SQL로 가상 데이터셋 생성
-  (비즈니스 로직을 SQL로 표현)
-      │
-      ▼
-[차트 제작 (Chart Builder)]
-  데이터셋 선택 → 차트 유형 선택 → 필드 드래그앤드롭
-      │
-      ▼
-[대시보드 구성]
-  차트들을 드래그앤드롭으로 배치
-```
 
-**📢 섹션 요약 비유**: Superset의 SQL Lab은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자의 실험실**과 같다. 원하는 실험([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 자유롭게 수행하고, 결과를 즉시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하며, 성공한 실험은 팀과 공유할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스 연결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터셋 생성</div></div>
+<div class="kb-diagram-note">테이블 직접 연결 또는 SQL로 가상 데이터셋 생성</div>
+<div class="kb-diagram-note">(비즈니스 로직을 SQL로 표현)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차트 제작 (Chart Builder)</div></div>
+<div class="kb-diagram-note">데이터셋 선택 → 차트 유형 선택 → 필드 드래그앤드롭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대시보드 구성</div></div>
+<div class="kb-diagram-note">차트들을 드래그앤드롭으로 배치</div>
+</div>
+</div>
+
+
+
+**📢 섹션 요약 비유**: Superset의 SQL Lab은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자의 실험실</strong>과 같다. 원하는 실험([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 자유롭게 수행하고, 결과를 즉시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하며, 성공한 실험은 팀과 공유할 수 있다.
 
 ---
 
@@ -107,7 +105,7 @@ Superset의 차트 제작 흐름:
 | 차원 | Apache Superset | Metabase |
 |:---|:---|:---|
 | **대상 사용자** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀, SQL 능숙자 | 비기술 비즈니스 사용자 |
-| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡도** | 높음 (서버, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Celery) | 낮음 (단일 JAR [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 복잡도</strong> | 높음 (서버, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Celery) | 낮음 (단일 JAR [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) |
 | **SQL 능력** | SQL Lab으로 강력 | SQL 옵션 있음 |
 | **시맨틱 레이어** | SQL 기반 | 자체 질문 기반 |
 | **커스터마이징** | 완전 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 부분 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)) |
@@ -124,9 +122,9 @@ Superset이 특히 강점을 보이는 현대 분석 [데이터베이스](/knowl
 | **ClickHouse** | 컬럼형, 초고성능 집계 | 공식 지원 |
 | **Trino/Presto** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) SQL, 멀티 소스 | 공식 지원 |
 | **Apache Pinot** | 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) | 네이티브 커넥터 |
-| **[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)** | GCP 관리형 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | 공식 지원 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/">BigQuery</a></strong> | GCP 관리형 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | 공식 지원 |
 
-**📢 섹션 요약 비유**: Superset vs Metabase는 **전문 주방 vs 가정 주방**이다. 전문 주방(Superset)은 다양하고 복잡한 요리(분석)가 가능하지만 요리사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀)가 필요하다. 가정 주방(Metabase)은 누구나 쉽게 요리(분석)할 수 있지만 기능이 한정된다.
+**📢 섹션 요약 비유**: Superset vs Metabase는 <strong>전문 주방 vs 가정 주방</strong>이다. 전문 주방(Superset)은 다양하고 복잡한 요리(분석)가 가능하지만 요리사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀)가 필요하다. 가정 주방(Metabase)은 누구나 쉽게 요리(분석)할 수 있지만 기능이 한정된다.
 
 ---
 
@@ -159,7 +157,7 @@ Superset 보안 계층:
 | **프로덕션** | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) ([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/)), 별도 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)·DB |
 | **관리형** | Apache Preset (클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) |
 
-**📢 섹션 요약 비유**: Superset의 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 배포는 **프랜차이즈 레스토랑 확장**과 같다. 맛이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 레시피(Superset)를 여러 도시(서버)에 표준화된 방식([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/))으로 확장한다.
+**📢 섹션 요약 비유**: Superset의 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 배포는 <strong>프랜차이즈 레스토랑 확장</strong>과 같다. 맛이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 레시피(Superset)를 여러 도시(서버)에 표준화된 방식([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/))으로 확장한다.
 
 ---
 
@@ -176,9 +174,9 @@ Superset 보안 계층:
 
 ### 결론
 
-Apache Superset은 **기술 팀 주도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 구축에 최적화된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BI**다. 라이선스 비용 없이 엔터프라이즈 수준의 기능을 제공하며, 현대 분석 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(Druid, ClickHouse)와의 깊은 통합이 대규모 빅데이터 분석 환경에서 강점이다. 단, 설치·운영·보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 인프라 전문 지식이 필요하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 역량이 있는 팀에게 권장된다.
+Apache Superset은 <strong>기술 팀 주도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플랫폼 구축에 최적화된 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> BI</strong>다. 라이선스 비용 없이 엔터프라이즈 수준의 기능을 제공하며, 현대 분석 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(Druid, ClickHouse)와의 깊은 통합이 대규모 빅데이터 분석 환경에서 강점이다. 단, 설치·운영·보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 인프라 전문 지식이 필요하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 역량이 있는 팀에게 권장된다.
 
-**📢 섹션 요약 비유**: Apache Superset은 **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스위스 아미 나이프**와 같다. 하나의 도구로 SQL 분석, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 대시보드, 공유, 보안을 모두 처리할 수 있는 만능 도구이며, 무료로 제공된다.
+**📢 섹션 요약 비유**: Apache Superset은 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 스위스 아미 나이프</strong>와 같다. 하나의 도구로 SQL 분석, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 대시보드, 공유, 보안을 모두 처리할 수 있는 만능 도구이며, 무료로 제공된다.
 
 ---
 
@@ -196,31 +194,32 @@ Apache Superset은 **기술 팀 주도 [데이터](/knowledge-base/studynote/05_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BI 도구]
-    │
-    ▼
-[시각화]
-    │
-    ▼
-[Apache Superset]
-    │
-    ▼
-[SQL Lab]
-    │
-    ▼
-[대시보드]
-    │
-    ▼
-[셀프서비스 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BI 도구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시각화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Superset</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL Lab</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대시보드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀프서비스 분석</div></div>
+</div>
+</div>
+
+
 
 전통 BI가 웹 기반 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구를 거쳐 SQL Lab과 셀프서비스 분석 플랫폼으로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- Apache Superset은 **무료로 쓸 수 있는 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 현미경**이에요: 돈 한 푼 안 내고도 전문 과학자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깊이 들여다볼 수 있어요.
-- SQL Lab은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자의 실험실 노트**예요: 원하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 자유롭게 써보고, 결과를 바로 차트로 만들고, 좋은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 팀원과 공유할 수 있어요.
+- Apache Superset은 <strong>무료로 쓸 수 있는 강력한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 현미경</strong>이에요: 돈 한 푼 안 내고도 전문 과학자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깊이 들여다볼 수 있어요.
+- SQL Lab은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자의 실험실 노트</strong>예요: 원하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 자유롭게 써보고, 결과를 바로 차트로 만들고, 좋은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 팀원과 공유할 수 있어요.
 - Superset은 전문가용, Metabase는 비전문가용이에요 — 요리사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀)에겐 Superset, 일반 손님(비즈니스 사용자)에겐 Metabase가 더 편해요.
 
 ---

@@ -23,33 +23,32 @@ tags = ["studynote-software-engineering"]
   - **Vulnerable (취약한)**: 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 썼더라도, 어제 그 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 커뮤니티에서 "우리 코드에 심각한 버그([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 발견됨!"이라며 경고가 뜬 상태.
   - **Outdated (낡은/만료된)**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 3년 전에 다운받고 한 번도 업데이트를 안 해서, 해커들에게 이미 해킹 매뉴얼이 다 퍼진 구닥다리 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 상태.
 
-- **필요성**: 2017년, 미국의 거대 신용평가사 에퀴팩스(Equifax)가 해킹당해 미국 인구 절반(1억 4천만 명)의 주민번호가 다크웹에 풀렸다. 원인은 아파치(Apache)의 `Struts2`라는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 취약점 때문이었다. 아파치는 이미 2달 전에 "이거 해킹되니까 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 업데이트하세요!"라고 패치를 올렸다. 에퀴팩스 개발자들은 "귀찮아, 돌아가면 냅둬"라며 2달 동안 업데이트를 안 했다. 이처럼 **내가 짠 코드만 지킨다고 안전해지는 것이 아니라, 내가 뱃속에 품고 있는 외부 생태계의 유통기한(Lifecycle)을 집요하게 관리해야만 생존할 수 있는 시대**가 도래했다.
+- **필요성**: 2017년, 미국의 거대 신용평가사 에퀴팩스(Equifax)가 해킹당해 미국 인구 절반(1억 4천만 명)의 주민번호가 다크웹에 풀렸다. 원인은 아파치(Apache)의 `Struts2`라는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 취약점 때문이었다. 아파치는 이미 2달 전에 "이거 해킹되니까 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 업데이트하세요!"라고 패치를 올렸다. 에퀴팩스 개발자들은 "귀찮아, 돌아가면 냅둬"라며 2달 동안 업데이트를 안 했다. 이처럼 <strong>내가 짠 코드만 지킨다고 안전해지는 것이 아니라, 내가 뱃속에 품고 있는 외부 생태계의 유통기한(Lifecycle)을 집요하게 관리해야만 생존할 수 있는 시대</strong>가 도래했다.
 
-- **💡 비유**: 이 취약점은 **'건물에 박아넣은 불량 중국산 철근'**과 같습니다. 시공사(개발자)가 아무리 1급 설계사 자격증을 가지고 외벽(내가 짠 코드)을 콘크리트로 완벽하게 발랐다 해도, 뼈대에 쓴 철근([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))이 3년 전에 단종된 불량 중국산이라면? 건물을 다 지어놓고 태풍이 한 번 치는 순간 철근이 엿가락처럼 휘면서 아파트 전체가 와르르 붕괴합니다. 내가 직접 철근을 만들지 않았다면, 적어도 그 철근의 유통기한과 품질 인증서([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))만큼은 내가 깐깐하게 관리해야 합니다.
+- **💡 비유**: 이 취약점은 <strong>'건물에 박아넣은 불량 중국산 철근'</strong>과 같습니다. 시공사(개발자)가 아무리 1급 설계사 자격증을 가지고 외벽(내가 짠 코드)을 콘크리트로 완벽하게 발랐다 해도, 뼈대에 쓴 철근([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))이 3년 전에 단종된 불량 중국산이라면? 건물을 다 지어놓고 태풍이 한 번 치는 순간 철근이 엿가락처럼 휘면서 아파트 전체가 와르르 붕괴합니다. 내가 직접 철근을 만들지 않았다면, 적어도 그 철근의 유통기한과 품질 인증서([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))만큼은 내가 깐깐하게 관리해야 합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 낭만 시대**: 2000년대엔 남의 코드를 복붙해서 쓰면 개발 기간이 절반으로 단축되어 모두가 환호했다.
-  2. **[CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 데이터베이스의 대통일**: 해커들이 빡쳐서 "이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 쓰면 이렇게 뚫림!"을 족보([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))로 공유하기 시작했고, 이것이 스크립트 키디(초보 해커)들의 자동화 해킹 툴에 장착되었다.
+  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>의 낭만 시대</strong>: 2000년대엔 남의 코드를 복붙해서 쓰면 개발 기간이 절반으로 단축되어 모두가 환호했다.
+  2. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/">CVE</a> 데이터베이스의 대통일</strong>: 해커들이 빡쳐서 "이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 쓰면 이렇게 뚫림!"을 족보([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))로 공유하기 시작했고, 이것이 스크립트 키디(초보 해커)들의 자동화 해킹 툴에 장착되었다.
   3. **OWASP Top 10의 절대 권력화 (현재)**: 현대 프레임워크(NPM, Maven)가 의존성(Dependency)을 꼬리에 꼬리를 물고 수백 개씩 다운받는 거대한 블랙홀이 되자, OWASP는 이를 2021년 Top 10에 올려 "내가 짠 코드보다 남이 짠 코드를 10배 더 조심해라"라는 보안 패러다임 시프트를 선언했다.
 
-- **📢 섹션 요약 비유**: 이것은 좀비 영화에서 **'잠복기에 걸린 생존자를 파티에 데려온 것'**입니다. 파티장(앱) 경호가 완벽해도, 내 옆에서 웃고 떠드는 내 친구([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))가 어제 몰래 좀비한테 물렸는데(취약점 발견) 나한테 말을 안 했습니다. 친구는 새벽에 갑자기 좀비(해커)로 변해 파티장 내부에서부터 전원을 물어뜯어 전멸시킵니다. 외부에서 데려온 친구의 피 검사([SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 스캔)를 매일매일 강제로 해야만 하는 이유입니다.
+- **📢 섹션 요약 비유**: 이것은 좀비 영화에서 <strong>'잠복기에 걸린 생존자를 파티에 데려온 것'</strong>입니다. 파티장(앱) 경호가 완벽해도, 내 옆에서 웃고 떠드는 내 친구([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))가 어제 몰래 좀비한테 물렸는데(취약점 발견) 나한테 말을 안 했습니다. 친구는 새벽에 갑자기 좀비(해커)로 변해 파티장 내부에서부터 전원을 물어뜯어 전멸시킵니다. 외부에서 데려온 친구의 피 검사([SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 스캔)를 매일매일 강제로 해야만 하는 이유입니다.
 
 ---
 
 다음은 Vulnerable and Outda의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Vulnerable and Outda                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vulnerable and Outda</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Vulnerable and Outda가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ Vulnerable and Outdated Components (취약하고 만료된 [컴포넌트](/knowl
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Vulnerable and Outdated Components (취약하고 만료된 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Vulnerable and Outdated Components (취약하고 만료된 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Vulnerable and Outdated Components (취약하고 만료된 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ Vulnerable and Outdated Components (취약하고 만료된 [컴포넌트](/knowl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Vulnerable and Outdated Components (취약하고 만료된 컴포넌트) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Vulnerable and Outdated Components (취약하고 만료된 컴포넌트) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

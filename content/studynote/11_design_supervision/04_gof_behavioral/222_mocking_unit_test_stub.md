@@ -22,42 +22,53 @@ tags = ["studynote-design-supervision"]
 
 현실: 비즈니스 로직이 DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 등에 의존한다.
 
-```
-[문제 상황]
-OrderService.createOrder()
-  └→ userRepository.findById()   ← DB 의존성
-  └→ inventoryService.reserve()  ← 외부 서비스 의존성
-  └→ emailService.send()         ← SMTP 서버 의존성
 
-단위 테스트만으로 실행 불가:
-  - DB 없이 실행 불가 → 느림, 불안정
-  - 외부 API 없이 실행 불가 → 환경 의존
-  - 이메일 실제 발송 → 테스트 부작용
-```
 
-해결: 의존성을 **[Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/)**로 교체하여 격리.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제 상황</div></div>
+<div class="kb-diagram-note">OrderService.createOrder()</div>
+<div class="kb-diagram-tree-item" style="--depth:1">→ userRepository.findById() ← DB 의존성</div>
+<div class="kb-diagram-tree-item" style="--depth:1">→ inventoryService.reserve() ← 외부 서비스 의존성</div>
+<div class="kb-diagram-tree-item" style="--depth:1">→ emailService.send() ← SMTP 서버 의존성</div>
+<div class="kb-diagram-note">단위 테스트만으로 실행 불가:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">DB 없이 실행 불가 → 느림, 불안정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">외부 API 없이 실행 불가 → 환경 의존</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이메일 실제 발송 → 테스트 부작용</div>
+</div>
+</div>
 
-```
-        /\
-       /  \
-      / E2E\  ← End-to-End 테스트 (소수, 느림, 비용 ↑)
-     /──────\
-    /Integra-\← 통합 테스트 (중간)
-   /──────────\
-  / Unit Tests \← 단위 테스트 (다수, 빠름, 비용 ↓)
- ────────────────
-```
+
+
+해결: 의존성을 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a></strong>로 교체하여 격리.
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">/ E2E\ ← End-to-End 테스트 (소수, 느림, 비용 ↑)</div>
+<div class="kb-diagram-note">/Integra-\← 통합 테스트 (중간)</div>
+<div class="kb-diagram-note">/ Unit Tests \← 단위 테스트 (다수, 빠름, 비용 ↓)</div>
+</div>
+</div>
+
+
 
 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 피라미드 기반을 이루는 이유:
 - 실행 속도: ms 단위 (외부 I/O 없음)
 - 피드백 속도: 코드 수정 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 - 유지보수 비용: 외부 환경 변화에 무관
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 영화 촬영의 스턴트맨 — 진짜 배우(실제 DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 대신 특정 장면(테스트)에서 대역([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))을 써서, 안전하고 빠르게 촬영(테스트)한다.
 
@@ -66,28 +77,28 @@ OrderService.createOrder()
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 유형 | 설명 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 여부 | 사용 목적 | 예시 |
 |:---|:---|:---|:---|:---|
-| **[Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)** ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) | 전달만 되고 사용 안 됨 | ✗ | 파라미터 채우기 | `null`, 빈 객체 |
-| **[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)** ([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) | 미리 정해진 값 반환 | ✗ | 간접 입력 제공 | `when(repo.find()).thenReturn(user)` |
-| **[Spy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)** ([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)) | 실제 객체이지만 일부 호출 기록 | ○ 일부 | 호출 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `@Spy` (Mockito) |
-| **[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)** (목) | 호출 예상(Expectation) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | ✓ | 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | `verify(emailSvc, times(1)).send(any())` |
-| **[Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)** ([페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) | 실제 구현의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | ✗ | 경량 실제 구현 | `InMemoryRepository` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">Dummy</a></strong> ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) | 전달만 되고 사용 안 됨 | ✗ | 파라미터 채우기 | `null`, 빈 객체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a></strong> ([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) | 미리 정해진 값 반환 | ✗ | 간접 입력 제공 | `when(repo.find()).thenReturn(user)` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">Spy</a></strong> ([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)) | 실제 객체이지만 일부 호출 기록 | ○ 일부 | 호출 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `@Spy` (Mockito) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a></strong> (목) | 호출 예상(Expectation) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | ✓ | 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | `verify(emailSvc, times(1)).send(any())` |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a></strong> ([페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) | 실제 구현의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | ✗ | 경량 실제 구현 | `InMemoryRepository` |
 
-```
-테스트에서 의존성을 어떻게 다룰까?
-                │
-    ┌───────────┼────────────────┐
-    │           │                │
-파라미터로      반환 값이          호출 여부를
-전달만 됨      필요함             검증해야 함
-    │           │                │
-  Dummy       상태가 필요?      Mock 사용
-              (경량 구현 필요?)
-             ┌─────┴──────┐
-          단순 값          실제 동작
-         반환 충분          필요
-             │                │
-           Stub             Fake
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">테스트에서 의존성을 어떻게 다룰까?</div>
+<div class="kb-diagram-note">파라미터로 반환 값이 호출 여부를</div>
+<div class="kb-diagram-note">전달만 됨 필요함 검증해야 함</div>
+<div class="kb-diagram-note">Dummy 상태가 필요? Mock 사용</div>
+<div class="kb-diagram-note">(경량 구현 필요?)</div>
+<div class="kb-diagram-note">단순 값 실제 동작</div>
+<div class="kb-diagram-note">반환 충분 필요</div>
+<div class="kb-diagram-note">Stub Fake</div>
+</div>
+</div>
+
+
 
 ```java
 // 1. Mock 생성
@@ -109,11 +120,15 @@ verify(mockEmailService, times(1)).sendConfirmation(eq(testUser.getEmail()));
 verify(mockRepo, never()).delete(any());
 ```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Stub은 "미리 짜놓은 대본을 읽는 배우(항상 같은 답변 반환)", Mock은 "감독이 배우가 대본대로 연기했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것(호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))" 이다.
 
@@ -218,8 +233,8 @@ class OrderServiceTest {
 
 **기대효과**:
 - **빠른 피드백**: 외부 의존성 없이 ms 내 실행
-- **안정적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD**: 환경 의존 없이 일관된 결과
-- **[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망**: 코드 변경 시 회귀 방지
+- <strong>안정적인 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong>: 환경 의존 없이 일관된 결과
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 안전망</strong>: 코드 변경 시 회귀 방지
 - **설계 개선 유도**: 테스트 어렵다 → 결합도가 높다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 
 **한계와 주의**:
@@ -227,7 +242,7 @@ class OrderServiceTest {
 - Stub과 Mock의 혼동 → 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 행동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 목적 불명확
 - [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)만으로는 통합 문제 미탐지 → 피라미드 균형 유지 필수
 
-기술사 시험에서는 **5가지 [Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/) 비교표**, **[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) vs Mock의 차이**, **테스트 피라미드**를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 <strong>5가지 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a> 비교표</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> vs Mock의 차이</strong>, <strong>테스트 피라미드</strong>를 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

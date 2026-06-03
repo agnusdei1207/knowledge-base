@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 스와핑 (Swapping)은 메모리 부족 시 실행 중인 프로세스 전체(또는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위)를 디스크의 백킹 스토어 (Backing Store)로 이동시켜 메모리를 확보하는 OS 메모리 관리 기법이다.
 > 2. **가치**: 스와핑은 물리 메모리를 초과하는 총 프로세스 메모리를 실행 가능하게 하는 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 핵심 메커니즘으로, 물리 메모리 한계를 SW적으로 초월한다.
-> 3. **융합**: 현대 OS는 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 스와핑 대신 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 스와핑 (Paging-based Swapping)**을 사용하며, [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/), 스왑 데몬 (kswapd), [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer와 연동하여 메모리 압박을 자동으로 관리한다.
+> 3. **융합**: 현대 OS는 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 스와핑 대신 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위 스와핑 (Paging-based Swapping)</strong>을 사용하며, [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/), 스왑 데몬 (kswapd), [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer와 연동하여 메모리 압박을 자동으로 관리한다.
 
 ---
 
@@ -23,33 +23,29 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 작은 책상(RAM)에 올려둔 책(프로세스)들이 너무 많으면, 지금 안 보는 책은 서랍(디스크 스왑 영역)에 잠시 넣는 것.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         스와핑 동작 흐름                                     │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [메모리 부족 감지]                                          │
-│       │                                                      │
-│       ▼                                                      │
-│  [스왑 아웃 (Swap Out)]                                      │
-│  ● OS가 희생 프로세스(Victim) 선택                           │
-│  ● 프로세스 메모리 전체를 디스크 스왑 공간으로 복사          │
-│  ● 해당 프레임들을 비워 다른 프로세스에 할당                 │
-│                                                              │
-│  [실행 준비된 스왑 아웃 프로세스]                            │
-│       │                                                      │
-│       ▼                                                      │
-│  [스왑 인 (Swap In)]                                         │
-│  ● 스왑 공간에서 프로세스를 메모리로 복원                    │
-│  ● 주소 바인딩 재수행 (실행 시간 바인딩 필요)                │
-│  ● CPU 스케줄러가 레디 큐에 배치                             │
-│                                                              │
-│  스왑 오버헤드 (HDD 기준):                                   │
-│  100MB 프로세스 스왑 아웃: 100MB / 50MB/s = 2초              │
-│  스왑 인: 추가 2초 → 총 4초 오버헤드!                        │
-│  (NVMe SSD: ~200ms로 단축)                                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스와핑 동작 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 부족 감지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 아웃 (Swap Out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● OS가 희생 프로세스(Victim) 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 프로세스 메모리 전체를 디스크 스왑 공간으로 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 해당 프레임들을 비워 다른 프로세스에 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 준비된 스왑 아웃 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 인 (Swap In)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 스왑 공간에서 프로세스를 메모리로 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 주소 바인딩 재수행 (실행 시간 바인딩 필요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● CPU 스케줄러가 레디 큐에 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 오버헤드 (HDD 기준):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100MB 프로세스 스왑 아웃: 100MB / 50MB/s = 2초</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 인: 추가 2초 → 총 4초 오버헤드!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVMe SSD: ~200ms로 단축)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 스와핑은 좁은 주방(RAM)에서 지금 안 쓰는 냄비(프로세스)를 창고(디스크)로 잠시 옮기는 것 — 새 냄비를 올릴 공간이 생기지만, 다시 꺼내오는 데 시간이 걸립니다.
 
@@ -69,30 +65,30 @@ tags = ["studynote-operating-system"]
 
 ### Linux kswapd 데몬 동작
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         Linux 메모리 회수 흐름 (kswapd + OOM Killer)         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  메모리 사용량 임계값:                                       │
-│  ● min / low / high 워터마크                                 │
-│                                                              │
-│  [high 이상]: 정상 운영                                      │
-│  [low ~ high]: kswapd 백그라운드 회수 시작                   │
-│    ● 파일 캐시(file-backed) 페이지 먼저 제거                 │
-│    ● 익명(anonymous) 페이지는 스왑 공간으로                  │
-│  [min 미만]: 직접 회수 (Synchronous Direct Reclaim)          │
-│    → 메모리 할당 요청 스레드가 직접 페이지 회수              │
-│    → 심각한 레이턴시 유발                                    │
-│  [완전 고갈]: OOM Killer 발동                                │
-│    → oom_score 기반으로 희생 프로세스 선택 후 SIGKILL        │
-│                                                              │
-│  명령어:                                                     │
-│  swapon -s           # 스왑 사용 현황                        │
-│  free -h             # RAM·스왑 전체 현황                    │
-│  vmstat 1            # 스왑 인/아웃 속도 모니터링            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux 메모리 회수 흐름 (kswapd + OOM Killer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 사용량 임계값:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● min / low / high 워터마크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">high 이상</div><div class="kb-diagram-note">: 정상 운영</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">low ~ high</div><div class="kb-diagram-note">: kswapd 백그라운드 회수 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 파일 캐시(file-backed) 페이지 먼저 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 익명(anonymous) 페이지는 스왑 공간으로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">min 미만</div><div class="kb-diagram-note">: 직접 회수 (Synchronous Direct Reclaim)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메모리 할당 요청 스레드가 직접 페이지 회수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 심각한 레이턴시 유발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완전 고갈</div><div class="kb-diagram-note">: OOM Killer 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ oom_score 기반으로 희생 프로세스 선택 후 SIGKILL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swapon -s # 스왑 사용 현황</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">free -h # RAM·스왑 전체 현황</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vmstat 1 # 스왑 인/아웃 속도 모니터링</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: kswapd는 청소부 — 방(메모리)이 너무 꽉 차기 전에 미리 안 쓰는 물건을 창고(스왑)로 옮겨요. [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 창고마저 꽉 찼을 때 가장 큰 짐을 들고 있는 사람(프로세스)에게 나가달라고 하는 보안 요원이에요.
 
@@ -104,12 +100,12 @@ tags = ["studynote-operating-system"]
 
 | 종류 | 특성 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 |:---|:---|:---|
-| **스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)** | 전용 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 빠름 | `/dev/sda2 swap` |
-| **스왑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 유연 | `fallocate + swapon` |
+| <strong>스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | 전용 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 빠름 | `/dev/sda2 swap` |
+| <strong>스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 유연 | `fallocate + swapon` |
 | **zRAM** | RAM을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)으로 | `modprobe zram` |
 | **zswap** | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 후 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 캐시 |
 
-**zRAM**은 Android 스마트폰에서 널리 사용. 실제 디스크 I/O 없이 RAM 내 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간을 스왑으로 사용하여 빠른 스와핑을 지원한다.
+<strong>zRAM</strong>은 Android 스마트폰에서 널리 사용. 실제 디스크 I/O 없이 RAM 내 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간을 스왑으로 사용하여 빠른 스와핑을 지원한다.
 
 **📢 섹션 요약 비유**: zRAM은 서랍에 진공 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 옷을 넣는 것 — 작은 서랍에 더 많은 옷(프로세스)을 넣을 수 있어요.
 
@@ -118,12 +114,12 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기반 서버**: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD로 스왑하면 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50배 빠름. 단, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명(TBW) 소모 주의.
-2. **클라우드 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 메모리 과도할당**: Hypervisor가 VM들의 총 메모리를 물리 메모리보다 많이 할당하고 스와핑으로 관리 (Balloon Driver + Swap).
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 기반 서버</strong>: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD로 스왑하면 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50배 빠름. 단, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명(TBW) 소모 주의.
+2. <strong>클라우드 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 메모리 과도할당</strong>: Hypervisor가 VM들의 총 메모리를 물리 메모리보다 많이 할당하고 스와핑으로 관리 (Balloon Driver + Swap).
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **스왑 없는 서버**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 상황에서 즉시 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 위험. 작은 스왑 버퍼(2~4GB)라도 유지 권장.
-- **과도한 스와핑 ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))**: 프로세스가 실행될 때마다 스왑 인/아웃이 반복되어 CPU가 스와핑에만 95% 소비 → 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 급락.
+- <strong>과도한 스와핑 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>: 프로세스가 실행될 때마다 스왑 인/아웃이 반복되어 CPU가 스와핑에만 95% 소비 → 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 급락.
 
 **📢 섹션 요약 비유**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))은 좁은 책상에 책을 계속 서랍에서 꺼내고 넣기를 반복하다 실제 공부는 못 하는 상황 — 이사 자체가 일이 돼버린 비효율입니다.
 
@@ -154,15 +150,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정적 연결 (Static Linking)]
-    │
-    ▼
-[스와핑 (Swapping)]
-    │
-    ├──▶ [스왑 아웃 (Swap out) / 스왑 인 (Swap in)]
-    └──▶ [표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 연결 (Static Linking)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스와핑 (Swapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스왑 아웃 (Swap out) / 스왑 인 (Swap in)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

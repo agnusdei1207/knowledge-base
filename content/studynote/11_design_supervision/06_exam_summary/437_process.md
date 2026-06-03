@@ -17,22 +17,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 사용자가 서울, 도쿄, 프랑크푸르트에서 동시에 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 호출하는데 모든 요청이 단일 원본 서버로만 가면 물리적 거리가 곧 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 된다. 특히 이미지, 동영상, 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 반복 조회용 응답은 매번 원본에서 계산할 필요가 없는데도 중앙 집중형 구조에서는 동일한 비용을 반복해서 치른다. [엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/) 접근은 이 낭비를 줄이기 위해 등장했다.
 
-[엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/)는 단순히 캐시 서버를 하나 두는 개념이 아니라, 사용자와 가까운 지점에서 정적 자산 전달, 요청 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 간단한 가공, 지역별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행하는 방식이다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선의 핵심은 서버를 더 크게 만드는 것이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 연산을 어디까지 앞당겨 둘 것인가**에 있다.
+[엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/)는 단순히 캐시 서버를 하나 두는 개념이 아니라, 사용자와 가까운 지점에서 정적 자산 전달, 요청 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 간단한 가공, 지역별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행하는 방식이다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선의 핵심은 서버를 더 크게 만드는 것이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 연산을 어디까지 앞당겨 둘 것인가</strong>에 있다.
 
-```text
-┌─────────────┐   ┌────────────────────────────┐
-│ 사용자 A/B/C │──▶│ 가까운 엣지 거점 (PoP)     │
-└─────────────┘   └────────────┬───────────────┘
-                                │
-                  ┌─────────────┴──────────────┐
-                  │ 캐시 적중: 즉시 응답       │
-                  │ 캐시 미스: 원본 요청 전달  │
-                  └─────────────┬──────────────┘
-                                ▼
-                       ┌──────────────────────┐
-                       │ 원본 서비스·데이터 저장소 │
-                       └──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 A/B/C</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">가까운 엣지 거점 (PoP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 적중: 즉시 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 미스: 원본 요청 전달</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 서비스·데이터 저장소</div></div>
+</div>
+</div>
+
+
 
 기술사 답안에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 단축을 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·배포 토폴로지·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최신성 간의 균형 문제로 쓰는 것이 좋다. 감리 관점에서도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치뿐 아니라 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 무효화 증적을 함께 봐야 한다.
 
@@ -41,17 +40,18 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [엣지 네이티브](/knowledge-base/studynote/15_devops_sre/05_devsecops/231_edge_native/) 구조는 보통 전역 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 시스템 ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 캐시, 엣지 함수, 원본 서버의 네 층으로 이해하면 쉽다. 요청은 먼저 가장 가까운 엣지 거점으로 유도되고, 캐시에 있으면 즉시 응답한다. 캐시에 없거나 개인화된 요청이면 원본으로 전달하되, 응답 결과를 다시 캐시에 적재하거나 지역별 규칙에 따라 짧게 보관한다.
 
-```text
-┌────────┐   ┌────────────┐   ┌──────────────────┐   ┌────────┐
-│ Client │──▶│ Global DNS │──▶│ Edge Cache/Func. │──▶│ Origin │
-└────────┘   └────────────┘   └──────┬───────────┘   └────────┘
-                                      │
-                     ┌────────────────┼─────────────────┐
-                     │ Cache Hit : 즉시 응답            │
-                     │ Cache Miss: 원본 조회            │
-                     │ Edge Logic: 헤더·지역 라우팅     │
-                     └──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Global DNS</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Edge Cache/Func.</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Origin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Hit : 즉시 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Miss: 원본 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge Logic: 헤더·지역 라우팅</div></div>
+</div>
+</div>
+
+
 
 | 구성 축 | 핵심 역할 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -59,7 +59,7 @@ tags = ["studynote-design-supervision"]
 | 엣지 연산 | 헤더 변환, 지역 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 보조, 간단한 개인화 | 상태를 길게 보관하지 말고 짧고 결정적인 연산에 집중해야 한다 |
 | 원본 연계 | 최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 진실원과 캐시 미스 처리 | 캐시 적중률만이 아니라 최신성, 장애 전파, 장애 우회 경로를 함께 봐야 한다 |
 
-실무에서 중요한 것은 무엇을 캐시할지보다 무엇을 **캐시하면 안 되는지**를 정하는 일이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 거래 상태, 재고 수량처럼 시점 민감도가 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 캐시 범위를 신중히 제한해야 한다. 반대로 정적 자산과 읽기 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 적극적으로 엣지에 배치할수록 효과가 크다.
+실무에서 중요한 것은 무엇을 캐시할지보다 무엇을 <strong>캐시하면 안 되는지</strong>를 정하는 일이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 거래 상태, 재고 수량처럼 시점 민감도가 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 캐시 범위를 신중히 제한해야 한다. 반대로 정적 자산과 읽기 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 적극적으로 엣지에 배치할수록 효과가 크다.
 
 - **📢 섹션 요약 비유**: 식당에서 자주 나가는 반찬은 앞쪽에 미리 준비해 두고, 주문마다 달라지는 메인 요리만 주방에서 바로 만드는 것과 같다.
 
@@ -111,21 +111,23 @@ tags = ["studynote-design-supervision"]
 | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 엣지 | 엣지 구간의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·보안 통제를 세분화하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-글로벌 사용자 증가
-        │
-        ▼
-CDN 캐싱 도입
-        │
-        ▼
-엣지 라우팅 · 경량 연산 확장
-        │
-        ▼
-캐시 일관성 · 무효화 고도화
-        │
-        ▼
-빠른 응답 · 원본 보호 · 지역 최적화 달성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 사용자 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDN 캐싱 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 라우팅 · 경량 연산 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 · 무효화 고도화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빠른 응답 · 원본 보호 · 지역 최적화 달성</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)에서 출발해, 점차 엣지 제어와 운영 정합성까지 아우르는 구조로 발전하는 과정을 보여 준다.
 

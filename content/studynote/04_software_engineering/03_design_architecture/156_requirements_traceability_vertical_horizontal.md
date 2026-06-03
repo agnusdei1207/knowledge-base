@@ -21,43 +21,38 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))은 소프트웨어 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내에서 생성되는 모든 산출물(문서, 코드, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)) 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연관성을 수립하는 것이다. 고객의 입에서 나온 말 한마디(요구사항)가 최종 소프트웨어에 누락 없이 반영되었는지, 반대로 쓸데없이 구현된 코드 조각(Gold-plating)은 없는지 감시하는 내비게이션이다.
 
-- **필요성**: 차세대 은행 시스템 프로젝트 오픈 전날. 테스터가 헐레벌떡 뛰어온다. "버그 났어요! 비밀번호 3번 틀리면 계정이 잠겨야 하는데 안 잠겨요!" 개발팀장이 소리친다. "야, 그 코드 누가 짰어? DB 테이블은 어디 있어? 테스트 시나리오는 애초에 있었어?" 100명의 개발자가 서로 얼굴만 쳐다본다. 문서 수백 장과 소스 코드 수십만 줄이 어디서 어떻게 연결되어 있는지 아무도 모른다. **요구사항 1개가 시스템의 핏줄을 타고 어디로 흘러갔는지([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 이 수상한 코드는 도대체 누구의 요구로 짠 건지(Backward)** 역학 조사(역학 추적)를 10분 만에 끝내지 못하면 유지보수와 기능 변경은 지옥의 철야 작업으로 직행한다. 거대한 복잡성을 통제할 '바코드 꼬리표'가 절실했다.
+- **필요성**: 차세대 은행 시스템 프로젝트 오픈 전날. 테스터가 헐레벌떡 뛰어온다. "버그 났어요! 비밀번호 3번 틀리면 계정이 잠겨야 하는데 안 잠겨요!" 개발팀장이 소리친다. "야, 그 코드 누가 짰어? DB 테이블은 어디 있어? 테스트 시나리오는 애초에 있었어?" 100명의 개발자가 서로 얼굴만 쳐다본다. 문서 수백 장과 소스 코드 수십만 줄이 어디서 어떻게 연결되어 있는지 아무도 모른다. <strong>요구사항 1개가 시스템의 핏줄을 타고 어디로 흘러갔는지(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>), 이 수상한 코드는 도대체 누구의 요구로 짠 건지(Backward)</strong> 역학 조사(역학 추적)를 10분 만에 끝내지 못하면 유지보수와 기능 변경은 지옥의 철야 작업으로 직행한다. 거대한 복잡성을 통제할 '바코드 꼬리표'가 절실했다.
 
-- **💡 비유**: 추적성은 대형 병원의 **'환자 팔찌(바코드)' 시스템**과 같습니다. "홍길동"이라는 환자(요구사항)가 입원하면 손목에 팔찌(ID)를 채웁니다. 그가 피검사(설계)를 하든, 수술(코딩)을 하든, 약을 타든(테스트) 모든 차트와 엑스레이 필름에 그 바코드 번호가 찍힙니다. 만약 나중에 문제가 생기면, 의사는 그 바코드 하나만 띡 찍어서 홍길동이 어느 병실에 있었고, 무슨 약을 먹었고, 누가 수술했는지 **한 큐에 완벽한 동선을 쫙 뽑아낼 수 있습니다.**
+- **💡 비유**: 추적성은 대형 병원의 <strong>'환자 팔찌(바코드)' 시스템</strong>과 같습니다. "홍길동"이라는 환자(요구사항)가 입원하면 손목에 팔찌(ID)를 채웁니다. 그가 피검사(설계)를 하든, 수술(코딩)을 하든, 약을 타든(테스트) 모든 차트와 엑스레이 필름에 그 바코드 번호가 찍힙니다. 만약 나중에 문제가 생기면, 의사는 그 바코드 하나만 띡 찍어서 홍길동이 어느 병실에 있었고, 무슨 약을 먹었고, 누가 수술했는지 **한 큐에 완벽한 동선을 쫙 뽑아낼 수 있습니다.**
 
 - **등장 배경**:
   1. **소프트웨어의 거대화와 인력 파편화**: 기획자, 아키텍트, 백엔드 개발자, QA 테스터가 각자의 부서에서 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 치고 일하면서 산출물 간의 연결 고리가 끊어지는 대참사가 일상화되었다.
-  2. **[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 및 ISO 인증의 강제화**: 미국 국방부 같은 거대 기관이 "추적표([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 없이는 너희 소프트웨어를 믿고 사지 않겠다"며 공학 품질 관리의 0순위 증빙 자료로 강제 채택했다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> 및 ISO 인증의 강제화</strong>: 미국 국방부 같은 거대 기관이 "추적표([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 없이는 너희 소프트웨어를 믿고 사지 않겠다"며 공학 품질 관리의 0순위 증빙 자료로 강제 채택했다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          추적성의 양방향(수직적/수평적) 아키텍처 생태계 맵 (Map)          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 1️⃣ [ 수직적 (Vertical) 추적성 - 생명주기(SDLC)를 관통하는 파급력 ]  │
-│                                                             │
-│   (Backward 역추적) ◀────────────────────────▶ (Forward 정추적)│
-│                                                             │
-│  [고객의 요구] ➔ [SRS 명세서] ➔ [설계도/DB] ➔ [소스코드] ➔ [테스트]  │
-│  "카드결제해줘" ➔ REQ-PAY-01 ➔ UML_PAY_01 ➔ Pay.java ➔ TC-005  │
-│                                                             │
-│  🌟 정추적 (가시성): REQ-PAY-01이 끝까지 누락 없이 구현/테스트되었나?    │
-│  🌟 역추적 (정당성): Pay.java라는 코드는 도대체 왜 짠 건가? (근원 파악)    │
-│                                                             │
-│                                                             │
-│ 2️⃣ [ 수평적 (Horizontal) 추적성 - 같은 단계 안에서의 얽힘과 충돌 ]  │
-│                                                             │
-│  [ REQ-PAY-01 (결제 기능) ] ◀─ (충돌) ─▶ [ REQ-SEC-05 (보안 암호화) ] │
-│   - "결제 로직은 무조건 1초 이내에 끝나야 한다."                     │
-│   - "결제 데이터는 10번 암호화해서 무겁게 처리해야 한다."                │
-│                                                             │
-│  🌟 아키텍트 판단: 추적성은 단순히 앞뒤(수직)만 잇는 게 아니다. 옆에 있는    │
-│     요구사항끼리 서로 논리적 모순(Conflict)을 일으키는지 거미줄(수평)을 쳐서 │
-│     스펙 간의 종속성과 충돌을 관리하는 극강의 의존성(Dependency) 매핑이다.│
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 기술사 시험에서 단골로 묻는 수직(Vertical)과 수평(Horizontal)의 차이다. 수직적 추적성은 폭포수 계단을 타고 내려가거나 올라가는 **'시간/산출물'의 핏줄**이다. 무언가 바뀌었을 때 파도타기(Ripple Effect)를 계산하는 데 쓴다. 수평적 추적성은 같은 명세서(문서 1장) 안에서 1번 요구사항과 5번 요구사항이 서로 어떤 관계를 맺고 있는지 따지는 **'공간/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)'의 핏줄**이다. 결제 버튼(1번)을 누르면 반드시 재고 차감(5번)이 실행되어야 한다는 의존성을 묶어두어, 나중에 하나를 삭제할 때 남은 하나가 고아(Orphan)가 되어 시스템이 붕괴하는 것을 막는 방어 기제다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추적성의 양방향(수직적/수평적) 아키텍처 생태계 맵 (Map)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">수직적 (Vertical) 추적성 - 생명주기(SDLC)를 관통하는 파급력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Backward 역추적) ◀ ▶ (Forward 정추적)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객의 요구</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">SRS 명세서</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">설계도/DB</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">소스코드</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"카드결제해줘" ➔ REQ-PAY-01 ➔ UML_PAY_01 ➔ Pay.java ➔ TC-005</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 정추적 (가시성): REQ-PAY-01이 끝까지 누락 없이 구현/테스트되었나?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 역추적 (정당성): Pay.java라는 코드는 도대체 왜 짠 건가? (근원 파악)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">수평적 (Horizontal) 추적성 - 같은 단계 안에서의 얽힘과 충돌</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">REQ-PAY-01 (결제 기능)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">REQ-SEC-05 (보안 암호화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "결제 로직은 무조건 1초 이내에 끝나야 한다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "결제 데이터는 10번 암호화해서 무겁게 처리해야 한다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 판단: 추적성은 단순히 앞뒤(수직)만 잇는 게 아니다. 옆에 있는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항끼리 서로 논리적 모순(Conflict)을 일으키는지 거미줄(수평)을 쳐서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스펙 간의 종속성과 충돌을 관리하는 극강의 의존성(Dependency) 매핑이다.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 기술사 시험에서 단골로 묻는 수직(Vertical)과 수평(Horizontal)의 차이다. 수직적 추적성은 폭포수 계단을 타고 내려가거나 올라가는 <strong>'시간/산출물'의 핏줄</strong>이다. 무언가 바뀌었을 때 파도타기(Ripple Effect)를 계산하는 데 쓴다. 수평적 추적성은 같은 명세서(문서 1장) 안에서 1번 요구사항과 5번 요구사항이 서로 어떤 관계를 맺고 있는지 따지는 <strong>'공간/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>'의 핏줄</strong>이다. 결제 버튼(1번)을 누르면 반드시 재고 차감(5번)이 실행되어야 한다는 의존성을 묶어두어, 나중에 하나를 삭제할 때 남은 하나가 고아(Orphan)가 되어 시스템이 붕괴하는 것을 막는 방어 기제다.
 
 - **📢 섹션 요약 비유**: 수직적 추적성은 조상의 족보를 캐는 것입니다. "내(소스코드)가 태어난 원인인 할아버지(고객 요구)는 누구지?"(역추적). 반대로 "우리 할아버지가 낳은 자손(테스트 코드)들이 안 죽고 다 살아있나?"(정추적)를 보는 겁니다. 수평적 추적성은 같은 동네(명세서)에 사는 이웃사촌 간의 관계입니다. "내가 이사를 가면 옆집(연관 요구사항) 담벼락이 무너지진 않을까?"를 미리 묶어두는 끈입니다.
 
@@ -76,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-요구사항 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+요구사항 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 요구사항 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -118,8 +113,8 @@ tags = ["studynote-software-engineering"]
 
 ### 기술사 판단 포인트
 
-- 이 개념을 **언제 채택**해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
-- 이 개념을 **언제 회피**해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
+- 이 개념을 <strong>언제 채택</strong>해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
+- 이 개념을 <strong>언제 회피</strong>해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
 
 - **📢 섹션 요약 비유**: 요구사항 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 적용은 요리사가 레시피를 따라 요리하는 과정과 같다. 레시피(원칙)를 완전히 무시하면 매번 결과가 들쑥날쑥하지만, 레시피를 맹목적으로 따르되 재료 상황(프로젝트 특성)에 맞게 조정하는 것이 진정한 전문가의 판단이다.
 
@@ -156,21 +151,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-요구사항 추적성 (Traceability) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항 추적성 (Traceability) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

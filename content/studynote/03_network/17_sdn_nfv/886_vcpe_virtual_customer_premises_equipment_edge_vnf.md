@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Premises Equipment, 가입자 댁내 장치)**: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Premises Equipment, 가입자 댁내 장치)</strong>: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
 - **문제점**:
   - **CAPEX 폭발**: 장비(쇳덩어리) 자체가 비쌉니다.
   - **OPEX(유지보수) 지옥**: 고객이 "인터넷이 안 돼요!" 하면 통신사 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 기사가 빵판(트럭)을 몰고 고객 집에 직접 가서(Truck-roll) 기계를 껐다 켜거나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) USB를 꽂아야 했습니다.
 
-```text
-[BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
-[엣지 가상화]
-    │
-    └──▶ [SD-LAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-LAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,7 +43,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 865번 문서에서 배운 **[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 기술의 끝판왕 응용 모델**입니다. 고객 집(또는 기업)에 두던 물리적 인터넷 장비의 비싼 두뇌 기능(L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 등)을 소프트웨어로 분리하여, **통신사의 지역 전화국(Edge Cloud Server)에 [가상 네트워크 기능](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)) 형태로 올려서 중앙 처리하는 아키텍처**입니다.
+- **개념**: 865번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>) 기술의 끝판왕 응용 모델</strong>입니다. 고객 집(또는 기업)에 두던 물리적 인터넷 장비의 비싼 두뇌 기능(L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 등)을 소프트웨어로 분리하여, <strong>통신사의 지역 전화국(Edge Cloud Server)에 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">가상 네트워크 기능</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>) 형태로 올려서 중앙 처리하는 아키텍처</strong>입니다.
 
 ### 1. 고객 집: pCPE (Physical [CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/)) - "깡통 껍데기"
 - 고객 집에는 뇌가 없는 단순한 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수준의 싸구려 껍데기 장비(Whitebox)만 놔둡니다. 이를 **vCPE 엣지 박스** 또는 pCPE라고 부릅니다.
@@ -49,14 +53,18 @@ tags = ["studynote-network"]
 - 동네 전화국(Edge)에 꽂힌 범용 x86 클라우드 서버에, 101호 집 공유기의 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)), 102호 집 공유기의 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))가 소프트웨어([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 나란히 둥둥 떠서 돌아갑니다.
 - 101호 아저씨가 웹서핑을 하면, 통신사 서버에 떠 있는 101호용 가상 공유기가 그 패킷에 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(IP 변환)를 걸어주고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 적용해 줍니다.
 
-```text
-[BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
-[엣지 가상화]
-    │
-    └──▶ [SD-LAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-LAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,8 +89,8 @@ tags = ["studynote-network"]
 통신사의 10년 묵은 체증을 해결한 일등 공신입니다.
 
 - **트럭 롤(Truck-roll) 소멸**: 고객 공유기가 뻗으면 기사가 출동하지 않습니다. 통신사 관리자가 마우스로 클릭 한 번 하면 전화국 서버에 있는 101호용 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(가상 공유기 앱)가 1초 만에 껐다 켜집니다(원격 재부팅).
-- **Zero-Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) (원격 개통)**: 신규 가입자에게 택배로 1만 원짜리 깡통 기계만 보냅니다. 고객이 벽에 랜선을 꽂으면([ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) 방식 등), 기계가 통신사 클라우드에 접속해 자기 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))를 자동으로 세팅받아 3분 만에 인터넷이 개통됩니다.
-- **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추가 판매**: 고객이 "자녀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 웹사이트 차단 요금제"에 가입하면, 통신사는 전화국에 있는 101호 공유기 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 옆에 '[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)'를 하나 더 복제해 주고 월 3,000원을 추가로 받습니다. 장비 교체 없이 클릭 1초 컷입니다. ([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) 융합)
+- <strong>Zero-Touch <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a> (원격 개통)</strong>: 신규 가입자에게 택배로 1만 원짜리 깡통 기계만 보냅니다. 고객이 벽에 랜선을 꽂으면([ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) 방식 등), 기계가 통신사 클라우드에 접속해 자기 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))를 자동으로 세팅받아 3분 만에 인터넷이 개통됩니다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 추가 판매</strong>: 고객이 "자녀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 웹사이트 차단 요금제"에 가입하면, 통신사는 전화국에 있는 101호 공유기 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 옆에 '[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)'를 하나 더 복제해 주고 월 3,000원을 추가로 받습니다. 장비 교체 없이 클릭 1초 컷입니다. ([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) 융합)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날엔 집집마다 '값비싸고 복잡한 정수기 기계(구형 [CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/))'를 놔줬습니다. 필터가 더러워지면 매달 매니저가 오토바이를 타고 집에 직접 방문(트럭 출동)해서 필터를 갈아줘야 했습니다(유지비 폭발). **vCPE(가상 [CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/))**는 집에는 그냥 아무 기능 없는 만 원짜리 '빈 양동이와 수도꼭지(깡통 pCPE)'만 놔두는 혁명입니다. 대신 동네 수도 사업소(통신사 엣지 서버)에 어마어마하게 거대한 최첨단 '소프트웨어 중앙 정수장([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))'을 짓습니다. 물을 틀면 정수장이 수만 집의 물을 원격으로 완벽히 깨끗하게 걸러서([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 빈 양동이로 쏴줍니다. 고장이 나면 수도 사업소 컴퓨터에서 클릭 한 번으로 고치고(원격 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)), 탄산수가 먹고 싶으면 버튼 하나로 탄산수 모드(신규 부가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 뚫어주는 궁극의 중앙 통제 물류망입니다.
+- **📢 섹션 요약 비유**: 옛날엔 집집마다 '값비싸고 복잡한 정수기 기계(구형 [CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/))'를 놔줬습니다. 필터가 더러워지면 매달 매니저가 오토바이를 타고 집에 직접 방문(트럭 출동)해서 필터를 갈아줘야 했습니다(유지비 폭발). <strong>vCPE(가상 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a>)</strong>는 집에는 그냥 아무 기능 없는 만 원짜리 '빈 양동이와 수도꼭지(깡통 pCPE)'만 놔두는 혁명입니다. 대신 동네 수도 사업소(통신사 엣지 서버)에 어마어마하게 거대한 최첨단 '소프트웨어 중앙 정수장([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))'을 짓습니다. 물을 틀면 정수장이 수만 집의 물을 원격으로 완벽히 깨끗하게 걸러서([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 빈 양동이로 쏴줍니다. 고장이 나면 수도 사업소 컴퓨터에서 클릭 한 번으로 고치고(원격 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)), 탄산수가 먹고 싶으면 버튼 하나로 탄산수 모드(신규 부가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 뚫어주는 궁극의 중앙 통제 물류망입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
-    │
-    ▼
-[현재 개념: 엣지 가상화]
-    │
-    ├──▶ [확장 A: SD-LAN]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 엣지 가상화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SD-LAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…에서 출발해 현재 메커니즘을 정교화하고, 이후 SD-LAN와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

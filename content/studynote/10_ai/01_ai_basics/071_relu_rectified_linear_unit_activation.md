@@ -100,29 +100,41 @@ ReLU는 학습 속도와 안정성을 높여 현대 신경망의 표준이 되�
 
 ## 관련 개념 맵
 
-```text
-Input
-  ↓
-ReLU
-  ↓
-Hidden Layer
-  ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hidden Layer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Sigmoid
-  ↓
-tanh
-  ↓
-ReLU
-  ↓
-Leaky ReLU
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sigmoid</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">tanh</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ReLU</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Leaky ReLU</div>
+</div>
+</div>
+
+
 
 ---
 

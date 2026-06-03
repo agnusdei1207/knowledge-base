@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "시스템이 요청된 작업을 수행할 준비가 되어 있는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이다. 수학적으로는 `가용성 = MTBF / (MTBF + MTTR)`로 계산된다. ([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/): [평균 무고장 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/), [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/): [평균 수리 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))
 
-- **필요성**: 시스템은 인간이 짜는 코드와 물리적인 하드웨어로 구성되므로, 디스크 고장, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), 네트워크 단절 등 **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Fault)은 피할 수 없는 필연(Inevitable)**이다. 중요한 것은 이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 숨기거나 재빨리 수리하여 사용자가 불편함(장애, Failure)을 느끼지 못하게 하는 아키텍처적 방어막이다. 아마존이나 넷플릭스가 1시간 멈추면 수백억 원의 손실이 발생하기 때문이다.
+- **필요성**: 시스템은 인간이 짜는 코드와 물리적인 하드웨어로 구성되므로, 디스크 고장, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), 네트워크 단절 등 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(Fault)은 피할 수 없는 필연(Inevitable)</strong>이다. 중요한 것은 이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 숨기거나 재빨리 수리하여 사용자가 불편함(장애, Failure)을 느끼지 못하게 하는 아키텍처적 방어막이다. 아마존이나 넷플릭스가 1시간 멈추면 수백억 원의 손실이 발생하기 때문이다.
 
 - **💡 비유**: 항공기가 하늘을 날고 있습니다. 엔진 1개에 새가 빨려 들어가 고장(Fault) 나는 것은 막을 수 없습니다. 하지만 쌍발 엔진([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/))으로 설계되어 나머지 엔진 1개로 무사히 공항에 착륙한다면, 추락이라는 장애(Failure)는 막은 것입니다. 이것이 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))의 공포**: 초창기 메인프레임 시절에는 중앙 서버 하나가 죽으면 회사 업무가 올스톱되는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure) 문제가 심각했다.
-  2. **하드웨어 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) (HA Cluster)**: 서버를 2대로 늘려 Active-Standby 구조를 만드는 고가용성(HA) 클러스터가 엔터프라이즈의 표준이 되었다.
-  3. **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)**: 현대에는 무조건 서버가 안 죽게(Prevent) 하는 것을 넘어, "서버는 언제든 죽는다"고 가정하고 마이크로서비스들이 알아서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Recover)하게 만드는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 중심의 설계로 진화했다.
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)의 공포</strong>: 초창기 메인프레임 시절에는 중앙 서버 하나가 죽으면 회사 업무가 올스톱되는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure) 문제가 심각했다.
+  2. <strong>하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> (HA Cluster)</strong>: 서버를 2대로 늘려 Active-Standby 구조를 만드는 고가용성(HA) 클러스터가 엔터프라이즈의 표준이 되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>와 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a></strong>: 현대에는 무조건 서버가 안 죽게(Prevent) 하는 것을 넘어, "서버는 언제든 죽는다"고 가정하고 마이크로서비스들이 알아서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Recover)하게 만드는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 중심의 설계로 진화했다.
 
 - **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 찰과상([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 아예 안 당하려고 무거운 갑옷을 입는 것이 아니라, 찰과상을 당하더라도 1초 만에 딱지를 앉게([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 해서 출혈(장애)로 이어지지 않게 하는 울버린의 재생 능력과 같습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  가용성 (Availability)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성 (Availability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-가용성 (Availability) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가용성 (Availability) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

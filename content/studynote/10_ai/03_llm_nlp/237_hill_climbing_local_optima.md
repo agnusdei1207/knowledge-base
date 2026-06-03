@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 언덕 오르기 탐색(Hill Climbing)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 눈을 가린 채 미로에서 가장 높은 산봉우리(최적의 정답)를 찾을 때, **전체 지도를 다 뒤지는 짓([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))을 포기하고 오직 "내 바로 한 발짝 앞(이웃 노드)을 더듬어서 지금 서 있는 곳보다 높으면 무조건 거기로 이동한다"**는 지극히 단순 무식하고 맹목적인 지역 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 1. **본질**: 언덕 오르기 탐색(Hill Climbing)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 눈을 가린 채 미로에서 가장 높은 산봉우리(최적의 정답)를 찾을 때, <strong>전체 지도를 다 뒤지는 짓(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>/<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)을 포기하고 오직 "내 바로 한 발짝 앞(이웃 노드)을 더듬어서 지금 서 있는 곳보다 높으면 무조건 거기로 이동한다"</strong>는 지극히 단순 무식하고 맹목적인 지역 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 경우의 수가 우주의 원자보다 많은 최적화 문제(예: 수만 개의 도시를 도는 택배 기사 경로 최단거리 짜기)에서, 상태 공간 트리를 끝까지 뒤지다간 컴퓨터가 터진다. 언덕 오르기는 과거를 기억할 필요(메모리 RAM 소모 0) 없이 오직 '현재의 점수'만 비교하며 빛의 속도로 그럴싸한 정답을 찾아내는 가성비 최강의 최적화 도구다.
-> 3. **판단 포인트**: 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 가장 치명적인 질병은 **지역 최적해(Local Optima)의 함정**이다. 눈을 가리고 한 발짝 앞의 오르막길만 따라 올라가다 보니, 거기가 진짜 에베레스트산 정상(Global Optimum)이 아니라 동네 뒷산 꼭대기(Local)인데도 "아싸! 사방이 다 내리막이네? 내가 우주 최고 정상이구나!" 착각하고 영원히 그 자리에 주저앉아 멈춰버리는 바보 같은 한계가 핵심 이슈다.
+> 3. **판단 포인트**: 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 가장 치명적인 질병은 <strong>지역 최적해(Local Optima)의 함정</strong>이다. 눈을 가리고 한 발짝 앞의 오르막길만 따라 올라가다 보니, 거기가 진짜 에베레스트산 정상(Global Optimum)이 아니라 동네 뒷산 꼭대기(Local)인데도 "아싸! 사방이 다 내리막이네? 내가 우주 최고 정상이구나!" 착각하고 영원히 그 자리에 주저앉아 멈춰버리는 바보 같은 한계가 핵심 이슈다.
 
 ---
 
@@ -24,16 +24,19 @@ tags = ["studynote-ai"]
 
 "아! 100% 완벽한 1등 정답(Global Optimum)을 찾는 건 수학적으로 불가능해! 그냥 대충 쓸 만한 **95점짜리 정답(Good Enough)이라도 좋으니까 당장 1분 만에 답을 내놓는 꼼수를 쓰자!**"
 
-이 처절한 타협에서 탄생한 것이 발견적([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 탐색의 시초, **언덕 오르기 (Hill Climbing)**다. 기억(메모리)을 저장하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 큐 따위는 다 찢어버렸다. 그냥 내가 서 있는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서, 좌우로 한 칸씩 움직여보고 점수가 지금보다 더 높아지는 방향(오르막길)으로만 한 칸 쓱 이동하는 것이다. 이를 반복하다가 동서남북 사방이 다 지금보다 점수가 낮으면(내리막이면) 멈춘다. 메모리 소모량 0, 계산 속도 번개. 이것이 복잡한 산업 공학의 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 살려낸 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 꼼수 탐색이다.
+이 처절한 타협에서 탄생한 것이 발견적([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 탐색의 시초, <strong>언덕 오르기 (Hill Climbing)</strong>다. 기억(메모리)을 저장하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 큐 따위는 다 찢어버렸다. 그냥 내가 서 있는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서, 좌우로 한 칸씩 움직여보고 점수가 지금보다 더 높아지는 방향(오르막길)으로만 한 칸 쓱 이동하는 것이다. 이를 반복하다가 동서남북 사방이 다 지금보다 점수가 낮으면(내리막이면) 멈춘다. 메모리 소모량 0, 계산 속도 번개. 이것이 복잡한 산업 공학의 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 살려낸 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 꼼수 탐색이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 언덕 오르기 탐색은 '눈 가리고 산 정상 찾아가기'다. 눈을 가렸으니 산 전체 지도를 모른다(메모리 0). 오직 발바닥의 감각만 쓴다. 한 발짝 앞을 디뎌보고 "오! 아까보다 조금 더 높네(점수 증가)?" 하면 무조건 그쪽으로 걷는다. "어? 사방을 짚어봐도 다 내리막길이네?" 하는 순간, 자기가 동네 뒷산에 있는지도 모르고 "여기가 지구에서 제일 높은 에베레스트산 정상이다!"라고 소리치며(지역 최적 함정) 깃발을 꽂고 끝내버리는 초단순 맹인 등반가다.
 
@@ -43,30 +46,30 @@ tags = ["studynote-ai"]
 
 언덕 오르기 아키텍처는 과거의 족보를 다 버리고 오직 **[현재 상태의 평가 함수(점수)]** 하나에 의존하여 이웃 노드(Neighbor)로 점프한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           언덕 오르기 탐색 (Hill Climbing)의 맹목적 등반 아키텍처 도해    │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 시작 상태 (Random Start)]                                  │
-│   * 임의의 아무 지점이나 툭 찍고 시작함. "여기 서서 점수(높이) 계산: 50점!"  │
-│                                                              │
-│  [2. 이웃 노드 평가 (Neighbor Evaluation) - 사방 더듬기]             │
-│   * 현재 내 위치(50점)에서 갈 수 있는 바로 옆길 4군데의 점수를 엿봄.        │
-│     - 북쪽 길: 40점 (내리막) / 동쪽 길: 55점 (오르막)                │
-│     - 남쪽 길: 48점 (내리막) / 서쪽 길: 51점 (오르막)                │
-│                                                              │
-│  [3. 상태 이동 (Move to Better State) - 탐욕적 전진]                │
-│   * 과거에 어디서 걸어왔는지(Path)는 쓰레기통에 버려 기억 안 함(메모리 0).  │
-│   * 가장 점수가 가파르게 높아지는 '동쪽 길(55점)'로 묻지도 따지지도 않고 점프!│
-│                                                              │
-│  [4. 지역 최적 (Local Optima) 도달 및 종료 🚨]                     │
-│   * 계속 올라가다가 점수가 70점인 곳에 섰음.                             │
-│   * "어? 옆길 4군데를 찔러봤는데 다 60점대 내리막이네? 더 올라갈 길이 없어!" │
-│   ─▶ 탐색 강제 종료! "여기가 세상의 끝 우주 최고봉(70점)이다!" 선언.     │
-│   (비극: 알고 보니 저 멀리 구름 너머에 진짜 정답 에베레스트 100점짜리 산이     │
-│    있었지만 눈을 가린 바보는 영원히 알 수 없다)                           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언덕 오르기 탐색 (Hill Climbing)의 맹목적 등반 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 시작 상태 (Random Start)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 임의의 아무 지점이나 툭 찍고 시작함. "여기 서서 점수(높이) 계산: 50점!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 이웃 노드 평가 (Neighbor Evaluation) - 사방 더듬기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현재 내 위치(50점)에서 갈 수 있는 바로 옆길 4군데의 점수를 엿봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 북쪽 길: 40점 (내리막) / 동쪽 길: 55점 (오르막)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 남쪽 길: 48점 (내리막) / 서쪽 길: 51점 (오르막)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 상태 이동 (Move to Better State) - 탐욕적 전진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과거에 어디서 걸어왔는지(Path)는 쓰레기통에 버려 기억 안 함(메모리 0).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가장 점수가 가파르게 높아지는 '동쪽 길(55점)'로 묻지도 따지지도 않고 점프!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 지역 최적 (Local Optima) 도달 및 종료 🚨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 계속 올라가다가 점수가 70점인 곳에 섰음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "어? 옆길 4군데를 찔러봤는데 다 60점대 내리막이네? 더 올라갈 길이 없어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 탐색 강제 종료! "여기가 세상의 끝 우주 최고봉(70점)이다!" 선언.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비극: 알고 보니 저 멀리 구름 너머에 진짜 정답 에베레스트 100점짜리 산이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있었지만 눈을 가린 바보는 영원히 알 수 없다)</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (지역 최적 Local Optima의 함정 삼형제)**:
 이 완벽해 보이는 직진 본능은 3가지 치명적인 지형을 만나면 속수무책으로 붕괴한다.
@@ -92,11 +95,11 @@ tags = ["studynote-ai"]
 | 탐색 및 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 동작 철학 (산 오르는 법) | 지역 최적(동네 뒷산) 탈출 방법 |
 |:---|:---|:---|
 | **기본 언덕 오르기 (Hill Climbing)** | **"무조건 오르막길만 간다!" (순수 탐욕)** | **탈출 불가.** 내리막길을 절대 허용하지 않으므로 동네 뒷산에 영원히 갇힘. |
-| **[모의 담금질](/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/) (Simulated Annealing)** | 쇳물을 식히는 담금질에서 유래. **"초반엔 술 취한 듯 내리막도 막 가본다!"** | 초반(온도가 높을 때)에는 주사위를 굴려 **오르막이 아닌 내리막길(나쁜 정답)이라도 가끔 미친 척하고 내려간다.** 이렇게 산을 한 번 내려와야 다른 더 높은 에베레스트산으로 넘어갈 수 있다! |
-| **유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Genetic [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 생물의 진화 모방. **"여러 명이 동시에 산을 오르고, 잘 오른 놈들끼리 교배!"** | 등산객 100명을 한 번에 뿌림. 우연히 에베레스트산 밑에 떨어진 **[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 1명 덕분에 지역 최적에 갇힌 나머지 99명을 캐리해서 정답을 찾아냄.** |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/">모의 담금질</a> (Simulated Annealing)</strong> | 쇳물을 식히는 담금질에서 유래. **"초반엔 술 취한 듯 내리막도 막 가본다!"** | 초반(온도가 높을 때)에는 주사위를 굴려 **오르막이 아닌 내리막길(나쁜 정답)이라도 가끔 미친 척하고 내려간다.** 이렇게 산을 한 번 내려와야 다른 더 높은 에베레스트산으로 넘어갈 수 있다! |
+| <strong>유전 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Genetic <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 생물의 진화 모방. **"여러 명이 동시에 산을 오르고, 잘 오른 놈들끼리 교배!"** | 등산객 100명을 한 번에 뿌림. 우연히 에베레스트산 밑에 떨어진 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/">돌연변이</a> 1명 덕분에 지역 최적에 갇힌 나머지 99명을 캐리해서 정답을 찾아냄.</strong> |
 | **랜덤 재시작 언덕 오르기 (Random Restart)** | 무식한 노가다. **"뒷산 꼭대기에 갇히면? 헬기 타고 다른 곳에 다시 떨어져서 처음부터 다시 등산해!"** | 등산을 여러 번 반복함. 여러 번 시도하다 보면 우연히 운 좋게 진짜 에베레스트산 중턱에 헬기가 떨어져서 진짜 정상을 찾을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높아짐. |
 
-결국 최적화 인프라의 싸움은 **"단기적인 손해(내리막길)를 얼마나 용감하게 감수할 것인가([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/), [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))?"**와 **"지금 눈앞의 이득(오르막길)을 얼마나 찰지게 빨아먹을 것인가(Exploitation, 활용)?"**의 아슬아슬한 트레이드오프(Trade-off) 비율 튜닝으로 귀결된다.
+결국 최적화 인프라의 싸움은 <strong>"단기적인 손해(내리막길)를 얼마나 용감하게 감수할 것인가(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">Exploration</a>, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>)?"</strong>와 <strong>"지금 눈앞의 이득(오르막길)을 얼마나 찰지게 빨아먹을 것인가(Exploitation, 활용)?"</strong>의 아슬아슬한 트레이드오프(Trade-off) 비율 튜닝으로 귀결된다.
 
 - **📢 섹션 요약 비유**: [모의 담금질](/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/)(Simulated Annealing)은 '술 취한 등산객'이다. 초반엔 술에 취해서 오르막 내리막 구분 없이 비틀거리며 걷는다. 이때 우연히 동네 뒷산을 내려와 에베레스트산 입구로 진입한다. 시간이 지나 술이 깨면(온도가 식으면) 그때부터 깐깐하게 오르막길만 철저히 골라 에베레스트 정상에 안착하는 천재적인 탈출 꼼수다. 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 아예 드론으로 100명의 특수부대를 산맥 여기저기에 무작위로 뿌려버린 뒤, 제일 높은 곳에 떨어진 부대원의 위치로 몽땅 집결시키는 인해전술이다.
 
@@ -107,11 +110,11 @@ tags = ["studynote-ai"]
 대형 물류 회사의 택배차 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(경로 최적화) 엔진이나 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로 배치(Placement) 엔진을 짤 때, 언덕 오르기의 변종을 잘못 섞으면 서버비만 태우고 배송 시간은 오히려 늘어난다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **평가 함수(Evaluation Function/[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))의 미세 단차 설계**: 언덕 오르기가 평원(Plateau)에 갇혀 뇌 정지가 오는 이유는, 개발자가 짠 평가 함수가 너무 둔감하기 때문이다. "택배 거리가 100km 줄어들면 +10점"이라고 듬성듬성하게 점수판을 짜면, 차가 1km 움직여봐야 점수가 0점 그대로라 AI가 평지에 갇힌 줄 안다. 실무 아키텍트라면 1m를 움직일 때나 좌회전을 한 번 덜 할 때마다 0.001점이라도 미세하게 점수가 바뀌도록 **연속적이고 매끄러운 굴곡(Gradient)을 가진 평가 함수 랜드스케이프(Landscape)**를 조각해 내어, AI가 항상 1도라도 기울어진 오르막을 느낄 수 있도록 멱살을 끌고 가야 한다.
-2. **Tabu Search (금기 탐색) 캐시 결합**: 단순 언덕 오르기는 과거를 기억 안 하는 게 장점이지만 그게 독이 된다. A 상태에서 B로 갔다가 "어 B가 낮네?" 하고 다시 A로 왔다가 또 B로 가는 무한 핑퐁에 빠진다. 이를 막기 위해 실무에서는 최근 10번 방문했던 안 좋은 노드들의 블랙리스트(Tabu List) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 메모리를 아주 작게 띄워두고, **"내가 방금 10초 전에 밟았던 똥밭은 점수가 높아 보여도 절대 다시 밟지(방문하지) 마라!"라는 금기(Tabu) 강제 제약**을 섞어줘야 무한 루프 탈출이 가능하다.
+1. <strong>평가 함수(Evaluation Function/<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)의 미세 단차 설계</strong>: 언덕 오르기가 평원(Plateau)에 갇혀 뇌 정지가 오는 이유는, 개발자가 짠 평가 함수가 너무 둔감하기 때문이다. "택배 거리가 100km 줄어들면 +10점"이라고 듬성듬성하게 점수판을 짜면, 차가 1km 움직여봐야 점수가 0점 그대로라 AI가 평지에 갇힌 줄 안다. 실무 아키텍트라면 1m를 움직일 때나 좌회전을 한 번 덜 할 때마다 0.001점이라도 미세하게 점수가 바뀌도록 <strong>연속적이고 매끄러운 굴곡(Gradient)을 가진 평가 함수 랜드스케이프(Landscape)</strong>를 조각해 내어, AI가 항상 1도라도 기울어진 오르막을 느낄 수 있도록 멱살을 끌고 가야 한다.
+2. **Tabu Search (금기 탐색) 캐시 결합**: 단순 언덕 오르기는 과거를 기억 안 하는 게 장점이지만 그게 독이 된다. A 상태에서 B로 갔다가 "어 B가 낮네?" 하고 다시 A로 왔다가 또 B로 가는 무한 핑퐁에 빠진다. 이를 막기 위해 실무에서는 최근 10번 방문했던 안 좋은 노드들의 블랙리스트(Tabu List) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 메모리를 아주 작게 띄워두고, <strong>"내가 방금 10초 전에 밟았던 똥밭은 점수가 높아 보여도 절대 다시 밟지(방문하지) 마라!"라는 금기(Tabu) 강제 제약</strong>을 섞어줘야 무한 루프 탈출이 가능하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **딥러닝 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))과의 착각 버그**: 뉴럴 네트워크 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 깎는 '[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)'과 이 '언덕 오르기'를 똑같은 거라고 착각하고 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 방향성만 반대(내리막 vs 오르막)일 뿐 원리는 똑같다. 문제는 딥러닝 훈련 시 지역 최적(Local Minimum)에 빠졌다고 무작정 언덕 오르기의 '랜덤 재시작'을 쓰며 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)를 100번 시키는 짓이다. 수조 개의 파라미터가 있는 딥러닝 우주(고차원)에서는 지역 최적이 아니라 안장점(Saddle Point, 앞뒤는 오르막인데 좌우는 내리막인 말안장 지형)에 갇히는 게 진짜 병목이다. 고차원 딥러닝에서는 이런 구시대적 꼼수 대신 **[모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)([Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), 굴러가던 관성으로 언덕을 뚫고 지나가는 물리 엔진)**이나 **[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)**를 박아넣는 것이 현대 최적화의 정답이다.
+- <strong>딥러닝 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>)과의 착각 버그</strong>: 뉴럴 네트워크 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 깎는 '[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)'과 이 '언덕 오르기'를 똑같은 거라고 착각하고 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 방향성만 반대(내리막 vs 오르막)일 뿐 원리는 똑같다. 문제는 딥러닝 훈련 시 지역 최적(Local Minimum)에 빠졌다고 무작정 언덕 오르기의 '랜덤 재시작'을 쓰며 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)를 100번 시키는 짓이다. 수조 개의 파라미터가 있는 딥러닝 우주(고차원)에서는 지역 최적이 아니라 안장점(Saddle Point, 앞뒤는 오르막인데 좌우는 내리막인 말안장 지형)에 갇히는 게 진짜 병목이다. 고차원 딥러닝에서는 이런 구시대적 꼼수 대신 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">모멘텀</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a>, 굴러가던 관성으로 언덕을 뚫고 지나가는 물리 엔진)</strong>이나 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a></strong>를 박아넣는 것이 현대 최적화의 정답이다.
 
 - **📢 섹션 요약 비유**: Tabu Search(금기 탐색) 결합은 '헨젤과 그레텔의 빵 부스러기'다. 기억력 제로인 언덕 오르기는 똑같은 갈림길에서 영원히 맴돌 수 있다. 그래서 방금 지나온 10개의 길목에 빵 부스러기를 떨어뜨려 놓고, "점수가 아무리 꿀 같아 보여도 빵 부스러기가 있는 길(최근 방문한 금기 지역)은 절대 돌아가지 마!"라고 강제 규칙을 주어 억지로 다른 새로운 미지의 산맥을 타게 만드는 훌륭한 땜질 처방이다.
 
@@ -119,7 +122,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-언덕 오르기(Hill Climbing) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 인간이 복잡한 우주의 모든 진리를 한 번에 계산할 수 없다는 겸손함에서 피어난 **"[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)(직관과 꼼수) 최적화의 위대한 타협"**이다.
+언덕 오르기(Hill Climbing) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 인간이 복잡한 우주의 모든 진리를 한 번에 계산할 수 없다는 겸손함에서 피어난 <strong>"<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(직관과 꼼수) 최적화의 위대한 타협"</strong>이다.
 
 수만 개의 물류 창고를 도는 최단 경로([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 문제), [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로의 수십억 개 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 배치 공간 문제 같은 [NP-Hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)(우주가 멸망할 때까지 계산해도 100% 정답을 못 찾는 수학 문제) 앞에서는, 무식한 전수 조사([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))는 자만심일 뿐이다. 이때 언덕 오르기는 완벽한 에베레스트산을 찾는 집착을 과감히 버리고, 단 1초 만에 우리 동네에서 제일 높은 뒷산을 찾아주어 당장의 비즈니스가 돌아갈 수 있도록 산소호흡기를 붙여준 현실 공학의 구세주다.
 
@@ -134,9 +137,9 @@ tags = ["studynote-ai"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **지역 최적해 (Local Optima)** | 언덕 오르기의 숙명적 질병. 전체 지도로 보면 동네 앞산 찌끄러기인데, 사방이 다 내리막이니까 지가 에베레스트 정상인 줄 알고 멈춰서 만세를 부르는 멍청한 에러 상태 |
-| **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))** | 모든 경우를 계산하지 않고, 대충 인간의 짬바와 눈치로 "저기가 더 높아 보이네" 하고 그럴싸한 정답을 빛의 속도로 찍어내는 언덕 오르기의 근본 꼼수 철학 |
-| **[모의 담금질](/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/) (Simulated Annealing)** | 동네 뒷산(지역 최적)에 갇히는 걸 막기 위해, 가끔 미친 척하고 나쁜 길(내리막길)로도 굴러 떨어지게 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 줘서, 다른 거대한 산맥으로 넘어가게 만들어주는 완벽한 업그레이드 약 |
-| **[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))** | 딥러닝 훈련의 심장. 언덕 오르기가 가장 높은 점수(오르막)를 찾는다면, 얘는 Loss(오차)라는 산을 따라 가장 낮은 골짜기 바닥(내리막)을 찾아 내려가는 완벽하게 똑같은 원리의 쌍둥이 거울 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> | 모든 경우를 계산하지 않고, 대충 인간의 짬바와 눈치로 "저기가 더 높아 보이네" 하고 그럴싸한 정답을 빛의 속도로 찍어내는 언덕 오르기의 근본 꼼수 철학 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/">모의 담금질</a> (Simulated Annealing)</strong> | 동네 뒷산(지역 최적)에 갇히는 걸 막기 위해, 가끔 미친 척하고 나쁜 길(내리막길)로도 굴러 떨어지게 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 줘서, 다른 거대한 산맥으로 넘어가게 만들어주는 완벽한 업그레이드 약 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>)</strong> | 딥러닝 훈련의 심장. 언덕 오르기가 가장 높은 점수(오르막)를 찾는다면, 얘는 Loss(오차)라는 산을 따라 가장 낮은 골짜기 바닥(내리막)을 찾아 내려가는 완벽하게 똑같은 원리의 쌍둥이 거울 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,9 +149,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 눈을 안대로 꽉 가린 채 넓은 산맥에서 **가장 높은 산꼭대기(정답)**를 찾아야 해요! 지도도 없고 기억력도 없죠.
-2. **언덕 오르기(Hill Climbing)**는 오직 발바닥 느낌만 믿고 **"오! 지금 디딘 발이 아까보다 조금 높네? 그럼 무조건 여기로 전진!"**하며 오르막길만 따라가는 아주 단순한 등산법이에요.
-3. 그러다 앞, 뒤, 양옆 발바닥이 다 내리막이면 "만세! 내가 세상에서 제일 높은 꼭대기에 왔다!" 하고 멈춰버려요. 진짜 제일 높은 산이 저 멀리 있어도, 지금 서 있는 작은 **동네 뒷산(지역 최적)**에 갇혀버리는 웃기고 슬픈 단점이 있답니다.
+1. 눈을 안대로 꽉 가린 채 넓은 산맥에서 <strong>가장 높은 산꼭대기(정답)</strong>를 찾아야 해요! 지도도 없고 기억력도 없죠.
+2. <strong>언덕 오르기(Hill Climbing)</strong>는 오직 발바닥 느낌만 믿고 <strong>"오! 지금 디딘 발이 아까보다 조금 높네? 그럼 무조건 여기로 전진!"</strong>하며 오르막길만 따라가는 아주 단순한 등산법이에요.
+3. 그러다 앞, 뒤, 양옆 발바닥이 다 내리막이면 "만세! 내가 세상에서 제일 높은 꼭대기에 왔다!" 하고 멈춰버려요. 진짜 제일 높은 산이 저 멀리 있어도, 지금 서 있는 작은 <strong>동네 뒷산(지역 최적)</strong>에 갇혀버리는 웃기고 슬픈 단점이 있답니다.
 
 ---
 

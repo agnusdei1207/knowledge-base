@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 기존 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) I/O와 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 경로의 차이를 압축해 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        분산 연산은 계산보다 데이터 교환이 느리면 전체가 같이 멈춘다    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Socket I/O                                                           │
-│   App Buffer → Kernel Buffer → NIC → Network → Kernel → App         │
-│   복사 · 인터럽트 · 문맥 전환이 반복                                │
-│                                                                      │
-│ InfiniBand RDMA                                                      │
-│   Registered Buffer → HCA → InfiniBand Fabric → HCA → Remote Buffer │
-│   CPU는 작업 게시 후 다른 연산 수행                                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 연산은 계산보다 데이터 교환이 느리면 전체가 같이 멈춘다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Socket I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Buffer → Kernel Buffer → NIC → Network → Kernel → App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복사 · 인터럽트 · 문맥 전환이 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfiniBand RDMA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Registered Buffer → HCA → InfiniBand Fabric → HCA → Remote Buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU는 작업 게시 후 다른 연산 수행</div></div>
+</div>
+</div>
+
+
 
 따라서 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 단순히 "빠른 네트워크"가 아니라, 통신 경로에서 CPU를 가능한 한 빼내는 구조라고 보는 편이 정확하다. 이 관점이 있어야 왜 HPC와 AI가 전용 패브릭에 투자하는지 이해된다.
 
@@ -61,21 +63,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 요청이 어떻게 하드웨어에서 흘러가는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      등록된 버퍼를 HCA가 직접 옮기고, CPU에는 완료 사실만 알려 준다  │
-├──────────────────────────────────────────────────────────────────────┤
-│ App posts Work Request                                               │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Send Queue ─▶ Local HCA ─▶ IB Switch Fabric ─▶ Remote HCA ─▶ Memory  │
-│    ▲                                             │                   │
-│    └──────────── Completion Queue ◀──────────────┘                   │
-│                                                                      │
-│ 제어 정보: Protection Domain / L_Key / R_Key                         │
-│ 대표 연산: RDMA Write · RDMA Read · Send/Receive                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">등록된 버퍼를 HCA가 직접 옮기고, CPU에는 완료 사실만 알려 준다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App posts Work Request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Send Queue ─▶ Local HCA ─▶ IB Switch Fabric ─▶ Remote HCA ─▶ Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Completion Queue ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 정보: Protection Domain / L_Key / R_Key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 연산: RDMA Write · RDMA Read · Send/Receive</div></div>
+</div>
+</div>
+
+
 
 실무에서는 신뢰 연결 (Reliable Connection) 모드가 자주 사용되며, 이때 재전송과 순서 보장 상당 부분을 하드웨어가 처리한다. 그 결과 CPU는 패킷마다 개입하지 않고도 매우 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 메시지 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻을 수 있다.
 
@@ -97,7 +98,7 @@ tags = ["studynote-computer-architecture"]
 
 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 MPI 집합 연산, NCCL (NVIDIA Collective Communications [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 기반 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), GPUDirect RDMA처럼 "여러 노드가 거의 동시에 움직여야 하는" 환경에서 강하다. 패브릭 자체의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)뿐 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 작아야 전체 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시점이 흔들리지 않기 때문이다.
 
-즉 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 절대 성능만 높은 것이 아니라, **집단 작업에서 느린 꼬리(tail)를 줄이는 데 강한 패브릭**이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 All-Reduce, 슈퍼컴퓨터의 배리어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)처럼 가장 늦는 노드가 전체를 붙잡는 문제에서 특히 빛난다.
+즉 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 절대 성능만 높은 것이 아니라, <strong>집단 작업에서 느린 꼬리(tail)를 줄이는 데 강한 패브릭</strong>이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 All-Reduce, 슈퍼컴퓨터의 배리어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)처럼 가장 늦는 노드가 전체를 붙잡는 문제에서 특히 빛난다.
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP가 일반 도로망이라면, [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 정해진 시간표와 전용 선로를 가진 고속 화물철도에 가깝다. 모두가 동시에 도착해야 하는 물류일수록 전용 선로 가치가 커진다.
 
@@ -132,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 
 한계는 분명하다. 전용 장비 비용, 운영 전문성, 패브릭 구성 복잡도는 범용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)보다 높다. 또한 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 자체가 애플리케이션을 자동으로 빠르게 만들지는 않는다. 작은 메시지 패턴, 메모리 등록 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 집합 연산 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 최적화가 따라와야 진짜 효과가 난다.
 
-결론적으로 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 "아주 빠른 케이블"이 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 하나의 거대한 계산기처럼 보이게 만드는 통신 아키텍처**다. 이 시각이 있어야 왜 HPC와 AI가 네트워크를 CPU 못지않게 중요하게 다루는지 설명할 수 있다.
+결론적으로 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 "아주 빠른 케이블"이 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템을 하나의 거대한 계산기처럼 보이게 만드는 통신 아키텍처</strong>다. 이 시각이 있어야 왜 HPC와 AI가 네트워크를 CPU 못지않게 중요하게 다루는지 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) RDMA는 여러 주방이 한 주방처럼 움직이게 만드는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 주방 벨트와 같다. 재료 전달이 느리면 셰프가 놀게 되지만, 벨트가 빠르면 주방 전체가 한 몸처럼 돌아간다.
 
@@ -151,21 +152,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소켓 기반 복사 중심 통신
-        │
-        ▼
-커널 바이패스 · Zero-copy 요구
-        │
-        ▼
-인피니밴드 RDMA
-        │
-        ▼
-MPI 집합 연산 · GPUDirect RDMA
-        │
-        ▼
-대규모 AI 슈퍼클러스터 · 인네트워크 가속
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소켓 기반 복사 중심 통신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 바이패스 · Zero-copy 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인피니밴드 RDMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MPI 집합 연산 · GPUDirect RDMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 AI 슈퍼클러스터 · 인네트워크 가속</div>
+</div>
+</div>
+
+
 
 이 흐름은 "패킷 처리 최적화"를 넘어, "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산 전체를 하드웨어 패브릭 중심으로 재구성하는 방향"으로 진화하는 과정을 보여 준다.
 

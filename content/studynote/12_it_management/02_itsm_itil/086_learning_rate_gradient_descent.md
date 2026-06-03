@@ -38,13 +38,19 @@ tags = ["it_management"]
 | [Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/) (SGD) | 샘플 1개 | 빠르고 노이즈가 있어 탈출에 유리 | 진동이 크다 |
 | Mini-batch SGD | 작은 묶음 | 속도와 안정성의 균형이 좋다 | 배치 크기 선택이 중요하다 |
 
-```text
-높은 손실
-   /
-  /  \      α 너무 큼 -> 튐
- /    \__   α 적절 -> 완만한 하강
-/        \  α 너무 작음 -> 매우 느림
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">높은 손실</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">/ \ α 너무 큼 -&gt; 튐</div>
+<div class="kb-diagram-note">/ \__ α 적절 -&gt; 완만한 하강</div>
+<div class="kb-diagram-note">/ \ α 너무 작음 -&gt; 매우 느림</div>
+</div>
+</div>
+
+
 
 즉, [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 손실 곡선 위에서 모델이 '얼마나 과감하게 내려갈지'를 정하는 제어 손잡이다.
 

@@ -25,18 +25,19 @@ tags = ["studynote-operating-system"]
 
 이 그림은 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 스케줄링에서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 언제 움직이는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       비선점형 스케줄러의 개입 시점: Running에서만 끝난다     │
-├──────────────────────────────────────────────────────────────┤
-│ Ready Queue ──▶ Running ──▶ Waiting (I/O 요청) ──▶ Ready     │
-│                   │                                          │
-│                   └──────▶ Terminated (작업 종료)            │
-│                                                              │
-│ 스케줄러 호출: Waiting 진입 / Terminated 진입 / 명시적 yield │
-│ 스케줄러 미호출: 타이머 만료에 의한 강제 Running→Ready 전환  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비선점형 스케줄러의 개입 시점: Running에서만 끝난다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Queue ──▶ Running ──▶ Waiting (I/O 요청) ──▶ Ready</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Terminated (작업 종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 호출: Waiting 진입 / Terminated 진입 / 명시적 yield</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 미호출: 타이머 만료에 의한 강제 Running→Ready 전환</div></div>
+</div>
+</div>
+
+
 
 핵심은 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 못 빼앗는다"는 사실이 장점이자 위험이라는 점이다. 정상적인 짧은 작업에게는 매끄러운 실행을 주지만, 길고 나쁜 작업에게는 과도한 독점 권한을 준다.
 
@@ -58,18 +59,19 @@ tags = ["studynote-operating-system"]
 
 이 그림은 긴 작업 하나가 전체 응답성을 어떻게 망가뜨리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          호위 효과: 앞의 긴 작업 하나가 뒤를 모두 묶는다       │
-├──────────────────────────────────────────────────────────────┤
-│ 도착 순서: P1(100ms) → P2(5ms) → P3(3ms)                     │
-│                                                              │
-│ CPU 실행: [ P1 100ms ][ P2 5ms ][ P3 3ms ]                   │
-│ 대기시간:   P1=0     P2=100ms  P3=105ms                      │
-│                                                              │
-│ 짧은 작업은 빨리 끝낼 수 있어도, 비선점에서는 끼어들 수 없음   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호위 효과: 앞의 긴 작업 하나가 뒤를 모두 묶는다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도착 순서: P1(100ms) → P2(5ms) → P3(3ms)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CPU 실행:</div><div class="kb-diagram-node">P1 100ms</div><div class="kb-diagram-node">P2 5ms</div><div class="kb-diagram-node">P3 3ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기시간: P1=0 P2=100ms P3=105ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 작업은 빨리 끝낼 수 있어도, 비선점에서는 끼어들 수 없음</div></div>
+</div>
+</div>
+
+
 
 즉 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 스케줄링의 핵심 원리는 단순하다. "실행 중인 작업을 존중하는 대신, 큐 앞단 선택 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전체 성능을 최대한 보정한다." 하지만 이 보정은 어디까지나 사후적이며, 실행 중 독점을 중단시키지는 못한다.
 
@@ -103,9 +105,9 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **임베디드 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)**: 센서 읽기, 제어 출력, 통신 송신을 순차 호출하는 슈퍼 루프는 구현이 단순하고 메모리 사용량이 작다. 대신 각 루틴이 오래 걸리지 않도록 잘게 쪼개야 한다.
-2. **[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 서버**: 요청 처리 중 긴 CPU 계산을 넣으면 전체 연결이 막히므로, 계산량 큰 작업은 워커 스레드나 별도 프로세스로 넘겨야 한다.
-3. **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)**: 인터랙션보다 총 처리량이 중요하고 작업 특성을 예측할 수 있다면, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 오버헤드 측면에서 유리할 수 있다.
+1. <strong>임베디드 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a></strong>: 센서 읽기, 제어 출력, 통신 송신을 순차 호출하는 슈퍼 루프는 구현이 단순하고 메모리 사용량이 작다. 대신 각 루틴이 오래 걸리지 않도록 잘게 쪼개야 한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a> 서버</strong>: 요청 처리 중 긴 CPU 계산을 넣으면 전체 연결이 막히므로, 계산량 큰 작업은 워커 스레드나 별도 프로세스로 넘겨야 한다.
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: 인터랙션보다 총 처리량이 중요하고 작업 특성을 예측할 수 있다면, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 오버헤드 측면에서 유리할 수 있다.
 
 ### 채택 기준
 
@@ -154,22 +156,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-일괄 처리 시스템
-    │
-    ▼
-비선점형 스케줄링
-    │
-    ├──────────────▶ FCFS · SJF · HRN
-    │
-    ├──────────────▶ 호위 효과 · 기아 현상
-    │
-    ▼
-협력적 멀티태스킹
-    │
-    ▼
-이벤트 루프 · 코루틴 · 사용자 수준 스케줄러
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일괄 처리 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비선점형 스케줄링</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ FCFS · SJF · HRN</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 호위 효과 · 기아 현상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">협력적 멀티태스킹</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 루프 · 코루틴 · 사용자 수준 스케줄러</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이 과거 배치 시스템에서 출발해, 오늘날 협력적 런타임 설계로 재해석되는 흐름을 보여준다.
 

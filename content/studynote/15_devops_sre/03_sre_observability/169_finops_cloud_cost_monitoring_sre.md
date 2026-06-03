@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 
 클라우드 비용 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 사용량 기반 청구 환경에서 리소스 소비를 지속적으로 측정하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·팀·기능 단위로 원가를 가시화하는 운영 활동이다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에서는 서버를 한 번 사면 비용이 고정되는 편이었지만, 클라우드는 자동 확장과 종량제로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 해결하는 순간 곧바로 비용 문제가 따라온다. 그래서 월말 청구서를 받은 뒤 뒤늦게 원인을 찾는 방식으로는 이미 늦다.
 
-FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 아니기 때문이다. 예를 들어 장애를 막기 위해 과하게 증설한 [데이터베이스 인스턴스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/), 무제한으로 쌓인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 태그가 없는 테스트 자원은 모두 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영과 직접 연결된다. 결국 비용은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 함께 봐야 하는 **운영 품질 지표**가 되었고, 이를 실시간에 가깝게 추적하는 문화가 필요해졌다.
+FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 아니기 때문이다. 예를 들어 장애를 막기 위해 과하게 증설한 [데이터베이스 인스턴스](/knowledge-base/studynote/05_database/01_db_architecture_relational/058_database_instance_architecture/), 무제한으로 쌓인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 태그가 없는 테스트 자원은 모두 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영과 직접 연결된다. 결국 비용은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 함께 봐야 하는 <strong>운영 품질 지표</strong>가 되었고, 이를 실시간에 가깝게 추적하는 문화가 필요해졌다.
 
 - **📢 섹션 요약 비유**: FinOps는 한 달 뒤 전기요금 고지서를 보고 놀라는 대신, 지금 어떤 기기가 전기를 많이 쓰는지 스마트 미터로 바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 생활 방식과 같다.
 
@@ -33,23 +33,21 @@ FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 �
 
 다음 그림은 비용 관측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 기본 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│         FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs              │
-│                │                                                        │
-│                ▼                                                        │
-│      Cost Allocation Layer (tag, label, account, service)              │
-│                │                                                        │
-│                ├─▶ Unit Cost Dashboard                                 │
-│                ├─▶ Anomaly Detection                                   │
-│                └─▶ Budget / SLO-aware Alert                            │
-│                                │                                        │
-│                                ▼                                        │
-│                Rightsizing / 예약 구매 / 종료 자동화                    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Allocation Layer (tag, label, account, service)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Unit Cost Dashboard</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Anomaly Detection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Budget / SLO-aware Alert</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rightsizing / 예약 구매 / 종료 자동화</div></div>
+</div>
+</div>
+
+
 
 핵심 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 아래처럼 "총액"보다 "원인과 단위"를 보도록 설계한다.
 
@@ -61,7 +59,7 @@ FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 �
 | 관측성 저장 비용 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·트레이스 저장 비용 | 보존기간·샘플링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 함께 판단 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용 | 리전 간·인터넷 전송 비용 | 아키텍처 배치와 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 재검토 |
 
-핵심 원리는 세 가지다. 첫째, **할당 가능성**이다. 태그 없는 리소스는 비용도 원인 분석도 불가능하다. 둘째, **[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)**다. 전주 대비 20% 급증처럼 패턴을 감지해야 예산 초과 전에 개입할 수 있다. 셋째, **행동 연결성**이다. 대시보드만 보고 끝나지 않고 권한 축소, 권장 인스턴스 변경, 자동 종료 같은 액션으로 이어져야 한다.
+핵심 원리는 세 가지다. 첫째, <strong>할당 가능성</strong>이다. 태그 없는 리소스는 비용도 원인 분석도 불가능하다. 둘째, <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>다. 전주 대비 20% 급증처럼 패턴을 감지해야 예산 초과 전에 개입할 수 있다. 셋째, <strong>행동 연결성</strong>이다. 대시보드만 보고 끝나지 않고 권한 축소, 권장 인스턴스 변경, 자동 종료 같은 액션으로 이어져야 한다.
 
 - **📢 섹션 요약 비유**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 대시보드는 단순 가계부가 아니라, 어떤 방에서 수도·전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)가 얼마나 새는지 바로 알려 주고 수도꼭지까지 잠그게 해 주는 계량판과 같다.
 
@@ -86,7 +84,7 @@ FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 �
 | 예약 인스턴스 / 세이빙 플랜 | 단가 절감 | 약정 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 상시 사용 워크로드 |
 | 스팟 (Spot) | 매우 저렴 | 중단 가능성 | 배치, 비핵심 분석 작업 |
 
-SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비용을 올리지만 장애 비용을 줄이고, 과도한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존은 분석 편의는 높이지만 스토리지 비용을 크게 늘린다. 따라서 FinOps는 비용 절감만의 도구가 아니라, **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 경제성의 균형점을 찾는 의사결정 프레임**으로 봐야 한다.
+SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비용을 올리지만 장애 비용을 줄이고, 과도한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존은 분석 편의는 높이지만 스토리지 비용을 크게 늘린다. 따라서 FinOps는 비용 절감만의 도구가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 경제성의 균형점을 찾는 의사결정 프레임</strong>으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: FinOps는 할인만 찾는 쇼핑이 아니라, 비상약은 꼭 사고 과자는 줄이는 장보기처럼 "꼭 필요한 지출"과 "줄여도 되는 지출"을 구분하는 일이다.
 
@@ -125,7 +123,7 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 기반 클라우드 비용 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 정착되면 비용이 월말의 놀라운 숫자가 아니라, 운영 중 바로 조정 가능한 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 바뀐다. 그 결과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 원가가 선명해지고, 과잉 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)·유휴 리소스·관측성 저장 낭비 같은 숨은 비용이 빠르게 드러난다. 또한 비용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), 배포, 트래픽과 연결하면 "왜 이 비용은 필요하고 왜 이 비용은 낭비인가"를 훨씬 설득력 있게 설명할 수 있다.
 
-물론 태그 품질, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 조직 협업이 부족하면 FinOps는 대시보드 장식으로 끝날 수 있다. 따라서 핵심은 도구 도입보다 책임 구조와 실행 루프를 만드는 것이다. 결국 FinOps는 "비용을 줄이는 활동"이 아니라, **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 가장 경제적으로 운영하기 위한 관측·판단·행동 체계**로 기억해야 한다.
+물론 태그 품질, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 조직 협업이 부족하면 FinOps는 대시보드 장식으로 끝날 수 있다. 따라서 핵심은 도구 도입보다 책임 구조와 실행 루프를 만드는 것이다. 결국 FinOps는 "비용을 줄이는 활동"이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 가장 경제적으로 운영하기 위한 관측·판단·행동 체계</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: FinOps는 용돈을 아끼려고 아무것도 안 사는 일이 아니라, 꼭 필요한 것은 잘 사고 새는 돈은 바로 막는 똑똑한 소비 습관과 같다.
 
@@ -143,19 +141,22 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-월말 청구서 확인
-      │
-      ▼
-태그 기반 비용 할당
-      │
-      ▼
-FinOps 대시보드 + 이상 탐지
-      │
-      ├─▶ Rightsizing / 예약 구매
-      ├─▶ 로그·스토리지 최적화
-      └─▶ SLO 연계 비용 의사결정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">월말 청구서 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">태그 기반 비용 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FinOps 대시보드 + 이상 탐지</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Rightsizing / 예약 구매</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 로그·스토리지 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ SLO 연계 비용 의사결정</div>
+</div>
+</div>
+
+
 
 이 흐름은 클라우드 비용 관리가 "청구서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 단계에서 "운영 자동화와 설계 판단" 단계로 발전하는 과정을 보여준다.
 

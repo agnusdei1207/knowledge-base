@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 물리적인 통신 장비(언더레이)와 가상 터널(오버레이)이 얽힌 복잡한 네트워크 토폴로지(Topology)를, 소프트웨어 가상 공간(메타 공간)에 100% 동일한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(수학 모델) 구조로 실시간 동기화하여 띄워놓는 기술입니다.
-- **목적**: 과거의 수동적인 모니터링(NMS)을 넘어, 이 쌍둥이 메타 공간 안에서 **'미래의 트래픽 폭주나 장비 장애'를 사전에 인위적으로 주입(시뮬레이션)해 봄으로써, 그 파급 효과(Impact)와 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구간을 미리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**하기 위함입니다.
+- **목적**: 과거의 수동적인 모니터링(NMS)을 넘어, 이 쌍둥이 메타 공간 안에서 <strong>'미래의 트래픽 폭주나 장비 장애'를 사전에 인위적으로 주입(시뮬레이션)해 봄으로써, 그 파급 효과(Impact)와 병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 구간을 미리 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하기 위함입니다.
 
-```text
-[자율-구동 네트워크]
-    │
-    ▼
-[디지털 트윈 병목 검증]
-    │
-    └──▶ [퍼시스턴트 토폴로지 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 병목 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - 진짜 라우터가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 업데이트하면, 가상 공간의 쌍둥이 라우터도 0.01초 만에 텔레메트리(879번) 기술을 통해 그 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블을 고스란히 내려받아 자신의 배 속 구조를 똑같이 바꿉니다. 
 - 현실의 선이 뽑히면 가상 공간의 선도 똑같이 끊어집니다. (이 완벽한 동기화가 깨지면 시뮬레이션 결과가 쓰레기가 됩니다.)
 
-```text
-[자율-구동 네트워크]
-    │
-    ▼
-[디지털 트윈 병목 검증]
-    │
-    └──▶ [퍼시스턴트 토폴로지 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 병목 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -78,7 +86,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 개발자가 "새로운 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰"을 코딩했습니다. 이걸 현실망에 바로 적용하면 짤립니다.
-- **사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 개발자가 짠 코드를 1차로 가상의 쌍둥이 망에 주입해 돌려봅니다(샌드박스 테스트). 
+- <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 개발자가 짠 코드를 1차로 가상의 쌍둥이 망에 주입해 돌려봅니다(샌드박스 테스트). 
 - 테스트 결과, 루핑(뺑뺑이) 에러가 없고 목적지까지 정상 도달하는 것을 완벽히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verified)한 뒤에야, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러를 통해 진짜 현실 장비에 100% 안전하게 배포(Commit)를 허락합니다. (네트워크 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 완성)
 
 - 수만 대의 장비와 수백만 가닥의 경로, 그리고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘의 동작을 가상 공간에서 완벽히 똑같이 흉내(수학적 에뮬레이션) 내려면 엄청난 양의 슈퍼컴퓨터 연산 능력(CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이 필요합니다. 그래서 현재 통신사들은 가장 굵직한 코어망 백본 위주로만 제한적으로 트윈 시뮬레이션을 돌리고 있습니다.
@@ -89,7 +97,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 네트워크 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션은 항공기 설계 시 돌리는 '가상 윈드 터널(풍동 테스트)'과 같습니다. 옛날(테스트 베드 부재)엔 새로운 비행기 날개(새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 만들면, 그냥 조종사를 태우고 날려봐서 비행기가 안 떨어지면 통과, 떨어지면 고치는 무식한 테스트를 했습니다(장애 발생). **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**은 컴퓨터 3D 설계도(쌍둥이 망) 안에 비행기를 띄워놓고, 시속 1,000km의 가짜 가상 태풍([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 트래픽)을 쏴서 날개가 부러지는지(병목 발생) 1만 번을 공짜로 미리 부숴보는 것입니다. 완벽히 안 부러지는 꺾임 각도(최적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 찾아낸 뒤에야 비로소 진짜 현실 비행기에 부품을 장착(현실 망 배포)하여 승객의 100% 안전(무중단 네트워크)을 담보하는 궁극의 예방 방어선입니다.
+- **📢 섹션 요약 비유**: 네트워크 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시뮬레이션은 항공기 설계 시 돌리는 '가상 윈드 터널(풍동 테스트)'과 같습니다. 옛날(테스트 베드 부재)엔 새로운 비행기 날개(새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 만들면, 그냥 조종사를 태우고 날려봐서 비행기가 안 떨어지면 통과, 떨어지면 고치는 무식한 테스트를 했습니다(장애 발생). <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> 병목 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>은 컴퓨터 3D 설계도(쌍둥이 망) 안에 비행기를 띄워놓고, 시속 1,000km의 가짜 가상 태풍([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 트래픽)을 쏴서 날개가 부러지는지(병목 발생) 1만 번을 공짜로 미리 부숴보는 것입니다. 완벽히 안 부러지는 꺾임 각도(최적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰)를 찾아낸 뒤에야 비로소 진짜 현실 비행기에 부품을 장착(현실 망 배포)하여 승객의 100% 안전(무중단 네트워크)을 담보하는 궁극의 예방 방어선입니다.
 
 ---
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 자율-구동 네트워크]
-    │
-    ▼
-[현재 개념: 디지털 트윈 병목 검증]
-    │
-    ├──▶ [확장 A: 퍼시스턴트 토폴로지 관리]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율-구동 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 병목 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 퍼시스턴트 토폴로지 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)는 [자율-구동 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

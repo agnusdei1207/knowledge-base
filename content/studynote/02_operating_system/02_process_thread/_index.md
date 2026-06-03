@@ -19,28 +19,25 @@ tags = ["operating_system"]
 
 저장장치에 잠들어 있는 실행 파일은 '프로그램'에 불과하다. 이것이 메모리에 로드되어 CPU의 제어를 받기 시작하면 비로소 '프로세스'가 된다. 현대 운영체제는 수많은 프로세스가 마치 동시에 실행되는 것처럼 보이게 하는 **시분할 (Time-sharing)** 기술을 사용한다.
 
-프로세스와 스레드 관리가 필요한 이유는 세 가지이다. 첫째, 하나의 CPU가 여러 작업을 번갈아 수행하며 **자원 이용률**을 높여야 하기 때문이고, 둘째, 사용자에게 끊김 없는 **반응성**을 제공하기 위해서이며, 셋째, 하나의 응용 프로그램 내에서도 네트워크 수신과 화면 렌더링 등 **병렬적인 작업**이 요구되기 때문이다.
+프로세스와 스레드 관리가 필요한 이유는 세 가지이다. 첫째, 하나의 CPU가 여러 작업을 번갈아 수행하며 <strong>자원 이용률</strong>을 높여야 하기 때문이고, 둘째, 사용자에게 끊김 없는 <strong>반응성</strong>을 제공하기 위해서이며, 셋째, 하나의 응용 프로그램 내에서도 네트워크 수신과 화면 렌더링 등 <strong>병렬적인 작업</strong>이 요구되기 때문이다.
 
 이 그림은 프로세스의 메모리 구조를 보여준다. 각 프로세스가 운영체제로부터 할당받는 독립적인 주소 공간을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Process Memory Layout (Address Space)       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Stack ] (Local Variables, Return Address)               │
-│       │                                                     │
-│       ▼ (Grows Downward)                                    │
-│                                                             │
-│   [ Heap ] (Dynamic Allocation - malloc, new)               │
-│       ▲ (Grows Upward)                                      │
-│       │                                                     │
-│   [ BSS / Data ] (Global, Static Variables)                 │
-│                                                             │
-│   [ Code / Text ] (Machine Instructions - Read Only)        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Memory Layout (Address Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stack</div><div class="kb-diagram-note">(Local Variables, Return Address)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Grows Downward)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Heap</div><div class="kb-diagram-note">(Dynamic Allocation - malloc, new)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Grows Upward)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSS / Data</div><div class="kb-diagram-note">(Global, Static Variables)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code / Text</div><div class="kb-diagram-note">(Machine Instructions - Read Only)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '격리 (Isolation)'이다. 각 프로세스는 자신만의 독립된 메모리 공간을 가지므로, 한 프로세스가 잘못된 주소를 참조하여 오류를 내더라도 다른 프로세스나 커널에 영향을 주지 않는다. 실무에서는 이러한 격리가 보안의 기초가 되지만, 프로세스 간 데이터 교환이 필요할 때는 IPC라는 복잡한 절차를 거쳐야 하는 트레이드오프가 발생한다.
 
@@ -57,25 +54,24 @@ tags = ["operating_system"]
 
 ### PCB (Process Control Block)와 컨텍스트 스위칭
 
-운영체제는 프로세스를 관리하기 위해 **PCB**라는 자료구조를 유지한다. 여기에는 PID, 프로세스 상태, PC (Program Counter), 레지스터 저장값 등이 담긴다. CPU가 다른 프로세스로 넘어갈 때, 현재 상태를 PCB에 저장하고 새로운 프로세스의 PCB 정보를 복구하는 과정을 **컨텍스트 스위칭 (Context Switching)**이라고 한다.
+운영체제는 프로세스를 관리하기 위해 <strong>PCB</strong>라는 자료구조를 유지한다. 여기에는 PID, 프로세스 상태, PC (Program Counter), 레지스터 저장값 등이 담긴다. CPU가 다른 프로세스로 넘어갈 때, 현재 상태를 PCB에 저장하고 새로운 프로세스의 PCB 정보를 복구하는 과정을 <strong>컨텍스트 스위칭 (Context Switching)</strong>이라고 한다.
 
 이 구조도는 컨텍스트 스위칭 시 발생하는 오버헤드와 상태 변화를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Context Switching Mechanism                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Process A ] ──▶ [ Interrupt/Syscall ] ──▶ [ Save to PCB_A ] │
-│        (Running)                                     │      │
-│                                                      ▼      │
-│   [ Process B ] ◀── [ Load from PCB_B ]  ◀── [ Scheduler ]  │
-│        (Running)                                            │
-│                                                             │
-│   * Overhead: CPU는 실제 업무를 하지 않고 관리 작업만 수행함 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Switching Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Interrupt/Syscall</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Save to PCB_A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Running)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Load from PCB_B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Running)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Overhead: CPU는 실제 업무를 하지 않고 관리 작업만 수행함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '오버헤드 (Overhead)'이다. 컨텍스트 스위칭이 너무 빈번하면 CPU가 실제 연산보다 관리 작업에 더 많은 시간을 쓰게 되어 시스템 성능이 저하된다. 실무에서는 스레드를 사용하여 주소 공간을 공유함으로써 이 오버헤드를 줄이거나, 스케줄링 주기를 최적화한다.
 
@@ -125,25 +121,23 @@ tags = ["operating_system"]
 - **판단**: 복잡한 자원 공유로 인한 레이스 컨디션 (Race Condition)을 방지하기 위해 **멀티프로세스** 모델을 고려하거나, 멀티스레딩 적용 시 불변성 (Immutability) 객체를 적극 활용한다. 또한 프로세스 간 격리를 통해 특정 트랜잭션의 실패가 전체 시스템으로 파급되지 않도록 설계한다.
 
 **시나리오 2: 초당 수만 건의 소규모 요청을 처리하는 채팅 서버**
-- **판단**: 프로세스 생성 오버헤드를 견딜 수 없으므로 **멀티스레딩**이나 **비동기 이벤트 루프 (Node.js 방식)** 모델을 선택한다. 스레드 풀 (Thread Pool)을 미리 생성하여 컨텍스트 스위칭 비용을 관리하고, 공유 자원 접근 시에는 락 (Lock)의 범위를 최소화 (Fine-grained Locking)하여 병목을 방어한다.
+- **판단**: 프로세스 생성 오버헤드를 견딜 수 없으므로 <strong>멀티스레딩</strong>이나 **비동기 이벤트 루프 (Node.js 방식)** 모델을 선택한다. 스레드 풀 (Thread Pool)을 미리 생성하여 컨텍스트 스위칭 비용을 관리하고, 공유 자원 접근 시에는 락 (Lock)의 범위를 최소화 (Fine-grained Locking)하여 병목을 방어한다.
 
 이 도식은 부모 프로세스가 자식 프로세스를 생성하는 복제 (Fork) 메커니즘을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 fork() & Copy-on-Write (COW)                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Parent (PID 100) ] ──▶ fork() ──▶ [ Child (PID 101) ]   │
-│          │                                     │            │
-│          └─────────── (Shared Read-only Memory) ──────────┘   │
-│                                                              │
-│   * Write Event! ──▶ [ Allocate New Page ] ──▶ [ Separate ]  │
-│                                                              │
-│   - COW: 쓰기가 발생할 때만 실제 메모리를 복사하여 효율성 제고 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() &amp; Copy-on-Write (COW)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Parent (PID 100)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Child (PID 101)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shared Read-only Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Allocate New Page</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Separate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- COW: 쓰기가 발생할 때만 실제 메모리를 복사하여 효율성 제고</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 설계 판단은 '공장 레이아웃'을 짜는 것과 같아, 위험한 작업(보안/안정성)은 별도 건물(프로세스)로 격리하고, 협업이 잦은 작업(속도)은 한 공간(스레드)에 배치하여 효율을 극대화하는 안목이 필요합니다.
 
@@ -158,7 +152,7 @@ tags = ["operating_system"]
 
 ### 미래 전망: 경량화된 실행 단위, Coroutines
 
-향후 실행의 단위는 커널 스레드보다 더 가벼운 **코루틴 (Coroutines)**이나 **그린 스레드 (Green Threads)**로 이동하고 있다. 이는 운영체제의 스케줄링에 의존하지 않고 어플리케이션 레벨에서 실행 흐름을 제어하여, 수백만 개의 동시 실행 단위를 적은 자원으로 운영하게 해준다. 기술사는 하드웨어 코어 수의 증가에 발맞추어 자원 경합을 최소화하는 'Lock-free 아키텍처'와 '비동기 프로그래밍 모델'에 대한 전문성을 더욱 깊게 다져야 한다.
+향후 실행의 단위는 커널 스레드보다 더 가벼운 <strong>코루틴 (Coroutines)</strong>이나 <strong>그린 스레드 (Green Threads)</strong>로 이동하고 있다. 이는 운영체제의 스케줄링에 의존하지 않고 어플리케이션 레벨에서 실행 흐름을 제어하여, 수백만 개의 동시 실행 단위를 적은 자원으로 운영하게 해준다. 기술사는 하드웨어 코어 수의 증가에 발맞추어 자원 경합을 최소화하는 'Lock-free 아키텍처'와 '비동기 프로그래밍 모델'에 대한 전문성을 더욱 깊게 다져야 한다.
 
 📢 **섹션 요약 비유**: 미래의 실행 단위는 덩치 큰 직원(프로세스)이나 민첩한 직원(스레드)을 넘어, 순간이동을 하며 여러 일을 동시에 처리하는 '초능력 요정(코루틴)'과 같은 모습으로 진화할 것입니다.
 

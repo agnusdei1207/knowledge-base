@@ -19,32 +19,32 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 주문, 결제, 재고, 배송처럼 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 걸친 업무를 하나의 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)처럼 관리하기 위한 패턴이다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자기 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 안에서는 짧은 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)만 수행하고, 전체 순서는 오케스트레이터가 명령과 응답을 통해 통제한다. 즉 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 서로를 직접 호출하며 흐름을 외우는 대신, **흐름의 기억을 중앙에 모아 두는 방식**이다.
+[오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 주문, 결제, 재고, 배송처럼 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 걸친 업무를 하나의 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)처럼 관리하기 위한 패턴이다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자기 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 안에서는 짧은 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)만 수행하고, 전체 순서는 오케스트레이터가 명령과 응답을 통해 통제한다. 즉 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 서로를 직접 호출하며 흐름을 외우는 대신, <strong>흐름의 기억을 중앙에 모아 두는 방식</strong>이다.
 
 이 패턴이 필요한 이유는 전역 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이나 순수 코레오그래피가 항상 현실적이지 않기 때문이다. [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 주지만 락 지속시간, 장애 전파, 운영 복잡도가 커서 대규모 MSA와 잘 맞지 않는다. 반대로 코레오그래피는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자율성은 높지만, 단계가 길어지고 분기·예외·승인 절차가 많아질수록 "지금 어디까지 왔는지"를 중앙에서 보기 어렵다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 사람 승인, 장시간 대기 상태가 있는 업무일수록 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)이 유리해진다.
 
-중요한 점은 중앙 제어가 곧 물리적 단일 서버를 뜻하지는 않는다는 사실이다. 현대 구현은 대개 상태를 영속 저장소에 기록하고 오케스트레이터 인스턴스를 여러 대로 띄워 고가용성을 확보한다. 따라서 진짜 쟁점은 "한 대가 죽으면 끝난다"보다, **업무 흐름의 의사결정이 한곳에 집중되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 중앙화**를 감수할 가치가 있는가다.
+중요한 점은 중앙 제어가 곧 물리적 단일 서버를 뜻하지는 않는다는 사실이다. 현대 구현은 대개 상태를 영속 저장소에 기록하고 오케스트레이터 인스턴스를 여러 대로 띄워 고가용성을 확보한다. 따라서 진짜 쟁점은 "한 대가 죽으면 끝난다"보다, <strong>업무 흐름의 의사결정이 한곳에 집중되는 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 중앙화</strong>를 감수할 가치가 있는가다.
 
 아래 그림은 주문 처리 흐름에서 오케스트레이터가 어떤 역할을 맡는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Orchestrated saga flow                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Client request                                                     │
-│      │                                                             │
-│      ▼                                                             │
-│ Saga Orchestrator                                                  │
-│   ├─ Command: CreateOrder   ──> Order Service     ──> Reply        │
-│   ├─ Command: AuthorizePay  ──> Payment Service   ──> Reply        │
-│   ├─ Command: ReserveStock  ──> Inventory Service ──> Reply        │
-│   └─ on failure            ──> Compensate previous services        │
-│                                                                    │
-│ State progression is remembered centrally                          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)의 본질은 "중앙이 다 해 준다"가 아니라, **각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)돼 있어도 흐름의 판단과 기억은 중앙에서 관리한다**는 데 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orchestrated saga flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Saga Orchestrator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: CreateOrder ──&gt; Order Service ──&gt; Reply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: AuthorizePay ──&gt; Payment Service ──&gt; Reply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: ReserveStock ──&gt; Inventory Service ──&gt; Reply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ on failure ──&gt; Compensate previous services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State progression is remembered centrally</div></div>
+</div>
+</div>
+
+
+
+즉 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)의 본질은 "중앙이 다 해 준다"가 아니라, <strong>각 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 일은 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>돼 있어도 흐름의 판단과 기억은 중앙에서 관리한다</strong>는 데 있다.
 
 - **📢 섹션 요약 비유**: 여러 팀이 동시에 움직이는 결혼식 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)에서 사회자가 순서를 잡아 주는 것과 같다. 요리팀, 촬영팀, 축가팀은 각자 일을 하지만, 전체 순서를 머릿속에 담고 조율하는 사람은 따로 필요하다.
 
@@ -65,26 +65,25 @@ tags = ["studynote-enterprise"]
 
 실행 흐름은 다음과 같다. 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요청이 들어오면 오케스트레이터는 `ORDER_CREATED_PENDING` 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태를 저장하고 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 명령을 보낸다. 주문이 성공하면 상태를 `PAYMENT_PENDING`으로 바꾼 뒤 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 명령을 보낸다. 결제가 성공하면 재고 예약으로 넘어가고, 재고 부족이나 결제 실패가 발생하면 이미 성공한 앞 단계에 대해 취소·해제 명령을 내려 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)을 수행한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Durable state machine                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ START                                                              │
-│   ▼                                                                │
-│ OrderCreated? ----no----> FAIL                                     │
-│   │ yes                                                            │
-│   ▼                                                                │
-│ PaymentAuthorized? --no--> CancelOrder -> FAIL                     │
-│   │ yes                                                            │
-│   ▼                                                                │
-│ StockReserved? ------no--> RefundPayment -> CancelOrder -> FAIL    │
-│   │ yes                                                            │
-│   ▼                                                                │
-│ COMPLETE                                                           │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 "오케스트레이터가 직접 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하는가"가 아니라, **[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)의 근거를 영속적으로 기록하는가**다. 기록이 없다면 프로세스 재시작, 중복 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지, 네트워크 장애 시 전체 흐름을 복원할 수 없다. 그래서 실무에서는 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 호출 체인보다 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 기반 명령·응답, 워크플로 엔진, 멱등 처리 키가 함께 쓰이는 경우가 많다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Durable state machine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">START</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderCreated? ----no----&gt; FAIL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PaymentAuthorized? --no--&gt; CancelOrder -&gt; FAIL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StockReserved? ------no--&gt; RefundPayment -&gt; CancelOrder -&gt; FAIL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COMPLETE</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 "오케스트레이터가 직접 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하는가"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>의 근거를 영속적으로 기록하는가</strong>다. 기록이 없다면 프로세스 재시작, 중복 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지, 네트워크 장애 시 전체 흐름을 복원할 수 없다. 그래서 실무에서는 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 호출 체인보다 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 기반 명령·응답, 워크플로 엔진, 멱등 처리 키가 함께 쓰이는 경우가 많다.
 
 또한 보상은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) `ROLLBACK`이 아니다. 이미 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자기 로컬 커밋을 끝냈기 때문에, 반대 의미의 새 업무를 실행해야 한다. 예를 들어 결제 승인 후 재고가 실패하면 "결제를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"하는 것이 아니라 "환불" 혹은 "승인 취소"라는 별도 업무를 발생시켜야 한다. 이 업무 의미를 정확히 정의하지 못하면 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 겉보기만 깔끔한 제어기로 끝난다.
 
@@ -104,9 +103,9 @@ tags = ["studynote-enterprise"]
 
 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 중앙 제어 덕분에 "누가 다음 단계인지"가 명확하다. 그래서 규제 보고, 실패 원인 분석, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 처리, 사람 승인 삽입이 쉽다. 대신 중앙에 업무 규칙이 계속 몰리면 오케스트레이터가 거대한 비즈니스 엔진이 되어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 다시 흐릴 수 있다. 반면 코레오그래피는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들이 이벤트만 보고 움직여 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 낮지만, 흐름이 길어질수록 이벤트 소비 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 숨은 의존성으로 변하기 쉽다.
 
-또 하나의 비교 포인트는 통신 스타일이다. [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 보통 명령 중심이고, 코레오그래피는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 중심이다. 명령은 "누가 무엇을 하라"를 명확히 지시하므로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제가 쉽고, 이벤트는 "무슨 일이 일어났다"를 알리므로 확장성이 좋다. 따라서 단순히 중앙이냐 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이냐가 아니라, **업무를 지시형으로 모델링할지 반응형으로 모델링할지**의 차이이기도 하다.
+또 하나의 비교 포인트는 통신 스타일이다. [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 보통 명령 중심이고, 코레오그래피는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 중심이다. 명령은 "누가 무엇을 하라"를 명확히 지시하므로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제가 쉽고, 이벤트는 "무슨 일이 일어났다"를 알리므로 확장성이 좋다. 따라서 단순히 중앙이냐 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이냐가 아니라, <strong>업무를 지시형으로 모델링할지 반응형으로 모델링할지</strong>의 차이이기도 하다.
 
-실무에서는 두 방식을 혼합하기도 한다. 핵심 결제 흐름은 오케스트레이터가 관리하고, 후행 알림이나 추천 학습 적재는 코레오그래피 이벤트로 흘려보내는 식이다. 즉 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 MSA에서 "모든 것을 중앙화하자"는 주장이 아니라, **복잡한 핵심 흐름만큼은 책임 있는 지휘체계가 필요하다**는 선택으로 보는 편이 맞다.
+실무에서는 두 방식을 혼합하기도 한다. 핵심 결제 흐름은 오케스트레이터가 관리하고, 후행 알림이나 추천 학습 적재는 코레오그래피 이벤트로 흘려보내는 식이다. 즉 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 MSA에서 "모든 것을 중앙화하자"는 주장이 아니라, <strong>복잡한 핵심 흐름만큼은 책임 있는 지휘체계가 필요하다</strong>는 선택으로 보는 편이 맞다.
 
 - **📢 섹션 요약 비유**: 작은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)킹은 서로 눈치 보며 연주해도 되지만, 수십 명이 참가하는 오케스트라는 악보와 지휘가 있어야 엇박자가 줄어든다. 규모와 복잡도가 올라갈수록 중앙 지휘의 가치가 커진다.
 
@@ -116,7 +115,7 @@ tags = ["studynote-enterprise"]
 
 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 특히 금융 정산, 여행 예약, 보험 심사, 주문-결제-배송, B2B 승인 프로세스처럼 단계가 많고 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 규칙이 명확해야 하는 업무에 적합하다. 이들 업무는 단순히 "성공/실패"만 아는 것으로 부족하고, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/), 남은 단계, 대기 시간, 담당 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 보상 여부를 한눈에 봐야 운영이 가능하다.
 
-반대로 단계가 2~3개뿐이고 분기가 거의 없으며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 이벤트 의미가 안정적이라면 코레오그래피가 더 가볍다. 모든 흐름을 오케스트레이터로 끌어오면 중앙 팀이 병목이 되고, 작은 변경도 워크플로 수정과 배포 절차를 거치게 된다. 따라서 채택 판단은 "복잡하니 중앙 통제"라는 감각론이 아니라, **가시성 이득이 중앙화 비용보다 큰가**로 내려야 한다.
+반대로 단계가 2~3개뿐이고 분기가 거의 없으며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 이벤트 의미가 안정적이라면 코레오그래피가 더 가볍다. 모든 흐름을 오케스트레이터로 끌어오면 중앙 팀이 병목이 되고, 작은 변경도 워크플로 수정과 배포 절차를 거치게 된다. 따라서 채택 판단은 "복잡하니 중앙 통제"라는 감각론이 아니라, <strong>가시성 이득이 중앙화 비용보다 큰가</strong>로 내려야 한다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -134,7 +133,7 @@ tags = ["studynote-enterprise"]
 - 보상 시나리오는 문서에만 있고 실제 실패 테스트를 해 보지 않은 경우
 - 상관관계 ID와 추적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 없이 장애가 나면 사람 기억에 의존하는 경우
 
-특히 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure) 우려는 "오케스트레이터를 쓰지 말자"의 근거가 아니라, **상태를 영속화하고 인스턴스를 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)하라**는 운영 설계 과제로 보는 편이 정확하다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 중앙 제어는 남지만, 물리적 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)은 줄일 수 있기 때문이다.
+특히 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure) 우려는 "오케스트레이터를 쓰지 말자"의 근거가 아니라, <strong>상태를 영속화하고 인스턴스를 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>하라</strong>는 운영 설계 과제로 보는 편이 정확하다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 중앙 제어는 남지만, 물리적 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)은 줄일 수 있기 때문이다.
 
 - **📢 섹션 요약 비유**: 공항 관제탑이 필요하다고 해서 관제실을 한 대 컴퓨터에만 두지는 않는다. 중요한 흐름을 중앙에서 관리하되, 그 중앙 자체는 더 튼튼하게 만들어야 한다.
 
@@ -146,7 +145,7 @@ tags = ["studynote-enterprise"]
 
 물론 한계도 있다. 중앙 모델이 커질수록 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)가 중요해지고, 워크플로 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 하위 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계약 관리가 함께 어려워진다. 또한 모든 흐름을 중앙에 넣으면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자율성이 약해지고 팀 간 조정 비용이 늘어난다. 따라서 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 복잡한 핵심 흐름에 집중하고, 단순 후행 이벤트는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방식으로 남겨 두는 균형이 중요하다.
 
-앞으로는 워크플로 엔진, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), 관측성 플랫폼을 결합한 하이브리드 구조가 더 일반적일 가능성이 크다. 결론적으로 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 **[로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)들의 합을 장기 비즈니스 프로세스로 묶어 주는 중앙 워크플로 두뇌**로 기억하면 된다. 다만 좋은 두뇌가 되려면 상태 기록, 보상 규칙, 고가용성, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 반드시 함께 갖춰져야 한다.
+앞으로는 워크플로 엔진, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), 관측성 플랫폼을 결합한 하이브리드 구조가 더 일반적일 가능성이 크다. 결론적으로 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/">로컬 트랜잭션</a>들의 합을 장기 비즈니스 프로세스로 묶어 주는 중앙 워크플로 두뇌</strong>로 기억하면 된다. 다만 좋은 두뇌가 되려면 상태 기록, 보상 규칙, 고가용성, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 반드시 함께 갖춰져야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 지휘자는 모든 악기를 직접 연주하지 않는다. 누가 언제 들어오고, 틀렸을 때 어떻게 수습할지만 정확히 알고 전체 합주를 완성한다.
 
@@ -167,25 +166,26 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business request accepted
-        │
-        ▼
-Saga instance created + state persisted
-        │
-        ▼
-Command dispatch to service
-        │
-        ▼
-Reply / event received
-        │
-        ├──────────────► failure or timeout -> compensation chain
-        ▼
-Next state transition
-        │
-        ▼
-Completed / Failed with audit trail
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business request accepted</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Saga instance created + state persisted</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Command dispatch to service</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Reply / event received</div>
+<div class="kb-diagram-tree-item" style="--depth:4">failure or timeout -&gt; compensation chain</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Next state transition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Completed / Failed with audit trail</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "요청 수락 → 상태 기록 → 명령 전송 → 응답 기반 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) → 실패 시 보상 → 최종 종료"라는 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)의 실행 리듬을 요약한다.
 

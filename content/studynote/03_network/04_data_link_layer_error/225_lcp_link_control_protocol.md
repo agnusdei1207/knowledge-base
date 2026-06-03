@@ -24,24 +24,24 @@ tags = ["studynote-network"]
 - **비유**: LCP는 두 나라의 정상이 회담을 시작하기 전에 양국 실무진이 만나 "통역사는 누구로 할지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식)", "회의 시간은 몇 분으로 할지(MRU)" 등 회담의 룰(규칙)을 미리 맞추는 사전 조율 과정과 같다.
 - **발전 과정**: 과거 SLIP 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 이러한 사전 협상 과정이 없어 사용자가 수동으로 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 맞춰야 했으나, PPP가 도입되면서 LCP를 통해 이 과정이 100% 자동화(Plug and Play)되었다.
 
-```text
-  ┌─────────────────────────────────────────────────────────┐
-  │                 LCP의 링크 수립 3단계                   │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  [1. 링크 설정 협상 (Link Configuration)]               │
-  │    A: "나는 MTU 1500, CHAP 인증 쓸게." (Configure-Req)  │
-  │    B: "좋아, 동의해." (Configure-Ack)                   │
-  │                                                         │
-  │  [2. 링크 유지 및 품질 테스트 (Link Maintenance)]       │
-  │    A: "연결 잘 되어 있지?" (Echo-Request)               │
-  │    B: "응, 잘 들려." (Echo-Reply)                       │
-  │                                                         │
-  │  [3. 링크 종료 (Link Termination)]                      │
-  │    A: "이제 연결 끊을게." (Terminate-Req)               │
-  │    B: "알았어, 끊자." (Terminate-Ack)                   │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LCP의 링크 수립 3단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 링크 설정 협상 (Link Configuration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: "나는 MTU 1500, CHAP 인증 쓸게." (Configure-Req)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: "좋아, 동의해." (Configure-Ack)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 링크 유지 및 품질 테스트 (Link Maintenance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: "연결 잘 되어 있지?" (Echo-Request)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: "응, 잘 들려." (Echo-Reply)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 링크 종료 (Link Termination)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: "이제 연결 끊을게." (Terminate-Req)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: "알았어, 끊자." (Terminate-Ack)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LCP는 본격적인 스포츠 경기를 시작하기 전에 심판과 양 팀 주장이 모여 경기장의 크기(프레임 크기)와 반칙 규정([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식)을 합의하는 경기 전 룰미팅(Rule Meeting)입니다.
 
@@ -67,26 +67,27 @@ LCP 프레임은 PPP의 페이로드(Payload) 영역 안에 담겨 전송된다.
 LCP가 협상하는 가장 중요한 3가지 파라미터는 다음과 같다.
 
 1. **MRU (Maximum Receive Unit)**: 내가 수신할 수 있는 최대 프레임 크기 (기본값 1500 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)). MTU([Maximum Transmission Unit](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/))의 수신 관점 용어다.
-2. **[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**: 통신을 허락하기 전 어떤 방식으로 신원을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할지 결정 ([PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) 또는 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) 등).
-3. **[Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)**: 루프백(Loopback, 내가 보낸 신호가 나에게 다시 돌아오는 현상)을 감지하기 위한 랜덤 숫자. 양쪽이 서로 다른 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)를 생성하여, 내가 보낸 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)가 그대로 돌아오면 회선이 꼬였음(Loop)을 즉각 인지한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a></strong>: 통신을 허락하기 전 어떤 방식으로 신원을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할지 결정 ([PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) 또는 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) 등).
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a></strong>: 루프백(Loopback, 내가 보낸 신호가 나에게 다시 돌아오는 현상)을 감지하기 위한 랜덤 숫자. 양쪽이 서로 다른 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)를 생성하여, 내가 보낸 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)가 그대로 돌아오면 회선이 꼬였음(Loop)을 즉각 인지한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │                 LCP의 Magic Number 루프백 감지 원리             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [정상 상태]                                                  │
-  │   라우터 A (Magic: 1234) ─────(Req 1234)─────▶ 라우터 B        │
-  │                          ◀────(Req 5678)─────  (Magic: 5678)  │
-  │   * A는 5678을 받고 "정상적인 상대방이구나" 판단              │
-  │                                                               │
-  │  [루프백(선로 꼬임) 발생 상태]                                │
-  │   라우터 A (Magic: 1234) ─────(Req 1234)──┐                  │
-  │                          ◀────(Req 1234)──┘ 회선 꼬임         │
-  │   * A는 1234를 다시 받고 "내 신호가 돌아왔네! 회선 오류다!"   │
-  │     즉시 링크 차단!                                           │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LCP의 Magic Number 루프백 감지 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 A (Magic: 1234) (Req 1234) ▶ 라우터 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (Req 5678) (Magic: 5678)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* A는 5678을 받고 "정상적인 상대방이구나" 판단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프백(선로 꼬임) 발생 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 A (Magic: 1234) (Req 1234)──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (Req 1234)── 회선 꼬임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* A는 1234를 다시 받고 "내 신호가 돌아왔네! 회선 오류다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 링크 차단!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 전화선이나 시리얼 케이블을 연결할 때 물리적인 결함으로 송신선(TX)과 수신선(RX)이 브릿지되어 내가 보낸 신호를 내가 다시 받는 루프 현상이 자주 발생했다. LCP는 난수([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/))를 서로 교환하는 아주 단순한 방법으로 이 치명적인 물리적 장애를 소프트웨어적으로 즉각 감지하고 연결을 차단한다.
 
@@ -114,7 +115,7 @@ LCP는 도로의 폭(MRU)과 통행증 검사 방식([인증](/knowledge-base/st
 ADSL 모뎀을 통해 인터넷에 연결할 때, 간혹 "PPPoE 연결 중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패" 또는 "MTU 사이즈 문제로 특정 웹사이트 접속 불가" 장애가 발생한다. 이는 모두 LCP 협상 단계에서의 실패다. 통신사 라우터는 MTU 1492를 요구(Configure-Req)했는데, 홈 공유기가 고집스럽게 1500을 요구하면 서로 `Configure-Nak`만 주고받다가 LCP 연결이 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 되어 인터넷이 아예 연결되지 않는다. 이때 엔지니어는 공유기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 MTU를 수동으로 맞춰주어 LCP 협상을 통과시켜야 한다.
 
 - **트러블슈팅의 시작점**: [PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) 기반의 통신 장애([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), PPPoE 등)가 발생했을 때 핑(Ping) 테스트를 하기 전에 가장 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 바로 LCP 협상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(LCP Negotiation)다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 무조건적인 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 차단 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 하듯, LCP의 `Echo-Request`를 차단하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 링크 양단은 상대방이 죽었다고 판단하여 수시로 연결을 끊어버리는(Flapping) 대참사가 발생한다. LCP 제어 패킷은 절대 필터링해서는 안 된다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 무조건적인 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 차단 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 하듯, LCP의 `Echo-Request`를 차단하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 링크 양단은 상대방이 죽었다고 판단하여 수시로 연결을 끊어버리는(Flapping) 대참사가 발생한다. LCP 제어 패킷은 절대 필터링해서는 안 된다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -150,15 +151,19 @@ LCP는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PPP]
-    │
-    ▼
-[현재 개념: LCP]
-    │
-    ├──▶ [확장 A: NCP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PPP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 LCP는 PPP에서 출발해 현재 메커니즘을 정교화하고, 이후 NCP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

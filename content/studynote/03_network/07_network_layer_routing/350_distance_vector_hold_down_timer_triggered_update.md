@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) 환경에서 네트워크의 토폴로지 변경 시, 잘못된 정보의 확산을 막고 신속하게 상태를 전파하기 위해 구동되는 보조 타이머 및 업데이트 강제 발동 메커니즘.
-- **필요성**: [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) 라우터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 근본적으로 30초마다 수첩(테이블)을 복사해서 넘기는 지독하게 굼뜬 놈이다. 이 30초 텀 사이에 어떤 놈은 길이 끊겼다고 하고, 어떤 놈은 아직 옛날 수첩을 보고 길이 뚫렸다고 소문을 내는 **"정보의 불일치(Inconsistency) 현상"**이 극에 달한다. 이때 사기당해서 썩은 길을 다시 살려버리면 무한 루프 지옥에 빠진다. "야! 선이 끊기면 30초 기다리지 말고 즉각 외치고([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)), 한 번 죽은 길은 누가 뭐라 해도 당분간 부활시키지 마(홀드다운)!"라는 안전벨트가 필요했다.
+- **필요성**: [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) 라우터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 근본적으로 30초마다 수첩(테이블)을 복사해서 넘기는 지독하게 굼뜬 놈이다. 이 30초 텀 사이에 어떤 놈은 길이 끊겼다고 하고, 어떤 놈은 아직 옛날 수첩을 보고 길이 뚫렸다고 소문을 내는 <strong>"정보의 불일치(Inconsistency) 현상"</strong>이 극에 달한다. 이때 사기당해서 썩은 길을 다시 살려버리면 무한 루프 지옥에 빠진다. "야! 선이 끊기면 30초 기다리지 말고 즉각 외치고([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)), 한 번 죽은 길은 누가 뭐라 해도 당분간 부활시키지 마(홀드다운)!"라는 안전벨트가 필요했다.
 
 - **💡 비유**: 
-  - **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트**: 아파트에 불이 났을 때, 매달 1일 열리는 반상회(30초 주기 업데이트)까지 기다렸다가 "불났어요"라고 말하는 바보는 없습니다. 불이 난 즉시 **"비상벨(방아쇠)"**을 깨부수고 온 동네에 소리쳐야 합니다.
-  - **홀드다운 타이머**: 내가 주식에 물려서 상장폐지(선로 단절) 당했다는 뉴스를 들었습니다. 그때 사기꾼 친구가 와서 "야! 그거 작전주라서 다시 부활한대! 내 말 믿어(가짜 소문)!"라고 꼬드길 때, 흔들리는 멘탈을 부여잡고 **"180일 동안은 주식 앱을 아예 삭제하고 어떤 소문도 믿지 않겠다(귀 막기)"**고 다짐하며 계좌를 동결시키는 방어막입니다.
+  - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>드 업데이트</strong>: 아파트에 불이 났을 때, 매달 1일 열리는 반상회(30초 주기 업데이트)까지 기다렸다가 "불났어요"라고 말하는 바보는 없습니다. 불이 난 즉시 <strong>"비상벨(방아쇠)"</strong>을 깨부수고 온 동네에 소리쳐야 합니다.
+  - **홀드다운 타이머**: 내가 주식에 물려서 상장폐지(선로 단절) 당했다는 뉴스를 들었습니다. 그때 사기꾼 친구가 와서 "야! 그거 작전주라서 다시 부활한대! 내 말 믿어(가짜 소문)!"라고 꼬드길 때, 흔들리는 멘탈을 부여잡고 <strong>"180일 동안은 주식 앱을 아예 삭제하고 어떤 소문도 믿지 않겠다(귀 막기)"</strong>고 다짐하며 계좌를 동결시키는 방어막입니다.
 
-```text
-[거리 벡터 라우팅 루프 방지]
-    │
-    ▼
-[홀드다운 타이머, 트리거드 업데이트]
-    │
-    └──▶ [RIP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">거리 벡터 라우팅 루프 방지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀드다운 타이머, 트리거드 업데이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RIP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 이 두 가지 스킬은 팔랑귀 라우터에게 주입한 **"응급 대처 매뉴얼"**입니다. 사고가 터지면 즉각 동네에 119를 때리고([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)), 혼란스러운 와중에 유언비어(루프 정보)가 돌더라도 이성적으로 무시하며 당분간 격리 조치(홀드다운)를 취하는 위기관리 능력입니다.
 
@@ -42,7 +46,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트 (Triggered Update)의 연계
-[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트는 앞서 배운 **루트 포이즈닝(Route Poisoning)**과 한 몸처럼 움직인다.
+[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트는 앞서 배운 <strong>루트 포이즈닝(Route Poisoning)</strong>과 한 몸처럼 움직인다.
 1. 라우터 A의 1번 링크가 퍽 하고 죽었다.
 2. A는 30초 타이머를 무시하고 1번 링크의 홉 카운트를 `16(독약)`으로 조작한다.
 3. 방아쇠(Trigger)를 당겨 즉시 이 독약 묻은 엽서를 이웃 B에게 쏜다.
@@ -51,33 +55,32 @@ tags = ["studynote-network"]
 
 ### 2. 홀드다운 타이머 (Hold-down [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))의 180초 철벽
 라우터 A가 B로부터 "Z망으로 가는 길 홉 카운트가 16(죽음)이 됐어!"라는 슬픈 루트 포이즈닝 소식을 방금 들었다.
-1. A는 내 수첩에서 Z망을 지우고, 그 즉시 **홀드다운 타이머([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) 기준 기본 180초)** 초시계를 째깍째깍 작동시킨다.
-2. **귀 막기 발동**: 이 180초 동안에는 옆에 있던 C나 D가 와서 "야, 나 Z망 가는 길 아는데? 홉 카운트 3이야!(옛날에 복사해 둔 가짜 썩은 정보)"라고 아무리 달콤한 거짓말을 속삭여도 **A는 이를 완벽하게 무시(Drop)**한다.
+1. A는 내 수첩에서 Z망을 지우고, 그 즉시 <strong>홀드다운 타이머(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a> 기준 기본 180초)</strong> 초시계를 째깍째깍 작동시킨다.
+2. **귀 막기 발동**: 이 180초 동안에는 옆에 있던 C나 D가 와서 "야, 나 Z망 가는 길 아는데? 홉 카운트 3이야!(옛날에 복사해 둔 가짜 썩은 정보)"라고 아무리 달콤한 거짓말을 속삭여도 <strong>A는 이를 완벽하게 무시(Drop)</strong>한다.
 3. **부활 조건**: 단, 원래 그 길을 처음 가르쳐줬던 오리지널 스승님(라우터 B)이 다시 와서 "야 고쳤다! Z망 다시 2칸 만에 갈 수 있어!"라고 (더 좋은 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로) 정정 보도를 내면, 그건 진짜라고 믿고 타이머를 강제 종료시킨 뒤 수첩을 살려낸다.
 4. **타이머 만료**: 180초가 지나도록 B가 살려내지 못하면 "아, 이 길은 진짜 완전히 죽었구나" 하고 영원히 포기하며 다른 사람의 길 정보를 받아들이기 시작한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP의 4가지 생존 타이머 총정리 (실무 암기)         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. Update Timer (30초)                                    │
- │      "30초마다 내 수첩 복사해서 뿌릴게!"                          │
- │                                                             │
- │   2. Invalid Timer (180초)                                  │
- │      "180초 동안 B한테 정기 엽서가 안 오면, B가 죽은 줄 알고        │
- │       의심(Invalid)하기 시작할게!"                             │
- │                                                             │
- │   3. Hold-down Timer (180초)                                │
- │      "길이 죽었다는 소문 들으면 180초 동안 남의 말 안 믿고 버틸게!"    │
- │                                                             │
- │   4. Flush Timer (240초)                                    │
- │      "240초가 지나도록 B가 영영 안 살아나면, 내 수첩에서 B로        │
- │       가는 길을 아예 흔적도 없이 삭제(Flush)해버릴게!"            │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 홀드다운 타이머는 카카오톡에 올라온 **"사망 부고 가짜 뉴스 대처법"**입니다. 누가 죽었다는 비보를 들었을 때, 단톡방에 떠도는 "사실 살았다더라"는 찌라시(루프 정보)에 속지 않고, 원래 소식을 전해준 유족(원래 라우터)이 공식 입장을 낼 때까지 흔들리지 않고 **침묵의 애도 기간(180초)**을 갖는 진중한 태도입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP의 4가지 생존 타이머 총정리 (실무 암기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Update Timer (30초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"30초마다 내 수첩 복사해서 뿌릴게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Invalid Timer (180초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"180초 동안 B한테 정기 엽서가 안 오면, B가 죽은 줄 알고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의심(Invalid)하기 시작할게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Hold-down Timer (180초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"길이 죽었다는 소문 들으면 180초 동안 남의 말 안 믿고 버틸게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Flush Timer (240초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"240초가 지나도록 B가 영영 안 살아나면, 내 수첩에서 B로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가는 길을 아예 흔적도 없이 삭제(Flush)해버릴게!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** 홀드다운 타이머는 카카오톡에 올라온 **"사망 부고 가짜 뉴스 대처법"<strong>입니다. 누가 죽었다는 비보를 들었을 때, 단톡방에 떠도는 "사실 살았다더라"는 찌라시(루프 정보)에 속지 않고, 원래 소식을 전해준 유족(원래 라우터)이 공식 입장을 낼 때까지 흔들리지 않고 </strong>침묵의 애도 기간(180초)**을 갖는 진중한 태도입니다.
 
 ---
 
@@ -133,15 +136,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 거리 벡터 라우팅 루프 방지]
-    │
-    ▼
-[현재 개념: 홀드다운 타이머, 트리거드 업데이트]
-    │
-    ├──▶ [확장 A: RIP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 거리 벡터 라우팅 루프 방지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홀드다운 타이머, 트리거드 업데이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RIP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 홀드다운 타이머, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)드 업데이트는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지에서 출발해 현재 메커니즘을 정교화하고, 이후 RIP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

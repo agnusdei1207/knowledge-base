@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 네트워크 속도가 10기가, 100기가로 치솟으며 리눅스 뼈대 자체가 아킬레스건이 되었습니다.
 
-1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))의 폭풍**: 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어올 때마다 CPU에 전기 자극([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 줘서 하던 일을 멈추게 합니다. 100기가망에서는 초당 수천만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져 CPU가 덜덜 떨며 기절합니다([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching 과부하).
-2. **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 무거움**: 패킷이 들어오면 무조건 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스(밑바닥)로 들어간 뒤, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 보안 검사를 다 받고 나서야 사용자 프로그램 스페이스(유저 공간)로 힘겹게 메모리가 복사(Copy)되어 올라옵니다. 이 복사 과정에서 서버 성능의 50%가 증발합니다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)의 폭풍</strong>: 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어올 때마다 CPU에 전기 자극([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 줘서 하던 일을 멈추게 합니다. 100기가망에서는 초당 수천만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져 CPU가 덜덜 떨며 기절합니다([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching 과부하).
+2. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 무거움</strong>: 패킷이 들어오면 무조건 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스(밑바닥)로 들어간 뒤, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 보안 검사를 다 받고 나서야 사용자 프로그램 스페이스(유저 공간)로 힘겹게 메모리가 복사(Copy)되어 올라옵니다. 이 복사 과정에서 서버 성능의 50%가 증발합니다.
 
-```text
-[무손실 이더넷]
-    │
-    ▼
-[DPDK]
-    │
-    └──▶ [SR-IOV]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DPDK는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,27 +43,31 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 인텔(Intel)이 주도하여 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리로, 패킷을 처리할 때 **무겁고 느린 리눅스 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 완전히 통째로 무시하고(우회, [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에서 곧바로 유저 공간(사용자 프로그램)의 메모리로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다이렉트로 쏴버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 패킷 처리 소프트웨어 엔진**입니다.
+- **개념**: 인텔(Intel)이 주도하여 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리로, 패킷을 처리할 때 <strong>무겁고 느린 리눅스 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>을 완전히 통째로 무시하고(우회, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass), 랜카드(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/">NIC</a>)에서 곧바로 유저 공간(사용자 프로그램)의 메모리로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다이렉트로 쏴버리는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 패킷 처리 소프트웨어 엔진</strong>입니다.
 
 ### DPDK가 패킷을 빛의 속도로 쓸어 담는 2가지 흑마법 🌟
 
-1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 금지 ➜ [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식 무한루프 🌟**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>) 금지 ➜ <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 방식 무한루프 🌟</strong>
    - 랜카드가 CPU에게 "패킷 왔어요"라고 알리는 알람([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 영구 정지시켜 버립니다.
    - 대신 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 애플리케이션 코어(CPU의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개)가 24시간 내내 쉬지 않고 무한루프(100% 점유율)를 돌면서, 랜카드 바구니를 계속 쳐다보고 감시([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))합니다.
    - 바구니에 패킷이 30개 쌓여있으면? 한 번에 뜰채로 푹 퍼서 30개를 동시에 가져옵니다. 알람 듣고 깰 필요가 없으니 딜레이가 0이 됩니다. (단점: 패킷이 없어도 CPU 코어 1개는 무한 감시를 하느라 100% 팽팽 돌아가며 전기세를 퍼먹습니다.)
 
-2. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)와 제로 카피 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass)와 제로 카피 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)</strong>
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 쓰레기통에 넣습니다. 랜카드의 메모리 저장소와, 유저 프로그램의 메모리 저장소를 거대한 파이프로 딱 붙여버립니다(Hugepages 기술 등).
    - 패킷이 랜카드에 들어오자마자 리눅스 결재 없이 유저 프로그램([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 등) 입구로 다이렉트로 복사 없이([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) 바로 꽂힙니다.
 
-```text
-[무손실 이더넷]
-    │
-    ▼
-[DPDK]
-    │
-    └──▶ [SR-IOV]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DPDK의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 앞선 844번 문서에서 배운 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))의 무거운 렉을 잡기 위해 이 DPDK를 입힌 **[OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)-[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)**를 쓰면 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 처리 속도가 10배 폭발합니다.
+- 앞선 844번 문서에서 배운 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))의 무거운 렉을 잡기 위해 이 DPDK를 입힌 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">OVS</a>-<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong>를 쓰면 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 처리 속도가 10배 폭발합니다.
 - 클라우드 서버에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), L4 로드밸런서, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망(UPF)을 소프트웨어([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))로 띄울 때, 이 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 라이브러리를 안 쓰면 성능이 쓰레기가 되어 상용화가 불가능합니다. 현대 모든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드 인프라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 숨은 심장입니다.
 
 DPDK를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)이 기반 조건을 만든다면, DPDK는 그 위에서 핵심 메커니즘을 구현하고, SR-IOV는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -78,7 +86,7 @@ DPDK를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통신은 '초인종을 누르는 택배 배달'입니다. 택배(패킷)가 1개 올 때마다 기사님이 딩동!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 누르면, 방에서 자던 주인(CPU)이 하던 일을 멈추고 나와서 문([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 열고 택배를 거실(유저 스페이스)로 힘겹게 옮깁니다. 1초에 택배가 1만 개 오면 초인종이 1만 번 울려 주인이 미쳐버립니다. **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)**는 '무한 감시 뜰채 모드'입니다. 초인종 선을 아예 싹둑 잘라버립니다([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 해제). 대신 주인 한 명이 24시간 내내 잠도 안 자고 눈에 불을 켠 채 창문([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/), [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 밖을 쳐다봅니다. 마당에 택배가 수백 개 우르르 쏟아지면, 뜰채로 거실 바닥(제로 카피)까지 한 번에 푹 퍼담습니다. 문 열어주는 과정([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 결재)이 완전히 생략되어 초당 수억 개의 짐을 미친 속도로 퍼 나를 수 있는 궁극의 단순 무식 고속 노동 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통신은 '초인종을 누르는 택배 배달'입니다. 택배(패킷)가 1개 올 때마다 기사님이 딩동!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 누르면, 방에서 자던 주인(CPU)이 하던 일을 멈추고 나와서 문([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 열고 택배를 거실(유저 스페이스)로 힘겹게 옮깁니다. 1초에 택배가 1만 개 오면 초인종이 1만 번 울려 주인이 미쳐버립니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong>는 '무한 감시 뜰채 모드'입니다. 초인종 선을 아예 싹둑 잘라버립니다([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 해제). 대신 주인 한 명이 24시간 내내 잠도 안 자고 눈에 불을 켠 채 창문([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/), [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 밖을 쳐다봅니다. 마당에 택배가 수백 개 우르르 쏟아지면, 뜰채로 거실 바닥(제로 카피)까지 한 번에 푹 퍼담습니다. 문 열어주는 과정([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 결재)이 완전히 생략되어 초당 수억 개의 짐을 미친 속도로 퍼 나를 수 있는 궁극의 단순 무식 고속 노동 시스템입니다.
 
 ---
 
@@ -120,15 +128,19 @@ DPDK는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무손실 이더넷]
-    │
-    ▼
-[현재 개념: DPDK]
-    │
-    ├──▶ [확장 A: SR-IOV]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DPDK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SR-IOV</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 DPDK는 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SR-IOV와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

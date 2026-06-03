@@ -28,21 +28,26 @@ tags = ["algorithm_stats"]
 
 ### 문자열 알고리즘 발전 과정
 
-```
-[문자열 알고리즘 발전사]
 
-1970년: 단순 패턴 매칭 (비효율적 알고리즘)
-↓ O(nm) 복잡도 문제 인식
-1970년: KMP 알고리즘 (크누스-모리스-프랫)
-↓ O(n+m)로 개선, 첫 실용적 패턴 매칭 알고리즘
-1976년: 보이어-무어 알고리즘
-↓ 실무적으로 더 빠르게, 뒤에서부터 비교
-1980년: �abin-카프 해시 기반 알고리즘
-↓ 해시로 패턴 매칭, 다중 패턴 탐색에 특화
-1990년대: Trie, 접미사 트리, 접미사 배열
-↓ 문자열 인덱싱 구조로 대규모 텍스트 최적화
-2000년대~현재: FM-인덱스, 버로스-휠러 변환, 압축 기반 탐색
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문자열 알고리즘 발전사</div></div>
+<div class="kb-diagram-note">1970년: 단순 패턴 매칭 (비효율적 알고리즘)</div>
+<div class="kb-diagram-note">↓ O(nm) 복잡도 문제 인식</div>
+<div class="kb-diagram-note">1970년: KMP 알고리즘 (크누스-모리스-프랫)</div>
+<div class="kb-diagram-note">↓ O(n+m)로 개선, 첫 실용적 패턴 매칭 알고리즘</div>
+<div class="kb-diagram-note">1976년: 보이어-무어 알고리즘</div>
+<div class="kb-diagram-note">↓ 실무적으로 더 빠르게, 뒤에서부터 비교</div>
+<div class="kb-diagram-note">1980년: �abin-카프 해시 기반 알고리즘</div>
+<div class="kb-diagram-note">↓ 해시로 패턴 매칭, 다중 패턴 탐색에 특화</div>
+<div class="kb-diagram-note">1990년대: Trie, 접미사 트리, 접미사 배열</div>
+<div class="kb-diagram-note">↓ 문자열 인덱싱 구조로 대규모 텍스트 최적화</div>
+<div class="kb-diagram-note">2000년대~현재: FM-인덱스, 버로스-휠러 변환, 압축 기반 탐색</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 문자열 매칭 알고리즘의 발전은 크게 세 방향으로 진행되었다. 첫째는 패턴 이동 횟수를 최소화하는 방향(KMP, 보이어-무어)이고, 둘째는 해시를활용했다 패턴 매칭(라빈-카프)이고, 셋째는 전처리된 인덱스 구조(Trie, 접미사 배열)를 활용하는 방향이다. 현재는 압축된 텍스트에서 직접 탐색하는 알고리즘과 확률적 문자열 알고리즘이 연구되고 있다.
 
@@ -58,38 +63,32 @@ tags = ["algorithm_stats"]
 
 문자열 매칭 알고리즘은 다양한 방법으로 분류되며, 각 알고리즘은 서로 다른 전처리와 시간 복잡도를 갖는다. 단일 패턴 vs 다중 패턴, 정확한 매칭 vs 근사 매칭 등 기준에 따라 분류가 달라진다.
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│ 문자열 매칭 알고리즘 분류 │
-├────────────────────────────────────────────────────────────────┤
-│ │
-│ [단일 패턴 매칭] │
-│ │ │
-│ ├── 비효율적: O(nm) - 단순하지만 느림 │
-│ ├── KMP: O(n+m) - 전처리 O(m), 메모리 O(m) │
-│ ├── 보이어-무어: O(nm),실무적으로 가장 빠름 │
-│ └── 호스풀: 보이어-무어 변형,간략화 │
-│ │
-│ [다중 패턴 매칭] │
-│ │ │
-│ ├── 아호-코라식: O(n + m + z), z=매칭 수 │
-│ ├── 라빈-카프: O(n + m), 해시 기반 │
-│ └── Trie + 오토마타: Trie로 패턴 그룹화 │
-│ │
-│ [인덱스 기반 방법] │
-│ │ │
-│ ├── 접미사 배열: O(m log n) 구축, O(m log n) 탐색 │
-│ ├── 접미사 트리: O(n) 구축, O(m) 탐색 (하지만 구현 복잡) │
-│ └── FM-인덱스: 압축 기반, O(m) 탐색 │
-│ │
-│ [최장 공통 부분] │
-│ │ │
-│ ├── LCS (최장 공통 부분 수열) │
-│ ├── 편집 거리 (레벤슈타인 거리) │
-│ └── 공통 부분 문자열 │
-│ │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자열 매칭 알고리즘 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 패턴 매칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 비효율적: O(nm) - 단순하지만 느림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── KMP: O(n+m) - 전처리 O(m), 메모리 O(m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 보이어-무어: O(nm),실무적으로 가장 빠름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 호스풀: 보이어-무어 변형,간략화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 패턴 매칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 아호-코라식: O(n + m + z), z=매칭 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 라빈-카프: O(n + m), 해시 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Trie + 오토마타: Trie로 패턴 그룹화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인덱스 기반 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 접미사 배열: O(m log n) 구축, O(m log n) 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 접미사 트리: O(n) 구축, O(m) 탐색 (하지만 구현 복잡)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── FM-인덱스: 압축 기반, O(m) 탐색</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최장 공통 부분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── LCS (최장 공통 부분 수열)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 편집 거리 (레벤슈타인 거리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 공통 부분 문자열</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 문자열 매칭 알고리즘 선택은 문제의 특성에 따라 달라진다. 단일 패턴을 한 번만 찾으면 보이어-무어가 가장 빠르고, 여러 패턴을 동시에 찾으면 아호-코라식이 적합하며, 텍스트가 매우 크고하게 검색하면 접미사 배열이나 FM-인덱스가 적합하다.
 
@@ -97,44 +96,38 @@ tags = ["algorithm_stats"]
 
 KMP(크누스-모리스-프랫) 알고리즘은 패턴의 접두사 함수를 미리 계산하여 불필요한 비교를 피하는 알고리즘다. 가장 중요한 개선은 불일치 발생 시 패턴을 1이 아닌 더 많이 이동할 수 있다는 점이다.
 
-```
-[KMP 알고리즘 동작]
 
-텍스트: "AABAACAADAABAABA"
-패턴: "AABA"
 
-단계 1: 접두사 함수 (Failure Function) 계산
-─────────────────────────────
-패턴: A A B A
-인덱스: 0 1 2 3
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMP 알고리즘 동작</div></div>
+<div class="kb-diagram-note">텍스트: "AABAACAADAABAABA"</div>
+<div class="kb-diagram-note">패턴: "AABA"</div>
+<div class="kb-diagram-note">단계 1: 접두사 함수 (Failure Function) 계산</div>
+<div class="kb-diagram-note">패턴: A A B A</div>
+<div class="kb-diagram-note">인덱스: 0 1 2 3</div>
+<div class="kb-diagram-note">접두사 함수:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- i=0 (A): F</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">= 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">= 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">F[] =</div><div class="kb-diagram-node">0, 1, 0, 1</div></div>
+<div class="kb-diagram-note">단계 2: 패턴 매칭 진행</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">텍스트</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">vs 패턴</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=0 A vs A → 일치, i++, j++</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=1 A vs A → 일치, i++, j++</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=2 B vs B → 일치, i++, j++</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=3 A vs A → 일치, i++, j++</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j==4 (패턴 끝) → 패턴 발견! 위치 0에서 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">i=4 A (텍스트</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">) vs A (패턴</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=5 A vs A → 일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">핵심: j가 패턴 끝에 도달하지 않아도, F</div><div class="kb-diagram-node">j-1</div><div class="kb-diagram-note">만큼만 백트래크</div></div>
+<div class="kb-diagram-note">→ 이미 일치한 부분을활용</div>
+</div>
+</div>
 
-접두사 함수:
-- i=0 (A): F[0] = 0
-- i=1 (AA): 가장 긴 적절한 접두사 = "A" → F[1] = 1
-- i=2 (AAB): 적절한 접두사 없음 → F[2] = 0
-- i=3 (AABA): 가장 긴 적절한 접두사 = "A" → F[3] = 1
 
-F[] = [0, 1, 0, 1]
-
-단계 2: 패턴 매칭 진행
-─────────────────────────────
-
-텍스트[i] vs 패턴[j]:
-┌──────────────────────────────────────────────────────┐
-│ i=0 A vs A → 일치, i++, j++ │
-│ i=1 A vs A → 일치, i++, j++ │
-│ i=2 B vs B → 일치, i++, j++ │
-│ i=3 A vs A → 일치, i++, j++ │
-│ j==4 (패턴 끝) → 패턴 발견! 위치 0에서 시작 │
-│ │
-│ i=4 A (텍스트[4]) vs A (패턴[0]) → 일치 (j=F[3]=1)│
-│ i=5 A vs A → 일치 │
-│ ... │
-└──────────────────────────────────────────────────────┘
-
-핵심: j가 패턴 끝에 도달하지 않아도, F[j-1]만큼만 백트래크
-→ 이미 일치한 부분을활용
-```
 
 **[다이어그램 해설]** KMP의 핵심은 "이미 일치한 부분을활용하여 다음 탐색을 시작한다"는 것이다. 비효율적 알고리즘에서 불일치가 발생하면 패턴을 1만 뒤로 이동하지만, KMP는 접두사 함수를활용하여 더 많이 이동한다. 예를 들어, 패턴 "AABA"에서 "AA"까지 일치한 후 불일치가 발생하면, "A"만 다시 비교하면 된다. 이로 인해 최악의 경우도 O(n+m)가 보장된다.
 
@@ -142,46 +135,39 @@ F[] = [0, 1, 0, 1]
 
 보이어-무어는 패턴을 오른쪽에서 왼쪽으로 비교하여 빠르게 이동하는 알고리즘이다. 실무적으로 가장 빠른 것으로 알려져 있다.
 
-```
-[보이어-무어 알고리즘 동작]
 
-텍스트: "AABAACAADAABAABA"
-패턴: "AABA"
 
-단계 1: 이동 테이블 생성 (Bad Character Rule)
-─────────────────────────────
-패턴: A A B A
-인덱스: 0 1 2 3
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보이어-무어 알고리즘 동작</div></div>
+<div class="kb-diagram-note">텍스트: "AABAACAADAABAABA"</div>
+<div class="kb-diagram-note">패턴: "AABA"</div>
+<div class="kb-diagram-note">단계 1: 이동 테이블 생성 (Bad Character Rule)</div>
+<div class="kb-diagram-note">패턴: A A B A</div>
+<div class="kb-diagram-note">인덱스: 0 1 2 3</div>
+<div class="kb-diagram-note">각 문자의 마지막 등장 위치:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">A: 인덱스 3 (가장 오른쪽 A)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">B: 인덱스 2</div>
+<div class="kb-diagram-tree-item" style="--depth:0">기타: -1</div>
+<div class="kb-diagram-note">단계 2: 오른쪽에서 왼쪽으로 비교</div>
+<div class="kb-diagram-note">위치 0:</div>
+<div class="kb-diagram-note">텍스트: A A B A A B C A A D A A B A A B</div>
+<div class="kb-diagram-note">패턴: A A B A</div>
+<div class="kb-diagram-note">비교 방향: ←←←←</div>
+<div class="kb-diagram-note">0: C vs A → 불일치</div>
+<div class="kb-diagram-note">패턴에서 C의 마지막 등장: -1</div>
+<div class="kb-diagram-note">이동 거리 = 4 (패턴 길이)</div>
+<div class="kb-diagram-note">위치 4:</div>
+<div class="kb-diagram-note">텍스트: A A B A A B C A A D A A B A A B</div>
+<div class="kb-diagram-note">패턴: A A B A</div>
+<div class="kb-diagram-note">비교 방향: ←←←←</div>
+<div class="kb-diagram-note">매칭! 매칭! 불일치(B vs C)...</div>
+<div class="kb-diagram-note">핵심: 오른쪽에서 왼쪽으로 비교하므로 불일치 시 더 많이 이동 가능</div>
+<div class="kb-diagram-note">평균적으로 O(n/m) 수준으로 매우 빠름</div>
+</div>
+</div>
 
-각 문자의 마지막 등장 위치:
-- A: 인덱스 3 (가장 오른쪽 A)
-- B: 인덱스 2
-- 기타: -1
 
-단계 2: 오른쪽에서 왼쪽으로 비교
-─────────────────────────────
-
-위치 0:
-텍스트: A A B A A B C A A D A A B A A B
-↓ ↓ ↓ ↓
-패턴: A A B A
-비교 방향: ←←←←
-
-0: C vs A → 불일치
-패턴에서 C의 마지막 등장: -1
-이동 거리 = 4 (패턴 길이)
-
-위치 4:
-텍스트: A A B A A B C A A D A A B A A B
-↓ ↓ ↓ ↓
-패턴: A A B A
-비교 방향: ←←←←
-
-매칭! 매칭! 불일치(B vs C)...
-
-핵심: 오른쪽에서 왼쪽으로 비교하므로 불일치 시 더 많이 이동 가능
-평균적으로 O(n/m) 수준으로 매우 빠름
-```
 
 **[다이어그램 해설]** 보이어-무어의 핵심은 "불필요한 비교를 최대한 건너뛴다"는 것이다. 패턴을 오른쪽에서 왼쪽으로 비교하면, 불일치 문자(bad character)가 텍스트에서 얼마나 등장하는지에 따라 큰 이동 거리를 얻을 수 있다. 예를 들어, 패턴의 마지막 문자가 텍스트에서 거의 등장하지 않으면, 패턴 전체를 그 위치까지 이동할 수 있다. 실제로 텍스트 에디터의 "찾기" 기능에서 보이어-무어 계열 알고리즘이하게 사용된다.
 
@@ -189,41 +175,36 @@ F[] = [0, 1, 0, 1]
 
 Trie(발음: "try")는 문자열 집합을 저장하고 탐색하는 트리 자료구조다. 각 노드가 한 문자를대표하고, 루트에서 leaf까지의 경로가 문자열을 표현한다.
 
-```
-[Trie 구조]
 
-패턴 집합: {"an", "and", "ant", "bool", "boy"}
 
-구조:
-(root)
-/ | \
-a b ...
-/ \
-n o
-/ \ \
-d t o
-y
-/
-l
-\
-...
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Trie 구조</div></div>
+<div class="kb-diagram-note">패턴 집합: {"an", "and", "ant", "bool", "boy"}</div>
+<div class="kb-diagram-note">구조:</div>
+<div class="kb-diagram-note">(root)</div>
+<div class="kb-diagram-note">a b ...</div>
+<div class="kb-diagram-note">n o</div>
+<div class="kb-diagram-note">d t o</div>
+<div class="kb-diagram-note">y</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">l</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">각 노드의 구조:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">is_end: 이 노드에서 끝나는 문자열?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">children: {문자 → 노드} 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">depth: 루트에서의 거리</div></div>
+<div class="kb-diagram-note">탐색 예시: "ant" 탐색</div>
+<div class="kb-diagram-note">root → 'a' → 'n' → 't': 노드 존재, is_end=true → 발견!</div>
+<div class="kb-diagram-note">시간 복잡도:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">삽입: O(m), m=문자열 길이</div>
+<div class="kb-diagram-tree-item" style="--depth:0">탐색: O(m)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">공통 접두사 탐색: O(m + k), k=매칭 수</div>
+</div>
+</div>
 
-각 노드의 구조:
-┌─────────────────────────────────────┐
-│ is_end: 이 노드에서 끝나는 문자열? │
-│ children: {문자 → 노드} 맵 │
-│ depth: 루트에서의 거리 │
-└─────────────────────────────────────┘
 
-탐색 예시: "ant" 탐색
-─────────────────────────────
-root → 'a' → 'n' → 't': 노드 존재, is_end=true → 발견!
-
-시간 복잡도:
-- 삽입: O(m), m=문자열 길이
-- 탐색: O(m)
-- 공통 접두사 탐색: O(m + k), k=매칭 수
-```
 
 **[다이어그램 해설]** Trie의 가장 큰 장점은 공통 접두사를 공유하여 저장 공간을 절약하고, 접두사 탐색이 매우 빠르다는 점이다. 예를 들어 "an", "and", "ant"를 저장하면 "an"까지의 경로는 공유된다. 자동 완성, IP 라우팅 표(가장 긴 접두사 일치), 자연어 처리에서의 단어 사전 등에하게 사용된다. 그러나 모든 문자열을 저장하면 노드 수가 급격히 증가하므로, 압축된 Trie(파트리샤 Trie)나 ternary search tree가 사용되기도 한다.
 
@@ -243,27 +224,25 @@ root → 'a' → 'n' → 't': 노드 존재, is_end=true → 발견!
 
 ### 비교 2: 문자열 인덱스 비교
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│ 문자열 인덱스 구조 비교 │
-├────────────────────────────────────────────────────────────────┤
-│ │
-│ [접미사 배열] [접미사 트리] [Trie] │
-│ ───────────── ───────────── ───── │
-│ 모든 접미사를 정렬 트리 형태의 접미사 문자열 집합 │
-│ 배열에 저장 인덱싱 사전 저장 │
-│ │
-│ 구축: O(n log n) 구축: O(n) 구축: O(m) │
-│ 공간: O(n) 공간: O(n) 공간: O(m) │
-│ 탐색: O(m log n) 탐색: O(m) 탐색: O(m) │
-│ │
-│ 활용: 활용: 활용: │
-│ - 유전체 분석 - 완전한 substring - 자동 완성 │
-│ - 텍스트 압축 탐색에 최적 - IP 라우팅 │
-│ - 범위 질의 - 가장 긴 공통 접두사 - 사전 검색 │
-│ │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자열 인덱스 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접미사 배열</div><div class="kb-diagram-node">접미사 트리</div><div class="kb-diagram-node">Trie</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 접미사를 정렬 트리 형태의 접미사 문자열 집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배열에 저장 인덱싱 사전 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구축: O(n log n) 구축: O(n) 구축: O(m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간: O(n) 공간: O(n) 공간: O(m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색: O(m log n) 탐색: O(m) 탐색: O(m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활용: 활용: 활용:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유전체 분석 - 완전한 substring - 자동 완성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 텍스트 압축 탐색에 최적 - IP 라우팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 범위 질의 - 가장 긴 공통 접두사 - 사전 검색</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 접미사 배열은 텍스트의 모든 접미사를 정렬하여 배열에 저장한다. 접미사는 특정 위치에서 시작하여 끝까지 가는 모든 부분 문자열이다. 이를 정렬하면 이진 탐색으로 부분 문자열 존재 여부를 O(m log n)에 찾을 수 있다. 접미사 트리는 접미사를 트리 형태로 인덱싱하여 탐색을 O(m)으로 만들지만, 구현이 매우 복잡하고 공간이 많이 필요하다. Trie는 이미 저장된 문자열 집합에서의 탐색에 특화되어 있다.
 
@@ -271,31 +250,29 @@ root → 'a' → 'n' → 't': 노드 존재, is_end=true → 발견!
 
 문자열 처리는 운영체제와 컴퓨터 구조에서 중요한 역할을 한다. 명령어 파싱, 시스템콜 처리, 파일 시스템 경로 분석등이 모두 문자열 알고리즘을활용한다.
 
-```
-[운영체제에서의 문자열 처리]
 
-파일 경로 분석:
-─────────────────────────────
-경로: "/home/user/documents/file.txt"
 
-분할 과정:
-1. '/'로 토큰 분리
-2. 각 토큰을 따라 트리 구조 탐색
-3. 최종 파일 이름 확정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제에서의 문자열 처리</div></div>
+<div class="kb-diagram-note">파일 경로 분석:</div>
+<div class="kb-diagram-note">경로: "/home/user/documents/file.txt"</div>
+<div class="kb-diagram-note">분할 과정:</div>
+<div class="kb-diagram-note">1. '/'로 토큰 분리</div>
+<div class="kb-diagram-note">2. 각 토큰을 따라 트리 구조 탐색</div>
+<div class="kb-diagram-note">3. 최종 파일 이름 확정</div>
+<div class="kb-diagram-note">Trie로 구현 시:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">root → home → user → documents →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">file.txt</div></div>
+<div class="kb-diagram-note">→ 경로 탐색이 O(경로 길이)로 가능</div>
+<div class="kb-diagram-note">DNS 쿼리 처리:</div>
+<div class="kb-diagram-note">도메인: "www.example.com"</div>
+<div class="kb-diagram-note">DNS 프로토콜: 라벨별 길이 + 문자열</div>
+<div class="kb-diagram-note">Trie로 DNS 레이블 탐색 → O(레이블 수)</div>
+</div>
+</div>
 
-Trie로 구현 시:
-┌──────────────────────────────────────┐
-│ root → home → user → documents → │
-│ file.txt│
-└──────────────────────────────────────┘
-→ 경로 탐색이 O(경로 길이)로 가능
 
-DNS 쿼리 처리:
-─────────────────────────────
-도메인: "www.example.com"
-DNS 프로토콜: 라벨별 길이 + 문자열
-Trie로 DNS 레이블 탐색 → O(레이블 수)
-```
 
 **[다이어그램 해설]** 운영체제에서 파일 경로 분석은/는 Trie 구조로 최적화될 수 있다. 예를 들어 "/home/user/docs"과 "/home/user/images"를 탐색할 때, "/home/user/"까지는동일 경로므로 이미 탐색한 트리 노드를활용하면 된다. DNS 쿼리에서도 도메인 라벨을 Trie로 처리하면이다.
 
@@ -309,33 +286,28 @@ Trie로 DNS 레이블 탐색 → O(레이블 수)
 
 IDS(침입 탐지 시스템)에서 악성 패턴 데이터베이스를 통해 네트워크 패킷을 검사해야 하는 상황이다. 패턴이 수천 개에 달하면, 각 패킷마다 모든 패턴을 비교하는 것은 불가능하다. 아호-코라식 알고리즘을 사용하면 모든 패턴을 하나의 Trie로 구성하고, 텍스트(패킷)를 한 번만 훑으면서 모든 패턴 매칭을 찾을 수 있다.
 
-```
-[아호-코라식 기반 IDS]
 
-패턴 데이터베이스: ["attack", "malware", "trojan", "virus"]
 
-Trie + Failure Link 구성:
-─────────────────────────────
-(root)
-/ | \
-a m t
-/ | \
-t a r
-/ \ | |
-t a l o
-/ | |
-a w g
-\ | \
-c a a
-\ | \
-k (attack) n (trojan)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">아호-코라식 기반 IDS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">패턴 데이터베이스:</div><div class="kb-diagram-node">"attack", "malware", "trojan", "virus"</div></div>
+<div class="kb-diagram-note">Trie + Failure Link 구성:</div>
+<div class="kb-diagram-note">(root)</div>
+<div class="kb-diagram-note">a m t</div>
+<div class="kb-diagram-note">t a r</div>
+<div class="kb-diagram-note">t a l o</div>
+<div class="kb-diagram-note">a w g</div>
+<div class="kb-diagram-note">c a a</div>
+<div class="kb-diagram-note">k (attack) n (trojan)</div>
+<div class="kb-diagram-note">Failure Link: 현재 노드에서 매칭 실패 시 이동할 노드</div>
+<div class="kb-diagram-note">(KMP의 접두사 함수와 유사)</div>
+<div class="kb-diagram-note">성능: O(n + m + z), z=매칭 수</div>
+<div class="kb-diagram-note">→ 10,000 패턴, 1Gbps 네트워크에서도 실용적</div>
+</div>
+</div>
 
-Failure Link: 현재 노드에서 매칭 실패 시 이동할 노드
-(KMP의 접두사 함수와 유사)
 
-성능: O(n + m + z), z=매칭 수
-→ 10,000 패턴, 1Gbps 네트워크에서도 실용적
-```
 
 **[다이어그램 해설]** 아호-코라식의 핵심은 Trie에 실패 링크(Failure Link)를 추가하는 것이다. 현재 노드에서 매칭 실패 시, 실패 링크가 가리키는 노드로 이동하여 계속 매칭을 시도한다. 이것은 KMP의 접두사 함수를 Trie에 적용한 것으로 볼 수 있다. IDS뿐 아니라 키워드 필터링, 데이터 추출, 로그 분석 다양한 곳에 활용된다.
 
@@ -422,18 +394,22 @@ DNA 문자열: "ACGTACGTACGT..."
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-문자열 검색 (패턴 매칭)
-├─► 나이브: O(nm)
-├─► KMP: O(n+m) — 실패 함수 전처리
-├─► Rabin-Karp: O(n+m) 평균 — 해시 기반
-└─► Boyer-Moore: O(n/m) 최선
-│
-▼
-접미사 자료구조
-├─► 접미사 배열 (Suffix Array)
-└─► 접미사 트리 (Suffix Tree)
-│
-▼
-문자열 압축 (LZW, Huffman) → 정규 표현식 (NFA/DFA)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문자열 검색 (패턴 매칭)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">나이브: O(nm)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">KMP: O(n+m) — 실패 함수 전처리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Rabin-Karp: O(n+m) 평균 — 해시 기반</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Boyer-Moore: O(n/m) 최선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">접미사 자료구조</div>
+<div class="kb-diagram-tree-item" style="--depth:0">접미사 배열 (Suffix Array)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">접미사 트리 (Suffix Tree)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문자열 압축 (LZW, Huffman) → 정규 표현식 (NFA/DFA)</div>
+</div>
+</div>
+
+

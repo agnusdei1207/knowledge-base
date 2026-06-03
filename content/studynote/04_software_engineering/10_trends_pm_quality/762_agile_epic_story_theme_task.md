@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))은 문서를 버렸다. 대신 고객이 원하는 기능을 쪽지(포스트잇)에 적어서 벽에 붙였다(백로그). 그런데 쪽지에 "[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 만들기"라고 적어 놓으니, 개발자가 이걸 2주([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 안에 도저히 끝낼 수가 없었다. 너무 거대했기 때문이다.
 
-그래서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 큰 쪽지를 작은 쪽지로, 작은 쪽지를 더 작은 쪽지로 쪼개는 계층 구조를 만들었다. 이것이 바로 Jira 같은 현대 협업 툴의 뼈대가 된 **[테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)-[에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)-스토리-[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)**의 4단계 백로그 계층이다.
+그래서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 큰 쪽지를 작은 쪽지로, 작은 쪽지를 더 작은 쪽지로 쪼개는 계층 구조를 만들었다. 이것이 바로 Jira 같은 현대 협업 툴의 뼈대가 된 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>-<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/">에픽</a>-스토리-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a></strong>의 4단계 백로그 계층이다.
 
 - **📢 섹션 요약 비유**: 수박 한 통([테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))을 한 입에 먹을 수는 없다. 수박을 반으로 쪼개고([에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)), 먹기 좋게 조각내서(스토리), 포크로 한입씩 찍어 먹는([태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 과정이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 계층 구조다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/), 스토리, [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  애자일 에픽, 스토리, 테마, 태스크                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애자일 에픽, 스토리, 테마, 태스크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/), 스토리, [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -95,7 +94,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 이 계층 구조가 망가지는 가장 큰 이유는 **'[에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)을 제때 쪼개지 않아서'**다.
+실무에서 이 계층 구조가 망가지는 가장 큰 이유는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/">에픽</a>을 제때 쪼개지 않아서'</strong>다.
 
 - **📢 섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/), 스토리, [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 계층은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 이 4단계 계층을 엄격히 관리하면, 사장님([Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))부터 개발자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))까지 각자의 눈높이에 맞는 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 갖게 된다. 사장님은 Jira에서 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)들의 진행률 막대기만 보고 런칭일을 판단하고, 개발자는 오늘 처리할 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 목록만 보고 코딩에 몰입할 수 있다.
 
-결론적으로 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 계층 구조는 단순한 티켓 관리법이 아니다. "개발자의 코드 한 줄([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))이 위로 올라가면 궁극적으로 회사의 어떤 비즈니스 목표([Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))와 연결되는가?"를 실시간으로 증명해 주는 **소프트웨어 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))의 등뼈**다. 기술 리더는 Jira 티켓 정리를 귀찮은 행정 업무로 치부하지 말고, 제품의 뼈대를 세우는 설계 과정으로 대우해야 한다.
+결론적으로 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 계층 구조는 단순한 티켓 관리법이 아니다. "개발자의 코드 한 줄([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))이 위로 올라가면 궁극적으로 회사의 어떤 비즈니스 목표([Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/))와 연결되는가?"를 실시간으로 증명해 주는 <strong>소프트웨어 추적성(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)의 등뼈</strong>다. 기술 리더는 Jira 티켓 정리를 귀찮은 행정 업무로 치부하지 말고, 제품의 뼈대를 세우는 설계 과정으로 대우해야 한다.
 
 - **📢 섹션 요약 비유**: [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)와 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)은 산봉우리를 가리키는 나침반이고, 스토리와 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 당장 발앞의 돌부리를 치우는 삽질이다. 나침반만 보면 돌에 걸려 넘어지고, 땅만 보고 삽질하면 산 밑에서 빙빙 돈다. 이 4계층이 모두 이어져 있어야 무사히 산 정상에 도달할 수 있다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-애자일 에픽, 스토리, 테마, 태스크 계층 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 에픽, 스토리, 테마, 태스크 계층 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

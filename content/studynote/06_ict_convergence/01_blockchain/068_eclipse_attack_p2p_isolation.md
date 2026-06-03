@@ -10,128 +10,241 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이클립스 공격은 특정 노드의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결을 공격자가 장악해 고립시키는 공격이다.
-> 2. **가치**: 네트워크 분할 상태를 만들어 허위 정보, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 잘못된 합의를 유도할 수 있다.
-> 3. **판단**: 51% 공격이 전체 장악이라면, 이클립스 공격은 특정 노드 포위라는 점이 다르다.
+> 1. **본질**: 이클립스 공격(Eclipse Attack)은 P2P 네트워크에서 공격자가 피해 노드의 모든 인바운드·아웃바운드 연결을 악성 노드로 채워 피해 노드를 실제 네트워크에서 고립시키고, 허위 정보를 주입하는 네트워크 레이어 공격이다.
+> 2. **가치**: 전체 해시 파워가 필요한 51% 공격과 달리 소수의 악성 노드만으로 특정 대상을 표적으로 삼아 이중 지출, 거래 지연, 채굴 자원 낭비 유도 등 다양한 공격을 가능하게 한다.
+> 3. **판단 포인트**: 51% 공격이 전체 네트워크 장악이라면, 이클립스 공격은 특정 노드 포위·고립 전략으로 방어는 피어 다양성 확보, 랜덤 피어 선택, 연결 모니터링을 통해 이루어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크는 노드가 주변과 잘 연결되어 있어야 정상적으로 동작한다. 이 연결이 끊기면 노드는 잘못된 세계를 믿게 된다.
+블록체인 노드는 P2P 네트워크의 일원으로 주변 노드들로부터 블록, 트랜잭션, 체인 정보를 수신한다. 이 연결이 정상적이면 노드는 올바른 블록체인 상태를 유지할 수 있다. 그러나 공격자가 피해 노드의 피어(Peer) 연결 슬롯 전체를 악성 노드로 채우면, 피해 노드는 실제 네트워크와 단절된 채 오직 공격자가 제공하는 정보만 받게 된다. 이것이 이클립스 공격이다.
 
-이클립스 공격은 이런 연결망을 조작하는 은밀한 공격이다.
+2015년 보스턴 대학교 연구팀의 논문 "Eclipse Attacks on Bitcoin's Peer-to-Peer Network"가 이 공격을 처음으로 체계적으로 문서화했다. 비트코인 코어 당시 구현에서 공격자가 공격 대상 노드를 재시작시킨 후 악성 피어들로 피어 목록을 채울 수 있음을 보여줬다. 이 연구 이후 비트코인 코어는 여러 방어 패치를 적용했다.
 
-- **📢 섹션 요약 비유**: 친구들 사이에 낀 한 사람의 귀를 막고 가짜 소문만 들려주는 상황이다.
+이클립스 공격이 위험한 이유는 공격 비용이 낮다는 점이다. 51% 공격은 수백억 달러의 해시 파워가 필요하지만, 이클립스 공격은 충분한 수의 IP 주소(수십~수백 개)와 악성 노드만 있으면 된다. 클라우드 서비스(AWS, Azure 등)를 활용하면 비교적 저렴하게 많은 IP를 확보할 수 있다.
+
+이클립스 공격은 독립적인 공격이기도 하지만, 51% 공격이나 이중 지출 공격의 전초 단계로도 활용된다. 거래소나 채굴 풀 노드를 이클립스 공격으로 고립시키면, 확인 수를 달리 보여줌으로써 이중 지출을 성공시키거나, 채굴 자원을 낭비시킬 수 있다.
+
+- **📢 섹션 요약 비유**: 친구들 사이에 낀 한 사람의 귀를 막고 가짜 소문만 들려주는 상황이다. 이 사람은 진짜 세상에서 일어나는 일을 모르고, 오직 공격자가 원하는 가짜 정보만 믿게 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Target Node
-  ↓ isolated by
-Malicious Peers
-  ↓
-Fake View / Delay
+### 1. 이클립스 공격 단계별 과정
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이클립스 공격 실행 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사전 준비</div></div>
+<div class="kb-diagram-note">공격자: 다수의 악성 노드 준비 (수십~수백 개의 IP)</div>
+<div class="kb-diagram-note">대상 노드의 피어 테이블 파악</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 피어 테이블 오염 (Peer Table Poisoning)</div></div>
+<div class="kb-diagram-note">공격자: 대상 노드의 "tried" 주소 테이블에</div>
+<div class="kb-diagram-note">악성 노드 주소를 대량 삽입</div>
+<div class="kb-diagram-note">P2P gossip을 이용하거나 직접 연결 시도</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 노드 재시작 유도</div></div>
+<div class="kb-diagram-note">대상 노드가 재시작되면 (네트워크 에러, 업데이트 등)</div>
+<div class="kb-diagram-note">피어 선택 알고리즘이 오염된 주소 테이블 참조</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 완전 고립</div></div>
+<div class="kb-diagram-note">대상 노드의 모든 연결 슬롯 = 악성 노드</div>
+<div class="kb-diagram-note">실제 네트워크 정보 차단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4단계: 공격 실행</div></div>
+<div class="kb-diagram-note">허위 블록/거래 정보 주입</div>
+<div class="kb-diagram-note">또는 진짜 거래/블록 전달 지연</div>
+<div class="kb-diagram-note">또는 이중 지출 공격 협조</div>
+</div>
+</div>
+
+
+
+### 2. 비트코인 피어 연결 구조와 취약점
+
+비트코인 노드는 총 125개의 아웃바운드·인바운드 피어 슬롯을 가진다(예전 구현 기준). 이 슬롯을 모두 악성 노드로 채우는 것이 이클립스 공격의 핵심이다.
+
+| 연결 유형 | 슬롯 수 | 역할 |
+| :--- | :--- | :--- |
+| 아웃바운드 (Outbound) | 8개 (기본) | 노드가 먼저 연결 요청 |
+| 인바운드 (Inbound) | 117개 (기본) | 외부에서 들어온 연결 |
+| 전체 슬롯 | 125개 | 전체 피어 연결 상한 |
+
+공격자가 이 슬롯 전체를 악성 노드로 채우면 성공이다.
+
+### 3. 이클립스 공격이 가능하게 하는 세부 공격
+
+| 공격 유형 | 메커니즘 | 결과 |
+| :--- | :--- | :--- |
+| 이중 지출 | 피해 노드(거래소)에게 허위 확인 보여줌 | 거래소 속여 출금 |
+| 채굴 자원 낭비 | 피해 채굴자에게 오래된 블록 제공 | Stale Block 증가 |
+| 거래 검열 | 특정 거래를 전달하지 않음 | 서비스 거부 |
+| 51% 공격 보조 | 고립 노드를 통해 Reorg 더 쉽게 | 51% 공격 비용 절감 |
+| 라우팅 공격 | BGP 하이재킹과 결합 | 네트워크 레벨 분리 |
+
+### 4. Ethereum에서의 이클립스 공격
+
+이더리움도 유사한 취약점이 있었다. 이더리움은 Kademlia 기반 DHT(Distributed Hash Table)를 사용하여 피어를 관리하는데, 이 구조에서도 특정 노드 ID 범위를 악성 노드로 채우는 공격이 가능함이 연구로 확인됐다.
+
+```
+[Kademlia 기반 이클립스]
+
+피해 노드 ID: 0x1234...
+공격자 전략: 피해 노드 ID와 가까운 ID를 가진 악성 노드 대량 배치
+결과: 피해 노드의 라우팅 테이블이 악성 노드로 가득 참
 ```
 
-| 요소 | 의미 |
-| :-- | :-- |
-| Target Node | 고립 대상 |
-| Malicious Peers | 공격자 노드 |
-| [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) | 정보 차단 |
+### 5. 방어 메커니즘
 
-이클립스 공격은 노드의 시야를 제한해 잘못된 체인, 잘못된 거래, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 업데이트를 유도한다.
+| 방어 방법 | 설명 | 효과 |
+| :--- | :--- | :--- |
+| 피어 무작위화 (Peer Randomization) | 아웃바운드 피어 선택 시 무작위성 증가 | 특정 악성 노드 집중 방지 |
+| 연결 버킷 분리 | 피어 주소를 IP 서브넷 기준으로 버킷 분리 | 동일 공격자의 여러 IP 차단 |
+| 시드 노드 고정 (Fixed Seed) | 신뢰할 수 있는 시드 노드를 하드코딩 | 초기 연결 안정성 확보 |
+| 연결 수 최소 보장 | 아웃바운드 연결 수 증가 및 다양성 요구 | 전체 슬롯 오염 어렵게 |
+| 네트워크 모니터링 | 피어 응답 패턴 이상 감지 | 조기 탐지 가능 |
 
-- **📢 섹션 요약 비유**: 창문을 가려 바깥 세상을 못 보게 만드는 것이다.
+- **📢 섹션 요약 비유**: 창문을 가려 바깥 세상을 못 보게 만드는 것이다. 대신 창문을 여러 방향으로 많이 내고, 창문마다 다른 이웃을 보도록 설계하면 한 방향을 막아도 다른 창문을 통해 세상을 볼 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 공격 | 특징 | 차이 |
-| :-- | :-- | :-- |
-| 51% Attack | 전체 합의 장악 | 과반 자원 필요 |
-| Eclipse Attack | 특정 노드 고립 | 네트워크 연결 조작 |
+### 1. 이클립스 공격 vs 유사 공격 비교
 
-| 결과 | 설명 |
-| :-- | :-- |
-| False [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 허위 정보 수신 |
-| Reorg Vulnerability | 잘못된 체인 추종 |
+| 항목 | 이클립스 공격 | 51% 공격 | 시빌 공격 | BGP 하이재킹 |
+| :--- | :--- | :--- | :--- | :--- |
+| 공격 레이어 | 네트워크 P2P | 합의 레이어 | 신원/신뢰 | 인터넷 라우팅 |
+| 공격 범위 | 특정 노드 표적 | 전체 네트워크 | 신뢰 체계 | 대규모 노드 그룹 |
+| 필요 자원 | 수십~수백 IP | 막대한 해시파워 | 많은 가짜 신원 | BGP 라우터 접근 |
+| 탐지 난이도 | 높음 | 중간 | 중간 | 높음 |
+| 방어 방법 | 피어 다양화 | 높은 해시레이트 | PoW/PoS | 인터넷 보안 강화 |
 
-이클립스 공격은 51% 공격의 전조가 되기도 한다. 노드가 고립되면 방어 판단이 왜곡된다.
+### 2. 이클립스 공격과 BGP 하이재킹의 차이
 
-- **📢 섹션 요약 비유**: 마을 전체를 장악하는 것과, 한 집을 둘러싸는 것은 다르다.
+BGP 하이재킹은 인터넷 라우팅 프로토콜(BGP)을 조작하여 대규모 트래픽을 가로채는 공격이다. 이는 이클립스 공격보다 더 넓은 범위에 영향을 미치지만, 실행 난이도도 높다. 두 공격이 결합되면 더욱 강력한 네트워크 분리 공격이 가능하다.
+
+### 3. 이클립스 공격의 연쇄 효과
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이클립스 공격 연쇄 피해</div></div>
+<div class="kb-diagram-note">이클립스 공격 성공</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">피해 노드 고립</div>
+<div class="kb-diagram-tree-item" style="--depth:2">거래소 노드 고립 → 이중 지출 → 재정 피해</div>
+<div class="kb-diagram-tree-item" style="--depth:2">채굴 풀 노드 고립 → Stale Block → 채굴 수익 감소</div>
+<div class="kb-diagram-tree-item" style="--depth:2">라이트 클라이언트 고립 → 잘못된 결제 확인 → 사용자 피해</div>
+<div class="kb-diagram-tree-item" style="--depth:2">합의 노드 고립 → 51% 공격 비용 절감 → 네트워크 보안 약화</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 마을 전체를 장악하는 것(51% 공격)과, 한 집을 둘러싸는 것(이클립스 공격)은 다르다. 한 집을 포위하면 그 집 주민은 진짜 마을 소식을 못 듣고 포위한 사람들이 하는 말만 믿게 된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 판단 체크리스트
 
-1. 노드 피어 다양성이 있는가?
-2. 연결 재선택 정책이 있는가?
-3. 피어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/화이트리스트가 있는가?
-4. 네트워크 고립 탐지가 있는가?
-5. 합의 신뢰와 별개로 네트워크 위협을 보는가?
+1. **피어 다양성 확보**: 연결된 피어가 다양한 IP 서브넷, 지역, AS(Autonomous System)에서 왔는가? 동일 IP 대역 피어가 과도하게 많으면 이클립스 위험이 높다.
+2. **고정 시드 노드**: 신뢰할 수 있는 공식 시드 노드를 하드코딩하여 초기 연결의 신뢰성을 보장했는가?
+3. **연결 재선택 정책**: 피어 연결이 장시간 특정 주소에 집중되면 자동으로 다른 피어를 탐색하는 정책이 있는가?
+4. **아웃바운드 연결 최소 보장**: 아웃바운드 연결 수가 충분하며, 전체 슬롯을 인바운드 연결로 채우지 않도록 제한하는가?
+5. **피어 응답 이상 탐지**: 연결된 피어들이 비정상적으로 유사한 정보를 제공하거나, 특정 거래·블록을 지속적으로 누락하면 경고를 발생시키는가?
+6. **BGP 하이재킹 대응**: 인터넷 라우팅 레벨의 위협(BGP 이상)을 모니터링하는 인프라가 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 안티패턴
 
-- 연결 수만 늘리고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 없는 설계
-- 특정 피어에 지나치게 의존하는 설계
-- 고립 탐지 없이 운영하는 설계
-- 51% 공격과 구분하지 않는 설계
+- **연결 수만 늘리고 다양성은 없는 설계**: 많은 피어에 연결되어 있어도 모두 같은 IP 대역이나 같은 ISP에서 온 경우, 단일 공격자가 해당 범위를 모두 통제할 수 있다. 수가 아니라 다양성이 핵심이다.
 
-기술사 관점에서는 이클립스 공격을 "네트워크 레벨의 고립 공격"으로 설명해야 한다.
+- **인바운드 연결만 허용하는 설계**: 방화벽 설정으로 아웃바운드 연결을 막고 인바운드만 허용하면, 공격자가 인바운드 슬롯을 모두 채우는 것이 훨씬 쉬워진다.
 
-- **📢 섹션 요약 비유**: 길을 막아서 바깥세상 소식을 못 듣게 하는 것이다.
+- **특정 피어에 과도하게 의존하는 설계**: 소수의 신뢰 피어(trusted peers)에만 의존하면, 해당 피어가 공격받거나 이클립스 당하면 자신도 간접적으로 영향을 받는다.
+
+- **이클립스와 51% 공격을 구분하지 않는 분석**: 이클립스 공격은 전체 네트워크 장악 없이도 발생하며, 훨씬 낮은 비용으로 특정 노드를 표적으로 삼을 수 있다. 두 공격의 위협 모델과 방어 방법이 다름을 인식해야 한다.
+
+기술사 관점에서는 이클립스 공격을 "네트워크 레이어의 고립 공격"으로 설명해야 한다. 합의 레이어 보안(51% 공격 방어)과 별도로 P2P 네트워크 레이어 보안(피어 다양성, 연결 관리)도 독립적으로 설계하고 평가해야 한다.
+
+- **📢 섹션 요약 비유**: 길을 막아서 바깥세상 소식을 못 듣게 하는 것이다. 이를 막으려면 여러 방향으로 열린 길을 유지하고, 한 방향이 막히면 자동으로 다른 길로 돌아가는 체계가 있어야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-이클립스 공격을 이해하면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)뿐 아니라 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 연결 보안도 함께 볼 수 있다.
+이클립스 공격 방어를 강화하면 블록체인 노드의 정보 신뢰성이 높아진다. 정보 신뢰성은 거래 확인의 정확성, 채굴의 효율성, 합의 참여의 공정성과 직결된다.
 
-결론적으로 이클립스 공격은 특정 노드 주변 연결을 장악하는 고립 공격이다.
+**보안 설계 관점**: 피어 다양성, 무작위 피어 선택, 연결 버킷 분리 등을 적용하면 이클립스 공격 성공 가능성이 급격히 낮아진다. 비트코인 코어는 2015년 연구 이후 이러한 방어를 적용하여 현재는 이클립스 공격이 훨씬 어렵다.
 
-- **📢 섹션 요약 비유**: 주변을 가려 버리면 혼자만 다른 세상을 믿게 된다.
+**운영 보안 관점**: 거래소, 결제 서비스, 채굴 풀 운영자는 자신의 노드가 이클립스 공격을 받고 있지 않은지 지속적으로 모니터링해야 한다. 피어 정보가 갑자기 동일한 정보만 제공하거나, 특정 거래가 지속적으로 누락되면 공격 가능성을 의심해야 한다.
 
----
+**미래 전망**: 이더리움은 libp2p 기반으로 P2P 네트워크를 재설계하면서 이클립스 공격 방어를 설계에 포함했다. 차세대 블록체인은 P2P 보안을 합의 보안과 동등하게 다루는 방향으로 진화하고 있다.
 
-## 관련 개념 맵
+결론적으로 이클립스 공격은 특정 노드 주변 연결을 악성 노드로 채워 고립시키는 P2P 레이어 고립 공격이다. 방어는 피어 다양성 확보와 지속적인 네트워크 상태 모니터링에 있다.
 
-```text
-P2P Network
-  ↓
-Eclipse Attack
-  ↓
-Isolation
-  ↓
-False View
-```
+- **📢 섹션 요약 비유**: 주변을 가짜 친구로 가득 채워 버리면 진짜 세상을 못 보게 된다. 이를 막으려면 다양한 방향으로 진짜 친구들과 연결을 유지하고, 주변 친구들이 이상한 말만 한다면 의심해야 한다.
 
 ---
 
-## 관련 키워드 및 발전 흐름도
+### 📌 관련 개념 맵
 
-```text
-Network Attack
-  ↓
-Eclipse Attack
-  ↓
-P2P Security
-  ↓
-Mitigation
-```
+| 개념 | 연결 포인트 |
+| :--- | :--- |
+| P2P 네트워크 | 이클립스 공격의 공격 대상 레이어 |
+| 피어 테이블 (Peer Table) | 이클립스 공격이 오염시키는 핵심 데이터 구조 |
+| 51% 공격 | 이클립스 공격의 상위 공격으로 연계 가능 |
+| 시빌 공격 | 가짜 신원으로 피어를 채우는 관련 공격 |
+| BGP 하이재킹 | 인터넷 라우팅 레이어의 유사 공격 |
+| 피어 다양성 | 이클립스 공격 방어의 핵심 원칙 |
+| 이중 지출 | 이클립스 공격 이후 가능한 재정 피해 |
+| 라이트 클라이언트 | SPV 노드, 이클립스 공격에 더 취약 |
+| Kademlia DHT | 이더리움 피어 발견 프로토콜, 이클립스 취약점 |
+| libp2p | 이더리움의 P2P 네트워킹 라이브러리 |
 
----
+### 📈 관련 키워드 및 발전 흐름도
 
-## 어린이를 위한 3줄 비유 설명
 
-친구들을 가짜 친구로 바꾸면 안 돼요.  
-그러면 한 사람이 바깥세상을 못 봐요.  
-이클립스 공격은 그런 고립이에요.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이클립스 공격 연구 및 방어 발전</div></div>
+<div class="kb-diagram-note">비트코인 P2P 네트워크 설계 (2009)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">이클립스 공격 학술 연구 (2015, 보스턴 대학)</div>
+<div class="kb-diagram-note">비트코인 코어의 피어 관리 취약점 발견</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">비트코인 코어 방어 패치 (2015~2016)</div>
+<div class="kb-diagram-note">피어 버킷 분리, 무작위화 강화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">이더리움 이클립스 공격 연구 (2018~)</div>
+<div class="kb-diagram-note">Kademlia 기반 취약점 발견</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">이더리움 libp2p 전환 (2022~)</div>
+<div class="kb-diagram-note">더 강건한 P2P 보안 설계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">현재: L2 브리지 노드 이클립스 연구</div>
+<div class="kb-diagram-note">크로스체인 연결의 새로운 공격면</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">미래: 분산 P2P 네트워크 보안 표준화</div>
+</div>
+</div>
+
+
+
+### 👶 어린이를 위한 3줄 비유 설명
+
+1. 친구들한테서 소식을 듣는데, 나쁜 사람이 내 주변을 가짜 친구로 모두 바꿔 버리면 진짜 소식을 못 들어요.
+2. 그러면 나쁜 사람이 원하는 가짜 소식만 믿게 되고, 이중으로 돈을 받거나 나쁜 짓을 할 수 있어요.
+3. 이를 막으려면 다양한 곳에서 온 진짜 친구들과 연결을 유지하는 것이 중요해요!
 
 ---
 

@@ -23,24 +23,25 @@ tags = ["studynote-network"]
 - **필요성**: 만약 무전기처럼 한 번에 한 명만 말하는 반이중(Half-Duplex) 방식을 쓴다면, 스마트폰으로 영상 통화를 하거나 실시간 온라인 게임을 하는 것은 불가능하다. 끊김 없이 양쪽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 쏟아붓기 위해서는 무선 자원(주파수+시간)을 기하학적으로 완벽히 격리하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 뼈대가 이동통신 기지국의 최우선 필수 설계 요건이 된다.
 - **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아날로그/2G망의 음성 위주 대칭 트래픽 특성에 맞춘 FDD의 표준화 → ② 스마트폰 등장 이후 다운로드 트래픽 폭증 및 남는 업로드 주파수 낭비 현상 발생 → ③ 단일 주파수 대역 내에서 시간 슬롯을 조절해 효율을 극대화하는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 기술의 부상과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 표준(NR)의 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 대거 채택.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             FDD (차선 분할) vs TDD (시간 분할) 직관적 비교 시각화     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [FDD: Frequency Division Duplexing] - "편도 2차선 고속도로" │
-│   [다운로드 전용 주파수 (800MHz)] ◀────────────────────── (꽉참) │
-│       -- (가드 밴드: 분리대) --                                 │
-│   [업로드 전용 주파수 (900MHz)] ──────────────────────▶ (텅빔) │
-│   * 단점: 다운로드는 꽉 막히는데, 업로드 도로는 텅 비어 자원 낭비 발생.     │
-│                                                             │
-│   [TDD: Time Division Duplexing] - "왕복 1차선 가변 신호등 도로"│
-│   [단일 주파수 (3.5GHz)]                                      │
-│   [다운][다운][다운][업][다운][다운][다운][업][다운][다운][다운][업]  │
-│   ( 1ms )( 1ms )( 1ms ) ... (시간 슬롯을 3:1로 배분!)           │
-│   * 장점: 트래픽 상황에 따라 다운로드 시간을 늘리고 업로드 시간을 줄일 수 있음!│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FDD (차선 분할) vs TDD (시간 분할) 직관적 비교 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FDD: Frequency Division Duplexing</div><div class="kb-diagram-note">- "편도 2차선 고속도로"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다운로드 전용 주파수 (800MHz)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(꽉참)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- (가드 밴드: 분리대) --</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">업로드 전용 주파수 (900MHz)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(텅빔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 다운로드는 꽉 막히는데, 업로드 도로는 텅 비어 자원 낭비 발생.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TDD: Time Division Duplexing</div><div class="kb-diagram-note">- "왕복 1차선 가변 신호등 도로"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 주파수 (3.5GHz)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">업</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">업</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">다운</div><div class="kb-diagram-node">업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 1ms )( 1ms )( 1ms ) ... (시간 슬롯을 3:1로 배분!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 트래픽 상황에 따라 다운로드 시간을 늘리고 업로드 시간을 줄일 수 있음!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 무선 통신 생태계를 이해하는 가장 명쾌한 도식이다. FDD는 도로를 상행선과 하행선으로 완전히 분리해버린다. 설계가 깔끔하고 양방향 통신이 가장 안정적이지만, 고속도로에 차가 쏠리는 방향이 다를 때 반대편 빈 차선을 활용할 수 없는 비효율(스펙트럼 낭비)이 발생한다. 반면 TDD는 1차선 도로 양끝에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 달아두고, 다운로드 차들이 3번 지나갈 때 업로드 차들은 1번만 지나가게 통제한다. 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전환이 1초에 수천 번(밀리초 단위) 일어나기 때문에 사람은 "동시에 통신하는 것"처럼 느낀다. TDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용 패턴에 맞춰 차선의 활용도를 100% 쥐어짤 수 있는 스마트한 기술이다.
 
@@ -54,34 +55,33 @@ tags = ["studynote-network"]
 
 | 구분 | [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) ([Frequency Division Duplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)) | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Time Division Duplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/102_tdd/)) |
 |:---|:---|:---|
-| **완충 지대 이름** | **[Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/))** | **Guard Period ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간)** |
+| **완충 지대 이름** | <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/">Guard Band</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/">보호 대역</a>)</strong> | <strong>Guard Period (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구간)</strong> |
 | **완충 지대 역할**| 업로드 주파수와 다운로드 주파수 사이를 벌려 놓아 전파 간섭(Filter 누설) 방지 | 송신 모드에서 수신 모드로 스위치가 켜고 꺼질 때 발생하는 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) 꼬리 방지 |
 | **물리적 특성** | 하드웨어 필터(Duplexer) 장착 필수. 주파수 스펙트럼 낭비 심함 | 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Timing Advance) 제어 필수. 전파가 멀리 갈수록 GP가 길어져야 함 |
 | **셀 커버리지** | 도달 거리가 김 (전파가 겹칠 위험 없음) | **도달 거리 제약** (거리가 멀면 전파가 늦게 도착해 다음 타임 슬롯을 침범함) |
 
 ### TDD의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제와 Guard Period ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간) 원리
 
-TDD가 주파수 효율이 압도적으로 좋음에도 4G 이전까지 주류가 되지 못했던 결정적 이유는 **시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**의 극악한 난이도 때문이다.
+TDD가 주파수 효율이 압도적으로 좋음에도 4G 이전까지 주류가 되지 못했던 결정적 이유는 <strong>시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>의 극악한 난이도 때문이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               TDD 통신의 치명적 한계: 전파 지연에 의한 슬롯 충돌 방어   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [기지국 설정 시간표 (1ms 단위)]                                 │
-│   Slot 1: 다운로드 ─▶ | Slot 2: Guard Period | Slot 3: 업로드 ◀─ │
-│                                                               │
-│   [가까운 스마트폰 A (거리 100m)]                                 │
-│   기지국 전파 수신 완!   | (조용히 모드 전환 대기) | 기지국으로 전파 송신! │
-│                                                               │
-│   [먼 스마트폰 B (거리 5km) - 만약 Guard Period가 없다면?]          │
-│   전파가 멀어서 늦게 옴 ──▶ (다운로드가 안 끝나서) ─▶ 업로드 타임을 덮쳐버림!│
-│                                                               │
-│   => 결과: B가 늦게 받은 다운로드 신호와 A가 쏘는 업로드 신호가 허공에서 폭발!│
-│   => 대책: 셀 반경(Coverage)이 넓어질수록 빈 시간(Guard Period)을     │
-│            무조건 길게 낭비해야 하므로 TDD는 대형 셀에 부적합하다.      │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD 통신의 치명적 한계: 전파 지연에 의한 슬롯 충돌 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 설정 시간표 (1ms 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 1: 다운로드 ─▶</div><div class="kb-diagram-cell">Slot 2: Guard Period</div><div class="kb-diagram-cell">Slot 3: 업로드 ◀─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가까운 스마트폰 A (거리 100m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 전파 수신 완!</div><div class="kb-diagram-cell">(조용히 모드 전환 대기)</div><div class="kb-diagram-cell">기지국으로 전파 송신!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">먼 스마트폰 B (거리 5km) - 만약 Guard Period가 없다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전파가 멀어서 늦게 옴 ──▶ (다운로드가 안 끝나서) ─▶ 업로드 타임을 덮쳐버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: B가 늦게 받은 다운로드 신호와 A가 쏘는 업로드 신호가 허공에서 폭발!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 대책: 셀 반경(Coverage)이 넓어질수록 빈 시간(Guard Period)을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 길게 낭비해야 하므로 TDD는 대형 셀에 부적합하다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 시스템에서 기지국은 "지금부터 1밀리초 동안은 내가 쏠 테니 너희는 무조건 듣기만 해! 그다음 1밀리초는 너희가 쏴!"라고 방송한다. 문제는 전파가 날아가는 데 시간이 걸린다는 점이다(빛의 속도 3x10^8 m/s). 기지국에서 멀리 떨어진 단말기는 기지국이 쏜 다운로드 전파를 뒤늦게 받게 되는데, 그 와중에 가까이 있는 단말기가 업로드 전파를 쏘기 시작하면 허공에서 두 전파가 쾅 부딪혀(Cross-Slot Interference) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 증발한다. 이를 막기 위해 TDD는 다운로드와 업로드 사이에 아무도 전파를 쏘지 않는 빈 시간(Guard Period)을 반드시 두어야 한다. 커버리지를 넓히려면 이 빈 시간을 길게 잡아야 하고, 이는 곧 통신 속도 저하(자원 낭비)로 직결된다.
 
@@ -93,29 +93,28 @@ TDD가 주파수 효율이 압도적으로 좋음에도 4G 이전까지 주류�
 | **트래픽 비대칭성 대응** | **불리함** (상/하향 도로 폭이 고정되어 유연성 0) | **매우 유리함** (유튜브 붐 시대에 다운로드 시간 슬롯을 80%로 늘려 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능) |
 | **주파수 대역 확보** | 띄엄띄엄 떨어진 **'쌍(Pair)'** 주파수가 필요함 | 뭉텅이로 붙어있는 **'단일(Unpaired)'** 광대역 주파수만 있으면 됨 |
 | **하드웨어 단가 (단말/기지국)** | 상/하향 주파수를 걸러내는 듀플렉서(필터) 필수 -> **비쌈** | 필터 필요 없고 스위치만 있으면 됨 -> **구조 단순하고 저렴함** |
-| **[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)** | **불리함** (송수신 주파수가 달라 전파 채널의 특성이 다름) | **압도적 유리함** (채널 가역성: 송수신 주파수가 같아 쏠 때와 받을 때 특성 동일) |
-| **주요 사용 세대 (Generation)**| 1G, 2G, 3G([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)), 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기본) | 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 일부), **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(NR) 주력**, Wi-Fi |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | **불리함** (송수신 주파수가 달라 전파 채널의 특성이 다름) | **압도적 유리함** (채널 가역성: 송수신 주파수가 같아 쏠 때와 받을 때 특성 동일) |
+| **주요 사용 세대 (Generation)**| 1G, 2G, 3G([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)), 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기본) | 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 일부), <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>(NR) 주력</strong>, Wi-Fi |
 
 TDD가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대를 지배하게 된 결정적 이유는 두 가지다. 첫째, 100MHz가 넘는 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 쌍(Pair)으로 2개씩 구하는 것은 전 세계 주파수 포화 상태에서 불가능하다. 둘째, 5G의 꽃인 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 전파를 모아 쏘는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)) 기술은, 기지국이 단말기에서 날아오는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 분석해 단말기의 위치를 알아내야 작동한다. FDD는 올라올 때 길(주파수)과 내려갈 때 길이 달라서 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 조준이 어렵지만, TDD는 같은 길을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에(채널 가역성, Channel Reciprocity) 기지국이 완벽하게 빔을 단말기에 꽂아 넣을 수 있다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               5G 아키텍처의 FDD-TDD Carrier Aggregation 융합       │
-├───────────────────────────────────────────────────────────────┤
-│   "FDD의 안정성(넓은 커버리지)과 TDD의 속도(초광대역)를 섞어버리자!"         │
-│                                                               │
-│   [저대역 FDD (예: 800MHz)] ─▶ 전파가 멀리 가고 벽을 잘 뚫음.            │
-│   (Control Plane 앵커)        "통화 제어 신호와 기본 데이터는 이쪽으로!" │
-│                                                               │
-│                   ➕ (Carrier Aggregation, 주파수 묶음 기술)      │
-│                                                               │
-│   [고대역 TDD (예: 3.5GHz)] ─▶ 커버리지는 좁지만 100MHz 광대역 폭주.      │
-│   (User Plane 부스터)         "유튜브 4K 데이터 다운로드는 이쪽으로 쏟아부어!"│
-│                                                               │
-│   => 결과: 스마트폰은 2개의 차선(FDD와 TDD)을 동시에 연결하여              │
-│            끊기지 않으면서도 미친 듯이 빠른 5G 하이브리드 속도를 달성함.     │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 아키텍처의 FDD-TDD Carrier Aggregation 융합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"FDD의 안정성(넓은 커버리지)과 TDD의 속도(초광대역)를 섞어버리자!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저대역 FDD (예: 800MHz)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전파가 멀리 가고 벽을 잘 뚫음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Control Plane 앵커) "통화 제어 신호와 기본 데이터는 이쪽으로!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➕ (Carrier Aggregation, 주파수 묶음 기술)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고대역 TDD (예: 3.5GHz)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">커버리지는 좁지만 100MHz 광대역 폭주.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Plane 부스터) "유튜브 4K 데이터 다운로드는 이쪽으로 쏟아부어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 스마트폰은 2개의 차선(FDD와 TDD)을 동시에 연결하여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끊기지 않으면서도 미친 듯이 빠른 5G 하이브리드 속도를 달성함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 최신 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)은 FDD와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 중 하나만 고르지 않는다. 두 개의 장점을 모두 흡수하는 융합([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 아키텍처를 그린다. 저주파수 대역은 파장이 길어 숲과 빌딩을 넘어 수 킬로미터를 날아가므로, 안정적인 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 끊임없이 주고받는 FDD에 할당한다. 반면 고주파수 대역은 파장이 짧아 직진성이 강하지만 뭉텅이로 남는 주파수가 많으므로 TDD에 할당하여 트래픽을 폭파시킨다. 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰 내부에 달린 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 칩은 이 FDD와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 주파수 두 개를 동시에 빨아들여 하나의 파이프처럼 합쳐서([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 기가급(Gbps) 속도를 완성한다.
 
@@ -141,14 +140,14 @@ TDD가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transform
 
 1. **상황**: SK텔레콤의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)(3.5GHz) 기지국과 KT의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 기지국이 강남역 사거리에 10미터 간격으로 설치되었다. 두 통신사의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰 다운로드 속도가 갑자기 0.1Mbps로 떨어지는 참사가 발생했다.
 2. **원인 (Cross-Link Interference)**: SKT 기지국은 타임 슬롯 1번을 '다운로드'로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 엄청나게 강한 전파를 뿜어냈다. 그런데 KT 기지국은 실수로 타임 슬롯 1번을 '업로드 수신' 모드로 켜놓았다. 결과적으로 SKT 기지국이 뿜어낸 괴물 같은 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 다운로드 전파가 옆에 있는 약한 KT 기지국의 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 정통으로 때려(고막 테러) 기지국 자체의 수신 회로를 마비시켜 버린 것이다.
-3. **의사결정 및 조치 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 망 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규제)**:
-   - 전파 관리 아키텍트는 TDD를 쓰는 국가 내 모든 통신사에 **Frame Structure(다운/업로드 시간 비율)를 100% 동일하게 일치시키도록 법으로 강제**해야 한다.
+3. <strong>의사결정 및 조치 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> 망 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 규제)</strong>:
+   - 전파 관리 아키텍트는 TDD를 쓰는 국가 내 모든 통신사에 <strong>Frame Structure(다운/업로드 시간 비율)를 100% 동일하게 일치시키도록 법으로 강제</strong>해야 한다.
    - 통신 3사가 "다운-다운-다운-업" 이라는 시간표를 나노초 단위의 GPS 시계([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)/PTP 기반)에 맞춰 완벽히 동시에 스위칭하도록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))했다.
    - **결과**: 모든 통신사 기지국이 쏠 때는 같이 쏘고(다운로드), 들을 때는 같이 들음(업로드)으로써 기지국 간 상호 파괴 간섭이 0으로 사라졌다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Dynamic [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 적용 시 간섭 통제**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고도화 표준에서는 기지국마다 "나는 지금 다운로드가 급하니 다운로드 시간을 늘릴게"라고 실시간으로 슬롯을 바꾸는 Dynamic TDD가 연구 중이다. 하지만 이 기능을 켜면 옆 기지국과의 타이밍이 어긋나 위 사례처럼 고막 테러 간섭이 부활한다. 실무망에서는 이 기능을 봉인하거나, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(RIC) 기반의 전파 격리 클러스터를 아주 정교하게 디자인한 제한적 스몰 셀 환경에서만 도입해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 주파수 대역을 시골이나 해상망 등 초광역 커버리지(수십 km)용으로 할당받으려는 정부의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실패. TDD는 전파가 10km 이상 날아가면 되돌아오는 시간이 Guard Period를 넘어버려 통신이 물리적으로 불가능해진다. 초광역 롱테일 커버리지 망(재난망 등)은 무조건 FDD를 써야 한다. TDD를 무리하게 도달거리 30km에 맞추려 Guard Period를 늘리면 통신 속도가 절반 이하로 반토막 나는 참사가 벌어진다.
+- <strong>Dynamic <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> 적용 시 간섭 통제</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고도화 표준에서는 기지국마다 "나는 지금 다운로드가 급하니 다운로드 시간을 늘릴게"라고 실시간으로 슬롯을 바꾸는 Dynamic TDD가 연구 중이다. 하지만 이 기능을 켜면 옆 기지국과의 타이밍이 어긋나 위 사례처럼 고막 테러 간섭이 부활한다. 실무망에서는 이 기능을 봉인하거나, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(RIC) 기반의 전파 격리 클러스터를 아주 정교하게 디자인한 제한적 스몰 셀 환경에서만 도입해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 주파수 대역을 시골이나 해상망 등 초광역 커버리지(수십 km)용으로 할당받으려는 정부의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실패. TDD는 전파가 10km 이상 날아가면 되돌아오는 시간이 Guard Period를 넘어버려 통신이 물리적으로 불가능해진다. 초광역 롱테일 커버리지 망(재난망 등)은 무조건 FDD를 써야 한다. TDD를 무리하게 도달거리 30km에 맞추려 Guard Period를 늘리면 통신 속도가 절반 이하로 반토막 나는 참사가 벌어진다.
 
 - **📢 섹션 요약 비유**: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 기지국들은 거대한 합창단과 같습니다. 지휘자(GPS 시계)에 맞춰 1만 명의 합창단이 0.1초의 오차도 없이 숨을 들이마시고(업로드) 내쉬어야(다운로드) 아름다운 화음이 유지되지, 한 명이라도 엇박자로 소리를 내지르면 합창(통신망)이 통째로 엉망이 됩니다.
 
@@ -159,16 +158,16 @@ TDD가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transform
 | 구분 | [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) 100% 의존 환경 (과거) | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 중심 및 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 하이브리드 환경 (현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (스펙트럼 효율)** | 업로드 채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 50% 텅텅 빔 낭비 | 다운로드 트래픽에 시간 슬롯 80% 몰아주기 집중 | 주파수 활용 효율성 **최소 40% 이상 증대** |
-| **정량 ([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))** | 상하향 채널이 달라 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 계산에 피드백 오버헤드 큼 | 송수신 채널 가역성으로 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 계산 즉각 완료 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 체인 최적화로 다운로드 체감 속도 **10배 향상** |
+| <strong>정량 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a>)</strong> | 상하향 채널이 달라 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 계산에 피드백 오버헤드 큼 | 송수신 채널 가역성으로 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 계산 즉각 완료 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 체인 최적화로 다운로드 체감 속도 **10배 향상** |
 | **정성 (자원 확보)** | 전 세계적으로 연속된 쌍(Pair) 주파수 고갈로 할당 난항 | 단일 주파수 뭉치만 있으면 즉시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개통 가능 | 통신사의 초광대역(100MHz 이상) 주파수 확보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 우위 달성 |
 
 ### 미래 전망 및 진화 방향
-- **Full-Duplex (전이중 통신) [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 패러다임**: FDD와 TDD는 결국 "주파수를 쪼개거나, 시간을 쪼개거나" 하는 절반의 타협(Half-Duplex적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이다. 향후 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 간섭 제거 칩(Self-Interference Cancellation)의 비약적 발전으로, **같은 주파수에서 같은 시간에 송신과 수신을 동시에** 때려버리는 진정한 In-Band Full Duplex 기술이 상용화될 것이다. 이 기술이 성공하면 이론상 주파수 효율이 2배로 폭발한다.
+- <strong>Full-Duplex (전이중 통신) <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 패러다임</strong>: FDD와 TDD는 결국 "주파수를 쪼개거나, 시간을 쪼개거나" 하는 절반의 타협(Half-Duplex적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이다. 향후 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 간섭 제거 칩(Self-Interference Cancellation)의 비약적 발전으로, **같은 주파수에서 같은 시간에 송신과 수신을 동시에** 때려버리는 진정한 In-Band Full Duplex 기술이 상용화될 것이다. 이 기술이 성공하면 이론상 주파수 효율이 2배로 폭발한다.
 - **비대칭 트래픽의 역전 현상**: 과거에는 동영상 다운로드가 90%였지만, 유튜버들의 라이브 스트리밍, [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/), 스마트 팩토리의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 실시간 업로드가 폭증하면서 "업로드가 더 부족해지는" 기현상이 일부 공장(B2B) 망에서 발생하고 있다. TDD의 유연성 덕분에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 특화망(이음 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))에서는 업로드 슬롯 비율을 역으로 80%까지 올려버리는 커스텀 세팅 아키텍처가 공장 자동화의 표준으로 자리 잡았다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 38.211**: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 물리 계층 프레임 구조 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 슬롯 포맷 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 심볼 정의)
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 38.104**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) TDD와 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) 대역의 운용 특성 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 요구사항 표준
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 38.211</strong>: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 물리 계층 프레임 구조 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 슬롯 포맷 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 심볼 정의)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 38.104</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) TDD와 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) 대역의 운용 특성 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 요구사항 표준
 
 도로 공학에서 상행선과 하행선을 어떻게 통제할 것인지는 도시의 동맥을 결정한다. 과거 음성 통화라는 예측 가능한 흐름 앞에서는 FDD라는 분리형 다리가 정답이었으나, 유튜브와 넷플릭스가 쏟아내는 거대한 비대칭 홍수 앞에서는 0.1초마다 차선을 바꾸는 마법의 다리인 TDD가 이동통신의 패권을 쥐게 되었다.
 
@@ -187,15 +186,19 @@ TDD가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transform
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 이동통신망 통신 개념]
-    │
-    ▼
-[현재 개념: 주파수 분할 방식 vs 시분할 방식 무선 환…]
-    │
-    ├──▶ [확장 A: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이동통신망 통신 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 주파수 분할 방식 vs 시분할 방식 무선 환…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 주파수 분할 방식 vs 시분할 방식 무선 환…는 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) 통신 개념에서 출발해 현재 메커니즘을 정교화하고, 이후 [매크로 뷰](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/) 토폴로지 / 피코 셀/마이크로 셀와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

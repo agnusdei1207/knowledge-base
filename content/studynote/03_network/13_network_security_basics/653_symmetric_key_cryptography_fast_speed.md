@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 평문을 암호화(Encryption, 잠그기)할 때 사용하는 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와, 암호문을 평문으로 복호화(Decryption, 풀기)할 때 사용하는 **키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 완전히 동일한 암호화 방식**입니다.
-- 통신하는 두 사람(송신자와 수신자)이 같은 열쇠를 공유하고 있어야 하므로 **비밀키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 암호 방식**이라고도 부릅니다.
+- 평문을 암호화(Encryption, 잠그기)할 때 사용하는 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와, 암호문을 평문으로 복호화(Decryption, 풀기)할 때 사용하는 <strong>키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)가 완전히 동일한 암호화 방식</strong>입니다.
+- 통신하는 두 사람(송신자와 수신자)이 같은 열쇠를 공유하고 있어야 하므로 <strong>비밀키(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 암호 방식</strong>이라고도 부릅니다.
 
-```text
-[암호학 개요 통신망 보안 적용]
-    │
-    ▼
-[대칭키 암호화]
-    │
-    └──▶ [스트림 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스트림 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 대칭키 암호화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,19 +43,23 @@ tags = ["studynote-network"]
 
 ### 1. 압도적으로 빠른 속도 (고속 처리)
 - 덧셈, XOR, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이동 같은 단순한 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산을 반복하여 데이터를 섞어버리는 방식이므로 컴퓨터 CPU가 계산하기가 매우 쉽습니다.
-- 뒤에 배울 비대칭키(공개키) 암호화보다 연산 속도가 **1,000배 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 이상 빠릅니다.** 따라서 수 기가바이트짜리 영화 파일을 다운받거나 실시간으로 화상 통화를 할 때, 대용량 데이터를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 암호화하는 **통신망의 메인 암호화 엔진**으로 무조건 사용됩니다.
+- 뒤에 배울 비대칭키(공개키) 암호화보다 연산 속도가 <strong>1,000배 ~ <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000배 이상 빠릅니다.</strong> 따라서 수 기가바이트짜리 영화 파일을 다운받거나 실시간으로 화상 통화를 할 때, 대용량 데이터를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 암호화하는 <strong>통신망의 메인 암호화 엔진</strong>으로 무조건 사용됩니다.
 
 ### 2. 작은 키 사이즈
 - 키의 길이가 보통 128비트, 256비트로 작아도 우주 나이만큼의 무차별 대입 공격(Brute-force)을 거뜬히 버텨낼 정도로 효율적입니다.
 
-```text
-[암호학 개요 통신망 보안 적용]
-    │
-    ▼
-[대칭키 암호화]
-    │
-    └──▶ [스트림 암호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스트림 암호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 대칭키 암호화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ### 1. 키 배송 문제 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution Problem)
 - 서울에 있는 앨리스가 암호화된 파일을 부산의 밥에게 보냈습니다. 밥이 파일을 풀려면 앨리스가 썼던 '똑같은 열쇠'가 필요합니다.
-- 앨리스가 인터넷 메일로 열쇠를 보내면, 중간에 해커가 스니핑해서 열쇠를 가로채고 파일을 다 열어봅니다(보안 붕괴). 그렇다고 열쇠를 퀵서비스나 KTX를 타고 직접 건네줄 수도 없습니다. **"열쇠를 해커 몰래 어떻게 상대방에게 전달할 것인가?"**가 대칭키의 영원한 딜레마입니다. (이 문제는 디피-헬만이나 비대칭키 구조를 통해 해결하게 됩니다.)
+- 앨리스가 인터넷 메일로 열쇠를 보내면, 중간에 해커가 스니핑해서 열쇠를 가로채고 파일을 다 열어봅니다(보안 붕괴). 그렇다고 열쇠를 퀵서비스나 KTX를 타고 직접 건네줄 수도 없습니다. <strong>"열쇠를 해커 몰래 어떻게 상대방에게 전달할 것인가?"</strong>가 대칭키의 영원한 딜레마입니다. (이 문제는 디피-헬만이나 비대칭키 구조를 통해 해결하게 됩니다.)
 
 ### 2. 키 관리의 어려움 (Scalability Issue)
 - **$N(N-1)/2$ 법칙**: 대칭키는 단둘만 알아야 하는 비밀키입니다. 내 친구가 10명이면 10명과 각각 은밀히 소통하기 위해 나는 서로 다른 10개의 열쇠 꾸러미를 가지고 다녀야 합니다. 사용자가 1,000명이면 서버는 무려 49만 개의 열쇠를 발급하고 헷갈리지 않게 관리해야 하므로 인프라가 붕괴됩니다.
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 데이터를 1비트씩 졸졸 흘려보내며 암호화하는 **[스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)**([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 등)와, 데이터를 128비트 단위의 큰 박스(Block)로 뭉텅 썰어서 통째로 섞어버리는 **[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)**([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등)로 나뉩니다. 현대는 거의 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 씁니다. (상세 내용은 다음 654, 655 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- 데이터를 1비트씩 졸졸 흘려보내며 암호화하는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a></strong>([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 등)와, 데이터를 128비트 단위의 큰 박스(Block)로 뭉텅 썰어서 통째로 섞어버리는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a></strong>([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등)로 나뉩니다. 현대는 거의 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 씁니다. (상세 내용은 다음 654, 655 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 암호학 개요 통신망 보안 적용]
-    │
-    ▼
-[현재 개념: 대칭키 암호화]
-    │
-    ├──▶ [확장 A: 스트림 암호]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 대칭키 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스트림 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 대칭키 암호화는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 개요 통신망 보안 적용에서 출발해 현재 메커니즘을 정교화하고, 이후 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

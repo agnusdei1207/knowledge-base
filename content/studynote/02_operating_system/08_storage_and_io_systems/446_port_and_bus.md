@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 포트(Port)는 CPU가 외부 기기(I/O 장치)와 0과 1의 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받기 위해 뚫어놓은 **개별적인 물리적 연결 단자(구멍)**이며, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 이 수많은 포트들과 CPU, 램(RAM)을 하나로 엮어주는 **공용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속도로(전선 다발)**다.
-> 2. **가치**: 세상에 존재하는 수만 가지 형태의 기계 장치들을, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), SATA라는 **통일된 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격으로 규합함으로써 운영체제가 한 가지 언어([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))로 모든 디바이스를 통제**할 수 있게 만드는 하드웨어 추상화의 근간이다.
-> 3. **융합**: 초창기 느려 터진 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 한계를 뚫고, 현대에는 여러 개의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 레인(Lane)을 묶어 기가바이트(GB/s) 단위의 속도를 뿜어내는 **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 통신망으로 융합**되며 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 I/O 병목을 우주 끝까지 분쇄하고 있다.
+> 1. **본질**: 포트(Port)는 CPU가 외부 기기(I/O 장치)와 0과 1의 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받기 위해 뚫어놓은 <strong>개별적인 물리적 연결 단자(구멍)</strong>이며, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 이 수많은 포트들과 CPU, 램(RAM)을 하나로 엮어주는 <strong>공용 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 고속도로(전선 다발)</strong>다.
+> 2. **가치**: 세상에 존재하는 수만 가지 형태의 기계 장치들을, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), SATA라는 <strong>통일된 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 규격으로 규합함으로써 운영체제가 한 가지 언어(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)로 모든 디바이스를 통제</strong>할 수 있게 만드는 하드웨어 추상화의 근간이다.
+> 3. **융합**: 초창기 느려 터진 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 한계를 뚫고, 현대에는 여러 개의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 레인(Lane)을 묶어 기가바이트(GB/s) 단위의 속도를 뿜어내는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a>) 통신망으로 융합</strong>되며 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 I/O 병목을 우주 끝까지 분쇄하고 있다.
 
 ---
 
@@ -21,34 +21,30 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **포트(Port)**: 특정 디바이스(마우스, 키보드) 하나가 컴퓨터 본체와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받기 위해 꽂히는 1:1 창구다. 운영체제는 이 포트마다 고유의 주소 번호([Port Number](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))를 매겨 관리한다.
-  - **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))**: 여러 개의 포트가 개별적으로 CPU와 전선을 1:1로 이으면 메인보드가 전선으로 뒤덮여 터질 것이다. 그래서 "굵은 공용 전선 다발 1개를 깔아놓고, 모든 디바이스가 이 전선 1개를 공유해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘자!"라고 만든 공용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프프라인이다.
-- **필요성**: 컴퓨터에 프린터, 하드디스크, 모니터를 연결해야 한다. 만약 이 기계들이 각자 자기만의 전선 굵기와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 타이밍을 고집한다면? 메인보드는 100종류의 구멍을 파야 하고, CPU는 100종류의 언어를 배워야 한다. 이 대혼란을 막으려면 "야, 우리 집에 꽂으려면 무조건 이 4가닥짜리 전선([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)) 규격에 맞춰서 0과 1을 보내라!"라고 통제하는 강력한 **'표준 도로 교통법([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))'**이 절실했다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>)</strong>: 여러 개의 포트가 개별적으로 CPU와 전선을 1:1로 이으면 메인보드가 전선으로 뒤덮여 터질 것이다. 그래서 "굵은 공용 전선 다발 1개를 깔아놓고, 모든 디바이스가 이 전선 1개를 공유해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘자!"라고 만든 공용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프프라인이다.
+- **필요성**: 컴퓨터에 프린터, 하드디스크, 모니터를 연결해야 한다. 만약 이 기계들이 각자 자기만의 전선 굵기와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 타이밍을 고집한다면? 메인보드는 100종류의 구멍을 파야 하고, CPU는 100종류의 언어를 배워야 한다. 이 대혼란을 막으려면 "야, 우리 집에 꽂으려면 무조건 이 4가닥짜리 전선([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)) 규격에 맞춰서 0과 1을 보내라!"라고 통제하는 강력한 <strong>'표준 도로 교통법(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)'</strong>이 절실했다.
 
 - **등장 배경 및 폼팩터의 진화**:
-  1. **[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/PCI의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 시절**: 선을 32가닥씩 깔아서 한 번에 많이 보내려 했으나, 선끼리 간섭(노이즈)이 터져 속도를 올리지 못함.
-  2. **[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 대반격**: 선을 2가닥으로 확 줄이는 대신 전송 속도를 미친 듯이(수 GHz) 올려버리는 USB와 PCIe가 등장해 천하를 통일함.
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a>/PCI의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 시절</strong>: 선을 32가닥씩 깔아서 한 번에 많이 보내려 했으나, 선끼리 간섭(노이즈)이 터져 속도를 올리지 못함.
+  2. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a>) <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>의 대반격</strong>: 선을 2가닥으로 확 줄이는 대신 전송 속도를 미친 듯이(수 GHz) 올려버리는 USB와 PCIe가 등장해 천하를 통일함.
   3. **NVMe의 등장**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 속도는 빨라졌는데 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 버벅대자, 아예 디스크를 그래픽카드 꽂는 제일 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))에 직접 꽂아버리는 괴물 규격이 탄생함.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        컴퓨터 메인보드 내부의 버스(Bus) 계층도 시각화               │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ CPU (황제) ] ◀──(프론트 사이드 버스, 빛의 속도)──▶ [ RAM ]        │
-│       │                                                             │
-│       ▼                                                             │
-│ [ 노스 브릿지 / 메모리 컨트롤러 (수도권 고속도로) ]                 │
-│       │                                                             │
-│       ├─▶ [ PCIe 버스 16배속 ] ──▶ 최고급 그래픽 카드 (GPU)         │
-│       │                                                             │
-│       ▼                                                             │
-│ [ 사우스 브릿지 / I/O 컨트롤러 (지방 국도) ]                        │
-│       │                                                             │
-│       ├─▶ [ SATA 버스 ] ──▶ 일반 하드디스크 (HDD)                   │
-│       ├─▶ [ USB 버스 ]  ──▶ 마우스, 키보드, 외장하드                │
-│       └─▶ [ LPC 버스 ]  ──▶ 메인보드 펌웨어 (느려 터짐)             │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨터 메인보드 내부의 버스(Bus) 계층도 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU (황제)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">RAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노스 브릿지 / 메모리 컨트롤러 (수도권 고속도로)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCIe 버스 16배속</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">최고급 그래픽 카드 (GPU)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사우스 브릿지 / I/O 컨트롤러 (지방 국도)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SATA 버스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">일반 하드디스크 (HDD)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">USB 버스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">마우스, 키보드, 외장하드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LPC 버스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메인보드 펌웨어 (느려 터짐)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 컴퓨터 내부는 철저한 계급 사회다. CPU와 가장 가까운 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 1초에 수십 GB를 뿜어내지만 가장 비싸고 짧다. 멀어질수록 속도는 수 MB/s로 떨어지지만 길게 늘일 수 있고 값싼 장비를 많이 붙일 수 있다. 운영체제는 이 복잡한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 계층망을 뚫고 들어가, 제일 밑바닥에 있는 마우스([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))의 딸깍거림을 꼭대기에 있는 CPU까지 배달해 주는 거대한 택배 회사다.
 
 - **📢 섹션 요약 비유**: 청와대(CPU)로 들어가는 길입니다. 청와대 바로 앞 도로(메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 10차선으로 뻥 뚫려 장관들만 다닙니다. 시청 앞 도로([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))는 4차선으로 중요 공무원들이 다니고, 변두리 흙길([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))은 일반 시민(마우스)들이 느리게 걸어 다닙니다. 중요한 건 이 모든 길이 결국 청와대로 다 이어져 있다는 겁니다.
@@ -60,17 +56,17 @@ tags = ["studynote-operating-system"]
 ### [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 구조 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 주소, 제어)
 
 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 그냥 구리선 하나가 아니다. 완벽한 통신을 위해 3개의 전선 다발로 역할을 쪼개 놓았다.
-1. **[데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) ([Data Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/))**: "A라는 글자를 보낸다." (진짜 화물이 지나가는 덤프트럭 길)
-2. **[주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/))**: "이 A라는 글자를 램 50번지(포트)에 꽂아라." (목적지가 적힌 내비게이션 길). [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 32가닥이면 4GB밖에 인식을 못 하고, 64가닥이어야 엑사바이트를 인식할 수 있다. 64비트 컴퓨터의 진짜 의미다.
-3. **[제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/) ([Control Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/))**: "지금 쏠 테니까 읽어라(Read)! 덮어써라(Write)!" ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 역할)
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/">데이터 버스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/">Data Bus</a>)</strong>: "A라는 글자를 보낸다." (진짜 화물이 지나가는 덤프트럭 길)
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/">주소 버스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/">Address Bus</a>)</strong>: "이 A라는 글자를 램 50번지(포트)에 꽂아라." (목적지가 적힌 내비게이션 길). [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 32가닥이면 4GB밖에 인식을 못 하고, 64가닥이어야 엑사바이트를 인식할 수 있다. 64비트 컴퓨터의 진짜 의미다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/">제어 버스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/">Control Bus</a>)</strong>: "지금 쏠 테니까 읽어라(Read)! 덮어써라(Write)!" ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 역할)
 
 ---
 
 ### [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(Parallel) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 죽인 이유
 
 옛날 프린터 케이블을 보면 구멍이 25개씩 뚫린 엄청 두꺼운 선(Parallel)을 썼다. 한 번에 25비트를 쏘니 빠를 거라 믿었다.
-- **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)의 한계**: 선이 많으니까 선끼리 전자기장 간섭([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))이 터졌다. 클럭 속도를 조금만 올려도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 깨져버렸다.
-- **[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/))의 혁명**: [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), PCIe는 모두 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)이다. 선을 딱 2가닥(송신 1, 수신 1)만 남겼다. 간섭할 옆 선이 없으니 클럭(엔진) 속도를 미친 듯이 수 기가헤르츠(GHz)로 올려버릴 수 있었다. 
+- <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>의 한계</strong>: 선이 많으니까 선끼리 전자기장 간섭([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))이 터졌다. 클럭 속도를 조금만 올려도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 깨져버렸다.
+- <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a>)의 혁명</strong>: [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), PCIe는 모두 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)이다. 선을 딱 2가닥(송신 1, 수신 1)만 남겼다. 간섭할 옆 선이 없으니 클럭(엔진) 속도를 미친 듯이 수 기가헤르츠(GHz)로 올려버릴 수 있었다. 
 - **결론**: 넓은 도로에서 천천히 가는 것보다, 1차선 도로에서 광속으로 쏘는 게 100배 더 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 나를 수 있다는 하드웨어 공학의 대역전극이 일어났다.
 
 - **📢 섹션 요약 비유**: 옛날엔 10명이 일렬횡대로 손잡고 걸어가는 10차선 도로([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/))를 지었습니다. 뛰면 서로 발이 엉켜서 넘어지니(간섭) 무조건 천천히 걸어야만 했죠. 지금은 1명이 겨우 들어가는 좁은 튜브([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))를 만들고, 그 안으로 사람들을 총알처럼 쏴버립니다. 엉킬 옆 사람이 없으니 빛의 속도로 쏠 수 있어 결국 도착하는 사람 수는 수천 배 많아집니다.
@@ -86,26 +82,29 @@ tags = ["studynote-operating-system"]
 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 규격 | 성격 (철학) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) (체감 속도) | 스케줄링 병목 | 주 사용처 |
 |:---|:---|:---|:---|:---|
 | **IDE (PATA)** | 구시대의 넓고 느린 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 도로 | 133 MB/s (최악) | 선이 굵어 선 정리가 안 됨 | 박물관 |
-| **[SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)** | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 뚫어낸 가성비 도로 | 600 MB/s (답답함) | **AHCI 큐가 1개뿐이라 병목 터짐** | 일반 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), 구형 2.5인치 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/">SATA</a></strong> | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 뚫어낸 가성비 도로 | 600 MB/s (답답함) | **AHCI 큐가 1개뿐이라 병목 터짐** | 일반 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), 구형 2.5인치 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
 | **SAS** | 서버용 고신뢰성 튼튼한 도로 | 1.2 GB/s ~ 2.4 GB/s| 여러 서버가 디스크를 공유할 때 씀 | 엔터프라이즈 서버 디스크 |
-| **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))**| **그래픽카드용 고속도로를 훔쳐 씀**| **7 GB/s ~ 14 GB/s (우주 최강)**| **큐가 64,000개라 병목 제로!** | 최신 M.2 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 클라우드 서버 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a>)</strong>| **그래픽카드용 고속도로를 훔쳐 씀**| **7 GB/s ~ 14 GB/s (우주 최강)**| **큐가 64,000개라 병목 제로!** | 최신 M.2 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 클라우드 서버 |
 
 ### [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)의 패권
-현재 지구상의 모든 컴퓨터 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)**가 완벽하게 천하 통일했다.
+현재 지구상의 모든 컴퓨터 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a></strong>가 완벽하게 천하 통일했다.
 - USB도, 랜카드도, SSD도, 사운드카드도 껍데기만 다를 뿐 칩셋 안으로 들어가면 모두 PCIe라는 고속도로 위에 올려진다.
-- PCIe의 가장 큰 특징은 **레인(Lane)**이다. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 선 1가닥을 `x1`이라고 부른다. 속도가 모자라면 이 1가닥짜리 튜브를 4개(`x4`), 16개(`x16`) 나란히 이어 붙여서 괴물 같은 속도를 뽐낸다.
+- PCIe의 가장 큰 특징은 <strong>레인(Lane)</strong>이다. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 선 1가닥을 `x1`이라고 부른다. 속도가 모자라면 이 1가닥짜리 튜브를 4개(`x4`), 16개(`x16`) 나란히 이어 붙여서 괴물 같은 속도를 뽐낸다.
 - 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 4K 144Hz 게임을 돌릴 수 있는 이유는 메인보드에서 가장 두꺼운 `PCIe x16` 레인(초당 수십 기가바이트 전송)을 혼자 독식하고 있기 때문이다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 장비 종류  │ 연결된 버스   │ 사용하는 레인 수│ 1초당 데이터 전송량│
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ 랜카드/사운드│ PCIe x1    │ 1 차선       │ 약 1~2 GB/s            │
-│ NVMe SSD │ PCIe x4    │ 4 차선       │ 약 7~8 GB/s                │
-│ 고성능 GPU │ PCIe x16   │ 16 차선      │ 약 32~64 GB/s            │
-└──────────┴────────────┴────────────┴──────────────────────────────┘
-```
-**[매트릭스 해설]** CPU가 뿜어내는 수십 개의 제한된 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인(차선)을 어떤 장비에 몇 개씩 분배해 줄 것인가가 메인보드 설계의 핵심이다. 딥러닝 서버에 GPU를 4개, 8개씩 꽂으면 차선이 모자라 병목이 터지기 때문에, 엔비디아(NVIDIA)는 아예 메인보드 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 버리고 지들끼리 1초에 900GB를 쏘는 **NVLink(특수 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))**를 뚫어버리는 기행을 저지르고 있다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장비 종류</div><div class="kb-diagram-cell">연결된 버스</div><div class="kb-diagram-cell">사용하는 레인 수</div><div class="kb-diagram-cell">1초당 데이터 전송량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜카드/사운드</div><div class="kb-diagram-cell">PCIe x1</div><div class="kb-diagram-cell">1 차선</div><div class="kb-diagram-cell">약 1~2 GB/s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe SSD</div><div class="kb-diagram-cell">PCIe x4</div><div class="kb-diagram-cell">4 차선</div><div class="kb-diagram-cell">약 7~8 GB/s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능 GPU</div><div class="kb-diagram-cell">PCIe x16</div><div class="kb-diagram-cell">16 차선</div><div class="kb-diagram-cell">약 32~64 GB/s</div></div>
+</div>
+</div>
+
+
+**[매트릭스 해설]** CPU가 뿜어내는 수십 개의 제한된 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인(차선)을 어떤 장비에 몇 개씩 분배해 줄 것인가가 메인보드 설계의 핵심이다. 딥러닝 서버에 GPU를 4개, 8개씩 꽂으면 차선이 모자라 병목이 터지기 때문에, 엔비디아(NVIDIA)는 아예 메인보드 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 버리고 지들끼리 1초에 900GB를 쏘는 <strong>NVLink(특수 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>)</strong>를 뚫어버리는 기행을 저지르고 있다.
 
 - **📢 섹션 요약 비유**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 고속도로는 차선을 내 맘대로 조립할 수 있는 레고 블록입니다. 짐이 적은 랜카드에겐 1차선 도로만 뚫어주고, 짐이 미친 듯이 많은 그래픽카드에겐 16차선 전용 고속도로를 한 방에 뚫어주는, 철저히 능력제에 기반한 맞춤형 인프라 공사입니다.
 
@@ -114,20 +113,20 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 도입과 `blk-mq` (멀티 큐) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치
-1. **과거 SATA의 굴레**: 구형 SSD는 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 꽂혔다. SATA를 조종하는 AHCI 컨트롤러는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 대화할 때 **입출력 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 단 1개**, 큐의 깊이(Depth)도 32개로 매우 짧았다. 코어가 64개라도 1개의 문으로만 통과해야 하니 병목([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 터졌다.
+1. **과거 SATA의 굴레**: 구형 SSD는 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 꽂혔다. SATA를 조종하는 AHCI 컨트롤러는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 대화할 때 <strong>입출력 큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)가 단 1개</strong>, 큐의 깊이(Depth)도 32개로 매우 짧았다. 코어가 64개라도 1개의 문으로만 통과해야 하니 병목([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 터졌다.
 2. **NVMe의 하드웨어 스펙 폭발**: 
    - 플래시 메모리를 아예 그래픽 카드 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))에 다이렉트로 꽂아버리는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 규격이 탄생했다.
    - 하드웨어 큐가 64,000개, 깊이가 64,000개로 뻥튀기되었다!
-3. **리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 진화 (`blk-mq`)**:
+3. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 진화 (<code>blk-mq</code>)</strong>:
    - 하드웨어가 이렇게 길을 열어주자, 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 1개짜리 소프트웨어 큐 로직은 쓰레기가 되었다.
-   - 리눅스 3.13 버전부터 **Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Block IO (`blk-mq`)** 아키텍처가 전격 도입되었다.
+   - 리눅스 3.13 버전부터 <strong>Multi-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> Block IO (<code>blk-mq</code>)</strong> 아키텍처가 전격 도입되었다.
    - 64개의 CPU 코어가 각각 자기만의 전용 소프트웨어 큐를 갖고 I/O 요청을 쏟아내면, NVMe의 64,000개 하드웨어 큐에 1:1로 다이렉트로 매핑되어 락([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) 경합이 0이 되는 극한의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 완성되었다. 
    - 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 규격의 진화 하나가 클라우드 스토리지(AWS EBS io2)의 수십만 IOPS 시대를 강제로 열어젖힌 것이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 포트를 통한 DB 서버 운영
 라즈베리파이나 홈 서버 구축 시, 남는 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 3.0 포트에 외장 SSD를 꽂고 MySQL DB를 띄우는 경우가 있다.
 벤치마크를 돌려보면 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 3.0 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 500MB/s라 그럭저럭 나올 것 같지만, 실전에서는 초당 10번의 쿼리만 쳐도 뻗어버린다.
-[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 구조상 호스트(CPU)가 수시로 "너 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있냐? 보낼 거 있냐?" 하고 찔러보는 **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 기반의 매우 무거운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드**를 갖는다. 반면 PCIe나 SATA는 디바이스가 CPU를 인터럽트로 깨우는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)다. 자잘한 4KB 랜덤 I/O가 쏟아지는 DB 환경에서 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 태우는 것은 람보르기니를 진흙탕에 몰고 가는 꼴이다.
+[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 구조상 호스트(CPU)가 수시로 "너 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있냐? 보낼 거 있냐?" 하고 찔러보는 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 기반의 매우 무거운 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 오버헤드</strong>를 갖는다. 반면 PCIe나 SATA는 디바이스가 CPU를 인터럽트로 깨우는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)다. 자잘한 4KB 랜덤 I/O가 쏟아지는 DB 환경에서 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 태우는 것은 람보르기니를 진흙탕에 몰고 가는 꼴이다.
 
 - **📢 섹션 요약 비유**: USB는 아무나 꽂을 수 있는 동네 시장통입니다. 짐수레([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 끌고 가려면 사람들(오버헤드)을 다 헤치고 가야 하죠. PCIe는 톨게이트도 없는 전용 아우토반입니다. 하드웨어의 생김새([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 똑같아도, 시장통([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))으로 배달을 시킬지 아우토반([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/))으로 배달을 시킬지에 따라 장사(DB)의 운명이 완전히 갈립니다.
 
@@ -140,7 +139,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **플러그 앤 플레이(PnP) 구현** | USB나 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 장치를 식별하는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 규격이 포함되어, 꽂자마자 OS가 장치 ID를 읽고 드라이버를 자동 로드함 |
-| **컴퓨팅 확장성([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 보장**| 포트의 개수를 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 칩셋을 통해 트리 구조로 무한정 늘릴 수 있어, 서버 한 대에 수십 개의 디스크 부착 가능 |
+| <strong>컴퓨팅 확장성(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>) 보장</strong>| 포트의 개수를 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 칩셋을 통해 트리 구조로 무한정 늘릴 수 있어, 서버 한 대에 수십 개의 디스크 부착 가능 |
 | **I/O 병목 돌파구 제시** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(Parallel)에서 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/))로의 패러다임 전환은, CPU와 I/O 간의 영원한 속도 격차를 메우는 유일한 물리적 해법을 제공 |
 
 ### 결론 및 미래 전망
@@ -162,15 +161,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[I/O 하드웨어 인터페이스 요소]
-    │
-    ▼
-[포트 (Port) / 버스 (Bus)]
-    │
-    ├──▶ [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    └──▶ [폴링 (Polling / Programmed I/O)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

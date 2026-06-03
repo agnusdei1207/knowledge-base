@@ -10,7 +10,7 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 스마트폰이나 단말기가 인터넷(통신망)에 연결되지 않은 **재난 상태(지진, 통신 마비)에서도, 두 기기 간의 근거리 통신(NFC, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))과 보안 칩(SE)을 이용해 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))를 안전하게 주고받는 이중 지불 방지 아키텍처**다.
+> 1. **본질**: [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 스마트폰이나 단말기가 인터넷(통신망)에 연결되지 않은 <strong>재난 상태(지진, 통신 마비)에서도, 두 기기 간의 근거리 통신(NFC, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>)과 보안 칩(SE)을 이용해 중앙은행 디지털 화폐(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/">CBDC</a>)를 안전하게 주고받는 이중 지불 방지 아키텍처</strong>다.
 > 2. **가치**: 기존의 삼성페이나 신용카드는 통신망이 끊기면 서버에서 잔액 조회를 못 해 쇳덩어리 고철이 되지만, 이 기술은 실물 지폐처럼 기기 대 기기([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))로 가치(토큰)를 직접 건네주어 국가의 결제 인프라 생존성을 보장하는 최후의 보루다.
 > 3. **판단 포인트**: 오프라인 상태에서는 중앙 서버(원장)의 감시가 없으므로, 해커가 스마트폰을 뜯어 똑같은 돈을 두 번 쓰는 이중 지불(Double Spending) 공격을 막기 위해 하드웨어 기반의 조작 방지 칩([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)/SE)과 신뢰 체인(Trust Chain) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기술이 절대적으로 요구된다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-ict-convergence"]
 
 태풍으로 통신탑이 무너져 도시의 인터넷이 3일간 끊겼다고 가정해 보자. 신용카드 단말기, 카카오페이, 모바일 뱅킹은 모두 먹통이 된다. 사람들은 생수를 사기 위해 빵집에 가지만, 오직 '현금(종이 지폐)'만 쓸 수 있다. 한국은행이 아무리 훌륭한 중앙은행 디지털 화폐([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/))를 만들어 발행했어도 인터넷이 끊겼을 때 결제가 안 된다면, 그것은 진짜 국가 화폐(Legal Tender)로서의 지위를 가질 수 없다. 
 
-이 치명적인 아킬레스건을 해결하기 위해 고안된 것이 **오프라인 결제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**이다. 통신이 단절된 지하실이나 재난 상황에서도, 내 스마트폰(또는 IC 카드)과 편의점 사장님의 스마트폰을 딱(NFC) 부딪히면 내 폰 안의 디지털 금고(SE)에서 돈이 빠져나가 사장님 폰으로 넘어간다. 나중에 인터넷이 복구되면 기기들이 알아서 중앙 서버에 "우리 며칠 전에 거래했어요"라고 영수증([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 올려 사후 정산을 맞추는 기적의 구명조끼 아키텍처다.
+이 치명적인 아킬레스건을 해결하기 위해 고안된 것이 <strong>오프라인 결제 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다. 통신이 단절된 지하실이나 재난 상황에서도, 내 스마트폰(또는 IC 카드)과 편의점 사장님의 스마트폰을 딱(NFC) 부딪히면 내 폰 안의 디지털 금고(SE)에서 돈이 빠져나가 사장님 폰으로 넘어간다. 나중에 인터넷이 복구되면 기기들이 알아서 중앙 서버에 "우리 며칠 전에 거래했어요"라고 영수증([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 올려 사후 정산을 맞추는 기적의 구명조끼 아키텍처다.
 
 - **📢 섹션 요약 비유**: 온라인 결제가 중앙 센터에 전화를 걸어 "사장님 계좌로 만원 옮겨주세요"라고 허락을 받는(인터넷 필수) 방식이라면, 오프라인 결제는 '지갑에서 진짜 지폐 만 원짜리를 꺼내서 사장님 손에 직접 쥐여주는 것'이다. 전화가 끊겨도 돈을 직접 건네주는 행위 자체는 아무 문제가 없다.
 
@@ -31,28 +31,27 @@ tags = ["studynote-ict-convergence"]
 ### [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)/SE 기반 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 이중 지불 방지 메커니즘
 중앙은행(원장)이 없는 깜깜이 오프라인 상태에서 사기를 막기 위해, 기기 자체의 쇳덩어리 보안 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)를 신뢰의 앵커(Anchor)로 삼는다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           CBDC 오프라인 P2P 결제 트랜잭션 아키텍처               │
-├────────────────────────────────────────────────────────┤
-│   [ 송금자 폰 (Alice) ]             [ 수신자 폰 (Bob) ]     │
-│  ┌─────────────────┐             ┌─────────────────┐   │
-│  │ 보안 영역 (SE)   │     NFC     │ 보안 영역 (SE)   │   │
-│  │ (잔액: 5만 원)    │◀───────────▶│ (잔액: 0원)      │   │
-│  │                 │ (블루투스 등)  │                 │   │
-│  │ 1. 상호 인증    │             │ 1. 상호 인증    │   │
-│  │ 2. 1만 원 차감!  │── (토큰) ──▶│ 3. 1만 원 증가!  │   │
-│  │ 4. 전자 서명 생성│◀─ (영수증) ─│ 4. 서명 검증    │   │
-│  └─────────────────┘             └─────────────────┘   │
-│            │                                │          │
-│ ══════════( 통신망 단절 (오프라인 상태) )══════════════════│
-│            ▼                                ▼          │
-│         (3일 뒤 통신망 복구 시)          (3일 뒤 통신망 복구 시)│
-│    [ 중앙은행 블록체인/DB ──▶ 잔액 및 영수증 사후 동기화 완료! ] │
-└────────────────────────────────────────────────────────┘
-```
 
-**이중 지불 방지(Double Spending Prevention)**의 원리: Alice의 스마트폰 안에는 해커가 아무리 루팅(Rooting)해도 뚫을 수 없는 독립된 하드웨어 보안 칩(SE, Secure Element)이 있다. 오프라인 결제가 일어날 때 돈은 무조건 이 SE 내부에서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 연산을 거쳐 차감되며, 한 번 발급된 토큰은 스마트 컨트랙트처럼 시간 기반 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 포함해 상대방 SE에 한 번만 꽂히도록 설계되어 복사 후 재사용([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))을 원천 차단한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBDC 오프라인 P2P 결제 트랜잭션 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송금자 폰 (Alice)</div><div class="kb-diagram-node">수신자 폰 (Bob)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 영역 (SE)</div><div class="kb-diagram-cell">NFC</div><div class="kb-diagram-cell">보안 영역 (SE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잔액: 5만 원)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">(잔액: 0원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블루투스 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 상호 인증</div><div class="kb-diagram-cell">1. 상호 인증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1만 원 차감!</div><div class="kb-diagram-cell">── (토큰) ──▶</div><div class="kb-diagram-cell">3. 1만 원 증가!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 전자 서명 생성</div><div class="kb-diagram-cell">◀─ (영수증) ─</div><div class="kb-diagram-cell">4. 서명 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 통신망 단절 (오프라인 상태) )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3일 뒤 통신망 복구 시) (3일 뒤 통신망 복구 시)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙은행 블록체인/DB ──▶ 잔액 및 영수증 사후 동기화 완료!</div></div>
+</div>
+</div>
+
+
+
+<strong>이중 지불 방지(Double Spending Prevention)</strong>의 원리: Alice의 스마트폰 안에는 해커가 아무리 루팅(Rooting)해도 뚫을 수 없는 독립된 하드웨어 보안 칩(SE, Secure Element)이 있다. 오프라인 결제가 일어날 때 돈은 무조건 이 SE 내부에서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 연산을 거쳐 차감되며, 한 번 발급된 토큰은 스마트 컨트랙트처럼 시간 기반 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 포함해 상대방 SE에 한 번만 꽂히도록 설계되어 복사 후 재사용([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))을 원천 차단한다.
 
 - **📢 섹션 요약 비유**: 이중 지불 방지는 '마법의 저금통 기계'다. 내가 기계를 부수고 돈을 복사하려 해도, 이 저금통은 우주에서 가장 단단한 금고(SE)라 열리지 않는다. 동전을 꺼낼 때는 반드시 상대방의 기계(저금통)와 입구를 딱 맞춰야만 동전이 굴러가고, 동시에 내 쪽 숫자는 무조건 깎이게 하드웨어적으로 용접되어 있는 구조다.
 
@@ -65,10 +64,10 @@ tags = ["studynote-ict-convergence"]
 
 | 비교 항목 | 기존 페이 (삼성페이, 카카오페이, 신용카드) | [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 결제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 |:---|:---|:---|
-| **결제 승인 주체** | **카드사/은행의 중앙 서버 (On-line)** | **스마트폰/카드 내부의 보안 칩(SE) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)** |
+| **결제 승인 주체** | **카드사/은행의 중앙 서버 (On-line)** | <strong>스마트폰/카드 내부의 보안 칩(SE) <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a></strong> |
 | **통신망 두절 시** | **"승인 대기 중..." ➔ 결제 실패 (먹통)** | **정상 결제 완료 (오프라인 통과)** |
 | **자금의 본질** | 통장 잔고를 증명하는 전자적 채권(청구권) | **기기 내부에 담긴 토큰 형태의 실제 돈 (현금)** |
-| **위협 모델** | 중앙 서버 해킹 및 네트워크 디도스 공격 | **개인 스마트폰 해킹 및 기기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (이중 지불)** |
+| **위협 모델** | 중앙 서버 해킹 및 네트워크 디도스 공격 | <strong>개인 스마트폰 해킹 및 기기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (이중 지불)</strong> |
 | **결제 한도** | 통장 잔액 내에서 무제한 (또는 카드 한도) | 오프라인 남용을 막기 위해 **소액 한도(예: 30만 원) 제한** |
 
 기존 페이 시스템에서 스마트폰은 단지 내 계좌번호(토큰)를 단말기에 '보여주는 껍데기'일 뿐, 돈을 빼는 연산은 저 멀리 카드사 서버에서 일어난다. 하지만 [CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 환경에서는 내 스마트폰 칩 내부가 직접 돈을 관리하는 '미니 한국은행'의 역할을 임시로 대행하게 된다. 
@@ -81,10 +80,10 @@ tags = ["studynote-ict-convergence"]
 
 ### 실무 시나리오
 1. **재난 지원금 및 벽지(오지) 금융 포용성(Financial Inclusion)**: 한국은행 모의실험. 인터넷이 터지지 않는 산간 오지 마을의 할머니가, 은행 계좌도 없고 스마트폰도 없이 정부에서 나눠준 'IC 스마트카드([CBDC](/knowledge-base/studynote/06_ict_convergence/01_blockchain/061_cbdc_central_bank_digital_currency/) 오프라인 칩 내장)' 하나만 달랑 들고 마을 구멍가게에 간다. 구멍가게 사장님의 스마트폰 뒷면에 할머니의 카드를 탭(NFC)하면 1만 원이 즉각 결제된다. 통신망 인프라 투자가 없는 빈곤층이나 국가적 재난 상황에서도 금융의 피가 돌게 만드는 궁극의 퍼블릭 인프라 기술이다.
-2. **사후 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 충돌 방지 아키텍처 (Shadow Ledger)**: 오프라인에서 3일 동안 결제를 하고 인터넷에 연결했는데, 만약 스마트폰 배터리 방전 등으로 기기 간 거래 기록([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 순서가 꼬였다면? 아키텍트는 [분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))을 응용해 각 스마트폰 SE 내부에 작은 '그림자 원장(Shadow Ledger)'을 둔다. 이전 거래의 해시(Hash)값을 물고 다음 거래 영수증을 만드는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(체인화) 구조를 써서, 중앙 서버와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 때 거래가 위변조되거나 누락된 이빨을 기계적으로 잡아내어 사후 정산을 완벽히 맞춘다.
+2. <strong>사후 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 충돌 방지 아키텍처 (Shadow Ledger)</strong>: 오프라인에서 3일 동안 결제를 하고 인터넷에 연결했는데, 만약 스마트폰 배터리 방전 등으로 기기 간 거래 기록([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 순서가 꼬였다면? 아키텍트는 [분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))을 응용해 각 스마트폰 SE 내부에 작은 '그림자 원장(Shadow Ledger)'을 둔다. 이전 거래의 해시(Hash)값을 물고 다음 거래 영수증을 만드는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(체인화) 구조를 써서, 중앙 서버와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 때 거래가 위변조되거나 누락된 이빨을 기계적으로 잡아내어 사후 정산을 완벽히 맞춘다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **소프트웨어 기반 암호화(White-box [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))에만 의존한 오프라인 설계**: 하드웨어 보안 칩(SE)이 안 달린 구형 스마트폰도 지원하겠다며, 일반 앱(OS) 영역에 소프트웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 기술로 돈(키)을 저장하는 만행. 오프라인 상태에서는 해커가 이 폰을 실험실 전파 차단 상자 안에 넣고 며칠 동안 디버거(Debugger)로 앱을 갈기갈기 뜯어버릴 시간이 충분하다. 결국 메모리 덤프가 뚫려 무한대로 돈이 복사되는 재앙이 터진다. 오프라인 CBDC의 최하단 뿌리는 무조건 하드웨어(쇳덩어리) 격리 구역에 박아야만 한다.
+- <strong>소프트웨어 기반 암호화(White-box <a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">Cryptography</a>)에만 의존한 오프라인 설계</strong>: 하드웨어 보안 칩(SE)이 안 달린 구형 스마트폰도 지원하겠다며, 일반 앱(OS) 영역에 소프트웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 기술로 돈(키)을 저장하는 만행. 오프라인 상태에서는 해커가 이 폰을 실험실 전파 차단 상자 안에 넣고 며칠 동안 디버거(Debugger)로 앱을 갈기갈기 뜯어버릴 시간이 충분하다. 결국 메모리 덤프가 뚫려 무한대로 돈이 복사되는 재앙이 터진다. 오프라인 CBDC의 최하단 뿌리는 무조건 하드웨어(쇳덩어리) 격리 구역에 박아야만 한다.
 
 - **📢 섹션 요약 비유**: 소프트웨어만으로 오프라인 돈을 지키려는 것은, 현금을 보관하는데 강철 금고(SE)를 사기 돈 아깝다며 종이상자(앱)에 넣고 "열지 마시오"라고 복잡하게 글씨만 잔뜩 써놓은 꼴이다. 도둑이 상자를 들고 자기 집(오프라인)에 숨어 며칠 동안 칼로 천천히 찢으면 무조건 털린다. 무조건 망치로 때려도 안 부서지는 강철 금고가 필요하다.
 
@@ -106,25 +105,27 @@ tags = ["studynote-ict-convergence"]
 |:---|:---|
 | **이중 지불 (Double Spending)** | 똑같은 만 원짜리 디지털 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(토큰)을 복사해서 김밥도 사고 라면도 사는 디지털 화폐 최악의 해킹 기법. 오프라인 상태는 서버 감시가 없기에 이 위험도가 1만 배 폭증함 |
 | **SE (Secure Element)** | 스마트폰 안에 심어진 해킹 불가 강철 쇳덩어리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩. 애플페이나 삼성페이의 카드키를 저장하는 금고로, 오프라인 CBDC의 돈을 담아두는 절대적 물리 방어벽 |
-| **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장, [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))** | 오프라인 통신 단절이 끝난 후, 각 스마트폰이 중앙은행에 올려보낸 영수증 쪼가리들을 모아 "누가 사기 쳤는지" 투명하게 검증하고 원장을 맞추는 백엔드 진실의 기록소 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 원장, <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/">DLT</a>)</strong> | 오프라인 통신 단절이 끝난 후, 각 스마트폰이 중앙은행에 올려보낸 영수증 쪼가리들을 모아 "누가 사기 쳤는지" 투명하게 검증하고 원장을 맞추는 백엔드 진실의 기록소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-현금 없는 사회(Cashless Society)의 도래 및 통신망 마비 시 국가 경제 셧다운 리스크 대두
-    │
-    ▼
-중앙은행 디지털 화폐(CBDC) 연구 시작 (편의성을 위한 온라인/계좌 기반 설계)
-    │
-    ▼
-재난 상황 및 오지(통신 불가 지역)에서의 현금 기능 대체 필수 요건 제기
-    │
-    ▼
-토큰 기반(Token-based) P2P 암호학 전송 기술 및 SE(하드웨어) 융합 프로토콜 개발
-    │
-    ▼
-인터넷 단절 상태에서도 이중 지불을 방지하며 결제 후 사후 동기화(Sync)하는 오프라인 CBDC 완성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">현금 없는 사회(Cashless Society)의 도래 및 통신망 마비 시 국가 경제 셧다운 리스크 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중앙은행 디지털 화폐(CBDC) 연구 시작 (편의성을 위한 온라인/계좌 기반 설계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재난 상황 및 오지(통신 불가 지역)에서의 현금 기능 대체 필수 요건 제기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토큰 기반(Token-based) P2P 암호학 전송 기술 및 SE(하드웨어) 융합 프로토콜 개발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터넷 단절 상태에서도 이중 지불을 방지하며 결제 후 사후 동기화(Sync)하는 오프라인 CBDC 완성</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "디지털 혁신의 취약점(통신 의존성) → 물리적 현금의 생존력 요구 → 하드웨어와 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)을 융합한 최후의 구명조끼(오프라인 결제) 개발"이라는 재난 대비 화폐 공학의 진화를 보여준다.
 

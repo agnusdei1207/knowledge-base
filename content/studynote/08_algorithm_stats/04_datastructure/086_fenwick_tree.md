@@ -121,13 +121,18 @@ class FenwickTree:
 
 ### 2D BIT
 
-```text
-2D 범위 합 쿼리:
-  update(x, y, delta)  → O(log M × log N)
-  query(x1, y1, x2, y2) → O(log M × log N)
 
-응용: 2D 히트맵 누적, 행렬 부분 합
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2D 범위 합 쿼리:</div>
+<div class="kb-diagram-note">update(x, y, delta) → O(log M × log N)</div>
+<div class="kb-diagram-note">query(x1, y1, x2, y2) → O(log M × log N)</div>
+<div class="kb-diagram-note">응용: 2D 히트맵 누적, 행렬 부분 합</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 역전 수 계산은 줄 서기 질서 측정이다. 키 순서대로 서야 하는데, 큰 사람이 작은 사람 앞에 있는 쌍의 수가 역전 수다. BIT로 O(N log N)에 계산한다.
 
@@ -151,7 +156,7 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)** | BIT보다 범용적인 범위 자료 구조 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | BIT보다 범용적인 범위 자료 구조 |
 | **누적 합** | 정적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 범위 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기초 |
 | **역전 수** | BIT 대표 응용 문제 |
 | **Parallel Prefix Sum** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) BIT |
@@ -159,21 +164,23 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[누적 합 배열 — O(N) 업데이트 / O(1) 쿼리]
-    │
-    ▼
-[펜윅 트리 (BIT) — O(logN) 업데이트 / O(logN) 쿼리]
-    │
-    ▼
-[세그먼트 트리 — 범위 업데이트까지 지원]
-    │
-    ▼
-[2D BIT / 2D 세그먼트 — 다차원 범위 쿼리]
-    │
-    ▼
-[GPU Parallel Prefix Sum — 병렬 BIT 딥러닝 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">누적 합 배열 — O(N) 업데이트 / O(1) 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리 (BIT) — O(logN) 업데이트 / O(logN) 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 — 범위 업데이트까지 지원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2D BIT / 2D 세그먼트 — 다차원 범위 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GPU Parallel Prefix Sum — 병렬 BIT 딥러닝 응용</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

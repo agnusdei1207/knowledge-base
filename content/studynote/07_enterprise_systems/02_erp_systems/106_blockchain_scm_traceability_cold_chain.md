@@ -20,7 +20,7 @@ tags = ["enterprise_systems"]
 
 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리)은 복잡하고 긴 참여자들의 릴레이로 이루어진다. 하지만 기존의 SCM은 철저히 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화 되어 있어, A 하청업체에서 B 창고로 물건이 넘어갈 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엑셀이나 개별 DB에 파편화되어 저장되었다.
 
-만약 신선식품(육류, 백신 등)을 운반하는 콜드체인(Cold Chain) 도중에 누군가의 실수로 냉동기가 꺼져 물건이 훼손되었다면 어떻게 될까? 잘못을 덮기 위해 중간 업자가 자기 회사의 장부 온도를 '정상'으로 조작해 버리면, 최종 소비자는 썩은 고기를 먹게 되고 대형 마트는 책임을 물을 진짜 범인을 추적하는 데 엄청난 시간과 소송 비용을 낭비해야 했다. **기존 중앙 집중형 DB 구조로는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하는 사람'을 믿을 수밖에 없다는 치명적 한계**가 있었고, 이를 수학적으로 타파하기 위해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 불가역성(Immutability)이 SCM에 이식되었다.
+만약 신선식품(육류, 백신 등)을 운반하는 콜드체인(Cold Chain) 도중에 누군가의 실수로 냉동기가 꺼져 물건이 훼손되었다면 어떻게 될까? 잘못을 덮기 위해 중간 업자가 자기 회사의 장부 온도를 '정상'으로 조작해 버리면, 최종 소비자는 썩은 고기를 먹게 되고 대형 마트는 책임을 물을 진짜 범인을 추적하는 데 엄청난 시간과 소송 비용을 낭비해야 했다. <strong>기존 중앙 집중형 DB 구조로는 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 입력하는 사람'을 믿을 수밖에 없다는 치명적 한계</strong>가 있었고, 이를 수학적으로 타파하기 위해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 불가역성(Immutability)이 SCM에 이식되었다.
 
 - **📢 섹션 요약 비유**: 기존 SCM은 여러 명의 학생이 귓속말을 전하며 종이에 답을 적어 넘기는 게임과 같다. 중간에 장난꾸러기가 답을 살짝 지우고 고쳐 적으면 선생님은 누가 범인인지 절대 알 수 없다. 반면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 광화문 한복판의 대형 전광판에 한 번 글씨를 쓰면 다신 지울 수 없는 특수 잉크(해시)로 릴레이를 하는 완벽한 감시 체계다.
 
@@ -32,28 +32,27 @@ tags = ["enterprise_systems"]
 
 | 구성 요소 | 물류 적용 역할 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술 특성 |
 | :--- | :--- | :--- |
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부 온도, 위치(GPS)를 10분마다 측정 | 로우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자동 수집 (휴먼 에러 배제) |
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 (Ledger)** | 농장-항구-창고-마트가 동일한 원장 실시간 공유 | 해시 연쇄를 통한 조작 불가 (Immutability) |
-| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)** | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부 온도, 위치(GPS)를 10분마다 측정 | 로우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자동 수집 (휴먼 에러 배제) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 원장 (Ledger)</strong> | 농장-항구-창고-마트가 동일한 원장 실시간 공유 | 해시 연쇄를 통한 조작 불가 (Immutability) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a></strong> | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           블록체인 콜드체인(Cold Chain) 이력 추적 흐름         │
-├──────────────────────────────────────────────────────────────┤
-│ [원산지 농장] ➔ [해운사 트럭] ➔ [항구 냉동 창고] ➔ [최종 마트] │
-│      │               │                │                 │
-│      ▼               ▼                ▼                 ▼
-│ ┌─ 블록 1 ─┐     ┌─ 블록 2 ─┐     ┌─ 블록 3 ─┐      ┌─ 블록 4 ─┐
-│ │ 출하량   │◀─해시─│ 온도:-20 │◀─해시─│ 온도:-18 │◀─해시─│ 최종인수 │
-│ │ 소유권 A │     │ 소유권 B │     │ 소유권 C │      │ QR 생성  │
-│ └──────────┘     └──────────┘     └──────────┘      └──────────┘
-│                                                              │
-│  ※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?           │
-│  ➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함! │
-└──────────────────────────────────────────────────────────────┘
-```
 
-핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'합의(Consensus)'**를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 콜드체인(Cold Chain) 이력 추적 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원산지 농장</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">해운사 트럭</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">항구 냉동 창고</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">최종 마트</div></div>
+<div class="kb-diagram-note">─ 블록 1 ─ ─ 블록 2 ─ ─ 블록 3 ─ ─ 블록 4 ─</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출하량</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">온도:-20</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">온도:-18</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">최종인수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소유권 A</div><div class="kb-diagram-cell">소유권 B</div><div class="kb-diagram-cell">소유권 C</div><div class="kb-diagram-cell">QR 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함!</div></div>
+</div>
+</div>
+
+
+
+핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>'합의(Consensus)'</strong>를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 도자기 장인이 만든 도자기와 같다. 굽기 전([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 전)에는 흙을 빚을 수 있지만, 가마에 들어가 한 번 구워져 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 나면 모양(온도 기록)을 바꾸려 할 때 도자기가 깨져버려([해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 누구나 위조 시도를 알아채게 된다.
 
@@ -65,8 +64,8 @@ tags = ["enterprise_systems"]
 
 | 항목 | 기존 중앙 DB (예: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 개별 사내 시스템) | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (예: [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)) |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | DB 관리자가 언제든 UPDATE [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 조작 가능 | 한 번 기록되면 DELETE, UPDATE 원천 불가 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권** | 시스템을 구축한 대기업(갑)이 독점 | 모든 참여 노드가 동일한 장부를 공유 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | DB 관리자가 언제든 UPDATE [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 조작 가능 | 한 번 기록되면 DELETE, UPDATE 원천 불가 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유권</strong> | 시스템을 구축한 대기업(갑)이 독점 | 모든 참여 노드가 동일한 장부를 공유 |
 | **이슈 추적 시간** | 업체별 장부를 대조해야 하므로 며칠 소요 | 단일 원장 검색으로 단 몇 초 내(2.2초) 완료 |
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 암호화폐([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인)로 시작했지만, 기업형 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)(Hyperledger 등)과 결합하면서 권한 있는 참여자만 노드로 들어올 수 있게 통제하여 프라이버시와 속도를 동시에 확보했다.
@@ -111,21 +110,23 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 SCM · 파편화된 개별 ERP 장부 (신뢰 부재)
-    │
-    ▼
-RFID / 바코드 도입 · 단순 추적 자동화 (하지만 조작은 여전히 가능)
-    │
-    ▼
-블록체인 SCM 이력 추적 · 분산 원장을 통한 위·변조 불가능성 확보
-    │
-    ▼
-IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자동 대응
-    │
-    ▼
-디지털 트윈 기반 물류망 (Digital Twin SCM) · 3D 가상화 및 예측 시뮬레이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 SCM · 파편화된 개별 ERP 장부 (신뢰 부재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RFID / 바코드 도입 · 단순 추적 자동화 (하지만 조작은 여전히 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록체인 SCM 이력 추적 · 분산 원장을 통한 위·변조 불가능성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자동 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 트윈 기반 물류망 (Digital Twin SCM) · 3D 가상화 및 예측 시뮬레이션</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

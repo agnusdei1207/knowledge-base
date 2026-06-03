@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 해커가 입력창에 특수문자(`'`, `--`)를 교묘하게 섞어 서버의 SQL 문법을 변조하는 해킹이다. 이를 막으려면 해커의 입력값이 SQL의 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조'를 건드리지 못하게 묶어야 한다. `PreparedStatement`는 미리 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 틀(문법)을 짜놓고 값만 나중에 끼워 넣는(Bind) 기술이며, ORM은 아예 SQL 대신 자바 객체(Object)를 다루면 프레임워크가 알아서 안전한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 번역해 주는 기술이다.
 
-- **필요성**: 2000년대 은행과 포털 사이트들은 개발자들이 `String query = "SELECT * FROM users WHERE id = '" + userInput + "'"` 라고 `+` 기호로 문자열을 더해서(Concatenation) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜는 낭만에 젖어있었다. 이 한 줄 때문에 전 국민의 주민번호가 다크웹에 굴러다녔다. 정규식([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/))으로 막으려 해봤자 해커들의 우회 기법은 수만 가지였다. **인간의 "나쁜 글자를 걸러내겠다"는 오만을 포기하고, "구조적으로 명령어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 영원히 분리해 버리겠다"는 패러다임의 혁명**이 필요했다.
+- **필요성**: 2000년대 은행과 포털 사이트들은 개발자들이 `String query = "SELECT * FROM users WHERE id = '" + userInput + "'"` 라고 `+` 기호로 문자열을 더해서(Concatenation) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜는 낭만에 젖어있었다. 이 한 줄 때문에 전 국민의 주민번호가 다크웹에 굴러다녔다. 정규식([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/))으로 막으려 해봤자 해커들의 우회 기법은 수만 가지였다. <strong>인간의 "나쁜 글자를 걸러내겠다"는 오만을 포기하고, "구조적으로 명령어와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 영원히 분리해 버리겠다"는 패러다임의 혁명</strong>이 필요했다.
 
-- **💡 비유**: 파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(`PreparedStatement`) 방어법은 **'주조 공장의 쇳물 거푸집'**과 같습니다. 옛날(문자열 더하기)에는 찰흙으로 자동차를 만들어서, 도둑이 칼 모양 찰흙을 덧붙이면 찰흙끼리 합쳐져 자동차가 칼 달린 괴물로 변했습니다. `PreparedStatement`는 강철 거푸집(틀)을 미리 완벽하게 굳혀놓은 것입니다. 도둑이 그 안에 칼이든 독약이든 수만 가지 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 부어봤자, 거푸집 모양 자체를 변형시킬 순 없으므로 굳고 나면 결국 똑같은 자동차 모양(정상 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))으로만 찍혀 나오는 절대적 물리 방어입니다.
+- **💡 비유**: 파라미터화된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(`PreparedStatement`) 방어법은 <strong>'주조 공장의 쇳물 거푸집'</strong>과 같습니다. 옛날(문자열 더하기)에는 찰흙으로 자동차를 만들어서, 도둑이 칼 모양 찰흙을 덧붙이면 찰흙끼리 합쳐져 자동차가 칼 달린 괴물로 변했습니다. `PreparedStatement`는 강철 거푸집(틀)을 미리 완벽하게 굳혀놓은 것입니다. 도둑이 그 안에 칼이든 독약이든 수만 가지 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 부어봤자, 거푸집 모양 자체를 변형시킬 순 없으므로 굳고 나면 결국 똑같은 자동차 모양(정상 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))으로만 찍혀 나오는 절대적 물리 방어입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Statement의 저주**: 초창기 JDBC의 `Statement` 객체는 들어오는 문자를 그대로 SQL 엔진에 밀어 넣었다. 해커의 놀이터였다.
   2. **PreparedStatement의 구원**: DB 벤더([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)들이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 먼저 파싱(Parsing)하고 값은 나중에 바인딩(Binding)하는 컴파일 구조를 제공하며 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)이 멸종 위기를 맞았다.
   3. **ORM의 대통일 (현재)**: `PreparedStatement`도 귀찮다! 아예 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜지 말자! JPA, Hibernate 같은 ORM 기술이 표준이 되면서, 개발자가 자바 코드로 `user.save()`만 호출하면 프레임워크가 뒤에서 가장 완벽하고 안전한 파라미터 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 100% 자동 변환해 쏘는 시대로 진화했다.
 
-- **📢 섹션 요약 비유**: 블랙리스트 필터링이 **"이 파티에 '나쁜 놈'은 절대 들어오지 마!"** 라며 얼굴을 대조하는 지치는 싸움이라면, PreparedStatement는 아예 **"누가 들어오든 수갑을 채우고 방탄유리 방([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간)에 가둬버려!"** 라는 구조적 감금입니다. 도둑이 들어오든 착한 사람이 들어오든 아무 사고도 칠 수 없습니다.
+- **📢 섹션 요약 비유**: 블랙리스트 필터링이 **"이 파티에 '나쁜 놈'은 절대 들어오지 마!"** 라며 얼굴을 대조하는 지치는 싸움이라면, PreparedStatement는 아예 <strong>"누가 들어오든 수갑을 채우고 방탄유리 방(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 공간)에 가둬버려!"</strong> 라는 구조적 감금입니다. 도둑이 들어오든 착한 사람이 들어오든 아무 사고도 칠 수 없습니다.
 
 ---
 
 다음은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SQL 인젝션 방어                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 인젝션 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 방어의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SQL 인젝션 방어 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SQL 인젝션 방어 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

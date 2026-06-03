@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)([Live Patching](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/), 무정전 업데이트)은 서버의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 치명적인 보안 취약점이 발견되었을 때, **서버를 재부팅(Reboot)하지 않고 실행 중인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 상의 코드를 실시간으로 교체**하는 기술이다.
+> 1. **본질**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)([Live Patching](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/), 무정전 업데이트)은 서버의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 치명적인 보안 취약점이 발견되었을 때, <strong>서버를 재부팅(Reboot)하지 않고 실행 중인 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 상의 코드를 실시간으로 교체</strong>하는 기술이다.
 > 2. **메커니즘**: Ksplice, [kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/), kGraft 등의 솔루션은 공통적으로 `ftrace`를 기반으로 한 함수 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Function [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 기법을 사용한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 취약한 구형 함수 첫머리에 점프(Jump) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 삽입하여, 호출 흐름을 새롭게 로드된 안전한 신형 함수로 동적으로 우회시킨다.
 > 3. **가치**: 이 기술을 통해 클라우드 사업자와 엔터프라이즈 서버는 '보안 패치를 위한 다운타임(Downtime)'이라는 딜레마에서 해방되었으며, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 99.999% 무중단 운영을 유지하면서 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/)) 취약점에 즉각 대응할 수 있게 되었다.
 
@@ -28,8 +28,8 @@ tags = ["studynote-operating-system"]
 
 - **발전 과정**:
   1. **Ksplice (2008년)**: MIT에서 개발된 최초의 실용적인 무중단 패치. (이후 Oracle에 인수됨).
-  2. **[kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) (Red Hat) / kGraft (SUSE) (2014년)**: 리눅스 진영의 벤더들이 각자의 방식으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 도구 개발.
-  3. **Livepatch (Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.0 이후)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메인라인에 두 기술([kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/), kGraft)의 장점을 통합한 공식 인프라(`livepatch`)가 내장됨.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/">kpatch</a> (Red Hat) / kGraft (SUSE) (2014년)</strong>: 리눅스 진영의 벤더들이 각자의 방식으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 도구 개발.
+  3. <strong>Livepatch (Linux <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> 4.0 이후)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메인라인에 두 기술([kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/), kGraft)의 장점을 통합한 공식 인프라(`livepatch`)가 내장됨.
 
 - **📢 섹션 요약 비유**: 수술실에서 환자를 마취시키지 않고, 환자가 평소처럼 밥을 먹고 일하는 동안 몸속의 나쁜 세포를 건강한 세포로 실시간 교체해 주는 궁극의 외과 수술입니다.
 
@@ -41,7 +41,7 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 작동 방식 | 비유 |
 |:---|:---|:---|:---|
-| **Patch [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)** | 버그가 수정된 새 함수를 담고 있는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (.ko) | `insmod`로 실행 중인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 적재됨 | 새로 가져온 튼튼한 교체 부품 |
+| <strong>Patch <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a></strong> | 버그가 수정된 새 함수를 담고 있는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (.ko) | `insmod`로 실행 중인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 적재됨 | 새로 가져온 튼튼한 교체 부품 |
 | **ftrace (Function Tracer)** | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 내부 함수 호출을 추적/조작하는 인프라 | 함수 시작 지점에 후킹(Hooking) 지점을 제공 | 원래 부품에 달린 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 연결부 |
 | **fentry / mcount** | 컴파일 시 모든 함수 첫머리에 삽입되는 빈 공간 (5바이트 NOP) | [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 시 이 공간에 JMP(점프) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 덮어씀 | 부품을 잘라낼 수 있는 절취선 |
 | **Stop-Machine** | 패치 적용 시 시스템을 아주 잠깐 멈추는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법 | CPU 코어들을 일시 정지시키고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 교체를 안전하게 수행 | 교체 순간 0.1초 동안 숨 참기 |
@@ -52,39 +52,35 @@ tags = ["studynote-operating-system"]
 
 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)의 핵심은 구버전 함수(Old Function)가 호출될 때, 강제로 신버전 함수([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Function)로 점프(Redirect) 시키는 것이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 리눅스 커널 라이브 패칭 (Livepatch) 동작 원리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 패치 전 (Old Function 실행)]                              │
-  │   Application ──▶ sys_read() ──▶ vfs_read() [취약점 존재 함수]       │
-  │                                                                   │
-  │   vfs_read 메모리 주소:                                             │
-  │   0xff...00  [NOP (5 bytes)]  ◀ 컴파일러가 남겨둔 빈 공간 (fentry)  │
-  │   0xff...05  push   %rbp      ◀ 실제 구버전 함수 코드 시작           │
-  │   0xff...06  mov    %rsp,%rbp                                     │
-  │   ... (취약한 로직 실행) ...                                        │
-  │                                                                   │
-  │                                                                   │
-  │  [상황 2: 패치 모듈 로드 및 JMP 삽입 (Hot-patching)]                 │
-  │   1. 새로운 vfs_read_NEW() 함수가 포함된 커널 모듈 적재.               │
-  │   2. 커널의 ftrace 인프라가 vfs_read의 첫머리 NOP를 [JMP] 명령으로 덮어씀.│
-  │                                                                   │
-  │  [상황 3: 패치 후 (New Function 우회 실행)]                          │
-  │   Application ──▶ sys_read() ──▶ vfs_read() 호출 시도               │
-  │                                                                   │
-  │   vfs_read 메모리 주소:                                             │
-  │   0xff...00  [JMP vfs_read_NEW] ────┐ ◀ ftrace가 삽입한 점프 명령   │
-  │   0xff...05  push   %rbp            │ (이 아래 구버전 코드는 영원히   │
-  │   0xff...06  mov    %rsp,%rbp       │  실행되지 않고 버려짐)         │
-  │                                     │                             │
-  │   vfs_read_NEW 메모리 주소 (새 모듈):   │                             │
-  │   0xaa...00  push   %rbp      ◀────┘ ◀ 안전한 신버전 함수 실행 시작 │
-  │   0xaa...01  mov    %rsp,%rbp                                     │
-  │   ... (안전한 로직 실행 후 원래 Application으로 정상 Return) ...       │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 커널 라이브 패칭 (Livepatch) 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 패치 전 (Old Function 실행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">취약점 존재 함수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vfs_read 메모리 주소:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0xff...00</div><div class="kb-diagram-node">NOP (5 bytes)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">컴파일러가 남겨둔 빈 공간 (fentry)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xff...05 push %rbp ◀ 실제 구버전 함수 코드 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xff...06 mov %rsp,%rbp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (취약한 로직 실행) ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 패치 모듈 로드 및 JMP 삽입 (Hot-patching)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 새로운 vfs_read_NEW() 함수가 포함된 커널 모듈 적재.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 커널의 ftrace 인프라가 vfs_read의 첫머리 NOP를</div><div class="kb-diagram-node">JMP</div><div class="kb-diagram-note">명령으로 덮어씀.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 패치 후 (New Function 우회 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application ──▶ sys_read() ──▶ vfs_read() 호출 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vfs_read 메모리 주소:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">0xff...00</div><div class="kb-diagram-node">JMP vfs_read_NEW</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">ftrace가 삽입한 점프 명령</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xff...05 push %rbp</div><div class="kb-diagram-cell">(이 아래 구버전 코드는 영원히</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xff...06 mov %rsp,%rbp</div><div class="kb-diagram-cell">실행되지 않고 버려짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vfs_read_NEW 메모리 주소 (새 모듈):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xaa...00 push %rbp ◀ ◀ 안전한 신버전 함수 실행 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xaa...01 mov %rsp,%rbp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (안전한 로직 실행 후 원래 Application으로 정상 Return) ...</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 빌드할 때 GCC 컴파일러 옵션(`-pg` 및 `-mfentry`)을 주면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 수십만 개 함수 첫머리에 아무 일도 하지 않는 5바이트짜리 공백(NOP, No [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))이 생긴다. 평소에는 그냥 무시하고 지나가므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 없다. 보안 취약점이 발견되어 라이브 패치 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 삽입하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 5바이트 공백을 `JMP(점프)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 실시간(Runtime)에 덮어쓴다. 이후 앱이 구버전 함수를 부르면, 구버전 함수 안으로 들어오자마자 점프 명령을 타고 신버전 함수로 튕겨 나간다. 신버전 함수가 무사히 처리를 끝내고 결과를 반환하면, 앱은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 패치된 사실조차 모른 채 안전한 결괏값을 받게 된다.
 
@@ -95,7 +91,7 @@ tags = ["studynote-operating-system"]
 함수의 머리에 점프 명령을 덮어쓰는 것 자체는 쉽다. 가장 어려운 난제는 **"만약 어떤 프로세스가 이미 구버전 함수 중간을 실행하고 있는 와중에 JMP를 덮어쓰면 어떻게 되는가?"** 이다.
 
 - **Ksplice의 방식 (Stop-Machine)**: 모든 CPU 코어의 인터럽트를 잠시 끄고 멈춘 뒤(수 밀리초), 현재 구버전 함수를 실행 중인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 단 하나도 없는지 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 다 뒤져서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 아무도 없으면 그때 안전하게 JMP를 덮어쓴다. 만약 누군가 실행 중이면 그가 끝날 때까지 패치를 연기한다.
-- **kGraft의 방식 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Migration)**: 시스템을 멈추지 않는다. 시스템 콜 경계를 통과하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)부터 하나씩 점진적으로 신버전 함수를 보게 만든다. 즉, 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 구버전의 세계에 살고, 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 신버전의 세계에 잠시 공존(Trampoline)하다가 점차 모두 신버전으로 넘어가는 비동기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 방식이다.
+- <strong>kGraft의 방식 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Migration)</strong>: 시스템을 멈추지 않는다. 시스템 콜 경계를 통과하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)부터 하나씩 점진적으로 신버전 함수를 보게 만든다. 즉, 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 구버전의 세계에 살고, 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 신버전의 세계에 잠시 공존(Trampoline)하다가 점차 모두 신버전으로 넘어가는 비동기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 방식이다.
 
 - **📢 섹션 요약 비유**: 건물(함수)을 리모델링할 때, 손님이 화장실을 쓰고 있는데 철거해 버리면 대형 사고가 납니다. 건물 안에 아무도 없는지 전 객실을 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에만 입구를 봉쇄(JMP)하는 것이 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델의 핵심입니다.
 
@@ -108,14 +104,14 @@ tags = ["studynote-operating-system"]
 | 구분 | Ksplice ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)/[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) | [kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) (Red Hat) | kGraft (SUSE) |
 |:---|:---|:---|:---|
 | **동작 메커니즘** | 바이너리 레벨 패치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | ftrace 기반 우회 (Stop-Machine) | ftrace 기반 우회 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) |
-| **안전성 ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** | 코드 흐름 분석 후 완전 멈춤 | 전체 CPU [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 동시 정지 후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 개별 점진적 업데이트 |
-| **시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 적음 (단, 멈춤 발생) | 발생 (1~40ms의 미세한 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) | **거의 0 (멈춤 없음)** |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 변경**| 일부 지원 (Shadow [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | **불가 (오직 함수 로직만 변경 가능)** | 불가 |
-| **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)** | 상용 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Linux 독점) | Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.0 `livepatch` 로 통합 및 표준화 됨 |
+| <strong>안전성 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>)</strong> | 코드 흐름 분석 후 완전 멈춤 | 전체 CPU [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 동시 정지 후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 개별 점진적 업데이트 |
+| <strong>시스템 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 적음 (단, 멈춤 발생) | 발생 (1~40ms의 미세한 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) | **거의 0 (멈춤 없음)** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조 변경</strong>| 일부 지원 (Shadow [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | **불가 (오직 함수 로직만 변경 가능)** | 불가 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a></strong> | 상용 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Linux 독점) | Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 4.0 `livepatch` 로 통합 및 표준화 됨 |
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: 코드를 실행 중에 덮어쓰려면(Self-Modifying [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), CPU의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시(I-Cache)와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필수적이다. 패치 직후 CPU는 자신이 미리 읽어둔 프리페치(Prefetch) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 강제로 무효화(Flush)하고 JMP 명령을 다시 읽어 들여야만 정상 동작한다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 코드를 실행 중에 덮어쓰려면(Self-Modifying [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), CPU의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시(I-Cache)와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필수적이다. 패치 직후 CPU는 자신이 미리 읽어둔 프리페치(Prefetch) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 강제로 무효화(Flush)하고 JMP 명령을 다시 읽어 들여야만 정상 동작한다.
 - **소프트웨어공학 (SE)**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 극한이다. 소스 코드에서 변경된 부분(diff)만을 추출하여, 그 함수만 컴파일 가능한 독립적 ELF 오브젝트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.ko)로 분리해 내는 컴파일러 툴체인([kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)-build 등)의 정교한 링킹(Linking) 기술이 기반이 된다.
 
 - **📢 섹션 요약 비유**: 바퀴를 통째로 가는 Ksplice, 차를 0.1초 멈추고 바퀴를 가는 [kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/), 차가 달리는 중에 바퀴 4개를 하나씩 번갈아 가는 kGraft 등 각자의 철학이 모여 현재의 리눅스 표준을 만들었습니다.
@@ -126,44 +122,41 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — 클라우드 호스트([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))의 긴급 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)([Zero-Day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/)) 취약점 대응**: `Dirty COW (CVE-2016-5195)` 와 같은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 치명적 로컬 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 취약점이 터졌다. AWS, GCP 등은 수만 대의 호스트를 재부팅할 수 없다. 재부팅하면 고객사 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수백만 대가 다운된다.
+1. <strong>시나리오 — 클라우드 호스트(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">Hypervisor</a>)의 긴급 <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/">제로데이</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/">Zero-Day</a>) 취약점 대응</strong>: `Dirty COW (CVE-2016-5195)` 와 같은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 치명적 로컬 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 취약점이 터졌다. AWS, GCP 등은 수만 대의 호스트를 재부팅할 수 없다. 재부팅하면 고객사 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수백만 대가 다운된다.
    - **대응**: Canonical(Ubuntu Livepatch)이나 Red Hat([kpatch](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/))이 제공하는 라이브 패치 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.ko)을 수만 대의 서버에 `insmod`로 자동 배포한다. 패치 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 적재되는 순간, 각 호스트의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 취약한 메모리 복사 함수를 안전한 함수로 0.1초 만에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)한다. 고객은 서버가 패치된 사실조차 인지하지 못하며, 클라우드 제공자는 다운타임 페널티 없이 보안 컴플라이언스를 100% 충족한다.
 
-2. **시나리오 — 구조체(Struct) 크기가 변경되는 메이저 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트의 실패**: 관리자가 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 툴을 맹신하여, 마이너 보안 패치가 아닌 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조(`task_struct` 등) 자체가 커지는 대형 업데이트를 무정전으로 시도함.
-   - **원인 분석**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)(ftrace 방식)은 기본적으로 **'함수의 로직([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'만 교체할 수 있다**. 만약 구조체에 새로운 필드가 추가되어 메모리 오프셋(Offset)이 바뀌었다면, 기존 메모리에 할당되어 있던 수십만 개의 낡은 구조체 객체들과 새 함수가 충돌하여 즉각 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))이 발생한다.
-   - **대응 (기술사적 가이드)**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)은 오직 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Fix / Bug Fix)"용으로만 사용해야 한다. 아키텍처나 구조체가 변경되는 기능 업데이트(Feature Update)는 **반드시 클러스터 페일오버([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))를 동반한 롤링 리부트(Rolling Reboot)**를 통해 정통 방식으로 진행해야 한다.
+2. <strong>시나리오 — 구조체(Struct) 크기가 변경되는 메이저 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 업데이트의 실패</strong>: 관리자가 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 툴을 맹신하여, 마이너 보안 패치가 아닌 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조(`task_struct` 등) 자체가 커지는 대형 업데이트를 무정전으로 시도함.
+   - **원인 분석**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)(ftrace 방식)은 기본적으로 <strong>'함수의 로직(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)'만 교체할 수 있다</strong>. 만약 구조체에 새로운 필드가 추가되어 메모리 오프셋(Offset)이 바뀌었다면, 기존 메모리에 할당되어 있던 수십만 개의 낡은 구조체 객체들과 새 함수가 충돌하여 즉각 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))이 발생한다.
+   - **대응 (기술사적 가이드)**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)은 오직 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Fix / Bug Fix)"용으로만 사용해야 한다. 아키텍처나 구조체가 변경되는 기능 업데이트(Feature Update)는 <strong>반드시 클러스터 페일오버(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a>)를 동반한 롤링 리부트(Rolling Reboot)</strong>를 통해 정통 방식으로 진행해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 무정전 커널 패치(Live Patching) 도입 의사결정 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [신규 커널 취약점(CVE) 경보 발생 및 패치 권고 접수]                     │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 패치가 커널 핵심 데이터 구조체(Struct)의 변경을 동반하는가?        │
-  │          ├─ 예 ─────▶ [라이브 패치 불가]                            │
-  │          │            (전통적인 롤링 리부트 스케줄링)                  │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      시스템이 밀리초(ms) 단위의 지터(Jitter)에도 극도로 민감한 환경인가?     │
-  │      (예: 초단타 주식 거래망, 실시간 공장 제어망)                         │
-  │          ├─ 예 ─────▶ [kpatch(Stop-machine) 적용 시 주의 요망]      │
-  │          │            (패치 순간 10~40ms 시스템 정지 발생 가능)         │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [OS 벤더의 공식 라이브 패치 서비스 자동화 적용]     │
-  │                         (Ubuntu Livepatch, RHEL kpatch 자동화)    │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무정전 커널 패치(Live Patching) 도입 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 커널 취약점(CVE) 경보 발생 및 패치 권고 접수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 패치가 커널 핵심 데이터 구조체(Struct)의 변경을 동반하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 패치 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전통적인 롤링 리부트 스케줄링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템이 밀리초(ms) 단위의 지터(Jitter)에도 극도로 민감한 환경인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 초단타 주식 거래망, 실시간 공장 제어망)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">kpatch(Stop-machine) 적용 시 주의 요망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(패치 순간 10~40ms 시스템 정지 발생 가능)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 벤더의 공식 라이브 패치 서비스 자동화 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ubuntu Livepatch, RHEL kpatch 자동화)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 라이브 패치에도 만능은 없다. 보안팀은 모든 패치를 무정전으로 하길 원하지만, 엔지니어는 이것이 '코드를 우회하는 땜질'임을 명심해야 한다. 가장 좋은 실무 프랙티스는 평소(주중)에는 라이브 패치로 즉각적인 해킹 방어를 수행하고, 정기 점검일(주말/월말)에 서버를 리부트하여 디스크의 영구적인 새 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 부팅시켜 누적된 땜질(Patch [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))들을 깨끗이 청소하는 하이브리드 운영이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 라이브 패치 바이너리는 현재 구동 중인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 정확한 빌드 해시(Build Hash)와 완벽하게 일치해야만 로드된다. 우분투/레드햇 등 OS 벤더의 유료 구독(Subscription) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 연동되어 패치가 지속 제공되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가?
-- **[성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)**: 1개의 함수를 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)하면 그 함수가 호출될 때마다 점프(JMP) 명령으로 인한 [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cache 미스가 발생할 수 있다. 수십 개의 패치가 누적되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 미세하게 저하될 수 있으므로 정기적 재부팅 계획을 수립했는가?
+- <strong>벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 라이브 패치 바이너리는 현재 구동 중인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 정확한 빌드 해시(Build Hash)와 완벽하게 일치해야만 로드된다. 우분투/레드햇 등 OS 벤더의 유료 구독(Subscription) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 연동되어 패치가 지속 제공되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/">성능 모니터링</a></strong>: 1개의 함수를 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)하면 그 함수가 호출될 때마다 점프(JMP) 명령으로 인한 [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cache 미스가 발생할 수 있다. 수십 개의 패치가 누적되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 미세하게 저하될 수 있으므로 정기적 재부팅 계획을 수립했는가?
 
 - **📢 섹션 요약 비유**: [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)은 상처에 붙이는 초강력 '방수 밴드'입니다. 물(해커)이 들어오는 것을 즉시 막아주지만, 구조적으로 큰 수술(기능 업데이트)이 필요할 때는 결국 밴드를 떼고 정식 수술(재부팅)을 받아야 합니다.
 
@@ -175,12 +168,12 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 전통적 재부팅 패치 (Cold Patch) | [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/) 적용 (Hot Patch) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (Downtime)** | 서버당 5~15분 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 | **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 0초 (무중단)** | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.999% 달성 핵심 지표 확보 |
+| **정량 (Downtime)** | 서버당 5~15분 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 중단 0초 (무중단)</strong> | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.999% 달성 핵심 지표 확보 |
 | **정량 (보안 대응)** | 점검일까지 수일~수주 취약점 노출 | 벤더 패치 릴리즈 즉시 **자동 적용** | [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 노출 시간(Window) 최소화 |
 | **정성 (운영 피로)** | 주말 야간 롤링 리부트 작업 스트레스 | 일과 시간 중 스크립트로 일괄 적용 | IT 인프라 관리자의 워라밸(Work-Life Balance) 혁신 |
 
 ### 미래 전망
-- **유저 스페이스(User Space) [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패칭의 성공에 힘입어, 이제는 재부팅할 수 없는 거대 애플리케이션(예: 인메모리 DB, QEMU 프로세스 자체, glibc [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 끄지 않고 무정전 업데이트하는 유저 레벨 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)(User-level [Live Patching](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/), 예: Libcare)이 엔터프라이즈의 다음 과제로 상용화되고 있다.
+- <strong>유저 스페이스(User Space) <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/">라이브 패칭</a></strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패칭의 성공에 힘입어, 이제는 재부팅할 수 없는 거대 애플리케이션(예: 인메모리 DB, QEMU 프로세스 자체, glibc [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 끄지 않고 무정전 업데이트하는 유저 레벨 [라이브 패칭](/knowledge-base/studynote/02_operating_system/11_exam_summary/789_live_patching_kpatch_no_downtime/)(User-level [Live Patching](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/), 예: Libcare)이 엔터프라이즈의 다음 과제로 상용화되고 있다.
 - **eBPF를 이용한 마이크로 패치**: 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 컴파일해서 넣는 대신, 보안 취약점이 있는 함수 앞단에 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 훅을 걸어 악의적인 입력값(Payload)만 실시간으로 차단(Drop)해버리는 경량 가상 패칭([Virtual Patching](/knowledge-base/studynote/09_security/05_web_app_security/244_virtual_patching_waf/))이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경의 대안으로 떠오르고 있다.
 
 ### 결론
@@ -201,15 +194,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
-    │
-    ▼
-[무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]
-    │
-    ├──▶ [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘]
-    └──▶ [동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

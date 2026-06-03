@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-디캡핑 방법은 크게 습식 화학, 건식 플라즈마, 기계적 제거로 나뉜다. 이후 프로빙은 노출된 표면에서 원하는 노드를 찾고, 전기적 접촉을 만들고, 측정기와 연결하는 순서로 진행된다. 실제 공격 성공 여부는 단순히 다이를 드러내는 것보다, **얼마나 덜 손상시키며 원하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 찾아낼 수 있는가**에 달려 있다.
+디캡핑 방법은 크게 습식 화학, 건식 플라즈마, 기계적 제거로 나뉜다. 이후 프로빙은 노출된 표면에서 원하는 노드를 찾고, 전기적 접촉을 만들고, 측정기와 연결하는 순서로 진행된다. 실제 공격 성공 여부는 단순히 다이를 드러내는 것보다, <strong>얼마나 덜 손상시키며 원하는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 찾아낼 수 있는가</strong>에 달려 있다.
 
 | 단계 | 대표 방법 | 핵심 포인트 |
 | :-- | :-- | :-- |
@@ -43,25 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 디캡핑 이후 프로빙이 어떻게 연결되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Decap first, then probe the exposed electrical path         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Packaged chip]                                                           │
-│   Mold compound / lid                                                     │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Decap window opened]                                                     │
-│   Exposed die + bond wires + top metal                                    │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [Probe station]                                                           │
-│   Microprobe ─────▶ Target pad / bus / sense node                         │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Oscilloscope / logic analyzer / fault injector                            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decap first, then probe the exposed electrical path</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Packaged chip</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mold compound / lid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Decap window opened</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Exposed die + bond wires + top metal</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Probe station</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microprobe ▶ Target pad / bus / sense node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oscilloscope / logic analyzer / fault injector</div></div>
+</div>
+</div>
+
+
 
 프로빙에서 중요한 것은 "보이는 곳"과 "의미 있는 곳"이 다를 수 있다는 점이다. 외부 핀은 이미 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되었더라도, 내부 테스트 패드나 상단 금속선, 메모리와 보안 엔진 사이의 제어선은 훨씬 가치가 클 수 있다. 또한 고속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 탐침 자체의 기생 성분 때문에 파형이 왜곡될 수 있으므로, 공격자는 접촉 지점과 측정 장비를 매우 정교하게 맞춘다. 결국 디캡핑/프로빙은 화학·기계·전기 측정이 결합된 복합 실험이다.
 
@@ -90,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 모든 칩에 최고 수준 디캡핑 방어를 넣을 수는 없다. 따라서 결제용 보안 소자, 전자여권 칩, 자동차 보안 게이트웨이, [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰처럼 **물리 탈취 가능성과 비밀 가치가 모두 높은 장치**를 우선순위로 삼아야 한다. 반대로 일반 소비자 제품은 비용 제약 때문에 패키지 경화, 테스트 모드 차단, 기본 광 센서 수준에서 절충하는 경우가 많다.
+실무에서는 모든 칩에 최고 수준 디캡핑 방어를 넣을 수는 없다. 따라서 결제용 보안 소자, 전자여권 칩, 자동차 보안 게이트웨이, [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰처럼 <strong>물리 탈취 가능성과 비밀 가치가 모두 높은 장치</strong>를 우선순위로 삼아야 한다. 반대로 일반 소비자 제품은 비용 제약 때문에 패키지 경화, 테스트 모드 차단, 기본 광 센서 수준에서 절충하는 경우가 많다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -105,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 - **검은 에폭시만 믿는 설계**: 불투명하다고 안전한 것은 아니다.
 - **출하 후에도 남아 있는 테스트 인터페이스**: 프로빙 난도를 크게 낮춘다.
 - **단일 광 센서만 배치**: 센서 우회 시 전체 방어가 무너진다.
-- **외부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 암호화만으로 충분하다고 보는 판단**: 내부 제어선과 상태 노드는 여전히 표적이 된다.
+- <strong>외부 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 암호화만으로 충분하다고 보는 판단</strong>: 내부 제어선과 상태 노드는 여전히 표적이 된다.
 
 기술사 답안에서는 "디캡핑 방어"를 패키지 재료 문제로만 쓰면 부족하다. 패키지, 다이, 보안 상태 머신, zeroize, 테스트 인터페이스까지 묶어 서술해야 실제 설계 판단으로 인정받기 쉽다.
 
@@ -117,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 디캡핑/프로빙을 위협 모델에 포함하면 칩 보안의 관점이 "검은 상자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에서 "노출 이후에도 비밀을 지킬 구조"로 바뀐다. 이 변화는 능동 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 다중 센서, 짧은 수명 키, 테스트 경로 제거, 패키지-다이 공동 설계를 촉진한다. 즉 이 공격을 제대로 이해할수록 보안은 재료 선택이 아니라 시스템 구조의 문제라는 사실이 분명해진다.
 
-물론 완전 방어는 어렵다. 공격 장비는 계속 정밀해지고, 배면 프로빙과 고대역폭 탐침 같은 기법도 발전하고 있다. 앞으로는 능동 감지층, 배면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), on-die [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 암호화, 물리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방지 기능 ([Physical Unclonable Function](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/788_sram_puf/), [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/)) 기반 비고정 키 구조가 더 중요해질 수 있다. 따라서 디캡핑/프로빙은 "칩을 여는 기술"이 아니라, **보안 경계가 어디서 무너질 수 있는지를 보여 주는 기준 공격**으로 기억하는 것이 맞다.
+물론 완전 방어는 어렵다. 공격 장비는 계속 정밀해지고, 배면 프로빙과 고대역폭 탐침 같은 기법도 발전하고 있다. 앞으로는 능동 감지층, 배면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), on-die [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 암호화, 물리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방지 기능 ([Physical Unclonable Function](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/788_sram_puf/), [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/)) 기반 비고정 키 구조가 더 중요해질 수 있다. 따라서 디캡핑/프로빙은 "칩을 여는 기술"이 아니라, <strong>보안 경계가 어디서 무너질 수 있는지를 보여 주는 기준 공격</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 디캡핑과 프로빙을 알면, 자물쇠를 더 칠할지가 아니라 문이 뜯겼을 때 안쪽 서랍과 경보기까지 어떻게 함께 반응해야 하는지 보이게 된다.
 
@@ -135,25 +132,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-패키지 불투명성 의존
-        │
-        ▼
-디캡핑 (Decapping)
-        │
-        ▼
-다이 노출 · 패시베이션 개구
-        │
-        ▼
-프로빙 (Probing) · 내부 노드 측정
-        │
-        ├──▶ FIB (Focused Ion Beam) 수정
-        │
-        └──▶ 역공학 (Reverse Engineering)
-        │
-        ▼
-능동 메시 · 광/화학 센서 · zeroization 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패키지 불투명성 의존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디캡핑 (Decapping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다이 노출 · 패시베이션 개구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로빙 (Probing) · 내부 노드 측정</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ FIB (Focused Ion Beam) 수정</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 역공학 (Reverse Engineering)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">능동 메시 · 광/화학 센서 · zeroization 대응</div>
+</div>
+</div>
+
+
 
 이 흐름은 패키지 제거가 단순 노출로 끝나지 않고, 관찰·편집·복원 공격으로 확장된 뒤 복합 방어를 요구하게 된 과정을 보여 준다.
 

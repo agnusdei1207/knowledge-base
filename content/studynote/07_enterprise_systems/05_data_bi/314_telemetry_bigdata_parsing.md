@@ -22,9 +22,9 @@ tags = ["studynote-enterprise-systems"]
 [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ([OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))은 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) 프로젝트로 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SDK를 제공하여 한 번의 계측으로 어느 백엔드(Jaeger, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog)에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 수 있다.
 
 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3 기둥 (Three Pillars):
-- **Traces ([분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))**: 요청이 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지나는 전체 경로 기록
-- **[Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) ([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))**: 숫자로 표현되는 시스템 상태 (CPU, 응답시간, 에러율)
-- **[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))**: 시간 순서 이벤트 기록
+- <strong>Traces (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">분산 추적</a>)</strong>: 요청이 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지나는 전체 경로 기록
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>)</strong>: 숫자로 표현되는 시스템 상태 (CPU, 응답시간, 에러율)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong>: 시간 순서 이벤트 기록
 
 4 Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 지표):
 1. [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)): 요청 처리 시간
@@ -53,41 +53,31 @@ tags = ["studynote-enterprise-systems"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 텔레메트리 수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-  마이크로서비스 (OTel SDK 계측)
-  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-  │  Service A   │  │  Service B   │  │  Service C   │
-  │ Trace/Metric │  │ Trace/Metric │  │ Trace/Metric │
-  │   /Log 생성  │  │   /Log 생성  │  │   /Log 생성  │
-  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
-         └──────────────────┼──────────────────┘
-                            ▼ OTLP (gRPC/HTTP)
-               ┌────────────────────────────┐
-               │     OTel Collector         │
-               │  ┌──────────────────────┐  │
-               │  │ Receiver (OTLP)      │  │
-               │  ├──────────────────────┤  │
-               │  │ Processor            │  │
-               │  │ - Batch (500ms)      │  │
-               │  │ - Tail Sampling      │  │
-               │  │ - PII 마스킹          │  │
-               │  ├──────────────────────┤  │
-               │  │ Exporter             │  │
-               │  └──────────────────────┘  │
-               └──────────────┬─────────────┘
-          ┌────────────────────┼──────────────────┐
-          ▼                    ▼                   ▼
-  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐
-  │   Jaeger     │  │  Prometheus  │  │  Grafana Loki    │
-  │  (Tracing)   │  │  (Metrics)   │  │  (Logs)          │
-  └──────────────┘  └──────────────┘  └──────────────────┘
-          └────────────────────┼──────────────────┘
-                               ▼
-                     ┌──────────────────┐
-                     │   Grafana 대시보드 │
-                     │  (4 Golden Sign) │
-                     └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마이크로서비스 (OTel SDK 계측)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A</div><div class="kb-diagram-cell">Service B</div><div class="kb-diagram-cell">Service C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace/Metric</div><div class="kb-diagram-cell">Trace/Metric</div><div class="kb-diagram-cell">Trace/Metric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/Log 생성</div><div class="kb-diagram-cell">/Log 생성</div><div class="kb-diagram-cell">/Log 생성</div></div>
+<div class="kb-diagram-note">▼ OTLP (gRPC/HTTP)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OTel Collector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver (OTLP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Processor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Batch (500ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tail Sampling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PII 마스킹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Exporter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jaeger</div><div class="kb-diagram-cell">Prometheus</div><div class="kb-diagram-cell">Grafana Loki</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tracing)</div><div class="kb-diagram-cell">(Metrics)</div><div class="kb-diagram-cell">(Logs)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana 대시보드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4 Golden Sign)</div></div>
+</div>
+</div>
+
+
 
 ### 4 Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/) 알람 임계값 예시
 
@@ -167,21 +157,23 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-O-RAN 네트워크 장비 지표 수동 수집 한계
-    │
-    ▼
-스트리밍 텔레메트리 (gRPC/gNMI) - 실시간 전송
-    │
-    ▼
-Kafka + Flink - 대용량 텔레메트리 스트리밍 파싱
-    │
-    ▼
-시계열 DB (InfluxDB, OpenTSDB) 저장·분석
-    │
-    ▼
-ML 기반 네트워크 이상 탐지 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">O-RAN 네트워크 장비 지표 수동 수집 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트리밍 텔레메트리 (gRPC/gNMI) - 실시간 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kafka + Flink - 대용량 텔레메트리 스트리밍 파싱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시계열 DB (InfluxDB, OpenTSDB) 저장·분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ML 기반 네트워크 이상 탐지 자동화</div>
+</div>
+</div>
+
+
 
 > **키워드**: Telemetry, [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/), gNMI, [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Flink, Time Series, Network Analytics, Streaming Parsing
 

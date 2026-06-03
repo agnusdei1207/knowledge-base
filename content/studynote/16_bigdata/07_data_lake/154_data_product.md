@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Product)은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 아니라 **명확한 인터페이스([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 소유권, 품질 계약**을 갖춘 독립적으로 배포 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위다.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Product)은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 아니라 <strong>명확한 인터페이스(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>), <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>), 소유권, 품질 계약</strong>을 갖춘 독립적으로 배포 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위다.
 2. [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/))은 생산자(Producer)와 소비자(Consumer) 사이의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·품질 기대값을 명시한 공식 협약으로, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 브레이킹 체인지를 사전에 방지한다.
-3. 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품은 **발견 가능(Discoverable)·주소 지정 가능(Addressable)·신뢰 가능(Trustworthy)·자기 기술(Self-Describing)·상호 운용 가능(Interoperable)**이라는 5가지 특성을 충족한다.
+3. 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품은 <strong>발견 가능(Discoverable)·주소 지정 가능(Addressable)·신뢰 가능(Trustworthy)·자기 기술(Self-Describing)·상호 운용 가능(Interoperable)</strong>이라는 5가지 특성을 충족한다.
 
 ---
 
@@ -36,41 +36,37 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│               데이터 제품 구조 (Data Product Structure)             │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  ┌─────────────────────────────────────────────────────────────┐ │
-│  │  데이터 제품: sales.gold.daily_orders                         │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  📋 스키마 계약 (Data Contract)                               │ │
-│  │  - order_date: DATE NOT NULL                                  │ │
-│  │  - total_amount: DECIMAL(18,2) NOT NULL                       │ │
-│  │  - region: STRING (values: KR/US/EU)                          │ │
-│  │  - 버전: v2.1.0 (SemVer)                                      │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  📊 SLA 지표                                                  │ │
-│  │  - 신선도: 매일 09:00 KST 이전 갱신 보장                       │ │
-│  │  - 가용성: 99.5% (월간)                                        │ │
-│  │  - 완전성: null_rate < 1%                                     │ │
-│  │  - 정확성: amount_variance < 0.01%                            │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  🔍 발견 가능성 (Data Catalog 등록)                            │ │
-│  │  - 소유 팀: Sales Analytics Team                              │ │
-│  │  - 연락처: #data-sales Slack 채널                             │ │
-│  │  - 리니지: bronze.orders → silver.orders_clean → gold.daily  │ │
-│  │  - 사용 예시 쿼리 3개 등록                                     │ │
-│  ├─────────────────────────────────────────────────────────────┤ │
-│  │  🔌 접근 인터페이스                                            │ │
-│  │  - Delta Table URI: catalog.schema.table (Spark/SQL)          │ │
-│  │  - Delta Sharing: REST API (외부 소비자)                       │ │
-│  │  - Kafka Topic: `sales.daily_orders.v2` (스트리밍)             │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
-```
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품 5대 특성 (Dehghani 정의)**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 제품 구조 (Data Product Structure)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 제품: sales.gold.daily_orders</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📋 스키마 계약 (Data Contract)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- order_date: DATE NOT NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- total_amount: DECIMAL(18,2) NOT NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- region: STRING (values: KR/US/EU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버전: v2.1.0 (SemVer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 SLA 지표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 신선도: 매일 09:00 KST 이전 갱신 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성: 99.5% (월간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 완전성: null_rate &lt; 1%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정확성: amount_variance &lt; 0.01%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔍 발견 가능성 (Data Catalog 등록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소유 팀: Sales Analytics Team</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 연락처: #data-sales Slack 채널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리니지: bronze.orders → silver.orders_clean → gold.daily</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용 예시 쿼리 3개 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔌 접근 인터페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Delta Table URI: catalog.schema.table (Spark/SQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Delta Sharing: REST API (외부 소비자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Kafka Topic: <code>sales.daily_orders.v2</code> (스트리밍)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 제품 5대 특성 (Dehghani 정의)</strong>
 
 | 특성 | 설명 | 구현 방법 |
 |:---|:---|:---|
@@ -86,7 +82,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. 비교 및 연결
 
-**[데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) ([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)) 실제 구조**
+<strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a> (<a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">Data Contract</a>) 실제 구조</strong>
 ```yaml
 # data_contract.yaml (OpenDataContract 표준)
 id: sales.gold.daily_orders
@@ -114,7 +110,7 @@ quality_checks:
     threshold: 0
 ```
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품 성숙도 모델**
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 제품 성숙도 모델</strong>
 
 | 수준 | 특징 | 예시 |
 |:---|:---|:---|
@@ -129,7 +125,7 @@ quality_checks:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a> 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] 주요 Gold 테이블에 소유팀·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 명시
 - [ ] [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 소비자 팀에 사전 공지 프로세스
 - [ ] 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드 (신선도·완전성·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))
@@ -158,7 +154,7 @@ quality_checks:
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견성 | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 등록으로 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 |
 | 책임 명확화 | 소유팀 명시로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 책임 소재 확보 |
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품과 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 시대의 핵심 운영 패러다임이다. 기술적으로는 OpenDataContract, DataHub, Unity Catalog가 구현 도구를 제공하고 있으며, 2024년 이후 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 성숙 조직에서 빠르게 도입되고 있다. 기술사 시험에서는 **5대 특성**, **[데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) 구성 요소**, **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표 유형**이 핵심 논점이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품과 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 시대의 핵심 운영 패러다임이다. 기술적으로는 OpenDataContract, DataHub, Unity Catalog가 구현 도구를 제공하고 있으며, 2024년 이후 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 성숙 조직에서 빠르게 도입되고 있다. 기술사 시험에서는 **5대 특성**, <strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a> 구성 요소</strong>, <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 지표 유형</strong>이 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품은 제조물 책임법이 적용되는 제품이다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(품질 위반)이 발생하면 제조사(소유 팀)가 책임지고, 리콜([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수정) 후 소비자에게 통보해야 한다.
 
@@ -179,21 +175,23 @@ quality_checks:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 레이크 (Data Lake) — 원시 데이터 저장]
-    │
-    ▼
-[데이터 메시 (Data Mesh) — 도메인 소유권]
-    │
-    ▼
-[데이터 제품 (Data Product) — 소비 가능 단위]
-    │
-    ▼
-[데이터 계약 (Data Contract) — SLA 보장]
-    │
-    ▼
-[데이터 마켓플레이스 (Data Marketplace) — 내부 거래]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 원시 데이터 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 소유권</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 제품 (Data Product) — 소비 가능 단위</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 계약 (Data Contract) — SLA 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마켓플레이스 (Data Marketplace) — 내부 거래</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 레이크에서 출발해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권을 가진 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 소비 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품과 계약을 거쳐 마켓플레이스로 거래되는 흐름을 보여준다.
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 패킷을 작게 조각내는 **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 과정에서, 조각들의 조립 순서 번호(Offset)를 고의로 중복되거나 어긋나게 조작하여 전송함으로써, 타겟 서버가 이를 재조립(Reassembly)하는 과정에서 계산 오류를 일으켜 시스템이 멈추거나 뻗어버리게([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 만드는 공격**입니다.
+- 패킷을 작게 조각내는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 과정에서, 조각들의 조립 순서 번호(Offset)를 고의로 중복되거나 어긋나게 조작하여 전송함으로써, 타겟 서버가 이를 재조립(Reassembly)하는 과정에서 계산 오류를 일으켜 시스템이 멈추거나 뻗어버리게(<a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a>) 만드는 공격</strong>입니다.
 
-```text
-[Ping of Death 대형 패킷 단편화…]
-    │
-    ▼
-[TearDrop 공격]
-    │
-    └──▶ [UDP Flood 리소스 고갈 유도 / Nu…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TearDrop 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TearDrop 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,16 +53,20 @@ tags = ["studynote-network"]
   - 조각 A: "나는 0번부터 1499번이야."
   - **조작된 조각 B**: "나는 **1400번부터** 2999번이야!" (1400~1499 구간이 중복됨)
   - **조작된 조각 C**: "나는 **2500번부터** 끝까지야!" (또 중복됨)
-- **폭발 (시스템 붕괴)**: 타겟 서버의 구형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 이렇게 겹친 패킷을 받으면, 메모리에 예쁘게 이어 붙여야 하는데 공간이 겹쳐서 당황하게 됩니다. 어떻게든 꿰맞춰보려고 마이너스(-) 길이로 빼기 계산을 시도하다가 메모리 영역을 엉뚱하게 건드리며 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체가 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠져 블루스크린과 함께 죽어버립니다.**
+- **폭발 (시스템 붕괴)**: 타겟 서버의 구형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 이렇게 겹친 패킷을 받으면, 메모리에 예쁘게 이어 붙여야 하는데 공간이 겹쳐서 당황하게 됩니다. 어떻게든 꿰맞춰보려고 마이너스(-) 길이로 빼기 계산을 시도하다가 메모리 영역을 엉뚱하게 건드리며 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 전체가 패닉(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)에 빠져 블루스크린과 함께 죽어버립니다.</strong>
 
-```text
-[Ping of Death 대형 패킷 단편화…]
-    │
-    ▼
-[TearDrop 공격]
-    │
-    └──▶ [UDP Flood 리소스 고갈 유도 / Nu…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TearDrop 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TearDrop 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -85,7 +93,7 @@ TearDrop 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 Ping of Death와 마찬가지로 오늘날에는 거의 통하지 않는 구시대의 유물입니다.
-- **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 필터링**: 최신 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비나 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 패킷 조각들이 들어왔을 때, 조립 설명서(Offset)가 1비트라도 겹치거나 음수가 나오면 조립을 아예 시도하지 않고 즉각 그 조각들을 **쓰레기통에 폐기(Drop)**해 버리도록 설계되어 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> 필터링</strong>: 최신 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비나 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 패킷 조각들이 들어왔을 때, 조립 설명서(Offset)가 1비트라도 겹치거나 음수가 나오면 조립을 아예 시도하지 않고 즉각 그 조각들을 <strong>쓰레기통에 폐기(Drop)</strong>해 버리도록 설계되어 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -116,15 +124,19 @@ TearDrop 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Ping of Death 대형 패킷 단편화…]
-    │
-    ▼
-[현재 개념: TearDrop 공격]
-    │
-    ├──▶ [확장 A: UDP Flood 리소스 고갈 유도 / Nu…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Ping of Death 대형 패킷 단편화…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TearDrop 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 TearDrop 공격는 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

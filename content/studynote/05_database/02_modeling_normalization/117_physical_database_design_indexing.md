@@ -10,31 +10,34 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 물리 설계는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 스키마를 **특정 DBMS의 물리적 저장 구조([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·테이블스페이스·[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/))**로 변환하여 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화**하는 단계다.
-> 2. **가치**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완벽한 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 스키마도 물리 설계 없이 구현하면 **Full Table Scan·[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 경합·I/O 병목**으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100배 이상 저하될 수 있다.
-> 3. **판단 포인트**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)/Hash/Covering)·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)(Range/Hash/List)·[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)(테이블 병합/분할/중복 컬럼)의 **세 가지 핵심 최적화**와 그 트레이드오프를 이해해야 한다.
+> 1. **본질**: 물리 설계는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 스키마를 <strong>특정 DBMS의 물리적 저장 구조(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·<a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>·테이블스페이스·<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a>)</strong>로 변환하여 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최적화</strong>하는 단계다.
+> 2. **가치**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완벽한 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 스키마도 물리 설계 없이 구현하면 <strong>Full Table Scan·<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 경합·I/O 병목</strong>으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100배 이상 저하될 수 있다.
+> 3. **판단 포인트**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)/Hash/Covering)·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)(Range/Hash/List)·[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)(테이블 병합/분할/중복 컬럼)의 <strong>세 가지 핵심 최적화</strong>와 그 트레이드오프를 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    물리 설계 핵심 활동                                 │
-├───────────────────────────────────────────────────────┤
-│  1. 인덱스 설계                                       │
-│     WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스         │
-│     고카디널리티 컬럼 우선                            │
-│  2. 파티셔닝                                          │
-│     대용량 테이블 → Range/Hash/List 분할              │
-│     I/O 분산, Partition Pruning                       │
-│  3. 역정규화                                          │
-│     자주 JOIN하는 테이블 → 병합/중복 컬럼 추가        │
-│     읽기 성능 ↑, 쓰기 복잡도 ↑                       │
-│  4. 스토리지 배치                                     │
-│     테이블스페이스·데이터 파일·RAID 레벨              │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 설계 핵심 활동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인덱스 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고카디널리티 컬럼 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 파티셔닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대용량 테이블 → Range/Hash/List 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 분산, Partition Pruning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 역정규화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자주 JOIN하는 테이블 → 병합/중복 컬럼 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 성능 ↑, 쓰기 복잡도 ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 스토리지 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블스페이스·데이터 파일·RAID 레벨</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계가 건물 평면도(방 배치)라면, 물리 설계는 콘크리트 두께·배관 위치·에어컨 위치를 정하는 시공 도면이다.
 
@@ -46,7 +49,7 @@ tags = ["studynote-database"]
 
 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 적합 | 비적합 |
 |:---|:---|:---|
-| **[B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)** | 범위 검색, 정렬 | 저카디널리티 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a></strong> | 범위 검색, 정렬 | 저카디널리티 |
 | **Hash** | 등가 검색 (=) | 범위 검색 |
 | **Bitmap** | 저카디널리티 (성별, Y/N) | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) ([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 빈번) |
 | **Covering** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼 전부 포함 | 넓은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
@@ -67,7 +70,7 @@ tags = ["studynote-database"]
 
 | 비교 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없음 | [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 |:---|:---|:---|:---|
-| **검색** | Full Scan | **[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Scan** | **[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Only Scan** |
+| **검색** | Full Scan | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Scan</strong> | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Only Scan</strong> |
 | **속도** | O(N) | O(log N) | **O(log N), I/O 최소** |
 
 ---
@@ -76,8 +79,8 @@ tags = ["studynote-database"]
 
 ### [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 가이드
 1. **WHERE 절 빈출 컬럼**: 반드시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/).
-2. **복합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 순서**: 카디널리티 높은 컬럼 선두.
-3. **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 과다 주의**: INSERT [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지 비용).
+2. <strong>복합 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 순서</strong>: 카디널리티 높은 컬럼 선두.
+3. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 과다 주의</strong>: INSERT [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지 비용).
 
 ---
 
@@ -85,10 +88,10 @@ tags = ["studynote-database"]
 
 | 지표 | 물리 설계 미적용 | 물리 설계 적용 | 개선 |
 |:---|:---|:---|:---|
-| 검색 속도 | Full Scan (초) | **[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Scan (ms)** | 100×+ |
-| 대용량 관리 | 단일 테이블 | **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)** | 관리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
+| 검색 속도 | Full Scan (초) | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Scan (ms)</strong> | 100×+ |
+| 대용량 관리 | 단일 테이블 | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong> | 관리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
 
-물리 설계는 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 위에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 얹는 단계**이며, 클라우드 DB([Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/), Spanner)에서는 자동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추천이 제공되고 있다.
+물리 설계는 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>) 위에 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화를 얹는 단계</strong>이며, 클라우드 DB([Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/), Spanner)에서는 자동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추천이 제공되고 있다.
 
 ---
 
@@ -96,32 +99,34 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)** | 가장 범용적인 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조 |
-| **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)** | 대용량 테이블 I/O [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)** | 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 일부 해제) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> | 가장 범용적인 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong> | 대용량 테이블 I/O [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a></strong> | 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 일부 해제) |
 | **테이블스페이스** | 물리 저장 공간 관리 |
-| **Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)** | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 포함, I/O 최소화 |
+| <strong>Covering <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a></strong> | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 포함, I/O 최소화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 테이블 + Full Scan (초기)]
-    │
-    ▼
-[B-Tree 인덱스 (1970s) — O(log N) 검색]
-    │
-    ▼
-[파티셔닝 (1990s) — 대용량 테이블 분할]
-    │
-    ▼
-[Covering Index / Index Organized Table (2000s)]
-    │
-    ▼
-[현재: AI 기반 인덱스 자동 추천 (AutoIndex)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 테이블 + Full Scan (초기)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree 인덱스 (1970s) — O(log N) 검색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파티셔닝 (1990s) — 대용량 테이블 분할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Covering Index / Index Organized Table (2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 인덱스 자동 추천 (AutoIndex)</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 교과서 맨 뒤 **색인**이에요. "광합성"을 찾으려면 색인에서 페이지를 찾아 바로 가요.
+1. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 교과서 맨 뒤 <strong>색인</strong>이에요. "광합성"을 찾으려면 색인에서 페이지를 찾아 바로 가요.
 2. [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 도서관 **서가를 주제별로 나누는** 거예요. 수학 책은 수학 서가에만 있으니 찾기 쉽죠.
 3. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 자주 쓰는 정보를 **가까이에 복사해 놓는** 거예요. 빨리 찾지만 정리가 좀 지저분해져요!
 

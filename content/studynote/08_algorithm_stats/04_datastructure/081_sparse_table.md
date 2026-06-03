@@ -18,16 +18,20 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-배열: [2, 4, 3, 1, 6, 7, 8, 9]
-       0  1  2  3  4  5  6  7
 
-RMQ(l, r) = [l, r] 범위에서 최솟값 쿼리
-예: RMQ(1, 5) = min(4, 3, 1, 6, 7) = 1
 
-나이브 방법: O(n) 쿼리 → 쿼리 Q개면 O(nQ)
-스파스 테이블: O(n log n) 전처리 → O(1) 쿼리
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">2, 4, 3, 1, 6, 7, 8, 9</div></div>
+<div class="kb-diagram-note">0 1 2 3 4 5 6 7</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">RMQ(l, r) =</div><div class="kb-diagram-node">l, r</div><div class="kb-diagram-note">범위에서 최솟값 쿼리</div></div>
+<div class="kb-diagram-note">예: RMQ(1, 5) = min(4, 3, 1, 6, 7) = 1</div>
+<div class="kb-diagram-note">나이브 방법: O(n) 쿼리 → 쿼리 Q개면 O(nQ)</div>
+<div class="kb-diagram-note">스파스 테이블: O(n log n) 전처리 → O(1) 쿼리</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스파스 테이블은 미리 만들어둔 구간 최솟값 치트시트다. 모든 구간의 답을 미리 계산해두면(치트시트 준비), 질문이 들어왔을 때 즉시 답할 수 있다(O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)).
 
@@ -96,9 +100,9 @@ RMQ(l, r):
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)** | 정적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) RMQ 최적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| <strong>O(1) <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | 정적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) RMQ 최적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **구현 단순** | 2D [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + log 전처리 |
-| **[LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/) 결합** | 트리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 고속화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/">LCA</a> 결합</strong> | 트리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 고속화 |
 
 스파스 테이블은 정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 극한 최적화 사례로, 생물정보학(유전체 서열 [LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/) 분석), 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(최단 경로 전처리), 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구간 집계에 활용된다.
 
@@ -111,28 +115,30 @@ RMQ(l, r):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **RMQ** | 스파스 테이블의 핵심 해결 문제 |
-| **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)** | 구간 겹침 허용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 이론적 근거 |
-| **[LCA](/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/)** | 스파스 테이블의 대표 응용 문제 |
-| **[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)** | 동적 갱신이 필요할 때의 대안 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a></strong> | 구간 겹침 허용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 이론적 근거 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/071_lca/">LCA</a></strong> | 스파스 테이블의 대표 응용 문제 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | 동적 갱신이 필요할 때의 대안 |
 | **오일러 투어** | 트리 → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) RMQ 변환 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[나이브 RMQ — O(n) 쿼리, 단순 순회]
-    │
-    ▼
-[스파스 테이블 — O(n log n) 전처리, O(1) 쿼리]
-    │
-    ▼
-[LCA 결합 — 트리 공통 조상 O(1) 탐색]
-    │
-    ▼
-[세그먼트 트리 — 동적 갱신 + 구간 쿼리]
-    │
-    ▼
-[퍼시스턴트 세그먼트 트리 — 버전별 히스토리 쿼리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">나이브 RMQ — O(n) 쿼리, 단순 순회</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스파스 테이블 — O(n log n) 전처리, O(1) 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LCA 결합 — 트리 공통 조상 O(1) 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 — 동적 갱신 + 구간 쿼리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 세그먼트 트리 — 버전별 히스토리 쿼리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

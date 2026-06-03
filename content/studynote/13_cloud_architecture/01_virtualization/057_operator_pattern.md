@@ -33,17 +33,23 @@ tags = ["cloud_architecture"]
 - **CRD (Custom Resource Definition)**: 새로운 리소스 종류를 정의한다.
 - **Custom Controller**: 그 리소스를 감시하고 필요한 작업을 수행한다.
 
-```text
-사용자 선언
-   ↓
-CRD 생성
-   ↓
-Custom Controller 감시
-   ↓
-Reconciliation
-   ↓
-상태 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 선언</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CRD 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Custom Controller 감시</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Reconciliation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">상태 반영</div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 사용자는 "무엇을 원한다"만 적고, 실제 절차는 컨트롤러가 알아서 처리한다.
 
@@ -103,15 +109,21 @@ Deployment는 단순한 배포에 강하고, [오퍼레이터](/knowledge-base/s
 
 ## 관련 개념 맵
 
-```text
-CRD
-   ↓
-Custom Controller
-   ↓
-Reconciliation Loop
-   ↓
-상태형 워크로드 자동 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CRD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Custom Controller</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Reconciliation Loop</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">상태형 워크로드 자동 운영</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 클라우드 환경이 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))로 진화하면서 네트워크에도 큰 문제가 생겼다. VM은 한번 켜지면 IP가 거의 바뀌지 않지만, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 그룹)는 하루에도 수백 번씩 죽고 살아나며 그때마다 IP 주소가 바뀐다. 이렇게 동적인 환경에서는 전통적인 라우터나 고정된 IP [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식으로는 통신을 유지할 수 없다.
 
-이 혼란을 잠재우기 위해 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation)가 주도하여 만든 표준이 바로 **[CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/))**다. "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때 어떻게 네트워크에 연결할 것인가"에 대한 규칙만 정의해 두고, 실제 작동은 다양한 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 플러그인들이 알아서 하도록 책임을 분리(Decoupling)한 것이다.
+이 혼란을 잠재우기 위해 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation)가 주도하여 만든 표준이 바로 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/">Container Network Interface</a>)</strong>다. "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때 어떻게 네트워크에 연결할 것인가"에 대한 규칙만 정의해 두고, 실제 작동은 다양한 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 플러그인들이 알아서 하도록 책임을 분리(Decoupling)한 것이다.
 
-```text
-[MEC]
-    │
-    ▼
-[클라우드 네이티브 네트워크]
-    │
-    └──▶ [QoS / QoE 차이 비교]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 매일 수십 번씩 텐트를 쳤다 접었다 하는 유목민 캠핑장([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))에서, 텐트를 칠 때마다 즉석에서 수도관과 전기선을 표준 규격으로 딱 맞게 꽂아주는 만능 어댑터가 CNI다.
 
@@ -38,29 +42,26 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에서 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인은 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)(노드 관리자)의 지시를 받아 작동한다. 주요 역할은 **IP 주소 할당 (IPAM: IP Address [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**과 **네트워크 인터페이스(veth pair) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**이다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에서 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인은 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)(노드 관리자)의 지시를 받아 작동한다. 주요 역할은 <strong>IP 주소 할당 (IPAM: IP Address <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>과 <strong>네트워크 인터페이스(veth pair) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다.
 
-```text
-┌───────────────────────────────── [ Kubernetes Node ] ─────────────────────────────────┐
-│                                                                                       │
-│  ┌─────────────────────────┐               ┌───────────────────────────────────────┐  │
-│  │       Pod A (App)       │               │              Pod B (DB)               │  │
-│  │  ┌───────────────────┐  │               │  ┌─────────────────────────────────┐  │  │
-│  │  │  eth0 (10.0.1.2)  │  │               │  │         eth0 (10.0.1.3)         │  │  │
-│  │  └─────────┬─────────┘  │               │  └────────────────┬────────────────┘  │  │
-│  └────────────┼────────────┘               └───────────────────┼───────────────────┘  │
-│               │ (veth pair)                                    │ (veth pair)          │
-│  ┌────────────┴────────────────────────────────────────────────┴────────────┐         │
-│  │                          CNI Plugin (e.g., Calico)                         │         │
-│  │                      [ IPAM / Routing / Network Policy ]                   │         │
-│  └────────────┬─────────────────────────────────────────────────────────────┘         │
-│               │                                                                       │
-│        [ 물리 NIC (eth0) ] ────────────────────────▶ 외부 네트워크 / 다른 노드        │
-└───────────────────────────────────────────────────────────────────────────────────────┘
-```
 
-1. **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시**: Kubelet이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임을 통해 Pod를 띄우면, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인을 호출한다. CNI는 가상 랜선(veth pair)을 만들어 한쪽은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안(eth0)에, 한쪽은 호스트 네트워크에 연결하고 IP 대역 대장에서 IP를 하나 꺼내 부여한다.
-2. **오버레이 vs [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: 플러그인의 성격에 따라, 노드 간 통신 시 패킷을 다시 포장하는 오버레이(Overlay, 예: Flannel의 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)) 방식을 쓰거나, 패킷 포장 없이 실제 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(예: [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/))을 사용하여 다른 노드의 Pod와 통신하게 만든다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A (App)</div><div class="kb-diagram-cell">Pod B (DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eth0 (10.0.1.2)</div><div class="kb-diagram-cell">eth0 (10.0.1.3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(veth pair)</div><div class="kb-diagram-cell">(veth pair)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNI Plugin (e.g., Calico)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPAM / Routing / Network Policy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 NIC (eth0)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">외부 네트워크 / 다른 노드</div></div>
+</div>
+</div>
+
+
+
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 시</strong>: Kubelet이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임을 통해 Pod를 띄우면, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인을 호출한다. CNI는 가상 랜선(veth pair)을 만들어 한쪽은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안(eth0)에, 한쪽은 호스트 네트워크에 연결하고 IP 대역 대장에서 IP를 하나 꺼내 부여한다.
+2. <strong>오버레이 vs <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: 플러그인의 성격에 따라, 노드 간 통신 시 패킷을 다시 포장하는 오버레이(Overlay, 예: Flannel의 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)) 방식을 쓰거나, 패킷 포장 없이 실제 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(예: [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/))을 사용하여 다른 노드의 Pod와 통신하게 만든다.
 
 - **📢 섹션 요약 비유**: 아파트(Node)에 새 입주자([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 이사 오면, 관리사무소([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))가 통신사 기사님([CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/))을 불러 새 공유기 선(veth)을 깔아주고 임시 전화번호(IP)를 달아주는 과정이다.
 
@@ -72,12 +73,12 @@ tags = ["studynote-network"]
 
 | [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인 | 통신 방식 | 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(보안) | 주요 특징 및 권장 환경 |
 |:---:|:---|:---|:---|
-| **[Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/)** | 오버레이 ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)) | 지원 안 함 (불가) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 가장 단순함. 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요 없는 소규모 클러스터. |
-| **[Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)** | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (비오버레이) | 완벽 지원 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 뛰어나며, 상세한 L3/L4 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 적용 가능. 표준적인 엔터프라이즈 환경. |
-| **[Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/)** | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 최적화) | L7/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨까지 지원 | iptables를 우회하여 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 가시성 제공. 최신 대규모 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경. |
-| **AWS [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)** | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group 연동 | AWS의 실제 사설 IP(ENI)를 Pod에 직접 할당. AWS EKS 환경에 최적화. |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/">Flannel</a></strong> | 오버레이 ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)) | 지원 안 함 (불가) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 가장 단순함. 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요 없는 소규모 클러스터. |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a></strong> | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (비오버레이) | 완벽 지원 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 뛰어나며, 상세한 L3/L4 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 적용 가능. 표준적인 엔터프라이즈 환경. |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a></strong> | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 최적화) | L7/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨까지 지원 | iptables를 우회하여 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 가시성 제공. 최신 대규모 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경. |
+| <strong>AWS <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/">VPC</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a></strong> | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group 연동 | AWS의 실제 사설 IP(ENI)를 Pod에 직접 할당. AWS EKS 환경에 최적화. |
 
-최근 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 생태계의 트렌드는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(iptables 등)이 너무 무겁고 느려지는 문제를 피하기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 패킷을 직접 처리하는 **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))** 기반의 Cilium으로 급격히 이동하고 있다.
+최근 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 생태계의 트렌드는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(iptables 등)이 너무 무겁고 느려지는 문제를 피하기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 패킷을 직접 처리하는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong> 기반의 Cilium으로 급격히 이동하고 있다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 나를 때 우편배달부([Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/))를 쓸지, 고속도로 직통 화물차([Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/))를 쓸지, 아예 순간이동 마법([Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))을 쓸지 상황에 맞게 골라 쓰는 것이 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인 선택이다.
 
@@ -89,7 +90,7 @@ tags = ["studynote-network"]
 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서는 수십 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 서로 통신한다. 이때 결제 Pod에서만 DB Pod로 접근할 수 있게 막는 '네트워크 폴리시(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))' 구현이 필수다. [Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) 같은 기본 CNI는 이를 지원하지 못하므로, 실무에서는 100% Calico나 Cilium을 선택하여 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 구축한다.
 
 **기술사 판단 포인트 (Trade-off):**
-CNI를 선택할 때는 **'네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'과 'IP 자원 고갈'** 문제를 동시에 봐야 한다.
+CNI를 선택할 때는 <strong>'네트워크 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>'과 'IP 자원 고갈'</strong> 문제를 동시에 봐야 한다.
 1. AWS [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) CNI처럼 클라우드 업체의 실제 IP를 Pod에 주면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 최고(오버레이 캡슐화 없음)지만, 가용 IP 개수 제한에 걸려 Pod를 더 이상 띄우지 못하는 치명적 장애가 발생할 수 있다.
 2. 반대로 오버레이([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/))를 쓰면 IP 고갈 문제는 없지만, 패킷을 쌌다 풀었다 하는 CPU 오버헤드와 MTU([Maximum Transmission Unit](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/)) 파편화로 인해 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 저하된다.
 
@@ -124,15 +125,19 @@ CNI는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MEC]
-    │
-    ▼
-[현재 개념: 클라우드 네이티브 네트워크]
-    │
-    ├──▶ [확장 A: QoS / QoE 차이 비교]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MEC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QoS / QoE 차이 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 네트워크는 MEC에서 출발해 현재 메커니즘을 정교화하고, 이후 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,28 +20,26 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 - **📢 섹션 요약 비유**: 요리(앱) 레시피만 완벽하게 적어놓고 주방 도구(DB)는 그때그때 손으로 대충 맞추다가 실수가 잦아지니, 아예 주방 세팅 순서까지 번호를 매겨 레시피에 포함한 것이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-DB 마이그레이션 도구의 핵심은 타겟 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 안에 **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 테이블([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) History Table)**을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 추적하는 것이다. 애플리케이션이 기동되거나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 실행될 때, 도구는 프로젝트에 있는 스크립트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 DB 내의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 비교한다.
+DB 마이그레이션 도구의 핵심은 타겟 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 안에 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 테이블(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a> History Table)</strong>을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 추적하는 것이다. 애플리케이션이 기동되거나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 실행될 때, 도구는 프로젝트에 있는 스크립트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 DB 내의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 비교한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          DB 마이그레이션 자동화 흐름 (Flyway 예시)          │
-├─────────────────────────────────────────────────────────────┤
-│  [Git Repository]                                           │
-│  ├── V1__create_users.sql                                   │
-│  ├── V2__add_email_col.sql  ◀─ (신규 스크립트 커밋)         │
-│                                                             │
-│       │                                                     │
-│       ▼ CI/CD Pipeline (App + Migration Tool 실행)          │
-│                                                             │
-│  [Target Database]                                          │
-│  ┌──────────────────────┐  (비교) ┌──────────────────────┐  │
-│  │ 스키마 히스토리 테이블 │ ◀────▶ │ 아직 적용 안 된 V2 │  │
-│  │ (Current: V1)        │  (실행) │ 발견 후 DDL 실행   │  │
-│  └──────────────────────┘         └──────────────────────┘  │
-│       │                                                     │
-│       ▼ 마이그레이션 완료 후 V2로 상태 업데이트             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 마이그레이션 자동화 흐름 (Flyway 예시)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── V1__create_users.sql</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── V2__add_email_col.sql ◀─ (신규 스크립트 커밋)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ CI/CD Pipeline (App + Migration Tool 실행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Target Database</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비교)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 히스토리 테이블</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">아직 적용 안 된 V2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Current: V1)</div><div class="kb-diagram-cell">(실행)</div><div class="kb-diagram-cell">발견 후 DDL 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 마이그레이션 완료 후 V2로 상태 업데이트</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 마이그레이션 엔진이 타겟 DB의 상태를 검사하고, 부족한 변경분(V2)만을 순차적으로 실행한 뒤 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 갱신하는 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 보장 메커니즘을 보여준다. 스크립트가 한 번 성공적으로 적용되면 다시 실행되지 않는다.
 
@@ -53,8 +51,8 @@ DB 마이그레이션 도구의 핵심은 타겟 [데이터베이스](/knowledge
 | 비교 항목 | Flyway | Liquibase |
 | :--- | :--- | :--- |
 | **스크립트 언어** | Plain SQL 중심 (`.sql`) | XML, YAML, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 중심 (SQL도 지원) |
-| **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준** | 특정 DB(MySQL, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 종속적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | DB 독립적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 태그 사용 |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지원** | 무료 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 제한적, 수동 스크립트 필요 | 구조화된 포맷 덕분에 **자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))** 지원 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 수준</strong> | 특정 DB(MySQL, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 종속적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | DB 독립적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 태그 사용 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 지원</strong> | 무료 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 제한적, 수동 스크립트 필요 | 구조화된 포맷 덕분에 <strong>자동 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>)</strong> 지원 |
 | **진입 장벽** | 매우 낮음 (SQL만 알면 즉시 도입) | 약간 높음 (전용 태그 학습 필요) |
 
 인프라를 코드로 관리하는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 등)가 하드웨어를 통제한다면, 마이그레이션 도구는 애플리케이션 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 코드로 통제하여 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 생태계의 마지막 퍼즐을 완성한다.
@@ -65,9 +63,9 @@ DB 마이그레이션 도구의 핵심은 타겟 [데이터베이스](/knowledge
 실무 환경에서는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 마이그레이션 시 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 중단되는 현상을 가장 경계해야 한다. 컬럼의 이름을 바꾸거나 삭제할 때 한 번에 실행하면 애플리케이션의 구버전과 충돌하여 에러가 발생한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-1. **[무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 패턴 (Expand-and-Contract)**: 기존 컬럼을 놔둔 채 새 컬럼을 추가(Expand)하여 구/신버전 앱이 동시에 동작하게 한 뒤, 안전해지면 기존 컬럼을 삭제(Contract)하도록 스크립트를 분리했는가?
+1. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">무중단 배포</a> 패턴 (Expand-and-Contract)</strong>: 기존 컬럼을 놔둔 채 새 컬럼을 추가(Expand)하여 구/신버전 앱이 동시에 동작하게 한 뒤, 안전해지면 기존 컬럼을 삭제(Contract)하도록 스크립트를 분리했는가?
 2. **보안 및 권한**: 마이그레이션을 수행하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 계정(Role)이 전체 DB 삭제 권한을 갖지 않도록 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/))을 적용했는가?
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 한 번 적용되어 DB에 기록된 과거의 마이그레이션 스크립트(V1.sql)의 내용을 뒤늦게 수정하는 행위. ([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 오류를 발생시켜 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 붕괴됨)
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 한 번 적용되어 DB에 기록된 과거의 마이그레이션 스크립트(V1.sql)의 내용을 뒤늦게 수정하는 행위. ([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 오류를 발생시켜 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 붕괴됨)
 
 - **📢 섹션 요약 비유**: 무중단 DB 배포는 다리를 부수고 새로 짓는 것이 아니다. 옆에 새 다리를 지어 차들을 안전하게 옮긴 뒤(Expand), 밤에 몰래 옛날 다리를 허무는(Contract) 치밀한 공사다.
 
@@ -85,21 +83,23 @@ DB 마이그레이션 자동화는 개발과 운영 사이의 단절을 해결�
 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) | 마이그레이션 스크립트를 여러 번 실행해도 한 번만 적용되도록 보장하는 특성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-DBA의 수동 DDL 실행 및 형상 관리 부재
-    │
-    ▼
-Database as Code (코드로서의 DB 사상 대두)
-    │
-    ▼
-Flyway, Liquibase 도입 (파이프라인 통합 및 자동화)
-    │
-    ▼
-Expand-and-Contract 적용 (무중단 데이터베이스 배포)
-    │
-    ▼
-DataOps 및 AI 기반 스키마 최적화·보안 스캐닝 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DBA의 수동 DDL 실행 및 형상 관리 부재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Database as Code (코드로서의 DB 사상 대두)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flyway, Liquibase 도입 (파이프라인 통합 및 자동화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Expand-and-Contract 적용 (무중단 데이터베이스 배포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DataOps 및 AI 기반 스키마 최적화·보안 스캐닝 결합</div>
+</div>
+</div>
+
+
 이 흐름도는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 수동 작업에서 코드 기반 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 편입되고, 궁극적으로 무중단 및 지능형 DataOps로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

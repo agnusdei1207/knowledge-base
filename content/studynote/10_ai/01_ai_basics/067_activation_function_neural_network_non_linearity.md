@@ -28,13 +28,19 @@ tags = ["ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Weighted Sum
-  ↓
-Activation Function
-  ↓
-Non-linear Output
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Weighted Sum</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Activation Function</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Non-linear Output</div>
+</div>
+</div>
+
+
 
 | 함수 | 특징 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ Non-linear Output
 
 ## 관련 개념 맵
 
-```text
-Weighted Sum
-  ↓
-Activation Function
-  ↓
-Non-linearity
-  ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Weighted Sum</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Activation Function</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Non-linearity</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Perceptron
-  ↓
-Activation Function
-  ↓
-MLP / DNN
-  ↓
-Deep Learning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Perceptron</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Activation Function</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MLP / DNN</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deep Learning</div>
+</div>
+</div>
+
+
 
 ---
 

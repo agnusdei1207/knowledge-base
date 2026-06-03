@@ -32,27 +32,29 @@ OTel의 설계 철학은 "수집(Instrumentation)과 저장(Backend)의 분리"�
 
 ### [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 전체 아키텍처
 
-```
-[애플리케이션 계측]
-서비스 코드
-├── OTel Java/Python/Go SDK
-│   ├── 자동 계측 (Auto-instrumentation)
-│   │   └── HTTP, DB, gRPC 자동 Span 생성
-│   └── 수동 계측 (Manual)
-│       └── 비즈니스 로직 커스텀 Span
-│
-↓ OTLP (OpenTelemetry Protocol) gRPC/HTTP
-│
-[수집 파이프라인]
-OTel Collector
-├── Receivers: OTLP, Jaeger, Zipkin, Prometheus
-├── Processors: 배치, 샘플링, 필터, 보강
-└── Exporters: Prometheus, Jaeger, Datadog, Loki
-         │              │           │
-         ↓              ↓           ↓
-      Prometheus      Jaeger      Datadog
-      (메트릭)        (트레이스)   (통합 APM)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 계측</div></div>
+<div class="kb-diagram-note">서비스 코드</div>
+<div class="kb-diagram-tree-item" style="--depth:0">OTel Java/Python/Go SDK</div>
+<div class="kb-diagram-note">── 자동 계측 (Auto-instrumentation)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── HTTP, DB, gRPC 자동 Span 생성</div></div>
+<div class="kb-diagram-note">── 수동 계측 (Manual)</div>
+<div class="kb-diagram-note">── 비즈니스 로직 커스텀 Span</div>
+<div class="kb-diagram-note">↓ OTLP (OpenTelemetry Protocol) gRPC/HTTP</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수집 파이프라인</div></div>
+<div class="kb-diagram-note">OTel Collector</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Receivers: OTLP, Jaeger, Zipkin, Prometheus</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Processors: 배치, 샘플링, 필터, 보강</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Exporters: Prometheus, Jaeger, Datadog, Loki</div>
+<div class="kb-diagram-note">Prometheus Jaeger Datadog</div>
+<div class="kb-diagram-note">(메트릭) (트레이스) (통합 APM)</div>
+</div>
+</div>
+
+
 
 | [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 구성 요소 | 설명 |
 |:---|:---|
@@ -77,7 +79,7 @@ OTel Collector
 | 벤더 중립 | ✅ | ✅ | ✅ |
 | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 상태 | 아카이브 | 아카이브 | 졸업 (2023) |
 
-**[OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시 (YAML):**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a> Collector <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 예시 (YAML):</strong>
 ```yaml
 receivers:
   otlp:
@@ -136,9 +138,9 @@ npm install @opentelemetry/auto-instrumentations-node
 node -r @opentelemetry/auto-instrumentations-node app.js
 ```
 
-**[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):**
-- **[DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/) Collector**: 각 노드에 배포, 노드 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집
-- **[Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/) Collector**: Pod마다 배포, 세밀한 필터링
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> 배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>:</strong>
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/">DaemonSet</a> Collector</strong>: 각 노드에 배포, 노드 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a> Collector</strong>: Pod마다 배포, 세밀한 필터링
 - **Gateway Collector**: 중앙 집중, 외부 전송 전 처리
 
 **Semantic Conventions(시맨틱 컨벤션):**
@@ -177,18 +179,22 @@ node -r @opentelemetry/auto-instrumentations-node app.js
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-벤더별 전용 SDK (Jaeger SDK · Datadog SDK → 벤더 종속)
-    │
-    ▼
-OpenTelemetry (OTel): CNCF 표준
-    ├─► SDK: 언어별 자동 계측 (Auto-instrumentation)
-    ├─► Collector: 수집 · 처리 · 라우팅
-    └─► OTLP: 오픈 프로토콜
-    │
-    ▼
-백엔드 선택 자유: Jaeger · Grafana · Datadog · Splunk
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">벤더별 전용 SDK (Jaeger SDK · Datadog SDK → 벤더 종속)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenTelemetry (OTel): CNCF 표준</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SDK: 언어별 자동 계측 (Auto-instrumentation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Collector: 수집 · 처리 · 라우팅</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OTLP: 오픈 프로토콜</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">백엔드 선택 자유: Jaeger · Grafana · Datadog · Splunk</div>
+</div>
+</div>
+
+
 2. 한 번 계측(plug-in)해두면 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Jaeger, Datadog 어디에든 연결할 수 있어요.
 3. 덕분에 더 좋은 도구가 나와도 처음부터 다시 만들 필요 없이 쉽게 바꿀 수 있어요!
 

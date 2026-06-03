@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **JS (자바스크립트)**: 브라우저가 화면 글씨 색깔 바꾸라고 만든 허접한(?) 텍스트 언어. 텍스트를 파싱 ➡ 컴파일 ➡ 실행하느라 중간 낭비 렉이 심하다. 
-  - **[WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/))**: "야, 텍스트 말고 010101 기계어(바이너리)로 미리 꽉꽉 뭉쳐진 고철 덩어리를 브라우저에 쑤셔 넣자!" C/C++, [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 등 강력한 언어로 코드를 짠 뒤, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 컴파일러 봇(Emscripten)에 넣고 윙 돌리면 `.wasm` 이라는 1MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 덩어리가 뿅 나온다. 브라우저는 이걸 해석할 필요도 없이 그냥 씹어 먹고 0.1초 컷 빛의 속도로 실행해 버린다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">WASM</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a>)</strong>: "야, 텍스트 말고 010101 기계어(바이너리)로 미리 꽉꽉 뭉쳐진 고철 덩어리를 브라우저에 쑤셔 넣자!" C/C++, [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 등 강력한 언어로 코드를 짠 뒤, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 컴파일러 봇(Emscripten)에 넣고 윙 돌리면 `.wasm` 이라는 1MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 덩어리가 뿅 나온다. 브라우저는 이걸 해석할 필요도 없이 그냥 씹어 먹고 0.1초 컷 빛의 속도로 실행해 버린다.
 
-- **필요성 (JS [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 물리적 한계 붕괴)**: 웹 브라우저(Chrome)가 세상을 먹었다. 근데 자바스크립트는 치명적인 딜레마가 있다. 브라우저 위에서 '10GB짜리 동영상 인코딩'이나 '에픽게임즈 3D 언리얼 엔진 게임'을 돌리면 유저 노트북 쿨러가 미친 듯이 돌다 브라우저 탭이 OOM으로 하얗게 죽어버린다(JS [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러의 오버헤드). **"아 씨발! 옛날 스타크래프트 겜이나 포토샵을 C++로 기가 막히게 다 짜놨는데, 이걸 웹(Web)으로 서비스하려면 자바스크립트로 그 1,000만 줄을 다 다시 짜야 해?! 그딴 짓 할 바엔 차라리 C++ 코드를 통째로 브라우저에 쑤셔 넣어서 100% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 뽕 뽑는 방법 좀 만들어봐!!"** 이 1티어 거대 IT 기업들의 절박한 탐욕이 WASM을 탄생시켰다.
+- <strong>필요성 (JS <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 물리적 한계 붕괴)</strong>: 웹 브라우저(Chrome)가 세상을 먹었다. 근데 자바스크립트는 치명적인 딜레마가 있다. 브라우저 위에서 '10GB짜리 동영상 인코딩'이나 '에픽게임즈 3D 언리얼 엔진 게임'을 돌리면 유저 노트북 쿨러가 미친 듯이 돌다 브라우저 탭이 OOM으로 하얗게 죽어버린다(JS [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러의 오버헤드). <strong>"아 씨발! 옛날 스타크래프트 겜이나 포토샵을 C++로 기가 막히게 다 짜놨는데, 이걸 웹(Web)으로 서비스하려면 자바스크립트로 그 1,000만 줄을 다 다시 짜야 해?! 그딴 짓 할 바엔 차라리 C++ 코드를 통째로 브라우저에 쑤셔 넣어서 100% <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 뽕 뽑는 방법 좀 만들어봐!!"</strong> 이 1티어 거대 IT 기업들의 절박한 탐욕이 WASM을 탄생시켰다.
 
-- **💡 비유**: JS(자바스크립트)는 브라우저(사장)한테 **'프랑스어(Text)로 쓰인 복잡한 백과사전 요리 레시피'**를 던져주는 짓입니다. 사장이 통역사([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러)를 부르고 한 줄 한 줄 번역해서 요리를 하려니 1시간이 걸려 땀이 뻘뻘 납니다. WASM은 **'전자레인지 3분 카레 밀키트(바이너리)'**를 던져주는 겁니다. C++ 요리사 형님들이 자기네 주방(컴파일러)에서 미리 요리를 99% 다 끓여서 진공 포장 팩(.[wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))으로 꽉 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 둔 상태입니다. 브라우저 사장님은 그냥 봉지 뜯고 전자레인지(V8 엔진)에 돌리면 0.1초 만에 완제품이 튀어나오는 압도적 퍼포먼스의 차이입니다.
+- **💡 비유**: JS(자바스크립트)는 브라우저(사장)한테 <strong>'프랑스어(Text)로 쓰인 복잡한 백과사전 요리 레시피'</strong>를 던져주는 짓입니다. 사장이 통역사([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러)를 부르고 한 줄 한 줄 번역해서 요리를 하려니 1시간이 걸려 땀이 뻘뻘 납니다. WASM은 <strong>'전자레인지 3분 카레 밀키트(바이너리)'</strong>를 던져주는 겁니다. C++ 요리사 형님들이 자기네 주방(컴파일러)에서 미리 요리를 99% 다 끓여서 진공 포장 팩(.[wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))으로 꽉 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 둔 상태입니다. 브라우저 사장님은 그냥 봉지 뜯고 전자레인지(V8 엔진)에 돌리면 0.1초 만에 완제품이 튀어나오는 압도적 퍼포먼스의 차이입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **ActiveX / Flash의 암흑기 (2000s)**: 웹의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 구리니 브라우저 밖으로 뚫고 나가 컴퓨터 시스템을 마구 건드리는 괴물 플러그인(ActiveX) 떡칠. 보안 허벌창으로 멸망.
   2. **Asm.js 의 몸부림 (2013)**: 파이어폭스(Mozilla)가 C/C++ 코드를 JS 변종 텍스트(asm.js)로 억지로 치환해서 돌림. 나름 빨랐으나 결국 텍스트(JS)의 한계를 못 벗어남.
-  3. **[WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 대통합 헌법 (2017~)**: 구글, 애플, MS, 모질라 전 세계 브라우저 4대 천왕이 무릎을 맞대고 헌법을 세움. "우리 싸우지 말고, 모든 브라우저 바닥 런타임에 바이너리 머신([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 돌릴 수 있는 규격을 아예 박아 넣자!" W3C 표준 채택으로 천하가 통일됨.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a> 대통합 헌법 (2017~)</strong>: 구글, 애플, MS, 모질라 전 세계 브라우저 4대 천왕이 무릎을 맞대고 헌법을 세움. "우리 싸우지 말고, 모든 브라우저 바닥 런타임에 바이너리 머신([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 돌릴 수 있는 규격을 아예 박아 넣자!" W3C 표준 채택으로 천하가 통일됨.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'외국인 노동자 소통 방식'**과 같습니다. ActiveX는 **'조폭(해커)을 회사(내 폰)에 들여서 일 시켰다가 회사 금고까지 다 털리는 짓'**입니다. WASM은 완벽한 **'방탄유리 통역 부스(Sandbox)'**를 깔고 일 시키는 짓입니다. C/C++이라는 강력한 외국인 근육몬(바이너리)을 브라우저 뱃속에 부르지만, 완벽히 고립된 무균실(샌드박스) 안에 가두고 일만 미친 듯이 시킨 뒤 쳐내기 때문에, 내 컴퓨터 폴더가 해킹당할 위험(보안)은 0%이면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 무적의 외계인 급을 뽑아냅니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'외국인 노동자 소통 방식'</strong>과 같습니다. ActiveX는 <strong>'조폭(해커)을 회사(내 폰)에 들여서 일 시켰다가 회사 금고까지 다 털리는 짓'</strong>입니다. WASM은 완벽한 <strong>'방탄유리 통역 부스(Sandbox)'</strong>를 깔고 일 시키는 짓입니다. C/C++이라는 강력한 외국인 근육몬(바이너리)을 브라우저 뱃속에 부르지만, 완벽히 고립된 무균실(샌드박스) 안에 가두고 일만 미친 듯이 시킨 뒤 쳐내기 때문에, 내 컴퓨터 폴더가 해킹당할 위험(보안)은 0%이면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 무적의 외계인 급을 뽑아냅니다.
 
 ---
 
 다음은 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  웹어셈블리 (WebAssembly,                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹어셈블리 (WebAssembly,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-웹어셈블리 (WebAssembly, WASM) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">웹어셈블리 (WebAssembly, WASM) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

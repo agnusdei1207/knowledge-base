@@ -19,15 +19,15 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))**이란 특정 클라우드 제공자의 독점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷에 의존하여 다른 공급자로 전환하기 어려워지는 상태다. 종속이 심해질수록 가격 협상력이 낮아지고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 리스크도 집중된다.
+<strong>벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/">Vendor Lock-in</a>)</strong>이란 특정 클라우드 제공자의 독점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷에 의존하여 다른 공급자로 전환하기 어려워지는 상태다. 종속이 심해질수록 가격 협상력이 낮아지고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 리스크도 집중된다.
 
-**[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 도입 동기**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 도입 동기</strong>:
 - 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 강점 활용: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML은 GCP, 엔터프라이즈 통합은 Azure, 글로벌 인프라는 AWS
 - 규제 컴플라이언스: 국가별 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/)) 요구 충족
 - 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)): 한 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)(Cloud [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/)) 장애 시 타 CSP로 자동 전환
 - 가격 경쟁력 확보: 복수 벤더 간 협상
 
-**[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)([Hybrid Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)) vs [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)**:
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">Hybrid Cloud</a>) vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a></strong>:
 - 하이브리드: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) + 하나의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 연동
 - [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/): 2개 이상의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 동시 운영
 
@@ -37,20 +37,22 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 관리 계층**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 관리 계층</strong>:
 
-```
-┌────────────────────────────────────────────────────────────┐
-│              Management Plane (관리 계층)                   │
-│  FinOps Dashboard │ Security CSPM │ Policy Engine          │
-├────────────────────────────────────────────────────────────┤
-│  Abstraction Layer (추상화 계층)                            │
-│  Terraform(IaC) │ Kubernetes │ Service Mesh(Istio)         │
-├──────────────┬──────────────────┬──────────────────────────┤
-│    AWS       │      Azure       │         GCP              │
-│  EC2/S3/RDS  │  VM/Blob/CosmDB  │  GCE/GCS/BigQuery        │
-└──────────────┴──────────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Management Plane (관리 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Dashboard</div><div class="kb-diagram-cell">Security CSPM</div><div class="kb-diagram-cell">Policy Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstraction Layer (추상화 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform(IaC)</div><div class="kb-diagram-cell">Kubernetes</div><div class="kb-diagram-cell">Service Mesh(Istio)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS</div><div class="kb-diagram-cell">Azure</div><div class="kb-diagram-cell">GCP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EC2/S3/RDS</div><div class="kb-diagram-cell">VM/Blob/CosmDB</div><div class="kb-diagram-cell">GCE/GCS/BigQuery</div></div>
+</div>
+</div>
+
+
 
 | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형 | 원인 | 회피 기술 |
 |:---|:---|:---|
@@ -59,7 +61,7 @@ tags = ["studynote-ict-convergence"]
 | 런타임 [Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/) | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 전용 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) + Knative |
 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/) | 벤더별 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 문법 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)(HCL) 공통 사용 |
 
-**[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)([Cloud Financial Operations](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/))**: 클라우드 비용을 엔지니어링팀과 재무팀이 공동 관리하는 문화와 프레임워크. 태그(Tag) 기반 비용 배분, 예약 인스턴스(RI) 최적화, 낭비 자원([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Resource) 자동 삭제.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/210_finops_cloud_financial_operations_cost_optimization/">Cloud Financial Operations</a>)</strong>: 클라우드 비용을 엔지니어링팀과 재무팀이 공동 관리하는 문화와 프레임워크. 태그(Tag) 기반 비용 배분, 예약 인스턴스(RI) 최적화, 낭비 자원([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Resource) 자동 삭제.
 
 - **📢 섹션 요약 비유**: [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 여러 식재료 마트에서 장보는 것. 신선도와 가격은 좋지만, 영수증 정리와 재고 관리는 직접 해야 한다.
 
@@ -67,7 +69,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) vs [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> vs <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a></strong>:
 
 | 구분 | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) | [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) |
 |:---|:---|:---|
@@ -76,7 +78,7 @@ tags = ["studynote-ict-convergence"]
 | 복잡도 | 매우 높음 | 중간 |
 | 적합 기업 | 대기업, 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 금융, 공공, 제조 |
 
-**[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)(이식성의 핵심)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이션을 벤더 독립적으로 처리. EKS(AWS), AKS(Azure), GKE(GCP) 모두 동일한 [kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) 명령어로 운영 가능.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>(이식성의 핵심)</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이션을 벤더 독립적으로 처리. EKS(AWS), AKS(Azure), GKE(GCP) 모두 동일한 [kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) 명령어로 운영 가능.
 
 - **📢 섹션 요약 비유**: Kubernetes는 세계 어디서나 통하는 여권이다. 이 여권만 있으면 AWS공항, Azure공항, GCP공항 어디든 입국 가능하다.
 
@@ -98,12 +100,12 @@ tags = ["studynote-ict-convergence"]
 ## Ⅴ. 기대효과 및 결론
 
 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 전략을 제대로 실행하면:
-- **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상**: 단일 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 장애 영향 최소화, [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) 단축
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 향상</strong>: 단일 [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 장애 영향 최소화, [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) 단축
 - **비용 협상력**: 복수 벤더 경쟁으로 계약 단가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% 절감 가능
-- **최적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합**: 각 CSP의 강점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 선택적으로 활용
+- <strong>최적 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 조합</strong>: 각 CSP의 강점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 선택적으로 활용
 - **규제 대응**: [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 요구를 지역별 클라우드로 충족
 
-그러나 **거버넌스, [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), 보안 통합 관리** 없이는 오히려 비용과 복잡성이 폭증한다. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 도입 결정보다 운영 능력이 성패를 가른다.
+그러나 <strong>거버넌스, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a>, 보안 통합 관리</strong> 없이는 오히려 비용과 복잡성이 폭증한다. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 도입 결정보다 운영 능력이 성패를 가른다.
 
 - **📢 섹션 요약 비유**: [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 성공의 열쇠는 '어디서 살지'가 아니라 '어떻게 통합 관리할지'에 있다. 집이 여러 채라도 관리인이 없으면 폐가가 된다.
 

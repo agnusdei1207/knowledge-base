@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 그래서 영국의 댄 노스(Dan North)는 생각했다. **"테스트 코드의 이름을 '무엇을 테스트할지'가 아니라 '사용자 입장에서 어떻게 행동해야 하는지(Behavior)'를 적는 문장으로 바꾸면 어떨까?"**
 
-이 작은 생각의 전환에서 출발한 **[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/))**는 곧 기획자(비즈니스)와 개발자(엔지니어링) 사이의 거대한 통역기가 되었다. 기획자가 "이럴 땐 이렇게 작동해야 해"라고 평범한 글로 적어주면, 그것이 곧바로 테스트 코드가 되는 마법이 열린 것이다.
+이 작은 생각의 전환에서 출발한 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/">행위 주도 개발</a>)</strong>는 곧 기획자(비즈니스)와 개발자(엔지니어링) 사이의 거대한 통역기가 되었다. 기획자가 "이럴 땐 이렇게 작동해야 해"라고 평범한 글로 적어주면, 그것이 곧바로 테스트 코드가 되는 마법이 열린 것이다.
 
 - **📢 섹션 요약 비유**: TDD가 자동차를 만들 때 "나사가 10바퀴 잘 돌아가는가?"를 검사하는 '엔지니어의 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)'라면, BDD는 "브레이크를 밟으면 3초 안에 차가 멈추는가?"를 검사하는 '운전자의 시승 평가표'다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) Given-When-Then 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  BDD Given-When-Then                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BDD Given-When-Then</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) Given-When-Then 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BDD의 심장부는 누구나 이해할 수 있는 자연어 문법인 **Gherkin(거킨)**과, 이를 코드로 연결해 주는 **Cucumber(큐컴버)** 프레임워크다.
+BDD의 심장부는 누구나 이해할 수 있는 자연어 문법인 <strong>Gherkin(거킨)</strong>과, 이를 코드로 연결해 주는 **Cucumber(큐컴버)** 프레임워크다.
 
 - **📢 섹션 요약 비유**: [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) Given-When-Then 행동 명세 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -78,7 +77,7 @@ TDD와 BDD는 경쟁 관계가 아니라, 소프트웨어를 바라보는 높낮
 |:---|:---|:---|
 | **설계의 중심** | **개발자 (Developer)** | **기획자, QA, 개발자 (Three Amigos)** |
 | **작성 언어** | 프로그래밍 언어 (Java, Python) | **자연어 기반 (Gherkin 문법)** |
-| **질문** | "이 함수(메서드)가 올바르게 작동하는가?" | "이 시스템이 **사용자가 원하는 대로 행동**하는가?" |
+| **질문** | "이 함수(메서드)가 올바르게 작동하는가?" | "이 시스템이 <strong>사용자가 원하는 대로 행동</strong>하는가?" |
 | **문법/패턴** | `Setup` $\rightarrow$ `Execute` $\rightarrow$ `Assert` | `Given` $\rightarrow$ `When` $\rightarrow$ `Then` |
 | **적용 범위** | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) | 통합/[인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) (Integration/[Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) |
 
@@ -133,21 +132,23 @@ BDD의 이론은 환상적이지만, 실무에서 Cucumber를 도입했다가 1�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-BDD Given-When-Then 행동 명세 테스트 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BDD Given-When-Then 행동 명세 테스트 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

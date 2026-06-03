@@ -29,30 +29,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────┐
-│              SBOM 생성 및 활용 파이프라인          │
-├────────────────────────────────────────────────┤
-│  소스코드 + 의존성 파일                           │
-│          │                                     │
-│          ▼                                     │
-│  ┌────────────────┐                            │
-│  │  SCA 도구       │  (Syft, Trivy, CycloneDX) │
-│  └───────┬────────┘                            │
-│          │                                     │
-│          ▼                                     │
-│  ┌────────────────────────────────────────┐   │
-│  │  SBOM 파일 (SPDX 또는 CycloneDX 형식)  │   │
-│  │  - 컴포넌트명, 버전, 공급자              │   │
-│  │  - 라이선스 (MIT, Apache 2.0, GPL)      │   │
-│  │  - 체크섬 (SHA-256)                     │   │
-│  └──────┬───────────────┬─────────────────┘   │
-│         │               │                      │
-│         ▼               ▼                      │
-│  CVE 취약점 조회    라이선스 컴플라이언스  VEX  │
-│  (NVD, OSV)        분석                악용 가능성│
-└────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 생성 및 활용 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스코드 + 의존성 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 도구</div><div class="kb-diagram-cell">(Syft, Trivy, CycloneDX)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 파일 (SPDX 또는 CycloneDX 형식)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컴포넌트명, 버전, 공급자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라이선스 (MIT, Apache 2.0, GPL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 체크섬 (SHA-256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE 취약점 조회 라이선스 컴플라이언스 VEX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVD, OSV) 분석 악용 가능성</div></div>
+</div>
+</div>
+
+
 
 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 형식 | 특징 | 주도 기관 |
 |:---|:---|:---|
@@ -97,8 +90,8 @@ Syft는 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineerin
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 1회 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 방치**: 의존성이 바뀔 때마다 갱신하지 않으면 실효성 없음
-- **VEX 없는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)**: [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 우선순위 관리 어려움, 보안팀 과부하
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a> 1회 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 후 방치</strong>: 의존성이 바뀔 때마다 갱신하지 않으면 실효성 없음
+- <strong>VEX 없는 <a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a></strong>: [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 우선순위 관리 어려움, 보안팀 과부하
 
 > 📢 **섹션 요약 비유**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 없이 보안 대응은 화재 시 건물 도면 없이 소방 활동하는 것이다. 어느 방에 무엇이 있는지 모르면 구조도, 진압도 늦어진다.
 
@@ -108,7 +101,7 @@ Syft는 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineerin
 
 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 도입 조직은 신규 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 발표 시 영향받는 시스템을 수 시간 내에 파악하고 패치 우선순위를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 수 있다. SolarWinds, [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 같은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 사고에 대한 대응 시간이 수 주에서 수 시간으로 단축된다.
 
-SBOM의 본질은 **알 권리의 자동화**다. 내가 사용하는 소프트웨어에 무엇이 들어있는지 아는 것이 보안의 첫 번째 단계다. 모르는 것은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 없다.
+SBOM의 본질은 <strong>알 권리의 자동화</strong>다. 내가 사용하는 소프트웨어에 무엇이 들어있는지 아는 것이 보안의 첫 번째 단계다. 모르는 것은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 없다.
 
 > 📢 **섹션 요약 비유**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 없는 소프트웨어 보안은 내용물 표시 없는 택배 박스다. 박스가 안전한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려면 안에 무엇이 있는지 알아야 한다.
 
@@ -127,13 +120,18 @@ SBOM의 본질은 **알 권리의 자동화**다. 내가 사용하는 소프트�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공급망 보안 인식 전          SBOM 표준화 시대            법제화/자동화 시대
-──────────────────    ──────────────────────────   ───────────────────────
-수동 의존성 추적      →  SPDX, CycloneDX 표준    →  EO 14028 의무화
-SolarWinds 사고           Syft, Trivy 도구 등장       VEX 도입
-Log4Shell 대응 지연        이미지 레지스트리 통합         SLSA 프레임워크
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공급망 보안 인식 전 SBOM 표준화 시대 법제화/자동화 시대</div>
+<div class="kb-diagram-note">수동 의존성 추적 → SPDX, CycloneDX 표준 → EO 14028 의무화</div>
+<div class="kb-diagram-note">SolarWinds 사고 Syft, Trivy 도구 등장 VEX 도입</div>
+<div class="kb-diagram-note">Log4Shell 대응 지연 이미지 레지스트리 통합 SLSA 프레임워크</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

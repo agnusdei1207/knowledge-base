@@ -25,12 +25,16 @@ SEL이 중요한 이유는 현대 시스템이 더 이상 "한 번 껐다 켜면
 
 아래 흐름은 SEL이 왜 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류"가 아니라 "전원 사고"인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ particle strike -> charge track -> parasitic SCR on -> rail overcurrent   │
-│                                    -> heat rise -> shutdown or damage      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">particle strike -&gt; charge track -&gt; parasitic SCR on -&gt; rail overcurrent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; heat rise -&gt; shutdown or damage</div></div>
+</div>
+</div>
+
+
 
 즉 SEL 대응은 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)만의 문제가 아니라 전원 차단 시간, 열 여유, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시퀀스를 포함한 시스템 안전 설계다. SEE (Single Event Effects) 가운데서도 SEL이 별도로 관리되는 이유가 여기에 있다.
 
@@ -44,19 +48,19 @@ SEL의 물리적 배경은 벌크 [CMOS](/knowledge-base/studynote/01_computer_a
 
 핵심 판단식은 단순하다. 기생 PNP와 NPN의 루프 이득이 1을 넘는 순간, 즉 `β_PNP × β_NPN > 1`이 되는 순간 래치업 상태가 유지된다. 한 번 켜지면 외부에서 전원을 끊어 루프를 끊기 전까지 과전류가 지속된다. 그래서 SEL은 "[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)"는 입자가 하지만, "유지"는 칩 구조가 한다고 이해하면 좋다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ trigger charge                                                            │
-│      ▼                                                                     │
-│ local voltage drop on well/substrate resistance                            │
-│      │                                                                     │
-│      ├──> parasitic PNP turns on ──┐                                       │
-│      │                              ▼                                      │
-│      └──> parasitic NPN turns on <─┘                                      │
-│                     │                                                       │
-│                     └── positive feedback -> SCR latched -> VDD to VSS     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trigger charge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local voltage drop on well/substrate resistance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──&gt; parasitic PNP turns on ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──&gt; parasitic NPN turns on &lt;─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── positive feedback -&gt; SCR latched -&gt; VDD to VSS</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | SEL 관점의 의미 |
 | :--- | :--- | :--- |
@@ -120,7 +124,7 @@ SEL을 제대로 이해하려면 다른 단일 이벤트 효과와 경계를 분
 
 물론 대가도 있다. SOI와 방사선 경화 공정은 비용이 높고, [과전류 보호](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)는 면적·부품 수·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지연을 늘린다. 게다가 "SEL-free"라는 표현도 특정 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도·입자 범위에서만 성립하는 경우가 많아, 운용 환경이 바뀌면 다시 검증해야 한다.
 
-결론적으로 SEL은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 내부의 미세한 물리 현상이 전원 아키텍처와 시스템 가용성까지 연결되는 대표 사례다. 기억해야 할 핵심은 단순하다. **SEL은 오류 정정 문제가 아니라, 기생 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 경로를 끊고 열 파괴 전에 전원을 통제하는 생존 설계 문제**다.
+결론적으로 SEL은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 내부의 미세한 물리 현상이 전원 아키텍처와 시스템 가용성까지 연결되는 대표 사례다. 기억해야 할 핵심은 단순하다. <strong>SEL은 오류 정정 문제가 아니라, 기생 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a> 경로를 끊고 열 파괴 전에 전원을 통제하는 생존 설계 문제</strong>다.
 
 - **📢 섹션 요약 비유**: SEL 설계는 폭우 속 산간 마을을 지키는 일과 같다. 산사태가 안 나게 옹벽을 세우는 것과, 무너지기 시작하면 즉시 도로를 막고 주민을 대피시키는 체계를 함께 갖춰야 한다.
 
@@ -139,24 +143,25 @@ SEL을 제대로 이해하려면 다른 단일 이벤트 효과와 경계를 분
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-우주·고고도 방사선 환경
-        │
-        ▼
-SEE (Single Event Effects)
-        │
-        ├── SEU / SET
-        └── SEL
-              │
-              ▼
-가드 링 · 딥 엔웰 · SOI
-              │
-              ▼
-전류 감시 · 빠른 전원 차단 · 자동 재인가
-              │
-              ▼
-방사선 내성 시스템 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">우주·고고도 방사선 환경</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SEE (Single Event Effects)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">SEU / SET</div>
+<div class="kb-diagram-tree-item" style="--depth:4">SEL</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가드 링 · 딥 엔웰 · SOI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전류 감시 · 빠른 전원 차단 · 자동 재인가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">방사선 내성 시스템 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 입자 한 번의 충돌이 소자 물리, 전원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 임무 생존성 설계로 단계적으로 확장되는 구조를 보여 준다.
 

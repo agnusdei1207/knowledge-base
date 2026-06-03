@@ -23,13 +23,16 @@ tags = ["studynote-devops-sre"]
 
 기반 계층을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 뒤에만 숨기면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), I/O 병목, 네트워크 손실처럼 치명적 문제를 늦게 발견한다. 따라서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 알람을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
-```text
-Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Host Signal          │──▶│ Constraint Layer     │──▶│ Acceleration / Tunin │──▶│ Operational Guardrai │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Constraint Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Acceleration / Tunin</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Operational Guardrai</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 알람이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,13 +51,16 @@ Deployment / Control / Feedback Flow
 | Acceleration / Tuning | 캐시, 가속기, [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/), 냉각을 최적화 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용의 균형이 핵심 |
 | Operational Guardrail | 알람, 런북, 용량 계획으로 사고를 예방 | 사전 기준이 있어야 자동화 가능 |
 
-```text
-Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Host Signal          │──▶│ Constraint Layer     │──▶│ Acceleration / Tunin │──▶│ Operational Guardrai │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Reference Architecture</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Constraint Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Acceleration / Tunin</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Operational Guardrai</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -121,16 +127,20 @@ Reference Architecture
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[cgroups]
-    │
-    ▼
-[OOM 킬러 커널 로그 파싱 알람]
-    │
-    ├──▶ [Kernel Log]
-    ├──▶ [Eviction]
-    └──▶ [Heap Dump]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">cgroups</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OOM 킬러 커널 로그 파싱 알람</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel Log</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Eviction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Heap Dump</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 알람이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

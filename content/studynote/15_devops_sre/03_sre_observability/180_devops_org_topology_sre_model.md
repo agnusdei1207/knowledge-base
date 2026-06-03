@@ -19,28 +19,29 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제 장애와 배포 병목이 코드보다 **팀 경계**에서 더 자주 발생하기 때문이다. 개발팀이 코드를 넘기고 운영팀이 받아 배포하는 전통적 구조에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))를 도입해도 승인 대기, 책임 전가, 늦은 피드백이 계속 남는다. 결국 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 속도와 안정성은 도구보다 조직 인터페이스에 의해 더 강하게 제한된다.
+DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제 장애와 배포 병목이 코드보다 <strong>팀 경계</strong>에서 더 자주 발생하기 때문이다. 개발팀이 코드를 넘기고 운영팀이 받아 배포하는 전통적 구조에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))를 도입해도 승인 대기, 책임 전가, 늦은 피드백이 계속 남는다. 결국 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 속도와 안정성은 도구보다 조직 인터페이스에 의해 더 강하게 제한된다.
 
 이 문제를 설명하는 대표 개념이 Conway's Law다. 조직의 커뮤니케이션 구조가 시스템 구조를 닮기 때문에, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 조직은 모놀리식 운영을 낳고, 제품 단위 책임 조직은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 책임 구조를 낳는다. 따라서 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 설계는 인사 배치가 아니라 아키텍처 설계의 일부다.
 
-아래 그림은 전통적인 핸드오프 구조와 현대적 책임 정렬 구조의 차이를 보여 준다. 핵심은 "운영을 누가 대신 해 주는가"가 아니라, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유권이 어디에 머무는가**다.
+아래 그림은 전통적인 핸드오프 구조와 현대적 책임 정렬 구조의 차이를 보여 준다. 핵심은 "운영을 누가 대신 해 주는가"가 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 소유권이 어디에 머무는가</strong>다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 핸드오프 구조 vs 책임 정렬 구조                               │
-├──────────────────────────────────────────────────────────────┤
-│ 전통 구조                                                     │
-│ Dev Team ─▶ Ticket ─▶ Ops Team                                │
-│                         └─▶ Database / Security               │
-│   └─ 책임 분산 · 대기시간 증가 · 장애 원인 왕복               │
-│                                                              │
-│ 현대 구조                                                     │
-│ Stream Team ─▶ Build + Run 책임                              │
-│      │                                                       │
-│      ├─ Platform Team: 공통 실행 기반 제공                   │
-│      └─ SRE / Enabling: 신뢰성 기준·자동화 코칭              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸드오프 구조 vs 책임 정렬 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dev Team ─▶ Ticket ─▶ Ops Team</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Database / Security</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 책임 분산 · 대기시간 증가 · 장애 원인 왕복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream Team ─▶ Build + Run 책임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Platform Team: 공통 실행 기반 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SRE / Enabling: 신뢰성 기준·자동화 코칭</div></div>
+</div>
+</div>
+
+
 
 이 때문에 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 토폴로지는 "운영팀을 없앨 것인가"가 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 자율성을 가지되 무질서에 빠지지 않게 하는 경계 설계가 된다. 특히 대규모 환경에서는 플랫폼과 SRE가 없으면 자율성이 곧 중복 투자와 품질 편차로 바뀌기 쉽다.
 
@@ -61,24 +62,26 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 
 아래 구조는 플랫폼 팀과 SRE가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀의 책임을 빼앗는 것이 아니라, 각 팀의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 낮추는 방식으로 결합되는 전형적 예시다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ DevOps / SRE 조직 토폴로지                                     │
-├──────────────────────────────────────────────────────────────┤
-│ Stream Team A ─┐                                              │
-│ Stream Team B ─┼─▶ Platform Team                              │
-│ Stream Team C ─┘       └─▶ CI/CD · Platform · Observability   │
-│       │                                                       │
-│       └──────────────▶ SRE / Enabling                         │
-│                        ├─ SLO · Error Budget                  │
-│                        ├─ Toil 자동화                         │
-│                        └─ Incident / Postmortem 코칭          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps / SRE 조직 토폴로지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream Team A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream Team B ─ ─▶ Platform Team</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream Team C ─ ─▶ CI/CD · Platform · Observability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ SRE / Enabling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SLO · Error Budget</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Toil 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Incident / Postmortem 코칭</div></div>
+</div>
+</div>
+
+
 
 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 모델의 핵심은 50% 인바운드 한계다. 이는 보통 `온콜 + 티켓 + 수동 운영 / 전체 SRE 시간 ≤ 50%`라는 원칙으로 설명한다. 이 한계를 넘으면 SRE는 더 많은 일을 떠안는 대신, 반복 업무를 줄이는 자동화·플랫폼 개선에 우선순위를 둬야 한다. 즉 SRE를 "고급 운영팀"으로 쓰지 못하게 막는 제도적 장치다.
 
-이 원칙이 중요한 이유는 SRE의 산출물이 티켓 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 아니라 **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 감소와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 자산**이기 때문이다. 온콜과 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 시간을 잠식하면 Runbook 자동화, 배포 가드레일, 관측성 개선, 장애 예방 실험이 밀리고, 결과적으로 미래의 운영 부하는 더 커진다.
+이 원칙이 중요한 이유는 SRE의 산출물이 티켓 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a>) 감소와 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 자산</strong>이기 때문이다. 온콜과 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 시간을 잠식하면 Runbook 자동화, 배포 가드레일, 관측성 개선, 장애 예방 실험이 밀리고, 결과적으로 미래의 운영 부하는 더 커진다.
 
 - **📢 섹션 요약 비유**: SRE의 50% 규칙은 소방서가 절반은 화재 진압에, 절반은 화재 예방 설비 개선에 써야 한다는 규칙과 같다. 불만 끄다 보면 다음 화재는 더 자주 난다.
 
@@ -86,7 +89,7 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 
 ## Ⅲ. 비교 및 연결
 
-[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 모델은 한 가지 정답이 아니라, 책임 배치의 스펙트럼이다. 중요한 것은 "운영을 누가 대신하느냐"보다 **어디에서 병목과 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)가 생기느냐**를 보는 것이다.
+[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직 모델은 한 가지 정답이 아니라, 책임 배치의 스펙트럼이다. 중요한 것은 "운영을 누가 대신하느냐"보다 <strong>어디에서 병목과 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>가 생기느냐</strong>를 보는 것이다.
 
 | 모델 | 운영 책임 배치 | 장점 | 한계 | 잘 맞는 환경 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -96,7 +99,7 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 | 임베디드 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | SRE가 특정 팀에 밀착 배치 | 전환기 지원, 문화 흡수 빠름 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 표준 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능 | 변화 관리가 필요한 조직 |
 | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 플랫폼 팀이 Self-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | 표준화와 자율성 균형 | 플랫폼이 병목이 되면 역효과 | 중대형 조직 |
 
-여기서 플랫폼 팀과 SRE는 비슷해 보이지만 역할이 다르다. 플랫폼 팀은 공통 실행 기반을 **제품화**하는 팀이고, SRE는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표·장애 학습·[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거를 **운영 모델화**하는 팀이다. 플랫폼이 "어떻게 배포하고 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 것인가"를 표준화한다면, SRE는 "어떤 품질 기준으로 운영할 것인가"를 정교화한다.
+여기서 플랫폼 팀과 SRE는 비슷해 보이지만 역할이 다르다. 플랫폼 팀은 공통 실행 기반을 <strong>제품화</strong>하는 팀이고, SRE는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표·장애 학습·[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거를 <strong>운영 모델화</strong>하는 팀이다. 플랫폼이 "어떻게 배포하고 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 것인가"를 표준화한다면, SRE는 "어떤 품질 기준으로 운영할 것인가"를 정교화한다.
 
 또한 이 조직 모델은 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)과도 연결된다. 책임이 분명하고 플랫폼이 잘 제공될수록 [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency는 올라가고, Change Failure Rate와 Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))는 내려가기 쉽다. 반대로 핸드오프가 많아질수록 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도와 배포 속도는 함께 나빠진다.
 
@@ -106,7 +109,7 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 회사 규모보다 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 임계도와 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)**를 함께 봐야 한다. 직원 수가 적어도 금융 결제처럼 실패 비용이 큰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)면 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 성격의 역할이 필요하고, 직원 수가 많아도 제품이 단순하면 중앙 SRE보다 강한 플랫폼과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀 직접 운영이 더 효율적일 수 있다.
+실무에서는 회사 규모보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 임계도와 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a></strong>를 함께 봐야 한다. 직원 수가 적어도 금융 결제처럼 실패 비용이 큰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)면 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 성격의 역할이 필요하고, 직원 수가 많아도 제품이 단순하면 중앙 SRE보다 강한 플랫폼과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀 직접 운영이 더 효율적일 수 있다.
 
 | 조직 상황 | 권장 모델 | 판단 이유 |
 | :--- | :--- | :--- |
@@ -124,7 +127,7 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 4. SLO와 Error Budget이 릴리스 의사결정에 쓰이는가?
 5. 임베디드 SRE가 영구 파견이 아니라 지식 이전 후 종료되는 구조인가?
 
-[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. SRE를 모든 운영 티켓의 최종 책임자로 만들어 개발팀을 생산계 밖에 두는 구조, 플랫폼 팀을 셀프서비스 제품이 아니라 승인 게이트로 운용하는 구조, 온콜을 외주화해 학습 루프를 끊는 구조는 대표적인 실패 사례다. 기술사 답안에서는 "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화"라는 추상 표현보다, **팀 유형·소유권·50% 규칙·플랫폼 제품화**를 같이 제시해야 설계 답안이 된다.
+[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. SRE를 모든 운영 티켓의 최종 책임자로 만들어 개발팀을 생산계 밖에 두는 구조, 플랫폼 팀을 셀프서비스 제품이 아니라 승인 게이트로 운용하는 구조, 온콜을 외주화해 학습 루프를 끊는 구조는 대표적인 실패 사례다. 기술사 답안에서는 "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화"라는 추상 표현보다, <strong>팀 유형·소유권·50% 규칙·플랫폼 제품화</strong>를 같이 제시해야 설계 답안이 된다.
 
 - **📢 섹션 요약 비유**: 조직 모델 선택은 학교에서 담임, 교과 전담, 상담교사를 어떻게 배치할지 정하는 일과 같다. 학생 수와 문제 유형에 따라 효율적인 배치가 달라진다.
 
@@ -156,24 +159,25 @@ DevOps가 도구가 아니라 운영 모델이라고 말하는 이유는, 실제
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사일로 조직 · 핸드오프 운영
-    │
-    ▼
-서비스 팀 소유권 확대
-    │
-    ▼
-Platform Team · Golden Path 구축
-    │
-    ▼
-SRE 모델 도입 · Toil 측정
-    │
-    ▼
-50% 인바운드 한계 · Error Budget 운영
-    │
-    ▼
-빠른 배포 + 낮은 MTTR + 높은 자율성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사일로 조직 · 핸드오프 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 팀 소유권 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Platform Team · Golden Path 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRE 모델 도입 · Toil 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">50% 인바운드 한계 · Error Budget 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빠른 배포 + 낮은 MTTR + 높은 자율성</div>
+</div>
+</div>
+
+
 
 이 흐름은 조직 구조가 단순 역할 분리에서, 플랫폼과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링을 결합한 자율 운영 모델로 성숙하는 과정을 보여 준다.
 

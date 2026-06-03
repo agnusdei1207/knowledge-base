@@ -25,22 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 SSP가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 경계가 어디인지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│   SSP가 막는 경로: 지역 버퍼 overflow가 제어 정보까지 이어지는 흐름   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 높은 주소                                                           │
-│   [ Return Address ]      ◀─ 공격자가 최종적으로 바꾸고 싶은 값       │
-│   [ Saved Frame Pointer ]                                           │
-│   [ Canary ]              ◀─ 먼저 훼손돼야 하는 감시값               │
-│   [ Local Buffer[64] ]    ◀─ 길이 초과 입력이 시작되는 지점          │
-│ 낮은 주소                                                           │
-│                                                                      │
-│ 오버플로우 경로: Buffer ──▶ Canary ──▶ Saved Frame Pointer          │
-│                                        ──▶ Return Address           │
-│ 반환 직전: Canary mismatch ──▶ __stack_chk_fail ──▶ 프로세스 중단   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSP가 막는 경로: 지역 버퍼 overflow가 제어 정보까지 이어지는 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Return Address</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 공격자가 최종적으로 바꾸고 싶은 값</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Saved Frame Pointer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Canary</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 먼저 훼손돼야 하는 감시값</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[ Local Buffer</div><div class="kb-diagram-node">64</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 길이 초과 입력이 시작되는 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버플로우 경로: Buffer ──▶ Canary ──▶ Saved Frame Pointer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Return Address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반환 직전: Canary mismatch ──▶ __stack_chk_fail ──▶ 프로세스 중단</div></div>
+</div>
+</div>
+
+
 
 즉 SSP의 목적은 "오염을 예방"하기보다 "제어 정보에 닿기 전 탐지"에 가깝다. 그래서 지역 변수 내용 일부가 망가지는 것 자체를 모두 막지는 못해도, 적어도 함수 복귀 경로를 장악해 코드 실행을 탈취하는 대표 공격은 크게 어렵게 만든다.
 
@@ -134,24 +136,25 @@ SSP의 가장 큰 효과는 메모리 오류가 곧바로 권한 탈취나 원�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무경계 문자열 처리 · 스택 기반 버퍼 오버플로우
-                    │
-                    ▼
-StackGuard · SSP (Stack Smashing Protector)
-                    │
-                    ▼
-NX (No-eXecute) · ASLR (Address Space Layout Randomization)
-                    │
-                    ▼
-RELRO (Relocation Read-Only) · FORTIFY · 정적 분석 · 퍼징
-                    │
-                    ▼
-Shadow Stack · PAC (Pointer Authentication Code)
-                    │
-                    ▼
-메모리 안전 언어 · 하드웨어 메모리 태깅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무경계 문자열 처리 · 스택 기반 버퍼 오버플로우</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">StackGuard · SSP (Stack Smashing Protector)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NX (No-eXecute) · ASLR (Address Space Layout Randomization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RELRO (Relocation Read-Only) · FORTIFY · 정적 분석 · 퍼징</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shadow Stack · PAC (Pointer Authentication Code)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 안전 언어 · 하드웨어 메모리 태깅</div>
+</div>
+</div>
+
+
 
 이 흐름은 "오염 탐지"에서 출발해 "익스플로잇 조건 축소", 다시 "제어 흐름 직접 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"와 "근본적 메모리 안전"으로 발전하는 방향을 보여 준다.
 

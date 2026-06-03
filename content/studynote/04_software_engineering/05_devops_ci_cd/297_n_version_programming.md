@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 우주선이 대기권을 뚫고 재진입하는 각도를 계산하는 소프트웨어가 있다. 이 코드를 서버 3대에 복사(하드웨어 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/))해 두었다 치자. 그런데 개발자가 실수로 `+`를 `-`로 썼다면? 3대의 서버 모두 동시에 똑같이 틀린 엉뚱한 각도를 도출하고 우주선은 폭발한다. 즉, 단일 소스 코드의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 장비를 수백 대 늘려도 막을 수 없다. 따라서 "애초에 짜는 사람과 언어를 다르게 해서 코드를 여러 벌(Version) 만들자"는 발상이 필요했다.
 
-- **💡 비유**: 올림픽 체조 경기에서 심사위원 1명이 점수를 매기면 편견이나 실수(버그)가 개입될 수 있습니다. 그래서 **심사위원 5명(N개의 프로그램)**이 각자의 기준과 생각([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))으로 점수를 매긴 뒤, 가장 높고 낮은 점수를 빼고 평균(다수결)을 내어 공정하고 정확한 최종 점수를 결정하는 방식과 똑같습니다.
+- **💡 비유**: 올림픽 체조 경기에서 심사위원 1명이 점수를 매기면 편견이나 실수(버그)가 개입될 수 있습니다. 그래서 <strong>심사위원 5명(N개의 프로그램)</strong>이 각자의 기준과 생각([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))으로 점수를 매긴 뒤, 가장 높고 낮은 점수를 빼고 평균(다수결)을 내어 공정하고 정확한 최종 점수를 결정하는 방식과 똑같습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **하드웨어 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 한계 노출**: 1970년대, 컴퓨터 하드웨어는 병렬화([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), HA 클러스터)로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 잡았으나, 정작 소프트웨어 로직 자체의 버그로 인해 로켓이 추락하는 사건들이 발생했다.
+  1. <strong>하드웨어 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>의 한계 노출</strong>: 1970년대, 컴퓨터 하드웨어는 병렬화([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), HA 클러스터)로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 잡았으나, 정작 소프트웨어 로직 자체의 버그로 인해 로켓이 추락하는 사건들이 발생했다.
   2. **1977년 Algirdas Avižienis의 NVP 제안**: 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Design Faults)을 우회하기 위해, 요구사항 명세서만 동일하게 주고 각기 다른 팀이 독립적으로 코딩하게 하는 방법론을 학계에 제시했다.
   3. **항공우주 산업 도입**: 보잉(Boeing) 777이나 에어버스 비행기의 플라이트 컨트롤 시스템(Fly-by-wire)에 N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍과 유사한 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계가 실제로 도입되어 수백 명의 생명을 구하는 표준이 되었다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍 (N-Versio의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  N-버전 프로그래밍 (N-Versio                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N-버전 프로그래밍 (N-Versio</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍 (N-Versio가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍 (N-Version Programming) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍 (N-Version Programming) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 프로그래밍 (N-Version Programming) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ N-[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-N-버전 프로그래밍 (N-Version Programming) 다중화 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">N-버전 프로그래밍 (N-Version Programming) 다중화 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

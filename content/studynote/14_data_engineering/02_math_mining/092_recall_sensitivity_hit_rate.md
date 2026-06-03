@@ -28,7 +28,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-재현율의 계산식은 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))에서 '실제 양성(Actual Positive)' 행(Row)을 기준으로 분모를 형성한다. 모델의 관점이 아니라 철저히 **현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ground Truth)** 관점에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정한다.
+재현율의 계산식은 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))에서 '실제 양성(Actual Positive)' 행(Row)을 기준으로 분모를 형성한다. 모델의 관점이 아니라 철저히 <strong>현실 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Ground Truth)</strong> 관점에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정한다.
 
 | 지표 요소 | 설명 | 수학적 표현 | 영향력 |
 | :--- | :--- | :--- | :--- |
@@ -36,23 +36,22 @@ tags = ["studynote-data-engineering"]
 | **FN (False Negative)** | 위음성(미탐): 실제 양성을 음성으로 놓친 건수 | 분모 포함 | 낮을수록 재현율 상승 |
 | **계산 공식** | 실제 양성 중 맞춘 비율 | $\text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)} = \frac{TP}{TP + FN}$ | 미탐(FN) 최소화가 핵심 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)         │
-├──────────────────────────────────────────────────────────────┤
-│                  [Predicted Class (예측)]                     │
-│               Positive (+)        Negative (-)               │
-│             ┌───────────────┬────────────────┐               │
-│ [Actual]    │ TP (진짜 양성) │ FN (위음성, 놓침)│ ──▶ 이 둘의 합이 │
-│ Positive(+) │ (모델이 찾음)  │ (재현율 깎아먹음)│      분모가 됨    │
-│             ├───────────────┼────────────────┤               │
-│ [Actual]    │ FP (위양성)   │ TN (진짜 음성) │               │
-│ Negative(-) │               │                │               │
-│             └───────────────┴────────────────┘               │
-│                                                              │
-│  ※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Predicted Class (예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (+) Negative (-)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Actual</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">이 둘의 합이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive(+)</div><div class="kb-diagram-cell">(모델이 찾음)</div><div class="kb-diagram-cell">(재현율 깎아먹음)</div><div class="kb-diagram-cell">분모가 됨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Actual</div><div class="kb-diagram-note">FP (위양성) │ TN (진짜 음성) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Negative(-)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜</div></div>
+</div>
+</div>
+
+
 
 재현율을 인위적으로 높이는 방법은 간단하다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 임계값(Threshold)을 낮춰서 모델이 조금만 의심스러워도 모두 "양성(Positive)"이라고 예측하게 만들면 된다. 이렇게 하면 놓치는 것인 FN(False Negative)은 사라지지만, 가짜를 진짜라고 우기는 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(False Positive) 오탐이 급증하게 된다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-data-engineering"]
 | **질문** | "실제 정답 중 얼마나 놓치지 않았나?" | "네가 정답이라고 한 것 중 진짜 정답은?" |
 | **초점** | 미탐(FN, False Negative) 방지 | 오탐([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), False Positive) 방지 |
 | **임계값 하향 시** | 증가 (더 많이 양성으로 판정하므로) | 감소 (틀린 양성 예측이 늘어나므로) |
-| **적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | 암 진단, 지진 경보, 불량품 색출 | 스팸 필터, 유튜브 추천, 검색 결과 |
+| <strong>적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | 암 진단, 지진 경보, 불량품 색출 | 스팸 필터, 유튜브 추천, 검색 결과 |
 
 재현율은 "놓치면 죽는" [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 쓰이고, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 "오탐지 시 사용자 피로도가 급증하는" [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 쓰인다. 이 두 지표의 트레이드오프(Trade-off)를 하나의 수치로 타협한 것이 조화평균인 [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/)(F-Measure)다.
 
@@ -83,7 +82,7 @@ tags = ["studynote-data-engineering"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의사결정 기준)
 1. **FN(위음성)의 비즈니스 페널티가 압도적으로 큰가?** 제조업 예지 보전(Predictive Maintenance)에서 기계 고장을 한 번 놓치면 공장 전체가 멈추어 수백억의 손해가 발생한다. 이 경우 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 떨어져 육안 검사([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 처리 비용)가 늘어나더라도 재현율을 99% 목표로 튜닝해야 한다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형이 심각한가?** 재현율이 지나치게 낮게 나온다면, 소수 클래스의 비중을 늘리는 오버샘플링([SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 등) 기법이나, FN에 더 큰 벌점을 주는 가중 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)(Weighted Loss)를 적용해 강제로 재현율을 끌어올려야 한다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 불균형이 심각한가?</strong> 재현율이 지나치게 낮게 나온다면, 소수 클래스의 비중을 늘리는 오버샘플링([SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 등) 기법이나, FN에 더 큰 벌점을 주는 가중 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)(Weighted Loss)를 적용해 강제로 재현율을 끌어올려야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 의료 진단 AI의 성과를 발표하며 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 F1-Score만 강조하고, 정작 가장 중요한 재현율 지표는 숨기는 보고서.
@@ -107,28 +106,30 @@ tags = ["studynote-data-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))** | 재현율, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 정확도를 모두 도출해 내는 2x2 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 평가의 기본 구조 |
-| **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** | 재현율과 정확히 반비례(Trade-off) 관계를 갖는 짝꿍 지표 |
-| **[F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) (F-Measure)** | 재현율과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 조화 평균으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 시 모델의 종합 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가 |
-| **ROC-AUC & [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Curve** | 임계값(Threshold) 변화에 따른 재현율과 타 지표의 변화 궤적을 시각화한 곡선 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">Confusion Matrix</a>)</strong> | 재현율, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 정확도를 모두 도출해 내는 2x2 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 평가의 기본 구조 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | 재현율과 정확히 반비례(Trade-off) 관계를 갖는 짝꿍 지표 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/">F1-Score</a> (F-Measure)</strong> | 재현율과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 조화 평균으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 시 모델의 종합 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가 |
+| <strong>ROC-AUC &amp; <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> Curve</strong> | 임계값(Threshold) 변화에 따른 재현율과 타 지표의 변화 궤적을 시각화한 곡선 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Confusion Matrix (분류 결과의 기초 매트릭스)
-    │
-    ▼
-Recall (실제 참을 놓치지 않는 성능, FN 최소화) & Precision (오탐 최소화)
-    │
-    ▼
-F1-Score (두 지표의 조화 평균을 통한 단일 평가 지표)
-    │
-    ▼
-PR Curve (Precision-Recall 곡선)
-    │
-    ▼
-Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Confusion Matrix (분류 결과의 기초 매트릭스)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Recall (실제 참을 놓치지 않는 성능, FN 최소화) &amp; Precision (오탐 최소화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">F1-Score (두 지표의 조화 평균을 통한 단일 평가 지표)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PR Curve (Precision-Recall 곡선)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

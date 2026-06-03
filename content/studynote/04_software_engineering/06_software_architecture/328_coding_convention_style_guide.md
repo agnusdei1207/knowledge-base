@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 프로그래밍 언어의 문법(Syntax)이 문장을 말이 되게 쓰는 '맞춤법'이라면, 코딩 컨벤션은 띄어쓰기, 문단 나누기, 폰트 크기를 맞추는 '원고지 작성법(Style Guide)'이다. 컴퓨터(컴파일러)에게는 컨벤션이 전혀 중요하지 않지만, 오직 **'인간(동료 개발자)'**을 위해 존재한다.
+- **개념**: 프로그래밍 언어의 문법(Syntax)이 문장을 말이 되게 쓰는 '맞춤법'이라면, 코딩 컨벤션은 띄어쓰기, 문단 나누기, 폰트 크기를 맞추는 '원고지 작성법(Style Guide)'이다. 컴퓨터(컴파일러)에게는 컨벤션이 전혀 중요하지 않지만, 오직 <strong>'인간(동료 개발자)'</strong>을 위해 존재한다.
 
 - **필요성**: A개발자는 탭(Tab)으로 띄우고 중괄호 `{`를 다음 줄에 내렸다. B개발자는 스페이스바 2칸으로 띄우고 `{`를 같은 줄에 썼다. 둘의 코드가 깃허브에서 병합(Merge)되는 순간, 실제 로직은 하나도 안 바뀌었는데 줄바꿈과 띄어쓰기만으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체가 빨간색(충돌, Conflict)으로 도배되었다. 이 충돌을 해결하느라 반나절을 날렸다. 더욱 최악은, 변수 이름을 A는 `userId`, B는 `id_of_user`라고 자기 맘대로 지어대서, 코드를 읽는 데 해독기(번역기)가 필요해진 상황이었다. 소통 비용을 줄일 강력한 통제(Dictatorship)가 필요했다.
 
 - **💡 비유**: 교복(코딩 컨벤션)을 입는 것과 같습니다. 사복을 입게 놔두면 누군가는 찢어진 청바지를 입고, 누군가는 수영복을 입고 학교에 와서 면학 분위기(코드 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/))가 산만해집니다. 모두가 똑같은 넥타이와 셔츠(컨벤션)를 강제로 입게 하면 개성은 사라지지만, 조직은 단정해지고 새로 전학 온 학생(신입 개발자)도 쉽게 학교에 동화될 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 주먹구구식 개발**: 개인의 코딩 철학이 곧 법이던 시절, 해커 문화가 지배했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>의 주먹구구식 개발</strong>: 개인의 코딩 철학이 곧 법이던 시절, 해커 문화가 지배했다.
   2. **Java와 Google의 스타일 가이드 제창**: 언어 설계자들이 직접 "제발 괄호는 이렇게 치고, 클래스 이름은 대문자로 시작해라"라며 언어 공식 가이드(Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Conventions)를 배포하기 시작했다. 이후 Google, Airbnb 등 거대 IT 기업들이 자사만의 깐깐한 가이드를 오픈소스로 공개하며 전 세계의 표준이 되었다.
   3. **포매터(Formatter)와 린터(Linter)의 자동화**: "문서로 규칙을 줘봤자 안 읽는다"는 진리를 깨닫고, 아예 저장(`Ctrl+S`)하는 순간 코드를 지가 알아서 규격에 맞게 뜯어고쳐 주는(Prettier) 자동화 도구 혁명이 일어났다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 코딩 컨벤션 (Coding Conve의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  코딩 컨벤션 (Coding Conve                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코딩 컨벤션 (Coding Conve</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 코딩 컨벤션 (Coding Conve가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-코딩 컨벤션 (Coding Convention) 및 스타일 가이드의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+코딩 컨벤션 (Coding Convention) 및 스타일 가이드의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 코딩 컨벤션 (Coding Convention) 및 스타일 가이드의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-코딩 컨벤션 (Coding Convention) 및 스타일 가이드 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코딩 컨벤션 (Coding Convention) 및 스타일 가이드 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

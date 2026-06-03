@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-시스톨릭 어레이 (Systolic [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))는 동일한 연산을 반복하는 격자형 연산기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리듬 있게 흘려보내며 대규모 행렬 연산을 처리하는 구조다. 이름의 어원인 systolic은 심장이 수축하며 혈액을 밀어내는 움직임에서 왔고, 여기서는 클럭마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 칸씩 이동하는 규칙적인 파동을 뜻한다. 즉, 계산 자체보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 움직일 것인가**에 초점을 맞춘 아키텍처다.
+시스톨릭 어레이 (Systolic [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))는 동일한 연산을 반복하는 격자형 연산기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리듬 있게 흘려보내며 대규모 행렬 연산을 처리하는 구조다. 이름의 어원인 systolic은 심장이 수축하며 혈액을 밀어내는 움직임에서 왔고, 여기서는 클럭마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 칸씩 이동하는 규칙적인 파동을 뜻한다. 즉, 계산 자체보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 어떻게 움직일 것인가</strong>에 초점을 맞춘 아키텍처다.
 
 이 구조가 필요해진 이유는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론과 학습의 중심이 되는 행렬 곱셈, [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/), 어텐션 같은 연산이 대부분 거대한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 반복이기 때문이다. 범용 CPU (Central Processing Unit)나 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 연산기는 빠르지만, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·캐시·메모리에서 끌어오는 과정에서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전력의 벽을 만난다. 이른바 [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))은 연산기를 놀게 만들고, 특히 전력 제약이 큰 모바일·엣지 환경에서는 더 치명적이다.
 
@@ -42,24 +42,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "입력은 가로로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 세로로, 부분합은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에서 축적된다"는 원리를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        4×4 시스톨릭 어레이의 파동형 데이터 흐름                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 좌측 입력 A(i,k)  ───────────────────────────────▶                         │
-│ 상단 입력 B(k,j)  ───────▼                                                │
-│                ┌──────┬──────┬──────┬──────┐                              │
-│                │ PE00 │ PE01 │ PE02 │ PE03 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE10 │ PE11 │ PE12 │ PE13 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE20 │ PE21 │ PE22 │ PE23 │                              │
-│                ├──────┼──────┼──────┼──────┤                              │
-│                │ PE30 │ PE31 │ PE32 │ PE33 │ ───────▶ 출력 C              │
-│                └──────┴──────┴──────┴──────┘                              │
-│                각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4×4 시스톨릭 어레이의 파동형 데이터 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좌측 입력 A(i,k) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상단 입력 B(k,j) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE00</div><div class="kb-diagram-cell">PE01</div><div class="kb-diagram-cell">PE02</div><div class="kb-diagram-cell">PE03</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE10</div><div class="kb-diagram-cell">PE11</div><div class="kb-diagram-cell">PE12</div><div class="kb-diagram-cell">PE13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE20</div><div class="kb-diagram-cell">PE21</div><div class="kb-diagram-cell">PE22</div><div class="kb-diagram-cell">PE23</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE30</div><div class="kb-diagram-cell">PE31</div><div class="kb-diagram-cell">PE32</div><div class="kb-diagram-cell">PE33</div><div class="kb-diagram-cell">▶ 출력 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적</div></div>
+</div>
+</div>
+
+
 
 실제 행렬 곱셈에서는 A 행렬 원소가 오른쪽으로 이동하고, B 행렬 원소가 아래로 이동하면서, 각 교차점의 PE가 해당 곱을 부분합에 더한다. 클럭이 진행될수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파면이 대각선으로 퍼지고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 가득 차면 거의 모든 PE가 매 사이클 유효한 MAC을 수행한다. 이 상태가 되면 처리량은 매우 높아지고, 메모리에서 같은 값을 다시 읽는 낭비가 줄어든다.
 
@@ -138,23 +136,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-벡터 프로세서 · 배열 프로세서
-            │
-            ▼
-메모리 월 (Memory Wall) · 데이터 재사용 요구
-            │
-            ▼
-시스톨릭 어레이 (Systolic Array)
-            │
-            ├──▶ Weight Stationary / Output Stationary / Input Stationary
-            │
-            ▼
-TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core
-            │
-            ▼
-저정밀도 양자화 · 3D 적층 메모리 · PIM (Processing-In-Memory)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">벡터 프로세서 · 배열 프로세서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 월 (Memory Wall) · 데이터 재사용 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스톨릭 어레이 (Systolic Array)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ Weight Stationary / Output Stationary / Input Stationary</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">저정밀도 양자화 · 3D 적층 메모리 · PIM (Processing-In-Memory)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 계보"가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화 문제와 만나, 전용 가속기와 메모리 결합 구조로 확장되는 과정을 보여준다.
 

@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 고안한 차세대 FHRP 기술. 다수의 라우터를 하나의 가상 게이트웨이(Virtual IP)로 묶어 이중화를 보장함과 동시에, 트래픽을 각 물리적 라우터로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))시켜 링크 활용도를 100%로 끌어올린다 ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.102`, [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 3222 사용).
-- **필요성**: 1Gbps 랜선이 꽂힌 비싼 라우터 2대를 샀다. HSRP를 돌리니 A가 대장이 되어 1Gbps 혼자 다 쓴다. B는 A가 죽을 때까지 전기도 먹으면서 그냥 놀고 있다. 회사 사장님이 보면 뒷목 잡을 일이다. "아니, 둘 다 켜져 있으면 1Gbps + 1Gbps 합쳐서 2Gbps 속도를 내게 양쪽으로 나눠서 쏘게 만들 수 없냐?" 하지만 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 칸에 '기본 게이트웨이' IP는 딱 1개밖에 못 적는다. **"IP는 1개만 알려주고, 뒤에서 라우터들이 기가 막힌 거짓말([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 조작)을 쳐서 트래픽을 4등분으로 쪼개보자!"** 이것이 GLBP의 위대한 탄생이다.
+- **필요성**: 1Gbps 랜선이 꽂힌 비싼 라우터 2대를 샀다. HSRP를 돌리니 A가 대장이 되어 1Gbps 혼자 다 쓴다. B는 A가 죽을 때까지 전기도 먹으면서 그냥 놀고 있다. 회사 사장님이 보면 뒷목 잡을 일이다. "아니, 둘 다 켜져 있으면 1Gbps + 1Gbps 합쳐서 2Gbps 속도를 내게 양쪽으로 나눠서 쏘게 만들 수 없냐?" 하지만 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 칸에 '기본 게이트웨이' IP는 딱 1개밖에 못 적는다. <strong>"IP는 1개만 알려주고, 뒤에서 라우터들이 기가 막힌 거짓말(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 조작)을 쳐서 트래픽을 4등분으로 쪼개보자!"</strong> 이것이 GLBP의 위대한 탄생이다.
 
-- **💡 비유**: GLBP는 대형 식당의 **"현명한 입구 안내원(AVG)"**입니다.
+- **💡 비유**: GLBP는 대형 식당의 <strong>"현명한 입구 안내원(AVG)"</strong>입니다.
   - 손님([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))은 "1번 맛집(가상 IP)"이라는 간판 하나만 보고 들어옵니다.
   - 입구에 서 있는 안내원(AVG)은 첫 번째 손님에게 "1번 테이블(AVF 1)로 가세요"라고 하고, 두 번째 손님에겐 "2번 테이블(AVF 2)로 가세요"라고 안내합니다.
   - 손님들은 다 같은 1번 맛집에서 밥을 먹는 줄 알지만, 실제로는 식당 안의 4개 테이블(4대의 라우터)이 쉬지 않고 모두 꽉꽉 차서 요리사들이 골고루 100% 열일하게 됩니다.
 
-```text
-[VRRP]
-    │
-    ▼
-[GLBP]
-    │
-    └──▶ [IP SLA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VRRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GLBP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP SLA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** GLBP는 HSRP라는 **"1인 독재 체제"**를 뒤엎고, 1명의 국회의장(AVG)이 4명의 장관(AVF)에게 번갈아 가며 업무를 하달하는 완벽한 **"권력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 조별 과제 시스템"**을 구축한 것입니다.
 
@@ -45,10 +49,10 @@ tags = ["studynote-network"]
 ### 1. 권력의 분업: AVG와 AVF
 GLBP 그룹 내에는 1개의 가상 IP(VIP)가 존재하지만, 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 최대 4개까지 생성된다.
 
-- **AVG ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Virtual Gateway)**: 
+- <strong>AVG (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Gateway)</strong>: 
   - Priority 점수가 제일 높은 1놈이 선출된다. 
-  - 역할: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩도 하지만, 가장 중요한 임무는 **"[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 뻥치기"**다. PC들이 `192.168.0.254(VIP)`의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 뭐냐고 브로드캐스트를 때릴 때, 대답할 수 있는 권한은 오직 이 AVG 한 놈뿐이다. 
-- **AVF ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Virtual Forwarder)**: 
+  - 역할: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩도 하지만, 가장 중요한 임무는 <strong>"<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 뻥치기"</strong>다. PC들이 `192.168.0.254(VIP)`의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 뭐냐고 브로드캐스트를 때릴 때, 대답할 수 있는 권한은 오직 이 AVG 한 놈뿐이다. 
+- <strong>AVF (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Virtual Forwarder)</strong>: 
   - 동네에 있는 최대 4대의 라우터들이 각각 하나씩 맡는 '진짜 일꾼'이다.
   - AVG가 각 AVF에게 0007.b400.xxxx 대역의 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 하나씩 하사한다.
   - 역할: AVG가 "PC야, 너는 3번 가상 MAC으로 가라"고 배정해 주면, 3번 AVF는 자기를 향해 쏟아지는 트래픽을 인터넷으로 열심히 펌프질해 넘긴다.
@@ -56,36 +60,34 @@ GLBP 그룹 내에는 1개의 가상 IP(VIP)가 존재하지만, 가상 [MAC](/k
 ### 2. 3가지 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 옵션
 AVG가 PC들의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 질문에 대답할 때, 어떤 기준으로 가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 던져줄지 결정하는 알고리즘이다.
 
-1. **Round-Robin ([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)) ★기본값**:
+1. <strong>Round-Robin (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a>) ★기본값</strong>:
    - 돌아가면서 순서대로 1장씩 돌린다.
    - 첫 번째 PC엔 AVF 1번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 두 번째 PC엔 AVF 2번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)... 
    - 가장 공평하게 트래픽이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되는 최고의 알고리즘이다.
 2. **Host-Dependent (호스트 종속)**:
    - "A라는 PC는 죽을 때까지 무조건 AVF 1번 MAC만 알려줘!"
    - 특정 PC가 특정 라우터로만 고정적으로 나가야 하는 특수 상황([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 등)에 쓴다.
-3. **Weighted ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기반)**:
+3. <strong>Weighted (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 기반)</strong>:
    - 라우터 성능이 다를 때 쓴다. 1번 라우터는 10G짜리고 2번 라우터는 1G짜리다.
    - "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):1로 세팅해서, AVG가 대답 11번 할 때 10번은 1번 라우터 MAC으로 알려주고, 1번만 2번 라우터 MAC으로 알려줘라!"
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                GLBP의 무결점 트래픽 분산 (ARP 사기극) 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC 1, 2, 3 ] (전부 기본 게이트웨이를 10.1.1.254로 세팅함)      │
- │        │                                                     │
- │   * PC 1: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내(AVF 1) MAC 주소 AA:01 이야!" ── (PC1은 1번 라우터로 감) │
- │                                                             │
- │   * PC 2: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내 친구(AVF 2) MAC 주소 AA:02 야!" ── (PC2는 2번 라우터로 감)│
- │                                                             │
- │   * PC 3: "10.1.1.254 MAC 누구야?"                            │
- │     ▶ AVG 대답: "내 친구(AVF 3) MAC 주소 AA:03 이야!" ── (PC3은 3번 라우터로 감)│
- │                                                             │
- │   ▶ "게이트웨이 IP는 1개인데, PC들은 각자 다른 스위치 포트로 트래픽을 쏨!" │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GLBP의 무결점 트래픽 분산 (ARP 사기극) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC 1, 2, 3</div><div class="kb-diagram-note">(전부 기본 게이트웨이를 10.1.1.254로 세팅함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC 1: "10.1.1.254 MAC 누구야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ AVG 대답: "내(AVF 1) MAC 주소 AA:01 이야!" ── (PC1은 1번 라우터로 감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC 2: "10.1.1.254 MAC 누구야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ AVG 대답: "내 친구(AVF 2) MAC 주소 AA:02 야!" ── (PC2는 2번 라우터로 감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC 3: "10.1.1.254 MAC 누구야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ AVG 대답: "내 친구(AVF 3) MAC 주소 AA:03 이야!" ── (PC3은 3번 라우터로 감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "게이트웨이 IP는 1개인데, PC들은 각자 다른 스위치 포트로 트래픽을 쏨!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** GLBP는 놀이공원 입구의 **"다중 개찰구 시스템"**입니다. HSRP가 1개의 개찰구만 열어놓고 다른 개찰구는 고장 날 때 대비해서 비워두는(자원 낭비) 멍청한 시스템이라면, GLBP는 4개의 개찰구를 모두 활짝 열어두고 안내원(AVG)이 사람들을 1, 2, 3, 4번 줄로 휙휙 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 기가 막힌 통과 속도([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))를 자랑합니다.
 
@@ -143,15 +145,19 @@ GLBP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VRRP]
-    │
-    ▼
-[현재 개념: GLBP]
-    │
-    ├──▶ [확장 A: IP SLA]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VRRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GLBP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP SLA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 GLBP는 VRRP에서 출발해 현재 메커니즘을 정교화하고, 이후 IP SLA와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

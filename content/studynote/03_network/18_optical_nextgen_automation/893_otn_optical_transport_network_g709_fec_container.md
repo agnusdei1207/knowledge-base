@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 구형 **[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) (895, 896번 문서)** 장비는 음성 전화(TDM)를 나르는 데 최적화되어 있어서, 덩치 큰 인터넷 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), IP)을 싣고 달리기엔 너무 낡고 무거워 속도의 한계(10Gbps)에 부딪혔습니다.
-- 반면 순수 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**은 속도는 100Gbps로 무한히 빨랐지만, 망에 장애가 났을 때 감시하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 생존 기능(OAM)과 에러 정정 기능이 허접했습니다.
+- 구형 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>/<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a> (895, 896번 문서)</strong> 장비는 음성 전화(TDM)를 나르는 데 최적화되어 있어서, 덩치 큰 인터넷 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), IP)을 싣고 달리기엔 너무 낡고 무거워 속도의 한계(10Gbps)에 부딪혔습니다.
+- 반면 순수 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>은 속도는 100Gbps로 무한히 빨랐지만, 망에 장애가 났을 때 감시하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 생존 기능(OAM)과 에러 정정 기능이 허접했습니다.
 
-```text
-[ASON (Automatically Swit…]
-    │
-    ▼
-[OTN]
-    │
-    └──▶ [OAM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OAM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OTN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: ITU-T (G.709 규격)에서 제정한 차세대 광통신 백본망 표준으로, **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷, 구형 [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 동영상 스트리밍 등 크기와 모양이 제각각인 이질적인 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 화물들을 일정한 크기의 강력한 '디지털 광 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(OTU 프레임)' 안에 캡슐화(포장)하여, 100G~400G 파장(DWDM) 위에 실어 안전하고 투명하게 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 전송하는 광 전송망 아키텍처**입니다.
+- **개념**: ITU-T (G.709 규격)에서 제정한 차세대 광통신 백본망 표준으로, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 패킷, 구형 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>, 동영상 스트리밍 등 크기와 모양이 제각각인 이질적인 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 화물들을 일정한 크기의 강력한 '디지털 광 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(OTU 프레임)' 안에 캡슐화(포장)하여, 100G~400G 파장(DWDM) 위에 실어 안전하고 투명하게 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 전송하는 광 전송망 아키텍처</strong>입니다.
 - 현대 통신사(KT, SKT 등) 코어 광망의 99%를 장악한 차세대 표준입니다. (보통 ROADM [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 찰떡으로 엮여서 돕니다.)
 
-```text
-[ASON (Automatically Swit…]
-    │
-    ▼
-[OTN]
-    │
-    └──▶ [OAM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OAM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OTN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,13 +68,13 @@ tags = ["studynote-network"]
 ### 1. 완벽한 디지털 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 포장 (OPU ➜ ODU ➜ OTU)
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면 모양을 불문하고 다 똑같은 크기의 네모난 철제 박스에 넣습니다.
 - **OPU (Payload Unit)**: 진짜 짐([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷 등)이 담기는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부 공간.
-- **ODU ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Unit)**: OPU 겉면에, 종단 간(끝에서 끝까지) 이 박스가 잘 가고 있는지 감시하는 감독관 스티커(Path OAM)를 붙인 단계. ([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) 관리용)
+- <strong>ODU (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Unit)</strong>: OPU 겉면에, 종단 간(끝에서 끝까지) 이 박스가 잘 가고 있는지 감시하는 감독관 스티커(Path OAM)를 붙인 단계. ([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) 관리용)
 - **OTU (Transport Unit) 🌟 핵심 🌟**: 마지막 단계입니다. 다음 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비까지 가는 단거리 구간에서 에러가 나는지 꼼꼼히 체크하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 **FEC (순방향 에러 정정)** 갑옷을 입혀줍니다.
 
 ### 2. 슈퍼 갑옷: FEC ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction, 전진 에러 정정) 🌟
 OTN이 구형 망을 학살한 최고의 무기입니다.
 - 바닷속을 지나는 빛(전파)은 흔들려 0과 1이 뒤집히는 에러(Error)가 무조건 납니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 그냥 에러 나면 버립니다.
-- OTN은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포장할 때 박스 맨 뒤에 **복잡한 수학적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 공식(FEC 코드 잉여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**을 달아둡니다.
+- OTN은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포장할 때 박스 맨 뒤에 <strong>복잡한 수학적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 공식(FEC 코드 잉여 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>을 달아둡니다.
 - 도착지에서 박스를 뜯어보니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10바이트가 깨졌습니다! 재전송([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 요청할까요? **아니요! 패킷 뒤에 붙은 FEC 공식을 돌려서 깨진 10바이트를 그 자리에서 자기 스스로 완벽하게 살려내(정정) 버립니다.** 재전송에 버려지는 딜레이 시간을 원천 삭제해 버립니다.
 
 ### 3. OAM (운영, 관리, 유지보수)의 극한 투명성
@@ -94,7 +102,7 @@ OTN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날 무역([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))은 가구는 나무 상자에, 고기는 아이스박스에 담아 배에 싣느라 배의 모양도 이상해야 했고 싣고 내리는 속도도 최악이었습니다. **OTN (광전송망 G.709)**은 국제 항만의 '규격화된 40피트 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(OTU 프레임)' 물류 혁명입니다. 안에 들어있는 화물이 삼성 스마트폰([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))이든 한우 소고기(음성 통화)든 알 바 아닙니다. 모든 잡동사니를 100% 똑같은 모양의 강철 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 무식하게 쑤셔 넣고 밀봉해 버립니다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 겉면에는 충격 보호용 특수 뽁뽁이(FEC 에러 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 GPS 추적기(OAM 텔레메트리)를 덕지덕지 발라둡니다. 배(DWDM 광파장)는 짐 내용물을 까볼 필요 없이 네모난 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만 수만 개 레고처럼 쌓아 광속으로 날라주면 되니, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 물류 시스템의 스피드와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 생존율이 인류 역사상 최대로 극대화된 표준 물류 포장법입니다.
+- **📢 섹션 요약 비유**: 옛날 무역([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))은 가구는 나무 상자에, 고기는 아이스박스에 담아 배에 싣느라 배의 모양도 이상해야 했고 싣고 내리는 속도도 최악이었습니다. <strong>OTN (광전송망 G.709)</strong>은 국제 항만의 '규격화된 40피트 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(OTU 프레임)' 물류 혁명입니다. 안에 들어있는 화물이 삼성 스마트폰([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))이든 한우 소고기(음성 통화)든 알 바 아닙니다. 모든 잡동사니를 100% 똑같은 모양의 강철 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 무식하게 쑤셔 넣고 밀봉해 버립니다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 겉면에는 충격 보호용 특수 뽁뽁이(FEC 에러 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 GPS 추적기(OAM 텔레메트리)를 덕지덕지 발라둡니다. 배(DWDM 광파장)는 짐 내용물을 까볼 필요 없이 네모난 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만 수만 개 레고처럼 쌓아 광속으로 날라주면 되니, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 물류 시스템의 스피드와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 생존율이 인류 역사상 최대로 극대화된 표준 물류 포장법입니다.
 
 ---
 
@@ -117,15 +125,19 @@ OTN는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ASON (Automatically Swit…]
-    │
-    ▼
-[현재 개념: OTN]
-    │
-    ├──▶ [확장 A: OAM]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ASON (Automatically Swit…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OTN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 OTN는 [ASON](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/892_ason_automatically_switched_optical_network_gmpls/) (Automatically Swit…에서 출발해 현재 메커니즘을 정교화하고, 이후 OAM와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

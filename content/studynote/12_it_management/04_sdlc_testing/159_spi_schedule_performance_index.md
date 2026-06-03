@@ -31,20 +31,22 @@ SPI는 프로젝트가 계획한 속도로 [진행](/knowledge-base/studynote/02
 
 SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준으로 해야 한다. 이 시점까지 계획되었던 가치가 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value, 계획 가치)이고, 실제로 완료한 작업의 계획 가치가 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value, 획득 가치)다. 따라서 SPI는 "해야 했던 만큼 했는가"를 보는 지표다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              상태 시점에서 보는 SPI 계산 구조                       │
-├──────────────────────────────────────────────────────────────────────┤
-│  계획선(PV) : 0 ──────── 40 ──────── 80 ──────── 120                │
-│                             ▲ 상태 시점                              │
-│  실제선(EV) : 0 ──────── 30 ──────── 65                              │
-│                                                                     │
-│  SPI = EV / PV = 65 / 80 = 0.8125                                   │
-│  → 계획된 진도의 81.25%만 달성                                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림은 SPI가 시간 자체가 아니라 **가치 기준의 진도 효율**을 본다는 점을 보여 준다. 같은 한 달 경과라도 작업 가치가 큰 활동을 많이 끝냈는지, 작은 활동만 많이 끝냈는지에 따라 SPI는 달라진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 시점에서 보는 SPI 계산 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획선(PV) : 0 40 80 120</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 상태 시점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제선(EV) : 0 30 65</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPI = EV / PV = 65 / 80 = 0.8125</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계획된 진도의 81.25%만 달성</div></div>
+</div>
+</div>
+
+
+
+이 그림은 SPI가 시간 자체가 아니라 <strong>가치 기준의 진도 효율</strong>을 본다는 점을 보여 준다. 같은 한 달 경과라도 작업 가치가 큰 활동을 많이 끝냈는지, 작은 활동만 많이 끝냈는지에 따라 SPI는 달라진다.
 
 | 지표 상태 | 의미 | 해석 포인트 |
 | :--- | :--- | :--- |
@@ -116,7 +118,7 @@ SPI를 제대로 이해하려면 [SV](/knowledge-base/studynote/12_it_management
 
 SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 초기에 감지하고, 포트폴리오 간 비교 기준을 통일하며, [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 전략의 효과를 수치로 추적할 수 있다. 특히 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge) 기반의 프로젝트 통제에서는 SPI가 경영진 보고와 현장 의사결정 사이를 이어 주는 공통 언어 역할을 한다. 단순한 "늦고 있다"가 아니라 "계획 대비 몇 퍼센트 효율로 가고 있는가"를 말해 주기 때문이다.
 
-그러나 SPI는 어디까지나 비율 지표다. 크리티컬 패스 여부, 품질 저하, 재작업, 프로젝트 종료 시 수렴 문제는 별도로 보완해야 한다. 따라서 SPI는 **일정 성과를 빠르게 계량화하는 1차 계기판**으로 기억하고, 후반부에는 ES와 네트워크 분석으로 정밀 판단을 이어 가는 것이 바람직하다.
+그러나 SPI는 어디까지나 비율 지표다. 크리티컬 패스 여부, 품질 저하, 재작업, 프로젝트 종료 시 수렴 문제는 별도로 보완해야 한다. 따라서 SPI는 <strong>일정 성과를 빠르게 계량화하는 1차 계기판</strong>으로 기억하고, 후반부에는 ES와 네트워크 분석으로 정밀 판단을 이어 가는 것이 바람직하다.
 
 - **📢 섹션 요약 비유**: SPI는 비행기의 속도계와 같다. 속도계만으로는 연료 상태나 착륙 가능 시간을 다 알 수 없지만, 항로가 계획대로 가는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 첫 신호로는 매우 중요하다.
 
@@ -135,20 +137,22 @@ SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-WBS · CPM · PERT로 일정 기준선 수립
-    │
-    ▼
-EVM (Earned Value Management)
-    │
-    ├─▶ PV · EV · AC
-    │
-    ▼
-SV · CPI · SPI
-    │
-    ▼
-후반부 보완: ES 기반 SPI(t) · 완료 일정 재예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">WBS · CPM · PERT로 일정 기준선 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EVM (Earned Value Management)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ PV · EV · AC</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SV · CPI · SPI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">후반부 보완: ES 기반 SPI(t) · 완료 일정 재예측</div>
+</div>
+</div>
+
+
 
 이 흐름은 "일정 계획 수립 → 가치 기반 통제 → 지표화 → 후반부 정밀 보완"이라는 관리 체계를 한눈에 정리한다.
 

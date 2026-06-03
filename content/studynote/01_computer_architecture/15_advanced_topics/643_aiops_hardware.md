@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations, [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)) 기반 하드웨어 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 대규모 시계열 텔레메트리에서 정상 패턴을 학습하고, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)만으로는 못 잡는 미세한 장비 이상을 점수화하는 기술이다.
 > 2. **가치**: 정정 가능한 오류, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 흔들림, 팬 편차, 저장장치 마모 같은 약한 신호를 조합해 장애 전 교체와 격리를 가능하게 하므로 가동 중단과 불필요한 부품 교체를 함께 줄인다.
-> 3. **판단 포인트**: 모델보다 더 중요한 것은 **동종 장비별 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 계절성·워크로드 문맥, 사람 승인 절차**이며, 이 세 가지가 없으면 자동화는 오경보 공장으로 바뀐다.
+> 3. **판단 포인트**: 모델보다 더 중요한 것은 <strong>동종 장비별 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>, 계절성·워크로드 문맥, 사람 승인 절차</strong>이며, 이 세 가지가 없으면 자동화는 오경보 공장으로 바뀐다.
 
 ---
 
@@ -43,19 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 AIOps가 과거 데이터와 실시간 데이터를 동시에 쓰는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ AIOps loop for hardware anomaly detection                   │
-├──────────────────────────────────────────────────────────────┤
-│ Historical telemetry ─▶ baseline model ─┐                   │
-│                                          ├─▶ anomaly score   │
-│ Live telemetry ─▶ feature extraction ────┘                   │
-│                                               │              │
-│                              risk band + explanation         │
-│                                               │              │
-│                     ticket / drain / part replacement        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIOps loop for hardware anomaly detection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Historical telemetry ─▶ baseline model ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ anomaly score</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live telemetry ─▶ feature extraction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">risk band + explanation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ticket / drain / part replacement</div></div>
+</div>
+</div>
+
+
 
 실제 모델은 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))만으로 끝나지 않는다. 같은 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 노드라도 훈련 작업 중인지 유휴 상태인지에 따라 정상 범위가 바뀌므로, 워크로드 문맥을 함께 입력해야 한다. 또한 자동인코더 ([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)), 격리 포리스트 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest), 시계열 예측 모델 등 어떤 알고리즘을 쓰더라도, 결과를 사람에게 설명할 수 있어야 운영 신뢰를 얻는다.
 
@@ -107,7 +108,7 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 기반 하드웨어 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 운영팀이 모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 눈으로 훑지 않아도 되게 만들고, 부품 수명 관리와 예비품 운영도 더 정교하게 만든다. 특히 장애 한 번의 비용이 큰 데이터센터에서는 조기 탐지로 얻는 이익이 매우 크다. 단순한 알람 수 감소보다, 불필요한 현장 출동과 예측 실패를 줄이는 효과가 더 본질적이다.
 
-하지만 이 기술은 만능 예언기가 아니다. 센서 품질이 낮거나, 워크로드가 급격히 변하거나, 모델이 오래된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 묶이면 개념 드리프트가 쉽게 생긴다. 따라서 AIOps는 "AI가 다 알아서 해 주는 자동 정비"가 아니라, **사람의 운영 경험을 데이터와 모델로 증폭하는 보조 지능**으로 기억해야 현실적이다.
+하지만 이 기술은 만능 예언기가 아니다. 센서 품질이 낮거나, 워크로드가 급격히 변하거나, 모델이 오래된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 묶이면 개념 드리프트가 쉽게 생긴다. 따라서 AIOps는 "AI가 다 알아서 해 주는 자동 정비"가 아니라, <strong>사람의 운영 경험을 데이터와 모델로 증폭하는 보조 지능</strong>으로 기억해야 현실적이다.
 
 - **📢 섹션 요약 비유**: AIOps는 미래를 맞히는 수정 구슬이 아니라, 경험 많은 정비사의 감각을 수천 대 장비에 동시에 펼쳐 놓는 확대경과 같다. 잘 쓰면 먼저 보이지만, 잘못 쓰면 왜곡도 함께 커진다.
 
@@ -125,21 +126,23 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-임계치 기반 하드웨어 경보
-    │
-    ▼
-통계적 기준선 · 추세 분석
-    │
-    ▼
-다변량 이상 탐지
-    │
-    ▼
-예측 정비 · 자동 드레인
-    │
-    ▼
-자율 치유형 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">임계치 기반 하드웨어 경보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통계적 기준선 · 추세 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다변량 이상 탐지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 정비 · 자동 드레인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자율 치유형 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 "숫자 초과를 잡는 운영"에서 출발해, "패턴 변화를 학습하고 조치하는 운영"으로 고도화되는 과정을 보여준다.
 

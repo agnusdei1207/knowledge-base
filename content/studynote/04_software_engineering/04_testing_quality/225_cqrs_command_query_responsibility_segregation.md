@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 과거(CRUD 아키텍처)에는 `회원` DB 테이블 하나에다가 새로운 회원을 추가(Insert/Write)하는 일과, 회원의 목록을 검색([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/Read)하는 일을 다 같이 했습니다.
-- **딜레마**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **'쓸 때'**는 엄격한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(자물쇠)이 중요해서 구조가 복잡해야 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **'읽을 때'**는 여러 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해서 한눈에 봐야 하니 구조가 넓적해야 빠릅니다. 
+- **딜레마**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'쓸 때'</strong>는 엄격한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(자물쇠)이 중요해서 구조가 복잡해야 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>'읽을 때'</strong>는 여러 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해서 한눈에 봐야 하니 구조가 넓적해야 빠릅니다. 
 - 하나의 DB 구조로 이 상충하는 두 마리 토끼를 다 잡으려다 보니 속도도 느려지고 병목([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 대기)이 터져버립니다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CQRS (Command Query                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS (Command Query</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 버트란드 마이어(Bertrand Meyer)의 CQS 원칙에 기원하여 그렉 영(Greg Young)이 명명한 패턴. 
-- 시스템을 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 변경하는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) = Write/Update/Delete) 모델**과, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 화면에 보여주기만 하는 조회(Query = Read) 모델**로 철저하게 두 동강 내어, **로직과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 자체를 아예 물리적으로 분리해 버리는 극단적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 아키텍처**입니다.
+- 시스템을 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 상태를 변경하는 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> = Write/Update/Delete) 모델</strong>과, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 상태를 화면에 보여주기만 하는 조회(Query = Read) 모델</strong>로 철저하게 두 동강 내어, <strong>로직과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB) 자체를 아예 물리적으로 분리해 버리는 극단적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 아키텍처</strong>입니다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -84,7 +83,7 @@ tags = ["studynote-software-engineering"]
 - **장점 (극강의 확장성과 속도)**: 읽기 트래픽이 100만 배 폭주하면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 서버는 냅두고 읽기 서버(Read DB)만 100대로 쫙 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))하면 됩니다. 또한 읽기 DB는 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 따위 안 하도록 이미 다 펼쳐진 엑셀(비정규화)로 덤프를 떠놔서 검색 속도가 타의 추종을 불허합니다.
 - **단점 (최종적 일관성의 저주)**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 바뀌고 읽기 DB로 복사되는 데 약 `0.1초`의 물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 무조건 생깁니다. 만약 고객이 돈을 충전(Write)하고 0.001초 만에 잔고 조회(Read)를 눌렀는데, 아직 복사가 안 돼서 '0원'이라고 뜨면 고객 멘탈이 나갑니다(Sync 꼬임). 이 미묘한 시간 차이를 감당할 수 있는 시스템에만 써야 하는 양날의 검입니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **단일 DB(CRUD) 시스템**은 **'하나의 거대한 장부(장부장)'에 식당의 모든 재료 입고([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))와 메뉴판 출고(읽기)를 동시에 적고 읽는 끔찍한 병목 공간**이었습니다. 창고 직원이 새 고기를 장부에 적으려고 펜([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 자물쇠)을 쥐고 있는 1분 동안, 홀 서빙 직원 100명은 메뉴판을 보지 못해 뒤에 서서 발을 동동 구르며 멍때리고(대기열 폭발) 서 있어야 했습니다. 이를 부숴버린 **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 패턴**은 이 장부를 무참하게 두 개로 찢어버린 혁명입니다. **1번 장부(명령 [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB)**는 오직 주방장만 만지는 '재료 입고 전용 비밀 장부'입니다. 고기를 꼼꼼하고 안전하게 적습니다. 반면 홀 벽면에는 **2번 장부(조회 Query DB)**인 거대한 전광판 메뉴판을 수십 개 달아놓았습니다. 손님 10만 명은 주방장이 1번 장부에 글을 쓰든 말든 상관없이, 전광판(2번)만 보고 1초 만에 번개처럼 주문(읽기)을 때립니다. 주방장이 1번 장부에 신메뉴를 적으면 0.1초 뒤 전광판에 스르륵 복사되어 켜집니다(비동기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 읽는 놈과 쓰는 놈이 아예 물리적으로 눈도 마주치지 못하게 분리하여, 서로의 작업이 1%의 간섭도 없이 우주 끝까지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽑아내는 궁극의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 마술입니다.
+> 📢 **섹션 요약 비유**: 기존의 <strong>단일 DB(CRUD) 시스템</strong>은 <strong>'하나의 거대한 장부(장부장)'에 식당의 모든 재료 입고(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>)와 메뉴판 출고(읽기)를 동시에 적고 읽는 끔찍한 병목 공간</strong>이었습니다. 창고 직원이 새 고기를 장부에 적으려고 펜([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 자물쇠)을 쥐고 있는 1분 동안, 홀 서빙 직원 100명은 메뉴판을 보지 못해 뒤에 서서 발을 동동 구르며 멍때리고(대기열 폭발) 서 있어야 했습니다. 이를 부숴버린 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴</strong>은 이 장부를 무참하게 두 개로 찢어버린 혁명입니다. <strong>1번 장부(명령 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> DB)</strong>는 오직 주방장만 만지는 '재료 입고 전용 비밀 장부'입니다. 고기를 꼼꼼하고 안전하게 적습니다. 반면 홀 벽면에는 <strong>2번 장부(조회 Query DB)</strong>인 거대한 전광판 메뉴판을 수십 개 달아놓았습니다. 손님 10만 명은 주방장이 1번 장부에 글을 쓰든 말든 상관없이, 전광판(2번)만 보고 1초 만에 번개처럼 주문(읽기)을 때립니다. 주방장이 1번 장부에 신메뉴를 적으면 0.1초 뒤 전광판에 스르륵 복사되어 켜집니다(비동기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 읽는 놈과 쓰는 놈이 아예 물리적으로 눈도 마주치지 못하게 분리하여, 서로의 작업이 1%의 간섭도 없이 우주 끝까지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽑아내는 궁극의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 마술입니다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-CQRS (Command Query Responsibility Segregation) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CQRS (Command Query Responsibility Segregation) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

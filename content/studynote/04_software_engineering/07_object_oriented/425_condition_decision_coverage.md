@@ -23,19 +23,19 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)만으로는 전체 결정의 모든 결과를 Covered하지 못할 수 있고, [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)만으로는 개별 조건의 모든 값을 Covered하지 못할 수 있다. 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 이 두 가지 한계를 모두 보완하여, 보다 충분한 테스트를 보장한다.
 
-- **조건(Condition)과 결정(Decision)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**:
+- <strong>조건(Condition)과 결정(Decision)의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>:
   - **조건(Condition)**: 더 이상 분할할 수 없는 단일 부울 식
   - **결정(Decision)**: 조건들을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자(and, or, not 등)로 결합한 것
-  - **조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)**: 조건과 결정의 커버리지를 모두 달성
+  - <strong>조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a></strong>: 조건과 결정의 커버리지를 모두 달성
 
-- **비유**: 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 **'학창시절 필기확인'**과 같다. 시험에서 전체 문제를 다 풀었는지([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))뿐만 아니라, 각 문항의 세세한 부분([조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))도 채점해야 전반적인 실력을 정확히 평가할 수 있다.
+- **비유**: 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 <strong>'학창시절 필기확인'</strong>과 같다. 시험에서 전체 문제를 다 풀었는지([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))뿐만 아니라, 각 문항의 세세한 부분([조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))도 채점해야 전반적인 실력을 정확히 평가할 수 있다.
 
 - **등장 배경 및 발전 과정**:
   1. **1990년대**: DO-178B 표준에서 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)를 공식 커버리지 수준으로 정의
   2. **2000년대**: ISO/IEC 26262(자동차), IEC 62304(의료기기) 등에서 산업 표준으로 활용
   3. **현재**: 안전 중요 시스템 개발에서 필수적인 커버리지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수준
 
-- **섹션 요약 비유**: 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 **'음식 레시피 전체 점검'**과 같다. 요리에서 재료 각각의 맛(조건)과 전체 음식의 맛(결정)을 모두 확인해야 맛있는 요리인지 정확히 판단할 수 있듯이, 테스트도 개별 조건과 전체 결정을 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 충분하다.
+- **섹션 요약 비유**: 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 <strong>'음식 레시피 전체 점검'</strong>과 같다. 요리에서 재료 각각의 맛(조건)과 전체 음식의 맛(결정)을 모두 확인해야 맛있는 요리인지 정확히 판단할 수 있듯이, 테스트도 개별 조건과 전체 결정을 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 충분하다.
 
 ---
 
@@ -43,18 +43,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Conditio의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  조건/결정 커버리지 (Conditio                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건/결정 커버리지 (Conditio</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Conditio가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -75,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -151,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-조건/결정 커버리지 (Condition/Decision Coverage) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건/결정 커버리지 (Condition/Decision Coverage) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -59,31 +59,25 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 내부적으로 **Open List(탐색 대기열)** 와 **Closed List(방문 완료열)** 라는 두 개의 큐 구조를 운영하여 상태를 전이시킨다. 
 
-```text
-[A* 상태 전이 메커니즘]
 
-   ┌──────────────────────────────────────────────┐
-   │ 1. [Start] 노드를 Open List에 삽입             │
-   └──────┬───────────────────────────────────────┘
-          ▼
-   ┌──────────────────────────────────────────────┐
-   │ 2. Open List에서 f(n)이 가장 작은 노드 [X] 추출  │◄──┐
-   └──────┬───────────────────────────────────────┘   │
-          ▼                                           │
-   ┌──────────────────────────────────────────────┐   │
-   │ 3. [X]가 목표(Goal)인가?                       │   │
-   │    ├─ [YES] ──► 탐색 종료 (경로 반환)              │   │
-   │    └─ [NO]  ──► [X]를 Closed List로 이동        │   │
-   └──────┬───────────────────────────────────────┘   │
-          ▼                                           │
-   ┌──────────────────────────────────────────────┐   │
-   │ 4. [X]의 이웃 노드 전개                        │   │
-   │   (이미 Closed에 있다면 무시)                   │   │
-   │   (g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신) │   │
-   │   (Open List에 정렬 삽입 혹은 더 적은 g로 갱신)    │   │
-   └──────┬───────────────────────────────────────┘   │
-          └───────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 상태 전이 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Start</div><div class="kb-diagram-note">노드를 Open List에 삽입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. Open List에서 f(n)이 가장 작은 노드</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">추출 │◄──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">가 목표(Goal)인가? │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──► 탐색 종료 (경로 반환) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">NO</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">를 Closed List로 이동 │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">의 이웃 노드 전개 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이미 Closed에 있다면 무시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Open List에 정렬 삽입 혹은 더 적은 g로 갱신)</div></div>
+</div>
+</div>
+
+
 
 이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름도의 병목 지점은 'Open List에서 가장 작은 f(n)을 찾는 과정'이다. 노드 수가 수백만 개로 늘어나면 이 리스트를 정렬하고 갱신하는 연산이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지배한다. 따라서 실무에서는 Open List를 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아닌 최소 힙(Min-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이나 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)) 기반으로 구현하여 접근 복잡도를 O(log N)으로 방어해야 한다.
 
@@ -111,9 +105,9 @@ A* 탐색은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu
 
 실무 환경(예: 모바일 게임 서버, 실시간 로봇 제어)에서 A*를 무턱대고 돌리면 메모리 초과([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 장애가 발생한다. A*는 지나온 모든 노드를 기억해야 하므로 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)가 O(b^d)로 기하급수적이기 때문이다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
-- **메모리 병목 방어**: 거대한 지도에서는 전체 A* 대신 메모리 제한적 A*인 **SMA* (Simplified Memory-Bounded A*)** 나 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) 방식인 **[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)* (Hierarchical Pathfinding A*)** 를 도입해야 한다.
-- **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)(h) 선택**: 타일 맵의 대각선 이동 허용 여부에 따라 맨해튼 거리(수직/수평만 허용)와 체비셰프 거리(대각선 허용)를 다르게 채택해야 연산 효율이 극대화된다.
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 방어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
+- **메모리 병목 방어**: 거대한 지도에서는 전체 A* 대신 메모리 제한적 A*인 **SMA* (Simplified Memory-Bounded A*)<strong> 나 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> 방식인 </strong>[HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)* (Hierarchical Pathfinding A*)** 를 도입해야 한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(h) 선택</strong>: 타일 맵의 대각선 이동 허용 여부에 따라 맨해튼 거리(수직/수평만 허용)와 체비셰프 거리(대각선 허용)를 다르게 채택해야 연산 효율이 극대화된다.
 
 ```text
 [실무 안티패턴 시각화: 휴리스틱 과대평가(Overestimation) 함정]
@@ -144,32 +138,33 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) ([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))** | A*에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 요소가 배제된 가장 기본적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
-- **[허용적 휴리스틱](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/) ([Admissible Heuristic](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/))** | A*가 반드시 가장 빠른 최적 경로를 찾아내기 위한 수학적 필수 보장 조건
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>)</strong> | A*에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 요소가 배제된 가장 기본적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">허용적 휴리스틱</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">Admissible Heuristic</a>)</strong> | A*가 반드시 가장 빠른 최적 경로를 찾아내기 위한 수학적 필수 보장 조건
 - **맨해튼 거리 (Manhattan Distance)** | 격자형(Grid) 지도상에서 X축과 Y축 차이의 절대값을 합산한 대표적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수
-- **그리디 맹목 탐색 (Greedy [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))** | 현재까지 온 거리는 무시하고 오직 목표 깃발만 보고 달리는 맹목적 돌격 탐색기
+- <strong>그리디 맹목 탐색 (Greedy <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong> | 현재까지 온 거리는 무시하고 오직 목표 깃발만 보고 달리는 맹목적 돌격 탐색기
 - **Open List / Closed List** | A*의 상태를 저장하는 방문 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 구조와 이미 확정된 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BFS (너비 우선 탐색) — 최단 홉 탐색, 가중치 무시, 메모리 폭발]
-    │
-    ▼
-[다익스트라 (Dijkstra) — 가중치 최단 경로, g(n) 기반, 목표 방향성 없음]
-    │
-    ▼
-[A* 알고리즘 — f(n) = g(n) + h(n), 휴리스틱으로 탐색 공간 대폭 축소]
-    │
-    ▼
-[IDA* (Iterative Deepening A*) — 메모리 O(d), 깊이 제한 반복 심화 탐색]
-    │
-    ▼
-[JPS (Jump Point Search) — 균일 격자에서 A* 불필요 노드 건너뜀, 수십 배 속도]
-    │
-    ▼
-[신경망 휴리스틱 (Neural Heuristic) — 학습된 h(n)으로 복잡 환경 경로 계획]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (너비 우선 탐색) — 최단 홉 탐색, 가중치 무시, 메모리 폭발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 (Dijkstra) — 가중치 최단 경로, g(n) 기반, 목표 방향성 없음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 — f(n) = g(n) + h(n), 휴리스틱으로 탐색 공간 대폭 축소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IDA* (Iterative Deepening A*) — 메모리 O(d), 깊이 제한 반복 심화 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">JPS (Jump Point Search) — 균일 격자에서 A* 불필요 노드 건너뜀, 수십 배 속도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신경망 휴리스틱 (Neural Heuristic) — 학습된 h(n)으로 복잡 환경 경로 계획</div></div>
+</div>
+</div>
+
+
 이 흐름은 방향성 없는 BFS에서 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기반 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)를 거쳐 목표 지향 A*로 수렴하고, 메모리·속도 최적화와 학습 기반 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)으로 진화하는 경로 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

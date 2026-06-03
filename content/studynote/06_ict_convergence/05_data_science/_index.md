@@ -19,28 +19,22 @@ tags = ["ict_convergence"]
 
 현대 비즈니스 환경에서 '데이터'는 단순한 정보의 축적을 넘어 핵심 자산으로 자리 잡았다. 그러나 가공되지 않은 원시 데이터 (Raw Data)는 그 자체로 가치를 가지기 어렵다. 데이터 과학은 이러한 데이터를 정제하고, 통계적으로 유의미한지 검정하며, 미래의 불확실성을 확률적으로 모델링함으로써 '지혜'로 변환하는 역할을 수행한다.
 
-데이터 과학이 필요한 실무적 배경은 세 가지이다. 첫째, 복잡한 비즈니스 현상에서 핵심 변수 간의 **인과 관계**를 명확히 규명해야 하며, 둘째, 과거 데이터를 바탕으로 **미래의 수요나 위험을 예측**해야 하고, 셋째, 한정된 자원 (시간, 비용, 인력)을 **최적으로 배분**하는 최적화 솔루션이 필요하기 때문이다.
+데이터 과학이 필요한 실무적 배경은 세 가지이다. 첫째, 복잡한 비즈니스 현상에서 핵심 변수 간의 <strong>인과 관계</strong>를 명확히 규명해야 하며, 둘째, 과거 데이터를 바탕으로 <strong>미래의 수요나 위험을 예측</strong>해야 하고, 셋째, 한정된 자원 (시간, 비용, 인력)을 <strong>최적으로 배분</strong>하는 최적화 솔루션이 필요하기 때문이다.
 
 이 그림은 데이터 과학의 표준 프레임워크인 CRISP-DM (Cross-Industry Standard Process for Data Mining)을 보여준다. 비즈니스 이해에서 시작하여 배포에 이르는 순환적 과정을 통해 데이터가 어떻게 가치로 전환되는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             CRISP-DM 데이터 마이닝 프로세스                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌───────────┐      ┌───────────┐      ┌───────────┐       │
-│   │ Business  │◀────▶│   Data    │◀────▶│   Data    │       │
-│   │ Understanding │  │ Understanding │  │ Preparation │       │
-│   └───────────┘      └───────────┘      └─────┬─────┘       │
-│         ▲                                     │             │
-│         │         ┌───────────┐               ▼             │
-│         │         │           │         ┌───────────┐       │
-│    [Deployment] ◀─│ Evaluation│◀────▶│  Modeling │       │
-│                   │           │         └───────────┘       │
-│                   └───────────┘                             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRISP-DM 데이터 마이닝 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Understanding</div><div class="kb-diagram-cell">Understanding</div><div class="kb-diagram-cell">Preparation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Deployment</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─│ Evaluation│◀ ▶│ Modeling │</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '순환성'과 '비즈니스 중심성'이다. 모델의 성능이 아무리 좋아도 비즈니스 문제를 해결하지 못하면 무의미하다. 실무에서는 Evaluation 단계에서 비즈니스 목표 달성 여부를 검증하고, 실패 시 다시 처음 단계로 돌아가는 반복적 과정을 거친다. 기술사는 각 단계에서 발생하는 데이터 편향 (Bias)이나 결측치 (Missing Value) 처리가 결과의 신뢰성에 미치는 영향을 통제해야 한다.
 
@@ -56,7 +50,7 @@ tags = ["ict_convergence"]
 
 ### 통계적 가설 검정과 p-value의 이해
 
-데이터 과학에서 내린 결론이 "우연이 아님"을 증명하는 과정이 가설 검정 (Hypothesis Testing)이다. 귀무가설 (H0)을 세우고, 수집된 데이터가 이 가설 하에서 나타날 확률인 **p-value**를 계산한다. 일반적으로 p-value가 유의수준 (0.05 등)보다 작으면 귀무가설을 기각하고 대립가설 (H1)을 채택한다.
+데이터 과학에서 내린 결론이 "우연이 아님"을 증명하는 과정이 가설 검정 (Hypothesis Testing)이다. 귀무가설 (H0)을 세우고, 수집된 데이터가 이 가설 하에서 나타날 확률인 <strong>p-value</strong>를 계산한다. 일반적으로 p-value가 유의수준 (0.05 등)보다 작으면 귀무가설을 기각하고 대립가설 (H1)을 채택한다.
 
 - **t-Test**: 두 집단의 평균 차이를 비교 (예: 신약 복용 전후 혈압 차이)
 - **ANOVA**: 세 집단 이상의 평균 차이를 비교 (예: 지역별 소득 차이)
@@ -64,23 +58,22 @@ tags = ["ict_convergence"]
 
 이 구조도는 가설 검정의 의사결정 체계와 발생 가능한 오류 (1종, 2종 오류)를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               가설 검정 의사결정 및 오류 분석                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│                      [실제 진실 (Truth)]                    │
-│                    H0 True        H0 False                  │
-│  [판단 (Decision)] ───────────┬────────────                 │
-│  Accept H0       │   Correct   │   Type II Error (β)        │
-│                  │ (Confidence)│ (미탐지 오류)               │
-│  ────────────────┼─────────────┼────────────                 │
-│  Reject H0       │ Type I Error│   Correct                  │
-│  (α, p-value)    │ (오탐지 오류)│ (Power, 1-β)               │
-│  ────────────────┴─────────────┴────────────                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가설 검정 의사결정 및 오류 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실제 진실 (Truth)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H0 True H0 False</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">판단 (Decision)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Accept H0</div><div class="kb-diagram-cell">Correct</div><div class="kb-diagram-cell">Type II Error (β)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Confidence)</div><div class="kb-diagram-cell">(미탐지 오류)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reject H0</div><div class="kb-diagram-cell">Type I Error</div><div class="kb-diagram-cell">Correct</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(α, p-value)</div><div class="kb-diagram-cell">(오탐지 오류)</div><div class="kb-diagram-cell">(Power, 1-β)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 1종 오류 (False Positive)와 2종 오류 (False Negative)의 트레이드오프이다. 실무에서는 암 진단 (2종 오류가 치명적)과 스팸 필터링 (1종 오류가 불편함)처럼 상황에 따라 어떤 오류를 더 엄격히 관리할지 결정해야 한다. 기술사는 단순히 p-value < 0.05만 볼 것이 아니라, 효과 크기 (Effect Size)와 통계적 검정력 (Power)을 함께 고려하여 실질적인 의미를 파악해야 한다.
 
@@ -94,30 +87,27 @@ tags = ["ict_convergence"]
 
 이 도식은 규제화가 모델의 복잡도와 오차 사이에서 어떻게 최적의 지점을 찾는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             규제화 (Regularization)와 Bias-Variance          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Error ▲                                                   │
-│         │      / Total Error                                │
-│         │     /     \                                       │
-│         │    /       \   Variance (복잡한 모델)              │
-│         │   /         \ /                                   │
-│         │  /           * <--- Optimal Complexity            │
-│         │ /           / \                                   │
-│         │/___________/   \ Bias (단순한 모델)               │
-│         └──────────────────────────────────▶                │
-│                 Model Complexity                            │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제화 (Regularization)와 Bias-Variance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Total Error</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Variance (복잡한 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ * &lt;--- Optimal Complexity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/___________/ \ Bias (단순한 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Complexity</div></div>
+</div>
+</div>
+
+
 
 이 그래프의 핵심은 'Optimal Complexity' 지점을 찾는 것이다. 규제화 파라미터 (λ)를 조절함으로써, 모델의 유연성을 억제하고 일반화 성능을 높인다. 실무에서는 교차 검증 (Cross Validation)을 통해 최적의 λ를 결정하며, 이는 고차원 데이터 분석에서 모델의 신뢰성을 담보하는 필수 과정이다.
 
 ### 추천 시스템: CF와 SVD
 
-추천 시스템은 사용자의 과거 행동을 바탕으로 선호도를 예측한다. **협업 필터링 (Collaborative Filtering)**은 유사한 취향의 사용자들이 좋아한 아이템을 추천하며, 이를 고도화하기 위해 거대한 행렬을 쪼개는 **행렬 분해 (SVD/MF)** 기법이 사용된다.
+추천 시스템은 사용자의 과거 행동을 바탕으로 선호도를 예측한다. <strong>협업 필터링 (Collaborative Filtering)</strong>은 유사한 취향의 사용자들이 좋아한 아이템을 추천하며, 이를 고도화하기 위해 거대한 행렬을 쪼개는 **행렬 분해 (SVD/MF)** 기법이 사용된다.
 
 📢 **섹션 요약 비유**: 가설 검정이 "이 결과가 진짜인가?"를 묻는 재판 과정이라면, 규제화 회귀는 "너무 복잡한 설명은 버리고 핵심만 말해"라고 요구하는 편집자와 같고, 추천 시스템은 "너랑 비슷한 사람들은 이걸 좋아하더라"라고 속삭이는 베테랑 점원과 같습니다.
 
@@ -165,17 +155,18 @@ tags = ["ict_convergence"]
 
 이 도식은 전처리 과정에서 데이터 품질이 어떻게 변화하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                데이터 전처리 및 품질 향상 워크플로우          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Raw Data] ──▶ [Quality Audit] ──▶ [Imputation]           │
-│                         │ (Stats Check)      │              │
-│   [Final Set] ◀── [Normalization] ◀── [Outlier Handling]    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 전처리 및 품질 향상 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Quality Audit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Imputation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stats Check)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Final Set</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Normalization</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Outlier Handling</div></div>
+</div>
+</div>
+
+
 
 이 워크플로우의 핵심은 'Quality Audit'이다. 전처리 전후의 데이터 분포 변화를 반드시 시각화하여 확인해야 하며, 전처리가 모델의 편향을 강화하지 않는지 검토해야 한다.
 

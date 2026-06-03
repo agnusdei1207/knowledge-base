@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) (거대한 우산)**: 고객이 '결제 버튼'을 딱 1번 누르는 순간 생성되는 단 1개의 난수(UUID). 50대 서버를 돌아다니는 내내 절대 변하지 않는 **'1회 방문의 전체 그룹 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)'**.
+  - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/">Trace ID</a> (거대한 우산)</strong>: 고객이 '결제 버튼'을 딱 1번 누르는 순간 생성되는 단 1개의 난수(UUID). 50대 서버를 돌아다니는 내내 절대 변하지 않는 <strong>'1회 방문의 전체 그룹 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>'</strong>.
   - **Span ID (쪼가리 번호)**: 서버가 1개, 1개 행동(DB 찌르기, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쏘기)을 할 때마다 생성되는 구간 번호표. 
-  - **[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation (문맥 전파)**: A 서버가 B 서버를 HTTP나 Kafka로 찌를 때, 나만 알고 있는 이 `Trace ID`와 `Span ID`를 패킷 껍데기(Header)에 박아 넣어서 B 서버의 뇌([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))로 전염시키는 행위.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Propagation (문맥 전파)</strong>: A 서버가 B 서버를 HTTP나 Kafka로 찌를 때, 나만 알고 있는 이 `Trace ID`와 `Span ID`를 패킷 껍데기(Header)에 박아 넣어서 B 서버의 뇌([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))로 전염시키는 행위.
 
-- **필요성 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 프로토콜의 무상태 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 병맛)**: 50대 파드가 K8s에 떠 있다. HTTP는 붕어 대가리다. 요청 끝나면 뒤돌아서 까먹는다. 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이에 1번 요청이 들어오고, 0.001초 뒤에 2번 요청이 들어왔다. 둘 다 똑같이 결제 서버를 찌른다. 결제 서버 입장에선 **"도대체 이 패킷이 아까 들어온 1번 유저 건지 2번 유저 건지 물리적으로 1도 알 길이 없다!"** 이 붕어 대가리 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신망에서 1번 유저의 트래픽을 끝까지 식별해 내려면, 강제로 택배 송장 바코드(`Trace ID`)를 이마에 붙이고 끝까지 넘겨주는(Propagation) 릴레이 강제 헌법이 아니면 디버깅은 수학적으로 불가능하다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 프로토콜의 무상태 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 병맛)</strong>: 50대 파드가 K8s에 떠 있다. HTTP는 붕어 대가리다. 요청 끝나면 뒤돌아서 까먹는다. 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이에 1번 요청이 들어오고, 0.001초 뒤에 2번 요청이 들어왔다. 둘 다 똑같이 결제 서버를 찌른다. 결제 서버 입장에선 **"도대체 이 패킷이 아까 들어온 1번 유저 건지 2번 유저 건지 물리적으로 1도 알 길이 없다!"** 이 붕어 대가리 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신망에서 1번 유저의 트래픽을 끝까지 식별해 내려면, 강제로 택배 송장 바코드(`Trace ID`)를 이마에 붙이고 끝까지 넘겨주는(Propagation) 릴레이 강제 헌법이 아니면 디버깅은 수학적으로 불가능하다.
 
-- **💡 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전파는 클럽의 **'야광 팔찌 릴레이'**와 같습니다. 손님 1,000명이 우르르 클럽(K8s)에 들어옵니다. 입구 가드([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))가 첫 손님 손목에 파란색 야광 팔찌(`Trace ID: 파랑`)를 채웁니다. 두 번째 손님에겐 빨간색 팔찌(`Trace ID: 빨강`)를 채웁니다. 이 손님이 바텐더(결제 서버), 화장실(DB 서버)을 지나갈 때마다 직원들은 "아, 파란 팔찌 손님이네!" 하고 1초 만에 식별합니다. 만약 가드가 팔찌를 안 채웠거나, 손님이 중간에 팔찌를 잃어버리면(전파 누락), 직원들은 이 사람이 누군지, 언제 들어왔는지 알 길이 없어 쫓아내야 하는 미아가 됩니다.
+- **💡 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전파는 클럽의 <strong>'야광 팔찌 릴레이'</strong>와 같습니다. 손님 1,000명이 우르르 클럽(K8s)에 들어옵니다. 입구 가드([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))가 첫 손님 손목에 파란색 야광 팔찌(`Trace ID: 파랑`)를 채웁니다. 두 번째 손님에겐 빨간색 팔찌(`Trace ID: 빨강`)를 채웁니다. 이 손님이 바텐더(결제 서버), 화장실(DB 서버)을 지나갈 때마다 직원들은 "아, 파란 팔찌 손님이네!" 하고 1초 만에 식별합니다. 만약 가드가 팔찌를 안 채웠거나, 손님이 중간에 팔찌를 잃어버리면(전파 누락), 직원들은 이 사람이 누군지, 언제 들어왔는지 알 길이 없어 쫓아내야 하는 미아가 됩니다.
 
 - **등장 배경 및 발전 과정**:
   1. **사내 자체 규격 지옥 (과거)**: 넷플릭스는 `x-netflix-id`, 페이스북은 `x-fb-trace`... 회사마다 맘대로 헤더 이름을 파서 쓰던 파편화 원시 시대.
   2. **Zipkin / B3 헤더의 통일 (과도기)**: 트위터가 Zipkin을 풀면서 `X-B3-TraceId`라는 헤더 이름 룰을 전 세계에 유행시킴. 이게 사실상 업계 1티어 룰로 쓰였음.
-  3. **W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 천하통일 (현재)**: "야 씨발 회사마다 헤더 이름 달라서 짬뽕으로 연동이 안 되잖아!" 빡친 구글, MS 형님들이 W3C(웹 표준 기구)에 박아버림. **"이제부터 우주 끝까지 헤더 이름은 `traceparent` 단 1개로 통일한다! 딴 거 쓰면 사형!"**
+  3. <strong>W3C Trace <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> 천하통일 (현재)</strong>: "야 씨발 회사마다 헤더 이름 달라서 짬뽕으로 연동이 안 되잖아!" 빡친 구글, MS 형님들이 W3C(웹 표준 기구)에 박아버림. <strong>"이제부터 우주 끝까지 헤더 이름은 <code>traceparent</code> 단 1개로 통일한다! 딴 거 쓰면 사형!"</strong>
 
-- **📢 섹션 요약 비유**: 이 표준화는 **'전 세계 콘센트 110V/220V 규격 통일'**과 같습니다. 옛날엔 회사마다 찌르는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 헤더 플러그 모양(B3, Datadog 등)이 달라서, A 회사 서버가 B 회사 서버를 찌르면 Trace ID가 툭 끊겨 화살표가 날아갔습니다(디버깅 지옥). W3C `traceparent` 표준은 전 세계 모든 서버 플러그를 동그란 220V 1개로 싹 다 통일해 버려, 아무 데나 꽂아도 바코드(Trace) 전기가 100% 무결점으로 쫙쫙 통하게 만든 위대한 규격 통치술입니다.
+- **📢 섹션 요약 비유**: 이 표준화는 <strong>'전 세계 콘센트 110V/220V 규격 통일'</strong>과 같습니다. 옛날엔 회사마다 찌르는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 헤더 플러그 모양(B3, Datadog 등)이 달라서, A 회사 서버가 B 회사 서버를 찌르면 Trace ID가 툭 끊겨 화살표가 날아갔습니다(디버깅 지옥). W3C `traceparent` 표준은 전 세계 모든 서버 플러그를 동그란 220V 1개로 싹 다 통일해 버려, 아무 데나 꽂아도 바코드(Trace) 전기가 100% 무결점으로 쫙쫙 통하게 만든 위대한 규격 통치술입니다.
 
 ---
 
 다음은 Trace ID와 Span ID의 전의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Trace ID와 Span ID의 전                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace ID와 Span ID의 전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Trace ID와 Span ID의 전가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ Trace ID와 Span ID의 전파 ([Context](/knowledge-base/studynote/02_operating_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Trace ID와 Span ID의 전파 (Context Propagation) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trace ID와 Span ID의 전파 (Context Propagation) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

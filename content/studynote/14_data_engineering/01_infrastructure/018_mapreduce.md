@@ -26,16 +26,21 @@ tags = ["data_engineering"]
 이를 해결한 혁명이 바로 **맵리듀스(MapReduce)** 프레임워크입니다. 시스템은 모든 복잡한 네트워크 통신, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 작업 분배를 밑단으로 숨기고, 개발자에게는 오직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 자를지(Map)와 어떻게 합칠지(Reduce) 단 2개의 함수만 구현하도록 강제하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 대중화를 열어젖혔습니다.
 
 이 도식은 기존의 중앙 집중형 연산과 맵리듀스의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연산 패러다임 차이를 보여주는 비교 시각화입니다.
-```text
-[과거: 데이터가 이동 (네트워크 마비)]
-[Storage (1PB)] ──(엄청난 네트워크 병목)──> [Super Computer (CPU 128코어)]
-                                                 (DB 죽음, 연산 불가)
 
-[혁신: 코드가 이동 (MapReduce)]
-[Code (1MB)] ──(복사 전송)──> [DataNode 1 (Map)] ──+
-           ├──(복사 전송)──> [DataNode 2 (Map)] ──+──(결과 합산)──> [Reduce Node]
-           └──(복사 전송)──> [DataNode 3 (Map)] ──+                   (결과 도출)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 데이터가 이동 (네트워크 마비)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Storage (1PB)</div><div class="kb-diagram-note">──(엄청난 네트워크 병목)──&gt;</div><div class="kb-diagram-node">Super Computer (CPU 128코어)</div></div>
+<div class="kb-diagram-note">(DB 죽음, 연산 불가)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 코드가 이동 (MapReduce)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code (1MB)</div><div class="kb-diagram-note">──(복사 전송)──&gt;</div><div class="kb-diagram-node">DataNode 1 (Map)</div><div class="kb-diagram-note">──+</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──(복사 전송)──&gt;</div><div class="kb-diagram-node">DataNode 2 (Map)</div><div class="kb-diagram-note">──+──(결과 합산)──&gt;</div><div class="kb-diagram-node">Reduce Node</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──(복사 전송)──&gt;</div><div class="kb-diagram-node">DataNode 3 (Map)</div><div class="kb-diagram-note">──+ (결과 도출)</div></div>
+</div>
+</div>
+
+
 이 도식의 핵심은 페이로드의 크기 역전입니다. 기가바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크에 태우는 대신, 킬로바이트 수준의 자바(Java) 코드를 워커 노드들에 뿌려서 각자 가지고 있는 로컬 디스크 안에서 연산하게 만듭니다. 따라서 노드가 10대이건 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대이건 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가 없이 선형적으로 연산 속도가 빨라지는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 기적을 달성했습니다. 실무에서는 이 패러다임 전환 덕분에 RDBMS로는 3일이 걸리던 웹 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석을 3시간 만에 끝낼 수 있게 되었습니다.
 
 📢 **섹션 요약 비유**: 산더미 같은 도서관의 책을 사서 한 명이 다 읽고 요약(중앙 집중형)하는 게 아니라, 100명의 학생을 각 서가에 파견(코드 이동)해 자기가 서 있는 줄의 책만 요약하게 한 뒤(Map), 조장 3명이 모여 최종 정리(Reduce)하는 시스템과 완벽히 같습니다.
@@ -50,34 +55,33 @@ tags = ["data_engineering"]
 |:---|:---|:---|:---|:---|
 | **Input Split** | 논리적 입력 분할 | 128MB [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 블록 단위로 맵 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 1개를 물리적으로 1:1 매핑하여 할당합니다. | [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O | 작업 구역 할당 |
 | **Map** | 필터 및 키-값 추출 | 각 라인을 읽어들여 사용자가 정의한 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출하고 분할합니다. | Memory Buffer 처리 | 재료 손질 |
-| **[Shuffle & Sort](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/)** | 재배치 및 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) | **(가장 중요)** 네트워크를 통해 동일한 Key를 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으고 정렬하여 특정 리듀서로 보냅니다. | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Fetch / Disk I/O | 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/">Shuffle & Sort</a></strong> | 재배치 및 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) | **(가장 중요)** 네트워크를 통해 동일한 Key를 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으고 정렬하여 특정 리듀서로 보냅니다. | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Fetch / Disk I/O | 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
 | **Reduce** | 통합 집계 연산 | Shuffle로 넘어온 동일 키의 Value 리스트(List)를 받아 합산/평균 등 최종 결과를 도출합니다. | Disk Write | 공장 최종 조립 |
 
 이 타이밍 흐름도는 그 유명한 '[Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Count(단어 빈도수 세기)' 작업 시 맵리듀스 클러스터 내부에서 벌어지는 5단계 상태 전이를 시각화한 것입니다.
-```text
-┌──────────────── MapReduce Word Count Data Flow ────────────────┐
-│                                                                │
-│ [Input]    "apple bear apple" | "bear cat"                     │
-│                   │                │                           │
-│ [Map]        (apple,1)(bear,1)(apple,1) | (bear,1)(cat,1)      │
-│                   │                │                           │
-│ [Local Sort] (apple,1)(apple,1)(bear,1) | (bear,1)(cat,1)      │
-│     & 파티셔닝     │ (디스크 중간 파일 기록) │                           │
-│                  =========== SHUFFLE (네트워크 전송) ===========│
-│                                                                │
-│ [Merge&Sort] (apple: 1,1)   (bear: 1,1)   (cat: 1)             │
-│ (리듀서 수신)       │               │           │                │
-│                                                                │
-│ [Reduce]     (apple, 2)     (bear, 2)     (cat, 1)             │
-│                   │               │           │                │
-│ [Output]    <최종 HDFS 결과 파일로 디스크 분산 저장 완료>             │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MapReduce Word Count Data Flow</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input</div><div class="kb-diagram-note">"apple bear apple" | "bear cat"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Map</div><div class="kb-diagram-note">(apple,1)(bear,1)(apple,1) | (bear,1)(cat,1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Local Sort</div><div class="kb-diagram-note">(apple,1)(apple,1)(bear,1) | (bear,1)(cat,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&amp; 파티셔닝</div><div class="kb-diagram-cell">(디스크 중간 파일 기록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=========== SHUFFLE (네트워크 전송) ===========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Merge&amp;Sort</div><div class="kb-diagram-note">(apple: 1,1) (bear: 1,1) (cat: 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리듀서 수신)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce</div><div class="kb-diagram-note">(apple, 2) (bear, 2) (cat, 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Output</div><div class="kb-diagram-note">&lt;최종 HDFS 결과 파일로 디스크 분산 저장 완료&gt;</div></div>
+</div>
+</div>
+
+
 이 도식에서 시스템의 가장 큰 병목이자 핵심 트레이드오프가 발생하는 구간은 바로 **SHUFFLE** 단계입니다. 맵 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 만들어낸 수천만 개의 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 쌍들이 리듀서로 찾아가기 위해 클러스터 네트워크 전체를 십자포화처럼 가로지르며 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 소모하고, 이 과정에서 무조건 로컬 디스크에 썼다 읽기를 반복(Disk I/O)하기 때문입니다. 따라서 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝은 곧 이 Shuffle 과정에서 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Snappy 등)하고 디스크 I/O를 억제하느냐에 달려 있습니다.
 
 **심층 동작 원리**
 1. **버퍼 플러시 (Spill)**: Map 함수는 결과를 즉시 디스크에 쓰지 않고 100MB 크기의 환형 메모리 버퍼에 담다가, 80%가 차면 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 디스크에 쏟아냅니다(Spill).
-2. **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))**: Spill 시 어느 리듀서로 갈지 결정하기 위해 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 값을 Hash 연산(예: `Hash(Key) % Reduce 개수`)하여 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 번호를 붙입니다.
+2. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>: Spill 시 어느 리듀서로 갈지 결정하기 위해 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 값을 Hash 연산(예: `Hash(Key) % Reduce 개수`)하여 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 번호를 붙입니다.
 3. **컴바이너 (Combiner / Optional)**: 셔플 네트워크 트래픽을 줄이기 위해 Map 노드 내에서 미리 미니 Reduce를 실행합니다. (예: apple이 2개면 `apple,2`로 합쳐서 전송량 절반 감소).
 4. **리듀스 페치 (Fetch)**: Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 수많은 Map 노드에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 보내 자신에게 할당된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 조각들을 빨아들인 뒤(Copy 단계), 메모리와 디스크에서 병합 병합(Merge) 정렬을 완료하고 Reduce 함수를 실행합니다.
 
@@ -92,23 +96,27 @@ tags = ["data_engineering"]
 | 분석 지표 | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 맵리듀스 (MapReduce) | [아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) (Spark) | 판단 포인트 |
 |:---|:---|:---|:---|
 | **연산 기반** | 디스크 I/O 의존 (단계마다 디스크 기록) | 인메모리 기반 (RAM에서 유지) | I/O 레이턴시 및 처리 속도 |
-| **반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | **치명적 병목** (매 반복마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) | **압도적 우위** (메모리에서 즉각 반복) | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) 적합성 |
-| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 즉각적인 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 재실행 (디스크 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 안전) | 리니지(Lineage) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 재연산 (약간의 복잡성) | 안정성 vs 속도 트레이드오프 |
+| <strong>반복 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | **치명적 병목** (매 반복마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) | **압도적 우위** (메모리에서 즉각 반복) | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) 적합성 |
+| <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 즉각적인 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 재실행 (디스크 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 안전) | 리니지(Lineage) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 재연산 (약간의 복잡성) | 안정성 vs 속도 트레이드오프 |
 | **주 사용처** | 과거 대규모 배치 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 병합 | 현재 거의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 및 실시간 ML | 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 표준 |
 
 이 비교 매트릭스 도식은 맵리듀스와 스파크의 궤적 차이에 따른 I/O 병목 위치를 명확히 보여줍니다.
-```text
-┌── 맵리듀스의 한계 (반복 연산 시 디스크 무한 접근) ──┐
-│ [Job 1] Map -> Shuffle -> Reduce -> HDFS 기록 (느림) │
-│ [Job 2] HDFS 읽기 (느림) -> Map -> Reduce -> HDFS 기록│
-│  => 머신러닝처럼 루프를 100번 돌면 디스크 쓰다 죽음!   │
-└────────────────────────────────────────────────────┘
-                       VS
-┌── 스파크의 혁신 (메모리 파이프라이닝) ────────────┐
-│ [Job 1~N] RDD 메모리 적재 -> Map -> Filter -> Reduce │
-│  => 중간 과정을 디스크에 안 쓰고 RAM에서 끝냄 (100배 빠름) │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">── 맵리듀스의 한계 (반복 연산 시 디스크 무한 접근) ──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Job 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Shuffle -&gt; Reduce -&gt; HDFS 기록 (느림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Job 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Map -&gt; Reduce -&gt; HDFS 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 머신러닝처럼 루프를 100번 돌면 디스크 쓰다 죽음!</div></div>
+<div class="kb-diagram-note">VS</div>
+<div class="kb-diagram-note">── 스파크의 혁신 (메모리 파이프라이닝)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Job 1~N</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Map -&gt; Filter -&gt; Reduce</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 중간 과정을 디스크에 안 쓰고 RAM에서 끝냄 (100배 빠름)</div></div>
+</div>
+</div>
+
+
 A 방식(맵리듀스)은 한 스텝이 끝날 때마다 디스크라는 안전지대에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묻기 때문에 속도는 극악으로 느리지만(Job 체이닝 병목), 메모리 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽을 확률은 낮아 초대용량 원타임 배치에 강합니다. 반면 B 방식(스파크)은 메모리를 통째로 활용하여 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 지워버렸습니다. 따라서 실무에서는 오늘날 맵리듀스를 직접 자바 코드로 짜는 일은 멸종되었으며, 거의 100% 스파크나 하이브([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/))로 대체되었지만, 그 밑바탕을 흐르는 "Map-Shuffle-Reduce"라는 아키텍처적 사상 자체는 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 엔진의 영원한 핵심 원리로 살아있습니다.
 
 📢 **섹션 요약 비유**: 맵리듀스가 계산할 때마다 종이에 적고 서랍에 넣었다가 다시 꺼내보는 구식 회계사라면, 스파크는 모든 숫자를 머릿속에 암기한 채로 단번에 암산해버리는 천재 수학자와 같습니다.
@@ -120,31 +128,34 @@ A 방식(맵리듀스)은 한 스텝이 끝날 때마다 디스크라는 안전�
 현대 실무에서 순수 자바 맵리듀스 코드를 짜는 일은 드물지만, 하이브([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)) SQL 쿼리가 내부적으로 맵리듀스 Job으로 번역되어 돌거나, 스파크 내부의 셔플링 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 이슈를 해결할 때 맵리듀스의 구조적 이해가 뼈저리게 요구됩니다.
 
 **실무 의사결정 및 트러블슈팅 시나리오**
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew)에 의한 무한 대기 장애**
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스큐(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Skew)에 의한 무한 대기 장애</strong>
    - **현상**: Map은 다 끝났는데, Reduce 100개 중 99개는 5분 만에 끝나고 딱 1개의 Reduce만 3시간째 99%에서 멈춰있습니다.
    - **원인**: 특정 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(예: `gender=Male` 또는 `null`)에 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80%가 몰려, [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) 결과 한 명의 리듀서가 독박을 쓴 전형적인 맵리듀스 셔플 스큐 장애입니다.
    - **판단 (해결)**: Key에 난수(Random [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 붙여 일차적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 Map-Reduce를 돌려 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 쪼갠 뒤, 다시 합치는 투-패스(Two-pass) 맵리듀스/스파크 코드로 아키텍처를 변경해야 연산 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 회복됩니다.
-2. **네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 100% 포화 현상 방어**
+2. <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 100% 포화 현상 방어</strong>
    - **현상**: 수십 TB 집계 시 셔플 단계에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 병목으로 클러스터 전체가 다운됩니다.
    - **판단**: 개발자에게 반드시 **컴바이너(Combiner)** 클래스를 짜도록 강제하거나, Map 아웃풋의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 코덱(Snappy)을 켜서 네트워크를 타기 전 페이로드 크기를 1/10로 줄이는 방어막을 구축합니다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 사례)**
-- **[Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/) (수많은 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입력)**: 1KB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100만 개를 맵리듀스에 밀어 넣는 경우. 맵리듀스는 블록/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(JVM 프로세스)를 하나씩 띄우므로, 100만 개의 JVM이 생성되었다 죽기를 반복하다 네임노드와 리소스 매니저가 통째로 터집니다. (SequenceFile이나 Parquet으로 병합 후 투입 필수)
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/">Small File Problem</a> (수많은 작은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 입력)</strong>: 1KB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100만 개를 맵리듀스에 밀어 넣는 경우. 맵리듀스는 블록/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(JVM 프로세스)를 하나씩 띄우므로, 100만 개의 JVM이 생성되었다 죽기를 반복하다 네임노드와 리소스 매니저가 통째로 터집니다. (SequenceFile이나 Parquet으로 병합 후 투입 필수)
 
 이 플로우 트리는 맵리듀스 잡 튜닝 시 OOM과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 회피하기 위한 엔지니어의 의사결정 플로우를 보여줍니다.
-```text
-[MapReduce / Hive Job 성능 저하 발생]
-       │
-       ├─ (Map 단계에서 느린가?)
-       │     └─ 원인: 입력 파일이 너무 잘게 쪼개짐 (Small File)
-       │     └─ 대응: CombineFileInputFormat으로 파일 묶어서 읽기
-       │
-       └─ (Reduce 단계에서 99% 멈춤 현상인가?)
-             ├─ (특정 Reducer만 터지는가?) ──YES──> [데이터 스큐 장애] 난수 Salting 튜닝
-             │
-             └─ (모든 Reducer가 느리거나 OOM인가?)
-                   └──> [셔플/메모리 병목] 맵 아웃풋 Snappy 압축 적용 및 컴바이너 활성화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce / Hive Job 성능 저하 발생</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">(Map 단계에서 느린가?)</div>
+<div class="kb-diagram-note">─ 원인: 입력 파일이 너무 잘게 쪼개짐 (Small File)</div>
+<div class="kb-diagram-note">─ 대응: CombineFileInputFormat으로 파일 묶어서 읽기</div>
+<div class="kb-diagram-tree-item" style="--depth:3">(Reduce 단계에서 99% 멈춤 현상인가?)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (특정 Reducer만 터지는가?) ──YES──&gt;</div><div class="kb-diagram-node">데이터 스큐 장애</div><div class="kb-diagram-note">난수 Salting 튜닝</div></div>
+<div class="kb-diagram-tree-item" style="--depth:6">(모든 Reducer가 느리거나 OOM인가?)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">셔플/메모리 병목</div><div class="kb-diagram-note">맵 아웃풋 Snappy 압축 적용 및 컴바이너 활성화</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 장애의 원인이 디스크 읽기냐, 네트워크 셔플이냐, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 분배 실패냐를 정확히 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))하여 짚어낸다는 점입니다. 스파크에서도 완전히 동일한 플로우가 발생하므로, 맵리듀스 스큐 튜닝 경험은 시니어를 구분하는 척도가 됩니다.
 
 📢 **섹션 요약 비유**: 고속도로 톨게이트(Reduce)에서 한쪽 차선(특정 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))으로만 차가 몰려 3시간째 막혀있을 때, 우회 도로([Salting](/knowledge-base/studynote/02_operating_system/10_security/605_password_salting_hash/))를 터주고 카풀(Combiner)을 유도해 통행량을 흩뿌리는 베테랑 교통 경찰의 지휘와 같습니다.
@@ -176,21 +187,23 @@ A 방식(맵리듀스)은 한 스텝이 끝날 때마다 디스크라는 안전�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 서버 배치 처리 — 데이터 증가에 따른 확장 한계]
-    │
-    ▼
-[HDFS (Hadoop Distributed File System) — 분산 저장, 블록 복제]
-    │
-    ▼
-[맵리듀스 (MapReduce) — Map(분산 필터링) → Shuffle → Reduce(집계)]
-    │
-    ▼
-[YARN (Yet Another Resource Negotiator) — 클러스터 자원 관리]
-    │
-    ▼
-[아파치 스파크 (Apache Spark) — 인메모리 처리, MapReduce 10~100× 속도]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 배치 처리 — 데이터 증가에 따른 확장 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS (Hadoop Distributed File System) — 분산 저장, 블록 복제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">맵리듀스 (MapReduce) — Map(분산 필터링) → Shuffle → Reduce(집계)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YARN (Yet Another Resource Negotiator) — 클러스터 자원 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아파치 스파크 (Apache Spark) — 인메모리 처리, MapReduce 10~100× 속도</div></div>
+</div>
+</div>
+
+
 MapReduce는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map-Shuffle-Reduce 3단계로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하는 프레임워크로, HDFS와 결합하여 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 핵심 연산 엔진이 된다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레고 블록 10만 개를 색깔별로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해야 하는데 혼자 하면 일주일이 넘게 걸리죠?

@@ -39,27 +39,25 @@ tags = ["studynote-cloud-architecture"]
 | [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | EventBridge [Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/), Cloud Scheduler | 푸시 (주기적) | 2회 |
 | DB 변경 스트림 | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Streams, Firestore | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) | 재시도 후 DLQ |
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  이벤트 트리거 실행 아키텍처                         │
-│                                                                      │
-│  이벤트 소스               이벤트 버스/큐           Lambda 함수      │
-│                                                                      │
-│  [S3 업로드]  ──push──►  [S3 이벤트 알림]  ──►  [이미지 변환 fn]   │
-│                                                                      │
-│  [HTTP 요청]  ──push──►  [API Gateway]     ──►  [API 처리 fn]      │
-│                                                                      │
-│  [메시지 발행]──push──►  [SQS 큐]          ──►  [메시지 처리 fn]   │
-│                               │ (폴링)           ↑ 배치 처리        │
-│                               └─────────────────►│ (최대 10,000건)  │
-│                                                                      │
-│  [크론 스케줄]──push──►  [EventBridge]     ──►  [배치 집계 fn]     │
-│                                                                      │
-│  [DDB 변경]   ──poll──►  [DDB Streams]     ──►  [CDC 처리 fn]     │
-│                                                   ↓ 실패 시         │
-│                                              [DLQ (SQS)]            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 트리거 실행 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소스 이벤트 버스/큐 Lambda 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">S3 업로드</div><div class="kb-diagram-note">──push──►</div><div class="kb-diagram-node">S3 이벤트 알림</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">이미지 변환 fn</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 요청</div><div class="kb-diagram-note">──push──►</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">API 처리 fn</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 발행</div><div class="kb-diagram-note">──push──►</div><div class="kb-diagram-node">SQS 큐</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">메시지 처리 fn</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(폴링) ↑ 배치 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">(최대 10,000건)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">크론 스케줄</div><div class="kb-diagram-note">──push──►</div><div class="kb-diagram-node">EventBridge</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">배치 집계 fn</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DDB 변경</div><div class="kb-diagram-note">──poll──►</div><div class="kb-diagram-node">DDB Streams</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">CDC 처리 fn</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 실패 시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLQ (SQS)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 이벤트 소스 매핑은 회사 콜센터 배차 시스템 — 전화(이벤트)가 오면 자동으로 적합한 상담원([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))에게 연결하고, 실패하면 DLQ(메모지)에 남긴다.
 
@@ -93,7 +91,7 @@ DLQ (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastr
 4. SQS → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): DB [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 업데이트
 5. [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Streams → [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/): [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network) 캐시 무효화
 
-**[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 보장 설계**
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>) 보장 설계</strong>
 - 비동기 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 "최소 1회(At-Least-Once)" 실행 보장 → 중복 호출 가능
 - 처리 함수에 이벤트 ID 기반 중복 체크 로직 필수
 - DynamoDB의 ConditionalExpression으로 멱등 처리 구현
@@ -127,15 +125,19 @@ DLQ (Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폴링 (주기적 확인, 비효율)
-    │
-    ▼
-이벤트 트리거: S3 · API Gateway · SQS · CloudWatch
-    │
-    ▼
-이벤트 소싱 + CQRS → 이벤트 기반 아키텍처 (EDA)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폴링 (주기적 확인, 비효율)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 트리거: S3 · API Gateway · SQS · CloudWatch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 소싱 + CQRS → 이벤트 기반 아키텍처 (EDA)</div>
+</div>
+</div>
+
+
 2. 종소리마다 다른 행동이 연결되어 있어요 — 아침 종([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청), 점심 종([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)), 화재경보(S3 업로드).
 3. 선생님(개발자)은 어떤 종에 어떤 행동을 연결할지 규칙만 만들면, 이후엔 자동으로 돌아가요.
 

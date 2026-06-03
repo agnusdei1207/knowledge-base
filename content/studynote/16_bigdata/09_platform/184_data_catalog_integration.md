@@ -41,29 +41,26 @@ tags = ["studynote-bigdata"]
 
 이 그림은 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 기본 구조를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Data catalog integration architecture                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Sources                                                            │
-│  ├─ Data Lake / Warehouse / Database                               │
-│  ├─ 변환 작업 / 오케스트레이터 / 모델링 도구                       │
-│  ├─ 대시보드 / 노트북 / 기계학습 피처 저장소                       │
-│  └─ 품질 검사 / 계보 이벤트                                        │
-│                │                                                   │
-│                ▼                                                   │
-│ Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage   │
-│                │                                                   │
-│                ▼                                                   │
-│ Catalog Core                                                       │
-│  ├─ entity model   ├─ glossary   ├─ lineage graph                  │
-│  ├─ ownership      ├─ policy tag ├─ freshness / quality            │
-│  └─ search index   └─ access integration                           │
-│                │                                                   │
-│                ▼                                                   │
-│ Analysts / Engineers / Governance / 인공지능 도우미                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data catalog integration architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sources</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data Lake / Warehouse / Database</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변환 작업 / 오케스트레이터 / 모델링 도구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대시보드 / 노트북 / 기계학습 피처 저장소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 품질 검사 / 계보 이벤트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ entity model ─ glossary ─ lineage graph</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ownership ─ policy tag ─ freshness / quality</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ search index ─ access integration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Analysts / Engineers / Governance / 인공지능 도우미</div></div>
+</div>
+</div>
+
+
 
 | 핵심 구성 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -92,7 +89,7 @@ tags = ["studynote-bigdata"]
 
 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 용어집, 계보, 품질 도구와도 경계가 있다. 용어집은 의미를 정의하고, 계보는 흐름을 보여 주며, 품질 도구는 신뢰 점수를 준다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 이 셋을 한 화면에서 연결해 주는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다. 따라서 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)만 도입하고 계보·품질·소유권을 붙이지 않으면 "검색 가능한 메타스토어" 수준에서 멈추기 쉽다.
 
-또한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메쉬와도 연결된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 자율적으로 운영하려면, 각 팀이 만든 자산이 중앙 검색과 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 아래 드러나야 한다. 즉 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 중앙집중 통제만을 뜻하지 않고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 **공유 가능한 계약 형태로 노출하는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)** 역할도 한다.
+또한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메쉬와도 연결된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 자율적으로 운영하려면, 각 팀이 만든 자산이 중앙 검색과 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 아래 드러나야 한다. 즉 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 중앙집중 통제만을 뜻하지 않고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 <strong>공유 가능한 계약 형태로 노출하는 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> 역할도 한다.
 
 - **📢 섹션 요약 비유**: Glue, DataHub, OpenMetadata의 차이는 동네 창고 관리표, 도시 교통 지도, 종합 물류 관제실의 차이와 비슷하다. 모두 물건 위치를 알려 주지만, 다루는 범위와 연결 수준이 다르다.
 
@@ -114,7 +111,7 @@ tags = ["studynote-bigdata"]
 1. **자동 수집 범위**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 대시보드, 변환 작업까지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 이어지는가?
 2. **소유권 체계**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋마다 비즈니스 소유자와 기술 소유자가 분리되어 있는가?
 3. **계보 연결**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 변환, [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 결과가 계보 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 이어지는가?
-4. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태깅**: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) (Personally Identifiable Information, PII), 기밀 등급, 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 컬럼 수준까지 반영되는가?
+4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 태깅</strong>: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) (Personally Identifiable Information, PII), 기밀 등급, 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 컬럼 수준까지 반영되는가?
 5. **사용자 경험**: 검색, 추천, 설명, 예제 질의가 있어 실제 사용자가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 찾는가?
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 첫째, 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 잔뜩 모아 놓고 설명과 책임자를 비워 두는 경우다. 둘째, 도구는 도입했지만 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·품질·대시보드와 연동하지 않아 계보가 끊기는 경우다. 셋째, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그만 강조하고 검색성과 사용 편의성을 무시해 현업이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 외면하는 경우다. 넷째, 사람의 큐레이션이 전혀 없어 잘못된 용어와 낡은 설명이 누적되는 경우다.
@@ -129,7 +126,7 @@ tags = ["studynote-bigdata"]
 
 하지만 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 설치만으로 완성되지 않는다. 자동 수집은 넓게 퍼질수록 좋지만, 비즈니스 의미와 책임 체계는 사람의 승인과 관리가 필요하다. 따라서 성공한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 운영은 "자동 수집 100퍼센트"가 아니라 **자동화로 최신성을 확보하고, 큐레이션으로 의미를 보강하는 균형** 위에서 만들어진다.
 
-결론적으로 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장하는 일이 아니라, 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발견하고 신뢰하고 책임질 수 있게 만드는 운영 기반이다. 기억해야 할 핵심은 단순하다. **[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 검색창이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 주소, 의미, 계보, 신뢰를 묶는 플랫폼 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.**
+결론적으로 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장하는 일이 아니라, 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발견하고 신뢰하고 책임질 수 있게 만드는 운영 기반이다. 기억해야 할 핵심은 단순하다. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a>는 검색창이 아니라 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자산의 주소, 의미, 계보, 신뢰를 묶는 플랫폼 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>다.</strong>
 
 - **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 색인 없는 백과사전에 목차와 검색, 출처 표시, 책임 편집자를 모두 붙여 주는 일과 같다. 그래야 정보가 많을수록 더 빨리 찾을 수 있다.
 
@@ -150,24 +147,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부서별 데이터 사일로
-    │
-    ▼
-기술 메타데이터 수집
-    │
-    ▼
-검색 가능한 데이터 카탈로그
-    │
-    ▼
-계보 · 품질 · 소유권 통합
-    │
-    ▼
-정책 태깅 · 거버넌스 자동화
-    │
-    ▼
-능동형 메타데이터와 인공지능 기반 데이터 발견
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부서별 데이터 사일로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기술 메타데이터 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검색 가능한 데이터 카탈로그</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계보 · 품질 · 소유권 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정책 태깅 · 거버넌스 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">능동형 메타데이터와 인공지능 기반 데이터 발견</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

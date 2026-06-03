@@ -23,46 +23,36 @@ tags = ["algorithm_stats"]
 
 > 이 도식은 재귀의 3단계 구조를 보여준다.
 
-```text
-[재귀의 3단계 구조]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [재귀 함수의 3단계 구조] │
-│ ──────────────────────────────────── │
-│ │
-│ function solve(problem): │
-│ │
-│ 1. BASE CASE (기본 사례) │
-│ if problem가 충분히 작다: │
-│ return problem의 직접적 │
-│ │
-│ 2. DIVIDE (분할) │
-│ sub_problems = 분할(problem) │
-│ │
-│ 3. RECURSE (재귀) │
-│ for each sub_problem: │
-│ result = solve(sub_problem) │
-│ │
-│ 4. COMBINE (결합) │
-│ return 결합(result들) │
-│ │
-│ [하노이 탑으로 이해하기] │
-│ ──────────────────────────────────── │
-│ 목표: N개의 원판을 A에서 C로 이동 (B 사용) │
-│ │
-│ Base Case: N=1 → 그냥 A→C 이동 │
-│ │
-│ Recursive Case: N>1일 때 │
-│ Step 1: N-1개 원판을 A→B (C를 임시로 사용) │
-│ Step 2: 가장 큰 원판을 A→C 이동 │
-│ Step 3: N-1개 원판을 B→C (A를 임시로 사용) │
-│ │
-│ 이동 횟수: T(N) = 2T(N-1) + 1 │
-│ = 2^N - 1 │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재귀의 3단계 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재귀 함수의 3단계 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function solve(problem):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. BASE CASE (기본 사례)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if problem가 충분히 작다:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return problem의 직접적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DIVIDE (분할)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sub_problems = 분할(problem)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. RECURSE (재귀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for each sub_problem:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = solve(sub_problem)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. COMBINE (결합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return 결합(result들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하노이 탑으로 이해하기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: N개의 원판을 A에서 C로 이동 (B 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Case: N=1 → 그냥 A→C 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recursive Case: N&gt;1일 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: N-1개 원판을 A→B (C를 임시로 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 가장 큰 원판을 A→C 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: N-1개 원판을 B→C (A를 임시로 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동 횟수: T(N) = 2T(N-1) + 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 2^N - 1</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 재귀 함수의 핵심은 자기 자신을 호출할 때 입력 크기가 반드시 줄어들어야 한다는 것이다. 그렇지 않으면 무한 재귀에 빠진다.
 - **원인**: 기본 사례에 도달하지 못하면 함수가 종료되지 않고 계속 호출되어 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 소진하기 때문이다.
@@ -75,59 +65,53 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-재귀의 핵심 원리는 **콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** 관리이다. 함수가 자신을 호출할 때마다 새로운 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)이 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 Push되고, 함수가 반환할 때마다 Pop된다. 각 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임에는 로컬 변수, 복귀 주소(Return Address), 매개변수 값 등이 저장된다. 이 구조는 운영체제가 자동으로 관리하므로 프로그래머가 명시적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 조작할 필요가 없다.
+재귀의 핵심 원리는 <strong>콜 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> 관리이다. 함수가 자신을 호출할 때마다 새로운 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)이 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 Push되고, 함수가 반환할 때마다 Pop된다. 각 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임에는 로컬 변수, 복귀 주소(Return Address), 매개변수 값 등이 저장된다. 이 구조는 운영체제가 자동으로 관리하므로 프로그래머가 명시적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 조작할 필요가 없다.
 
-**꼬리 재귀(Tail Recursion)**는 재귀 호출이 함수의 마지막 연산인 경우를 말하며, 컴파일러가 최적화하여 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용함으로써 일반 재귀의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 문제를 해결할 수 있다. 그러나 Python, Java, JavaScript 등의 주요 언어는 꼬리 재귀 최적화(Tail [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Optimization, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))를 지원하지 않으므로 주의가 필요하다.
+<strong>꼬리 재귀(Tail Recursion)</strong>는 재귀 호출이 함수의 마지막 연산인 경우를 말하며, 컴파일러가 최적화하여 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용함으로써 일반 재귀의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 문제를 해결할 수 있다. 그러나 Python, Java, JavaScript 등의 주요 언어는 꼬리 재귀 최적화(Tail [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Optimization, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))를 지원하지 않으므로 주의가 필요하다.
 
-```text
-[콜 스택의 동작: 하노이 탑]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택] │
-│ ──────────────────────────────────── │
-│ │
-│ Push: hanoi(3, A, B, C) │
-│ ├─ Push: hanoi(2, A, C, B) │
-│ │ ├─ Push: hanoi(1, A, B, C) │
-│ │ │ ├─ Push: hanoi(0, A, C, B) → 바로 Return │
-│ │ │ └─ Move: A→C │
-│ │ └─ Move: A→B │
-│ │ ├─ Push: hanoi(1, C, A, B) │
-│ │ │ └─ Move: C→B │
-│ │ └─ Return │
-│ ├─ Move: A→C (가장 큰 원반) │
-│ ├─ Push: hanoi(2, B, A, C) │
-│ │ ├─ Push: hanoi(1, B, C, A) │
-│ │ │ └─ Move: B→A │
-│ │ ├─ Move: B→C │
-│ │ ├─ Push: hanoi(1, A, B, C) │
-│ │ │ └─ Move: A→C │
-│ │ └─ Return │
-│ └─ Return │
-│ │
-│ 총 함수 호출: 2³ - 1 = 7번 │
-│ 스택 깊이: 최대 3 (N과 동일) │
-│ │
-│ [일반 재귀 vs 꼬리 재귀] │
-│ ──────────────────────────────────── │
-│ │
-│ // 일반 재귀: 스택 프레임 누적 │
-│ int factorial(int n) { │
-│ if (n <= 1) return 1; │
-│ return n * factorial(n - 1); │
-│ // ← 복귀 후 곱셈 연산 수행 → 스택 유지 필요 │
-│ } │
-│ │
-│ // 꼬리 재귀: TCO 적용 가능 │
-│ int factorial_tail(int n, int acc) { │
-│ if (n <= 1) return acc; │
-│ return factorial_tail(n - 1, n * acc); │
-│ // ← 마지막 연산이 재귀 호출 → 스택 재사용 가능 │
-│ } │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">콜 스택의 동작: 하노이 탑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Push: hanoi(3, A, B, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(2, A, C, B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(1, A, B, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(0, A, C, B) → 바로 Return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: A→C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: A→B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(1, C, A, B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: C→B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: A→C (가장 큰 원반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(2, B, A, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(1, B, C, A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: B→A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: B→C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Push: hanoi(1, A, B, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Move: A→C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 함수 호출: 2³ - 1 = 7번</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 깊이: 최대 3 (N과 동일)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 재귀 vs 꼬리 재귀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 일반 재귀: 스택 프레임 누적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int factorial(int n) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (n &lt;= 1) return 1;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return n * factorial(n - 1);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ← 복귀 후 곱셈 연산 수행 → 스택 유지 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 꼬리 재귀: TCO 적용 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int factorial_tail(int n, int acc) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (n &lt;= 1) return acc;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return factorial_tail(n - 1, n * acc);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ← 마지막 연산이 재귀 호출 → 스택 재사용 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 재귀 호출이 함수의 마지막 연산(tail position)일 때, 컴파일러는 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 덮어쓸 수 있어 공간을 절약할 수 있다.
 - **원인**: 재귀 호출 이후에 수행할 연산이 없으므로, 현재 함수의 변수들을저장할 필요가 없기 때문이다.
@@ -140,54 +124,44 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-재귀의 실무 적용은 매우 광범위하다. **트리 순회**: 이진 트리의 전위/중위/후위 순회는 재귀가 가장 자연스러운 방식으로, 재귀 없이 구현하면 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요하다. **[그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)**: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))는 재귀로 가장 간결하게 구현되며, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연결 요소 탐색, 사이클 탐지 등에 활용된다. **하노이 탑**: N개의 원판을 다른 기둥으로 옮기는 문제는 재귀 없이는 구현이 극도로 복잡하다.
+재귀의 실무 적용은 매우 광범위하다. **트리 순회**: 이진 트리의 전위/중위/후위 순회는 재귀가 가장 자연스러운 방식으로, 재귀 없이 구현하면 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/">그래프 탐색</a></strong>: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))는 재귀로 가장 간결하게 구현되며, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연결 요소 탐색, 사이클 탐지 등에 활용된다. **하노이 탑**: N개의 원판을 다른 기둥으로 옮기는 문제는 재귀 없이는 구현이 극도로 복잡하다.
 
-**재귀 사용 시 주의사항**은 다음과 같다. **기본 사례 빠뜨림**: 기본 사례가 없으면 무한 재귀에 빠져 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생한다. **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)**: 재귀 깊이가 깊어지면 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 고갈된다. **반복적 동치(Iterative Equivalent)**: 재귀 깊이가 예측 불가능한 상황에서는 항상 반복문으로 변환할 수 있는지 검토해야 한다.
+<strong>재귀 사용 시 주의사항</strong>은 다음과 같다. **기본 사례 빠뜨림**: 기본 사례가 없으면 무한 재귀에 빠져 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생한다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a></strong>: 재귀 깊이가 깊어지면 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 고갈된다. **반복적 동치(Iterative Equivalent)**: 재귀 깊이가 예측 불가능한 상황에서는 항상 반복문으로 변환할 수 있는지 검토해야 한다.
 
-```text
-[실무 재귀: 이진 트리 중위 순회]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [이진 트리 중위 순회 (Inorder Traversal)] │
-│ ──────────────────────────────────── │
-│ │
-│ 트리 구조: │
-│ 4 │
-│ / \ │
-│ 2 6 │
-│ / \ / \ │
-│ 1 3 5 7 │
-│ │
-│ 중위 순회 결과: 1 → 2 → 3 → 4 → 5 → 6 → 7 │
-│ (왼쪽 → 현재 → 오른쪽) │
-│ │
-│ [재귀적 구현] │
-│ ──────────────────────────────────── │
-│ function inorder(node): │
-│ if node is null: return │
-│ inorder(node.left) │
-│ visit(node.value) │
-│ inorder(node.right) │
-│ │
-│ [반복적 구현 (명시적 스택)] │
-│ ──────────────────────────────────── │
-│ function inorder_iterative(root): │
-│ stack = [] │
-│ current = root │
-│ │
-│ while current is not null or stack: │
-│ while current is not null: │
-│ stack.push(current) │
-│ current = current.left │
-│ current = stack.pop() │
-│ visit(current.value) │
-│ current = current.right │
-│ │
-│ → 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능 │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 재귀: 이진 트리 중위 순회</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 트리 중위 순회 (Inorder Traversal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리 구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 3 5 7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중위 순회 결과: 1 → 2 → 3 → 4 → 5 → 6 → 7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 → 현재 → 오른쪽)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재귀적 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function inorder(node):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if node is null: return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">inorder(node.left)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">visit(node.value)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">inorder(node.right)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반복적 구현 (명시적 스택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function inorder_iterative(root):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stack = []</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current = root</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while current is not null or stack:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while current is not null:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stack.push(current)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current = current.left</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current = stack.pop()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">visit(current.value)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current = current.right</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 재귀는의 종을 생각하면 됩니다. 1층 종을 치고(기본 사례), 다음 층의 종을 치고,까지 도달하면(재귀 깊이) 더 이상 올라갈 수 없으므로 내려오면서 각 층의 종을 다시 치는(결합) 것과 같습니다.
 
@@ -195,9 +169,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-재귀의 품질 관리에서 가장 중요한 것은 **기본 사례 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**, **종료 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**, **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이 분석**이다. 특히 서로 다른 기본 사례를 가진 재귀(다중 기본 사례)에서는 모든 경로에서 기본 사례에 도달하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+재귀의 품질 관리에서 가장 중요한 것은 <strong>기본 사례 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>, <strong>종료 조건 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 깊이 분석</strong>이다. 특히 서로 다른 기본 사례를 가진 재귀(다중 기본 사례)에서는 모든 경로에서 기본 사례에 도달하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 재귀 깊이의 최악의 경우(시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제환경에서 TCO를 지원하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 재귀 호출로 인한 메모리사용량이 허용 범위인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 재귀 깊이의 최악의 경우(시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제환경에서 TCO를 지원하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 재귀 호출로 인한 메모리사용량이 허용 범위인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 📢 **섹션 요약 비유**: 재귀의품질 관리는가가을 탐사할 때와 같습니다. "더 이상 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 불가한 곳(기본 사례)에 도달하면 반드시 돌아온다"는 규칙을 설정하지 않으면에 갇혀 영원히 나오지 못하는 것과 같이, 재귀에도 반드시 종료 조건이 필요합니다.
 
@@ -205,7 +179,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-재귀의 최신 동향은 **함수형 프로그래밍의 부상**과 **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 지원 확대**이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을근본적으로 해결한다. 또한 **재귀적네트워크(Recursive Neural Network)**는 재귀 구조를 활용하여 자연어나 코드 등의적 데이터를 처리하는 데 활용되고 있다.
+재귀의 최신 동향은 <strong>함수형 프로그래밍의 부상</strong>과 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a> 지원 확대</strong>이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을근본적으로 해결한다. 또한 <strong>재귀적네트워크(Recursive Neural Network)</strong>는 재귀 구조를 활용하여 자연어나 코드 등의적 데이터를 처리하는 데 활용되고 있다.
 
 재귀는컴퓨팅의 가장 fundamental한 개념 중 하나이다. 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 문자열, 수학 문제 등 계층적 구조를 다루는 모든 문제의기초이며, 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))의 Implementation이다. 기술사 시험에서는 재귀의 작동 원리, 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리, 꼬리 재귀 최적화, 그리고 재귀 vs 반복의 트레이드오프를 설명할 수 있는 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
@@ -215,69 +189,60 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[재귀 (Recursion) 핵심 개념 맵]
 
-┌─────────────────────────────────┐
-│ 재귀 (Recursion) │
-└────────────────┬────────────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 3단계 구조 │ │ 콜 스택 │ │ 꼬리 재귀 │
-│ Structure │ │ Call Stack │ │ Tail Rec. │
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ 1. Base Case │ │ 함수 호출마다 │ │ 마지막 연산이 │
-│ 2. Recursive │ │ 프레임 Push │ │ 재귀 호출 │
-│ Case │ │ 반환 시 Pop │ │ → TCO 적용 │
-│ 3. Combine │ │ O(N) 공간 │ │ → O(1) 공간 │
-└──────────────┘ └──────────────┘ └──────────────┘
-│ │ │
-└───────────────────┴────────────────────┘
-│
-▼
-┌─────────────────────────────────┐
-│ 재귀 vs 반복 (Iteration) │
-├─────────────────────────────────┤
-│ 재귀: 가독성 높음, 스택 오버플로우 위험 │
-│ 반복: 메모리 안정적, 상태 관리 복잡 │
-│ │
-│ 선택 기준: │
-│ - 문제의 자연스러운 기술이 재귀적? │
-│ - 재귀 깊이 예측 가능? (< 10,000) │
-│ - TCO 지원 언어? │
-└─────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재귀 (Recursion) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀 (Recursion)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계 구조</div><div class="kb-diagram-cell">콜 스택</div><div class="kb-diagram-cell">꼬리 재귀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structure</div><div class="kb-diagram-cell">Call Stack</div><div class="kb-diagram-cell">Tail Rec.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Base Case</div><div class="kb-diagram-cell">함수 호출마다</div><div class="kb-diagram-cell">마지막 연산이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Recursive</div><div class="kb-diagram-cell">프레임 Push</div><div class="kb-diagram-cell">재귀 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Case</div><div class="kb-diagram-cell">반환 시 Pop</div><div class="kb-diagram-cell">→ TCO 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Combine</div><div class="kb-diagram-cell">O(N) 공간</div><div class="kb-diagram-cell">→ O(1) 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀 vs 반복 (Iteration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀: 가독성 높음, 스택 오버플로우 위험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복: 메모리 안정적, 상태 관리 복잡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택 기준:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제의 자연스러운 기술이 재귀적?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 재귀 깊이 예측 가능? (&lt; 10,000)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TCO 지원 언어?</div></div>
+</div>
+</div>
+
+
 
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** | 재귀 호출 시 프레임이 쌓이며 O(N) 공간 소비, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)의 근원 |
-| **꼬리 재귀 최적화 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))** | 마지막 연산이 재귀 호출일 때 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용해 O(1) 공간 달성 |
-| **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))** | 재귀로 문제를 절반씩 쪼개어 퀵·머지소트·[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 등을 구현하는 핵심 패러다임 |
-| **[메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))** | 재귀 결과를 캐싱해 중복 계산을 제거, [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)(DP)의 탑다운 구현 방식 |
+| <strong>콜 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | 재귀 호출 시 프레임이 쌓이며 O(N) 공간 소비, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)의 근원 |
+| <strong>꼬리 재귀 최적화 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>)</strong> | 마지막 연산이 재귀 호출일 때 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용해 O(1) 공간 달성 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> | 재귀로 문제를 절반씩 쪼개어 퀵·머지소트·[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 등을 구현하는 핵심 패러다임 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/">메모이제이션</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/">Memoization</a>)</strong> | 재귀 결과를 캐싱해 중복 계산을 제거, [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)(DP)의 탑다운 구현 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[재귀 기본 구조 — 기본 사례(Base Case) + 재귀 사례(Recursive Case)]
-│
-▼
-[콜 스택 (Call Stack) — 재귀 호출 시 LIFO 방식으로 프레임 Push/Pop]
-│
-▼
-[꼬리 재귀 최적화 (TCO, Tail Call Optimization) — O(N) 스택 → O(1) 공간]
-│
-▼
-[분할 정복 (Divide and Conquer) — 재귀로 구현하는 퀵·머지소트 핵심 패러다임]
-│
-▼
-[동적 프로그래밍 (DP) — 재귀 + 메모이제이션으로 중복 계산 완전 제거]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재귀 기본 구조 — 기본 사례(Base Case) + 재귀 사례(Recursive Case)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">콜 스택 (Call Stack) — 재귀 호출 시 LIFO 방식으로 프레임 Push/Pop</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">꼬리 재귀 최적화 (TCO, Tail Call Optimization) — O(N) 스택 → O(1) 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 (Divide and Conquer) — 재귀로 구현하는 퀵·머지소트 핵심 패러다임</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 프로그래밍 (DP) — 재귀 + 메모이제이션으로 중복 계산 완전 제거</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 재귀의 기본 구조에서 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 문제가 발생하고, TCO로 공간 효율을 달성한 뒤 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)과 DP라는 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임으로 확장되는 재귀 사고의 성장 계보를 보여준다.
 

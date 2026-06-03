@@ -29,27 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+--------------------------------------------------------------+
-|                  뮤테이션 테스트 흐름                          |
-+--------------------------------------------------------------+
-|                                                              |
-|  원본 코드: if (score > 60) { pass = true; }                 |
-|                                                              |
-|  뮤턴트 생성:                                                |
-|  +----------------------------------------------------------+ |
-|  | 뮤턴트 1: if (score >= 60) ...  <- 경계값 변이           | |
-|  | 뮤턴트 2: if (score < 60) ...   <- 조건 반전             | |
-|  | 뮤턴트 3: pass = false;         <- 반환값 변이            | |
-|  +----------------------------------------------------------+ |
-|                                                              |
-|  테스트 실행:                                                |
-|  - 뮤턴트 1 -> 테스트 실패 -> 탐지됨 (ok)                   |
-|  - 뮤턴트 2 -> 테스트 통과 -> 생존 (테스트 구멍)             |
-|                                                              |
-|  뮤테이션 스코어 = 탐지됨 / (탐지됨 + 생존) x 100            |
-+--------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤테이션 테스트 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 코드: if (score &gt; 60) { pass = true; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 생성:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 1: if (score &gt;= 60) ... &lt;- 경계값 변이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 2: if (score &lt; 60) ... &lt;- 조건 반전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 3: pass = false; &lt;- 반환값 변이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 실행:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뮤턴트 1 -&gt; 테스트 실패 -&gt; 탐지됨 (ok)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뮤턴트 2 -&gt; 테스트 통과 -&gt; 생존 (테스트 구멍)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤테이션 스코어 = 탐지됨 / (탐지됨 + 생존) x 100</div></div>
+</div>
+</div>
+
+
 
 | 뮤테이션 유형 | 예시 |
 |:---|:---|
@@ -86,7 +83,7 @@ tags = ["studynote-devops-sre"]
 ### [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 1. **선택적 적용**: 전체 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 아닌 핵심 비즈니스 로직에만 적용
-2. **임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 뮤테이션 스코어 80% 이상을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통과 기준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+2. <strong>임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 뮤테이션 스코어 80% 이상을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통과 기준으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 3. **증분 적용**: 새로 작성하는 코드부터 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 적용
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -103,7 +100,7 @@ tags = ["studynote-devops-sre"]
 
 [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)로 테스트 스위트의 실제 품질을 객관적으로 평가하고, 생존한 뮤턴트를 통해 테스트의 취약 지점을 발견한다. 결과적으로 프로덕션 버그 발생 가능성이 줄어든다.
 
-[뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)의 핵심은 **"테스트 코드도 코드다"**는 인식이다. 테스트 자체의 품질을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면 테스트 스위트가 있어도 신뢰할 수 없다.
+[뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)의 핵심은 <strong>"테스트 코드도 코드다"</strong>는 인식이다. 테스트 자체의 품질을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면 테스트 스위트가 있어도 신뢰할 수 없다.
 
 > 📢 **섹션 요약 비유**: [뮤테이션 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/)는 테스트의 테스트다. 감시자를 감시하는 것처럼, 테스트가 실제로 버그를 잡는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
@@ -122,14 +119,19 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-코드 커버리지 중심         뮤테이션 테스트 등장             현대 테스트 품질
-------------------   --------------------------   ------------------------
-라인 커버리지 100%  ->  PITest, Stryker 등장        ->  CI/CD 통합 스코어링
-브랜치 커버리지          테스트 품질 정량화              선택적 적용 전략
-의미 없는 테스트         뮤테이션 스코어 기준              AI 기반 뮤턴트 생성
-                          생존 뮤턴트 리포트               Property-based Testing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">코드 커버리지 중심 뮤테이션 테스트 등장 현대 테스트 품질</div>
+<div class="kb-diagram-note">라인 커버리지 100% -&gt; PITest, Stryker 등장 -&gt; CI/CD 통합 스코어링</div>
+<div class="kb-diagram-note">브랜치 커버리지 테스트 품질 정량화 선택적 적용 전략</div>
+<div class="kb-diagram-note">의미 없는 테스트 뮤테이션 스코어 기준 AI 기반 뮤턴트 생성</div>
+<div class="kb-diagram-note">생존 뮤턴트 리포트 Property-based Testing</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 이것이 드리프트 문제다. ML 모델은 훈련 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 학습하는데, 세상이 변하면(코로나·경제 위기·계절 변화·사용자 행동 변화 등) 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포 간 격차가 벌어진다. 이 격차를 탐지하지 않으면 모델은 "오래된 지식으로 새 세상을 예측하는" 최악의 상황이 된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 드리프트는 수면 밑에서 서서히 이동하는 빙하다. 표면(모델 예측)은 멀쩡해 보이지만 수면 아래([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)가 천천히 이동해, 언젠가 배(모델)가 빙하에 부딪힌다. 빙하 감지 시스템(드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링) 없이는 타이타닉 사고를 예방할 수 없다.
 
@@ -38,37 +41,34 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         드리프트 유형 분류 및 탐지 방법                               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  1. 데이터 드리프트 (Data Drift / Feature Drift):                   │
-│     P_train(X) ≠ P_serve(X) — 입력 분포 변화                      │
-│     예: 원래 25~35세 고객 → 현재 45~55세 고객으로 이동                │
-│     탐지: 통계 검정 (레이블 불필요)                                  │
-│                                                                  │
-│  2. 컨셉 드리프트 (Concept Drift):                                 │
-│     P_train(Y|X) ≠ P_serve(Y|X) — 입력-출력 관계 변화              │
-│     예: 같은 나이 고객이 코로나 전후로 다른 구매 행동                  │
-│     탐지: 실제 레이블 수집 필요 (지연 탐지)                          │
-│                                                                  │
-│  3. 라벨 드리프트 (Label Drift):                                   │
-│     P_train(Y) ≠ P_serve(Y) — 출력 클래스 분포 변화                │
-│     예: 사기 탐지에서 사기 비율이 갑자기 증가                         │
-│                                                                  │
-│  탐지 방법:                                                        │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  방법            │ 적용 대상  │ 핵심 원리                  │    │
-│  │  KS Test         │ 단변량 연속 │ 분포 누적함수 최대 차이   │    │
-│  │  PSI (Population  │ 범주형/연속 │ 분포 변화율 측정         │    │
-│  │  Stability Index) │           │ PSI>0.25: 심각한 드리프트  │    │
-│  │  KL Divergence   │ 확률 분포  │ 두 분포의 정보 차이       │    │
-│  │  MMD (Maximum    │ 고차원     │ 커널 거리 측정            │    │
-│  │  Mean Discrepancy)│           │                          │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 유형 분류 및 탐지 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 드리프트 (Data Drift / Feature Drift):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(X) ≠ P_serve(X) — 입력 분포 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 원래 25~35세 고객 → 현재 45~55세 고객으로 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지: 통계 검정 (레이블 불필요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨셉 드리프트 (Concept Drift):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(Y</div><div class="kb-diagram-cell">X) ≠ P_serve(Y</div><div class="kb-diagram-cell">X) — 입력-출력 관계 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 같은 나이 고객이 코로나 전후로 다른 구매 행동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지: 실제 레이블 수집 필요 (지연 탐지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 라벨 드리프트 (Label Drift):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(Y) ≠ P_serve(Y) — 출력 클래스 분포 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 사기 탐지에서 사기 비율이 갑자기 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 방법:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법</div><div class="kb-diagram-cell">적용 대상</div><div class="kb-diagram-cell">핵심 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KS Test</div><div class="kb-diagram-cell">단변량 연속</div><div class="kb-diagram-cell">분포 누적함수 최대 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI (Population</div><div class="kb-diagram-cell">범주형/연속</div><div class="kb-diagram-cell">분포 변화율 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stability Index)</div><div class="kb-diagram-cell">PSI&gt;0.25: 심각한 드리프트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KL Divergence</div><div class="kb-diagram-cell">확률 분포</div><div class="kb-diagram-cell">두 분포의 정보 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMD (Maximum</div><div class="kb-diagram-cell">고차원</div><div class="kb-diagram-cell">커널 거리 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mean Discrepancy)</div></div>
+</div>
+</div>
+
+
 
 | 드리프트 유형 | P 변화 | 탐지 난이도 | 대응 방법 |
 |:---|:---|:---|:---|
@@ -83,14 +83,14 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/))** 해석 기준:
+<strong>PSI (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/">Population Stability Index</a>)</strong> 해석 기준:
 - PSI < 0.1: 안정 (재학습 불필요)
 - 0.1 ≤ PSI < 0.2: 약간 변화 (주의 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)
 - PSI ≥ 0.2: 심각한 드리프트 (즉각 재학습 권고)
 - PSI ≥ 0.25: 완전 모델 교체 고려
 
-**드리프트 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
-1. **재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)**: 드리프트 탐지 시 자동 재학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행
+<strong>드리프트 대응 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
+1. <strong>재학습 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a></strong>: 드리프트 탐지 시 자동 재학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행
 2. **슬라이딩 윈도우**: 최근 N일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 학습 (오래된 패턴 제거)
 3. **온라인 학습**: 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어올 때마다 점진적 모델 업데이트
 
@@ -106,14 +106,14 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템 설계**:
-1. **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립**: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 각 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 분포 통계(평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 분위수) 저장
+<strong>드리프트 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 시스템 설계</strong>:
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>) 수립</strong>: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 각 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 분포 통계(평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 분위수) 저장
 2. **정기 스캔**: 일별/주별 프로덕션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 비교 (PSI, KS Test)
-3. **알람 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: PSI > 0.2 시 슬랙(Slack) 알림 + JIRA 티켓 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+3. <strong>알람 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: PSI > 0.2 시 슬랙(Slack) 알림 + JIRA 티켓 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 4. **Shadow Mode**: 새 재학습 모델을 프로덕션 트래픽의 5%에 적용해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 5. **점진적 롤아웃**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) → 블루-그린 → 전체 전환
 
-**[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))와 연계**: 드리프트로 재학습된 새 모델을 즉시 프로덕션에 배포하지 않고, 실제 트래픽을 그대로 복사하여 새 모델로 보내 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 후 전환한다. 재학습으로 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 역주행(Negative Transfer)을 방지한다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/">섀도우 배포</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/">Shadow Deployment</a>)와 연계</strong>: 드리프트로 재학습된 새 모델을 즉시 프로덕션에 배포하지 않고, 실제 트래픽을 그대로 복사하여 새 모델로 보내 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 후 전환한다. 재학습으로 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 역주행(Negative Transfer)을 방지한다.
 
 - **📢 섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 요리사의 시험 채용이다. 식당 주방(프로덕션)에서는 기존 요리사가 계속 요리하고(기존 모델), 새 요리사(재학습 모델)는 옆에서 같은 주문을 받아 똑같이 요리해본다(섀도우). 새 요리가 더 맛있으면([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 그때 교대한다. 손님 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애) 없이 요리사를 교체하는 완벽한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -145,9 +145,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **드리프트**는 AI가 배운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **서서히 달라지는 현상**이에요 — 코로나처럼 세상이 바뀌면 "예전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"가 갑자기 엉터리가 돼요!
-2. **[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)**는 고객 나이대가 바뀐 것, **[컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)**는 같은 고객이 완전히 다르게 쇼핑하는 것으로, 후자가 더 발견하기 어려워요.
-3. 정기적으로 AI를 **건강검진**(드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)하고, 이상이 발견되면 **자동으로 재학습**시키는 게 MLOps의 핵심이에요!
+1. <strong>드리프트</strong>는 AI가 배운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>서서히 달라지는 현상</strong>이에요 — 코로나처럼 세상이 바뀌면 "예전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"가 갑자기 엉터리가 돼요!
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a></strong>는 고객 나이대가 바뀐 것, <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">컨셉 드리프트</a></strong>는 같은 고객이 완전히 다르게 쇼핑하는 것으로, 후자가 더 발견하기 어려워요.
+3. 정기적으로 AI를 **건강검진**(드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)하고, 이상이 발견되면 <strong>자동으로 재학습</strong>시키는 게 MLOps의 핵심이에요!
 
 ---
 

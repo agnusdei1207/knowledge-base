@@ -22,18 +22,21 @@ tags = ["studynote-ai"]
 프로덕션 ML 모델은 시간이 지나면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다. 이를 조기에 탐지하지 못하면 비즈니스 손실이 발생한다.
 
 드리프트 유형:
-- **[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))**: 입력 분포 변화 (X의 P(X) 변화)
-- **[컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))**: 입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화 (P(Y|X) 변화)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a>)</strong>: 입력 분포 변화 (X의 P(X) 변화)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">컨셉 드리프트</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">Concept Drift</a>)</strong>: 입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화 (P(Y|X) 변화)
 - **레이블 드리프트 (Label Drift)**: 출력 분포 변화 (P(Y) 변화)
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 드리프트 탐지는 "강이 계속 같은 물인지, 아니면 오염된 물이 들어왔는지" 수질 검사하는 것이다.
 
@@ -43,16 +46,20 @@ tags = ["studynote-ai"]
 
 ### K-S 검정 (Kolmogorov-Smirnov Test)
 
-```
-두 샘플 F₁(x), F₂(x) (경험적 CDF)의 최대 거리:
-D = max_x |F₁(x) - F₂(x)|
 
-귀무가설 H₀: 두 분포가 같음
-D > D_임계값 → H₀ 기각 → 분포 차이 존재 (드리프트)
 
-D_임계값(α=0.05): c(α) · √((n₁+n₂)/(n₁·n₂))
-c(0.05) = 1.358
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">두 샘플 F₁(x), F₂(x) (경험적 CDF)의 최대 거리:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D = max_x</div><div class="kb-diagram-cell">F₁(x) - F₂(x)</div></div>
+<div class="kb-diagram-note">귀무가설 H₀: 두 분포가 같음</div>
+<div class="kb-diagram-note">D &gt; D_임계값 → H₀ 기각 → 분포 차이 존재 (드리프트)</div>
+<div class="kb-diagram-note">D_임계값(α=0.05): c(α) · √((n₁+n₂)/(n₁·n₂))</div>
+<div class="kb-diagram-note">c(0.05) = 1.358</div>
+</div>
+</div>
+
+
 
 ### PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/))
 
@@ -73,18 +80,19 @@ Actual_i: 서비스 데이터의 구간 i 비율
 
 ### [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  [프로덕션 서비스] → 예측 로그 + 실제 레이블             │
-│         ↓                                                │
-│  [Feature Store] → 입력 분포 통계 저장                   │
-│         ↓                                                │
-│  [드리프트 탐지 서비스]                                   │
-│  매일/매주: K-S 검정, PSI 계산                           │
-│         ↓                                                │
-│  [알림/자동 재학습] → PSI > 0.25 시 트리거              │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로덕션 서비스</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">예측 로그 + 실제 레이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Feature Store</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">입력 분포 통계 저장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드리프트 탐지 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매일/매주: K-S 검정, PSI 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알림/자동 재학습</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PSI &gt; 0.25 시 트리거</div></div>
+</div>
+</div>
+
+
 
 **추가 드리프트 탐지 방법**:
 - **MMD (Maximum Mean Discrepancy)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 방법으로 분포 거리 측정
@@ -111,7 +119,7 @@ Actual_i: 서비스 데이터의 구간 i 비율
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대상**:
+<strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 대상</strong>:
 1. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 분포: 각 입력 변수별 K-S/PSI
 2. 예측 분포: 모델 출력 분포 변화
 3. 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/): 레이블 가용 시 AUC, F1 직접 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링

@@ -52,35 +52,36 @@ E - Eventual Consistency (결과적 일관성):
 
 ## Ⅱ. ACID vs BASE 비교
 
-```
-ACID (전통 RDBMS):
-  A - Atomicity: 전부 성공 또는 전부 롤백
-  C - Consistency: 항상 유효한 상태 유지
-  I - Isolation: 트랜잭션 간 격리
-  D - Durability: 커밋 후 영구 저장
 
-  장점: 강력한 일관성, 에러 처리 간단
-  단점: 분산 환경에서 성능/가용성 저하
-  적합: 금융 결제, 회계, 재고 관리
 
-BASE (NoSQL):
-  B - Basically Available
-  A - Soft-state
-  S - Eventual Consistency
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ACID (전통 RDBMS):</div>
+<div class="kb-diagram-note">A - Atomicity: 전부 성공 또는 전부 롤백</div>
+<div class="kb-diagram-note">C - Consistency: 항상 유효한 상태 유지</div>
+<div class="kb-diagram-note">I - Isolation: 트랜잭션 간 격리</div>
+<div class="kb-diagram-note">D - Durability: 커밋 후 영구 저장</div>
+<div class="kb-diagram-note">장점: 강력한 일관성, 에러 처리 간단</div>
+<div class="kb-diagram-note">단점: 분산 환경에서 성능/가용성 저하</div>
+<div class="kb-diagram-note">적합: 금융 결제, 회계, 재고 관리</div>
+<div class="kb-diagram-note">BASE (NoSQL):</div>
+<div class="kb-diagram-note">B - Basically Available</div>
+<div class="kb-diagram-note">A - Soft-state</div>
+<div class="kb-diagram-note">S - Eventual Consistency</div>
+<div class="kb-diagram-note">장점: 고가용성, 수평 확장성, 파티션 내성</div>
+<div class="kb-diagram-note">단점: 복잡한 애플리케이션 로직 (충돌 해결)</div>
+<div class="kb-diagram-note">적합: SNS 피드, 쇼핑 카트, 로그 수집, DNS</div>
+<div class="kb-diagram-note">CAP 정리와의 연결:</div>
+<div class="kb-diagram-note">ACID: CP (일관성 + 분산, 가용성 약화)</div>
+<div class="kb-diagram-note">BASE: AP (가용성 + 분산, 일관성 약화)</div>
+<div class="kb-diagram-note">현실의 일관성 수준 스펙트럼:</div>
+<div class="kb-diagram-note">Strong → Linearizable → Sequential → Causal → Eventual</div>
+<div class="kb-diagram-note">강한 일관성 &gt; 약한 일관성</div>
+<div class="kb-diagram-note">낮은 가용성 높은 가용성</div>
+</div>
+</div>
 
-  장점: 고가용성, 수평 확장성, 파티션 내성
-  단점: 복잡한 애플리케이션 로직 (충돌 해결)
-  적합: SNS 피드, 쇼핑 카트, 로그 수집, DNS
 
-CAP 정리와의 연결:
-  ACID: CP (일관성 + 분산, 가용성 약화)
-  BASE: AP (가용성 + 분산, 일관성 약화)
-
-현실의 일관성 수준 스펙트럼:
-  Strong → Linearizable → Sequential → Causal → Eventual
-  강한 일관성 ──────────────────────────────> 약한 일관성
-  낮은 가용성                                   높은 가용성
-```
 
 > 📢 **섹션 요약 비유**: ACID vs BASE는 현금 vs 외상 장부 — 현금(ACID)은 즉시 정확하지만 느리고, 외상(BASE)은 빠르지만 정산([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))이 나중.
 
@@ -127,37 +128,38 @@ CAP 정리와의 연결:
 
 ## Ⅳ. [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 시스템별 BASE 구현
 
-```
-주요 NoSQL DB BASE 구현 방식:
 
-Amazon DynamoDB:
-  Read Consistency: Eventually Consistent (기본) vs Strongly Consistent (옵션)
-  Eventual: 읽기 용량 절반 소비, 저렴
-  Strong: 최신 쓰기 반영 보장, 비용 2배
-  
-Cassandra:
-  Replication Factor (RF): 데이터 복사본 수
-  Consistency Level:
-    ONE: 1개 노드 응답으로 읽기 완료
-    QUORUM: 과반수 노드 응답 (RF=3이면 2개)
-    ALL: 전체 노드 응답 (강한 일관성)
-  R + W > RF → Strong Consistency 달성 가능
-  
-MongoDB:
-  기본: PRIMARY 노드에서만 읽기 (강한 일관성)
-  Read Concern secondaryPreferred → Eventual
-  Write Concern w:1 vs w:majority
 
-Redis Cluster:
-  비동기 복제 (PRIMARY → REPLICA)
-  PRIMARY 장애 시 REPLICA 승격 전 데이터 손실 가능
-  → BASE 모델
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주요 NoSQL DB BASE 구현 방식:</div>
+<div class="kb-diagram-note">Amazon DynamoDB:</div>
+<div class="kb-diagram-note">Read Consistency: Eventually Consistent (기본) vs Strongly Consistent (옵션)</div>
+<div class="kb-diagram-note">Eventual: 읽기 용량 절반 소비, 저렴</div>
+<div class="kb-diagram-note">Strong: 최신 쓰기 반영 보장, 비용 2배</div>
+<div class="kb-diagram-note">Cassandra:</div>
+<div class="kb-diagram-note">Replication Factor (RF): 데이터 복사본 수</div>
+<div class="kb-diagram-note">Consistency Level:</div>
+<div class="kb-diagram-note">ONE: 1개 노드 응답으로 읽기 완료</div>
+<div class="kb-diagram-note">QUORUM: 과반수 노드 응답 (RF=3이면 2개)</div>
+<div class="kb-diagram-note">ALL: 전체 노드 응답 (강한 일관성)</div>
+<div class="kb-diagram-note">R + W &gt; RF → Strong Consistency 달성 가능</div>
+<div class="kb-diagram-note">MongoDB:</div>
+<div class="kb-diagram-note">기본: PRIMARY 노드에서만 읽기 (강한 일관성)</div>
+<div class="kb-diagram-note">Read Concern secondaryPreferred → Eventual</div>
+<div class="kb-diagram-note">Write Concern w:1 vs w:majority</div>
+<div class="kb-diagram-note">Redis Cluster:</div>
+<div class="kb-diagram-note">비동기 복제 (PRIMARY → REPLICA)</div>
+<div class="kb-diagram-note">PRIMARY 장애 시 REPLICA 승격 전 데이터 손실 가능</div>
+<div class="kb-diagram-note">→ BASE 모델</div>
+<div class="kb-diagram-note">주의 사항:</div>
+<div class="kb-diagram-note">BASE로 설계된 시스템에서 ACID 트랜잭션을 억지로 구현하면</div>
+<div class="kb-diagram-note">결국 성능/확장성 이점을 잃음</div>
+<div class="kb-diagram-note">→ 올바른 데이터 모델링 선택이 핵심</div>
+</div>
+</div>
 
-주의 사항:
-  BASE로 설계된 시스템에서 ACID 트랜잭션을 억지로 구현하면
-  결국 성능/확장성 이점을 잃음
-  → 올바른 데이터 모델링 선택이 핵심
-```
+
 
 > 📢 **섹션 요약 비유**: [NoSQL BASE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/218_nosql_base_eventual_consistency_sharding/) 설정은 스피커 음량 조절 — [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(볼륨 높음) vs [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(음질 좋음) 사이에서 [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Level이라는 다이얼로 균형 조정.
 
@@ -165,46 +167,45 @@ Redis Cluster:
 
 ## Ⅴ. 실무 시나리오 — 폴리글롯 퍼시스턴스
 
-```
-이커머스 폴리글롯 퍼시스턴스 아키텍처:
 
-결제 서비스 (ACID 필수):
-  PostgreSQL (RDBMS)
-  트랜잭션: 결제 + 재고 감소 원자적 처리
-  Isolation Level: Serializable
-  이유: 오버셀링, 중복 결제 절대 불가
 
-상품 카탈로그 (BASE 허용):
-  MongoDB
-  일관성: Eventual (약간 지연된 가격 표시 OK)
-  이유: 수백만 SKU, 빠른 읽기 > 즉시 일관성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이커머스 폴리글롯 퍼시스턴스 아키텍처:</div>
+<div class="kb-diagram-note">결제 서비스 (ACID 필수):</div>
+<div class="kb-diagram-note">PostgreSQL (RDBMS)</div>
+<div class="kb-diagram-note">트랜잭션: 결제 + 재고 감소 원자적 처리</div>
+<div class="kb-diagram-note">Isolation Level: Serializable</div>
+<div class="kb-diagram-note">이유: 오버셀링, 중복 결제 절대 불가</div>
+<div class="kb-diagram-note">상품 카탈로그 (BASE 허용):</div>
+<div class="kb-diagram-note">MongoDB</div>
+<div class="kb-diagram-note">일관성: Eventual (약간 지연된 가격 표시 OK)</div>
+<div class="kb-diagram-note">이유: 수백만 SKU, 빠른 읽기 &gt; 즉시 일관성</div>
+<div class="kb-diagram-note">장바구니 (BASE 최적):</div>
+<div class="kb-diagram-note">Redis (CRDT 기반)</div>
+<div class="kb-diagram-note">일관성: Eventual</div>
+<div class="kb-diagram-note">이유: 일시적 불일치(동일 기기 2개 탭)는 허용</div>
+<div class="kb-diagram-note">가용성이 더 중요 (장바구니 오류 = 매출 손실)</div>
+<div class="kb-diagram-note">사용자 세션 (BASE):</div>
+<div class="kb-diagram-note">Redis Cluster</div>
+<div class="kb-diagram-note">일관성: Eventual</div>
+<div class="kb-diagram-note">이유: 세션 데이터 약간 오래돼도 UX 영향 미미</div>
+<div class="kb-diagram-note">리뷰/평점 (BASE):</div>
+<div class="kb-diagram-note">Cassandra</div>
+<div class="kb-diagram-note">일관성: ONE (빠른 읽기)</div>
+<div class="kb-diagram-note">이유: 리뷰 평균 0.01점 차이는 무관</div>
+<div class="kb-diagram-note">검색 인덱스 (BASE):</div>
+<div class="kb-diagram-note">Elasticsearch</div>
+<div class="kb-diagram-note">일관성: Eventual (인덱싱 지연 수초 허용)</div>
+<div class="kb-diagram-note">이유: 검색 결과에 신상품 즉시 반영 불필요</div>
+<div class="kb-diagram-note">결론:</div>
+<div class="kb-diagram-note">"모든 데이터에 ACID" → 과도 엔지니어링</div>
+<div class="kb-diagram-note">"모든 데이터에 BASE" → 금융 데이터 위험</div>
+<div class="kb-diagram-note">→ 데이터 중요도별 적합한 일관성 모델 선택</div>
+</div>
+</div>
 
-장바구니 (BASE 최적):
-  Redis (CRDT 기반)
-  일관성: Eventual
-  이유: 일시적 불일치(동일 기기 2개 탭)는 허용
-        가용성이 더 중요 (장바구니 오류 = 매출 손실)
 
-사용자 세션 (BASE):
-  Redis Cluster
-  일관성: Eventual
-  이유: 세션 데이터 약간 오래돼도 UX 영향 미미
-
-리뷰/평점 (BASE):
-  Cassandra
-  일관성: ONE (빠른 읽기)
-  이유: 리뷰 평균 0.01점 차이는 무관
-
-검색 인덱스 (BASE):
-  Elasticsearch
-  일관성: Eventual (인덱싱 지연 수초 허용)
-  이유: 검색 결과에 신상품 즉시 반영 불필요
-
-결론:
-  "모든 데이터에 ACID" → 과도 엔지니어링
-  "모든 데이터에 BASE" → 금융 데이터 위험
-  → 데이터 중요도별 적합한 일관성 모델 선택
-```
 
 > 📢 **섹션 요약 비유**: 폴리글롯 퍼시스턴스는 주방 도구 전문화 — 칼은 썰기(ACID 결제), 냄비는 끓이기(BASE 피드), 믹서는 갈기(검색 엔진), 각자 전문 도구 사용.
 

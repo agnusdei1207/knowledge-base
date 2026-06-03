@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **기존 D-RAN (분산형)**: 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RRH) 기둥마다 뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))가 하나씩 달려있는 구조.
-- **[C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) (Cloud/Centralized RAN) 혁명**: 전국의 수만 개 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(두뇌)를 몇 군데의 중앙 집중식 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(통신사 전화국)에 서버 형태로 모아버린([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)) 차세대 기지국 구조입니다.
-- **[프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) (Fronthaul)**: 이 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 구조에서 **말단의 빈 깡통 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RRH)와 중앙의 뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 또는 DU)를 연결해 주는 '광케이블 전송 구간'**을 부르는 이름입니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a> (Cloud/Centralized RAN) 혁명</strong>: 전국의 수만 개 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(두뇌)를 몇 군데의 중앙 집중식 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(통신사 전화국)에 서버 형태로 모아버린([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)) 차세대 기지국 구조입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a> (Fronthaul)</strong>: 이 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 구조에서 <strong>말단의 빈 깡통 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(RRH)와 중앙의 뇌(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/">BBU</a> 또는 DU)를 연결해 주는 '광케이블 전송 구간'</strong>을 부르는 이름입니다.
 
-```text
-[미드홀]
-    │
-    ▼
-[프론트홀]
-    │
-    └──▶ [셀 엣지 수율]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셀 엣지 수율</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,18 +44,22 @@ tags = ["studynote-network"]
 
 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 중앙 뇌로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 왜 용량이 미친 듯이 커질까요?
 - [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 허공에서 스마트폰이 쏜 아날로그 무선 전파 파동을 받습니다.
-- [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 이걸 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷(IP)으로 깔끔하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서(디코딩) 보내지 못하는 깡통입니다. 그냥 그 파동의 모양을 1초에 수천만 번의 점으로 찍어(샘플링) 무식한 **원시 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(I/Q [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**로 통째로 쏟아냅니다.
+- [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 이걸 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷(IP)으로 깔끔하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서(디코딩) 보내지 못하는 깡통입니다. 그냥 그 파동의 모양을 1초에 수천만 번의 점으로 찍어(샘플링) 무식한 <strong>원시 디지털 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(I/Q <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>로 통째로 쏟아냅니다.
 - **CPRI (Common Public Radio Interface)**: 이 무식한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 위해 에릭슨, 노키아 등이 만든 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 통신 규격입니다.
-- **비극 발생**: 스마트폰 사용자가 실제로 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(굿풋)는 1Gbps인데, 이걸 CPRI 원시 파동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환하면 무려 **10Gbps~20Gbps로 덩치가 10배~20배 뻥튀기(오버헤드 폭발)**되어 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블을 꽉 막아버립니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 늘어나자 통신사 광케이블망이 터져버렸습니다.
+- **비극 발생**: 스마트폰 사용자가 실제로 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(굿풋)는 1Gbps인데, 이걸 CPRI 원시 파동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환하면 무려 <strong>10Gbps~20Gbps로 덩치가 10배~20배 뻥튀기(오버헤드 폭발)</strong>되어 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블을 꽉 막아버립니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 늘어나자 통신사 광케이블망이 터져버렸습니다.
 
-```text
-[미드홀]
-    │
-    ▼
-[프론트홀]
-    │
-    └──▶ [셀 엣지 수율]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셀 엣지 수율</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,12 +71,12 @@ tags = ["studynote-network"]
 
 ### 1. 전송 규격의 진화: eCPRI ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 융합)
 - 기존 CPRI는 오직 자기들만의 전용 광케이블 신호를 써서 돈이 엄청 깨졌습니다.
-- **eCPRI (evolved CPRI)**: "야, 굳이 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 쓰지 마! 싸고 흔한 컴퓨터 랜선 규격인 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 패킷 위**에다가 그 무식한 파동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘라 올려서(캡슐화) 쏴!"
+- **eCPRI (evolved CPRI)**: "야, 굳이 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 쓰지 마! 싸고 흔한 컴퓨터 랜선 규격인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>) 패킷 위</strong>에다가 그 무식한 파동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘라 올려서(캡슐화) 쏴!"
 - 덕분에 비싼 전용 광장비를 버리고 흔한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 스위치로 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)을 짤 수 있게 되어 구축 비용(CAPEX)이 반토막 났습니다.
 
 ### 2. 뇌의 분할 (Functional Split, 1010번 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)의 탄생) 🌟
 가장 근본적인 해결책입니다.
-- "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 너무 멍청해서 쓰레기를 10배로 보내니까 막히잖아! 중앙 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(뇌)가 하던 연산 기능 중 **맨 밑바닥의 단순한 디지털 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 연산(PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층) 기능만 전기톱으로 떼어내서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU) 쪽으로 내려보내 주자!**"
+- "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 너무 멍청해서 쓰레기를 10배로 보내니까 막히잖아! 중앙 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(뇌)가 하던 연산 기능 중 <strong>맨 밑바닥의 단순한 디지털 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 연산(PHY/<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 계층) 기능만 전기톱으로 떼어내서 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(RU) 쪽으로 내려보내 주자!</strong>"
 - 이로 인해 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 '똑똑한 O-RU'로 진화하여, 자기가 받은 쓰레기 파동을 예쁜 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷으로 1차 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보내게 되었습니다. 결국 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 90% 이상 사라지며 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대가 열린 것입니다.
 
 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)이 기반 조건을 만든다면, [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)은 그 위에서 핵심 메커니즘을 구현하고, [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블 가닥 수를 줄이기 위해, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 10개가 쏠 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 1가닥의 광케이블에 각기 다른 색깔(파장)의 빛으로 섞어서 쏘는 **WDM(파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 기반 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 전송 장비**가 필수적으로 깔리고 있습니다.
+- [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블 가닥 수를 줄이기 위해, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 10개가 쏠 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 1가닥의 광케이블에 각기 다른 색깔(파장)의 빛으로 섞어서 쏘는 <strong>WDM(파장 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>) 기반 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a> 전송 장비</strong>가 필수적으로 깔리고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거의 기지국은 동네 파출소(RRH)마다 똑똑한 '경감님([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 뇌)'이 앉아 사건을 다 처리([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 연산)하고 서울 본청으로 깔끔한 서류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 올렸습니다. **C-RAN과 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)** 혁명은 전국의 똑똑한 경감님들을 다 서울 본청 클라우드로 끌어올려 버린 것입니다. 이제 동네 파출소엔 범인 얼굴을 있는 그대로 찍어 보내는 '단순 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라(깡통 RRH)'만 남았습니다. 카메라가 찍은 4K 초고화질 무압축 원본 영상(원시 I/Q [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 서울 본청까지 어마어마한 용량으로 쏟아지는데, 이 카메라와 서울 본청 사이를 잇는 미치도록 굵고 비싼 광케이블 영상 핏줄이 바로 **[프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)(Fronthaul)**입니다. 트래픽이 너무 터져 나가자, 다시 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 안에 작은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 칩셋(기능 분할)을 달아 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(eCPRI [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))로 보내게 만들며 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 짐을 덜어내는 것이 통신사의 평생 숙제입니다.
+- **📢 섹션 요약 비유**: 과거의 기지국은 동네 파출소(RRH)마다 똑똑한 '경감님([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 뇌)'이 앉아 사건을 다 처리([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 연산)하고 서울 본청으로 깔끔한 서류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 올렸습니다. <strong>C-RAN과 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a></strong> 혁명은 전국의 똑똑한 경감님들을 다 서울 본청 클라우드로 끌어올려 버린 것입니다. 이제 동네 파출소엔 범인 얼굴을 있는 그대로 찍어 보내는 '단순 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라(깡통 RRH)'만 남았습니다. 카메라가 찍은 4K 초고화질 무압축 원본 영상(원시 I/Q [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 서울 본청까지 어마어마한 용량으로 쏟아지는데, 이 카메라와 서울 본청 사이를 잇는 미치도록 굵고 비싼 광케이블 영상 핏줄이 바로 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a>(Fronthaul)</strong>입니다. 트래픽이 너무 터져 나가자, 다시 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 안에 작은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 칩셋(기능 분할)을 달아 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(eCPRI [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))로 보내게 만들며 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 짐을 덜어내는 것이 통신사의 평생 숙제입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 미드홀]
-    │
-    ▼
-[현재 개념: 프론트홀]
-    │
-    ├──▶ [확장 A: 셀 엣지 수율]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 미드홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프론트홀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 셀 엣지 수율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)는 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

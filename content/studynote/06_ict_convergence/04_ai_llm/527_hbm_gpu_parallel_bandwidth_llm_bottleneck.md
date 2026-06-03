@@ -19,11 +19,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-대형 언어 모델은 훈련 시 연산 집약적이지만, **추론 시에는 배치 크기가 작아 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목**이 지배적이다. 70B 모델의 FP16 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 약 140GB — 단일 GPU로는 적재조차 불가능하다.
+대형 언어 모델은 훈련 시 연산 집약적이지만, <strong>추론 시에는 배치 크기가 작아 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목</strong>이 지배적이다. 70B 모델의 FP16 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 약 140GB — 단일 GPU로는 적재조차 불가능하다.
 
-**[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 하드웨어 병목 이중 구조**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 하드웨어 병목 이중 구조</strong>
 - **연산 병목(Compute Bound)**: 배치 크기 크고 행렬 연산 많을 때
-- **메모리 병목(Memory [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Bound)**: 배치 크기 작고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 로드가 주를 이룰 때
+- <strong>메모리 병목(Memory <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> Bound)</strong>: 배치 크기 작고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 로드가 주를 이룰 때
 - [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자기회귀([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) 추론: 한 번에 토큰 1개씩 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 배치 크기 1 → **메모리 바운드 지배**
 
 - **📢 섹션 요약 비유**: 요리사([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산)는 빠른데 냉장고에서 재료 꺼내는 속도(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 느리면 결국 기다릴 수밖에 없다.
@@ -32,31 +32,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────┐
-│                GPU 메모리 계층                   │
-│                                                 │
-│  ┌─────────────────────────────────────────┐    │
-│  │           HBM(High Bandwidth Memory)    │    │
-│  │  ┌──────┐ TSV  ┌──────┐ TSV  ┌──────┐ │    │
-│  │  │DRAM_1│──────│DRAM_2│──────│DRAM_3│ │    │
-│  │  │ Die  │      │ Die  │      │ Die  │ │    │
-│  │  └──────┘      └──────┘      └──────┘ │    │
-│  │        수직 적층(3D Stacking)           │    │
-│  │        대역폭: 2~4 TB/s               │    │
-│  └─────────────────────────────────────────┘    │
-│                      │                          │
-│  ┌───────────────────▼──────────────────────┐   │
-│  │           SM(Streaming Multiprocessor)   │   │
-│  │  ┌──────────────────────────────────┐   │   │
-│  │  │     텐서 코어(Tensor Core)        │   │   │
-│  │  │  FP16/BF16/INT8 행렬 곱 가속     │   │   │
-│  │  └──────────────────────────────────┘   │   │
-│  └──────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────┘
-```
 
-**[HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 구조**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 메모리 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBM(High Bandwidth Memory)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSV TSV</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM_1</div><div class="kb-diagram-cell">DRAM_2</div><div class="kb-diagram-cell">DRAM_3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Die</div><div class="kb-diagram-cell">Die</div><div class="kb-diagram-cell">Die</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수직 적층(3D Stacking)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대역폭: 2~4 TB/s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM(Streaming Multiprocessor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서 코어(Tensor Core)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16/BF16/INT8 행렬 곱 가속</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 구조</strong>
 - [TSV](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/)(Through-Silicon Via, 실리콘 관통 비아)로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 다이(Die)를 수직 적층
 - HBM2e(A100): 2.0 TB/s, HBM3(H100): 3.35 TB/s, HBM3e(H200): 4.8 TB/s
 - 용량: A100 40/80GB, H100 80GB, H200 141GB
@@ -103,19 +98,19 @@ KV 캐시 크기 = 2 × 레이어 수 × 헤드 수 × 헤드 차원 × 시퀀�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙 하드웨어 선택 기준**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 서빙 하드웨어 선택 기준</strong>
 
-1. **모델 파라미터 수 → 최소 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 용량 계산**
+1. <strong>모델 파라미터 수 → 최소 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 용량 계산</strong>
    - 7B FP16: ~14GB → 단일 A100 40GB 가능
    - 70B FP16: ~140GB → A100 2장 또는 H100 2장 필요
 
-2. **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 목표 → [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 기준 TPS 계산**
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 목표 → <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 기준 TPS 계산</strong>
    - Tokens/s ≈ [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(GB/s) / 모델 크기(GB) × 1000
 
 3. **전력 효율**: H100 TDP 700W → [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership) 계산에 포함
-4. **[MFU](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)(Model [FLOPs](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) Utilization)**: 실제 사용 비율, 50% 이상이면 좋은 설계
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/">MFU</a>(Model <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/">FLOPs</a> Utilization)</strong>: 실제 사용 비율, 50% 이상이면 좋은 설계
 
-**[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인프라 대안 비교**
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 인프라 대안 비교</strong>
 
 | 플랫폼 | 장점 | 단점 |
 |:---:|:---:|:---:|

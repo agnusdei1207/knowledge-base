@@ -9,7 +9,7 @@ tags = ["ict_convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 이더리움 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 CA (Contract Account, 컨트랙트 계정)는 사람이 개인키로 직접 열고 닫는 지갑이 아니라, 네트워크에 영구적으로 배포된 **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 코드([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))에 의해 자율적으로 통제되는 로봇 계정**이다.
+> 1. **본질**: 이더리움 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 CA (Contract Account, 컨트랙트 계정)는 사람이 개인키로 직접 열고 닫는 지갑이 아니라, 네트워크에 영구적으로 배포된 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 코드(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)에 의해 자율적으로 통제되는 로봇 계정</strong>이다.
 > 2. **가치**: 단순한 암호화폐 송금을 넘어, "특정 조건이 만족되면 자동으로 자금을 집행하라"는 복잡한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 금융([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 규칙이나 NFT 발행 로직을 중앙 보증인 없이 100% 무결하게 실행하는 이더리움 가상머신([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))의 심장이다.
 > 3. **판단 포인트**: CA는 스스로 깨어나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 시작할 수 없는 완벽히 '수동적인' 존재이므로, 반드시 외부([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))의 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))과 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 주입이 있어야만 동작한다는 아키텍처적 한계를 고려해 시스템을 설계해야 한다.
 
@@ -27,36 +27,35 @@ CA (Contract Account)는 이더리움이 비트코인의 한계를 부수고 '�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이더리움의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 공간에서 CA는 EOA와 달리 독특한 내부 구조를 가진다. EOA가 단순히 돈([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))과 전송 횟수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))만 가진다면, CA는 거기에 더해 행동 규칙인 **코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**와 데이터를 영구 보존하는 **스토리지(Storage)**를 추가로 품고 있다.
+이더리움의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 공간에서 CA는 EOA와 달리 독특한 내부 구조를 가진다. EOA가 단순히 돈([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))과 전송 횟수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))만 가진다면, CA는 거기에 더해 행동 규칙인 <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>와 데이터를 영구 보존하는 <strong>스토리지(Storage)</strong>를 추가로 품고 있다.
 
 | 구분 | [EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) (외부 소유 계정) | CA (컨트랙트 계정) |
 | :--- | :--- | :--- |
 | **통제권** | 소유자의 개인키 (Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 배포된 바이트코드 ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) |
-| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 개시** | 스스로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 생성하여 네트워크에 발송 가능 | **절대 스스로 발송 불가 (수동적 반응)** |
-| **구성 요소** | 잔고 (Balance), 논스 ([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) | 잔고, 논스 + **코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), 스토리지 (Storage)** |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 개시</strong> | 스스로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 생성하여 네트워크에 발송 가능 | **절대 스스로 발송 불가 (수동적 반응)** |
+| **구성 요소** | 잔고 (Balance), 논스 ([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) | 잔고, 논스 + <strong>코드 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>), 스토리지 (Storage)</strong> |
 | **비용 주체** | 연산 시 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Fee)를 직접 지불함 | 호출한 EOA가 낸 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비로 동작함 |
 
 CA가 작동하는 원리는 철저히 수동적이다. 개발자가 코드를 메인넷에 배포하면 새로운 CA 주소가 생성된다. 이 CA는 잠들어 있다가, 누군가([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))가 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 지불하며 특정 함수를 찔러주면(호출), 이더리움 가상머신([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))이 깨어나 CA 내부의 코드를 한 줄씩 실행하고 그 결과로 Storage(상태 변수)를 변경하거나 다른 곳으로 돈을 보낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CA 호출 흐름 및 내부 아키텍처                 │
-├──────────────────────────────────────────────────────────────┤
-│ [사람의 지갑 (EOA)]                                           │
-│   │  (트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")   │
-│   ▼                                                          │
-│ ┌───────────────── [ CA (Contract Account) ] ──────────────┐ │
-│ │                                                          │ │
-│ │  ▶ 잔고(Balance): 100 ETH                                │ │
-│ │  ▶ 논스(Nonce): 생성한 컨트랙트 수                          │ │
-│ │  ▶ 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")      │ │
-│ │  ▶ 스토리지(Storage): 영구 저장소 (변수 A = 500)            │ │
-│ └─────────────────────────┬────────────────────────────────┘ │
-│                           │ (EVM에서 코드 실행 후 상태 갱신)      │
-│                           ▼                                │
-│                     [블록체인 상태 변경]                        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 호출 흐름 및 내부 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사람의 지갑 (EOA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CA (Contract Account)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 잔고(Balance): 100 ETH</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 논스(Nonce): 생성한 컨트랙트 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스토리지(Storage): 영구 저장소 (변수 A = 500)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EVM에서 코드 실행 후 상태 갱신)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 상태 변경</div></div>
+</div>
+</div>
+
+
 이 다이어그램은 CA가 코드와 데이터를 담는 거대한 캡슐이며, 반드시 외부의 자극([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))이 있어야만 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 위에서 상태가 전이된다는 것을 보여준다.
 
 - **📢 섹션 요약 비유**: CA는 우주에 떠 있는 인공위성과 같다. 자체 엔진(코드)과 연료통(스토리지)을 가지고 있지만, 지구의 관제소([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))에서 "지금 사진을 찍어라"라는 전파(호출)를 쏴주지 않으면 영원히 우주 공간에 가만히 멈춰 있는다.
@@ -70,8 +69,8 @@ CA를 이해할 때 가장 중요한 것은 CA가 가지는 '호출의 연쇄성
 | 항목 | 기존 한계 ([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) $\rightarrow$ CA 의존성) | 발전 및 확장 ([계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/), ERC-4337) |
 | :--- | :--- | :--- |
 | **스케줄링** | CA는 매일 아침 9시에 스스로 이자를 지급할 수 없음 | 오라클 봇이나 외부 크론([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/)) EOA가 주기적으로 찔러줘야 함 |
-| **[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 장벽** | 사용자는 반드시 지갑([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))에 이더([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))를 가지고 있어야 CA 호출 가능 | **지갑 자체를 CA로 만듦([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 지갑)** $\rightarrow$ 회사(Paymaster)가 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 대납해 줌 |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 개인키 분실 시 [EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) 안의 자산은 영구 소실됨 | 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능이 코딩된 CA 지갑을 통해, 친구 3명의 동의로 계정 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a>비 장벽</strong> | 사용자는 반드시 지갑([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))에 이더([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))를 가지고 있어야 CA 호출 가능 | <strong>지갑 자체를 CA로 만듦(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 지갑)</strong> $\rightarrow$ 회사(Paymaster)가 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 대납해 줌 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 개인키 분실 시 [EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) 안의 자산은 영구 소실됨 | 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능이 코딩된 CA 지갑을 통해, 친구 3명의 동의로 계정 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능 |
 
 CA는 다른 CA를 호출할 수 있다(Internal [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)). EOA가 CA 1을 찌르면, CA 1의 코드가 CA 2를 연쇄적으로 부르는 식으로 거대한 디파이([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 생태계의 레고 블록들이 맞물려 돌아간다. 최근의 웹3 아키텍처는 아예 사람의 지갑([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))조차 CA 기반의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 지갑으로 전환하여 사용자 경험(UX)을 폭발적으로 개선하는 방향([계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/))으로 나아가고 있다.
 
@@ -83,9 +82,9 @@ CA는 다른 CA를 호출할 수 있다(Internal [Transaction](/knowledge-base/s
 
 CA 아키텍트를 위한 실무 판단과 보안 체크리스트는 프로젝트의 생사를 가른다. CA 코드는 한 번 배포되면 영원히 수정할 수 없는 불변성(Immutability)을 가지기 때문이다.
 
-1. **업그레이드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) 도입)**: 버그가 발견되어도 코드를 뜯어고칠 수 없으므로, 처음 설계할 때 로직을 담은 'Logic CA'와 데이터를 저장하고 앞단에서 요청만 받는 '[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) CA'를 분리해야 한다. 장애 시 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) CA가 바라보는 화살표를 새로운 버전의 Logic CA로 돌려 끼우는 업그레이드 경로를 확보해야 한다.
-2. **재진입(Reentrancy) 공격 방어 판단**: CA가 다른 CA로 돈을 보낼 때, 해커의 악의적 CA가 0.1초 만에 다시 돈을 빼가는 출금 함수를 연쇄적으로 호출할 수 있다. 반드시 내부 장부의 잔고를 먼저 차감한 뒤(Effects)에 외부로 돈을 송금하는(Interactions) **Checks-Effects-Interactions 패턴**을 강제해야 한다.
-3. **[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 병목 판단**: 1만 명에게 토큰을 보내려고 EOA가 CA를 1만 번 호출하면 파산 단계를 맞는다. 다중 전송(Multi-send)을 할 수 있는 배치(Batch) 처리용 CA를 하나 배포하여, 단 1번의 호출로 루프를 돌게 만들어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용을 최소화해야 한다.
+1. <strong>업그레이드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/">프록시 패턴</a> 도입)</strong>: 버그가 발견되어도 코드를 뜯어고칠 수 없으므로, 처음 설계할 때 로직을 담은 'Logic CA'와 데이터를 저장하고 앞단에서 요청만 받는 '[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) CA'를 분리해야 한다. 장애 시 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) CA가 바라보는 화살표를 새로운 버전의 Logic CA로 돌려 끼우는 업그레이드 경로를 확보해야 한다.
+2. **재진입(Reentrancy) 공격 방어 판단**: CA가 다른 CA로 돈을 보낼 때, 해커의 악의적 CA가 0.1초 만에 다시 돈을 빼가는 출금 함수를 연쇄적으로 호출할 수 있다. 반드시 내부 장부의 잔고를 먼저 차감한 뒤(Effects)에 외부로 돈을 송금하는(Interactions) <strong>Checks-Effects-Interactions 패턴</strong>을 강제해야 한다.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a> 병목 판단</strong>: 1만 명에게 토큰을 보내려고 EOA가 CA를 1만 번 호출하면 파산 단계를 맞는다. 다중 전송(Multi-send)을 할 수 있는 배치(Batch) 처리용 CA를 하나 배포하여, 단 1번의 호출로 루프를 돌게 만들어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용을 최소화해야 한다.
 
 - **📢 섹션 요약 비유**: CA 설계는 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 건설과 같다. 한 번 콘크리트를 부어버리면(배포) 부수고 다시 지을 수 없으므로, 설계도 단계에서 수만 번의 하중 테스트([보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/))를 거치고 예비 보수 통로([프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/))를 미리 만들어 두어야 대참사를 막을 수 있다.
 
@@ -105,28 +104,30 @@ CA의 등장은 중개인의 신용에 기대던 인류의 계약 문화를, 수
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/) ([Externally Owned Account](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))** | CA를 깨워 동작하게 만드는 유일한 트리거이자 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시작점 |
-| **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Ethereum Virtual Machine](/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/))** | CA 내부의 바이트코드를 읽고 실행하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가상 컴퓨팅 환경 |
-| **[계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) (Account [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))** | 지갑의 역할을 EOA에서 CA로 전환하여 유연한 사용자 경험을 제공하는 기술 |
-| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 보안 (Reentrancy)** | CA의 호출 연쇄 구조를 악용한 해킹을 막기 위한 아키텍처 설계 패턴 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/">EOA</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/">Externally Owned Account</a>)</strong> | CA를 깨워 동작하게 만드는 유일한 트리거이자 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시작점 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/">Ethereum Virtual Machine</a>)</strong> | CA 내부의 바이트코드를 읽고 실행하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가상 컴퓨팅 환경 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/">계정 추상화</a> (Account <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong> | 지갑의 역할을 EOA에서 CA로 전환하여 유연한 사용자 경험을 제공하는 기술 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 보안 (Reentrancy)</strong> | CA의 호출 연쇄 구조를 악용한 해킹을 막기 위한 아키텍처 설계 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비트코인의 상태 한계 (단순 장부)
-    │
-    ▼
-이더리움의 계정 분리 (EOA와 CA의 등장)
-    │
-    ▼
-CA (Contract Account) · 스마트 컨트랙트 코드와 스토리지 탑재
-    │
-    ▼
-DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화
-    │
-    ▼
-계정 추상화 (ERC-4337) · 스마트 컨트랙트 지갑으로의 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비트코인의 상태 한계 (단순 장부)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이더리움의 계정 분리 (EOA와 CA의 등장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CA (Contract Account) · 스마트 컨트랙트 코드와 스토리지 탑재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계정 추상화 (ERC-4337) · 스마트 컨트랙트 지갑으로의 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 기록에서 자동화된 스크립트로 진화하고, 결국 사용자의 진입 장벽마저 코드로 허물어버리는 CA의 발전상을 보여준다.
 

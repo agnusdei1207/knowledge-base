@@ -25,14 +25,18 @@ tags = ["studynote-network"]
   2. 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 AWS, 구글 드라이브, 슬랙으로 이사 갔습니다 (성 밖 클라우드).
 - 사람도 성 밖에 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 성 밖에 있는데, 직원이 억지로 성(본사 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 들어왔다가 다시 클라우드로 나가는 미친 병목(트롬본 효과) 현상으로 인터넷이 다 터져버렸습니다.
 
-```text
-[SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    ▼
-[SASE 네트워킹/보안 융합 클라우드]
-    │
-    └──▶ [제로 트러스트 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,17 +45,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 2019년 IT 리서치 기관 가트너(Gartner)가 주창한 개념입니다. (읽기: 새시)
-- **개념**: **가장 빠른 길을 찾아주는 '네트워크 기능([SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 등)'과 해커를 막아주는 '클라우드 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/)([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))'을 짬뽕하여, 전 세계 어디서든 사용자와 가장 가까운 클라우드 엣지(Edge)에서 하나의 통합된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))로 제공하는 보안 네트워킹 아키텍처**입니다.
+- **개념**: <strong>가장 빠른 길을 찾아주는 '네트워크 기능(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">SD-WAN</a> 등)'과 해커를 막아주는 '클라우드 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>)'을 짬뽕하여, 전 세계 어디서든 사용자와 가장 가까운 클라우드 엣지(Edge)에서 하나의 통합된 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)로 제공하는 보안 네트워킹 아키텍처</strong>입니다.
 - 철학: "보안 장비를 회사에 박아두지 말고, 통신망(클라우드) 자체를 거대한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 만들어라!"
 
-```text
-[SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    ▼
-[SASE 네트워킹/보안 융합 클라우드]
-    │
-    └──▶ [제로 트러스트 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -98,7 +106,7 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 회사의 보안은 거대한 **'경복궁 성문 검색대'**였습니다. 옥새([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 궁 안에 있으니 성문만 겹겹이 지키면 됐습니다. 하지만 클라우드 시대가 되자 옥새는 강남역 스타벅스 클라우드로 이사 갔고, 신하(직원)들도 재택근무를 합니다. 신하가 강남역 스타벅스를 가는데 굳이 경복궁 성문([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))까지 와서 몸수색을 받고 다시 강남으로 돌아가는 미친 삽질을 하게 된 겁니다. 가트너가 주창한 **[SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)**는 경복궁 성문을 헐어버리고, **'투명한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경호원(클라우드 엣지)'**을 모든 직원의 머리 위에 둥둥 띄워놓은 것입니다. 직원이 집이나 카페에서 구글 드라이브로 문서를 옮기려는 순간, 머리 위에 떠 있던 경호원([SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/), [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/))이 빛의 속도로 길목을 가로막고 "어디 가는 트래픽이냐? [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 있나 까보자!"라고 실시간으로 짐을 뒤져 검사합니다. 네트워크 길 찾기와 보안 검색을 직원의 위치와 상관없이 허공(클라우드)에서 단 1초 만에 한 큐에 끝내버리는 궁극의 언택트 보안 아키텍처입니다.
+- **📢 섹션 요약 비유**: 과거 회사의 보안은 거대한 <strong>'경복궁 성문 검색대'</strong>였습니다. 옥새([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 궁 안에 있으니 성문만 겹겹이 지키면 됐습니다. 하지만 클라우드 시대가 되자 옥새는 강남역 스타벅스 클라우드로 이사 갔고, 신하(직원)들도 재택근무를 합니다. 신하가 강남역 스타벅스를 가는데 굳이 경복궁 성문([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))까지 와서 몸수색을 받고 다시 강남으로 돌아가는 미친 삽질을 하게 된 겁니다. 가트너가 주창한 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a></strong>는 경복궁 성문을 헐어버리고, <strong>'투명한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경호원(클라우드 엣지)'</strong>을 모든 직원의 머리 위에 둥둥 띄워놓은 것입니다. 직원이 집이나 카페에서 구글 드라이브로 문서를 옮기려는 순간, 머리 위에 떠 있던 경호원([SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/), [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/))이 빛의 속도로 길목을 가로막고 "어디 가는 트래픽이냐? [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 있나 까보자!"라고 실시간으로 짐을 뒤져 검사합니다. 네트워크 길 찾기와 보안 검색을 직원의 위치와 상관없이 허공(클라우드)에서 단 1초 만에 한 큐에 끝내버리는 궁극의 언택트 보안 아키텍처입니다.
 
 ---
 
@@ -121,15 +129,19 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    ▼
-[현재 개념: SASE 네트워킹/보안 융합 클라우드]
-    │
-    ├──▶ [확장 A: 제로 트러스트 구조]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 제로 트러스트 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드는 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

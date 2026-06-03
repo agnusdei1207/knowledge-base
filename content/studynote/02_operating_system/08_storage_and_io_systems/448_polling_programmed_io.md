@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 폴링([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 또는 Programmed I/O(PIO)는 CPU가 외부 하드웨어 디바이스에게 일을 시킨 뒤, 기계가 일을 끝마쳤는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 **CPU가 직접 무한 루프(`while`)를 돌며 디바이스의 '[상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)([Status Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/))'를 1초에 수백만 번씩 물어보고 쳐다보는([바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/), [Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/)) 가장 원시적인 I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식**이다.
-> 2. **가치**: 구현이 극도로 단순하여 하드웨어 설계 비용이 싸고, 주변 기기의 응답이 1~2클럭 내에 빛의 속도로 끝나는 상황(예: [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) 센서)에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업 비용([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))보다 오히려 **더 빠른 응답성(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성**할 수 있다.
-> 3. **융합(한계)**: 하지만 하드디스크처럼 밀리초(ms) 단위로 느린 장비를 폴링으로 기다리면 그동안 CPU가 다른 앱을 1개도 못 돌려 서버가 질식(Stall)하므로, 현대 운영체제는 기본적으로 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 구동 I/O로 진화했으며, 최근 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 랜카드(100Gbps) 환경에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 막기 위해 폴링이 다시 부활하는(NAPI) 등 극단의 양 끝에서 하이브리드로 융합**되고 있다.
+> 1. **본질**: 폴링([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 또는 Programmed I/O(PIO)는 CPU가 외부 하드웨어 디바이스에게 일을 시킨 뒤, 기계가 일을 끝마쳤는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 <strong>CPU가 직접 무한 루프(<code>while</code>)를 돌며 디바이스의 '<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">Status Register</a>)'를 1초에 수백만 번씩 물어보고 쳐다보는(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a>, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/">Busy Wait</a>) 가장 원시적인 I/O <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 방식</strong>이다.
+> 2. **가치**: 구현이 극도로 단순하여 하드웨어 설계 비용이 싸고, 주변 기기의 응답이 1~2클럭 내에 빛의 속도로 끝나는 상황(예: [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) 센서)에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업 비용([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))보다 오히려 <strong>더 빠른 응답성(Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)을 달성</strong>할 수 있다.
+> 3. **융합(한계)**: 하지만 하드디스크처럼 밀리초(ms) 단위로 느린 장비를 폴링으로 기다리면 그동안 CPU가 다른 앱을 1개도 못 돌려 서버가 질식(Stall)하므로, 현대 운영체제는 기본적으로 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>) 구동 I/O로 진화했으며, 최근 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 랜카드(100Gbps) 환경에서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 폭풍을 막기 위해 폴링이 다시 부활하는(NAPI) 등 극단의 양 끝에서 하이브리드로 융합</strong>되고 있다.
 
 ---
 
@@ -23,33 +23,31 @@ tags = ["studynote-operating-system"]
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터에는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))'라는 고급 하드웨어 회로 자체가 없었다. CPU가 프린터에게 문자를 보낸 뒤, 프린터 기계 모터가 잉크를 다 찍을 때까지 기다려야 다음 문자를 보낼 수 있다. 안 기다리고 냅다 다음 글자를 보내면 프린터 버퍼가 터져 글자가 다 씹힌다. CPU는 "기계가 일을 마쳤다"는 신호를 어떻게든 알아내야만 했고, 가장 무식하고 확실한 방법은 기계의 신호등([상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/))을 눈알이 빠지게 쳐다보고 있는 것뿐이었다.
 
 - **등장 배경 및 PIO의 한계 노출**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 칩셋의 가난함**: 복잡한 비동기 알림 회로를 칩에 넣을 돈과 공간이 없어, CPU가 몸으로 때우는 소프트웨어 기반 I/O 통제(PIO)를 채택.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 칩셋의 가난함</strong>: 복잡한 비동기 알림 회로를 칩에 넣을 돈과 공간이 없어, CPU가 몸으로 때우는 소프트웨어 기반 I/O 통제(PIO)를 채택.
   2. **병목의 발견 (Speed Mismatch)**: CPU는 1초에 1억 번 도는데, 플로피 디스크는 1초에 1바이트 뱉는다. CPU가 디스크를 기다리느라 1억 클럭의 연산 기회를 허공에 날리는 대재앙 발생.
-  3. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 등장으로 멸종 위기**: 딴일 하다가 삐삐([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 치면 돌아오는 스마트한 방식에 왕좌를 넘겨주었으나, 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 장비에서 부활의 신호탄을 쏘아 올림.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 등장으로 멸종 위기</strong>: 딴일 하다가 삐삐([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 치면 돌아오는 스마트한 방식에 왕좌를 넘겨주었으나, 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 장비에서 부활의 신호탄을 쏘아 올림.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화           │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함 ]         │
-│                                                                        │
-│ 1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).                           │
-│ 2. 프린터: "모터 돌릴게! 나 건들지마!" -> (Status 비트 = BUSY 🔴)      │
-│                                                                        │
-│ 💥 [ 지옥의 폴링 (Busy Wait) 시작 ]                                    │
-│ 3. CPU: `while (*status_reg == BUSY) { /* 멍때림 */ }`                 │
-│    - 1클럭 째: "끝났냐?" -> 프린터: "아직"                             │
-│    - 1만 클럭 째: "끝났냐?" -> 프린터: "아직"                          │
-│    - 100만 클럭 째: "끝났냐?" -> 프린터: "아직" (CPU 100% 불타오름)    │
-│                                                                        │
-│ 4. 프린터 모터 정지 -> (Status 비트 = READY 🟢)                        │
-│ 5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"              │
-│                                                                        │
-│ ☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런    │
-│    의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.        │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프린터: "모터 돌릴게! 나 건들지마!" -&gt; (Status 비트 = BUSY 🔴)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">지옥의 폴링 (Busy Wait) 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CPU: <code>while (*status_reg == BUSY) { /* 멍때림 */ }</code></div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1클럭 째: "끝났냐?" -&gt; 프린터: "아직"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1만 클럭 째: "끝났냐?" -&gt; 프린터: "아직"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 100만 클럭 째: "끝났냐?" -&gt; 프린터: "아직" (CPU 100% 불타오름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 프린터 모터 정지 -&gt; (Status 비트 = READY 🟢)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 `while` 루프가 바로 모든 디바이스 드라이버 초보자들이 겪는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프리즈([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Freeze)'의 주범이다. 폴링 루프에 갇힌 CPU 코어는 다른 애플리케이션으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))조차 하지 못하고 기계가 0을 뱉어낼 때까지 포로로 잡힌다. 만약 프린터 전원이 훅 나가서 0을 영원히 뱉지 않는다면? 컴퓨터 자체가 영원히 멈추는 완벽한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다. 
 
 - **📢 섹션 요약 비유**: 엘리베이터(디바이스)를 불렀는데, 층수 표시기가 없어서 문에 귀를 대고 "도착했나? 도착했나?" 1초에 10번씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 짓입니다. 엘리베이터가 오면 0.1초 만에 타겠지만, 기다리는 3분 동안 나는 꼼짝도 못 하고 문만 쳐다봐야 하는 바보 같은 기다림([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))입니다.
@@ -62,7 +60,7 @@ tags = ["studynote-operating-system"]
 
 폴링은 단순히 상태를 쳐다보는 데서 끝나지 않는다. 데이터를 옮기는 것도 CPU의 몫이다.
 - 디스크에서 4KB 블록 1개를 램으로 퍼와야 한다고 치자.
-- 폴링 기반의 PIO 환경에서는, CPU가 디스크 컨트롤러 버퍼에서 1바이트(또는 1워드)를 읽어서(`IN` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)), 자기 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(eax)에 담았다가, 다시 램(RAM) 주소에 쓰는(`MOV`) 짓을 **4096번 반복하는 for 루프**를 직접 뛰어야 한다.
+- 폴링 기반의 PIO 환경에서는, CPU가 디스크 컨트롤러 버퍼에서 1바이트(또는 1워드)를 읽어서(`IN` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)), 자기 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(eax)에 담았다가, 다시 램(RAM) 주소에 쓰는(`MOV`) 짓을 <strong>4096번 반복하는 for 루프</strong>를 직접 뛰어야 한다.
 - 하드웨어가 게을러서, 가장 비싸고 훌륭한 두뇌인 CPU를 단순 택배 상하차 알바로 전락시키는 노가다 아키텍처다.
 
 ---
@@ -94,8 +92,8 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 | 비교 척도 | 폴링 ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) / [Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/)) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Driven) |
 |:---|:---|:---|
 | **기다리는 동안 행동**| **딴일 못 함 (CPU 100% 점유로 헛돎)** | **다른 앱 실행 (CPU 다른 일 함)** |
-| **I/O 완료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 주체**| CPU가 기계한테 매번 물어봄 | 기계가 다 끝내고 CPU 옆구리를 찌름 |
-| **반응 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**| 기계가 끝나자마자 **즉시** 알아챔 (빛의 속도) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 바꾸느라 **약간 렉 생김** |
+| <strong>I/O 완료 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 주체</strong>| CPU가 기계한테 매번 물어봄 | 기계가 다 끝내고 CPU 옆구리를 찌름 |
+| <strong>반응 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| 기계가 끝나자마자 **즉시** 알아챔 (빛의 속도) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 바꾸느라 **약간 렉 생김** |
 | **적합한 기기 속도** | 아주 빠르거나 1~2클럭 내에 끝나는 장비 | 디스크나 프린터처럼 아주 느린 장비 (대부분) |
 
 ### [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)([다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 훼방꾼
@@ -103,14 +101,17 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 앱 A가 디스크 I/O를 폴링으로 기다리면 CPU가 100% 돌고 있으므로, OS 스케줄러는 앱 A가 "지금 미친 듯이 연산을 하는 중이구나!"라고 착각한다. 그래서 다른 앱 B에게 CPU를 안 넘겨준다.
 결국 디스크 바늘이 움직이는 그 영겁의 시간(8ms) 동안, 서버 안에 있는 100개의 앱이 몽땅 스탑(Stop)되는 최악의 비효율이 발생한다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────┐
-│ 장비 종류  │ I/O 대기시간 │ 인터럽트 비용 │ 최적의 I/O 방식           │
-├──────────┼────────────┼────────────┼──────────────────────────────────┤
-│ HDD / CD │ 8 ms (엄청 긺)│ 1 ㎲ (상대적 작음)│ 🟢 인터럽트 (딴일 해라)│
-│ 레지스터   │ 0.1 ㎲ (짧음)│ 1 ㎲ (상대적 큼) │ 🟢 폴링 (그냥 1초 대기)│
-└──────────┴────────────┴────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장비 종류</div><div class="kb-diagram-cell">I/O 대기시간</div><div class="kb-diagram-cell">인터럽트 비용</div><div class="kb-diagram-cell">최적의 I/O 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD / CD</div><div class="kb-diagram-cell">8 ms (엄청 긺)</div><div class="kb-diagram-cell">1 ㎲ (상대적 작음)</div><div class="kb-diagram-cell">🟢 인터럽트 (딴일 해라)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터</div><div class="kb-diagram-cell">0.1 ㎲ (짧음)</div><div class="kb-diagram-cell">1 ㎲ (상대적 큼)</div><div class="kb-diagram-cell">🟢 폴링 (그냥 1초 대기)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 폴링이 무조건 나쁜 건 아니다. 만약 프린터가 0.0001초 만에 인쇄를 끝내는 신기술 장비라면? 폴링으로 0.0001초 멍때리다 바로 글자 쏘는 게, 딴 앱으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))했다가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 0.001초 뒤에 돌아오는 것보다 10배 더 빠르다. 대기 시간이 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업 비용'보다 짧을 땐 폴링이 진리가 된다.
 
 - **📢 섹션 요약 비유**: 라면 물 끓는 시간(3분) 동안은 TV(다른 앱)를 보고 오면 이득([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))입니다. 하지만 전자레인지에 삼각김밥 10초 데울 때는, 굳이 방에 가서 TV 켜고 앉았다가 "삐-삐-" 소리 듣고 다시 주방에 오느니, 그냥 10초 동안 전자레인지 불빛만 멍하니 쳐다보고(폴링) 바로 꺼내 먹는 게 동선 낭비가 없는 것과 똑같습니다.
@@ -120,10 +121,10 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 100Gbps 랜카드와 리눅스 NAPI (폴링의 화려한 부활)
-1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 몰락**: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 몰락</strong>: 
    - 옛날 1Gbps 랜카드는 패킷이 올 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때려도 서버가 버텼다.
-   - 시대가 미쳐서 100Gbps 랜카드가 나왔다. 1초에 천만 개의 패킷이 쏟아진다. 랜카드가 1초에 천만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때리니, CPU가 1초에 천만 번 하던 일을 멈추고 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 하느라 서버가 그 자리에서 질식사해 버렸다. (**[Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm 폭발**).
-2. **NAPI ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 꼼수의 등장**:
+   - 시대가 미쳐서 100Gbps 랜카드가 나왔다. 1초에 천만 개의 패킷이 쏟아진다. 랜카드가 1초에 천만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 때리니, CPU가 1초에 천만 번 하던 일을 멈추고 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 하느라 서버가 그 자리에서 질식사해 버렸다. (<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Storm 폭발</strong>).
+2. <strong>NAPI (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>) 꼼수의 등장</strong>:
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들이 내린 처방은 놀랍게도 "구석기시대의 폴링([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))으로 돌아가자!"였다.
    - 첫 패킷이 들어올 때 딱 1번만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 킨다.
    - 그 뒤로는 랜카드의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 아예 `Disable(꺼버림)` 시켜버린다. 
@@ -132,7 +133,7 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
    - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 인한 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 렉 1000만 번을 0번으로 지워버리자 서버 대역폭이 우주를 뚫고 나갔다. 무식하게 쳐다만 보는 폴링이 극한의 트래픽 환경에서는 최고의 무기가 된 아이러니다. [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass) 역시 100% 이 폴링 기반으로 패킷을 퍼먹는다.
 
 ### [Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))의 영혼 = 소프트웨어 폴링
-멀티 코어 프로그래밍에서 쓰레드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 맞출 때 쓰는 **[스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))**이 바로 이 폴링의 소프트웨어 버전이다.
+멀티 코어 프로그래밍에서 쓰레드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 맞출 때 쓰는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong>이 바로 이 폴링의 소프트웨어 버전이다.
 남이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 풀 때까지 `Sleep`해서 기다리면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 드니까, 그냥 CPU 100%를 태우며 `while(lock == 1)` 을 미친 듯이 돌며 쳐다보고 있는 것이다. 락이 0.001초 안에 풀린다는 확신이 있을 때만 쓰는, 극강의 로우 레이턴시를 위한 양날의 검이다.
 
 - **📢 섹션 요약 비유**: 택배가 1달에 1번(일반 트래픽) 올 땐 초인종([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 누르는 게 최고입니다. 하지만 쿠팡 알바가 우리 집에 택배를 1초에 100개씩 던지는 상황(100Gbps)에선 초인종이 미친 듯이 울려 노이로제에 걸립니다. 차라리 내가 초인종 선을 끊어버리고, 아예 문 앞에 서서 계속(폴링) 들어오는 택배를 집어 던지는 게 100배 효율적인 상하차 작업입니다.
@@ -145,7 +146,7 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 제로** | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 끄고 폴링을 태우면, 스레드가 기절하고 깨어나는 데 드는 수만 클럭의 OS 페널티를 완벽히 소거하여 극초저지연 달성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> 오버헤드 제로</strong> | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 끄고 폴링을 태우면, 스레드가 기절하고 깨어나는 데 드는 수만 클럭의 OS 페널티를 완벽히 소거하여 극초저지연 달성 |
 | **디바이스 응답성(Responsiveness) 극대화**| 상태 비트가 0이 되는 그 정확한 1나노초의 찰나에 즉각 후속 명령을 때려 박아 기계의 가동률 100% 유지 |
 | **하드웨어 설계 단순화** | 비동기 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀 배선과 IRQ 컨트롤러 없이 순수 1바이트 램 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 회로만으로 칩셋 통신 완결 (원가 절감) |
 
@@ -168,15 +169,19 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-    │
-    ▼
-[폴링 (Polling / Programmed I/O)]
-    │
-    ├──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
-    └──▶ [직접 메모리 접근 (DMA, Direct Memory Access)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

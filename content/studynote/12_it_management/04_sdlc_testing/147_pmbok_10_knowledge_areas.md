@@ -10,9 +10,9 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PMBOK([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge, 프로젝트 관리 지식 체계)은 PMI([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Institute, 프로젝트 관리 협회)가 제정한 프로젝트 관리의 표준 프레임워크로, **10대 지식 영역(Knowledge Area)과 5개 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)([Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/))의 교차점에서 49개 프로세스**를 정의한다.
-> 2. **가치**: IT·건설·제조·연구개발 등 모든 산업의 프로젝트 관리자가 공통 언어와 프로세스로 프로젝트를 계획·실행·통제할 수 있는 **글로벌 표준 관리 프레임워크**로, PMP([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Professional) 자격증의 이론적 기반이다.
-> 3. **판단 포인트**: PMBOK 제7판([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))은 프로세스 중심에서 **원칙(Principles) + 성과 영역([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))** 중심으로 패러다임이 전환되었으며, 6판(프로세스 중심)과 7판(가치·결과 중심)을 구분해서 이해해야 한다.
+> 1. **본질**: PMBOK([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge, 프로젝트 관리 지식 체계)은 PMI([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Institute, 프로젝트 관리 협회)가 제정한 프로젝트 관리의 표준 프레임워크로, <strong>10대 지식 영역(Knowledge Area)과 5개 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">프로세스 그룹</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/">Process Group</a>)의 교차점에서 49개 프로세스</strong>를 정의한다.
+> 2. **가치**: IT·건설·제조·연구개발 등 모든 산업의 프로젝트 관리자가 공통 언어와 프로세스로 프로젝트를 계획·실행·통제할 수 있는 <strong>글로벌 표준 관리 프레임워크</strong>로, PMP([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Professional) 자격증의 이론적 기반이다.
+> 3. **판단 포인트**: PMBOK 제7판([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))은 프로세스 중심에서 <strong>원칙(Principles) + 성과 영역(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong> 중심으로 패러다임이 전환되었으며, 6판(프로세스 중심)과 7판(가치·결과 중심)을 구분해서 이해해야 한다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-it-management"]
 
 PMBOK 없이는 다음과 같은 문제가 반복된다:
 - **삼중 제약(Triple Constraint) 붕괴**: 범위·일정·비용 간 트레이드오프 관리 실패
-- **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리 누락**: 숨어있는 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 요구사항 미발견 → 후반부 대규모 재작업
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 관리 누락</strong>: 숨어있는 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 요구사항 미발견 → 후반부 대규모 재작업
 - **위험 무관리**: 사전 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 없이 위험이 현실화 → 일정·비용 초과
 
 - **📢 섹션 요약 비유**: PMBOK은 **'건물을 짓기 위한 공사 표준 매뉴얼'** 과 같습니다. 착공 전 설계(계획), 공사 중 품질 검사(실행·통제), 준공 검사(종료)의 각 단계에서 무엇을 해야 하는지를 체계적으로 정리한 건설 표준서입니다.
@@ -33,22 +33,26 @@ PMBOK 없이는 다음과 같은 문제가 반복된다:
 
 ### 1. PMBOK 6판 기준: 10대 지식 영역 × 5개 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)
 
-```text
-PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 
-                  착수  계획  실행  감시·통제  종료
-                  ────  ────  ────  ──────────  ────
-1. 통합관리       ●     ●     ●        ●         ●
-2. 범위관리             ●              ●
-3. 일정관리             ●              ●
-4. 원가관리             ●              ●
-5. 품질관리             ●     ●        ●
-6. 자원관리             ●     ●        ●
-7. 의사소통관리         ●     ●        ●
-8. 위험관리             ●              ●
-9. 조달관리             ●     ●        ●         ●
-10. 이해관계자관리 ●    ●     ●        ●
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)</div>
+<div class="kb-diagram-note">착수 계획 실행 감시·통제 종료</div>
+<div class="kb-diagram-note">1. 통합관리 ● ● ● ● ●</div>
+<div class="kb-diagram-note">2. 범위관리 ● ●</div>
+<div class="kb-diagram-note">3. 일정관리 ● ●</div>
+<div class="kb-diagram-note">4. 원가관리 ● ●</div>
+<div class="kb-diagram-note">5. 품질관리 ● ● ●</div>
+<div class="kb-diagram-note">6. 자원관리 ● ● ●</div>
+<div class="kb-diagram-note">7. 의사소통관리 ● ● ●</div>
+<div class="kb-diagram-note">8. 위험관리 ● ●</div>
+<div class="kb-diagram-note">9. 조달관리 ● ● ● ●</div>
+<div class="kb-diagram-note">10. 이해관계자관리 ● ● ● ●</div>
+</div>
+</div>
+
+
 
 ### 2. 10대 지식 영역 요약
 
@@ -63,23 +67,26 @@ PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 | **7. 의사소통관리** | 의사소통 계획, 정보 배포, 성과 보고 | 의사소통 관리 계획서 |
 | **8. 위험관리** | [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/), 정성·정량 분석, 대응 계획 | 위험 등록부, 몬테카를로 시뮬레이션 |
 | **9. 조달관리** | SOW 작성, 공급업체 선정, 계약 통제 | RFP, 계약서 |
-| **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)관리** | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 참여 계획·통제 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 등록부 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>. <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>관리</strong> | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 참여 계획·통제 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 등록부 |
 
 ### 3. [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득가치관리) 핵심 지표
 
-```text
-EVM 핵심 지표
-  ┌──────────────────────────────────────────────────────────┐
-  │  PV (Planned Value)   : 계획된 작업의 계획 비용           │
-  │  EV (Earned Value)    : 완료된 작업의 계획 비용           │
-  │  AC (Actual Cost)     : 완료된 작업의 실제 비용           │
-  │                                                          │
-  │  SV (Schedule Variance) = EV - PV  (일정 편차)           │
-  │  CV (Cost Variance)     = EV - AC  (원가 편차)           │
-  │  SPI (일정 성과지수)    = EV / PV  (1.0 이상: 일정 앞섬) │
-  │  CPI (원가 성과지수)    = EV / AC  (1.0 이상: 예산 절약)  │
-  └──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EVM 핵심 지표</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PV (Planned Value) : 계획된 작업의 계획 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV (Earned Value) : 완료된 작업의 계획 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AC (Actual Cost) : 완료된 작업의 실제 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SV (Schedule Variance) = EV - PV (일정 편차)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CV (Cost Variance) = EV - AC (원가 편차)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPI (일정 성과지수) = EV / PV (1.0 이상: 일정 앞섬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPI (원가 성과지수) = EV / AC (1.0 이상: 예산 절약)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: EVM은 **'택배 배송 진행률 트래커'** 와 같습니다. "오늘까지 전체 택배의 60%([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))를 보내야 했는데, 실제로 50%([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))만 보냈고, 그 50% 보내는 데 예상보다 돈이 20% 더 들었다([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))"면, 일정도 늦고 비용도 초과된 상황입니다.
 
@@ -113,22 +120,22 @@ EVM 핵심 지표
 
 ### IT 프로젝트 적용 핵심 포인트
 
-**범위관리 - [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))**: 프로젝트 전체 작업을 계층적으로 분해한 트리. [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 없이는 작업 누락과 중복이 발생한다. "100% 규칙" — WBS는 프로젝트의 모든 작업을 100% 포함해야 한다.
+<strong>범위관리 - <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a>(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong>: 프로젝트 전체 작업을 계층적으로 분해한 트리. [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 없이는 작업 누락과 중복이 발생한다. "100% 규칙" — WBS는 프로젝트의 모든 작업을 100% 포함해야 한다.
 
 **위험관리 - 몬테카를로 시뮬레이션**: 각 활동의 기간을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 표현하고 수천 회 시뮬레이션해 프로젝트 완료 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 산출. 단일 점 추정의 한계를 극복.
 
-**일정관리 - [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))**: 전체 프로젝트 기간에 영향을 주는 최장 경로. 임계 경로상의 활동은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 여유(Float)가 0이므로 단 하루의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 전체 일정에 영향.
+<strong>일정관리 - <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong>: 전체 프로젝트 기간에 영향을 주는 최장 경로. 임계 경로상의 활동은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 여유(Float)가 0이므로 단 하루의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 전체 일정에 영향.
 
 ### 기술사 시험 핵심 암기
 
 1. **삼중 제약**: 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) · 일정(Time) · 비용(Cost)
-2. **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 3대 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)**: [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)(계획 비용), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(획득 가치), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)(실제 비용)
+2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 3대 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a></strong>: [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)(계획 비용), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(획득 가치), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)(실제 비용)
 3. **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) < 1.0**: 예산 초과, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) < 1.0: 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 4. **10대 지식 영역 순서**: 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-**골드 플레이팅([Gold Plating](/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/))**: 고객이 요청하지 않은 추가 기능을 선의로 추가하는 행위. 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 초과하므로 PMBOK에서 엄격히 금지한다. 모든 변경은 공식 변경 요청(Change Request) → [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 승인 절차를 거쳐야 한다.
+<strong>골드 플레이팅(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/162_gold_plating_anti_pattern/">Gold Plating</a>)</strong>: 고객이 요청하지 않은 추가 기능을 선의로 추가하는 행위. 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 초과하므로 PMBOK에서 엄격히 금지한다. 모든 변경은 공식 변경 요청(Change Request) → [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 승인 절차를 거쳐야 한다.
 
 - **📢 섹션 요약 비유**: 골드 플레이팅은 **'피자 배달 주문에 서비스라며 파스타를 추가로 가져가는 것'** 과 같습니다. 고객이 원치 않을 수도 있고, 배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(일정 초과)과 재료 비용 증가(원가 초과)를 유발합니다.
 
@@ -152,41 +159,41 @@ PMBOK은 "프로젝트를 통제하는 도구"가 아니라, **"프로젝트를 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))** | 범위 관리의 핵심 도구; 작업을 계층적으로 분해 |
-| **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))** | 원가·일정 통합 성과 측정 기법 |
-| **[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))** | 일정 관리의 핵심; 프로젝트 최장 경로 분석 |
-| **PMP ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Professional)** | PMBOK 기반의 PMI 국제 프로젝트 관리 자격증 |
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | PMBOK 7판에 통합된 적응형 개발 접근; [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)·칸반과 연계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> | 범위 관리의 핵심 도구; 작업을 계층적으로 분해 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>)</strong> | 원가·일정 통합 성과 측정 기법 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong> | 일정 관리의 핵심; 프로젝트 최장 경로 분석 |
+| <strong>PMP (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Professional)</strong> | PMBOK 기반의 PMI 국제 프로젝트 관리 자격증 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | PMBOK 7판에 통합된 적응형 개발 접근; [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)·칸반과 연계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로젝트 관리 방법론 필요성 (방산·우주 프로젝트)
-    │
-    ▼
-PMI PMBOK 초판 (1996)
-    │
-    ▼
-PMBOK 6판 — 49개 프로세스, 10대 지식 영역
-    │
-    ├─► WBS / CPM / EVM — 일정·비용 통제 도구
-    ├─► 위험 관리 (정성·정량 분석)
-    │
-    ▼
-PMBOK 7판 (2021) — 12원칙 + 8성과 영역 (가치 중심)
-    │
-    ▼
-하이브리드 PM (예측 + 애자일 통합)
-    │
-    ▼
-AI 기반 프로젝트 예측·자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로젝트 관리 방법론 필요성 (방산·우주 프로젝트)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMI PMBOK 초판 (1996)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMBOK 6판 — 49개 프로세스, 10대 지식 영역</div>
+<div class="kb-diagram-tree-item" style="--depth:2">WBS / CPM / EVM — 일정·비용 통제 도구</div>
+<div class="kb-diagram-tree-item" style="--depth:2">위험 관리 (정성·정량 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMBOK 7판 (2021) — 12원칙 + 8성과 영역 (가치 중심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 PM (예측 + 애자일 통합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 프로젝트 예측·자동화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. PMBOK은 **'큰 건물을 짓기 위한 표준 공사 매뉴얼'** 이에요. 처음에 설계도(계획)를 그리고, 공사(실행)하면서 품질 검사(통제)를 하고, 준공 검사(종료)를 하는 모든 단계를 표준화한 책이에요!
 2. 10개의 '관리 영역'(범위·일정·비용·품질 등)이 있어서, 공사의 어떤 부분이 문제인지 빠르게 찾아낼 수 있어요.
-3. EVM은 **'택배 배달 진행률 체크'** 같아요 — "오늘까지 60%를 보내야 했는데 50%만 보냈고 돈도 더 썼어요"라고 알려줘서, PM이 **일찍 문제를 발견하고 수정**할 수 있게 해줘요!
+3. EVM은 **'택배 배달 진행률 체크'** 같아요 — "오늘까지 60%를 보내야 했는데 50%만 보냈고 돈도 더 썼어요"라고 알려줘서, PM이 <strong>일찍 문제를 발견하고 수정</strong>할 수 있게 해줘요!
 
 ---
 

@@ -20,31 +20,30 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 다이버시티(Diversity, 다양성) 통신 기술은 똑같은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(메시지)를 서로 다른 물리적 경로, 다른 시간, 또는 다른 주파수에 실어 독립적으로 여러 번 전송한 뒤, 수신측에서 가장 상태가 좋은 놈을 고르거나([Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 수학적으로 합쳐서(Combining) 오류를 복원하는 기술이다.
-- **필요성**: 무선 통신의 최대 적은 **[다중 경로 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/))**이다. 기지국이 쏜 1개의 전파가 산, 자동차, 유리창에 반사되어 수십 개의 쪼개진 파동(메아리)으로 내 스마트폰에 도착한다. 파동의 꼭대기(+)와 골짜기(-)가 우연히 정확히 겹치면 진폭이 0이 되어 전파가 허공에서 완벽히 소멸(Deep Fade)해 통화가 뚝 끊긴다. 이 재앙을 막으려면 "하나가 소멸해도, 다른 길로 보낸 복사본은 살아남겠지"라는 확률적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 절대적으로 필요했다.
+- **필요성**: 무선 통신의 최대 적은 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/">다중 경로 페이딩</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/">Multipath Fading</a>)</strong>이다. 기지국이 쏜 1개의 전파가 산, 자동차, 유리창에 반사되어 수십 개의 쪼개진 파동(메아리)으로 내 스마트폰에 도착한다. 파동의 꼭대기(+)와 골짜기(-)가 우연히 정확히 겹치면 진폭이 0이 되어 전파가 허공에서 완벽히 소멸(Deep Fade)해 통화가 뚝 끊긴다. 이 재앙을 막으려면 "하나가 소멸해도, 다른 길로 보낸 복사본은 살아남겠지"라는 확률적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자가 절대적으로 필요했다.
 - **등장 배경**: ① 도심 환경(Urban)에서의 심각한 반사파/간섭에 의한 통화 절단(Drop) 현상 속출 → ② 송신 전력을 무한정 높이는 방식의 배터리/간섭 한계 봉착 → ③ 에러 정정(FEC) 코딩과 결합하여 다중 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 활용한 다이버시티 기술이 3G([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)) 및 4G([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))의 필수 표준으로 강제 채택.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             다중경로 페이딩의 딥 페이드(Deep Fade) 재앙 및 방어 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 단일 안테나 (다이버시티 부재)]                             │
-│   기지국 📡 ──(반사파 A)──▶ 📱 ◀──(반사파 B)── (빌딩 반사)         │
-│   * A파동(+1)과 B파동(-1)이 기가 막히게 반대로 겹침!                   │
-│   => 결과: 합산 신호 파워 = 0 (Deep Fade). 전화가 허공에서 뚝 끊김!     │
-│                                                             │
-│   [혁신: 공간 다이버시티 (Space Diversity) 안테나 2개 사용]            │
-│                 (1번 안테나) 📱                                │
-│   기지국 📡 ───────▶                                           │
-│                 (2번 안테나) 📱 (1번과 수 센티미터 떨어짐)              │
-│                                                             │
-│   * 1번 안테나는 A, B 반사파가 겹쳐 전파가 0으로 죽어버림 (수신 실패).      │
-│   * 하지만 불과 몇 cm 떨어진 2번 안테나는 파동 각도가 미세하게 달라져       │
-│     오히려 파동이 증폭(+)되어 아주 맑고 큰 소리로 수신됨!                  │
-│                                                             │
-│   => 폰 내부 회로: "1번은 버리고 2번 안테나 신호를 쓰자!" (생존 확률 99.9%) │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중경로 페이딩의 딥 페이드(Deep Fade) 재앙 및 방어 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 단일 안테나 (다이버시티 부재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 📡 ──(반사파 A)──▶ 📱 ◀──(반사파 B)── (빌딩 반사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* A파동(+1)과 B파동(-1)이 기가 막히게 반대로 겹침!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 합산 신호 파워 = 0 (Deep Fade). 전화가 허공에서 뚝 끊김!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 공간 다이버시티 (Space Diversity) 안테나 2개 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1번 안테나) 📱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 📡 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2번 안테나) 📱 (1번과 수 센티미터 떨어짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1번 안테나는 A, B 반사파가 겹쳐 전파가 0으로 죽어버림 (수신 실패).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 하지만 불과 몇 cm 떨어진 2번 안테나는 파동 각도가 미세하게 달라져</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오히려 파동이 증폭(+)되어 아주 맑고 큰 소리로 수신됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 폰 내부 회로: "1번은 버리고 2번 안테나 신호를 쓰자!" (생존 확률 99.9%)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 그림은 이동통신에서 왜 스마트폰에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 띠(절연띠)가 위아래로 여러 개 나뉘어 있는지를 설명해 준다. 다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)은 극도로 좁은 공간에서 일어난다. 폰의 윗부분 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파가 0으로 소멸(상쇄 간섭)하는 '딥 페이드'에 빠지더라도, 파장의 절반(수 센티미터) 정도 떨어진 폰의 아랫부분 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 오히려 파동이 합쳐져 증폭(보강 간섭)되는 완전히 독립적인 전파 환경을 경험한다. 하나의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 죽을 확률이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%라면, 두 개의 독립된 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 동시에 죽을 확률은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% x [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% = 1%로 극적으로 떨어진다. 이것이 공간 다이버시티의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자 마법이다.
 
@@ -69,28 +68,27 @@ tags = ["studynote-network"]
 
 두 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(공간 다이버시티)가 두 개의 찌그러진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받았을 때, 폰 내부의 칩셋은 이 두 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 처리하는 수학적 알고리즘을 가동한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               수신 신호 결합(Combining)의 3단계 진화 모델           │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [안테나 1 신호: 40점]   [안테나 2 신호: 60점]                      │
-│                                                               │
-│   1. 선택 결합 (Selection Combining) ── (가장 원시적)              │
-│      로직: "40점은 버려! 60점짜리 안테나 2번 신호만 꺼내 쓴다!"           │
-│      결과: 60점 신호 획득. (계산은 쉽지만 40점 버린 게 너무 아까움)         │
-│                                                               │
-│   2. 등이득 결합 (Equal Ratio Combining) ── (평등 주의)           │
-│      로직: "버리지 말고 둘 다 똑같이 1:1로 믹서기에 넣고 더해!"          │
-│      결과: 40점 + 60점 = 100점. (잡음까지 1:1로 더해지는 게 부작용)      │
-│                                                               │
-│   3. 최대비 결합 (MRC, Maximal Ratio Combining) ── (현재의 절대 표준)│
-│      로직: "60점짜리에는 가중치(가치) 1.5배, 40점짜리에는 0.5배 곱해서 더해!"│
-│      결과: 품질이 좋은 신호의 비중을 증폭시켜 최고의 신호 대 잡음비(SNR) 획득!│
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 여러 개일 때 가장 성능이 떨어지는 것은 '선택 결합'이다. 좋은 것 하나만 취하고 나머지는 쓰레기통에 버리기 때문이다. 반면 3G [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시절부터 4G/5G까지 현존하는 모든 통신 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 칩셋이 채택한 궁극의 연산은 **MRC (Maximal Ratio Combining, 최대비 결합)**이다. MRC는 상태가 좋은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 파워를 수학적으로 훨씬 강하게 뻥튀기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여) 해주고, 상태가 나쁜 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 아주 조금만 더해준다. 버리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 한 톨도 없기 때문에, 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 받은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 비록 50점짜리 불량품이라 할지라도 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 안에서 100점짜리 무결점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 환골탈태하는 기적이 일어난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 신호 결합(Combining)의 3단계 진화 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">안테나 1 신호: 40점</div><div class="kb-diagram-node">안테나 2 신호: 60점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 선택 결합 (Selection Combining) ── (가장 원시적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로직: "40점은 버려! 60점짜리 안테나 2번 신호만 꺼내 쓴다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 60점 신호 획득. (계산은 쉽지만 40점 버린 게 너무 아까움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 등이득 결합 (Equal Ratio Combining) ── (평등 주의)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로직: "버리지 말고 둘 다 똑같이 1:1로 믹서기에 넣고 더해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 40점 + 60점 = 100점. (잡음까지 1:1로 더해지는 게 부작용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 최대비 결합 (MRC, Maximal Ratio Combining) ── (현재의 절대 표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로직: "60점짜리에는 가중치(가치) 1.5배, 40점짜리에는 0.5배 곱해서 더해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 품질이 좋은 신호의 비중을 증폭시켜 최고의 신호 대 잡음비(SNR) 획득!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 여러 개일 때 가장 성능이 떨어지는 것은 '선택 결합'이다. 좋은 것 하나만 취하고 나머지는 쓰레기통에 버리기 때문이다. 반면 3G [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시절부터 4G/5G까지 현존하는 모든 통신 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 칩셋이 채택한 궁극의 연산은 <strong>MRC (Maximal Ratio Combining, 최대비 결합)</strong>이다. MRC는 상태가 좋은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 파워를 수학적으로 훨씬 강하게 뻥튀기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여) 해주고, 상태가 나쁜 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 아주 조금만 더해준다. 버리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 한 톨도 없기 때문에, 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 받은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 비록 50점짜리 불량품이라 할지라도 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 안에서 100점짜리 무결점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 환골탈태하는 기적이 일어난다.
 
 - **📢 섹션 요약 비유**: 범인 얼굴을 본 목격자가 3명 있습니다. '선택 결합'은 시력이 가장 좋은 1명의 진술만 듣고 몽타주를 그리는 것입니다. '최대비 결합(MRC)'은 시력 좋은 사람의 말은 70% 반영하고, 눈이 나쁜 두 사람의 말에서 희미한 조각(머리색 등)을 15%씩 뽑아내 완벽하게 합쳐서 범인의 실제 얼굴을 100% 똑같이 그려내는 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 과학수사 기법입니다.
 
@@ -104,35 +102,34 @@ tags = ["studynote-network"]
 
 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술 ([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) | 전송하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 궁극적 목적 | 척박한 무선 환경에서의 작용 |
 |:---|:---|:---|:---|
-| **다이버시티 (Diversity)** | **똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** 복사본을 여러 개 쏨 | 통신 단절(Drop) 방어, **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)) 극대화** | 산속, 지하 등 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 미약하여 1개의 패킷이라도 살려야 할 때 최적 |
-| **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))** | 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘되, 각도를 조절해 **하나의 레이저 빔**으로 모아 쏨 | 전파 도달 거리 연장, **커버리지 및 간섭(SINR) 극대화** | 멀리 있는 폰에 에너지를 집중 사격하거나 옆 셀 간섭을 피할 때 최적 |
-| **[공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))**| [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)마다 서로 **완전히 다른 조각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 쏨 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장 없이 **전송 속도(Capacity) 2배~4배 뻥튀기** | 공유기 바로 코앞, 전파 환경이 최고로 좋을 때 용량 폭파에 최적 |
+| **다이버시티 (Diversity)** | <strong>똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> 복사본을 여러 개 쏨 | 통신 단절(Drop) 방어, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>) 극대화</strong> | 산속, 지하 등 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 미약하여 1개의 패킷이라도 살려야 할 때 최적 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘되, 각도를 조절해 <strong>하나의 레이저 빔</strong>으로 모아 쏨 | 전파 도달 거리 연장, **커버리지 및 간섭(SINR) 극대화** | 멀리 있는 폰에 에너지를 집중 사격하거나 옆 셀 간섭을 피할 때 최적 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">공간 다중화</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong>| [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)마다 서로 <strong>완전히 다른 조각 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 쏨 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장 없이 **전송 속도(Capacity) 2배~4배 뻥튀기** | 공유기 바로 코앞, 전파 환경이 최고로 좋을 때 용량 폭파에 최적 |
 
 아무리 속도([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))가 좋아도 셀의 끄트머리나 고속도로 위에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 박살 난다. 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 단말기의 전파 상태(CQI)를 1ms 단위로 보고받아, "얘는 지금 터널에 들어가서 전파가 구려졌네! 속도 욕심([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 버리고 무조건 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 2번 쏘는 방어 모드(Transmit Diversity)로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전환해!"라며 수 만 명의 고객 하나하나에게 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 모드를 0.1초마다 트랜스포머처럼 변환(Adaptive [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))시켜 통화 품질을 목숨 걸고 지켜낸다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               시간 다이버시티의 꽃: 인터리빙 (Interleaving) 마법        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [상황: KTX가 시속 300km로 터널의 깊은 골짜기(Deep Fade)를 지나침]        │
-│   전파가 0.1초 동안 완전히 죽어버리는 '연속 에러(Burst Error)' 발생!        │
-│                                                               │
-│   [과거: 원본 순서대로 쏘기 (시간 다이버시티 부재)]                        │
-│   원본 데이터: [ I  L  O  V  E  Y  O  U ]                           │
-│   발송 전파:  [ I  L  O ] (터널 진입 💥전파 박살!) [ Y  O  U ]          │
-│   폰 수신본:  [ I  L  O  ?  ?  ?  O  U ] => "V E Y" 3글자 증발, 복원 불가!│
-│                                                               │
-│   [혁신: 인터리빙 (Interleaving) - 데이터를 섞어서 쏘기]              │
-│   보내기 전에 데이터를 셔플(Shuffle) 함: [ I  V  O  L  E  U  O  Y ]       │
-│   발송 전파:  [ I  V  O ] (터널 진입 💥전파 박살!) [ U  O  Y ]          │
-│   폰 수신본:  [ I  V  O  ?  ?  ?  O  Y ] (수신 후 원래 순서대로 다시 정렬)│
-│   원상 복구:  [ I  ?  O  ?  E  ?  O  U ]                          │
-│                                                               │
-│   => 결과: "L, V, Y" 글자가 드문드문 빠졌네? 띄엄띄엄 난 상처는 에러 복원  │
-│            코드(FEC/Turbo Code) 수학으로 100% 추측해서 채워 넣기 가능!!    │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 다이버시티의 꽃: 인터리빙 (Interleaving) 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: KTX가 시속 300km로 터널의 깊은 골짜기(Deep Fade)를 지나침</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전파가 0.1초 동안 완전히 죽어버리는 '연속 에러(Burst Error)' 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 원본 순서대로 쏘기 (시간 다이버시티 부재)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">원본 데이터:</div><div class="kb-diagram-node">I  L  O  V  E  Y  O  U</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">발송 전파:</div><div class="kb-diagram-node">I  L  O</div><div class="kb-diagram-note">(터널 진입 💥전파 박살!)</div><div class="kb-diagram-node">Y  O  U</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">폰 수신본:</div><div class="kb-diagram-node">I  L  O  ?  ?  ?  O  U</div><div class="kb-diagram-note">=&gt; "V E Y" 3글자 증발, 복원 불가!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 인터리빙 (Interleaving) - 데이터를 섞어서 쏘기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">보내기 전에 데이터를 셔플(Shuffle) 함:</div><div class="kb-diagram-node">I  V  O  L  E  U  O  Y</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">발송 전파:</div><div class="kb-diagram-node">I  V  O</div><div class="kb-diagram-note">(터널 진입 💥전파 박살!)</div><div class="kb-diagram-node">U  O  Y</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">폰 수신본:</div><div class="kb-diagram-node">I  V  O  ?  ?  ?  O  Y</div><div class="kb-diagram-note">(수신 후 원래 순서대로 다시 정렬)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">원상 복구:</div><div class="kb-diagram-node">I  ?  O  ?  E  ?  O  U</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: "L, V, Y" 글자가 드문드문 빠졌네? 띄엄띄엄 난 상처는 에러 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드(FEC/Turbo Code) 수학으로 100% 추측해서 채워 넣기 가능!!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 시간 다이버시티를 구현하는 가장 천재적인 소프트웨어 알고리즘이 바로 인터리빙(Interleaving)이다. 고속 이동 환경에서는 전파가 한 번 죽으면 연속으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 통째로 날아가는 '[버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))'가 생긴다. 복원 수학 공식은 한두 개 이빨이 빠진 건 살려내지만, 통째로 턱관절이 날아간 건 못 살린다. 그래서 송신탑은 전파를 쏘기 전에 카드 섞듯 패킷을 마구 섞어(Interleaving) 시간축으로 넓게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 쏜다. 설령 터널에서 폭탄([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))을 맞아도 폰에서 다시 카드를 정렬(De-interleaving)하면 에러가 군데군데 흩어진 찰과상(Random Error)으로 바뀐다. 이 찰과상은 폰 안의 칩셋이 0.1초 만에 100% 치료(에러 정정) 해낸다.
 
@@ -144,15 +141,15 @@ tags = ["studynote-network"]
 
 1. **상황**: 테헤란로의 빌딩 숲에 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 스몰 셀을 구축했는데, 다운로드 속도는 빵빵한데 이상하게 고객들이 유튜브 영상을 올리는 업로드(Uplink) 속도가 0에 수렴하고 계속 핑 타임아웃이 떴다.
 2. **원인**: 빌딩 유리에 전파가 난반사되는 극단적인 멀티패스 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 환경. 스마트폰의 송신 출력은 너무 약해서(고작 200mW), 폰이 기지국으로 쏘는 업로드 전파가 빌딩에 부딪혀 산산조각이 나 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착할 때는 다 죽어버리는 딥 페이드(Deep Fade) 현상에 빠졌다.
-3. **의사결정 및 조치 (2-Rx Diversity 및 교차 편파 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 도입)**:
-   - 기지국 아키텍트는 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 기존 1개에서 **2개의 독립된 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (2-Rx Diversity)**로 하드웨어를 교체한다. 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 물리적 간격을 전파 파장의 절반(약 7cm) 이상 띄워 설치한다.
-   - 추가로 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 나란히 일자( | | )로 세우지 않고, 하나는 +45도, 하나는 -45도로 기울인 **교차 편파(Cross-Polarization) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**로 설치한다. (건물에 반사되며 전파의 꼬임 각도가 뒤틀려도 십자가 모양 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 꼬인 파동을 전부 낚아채게 만듦).
+3. <strong>의사결정 및 조치 (2-Rx Diversity 및 교차 편파 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 도입)</strong>:
+   - 기지국 아키텍트는 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 기존 1개에서 <strong>2개의 독립된 수신 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> (2-Rx Diversity)</strong>로 하드웨어를 교체한다. 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 물리적 간격을 전파 파장의 절반(약 7cm) 이상 띄워 설치한다.
+   - 추가로 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 나란히 일자( | | )로 세우지 않고, 하나는 +45도, 하나는 -45도로 기울인 <strong>교차 편파(Cross-Polarization) <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>로 설치한다. (건물에 반사되며 전파의 꼬임 각도가 뒤틀려도 십자가 모양 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 꼬인 파동을 전부 낚아채게 만듦).
    - 기지국 내부 칩셋에 **MRC(최대비 결합)** 알고리즘을 켜준다.
    - **결과**: 스마트폰이 올리는 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 두 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 독립적으로 긁어모아 1.5배로 수학적 증폭(Combining Gain) 시켰고, 업로드 속도 저하 현상을 100% 타파했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **송신 다이버시티 (Tx Diversity) 전환 한계점 튜닝**: 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 폰이 가까이 있을 땐 "빨리 받게 쪼개서 줄게([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/), 속도 폭발)" 모드를 쓰지만, 폰이 멀어지거나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 구려지면 즉각 "너 끊길 수 있으니 똑같은 거 두 번 쏴줄게(Tx 다이버시티)"로 강제 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))해야 한다. 이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold, 보통 CQI 7점)를 제대로 튜닝하지 않으면, 엘리베이터 안에서 카톡을 하는데 기지국이 멍청하게 고속 모드로 쏘다가 카톡이 다 터지고 발송 실패 에러가 뜨는 참사가 벌어진다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (스마트폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 데스 그립)**: 아이폰 4 시절 스티브 잡스가 겪었던 "데스 그립(Death Grip)" 사건. 다이버시티를 구현하려면 폰의 위아래에 각각 독립된 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있어야 하는데, 사용자가 손으로 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 사이의 절연띠를 동시에 움켜쥐면 인체 전도율 때문에 폰 안의 2개 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 물리적으로 합선(Short)되어 하나처럼 작동해버린다. 다이버시티 효과가 즉각 0%로 증발해 통화가 끊겼다. 현대 폰 아키텍트들은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 4개(4x4 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))를 손이 닿지 않는 모서리 4곳에 극도로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하여 손으로 막아도 생존하게 설계해야만 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (스마트폰 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 데스 그립)</strong>: 아이폰 4 시절 스티브 잡스가 겪었던 "데스 그립(Death Grip)" 사건. 다이버시티를 구현하려면 폰의 위아래에 각각 독립된 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있어야 하는데, 사용자가 손으로 두 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 사이의 절연띠를 동시에 움켜쥐면 인체 전도율 때문에 폰 안의 2개 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 물리적으로 합선(Short)되어 하나처럼 작동해버린다. 다이버시티 효과가 즉각 0%로 증발해 통화가 끊겼다. 현대 폰 아키텍트들은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 4개(4x4 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))를 손이 닿지 않는 모서리 4곳에 극도로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하여 손으로 막아도 생존하게 설계해야만 한다.
 
 - **📢 섹션 요약 비유**: 한쪽 귀를 막고 시끄러운 식당에서 대화하면 소리가 웅웅거리지만, 두 귀(공간 다이버시티)를 다 열고 들으면 뇌(MRC 칩셋)가 입체적으로 소리를 섞어서 친구 목소리를 1.5배 더 또렷하게 잡아내는 생물학적 진화의 비밀을 기지국에 그대로 가져온 것입니다.
 
@@ -162,17 +159,17 @@ tags = ["studynote-network"]
 
 | 구분 | 단일 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (SISO, 다이버시티 없음) | 다이버시티 결합 기술 적용망 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 극복)** | 반사파 상쇄 시 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도 99% 증발 | 2개 수신 시 1개가 죽어도 나머지로 100% 복원 | 딥 페이드 구간에서의 패킷 손실률(BLER) **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에서 0.1%로 격감** |
+| <strong>정량 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/">페이딩</a> 극복)</strong> | 반사파 상쇄 시 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도 99% 증발 | 2개 수신 시 1개가 죽어도 나머지로 100% 복원 | 딥 페이드 구간에서의 패킷 손실률(BLER) <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%에서 0.1%로 격감</strong> |
 | **정량 (수신 감도/Gain)** | 단말기의 나약한 송신 전력에만 의존 | MRC 수식 결합을 통한 수학적 뻥튀기 이득 발생 | 기지국 수신 이득(Diversity Gain) **최소 3dB 이상(2배 전력 효과) 증폭** |
-| **정성 (커버리지 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))** | 지하실, 코너 길에서 여지없이 통화 단절 | 어떤 장애물 반사 환경에서도 악착같이 수신 유지 | '도심 음영 지역 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)'라는 무선망 운영의 절대 목표 달성 필수 기둥 |
+| <strong>정성 (커버리지 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>)</strong> | 지하실, 코너 길에서 여지없이 통화 단절 | 어떤 장애물 반사 환경에서도 악착같이 수신 유지 | '도심 음영 지역 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)'라는 무선망 운영의 절대 목표 달성 필수 기둥 |
 
 ### 미래 전망 및 진화 방향
-- **MIMO의 심화: [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)와의 완전한 융합**: 4G까지 다이버시티가 "안 끊기는 생명줄"이었다면, 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 128개) 시대에는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 128개를 반으로 쪼개 64개는 "속도 뻥튀기([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))"에 쓰고, 나머지 64개는 "안 끊기게 복사본 쏘기(다이버시티)"에 섞어서 할당하는 하이브리드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기술이 0.1밀리초 단위로 AI에 의해 스케줄링되는 궁극의 무선 자원 변이 기술로 진화했다.
+- <strong>MIMO의 심화: <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">공간 다중화</a>와의 완전한 융합</strong>: 4G까지 다이버시티가 "안 끊기는 생명줄"이었다면, 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 128개) 시대에는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 128개를 반으로 쪼개 64개는 "속도 뻥튀기([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))"에 쓰고, 나머지 64개는 "안 끊기게 복사본 쏘기(다이버시티)"에 섞어서 할당하는 하이브리드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기술이 0.1밀리초 단위로 AI에 의해 스케줄링되는 궁극의 무선 자원 변이 기술로 진화했다.
 - **주파수 다이버시티를 넘은 '대역 다이버시티 (Band Diversity)'**: 과거엔 800MHz 채널 안에서 파편을 쪼개 쐈다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 스마트폰이 아예 '저대역(1.8GHz)', '중대역(3.5GHz)', '초고대역(28GHz)' 3개의 완전히 다른 대역을 한 번에 다 빨아들여, 비가 와서 28GHz 전파가 몽땅 죽어버리면 자동으로 1.8GHz 대역의 패킷으로 빈 구멍을 순식간에 메워버리는 거대한 차원의 '다중 대역 다이버시티(Multi-band Diversity)'가 완성되고 있다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 36.211 / 38.211**: 물리 계층 규격 (LTE와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR에서 Transmit Diversity를 쏘기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호 섞듯 쪼개는 Alamouti 코딩 스펙 정의)
-- **IEEE 802.[11n](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)/[ac](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)/ax**: Wi-Fi 망에서 공유기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 2~4개가 다이버시티와 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 결합 이득을 얻기 위한 STBC(Space-Time [Block Coding](/knowledge-base/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/)) 국제 표준
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 36.211 / 38.211</strong>: 물리 계층 규격 (LTE와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR에서 Transmit Diversity를 쏘기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호 섞듯 쪼개는 Alamouti 코딩 스펙 정의)
+- <strong>IEEE 802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/">11n</a>/<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">ac</a>/ax</strong>: Wi-Fi 망에서 공유기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 2~4개가 다이버시티와 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 결합 이득을 얻기 위한 STBC(Space-Time [Block Coding](/knowledge-base/studynote/03_network/01_data_communication/042_4B5B_8B10B_블록_코딩/)) 국제 표준
 
 무선 전파는 장애물을 만나면 산산조각이 난다. 과거의 공학자들은 부서지지 않는 강한 쇠구슬(고출력)을 던지려 애썼지만 실패했다. 하지만 다이버시티의 철학을 깨달은 현대 공학자들은 "유리구슬을 수백 개 던져서 다 깨지더라도, 수신기가 그 깨진 조각들을 쓸어 모아 다시 둥근 유리구슬로 조립하면 된다"는 위대한 확률론적 해답(MRC)을 찾아냈다. 부서진 메아리조차 통신의 자양분으로 삼아버리는 이 역발상이 오늘날 우리가 지하실에서도 카카오톡을 보낼 수 있는 마법의 근원이다.
 
@@ -191,15 +188,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MIPv6]
-    │
-    ▼
-[현재 개념: 다이버시티 시스템]
-    │
-    ├──▶ [확장 A: 레이크 수신기]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIPv6</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다이버시티 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 레이크 수신기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 다이버시티 시스템는 MIPv6에서 출발해 현재 메커니즘을 정교화하고, 이후 [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 주어졌을 때, **P를 Q로 얼마나 잘 근사할 수 있는가**를 측정하는 척도가 KL (Kullback-Leibler) 다이버전스다:
+두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 주어졌을 때, <strong>P를 Q로 얼마나 잘 근사할 수 있는가</strong>를 측정하는 척도가 KL (Kullback-Leibler) 다이버전스다:
 
 ```
 D_KL(P‖Q) = Σ_{x} P(x) · log₂(P(x) / Q(x))   [bits]
@@ -48,40 +48,52 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
 
 ### 정보량 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 전체 구조
 
-```
-       H(P)          D_KL(P‖Q)
-    ┌─────────┐    ┌─────────────┐
-    │ 엔트로피 │ +  │ KL 다이버전스│ = H(P,Q) 크로스 엔트로피
-    └─────────┘    └─────────────┘
-       (고정)          (최소화 대상)
-```
 
-- **[크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) H(P,Q) = H(P) + D_KL(P‖Q)**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">H(P) D_KL(P‖Q)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트로피</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">KL 다이버전스</div><div class="kb-diagram-cell">= H(P,Q) 크로스 엔트로피</div></div>
+<div class="kb-diagram-note">(고정) (최소화 대상)</div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a> H(P,Q) = H(P) + D_KL(P‖Q)</strong>
 - P가 실제 분포, Q가 모델 분포 → 학습은 D_KL 최소화 = [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 (H(P) 고정)
 
 ### 순방향 vs 역방향 KL
 
-```
-순방향 KL (Forward KL): D_KL(P‖Q)
-"P가 있는 곳에 Q도 있어야 한다"
-→ Q가 P의 모든 모드를 커버 (zero-avoiding)
-→ 평균 탐색 (mean-seeking)
 
-역방향 KL (Reverse KL): D_KL(Q‖P)
-"Q가 있는 곳에 P도 있어야 한다"
-→ Q가 P의 한 모드에 집중 (zero-forcing)
-→ 모드 탐색 (mode-seeking)
-```
 
-```
-분포 P (다봉)   분포 Q (단봉 가우시안)
-   ┌──┐  ┌──┐
-   │  │  │  │           Q₁ (순방향 KL)   Q₂ (역방향 KL)
-   │  │  │  │        ┌──────────────┐   ┌────┐
-   │  │  │  │        │  넓게 커버   │   │한모│
-   └──┘  └──┘        └──────────────┘   └────┘
-    모드1  모드2          평균 탐색         모드 탐색
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순방향 KL (Forward KL): D_KL(P‖Q)</div>
+<div class="kb-diagram-note">"P가 있는 곳에 Q도 있어야 한다"</div>
+<div class="kb-diagram-note">→ Q가 P의 모든 모드를 커버 (zero-avoiding)</div>
+<div class="kb-diagram-note">→ 평균 탐색 (mean-seeking)</div>
+<div class="kb-diagram-note">역방향 KL (Reverse KL): D_KL(Q‖P)</div>
+<div class="kb-diagram-note">"Q가 있는 곳에 P도 있어야 한다"</div>
+<div class="kb-diagram-note">→ Q가 P의 한 모드에 집중 (zero-forcing)</div>
+<div class="kb-diagram-note">→ 모드 탐색 (mode-seeking)</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분포 P (다봉) 분포 Q (단봉 가우시안)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q₁ (순방향 KL) Q₂ (역방향 KL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넓게 커버</div><div class="kb-diagram-cell">한모</div></div>
+<div class="kb-diagram-note">모드1 모드2 평균 탐색 모드 탐색</div>
+</div>
+</div>
+
+
 
 ### 깁스 부등식 증명 요약
 
@@ -114,7 +126,7 @@ Jensen 부등식 + log의 오목성 (concavity):
 
 ### VAE에서의 KL 다이버전스
 
-**[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))** 손실:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/">Variational Autoencoder</a>)</strong> 손실:
 
 ```
 L = E[log p(x|z)]  -  D_KL(q(z|x) ‖ p(z))
@@ -171,7 +183,7 @@ D_KL(P_A ‖ P_B) 크면 → 두 군의 행동 분포가 유의미하게 다름
 
 ## Ⅴ. 기대효과 및 결론
 
-KL 다이버전스는 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 ML의 중심 손실 개념**이다. 비대칭성을 이해하고 방향을 올바르게 선택하는 것이 실무 설계의 핵심:
+KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 ML의 중심 손실 개념</strong>이다. 비대칭성을 이해하고 방향을 올바르게 선택하는 것이 실무 설계의 핵심:
 
 - **D_KL(P‖Q)**: P(실제)를 기준으로 Q(모델)를 평가 → MLE와 동치
 - **D_KL(Q‖P)**: 변분 추론, 모드 집중 원할 때
@@ -196,24 +208,25 @@ KL 다이버전스는 **[확률](/knowledge-base/studynote/08_algorithm_stats/08
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[KL 다이버전스 D_KL(P‖Q)]
-    │
-    ▼
-[JS 다이버전스]
-    │
-    ▼
-[VAE 손실]
-    │
-    ▼
-[변분 추론]
-    │
-    ▼
-[지식 증류]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KL 다이버전스 D_KL(P‖Q)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">JS 다이버전스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VAE 손실</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변분 추론</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 증류</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

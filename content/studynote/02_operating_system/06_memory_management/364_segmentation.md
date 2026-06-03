@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 세그멘테이션(Segmentation)은 프로그램을 기계가 편한 4KB의 고정 크기([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 무식하게 자르지 않고, **코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 함수 등 '인간이 이해할 수 있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 의미 단위(가변 크기)'로 예쁘게 잘라서 메모리에 비연속적으로 흩뿌리는 기법**이다.
-> 2. **가치**: 찢어진 덩어리 자체가 하나의 완결된 의미(예: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체, 메인 함수 통째로)를 가지기 때문에, **읽기 전용(Read-Only) 코드를 타 프로세스와 100% 안전하게 공유(Sharing)하거나, 실행 방지(NX) 등의 보안 권한([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))을 부여하기가 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)보다 압도적으로 유리하고 직관적**이다.
-> 3. **융합**: 하지만 잘라진 덩어리의 크기가 수 KB에서 수십 MB까지 제각각이므로 메모리 반환 시 필연적으로 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))**라는 불치병을 부활시켰고, 이로 인해 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 단독으로 쓰이지 않고 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처 밑단에 융합([Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/))되어 보안 권한을 담당하는 조연으로 물러났다.
+> 1. **본질**: 세그멘테이션(Segmentation)은 프로그램을 기계가 편한 4KB의 고정 크기([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 무식하게 자르지 않고, <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>), <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>), 힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>), <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>), 함수 등 '인간이 이해할 수 있는 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 의미 단위(가변 크기)'로 예쁘게 잘라서 메모리에 비연속적으로 흩뿌리는 기법</strong>이다.
+> 2. **가치**: 찢어진 덩어리 자체가 하나의 완결된 의미(예: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체, 메인 함수 통째로)를 가지기 때문에, <strong>읽기 전용(Read-Only) 코드를 타 프로세스와 100% 안전하게 공유(Sharing)하거나, 실행 방지(NX) 등의 보안 권한(<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a>)을 부여하기가 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>보다 압도적으로 유리하고 직관적</strong>이다.
+> 3. **융합**: 하지만 잘라진 덩어리의 크기가 수 KB에서 수십 MB까지 제각각이므로 메모리 반환 시 필연적으로 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>라는 불치병을 부활시켰고, 이로 인해 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 단독으로 쓰이지 않고 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처 밑단에 융합([Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/))되어 보안 권한을 담당하는 조연으로 물러났다.
 
 ---
 
@@ -25,31 +25,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 아키텍처 갈림길**:
   1. **연속 할당의 붕괴**: 통째로 올리는 건 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 불가능하다. 비연속으로 찢긴 찢어야 한다.
   2. **어떻게 자를 것인가의 이념 대립**:
-     - **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 진영**: 무조건 똑같이 4KB로 자르자! 관리([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 0%)가 최우선이다! (기계 중심)
+     - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 진영</strong>: 무조건 똑같이 4KB로 자르자! 관리([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 0%)가 최우선이다! (기계 중심)
      - **세그먼트 진영**: 찢더라도 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 의미 단위로 찢자! 보안/공유/관리가 편해야 한다! (인간 중심)
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        페이징과 세그멘테이션의 '프로그램 찢기' 철학 비교             │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 원본 프로그램 A ]                                                  │
-│ ┌───────────────┐ ┌────────┐ ┌────────┐                              │
-│ │ Main 함수 (7KB)│ │ 전역 변수│ │ Stack  │                           │
-│ └───────────────┘ └────────┘ └────────┘                              │
-│                                                                      │
-│ ▶ 페이징(Paging)의 도끼질: (의미 무시, 4KB 고정 절단)                │
-│ [Main 앞 4KB] [Main 뒤 3KB + 전역변수 1KB 섞임!] [나머지]            │
-│ ⚠ 문제: 가운데 조각(페이지)에 '읽기 전용' 락을 걸면, 섞여 들어간     │
-│         전역 변수(데이터)마저 글을 못 쓰게 되어 프로그램이 터짐!     │
-│                                                                      │
-│ ▶ 세그멘테이션(Segmentation)의 정밀한 칼질: (가변 크기 유지)         │
-│ [Main 세그먼트 (7KB 통째로)] [전역변수 세그먼트] [Stack 세그먼트]    │
-│ ✅ 장점: Main 세그먼트 전체에 깔끔하게 '실행/읽기' 락 하나만 걸면 끝!│
-│ ⚠ 치명적 단점: 잘라낸 조각 크기(7K, 2K)가 제각각이라 램에 넣을 때    │
-│              다시 끔찍한 외부 단편화가 발생함.                       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징과 세그멘테이션의 '프로그램 찢기' 철학 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 프로그램 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main 함수 (7KB)</div><div class="kb-diagram-cell">전역 변수</div><div class="kb-diagram-cell">Stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이징(Paging)의 도끼질: (의미 무시, 4KB 고정 절단)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main 앞 4KB</div><div class="kb-diagram-node">Main 뒤 3KB + 전역변수 1KB 섞임!</div><div class="kb-diagram-node">나머지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제: 가운데 조각(페이지)에 '읽기 전용' 락을 걸면, 섞여 들어간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 변수(데이터)마저 글을 못 쓰게 되어 프로그램이 터짐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 세그멘테이션(Segmentation)의 정밀한 칼질: (가변 크기 유지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main 세그먼트 (7KB 통째로)</div><div class="kb-diagram-node">전역변수 세그먼트</div><div class="kb-diagram-node">Stack 세그먼트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: Main 세그먼트 전체에 깔끔하게 '실행/읽기' 락 하나만 걸면 끝!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 치명적 단점: 잘라낸 조각 크기(7K, 2K)가 제각각이라 램에 넣을 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 끔찍한 외부 단편화가 발생함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 세그멘테이션은 컴파일러가 만들어낸 심볼(기호) 테이블을 그대로 하드웨어 메모리 매핑에 투영한다. 개발자가 `int arr[100]`을 선언하면 이게 그냥 하나의 세그먼트가 된다. 프로그램의 구조와 메모리의 물리적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 단위가 완벽하게 1:1로 일치하므로 디버깅, 공유, [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 등 보안 측면에서 예술적인 우아함을 자랑한다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 쌀 때, 그릇과 옷을 무조건 5kg짜리 박스([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))에 무게만 맞춰 섞어 담으면 트럭에 싣기는 편하지만 새집에서 물건 찾다 화가 납니다. 반면, 그릇은 그릇 통에, 옷은 옷통(세그멘테이션)에 종류별로 담으면 정리는 완벽하지만 트럭에 싣을 때 박스 크기가 다 달라 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생기는 것과 같습니다.
@@ -60,37 +58,29 @@ tags = ["studynote-operating-system"]
 
 ### 하드웨어 주소 번역 아키텍처 (STBR & STLR)
 
-세그멘테이션도 비연속 할당이므로, CPU 주소를 물리 주소로 번역해 줄 **[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/))** 장부가 필요하다. 
+세그멘테이션도 비연속 할당이므로, CPU 주소를 물리 주소로 번역해 줄 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong> 장부가 필요하다. 
 CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              세그멘테이션의 논리 -> 물리 주소 번역 회로              │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ CPU 요청 ] 논리 주소 < s(세그먼트 2), d(오프셋 500) >              │
-│      │                                                               │
-│      ▼ 1단계: 세그먼트 테이블(장부) 조회                             │
-│ ┌──────┬────────────────┬─────────────────┐                          │
-│ │ Seg  │ Limit (크기)   │ Base (물리 시작점)│                        │
-│ ├──────┼────────────────┼─────────────────┤                          │
-│ │  0   │     1000       │      1400       │                          │
-│ │  1   │      400       │      6300       │                          │
-│ │  2   │      600       │      4300       │ ◀─ 매핑 정보 획득!       │
-│ └──────┴────────────────┴─────────────────┘                          │
-│      │                                                               │
-│      ▼ 2단계: 크기 방어선 (Limit Check)                              │
-│ ┌───────────────────────────┐                                        │
-│ │ 요청한 오프셋(d=500)이 Limit(600) 보다 작은가?                     │
-│ └─────────┬─────────────────┘                                        │
-│           │ (Yes! 통과)   ※ 만약 700을 불렀다면 즉시 SegFault 트랩!  │
-│           ▼                                                          │
-│      ▼ 3단계: 물리 주소 덧셈 연산                                    │
-│ ┌───────────────────────────┐                                        │
-│ │ Base(4300) + d(500) = 물리 주소 4800 도출 완료!                    │
-│ └───────────────────────────┘                                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그멘테이션의 논리 -&gt; 물리 주소 번역 회로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 요청</div><div class="kb-diagram-note">논리 주소 &lt; s(세그먼트 2), d(오프셋 500) &gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1단계: 세그먼트 테이블(장부) 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg</div><div class="kb-diagram-cell">Limit (크기)</div><div class="kb-diagram-cell">Base (물리 시작점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">1400</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">400</div><div class="kb-diagram-cell">6300</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">600</div><div class="kb-diagram-cell">4300</div><div class="kb-diagram-cell">◀─ 매핑 정보 획득!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2단계: 크기 방어선 (Limit Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청한 오프셋(d=500)이 Limit(600) 보다 작은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Yes! 통과) ※ 만약 700을 불렀다면 즉시 SegFault 트랩!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3단계: 물리 주소 덧셈 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base(4300) + d(500) = 물리 주소 4800 도출 완료!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역과 비슷해 보이지만 결정적인 차이가 두 군데 있다. 
 1. **Limit 검사의 부활**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 프레임 크기(4KB)가 고정이므로 오프셋이 무조건 4KB 이하라는 게 수학적으로 보장되지만, 세그먼트는 조각 크기가 600바이트일 수도 1MB일 수도 있다. 따라서 장부에 적힌 고유의 **Limit(크기)** 값을 반드시 비교하는 하드웨어 회로가 동반된다. (이게 어긋날 때 나는 에러가 프로그래머의 주적 **Segmentation Fault** 다.)
@@ -103,8 +93,8 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 세그멘테이션의 눈부신 우아함은 결국 물리 메모리 할당(Allocation) 단계에서 처참히 박살 났다.
 - 메모리에 10MB(메인함수), 5MB([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 20MB([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))짜리 세그먼트들이 막 들어갔다 나갔다 한다.
 - 어? 크기가 제각각인 조각들이 이빨 빠진 듯 나갔다 들어왔다 한다?
-- 맞다. [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 시절([가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)) 시스템을 마비시켰던 **'[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))' 지옥이 비연속 할당인 세그멘테이션에서 다시 100% 똑같이 부활**해버렸다.
-- 남은 램 총합은 30MB인데 빈 구멍이 10MB씩 3군데 쪼개져 있으면 20MB짜리 세그먼트를 적재할 수 없어 에러가 난다. 이를 합치려면 시스템을 멈추고 **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))**을 또 해야 한다. 진화의 퇴보다.
+- 맞다. [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 시절([가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)) 시스템을 마비시켰던 <strong>'<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)' 지옥이 비연속 할당인 세그멘테이션에서 다시 100% 똑같이 부활</strong>해버렸다.
+- 남은 램 총합은 30MB인데 빈 구멍이 10MB씩 3군데 쪼개져 있으면 20MB짜리 세그먼트를 적재할 수 없어 에러가 난다. 이를 합치려면 시스템을 멈추고 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)</strong>을 또 해야 한다. 진화의 퇴보다.
 
 - **📢 섹션 요약 비유**: 박스 크기가 다 다른(가변) 화물들을 테트리스 하듯 창고에 빈틈없이 쌓으려 하니 결국 중간중간 쓸모없는 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생겨나서, 다시 지게차([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))를 부를 수밖에 없는 운명에 처한 것입니다.
 
@@ -120,20 +110,20 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 |:---|:---|:---|
 | **설계 철학** | 물리적, 기계적, 수학적 편의성 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적, 인간적, 의미론적 직관성 |
 | **조각 크기** | 무조건 고정 크기 (예: 4KB) | 무작위 가변 크기 (1KB ~ 수십 MB) |
-| **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생** | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (무시할 수준) | **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) (치명적 병목, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 필요)** |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 발생</strong> | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (무시할 수준) | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> (치명적 병목, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 필요)</strong> |
 | **공유 (Sharing)**| 의미 없는 조각들이라 섞이면 공유 까다로움 | 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완벽히 분리되어 **공유 압도적 유리** |
-| **보안 ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))**| 조각 안에 이물질이 섞여 락 걸기 까다로움 | 세그먼트 하나에 깔끔하게 R/W/X [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어 완벽 |
+| <strong>보안 (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a>)</strong>| 조각 안에 이물질이 섞여 락 걸기 까다로움 | 세그먼트 하나에 깔끔하게 R/W/X [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어 완벽 |
 | **주소 변환 회로**| Limit 검사 불필요, 오프셋 덧셈 불필요 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) | Limit 비교 연산 및 오프셋 덧셈 회로 필수 (무거움) |
 
 ### [Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 세그멘테이션) 의 융합
 
 70년대 인텔(Intel x86) 엔지니어들은 고민했다. "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0% 마법과, 세그멘테이션의 완벽한 보안/공유 마법을 둘 다 훔칠 순 없을까?" 
-이 탐욕이 낳은 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 아키텍처가 **세그먼트를 다시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 찢어버리는 '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 세그멘테이션'**이다.
+이 탐욕이 낳은 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 아키텍처가 <strong>세그먼트를 다시 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 찢어버리는 '<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 기반 세그멘테이션'</strong>이다.
 
-1. 개발자의 `Main 함수(7MB)`를 하나의 세그먼트로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 잘라 **[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)**에 등록하여 R/X 보안 락을 깐깐하게 건다. (세그멘테이션의 장점 흡수)
-2. 근데 이 7MB 덩어리를 램에 그대로 꽂으면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 터지니까, 이 세그먼트의 배를 갈라 다시 무식하게 **4KB 단위의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 수천 개 찢어버린다**.
-3. 그리고 램 안의 빈 프레임 아무 데나 흩뿌린 뒤, 이 찢어진 조각들을 관리하는 **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)**을 세그먼트별로 하나씩 달아준다. ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 장점 흡수)
-4. 결과: 주소 변환을 위해 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)을 1번 읽고 -> [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 또 1번 읽어야 하는 지옥의 오버헤드가 발생하지만, **공유/보안 완벽 + [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제로**라는 궁극의 메모리 관리가 탄생했다. MULTICS와 Intel 80386이 채택한 방식이다.
+1. 개발자의 `Main 함수(7MB)`를 하나의 세그먼트로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 잘라 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a></strong>에 등록하여 R/X 보안 락을 깐깐하게 건다. (세그멘테이션의 장점 흡수)
+2. 근데 이 7MB 덩어리를 램에 그대로 꽂으면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 터지니까, 이 세그먼트의 배를 갈라 다시 무식하게 <strong>4KB 단위의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 수천 개 찢어버린다</strong>.
+3. 그리고 램 안의 빈 프레임 아무 데나 흩뿌린 뒤, 이 찢어진 조각들을 관리하는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a></strong>을 세그먼트별로 하나씩 달아준다. ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 장점 흡수)
+4. 결과: 주소 변환을 위해 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)을 1번 읽고 -> [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 또 1번 읽어야 하는 지옥의 오버헤드가 발생하지만, <strong>공유/보안 완벽 + <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 제로</strong>라는 궁극의 메모리 관리가 탄생했다. MULTICS와 Intel 80386이 채택한 방식이다.
 
 - **📢 섹션 요약 비유**: 고급 셰프가 소고기를 부위별로 의미 있게 해체(세그멘테이션)하여 꼬리표를 붙인 다음, 포장할 때는 빈 공간 없이 꽉꽉 채우기 위해 그 부위를 다시 다짐육([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 갈아서 규격 박스에 담아버리는 극한의 효율화 전술입니다.
 
@@ -151,7 +141,7 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 3. **현재의 표준**: 결국 오늘날 여러분의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트폰, 클라우드 서버는 100% '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))' 단독 구조로만 램을 관리하며, 세그멘테이션은 x86 칩 구석의 과거 유산(Legacy)으로 숨만 쉬고 있다.
 
 ### 프로그래머의 단어: Segmentation Fault (SegFault)
-리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 세그멘테이션 기능을 껐음에도 불구하고, C언어에서 포인터를 잘못 찌르면 에러 메시지로 "[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)"가 아니라 여전히 **"Segmentation fault (core dumped)"**가 뜬다. 이는 초창기 유닉스 시절 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)(Limit)를 뚫고 불법 메모리에 접근했을 때 뱉던 에러의 이름이 수십 년간 관습적으로 고착화된 언어적 화석이다.
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 세그멘테이션 기능을 껐음에도 불구하고, C언어에서 포인터를 잘못 찌르면 에러 메시지로 "[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)"가 아니라 여전히 <strong>"Segmentation fault (core dumped)"</strong>가 뜬다. 이는 초창기 유닉스 시절 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)(Limit)를 뚫고 불법 메모리에 접근했을 때 뱉던 에러의 이름이 수십 년간 관습적으로 고착화된 언어적 화석이다.
 
 - **📢 섹션 요약 비유**: 톨게이트(세그멘테이션 하드웨어)가 길막을 해서 짜증 났던 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기사(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가, 톨게이트를 철거할 순 없으니 모든 차량에 '하이패스 프리패스 무정차 단말기(Flat Model)'를 강제로 달아줘서 톨게이트의 존재 자체를 무의미하게 만들어버린 유쾌한 반항입니다.
 
@@ -186,15 +176,19 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[역 페이지 테이블 (Inverted Page Table)]
-    │
-    ▼
-[세그멘테이션 (Segmentation)]
-    │
-    ├──▶ [세그먼트 테이블 (Segment Table)]
-    └──▶ [세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 (Segmentation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그먼트 테이블 (Segment Table)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

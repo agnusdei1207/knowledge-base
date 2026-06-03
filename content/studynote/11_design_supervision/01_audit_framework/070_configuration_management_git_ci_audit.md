@@ -29,13 +29,19 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Repo (Git/SVN)
-  ↓ commit
-CI Pipeline
-  ↓ build/test
-Audit Trace
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Repo (Git/SVN)</div>
+<div class="kb-diagram-note">↓ commit</div>
+<div class="kb-diagram-note">CI Pipeline</div>
+<div class="kb-diagram-note">↓ build/test</div>
+<div class="kb-diagram-note">Audit Trace</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ Audit Trace
 
 ## 관련 개념 맵
 
-```text
-Repository
-  ↓
-CI
-  ↓
-Traceability
-  ↓
-Audit
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Repository</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Traceability</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Version Control
-  ↓
-Git / SVN
-  ↓
-CI
-  ↓
-Audit Evidence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Version Control</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Git / SVN</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Audit Evidence</div>
+</div>
+</div>
+
+
 
 ---
 

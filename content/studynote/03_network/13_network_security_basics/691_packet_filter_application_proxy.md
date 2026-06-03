@@ -19,23 +19,27 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **작동 계층**: OSI 7계층 중 **네트워크 계층(L3, IP)**과 **전송 계층(L4, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))**에서 동작합니다.
+- **작동 계층**: OSI 7계층 중 <strong>네트워크 계층(L3, IP)</strong>과 <strong>전송 계층(L4, <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>)</strong>에서 동작합니다.
 - **검사 원리**: 지나가는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷의 헤더(Header)만 쓱 훑어보고 통과/차단을 결정합니다.
   - **검사 항목**: 출발지 IP, 목적지 IP, 출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/[ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)).
-  - **라우터 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))**: 우리가 흔히 시스코 라우터나 AWS 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)에서 설정하는 `allow tcp 192.168.0.1 80` 같은 규칙이 전형적인 패킷 필터링입니다.
+  - <strong>라우터 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">Access Control List</a>)</strong>: 우리가 흔히 시스코 라우터나 AWS 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)에서 설정하는 `allow tcp 192.168.0.1 80` 같은 규칙이 전형적인 패킷 필터링입니다.
 - **장점**: 헤더만 보고 빠르게 넘기므로 처리 속도가 미친 듯이 빠르고, 라우터 자체 기능만으로도 구현 가능하여 비용이 쌉니다.
 - **치명적 단점**: 
-  - **멍청함 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))**: 이전 통신의 맥락(문맥)을 전혀 기억하지 못합니다. 내가 네이버에 접속 요청을 한 적도 없는데, 뜬금없이 네이버 IP를 달고 응답(ACK) 패킷이 들어와도 "어? 네이버 IP 허용이네?" 하고 그냥 통과시켜 버립니다. (IP 스푸핑에 속수무책)
+  - <strong>멍청함 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: 이전 통신의 맥락(문맥)을 전혀 기억하지 못합니다. 내가 네이버에 접속 요청을 한 적도 없는데, 뜬금없이 네이버 IP를 달고 응답(ACK) 패킷이 들어와도 "어? 네이버 IP 허용이네?" 하고 그냥 통과시켜 버립니다. (IP 스푸핑에 속수무책)
   - **내용물(Payload) 맹인**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 80번(정상 웹사이트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이기만 하면, 그 안에 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 코드가 들어있어도 전혀 보지 못하고 통과시킵니다.
 
-```text
-[방화벽 필터링 1,2,3 세대 진화]
-    │
-    ▼
-[패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    └──▶ [상태 기반 감시 기술의 원리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 패킷 필터, 애플리케이션 상태 필터 및 프록…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,26 +49,30 @@ tags = ["studynote-network"]
 
 패킷 필터링의 무능함을 극복하기 위해 등장한 '대리인([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))' 방식의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)입니다.
 
-- **작동 계층**: OSI 7계층 중 최상단인 **응용 계층(L7, Application)**에서 동작합니다.
+- **작동 계층**: OSI 7계층 중 최상단인 <strong>응용 계층(L7, Application)</strong>에서 동작합니다.
 - **검사 원리 (Deep Packet Inspection)**:
   - 외부의 클라이언트가 사내 서버와 직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 맺는 것을 원천 차단합니다. 
-  - 대신, **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버)이 중간에서 클라이언트와 먼저 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 맺어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 넘겨받습니다.**
+  - 대신, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 서버)이 중간에서 클라이언트와 먼저 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 연결을 맺어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다 넘겨받습니다.</strong>
   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 택배 상자(패킷)를 칼로 다 찢어발기고, 안에 있는 응용 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URL, [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 서명, 금지된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 엑스레이 찍듯 완벽히 뜯어봅니다.
   - 내용물에 문제가 없으면, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 새 택배 상자에 내용물을 다시 예쁘게 포장하여 사내 서버로 새롭게 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 맺고 전달해 줍니다.
 - **장점**: 보안성이 현존 최고 수준입니다. 외부와 내부가 물리적으로 완전히 단절([직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 불가)되므로 해커가 내부 서버의 IP나 구조를 유추할 수 없습니다. 
-- **단점**: 택배 상자를 일일이 다 뜯어보고 다시 포장해야 하므로 **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) CPU 부하가 엄청나고, 네트워크 속도가 매우 느려지는 병목 현상([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**이 발생합니다.
+- **단점**: 택배 상자를 일일이 다 뜯어보고 다시 포장해야 하므로 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> CPU 부하가 엄청나고, 네트워크 속도가 매우 느려지는 병목 현상(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>이 발생합니다.
 
 > - **패킷 필터 (1세대)**: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바생입니다. 겉봉투에 '발신자: 친구', '수신자: 나'라고 적혀 있으면 그냥 내 책상에 올려놓습니다. 안에 폭탄 가루(악성코드)가 있어도 모릅니다.
-> - **애플리케이션 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (3세대)**: 깐깐한 수석 경호원입니다. 친구가 보낸 편지라도 절대 나에게 바로 주지 않습니다. 경호원이 먼저 편지를 뜯어 화학 성분(Payload)을 다 검사하고 폭탄이 아님을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야, 새 봉투에 다시 넣어서 내 책상 위에 안전하게 놓아주는 철통 방어 시스템입니다. 속도는 느리지만 가장 확실합니다.
+> - <strong>애플리케이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (3세대)</strong>: 깐깐한 수석 경호원입니다. 친구가 보낸 편지라도 절대 나에게 바로 주지 않습니다. 경호원이 먼저 편지를 뜯어 화학 성분(Payload)을 다 검사하고 폭탄이 아님을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야, 새 봉투에 다시 넣어서 내 책상 위에 안전하게 놓아주는 철통 방어 시스템입니다. 속도는 느리지만 가장 확실합니다.
 
-```text
-[방화벽 필터링 1,2,3 세대 진화]
-    │
-    ▼
-[패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    └──▶ [상태 기반 감시 기술의 원리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 패킷 필터, 애플리케이션 상태 필터 및 프록…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 방화벽 필터링 1,2,3 세대 진화]
-    │
-    ▼
-[현재 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    ├──▶ [확장 A: 상태 기반 감시 기술의 원리]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 패킷 필터, 애플리케이션 상태 필터 및 프록…는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터링 1,2,3 세대 진화에서 출발해 현재 메커니즘을 정교화하고, 이후 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

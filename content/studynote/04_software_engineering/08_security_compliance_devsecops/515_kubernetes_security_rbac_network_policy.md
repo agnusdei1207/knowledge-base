@@ -21,36 +21,35 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)는 배의 조타실이다. 배 안에는 수천 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 실려있다. K8s 보안은 1) 이 조타실([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server)에 누가 접근할 수 있는가([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)), 2) 배 안의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 서로 말을 걸 수 있는가(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 3) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 위험한 화약(Root 권한)을 품고 배에 탈 수 있는가([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 통제하는 3대 핵심 룰(Rule)이다.
 
-- **필요성**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 보안(513번)은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개의 위생 상태만 챙긴다. 하지만 진짜 해킹은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A를 뚫은 해커가 K8s의 심장인 `API Server`로 말을 걸어서 "나 관리잔데, 저기 코인 채굴기 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 100개 더 띄워!"라고 인프라 자체를 장악(Cluster Takeover)할 때 일어난다. K8s는 기본적으로 "다 열려있는(Flat Network) 공산주의 마을"로 태어났기 때문에, **개발자가 이 공산주의 마을에 억지로 보이지 않는 겹겹의 철조망(격벽)을 치지 않으면 마을 전체가 1초 만에 해커의 노예로 전락**하므로 K8s 전용 보안 세팅이 필수적이다.
+- **필요성**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 보안(513번)은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개의 위생 상태만 챙긴다. 하지만 진짜 해킹은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A를 뚫은 해커가 K8s의 심장인 `API Server`로 말을 걸어서 "나 관리잔데, 저기 코인 채굴기 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 100개 더 띄워!"라고 인프라 자체를 장악(Cluster Takeover)할 때 일어난다. K8s는 기본적으로 "다 열려있는(Flat Network) 공산주의 마을"로 태어났기 때문에, <strong>개발자가 이 공산주의 마을에 억지로 보이지 않는 겹겹의 철조망(격벽)을 치지 않으면 마을 전체가 1초 만에 해커의 노예로 전락</strong>하므로 K8s 전용 보안 세팅이 필수적이다.
 
-- **💡 비유**: K8s 보안은 **'대형 크루즈선(클러스터)의 생존 매뉴얼'**과 같습니다.
-  - **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)**: 승무원의 **'사원증'**입니다. 주방 알바생(일반 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))이 엔진실(K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버) 문을 열려고 하면 쫓겨납니다.
-  - **Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 배 안의 **'밀실 복도'**입니다. 3층 객실 손님(Web)은 1층 식당(DB)으로만 갈 수 있고, 2층 기관실(Admin)로 통하는 복도에는 아예 콘크리트 벽이 쳐져 있어 갈 수조차 없습니다.
-  - **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Admission (PSA)**: 배에 타기 전 **'엑스레이 검색대'**입니다. 뾰족한 무기(Root 권한, Host [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))를 들고 배에 타려는 승객([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))은 입구에서 컷(Fail) 당해 승선이 거부됩니다.
+- **💡 비유**: K8s 보안은 <strong>'대형 크루즈선(클러스터)의 생존 매뉴얼'</strong>과 같습니다.
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong>: 승무원의 <strong>'사원증'</strong>입니다. 주방 알바생(일반 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))이 엔진실(K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버) 문을 열려고 하면 쫓겨납니다.
+  - <strong>Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: 배 안의 <strong>'밀실 복도'</strong>입니다. 3층 객실 손님(Web)은 1층 식당(DB)으로만 갈 수 있고, 2층 기관실(Admin)로 통하는 복도에는 아예 콘크리트 벽이 쳐져 있어 갈 수조차 없습니다.
+  - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Admission (PSA)</strong>: 배에 타기 전 <strong>'엑스레이 검색대'</strong>입니다. 뾰족한 무기(Root 권한, Host [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))를 들고 배에 타려는 승객([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))은 입구에서 컷(Fail) 당해 승선이 거부됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) K8s의 무방비 시대**: K8s 1.0 시절엔 RBAC도, 네트워크 격리도 없었다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1개가 털리면 클러스터 1만 개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 다 털리는 구조였다 (테슬라 K8s 코인 채굴 해킹 사태).
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> K8s의 무방비 시대</strong>: K8s 1.0 시절엔 RBAC도, 네트워크 격리도 없었다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1개가 털리면 클러스터 1만 개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 다 털리는 구조였다 (테슬라 K8s 코인 채굴 해킹 사태).
   2. **RBAC와 Network Policy의 기본 탑재**: 구글과 커뮤니티가 경악하며 `Role`과 `NetworkPolicy`를 K8s 기본 기능(Built-in)으로 때려 박았다. 
-  3. **PSP의 죽음과 PSA의 등장 (현재)**: 원래 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 검사하던 툴은 [PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security Policy](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))였는데, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 너무 복잡해서 개발자들이 쌍욕을 하며 아무도 안 썼다. K8s 진영은 과감히 PSP를 폐기(Deprecated)하고, 훨씬 단순하고 직관적인 **PSA([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Admission)**로 세대교체를 단행하여 현대 클라우드 보안의 표준을 세웠다.
+  3. **PSP의 죽음과 PSA의 등장 (현재)**: 원래 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 검사하던 툴은 [PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Security Policy](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))였는데, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 너무 복잡해서 개발자들이 쌍욕을 하며 아무도 안 썼다. K8s 진영은 과감히 PSP를 폐기(Deprecated)하고, 훨씬 단순하고 직관적인 <strong>PSA(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Admission)</strong>로 세대교체를 단행하여 현대 클라우드 보안의 표준을 세웠다.
 
-- **📢 섹션 요약 비유**: K8s가 주는 편리함(오토스케일링, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 **'엑셀(가속기)'**입니다. 엑셀만 있고 **'브레이크(K8s 3대 보안)'**가 없는 자동차는 반드시 절벽에서 떨어집니다. 이 3가지 보안 요소는 클러스터라는 거대한 스포츠카가 폭주하지 않게 제어하는 100억짜리 카본 세라믹 브레이크입니다.
+- **📢 섹션 요약 비유**: K8s가 주는 편리함(오토스케일링, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 <strong>'엑셀(가속기)'</strong>입니다. 엑셀만 있고 <strong>'브레이크(K8s 3대 보안)'</strong>가 없는 자동차는 반드시 절벽에서 떨어집니다. 이 3가지 보안 요소는 클러스터라는 거대한 스포츠카가 폭주하지 않게 제어하는 100억짜리 카본 세라믹 브레이크입니다.
 
 ---
 
 다음은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 보의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  쿠버네티스 (Kubernetes) 보                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠버네티스 (Kubernetes) 보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 보가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 보안의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 보안의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 보안의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-쿠버네티스 (Kubernetes) 보안 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쿠버네티스 (Kubernetes) 보안 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

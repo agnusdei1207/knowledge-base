@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 FCoE ([Fibre Channel](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) over [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))는 스토리지 전용 프로토콜인 FC를 버리지 않고, **전송 매체만 Ethernet으로 바꾸어** LAN과 SAN의 배선을 통합하려는 시도다. 전통적인 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 한 서버에 Network Interface Card ([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))와 Host [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (HBA)를 따로 장착하고, [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 이중으로 배치해야 했다. 서버 수가 수십~수백 대로 늘어나면 케이블, 광모듈, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 관리 포인트가 함께 증가해 비용과 운영 복잡도가 급격히 커진다.
 
-특히 블레이드 서버, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 클러스터, 랙 단위 집적 환경에서는 "어차피 같은 서버에서 일반 네트워크와 스토리지 트래픽이 함께 나오는데 왜 배선을 두 벌 유지해야 하는가"라는 요구가 강했다. FCoE는 이 질문에 대한 답으로 등장했다. 핵심은 **FC의 명령 체계와 운영 관행은 살리고, 물리 인프라만 Ethernet으로 수렴**하는 것이다.
+특히 블레이드 서버, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 클러스터, 랙 단위 집적 환경에서는 "어차피 같은 서버에서 일반 네트워크와 스토리지 트래픽이 함께 나오는데 왜 배선을 두 벌 유지해야 하는가"라는 요구가 강했다. FCoE는 이 질문에 대한 답으로 등장했다. 핵심은 <strong>FC의 명령 체계와 운영 관행은 살리고, 물리 인프라만 Ethernet으로 수렴</strong>하는 것이다.
 
 - **📢 섹션 요약 비유**: FCoE는 출근길과 택배길을 완전히 따로 만들던 도시가, 차선만 잘 나누면 한 고속도로에서 둘 다 처리할 수 있다고 판단한 것과 같다. 도로를 줄여 공간은 아끼지만, 택배 차량이 절대 사고 나지 않도록 더 엄격한 교통 규칙이 필요해진다.
 
@@ -29,7 +29,7 @@ FCoE ([Fibre Channel](/knowledge-base/studynote/01_computer_architecture/15_adva
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 번역"하는 것이 아니라, **[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 프레임을 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임에 그대로 실어 보내는 것**이다. 그래서 상위의 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 조닝 (Zoning), 로그인 절차는 유지되지만, 하위 전송망은 무손실 Ethernet이어야 한다. 이때 CNA는 NIC와 HBA 역할을 합친 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 동작하고, FCoE Initialization [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (FIP)은 장치 발견과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연결 절차를 맡는다.
+FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 번역"하는 것이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/">FC</a> 프레임을 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> 프레임에 그대로 실어 보내는 것</strong>이다. 그래서 상위의 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 조닝 (Zoning), 로그인 절차는 유지되지만, 하위 전송망은 무손실 Ethernet이어야 한다. 이때 CNA는 NIC와 HBA 역할을 합친 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 동작하고, FCoE Initialization [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (FIP)은 장치 발견과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연결 절차를 맡는다.
 
 또한 FCoE망은 Ethernet이 원래 가진 "혼잡하면 버린다"는 성격을 그대로 둘 수 없다. 그래서 DCB의 Priority-based [Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) (PFC)은 특정 우선순위의 프레임을 일시 정지시켜 손실을 줄이고, Enhanced Transmission [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) (ETS)은 스토리지 트래픽에 필요한 최소 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 보장한다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 측의 [Fibre Channel](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) Forwarder (FCF)는 FCoE 트래픽을 받아 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패브릭과 연결해 주는 관문 역할을 한다.
 
@@ -43,28 +43,24 @@ FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport
 
 아래 그림은 FCoE가 FC의 의미 체계는 유지하고, 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 경로만 Ethernet으로 바꾸는 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                FCoE data path: keep FC semantics, change the wire    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server                                                               │
-│   ├─ LAN packets ───────────────┐                                    │
-│   └─ FC storage frames ──────┐  │                                    │
-│                              ▼  ▼                                    │
-│                    CNA (Converged Network Adapter)                   │
-│                              │                                       │
-│                              ▼                                       │
-│          Lossless Ethernet fabric with DCB / PFC / ETS              │
-│                              │                                       │
-│                              ▼                                       │
-│          FCF (Fibre Channel Forwarder) or FCoE-capable switch       │
-│                    ├──────────────────────────────┐                  │
-│                    ▼                              ▼                  │
-│             FC SAN services                 Regular Ethernet LAN      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 FCoE는 "스토리지 명령을 Ethernet에 태웠다"기보다, **FC가 요구하는 질서를 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 쪽으로 끌어와 수렴시켰다**고 보는 편이 더 정확하다. 이 때문에 구축이 잘되면 배선은 단순해지지만, 네트워크는 오히려 더 정교하게 관리해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCoE data path: keep FC semantics, change the wire</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ LAN packets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ FC storage frames</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNA (Converged Network Adapter)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lossless Ethernet fabric with DCB / PFC / ETS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCF (Fibre Channel Forwarder) or FCoE-capable switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC SAN services Regular Ethernet LAN</div></div>
+</div>
+</div>
+
+
+
+즉 FCoE는 "스토리지 명령을 Ethernet에 태웠다"기보다, <strong>FC가 요구하는 질서를 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> 쪽으로 끌어와 수렴시켰다</strong>고 보는 편이 더 정확하다. 이 때문에 구축이 잘되면 배선은 단순해지지만, 네트워크는 오히려 더 정교하게 관리해야 한다.
 
 - **📢 섹션 요약 비유**: FCoE는 귀중품 전용 수송차를 일반 도로로 보내는 대신, 그 도로 일부를 아예 경찰 통제 차선으로 바꾸는 방식이다. 차는 줄었지만 도로 규칙은 훨씬 더 까다로워진다.
 
@@ -72,7 +68,7 @@ FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport
 
 ## Ⅲ. 비교 및 연결
 
-FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) (Internet Small Computer System Interface)를 함께 봐야 한다. 네이티브 FC는 처음부터 스토리지만을 위해 설계된 별도 패브릭이고, iSCSI는 SCSI (Small Computer System Interface) 명령을 [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) / Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (IP) 위에 올려 범용 Ethernet에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)까지 가능하게 만든 방식이다. FCoE는 그 사이에서 **[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 운영 모델은 유지하되, 물리 인프라는 Ethernet으로 접는 절충안**에 가깝다.
+FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) (Internet Small Computer System Interface)를 함께 봐야 한다. 네이티브 FC는 처음부터 스토리지만을 위해 설계된 별도 패브릭이고, iSCSI는 SCSI (Small Computer System Interface) 명령을 [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) / Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (IP) 위에 올려 범용 Ethernet에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)까지 가능하게 만든 방식이다. FCoE는 그 사이에서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/">FC</a> 운영 모델은 유지하되, 물리 인프라는 Ethernet으로 접는 절충안</strong>에 가깝다.
 
 | 항목 | 네이티브 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) | FCoE | [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) |
 | :--- | :--- | :--- | :--- |
@@ -83,7 +79,7 @@ FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/stu
 | 강점 | 안정적이고 예측 가능 | 배선 수렴과 기존 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 투자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 저비용, 장거리, 운영 친숙성 |
 | 약점 | 이중 인프라 비용 | DCB 복잡성, 적용 범위 제한 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오버헤드, 더 높은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-이 비교에서 중요한 점은 FCoE가 완전한 범용화가 아니라 **전용 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 문화를 Ethernet으로 옮겨 온 기술**이라는 사실이다. 그래서 오늘날 25/100 Gigabit Ethernet이 보편화된 환경에서는, 더 단순하게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능한 iSCSI나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 쪽이 다시 주목받는다. FCoE는 전환기의 실용적 해법이었지만, 장기적으로는 DCB를 끝까지 유지할 이유가 충분한지 따져 봐야 한다.
+이 비교에서 중요한 점은 FCoE가 완전한 범용화가 아니라 <strong>전용 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a> 문화를 Ethernet으로 옮겨 온 기술</strong>이라는 사실이다. 그래서 오늘날 25/100 Gigabit Ethernet이 보편화된 환경에서는, 더 단순하게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능한 iSCSI나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 쪽이 다시 주목받는다. FCoE는 전환기의 실용적 해법이었지만, 장기적으로는 DCB를 끝까지 유지할 이유가 충분한지 따져 봐야 한다.
 
 - **📢 섹션 요약 비유**: 네이티브 FC가 전용 특급 열차라면, iSCSI는 일반 도로 택배망이고, FCoE는 지하철을 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용차로에 올려 태운 형태에 가깝다. 기존 규칙을 살리는 대신 길 자체를 특수하게 관리해야 한다.
 
@@ -91,7 +87,7 @@ FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/stu
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FCoE는 "모든 스토리지 트래픽을 Ethernet으로 바꾸자"보다, **기존 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 스토리지를 유지한 채 서버 쪽 배선을 줄이고 싶을 때** 가장 설득력이 있다. 예를 들어 블레이드 섀시나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트처럼 NIC와 HBA 수가 많은 환경에서는 CNA와 상단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수렴만으로도 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·케이블·[PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 슬롯 사용량이 크게 줄어든다. 반면 이미 IP 기반 운영 역량이 충분하고, 스토리지 트래픽을 여러 사이트에 걸쳐 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)해야 한다면 FCoE보다 iSCSI나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/TCP가 더 단순하다.
+실무에서 FCoE는 "모든 스토리지 트래픽을 Ethernet으로 바꾸자"보다, <strong>기존 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/">FC</a> 스토리지를 유지한 채 서버 쪽 배선을 줄이고 싶을 때</strong> 가장 설득력이 있다. 예를 들어 블레이드 섀시나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트처럼 NIC와 HBA 수가 많은 환경에서는 CNA와 상단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수렴만으로도 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·케이블·[PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 슬롯 사용량이 크게 줄어든다. 반면 이미 IP 기반 운영 역량이 충분하고, 스토리지 트래픽을 여러 사이트에 걸쳐 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)해야 한다면 FCoE보다 iSCSI나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/TCP가 더 단순하다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,7 +102,7 @@ FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/stu
 - 스토리지보다 운영 단순성이 더 중요한 소규모 환경
 - 네트워크 팀과 스토리지 팀의 역할 경계가 불분명해 DCB 운영 책임이 모호한 경우
 
-기술사 관점의 판단은 분명하다. **FCoE는 비용 절감 기술이면서 동시에 운영 난도 상승 기술**이다. 케이블은 줄지만 설계 실패 비용은 오히려 커질 수 있으므로, 조직 역량과 장애 대응 체계까지 함께 고려해야 한다.
+기술사 관점의 판단은 분명하다. <strong>FCoE는 비용 절감 기술이면서 동시에 운영 난도 상승 기술</strong>이다. 케이블은 줄지만 설계 실패 비용은 오히려 커질 수 있으므로, 조직 역량과 장애 대응 체계까지 함께 고려해야 한다.
 
 - **📢 섹션 요약 비유**: 가방 두 개를 하나로 합치면 손은 편해지지만, 안에서 귀중품과 일상용품이 섞이지 않게 칸막이를 더 정교하게 넣어야 한다. 정리가 서툴면 오히려 한 번에 더 크게 엉킨다.
 
@@ -114,9 +110,9 @@ FCoE의 위치를 이해하려면 네이티브 FC와 [iSCSI](/knowledge-base/stu
 
 ## Ⅴ. 기대효과 및 결론
 
-FCoE의 가장 큰 효과는 **인프라 수렴**이다. 서버당 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 수와 케이블 수를 줄이고, 랙 설계를 단순화하며, 기존 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 스토리지 자산을 완전히 폐기하지 않고도 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 넘어갈 수 있게 해 준다. 특히 전환기에는 이러한 "투자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) + 배선 단순화" 조합이 매우 매력적이었다.
+FCoE의 가장 큰 효과는 <strong>인프라 수렴</strong>이다. 서버당 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 수와 케이블 수를 줄이고, 랙 설계를 단순화하며, 기존 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 스토리지 자산을 완전히 폐기하지 않고도 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 넘어갈 수 있게 해 준다. 특히 전환기에는 이러한 "투자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) + 배선 단순화" 조합이 매우 매력적이었다.
 
-하지만 장기적으로는 한계도 분명하다. DCB 운영 복잡성, Layer 2 중심의 적용 범위, 벤더 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 이슈 때문에 FCoE는 모든 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 표준으로 자리 잡지 못했다. 결국 FCoE는 **전용 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 시대와 IP 기반 스토리지 시대를 연결한 과도기적 수렴 기술**로 기억하는 것이 가장 정확하다.
+하지만 장기적으로는 한계도 분명하다. DCB 운영 복잡성, Layer 2 중심의 적용 범위, 벤더 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 이슈 때문에 FCoE는 모든 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 표준으로 자리 잡지 못했다. 결국 FCoE는 <strong>전용 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/">FC</a> 시대와 IP 기반 스토리지 시대를 연결한 과도기적 수렴 기술</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: FCoE는 이삿짐을 한 번에 줄여 주는 압축가방과 같다. 여행 초반에는 매우 유용하지만, 목적지가 달라지고 이동 방식이 다양해지면 결국 각 상황에 더 맞는 가방이 다시 필요해진다.
 
@@ -134,25 +130,26 @@ FCoE의 가장 큰 효과는 **인프라 수렴**이다. 서버당 [어댑터](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-네이티브 Fibre Channel (FC) SAN
-    │
-    ▼
-서버별 NIC + HBA 이중 구성
-    │
-    ▼
-FCoE (Fibre Channel over Ethernet)
-    : CNA + DCB 기반 데이터센터 수렴
-    │
-    ├──▶ 기존 FC 운영 모델 유지
-    │
-    ▼
-iSCSI (Internet Small Computer System Interface)
-    │
-    ▼
-NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
-    : 라우팅 가능한 IP 스토리지로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">네이티브 Fibre Channel (FC) SAN</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버별 NIC + HBA 이중 구성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FCoE (Fibre Channel over Ethernet)</div>
+<div class="kb-diagram-note">: CNA + DCB 기반 데이터센터 수렴</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 기존 FC 운영 모델 유지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">iSCSI (Internet Small Computer System Interface)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)</div>
+<div class="kb-diagram-note">: 라우팅 가능한 IP 스토리지로 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

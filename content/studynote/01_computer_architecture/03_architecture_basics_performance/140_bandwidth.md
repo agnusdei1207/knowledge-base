@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 대역폭 (Bandwidth)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 **단위 시간 동안 감당할 수 있는 최대 전송량**이며, 연산 장치가 아니라 통로의 크기를 평가하는 지표다.
+> 1. **본질**: 대역폭 (Bandwidth)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 <strong>단위 시간 동안 감당할 수 있는 최대 전송량</strong>이며, 연산 장치가 아니라 통로의 크기를 평가하는 지표다.
 > 2. **가치**: CPU (Central Processing Unit), [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), 저장장치, 가속기 사이에서 대역폭이 부족하면 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 남아도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급이 막혀 전체 시스템이 느려진다.
-> 3. **판단 포인트**: 대역폭은 단순 주파수 경쟁이 아니라 **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭·전송 방식·채널 수·거리·전력·비용**을 함께 조정하는 구조 설계 문제로 봐야 한다.
+> 3. **판단 포인트**: 대역폭은 단순 주파수 경쟁이 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 폭·전송 방식·채널 수·거리·전력·비용</strong>을 함께 조정하는 구조 설계 문제로 봐야 한다.
 
 ---
 
@@ -25,13 +25,13 @@ tags = ["studynote-computer-architecture"]
 
 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론, 대규모 행렬 연산, 영상 처리처럼 동일한 연산을 반복적으로 수행하는 워크로드에서는 계산 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지속적으로 먹여 주는 능력이 더 중요해진다. 그래서 아키텍처 설계에서는 코어를 더 넣기 전에, 메모리 채널 수를 늘릴지, 캐시 계층을 강화할지, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 같은 고대역폭 구조를 도입할지를 먼저 판단해야 한다.
 
-- **📢 섹션 요약 비유**: 대역폭은 공장 기계의 마력보다 **원자재가 들어오는 컨베이어벨트의 폭**에 가깝다. 기계가 아무리 빨라도 벨트가 좁으면 작업자는 재료를 기다리느라 손을 멈춘다.
+- **📢 섹션 요약 비유**: 대역폭은 공장 기계의 마력보다 <strong>원자재가 들어오는 컨베이어벨트의 폭</strong>에 가깝다. 기계가 아무리 빨라도 벨트가 좁으면 작업자는 재료를 기다리느라 손을 멈춘다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대역폭은 대체로 **한 번에 옮길 수 있는 양**과 **초당 몇 번 옮길 수 있는가**의 곱으로 이해하면 된다. 메모리 기준으로는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Width), 전송률 (Transfer Rate), 채널 수 (Channel Count)가 핵심 요소이며, 실제 유효 대역폭은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드, 충돌, 대기열 때문에 이론값보다 낮아진다.
+대역폭은 대체로 <strong>한 번에 옮길 수 있는 양</strong>과 <strong>초당 몇 번 옮길 수 있는가</strong>의 곱으로 이해하면 된다. 메모리 기준으로는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Width), 전송률 (Transfer Rate), 채널 수 (Channel Count)가 핵심 요소이며, 실제 유효 대역폭은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드, 충돌, 대기열 때문에 이론값보다 낮아진다.
 
 | 구성 요소 | 의미 | 대역폭에 미치는 영향 | 대표 트레이드오프 |
 | :--- | :--- | :--- | :--- |
@@ -43,27 +43,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 메모리 대역폭이 어떻게 만들어지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    메모리 대역폭이 형성되는 구조                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU / GPU 요청                                                      │
-│    │                                                                 │
-│    ▼                                                                 │
-│ 메모리 컨트롤러                                                      │
-│    │                                                                 │
-│    ├─ 채널 0 ─▶ [64-bit] ─▶ DDR (Double Data Rate) DRAM             │
-│    ├─ 채널 1 ─▶ [64-bit] ─▶ DDR DRAM                                │
-│    └─ 채널 2 ─▶ [64-bit] ─▶ DDR DRAM                                │
-│                                                                      │
-│ 이론 대역폭 ≈ (버스 폭 ÷ 8) × 초당 전송 횟수 × 채널 수              │
-│ 실제 대역폭 < 이론 대역폭  ── 이유: 충돌, 타이밍 공백, 프로토콜 오버헤드 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-예를 들어 64-bit [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한 채널이 초당 6.4 GT/s (Giga Transfers per second)로 동작하면, 이론 대역폭은 약 51.2 GB/s 수준이 된다. 여기에 듀얼 채널을 쓰면 이론상 약 2배까지 확장할 수 있지만, 실제로는 메모리 접근 패턴이 불규칙하거나 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전환이 잦으면 효율이 떨어진다. 그래서 고대역폭 설계는 단순히 수치를 키우는 작업이 아니라, **연속 접근을 많이 만들고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 경로를 놀리지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**과 함께 가야 한다.
 
-현대 시스템이 HBM을 주목하는 이유도 여기에 있다. HBM은 메모리를 프로세서 가까이에 3D 적층해 넓은 인터페이스를 짧은 거리로 연결함으로써, 주파수를 무리하게 올리지 않고도 매우 큰 대역폭을 확보한다. 즉 대역폭 문제는 클럭만의 문제가 아니라 **패키징과 배선 구조의 문제**이기도 하다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 대역폭이 형성되는 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / GPU 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 컨트롤러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR (Double Data Rate) DRAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR DRAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이론 대역폭 ≈ (버스 폭 ÷ 8) × 초당 전송 횟수 × 채널 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 대역폭 &lt; 이론 대역폭 ── 이유: 충돌, 타이밍 공백, 프로토콜 오버헤드</div></div>
+</div>
+</div>
+
+
+
+예를 들어 64-bit [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한 채널이 초당 6.4 GT/s (Giga Transfers per second)로 동작하면, 이론 대역폭은 약 51.2 GB/s 수준이 된다. 여기에 듀얼 채널을 쓰면 이론상 약 2배까지 확장할 수 있지만, 실제로는 메모리 접근 패턴이 불규칙하거나 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전환이 잦으면 효율이 떨어진다. 그래서 고대역폭 설계는 단순히 수치를 키우는 작업이 아니라, <strong>연속 접근을 많이 만들고 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 경로를 놀리지 않는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>과 함께 가야 한다.
+
+현대 시스템이 HBM을 주목하는 이유도 여기에 있다. HBM은 메모리를 프로세서 가까이에 3D 적층해 넓은 인터페이스를 짧은 거리로 연결함으로써, 주파수를 무리하게 올리지 않고도 매우 큰 대역폭을 확보한다. 즉 대역폭 문제는 클럭만의 문제가 아니라 <strong>패키징과 배선 구조의 문제</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: 대역폭은 톨게이트에서 차를 보내는 방식과 같다. 차선을 넓히고, 차가 멈추지 않게 흐르게 하고, 요금소를 여러 개 두면 같은 시간에 더 많은 차량이 지나간다.
 
@@ -82,9 +81,9 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 L1 캐시 ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))는 절대 용량과 총대역폭이 메인 메모리보다 작아 보여도, 매우 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)으로 CPU에 즉각적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공한다. 반대로 HBM은 엄청난 대역폭으로 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣는 데 강하지만, 모든 상황에서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)까지 가장 짧다고 말할 수는 없다. 따라서 작은 요청이 많은 시스템은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을, 대규모 행렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐르는 시스템은 대역폭을 더 중시해야 한다.
 
-또한 대역폭은 컴퓨터 구조에만 머물지 않는다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 세대 변화는 가속기·스토리지 연결 대역폭을 키우는 역사이고, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))는 메모리 위치에 따라 사용 가능한 대역폭과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 달라지는 구조다. 결국 대역폭은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 이론을 넘어 **시스템 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 설계**와 연결된다.
+또한 대역폭은 컴퓨터 구조에만 머물지 않는다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 세대 변화는 가속기·스토리지 연결 대역폭을 키우는 역사이고, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))는 메모리 위치에 따라 사용 가능한 대역폭과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 달라지는 구조다. 결국 대역폭은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 이론을 넘어 <strong>시스템 전체의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 설계</strong>와 연결된다.
 
-- **📢 섹션 요약 비유**: 대역폭과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 차이는 **큰 수도관**과 **물 한 방울이 도착하는 시간**의 차이다. 수도관이 굵어도 첫 물방울이 늦으면 답답하고, 첫 물방울이 빨라도 수도관이 가늘면 큰 욕조는 오래 걸린다.
+- **📢 섹션 요약 비유**: 대역폭과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 차이는 <strong>큰 수도관</strong>과 <strong>물 한 방울이 도착하는 시간</strong>의 차이다. 수도관이 굵어도 첫 물방울이 늦으면 답답하고, 첫 물방울이 빨라도 수도관이 가늘면 큰 욕조는 오래 걸린다.
 
 ---
 
@@ -94,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 병목이 **연산 부족**인지, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 부족**인지 먼저 분리했는가?
+1. 병목이 <strong>연산 부족</strong>인지, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 공급 부족</strong>인지 먼저 분리했는가?
 2. 이론 대역폭이 아니라 실제 측정 대역폭과 이용률을 확인했는가?
 3. 메모리 채널, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인, 저장장치 링크 중 어느 구간이 가장 먼저 막히는가?
 4. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 연속적이어서 프리패치와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송 이점을 살리고 있는가?
@@ -103,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 ### 대표 판단 사례
 
 - **듀얼 채널 메모리 구성**: 동일 용량이라도 단일 DIMM (Dual In-line Memory [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))보다 듀얼 채널 구성이 대역폭 확장에 유리하다. 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스캔이나 내장 그래픽 사용 환경에서는 체감 차이가 크다.
-- **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 설계**: GPU의 [FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second)만 보고 선택하면 안 된다. 모델 크기와 배치 크기가 큰 경우에는 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 용량과 대역폭, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 링크 대역폭이 실제 학습 속도를 더 강하게 지배한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 서버 설계</strong>: GPU의 [FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second)만 보고 선택하면 안 된다. 모델 크기와 배치 크기가 큰 경우에는 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 용량과 대역폭, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 링크 대역폭이 실제 학습 속도를 더 강하게 지배한다.
 - **스토리지 계층 선택**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인에서 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSD보다 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 유리한 이유는 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)뿐 아니라 훨씬 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 대역폭 덕분이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -112,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 - 고속 가속기를 붙여 놓고 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세대나 레인 수를 제한해 공급 경로를 막는 구성
 - 랜덤 접근 위주의 워크로드에 단순 대역폭 숫자만 올려서 해결하려는 접근
 
-즉 기술사 관점에서 대역폭은 "큰 수치"가 아니라 **병목 구간을 찾아 그 통로를 넓히는 설계 판단**으로 서술해야 한다. 어디가 좁은지 모른 채 전 구간을 비싸게 확장하면 비용만 늘고 효과는 작다.
+즉 기술사 관점에서 대역폭은 "큰 수치"가 아니라 <strong>병목 구간을 찾아 그 통로를 넓히는 설계 판단</strong>으로 서술해야 한다. 어디가 좁은지 모른 채 전 구간을 비싸게 확장하면 비용만 늘고 효과는 작다.
 
 - **📢 섹션 요약 비유**: 대역폭 튜닝은 도시에 도로를 무작정 까는 일이 아니다. 가장 막히는 교차로를 찾아 차선을 늘려야 전체 교통이 풀린다.
 
@@ -122,11 +121,11 @@ tags = ["studynote-computer-architecture"]
 
 대역폭을 올리면 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 가속기 활용률, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업 공급 능력이 함께 개선된다. CPU와 GPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족으로 놀지 않게 되므로, 같은 연산 자원으로도 더 높은 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어낼 수 있다. 특히 메모리 집약형 워크로드에서는 클럭 소폭 향상보다 대역폭 확장이 더 큰 효과를 내는 경우가 많다.
 
-하지만 대역폭 확대에는 늘 대가가 따른다. 더 넓은 인터페이스는 핀 수와 면적을 요구하고, 더 높은 전송률은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 전력을 압박하며, 더 많은 채널은 컨트롤러 복잡도와 비용을 키운다. 따라서 좋은 설계는 "최대 대역폭"을 외우는 것이 아니라, **필요한 위치에 필요한 만큼의 대역폭을 배치하는 것**이다.
+하지만 대역폭 확대에는 늘 대가가 따른다. 더 넓은 인터페이스는 핀 수와 면적을 요구하고, 더 높은 전송률은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 전력을 압박하며, 더 많은 채널은 컨트롤러 복잡도와 비용을 키운다. 따라서 좋은 설계는 "최대 대역폭"을 외우는 것이 아니라, <strong>필요한 위치에 필요한 만큼의 대역폭을 배치하는 것</strong>이다.
 
-결론적으로 대역폭은 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 혈관 굵기를 나타내는 지표다. 앞으로 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 근접 메모리 같은 기술이 확산되더라도 핵심은 같다. **연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 현실의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는 마지막 조건은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제때, 충분히, 끊기지 않게 공급하는 능력**이라는 점을 기억해야 한다.
+결론적으로 대역폭은 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 혈관 굵기를 나타내는 지표다. 앞으로 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 근접 메모리 같은 기술이 확산되더라도 핵심은 같다. <strong>연산 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 현실의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 바꾸는 마지막 조건은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 제때, 충분히, 끊기지 않게 공급하는 능력</strong>이라는 점을 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 좋은 대역폭 설계는 더 큰 엔진만 다는 것이 아니라, 엔진까지 연료가 끊기지 않게 보내는 **굵고 안정적인 연료관**을 만드는 일과 같다.
+- **📢 섹션 요약 비유**: 좋은 대역폭 설계는 더 큰 엔진만 다는 것이 아니라, 엔진까지 연료가 끊기지 않게 보내는 <strong>굵고 안정적인 연료관</strong>을 만드는 일과 같다.
 
 ---
 
@@ -142,21 +141,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 버스 기반 데이터 이동
-    │
-    ▼
-버스 폭 (Bus Width) · 전송률 중심의 대역폭 확장
-    │
-    ▼
-듀얼/멀티 채널 메모리 구조
-    │
-    ▼
-PCIe (Peripheral Component Interconnect Express) 고속 직렬 인터커넥트
-    │
-    ▼
-HBM (High Bandwidth Memory) · 칩렛 (Chiplet) · CXL (Compute Express Link)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 버스 기반 데이터 이동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버스 폭 (Bus Width) · 전송률 중심의 대역폭 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">듀얼/멀티 채널 메모리 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCIe (Peripheral Component Interconnect Express) 고속 직렬 인터커넥트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HBM (High Bandwidth Memory) · 칩렛 (Chiplet) · CXL (Compute Express Link)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 통로 확장 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 채널화 → 고속 인터커넥트 → 패키징 수준 통합"으로 대역폭 확보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 과정을 보여준다.
 

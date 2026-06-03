@@ -17,26 +17,26 @@ tags = ["database"]
 
 ### DBMS의 블랙박스를 열다
 
-대부분의 개발자와 운영자는 SQL 문법과 기본적인 인덱스 활용에 머문다. 하지만 엔터프라이즈급 대규모 시스템에서 발생하는 **'설명할 수 없는 병목'**이나 **'예측 불가능한 장애'**를 해결하기 위해서는 DBMS 내부의 구동 원리를 깊이 파고들어야 한다. 심화 분석은 쿼리가 디스크 블록을 읽는 방식부터, 여러 노드 간에 데이터를 동기화하는 찰나의 순간까지를 공학적으로 조명한다.
+대부분의 개발자와 운영자는 SQL 문법과 기본적인 인덱스 활용에 머문다. 하지만 엔터프라이즈급 대규모 시스템에서 발생하는 <strong>'설명할 수 없는 병목'</strong>이나 <strong>'예측 불가능한 장애'</strong>를 해결하기 위해서는 DBMS 내부의 구동 원리를 깊이 파고들어야 한다. 심화 분석은 쿼리가 디스크 블록을 읽는 방식부터, 여러 노드 간에 데이터를 동기화하는 찰나의 순간까지를 공학적으로 조명한다.
 
-심화 분석이 필요한 이유는 세 가지이다. 첫째, **극한의 성능 최적화**를 위해서이다. 범용적인 설정만으로는 초고부하 환경을 견딜 수 없다. 둘째, **분산 시스템의 복잡성 관리**를 위해서이며 (데이터 일관성 모델), 셋째, **하드웨어 혁신** (GPU, NVM, CXL)이 데이터베이스 아키텍처를 어떻게 근본적으로 뒤흔드는지 이해하여 미래 인프라에 대비하기 위함이다.
+심화 분석이 필요한 이유는 세 가지이다. 첫째, <strong>극한의 성능 최적화</strong>를 위해서이다. 범용적인 설정만으로는 초고부하 환경을 견딜 수 없다. 둘째, <strong>분산 시스템의 복잡성 관리</strong>를 위해서이며 (데이터 일관성 모델), 셋째, **하드웨어 혁신** (GPU, NVM, CXL)이 데이터베이스 아키텍처를 어떻게 근본적으로 뒤흔드는지 이해하여 미래 인프라에 대비하기 위함이다.
 
 이 그림은 현대적인 고성능 DBMS의 수직적 최적화 레이어를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Advanced DB Optimization Layers             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Layer 4: Intelligence ] ──▶ AI-driven Auto-tuning       │
-│   [ Layer 3: Distribution ] ──▶ Distributed Consensus (Raft) │
-│   [ Layer 2: Execution    ] ──▶ Vectorized / Parallel Exec  │
-│   [ Layer 1: Storage      ] ──▶ Columnar / Log-Structured   │
-│                                                             │
-│   * 핵심: 각 레이어의 최적화가 곱해져 전체 성능을 결정함    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Advanced DB Optimization Layers</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 4: Intelligence</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">AI-driven Auto-tuning</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 3: Distribution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Distributed Consensus (Raft)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2: Execution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Vectorized / Parallel Exec</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1: Storage</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Columnar / Log-Structured</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 각 레이어의 최적화가 곱해져 전체 성능을 결정함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '레이어 간의 시너지'이다. 저장 방식 (Layer 1)을 컬럼 지향으로 바꾸면, 실행 엔진 (Layer 2)이 한 번에 여러 데이터를 처리하는 벡터화 연산이 가능해진다. 실무에서는 이러한 하부 구조의 변화가 상위의 비즈니스 쿼리 성능을 수백 배 이상 끌어올리는 혁신적 결과로 이어진다.
 
@@ -70,27 +70,22 @@ tags = ["database"]
 - **원리**: 전통적인 '행 단위 처리 (Volcano Model)' 대신, '데이터 블록 단위'로 연산기를 통과시킴.
 - **효과**: 함수 호출 오버헤드 제거 및 CPU 캐시 활용도 극대화. 분석용 DB (OLAP) 성능의 핵심.
 
-이 구조도는 분산 DB의 데이터 정합성을 유지하는 **Raft 합의 알고리즘**의 흐름을 보여준다.
+이 구조도는 분산 DB의 데이터 정합성을 유지하는 <strong>Raft 합의 알고리즘</strong>의 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Raft Consensus: Leader and Replicas         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   (1) Client Request ──▶ [ Leader Node ] ──┐ (Replicate)    │
-│                                            │                │
-│          ┌─────────────────────────────────┴──────────┐     │
-│          ▼                                            ▼     │
-│   [ Follower A ]                               [ Follower B ]│
-│          │ (Ack)                                      │ (Ack)│
-│          └───────────────────┬────────────────────────┘     │
-│                              ▼                              │
-│   (2) [ Leader ] ──▶ (Commit & Apply) ──▶ (3) Result to Client │
-│                                                             │
-│   * 핵심: 과반수(Quorum) 이상의 동의가 있어야 트랜잭션 확정 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raft Consensus: Leader and Replicas</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Leader Node</div><div class="kb-diagram-note">── (Replicate)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Follower A</div><div class="kb-diagram-node">Follower B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ack)</div><div class="kb-diagram-cell">(Ack)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(2)</div><div class="kb-diagram-node">Leader</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Commit &amp; Apply) ──▶ (3) Result to Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 과반수(Quorum) 이상의 동의가 있어야 트랜잭션 확정</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '장애 견고성'이다. 리더가 죽더라도 팔로워 중 한 명이 즉시 리더로 선출되어 서비스를 지속하며, 데이터 유실이 없음을 수학적으로 보장한다. 실무에서는 이 합의 과정의 네트워크 지연 (Network RTT)을 줄이는 것이 글로벌 분산 DB 설계의 최대 난제이다.
 
@@ -128,29 +123,28 @@ tags = ["database"]
 ### 기술사적 판단: 차세대 데이터 플랫폼 아키텍처링 전략
 
 **시나리오 1: 밀리초 단위의 응답이 요구되는 실시간 이상 거래 탐지 시스템 (FDS)**
-- **판단**: 디스크 I/O를 배제하는 **인메모리 데이터베이스 (IMDB)** 아키텍처를 선정한다. 데이터 영속성을 위해 **비휘발성 메모리 (NVM)**를 활용하여 로그 기록 성능을 극대화하고, 연산 로직을 DB 내부에서 수행하는 **Stored Procedure**나 **UDF 최적화**를 통해 네트워크 오버헤드를 제거한다. 또한 검색 성능을 위해 B-Tree 대신 **Hash Index**나 **T-Tree** 구조를 선택적으로 적용한다.
+- **판단**: 디스크 I/O를 배제하는 **인메모리 데이터베이스 (IMDB)** 아키텍처를 선정한다. 데이터 영속성을 위해 <strong>비휘발성 메모리 (NVM)</strong>를 활용하여 로그 기록 성능을 극대화하고, 연산 로직을 DB 내부에서 수행하는 <strong>Stored Procedure</strong>나 <strong>UDF 최적화</strong>를 통해 네트워크 오버헤드를 제거한다. 또한 검색 성능을 위해 B-Tree 대신 <strong>Hash Index</strong>나 **T-Tree** 구조를 선택적으로 적용한다.
 
 **시나리오 2: 전 지구적 서비스 확장을 위한 'Global Single Instance' 구축**
-- **판단**: 물리적 거리로 인한 네트워크 지연은 피할 수 없다. **Geo-Partitioning** 기술을 사용하여 유럽 사용자의 데이터는 유럽 노드에, 아시아 데이터는 아시아 노드에 우선 저장하되, 전체 논리적 뷰는 하나로 묶는 **분산 RDBMS (CockroachDB 등)**를 구축한다. 정합성 모델로 **외부 일관성 (External Consistency)**을 채택하고, 원자 시계를 활용한 시간 동기화 기술 도입 여부를 검토한다.
+- **판단**: 물리적 거리로 인한 네트워크 지연은 피할 수 없다. **Geo-Partitioning** 기술을 사용하여 유럽 사용자의 데이터는 유럽 노드에, 아시아 데이터는 아시아 노드에 우선 저장하되, 전체 논리적 뷰는 하나로 묶는 <strong>분산 RDBMS (CockroachDB 등)</strong>를 구축한다. 정합성 모델로 <strong>외부 일관성 (External Consistency)</strong>을 채택하고, 원자 시계를 활용한 시간 동기화 기술 도입 여부를 검토한다.
 
 이 도식은 데이터베이스 튜닝의 끝판왕인 **'Wait Event 분석 기반의 튜닝'** 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Wait Event Analysis and Bottleneck Kill       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 1. Monitor ] : 어떤 이벤트에서 가장 오래 기다리나?     │
-│          │                                                  │
-│   [ 2. Identify ] :                                         │
-│     - db file sequential read -> Index / IO Issue           │
-│     - enq: TX - contention    -> Lock / Logic Issue         │
-│     - log file sync           -> Disk / Log Issue           │
-│          │                                                  │
-│   [ 3. Solve ] : 원인에 맞는 아키텍처/파라미터 변경         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait Event Analysis and Bottleneck Kill</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Monitor</div><div class="kb-diagram-note">: 어떤 이벤트에서 가장 오래 기다리나?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Identify</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- db file sequential read -&gt; Index / IO Issue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- enq: TX - contention -&gt; Lock / Logic Issue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- log file sync -&gt; Disk / Log Issue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Solve</div><div class="kb-diagram-note">: 원인에 맞는 아키텍처/파라미터 변경</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 심화 판단은 '도시 전체의 물류망 설계'와 같습니다. 창고(저장 구조)를 어떻게 짓고, 배송 트럭(실행 엔진)을 어떤 속도로 돌리며, 지점 간의 재고 확인(분산 합의)을 어떻게 할지를 비용과 성능의 저울질 끝에 결정하는 마스터 아키텍트입니다.
 
@@ -165,7 +159,7 @@ tags = ["database"]
 
 ### 미래 전망: 지능형 자율 데이터베이스와 융합 인프라
 
-미래의 데이터베이스는 하드웨어와 소프트웨어의 경계가 완전히 무너질 것이다. CPU 대신 GPU나 FPGA가 쿼리를 직접 처리하고, 메모리 자체가 연산기가 되는 **PIM 기반 DB**가 상용화될 것이다. 또한 운영체제와 한 몸이 되어 동작하는 **Unikernel DB**나 가상화 오버헤드가 제로인 **Bare-metal Cloud DB**가 표준이 될 것이다. 기술사는 특정 제품의 '전문가'를 넘어, 전산학의 모든 기초 지식이 데이터라는 이름 아래 어떻게 융합되는지 그 거대한 흐름을 지휘하는 '데이터 사이언스 엔지니어'가 되어야 한다.
+미래의 데이터베이스는 하드웨어와 소프트웨어의 경계가 완전히 무너질 것이다. CPU 대신 GPU나 FPGA가 쿼리를 직접 처리하고, 메모리 자체가 연산기가 되는 <strong>PIM 기반 DB</strong>가 상용화될 것이다. 또한 운영체제와 한 몸이 되어 동작하는 <strong>Unikernel DB</strong>나 가상화 오버헤드가 제로인 <strong>Bare-metal Cloud DB</strong>가 표준이 될 것이다. 기술사는 특정 제품의 '전문가'를 넘어, 전산학의 모든 기초 지식이 데이터라는 이름 아래 어떻게 융합되는지 그 거대한 흐름을 지휘하는 '데이터 사이언스 엔지니어'가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 데이터베이스는 '우리 몸의 신경망'과 같아질 것입니다. 우리가 의식하지 않아도 자극(데이터)을 실시간으로 전달하고 처리하며, 항상 최적의 상태를 유지하는 완벽한 생체 인프라와 같은 존재가 될 것입니다.
 

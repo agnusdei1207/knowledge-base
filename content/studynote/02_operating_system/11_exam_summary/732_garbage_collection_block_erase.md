@@ -11,18 +11,18 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SSD의 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), GC)은 낸드 플래시 메모리의 "덮어쓰기 불가" 특성 때문에 필연적으로 쌓이는 **무효화된 쓰레기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들을 한곳으로 모아, 블록(Block) 단위로 한 번에 폭파(Erase)시켜 새로운 빈 공간(Free Block)을 확보하는 백그라운드 청소 작업**이다.
+> 1. **본질**: SSD의 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), GC)은 낸드 플래시 메모리의 "덮어쓰기 불가" 특성 때문에 필연적으로 쌓이는 <strong>무효화된 쓰레기 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(Invalid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)들을 한곳으로 모아, 블록(Block) 단위로 한 번에 폭파(Erase)시켜 새로운 빈 공간(Free Block)을 확보하는 백그라운드 청소 작업</strong>이다.
 > 2. **메커니즘**: FTL은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩어진 여러 블록에서 '아직 살아있는 유효한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Valid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'만 골라 새로운 빈 블록으로 이사(Copy)시킨 뒤, 기존 블록 전체를 깨끗하게 포맷(Erase)하여 재사용 가능한 상태로 만든다.
-> 3. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락의 원인**: 이사(Copy)와 지우기(Erase) 작업은 일반적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 수백 배 느리다. 만약 디스크가 꽉 차서 사용자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때마다 실시간으로 이 GC가 동작해야 한다면(On-demand GC), SSD의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 수준으로 곤두박질치는 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 절벽(Write Cliff)** 현상이 발생하게 된다.
+> 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 하락의 원인</strong>: 이사(Copy)와 지우기(Erase) 작업은 일반적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 수백 배 느리다. 만약 디스크가 꽉 차서 사용자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때마다 실시간으로 이 GC가 동작해야 한다면(On-demand GC), SSD의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 수준으로 곤두박질치는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 절벽(Write Cliff)</strong> 현상이 발생하게 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) (GC)**: [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) 내부에서 수행되는 여유 공간 확보 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
-  - **Valid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)**: 현재 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(LBA)와 정상적으로 맵핑되어 있는 실제 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
-  - **Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Garbage)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정되어 새로운 곳에 쓰이면서, 예전 자리에 버려진(연결이 끊긴) 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a> (GC)</strong>: [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) 내부에서 수행되는 여유 공간 확보 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
+  - <strong>Valid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a></strong>: 현재 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(LBA)와 정상적으로 맵핑되어 있는 실제 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
+  - <strong>Invalid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> (Garbage)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정되어 새로운 곳에 쓰이면서, 예전 자리에 버려진(연결이 끊긴) 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
 - **필요성 (쓰레기장과 빗자루의 한계)**: 
   - 낸드 플래시는 4KB 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸(Program) 수는 있지만, **지울 때(Erase)는 무조건 수 MB 크기의 블록(Block) 단위로만 지워야 한다.**
@@ -32,12 +32,12 @@ tags = ["studynote-operating-system"]
 
   - 아파트(블록)에 100가구([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))가 산다. 이 중 90가구는 이사를 갔고 10가구만 남아있다.
   - 재건축(지우기, Erase)을 하려면 이 아파트를 폭파해야 한다. 하지만 10가구가 아직 살고 있다.
-  - **[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)**: 남은 10가구를 새로 지은 옆 아파트(새 블록)로 짐을 다 옮겨준다(Copy). 이제 옛날 아파트가 완전히 텅 비었음을 확인하고, 다이너마이트로 시원하게 폭파(Erase)시켜 새로운 아파트를 지을 수 있는 공터(Free Block)로 만든다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a></strong>: 남은 10가구를 새로 지은 옆 아파트(새 블록)로 짐을 다 옮겨준다(Copy). 이제 옛날 아파트가 완전히 텅 비었음을 확인하고, 다이너마이트로 시원하게 폭파(Erase)시켜 새로운 아파트를 지을 수 있는 공터(Free Block)로 만든다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)**: 용량이 꽉 찰 때만 GC 수행 (사용 중 렉 발생 심각).
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a></strong>: 용량이 꽉 찰 때만 GC 수행 (사용 중 렉 발생 심각).
   2. **Background GC**: 컴퓨터가 쉴 때 몰래 청소하는 기능(BGC) 도입.
-  3. **TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 도입**: OS가 지워진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 FTL에게 미리 알려주어 GC 효율을 극대화.
+  3. <strong>TRIM <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 도입</strong>: OS가 지워진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 FTL에게 미리 알려주어 GC 효율을 극대화.
 
 - **📢 섹션 요약 비유**: 헌 집 줄게 새집 다오. 헌 집에 남은 쓸만한 물건(Valid)만 새집으로 옮겨 담고, 쓰레기로 가득 찬 헌 집은 통째로 철거하여 다시 쓸 수 있는 깨끗한 땅(Free Block)을 만드는 토지 구획 정리 사업입니다.
 
@@ -49,36 +49,34 @@ tags = ["studynote-operating-system"]
 
 FTL이 어떻게 Valid [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구출하고 블록을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하는지 4단계로 본다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SSD 가비지 컬렉션 (GC) 이사 및 폭파 시뮬레이션           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │  [상황: Block X와 Block Y가 쓰레기(Invalid)로 가득 참]                  │
-  │                                                                   │
-  │   - Block X: [V1] [ I ] [ I ] [V2]  (V: Valid, I: Invalid)        │
-  │   - Block Y: [ I ] [V3] [ I ] [ I ]                               │
-  │   - Block Z: [ 비어있음 (Free Block) ]                              │
-  │                                                                   │
-  │  [ 1. Victim Block (희생 블록) 선정 ]                                │
-  │   - FTL이 쓰레기(I)가 가장 많은 블록을 찾는다 -> Block X와 Y 당첨.         │
-  │                                                                   │
-  │  [ 2. 유효 데이터 복사 (Valid Page Copy) ]                           │
-  │   - Block X의 V1, V2를 Block Z로 복사한다.                            │
-  │   - Block Y의 V3를 Block Z로 복사한다.                               │
-  │   - FTL 매핑 테이블 업데이트 (V1, V2, V3의 주소가 Block Z로 변경됨!)       │
-  │                                                                   │
-  │  [ 3. 희생 블록 폭파 (Erase Block) ]                                 │
-  │   - 이제 Block X와 Y에는 쓰레기(I)만 남았다.                            │
-  │   - 하드웨어에 Erase 명령을 내려 Block X, Y를 완전히 백지화(Free)시킨다.   │
-  │                                                                   │
-  │  [ 4. 결과 (Free Block 확보) ]                                      │
-  │   - Block Z: [V1] [V2] [V3] [ 비어있음 ]  (사용 중)                   │
-  │   - Block X: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           │
-  │   - Block Y: [ 완벽히 비어있음 ] (새로운 데이터를 받을 준비 완료)           │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 과정은 엄청난 고비용 작업이다. V1, V2, V3를 복사하느라 낸드 플래시에 쓸데없는 "읽기"와 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 추가로 발생했다. 내가 저장하고 싶은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100MB인데, GC가 뒤에서 이삿짐을 나르느라 실제로 낸드 칩에 300MB를 쓰게 될 수도 있다. 이를 전문 용어로 **[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/): [Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) Factor)** 이라 하며, WAF가 높아질수록 SSD의 수명은 기하급수적으로 깎여나간다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 가비지 컬렉션 (GC) 이사 및 폭파 시뮬레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: Block X와 Block Y가 쓰레기(Invalid)로 가득 참</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block X:</div><div class="kb-diagram-node">V1</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">V2</div><div class="kb-diagram-note">(V: Valid, I: Invalid)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block Y:</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">V3</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">I</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block Z:</div><div class="kb-diagram-node">비어있음 (Free Block)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Victim Block (희생 블록) 선정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FTL이 쓰레기(I)가 가장 많은 블록을 찾는다 -&gt; Block X와 Y 당첨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 유효 데이터 복사 (Valid Page Copy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Block X의 V1, V2를 Block Z로 복사한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Block Y의 V3를 Block Z로 복사한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FTL 매핑 테이블 업데이트 (V1, V2, V3의 주소가 Block Z로 변경됨!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 희생 블록 폭파 (Erase Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이제 Block X와 Y에는 쓰레기(I)만 남았다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하드웨어에 Erase 명령을 내려 Block X, Y를 완전히 백지화(Free)시킨다.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 결과 (Free Block 확보)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block Z:</div><div class="kb-diagram-node">V1</div><div class="kb-diagram-node">V2</div><div class="kb-diagram-node">V3</div><div class="kb-diagram-node">비어있음</div><div class="kb-diagram-note">(사용 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block X:</div><div class="kb-diagram-node">완벽히 비어있음</div><div class="kb-diagram-note">(새로운 데이터를 받을 준비 완료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Block Y:</div><div class="kb-diagram-node">완벽히 비어있음</div><div class="kb-diagram-note">(새로운 데이터를 받을 준비 완료)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 과정은 엄청난 고비용 작업이다. V1, V2, V3를 복사하느라 낸드 플래시에 쓸데없는 "읽기"와 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 추가로 발생했다. 내가 저장하고 싶은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100MB인데, GC가 뒤에서 이삿짐을 나르느라 실제로 낸드 칩에 300MB를 쓰게 될 수도 있다. 이를 전문 용어로 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a> Factor)</strong> 이라 하며, WAF가 높아질수록 SSD의 수명은 기하급수적으로 깎여나간다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -92,10 +90,10 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 | 상황 | TRIM 미지원 (과거) | TRIM 지원 (현대 OS) |
 |:---|:---|:---|
-| **OS에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 시** | OS만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4)에서 삭제 표시. **SSD는 모름.** | OS가 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러에 **"LBA 100~200번 지웠음!"** 이라고 통보. |
-| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) FTL의 상태 인지** | 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 여전히 **Valid(살아있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**로 착각. | 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 즉시 **Invalid(쓰레기)**로 마킹. |
+| <strong>OS에서 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 삭제 시</strong> | OS만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4)에서 삭제 표시. **SSD는 모름.** | OS가 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러에 **"LBA 100~200번 지웠음!"** 이라고 통보. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> FTL의 상태 인지</strong> | 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 여전히 <strong>Valid(살아있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>로 착각. | 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 즉시 <strong>Invalid(쓰레기)</strong>로 마킹. |
 | **GC 수행 시 결과** | 지워진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인데도 새 블록으로 힘들게 복사함 ([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 폭발) | 복사 안 하고 그냥 블록째 폭파해 버림 ([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 1에 수렴) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 결과** | SSD를 오래 쓸수록 극도로 느려짐 (쓰레기 이사 지옥) | **몇 년을 써도 새것처럼 빠른 속도 유지** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 결과</strong> | SSD를 오래 쓸수록 극도로 느려짐 (쓰레기 이사 지옥) | **몇 년을 써도 새것처럼 빠른 속도 유지** |
 
 ### 과목 융합 관점
 
@@ -109,43 +107,41 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 ### 실무 시나리오
 
-1. **시나리오 — [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)) 서버의 Write Cliff ([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 절벽) 현상**: 새로 산 1TB [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD에 MySQL을 올리고 초당 1만 건의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 테스트를 했다. 처음 5분은 3GB/s로 미친 듯이 빠르더니, 디스크가 900GB쯤 차는 순간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 100MB/s로 수직 낙하하며 DB가 뻗음.
-   - **원인 분석**: 디스크가 비어있을 때는 GC 없이 그냥 Free Block에 쭉쭉 썼다. 하지만 용량이 꽉 차서 여유 블록이 사라지자, FTL이 **"사용자의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 잠시 멈춰 세우고([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)), 급하게 GC를 돌려 쓰레기를 비운 뒤에야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는" (On-demand GC)** 최악의 상황이 터진 것이다. 지우기(Erase)는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Program)보다 10배 이상 느리므로 속도가 절벽처럼 떨어졌다.
-   - **대응 (오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), Over-Provisioning)**: 엔터프라이즈 환경에서는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체 용량의 20~30%를 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 잡지 않고 '할당되지 않은 공간(Unallocated Space)'으로 놔두어야 한다. 이 숨겨진 공간은 FTL이 평소에 여유롭게 백그라운드 GC(BGC)를 돌릴 수 있는 '숨통(Free Block Pool)' 역할을 하여, Write Cliff 현상을 원천적으로 방어한다. (삼성/인텔 엔터프라이즈 SSD가 비싼 이유가 이 OP 공간이 하드웨어적으로 크게 잡혀있기 때문이다.)
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a>) 서버의 Write Cliff (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 절벽) 현상</strong>: 새로 산 1TB [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD에 MySQL을 올리고 초당 1만 건의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 테스트를 했다. 처음 5분은 3GB/s로 미친 듯이 빠르더니, 디스크가 900GB쯤 차는 순간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 100MB/s로 수직 낙하하며 DB가 뻗음.
+   - **원인 분석**: 디스크가 비어있을 때는 GC 없이 그냥 Free Block에 쭉쭉 썼다. 하지만 용량이 꽉 차서 여유 블록이 사라지자, FTL이 <strong>"사용자의 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 요청을 잠시 멈춰 세우고(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>), 급하게 GC를 돌려 쓰레기를 비운 뒤에야 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쓰는" (On-demand GC)</strong> 최악의 상황이 터진 것이다. 지우기(Erase)는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Program)보다 10배 이상 느리므로 속도가 절벽처럼 떨어졌다.
+   - <strong>대응 (오버 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a>, Over-Provisioning)</strong>: 엔터프라이즈 환경에서는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체 용량의 20~30%를 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 잡지 않고 '할당되지 않은 공간(Unallocated Space)'으로 놔두어야 한다. 이 숨겨진 공간은 FTL이 평소에 여유롭게 백그라운드 GC(BGC)를 돌릴 수 있는 '숨통(Free Block Pool)' 역할을 하여, Write Cliff 현상을 원천적으로 방어한다. (삼성/인텔 엔터프라이즈 SSD가 비싼 이유가 이 OP 공간이 하드웨어적으로 크게 잡혀있기 때문이다.)
 
-2. **시나리오 — 스토리지 [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/) 시 결과가 널뛰기하는 현상**: 서버 엔지니어가 `fio` 툴로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는데, 돌릴 때마다 IOPS 결과가 2배씩 차이가 남.
+2. <strong>시나리오 — 스토리지 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/">벤치마크 테스트</a> 시 결과가 널뛰기하는 현상</strong>: 서버 엔지니어가 `fio` 툴로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는데, 돌릴 때마다 IOPS 결과가 2배씩 차이가 남.
    - **원인 분석**: 1차 테스트 때 썼던 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 가득 찬 상태에서, 백그라운드 GC가 돌기 전에 2차 테스트를 바로 돌렸기 때문이다.
-   - **기술사적 가이드**: 정확한 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 벤치마크를 위해서는, 테스트 직전에 **`blkdiscard` (리눅스 TRIM 강제 호출 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))**나 `Secure Erase`를 실행하여 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체를 공장 출고 상태(모든 블록이 Free)로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화한 뒤 테스트해야 한다. 또한 'Sustain(지속)' [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면 일부러 디스크를 100% 꽉 채운 뒤, 1시간 이상 Write를 지속하여 강제로 GC가 동작하는 최악의 조건(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에서의 바닥 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는 것이 진짜 실무 벤치마킹이다.
+   - **기술사적 가이드**: 정확한 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 벤치마크를 위해서는, 테스트 직전에 <strong><code>blkdiscard</code> (리눅스 TRIM 강제 호출 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)</strong>나 `Secure Erase`를 실행하여 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체를 공장 출고 상태(모든 블록이 Free)로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화한 뒤 테스트해야 한다. 또한 'Sustain(지속)' [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보려면 일부러 디스크를 100% 꽉 채운 뒤, 1시간 이상 Write를 지속하여 강제로 GC가 동작하는 최악의 조건(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에서의 바닥 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는 것이 진짜 실무 벤치마킹이다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 SSD 스토리지 수명(TBW) 및 성능 방어 아키텍처 플로우         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [DB/카프카 등 Write-Intensive(쓰기 집약적) 서버 인프라 설계]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      사용 중인 파일 시스템과 OS 커널이 주기적인 TRIM을 지원하는가?            │
-  │          ├─ 예 ─────▶ [Cron / Systemd timer로 주 1회 fstrim 스케줄링]  │
-  │          │            (실시간 discard 옵션(mount -o discard)은 I/O 딜레이를 │
-  │          │             유발하므로, 야간에 배치로 주 1회 몰아서 지우는 걸 권장)    │
-  │          └─ 아니오 ──▶ ZFS 등 구형 환경이라면 펌웨어 레벨 튜닝 절실          │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      서비스 오픈 후 디스크 사용량 임계치(Alert Threshold)를 몇 %로 잡을 것인가?│
-  │          ├──▶ [일반 서버: 80% / DB 서버: 70% 설정 권장]                 │
-  │          │    결론: HDD 시절에는 95% 찰 때까지 버텨도 성능 저하가 없었지만,    │
-  │          │          SSD는 80%를 넘기면 GC 효율이 극감하여 WAF가 폭발한다.      │
-  │          │          디스크가 70% 찼을 때 무조건 용량 증설(Scale-up)을 해야 한다.│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 스토리지 수명(TBW) 및 성능 방어 아키텍처 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB/카프카 등 Write-Intensive(쓰기 집약적) 서버 인프라 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 중인 파일 시스템과 OS 커널이 주기적인 TRIM을 지원하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cron / Systemd timer로 주 1회 fstrim 스케줄링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 discard 옵션(mount -o discard)은 I/O 딜레이를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유발하므로, 야간에 배치로 주 1회 몰아서 지우는 걸 권장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ ZFS 등 구형 환경이라면 펌웨어 레벨 튜닝 절실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 오픈 후 디스크 사용량 임계치(Alert Threshold)를 몇 %로 잡을 것인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일반 서버: 80% / DB 서버: 70% 설정 권장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: HDD 시절에는 95% 찰 때까지 버텨도 성능 저하가 없었지만,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD는 80%를 넘기면 GC 효율이 극감하여 WAF가 폭발한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크가 70% 찼을 때 무조건 용량 증설(Scale-up)을 해야 한다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "디스크 용량 = 속도"라는 공식은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대의 새로운 진리다. 1TB SSD에 900GB의 짐이 차 있으면, FTL은 빈 100GB 방을 찾기 위해 이삿짐을 미친 듯이 이리저리 빼고 넣어야 한다(GC). 방이 500GB 비어 있으면 이삿짐을 그냥 대충 휙휙 던져도(최소한의 GC) 정리가 된다. 디스크 용량을 넉넉하게 유지하는 것 자체가 최고의 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **Swap [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명 갉아먹기**: 리눅스의 Swap 공간을 SSD에 잡아두면, 메모리가 꽉 찰 때마다 OS가 4KB 단위로 미친 듯이 Swap I/O를 날린다. 이는 SSD의 WAF를 폭발시켜 1년 만에 디스크를 폐기 처분하게 만든다. K8s가 시스템 레벨에서 스왑을 강제로 꺼버리는(Disable) 가장 중요한 하드웨어적 이유 중 하나가 바로 이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 과부하 방지다.
+- <strong>Swap <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>의 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 수명 갉아먹기</strong>: 리눅스의 Swap 공간을 SSD에 잡아두면, 메모리가 꽉 찰 때마다 OS가 4KB 단위로 미친 듯이 Swap I/O를 날린다. 이는 SSD의 WAF를 폭발시켜 1년 만에 디스크를 폐기 처분하게 만든다. K8s가 시스템 레벨에서 스왑을 강제로 꺼버리는(Disable) 가장 중요한 하드웨어적 이유 중 하나가 바로 이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 과부하 방지다.
 
 - **📢 섹션 요약 비유**: 퍼즐 맞추기를 할 때, 책상이 텅 비어있으면 10초 만에 맞춥니다(새 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)). 그런데 책상 위에 잡동사니가 90% 차 있으면, 퍼즐 한 조각 맞출 때마다 다른 물건을 치워가며(GC) 해야 해서 1시간이 걸립니다(Write Cliff). 책상([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))은 항상 30% 이상 비워두는 것이 정신건강에 좋습니다.
 
@@ -157,12 +153,12 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 | 구분 | GC 미지원 / 용량 95% 포화 상태 | OP 20% 및 TRIM 기반 BGC 활성화 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (I/O [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))**| Write 시 간헐적으로 수십 ms 정지 | **초당 10만 IOPS 지속 유지 (Steady)**| [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Jitter 없는 고성능 인프라 확보 |
+| <strong>정량 (I/O <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>)</strong>| Write 시 간헐적으로 수십 ms 정지 | **초당 10만 IOPS 지속 유지 (Steady)**| [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Jitter 없는 고성능 인프라 확보 |
 | **정량 (수명, TBW)**| [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 상승으로 셀 마모도(Wear) 급증 | [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 1.x 수렴으로 불필요한 Erase 방지 | 엔터프라이즈 스토리지 물리적 수명 2배 연장 |
 | **정성 (유지보수)** | 디스크 풀 시 서버 동반 멈춤 위험 | 백그라운드 자가 치유(Self-healing) | 인프라 엔지니어의 장애 대응 공수 절감 |
 
 ### 미래 전망
-- **호스트 주도 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) (Host-Managed GC)**: 칩셋 안의 조그만 FTL이 낑낑대며 GC를 하는 것은 비효율적이다. 최신 Open-Channel [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (또는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/))는 아예 SSD가 스스로 GC를 하지 못하게 막고, 호스트의 거대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) CPU가 "지금 서버 한가하니까 네가 직접 쓰레기 치워!"라고 지시하는 형태로 하드웨어 주도권을 소프트웨어로 다시 뺏어오는 아키텍처 혁명이 일어나고 있다.
+- <strong>호스트 주도 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a> (Host-Managed GC)</strong>: 칩셋 안의 조그만 FTL이 낑낑대며 GC를 하는 것은 비효율적이다. 최신 Open-Channel [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (또는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/))는 아예 SSD가 스스로 GC를 하지 못하게 막고, 호스트의 거대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) CPU가 "지금 서버 한가하니까 네가 직접 쓰레기 치워!"라고 지시하는 형태로 하드웨어 주도권을 소프트웨어로 다시 뺏어오는 아키텍처 혁명이 일어나고 있다.
 
 ### 결론
 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)은 "한 번 쓰면 지우기 전엔 다시 쓸 수 없다"는 낸드 플래시의 태생적 저주를 풀기 위해 발명된 인류의 눈물겨운 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 노가다다. 빛의 속도로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 화려한 SSD의 스펙 시트 이면에는, 우리가 컴퓨터를 끄고 자는 그 고요한 밤에도 블록을 이리저리 옮기며 묵묵히 쓰레기장을 청소하고 공터를 만들어내는 FTL의 백그라운드 땀방울이 서려 있다. SSD의 진짜 실력은 새 제품을 샀을 때의 벤치마크 점수가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 100번 꽉 채우고 지우기를 반복했을 때 이 GC가 얼마나 영리하게 쓰레기를 비워내느냐(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 달려있다.
@@ -182,15 +178,19 @@ OS와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_sys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SSD FTL (Flash Translation Layer)]
-    │
-    ▼
-[가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)]
-    │
-    ├──▶ [파일 시스템 연속, 연결, 색인 할당]
-    └──▶ [FAT 방식 연결 할당 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSD FTL (Flash Translation Layer)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 시스템 연속, 연결, 색인 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FAT 방식 연결 할당 최적화</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

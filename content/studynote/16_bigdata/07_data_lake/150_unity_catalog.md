@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Unity Catalog는 Databricks의 통합 거버넌스 솔루션으로, **3-수준 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)([catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/).[schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/).table)**를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·ML 모델·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 단일 제어 지점에서 관리한다.
-2. **컬럼/행 수준의 세밀한 접근 제어([Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))**, **[데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) 자동 추적**, **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)**를 제공하여 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/), SOC2 규정 준수를 지원한다.
-3. **Delta Sharing**은 Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 위의 오픈 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하지 않고 다른 클라우드·플랫폼의 소비자와 안전하게 공유할 수 있다.
+1. Unity Catalog는 Databricks의 통합 거버넌스 솔루션으로, <strong>3-수준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>(<a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">catalog</a>.<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">schema</a>.table)</strong>를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·ML 모델·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 단일 제어 지점에서 관리한다.
+2. <strong>컬럼/행 수준의 세밀한 접근 제어(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a>)</strong>, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> 자동 추적</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>를 제공하여 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/), SOC2 규정 준수를 지원한다.
+3. <strong>Delta Sharing</strong>은 Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 위의 오픈 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하지 않고 다른 클라우드·플랫폼의 소비자와 안전하게 공유할 수 있다.
 
 ---
 
@@ -36,35 +36,31 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                Unity Catalog 3-수준 네임스페이스                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [Account 메타스토어]                                             │
-│       │                                                          │
-│       ├── catalog_prod          (Catalog 수준)                   │
-│       │       ├── sales         (Schema 수준)                    │
-│       │       │     ├── orders  (Table / View / Volume)          │
-│       │       │     └── customers                               │
-│       │       └── marketing                                      │
-│       │             └── campaigns                               │
-│       │                                                          │
-│       └── catalog_dev           (개발용 Catalog)                 │
-│                                                                  │
-│  [접근 제어 레이어]                                               │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  GRANT SELECT ON TABLE catalog.schema.table TO group_a   │   │
-│  │  CREATE ROW FILTER ON TABLE orders (dept = current_user) │   │
-│  │  CREATE COLUMN MASK ON TABLE users (ssn → 'XXXX')        │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  [Delta Sharing]                                                 │
-│  ┌───────────────┐   공유   ┌──────────────────────────────┐   │
-│  │ Unity Catalog  │ ──────▶ │ 외부 소비자 (Snowflake / R / │   │
-│  │ (공유자)       │         │  Pandas / Power BI)          │   │
-│  └───────────────┘         └──────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unity Catalog 3-수준 네임스페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Account 메타스토어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── catalog_prod (Catalog 수준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── sales (Schema 수준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── orders (Table / View / Volume)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── customers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── marketing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── campaigns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── catalog_dev (개발용 Catalog)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GRANT SELECT ON TABLE catalog.schema.table TO group_a</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE ROW FILTER ON TABLE orders (dept = current_user)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE COLUMN MASK ON TABLE users (ssn → 'XXXX')</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Sharing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unity Catalog</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">외부 소비자 (Snowflake / R /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유자)</div><div class="kb-diagram-cell">Pandas / Power BI)</div></div>
+</div>
+</div>
+
+
 
 **핵심 기능 요약**
 
@@ -83,7 +79,7 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 ## Ⅲ. 비교 및 연결
 
-**Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) vs 경쟁 거버넌스 솔루션**
+<strong>Unity <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">Catalog</a> vs 경쟁 거버넌스 솔루션</strong>
 
 | 항목 | Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | AWS Lake Formation | Apache Atlas |
 |:---|:---|:---|:---|
@@ -96,10 +92,10 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 **연관 기술 연결**
 
-- **[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: Unity Catalog가 관리하는 테이블의 기본 저장 포맷
-- **[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)**: Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 내 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)로 통합
-- **[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) SQL**: Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 권한을 기반으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행
-- **[Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)**: Unity Catalog가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 연합 거버넌스 방식으로 관리하는 인프라
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: Unity Catalog가 관리하는 테이블의 기본 저장 포맷
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a></strong>: Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 내 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)로 통합
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> SQL</strong>: Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 권한을 기반으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a></strong>: Unity Catalog가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 연합 거버넌스 방식으로 관리하는 인프라
 
 > 📢 **섹션 요약 비유**: Unity Catalog는 회사의 정보보안팀 역할이다. 누가 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 봐도 되는지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 관리하고, 외부 협력사와 자료를 공유할 때도 보안 채널(Delta Sharing)을 통해서만 허용한다.
 
@@ -109,10 +105,10 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 **도입 시나리오**
 
-- **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: 주민등록번호 컬럼 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 + 특정 부서만 복호화 권한 부여
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 주민등록번호 컬럼 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 + 특정 부서만 복호화 권한 부여
 - **멀티 팀 거버넌스**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 팀은 Silver 레이어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 분석 팀은 Gold 레이어 읽기만 허용
-- **규정 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**: SOC2 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 이력 제출
-- **외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매**: Delta Sharing으로 고객사에 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피드 제공 (복사 없음)
+- <strong>규정 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: SOC2 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 Unity [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 이력 제출
+- <strong>외부 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 판매</strong>: Delta Sharing으로 고객사에 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피드 제공 (복사 없음)
 
 **기술사 답안 포인트**
 
@@ -136,7 +132,7 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | 리니지 추적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제 원인 신속 파악 |
 | [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 활성화 | Delta Sharing으로 복사 없는 안전한 외부 공유 실현 |
 
-Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼 위에서 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 완성하는 핵심 레이어다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh의 연합 거버넌스 원칙을 기술적으로 구현하는 도구로서, 2024년 이후 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중심 조직에서 빠르게 채택되고 있다. 기술사 시험에서는 **3-수준 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)**, **[Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) 접근 제어 (ROW FILTER + COLUMN MASK)**, **Delta Sharing 원리**가 핵심 논점이다.
+Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼 위에서 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 완성하는 핵심 레이어다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh의 연합 거버넌스 원칙을 기술적으로 구현하는 도구로서, 2024년 이후 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중심 조직에서 빠르게 채택되고 있다. 기술사 시험에서는 <strong>3-수준 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a></strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> 접근 제어 (ROW FILTER + COLUMN MASK)</strong>, <strong>Delta Sharing 원리</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: Unity Catalog는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왕국의 법전이다. 왕국의 모든 창고(테이블)에 대한 법(권한)이 한 권의 책으로 통합되어 있고, 무엇이든 꺼내거나 넣을 때마다 법에 따라 자동으로 허가 여부가 결정된다.
 
@@ -157,21 +153,23 @@ Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분산 데이터 사일로 (Data Silo) — 거버넌스 부재]
-    │
-    ▼
-[데이터 카탈로그 (Data Catalog) — 메타데이터 관리]
-    │
-    ▼
-[Unity Catalog — 3-수준 네임스페이스 (catalog.schema.table)]
-    │
-    ▼
-[행/컬럼 수준 접근 제어 (Row Filter / Column Mask)]
-    │
-    ▼
-[Delta Sharing — 오픈 프로토콜 안전 데이터 공유]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 데이터 사일로 (Data Silo) — 거버넌스 부재</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) — 메타데이터 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog — 3-수준 네임스페이스 (catalog.schema.table)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행/컬럼 수준 접근 제어 (Row Filter / Column Mask)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Sharing — 오픈 프로토콜 안전 데이터 공유</div></div>
+</div>
+</div>
+
+
 
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)에서 중앙화된 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 세분화된 접근 제어를 거쳐 안전한 외부 공유로 발전한 흐름이다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 ### 배경 및 정의
 
-나이브 베이즈([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 18세기 영국 수학자 토머스 베이즈(Thomas Bayes)의 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 이론을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에 적용한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. '나이브(Naive, 순진한)'라는 이름은 특징들 간의 **조건부 독립(Conditional [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))** 가정에서 비롯된다 — 실제로는 독립이 아닐 수 있지만, 이 가정을 단순히 적용한다는 뜻이다.
+나이브 베이즈([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 18세기 영국 수학자 토머스 베이즈(Thomas Bayes)의 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 이론을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에 적용한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. '나이브(Naive, 순진한)'라는 이름은 특징들 간의 <strong>조건부 독립(Conditional <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong> 가정에서 비롯된다 — 실제로는 독립이 아닐 수 있지만, 이 가정을 단순히 적용한다는 뜻이다.
 
 ### 베이즈 정리 (Bayes' Theorem)
 
@@ -54,40 +54,24 @@ P(C|x₁, x₂, ..., xₙ) ∝ P(C) × ∏ P(xᵢ|C)
 
 ### 나이브 베이즈 동작 흐름
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  나이브 베이즈 분류 파이프라인                 │
-│                                                             │
-│  입력 데이터 X = {x₁, x₂, ..., xₙ}                         │
-│         │                                                   │
-│         ▼                                                   │
-│  ┌─────────────────┐     학습 단계                          │
-│  │  사전 확률 계산   │  P(C) = 클래스 C 비율                 │
-│  └────────┬────────┘                                       │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────┐                                       │
-│  │  우도 계산       │  P(xᵢ|C) = 특징별 조건부 확률          │
-│  └────────┬────────┘                                       │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────────────────────────┐                  │
-│  │  조건부 독립 가정 적용               │                   │
-│  │  P(X|C) ≈ P(x₁|C)×P(x₂|C)×...     │                   │
-│  └────────┬────────────────────────────┘                  │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────────────────────────┐                  │
-│  │  사후 확률 계산 (베이즈 정리 적용)   │                   │
-│  │  P(C|X) ∝ P(C) × ∏ P(xᵢ|C)         │                   │
-│  └────────┬────────────────────────────┘                  │
-│           │                                                 │
-│           ▼                                                 │
-│  ┌─────────────────┐                                       │
-│  │  argmax C 선택   │  가장 높은 사후 확률의 클래스 출력     │
-│  └─────────────────┘                                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이브 베이즈 분류 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 X = {x₁, x₂, ..., xₙ}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 확률 계산</div><div class="kb-diagram-cell">P(C) = 클래스 C 비율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우도 계산</div><div class="kb-diagram-cell">P(xᵢ</div><div class="kb-diagram-cell">C) = 특징별 조건부 확률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 독립 가정 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X</div><div class="kb-diagram-cell">C) ≈ P(x₁</div><div class="kb-diagram-cell">C)×P(x₂</div><div class="kb-diagram-cell">C)×...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사후 확률 계산 (베이즈 정리 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(C</div><div class="kb-diagram-cell">X) ∝ P(C) × ∏ P(xᵢ</div><div class="kb-diagram-cell">C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">argmax C 선택</div><div class="kb-diagram-cell">가장 높은 사후 확률의 클래스 출력</div></div>
+</div>
+</div>
+
+
 
 ### 나이브 베이즈 종류 비교
 
@@ -121,13 +105,13 @@ P(xᵢ|C) = (count(xᵢ, C) + α) / (count(C) + α × |V|)
 | **학습 속도** | 매우 빠름 O(n·d) | 빠름 | 느림 O(n²~n³) | 빠름 |
 | **예측 속도** | 매우 빠름 | 빠름 | 빠름 | 빠름 |
 | **독립 가정** | 강한 가정 필요 | 불필요 | 불필요 | 불필요 |
-| **소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 우수 | 보통 | 보통 | 과적합 위험 |
-| **텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** | 탁월 | 좋음 | 좋음 | 보통 |
-| **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력** | 직접 제공 | 직접 제공 | 간접적 | 간접적 |
+| <strong>소규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 우수 | 보통 | 보통 | 과적합 위험 |
+| <strong>텍스트 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | 탁월 | 좋음 | 좋음 | 보통 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 출력</strong> | 직접 제공 | 직접 제공 | 간접적 | 간접적 |
 
 ### [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 vs 판별 모델
 
-나이브 베이즈는 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)** — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 P(X,C)를 모델링한다.
+나이브 베이즈는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 모델(Generative Model)</strong> — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 P(X,C)를 모델링한다.
 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 **판별 모델(Discriminative Model)** — 경계면 P(C|X)를 직접 모델링한다.
 
 - **📢 섹션 요약 비유**: 나이브 베이즈([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델)는 "이 글은 스팸 작성자가 쓴 것처럼 보인다"고 판단하고, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)(판별 모델)는 "이 글의 특징이 스팸 경계를 넘는다"고 판단한다 — 같은 결론에 다른 방식으로 도달한다.
@@ -153,8 +137,8 @@ P(정상|무료,당첨,클릭) ∝ P(정상) × P(무료|정상) × P(당첨|정
 ### 기술사 시험 핵심 판단 포인트
 
 1. **조건부 독립 가정의 의미**: "왜 나이브(순진한)라고 부르는가?" → 현실적으로 불가능한 독립 가정을 단순히 채택하기 때문
-2. **[라플라스 스무딩](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/) 필요성**: 학습에 없는 단어 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)=0 → 전체 곱이 0 → 스무딩으로 방지
-3. **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 사용**: 매우 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)들을 곱하면 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 발생 → log 변환 후 덧셈으로 처리
+2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/">라플라스 스무딩</a> 필요성</strong>: 학습에 없는 단어 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)=0 → 전체 곱이 0 → 스무딩으로 방지
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 사용</strong>: 매우 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)들을 곱하면 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 발생 → log 변환 후 덧셈으로 처리
 4. **가우시안 vs 다항 선택**: 연속형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)엔 가우시안, 텍스트(카운트)엔 다항 나이브 베이즈
 
 - **📢 섹션 요약 비유**: 나이브 베이즈 실무 적용은 "학교 출석부"처럼 — 각 학생(단어)의 출석 빈도만 세어 패턴을 파악하고, 새로운 상황에서 빠르게 예측한다. 기록이 없는 학생은 0점 대신 최소 점수(스무딩)를 부여해 공정성을 확보한다.

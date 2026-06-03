@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: BERT (Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향(Bidirectional)으로 학습하여, 각 토큰의 표현을 좌우 양방향 문맥을 동시에 반영해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 2018년 구글의 사전 학습 언어 모델이다.
 > 2. **가치**: [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 언어 모델링 ([MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/), Masked Language Modeling)과 다음 문장 예측 ([NSP](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/), [Next Sentence Prediction](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/)) 두 가지 비지도 사전 학습 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 대규모 텍스트에서 깊은 양방향 언어 표현을 학습한 뒤, 다운스트림 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)만으로 SOTA를 달성한다.
-> 3. **판단 포인트**: BERT는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-only) 구조라 텍스트 **이해** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/), QA)에 강하고, GPT처럼 텍스트 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**은 하지 않는다. 이 차이를 기술사 시험에서 반드시 구별해야 한다.
+> 3. **판단 포인트**: BERT는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-only) 구조라 텍스트 **이해** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/), QA)에 강하고, GPT처럼 텍스트 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>은 하지 않는다. 이 차이를 기술사 시험에서 반드시 구별해야 한다.
 
 ---
 
@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향으로 활용하여 이 문제를 해결했다. 입력 전체를 동시에 보는 셀프 어텐션 덕분에 각 토큰은 자신의 좌측과 우측 모든 토큰으로부터 정보를 받아 표현(Representation)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 눈가리개를 하고 오른쪽에서 왼쪽으로만 책을 읽는 것이고, BERT는 눈가리개를 벗고 책 전체를 동시에 보면서 "앞 문장, 뒷 문장 다 보고 이 단어가 어떤 뜻인지 결정"하는 것이다. 두 눈으로 보면 깊이감(문맥 이해)이 달라진다.
 
@@ -38,32 +41,28 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         BERT 사전 학습 (Pre-training) 구조                         │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ① MLM (Masked Language Modeling, 마스크 언어 모델링):             │
-│                                                                  │
-│  입력: "나는 [MASK]을 좋아한다" (15% 토큰 무작위 마스킹)            │
-│         │                                                        │
-│  Transformer 인코더 (12층, 양방향 셀프 어텐션)                     │
-│         │                                                        │
-│  출력: [MASK] 위치에서 원래 단어 "기계학습" 예측                    │
-│  → 양방향 문맥("나는 ...을 좋아한다")을 모두 이용해 예측 학습!       │
-│                                                                  │
-│  ② NSP (Next Sentence Prediction, 다음 문장 예측):                │
-│                                                                  │
-│  입력: [CLS] 문장A [SEP] 문장B [SEP]                               │
-│  레이블: 문장B가 문장A 다음에 오는 문장인지(IsNext) / 아닌지(NotNext) │
-│  → 문장 간 관계 학습 (QA, 추론 태스크에 유용)                       │
-│                                                                  │
-│  특수 토큰:                                                        │
-│  [CLS]: 문장 분류를 위한 집계 토큰 (첫 번째 위치)                    │
-│  [SEP]: 문장 경계 구분 토큰                                         │
-│  [MASK]: 마스킹된 위치 표시 토큰                                     │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BERT 사전 학습 (Pre-training) 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① MLM (Masked Language Modeling, 마스크 언어 모델링):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력: "나는</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">을 좋아한다" (15% 토큰 무작위 마스킹)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformer 인코더 (12층, 양방향 셀프 어텐션)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">출력:</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">위치에서 원래 단어 "기계학습" 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 양방향 문맥("나는 ...을 좋아한다")을 모두 이용해 예측 학습!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② NSP (Next Sentence Prediction, 다음 문장 예측):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">문장A</div><div class="kb-diagram-node">SEP</div><div class="kb-diagram-note">문장B</div><div class="kb-diagram-node">SEP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블: 문장B가 문장A 다음에 오는 문장인지(IsNext) / 아닌지(NotNext)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 문장 간 관계 학습 (QA, 추론 태스크에 유용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특수 토큰:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">: 문장 분류를 위한 집계 토큰 (첫 번째 위치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SEP</div><div class="kb-diagram-note">: 문장 경계 구분 토큰</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">: 마스킹된 위치 표시 토큰</div></div>
+</div>
+</div>
+
+
 
 | 모델 | 레이어 수 | 어텐션 헤드 | 파라미터 | 사용 목적 |
 |:---|:---|:---|:---|:---|
@@ -92,7 +91,7 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">파인 튜닝</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 - 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): [CLS] 토큰 벡터 위에 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
 - [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)): 각 토큰별 벡터에 레이블 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
 - 질의응답(QA): 질문+지문을 입력으로 정답 시작/끝 위치 예측
@@ -130,9 +129,9 @@ BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engi
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **BERT**는 문장에서 몇 개 단어를 **[MASK]로 가리고** "앞뒤 문맥을 다 보면서 빈칸에 뭐가 들어갈지 맞춰봐!"를 수십억 번 하면서 언어를 배운 AI에요!
-2. 앞**만** 보거나 뒤**만** 보는 게 아니라, **양쪽 동시에** 보면서 빈칸을 추측하니까 언어 이해력이 훨씬 깊어요.
-3. 다 배우고 나면 **어떤 NLP 문제든** (번역, 감정 분석, 질문 답변 등) **조금만 추가 학습**으로 잘 해결할 수 있어요!
+1. <strong>BERT</strong>는 문장에서 몇 개 단어를 **[MASK]로 가리고** "앞뒤 문맥을 다 보면서 빈칸에 뭐가 들어갈지 맞춰봐!"를 수십억 번 하면서 언어를 배운 AI에요!
+2. 앞<strong>만</strong> 보거나 뒤<strong>만</strong> 보는 게 아니라, **양쪽 동시에** 보면서 빈칸을 추측하니까 언어 이해력이 훨씬 깊어요.
+3. 다 배우고 나면 **어떤 NLP 문제든** (번역, 감정 분석, 질문 답변 등) <strong>조금만 추가 학습</strong>으로 잘 해결할 수 있어요!
 
 ---
 

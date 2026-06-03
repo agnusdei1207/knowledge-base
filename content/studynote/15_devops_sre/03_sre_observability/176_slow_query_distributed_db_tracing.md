@@ -25,17 +25,19 @@ tags = ["studynote-devops-sre"]
 
 [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 훼손의 전형적 원인이다. P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나가 연결 풀 고갈, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 폭증으로 연쇄 전파되기 때문이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB에서는 "DB만 본다"가 아니라 요청 단위의 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 관찰이 필수다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다      │
-├──────────────────────────────────────────────────────────────┤
-│ Client ─▶ API ─▶ SQL Router ─▶ Shard A                      │
-│                            ├▶ Shard B                       │
-│                            └▶ Shard C ─▶ Merge / Sort       │
-│                                                              │
-│ 어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ API ─▶ SQL Router ─▶ Shard A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Shard B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Shard C ─▶ Merge / Sort</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 추적은 택배가 늦었을 때 "도착이 늦다"만 보는 것이 아니라, 물류센터·간선차량·지역배송 중 어디서 막혔는지 배송 이력을 따라가는 일과 같다.
 
@@ -54,25 +56,28 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 Trace ID와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜이 어떻게 연결되는지 보여준다.
 
-```text
-Request Trace ID: 9f2c...
-┌──────────────────────────────────────────────────────────────┐
-│ API Span (35 ms)                                             │
-│  └─ SQL Router Span (910 ms)                                 │
-│      ├─ Shard-01 Span (42 ms)  : Index Range Scan            │
-│      ├─ Shard-02 Span (51 ms)  : Index Range Scan            │
-│      ├─ Shard-03 Span (781 ms) : Table Scan   ◀ bottleneck   │
-│      └─ Merge Sort Span (36 ms)                              │
-└──────────────────────────────────────────────────────────────┘
 
-Plan Hash: a13b...
-Query Fingerprint: SELECT * FROM orders WHERE user_id = ?
-Slow Log Row: rows_examined=1,240,000 / rows_sent=20
-```
 
-여기서 중요한 것은 단순 SQL 전문보다 **query fingerprint**다. 바인드 값이 다른 동일 형태 SQL을 하나로 묶어야 반복 패턴을 찾을 수 있고, 샤드별 span과 플랜 hash를 조합해야 특정 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 회귀(regression)를 감지할 수 있다. 또한 estimated rows와 actual rows 차이가 크면 통계 노후화(stale [statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/)), plan hash는 같은데 특정 샤드만 느리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐나 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 의심할 수 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Request Trace ID: 9f2c...</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Span (35 ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL Router Span (910 ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-01 Span (42 ms) : Index Range Scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-02 Span (51 ms) : Index Range Scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-03 Span (781 ms) : Table Scan ◀ bottleneck</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Merge Sort Span (36 ms)</div></div>
+<div class="kb-diagram-note">Plan Hash: a13b...</div>
+<div class="kb-diagram-note">Query Fingerprint: SELECT * FROM orders WHERE user_id = ?</div>
+<div class="kb-diagram-note">Slow Log Row: rows_examined=1,240,000 / rows_sent=20</div>
+</div>
+</div>
 
-운영 부담을 줄이려면 모든 요청에 상세 계획을 붙이기보다, 일정 임계값 이상 느린 trace만 샘플링해 플랜 캡처를 수행하는 것이 일반적이다. 즉 핵심 원리는 **전수 계측이 아니라 상관 가능한 선택적 계측**이다.
+
+
+여기서 중요한 것은 단순 SQL 전문보다 <strong>query fingerprint</strong>다. 바인드 값이 다른 동일 형태 SQL을 하나로 묶어야 반복 패턴을 찾을 수 있고, 샤드별 span과 플랜 hash를 조합해야 특정 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 회귀(regression)를 감지할 수 있다. 또한 estimated rows와 actual rows 차이가 크면 통계 노후화(stale [statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/)), plan hash는 같은데 특정 샤드만 느리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐나 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 의심할 수 있다.
+
+운영 부담을 줄이려면 모든 요청에 상세 계획을 붙이기보다, 일정 임계값 이상 느린 trace만 샘플링해 플랜 캡처를 수행하는 것이 일반적이다. 즉 핵심 원리는 <strong>전수 계측이 아니라 상관 가능한 선택적 계측</strong>이다.
 
 - **📢 섹션 요약 비유**: 트레이스는 CCTV이고 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜은 주방 조리표다. 둘을 함께 봐야 "어느 요리사가 어느 공정에서 병목을 만들었는지" 정확히 말할 수 있다.
 
@@ -91,7 +96,7 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리시스템(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, RDBMS) 단일 노드 환경과 비교하면 경계가 더 분명해진다. 단일 DB는 "이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없어서 느리다"로 끝나는 경우가 많지만, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB는 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있어도 크로스샤드 조인, [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) 실패, 리더 노드 편중, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 같은 별도 변수가 추가된다. 그래서 `EXPLAIN`만 잘 읽는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리자 역량에 더해, 네트워크·[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)·애플리케이션 계층을 함께 보는 [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 관점이 필요하다.
 
-[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/), [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Jaeger나 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) Tempo, `pg_stat_statements` 또는 엔진별 slow query [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이 연결을 위한 기본 부품들이다. 결국 이 주제는 DB 튜닝 단독 과목이 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 한 사례**로 이해해야 한다.
+[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/), [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Jaeger나 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) Tempo, `pg_stat_statements` 또는 엔진별 slow query [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이 연결을 위한 기본 부품들이다. 결국 이 주제는 DB 튜닝 단독 과목이 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/">관측 가능성</a>의 한 사례</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 체온계, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 진료 기록, 트레이스는 정밀 촬영, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜은 수술 장면에 가깝다. 어느 하나만으로는 병을 알 수 있지만, 정확한 수술 계획은 모두를 함께 볼 때 나온다.
 
@@ -123,7 +128,7 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 - SQL 원문을 그대로 수집해 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)·[민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)를 노출하는 경우
 - [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스를 서로 다른 보존기간으로 두어 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)이 불가능한 경우
 
-기술사 답안에서는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝"만 적기보다, **관측 → [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) → 원인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 구조 조치**의 흐름을 보여 주는 편이 좋다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제는 SQL 한 줄보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 호출 구조가 더 큰 원인인 경우가 많기 때문이다.
+기술사 답안에서는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝"만 적기보다, <strong>관측 → <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a> → 원인 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 구조 조치</strong>의 흐름을 보여 주는 편이 좋다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제는 SQL 한 줄보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 호출 구조가 더 큰 원인인 경우가 많기 때문이다.
 
 - **📢 섹션 요약 비유**: 좋은 운영자는 막힌 고속도로에서 차를 더 세게 몰라고 하지 않는다. 어느 톨게이트와 어느 차선이 병목인지 먼저 찾아야 우회로와 차선 확장을 올바르게 결정할 수 있다.
 
@@ -135,7 +140,7 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 
 또한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), DB를 관통하는 공통 Trace ID를 쓰면 조직 간 책임 공방도 줄어든다. 애플리케이션 팀은 재시도 폭증을, 플랫폼 팀은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 큐를, DBA는 플랜 회귀를 같은 화면에서 볼 수 있기 때문이다. 즉 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기술적 진실의 공용 언어가 된다.
 
-한계도 있다. 트레이스 저장 비용, plan capture 오버헤드, [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 보존기간 불일치 문제는 실제 운영에서 반드시 설계해야 한다. 앞으로는 plan regression [detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), adaptive [sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/), 자동 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추천이 결합되면서 더 자율적인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 운영으로 발전할 가능성이 크다. 따라서 이 주제는 "느린 SQL 찾기"가 아니라 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 인과 경로를 복원하는 [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 기법**으로 기억해야 한다.
+한계도 있다. 트레이스 저장 비용, plan capture 오버헤드, [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 보존기간 불일치 문제는 실제 운영에서 반드시 설계해야 한다. 앞으로는 plan regression [detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/), adaptive [sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/), 자동 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추천이 결합되면서 더 자율적인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 운영으로 발전할 가능성이 크다. 따라서 이 주제는 "느린 SQL 찾기"가 아니라 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 인과 경로를 복원하는 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">observability</a> 기법</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 역추적은 자동차 계기판이 아니라 블랙박스 분석에 가깝다. 단순히 속도가 느렸다는 사실을 넘어서, 어느 구간에서 왜 브레이크가 걸렸는지까지 밝혀야 재발을 막을 수 있다.
 
@@ -154,21 +159,23 @@ Slow Log Row: rows_examined=1,240,000 / rows_sent=20
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-슬로우 쿼리 로그 수집
-    │
-    ▼
-Query Fingerprint 정규화
-    │
-    ▼
-Trace ID 기반 요청 상관 분석
-    │
-    ▼
-샤드별 실행 계획 비교 · Plan Hash 관리
-    │
-    ▼
-Adaptive Sampling · 자동 튜닝 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">슬로우 쿼리 로그 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Query Fingerprint 정규화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trace ID 기반 요청 상관 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">샤드별 실행 계획 비교 · Plan Hash 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adaptive Sampling · 자동 튜닝 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "느린 SQL 목록"에서 출발해 "요청 단위 인과 복원"과 "자동 분석"으로 발전하는 관측 성숙도를 보여준다.
 

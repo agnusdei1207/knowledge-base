@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 해밍 거리(Hamming Distance)는 길이가 같은 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 비교했을 때, **서로 값이 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 개수**를 수학적으로 측정한 논리적 거리다.
+> 1. **본질**: 해밍 거리(Hamming Distance)는 길이가 같은 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 비교했을 때, <strong>서로 값이 다른 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>의 개수</strong>를 수학적으로 측정한 논리적 거리다.
 > 2. **가치**: 통신 중 에러가 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 발생해도 안전한지 측정하는 기준표가 되며, 에러 검출 및 정정 코드([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 설계 시 시스템의 방어 능력을 수치화하는 척도다.
 > 3. **판단 포인트**: 시스템이 요구하는 오류 검출 개수($e$)와 정정 개수($t$)를 만족하기 위해서는, 코드북 설계 시 해밍 거리를 $d \ge e + t + 1$ 로 강제 이격시키는 아키텍처적 결단이 필요하다.
 
@@ -31,24 +31,25 @@ tags = ["studynote-computer-architecture"]
 ### 해밍 거리의 측정 로직
 하드웨어 연산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해밍 거리를 **XOR (배타적 논리합)** 연산 한 번으로 광속 측정한다. XOR은 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 다를 때만 1을 출력하므로, XOR 연산 결과에 포함된 1의 개수(Hamming [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 바로 해밍 거리가 된다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           해밍 거리 계산의 수학적 시각화 (XOR 연산)        │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   데이터 A : 1 0 1 1 1 0 1                             │
-│   데이터 B : 1 0 0 1 0 0 1                             │
-│   ──────────────────────── (비트 단위 XOR)             │
-│   결과     : 0 0 1 0 1 0 0  ──▶ '1'이 2개 발생        │
-│                                                        │
-│   * 결론: 두 데이터의 해밍 거리는 '2'이다.                  │
-│     (데이터 A가 2번의 에러를 겪으면 데이터 B로 둔갑함)      │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해밍 거리 계산의 수학적 시각화 (XOR 연산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 A : 1 0 1 1 1 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 B : 1 0 0 1 0 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비트 단위 XOR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 : 0 0 1 0 1 0 0 ──▶ '1'이 2개 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 두 데이터의 해밍 거리는 '2'이다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 A가 2번의 에러를 겪으면 데이터 B로 둔갑함)</div></div>
+</div>
+</div>
+
+
 
 ### 오류 검출 및 정정의 절대 공식
 코드 집합([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))의 최소 해밍 거리($d_{min}$)는 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방어 능력을 결정짓는 헌법과 같다.
-- **에러 검출 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**: $e$ 개의 에러를 알아채려면, 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 거리는 최소 $e + 1$ 이어야 한다. ($d \ge e + 1$)
+- <strong>에러 검출 (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: $e$ 개의 에러를 알아채려면, 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 거리는 최소 $e + 1$ 이어야 한다. ($d \ge e + 1$)
 - **에러 정정 (Correction)**: $t$ 개의 에러를 찾아내어 고치려면, 최소 $2t + 1$ 의 거리가 필요하다. ($d \ge 2t + 1$)
 
 거리가 3인 시스템은 1비트 에러가 발생해도, 원래의 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쪽으로 더 가깝기 때문에(다수결 원칙) 1비트 정정이 가능하다.
@@ -78,11 +79,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **생체 인식 (지문, 홍채) 매칭의 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 센서에서 읽어들인 홍채 패턴 해시(Hash)값은 매번 미세한 노이즈가 섞인다. 아키텍트는 "등록된 원본 해시와 새로 들어온 해시의 해밍 거리가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하일 경우 동일인으로 간주(Accept)한다"는 임계값(Threshold) 거버넌스를 설계한다. 거리를 너무 좁히면 본인도 거부당하고(FRR 상승), 넓히면 타인이 통과된다(FAR 상승).
-2. **D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 칩 설계**: 서버용 램은 방사선 등으로 인해 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 휙휙 뒤집힌다. 서버 아키텍트는 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 최소 해밍 거리를 '4'로 벌려놓은 SEC-DED(Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)) 회로를 램 옆에 융합하여, 1비트 에러는 몰래 고치고 2비트 에러는 시스템을 멈춰 세우는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉을 유발하도록 설계한다.
+1. <strong>생체 인식 (지문, 홍채) 매칭의 임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 센서에서 읽어들인 홍채 패턴 해시(Hash)값은 매번 미세한 노이즈가 섞인다. 아키텍트는 "등록된 원본 해시와 새로 들어온 해시의 해밍 거리가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하일 경우 동일인으로 간주(Accept)한다"는 임계값(Threshold) 거버넌스를 설계한다. 거리를 너무 좁히면 본인도 거부당하고(FRR 상승), 넓히면 타인이 통과된다(FAR 상승).
+2. <strong>D램(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a>)의 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>(Error Correction <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 칩 설계</strong>: 서버용 램은 방사선 등으로 인해 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 휙휙 뒤집힌다. 서버 아키텍트는 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 최소 해밍 거리를 '4'로 벌려놓은 SEC-DED(Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/)) 회로를 램 옆에 융합하여, 1비트 에러는 몰래 고치고 2비트 에러는 시스템을 멈춰 세우는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉을 유발하도록 설계한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **해밍 거리 한계를 초과하는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 방치**: 무선 통신처럼 천둥번개가 칠 때 수십 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 통째로 깨지는([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 환경에서, 해밍 거리에 기반한 단순 블록 코드만 믿고 있는 설계. 에러가 정정 범위를 넘어서면 다른 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(엉뚱한 값) 쪽으로 거리가 더 가까워져 시스템이 "완벽하게 고쳤다"고 착각하는 끔찍한 사태(Miscorrection)가 벌어진다. 이때는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흩뿌리는 인터리빙(Interleaving) 아키텍처를 반드시 결합해야 한다.
+- <strong>해밍 거리 한계를 초과하는 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">버스트 에러</a> 방치</strong>: 무선 통신처럼 천둥번개가 칠 때 수십 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 통째로 깨지는([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 환경에서, 해밍 거리에 기반한 단순 블록 코드만 믿고 있는 설계. 에러가 정정 범위를 넘어서면 다른 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(엉뚱한 값) 쪽으로 거리가 더 가까워져 시스템이 "완벽하게 고쳤다"고 착각하는 끔찍한 사태(Miscorrection)가 벌어진다. 이때는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흩뿌리는 인터리빙(Interleaving) 아키텍처를 반드시 결합해야 한다.
 
 - **📢 섹션 요약 비유**: 해밍 거리를 과신하는 것은 얇은 방탄복(1비트 정정)을 입고 기관총([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 앞으로 뛰어드는 것과 같다. 방탄복은 권총 한 발은 막아주지만, 연발 사격을 맞으면 오히려 뚫린 상처가 더 커진다. 환경에 맞는 방어구([리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/) 등)를 입어야 한다.
 
@@ -102,27 +103,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) ([Hamming Code](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))** | 해밍 거리 원리를 응용하여 패리티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 체계적으로 교차 배치해 1비트 에러를 스스로 고치는 대표적인 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 구현체 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">Hamming Code</a>)</strong> | 해밍 거리 원리를 응용하여 패리티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 체계적으로 교차 배치해 1비트 에러를 스스로 고치는 대표적인 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 구현체 |
 | **증후군 (Syndrome)** | 수신된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해밍 거리가 0(정상)에서 벗어났을 때, 에러가 발생한 정확한 위치를 계산해 낸 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 값 |
 | **리드 솔로몬 (Reed-Solomon) 코드** | 해밍 거리를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 아닌 심볼(블록) 단위로 확장하여, QR 코드나 CD 긁힘 같은 대규모 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)를 고치는 진화된 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리적 채널 노이즈와 데이터 왜곡
-    │
-    ▼
-해밍 거리 (Hamming Distance) 개념 정립 (에러의 수학적 계량화)
-    │
-    ▼
-최소 해밍 거리($d_{min}$)에 따른 에러 검출($e$) 및 정정($t$) 능력 도출
-    │
-    ▼
-해밍 코드 (Hamming Code) 및 SEC-DED 블록 아키텍처 설계
-    │
-    ▼
-정보 이론 확장 및 현대 다차원 에러 정정 알고리즘 (LDPC, Turbo Code)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리적 채널 노이즈와 데이터 왜곡</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 거리 (Hamming Distance) 개념 정립 (에러의 수학적 계량화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 해밍 거리($d_{min}$)에 따른 에러 검출($e$) 및 정정($t$) 능력 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 코드 (Hamming Code) 및 SEC-DED 블록 아키텍처 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 이론 확장 및 현대 다차원 에러 정정 알고리즘 (LDPC, Turbo Code)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "에러의 수치화 → 방어능력 한계 증명 → 자기 정정 코드 발명 → 현대 통신의 극한 효율 정정"으로 이어지는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 이론의 뿌리를 보여준다.
 

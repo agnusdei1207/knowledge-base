@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 Jira 같은 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드를 쓰면 티켓들이 오른쪽으로 이동하긴 하지만, 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 남지 않아 "어제는 어땠고, 지난주에는 어디가 막혔는지" 흐름(Flow)을 파악할 수 없다. 
 
-이 보이지 않는 소프트웨어 공장의 재고(대기 중인 코드)를 눈에 보이게 만들어주는 엑스레이가 바로 **[누적 흐름도](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/)(CFD)**다. 시간이 지날수록 각 단계에 티켓이 몇 개씩 쌓이고 있는지 색깔별로 누적해서 그려주어, 조직의 혈관이 어디서 막히는지 정확히 짚어준다.
+이 보이지 않는 소프트웨어 공장의 재고(대기 중인 코드)를 눈에 보이게 만들어주는 엑스레이가 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/">누적 흐름도</a>(CFD)</strong>다. 시간이 지날수록 각 단계에 티켓이 몇 개씩 쌓이고 있는지 색깔별로 누적해서 그려주어, 조직의 혈관이 어디서 막히는지 정확히 짚어준다.
 
 - **📢 섹션 요약 비유**: [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드가 '지금 이 순간 도로의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 화면'이라면, [누적 흐름도](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/)(CFD)는 '한 달 치 도로의 교통량 통계 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)'다. CCTV만 봐서는 어제도 막혔는지 알 수 없지만, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 보면 "맨날 톨게이트(테스트 단계)에서 차가 밀리는구나"를 알 수 있다.
 
@@ -31,18 +31,17 @@ Jira 같은 [칸반](/knowledge-base/studynote/04_software_engineering/02_requir
 
 다음은 [누적 흐름도](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) 병목 지점 병목 분석의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  누적 흐름도 병목 지점 병목 분석                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누적 흐름도 병목 지점 병목 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [누적 흐름도](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) 병목 지점 병목 분석가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ CFD는 X축을 시간(날짜), Y축을 누적된 티켓(이슈) 개수로 설정
 
 | 비교 항목 | [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) ([Gantt Chart](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) ([Burndown Chart](/knowledge-base/studynote/04_software_engineering/uncategorized/660_burndown_chart/)) | [누적 흐름도](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) (CFD) |
 |:---|:---|:---|:---|
-| **개발 방법론** | 전통적 폭포수 (Waterfall) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | **린 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) / [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))** |
-| **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 형태** | 가로 막대기 릴레이 | 우하향 직선 (잔여 작업량) | **우상향 면적 (누적 작업량)** |
+| **개발 방법론** | 전통적 폭포수 (Waterfall) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) | <strong>린 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a>) / <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 형태</strong> | 가로 막대기 릴레이 | 우하향 직선 (잔여 작업량) | **우상향 면적 (누적 작업량)** |
 | **주요 목적** | 누가 언제 무슨 일을 하는가? | 남은 시간 안에 다 끝낼 수 있나? | **어느 단계에서 병목이 생겼나?** |
 | **관리의 초점** | 일정 준수 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 달성 | **흐름(Flow)의 최적화** |
 
@@ -132,21 +131,23 @@ CFD를 그려보면 조직 내에서 누가 욕심을 부리고 있고, 누가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-누적 흐름도 병목 지점 병목 분석 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">누적 흐름도 병목 지점 병목 분석 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

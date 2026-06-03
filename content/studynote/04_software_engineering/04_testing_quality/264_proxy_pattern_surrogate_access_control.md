@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 프록시 (Proxy)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프록시 (Proxy)                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프록시 (Proxy)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 프록시 (Proxy)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Proxy (대리인, 비서)**
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 어떤 무겁거나 보안이 필요한 진짜 객체(Real Subject)를 클라이언트가 직접 만지지 못하도록, **진짜 객체와 똑같은 껍데기(인터페이스)를 뒤집어쓴 '가짜 대리인 객체(Proxy)'를 앞에 세워두고, 이 대리인이 접근을 통제하거나(보안) 필요할 때만 진짜를 부르게([지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)) 만드는 방어 및 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 아키텍처 패턴**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 어떤 무겁거나 보안이 필요한 진짜 객체(Real Subject)를 클라이언트가 직접 만지지 못하도록, <strong>진짜 객체와 똑같은 껍데기(인터페이스)를 뒤집어쓴 '가짜 대리인 객체(Proxy)'를 앞에 세워두고, 이 대리인이 접근을 통제하거나(보안) 필요할 때만 진짜를 부르게(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">지연 로딩</a>) 만드는 방어 및 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 프록시 (Proxy)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -81,10 +80,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **핵심 룰**: 프록시(비서) 클래스는 진짜 객체(회장님) 클래스와 **반드시 똑같은 인터페이스(껍데기 조약)**를 상속받아야 합니다! 
+- **핵심 룰**: 프록시(비서) 클래스는 진짜 객체(회장님) 클래스와 <strong>반드시 똑같은 인터페이스(껍데기 조약)</strong>를 상속받아야 합니다! 
 - 그래야 클라이언트(사용자) 입장에선 비서인지 회장님인지 전혀 눈치채지 못하고 똑같은 `showImage()` 함수를 때리며 편하게 속아 넘어갈 수 있습니다.
 
-> 📢 **섹션 요약 비유**: **프록시(Proxy) 패턴**은 거물급 아이돌 스타(진짜 무거운 객체) 앞을 가로막고 있는 **'만능 매니저(대리인 객체)'**입니다. 옛날엔 동네 꼬마, 사생팬, 진짜 방송국 피디(클라이언트들)가 모두 다이렉트로 아이돌(진짜 객체)을 찾아가 옷깃을 잡아끌었습니다. 아이돌은 쉴 틈이 없어 과로사합니다(메모리 폭발, 보안 붕괴). 이를 막기 위해 소속사가 매니저(프록시)를 앞에 세웁니다. 이 매니저는 겉보기엔 아이돌의 명찰과 똑같은 옷(인터페이스)을 입고 있습니다. 1. 사생팬이 사인을 요구하면 매니저가 컷(보안 프록시 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)) 해버립니다. 2. 잡지사가 예전 사진을 달라고 하면, 굳이 자고 있는 아이돌을 깨우지 않고 매니저가 자기 가방에 있던 예전 사진을 대신 던져줍니다([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 프록시). 3. 진짜 방송국 피디가 와서 "생방송 무대 나가야 해!"라고 강력하게 요구하는 그 마지막 결정적 순간([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))에만! 매니저가 조용히 뒤로 가서 아이돌(Real Subject)을 깨워 무대 위로 올려보냅니다([지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)). 진짜 핵심 자산이 피곤하게 닳거나 털리는 것을 막고, 문 앞의 비서가 궂은일을 싹 다 짬처리해 시스템을 극도로 최적화하는 방어의 꽃입니다.
+> 📢 **섹션 요약 비유**: <strong>프록시(Proxy) 패턴</strong>은 거물급 아이돌 스타(진짜 무거운 객체) 앞을 가로막고 있는 <strong>'만능 매니저(대리인 객체)'</strong>입니다. 옛날엔 동네 꼬마, 사생팬, 진짜 방송국 피디(클라이언트들)가 모두 다이렉트로 아이돌(진짜 객체)을 찾아가 옷깃을 잡아끌었습니다. 아이돌은 쉴 틈이 없어 과로사합니다(메모리 폭발, 보안 붕괴). 이를 막기 위해 소속사가 매니저(프록시)를 앞에 세웁니다. 이 매니저는 겉보기엔 아이돌의 명찰과 똑같은 옷(인터페이스)을 입고 있습니다. 1. 사생팬이 사인을 요구하면 매니저가 컷(보안 프록시 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)) 해버립니다. 2. 잡지사가 예전 사진을 달라고 하면, 굳이 자고 있는 아이돌을 깨우지 않고 매니저가 자기 가방에 있던 예전 사진을 대신 던져줍니다([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 프록시). 3. 진짜 방송국 피디가 와서 "생방송 무대 나가야 해!"라고 강력하게 요구하는 그 마지막 결정적 순간([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))에만! 매니저가 조용히 뒤로 가서 아이돌(Real Subject)을 깨워 무대 위로 올려보냅니다([지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)). 진짜 핵심 자산이 피곤하게 닳거나 털리는 것을 막고, 문 앞의 비서가 궂은일을 싹 다 짬처리해 시스템을 극도로 최적화하는 방어의 꽃입니다.
 
 - **📢 섹션 요약 비유**: 프록시 (Proxy)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프록시 (Proxy) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프록시 (Proxy) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

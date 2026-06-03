@@ -38,25 +38,23 @@ ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 | **CoreDNS** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 `svc-name.namespace.svc.cluster.local` 형태의 FQDN (Fully Qualified [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Name)을 자동 등록한다. |
 | **Kube-proxy** | 노드 레벨에서 트래픽을 가로채어 엔드포인트에 등록된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin) 방식으로 패킷을 전달한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           ClusterIP를 통한 파드 간 통신 흐름도              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Frontend Pod]                                              │
-│         │ 1. HTTP GET http://backend-svc                     │
-│         ▼                                                    │
-│  [CoreDNS] ─▶ 2. DNS 질의: backend-svc -> 10.96.0.10 반환    │
-│         │                                                    │
-│         ▼ 3. 트래픽 전송 (Dest: 10.96.0.10)                  │
-│  [Kube-proxy (iptables/IPVS)] ◀─ 4. 규칙 매칭 및 로드밸런싱 │
-│         │                                                    │
-│         ├───────────────┬───────────────┐                    │
-│         ▼               ▼               ▼ 5. 파드로 전달     │
-│    [Backend 1]     [Backend 2]     [Backend 3]               │
-│    (10.1.1.2)      (10.1.1.5)      (10.1.1.9)                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClusterIP를 통한 파드 간 통신 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Frontend Pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. HTTP GET http://backend-svc</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoreDNS</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">2. DNS 질의: backend-svc -&gt; 10.96.0.10 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. 트래픽 전송 (Dest: 10.96.0.10)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-proxy (iptables/IPVS)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 4. 규칙 매칭 및 로드밸런싱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ ▼ 5. 파드로 전달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Backend 1</div><div class="kb-diagram-node">Backend 2</div><div class="kb-diagram-node">Backend 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10.1.1.2) (10.1.1.5) (10.1.1.9)</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 트래픽은 실제로는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 노드의 네트워크 스택을 거쳐 대상 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 바로 라우팅된다. ClusterIP라는 물리적 장비가 존재하는 것이 아니라, 각 노드의 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 규칙에 의해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 라우팅이 성립하는 것이다.
 
@@ -72,7 +70,7 @@ ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 | :--- | :--- | :--- | :--- |
 | **접근 범위** | 클러스터 **내부** 통신 전용 | 클러스터 **외부** (노드 IP + [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | 클러스터 **외부** (클라우드 로드밸런서) |
 | **통신 대상** | 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) | 테스트 환경, 자체 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 연동 | 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 프론트엔드 노출 |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)** | 매우 높음 (외부 격리) | 중간 ([포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 노출 위험) | 낮음 (공인 IP 부여 시 위험 증가) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 매우 높음 (외부 격리) | 중간 ([포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 노출 위험) | 낮음 (공인 IP 부여 시 위험 증가) |
 | **구조적 의존성**| 독립적 동작 | 내부적으로 ClusterIP를 포함 | 내부적으로 NodePort와 ClusterIP를 포함 |
 
 NodePort를 열든 클라우드의 LoadBalancer를 붙이든, 결국 트래픽의 종착지 바로 앞에서는 ClusterIP의 룰을 거쳐 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 분배된다. 따라서 ClusterIP는 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 네트워킹의 근간이 된다.
@@ -86,9 +84,9 @@ NodePort를 열든 클라우드의 LoadBalancer를 붙이든, 결국 트래픽�
 실무 아키텍처 설계에서 ClusterIP는 보안 격리와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 디커플링의 핵심 도구로 쓰인다. 트래픽의 [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)) 경로를 설계할 때 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 클러스터 외부로 노출할지 엄격히 통제해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **내부망 격리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 실수로 NodePort나 LoadBalancer로 열려 있지 않은가? (반드시 ClusterIP 사용)
+1. <strong>내부망 격리 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 실수로 NodePort나 LoadBalancer로 열려 있지 않은가? (반드시 ClusterIP 사용)
 2. **FQDN 활용**: 애플리케이션 환경 변수에 대상 서버의 하드코딩된 IP가 아닌, `svc-name.namespace.svc.cluster.local`과 같은 CoreDNS [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 네임이 설정되어 있는가?
-3. **[Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고려**: [StatefulSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) 등에서 개별 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 직접 접근해야 하는 경우, ClusterIP 값을 `None`으로 설정하여 DNS가 여러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) IP를 직접 반환하게([Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)) 구성했는가?
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 고려</strong>: [StatefulSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/088_statefulset_kubernetes_persistent_workload/) 등에서 개별 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 직접 접근해야 하는 경우, ClusterIP 값을 `None`으로 설정하여 DNS가 여러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) IP를 직접 반환하게([Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)) 구성했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 내부 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)인데 편의성을 위해 NodePort를 열어두고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신에 노드 IP를 사용하는 설계. 이는 트래픽 불균형과 불필요한 네트워크 홉을 발생시킨다.
@@ -114,25 +112,27 @@ ClusterIP를 적극적으로 활용하면 [MSA](/knowledge-base/studynote/01_com
 | **Kube-proxy** | ClusterIP의 가상 IP를 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 IP로 변환하고 라우팅하는 실질적 주체 |
 | **CoreDNS** | ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름에 대해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 해석을 제공하여 이름 기반 통신 완성 |
 | **Endpoint (또는 EndpointSlice)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 트래픽을 보내야 할 살아있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들의 IP 목록 장부 |
-| **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))** | 외부 트래픽을 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 경로(Path)에 따라 적절한 내부 ClusterIP로 전달하는 L7 라우터 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a>)</strong> | 외부 트래픽을 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 경로(Path)에 따라 적절한 내부 ClusterIP로 전달하는 L7 라우터 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-파드 IP 변경에 따른 통신 단절 문제
-    │
-    ▼
-ClusterIP (내부용 가상 IP 및 로드밸런싱)
-    │
-    ▼
-CoreDNS 연동 (FQDN을 통한 이름 기반 서비스 디스커버리)
-    │
-    ▼
-NodePort / LoadBalancer (클러스터 외부 트래픽 유입으로 확장)
-    │
-    ▼
-Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파드 IP 변경에 따른 통신 단절 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ClusterIP (내부용 가상 IP 및 로드밸런싱)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CoreDNS 연동 (FQDN을 통한 이름 기반 서비스 디스커버리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NodePort / LoadBalancer (클러스터 외부 트래픽 유입으로 확장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,21 +19,23 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-클러스터링 팩터는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 "이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 따라가면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 덜 뛰어다니며 읽을 수 있는가"를 판단할 때 보는 통계 값이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 리프 블록은 키 순서대로 정렬되어 있어도, 그 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 가리키는 테이블 행이 디스크 여러 블록에 흩어져 있으면 실제 비용은 급격히 커진다. 즉, CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 존재 여부가 아니라 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 이후의 물리 이동량**을 보여 준다.
+클러스터링 팩터는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 "이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 따라가면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 덜 뛰어다니며 읽을 수 있는가"를 판단할 때 보는 통계 값이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 리프 블록은 키 순서대로 정렬되어 있어도, 그 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 가리키는 테이블 행이 디스크 여러 블록에 흩어져 있으면 실제 비용은 급격히 커진다. 즉, CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 존재 여부가 아니라 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 탐색 이후의 물리 이동량</strong>을 보여 준다.
 
 이 개념이 중요한 이유는 범위 검색 병목이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색보다 테이블 접근에서 자주 발생하기 때문이다. 예를 들어 `WHERE order_date BETWEEN ...` 같은 조회는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 대상 키를 빨리 찾더라도, 실제 주문 행이 블록마다 흩어져 있으면 저장장치는 같은 건수를 읽기 위해 훨씬 많은 블록을 건드려야 한다. 그래서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있는데도 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이 풀 스캔으로 뒤집히는 현상이 생긴다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      Logical key order can still cause physical block jumping       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Index order : 20240101 -> 20240102 -> 20240103 -> 20240104          │
-│ Table block :    B07   ->   B07   ->   B19   ->   B35               │
-│ Read style  : reused block      then jump      then jump again      │
-│                                                                      │
-│ Same key order ≠ same physical locality                             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical key order can still cause physical block jumping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index order : 20240101 -&gt; 20240102 -&gt; 20240103 -&gt; 20240104</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table block : B07 -&gt; B07 -&gt; B19 -&gt; B35</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read style : reused block then jump then jump again</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same key order ≠ same physical locality</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 핵심은 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 정렬돼 있다"와 "테이블이 같이 정렬돼 있다"가 전혀 다른 문제라는 점이다. 클러스터링 팩터는 이 간극을 숫자로 보여 주는 물리 모델링 지표다.
 
@@ -54,18 +56,20 @@ tags = ["studynote-database"]
 
 아래 그림은 CF가 실제로 무엇을 세는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              CF counts table-block changes per leaf walk            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Leaf key      K101    K102    K103    K104    K105    K106          │
-│ Row block     B11     B11     B12     B12     B27     B41           │
-│ CF counter      1       1       2       2       3       4            │
-│                                                                      │
-│ Few changes  -> good locality -> range scan stays efficient          │
-│ Many changes -> poor locality -> table access becomes expensive      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF counts table-block changes per leaf walk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaf key K101 K102 K103 K104 K105 K106</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row block B11 B11 B12 B12 B27 B41</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF counter 1 1 2 2 3 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Few changes -&gt; good locality -&gt; range scan stays efficient</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Many changes -&gt; poor locality -&gt; table access becomes expensive</div></div>
+</div>
+</div>
+
+
 
 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 이 정보를 이용해 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 범위 스캔의 총비용을 추정한다. 단순화하면 `인덱스 탐색 비용 + 예상 행 수 × 블록 접근 비용` 구조인데, 여기서 블록 접근 비용을 밀어 올리는 핵심 통계가 CF다. 통계 정보가 오래되면 실제 적재 상태와 CBO가 보는 CF가 달라져 잘못된 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이 나올 수 있다.
 
@@ -127,7 +131,7 @@ tags = ["studynote-database"]
 
 물론 한계도 있다. [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 환경에서는 랜덤 접근 페널티가 [하드 디스크 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), Hard Disk Drive)보다 줄어들지만, [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 재사용·읽기 증폭·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 지역성 측면에서 물리 군집의 의미는 여전히 남아 있다. 또한 모든 테이블을 물리 정렬 중심으로 설계하면 삽입 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 복잡도가 커질 수 있다.
 
-결국 CF는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조로만 보지 말고 실제 저장 블록과 함께 보라"는 경고장이다. 좋은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계는 키를 잘 고르는 데서 끝나지 않고, **그 키 순서가 실제 비용도 줄이게 만들 수 있는가**까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 완성된다.
+결국 CF는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조로만 보지 말고 실제 저장 블록과 함께 보라"는 경고장이다. 좋은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계는 키를 잘 고르는 데서 끝나지 않고, <strong>그 키 순서가 실제 비용도 줄이게 만들 수 있는가</strong>까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 완성된다.
 
 - **📢 섹션 요약 비유**: 좋은 CF는 엘리베이터도 빠르고 손님 방도 층별로 잘 모여 있는 호텔이고, 나쁜 CF는 엘리베이터는 빨라도 손님이 건물 전체에 흩어진 호텔과 같다.
 
@@ -146,21 +150,23 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인덱스 탐색
-    │
-    ▼
-선택도 (Selectivity) 판단
-    │
-    ▼
-클러스터링 팩터 (CF)로 물리 정렬 평가
-    │
-    ├─ 좋음  → 인덱스 범위 스캔 강화
-    └─ 나쁨  → 풀 스캔 · 재구성 · 파티셔닝 검토
-    │
-    ▼
-물리 모델링 최적화 (Clustered Storage / IOT / Covering Index)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인덱스 탐색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선택도 (Selectivity) 판단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클러스터링 팩터 (CF)로 물리 정렬 평가</div>
+<div class="kb-diagram-tree-item" style="--depth:2">좋음 → 인덱스 범위 스캔 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">나쁨 → 풀 스캔 · 재구성 · 파티셔닝 검토</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리 모델링 최적화 (Clustered Storage / IOT / Covering Index)</div>
+</div>
+</div>
+
+
 
 이 흐름은 SQL 튜닝이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조건 최적화에서 출발해, 결국 물리 저장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 확장되는 과정을 보여 준다.
 

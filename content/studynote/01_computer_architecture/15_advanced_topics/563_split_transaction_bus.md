@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 요청을 보낸 마스터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 붙잡고 있지 않는 구조다. 주소와 명령, 식별자만 먼저 전달하고 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 반납한 뒤, 슬레이브가 준비를 마치면 나중에 다시 응답을 실어 보낸다. 따라서 이 구조의 핵심은 "응답이 빨라진다"가 아니라, **응답을 기다리는 시간이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 놀게 만들지 않는다**는 데 있다.
+분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 요청을 보낸 마스터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 붙잡고 있지 않는 구조다. 주소와 명령, 식별자만 먼저 전달하고 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 반납한 뒤, 슬레이브가 준비를 마치면 나중에 다시 응답을 실어 보낸다. 따라서 이 구조의 핵심은 "응답이 빨라진다"가 아니라, <strong>응답을 기다리는 시간이 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>를 놀게 만들지 않는다</strong>는 데 있다.
 
 이 방식이 필요해진 배경은 Central Processing Unit (CPU)과 메모리, 또는 서로 다른 노드 사이의 속도 차이가 커졌기 때문이다. 예를 들어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 5ns마다 새 요청을 발행할 수 있는데 메모리 응답이 60ns 뒤에나 도착한다면, 전통적인 점유형 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서는 55ns가 거의 빈 시간으로 버려진다. 멀티코어가 이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 공유하면 한 코어의 캐시 미스가 다른 코어의 요청까지 같이 묶어 두는 병목이 된다.
 
@@ -43,18 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 한 요청이 기다리는 동안 다른 요청이 얼마나 앞질러 들어갈 수 있는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Split Transaction 타임라인: 요청과 응답이 시간상 분리되어 버스를 재사용한다 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Time →                                                                      │
-│ Bus  : [Req A:t3] [Req B:t7] [Req C:t9] ........ [Resp B:t7] [Resp A:t3]    │
-│ A    :    issue ───────────── wait ───────────────────────── capture         │
-│ B    :             issue ───── wait ───────── capture                        │
-│ C    :                      issue ─────────────── wait ────── capture        │
-│ Rule : 응답 순서는 요청 순서와 달라도 tag가 같으면 원래 요청과 결합된다      │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split Transaction 타임라인: 요청과 응답이 시간상 분리되어 버스를 재사용한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time →</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Bus :</div><div class="kb-diagram-node">Req A:t3</div><div class="kb-diagram-node">Req B:t7</div><div class="kb-diagram-node">Req C:t9</div><div class="kb-diagram-note">........</div><div class="kb-diagram-node">Resp B:t7</div><div class="kb-diagram-node">Resp A:t3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A : issue wait capture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B : issue wait capture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C : issue wait capture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule : 응답 순서는 요청 순서와 달라도 tag가 같으면 원래 요청과 결합된다</div></div>
+</div>
+</div>
+
+
 
 정량적으로 보면 outstanding 깊이가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 5ns마다 새 요청을 발행할 수 있고 평균 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 60ns라면, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 거의 놀리지 않으려면 대략 `60 / 5 = 12`개 수준의 outstanding 요청을 동시에 유지할 수 있어야 한다. 이 깊이가 부족하면 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 구조를 써도 중간에 다시 발행 공백이 생긴다.
 
@@ -66,7 +69,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 흔히 파이프라인 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 같이 언급되지만 둘은 같지 않다. 파이프라인 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 주로 **주소 단계의 겹침**을 뜻하고, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 요청과 응답의 소유권 자체를 분리한다. 즉 파이프라인은 시작 간격을 줄이는 기술이고, split은 기다림 동안 통로를 비우는 기술이다.
+분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 흔히 파이프라인 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 같이 언급되지만 둘은 같지 않다. 파이프라인 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 주로 <strong>주소 단계의 겹침</strong>을 뜻하고, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 요청과 응답의 소유권 자체를 분리한다. 즉 파이프라인은 시작 간격을 줄이는 기술이고, split은 기다림 동안 통로를 비우는 기술이다.
 
 | 구조 | 무엇을 겹치는가 | 장점 | 약점 |
 | :-- | :-- | :-- | :-- |
@@ -111,9 +114,9 @@ tags = ["studynote-computer-architecture"]
 
 잘 설계된 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 활용률을 크게 높이고, 코어나 장치가 한 번의 느린 응답 때문에 모두 멈추는 상황을 줄여 준다. 그 결과 메모리 수준 병렬성, 멀티코어 확장성, 원격 노드 접근 효율이 함께 향상된다. 특히 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 긴 시스템에서 "빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"보다 "안 놀고 있는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"가 더 중요할 때가 많다.
 
-하지만 그 대가로 구조는 확실히 복잡해진다. tag 추적, 재정렬, [deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 회피, [Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 오류 복구까지 모두 갖춰야 진짜 split이 된다. 따라서 이 기술은 단순히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 욕심으로 넣는 기능이 아니라, **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 자원 활용 문제로 바꿔 풀어야 할 때 선택하는 구조적 해법**이다.
+하지만 그 대가로 구조는 확실히 복잡해진다. tag 추적, 재정렬, [deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 회피, [Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 오류 복구까지 모두 갖춰야 진짜 split이 된다. 따라서 이 기술은 단순히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 욕심으로 넣는 기능이 아니라, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간을 자원 활용 문제로 바꿔 풀어야 할 때 선택하는 구조적 해법</strong>이다.
 
-앞으로도 Network-on-Chip ([NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), 고성능 가속기 패브릭에서는 여러 outstanding 요청과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉이 핵심이므로 split 사고방식은 계속 중요하다. 기억해야 할 본질은 하나다. 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 응답을 더 빨리 오게 만드는 기술이 아니라, **기다리는 동안 다른 일을 계속하게 만드는 기술**이다.
+앞으로도 Network-on-Chip ([NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), 고성능 가속기 패브릭에서는 여러 outstanding 요청과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉이 핵심이므로 split 사고방식은 계속 중요하다. 기억해야 할 본질은 하나다. 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 응답을 더 빨리 오게 만드는 기술이 아니라, <strong>기다리는 동안 다른 일을 계속하게 만드는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: split [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 한 사람이 엘리베이터를 붙잡고 친구를 기다리는 대신, 호출 버튼만 누르고 옆으로 비켜 모두가 함께 엘리베이터를 쓰게 만드는 규칙과 같다. 기다림 자체는 남아도, 건물 전체 흐름은 훨씬 좋아진다.
 
@@ -132,21 +135,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-점유형 공유 버스
-        │
-        ▼
-주소 단계 파이프라이닝
-        │
-        ▼
-Tag 기반 Split Transaction
-        │
-        ▼
-AXI · PCIe Completion 기반 패킷형 인터커넥트
-        │
-        ▼
-NoC · CXL 기반 다중 outstanding 패브릭
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">점유형 공유 버스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주소 단계 파이프라이닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tag 기반 Split Transaction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AXI · PCIe Completion 기반 패킷형 인터커넥트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NoC · CXL 기반 다중 outstanding 패브릭</div>
+</div>
+</div>
+
+
 
 이 흐름은 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 "한 번에 한 일만 하는 통로"에서 출발해, 점차 요청과 응답을 분리하고 패킷화해 대기시간을 구조적으로 숨기는 방향으로 발전했음을 보여 준다.
 

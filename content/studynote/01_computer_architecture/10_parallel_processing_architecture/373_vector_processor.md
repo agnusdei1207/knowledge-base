@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벡터 프로세서 (Vector Processor)는 같은 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소마다 반복하는 문제를, 원소 단위가 아니라 **벡터 단위 명령**으로 처리해 제어 오버헤드를 줄이는 아키텍처다.
+> 1. **본질**: 벡터 프로세서 (Vector Processor)는 같은 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소마다 반복하는 문제를, 원소 단위가 아니라 <strong>벡터 단위 명령</strong>으로 처리해 제어 오버헤드를 줄이는 아키텍처다.
 > 2. **가치**: 긴 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 파이프라인화된 연산기, 높은 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 맞물리면 과학 계산·행렬 연산·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서 스칼라 처리보다 훨씬 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 낸다.
 > 3. **판단 포인트**: 벡터화 효과는 연산기 수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성, 메모리 공급 속도, 분기와 의존성의 정도에 의해 결정되므로 “[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어가 있다”는 사실만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장되지는 않는다.
 
@@ -19,24 +19,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-벡터 프로세서 (Vector Processor)는 동일한 연산을 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 작업을 빠르게 처리하도록 설계된 특수 목적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다. 스칼라 프로세서 (Scalar Processor)가 `A[0]+B[0]`, `A[1]+B[1]`처럼 원소 하나씩 명령을 반복 해석한다면, 벡터 프로세서는 “두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 더하라”는 식으로 큰 덩어리를 지시한다. 핵심은 계산 그 자체보다 **반복 제어 비용과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독 비용을 얼마나 줄이느냐**에 있다.
+벡터 프로세서 (Vector Processor)는 동일한 연산을 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 작업을 빠르게 처리하도록 설계된 특수 목적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다. 스칼라 프로세서 (Scalar Processor)가 `A[0]+B[0]`, `A[1]+B[1]`처럼 원소 하나씩 명령을 반복 해석한다면, 벡터 프로세서는 “두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 더하라”는 식으로 큰 덩어리를 지시한다. 핵심은 계산 그 자체보다 <strong>반복 제어 비용과 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 해독 비용을 얼마나 줄이느냐</strong>에 있다.
 
 이 구조가 필요해진 배경은 고성능 컴퓨팅 ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/), [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)) 문제의 특성 때문이다. 기상 예측, 유체 해석, 선형대수, 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서는 서로 독립적인 원소에 같은 덧셈·곱셈·누산을 길게 반복하는 경우가 많다. 이런 문제를 일반 중앙처리장치 (Central Processing Unit, CPU)로 처리하면 루프 제어, 분기, 주소 계산이 누적되어 산술 연산기보다 제어부가 더 바빠지는 역전 현상이 생긴다.
 
 벡터 프로세서는 바로 이 지점을 겨냥한다. 한 번 명령을 시작하면 길이 `N`의 벡터를 연속적으로 흘려 보내며 파이프라인을 가득 채우고, 연산기와 메모리 시스템을 끊김 없이 사용하도록 만든다. 따라서 벡터 프로세서는 “연산을 더 똑똑하게 한다”기보다 “반복되는 연산을 덩어리로 묶어 시스템을 낭비 없이 움직이게 한다”는 관점으로 이해해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          같은 수식이라도 처리 단위가 다르면 비용이 달라진다  │
-├──────────────────────────────────────────────────────────────┤
-│ 목표: C[i] = A[i] + B[i]   (i = 0 ... 7)                    │
-│                                                              │
-│ 스칼라 처리: 명령 해독 + 주소 계산 + 연산을 8번 반복          │
-│ 벡터 처리: 벡터 길이 설정 → 한 번의 벡터 덧셈으로 연속 처리   │
-│                                                              │
-│ 제어 중심 구조  ─────────────▶  데이터 흐름 중심 구조         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 수식이라도 처리 단위가 다르면 비용이 달라진다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">목표: C</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">+ B</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">(i = 0 ... 7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스칼라 처리: 명령 해독 + 주소 계산 + 연산을 8번 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 처리: 벡터 길이 설정 → 한 번의 벡터 덧셈으로 연속 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 중심 구조 ▶ 데이터 흐름 중심 구조</div></div>
+</div>
+</div>
+
+
 
 이 그림은 벡터 프로세서의 핵심이 “더 많은 명령”이 아니라 “덜 자주 지시하고 더 오래 흘려보내는 것”임을 보여준다. 즉 벡터 프로세서는 반복문을 빨리 도는 CPU가 아니라, 반복문 자체를 하드웨어 수준에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 장치다.
 
@@ -48,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 벡터 프로세서의 내부는 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 벡터 기능 유닛 (Vector Functional Unit), 벡터 길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 마스크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Mask [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 그리고 고대역폭 메모리 시스템으로 구성된다. 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 여러 스칼라 값을 한 줄로 저장하고, 기능 유닛은 같은 연산을 원소별로 파이프라인 처리한다. 벡터 길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 이번 연산에서 몇 개 원소를 실제로 다룰지 알려 주고, 마스크는 조건이 맞는 원소만 선택적으로 연산하게 만든다.
 
-벡터 처리의 중요한 특징은 “모든 원소를 같은 순간에 한꺼번에 계산”하는 것만이 아니라, **연산 파이프라인을 연속 투입으로 꽉 채우는 것**이다. 예를 들어 덧셈 파이프라인 지연이 4사이클이어도 첫 결과가 나온 뒤에는 매 사이클마다 다음 원소의 결과가 나올 수 있다. 이때 로드, 연산, 저장을 겹쳐 수행하는 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))이 가능하면 한 벡터 연산의 결과가 곧바로 다음 벡터 연산의 입력으로 이어져 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급격히 높아진다.
+벡터 처리의 중요한 특징은 “모든 원소를 같은 순간에 한꺼번에 계산”하는 것만이 아니라, <strong>연산 파이프라인을 연속 투입으로 꽉 채우는 것</strong>이다. 예를 들어 덧셈 파이프라인 지연이 4사이클이어도 첫 결과가 나온 뒤에는 매 사이클마다 다음 원소의 결과가 나올 수 있다. 이때 로드, 연산, 저장을 겹쳐 수행하는 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))이 가능하면 한 벡터 연산의 결과가 곧바로 다음 벡터 연산의 입력으로 이어져 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급격히 높아진다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 포인트 |
 | :--- | :--- | :--- |
@@ -60,23 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 벡터 명령이 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불러와 연산하고 다시 저장되는 전체 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             벡터 명령의 데이터 흐름과 병목 위치              │
-├──────────────────────────────────────────────────────────────┤
-│ 메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V1 ─┐            │
-│ 메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V2 ─┼─▶ VADD ─┐ │
-│                                                 │         │ │
-│ 마스크 레지스터 ────────────────────────────────┘         │ │
-│                                                           ▼ │
-│                                                  벡터 레지스터 V3 │
-│                                                           │ │
-│                                              벡터 저장 ───┘ │
-│                                                           │ │
-│ 병목: 메모리 공급이 느리면 기능 유닛은 비고, 분기가 많으면 마스크 │
-│       활용이 어려워지며, 데이터 의존성이 있으면 체이닝이 약해진다 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 명령의 데이터 흐름과 병목 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V1 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V2 ─ ─▶ VADD ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스크 레지스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 레지스터 V3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: 메모리 공급이 느리면 기능 유닛은 비고, 분기가 많으면 마스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활용이 어려워지며, 데이터 의존성이 있으면 체이닝이 약해진다</div></div>
+</div>
+</div>
+
+
 
 또 하나의 핵심은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) ([Memory Interleaving](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/))이다. 벡터 프로세서는 연속 주소뿐 아니라 일정 간격으로 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 읽을 수 있지만, 간격이 메모리 뱅크 충돌을 일으키면 기대한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 나오지 않는다. 그래서 벡터 아키텍처는 연산기 설계만이 아니라 메모리 배치, 뱅크 수, 주소 패턴까지 함께 설계해야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 난다.
 
@@ -122,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 - **채택이 유리한 경우**: 행렬 계산, 이미지 필터링, 암호화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 과학 시뮬레이션처럼 같은 수식을 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 반복 적용할 때
 - **회피가 유리한 경우**: 포인터 추적, 불규칙 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 분기 많은 비즈니스 로직처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이 들쭉날쭉할 때
 
-기술사 답안 관점에서 기억할 포인트는 단순하다. 벡터 프로세서는 “SIMD이므로 빠르다”가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성이 충분할 때 제어 비용을 줄여 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 확보하는 구조**라고 서술해야 한다. 그리고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인은 연산기 부족보다 메모리 병목, 분기, 의존성에서 먼저 찾는 것이 정확하다.
+기술사 답안 관점에서 기억할 포인트는 단순하다. 벡터 프로세서는 “SIMD이므로 빠르다”가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성이 충분할 때 제어 비용을 줄여 높은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>을 확보하는 구조</strong>라고 서술해야 한다. 그리고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인은 연산기 부족보다 메모리 병목, 분기, 의존성에서 먼저 찾는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 벡터 프로세서는 잘 정렬된 군악대에는 매우 강하지만, 각자 다른 박자로 움직이는 시장 한복판 인파를 한 줄로 행진시키는 데는 맞지 않는다.
 
@@ -152,21 +152,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스칼라 반복 처리
-    │
-    ▼
-SIMD (Single Instruction Multiple Data)
-    │
-    ▼
-벡터 레지스터 · 벡터 파이프라인 · 메모리 인터리빙
-    │
-    ▼
-루프 벡터화 (Loop Vectorization) · AVX (Advanced Vector Extensions)
-    │
-    ▼
-GPU (Graphics Processing Unit) · 텐서 가속기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스칼라 반복 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벡터 레지스터 · 벡터 파이프라인 · 메모리 인터리빙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">루프 벡터화 (Loop Vectorization) · AVX (Advanced Vector Extensions)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU (Graphics Processing Unit) · 텐서 가속기</div>
+</div>
+</div>
+
+
 
 이 흐름은 “반복문 최적화”에서 출발해 “전용 벡터 하드웨어”, “범용 CPU 내장 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)”, “대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속기”로 확장되는 진화 방향을 보여준다.
 

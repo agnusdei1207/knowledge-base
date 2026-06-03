@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: GitHub Actions는 소스 코드 저장소(GitHub) 안에서 특정 이벤트(Push, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))가 발생했을 때, 코드를 빌드하고 테스트한 뒤 클라우드 서버에 배포하는 모든 **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나로 자동화하는 내장형 쇳덩어리 엔진**이다.
+> 1. **본질**: GitHub Actions는 소스 코드 저장소(GitHub) 안에서 특정 이벤트(Push, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))가 발생했을 때, 코드를 빌드하고 테스트한 뒤 클라우드 서버에 배포하는 모든 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인을 YAML <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 하나로 자동화하는 내장형 쇳덩어리 엔진</strong>이다.
 > 2. **가치**: 과거 개발자들이 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 서버를 따로 구축하고 관리(플러그인 충돌, 서버 다운)하느라 피를 토하던 인프라 운영 부담을 완전히 소멸시키고, 코드가 있는 곳에서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 즉시 도는 '[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD'의 시대를 열었다.
 > 3. **판단 포인트**: 전 세계 수백만 개발자가 만들어 놓은 조립 블록(Action Marketplace)을 레고처럼 가져다 끼우기만 하면 되므로 구축 속도가 압도적이지만, 클라우드 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이 발생하며 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 빌드 시 요금 폭탄을 맞을 수 있는 비용 거버넌스 통제가 필수적이다.
 
@@ -31,34 +31,30 @@ tags = ["studynote-devops-sre"]
 ### YAML 기반의 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 Runner 아키텍처
 GitHub Actions는 4개의 핵심 쇳덩어리 기어로 맞물려 돌아간다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           GitHub Actions의 CI/CD 동작 아키텍처 흐름도            │
-├────────────────────────────────────────────────────────┤
-│  [ 1. Event (방아쇠) ]                                  │
-│   - 개발자가 `main` 브랜치에 코드를 Push 하거나 PR을 날림     │
-│             │                                          │
-│             ▼                                          │
-│  [ 2. Workflow (작전 지시서 - YAML 파일) ]              │
-│   - `.github/workflows/main.yml` 감지 및 실행 시작        │
-│             │                                          │
-│             ▼                                          │
-│  [ 3. Runner (가상머신 작업자 - Ubuntu, Windows 등) ]      │
-│   - GitHub가 클라우드에서 빈 깡통 서버(VM)를 즉시 하나 띄움     │
-│   ┌──────────────────────────────────────────────────┐ │
-│   │ [ 4. Job (작업 단위) ] - 병렬 또는 순차 실행          │ │
-│   │  ├─ Step 1: 소스코드 체크아웃 (actions/checkout@v3)  │ │
-│   │  ├─ Step 2: Node.js 설치 (actions/setup-node@v3)   │ │
-│   │  ├─ Step 3: npm run test (자동 테스트)              │ │
-│   │  └─ Step 4: AWS S3로 배포 (aws-actions/...)       │ │
-│   └──────────────────────────────────────────────────┘ │
-│             │ (성공 시)                                 │
-│             ▼                                          │
-│  [ 클라우드 운영 서버 (AWS, K8s) 배포 완료 및 슬랙 알림! ]   │
-└────────────────────────────────────────────────────────┘
-```
 
-가장 강력한 무기는 **액션 마켓플레이스(Action Marketplace)**다. "AWS에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인해 줘", "슬랙으로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보내줘" 같은 스크립트를 내가 짤 필요 없이, 다른 사람이 만들어둔 액션(예: `uses: aws-actions/configure-aws-credentials@v1`)을 레고 블록처럼 한 줄만 끼워 넣으면 복잡한 쇳덩어리 연동이 끝난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions의 CI/CD 동작 아키텍처 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Event (방아쇠)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발자가 <code>main</code> 브랜치에 코드를 Push 하거나 PR을 날림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Workflow (작전 지시서 - YAML 파일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>.github/workflows/main.yml</code> 감지 및 실행 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Runner (가상머신 작업자 - Ubuntu, Windows 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GitHub가 클라우드에서 빈 깡통 서버(VM)를 즉시 하나 띄움</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. Job (작업 단위)</div><div class="kb-diagram-note">- 병렬 또는 순차 실행 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 1: 소스코드 체크아웃 (actions/checkout@v3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 2: Node.js 설치 (actions/setup-node@v3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 3: npm run test (자동 테스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 4: AWS S3로 배포 (aws-actions/...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공 시)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 운영 서버 (AWS, K8s) 배포 완료 및 슬랙 알림!</div></div>
+</div>
+</div>
+
+
+
+가장 강력한 무기는 <strong>액션 마켓플레이스(Action Marketplace)</strong>다. "AWS에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인해 줘", "슬랙으로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보내줘" 같은 스크립트를 내가 짤 필요 없이, 다른 사람이 만들어둔 액션(예: `uses: aws-actions/configure-aws-credentials@v1`)을 레고 블록처럼 한 줄만 끼워 넣으면 복잡한 쇳덩어리 연동이 끝난다.
 
 - **📢 섹션 요약 비유**: 아키텍처는 '자동 세차장'과 같다. 차(코드)가 입구에 들어오면(Event), 세차장 기계(Runner)가 깨어난다. 그리고 매뉴얼(Workflow)에 따라 비눗물 뿌리기(Step 1), 솔질하기(Step 2), 물기 닦기(Step 3)라는 레고 블록 부품들이 순서대로 작동하여 반짝이는 자동차(배포 완료)를 토해내는 시스템이다.
 
@@ -71,11 +67,11 @@ GitHub Actions는 4개의 핵심 쇳덩어리 기어로 맞물려 돌아간다.
 
 | 비교 항목 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ([젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) | GitHub Actions |
 |:---|:---|:---|
-| **설치 및 인프라 관리**| **개발자가 직접 서버 파고 설치/유지보수 해야 함** | **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) (GitHub가 다 해주는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))** |
+| **설치 및 인프라 관리**| **개발자가 직접 서버 파고 설치/유지보수 해야 함** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> (GitHub가 다 해주는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong> |
 | **플러그인/확장성** | 수만 개의 플러그인 (근데 서로 충돌해서 자주 뻗음) | 마켓플레이스 (깔끔한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 액션 조립) |
-| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식** | Groovy 스크립트 기반 (Jenkinsfile) | **직관적인 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 방식</strong> | Groovy 스크립트 기반 (Jenkinsfile) | <strong>직관적인 YAML <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> |
 | **보안 및 자격 증명**| [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 서버 안에 비밀번호([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)) 저장 | GitHub 리포지토리 Settings에 안전하게 보관 |
-| **비용 구조** | 무료 (단, 서버 호스팅/전기세/인건비 듬) | **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)는 완전 무료, 비공개(Private)는 시간당 과금** |
+| **비용 구조** | 무료 (단, 서버 호스팅/전기세/인건비 듬) | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>는 완전 무료, 비공개(Private)는 시간당 과금</strong> |
 
 Jenkins는 거대한 항공모함이다. 할 수 없는 게 없지만 그 배를 유지보수하는 기관사([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어)의 뼈를 깎아 먹는다. 반면 GitHub Actions는 내가 부를 때만 나타나는 렌터카다. 코드가 있는 곳에 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 기본 탑재되면서, 인프라를 1도 모르는 프론트엔드 개발자도 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 20줄만 복붙하면 10분 만에 AWS 배포 자동화를 세팅하는 기적을 낳았다.
 
@@ -86,11 +82,11 @@ Jenkins는 거대한 항공모함이다. 할 수 없는 게 없지만 그 배를
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Self-hosted Runner를 활용한 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)(보안망) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 돌파**: 금융권은 보안([망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)) 때문에 외부 인터넷에 있는 GitHub 클라우드 가상머신(Hosted Runner)이 사내 운영 서버(DB 등)에 접근할 수 없다. 아키텍트는 회사 내부망 서버에 'Self-hosted Runner'라는 에이전트 프로그램을 깔아둔다. 이 내부 에이전트가 GitHub 쪽에 "저한테 일주실 거 있나요?"라고 묻는 아웃바운드(Outbound) 통신만 열어주면, 코드는 GitHub에 올리되 실제 빌드와 배포(쇳덩어리 작업)는 사내 보안망 안에서 돌아가게 만드는 극강의 하이브리드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 우회로를 완성한다.
-2. **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/)) 기반의 무인증(Keyless) AWS 배포**: 과거엔 GitHub Actions가 AWS에 배포하려면 AWS Access [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(비밀번호)를 GitHub에 저장해야 했다. 이 키가 해커에게 털리면 AWS에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이 채굴되며 1억 원의 요금 폭탄을 맞는다. 최신 아키텍처는 OIDC를 도입한다. 키를 저장하지 않고, GitHub와 AWS가 서로 신뢰(Trust) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 맺어둔다. 배포할 때마다 GitHub가 "나 믿지? 문 열어"라고 임시 토큰(1시간짜리)을 발급받아 배포하고 버리는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축한다.
+1. <strong>Self-hosted Runner를 활용한 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a>(보안망) <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 돌파</strong>: 금융권은 보안([망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)) 때문에 외부 인터넷에 있는 GitHub 클라우드 가상머신(Hosted Runner)이 사내 운영 서버(DB 등)에 접근할 수 없다. 아키텍트는 회사 내부망 서버에 'Self-hosted Runner'라는 에이전트 프로그램을 깔아둔다. 이 내부 에이전트가 GitHub 쪽에 "저한테 일주실 거 있나요?"라고 묻는 아웃바운드(Outbound) 통신만 열어주면, 코드는 GitHub에 올리되 실제 빌드와 배포(쇳덩어리 작업)는 사내 보안망 안에서 돌아가게 만드는 극강의 하이브리드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 우회로를 완성한다.
+2. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/">OpenID Connect</a>) 기반의 무인증(Keyless) AWS 배포</strong>: 과거엔 GitHub Actions가 AWS에 배포하려면 AWS Access [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(비밀번호)를 GitHub에 저장해야 했다. 이 키가 해커에게 털리면 AWS에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이 채굴되며 1억 원의 요금 폭탄을 맞는다. 최신 아키텍처는 OIDC를 도입한다. 키를 저장하지 않고, GitHub와 AWS가 서로 신뢰(Trust) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 맺어둔다. 배포할 때마다 GitHub가 "나 믿지? 문 열어"라고 임시 토큰(1시간짜리)을 발급받아 배포하고 버리는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **모든 커밋(Commit)마다 무거운 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 돌리기 (요금 폭탄 및 병목)**: 개발팀이 "품질을 올리자!"며 띄어쓰기 하나 수정한 커밋을 푸시할 때마다, 30분이 걸리는 모바일 앱 전체 UI 테스트([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 워크플로우를 돌려버리는 만행. GitHub Actions는 프라이빗 저장소에서 '실행 시간'만큼 달러($) 단위로 요금이 청구된다. 한 달 뒤 회사로 수백만 원의 빌드 요금 청구서가 날아오고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 큐가 꽉 차서 다른 팀은 배포를 못 해 멈춰버린다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 `paths` 필터링(특정 폴더 변경 시만 실행)이나 `pull_request` 타겟팅을 통해 꼭 필요한 순간에만 쇳덩어리가 돌게 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)를 최적화해야 한다.
+- <strong>모든 커밋(Commit)마다 무거운 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/">E2E</a> 테스트 돌리기 (요금 폭탄 및 병목)</strong>: 개발팀이 "품질을 올리자!"며 띄어쓰기 하나 수정한 커밋을 푸시할 때마다, 30분이 걸리는 모바일 앱 전체 UI 테스트([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 워크플로우를 돌려버리는 만행. GitHub Actions는 프라이빗 저장소에서 '실행 시간'만큼 달러($) 단위로 요금이 청구된다. 한 달 뒤 회사로 수백만 원의 빌드 요금 청구서가 날아오고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 큐가 꽉 차서 다른 팀은 배포를 못 해 멈춰버린다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 `paths` 필터링(특정 폴더 변경 시만 실행)이나 `pull_request` 타겟팅을 통해 꼭 필요한 순간에만 쇳덩어리가 돌게 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)를 최적화해야 한다.
 
 - **📢 섹션 요약 비유**: 커밋마다 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트를 돌리는 것은, 요리사가 스프에 '소금 한 꼬집' 더 넣을 때마다 알바생(GitHub Runner)에게 시급 1만 원을 주며 30분짜리 전체 코스 요리 맛 평가를 시키는 짓이다. 비용도 파산이지만, 맛 평가를 기다리느라 주방(개발)이 완전히 멈춰버린다.
 
@@ -110,27 +106,29 @@ GitHub Actions는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))** | 개발자가 코드를 합칠 때마다 기계가 자동으로 테스트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))하고, 통과하면 사용자 서버에 무중단으로 밀어 넣는(CD) 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 절대 숨결 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>)</strong> | 개발자가 코드를 합칠 때마다 기계가 자동으로 테스트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))하고, 통과하면 사용자 서버에 무중단으로 밀어 넣는(CD) 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 절대 숨결 |
 | **YAML (Ain't Markup Language)** | 들여쓰기 2칸으로 모든 로직의 계층 구조를 표현하는, GitHub Actions 작전 지시서(Workflow)를 작성하는 표준 선언적 언어 |
-| **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) ([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))** | GitHub Actions의 가상머신(Runner) 위에서 가장 많이 굴러가는 쇳덩어리 포장지. 코드를 빌드해서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 구워낸 뒤 클라우드에 쏴버리는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 배포의 핵심 매개체 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>)</strong> | GitHub Actions의 가상머신(Runner) 위에서 가장 많이 굴러가는 쇳덩어리 포장지. 코드를 빌드해서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 구워낸 뒤 클라우드에 쏴버리는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 배포의 핵심 매개체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수작업 배포의 한계 및 인간의 실수(Human Error)로 인한 서비스 장애 폭증
-    │
-    ▼
-서버 설치형 CI/CD 도구의 등장 (Jenkins 등) ──▶ 인프라 유지보수 고통 발생
-    │
-    ▼
-클라우드 벤더의 관리형 파이프라인 서비스 등장 (AWS CodePipeline, Travis CI)
-    │
-    ▼
-코드 저장소(Git)와 CI/CD 파이프라인의 물리적 결합 ──▶ GitHub Actions 발표 (2018)
-    │
-    ▼
-마켓플레이스(생태계)를 통한 레고식 조립 및 서버리스(Serverless) CI/CD의 클라우드 천하통일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수작업 배포의 한계 및 인간의 실수(Human Error)로 인한 서비스 장애 폭증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버 설치형 CI/CD 도구의 등장 (Jenkins 등) ──▶ 인프라 유지보수 고통 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 벤더의 관리형 파이프라인 서비스 등장 (AWS CodePipeline, Travis CI)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코드 저장소(Git)와 CI/CD 파이프라인의 물리적 결합 ──▶ GitHub Actions 발표 (2018)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마켓플레이스(생태계)를 통한 레고식 조립 및 서버리스(Serverless) CI/CD의 클라우드 천하통일</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "가내수공업 → 거대 기계 도입(유지보수 고통) → 클라우드 아웃소싱 → 코드 저장소와의 궁극의 융합(SaaS화)"이라는 인프라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 역사를 완벽하게 보여준다.
 

@@ -29,13 +29,19 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Plaintext
-  ↓
-Substitution / Transposition
-  ↓
-Ciphertext
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Substitution / Transposition</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ciphertext</div>
+</div>
+</div>
+
+
 
 | 방식 | 의미 |
 | :-- | :-- |
@@ -102,29 +108,41 @@ Ciphertext
 
 ## 관련 개념 맵
 
-```text
-Plaintext
-  ↓
-Classical Cipher
-  ↓
-Substitution / Transposition
-  ↓
-Modern Cryptography
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Classical Cipher</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Substitution / Transposition</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Modern Cryptography</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Classical Cipher
-  ↓
-Frequency Analysis
-  ↓
-Modern Cipher
-  ↓
-Cryptography
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Classical Cipher</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Frequency Analysis</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Modern Cipher</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cryptography</div>
+</div>
+</div>
+
+
 
 ---
 

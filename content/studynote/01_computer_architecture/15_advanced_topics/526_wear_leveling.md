@@ -21,22 +21,24 @@ tags = ["studynote-computer-architecture"]
 
 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 비휘발성 메모리의 수명이 "전체 평균"이 아니라 "가장 먼저 닳은 물리 블록"에 의해 결정된다는 문제에서 출발한다. 특히 NAND 플래시 ([NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 쓰고 블록 단위로 지우며, 이때 산화막이 반복적으로 스트레스를 받아 P/E (Program/Erase) 사이클 한계에 가까워진다. 일부 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (Storage Class Memory) 계열도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 내구도 한계가 있으므로, 주소를 고정된 셀에 그대로 매핑하면 특정 영역만 먼저 죽는다.
 
-문제는 실제 워크로드가 균등하지 않다는 점이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 저널, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 인덱스처럼 자주 갱신되는 영역은 극단적인 핫스폿이 되기 쉽다. 이때 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 물리 주소에 고정하면 장치 전체 용량은 멀쩡해도 몇 개 블록의 조기 마모 때문에 전체 신뢰성이 붕괴한다. 결국 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 "모든 셀을 오래 쓰는 기술"이 아니라, **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편향을 흡수해 장치 수명을 예측 가능하게 만드는 기술**이다.
+문제는 실제 워크로드가 균등하지 않다는 점이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 저널, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 인덱스처럼 자주 갱신되는 영역은 극단적인 핫스폿이 되기 쉽다. 이때 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 물리 주소에 고정하면 장치 전체 용량은 멀쩡해도 몇 개 블록의 조기 마모 때문에 전체 신뢰성이 붕괴한다. 결국 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 "모든 셀을 오래 쓰는 기술"이 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 편향을 흡수해 장치 수명을 예측 가능하게 만드는 기술</strong>이다.
 
 이 그림은 왜 평균 여유 수명이 아니라 최악 블록이 장치 운명을 좌우하는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           마모 평준화가 없으면 수명은 평균이 아니라 최악 블록이 결정       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ LBA 0~15  (메타데이터) ───────────────▶ Block 03 : P/E 2,980               │
-│ LBA 16~31 (저널)     ───────────────▶ Block 04 : P/E 2,910               │
-│ LBA 32~95 (거의 안 변함) ───────────▶ Block 18 : P/E   27                │
-│ LBA 96~... (거의 안 변함) ──────────▶ Block 19 : P/E   14                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 전체 여유 공간이 많아도 Block 03/04가 먼저 소진되면 장치 신뢰성이 흔들린다. │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마모 평준화가 없으면 수명은 평균이 아니라 최악 블록이 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 0~15 (메타데이터) ▶ Block 03 : P/E 2,980</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 16~31 (저널) ▶ Block 04 : P/E 2,910</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 32~95 (거의 안 변함) ▶ Block 18 : P/E 27</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 96~... (거의 안 변함) ▶ Block 19 : P/E 14</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 여유 공간이 많아도 Block 03/04가 먼저 소진되면 장치 신뢰성이 흔들린다.</div></div>
+</div>
+</div>
+
+
 
 즉 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)의 목표는 "많이 남은 블록을 더 쓰게 하고, 많이 닳은 블록을 쉬게 한다"가 아니다. 오히려 장치 전체가 비슷한 속도로 늙도록 만들어, 특정 블록의 조기 사망이 전체 장애로 번지지 않게 하는 데 있다.
 
@@ -59,26 +61,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 내부에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 정적 이동이 어떻게 이어지는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   FTL 안에서의 마모 평준화 동작 흐름                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host Write (LBA 42)                                                       │
-│        │                                                                  │
-│        ▼                                                                  │
-│ [FTL] ── old PBA invalid 표시 ──▶ 낮은 erase count free block 선택        │
-│   │                                                                       │
-│   ├─ mapping table: LBA42 → PBA901 갱신                                   │
-│   ├─ erase count / wear histogram 갱신                                    │
-│   └─ background thread: wear gap 확인                                     │
-│                                   │                                       │
-│                                   └─ 임계치 초과 → cold data migration    │
-│                                                      ↓                     │
-│                                        저마모 블록을 future hot write용 확보│
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이때 핵심 비용 지표가 WAF다. `WAF = 실제 낸드에 기록된 데이터량 / 호스트가 요청한 데이터량`이므로, 정적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)가 과도하면 수명을 늘리려다 오히려 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 폭증시키는 역설이 생긴다. 따라서 좋은 설계는 단순히 wear gap을 줄이는 것이 아니라, **wear gap 감소량 대비 추가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 합리적인가**를 계속 계산하는 쪽에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FTL 안에서의 마모 평준화 동작 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Write (LBA 42)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FTL</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">낮은 erase count free block 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mapping table: LBA42 → PBA901 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ erase count / wear histogram 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ background thread: wear gap 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임계치 초과 → cold data migration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저마모 블록을 future hot write용 확보</div></div>
+</div>
+</div>
+
+
+
+이때 핵심 비용 지표가 WAF다. `WAF = 실제 낸드에 기록된 데이터량 / 호스트가 요청한 데이터량`이므로, 정적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)가 과도하면 수명을 늘리려다 오히려 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 폭증시키는 역설이 생긴다. 따라서 좋은 설계는 단순히 wear gap을 줄이는 것이 아니라, <strong>wear gap 감소량 대비 추가 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비용이 합리적인가</strong>를 계속 계산하는 쪽에 가깝다.
 
 - **📢 섹션 요약 비유**: 동적 방식은 손님이 들어올 때마다 가장 한산한 테이블에 앉히는 식이고, 정적 방식은 오래 앉아 있는 손님까지 일부 재배치해서 가게 전체 좌석이 골고루 쓰이게 만드는 식이다.
 
@@ -123,7 +123,7 @@ tags = ["studynote-computer-architecture"]
 - 평균 wear만 보고 최댓값 블록의 임계 근접을 놓치는 모니터링
 - 정적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)를 실시간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로 한복판에서 과도하게 수행하는 설계
 
-기술사 답안에서는 "수명 연장"만 쓰면 얕다. 더 좋은 답은 **수명 연장과 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 상승이 서로 맞물린다**는 점, 그리고 **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)·워크로드·OP·PLP를 함께 설계해야 한다**는 점까지 연결하는 것이다.
+기술사 답안에서는 "수명 연장"만 쓰면 얕다. 더 좋은 답은 <strong>수명 연장과 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a> 상승이 서로 맞물린다</strong>는 점, 그리고 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>·워크로드·OP·PLP를 함께 설계해야 한다</strong>는 점까지 연결하는 것이다.
 
 - **📢 섹션 요약 비유**: 공장 관리자가 기계를 오래 쓰고 싶다고 해서 근무 시간마다 자리 바꾸기만 시키면 생산성이 무너진다. 중요한 것은 쉬는 시간과 작업량을 보며 가장 덜 아프게 부하를 나누는 운영이다.
 
@@ -135,7 +135,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 이 기술은 노화를 없애는 마법이 아니다. 전체 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량이 계속 누적되면 언젠가는 장치 전체가 닳고, 정적 이동이 많을수록 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 전력 소모도 함께 증가한다. 앞으로는 [ZNS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/) (Zoned [Namespaces](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/))처럼 호스트가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴을 더 명시적으로 알려 주는 구조, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 hot/cold 예측, SCM까지 포괄하는 계층형 wear 관리가 중요해질 가능성이 크다.
 
-결론적으로 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 "비휘발성 메모리의 짧은 수명을 늘리는 기술"이라기보다, **불균등한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴을 균등한 노화로 바꾸는 제어 기술**로 기억하는 것이 정확하다. 장치가 오래 가는 이유는 셀이 강해져서가 아니라, 컨트롤러가 편향된 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 골고루 흩어 주기 때문이다.
+결론적으로 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 "비휘발성 메모리의 짧은 수명을 늘리는 기술"이라기보다, <strong>불균등한 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 패턴을 균등한 노화로 바꾸는 제어 기술</strong>로 기억하는 것이 정확하다. 장치가 오래 가는 이유는 셀이 강해져서가 아니라, 컨트롤러가 편향된 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 골고루 흩어 주기 때문이다.
 
 - **📢 섹션 요약 비유**: 결국 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 한 권의 공책을 맨 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 쓰지 않고 끝 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)까지 골고루 쓰게 만드는 습관과 같다. 종이의 품질을 바꾸지 않아도, 쓰는 방식을 바꾸면 공책은 훨씬 오래 간다.
 
@@ -154,24 +154,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 논리-물리 매핑 기반 플래시 사용
-        │
-        ▼
-핫스폿 블록 조기 마모 문제
-        │
-        ▼
-FTL 기반 동적 마모 평준화
-        │
-        ▼
-정적 마모 평준화 · OP 확대 · GC 연계
-        │
-        ▼
-웨어 히스토그램 기반 예측형 컨트롤러
-        │
-        ▼
-ZNS / SCM까지 확장되는 호스트-장치 협력 수명 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 논리-물리 매핑 기반 플래시 사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">핫스폿 블록 조기 마모 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FTL 기반 동적 마모 평준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 마모 평준화 · OP 확대 · GC 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">웨어 히스토그램 기반 예측형 컨트롤러</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZNS / SCM까지 확장되는 호스트-장치 협력 수명 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 주소 변환에서 시작해, 장치 내부 통계와 호스트 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 함께 사용하는 방향으로 수명 관리가 고도화되는 과정을 보여 준다.
 

@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 IT 보안은 **'경계 기반 보안(Perimeter-based [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))'**이었다. 회사(사내망)와 외부(인터넷) 사이에 거대한 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 치고, 성벽 밖은 위험하지만 성문을 통과해 성벽 안에 들어온 사람(사내망 IP)은 모두 착한 사람이라고 100% 신뢰(Trust)했다.
+전통적인 IT 보안은 <strong>'경계 기반 보안(Perimeter-based <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)'</strong>이었다. 회사(사내망)와 외부(인터넷) 사이에 거대한 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 치고, 성벽 밖은 위험하지만 성문을 통과해 성벽 안에 들어온 사람(사내망 IP)은 모두 착한 사람이라고 100% 신뢰(Trust)했다.
 
 하지만 현대의 업무 환경은 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))를 쓰고, 카페에서 노트북을 열며, 스마트폰으로 업무를 본다. 성벽 자체가 사라진 것이다. 게다가 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 직원의 노트북(내부망 기기)을 장악하면, 그 노트북은 이미 '신뢰받는 기기'이므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에서 마음껏 다른 서버들을 해킹(Lateral Movement, 측면 이동)할 수 있었다.
 
-이러한 참사를 막기 위해 2010년 포레스터 리서치(Forrester Research)의 존 킨더버그가 제안한 개념이 **"신뢰하지 말고, 항상 검증하라([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))"**다. 내부망이든 외부망이든 위치에 따른 신뢰를 완전히 제거하자는 선언이다.
+이러한 참사를 막기 위해 2010년 포레스터 리서치(Forrester Research)의 존 킨더버그가 제안한 개념이 <strong>"신뢰하지 말고, 항상 검증하라(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)"</strong>다. 내부망이든 외부망이든 위치에 따른 신뢰를 완전히 제거하자는 선언이다.
 
 - **📢 섹션 요약 비유**: 옛날에는 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 통과하면 궁궐 안 어디든 자유롭게 돌아다닐 수 있었다. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 성문을 통과했더라도 왕의 침실, 창고, 주방 등 방 문을 열 때마다 매번 신분증을 다시 검사하는 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) 최소 권한 원의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  제로 트러스트 아키텍처 최소 권한 원                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제로 트러스트 아키텍처 최소 권한 원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) 최소 권한 원가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 전통적 경계 기반 보안 ([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) | [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/) ([ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/)) |
 |:---|:---|:---|
-| **신뢰의 기준** | **네트워크 위치** (사내망 IP인가?) | **아이덴티티 및 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)** (누가, 어떤 기기로, 어떤 상태인가?) |
-| **방어선 구조** | 크고 단단한 하나의 외곽 성벽 | 수백 개의 쪼개진 방어벽 (**[Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)**) |
+| **신뢰의 기준** | **네트워크 위치** (사내망 IP인가?) | <strong>아이덴티티 및 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a></strong> (누가, 어떤 기기로, 어떤 상태인가?) |
+| **방어선 구조** | 크고 단단한 하나의 외곽 성벽 | 수백 개의 쪼개진 방어벽 (<strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/">Micro-segmentation</a></strong>) |
 | **권한 부여** | 광범위한 서브넷(Subnet) 접속 권한 부여 | 특정 애플리케이션 단위의 세밀한 권한 부여 |
 | **내부자 위협** | 무방비 (한 번 뚫리면 전체망 탈취 가능) | 강력 방어 (옆 서버로 이동 불가) |
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-제로 트러스트 아키텍처 최소 권한 원칙 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제로 트러스트 아키텍처 최소 권한 원칙 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

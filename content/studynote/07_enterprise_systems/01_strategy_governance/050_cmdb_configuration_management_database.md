@@ -21,14 +21,20 @@ tags = ["CI", "CMDB", "ITIL", "ITSM", "ServiceNow", "asset management", "auto di
 
 ### 1.1 구성 항목 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))
 
-```
-CMDB
-├── 하드웨어 CI: 서버, 네트워크 장비, 스토리지
-├── 소프트웨어 CI: OS, 미들웨어, 애플리케이션
-├── 서비스 CI: 비즈니스 서비스, IT 서비스
-├── 계약 CI: 라이선스, SLA
-└── 관계(Relationship): CI 간 의존성, 위치, 소유
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CMDB</div>
+<div class="kb-diagram-tree-item" style="--depth:0">하드웨어 CI: 서버, 네트워크 장비, 스토리지</div>
+<div class="kb-diagram-tree-item" style="--depth:0">소프트웨어 CI: OS, 미들웨어, 애플리케이션</div>
+<div class="kb-diagram-tree-item" style="--depth:0">서비스 CI: 비즈니스 서비스, IT 서비스</div>
+<div class="kb-diagram-tree-item" style="--depth:0">계약 CI: 라이선스, SLA</div>
+<div class="kb-diagram-tree-item" style="--depth:0">관계(Relationship): CI 간 의존성, 위치, 소유</div>
+</div>
+</div>
+
+
 
 ### 1.2 CMDB와 자산 관리 차이
 
@@ -46,27 +52,37 @@ CMDB
 
 ### 2.1 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 프로세스와의 연계
 
-```
-인시던트 관리 ←→ CMDB ←→ 변경 관리
-      ↓                       ↓
-   영향 CI 조회           변경 영향도 분석
-      ↑                       ↑
-문제 관리 ←────────────────────
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인시던트 관리 ←→ CMDB ←→ 변경 관리</div>
+<div class="kb-diagram-note">영향 CI 조회 변경 영향도 분석</div>
+<div class="kb-diagram-note">문제 관리 ←</div>
+</div>
+</div>
+
+
 
 ### 2.2 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 시나리오
 
-```
-변경 요청(CR) 접수
-    ↓
-CMDB에서 변경 대상 CI 조회
-    ↓
-관련 CI 의존성 그래프 분석
-    ↓
-영향 받는 서비스 목록 산출
-    ↓
-변경 승인 여부 결정 (Change Advisory Board)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">변경 요청(CR) 접수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CMDB에서 변경 대상 CI 조회</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">관련 CI 의존성 그래프 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">영향 받는 서비스 목록 산출</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">변경 승인 여부 결정 (Change Advisory Board)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 건물 배관 공사 전에 설계도([CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/))를 보고 어느 층이 영향받는지 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것.
 
@@ -101,22 +117,28 @@ CMDB에서 변경 대상 CI 조회
 
 ### 4.1 [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 기본 클래스 계층
 
-```
-cmdb_ci (최상위)
-├── cmdb_ci_hardware
-│   ├── cmdb_ci_server
-│   └── cmdb_ci_netgear
-├── cmdb_ci_software
-│   ├── cmdb_ci_os
-│   └── cmdb_ci_appl
-└── cmdb_ci_service
-    └── cmdb_ci_business_service
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">cmdb_ci (최상위)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">cmdb_ci_hardware</div>
+<div class="kb-diagram-note">── cmdb_ci_server</div>
+<div class="kb-diagram-note">── cmdb_ci_netgear</div>
+<div class="kb-diagram-tree-item" style="--depth:0">cmdb_ci_software</div>
+<div class="kb-diagram-note">── cmdb_ci_os</div>
+<div class="kb-diagram-note">── cmdb_ci_appl</div>
+<div class="kb-diagram-tree-item" style="--depth:0">cmdb_ci_service</div>
+<div class="kb-diagram-tree-item" style="--depth:2">cmdb_ci_business_service</div>
+</div>
+</div>
+
+
 
 ### 4.2 [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) Health Dashboard
 
 ServiceNow [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) Health 점수 (0~100):
-- **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**: 실제 환경과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일치도
+- <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>: 실제 환경과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일치도
 - **완전성**: 필수 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 채워진 비율
 - **적시성**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 주기 준수 여부
 
@@ -151,44 +173,56 @@ Level 5: AI 기반 이상 CI 탐지·자동 교정
 
 ## 📌 관련 개념 맵
 
-```
-CMDB
-├── 구성 요소
-│   ├── CI (Configuration Item)
-│   ├── 관계 (Relationship)
-│   └── 속성 (Attribute)
-├── ITSM 연계
-│   ├── 인시던트 관리
-│   ├── 변경 관리
-│   └── 문제 관리
-├── 자동화
-│   ├── Auto-Discovery
-│   └── Reconciliation
-└── 구현 플랫폼
-    ├── ServiceNow
-    ├── BMC Helix CMDB
-    └── Micro Focus UCMDB
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CMDB</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구성 요소</div>
+<div class="kb-diagram-note">── CI (Configuration Item)</div>
+<div class="kb-diagram-note">── 관계 (Relationship)</div>
+<div class="kb-diagram-note">── 속성 (Attribute)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ITSM 연계</div>
+<div class="kb-diagram-note">── 인시던트 관리</div>
+<div class="kb-diagram-note">── 변경 관리</div>
+<div class="kb-diagram-note">── 문제 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">자동화</div>
+<div class="kb-diagram-note">── Auto-Discovery</div>
+<div class="kb-diagram-note">── Reconciliation</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구현 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ServiceNow</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BMC Helix CMDB</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Micro Focus UCMDB</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-수동 자산 대장 (스프레드시트, 1980s~)
-     │  ITIL v2 등장
-     ▼
-CMDB 개념 정립 (ITIL v2, 2000s)
-     │  자동화 요구
-     ▼
-Auto-Discovery 도입 (에이전트/에이전트리스)
-     │  클라우드 확산
-     ▼
-동적 CMDB (클라우드 API 연동, 2010s)
-     │  AI/ML 적용
-     ▼
-지능형 CMDB (이상 탐지, 자동 교정, 2020s~)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 자산 대장 (스프레드시트, 1980s~)</div>
+<div class="kb-diagram-note">ITIL v2 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CMDB 개념 정립 (ITIL v2, 2000s)</div>
+<div class="kb-diagram-note">자동화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Auto-Discovery 도입 (에이전트/에이전트리스)</div>
+<div class="kb-diagram-note">클라우드 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 CMDB (클라우드 API 연동, 2010s)</div>
+<div class="kb-diagram-note">AI/ML 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 CMDB (이상 탐지, 자동 교정, 2020s~)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), Auto-Discovery, Reconciliation, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/), ServiceNow, [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) Health
 

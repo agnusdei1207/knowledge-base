@@ -10,32 +10,34 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: K8s 선언적 API는 **"무엇을 원하는가([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))"를 YAML로 선언**하면, K8s 컨트롤러가 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 Desired State에 **자동으로 수렴시키는(Reconciliation)** 운영 모델이다.
-> 2. **가치**: 명령형(Imperative)은 "Pod를 3개 만들어라"(How)이고, 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))은 "Pod가 3개인 상태를 유지하라"(What)이다. Pod가 죽으면 선언적 모델은 **자동으로 3개를 복원**하지만, 명령형은 수동 개입이 필요하다.
-> 3. **판단 포인트**: Reconciliation Loop(관찰→비교→행동)가 K8s 컨트롤러의 핵심이며, Custom Resource + Custom Controller로 **어떤 리소스든 선언적으로 관리**할 수 있다([Operator Pattern](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/)).
+> 1. **본질**: K8s 선언적 API는 <strong>"무엇을 원하는가(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/">Desired State</a>)"를 YAML로 선언</strong>하면, K8s 컨트롤러가 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 Desired State에 **자동으로 수렴시키는(Reconciliation)** 운영 모델이다.
+> 2. **가치**: 명령형(Imperative)은 "Pod를 3개 만들어라"(How)이고, 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))은 "Pod가 3개인 상태를 유지하라"(What)이다. Pod가 죽으면 선언적 모델은 <strong>자동으로 3개를 복원</strong>하지만, 명령형은 수동 개입이 필요하다.
+> 3. **판단 포인트**: Reconciliation Loop(관찰→비교→행동)가 K8s 컨트롤러의 핵심이며, Custom Resource + Custom Controller로 <strong>어떤 리소스든 선언적으로 관리</strong>할 수 있다([Operator Pattern](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/)).
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    명령형 vs 선언적                                   │
-├───────────────────────────────────────────────────────┤
-│  [명령형 (Imperative)]                                │
-│   kubectl run nginx --image=nginx                     │
-│   kubectl scale --replicas=3 deploy/nginx             │
-│   → "어떻게(How)"를 지시, 상태 보장 없음             │
-│                                                       │
-│  [선언적 (Declarative)]                               │
-│   apiVersion: apps/v1                                 │
-│   kind: Deployment                                    │
-│   spec:                                               │
-│     replicas: 3                                       │
-│   → "무엇(What)"을 선언, K8s가 자동 유지             │
-│   Pod 1개 죽으면 → 자동으로 1개 재생성               │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령형 vs 선언적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">명령형 (Imperative)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl run nginx --image=nginx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl scale --replicas=3 deploy/nginx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "어떻게(How)"를 지시, 상태 보장 없음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">선언적 (Declarative)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: apps/v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spec:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replicas: 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "무엇(What)"을 선언, K8s가 자동 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod 1개 죽으면 → 자동으로 1개 재생성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 명령형은 "에어컨을 켜라, 온도를 25도로 맞춰라"(수동)이고, 선언적은 "실내 온도 25도 유지"(자동 항온기)이다.
 
@@ -55,7 +57,7 @@ tags = ["studynote-cloud-architecture"]
 ### [Operator Pattern](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/)
 - **Custom Resource (CR)**: 사용자 정의 리소스 (e.g., `PostgreSQL`).
 - **Custom Controller**: CR의 Desired State를 Reconcile하는 로직.
-- 결과: `kubectl apply -f postgres.yaml`로 **DB 클러스터 자동 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)**.
+- 결과: `kubectl apply -f postgres.yaml`로 <strong>DB 클러스터 자동 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>.
 
 - **📢 섹션 요약 비유**: Operator는 전문 기술자 로봇이다. "PostgreSQL 3대 클러스터"를 선언하면, 로봇이 설치·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·스케일링을 전부 자동으로 한다.
 
@@ -67,8 +69,8 @@ tags = ["studynote-cloud-architecture"]
 |:---|:---|:---|
 | **표현** | How (방법) | **What (목표)** |
 | **상태 보장** | 없음 | **자동 복원** |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 불가 | **자연스러운 결합** |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)** | 수동 | **git revert → 자동** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 불가 | **자연스러운 결합** |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 수동 | **git revert → 자동** |
 
 ---
 
@@ -83,7 +85,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-선언적 API는 K8s의 **철학적 핵심**이며, 이 원칙 덕분에 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·[Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)·Self-healing이 자연스럽게 구현된다. 모든 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 도구가 이 패러다임을 따른다.
+선언적 API는 K8s의 <strong>철학적 핵심</strong>이며, 이 원칙 덕분에 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·[Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)·Self-healing이 자연스럽게 구현된다. 모든 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 도구가 이 패러다임을 따른다.
 
 ---
 
@@ -91,32 +93,34 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/)** | YAML로 선언한 목표 상태 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/">Desired State</a></strong> | YAML로 선언한 목표 상태 |
 | **Reconciliation Loop** | 현재→목표 자동 수렴 |
-| **[Operator Pattern](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/)** | CR + Controller로 선언적 확장 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 선언적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 위에 Git 기반 운영 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/">Operator Pattern</a></strong> | CR + Controller로 선언적 확장 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 선언적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 위에 Git 기반 운영 |
 | **Self-healing** | Reconciliation의 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 효과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[명령형 인프라 관리 (스크립트, 2000s)]
-    │
-    ▼
-[K8s 선언적 API (2014~) — Desired State + Reconciliation]
-    │
-    ▼
-[Custom Resource + Operator (2016~) — 선언적 확장]
-    │
-    ▼
-[GitOps (2017~) — Git + 선언적 API 결합]
-    │
-    ▼
-[현재: Crossplane — 클라우드 리소스까지 선언적 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">명령형 인프라 관리 (스크립트, 2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 선언적 API (2014~) — Desired State + Reconciliation</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Custom Resource + Operator (2016~) — 선언적 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps (2017~) — Git + 선언적 API 결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Crossplane — 클라우드 리소스까지 선언적 관리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 명령형은 "에어컨 켜, 온도 25도로 맞춰"라고 **하나하나 지시**하는 거예요.
+1. 명령형은 "에어컨 켜, 온도 25도로 맞춰"라고 <strong>하나하나 지시</strong>하는 거예요.
 2. 선언적은 "방 온도 25도 유지해"라고 **목표만 말하면** 항온기(K8s)가 알아서 조절해요.
 3. 온도가 올라가면 **자동으로 에어컨을 켜서** 다시 25도로 맞춰주니까 편리하답니다!
 

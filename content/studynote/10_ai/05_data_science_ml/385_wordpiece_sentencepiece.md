@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 두 방법 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 서브워드 어휘 구축이라는 목표를 공유하지만, 병합 기준과 공백 처리 방식에서 차이가 있다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WordPiece는 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 가장 유리한 조합을 고르는 영리한 합병", SentencePiece는 "언어의 공백 규칙을 무시하고 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림처럼 처리하는 언어 중립적 합병"이다.
 
@@ -46,7 +49,7 @@ Score(A, B) = freq(AB) / (freq(A) × freq(B))
 → 단독으로 자주 나오는 쌍보다 함께 나올 때 더 의미 있는 쌍 우선
 ```
 
-**`##` 표기**: 단어 내부 서브워드에 `##` 접두사 부착
+<strong><code>##</code> 표기</strong>: 단어 내부 서브워드에 `##` 접두사 부착
 ```
 "playing" → ["play", "##ing"]
 "unbelievable" → ["un", "##believe", "##able"]
@@ -55,34 +58,40 @@ Score(A, B) = freq(AB) / (freq(A) × freq(B))
 ### SentencePiece
 
 언어에 독립적으로 작동하기 위한 핵심 아이디어:
-```
-공백을 특수 메타 심볼 ▁ (U+2581)로 대체
-"Hello world" → "▁Hello▁world" → 토크나이징 → ["▁Hello", "▁world"]
-"Hello" → ["▁Hello"]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공백을 특수 메타 심볼 ▁ (U+2581)로 대체</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">"▁Hello", "▁world"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">"▁Hello"</div></div>
+</div>
+</div>
+
+
 
 공백이 토큰의 일부가 되어, 디토크나이징(역변환) 시 공백을 자동 복원:
 ```
 ["▁Hello", "▁world"] → "Hello world"  (역방향 결정론적)
 ```
 
-```
-┌───────────────────────────────────────────────────────┐
-│  WordPiece vs SentencePiece 비교                      │
-│                                                       │
-│  입력: "Hello world"                                  │
-│                                                       │
-│  WordPiece:  ["Hello", "world"]                       │
-│              (단어 분리 후 서브워드)                   │
-│                                                       │
-│  SentencePiece: ["▁Hello", "▁world"]                  │
-│              (원시 텍스트 직접 → 공백 포함)            │
-│                                                       │
-│  "unhappy" 처리:                                      │
-│  WordPiece: ["un", "##happy"]                         │
-│  SentencePiece(BPE): ["▁un", "happy"]                 │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WordPiece vs SentencePiece 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: "Hello world"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">WordPiece:</div><div class="kb-diagram-node">"Hello", "world"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단어 분리 후 서브워드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">SentencePiece:</div><div class="kb-diagram-node">"▁Hello", "▁world"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원시 텍스트 직접 → 공백 포함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"unhappy" 처리:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">WordPiece:</div><div class="kb-diagram-node">"un", "##happy"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">SentencePiece(BPE):</div><div class="kb-diagram-node">"▁un", "happy"</div></div>
+</div>
+</div>
+
+
 
 | 특성 | BPE | WordPiece | SentencePiece |
 |:---|:---|:---|:---|
@@ -125,8 +134,8 @@ BPE와 반대 방향: 큰 어휘에서 시작해 제거
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 시**: `##` 표기 토큰의 오프셋 매핑 주의 ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) 등 span 예측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))
-**T5/LLaMA [fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)**: SentencePiece의 ▁ 처리로 공백 복원이 자동
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">fine-tuning</a> 시</strong>: `##` 표기 토큰의 오프셋 매핑 주의 ([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) 등 span 예측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))
+<strong>T5/LLaMA <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">fine-tuning</a></strong>: SentencePiece의 ▁ 처리로 공백 복원이 자동
 **토크나이저 재사용**: 동일 토크나이저로 사전학습 → 파인튜닝 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수
 
 기술사 포인트: WordPiece의 스코어 함수(빈도 비율) vs BPE(빈도 합산)의 차이, SentencePiece의 언어 독립성 강점을 비교 설명.

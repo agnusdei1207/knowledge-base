@@ -18,26 +18,28 @@ tags = ["studynote-bigdata"]
 
 ## I. [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)의 개념
 
-```
-데이터 주권 (Data Sovereignty):
-  데이터는 그 데이터가 생성된/처리된
-  국가의 법률과 거버넌스에 종속된다.
-  
-세 가지 차원:
-  1. 국가 데이터 주권:
-     국가 안보 관련 데이터를 자국 통제 하에
-     
-  2. 개인 데이터 주권:
-     개인이 자신의 데이터를 통제할 권리
-     
-  3. 기업 데이터 주권:
-     기업의 영업 비밀 데이터 통제권
 
-주권 위협 시나리오:
-  미국 클라우드(AWS)에 한국 의료 데이터
-  -> 미국 정부 데이터 접근 요청 가능 (CLOUD Act)
-  -> 한국 법률로 보호 어려움
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 주권 (Data Sovereignty):</div>
+<div class="kb-diagram-note">데이터는 그 데이터가 생성된/처리된</div>
+<div class="kb-diagram-note">국가의 법률과 거버넌스에 종속된다.</div>
+<div class="kb-diagram-note">세 가지 차원:</div>
+<div class="kb-diagram-note">1. 국가 데이터 주권:</div>
+<div class="kb-diagram-note">국가 안보 관련 데이터를 자국 통제 하에</div>
+<div class="kb-diagram-note">2. 개인 데이터 주권:</div>
+<div class="kb-diagram-note">개인이 자신의 데이터를 통제할 권리</div>
+<div class="kb-diagram-note">3. 기업 데이터 주권:</div>
+<div class="kb-diagram-note">기업의 영업 비밀 데이터 통제권</div>
+<div class="kb-diagram-note">주권 위협 시나리오:</div>
+<div class="kb-diagram-note">미국 클라우드(AWS)에 한국 의료 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">미국 정부 데이터 접근 요청 가능 (CLOUD Act)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">한국 법률로 보호 어려움</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 내 집 문서를 외국 은행 금고에 보관하면, 그 나라 법원이 열람 명령을 내릴 수 있음 — [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)은 디지털 국경선.
 
@@ -81,29 +83,31 @@ GDPR (유럽, 2018):
 
 ## III. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 현지화 vs 자유 이전
 
-```
-데이터 현지화 (Data Localization):
-  데이터를 자국 내 서버/데이터센터에만 보관
-  
-장점:
-  국가 안보 강화 (외국 정부 접근 차단)
-  자국 기업 IT 인프라 투자 유발
-  법 집행 용이성
-  
-단점:
-  클라우드 글로벌 서비스 비효율
-  기업 비용 증가 (별도 인프라 구축)
-  혁신 저해 (데이터 공유 어려움)
-  무역 장벽 효과 (디지털 보호주의)
 
-데이터 자유 이전:
-  APEC CBPR (Cross-Border Privacy Rules)
-  -> 프레임워크 가입국 간 자유 이전
-  
-  EU-US DPF (Data Privacy Framework, 2023)
-  -> 미국 기업의 EU 데이터 처리 허용
-  -> Schrems I/II 판결 후 세 번째 시도
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 현지화 (Data Localization):</div>
+<div class="kb-diagram-note">데이터를 자국 내 서버/데이터센터에만 보관</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">국가 안보 강화 (외국 정부 접근 차단)</div>
+<div class="kb-diagram-note">자국 기업 IT 인프라 투자 유발</div>
+<div class="kb-diagram-note">법 집행 용이성</div>
+<div class="kb-diagram-note">단점:</div>
+<div class="kb-diagram-note">클라우드 글로벌 서비스 비효율</div>
+<div class="kb-diagram-note">기업 비용 증가 (별도 인프라 구축)</div>
+<div class="kb-diagram-note">혁신 저해 (데이터 공유 어려움)</div>
+<div class="kb-diagram-note">무역 장벽 효과 (디지털 보호주의)</div>
+<div class="kb-diagram-note">데이터 자유 이전:</div>
+<div class="kb-diagram-note">APEC CBPR (Cross-Border Privacy Rules)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">프레임워크 가입국 간 자유 이전</div>
+<div class="kb-diagram-note">EU-US DPF (Data Privacy Framework, 2023)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">미국 기업의 EU 데이터 처리 허용</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Schrems I/II 판결 후 세 번째 시도</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 현지화는 자국 은행만 허용(안전하지만 불편), 자유 이전은 해외 ATM도 허용(편리하지만 보안 위험) — 안전과 효율의 트레이드오프.
 
@@ -111,32 +115,34 @@ GDPR (유럽, 2018):
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레지던시 설계
 
-```
-데이터 레지던시 (Data Residency):
-  데이터가 물리적으로 저장되는 위치를
-  계약/기술적으로 보장하는 것
-  
-AWS 구현:
-  리전 선택: ap-northeast-2 (서울)
-  -> S3/RDS 데이터 서울 리전에만 저장
-  -> 다른 리전으로 자동 복제 비활성화
-  
-Azure 구현:
-  Sovereign Cloud (정부용 전용 환경)
-  Azure Government (미국 정부)
-  Azure Korea (한국 리전)
-  
-설계 고려사항:
-  1. 저장 레지던시: 데이터 저장 위치
-  2. 처리 레지던시: 분석/처리 위치
-  3. 전송 레지던시: 이동 경로 (VPN, DX)
-  4. 백업 레지던시: DR 데이터 위치
-  
-GDPR 준수 아키텍처:
-  EU 데이터: eu-west-1 (아일랜드)
-  백업: eu-central-1 (프랑크푸르트)
-  미국/아시아 전송 금지 (설정)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 레지던시 (Data Residency):</div>
+<div class="kb-diagram-note">데이터가 물리적으로 저장되는 위치를</div>
+<div class="kb-diagram-note">계약/기술적으로 보장하는 것</div>
+<div class="kb-diagram-note">AWS 구현:</div>
+<div class="kb-diagram-note">리전 선택: ap-northeast-2 (서울)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">S3/RDS 데이터 서울 리전에만 저장</div>
+<div class="kb-diagram-tree-item" style="--depth:1">다른 리전으로 자동 복제 비활성화</div>
+<div class="kb-diagram-note">Azure 구현:</div>
+<div class="kb-diagram-note">Sovereign Cloud (정부용 전용 환경)</div>
+<div class="kb-diagram-note">Azure Government (미국 정부)</div>
+<div class="kb-diagram-note">Azure Korea (한국 리전)</div>
+<div class="kb-diagram-note">설계 고려사항:</div>
+<div class="kb-diagram-note">1. 저장 레지던시: 데이터 저장 위치</div>
+<div class="kb-diagram-note">2. 처리 레지던시: 분석/처리 위치</div>
+<div class="kb-diagram-note">3. 전송 레지던시: 이동 경로 (VPN, DX)</div>
+<div class="kb-diagram-note">4. 백업 레지던시: DR 데이터 위치</div>
+<div class="kb-diagram-note">GDPR 준수 아키텍처:</div>
+<div class="kb-diagram-note">EU 데이터: eu-west-1 (아일랜드)</div>
+<div class="kb-diagram-note">백업: eu-central-1 (프랑크푸르트)</div>
+<div class="kb-diagram-note">미국/아시아 전송 금지 (설정)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레지던시는 집의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 나라 서버에 보낼지 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것 — 한국 법 적용을 받으려면 한국 서버 선택.
 
@@ -144,37 +150,37 @@ GDPR 준수 아키텍처:
 
 ## V. 실무 시나리오 — 금융사 EU [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
-```
-상황:
-  한국 금융기관이 EU에 서비스 진출
-  EU 고객의 금융 데이터 처리 필요
-  
-규제 분석:
-  GDPR + 금융 규제 (PSD2, MiFID II)
-  -> EU 고객 데이터의 EU 외 이전 제한
-  
-아키텍처 설계:
-  EU 전용 클러스터 (AWS eu-west-1):
-    EU 고객 데이터 저장
-    GDPR DPO (Data Protection Officer) 지정
-    
-  한국 클러스터:
-    한국 고객 데이터 (분리 저장)
-    
-  데이터 이전 없는 연동:
-    EU 집계 통계만 한국으로 전송
-    (개인 식별 정보 제외 -> GDPR 적용 외)
-    
-규제 준수 증거:
-  AWS CloudTrail: 데이터 접근 로그
-  AWS Config: 리전 설정 감사
-  -> GDPR 감사 대응
-  
-결과:
-  EU 규제 준수 달성
-  클라우드 비용 30% 증가 (별도 EU 인프라)
-  하지만 EU 시장 진출 가능 → 수익화 성공
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상황:</div>
+<div class="kb-diagram-note">한국 금융기관이 EU에 서비스 진출</div>
+<div class="kb-diagram-note">EU 고객의 금융 데이터 처리 필요</div>
+<div class="kb-diagram-note">규제 분석:</div>
+<div class="kb-diagram-note">GDPR + 금융 규제 (PSD2, MiFID II)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">EU 고객 데이터의 EU 외 이전 제한</div>
+<div class="kb-diagram-note">아키텍처 설계:</div>
+<div class="kb-diagram-note">EU 전용 클러스터 (AWS eu-west-1):</div>
+<div class="kb-diagram-note">EU 고객 데이터 저장</div>
+<div class="kb-diagram-note">GDPR DPO (Data Protection Officer) 지정</div>
+<div class="kb-diagram-note">한국 클러스터:</div>
+<div class="kb-diagram-note">한국 고객 데이터 (분리 저장)</div>
+<div class="kb-diagram-note">데이터 이전 없는 연동:</div>
+<div class="kb-diagram-note">EU 집계 통계만 한국으로 전송</div>
+<div class="kb-diagram-note">(개인 식별 정보 제외 -&gt; GDPR 적용 외)</div>
+<div class="kb-diagram-note">규제 준수 증거:</div>
+<div class="kb-diagram-note">AWS CloudTrail: 데이터 접근 로그</div>
+<div class="kb-diagram-note">AWS Config: 리전 설정 감사</div>
+<div class="kb-diagram-tree-item" style="--depth:1">GDPR 감사 대응</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">EU 규제 준수 달성</div>
+<div class="kb-diagram-note">클라우드 비용 30% 증가 (별도 EU 인프라)</div>
+<div class="kb-diagram-note">하지만 EU 시장 진출 가능 → 수익화 성공</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: EU 진출 = EU 창고 별도 마련 비용 발생 — 하지만 EU 고객 신뢰 + 시장 확보로 장기 투자 가치가 있음.
 

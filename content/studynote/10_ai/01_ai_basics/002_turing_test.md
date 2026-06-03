@@ -27,19 +27,19 @@ tags = ["ai"]
 
 다음은 튜링 테스트(모방 게임)의 기본적인 블라인드 아키텍처를 보여주는 도식이다.
 
-```text
-[ 튜링 테스트 (Imitation Game) 아키텍처 ]
-┌──────────────┐
-│  심사관 (C)  │ (인간)
-└──────┬───────┘
-       │ [ 텍스트 기반 질의응답 / 블라인드 테스트 ]
-   ┌───┴────────────────┐
-   ▼                    ▼
-┌────────┐           ┌────────┐
-│ 대상 A │           │ 대상 B │
-│ (인간) │           │ (기계) │
-└────────┘           └────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">튜링 테스트 (Imitation Game) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">심사관 (C)</div><div class="kb-diagram-cell">(인간)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">텍스트 기반 질의응답 / 블라인드 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대상 A</div><div class="kb-diagram-cell">대상 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인간)</div><div class="kb-diagram-cell">(기계)</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 심사관(C)이 대상 A와 B의 물리적 실체를 전혀 볼 수 없다는 점이다. 오직 텔레타이프(현대의 메신저 인터페이스)를 통한 텍스트 입출력(I/O) 교환만으로 판단을 내려야 한다. 만약 기계(B)가 인간(A)인 척 심사관을 기만하는 데 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 30%(튜링의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기준)를 넘는다면 테스트를 통과한 것으로 본다. 이는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 내부적으로 어떻게 연산하는지는 무시하고, 출력의 결과물만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)의 시초이다.
 
@@ -61,19 +61,25 @@ tags = ["ai"]
 
 다음은 기계가 튜링 테스트를 통과하기 위해 인간의 불완전성을 의도적으로 모방하는 내부 처리 흐름도이다.
 
-```text
-[ 심사관의 질문 입력: "어제 본 영화 어땠어?" ]
-   ↓
-[ NLU 분석 ] => 질문 의도: 과거 경험에 대한 주관적 평가 요구
-   ↓
-[ Persona/Memory ] => (기계는 영화를 볼 수 없음) => 미리 설정된 '20대 인간' 페르소나의 기억 DB 검색
-   ↓
-[ NLG 생성 ] => "완전 노잼이었어. 중간에 잘 뻔함." (1차 생성)
-   ↓
-[ Humanization Filter ] => 기계처럼 보이지 않기 위해 고의적 오타 삽입 및 타이핑 지연(Latency) 추가
-   ↓
-[ 최종 출력 ] => "완전 노잼이엇음ㅋㅋ 중간에 잘뻔.." (응답 전송)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">심사관의 질문 입력: "어제 본 영화 어땠어?"</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NLU 분석</div><div class="kb-diagram-note">=&gt; 질문 의도: 과거 경험에 대한 주관적 평가 요구</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Persona/Memory</div><div class="kb-diagram-note">=&gt; (기계는 영화를 볼 수 없음) =&gt; 미리 설정된 '20대 인간' 페르소나의 기억 DB 검색</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NLG 생성</div><div class="kb-diagram-note">=&gt; "완전 노잼이었어. 중간에 잘 뻔함." (1차 생성)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Humanization Filter</div><div class="kb-diagram-note">=&gt; 기계처럼 보이지 않기 위해 고의적 오타 삽입 및 타이핑 지연(Latency) 추가</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 출력</div><div class="kb-diagram-note">=&gt; "완전 노잼이엇음ㅋㅋ 중간에 잘뻔.." (응답 전송)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도의 핵심은 튜링 테스트가 '완벽한 정답'을 요구하는 것이 아니라 '인간다운 반응'을 요구한다는 점이다. 기계가 너무 빠르고 정확하게 수학 계산을 해내면 심사관은 즉시 기계임을 눈치챈다. 따라서 페르소나 엔진과 Humanization Filter(인간화 필터)가 기계의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 의도적으로 낮추고 노이즈를 섞는 과정이 필수적이다. 이는 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬(Alignment) 기술에서 모델의 어조를 튜닝하는 지시 미세조정([Instruction Tuning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/))의 원류가 된다.
 
@@ -93,15 +99,20 @@ tags = ["ai"]
 
 다음은 두 철학적 관점의 차이를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 비교 구조도이다.
 
-```text
-[ 튜링 테스트: I/O 일치성 검증 ]
-Input(질문) ──> [ 블랙박스 (기계) ] ──> Output(정답)
-    => 결과만 같으면 통과! (구조적 이해 불필요)
 
-[ 중국어 방: 내부 이해도 검증 ]
-Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ──> Output(중국어 정답)
-    => 방 안의 사람은 중국어의 '의미'를 전혀 모름. (이해 없는 단순 기호 조작 = 현재의 AI)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">튜링 테스트: I/O 일치성 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Input(질문) ──&gt;</div><div class="kb-diagram-node">블랙박스 (기계)</div><div class="kb-diagram-note">──&gt; Output(정답)</div></div>
+<div class="kb-diagram-note">=&gt; 결과만 같으면 통과! (구조적 이해 불필요)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중국어 방: 내부 이해도 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Input(중국어) ──&gt;</div><div class="kb-diagram-node">방 안의 사람(규칙서만 보고 조합)</div><div class="kb-diagram-note">──&gt; Output(중국어 정답)</div></div>
+<div class="kb-diagram-note">=&gt; 방 안의 사람은 중국어의 '의미'를 전혀 모름. (이해 없는 단순 기호 조작 = 현재의 AI)</div>
+</div>
+</div>
+
+
 
 이 비교도의 핵심은 존 설(John Searle)이 제안한 중국어 방 논변이 현재의 딥러닝 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 포함)의 한계를 정확히 찌르고 있다는 점이다. GPT와 같은 거대 모델도 내부적으로는 수많은 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포(규칙서)를 계산하여 다음 단어를 출력할 뿐, 그 단어의 진정한 물리적 의미(Semantics)를 이해하는 것은 아니다. 실무에서는 이러한 한계 때문에 모델이 전혀 모르는 사실을 그럴싸하게 지어내는 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/), [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)) 현상이 필연적으로 발생하며, 이를 방어하기 위해 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 같은 외부 팩트체크 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 도입된다.
 
@@ -116,25 +127,31 @@ Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ─�
 1. **시나리오 A: 웹사이트 봇(Bot) 트래픽 방어**
    - **상황**: 악성 봇이 회원가입이나 티켓팅 폼을 자동화하여 시스템 과부하 및 어뷰징 유발.
    - **판단**: 역튜링 테스트(Reverse [Turing Test](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/))인 CAPTCHA(Completely Automated Public [Turing test](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/) to tell Computers and Humans Apart)를 적용한다. 일그러진 글자나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 이미지를 찾게 하여 인간은 쉽게 풀지만 컴퓨터 비전은 파싱하기 어려운 문제를 제시해 기계를 차단한다.
-2. **시나리오 B: 자율형 대고객 콜센터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구축**
+2. <strong>시나리오 B: 자율형 대고객 콜센터 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 구축</strong>
    - **상황**: 고객이 로봇과 대화하고 있다는 불쾌감을 느껴 중도 이탈률 급증.
    - **판단**: 튜링 테스트 원리를 차용해 AI의 목소리에 숨소리, 타이핑 딜레이, 공감적 어조(Empathy)를 추가하는 페르소나 튜닝을 수행한다. 다만, 기업 윤리상 대화 시작 시 "저는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 상담원입니다"라고 명시하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 투명성(Transparency) 원칙을 준수해야 한다.
-3. **시나리오 C: 신규 LLM의 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 (Evaluation)**
+3. <strong>시나리오 C: 신규 LLM의 모델 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가 (Evaluation)</strong>
    - **상황**: 새로운 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)을 훈련 후 기존 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 등)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 함.
    - **판단**: 전통적 튜링 테스트 대신 챗봇 아레나(Chatbot Arena) 같은 크라우드소싱 블라인드 테스트를 도입한다. 사용자가 두 모델의 답변을 보고 더 인간적이고 정확한 답변을 투표하게 하여 Elo 레이팅 기반의 실증적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 시나리오 (ELIZA 효과의 함정)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 시나리오 (ELIZA 효과의 함정)</strong>
 
-```text
-[ ELIZA 효과 기반 안티패턴 ]
-(단순 키워드 매칭 챗봇 배포) => "슬프다" 키워드 입력
-   ↓
-(챗봇 응답) => "왜 슬프신가요? 더 말씀해주세요." (단순 반사형 질문)
-   ↓
-(사용자 착각) => AI가 자신을 진심으로 이해하고 공감한다고 착각함 (과잉 의인화)
-   ↓
-(비즈니스 타격) => 복잡한 업무 지시 시 챗봇이 먹통이 되어 심각한 CS 클레임 및 신뢰도 하락
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ELIZA 효과 기반 안티패턴</div></div>
+<div class="kb-diagram-note">(단순 키워드 매칭 챗봇 배포) =&gt; "슬프다" 키워드 입력</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">(챗봇 응답) =&gt; "왜 슬프신가요? 더 말씀해주세요." (단순 반사형 질문)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">(사용자 착각) =&gt; AI가 자신을 진심으로 이해하고 공감한다고 착각함 (과잉 의인화)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">(비즈니스 타격) =&gt; 복잡한 업무 지시 시 챗봇이 먹통이 되어 심각한 CS 클레임 및 신뢰도 하락</div>
+</div>
+</div>
+
+
 
 이 장애 플로우의 핵심은 시스템이 실제 지능이 없음에도 인간의 심리적 투사(Projection)에 의해 튜링 테스트를 통과한 것처럼 보이는 '엘리자 효과(Eliza Effect)'에 빠지는 것이다. 실무자는 챗봇이 단순히 대화를 이어나가는 것(표면적 튜링 테스트)에 만족해서는 안 되며, 사용자의 궁극적인 과업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))인 주문, 취소, 환불 등을 백엔드 API와 연동해 정확히 수행하는지 과업 달성률([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Completion Rate)을 핵심 KPI로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링해야 한다.
 
@@ -160,27 +177,29 @@ Input(중국어) ──> [ 방 안의 사람(규칙서만 보고 조합) ] ─�
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **Chinese Room Argument (중국어 방 논변)** | 튜링 테스트의 행동주의적 접근을 비판하며 AI의 내적 '이해' 부재를 지적하는 철학적 사고 실험
 - **CAPTCHA (캡챠)** | 악성 봇을 차단하기 위해 튜링 테스트를 역으로 적용하여 인간임을 증명하게 하는 보안 기술
-- **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) (대형 언어 모델)** | 수천억 개의 파라미터로 튜링 테스트를 사실상 무력화시킬 수준의 자연어 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력을 갖춘 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> (대형 언어 모델)</strong> | 수천억 개의 파라미터로 튜링 테스트를 사실상 무력화시킬 수준의 자연어 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력을 갖춘 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)
 - **ELIZA Effect (엘리자 효과)** | 기계의 단순한 패턴 매칭 응답을 보고 인간이 기계에 의식이나 감정이 있다고 착각하는 심리적 현상
-- **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/))** | AI의 답변을 인간의 선호와 윤리에 맞게 정렬(Alignment)시켜 튜링 테스트 통과율을 극대화하는 미세조정 기법
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/">인간 피드백 기반 강화학습</a>)</strong> | AI의 답변을 인간의 선호와 윤리에 맞게 정렬(Alignment)시켜 튜링 테스트 통과율을 극대화하는 미세조정 기법
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Chinese Room Argument (중국어 방 논변)]
-    │
-    ▼
-[CAPTCHA (캡챠)]
-    │
-    ▼
-[LLM (대형 언어 모델)]
-    │
-    ▼
-[ELIZA Effect (엘리자 효과)]
-    │
-    ▼
-[RLHF (인간 피드백 기반 강화학습)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chinese Room Argument (중국어 방 논변)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAPTCHA (캡챠)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM (대형 언어 모델)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ELIZA Effect (엘리자 효과)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RLHF (인간 피드백 기반 강화학습)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 Chinese Room Argument (중국어 방 논변)에서 출발해 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

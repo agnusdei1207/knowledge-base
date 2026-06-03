@@ -32,22 +32,22 @@ tags = ["network"]
 
 TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 기지국 간의 정밀한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 전송 주기 관리를 요구한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            TDMA의 프레임, 버스트, 가드 타임 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐               │
-│ User1 │Burst│    │Burst│    │Burst│    │Burst│               │
-│ ──────┴──█──┴────┴──█──┴────┴──█──┴────┴──█──┴──────▶ 시간(t)│
-│          ▲ Guard Time (보호 시간)                            │
-│                                                              │
-│ [병목 지점]: 기지국에서 멀리 있는 단말기의 전파는 전파 지연       │
-│ (Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을 │
-│ 덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈     │
-│ 시간 마진을 두어 안전거리를 확보한다.                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDMA의 프레임, 버스트, 가드 타임 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User1</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──█── ──█── ──█── ──█── ▶ 시간(t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Guard Time (보호 시간)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병목 지점</div><div class="kb-diagram-note">: 기지국에서 멀리 있는 단말기의 전파는 전파 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 마진을 두어 안전거리를 확보한다.</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 아날로그 FDMA가 주파수 사이의 가드 밴드 ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 낭비했다면, TDMA는 슬롯 사이의 가드 타임 (Guard Time)을 소모한다는 점이다. 단말기는 음성 데이터를 임시 메모리에 쌓아두었다가 자신의 타임 슬롯이 도래하면 전력 앰프를 켜고 풀파워로 데이터를 쏘아 보내는(Burst) '스토어 앤 포워드' 방식으로 동작한다.
 
@@ -64,7 +64,7 @@ TDMA와 그 뒤를 이은 [CDMA](/knowledge-base/studynote/03_network/19_frequen
 | **물리적 충돌 관리** | 시간 분리로 충돌 완전 차단 | 코드로 분리하여 수신단에서 해독 | [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 철학 |
 | **단말기 배터리 소모** | 자기 슬롯 외엔 앰프 끄기 (극강 절전) | 약한 전력으로 연속 켜둠 (연속 소모) | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 적용 여부 |
 | **전력 제어 민감도** | 비교적 낮음 (자기 슬롯 혼자 씀) | 극도로 높음 ([Near-Far Problem](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)) | 시스템 복잡도 위치 |
-| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 난이도** | 극도로 높음 (마이크로초 제어 필수) | 중간 수준 | 마스터 클럭 의존성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 난이도</strong> | 극도로 높음 (마이크로초 제어 필수) | 중간 수준 | 마스터 클럭 의존성 |
 
 TDMA는 시간 통제로 충돌을 원천 차단하지만, 거리 지연으로 인해 타임 슬롯이 헝클어질 위험이 있다. 이를 해결하기 위해 기지국은 핑을 때려 거리를 재고 먼 단말기에게 "0.5초 일찍 출발시켜"라고 명령하는 타이밍 어드밴스 (Timing Advance) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다. 반면 CDMA는 주파수와 시간을 다 같이 쓰면서 수학적 직교 코드로 분리해 냈다.
 
@@ -77,8 +77,8 @@ TDMA는 시간 통제로 충돌을 원천 차단하지만, 거리 지연으로 �
 TDMA의 버스트(Burst) 특성을 완벽히 이해해야 전자기 노이즈를 잡고 저전력망을 성공적으로 설계할 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
-1. **EMI 간섭과 버스트 노이즈 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**: TDMA 방식(GSM 등) 단말기가 1초에 수십 번씩 전원을 풀파워로 온/오프 하면서 발생하는 거대한 전자기 펄스가 주변 스피커나 정밀 의료기기에 간섭(징징거리는 노이즈)을 일으키지 않도록 하드웨어 쉴드(Shield) 캔 설계를 강화했는가?
-2. **초저전력 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서망의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 채택**: 수년간 배터리를 갈 수 없는 스마트 팜 센서망 설계 시, 충돌 제어로 전력을 낭비하는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 기반 기술 대신, 자신의 시간표가 아닐 때 라디오를 완전히 딥 슬립(Deep Sleep) 시키는 TSCH 같은 TDMA 베이스의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 채택했는가?
+1. <strong>EMI 간섭과 버스트 노이즈 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>: TDMA 방식(GSM 등) 단말기가 1초에 수십 번씩 전원을 풀파워로 온/오프 하면서 발생하는 거대한 전자기 펄스가 주변 스피커나 정밀 의료기기에 간섭(징징거리는 노이즈)을 일으키지 않도록 하드웨어 쉴드(Shield) 캔 설계를 강화했는가?
+2. <strong>초저전력 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서망의 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 채택</strong>: 수년간 배터리를 갈 수 없는 스마트 팜 센서망 설계 시, 충돌 제어로 전력을 낭비하는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 기반 기술 대신, 자신의 시간표가 아닐 때 라디오를 완전히 딥 슬립(Deep Sleep) 시키는 TSCH 같은 TDMA 베이스의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 채택했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수백 km를 커버하는 위성이나 해상 통신망에서 무리하게 촘촘한 TDMA 슬롯을 설계하는 것. 물리적인 전파 지연이 너무 커서 충돌 방지용 가드 타임을 무한정 늘리다 보면 결국 실제 데이터가 들어갈 자리가 사라져 스루풋이 붕괴한다.
@@ -101,27 +101,29 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ([다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** | 제한된 전파 자원을 분할하는 규칙으로, TDMA는 시간을 칼같이 썰어서 나누는 방식이다 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> | 제한된 전파 자원을 분할하는 규칙으로, TDMA는 시간을 칼같이 썰어서 나누는 방식이다 |
 | **Timing Advance (타이밍 보상)** | 기지국과 단말기 사이의 거리를 계산해 전송 시작 시점을 앞당겨 슬롯 충돌을 막는 필수 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **Guard Time ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간)** | 전파 지연으로 앞뒤 사용자의 버스트 데이터가 겹치지 않게 슬롯 사이에 두는 안전 마진 |
+| <strong>Guard Time (<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 시간)</strong> | 전파 지연으로 앞뒤 사용자의 버스트 데이터가 겹치지 않게 슬롯 사이에 두는 안전 마진 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-아날로그 주파수 독점 (FDMA)의 대역폭 낭비
-    │
-    ▼
-디지털 음성 압축 및 시간 분할 도입 (TDMA)
-    │
-    ▼
-정밀 동기화 및 타이밍 보상 (Timing Advance) 제어
-    │
-    ▼
-셀룰러 망에서의 CDMA/OFDMA로의 진화 (3G/4G)
-    │
-    ▼
-특수망 생존성 확보: 무전기(TETRA) 및 초저전력 IoT 센서망 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">아날로그 주파수 독점 (FDMA)의 대역폭 낭비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 음성 압축 및 시간 분할 도입 (TDMA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정밀 동기화 및 타이밍 보상 (Timing Advance) 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셀룰러 망에서의 CDMA/OFDMA로의 진화 (3G/4G)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">특수망 생존성 확보: 무전기(TETRA) 및 초저전력 IoT 센서망 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 주파수 고갈을 막기 위한 TDMA의 등장부터, 정밀 시간 제어를 거쳐 현대의 저전력 특수망 생태계로 정착하는 과정을 보여준다.
 

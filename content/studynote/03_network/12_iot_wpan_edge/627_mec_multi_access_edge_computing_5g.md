@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **이동통신망의 끝단(기지국, 기지국 제어국 등)에 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 및 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경(서버)을 전진 배치하여, 사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 코어 망(인터넷)까지 보내지 않고 현장에서 즉시 처리하는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))의 무선 통신망 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)**입니다. (ETSI에서 표준화 주도)
-- **명칭 변경**: 초기에는 통신망에만 국한되어 Mobile Edge Computing이라 불렀으나, 현재는 와이파이나 유선망까지 모두 아우른다는 의미로 **Multi-access [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)**으로 이름이 변경되었습니다.
+- **개념**: <strong>이동통신망의 끝단(기지국, 기지국 제어국 등)에 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> 및 IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 환경(서버)을 전진 배치하여, 사용자의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중앙 코어 망(인터넷)까지 보내지 않고 현장에서 즉시 처리하는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)의 무선 통신망 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a></strong>입니다. (ETSI에서 표준화 주도)
+- **명칭 변경**: 초기에는 통신망에만 국한되어 Mobile Edge Computing이라 불렀으나, 현재는 와이파이나 유선망까지 모두 아우른다는 의미로 <strong>Multi-access <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a></strong>으로 이름이 변경되었습니다.
 
-```text
-[엣지 컴퓨팅]
-    │
-    ▼
-[MEC]
-    │
-    └──▶ [스마트 그리드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MEC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-5G의 3대 목표 중 하나인 **[URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) (초고신뢰 초저지연 통신, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 1ms 이하)**는 전파 기술(무선 구간)을 아무리 개선해도 유선 인터넷 백본망(해저 케이블 등)을 타는 순간 발생하는 물리적 거리에 의한 딜레이를 깰 수 없었습니다.
+5G의 3대 목표 중 하나인 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a> (초고신뢰 초저지연 통신, <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 1ms 이하)</strong>는 전파 기술(무선 구간)을 아무리 개선해도 유선 인터넷 백본망(해저 케이블 등)을 타는 순간 발생하는 물리적 거리에 의한 딜레이를 깰 수 없었습니다.
 - **MEC의 해결책**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이 통신사의 거대한 중앙 교환국(Core Network)이나 외부 인터넷으로 아예 넘어가지 못하게 막고, 스마트폰과 전파를 주고받는 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국(DU/CU) 옆에 붙어있는 MEC 서버에서 곧바로 게임 그래픽을 렌더링하고 계산을 끝내버립니다.
 - 그 결과 단말기와 서버 간의 물리적 거리가 수십 km 이내로 좁혀지면서 5G의 1ms 체감 속도가 비로소 완성됩니다.
 
-```text
-[엣지 컴퓨팅]
-    │
-    ▼
-[MEC]
-    │
-    └──▶ [스마트 그리드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MEC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,9 +65,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 MEC 없이는 불가능한 미래 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들입니다.
-1. **자율주행 및 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)**: 교차로의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교차로 기지국(MEC)이 0.01초 만에 분석해, 돌진하는 트럭을 인지하고 주변 자율주행차들에게 브레이크 명령을 즉시 하달.
+1. <strong>자율주행 및 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a></strong>: 교차로의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교차로 기지국(MEC)이 0.01초 만에 분석해, 돌진하는 트럭을 인지하고 주변 자율주행차들에게 브레이크 명령을 즉시 하달.
 2. **실감형 AR/VR 및 클라우드 게임**: 무거운 그래픽 연산([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 처리를 무거운 VR 고글이 아닌 기지국의 MEC 서버가 대신 다 계산해서 가벼운 화면만 즉시 쏴줌. 고글의 무게를 안경 수준으로 가볍게 만들 수 있음.
-3. **보안 특화 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)**: 공장 내에 설치된 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용망([Private 5G](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/365_5g_tsn/)) 기지국 밑에 MEC 서버를 두어, 공장 로봇의 극비 조작 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 회사 밖(인터넷 통신망)으로 1바이트도 빠져나가지 않고 공장 내부에서만 완벽히 순환/처리되도록 격리.
+3. <strong>보안 특화 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a></strong>: 공장 내에 설치된 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용망([Private 5G](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/365_5g_tsn/)) 기지국 밑에 MEC 서버를 두어, 공장 로봇의 극비 조작 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 회사 밖(인터넷 통신망)으로 1바이트도 빠져나가지 않고 공장 내부에서만 완벽히 순환/처리되도록 격리.
 
 MEC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 기반 조건을 만든다면, MEC는 그 위에서 핵심 메커니즘을 구현하고, [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -106,15 +114,19 @@ MEC는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 엣지 컴퓨팅]
-    │
-    ▼
-[현재 개념: MEC]
-    │
-    ├──▶ [확장 A: 스마트 그리드]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 엣지 컴퓨팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 그리드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 MEC는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

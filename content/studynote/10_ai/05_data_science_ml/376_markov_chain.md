@@ -50,15 +50,18 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 
 π가 정상 분포 ⟺ **πP = π** 이고 Σπᵢ = 1
 
-```
-┌─────────────────────────────────────────────────┐
-│  초기 분포 π₀ ──► π₀P ──► π₀P² ──► ... ──► π   │
-│                                                  │
-│  에르고딕 조건: 기약(Irreducible) +               │
-│               비주기(Aperiodic) + 양재귀          │
-│               → 정상 분포 π 유일 & 수렴 보장      │
-└─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 분포 π₀ ──► π₀P ──► π₀P² ──► ... ──► π</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에르고딕 조건: 기약(Irreducible) +</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비주기(Aperiodic) + 양재귀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정상 분포 π 유일 &amp; 수렴 보장</div></div>
+</div>
+</div>
+
+
 
 ### 세부 균형 (Detailed Balance)
 
@@ -94,7 +97,7 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[MCMC](/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) ([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo) 응용**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/">MCMC</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/">Markov Chain</a> Monte Carlo) 응용</strong>:
 - 고차원 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 직접 샘플링 불가 → 에르고딕 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 구성 → 정상 분포 = 목표 분포
 - Metropolis-Hastings: 세부 균형 조건으로 수락/거부 결정
 - Gibbs [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/): 조건부 분포를 순차 샘플링

@@ -25,18 +25,20 @@ tags = ["studynote-cloud-architecture"]
 
 아래 그림은 같은 요구사항이라도 명령 중심 스크립트와 상태 중심 IaC가 어떻게 다르게 행동하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       같은 "web-sg가 있어야 함" 요청도 방식에 따라 결과가 다르다 │
-├───────────────────────────┬──────────────────────────────────┤
-│ 비멱등 명령               │ 멱등 선언                         │
-├───────────────────────────┼──────────────────────────────────┤
-│ create-security-group     │ resource "web-sg" must exist     │
-│ 1회 실행: 생성            │ 1회 실행: 생성                    │
-│ 2회 실행: AlreadyExists   │ 2회 실행: 변화 없음               │
-│ 3회 실행: 예외 처리 필요  │ 3회 실행: 변화 없음               │
-└───────────────────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 "web-sg가 있어야 함" 요청도 방식에 따라 결과가 다르다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비멱등 명령</div><div class="kb-diagram-cell">멱등 선언</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">create-security-group</div><div class="kb-diagram-cell">resource "web-sg" must exist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회 실행: 생성</div><div class="kb-diagram-cell">1회 실행: 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회 실행: AlreadyExists</div><div class="kb-diagram-cell">2회 실행: 변화 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3회 실행: 예외 처리 필요</div><div class="kb-diagram-cell">3회 실행: 변화 없음</div></div>
+</div>
+</div>
+
+
 
 핵심은 "명령을 반복한다"가 아니라 "상태를 보장한다"는 발상 전환이다. 운영자가 원하는 것은 create 명령의 성공 횟수가 아니라, 최종적으로 보안 그룹이 정확한 규칙으로 존재하는 사실이기 때문이다.
 
@@ -46,31 +48,26 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조회, 차이 계산, 직렬화된 적용이라는 다섯 축으로 만들어진다. 여기서 중요한 점은 `terraform.tfstate`만 보고 판단하는 것이 아니라, 계획 수립 시점에 Provider가 실제 클라우드 상태를 다시 읽어 와서 구성과 비교한다는 점이다. 즉 멱등성은 "코드 vs 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"의 단순 비교가 아니라, **원하는 상태와 실제 상태 사이의 차이를 지속적으로 줄이는 수렴 루프**다.
+Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조회, 차이 계산, 직렬화된 적용이라는 다섯 축으로 만들어진다. 여기서 중요한 점은 `terraform.tfstate`만 보고 판단하는 것이 아니라, 계획 수립 시점에 Provider가 실제 클라우드 상태를 다시 읽어 와서 구성과 비교한다는 점이다. 즉 멱등성은 "코드 vs 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"의 단순 비교가 아니라, <strong>원하는 상태와 실제 상태 사이의 차이를 지속적으로 줄이는 수렴 루프</strong>다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        Terraform Convergence Loop: 선언 → 조회 → 차이만 적용       │
-├────────────────────────────────────────────────────────────────────┤
-│ .tf Desired State                                                 │
-│      │                                                            │
-│      ▼                                                            │
-│ State Backend (resource address, dependency, lock)                │
-│      │                                                            │
-│      ▼                                                            │
-│ Provider Read / Refresh (actual cloud state)                      │
-│      │                                                            │
-│      ▼                                                            │
-│ Plan Engine                                                       │
-│  ├─ No-op    : 이미 일치                                          │
-│  ├─ Create   : 없는 리소스 생성                                   │
-│  ├─ Update   : 속성 차이 수정                                     │
-│  └─ Replace  : 인플레이스 불가 시 교체                            │
-│      │                                                            │
-│      ▼                                                            │
-│ Apply → 새 상태 기록 → 다음 실행에서는 같은 상태면 다시 No-op    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform Convergence Loop: 선언 → 조회 → 차이만 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.tf Desired State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State Backend (resource address, dependency, lock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provider Read / Refresh (actual cloud state)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No-op : 이미 일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Create : 없는 리소스 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Update : 속성 차이 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Replace : 인플레이스 불가 시 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apply → 새 상태 기록 → 다음 실행에서는 같은 상태면 다시 No-op</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 멱등성과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- |
@@ -80,7 +77,7 @@ Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조�
 | Plan Engine | 차이를 계산해 액션 결정 | 변경이 필요한 대상만 선택한다 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) | 동시 적용 차단 | 두 파이프라인이 같은 자원을 동시에 바꾸는 사고를 막는다 |
 
-다만 멱등성은 "무조건 아무 일도 없다"는 뜻이 아니다. Desired State가 바뀌면 재실행 시 Update나 Replace가 정상적으로 일어나야 한다. 멱등성의 본질은 **같은 선언에는 같은 결과**, **다른 선언에는 예측 가능한 변경**이 나온다는 점이다. 그래서 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 설계에서는 `timestamp()`처럼 매번 값이 달라지는 표현이나, `null_resource` + `local-exec`처럼 외부 부작용을 일으키는 구문이 멱등성을 약하게 만드는 대표 사례다.
+다만 멱등성은 "무조건 아무 일도 없다"는 뜻이 아니다. Desired State가 바뀌면 재실행 시 Update나 Replace가 정상적으로 일어나야 한다. 멱등성의 본질은 **같은 선언에는 같은 결과**, <strong>다른 선언에는 예측 가능한 변경</strong>이 나온다는 점이다. 그래서 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 설계에서는 `timestamp()`처럼 매번 값이 달라지는 표현이나, `null_resource` + `local-exec`처럼 외부 부작용을 일으키는 구문이 멱등성을 약하게 만드는 대표 사례다.
 
 - **📢 섹션 요약 비유**: Terraform은 내비게이션과 같다. 목적지가 이미 같으면 더 움직이지 않고, 길을 벗어났을 때만 다시 경로를 잡아 준다. 중요한 것은 버튼을 몇 번 눌렀는지가 아니라 목적지에 도달했는지다.
 
@@ -132,7 +129,7 @@ Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조�
 - 이미 존재하는 자원을 import하지 않고 신규 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 선언
 - 수동 핫픽스를 해 놓고 코드에는 반영하지 않는 운영
 
-기술사 답안에서는 **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 관리, Drift 감지, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 통제, 외부 부작용 분리**를 함께 언급해야 실무성이 살아난다. 멱등성은 단순한 정의 문제가 아니라, 반복 배포와 재시도 전략을 가능하게 만드는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계 요소다.
+기술사 답안에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 관리, Drift 감지, <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 통제, 외부 부작용 분리</strong>를 함께 언급해야 실무성이 살아난다. 멱등성은 단순한 정의 문제가 아니라, 반복 배포와 재시도 전략을 가능하게 만드는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계 요소다.
 
 - **📢 섹션 요약 비유**: 멱등성을 지키는 운영은 출석부를 한 사람이 들고 질서 있게 체크하는 것과 같다. 여러 사람이 동시에 같은 줄에 표시하거나, 몰래 이름을 지웠다 다시 쓰면 금세 엉망이 된다.
 
@@ -144,7 +141,7 @@ Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조�
 
 한계도 분명하다. 클라우드 Provider의 [eventual consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/), 외부 시스템의 부작용, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 같은 작업은 순수한 리소스 선언보다 훨씬 어렵다. 또한 멱등성은 "재실행 안전"을 뜻할 뿐 "항상 무해함"을 뜻하지는 않는다. 예를 들어 인스턴스 교체가 필요한 변경은 멱등적이어도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향이 있을 수 있다.
 
-결국 멱등성은 IaC의 편의 기능이 아니라 **자동화가 인간보다 더 믿을 만하게 반복되도록 만드는 안전장치**로 기억해야 한다. 좋은 IaC는 한 번 멋지게 성공하는 코드가 아니라, 실패 후에도 같은 선언으로 다시 일어설 수 있는 코드다.
+결국 멱등성은 IaC의 편의 기능이 아니라 <strong>자동화가 인간보다 더 믿을 만하게 반복되도록 만드는 안전장치</strong>로 기억해야 한다. 좋은 IaC는 한 번 멋지게 성공하는 코드가 아니라, 실패 후에도 같은 선언으로 다시 일어설 수 있는 코드다.
 
 - **📢 섹션 요약 비유**: 멱등성은 엘리베이터 호출 버튼과 같다. 한 번 누르든 세 번 누르든 엘리베이터는 한 번만 와야 하고, 버튼을 더 누른다고 층이 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면 안 된다.
 
@@ -163,22 +160,25 @@ Terraform의 멱등성은 선언형 구성, 상태 추적, 실제 인프라 조�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 클릭 · 명령형 스크립트
-    │
-    ├─ 문제: 재실행 충돌 · 중복 생성 · 수동 복구
-    ▼
-선언형 IaC (Desired State)
-    │
-    ├─ State Backend
-    ├─ Refresh / Diff
-    └─ Locking
-    ▼
-멱등적 Apply
-    │
-    ▼
-Drift Detection · Safe Retry · GitOps Reconciliation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 클릭 · 명령형 스크립트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문제: 재실행 충돌 · 중복 생성 · 수동 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선언형 IaC (Desired State)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">State Backend</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Refresh / Diff</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Locking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멱등적 Apply</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Drift Detection · Safe Retry · GitOps Reconciliation</div>
+</div>
+</div>
+
+
 
 이 흐름은 인프라 운영이 "한 번 실행되는 작업"에서 "반복 적용해도 같은 상태로 수렴하는 관리 체계"로 발전하는 과정을 보여준다.
 

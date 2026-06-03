@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 WAF는 치명적인 한계가 있었다. 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))을 까보기 어렵고, 방어 룰(Rule)을 우회하는 신종 해킹 기법 앞에서는 속수무책이었으며, 무엇보다 이 트래픽이 실제로 서버 내부에서 어떻게 작동하는지(문맥) 전혀 알 수 없어 수많은 '오탐(False Positive)'을 낳았다. 
 
-이를 해결하기 위해 가트너(Gartner)가 제안한 개념이 **[RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/)([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))**다. 성벽([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 밖에서 적을 막는 대신, 애플리케이션 자체에 '자가 면역 세포(Agent)'를 심어 공격이 실제 실행되기 직전에 심장부에서 차단하자는 혁신적인 아이디어다.
+이를 해결하기 위해 가트너(Gartner)가 제안한 개념이 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">RASP</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">Runtime Application Self-Protection</a>)</strong>다. 성벽([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 밖에서 적을 막는 대신, 애플리케이션 자체에 '자가 면역 세포(Agent)'를 심어 공격이 실제 실행되기 직전에 심장부에서 차단하자는 혁신적인 아이디어다.
 
 - **📢 섹션 요약 비유**: WAF가 공항 검색대에서 엑스레이로 짐을 검사하는 것이라면, RASP는 승객의 몸속에 들어간 나노 로봇이 승객이 독약을 마셨을 때 피 속에 독이 퍼지기 직전 해독제를 뿌리는 자가 면역 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) 런타임 자체 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  RASP 런타임 자체 보호                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RASP 런타임 자체 보호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) 런타임 자체 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -80,7 +79,7 @@ RASP는 WAF의 대체재가 아니라 보완재이며, IAST와 형제 관계에 
 | **목적** | **외부 공격의 1차 방어** | **실제 실행되는 공격의 최종 차단** | 개발/QA 단계의 **취약점 탐지(테스트)** |
 | **오탐률** | 높음 (문맥 파악 불가) | **매우 낮음 (문맥 파악 완벽)** | 낮음 |
 | **장점** | 인프라 설정만으로 빠른 도입 | 우회 공격 및 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 방어 탁월 | 소스코드 라인 수준의 취약점 지적 |
-| **단점** | 룰 관리가 까다롭고 우회 쉬움 | **앱 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(오버헤드) 발생** | 운영(Prod) 환경에 적용 불가 |
+| **단점** | 룰 관리가 까다롭고 우회 쉬움 | <strong>앱 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하(오버헤드) 발생</strong> | 운영(Prod) 환경에 적용 불가 |
 
 - **📢 섹션 요약 비유**: 성문 밖의 해자([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))는 먼지바람만 불어도 경보를 울리지만, 왕의 침실 문앞에 선 호위무사([RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))는 진짜 자객의 칼이 뽑힐 때만 정확하게 칼을 막아낸다.
 
@@ -131,21 +130,23 @@ RASP를 성공적으로 적용하면 기업은 기존 WAF의 수많은 룰을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-RASP 런타임 자체 보호 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RASP 런타임 자체 보호 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

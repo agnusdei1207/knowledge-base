@@ -4,11 +4,16 @@
   root.setAttribute("saved-theme", savedTheme)
   const basePath = (() => {
     const raw = document.body?.dataset.basepath || ""
+    let path = ""
     try {
-      return new URL(raw).pathname.replace(/\/$/, "")
+      path = new URL(raw).pathname.replace(/\/$/, "")
     } catch {
-      return raw.replace(/\/$/, "")
+      path = raw.replace(/\/$/, "")
     }
+    if (path && window.location.pathname.startsWith(path)) {
+      return path
+    }
+    return ""
   })()
   const assetUrl = (path) => `${basePath}${path.startsWith("/") ? path : `/${path}`}`
   const mobileQuery = window.matchMedia("(max-width: 800px)")
@@ -150,7 +155,10 @@
   }
 
   const currentPath = document.querySelector("#backlinks-list")?.dataset.currentPath
-  const backlinkKey = currentPath ? encodeURIComponent(currentPath) : ""
+  const normalizedPath = currentPath && basePath && currentPath.startsWith(basePath)
+    ? currentPath.slice(basePath.length)
+    : currentPath
+  const backlinkKey = normalizedPath ? normalizedPath.replace(/\//g, "_") : ""
   const runWhenIdle = (fn) => {
     if ("requestIdleCallback" in window) {
       window.requestIdleCallback(fn, { timeout: 1500 })
@@ -160,118 +168,222 @@
   }
 
   if (currentPath) {
-    runWhenIdle(() => fetch(assetUrl(`/assets/data/backlinks/${backlinkKey}.json`))
-      .then((response) => response.ok ? response.json() : Promise.reject(response))
-      .then((links) => {
+    const backlinksPromise = fetch(assetUrl(`/assets/data/backlinks/${backlinkKey}.json`))
+      .then((r) => r.ok ? r.json() : [])
+      .catch(() => [])
+
+    const graphPromise = fetch(assetUrl(`/assets/data/graphs/${backlinkKey}.json`))
+      .then((r) => r.ok ? r.json() : Promise.reject(r))
+      .catch(() => fetch(assetUrl("/assets/data/graph.json")).then((r) => r.ok ? r.json() : null).catch(() => null))
+
+    runWhenIdle(() => {
+      Promise.all([backlinksPromise, graphPromise]).then(([backlinks, graphData]) => {
+        // 1. Render backlinks list
         const list = document.querySelector("#backlinks-list")
-        if (!list) return
-        if (!links.length) {
-          const li = document.createElement("li")
-          li.className = "meta"
-          li.textContent = "백링크 없음"
-          list.appendChild(li)
-          return
+        if (list) {
+          list.innerHTML = ""
+          if (!backlinks.length) {
+            const li = document.createElement("li")
+            li.className = "meta"
+            li.textContent = "No backlinks"
+            list.appendChild(li)
+          } else {
+            backlinks.slice(0, 30).forEach((link) => {
+              const li = document.createElement("li")
+              const a = document.createElement("a")
+              a.className = "internal"
+              a.href = link.url
+              a.textContent = link.title
+              li.appendChild(a)
+              list.appendChild(li)
+            })
+          }
         }
-        links.slice(0, 30).forEach((link) => {
-          const li = document.createElement("li")
-          const a = document.createElement("a")
-          a.className = "internal"
-          a.href = link.url
-          a.textContent = link.title
-          li.appendChild(a)
-          list.appendChild(li)
-        })
+
+        // 2. Draw graph
+        if (graphData && graphData.nodes?.length) {
+          drawGraph(graphData)
+        }
       })
-      .catch(() => {}))
+    })
   }
 
-  runWhenIdle(() => {
-    fetch(assetUrl("/assets/data/graph.json"))
-      .then((response) => response.ok ? response.json() : Promise.reject(response))
-      .then(drawGraph)
-      .catch(() => {})
-  })
-
   function drawGraph(data) {
-    const canvas = document.querySelector("#global-graph")
-    if (!canvas || !data.nodes?.length) return
-    const ctx = canvas.getContext("2d")
-    const rect = canvas.getBoundingClientRect()
-    const dpr = window.devicePixelRatio || 1
-    canvas.width = Math.max(1, rect.width * dpr)
-    canvas.height = Math.max(1, rect.height * dpr)
-    ctx.scale(dpr, dpr)
-    const width = rect.width
-    const height = rect.height
-    const nodes = data.nodes.slice(0, 120).map((node, index) => {
-      const angle = (index / Math.min(data.nodes.length, 120)) * Math.PI * 2
-      const radius = 35 + (index % 5) * 18
-      return {
-        ...node,
-        x: width / 2 + Math.cos(angle) * radius,
-        y: height / 2 + Math.sin(angle) * radius,
-      }
-    })
-    const byId = new Map(nodes.map((node) => [node.id, node]))
-    ctx.clearRect(0, 0, width, height)
-    ctx.strokeStyle = getComputedStyle(root).getPropertyValue("--lightgray")
-    ctx.fillStyle = getComputedStyle(root).getPropertyValue("--tertiary")
-    data.links.slice(0, 220).forEach((link) => {
-      const source = byId.get(link.source)
-      const target = byId.get(link.target)
-      if (!source || !target) return
-      ctx.beginPath()
-      ctx.moveTo(source.x, source.y)
-      ctx.lineTo(target.x, target.y)
-      ctx.stroke()
-    })
-    nodes.forEach((node) => {
-      ctx.beginPath()
-      ctx.arc(node.x, node.y, node.section ? 3.2 : 2.2, 0, Math.PI * 2)
-      ctx.fill()
-    })
-    const tooltip = document.createElement("div")
-    tooltip.className = "graph-tooltip"
-    tooltip.hidden = true
-    document.body.appendChild(tooltip)
+    const container = document.querySelector("#graph-container")
+    if (!container || !data.nodes?.length || typeof d3 === "undefined") return
 
-    function nearestNode(event) {
-      const box = canvas.getBoundingClientRect()
-      const x = event.clientX - box.left
-      const y = event.clientY - box.top
-      let nearest = null
-      let distance = 16
-      for (const node of nodes) {
-        const current = Math.hypot(node.x - x, node.y - y)
-        if (current < distance) {
-          nearest = node
-          distance = current
-        }
-      }
-      return nearest
+    container.innerHTML = ""
+
+    const rect = container.getBoundingClientRect()
+    const width = rect.width || 280
+    const height = rect.height || 220
+
+    // Resolve current page path
+    const currentNorm = decodeURIComponent(window.location.pathname).replace(/\/$/, "")
+
+    // Prepare node data (already filtered and sorted by Python)
+    const graphNodes = data.nodes.map(n => {
+      let isCurrent = false
+      try {
+        const linkNorm = decodeURIComponent(new URL(n.url, window.location.origin).pathname).replace(/\/$/, "")
+        isCurrent = (currentNorm === linkNorm && linkNorm !== "")
+      } catch {}
+      return { ...n, isCurrent }
+    })
+
+    const nodeById = new Map(graphNodes.map(n => [n.id, n]))
+    const graphLinks = data.links
+      .filter(l => nodeById.has(l.source) && nodeById.has(l.target))
+      .map(l => ({ source: l.source, target: l.target }))
+
+    // Build adjacency set for highlight logic
+    const adjacency = new Set()
+    graphLinks.forEach(l => {
+      const sId = typeof l.source === "object" ? l.source.id : l.source
+      const tId = typeof l.target === "object" ? l.target.id : l.target
+      adjacency.add(`${sId}-${tId}`)
+      adjacency.add(`${tId}-${sId}`)
+    })
+    function isConnected(a, b) {
+      return a === b || adjacency.has(`${a}-${b}`)
     }
 
-    canvas.addEventListener("mousemove", (event) => {
-      const node = nearestNode(event)
-      if (!node) {
-        tooltip.hidden = true
-        canvas.style.cursor = "default"
-        return
-      }
-      tooltip.hidden = false
-      tooltip.textContent = node.title
-      tooltip.style.left = `${event.clientX + 12}px`
-      tooltip.style.top = `${event.clientY + 12}px`
-      canvas.style.cursor = "pointer"
+    // Read theme colors
+    const cs = getComputedStyle(root)
+    const colNode = cs.getPropertyValue("--tertiary").trim() || "#73826F"
+    const colActive = cs.getPropertyValue("--secondary").trim() || "#A65B32"
+    const colLink = cs.getPropertyValue("--lightgray").trim() || "#E5DEC9"
+    const colLabel = cs.getPropertyValue("--darkgray").trim() || "#383228"
+
+    // SVG setup
+    const svg = d3.select(container)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+
+    // Zoom / pan behaviour
+    const g = svg.append("g")
+    const zoom = d3.zoom()
+      .scaleExtent([0.3, 4])
+      .on("zoom", (event) => g.attr("transform", event.transform))
+    svg.call(zoom)
+
+    // Force simulation
+    const simulation = d3.forceSimulation(graphNodes)
+      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(50))
+      .force("charge", d3.forceManyBody().strength(-100).distanceMax(180))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collide", d3.forceCollide(12))
+      .alphaDecay(0.03)
+
+    // Draw links
+    const linkGroup = g.append("g")
+    const linkEls = linkGroup.selectAll("line")
+      .data(graphLinks)
+      .join("line")
+      .attr("stroke", colLink)
+      .attr("stroke-width", 1.0)
+      .attr("stroke-opacity", 0.6)
+
+    // Draw nodes
+    const nodeGroup = g.append("g")
+    const nodeEls = nodeGroup.selectAll("circle")
+      .data(graphNodes)
+      .join("circle")
+      .attr("r", d => d.isCurrent ? 7.0 : (d.section ? 4.5 : 3.5))
+      .attr("fill", d => d.isCurrent ? colActive : colNode)
+      .attr("stroke", d => d.isCurrent ? colActive : "none")
+      .attr("stroke-width", d => d.isCurrent ? 2.0 : 0)
+      .attr("stroke-opacity", 0.5)
+      .attr("cursor", "pointer")
+      .call(d3.drag()
+        .on("start", dragStart)
+        .on("drag", dragged)
+        .on("end", dragEnd)
+      )
+
+    // Node labels (hidden by default except current, shown on hover/highlight)
+    const labelGroup = g.append("g")
+    const labelEls = labelGroup.selectAll("text")
+      .data(graphNodes)
+      .join("text")
+      .text(d => {
+        const t = d.title || ""
+        return t.length > 25 ? t.slice(0, 23) + "…" : t
+      })
+      .attr("font-size", "7px")
+      .attr("font-weight", d => d.isCurrent ? "bold" : "normal")
+      .attr("font-family", "var(--bodyFont), sans-serif")
+      .attr("fill", colLabel)
+      .attr("text-anchor", "middle")
+      .attr("dy", -9)
+      .attr("pointer-events", "none")
+      .attr("opacity", d => d.isCurrent ? 1 : 0)
+
+    // Tooltip
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "graph-tooltip")
+      .style("display", "none")
+
+    // Hover interactions
+    nodeEls
+      .on("mouseover", function (event, d) {
+        tooltip.style("display", "block").text(d.title)
+
+        // Dim everything, highlight connected
+        nodeEls
+          .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0.15)
+        linkEls
+          .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.05)
+          .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.8 : 0.6)
+        labelEls
+          .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0)
+      })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", (event.clientX + 14) + "px")
+          .style("top", (event.clientY + 14) + "px")
+      })
+      .on("mouseout", function () {
+        tooltip.style("display", "none")
+        nodeEls.attr("opacity", 1)
+        linkEls.attr("stroke-opacity", 0.6).attr("stroke-width", 1.0)
+        labelEls.attr("opacity", d => d.isCurrent ? 1 : 0)
+      })
+      .on("click", function (event, d) {
+        if (d.url) window.location.href = d.url
+      })
+
+    // Tick — update positions
+    simulation.on("tick", () => {
+      linkEls
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y)
+      nodeEls
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+      labelEls
+        .attr("x", d => d.x)
+        .attr("y", d => d.y)
     })
-    canvas.addEventListener("mouseleave", () => {
-      tooltip.hidden = true
-      canvas.style.cursor = "default"
-    })
-    canvas.addEventListener("click", (event) => {
-      const node = nearestNode(event)
-      if (node?.url) window.location.href = node.url
-    })
+
+    // Drag handlers
+    function dragStart(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart()
+      d.fx = d.x
+      d.fy = d.y
+    }
+    function dragged(event, d) {
+      d.fx = event.x
+      d.fy = event.y
+    }
+    function dragEnd(event, d) {
+      if (!event.active) simulation.alphaTarget(0)
+      d.fx = null
+      d.fy = null
+    }
   }
 
   if (window.mermaid) {

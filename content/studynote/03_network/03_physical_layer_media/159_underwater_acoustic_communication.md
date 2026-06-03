@@ -41,23 +41,22 @@ tags = ["studynote-network"]
 
 아래 그림은 수중 음향 채널에서 직접파와 반사파가 함께 도착하는 모습을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 underwater acoustic channel characteristics                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ AUV / Sensor Tx                                                            │
-│      │                                                                     │
-│      ├──────── direct path ───────────────────────────────▶ Rx Hydrophone  │
-│      │                                                                     │
-│      ├────── surface reflection ──────────────────────────▶                │
-│      │                                                                     │
-│      └──── seabed reflection ─────────────────────────────▶                │
-│                                                                            │
-│ long range  -> large propagation delay                                     │
-│ relative motion -> Doppler shift                                           │
-│ many paths   -> echo / inter-symbol interference                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">underwater acoustic channel characteristics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUV / Sensor Tx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">direct path ▶ Rx Hydrophone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">surface reflection ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seabed reflection ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long range -&gt; large propagation delay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">relative motion -&gt; Doppler shift</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many paths -&gt; echo / inter-symbol interference</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 수신기가 “한 번의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)”를 받는 것이 아니라, 시간차를 두고 여러 경로의 복사본을 함께 받는다는 점이다. 예를 들어 15km 떨어진 두 장비 사이에서는 편도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 약 10초 수준이 될 수 있고, 반사파가 겹치면 심벌 간 간섭 (Inter-Symbol Interference)이 발생한다. 그래서 수중 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 단순 변조기보다 채널 추정, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 전방 오류 정정 (FEC, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction), 적응형 등화가 훨씬 중요하다.
 
@@ -89,7 +88,7 @@ tags = ["studynote-network"]
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **요구 범위가 거리 중심인가, 속도 중심인가?** 장거리일수록 낮은 주파수와 낮은 전송률을 감수해야 한다.
-2. **왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 감당하는가?** 지상 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))식 즉시 ACK 가정은 비효율적일 수 있다.
+2. <strong>왕복 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>이 감당하는가?</strong> 지상 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))식 즉시 ACK 가정은 비효율적일 수 있다.
 3. **다중 경로와 도플러를 보정할 수 있는가?** 이동체 통신일수록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 등화가 중요하다.
 4. **배터리와 송신 전력을 고려했는가?** 수중 장비는 교체 주기가 길어 에너지 예산이 핵심이다.
 
@@ -107,7 +106,7 @@ tags = ["studynote-network"]
 
 수중 음향 통신은 해양 감시, 자원 탐사, 국방, 환경 모니터링, 해양 로봇 협업의 기반이 된다. 이 기술이 있어야 해저 센서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리고, 무인 잠수정이 명령을 받고, 사람이 직접 닿기 어려운 환경에서도 장비 상태를 확인할 수 있다. 특히 장거리 무선 수중 링크가 가능하다는 점에서 해양 정보화의 핵심 인프라다.
 
-다만 이 기술은 본질적으로 저대역폭·고지연 채널 위에 서 있다. 따라서 지상 통신처럼 “빠른 인터넷”으로 기억하기보다, **“열악한 수중 채널에서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 정보를 운반하는 해양 특화 통신”**으로 이해해야 한다. 앞으로는 적응형 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 하이브리드 수중 네트워크, 협업형 AUV 군집과 결합해 더 실용적인 형태로 발전할 가능성이 크다.
+다만 이 기술은 본질적으로 저대역폭·고지연 채널 위에 서 있다. 따라서 지상 통신처럼 “빠른 인터넷”으로 기억하기보다, <strong>“열악한 수중 채널에서 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 정보를 운반하는 해양 특화 통신”</strong>으로 이해해야 한다. 앞으로는 적응형 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 하이브리드 수중 네트워크, 협업형 AUV 군집과 결합해 더 실용적인 형태로 발전할 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 수중 음향 통신은 물속 우편배달부와 같다. 편지는 천천히 오지만, 멀고 위험한 곳까지 끝내 전달해 준다는 점이 가장 중요하다.
 
@@ -126,18 +125,21 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수중에서의 전자기파 감쇠
-    │
-    ▼
-음향 통신 (수중 음파 통신)
-    │
-    ├── Acoustic Modem · Transducer · Hydrophone
-    ├── 대지연 · 다중 경로 · 도플러 보정
-    │
-    ▼
-해저 센서망 · AUV / ROV 제어 · 하이브리드 수중 네트워크
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수중에서의 전자기파 감쇠</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">음향 통신 (수중 음파 통신)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Acoustic Modem · Transducer · Hydrophone</div>
+<div class="kb-diagram-tree-item" style="--depth:2">대지연 · 다중 경로 · 도플러 보정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해저 센서망 · AUV / ROV 제어 · 하이브리드 수중 네트워크</div>
+</div>
+</div>
+
+
 
 이 흐름은 수중 음향 통신이 단순한 대체 기술이 아니라, 수중 환경의 물리 제약에서 출발해 전용 장비와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 해양 응용망으로 확장되는 기술임을 보여 준다.
 

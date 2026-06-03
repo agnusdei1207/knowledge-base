@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 컨테이너들이 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))로 통신하면 **동기식([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/))**이 됩니다.
+- [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 컨테이너들이 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))로 통신하면 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>)</strong>이 됩니다.
 - 내가 A 서버를 불렀으면, A가 일 처리를 끝내고 "완료 됨" 응답을 줄 때까지 나는 아무것도 못 하고 멍때리고 멈춰 서서 기다려야 합니다. (강한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 발생). A가 죽으면 나도 연쇄적으로 뻗습니다(Cascading Failure).
 
 - **📢 섹션 요약 비유**: 이벤트 드리븐 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 이벤트 드리븐 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), E의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 드리븐 아키텍처 (EDA, E                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 드리븐 아키텍처 (EDA, E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 이벤트 드리븐 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), E가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 분산된 시스템 모듈들이 서로를 직접 호출하지 않고, **어떤 상태의 변화(Event, 예: '주문 생성됨', '재고 소진됨')가 발생하면 그 이벤트 메시지를 중앙 브로커(메시지 큐)에 던져놓고(비동기 Asynchronous), 이 이벤트에 관심 있는 다른 놈들이 알아서 낚아채어 묵묵히 자기 할 일을 수행하게 만드는 반응형 아키텍처 패턴**입니다.
+- **개념**: 분산된 시스템 모듈들이 서로를 직접 호출하지 않고, <strong>어떤 상태의 변화(Event, 예: '주문 생성됨', '재고 소진됨')가 발생하면 그 이벤트 메시지를 중앙 브로커(메시지 큐)에 던져놓고(비동기 Asynchronous), 이 이벤트에 관심 있는 다른 놈들이 알아서 낚아채어 묵묵히 자기 할 일을 수행하게 만드는 반응형 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 이벤트 드리븐 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -73,10 +72,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **극강의 느슨한 결합 (Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))**: 배송 서버(Consumer)가 트래픽 폭주로 3시간 동안 불타서 죽었습니다.
-- **기적의 결과**: 결제 서버(Producer)는 배송 서버가 죽었는지 관심도 없습니다. 결제는 평소대로 0.1초 만에 쭉쭉 성공하고, 브로커 우체통에 "결제 완료" 쪽지만 계속 산더미처럼 쌓여갑니다. 3시간 뒤 배송 서버가 고쳐져서 부팅되면? 우체통에 쌓여있던 밀린 쪽지를 그제야 하나씩 주워가며 택배를 싸기 시작합니다. **서버 하나가 죽어도 다른 서버가 1도 피해를 받지 않는 완벽한 격리와 단절의 미학**입니다.
+- <strong>극강의 느슨한 결합 (Loose <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong>: 배송 서버(Consumer)가 트래픽 폭주로 3시간 동안 불타서 죽었습니다.
+- **기적의 결과**: 결제 서버(Producer)는 배송 서버가 죽었는지 관심도 없습니다. 결제는 평소대로 0.1초 만에 쭉쭉 성공하고, 브로커 우체통에 "결제 완료" 쪽지만 계속 산더미처럼 쌓여갑니다. 3시간 뒤 배송 서버가 고쳐져서 부팅되면? 우체통에 쌓여있던 밀린 쪽지를 그제야 하나씩 주워가며 택배를 싸기 시작합니다. <strong>서버 하나가 죽어도 다른 서버가 1도 피해를 받지 않는 완벽한 격리와 단절의 미학</strong>입니다.
 
-> 📢 **섹션 요약 비유**: 기존 마이크로서비스의 **[REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)(동기 통신)** 방식은 주방(결제 서버)에서 요리가 끝나면 요리사가 홀 서빙 직원(배송 서버)을 직접 붙잡고 **"야! 이거 3번 테이블로 배달해!"라고 명령한 뒤, 직원이 배달을 끝내고 돌아올 때까지 요리사가 요리를 멈추고 멍때리며 기다리는 미친 비효율(강한 결합, 동기 대기)**입니다. 서빙 직원이 화장실에 가면 요리사도 뻗어버립니다. **이벤트 드리븐 아키텍처([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))**는 요리사와 서빙 직원 사이에 **'거대한 음식 배출구 선반([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 이벤트 브로커)'**을 하나 설치한 기적입니다. 요리사는 햄버거가 완성(이벤트 발생)되면 그냥 선반 위에 햄버거(메시지 쪽지)를 툭 올려놓고 종을 '땡!' 친 뒤, 뒤도 안 돌아보고 바로 다음 햄버거를 굽기 시작합니다(비동기 통신, 쿨가이). 홀 서빙 직원은 자기가 짬이 날 때마다 선반 위에서 햄버거를 알아서 집어 가 배달합니다(이벤트 소비). 서빙 직원이 뻗어서 선반에 햄버거 100개가 밀려 쌓여도, 요리사는 1초의 딜레이도 없이 계속 요리만 뽑아낼 수 있는, 시스템 간의 대기와 의존성을 0%로 박살 내버린 궁극의 논스톱 공장 라인입니다.
+> 📢 **섹션 요약 비유**: 기존 마이크로서비스의 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a>(동기 통신)</strong> 방식은 주방(결제 서버)에서 요리가 끝나면 요리사가 홀 서빙 직원(배송 서버)을 직접 붙잡고 <strong>"야! 이거 3번 테이블로 배달해!"라고 명령한 뒤, 직원이 배달을 끝내고 돌아올 때까지 요리사가 요리를 멈추고 멍때리며 기다리는 미친 비효율(강한 결합, 동기 대기)</strong>입니다. 서빙 직원이 화장실에 가면 요리사도 뻗어버립니다. <strong>이벤트 드리븐 아키텍처(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>)</strong>는 요리사와 서빙 직원 사이에 <strong>'거대한 음식 배출구 선반(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> 이벤트 브로커)'</strong>을 하나 설치한 기적입니다. 요리사는 햄버거가 완성(이벤트 발생)되면 그냥 선반 위에 햄버거(메시지 쪽지)를 툭 올려놓고 종을 '땡!' 친 뒤, 뒤도 안 돌아보고 바로 다음 햄버거를 굽기 시작합니다(비동기 통신, 쿨가이). 홀 서빙 직원은 자기가 짬이 날 때마다 선반 위에서 햄버거를 알아서 집어 가 배달합니다(이벤트 소비). 서빙 직원이 뻗어서 선반에 햄버거 100개가 밀려 쌓여도, 요리사는 1초의 딜레이도 없이 계속 요리만 뽑아낼 수 있는, 시스템 간의 대기와 의존성을 0%로 박살 내버린 궁극의 논스톱 공장 라인입니다.
 
 - **📢 섹션 요약 비유**: 이벤트 드리븐 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), [Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -117,21 +116,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 드리븐 아키텍처 (EDA, Event-Driven Architecture) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 드리븐 아키텍처 (EDA, Event-Driven Architecture) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

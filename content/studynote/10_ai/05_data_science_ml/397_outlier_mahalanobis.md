@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 예: 키 180cm / 체중 50kg → 각 변수 개별로는 정상이지만, 조합으로는 비정상이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 유클리드 거리는 "단순 자 거리", [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포 형태를 반영한 표준화 거리"다. 타원형 분포에서 진짜 거리를 측정한다.
 
@@ -58,28 +61,37 @@ x: 관측 벡터 (p차원)
 
 ### 역공분산 행렬의 역할
 
-```
-상관관계가 높은 두 특성 x₁, x₂:
-┌──────────────────────────────────────────────────────┐
-│  유클리드 기준:                                       │
-│  A가 멀어 보임   B가 가까워 보임                      │
-│        ↗                                             │
-│       ↗ 데이터 분포 방향 (타원)                       │
-│      ↗                                               │
-│  마할라노비스 기준:                                   │
-│  타원을 원으로 변환 후 거리 측정                       │
-│  → 분포 방향 기준으로 진짜 이상치 판별               │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상관관계가 높은 두 특성 x₁, x₂:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유클리드 기준:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A가 멀어 보임 B가 가까워 보임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ 데이터 분포 방향 (타원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마할라노비스 기준:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타원을 원으로 변환 후 거리 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 분포 방향 기준으로 진짜 이상치 판별</div></div>
+</div>
+</div>
+
+
 
 **카이제곱 임계값**:
-```
-가우시안 데이터에서 D_M² ~ χ²(p) (자유도 p)
 
-이상치 판별:
-D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
-예: p=2, α=0.05 → D_M² > 5.99 이면 이상치
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가우시안 데이터에서 D_M² ~ χ²(p) (자유도 p)</div>
+<div class="kb-diagram-note">이상치 판별:</div>
+<div class="kb-diagram-note">D_M² &gt; χ²(p, α) → 이상치 (α = 0.01~0.05)</div>
+<div class="kb-diagram-note">예: p=2, α=0.05 → D_M² &gt; 5.99 이면 이상치</div>
+</div>
+</div>
+
+
 
 | 방법 | 다변량 | 척도 불변 | 상관 반영 | 계산 복잡도 |
 |:---|:---|:---|:---|:---|
@@ -98,8 +110,8 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 - MCD (Minimum Covariance [Determinant](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)): 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 h부분에서 가장 작은 공분산 추정
 - Robust Mahalanobis: MCD 추정값 사용
 
-**LOF (Local [Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) Factor)**: 지역 밀도 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 → 비가우시안 분포에 강함
-**One-Class [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)**: 초구면 경계 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지
+<strong>LOF (Local <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">Outlier</a> Factor)</strong>: 지역 밀도 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지 → 비가우시안 분포에 강함
+<strong>One-Class <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a></strong>: 초구면 경계 기반 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 탐지
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -114,7 +126,7 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **고차원 문제**: p > n 이면 Σ 역행렬 계산 불가 → [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)): Σ_reg = Σ + λI
-**딥러닝 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)**: 특성 추출 → [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 계산
+<strong>딥러닝 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a></strong>: 특성 추출 → [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/) 계산
 **마할라노비스 기반 OOD 탐지**: 각 클래스의 훈련 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 분포 학습 → 새 입력의 최소 클래스 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)
 
 기술사 포인트: 유클리드 vs 마할라노비스 비교, 역공분산 행렬의 역할, 카이제곱 임계값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방법을 체계적으로 설명.

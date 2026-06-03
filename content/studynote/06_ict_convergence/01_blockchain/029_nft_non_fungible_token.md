@@ -18,26 +18,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           NFT 구조                                        │
-├──────────────────────────────────────────────────────────┤
-│  온체인 데이터:                                           │
-│    Token ID: 12345 (고유 식별자)                         │
-│    Owner: 0xABC...DEF (소유자 주소)                       │
-│    Contract: ERC-721 스마트 컨트랙트                      │
-│    Metadata URI: ipfs://QmXyz... (메타데이터 링크)        │
-│                                                           │
-│  메타데이터 (IPFS):                                       │
-│    {                                                      │
-│      "name": "CryptoPunk #12345",                        │
-│      "image": "ipfs://QmAbc...",  ← 실제 이미지 링크      │
-│      "attributes": [...]                                  │
-│    }                                                      │
-│                                                           │
-│  → 이미지 자체는 IPFS에 저장, NFT는 포인터만 온체인       │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NFT 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온체인 데이터:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Token ID: 12345 (고유 식별자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Owner: 0xABC...DEF (소유자 주소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Contract: ERC-721 스마트 컨트랙트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata URI: ipfs://QmXyz... (메타데이터 링크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 (IPFS):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"name": "CryptoPunk #12345",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"image": "ipfs://QmAbc...", ← 실제 이미지 링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"attributes":</div><div class="kb-diagram-node">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이미지 자체는 IPFS에 저장, NFT는 포인터만 온체인</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFT는 고급 예술품의 소유권 증서다. 루브르 박물관에 걸린 그림(디지털 자산)은 박물관([IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))에 있고, NFT는 "내가 이 그림의 공식 소유자"라는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(소유권 증서)다.
 
@@ -50,22 +51,26 @@ tags = ["studynote-ict-convergence"]
 | 표준 | 특성 | 사용 사례 |
 |:---|:---|:---|
 | **ERC-721** | 1 컨트랙트 = 1 NFT | PFP NFT, 예술품 |
-| **[ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)** | 1 컨트랙트 = 다수 NFT+FT | 게임 (아이템+골드) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/">ERC-1155</a></strong> | 1 컨트랙트 = 다수 NFT+FT | 게임 (아이템+골드) |
 
 ### NFT 라이프사이클
 
-```text
-민팅 (Minting):
-  아티스트 → 스마트 컨트랙트 배포 → NFT 발행
-  (가스비 소모, 이더리움 → 레이어2로 이전)
 
-거래:
-  OpenSea/Blur → 구매자 지갑 → 소유권 온체인 이전
-  로열티: 2차 거래 시 원작자에 자동 분배 (ERC-2981)
 
-소각 (Burning):
-  Token ID 삭제 → 희소성 증가 전략
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">민팅 (Minting):</div>
+<div class="kb-diagram-note">아티스트 → 스마트 컨트랙트 배포 → NFT 발행</div>
+<div class="kb-diagram-note">(가스비 소모, 이더리움 → 레이어2로 이전)</div>
+<div class="kb-diagram-note">거래:</div>
+<div class="kb-diagram-note">OpenSea/Blur → 구매자 지갑 → 소유권 온체인 이전</div>
+<div class="kb-diagram-note">로열티: 2차 거래 시 원작자에 자동 분배 (ERC-2981)</div>
+<div class="kb-diagram-note">소각 (Burning):</div>
+<div class="kb-diagram-note">Token ID 삭제 → 희소성 증가 전략</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFT 민팅은 한정판 수집카드 인쇄다. 포켓몬 카드를 1000장만 인쇄(민팅)하면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 각 카드의 고유 번호와 소유자가 영구 기록된다. 누군가가 팔면 새 소유자 이름이 자동으로 기록된다.
 
@@ -114,7 +119,7 @@ tags = ["studynote-ict-convergence"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **진품 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변 소유 이력 |
+| <strong>진품 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변 소유 이력 |
 | **창작자 경제** | 2차 거래 로열티 자동 분배 |
 | **디지털 소유권** | 가상 자산의 실질적 소유 |
 
@@ -129,28 +134,30 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ERC-721** | NFT 이더리움 표준 |
-| **[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)** | NFT 콘텐츠 영구 저장 |
-| **[ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)** | 다중 토큰 타입 NFT 표준 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/">IPFS</a></strong> | NFT 콘텐츠 영구 저장 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/">ERC-1155</a></strong> | 다중 토큰 타입 NFT 표준 |
 | **RWA** | 실물 자산 소유권 NFT |
 | **P2E** | 게임 아이템 NFT 경제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ERC-20 FT — 동질 토큰 표준]
-    │
-    ▼
-[ERC-721 NFT — 고유성·소유권 토큰 표준]
-    │
-    ▼
-[NFT 투기 시장 — 예술품·PFP 버블 (2021)]
-    │
-    ▼
-[실용 NFT — 학위·티켓·게임·기업 로열티]
-    │
-    ▼
-[RWA NFT — 부동산·채권 실물 자산 소유권 증명]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ERC-20 FT — 동질 토큰 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ERC-721 NFT — 고유성·소유권 토큰 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFT 투기 시장 — 예술품·PFP 버블 (2021)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실용 NFT — 학위·티켓·게임·기업 로열티</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RWA NFT — 부동산·채권 실물 자산 소유권 증명</div></div>
+</div>
+</div>
+
+
 
 ### �� 어린이를 위한 3줄 비유 설명
 

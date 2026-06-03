@@ -23,17 +23,21 @@ tags = ["studynote-network"]
 - **필요성**: T1 같은 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)은 24시간 혼자 써서 빠르고 좋지만, 요금이 살인적이었다. 통신을 안 하고 쉴 때도 돈을 냈다. "통신사가 거대한 구름(망)을 하나 만들어 놓고, 사용자들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼갠 '패킷' 형태로 보내서 망을 공유하게 하자! 그러면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낸 만큼만 요금을 내면 되니까 훨씬 싸잖아!"라는 아이디어에서 공용 패킷 교환망이 탄생했다.
 
 - **💡 비유**: 
-  - **[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)**: 나 혼자 타고 다니는 "전용 택시" (비쌈, 빠름).
+  - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a></strong>: 나 혼자 타고 다니는 "전용 택시" (비쌈, 빠름).
   - **X.25**: 수많은 사람의 소화물(패킷)을 한꺼번에 싣고 달리는 "공용 우체국 트럭" (저렴함, 조금 느림).
 
-```text
-[전용선 기초]
-    │
-    ▼
-[다이얼업 다중화, X.25]
-    │
-    └──▶ [프레임 릴레이]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전용선 기초</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다이얼업 다중화, X.25</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 릴레이</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** X.25는 통신망의 **"원조 카풀(Carpool) 시스템"**입니다. 혼자 길을 독점([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))하는 대신, 잘게 쪼갠 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 통신사라는 하나의 큰 버스에 동승하여 배송비를 획기적으로 낮췄습니다.
 
@@ -43,14 +47,18 @@ tags = ["studynote-network"]
 
 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25는 프레임 전달과 근거리 네트워크 장비의 동작을 설명하는 축라는 관점에서 이해해야 한다. [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초와 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[전용선 기초]
-    │
-    ▼
-[다이얼업 다중화, X.25]
-    │
-    └──▶ [프레임 릴레이]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전용선 기초</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다이얼업 다중화, X.25</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 릴레이</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,34 +66,34 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-X.25는 인터넷(IP) 망과 같은 비연결형(Datagram)이 아니라, 통신을 시작하기 전에 출발지와 목적지 사이에 미리 가상의 길(Virtual Circuit)을 뚫어놓고 통신하는 **연결 지향형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**이다.
+X.25는 인터넷(IP) 망과 같은 비연결형(Datagram)이 아니라, 통신을 시작하기 전에 출발지와 목적지 사이에 미리 가상의 길(Virtual Circuit)을 뚫어놓고 통신하는 <strong>연결 지향형 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.
 이 덕분에 패킷이 순서대로 도착하며, 중간에 길을 잃어버리는 일이 없다.
 
 ### 2. DTE와 DCE 모델
 X.25는 사용자 쪽 장비와 통신사 쪽 장비를 엄격히 분리했다.
-- **DTE ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Terminal Equipment)**: 사용자의 컴퓨터나 회사의 라우터.
-- **DCE ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Circuit-terminating Equipment)**: 통신사가 고객에게 임대해 주는 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(CSU/[DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/)). 통신사 망(클라우드)으로 들어가는 첫 번째 관문이다.
+- <strong>DTE (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Terminal Equipment)</strong>: 사용자의 컴퓨터나 회사의 라우터.
+- <strong>DCE (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Circuit-terminating Equipment)</strong>: 통신사가 고객에게 임대해 주는 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(CSU/[DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/)). 통신사 망(클라우드)으로 들어가는 첫 번째 관문이다.
 
 ### 3. 과도한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장 (Hop-by-Hop [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/))
 1970년대의 아날로그 구리선은 비가 오거나 번개가 치면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살 났다. 그래서 X.25는 1계층(물리), 2계층([LAPB](/knowledge-base/studynote/03_network/04_data_link_layer_error/222_lapb_link_access_procedure_balanced/)), 3계층(패킷)의 모든 계층에서 오류를 복구하는 무거운 기능(Window 기반 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/), [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 등)을 때려 박았다.
 - **Hop-by-Hop 검사**: 라우터 A에서 라우터 B로 패킷이 넘어가면, B는 포장을 다 뜯어서 에러가 없는지 꼼꼼히 확인한 뒤, A에게 "잘 받았어(ACK)!"라고 대답한다. 그다음 B가 C로 보낼 때 똑같은 짓을 반복한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                X.25의 무거운 에러 검사 (Hop-by-Hop)           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ DTE ] ──▶ [ 라우터 1 ] ──▶ [ 라우터 2 ] ──▶ [ 라우터 3 ]   │
- │                                                             │
- │   1) 라우터 1 도착: "에러 검사... OK!" -> DTE에 수신 확인(ACK) 보냄 │
- │   2) 라우터 2 도착: "에러 검사... OK!" -> 라우터 1에 ACK 보냄      │
- │   3) 라우터 3 도착: "에러 검사... OK!" -> 라우터 2에 ACK 보냄      │
- │                                                             │
- │   ▶ 결과: 너무 철저해서 데이터가 절대 안 깨지지만, 각 노드마다   │
- │          검사하고 확인증(ACK) 써주느라 통신 속도가 64Kbps를       │
- │          넘지 못하는 치명적인 속도 병목 발생.                   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X.25의 무거운 에러 검사 (Hop-by-Hop)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTE</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 라우터 1 도착: "에러 검사... OK!" -&gt; DTE에 수신 확인(ACK) 보냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 라우터 2 도착: "에러 검사... OK!" -&gt; 라우터 1에 ACK 보냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 라우터 3 도착: "에러 검사... OK!" -&gt; 라우터 2에 ACK 보냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 너무 철저해서 데이터가 절대 안 깨지지만, 각 노드마다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검사하고 확인증(ACK) 써주느라 통신 속도가 64Kbps를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넘지 못하는 치명적인 속도 병목 발생.</div></div>
+</div>
+</div>
+
+
 
 ### 4. X.25의 몰락
 1990년대 이후 광케이블이 깔리면서 물리적 선로 에러율이 0%에 수렴하게 되었다. 선로가 좋아졌는데도 X.25 라우터들은 옛날 버릇대로 매 칸마다 포장을 뜯고 에러를 검사하며 뭉그적거렸다. 결국 "이럴 거면 차라리 에러 검사를 다 생략하고 속도나 높이자!"라며 등장한 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)([Frame Relay](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/))와 IP 라우팅에 밀려 완전히 도태되었다.
@@ -132,15 +140,19 @@ X.25는 사용자 쪽 장비와 통신사 쪽 장비를 엄격히 분리했다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 전용선 기초]
-    │
-    ▼
-[현재 개념: 다이얼업 다중화, X.25]
-    │
-    ├──▶ [확장 A: 프레임 릴레이]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 전용선 기초</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다이얼업 다중화, X.25</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 프레임 릴레이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초에서 출발해 현재 메커니즘을 정교화하고, 이후 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

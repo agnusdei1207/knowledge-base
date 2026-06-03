@@ -48,17 +48,21 @@ n×n 행렬 → n차 [다항식](/knowledge-base/studynote/03_network/04_data_li
 
 ### 2×2 행렬 고유값 계산 예시
 
-```
-A = ┌ 3  1 ┐
-    └ 1  3 ┘
 
-det(A - λI) = (3-λ)² - 1 = 0
-λ² - 6λ + 8 = 0
-λ₁ = 4,  λ₂ = 2
 
-λ₁ = 4: (A - 4I)v = 0 → v₁ = [1, 1]ᵀ / √2
-λ₂ = 2: (A - 2I)v = 0 → v₂ = [1,-1]ᵀ / √2
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A = 3 1</div>
+<div class="kb-diagram-tree-item" style="--depth:2">1 3</div>
+<div class="kb-diagram-note">det(A - λI) = (3-λ)² - 1 = 0</div>
+<div class="kb-diagram-note">λ² - 6λ + 8 = 0</div>
+<div class="kb-diagram-note">λ₁ = 4, λ₂ = 2</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 1</div><div class="kb-diagram-note">ᵀ / √2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,-1</div><div class="kb-diagram-note">ᵀ / √2</div></div>
+</div>
+</div>
+
+
 
 A를 v₁, v₂ 기저로 표현하면 **대각 행렬** ┌4 0┐ └0 2┘.
 
@@ -88,25 +92,33 @@ P = [v₁ | v₂ | ... | vₙ]   (고유벡터 열로 구성)
 
 큰 희소 행렬에서 가장 큰 고유값 λ₁과 고유벡터 v₁:
 
-```
-v₀ (임의 초기화)
-vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
 
-충분히 반복하면 vₖ → v₁ (지배 고유벡터)
-                 ‖A·vₖ‖/‖vₖ‖ → λ₁
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">v₀ (임의 초기화)</div>
+<div class="kb-diagram-note">vₖ₊₁ = A·vₖ / ‖A·vₖ‖ (정규화)</div>
+<div class="kb-diagram-note">충분히 반복하면 vₖ → v₁ (지배 고유벡터)</div>
+<div class="kb-diagram-note">‖A·vₖ‖/‖vₖ‖ → λ₁</div>
+</div>
+</div>
+
+
 
 **PageRank** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심: 웹 그래프의 전이 행렬에 거듭제곱 반복 적용.
 
-```
-웹 페이지 그래프
-  A ──► B ──► C
-  │           │
-  ▼           ▼
-  D ◄─────── E
 
-전이 행렬 P의 지배 고유벡터 = PageRank 점수 벡터
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">웹 페이지 그래프</div>
+<div class="kb-diagram-note">A ──► B ──► C</div>
+<div class="kb-diagram-note">D ◄ E</div>
+<div class="kb-diagram-note">전이 행렬 P의 지배 고유벡터 = PageRank 점수 벡터</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: PageRank의 고유벡터는 "인기 투표의 수렴점"이다 — 많은 인기 페이지가 링크할수록 더 높은 점수를 받고, 반복 계산이 결국 안정된 상태(지배 고유벡터)에 수렴한다.
 
@@ -185,7 +197,7 @@ x' = Ax 형태의 선형 시스템:
 
 1. **"대칭 행렬의 고유값이 항상 실수인 이유?"** → 스펙트럼 정리 (에르미트 행렬의 성질)
 2. **"PageRank 수렴 조건은?"** → 전이 행렬이 기약 비주기적 → 유일 정상 분포 = 지배 고유벡터
-3. **"PCA와 고유값의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는?"** → 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)량
+3. <strong>"PCA와 고유값의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>는?"</strong> → 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)량
 
 📢 **섹션 요약 비유**: 안정성 분석의 고유값 실수부는 "시스템 붕괴 속도 미터기"다 — 실수부가 음수면 시간이 지날수록 안정화되고, 양수면 폭발적으로 성장한다.
 
@@ -193,7 +205,7 @@ x' = Ax 형태의 선형 시스템:
 
 ## Ⅴ. 기대효과 및 결론
 
-고유값/고유벡터는 **선형대수의 핵심 구조 도구**다. 행렬이 나타내는 변환의 본질을 스케일(고유값)과 방향(고유벡터)으로 분리함으로써:
+고유값/고유벡터는 <strong>선형대수의 핵심 구조 도구</strong>다. 행렬이 나타내는 변환의 본질을 스케일(고유값)과 방향(고유벡터)으로 분리함으로써:
 
 1. 복잡한 반복 연산을 단순화 (Aⁿ = PΛⁿP⁻¹)
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주요 변동 방향 발견 ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
@@ -220,24 +232,25 @@ x' = Ax 형태의 선형 시스템:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[고유값/고유벡터]
-    │
-    ▼
-[특성 다항식]
-    │
-    ▼
-[고유분해]
-    │
-    ▼
-[스펙트럼 정리]
-    │
-    ▼
-[거듭제곱 반복법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고유값/고유벡터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">특성 다항식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고유분해</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스펙트럼 정리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거듭제곱 반복법</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 스펙트럼 정리까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -20,40 +20,40 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)란?
 
-**모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Model [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))**는 ML 모델의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 중앙에서 관리하고 배포 상태를 추적하는 시스템이다.
+<strong>모델 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a> (Model <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)</strong>는 ML 모델의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 중앙에서 관리하고 배포 상태를 추적하는 시스템이다.
 
-```
-모델 레지스트리 없는 세상
-┌────────────────────────────────────────────────────┐
-│  model_v1_final.pkl                                │
-│  model_v1_final_FINAL.pkl                          │
-│  model_v2_new.pkl                                  │
-│  model_v2_production_0312.pkl                      │
-│  model_best_DO_NOT_DELETE.pkl                      │
-│  model_production_BACKUP.pkl                       │
-│                                                    │
-│  → "어떤 모델이 지금 프로덕션에 있는가?" 불명확!  │
-│  → 재현 불가, 롤백 위험, 감사 불가               │
-└────────────────────────────────────────────────────┘
 
-모델 레지스트리 도입 후 (MLflow)
-┌────────────────────────────────────────────────────┐
-│  Model: fraud_detection                            │
-│  ├── v1: Archived  (2024-01-15, F1=0.89)          │
-│  ├── v2: Archived  (2024-02-01, F1=0.91)          │
-│  ├── v3: Staging   (2024-03-01, F1=0.93)          │
-│  └── v4: Production (2024-03-15, F1=0.94)         │
-└────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 레지스트리 없는 세상</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_v1_final.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_v1_final_FINAL.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_v2_new.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_v2_production_0312.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_best_DO_NOT_DELETE.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model_production_BACKUP.pkl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "어떤 모델이 지금 프로덕션에 있는가?" 불명확!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 재현 불가, 롤백 위험, 감사 불가</div></div>
+<div class="kb-diagram-note">모델 레지스트리 도입 후 (MLflow)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model: fraud_detection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── v1: Archived (2024-01-15, F1=0.89)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── v2: Archived (2024-02-01, F1=0.91)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── v3: Staging (2024-03-01, F1=0.93)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── v4: Production (2024-03-15, F1=0.94)</div></div>
+</div>
+</div>
+
+
 
 ### 1.2 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 필요한 이유
 
 | 문제 | 설명 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)로 해결 |
 |:---|:---|:---|
-| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 혼란** | 어떤 모델이 현재 서빙 중인지 불명확 | 상태(Staging/Production) 명시 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 혼란</strong> | 어떤 모델이 현재 서빙 중인지 불명확 | 상태(Staging/Production) 명시 |
 | **재현 불가** | 특정 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 모델을 다시 만들 수 없음 | 파라미터·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기록 |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 어려움** | 이전 모델로 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 보존 |
-| **규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결정 근거 설명 불가 | 완전한 계보(Lineage) 추적 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 어려움</strong> | 이전 모델로 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 보존 |
+| <strong>규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결정 근거 설명 불가 | 완전한 계보(Lineage) 추적 |
 | **팀 협업** | 다른 팀의 모델 현황 파악 불가 | 중앙화된 모델 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) |
 
 📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 의약품 허가 관리 시스템과 같다. 어떤 원료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 어떤 제조 공정(학습 코드), 어떤 배합(파라미터)으로 만들어진 약(모델)인지를 모두 기록하고, 임상 단계(Staging) → 시판 허가(Production) → 판매 중단(Archived) 상태를 관리한다.
@@ -64,51 +64,51 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 전체 아키텍처
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│                       MLflow 구성요소                           │
-├────────────────┬───────────────────────────────────────────────┤
-│  MLflow        │  실험 추적                                     │
-│  Tracking      │  파라미터, 메트릭, 아티팩트 로깅               │
-│                │  실험 비교 UI                                  │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  모델 패키징                                   │
-│  Projects      │  conda.yaml, MLproject 파일                   │
-│                │  재현 가능한 실행 환경                         │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  표준 모델 형식 (MLmodel)                     │
-│  Models        │  다양한 프레임워크 지원                        │
-│                │  (sklearn, TF, PyTorch, XGBoost, ...)         │
-├────────────────┼───────────────────────────────────────────────┤
-│  MLflow        │  모델 버전 관리                                │
-│  Model         │  상태 전이 (None → Staging → Production)      │
-│  Registry      │  설명, 태그, 승인 워크플로우                   │
-└────────────────┴───────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow 구성요소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">실험 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tracking</div><div class="kb-diagram-cell">파라미터, 메트릭, 아티팩트 로깅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실험 비교 UI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">모델 패키징</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Projects</div><div class="kb-diagram-cell">conda.yaml, MLproject 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재현 가능한 실행 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">표준 모델 형식 (MLmodel)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Models</div><div class="kb-diagram-cell">다양한 프레임워크 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sklearn, TF, PyTorch, XGBoost, ...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">모델 버전 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model</div><div class="kb-diagram-cell">상태 전이 (None → Staging → Production)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Registry</div><div class="kb-diagram-cell">설명, 태그, 승인 워크플로우</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 모델 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) (Model [State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))
 
-```
-실험 완료
-    │
-    ▼
-┌───────────┐  등록  ┌───────────┐  승인  ┌────────────┐
-│  None     │───────→│  Staging  │───────→│ Production │
-│ (미등록)  │        │ (스테이징) │        │ (프로덕션) │
-└───────────┘        └───────────┘        └────────────┘
-                           │   실패            │   교체
-                           ▼                  ▼
-                      ┌──────────────────────────┐
-                      │        Archived          │
-                      │    (아카이브/더 이상 미사용)│
-                      └──────────────────────────┘
 
-각 상태의 역할:
-  None:       실험 결과 등록, 아직 검토 전
-  Staging:    QA/성능 검증 진행 중
-  Production: 실제 서빙 중인 현행 모델
-  Archived:   더 이상 사용하지 않는 구버전 (삭제 안 함)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실험 완료</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">등록 승인</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">None</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Staging</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Production</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(미등록)</div><div class="kb-diagram-cell">(스테이징)</div><div class="kb-diagram-cell">(프로덕션)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패</div><div class="kb-diagram-cell">교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Archived</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아카이브/더 이상 미사용)</div></div>
+<div class="kb-diagram-note">각 상태의 역할:</div>
+<div class="kb-diagram-note">None: 실험 결과 등록, 아직 검토 전</div>
+<div class="kb-diagram-note">Staging: QA/성능 검증 진행 중</div>
+<div class="kb-diagram-note">Production: 실제 서빙 중인 현행 모델</div>
+<div class="kb-diagram-note">Archived: 더 이상 사용하지 않는 구버전 (삭제 안 함)</div>
+</div>
+</div>
+
+
 
 ### 2.3 [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 실험 추적 상세
 
@@ -151,39 +151,37 @@ with mlflow.start_run(run_name="fraud_detection_v3"):
 
 ### 2.4 모델 계보 (Model Lineage) 추적
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                   모델 계보 (Lineage) 예시                    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  데이터 버전                                                  │
-│  └── data/fraud_labels_v3.parquet (2024-03-01)              │
-│       (SHA256: abc123...)                                    │
-│                                                              │
-│  코드 버전                                                    │
-│  └── git commit: a3f2b1c                                     │
-│       (train.py, feature_engineering.py)                     │
-│                                                              │
-│  환경                                                        │
-│  └── Python 3.10, scikit-learn 1.4.0                        │
-│       conda environment: fraud_env_v2                        │
-│                                                              │
-│  학습 파라미터                                               │
-│  └── n_estimators=100, max_depth=5, ...                     │
-│                                                              │
-│  → 모델: fraud_detection v4 (Production)                    │
-│     F1=0.94, AUC=0.97                                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 계보 (Lineage) 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 버전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── data/fraud_labels_v3.parquet (2024-03-01)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SHA256: abc123...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 버전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── git commit: a3f2b1c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(train.py, feature_engineering.py)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Python 3.10, scikit-learn 1.4.0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">conda environment: fraud_env_v2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 파라미터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── n_estimators=100, max_depth=5, ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델: fraud_detection v4 (Production)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F1=0.94, AUC=0.97</div></div>
+</div>
+</div>
+
+
 
 ### 2.5 모델 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 항목
 
 | 카테고리 | 항목 | 예시 |
 |:---|:---|:---|
 | **학습 파라미터** | 하이퍼파라미터 | n_estimators=100, lr=0.001 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | 평가 지표 | F1=0.94, AUC=0.97, Accuracy=0.95 |
-| **[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추적** | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | data-v3, SHA256, 레코드 수 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 평가 지표 | F1=0.94, AUC=0.97, Accuracy=0.95 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">아티팩트</a></strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 추적</strong> | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | data-v3, SHA256, 레코드 수 |
 | **코드 추적** | Git 커밋 | 커밋 해시, 브랜치, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 |
 | **환경** | 실행 환경 | Python [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 패키지 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | **태그** | 자유 형식 | team=fraud, owner=john, use-case=realtime |
@@ -200,45 +198,47 @@ with mlflow.start_run(run_name="fraud_detection_v3"):
 |:---|:---|:---|:---|
 | **유형** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (무료 플랜) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 | **실험 추적** | 완전 지원 | 매우 강력 | 제한적 |
-| **모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)** | 완전 지원 | 지원 | 없음 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리** | 제한적 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 핵심 기능 |
-| **[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)** | 기본 | 매우 강력 | 없음 |
+| <strong>모델 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a></strong> | 완전 지원 | 지원 | 없음 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong> | 제한적 | [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 핵심 기능 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong> | 기본 | 매우 강력 | 없음 |
 | **비용** | 무료 | 사용량 기반 | 무료 |
-| **[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)** | 완전 지원 | 제한적 | 완전 지원 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a></strong> | 완전 지원 | 제한적 | 완전 지원 |
 | **적합 환경** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)/하이브리드 | 빠른 실험, 팀 공유 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 중점 |
 
 ### 3.2 A/B 테스트 연동
 
-```
-모델 레지스트리 → A/B 테스트 연동 흐름:
 
-MLflow Registry
-  Production: fraud_detection v4  (현재 모델)
-  Staging:    fraud_detection v5  (신규 후보)
-         │
-         ▼
-  A/B 테스트 설정:
-  트래픽 v4 = 90%, 트래픽 v5 = 10%
-         │
-         ▼
-  평가 기간 (1주일)
-  v5 F1 = 0.95 > v4 F1 = 0.94 ✓
-  v5 지연시간 ≤ v4 지연시간 ✓
-         │
-         ▼
-  레지스트리 업데이트:
-  v4 → Archived
-  v5 → Production
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델 레지스트리 → A/B 테스트 연동 흐름:</div>
+<div class="kb-diagram-note">MLflow Registry</div>
+<div class="kb-diagram-note">Production: fraud_detection v4 (현재 모델)</div>
+<div class="kb-diagram-note">Staging: fraud_detection v5 (신규 후보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">A/B 테스트 설정:</div>
+<div class="kb-diagram-note">트래픽 v4 = 90%, 트래픽 v5 = 10%</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">평가 기간 (1주일)</div>
+<div class="kb-diagram-note">v5 F1 = 0.95 &gt; v4 F1 = 0.94 ✓</div>
+<div class="kb-diagram-note">v5 지연시간 ≤ v4 지연시간 ✓</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스트리 업데이트:</div>
+<div class="kb-diagram-note">v4 → Archived</div>
+<div class="kb-diagram-note">v5 → Production</div>
+</div>
+</div>
+
+
 
 ### 3.3 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | 상황 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 방법 | 소요 시간 |
 |:---|:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락** | 이전 Production [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재활성화 | 수분 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 급락</strong> | 이전 Production [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재활성화 | 수분 |
 | **심각한 버그** | Archived [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 즉시 복원 | 수분 |
-| **점진적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하** | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 재실행 + 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 수시간 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 후 재학습 | 수일 |
+| <strong>점진적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하</strong> | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 재실행 + 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 수시간 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 문제</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 후 재학습 | 수일 |
 
 📢 **섹션 요약 비유**: MLflow와 W&B의 차이는 집 냉장고([MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), 자체 관리)와 편의점 도시락 배달(W&B, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용)의 차이다. 집 냉장고는 직접 관리하지만 모든 것을 내 마음대로 할 수 있고, 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 편리하지만 비용이 들고 의존성이 생긴다.
 
@@ -248,27 +248,28 @@ MLflow Registry
 
 ### 4.1 엔터프라이즈 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 거버넌스
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│               모델 거버넌스 프레임워크                        │
-├──────────────────────────────────────────────────────────────┤
-│  역할 정의:                                                  │
-│  - 데이터 과학자: 모델 등록, 실험 추적                       │
-│  - ML 엔지니어: Staging 검토, Production 승인               │
-│  - 도메인 전문가: 비즈니스 지표 검증                         │
-│  - 보안/컴플라이언스: 규제 요건 점검                         │
-├──────────────────────────────────────────────────────────────┤
-│  승인 워크플로우:                                             │
-│  None → Staging: 데이터 과학자 자동 등록                    │
-│  Staging → Production: ML 엔지니어 + 도메인 전문가 승인 필요 │
-│  Production → Archived: ML 엔지니어 승인 필요               │
-├──────────────────────────────────────────────────────────────┤
-│  감사 로그:                                                  │
-│  - 상태 변경 이력 (누가, 언제, 왜)                          │
-│  - 성능 메트릭 변화 추이                                     │
-│  - 데이터/코드 버전 연결                                     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 거버넌스 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할 정의:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 과학자: 모델 등록, 실험 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ML 엔지니어: Staging 검토, Production 승인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 도메인 전문가: 비즈니스 지표 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안/컴플라이언스: 규제 요건 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인 워크플로우:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">None → Staging: 데이터 과학자 자동 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Staging → Production: ML 엔지니어 + 도메인 전문가 승인 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Production → Archived: ML 엔지니어 승인 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감사 로그:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태 변경 이력 (누가, 언제, 왜)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 성능 메트릭 변화 추이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터/코드 버전 연결</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 기술사 시험 핵심 포인트
 
@@ -281,7 +282,7 @@ MLflow Registry
 
 구현: MLflow의 `mlflow.log_param()`, `mlflow.log_artifact()`, `mlflow.set_tag("git_commit", git_sha)`로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/코드/파라미터를 연결하고, 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)마다 이 정보를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 기록한다.
 
-**Q. [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 각 상태의 역할을 설명하시오.**
+<strong>Q. <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a> 모델 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a>의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>와 각 상태의 역할을 설명하시오.</strong>
 
 - **None(미등록)**: 실험 중, 검토 대상에서 제외
 - **Staging**: QA 환경에서 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중
@@ -290,26 +291,29 @@ MLflow Registry
 
 ### 4.3 [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 실무 배포 구조
 
-```
-개발 환경 (Local)                프로덕션 환경
-┌────────────────────┐          ┌────────────────────────────┐
-│  데이터 과학자     │          │  MLflow Tracking Server    │
-│  실험 실행         │ ──Push── │  (PostgreSQL + S3)         │
-│  mlflow.log_...()  │          │                            │
-└────────────────────┘          │  Model Registry            │
-                                │  fraud_detection           │
-CI/CD 파이프라인                │  ├── v3: Staging           │
-┌────────────────────┐          │  └── v4: Production        │
-│  자동 학습 (CT)    │ ──등록── │                            │
-│  평가 게이트       │          └─────────────┬──────────────┘
-│  레지스트리 업데이트│                        │
-└────────────────────┘                        │ 모델 Pull
-                                              ▼
-                                ┌────────────────────────────┐
-                                │  서빙 서버                  │
-                                │  (KServe / TF Serving)     │
-                                └────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발 환경 (Local) 프로덕션 환경</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 과학자</div><div class="kb-diagram-cell">MLflow Tracking Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실험 실행</div><div class="kb-diagram-cell">──Push──</div><div class="kb-diagram-cell">(PostgreSQL + S3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mlflow.log_...()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fraud_detection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 파이프라인</div><div class="kb-diagram-cell">── v3: Staging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── v4: Production</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 학습 (CT)</div><div class="kb-diagram-cell">──등록──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 게이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스트리 업데이트</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">│ 모델 Pull</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KServe / TF Serving)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 거버넌스는 의사 면허 관리 시스템과 같다. 모든 의사(모델)는 의대 졸업(학습 완료) → 인턴/레지던트(Staging) → 전문의 자격(Production) 과정을 거치고, 각 단계마다 심사위원(승인자)의 검토를 받는다. 면허 취소(Archive)가 돼도 기록은 남는다.
 
@@ -322,14 +326,14 @@ CI/CD 파이프라인                │  ├── v3: Staging           │
 | 항목 | 도입 전 | 도입 후 | 개선 |
 |:---|:---|:---|:---|
 | **현재 프로덕션 모델 파악** | 불명확, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명 추측 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 운영 명확성 향상 |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시간** | 수시간 (찾기+배포) | 수분 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 전환) | 90% 단축 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 시간</strong> | 수시간 (찾기+배포) | 수분 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 전환) | 90% 단축 |
 | **재현성** | 불가 | 100% 재현 가능 | 규제 대응 가능 |
 | **팀 간 모델 공유** | 이메일/슬랙 | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 검색 | 협업 효율 향상 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응** | 수일 소요 | 즉시 계보 제공 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 비용 절감 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 대응</strong> | 수일 소요 | 즉시 계보 제공 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 비용 절감 |
 
 ### 5.2 결론
 
-모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 ML 모델의 **단일 진실 공급원(Single Source of Truth)**이다. MLflow는 실험 추적부터 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)까지 통합된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준으로 가장 광범위하게 사용되며, 모델 계보 추적·상태 관리·A/B 테스트 연동을 통해 안전하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 ML 운영을 실현한다.
+모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 ML 모델의 <strong>단일 진실 공급원(Single Source of Truth)</strong>이다. MLflow는 실험 추적부터 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)까지 통합된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준으로 가장 광범위하게 사용되며, 모델 계보 추적·상태 관리·A/B 테스트 연동을 통해 안전하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 ML 운영을 실현한다.
 
 📢 **섹션 요약 비유**: 모델 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)는 항공기 블랙박스와 같다. 어떤 조건(파라미터)으로 만들어진 모델이 어떤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 냈는지 완전히 기록되어, 사고([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)가 발생했을 때 원인을 추적하고 즉시 이전 안전한 상태(이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))로 복원할 수 있다.
 
@@ -360,26 +364,28 @@ CI/CD 파이프라인                │  ├── v3: Staging           │
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 모델 관리 (파일명에 날짜 포함)
-    │
-    ▼
-실험 추적 (MLflow Tracking · W&B)
-    ├─► 파라미터 · 메트릭 · 아티팩트 기록
-    └─► 실험 비교 · 재현성 보장
-    │
-    ▼
-모델 레지스트리 (MLflow Registry)
-    ├─► 버전 관리: v1 → v2 → v3
-    ├─► 상태 전이: Staging → Production → Archived
-    └─► 메타데이터: 학습 데이터 · 코드 · 환경
-    │
-    ▼
-CI/CD 파이프라인 연동 → 자동 배포 · 롤백
-    │
-    ▼
-모델 거버넌스: 감사 추적 · 규제 준수 (GDPR · AI Act)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 모델 관리 (파일명에 날짜 포함)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실험 추적 (MLflow Tracking · W&amp;B)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파라미터 · 메트릭 · 아티팩트 기록</div>
+<div class="kb-diagram-tree-item" style="--depth:2">실험 비교 · 재현성 보장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 레지스트리 (MLflow Registry)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버전 관리: v1 → v2 → v3</div>
+<div class="kb-diagram-tree-item" style="--depth:2">상태 전이: Staging → Production → Archived</div>
+<div class="kb-diagram-tree-item" style="--depth:2">메타데이터: 학습 데이터 · 코드 · 환경</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 파이프라인 연동 → 자동 배포 · 롤백</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 거버넌스: 감사 추적 · 규제 준수 (GDPR · AI Act)</div>
+</div>
+</div>
+
+
 
 ---
 

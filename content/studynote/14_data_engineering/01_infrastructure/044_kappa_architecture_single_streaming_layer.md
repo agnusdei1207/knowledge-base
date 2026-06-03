@@ -18,44 +18,40 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) 개념
 
-```
-카파 아키텍처 (Kappa Architecture):
-  Jay Kreps (LinkedIn/Confluent) 제안, 2014년
-  
-  람다의 문제:
-  배치 레이어 + 스피드 레이어 = 동일 로직 2회 구현
-  → 코드 불일치 위험, 유지보수 비용 2배
-  
-  카파의 해결:
-  스트리밍 레이어만 사용 (배치 레이어 제거)
-  재처리 = 스트리밍을 처음부터 재실행
 
-아키텍처:
-  모든 데이터 소스
-      │
-      ↓
-  Kafka (이벤트 로그, 영구 보관)
-      │
-      ├── 스트리밍 처리 v1 (현재 버전)
-      │       │
-      │       ↓ 서빙 레이어 (실시간 결과)
-      │
-      └── 재처리 필요 시: 스트리밍 v2 (새 버전)
-              │ (Kafka 처음부터 재실행)
-              ↓ 새 서빙 레이어
-              
-  v2 안정화 후 v1 폐기 → v2가 메인
 
-핵심 원칙:
-  1. 모든 데이터는 이벤트 로그 (Kafka)
-  2. 스트리밍이 유일한 처리 레이어
-  3. 재처리 = Kafka Consumer group 초기화
-  4. 서빙 레이어: 처리 결과 저장 (Redis, Cassandra)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">카파 아키텍처 (Kappa Architecture):</div>
+<div class="kb-diagram-note">Jay Kreps (LinkedIn/Confluent) 제안, 2014년</div>
+<div class="kb-diagram-note">람다의 문제:</div>
+<div class="kb-diagram-note">배치 레이어 + 스피드 레이어 = 동일 로직 2회 구현</div>
+<div class="kb-diagram-note">→ 코드 불일치 위험, 유지보수 비용 2배</div>
+<div class="kb-diagram-note">카파의 해결:</div>
+<div class="kb-diagram-note">스트리밍 레이어만 사용 (배치 레이어 제거)</div>
+<div class="kb-diagram-note">재처리 = 스트리밍을 처음부터 재실행</div>
+<div class="kb-diagram-note">아키텍처:</div>
+<div class="kb-diagram-note">모든 데이터 소스</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Kafka (이벤트 로그, 영구 보관)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">스트리밍 처리 v1 (현재 버전)</div>
+<div class="kb-diagram-note">↓ 서빙 레이어 (실시간 결과)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">재처리 필요 시: 스트리밍 v2 (새 버전)</div>
+<div class="kb-diagram-note">(Kafka 처음부터 재실행)</div>
+<div class="kb-diagram-note">↓ 새 서빙 레이어</div>
+<div class="kb-diagram-note">v2 안정화 후 v1 폐기 → v2가 메인</div>
+<div class="kb-diagram-note">핵심 원칙:</div>
+<div class="kb-diagram-note">1. 모든 데이터는 이벤트 로그 (Kafka)</div>
+<div class="kb-diagram-note">2. 스트리밍이 유일한 처리 레이어</div>
+<div class="kb-diagram-note">3. 재처리 = Kafka Consumer group 초기화</div>
+<div class="kb-diagram-note">4. 서빙 레이어: 처리 결과 저장 (Redis, Cassandra)</div>
+<div class="kb-diagram-note">람다 vs 카파:</div>
+<div class="kb-diagram-note">람다: 두 파이프라인 (정확성 + 속도)</div>
+<div class="kb-diagram-note">카파: 하나의 파이프라인 (속도 + 정확성)</div>
+</div>
+</div>
 
-람다 vs 카파:
-  람다: 두 파이프라인 (정확성 + 속도)
-  카파: 하나의 파이프라인 (속도 + 정확성)
-```
+
 
 > 📢 **섹션 요약 비유**: [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 단 하나의 스마트 컨베이어 — [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)가 낮 컨베이어(배치) + 야간 컨베이어(스피드) 두 개라면, 카파는 하나의 스마트 컨베이어로 모든 것 처리.
 
@@ -111,43 +107,41 @@ Kafka 보관 설정:
 
 ## Ⅲ. 스트리밍 처리 엔진
 
-```
-카파 아키텍처 스트리밍 처리 엔진:
 
-Apache Flink:
-  진정한 스트리밍 처리 (마이크로 배치 아님)
-  이벤트 타임 처리 (Event Time Processing)
-  정확히 한 번 (Exactly-Once) 시맨틱
-  
-  강점:
-  - 지연 없는 실시간 처리
-  - 윈도우 연산 정확성
-  - 상태 관리 (State Backend: RocksDB)
-  
-  카파 재처리:
-  Flink Job v2 시작 → Kafka 처음부터 소비
-  → 병렬 처리로 히스토리 빠르게 재처리
 
-Apache Kafka Streams:
-  Kafka 내장 스트리밍 라이브러리
-  별도 클러스터 불필요 (경량)
-  
-  장점: 운영 단순, 마이크로서비스 내장 가능
-  단점: Kafka 생태계 종속, 복잡 집계 제약
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">카파 아키텍처 스트리밍 처리 엔진:</div>
+<div class="kb-diagram-note">Apache Flink:</div>
+<div class="kb-diagram-note">진정한 스트리밍 처리 (마이크로 배치 아님)</div>
+<div class="kb-diagram-note">이벤트 타임 처리 (Event Time Processing)</div>
+<div class="kb-diagram-note">정확히 한 번 (Exactly-Once) 시맨틱</div>
+<div class="kb-diagram-note">강점:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">지연 없는 실시간 처리</div>
+<div class="kb-diagram-tree-item" style="--depth:1">윈도우 연산 정확성</div>
+<div class="kb-diagram-tree-item" style="--depth:1">상태 관리 (State Backend: RocksDB)</div>
+<div class="kb-diagram-note">카파 재처리:</div>
+<div class="kb-diagram-note">Flink Job v2 시작 → Kafka 처음부터 소비</div>
+<div class="kb-diagram-note">→ 병렬 처리로 히스토리 빠르게 재처리</div>
+<div class="kb-diagram-note">Apache Kafka Streams:</div>
+<div class="kb-diagram-note">Kafka 내장 스트리밍 라이브러리</div>
+<div class="kb-diagram-note">별도 클러스터 불필요 (경량)</div>
+<div class="kb-diagram-note">장점: 운영 단순, 마이크로서비스 내장 가능</div>
+<div class="kb-diagram-note">단점: Kafka 생태계 종속, 복잡 집계 제약</div>
+<div class="kb-diagram-note">Apache Spark Structured Streaming:</div>
+<div class="kb-diagram-note">마이크로 배치 기반 (수초 단위)</div>
+<div class="kb-diagram-note">Spark 기존 코드 재활용 가능</div>
+<div class="kb-diagram-note">장점: 데이터 엔지니어 학습 곡선 낮음</div>
+<div class="kb-diagram-note">단점: 진정한 실시간 아님 (마이크로 배치)</div>
+<div class="kb-diagram-note">도구 선택:</div>
+<div class="kb-diagram-note">ms 단위 실시간: Flink</div>
+<div class="kb-diagram-note">초 단위 거의 실시간: Spark Structured Streaming</div>
+<div class="kb-diagram-note">경량 서비스 내장: Kafka Streams</div>
+<div class="kb-diagram-note">기존 Spark 환경: Structured Streaming</div>
+</div>
+</div>
 
-Apache Spark Structured Streaming:
-  마이크로 배치 기반 (수초 단위)
-  Spark 기존 코드 재활용 가능
-  
-  장점: 데이터 엔지니어 학습 곡선 낮음
-  단점: 진정한 실시간 아님 (마이크로 배치)
 
-도구 선택:
-  ms 단위 실시간: Flink
-  초 단위 거의 실시간: Spark Structured Streaming
-  경량 서비스 내장: Kafka Streams
-  기존 Spark 환경: Structured Streaming
-```
 
 > 📢 **섹션 요약 비유**: 스트리밍 엔진 선택은 배달 방식 선택 — Flink는 즉시 배달(수ms), Spark Streaming은 배달 묶음(수초), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams는 자전거 배달(경량). 주문 규모에 맞게 선택.
 
@@ -155,52 +149,50 @@ Apache Spark Structured Streaming:
 
 ## Ⅳ. 카파의 장단점과 선택 기준
 
-```
-카파 vs 람다 상세 비교:
 
-코드 복잡도:
-  람다: 동일 로직을 Spark(배치) + Flink(스피드) 두 번 구현
-  카파: Flink 하나로 통합
-  → 카파: 코드 50% 절감
 
-재처리 성능:
-  람다: Spark 배치 → 빠른 재처리 (수천 TB/시간)
-  카파: Flink 스트리밍 → 느린 재처리 (수백 GB/시간)
-  → 람다: 대규모 재처리 유리
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">카파 vs 람다 상세 비교:</div>
+<div class="kb-diagram-note">코드 복잡도:</div>
+<div class="kb-diagram-note">람다: 동일 로직을 Spark(배치) + Flink(스피드) 두 번 구현</div>
+<div class="kb-diagram-note">카파: Flink 하나로 통합</div>
+<div class="kb-diagram-note">→ 카파: 코드 50% 절감</div>
+<div class="kb-diagram-note">재처리 성능:</div>
+<div class="kb-diagram-note">람다: Spark 배치 → 빠른 재처리 (수천 TB/시간)</div>
+<div class="kb-diagram-note">카파: Flink 스트리밍 → 느린 재처리 (수백 GB/시간)</div>
+<div class="kb-diagram-note">→ 람다: 대규모 재처리 유리</div>
+<div class="kb-diagram-note">보관 비용:</div>
+<div class="kb-diagram-note">람다: S3 파일 시스템 (저렴)</div>
+<div class="kb-diagram-note">카파: Kafka 무한 보관 → 비용 증가</div>
+<div class="kb-diagram-note">→ 람다: 장기 보관 유리</div>
+<div class="kb-diagram-note">데이터 일관성:</div>
+<div class="kb-diagram-note">람다: 배치 뷰 + 스피드 뷰 병합 (복잡한 쿼리)</div>
+<div class="kb-diagram-note">카파: 단일 스트리밍 출력 (단순한 쿼리)</div>
+<div class="kb-diagram-note">→ 카파: 일관성 단순</div>
+<div class="kb-diagram-note">운영 복잡도:</div>
+<div class="kb-diagram-note">람다: 두 파이프라인 운영</div>
+<div class="kb-diagram-note">카파: 하나의 파이프라인</div>
+<div class="kb-diagram-note">→ 카파: 운영 단순</div>
+<div class="kb-diagram-note">선택 기준:</div>
+<div class="kb-diagram-note">카파 적합:</div>
+<div class="kb-diagram-note">이벤트 스트림 중심 시스템</div>
+<div class="kb-diagram-note">실시간 처리 우선</div>
+<div class="kb-diagram-note">재처리 빈도 낮음</div>
+<div class="kb-diagram-note">팀 규모 작음 (운영 인력 제약)</div>
+<div class="kb-diagram-note">람다 적합:</div>
+<div class="kb-diagram-note">대규모 히스토리 데이터 (TB 단위)</div>
+<div class="kb-diagram-note">복잡한 배치 집계 (ML 피처 등)</div>
+<div class="kb-diagram-note">재처리 자주 필요</div>
+<div class="kb-diagram-note">정확성 최우선 (금융)</div>
+<div class="kb-diagram-note">현대적 대안:</div>
+<div class="kb-diagram-note">Delta Lake + Apache Spark:</div>
+<div class="kb-diagram-note">배치+스트리밍 동일 코드 처리</div>
+<div class="kb-diagram-note">람다의 이점 + 카파의 단순성 = 통합 아키텍처</div>
+</div>
+</div>
 
-보관 비용:
-  람다: S3 파일 시스템 (저렴)
-  카파: Kafka 무한 보관 → 비용 증가
-  → 람다: 장기 보관 유리
 
-데이터 일관성:
-  람다: 배치 뷰 + 스피드 뷰 병합 (복잡한 쿼리)
-  카파: 단일 스트리밍 출력 (단순한 쿼리)
-  → 카파: 일관성 단순
-
-운영 복잡도:
-  람다: 두 파이프라인 운영
-  카파: 하나의 파이프라인
-  → 카파: 운영 단순
-
-선택 기준:
-  카파 적합:
-    이벤트 스트림 중심 시스템
-    실시간 처리 우선
-    재처리 빈도 낮음
-    팀 규모 작음 (운영 인력 제약)
-    
-  람다 적합:
-    대규모 히스토리 데이터 (TB 단위)
-    복잡한 배치 집계 (ML 피처 등)
-    재처리 자주 필요
-    정확성 최우선 (금융)
-
-현대적 대안:
-  Delta Lake + Apache Spark:
-  배치+스트리밍 동일 코드 처리
-  람다의 이점 + 카파의 단순성 = 통합 아키텍처
-```
 
 > 📢 **섹션 요약 비유**: 카파 vs [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 하나의 다용도 냄비 vs 전용 요리기구 세트 — 카파는 하나로 다 해결(단순하지만 한계), [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 각 음식별 전용 도구(복잡하지만 최적화).
 
@@ -208,47 +200,45 @@ Apache Spark Structured Streaming:
 
 ## Ⅴ. 실무 시나리오 — 실시간 사기 탐지
 
-```
-결제 사기 탐지 카파 아키텍처:
 
-요구사항:
-  모든 결제 트랜잭션 실시간 분석
-  사기 패턴 탐지: ms 단위 응답
-  모델 업데이트 시 전체 재처리 가능
 
-카파 아키텍처:
-  결제 이벤트 → Kafka (무한 보관)
-               → Flink Job v1 (사기 탐지 모델 v1)
-                     → 결과: Redis (블랙리스트) + Cassandra (로그)
-                     → 결제 API: Redis 조회 후 허용/거부
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">결제 사기 탐지 카파 아키텍처:</div>
+<div class="kb-diagram-note">요구사항:</div>
+<div class="kb-diagram-note">모든 결제 트랜잭션 실시간 분석</div>
+<div class="kb-diagram-note">사기 패턴 탐지: ms 단위 응답</div>
+<div class="kb-diagram-note">모델 업데이트 시 전체 재처리 가능</div>
+<div class="kb-diagram-note">카파 아키텍처:</div>
+<div class="kb-diagram-note">결제 이벤트 → Kafka (무한 보관)</div>
+<div class="kb-diagram-note">→ Flink Job v1 (사기 탐지 모델 v1)</div>
+<div class="kb-diagram-note">→ 결과: Redis (블랙리스트) + Cassandra (로그)</div>
+<div class="kb-diagram-note">→ 결제 API: Redis 조회 후 허용/거부</div>
+<div class="kb-diagram-note">모델 업데이트 시나리오:</div>
+<div class="kb-diagram-note">사기 패턴 변경 → 모델 v2 학습</div>
+<div class="kb-diagram-note">재처리 과정:</div>
+<div class="kb-diagram-note">1. Flink Job v2 시작 (새 모델 적용)</div>
+<div class="kb-diagram-note">2. Kafka Consumer Group 오프셋: 처음부터</div>
+<div class="kb-diagram-note">3. 병렬 처리: v2가 Kafka 히스토리 소비</div>
+<div class="kb-diagram-note">4. 새 Redis/Cassandra에 결과 저장</div>
+<div class="kb-diagram-note">v2 재처리 완료 후:</div>
+<div class="kb-diagram-note">5. 결제 API: v1 Redis → v2 Redis로 전환</div>
+<div class="kb-diagram-note">6. v1 Flink Job 종료</div>
+<div class="kb-diagram-note">성능:</div>
+<div class="kb-diagram-note">실시간 처리: &lt;50ms 지연 (사기 탐지)</div>
+<div class="kb-diagram-note">재처리 속도: 3개월 히스토리 재처리 ~4시간</div>
+<div class="kb-diagram-note">(병렬화로 단축 가능)</div>
+<div class="kb-diagram-note">카파 vs 람다 결정:</div>
+<div class="kb-diagram-note">이 시나리오: 카파 적합</div>
+<div class="kb-diagram-note">이유: ms 단위 응답 필요 + 스트리밍 중심</div>
+<div class="kb-diagram-note">재처리 4시간은 허용 범위 내</div>
+<div class="kb-diagram-note">람다 필요 사례:</div>
+<div class="kb-diagram-note">월간 집계 정산 (TB 단위 배치 처리 필요)</div>
+<div class="kb-diagram-note">→ 카파의 재처리로는 비효율적</div>
+</div>
+</div>
 
-모델 업데이트 시나리오:
-  사기 패턴 변경 → 모델 v2 학습
-  
-  재처리 과정:
-  1. Flink Job v2 시작 (새 모델 적용)
-  2. Kafka Consumer Group 오프셋: 처음부터
-  3. 병렬 처리: v2가 Kafka 히스토리 소비
-  4. 새 Redis/Cassandra에 결과 저장
-  
-  v2 재처리 완료 후:
-  5. 결제 API: v1 Redis → v2 Redis로 전환
-  6. v1 Flink Job 종료
 
-성능:
-  실시간 처리: <50ms 지연 (사기 탐지)
-  재처리 속도: 3개월 히스토리 재처리 ~4시간
-  (병렬화로 단축 가능)
-
-카파 vs 람다 결정:
-  이 시나리오: 카파 적합
-    이유: ms 단위 응답 필요 + 스트리밍 중심
-    재처리 4시간은 허용 범위 내
-    
-  람다 필요 사례:
-    월간 집계 정산 (TB 단위 배치 처리 필요)
-    → 카파의 재처리로는 비효율적
-```
 
 > 📢 **섹션 요약 비유**: 결제 사기 탐지 카파는 보안 카메라 + 즉시 알림 — 모든 거래(이벤트)를 실시간으로 분석하고, 의심 패턴 발견 시 즉시 차단. 녹화([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 보관)를 처음부터 재생하면 과거 분석도 가능.
 

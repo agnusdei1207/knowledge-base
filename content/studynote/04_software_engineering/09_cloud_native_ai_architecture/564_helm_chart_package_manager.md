@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) (조타 장치)**: 배의 키(방향타). K8s 선장님이 배를 몰 때, 조타 장치 1개만 돌리면 알아서 밑에 수백 개의 기어가 맞물려 돌아가게 해 주는 편의성 툴.
+  - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a> (조타 장치)</strong>: 배의 키(방향타). K8s 선장님이 배를 몰 때, 조타 장치 1개만 돌리면 알아서 밑에 수백 개의 기어가 맞물려 돌아가게 해 주는 편의성 툴.
   - **Chart (차트)**: Helm이 배포하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 패키지 덩어리 이름. (우리가 윈도우에서 까는 `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 리눅스의 `.deb` 패키지와 100% 동일한 개념).
 
-- **필요성 (YAML 텍스트의 파편화 지옥, YAML Hell)**: 563장에서 K8s는 모든 걸 텍스트 선언([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))으로 띄운다 했다. 워드프레스(WordPress) 게시판 하나를 K8s에 올리려고 구글링했다. "[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/).yaml 짜고, DB 붙이려면 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/).yaml 짜고, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 열려면 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).yaml 짜고..." 총 10장의 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복사+붙여넣기 했다. 그중 띄어쓰기 1칸 실수해서 에러 폭발. 겨우 운영 서버에 올렸더니 팀장이 "개발 서버에도 하나 더 똑같이 띄워봐!" 한다. 10장의 YAML을 통째로 복사한 뒤(Duplicate), `RAM 10GB` 글자를 `1GB`로 100군데 일일이 수동으로 고치는 생노가다(Copy-Paste [Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))를 하다가 빡쳐서 퇴사했다. **"아씨! 패키지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 덜렁 다운받아서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 옵션 몇 개만 탁탁 바꾸면 풀세트로 착 깔리는 시스템 없어?!"** 이 극대노가 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 탄생시켰다.
+- **필요성 (YAML 텍스트의 파편화 지옥, YAML Hell)**: 563장에서 K8s는 모든 걸 텍스트 선언([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))으로 띄운다 했다. 워드프레스(WordPress) 게시판 하나를 K8s에 올리려고 구글링했다. "[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/).yaml 짜고, DB 붙이려면 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/).yaml 짜고, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 열려면 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/).yaml 짜고..." 총 10장의 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복사+붙여넣기 했다. 그중 띄어쓰기 1칸 실수해서 에러 폭발. 겨우 운영 서버에 올렸더니 팀장이 "개발 서버에도 하나 더 똑같이 띄워봐!" 한다. 10장의 YAML을 통째로 복사한 뒤(Duplicate), `RAM 10GB` 글자를 `1GB`로 100군데 일일이 수동으로 고치는 생노가다(Copy-Paste [Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))를 하다가 빡쳐서 퇴사했다. <strong>"아씨! 패키지 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 1개 덜렁 다운받아서 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 옵션 몇 개만 탁탁 바꾸면 풀세트로 착 깔리는 시스템 없어?!"</strong> 이 극대노가 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 탄생시켰다.
 
-- **💡 비유**: K8s 생-YAML 배포가 **'이케아(IKEA) 가구를 사서 100페이지짜리 복잡한 설명서를 보고 나사를 100개 일일이 손으로 조립하는 짓(개빡셈)'**이라면, [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트는 **'가구 조립 대행사(패키지)에 돈을 주는 것'**입니다. "여기 침대 1개 놔주세요. 색깔은 파란색(Value 변수)으로요!"([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄). 그러면 전문가가 1분 만에 내 방에 완제품 침대를 풀세트로 쾅 조립해서 놓아버립니다. 나는 나사가 몇 개 들어가는지 알 필요가 없는 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))입니다.
+- **💡 비유**: K8s 생-YAML 배포가 <strong>'이케아(IKEA) 가구를 사서 100페이지짜리 복잡한 설명서를 보고 나사를 100개 일일이 손으로 조립하는 짓(개빡셈)'</strong>이라면, [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트는 <strong>'가구 조립 대행사(패키지)에 돈을 주는 것'</strong>입니다. "여기 침대 1개 놔주세요. 색깔은 파란색(Value 변수)으로요!"([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄). 그러면 전문가가 1분 만에 내 방에 완제품 침대를 풀세트로 쾅 조립해서 놓아버립니다. 나는 나사가 몇 개 들어가는지 알 필요가 없는 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[kubectl](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/) apply -f . 떡칠 시대 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))**: 개발자들이 `yaml` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더째로 무지성 배포 때리던 짐승의 시대. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 개판, 변수 떡칠로 파멸.
-  2. **[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) / Ksonnet (과도기)**: "야, 템플릿 변수 뚫지 말고 그냥 쌩 텍스트를 위에서 덮어씌워 패치(Patch)하자!" Kustomize가 떴지만, 복잡한 if문과 반복문 로직을 짜기엔 기능이 너무 허접했다.
-  3. **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 의 천하통일 (현재)**: Go 언어 템플릿 엔진을 달고 나와서 `if`, `for` 반복문으로 YAML 도면을 마법처럼 자유자재로 찍어내는 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 3가 등장하며 전 세계 K8s 패키지 마켓([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))을 100% 장악했다.
+  1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/077_kube_api_server_k8s_hub/">kubectl</a> apply -f . 떡칠 시대 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: 개발자들이 `yaml` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더째로 무지성 배포 때리던 짐승의 시대. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 개판, 변수 떡칠로 파멸.
+  2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a> / Ksonnet (과도기)</strong>: "야, 템플릿 변수 뚫지 말고 그냥 쌩 텍스트를 위에서 덮어씌워 패치(Patch)하자!" Kustomize가 떴지만, 복잡한 if문과 반복문 로직을 짜기엔 기능이 너무 허접했다.
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a> 의 천하통일 (현재)</strong>: Go 언어 템플릿 엔진을 달고 나와서 `if`, `for` 반복문으로 YAML 도면을 마법처럼 자유자재로 찍어내는 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 3가 등장하며 전 세계 K8s 패키지 마켓([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))을 100% 장악했다.
 
-- **📢 섹션 요약 비유**: [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 윈도우의 **'설치 마법사(InstallShield)'**와 같습니다. 옛날 낡은 K8s 방식은 윈도우에 게임 하나 깔려고 폴더 파고, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 키 10개 수동으로 등록하고, 바탕화면 바로가기를 수동으로 만드는 미친 짓이었습니다. [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 `다음 ➡ 다음 ➡ 설치 경로(변수) C드라이브 입력 ➡ 마침` 10초 만에 게임을 쫙 깔아주고, 삭제하고 싶으면 `제어판 ➡ 앱 삭제(helm uninstall)` 딸깍 한 방에 관련 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100개를 일괄 소멸시켜 버리는 궁극의 패키지 깔끔쟁이입니다.
+- **📢 섹션 요약 비유**: [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 윈도우의 <strong>'설치 마법사(InstallShield)'</strong>와 같습니다. 옛날 낡은 K8s 방식은 윈도우에 게임 하나 깔려고 폴더 파고, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 키 10개 수동으로 등록하고, 바탕화면 바로가기를 수동으로 만드는 미친 짓이었습니다. [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)은 `다음 ➡ 다음 ➡ 설치 경로(변수) C드라이브 입력 ➡ 마침` 10초 만에 게임을 쫙 깔아주고, 삭제하고 싶으면 `제어판 ➡ 앱 삭제(helm uninstall)` 딸깍 한 방에 관련 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100개를 일괄 소멸시켜 버리는 궁극의 패키지 깔끔쟁이입니다.
 
 ---
 
 다음은 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  헬름 (Helm) 차트를 이용한 SW                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헬름 (Helm) 차트를 이용한 SW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW 패키지 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW 패키지 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) 차트를 이용한 SW 패키지 관리의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-헬름 (Helm) 차트를 이용한 SW 패키지 관리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헬름 (Helm) 차트를 이용한 SW 패키지 관리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

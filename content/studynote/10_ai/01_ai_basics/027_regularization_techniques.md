@@ -18,18 +18,19 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│          과적합 vs. 과소적합 vs. 일반화                   │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│ 과소적합 (Underfitting): 훈련·테스트 모두 낮은 성능        │
-│ 과적합 (Overfitting):   훈련 높음, 테스트 낮음            │
-│ 일반화 (Generalization): 훈련·테스트 모두 높은 성능        │
-│                                                         │
-│ 규제화 목표: 과적합을 방지하여 일반화 달성                 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과적합 vs. 과소적합 vs. 일반화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과소적합 (Underfitting): 훈련·테스트 모두 낮은 성능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과적합 (Overfitting): 훈련 높음, 테스트 낮음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반화 (Generalization): 훈련·테스트 모두 높은 성능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제화 목표: 과적합을 방지하여 일반화 달성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 규제화는 시험 공부 방법이다. 기출 문제(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 달달 외우면 처음 보는 문제([테스트 데이터](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))에서 낮은 점수가 나온다. 규제화는 "개념 이해"를 강제하여 어떤 문제도 풀 수 있는 실력을 기른다.
 
@@ -48,13 +49,18 @@ tags = ["studynote-ai"]
 
 ### [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) (딥러닝)
 
-```text
-훈련 중: 각 뉴런을 확률 p로 랜덤 비활성화
-        → 앙상블 효과 (다양한 서브 네트워크 학습)
 
-추론 중: 모든 뉴런 활성화
-        → 가중치에 (1-p) 스케일링
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">훈련 중: 각 뉴런을 확률 p로 랜덤 비활성화</div>
+<div class="kb-diagram-note">→ 앙상블 효과 (다양한 서브 네트워크 학습)</div>
+<div class="kb-diagram-note">추론 중: 모든 뉴런 활성화</div>
+<div class="kb-diagram-note">→ 가중치에 (1-p) 스케일링</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Dropout은 팀 훈련에서 무작위로 선수를 빼는 연습이다. 특정 선수(뉴런)에 의존하지 않도록 전체 팀(네트워크)이 다양한 조합으로 연습하여 어떤 상황에서도 대처 가능해진다.
 
@@ -65,10 +71,10 @@ tags = ["studynote-ai"]
 | 기법 | 적용 단계 | 핵심 메커니즘 |
 |:---|:---|:---|
 | **L1/L2** | 모든 ML | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 패널티 |
-| **[Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** | 딥러닝 | 랜덤 뉴런 비활성화 |
-| **[Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)** | 모든 ML | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 상승 시 중단 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> | 딥러닝 | 랜덤 뉴런 비활성화 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a></strong> | 모든 ML | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 상승 시 중단 |
 | **Batch Norm** | 딥러닝 | 레이어 입력 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation** | 컴퓨터 비전 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양화 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Augmentation</strong> | 컴퓨터 비전 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양화 |
 
 - **📢 섹션 요약 비유**: Early Stopping은 시험 준비 적정 시점을 찾는 것이다. 공부를 너무 많이 하면 오히려 과부하(과적합)가 오므로, 모의고사([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트) 점수가 더 이상 오르지 않을 때 공부를 멈춘다.
 
@@ -114,27 +120,29 @@ tags = ["studynote-ai"]
 |:---|:---|
 | **과적합** | 규제화가 해결하는 핵심 문제 |
 | **L1/L2** | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 기반 규제화의 두 대표 방식 |
-| **[Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** | 딥러닝 특화 뉴런 랜덤 비활성화 |
-| **[Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)** | 규제화의 이론적 배경 |
-| **[Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)** | λ 최적값 탐색 방법 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> | 딥러닝 특화 뉴런 랜덤 비활성화 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/">Bias-Variance Tradeoff</a></strong> | 규제화의 이론적 배경 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">Cross-Validation</a></strong> | λ 최적값 탐색 방법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[과적합 문제 — 훈련 데이터 암기, 일반화 실패]
-    │
-    ▼
-[L1/L2 규제화 — 손실 함수 패널티 추가]
-    │
-    ▼
-[Dropout / Batch Normalization — 딥러닝 특화 규제화]
-    │
-    ▼
-[AutoML — 최적 규제화 하이퍼파라미터 자동 탐색]
-    │
-    ▼
-[LLM 파인튜닝 — Weight Decay + LoRA 규제화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 문제 — 훈련 데이터 암기, 일반화 실패</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 규제화 — 손실 함수 패널티 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dropout / Batch Normalization — 딥러닝 특화 규제화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AutoML — 최적 규제화 하이퍼파라미터 자동 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 파인튜닝 — Weight Decay + LoRA 규제화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

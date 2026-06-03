@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 단순한 방어 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넘어, **현재 일어나고 있거나 발생할 가능성이 있는 사이버 공격(해커 집단, 유행하는 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 신종 악성 IP, 취약점)에 대한 증거 기반의 빅데이터와 인사이트(정보)를 수집, 분석하여 전 세계 기업이 방어에 선제적으로 활용하도록 배포하는 지식 플랫폼**입니다.
+- **개념**: 단순한 방어 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넘어, <strong>현재 일어나고 있거나 발생할 가능성이 있는 사이버 공격(해커 집단, 유행하는 <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>, 신종 악성 IP, 취약점)에 대한 증거 기반의 빅데이터와 인사이트(정보)를 수집, 분석하여 전 세계 기업이 방어에 선제적으로 활용하도록 배포하는 지식 플랫폼</strong>입니다.
 - 구글의 VirusTotal, 한국 KISA의 C-TAS, 민간 업체의 TI 피드(Feed) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등이 대표적입니다.
 
-```text
-[SOAR]
-    │
-    ▼
-[TI 융합 / STIX, TAXII 표준 지…]
-    │
-    └──▶ [웹쉘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,21 +42,25 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 TI 시스템이 씹고 뜯고 맛보는 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(수배 전단지의 내용물)입니다.
-- **개념**: 어떤 컴퓨터가 해킹당했을 때(또는 해킹을 시도할 때) 남기는 범죄자의 명확한 족적, 즉 **'침해(해킹) 사고의 뚜렷한 증거 지표'**입니다.
+- **개념**: 어떤 컴퓨터가 해킹당했을 때(또는 해킹을 시도할 때) 남기는 범죄자의 명확한 족적, 즉 <strong>'침해(해킹) 사고의 뚜렷한 증거 지표'</strong>입니다.
 - **IoC의 종류**:
   - 해커의 명령조종(C&C) 서버 **IP 주소** (예: 185.12.x.x)
-  - 악성코드를 퍼뜨리는 가짜 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) URL** (예: naver-login-update.com)
+  - 악성코드를 퍼뜨리는 가짜 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> URL</strong> (예: naver-login-update.com)
   - 방금 잡힌 신종 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 고유한 **해시값(SHA-256)**
   - 특정 윈도우 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 키가 몰래 변경된 기록
 
-```text
-[SOAR]
-    │
-    ▼
-[TI 융합 / STIX, TAXII 표준 지…]
-    │
-    └──▶ [웹쉘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,14 +68,14 @@ TI 시스템이 씹고 뜯고 맛보는 핵심 [데이터](/knowledge-base/study
 
 ## Ⅲ. 비교 및 연결
 
-미국 은행에서 잡은 해커(IoC) 정보를 한국 은행의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 1초 만에 꽂아 넣으려면, 둘이 **"말이 통하는 자동화된 언어(표준)"**를 써야 합니다. OASIS 기구에서 이를 통일했습니다.
+미국 은행에서 잡은 해커(IoC) 정보를 한국 은행의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 1초 만에 꽂아 넣으려면, 둘이 <strong>"말이 통하는 자동화된 언어(표준)"</strong>를 써야 합니다. OASIS 기구에서 이를 통일했습니다.
 
 ### 1. STIX (Structured Threat Information eXpression) - "어떻게 적을 것인가?"
-- 해커의 신상 명세서(IoC)를 적는 전 세계 공통 **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)(또는 XML) 기반의 통일된 양식(언어)**입니다.
+- 해커의 신상 명세서(IoC)를 적는 전 세계 공통 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>(또는 XML) 기반의 통일된 양식(언어)</strong>입니다.
 - "공격자 이름은 A, 목적은 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시값은 B, 타겟 포트는 C"라는 내용을 인간이 아닌 기계(보안 장비)가 1초 만에 읽고 해석할 수 있도록 매우 체계적으로 구조화한 포맷입니다.
 
 ### 2. TAXII (Trusted Automated eXchange of Indicator Information) - "어떻게 배달할 것인가?"
-- STIX로 예쁘게 적은 수배 전단지를, **인터넷([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))을 통해 전 세계 기업의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 장비로 실시간으로 빠르고 안전하게 배달(전송)해 주는 통신 배달 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. (Pub/Sub 모델을 지원하여 구독만 해놓으면 새 수배 전단지가 폰 푸시 알림처럼 쏙쏙 들어옵니다.)
+- STIX로 예쁘게 적은 수배 전단지를, <strong>인터넷(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)을 통해 전 세계 기업의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>과 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/">SIEM</a> 장비로 실시간으로 빠르고 안전하게 배달(전송)해 주는 통신 배달 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (Pub/Sub 모델을 지원하여 구독만 해놓으면 새 수배 전단지가 폰 푸시 알림처럼 쏙쏙 들어옵니다.)
 
 TI 융합 / STIX, TAXII 표준 지…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SOAR가 기반 조건을 만든다면, TI 융합 / STIX, TAXII 표준 지…는 그 위에서 핵심 메커니즘을 구현하고, [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SOAR]
-    │
-    ▼
-[현재 개념: TI 융합 / STIX, TAXII 표준 지…]
-    │
-    ├──▶ [확장 A: 웹쉘]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SOAR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TI 융합 / STIX, TAXII 표준 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 웹쉘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 TI 융합 / STIX, TAXII 표준 지…는 SOAR에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

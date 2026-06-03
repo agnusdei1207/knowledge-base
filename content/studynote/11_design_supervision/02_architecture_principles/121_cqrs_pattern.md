@@ -23,26 +23,21 @@ CQRS는 그렉 영(Greg Young)이 2010년 [이벤트 소싱](/knowledge-base/stu
 
 기존 단일 모델 방식에서는 동일한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체가 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 모두 처리한다. 이 경우 복잡한 조회를 위한 JOIN이나 집계 요구사항이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 오염시키거나, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조가 읽기 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 느리게 만드는 양방향 충돌이 생긴다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         CQRS 분리 구조: 쓰기 모델 vs 읽기 모델              │
-├─────────────────────────────────────────────────────────────┤
-│  클라이언트                                                  │
-│       │                                                     │
-│  ┌────┴────┐                                                │
-│  ▼         ▼                                               │
-│ Command   Query                                             │
-│  │         │                                               │
-│  ▼         ▼                                               │
-│ 쓰기 모델  읽기 모델                                        │
-│ (Write)   (Read)                                            │
-│  │         │                                               │
-│  ▼         ▼                                               │
-│ 쓰기 DB   읽기 DB (비정규화)                                │
-│  │                                                         │
-│  └──── 이벤트/동기화 ────▶ 읽기 DB 업데이트               │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS 분리 구조: 쓰기 모델 vs 읽기 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command Query</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 모델 읽기 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Write) (Read)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 DB 읽기 DB (비정규화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트/동기화 ▶ 읽기 DB 업데이트</div></div>
+</div>
+</div>
+
+
 
 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB는 정규화된 RDBMS로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 보장하고, 읽기 DB는 비정규화된 조회 최적화 모델([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), 읽기 전용 뷰)로 구성한다. 두 모델 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 이벤트나 폴링으로 이루어지며 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([eventual consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 수용한다.
 
@@ -61,21 +56,20 @@ CQRS의 핵심 흐름은 세 단계다. ① 클라이언트가 [Command](/knowle
 | [Event Bus](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)→읽기 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채널 | 비동기, 내구성 |
 | Projection | 이벤트에서 읽기 모델 재구성 | 유연한 뷰 재생성 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│      CQRS + 이벤트 소싱 결합 흐름                            │
-├─────────────────────────────────────────────────────────────┤
-│  Command → Domain Model → 이벤트 저장소(Event Store)        │
-│                                    │                        │
-│                               이벤트 발행                   │
-│                                    │                        │
-│                            Projection Handler               │
-│                                    │                        │
-│                           읽기 DB 업데이트 (Redis, ES)       │
-│                                    │                        │
-│  Query ───────────────────────────▶ 읽기 DB 조회             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS + 이벤트 소싱 결합 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command → Domain Model → 이벤트 저장소(Event Store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 발행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Projection Handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 DB 업데이트 (Redis, ES)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query ▶ 읽기 DB 조회</div></div>
+</div>
+</div>
+
+
 
 읽기 모델은 필요에 따라 여러 형태로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 유지할 수 있다. 동일한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 이벤트로부터 관리자용 대시보드 뷰, 사용자용 목록 뷰, 분석용 집계 뷰를 각각 독립적으로 구성하는 것이 가능하다.
 
@@ -89,9 +83,9 @@ CQRS와 전통적 단일 모델(CRUD) 방식의 차이는 시스템 복잡도에
 | 비교 축 | A | B |
 |:---|:---|:---|
 | **모델 수** | 단일 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델 + 읽기 모델(들) |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 즉각적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 즉각적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **복잡도** | 낮음 | 높음 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝** | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·읽기 동시 최적화 어려움 | 각각 독립 최적화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝</strong> | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·읽기 동시 최적화 어려움 | 각각 독립 최적화 |
 | **적합 시스템** | 단순 CRUD, 소규모 | 복잡 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 대규모 트래픽 |
 
 CQRS는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))과 함께 사용되면 최적의 시너지를 발휘한다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이 상태 변화를 이벤트로 저장하면, 이 이벤트들로부터 원하는 형태의 읽기 모델을 언제든 재구성(replay)할 수 있다.

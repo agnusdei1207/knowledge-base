@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 511번 DNS는 속도에 미친 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 프로토콜을 씁니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차(비밀번호, 서명)가 1도 없습니다.
-- **캐시 포이즈닝([Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/)) 해킹**: 내 컴퓨터가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 주소를 물어보고 대답을 기다리는 그 0.1초의 틈을 타서, 해커가 진짜 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버보다 먼저 "야 네이버 IP 1.1.1.1(해커 서버)이야!"라고 가짜 패킷([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 찔러 넣습니다. 내 컴퓨터와 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 그 가짜 주소를 진짜인 줄 알고 꿀꺽 삼켜서 저장(Cache)해 버립니다.
+- <strong>캐시 포이즈닝(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/">Cache Poisoning</a>) 해킹</strong>: 내 컴퓨터가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 주소를 물어보고 대답을 기다리는 그 0.1초의 틈을 타서, 해커가 진짜 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버보다 먼저 "야 네이버 IP 1.1.1.1(해커 서버)이야!"라고 가짜 패킷([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 찔러 넣습니다. 내 컴퓨터와 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 그 가짜 주소를 진짜인 줄 알고 꿀꺽 삼켜서 저장(Cache)해 버립니다.
 
-```text
-[BGP RPKI 라우팅 보안 망]
-    │
-    ▼
-[DNSSEC 존]
-    │
-    └──▶ [DoH / DoT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH / DoT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답 패킷 자체를 암호화(숨김)하는 것이 아닙니다. DNS가 뱉어내는 주소(IP) 정보에 **공개키 암호화 방식([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 덧붙여서, "이 정보가 중간에 해커에게 조작되지 않았으며([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 진짜 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리자가 보낸 것이 맞음([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"을 100% [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 내는 인터넷 보안 표준**입니다.
+- **개념**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답 패킷 자체를 암호화(숨김)하는 것이 아닙니다. DNS가 뱉어내는 주소(IP) 정보에 <strong>공개키 암호화 방식(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>을 덧붙여서, "이 정보가 중간에 해커에게 조작되지 않았으며(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>), 진짜 해당 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 관리자가 보낸 것이 맞음(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)"을 100% <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>해 내는 인터넷 보안 표준</strong>입니다.
 
-```text
-[BGP RPKI 라우팅 보안 망]
-    │
-    ▼
-[DNSSEC 존]
-    │
-    └──▶ [DoH / DoT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH / DoT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,13 +70,13 @@ tags = ["studynote-network"]
 
 ### 2. DNSKEY - "도장 감식기 (공개키)"
 - 유저가 도장(RRSIG)을 받았는데 이게 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려면 서버의 '공개키'가 필요합니다.
-- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 자신의 공개키를 아예 누구나 볼 수 있게 **DNSKEY 레코드**라는 게시판에 올려둡니다.
+- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 자신의 공개키를 아예 누구나 볼 수 있게 <strong>DNSKEY 레코드</strong>라는 게시판에 올려둡니다.
 - 유저는 이 DNSKEY를 받아와서 방금 받은 RRSIG 도장을 대보고 딱 맞으면 "오 조작 안 됐네!" 하고 안심합니다. (근데 이 DNSKEY 공개키 자체를 해커가 가짜로 바꿔치기하면 어떡하죠?)
 
 ### 3. DS (Delegation Signer) - "상급자의 보증서" 🌟
-이게 DNSSEC의 핵심인 **'신뢰의 사슬 (Chain of Trust)'**입니다.
+이게 DNSSEC의 핵심인 <strong>'신뢰의 사슬 (Chain of Trust)'</strong>입니다.
 - `naver.com` [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버의 DNSKEY(공개키)가 진짜라는 걸 누가 보증할까요? 윗동네인 `.com` (최상위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 서버가 보증합니다!
-- `.com` 서버는 `naver.com`의 공개키 지문을 **DS 레코드**라는 금고에 보관해 두고 서명을 찍어줍니다.
+- `.com` 서버는 `naver.com`의 공개키 지문을 <strong>DS 레코드</strong>라는 금고에 보관해 두고 서명을 찍어줍니다.
 - 유저는 끝도 없이 의심하며 상급자를 찾아갑니다. `naver.com` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ➜ `.com` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ➜ 최종적으로 전 세계 인터넷의 꼭대기인 `Root (.)` 서버까지 올라가서 보증을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 루트 서버의 열쇠는 전 세계가 이미 안전하게 공유하고 있기 때문에, 해커가 피라미드 전체를 해킹하지 않는 이상 절대 도장을 위조할 수 없습니다.
 
 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망이 기반 조건을 만든다면, [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존은 그 위에서 핵심 메커니즘을 구현하고, [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **무거움의 딜레마**: IP 주소 4바이트만 뱉어내던 가벼운 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷이, 뚱뚱한 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)(RRSIG, DNSKEY)을 달고 나오면서 패킷 크기가 10배~50배로 폭발해버렸습니다.
-- 1077번 문서에서 배울 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭 DDoS 공격**에 악용되기 딱 좋습니다. 해커가 1바이트 질문을 던지면 서버가 50바이트 쓰레기(서명)를 타겟 서버에 쏟아붓게 만들 수 있어, 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 단에서 이 거대한 패킷을 처리하는 CPU 부하가 엄청난 단점입니다.
+- 1077번 문서에서 배울 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 증폭 DDoS 공격</strong>에 악용되기 딱 좋습니다. 해커가 1바이트 질문을 던지면 서버가 50바이트 쓰레기(서명)를 타겟 서버에 쏟아붓게 만들 수 있어, 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 단에서 이 거대한 패킷을 처리하는 CPU 부하가 엄청난 단점입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버**는 신분증 검사 없이 아무나 **"저기요 네이버 주소 어딘가요?" 물어보면 "어 12번지야!"라고 답해주는 '동네 아저씨'**였습니다. 해커가 옆에서 슬쩍 "네이버 99번지야!"라고 새치기해서 소리치면 유저는 그대로 속았습니다. **[DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)**은 이 동네 아저씨에게 **'경찰청 공인 인감도장(RRSIG)'**을 쥐여준 혁명입니다. 아저씨는 주소를 알려줄 때 무조건 서류에 빨간 인감도장을 찍어서 줍니다. 유저는 도장을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 아저씨의 공개키(DNSKEY)를 대보는데, 이 공개키조차 못 믿겠어서 동사무소(.com 서버, DS 레코드)에 가서 "이 아저씨 도장 진짜 맞죠?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 마지막엔 청와대(Root 서버)까지 가서 삼중으로 도장을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(신뢰의 사슬)합니다. 해커가 중간에 주소를 99번지로 바꾸고 싶어도, 청와대의 빨간 인감도장까지 위조할 수는 없기 때문에 가짜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 주소를 뱉는 순간 내 스마트폰이 0.1초 만에 짝퉁임을 알아채고 밴(차단)을 때려버리는 궁극의 주소 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방패입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버</strong>는 신분증 검사 없이 아무나 <strong>"저기요 네이버 주소 어딘가요?" 물어보면 "어 12번지야!"라고 답해주는 '동네 아저씨'</strong>였습니다. 해커가 옆에서 슬쩍 "네이버 99번지야!"라고 새치기해서 소리치면 유저는 그대로 속았습니다. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/">DNSSEC</a></strong>은 이 동네 아저씨에게 <strong>'경찰청 공인 인감도장(RRSIG)'</strong>을 쥐여준 혁명입니다. 아저씨는 주소를 알려줄 때 무조건 서류에 빨간 인감도장을 찍어서 줍니다. 유저는 도장을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 아저씨의 공개키(DNSKEY)를 대보는데, 이 공개키조차 못 믿겠어서 동사무소(.com 서버, DS 레코드)에 가서 "이 아저씨 도장 진짜 맞죠?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 마지막엔 청와대(Root 서버)까지 가서 삼중으로 도장을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(신뢰의 사슬)합니다. 해커가 중간에 주소를 99번지로 바꾸고 싶어도, 청와대의 빨간 인감도장까지 위조할 수는 없기 때문에 가짜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 주소를 뱉는 순간 내 스마트폰이 0.1초 만에 짝퉁임을 알아채고 밴(차단)을 때려버리는 궁극의 주소 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방패입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BGP RPKI 라우팅 보안 망]
-    │
-    ▼
-[현재 개념: DNSSEC 존]
-    │
-    ├──▶ [확장 A: DoH / DoT]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNSSEC 존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoH / DoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

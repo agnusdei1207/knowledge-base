@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 지상에서 스마트폰과 Wi-Fi를 연결해 주는 무선 전파(RF)나 빛(가시광선)은 물속에 들어가는 순간 물 분자에 에너지를 빼앗겨 몇 미터도 채 가지 못하고 소멸해 버린다. 육지의 통신 기술이 바닷속에서는 완벽한 무용지물이 되는 것이다.
 
-하지만 지구 면적의 70%를 차지하는 해양을 탐사하고 보호하기 위해 잠수함, 무인 잠수정(AUV), 해저 센서들을 하나로 연결해야 할 필요성이 급증했다. 과학자들은 해양 생물들이 수십 km 밖에서도 소리로 대화한다는 점에 착안하여, 전파 대신 **음파(Acoustic [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))**를 사용하여 바닷속 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(IoUT)을 구축하는 수중 음파 통신망을 탄생시켰다.
+하지만 지구 면적의 70%를 차지하는 해양을 탐사하고 보호하기 위해 잠수함, 무인 잠수정(AUV), 해저 센서들을 하나로 연결해야 할 필요성이 급증했다. 과학자들은 해양 생물들이 수십 km 밖에서도 소리로 대화한다는 점에 착안하여, 전파 대신 <strong>음파(Acoustic <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">Wave</a>)</strong>를 사용하여 바닷속 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(IoUT)을 구축하는 수중 음파 통신망을 탄생시켰다.
 
-```text
-[스마트 그리드 통신 인프라망]
-    │
-    ▼
-[수중 음파 통신망]
-    │
-    └──▶ [체내 통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드 통신 인프라망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수중 음파 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">체내 통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 육지에서는 레이저 포인트나 무전기(빛, 전파)로 멀리서 신호를 주지만, 물속에서는 무전기가 안 터지니 수경을 쓰고 서로 물속에서 돌고래처럼 소리를 질러 대화하는 방식이다.
 
@@ -40,25 +44,23 @@ tags = ["studynote-network"]
 
 수중 음파 통신망은 해저 바닥의 센서, 바다를 누비는 무인 잠수정(AUV), 그리고 바다 위를 떠다니며 수중과 육상을 이어주는 부표(Surface Buoy)로 구성된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                   [ 육상 통제 센터 (위성/5G 통신) ]          │
-└──────────────▲───────────────────────────────────────────────┘
-               │ (전파: 위성 통신 / RF)
-┌──────────────▼───────────────────────────────────────────────┐
-│        [ 해상 부표 (Surface Buoy: 수중-육상 게이트웨이) ]    │
-│        (위로는 위성 전파 안테나, 아래로는 수중 음향 모뎀)    │
-└──────────────▲───────────────────────────────────────────────┘
-               │ (음파: Acoustic Link, 약 1,500m/s)
-~~~~~ (바다 수면) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               │
-┌──────────────▼──────────┐        ┌─────────────────────┐
-│    [ 자율 무인 잠수정 ]       │        │   [ 해저 지진/수온 센서 ]   │
-│       (AUV / ROV)         │        │    (고정형 해저 노드)       │
-└──────────────▲──────────┘        └──────────▲──────────┘
-               │                                    │
-               └────────── (음파 통신) ───────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">육상 통제 센터 (위성/5G 통신)</div></div>
+<div class="kb-diagram-note">(전파: 위성 통신 / RF)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해상 부표 (Surface Buoy: 수중-육상 게이트웨이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위로는 위성 전파 안테나, 아래로는 수중 음향 모뎀)</div></div>
+<div class="kb-diagram-note">(음파: Acoustic Link, 약 1,500m/s)</div>
+<div class="kb-diagram-note">~~~~~ (바다 수면) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율 무인 잠수정</div><div class="kb-diagram-node">해저 지진/수온 센서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AUV / ROV)</div><div class="kb-diagram-cell">(고정형 해저 노드)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:7">(음파 통신)</div>
+</div>
+</div>
+
+
 
 1. **음향 [[146_modem_modulator_demodulator|모뎀]] (Acoustic Modem)**: 지상의 [[146_modem_modulator_demodulator|모뎀]]이 전파를 변조하듯, 수중 [[146_modem_modulator_demodulator|모뎀]]은 디지털 [[001_dikw_pyramid|데이터]](0과 1)를 다양한 주파수의 '소리'로 변조하여 물속으로 쏘아 보낸다. 
 2. **수온과 염분의 영향**: 소리는 물의 온도, 염분, 수압에 따라 굴절되거나 속도가 변한다. 여름철 표층 수온이 높으면 소리가 해저 쪽으로 꺾이는(음파 채널 현상) 등 물리적 변수가 극심하므로 이를 계산하는 적응형 라우팅이 필수적이다.
@@ -80,7 +82,7 @@ tags = ["studynote-network"]
 | **[[016_전파_지연|전파 지연]] (Delay)**| 빛의 속도 (즉각적) | 빛의 속도 (즉각적) | **초당 1.5km (심각한 [[015_지연_데이터_관점|지연]] 발생)** |
 | **적용 시나리오** | 얕은 물의 센서 | 잠수부-잠수정 간 [[148_5g_embb_urllc_mmtc|초고속]] [[386_data_clean_room_sharing|데이터 공유]] | **심해 탐사, 쓰나미 광역 경보망** |
 
-최근에는 평소에는 수십 km 밖에서 음파(Acoustic)로 조종하다가, 잠수정이 도킹 스테이션에 바짝(수 미터 이내) 다가오면 빛(Optical)으로 [[121_transmission_media_guided_unguided|매체]]를 스위칭하여 대용량 영상을 순식간에 쏟아내는 **하이브리드 수중 통신망**이 대세로 자리 잡고 있다.
+최근에는 평소에는 수십 km 밖에서 음파(Acoustic)로 조종하다가, 잠수정이 도킹 스테이션에 바짝(수 미터 이내) 다가오면 빛(Optical)으로 [[121_transmission_media_guided_unguided|매체]]를 스위칭하여 대용량 영상을 순식간에 쏟아내는 <strong>하이브리드 수중 통신망</strong>이 대세로 자리 잡고 있다.
 
 - **📢 섹션 요약 비유**: 음파 통신은 멀리서 봉화나 북을 쳐서 "적군이 온다"고 느리게 알려주는 장거리 신호고, 광통신은 가까이 다가와서 책을 통째로 건네주는 단거리 대용량 신호다.
 
@@ -92,7 +94,7 @@ tags = ["studynote-network"]
 태평양 깊은 곳에 지진 해일(쓰나미) 감지 센서를 설치해 두었다고 가정하자. 지진이 발생하면 해저 센서는 즉시 수중 음파를 통해 해수면의 부표로 신호를 쏘고, 부표는 위성을 통해 지상의 기상청으로 경보를 울린다. 1분 1초가 급한 상황에서 이 해저-해상-우주로 이어지는 통신 릴레이가 수백만 명의 목숨을 구한다.
 
 **기술사 판단 포인트 (Trade-off):**
-수중 음파 통신망을 설계할 때는 **'극심한 [[141_latency|지연 시간]]'과 '다중경로 간섭([[168_multipath_fading_isi|Multipath Fading]])'**을 반드시 아키텍처에 반영해야 한다.
+수중 음파 통신망을 설계할 때는 <strong>'극심한 [[141_latency|지연 시간]]'과 '다중경로 간섭([[168_multipath_fading_isi|Multipath Fading]])'</strong>을 반드시 아키텍처에 반영해야 한다.
 1. 소리가 목적지까지 가는 데 수 초가 걸린다. 지상처럼 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[295_protocol_field_tcp_udp_icmp|프로토콜]](ACK [[396_validation|확인]] 후 다음 패킷 전송)을 그대로 물속에서 쓰면, [[396_validation|확인]]받는 데만 시간이 다 가버려서 통신이 마비된다. 따라서 수중망 전용의 [[673_mac_message_authentication_code|MAC]] [[295_protocol_field_tcp_udp_icmp|프로토콜]](예: Slotted FAMA)과 [[015_지연_데이터_관점|지연]]-내성 네트워크(DTN) 설계가 필수적이다.
 2. 쏜 소리가 바다 수면이나 해저 바닥에 부딪혀 튕겨 돌아오는 [[031_에코_반향|에코]](메아리) 현상이 육지보다 수백 배 심하다. 에러를 뚫어내기 위해 강력한 직교 주파수 분할(OFDM) 변조와 FEC(전진 에러 수정) 코딩을 깊숙이 적용해야 한다.
 
@@ -127,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스마트 그리드 통신 인프라망]
-    │
-    ▼
-[현재 개념: 수중 음파 통신망]
-    │
-    ├──▶ [확장 A: 체내 통신]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 그리드 통신 인프라망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 수중 음파 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 체내 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 수중 음파 통신망는 [[161_smart_grid_architecture|스마트 그리드]] 통신 인프라망에서 출발해 현재 메커니즘을 정교화하고, 이후 [[1028_wban_wireless_body_area_network|체내 통신]]와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

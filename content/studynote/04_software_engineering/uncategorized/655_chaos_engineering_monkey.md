@@ -27,34 +27,30 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **넷플릭스의 클라우드 마이그레이션**: 2010년경 넷플릭스는 자체 데이터센터에서 AWS 클라우드로 인프라를 이전하면서, 클라우드의 가상 머신(EC2)은 언제든 예고 없이 종료될 수 있다는 사실에 직면했다.
-  2. **[카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))의 탄생**: 인프라의 불안정성에 끌려다니지 않기 위해, 넷플릭스는 근무 시간 중에 무작위로 운영 서버의 전원을 꺼버리는 악명 높은 도구인 '[카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)'를 개발했다. 개발자들은 자신의 서버가 언제 죽을지 모르기 때문에 처음부터 장애를 우회([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/), [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))하도록 아키텍처를 강제적으로 견고하게 설계하게 되었다.
+  2. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">카오스 몽키</a>(<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">Chaos Monkey</a>)의 탄생</strong>: 인프라의 불안정성에 끌려다니지 않기 위해, 넷플릭스는 근무 시간 중에 무작위로 운영 서버의 전원을 꺼버리는 악명 높은 도구인 '[카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)'를 개발했다. 개발자들은 자신의 서버가 언제 죽을지 모르기 때문에 처음부터 장애를 우회([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/), [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))하도록 아키텍처를 강제적으로 견고하게 설계하게 되었다.
 
   전통적인 테스팅 환경과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 패러다임 차이를 시각화하면 다음과 같다. 예측 가능한 영역을 넘어선 미지의 영역을 어떻게 대비하는지가 핵심이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교             │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [알려진 것 영역 (Known)]          [미지의 영역 (Unknown)]        │
-  │                                                               │
-  │        (단위 테스트)                        (카오스 엔지니어링)      │
-  │     알려진 원인 → 알려진 결과          알려지지 않은 원인 → 미지의 결과 │
-  │   ┌─────────┐      ┌─────────┐     ┌─────────┐      ┌─────────┐   │
-  │   │  Input  │─────▶│ Output  │     │결함 주입│─────▶│시스템반응│   │
-  │   │ (x = 5) │      │ (y = 10)│     │(서버Kill)│      │관찰/학습│   │
-  │   └─────────┘      └─────────┘     └─────────┘      └─────────┘   │
-  │                                                               │
-  │   * 위치: 주로 Staging/Dev 환경      * 위치: Production (운영) 환경 │
-  │   * 목적: 코드의 로직 검증             * 목적: 시스템의 복원력 검증       │
-  │   * 상태: 정적이고 통제됨             * 상태: 동적이고 무작위함         │
-  │                                                               │
-  │  =============================================================│
-  │  장애 발생 시나리오:                                              │
-  │  - 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."     │
-  │  - 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자." │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알려진 것 영역 (Known)</div><div class="kb-diagram-node">미지의 영역 (Unknown)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단위 테스트) (카오스 엔지니어링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알려진 원인 → 알려진 결과 알려지지 않은 원인 → 미지의 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Output</div><div class="kb-diagram-cell">결함 주입</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">시스템반응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(x = 5)</div><div class="kb-diagram-cell">(y = 10)</div><div class="kb-diagram-cell">(서버Kill)</div><div class="kb-diagram-cell">관찰/학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위치: 주로 Staging/Dev 환경 * 위치: Production (운영) 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목적: 코드의 로직 검증 * 목적: 시스템의 복원력 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상태: 정적이고 통제됨 * 상태: 동적이고 무작위함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 시나리오:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자."</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 전통적인 테스트는 개발자가 이미 알고 있는 실패 조건(Known-Unknowns)에 대해서만 Assert문을 작성한다. 그러나 클라우드 환경에서는 '우리가 무엇을 모르는지조차 모르는 상태(Unknown-Unknowns)'의 복합 장애가 빈번하다. 예를 들어 "A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 고갈시키고, 결국 C [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 장애로 이어지는" 나비효과는 코드 레벨 테스트로는 발견 불가능하다. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 바로 이 미지의 영역 탐구를 위해, 통제된 모의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 프로덕션 환경에 투척하여 시스템의 숨겨진 취약성(Hidden Vulnerabilities)을 들춰내는 과학적 탐구 과정이다.
 
@@ -79,7 +75,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -155,21 +151,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-카오스 엔지니어링 카오스 몽키 복원력 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카오스 엔지니어링 카오스 몽키 복원력 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

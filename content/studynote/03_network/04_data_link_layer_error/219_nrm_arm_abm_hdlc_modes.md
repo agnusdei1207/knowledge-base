@@ -25,14 +25,18 @@ tags = ["studynote-network"]
 - **동작**: 주국(대장)이 한 바퀴를 빙 돌며 "1번 종국아 보낼 거 있니? 2번 종국아 보낼 거 있니?([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))"라고 일일이 허락을 내려줄 때만 비로소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 응답 프레임으로 쏩니다.
 - **장점/단점**: 트래픽 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 0%로 완벽히 제어되지만, 주국이 바빠서 나를 안 부르면 하루 종일 굶어야 하는 치명적 속도 저하가 터집니다.
 
-```text
-[HDLC 국 종류]
-    │
-    ▼
-[NRM / ARM / ABM]
-    │
-    └──▶ [정보 프레임, 감독/제어, 비번호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,17 +46,21 @@ tags = ["studynote-network"]
 
 NRM의 답답함을 조금 풀어준 모드입니다. 역시 불균형 링크에서 쓰이지만, 종국에게 약간의 자율성을 줍니다.
 
-- **규칙**: 신하(종국)라도 위급하거나 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기면, **주국의 허락([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))을 묻지 않고도 알아서(비동기적으로) 먼저 주국에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 팡 쏴버릴 수 있습니다.**
+- **규칙**: 신하(종국)라도 위급하거나 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기면, <strong>주국의 허락(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)을 묻지 않고도 알아서(비동기적으로) 먼저 주국에게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 팡 쏴버릴 수 있습니다.</strong>
 - **한계**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 보낼 권한(응답)은 얻었지만, 여전히 신분은 종국이므로 선로에 에러가 나거나 연결을 끊는 권한(통제 명령, [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))은 오직 주국만이 가지고 있습니다.
 
-```text
-[HDLC 국 종류]
-    │
-    ▼
-[NRM / ARM / ABM]
-    │
-    └──▶ [정보 프레임, 감독/제어, 비번호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,10 +68,10 @@ NRM의 답답함을 조금 풀어준 모드입니다. 역시 불균형 링크에
 
 ## Ⅲ. 비교 및 연결
 
-왕과 신하의 계급장을 떼버리고, 오직 **혼성국(Combined [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)) 2대**가 1:1로 물려있는 평등한(Balanced) 링크에서 사용하는 모드입니다.
+왕과 신하의 계급장을 떼버리고, 오직 <strong>혼성국(Combined <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/">Station</a>) 2대</strong>가 1:1로 물려있는 평등한(Balanced) 링크에서 사용하는 모드입니다.
 
 - **규칙**: 양쪽 모두가 주국이자 종국입니다.
-- **동작**: 허락을 구할 필요도 없고, 누구 눈치를 볼 필요도 없이 **내가 원할 때 언제든지 맘대로 제어 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))을 날려 연결을 맺고 끊을 수 있으며, 언제든지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Response)를 쏠 수 있는 100% 프리스타일 모드**입니다.
+- **동작**: 허락을 구할 필요도 없고, 누구 눈치를 볼 필요도 없이 <strong>내가 원할 때 언제든지 맘대로 제어 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)을 날려 연결을 맺고 끊을 수 있으며, 언제든지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Response)를 쏠 수 있는 100% 프리스타일 모드</strong>입니다.
 - **위상**: 현대의 [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)([PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)) 프로토콜이나 이더넷의 기본 사상(서로 맞먹는 통신)이 바로 이 ABM 모드를 근간으로 채택하여 발전했습니다. 오늘날 통신 99%는 이 모드입니다.
 
 > - **NRM (정규 응답)**: 선생님(주국)이 "철수야, 1번 답 말해봐"라고 호명해야만 철수가 일어서서 대답할 수 있는 엄격한 수업 시간.
@@ -78,7 +86,7 @@ NRM / ARM / ABM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 모드는 교실의 **'질문 예절'**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 모드는 교실의 </strong>'질문 예절'**입니다.
 
 ---
 
@@ -120,15 +128,19 @@ NRM / ARM / ABM는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HDLC 국 종류]
-    │
-    ▼
-[현재 개념: NRM / ARM / ABM]
-    │
-    ├──▶ [확장 A: 정보 프레임, 감독/제어, 비번호]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC 국 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NRM / ARM / ABM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정보 프레임, 감독/제어, 비번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 NRM / ARM / ABM는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 [정보 프레임](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/), 감독/제어, 비번호와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

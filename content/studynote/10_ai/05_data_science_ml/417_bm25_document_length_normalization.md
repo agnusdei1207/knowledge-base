@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BM25 (Best Matching 25)는 질의어 빈도, 문서 길이, 단어 희귀도를 함께 반영해 문서를 점수화하는 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 정보 검색 랭킹 함수**다.
+> 1. **본질**: BM25 (Best Matching 25)는 질의어 빈도, 문서 길이, 단어 희귀도를 함께 반영해 문서를 점수화하는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 정보 검색 랭킹 함수</strong>다.
 > 2. **가치**: [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) ([Term Frequency-Inverse Document Frequency](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))의 단순 선형 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 가지는 한계를 보완해, 단어가 많이 나온다고 무한정 점수를 주지 않고 문서 길이 편향도 줄인다.
 > 3. **판단 포인트**: `k1`은 빈도 포화 정도, `b`는 문서 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도를 정하며, BM25는 여전히 희소 검색이므로 의미 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)과는 역할이 다르다.
 
@@ -23,15 +23,18 @@ tags = ["studynote-ai"]
 
 BM25는 이 문제를 "단어가 얼마나 중요한가", "한 문서 안에서 얼마나 자주 등장하는가", "그 문서가 너무 길어서 우연히 많이 포함된 것은 아닌가"라는 세 질문으로 나누어 해결한다. 그래서 검색 엔진, 전자문서 검색, 법률 검색, 사내 지식 검색에서 오랫동안 표준적인 희소 검색 모델로 쓰였다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            BM25가 보는 세 가지 신호                         │
-├──────────────────────────────────────────────────────────────┤
-│ 질의어 희귀도 (IDF)  +  문서 내 빈도 (TF saturation)         │
-│                       +  문서 길이 보정 (length normalization)│
-│                                       └→ 최종 랭킹 점수      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BM25가 보는 세 가지 신호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질의어 희귀도 (IDF) + 문서 내 빈도 (TF saturation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 문서 길이 보정 (length normalization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최종 랭킹 점수</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 BM25가 단순한 빈도 계산기가 아니라는 점이다. 같은 단어가 3번 나온 문서와 30번 나온 문서의 차이를 선형으로 보지 않고, 긴 문서에는 길이 패널티를 준다. 즉, "관련성"을 더 사람답게 근사한다.
 
@@ -53,22 +56,24 @@ $$
 | 파라미터    | 의미             | 해석                                   |
 | :---------- | :--------------- | :------------------------------------- |
 | **IDF**     | 역문서 빈도      | 드문 단어일수록 중요                   |
-| **`k1`**    | TF 포화 정도     | 값이 클수록 빈도 증가 영향이 오래 유지 |
-| **`b`**     | 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도 | 0이면 길이 무시, 1이면 강하게 보정     |
-| **`avgdl`** | 평균 문서 길이   | 길이 비교 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)                       |
+| <strong><code>k1</code></strong>    | TF 포화 정도     | 값이 클수록 빈도 증가 영향이 오래 유지 |
+| <strong><code>b</code></strong>     | 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도 | 0이면 길이 무시, 1이면 강하게 보정     |
+| <strong><code>avgdl</code></strong> | 평균 문서 길이   | 길이 비교 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)                       |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               BM25의 점수 형성 흐름                         │
-├──────────────────────────────────────────────────────────────┤
-│ Query term                                                   │
-│   ├─> rare term?            ──▶ IDF 증가                    │
-│   ├─> frequent in document? ──▶ 점수 증가, 그러나 포화       │
-│   └─> document too long?    ──▶ 길이 패널티 적용             │
-│                                                              │
-│ 최종 점수 = 중요 단어를 적절한 길이 문서에서 반복한 정도      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BM25의 점수 형성 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query term</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; rare term? ──▶ IDF 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; frequent in document? ──▶ 점수 증가, 그러나 포화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; document too long? ──▶ 길이 패널티 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 점수 = 중요 단어를 적절한 길이 문서에서 반복한 정도</div></div>
+</div>
+</div>
+
+
 
 BM25에서 중요한 부분은 TF 포화 (Saturation)다. 어떤 단어가 1회에서 3회로 늘어날 때는 의미가 크지만, 30회에서 32회로 늘어날 때는 관련성이 크게 늘었다고 보기 어렵다. `k1`이 바로 이 "추가 등장 1회의 체감 가치"를 조절한다. `b`는 긴 문서가 무조건 유리해지는 현상을 눌러 준다.
 
@@ -123,7 +128,7 @@ BM25는 고전적이지만 여전히 강력하다. 특히 질의어가 명확하
 
 BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, 설명 가능한 검색 랭킹을 구축할 수 있다. 그래서 검색 인프라의 기본기이자, 현대 [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)의 중요한 한 축으로 남아 있다.
 
-결론적으로 BM25의 본질은 "희귀하고 중요한 단어가 적절한 길이의 문서에서 얼마나 설득력 있게 등장했는가"를 점수화하는 데 있다. 즉, 검색 시스템 설계자는 단순 키워드 개수보다 **희귀도, 포화, 길이 보정의 균형**을 먼저 이해해야 한다.
+결론적으로 BM25의 본질은 "희귀하고 중요한 단어가 적절한 길이의 문서에서 얼마나 설득력 있게 등장했는가"를 점수화하는 데 있다. 즉, 검색 시스템 설계자는 단순 키워드 개수보다 <strong>희귀도, 포화, 길이 보정의 균형</strong>을 먼저 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 추천은 말을 많이 한 사람보다, 꼭 필요한 단어를 알맞게 꺼낸 사람에게 점수를 더 주는 일이다. BM25는 그 균형 감각을 가진 심사위원이다.
 

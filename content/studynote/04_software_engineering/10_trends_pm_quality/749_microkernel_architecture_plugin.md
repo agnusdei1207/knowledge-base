@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 해결책은 간단하다. 브라우저 개발팀은 딱 '웹페이지를 화면에 그리는 기능(Core)'만 완벽하게 만든다. 그리고 "우리 브라우저에 기능을 추가하고 싶으면 이 규칙([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 맞춰서 코드를 짜와!"라고 선언한다. 그러면 전 세계의 개발자들이 광고 차단기, 번역기 등을 **플러그인(Plug-in)** 형태로 만들어 브라우저에 꽂는다. 
 
-이것이 구글 크롬(Chrome), 이클립스(Eclipse), 워드프레스(WordPress)를 세계 1위로 만든 힘이자, **[마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/) 아키텍처([Microkernel Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/))**의 위력이다.
+이것이 구글 크롬(Chrome), 이클립스(Eclipse), 워드프레스(WordPress)를 세계 1위로 만든 힘이자, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/">마이크로 커널</a> 아키텍처(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/431_architecture/">Microkernel Architecture</a>)</strong>의 위력이다.
 
 - **📢 섹션 요약 비유**: 스마트폰(코어) 자체는 전화와 인터넷만 되는 가벼운 기계다. 하지만 앱 스토어에서 게임, 은행, 카메라 앱(플러그인)을 다운받아 꽂는 순간 나만의 완벽한 맞춤형 도구로 변신한다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/) 아키텍처 플러그인 확장의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로 커널 아키텍처 플러그인 확장                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 커널 아키텍처 플러그인 확장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/) 아키텍처 플러그인 확장가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/) 아키텍처 | [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) |
 |:---|:---|:---|
-| **분할의 기준** | **기능의 확장성 (Core vs Extension)** | **비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (Order vs Pay)** |
+| **분할의 기준** | **기능의 확장성 (Core vs Extension)** | <strong>비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (Order vs Pay)</strong> |
 | **물리적 배포** | 보통 하나의 앱(프로세스) 안에서 메모리를 공유함 | 수십 개의 쪼개진 독립된 서버([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) |
 | **통신 방식** | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 내부 이벤트 (메모리 통신) | 네트워크 호출 ([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)) |
 | **적용 사례** | IDE, 브라우저, 백신 프로그램, 워드프레스 | 넷플릭스, 배달의민족, 대형 이커머스 |
@@ -95,7 +94,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-플러그인 아키텍처를 실무에 적용할 때 가장 무서운 적은 **"플러그인의 폭주로 인한 코어 사망"**이다.
+플러그인 아키텍처를 실무에 적용할 때 가장 무서운 적은 <strong>"플러그인의 폭주로 인한 코어 사망"</strong>이다.
 
 - **📢 섹션 요약 비유**: [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/) 아키텍처 플러그인 확장은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로 커널 아키텍처 플러그인 확장 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 커널 아키텍처 플러그인 확장 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -35,20 +35,22 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 | :--- | :--- | :--- |
 | **자동화 게이트 (Quality Gate)** | 정해진 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(테스트 커버리지 80% 이상, 치명적 취약점 0건) 충족 시 자동 통과 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), Trivy, [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 지표 |
 | **수동 승인 (Manual Approval)** | 릴리스 매니저, QA, PM 등이 환경을 점검하고 명시적으로 승인 버튼을 클릭 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), GitHub Actions |
-| **[스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 게이트 (Scheduling Window)** | 배포 가능 시간대(예: 금요일 저녁 배포 금지)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 위험 시간대 차단 | [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/), ServiceNow |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a> 게이트 (Scheduling Window)</strong> | 배포 가능 시간대(예: 금요일 저녁 배포 금지)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 위험 시간대 차단 | [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/), ServiceNow |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        CI/CD 파이프라인 내 Approval Gate의 동작 흐름         │
-├──────────────────────────────────────────────────────────────┤
-│ [개발 환경]         [Approval Gate 검증 구역]         [운영] │
-│ 코드 병합 ─▶ 빌드 ─▶ 1차: 정적 코드 분석 (자동) ─┐           │
-│                      2차: 보안 취약점 스캔 (자동) ├─▶ 배포   │
-│                      3차: PM 최종 승인 클릭(수동) ─┘           │
-│                                                              │
-│ * 조건 하나라도 미달 시 ─▶ 파이프라인 Block & 롤백(Reject)   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 파이프라인 내 Approval Gate의 동작 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발 환경</div><div class="kb-diagram-node">Approval Gate 검증 구역</div><div class="kb-diagram-node">운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 병합 ─▶ 빌드 ─▶ 1차: 정적 코드 분석 (자동) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2차: 보안 취약점 스캔 (자동) ─▶ 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3차: PM 최종 승인 클릭(수동) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조건 하나라도 미달 시 ─▶ 파이프라인 Block &amp; 롤백(Reject)</div></div>
+</div>
+</div>
+
+
 
 현대의 승인 게이트는 [챗옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)([ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/))와 강하게 결합된다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 게이트에 도달하면 슬랙(Slack) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전송하고, 권한자가 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 내 'Approve' 버튼을 누르면 즉시 CD로 이어지는 비동기 결재를 지원한다.
 
@@ -64,8 +66,8 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 | :--- | :--- | :--- |
 | **게이트 통과 방식** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 멈추고 **수동 승인(Manual Approval)** 대기 | 테스트 통과 시 **완전 자동(Fully Automated)** 배포 |
 | **가치 및 목표** | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제, 규제 준수, 예측 가능한 릴리스 | 극한의 민첩성, 최소 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) |
-| **주요 적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | 금융 코어 시스템, 의료 인프라, B2B 엔터프라이즈 | 넷플릭스, 메타 등 소비자 대상 빠른 기능 실험 조직 |
-| **장애 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 배포 '전' 사전 통제(Gate)에 리소스 집중 | 배포 '후' [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 및 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 엔진에 의존 |
+| <strong>주요 적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | 금융 코어 시스템, 의료 인프라, B2B 엔터프라이즈 | 넷플릭스, 메타 등 소비자 대상 빠른 기능 실험 조직 |
+| <strong>장애 방어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 배포 '전' 사전 통제(Gate)에 리소스 집중 | 배포 '후' [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 및 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 엔진에 의존 |
 
 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)가 무조건 우월한 것은 아니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 수준([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))과 비즈니스 특성에 맞춰 게이트의 강도(수동 vs 자동 비율)를 조절하는 융합적 접근이 필수적이다.
 
@@ -78,9 +80,9 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 승인 게이트는 통제력을 주지만 과용하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 목을 조르는 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 된다. 기술사는 '안전'이라는 명목하에 개발 속도를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 타파해야 한다.
 
 ### 실무 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 통제 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-driven Approval)**: 관리자의 '감'에 의존하는 수동 승인을 줄이고, [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)(코드 품질)나 보안 스캐너의 정량적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 통한 '자동화 게이트' 비중을 80% 이상으로 끌어올렸는가?
-2. **[ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 시스템 연동**: ServiceNow나 Jira [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Management와 CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 연동하여, 변경 요청(CR) 티켓이 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 승인 이력이 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남도록 거버넌스를 구축했는가?
-3. **위험도 기반 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)**: 단순 UI 오타 수정(Low [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 게이트를 프리패스하고, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경(High [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 엄격한 수동 게이트를 거치게 하는 위험도 분기 로직이 있는가?
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 통제 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>-driven Approval)</strong>: 관리자의 '감'에 의존하는 수동 승인을 줄이고, [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)(코드 품질)나 보안 스캐너의 정량적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 통한 '자동화 게이트' 비중을 80% 이상으로 끌어올렸는가?
+2. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/">ITSM</a> 시스템 연동</strong>: ServiceNow나 Jira [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Management와 CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 연동하여, 변경 요청(CR) 티켓이 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 승인 이력이 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남도록 거버넌스를 구축했는가?
+3. <strong>위험도 기반 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/">동적 라우팅</a></strong>: 단순 UI 오타 수정(Low [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 게이트를 프리패스하고, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경(High [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 엄격한 수동 게이트를 거치게 하는 위험도 분기 로직이 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수동 승인을 얻기 위해 개발자가 며칠씩 결재를 기다리게 되어 릴리스 배치가 커지고(빅뱅 배포), 오히려 배포 장애 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 폭증하는 '워터-[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)-폴([Water-Scrum-Fall](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))' 현상.
@@ -103,28 +105,30 @@ tags = ["cicd-gitops", "studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인** | 승인 게이트가 삽입되어 통제력을 행사하는 전체 자동화 생태계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 승인 게이트가 삽입되어 통제력을 행사하는 전체 자동화 생태계 |
 | **Quality Gate (품질 게이트)** | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 정적/동적 품질 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (자동 승인의 기준) |
-| **[ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/) ([챗옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/))** | 슬랙, 팀즈를 통해 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 빠르고 투명하게 배포 승인을 처리하는 기법 |
-| **[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) / [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)** | 엔터프라이즈 환경에서 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) 규제를 준수하기 위한 프로세스 기반 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/">ChatOps</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/">챗옵스</a>)</strong> | 슬랙, 팀즈를 통해 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 빠르고 투명하게 배포 승인을 처리하는 기법 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a> / <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/">ITSM</a></strong> | 엔터프라이즈 환경에서 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) 규제를 준수하기 위한 프로세스 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 스크립트 배포 및 구두 승인
-    │
-    ▼
-파이프라인 내 수동 승인 버튼 (Manual Approval)
-    │
-    ▼
-메트릭 기반 품질 자동 통제 (Quality Gate / SonarQube)
-    │
-    ▼
-ITSM 티켓 자동 연동 및 챗옵스 (ChatOps) 비동기 결재
-    │
-    ▼
-AI 기반 장애 예측 모델링 및 자동 롤백 결합 게이트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 스크립트 배포 및 구두 승인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 내 수동 승인 버튼 (Manual Approval)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메트릭 기반 품질 자동 통제 (Quality Gate / SonarQube)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ITSM 티켓 자동 연동 및 챗옵스 (ChatOps) 비동기 결재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 장애 예측 모델링 및 자동 롤백 결합 게이트</div>
+</div>
+</div>
+
+
 
 이 흐름도는 인간의 직관과 서류 작업에 의존하던 배포 승인이 자동화된 정량적 지표 통제로 진화하고, 궁극적으로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반의 지능형 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단으로 나아가는 과정을 보여준다.
 

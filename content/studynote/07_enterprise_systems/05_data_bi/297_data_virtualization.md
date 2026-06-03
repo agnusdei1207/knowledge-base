@@ -20,7 +20,7 @@ tags = ["studynote-enterprise"]
 
 빅데이터 환경에서 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한곳([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)/[Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))으로 모으는 것은 엄청난 리소스를 요구한다. 특히 실시간으로 변하는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))를 분석계로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 데는 시차가 발생할 수밖에 없다.
 
-[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오지 말고, 있는 곳에서 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하자"**는 접근 방식을 통해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천의 물리적 위치와 상관없이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 통합 뷰(Unified [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 제공한다.
+[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가져오지 말고, 있는 곳에서 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>하자"</strong>는 접근 방식을 통해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천의 물리적 위치와 상관없이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 통합 뷰(Unified [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 제공한다.
 
 - **📢 섹션 요약 비유**: 수많은 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내 컴퓨터로 다 다운로드([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))하는 대신, 스트리밍 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/))에 접속해 보고 싶은 영화를 즉시 감상하는 것과 같다.
 
@@ -30,18 +30,19 @@ tags = ["studynote-enterprise"]
 
 [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) 시스템은 사용자로부터 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 받아 이를 각 원천 시스템이 이해할 수 있는 언어로 번역하고, 결과를 취합하여 전달하는 미들웨어 역할을 수행한다.
 
-```text
-[사용자/BI 도구] (Standard SQL 쿼리 실행)
-           │
-           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 가상화 계층 (DV Layer)                │
-│ [추상화] [연방 쿼리 최적화] [캐싱] [데이터 보안 및 거버넌스]  │
-└──────────────────────────────────────────────────────────────┘
-      │               │               │               │
-      ▼               ▼               ▼               ▼
- [SQL DB]        [NoSQL DB]       [SaaS API]      [Flat Files]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/BI 도구</div><div class="kb-diagram-note">(Standard SQL 쿼리 실행)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 가상화 계층 (DV Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추상화</div><div class="kb-diagram-node">연방 쿼리 최적화</div><div class="kb-diagram-node">캐싱</div><div class="kb-diagram-node">데이터 보안 및 거버넌스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL DB</div><div class="kb-diagram-node">NoSQL DB</div><div class="kb-diagram-node">SaaS API</div><div class="kb-diagram-node">Flat Files</div></div>
+</div>
+</div>
+
+
 
 | 주요 메커니즘 | 설명 | 핵심 기술 |
 |:---|:---|:---|
@@ -65,7 +66,7 @@ tags = ["studynote-enterprise"]
 | 구현 속도 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 등으로 느림 | 가상 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)만으로 즉시 가능 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 고속 처리 가능 | 네트워크 및 원천 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 의존 |
 
-최근에는 대용량 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ETL로 처리하고, 최신 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)로 연결하는 **하이브리드 아키텍처**가 주를 이룬다.
+최근에는 대용량 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ETL로 처리하고, 최신 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)로 연결하는 <strong>하이브리드 아키텍처</strong>가 주를 이룬다.
 
 - **📢 섹션 요약 비유**: 자주 쓰는 생필품은 미리 장을 봐서 냉장고([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))에 넣어두고, 신선 식품이나 배달 음식은 필요할 때 즉시 주문([Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/))하는 것과 같다.
 
@@ -73,7 +74,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 **원천 시스템 부하**와 **응답 속도**를 가장 신중하게 판단해야 한다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층에서 복잡한 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))을 수행할 경우 원천 DB에 과도한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 부하를 줄 수 있기 때문이다.
+실무에서는 <strong>원천 시스템 부하</strong>와 <strong>응답 속도</strong>를 가장 신중하게 판단해야 한다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층에서 복잡한 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))을 수행할 경우 원천 DB에 과도한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 부하를 줄 수 있기 때문이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 원천 시스템의 실시간 상태를 분석 대시보드에 즉시 반영해야 하는가?
@@ -89,7 +90,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)에 **유연성(Agility)**과 **속도**를 부여한다. 비즈니스 요구사항이 바뀔 때마다 물리적 인프라를 새로 구축할 필요 없이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 모델링만으로 대응할 수 있기 때문이다.
+[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)에 <strong>유연성(Agility)</strong>과 <strong>속도</strong>를 부여한다. 비즈니스 요구사항이 바뀔 때마다 물리적 인프라를 새로 구축할 필요 없이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 모델링만으로 대응할 수 있기 때문이다.
 
 결론적으로, [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)는 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)을 실현하는 가장 핵심적인 기술이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 허물고 전사적 '단일 진실 공급원(SSOT)'을 구축하는 지름길이다.
 
@@ -107,21 +108,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-물리적 ETL 복사 - 지연·중복 스토리지 문제
-    │
-    ▼
-연합 쿼리 (Federated Query) 초기 방식
-    │
-    ▼
-데이터 가상화 레이어 - 논리적 단일 뷰 제공
-    │
-    ▼
-Denodo/Dremio - 실시간 쿼리 푸시다운 최적화
-    │
-    ▼
-Data Fabric 구성 요소로 편입·진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리적 ETL 복사 - 지연·중복 스토리지 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연합 쿼리 (Federated Query) 초기 방식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 가상화 레이어 - 논리적 단일 뷰 제공</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Denodo/Dremio - 실시간 쿼리 푸시다운 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Fabric 구성 요소로 편입·진화</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/), Logical [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/), [Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/), Denodo, Dremio, Query Pushdown
 

@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 사용자(비즈니스 부서)는 "주문 버튼이 잘 눌러지는지"만 관심이 있지, "디스크가 꽉 찼을 때 알람이 울리는지", "새벽 3시 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트가 정상적으로 도는지"는 테스트하지 않기 때문이다.
 
-이러한 사각지대를 메우기 위해 등장한 것이 **OAT ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/), 운영 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))**다. 이것은 코드가 아니라 '시스템의 운영 환경과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)'이 실전(Production)에 투입될 자격이 있는지 IT 인프라/운영팀이 도장을 찍어주는 마지막 관문이다.
+이러한 사각지대를 메우기 위해 등장한 것이 <strong>OAT (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, 운영 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a>)</strong>다. 이것은 코드가 아니라 '시스템의 운영 환경과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)'이 실전(Production)에 투입될 자격이 있는지 IT 인프라/운영팀이 도장을 찍어주는 마지막 관문이다.
 
 - **📢 섹션 요약 비유**: 자동차를 새로 샀을 때, 라디오가 잘 나오고 에어컨이 빵빵한지 확인하는 것은 UAT(사용자 검수)다. 반면, 타이어에 펑크가 났을 때 트렁크에 있는 스페어타이어가 썩지 않았는지, 비상 깜빡이가 제대로 켜지는지 확인하는 것이 바로 OAT(운영 검수)다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 OAT (운영 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  OAT (운영 인수 테스트) 백업 복                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAT (운영 인수 테스트) 백업 복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 OAT (운영 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,7 +77,7 @@ OAT는 흔히 UAT나 [성능](/knowledge-base/studynote/04_software_engineering/
 |:---|:---|:---|:---|
 | **질문** | "원하는 대로 동작하는가?" | "죽었을 때 살려낼 수 있는가?" | "1만 명이 와도 버티는가?" |
 | **장애 시뮬레이션** | 관심 없음 | **가장 핵심적인 과제** (고의로 장애 유발) | 서버가 뻗기 직전의 한계점 측정 |
-| **통과 여부** | 기능 명세서 일치 여부 | **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 달성 여부** | TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 기준 달성 |
+| **통과 여부** | 기능 명세서 일치 여부 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a>, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 달성 여부</strong> | TPS, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 기준 달성 |
 
 - **📢 섹션 요약 비유**: UAT가 맛집의 '음식 맛'을 평가하는 것이라면, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 '손님 100명이 와도 서빙이 안 밀리는지' 보는 것이고, OAT는 '주방에 불이 났을 때 스프링클러가 터지고 비상구로 손님이 대피 가능한지'를 점검하는 것이다.
 
@@ -129,21 +128,23 @@ OAT를 철저하게 수행하면 실운영 환경에서의 치명적 다운타�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-OAT (운영 인수 테스트) 백업 복구 검증 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OAT (운영 인수 테스트) 백업 복구 검증 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

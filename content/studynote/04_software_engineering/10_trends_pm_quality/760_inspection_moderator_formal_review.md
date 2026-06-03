@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 1976년, IBM의 마이클 페이건(Michael Fagan)은 "코드를 실행하기 전에, 차라리 사람 여러 명이 모여서 코드를 한 줄씩 낭독하며 눈으로 버그를 찾으면 어떨까?"라는 아이디어를 냈다. 
 
-그의 예상은 적중했다. 코드를 실행하기도 전에 설계서나 코드에 숨은 치명적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류를 70% 이상 찾아낼 수 있었다. 이렇게 탄생한 **'가장 깐깐하고 빡빡한 형태의 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 회의'**가 바로 **페이건 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Fagan Inspection)**이다.
+그의 예상은 적중했다. 코드를 실행하기도 전에 설계서나 코드에 숨은 치명적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류를 70% 이상 찾아낼 수 있었다. 이렇게 탄생한 <strong>'가장 깐깐하고 빡빡한 형태의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 회의'</strong>가 바로 <strong>페이건 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/">인스펙션</a>(Fagan Inspection)</strong>이다.
 
 - **📢 섹션 요약 비유**: 동적 테스트가 비행기를 일단 띄운 뒤에 "어디서 불이 나나?" 지켜보다 추락하는 것이라면, [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 비행기를 띄우기 전에 정비사 5명이 달라붙어 나사가 잘 조여졌는지 눈으로 샅샅이 검사하는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(Moderator) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인스펙션 중재자(Moderator)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스펙션 중재자(Moderator)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(Moderator) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,10 +76,10 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) (Walkthrough) | [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) |
 |:---|:---|:---|:---|
 | **공식성 (Formal)** | 가장 비공식적 (캐주얼함) | 비공식적 (Informal) | **가장 공식적 (Formal)** |
-| **회의 주도자** | 저자 자신 | **저자 (Author)** | **[중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) (Moderator)** |
+| **회의 주도자** | 저자 자신 | **저자 (Author)** | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/">중재자</a> (Moderator)</strong> |
 | **사전 준비** | 없음 | 보통 없음 | **필수 (사전에 코드 읽어와야 함)** |
-| **주요 목적** | 간단한 오타 수정 | 지식 공유, 대안 탐색 | **철저한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 도출 및 품질 통제** |
-| **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)** | 없음 | 없음 | **엄격한 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반 검사** |
+| **주요 목적** | 간단한 오타 수정 | 지식 공유, 대안 탐색 | <strong>철저한 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 도출 및 품질 통제</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong> | 없음 | 없음 | <strong>엄격한 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 기반 검사</strong> |
 
 최근 IT 회사에서 개발자들이 GitHub [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))을 올리고 코멘트를 다는 문화는 '[동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)'나 '[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)'에 가깝다. 진정한 의미의 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 비용이 너무 많이 들어서 항공우주, 의료, 금융권 코어 시스템에서만 쓰인다.
 
@@ -96,7 +95,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 실무에서 참담하게 실패하는 가장 흔한 이유는 **'코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 아니라 사람(Author)을 공격하기 때문'**이다.
+[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 실무에서 참담하게 실패하는 가장 흔한 이유는 <strong>'코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)가 아니라 사람(Author)을 공격하기 때문'</strong>이다.
 
 - **📢 섹션 요약 비유**: [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(Moderator) 주도 공식 검토은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -133,21 +132,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인스펙션 중재자(Moderator) 주도 공식 검토 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인스펙션 중재자(Moderator) 주도 공식 검토 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

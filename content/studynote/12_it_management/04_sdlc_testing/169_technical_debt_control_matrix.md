@@ -21,7 +21,7 @@ tags = ["studynote-it-management"]
 
 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 단기 일정이나 편의를 위해 택한 설계·코드·테스트·운영상의 타협이 미래의 추가 비용으로 되돌아오는 현상을 말한다. 문제는 대부분의 조직이 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)의 존재는 느끼면서도, 무엇이 위험한 부채이고 무엇이 전략적으로 허용 가능한 부채인지 구분하지 못한다는 점이다. 그 결과 긴급한 리팩터링이 늦어지고, 반대로 영향이 작은 부채를 과도하게 손보느라 기능 출시가 지연되기도 한다.
 
-[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 이런 혼란을 줄이기 위해 등장했다. 단순한 "부채 목록"이 아니라, **장애 가능성·변경 빈도·사업 임팩트·상환 비용**을 함께 보며 대응 방식을 정한다. 즉 같은 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))이라도 거의 바뀌지 않는 배치 스크립트의 냄새와, 매일 수정되는 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 냄새는 전혀 다르게 취급해야 한다는 관점을 구조화한 것이다.
+[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 이런 혼란을 줄이기 위해 등장했다. 단순한 "부채 목록"이 아니라, <strong>장애 가능성·변경 빈도·사업 임팩트·상환 비용</strong>을 함께 보며 대응 방식을 정한다. 즉 같은 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))이라도 거의 바뀌지 않는 배치 스크립트의 냄새와, 매일 수정되는 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 냄새는 전혀 다르게 취급해야 한다는 관점을 구조화한 것이다.
 
 - **📢 섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 집안 수리 목록에서 "전등 교체"와 "[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 누출"을 같은 칸에 두지 않고, 위험도와 시급함에 따라 먼저 처리할 일을 정하는 점검표와 같다.
 
@@ -29,30 +29,24 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-통제 매트릭스의 핵심은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 감정이 아니라 축(axis)으로 평가하는 데 있다. 실무에서는 보통 **사업 영향도**, **변경 빈도**, **실패 위험**, **상환 비용**을 함께 본다. 이렇게 하면 "보기 싫은 코드"와 "지금 안 고치면 사고 나는 코드"를 분리할 수 있다.
+통제 매트릭스의 핵심은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 감정이 아니라 축(axis)으로 평가하는 데 있다. 실무에서는 보통 **사업 영향도**, **변경 빈도**, **실패 위험**, <strong>상환 비용</strong>을 함께 본다. 이렇게 하면 "보기 싫은 코드"와 "지금 안 고치면 사고 나는 코드"를 분리할 수 있다.
 
 다음 그림은 부채를 발견해 대응 정책으로 연결하는 기본 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│       Technical Debt Control Matrix: 탐지 → 분류 → 우선순위 → 상환      │
-├──────────────────────────────────────────────────────────────────────────┤
-│  정적 분석 / 리뷰 / 장애 회고 / 보안 점검                               │
-│                     │                                                    │
-│                     ▼                                                    │
-│            부채 항목 등록 (Debt Register)                                │
-│                     │                                                    │
-│                     ▼                                                    │
-│   영향도 ─┬─ 변경 빈도 ─┬─ 실패 위험 ─┬─ 상환 비용 평가                  │
-│           │             │             │                                   │
-│           └─────────────┴─────────────┴──────────────┐                    │
-│                                                      ▼                    │
-│                          통제 매트릭스 분류                               │
-│           ┌──────────────┬──────────────┬──────────────┐                 │
-│           │ 즉시 상환     │ 계획 상환     │ 관찰 유지     │                 │
-│           └──────────────┴──────────────┴──────────────┘                 │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Technical Debt Control Matrix: 탐지 → 분류 → 우선순위 → 상환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 분석 / 리뷰 / 장애 회고 / 보안 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부채 항목 등록 (Debt Register)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향도 ─ ─ 변경 빈도 ─ ─ 실패 위험 ─ ─ 상환 비용 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제 매트릭스 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 상환</div><div class="kb-diagram-cell">계획 상환</div><div class="kb-diagram-cell">관찰 유지</div></div>
+</div>
+</div>
+
+
 
 대표적인 매트릭스 예시는 다음과 같이 정리할 수 있다.
 
@@ -78,7 +72,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리에서 자주 생기는 오해는 "부채는 무조건 나쁘다"는 인식이다. 그러나 마틴 파울러 (Martin Fowler)의 사분면처럼, 계획된 단기 우회는 전략이 될 수 있다. 중요한 것은 부채의 도덕적 평가가 아니라, **통제 가능성**이다.
+[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리에서 자주 생기는 오해는 "부채는 무조건 나쁘다"는 인식이다. 그러나 마틴 파울러 (Martin Fowler)의 사분면처럼, 계획된 단기 우회는 전략이 될 수 있다. 중요한 것은 부채의 도덕적 평가가 아니라, <strong>통제 가능성</strong>이다.
 
 | 관점 | 무계획 부채 관리 | 통제 매트릭스 기반 관리 |
 | :--- | :--- | :--- |
@@ -97,7 +91,7 @@ tags = ["studynote-it-management"]
 
 실무에서는 통제 매트릭스를 백로그와 연결해야 의미가 있다. 예를 들어 전자상거래 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 테스트 커버리지가 25%이고, 최근 3개월간 12번 수정됐으며, 장애 시 직접 매출 손실이 발생한다면 이는 "높은 영향 + 높은 변경 빈도" 영역이다. 이런 항목은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 안에서 별도 작업으로 빼거나, 기능 개발과 같은 릴리스 열차에 반드시 태워야 한다.
 
-반대로 월 1회만 실행되는 내부 보고서 배치의 중복 코드 문제는 거슬리더라도 즉시 상환 대상이 아닐 수 있다. 이 경우에는 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), SQALE ([Software Quality](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) Assessment based on Lifecycle Expectations), [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/), 장애 건수 같은 지표를 근거로 **관찰 유지** 또는 **계획 상환**으로 두는 편이 더 경제적이다.
+반대로 월 1회만 실행되는 내부 보고서 배치의 중복 코드 문제는 거슬리더라도 즉시 상환 대상이 아닐 수 있다. 이 경우에는 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), SQALE ([Software Quality](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) Assessment based on Lifecycle Expectations), [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/), 장애 건수 같은 지표를 근거로 **관찰 유지** 또는 <strong>계획 상환</strong>으로 두는 편이 더 경제적이다.
 
 기술사 관점의 체크리스트는 다음과 같다.
 
@@ -121,7 +115,7 @@ tags = ["studynote-it-management"]
 
 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스를 도입하면 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 더 이상 숨은 비용이 아니라 관리 가능한 투자 항목으로 바뀐다. 그 결과 리팩터링이 "개발자의 취향"이 아니라, 장애 예방·리드타임 단축·보안 위험 절감이라는 경영 언어로 설명된다. 또한 신규 기능 개발과 부채 상환을 같은 계획 체계 안에 넣을 수 있어, 일정과 품질의 충돌을 줄일 수 있다.
 
-물론 매트릭스만 만든다고 해결되지는 않는다. 지표가 형식화되면 현장이 숫자 맞추기로 흐를 수 있고, 부채 소유자가 불명확하면 항목만 쌓일 수 있다. 결국 중요한 것은 "보이는 부채"보다 "상환 의사결정이 가능한 부채"를 만드는 것이다. 따라서 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 문서가 아니라, **조직이 기술 품질을 경제성과 연결해 판단하는 운영 기준**으로 기억해야 한다.
+물론 매트릭스만 만든다고 해결되지는 않는다. 지표가 형식화되면 현장이 숫자 맞추기로 흐를 수 있고, 부채 소유자가 불명확하면 항목만 쌓일 수 있다. 결국 중요한 것은 "보이는 부채"보다 "상환 의사결정이 가능한 부채"를 만드는 것이다. 따라서 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 문서가 아니라, <strong>조직이 기술 품질을 경제성과 연결해 판단하는 운영 기준</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 통제 매트릭스는 낡은 지도 위에 위험 지역을 표시해 두는 표시판과 같다. 어디가 위험한지 알아야 우회할지, 바로 보수할지, 예산을 더 투입할지 결정할 수 있다.
 
@@ -139,19 +133,22 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기술 부채 인식
-      │
-      ▼
-부채 등록부 (Debt Register)
-      │
-      ▼
-통제 매트릭스 (영향도 · 변경 빈도 · 위험 · 비용)
-      │
-      ├─▶ 즉시 상환
-      ├─▶ 계획 상환
-      └─▶ 관찰 유지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기술 부채 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부채 등록부 (Debt Register)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통제 매트릭스 (영향도 · 변경 빈도 · 위험 · 비용)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 즉시 상환</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 계획 상환</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 관찰 유지</div>
+</div>
+</div>
+
+
 
 이 흐름은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 "막연한 품질 이슈"에서 "우선순위가 있는 관리 대상"으로 전환하는 운영 절차를 압축해 보여준다.
 

@@ -35,17 +35,20 @@ TDD의 기본 사이클은 Red → Green → Refactor다. Red는 실패하는 �
 | Green | 통과할 최소 코드 작성 | 동작하는 코드 |
 | [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | 구조 정리 | 유지 가능한 코드 |
 
-```text
-실패하는 테스트(Red)
-     │
-     ▼
-최소 구현(Green)
-     │
-     ▼
-리팩토링(Refactor)
-     │
-     └──── 다음 테스트로 반복
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실패하는 테스트(Red)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 구현(Green)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리팩토링(Refactor)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">다음 테스트로 반복</div>
+</div>
+</div>
+
+
 
 AAA (Arrange-Act-Assert) 구조를 사용하면 테스트 본문이 읽기 쉬워지고, fixture와 mock을 적절히 쓰면 테스트가 외부 상태에 덜 흔들린다. TDD는 테스트 작성 기술이 아니라, 설계를 작게 나누는 습관이다.
 
@@ -102,21 +105,23 @@ TDD는 회귀를 줄이고, 설계를 명확하게 하며, 변경에 대한 자�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항
-    │
-    ▼
-실패하는 테스트(Red)
-    │
-    ▼
-최소 구현(Green)
-    │
-    ▼
-리팩토링(Refactor)
-    │
-    ▼
-회귀 방지와 설계 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실패하는 테스트(Red)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 구현(Green)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리팩토링(Refactor)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회귀 방지와 설계 개선</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

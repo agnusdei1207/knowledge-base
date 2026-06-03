@@ -25,20 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 필요한지를 시간 축으로 보여준다. 핵심은 CPU가 기다리는 쪽이 아니라, 장치가 준비되면 CPU를 깨우는 쪽으로 제어권이 바뀐다는 점이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              폴링과 인터럽트의 차이: 누가 먼저 말을 거는가                │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ Polling                       │ Interrupt                                  │
-├───────────────────────────────┼────────────────────────────────────────────┤
-│ CPU: 준비됐나?                │ CPU: 다른 계산 수행 중                    │
-│ CPU: 아직인가?                │ CPU: 계속 계산                            │
-│ CPU: 아직인가?                │ 장치: 작업 완료, IRQ 발생                 │
-│ CPU: 아직인가?                │ CPU: 필요한 순간에만 처리 시작            │
-│                               │                                            │
-│ 결과: CPU 시간 낭비           │ 결과: CPU 시간을 사건 발생 시에만 사용    │
-└───────────────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링과 인터럽트의 차이: 누가 먼저 말을 거는가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Polling</div><div class="kb-diagram-cell">Interrupt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 준비됐나?</div><div class="kb-diagram-cell">CPU: 다른 계산 수행 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 아직인가?</div><div class="kb-diagram-cell">CPU: 계속 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 아직인가?</div><div class="kb-diagram-cell">장치: 작업 완료, IRQ 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 아직인가?</div><div class="kb-diagram-cell">CPU: 필요한 순간에만 처리 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: CPU 시간 낭비</div><div class="kb-diagram-cell">결과: CPU 시간을 사건 발생 시에만 사용</div></div>
+</div>
+</div>
+
+
 
 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 단순해서 유용한 경우도 있지만, 사건 발생 시점이 불규칙한 일반적인 시스템에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 훨씬 효율적이다. 그래서 현대 컴퓨터 아키텍처에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 응답성, 전력 효율을 동시에 지키는 기본 제어 방식으로 자리 잡았다.
 
@@ -60,33 +61,24 @@ tags = ["studynote-computer-architecture"]
 
 이 처리 흐름은 다음과 같이 요약할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   인터럽트 처리 파이프라인: 멈춤이 아니라 우회            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1. 장치/예외 발생                                                         │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 2. 컨트롤러가 IRQ (Interrupt Request) 정리                                 │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 3. CPU가 현재 명령 마무리                                                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 4. PC · 상태 정보 · 필요한 레지스터를 스택에 저장                          │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 5. 벡터 번호로 ISR 주소 조회                                               │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 6. ISR 실행 → 장치 확인, 승인 응답 (Acknowledge), 최소 처리                │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 7. 상태 복구 후 IRET (Interrupt Return)으로 원래 흐름 재개                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어온 "즉시 아무 데서나" 끊기는 것이 아니라, 보통 현재 명령어를 마무리할 수 있는 경계에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 수용 여부를 판단한다는 점이다. 그다음 문맥을 저장하지 않으면 ISR이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 덮어쓰면서 원래 프로그램의 계산이 망가진다. 결국 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 핵심 원리는 **우선 처리 + 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**의 결합이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 처리 파이프라인: 멈춤이 아니라 우회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 장치/예외 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨트롤러가 IRQ (Interrupt Request) 정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CPU가 현재 명령 마무리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. PC · 상태 정보 · 필요한 레지스터를 스택에 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 벡터 번호로 ISR 주소 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. ISR 실행 → 장치 확인, 승인 응답 (Acknowledge), 최소 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 상태 복구 후 IRET (Interrupt Return)으로 원래 흐름 재개</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어온 "즉시 아무 데서나" 끊기는 것이 아니라, 보통 현재 명령어를 마무리할 수 있는 경계에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 수용 여부를 판단한다는 점이다. 그다음 문맥을 저장하지 않으면 ISR이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 덮어쓰면서 원래 프로그램의 계산이 망가진다. 결국 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 핵심 원리는 <strong>우선 처리 + 원상 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>의 결합이다.
 
 또 하나의 핵심은 마스킹 가능 여부다. `NMI (Non-Maskable Interrupt)`처럼 전원 이상이나 치명적 하드웨어 오류를 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 막을 수 없고, 일반 I/O [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 일정 조건에서 잠시 마스킹할 수 있다. 이 구분 덕분에 시스템은 "정말 무조건 먼저 처리해야 하는 사건"과 "잠깐 기다릴 수 있는 사건"을 분리한다.
 
@@ -110,21 +102,21 @@ tags = ["studynote-computer-architecture"]
 
 이 구조는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와도 직접 연결된다. 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있어야 선점형 스케줄링이 가능하고, [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있어야 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 성립한다. 또 `DMA (Direct Memory Access)` 전송도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사는 컨트롤러가 대신하되, 완료 사실은 보통 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 CPU에 알린다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 CPU, I/O, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리가 만나는 접점이다.
 
-```text
-인터럽트의 연결 구조
 
-외부 장치 이벤트
-    │
-    ├─▶ 하드웨어 인터럽트 ─▶ I/O 응답
-    │
-CPU 내부 실행 이상
-    │
-    ├─▶ 내부 인터럽트/예외 ─▶ 오류 처리 · 페이지 부재 처리
-    │
-주기적 타이머 신호
-    │
-    └─▶ 타이머 인터럽트 ─▶ 스케줄러 호출 · 선점
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인터럽트의 연결 구조</div>
+<div class="kb-diagram-note">외부 장치 이벤트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 하드웨어 인터럽트 ─▶ I/O 응답</div>
+<div class="kb-diagram-note">CPU 내부 실행 이상</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 내부 인터럽트/예외 ─▶ 오류 처리 · 페이지 부재 처리</div>
+<div class="kb-diagram-note">주기적 타이머 신호</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 타이머 인터럽트 ─▶ 스케줄러 호출 · 선점</div>
+</div>
+</div>
+
+
 
 이 비교에서 얻어야 할 메시지는 명확하다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 반대말 정도가 아니라, "사건 중심 제어(Event-driven control)"를 컴퓨터 전체에 적용하는 공통 프레임이다.
 
@@ -134,32 +126,31 @@ CPU 내부 실행 이상
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 질문은 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쓸 것인가 말 것인가"보다 "어디까지를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 안에서 처리할 것인가"다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답 자체는 빨라야 하지만, ISR이 오래 붙잡고 있으면 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고 시스템 전체 지터 (Jitter)가 커진다. 그래서 고속 네트워크, 스토리지, 실시간 제어 시스템은 보통 **짧은 상반부 처리 후 후속 작업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** 전략을 쓴다.
+실무에서 중요한 질문은 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쓸 것인가 말 것인가"보다 "어디까지를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 안에서 처리할 것인가"다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답 자체는 빨라야 하지만, ISR이 오래 붙잡고 있으면 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고 시스템 전체 지터 (Jitter)가 커진다. 그래서 고속 네트워크, 스토리지, 실시간 제어 시스템은 보통 <strong>짧은 상반부 처리 후 후속 작업 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> 전략을 쓴다.
 
 예를 들어 100Gbps 네트워크 카드가 패킷마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키면 초당 수십만~수백만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생할 수 있다. 이때 CPU는 실제 애플리케이션 처리보다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입/복귀 오버헤드에 더 많은 시간을 쓰게 된다. 이를 `Interrupt Storm (인터럽트 폭주)`라고 하며, 이런 상황에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 병합 (Coalescing), 큐 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 심지어 일부 구간의 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 전환이 더 나은 선택이 된다.
 
 아래 판단 흐름은 실무에서 자주 쓰는 사고방식을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   인터럽트 설계 의사결정: 빠른 응답 vs 낮은 오버헤드       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 사건 빈도가 낮고 즉시성이 중요한가?                                        │
-│        │                                                                   │
-│   예   ▼                                                                   │
-│      인터럽트 우선                                                         │
-│        │                                                                   │
-│        ├─ ISR은 ACK, 상태 기록, 최소 복사까지만 수행                       │
-│        └─ 나머지는 하반부/스레드로 이관                                    │
-│                                                                            │
-│ 아니오 │                                                                   │
-│        ▼                                                                   │
-│ 사건 빈도가 매우 높다면                                                     │
-│        ├─ 인터럽트 병합 검토                                                │
-│        ├─ 큐별 코어 분산 검토                                               │
-│        └─ DMA 또는 하이브리드 폴링 검토                                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 설계 의사결정: 빠른 응답 vs 낮은 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사건 빈도가 낮고 즉시성이 중요한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ISR은 ACK, 상태 기록, 최소 복사까지만 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 나머지는 하반부/스레드로 이관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사건 빈도가 매우 높다면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인터럽트 병합 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 큐별 코어 분산 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DMA 또는 하이브리드 폴링 검토</div></div>
+</div>
+</div>
+
+
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -175,7 +166,7 @@ CPU 내부 실행 이상
 - 고속 장치에 레거시 공유 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 그대로 유지하는 설계
 - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 수가 많아졌는데도 코어 친화성([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))과 병합 설정을 전혀 조정하지 않는 운영
 
-기술사 답안 관점에서는 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 응답성을 주지만, 남용하면 오히려 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 갉아먹는다"는 균형 인식이 중요하다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 만능이 아니라, **짧고 급한 일에 강한 메커니즘**으로 기억해야 한다.
+기술사 답안 관점에서는 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 응답성을 주지만, 남용하면 오히려 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 갉아먹는다"는 균형 인식이 중요하다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 만능이 아니라, <strong>짧고 급한 일에 강한 메커니즘</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 매장 호출벨과 같다. 손님이 아주 가끔 부를 때는 직원이 바로 뛰어가면 되지만, 모든 손님이 1초마다 벨을 누르면 직원은 주문 처리보다 벨 끄는 데 더 바빠진다. 그래서 정말 급한 호출만 즉시 받고, 나머지는 묶어서 처리하는 운영 지혜가 필요하다.
 
@@ -185,9 +176,9 @@ CPU 내부 실행 이상
 
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 잘 설계되면 CPU 이용률이 높아지고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 선점형 스케줄링과 예외 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 안정적으로 수행하며, 장치 응답은 불필요한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리된다. 특히 모바일과 서버 환경 모두에서 이벤트가 없을 때 CPU를 유휴 상태로 둘 수 있어 전력 효율도 좋아진다. 다시 말해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 기법이면서 동시에 시스템 질서를 만드는 통제 장치다.
 
-하지만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 많다고 항상 좋은 것은 아니다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입과 복귀에는 고정 오버헤드가 있고, 우선순위 설계가 잘못되면 더 중요한 작업이 밀리거나 역으로 낮은 우선순위 사건이 굶주릴 수 있다. 따라서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 기대효과는 **적절한 빈도, 짧은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/), 올바른 우선순위, DMA와의 역할 분담**이 갖춰질 때 비로소 현실이 된다.
+하지만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 많다고 항상 좋은 것은 아니다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입과 복귀에는 고정 오버헤드가 있고, 우선순위 설계가 잘못되면 더 중요한 작업이 밀리거나 역으로 낮은 우선순위 사건이 굶주릴 수 있다. 따라서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 기대효과는 <strong>적절한 빈도, 짧은 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>, 올바른 우선순위, DMA와의 역할 분담</strong>이 갖춰질 때 비로소 현실이 된다.
 
-미래 방향은 명확하다. 레거시 핀 기반 IRQ보다 `MSI (Message Signaled Interrupts)`와 `MSI-X (Message Signaled Interrupts eXtended)` 같은 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 늘고, 멀티코어 환경에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 코어별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하며, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 하이퍼바이저를 거치는 오버헤드를 줄이는 방향으로 발전한다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 "CPU를 자꾸 깨우는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"가 아니라, **시스템 전체가 중요한 사건을 질서 있게 처리하게 만드는 스케줄링 언어**로 기억하는 편이 정확하다.
+미래 방향은 명확하다. 레거시 핀 기반 IRQ보다 `MSI (Message Signaled Interrupts)`와 `MSI-X (Message Signaled Interrupts eXtended)` 같은 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 늘고, 멀티코어 환경에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 코어별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하며, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 하이퍼바이저를 거치는 오버헤드를 줄이는 방향으로 발전한다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 "CPU를 자꾸 깨우는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"가 아니라, <strong>시스템 전체가 중요한 사건을 질서 있게 처리하게 만드는 스케줄링 언어</strong>로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 체계는 회사의 긴급 연락 규칙과 같다. 진짜 비상 연락만 바로 전화하고, 덜 급한 일은 메신저나 회의로 넘겨야 조직 전체가 빠르면서도 소란스럽지 않게 움직인다.
 
@@ -207,25 +198,23 @@ CPU 내부 실행 이상
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폴링 (Polling) 기반 상태 확인
-    │
-    ▼
-인터럽트 (Interrupt) 기반 사건 통지
-    │
-    ├─▶ 인터럽트 벡터 (Interrupt Vector)
-    │        │
-    │        ▼
-    │    ISR (Interrupt Service Routine)
-    │
-    ├─▶ 인터럽트 구동 I/O (Interrupt-driven I/O)
-    │        │
-    │        ▼
-    │    DMA (Direct Memory Access)와 역할 분담
-    │
-    ▼
-APIC · MSI (Message Signaled Interrupts) · MSI-X 기반 멀티코어/고속 I/O 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폴링 (Polling) 기반 상태 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 (Interrupt) 기반 사건 통지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 인터럽트 벡터 (Interrupt Vector)</div>
+<div class="kb-diagram-note">ISR (Interrupt Service Routine)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 인터럽트 구동 I/O (Interrupt-driven I/O)</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access)와 역할 분담</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">APIC · MSI (Message Signaled Interrupts) · MSI-X 기반 멀티코어/고속 I/O 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 사건 통지 → 정확한 분기 → 실제 처리 → 고속 시스템 최적화"로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 개념이 확장되는 과정을 보여준다.
 

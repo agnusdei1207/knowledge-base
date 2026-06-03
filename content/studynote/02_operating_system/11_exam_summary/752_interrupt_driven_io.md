@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 입출력 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)은 CPU가 장치의 상태를 계속 묻지 않고([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 생략), 다른 프로세스를 실행하고 있다가 **I/O 장치가 작업을 마쳤을 때 하드웨어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 보내 CPU를 깨우는 비동기식 이벤트 처리 메커니즘**이다.
+> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 입출력 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven I/O)은 CPU가 장치의 상태를 계속 묻지 않고([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 생략), 다른 프로세스를 실행하고 있다가 <strong>I/O 장치가 작업을 마쳤을 때 하드웨어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)를 보내 CPU를 깨우는 비동기식 이벤트 처리 메커니즘</strong>이다.
 > 2. **가치**: CPU의 [바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)) 낭비를 완벽히 제거하여, I/O 대기 시간 동안 다른 프로그램이 CPU를 쓸 수 있게 함으로써 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 필수인 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))'을 비로소 가능하게 한 핵심 아키텍처다.
 > 3. **융합**: 하드웨어의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청선(IRQ)과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/)(Vector), 그리고 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/))의 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 삼위일체가 되어 작동하며, 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 효율적으로 나르기 위해 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))와 융합되었다.
 
@@ -29,35 +29,33 @@ tags = ["studynote-operating-system"]
   - 프린터가 종이 1장을 찍는 수십 초 동안 억대 가격의 슈퍼컴퓨터 CPU가 아무 계산도 못 하고 멈춰 있는 것은 극단적인 경제적 낭비였다.
   - **해결책**: "CPU는 딴일 해라. 장치가 다 되면 '벨(Bell)'을 눌러서 CPU를 부르게 만들자!"
 
-  - **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)**: 식당에서 진동벨이 없어서, 손님이 주문한 음식이 나왔는지 주방 앞 카운터에 계속 서서 쳐다보며 기다리는 상황 (스마트폰도 못 보고 시간 낭비).
-  - **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 I/O**: 식당에서 주문 후 **진동벨**을 받아 자리로 돌아와서 신나게 스마트폰 게임(다른 연산)을 하다가, "징~" 하고 진동([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))이 울리는 순간에만 잠깐 일어나서 음식을 가져오는 스마트한 방식.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a></strong>: 식당에서 진동벨이 없어서, 손님이 주문한 음식이 나왔는지 주방 앞 카운터에 계속 서서 쳐다보며 기다리는 상황 (스마트폰도 못 보고 시간 낭비).
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 구동 I/O</strong>: 식당에서 주문 후 <strong>진동벨</strong>을 받아 자리로 돌아와서 신나게 스마트폰 게임(다른 연산)을 하다가, "징~" 하고 진동([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))이 울리는 순간에만 잠깐 일어나서 음식을 가져오는 스마트한 방식.
 
 - **등장 배경**: 
   - CPU와 I/O 기기 간의 속도 격차(수십만 배 이상)가 심각해진 메인프레임 시절 등장했다. 이후 키보드, 마우스, 디스크 등 불규칙하고 느린 장치들의 제어 표준으로 정착했다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 인터럽트 구동 I/O의 비동기적(Asynchronous) 흐름도      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │   [CPU (프로세스 및 커널)]                    [I/O 장치 (키보드, 디스크)]│
-  │                                                             │
-  │  1. App A가 디스크 읽기 요청 (I/O)                                │
-  │  2. 커널: 장치에 "디스크 읽어와" 명령  ───▶  (장치가 물리적 헤드 이동 시작) │
-  │  3. 커널: App A를 대기(Block) 큐로 보냄                          │
-  │  4. 커널: App B를 실행시킴! (CPU 낭비 없음) ────────────────┐      │
-  │                                        │      │
-  │  5. [App B가 신나게 연산 중...] ▓▓▓▓▓▓▓     │      │
-  │                                        │      │
-  │                                        │ (5ms 후 데이터 준비 완료!)│
-  │  6. ⚡ 인터럽트 (IRQ) 탕! 맞음 ◀═══════════│══════ ⚡ 신호 발생      │
-  │                                        │      │
-  │  7. CPU가 App B 일시 정지 (문맥 저장)        │      │
-  │  8. 커널 ISR 실행: 장치 버퍼에서 데이터 수거 ◀──│────── 데이터 건네줌      │
-  │  9. 커널: App A를 준비(Ready) 큐로 깨움     │      │
-  │ 10. 다시 App B의 멈췄던 지점으로 복귀하여 마저 실행 ┘      │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 구동 I/O의 비동기적(Asynchronous) 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU (프로세스 및 커널)</div><div class="kb-diagram-node">I/O 장치 (키보드, 디스크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. App A가 디스크 읽기 요청 (I/O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 커널: 장치에 "디스크 읽어와" 명령 ▶ (장치가 물리적 헤드 이동 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널: App A를 대기(Block) 큐로 보냄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 커널: App B를 실행시킴! (CPU 낭비 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">App B가 신나게 연산 중...</div><div class="kb-diagram-note">▓▓▓▓▓▓▓ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5ms 후 데이터 준비 완료!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. ⚡ 인터럽트 (IRQ) 탕! 맞음 ◀</div><div class="kb-diagram-cell">⚡ 신호 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. CPU가 App B 일시 정지 (문맥 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. 커널 ISR 실행: 장치 버퍼에서 데이터 수거 ◀──</div><div class="kb-diagram-cell">데이터 건네줌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. 커널: App A를 준비(Ready) 큐로 깨움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10. 다시 App B의 멈췄던 지점으로 복귀하여 마저 실행</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 CPU 시간의 "중첩(Overlap)"이다. 전통적인 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이었다면 3번~6번 사이의 5ms 시간 동안 CPU는 까만 빈 공간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))으로 낭비되었을 것이다. 하지만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구조에서는 그 빈틈을 뚫고 App B라는 전혀 다른 애플리케이션이 끼어들어 맹렬하게 연산(`▓▓▓▓▓▓▓`)을 수행한다. 디스크가 자신의 물리적 한계를 극복하느라 낑낑대는 동안 CPU는 시스템 전체의 생산성을 올리고, 오직 장치가 일을 끝마친 찰나의 순간([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))에만 개입하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수거한다. 이것이 비동기 이벤트 기반 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 근간이다.
 
@@ -73,45 +71,39 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 기술적 예시 |
 |:---|:---|:---|:---|
-| **IRQ 라인 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Request)** | 장치가 CPU를 찌르는 전기적 통로 | 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 준비하면 메인보드의 특정 핀에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 올림 | 마우스(IRQ 12), 키보드(IRQ 1) |
-| **PIC / APIC ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러)** | 수많은 장치의 IRQ를 모아 CPU에 전달 | 여러 장치가 동시에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 걸면 우선순위(Priority)를 매겨 하나씩 CPU로 넘겨줌 | Intel 8259A PIC, Local APIC |
-| **[인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블 (IVT/IDT)** | 에러 번호에 맞는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 주소록 | CPU가 IRQ 번호(예: 14번)를 받으면, 메모리의 IDT 표에서 14번 칸을 찾아가 실행할 함수의 주소(포인터)를 꺼냄 | x86 [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Descriptor Table |
-| **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/))** | 찔린 CPU가 실제로 수행하는 심부름꾼 함수 | 디바이스 드라이버 안에 정의되어 있으며, 버퍼에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼오거나 플래그를 세팅함 | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 키보드 핸들러 |
+| <strong>IRQ 라인 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Request)</strong> | 장치가 CPU를 찌르는 전기적 통로 | 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 준비하면 메인보드의 특정 핀에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 올림 | 마우스(IRQ 12), 키보드(IRQ 1) |
+| <strong>PIC / APIC (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 컨트롤러)</strong> | 수많은 장치의 IRQ를 모아 CPU에 전달 | 여러 장치가 동시에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 걸면 우선순위(Priority)를 매겨 하나씩 CPU로 넘겨줌 | Intel 8259A PIC, Local APIC |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> 테이블 (IVT/IDT)</strong> | 에러 번호에 맞는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 주소록 | CPU가 IRQ 번호(예: 14번)를 받으면, 메모리의 IDT 표에서 14번 칸을 찾아가 실행할 함수의 주소(포인터)를 꺼냄 | x86 [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Descriptor Table |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/">Interrupt Service Routine</a>)</strong> | 찔린 CPU가 실제로 수행하는 심부름꾼 함수 | 디바이스 드라이버 안에 정의되어 있으며, 버퍼에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼오거나 플래그를 세팅함 | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 키보드 핸들러 |
 
 ### [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시 CPU 내부 파이프라인 (The [Interrupt Cycle](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/212_interrupt_cycle/))
 
 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄을 실행할 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 왔는지 뒤돌아보는 메커니즘이 CPU 내부에 하드와이어링되어 있다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 CPU의 명령어 사이클과 인터럽트 감지 메커니즘             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [CPU 명령어 실행 사이클 루프]                                         │
-  │                                                                   │
-  │  ┌──▶ 1. 인출 (Fetch Instruction) ─────────────────┐                │
-  │  │                                                 │                │
-  │  │    2. 해독 (Decode)                             │                │
-  │  │                                                 │                │
-  │  │    3. 실행 (Execute)                            │                │
-  │  │                                                 ▼                │
-  │  │    4. [★ 인터럽트 확인 (Check Interrupt) ★] ◀── [IRQ 핀에 전기가 왔는가?]│
-  │  │       - 현재 명령어 실행이 끝난 딱 이 시점에 하드웨어 핀 검사             │
-  │  │                                                                │
-  │  │       ├─ 아니오 (No) ──▶ (다음 명령어로 루프 반복) ────┐             │
-  │  │       │                                          │             │
-  │  └───────┘                                          │             │
-  │          └─ 예 (Yes, 인터럽트 발생!)                     │             │
-  │                 │                                   │             │
-  │                 ▼ (커널 모드로 진입)                    │             │
-  │          [인터럽트 처리 페이즈 진입]                      │             │
-  │          a. 현재 Program Counter (PC)와 상태 레지스터(PSW) 스택에 백업 │
-  │          b. 인터럽트 벡터 번호를 읽어 IDT에서 ISR 시작 주소 획득         │
-  │          c. PC를 ISR 주소로 덮어씌움 (ISR 실행 시작!)                 │
-  │          d. ISR 종료 후 `iret` (인터럽트 복귀) 명령어 실행             │
-  │          e. 스택에서 원래 PC 복구하여 중단됐던 프로그램으로 ◀───┘             │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU의 명령어 사이클과 인터럽트 감지 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 명령어 실행 사이클 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 1. 인출 (Fetch Instruction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 해독 (Decode)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실행 (Execute)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 4.</div><div class="kb-diagram-node">★ 인터럽트 확인 (Check Interrupt) ★</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">IRQ 핀에 전기가 왔는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 명령어 실행이 끝난 딱 이 시점에 하드웨어 핀 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (No) ──▶ (다음 명령어로 루프 반복)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 (Yes, 인터럽트 발생!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (커널 모드로 진입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 처리 페이즈 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a. 현재 Program Counter (PC)와 상태 레지스터(PSW) 스택에 백업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b. 인터럽트 벡터 번호를 읽어 IDT에서 ISR 시작 주소 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c. PC를 ISR 주소로 덮어씌움 (ISR 실행 시작!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d. ISR 종료 후 <code>iret</code> (인터럽트 복귀) 명령어 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">e. 스택에서 원래 PC 복구하여 중단됐던 프로그램으로 ◀</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** CPU는 멍청하게 앞만 보고 달리지 않는다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 하나를 끝마칠 때마다, 극도로 짧은 1클럭 찰나에 "누가 나 불렀나?" 하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀(IRQ)을 뒤돌아보는 습관이 설계되어 있다. 불렀다면, 자신이 지금 하던 작업의 '책갈피(PC와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태)'를 스택이라는 메모리에 끼워두고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심부름([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))을 다녀온다. 심부름이 끝나면 끼워둔 책갈피를 꺼내 정확히 그곳부터 다시 책을 읽어 나간다. 이 과정을 사용자 프로그램(App B)은 전혀 눈치채지 못한다. 자신이 잠시 기절했다 일어난 줄도 모르게 OS가 환상을 완벽히 유지해 주는 것이다.
 
@@ -127,14 +119,14 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 | 발전 단계 | 제어 방식 | 문제점 및 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) |
 |:---|:---|:---|
-| **1단계: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) (PIO)** | CPU가 계속 장치 쳐다봄 | CPU 100% 낭비, [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 불가능 |
-| **2단계: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 장치가 준비되면 CPU를 찌름 | CPU 낭비는 없앴으나, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체는 여전히 CPU가 1바이트씩 나름**. 고속 네트워크(1Gbps)에서는 초당 수십만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸려 CPU가 기절함 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm). |
-| **3단계: [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))**| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어가 개입 | CPU는 전송 명령만 내림. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DMA가 나르고, **수십 MB가 다 옮겨진 마지막에 딱 1번만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)**를 걺. 궁극의 해결책. |
+| <strong>1단계: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (PIO)</strong> | CPU가 계속 장치 쳐다봄 | CPU 100% 낭비, [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 불가능 |
+| <strong>2단계: <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 구동 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | 장치가 준비되면 CPU를 찌름 | CPU 낭비는 없앴으나, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자체는 여전히 CPU가 1바이트씩 나름</strong>. 고속 네트워크(1Gbps)에서는 초당 수십만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸려 CPU가 기절함 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm). |
+| <strong>3단계: <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>)</strong>| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어가 개입 | CPU는 전송 명령만 내림. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DMA가 나르고, <strong>수십 MB가 다 옮겨진 마지막에 딱 1번만 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a></strong>를 걺. 궁극의 해결책. |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (Top / Bottom Half)**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))가 너무 느리면 시스템이 버벅거린다. 그래서 현대 리눅스는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 두 조각 냈다. 장치에서 당장 훔쳐 와야 하는 긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수거만 **상반부(Top Half)**에서 1 밀리초 만에 처리하고, 복잡한 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파싱이나 에러 처리는 **하반부(Bottom Half, Tasklet, SoftIRQ)**로 미뤄서 나중에 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 한가할 때 백그라운드로 처리한다.
-- **[보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) ([커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))**: [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 가장 권한이 높고 위험한 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'에서 돈다. 여기서는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸다 데드락이 나거나, `sleep()` 함수를 호출하면 돌려줄 문맥이 없어 그대로 시스템 전체가 블루스크린([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 뿜으며 죽는다. 드라이버 개발의 최고 난이도 영역이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (Top / Bottom Half)</strong>: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))가 너무 느리면 시스템이 버벅거린다. 그래서 현대 리눅스는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 두 조각 냈다. 장치에서 당장 훔쳐 와야 하는 긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수거만 <strong>상반부(Top Half)</strong>에서 1 밀리초 만에 처리하고, 복잡한 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파싱이나 에러 처리는 <strong>하반부(Bottom Half, Tasklet, SoftIRQ)</strong>로 미뤄서 나중에 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 한가할 때 백그라운드로 처리한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/">보안 아키텍처</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a>)</strong>: [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 가장 권한이 높고 위험한 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'에서 돈다. 여기서는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸다 데드락이 나거나, `sleep()` 함수를 호출하면 돌려줄 문맥이 없어 그대로 시스템 전체가 블루스크린([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 뿜으며 죽는다. 드라이버 개발의 최고 난이도 영역이다.
 
 - **📢 섹션 요약 비유**: 택배가 왔다고 초인종([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))이 울리는 건 좋지만, 모래알 10만 개를 배달시키면서 모래알 1개 배달할 때마다 초인종을 10만 번 누르면 주인이 미쳐버립니다([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm). 그래서 트럭([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))을 가져와 모래를 다 붓고 마지막에 한 번만 초인종을 누르도록 진화한 것입니다.
 
@@ -144,43 +136,39 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 ### 실무 시나리오 및 아키텍처 최적화
 
-1. **시나리오 — 고성능 DB 서버의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 코어 편중([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 현상**: 64코어 최신 서버에 10Gbps 광랜을 꽂고 트래픽을 받았는데 코어 전체 사용률은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%밖에 안 되는데 0번 코어(Core 0) 혼자 100%를 치면서 패킷이 다 버려지는 장애가 발생했다.
+1. <strong>시나리오 — 고성능 DB 서버의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 코어 편중(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 현상</strong>: 64코어 최신 서버에 10Gbps 광랜을 꽂고 트래픽을 받았는데 코어 전체 사용률은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%밖에 안 되는데 0번 코어(Core 0) 혼자 100%를 치면서 패킷이 다 버려지는 장애가 발생했다.
    - **원인 분석**: 기본적으로 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(IRQ) 컨트롤러는 귀찮아서 모든 네트워크 장치의 찌르기([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 CPU 0번(첫 번째 코어)에게만 몰아주도록 설계되어 있는 경우가 많다. 이로 인해 단일 코어가 과로사하는 것이다.
-   - **아키텍트 판단 ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))**: 리눅스의 `irqbalance` 데몬을 켜거나 수동으로 `/proc/irq/{번호}/smp_affinity` 마스크 값을 조작하여, 엄청나게 쏟아지는 랜카드의 다중 큐(Multi-Queue) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 64개의 코어에 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin)으로 골고루 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키도록 하드웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 튜닝해야 서버의 진짜 성능을 끌어낼 수 있다.
+   - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> IRQ <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)</strong>: 리눅스의 `irqbalance` 데몬을 켜거나 수동으로 `/proc/irq/{번호}/smp_affinity` 마스크 값을 조작하여, 엄청나게 쏟아지는 랜카드의 다중 큐(Multi-Queue) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 64개의 코어에 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin)으로 골고루 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키도록 하드웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 튜닝해야 서버의 진짜 성능을 끌어낼 수 있다.
 
-2. **시나리오 — 오디오/비디오 실시간 렌더링에서의 Jitter [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**: 실시간 방송 송출 서버에서 오디오 프레임이 가끔 1~2 밀리초씩 끊기며 틱틱거리는 소리(Jitter)가 난다.
+2. <strong>시나리오 — 오디오/비디오 실시간 렌더링에서의 Jitter <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>: 실시간 방송 송출 서버에서 오디오 프레임이 가끔 1~2 밀리초씩 끊기며 틱틱거리는 소리(Jitter)가 난다.
    - **원인 분석**: 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 등 무거운 장치 드라이버가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 건 후, 자기 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 로직을 처리하는 동안 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 들어오지 못하게 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 마스킹([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Masking, Disable)'으로 시스템을 장시간 막아버렸다. 이 틈에 급하게 처리되어야 할 오디오 사운드 카드의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 무시당한 것이다.
    - **아키텍트 판단 (우선순위 기반 선점 허용)**: 시스템에 [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) 패치([PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/))를 적용하고, [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)를 별도의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Threaded IRQ)로 분리해 내야 한다. 이렇게 하면 오디오 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(우선순위 높음)가 디스크 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(우선순위 낮음)의 처리 과정을 뚫고 선점(Preempt)하여 먼저 실행될 수 있어 튀는 소리를 완벽히 잡아낸다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 인터럽트 충돌 (Interrupt Storm & Masking) 방어 트리         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 대량의 I/O 처리가 필요한 아키텍처를 설계한다 ]                         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      장치가 너무 빨라 초당 수십만 번의 인터럽트를 유발하는가? (예: 100G NIC) │
-  │          ├─ 예 ─────▶ [ NAPI (Interrupt Coalescing) 도입 ]         │
-  │          │             인터럽트를 끄고 묶음(Batch) 폴링 모드로 전환        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      다중 코어(SMP) 환경에서 특정 코어의 SoftIRQ가 100%를 치는가?        │
-  │          ├─ 예 ─────▶ [ IRQ Affinity (RFS/RPS) 튜닝 ]              │
-  │          │             NIC의 수신 큐 인터럽트를 여러 코어로 강제 분산      │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [ 안정적인 인터럽트 구동 환경 확보 ]                                 │
-  │      ※ 주의: 모든 장치는 반드시 DMA와 결합하여 데이터 복사를 CPU에서 오프로드! │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 충돌 (Interrupt Storm &amp; Masking) 방어 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대량의 I/O 처리가 필요한 아키텍처를 설계한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치가 너무 빨라 초당 수십만 번의 인터럽트를 유발하는가? (예: 100G NIC)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAPI (Interrupt Coalescing) 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트를 끄고 묶음(Batch) 폴링 모드로 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 코어(SMP) 환경에서 특정 코어의 SoftIRQ가 100%를 치는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IRQ Affinity (RFS/RPS) 튜닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC의 수신 큐 인터럽트를 여러 코어로 강제 분산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">안정적인 인터럽트 구동 환경 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 주의: 모든 장치는 반드시 DMA와 결합하여 데이터 복사를 CPU에서 오프로드!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 트리는 초고성능 인프라 엔지니어들이 겪는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주 대처법이다. 가벼울 땐 최고의 파트너였던 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가, 트래픽이 극한으로 치달으면 CPU를 마비시키는 '독'으로 변한다. 이를 막기 위해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 결합(Coalescing: 10개 패킷이 올 때까지 기다렸다가 1번만 찌르기)이나 IRQ 친화성 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치를 무조건 수행해야 하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체는 무조건 DMA로 빼돌려 CPU의 간섭을 마이크로초 단위로 줄이는 것이 모던 I/O 최적화의 알파와 오메가다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 내부에 무거운 로직 코딩**: 하드웨어를 다루는 C언어 드라이버 코드의 `irq_handler()` 함수 안에 거대한 `for` 문을 돌리거나, `printf` 로그를 남기거나, 디스크에 파일을 쓰려고 덤비는 행위. ISR이 실행되는 동안에는 CPU가 다른 급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받지 못해 시스템이 일시 정지(Stall)된다. ISR은 "장치 버퍼의 값만 쓱 빼서 메모리에 두고, 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 꽂고 0.1 밀리초 만에 즉시 탈출"해야 한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> 내부에 무거운 로직 코딩</strong>: 하드웨어를 다루는 C언어 드라이버 코드의 `irq_handler()` 함수 안에 거대한 `for` 문을 돌리거나, `printf` 로그를 남기거나, 디스크에 파일을 쓰려고 덤비는 행위. ISR이 실행되는 동안에는 CPU가 다른 급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받지 못해 시스템이 일시 정지(Stall)된다. ISR은 "장치 버퍼의 값만 쓱 빼서 메모리에 두고, 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 꽂고 0.1 밀리초 만에 즉시 탈출"해야 한다.
 
 - **📢 섹션 요약 비유**: 택배([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))가 왔을 때 현관문 앞([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))에서 박스를 까서 조립하고 설명서까지 다 읽는 게 아니라, 일단 물건만 집안으로 쓱 던져놓고 문을 바로 닫은 뒤, 나중에 한가할 때 소파에 앉아서 느긋하게 언박싱(하반부 처리)을 하는 것이 훌륭한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 설계입니다.
 
@@ -193,16 +181,16 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 | 구분 | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) (Programmed I/O) 방식 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) + [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 융합 아키텍처 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (CPU 활용률)** | I/O 대기 시 CPU 90% 이상 낭비 | I/O 중 CPU 유휴 시간 1% 미만 | [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)) 완벽 구현, 시스템 스루풋 극대화 |
-| **정량 ([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))** | 빈 루프 실행으로 전력 낭비 극심 | 대기 중 깊은 수면(Sleep) 가능 | 모바일 기기 및 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서의 배터리 혁명적 증가 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>)</strong> | 빈 루프 실행으로 전력 낭비 극심 | 대기 중 깊은 수면(Sleep) 가능 | 모바일 기기 및 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서의 배터리 혁명적 증가 |
 | **정성 (비동기 프로그래밍)**| 동기적, 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) I/O 강제 | 비동기(Asynchronous) [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 가능 | Node.js, Nginx 등 현대 이벤트 기반 프레임워크의 탄생 토대 마련 |
 
 ### 미래 전망
-- **[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))**: 물리적인 핀(Pin)에 전기를 쏘는 고전적인 IRQ 방식은 장치가 수백 개로 늘어나는 현대 서버에서 핀 부족(Pin Conflict) 문제를 낳았다. 최근 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스에서는 핀을 없애고, 장치가 메모리의 특정 주소에 "나 끝났어"라는 메시지 패킷(Message)을 쏘면 CPU가 이를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 인식하는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 체계로 완전히 세대교체되었다. 이를 통해 수천 개의 독립된 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 큐를 각 코어에 유연하게 매핑할 수 있게 되었다.
-- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 우회**: 리눅스의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 비용조차 무거워지면서, 유저 스페이스 프로그램이 직접 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 하드웨어를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/))하거나, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택의 맨 밑바닥에서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/))가 패킷 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 가로채 즉각 드롭/포워딩해 버리는 초지연 우회 기술이 클라우드 보안/[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 새로운 표준이 되고 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">Message Signaled Interrupts</a>)</strong>: 물리적인 핀(Pin)에 전기를 쏘는 고전적인 IRQ 방식은 장치가 수백 개로 늘어나는 현대 서버에서 핀 부족(Pin Conflict) 문제를 낳았다. 최근 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스에서는 핀을 없애고, 장치가 메모리의 특정 주소에 "나 끝났어"라는 메시지 패킷(Message)을 쏘면 CPU가 이를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 인식하는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 체계로 완전히 세대교체되었다. 이를 통해 수천 개의 독립된 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 큐를 각 코어에 유연하게 매핑할 수 있게 되었다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 우회</strong>: 리눅스의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 비용조차 무거워지면서, 유저 스페이스 프로그램이 직접 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 하드웨어를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/))하거나, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택의 맨 밑바닥에서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/))가 패킷 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 가로채 즉각 드롭/포워딩해 버리는 초지연 우회 기술이 클라우드 보안/[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 새로운 표준이 되고 있다.
 
 ### 참고 표준
-- **APIC (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller)**: x86 아키텍처에서 멀티코어 간의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 로드 밸런싱을 담당하는 인텔의 하드웨어 스펙.
-- **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)/[MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X**: 하드웨어 핀 대신 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트랜잭션으로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키는 PCI-SIG의 표준 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 규격.
+- <strong>APIC (Advanced Programmable <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Controller)</strong>: x86 아키텍처에서 멀티코어 간의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 로드 밸런싱을 담당하는 인텔의 하드웨어 스펙.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X</strong>: 하드웨어 핀 대신 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트랜잭션으로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키는 PCI-SIG의 표준 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 규격.
 
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 입출력은 "컴퓨터가 여러 가지 일을 동시에 하는 것처럼 보이게 만드는" 가장 위대한 마술 장치다. 세상의 속도(사용자의 클릭, 네트워크 패킷의 도착)와 CPU의 어마어마한 연산 속도 사이의 아득한 간극을 훌륭하게 메워주었다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 없었다면 우리의 컴퓨터는 마우스가 움직일 때까지 화면의 시계를 멈춰야만 했을 것이다. 
 
@@ -221,15 +209,19 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SMP 캐시 일관성 폴스 셰어링]
-    │
-    ▼
-[인터럽트 구동 입출력 (Interrupt Driven I/O)]
-    │
-    ├──▶ [우선순위 역전 (Priority Inversion) 방지]
-    └──▶ [문맥 교환 비용 (레지스터 저장 복원)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMP 캐시 일관성 폴스 셰어링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 구동 입출력 (Interrupt Driven I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 역전 (Priority Inversion) 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">문맥 교환 비용 (레지스터 저장 복원)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

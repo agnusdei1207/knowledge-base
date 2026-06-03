@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **NETCONF의 진입 장벽**: 완벽한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Commit/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))을 보장하지만, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널을 뚫고 무거운 XML 트리 구조를 파싱해야 해서 웹 앱(모바일 대시보드 등)에서 가볍게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 조종하기엔 너무 무겁고 코딩하기 빡셌습니다.
-- **RESTCONF의 탄생**: IETF는 876번에서 만들어둔 뼈대(**YANG 모델**)는 그대로 재활용하되, 배달 오토바이(NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))만 전 세계 웹 표준인 **[RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반)**로 싹 바꿔 치기 한 가벼운 버전의 통신 규약을 발표했습니다.
+- **RESTCONF의 탄생**: IETF는 876번에서 만들어둔 뼈대(**YANG 모델**)는 그대로 재활용하되, 배달 오토바이(NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))만 전 세계 웹 표준인 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 기반)</strong>로 싹 바꿔 치기 한 가벼운 버전의 통신 규약을 발표했습니다.
 
-```text
-[YANG (Yet Another Next G…]
-    │
-    ▼
-[RESTCONF 프로토콜]
-    │
-    └──▶ [오픈컨피그]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈컨피그</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,22 +50,26 @@ tags = ["studynote-network"]
 - **장점**: 이제 통신 장비 매뉴얼을 배울 필요 없이, 평범한 파이썬이나 자바스크립트 개발자가 `fetch()` 함수 한 줄만 날리면 시스코 코어 라우터의 IP가 1초 만에 바뀝니다.
 
 ### 2. 가벼운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 지원) 🌟
-- NETCONF는 오직 답답하고 꺾쇠가 많은 무거운 **XML**만 지원했습니다.
-- RESTCONF는 XML은 물론이고, 현대 웹 개발의 영혼인 **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation)** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식을 완벽하게 지원합니다. 브라우저에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태를 JSON으로 받아 0.1초 만에 모니터링 대시보드 그래프로 예쁘게 그려낼 수 있습니다.
+- NETCONF는 오직 답답하고 꺾쇠가 많은 무거운 <strong>XML</strong>만 지원했습니다.
+- RESTCONF는 XML은 물론이고, 현대 웹 개발의 영혼인 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> (JavaScript Object Notation)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식을 완벽하게 지원합니다. 브라우저에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태를 JSON으로 받아 0.1초 만에 모니터링 대시보드 그래프로 예쁘게 그려낼 수 있습니다.
 
 ### 3. URL 기반의 직관적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트리 접근
 - YANG 모델이 잡아둔 계층 구조를, 그냥 인터넷 주소(URL)처럼 접근합니다.
 - 예: `GET https://스위치IP/restconf/data/interfaces/interface=eth1` 
 - 주소창에 저렇게만 치고 엔터를 누르면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 1번 랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값이 JSON으로 주르륵 쏟아져 나옵니다. 미치도록 직관적입니다.
 
-```text
-[YANG (Yet Another Next G…]
-    │
-    ▼
-[RESTCONF 프로토콜]
-    │
-    └──▶ [오픈컨피그]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈컨피그</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,7 +79,7 @@ tags = ["studynote-network"]
 
 RESTCONF가 다 좋은데 왜 아직도 핵심 코어망에서는 NETCONF를 쓸까요?
 
-- **치명적 단점 ([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 부재)**: RESTCONF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 가벼운 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태) 통신이라, NETCONF의 최고 존엄 기능인 **[Candidate 예비 저장소 ➜ 완벽할 때 한 번에 Commit ➜ 에러 시 [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)]** 이라는 거대한 국가망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 동시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 덮어쓰기([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 기능이 없습니다. 
+- <strong>치명적 단점 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 부재)</strong>: RESTCONF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반의 가벼운 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태) 통신이라, NETCONF의 최고 존엄 기능인 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Candidate 예비 저장소 ➜ 완벽할 때 한 번에 Commit ➜ 에러 시 [Rollback</a>]</strong> 이라는 거대한 국가망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 동시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 덮어쓰기([원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 기능이 없습니다. 
 - 한 줄 치면 한 줄이 바로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 바로 꽂히기 때문에(실시간 덮어쓰기), 1,000대를 튜닝하다가 500대째에서 인터넷이 끊기면 망 전체가 짝짝이가 되는 대재앙([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 불가)이 터질 위험이 있습니다.
 
 RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. YANG (Yet Another Next G…가 기반 조건을 만든다면, RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 그 위에서 핵심 메커니즘을 구현하고, [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -88,8 +96,8 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **컨트롤러 ➜ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 (사우스바운드)**: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 생사 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 목숨같이 중요한 밑바닥 기계 조작에는 여전히 무겁고 단단한 **NETCONF**를 주로 씁니다.
-- **앱 ➜ 컨트롤러 (노스바운드)**: 외부의 웹 개발자나 사내 모바일 앱이 컨트롤러에게 명령을 던질 때는, 조작이 편한 **RESTCONF([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))**를 뚫어주어 웹과 통신망의 융합 생태계를 완성합니다.
+- <strong>컨트롤러 ➜ <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 기계 (사우스바운드)</strong>: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 생사 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 목숨같이 중요한 밑바닥 기계 조작에는 여전히 무겁고 단단한 <strong>NETCONF</strong>를 주로 씁니다.
+- **앱 ➜ 컨트롤러 (노스바운드)**: 외부의 웹 개발자나 사내 모바일 앱이 컨트롤러에게 명령을 던질 때는, 조작이 편한 <strong>RESTCONF(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a>)</strong>를 뚫어주어 웹과 통신망의 융합 생태계를 완성합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -97,7 +105,7 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **NETCONF**가 변호사와 회계사(통신 엔지니어)들이 서류를 챙겨 팩스와 인감도장([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)/XML/Commit)으로 깐깐하게 계약서를 작성하는 '무겁지만 절대 실수 없는 정통 계약 방식'이라면, **RESTCONF**는 배달의 민족 앱(웹 프로그래밍)으로 햄버거를 시키는 '초간편 터치 주문 방식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))'입니다. 햄버거를 시킬 때 메뉴 장바구니(YANG 모델) 규격은 똑같이 지키지만, 복잡한 인감도장 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차 없이 그냥 스마트폰에서 결제 버튼(POST/GET)만 틱 누르면 주방([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 명령이 즉시 전달됩니다. 주문이 너무 쉬워져서 전 세계 웹 개발자 누구나 통신망을 장난감처럼 다룰 수 있게 해준 혁명적인 인터페이스 간소화 모델입니다.
+- **📢 섹션 요약 비유**: <strong>NETCONF</strong>가 변호사와 회계사(통신 엔지니어)들이 서류를 챙겨 팩스와 인감도장([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)/XML/Commit)으로 깐깐하게 계약서를 작성하는 '무겁지만 절대 실수 없는 정통 계약 방식'이라면, <strong>RESTCONF</strong>는 배달의 민족 앱(웹 프로그래밍)으로 햄버거를 시키는 '초간편 터치 주문 방식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))'입니다. 햄버거를 시킬 때 메뉴 장바구니(YANG 모델) 규격은 똑같이 지키지만, 복잡한 인감도장 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차 없이 그냥 스마트폰에서 결제 버튼(POST/GET)만 틱 누르면 주방([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 명령이 즉시 전달됩니다. 주문이 너무 쉬워져서 전 세계 웹 개발자 누구나 통신망을 장난감처럼 다룰 수 있게 해준 혁명적인 인터페이스 간소화 모델입니다.
 
 ---
 
@@ -120,15 +128,19 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: YANG (Yet Another Next G…]
-    │
-    ▼
-[현재 개념: RESTCONF 프로토콜]
-    │
-    ├──▶ [확장 A: 오픈컨피그]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: YANG (Yet Another Next G…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RESTCONF 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오픈컨피그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 YANG (Yet Another Next G…에서 출발해 현재 메커니즘을 정교화하고, 이후 [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

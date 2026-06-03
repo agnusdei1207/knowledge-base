@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 1+1=2 처럼 답이 정해져 있고 순서가 1 ➜ 2 ➜ 3 으로 명확한 프로그램은 그냥 함수를 순서대로 호출하면 끝입니다([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) and Return 패턴).
-- **문제의 상황**: 음성 인식, 영상 속 범인 얼굴 찾기, 자율주행차의 장애물 인식 같은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 문제들은 **어느 한 놈이 순서대로 푼다고 풀리는 게 아니라, 다양한 지식을 가진 전문가들이 엎치락뒤치락하며 퍼즐을 맞춰야 간신히 답(비결정론적 해답)이 나오는 난장판**입니다.
+- **문제의 상황**: 음성 인식, 영상 속 범인 얼굴 찾기, 자율주행차의 장애물 인식 같은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 문제들은 <strong>어느 한 놈이 순서대로 푼다고 풀리는 게 아니라, 다양한 지식을 가진 전문가들이 엎치락뒤치락하며 퍼즐을 맞춰야 간신히 답(비결정론적 해답)이 나오는 난장판</strong>입니다.
 
 - **📢 섹션 요약 비유**: 블랙보드 패턴 (Blackboard Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 블랙보드 패턴 (Blackboard 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  블랙보드 패턴 (Blackboard                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙보드 패턴 (Blackboard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 블랙보드 패턴 (Blackboard 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 중앙에 거대한 공용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(칠판)를 두고, 각기 다른 특화된 지식을 가진 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(전문가들)이 이 **칠판의 상태를 실시간으로 지켜보다가 자기가 나설 타이밍이 되면 칠판에 뛰어들어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신하며 협력하여 궁극적인 해답을 도출해 내는 아키텍처 패턴**입니다.
+- **개념**: 중앙에 거대한 공용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(칠판)를 두고, 각기 다른 특화된 지식을 가진 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(전문가들)이 이 <strong>칠판의 상태를 실시간으로 지켜보다가 자기가 나설 타이밍이 되면 칠판에 뛰어들어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 갱신하며 협력하여 궁극적인 해답을 도출해 내는 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 블랙보드 패턴 (Blackboard Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -82,10 +81,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **도입**: 음성 인식(Siri), 컴퓨터 비전(얼굴 인식), 암호 해독 등 **"딱 떨어지는 수학 공식이 없는, [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)(경험적) 탐색이 필요한 복잡한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 시스템"**의 뼈대로 1순위 채택됩니다.
-- **단점 ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지옥)**: 칠판(메모리) 하나에 수십 명의 전문가 스레드가 동시에 덤벼들어 읽고 쓰기를 반복하므로, 195번에서 배운 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))를 제어하지 못하면 칠판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모순으로 더럽혀져 시스템이 멈춥니다. 또한 반장의 스케줄링 로직을 짜는 난이도가 극악입니다.
+- **도입**: 음성 인식(Siri), 컴퓨터 비전(얼굴 인식), 암호 해독 등 <strong>"딱 떨어지는 수학 공식이 없는, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(경험적) 탐색이 필요한 복잡한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 추론 시스템"</strong>의 뼈대로 1순위 채택됩니다.
+- <strong>단점 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 지옥)</strong>: 칠판(메모리) 하나에 수십 명의 전문가 스레드가 동시에 덤벼들어 읽고 쓰기를 반복하므로, 195번에서 배운 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))를 제어하지 못하면 칠판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모순으로 더럽혀져 시스템이 멈춥니다. 또한 반장의 스케줄링 로직을 짜는 난이도가 극악입니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **순차적 프로그램([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) & Return)**은 공장 노동자들이 일렬로 서서 앞사람이 조립을 끝내야만 뒷사람이 넘겨받아 작업하는 **'답답한 컨베이어 벨트'**입니다. 조립 매뉴얼이 완벽할 땐 빠르지만, 매뉴얼이 없는 신제품([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 문제)이 오면 공장이 멈춥니다. **블랙보드 패턴(Blackboard Pattern)**은 전 세계 최고의 천재 과학자 10명을 거실에 모아놓고, 가운데에 **'거대한 백지 칠판'** 하나만 덜렁 놓아둔 **'미친 브레인스토밍 회의'**입니다. 칠판에 "암을 치료해라"라는 숙제가 던져집니다. 과학자 10명은 서로 대화하지 않고 칠판만 노려봅니다. 생물학자가 "유전자를 건드려보지"라고 칠판에 적습니다. 그걸 본 화학자가 영감을 얻어 "그럼 이 약물을 써볼까"라고 덧붙입니다. 컴퓨터 공학자가 "그 약물 시뮬레이션 돌려보니 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%임"이라고 지워버립니다. 서로가 가진 특화된 지식([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 조각들을 칠판(중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 하나에 계속 쏟아내고 조합하고 지우다 보면, 어느새 그 누구도 혼자서는 풀지 못했을 완벽한 암 치료제(최종 해답)가 칠판 한가운데에 기적처럼 완성되는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 협력 설계도입니다.
+> 📢 **섹션 요약 비유**: 기존의 <strong>순차적 프로그램(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> &amp; Return)</strong>은 공장 노동자들이 일렬로 서서 앞사람이 조립을 끝내야만 뒷사람이 넘겨받아 작업하는 <strong>'답답한 컨베이어 벨트'</strong>입니다. 조립 매뉴얼이 완벽할 땐 빠르지만, 매뉴얼이 없는 신제품([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 문제)이 오면 공장이 멈춥니다. <strong>블랙보드 패턴(Blackboard Pattern)</strong>은 전 세계 최고의 천재 과학자 10명을 거실에 모아놓고, 가운데에 **'거대한 백지 칠판'** 하나만 덜렁 놓아둔 <strong>'미친 브레인스토밍 회의'</strong>입니다. 칠판에 "암을 치료해라"라는 숙제가 던져집니다. 과학자 10명은 서로 대화하지 않고 칠판만 노려봅니다. 생물학자가 "유전자를 건드려보지"라고 칠판에 적습니다. 그걸 본 화학자가 영감을 얻어 "그럼 이 약물을 써볼까"라고 덧붙입니다. 컴퓨터 공학자가 "그 약물 시뮬레이션 돌려보니 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%임"이라고 지워버립니다. 서로가 가진 특화된 지식([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 조각들을 칠판(중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 하나에 계속 쏟아내고 조합하고 지우다 보면, 어느새 그 누구도 혼자서는 풀지 못했을 완벽한 암 치료제(최종 해답)가 칠판 한가운데에 기적처럼 완성되는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 협력 설계도입니다.
 
 - **📢 섹션 요약 비유**: 블랙보드 패턴 (Blackboard Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -126,21 +125,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-블랙보드 패턴 (Blackboard Pattern) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블랙보드 패턴 (Blackboard Pattern) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

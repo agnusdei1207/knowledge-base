@@ -10,29 +10,31 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))은 **3차원 물리 공간을 컴퓨팅 인터페이스로 사용**하는 패러다임으로, 눈·손·음성으로 공간 속 디지털 콘텐츠와 상호작용하며, Apple Vision Pro(2024)가 대표 디바이스이다.
-> 2. **가치**: 2D 화면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·스마트폰)은 **크기 제약·[멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 한계**가 있지만, [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 **무한한 가상 디스플레이·3D 콘텐츠 배치**로 작업 공간을 혁신한다.
-> 3. **판단 포인트**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) = XR(VR+AR+MR) + **환경 인식([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))** + **자연 입력(눈·손·음성)** + **공간 앵커(물리 공간에 디지털 콘텐츠 고정)**이며, visionOS가 개발 플랫폼이다.
+> 1. **본질**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))은 <strong>3차원 물리 공간을 컴퓨팅 인터페이스로 사용</strong>하는 패러다임으로, 눈·손·음성으로 공간 속 디지털 콘텐츠와 상호작용하며, Apple Vision Pro(2024)가 대표 디바이스이다.
+> 2. **가치**: 2D 화면([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·스마트폰)은 <strong>크기 제약·<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a> 한계</strong>가 있지만, [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>무한한 가상 디스플레이·3D 콘텐츠 배치</strong>로 작업 공간을 혁신한다.
+> 3. **판단 포인트**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) = XR(VR+AR+MR) + <strong>환경 인식(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a>)</strong> + **자연 입력(눈·손·음성)** + <strong>공간 앵커(물리 공간에 디지털 콘텐츠 고정)</strong>이며, visionOS가 개발 플랫폼이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    공간 컴퓨팅 구성                                   │
-├───────────────────────────────────────────────────────┤
-│  [입력] 눈 추적 · 손 제스처 · 음성                   │
-│  [환경] LiDAR · 카메라 → 3D 공간 인식               │
-│  [디스플레이] Micro-OLED · 패스스루 MR               │
-│  [콘텐츠] 가상 윈도우 · 3D 객체 · 몰입 환경         │
-│  [앵커] 가상 객체를 물리 공간에 고정                  │
-│                                                       │
-│  플랫폼: visionOS (SwiftUI + RealityKit)              │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 **"공기 중에 화면이 떠 있는" 컴퓨터**이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 컴퓨팅 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">눈 추적 · 손 제스처 · 음성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">환경</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">3D 공간 인식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스플레이</div><div class="kb-diagram-note">Micro-OLED · 패스스루 MR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠</div><div class="kb-diagram-note">가상 윈도우 · 3D 객체 · 몰입 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앵커</div><div class="kb-diagram-note">가상 객체를 물리 공간에 고정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼: visionOS (SwiftUI + RealityKit)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"공기 중에 화면이 떠 있는" 컴퓨터</strong>이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
 
 ---
 
@@ -73,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 **"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동**시키는 차세대 인터페이스이며, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)→모바일 전환에 이은 3번째 패러다임 시프트이다.
+[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동</strong>시키는 차세대 인터페이스이며, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)→모바일 전환에 이은 3번째 패러다임 시프트이다.
 
 ---
 
@@ -81,34 +83,36 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)** | 3D 공간 기반 컴퓨팅 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">공간 컴퓨팅</a></strong> | 3D 공간 기반 컴퓨팅 |
 | **visionOS** | Apple [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/) OS |
 | **패스스루** | 카메라로 현실 투과 |
 | **공간 앵커** | 가상 객체를 물리에 고정 |
-| **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)** | 3D 공간 인식 센서 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a></strong> | 3D 공간 인식 센서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[VR 헤드셋 (Oculus Rift, 2012~)]
-    │
-    ▼
-[AR 글래스 (Google Glass, 2013)]
-    │
-    ▼
-[MR (HoloLens, 2016~)]
-    │
-    ▼
-[공간 컴퓨팅 (Apple Vision Pro, 2024~)]
-    │
-    ▼
-[현재: AR 안경 경량화 — 일상 착용 공간 컴퓨팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VR 헤드셋 (Oculus Rift, 2012~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AR 글래스 (Google Glass, 2013)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MR (HoloLens, 2016~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 컴퓨팅 (Apple Vision Pro, 2024~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AR 안경 경량화 — 일상 착용 공간 컴퓨팅</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 **공기 중에 화면이 떠 있는** 컴퓨터예요.
-2. **눈으로 보고, 손으로 만지고, 말로 명령**해요. 키보드가 필요 없어요!
-3. 방 안 어디에나 **가상 화면**을 놓을 수 있어서 무한히 넓은 책상이 생겨요!
+2. <strong>눈으로 보고, 손으로 만지고, 말로 명령</strong>해요. 키보드가 필요 없어요!
+3. 방 안 어디에나 <strong>가상 화면</strong>을 놓을 수 있어서 무한히 넓은 책상이 생겨요!
 
 ---
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 대량의 트래픽을 쏟아붓는(Volumetric) 전통적인 DDoS와 달리, **아주 적은 수의 패킷만으로 웹 서버(Apache 등)와의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 연결([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 수십 분~수 시간 동안 의도적으로 끊지 않고 질질 끌어서, 서버의 연결 가능 슬롯(Connection Pool)을 모두 고갈시키는 응용 계층(L7) 타겟형 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격**입니다.
+- **개념**: 대량의 트래픽을 쏟아붓는(Volumetric) 전통적인 DDoS와 달리, <strong>아주 적은 수의 패킷만으로 웹 서버(Apache 등)와의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)을 수십 분~수 시간 동안 의도적으로 끊지 않고 질질 끌어서, 서버의 연결 가능 슬롯(Connection Pool)을 모두 고갈시키는 응용 계층(L7) 타겟형 <a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a> 공격</strong>입니다.
 - 동작이 너무 느릿느릿해서 공격 탐지기([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 잘 걸리지 않아, 느림보 원숭이인 '슬로우로리스'라는 이름이 붙었습니다.
 
-```text
-[SLOW GET / SLOW POST 공격]
-    │
-    ▼
-[트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    └──▶ [랜섬웨어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">랜섬웨어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,24 +44,28 @@ tags = ["studynote-network"]
 웹 브라우저가 서버에 HTML 페이지를 달라고 조르는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 요청의 허점을 파고듭니다.
 
 ### 1. 정상적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET 요청
-- 클라이언트는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 끝에 **"내 편지는 여기까지야!"라는 의미로 빈 줄 하나(개행 문자: `\r\n\r\n`)를 반드시 찍어서 보냅니다.**
+- 클라이언트는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 끝에 <strong>"내 편지는 여기까지야!"라는 의미로 빈 줄 하나(개행 문자: <code>\r\n\r\n</code>)를 반드시 찍어서 보냅니다.</strong>
 - 서버는 이 빈 줄(`\r\n\r\n`)을 받아야 비로소 "아, 주문이 끝났구나. 이제 결과물을 보내줘야지" 하고 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 닫고 다음 손님을 받습니다.
 
 ### 2. 해커의 꼼수 (끝나지 않는 주문)
 1. 해커는 타겟 서버에 접속해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET` 요청을 시작합니다.
 2. 그런데 고의로 마지막의 빈 줄(`\r\n\r\n`)을 빼고, 그냥 `\r\n`만 보내거나 의미 없는 헤더 쪼가리를 **10초에 한 개씩 찔끔찔끔 보냅니다.**
-3. 서버는 "어? 아직 편지가 다 안 끝났네? 내가 기다려야지" 하고 **해커와의 연결을 끊지 못하고 메모리([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))에 계속 물고 대기합니다.** (서버 자원 낭비)
+3. 서버는 "어? 아직 편지가 다 안 끝났네? 내가 기다려야지" 하고 <strong>해커와의 연결을 끊지 못하고 메모리(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)에 계속 물고 대기합니다.</strong> (서버 자원 낭비)
 4. 해커가 이런 '말 더듬는 좀비' 1,000마리를 만들어 서버에 붙여놓으면, 서버는 1,000명의 말을 끝까지 다 들어주기 위해 모든 연결 슬롯([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 다 소진해 버립니다.
 5. 결국 정상적인 고객이 접속하려 해도, 서버는 "지금 1,000명 주문받고 있어서 꽉 찼으니 기다리세요!"라며 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 거부([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))하게 됩니다.
 
-```text
-[SLOW GET / SLOW POST 공격]
-    │
-    ▼
-[트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    └──▶ [랜섬웨어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">랜섬웨어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 슬로우로리스는 유독 과거의 **Apache 웹 서버**에 치명적이었습니다. 
+- 슬로우로리스는 유독 과거의 <strong>Apache 웹 서버</strong>에 치명적이었습니다. 
 - 아파치는 클라이언트 1명이 접속할 때마다 무거운 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 1개를 통째로 할당하는 구조(Prefork 방식)였기 때문에, 해커 몇 백 명만 달라붙어도 금방 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 말라죽었습니다.
 - 반면 최신 Nginx나 Node.js처럼 '이벤트 기반(Event-driven)' 방식의 비동기 서버들은 수만 명이 동시에 말을 더듬어도 CPU를 낭비하지 않고 가볍게 무시할 수 있어 이 공격에 내성이 강합니다.
 
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 강제 단축**: 방화벽이나 웹 서버 설정에서, "10초 안에 `\r\n\r\n`(끝맺음)이 안 오면 무조건 연결을 강제로 끊어버리고 쫓아내라!"라고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 제한 시간을 팍 줄입니다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>) 강제 단축</strong>: 방화벽이나 웹 서버 설정에서, "10초 안에 `\r\n\r\n`(끝맺음)이 안 오면 무조건 연결을 강제로 끊어버리고 쫓아내라!"라고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 제한 시간을 팍 줄입니다.
 2. **동시 접속 제한**: 하나의 동일한 IP 주소에서 동시에 50개 이상의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 물고 있으면 비정상으로 간주하고 해당 IP를 차단(Limit)합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SLOW GET / SLOW POST 공격]
-    │
-    ▼
-[현재 개념: 트래픽 혼잡공격 유도 및 캡챠 적용]
-    │
-    ├──▶ [확장 A: 랜섬웨어]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SLOW GET / SLOW POST 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 랜섬웨어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 트래픽 혼잡공격 유도 및 캡챠 적용는 SLOW GET / SLOW POST 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

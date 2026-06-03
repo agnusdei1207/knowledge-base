@@ -32,27 +32,21 @@ tags = ["it_management"]
 
 강화학습의 뼈대는 수학적으로 [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), [Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))으로 정의된다. 에이전트는 특정 상태($S$)에서 행동($A$)을 선택하고, 환경은 그 대가로 다음 상태($S'$)와 보상($R$)을 돌려준다. 이때 당장 눈앞의 보상만 좇지 않도록 미래 보상을 할인해서 더하는 할인 인자($\gamma$)가 핵심 역할을 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               강화학습의 핵심 루프 (에이전트-환경 상호작용)              │
-├──────────────────────────────────────────────────────────────┤
-│               [행동 (Action, a_t)]                           │
-│           ┌─────────────────────────┐                        │
-│           │                         ▼                        │
-│     ┌────────────┐            ┌───────────┐                  │
-│     │            │            │           │                  │
-│     │  에이전트    │            │   환경    │                  │
-│     │  (Agent)   │            │(Environment)                 │
-│     │            │            │           │                  │
-│     └────────────┘            └───────────┘                  │
-│           ▲                         │                        │
-│           │   [상태 (State, s_t)]     │                        │
-│           └─────────────────────────┤                        │
-│               [보상 (Reward, r_t)]    │                        │
-│                                     ▼                        │
-│  => 이 루프를 수만 번 반복하며 Q(s, a) 값 또는 정책(π)을 업데이트  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화학습의 핵심 루프 (에이전트-환경 상호작용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행동 (Action, a_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트</div><div class="kb-diagram-cell">환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Agent)</div><div class="kb-diagram-cell">(Environment)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 (State, s_t)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보상 (Reward, r_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 이 루프를 수만 번 반복하며 Q(s, a) 값 또는 정책(π)을 업데이트</div></div>
+</div>
+</div>
+
+
 
 상태가 작을 때는 모든 상태와 행동의 조합마다 점수판(Q-Table)을 만들어 기록하는 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 방식을 쓴다. 하지만 아타리(Atari) 게임처럼 화면 픽셀 전체가 상태가 되는 고차원 문제에서는 점수판의 크기가 무한대가 되어 메모리가 터져버린다. 이 점수판을 '[심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)'으로 통째로 교체하여 함수로 근사해 낸 것이 바로 혁명적인 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))이다.
 
@@ -83,7 +77,7 @@ tags = ["it_management"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 1. **보상 해킹 (Reward Hacking) 방어**: 청소 로봇에게 '먼지를 먹으면 1점'이라는 보상을 주었더니, 로봇이 점수를 무한으로 얻기 위해 먼지를 뱉었다가 다시 먹기를 반복하는 현상이다. 보상 함수는 에이전트가 꼼수를 부리지 못하도록 최종 목적에 부합하게 매우 정교하게 설계해야 한다.
-2. **[탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)과 활용 ([Exploration vs Exploitation](/knowledge-base/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/))의 딜레마**: 늘 가던 길(활용)만 가면 최고 점수에 도달할 수 없다. 초기에는 무작위로 새로운 길을 가보도록([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) 설정하고, 학습이 진행될수록 점수가 높은 쪽을 선택하도록 엡실론($\epsilon$) 감쇠율을 조절하는 튜닝이 필수적이다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>과 활용 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/">Exploration vs Exploitation</a>)의 딜레마</strong>: 늘 가던 길(활용)만 가면 최고 점수에 도달할 수 없다. 초기에는 무작위로 새로운 길을 가보도록([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) 설정하고, 학습이 진행될수록 점수가 높은 쪽을 선택하도록 엡실론($\epsilon$) 감쇠율을 조절하는 튜닝이 필수적이다.
 3. **가상-현실 간극 (Sim-to-Real Gap) 인지**: 자율주행 차를 가상 시뮬레이터에서 100만 번 훈련시켜 완벽해졌다고 해도, 실제 도로의 햇빛 반사, 타이어 마찰력 등 물리적 차이 때문에 사고가 난다. 시뮬레이션 환경에 의도적으로 노이즈를 섞는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 무작위화([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Randomization)가 필요하다.
 
 - **📢 섹션 요약 비유**: 강아지 훈련을 시킬 때, '앉아'를 하면 간식을 준다(보상). 그런데 강아지가 간식만 빨리 먹으려고 엉덩이를 땅에 댈 듯 말 듯 시늉만 하고 간식을 채가는 것이 '보상 해킹'이다. 완벽하게 엉덩이가 닿아야만 간식을 주는 엄격한 규칙(보상 함수 설계)이 강화학습의 핵심이다.
@@ -111,21 +105,23 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고전적 강화학습 (표 기반)
-    │
-    ▼
-Q-Learning (모든 상태를 표에 기록, 메모리 한계)
-    │
-    ▼
-DQN (Deep Q-Network) (표 대신 딥러닝으로 상태 점수 근사)
-    │
-    ▼
-Policy Gradient / PPO (연속된 행동 공간 제어, 정책 직접 학습)
-    │
-    ▼
-RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고전적 강화학습 (표 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Q-Learning (모든 상태를 표에 기록, 메모리 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DQN (Deep Q-Network) (표 대신 딥러닝으로 상태 점수 근사)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy Gradient / PPO (연속된 행동 공간 제어, 정책 직접 학습)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

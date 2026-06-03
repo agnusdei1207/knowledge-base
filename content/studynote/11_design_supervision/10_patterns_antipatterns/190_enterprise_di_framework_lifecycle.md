@@ -19,21 +19,24 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 객체가 스스로 필요한 구현체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 구조는 처음에는 단순해 보여도 시간이 지나면 테스트가 어려워지고 구현 교체가 막힌다. 특히 엔터프라이즈 시스템에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근, 메시징, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 보안, 외부 연동이 서로 얽혀 있어 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임까지 각 클래스가 직접 들고 있으면 변경 파급 범위가 급격히 커진다.
 
-DI 프레임워크는 이 문제를 **객체지향 원칙을 인프라 수준으로 끌어올려 해결**한다. 개발자는 필요한 의존 관계를 선언하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 객체 그래프를 조립하며, 프레임워크는 초기화와 후처리, 소멸까지 관리한다. Spring Bean 생명주기 이해가 중요한 이유도 `@Transactional`, AOP, `@PostConstruct`, 스코프 충돌 같은 실무 이슈가 모두 이 흐름 위에서 발생하기 때문이다.
+DI 프레임워크는 이 문제를 <strong>객체지향 원칙을 인프라 수준으로 끌어올려 해결</strong>한다. 개발자는 필요한 의존 관계를 선언하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 객체 그래프를 조립하며, 프레임워크는 초기화와 후처리, 소멸까지 관리한다. Spring Bean 생명주기 이해가 중요한 이유도 `@Transactional`, AOP, `@PostConstruct`, 스코프 충돌 같은 실무 이슈가 모두 이 흐름 위에서 발생하기 때문이다.
 
-```text
-┌──────────────────────── 직접 생성 방식 ────────────────────────┐
-│ Service ──new──▶ Repository ──new──▶ DataSource              │
-│        └─ 테스트 어려움 / 구현 교체 어려움 / 결합도 상승      │
-└──────────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌──────────────────────── DI 컨테이너 방식 ─────────────────────┐
-│ Bean 정의 ─▶ Container ─▶ 생성/주입/초기화 ─▶ Service 사용   │
-└──────────────────────────────────────────────────────────────┘
-```
 
-따라서 기술사 관점에서는 DI를 단순 문법이 아니라 **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리와 생명주기 통제 메커니즘**으로 설명해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 생성 방식</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service ──new──▶ Repository ──new──▶ DataSource</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 테스트 어려움 / 구현 교체 어려움 / 결합도 상승</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DI 컨테이너 방식</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bean 정의 ─▶ Container ─▶ 생성/주입/초기화 ─▶ Service 사용</div></div>
+</div>
+</div>
+
+
+
+따라서 기술사 관점에서는 DI를 단순 문법이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 분리와 생명주기 통제 메커니즘</strong>으로 설명해야 한다.
 - **📢 섹션 요약 비유**: 요리사가 재료를 직접 사 오지 않고 주방 관리팀이 필요한 재료를 미리 준비해 주면, 요리사는 레시피에 더 집중할 수 있다.
 
 ---
@@ -41,17 +44,18 @@ DI 프레임워크는 이 문제를 **객체지향 원칙을 인프라 수준으
 ## Ⅱ. 아키텍처 및 핵심 원리
 핵심 원리는 세 가지다. 첫째, 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 가진다. 둘째, 의존성은 선언적으로 연결된다. 셋째, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후 끝나는 것이 아니라 초기화와 후처리, 소멸까지 생명주기 전체가 관리된다. 이 덕분에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기반 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 보안, 로깅 같은 횡단 관심사도 자연스럽게 주입된다.
 
-```text
-┌──────────────────────── Spring Bean Lifecycle ────────────────────────┐
-│ BeanDefinition 로딩                                                  │
-│        │                                                             │
-│        ▼                                                             │
-│ 인스턴스 생성 ─▶ 의존성 주입 ─▶ 초기화 콜백 ─▶ 후처리/프록시 ─▶ 사용 │
-│                                                        │             │
-│                                                        ▼             │
-│                                                   소멸 콜백          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Spring Bean Lifecycle</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BeanDefinition 로딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스턴스 생성 ─▶ 의존성 주입 ─▶ 초기화 콜백 ─▶ 후처리/프록시 ─▶ 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소멸 콜백</div></div>
+</div>
+</div>
+
+
 
 | 단계 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -98,31 +102,34 @@ DI 방식은 모두 “외부에서 의존성을 넣어 준다”는 공통점�
 ## Ⅴ. 기대효과 및 결론
 엔터프라이즈 DI 프레임워크 생명주기 관리 구조를 제대로 적용하면 결합도는 낮아지고, 테스트 가능성은 높아지며, 부가기능은 공통화된다. 또한 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 소멸, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경, 환경별 구현체 교체가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 규칙 안에서 일관되게 관리되어 운영 안정성이 올라간다.
 
-결론적으로 이 주제의 핵심은 “의존성을 주입한다”가 아니라 “객체 생애 전반을 설계 가능한 통제 구조로 만든다”는 점이다. 기술사 답안에서는 **IoC, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입, 생명주기 훅, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)/AOP, 스코프**를 한 흐름으로 묶어 쓰면 완성도가 높다.
+결론적으로 이 주제의 핵심은 “의존성을 주입한다”가 아니라 “객체 생애 전반을 설계 가능한 통제 구조로 만든다”는 점이다. 기술사 답안에서는 <strong>IoC, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 주입, 생명주기 훅, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>/AOP, 스코프</strong>를 한 흐름으로 묶어 쓰면 완성도가 높다.
 - **📢 섹션 요약 비유**: 레고를 그냥 쌓는 것이 아니라 조립 순서표와 정리함까지 함께 관리할 때 더 크고 복잡한 작품도 안정적으로 만들 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 - **IoC(Inversion of Control)**: 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 제어 흐름의 주도권을 프레임워크로 넘기는 원리
-- **[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)([Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))**: 구체 구현보다 추상화에 의존하게 만드는 설계 원칙
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">Dependency Inversion Principle</a>)</strong>: 구체 구현보다 추상화에 의존하게 만드는 설계 원칙
 - **BeanPostProcessor**: 초기화 전후 후처리와 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 적용을 담당하는 확장 지점
 - **AOP**: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·보안·로깅 같은 횡단 관심사를 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기반으로 분리하는 기법
-- **[Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)**: [singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), request 등 빈의 수명 범위를 정의하는 기준
+- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a></strong>: [singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), request 등 빈의 수명 범위를 정의하는 기준
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-직접 생성 중심 객체 설계
-        │
-        ▼
-IoC / DI 컨테이너 도입
-        │
-        ▼
-Bean 생명주기·후처리 표준화
-        │
-        ▼
-AOP·트랜잭션·환경 분리까지 통합 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 생성 중심 객체 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoC / DI 컨테이너 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bean 생명주기·후처리 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AOP·트랜잭션·환경 분리까지 통합 관리</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 장난감 로봇을 만들 때 필요한 팔, 다리, 배터리를 조립 선생님이 알아서 넣어 주는 거예요.

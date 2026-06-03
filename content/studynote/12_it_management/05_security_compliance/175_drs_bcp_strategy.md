@@ -23,22 +23,24 @@ DRS와 BCP는 "장애가 나면 [백업](/knowledge-base/studynote/02_operating_
 
 이 구분이 필요한 이유는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만으로는 비즈니스가 바로 살아나지 않기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파일을 되살렸더라도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 전환이 안 되어 있거나, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 막혀 있거나, 담당자가 누구인지 몰라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 선언이 지연되면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 여전히 멈춰 있다. 즉 "복원 가능성"과 "업무 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)"은 같은 말이 아니다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Disaster impact is broader than server failure                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Disaster / ransomware / region outage                              │
-│   ├─ system downtime                                               │
-│   ├─ workplace / network access disruption                         │
-│   ├─ customer communication gap                                    │
-│   └─ supplier / operator confusion                                 │
-│                                                                    │
-│ Backup only restores stored data                                   │
-│ BCP + DRS restore business priority and recovery execution path    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP의 필요성은 "자료를 살리는 것"이 아니라 **정해진 시간 안에 중요한 업무를 다시 돌릴 수 있는 상태를 만드는 것**에 있다. 기술, 운영, 의사결정 체계가 같이 준비되어 있어야 진짜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster impact is broader than server failure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster / ransomware / region outage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ system downtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ workplace / network access disruption</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer communication gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ supplier / operator confusion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backup only restores stored data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCP + DRS restore business priority and recovery execution path</div></div>
+</div>
+</div>
+
+
+
+따라서 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP의 필요성은 "자료를 살리는 것"이 아니라 <strong>정해진 시간 안에 중요한 업무를 다시 돌릴 수 있는 상태를 만드는 것</strong>에 있다. 기술, 운영, 의사결정 체계가 같이 준비되어 있어야 진짜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 된다.
 
 - **📢 섹션 요약 비유**: 비 오는 날 소풍이 취소되지 않게 하려면 우산만 준비해서는 안 된다. 실내 장소, 친구들 연락망, 도시락 옮길 사람, 선생님의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 순서까지 함께 준비해야 소풍이 계속된다.
 
@@ -46,28 +48,25 @@ DRS와 BCP는 "장애가 나면 [백업](/knowledge-base/studynote/02_operating_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP 아키텍처의 출발점은 BIA다. 어떤 업무가 몇 시간 멈추면 매출, 안전, 법규, 고객 신뢰에 어떤 손실이 나는지 파악하고, 그 결과로 MTPD (Maximum Tolerable Period of Disruption), [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), RPO를 정한다. 그 다음에야 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)([Mirror Site](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)), [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)([Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)), [웜 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)([Warm Site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)), [콜드 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)([Cold Site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)) 같은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택할 수 있다. 즉 센터 유형은 기술 취향이 아니라 **업무 영향 분석의 결과물**이다.
+[DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP 아키텍처의 출발점은 BIA다. 어떤 업무가 몇 시간 멈추면 매출, 안전, 법규, 고객 신뢰에 어떤 손실이 나는지 파악하고, 그 결과로 MTPD (Maximum Tolerable Period of Disruption), [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), RPO를 정한다. 그 다음에야 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)([Mirror Site](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)), [핫 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)([Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)), [웜 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)([Warm Site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)), [콜드 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)([Cold Site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)) 같은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택할 수 있다. 즉 센터 유형은 기술 취향이 아니라 <strong>업무 영향 분석의 결과물</strong>이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ BCP-DRS architecture loop                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ BIA -> critical service tier -> MTPD / RTO / RPO                   │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Site strategy                                                        │
-│   ├─ Mirror / Active-Active                                          │
-│   ├─ Hot Site                                                        │
-│   ├─ Warm Site                                                       │
-│   └─ Cold Site                                                       │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Replication + runbook + communication tree                           │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Disaster declaration -> failover -> business operation -> failback   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCP-DRS architecture loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIA -&gt; critical service tier -&gt; MTPD / RTO / RPO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Site strategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Mirror / Active-Active</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hot Site</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warm Site</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cold Site</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replication + runbook + communication tree</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declaration -&gt; failover -&gt; business operation -&gt; failback</div></div>
+</div>
+</div>
+
+
 
 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 | 대표 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 수준 | 비용 | 적합한 업무 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -76,7 +75,7 @@ DRS와 BCP는 "장애가 나면 [백업](/knowledge-base/studynote/02_operating_
 | [Warm Site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/) | 장비와 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 | 수시간~수일 / 중간 | 중간 | 중요하지만 즉시성은 덜한 업무 |
 | [Cold Site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/) | 공간·기본 인프라만 확보 | 수일 이상 / 김 | 낮음 | 비핵심 업무, 장기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 대상 |
 
-핵심 원리는 세 가지다. 첫째, **우선순위화**: 모든 시스템을 같은 수준으로 지키려 하면 비용이 감당되지 않는다. 둘째, **절차화**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 사람 기억에 기대지 않고 선언 기준, 역할, 통신 체계를 문서화해야 한다. 셋째, **반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 설계 문서가 아니라 실제 모의 훈련 결과가 목표 달성 여부를 말해 준다.
+핵심 원리는 세 가지다. 첫째, **우선순위화**: 모든 시스템을 같은 수준으로 지키려 하면 비용이 감당되지 않는다. 둘째, **절차화**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 사람 기억에 기대지 않고 선언 기준, 역할, 통신 체계를 문서화해야 한다. 셋째, <strong>반복 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 설계 문서가 아니라 실제 모의 훈련 결과가 목표 달성 여부를 말해 준다.
 
 - **📢 섹션 요약 비유**: [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP 설계는 병원 응급실 분류와 같다. 모든 환자를 같은 속도로 처리할 수 없으니, 가장 위험한 환자를 먼저 살릴 기준과 동선을 미리 정해 두는 것이다.
 
@@ -93,7 +92,7 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 | [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/) | "재난 후 얼마나 빨리 IT를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가?" | 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로와 목표를 명확히 함 | 업무 우선순위와 조직 커뮤니케이션은 혼자 해결 못 한다. |
 | BCP | "핵심 업무를 어떻게 계속할 것인가?" | 사람·프로세스·시설·IT를 통합 관리 | 기술 아키텍처가 약하면 실행력이 떨어진다. |
 
-이 비교에서 실무적으로 특히 중요한 것은 **고가용성이 DRS를 대체하지 못한다**는 점이다. [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 클러스터, 멀티 [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone이 있어도 같은 리전이 모두 손상되거나 계정, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 함께 마비되면 별도의 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다. 반대로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터만 있어도 인력 연락망과 의사결정 체계가 없으면 BCP가 성립하지 않는다.
+이 비교에서 실무적으로 특히 중요한 것은 <strong>고가용성이 DRS를 대체하지 못한다</strong>는 점이다. [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 클러스터, 멀티 [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone이 있어도 같은 리전이 모두 손상되거나 계정, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계가 함께 마비되면 별도의 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다. 반대로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터만 있어도 인력 연락망과 의사결정 체계가 없으면 BCP가 성립하지 않는다.
 
 클라우드 환경에서는 전통적 전산센터 용어가 바뀌었을 뿐 본질은 같다. [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/), 불변 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 자동 failover는 현대적 구현 방식일 뿐, 여전히 BIA와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 선행되어야 한다.
 
@@ -127,7 +126,7 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 - [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전환만 시험하고 원복 절차는 한 번도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는 운영
 - 애플리케이션 의존성, 외부 연계, 운영 권한 체계를 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 범위에서 빼는 설계
 
-기술사 답안에서는 **"[DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 센터 구축 자체가 아니라, 업무 영향 분석에 근거해 목표 시간과 손실 허용 범위를 설정하고 이를 모의 훈련으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 통합 연속성 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"**이라고 설명해야 설계·운영·감리 관점이 함께 살아난다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/">DRS</a>/BCP는 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 센터 구축 자체가 아니라, 업무 영향 분석에 근거해 목표 시간과 손실 허용 범위를 설정하고 이를 모의 훈련으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하는 통합 연속성 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>"</strong>이라고 설명해야 설계·운영·감리 관점이 함께 살아난다.
 
 - **📢 섹션 요약 비유**: 소방 훈련은 소화기를 창고에 사 두는 일이 아니라, 누가 벨을 누르고 누가 아이들을 데리고 나가며 어디에 모일지 실제로 몸에 익히는 연습과 같다.
 
@@ -135,9 +134,9 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 
 ## Ⅴ. 기대효과 및 결론
 
-[DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP를 제대로 구축하면 장애 자체를 완전히 없앨 수는 없어도, 장애가 매출 손실과 신뢰 하락으로 번지는 시간을 줄일 수 있다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 명확해지고, 책임자와 절차가 분명해지며, 모의 훈련을 통해 조직이 실제 위기 대응 근육을 갖게 된다. 결국 효과의 본질은 시스템만 살아나는 것이 아니라 **핵심 업무가 계획된 순서대로 다시 돌아오는 것**이다.
+[DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP를 제대로 구축하면 장애 자체를 완전히 없앨 수는 없어도, 장애가 매출 손실과 신뢰 하락으로 번지는 시간을 줄일 수 있다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 명확해지고, 책임자와 절차가 분명해지며, 모의 훈련을 통해 조직이 실제 위기 대응 근육을 갖게 된다. 결국 효과의 본질은 시스템만 살아나는 것이 아니라 <strong>핵심 업무가 계획된 순서대로 다시 돌아오는 것</strong>이다.
 
-물론 높은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표는 높은 비용을 부른다. 모든 시스템을 실시간 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)할 수는 없고, 과도한 목표는 예산 낭비나 운영 복잡성으로 돌아올 수 있다. 따라서 기억해야 할 핵심은 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP를 "최신 장비의 목록"이 아니라 **업무 중요도에 맞춘 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수준과 훈련 체계의 설계 문제**로 보는 것이다.
+물론 높은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표는 높은 비용을 부른다. 모든 시스템을 실시간 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)할 수는 없고, 과도한 목표는 예산 낭비나 운영 복잡성으로 돌아올 수 있다. 따라서 기억해야 할 핵심은 [DRS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/626_drs_storage_mirroring/)/BCP를 "최신 장비의 목록"이 아니라 <strong>업무 중요도에 맞춘 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 수준과 훈련 체계의 설계 문제</strong>로 보는 것이다.
 
 - **📢 섹션 요약 비유**: 좋은 비상계획은 모든 물건을 두 벌씩 사는 일이 아니라, 꼭 필요한 것부터 어떤 순서로 꺼내 쓸지 정해 놓는 생존 가방과 같다.
 
@@ -156,27 +155,27 @@ DRS와 함께 자주 언급되는 개념으로 [백업](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-위험 식별
-    │
-    ▼
-BIA (Business Impact Analysis)
-    │
-    ▼
-MTPD / RTO / RPO 설정
-    │
-    ▼
-Mirror · Hot · Warm · Cold 전략 선택
-    │
-    ▼
-복제 · 런북 · 연락망 · 자동화
-    │
-    ▼
-모의 훈련 / failover / failback 검증
-    │
-    ▼
-지속 개선형 BCP / DRS 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MTPD / RTO / RPO 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Mirror · Hot · Warm · Cold 전략 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복제 · 런북 · 연락망 · 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모의 훈련 / failover / failback 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속 개선형 BCP / DRS 거버넌스</div>
+</div>
+</div>
+
+
 
 이 흐름은 재난 대응이 단순 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)에서 시작해, 영향 분석과 훈련 기반의 연속성 관리 체계로 발전하는 과정을 보여 준다.
 

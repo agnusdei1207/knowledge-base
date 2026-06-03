@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 구조적 해저드 (Structural Hazard)는 파이프라인 내부의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들이 서로 논리적으로는 독립적이어도, 동시에 사용할 수 있는 하드웨어가 부족해서 발생하는 자원 충돌이다. 즉 문제의 본질은 "계산 순서가 틀렸다"가 아니라 "동시에 쓸 도구가 하나뿐이다"에 가깝다. [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)나 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 비롯된다면, 구조적 해저드는 아키텍처의 물리적 구성에서 직접 발생한다.
 
-이 개념이 중요한 이유는 파이프라인이 본래 노리는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 가장 정직하게 깎아먹기 때문이다. 이상적으로는 매 클럭마다 새 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 하나씩 진입해야 하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 같은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 공유하거나, 긴 곱셈기가 하나뿐이면 특정 클럭에서 누군가는 반드시 기다려야 한다. 결국 구조적 해저드는 **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))**를 증가시키며, 하드웨어를 충분히 빠르게 설계했더라도 자원 배치가 좁으면 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기대치에 못 미친다.
+이 개념이 중요한 이유는 파이프라인이 본래 노리는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 가장 정직하게 깎아먹기 때문이다. 이상적으로는 매 클럭마다 새 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 하나씩 진입해야 하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 같은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 공유하거나, 긴 곱셈기가 하나뿐이면 특정 클럭에서 누군가는 반드시 기다려야 한다. 결국 구조적 해저드는 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/">Cycles Per Instruction</a>)</strong>를 증가시키며, 하드웨어를 충분히 빠르게 설계했더라도 자원 배치가 좁으면 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기대치에 못 미친다.
 
 특히 단일 메모리 구조, 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 다중 사이클 연산기, 좁은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조에서는 이런 충돌이 자주 나타난다. 그래서 파이프라인을 설계할 때는 단계 수를 늘리는 것만큼이나, 각 단계가 동시에 요구하는 자원의 개수와 충돌 빈도를 함께 계산해야 한다.
 
@@ -42,22 +42,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 단일 메모리를 쓸 때 가장 자주 소개되는 구조적 해저드를 보여준다. 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 MEM 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고, 뒤의 다른 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 같은 클럭에 IF 단계에서 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오려 한다. 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 하나라면 둘 중 하나는 대기해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        단일 메모리에서 발생하는 구조적 해저드의 시간 충돌                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Cycle    1        2        3        4        5        6                   │
-│ I1     [ IF ] → [ ID ] → [ EX ] → [ MEM] → [ WB ]                         │
-│ I2              [ IF ] → [ ID ] → [ EX ] → [ MEM] → [ WB ]                │
-│ I3                       [ IF ] → [ ID ] → [ EX ] → [ MEM]                 │
-│ I4                                [ IF ? ]                                 │
-│                                    │                                       │
-│                                    ├─ I1은 데이터 접근 필요 (MEM)          │
-│                                    └─ I4는 명령어 인출 필요 (IF)           │
-│                                                                            │
-│ 결과: 메모리 포트가 1개이면 I4는 Stall, 메모리 포트가 2개면 동시 진행      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 메모리에서 발생하는 구조적 해저드의 시간 충돌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I1</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I2</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I3</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I4</div><div class="kb-diagram-node">IF ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I1은 데이터 접근 필요 (MEM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I4는 명령어 인출 필요 (IF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 메모리 포트가 1개이면 I4는 Stall, 메모리 포트가 2개면 동시 진행</div></div>
+</div>
+</div>
+
+
 
 이 문제를 수식으로 보면, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `실효 CPI = 이상적 CPI + 구조적 스톨 빈도`로 표현할 수 있다. 즉 구조적 해저드가 잦을수록 클럭 주파수가 높아도 체감 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 줄어든다. 그래서 현대 프로세서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 분리하고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 여러 읽기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 두며, 자주 쓰는 실행 유닛을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 배치해 충돌을 줄인다.
 
@@ -67,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-구조적 해저드는 다른 해저드와 비교해야 경계가 선명해진다. 구조적 해저드는 **자원 부족**, [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)는 **값의 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**, [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)는 **다음에 갈 경로의 불확실성**이 원인이다. 따라서 구조적 해저드는 주로 하드웨어 자원 배치로 해결되고, [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)는 포워딩과 스케줄링, [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)과 플러시 제어가 중심이 된다.
+구조적 해저드는 다른 해저드와 비교해야 경계가 선명해진다. 구조적 해저드는 **자원 부족**, [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)는 <strong>값의 선후 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>, [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)는 <strong>다음에 갈 경로의 불확실성</strong>이 원인이다. 따라서 구조적 해저드는 주로 하드웨어 자원 배치로 해결되고, [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)는 포워딩과 스케줄링, [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)과 플러시 제어가 중심이 된다.
 
 | 구분 | 구조적 해저드 | [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) | [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) |
 | :--- | :--- | :--- | :--- |
@@ -97,7 +98,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 대표 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-- **자원 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)**: [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), 로드/스토어 유닛, 캐시 경로를 늘려 충돌 자체를 줄인다.
+- <strong>자원 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong>: [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), 로드/스토어 유닛, 캐시 경로를 늘려 충돌 자체를 줄인다.
 - **자원 분할**: 메모리 뱅킹이나 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리처럼 경로를 나누어 경쟁을 완화한다.
 - **파이프라인화**: 긴 연산기를 여러 단계로 쪼개 동시 처리 수용량을 높인다.
 - **중재 허용**: 하드웨어 중재기(arbiter)로 순서를 정하고, 드문 충돌은 스톨로 흡수한다.
@@ -116,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 해결책은 공짜가 아니다. 자원 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 확장은 칩 면적, 소비전력, 배선 복잡도, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도를 모두 증가시킨다. 특히 다중 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 메모리나 실행 유닛 증설은 단순히 "부품 하나 더 넣기"가 아니라 배선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 발열, 스케줄링 정책까지 다시 설계해야 하는 문제다.
 
-앞으로의 방향은 무조건적인 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다, 자주 충돌하는 자원만 선택적으로 확장하고 나머지는 뱅킹, 동적 스케줄링, 계층형 캐시 구조로 완화하는 쪽에 가깝다. 따라서 구조적 해저드는 "하드웨어가 부족해서 생기는 단순 충돌"로 외우기보다, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 위해 어디까지 자원을 투자할지 묻는 아키텍처적 의사결정 문제**로 기억하는 것이 정확하다.
+앞으로의 방향은 무조건적인 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다, 자주 충돌하는 자원만 선택적으로 확장하고 나머지는 뱅킹, 동적 스케줄링, 계층형 캐시 구조로 완화하는 쪽에 가깝다. 따라서 구조적 해저드는 "하드웨어가 부족해서 생기는 단순 충돌"로 외우기보다, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 목표를 위해 어디까지 자원을 투자할지 묻는 아키텍처적 의사결정 문제</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 경기장은 관중석만 크게 짓지 않는다. 사람들이 몰리는 출입문, 매점, 화장실까지 함께 설계해야 진짜로 붐벼도 잘 돌아간다.
 
@@ -134,22 +135,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 실행 경로
-    │
-    ▼
-파이프라인 도입
-    │
-    ├─ 자원 동시 요구 증가
-    ▼
-구조적 해저드 (Structural Hazard)
-    │
-    ├─ 자원 복제: ALU · 캐시 · 포트 확장
-    ├─ 자원 분리: Harvard Architecture · 메모리 뱅킹
-    └─ 자원 중재: Stall · Arbiter
-    ▼
-슈퍼스칼라 · 비순차 실행에서의 정교한 자원 스케줄링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 실행 경로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자원 동시 요구 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 해저드 (Structural Hazard)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자원 복제: ALU · 캐시 · 포트 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자원 분리: Harvard Architecture · 메모리 뱅킹</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자원 중재: Stall · Arbiter</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈퍼스칼라 · 비순차 실행에서의 정교한 자원 스케줄링</div>
+</div>
+</div>
+
+
 
 이 흐름은 파이프라인이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 동시에 자원 경쟁을 드러내고, 이후 아키텍처가 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·분리·중재 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 진화해 왔음을 보여준다.
 

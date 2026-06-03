@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 국제 표준화 기구인 3GPP에서 Release 15를 통해 최초로 제정한 **5세대 이동통신([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))의 물리적인 무선 접속 기술(RAT, Radio Access Technology)의 공식 명칭**입니다.
+- **개념**: 국제 표준화 기구인 3GPP에서 Release 15를 통해 최초로 제정한 <strong>5세대 이동통신(<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)의 물리적인 무선 접속 기술(RAT, Radio Access Technology)의 공식 명칭</strong>입니다.
 - **의의**: 4G LTE의 OFDM(직교 주파수 분할) 뼈대를 그대로 물려받았지만, 이전 세대보다 비교할 수 없이 넓은 주파수 대역폭을 소화하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 줄이기 위해 유연성(Flexibility)을 극대화한 구조로 뜯어고쳤습니다.
 
-```text
-[mMTC]
-    │
-    ▼
-[5G NR 신무선 표준 대역]
-    │
-    └──▶ [FR1 주파수]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FR1 주파수</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +46,22 @@ tags = ["studynote-network"]
 1. **FR1 (Sub-6 GHz)**: 
    - **대역**: 410 MHz ~ 7.125 GHz 사이의 대역. (보통 "6GHz 이하 대역"이라 부름)
    - **특징**: 기존 4G LTE가 놀던 동네와 비슷해서 전파가 멀리 가고 장애물도 잘 넘습니다(커버리지 좋음). 하지만 엄청난 속도 뻥튀기는 힘듭니다. 현재 한국을 비롯한 전 세계가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 상용망으로 깔고 있는 주력 대역(한국 3.5GHz)입니다.
-2. **FR2 ([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))**:
+2. <strong>FR2 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>)</strong>:
    - **대역**: 24.25 GHz ~ 52.6 GHz 사이의 쌩뚱맞게 높은 초고주파 대역.
    - **특징**: 길이 텅텅 비어있어 속도를 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 대비 20배(20Gbps)로 뽑아내는 '진짜 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)'의 구역입니다. 하지만 전파가 빛처럼 직진만 해서 나뭇잎 하나만 있어도 통신이 끊기는 치명적인 조루증을 앓고 있습니다.
 
-```text
-[mMTC]
-    │
-    ▼
-[5G NR 신무선 표준 대역]
-    │
-    └──▶ [FR1 주파수]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FR1 주파수</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ tags = ["studynote-network"]
 - 앞선 761번 문서에서 본 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 단위(슬롯)를 무조건 1ms 길이로 고정했던 LTE와 달리, NR은 심볼 2개짜리 미니 슬롯을 자유자재로 끼워 넣어 0.001초 만에 응급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))를 새치기시켜 쏴버립니다.
 
 ### 3. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (시분할 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 주력 채택
-- [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절에는 다운로드 도로와 업로드 도로를 물리적으로 쪼개는 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할)를 주로 썼으나, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 넓은 주파수 효율을 위해 **동일한 도로를 시간으로 쪼개어 번갈아 쓰는 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 방식을 글로벌 주력 표준으로 채택**했습니다. 다운로드 트래픽이 몰리면 0.1초 만에 차선을 다운로드 쪽으로 몰아주는 마법이 가능합니다.
+- [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절에는 다운로드 도로와 업로드 도로를 물리적으로 쪼개는 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할)를 주로 썼으나, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR은 넓은 주파수 효율을 위해 <strong>동일한 도로를 시간으로 쪼개어 번갈아 쓰는 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> 방식을 글로벌 주력 표준으로 채택</strong>했습니다. 다운로드 트래픽이 몰리면 0.1초 만에 차선을 다운로드 쪽으로 몰아주는 마법이 가능합니다.
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. mMTC가 기반 조건을 만든다면, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역은 그 위에서 핵심 메커니즘을 구현하고, FR1 주파수는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: mMTC]
-    │
-    ▼
-[현재 개념: 5G NR 신무선 표준 대역]
-    │
-    ├──▶ [확장 A: FR1 주파수]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: mMTC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 5G NR 신무선 표준 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FR1 주파수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR 신무선 표준 대역는 mMTC에서 출발해 현재 메커니즘을 정교화하고, 이후 FR1 주파수와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

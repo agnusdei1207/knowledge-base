@@ -33,40 +33,36 @@ tags = ["studynote-cloud-architecture"]
 
 ### [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 에코시스템 구조도
 
-```
-  ┌────────────────────────────────────────────────────────────┐
-  │                  하둡 에코시스템                              │
-  ├────────────────────────────────────────────────────────────┤
-  │  쿼리/SQL     │  Hive   │  Pig   │  Spark SQL │  Presto   │
-  ├────────────────────────────────────────────────────────────┤
-  │  처리 엔진    │  MapReduce    │  Apache Spark    │  Flink   │
-  ├────────────────────────────────────────────────────────────┤
-  │  리소스 관리  │              YARN                           │
-  ├────────────────────────────────────────────────────────────┤
-  │  분산 저장    │              HDFS                           │
-  ├────────────────────────────────────────────────────────────┤
-  │  NoSQL DB     │  HBase   │  Cassandra                      │
-  ├────────────────────────────────────────────────────────────┤
-  │  스트리밍     │  Kafka   │  Flume   │  Spark Streaming     │
-  ├────────────────────────────────────────────────────────────┤
-  │  데이터 수집  │  Sqoop (RDB ↔ HDFS)  │  Flume (로그)       │
-  ├────────────────────────────────────────────────────────────┤
-  │  조율/관리    │  ZooKeeper │  Oozie (워크플로우)             │
-  └────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하둡 에코시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리/SQL</div><div class="kb-diagram-cell">Hive</div><div class="kb-diagram-cell">Pig</div><div class="kb-diagram-cell">Spark SQL</div><div class="kb-diagram-cell">Presto</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 엔진</div><div class="kb-diagram-cell">MapReduce</div><div class="kb-diagram-cell">Apache Spark</div><div class="kb-diagram-cell">Flink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 관리</div><div class="kb-diagram-cell">YARN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 저장</div><div class="kb-diagram-cell">HDFS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NoSQL DB</div><div class="kb-diagram-cell">HBase</div><div class="kb-diagram-cell">Cassandra</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍</div><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">Flume</div><div class="kb-diagram-cell">Spark Streaming</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div><div class="kb-diagram-cell">Sqoop (RDB ↔ HDFS)</div><div class="kb-diagram-cell">Flume (로그)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조율/관리</div><div class="kb-diagram-cell">ZooKeeper</div><div class="kb-diagram-cell">Oozie (워크플로우)</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 |
 |:---|:---|
-| **[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [Distributed File System](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 |
-| **[MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 프레임워크 |
-| **[YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)** | Yet Another Resource Negotiator — 클러스터 자원 관리 |
-| **[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)** | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 제공 ([SQL-on-Hadoop](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a></strong> | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [Distributed File System](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/) — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a></strong> | Yet Another Resource Negotiator — 클러스터 자원 관리 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a></strong> | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 제공 ([SQL-on-Hadoop](/knowledge-base/studynote/16_bigdata/02_hadoop/036_apache_hive_sql_interface/)) |
 | **Pig** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환·분석 스크립트 언어 (Pig Latin) |
-| **[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)** | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 위의 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 칼럼 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB (Bigtable 영감) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/">HBase</a></strong> | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 위의 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 칼럼 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB (Bigtable 영감) |
 | **Spark** | 메모리 기반 고속 처리 엔진 ([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 대체) |
-| **[ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 코디네이션 ([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 공유, 리더 선출) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 코디네이션 ([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 공유, 리더 선출) |
 | **Sqoop** | RDBMS ↔ [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 |
 | **Oozie** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 워크플로우 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 
@@ -101,7 +97,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**클라우드에서의 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 사용 (AWS EMR)**:
+<strong>클라우드에서의 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">하둡</a> 사용 (AWS EMR)</strong>:
 ```
 # AWS EMR 클러스터 생성 (최소 구성)
 aws emr create-cluster \
@@ -116,7 +112,7 @@ aws emr create-cluster \
 # 핵심 마스터 노드: On-Demand, 워커 노드: Spot
 ```
 
-**[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) SQL 예시**:
+<strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> SQL 예시</strong>:
 ```sql
 -- HDFS의 CSV 파일에 SQL 쿼리
 CREATE EXTERNAL TABLE sales (
@@ -176,15 +172,19 @@ ORDER BY total DESC;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Hadoop 1.0: HDFS + MapReduce (일체형)
-    │
-    ▼
-Hadoop 2.0: YARN 분리 → 다양한 처리 엔진 지원
-    │
-    ▼
-Hadoop 3.0: Erasure Coding + GPU 지원 → 클라우드 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hadoop 1.0: HDFS + MapReduce (일체형)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hadoop 2.0: YARN 분리 → 다양한 처리 엔진 지원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hadoop 3.0: Erasure Coding + GPU 지원 → 클라우드 최적화</div>
+</div>
+</div>
+
+
 2. HDFS는 레고 조각을 여러 상자에 나눠 담고 목록을 관리하는 것이고, YARN은 어느 상자에서 누가 일할지 배정하는 담당자야.
 3. 혼자(단일 서버) 할 수 없는 일을 여럿([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버)이 나눠서 하는 게 핵심이야.
 

@@ -20,7 +20,7 @@ tags = ["studynote-computer-architecture"]
 
 커패시터는 직류 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가하면 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) 때문에 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르지 않고 양 극판에 전자가 모여 충전되며, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 변화가 있는 교류 환경에서는 충·방전을 반복하며 파동을 통과시키는 특성을 가진다.
 
-컴퓨터 구조에서 커패시터는 필수 불가결한 존재다. 우선, 수백억 개의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 동시에 켜지고 꺼지는 최신 CPU는 순간적으로 막대한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 요구한다. 이때 전원 장치([VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/))가 멀리 있으면 인덕턴스 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문에 칩의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 급격히 떨어져 (V-droop) 시스템이 멈춘다. 이를 막기 위해 칩 주변에 **디커플링 커패시터 (Decoupling Capacitor)**를 촘촘히 배치하여, 필요할 때 즉각 전하를 뿜어내어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 흔들림 없이 유지한다. 동시에 메인 메모리인 **[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) ([Dynamic RAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))**에서 0과 1을 판별하는 전자를 가두는 절대적인 정보 저장소 역할을 수행한다.
+컴퓨터 구조에서 커패시터는 필수 불가결한 존재다. 우선, 수백억 개의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 동시에 켜지고 꺼지는 최신 CPU는 순간적으로 막대한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 요구한다. 이때 전원 장치([VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/))가 멀리 있으면 인덕턴스 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문에 칩의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 급격히 떨어져 (V-droop) 시스템이 멈춘다. 이를 막기 위해 칩 주변에 <strong>디커플링 커패시터 (Decoupling Capacitor)</strong>를 촘촘히 배치하여, 필요할 때 즉각 전하를 뿜어내어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 흔들림 없이 유지한다. 동시에 메인 메모리인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">Dynamic RAM</a>)</strong>에서 0과 1을 판별하는 전자를 가두는 절대적인 정보 저장소 역할을 수행한다.
 
 - **📢 섹션 요약 비유**: 커패시터는 화장실 변기의 물탱크와 같다. 수도관에서 나오는 물줄기가 약해도 미리 탱크에 물을 가득 받아두면, 필요할 때 레버를 내려 한꺼번에 콸콸 쏟아부을 수 있다.
 
@@ -30,24 +30,25 @@ tags = ["studynote-computer-architecture"]
 
 커패시터의 용량($C$)은 극판의 면적($A$)에 비례하고 극판 사이의 거리($d$)에 반비례하며, [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)의 유전율($\epsilon$)에 의해 증폭된다. 
 
-가장 대표적인 아키텍처 적용 사례는 **1T-1C (1 [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) - 1 Capacitor)** 구조를 가진 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀이다.
+가장 대표적인 아키텍처 적용 사례는 <strong>1T-1C (1 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/">Transistor</a> - 1 Capacitor)</strong> 구조를 가진 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           DRAM 셀의 읽기/쓰기 스위칭 아키텍처              │
-├──────────────────────────────────────────────────────────────┤
-│  워드라인 (WL) ──▶ [ 게이트 스위치 ON/OFF 제어 ]               │
-│                            │                                 │
-│  비트라인 (BL) ◀──▶ [ 접근 트랜지스터 (Access Transistor) ] │
-│  (데이터 고속도로)          │                                 │
-│                            ▼ (전하 저장)                       │
-│                        ======== (High-K 유전체)                │
-│                        ║ + + ║ ◀── 저장된 전자가 1과 0 판별  │
-│                        ======== (커패시터)                     │
-│                            │                                 │
-│                           GND                                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM 셀의 읽기/쓰기 스위칭 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">게이트 스위치 ON/OFF 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">접근 트랜지스터 (Access Transistor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 고속도로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (전하 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======== (High-K 유전체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ + ║ ◀── 저장된 전자가 1과 0 판별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======== (커패시터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GND</div></div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 스위치를 열어 커패시터에 전자를 밀어 넣고 충전한다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 1). 읽을 때는 스위치를 다시 열어 커패시터에서 흘러나오는 미세한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화를 감지 증폭기(Sense Amplifier)가 읽어낸다. 하지만 절연막이 너무 얇아 전자가 시간이 지남에 따라 누설(Leakage)되므로, 이를 막기 위해 주기적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 읽고 채워 넣는 **리프레시 (Refresh)** 동작이 필수적으로 요구된다.
 
@@ -62,7 +63,7 @@ tags = ["studynote-computer-architecture"]
 | 구분 | 목적형 커패시터 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), 디커플링) | 기생 커패시턴스 (배선 간 간섭) |
 |:---|:---|:---|
 | **역할** | 에너지 저장, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 평탄화, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 | 원치 않는 전하 축적으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전파 방해 |
-| **공정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)의 극대화 | 기생 용량($C$)의 최소화 |
+| <strong>공정 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)의 극대화 | 기생 용량($C$)의 최소화 |
 | **유전체 선택**| **High-K** (고유전율 물질, 예: 하프늄 산화물) | **Low-K** (저유전율 물질, 예: 다공성 신소재) |
 | **구조적 형태**| 트렌치(Trench) 깊게 파기, 3D 실린더 적층 | 배선 간격 확보, 진공(Air Gap) 도입 |
 
@@ -101,22 +102,25 @@ tags = ["studynote-computer-architecture"]
 | **디커플링 (Decoupling)** | 커패시터를 코어 전원단에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 달아 고주파 노이즈를 필터링하고 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 막는 기법 |
 | **리프레시 (Refresh)** | 커패시터에서 새어나가는 전하를 보충하기 위해 주기적으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 다시 쓰는 작업 |
 | **High-K 유전체** | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀의 축전량을 극대화하기 위해 절연막으로 사용하는 유전율이 매우 높은 신소재 |
-| **RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (RC Delay)** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 배선 간에 원치 않게 생긴 기생 커패시터가 저항과 만나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속도를 늦추는 병목 현상 |
+| <strong>RC <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (RC Delay)</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 배선 간에 원치 않게 생긴 기생 커패시터가 저항과 만나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속도를 늦추는 병목 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[디커플링 (Decoupling)]
-    │
-    ▼
-[리프레시 (Refresh)]
-    │
-    ▼
-[High-K 유전체]
-    │
-    ▼
-[RC 지연 (RC Delay)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디커플링 (Decoupling)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리프레시 (Refresh)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High-K 유전체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RC 지연 (RC Delay)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 디커플링 (Decoupling)에서 출발해 RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (RC Delay)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

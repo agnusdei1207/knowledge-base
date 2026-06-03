@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)자 메리 포펜딕(Mary Poppendieck)은 제조업에서 혁신을 일으킨 '도요타 생산 방식([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))'을 소프트웨어에 적용했다. "고객이 원하지 않는 기능을 만드는 것은 재고(Inventory)가 쌓이는 것과 같다. 소프트웨어에서 재고는 곧 쓰레기다!"
 
-그리하여 **"무엇을 더 할 것인가"보다 "무엇을 덜어낼 것인가"에 집착하는 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 소프트웨어 개발 7원칙**이 탄생했다. 이는 훗날 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))가 뻗어나가는 거대한 사상적 뿌리가 되었다.
+그리하여 <strong>"무엇을 더 할 것인가"보다 "무엇을 덜어낼 것인가"에 집착하는 린(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a>) 소프트웨어 개발 7원칙</strong>이 탄생했다. 이는 훗날 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))가 뻗어나가는 거대한 사상적 뿌리가 되었다.
 
 - **📢 섹션 요약 비유**: 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))은 살코기라는 뜻이다. 삼겹살에서 쓸데없는 비계와 뼈(낭비)를 다 발라내고, 손님이 당장 먹고 싶어 하는 가장 맛있는 살코기(핵심 가치)만 남겨서 제일 빨리 불판에 올려주는 요리법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 사이클의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  린 스타트업 MVP 피벗 사이클                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린 스타트업 MVP 피벗 사이클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 사이클가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,11 +75,11 @@ tags = ["studynote-software-engineering"]
 
 | 철학 / 방법론 | 핵심 초점 (Focus) | 탄생 배경 | [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 내 역할 |
 |:---|:---|:---|:---|
-| **[Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) (린)** | **낭비 제거, 전체 가치 흐름 최적화** | 도요타 제조업 | **가장 상위의 '철학' (Mindset)** |
-| **[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | 빠른 피드백, 잦은 배포, 고객 협력 | 무거운 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 반발 | **프로젝트 관리 '방법론' ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))** |
-| **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))**| 개발과 운영의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(벽) 허물기 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 운영 한계 돌파 | **실질적인 자동화 '인프라' (Tooling)** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> (린)</strong> | **낭비 제거, 전체 가치 흐름 최적화** | 도요타 제조업 | **가장 상위의 '철학' (Mindset)** |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>)</strong> | 빠른 피드백, 잦은 배포, 고객 협력 | 무거운 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) 반발 | <strong>프로젝트 관리 '방법론' (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>)</strong>| 개발과 운영의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(벽) 허물기 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 운영 한계 돌파 | **실질적인 자동화 '인프라' (Tooling)** |
 
-- **린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))**이 "불필요한 쓰레기를 버리자"라는 큰 방향을 정해주면, **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))**이 "2주마다 모여서 쓰레기를 버리고 진짜 필요한 것만 짜자"라고 일정을 잡고, **[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)**가 "짠 코드를 기계가 1초 만에 배포해서 대기 시간 쓰레기를 없애자"라고 기계적으로 구현하는 완벽한 삼위일체다.
+- <strong>린(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a>)</strong>이 "불필요한 쓰레기를 버리자"라는 큰 방향을 정해주면, <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>)</strong>이 "2주마다 모여서 쓰레기를 버리고 진짜 필요한 것만 짜자"라고 일정을 잡고, <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD)</strong>가 "짠 코드를 기계가 1초 만에 배포해서 대기 시간 쓰레기를 없애자"라고 기계적으로 구현하는 완벽한 삼위일체다.
 
 - **📢 섹션 요약 비유**: 린은 "살을 빼고 근육을 만들자"는 목표(다이어트 철학)고, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 "주 3회 헬스장에 가자"는 실천 계획(운동 프로세스)이며, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 헬스장에 깔려 있는 런닝머신과 바벨(자동화 도구)이다.
 
@@ -108,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 조직에 린 소프트웨어 7원칙이 체화되면, 개발자들은 "이 코드가 진짜 유저에게 필요한가?"를 끊임없이 스스로 묻게 된다. 불필요한 기능(Over-engineering)을 짜는 낭비가 사라지면서 코드는 극도로 가벼워지고, 기획이 코드가 되어 시장에 나가는 시간(Time-to-Market)은 압도적으로 빨라진다.
 
-결론적으로 기술 리더는 "코드를 더 빨리 짜라"고 다그치는 십장(Manager)이 되어서는 안 된다. **개발팀이 달리는 길 위에 놓인 결재, 대기, 낡은 프로세스라는 돌부리(낭비)를 치워주고, 가장 늦은 순간에 가장 똑똑한 아키텍처 결정을 내릴 수 있도록 완충 지대를 설계해 주는 배관공(Plumber)**이 되어야 한다.
+결론적으로 기술 리더는 "코드를 더 빨리 짜라"고 다그치는 십장(Manager)이 되어서는 안 된다. <strong>개발팀이 달리는 길 위에 놓인 결재, 대기, 낡은 프로세스라는 돌부리(낭비)를 치워주고, 가장 늦은 순간에 가장 똑똑한 아키텍처 결정을 내릴 수 있도록 완충 지대를 설계해 주는 배관공(Plumber)</strong>이 되어야 한다.
 
 - **📢 섹션 요약 비유**: 린 아키텍트는 봅슬레이 경기장의 얼음 길을 닦는 사람이다. 선수들이 썰매(코드)를 빨리 미는 것도 중요하지만, 얼음 길을 매끄럽게 닦아 마찰력(낭비)을 제로로 만들어주지 않으면 절대 금메달을 딸 수 없다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-린 스타트업 MVP 피벗 사이클 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">린 스타트업 MVP 피벗 사이클 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

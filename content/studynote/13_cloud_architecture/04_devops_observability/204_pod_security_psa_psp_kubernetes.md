@@ -36,7 +36,7 @@ Kubernetes는 이를 방어하기 위해 PodSecurityPolicy([PSP](/knowledge-base
 | 프로파일 | 허용 수준 | 적합 상황 |
 |:---|:---|:---|
 | **Privileged** | 제한 없음 (모든 권한 허용) | [시스템 데몬](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/), 인프라 에이전트 (최소 사용) |
-| **[Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)** | 알려진 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 차단 | 일반 앱 워크로드, 최소한의 보안 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a></strong> | 알려진 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 차단 | 일반 앱 워크로드, 최소한의 보안 |
 | **Restricted** | 최소 권한 강제 | 보안 중요 워크로드, 권장 기본값 |
 
 ### Restricted 프로파일 주요 규칙
@@ -130,7 +130,7 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**PSA 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) → PSA)**:
+<strong>PSA 마이그레이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/">PSP</a> → PSA)</strong>:
 ```
 1단계: 감사 모드 활성화 (warn + audit)
    - 기존 워크로드가 위반하는 내용을 로그로 수집
@@ -148,16 +148,21 @@ spec:
    - 정책 위반 시도 알림 설정
 ```
 
-**[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 킬 체인 방어 레이어**:
-```
-공격 단계              방어 수단
-─────────────────────────────────────────
-1. 취약점 코드 실행  → SAST/DAST, 이미지 스캔
-2. 컨테이너 내부 탐색 → Read-only FS, capabilities 제거
-3. 권한 상승 시도    → allowPrivilegeEscalation: false
-4. 호스트 접근 시도  → hostNetwork/PID 금지, seccomp
-5. 클러스터 이동     → NetworkPolicy, RBAC 최소 권한
-```
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 킬 체인 방어 레이어</strong>:
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공격 단계 방어 수단</div>
+<div class="kb-diagram-note">1. 취약점 코드 실행 → SAST/DAST, 이미지 스캔</div>
+<div class="kb-diagram-note">2. 컨테이너 내부 탐색 → Read-only FS, capabilities 제거</div>
+<div class="kb-diagram-note">3. 권한 상승 시도 → allowPrivilegeEscalation: false</div>
+<div class="kb-diagram-note">4. 호스트 접근 시도 → hostNetwork/PID 금지, seccomp</div>
+<div class="kb-diagram-note">5. 클러스터 이동 → NetworkPolicy, RBAC 최소 권한</div>
+</div>
+</div>
+
+
 
 **기술사 판단 포인트**:
 - PSA는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 레벨 적용이므로, 시스템 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(kube-system)와 일반 워크로드를 별도 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 분리해야 한다.
@@ -200,18 +205,22 @@ PSA는 K8s 보안의 첫 번째 방어선이다. Restricted 프로파일을 기�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-PodSecurityPolicy (PSP, 폐지됨)
-    │
-    ▼
-Pod Security Admission (PSA): 네임스페이스 레벨 보안
-    ├─► Privileged: 제한 없음
-    ├─► Baseline: 위험 설정 차단
-    └─► Restricted: 최소 권한 강제
-    │
-    ▼
-OPA Gatekeeper · Kyverno → 세밀한 정책 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PodSecurityPolicy (PSP, 폐지됨)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pod Security Admission (PSA): 네임스페이스 레벨 보안</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Privileged: 제한 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Baseline: 위험 설정 차단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Restricted: 최소 권한 강제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPA Gatekeeper · Kyverno → 세밀한 정책 관리</div>
+</div>
+</div>
+
+
 2. Restricted 프로파일은 가장 엄격한 규칙이야. 꼭 필요한 장난감(캐퍼빌리티)만 가져올 수 있어.
 3. 특별히 필요한 경우(시스템 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))만 예외로 허용하고, 기본값은 항상 "최소 권한"이야.
 

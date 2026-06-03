@@ -22,27 +22,27 @@ tags = ["studynote-software-engineering"]
 개발을 할 때 각 개발자는 찢어진 파트별로 업무를 합니다. A개발자는 '장바구니 버튼'을 만들고 완벽하게 테스트합니다. B개발자는 '카드 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)' 연동을 완벽하게 마무리합니다. 그들은 각자의 개별 기능 테스트를 자축하며 퇴근합니다.
 하지만 다음날 경영진이 로그인해서 장바구니에 옷을 담고, 신용카드 결제 버튼을 누르는 순간 화면이 멈춥니다. 장바구니 데이터를 결제 모듈로 넘겨주는([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) passing) 릴레이 바통 터치 과정에서 설계가 누락되었기 때문입니다.
 
-이처럼 아무리 부품별 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 모듈이 뛰어나도, **진짜 사람(Actor)이 처음 시스템에 진입해서 목적지에 탈출할 때까지의 '유스케이스(Use Case)'를 물 흐르듯 가로지르는 경험적 시험**이 없다면 시스템은 허수아비가 됩니다. 이를 막기 위해 한 편의 연극 대본(Scenario)을 들고 리허설을 강행하는 것이 바로 **유스케이스 테스팅(Use Case Testing)**입니다.
+이처럼 아무리 부품별 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 모듈이 뛰어나도, <strong>진짜 사람(Actor)이 처음 시스템에 진입해서 목적지에 탈출할 때까지의 '유스케이스(Use Case)'를 물 흐르듯 가로지르는 경험적 시험</strong>이 없다면 시스템은 허수아비가 됩니다. 이를 막기 위해 한 편의 연극 대본(Scenario)을 들고 리허설을 강행하는 것이 바로 <strong>유스케이스 테스팅(Use Case Testing)</strong>입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  유스케이스 시나리오의 흐름도 구조                │
-├──────────────────────────────────────────────────────────────┤
-│ [Actor: 쇼핑몰 고객]        ▶  목적: "최신 드론 1개를 신용카드로 산다" │
-│                                                              │
-│ [기본 흐름 (Happy Path / Main Success Scenario)]               │
-│   1. 로그인 -> 2. 드론 검색 -> 3. 장바구니 담기 -> 4. 카드 결제    │
-│    -> 5. 결제 성공 문자 발송 (우와 성공!)                       │
-│                                                              │
-│ [대안/예외 흐름 (Alternative / Exception Paths)]              │
-│   2a. 검색 결과 없음 -> 추천 상품 띄우고 종료                       │
-│   4a. 카드 한도 초과 -> "다른 카드로 결제하시겠습니까?" 팝업         │
-│   4b. 결제 모듈 장애 -> "죄송합니다, 잠시 후 다시..." 팝업         │
-│                                                              │
-│  ※ 유스케이스 테스팅은 위 흐름 하나하나의 잔가지를 '루트(Route)'로 묶어 │
-│     끝에서 끝까지(End-to-End) 화면을 클릭하며 횡단하는 무식한 쾌감!   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 시나리오의 흐름도 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Actor: 쇼핑몰 고객</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">목적: "최신 드론 1개를 신용카드로 산다"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 흐름 (Happy Path / Main Success Scenario)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 로그인 -&gt; 2. 드론 검색 -&gt; 3. 장바구니 담기 -&gt; 4. 카드 결제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 5. 결제 성공 문자 발송 (우와 성공!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대안/예외 흐름 (Alternative / Exception Paths)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2a. 검색 결과 없음 -&gt; 추천 상품 띄우고 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4a. 카드 한도 초과 -&gt; "다른 카드로 결제하시겠습니까?" 팝업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4b. 결제 모듈 장애 -&gt; "죄송합니다, 잠시 후 다시..." 팝업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 유스케이스 테스팅은 위 흐름 하나하나의 잔가지를 '루트(Route)'로 묶어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끝에서 끝까지(End-to-End) 화면을 클릭하며 횡단하는 무식한 쾌감!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 카센터 정비사가 바퀴 나사, 브레이크 오일, 엔진오일 레벨(단위 로직)을 각자 도구로 잘 점검했더라도, 결국 마지막에는 정비소 사장이 키를 꽂고 카센터 한 바퀴를 붕~ 운전해 보며 핸들링(실사용 시나리오)이 실제 부드럽게 돌아가는지 타보는 최종 시운전 절차입니다.
 
@@ -57,7 +57,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 유스케이스는 혼자 도는 것이 아니라, 대본을 읽는 주연 배우(Actor)와 조연(System)의 대화 형식입니다.
-이 핑퐁(Ping-Pong) 작용 때문에 유스케이스 테스팅은 시스템 백엔드의 고립 영역이 아닌 **사용자 인터페이스(UI/GUI 화면)과 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구간 구간의 묶음**을 가장 빈번하게 때리게 됩니다.
+이 핑퐁(Ping-Pong) 작용 때문에 유스케이스 테스팅은 시스템 백엔드의 고립 영역이 아닌 <strong>사용자 인터페이스(UI/GUI 화면)과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 구간 구간의 묶음</strong>을 가장 빈번하게 때리게 됩니다.
 
 - **Actor Action (사용자 행동)**: "사용자가 장바구니 아이콘을 클릭한다."
 - **System Response (시스템 반응)**: "시스템은 로그인 토큰 유무를 검사하고, 유효 시 장바구니 내역을 1초 내로 렌더링한다."
@@ -83,7 +83,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 유스케이스 명세서는 곧 테스터의 내비게이션 경로입니다.
-거대한 유스케이스 대본 안에는 무수한 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)(Branch)가 들어있으며, QA는 이것들을 **독립된 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 시나리오**로 포장하여 뽑아냅니다.
+거대한 유스케이스 대본 안에는 무수한 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)(Branch)가 들어있으며, QA는 이것들을 <strong>독립된 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a> 시나리오</strong>로 포장하여 뽑아냅니다.
 
 1. **시나리오 1: 기본 해피 패스 라인**  
    - 가장 정상적이고 에러 1%도 없이 순한 양처럼 결제까지 달리는 경로(가장 먼저 테스트).
@@ -106,13 +106,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-전통적 명세서(SRS)가 두꺼운 통나무라면, 요즘 실무의 유스케이스는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 회의에서 포스트잇으로 붙이는 **'[사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))'**와 영혼이 완전히 동일하게 연결됩니다.
+전통적 명세서(SRS)가 두꺼운 통나무라면, 요즘 실무의 유스케이스는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 회의에서 포스트잇으로 붙이는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">사용자 스토리</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a>)'</strong>와 영혼이 완전히 동일하게 연결됩니다.
 
 > "나는(Who) 쇼핑몰 회원으로서,  
 > 신용카드로 드론을 안전하게 결제하기를(What) 원한다.  
 > 왜냐하면 내일 당장 조카 생일선물로 주어야(Why) 하기 때문이다."
 
-이렇게 작성된 티켓(Jira [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 1장을 QA 부서로 넘겨주면, QA는 그 스토리가 달성되거나 무너질 수 있는 5가지의 시나리오를 곧바로 엑셀과 테스트 오토메이션 툴로 작성장전합니다. 유스케이스 테스팅은 시스템의 설계 언어와 사용자의 입말을 똑같이 맞춤으로써, 테스터가 기계(코드)가 아닌 **고객의 분노 포인트**를 대변해 주는 페르소나 플레이로 고도화됩니다.
+이렇게 작성된 티켓(Jira [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 1장을 QA 부서로 넘겨주면, QA는 그 스토리가 달성되거나 무너질 수 있는 5가지의 시나리오를 곧바로 엑셀과 테스트 오토메이션 툴로 작성장전합니다. 유스케이스 테스팅은 시스템의 설계 언어와 사용자의 입말을 똑같이 맞춤으로써, 테스터가 기계(코드)가 아닌 <strong>고객의 분노 포인트</strong>를 대변해 주는 페르소나 플레이로 고도화됩니다.
 
 - **📢 섹션 요약 비유**: 기술자가 "음, 모터 볼압이 12V 잘 나오네!"라고 로봇처럼 말하는 게 아니라, 연극배우로 빙의해서 "아, 배고픈 직장인인데 앱이 3번 연속 에러 나니까 샌드위치 시키다 화병 나네!!"라고 진짜 고객 감정 시나리오를 생생하게 대입해 버그의 악질성을 비즈니스급으로 고발하는 행위입니다.
 
@@ -150,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-유스케이스 테스팅 (Use Case Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유스케이스 테스팅 (Use Case Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

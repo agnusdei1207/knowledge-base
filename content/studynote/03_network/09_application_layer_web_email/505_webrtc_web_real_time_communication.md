@@ -21,47 +21,44 @@ tags = ["studynote-network"]
 
 - **개념**: WebRTC는 W3C와 IETF가 공동으로 제정한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격이다. 브라우저가 카메라와 마이크 장치(MediaStream)에 직접 접근하고, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결(RTCPeerConnection)을 맺어, 화상 비디오나 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(RTCDataChannel)를 실시간으로 스트리밍하는 기술 집합체다.
 
-- **필요성**: 2010년 이전, 인터넷으로 화상 채팅을 하려면 끔찍한 짓을 해야 했다. "고객님, 화상 상담을 원하시면 스카이프(Skype) 전용 앱을 까시거나, 인터넷 익스플로러에서 무거운 플래시(Flash)나 액티브X 플러그인을 설치하고 브라우저를 재시작하세요." 플러그인을 깔면 컴퓨터는 느려지고 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(보안 취약점)가 쏟아져 들어왔다. 구글(Google)이 빡쳤다. **"아니, 그냥 크롬(Chrome) 브라우저 탭 하나 열고 URL 치고 들어가면 바로 내 얼굴 나오고 친구 얼굴 띄우는 게 그렇게 힘들어? 플러그인 싹 다 불태워버려! 브라우저 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에 화상 통신용 C++ 엔진(WebRTC)을 우리가 공짜로 심어줄게! 자바스크립트로 쓱쓱 호출만 해서 써라!"** 이 위대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 배포가 전 세계 화상 회의 시장(Zoom, Google Meet)을 1초 만에 클라우드 웹 기반으로 대통일 시켜버렸다.
+- **필요성**: 2010년 이전, 인터넷으로 화상 채팅을 하려면 끔찍한 짓을 해야 했다. "고객님, 화상 상담을 원하시면 스카이프(Skype) 전용 앱을 까시거나, 인터넷 익스플로러에서 무거운 플래시(Flash)나 액티브X 플러그인을 설치하고 브라우저를 재시작하세요." 플러그인을 깔면 컴퓨터는 느려지고 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(보안 취약점)가 쏟아져 들어왔다. 구글(Google)이 빡쳤다. <strong>"아니, 그냥 크롬(Chrome) 브라우저 탭 하나 열고 URL 치고 들어가면 바로 내 얼굴 나오고 친구 얼굴 띄우는 게 그렇게 힘들어? 플러그인 싹 다 불태워버려! 브라우저 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 뱃속에 화상 통신용 C++ 엔진(WebRTC)을 우리가 공짜로 심어줄게! 자바스크립트로 쓱쓱 호출만 해서 써라!"</strong> 이 위대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 배포가 전 세계 화상 회의 시장(Zoom, Google Meet)을 1초 만에 클라우드 웹 기반으로 대통일 시켜버렸다.
 
-- **💡 비유**: **과거 화상 통신**은 친구랑 대화하려면 우체국에 가서 **'무전기(플러그인/앱)'**를 비싼 돈 주고 사서 조립한 뒤 주파수를 맞춰야 하는 노가다입니다. **WebRTC**는 우리가 이미 쓰고 있는 **'스마트폰 인터넷 브라우저'** 안에 그냥 찰떡같이 녹아들어 있는 마법입니다. 그냥 링크 주소(URL) 하나만 클릭하면 브라우저가 알아서 마이크 켜주고, 상대방 브라우저랑 다이렉트로 연결([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))해서 공짜로 영상 통화를 터트려주는 궁극의 '설치 없는([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Install) 자유'입니다.
+- **💡 비유**: <strong>과거 화상 통신</strong>은 친구랑 대화하려면 우체국에 가서 <strong>'무전기(플러그인/앱)'</strong>를 비싼 돈 주고 사서 조립한 뒤 주파수를 맞춰야 하는 노가다입니다. <strong>WebRTC</strong>는 우리가 이미 쓰고 있는 **'스마트폰 인터넷 브라우저'** 안에 그냥 찰떡같이 녹아들어 있는 마법입니다. 그냥 링크 주소(URL) 하나만 클릭하면 브라우저가 알아서 마이크 켜주고, 상대방 브라우저랑 다이렉트로 연결([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))해서 공짜로 영상 통화를 터트려주는 궁극의 '설치 없는([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Install) 자유'입니다.
 
 - **등장 배경**:
   1. **플래시(Flash)의 멸망과 HTML5 시대**: 스티브 잡스가 아이폰에서 플래시(Flash)를 사형 선고 내리면서, 플래시로 연명하던 화상/게임 사이트들이 HTML5 네이티브 API로 도망갈 튼튼한 다리(WebRTC)가 절실했다.
   2. **클라우드 화상 회의(UCaaS)의 폭발**: 기업 콜센터 장비를 브라우저 하나로 때우려는 제네시스(Genesys) 등 클라우드 통신사들의 니즈가 구글의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 배포와 완벽히 맞아떨어졌다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          WebRTC의 NAT 방화벽 뚫기 3단 마법: ICE (STUN / TURN) 융합 도해        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🖥️ [ 앨리스 (공유기 사설 IP 192.168.0.2) ] ── (벽) ── 💻 [ 밥 (사설 IP 10.0.0.5) ]│
-│   - 목표: WebRTC로 서로 P2P(다이렉트) 영상 통화하고 싶음!                   │
-│   - 💥 딜레마: 둘 다 가짜 주소(사설 IP)라서 서로를 인터넷 우주에서 절대 찾을 수 없음.│
-│                                                             │
-│        ======= [ 🌟 ICE 프레임워크 발동 (길 찾기 대작전) ] ======== │
-│                                                             │
-│ 1️⃣ [ STUN 서버 (내비게이션 아저씨) ] ◀──(물어봄)── 앨리스 / 밥               │
-│   - 앨리스: "아저씨, 내 진짜 밖에서 보이는 공인 IP(껍데기 주소) 뭐야?"         │
-│   - STUN: "어! 너네 집 대문 공인 IP는 203.0.113.1 이야! 이거 밥한테 알려줘!"  │
-│   - 성공: 앨리스와 밥이 각자 공인 IP를 카톡(Signaling 서버)으로 교환해서 P2P 직통 성공!│
-│                                                             │
-│ 2️⃣ [ 💥 Symmetric NAT (지옥의 방화벽) 등장 ]                          │
-│   - 회사 방화벽 왈: "어딜 STUN으로 꼼수 부려? P2P 직통 전파 무조건 차단해(Drop)!"│
-│                                                             │
-│ 3️⃣ [ TURN 서버 (비싼 용병 릴레이 서버) ] ◀──(다이렉트 포기하고 릴레이)──       │
-│   - 앨리스: "망했어! 다이렉트(P2P) 안 뚫려! TURN 서버야 네가 그냥 우리 둘 가운데 │
-│            서서 영상 패킷 받아서 100% 다 토스(Bypass) 좀 해줘 ㅠㅠ"           │
-│                                                             │
-│ 🌟 아키텍트 분석: WebRTC의 P2P는 환상이다. 실무의 30%는 방화벽에 막혀 P2P가 깨진다.│
-│   그래서 ICE(구멍 뚫기) 엔진은 일단 공짜인 'STUN'으로 다이렉트 직통(P2P)을 시도하고,│
-│   실패하는 순간 0.1초 만에 비싼 클라우드 트래픽 요금을 태우는 'TURN(릴레이)' 서버로 │
-│   우회시켜 100% 통화 성공을 보장하는 우아한 생존(Resiliency) 융합 머신이다.      │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** "WebRTC는 서버 안 거친다면서 왜 백엔드에 서버를 세팅해야 하나요?"라는 주니어의 무지를 박살 내는 도면이다. 자바스크립트는 브라우저(로컬) 안에서만 돈다. 앨리스가 자기 컴퓨터 마이크를 켰지만, 저기 미국에 있는 밥의 브라우저까지 무슨 주소로 어떻게 뚫고 갈 것인가? 1차로 서로의 스펙(비디오 해상도 등)을 주고받을 **시그널링(Signaling) 서버(주로 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) Node.js)**가 필요하고, 2차로 공유기 주소를 까발려 줄 **STUN 서버**, 마지막으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 너무 빡셀 때 트래픽을 중계해 줄 **TURN 서버**가 무조건 백엔드 인프라에 삼위일체로 세팅되어 있어야만 비로소 "브라우저 화면에 마법처럼 친구 얼굴이 뜨는" 기적이 연성된다.
 
-- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 직통 통화를 하려면 서로 집 주소를 알아야 합니다. 그런데 우리 집 주소가 '우리 아파트 101호(사설 IP)'라서 밖에서는 절대 나를 못 찾습니다. **STUN 서버**는 나한테 "너네 아파트 밖의 진짜 주소는 '서울시 강남구 XX동(공인 IP)'이야"라고 진짜 주소를 알려주는 114 안내원입니다. 근데 우리 회사 경비원이 외부인 출입을 완벽히 차단(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))하면? 할 수 없이 **TURN 서버**라는 '오토바이 퀵서비스맨'을 비싸게 고용해서, 친구가 퀵한테 영상을 주면 퀵이 경비실에 맡기고 내가 찾아가는 방식(릴레이)으로 우회 통신을 해야만 화상 통화가 안 끊깁니다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WebRTC의 NAT 방화벽 뚫기 3단 마법: ICE (STUN / TURN) 융합 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🖥️</div><div class="kb-diagram-node">앨리스 (공유기 사설 IP 192.168.0.2)</div><div class="kb-diagram-note">── (벽) ── 💻</div><div class="kb-diagram-node">밥 (사설 IP 10.0.0.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목표: WebRTC로 서로 P2P(다이렉트) 영상 통화하고 싶음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 딜레마: 둘 다 가짜 주소(사설 IP)라서 서로를 인터넷 우주에서 절대 찾을 수 없음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 ICE 프레임워크 발동 (길 찾기 대작전)</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">STUN 서버 (내비게이션 아저씨)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──(물어봄)── 앨리스 / 밥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앨리스: "아저씨, 내 진짜 밖에서 보이는 공인 IP(껍데기 주소) 뭐야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- STUN: "어! 너네 집 대문 공인 IP는 203.0.113.1 이야! 이거 밥한테 알려줘!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 성공: 앨리스와 밥이 각자 공인 IP를 카톡(Signaling 서버)으로 교환해서 P2P 직통 성공!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">💥 Symmetric NAT (지옥의 방화벽) 등장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회사 방화벽 왈: "어딜 STUN으로 꼼수 부려? P2P 직통 전파 무조건 차단해(Drop)!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">TURN 서버 (비싼 용병 릴레이 서버)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──(다이렉트 포기하고 릴레이)──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앨리스: "망했어! 다이렉트(P2P) 안 뚫려! TURN 서버야 네가 그냥 우리 둘 가운데</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서서 영상 패킷 받아서 100% 다 토스(Bypass) 좀 해줘 ㅠㅠ"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 분석: WebRTC의 P2P는 환상이다. 실무의 30%는 방화벽에 막혀 P2P가 깨진다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래서 ICE(구멍 뚫기) 엔진은 일단 공짜인 'STUN'으로 다이렉트 직통(P2P)을 시도하고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패하는 순간 0.1초 만에 비싼 클라우드 트래픽 요금을 태우는 'TURN(릴레이)' 서버로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우회시켜 100% 통화 성공을 보장하는 우아한 생존(Resiliency) 융합 머신이다.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** "WebRTC는 서버 안 거친다면서 왜 백엔드에 서버를 세팅해야 하나요?"라는 주니어의 무지를 박살 내는 도면이다. 자바스크립트는 브라우저(로컬) 안에서만 돈다. 앨리스가 자기 컴퓨터 마이크를 켰지만, 저기 미국에 있는 밥의 브라우저까지 무슨 주소로 어떻게 뚫고 갈 것인가? 1차로 서로의 스펙(비디오 해상도 등)을 주고받을 <strong>시그널링(Signaling) 서버(주로 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/">웹소켓</a> Node.js)</strong>가 필요하고, 2차로 공유기 주소를 까발려 줄 **STUN 서버**, 마지막으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 너무 빡셀 때 트래픽을 중계해 줄 <strong>TURN 서버</strong>가 무조건 백엔드 인프라에 삼위일체로 세팅되어 있어야만 비로소 "브라우저 화면에 마법처럼 친구 얼굴이 뜨는" 기적이 연성된다.
+
+- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 직통 통화를 하려면 서로 집 주소를 알아야 합니다. 그런데 우리 집 주소가 '우리 아파트 101호(사설 IP)'라서 밖에서는 절대 나를 못 찾습니다. <strong>STUN 서버</strong>는 나한테 "너네 아파트 밖의 진짜 주소는 '서울시 강남구 XX동(공인 IP)'이야"라고 진짜 주소를 알려주는 114 안내원입니다. 근데 우리 회사 경비원이 외부인 출입을 완벽히 차단(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))하면? 할 수 없이 <strong>TURN 서버</strong>라는 '오토바이 퀵서비스맨'을 비싸게 고용해서, 친구가 퀵한테 영상을 주면 퀵이 경비실에 맡기고 내가 찾아가는 방식(릴레이)으로 우회 통신을 해야만 화상 통화가 안 끊깁니다.
 
 ---
 
@@ -86,25 +83,29 @@ tags = ["studynote-network"]
 | 아키텍처 모델 | [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) (순수 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) | MCU (중앙 비디오 믹서기) | SFU (선택적 전달 라우터) 🌟 모던 대세 |
 |:---|:---|:---|:---|
 | **동작 원리** | 10명이 각자 나머지 9명한테 내 영상을 1:1로 다 쏨! | 10명이 중앙 서버 1대로 쏘면, 서버가 10명 화면을 1장의 픽셀로 비빔(Mixing) ➔ 1장만 쏨. | 중앙 서버가 받아서 영상 비비지(Mixing) 않고! 그냥 복사기처럼 그대로 9명한테 토스([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))만 쳐줌! |
-| **업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**| **내 PC가 터짐 💥**. 9명분 영상을 쏴야 해서 내 CPU/업로드(Network) 파산. (최대 4명이 한계) | 나는 1명분만 쏘면 됨. (가벼움) | 나는 1명분만 쏘면 됨. (가벼움) |
+| <strong>업로드 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>| **내 PC가 터짐 💥**. 9명분 영상을 쏴야 해서 내 CPU/업로드(Network) 파산. (최대 4명이 한계) | 나는 1명분만 쏘면 됨. (가벼움) | 나는 1명분만 쏘면 됨. (가벼움) |
 | **서버 부하/돈** | **서버 비용 0원 (무료)** | 중앙 서버가 10명 영상 디코딩/비빔면(인코딩) 하느라 CPU 연산 타버림 💥 (수십 억 깨짐) | 서버는 그냥 패킷을 스위치처럼 튕겨만(Relay) 주니까 CPU 안탐! 가성비 최고! 🚀 |
 | **실무 아키텍트**| 개인 프로젝트, 1:1 과외. | 레거시 화상 장비 호환(은행, 정부)용. | **Zoom, 구글 미트(Meet), 트위치 등 현대 다자간 화상 통신의 100% 심장 뼈대 융합**. |
 
 ### 과목 융합 관점
 
-- **[네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) ([DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) / SRTP의 태생적 강제화)**: 기존 인터넷 전화([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) 시절엔 보안을 켤지 말지 옵션이었다(평문 떡칠). WebRTC는 크롬 브라우저에 박혀 들어갈 때 구글 보안팀이 헌법을 박았다. **"보안(Encryption) 안 켠 놈은 브라우저 탭에서 에러 띄우고 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 무조건 찢어버려!"** WebRTC는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 영상 패킷([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))을 날릴 때, 무조건 `SRTP (Secure RTP)`로 암호화하고, 그 암호화 키를 교환할 때 `DTLS (Datagram Transport Layer Security, UDP용 TLS)` 터널을 100% 필수적으로 강제 융합시켜버렸다. 그래서 해커가 중간 공유기에서 와이어샤크(Wireshark)로 패킷을 훔쳐도, 암호화된 쓰레기 덩어리만 보일 뿐 화상 영상을 절대 훔쳐볼(Sniffing) 수 없는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 엔드-투-엔드([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 통신을 구현했다.
-- **코덱(Codec) 압축과 프론트엔드 최적화 (VP8/VP9 vs H.264)**: 화상 회의의 생명은 압축이다. 구글은 WebRTC를 풀면서 자신들이 인수한 공짜(로열티 0원) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코덱인 **VP8/VP9**을 기본 심장으로 박아넣었다. 하지만 아이폰(사파리)과 하드웨어 칩셋([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 진영은 이미 전 세계를 지배한 유료 표준 **H.264** 코덱을 고집했다. 코덱 전쟁 끝에 결국 WebRTC는 두 코덱을 모두 뱃속에 품는(Hybrid) 타협을 쳤다. 지금은 더 적은 트래픽으로 4K 화질을 쏴주는 **AV1 코덱**으로 진화 중이며, 이 무거운 코덱 연산을 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/))를 통해 브라우저 CPU가 아닌 껍데기 기기 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(하드웨어 가속)로 완벽히 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-loading) 쳐서 발열과 배터리 광탈을 막아내는 프론트엔드 극강 튜닝이 곁들여져 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/">DTLS</a> / SRTP의 태생적 강제화)</strong>: 기존 인터넷 전화([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) 시절엔 보안을 켤지 말지 옵션이었다(평문 떡칠). WebRTC는 크롬 브라우저에 박혀 들어갈 때 구글 보안팀이 헌법을 박았다. <strong>"보안(Encryption) 안 켠 놈은 브라우저 탭에서 에러 띄우고 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 무조건 찢어버려!"</strong> WebRTC는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 영상 패킷([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))을 날릴 때, 무조건 `SRTP (Secure RTP)`로 암호화하고, 그 암호화 키를 교환할 때 `DTLS (Datagram Transport Layer Security, UDP용 TLS)` 터널을 100% 필수적으로 강제 융합시켜버렸다. 그래서 해커가 중간 공유기에서 와이어샤크(Wireshark)로 패킷을 훔쳐도, 암호화된 쓰레기 덩어리만 보일 뿐 화상 영상을 절대 훔쳐볼(Sniffing) 수 없는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 엔드-투-엔드([E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)) 통신을 구현했다.
+- **코덱(Codec) 압축과 프론트엔드 최적화 (VP8/VP9 vs H.264)**: 화상 회의의 생명은 압축이다. 구글은 WebRTC를 풀면서 자신들이 인수한 공짜(로열티 0원) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코덱인 <strong>VP8/VP9</strong>을 기본 심장으로 박아넣었다. 하지만 아이폰(사파리)과 하드웨어 칩셋([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 진영은 이미 전 세계를 지배한 유료 표준 **H.264** 코덱을 고집했다. 코덱 전쟁 끝에 결국 WebRTC는 두 코덱을 모두 뱃속에 품는(Hybrid) 타협을 쳤다. 지금은 더 적은 트래픽으로 4K 화질을 쏴주는 <strong>AV1 코덱</strong>으로 진화 중이며, 이 무거운 코덱 연산을 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/))를 통해 브라우저 CPU가 아닌 껍데기 기기 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(하드웨어 가속)로 완벽히 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-loading) 쳐서 발열과 배터리 광탈을 막아내는 프론트엔드 극강 튜닝이 곁들여져 있다.
 
-```text
-[IPTV 멀티캐스트 전송]
-    │
-    ▼
-[WebRTC]
-    │
-    └──▶ [CDN]
-```
 
-- **📢 섹션 요약 비유**: P2P로 10명 화상회의([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))를 하는 건, 내(컴퓨터)가 입으로 똑같은 이야기를 9명 친구한테 돌아가면서 **'9번 반복해서 크게 외치는 짓(업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭발)'**입니다. 숨이 차서 죽습니다. **SFU 아키텍처**는 내 앞에 **'고성능 확성기 마이크(클라우드 릴레이 서버)'**를 하나 딱 둔 겁니다. 나는 작게 한 번만(1개 영상) 말해도, 마이크(SFU 서버)가 알아서 9명한테 미친 듯이 확성([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 시켜주니까 내 목(CPU)이 전혀 아프지 않은 다자간 회의의 꿀템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPTV 멀티캐스트 전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CDN</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: P2P로 10명 화상회의([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))를 하는 건, 내(컴퓨터)가 입으로 똑같은 이야기를 9명 친구한테 돌아가면서 <strong>'9번 반복해서 크게 외치는 짓(업로드 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭발)'</strong>입니다. 숨이 차서 죽습니다. <strong>SFU 아키텍처</strong>는 내 앞에 <strong>'고성능 확성기 마이크(클라우드 릴레이 서버)'</strong>를 하나 딱 둔 겁니다. 나는 작게 한 번만(1개 영상) 말해도, 마이크(SFU 서버)가 알아서 9명한테 미친 듯이 확성([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 시켜주니까 내 목(CPU)이 전혀 아프지 않은 다자간 회의의 꿀템입니다.
 
 ---
 
@@ -124,53 +125,50 @@ WebRTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 클라우드 비용 폭발의 주범, TURN 서버 트래픽 비용([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)) 통제 실패**: 스타트업 개발자가 "WebRTC P2P니까 AWS 클라우드 트래픽 요금 0원이겠지 ㅋ" 하고 1:1 소개팅 앱을 런칭했다. 1달 뒤 AWS 청구서에 5,000만 원이 찍혔다. 
+1. <strong>시나리오 — 클라우드 비용 폭발의 주범, TURN 서버 트래픽 비용(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a>) 통제 실패</strong>: 스타트업 개발자가 "WebRTC P2P니까 AWS 클라우드 트래픽 요금 0원이겠지 ㅋ" 하고 1:1 소개팅 앱을 런칭했다. 1달 뒤 AWS 청구서에 5,000만 원이 찍혔다. 
    - **판단**: WebRTC의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 환상(Illusion)이 빚어낸 뼈아픈 클라우드 요금(Bill Shock) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 
-   현실 인터넷의 기업/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 환경에서는 엄격한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 때문에 앨리스와 밥의 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신이 약 20~30% 확률로 찢어진다. 이때 ICE 엔진은 통화 단절을 막기 위해 차선책으로 AWS에 띄워둔 **TURN 서버(중계 서버)**를 경유하여 영상 패킷을 100% 릴레이(우회 통과) 시켜버린다. 즉, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 공짜가 아니라 1GB짜리 영상이 AWS EC2 서버(TURN)를 치고 들어갔다 나가면서 아웃바운드 트래픽 요금 지옥을 발생시킨 것이다. 
+   현실 인터넷의 기업/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 환경에서는 엄격한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Symmetric [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 때문에 앨리스와 밥의 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신이 약 20~30% 확률로 찢어진다. 이때 ICE 엔진은 통화 단절을 막기 위해 차선책으로 AWS에 띄워둔 <strong>TURN 서버(중계 서버)</strong>를 경유하여 영상 패킷을 100% 릴레이(우회 통과) 시켜버린다. 즉, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 공짜가 아니라 1GB짜리 영상이 AWS EC2 서버(TURN)를 치고 들어갔다 나가면서 아웃바운드 트래픽 요금 지옥을 발생시킨 것이다. 
    아키텍트는 TURN 서버를 비싼 AWS에 박지 말고, 트래픽이 무제한 공짜인 물리 호스팅([On-premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) IDC)이나 값싼 라이트세일(Lightsail) 엣지 단으로 분리 빼내기([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Offload) 대공사를 쳐야만 스타트업 파산을 면한다.
 
 2. **시나리오 — 게임 패드 0.1초 반응 속도 핑퐁을 위한 DataChannel 융합 타격**: 클라우드 게임(Web Game) 플랫폼 개발. 사용자가 웹 브라우저에서 방향키를 누르면 클라우드 서버에서 캐릭터가 움직인다. 보통 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/))으로 TCP를 썼더니, 패킷이 1개라도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Loss)되면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 종특 상 그 패킷을 재전송하느라 0.5초 동안 게임 화면이 멈추는([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 발암 현상이 터졌다.
-   - **판단**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 코어를 뒤집는 **WebRTC `RTCDataChannel(UDP)` 융합 수술** 타점이다. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))은 100% 신뢰성을 위해 1개라도 빠지면 멈춰 선다(게임에 최악). 아키텍트는 영상 통화를 다 끄고 오직 WebRTC의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 터널([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel)' 기능만 뽑아내어 키보드 조작 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 날린다. 
+   - **판단**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 코어를 뒤집는 <strong>WebRTC <code>RTCDataChannel(UDP)</code> 융합 수술</strong> 타점이다. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))은 100% 신뢰성을 위해 1개라도 빠지면 멈춰 선다(게임에 최악). 아키텍트는 영상 통화를 다 끄고 오직 WebRTC의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 터널([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel)' 기능만 뽑아내어 키보드 조작 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 날린다. 
    WebRTC는 밑바닥이 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)([SCTP](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/)) 기반이다. 내가 쏜 키보드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1개가 중간에 유실돼도? "어차피 0.1초 전 낡은 좌표 버려! 다음 들어오는 최신 좌표 그냥 그려!" 라며 쿨하게 재전송을 포기(Unreliable Mode)하고 미친듯한 서브 세컨드(Sub-second, 0.1초 미만) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율로 게임을 렌더링해 버리는, 실시간 게임과 로봇 원격 제어망의 궁극적 해커 무기가 된다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 다자간 줌(Zoom) 화상 회의를 지탱하는 SFU 융합 엔진 도면 │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 👨‍💻 [ A (나) ] : 1080p 고화질로 쏘고 싶음. 근데 폰으로 보는 놈도 있네?         │
-  │     │                                                       │
-  │     │ 🎥 Simulcast (시뮬캐스트) 발동: 내 CPU가 아예 3개의 화질로 찢어서 쏨!│
-  │     ├──▶ (High: 1080p 영상) ────────┐                         │
-  │     ├──▶ (Mid : 720p 영상)  ────────┼─────┐                   │
-  │     └──▶ (Low : 360p 영상)  ────────┘     │                   │
-  │                                           ▼                   │
-  │        ======= [ ☁️ 클라우드 SFU (Selective Forwarding Unit) ] ========│
-  │                                           │                   │
-  │   - 🧠 지능형 라우팅: "오 A가 3개 화질을 묶어 던졌네! 받을 놈들 스펙 볼까?"     │
-  │   - "B는 빵빵한 PC 랜선이네? ➔ (A의 1080p 고화질 가닥만 라우팅 쓱~)"       │
-  │   - "C는 산속 LTE 구린 폰이네? ➔ (A의 360p 저화질 가닥만 라우팅 쓱~)"       │
-  │                                           │                   │
-  │ 💻 [ B (PC) ] ◀── (1080p) ──┘           └── (360p) ──▶ 📱 [ C (폰) ]│
-  │                                                             │
-  │ 🌟 아키텍트의 극찬: 중앙 서버(SFU)가 동영상을 비싸게 뜯고 재압축(인코딩)하는 미친 │
-  │   짓을 1도 안 한다! A가 애초에 3가닥(시뮬캐스트)으로 쏴주면, SFU는 그냥 받는  │
-  │   놈들 통신망 크기에 맞춰서 가위로 툭툭 '선택적(Selective)'으로 스위칭해서   │
-  │   뿌려만 주는 궁극의 저비용 고성능(Low CPU, High Routing) 아키텍처다.      │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 다자간 줌(Zoom) 화상 회의를 지탱하는 SFU 융합 엔진 도면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">A (나)</div><div class="kb-diagram-note">: 1080p 고화질로 쏘고 싶음. 근데 폰으로 보는 놈도 있네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🎥 Simulcast (시뮬캐스트) 발동: 내 CPU가 아예 3개의 화질로 찢어서 쏨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (High: 1080p 영상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (Mid : 720p 영상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (Low : 360p 영상)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">☁️ 클라우드 SFU (Selective Forwarding Unit)</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🧠 지능형 라우팅: "오 A가 3개 화질을 묶어 던졌네! 받을 놈들 스펙 볼까?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "B는 빵빵한 PC 랜선이네? ➔ (A의 1080p 고화질 가닥만 라우팅 쓱~)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "C는 산속 LTE 구린 폰이네? ➔ (A의 360p 저화질 가닥만 라우팅 쓱~)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">B (PC)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">C (폰)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 극찬: 중앙 서버(SFU)가 동영상을 비싸게 뜯고 재압축(인코딩)하는 미친</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짓을 1도 안 한다! A가 애초에 3가닥(시뮬캐스트)으로 쏴주면, SFU는 그냥 받는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">놈들 통신망 크기에 맞춰서 가위로 툭툭 '선택적(Selective)'으로 스위칭해서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뿌려만 주는 궁극의 저비용 고성능(Low CPU, High Routing) 아키텍처다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "줌(Zoom)은 사람 100명이 들어와도 왜 서버가 안 터지고 내 폰은 안 끊기죠?"를 묻는 뼈대인 **SFU + Simulcast (시뮬캐스트)** 융합 방어망이다. 과거 MCU 방식은 서버가 100명의 영상을 하나로 합치느라 서버 CPU가 녹아내렸다. SFU는 그냥 복사기(L7 라우터)다. A가 화질 3개(고/중/저) 버전을 한방에 서버로 쏴버리면, 서버는 인코딩 짬처리를 안 하고, 그냥 C의 네트워크가 구리면 제일 가벼운 360p 파이프라인 밸브만 탁! 열어주고 나머진 끊어버려 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Lag)을 박살 낸다. 화상 회의 클라우드 플랫폼이 인프라 비용(CAPEX)을 90% 깎아내면서도 화질의 반응성을 잡은 미친 소프트웨어 공학의 승리다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: 안드로이드 크롬(Chrome)에서는 화상 통화가 빵빵 터지는데 아이폰(사파리 Safari)에서는 마이크 권한 에러 나고 튕기는 지옥을 겪고 있는가? 구글이 주도한 WebRTC 표준을 애플(사파리)은 자기네 밥그릇(FaceTime) 지키려고 엄청나게 늦게, 그리고 버그 투성이로 지원했다(특히 iOS 15 이전 H.264 코덱 하드웨어 지원 등 엉망). 아키텍트는 "WebRTC는 글로벌 표준이니 다 똑같이 돌겠지"라는 망상을 버리고, `Adapter.js` 같은 벤더 브라우저 간의 더러운 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 찌꺼기 갭(Gap)을 메워주는 폴리필(Polyfill) 융합 쉴드를 프론트엔드 코드 맨 앞단에 무조건 씌워야만 클라이언트의 쌍욕(Cross-browser Issue)을 면한다.
-- **운영·보안적**: 사내 화상 회의용 시그널링(Signaling) [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 짤 때, 개발자가 바보처럼 메모리(RAM)에 방(Room) 객체를 다 올려놓고 짰는가? (전형적인 모놀리식 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)). 서버 1대로 1,000명 버틸 땐 상관없지만, 1만 명이 들어와서 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 3대(A, B, C)로 찢어 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하는 순간 파국이 열린다. 앨리스는 A 서버에, 밥은 B 서버에 물려버리면 둘이 같은 "채팅방 1"에 들어갔는데도 서로 인사 패킷이 도달하지 않아 영원히 화상 통화([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))가 터지지 않는 고립([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))이 발생한다. 다중 노드 시그널링 망에는 무조건 뒤단에 **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Pub/Sub (또는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))** 통나무를 대서, A 서버가 받은 앨리스의 쪽지를 Redis로 뿌려 B 서버의 밥에게 0.01초 만에 배달해 주는 **비동기 백플레인(Backplane) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 융합**을 쳐둬야만 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 무한 펌핑이 가능하다.
+- **운영·보안적**: 사내 화상 회의용 시그널링(Signaling) [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 짤 때, 개발자가 바보처럼 메모리(RAM)에 방(Room) 객체를 다 올려놓고 짰는가? (전형적인 모놀리식 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)). 서버 1대로 1,000명 버틸 땐 상관없지만, 1만 명이 들어와서 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 3대(A, B, C)로 찢어 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하는 순간 파국이 열린다. 앨리스는 A 서버에, 밥은 B 서버에 물려버리면 둘이 같은 "채팅방 1"에 들어갔는데도 서로 인사 패킷이 도달하지 않아 영원히 화상 통화([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))가 터지지 않는 고립([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))이 발생한다. 다중 노드 시그널링 망에는 무조건 뒤단에 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Pub/Sub (또는 <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>)</strong> 통나무를 대서, A 서버가 받은 앨리스의 쪽지를 Redis로 뿌려 B 서버의 밥에게 0.01초 만에 배달해 주는 <strong>비동기 백플레인(Backplane) <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 융합</strong>을 쳐둬야만 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 무한 펌핑이 가능하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **P2P의 환상에 빠진 N:M 다자간 무지성 [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 연동 (클라이언트 배터리 타죽음)**: 사이드 프로젝트에서 WebRTC를 갓 배운 개발자가 저지르는 가장 흔한 멸망 시나리오. "오, 서버비 0원이네? 이걸로 대학교 온라인 수업 50명짜리 방 짜야지 ㅋ" ➔ 50명이 각자 49명에게 자신의 화상 영상을 1:1로 쏘는 `N * (N-1)` [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 거미줄 구조를 코딩해 버렸다.
-  강의실 입장 3초 후, 교수님과 50명 학생의 노트북 팬(Fan)이 비행기 이륙 소리를 내며 불타기 시작한다. 1명이 49명분의 1080p 영상을 미친 듯이 쪼개서 업로드하느라 가정용 기가인터넷의 업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 찢어지고, 브라우저가 쓸 수 있는 램(RAM) 2GB 한도를 뚫어버려 `Out of Memory`로 단체 튕김 셧다운 사태가 열린다. **"참여자 4명을 넘어가는 화상 회의 방에서는 무조건 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 낭만을 휴지통에 쳐박고, 중앙 서버를 거치는 SFU 융합 아키텍처로 넘어가라."** 돈(서버 비용) 아끼려다 사용자 기기 배터리를 불태워 죽이는 앱은 세상에서 제일 멍청한 앱이다.
+- <strong>P2P의 환상에 빠진 N:M 다자간 무지성 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a> 연동 (클라이언트 배터리 타죽음)</strong>: 사이드 프로젝트에서 WebRTC를 갓 배운 개발자가 저지르는 가장 흔한 멸망 시나리오. "오, 서버비 0원이네? 이걸로 대학교 온라인 수업 50명짜리 방 짜야지 ㅋ" ➔ 50명이 각자 49명에게 자신의 화상 영상을 1:1로 쏘는 `N * (N-1)` [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 거미줄 구조를 코딩해 버렸다.
+  강의실 입장 3초 후, 교수님과 50명 학생의 노트북 팬(Fan)이 비행기 이륙 소리를 내며 불타기 시작한다. 1명이 49명분의 1080p 영상을 미친 듯이 쪼개서 업로드하느라 가정용 기가인터넷의 업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 찢어지고, 브라우저가 쓸 수 있는 램(RAM) 2GB 한도를 뚫어버려 `Out of Memory`로 단체 튕김 셧다운 사태가 열린다. <strong>"참여자 4명을 넘어가는 화상 회의 방에서는 무조건 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 낭만을 휴지통에 쳐박고, 중앙 서버를 거치는 SFU 융합 아키텍처로 넘어가라."</strong> 돈(서버 비용) 아끼려다 사용자 기기 배터리를 불태워 죽이는 앱은 세상에서 제일 멍청한 앱이다.
 
-- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) Mesh로 50명 화상회의를 하는 건, 50명이 강당에 모여 마이크 없이 **'각자 나머지 49명한테 내 목소리가 들리도록 1대1로 일일이 돌아다니며 소리를 꽥꽥 지르는([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 업로드 폭발) 짓'**입니다. 체력(CPU)이 1분 만에 고갈되어 기절하죠. 돈(서버비)이 들더라도 강당 중앙에 **거대한 확성기 스피커(SFU 서버)**를 사서 달아두고, 나는 마이크에 대고 딱 한 번만 말하면 스피커가 알아서 49명한테 뿌려주게 만드는 것이 다자간 통신의 지치지 않는 평화로운 융합 설계입니다.
+- **📢 섹션 요약 비유**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) Mesh로 50명 화상회의를 하는 건, 50명이 강당에 모여 마이크 없이 <strong>'각자 나머지 49명한테 내 목소리가 들리도록 1대1로 일일이 돌아다니며 소리를 꽥꽥 지르는(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 업로드 폭발) 짓'</strong>입니다. 체력(CPU)이 1분 만에 고갈되어 기절하죠. 돈(서버비)이 들더라도 강당 중앙에 <strong>거대한 확성기 스피커(SFU 서버)</strong>를 사서 달아두고, 나는 마이크에 대고 딱 한 번만 말하면 스피커가 알아서 49명한테 뿌려주게 만드는 것이 다자간 통신의 지치지 않는 평화로운 융합 설계입니다.
 
 ---
 
@@ -179,20 +177,20 @@ WebRTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 | 구분 | 레거시 화상통신 (ActiveX / Skype 설치) | WebRTC (HTML5 브라우저 네이티브 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 융합) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량** | 모든 영상을 중앙 서버(MCU)가 받아서 중계함 | 1:1 통신 시 서버 거치지 않는 완벽한 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 다이렉트 | 화상/음성 전송의 **서버 트래픽 요금(OPEX) 100% 절감 (0원)** |
-| **정량** | 패킷이 클라우드 서버 쳤다가 다시 내려옴 (500ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/SRTP 기반 직통 꽂기로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 거의 증발 | 1:1 화상 통화 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 100ms 이하 서브 세컨드 달성** |
+| **정량** | 패킷이 클라우드 서버 쳤다가 다시 내려옴 (500ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)/SRTP 기반 직통 꽂기로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 거의 증발 | 1:1 화상 통화 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>율(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 100ms 이하 서브 세컨드 달성</strong> |
 | **정성** | "고객님 화상 연결용 보안 프로그램.exe 까세요" 쌍욕 | 링크 클릭 1방 ➔ 브라우저 마이크 팝업 ➔ 바로 화면 짠! | 설치/가입 장벽 파괴로 인한 **온라인 상담/원격 진료 전환율(CVR) 우주 폭발** |
 
 ### 미래 전망
-- **WebTransport와 차세대 게임 스트리밍 융합 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 뼈대)**: WebRTC에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(`RTCDataChannel`)은 빠르지만, 너무 오래된 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([SCTP](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/))을 써서 다루기가 더럽게 까다로웠다. 구글 아키텍트들은 "야 이 오래된 뼈대 버리고, 최신 힙스터 기술인 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))** 기반으로 아예 싹 다 리모델링하자!"며 **WebTransport [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**를 밀고 있다. 멀티플렉싱(여러 가닥을 동시에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 쏨) 깡패인 QUIC을 무기로, 브라우저가 단순 화상을 넘어 "지포스 나우" 클라우드 고사양 게임 화면과 조이패드 0.001초 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완벽하게 받아주는 초지연(Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 스트리밍 머신으로 진화하는 넥스트 웹 생태계 특이점이 터지고 있다.
-- **[메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)(WebXR) 공간 음향과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합의 전진 기지**: 브라우저에서 가상 현실(VR/AR) [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 공간에 100명이 아바타로 모였다. 철수가 내 아바타의 '왼쪽 뒤'에서 말하면, 내 이어폰에서도 진짜 왼쪽 뒤에서 소리가 들려야 한다(공간 음향 Spatial Audio). WebRTC의 `MediaStream` 뼈대 위에 Web Audio API를 융합하여 실시간 3D 오디오 렌더링이 0.1초 만에 덧입혀진다. 거기에 백엔드에 숨어있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(SFU 연동)가 철수의 목소리를 실시간([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/))으로 낚아채서 내 화면 밑에 0.5초 만에 영어 자막으로 통역 번역(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 융합)해 띄워주는 초차원적 지능형 다국어 컨퍼런스 룸의 심장부로 대각성하고 있다.
+- <strong>WebTransport와 차세대 게임 스트리밍 융합 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 뼈대)</strong>: WebRTC에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(`RTCDataChannel`)은 빠르지만, 너무 오래된 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([SCTP](/knowledge-base/studynote/03_network/08_transport_layer/447_sctp_multi_stream_multi_homing_4way_handshake/))을 써서 다루기가 더럽게 까다로웠다. 구글 아키텍트들은 "야 이 오래된 뼈대 버리고, 최신 힙스터 기술인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>)</strong> 기반으로 아예 싹 다 리모델링하자!"며 <strong>WebTransport <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>를 밀고 있다. 멀티플렉싱(여러 가닥을 동시에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 쏨) 깡패인 QUIC을 무기로, 브라우저가 단순 화상을 넘어 "지포스 나우" 클라우드 고사양 게임 화면과 조이패드 0.001초 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완벽하게 받아주는 초지연(Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 스트리밍 머신으로 진화하는 넥스트 웹 생태계 특이점이 터지고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/">메타버스</a>(WebXR) 공간 음향과 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 융합의 전진 기지</strong>: 브라우저에서 가상 현실(VR/AR) [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 공간에 100명이 아바타로 모였다. 철수가 내 아바타의 '왼쪽 뒤'에서 말하면, 내 이어폰에서도 진짜 왼쪽 뒤에서 소리가 들려야 한다(공간 음향 Spatial Audio). WebRTC의 `MediaStream` 뼈대 위에 Web Audio API를 융합하여 실시간 3D 오디오 렌더링이 0.1초 만에 덧입혀진다. 거기에 백엔드에 숨어있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(SFU 연동)가 철수의 목소리를 실시간([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/))으로 낚아채서 내 화면 밑에 0.5초 만에 영어 자막으로 통역 번역(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 융합)해 띄워주는 초차원적 지능형 다국어 컨퍼런스 룸의 심장부로 대각성하고 있다.
 
 ### 참고 표준
-- **HTML5 WebRTC [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (W3C 표준)**: 브라우저 환경에서 플래시(Flash)라는 무거운 암덩어리를 영원히 관짝으로 보내버리고, 자바스크립트 10줄만 치면 내 얼굴이 모니터에 떠오르는 프론트엔드 미디어 렌더링의 기적을 창조한 절대 헌법.
+- <strong>HTML5 WebRTC <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (W3C 표준)</strong>: 브라우저 환경에서 플래시(Flash)라는 무거운 암덩어리를 영원히 관짝으로 보내버리고, 자바스크립트 10줄만 치면 내 얼굴이 모니터에 떠오르는 프론트엔드 미디어 렌더링의 기적을 창조한 절대 헌법.
 - **ICE (Interactive Connectivity Establishment) RFC 5245**: 집집마다 가로막혀있는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))이라는 만리장성에, STUN(주소 알기)과 TURN(릴레이 우회)이라는 드릴을 양손에 쥐여주고 "무조건 어떻게든 터널([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))을 뚫어라!"라고 명령하는 극단적 생존 지향 융합 네트워킹 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 
 "중앙을 통제하던 제국의 우체국(서버)을 부숴버리고, 변방의 백성(브라우저)들에게 직접 길을 뚫어 소통하는 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 권력을 쥐여준 인터넷 민주화의 위대한 코드." WebRTC의 탄생은 단순한 기술의 배포가 아니라, 통신사(Skype)와 플랫폼(Flash)이 독점하던 비싼 실시간 영상 통신의 권력을 전 세계 1,000만 웹 프론트엔드 개발자들의 손바닥 위로 공짜로 해방(Democratization)시킨 소프트웨어 혁명이었다. `getUserMedia` API로 우리의 목소리를 낚아채고, `RTCPeerConnection`으로 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 철조망을 STUN/TURN의 드릴로 피 튀기게 뚫어내는 그 보이지 않는 밑바닥 C++ 엔진의 거대한 헌신. 그 덕분에 우리는 클릭 단 한 번만으로 국경과 서버의 벽을 무너뜨리고 수만 마일 밖의 연인과 1밀리초의 끊김도 없이 마주할 수 있게 되었다. 비록 10명이 넘어가는 군중([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 앞에서는 가쁜 숨을 몰아쉬며 클라우드 SFU 릴레이 서버에게 무릎을 꿇어야만 하는 물리적 한계를 지녔지만, 낡은 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(exe)의 족쇄를 끊어내고 웹 브라우저 탭 하나를 가장 강력한 텔레파시의 무전기로 승격시켜버린 WebRTC의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 철학은 21세기 언택트(Untact) 시대 인류를 연결한 가장 우아하고도 위대한 결합술의 마스터피스다.
 
-- **📢 섹션 요약 비유**: WebRTC는 복잡하게 공사해서 까는 유선 전화기(스카이프 앱 설치)가 아니라, 웹 브라우저라는 우리 집 거실에 원래 있던 창문입니다. 그냥 창문(브라우저 탭)을 활짝 열고 마법의 **'실전화기 두루마리(WebRTC JS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))'**를 저 멀리 친구네 창문으로 휙 던지기만 하면, 0.1초 만에 팽팽해지며 공짜로 영상과 목소리를 짱짱하게 나눌 수 있는 세상에서 가장 유연하고 마찰력(귀찮음) 없는 마법 통신망입니다.
+- **📢 섹션 요약 비유**: WebRTC는 복잡하게 공사해서 까는 유선 전화기(스카이프 앱 설치)가 아니라, 웹 브라우저라는 우리 집 거실에 원래 있던 창문입니다. 그냥 창문(브라우저 탭)을 활짝 열고 마법의 <strong>'실전화기 두루마리(WebRTC JS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)'</strong>를 저 멀리 친구네 창문으로 휙 던지기만 하면, 0.1초 만에 팽팽해지며 공짜로 영상과 목소리를 짱짱하게 나눌 수 있는 세상에서 가장 유연하고 마찰력(귀찮음) 없는 마법 통신망입니다.
 
 ---
 
@@ -207,22 +205,26 @@ WebRTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPTV 멀티캐스트 전송]
-    │
-    ▼
-[현재 개념: WebRTC]
-    │
-    ├──▶ [확장 A: CDN]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPTV 멀티캐스트 전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WebRTC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 WebRTC는 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송에서 출발해 현재 메커니즘을 정교화하고, 이후 CDN와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날엔 컴퓨터로 화상 통화를 하려면 무겁고 귀찮은 **'어려운 프로그램(플러그인/앱)'**을 30분이나 낑낑대며 설치해야 했어요. ([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)도 덤으로 들어왔죠 ㅠㅠ).
-2. **WebRTC(웹알티씨)**는 구글 천재들이 만든 짱짱한 **'마법의 실전화기'**예요. 아무것도 안 깔아도, 그냥 내가 평소에 쓰던 구글 크롬(인터넷 창) 주소만 딱 클릭하면 바로 작동해요!
+1. 옛날엔 컴퓨터로 화상 통화를 하려면 무겁고 귀찮은 <strong>'어려운 프로그램(플러그인/앱)'</strong>을 30분이나 낑낑대며 설치해야 했어요. ([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)도 덤으로 들어왔죠 ㅠㅠ).
+2. <strong>WebRTC(웹알티씨)</strong>는 구글 천재들이 만든 짱짱한 <strong>'마법의 실전화기'</strong>예요. 아무것도 안 깔아도, 그냥 내가 평소에 쓰던 구글 크롬(인터넷 창) 주소만 딱 클릭하면 바로 작동해요!
 3. 중간에 비싼 전화국 서버 아저씨를 거치지 않고, 짱구(나)랑 맹구(친구) 크롬 창끼리 직접 1대1 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))로 실이 이어져서 목소리랑 얼굴이 0.1초 만에 무료로 쓩! 날아가는 엄청 멋진 웹 마법이랍니다!
 
 ---

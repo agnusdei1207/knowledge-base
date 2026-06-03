@@ -18,19 +18,23 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 구조와 원리
 
-[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 **[Leo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) Breiman(2001)**이 제안한 [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 기반 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">Leo</a> Breiman(2001)</strong>이 제안한 [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 기반 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-```
-원본 데이터 (N개 샘플)
-    ↓ 부트스트랩 샘플링 (복원 추출)
-┌───────────────────────────────────────────────────┐
-│  Tree 1        Tree 2        Tree 3   ...  Tree k │
-│  (m개 특성)    (m개 특성)    (m개 특성)            │
-│  예측: A       예측: B       예측: A               │
-└───────────────────────────────────────────────────┘
-           ↓ 다수결 (분류) / 평균 (회귀)
-        최종 예측: A (가장 많은 표)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터 (N개 샘플)</div>
+<div class="kb-diagram-note">↓ 부트스트랩 샘플링 (복원 추출)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tree 1 Tree 2 Tree 3 ... Tree k</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(m개 특성) (m개 특성) (m개 특성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측: A 예측: B 예측: A</div></div>
+<div class="kb-diagram-note">↓ 다수결 (분류) / 평균 (회귀)</div>
+<div class="kb-diagram-note">최종 예측: A (가장 많은 표)</div>
+</div>
+</div>
+
+
 
 ### 두 가지 무작위성
 
@@ -146,47 +150,54 @@ for i in idx:
 
 ## 📌 관련 개념 맵
 
-```
-랜덤 포레스트 (Random Forest)
-├── 기반 알고리즘
-│   ├── 배깅 (Bagging)
-│   ├── 부트스트랩 샘플링
-│   └── 의사결정 트리 (Base Learner)
-├── 핵심 기능
-│   ├── OOB 오류율 (교차 검증 대체)
-│   └── 특성 중요도 (MDI / 순열)
-├── 앙상블 비교
-│   ├── 배깅 계열: RF, Extra Trees
-│   └── 부스팅 계열: XGBoost, LightGBM, CatBoost
-└── 실용 장점
-    ├── 과적합 저항
-    ├── 결측값·이상치 견고성
-    └── 특성 스케일링 불필요
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">랜덤 포레스트 (Random Forest)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">기반 알고리즘</div>
+<div class="kb-diagram-note">── 배깅 (Bagging)</div>
+<div class="kb-diagram-note">── 부트스트랩 샘플링</div>
+<div class="kb-diagram-note">── 의사결정 트리 (Base Learner)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 기능</div>
+<div class="kb-diagram-note">── OOB 오류율 (교차 검증 대체)</div>
+<div class="kb-diagram-note">── 특성 중요도 (MDI / 순열)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">앙상블 비교</div>
+<div class="kb-diagram-note">── 배깅 계열: RF, Extra Trees</div>
+<div class="kb-diagram-note">── 부스팅 계열: XGBoost, LightGBM, CatBoost</div>
+<div class="kb-diagram-tree-item" style="--depth:0">실용 장점</div>
+<div class="kb-diagram-tree-item" style="--depth:2">과적합 저항</div>
+<div class="kb-diagram-tree-item" style="--depth:2">결측값·이상치 견고성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">특성 스케일링 불필요</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              랜덤 포레스트 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1994년       │ 배깅(Bagging) 제안  │ Breiman, 앙상블 기초         │
-│ 1995년       │ 랜덤 특성 아이디어  │ Ho, 무작위 특성 부분집합     │
-│ 2001년       │ RF 논문 발표        │ Breiman, 완성된 RF 알고리즘   │
-│ 2010년대     │ scikit-learn 보급   │ Python ML 표준 라이브러리     │
-│ 2014년       │ XGBoost 등장        │ RF 성능 능가, Kaggle 지배     │
-│ 2020년대     │ AutoML·설명 AI     │ SHAP + RF, 자동화 ML 파이프라인|
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-결정 트리 → 배깅 → 랜덤 포레스트 → XGBoost/LightGBM
-    ↓         ↓           ↓                ↓
-단일 트리  부트스트랩  OOB 검증          부스팅 앙상블
-    ↓
-특성 중요도 → SHAP 설명 → XAI (설명 가능한 AI)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤 포레스트 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1994년</div><div class="kb-diagram-cell">배깅(Bagging) 제안</div><div class="kb-diagram-cell">Breiman, 앙상블 기초</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1995년</div><div class="kb-diagram-cell">랜덤 특성 아이디어</div><div class="kb-diagram-cell">Ho, 무작위 특성 부분집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001년</div><div class="kb-diagram-cell">RF 논문 발표</div><div class="kb-diagram-cell">Breiman, 완성된 RF 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">scikit-learn 보급</div><div class="kb-diagram-cell">Python ML 표준 라이브러리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2014년</div><div class="kb-diagram-cell">XGBoost 등장</div><div class="kb-diagram-cell">RF 성능 능가, Kaggle 지배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">AutoML·설명 AI</div><div class="kb-diagram-cell">SHAP + RF, 자동화 ML 파이프라인</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">결정 트리 → 배깅 → 랜덤 포레스트 → XGBoost/LightGBM</div>
+<div class="kb-diagram-note">단일 트리 부트스트랩 OOB 검증 부스팅 앙상블</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">특성 중요도 → SHAP 설명 → XAI (설명 가능한 AI)</div>
+</div>
+</div>
+
+
 
 ---
 

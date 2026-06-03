@@ -25,31 +25,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 다중 컴퓨터가 등장했는지를 보여준다. 핵심은 "공유를 줄이고 협력을 네트워크로 바꿨다"는 발상의 전환이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      공유 메모리 확장 한계와 다중 컴퓨터의 등장 배경               │
-├──────────────────────────────────────────────────────────────────────┤
-│ [다중 프로세서]                                                     │
-│  CPU0  CPU1  CPU2  CPU3                                             │
-│    │     │     │     │                                              │
-│    └─────┴─────┴─────┘                                              │
-│            │                                                        │
-│      Shared Memory                                                  │
-│            │                                                        │
-│      병목: 버스 경합 · 캐시 일관성 · 중앙 자원 포화                │
-│                                                                      │
-│ [다중 컴퓨터]                                                       │
-│  Node0 ─── Network ─── Node1                                        │
-│   │                      │                                           │
-│ Local Mem0            Local Mem1                                    │
-│                                                                      │
-│  Node2 ─── Network ─── Node3                                        │
-│   │                      │                                           │
-│ Local Mem2            Local Mem3                                    │
-│                                                                      │
-│      효과: 로컬 계산 확대 · 수평 확장 · 장애 격리                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 확장 한계와 다중 컴퓨터의 등장 배경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로세서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU0 CPU1 CPU2 CPU3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: 버스 경합 · 캐시 일관성 · 중앙 자원 포화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 컴퓨터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node0 Network Node1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Mem0 Local Mem1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node2 Network Node3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Mem2 Local Mem3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 로컬 계산 확대 · 수평 확장 · 장애 격리</div></div>
+</div>
+</div>
+
+
 
 슈퍼컴퓨터, 대규모 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 빅데이터 플랫폼, 대형 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 클러스터가 모두 이 철학 위에 서 있다. 한 노드가 모든 것을 책임지는 것이 아니라, 작은 실패를 허용하면서 전체 규모를 키우는 구조이기 때문이다.
 
@@ -59,7 +53,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다중 컴퓨터의 핵심 원리는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 ([Distributed Memory](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/))** 와 **메시지 패싱 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/))** 이다. 각 노드는 자기 주소 공간만 직접 읽고 쓸 수 있으며, 다른 노드의 메모리는 Load/Store 명령으로 바로 접근할 수 없다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유는 네트워크를 통한 요청과 응답으로 이뤄진다.
+다중 컴퓨터의 핵심 원리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메모리 (<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/378_distributed_memory/">Distributed Memory</a>)</strong> 와 <strong>메시지 패싱 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">Message Passing</a>)</strong> 이다. 각 노드는 자기 주소 공간만 직접 읽고 쓸 수 있으며, 다른 노드의 메모리는 Load/Store 명령으로 바로 접근할 수 없다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유는 네트워크를 통한 요청과 응답으로 이뤄진다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -73,27 +67,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 메시지 패싱이 왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 변수인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 다중 컴퓨터의 데이터 교환 흐름                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Node A                                                               │
-│  1) 로컬 데이터 계산                                                 │
-│  2) 전송 버퍼에 결과 적재                                            │
-│  3) Send(message) 호출                                               │
-│                 │                                                    │
-│                 ▼                                                    │
-│        Network / Switch / Interconnect                               │
-│                 │                                                    │
-│                 ▼                                                    │
-│ Node B                                                               │
-│  4) Receive(message) 대기 또는 인터럽트 처리                         │
-│  5) 수신 버퍼에서 로컬 메모리로 복사                                 │
-│  6) 다음 계산 단계 수행                                              │
-│                                                                      │
-│ 병목 지점: 작은 메시지 남발 · 빈번한 동기화 · 원격 데이터 의존       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 컴퓨터의 데이터 교환 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 로컬 데이터 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 전송 버퍼에 결과 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Send(message) 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network / Switch / Interconnect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Receive(message) 대기 또는 인터럽트 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 수신 버퍼에서 로컬 메모리로 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6) 다음 계산 단계 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 지점: 작은 메시지 남발 · 빈번한 동기화 · 원격 데이터 의존</div></div>
+</div>
+</div>
+
+
 
 현대 시스템은 이 한계를 줄이기 위해 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 고속 [토러스](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/) ([Torus](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)) 또는 팻트리 (Fat-tree) 네트워크를 사용한다. 하지만 하드웨어가 빨라져도 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)처럼 공짜 통신"이 되는 것은 아니므로, 애초에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 잘 설계하는 것이 더 중요하다.
 
@@ -127,10 +119,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용이 잘 맞는 경우
 
-1. **대규모 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 무상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 여러 노드에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 로드밸런서 뒤에 두는 구조
+1. <strong>대규모 웹 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 무상태 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 여러 노드에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 로드밸런서 뒤에 두는 구조
 2. **빅데이터 분석**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 이미지, 배치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조각내 각 노드에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한 뒤 최종 집계하는 구조
-3. **고성능 계산 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/))**: 큰 문제를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할해 수천 노드에서 동시에 계산하는 구조
-4. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습**: 여러 가속기 노드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 모델을 나누어 학습하는 구조
+3. <strong>고성능 계산 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/">HPC</a>, <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/">High Performance Computing</a>)</strong>: 큰 문제를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할해 수천 노드에서 동시에 계산하는 구조
+4. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습</strong>: 여러 가속기 노드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 모델을 나누어 학습하는 구조
 
 ### 적용이 까다로운 경우
 
@@ -162,9 +154,9 @@ tags = ["studynote-computer-architecture"]
 
 다중 컴퓨터의 가장 큰 효과는 확장성과 내고장성이다. 저렴한 범용 노드를 추가해 처리량을 늘릴 수 있고, 일부 노드가 고장 나도 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 즉시 멈추지 않도록 설계할 수 있다. 또한 지리적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 자원을 묶어 하나의 계산 플랫폼처럼 쓸 수 있어, 클라우드와 초대형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 기본 토대가 된다.
 
-하지만 전제조건도 분명하다. 네트워크는 메모리보다 느리고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 부분 실패가 정상 상태이며, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지는 공짜가 아니다. 그래서 다중 컴퓨터의 진짜 경쟁력은 하드웨어 대수가 아니라 **좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치, 통신 절제, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자동화**에서 나온다.
+하지만 전제조건도 분명하다. 네트워크는 메모리보다 느리고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 부분 실패가 정상 상태이며, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지는 공짜가 아니다. 그래서 다중 컴퓨터의 진짜 경쟁력은 하드웨어 대수가 아니라 <strong>좋은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치, 통신 절제, 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 자동화</strong>에서 나온다.
 
-앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), 스마트 인터커넥트 기술 덕분에 노드 간 경계가 더 흐려질 수 있다. 그럼에도 다중 컴퓨터의 핵심 기억점은 변하지 않는다. **공유를 줄이고, 지역성을 살리고, 실패를 전제로 확장한다**는 철학이 바로 이 구조의 본질이다.
+앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), 스마트 인터커넥트 기술 덕분에 노드 간 경계가 더 흐려질 수 있다. 그럼에도 다중 컴퓨터의 핵심 기억점은 변하지 않는다. <strong>공유를 줄이고, 지역성을 살리고, 실패를 전제로 확장한다</strong>는 철학이 바로 이 구조의 본질이다.
 
 - **📢 섹션 요약 비유**: 다중 컴퓨터는 거대한 한 몸을 키우는 대신, 서로 연락 가능한 여러 팀을 잘 조직해 큰 일을 해내는 조직 운영법과 같다. 중요한 것은 팀 수 자체보다, 누가 어떤 자료를 들고 있고 언제 협업하는지를 잘 짜는 일이다.
 
@@ -183,25 +175,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 프로세서
-    │
-    ▼
-다중 프로세서 (Multiprocessor)
-    │
-    ├─ 공유 메모리 확장 한계
-    ▼
-다중 컴퓨터 (Multicomputer)
-    │
-    ├─ 메시지 패싱 (Message Passing)
-    ├─ 클러스터 컴퓨팅 (Cluster Computing)
-    ├─ 그리드 컴퓨팅 (Grid Computing)
-    ▼
-클라우드 · 빅데이터 · 분산 AI 학습
-    │
-    ▼
-RDMA · CXL 기반 저지연 분산 자원 공유
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 프로세서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 프로세서 (Multiprocessor)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">공유 메모리 확장 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 컴퓨터 (Multicomputer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">메시지 패싱 (Message Passing)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">클러스터 컴퓨팅 (Cluster Computing)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">그리드 컴퓨팅 (Grid Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 · 빅데이터 · 분산 AI 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDMA · CXL 기반 저지연 분산 자원 공유</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단일 시스템 확장 → [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 한계 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력 → 소프트웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) → 저지연 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화"로 이어지는 진화 방향을 보여준다.
 

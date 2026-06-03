@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 여러 명([Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))이 전파를 나눠 먹기 위한 고대 기술들입니다.
-- **[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (주파수 분할)**: 1번은 100MHz, 2번은 101MHz. 라디오 채널처럼 통째로 주파수를 던져주는 구식(1G). 낭비가 심함.
-- **[TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (시분할)**: 같은 채널을 1초씩 돌아가면서 씀(2G).
-- **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할)**: 3G 시대의 꽃. 주파수는 같이 쓰되 암호를 걸어 쏨. 사용자가 너무 많아지면 서로의 암호가 소음(잡음)으로 뭉개져 10Mbps 이상 속도를 내기 불가능했습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a> (주파수 분할)</strong>: 1번은 100MHz, 2번은 101MHz. 라디오 채널처럼 통째로 주파수를 던져주는 구식(1G). 낭비가 심함.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (시분할)</strong>: 같은 채널을 1초씩 돌아가면서 씀(2G).
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 분할)</strong>: 3G 시대의 꽃. 주파수는 같이 쓰되 암호를 걸어 쏨. 사용자가 너무 많아지면 서로의 암호가 소음(잡음)으로 뭉개져 10Mbps 이상 속도를 내기 불가능했습니다.
 
-```text
-[다중화기 / 역다중화기]
-    │
-    ▼
-[직교주파수분할다중접속]
-    │
-    └──▶ [FDM 가드 밴드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FDM 가드 밴드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,16 +44,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 최신 Wi-Fi 6의 심장이 되는 다원 접속 기술입니다. 
-- 넓은 주파수 대역폭을 수백~수천 개의 **엄청나게 얇은 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)(Sub-carrier) 잔가지들로 촘촘히 잘게 쪼갠 뒤**, 이 잔가지들을 묶어서 타일 형태의 **'자원 블록(Resource Block, RB)'**이라는 블록 레고를 만들고, 이 블록들을 여러 사용자에게 0.001초 단위로 입맛대로 분배하여 전송하는 방식입니다.
+- 넓은 주파수 대역폭을 수백~수천 개의 <strong>엄청나게 얇은 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>(Sub-carrier) 잔가지들로 촘촘히 잘게 쪼갠 뒤</strong>, 이 잔가지들을 묶어서 타일 형태의 <strong>'자원 블록(Resource Block, RB)'</strong>이라는 블록 레고를 만들고, 이 블록들을 여러 사용자에게 0.001초 단위로 입맛대로 분배하여 전송하는 방식입니다.
 
-```text
-[다중화기 / 역다중화기]
-    │
-    ▼
-[직교주파수분할다중접속]
-    │
-    └──▶ [FDM 가드 밴드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FDM 가드 밴드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ### 2. 자원 블록(RB) 동적 할당과 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 방어
 - 기지국은 1만 가닥의 전파를 그냥 주지 않습니다. 세로(주파수 12가닥) × 가로(시간 0.5ms)를 엮은 **네모난 '자원 블록(RB)'** 단위로 묶어서 스케줄링합니다.
-- **다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 방어**: 철수가 건물 뒤에 있어서 100Hz 전파는 튕겨서 잘 안 터지는데, 200Hz 전파는 잘 터집니다. 기지국의 뇌는 1밀리초 만에 이를 감지하고 "철수 너는 100Hz 블록 빼고 200Hz 블록만 몰아서 10개 먹어라!" 라며 상황에 맞춰 주파수 타일을 실시간 테트리스해 줍니다(주파수 다이버시티 이득). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 끊김을 원천 방어합니다.
+- <strong>다중경로 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/">페이딩</a> 방어</strong>: 철수가 건물 뒤에 있어서 100Hz 전파는 튕겨서 잘 안 터지는데, 200Hz 전파는 잘 터집니다. 기지국의 뇌는 1밀리초 만에 이를 감지하고 "철수 너는 100Hz 블록 빼고 200Hz 블록만 몰아서 10개 먹어라!" 라며 상황에 맞춰 주파수 타일을 실시간 테트리스해 줍니다(주파수 다이버시티 이득). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 끊김을 원천 방어합니다.
 
 직교주파수분할다중접속을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기가 기반 조건을 만든다면, 직교주파수분할다중접속은 그 위에서 핵심 메커니즘을 구현하고, FDM 가드 밴드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 구형 와이파이는 1명이 영화를 다운받으면 폰 1대가 공유기 주파수를 '독점'해서 다른 가족들 카톡이 멈췄습니다(OFDM 방식의 한계).
-- **[Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) (OFDMA 도입)**: 공유기 하나가 전파를 잘게 쪼개서, 아빠 폰에는 영상용 100가닥을 쏴주고, 동시에 엄마 폰에는 카톡용 2가닥, 냉장고 IoT에는 1가닥을 **1초의 지연도 없이 "동시에 쪼개서"** 배급합니다. 100대가 물려있어도 렉이 안 걸리는 기적의 밀집도 해결책입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">Wi-Fi 6</a> (OFDMA 도입)</strong>: 공유기 하나가 전파를 잘게 쪼개서, 아빠 폰에는 영상용 100가닥을 쏴주고, 동시에 엄마 폰에는 카톡용 2가닥, 냉장고 IoT에는 1가닥을 **1초의 지연도 없이 "동시에 쪼개서"** 배급합니다. 100대가 물려있어도 렉이 안 걸리는 기적의 밀집도 해결책입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 다중화기 / 역다중화기]
-    │
-    ▼
-[현재 개념: 직교주파수분할다중접속]
-    │
-    ├──▶ [확장 A: FDM 가드 밴드]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 직교주파수분할다중접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FDM 가드 밴드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 직교주파수분할다중접속는 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기에서 출발해 현재 메커니즘을 정교화하고, 이후 FDM 가드 밴드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

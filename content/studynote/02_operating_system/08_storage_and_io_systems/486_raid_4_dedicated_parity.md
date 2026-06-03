@@ -22,33 +22,30 @@ tags = ["studynote-operating-system"]
 - **개념**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) RAID의 설계자들은 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0의 '놀라운 속도'와 부서지면 다 날아가는 무방비 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1의 '안전함' 대신 50%의 무지막지한 하드웨어 비용 출혈 사이에서 깊은 고민에 빠졌다. 이를 기술적으로 타결하기 위해 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 복사본을 남기지 말고, 수학적인 오답 노트 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(패리티)만 써두어서 계산으로 복원하자"고 제안한 것이 패리티 레이드의 서막이며 그중 묶음(Block) 단위로 기록하는 모델이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4다. 
 - **필요성**: 당시 하드 디스크 구매 비용이 서버 전체 가격을 위협할 만큼 비쌌던 시절, 4개의 디스크를 샀을 때 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1을 주면 2개 분량의 용량만 쓸 수 있었다. 그러나 이 패리티([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4)의 마법을 도입하면 디스크 1개만 보험용(Parity)으로 할당하고 나머지 3개를 순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량(Capacity)으로 뽑아 쓰면서도 "아무 디스크 한 개가 죽더라도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 안전함"을 달성하는 기적적인 비용 최적화를 입증하여 기업들에게 열광을 받았다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 지정 패리티 구조 매핑**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 4의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 및 지정 패리티 구조 매핑</strong>:
 어떻게 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들과 XOR 계산 값이 전담 디스크 한 곳에만 몰리는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 4 어레이 병목의 구조 (단일 패리티 집중)                │
-  ├─────────────────────────────────────────────────────────────────────────────┤
-  │                                                                             │
-  │     가상 볼륨 /dev/md0 에 [ A | B | C ] 3개의 블록 쓰기 명령 하달           │
-  │                                                                             │
-  │      [ 데이터 분산 처리 ]             [ 패리티 단독 계산 및 몰빵 ]          │
-  │   ┌────────┐  ┌────────┐  ┌────────┐    ┌────────────────────┐              │
-  │   │ 디스크 1│  │ 디스크 2│  │ 디스크 3│    │ 패리티 전담 디스크(P)│         │
-  │   │        │  │        │  │        │    │    (Bottleneck!)   │              │
-  │   │        │  │        │  │        │    │                    │              │
-  │   │ Data A │  │ Data B │  │ Data C │ == │ Parity(P1) =A⊕B⊕C  │◀─┐           │
-  │   │ Data D │  │ Data E │  │ Data F │ == │ Parity(P2) =D⊕E⊕F  │  │           │
-  │   │ Data G │  │ Data H │  │ Data I │ == │ Parity(P3) =G⊕H⊕I  │  │           │
-  │   │  ...   │  │  ...   │  │  ...   │    │     ... (혹사)     │  │           │
-  │   └────────┘  └────────┘  └────────┘    └────────────────────┘  │           │
-  │                                                 🔥 불타는 부하 발생 │       │
-  │                                                                   │         │
-  │  * 문제점: 1~3번 디스크가 독립적으로 다른 블록을 무작위로 쓸 때마다,      │ │
-  │           이 불쌍한 패리티 전담 4번 디스크는 매번 무조건 같이 불려나가     ││
-  │           자신의 I/O(쓰기암 리프트)를 허덕이며 바꿔치기해야 함.          │  │
-  └─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 4 어레이 병목의 구조 (단일 패리티 집중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 볼륨 /dev/md0 에</div><div class="kb-diagram-node">A | B | C</div><div class="kb-diagram-note">3개의 블록 쓰기 명령 하달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 분산 처리</div><div class="kb-diagram-node">패리티 단독 계산 및 몰빵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 1</div><div class="kb-diagram-cell">디스크 2</div><div class="kb-diagram-cell">디스크 3</div><div class="kb-diagram-cell">패리티 전담 디스크(P)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bottleneck!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data A</div><div class="kb-diagram-cell">Data B</div><div class="kb-diagram-cell">Data C</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">Parity(P1) =A⊕B⊕C</div><div class="kb-diagram-cell">◀─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data D</div><div class="kb-diagram-cell">Data E</div><div class="kb-diagram-cell">Data F</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">Parity(P2) =D⊕E⊕F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data G</div><div class="kb-diagram-cell">Data H</div><div class="kb-diagram-cell">Data I</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">Parity(P3) =G⊕H⊕I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">... (혹사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔥 불타는 부하 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제점: 1~3번 디스크가 독립적으로 다른 블록을 무작위로 쓸 때마다,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 불쌍한 패리티 전담 4번 디스크는 매번 무조건 같이 불려나가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신의 I/O(쓰기암 리프트)를 허덕이며 바꿔치기해야 함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 핵심 아키텍처는 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 된(Striped) 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무방비로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기록될 때(1, 2, 3번 디스크), 이 수치들의 이진수 배타적 논리합(XOR)을 계산하여 유일하게 지정된 Parity 디스크 한 곳에만 들이붓는다. 이 XOR 연산(예: $1 \oplus 0 \oplus 1 = 0$) 덕에 디스크 중 하나가 물리적으로 사망하더라도 복원이 가능해졌다. 이 방식은 순차적(Sequential) 대형 파일을 읽을 때는(Read) 훌륭한 속도를 보여주지만, 작고 수많은 무작위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random Write)가 여기저기서 일어날 때마다 무조건 패리티 디스크 1대에만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 몰리게(Traffic Jam) 되므로 구조적 한계인 패리티 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목(Parity Disk [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))의 대재앙이 일어난다.
 
@@ -64,15 +61,15 @@ tags = ["studynote-operating-system"]
 
 | 디스크 1 | 디스크 2 | 디스크 3 (고장) | 패리티(P) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 연산 메커니즘 | 비유 |
 |:---|:---|:---|:---|:---|:---|
-| `1` | `0` | `1` 로 저장됨! | **`0`** (짝수개) | (정상 운영 시) 그냥 컨트롤러만 묵묵히 저장 기록 | 평소에 팀원 점수들의 종합 스코어(P)만 조장 장부에 기입해둠. |
-| **`1` 유지** | **`0` 유지** | **💥 하드 파괴됨** | **`0` (온전함)** | **`1 ⊕ 0 ⊕ P(0) = 1`** | 조장 장부 총점에서 남은 친구 점수를 빼보니 고장 난 친구의 점수 역 채굴 획득! |
+| `1` | `0` | `1` 로 저장됨! | <strong><code>0</code></strong> (짝수개) | (정상 운영 시) 그냥 컨트롤러만 묵묵히 저장 기록 | 평소에 팀원 점수들의 종합 스코어(P)만 조장 장부에 기입해둠. |
+| <strong><code>1</code> 유지</strong> | <strong><code>0</code> 유지</strong> | **💥 하드 파괴됨** | <strong><code>0</code> (온전함)</strong> | <strong><code>1 ⊕ 0 ⊕ P(0) = 1</code></strong> | 조장 장부 총점에서 남은 친구 점수를 빼보니 고장 난 친구의 점수 역 채굴 획득! |
 
 - 디스크 N개 중 단 하나의 기계적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)만 허용(1-Drive [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))한다.
 - 고장난 디스크를 빼고 새 깡통을 핫스왑으로 끼우면 커널의 MDADM이나 하드웨어 CPU가 미친듯이 빈자리에 XOR 역산을 수행해(Rebuilding) 새 디스크를 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 가득 채워버린다. 
 
 ### 2. 치명적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드 (Write Penalty)와 RMW(Read-Modify-Write)
 
-[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4가 멸망하게 된 이유는 바로 이 **Read-Modify-Write(읽고-수정하고-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))** 로 불리는 끔찍한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티(Write Penalty) 메커니즘 탓이다.
+[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4가 멸망하게 된 이유는 바로 이 <strong>Read-Modify-Write(읽고-수정하고-<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>)</strong> 로 불리는 끔찍한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티(Write Penalty) 메커니즘 탓이다.
 
 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통과(예: 부분 업데이트) 하나를 처리하기 위해, 백엔드에서는 디스크 I/O가 4번이나 무자비하게 터진다. (패리티 재산정을 위해 옛날 블록과 옛날 패리티를 읽어 와야만 새 값을 산출할 수 있기 때문이다).
 
@@ -91,7 +88,7 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 ### NetApp WAFL 시스템에서의 유일한 생존 부활
-표준적인 서버 인프라 세계에서 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4는 병목의 치욕을 안고 멸종했지만(그리고 다음 숫자인 [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5에 정권을 내주었지만), 전 세계 엔터프라이즈 스토리지의 거장 넷앱(NetApp)은 **독자 OS 파일시스템 계층 (WAFL - Write Anywhere [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Layout)** 소프트웨어 기술력으로 저 빌어먹을 Parity 병목을 뚫어버리고 자기들만의 변종 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-DP/[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4를 전성기로 이끌어냈다. 
+표준적인 서버 인프라 세계에서 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4는 병목의 치욕을 안고 멸종했지만(그리고 다음 숫자인 [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5에 정권을 내주었지만), 전 세계 엔터프라이즈 스토리지의 거장 넷앱(NetApp)은 <strong>독자 OS 파일시스템 계층 (WAFL - Write Anywhere <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Layout)</strong> 소프트웨어 기술력으로 저 빌어먹을 Parity 병목을 뚫어버리고 자기들만의 변종 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-DP/[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4를 전성기로 이끌어냈다. 
 
 - **NetApp의 우회 묘책법**: WAFL은 수많은 더러운 Random Write 조각들을 즉각 바로바로 디스크에 내려 꽂지 (RMW 페널티) 않고 거대한 고속 NVRAM(배터리 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) RAM) 캐시에 차곡차곡 모아놨다가, 꽉 차서 **순차적인 아주 긴 줄(Full-Stripe Write 방식)** 로 변압한 채로 디스크에 한 방에 길게 부어버린다. 그러면 패리티 디스크는 찔끔찔끔 불리는 병목에 갈리지 않고 그냥 쫙 스트리밍으로 한 번만 계산하면 되어 '단일 패리티 디스크' 구조라도 미친 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 I/O를 소화해냈다. 이 S/W 캐시 컨트롤러 트릭은 파일시스템이 하드웨어 물리 한계를 구원한 가장 아름다운 승리 사례로 꼽힌다.
 
@@ -106,8 +103,8 @@ tags = ["studynote-operating-system"]
 
 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 역사적 등장(그리고 장렬한 실책 퇴장)은 스토리지 업계를 뒤집어놓은 두 가지 혁명을 증명한 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 설계도로 남았다.
 
-1. **첫 번째 증명 (비용 절감 혁명)**: "용량의 반을 버려야 한다([RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/))"는 자본적 저주에서 벗어나, 총 디스크가 10개라도 단 1개 (총 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 용량)만 패리티로 희생하면 전체를 고장으로부터 보위할 수 있다는 **N-1 [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) 오류 복원 구조**의 가능성을 상용(블록 스트라이프 전송)에 최초 구상 성사시켰다. 
-2. **두 번째 증명 ([분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) 필요성 통찰)**: 단일 자원에만 부하가 쏠리는 디자인(Single Parity Disk)은 트래픽 폭증 서버 환경(I/O 스케일업 아키텍처)에서는 물리적으로 붕괴한다는 것을 몸소 한계 입증함으로써 다음 번호의 기술(패리티를 모든 디스크에 골고루 흩뿌리는 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/))을 창조하게 만든 반면교사의 구세주 역할을 담당했다.
+1. **첫 번째 증명 (비용 절감 혁명)**: "용량의 반을 버려야 한다([RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/))"는 자본적 저주에서 벗어나, 총 디스크가 10개라도 단 1개 (총 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 용량)만 패리티로 희생하면 전체를 고장으로부터 보위할 수 있다는 <strong>N-1 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/">다대일</a> 오류 복원 구조</strong>의 가능성을 상용(블록 스트라이프 전송)에 최초 구상 성사시켰다. 
+2. <strong>두 번째 증명 (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/">분산 패리티</a> 필요성 통찰)</strong>: 단일 자원에만 부하가 쏠리는 디자인(Single Parity Disk)은 트래픽 폭증 서버 환경(I/O 스케일업 아키텍처)에서는 물리적으로 붕괴한다는 것을 몸소 한계 입증함으로써 다음 번호의 기술(패리티를 모든 디스크에 골고루 흩뿌리는 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/))을 창조하게 만든 반면교사의 구세주 역할을 담당했다.
 
 결과적으로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4는 오늘날 시스템 엔지니어가 명령어로 치는 설정값에서 제외되었지만, 컴퓨터 공학에서 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)', '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 대안', 그리고 '특정 자원 병목' 이라는 세 가지 트라이앵글 딜레마를 가장 직관적으로 보여주는 교보재의 화석이자 영속적인 블록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기술의 핵심 모뉴먼트다.
 
@@ -134,15 +131,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 1 (미러링, Mirroring)]
-    │
-    ▼
-[RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)]
-    │
-    ├──▶ [RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
-    └──▶ [RAID 6 (분산 이중 패리티)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 1 (미러링, Mirroring)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크) (RAID 4 Dedicated Parity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 5 (블록 단위 스트라이핑 + 분산 패리티)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 6 (분산 이중 패리티)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

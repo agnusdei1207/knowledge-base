@@ -33,22 +33,20 @@ P2P는 이 부담을 참여 노드에게 [분산](/knowledge-base/studynote/08_a
 
 P2P의 기본 메커니즘은 세 단계로 요약된다. 첫째, 새 피어가 네트워크에 들어와 다른 피어를 발견한다. 둘째, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 상대 피어 정보를 얻기 위해 부트스트랩 서버, 트래커, 슈퍼노드, DHT (Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) 같은 보조 구조를 활용한다. 셋째, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 피어 간 직접 교환하며, 조각 분할과 복제를 통해 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높인다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Hybrid P2P reference flow                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ New peer ─▶ bootstrap / tracker ─▶ peer list                        │
-│    │                                                                │
-│    ├──────────────────────────────┐                                 │
-│    ▼                              ▼                                 │
-│ Peer A ◀──── piece 1 / 4 ────▶ Peer B                              │
-│   ▲  └──── piece 2 / 4 ────▶  ▲                                     │
-│   │                            │                                    │
-│   └──── piece 3 / 4 ◀────── Peer C                                  │
-│                                                                      │
-│ Optional structured lookup: DHT for peer/resource discovery          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid P2P reference flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New peer ─▶ bootstrap / tracker ─▶ peer list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peer A ◀ piece 1 / 4 ▶ Peer B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ piece 2 / 4 ▶ ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">piece 3 / 4 ◀ Peer C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optional structured lookup: DHT for peer/resource discovery</div></div>
+</div>
+</div>
+
+
 
 이 그림은 P2P가 "완전한 무중심"이라기보다, 종종 발견과 조정에는 약한 중앙 힌트를 쓰고 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 구조임을 보여 준다. BitTorrent의 트래커, WebRTC의 STUN/TURN, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 부트스트랩 노드가 모두 이런 현실적 보조 장치다. 즉 P2P의 핵심은 중앙을 0으로 만드는 데 있지 않고, **중앙이 꼭 맡아야 할 역할만 줄여 나가는 데 있다**.
 
@@ -115,7 +113,7 @@ P2P는 클라이언트-서버나 [CDN](/knowledge-base/studynote/03_network/09_a
 - [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과와 모바일 네트워크 불안정을 과소평가하는 경우
 - 불법 콘텐츠 유통, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 요구, 책임소재 문제를 아키텍처 밖 문제로 취급하는 경우
 
-기술사 답안에서는 P2P를 "무조건 혁신적"이라고 쓰기보다, **확장성과 회복력을 얻는 대신 중앙 통제·보안·관측성을 더 어렵게 만든 패턴**으로 표현하는 편이 정확하다. 그리고 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 순수 P2P보다 하이브리드 P2P가 훨씬 많다는 점까지 쓰면 현실성이 높아진다.
+기술사 답안에서는 P2P를 "무조건 혁신적"이라고 쓰기보다, <strong>확장성과 회복력을 얻는 대신 중앙 통제·보안·관측성을 더 어렵게 만든 패턴</strong>으로 표현하는 편이 정확하다. 그리고 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 순수 P2P보다 하이브리드 P2P가 훨씬 많다는 점까지 쓰면 현실성이 높아진다.
 
 - **📢 섹션 요약 비유**: P2P를 잘 쓰는 설계는 동네 사람들이 서로 돕는 장터를 만드는 것이고, 못 쓰는 설계는 관리 규칙 없는 벼룩시장을 대형 금융시장처럼 운영하려는 것이다.
 
@@ -125,9 +123,9 @@ P2P는 클라이언트-서버나 [CDN](/knowledge-base/studynote/03_network/09_a
 
 잘 설계된 P2P는 참여자가 많아질수록 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 저장소가 함께 늘어나므로, 중앙 인프라 비용을 줄이면서도 큰 규모를 견딜 수 있다. 또한 일부 노드가 빠져도 전체가 즉시 멈추지 않기 때문에 회복력과 검열 저항성 측면에서도 장점이 있다. 특히 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/), 실시간 통신, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 배포, 탈중앙 네트워크 분야에서 이 장점이 크게 드러난다.
 
-반면 대가도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 악성 노드 대응, 법적 책임, 관측성, 품질 보장은 중앙형 구조보다 훨씬 어렵다. 결국 P2P는 "서버 비용 절감 패턴"이라기보다, **중앙 집중 비용을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복잡도로 바꾸는 패턴**이라고 보는 것이 더 정확하다.
+반면 대가도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 악성 노드 대응, 법적 책임, 관측성, 품질 보장은 중앙형 구조보다 훨씬 어렵다. 결국 P2P는 "서버 비용 절감 패턴"이라기보다, <strong>중앙 집중 비용을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 복잡도로 바꾸는 패턴</strong>이라고 보는 것이 더 정확하다.
 
-결론적으로 기억할 문장은 이렇다. **P2P는 용량과 회복력을 참여자에게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 구조이지만, 신뢰와 통제까지 공짜로 얻어 주지는 않는다.** 그래서 설계감리에서는 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 이익이 복잡성 비용을 이기는가"를 끝까지 따져야 한다.
+결론적으로 기억할 문장은 이렇다. <strong>P2P는 용량과 회복력을 참여자에게 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시키는 구조이지만, 신뢰와 통제까지 공짜로 얻어 주지는 않는다.</strong> 그래서 설계감리에서는 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 이익이 복잡성 비용을 이기는가"를 끝까지 따져야 한다.
 
 - **📢 섹션 요약 비유**: P2P는 모두가 조금씩 짐을 들어 큰 짐차를 대신하는 방식이지만, 누가 어디까지 책임질지 규칙이 없으면 곧 혼란이 생긴다.
 
@@ -146,21 +144,23 @@ P2P는 클라이언트-서버나 [CDN](/knowledge-base/studynote/03_network/09_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 서버 기반 배포
-    │
-    ▼
-파일 공유형 P2P
-    │
-    ▼
-하이브리드 P2P (Tracker, Supernode)
-    │
-    ▼
-구조화 P2P (DHT)
-    │
-    ▼
-WebRTC · IPFS · Blockchain 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 서버 기반 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파일 공유형 P2P</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 P2P (Tracker, Supernode)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조화 P2P (DHT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WebRTC · IPFS · Blockchain 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 P2P가 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 교환 구조에서 시작해, 검색·실시간 통신·탈중앙 신뢰 체계로 점점 확장된 과정을 보여 준다.
 

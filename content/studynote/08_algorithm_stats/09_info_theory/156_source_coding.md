@@ -39,17 +39,21 @@ H(X) ≤ L̄ < H(X) + ε   (임의로 작은 ε > 0에 대해 달성 가능)
 
 ### 주요 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
-```
-평균 코드 길이 L̄
-         │
-H(X)+1   ├──────────── 허프만 코딩 ────────────────
-H(X)+0.1 ├──────────── 산술 부호화 ───────────────
-H(X)+ε   ├──────────── LZ 계열 (점근적) ─────────
-H(X)     ├──────────── 이론 하한 ─────────────────
-         │
-         └──────────────────────────────────────►
-                        블록 길이 n → ∞
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">평균 코드 길이 L̄</div>
+<div class="kb-diagram-note">H(X)+1 허프만 코딩</div>
+<div class="kb-diagram-note">H(X)+0.1 산술 부호화</div>
+<div class="kb-diagram-note">H(X)+ε LZ 계열 (점근적)</div>
+<div class="kb-diagram-note">H(X) 이론 하한</div>
+<div class="kb-diagram-tree-item" style="--depth:4">►</div>
+<div class="kb-diagram-note">블록 길이 n → ∞</div>
+</div>
+</div>
+
+
 
 ### [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) ([Huffman Coding](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)) 예시
 
@@ -60,18 +64,21 @@ H(X)     ├──────────── 이론 하한 ─────�
 
 허프만 트리 구성:
 
-```
-심볼:  A(0.5)  B(0.25)  C(0.125)  D(0.125)
 
-단계1:        C+D → 0.25
-단계2:     B + 0.25 → 0.5
-단계3:  A + 0.5 → 1.0 (루트)
 
-코드: A→0, B→10, C→110, D→111
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">심볼: A(0.5) B(0.25) C(0.125) D(0.125)</div>
+<div class="kb-diagram-note">단계1: C+D → 0.25</div>
+<div class="kb-diagram-note">단계2: B + 0.25 → 0.5</div>
+<div class="kb-diagram-note">단계3: A + 0.5 → 1.0 (루트)</div>
+<div class="kb-diagram-note">코드: A→0, B→10, C→110, D→111</div>
+<div class="kb-diagram-note">평균 코드 길이: 0.5×1 + 0.25×2 + 0.125×3 + 0.125×3 = 1.75 bits</div>
+<div class="kb-diagram-note">→ 엔트로피와 완전히 동일!</div>
+</div>
+</div>
 
-평균 코드 길이: 0.5×1 + 0.25×2 + 0.125×3 + 0.125×3 = 1.75 bits
-→ 엔트로피와 완전히 동일!
-```
+
 
 | 심볼 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 코드 | 길이 |
 |:---:|:---:|:---:|:---:|
@@ -112,19 +119,23 @@ R(D) = min_{P(X̂|X): E[d(X,X̂)]≤D} I(X;X̂)
 
 D: 최대 허용 왜곡, R(D): 그에 대응하는 최소 필요 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율
 
-```
-R(D)
-   ▲
-   │╲
-   │  ╲
-   │    ╲
-   │      ─────
-   └───────────► D
-  D=0   D 증가시 R 감소
 
-D=0: R = H(X) (무손실)
-D→∞: R → 0 (극단 손실)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">R(D)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-tree-item" style="--depth:1">D</div>
+<div class="kb-diagram-note">D=0 D 증가시 R 감소</div>
+<div class="kb-diagram-note">D=0: R = H(X) (무손실)</div>
+<div class="kb-diagram-note">D→∞: R → 0 (극단 손실)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 레이트-왜곡 트레이드오프는 "사진 화질 vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기"다 — 화질(D 낮음)을 높이면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(R)이 커지고, 허용 화질 저하(D 높음)를 늘리면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작아진다.
 
@@ -134,18 +145,21 @@ D→∞: R → 0 (극단 손실)
 
 ### 실제 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 파이프라인 (DEFLATE = ZIP, PNG, gzip)
 
-```
-원본 데이터
-     │
-     ▼ LZ77 (중복 제거)
-길이-오프셋 쌍
-     │
-     ▼ 허프만 코딩 (심볼 인코딩)
-압축 비트스트림
-     │
-     ▼ 컨테이너 포맷 (.zip, .png, .gz)
-최종 파일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터</div>
+<div class="kb-diagram-note">▼ LZ77 (중복 제거)</div>
+<div class="kb-diagram-note">길이-오프셋 쌍</div>
+<div class="kb-diagram-note">▼ 허프만 코딩 (심볼 인코딩)</div>
+<div class="kb-diagram-note">압축 비트스트림</div>
+<div class="kb-diagram-note">▼ 컨테이너 포맷 (.zip, .png, .gz)</div>
+<div class="kb-diagram-note">최종 파일</div>
+</div>
+</div>
+
+
 
 ### 영역별 채택 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술
 
@@ -159,8 +173,8 @@ D→∞: R → 0 (극단 손실)
 
 ### 기술사 판단 포인트
 
-1. **"무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이론 한계는?"** → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X) [bits/symbol]
-2. **"[허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)이 최적인가?"** → 심볼 수 무한 시 아님, 산술 부호화가 더 가까움
+1. <strong>"무손실 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 이론 한계는?"</strong> → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X) [bits/symbol]
+2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/">허프만 코딩</a>이 최적인가?"</strong> → 심볼 수 무한 시 아님, 산술 부호화가 더 가까움
 3. **"JPEG는 무손실인가?"** → 기본은 DCT 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (JPEG 2000 웨이블릿도 손실)
 
 📢 **섹션 요약 비유**: DEFLATE(LZ77+허프만)는 "두 단계 짐 싸기"다 — 먼저 중복 물건을 없애고(LZ77), 나머지를 무게 순으로 효율 포장한다(허프만).
@@ -169,10 +183,10 @@ D→∞: R → 0 (극단 손실)
 
 ## Ⅴ. 기대효과 및 결론
 
-소스 부호화 정리는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 **절대 기준점**이다. 현대 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 이 한계에 얼마나 가깝게 도달했는지를 평가하는 척도로 활용된다.
+소스 부호화 정리는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 <strong>절대 기준점</strong>이다. 현대 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 이 한계에 얼마나 가깝게 도달했는지를 평가하는 척도로 활용된다.
 
 신경망 기반 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Neural [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) 은 비선형 표현 학습으로 기존 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 능가하기 시작했다:
-- **학습 기반 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Learned Image [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))**: VGG/[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) + [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 모델 + [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
+- <strong>학습 기반 이미지 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> (Learned Image <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong>: VGG/[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) + [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 모델 + [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
 - JPEG와 H.265를 동일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율에서 시각 품질 면에서 능가
 
 📢 **섹션 요약 비유**: 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 포장 전문가"다 — 고전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 수학 공식으로 짐 쌌다면, AI는 경험으로 인간이 어떤 부분에 덜 민감한지 학습해 더 효율적으로 포장한다.
@@ -191,24 +205,25 @@ D→∞: R → 0 (극단 손실)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정보 이론 (Information Theory)]
-    │
-    ▼
-[엔트로피 (Entropy)]
-    │
-    ▼
-[소스 코딩 (Source Coding)]
-    │
-    ▼
-[무손실 압축 (Lossless Compression)]
-    │
-    ▼
-[손실 압축 (Lossy Compression)]
-    │
-    ▼
-[채널 코딩 (Channel Coding)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 이론 (Information Theory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피 (Entropy)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스 코딩 (Source Coding)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 압축 (Lossless Compression)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">손실 압축 (Lossy Compression)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 코딩 (Channel Coding)</div></div>
+</div>
+</div>
+
+
 
 정보 이론의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 개념이 소스 코딩 원리로 구체화되어 무손실·손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술로 발전하는 흐름이다.
 
@@ -216,9 +231,9 @@ D→∞: R → 0 (극단 손실)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) = 짐 최소 무게**: 아무리 잘 개도 짐의 정보만큼의 무게는 가져가야 한다.
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> = 짐 최소 무게</strong>: 아무리 잘 개도 짐의 정보만큼의 무게는 가져가야 한다.
 2. **허프만 = 자주 쓰는 단어 줄임말**: "반갑습니다"→"반갑", "안녕하세요"→"안녕"처럼 자주 나오는 것에 짧은 코드.
-3. **손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) = 살짝 흐릿한 사진**: 완벽한 원본 대신 눈에 덜 띄는 부분을 조금 희생해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 작게 만든다.
+3. <strong>손실 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> = 살짝 흐릿한 사진</strong>: 완벽한 원본 대신 눈에 덜 띄는 부분을 조금 희생해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 작게 만든다.
 
 ---
 

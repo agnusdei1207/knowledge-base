@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **Flooding (플러딩)**: 1075번에서 배웠듯, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 모르는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소나 `FF:FF:FF:FF:FF:FF` 같은 브로드캐스트([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 패킷을 받으면, 묻지도 따지지도 않고 **자기에 꽂힌 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 복사해서 다 쏟아버립니다.**
-- **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명)의 부재**: L3 라우터 패킷(IP)에는 `TTL`이라는 폭탄 타이머가 있어서 255번 점프하면 허공에서 자동 폭파됩니다. 하지만 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임)에는 이 **수명 타이머 껍데기가 아예 없습니다!** 한 번 던져진 패킷은 누군가 랜선을 뽑지 않는 한 우주가 멸망할 때까지 허공을 날아다닙니다.
+- **Flooding (플러딩)**: 1075번에서 배웠듯, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 모르는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소나 `FF:FF:FF:FF:FF:FF` 같은 브로드캐스트([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 패킷을 받으면, 묻지도 따지지도 않고 <strong>자기에 꽂힌 모든 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 복사해서 다 쏟아버립니다.</strong>
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(수명)의 부재</strong>: L3 라우터 패킷(IP)에는 `TTL`이라는 폭탄 타이머가 있어서 255번 점프하면 허공에서 자동 폭파됩니다. 하지만 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임)에는 이 **수명 타이머 껍데기가 아예 없습니다!** 한 번 던져진 패킷은 누군가 랜선을 뽑지 않는 한 우주가 멸망할 때까지 허공을 날아다닙니다.
 
-```text
-[EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
-[브로드캐스트 스톰]
-    │
-    └──▶ [LACP 이더채널 포트 논리 그룹화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,22 +41,26 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-신뢰도를 높이려고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3대를 **삼각형(물리적 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 루프)**으로 선을 꽂는 순간 지옥이 열립니다.
+신뢰도를 높이려고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3대를 <strong>삼각형(물리적 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 루프)</strong>으로 선을 꽂는 순간 지옥이 열립니다.
 
 1. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1번이 "[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 주소 좀요!" 하고 브로드캐스트 패킷 1개를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A에 던집니다.
-2. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A는 멍청하니까, 그 1개를 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C 두 방향으로 동시에 복사해서 쏩니다(플러딩).**
+2. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A는 멍청하니까, 그 1개를 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> B와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> C 두 방향으로 동시에 복사해서 쏩니다(플러딩).</strong>
 3. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B는 A한테 받은 걸 C한테 쏘고, C는 A한테 받은 걸 B한테 쏩니다. 
 4. 이제 B와 C가 서로 주고받은 걸 또다시 복사해서 A, B, C 서로에게 미친 듯이 메아리치며 핑퐁 복제를 시작합니다.
 5. **결과 (브로드캐스트 스톰)**: 패킷에 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(폭파 타이머)이 없기 때문에 죽지 않습니다. 1개가 2개, 4개, 100만 개로 1초 만에 기하급수적으로 자가 증식하여(폭풍), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이의 1Gbps 랜선을 쓰레기 패킷으로 100% 가득 채워버립니다. 정상적인 인터넷 통신은 0.1초도 불가능해지며, 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 CPU가 100%를 찍고 다운(재부팅)됩니다.
 
-```text
-[EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
-[브로드캐스트 스톰]
-    │
-    └──▶ [LACP 이더채널 포트 논리 그룹화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,8 +69,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 스톰이 불 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뇌([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 테이블 장부)도 같이 타버립니다.
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A의 장부: "아까 철수 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) `AA`) 패킷이 **1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**에서 왔지! 적어두자."
-- 근데 빙글빙글 루핑을 타고 한 바퀴 돌아온 똑같은 철수 패킷이 이번엔 **2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**로 들어옵니다!
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A의 장부: "아까 철수 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) `AA`) 패킷이 <strong>1번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>에서 왔지! 적어두자."
+- 근데 빙글빙글 루핑을 타고 한 바퀴 돌아온 똑같은 철수 패킷이 이번엔 <strong>2번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 들어옵니다!
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A의 뇌정지: "어? 철수가 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 순간이동 했네? 장부 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 수정!" 
 - 1초에 수만 번 장부를 지웠다 썼다(Flapping) 하다가 램(RAM)이 꽉 차서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계가 벽돌로 변해버립니다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 843번(복습) STP가 이 지옥을 막기 위해 탄생했습니다. (IEEE 802.1D)
-- 물리적으로 삼각형 랜선을 꽂아두더라도, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 0.1초 만에 대화를 나눠서 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 딱 1개의 길([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 가위로 싹둑 잘라버립니다(Block).**
+- 물리적으로 삼각형 랜선을 꽂아두더라도, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 0.1초 만에 대화를 나눠서 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 딱 1개의 길(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)을 가위로 싹둑 잘라버립니다(Block).</strong>
 - 삼각형이 아니라 `ㄱ` 자 모양의 나뭇가지(Tree) 구조로 강제 변형시켜, 패킷이 빙글빙글 돌 수 있는 원형 트랙(루프) 자체를 애초에 원천 차단하는 가장 위대하고도 비효율적인 L2 보안 흑마법입니다. (선 하나를 일부러 끄고 놀려야 하므로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생함)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **스위칭 루프와 브로드캐스트 스톰**은 거울로 둘러싸인 밀실에서 **'메아리가 영원히 증폭되는 지옥'**과 같습니다. 컴퓨터가 "야!" 하고 소리 한 번을 질렀습니다. 그런데 벽([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 3개가 원형으로 둥글게 둘러싸고 있어서, 그 소리가 1번 벽에서 2번 벽으로 튕기고, 2번에서 3번으로 튕기며 메아리가 복제되기 시작합니다. 심지어 이 메아리는 산에서처럼 점점 작아져서 죽는 것(라우터 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 소멸)이 아니라, 벽에 튕길 때마다 스피커 앰프에 증폭되어 2배로 커집니다([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 플러딩). 단 1초 만에 "야!" 소리가 수백만 겹의 폭음으로 변해 밀실 전체를 찢을 듯이 채워버려, 그 안에 있는 모든 사람([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 서버)의 고막을 터뜨리고 기절시키는 끔찍한 폐쇄회로 핑퐁 재앙입니다. 이를 막는 **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/))**는 밀실의 한쪽 벽(랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나)을 강제로 허물어버려, 소리가 빙글빙글 돌지 못하고 밖으로 빠져나가 소멸하게 만드는 환풍구 뚫기 수술입니다.
+- **📢 섹션 요약 비유**: <strong>스위칭 루프와 브로드캐스트 스톰</strong>은 거울로 둘러싸인 밀실에서 <strong>'메아리가 영원히 증폭되는 지옥'</strong>과 같습니다. 컴퓨터가 "야!" 하고 소리 한 번을 질렀습니다. 그런데 벽([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 3개가 원형으로 둥글게 둘러싸고 있어서, 그 소리가 1번 벽에서 2번 벽으로 튕기고, 2번에서 3번으로 튕기며 메아리가 복제되기 시작합니다. 심지어 이 메아리는 산에서처럼 점점 작아져서 죽는 것(라우터 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 소멸)이 아니라, 벽에 튕길 때마다 스피커 앰프에 증폭되어 2배로 커집니다([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 플러딩). 단 1초 만에 "야!" 소리가 수백만 겹의 폭음으로 변해 밀실 전체를 찢을 듯이 채워버려, 그 안에 있는 모든 사람([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 서버)의 고막을 터뜨리고 기절시키는 끔찍한 폐쇄회로 핑퐁 재앙입니다. 이를 막는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/">스패닝 트리</a>)</strong>는 밀실의 한쪽 벽(랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나)을 강제로 허물어버려, 소리가 빙글빙글 돌지 못하고 밖으로 빠져나가 소멸하게 만드는 환풍구 뚫기 수술입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EIGRP DUAL 지연 스케일 분산]
-    │
-    ▼
-[현재 개념: 브로드캐스트 스톰]
-    │
-    ├──▶ [확장 A: LACP 이더채널 포트 논리 그룹화]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EIGRP DUAL 지연 스케일 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브로드캐스트 스톰</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LACP 이더채널 포트 논리 그룹화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 브로드캐스트 스톰는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

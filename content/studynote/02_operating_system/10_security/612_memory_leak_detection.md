@@ -30,26 +30,25 @@ tags = ["studynote-operating-system"]
 ### 등장 배경
 1. **Valgrind (2000)**: 동적 이진 계측(DBI, Dynamic Binary Instrumentation) 기반
 2. **AddressSanitizer (2011)**: Clang/GCC 컴파일러 내장 메모리 검사기
-3. **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) memleak (2019+)**: 프로덕션 안전 실시간 탐지
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak (2019+)</strong>: 프로덕션 안전 실시간 탐지
 
-```text
-┌───────────── 메모리 누수 진행 과정 ─────────────┐
-│ │
-│ 시간 T0: 프로세스 시작, RSS = 100MB │
-│ ↓ │
-│ 시간 T1: 매 요청마다 1KB 누수 │
-│ ↓ │
-│ 시간 T2: 100만 요청 후, RSS = 100MB + 1GB │
-│ ↓ │
-│ 시간 T3: OOM Killer 동작! │
-│ → dmesg: "Out of memory: Killed process" │
-│ → 서비스 다운타임 발생 │
-│ │
-│ ────────────────────────────────── │
-│ Valgrind/ASan → 개발 단계에서 조기 발견 │
-│ eBPF memleak → 운영 중 실시간 탐지 │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 누수 진행 과정</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T0: 프로세스 시작, RSS = 100MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T1: 매 요청마다 1KB 누수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T2: 100만 요청 후, RSS = 100MB + 1GB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T3: OOM Killer 동작!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ dmesg: "Out of memory: Killed process"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 서비스 다운타임 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Valgrind/ASan → 개발 단계에서 조기 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF memleak → 운영 중 실시간 탐지</div></div>
+</div>
+</div>
+
+
 
 **[해설]** 메모리 누수는 점진적으로 진행되므로 단기 테스트에서는 발견되지 않는다. 따라서 개발 단계의 정밀 검사와 운영 단계의 실시간 모니터링이 모두 필요하다.
 
@@ -66,68 +65,63 @@ tags = ["studynote-operating-system"]
 | **Valgrind Memcheck** | DBI 시뮬레이션 | 20~50x 느림 | 누수, [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), 미초기화 | 개발/테스트 |
 | **AddressSanitizer** | 컴파일러 계측 | 2x 느림, 3x 메모리 | [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), [buffer overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
 | **LeakSanitizer** | ASan + 누수 전용 | 2x 느림 | 힙 누수만 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) memleak** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 | <5% | 할당/해제 추적 | 프로덕션 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트레이싱 | <5% | 할당/해제 추적 | 프로덕션 |
 | **perf record** | 샘플링 | <1% | 간접적 (할당 패턴) | 프로덕션 |
 
 ### Valgrind Memcheck 아키텍처
 
-```text
-┌─────────────── Valgrind 구조 ───────────────────┐
-│ │
-│ ┌──────────────┐ │
-│ │ 응용 프로그램 │ │
-│ │ (바이너리 코드) │ │
-│ └──────┬───────┘ │
-│ │ │
-│ ┌──────▼───────────────────────┐ │
-│ │ Valgrind 핵심 (VEX/IR) │ │
-│ │ 바이너리 → 중간 표현(IR) │ │
-│ │ → 계측 코드 삽입 │ │
-│ │ → 시뮬레이션 실행 │ │
-│ └──────┬───────────────────────┘ │
-│ │ │
-│ ┌──────▼──────┐ ┌──────────────┐ │
-│ │ Memcheck │ │ Shadow Memory│ │
-│ │ (툴) │ │ (V/A 비트) │ │
-│ │ │ │ │ │
-│ │ malloc 추적 │ │ 할당된 주소 │ │
-│ │ free 검증 │ │ 해제된 주소 │ │
-│ │ 접근 검사 │ │ 초기화 상태 │ │
-│ └─────────────┘ └──────────────┘ │
-│ │
-│ 출력: LEAK SUMMARY │
-│ definitely lost: 1,024 bytes in 1 blocks │
-│ indirectly lost: 512 bytes in 2 blocks │
-│ possibly lost: 0 bytes in 0 blocks │
-│ still reachable: 4,096 bytes in 3 blocks │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Valgrind 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(바이너리 코드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Valgrind 핵심 (VEX/IR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이너리 → 중간 표현(IR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계측 코드 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시뮬레이션 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memcheck</div><div class="kb-diagram-cell">Shadow Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(툴)</div><div class="kb-diagram-cell">(V/A 비트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">malloc 추적</div><div class="kb-diagram-cell">할당된 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">free 검증</div><div class="kb-diagram-cell">해제된 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 검사</div><div class="kb-diagram-cell">초기화 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: LEAK SUMMARY</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">definitely lost: 1,024 bytes in 1 blocks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirectly lost: 512 bytes in 2 blocks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">possibly lost: 0 bytes in 0 blocks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">still reachable: 4,096 bytes in 3 blocks</div></div>
+</div>
+</div>
+
+
 
 **[해설]** Valgrind는 프로그램의 모든 메모리 접근을 중간 표현([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))으로 변환하여 Shadow Memory와 비교 검증한다. malloc은 기록하고 free는 검증하여 프로그램 종료 시 미해제 블록을 리포트한다.
 
 ### AddressSanitizer 원리
 
-```text
-┌─────────── ASan 메모리 레이아웃 ──────────┐
-│ │
-│ [할당 영역] [Red Zone] [할당 영역] │
-│ 64 bytes 32 bytes 64 bytes │
-│ ↑ ↑ │
-│ │ 할당 추적용 │ │
-│ │ Shadow Memory에 기록 │ │
-│ │
-│ Shadow Memory: │
-│ 0 = 접근 가능 │
-│ 음수 = Red Zone (접근 시 에러) │
-│ 양수 = 부분 할당 영역 경계 │
-│ │
-│ 접근 패턴: │
-│ char *p = malloc(64); │
-│ p[64] = 'x'; → Red Zone 접근! 에러! │
-│ free(p); │
-│ p[0] = 'y'; → use-after-free! 에러! │
-└───────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ASan 메모리 레이아웃</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">할당 영역</div><div class="kb-diagram-node">Red Zone</div><div class="kb-diagram-node">할당 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64 bytes 32 bytes 64 bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당 추적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shadow Memory에 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shadow Memory:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 = 접근 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음수 = Red Zone (접근 시 에러)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양수 = 부분 할당 영역 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 패턴:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">char *p = malloc(64);</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">p</div><div class="kb-diagram-node">64</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Red Zone 접근! 에러!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">free(p);</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">p</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">use-after-free! 에러!</div></div>
+</div>
+</div>
+
+
 
 **[해설]** ASan은 컴파일 시 모든 malloc/free를 계측하고, 각 할당 영역 주변에 Red Zone(접근 금지 영역)을 배치한다. Shadow Memory로 모든 접근을 검증하여 버그를 실시간 탐지한다.
 
@@ -146,7 +140,7 @@ tags = ["studynote-operating-system"]
 | **오버헤드** | 20~50x | 2~3x |
 | **메모리** | ~2x | ~3x |
 | **탐지 범위** | 누수, 미초기화, 접근 오류 | 접근 오류, 누수(LSan) |
-| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 버그** | 제한적 | TSan 별도 필요 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 버그</strong> | 제한적 | TSan 별도 필요 |
 | **적용** | 개발 전용 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 가능 |
 
 - **📢 섹션 요약 비유**: Valgrind는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 희생하더라도 모든 것을 검사하는 종합 검진이고, ASan은 빠르고 효율적인 정기 검진입니다.
@@ -163,13 +157,13 @@ valgrind --leak-check=full --show-leak-kinds=all ./myserver
 ```
 → 종료 시 LEAK SUMMARY에서 definitely lost 추적
 
-**시나리오 2: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 ASan 통합**
+<strong>시나리오 2: <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD에 ASan 통합</strong>
 ```bash
 gcc -fsanitize=address -g -O1 test.c && ./a.out
 ```
 → 런타임에 즉시 오류 보고
 
-**시나리오 3: 프로덕션 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) memleak**
+<strong>시나리오 3: 프로덕션 <a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> memleak</strong>
 ```bash
 bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 ```
@@ -206,15 +200,19 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CPU 유휴 (Idle) 대기 루프 최적화]
-│
-▼
-[메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-│
-├──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-└──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 유휴 (Idle) 대기 루프 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

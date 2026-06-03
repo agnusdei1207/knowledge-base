@@ -31,15 +31,21 @@ tags = ["studynote-design-supervision"]
 
 공공데이터 개방은 단순 업로드가 아니라 포맷, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 보안, 현행화가 함께 맞아야 한다.
 
-```text
-공공기관 DB
-   ↓
-정제 / 비식별화
-   ↓
-표준 포맷(CSV/JSON)
-   ↓
-REST API / LOD
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공공기관 DB</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정제 / 비식별화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표준 포맷(CSV/JSON)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">REST API / LOD</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -103,29 +109,41 @@ REST API / LOD
 
 ## 관련 개념 맵
 
-```text
-공공 DB
-   ↓
-정제 / 비식별화
-   ↓
-표준 포맷 / API
-   ↓
-민간 서비스 활용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공공 DB</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정제 / 비식별화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표준 포맷 / API</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">민간 서비스 활용</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-파일 공개
-   ↓
-CSV / JSON
-   ↓
-REST API
-   ↓
-LOD / 데이터 생태계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파일 공개</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CSV / JSON</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">REST API</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">LOD / 데이터 생태계</div>
+</div>
+</div>
+
+
 
 ---
 

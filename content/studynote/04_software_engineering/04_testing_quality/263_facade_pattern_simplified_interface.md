@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 퍼사드 (Facade)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  퍼사드 (Facade)                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼사드 (Facade)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 퍼사드 (Facade)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Facade (건물의 정면, 외관, 껍데기)**
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 수많은 클래스들로 얽히고설킨 **거대하고 복잡한 서브시스템의 속살을 밖에서 보이지 않게 가려버리고, 대신 사용자가 아주 쉽게 시스템을 조작할 수 있도록 단순하고 큼직한 '통합된 단일 인터페이스(정문 입구)'를 하나 떡하니 세워서 제공해 주는 설계 패턴**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 수많은 클래스들로 얽히고설킨 <strong>거대하고 복잡한 서브시스템의 속살을 밖에서 보이지 않게 가려버리고, 대신 사용자가 아주 쉽게 시스템을 조작할 수 있도록 단순하고 큼직한 '통합된 단일 인터페이스(정문 입구)'를 하나 떡하니 세워서 제공해 주는 설계 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 퍼사드 (Facade)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -91,10 +90,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 모양새가 비슷해서 시험에서 100% 헷갈리게 냅니다.
-- **[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))**: A 구멍과 B 플러그가 **'호환되지 않는 에러'를 해결(번역)**하기 위해 중간에 끼우는 변환기입니다. 1:1 통역사 느낌입니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong>: A 구멍과 B 플러그가 <strong>'호환되지 않는 에러'를 해결(번역)</strong>하기 위해 중간에 끼우는 변환기입니다. 1:1 통역사 느낌입니다.
 - **퍼사드 (Facade)**: 호환이 안 되는 게 아닙니다! 그냥 **'사용법이 너무 복잡해서' 사용자를 편하게 해주려고(단순화)** 세우는 거대한 안내데스크 비서입니다. 1:N 통제사 느낌입니다.
 
-> 📢 **섹션 요약 비유**: **퍼사드(Facade) 패턴**은 호텔 로비의 **'만능 컨시어지(안내데스크 비서)'**와 같습니다. 손님이 호텔에 도착해 룸서비스, 세탁, 마사지, 렌터카를 예약하려고 합니다. 바보 같은 손님(퍼사드가 없는 클라이언트)은 주방, 세탁실, 마사지실 전화번호를 다 뒤져서 일일이 4통의 전화를 걸고 스케줄을 조율하며 진땀을 뺍니다(복잡한 서브시스템 직접 의존). 이 끔찍한 노가다를 없애는 것이 퍼사드입니다. 최고급 호텔은 손님이 방에서 다이렉트로 주방이나 세탁실에 전화하는 걸 막아버립니다. 손님은 오직 전화기에 있는 유일한 '0번(만능 컨시어지 데스크 = 퍼사드)' 버튼 딱 1개만 누릅니다! "나 내일 아침 9시에 밥 먹고 세탁된 옷 입고 마사지받게 풀코스 세팅해 줘!" 손님은 이 한마디만 하고 잡니다(단일 인터페이스 호출). 그럼 전화기 너머의 비서(퍼사드)가 지 혼자 땀을 뻘뻘 흘리며 주방, 세탁실, 마사지실에 연락해 순서를 다 짜맞춰(내부 서브시스템 조작) 완벽하게 세팅해 둡니다. 세탁기 기계가 고장 나서 LG에서 삼성으로 바뀌든 말든, 손님은 비서(퍼사드)만 믿고 꿀을 빨게 만들어주는 궁극의 복잡성 은닉 서비스입니다.
+> 📢 **섹션 요약 비유**: <strong>퍼사드(Facade) 패턴</strong>은 호텔 로비의 <strong>'만능 컨시어지(안내데스크 비서)'</strong>와 같습니다. 손님이 호텔에 도착해 룸서비스, 세탁, 마사지, 렌터카를 예약하려고 합니다. 바보 같은 손님(퍼사드가 없는 클라이언트)은 주방, 세탁실, 마사지실 전화번호를 다 뒤져서 일일이 4통의 전화를 걸고 스케줄을 조율하며 진땀을 뺍니다(복잡한 서브시스템 직접 의존). 이 끔찍한 노가다를 없애는 것이 퍼사드입니다. 최고급 호텔은 손님이 방에서 다이렉트로 주방이나 세탁실에 전화하는 걸 막아버립니다. 손님은 오직 전화기에 있는 유일한 '0번(만능 컨시어지 데스크 = 퍼사드)' 버튼 딱 1개만 누릅니다! "나 내일 아침 9시에 밥 먹고 세탁된 옷 입고 마사지받게 풀코스 세팅해 줘!" 손님은 이 한마디만 하고 잡니다(단일 인터페이스 호출). 그럼 전화기 너머의 비서(퍼사드)가 지 혼자 땀을 뻘뻘 흘리며 주방, 세탁실, 마사지실에 연락해 순서를 다 짜맞춰(내부 서브시스템 조작) 완벽하게 세팅해 둡니다. 세탁기 기계가 고장 나서 LG에서 삼성으로 바뀌든 말든, 손님은 비서(퍼사드)만 믿고 꿀을 빨게 만들어주는 궁극의 복잡성 은닉 서비스입니다.
 
 - **📢 섹션 요약 비유**: 퍼사드 (Facade)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -139,21 +138,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-퍼사드 (Facade) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">퍼사드 (Facade) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

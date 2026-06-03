@@ -21,36 +21,35 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Feature (기능)**: 장바구니 UI 변경, 신규 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 추가 등 내가 개발한 새로운 코드 조각.
-  - **[Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (깃발/[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))**: 그 신규 코드 조각을 if문으로 딱 묶어놓고, 밖에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜면 `true`, 끄면 `false`가 되게 만드는 인프라 통제기.
+  - <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a> (깃발/<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 그 신규 코드 조각을 if문으로 딱 묶어놓고, 밖에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜면 `true`, 끄면 `false`가 되게 만드는 인프라 통제기.
   - 결국 앱 안에는 낡은 V1 코드와 삐까뻔쩍한 V2 코드가 같이 존재하는데, 대시보드에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 뭘 올렸냐에 따라 한 놈만 골라서 실행되는 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 꼼수다.
 
-- **필요성 (배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 릴리즈(Release) 강결합의 족쇄)**: 옛날엔 "개발 완료 ➡ 서버에 배포 쾅! ➡ 그 순간 유저 100만 명한테 일제히 신기능 다 보임(빅뱅 배포)". 배포하는 그 순간이 런칭이었다. 신기능이 에러 나면? 소스코드 고치고 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드해서 다시 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내리고 올리는 10분 동안 유저 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 터지고 짤렸다. 개발자들은 금요일 밤 배포를 공포의 도가니로 여겼다. **"아씨! 코드는 월요일 낮 1시에 미리 다 올려놓고 숨겨둘 테니까, 금요일 밤 8시에 사장님한테 컨펌받으면 그냥 마우스 클릭([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켬) 한 번으로 화면에 쏙 뜨게 할 수 없어?!"** 배포 행위(코드 옮기기)와 비즈니스 오픈(유저한테 보여주기)을 물리적으로 찢어발기려는 애자일의 갈망이 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 발명했다.
+- <strong>필요성 (배포(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>)와 릴리즈(Release) 강결합의 족쇄)</strong>: 옛날엔 "개발 완료 ➡ 서버에 배포 쾅! ➡ 그 순간 유저 100만 명한테 일제히 신기능 다 보임(빅뱅 배포)". 배포하는 그 순간이 런칭이었다. 신기능이 에러 나면? 소스코드 고치고 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 빌드해서 다시 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내리고 올리는 10분 동안 유저 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 터지고 짤렸다. 개발자들은 금요일 밤 배포를 공포의 도가니로 여겼다. <strong>"아씨! 코드는 월요일 낮 1시에 미리 다 올려놓고 숨겨둘 테니까, 금요일 밤 8시에 사장님한테 컨펌받으면 그냥 마우스 클릭(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 켬) 한 번으로 화면에 쏙 뜨게 할 수 없어?!"</strong> 배포 행위(코드 옮기기)와 비즈니스 오픈(유저한테 보여주기)을 물리적으로 찢어발기려는 애자일의 갈망이 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 발명했다.
 
-- **💡 비유**: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 없던 시절은 **'영화 생방송 연극'**과 같습니다. 무대에 올리는 순간 실수하면 관객 1,000명이 야유하고 끝납니다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 **'마술사의 검은 천 덮기'**입니다. 마술사는 무대 뒤에서 이미 비둘기(신규 코드)를 모자 속에 쏙 넣어 무대(서버)에 올려놨습니다(배포 완료). 관객(유저)은 모자가 비어있다고 생각하죠. 마술사가 "얍!" 하고 지팡이를 치는 그 0.1초의 순간([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ON [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), 숨겨져 있던 비둘기가 뿅! 하고 날아오릅니다(기능 오픈). 비둘기가 아프면 지팡이 안 치고 평생 천 덮어두면 됩니다. 완벽한 통제력입니다.
+- **💡 비유**: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 없던 시절은 <strong>'영화 생방송 연극'</strong>과 같습니다. 무대에 올리는 순간 실수하면 관객 1,000명이 야유하고 끝납니다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 <strong>'마술사의 검은 천 덮기'</strong>입니다. 마술사는 무대 뒤에서 이미 비둘기(신규 코드)를 모자 속에 쏙 넣어 무대(서버)에 올려놨습니다(배포 완료). 관객(유저)은 모자가 비어있다고 생각하죠. 마술사가 "얍!" 하고 지팡이를 치는 그 0.1초의 순간([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ON [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), 숨겨져 있던 비둘기가 뿅! 하고 날아오릅니다(기능 오픈). 비둘기가 아프면 지팡이 안 치고 평생 천 덮어두면 됩니다. 완벽한 통제력입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **주석 처리 및 하드코딩 (원시)**: 신기능 짜놓고 오픈 전날까지 `//` 주석 쳐놓음. 오픈 1분 전에 주석 풀고 다시 빌드해서 올림 (빌드 터지면 개망함).
-  2. **[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) ([ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)) 제어 (과도기)**: "K8s ConfigMap에 `NEW_FEATURE_ENABLE=true` 박아놓고 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재부팅 치자 ㅋ" ➡ 결국 서버를 껐다 켜야(재부팅 10초) 적용되니 찰나의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 쾌감이 안 나고 유저 다운타임 발생.
-  3. **LaunchDarkly / 자체 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 엔진 천하통일 (현재)**: "서버 재부팅 치지 마! 서버 뱃속에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) SDK 띄워놓고 중앙 대시보드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))랑 0.1초 만에 실시간 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)/[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)) 통신 쳐서 런타임 메모리 변수 값을 훅훅 바꿔버려!" 궁극의 제로 터치 무중단 스위칭 시대 도래.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/">ConfigMap</a>) 제어 (과도기)</strong>: "K8s ConfigMap에 `NEW_FEATURE_ENABLE=true` 박아놓고 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재부팅 치자 ㅋ" ➡ 결국 서버를 껐다 켜야(재부팅 10초) 적용되니 찰나의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 쾌감이 안 나고 유저 다운타임 발생.
+  3. <strong>LaunchDarkly / 자체 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 엔진 천하통일 (현재)</strong>: "서버 재부팅 치지 마! 서버 뱃속에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) SDK 띄워놓고 중앙 대시보드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))랑 0.1초 만에 실시간 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)/[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)) 통신 쳐서 런타임 메모리 변수 값을 훅훅 바꿔버려!" 궁극의 제로 터치 무중단 스위칭 시대 도래.
 
-- **📢 섹션 요약 비유**: 이 런타임 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **'기차 선로 변경 조이스틱'**과 똑같습니다. 기차가 100km로 쌩쌩 달리고 있는데 기차를 세울(서버 재부팅) 필요가 없습니다. 기장(마케터)이 버튼을 '딸깍' 누르는 0.1초의 찰나, 바닥의 철로(if문)가 스르륵 방향을 꺾으며 기차가 신규 노선(V2)으로 부드럽게 미끄러져 들어가는 100% 무중단 노선 변경 마술입니다.
+- **📢 섹션 요약 비유**: 이 런타임 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>'기차 선로 변경 조이스틱'</strong>과 똑같습니다. 기차가 100km로 쌩쌩 달리고 있는데 기차를 세울(서버 재부팅) 필요가 없습니다. 기장(마케터)이 버튼을 '딸깍' 누르는 0.1초의 찰나, 바닥의 철로(if문)가 스르륵 방향을 꺾으며 기차가 신규 노선(V2)으로 부드럽게 미끄러져 들어가는 100% 무중단 노선 변경 마술입니다.
 
 ---
 
 다음은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature Flag의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  피처 플래그 (Feature Flag                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 플래그 (Feature Flag</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature Flag가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 기반 A/B 테스트 및 점진적 롤아웃의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 기반 A/B 테스트 및 점진적 롤아웃의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Feature [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 기반 A/B 테스트 및 점진적 롤아웃의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-피처 플래그 (Feature Flag) 기반 A/B 테스트 및 점진적 롤아웃 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피처 플래그 (Feature Flag) 기반 A/B 테스트 및 점진적 롤아웃 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

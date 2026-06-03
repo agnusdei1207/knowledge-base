@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 
 이 물리적 한계를 극복하기 위해, 유럽전기통신표준협회(ETSI) 주도로 고안된 기술이 MEC다. 서버와 스토리지를 기지국사(기지국 바로 밑이나 지역 전화국)에 배치하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 연산과 처리를 중앙 클라우드가 아닌 '가장 앞선 네트워크 가장자리(Edge)'에서 수행하도록 컴퓨팅 자원을 통신망으로 밀어낸 것이다.
 
-```text
-[OpenFlow 프로토콜]
-    │
-    ▼
-[MEC]
-    │
-    └──▶ [클라우드 네이티브 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 짜장면 배달을 시킬 때마다 서울 본점(중앙 클라우드)에서 만들어 배달 오면 다 불어버리니, 동네마다 지점([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 차려서 주문 즉시 동네에서 요리해 5분 만에 배달하는 전략이다.
 
@@ -40,30 +44,27 @@ tags = ["studynote-network"]
 
 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 아키텍처는 통신망의 사용자 평면(UPF: User Plane Function)과 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 노드를 밀착시키는 형태로 동작한다. ETSI [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 레퍼런스 모델에 따르면 크게 3단계로 나뉜다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                   [ Central Cloud ]                    │
-│   빅데이터 분석, 머신러닝 모델 학습 (Training)         │
-└────────────▲──────────────────────────────▲────────────┘
-             │ (요약된 메타데이터)           │ 
-             │                            │
-┌────────────▼──────────┐      ┌────────────▼──────────┐
-│     [ MEC Node 1 ]    │      │     [ MEC Node 2 ]    │
-│  (기지국 A 지역 위치) │      │  (기지국 B 지역 위치) │
-│ - 초저지연 연산(추론) │      │ - 로컬 캐싱 (CDN)     │
-│ - 로컬 트래픽 브레이크아웃│    │ - 프라이버시 필터링   │
-└────────────▲──────────┘      └────────────▲──────────┘
-             │                            │
-┌────────────▼──────────┐      ┌────────────▼──────────┐
-│      5G Base Station  │      │      5G Base Station  │
-└────────────▲──────────┘      └────────────▲──────────┘
-             │                            │
-         [ 스마트카 ]                    [ 스마트팩토리 ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Central Cloud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅데이터 분석, 머신러닝 모델 학습 (Training)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요약된 메타데이터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC Node 1</div><div class="kb-diagram-node">MEC Node 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기지국 A 지역 위치)</div><div class="kb-diagram-cell">(기지국 B 지역 위치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 초저지연 연산(추론)</div><div class="kb-diagram-cell">- 로컬 캐싱 (CDN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로컬 트래픽 브레이크아웃</div><div class="kb-diagram-cell">- 프라이버시 필터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G Base Station</div><div class="kb-diagram-cell">5G Base Station</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트카</div><div class="kb-diagram-node">스마트팩토리</div></div>
+</div>
+</div>
+
+
 
 1. **Local Breakout (트래픽 지역 분기)**: 단말에서 올라온 트래픽이 코어망으로 가기 전, 기지국 하단의 UPF가 패킷의 목적지를 보고 "이건 엣지 서버에서 처리할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다"라고 판단하면 코어망 대신 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버(엣지)로 트래픽을 빼돌린다(Breakout).
 2. **Edge App Execution**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 노드에는 영상 분석, 자율주행 관제, AR/VR 렌더링 같은 엣지 애플리케이션([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 돌아가고 있어 실시간으로 연산 결과를 단말로 곧장 쏴준다.
-3. **Core [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: 엣지에서 처리하고 남은 요약 정보나 학습을 위한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일부만 중앙 클라우드로 올려보내 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 회선 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약한다.
+3. <strong>Core <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a></strong>: 엣지에서 처리하고 남은 요약 정보나 학습을 위한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일부만 중앙 클라우드로 올려보내 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 회선 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약한다.
 
 - **📢 섹션 요약 비유**: 도로에 톨게이트(기지국)를 지나자마자 곧장 전용 하이패스 차로(Local Breakout)를 만들어, 멀리 갈 필요 없이 바로 옆의 휴게소([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))에서 용무를 끝내고 돌아가게 만드는 구조다.
 
@@ -76,7 +77,7 @@ tags = ["studynote-network"]
 | 비교 항목 | 중앙 클라우드 (Central Cloud) | [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)) | 단말 (On-Device) |
 |:---:|:---|:---|:---|
 | **위치** | 인터넷망 너머 대형 IDC | 무선 기지국, 지역 통신국사 | 스마트폰, 자율주행차 칩셋 |
-| **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)** | 30ms ~ 100ms 이상 | **1ms ~ 10ms 수준 (초저지연)** | 극초저지연 (통신 불필요) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | 30ms ~ 100ms 이상 | **1ms ~ 10ms 수준 (초저지연)** | 극초저지연 (통신 불필요) |
 | **자원 규모** | 무한대에 가까운 스케일 | 제한적인 공간, 전력, 컴퓨팅 | 매우 제한적인 배터리, 연산력 |
 | **주요 용도** | 모델 학습, 대규모 DB, 배치 분석 | 실시간 추론, 로컬 비디오 렌더링 | 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 가벼운 연산 |
 
@@ -89,12 +90,12 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-1. **[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)**: 로봇 팔의 제어 신호가 공장 밖을 나가지 않고 공장 내 프라이빗 5G망에 물린 MEC에서 처리됨으로써 1ms 수준의 정밀 제어와 기업 보안을 확보한다.
-2. **자율주행 및 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)**: 사거리의 모든 차량 영상 정보를 주변 기지국 MEC로 모아 교차로 충돌 위험을 5ms 안에 계산하여 차량에 경고를 뿌린다.
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a></strong>: 로봇 팔의 제어 신호가 공장 밖을 나가지 않고 공장 내 프라이빗 5G망에 물린 MEC에서 처리됨으로써 1ms 수준의 정밀 제어와 기업 보안을 확보한다.
+2. <strong>자율주행 및 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a></strong>: 사거리의 모든 차량 영상 정보를 주변 기지국 MEC로 모아 교차로 충돌 위험을 5ms 안에 계산하여 차량에 경고를 뿌린다.
 3. **클라우드 게임 / VR**: 무거운 그래픽 렌더링을 단말 대신 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) GPU가 수행하고 화면(Video [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))만 단말로 쏴주어 기기를 가볍게 만든다.
 
 **기술사 판단 포인트 (Trade-off):**
-[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 도입 시 **'초저지연의 이점'과 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 인프라 관리의 복잡성'**을 저울질해야 한다.
+[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 도입 시 <strong>'초저지연의 이점'과 '<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 인프라 관리의 복잡성'</strong>을 저울질해야 한다.
 1. 물리적으로 수백~수천 곳에 흩어진 서버들([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 노드)에 일관된 보안 정책과 애플리케이션 업데이트를 배포하는 것은 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 하나를 관리하는 것보다 수백 배 어렵다 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 필수).
 2. 이동하는 사용자(예: 고속도로 달리는 자동차)의 세션을 A지역 MEC에서 B지역 MEC로 끊김 없이 마이그레이션([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transfer)하는 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 기술이 완벽히 검증되어야 한다.
 
@@ -129,15 +130,19 @@ MEC는 단순한 통신망을 넘어 5G를 진정한 '지능형 인프라'로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OpenFlow 프로토콜]
-    │
-    ▼
-[현재 개념: MEC]
-    │
-    ├──▶ [확장 A: 클라우드 네이티브 네트워크]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OpenFlow 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우드 네이티브 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 MEC는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

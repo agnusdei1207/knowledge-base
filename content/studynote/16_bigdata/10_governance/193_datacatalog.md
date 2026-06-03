@@ -24,9 +24,9 @@ tags = ["studynote-bigdata"]
 
 ### 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견의 장벽 (Pain Point)
 기업에 수천 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블이 존재합니다. 재무 시스템의 `FACT_SALES` 테이블, [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템의 `ORDER_DETAIL` 테이블, 물류 시스템의 `SHIPMENT_TB` 테이블 등 같은 '주문'이라도 다른 이름으로 존재합니다.
-- **문제 1 -"Where is my [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)?"**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가가 마케팅 캠페인 효과를 분석하려고 하는데, 고객 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 재무팀 시스템에는 있지만 마케팅팀 시스템에는 없는 것을 뒤늦게 발견합니다. 수주에 걸친 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색에서 분석 인사이트를 도출할 수 있는이 낭비됩니다.
-- **문제 2 - [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 이해의 부재**: 분석가가 `$EXPENSE_AMT`라는 컬럼을 발견했으나, 이게 법인(카드) 사용액인지, 현금Expense인지, 환율 반영이 된Expense인지 알 수 없어서 [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)에게 하나하나 문의해야 합니다.
-- **문제 3 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알 수 없음**: 분석에 사용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 30%나 결측치를 가지고 있었다는 것을 분석 후에야 알게 되어, 분석 결과를 후회하는 상황이 발생합니다.
+- <strong>문제 1 -"Where is my <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a>?"</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가가 마케팅 캠페인 효과를 분석하려고 하는데, 고객 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 재무팀 시스템에는 있지만 마케팅팀 시스템에는 없는 것을 뒤늦게 발견합니다. 수주에 걸친 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탐색에서 분석 인사이트를 도출할 수 있는이 낭비됩니다.
+- <strong>문제 2 - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 이해의 부재</strong>: 분석가가 `$EXPENSE_AMT`라는 컬럼을 발견했으나, 이게 법인(카드) 사용액인지, 현금Expense인지, 환율 반영이 된Expense인지 알 수 없어서 [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)에게 하나하나 문의해야 합니다.
+- <strong>문제 3 - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 알 수 없음</strong>: 분석에 사용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 30%나 결측치를 가지고 있었다는 것을 분석 후에야 알게 되어, 분석 결과를 후회하는 상황이 발생합니다.
 
 ### 2. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 등장: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의Google 검색"
 "기업 내 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 ([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))에 등재해 두고, 분석가들은 keyword로 검색하여 '이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있고', '누가 소유하며', '어떤품질인지'를 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 하자!"
@@ -40,51 +40,35 @@ tags = ["studynote-bigdata"]
 
 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 핵심 메커니즘은 크게 세 가지 기능으로 구성됩니다: [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집(), 중앙 저장소 관리, 검색 및 발견 인터페이스 제공입니다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 데이터 카탈로그 (Data Catalog) 아키텍처 ] │
-│ │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ [ 1. 메타데이터 수집기 (Metadata Collector / Scanner) ] │ │
-│ │ │ │
-│ │ AWS Glue Crawler ──▶ RDBMS, S3, Data Lake 스키마 자동 추출 │ │
-│ │ Apache Atlas Hooks ──▶ Hadoop/Hive Metastore 변경 감지 │ │
-│ │ Fivetran / Airbyte ──▶ SaaS API 메타데이터 동기화 │ │
-│ │ 수동 등록 ──▶ 데이터Owner가 수동으로 설명, 분류 체계 입력 │ │
-│ └──────────────────────────┬────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────────▼────────────────────────────────────────┐ │
-│ │ [ 2. 메타데이터 저장소 (Metadata Repository) - 지식 그래프 기반 ] │ │
-│ │ │ │
-│ │ ┌─────────────────────────────────────────────────────────────┐ │ │
-│ │ │ [테이블: ORDERS] [OWNER: 마케팅팀] │ │ │
-│ │ │ │ │ │ │ │
-│ │ │ ▼ ▼ │ │ │
-│ │ │ [COLUMN: ORDER_ID] [: 판매] │ │ │
-│ │ │ │ │ │ │
-│ │ │ ▼ │ │ │
-│ │ │ [DATA_TYPE: BIGINT] [설명: 고객 주문 고유 식별자] │ │ │
-│ │ │ │ │ │ │
-│ │ │ ▼ │ │ │
-│ │ │ [LINEAGE: ORDERS ──▶ ORDER_ITEMS ──▶ INVENTORY] │ │ │
-│ │ └─────────────────────────────────────────────────────────────┘ │ │
-│ └──────────────────────────┬────────────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────────────▼────────────────────────────────────────┐ │
-│ │ [ 3. 검색 및 발견 인터페이스 (Search & Discovery UI) ] │ │
-│ │ │ │
-│ │ 예: "마케팅 고객 분석" 이라고 검색하면... │ │
-│ │ ▶ NLP 의미론적 검색: "고객" 관련 테이블 상위 노출 │ │
-│ │ ▶ Popularity 순으로 정렬 (많이 사용된 데이터우선) │ │
-│ │ ▶ 데이터 지표,_description,Owner 표시 │ │
-│ │ ▶ "이 데이터 사용 시 필요한 PROC" 표시 │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 메타데이터 수집기 (Metadata Collector / Scanner)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Glue Crawler ──▶ RDBMS, S3, Data Lake 스키마 자동 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Atlas Hooks ──▶ Hadoop/Hive Metastore 변경 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fivetran / Airbyte ──▶ SaaS API 메타데이터 동기화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 등록 ──▶ 데이터Owner가 수동으로 설명, 분류 체계 입력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 메타데이터 저장소 (Metadata Repository) - 지식 그래프 기반</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">테이블: ORDERS</div><div class="kb-diagram-node">OWNER: 마케팅팀</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">COLUMN: ORDER_ID</div><div class="kb-diagram-node">: 판매</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">DATA_TYPE: BIGINT</div><div class="kb-diagram-node">설명: 고객 주문 고유 식별자</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">LINEAGE: ORDERS ──▶ ORDER_ITEMS ──▶ INVENTORY</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 검색 및 발견 인터페이스 (Search &amp; Discovery UI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: "마케팅 고객 분석" 이라고 검색하면...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ NLP 의미론적 검색: "고객" 관련 테이블 상위 노출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Popularity 순으로 정렬 (많이 사용된 데이터우선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 데이터 지표,_description,Owner 표시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 데이터 사용 시 필요한 PROC" 표시</div></div>
+</div>
+</div>
+
+
 
 ### 1. 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 추출 (Automated [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Collection)
 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 Man Hour(인건비) 감소 핵심은 Scanner/Crawler입니다.
-- **구조적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 추출**: Apache Atlas의 Hooks은 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/변경 시 자동으로 WebHCat API를 통해 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 interceptor하여 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 반영합니다.
+- <strong>구조적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 추출</strong>: Apache Atlas의 Hooks은 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/변경 시 자동으로 WebHCat API를 통해 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 interceptor하여 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 반영합니다.
 - **NLP 기반 의미론적 검색**: 단순한 keyword 매칭이 아닌, 단어의 의미(시소러스)를 이해하여 "고객" 검색 시 "[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)", "[Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)", "구매자"도 함께 검색 결과에 포함시킵니다.
 
 - **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 Scanner는 "도서관의 바코드 리더기"와 같습니다. 도서를 반입하거나 대출할 때마다 바코드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))를 스캔하면 중앙 컴퓨터([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))에 정보가 반영됩니다. 같은 방식으로 Hadoop에 새로운 테이블이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면, Scanner가 이를 자동 감지하여 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등재하는 것입니다.
@@ -97,15 +81,15 @@ tags = ["studynote-bigdata"]
 
 | 제품 | 유형 | 강점 | 약점 | 주 사용 시나리오 |
 | :--- | :--- | :--- | :--- | :--- |
-| **AWS Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)** | 관리형 (Cloud-native) | AWS ecosystem과 통합,_serverless | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)/[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 지원 | AWS 기반lakehouse |
-| **DataHub (LinkedIn [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/), lineage 추적 | 자체 호스팅 필요 | 커스텀 통합이 필요한 대규모 |
+| <strong>AWS Glue <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a></strong> | 관리형 (Cloud-native) | AWS ecosystem과 통합,_serverless | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)/[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 지원 | AWS 기반lakehouse |
+| <strong>DataHub (LinkedIn <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">OSS</a>)</strong> | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/), lineage 추적 | 자체 호스팅 필요 | 커스텀 통합이 필요한 대규모 |
 | **Alation** | 엔터프라이즈 | NLP search, 자동 description [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | (고가) | 강한 거버넌스 요구 기업 |
 | **Collibra** | 엔터프라이즈 | 거버넌스 워크플로우 강점, 업무용 | complexity | 규제 산업 (금융, 의료) |
 | **OpenMetadata** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |된 테이블, ML, [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), BI [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 1개 where | 상대적으로 신생 | [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 선호 조직 |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).world** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 사회화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견 (댓글, 질문) | 커넥터 제한 | /학술 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>.world</strong> | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 사회화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견 (댓글, 질문) | 커넥터 제한 | /학술 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 |
 
 ### 치명적 트레이드오프
-- **도전 1 - [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 품질 "쓰레기, 쓰레기 나오기(Garbage In, Garbage Out)"**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등재된 정보가하면 오히려 활용자을 오도할 수 있습니다. Scanner가 자동으로 추출한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정보는 정확하지만, 테이블의 의미론적 설명(description)은 Owner가 수동으로 입력해야 하므로, description이 부실한 테이블이 많으면활용자 신뢰가 떨어집니다.
+- <strong>도전 1 - <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 품질 "쓰레기, 쓰레기 나오기(Garbage In, Garbage Out)"</strong>: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등재된 정보가하면 오히려 활용자을 오도할 수 있습니다. Scanner가 자동으로 추출한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정보는 정확하지만, 테이블의 의미론적 설명(description)은 Owner가 수동으로 입력해야 하므로, description이 부실한 테이블이 많으면활용자 신뢰가 떨어집니다.
 - **도전 2 - 계보 추적의 완전성**: SQL 단위(컬럼) 계보 추적은 현재 기술로는 완벽하지 않습니다. Spark 코드 내의 중간 변수로의 lineage 추적은 제한적이며, 특히 Python pandas 코드와 같은 커스텀 transformation 로직은 계보 추적에서 누락되는 경우가 많습니다.
 - **도전 3 - 거버넌스 Enforcement와의 간극**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하려면 승인 필요"라고 적어두어도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 아닌 Ranger나 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 등 외부 시스템에서 이루어지므로, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 접근 제어 시스템 간의동기([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 관리가 필수적입니다.
 
@@ -124,7 +108,7 @@ tags = ["studynote-bigdata"]
 
 *(추가 실무 적용 가이드 - [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 확산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))*
 - [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 도입의 가장 큰 Challange은 활용자(분석가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트)가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 실제로 사용하는문화 구축입니다.
-- **[Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 회의에서 "이 분석에 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 어디 있지?"라는 질문이 나오면,즉시에 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색하여 보여주는 것을 습관으로 만들며, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 미사용 시 수동 설명 대신 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 없으면 제공 불가"라는 룰을 적용하는 것이증가(효과적)입니다.
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 회의에서 "이 분석에 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 어디 있지?"라는 질문이 나오면,즉시에 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색하여 보여주는 것을 습관으로 만들며, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 미사용 시 수동 설명 대신 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 없으면 제공 불가"라는 룰을 적용하는 것이증가(효과적)입니다.
 
 - **📢 섹션 요약 비유**: 실무 확산은 "우리가ibrary Membership을 홍보하는 것"과 같습니다. 아무리 좋은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 시스템(OPAC)을 구축해도, 구성원들이 활용하지 않으면가 없습니다. 그래서 도서관에서는 Orientation에 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 사용법을 교육하고, 수시로 "오늘의 추천 도서"를하는 것처럼, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)팀도 정기적으로 "주간 Popular수"을 mailing하는 등 Promotion 활동을 통해 활용을 높여야 합니다.
 
@@ -132,13 +116,13 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **생성 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 설명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Automated Description Generation)**
+1. <strong>생성 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 자동 설명 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Automated Description Generation)</strong>
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 Model)을 활용하여, 테이블 이름과 컬럼 이름, 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를Input으로 "이 테이블은 고객의 주문 정보를 , , 수, 과 함께 저장하는 테이블입니다"와 같은 설명을자동생성하는 기능이 빠르게 성숙하고 있습니다. 이로 인해 수동 description 입력 부담이대폭 감소할 것으로 기대됩니다.
 
-2. **[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)-기반 [데이터 리니지](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/) 자동 추적 확대**
+2. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a>-기반 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/">데이터 리니지</a> 자동 추적 확대</strong>
 Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문(파싱) 단계를 넘어, Spark, Python, dbt 코드의transform 내부로까지 확대되어, 컬럼 수준(Column-level)의 종속 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 автоматически 추적하는 것이 표준화되고 있습니다.
 
-3. **[데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/))과의 통합**
+3. <strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">데이터 계약</a>(<a href="/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/">Data Contract</a>)과의 통합</strong>
 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) + SLA을 명시한 협약)이 활발해지면서, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 계약 정보를 등재하고, 계약 위반 시 자동으로 경고하거나 접근을 제한하는 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 중심의 계약 Enforcement" 아키텍처가 주목받고 있습니다.
 
 - **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)의 미래는 "음성 인식 비서([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Assistant)"와 같습니다. 현재는 키워드를(입력)해서 검색하지만, 미래에는 "내 분석에 필요한 Quarter EMEA 지역의 고객 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찾아줘"라고 음성으로 말하면, AI가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 지식을 활용하여 최적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추천하고, 필요 시 승인 요청까지 자동으로 처리해주는 것입니다.
@@ -147,13 +131,13 @@ Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문(파싱) 단계�
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 핵심 기능 5가지**
+* <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a> 핵심 기능 5가지</strong>
 * 검색 및 발견 (Search & Discovery): NLP/키워드 기반 테이블 검색
 * 계보 추적 (Lineage): 테이블 → 컬럼 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 추적
 * [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/): 설명, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 태그, 소유자 정보
 * 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: 결측치 비율, 업데이트, 주기
 * 워크플로우 연동: Airflow, Dagster 작업 연결,impact 분석
-* **주요 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/클라우드 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)**
+* <strong>주요 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>/클라우드 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a></strong>
 * AWS Glue [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), Azure Purview, GCP Dataplex (Cloud-native 관리형)
 * DataHub, Apache Atlas, OpenMetadata ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))
 * Alation, Collibra, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).world (엔터프라이즈 상용)
@@ -162,24 +146,25 @@ Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문(파싱) 단계�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 카탈로그 핵심 기능 5가지]
-│
-▼
-[검색 및 발견 (Search & Discovery): NLP/키워드 기반 테이블 검색]
-│
-▼
-[계보 추적 (Lineage): 테이블 → 컬럼 수준 데이터 흐름 추적]
-│
-▼
-[메타데이터 관리: 설명, 분류, 태그, 소유자 정보]
-│
-▼
-[품질 모니터링: 결측치 비율, 업데이트, 주기]
-│
-▼
-[워크플로우 연동: Airflow, Dagster 작업 연결,impact 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 핵심 기능 5가지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검색 및 발견 (Search &amp; Discovery): NLP/키워드 기반 테이블 검색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계보 추적 (Lineage): 테이블 → 컬럼 수준 데이터 흐름 추적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 관리: 설명, 분류, 태그, 소유자 정보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">품질 모니터링: 결측치 비율, 업데이트, 주기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워크플로우 연동: Airflow, Dagster 작업 연결,impact 분석</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 핵심 기능 5가지에서 출발해 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: 결측치 비율, 업데이트, 주기까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
@@ -190,7 +175,7 @@ Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문(파싱) 단계�
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ 3.1 Pro Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-05)
 
 ---
 

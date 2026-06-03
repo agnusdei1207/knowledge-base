@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **Best Effort (최선 노력)**: 인터넷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)은 우체국과 같습니다. "최선을 다해 빨리 보내줄게. 근데 차 막혀서 늦으면 나도 어쩔 수 없음 ㅋ"
-- 이런 **비확정성(Non-Deterministic, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 보장 불가)** 때문에 자동차 부품 공장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))이나 자율주행차 내부 통신망은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 버리고, 비싸고 폐쇄적인 전용 통신망(CAN, EtherCAT 등 필드버스)을 억지로 써야만 했습니다.
+- 이런 <strong>비확정성(Non-Deterministic, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 보장 불가)</strong> 때문에 자동차 부품 공장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))이나 자율주행차 내부 통신망은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 버리고, 비싸고 폐쇄적인 전용 통신망(CAN, EtherCAT 등 필드버스)을 억지로 써야만 했습니다.
 
-```text
-[P4 네트워크 프로그래밍 모델 플로우]
-    │
-    ▼
-[타임 센시티브 네트워킹]
-    │
-    └──▶ [IEEE 1588 PTP 시각 동기망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 타임 센시티브 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기존의 흔하고 싼 '표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)' 뼈대 위에, **극단적인 저지연(Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 도착 시간의 100% 확정성(Determinism)**을 보장하기 위한 수많은 튜닝 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 규칙들(IEEE 802.1Q 하위 표준들의 집합)을 덧씌운 차세대 산업용 네트워크 표준입니다.
+- **개념**: 기존의 흔하고 싼 '표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)' 뼈대 위에, <strong>극단적인 저지연(Ultra-Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과 도착 시간의 100% 확정성(Determinism)</strong>을 보장하기 위한 수많은 튜닝 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 규칙들(IEEE 802.1Q 하위 표준들의 집합)을 덧씌운 차세대 산업용 네트워크 표준입니다.
 - **목표**: 넷플릭스 영상 패킷(잡동사니)과 로봇 팔 정지 명령 패킷(생명줄)이 1개의 랜선을 같이 타고 흘러가도, 로봇 명령 패킷이 무조건 0.001초 안에 칼같이 도착하게 보장하는 IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 융합망의 심장입니다.
 
-```text
-[P4 네트워크 프로그래밍 모델 플로우]
-    │
-    ▼
-[타임 센시티브 네트워킹]
-    │
-    └──▶ [IEEE 1588 PTP 시각 동기망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 타임 센시티브 네트워킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ TSN의 가장 위대한 핵심 기술입니다.
 ### 3. 패킷 선점 / 끼어들기 (IEEE 802.1Qbu) - "응급차 길 터주기"
 - 넷플릭스 영화 패킷(거대한 덤프트럭)이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 문을 통과하며 나가는 중이었습니다. 그 찰나에 뒤에서 삐뽀삐뽀 로봇 팔 긴급 제어 패킷(응급차)이 도착했습니다.
 - 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/): 덤프트럭이 다 빠져나갈 때까지 응급차는 무조건 대기합니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생).
-- **[TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) (프리엠션)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 덤프트럭(넷플릭스 패킷)의 몸통을 그 자리에서 **전기톱으로 반 토막 내서 일시 정지(Preemption)시킵니다!** 그리고 쪼개진 틈 사이로 응급차(VIP 패킷)를 먼저 쏙 찔러 넣어 통과시킵니다. 응급차가 지나가면 잘라놨던 넷플릭스 패킷 뒷부분을 마저 보냅니다. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 나노초 단위로 줄이는 미친 끼어들기 기술입니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/">TSN</a> (프리엠션)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 덤프트럭(넷플릭스 패킷)의 몸통을 그 자리에서 **전기톱으로 반 토막 내서 일시 정지(Preemption)시킵니다!** 그리고 쪼개진 틈 사이로 응급차(VIP 패킷)를 먼저 쏙 찔러 넣어 통과시킵니다. 응급차가 지나가면 잘라놨던 넷플릭스 패킷 뒷부분을 마저 보냅니다. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 나노초 단위로 줄이는 미친 끼어들기 기술입니다.
 
 타임 센시티브 네트워킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우가 기반 조건을 만든다면, 타임 센시티브 네트워킹은 그 위에서 핵심 메커니즘을 구현하고, IEEE 1588 PTP 시각 동기망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -94,7 +102,7 @@ TSN의 가장 위대한 핵심 기술입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 **'출퇴근 시간 강남대로 1차선'**입니다. 스포츠카(긴급 로봇 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 아무리 엔진이 좋아도 앞에 똥차와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(넷플릭스 잡동사니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 꽉 막혀있으면 도착 시간을 절대 장담할 수 없어(비확정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 환자가 죽습니다. **[TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)(타임 센시티브 네트워킹)**은 강남대로에 경찰청장급 **'절대 권력의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(TAS 시간 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))'**을 박아 넣은 것입니다. 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등은 매분 정각마다 "지금부터 1초간 스포츠카 VIP 전용 시간!"을 선포하고, 고속도로로 진입하는 나머지 모든 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 트럭들의 게이트(톨게이트 차단바)를 콱 잠가서 아예 도로를 비워버립니다. 만약 톨게이트를 빠져나가고 있던 덤프트럭이 있다면, 트럭 몸통을 반으로 잘라버리고 그 사이로 스포츠카를 먼저 통과시키는 미친 끼어들기(패킷 프리엠션)까지 서슴지 않으며, 1초의 오차도 없이 생명줄 패킷을 정확한 목적지에 꽂아 넣는 강박증 수준의 정밀 도착 보장 고속도로망입니다.
+- **📢 섹션 요약 비유**: 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 <strong>'출퇴근 시간 강남대로 1차선'</strong>입니다. 스포츠카(긴급 로봇 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 아무리 엔진이 좋아도 앞에 똥차와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(넷플릭스 잡동사니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 꽉 막혀있으면 도착 시간을 절대 장담할 수 없어(비확정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 환자가 죽습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/">TSN</a>(타임 센시티브 네트워킹)</strong>은 강남대로에 경찰청장급 <strong>'절대 권력의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>등(TAS 시간 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>)'</strong>을 박아 넣은 것입니다. 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등은 매분 정각마다 "지금부터 1초간 스포츠카 VIP 전용 시간!"을 선포하고, 고속도로로 진입하는 나머지 모든 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 트럭들의 게이트(톨게이트 차단바)를 콱 잠가서 아예 도로를 비워버립니다. 만약 톨게이트를 빠져나가고 있던 덤프트럭이 있다면, 트럭 몸통을 반으로 잘라버리고 그 사이로 스포츠카를 먼저 통과시키는 미친 끼어들기(패킷 프리엠션)까지 서슴지 않으며, 1초의 오차도 없이 생명줄 패킷을 정확한 목적지에 꽂아 넣는 강박증 수준의 정밀 도착 보장 고속도로망입니다.
 
 ---
 
@@ -117,15 +125,19 @@ TSN의 가장 위대한 핵심 기술입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: P4 네트워크 프로그래밍 모델 플로우]
-    │
-    ▼
-[현재 개념: 타임 센시티브 네트워킹]
-    │
-    ├──▶ [확장 A: IEEE 1588 PTP 시각 동기망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 타임 센시티브 네트워킹는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우에서 출발해 현재 메커니즘을 정교화하고, 이후 IEEE 1588 PTP 시각 동기망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

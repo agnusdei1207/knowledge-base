@@ -18,29 +18,24 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│               전통 BIOS 부팅 순서                         │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  전원 ON                                                  │
-│    │                                                      │
-│    ▼                                                      │
-│  BIOS (ROM/NVRAM) — POST(Power-On Self Test) 수행         │
-│    │  CPU, RAM, 키보드, 디스크 초기화 검사                │
-│    ▼                                                      │
-│  MBR (Master Boot Record) — 디스크 첫 512바이트           │
-│    │  부트로더 1단계 코드 실행 (446바이트)                │
-│    ▼                                                      │
-│  부트로더 2단계 (GRUB Stage 2)                            │
-│    │  파일 시스템 인식, 커널 선택 메뉴                    │
-│    ▼                                                      │
-│  커널 적재 (kernel + initrd)                              │
-│    │                                                      │
-│    ▼                                                      │
-│  OS 초기화 (init/systemd)                                 │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 BIOS 부팅 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전원 ON</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIOS (ROM/NVRAM) — POST(Power-On Self Test) 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU, RAM, 키보드, 디스크 초기화 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBR (Master Boot Record) — 디스크 첫 512바이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트로더 1단계 코드 실행 (446바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트로더 2단계 (GRUB Stage 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 인식, 커널 선택 메뉴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 적재 (kernel + initrd)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 초기화 (init/systemd)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 부트로더는 자동차 시동 과정의 스타터 모터다. 키를 돌리면(전원 ON) 스타터(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))가 엔진(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 시동시키고, 엔진이 켜지면 스타터는 더 이상 필요 없다.
 
@@ -104,18 +99,22 @@ UEFI Secure Boot 동작:
 
 ### 클라우드 부팅
 
-```text
-VM 부팅:
-  Hypervisor (KVM/VMware) → UEFI OVMF / SeaBIOS
-  → 게스트 OS GRUB → 게스트 커널
 
-컨테이너:
-  부트로더 없음! 호스트 커널 공유
-  → 네임스페이스·cgroup으로 격리만
 
-임베디드 Linux:
-  U-Boot → DTB(디바이스 트리) 적재 → Kernel → BusyBox
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VM 부팅:</div>
+<div class="kb-diagram-note">Hypervisor (KVM/VMware) → UEFI OVMF / SeaBIOS</div>
+<div class="kb-diagram-note">→ 게스트 OS GRUB → 게스트 커널</div>
+<div class="kb-diagram-note">컨테이너:</div>
+<div class="kb-diagram-note">부트로더 없음! 호스트 커널 공유</div>
+<div class="kb-diagram-note">→ 네임스페이스·cgroup으로 격리만</div>
+<div class="kb-diagram-note">임베디드 Linux:</div>
+<div class="kb-diagram-note">U-Boot → DTB(디바이스 트리) 적재 → Kernel → BusyBox</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에는 부트로더가 없다! 호텔 방([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))은 호텔 건물(호스트 OS)의 엘리베이터([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 공유해서 자기 방 전용 엘리베이터가 필요 없다.
 
@@ -139,29 +138,31 @@ VM 부팅:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)** | 부트로더 이전 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계 |
+| <strong>BIOS/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/">UEFI</a></strong> | 부트로더 이전 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계 |
 | **GRUB** | Linux 표준 부트로더 |
-| **[Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)** | 부트로더 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **[MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)/[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)** | 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/">Secure Boot</a></strong> | 부트로더 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a>/<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a></strong> | 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조 |
 | **initrd** | 부팅 시 임시 루트 파일시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BIOS + MBR — 전통 16비트 부팅 체계]
-    │
-    ▼
-[GRUB — 멀티 OS 지원 Linux 부트로더]
-    │
-    ▼
-[UEFI + GPT — 64비트·GPT·Secure Boot 현대 표준]
-    │
-    ▼
-[TPM + Secure Boot — 하드웨어 신뢰 앵커]
-    │
-    ▼
-[컨테이너·서버리스 — 부트로더 없는 즉시 실행 환경]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BIOS + MBR — 전통 16비트 부팅 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRUB — 멀티 OS 지원 Linux 부트로더</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UEFI + GPT — 64비트·GPT·Secure Boot 현대 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TPM + Secure Boot — 하드웨어 신뢰 앵커</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너·서버리스 — 부트로더 없는 즉시 실행 환경</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

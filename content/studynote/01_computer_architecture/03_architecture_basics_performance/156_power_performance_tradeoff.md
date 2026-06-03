@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: 전력-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)-Performance Trade-off)는 더 높은 처리 속도를 얻기 위해 더 많은 에너지와 더 큰 발열을 감수해야 하는 구조적 교환 관계다.
 > 2. **가치**: 이 개념을 이해해야 왜 현대 프로세서가 무작정 클럭을 올리지 않고, 멀티코어·[DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)·가속기로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 분산하는지 설명할 수 있다.
-> 3. **판단 포인트**: 좋은 설계는 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자체가 아니라, 열 설계 전력 (Thermal Design [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), TDP)과 배터리 한계 안에서 **와트당 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 얼마나 안정적으로 끌어내는가로 평가해야 한다.
+> 3. **판단 포인트**: 좋은 설계는 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자체가 아니라, 열 설계 전력 (Thermal Design [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), TDP)과 배터리 한계 안에서 <strong>와트당 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 얼마나 안정적으로 끌어내는가로 평가해야 한다.
 
 ---
 
@@ -35,25 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높일 때 전력이 왜 급격히 커지는지, 그리고 어느 지점에서 발열 벽에 막히는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 목표: 더 짧은 실행 시간                                             │
-│    │                                                                 │
-│    ├─▶ 클럭 주파수 f 증가                                            │
-│    │       │                                                         │
-│    │       └─▶ 타이밍 여유 감소                                      │
-│    │                │                                                │
-│    │                └─▶ 전압 V 상향 필요 가능성                      │
-│    │                         │                                        │
-│    ├─────────────────────────┴─▶ 동적 전력 증가: P ≈ α×C×V²×f        │
-│    │                                                                  │
-│    └─▶ 전력 증가 ─▶ 발열 증가 ─▶ 냉각 한계 접근 ─▶ 스로틀링 발생      │
-│                                                                  │
-│ 결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 더 짧은 실행 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 클럭 주파수 f 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 타이밍 여유 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전압 V 상향 필요 가능성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동적 전력 증가: P ≈ α×C×V²×f</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전력 증가 ─▶ 발열 증가 ─▶ 냉각 한계 접근 ─▶ 스로틀링 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다</div></div>
+</div>
+</div>
+
+
 
 여기에 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/), 즉 누설 전력도 더해진다. 공정이 미세화될수록 트랜지스터를 꺼 둔 상태에서도 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 새기 쉬워져 유휴 구간 전력까지 무시하기 어려워진다. 그래서 현대 프로세서는 단순 고주파화 대신 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절, 클록 게이팅 ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)), 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)), 코어 선택적 활성화 같은 기법을 함께 사용한다.
 
@@ -84,11 +81,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 최고 벤치마크 점수보다 **지속 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 먼저 따져야 한다. 예를 들어 모바일 기기에서 고성능 모드를 오래 유지하면 표면 온도 상승으로 사용자 경험이 나빠지고, 결국 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))으로 평균 프레임도 떨어진다. 반대로 서버 환경에서는 동일 전력 예산 안에서 더 많은 요청을 처리하는 구성이 총처리량과 운영비 모두에 유리할 수 있다.
+실무에서는 최고 벤치마크 점수보다 <strong>지속 가능한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 먼저 따져야 한다. 예를 들어 모바일 기기에서 고성능 모드를 오래 유지하면 표면 온도 상승으로 사용자 경험이 나빠지고, 결국 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))으로 평균 프레임도 떨어진다. 반대로 서버 환경에서는 동일 전력 예산 안에서 더 많은 요청을 처리하는 구성이 총처리량과 운영비 모두에 유리할 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 목표가 **최대 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**인지, **지속 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)**인지 먼저 구분했는가?
+1. 목표가 <strong>최대 순간 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>인지, <strong>지속 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>인지 먼저 구분했는가?
 2. 열 설계 전력 (TDP), 냉각 용량, 배터리 용량 중 무엇이 실제 병목인가?
 3. [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/), 코어 파킹, 가속기 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 같은 일을 더 적은 에너지로 처리할 수 있는가?
 4. 벤치마크가 짧은 버스트 시험인지, 장시간 부하를 반영한 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 시험인지 확인했는가?
@@ -133,24 +130,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데나드 스케일링 (Dennard Scaling)
-    │
-    ▼
-클럭 상승 중심 성능 개선
-    │
-    ▼
-전력 장벽 (Power Wall) · 열 설계 전력 (TDP) 제약
-    │
-    ▼
-DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어
-    │
-    ▼
-다크 실리콘 (Dark Silicon) · 이기종 컴퓨팅
-    │
-    ▼
-와트당 성능 중심 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데나드 스케일링 (Dennard Scaling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클럭 상승 중심 성능 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전력 장벽 (Power Wall) · 열 설계 전력 (TDP) 제약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다크 실리콘 (Dark Silicon) · 이기종 컴퓨팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">와트당 성능 중심 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"의 시대에서 "제한된 에너지 안의 최적 배분" 시대로 패러다임이 이동한 과정을 보여 준다.
 

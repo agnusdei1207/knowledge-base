@@ -14,19 +14,19 @@ tags = ["personal"]
 
 ### 1. 데일리 저널 (`Journal`)
 *   하루의 생각, 감정, 소소한 사건들을 기록하는 일기장입니다.
-*   👉 **[오늘의 저널 작성하기](/knowledge-base/personal/journal/)**
+*   👉 <strong><a href="/knowledge-base/personal/journal/">오늘의 저널 작성하기</a></strong>
 
 ### 2. 인생 목표 및 버킷리스트 (`Life Goals`)
 *   단기/장기 목표와 삶에서 꼭 이루고 싶은 일들을 적어둔 지도입니다.
-*   👉 **[나의 인생 목표 보기](/knowledge-base/personal/life-goals/)**
+*   👉 <strong><a href="/knowledge-base/personal/life-goals/">나의 인생 목표 보기</a></strong>
 
 ### 3. 자산 및 예산 계획 (`Finances`)
 *   개인 재정 목표, 예산 관리 및 자산 포트폴리오를 기록하고 점검합니다.
-*   👉 **[재정 플래너 열기](/knowledge-base/personal/finances/)**
+*   👉 <strong><a href="/knowledge-base/personal/finances/">재정 플래너 열기</a></strong>
 
 ### 4. 취미 및 취향 보관함 (`Hobby & Interests`)
 *   독서 노트, 영화 감상평, 여행 기록 등 좋아하는 것들에 대한 아카이브입니다.
-*   👉 **[취미 및 독서 기록](/knowledge-base/personal/hobby/)**
+*   👉 <strong><a href="/knowledge-base/personal/hobby/">취미 및 독서 기록</a></strong>
 
 ---
 

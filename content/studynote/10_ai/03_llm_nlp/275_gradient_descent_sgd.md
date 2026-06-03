@@ -37,44 +37,46 @@ w ← w - α · ∇L(w)
 
 ### 배치 크기에 따른 경사 하강법 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-```
-┌──────────────────────────────────────────────────────────┐
-│              경사 하강법(GD) 세 가지 변형                 │
-├──────────────┬───────────────────┬───────────────────────┤
-│  Batch GD    │  SGD              │  Mini-batch GD        │
-│              │  (Stochastic GD)  │                       │
-├──────────────┼───────────────────┼───────────────────────┤
-│ 전체 N개     │ 1개 샘플로        │ k개(32~512)로         │
-│ 데이터로     │ 매 스텝 갱신      │ 매 스텝 갱신          │
-│ 한 번 갱신   │                   │                       │
-├──────────────┼───────────────────┼───────────────────────┤
-│ 정확한 기울기│ 노이즈 많음       │ 균형 잡힌 기울기       │
-│ 느린 갱신    │ 빠른 갱신         │ GPU 병렬 최적          │
-│ 메모리 한계  │ 지역 최솟값 탈출  │ 현대 DL 표준          │
-└──────────────┴───────────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경사 하강법(GD) 세 가지 변형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch GD</div><div class="kb-diagram-cell">SGD</div><div class="kb-diagram-cell">Mini-batch GD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stochastic GD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 N개</div><div class="kb-diagram-cell">1개 샘플로</div><div class="kb-diagram-cell">k개(32~512)로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터로</div><div class="kb-diagram-cell">매 스텝 갱신</div><div class="kb-diagram-cell">매 스텝 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확한 기울기</div><div class="kb-diagram-cell">노이즈 많음</div><div class="kb-diagram-cell">균형 잡힌 기울기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">느린 갱신</div><div class="kb-diagram-cell">빠른 갱신</div><div class="kb-diagram-cell">GPU 병렬 최적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 한계</div><div class="kb-diagram-cell">지역 최솟값 탈출</div><div class="kb-diagram-cell">현대 DL 표준</div></div>
+</div>
+</div>
+
+
 
 ### 손실 곡면의 문제점
 
-```
-손실(Loss)
-    │
-    │    지역 최솟값        안장점
-    │    (Local Min)        (Saddle)
-    │      ↓                  ↓
-높음│  ∩──●──∩         ──────●──────
-    │  │  │  │             / │ \
-    │  │  │  │            /  │  \
-낮음│──┘  │  └──      ───    │    ───
-    │     ↓                  │
-    │  전역 최솟값            기울기=0
-    │  (Global Min)          이지만 최솟값 아님
-    └────────────────────────────────→ 가중치
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">손실(Loss)</div>
+<div class="kb-diagram-note">지역 최솟값 안장점</div>
+<div class="kb-diagram-note">(Local Min) (Saddle)</div>
+<div class="kb-diagram-note">높음│ ∩──●──∩ ●</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">──</div></div>
+<div class="kb-diagram-note">전역 최솟값 기울기=0</div>
+<div class="kb-diagram-note">(Global Min) 이지만 최솟값 아님</div>
+<div class="kb-diagram-tree-item" style="--depth:2">→ 가중치</div>
+</div>
+</div>
+
+
 
 ### [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) vs 안장점
 
-고차원 공간에서는 **[지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)보다 안장점(Saddle Point)이 훨씬 더 큰 문제**다. 모든 방향에서 기울기가 0이지만 일부 방향은 상승, 일부 방향은 하강하는 지점이다.
+고차원 공간에서는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a>보다 안장점(Saddle Point)이 훨씬 더 큰 문제</strong>다. 모든 방향에서 기울기가 0이지만 일부 방향은 상승, 일부 방향은 하강하는 지점이다.
 
 | 구분 | 특징 | SGD의 대응 |
 |:---|:---|:---|
@@ -85,10 +87,10 @@ w ← w - α · ∇L(w)
 
 ### SGD의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 노이즈 효과
 
-SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 1개 또는 미니배치 샘플의 기울기로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 갱신하므로 **매 스텝 기울기에 노이즈(Noise)가 포함**된다. 이 노이즈가 오히려:
+SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 1개 또는 미니배치 샘플의 기울기로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 갱신하므로 <strong>매 스텝 기울기에 노이즈(Noise)가 포함</strong>된다. 이 노이즈가 오히려:
 - [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출 가능
 - 안장점에서 벗어나는 힘 제공
-- 더 **평탄한(Flat) 최솟값**에 수렴 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+- 더 <strong>평탄한(Flat) 최솟값</strong>에 수렴 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 - **📢 섹션 요약 비유**: SGD의 노이즈는 미끄럼틀 탈 때 엉덩이가 좌우로 흔들리는 것과 같다. 항상 직선으로만 내려오면 함정([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠지지만, 흔들림 덕분에 함정을 넘어 진짜 아래로 내려올 수 있다.
 
@@ -107,7 +109,7 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 
 ### 경사 하강법과 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 기울기를 **효율적으로 계산**하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이고, 경사 하강법은 그 기울기를 **어떻게 활용해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 갱신할지** 결정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 두 개념은 항상 함께 동작한다.
+[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 기울기를 <strong>효율적으로 계산</strong>하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이고, 경사 하강법은 그 기울기를 <strong>어떻게 활용해 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 갱신할지</strong> 결정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 두 개념은 항상 함께 동작한다.
 
 ```
 순전파(Forward Pass)  →  손실 계산(Loss)  →  역전파(Backward Pass)  →  경사 하강법(GD)으로 갱신
@@ -129,14 +131,14 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 
 1. **배치 크기 선택의 트레이드오프**: 배치가 클수록 메모리 필요량↑, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율↑, 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↓
 2. **SGD의 노이즈 효과**: 노이즈가 [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)과 안장점 탈출에 기여한다는 점
-3. **미니배치 크기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 맞게 32, 64, 128, 256 중 선택. 2의 거듭제곱 권장
+3. <strong>미니배치 크기 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 맞게 32, 64, 128, 256 중 선택. 2의 거듭제곱 권장
 4. **에포크 수 결정**: [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))와 연계해 과적합 방지
 
 ### 실무 시나리오
 
-- **이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (ImageNet)**: 배치 크기 256, SGD with [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), 90 에포크 학습
-- **자연어 처리 ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))**: 배치 크기 32, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/), 3~5 에포크
-- **[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)**: 배치 크기 32~256, 경험 재현([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)) 버퍼에서 미니배치 샘플링
+- <strong>이미지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> (ImageNet)</strong>: 배치 크기 256, SGD with [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), 90 에포크 학습
+- <strong>자연어 처리 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a>)</strong>: 배치 크기 32, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/), 3~5 에포크
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a></strong>: 배치 크기 32~256, 경험 재현([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)) 버퍼에서 미니배치 샘플링
 
 ### 그래디언트 소실/폭발 문제
 
@@ -154,9 +156,9 @@ SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/
 1. **계산 효율성**: GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 최대한 활용
 2. **메모리 효율성**: 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 올리지 않아도 됨
 3. **수렴 안정성**: 노이즈로 인한 국부 최적해 탈출 능력
-4. **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: 배치 GD보다 좋은 일반화 경향
+4. <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 배치 GD보다 좋은 일반화 경향
 
-현대 딥러닝에서 미니배치 SGD(Mini-batch SGD)는 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 등 고급 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 기반이 되며, **배치 크기 32~512가 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 최적화의 실용적 선택**이다.
+현대 딥러닝에서 미니배치 SGD(Mini-batch SGD)는 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 등 고급 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 기반이 되며, <strong>배치 크기 32~512가 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 최적화의 실용적 선택</strong>이다.
 
 - **📢 섹션 요약 비유**: 경사 하강법은 학생이 수능 공부를 할 때 매일 조금씩 약점을 고쳐나가는 것과 같다. 전체 문제집을 한 번에 다 풀고 고치면 시간이 너무 걸리고(Batch GD), 문제 하나씩 보면 흐름을 놓치기 쉽다(SGD). 챕터 단위(미니배치)로 나눠 공부하는 게 가장 효율적이다.
 

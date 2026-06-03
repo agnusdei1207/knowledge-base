@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 트로이 목마는 **"정상 프로그램으로 위장"**하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
-> 2. **가치**: 트로이 목마는 **자체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 능력이 없는 반면**, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
-> 3. **한계**: 트로이 목마는 정상 프로그램이므로 **백신의 [시그니처 기반 탐지](/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/)가 어려우며**, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
+> 1. **본질**: 트로이 목마는 <strong>"정상 프로그램으로 위장"</strong>하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
+> 2. **가치**: 트로이 목마는 <strong>자체 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 능력이 없는 반면</strong>, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
+> 3. **한계**: 트로이 목마는 정상 프로그램이므로 <strong>백신의 <a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>가 어려우며</strong>, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
 
 ---
 
@@ -23,7 +23,7 @@ tags = ["studynote-operating-system"]
 
 | 특성 | [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) | 웜 | 트로이 목마 |
 |:---|:---|:---|:---|
-| **자기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)** | 예 | 예 | 아니오 |
+| <strong>자기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong> | 예 | 예 | 아니오 |
 | **침투 방식** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 감염 | 네트워크 전파 | 정상 프로그램 위장 |
 | **실행 방식** | 숙주 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
 | **확산 속도** | 중간 | 매우 빠름 | 느림 (사용자 의존) |
@@ -40,20 +40,26 @@ tags = ["studynote-operating-system"]
 
 ### 2.1 동작 원리
 
-```
-[ 트로이 목마 동작 흐름 ]
-1. 【유포】 악성 코드 + 정상 프로그램 → 래퍼로 포장 → 배포
-2. 【유도】 사용자가 정상 프로그램으로 오인하여 실행
-3. 【활성화】 악성 코드 부분이 실행
-4. 【】 백그라운드에서 악의적 작업 수행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트로이 목마 동작 흐름</div></div>
+<div class="kb-diagram-note">1. 【유포】 악성 코드 + 정상 프로그램 → 래퍼로 포장 → 배포</div>
+<div class="kb-diagram-note">2. 【유도】 사용자가 정상 프로그램으로 오인하여 실행</div>
+<div class="kb-diagram-note">3. 【활성화】 악성 코드 부분이 실행</div>
+<div class="kb-diagram-note">4. 【】 백그라운드에서 악의적 작업 수행</div>
+</div>
+</div>
+
+
 
 ### 2.2 주요 유형
 
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **Remote Access Trojan (RAT)** | 원격에서 시스템 제어 | njRAT, DarkComet |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stealing Trojan** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 | 비밀번호 훔치기, [키로거](/knowledge-base/studynote/09_security/15_malware_attack_vectors/740_keylogger/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Stealing Trojan</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 | 비밀번호 훔치기, [키로거](/knowledge-base/studynote/09_security/15_malware_attack_vectors/740_keylogger/) |
 | **Destructive Trojan** | 시스템 파괴 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제,(하드) 포맷 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -78,7 +84,7 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ### 3.2 폴리모orphic (다형성) 기법
 
-매 실행 시 악성 코드를 변형하여 **[시그니처 기반 탐지](/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/)를 우회**:
+매 실행 시 악성 코드를 변형하여 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>를 우회</strong>:
 
 ```text
 [ 기존 ] malware.exe (고정 시그니처) → 탐지 가능
@@ -95,15 +101,15 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 | 구분 | 방법 | 설명 |
 |:---|:---|:---|
-| **[행위 기반 탐지](/knowledge-base/studynote/09_security/04_endpoint_security/324_behavior_based_detection/)** | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), HIDS | 악성 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 탐지 |
-| **[시그니처 기반 탐지](/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/)** | 안티바이러스 | 알려진 트로이 목마 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/324_behavior_based_detection/">행위 기반 탐지</a></strong> | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), HIDS | 악성 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 탐지 |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a></strong> | 안티바이러스 | 알려진 트로이 목마 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | **Application Control** | 화이트리스트 | 허용된 프로그램만 실행 |
 | ** sandbox** | 샌드박스 | 격리 환경에서 실행 분석 |
 
 ### 4.2 사용자 교육
 
-- **불분명한 출처의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열지 않기**
-- **첨부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**
+- <strong>불분명한 출처의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 열지 않기</strong>
+- <strong>첨부 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 실행 전 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>
 - **소프트웨어는 공식 채널에서 다운로드**
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -131,25 +137,29 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[시스템 보안 위협 유형]
-│
-▼
-[트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-│
-├──▶ [트랩 도어 (Trap Door / Backdoor)]
-└──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 보안 위협 유형</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 도어 (Trap Door / Backdoor)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로직 밤 (Logic Bomb) / 타이머 밤</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **트로이 목마**는 **"선물로 위장한 폭죽"**과 같다. 밖에서는 예쁜 선물이지만, 열어보면 안에 폭죽이 있어 집을 부수게 된다.
+1. <strong>트로이 목마</strong>는 <strong>"선물로 위장한 폭죽"</strong>과 같다. 밖에서는 예쁜 선물이지만, 열어보면 안에 폭죽이 있어 집을 부수게 된다.
 
-2. **래퍼**는 **"정상 포장지에 악성 선물을 싸는 것"**과 같다. 정상 게임 программы(프로그램) 안에 악성 코드를 숨겨, 아이들이 게임이라 생각하고 실행하게 만든다.
+2. <strong>래퍼</strong>는 <strong>"정상 포장지에 악성 선물을 싸는 것"</strong>과 같다. 정상 게임 программы(프로그램) 안에 악성 코드를 숨겨, 아이들이 게임이라 생각하고 실행하게 만든다.
 
-3. **폴리모픽 기법**은 **"매번 다른 모양의 포장(종이)로 선물을 싸는 것"**과 같다. 매번 모습이 다르므로, 어떤 포장지를 막아야 하는지 알기 어렵다.
+3. <strong>폴리모픽 기법</strong>은 <strong>"매번 다른 모양의 포장(종이)로 선물을 싸는 것"</strong>과 같다. 매번 모습이 다르므로, 어떤 포장지를 막아야 하는지 알기 어렵다.
 
 ---
 

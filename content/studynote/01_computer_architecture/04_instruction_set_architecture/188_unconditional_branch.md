@@ -21,25 +21,27 @@ tags = ["studynote-computer-architecture"]
 
 무조건 분기는 실행 중인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 "다음 줄" 대신 "지정한 다른 주소"를 바로 다음 실행 위치로 채택하게 만드는 명령이다. 순차 실행만 가능한 기계는 메모리를 위에서 아래로 한 번 읽고 끝나지만, 무조건 분기가 있으면 같은 코드 구간을 반복하고, 특정 블록을 건너뛰고, 공통 종료 지점으로 합류하는 제어 구조를 만들 수 있다.
 
-이 명령이 필요한 이유는 프로그램이 본질적으로 직선이 아니라 **반복·우회·재합류**로 이루어져 있기 때문이다. 예를 들어 `while` 루프는 본문 끝에서 시작 지점으로 되돌아가야 하고, `if` 블록을 수행한 뒤에는 `else` 블록을 건너뛰고 공통 후속 코드로 합쳐져야 한다. 사람이 보기에는 단순한 구조화 문법이지만, 기계 수준에서는 결국 "PC를 어느 주소로 바꿀 것인가"라는 문제로 환원된다.
+이 명령이 필요한 이유는 프로그램이 본질적으로 직선이 아니라 <strong>반복·우회·재합류</strong>로 이루어져 있기 때문이다. 예를 들어 `while` 루프는 본문 끝에서 시작 지점으로 되돌아가야 하고, `if` 블록을 수행한 뒤에는 `else` 블록을 건너뛰고 공통 후속 코드로 합쳐져야 한다. 사람이 보기에는 단순한 구조화 문법이지만, 기계 수준에서는 결국 "PC를 어느 주소로 바꿀 것인가"라는 문제로 환원된다.
 
 아래 그림은 무조건 분기가 순차 실행의 관성을 끊고, PC를 새 주소로 강제로 돌리는 순간을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        순차 실행을 끊는 핵심: PC를 새 주소로 덮어쓰기         │
-├──────────────────────────────────────────────────────────────┤
-│ [100] LOAD                                                   │
-│ [101] ADD                                                    │
-│ [102] B 140        ───────▶  PC ← 140                        │
-│ [103] SUB        (인출되었더라도 폐기될 수 있음)             │
-│ [104] STORE                                                  │
-│                              ▼                               │
-│ [140] LOOP_END / MERGE / HANDLER                             │
-└──────────────────────────────────────────────────────────────┘
-```
 
-핵심은 무조건 분기가 데이터를 계산하는 명령이 아니라, **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 어디서 이어서 읽을지 결정하는 제어 명령**이라는 점이다. 그래서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나보다 눈에 덜 띄어도, 프로그램 구조 전체를 실제로 접는 힌지처럼 작동한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행을 끊는 핵심: PC를 새 주소로 덮어쓰기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">100</div><div class="kb-diagram-note">LOAD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">101</div><div class="kb-diagram-note">ADD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">102</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">PC ← 140</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">103</div><div class="kb-diagram-note">SUB (인출되었더라도 폐기될 수 있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">104</div><div class="kb-diagram-note">STORE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">140</div><div class="kb-diagram-note">LOOP_END / MERGE / HANDLER</div></div>
+</div>
+</div>
+
+
+
+핵심은 무조건 분기가 데이터를 계산하는 명령이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 어디서 이어서 읽을지 결정하는 제어 명령</strong>이라는 점이다. 그래서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나보다 눈에 덜 띄어도, 프로그램 구조 전체를 실제로 접는 힌지처럼 작동한다.
 
 - **📢 섹션 요약 비유**: 무조건 분기는 복도 끝 비상문과 같다. "여기로 가도 되는가"를 묻지 않고, 문을 여는 순간 사람 흐름 전체가 곧바로 다른 복도로 꺾인다.
 
@@ -47,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무조건 분기의 내부 원리는 단순하다. 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해독한 뒤, 그 안에 담긴 타깃 정보를 해석하고, 그 결과를 PC에 반영해 다음 인출 위치를 바꾸면 된다. 다만 실제 CPU (Central Processing Unit)에서는 이 과정이 **타깃 주소를 언제 알 수 있는지**, **직접 분기인지 간접 분기인지**, **이미 미리 읽어 온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버려야 하는지**에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 생긴다.
+무조건 분기의 내부 원리는 단순하다. 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해독한 뒤, 그 안에 담긴 타깃 정보를 해석하고, 그 결과를 PC에 반영해 다음 인출 위치를 바꾸면 된다. 다만 실제 CPU (Central Processing Unit)에서는 이 과정이 **타깃 주소를 언제 알 수 있는지**, **직접 분기인지 간접 분기인지**, <strong>이미 미리 읽어 온 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 버려야 하는지</strong>에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 생긴다.
 
 | 방식 | 예시 | 타깃 결정 시점 | 주 용도 | 설계 포인트 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -57,18 +59,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 파이프라인 관점에서 무조건 분기가 어떤 비용을 만드는지 보여준다. 조건을 검사하지는 않지만, **분기 직후의 인출 방향을 바꾸는 순간** 기존에 따라오던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 쓸모없어질 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│       무조건 분기의 파이프라인 영향: 판단은 단순, 전환은 실제    │
-├─────────────────────────────────────────────────────────────────┤
-│ Cycle n      : IF  [B target]                                   │
-│ Cycle n+1    : ID  [B target]  ──▶ target 계산                  │
-│ Cycle n+2    : IF  [target]                                      │
-│                IF  [fall-through] 는 폐기 가능                  │
-│                                                                 │
-│ 결과: 조건 비교 지연은 없지만, 인출 방향 전환 비용은 남는다      │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 분기의 파이프라인 영향: 판단은 단순, 전환은 실제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n : IF</div><div class="kb-diagram-node">B target</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n+1 : ID</div><div class="kb-diagram-node">B target</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">target 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n+2 : IF</div><div class="kb-diagram-node">target</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">IF</div><div class="kb-diagram-node">fall-through</div><div class="kb-diagram-note">는 폐기 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 조건 비교 지연은 없지만, 인출 방향 전환 비용은 남는다</div></div>
+</div>
+</div>
+
+
 
 그래서 무조건 분기는 "[조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)보다 항상 공짜"가 아니다. 직접 분기는 비교적 빠르게 처리되지만, 간접 분기는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽어 봐야 목적지를 알 수 있어 분기 타깃 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)) 같은 예측 장치의 도움을 많이 받는다. 특히 객체 지향 언어의 가상 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), `switch-case`의 점프 테이블, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 문맥 전환 복귀 주소는 모두 이런 간접 무조건 분기의 성격을 띤다.
 
@@ -89,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 소프트웨어 구조에서도 연결점이 분명하다. `if-else`의 `if` 블록 끝에는 대개 무조건 분기가 숨어 있어 `else` 블록을 건너뛴다. `switch-case`는 조건부 비교 사슬로 구현할 수도 있지만, 값 범위가 조밀하면 컴파일러가 점프 테이블과 간접 무조건 분기로 바꿔 시간 복잡도를 줄인다. 반대로 사람이 소스 코드에서 `goto`를 남발하면, 하드웨어에겐 자연스러운 명령이라도 소프트웨어 구조는 쉽게 스파게티가 된다.
 
-즉, 무조건 분기는 단독으로 보면 단순하지만 실제로는 **구조적 프로그래밍을 떠받치는 숨은 연결부**다. 고수준 언어는 이를 직접 드러내지 않고 `break`, `continue`, `return`, `switch` 같은 문법으로 감싸며, 컴파일러가 다시 적절한 분기 명령으로 번역한다.
+즉, 무조건 분기는 단독으로 보면 단순하지만 실제로는 <strong>구조적 프로그래밍을 떠받치는 숨은 연결부</strong>다. 고수준 언어는 이를 직접 드러내지 않고 `break`, `continue`, `return`, `switch` 같은 문법으로 감싸며, 컴파일러가 다시 적절한 분기 명령으로 번역한다.
 
 - **📢 섹션 요약 비유**: 무조건 분기는 지하철 환승 통로와 같다. 표를 검사하는 개찰구는 [조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)지만, 한 번 통과한 뒤 어느 승강장으로 이어 줄지는 환승 통로가 조용히 책임진다.
 
@@ -103,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 1. **짧은 반복 경로인가?** 짧은 루프라면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 분기가 코드 밀도를 높이고 재배치에 유리하다.
 2. **타깃이 런타임에 바뀌는가?** 함수 포인터·가상 호출·점프 테이블이라면 간접 분기 예측과 보안 대책을 함께 검토해야 한다.
-3. **분기 직후 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폐기가 빈번한가?** 핫 루프에서는 코드 배치와 fall-through 방향을 조정해 인출 낭비를 줄여야 한다.
+3. <strong>분기 직후 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 폐기가 빈번한가?</strong> 핫 루프에서는 코드 배치와 fall-through 방향을 조정해 인출 낭비를 줄여야 한다.
 4. **가독성과 구조를 해치지 않는가?** 어셈블리 최적화가 아니라면 소스 코드에서는 `goto`보다 구조화 문법이 유지보수 비용을 낮춘다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -112,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 - **간접 분기 남용**: 작은 분기조차 모두 함수 포인터로 우회하면 예측성과 추적 가능성이 떨어진다.
 - **보안 무시**: 간접 분기 경로를 아무 주소로나 열어 두면 반환 지향 프로그래밍 ([Return-Oriented Programming](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/), [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)) 같은 제어 흐름 공격에 취약해진다.
 
-기술사 관점에서 기억할 문장은 분명하다. **무조건 분기는 제어를 단순화하는 도구이지만, 간접화될수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측과 보안 통제가 어려워진다.** 따라서 설계자는 직접 분기, 간접 분기, 호출·복귀를 같은 "점프"로 뭉뚱그리지 말고 각각의 비용 구조를 구분해야 한다.
+기술사 관점에서 기억할 문장은 분명하다. <strong>무조건 분기는 제어를 단순화하는 도구이지만, 간접화될수록 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 예측과 보안 통제가 어려워진다.</strong> 따라서 설계자는 직접 분기, 간접 분기, 호출·복귀를 같은 "점프"로 뭉뚱그리지 말고 각각의 비용 구조를 구분해야 한다.
 
 - **📢 섹션 요약 비유**: 무조건 분기는 배송 허브의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 레일과 같다. 직행 레일은 빠르지만, 목적지가 실시간으로 바뀌는 레일은 관제 시스템과 보안 잠금장치까지 같이 좋아야 사고가 없다.
 
@@ -122,9 +126,9 @@ tags = ["studynote-computer-architecture"]
 
 무조건 분기가 잘 설계되면 프로그램은 불필요한 비교 없이 필요한 위치로 빠르게 이동할 수 있다. 그 결과 루프 제어가 단순해지고, 블록 종료 후 합류가 명확해지며, 조밀한 `switch-case`는 점프 테이블로 최적화되어 실행 시간이 안정된다. 하드웨어 입장에서도 조건 판정 회로를 거치지 않는 직접 분기는 비교적 낮은 비용으로 제어 흐름을 구성하는 수단이 된다.
 
-하지만 한계도 분명하다. 분기 자체가 많아지면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 흐름이 자주 꺾여 전면 파이프라인이 어수선해지고, 간접 분기는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측과 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 어렵게 만든다. 그래서 미래 방향은 단순히 점프를 늘리는 것이 아니라, **더 정확한 타깃 예측**, **더 안전한 간접 분기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**, **컴파일러 수준의 코드 배치 최적화**로 수렴한다.
+하지만 한계도 분명하다. 분기 자체가 많아지면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 흐름이 자주 꺾여 전면 파이프라인이 어수선해지고, 간접 분기는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측과 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 어렵게 만든다. 그래서 미래 방향은 단순히 점프를 늘리는 것이 아니라, **더 정확한 타깃 예측**, <strong>더 안전한 간접 분기 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>, <strong>컴파일러 수준의 코드 배치 최적화</strong>로 수렴한다.
 
-결국 무조건 분기는 "무식하게 건너뛰는 명령"이 아니라, 프로그램의 구조를 실제 주소 이동으로 실현하는 최소 제어 장치로 기억하는 것이 맞다. 조건을 묻지 않는 대신, **어디로 갈지와 그 전환 비용을 책임지는 명령**이라는 관점이 핵심이다.
+결국 무조건 분기는 "무식하게 건너뛰는 명령"이 아니라, 프로그램의 구조를 실제 주소 이동으로 실현하는 최소 제어 장치로 기억하는 것이 맞다. 조건을 묻지 않는 대신, <strong>어디로 갈지와 그 전환 비용을 책임지는 명령</strong>이라는 관점이 핵심이다.
 
 - **📢 섹션 요약 비유**: 무조건 분기는 연극 무대의 이동식 회전판과 같다. 배우가 대사를 더 하는 것은 아니지만, 무대가 정확한 위치로 돌아가야 다음 장면이 매끄럽게 이어진다.
 
@@ -143,24 +147,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 실행
-    │
-    ▼
-프로그램 카운터 (Program Counter, PC) 갱신
-    │
-    ▼
-무조건 분기 (Unconditional Branch)
-    │
-    ├─▶ 루프 백엣지 · 블록 탈출
-    │
-    ├─▶ 조건부 분기와 결합한 if-else 구조화
-    │
-    ├─▶ 호출/복귀 · 점프 테이블
-    │
-    ▼
-간접 분기 예측 · BTB · CFI
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그램 카운터 (Program Counter, PC) 갱신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무조건 분기 (Unconditional Branch)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 루프 백엣지 · 블록 탈출</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 조건부 분기와 결합한 if-else 구조화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 호출/복귀 · 점프 테이블</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">간접 분기 예측 · BTB · CFI</div>
+</div>
+</div>
+
+
 
 이 흐름은 "순차 실행의 한계 해결 → 제어 구조 형성 → 고급 언어 구현 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안 최적화"로 무조건 분기의 의미가 확장되는 과정을 보여준다.
 

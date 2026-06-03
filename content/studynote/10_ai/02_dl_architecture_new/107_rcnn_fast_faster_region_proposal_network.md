@@ -29,30 +29,30 @@ R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_s
 
 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열의 진화는 "반복되는 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 연산을 어떻게 줄일 것인가"와 "병목이 되는 외부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 어떻게 내재화할 것인가"에 초점이 맞춰져 있다.
 
-1. **R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) (2014)**: 
+1. <strong>R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (2014)</strong>: 
    이미지에서 Selective Search [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 2,000개의 [RoI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) (Region of Interest) 후보 영역을 추출하고, 각 영역을 동일한 크기로 잘라내어 2,000번의 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 연산을 수행한다. 속도가 매우 느리다.
-2. **Fast R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) (2015)**: 
+2. <strong>Fast R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (2015)</strong>: 
    이미지 전체를 CNN에 단 한 번만 통과시켜 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 그리고 Selective Search로 찾은 좌표를 이 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)에 투영하여 [RoI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 계층을 통해 엑기스만 추출한다. 2,000번의 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 연산을 1번으로 줄였다.
-3. **Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) (2015)**: 
+3. <strong>Faster R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (2015)</strong>: 
    가장 큰 병목이었던 Selective Search (CPU 연산)를 버리고, 후보 영역 자체를 찾아내는 소형 신경망 RPN을 도입했다. 이로써 추출부터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)까지 완벽한 종단간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 딥러닝 모델이 완성되었다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               [ 2-Stage Object Detection 진화 ]             │
-├─────────────────────────────────────────────────────────────┤
-│ [R-CNN]                                                     │
-│ 이미지 ─(Selective Search)─▶ 2,000개 조각 ─(CNN 2,000번)─▶ 판별 │
-│                                                             │
-│ [Fast R-CNN]                                                │
-│ 이미지 ─(CNN 1번)─▶ 특성 맵 ─(RoI Pooling)─▶ 2,000개 추출 ─▶ 판별 │
-│                 ▲                                           │
-│                 └─ (Selective Search로 좌표만 전달)          │
-│                                                             │
-│ [Faster R-CNN]  ★ 병목 완전 제거                            │
-│ 이미지 ─(CNN 1번)─▶ 특성 맵 ┬─(RPN)─▶ 후보 영역 좌표 제안       │
-│                            └─(RoI Pooling)─▶ 최종 판별     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">2-Stage Object Detection 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">R-CNN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(Selective Search)─▶ 2,000개 조각 ─(CNN 2,000번)─▶ 판별</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fast R-CNN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(CNN 1번)─▶ 특성 맵 ─(RoI Pooling)─▶ 2,000개 추출 ─▶ 판별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (Selective Search로 좌표만 전달)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Faster R-CNN</div><div class="kb-diagram-note">★ 병목 완전 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(CNN 1번)─▶ 특성 맵 ─(RPN)─▶ 후보 영역 좌표 제안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─(RoI Pooling)─▶ 최종 판별</div></div>
+</div>
+</div>
+
+
 
 여기서 RPN은 앵커 박스(Anchor Box)라는 다양한 비율과 크기의 기본 틀을 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위에 겹쳐보며 물체의 존재 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 위치를 빠르게 계산해낸다.
 
@@ -81,11 +81,11 @@ Faster R-CNN의 성공 이후, 분할([Segmentation](/knowledge-base/studynote/0
 
 실무에서 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델을 선정할 때는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 한계선과 오탐/미탐의 치명도를 기준으로 판단해야 한다.
 
-1. **Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 채택 시점**: 
+1. <strong>Faster R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 채택 시점</strong>: 
    - [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 웨이퍼 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출이나 엑스레이 기반 암세포 탐지처럼, 약간 느려도 미세한 객체를 100% 잡아내야 하는 QA (Quality Assurance) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 우선 채택한다.
-2. **최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 
+2. <strong>최적화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 
    - Faster R-CNN은 여전히 무겁기 때문에, 백본(Backbone) 네트워크를 무거운 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-101에서 가벼운 MobileNet으로 교체하여 속도와 정확도의 타협점을 찾는 튜닝이 필수적이다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 
    - 실시간성이 생명인 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 드론 장애물 회피 시스템에 Faster R-CNN을 무리하게 도입하여 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Inference Delay)으로 사고를 유발하는 설계는 피해야 한다.
 
 - **📢 섹션 요약 비유**: 공장에서 불량 사과를 골라낼 때, 컨베이어 벨트가 빨리 돌아가면 대충 여러 번 보는 YOLO 카메라를 달아야 하고, 느리게 돌아가는 다이아몬드 검수 라인이라면 시간이 걸려도 완벽하게 잡아내는 Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 카메라를 설치해야 한다.
@@ -106,28 +106,30 @@ R-CNN에서 Faster R-CNN으로의 발전은 단순히 속도 향상을 넘어, [
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[RoI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)** | 다양한 크기의 후보 영역을 동일한 크기의 벡터로 고정하는 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">RoI</a> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a></strong> | 다양한 크기의 후보 영역을 동일한 크기의 벡터로 고정하는 기술 |
 | **RPN (Region Proposal Network)** | [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위에서 물체가 있을 만한 위치를 예측하는 소형 신경망 |
 | **Anchor Box** | 다양한 종횡비(비율)와 크기를 가진 미리 정의된 사각형 틀 |
 | **YOLO (You Only Look Once)** | 2-Stage 방식을 비판하며 등장한 극강의 속도 중심 1-Stage 탐지기 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-객체 탐지 (Object Detection)의 진화
-    │
-    ▼
-R-CNN (Selective Search + 2,000번 CNN 병목)
-    │
-    ▼
-Fast R-CNN (RoI Pooling 도입, CNN 연산 1번으로 공유)
-    │
-    ▼
-Faster R-CNN (RPN 도입, 완전한 End-to-End 딥러닝 모델 완성)
-    │
-    ▼
-Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 확장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">객체 탐지 (Object Detection)의 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">R-CNN (Selective Search + 2,000번 CNN 병목)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fast R-CNN (RoI Pooling 도입, CNN 연산 1번으로 공유)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Faster R-CNN (RPN 도입, 완전한 End-to-End 딥러닝 모델 완성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 확장)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

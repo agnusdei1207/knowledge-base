@@ -53,37 +53,36 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 증거 삼각화 원칙
 
-```
-증거 삼각화 (Evidence Triangulation):
 
-단일 증거의 한계:
-  면담만: "들었다"는 증거 = 약함
-  문서만: 실제 구현 불일치 가능
-  관찰만: 재현 불가
 
-삼각화 예시:
-  보안 정책 준수 여부 검토:
-  
-  면담: 개발자 "암호화 적용했다" (주관적)
-  문서: 보안 설계서에 암호화 명시 (계획)
-  직접 테스트: DB 실제 쿼리로 암호화 확인 (객관적)
-  
-  → 3가지 일치 = 강한 증거
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">증거 삼각화 (Evidence Triangulation):</div>
+<div class="kb-diagram-note">단일 증거의 한계:</div>
+<div class="kb-diagram-note">면담만: "들었다"는 증거 = 약함</div>
+<div class="kb-diagram-note">문서만: 실제 구현 불일치 가능</div>
+<div class="kb-diagram-note">관찰만: 재현 불가</div>
+<div class="kb-diagram-note">삼각화 예시:</div>
+<div class="kb-diagram-note">보안 정책 준수 여부 검토:</div>
+<div class="kb-diagram-note">면담: 개발자 "암호화 적용했다" (주관적)</div>
+<div class="kb-diagram-note">문서: 보안 설계서에 암호화 명시 (계획)</div>
+<div class="kb-diagram-note">직접 테스트: DB 실제 쿼리로 암호화 확인 (객관적)</div>
+<div class="kb-diagram-note">→ 3가지 일치 = 강한 증거</div>
+<div class="kb-diagram-note">증거 품질 기준 (ISO 19011):</div>
+<div class="kb-diagram-note">충분성 (Sufficiency): 결론 도출에 충분한 양</div>
+<div class="kb-diagram-note">적합성 (Relevance): 감리 목적에 직접 관련</div>
+<div class="kb-diagram-note">신뢰성 (Reliability): 사실에 기반, 재현 가능</div>
+<div class="kb-diagram-note">증거 문서화:</div>
+<div class="kb-diagram-note">감리 워킹페이퍼(Working Paper)에 기록</div>
+<div class="kb-diagram-note">증거 참조 번호 부여</div>
+<div class="kb-diagram-note">결론과 증거 연결</div>
+<div class="kb-diagram-note">감리 결론 = 증거의 함수:</div>
+<div class="kb-diagram-note">"해당 요건 미준수" ← 증거 3건 (관찰+문서+테스트)</div>
+<div class="kb-diagram-note">증거 없는 결론 = 감리 의견으로 부적절</div>
+</div>
+</div>
 
-증거 품질 기준 (ISO 19011):
-  충분성 (Sufficiency): 결론 도출에 충분한 양
-  적합성 (Relevance): 감리 목적에 직접 관련
-  신뢰성 (Reliability): 사실에 기반, 재현 가능
 
-증거 문서화:
-  감리 워킹페이퍼(Working Paper)에 기록
-  증거 참조 번호 부여
-  결론과 증거 연결
-
-감리 결론 = 증거의 함수:
-  "해당 요건 미준수" ← 증거 3건 (관찰+문서+테스트)
-  증거 없는 결론 = 감리 의견으로 부적절
-```
 
 > 📢 **섹션 요약 비유**: 증거 삼각화는 3각 측량 — 한 지점만으로는 위치 부정확, 3개 지점 교차로 정확한 위치 확정.
 

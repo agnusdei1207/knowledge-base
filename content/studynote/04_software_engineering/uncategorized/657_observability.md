@@ -32,26 +32,24 @@ tags = ["studynote-software-engineering"]
 
 기존 모니터링 환경의 한계와 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도입 후의 문제 해결 접근 방식의 차이를 비교 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         모니터링(Monitoring) vs 옵저버빌리티(Observability)        │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [기존: 사일로(Silo) 모니터링]     [현재: 통합 옵저버빌리티]            │
-  │                                                               │
-  │   Alert! (500 Error Rate ↑)                                    │
-  │     │                            ┌─▶ Metrics (CPU Spikes?)    │
-  │     ▼                            │                            │
-  │  [Dashboard] ──> "장애 발생!"    [Trace] (병목 구간 탐색)       │
-  │      X (원인 불명)                  │ Span A ──> Span B (지연!) │
-  │                                  │                            │
-  │  [Log Viewer] ──> 수만 줄 로그    └─▶ Logs (Span B의 상세 에러) │
-  │      X (검색 어려움)                     "DB Connection Pool Full" │
-  │                                                               │
-  │  특징: 각 도구가 분리되어 있음      특징: Trace ID 기반 데이터 상관분석  │
-  │        알려진(Known) 문제 집중        알려지지 않은(Unknown) 문제 탐색 │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링(Monitoring) vs 옵저버빌리티(Observability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존: 사일로(Silo) 모니터링</div><div class="kb-diagram-node">현재: 통합 옵저버빌리티</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert! (500 Error Rate ↑)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Metrics (CPU Spikes?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dashboard</div><div class="kb-diagram-note">──&gt; "장애 발생!"</div><div class="kb-diagram-node">Trace</div><div class="kb-diagram-note">(병목 구간 탐색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X (원인 불명)</div><div class="kb-diagram-cell">Span A ──&gt; Span B (지연!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Log Viewer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Logs (Span B의 상세 에러)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X (검색 어려움) "DB Connection Pool Full"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 각 도구가 분리되어 있음 특징: Trace ID 기반 데이터 상관분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알려진(Known) 문제 집중 알려지지 않은(Unknown) 문제 탐색</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 기존 모니터링 환경에서는 대시보드에서 장애 경고(Alert)를 인지한 뒤, 담당자가 수동으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뷰어에 접속해 시간대를 맞춰가며 텍스트를 검색해야 하는 단절된 경험을 겪었다. 반면, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 환경에서는 경고가 발생하면 즉시 해당 시점의 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Trace) 데이터로 진입하여 병목이 발생한 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Span B)를 시각적으로 확인하고, 해당 스팬(Span)에 바인딩된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))을 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 기반으로 즉시 조회하여 "DB Connection Pool Full"이라는 근본 원인(Root Cause)을 원클릭으로 찾아낸다. 이 상관분석(Correlation) 역량이 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 결정짓는 핵심이다.
 
@@ -76,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Tracing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Tracing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Tracing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -152,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-옵저버빌리티 로그, 메트릭, 분산 추적(Tracing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">옵저버빌리티 로그, 메트릭, 분산 추적(Tracing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

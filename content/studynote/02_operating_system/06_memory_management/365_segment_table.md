@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 세그먼트 테이블([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Table)은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 기법에서 CPU가 요구한 2차원 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(세그먼트 번호 $s$, 오프셋 $d$)를 실제 물리 메모리 주소로 변환해 주는 **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부의 핵심 하드웨어 맵핑 장부**다.
-> 2. **가치**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 오직 '시작 주소(Frame)'만 기록하는 1차원적 장부라면, 세그먼트 테이블은 조각의 크기가 제각각이므로 각 줄마다 **'물리적 시작 주소(Base)'와 '해당 조각의 최대 크기(Limit)' 두 가지를 동시에 품고 있는 2차원 방어 장부**의 역할을 한다.
-> 3. **융합**: 번역 과정에서 오프셋 $d$가 Limit을 넘어서는지 실시간으로 검사하는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 하드웨어 로직과 결합되어 있으며, 이 깐깐한 경계 검사가 바로 **[Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault(세그폴트)**를 발생시키는 원천 메커니즘이다.
+> 1. **본질**: 세그먼트 테이블([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Table)은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 기법에서 CPU가 요구한 2차원 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(세그먼트 번호 $s$, 오프셋 $d$)를 실제 물리 메모리 주소로 변환해 주는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 내부의 핵심 하드웨어 맵핑 장부</strong>다.
+> 2. **가치**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 오직 '시작 주소(Frame)'만 기록하는 1차원적 장부라면, 세그먼트 테이블은 조각의 크기가 제각각이므로 각 줄마다 <strong>'물리적 시작 주소(Base)'와 '해당 조각의 최대 크기(Limit)' 두 가지를 동시에 품고 있는 2차원 방어 장부</strong>의 역할을 한다.
+> 3. **융합**: 번역 과정에서 오프셋 $d$가 Limit을 넘어서는지 실시간으로 검사하는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 하드웨어 로직과 결합되어 있으며, 이 깐깐한 경계 검사가 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault(세그폴트)</strong>를 발생시키는 원천 메커니즘이다.
 
 ---
 
@@ -27,28 +27,26 @@ tags = ["studynote-operating-system"]
   2. **1차원 장부의 파괴**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)처럼 시작 주소만 적어두면 악성 오프셋 침범을 막을 도리가 없었다.
   3. **Limit의 의무화**: 장부 한 줄 한 줄에 반드시 이 조각의 합법적인 길이를 명시하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드(Limit)를 추가하여 하드웨어적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)벽을 세웠다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        세그먼트 테이블(Segment Table)의 내부 데이터 구조              │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 논리 주소 공간 (프로그래머가 작성한 의미 단위) ]                    │
-│ Seg 0 (Main 함수) : 1000 Bytes                                        │
-│ Seg 1 (수학 라이브러리) : 400 Bytes                                   │
-│ Seg 2 (배열 데이터) : 600 Bytes                                       │
-│                                                                       │
-│ ▶ 세그먼트 테이블 (메모리에 상주)                                     │
-│ ┌───────┬──────────────┬──────────────┐                               │
-│ │ Seg # │ Limit (크기) │ Base (시작점) │                              │
-│ ├───────┼──────────────┼──────────────┤                               │
-│ │   0   │    1000      │    1400      │ ◀ Main 함수 매핑              │
-│ │   1   │     400      │    6300      │                               │
-│ │   2   │     600      │    4300      │                               │
-│ └───────┴──────────────┴──────────────┘                               │
-│  ※ 핵심: Base가 뒤죽박죽인 건 비연속 할당이니까 당연함.               │
-│          진짜 무서운 건 Limit가 제각각 다르게 통제된다는 점!          │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 테이블(Segment Table)의 내부 데이터 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 공간 (프로그래머가 작성한 의미 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg 0 (Main 함수) : 1000 Bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg 1 (수학 라이브러리) : 400 Bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg 2 (배열 데이터) : 600 Bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 세그먼트 테이블 (메모리에 상주)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg #</div><div class="kb-diagram-cell">Limit (크기)</div><div class="kb-diagram-cell">Base (시작점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">1400</div><div class="kb-diagram-cell">◀ Main 함수 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">400</div><div class="kb-diagram-cell">6300</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">600</div><div class="kb-diagram-cell">4300</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 핵심: Base가 뒤죽박죽인 건 비연속 할당이니까 당연함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 무서운 건 Limit가 제각각 다르게 통제된다는 점!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 테이블 구조를 보면 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절 전체 프로세스에 딱 하나 걸려있던 `Limit/Base 레지스터`가 아예 조각조각마다 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 형태로 수십 개 내려앉은 모습이다. 이 표 덕분에, OS는 600바이트짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Seg 2)에 700바이트를 밀어 넣으려는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 해킹 시도를 이 테이블의 Limit 값만 비교해서 나노초 단위로 차단할 수 있다.
 
 - **📢 섹션 요약 비유**: 부동산 등기부등본(세그먼트 테이블)입니다. "땅의 주소(Base)"만 적혀있는 게 아니라, "몇 평(Limit)"인지 정확히 적혀있어서, 내 땅 주소에서 시작했어도 남의 땅 평수를 침범해 울타리를 치면 구청에서 쇠고랑을 채우는 엄격한 문서입니다.
@@ -61,32 +59,24 @@ tags = ["studynote-operating-system"]
 
 CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) `<s, d>`가 물리 메모리에 도달하기까지, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부에서는 삼엄한 2중 검문소가 돌아간다. 
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              MMU의 세그먼트 주소 번역 및 보안 트랩 흐름도              │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ CPU 명령 ] JUMP <Seg 2, Offset 700> (2번 조각의 700번째로 가라)      │
-│       │                                                                │
-│       ▼ 1차 방어선 (STLR)                                              │
-│ ┌─────────────────────────┐                                            │
-│ │ 요청한 s(2) < STLR(총 개수)?│ ──(아니오)──▶ [ SegFault 에러 사살 ]   │
-│ └──────────┬──────────────┘                                            │
-│            │ (네, 정상적인 조각 번호입니다.)                           │
-│            ▼                                                           │
-│ [ 세그먼트 테이블(장부) 조회 ] -> Base: 4300, Limit: 600 꺼내옴.       │
-│            │                                                           │
-│            ▼ 2차 방어선 (크기 오버플로우 체크)                         │
-│ ┌─────────────────────────┐                                            │
-│ │ 요청한 d(700) < Limit(600)│ ──(아니오)──▶ [ SegFault 에러 사살 ]     │
-│ └──────────┬──────────────┘                                            │
-│            │ (※ 700을 요구했는데 한계가 600이므로 💥여기서 처형됨!)    │
-│            ▼                                                           │
-│ ┌─────────────────────────┐                                            │
-│ │ Base(4300) + d (통과 시)  │ ──▶ 물리 주소 완성! (RAM 접근)           │
-│ └─────────────────────────┘                                            │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU의 세그먼트 주소 번역 및 보안 트랩 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 명령</div><div class="kb-diagram-note">JUMP &lt;Seg 2, Offset 700&gt; (2번 조각의 700번째로 가라)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1차 방어선 (STLR)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SegFault 에러 사살</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네, 정상적인 조각 번호입니다.)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 테이블(장부) 조회</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Base: 4300, Limit: 600 꺼내옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2차 방어선 (크기 오버플로우 체크)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SegFault 에러 사살</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 700을 요구했는데 한계가 600이므로 💥여기서 처형됨!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base(4300) + d (통과 시)</div><div class="kb-diagram-cell">──▶ 물리 주소 완성! (RAM 접근)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역 과정과의 가장 큰 차이점은 '2차 방어선(Limit Check)'의 존재 유무다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서는 $d$ 값을 검사하는 하드웨어 게이트가 존재하지 않는다. (그냥 뒤에 비트를 붙여버림). 하지만 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 덧셈(+)을 하기 전 무조건 "Limit보다 $d$가 작은가?"를 빼기 비교 회로로 통과해야 한다. 이 한 번의 비교 연산 회로가 추가됨으로써 번역 속도는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)보다 필연적으로 더 느려질 수밖에 없는 하드웨어적 한계를 지닌다.
 
@@ -95,8 +85,8 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 ### STBR과 STLR의 역할
 
 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 PTBR이 있듯, 세그먼트 테이블도 램(RAM)에 상주하므로 이를 가리키는 포인터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트가 CPU 안에 존재한다.
-- **STBR ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)-Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))**: 현재 프로세스의 세그먼트 테이블이 램의 몇 번지에 있는지 가리키는 닻(Anchor). [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 이 값만 바꾼다.
-- **STLR ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))**: 현재 프로세스가 도대체 '몇 개'의 세그먼트 조각을 가지고 있는지(예: 3조각) 장부의 총길이를 명시. (위 회로도의 1차 방어선을 담당).
+- <strong>STBR (<a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a>-Table <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/">Base Register</a>)</strong>: 현재 프로세스의 세그먼트 테이블이 램의 몇 번지에 있는지 가리키는 닻(Anchor). [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 이 값만 바꾼다.
+- <strong>STLR (<a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a>-Table Length <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>: 현재 프로세스가 도대체 '몇 개'의 세그먼트 조각을 가지고 있는지(예: 3조각) 장부의 총길이를 명시. (위 회로도의 1차 방어선을 담당).
 
 - **📢 섹션 요약 비유**: STBR이 내비게이션에 찍힌 '호텔 로비 주소'라면, STLR은 그 호텔에 '총 몇 층까지 있는지'를 알려주는 정보입니다. 10층짜리(STLR) 호텔 로비(STBR)에 가서 "15층 버튼(오류)"을 누르면 엘리베이터가 즉시 경고음을 울리는 안전장치입니다.
 
@@ -113,23 +103,26 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 | **위치 정보** | 물리 **프레임(Frame) 번호** (단순 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 물리 **Base 주소** ([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 절대 주소) |
 | **크기 제어** | 없음 (프레임 크기는 4KB로 항상 고정 불변) | **Limit 값 필수** (세그먼트마다 크기가 천차만별) |
 | **오프셋 결합**| `Frame 번호` 뒤에 `오프셋`을 텍스트처럼 **이어 붙임(Bypass)** | `Base 값`과 `오프셋`을 하드웨어 가산기로 **더함(Addition)** |
-| **보안/[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | 조각 안에 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 있어 권한 제어 애매함 | 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완벽히 분리되어 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락킹이 극강의 투명성을 가짐 |
+| <strong>보안/<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 조각 안에 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 있어 권한 제어 애매함 | 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완벽히 분리되어 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락킹이 극강의 투명성을 가짐 |
 
 ### [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))의 필연성
 
 세그먼트 테이블의 `Base` 필드를 쭉 들여다보면, 물리 메모리의 어떤 곳은 4300번지, 어떤 곳은 6300번지 등 제멋대로 시작한다.
 - 조각이 빠져나가면 600바이트 구멍, 400바이트 구멍이 남게 된다.
 - 이 구멍들은 크기가 고정되어 있지 않아, 나중에 1000바이트 세그먼트가 오면 빈 공간의 합은 1000인데 들어갈 곳이 없는 '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'가 무조건 발생한다.
-- 즉, 세그먼트 테이블은 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 공유에서는 천재적이지만, 물리적 공간 효율에서는 낙제점**을 받은 기형적 장부다.
+- 즉, 세그먼트 테이블은 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>와 공유에서는 천재적이지만, 물리적 공간 효율에서는 낙제점</strong>을 받은 기형적 장부다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
-│ 장부 종류  │ 주소 결합 연산│ 크기 방어(Limit)│ 물리 단편화 발생            │
-├──────────┼────────────┼────────────┼───────────────────────────────────────┤
-│ 페이지 테이블│ 단순 이어붙임 │ 필요 없음     │ 내부 미세 단편화            │
-│ 세그먼트 테이블│ 덧셈 연산(느림)│ 무조건 필수 (느림)│ ☠️ 치명적 외부 단편화│
-└──────────┴────────────┴────────────┴───────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장부 종류</div><div class="kb-diagram-cell">주소 결합 연산</div><div class="kb-diagram-cell">크기 방어(Limit)</div><div class="kb-diagram-cell">물리 단편화 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블</div><div class="kb-diagram-cell">단순 이어붙임</div><div class="kb-diagram-cell">필요 없음</div><div class="kb-diagram-cell">내부 미세 단편화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 테이블</div><div class="kb-diagram-cell">덧셈 연산(느림)</div><div class="kb-diagram-cell">무조건 필수 (느림)</div><div class="kb-diagram-cell">☠️ 치명적 외부 단편화</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 하드웨어 설계자 입장에서 세그먼트 테이블은 쳐다보기도 싫은 존재다. 주소를 1번 바꿀 때마다 덧셈과 크기 비교(뺄셈)라는 무거운 연산을 매 클럭마다 돌려야 하고, 기껏 돌렸더니 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))까지 해달라 떼를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문이다. 결국 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 아키텍처는 이 테이블의 오버헤드와 파편화라는 십자포화를 맞고 역사 속으로 사라졌다.
 
 - **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 장부는 블록의 '레고 칸 번호'만 불러주면 1초 만에 딱 끼워지는 기계식 매뉴얼이지만, 세그먼트 장부는 블록의 '밀리미터(mm) 길이와 넓이'까지 일일이 계산해서 끼워 넣어야 하는 수제작 공예품 가이드와 같아 속도가 너무 느립니다.
@@ -141,16 +134,16 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 ### 실무 시나리오: 인텔 x86의 GDT/LDT 흑역사
 1. **인텔의 야심작 (80286)**: 
    - 32비트 시대를 열며 인텔은 이 우아한 세그먼트 테이블 기술을 CPU 하드웨어 단에 완전히 박아넣었다. 
-   - 시스템 전역 장부인 **GDT(Global Descriptor Table)**와 프로세스 개별 장부인 **LDT(Local Descriptor Table)**를 만들고, 이 장부를 거치지 않고서는 램을 1바이트도 만질 수 없게 아키텍처를 고정해 버렸다.
-2. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux/Windows)의 반란**:
+   - 시스템 전역 장부인 <strong>GDT(Global Descriptor Table)</strong>와 프로세스 개별 장부인 <strong>LDT(Local Descriptor Table)</strong>를 만들고, 이 장부를 거치지 않고서는 램을 1바이트도 만질 수 없게 아키텍처를 고정해 버렸다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(Linux/Windows)의 반란</strong>:
    - 세그먼트 테이블 연산이 너무 느리고 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 끔찍하자, 리눅스 토발즈와 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 이 하드웨어를 우회하기로 결심했다.
 3. **Flat Memory Model (투명 인간 기법)**:
-   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 GDT(세그먼트 테이블) 안에 딱 4개의 빈 껍데기 세그먼트([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 유저 코드, 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 만들어 두고, **이 4개의 Base 주소를 몽땅 0번지로, Limit을 몽땅 4GB(무한대)로 세팅**해 버렸다.
+   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 GDT(세그먼트 테이블) 안에 딱 4개의 빈 껍데기 세그먼트([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 유저 코드, 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 만들어 두고, <strong>이 4개의 Base 주소를 몽땅 0번지로, Limit을 몽땅 4GB(무한대)로 세팅</strong>해 버렸다.
    - CPU가 억지로 이 세그먼트 테이블을 읽고 덧셈을 해봐야 `가상 주소 + 0 = 가상 주소`, `Limit은 4GB 통과`가 되면서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 0으로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 유닛으로 주소를 그대로 패스해 버리게 만들었다. 
    - 즉, 현업 실무에서는 이 세그먼트 테이블을 "어쩔 수 없이 거쳐 가야 하는 바보 같은 0 더하기 관문"으로 전락시켜 버린 것이다.
 
 ### 진정한 유산: [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault (SIGSEGV)
-비록 메모리 할당 장부로서의 세그먼트 테이블은 죽었지만, 이 장부가 행하던 **'Limit Check(경계 검사)'의 철학**은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블의 V/I(유효/무효) 비트로 고스란히 이식되었다. 그래서 오늘날 리눅스에서 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 범위를 넘어서는 버그를 낼 때, "[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Limit Fault"가 아니라 여전히 **`Segmentation fault (core dumped)`**라는 낡은 이름표를 달고 프로세스가 사살되는 것이다.
+비록 메모리 할당 장부로서의 세그먼트 테이블은 죽었지만, 이 장부가 행하던 <strong>'Limit Check(경계 검사)'의 철학</strong>은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블의 V/I(유효/무효) 비트로 고스란히 이식되었다. 그래서 오늘날 리눅스에서 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 범위를 넘어서는 버그를 낼 때, "[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Limit Fault"가 아니라 여전히 <strong><code>Segmentation fault (core dumped)</code></strong>라는 낡은 이름표를 달고 프로세스가 사살되는 것이다.
 
 - **📢 섹션 요약 비유**: 세그먼트 테이블은 건물 입구에 설치된 깐깐한 전신 스캐너(Limit 검사기)였는데, 검사 시간이 너무 오래 걸려 손님들이 화를 내자, 아예 기계의 경고 센서를 다 끄고(Base 0, Limit 무한대) 그냥 걸어가게 방치해 둔 최신 건물의 멍청해진 스캐너와 같습니다.
 
@@ -162,9 +155,9 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 
 | 구분 | 내용 |
 |:---|:---|
-| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 확립** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드 등 덩어리 전체의 Limit를 하드웨어적으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 직관적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 모델 제시 |
-| **[공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) 기초** | 코드를 찢지 않고 온전한 1개의 세그먼트로 보존함으로써, R/O 비트를 통한 프로세스 간 코드 공유의 수학적 토대 마련 |
-| **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 진화의 반면교사** | 덧셈 연산과 가변 크기 장부의 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 지옥을 실증함으로써 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처의 위대함을 역설적으로 증명 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> 확립</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드 등 덩어리 전체의 Limit를 하드웨어적으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 직관적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 모델 제시 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/">공유 라이브러리</a> 기초</strong> | 코드를 찢지 않고 온전한 1개의 세그먼트로 보존함으로써, R/O 비트를 통한 프로세스 간 코드 공유의 수학적 토대 마련 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 진화의 반면교사</strong> | 덧셈 연산과 가변 크기 장부의 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 지옥을 실증함으로써 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처의 위대함을 역설적으로 증명 |
 
 ### 결론 및 미래 전망
 
@@ -185,15 +178,19 @@ CPU가 뱉어낸 [논리 주소](/knowledge-base/studynote/02_operating_system/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[세그멘테이션 (Segmentation)]
-    │
-    ▼
-[세그먼트 테이블 (Segment Table)]
-    │
-    ├──▶ [세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)]
-    └──▶ [세그멘테이션 기반 페이징 (Paged Segmentation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 (Segmentation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 테이블 (Segment Table)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션 기반 페이징 (Paged Segmentation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

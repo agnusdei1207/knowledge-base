@@ -29,16 +29,22 @@ tags = ["studynote-cloud"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Process
-  ├─ PID Namespace
-  ├─ NET Namespace
-  ├─ MNT Namespace
-  ├─ UTS Namespace
-  ├─ IPC Namespace
-  ├─ USER Namespace
-  └─ CGROUP Namespace
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Process</div>
+<div class="kb-diagram-tree-item" style="--depth:1">PID Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">NET Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">MNT Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">UTS Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">IPC Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">USER Namespace</div>
+<div class="kb-diagram-tree-item" style="--depth:1">CGROUP Namespace</div>
+</div>
+</div>
+
+
 
 | [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) | 분리 대상 | 효과 |
 | :-- | :-- | :-- |
@@ -104,29 +110,41 @@ Namespace는 리눅스 한 개를 여러 개의 작은 리눅스처럼 보이게
 
 ## 관련 개념 맵
 
-```text
-Linux Kernel
-  ↓
-Namespaces
-  ↓
-Container Isolation
-  ↓
-Docker / Kubernetes
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Linux Kernel</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Namespaces</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Isolation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Docker / Kubernetes</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-chroot
-  ↓
-Namespace
-  ↓
-cgroups
-  ↓
-Container Runtime
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">chroot</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Namespace</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">cgroups</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Runtime</div>
+</div>
+</div>
+
+
 
 ---
 

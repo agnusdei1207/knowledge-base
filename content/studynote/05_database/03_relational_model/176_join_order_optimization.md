@@ -21,25 +21,26 @@ tags = ["studynote-database"]
 
 조인 순서 최적화는 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 다중 테이블 질의에서 가장 먼저 고민하는 핵심 문제다. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)대수 관점에서는 조인이 결합법칙과 교환법칙을 어느 정도 만족하므로 여러 순서가 같은 결과를 낼 수 있다. 그러나 물리 실행에서는 "같은 결과"와 "같은 비용"이 결코 동의어가 아니다. 먼저 묶는 집합이 달라지면 중간 결과 크기와 이후 조인 반복 횟수가 크게 바뀐다.
 
-예를 들어 `ORDERS`, `CUSTOMERS`, `REGIONS` 세 테이블을 조인한다고 하자. `REGIONS = 'SEOUL'` 조건이 매우 선택적이라면, 지역 정보를 먼저 적용해 고객 집합을 줄인 뒤 주문과 조인하는 편이 자연스럽다. 반대로 큰 주문 테이블과 고객 테이블을 먼저 조인하면 아직 필요 없는 수많은 행을 들고 다음 단계로 넘어가야 한다. 즉 조인 순서 최적화의 본질은 **정답 계산을 시작하기 전에, 계산량부터 줄이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립**이다.
+예를 들어 `ORDERS`, `CUSTOMERS`, `REGIONS` 세 테이블을 조인한다고 하자. `REGIONS = 'SEOUL'` 조건이 매우 선택적이라면, 지역 정보를 먼저 적용해 고객 집합을 줄인 뒤 주문과 조인하는 편이 자연스럽다. 반대로 큰 주문 테이블과 고객 테이블을 먼저 조인하면 아직 필요 없는 수많은 행을 들고 다음 단계로 넘어가야 한다. 즉 조인 순서 최적화의 본질은 <strong>정답 계산을 시작하기 전에, 계산량부터 줄이는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong>이다.
 
-아래 그림은 왜 조인 순서가 실행시간을 좌우하는지 보여 준다. 핵심은 최종 결과 건수보다 **중간 결과 건수**가 시스템 자원을 먼저 태운다는 점이다.
+아래 그림은 왜 조인 순서가 실행시간을 좌우하는지 보여 준다. 핵심은 최종 결과 건수보다 <strong>중간 결과 건수</strong>가 시스템 자원을 먼저 태운다는 점이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same logical answer, different work                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Path A                                                            │
-│   ORDERS(100M) join CUSTOMERS(10M) -> 100M rows                   │
-│   then REGION='SEOUL' filter -> 200K rows                         │
-│                                                                    │
-│ Path B                                                            │
-│   CUSTOMERS join REGIONS filter -> 20K rows                       │
-│   then join ORDERS -> 200K rows                                   │
-│                                                                    │
-│ Final answer same / memory, I/O, spill risk very different        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same logical answer, different work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORDERS(100M) join CUSTOMERS(10M) -&gt; 100M rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then REGION='SEOUL' filter -&gt; 200K rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CUSTOMERS join REGIONS filter -&gt; 20K rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then join ORDERS -&gt; 200K rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final answer same / memory, I/O, spill risk very different</div></div>
+</div>
+</div>
+
+
 
 테이블 수가 늘어나면 문제는 더 커진다. 3개 조인은 사람이 감으로도 볼 수 있지만, 8개 조인은 가능한 결합 순서와 트리 구조가 급격히 늘어난다. 그래서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "최적의 순서"를 찾는 동시에 "계획을 찾는 비용"도 함께 통제해야 한다.
 
@@ -56,26 +57,28 @@ tags = ["studynote-database"]
 | 동적 계획법 ([Dynamic Programming](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)) | 작은 부분집합의 최적 계획을 저장하고 재사용 | 전역 최적해에 가까움, 체계적 탐색 | 테이블 수가 많아지면 탐색 공간 급증 | 4~8개 수준의 복합 조인 |
 | [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ([Greedy Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)) | 현재 시점에서 가장 싸 보이는 조인 쌍을 순차 선택 | 계획 수립이 빠름 | 지역 최적해에 머물 수 있음 | 10개 이상 조인, 계획 시간 제약이 큰 경우 |
 
-동적 계획법의 핵심은 **부분집합별 최적 계획 저장**이다. 예를 들어 `{A,B}`의 최저 비용 계획을 한 번 구해 두면, `{A,B,C}`를 탐색할 때 다시 처음부터 계산하지 않는다. 이 방식은 System R 계열 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 고전적 아이디어이며, 특히 좌심 트리 (Left-Deep Tree) 중심 탐색과 결합될 때 효율적이다.
+동적 계획법의 핵심은 <strong>부분집합별 최적 계획 저장</strong>이다. 예를 들어 `{A,B}`의 최저 비용 계획을 한 번 구해 두면, `{A,B,C}`를 탐색할 때 다시 처음부터 계산하지 않는다. 이 방식은 System R 계열 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 고전적 아이디어이며, 특히 좌심 트리 (Left-Deep Tree) 중심 탐색과 결합될 때 효율적이다.
 
 아래 그림은 동적 계획법이 "작은 조합의 최적해"를 쌓아 올리는 방식을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Dynamic Programming by subsets                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ size 1 : {A} {B} {C} {D} -> best access path per table            │
-│ size 2 : {A,B} {A,C} ...  -> cheapest join plan per pair          │
-│ size 3 : {A,B,C} ...      -> reuse best size-2 plan               │
-│ size 4 : {A,B,C,D}        -> final cheapest global plan           │
-│                                                                    │
-│ memo key = joined table set / memo value = cheapest known plan    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic Programming by subsets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">size 1 : {A} {B} {C} {D} -&gt; best access path per table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">size 2 : {A,B} {A,C} ... -&gt; cheapest join plan per pair</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">size 3 : {A,B,C} ... -&gt; reuse best size-2 plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">size 4 : {A,B,C,D} -&gt; final cheapest global plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memo key = joined table set / memo value = cheapest known plan</div></div>
+</div>
+</div>
+
+
 
 반면 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)은 "지금 가장 작아 보이는 조합"을 먼저 선택한다. 예를 들어 가장 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건이 걸린 테이블과 가장 싼 조인 상대를 먼저 묶고, 그 결과에 다음 후보를 붙여 나간다. 이 방식은 빠르지만, 초반 선택이 뒤쪽 전체 구조를 고정해 버릴 수 있다. 그래서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 작아 보였던 선택이 결국 더 비싼 전체 계획으로 이어질 수 있다.
 
-실무 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 둘 중 하나만 순수하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, 좌심 트리 제한, 부시 트리 (Bushy Tree) 일부 허용, [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 제한, [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 조합한다. 결국 조인 순서 최적화는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교과서 문제가 아니라, **최적성·[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)·통계 품질을 절충하는 엔진 설계 문제**다.
+실무 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 둘 중 하나만 순수하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, 좌심 트리 제한, 부시 트리 (Bushy Tree) 일부 허용, [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 제한, [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 조합한다. 결국 조인 순서 최적화는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교과서 문제가 아니라, <strong>최적성·<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>·통계 품질을 절충하는 엔진 설계 문제</strong>다.
 
 - **📢 섹션 요약 비유**: 동적 계획법은 여행 코스를 짤 때 "도시 두 개씩 묶은 최적 경로"를 메모해 두었다가 재사용하는 방식이고, [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)은 그때그때 가장 가까운 다음 도시부터 찍는 방식이다.
 
@@ -83,7 +86,7 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 비교 및 연결
 
-조인 순서 최적화를 이해할 때 가장 자주 생기는 혼동은 **조인 순서**, **조인 방식**, **액세스 경로**를 하나로 보는 것이다. 하지만 셋은 서로 연결되면서도 다른 결정을 뜻한다. 조인 순서는 "누구를 먼저 묶을까"의 문제이고, 조인 방식은 "그 둘을 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 결합할까"의 문제이며, 액세스 경로는 "각 테이블을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 읽을까 풀스캔할까"의 문제다.
+조인 순서 최적화를 이해할 때 가장 자주 생기는 혼동은 **조인 순서**, **조인 방식**, <strong>액세스 경로</strong>를 하나로 보는 것이다. 하지만 셋은 서로 연결되면서도 다른 결정을 뜻한다. 조인 순서는 "누구를 먼저 묶을까"의 문제이고, 조인 방식은 "그 둘을 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 결합할까"의 문제이며, 액세스 경로는 "각 테이블을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 읽을까 풀스캔할까"의 문제다.
 
 | 구분 | 핵심 질문 | 잘못 이해했을 때 생기는 오해 |
 | :--- | :--- | :--- |
@@ -91,11 +94,11 @@ tags = ["studynote-database"]
 | 조인 방식 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Method) | NL / Hash / Merge 중 무엇을 쓸까 | [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)만 쓰면 자동으로 빨라진다고 착각 |
 | 액세스 경로 (Access Path) | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스캔인가, 풀스캔인가 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 하나만 있으면 전체 비용이 해결된다고 착각 |
 
-또 하나의 비교 축은 **좌심 트리 vs 부시 트리**다. 좌심 트리는 `(A join B) join C`처럼 결과를 한쪽으로 계속 누적하는 구조여서 탐색 공간이 비교적 작고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝에 유리하다. 반면 부시 트리는 `(A join B) join (C join D)`처럼 양쪽 부분결과를 독립적으로 먼저 줄일 수 있어 특정 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)나 서브그래프 구조에서 더 유리할 수 있다. 다만 그만큼 탐색 공간이 커지므로 동적 계획법의 부담도 함께 커진다.
+또 하나의 비교 축은 <strong>좌심 트리 vs 부시 트리</strong>다. 좌심 트리는 `(A join B) join C`처럼 결과를 한쪽으로 계속 누적하는 구조여서 탐색 공간이 비교적 작고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝에 유리하다. 반면 부시 트리는 `(A join B) join (C join D)`처럼 양쪽 부분결과를 독립적으로 먼저 줄일 수 있어 특정 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)나 서브그래프 구조에서 더 유리할 수 있다. 다만 그만큼 탐색 공간이 커지므로 동적 계획법의 부담도 함께 커진다.
 
 조인 순서 최적화는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와도 바로 연결된다. 단일 서버에서는 메모리와 디스크 I/O가 핵심이지만, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) SQL 엔진에서는 네트워크 셔플 비용까지 들어온다. 이때 잘못된 순서는 단순히 "느린 실행"을 넘어서 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 유발한다. 즉 조인 순서 문제는 전통적 RDBMS (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 튜닝을 넘어, 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 질의 처리의 핵심 설계 변수이기도 하다.
 
-결국 동적 계획법과 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)의 차이는 계산 방식 차이이면서, 동시에 **전역 최적성 vs 신속한 계획 수립**의 철학 차이다. 어떤 엔진이 어느 쪽으로 기울었는지 이해해야 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 해석할 때 "왜 완벽한 정답 대신 괜찮은 답을 골랐는가"가 보인다.
+결국 동적 계획법과 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)의 차이는 계산 방식 차이이면서, 동시에 <strong>전역 최적성 vs 신속한 계획 수립</strong>의 철학 차이다. 어떤 엔진이 어느 쪽으로 기울었는지 이해해야 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 해석할 때 "왜 완벽한 정답 대신 괜찮은 답을 골랐는가"가 보인다.
 
 - **📢 섹션 요약 비유**: 식당, 카페, 은행을 들르는 순서를 정하는 것과, 각 장소에서 계산을 어떻게 할지 정하는 것은 다른 문제다. 방문 순서를 잘못 잡으면 카드 결제가 아무리 빨라도 하루가 비효율적으로 꼬인다.
 
@@ -103,7 +106,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 조인 순서 문제는 대개 "왜 같은 SQL이 어떤 날은 0.2초, 어떤 날은 20초가 되는가"로 드러난다. 대부분의 원인은 오래된 통계, 편향된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포, 조건 푸시다운 실패, 혹은 과도하게 복잡한 조인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)다. 즉 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 나빠서라기보다, **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 보고 있는 세계 모델이 틀려서** 잘못된 순서를 택하는 경우가 많다.
+실무에서 조인 순서 문제는 대개 "왜 같은 SQL이 어떤 날은 0.2초, 어떤 날은 20초가 되는가"로 드러난다. 대부분의 원인은 오래된 통계, 편향된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포, 조건 푸시다운 실패, 혹은 과도하게 복잡한 조인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)다. 즉 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 나빠서라기보다, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 보고 있는 세계 모델이 틀려서</strong> 잘못된 순서를 택하는 경우가 많다.
 
 예를 들어 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 질의에서 5개 테이블 정도를 조인하고, 특정 고객이나 특정 주문일자처럼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건이 있다면 동적 계획법 기반 탐색만으로도 충분히 좋은 계획이 나오는 경우가 많다. 반면 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)에서 사실 테이블 1개와 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/) 10개 이상을 묶는 질의는 탐색 공간이 너무 커져 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이나 탐욕적 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 개입할 가능성이 높다. 이때는 차원 필터를 먼저 강하게 걸 수 있도록 통계, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 사전 집계 구조를 정리해 두는 것이 중요하다.
 
@@ -123,7 +126,7 @@ tags = ["studynote-database"]
 - 오래된 통계 상태를 그대로 둔 채 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)로만 순서를 강제하는 경우
 - 12개 이상 조인을 한 번에 묶어 두고 탐색 공간 폭발을 방치하는 경우
 
-[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 마지막 수단이어야 한다. `ORDERED`, `LEADING`처럼 조인 순서를 강제하는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 일시적으로 문제를 덮을 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 바뀌면 곧 고정된 족쇄가 된다. 기술사 답안에서는 "[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 잘못"보다 **통계 정확도, 질의 구조 단순화, 탐색 공간 관리, 필요 시 제한적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)** 순으로 판단하는 흐름이 더 설득력 있다.
+[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 마지막 수단이어야 한다. `ORDERED`, `LEADING`처럼 조인 순서를 강제하는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 일시적으로 문제를 덮을 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 바뀌면 곧 고정된 족쇄가 된다. 기술사 답안에서는 "[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 잘못"보다 <strong>통계 정확도, 질의 구조 단순화, 탐색 공간 관리, 필요 시 제한적 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a></strong> 순으로 판단하는 흐름이 더 설득력 있다.
 
 - **📢 섹션 요약 비유**: 내비게이션이 길을 잘못 고를 때는 기계가 멍청해서라기보다 지도 정보가 낡았거나 도로 공사 정보가 빠진 경우가 많다. 길을 고치기 전에 지도를 먼저 최신으로 바꾸는 것이 순서다.
 
@@ -135,7 +138,7 @@ tags = ["studynote-database"]
 
 하지만 한계도 분명하다. 아무리 좋은 동적 계획법도 잘못된 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 추정 위에서는 틀린 방향으로 최적화될 수 있고, 아무리 빠른 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡이 심하면 지역 최적해에 갇힐 수 있다. 그래서 최근에는 적응형 질의 처리 (Adaptive Query Processing), 실행 중 재최적화, 학습 기반 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 추정 같은 보완 기법이 함께 논의된다.
 
-결론적으로 조인 순서 최적화는 "어떤 테이블부터 읽을까"라는 단순한 순서 놀이가 아니다. **중간 결과를 최소화하기 위해 탐색 공간과 계획 수립 비용까지 함께 관리하는 비용 모델의 핵심 문제**다. 이 관점으로 기억해야 동적 계획법과 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)의 차이도 단순 암기가 아니라 설계 철학으로 남는다.
+결론적으로 조인 순서 최적화는 "어떤 테이블부터 읽을까"라는 단순한 순서 놀이가 아니다. <strong>중간 결과를 최소화하기 위해 탐색 공간과 계획 수립 비용까지 함께 관리하는 비용 모델의 핵심 문제</strong>다. 이 관점으로 기억해야 동적 계획법과 [탐욕 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)의 차이도 단순 암기가 아니라 설계 철학으로 남는다.
 
 - **📢 섹션 요약 비유**: 잘 짠 이사 동선은 박스를 어떻게 들지보다 먼저, 어느 방부터 비울지를 결정한다. 순서를 잘 잡으면 같은 힘으로도 훨씬 적게 오르내리게 된다.
 
@@ -155,24 +158,25 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Query graph construction
-        │
-        ▼
-Selectivity / cardinality estimate
-        │
-        ├──────────────► Dynamic Programming: best plan per subset
-        │
-        └──────────────► Greedy search: cheapest next join first
-        ▼
-Join method + access path selection
-        │
-        ▼
-Intermediate result minimization
-        │
-        ▼
-Adaptive re-optimization / feedback stats
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Query graph construction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Selectivity / cardinality estimate</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Dynamic Programming: best plan per subset</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Greedy search: cheapest next join first</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Join method + access path selection</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Intermediate result minimization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adaptive re-optimization / feedback stats</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "질의 구조 파악 → 행 수 추정 → 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 → 물리 계획 결합 → 실행 중 보정"으로 이어지는 조인 최적화의 사고 순서를 보여 준다.
 

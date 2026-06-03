@@ -42,17 +42,21 @@ tags = ["studynote-security"]
 
 ### 보안 통제 적용 후 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)
 
-```text
-보안 투자 타당성:
 
-  통제 전 ALE (Before)
-  - 통제 구현 비용 (Annual Cost of Safeguard)
-  - 통제 후 ALE (After)
-  = 순 절감액 (Value of Safeguard)
 
-  순 절감액 > 0 → 투자 타당
-  순 절감액 < 0 → 투자 불필요 (과잉 투자)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보안 투자 타당성:</div>
+<div class="kb-diagram-note">통제 전 ALE (Before)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">통제 구현 비용 (Annual Cost of Safeguard)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">통제 후 ALE (After)</div>
+<div class="kb-diagram-note">= 순 절감액 (Value of Safeguard)</div>
+<div class="kb-diagram-note">순 절감액 &gt; 0 → 투자 타당</div>
+<div class="kb-diagram-note">순 절감액 &lt; 0 → 투자 불필요 (과잉 투자)</div>
+</div>
+</div>
+
+
 
 ### 자산 가치 산정 요소
 
@@ -62,7 +66,7 @@ tags = ["studynote-security"]
 | **생산성 손실** | 다운타임 중 비즈니스 손실 |
 | **법적 책임** | 고객 정보 유출 벌금·소송 |
 | **평판 손상** | 브랜드 가치 하락 |
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용** | [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)·포렌식 비용 |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용</strong> | [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/)·포렌식 비용 |
 
 - **📢 섹션 요약 비유**: 자산 가치 산정은 보석 감정이다. 보석의 재료 가격(대체 비용)만이 아니라 역사적 가치(평판)·보험 가치(법적 책임)·생산성 가치를 모두 합쳐서 전체 자산 가치를 계산한다.
 
@@ -85,17 +89,22 @@ tags = ["studynote-security"]
 
 ### 사이버 보안 [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 실제 사례
 
-```text
-랜섬웨어 사고:
-  AV = 10억 원 (데이터·시스템 가치)
-  EF = 0.7 (70% 복구 불가 가정)
-  SLE = 7억 원
-  ARO = 0.3 (3년에 1번 발생)
-  ALE = 7억 × 0.3 = 2.1억 원/년
 
-  → 백업 솔루션 구축 비용 연 5,000만 원 < 2.1억 원
-     → 투자 타당 (1.6억 원/년 절감)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">랜섬웨어 사고:</div>
+<div class="kb-diagram-note">AV = 10억 원 (데이터·시스템 가치)</div>
+<div class="kb-diagram-note">EF = 0.7 (70% 복구 불가 가정)</div>
+<div class="kb-diagram-note">SLE = 7억 원</div>
+<div class="kb-diagram-note">ARO = 0.3 (3년에 1번 발생)</div>
+<div class="kb-diagram-note">ALE = 7억 × 0.3 = 2.1억 원/년</div>
+<div class="kb-diagram-note">→ 백업 솔루션 구축 비용 연 5,000만 원 &lt; 2.1억 원</div>
+<div class="kb-diagram-note">→ 투자 타당 (1.6억 원/년 절감)</div>
+</div>
+</div>
+
+
 
 ### FAIR (Factor Analysis of Information [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))
 
@@ -129,29 +138,31 @@ FAIR = 현대화된 정량적 위험 분석 표준
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)·EF·ARO** | SLE·[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산의 3요소 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">AV</a>·EF·ARO</strong> | SLE·[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산의 3요소 |
 | **FAIR** | 현대 [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 표준 |
 | **위험 매트릭스** | [정성적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) 도구 |
 | **CTEM** | 지속적 위협 노출 관리 플랫폼 |
-| **보안 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 타당성 계산 |
+| <strong>보안 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a></strong> | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 타당성 계산 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정성적 위험 분석 — 위험 매트릭스, 색상 등급]
-    │
-    ▼
-[SLE / ALE — 단일·연간 손실 기대값 정량화]
-    │
-    ▼
-[FAIR — 확률 분포 기반 현대 정량적 위험 분석]
-    │
-    ▼
-[몬테카를로 시뮬레이션 — 위험 범위 확률 분포]
-    │
-    ▼
-[CTEM — AI 기반 실시간 연속 위협 노출 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정성적 위험 분석 — 위험 매트릭스, 색상 등급</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLE / ALE — 단일·연간 손실 기대값 정량화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FAIR — 확률 분포 기반 현대 정량적 위험 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬테카를로 시뮬레이션 — 위험 범위 확률 분포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CTEM — AI 기반 실시간 연속 위협 노출 관리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

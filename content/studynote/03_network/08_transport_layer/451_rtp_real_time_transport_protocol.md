@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: IP 네트워크 상에서 오디오, 비디오 등의 실시간(Real-time) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하기 위해 송수신 간의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(시간 정보)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서를 제공하는 종단 간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 애플리케이션-전송 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 3550).
 - **필요성**: 화상 회의를 한다. TCP로 쏘자니 0.1초 늦은 입술 모양 패킷을 재전송받느라 화면이 멈춰버린다. "그냥 UDP로 냅다 던져!" 그런데 인터넷은 패킷 순서를 마구잡이로 뒤집어 놓는다. UDP로 1번, 2번, 3번 입술 모양을 쐈는데 도착은 3번, 1번, 2번으로 온다. 이대로 화면에 뿌리면 괴물이 탄생한다. **"아니! UDP를 쓰되, 최소한 얘네가 몇 초에 녹화된 건지(시간표), 그리고 몇 번째 조각인지(번호표)만이라도 봉투에 좀 적어서 던지면 안 되냐? 그래야 받는 쪽 플레이어가 1, 2, 3번 순서대로 퍼즐을 맞출 거 아니야!"**
 
-- **💡 비유**: RTP는 방송국의 **"생방송 필름 슬레이트(딱딱이)"**와 같습니다.
+- **💡 비유**: RTP는 방송국의 <strong>"생방송 필름 슬레이트(딱딱이)"</strong>와 같습니다.
   - 카메라맨([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))이 생방송 테이프 조각을 마구잡이로 방송국에 집어 던집니다.
-  - 그런데 테이프마다 **"이 씬은 12시 30분에 찍은 5번째 조각임(RTP 타임스탬프와 순서 번호)"**이라고 슬레이트 기록이 철저하게 붙어 있습니다.
+  - 그런데 테이프마다 <strong>"이 씬은 12시 30분에 찍은 5번째 조각임(RTP 타임스탬프와 순서 번호)"</strong>이라고 슬레이트 기록이 철저하게 붙어 있습니다.
   - 방송국 편집실(수신자 플레이어)은 테이프가 뒤죽박죽 도착해도, 이 슬레이트 번호만 보고 순서대로 줄을 쫙 세워서(Jitter Buffer) 시청자에게 매끄러운 화면을 내보냅니다.
 
-```text
-[실시간 전송, 오버헤드 최소화 목적]
-    │
-    ▼
-[RTP]
-    │
-    └──▶ [RTCP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 전송, 오버헤드 최소화 목적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RTCP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RTP는 패스트푸드점의 **"주문 대기표 번호"**입니다. 종업원([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))이 햄버거를 무작위로 막 던져줘도, 손님들은 햄버거 포장지에 붙은 번호표(RTP)를 보고 자기가 먼저 시킨 게 맞는지 순서를 완벽하게 가려낼 수 있습니다.
 
@@ -43,7 +47,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. RTP의 12바이트 뼈대 구조
-RTP는 보통 L4(전송)와 L7(애플리케이션) 사이의 **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/표현 계층(L5/L6)**에 위치한다고 본다.
+RTP는 보통 L4(전송)와 L7(애플리케이션) 사이의 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>/표현 계층(L5/L6)</strong>에 위치한다고 본다.
 패킷의 구조는 `[IP 헤더] -> [UDP 헤더] -> [RTP 헤더(12B)] -> [진짜 영상/음성 데이터]` 순서로 샌드위치 된다.
 
 - **Sequence Number (16비트)**: UDP는 번호표가 없지만 RTP가 이 칸에 번호를 채워준다. 100번이 오고 102번이 오면 수신자는 "아 101번이 중간에 터져 죽었네"라고 귀신같이 알아챈다. (재전송은 안 하고 그냥 101번 프레임을 빈 화면으로 뭉개고 102번을 튼다).
@@ -55,30 +59,30 @@ RTP는 본질적으로 1:1 과외(유니캐스트)보다 1:N 방송([멀티캐�
 - 사내 방송을 할 때 서버는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 껍데기에 RTP 번호표를 붙여서 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소(`239.1.1.1`)로 한 방에 쏜다.
 - 전국에 있는 수백 대의 셋톱박스가 이 영상을 알아서 낚아채서 화면에 재생한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RTP와 Jitter Buffer(지터 버퍼)의 환상적인 콤비       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 인터넷의 혼란 (Jitter) ]                                    │
- │   서버 발송:  ①(0.1초)  ②(0.2초)  ③(0.3초)                    │
- │   PC 도착:    ①(0.5초) ........ ②, ③(0.9초에 동시 도착!)        │
- │   (네트워크 렉 때문에 2, 3번이 한꺼번에 훅 들어옴)                   │
- │                                                             │
- │   [ 수신자 플레이어의 지터 버퍼 (Jitter Buffer) ]                 │
- │   - 도착한 패킷을 화면에 바로 뿌리지 않고 0.3초 정도 "버퍼에 가둬둠".   │
- │   - RTP 타임스탬프를 읽어봄. "아 2번은 0.2초짜리네, 3번은 0.3초짜리네" │
- │   - 가둬둔 패킷을 버퍼에서 뺄 때, 원래 타임스탬프 간격(0.1초)에 맞춰   │
- │     일정하고 부드럽게 화면에 튕겨냄!                              │
- │                                                             │
- │   ▶ 결과: "인터넷이 널뛰기(Jitter)를 쳐도 사용자는 렉을 거의 못 느낀다!" │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTP와 Jitter Buffer(지터 버퍼)의 환상적인 콤비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷의 혼란 (Jitter)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 발송: ①(0.1초) ②(0.2초) ③(0.3초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC 도착: ①(0.5초) ........ ②, ③(0.9초에 동시 도착!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네트워크 렉 때문에 2, 3번이 한꺼번에 훅 들어옴)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 플레이어의 지터 버퍼 (Jitter Buffer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 도착한 패킷을 화면에 바로 뿌리지 않고 0.3초 정도 "버퍼에 가둬둠".</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RTP 타임스탬프를 읽어봄. "아 2번은 0.2초짜리네, 3번은 0.3초짜리네"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가둬둔 패킷을 버퍼에서 뺄 때, 원래 타임스탬프 간격(0.1초)에 맞춰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정하고 부드럽게 화면에 튕겨냄!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: "인터넷이 널뛰기(Jitter)를 쳐도 사용자는 렉을 거의 못 느낀다!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호의 짝짜꿍 룰 (짝수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
 실무에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 짤 때 알아둬야 할 팁이다.
-RTP는 자기가 쓸 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 고를 때 무조건 **'짝수' 번호(예: 50000번)**를 고른다.
-그리고 다음 장에서 배울 자신의 단짝 친구이자 감시자인 RTCP에게는 무조건 **'그다음 홀수' 번호(50001번)**를 배정하여 항상 둘이 손을 잡고 다니게 만든다.
+RTP는 자기가 쓸 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 고를 때 무조건 <strong>'짝수' 번호(예: 50000번)</strong>를 고른다.
+그리고 다음 장에서 배울 자신의 단짝 친구이자 감시자인 RTCP에게는 무조건 <strong>'그다음 홀수' 번호(50001번)</strong>를 배정하여 항상 둘이 손을 잡고 다니게 만든다.
 
 - **📢 섹션 요약 비유**: ** RTP 헤더는 마구잡이로 날아오는 영상 조각들에 붙여진 **"이케아(IKEA) 가구 조립 설명서 스티커"**입니다. 부품(패킷)이 박스 속에서 이리저리 섞여 있어도, 설명서 스티커(순서와 타임스탬프)만 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 누구나 완벽한 가구를 순서대로 조립해 낼 수 있습니다.
 
@@ -136,15 +140,19 @@ RTP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 실시간 전송, 오버헤드 최소화 목적]
-    │
-    ▼
-[현재 개념: RTP]
-    │
-    ├──▶ [확장 A: RTCP]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 실시간 전송, 오버헤드 최소화 목적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RTCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 RTP는 실시간 전송, 오버헤드 최소화 목적에서 출발해 현재 메커니즘을 정교화하고, 이후 RTCP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

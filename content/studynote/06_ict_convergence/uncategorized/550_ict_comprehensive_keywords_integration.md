@@ -13,7 +13,7 @@ tags = ["studynote-ict-convergence"]
 
 > 1. **본질**: 정보통신기술사(PE, Professional Engineer) ICT 신기술 영역은 Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모빌리티, 클라우드 인프라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 등 5대 축의 키워드를 각 영역 고유의 원리와 융합 관계까지 파악해야 논술에서 깊이 있는 답안이 나온다.
 > 2. **가치**: 개별 기술을 고립적으로 암기하는 것보다 "상위 패러다임 → 핵심 원리 → 비교 분석 → 실무 적용"의 4단계 프레임으로 묶어 이해하면 처음 보는 융합 문제에도 유연하게 대응할 수 있다.
-> 3. **판단 포인트**: 논술 채점의 차별화 포인트는 기술 정의가 아니라 **한계와 트레이드오프를 정확히 짚는 것**이다—어떤 조건에서 이 기술이 최선인지·아닌지를 논하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 3. **판단 포인트**: 논술 채점의 차별화 포인트는 기술 정의가 아니라 <strong>한계와 트레이드오프를 정확히 짚는 것</strong>이다—어떤 조건에서 이 기술이 최선인지·아닌지를 논하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 정보통신기술사 1교시(단답형)와 2~3교시(논술형) 모두에서 ICT 신기술은 출제 빈도 최상위 카테고리다. 특히 "최신 트렌드를 아는지"보다 "왜 이 기술이 필요하며, 어떤 한계가 있는지"를 논증하는 능력이 핵심 평가 요소다.
 
-5대 축은 서로 독립적이지 않다. AI가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스를 개선하고, 5G가 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하며, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 LLMOps가 실행된다. **교차 관계를 파악하는 것**이 ICT 신기술 통합 정리의 핵심이다.
+5대 축은 서로 독립적이지 않다. AI가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스를 개선하고, 5G가 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하며, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 LLMOps가 실행된다. <strong>교차 관계를 파악하는 것</strong>이 ICT 신기술 통합 정리의 핵심이다.
 
 - **📢 섹션 요약 비유**: ICT 신기술 맵은 도시 지도—각 구역(기술 영역)을 알아야 하지만, 어떤 도로(연결)로 이어지는지 모르면 길을 잃는다.
 
@@ -31,23 +31,23 @@ tags = ["studynote-ict-convergence"]
 
 ### ICT 5대 축 키워드 맵
 
-```
-┌─────────────────────────────────────────────────────┐
-│          ICT 신기술 5대 축 통합 프레임워크            │
-│                                                     │
-│  ① Web3/블록체인   ② IoT/모빌리티   ③ 클라우드      │
-│  DLT, BFT, ZKP    LPWAN, MQTT      쿠버네티스       │
-│  DeFi, NFT, DID   Digital Twin     IaC, MSA        │
-│  DAO, Layer2      V2X, 5G/6G       CQRS, FinOps    │
-│        │               │                │          │
-│        └───────────────┴────────────────┘          │
-│                        │                           │
-│              ④ AI/LLM  │  ⑤ 데이터 과학            │
-│         Transformer    │  통계 검정                 │
-│         RAG, LoRA      │  ML 알고리즘               │
-│         RLHF, MoE      │  최적화 이론               │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICT 신기술 5대 축 통합 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Web3/블록체인 ② IoT/모빌리티 ③ 클라우드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLT, BFT, ZKP LPWAN, MQTT 쿠버네티스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DeFi, NFT, DID Digital Twin IaC, MSA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO, Layer2 V2X, 5G/6G CQRS, FinOps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ AI/LLM</div><div class="kb-diagram-cell">⑤ 데이터 과학</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformer</div><div class="kb-diagram-cell">통계 검정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG, LoRA</div><div class="kb-diagram-cell">ML 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF, MoE</div><div class="kb-diagram-cell">최적화 이론</div></div>
+</div>
+</div>
+
+
 
 | 축 | 핵심 약어(전체 명칭) | 시험 빈출 키워드 |
 |:---:|:---|:---|
@@ -82,7 +82,7 @@ tags = ["studynote-ict-convergence"]
 3. **비교**: 대안 기술과의 트레이드오프 표로 정리
 4. **효과/한계**: 정량적 개선 효과 + 도입 조건·한계 동시 제시
 
-**단답형 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 약어는 반드시 전체 명칭과 병기. 정의 1문장 + 핵심 원리 1문장 + 적용 사례 1문장의 3줄 구조.
+<strong>단답형 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 약어는 반드시 전체 명칭과 병기. 정의 1문장 + 핵심 원리 1문장 + 적용 사례 1문장의 3줄 구조.
 
 **2025~2026 출제 예상 키워드**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Agent, [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)), [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) NTN(Non-Terrestrial Network), [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)), 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/)).
 
@@ -92,7 +92,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-ICT 신기술을 5대 축과 교차 관계로 통합 이해하면, 처음 보는 출제 문제도 기존 지식 프레임으로 분해하여 논리적 답안을 구성할 수 있다. 기술 정의 암기에서 **"기술 간 관계와 트레이드오프 논증"**으로 학습 방향을 전환하는 것이 기술사 합격의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+ICT 신기술을 5대 축과 교차 관계로 통합 이해하면, 처음 보는 출제 문제도 기존 지식 프레임으로 분해하여 논리적 답안을 구성할 수 있다. 기술 정의 암기에서 <strong>"기술 간 관계와 트레이드오프 논증"</strong>으로 학습 방향을 전환하는 것이 기술사 합격의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: ICT 신기술 통합 정리는 지도 그리기—개별 도시(기술)를 알고, 도로(연결)를 외우며, 어디서 막히는지(한계)를 알아야 진짜 여행자(기술사)가 된다.
 

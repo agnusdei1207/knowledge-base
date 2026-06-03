@@ -18,23 +18,22 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│         스케일 업 vs 스케일 아웃                          │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  스케일 업 (수직 확장):                                   │
-│  [작은 서버] → [큰 서버 (CPU×4, RAM×4)]                  │
-│  한 서버를 더 강하게                                      │
-│                                                           │
-│  스케일 아웃 (수평 확장):                                  │
-│           로드 밸런서                                     │
-│          /    |    \                                     │
-│       [서버1][서버2][서버3]  ← 더 추가 가능              │
-│  여러 서버로 부하 분산                                    │
-│                                                           │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일 업 vs 스케일 아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일 업 (수직 확장):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">작은 서버</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">큰 서버 (CPU×4, RAM×4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 서버를 더 강하게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일 아웃 (수평 확장):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드 밸런서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버1</div><div class="kb-diagram-node">서버2</div><div class="kb-diagram-node">서버3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">더 추가 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 서버로 부하 분산</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원 한 명에게 전기 오토바이를 주는 것, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 것이다. 전기 오토바이([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))는 빠르지만 한계가 있고, 배달원 10명([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 한 명이 아프면 다른 9명이 계속 일한다.
 
@@ -55,15 +54,20 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 패턴
 
-```text
-AWS Auto Scaling Group:
-  트래픽 급증 → CPU 70% 초과 → 인스턴스 자동 추가
-  트래픽 감소 → CPU 30% 미만 → 인스턴스 자동 제거
 
-Kubernetes HPA (Horizontal Pod Autoscaler):
-  metrics: CPU utilization > 80%
-  → 파드 수 자동 증가 (최소 2 ~ 최대 10)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AWS Auto Scaling Group:</div>
+<div class="kb-diagram-note">트래픽 급증 → CPU 70% 초과 → 인스턴스 자동 추가</div>
+<div class="kb-diagram-note">트래픽 감소 → CPU 30% 미만 → 인스턴스 자동 제거</div>
+<div class="kb-diagram-note">Kubernetes HPA (Horizontal Pod Autoscaler):</div>
+<div class="kb-diagram-note">metrics: CPU utilization &gt; 80%</div>
+<div class="kb-diagram-note">→ 파드 수 자동 증가 (최소 2 ~ 최대 10)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Auto Scaling은 자동 주문 시스템이다. 점심 시간(트래픽 급증)에 자동으로 아르바이트생을 추가 채용하고, 저녁(트래픽 감소)에 자동으로 퇴근시킨다 — 항상 딱 필요한 만큼만 유지한다.
 
@@ -85,19 +89,23 @@ Kubernetes HPA (Horizontal Pod Autoscaler):
 
 ### [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-읽기 확장 (Read Replica):
-  마스터 DB → 읽기 전용 복제본 N개
-  읽기 트래픽 → Read Replica 분산
-  쓰기 트래픽 → 마스터만
 
-쓰기 확장 (샤딩):
-  고객 ID % N → 각 샤드 DB로 분산
-  → 쓰기 성능 N배 향상, 관리 복잡도↑
 
-NewSQL (Google Spanner, TiDB):
-  분산 SQL — 수평 확장 + ACID 보장
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">읽기 확장 (Read Replica):</div>
+<div class="kb-diagram-note">마스터 DB → 읽기 전용 복제본 N개</div>
+<div class="kb-diagram-note">읽기 트래픽 → Read Replica 분산</div>
+<div class="kb-diagram-note">쓰기 트래픽 → 마스터만</div>
+<div class="kb-diagram-note">쓰기 확장 (샤딩):</div>
+<div class="kb-diagram-note">고객 ID % N → 각 샤드 DB로 분산</div>
+<div class="kb-diagram-note">→ 쓰기 성능 N배 향상, 관리 복잡도↑</div>
+<div class="kb-diagram-note">NewSQL (Google Spanner, TiDB):</div>
+<div class="kb-diagram-note">분산 SQL — 수평 확장 + ACID 보장</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DB Read Replica는 도서관 복사본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 인기 책(읽기 트래픽)은 여러 권 복사해서 여러 테이블(Replica)에 비치하고, 새 책 등록([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))은 원본 사서(마스터)만 처리한다.
 
@@ -122,28 +130,30 @@ NewSQL (Google Spanner, TiDB):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **로드 밸런서** | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장치 |
-| **[Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)** | 동적 수평 확장 자동화 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/">Auto Scaling</a></strong> | 동적 수평 확장 자동화 |
 | **Read Replica** | DB 읽기 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
-| **[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)** | DB [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
-| **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)** | 극단적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 패러다임 |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | DB [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong> | 극단적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 서버 — 스케일 업 (수직 확장)]
-    │
-    ▼
-[로드 밸런서 + 다수 서버 — 수동 스케일 아웃]
-    │
-    ▼
-[Auto Scaling — 동적 수평 확장 자동화]
-    │
-    ▼
-[컨테이너 HPA — Kubernetes 기반 파드 Auto Scaling]
-    │
-    ▼
-[서버리스 — 요청 단위 즉시 확장 (Scale to Zero)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 — 스케일 업 (수직 확장)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런서 + 다수 서버 — 수동 스케일 아웃</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auto Scaling — 동적 수평 확장 자동화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 HPA — Kubernetes 기반 파드 Auto Scaling</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 — 요청 단위 즉시 확장 (Scale to Zero)</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

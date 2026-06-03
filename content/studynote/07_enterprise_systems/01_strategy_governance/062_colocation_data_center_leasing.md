@@ -29,15 +29,21 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-고객 서버
-   ↓
-데이터센터 Rack
-   ├─ 전력
-   ├─ 냉각
-   ├─ 네트워크
-   └─ 물리 보안
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객 서버</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터센터 Rack</div>
+<div class="kb-diagram-tree-item" style="--depth:1">전력</div>
+<div class="kb-diagram-tree-item" style="--depth:1">냉각</div>
+<div class="kb-diagram-tree-item" style="--depth:1">네트워크</div>
+<div class="kb-diagram-tree-item" style="--depth:1">물리 보안</div>
+</div>
+</div>
+
+
 
 | 책임 | 고객 | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) |
 | :-- | :-- | :-- |
@@ -103,31 +109,43 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-```text
-Customer-owned Hardware
-   ↓
-Colocation
-   ↓
-Direct Connect
-   ↓
-Hybrid Cloud
-   ↓
-Private Edge
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Customer-owned Hardware</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Colocation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Direct Connect</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hybrid Cloud</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Private Edge</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스
-   ↓
-코로케이션
-   ↓
-Direct Connect
-   ↓
-하이브리드 클라우드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">코로케이션</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Direct Connect</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">하이브리드 클라우드</div>
+</div>
+</div>
+
+
 
 ---
 

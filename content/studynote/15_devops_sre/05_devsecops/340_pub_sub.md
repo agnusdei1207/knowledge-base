@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Apache Kafka는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼으로 Topic-[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)-Offset 구조로 대용량 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 내구성 있게 저장하고 전달한다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 소비(Consume)해도 삭제하지 않고 보존 기간 동안 유지하므로, 여러 Consumer Group이 독립적으로 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 수 있다.
-> 2. **Partition과 [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)**: Partition은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 확장성의 핵심이다. 하나의 Topic이 여러 Partition으로 나뉘고, [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내의 Consumer들이 각 Partition을 분담해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다. Consumer 수가 [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수보다 많으면 일부 Consumer는 유휴 상태가 된다.
+> 2. <strong>Partition과 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a></strong>: Partition은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 확장성의 핵심이다. 하나의 Topic이 여러 Partition으로 나뉘고, [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내의 Consumer들이 각 Partition을 분담해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다. Consumer 수가 [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수보다 많으면 일부 Consumer는 유휴 상태가 된다.
 > 3. **판단 포인트**: [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (In-Sync Replica, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본) 수가 최소 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기준(min.insync.replicas)을 만족해야 Producer가 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 기록할 수 있다. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 부족 시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 거부로 내구성을 보장한다. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) vs RabbitMQ: 대용량 스트리밍은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 RabbitMQ다.
 
 ---
@@ -29,30 +29,28 @@ LinkedIn이 2011년 내부 [데이터 파이프라인](/knowledge-base/studynote
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+----------------------------------------------------------------+
-|                    Kafka 토픽 구조                              |
-+----------------------------------------------------------------+
-|                                                                |
-|  Topic: "order-events"                                         |
-|  +-----------------------------------------------------------+ |
-|  |  Partition 0: [Offset 0][Offset 1][Offset 2]...           | |
-|  |  Partition 1: [Offset 0][Offset 1][Offset 2]...           | |
-|  |  Partition 2: [Offset 0][Offset 1][Offset 2]...           | |
-|  +-----------------------------------------------------------+ |
-|                                                                |
-|  Consumer Group A:                                             |
-|  Consumer 1 -> Partition 0                                     |
-|  Consumer 2 -> Partition 1                                     |
-|  Consumer 3 -> Partition 2                                     |
-|  (각 Consumer가 독립적 Offset 추적)                             |
-|                                                                |
-|  ISR (In-Sync Replica):                                        |
-|  Leader: Broker 1 <- Producer 기록                             |
-|  Follower: Broker 2, 3 (Leader 복제)                           |
-|  ISR = {Broker 1, 2, 3} -> min.insync.replicas=2 -> 기록 OK   |
-+----------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 토픽 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: "order-events"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 0:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 1:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 2:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group A:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 1 -&gt; Partition 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 2 -&gt; Partition 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 3 -&gt; Partition 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 Consumer가 독립적 Offset 추적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR (In-Sync Replica):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leader: Broker 1 &lt;- Producer 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Follower: Broker 2, 3 (Leader 복제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR = {Broker 1, 2, 3} -&gt; min.insync.replicas=2 -&gt; 기록 OK</div></div>
+</div>
+</div>
+
+
 
 | 개념 | 설명 |
 |:---|:---|
@@ -85,10 +83,10 @@ LinkedIn이 2011년 내부 [데이터 파이프라인](/knowledge-base/studynote
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 설계 원칙
 
-- **[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수**: Consumer 수와 일치시키거나, 미래 확장을 고려해 더 크게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 팩터**: 최소 3 (Leader 1 + Follower 2), min.insync.replicas=2
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> 수</strong>: Consumer 수와 일치시키거나, 미래 확장을 고려해 더 크게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 팩터</strong>: 최소 3 (Leader 1 + Follower 2), min.insync.replicas=2
 - **보존 기간**: 비즈니스 요구에 따라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (7일~수 주, 또는 무한)
-- **[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)**: 각 소비 용도마다 별도 Group (분석, 알림, 저장 등)
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a></strong>: 각 소비 용도마다 별도 Group (분석, 알림, 저장 등)
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -124,14 +122,19 @@ LinkedIn이 2011년 내부 [데이터 파이프라인](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통 메시지 큐            Kafka 등장                   현대 이벤트 스트리밍
-------------------   --------------------------   ------------------------
-RabbitMQ/ActiveMQ  ->  LinkedIn Kafka 오픈소스    ->  Kafka Streams API
-소비 후 삭제             Topic-Partition-Offset        Schema Registry
-단순 작업 큐              ISR 내구성 보장               Kafka Connect
-                          Consumer Group 병렬화          서버리스 Kafka (Confluent)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 메시지 큐 Kafka 등장 현대 이벤트 스트리밍</div>
+<div class="kb-diagram-note">RabbitMQ/ActiveMQ -&gt; LinkedIn Kafka 오픈소스 -&gt; Kafka Streams API</div>
+<div class="kb-diagram-note">소비 후 삭제 Topic-Partition-Offset Schema Registry</div>
+<div class="kb-diagram-note">단순 작업 큐 ISR 내구성 보장 Kafka Connect</div>
+<div class="kb-diagram-note">Consumer Group 병렬화 서버리스 Kafka (Confluent)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

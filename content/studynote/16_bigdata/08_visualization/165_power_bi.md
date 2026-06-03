@@ -26,10 +26,10 @@ tags = ["studynote-bigdata"]
 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 핵심 경쟁 우위:
 - **비용**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI Pro $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/사용자/월 vs [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/) Creator ~$70/월
 - **Microsoft 통합**: Teams, SharePoint, Excel, Azure, OneDrive 네이티브 연동
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기능**: OpenAI 기반 Copilot (질의응답, 자동 인사이트, 요약)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기능</strong>: OpenAI 기반 Copilot (질의응답, 자동 인사이트, 요약)
 - **학습 곡선**: Excel 사용자가 빠르게 전환 가능
 
-**📢 섹션 요약 비유**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 **Microsoft Office 생태계의 완성판**이다. Excel로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루던 사용자가 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI로 이전하면, 익숙한 환경에서 훨씬 강력한 분석·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·공유 능력을 얻는다.
+**📢 섹션 요약 비유**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 <strong>Microsoft Office 생태계의 완성판</strong>이다. Excel로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루던 사용자가 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI로 이전하면, 익숙한 환경에서 훨씬 강력한 분석·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·공유 능력을 얻는다.
 
 ---
 
@@ -37,38 +37,32 @@ tags = ["studynote-bigdata"]
 
 ### [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 3레이어 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                Power BI 3레이어 구조                         │
-├──────────────────────────────────────────────────────────────┤
-│  Layer 1: Power Query (데이터 수집·변환)                     │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  M 언어 기반 ETL 엔진                                   │ │
-│  │  - 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)         │ │
-│  │  - 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환         │ │
-│  │  - 단계별 변환 이력 관리 (Applied Steps)                │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  Layer 2: 데이터 모델 (관계·계산)                            │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  스타 스키마: 팩트 테이블 + 차원 테이블                  │ │
-│  │  관계 정의: 1:N, N:M, 양방향                            │ │
-│  │                                                        │ │
-│  │  DAX 계산:                                             │ │
-│  │  ① 계산 컬럼(Calculated Column): 행 단위 계산           │ │
-│  │  ② 측정값(Measure): 동적 집계 (권장)                   │ │
-│  │  ③ 계산 테이블(Calculated Table): 새 테이블 생성        │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                          │                                   │
-│  Layer 3: 시각화 (보고서·대시보드)                           │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Power BI Desktop: 보고서 제작                          │ │
-│  │  Power BI Service: 게시·공유·협업                       │ │
-│  │  Power BI Mobile: 모바일 보고서                         │ │
-│  │  Power BI Report Server: 온프렘 배포                    │ │
-│  └────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI 3레이어 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1: Power Query (데이터 수집·변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M 언어 기반 ETL 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단계별 변환 이력 관리 (Applied Steps)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 2: 데이터 모델 (관계·계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스타 스키마: 팩트 테이블 + 차원 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관계 정의: 1:N, N:M, 양방향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAX 계산:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 계산 컬럼(Calculated Column): 행 단위 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 측정값(Measure): 동적 집계 (권장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 계산 테이블(Calculated Table): 새 테이블 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 3: 시각화 (보고서·대시보드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Desktop: 보고서 제작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Service: 게시·공유·협업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Mobile: 모바일 보고서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Report Server: 온프렘 배포</div></div>
+</div>
+</div>
+
+
 
 ### DAX 핵심 패턴
 
@@ -98,7 +92,7 @@ YTD 매출 = TOTALYTD([총 매출], '날짜'[Date])
 | `DATESINPERIOD` | 특정 기간 범위 |
 | `PARALLELPERIOD` | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 기간 비교 |
 
-**📢 섹션 요약 비유**: CALCULATE는 **조명 스포트라이트 조절기**와 같다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비추어지는 기본 상태에서 CALCULATE를 사용해 특정 부분(필터)만 집중 조명할 수 있다.
+**📢 섹션 요약 비유**: CALCULATE는 <strong>조명 스포트라이트 조절기</strong>와 같다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비추어지는 기본 상태에서 CALCULATE를 사용해 특정 부분(필터)만 집중 조명할 수 있다.
 
 ---
 
@@ -110,29 +104,30 @@ YTD 매출 = TOTALYTD([총 매출], '날짜'[Date])
 |:---|:---|:---|:---|:---|
 | **Import** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 모델로 복사 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 갱신 필요 | 대용량, 복잡 계산 |
 | **DirectQuery** | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)할 때마다 소스 DB 직접 조회 | 항상 최신 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 | 실시간 요구 |
-| **[Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)** | Import + DirectQuery 혼합 | 유연성 | 복잡한 관리 | 일부 실시간 필요 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a></strong> | Import + DirectQuery 혼합 | 유연성 | 복잡한 관리 | 일부 실시간 필요 |
 | **Dual** | Import·DirectQuery 동시 가능 | 유연성 최대 | 복잡도 최대 | 집계 테이블과 함께 |
 
 ### [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/): [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 미래
 
-```
-Microsoft Fabric (2023) = 통합 분석 플랫폼
 
-  One Lake (단일 데이터 저장소)
-       │
-  ┌────┴────────────────────────────────────┐
-  │  Data Factory  │  Synapse   │  Power BI │
-  │  (데이터 통합) │  (분석)    │  (시각화)  │
-  └─────────────────────────────────────────┘
-  
-  특징:
-  - 모든 데이터가 One Lake의 Delta Parquet 형식 저장
-  - 복사 없이 각 서비스에서 직접 접근
-  - 단일 과금 체계 (F-SKU)
-  - 직물처럼 모든 서비스가 연결(Fabric 명칭 유래)
-```
 
-**📢 섹션 요약 비유**: Microsoft Fabric은 **올인원 주방 시스템**과 같다. 냉장고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory)·오븐(Synapse)·식탁([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI)이 각각 따로 있던 것을 하나의 통합 주방으로 만들어, 요리의 모든 단계를 하나의 공간에서 처리한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Microsoft Fabric (2023) = 통합 분석 플랫폼</div>
+<div class="kb-diagram-note">One Lake (단일 데이터 저장소)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Factory</div><div class="kb-diagram-cell">Synapse</div><div class="kb-diagram-cell">Power BI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 통합)</div><div class="kb-diagram-cell">(분석)</div><div class="kb-diagram-cell">(시각화)</div></div>
+<div class="kb-diagram-note">특징:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">모든 데이터가 One Lake의 Delta Parquet 형식 저장</div>
+<div class="kb-diagram-tree-item" style="--depth:1">복사 없이 각 서비스에서 직접 접근</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단일 과금 체계 (F-SKU)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">직물처럼 모든 서비스가 연결(Fabric 명칭 유래)</div>
+</div>
+</div>
+
+
+
+**📢 섹션 요약 비유**: Microsoft Fabric은 <strong>올인원 주방 시스템</strong>과 같다. 냉장고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory)·오븐(Synapse)·식탁([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI)이 각각 따로 있던 것을 하나의 통합 주방으로 만들어, 요리의 모든 단계를 하나의 공간에서 처리한다.
 
 ---
 
@@ -156,10 +151,10 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 |:---|:---|
 | **DAX Studio** | DAX [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석, 모델 문서화 |
 | **Tabular Editor** | 모델 개발, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
-| **[ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) Toolkit** | 모델 비교·병합 (Git Flow 지원) |
-| **[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI Helper** | 모델 문서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/">ALM</a> Toolkit</strong> | 모델 비교·병합 (Git Flow 지원) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> BI Helper</strong> | 모델 문서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-**📢 섹션 요약 비유**: DAX Studio는 **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 디버거**와 같다. 차트가 느릴 때 DAX Studio로 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 얼마나 오래 걸리는지 분석하고 최적화할 수 있다.
+**📢 섹션 요약 비유**: DAX Studio는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 디버거</strong>와 같다. 차트가 느릴 때 DAX Studio로 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 얼마나 오래 걸리는지 분석하고 최적화할 수 있다.
 
 ---
 
@@ -171,14 +166,14 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 |:---|:---|
 | **비용 효율** | [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/) 대비 1/7 수준 비용으로 유사한 BI 능력 |
 | **생태계 통합** | Microsoft 365 환경에서 Teams/SharePoint 내장 보고서 |
-| **[데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)** | Excel 사용자 → [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 전환 학습 곡선 최소화 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/">데이터 민주화</a></strong> | Excel 사용자 → [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 전환 학습 곡선 최소화 |
 | **거버넌스** | Premium 워크스페이스 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, RLS |
 
 ### 결론
 
-[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 **비용 효율성·Microsoft 생태계 통합·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기능**의 3가지 강점으로 엔터프라이즈 BI 시장의 주류가 되었다. DAX는 Excel 함수와 유사한 구조지만, 필터 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 이해가 핵심이다. Microsoft Fabric으로의 전환은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 패러다임 변화를 의미하며, 정보통신기술사는 이 통합 플랫폼 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 이해하고 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 반영해야 한다.
+[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 <strong>비용 효율성·Microsoft 생태계 통합·<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기능</strong>의 3가지 강점으로 엔터프라이즈 BI 시장의 주류가 되었다. DAX는 Excel 함수와 유사한 구조지만, 필터 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 이해가 핵심이다. Microsoft Fabric으로의 전환은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 패러다임 변화를 의미하며, 정보통신기술사는 이 통합 플랫폼 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 이해하고 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 반영해야 한다.
 
-**📢 섹션 요약 비유**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 CALCULATE는 **마법 지우개**와 같다. 이미 색칠된 그림(현재 필터 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))에서 특정 색깔(필터)만 지우거나(ALL), 새로운 색을 추가하여(FILTER) 원하는 부분만 강조할 수 있다.
+**📢 섹션 요약 비유**: [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 CALCULATE는 <strong>마법 지우개</strong>와 같다. 이미 색칠된 그림(현재 필터 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))에서 특정 색깔(필터)만 지우거나(ALL), 새로운 색을 추가하여(FILTER) 원하는 부분만 강조할 수 있다.
 
 ---
 
@@ -196,27 +191,29 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[DAX (Data Analysis Expressions)]
-    │
-    ▼
-[CALCULATE (필터 조작)]
-    │
-    ▼
-[Power Query (M 언어)]
-    │
-    ▼
-[Import 모드 vs DirectQuery]
-    │
-    ▼
-[Microsoft Fabric (통합 플랫폼)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DAX (Data Analysis Expressions)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALCULATE (필터 조작)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Power Query (M 언어)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Import 모드 vs DirectQuery</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Microsoft Fabric (통합 플랫폼)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 DAX ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis Expressions)에서 출발해 [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/) (통합 플랫폼)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 **Microsoft 레고 세트**예요: Excel이라는 기본 레고에서 시작해서, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI를 더하면 훨씬 멋진 집(대시보드)을 만들 수 있어요.
+- [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI는 <strong>Microsoft 레고 세트</strong>예요: Excel이라는 기본 레고에서 시작해서, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI를 더하면 훨씬 멋진 집(대시보드)을 만들 수 있어요.
 - DAX의 CALCULATE는 "이 계산을 할 때 이 조건만 봐줘"라고 말하는 마법 주문이에요 — "서울 지역 매출만 계산해줘", "작년 같은 기간 매출을 계산해줘" 등이에요.
 - Microsoft Fabric은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·분석·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 모두 한 곳에서 하는 통합 주방"이에요 — 여러 도구를 왔다 갔다 할 필요 없이 한 곳에서 모든 것을 처리할 수 있어요.
 

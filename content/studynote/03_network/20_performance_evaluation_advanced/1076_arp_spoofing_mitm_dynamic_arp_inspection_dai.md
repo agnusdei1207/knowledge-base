@@ -19,20 +19,24 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Address Resolution Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))**: IP 주소(L3)를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2 하드웨어 주소)로 바꿔주는 묻고 답하기 프로토콜입니다.
-- **치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) (멍청한 신뢰)**: ARP는 묻지 않았는데도 누군가 답장([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply)을 보내면 의심 1도 없이 자기의 주소록([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 테이블)을 덮어써 버리는 치명적 구조 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있습니다.
-- **[중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) (MITM, Man-in-the-Middle)**: 
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">Address Resolution Protocol</a>)</strong>: IP 주소(L3)를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2 하드웨어 주소)로 바꿔주는 묻고 답하기 프로토콜입니다.
+- <strong>치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> (멍청한 신뢰)</strong>: ARP는 묻지 않았는데도 누군가 답장([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply)을 보내면 의심 1도 없이 자기의 주소록([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 테이블)을 덮어써 버리는 치명적 구조 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/">중간자 공격</a> (MITM, Man-in-the-Middle)</strong>: 
   - 해커가 내 PC에는 "내가 라우터(공유기)야!"라고 구라를 치고(가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 전송), 라우터에게는 "내가 네 PC야!"라고 구라를 칩니다.
   - 내 PC와 라우터의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 주소록은 해커의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 독극물 오염(Poisoning)이 됩니다. 내 PC에서 나가는 모든 은행, 게임 패킷은 라우터가 아니라 해커의 컴퓨터를 핑퐁 쳐서([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), 스니핑) 날아가게 됩니다. 인터넷은 정상적으로 되기 때문에 유저는 해킹당한 사실을 꿈에도 모릅니다.
 
-```text
-[멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    ▼
-[ARP 스푸핑 중간자 방어]
-    │
-    └──▶ [DDoS 반사 증폭 원조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,16 +44,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **정적(Static) [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 세팅**: 컴퓨터(cmd 창)에 `arp -s 192.168.0.1 00:AA:BB...`라고 라우터 주소를 수동으로 영구 못 박아 버립니다. 100% 안전하지만, 직원 1만 명 PC를 일일이 세팅해야 하고 공유기 1대 바꾸면 전 회사가 마비되는 노가다입니다.
+- <strong>정적(Static) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 세팅</strong>: 컴퓨터(cmd 창)에 `arp -s 192.168.0.1 00:AA:BB...`라고 라우터 주소를 수동으로 영구 못 박아 버립니다. 100% 안전하지만, 직원 1만 명 PC를 일일이 세팅해야 하고 공유기 1대 바꾸면 전 회사가 마비되는 노가다입니다.
 
-```text
-[멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    ▼
-[ARP 스푸핑 중간자 방어]
-    │
-    └──▶ [DDoS 반사 증폭 원조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,12 +65,12 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-컴퓨터(엔드포인트)가 멍청하면, 중간 길목인 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비**가 똑똑해져서 막아주는 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 보안의 끝판왕입니다.
+컴퓨터(엔드포인트)가 멍청하면, 중간 길목인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비</strong>가 똑똑해져서 막아주는 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 보안의 끝판왕입니다.
 
 ### 1단계: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 스누핑 바인딩 ([DHCP Snooping](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/526_dhcp_snooping/) Binding Table)의 확보
 - DAI가 작동하려면 먼저 '누가 진짜 IP와 MAC을 가졌는지' 정답지가 있어야 합니다.
 - 직원이 아침에 출근해 랜선을 꽂으면 공유기([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버)한테 IP를 받아 갑니다.
-- 1075번처럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 중간에서 이 **[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) IP 할당 과정을 몰래 훔쳐보고(스누핑), 절대 깨지지 않는 정답지 장부(Binding Table)를 꼼꼼히 적어둡니다.** ("아하, 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂힌 놈은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.5 IP에 MAC은 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB 네!")
+- 1075번처럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 중간에서 이 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> IP 할당 과정을 몰래 훔쳐보고(스누핑), 절대 깨지지 않는 정답지 장부(Binding Table)를 꼼꼼히 적어둡니다.</strong> ("아하, 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂힌 놈은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.5 IP에 MAC은 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB 네!")
 
 ### 2단계: 동적 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 쳐내기 (DAI 차단) 🌟
 해커([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2번)가 장난을 시작합니다. "내가 라우터 IP [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1 이고, 내 MAC은 [CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/):[DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) 야!" (가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply 발송)
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 해킹**은 보이스피싱 사기꾼이 은행 고객에게 전화를 걸어 **"고객님, 오늘부터 저희 국민은행 입금 계좌번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 제 대포통장 번호로 바뀌었습니다!"**라고 문자를 보내면, 멍청한 고객의 휴대폰 주소록([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시)이 의심 없이 덮어씌워져 평생 사기꾼 통장으로 돈을 쏘는 재앙입니다. 이 바보 고객을 지키기 위한 방어 기술 **DAI(동적 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 검사)**는 통신사 길목([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 앉아있는 **'철통 우체국 검열관'**입니다. 이 검열관은 애초에 누가 어느 계좌번호를 발급받았는지 완벽한 '진짜 고객 장부([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 스누핑 테이블)'를 몰래 복사해 갖고 있습니다. 사기꾼이 고객에게 "내 계좌가 국민은행이다"라는 가짜 우편물([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 조작)을 쏘는 순간, 중간 길목의 검열관이 편지를 뜯어보고 진짜 장부와 대조해 봅니다. "어? 국민은행 진짜 계좌번호랑 다른데? 이놈 사기꾼(해커)이네!" 검열관은 0.1초 만에 사기꾼의 편지를 찢어버려, 바보 같은 고객은 해킹 편지가 왔는지조차 모르게 완벽히 지켜주는 길목의 절대 보안관입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a> 해킹</strong>은 보이스피싱 사기꾼이 은행 고객에게 전화를 걸어 <strong>"고객님, 오늘부터 저희 국민은행 입금 계좌번호(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)가 제 대포통장 번호로 바뀌었습니다!"</strong>라고 문자를 보내면, 멍청한 고객의 휴대폰 주소록([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시)이 의심 없이 덮어씌워져 평생 사기꾼 통장으로 돈을 쏘는 재앙입니다. 이 바보 고객을 지키기 위한 방어 기술 <strong>DAI(동적 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 검사)</strong>는 통신사 길목([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)에 앉아있는 <strong>'철통 우체국 검열관'</strong>입니다. 이 검열관은 애초에 누가 어느 계좌번호를 발급받았는지 완벽한 '진짜 고객 장부([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 스누핑 테이블)'를 몰래 복사해 갖고 있습니다. 사기꾼이 고객에게 "내 계좌가 국민은행이다"라는 가짜 우편물([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 조작)을 쏘는 순간, 중간 길목의 검열관이 편지를 뜯어보고 진짜 장부와 대조해 봅니다. "어? 국민은행 진짜 계좌번호랑 다른데? 이놈 사기꾼(해커)이네!" 검열관은 0.1초 만에 사기꾼의 편지를 찢어버려, 바보 같은 고객은 해킹 편지가 왔는지조차 모르게 완벽히 지켜주는 길목의 절대 보안관입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    ▼
-[현재 개념: ARP 스푸핑 중간자 방어]
-    │
-    ├──▶ [확장 A: DDoS 반사 증폭 원조]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DDoS 반사 증폭 원조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법에서 출발해 현재 메커니즘을 정교화하고, 이후 DDoS 반사 증폭 원조와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,28 +35,25 @@ tags = ["studynote-bigdata"]
 
 좋은 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 원본 좌표를 곧바로 뿌리는 대신, 좌표계 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 공간 집계, 렌더링 계층을 거쳐 만들어진다. 일반적인 흐름은 Coordinate [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) System ([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/)) 정리 → 공간 인덱싱 → 레이어 선택 → 타일 또는 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 클라이언트 렌더링 순서다. 이 중 어느 단계를 생략하느냐에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석력이 동시에 흔들린다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Geospatial visualization pipeline                  │
-├────────────────────────────────────────────────────────────────────┤
-│ raw points / lines / polygons / raster                             │
-│            │                                                       │
-│            ▼                                                       │
-│ CRS normalization + cleaning                                       │
-│            │                                                       │
-│            ▼                                                       │
-│ spatial index / aggregation                                        │
-│   ├─ H3 hex cells                                                  │
-│   ├─ grid / tile bucket                                            │
-│   └─ region join                                                   │
-│            │                                                       │
-│            ▼                                                       │
-│ render layer                                                       │
-│   ├─ point / heatmap                                               │
-│   ├─ hex / choropleth                                              │
-│   └─ arc / trip / 3D                                               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Geospatial visualization pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">raw points / lines / polygons / raster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRS normalization + cleaning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spatial index / aggregation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ H3 hex cells</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ grid / tile bucket</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ region join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">render layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ point / heatmap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hex / choropleth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ arc / trip / 3D</div></div>
+</div>
+</div>
+
+
 
 레이어 선택은 질문 선택과 같다. 개별 위치를 봐야 하면 포인트 레이어가 맞고, 밀도를 봐야 하면 히트맵이나 헥사곤 집계가 맞다. 행정 구역 간 비교는 코로플레스 (Choropleth)가 적합하고, 출발지-도착지 흐름은 Arc Layer나 Flow Map이 더 낫다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 레이어로 그리면 완전히 다른 질문에 답하게 된다.
 
@@ -99,25 +96,24 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 
 실무에서는 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 목적을 구분해야 한다. 분석가가 하루 동안 업로드한 택시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빠르게 탐색하려면 Kepler.gl이 적합하고, Python [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 결과를 보고서에 붙이려면 Folium이면 충분하다. 반면 수백만 건 이상을 사용자 인터랙션과 함께 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)해야 하면, 서버 측 집계와 벡터 타일을 준비한 뒤 Deck.gl이나 PyDeck으로 전달하는 구성이 현실적이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Practical decision workflow                      │
-├────────────────────────────────────────────────────────────────────┤
-│ exploration by analyst?                                            │
-│   ├─ yes -> Kepler.gl                                              │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ notebook / static report?                                          │
-│   ├─ yes -> Folium                                                 │
-│   └─ no                                                            │
-│       │                                                            │
-│       ▼                                                            │
-│ product-scale interactive map?                                     │
-│   ├─ yes -> Deck.gl + server-side aggregation / tiles              │
-│   └─ no  -> lightweight map stack                                  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical decision workflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exploration by analyst?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Kepler.gl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">notebook / static report?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Folium</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">product-scale interactive map?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Deck.gl + server-side aggregation / tiles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; lightweight map stack</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -144,7 +140,7 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 - Web Mercator 왜곡을 무시한 채 면적 비교 결론을 내리는 것
 - 개인 이동 궤적을 그대로 공개해 프라이버시 위험을 키우는 것
 
-기술사 답안에서는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모 → 공간 집계 → 도구 선택 → 투영법 → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** 순서로 정리하면 실무성이 높다. 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 예쁜 지도 제작이 아니라, 질문에 맞는 공간 요약과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계의 문제다.
+기술사 답안에서는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모 → 공간 집계 → 도구 선택 → 투영법 → <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> 순서로 정리하면 실무성이 높다. 지리공간 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 예쁜 지도 제작이 아니라, 질문에 맞는 공간 요약과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계의 문제다.
 
 - **📢 섹션 요약 비유**: 도시 전체 상황판을 만들 때 집집마다 불빛 하나씩 그대로 보여 주는 것보다, 동네별 열기와 길 흐름을 적절히 묶어 보여 주는 편이 훨씬 이해하기 쉽다.
 
@@ -156,7 +152,7 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 
 하지만 지도는 해석을 쉽게 해 주는 동시에 오해도 쉽게 만든다. 투영 왜곡, 부적절한 집계, 지나친 3D 효과, 과도한 점 표시는 잘못된 인상을 줄 수 있다. 또한 위치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 위험이 높아, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 품질만큼 익명화와 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)가 중요하다.
 
-따라서 이 주제는 "지도를 예쁘게 그리는 기술"이 아니라, **공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질문에 맞게 요약하고 안전하게 전달하는 기술**로 기억해야 한다. Kepler.gl, Folium, Deck.gl의 차이도 결국 도구 취향이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 운영 목적의 차이다.
+따라서 이 주제는 "지도를 예쁘게 그리는 기술"이 아니라, <strong>공간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 질문에 맞게 요약하고 안전하게 전달하는 기술</strong>로 기억해야 한다. Kepler.gl, Folium, Deck.gl의 차이도 결국 도구 취향이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 운영 목적의 차이다.
 
 - **📢 섹션 요약 비유**: 좋은 지도는 동네 전체를 축소해 붙여 놓은 사진이 아니라, 길·건물·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 중 지금 가장 필요한 것만 골라 보여 주는 안내판과 같다.
 
@@ -176,24 +172,27 @@ Kepler.gl, Folium, Deck.gl은 모두 지도 [시각화](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Raw GPS / polygon / raster data
-    │
-    ▼
-CRS normalization + spatial indexing
-    ├─ H3 / grid aggregation
-    ├─ region join
-    └─ vector tile generation
-    │
-    ▼
-Interactive map rendering
-    ├─ Folium for lightweight reporting
-    ├─ Kepler.gl for rapid exploration
-    └─ Deck.gl for product-scale WebGL apps
-    │
-    ▼
-Real-time geo analytics / digital twin / spatial decision support
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Raw GPS / polygon / raster data</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CRS normalization + spatial indexing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">H3 / grid aggregation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">region join</div>
+<div class="kb-diagram-tree-item" style="--depth:2">vector tile generation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Interactive map rendering</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Folium for lightweight reporting</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Kepler.gl for rapid exploration</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Deck.gl for product-scale WebGL apps</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Real-time geo analytics / digital twin / spatial decision support</div>
+</div>
+</div>
+
+
 
 이 흐름은 공간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 출발해, 인덱싱과 집계를 거쳐, 대화형 지도와 실시간 의사결정 플랫폼으로 확장되는 과정을 보여준다.
 

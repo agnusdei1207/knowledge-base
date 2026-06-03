@@ -25,31 +25,24 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 리니지 흐름도                         │
-│                                                             │
-│  [소스]        [ETL/ELT]          [DW/마트]      [리포트]   │
-│                                                             │
-│  ┌───────┐    ┌──────────┐    ┌──────────┐   ┌──────────┐  │
-│  │  CRM  │───▶│transform │───▶│ SALES_DW │──▶│ 매출 리포│  │
-│  │ (주문)│    │  (dbt)   │    │(팩트테이블│   │  (Tableau│  │
-│  └───────┘    └──────────┘    └──────────┘   └──────────┘  │
-│       │                            │                        │
-│  ┌────▼──┐    ┌──────────┐    ┌───▼──────┐                 │
-│  │  ERP  │───▶│  Spark   │───▶│CUST_MART │                 │
-│  │(제품) │    │  Job     │    │(고객 마트│                 │
-│  └───────┘    └──────────┘    └──────────┘                 │
-│                                                             │
-│  컬럼 수준 리니지 예:                                         │
-│  CRM.order_amount → transform(sum) → SALES_DW.total_sales  │
-│                         │                                   │
-│                    ┌────▼────────────────────────────────┐  │
-│                    │ 리니지 그래프 (방향성 비순환 그래프)  │  │
-│                    │ DAG (Directed Acyclic Graph)         │  │
-│                    └─────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 리니지 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스</div><div class="kb-diagram-node">ETL/ELT</div><div class="kb-diagram-node">DW/마트</div><div class="kb-diagram-node">리포트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">transform</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">SALES_DW</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">매출 리포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문)</div><div class="kb-diagram-cell">(dbt)</div><div class="kb-diagram-cell">(팩트테이블</div><div class="kb-diagram-cell">(Tableau</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Spark</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CUST_MART</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제품)</div><div class="kb-diagram-cell">Job</div><div class="kb-diagram-cell">(고객 마트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 수준 리니지 예:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM.order_amount → transform(sum) → SALES_DW.total_sales</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리니지 그래프 (방향성 비순환 그래프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG (Directed Acyclic Graph)</div></div>
+</div>
+</div>
+
+
 
 ### 리니지 수준 비교
 
@@ -79,9 +72,9 @@ tags = ["studynote-enterprise-systems"]
 
 **주요 활용 시나리오**:
 1. **장애 대응**: 매출 리포트 수치 오류 발생 → 리니지로 소스까지 역추적 (수시간 → 수분)
-2. **규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**: "이 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디서 왔고 어디에 쓰였냐" → 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제출
-3. **[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 변경 영향 분석**: 소스 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 다운스트림 영향 사전 파악
-4. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 근본 원인 분석**: 품질 이상 → 어느 변환 단계에서 오염됐는지 추적
+2. <strong>규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: "이 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디서 왔고 어디에 쓰였냐" → 리니지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제출
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 변경 영향 분석</strong>: 소스 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 다운스트림 영향 사전 파악
+4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 근본 원인 분석</strong>: 품질 이상 → 어느 변환 단계에서 오염됐는지 추적
 
 **도구 선택**:
 - Apache Atlas: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계
@@ -118,21 +111,23 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-소스 시스템 데이터 생성 (DB, API, 파일)
-    │
-    ▼
-ETL/ELT 파이프라인 (수집·변환·적재)
-    │
-    ▼
-테이블 수준 리니지 → 컬럼 수준 리니지 진화
-    │
-    ▼
-OpenLineage 표준 + dbt·Airflow 자동 수집
-    │
-    ▼
-Data Catalog 통합 → 규제 감사·품질 근본 원인 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소스 시스템 데이터 생성 (DB, API, 파일)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ETL/ELT 파이프라인 (수집·변환·적재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테이블 수준 리니지 → 컬럼 수준 리니지 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenLineage 표준 + dbt·Airflow 자동 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Catalog 통합 → 규제 감사·품질 근본 원인 분석</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/), Column-level Lineage, OpenLineage, [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Provenance
 

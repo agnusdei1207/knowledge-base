@@ -41,17 +41,17 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 여러 시스템에서 추출한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 정제 과정을 거쳐 실제 프로세스 맵과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 변환되는 기본 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ ERP / CRM / Ticket System Logs                                      │
-│          │                                                           │
-│          ▼                                                           │
-│ Event Log (Case, Activity, Timestamp, Resource)                     │
-│          │                                                           │
-│          ▼                                                           │
-│ Discovery -> Variant Analysis -> Bottleneck / Rework Insight        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP / CRM / Ticket System Logs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Log (Case, Activity, Timestamp, Resource)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Discovery -&gt; Variant Analysis -&gt; Bottleneck / Rework Insight</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 관찰된 이벤트 순서를 바탕으로 프로세스 모델을 추정하는 것이다. 이때 단순히 가장 많이 발생한 경로만 보면 예외 흐름이 사라지고, 모든 이벤트를 그대로 그리면 스파게티 맵이 된다. 그래서 필터링, 변형(Variant) 분석, 빈도·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 함께 사용해 "중요한 흐름"과 "문제 흐름"을 구분하는 것이 중요하다.
 
@@ -118,21 +118,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ERP · CRM 이벤트 축적
-    │
-    ▼
-Event Log 정제
-    │
-    ▼
-Discovery · Variant Analysis
-    │
-    ▼
-Conformance Checking · Enhancement
-    │
-    ▼
-RPA · Digital Twin of Process
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ERP · CRM 이벤트 축적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Event Log 정제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Discovery · Variant Analysis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Conformance Checking · Enhancement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RPA · Digital Twin of Process</div>
+</div>
+</div>
+
+
 
 이 흐름은 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)에서 시작해, 실제 프로세스 발견과 개선, 그리고 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 예측으로 이어지는 확장 경로를 보여 준다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **다중 경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/))**: 기지국이 쏜 직진 전파는 폰에 0.1초 만에 오지만, 콘크리트 빌딩을 맞고 반사되어 튕겨 온 전파(메아리)는 0.2초 만에 지각해서 도착합니다.
+- <strong>다중 경로 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/">Multipath Fading</a>)</strong>: 기지국이 쏜 직진 전파는 폰에 0.1초 만에 오지만, 콘크리트 빌딩을 맞고 반사되어 튕겨 온 전파(메아리)는 0.2초 만에 지각해서 도착합니다.
 - **ISI (Inter-Symbol Interference)**: 내가 'A'라는 글자와 'B'라는 글자를 연속해서 쐈는데, 지각해서 도착한 'A의 메아리 전파'가 이제 막 도착하는 'B의 원본 전파' 위를 침범해서 덮어버립니다. 폰은 A와 B가 섞여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전혀 복구하지 못하고 통신이 끊어집니다(ISI 간섭 현상, 22번 문서).
 
-```text
-[BSS Coloring]
-    │
-    ▼
-[CP-OFDM]
-    │
-    └──▶ [C-RAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-RAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 표준 규격([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/))은 하향 링크(다운로드) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 파형으로 4G 시대부터 검증된 최고의 무기인 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM** 방식을 또다시 주력으로 채택했습니다. 이 이름은 두 가지 마법의 합성어입니다.
+[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 표준 규격([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/))은 하향 링크(다운로드) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 파형으로 4G 시대부터 검증된 최고의 무기인 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>-OFDM</strong> 방식을 또다시 주력으로 채택했습니다. 이 이름은 두 가지 마법의 합성어입니다.
 
 ### 1. OFDM (직교 [주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/)) - 차선 쪼개기
 - 전파 하나를 통째로 쏘면 에러 났을 때 다 날아가니, 도로 폭을 바늘구멍처럼 얇은 수천 개의 미세한 실(Sub-carrier, [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))로 쪼갭니다.
@@ -46,17 +50,21 @@ tags = ["studynote-network"]
 ### 2. [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), 순환 전치) - 메아리 방어막 쿠션 🌟
 - 아무리 OFDM으로 쪼개도 건물 숲 메아리(ISI)는 막을 수 없습니다. 그래서 기가 막힌 아이디어를 냅니다.
 - **가드 인터벌 (Guard Interval)**: 'A' 심볼과 'B' 심볼 사이에 약간의 빈 시간(쉬는 시간)을 둡니다. 늦은 A의 메아리가 와도 이 빈 시간 안에서 울리다 사라지게 하여 B를 건드리지 않게 합니다.
-- **순환 전치 ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))**: 그런데 그냥 시간을 비워두면 주파수 파동의 연속성이 깨져 에러가 납니다. 그래서 **보낼 심볼 파동의 맨 뒷부분(꼬리) 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 복사해서 잘라낸 뒤, 심볼의 맨 앞부분 빈 공간(가드 인터벌)에 '쿠션'처럼 붙여놓고(Prefix)** 허공에 쏩니다.
+- <strong>순환 전치 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">Cyclic Prefix</a>)</strong>: 그런데 그냥 시간을 비워두면 주파수 파동의 연속성이 깨져 에러가 납니다. 그래서 <strong>보낼 심볼 파동의 맨 뒷부분(꼬리) 약 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%를 복사해서 잘라낸 뒤, 심볼의 맨 앞부분 빈 공간(가드 인터벌)에 '쿠션'처럼 붙여놓고(Prefix)</strong> 허공에 쏩니다.
 - 폰은 패킷을 받을 때, 앞에 붙은 이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%짜리 희생양 쿠션([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 부분이 메아리에 맞아 지그러지든 말든 쿨하게 가위로 싹둑 잘라 쓰레기통에 버려버리고, 뒤에 남은 100% 온전한 원본 심볼만 안전하게 해독해 냅니다.
 
-```text
-[BSS Coloring]
-    │
-    ▼
-[CP-OFDM]
-    │
-    └──▶ [C-RAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-RAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 4G LTE는 배터리 절약을 위해 업로드(폰 ➜ 기지국)에는 SC-FDMA를 썼고, 다운로드(기지국 ➜ 폰)에만 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM을 썼습니다.
-- 하지만 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))부터는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기가급 전송이 생명이므로, 업로드/다운로드 양방향 모두 전파 효율이 가장 빵빵한 이 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM 파형을 기본 베이스로 100% 채택**하여 사용하고 있습니다. [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)(다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 기술과 가장 궁합이 잘 맞기 때문입니다.
+- 하지만 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))부터는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기가급 전송이 생명이므로, 업로드/다운로드 양방향 모두 전파 효율이 가장 빵빵한 이 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>-OFDM 파형을 기본 베이스로 100% 채택</strong>하여 사용하고 있습니다. [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)(다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 기술과 가장 궁합이 잘 맞기 때문입니다.
 
 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring가 기반 조건을 만든다면, [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM는 그 위에서 핵심 메커니즘을 구현하고, C-RAN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 산에서 소리를 지를 때 "아!(A) 야!(B)" 하고 너무 빨리 연속해서 외치면, 늦게 반사되어 돌아온 앞의 '아~' 메아리 소리가 두 번째 '야!' 소리와 겹쳐 웅웅거립니다(ISI 간섭). 이것을 막기 위해 **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM**은 기발한 꼼수를 씁니다. 진짜 소리 '아'의 뒷부분을 복사해서 앞에다 붙여 "아-아!(A) 야-야!(B)" 하고 소리칩니다. 듣는 사람(스마트폰)은 어차피 맨 앞에 붙은 찌그러진 쿠션 소리(아-, 야-)는 벽에 부딪혀 메아리가 섞였을 테니 귀를 막고 철저히 무시해(잘라내) 버립니다. 그리고 메아리 간섭이 모두 끝난 뒤에 들려오는 온전하고 깨끗한 뒷부분 원본 소리("아!", "야!")만 완벽하게 귀에 담아내는 천재적인 메아리 방패 시스템입니다.
+- **📢 섹션 요약 비유**: 산에서 소리를 지를 때 "아!(A) 야!(B)" 하고 너무 빨리 연속해서 외치면, 늦게 반사되어 돌아온 앞의 '아~' 메아리 소리가 두 번째 '야!' 소리와 겹쳐 웅웅거립니다(ISI 간섭). 이것을 막기 위해 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a>-OFDM</strong>은 기발한 꼼수를 씁니다. 진짜 소리 '아'의 뒷부분을 복사해서 앞에다 붙여 "아-아!(A) 야-야!(B)" 하고 소리칩니다. 듣는 사람(스마트폰)은 어차피 맨 앞에 붙은 찌그러진 쿠션 소리(아-, 야-)는 벽에 부딪혀 메아리가 섞였을 테니 귀를 막고 철저히 무시해(잘라내) 버립니다. 그리고 메아리 간섭이 모두 끝난 뒤에 들려오는 온전하고 깨끗한 뒷부분 원본 소리("아!", "야!")만 완벽하게 귀에 담아내는 천재적인 메아리 방패 시스템입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BSS Coloring]
-    │
-    ▼
-[현재 개념: CP-OFDM]
-    │
-    ├──▶ [확장 A: C-RAN]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BSS Coloring</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CP-OFDM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: C-RAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM는 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring에서 출발해 현재 메커니즘을 정교화하고, 이후 C-RAN와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,27 +31,28 @@ tags = ["database"]
 
 이를 수학적으로 보장하는 조건은 다음과 같다. $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2$ (공통 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))가 $R_1$ 또는 $R_2$의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK) 혹은 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)여야 한다. 즉, $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2 \rightarrow R_1$ 이거나 $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2 \rightarrow R_2$ 여야 한다는 뜻이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  손실 분해 vs 무손실 분해                    │
-├──────────────────────────────────────────────────────────────┤
-│ [원본 R (사번, 이름, 프로젝트)]                              │
-│  (1, 김철수, A)                                              │
-│  (2, 김철수, B)                                              │
-│                                                              │
-│ [손실 분해 (이름 기준 쪼개기 - 이름은 PK가 아님)]            │
-│  R1(사번, 이름)      R2(이름, 프로젝트)                      │
-│  (1, 김철수)    bowtie  (김철수, A)                          │
-│  (2, 김철수)            (김철수, B)                          │
-│  => 결과: (1, 김철수, B)와 같은 '가짜 데이터' 뻥튀기 발생!   │
-│                                                              │
-│ [무손실 분해 (사번 기준 쪼개기 - 사번이 PK)]                 │
-│  R1(사번, 이름)      R2(사번, 프로젝트)                      │
-│  (1, 김철수)    bowtie  (1, A)                               │
-│  (2, 김철수)            (2, B)                               │
-│  => 결과: 원래 데이터 100% 정확하게 복원 성공                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 분해 vs 무손실 분해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 R (사번, 이름, 프로젝트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수, A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수, B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">손실 분해 (이름 기준 쪼개기 - 이름은 PK가 아님)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(사번, 이름) R2(이름, 프로젝트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수) bowtie (김철수, A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수) (김철수, B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: (1, 김철수, B)와 같은 '가짜 데이터' 뻥튀기 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 분해 (사번 기준 쪼개기 - 사번이 PK)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(사번, 이름) R2(사번, 프로젝트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수) bowtie (1, A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수) (2, B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 원래 데이터 100% 정확하게 복원 성공</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 역할을 하지 못하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(이름)을 기준으로 분해했을 때 왜 조인 결과가 카르테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))처럼 부풀어 올라 가짜 행(Spurious Tuple)을 만드는지를 보여준다.
 
@@ -80,7 +81,7 @@ tags = ["database"]
 실무 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 반정규화 사이에서 갈등하게 된다. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 진행하면 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)은 줄어들지만 잦은 조인으로 인해 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다.
 
 - **설계 판단**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델링 단계에서는 반드시 무손실 분해 조건을 충족하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 끝까지 수행해야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이슈는 그 이후 물리 모델링 단계에서 반정규화나 인덱싱으로 해결하는 것이 올바른 순서다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 처음부터 조인을 피하겠다고 무손실 분해 원칙을 무시한 채 거대한 하나의 통 테이블(Wide Table)로 설계하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 시 필연적으로 중복 수정 누락에 의한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴가 일어난다. 반대로, 아무 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나 기준으로 잘게 찢어버리면 나중에 조인 시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과에 수백만 건의 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뻥튀기되어 시스템이 다운될 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 처음부터 조인을 피하겠다고 무손실 분해 원칙을 무시한 채 거대한 하나의 통 테이블(Wide Table)로 설계하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 시 필연적으로 중복 수정 누락에 의한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴가 일어난다. 반대로, 아무 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나 기준으로 잘게 찢어버리면 나중에 조인 시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과에 수백만 건의 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뻥튀기되어 시스템이 다운될 수 있다.
 
 - **📢 섹션 요약 비유**: 블록 장난감을 만들 때, 처음부터 거대한 한 덩어리로 본드칠을 해버리면(비정규화) 부서졌을 때 수리할 수 없다. 일단 작은 기본 블록(무손실 분해) 단위로 정확히 분해해 둔 뒤, 필요할 때만 단단하게 묶어서 쓰는 것이 안전한 설계다.
 
@@ -100,28 +101,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)을 막기 위해 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 쪼개는 전체 과정 |
-| **[기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 무손실 분해를 가능하게 하는 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 간의 연결 고리이자 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | 삽입, 갱신, 삭제 시 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 무손실 분해의 회피 대상 |
-| **[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) ([Boyce-Codd Normal Form](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/))** | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)인 정규형. [종속성 보존](/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/)이 깨질 가능성이 있음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)을 막기 위해 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 쪼개는 전체 과정 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/">기본 키</a> (Primary <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | 무손실 분해를 가능하게 하는 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 간의 연결 고리이자 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 삽입, 갱신, 삭제 시 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 무손실 분해의 회피 대상 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/">Boyce-Codd Normal Form</a>)</strong> | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)인 정규형. [종속성 보존](/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/)이 깨질 가능성이 있음 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이상 현상 (Anomaly) 인지
-    │
-    ▼
-함수적 종속성 (Functional Dependency) 파악
-    │
-    ▼
-정규화 및 무손실 분해 (Lossless-Join Decomposition) 적용
-    │
-    ▼
-종속성 보존 (Dependency Preservation) 검증
-    │
-    ▼
-물리적 반정규화 (De-normalization) - 성능 필요시 후행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이상 현상 (Anomaly) 인지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 파악</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 및 무손실 분해 (Lossless-Join Decomposition) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">종속성 보존 (Dependency Preservation) 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리적 반정규화 (De-normalization) - 성능 필요시 후행</div>
+</div>
+</div>
+
+
 이 흐름도는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 설계 시 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정합성을 확보한 후, 마지막에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 타협하는 일련의 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

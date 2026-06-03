@@ -26,29 +26,27 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 전형적인 사일로 조직 구조와 그로 인한 정보/업무 흐름 단절을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
-```text
-[전형적 사일로 조직 구조]
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 개발팀 (Dev) │ │ 운영팀 (Ops) │ │ 보안팀 (Sec) │
-│ │ │ │ │ │
-│ - 기능 개발 │ │ - 시스템 안정 │ │ - 컴플라이언스│
-│ - 코드 작성 │ │ - 변경 최소화 │ │ - 접근 통제 │
-│ - 빠른 배포 │ │ - 긴 검토 기간 │ │ - 수동 승인 │
-└──────────────┘ └──────────────┘ └──────────────┘
-│ │ │
-│ [정보/의사소통 단절] │
-│ ┌─────────────────────────────┐ │
-│ │ ❌ 각 부서는 다른 부서의 │ │
-│ │ 작업 내용/일정을 모름 │ │
-│ │ ❌ 고객 가치보다 자기 부서 │ │
-│ │ KPI 충족에 집중 │ │
-│ │ ❌ 장애 시 '누구 잘못?' │ │
-│ │ 책임 전가 문화 │ │
-│ └─────────────────────────────┘ │
-│ │ │
-▼ ▼ ▼
-[고객에게의 가치 전달 경로에 병목 발생]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전형적 사일로 조직 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 (Dev)</div><div class="kb-diagram-cell">운영팀 (Ops)</div><div class="kb-diagram-cell">보안팀 (Sec)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기능 개발</div><div class="kb-diagram-cell">- 시스템 안정</div><div class="kb-diagram-cell">- 컴플라이언스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 작성</div><div class="kb-diagram-cell">- 변경 최소화</div><div class="kb-diagram-cell">- 접근 통제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 빠른 배포</div><div class="kb-diagram-cell">- 긴 검토 기간</div><div class="kb-diagram-cell">- 수동 승인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보/의사소통 단절</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 각 부서는 다른 부서의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 내용/일정을 모름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 고객 가치보다 자기 부서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPI 충족에 집중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 장애 시 '누구 잘못?'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 전가 문화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객에게의 가치 전달 경로에 병목 발생</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 사일로 조직에서 각 부서가 Customer에 대한 최종 책임을 아무도부담하지 않아, 가치 흐름의 병목이 아무도 인식하지 못하는 '무지'의 병목으로 작용한다는 점이다. 실무에서 이러한 구조는 배포 주기가 수개월로 늘어나는 직접적 원인이 되며, 장애 발생 시 책임 회피를 위한 무용한 회의와 보고만 증가시킨다.
 
@@ -69,35 +67,29 @@ tags = ["devops_sre"]
 
 사일로 타파를 위한 기술적 핵심 구조는 개발과 운영이 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 협업하는CI/CD 환경이다. 아래는 사일로 조직에서 통합된 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 팀으로 전환된 조직 구조를 나타낸다.
 
-```text
-[사일로 조직 → 통합 DevOps 팀 전환]
 
-전: 분리된 부서 (Silo)
-Dev ──▶ [장벽] ──▶ Ops
-Sec ──▶ [장벽] ──▶ Ops
 
-후: 통합 크로스펑셔널 팀 (Cross-functional)
-┌─────────────────────────────────────┐
-│ 📦 Product Team (One Team) │
-│ │
-│ Dev │ Ops │ Sec │ QA │ Data │
-│ (개발)(운영)(보안)(품질)(데이터) │
-│ │
-│ └── 공유된 파이프라인 ──▶ 고객 가치 │
-└─────────────────────────────────────┘
-│
-▼
-┌──────────────────┐
-│ Shared CI/CD │ ◀── 모든 부서가
-│ Pipeline │ 동일한 도구 사용
-└──────────────────┘
-│
-▼
-┌──────────────────┐
-│ Shared Dashboard │ ◀── 모든 부서가
-│ (공유 대시보드) │ 동일한 지표 확인
-└──────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사일로 조직 → 통합 DevOps 팀 전환</div></div>
+<div class="kb-diagram-note">전: 분리된 부서 (Silo)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장벽</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Ops</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장벽</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Ops</div></div>
+<div class="kb-diagram-note">후: 통합 크로스펑셔널 팀 (Cross-functional)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📦 Product Team (One Team)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dev</div><div class="kb-diagram-cell">Ops</div><div class="kb-diagram-cell">Sec</div><div class="kb-diagram-cell">QA</div><div class="kb-diagram-cell">Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발)(운영)(보안)(품질)(데이터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 공유된 파이프라인 ──▶ 고객 가치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared CI/CD</div><div class="kb-diagram-cell">◀── 모든 부서가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pipeline</div><div class="kb-diagram-cell">동일한 도구 사용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Dashboard</div><div class="kb-diagram-cell">◀── 모든 부서가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유 대시보드)</div><div class="kb-diagram-cell">동일한 지표 확인</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 '팀'이라는 조직 단위의 변화에 있다. 더 이상 Dev와 Ops가 별도의 팀이 아니라,동일의 제품 팀 내 역할 분담으로 전환된다. 각 역할은 여전히 전문적이지만, 공유된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 대시보드를 통해 서로의 작업 현황을 실시간으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 문제 발생 시 함께 해결책을 모색하게 된다. 이는 무비난 포스트모템 문화를 자연스럽게 촉진하고, [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감을 높이는 기반이 된다.
 
@@ -118,25 +110,20 @@ Sec ──▶ [장벽] ──▶ Ops
 
 사일로 타파와 관련된 다른 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 개념과의 시너지 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 살펴보면, [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크에서 'C(Culture)'가 사일로 타파를, 'S(Sharing)'가 지식 공유를 담당한다. 또한 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)을 통해 사일로 간의 병목을 정량적으로identification하는 것이 가능하다.
 
-```text
-[사일로 타파 관련 개념 맵]
-┌─────────────────┐
-│ 데브옵스 사상 │
-└────────┬────────┘
-│
-┌───────────┼───────────┐
-▼ ▼ ▼
-┌──────────┐ ┌─────────┐ ┌──────────┐
-│ CALMS │ │ DORA │ │ VSM │
-│ (문화) │ │ 메트릭스 │ │ (가치 흐름)│
-└────┬─────┘ └────┬────┘ └────┬─────┘
-│ │ │
-▼ ▼ ▼
-┌──────────┐ ┌─────────┐ ┌──────────┐
-│ 사일로 │ │ 리드 타임 │ │ 병목 │
-│ 타파 │ │ 단축 │ │ 분석 │
-└──────────┘ └─────────┘ └──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사일로 타파 관련 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데브옵스 사상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALMS</div><div class="kb-diagram-cell">DORA</div><div class="kb-diagram-cell">VSM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문화)</div><div class="kb-diagram-cell">메트릭스</div><div class="kb-diagram-cell">(가치 흐름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사일로</div><div class="kb-diagram-cell">리드 타임</div><div class="kb-diagram-cell">병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타파</div><div class="kb-diagram-cell">단축</div><div class="kb-diagram-cell">분석</div></div>
+</div>
+</div>
+
+
 
 이 맵의 핵심은 사일로 타파가독립적으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 것이 아니라, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 측정하고, [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)으로 구체적 병목을 찾고, [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크로 문화적 기반을 다지는 통합적 접근이필수하다는 점이다. 하나의 측면만 추진하면단기적으로 효과는 있어도 장기적으로는 재발할 수 있다.
 
@@ -144,18 +131,21 @@ Sec ──▶ [장벽] ──▶ Ops
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사일로 조직]
-│
-▼
-[크로스펑셔널 팀]
-│
-▼
-[공유 CI/CD]
-│
-▼
-[플랫폼 팀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사일로 조직</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스펑셔널 팀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 CI/CD</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 팀</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 사일로 조직에서 크로스펑셔널 팀과 공유 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 거쳐 플랫폼 팀으로 성숙하는 전환 순서를 보여준다.
 
@@ -166,22 +156,27 @@ Sec ──▶ [장벽] ──▶ Ops
 사일로 현상 타파는 기술적 도입보다 문화적 변화가 더 어려운 영역으로, 조직 내 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 관리하면서 점진적으로 추진하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 접근이 필요하다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: 기존_ops' 부서가 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 전환에 강하게 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)**
+- <strong>시나리오 A: 기존_ops' 부서가 <a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> 전환에 강하게 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong>
 - **상황**: 운영팀은 "우리가 시스템을 가장 잘 안다"며 새로운 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구에 대한 변경을 거부함.
 - **판단**: 이를 강제로 추진하기보다는 운영팀의 핵심 인물(인플루언서)을솔선하여표범으로 삼아 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 가치를 체감하게 한 후,그들의 우려(불안감)을 이해하고그들의 전문성이 새로운 역할(예: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))로 전환될 수 있는 경로를 제시해야 한다. 운영 부서 통합이 아닌 역할 재정의에 초점을 맞춰야 한다.
 
-- **시나리오 B: 보안팀이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 보안 점검 자동화 도입을 거부**
+- <strong>시나리오 B: 보안팀이 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인에 보안 점검 자동화 도입을 거부</strong>
 - **상황**: 보안팀은 "보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 수동으로 해야 한다"며 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내 자동화된 보안 스캔 단계 추가를 거부함.
 - **판단**: 이는 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안 접근법으로 해결해야 한다. 보안팀의 전문가 역량을 발 빠르게 배치(deploy)하는 대신, 그들이정의한 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 코드화([정책 애즈 코드](/knowledge-base/studynote/15_devops_sre/05_devsecops/258_policy_as_code_opa_gatekeeper/))하여 개발자가 Self-service로 보안 점검을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하도록 할 수 있다. 이를 통해 보안팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의 및 exceptions 처리에만 집중하고, 개발팀은 빠른 피드백을 얻을 수 있다.
 
-```text
-[보안팀 저항 → 시프트 레프트 보안으로 해결]
-전: 보안팀 ──(수동 점검)──▶ Dev 팀 (배포 지연)
-[병목: 보안팀 검토 대기]
 
-후: Dev 팀 ──(파이프라인 내 자동 보안 스캔)──▶ 보안팀 (정책 정의만)
-[병목 제거: 개발자가 셀프 서비스로 점검]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안팀 저항 → 시프트 레프트 보안으로 해결</div></div>
+<div class="kb-diagram-note">전: 보안팀 ──(수동 점검)──▶ Dev 팀 (배포 지연)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병목: 보안팀 검토 대기</div></div>
+<div class="kb-diagram-note">후: Dev 팀 ──(파이프라인 내 자동 보안 스캔)──▶ 보안팀 (정책 정의만)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병목 제거: 개발자가 셀프 서비스로 점검</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 항공사에서 보안 검색대(보안팀)가승객(개발자)모두를 수동으로전신탐색하는 것이 아니라, 신뢰 목록(특정 기준 충족 시)과 표준된 금속 탐지기로대부분을 자동화하고, 보안을전담 인력은 예외상황에만 투입하는 것과 같습니다.
 
@@ -194,7 +189,7 @@ Sec ──▶ [장벽] ──▶ Ops
 | 관점 | 도입 전 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 도입 후 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
 | **소통 효율성** | 부서 간 미팅 없이는 정보 접근 불가 | 실시간 대시보드 공유, 자동화된 상태 보고 | 회의 시간 30% 절감 |
-| **배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)** | 수주~수개월 | 수일~수 주 | 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 60% 단축 |
+| <strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 수주~수개월 | 수일~수 주 | 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 60% 단축 |
 | **장애 대응** | 부서 간전가, 무용한 보고 회의 | 공동 대응, 무비판적 포스트모템 | 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 40% 단축 |
 | **조직 만족도** | 부서 간 갈등 및 스트레스 고조 | 공유된 목표 달성감,부서 간 협업 증가 | 이직률 감소 |
 

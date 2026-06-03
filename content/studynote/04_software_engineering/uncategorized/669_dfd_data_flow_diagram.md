@@ -26,30 +26,28 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: DFD는 복잡한 '정수장 처리 시스템의 배관 도면'과 같습니다. 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 강(외부 엔티티)에서 들어와, 여과기(프로세스)를 거치고, 임시 수조(저장소)에 머물렀다가, 깨끗해진 상태로 가정(외부 엔티티)으로 흘러가는 경로만을 펌프의 작동 시간(제어)과 상관없이 투명하게 보여줍니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)와 [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)의 탄생**: 1970년대, 시스템 규모가 커지면서 스파게티 코드로 인한 유지보수 불능 사태([소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 발생했다. 이를 해결하기 위해 톰 디마르코(Tom DeMarco)와 에드워드 요던(Edward Yourdon)은 제어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(Control Logic)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 분리하는 [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([Structured Analysis](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)) 방법론을 제안했다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">소프트웨어 위기</a>와 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/">구조적 분석</a>의 탄생</strong>: 1970년대, 시스템 규모가 커지면서 스파게티 코드로 인한 유지보수 불능 사태([소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 발생했다. 이를 해결하기 위해 톰 디마르코(Tom DeMarco)와 에드워드 요던(Edward Yourdon)은 제어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(Control Logic)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 분리하는 [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([Structured Analysis](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)) 방법론을 제안했다.
   2. **객체지향 시대로의 전환과 한계**: 1990년대 이후 객체지향(OO, Object-Oriented) 패러다임이 도래하면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 프로세스를 분리하는 [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 사상은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드를 하나로 묶는 '객체(Object)' 사상과 충돌하여 점차 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)(Use Case, [Sequence Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) 등)로 대체되었다.
 
 DFD가 제어 흐름(순서)을 배제하고 오직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름만을 보여준다는 핵심 철학을 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         순서도(Flowchart) vs 자료 흐름도(DFD)의 철학 차이         │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [순서도 (Flowchart) - 제어 흐름 중심]                       │
-  │     시작 ──▶ 조건판단 ──(Yes)──▶ A 실행 ──▶ B 실행           │
-  │                 │                                         │
-  │               (No)──▶ C 실행 ─────────────────────────┘   │
-  │    (언제, 어떤 순서로 실행되는지에 집중함. 데이터는 안 보임)         │
-  │                                                           │
-  │  [DFD (Data Flow Diagram) - 데이터 중심]                    │
-  │                                                           │
-  │  [고객] ──(주문 정보)──▶ (주문 처리) ──(유효한 주문)──▶ [DB]  │
-  │                               │                           │
-  │                               └──(영수증)──▶ [고객]        │
-  │    (if문, for문, 시간적 순서는 알 수 없음. 데이터 변환만 보임)      │
-  └───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순서도(Flowchart) vs 자료 흐름도(DFD)의 철학 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">순서도 (Flowchart) - 제어 흐름 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작 ──▶ 조건판단 ──(Yes)──▶ A 실행 ──▶ B 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No)──▶ C 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(언제, 어떤 순서로 실행되는지에 집중함. 데이터는 안 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DFD (Data Flow Diagram) - 데이터 중심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고객</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(if문, for문, 시간적 순서는 알 수 없음. 데이터 변환만 보임)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 순서도는 "A가 끝나면 B를 하라"는 실행 흐름을 보여주지만, 그 과정에서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되고 저장되는지 추적하기 어렵다. 반면 DFD는 '주문 처리'라는 프로세스가 작동하기 위한 조건(If-Else)은 과감히 생략하고, 오직 '주문 정보'라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어가서 '유효한 주문'과 '영수증'이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 쪼개져 나간다는 인과관계만을 보여준다. 이러한 극단적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분에 비기술자인 비즈니스 관계자도 시스템의 기능을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심으로 쉽게 리뷰할 수 있다.
 
@@ -74,7 +72,7 @@ DFD가 제어 흐름(순서)을 배제하고 오직 [데이터](/knowledge-base/
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +148,23 @@ DFD가 제어 흐름(순서)을 배제하고 오직 [데이터](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-DFD 자료 흐름도 4요소 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DFD 자료 흐름도 4요소 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

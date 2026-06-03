@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 1G부터 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))까지는 수백 MHz에서 2.5GHz 안팎의 꿀단지 주파수(Sub-6GHz)를 사용했습니다. 이 대역은 멀리 날아가고 건물도 잘 통과하지만, 전 세계 통신사들이 다 나눠 쓰고 있어 **남은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(차선)이 없었습니다.**
-[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대가 요구하는 "기존 대비 20배 빠른 20Gbps 속도"를 내려면 8차선을 100차선으로 통째로 늘려야 했습니다. 아무도 쓰지 않던 텅 빈 거대한 고속도로를 찾다 보니, 초고주파인 **밀리미터파(한국 기준 28GHz 대역)**로 올라가게 되었습니다.
+과거 1G부터 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))까지는 수백 MHz에서 2.5GHz 안팎의 꿀단지 주파수(Sub-6GHz)를 사용했습니다. 이 대역은 멀리 날아가고 건물도 잘 통과하지만, 전 세계 통신사들이 다 나눠 쓰고 있어 <strong>남은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(차선)이 없었습니다.</strong>
+[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대가 요구하는 "기존 대비 20배 빠른 20Gbps 속도"를 내려면 8차선을 100차선으로 통째로 늘려야 했습니다. 아무도 쓰지 않던 텅 빈 거대한 고속도로를 찾다 보니, 초고주파인 <strong>밀리미터파(한국 기준 28GHz 대역)</strong>로 올라가게 되었습니다.
 
-```text
-[마이크로파]
-    │
-    ▼
-[밀리미터파]
-    │
-    └──▶ [테라헤르츠]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로파</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 밀리미터파는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 | 특성 | 장점 (Why [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)?) | 단점 (치명적 한계) |
 | :--- | :--- | :--- |
-| **파장 길이** | 파장이 짧아 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기를 수 밀리미터로 줄일 수 있음. 스마트폰 하나에 수십 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))를 우겨넣을 수 있음. | 파장이 너무 짧아 **회절(휘어짐) 현상이 아예 제로(0)**에 가까움. |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭** | 수 GHz에 달하는 광활한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 독점 사용 가능. **광케이블에 필적하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/))** 가능. | **직진성**이 빛과 같아서 중간에 사람, 나무, 유리창만 있어도 전파가 막히거나 흡수됨 ([산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)). |
+| **파장 길이** | 파장이 짧아 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기를 수 밀리미터로 줄일 수 있음. 스마트폰 하나에 수십 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))를 우겨넣을 수 있음. | 파장이 너무 짧아 <strong>회절(휘어짐) 현상이 아예 제로(0)</strong>에 가까움. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭</strong> | 수 GHz에 달하는 광활한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 독점 사용 가능. <strong>광케이블에 필적하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>)</strong> 가능. | <strong>직진성</strong>이 빛과 같아서 중간에 사람, 나무, 유리창만 있어도 전파가 막히거나 흡수됨 ([산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)). |
 
-```text
-[마이크로파]
-    │
-    ▼
-[밀리미터파]
-    │
-    └──▶ [테라헤르츠]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로파</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 밀리미터파의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,8 +67,8 @@ tags = ["studynote-network"]
 
 벽을 못 뚫고 멀리 못 가는 문제를 해결하기 위해 5G는 새로운 통신 기술을 도입했습니다.
 
-1. **스몰 셀 ([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))**: 과거처럼 산꼭대기에 거대한 기지국을 하나 세우는 것이 아니라, 가로등, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 전봇대마다 수십 미터 간격으로 초소형 기지국([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))을 촘촘하게 도배하여 커버리지의 구멍을 메웁니다.
-2. **[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))**: 전파를 사방으로 둥글게 퍼뜨려 낭비하지 않고, **사용자의 스마트폰 기기를 향해 돋보기로 햇빛을 모으듯 전파를 뾰족한 '빔(Beam)' 형태로 쏘아** 직진성과 전송 거리를 비약적으로 높이는 기술입니다.
+1. <strong>스몰 셀 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>)</strong>: 과거처럼 산꼭대기에 거대한 기지국을 하나 세우는 것이 아니라, 가로등, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 전봇대마다 수십 미터 간격으로 초소형 기지국([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))을 촘촘하게 도배하여 커버리지의 구멍을 메웁니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong>: 전파를 사방으로 둥글게 퍼뜨려 낭비하지 않고, **사용자의 스마트폰 기기를 향해 돋보기로 햇빛을 모으듯 전파를 뾰족한 '빔(Beam)' 형태로 쏘아** 직진성과 전송 거리를 비약적으로 높이는 기술입니다.
 
 *(현실: 한국에서는 28GHz 기지국 설치 비용이 너무 천문학적이라 통신 3사가 투자를 포기하고 주파수를 반납하는 등, mmWave의 전국망 대중화는 사실상 실패했습니다.)*
 
@@ -72,7 +80,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 밀리미터파는 빛의 속도로 달리는 **'F1 레이싱카'**입니다. 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 엄청나게 빨리 배달하지만, 도로나 골목길(장애물)에서는 달릴 수 없어 **반드시 매끈한 직선 전용 트랙(스몰 셀, [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))을 촘촘히 깔아주어야만 하는 까다로운 녀석**입니다.
+- **📢 섹션 요약 비유**: ** 밀리미터파는 빛의 속도로 달리는 **'F1 레이싱카'<strong>입니다. 짐(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 엄청나게 빨리 배달하지만, 도로나 골목길(장애물)에서는 달릴 수 없어 </strong>반드시 매끈한 직선 전용 트랙(스몰 셀, [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))을 촘촘히 깔아주어야만 하는 까다로운 녀석**입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로파]
-    │
-    ▼
-[현재 개념: 밀리미터파]
-    │
-    ├──▶ [확장 A: 테라헤르츠]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로파</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 밀리미터파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 테라헤르츠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 밀리미터파는 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

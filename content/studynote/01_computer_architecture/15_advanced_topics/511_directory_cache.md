@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 대규모 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 시스템에서 "누가 이 캐시 라인을 들고 있는가"라는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 빠르게 찾기 위한 전용 버퍼다. [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) ([Directory-based Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/))은 브로드캐스트 대신 sharer 목록을 참고해 필요한 캐시에만 무효화나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 요청을 보낸다. 그런데 이 장부가 항상 멀리 있는 메모리나 큰 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 배열에만 있으면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 가까운데 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 느려서 coherence 경로 전체가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)될 수 있다.
 
-즉 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시의 필요성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 문제가 아니라 **권한 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 문제**에서 나온다. 코어가 어떤 라인에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하려면 먼저 누가 그 라인을 공유 중인지 알아야 하고, 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 누가 들고 있는지도 알아야 한다. 이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 느리면 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 전에 홈 노드(Home Node) 조회에서 발이 묶인다.
+즉 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시의 필요성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 문제가 아니라 <strong>권한 <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a> 문제</strong>에서 나온다. 코어가 어떤 라인에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하려면 먼저 누가 그 라인을 공유 중인지 알아야 하고, 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 누가 들고 있는지도 알아야 한다. 이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 느리면 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 전에 홈 노드(Home Node) 조회에서 발이 묶인다.
 
 특히 shared working set이 전체 메모리에 비해 훨씬 작을 때 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 큰 효과를 낸다. 시스템 전체 주소 공간에 대한 모든 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리를 항상 빠른 SRAM에 둘 수는 없지만, 자주 접근되는 소수의 hot line [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 가까이에 두면 많은 coherence 요청을 짧은 경로로 해결할 수 있기 때문이다.
 
@@ -35,25 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시 hit와 miss가 coherence 경로를 어떻게 갈라놓는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Requesting Core                                                     │
-│      │                                                              │
-│      ▼                                                              │
-│ Home Agent / LLC Slice                                              │
-│      │                                                              │
-│      ├─ hit  ─▶ Directory Cache ─▶ sharer/owner 즉시 확인           │
-│      │                         └─ targeted invalidate / data fetch   │
-│      │                                                              │
-│      └─ miss ─▶ Backing Directory in LLC/Memory                     │
-│                                ├─ 메타데이터 조회                   │
-│                                └─ 엔트리 채움 후 coherence 진행     │
-│                                                                      │
-│ 결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requesting Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Home Agent / LLC Slice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hit ─▶ Directory Cache ─▶ sharer/owner 즉시 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ targeted invalidate / data fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ miss ─▶ Backing Directory in LLC/Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 엔트리 채움 후 coherence 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다</div></div>
+</div>
+</div>
+
+
 
 | 엔트리 필드 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -108,7 +106,7 @@ sharer 표현 방식도 핵심이다. 코어 수가 적다면 full [bit](/knowle
 - core count 증가에 따라 엔트리 크기 폭증을 방치하는 full [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) vector 남발
 - [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시가 있으니 false sharing이나 과도한 공유 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목도 사라질 것이라 오해하는 판단
 
-기술사 답안에서는 "[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 대규모 시스템에서 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 조회를 빠르게 한다"를 기본으로 쓰되, **[hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) rate·엔트리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·eviction [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**까지 언급해야 깊이가 생긴다. 즉 이 구조는 단순한 버퍼가 아니라, coherence [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)의 지역성을 활용하는 가속 장치다.
+기술사 답안에서는 "[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 대규모 시스템에서 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 조회를 빠르게 한다"를 기본으로 쓰되, <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">hit</a> rate·엔트리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·eviction <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>까지 언급해야 깊이가 생긴다. 즉 이 구조는 단순한 버퍼가 아니라, coherence [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)의 지역성을 활용하는 가속 장치다.
 
 - **📢 섹션 요약 비유**: [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시 설계는 자주 찾는 고객 명단을 프런트 책상에 둘지, 전산실 장부에서 매번 조회할지 정하는 일과 같다. 잘 두면 응대가 빨라지지만, 기록을 잘못 버리면 고객 안내 자체가 틀어진다.
 
@@ -120,7 +118,7 @@ sharer 표현 방식도 핵심이다. 코어 수가 적다면 full [bit](/knowle
 
 하지만 한계도 분명하다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장 공간이 늘고, sharer 표현이 복잡해지며, miss와 eviction 경로가 설계를 어렵게 만든다. 그래서 미래 방향은 더 큰 단일 캐시가 아니라, 계층형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 홈 에이전트, region 기반 tracking, 가속기 coherence를 고려한 부분 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)처럼 "필요한 권한 정보만 정확하게 가까이 두는 구조"로 향한다.
 
-결론적으로 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시의 보조가 아니라, 대규모 coherence의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하는 별도의 핵심 계층이다. 이 개념은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 읽는 기술이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 누가 읽고 쓸 권리가 있는지 빠르게 판단하는 기술**로 기억해야 한다.
+결론적으로 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시의 보조가 아니라, 대규모 coherence의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하는 별도의 핵심 계층이다. 이 개념은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 빠르게 읽는 기술이 아니라, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 누가 읽고 쓸 권리가 있는지 빠르게 판단하는 기술</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시는 도시 교통의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어실과 같다. 자동차 자체를 더 빠르게 만드는 것이 아니라, 누가 어느 길을 먼저 써야 하는지 빨리 판단해 도시 전체 흐름을 살린다.
 
@@ -139,25 +137,26 @@ sharer 표현 방식도 핵심이다. 코어 수가 적다면 full [bit](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스누핑 확장성 한계
-        │
-        ▼
-디렉터리 기반 프로토콜 (Directory-based Protocol)
-        │
-        ▼
-backing directory in LLC / memory
-        │
-        ▼
-디렉터리 캐시 (Directory Cache)
-        │
-        ├─▶ 희소 디렉터리 · sharer 압축
-        ├─▶ inclusive LLC 기반 snoop filter
-        ├─▶ 분산 home agent
-        │
-        ▼
-칩렛 · NUMA · CXL.cache 대응 메타데이터 계층화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스누핑 확장성 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디렉터리 기반 프로토콜 (Directory-based Protocol)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">backing directory in LLC / memory</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디렉터리 캐시 (Directory Cache)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 희소 디렉터리 · sharer 압축</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ inclusive LLC 기반 snoop filter</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 분산 home agent</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩렛 · NUMA · CXL.cache 대응 메타데이터 계층화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "브로드캐스트 회피"에서 출발해, "권한 장부를 빠르게 만들고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방향"으로 발전하는 과정을 보여준다.
 

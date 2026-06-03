@@ -25,7 +25,7 @@ tags = ["studynote-algorithm"]
 P(X_{t+1} | X_t, X_{t-1}, ..., X_0) = P(X_{t+1} | X_t)
 ```
 
-미래 상태 X_{t+1}은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) X_t에만 의존하고, 그 이전 이력 {X_{t-1}, ..., X_0}와는 **조건부 독립**이다.
+미래 상태 X_{t+1}은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) X_t에만 의존하고, 그 이전 이력 {X_{t-1}, ..., X_0}와는 <strong>조건부 독립</strong>이다.
 
 **고차 마르코프 가정 (Higher-Order Markov Assumption)**:
 
@@ -33,7 +33,7 @@ P(X_{t+1} | X_t, X_{t-1}, ..., X_0) = P(X_{t+1} | X_t)
 - **k차 (k-th Order)**: P(X_{t+1} | X_t, ..., X_{t-k+1}) — 최근 k개 상태 의존
 - **k차를 1차로 변환**: 상태를 (X_t, ..., X_{t-k+1}) 튜플로 정의하면 1차로 환원 가능
 
-**지수 분포(Exponential Distribution)의 무기억성(Memoryless Property)**은 연속 버전의 마르코프 성질이다:
+<strong>지수 분포(Exponential Distribution)의 무기억성(Memoryless Property)</strong>은 연속 버전의 마르코프 성질이다:
 
 ```
 P(X > s+t | X > s) = P(X > t)
@@ -47,26 +47,30 @@ P(X > s+t | X > s) = P(X > t)
 
 ## Ⅱ. HMM (Hidden [Markov Model](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/))
 
-**HMM(Hidden [Markov Model](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/), 은닉 [마르코프 모델](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/))**은 두 층의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정으로 구성된다.
+<strong>HMM(Hidden <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/">Markov Model</a>, 은닉 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/">마르코프 모델</a>)</strong>은 두 층의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정으로 구성된다.
 
-```
-숨겨진 상태 (Hidden States):
-Z_1 ──▶ Z_2 ──▶ Z_3 ──▶ Z_4   ← 마르코프 체인
- │        │        │        │
- ▼        ▼        ▼        ▼
-X_1      X_2      X_3      X_4   ← 관측값 (Observations)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">숨겨진 상태 (Hidden States):</div>
+<div class="kb-diagram-note">Z_1 ──▶ Z_2 ──▶ Z_3 ──▶ Z_4 ← 마르코프 체인</div>
+<div class="kb-diagram-note">X_1 X_2 X_3 X_4 ← 관측값 (Observations)</div>
+</div>
+</div>
+
+
 
 - **숨겨진 상태 Z_t**: 직접 관측 불가, 마르코프 성질 만족
 - **관측값 X_t**: Z_t에만 의존해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (방출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), Emission [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
-- **전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Transition [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**: A_ij = P(Z_{t+1}=j | Z_t=i)
-- **방출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Emission [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**: B_ik = P(X_t=k | Z_t=i)
-- **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Initial [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**: π_i = P(Z_1=i)
+- <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Transition <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: A_ij = P(Z_{t+1}=j | Z_t=i)
+- <strong>방출 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Emission <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: B_ik = P(X_t=k | Z_t=i)
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Initial <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: π_i = P(Z_1=i)
 
 **3가지 핵심 문제**:
-1. **평가 (Evaluation)**: 주어진 모델 λ에서 관측 시퀀스 X의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → **[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**
-2. **디코딩 (Decoding)**: 가장 가능성 높은 숨겨진 상태 시퀀스 → **[Viterbi](/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**
-3. **학습 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))**: 관측 시퀀스로 모델 파라미터 추정 → **Baum-Welch (EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**
+1. **평가 (Evaluation)**: 주어진 모델 λ에서 관측 시퀀스 X의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) → <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
+2. **디코딩 (Decoding)**: 가장 가능성 높은 숨겨진 상태 시퀀스 → <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/">Viterbi</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a></strong>
+3. <strong>학습 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 관측 시퀀스로 모델 파라미터 추정 → <strong>Baum-Welch (EM <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>
 
 📢 **섹션 요약 비유**: HMM은 "모스 부호 해독기"와 같다. 삐- 삐- 삐삐(관측값)만 들리고 실제 의도(숨겨진 상태)는 안 보이지만, 패턴과 전환 규칙을 학습해 "무슨 말인지"를 추론해낸다.
 
@@ -74,9 +78,9 @@ X_1      X_2      X_3      X_4   ← 관측값 (Observations)
 
 ## Ⅲ. [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))
 
-**[MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))**는 의사결정 문제를 마르코프 성질로 정형화한 프레임워크로, 강화학습의 수학적 기반이다.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/">Markov Decision Process</a>, <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">마르코프 결정 과정</a>)</strong>는 의사결정 문제를 마르코프 성질로 정형화한 프레임워크로, 강화학습의 수학적 기반이다.
 
-**[MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 5-튜플 (S, A, P, R, γ)**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> 5-튜플 (S, A, P, R, γ)</strong>:
 
 | 요소 | 표기 | 의미 |
 |:---:|:---:|:---|
@@ -86,13 +90,13 @@ X_1      X_2      X_3      X_4   ← 관측값 (Observations)
 | 보상 함수 | R(s,a) | 상태 s에서 행동 a 시 즉각 보상 |
 | 할인 인수 | γ ∈ [0,1) | 미래 보상의 현재 가치 감소율 |
 
-**[벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))**은 마르코프 성질 덕분에 성립한다:
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/">벨만 방정식</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/">Bellman Equation</a>)</strong>은 마르코프 성질 덕분에 성립한다:
 
 ```
 V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 ```
 
-[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) s의 최적 가치(Optimal Value)는 **현재 보상 + 다음 상태의 할인된 최적 가치**로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 표현된다. 과거 이력이 필요 없다 — 마르코프 성질 덕분이다.
+[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) s의 최적 가치(Optimal Value)는 <strong>현재 보상 + 다음 상태의 할인된 최적 가치</strong>로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 표현된다. 과거 이력이 필요 없다 — 마르코프 성질 덕분이다.
 
 📢 **섹션 요약 비유**: MDP는 "체스 게임의 수학적 설계도"다. 현재 말 배치(상태)만 보고 최선의 수(행동)를 계산하며, 지금까지의 게임 기록은 이미 현재 배치에 요약되어 있다.
 
@@ -100,25 +104,27 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 ## Ⅳ. [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)과 마르코프 성질
 
-**[동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), DP)**이 가능한 이유는 정확히 마르코프 성질 때문이다.
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/">동적 프로그래밍</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/">Dynamic Programming</a>, DP)</strong>이 가능한 이유는 정확히 마르코프 성질 때문이다.
 
 **최적 부분 구조 (Optimal Substructure)**:
 - 전체 문제의 최적해 = 부분 문제의 최적해 조합
 - 마르코프 성질: [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서의 최적 결정은 과거 경로와 무관
 
-**[MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 풀이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> 풀이 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
-```
-┌──────────────────────────────────────────────────────┐
-│              MDP 풀이 방법                             │
-├──────────────────┬───────────────────────────────────┤
-│   모델 기반 (Model-Based)  │  모델 프리 (Model-Free)  │
-├──────────────────┼───────────────────────────────────┤
-│ Value Iteration  │  Q-Learning (TD 학습)              │
-│ Policy Iteration │  SARSA                             │
-│ (DP 사용)        │  Policy Gradient                   │
-└──────────────────┴───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDP 풀이 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 기반 (Model-Based)</div><div class="kb-diagram-cell">모델 프리 (Model-Free)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Iteration</div><div class="kb-diagram-cell">Q-Learning (TD 학습)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Iteration</div><div class="kb-diagram-cell">SARSA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DP 사용)</div><div class="kb-diagram-cell">Policy Gradient</div></div>
+</div>
+</div>
+
+
 
 **Value Iteration**: V_{k+1}(s) = max_a [R(s,a) + γ·Σ P(s'|s,a)·V_k(s')]를 수렴까지 반복.
 
@@ -139,19 +145,22 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 | 학습 방법 | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), [Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/) | Baum-Welch (EM) |
 | 대표 응용 | 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 로봇 제어 | 음성 인식, 품사 태깅 |
 
-**POMDP (Partially Observable [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))**: 관측이 불완전한 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) — HMM과 MDP를 결합한 형태로, 자율 주행, 의료 진단 AI에 활용된다.
+<strong>POMDP (Partially Observable <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a>)</strong>: 관측이 불완전한 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) — HMM과 MDP를 결합한 형태로, 자율 주행, 의료 진단 AI에 활용된다.
 
-```
-┌─────────────────────────────────────────────────┐
-│           마르코프 성질 기반 모델 계층            │
-├──────────────┬────────────┬─────────────────────┤
-│    마르코프  │   HMM      │        MDP          │
-│    체인      │ (관측 숨김)│  (행동 + 보상)       │
-│  (기반)      │            │                     │
-└──────────────┴────────────┴─────────────────────┘
-                       ↓
-               POMDP (통합 모델)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 성질 기반 모델 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프</div><div class="kb-diagram-cell">HMM</div><div class="kb-diagram-cell">MDP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체인</div><div class="kb-diagram-cell">(관측 숨김)</div><div class="kb-diagram-cell">(행동 + 보상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기반)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">POMDP (통합 모델)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: MDP는 "보이는 미로에서 최선의 길 찾기", HMM은 "안개 낀 미로에서 지금 위치 추정하기"다. 둘 다 "현재만 알면 된다"는 마르코프 성질로 작동하지만, 무엇이 보이냐에 따라 다른 도구를 쓴다.
 
@@ -173,21 +182,23 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[확률 과정 (Stochastic Process) — 시간에 따라 변하는 확률 모델]
-    │
-    ▼
-[마르코프 성질 (Markov Property) — 현재 상태만 의존]
-    │
-    ▼
-[마르코프 연쇄 (Markov Chain) — 이산 상태 전이 모델]
-    │
-    ▼
-[은닉 마르코프 모델 (HMM, Hidden Markov Model) — 숨은 상태 추정]
-    │
-    ▼
-[마르코프 결정 과정 (MDP, Markov Decision Process) — 강화학습 의사결정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확률 과정 (Stochastic Process) — 시간에 따라 변하는 확률 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 성질 (Markov Property) — 현재 상태만 의존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 연쇄 (Markov Chain) — 이산 상태 전이 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 마르코프 모델 (HMM, Hidden Markov Model) — 숨은 상태 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP, Markov Decision Process) — 강화학습 의사결정</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 시간에 따른 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정을 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 중심으로 단순화하고, 연쇄와 HMM을 지나 MDP와 강화학습으로 이어지는 단계적 모델링을 보여준다.
 

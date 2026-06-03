@@ -31,19 +31,19 @@ tags = ["studynote-design"]
 
 민감도점은 아키텍처의 특정 파라미터(Parameter)와 시스템의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 사이의 강력한 인과관계로 구성된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 민감도점(Sensitivity Point)의 작동 원리                │
-├──────────────────────────────────────────────────────────────┤
-│ [조종 레버: 아키텍처 결정]               [결과: 품질 속성의 극적 변화] │
-│                                                              │
-│ 1. 메시지 큐 폴링 주기 ─(조작)─▶ 1초 변경 ───▶ 성능(속도) 떡상!! │
-│                                                              │
-│ 2. DB Connection 수   ─(조작)─▶ 축소 ─────▶ 가용성(안정성) 상승!│
-│                                                              │
-│ 3. 데이터 암호화 비트 수 ─(조작)─▶ 256bit ──▶ 보안성(방어력) 폭발!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민감도점(Sensitivity Point)의 작동 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조종 레버: 아키텍처 결정</div><div class="kb-diagram-node">결과: 품질 속성의 극적 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메시지 큐 폴링 주기 ─(조작)─▶ 1초 변경 ▶ 성능(속도) 떡상!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DB Connection 수 ─(조작)─▶ 축소 ▶ 가용성(안정성) 상승!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 암호화 비트 수 ─(조작)─▶ 256bit ──▶ 보안성(방어력) 폭발!</div></div>
+</div>
+</div>
+
+
 
 아키텍트는 설계 단계에서 "어떤 변수가 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 지배하는가?"를 명확히 매핑해야 한다. 예를 들어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))의 민감도점은 `Cache TTL`, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 민감도점은 `Heartbeat Timeout`, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 민감도점은 `Encryption Key Length`가 된다. 이 조종대를 위아래로 조작하며 최적의 상태(Sweet Spot)를 찾는 것이 아키텍처 튜닝이다.
 
@@ -57,8 +57,8 @@ tags = ["studynote-design"]
 
 | 개념 | 정의 | 아키텍트의 행동 요령 | 예시 |
 | :--- | :--- | :--- | :--- |
-| **민감도점 (Sensitivity Point)** | **단일 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)**에 결정적 영향을 미치는 설계 지점 | 튜닝을 통해 해당 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 최대 효율을 뽑아냄 | DB Connection Pool 늘리기 $\rightarrow$ [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 |
-| **타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/))** | **여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)**에 상충하는 영향을 미치는 설계 지점 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 모아 득실을 따지고 최종 정책을 결정함 | 암호화 강도 강화 $\rightarrow$ 보안 상승 BUT [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 |
+| **민감도점 (Sensitivity Point)** | <strong>단일 품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>에 결정적 영향을 미치는 설계 지점 | 튜닝을 통해 해당 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 최대 효율을 뽑아냄 | DB Connection Pool 늘리기 $\rightarrow$ [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 |
+| <strong>타협점 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/">Trade-off Point</a>)</strong> | <strong>여러 품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>에 상충하는 영향을 미치는 설계 지점 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 모아 득실을 따지고 최종 정책을 결정함 | 암호화 강도 강화 $\rightarrow$ 보안 상승 BUT [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 |
 
 민감도점이 '개별 스킬'이라면, 타협점은 '스킬 포인트 분배'다. 암호화를 256비트로 올리면 보안은 철벽이 되지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(응답 속도)은 박살 난다. 이때는 아키텍트 혼자 결정할 수 없으며, [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 회의를 통해 비즈니스 오너가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 중 무엇을 포기할지 합의해야 한다.
 
@@ -72,7 +72,7 @@ tags = ["studynote-design"]
 
 ### 아키텍트의 판단 포인트 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **정량적 영향 평가**: "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진다"가 아니라, "[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 주기를 1초에서 3초로 늦추면 응답 지연은 2초 늘어나지만 서버 CPU 부하는 40% 감소한다"처럼 구체적 수치를 산출해야 한다.
-2. **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 합의 문서화**: 타협점을 발견했다면 반드시 결정권자의 사인을 받아 문서화하라. 나중에 오픈 후 "왜 이렇게 느리냐"는 불만이 터졌을 때, "사장님이 보안을 최고로 하라고 승인한 256비트 암호화(타협점)의 결과입니다"라고 방어할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 합의 문서화</strong>: 타협점을 발견했다면 반드시 결정권자의 사인을 받아 문서화하라. 나중에 오픈 후 "왜 이렇게 느리냐"는 불만이 터졌을 때, "사장님이 보안을 최고로 하라고 승인한 256비트 암호화(타협점)의 결과입니다"라고 방어할 수 있다.
 3. **오버엔지니어링 방지**: 비즈니스 요구사항을 넘어서는 과도한 품질 목표를 달성하기 위해 무리하게 민감도점을 쥐어짜면 비용만 낭비된다. 적정선(Threshold)을 아는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: 샤워기 손잡이를 왼쪽(뜨거운 물)으로 꺾으면 화상을 입고 오른쪽(찬물)으로 꺾으면 감기에 걸린다. 이 예민한 손잡이를 정확히 '37.5도'에 고정해 두는 것이 아키텍처 설계이며, 그 각도를 문서로 박아두는 것이 감리 대응이다.
@@ -100,21 +100,23 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비기능 요구사항 정의 (NFR)
-    │
-    ▼
-품질 속성 시나리오 작성 (자극과 응답 수치화)
-    │
-    ▼
-민감도점 (Sensitivity Point) 도출 (조작 가능한 레버)
-    │
-    ▼
-타협점 (Trade-off Point) 식별 (품질 간 충돌 발생)
-    │
-    ▼
-ATAM 평가 및 아키텍처 의사결정 문서화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비기능 요구사항 정의 (NFR)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">품질 속성 시나리오 작성 (자극과 응답 수치화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">민감도점 (Sensitivity Point) 도출 (조작 가능한 레버)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타협점 (Trade-off Point) 식별 (품질 간 충돌 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM 평가 및 아키텍처 의사결정 문서화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

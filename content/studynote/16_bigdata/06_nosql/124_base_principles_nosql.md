@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 우선([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) First):** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 엄격한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(ACID)을 희생하더라도, 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 중단 없는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하는 NoSQL의 핵심 철학임.
-- **[결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)):** 실시간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일치하지 않을 수 있지만, 일정 시간이 지나면 모든 노드가 동일한 값을 갖게 됨을 보장함.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 우선(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a> First):</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 엄격한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(ACID)을 희생하더라도, 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 중단 없는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하는 NoSQL의 핵심 철학임.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">결과적 일관성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>):</strong> 실시간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일치하지 않을 수 있지만, 일정 시간이 지나면 모든 노드가 동일한 값을 갖게 됨을 보장함.
 - **확장성 극대화:** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리에서 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A)과 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감내(P)를 선택하여 전 세계 사용자에게 빠른 응답 속도를 제공함.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
@@ -19,28 +19,30 @@ tags = ["studynote-bigdata"]
 2. **BASE의 탄생:** 대규모 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Amazon, Google)에서 수평 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 위해 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 "결과적"으로 타협하되, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 극대화하는 새로운 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 모델이 필요하게 됨.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-- **BASE Principle Workflow & Distributed [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)**
-```text
-[ Data Write (Node A) ]      [ Propagation Delay ]      [ Data Read (Node B) ]
-+---------------------+      +-------------------+      +---------------------+
-| Value = 10 (Update) | --- (Asynchronous Sync) ---> | Value = 5 (Soft State)|
-+---------------------+                                 +---------------------+
-                                       |                           |
-                                       |                           v
-                                       |                (Eventually Consistency)
-                                       +--------------> | Value = 10 (Synced) |
-                                                        +---------------------+
-[ Key Pillars of BASE ]
-1. BA: Basically Available (기본적 가용성)
-2. S : Soft State (소프트 스테이트)
-3. E : Eventual Consistency (결과적 일관성)
-```
+- <strong>BASE Principle Workflow &amp; Distributed <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a></strong>
 
-1. **Basically Available ([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)):**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Write (Node A)</div><div class="kb-diagram-node">Propagation Delay</div><div class="kb-diagram-node">Data Read (Node B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value = 10 (Update)</div><div class="kb-diagram-cell">--- (Asynchronous Sync) ---&gt;</div><div class="kb-diagram-cell">Value = 5 (Soft State)</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">(Eventually Consistency)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--------------&gt;</div><div class="kb-diagram-cell">Value = 10 (Synced)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Key Pillars of BASE</div></div>
+<div class="kb-diagram-note">1. BA: Basically Available (기본적 가용성)</div>
+<div class="kb-diagram-note">2. S : Soft State (소프트 스테이트)</div>
+<div class="kb-diagram-note">3. E : Eventual Consistency (결과적 일관성)</div>
+</div>
+</div>
+
+
+
+1. <strong>Basically Available (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/">BA</a>):</strong>
    - 시스템의 일부분에 장애가 발생하더라도, 전체 시스템이 멈추지 않고 기본적인 응답을 제공함. 완벽한 응답은 아니더라도 가용한 상태를 유지함.
-2. **Soft [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) (S):**
+2. <strong>Soft <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> (S):</strong>
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태가 외부의 입력 없이도 시간이 지남에 따라 변할 수 있음. 노드 간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중일 때, 특정 시점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "확정된 상태"가 아닐 수 있음을 의미함.
-3. **[Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) (E):**
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a> (E):</strong>
    - 특정 시간 동안 새로운 업데이트가 없다면, 결국 모든 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본(Replica)은 동일한 값으로 수렴함. 일시적인 불일치를 허용하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 제거함.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
@@ -49,12 +51,12 @@ tags = ["studynote-bigdata"]
 | :--- | :--- | :--- | :--- |
 | **핵심 가치** | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) | ACID는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), BASE는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **시스템 상태** | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Strong) | [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) (Eventual) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 혼용 |
-| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 관리** | 비관적 락 (Pessimistic) | 낙관적 방식 (Optimistic) | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 방식의 차이 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 관리</strong> | 비관적 락 (Pessimistic) | 낙관적 방식 (Optimistic) | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 방식의 차이 |
 | **확장성** | 수직 확장 ([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) | 수평 확장 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) | 빅데이터 처리는 수평 확장이 대세 |
 | **사용 사례** | 금융, 결제, 인사 관리 | SNS, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 카트, 댓글 | 정합성 vs 실시간성 선택 |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-1. **비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 선택 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)):**
+1. <strong>비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별 선택 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>):</strong>
    - **SNS 뉴스피드:** 친구의 글이 1초 늦게 보여도 문제없으므로 BASE가 적합함.
    - **계좌 이체:** 1원이라도 틀리면 치명적이므로 반드시 ACID를 유지해야 함.
 2. **기술사적 판단:** 현대 아키텍처는 "[Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/)"를 지향함. 주문 정보는 RDBMS(ACID)에, 대량의 상품 조회 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)(BASE)에 저장하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안전성을 동시에 확보하는 것이 핵심 설계 역량임.
@@ -70,15 +72,19 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상위 개념: 분산 데이터베이스, NoSQL]
-    │
-    ▼
-[하위 개념: 결과적 일관성, 가용성 (Availability)]
-    │
-    ▼
-[연관 개념: CAP 정리, PACELC 이론, ACID]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 분산 데이터베이스, NoSQL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: 결과적 일관성, 가용성 (Availability)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: CAP 정리, PACELC 이론, ACID</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 상위 개념: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), NoSQL에서 출발해 연관 개념: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리, [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 이론, ACID까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

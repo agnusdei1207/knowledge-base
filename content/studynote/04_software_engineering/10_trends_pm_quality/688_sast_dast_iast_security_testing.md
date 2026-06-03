@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SAST / DAST / IAST 보                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAST / DAST / IAST 보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -62,25 +61,24 @@ tags = ["studynote-software-engineering"]
 | **취약점 위치**| 정확한 소스코드 라인번호 제시 | URL 및 파라미터 정보만 제시 | 정확한 소스코드 라인 + 런타임 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제시 |
 | **단점** | **오탐(False Positive)** 많음 | 취약점 원인 파악 어려움 (느림) | 언어별 전용 에이전트 설치 필요 ([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  보안 테스팅 도구의 CI/CD 위치               │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [Code] ─────▶ [Build] ─────▶ [Test/QA] ─────▶ [Production] │
-│   │             │                 │                 │        │
-│   ▼             ▼                 ▼                 ▼        │
-│  IDE 플러그인   SonarQube        Selenium          WAF       │
-│  [SAST]         [SAST]           [DAST]           [RASP]     │
-│                                  [IAST]                      │
-│                                                              │
-│ ◀──────── Shift-Left (오른쪽으로 갈수록 수정 비용 증가) ────── │
-└──────────────────────────────────────────────────────────────┘
-```
 
-- **[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (정적)**: 코드가 실행되지 않은 상태에서 텍스트(설계도)만 분석한다. 
-- **[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) (동적)**: 코드는 못 보고, 밖에서 해커처럼 로그인 창에 이상한 문자를 쏴본다.
-- **[IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) (대화형)**: DAST처럼 밖에서 쏘는데, 앱 안에도 센서(에이전트)가 있어서 "아, 방금 들어온 문자가 125번 줄 SQL 쿼리까지 도달했네! 취약점이다!"라고 정확히 집어낸다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 테스팅 도구의 CI/CD 위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test/QA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Production</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDE 플러그인 SonarQube Selenium WAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SAST</div><div class="kb-diagram-node">SAST</div><div class="kb-diagram-node">DAST</div><div class="kb-diagram-node">RASP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IAST</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ Shift-Left (오른쪽으로 갈수록 수정 비용 증가)</div></div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (정적)</strong>: 코드가 실행되지 않은 상태에서 텍스트(설계도)만 분석한다. 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (동적)</strong>: 코드는 못 보고, 밖에서 해커처럼 로그인 창에 이상한 문자를 쏴본다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/">IAST</a> (대화형)</strong>: DAST처럼 밖에서 쏘는데, 앱 안에도 센서(에이전트)가 있어서 "아, 방금 들어온 문자가 125번 줄 SQL 쿼리까지 도달했네! 취약점이다!"라고 정확히 집어낸다.
 
 - **📢 섹션 요약 비유**: SAST는 요리책의 레시피를 읽고 "독버섯이 들어갔네" 찾아내는 것이고, DAST는 완성된 요리를 먹여보고 배탈이 나는지 보는 것이다. IAST는 요리를 먹일 때 뱃속에 내시경 카메라를 넣고 위장이 어떻게 반응하는지까지 지켜보는 것이다.
 
@@ -99,9 +97,9 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 | 테스트 유형 | SAST가 잘 잡는 것 | DAST가 잘 잡는 것 |
 |:---|:---|:---|
 | **비밀번호/키 하드코딩**| **매우 잘 잡음** (소스코드에 텍스트로 있으므로) | 못 잡음 (화면에 안 보이므로) |
-| **[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 위반** | **잘 잡음** (취약한 함수 사용 패턴 탐지) | 못 잡음 |
-| **서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/환경 오류** | 못 잡음 (서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 소스코드 밖의 일) | **잘 잡음** (실제 통신을 해보므로) |
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 우회** | 탐지율 낮음 (비즈니스 로직을 완벽히 이해 못함) | **잘 잡음** ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 조작 등을 직접 시도) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">시큐어 코딩</a> 위반</strong> | **잘 잡음** (취약한 함수 사용 패턴 탐지) | 못 잡음 |
+| <strong>서버 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>/환경 오류</strong> | 못 잡음 (서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 소스코드 밖의 일) | **잘 잡음** (실제 통신을 해보므로) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>/<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> 우회</strong> | 탐지율 낮음 (비즈니스 로직을 완벽히 이해 못함) | **잘 잡음** ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 조작 등을 직접 시도) |
 
 결국 하나만 쓰면 반쪽짜리 방어가 되므로, 최근에는 소스코드 취약점([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))과 런타임 환경 취약점([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))을 모두 아우르는 IAST가 차세대 도구로 각광받고 있다.
 
@@ -117,7 +115,7 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-도구를 사서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인에 달아놓는다고 보안이 저절로 좋아지지 않는다. 실무에서 가장 큰 벽은 **오탐(False Positive)**과의 전쟁이다.
+도구를 사서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인에 달아놓는다고 보안이 저절로 좋아지지 않는다. 실무에서 가장 큰 벽은 <strong>오탐(False Positive)</strong>과의 전쟁이다.
 
 - **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) / [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) 보안 테스팅 도구 비교은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -154,21 +152,23 @@ SAST와 DAST는 서로 완벽한 상호 보완 관계다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SAST / DAST / IAST 보안 테스팅 도구 비교 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAST / DAST / IAST 보안 테스팅 도구 비교 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

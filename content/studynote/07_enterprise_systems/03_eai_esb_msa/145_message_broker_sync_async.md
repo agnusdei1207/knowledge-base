@@ -10,29 +10,35 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 **생산자와 소비자 사이에서 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 중계([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)·변환)**하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.
-> 2. **가치**: 동기([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))는 **수신자 장애 시 전체 실패**하지만, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 **큐에 저장 후 비동기 처리**하여 장애 격리·피크 완화·순서 보장을 제공한다.
+> 1. **본질**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>생산자와 소비자 사이에서 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 중계(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>·<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>·변환)</strong>하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.
+> 2. **가치**: 동기([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))는 <strong>수신자 장애 시 전체 실패</strong>하지만, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>큐에 저장 후 비동기 처리</strong>하여 장애 격리·피크 완화·순서 보장을 제공한다.
 > 3. **판단 포인트**: RabbitMQ(전통 MQ, AMQP)·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 대용량)·SQS(AWS 관리형)를 워크로드에 맞게 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-동기: A→B (B 장애 시 A도 실패)
-비동기: A→Queue→B (B 장애 시 Queue에 보관)
-패턴: Point-to-Point(1:1) | Pub/Sub(1:N)
-RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)
-Kafka: 분산 로그 (대용량, 순서 보장)
-```
 
-- **📢 섹션 요약 비유**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 **우체국**이다. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 우체국이 상대방에게 배달한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동기: A→B (B 장애 시 A도 실패)</div>
+<div class="kb-diagram-note">비동기: A→Queue→B (B 장애 시 Queue에 보관)</div>
+<div class="kb-diagram-note">패턴: Point-to-Point(1:1) | Pub/Sub(1:N)</div>
+<div class="kb-diagram-note">RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)</div>
+<div class="kb-diagram-note">Kafka: 분산 로그 (대용량, 순서 보장)</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이다. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 우체국이 상대방에게 배달한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 **비동기 통합의 핵심 인프라**이며, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(대용량)와 RabbitMQ(복잡 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 상황에 맞게 선택한다.
+[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>비동기 통합의 핵심 인프라</strong>이며, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(대용량)와 RabbitMQ(복잡 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 상황에 맞게 선택한다.
 
 ---
 
@@ -40,25 +46,31 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커** | 중계 미들웨어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 브로커</strong> | 중계 미들웨어 |
 | **RabbitMQ** | AMQP (전통 MQ) |
-| **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 | **Pub/Sub** | 발행/구독 |
 | **Dead Letter** | 처리 실패 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[IBM MQ (1990s)] → [JMS (Java, 2001)]
-    → [RabbitMQ (2007, AMQP)]
-    → [Kafka (2011, 분산 로그)]
-    → [현재: Pulsar·RedPanda — Kafka 대안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IBM MQ (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">JMS (Java, 2001)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RabbitMQ (2007, AMQP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka (2011, 분산 로그)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Pulsar·RedPanda — Kafka 대안</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 **우체국**이에요. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 **대신 배달**해요.
-2. 상대방이 부재(장애)여도 **우체국이 보관**했다가 나중에 전달해요.
-3. Kafka는 **대형 택배 센터**, RabbitMQ는 **동네 우체국**이에요!
+1. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이에요. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 <strong>대신 배달</strong>해요.
+2. 상대방이 부재(장애)여도 <strong>우체국이 보관</strong>했다가 나중에 전달해요.
+3. Kafka는 **대형 택배 센터**, RabbitMQ는 <strong>동네 우체국</strong>이에요!
 
 ---
 

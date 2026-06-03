@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 독립된 두 변수가 왜 하드웨어 입장에서는 같은 자원으로 취급되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 거짓 공유의 출발점: 변수는 둘이지만 캐시 라인은 하나                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cache Line 0 (예: 64B)                                              │
-│ ┌──────────────┬──────────────┬───────────────────────────────────┐ │
-│ │ counter_A    │ counter_B    │ other bytes                       │ │
-│ └──────────────┴──────────────┴───────────────────────────────────┘ │
-│      ▲                        ▲                                     │
-│      │                        │                                     │
-│   Core 0 write             Core 1 write                             │
-│      │                        │                                     │
-│      └────────────── invalidate ping-pong ───────────────┘          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거짓 공유의 출발점: 변수는 둘이지만 캐시 라인은 하나</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Line 0 (예: 64B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">counter_A</div><div class="kb-diagram-cell">counter_B</div><div class="kb-diagram-cell">other bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 write Core 1 write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">invalidate ping-pong</div></div>
+</div>
+</div>
+
+
 
 핵심은 "공유 변수"가 아니라 "공유 캐시 라인"이 문제라는 점이다. 따라서 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 볼 때는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성뿐 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 어떤 단위로 붙어 있는지도 함께 설계해야 한다.
 
@@ -60,19 +58,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 동일한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조가 메모리 배치에 따라 전혀 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있음을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 메모리 배치에 따른 차이                                             │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 패딩 없음                     │ 패딩 적용                           │
-│ [A][B][.................]     │ [A][.................][B][.........] │
-│  └─ 같은 Cache Line           │  └─ 서로 다른 Cache Line            │
-│                               │                                      │
-│ Core 0 write A                │ Core 0 write A                      │
-│ Core 1 write B                │ Core 1 write B                      │
-│  └─ 라인 소유권 충돌          │  └─ 독립적으로 갱신                 │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 배치에 따른 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패딩 없음</div><div class="kb-diagram-cell">패딩 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">.................</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">.................</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">.........</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 Cache Line</div><div class="kb-diagram-cell">─ 서로 다른 Cache Line</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 write A</div><div class="kb-diagram-cell">Core 0 write A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 write B</div><div class="kb-diagram-cell">Core 1 write B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 라인 소유권 충돌</div><div class="kb-diagram-cell">─ 독립적으로 갱신</div></div>
+</div>
+</div>
+
+
 
 예를 들어 다음 구조체는 보기에는 단순하지만, 멀티스레드 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 위험하다.
 
@@ -133,8 +133,8 @@ struct Counters {
 
 ### 대표 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-- **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)과 정렬 적용**: `alignas(64)` 또는 언어별 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 기법으로 핫 필드를 분리한다.
-- **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 로컬 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)**: 즉시 공유 갱신 대신 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 로컬 값에 누적 후 주기적으로 합산한다.
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>과 정렬 적용</strong>: `alignas(64)` 또는 언어별 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 기법으로 핫 필드를 분리한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>별 로컬 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a></strong>: 즉시 공유 갱신 대신 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 로컬 값에 누적 후 주기적으로 합산한다.
 - **구조체 분해**: 자주 쓰는 필드와 거의 읽기 전용인 필드를 분리해 구조체를 재배치한다.
 - **언어 기능 활용**: Java (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 `@Contended`, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 클래스 등을 활용한다.
 
@@ -169,25 +169,25 @@ struct Counters {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공간 지역성 (Spatial Locality)
-        │
-        ▼
-캐시 라인 (Cache Line) 단위 적재
-        │
-        ▼
-캐시 일관성 (Cache Coherence) · MESI
-        │
-        ▼
-Write-Invalidate 기반 무효화 충돌
-        │
-        ▼
-거짓 공유 (False Sharing)
-        │
-        ├──────────────► 패딩 (Padding) · 정렬 (Alignment)
-        │
-        └──────────────► 스레드별 로컬 집계 · 샤딩 카운터
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공간 지역성 (Spatial Locality)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 라인 (Cache Line) 단위 적재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) · MESI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write-Invalidate 기반 무효화 충돌</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">거짓 공유 (False Sharing)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">패딩 (Padding) · 정렬 (Alignment)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">스레드별 로컬 집계 · 샤딩 카운터</div>
+</div>
+</div>
+
+
 
 이 흐름은 하드웨어의 지역성 최적화가, 멀티코어에서는 오히려 소프트웨어 레이아웃 최적화 과제를 낳는 과정을 보여준다.
 

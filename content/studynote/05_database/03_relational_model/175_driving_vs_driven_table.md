@@ -13,31 +13,33 @@ tags = ["studynote-database"]
 
 > 1. **본질**: 드라이빙 테이블 (Driving Table)은 조인의 시작점이면서 이후 반복 횟수를 결정하는 집합이고, 드리븐 테이블 (Driven Table)은 그 반복마다 탐색되는 대상이다.
 > 2. **가치**: [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/))가 높은 조건으로 드라이빙 집합을 먼저 줄이고, 드리븐 쪽에 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)나 접근 경로를 준비하면 [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/) (NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), [Nested Loop Join](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/))의 비용을 급격히 낮출 수 있다.
-> 3. **판단 포인트**: 원본 테이블 크기보다 **필터 후 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 (Cardinality)**, 조인 방식, 드리븐 접근 경로가 더 중요하며, `FROM` 절에 먼저 썼다고 자동으로 드라이빙이 되지는 않는다.
+> 3. **판단 포인트**: 원본 테이블 크기보다 <strong>필터 후 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성 (Cardinality)</strong>, 조인 방식, 드리븐 접근 경로가 더 중요하며, `FROM` 절에 먼저 썼다고 자동으로 드라이빙이 되지는 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-드라이빙 테이블과 드리븐 테이블은 조인 실행 순서를 이해할 때 가장 먼저 잡아야 할 개념이다. 특히 [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)에서는 한쪽 집합을 먼저 읽고, 그 결과 각 행마다 다른 쪽을 반복 탐색한다. 이때 **먼저 읽는 쪽이 드라이빙**, **반복 탐색당하는 쪽이 드리븐**이다.
+드라이빙 테이블과 드리븐 테이블은 조인 실행 순서를 이해할 때 가장 먼저 잡아야 할 개념이다. 특히 [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)에서는 한쪽 집합을 먼저 읽고, 그 결과 각 행마다 다른 쪽을 반복 탐색한다. 이때 **먼저 읽는 쪽이 드라이빙**, <strong>반복 탐색당하는 쪽이 드리븐</strong>이다.
 
 이 구분이 중요한 이유는 조인 비용이 단순히 "두 테이블을 한 번씩 읽는 비용"이 아니기 때문이다. 드라이빙 집합이 10건이면 드리븐 탐색도 10번이면 끝나지만, 드라이빙 집합이 10만 건이면 같은 탐색이 10만 번 반복된다. 즉 조인의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 드라이빙 집합의 크기에 의해 크게 좌우된다.
 
-아래 그림은 조인 비용이 왜 드라이빙 집합의 행 수에 민감한지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다. 핵심은 드리븐 비용이 한 번이 아니라 **드라이빙 행 수만큼 곱해진다**는 점이다.
+아래 그림은 조인 비용이 왜 드라이빙 집합의 행 수에 민감한지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다. 핵심은 드리븐 비용이 한 번이 아니라 <strong>드라이빙 행 수만큼 곱해진다</strong>는 점이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Join cost is multiplied by outer rows                             │
-├────────────────────────────────────────────────────────────────────┤
-│ driving rows = 5      -> driven lookup repeated      5 times      │
-│ driving rows = 500    -> driven lookup repeated    500 times      │
-│ driving rows = 50,000 -> driven lookup repeated 50,000 times      │
-│                                                                    │
-│ rough cost ≒ access(driving) + rows(driving) x lookup(driven)      │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 드라이빙 테이블의 본질은 "먼저 읽는 테이블"이라는 문장으로 끝나지 않는다. 더 정확히는 **조인 반복 횟수를 결정하는 제어 손잡이**라고 이해해야 한다. 이 관점을 잡아야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 읽을 때 왜 어떤 테이블이 먼저 잡혔는지 해석할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Join cost is multiplied by outer rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 5 -&gt; driven lookup repeated 5 times</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 500 -&gt; driven lookup repeated 500 times</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 50,000 -&gt; driven lookup repeated 50,000 times</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rough cost ≒ access(driving) + rows(driving) x lookup(driven)</div></div>
+</div>
+</div>
+
+
+
+따라서 드라이빙 테이블의 본질은 "먼저 읽는 테이블"이라는 문장으로 끝나지 않는다. 더 정확히는 <strong>조인 반복 횟수를 결정하는 제어 손잡이</strong>라고 이해해야 한다. 이 관점을 잡아야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 읽을 때 왜 어떤 테이블이 먼저 잡혔는지 해석할 수 있다.
 
 - **📢 섹션 요약 비유**: 드라이빙 테이블은 택배 기사에게 먼저 쥐여 주는 배송 목록과 같다. 목록이 5건이면 5번만 들르면 되지만, 목록이 5만 건이면 같은 도로도 끝없이 왕복하게 된다.
 
@@ -56,24 +58,25 @@ tags = ["studynote-database"]
 
 아래 구조는 "작게 줄인 뒤 반복 접근한다"는 [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)의 핵심 원리를 보여 준다. 좋은 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)은 드라이빙에서 이미 행 수를 최대한 줄여 놓고, 드리븐은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 짧게 찌른다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Nested Loop Join execution                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Driving access: CUSTOMER where grade = 'VIP' -> 120 rows           │
-│      │                                                             │
-│      ├─ row 1   -> ORDERS(customer_id) index lookup                │
-│      ├─ row 2   -> ORDERS(customer_id) index lookup                │
-│      ├─ row 3   -> ORDERS(customer_id) index lookup                │
-│      └─ row 120 -> ORDERS(customer_id) index lookup                │
-│                                                                    │
-│ Good plan = small filtered outer + fast inner access               │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 오해 하나는 "원래 작은 테이블이 무조건 드라이빙"이라는 생각이다. 실제로는 **기본 테이블 크기보다 필터 후 결과 건수**가 더 중요하다. 예를 들어 주문 테이블이 5억 건이라도 `order_date = today` 조건으로 3,000건만 남는다면, 고객 테이블 1,000만 건보다 오히려 주문 쪽이 더 좋은 드라이빙이 될 수 있다.
 
-또한 드라이빙/드리븐 개념은 조인 방식에 따라 다른 이름으로 나타나기도 한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/))에서는 Build Input/Probe Input이라는 표현을 더 많이 쓰고, [소트 머지 조인](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) ([Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/))에서는 양쪽 [정렬 후 병합](/knowledge-base/studynote/05_database/07_exam_summary/432_sort_merge_join/)이 핵심이 된다. 따라서 이 개념은 특정 키워드 암기가 아니라, **물리 조인이 어느 쪽을 먼저 줄이고 어느 쪽을 반복 접근하는지 보는 시각**으로 기억해야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nested Loop Join execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driving access: CUSTOMER where grade = 'VIP' -&gt; 120 rows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 1 -&gt; ORDERS(customer_id) index lookup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 2 -&gt; ORDERS(customer_id) index lookup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 3 -&gt; ORDERS(customer_id) index lookup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 120 -&gt; ORDERS(customer_id) index lookup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Good plan = small filtered outer + fast inner access</div></div>
+</div>
+</div>
+
+
+
+중요한 오해 하나는 "원래 작은 테이블이 무조건 드라이빙"이라는 생각이다. 실제로는 <strong>기본 테이블 크기보다 필터 후 결과 건수</strong>가 더 중요하다. 예를 들어 주문 테이블이 5억 건이라도 `order_date = today` 조건으로 3,000건만 남는다면, 고객 테이블 1,000만 건보다 오히려 주문 쪽이 더 좋은 드라이빙이 될 수 있다.
+
+또한 드라이빙/드리븐 개념은 조인 방식에 따라 다른 이름으로 나타나기도 한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/))에서는 Build Input/Probe Input이라는 표현을 더 많이 쓰고, [소트 머지 조인](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) ([Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/))에서는 양쪽 [정렬 후 병합](/knowledge-base/studynote/05_database/07_exam_summary/432_sort_merge_join/)이 핵심이 된다. 따라서 이 개념은 특정 키워드 암기가 아니라, <strong>물리 조인이 어느 쪽을 먼저 줄이고 어느 쪽을 반복 접근하는지 보는 시각</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 드라이빙은 먼저 뽑아 놓는 손님 명단이고, 드리븐은 그 명단을 보고 매번 열어 보는 서류 캐비닛과 같다. 명단이 짧고 캐비닛 서랍이 잘 정리돼 있어야 일이 빨라진다.
 
@@ -81,7 +84,7 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 비교 및 연결
 
-드라이빙/드리븐을 제대로 이해하려면 비슷해 보이는 다른 개념과 경계를 분리해야 한다. 특히 **SQL 작성 순서**, **[조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) ([Join Order](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/))**, **[해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)의 Build/Probe**와 혼동하면 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 해석이 꼬인다.
+드라이빙/드리븐을 제대로 이해하려면 비슷해 보이는 다른 개념과 경계를 분리해야 한다. 특히 **SQL 작성 순서**, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">조인 순서</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">Join Order</a>)</strong>, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/">해시 조인</a>의 Build/Probe</strong>와 혼동하면 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 해석이 꼬인다.
 
 | 개념 | 무엇을 뜻하는가 | 드라이빙/드리븐과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- |
@@ -90,11 +93,11 @@ tags = ["studynote-database"]
 | 드라이빙 / 드리븐 | 특정 물리 조인 단계의 바깥쪽/안쪽 역할 | [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)에서 특히 중요 |
 | Build / Probe | [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)에서 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 쪽과 조회 쪽 | 반복 조회의 방향을 본다는 점에서 유사하지만 동일 용어는 아님 |
 
-가장 중요한 비교 포인트는 "작은 테이블"과 "작게 **남는** 테이블"의 차이다. 드라이빙 판단은 정적 크기 비교가 아니라, **조건 적용 후 남는 행 수**를 보는 문제다. 이 때문에 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도 같은 통계 정보가 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결된다.
+가장 중요한 비교 포인트는 "작은 테이블"과 "작게 **남는** 테이블"의 차이다. 드라이빙 판단은 정적 크기 비교가 아니라, <strong>조건 적용 후 남는 행 수</strong>를 보는 문제다. 이 때문에 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도 같은 통계 정보가 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결된다.
 
 또 하나의 연결점은 액세스 경로다. 드라이빙을 아무리 잘 골라도 드리븐에 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 반복 풀스캔이 벌어져 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 무너진다. 반대로 드리븐 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 매우 좋다면, 소량의 드라이빙 결과만 가지고도 매우 빠른 온라인 거래 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 질의를 만들 수 있다.
 
-즉 드라이빙/드리븐은 독립된 단어쌍이 아니라, **[선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) → [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 추정 → [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) → 액세스 경로**로 이어지는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 사고 흐름의 한 축이다. 이 연결이 보여야 "왜 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)이 아니라 NL Join이 선택됐는가", "왜 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 먹었는데도 느린가" 같은 질문에 답할 수 있다.
+즉 드라이빙/드리븐은 독립된 단어쌍이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/">선택도</a> → <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/">기수</a>성 추정 → <a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">조인 순서</a> → 액세스 경로</strong>로 이어지는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 사고 흐름의 한 축이다. 이 연결이 보여야 "왜 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)이 아니라 NL Join이 선택됐는가", "왜 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 먹었는데도 느린가" 같은 질문에 답할 수 있다.
 
 - **📢 섹션 요약 비유**: 먼저 만날 사람을 고르는 일과, 만난 뒤 주소록에서 집을 찾는 일은 다르다. 약속 인원이 적어도 주소록이 엉망이면 시간이 오래 걸리고, 주소록이 좋아도 약속 인원이 너무 많으면 하루가 모자란다.
 
@@ -108,7 +111,7 @@ tags = ["studynote-database"]
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 각 후보 테이블의 **필터 후 예상 건수**는 얼마인가?
+1. 각 후보 테이블의 <strong>필터 후 예상 건수</strong>는 얼마인가?
 2. [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)이 유리한 소량 결과 질의인가?
 3. 드리븐 테이블의 조인 키 또는 결합 조건에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있는가?
 4. [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 참고하는 통계가 최신인가?
@@ -130,11 +133,11 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-드라이빙/드리븐 개념을 정확히 잡으면 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 단순 암기에서 벗어나 구조적으로 읽을 수 있다. 어떤 질의가 느린지 볼 때도 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있나?"에서 끝나지 않고, **왜 이 집합이 반복의 바깥쪽으로 선택됐는가**를 추적하게 된다. 그 결과 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 훨씬 예측 가능해진다.
+드라이빙/드리븐 개념을 정확히 잡으면 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 단순 암기에서 벗어나 구조적으로 읽을 수 있다. 어떤 질의가 느린지 볼 때도 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있나?"에서 끝나지 않고, <strong>왜 이 집합이 반복의 바깥쪽으로 선택됐는가</strong>를 추적하게 된다. 그 결과 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 훨씬 예측 가능해진다.
 
-기대효과는 명확하다. 적절한 드라이빙 선택은 반복 횟수를 줄이고, 적절한 드리븐 접근 경로는 반복당 비용을 낮춘다. 다만 한계도 있다. 대량 동등 조인에서는 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)이 더 유리할 수 있고, 정렬된 결과가 중요하면 [소트 머지 조인](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)이 나을 수 있다. 즉 드라이빙/드리븐은 만능 정답이 아니라, **특히 NL Join을 읽고 튜닝할 때 가장 날카로운 관점**이다.
+기대효과는 명확하다. 적절한 드라이빙 선택은 반복 횟수를 줄이고, 적절한 드리븐 접근 경로는 반복당 비용을 낮춘다. 다만 한계도 있다. 대량 동등 조인에서는 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)이 더 유리할 수 있고, 정렬된 결과가 중요하면 [소트 머지 조인](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/)이 나을 수 있다. 즉 드라이빙/드리븐은 만능 정답이 아니라, <strong>특히 NL Join을 읽고 튜닝할 때 가장 날카로운 관점</strong>이다.
 
-결론적으로 이 개념은 "누가 먼저 읽히는가"보다 **"누가 반복 횟수를 만들고, 누가 그 반복을 빠르게 받아내는가"**로 기억하는 것이 정확하다. 이 한 줄이 잡히면 드라이빙 테이블은 단순 용어가 아니라 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 제어 변수로 보이기 시작한다.
+결론적으로 이 개념은 "누가 먼저 읽히는가"보다 <strong>"누가 반복 횟수를 만들고, 누가 그 반복을 빠르게 받아내는가"</strong>로 기억하는 것이 정확하다. 이 한 줄이 잡히면 드라이빙 테이블은 단순 용어가 아니라 조인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 제어 변수로 보이기 시작한다.
 
 - **📢 섹션 요약 비유**: 좋은 조인 설계는 먼저 줄여야 할 손님 줄과, 그 손님을 빠르게 통과시킬 창구를 함께 고르는 일과 같다. 줄만 짧아도 창구가 막히면 느리고, 창구만 빨라도 줄이 너무 길면 여전히 오래 걸린다.
 
@@ -154,24 +157,25 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-조건 선택도 파악
-        │
-        ▼
-필터 후 기수성 추정
-        │
-        ▼
-드라이빙 테이블 선택
-        │
-        ▼
-드리븐 액세스 경로 결정
-        │
-        ▼
-조인 반복 횟수 최소화
-        │
-        ▼
-조인 순서 / 힌트 / 해시 조인 대안 검토
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">조건 선택도 파악</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">필터 후 기수성 추정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">드라이빙 테이블 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">드리븐 액세스 경로 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조인 반복 횟수 최소화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조인 순서 / 힌트 / 해시 조인 대안 검토</div>
+</div>
+</div>
+
+
 
 이 흐름은 "조건 분석 → 남는 행 수 추정 → 드라이빙 선택 → 드리븐 탐색 최적화 → 전체 조인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 확정"으로 이어지는 튜닝 사고 순서를 보여 준다.
 

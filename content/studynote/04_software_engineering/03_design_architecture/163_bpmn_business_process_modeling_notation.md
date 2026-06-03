@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-BPMN은 업무가 어떤 순서로 진행되고, 누가 책임지며, 어떤 조건에서 분기되는지를 표준 기호로 표현하는 모델링 표기법이다. 단순 순서도와 달리 시작과 종료, 작업, 조건 분기, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/), 부서 경계를 명시할 수 있어 "사람의 일"과 "시스템 처리"를 함께 다루기에 적합하다. 즉 BPMN의 초점은 프로그램 내부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 **업무 프로세스의 흐름과 책임 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**에 있다.
+BPMN은 업무가 어떤 순서로 진행되고, 누가 책임지며, 어떤 조건에서 분기되는지를 표준 기호로 표현하는 모델링 표기법이다. 단순 순서도와 달리 시작과 종료, 작업, 조건 분기, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/), 부서 경계를 명시할 수 있어 "사람의 일"과 "시스템 처리"를 함께 다루기에 적합하다. 즉 BPMN의 초점은 프로그램 내부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 <strong>업무 프로세스의 흐름과 책임 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>에 있다.
 
 이 개념이 필요한 이유는 줄글 요구사항이 업무 흐름의 빈칸을 쉽게 숨기기 때문이다. 예를 들어 환불 프로세스를 텍스트로만 쓰면 "상담원이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 재무팀이 환불" 정도로 보이지만, 실제로는 증빙 누락, 승인 반려, 결제 취소 실패, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 같은 예외가 존재한다. BPMN으로 그리면 어느 레인에서 멈추는지, 어떤 게이트웨이에서 갈라지는지, 누구에게 메시지를 보내는지가 즉시 드러나므로 누락을 찾기 쉽다.
 
@@ -45,23 +45,23 @@ BPMN의 핵심은 몇 가지 기본 기호를 조합해 프로세스를 읽히�
 
 아래 그림은 BPMN이 "흐름 + 책임 + 예외"를 동시에 표현하는 방식을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    BPMN example: refund request flow                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Customer Pool        Shop Pool                                             │
-│                     ┌────────────────────────────────────────────────────┐  │
-│ Start ○─submit────▶ │ CS Lane   : [접수] ──▶ ◇ 증빙 충분? ──Yes──┐      │  │
-│                     │                            │                │      │  │
-│                     │                            No               ▼      │  │
-│                     │                         [보완요청]       Finance   │  │
-│                     │                            │             Lane      │  │
-│                     │                            └─message────▶ [환불]   │  │
-│                     │                                              │      │  │
-│                     │                        timer / error event ◁─┘      │  │
-│                     └───────────────────────────────────────▶ End ◎ ──────┘  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPMN example: refund request flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer Pool Shop Pool</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접수</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">◇ 증빙 충분? ──Yes── │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보완요청</div><div class="kb-diagram-note">Finance │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">환불</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">timer / error event ◁─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ End ◎</div></div>
+</div>
+</div>
+
+
 
 이 그림의 포인트는 단순 순서가 아니라 역할과 예외를 함께 읽게 한다는 점이다. 고객, 상담, 재무가 같은 업무에 참여하지만 서로 다른 레인에 놓이므로 책임이 분명해지고, 증빙 부족과 타이머 이벤트가 그림 안에서 별도 제어 지점으로 드러난다. 텍스트 문장에서는 숨어 있던 "누가 멈췄는가"와 "어디서 다시 시작하는가"가 시각적으로 드러나는 것이 BPMN의 강점이다.
 
@@ -73,7 +73,7 @@ BPMN의 핵심은 몇 가지 기본 기호를 조합해 프로세스를 읽히�
 
 ## Ⅲ. 비교 및 연결
 
-BPMN은 순서도나 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 활동 다이어그램과 겹쳐 보이지만 초점이 다르다. 순서도는 절차 자체를 간단히 표현하는 데 강하고, [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 활동 다이어그램은 소프트웨어 내부 제어 흐름을 설명하기 좋다. BPMN은 그보다 넓게, 사람·부서·외부 시스템까지 포함한 **업무 프로세스의 협업 구조**를 드러내는 데 강하다.
+BPMN은 순서도나 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 활동 다이어그램과 겹쳐 보이지만 초점이 다르다. 순서도는 절차 자체를 간단히 표현하는 데 강하고, [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 활동 다이어그램은 소프트웨어 내부 제어 흐름을 설명하기 좋다. BPMN은 그보다 넓게, 사람·부서·외부 시스템까지 포함한 <strong>업무 프로세스의 협업 구조</strong>를 드러내는 데 강하다.
 
 | 구분 | BPMN | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 활동 다이어그램 | 단순 순서도 |
 | :--- | :--- | :--- | :--- |
@@ -101,7 +101,7 @@ BPMN은 순서도나 [UML](/knowledge-base/studynote/04_software_engineering/04_
 1. **이 프로세스는 여러 부서·역할·시스템의 협업을 설명해야 하는가?**
 2. **예외 흐름과 승인 경로를 가시화하는 것이 핵심인가?**
 3. **실행형 BPMN까지 갈 것이라면 타이머, 오류, 재시도, 보상 경계를 충분히 모델링했는가?**
-4. **단일 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설명에 BPMN을 과하게 쓰고 있지 않은가?**
+4. <strong>단일 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 설명에 BPMN을 과하게 쓰고 있지 않은가?</strong>
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -134,21 +134,23 @@ BPMN을 잘 사용하면 업무 흐름의 병목, 누락, 책임 공백이 설�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-텍스트 업무 절차서
-        │
-        ▼
-BPMN으로 흐름 · 역할 · 예외 시각화
-        │
-        ▼
-BPMN 2.0 기반 모델 표준화
-        │
-        ▼
-워크플로 엔진 연계 · 실행형 프로세스
-        │
-        ▼
-DMN · 프로세스 마이닝과 결합한 자동화 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">텍스트 업무 절차서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPMN으로 흐름 · 역할 · 예외 시각화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPMN 2.0 기반 모델 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워크플로 엔진 연계 · 실행형 프로세스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMN · 프로세스 마이닝과 결합한 자동화 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 업무 절차를 단순 문서로 관리하던 단계에서 출발해, 표준 모델링과 실행 엔진을 거쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 프로세스 개선으로 확장되는 과정을 보여 준다.
 

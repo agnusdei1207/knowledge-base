@@ -41,22 +41,28 @@ tags = ["DID", "DeSoc", "NFT", "SBT", "Web3 identity", "non-transferable", "soul
 
 ### 2.1 Soul (소울) 개념
 
-```
-Soul (지갑/DID)
-├── 학력 SBT (발행: 대학)
-├── 직업 이력 SBT (발행: 회사)
-├── 의료 기록 SBT (발행: 병원)
-├── DAO 투표권 SBT (발행: DAO)
-└── 범죄 기록 SBT (발행: 법원)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Soul (지갑/DID)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">학력 SBT (발행: 대학)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">직업 이력 SBT (발행: 회사)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">의료 기록 SBT (발행: 병원)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">DAO 투표권 SBT (발행: DAO)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">범죄 기록 SBT (발행: 법원)</div>
+</div>
+</div>
+
+
 
 각 SBT는 발행자(Issuer)와 수신자(Soul) 모두 서명.
 
 ### 2.2 DeSoc 시나리오
 
 - **담보 없는 대출**: Soul이 보유한 커뮤니티 SBT → 신용 평가 대체
-- **[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 투표 조작 방지**: SBT 기반 고유 신원 → [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방지
-- **학력 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**: 대학이 발행한 학위 SBT → 위조 불가
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 투표 조작 방지</strong>: SBT 기반 고유 신원 → [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방지
+- <strong>학력 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: 대학이 발행한 학위 SBT → 위조 불가
 
 📢 **섹션 요약 비유**: Soul은 디지털 이력서 가방 — 학교, 회사, 병원이 각자 도장(SBT)을 찍어주는데 다른 사람에게 못 넘긴다.
 
@@ -79,13 +85,19 @@ ERC-721 기반에 `locked()` 함수 추가 → transferFrom 시 locked=true면 r
 
 ### 3.2 발행 흐름
 
-```
-발행자 → [서명 요청] → Soul 소유자
-                              ↓
-                      수락 서명 → 온체인 민팅
-                              ↓
-                      Soul 지갑에 귀속 (양도 불가)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서명 요청</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Soul 소유자</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">수락 서명 → 온체인 민팅</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Soul 지갑에 귀속 (양도 불가)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: SBT 발행은 학교가 학생에게 졸업장 주는 것 — 학교와 학생 둘 다 서명해야 효력 발생.
 
@@ -99,13 +111,19 @@ SBT가 퍼블릭 블록체인에 기록되면 누구나 해당 Soul의 모든 SB
 
 ### 4.2 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 기반 프라이버시 SBT
 
-```
-증명 시나리오:
-"나는 대학 졸업자다" → SBT 내용 공개 X
-ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
-         ↓
-검증자: 졸업 여부만 확인, 학교 이름·성적 모름
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">증명 시나리오:</div>
+<div class="kb-diagram-note">"나는 대학 졸업자다" → SBT 내용 공개 X</div>
+<div class="kb-diagram-note">ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">검증자: 졸업 여부만 확인, 학교 이름·성적 모름</div>
+</div>
+</div>
+
+
 
 ### 4.3 망각권(Right to Be Forgotten) 문제
 
@@ -130,7 +148,7 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 - **지갑 분실**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 미표준화 (커뮤니티 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) proposal 연구 중)
 - **부정 SBT**: 원치 않는 SBT 강제 발행 (예: 범죄 기록) 거부 메커니즘 필요
-- **[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)**: 체인 간 SBT 연동 미표준
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a></strong>: 체인 간 SBT 연동 미표준
 
 📢 **섹션 요약 비유**: SBT는 지우기 어려운 문신처럼 강력하지만 — 원치 않는 문신을 누가 새기면 막기 어렵다.
 
@@ -138,41 +156,53 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 ## 📌 관련 개념 맵
 
-```
-SBT (Soulbound Token)
-├── 기반 기술
-│   ├── ERC-721 + EIP-5192
-│   ├── DID (Decentralized Identity)
-│   └── ZKP (Zero-Knowledge Proof)
-├── 활용
-│   ├── 학력/이력 증명
-│   ├── DAO 신원 증명
-│   └── 탈중앙 신용 평가
-└── 과제
-    ├── 프라이버시 (ZKP 결합)
-    ├── 망각권 (GDPR 충돌)
-    └── 지갑 복구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SBT (Soulbound Token)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">기반 기술</div>
+<div class="kb-diagram-note">── ERC-721 + EIP-5192</div>
+<div class="kb-diagram-note">── DID (Decentralized Identity)</div>
+<div class="kb-diagram-note">── ZKP (Zero-Knowledge Proof)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용</div>
+<div class="kb-diagram-note">── 학력/이력 증명</div>
+<div class="kb-diagram-note">── DAO 신원 증명</div>
+<div class="kb-diagram-note">── 탈중앙 신용 평가</div>
+<div class="kb-diagram-tree-item" style="--depth:0">과제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프라이버시 (ZKP 결합)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">망각권 (GDPR 충돌)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">지갑 복구</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-NFT (2017~) — 양도 가능 자산 표현
-     │  신원·자격 표현 필요
-     ▼
-SBT 논문 — Buterin et al. (2022)
-     │  표준화 진행
-     ▼
-EIP-5192 (최소 표준, 2022)
-     │  프라이버시 강화 요구
-     ▼
-ZKP SBT / 오프체인 SBT (현재 연구)
-     │  DeSoc 인프라
-     ▼
-Web3 탈중앙 신원 생태계 (미래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NFT (2017~) — 양도 가능 자산 표현</div>
+<div class="kb-diagram-note">신원·자격 표현 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SBT 논문 — Buterin et al. (2022)</div>
+<div class="kb-diagram-note">표준화 진행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EIP-5192 (최소 표준, 2022)</div>
+<div class="kb-diagram-note">프라이버시 강화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZKP SBT / 오프체인 SBT (현재 연구)</div>
+<div class="kb-diagram-note">DeSoc 인프라</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Web3 탈중앙 신원 생태계 (미래)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: 비양도성, Soul, DeSoc, EIP-5192, [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), 망각권, Gitcoin
 

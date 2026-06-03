@@ -10,30 +10,32 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Blameless Postmortem은 **장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가**를 분석하여 재발을 방지하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 문화이다.
-> 2. **가치**: 개인을 비난하면 **실수를 숨기는 문화**가 형성되어 장애 원인이 은폐되지만, Blameless 문화에서는 **솔직한 공유**가 가능하여 시스템 개선·자동화·프로세스 강화로 이어진다.
-> 3. **판단 포인트**: Postmortem 문서에는 **타임라인·영향 범위·근본 원인(5 Whys)·Action Items**이 포함되며, 모든 주요 장애 후 필수 작성하고 **팀 전체에 공유**한다.
+> 1. **본질**: Blameless Postmortem은 <strong>장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가</strong>를 분석하여 재발을 방지하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 문화이다.
+> 2. **가치**: 개인을 비난하면 <strong>실수를 숨기는 문화</strong>가 형성되어 장애 원인이 은폐되지만, Blameless 문화에서는 <strong>솔직한 공유</strong>가 가능하여 시스템 개선·자동화·프로세스 강화로 이어진다.
+> 3. **판단 포인트**: Postmortem 문서에는 <strong>타임라인·영향 범위·근본 원인(5 Whys)·Action Items</strong>이 포함되며, 모든 주요 장애 후 필수 작성하고 <strong>팀 전체에 공유</strong>한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    Blameless Postmortem 구조                          │
-├───────────────────────────────────────────────────────┤
-│  1. 장애 요약: 무엇이 언제 발생했는가               │
-│  2. 영향: 사용자 수·다운타임·매출 손실              │
-│  3. 타임라인: 분 단위 이벤트 기록                    │
-│  4. 근본 원인: 5 Whys 분석                           │
-│  5. Action Items: 재발 방지 조치 (담당자·기한)       │
-│  6. 교훈: 잘한 점·개선할 점                          │
-│                                                       │
-│  원칙: 사람이 아닌 시스템·프로세스를 개선한다        │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: Blameless Postmortem은 항공 사고 조사처럼 **"조종사가 나쁘다"가 아니라 "계기판 설계가 혼동을 유발했다"**를 찾는 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless Postmortem 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 장애 요약: 무엇이 언제 발생했는가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 영향: 사용자 수·다운타임·매출 손실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 타임라인: 분 단위 이벤트 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 근본 원인: 5 Whys 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Action Items: 재발 방지 조치 (담당자·기한)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 교훈: 잘한 점·개선할 점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙: 사람이 아닌 시스템·프로세스를 개선한다</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: Blameless Postmortem은 항공 사고 조사처럼 <strong>"조종사가 나쁘다"가 아니라 "계기판 설계가 혼동을 유발했다"</strong>를 찾는 것이다.
 
 ---
 
@@ -47,11 +49,11 @@ tags = ["studynote-devops-sre"]
 | **Why 2** | 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 급증 |
 | **Why 3** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 미적용 |
 | **Why 4** | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 검토 누락 |
-| **Why 5** | **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 프로세스 부재** |
+| **Why 5** | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 리뷰 프로세스 부재</strong> |
 
 → Action Item: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 도입.
 
-- **📢 섹션 요약 비유**: 5 Whys는 의사가 "왜 열이 나?"→"왜 감염?"→"왜 면역력 저하?"로 **근본 원인을 파는 진단법**이다.
+- **📢 섹션 요약 비유**: 5 Whys는 의사가 "왜 열이 나?"→"왜 감염?"→"왜 면역력 저하?"로 <strong>근본 원인을 파는 진단법</strong>이다.
 
 ---
 
@@ -76,7 +78,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-Blameless Postmortem은 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화의 가장 중요한 실천**이며, 장애를 **학습 기회**로 전환하는 조직의 성숙도를 보여준다.
+Blameless Postmortem은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 문화의 가장 중요한 실천</strong>이며, 장애를 <strong>학습 기회</strong>로 전환하는 조직의 성숙도를 보여준다.
 
 ---
 
@@ -88,28 +90,30 @@ Blameless Postmortem은 **[SRE](/knowledge-base/studynote/04_software_engineerin
 | **5 Whys** | 근본 원인 분석 기법 |
 | **Action Items** | 재발 방지 조치 |
 | **타임라인** | 분 단위 장애 이벤트 기록 |
-| **[Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/)** | Postmortem 이전의 장애 대응 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/">Incident Response</a></strong> | Postmortem 이전의 장애 대응 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[장애 → 범인 찾기 (전통, ~2010s)]
-    │
-    ▼
-[Blameless Postmortem (Google SRE, 2003~2016)]
-    │
-    ▼
-[Postmortem 템플릿 표준화 (2018~)]
-    │
-    ▼
-[자동 Postmortem 생성 (Incident.io, 2022~)]
-    │
-    ▼
-[현재: AI Postmortem — 로그 분석→근본 원인·Action 자동 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 → 범인 찾기 (전통, ~2010s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Blameless Postmortem (Google SRE, 2003~2016)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Postmortem 템플릿 표준화 (2018~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동 Postmortem 생성 (Incident.io, 2022~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Postmortem — 로그 분석→근본 원인·Action 자동 추천</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Blameless Postmortem은 **"누가 틀렸어?"가 아니라 "왜 틀렸어?"**를 찾는 거예요.
+1. Blameless Postmortem은 <strong>"누가 틀렸어?"가 아니라 "왜 틀렸어?"</strong>를 찾는 거예요.
 2. 사람을 혼내면 다음에 **실수를 숨기게** 되니까, 시스템을 고쳐요.
 3. 비행기 사고 조사처럼 **원인을 찾아 고치면** 같은 사고가 다시 안 일어나요!
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 서버의 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이나 CPU, 메모리, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연산 자원 등 **시스템 자원(Resource)을 대량의 쓰레기 트래픽으로 고갈시켜 버려, 정당한 권한을 가진 일반 사용자들이 정상적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이용할 수 없도록(거부되도록) 마비시키는 악의적 공격 행위**입니다.
-- **보안 목적 타격**: CIA 트라이어드([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 중에서, 시스템이 원할 때 응답해야 한다는 **'[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'**을 정면으로 파괴하는 것이 유일한 목적입니다.
+- **개념**: 서버의 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이나 CPU, 메모리, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연산 자원 등 <strong>시스템 자원(Resource)을 대량의 쓰레기 트래픽으로 고갈시켜 버려, 정당한 권한을 가진 일반 사용자들이 정상적인 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 이용할 수 없도록(거부되도록) 마비시키는 악의적 공격 행위</strong>입니다.
+- **보안 목적 타격**: CIA 트라이어드([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 중에서, 시스템이 원할 때 응답해야 한다는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)'</strong>을 정면으로 파괴하는 것이 유일한 목적입니다.
 
-```text
-[재생 공격]
-    │
-    ▼
-[DoS]
-    │
-    └──▶ [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,17 +48,21 @@ tags = ["studynote-network"]
 - 진짜 정상 고객이 접속하려 해도 이미 고속도로(네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 100% 미어터진 상태라 데이터가 서버까지 도달하지 못하고 버려집니다(Drop). (예: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Flood, [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 등)
 
 ### 2. [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 약점 기반 자원 고갈 공격 (시스템 자원 고갈)
-- **원리**: 무식하게 트래픽을 쏟아붓지 않습니다. 트래픽은 적지만, **서버의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 운영체제나 애플리케이션 설계의 논리적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(취약점)을 얄밉게 파고들어 서버 CPU나 메모리를 극심하게 소모시켜 기절하게 만드는 똑똑한 공격**입니다.
+- **원리**: 무식하게 트래픽을 쏟아붓지 않습니다. 트래픽은 적지만, <strong>서버의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 운영체제나 애플리케이션 설계의 논리적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(취약점)을 얄밉게 파고들어 서버 CPU나 메모리를 극심하게 소모시켜 기절하게 만드는 똑똑한 공격</strong>입니다.
 - 1시간 동안 기다려야 하는 복잡한 암호 풀기 연산을 요청하거나, 전화([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN)를 걸고서 대답도 안 하고 끊어버려 서버가 전화기를 든 채 하루 종일 기다리게([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 메모리 낭비) 만듭니다. (예: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/), [Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 등)
 
-```text
-[재생 공격]
-    │
-    ▼
-[DoS]
-    │
-    └──▶ [분산 서비스 거부 공격 봇넷 시스템 C&C…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DoS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,9 +70,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **과거의 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)**: 1990년대 초창기에는 해커 1명이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 슈퍼컴퓨터 1대를 돌려서 타겟 서버 1대를 마비시키는 1:1 싸움이었습니다.
+- <strong>과거의 <a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a></strong>: 1990년대 초창기에는 해커 1명이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 슈퍼컴퓨터 1대를 돌려서 타겟 서버 1대를 마비시키는 1:1 싸움이었습니다.
 - **몰락**: 하지만 타겟 서버들의 방어막([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), 클라우드 로드밸런싱)이 강력해지고 네트워크 파이프가 기가급으로 커지자, 해커 1대의 컴퓨터가 아무리 뿜어대 봤자 서버가 간지럼만 느낄 뿐 마비되지 않게 되었습니다. 게다가 해커 컴퓨터의 IP 주소가 방화벽에 딱 걸려서 1초 만에 차단당하는 허무한 결과를 낳았습니다.
-- **진화 (DDoS의 탄생)**: 혼자서는 안 되겠다고 깨달은 해커가, 전 세계 수백만 대의 남의 컴퓨터(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 바이러스로 감염시켜 노예 부대로 만든 뒤, "다 같이 돌격!" 명령을 내려 수백만 대 1의 싸움으로 체급을 우주급으로 키운 것이 바로 오늘날 악명 높은 **DDoS([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/), 710번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**입니다.
+- **진화 (DDoS의 탄생)**: 혼자서는 안 되겠다고 깨달은 해커가, 전 세계 수백만 대의 남의 컴퓨터(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 바이러스로 감염시켜 노예 부대로 만든 뒤, "다 같이 돌격!" 명령을 내려 수백만 대 1의 싸움으로 체급을 우주급으로 키운 것이 바로 오늘날 악명 높은 <strong>DDoS(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/">서비스 거부 공격</a>, 710번 문서 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>입니다.
 
 DoS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)이 기반 조건을 만든다면, DoS는 그 위에서 핵심 메커니즘을 구현하고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ DoS는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 재생 공격]
-    │
-    ▼
-[현재 개념: DoS]
-    │
-    ├──▶ [확장 A: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 재생 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 DoS는 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

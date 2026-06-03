@@ -11,8 +11,8 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 - **구간 연산의 최적화**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 특정 구간 합, 최솟값, 최댓값 등을 구하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$ 시간 복잡도에 해결하는 트리 기반 자료구조임.
-- **완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) 구조**: 리프 노드에는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 개별 요소를 저장하고, 내부 노드에는 자식 노드들의 연산 결과(합, 최소 등)를 저장하여 구간 정보를 계층적으로 관리함.
-- **[Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Propagation 확장**: 구간 업데이트가 빈번할 경우 '게으른 전파' 기법을 통해 구간 업데이트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 $O(\log n)$으로 유지할 수 있는 강력한 확장성을 가짐.
+- <strong>완전 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/">이진 트리</a> 구조</strong>: 리프 노드에는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 개별 요소를 저장하고, 내부 노드에는 자식 노드들의 연산 결과(합, 최소 등)를 저장하여 구간 정보를 계층적으로 관리함.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Propagation 확장</strong>: 구간 업데이트가 빈번할 경우 '게으른 전파' 기법을 통해 구간 업데이트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 $O(\log n)$으로 유지할 수 있는 강력한 확장성을 가짐.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
 - **배경:** 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 구간 합을 구할 때 $O(n)$, 값 변경 시 $O(1)$이 소요됨. 누적 합(Prefix Sum)을 쓰면 구간 합은 $O(1)$이지만 값 변경 시 $O(n)$이 걸림. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실시간으로 변하면서 구간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 잦은 환경(주식 차트, 게임 랭킹 등)에서는 두 작업 모두 효율적인 자료구조가 필요함.
@@ -43,8 +43,8 @@ Leaf [0] (3)  Leaf [1] (4)  Leaf [2] (6)  Leaf [3] (7)
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | 비교 항목 | 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) | 누적 합 (Prefix Sum) | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) ([Segment Tree](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)) | [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ([Fenwick Tree](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) |
 | :--- | :--- | :--- | :--- | :--- |
-| **구간 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)** | $O(n)$ | $O(1)$ | $O(\log n)$ | $O(\log n)$ |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정** | $O(1)$ | $O(n)$ | $O(\log n)$ | $O(\log n)$ |
+| <strong>구간 합 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | $O(n)$ | $O(1)$ | $O(\log n)$ | $O(\log n)$ |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정</strong> | $O(1)$ | $O(n)$ | $O(\log n)$ | $O(\log n)$ |
 | **메모리 사용** | $n$ | $n$ | $4n$ | $n$ |
 | **범용성** | 낮음 | 합계 전용 | 매우 높음 (최소/최대/[GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 등) | 중간 (역연산 필요) |
 
@@ -62,21 +62,23 @@ Leaf [0] (3)  Leaf [1] (4)  Leaf [2] (6)  Leaf [3] (7)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배열 구간 쿼리 — 단순 순회 O(N) 한계]
-    │
-    ▼
-[세그먼트 트리 (Segment Tree) — 전처리 O(N), 구간 쿼리 O(log N)]
-    │
-    ▼
-[Lazy Propagation — 구간 업데이트도 O(log N)으로 최적화]
-    │
-    ▼
-[펜윅 트리 (Fenwick Tree·BIT) — 누적 합 특화, 더 간결한 구현]
-    │
-    ▼
-[2D 세그먼트 트리·메르지 소트 트리 — 다차원·복합 쿼리 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열 구간 쿼리 — 단순 순회 O(N) 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 (Segment Tree) — 전처리 O(N), 구간 쿼리 O(log N)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lazy Propagation — 구간 업데이트도 O(log N)으로 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리 (Fenwick Tree·BIT) — 누적 합 특화, 더 간결한 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2D 세그먼트 트리·메르지 소트 트리 — 다차원·복합 쿼리 확장</div></div>
+</div>
+</div>
+
+
 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)는 구간 합·최솟값 같은 구간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 O(log N)에 처리하며, [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Propagation과 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)로 발전해 경쟁 프로그래밍의 핵심 자료구조가 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

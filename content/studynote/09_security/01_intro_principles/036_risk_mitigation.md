@@ -18,18 +18,22 @@ tags = ["studynote-security"]
 
 ## I. 위험 경감의 의미
 
-```
-위험 = 위협(Threat) × 취약점(Vulnerability) × 영향(Impact)
 
-위험 경감 접근:
-+-- 확률 경감: 취약점 패치, 인증 강화 -> 위협 실현 가능성 감소
-+-- 영향 경감: 백업, 격리, 암호화 -> 피해 규모 감소
-+-- 둘 다: 심층 방어 (Defense-in-Depth)
 
-잔여 위험 (Residual Risk):
-경감 후에도 남는 위험
--> 수용(Accept) 또는 추가 경감 결정 필요
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 = 위협(Threat) × 취약점(Vulnerability) × 영향(Impact)</div>
+<div class="kb-diagram-note">위험 경감 접근:</div>
+<div class="kb-diagram-note">+-- 확률 경감: 취약점 패치, 인증 강화 -&gt; 위협 실현 가능성 감소</div>
+<div class="kb-diagram-note">+-- 영향 경감: 백업, 격리, 암호화 -&gt; 피해 규모 감소</div>
+<div class="kb-diagram-note">+-- 둘 다: 심층 방어 (Defense-in-Depth)</div>
+<div class="kb-diagram-note">잔여 위험 (Residual Risk):</div>
+<div class="kb-diagram-note">경감 후에도 남는 위험</div>
+<div class="kb-diagram-tree-item" style="--depth:0">수용(Accept) 또는 추가 경감 결정 필요</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
 
@@ -95,23 +99,22 @@ EDR 솔루션 비용: 500만원/년
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 심층 방어 (Defense-in-Depth)
 
-```
-네트워크 경계
-|
-[방화벽 / DMZ] <- 예방적
-|
-[IDS/IPS] <- 탐지적
-|
-[웹 서버 (WAF)] <- 예방+탐지
-|
-[애플리케이션] <- SAST/DAST
-|
-[데이터베이스] <- 암호화, 접근 통제
-|
-[백업 / DR] <- 교정적
-|
-[사용자 교육] <- 예방적 (인간 요소)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">네트워크 경계</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 / DMZ</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">예방적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IDS/IPS</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">탐지적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버 (WAF)</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">예방+탐지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">SAST/DAST</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터베이스</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">암호화, 접근 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">백업 / DR</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">교정적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 교육</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">예방적 (인간 요소)</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 성()의 해자·성벽·내성·병력·경보 — 한 겹이 뚫려도 다음 방어선이 있다.
 

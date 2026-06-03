@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-큰 IT 기업이나 SI(시스템 통합) 업체들은 자기들만의 **'표준 개발 방법론(Standard Methodology)'**을 가지고 있다. (예: 삼성SDS의 이노베이터, LG CNS의 마에스트로 등). 이 표준 방법론에는 프로젝트 시작부터 끝까지 써야 할 수백 개의 문서 템플릿과 프로세스가 정의되어 있다.
+큰 IT 기업이나 SI(시스템 통합) 업체들은 자기들만의 <strong>'표준 개발 방법론(Standard Methodology)'</strong>을 가지고 있다. (예: 삼성SDS의 이노베이터, LG CNS의 마에스트로 등). 이 표준 방법론에는 프로젝트 시작부터 끝까지 써야 할 수백 개의 문서 템플릿과 프로세스가 정의되어 있다.
 
 그런데 이 완벽해 보이는 표준 방법론을 모든 프로젝트에 똑같이 적용하면 재앙이 일어난다. 개발 기간이 한 달밖에 안 되는 가벼운 모바일 앱 프로젝트에, 수천 페이지짜리 '[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계서'와 '구조도' 작성을 강요하면 개발자들은 코드를 짜기도 전에 문서 작업(Red Tape)을 하다가 쓰러진다.
 
-그래서 양복점의 재단사(Tailor)가 손님의 몸 치수를 재고 소매와 기장을 잘라내듯, **프로젝트의 몸집에 맞게 표준 방법론의 옷을 수선해 주는 작업**이 필요해졌다. 이것이 바로 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 **테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))**이다.
+그래서 양복점의 재단사(Tailor)가 손님의 몸 치수를 재고 소매와 기장을 잘라내듯, <strong>프로젝트의 몸집에 맞게 표준 방법론의 옷을 수선해 주는 작업</strong>이 필요해졌다. 이것이 바로 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 <strong>테일러링(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 회사 매뉴얼에 "외출할 때는 우산, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 선크림을 모두 챙겨라(표준 방법론)"라고 적혀 있다고 해서, 여름에 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 입고 나가는 사람은 없다. 날씨와 목적지(프로젝트 특성)에 맞춰 우산만 챙기고 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 빼는 지혜로운 선택이 테일러링이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 테일러링 프로젝트 맞춤형 프로세스 재의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  테일러링 프로젝트 맞춤형 프로세스 재                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테일러링 프로젝트 맞춤형 프로세스 재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 테일러링 프로젝트 맞춤형 프로세스 재가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 개념 | 의미 | 대상 | 예시 |
 |:---|:---|:---|:---|
 | **방법론 (Methodology)**| 소프트웨어를 만드는 거대한 뼈대 | 개발 전체 방식 | 폭포수(Waterfall), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) |
-| **테일러링 ([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))** | 표준 방법론을 **프로젝트 환경에 맞게 잘라냄** | **개발 프로세스 및 문서** | 요구사항 명세서를 10장 $\rightarrow$ 2장으로 축소 |
+| <strong>테일러링 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a>)</strong> | 표준 방법론을 **프로젝트 환경에 맞게 잘라냄** | **개발 프로세스 및 문서** | 요구사항 명세서를 10장 $\rightarrow$ 2장으로 축소 |
 | **커스터마이징 (Customization)** | 만들어진 소프트웨어를 **고객 입맛에 맞게 고침** | **소프트웨어(제품) 기능**| 솔루션 UI 색상을 파란색으로 변경 |
 
 즉, 커스터마이징은 '결과물(Product)'을 바꾸는 것이고, 테일러링은 결과물을 만드는 '과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))'을 바꾸는 것이다.
@@ -94,7 +93,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 많이 터지는 문제는, PM(프로젝트 매니저)이 귀찮다고 필수적인 보안/아키텍처 문서까지 다 테일러링으로 빼버리는 **'과도한 생략(Over-[tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))'**이다.
+실무에서 가장 많이 터지는 문제는, PM(프로젝트 매니저)이 귀찮다고 필수적인 보안/아키텍처 문서까지 다 테일러링으로 빼버리는 <strong>'과도한 생략(Over-<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">tailoring</a>)'</strong>이다.
 
 - **📢 섹션 요약 비유**: 테일러링 프로젝트 맞춤형 프로세스 재단은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -108,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 올바른 테일러링을 수행하면 프로젝트의 오버헤드(불필요한 관리/문서 작업)가 극적으로 줄어들어 개발자들이 진짜 비즈니스 로직(코드)에만 집중할 수 있게 된다. 이는 프로젝트의 납기(Time-to-Market)를 앞당기고 비용을 절감하는 가장 확실한 경영 기법이다.
 
-결론적으로 기술 리더는 "FM대로 하라"며 규정을 앵무새처럼 외우는 관료주의자가 되어서는 안 된다. 100페이지짜리 회사의 개발 방법론을 완벽히 이해한 상태에서, 이번 프로젝트의 특성을 매의 눈으로 파악하여 **"이 30페이지는 과감히 버립시다. 제가 책임지겠습니다"**라고 도려낼 수 있는 통찰력이 테일러링의 정수다.
+결론적으로 기술 리더는 "FM대로 하라"며 규정을 앵무새처럼 외우는 관료주의자가 되어서는 안 된다. 100페이지짜리 회사의 개발 방법론을 완벽히 이해한 상태에서, 이번 프로젝트의 특성을 매의 눈으로 파악하여 <strong>"이 30페이지는 과감히 버립시다. 제가 책임지겠습니다"</strong>라고 도려낼 수 있는 통찰력이 테일러링의 정수다.
 
 - **📢 섹션 요약 비유**: 일류 재단사는 몸에 안 맞는 기성복(표준 방법론)을 입혀놓고 "네 몸을 옷에 맞춰라"라고 하지 않는다. 손님의 어깨와 허리(프로젝트 특성)를 정확히 잰 뒤, 가장 편안하고 멋지게 활동할 수 있도록 천을 과감히 잘라내어(테일러링) 최고의 수트를 만들어낸다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-테일러링 프로젝트 맞춤형 프로세스 재단 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테일러링 프로젝트 맞춤형 프로세스 재단 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

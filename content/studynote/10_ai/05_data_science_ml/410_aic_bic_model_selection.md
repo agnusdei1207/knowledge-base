@@ -23,13 +23,16 @@ tags = ["studynote-ai"]
 
 특히 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/), 회귀, 시계열, 혼합모형([GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/))처럼 후보 모델이 여러 개일 때, 단순 점수만 비교하면 파라미터 수가 많은 모델이 무조건 유리해진다. 정보 기준은 이런 편향을 보정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Model Selection via Information Criteria      │
-├──────────────────────────────────────────────────────────────┤
-│ Candidate model → Likelihood fit → Complexity penalty → Score│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Selection via Information Criteria</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Candidate model → Likelihood fit → Complexity penalty → Score</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 시험 점수만 보고 반을 편성하면 인원만 많은 반이 유리해진다. AIC/BIC는 학생 수가 많아질수록 생기는 "과밀 보정"이다.
 
@@ -46,14 +49,17 @@ tags = ["studynote-ai"]
 
 여기서 `k`는 파라미터 수, `n`은 샘플 수, `L`은 우도다. `n`이 커질수록 BIC의 패널티가 더 커지므로, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 BIC가 더 보수적으로 동작한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 AIC vs BIC Penalty Strength                  │
-├──────────────────────────────────────────────────────────────┤
-│ AIC:  2k              → predictive / flexible               │
-│ BIC:  k ln(n)         → parsimonious / conservative          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIC vs BIC Penalty Strength</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIC: 2k → predictive / flexible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIC: k ln(n) → parsimonious / conservative</div></div>
+</div>
+</div>
+
+
 
 ### 후보 모델 비교 절차
 
@@ -106,7 +112,7 @@ AIC/BIC는 409번의 K-Means 엘보우·실루엣과도 연결된다. 엘보우�
 
 AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시계열, 혼합모형, 변수 선택에서 과적합을 줄이고 재현성을 높일 수 있다.
 
-결론적으로 AIC/BIC는 **'잘 맞는 모델'**과 **'지나치게 복잡한 모델'**을 구분하는 장치이므로, 우리는 목적에 맞는 패널티 철학을 먼저 정해야 한다.
+결론적으로 AIC/BIC는 <strong>'잘 맞는 모델'</strong>과 <strong>'지나치게 복잡한 모델'</strong>을 구분하는 장치이므로, 우리는 목적에 맞는 패널티 철학을 먼저 정해야 한다.
 
 - **📢 섹션 요약 비유**: 집을 크게 지을수록 좋다는 생각을 막고, 정말 필요한 방만 남기게 하는 관리 규칙이다.
 

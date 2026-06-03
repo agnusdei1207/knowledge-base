@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 앞에서는 패리티 검사의 2비트 에러 통과나, [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)의 상쇄 에러 꼼수가 통하지 않습니다. 
 송신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아무리 길어도 1비트는 물론 연속적으로 깨지는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))의 99.999%를 칼같이 잡아냅니다. 구현도 하드웨어([Shift Register](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/))로 만들면 빛의 속도로 연산되어 2계층 랜카드 칩셋에 무조건 탑재됩니다.
 
-```text
-[검사합]
-    │
-    ▼
-[CRC]
-    │
-    └──▶ [다항식 연산 / 생성 다항식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CRC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,32 +41,36 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-숫자([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 나누고 그 **'나머지'**를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 핵심입니다.
+숫자([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 나누고 그 <strong>'나머지'</strong>를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 핵심입니다.
 
 ### 1. 양측의 약속 ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))
-송신기와 수신기는 통신을 시작하기 전, "우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나눌 때 무조건 `1011`이라는 숫자로 나누자!"라고 약속합니다. 이 약속된 나누는 수(Divisor)를 **'[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)(Generator [Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))'**이라고 부릅니다.
+송신기와 수신기는 통신을 시작하기 전, "우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나눌 때 무조건 `1011`이라는 숫자로 나누자!"라고 약속합니다. 이 약속된 나누는 수(Divisor)를 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a>(Generator <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">Polynomial</a>)'</strong>이라고 부릅니다.
 
 ### 2. 송신 측의 연산 (FCS 구하기)
-- **원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `11010110`
-- 송신기는 이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아까 약속한 제수 `1011`로 나눕니다. (이때 우리가 아는 산수 나눗셈이 아니라 자리 올림이 없는 **XOR 연산(배타적 논리합)**을 사용해 기계적으로 미친 듯이 뺍니다).
-- 쫙 나누고 났더니 맨 끝에 **나머지(Remainder)값인 `010`**이 남았습니다. 
-- 이 나머지 `010`을 바로 **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) (또는 FCS, Frame Check Sequence)**라고 부릅니다. 송신기는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뒤에 이 CRC를 딱 붙여서 `11010110010`을 전송합니다.
+- <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `11010110`
+- 송신기는 이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아까 약속한 제수 `1011`로 나눕니다. (이때 우리가 아는 산수 나눗셈이 아니라 자리 올림이 없는 <strong>XOR 연산(배타적 논리합)</strong>을 사용해 기계적으로 미친 듯이 뺍니다).
+- 쫙 나누고 났더니 맨 끝에 <strong>나머지(Remainder)값인 <code>010</code></strong>이 남았습니다. 
+- 이 나머지 `010`을 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (또는 FCS, Frame Check Sequence)</strong>라고 부릅니다. 송신기는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뒤에 이 CRC를 딱 붙여서 `11010110010`을 전송합니다.
 
 ### 3. 수신 측의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 - 수신기는 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체 `11010110010`을 받습니다.
 - 의심할 것도 없이 아까 약속했던 제수 `1011`로 이 거대한 숫자를 다시 **XOR 나눗셈** 해봅니다.
 - **결과 판정**:
-  - **나머지가 `0`이다**: "나누어떨어졌네? 오는 길에 1비트도 안 깨지고 완벽하게 왔다는 증거군. 합격!"
-  - **나머지가 `0`이 아니다 (예: 110 등)**: "나누어떨어지지 않네? 중간에 누군가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 훼손했군. 쓰레기통으로 가라!" (에러 검출)
+  - <strong>나머지가 <code>0</code>이다</strong>: "나누어떨어졌네? 오는 길에 1비트도 안 깨지고 완벽하게 왔다는 증거군. 합격!"
+  - <strong>나머지가 <code>0</code>이 아니다 (예: 110 등)</strong>: "나누어떨어지지 않네? 중간에 누군가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 훼손했군. 쓰레기통으로 가라!" (에러 검출)
 
-```text
-[검사합]
-    │
-    ▼
-[CRC]
-    │
-    └──▶ [다항식 연산 / 생성 다항식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CRC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,7 +79,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 시험 문제에서 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 값을 직접 계산하라고 할 때 헷갈리면 안 되는 규칙입니다.
-- **XOR (Exclusive OR) 뺄셈**: 윗자리 숫자와 아랫자리 숫자가 서로 **같으면 `0`**, **다르면 `1`**을 내립니다. 위에서 숫자를 꿔오거나(Borrow) 자리를 올리는(Carry) 일반 수학 계산을 절대 하지 않습니다.
+- **XOR (Exclusive OR) 뺄셈**: 윗자리 숫자와 아랫자리 숫자가 서로 <strong>같으면 <code>0</code></strong>, <strong>다르면 <code>1</code></strong>을 내립니다. 위에서 숫자를 꿔오거나(Borrow) 자리를 올리는(Carry) 일반 수학 계산을 절대 하지 않습니다.
 - 예: `1010` XOR `1011` ➔ 앞에서부터 `(1=1➔0), (0=0➔0), (1=1➔0), (0!=1➔1)` 이므로 결과는 `0001`입니다.
 
 CRC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)이 기반 조건을 만든다면, CRC는 그 위에서 핵심 메커니즘을 구현하고, [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -82,7 +90,7 @@ CRC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** CRC는 **'비밀 자물쇠 번호(나머지) 구하기'**입니다. 내가 보낼 금괴(원본 100kg)를 송수신자만 아는 비밀의 컵([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 3kg)으로 퍼냅니다. 33번 퍼내면 금괴 1kg이 남습니다. 이 **남은 1kg([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 나머지)**을 상자에 같이 넣고 보냅니다. 수신자는 도착한 101kg 전체를 3kg 컵으로 다시 퍼내 봅니다. 도중에 쥐가 파먹지 않았다면 마지막엔 컵에 완벽히 딱 맞아떨어져 남는 금괴가 **0kg**이어야 정상임을 확신할 수 있습니다.
+- **📢 섹션 요약 비유**: ** CRC는 **'비밀 자물쇠 번호(나머지) 구하기'<strong>입니다. 내가 보낼 금괴(원본 100kg)를 송수신자만 아는 비밀의 컵(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a> 3kg)으로 퍼냅니다. 33번 퍼내면 금괴 1kg이 남습니다. 이 </strong>남은 1kg([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 나머지)**을 상자에 같이 넣고 보냅니다. 수신자는 도착한 101kg 전체를 3kg 컵으로 다시 퍼내 봅니다. 도중에 쥐가 파먹지 않았다면 마지막엔 컵에 완벽히 딱 맞아떨어져 남는 금괴가 **0kg**이어야 정상임을 확신할 수 있습니다.
 
 ---
 
@@ -124,15 +132,19 @@ CRC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 검사합]
-    │
-    ▼
-[현재 개념: CRC]
-    │
-    ├──▶ [확장 A: 다항식 연산 / 생성 다항식]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 검사합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다항식 연산 / 생성 다항식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 CRC는 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

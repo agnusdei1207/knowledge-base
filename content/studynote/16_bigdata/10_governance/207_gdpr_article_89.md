@@ -21,9 +21,9 @@ tags = ["studynote-bigdata"]
 
 ### [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 일반 원칙과 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 충돌
 
-[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 5(1)(b)는 **목적 제한 원칙(Purpose Limitation)**을 규정한다: 수집 목적과 양립 불가능한 방식으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리해서는 안 된다. 이 원칙을 엄격히 적용하면 병원에서 치료 목적으로 수집한 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연구 목적으로 사용하는 것이 불가능하다.
+[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 5(1)(b)는 <strong>목적 제한 원칙(Purpose Limitation)</strong>을 규정한다: 수집 목적과 양립 불가능한 방식으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리해서는 안 된다. 이 원칙을 엄격히 적용하면 병원에서 치료 목적으로 수집한 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연구 목적으로 사용하는 것이 불가능하다.
 
-Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처리는 원래 수집 목적과 양립 가능한 것으로 간주**된다 (Article 5(1)(b) 예외).
+Article 89는 이 충돌을 해결한다: <strong>공익·연구·통계 목적의 처리는 원래 수집 목적과 양립 가능한 것으로 간주</strong>된다 (Article 5(1)(b) 예외).
 
 ### 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 필요성
 
@@ -32,7 +32,7 @@ Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처
 - **유전체 연구**: UK Biobank — 50만 명 유전체+의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 장기 추적
 - **경제 분석**: 세금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용한 소득 불평등 연구
 
-**📢 섹션 요약 비유**: Article 89는 **도서관 책의 다른 용도 허용**과 같다. "공부용으로 빌린 책"(원래 목적)을 "연구 논문 작성"(다른 목적)에 쓰는 것을 허용하되, 책을 손상시키지 않는(가명처리) 조건을 붙인 것이다.
+**📢 섹션 요약 비유**: Article 89는 <strong>도서관 책의 다른 용도 허용</strong>과 같다. "공부용으로 빌린 책"(원래 목적)을 "연구 논문 작성"(다른 목적)에 쓰는 것을 허용하되, 책을 손상시키지 않는(가명처리) 조건을 붙인 것이다.
 
 ---
 
@@ -40,39 +40,33 @@ Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처
 
 ### [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89 조항 구조
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                   GDPR Article 89 구조                       │
-├──────────────────────────────────────────────────────────────┤
-│  Article 89(1): 공통 조건                                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 적용 목적:                                              │  │
-│  │ • 공익 기록 보존 (Archiving in public interest)        │  │
-│  │ • 과학적·역사적 연구 (Scientific/Historical research) │  │
-│  │ • 통계 목적 (Statistical purposes)                     │  │
-│  │                                                        │  │
-│  │ 필수 보호조치:                                          │  │
-│  │ • 가명처리 적용 (데이터 주체 추가 식별 방지)           │  │
-│  │ • 데이터 최소화 (목적 달성에 필요한 최소한)            │  │
-│  │ • 적절한 기술적·관리적 보호조치                        │  │
-│  └────────────────────────────────────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│  Article 89(2): 회원국 권리 제한 허용                        │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 과학·역사 연구, 통계 목적의 경우:                      │  │
-│  │ • 열람권(Art.15) 일부 제한 가능                        │  │
-│  │ • 정정권(Art.16) 일부 제한 가능                        │  │
-│  │ • 처리 제한권(Art.18) 일부 제한 가능                   │  │
-│  │ • 이의 제기권(Art.21) 일부 제한 가능                   │  │
-│  └────────────────────────────────────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│  Article 89(3): 공익 기록 목적 권리 제한                     │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ 공익 기록 목적의 경우:                                  │  │
-│  │ • 삭제권(Art.17) 제한 가능                             │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GDPR Article 89 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(1): 공통 조건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적용 목적:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 공익 기록 보존 (Archiving in public interest)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 과학적·역사적 연구 (Scientific/Historical research)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 통계 목적 (Statistical purposes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필수 보호조치:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 가명처리 적용 (데이터 주체 추가 식별 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 최소화 (목적 달성에 필요한 최소한)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 적절한 기술적·관리적 보호조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(2): 회원국 권리 제한 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과학·역사 연구, 통계 목적의 경우:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 열람권(Art.15) 일부 제한 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 정정권(Art.16) 일부 제한 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 처리 제한권(Art.18) 일부 제한 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 이의 제기권(Art.21) 일부 제한 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(3): 공익 기록 목적 권리 제한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공익 기록 목적의 경우:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 삭제권(Art.17) 제한 가능</div></div>
+</div>
+</div>
+
+
 
 ### 연구 목적 처리의 합법성 조건
 
@@ -80,12 +74,12 @@ Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처
 |:---|:---|
 | **목적 특정성** | 연구 목적을 구체적으로 명시 (일반적 "연구"는 불충분) |
 | **가명처리** | 가능한 경우 반드시 적용, 익명화가 더 적합하면 익명화 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화** | 연구 목적 달성에 불필요한 필드는 수집·사용 금지 |
-| **[접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)** | 연구팀 내 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소화</strong> | 연구 목적 달성에 불필요한 필드는 수집·사용 금지 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/">접근 통제</a></strong> | 연구팀 내 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)) |
 | **보존 기간 제한** | 연구 완료 후 삭제 또는 익명화 |
 | **회원국 법률 준수** | 국가별 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 관련 특별법 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필수 |
 
-**📢 섹션 요약 비유**: Article 89의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)조치 조건은 **의약품 임상시험 윤리 규정**과 같다. 치료 목적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연구에 쓸 수 있지만, IRB(임상시험심사위원회) 승인, 최소한의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 사용, 익명화 등 엄격한 절차를 준수해야 한다.
+**📢 섹션 요약 비유**: Article 89의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)조치 조건은 <strong>의약품 임상시험 윤리 규정</strong>과 같다. 치료 목적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연구에 쓸 수 있지만, IRB(임상시험심사위원회) 승인, 최소한의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 사용, 익명화 등 엄격한 절차를 준수해야 한다.
 
 ---
 
@@ -93,14 +87,14 @@ Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처
 
 ### EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 Article 89의 연결
 
-**EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(2020)**: Article 89를 기반으로 9개 분야별 **유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스(European [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Space)**를 구축:
+<strong>EU <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(2020)</strong>: Article 89를 기반으로 9개 분야별 <strong>유럽 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스(European <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Space)</strong>를 구축:
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스 | Article 89 연관성 |
 |:---|:---|
-| **건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스 (EHDS)** | 환자 EHR 2차 연구 활용 |
-| **이동성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스** | 교통 빅데이터 공공 연구 |
-| **에너지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스** | 스마트그리드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통계 |
-| **농업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스** | 농업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 연구 |
+| <strong>건강 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스 (EHDS)</strong> | 환자 EHR 2차 연구 활용 |
+| <strong>이동성 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스</strong> | 교통 빅데이터 공공 연구 |
+| <strong>에너지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스</strong> | 스마트그리드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통계 |
+| <strong>농업 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스페이스</strong> | 농업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 연구 |
 
 ### [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89 vs 한국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법
 
@@ -108,7 +102,7 @@ Article 89는 이 충돌을 해결한다: **공익·연구·통계 목적의 처
 |:---|:---|:---|
 | **허용 목적** | 공익·과학·역사 연구·통계 | 통계·과학 연구·공익 기록 |
 | **가명처리 의무** | 권장 (실질적 필수) | 의무 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합** | 명시적 프레임워크 없음 | 결합 전문기관 제도 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 결합</strong> | 명시적 프레임워크 없음 | 결합 전문기관 제도 |
 | **회원국 재량** | 권리 제한 허용 (89(2)(3)) | 규정 단일화 |
 
 ### EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)법([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Act, 2023)과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -117,7 +111,7 @@ EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relation
 - 공익 기관(공공기관)이 긴급 상황 시 민간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요청할 수 있는 근거
 - 연구 목적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 의무 규정
 
-**📢 섹션 요약 비유**: EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 **유럽 고속도로 네트워크**와 같다. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 이동할 수 있다"는 규칙을 만들었다면, EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스는 실제 고속도로(인프라)를 구축하는 것이다.
+**📢 섹션 요약 비유**: EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong>유럽 고속도로 네트워크</strong>와 같다. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 이동할 수 있다"는 규칙을 만들었다면, EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스는 실제 고속도로(인프라)를 구축하는 것이다.
 
 ---
 
@@ -150,12 +144,12 @@ EU [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relation
 
 ### 지도감독기관([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 사전 자문 요건
 
-Article 36: **고위험 처리(High-[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Processing)**의 경우 SA에 사전 자문을 구해야 한다:
+Article 36: <strong>고위험 처리(High-<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Processing)</strong>의 경우 SA에 사전 자문을 구해야 한다:
 - 대규모 특수 범주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 유전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 처리
 - [DPIA](/knowledge-base/studynote/09_security/16_data_privacy/796_gdpr_dpia/) 결과 잔존 위험이 높은 경우
 - 신기술 활용 (예: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 게놈 분석)
 
-**📢 섹션 요약 비유**: [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 사전 자문은 **건축 허가 신청**과 같다. 일반 건물(일반 처리)은 사후 신고로 충분하지만, 위험 구조물(고위험 처리)은 착공 전에 허가를 받아야 한다.
+**📢 섹션 요약 비유**: [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 사전 자문은 <strong>건축 허가 신청</strong>과 같다. 일반 건물(일반 처리)은 사후 신고로 충분하지만, 위험 구조물(고위험 처리)은 착공 전에 허가를 받아야 한다.
 
 ---
 
@@ -171,9 +165,9 @@ Article 36: **고위험 처리(High-[Risk](/knowledge-base/studynote/11_design_s
 
 ### 결론
 
-[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89는 **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용의 균형을 과학적 방법론으로 해결**한 조항이다. 가명처리·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화라는 기술적 수단으로 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 유지하면서, 인류 공동의 지식 발전을 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용한다. 정보통신기술사는 빅데이터 연구 프로젝트 설계 시 Article 89 적용 요건과 국가별 구체화 법률을 반드시 검토해야 한다.
+[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89는 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 활용의 균형을 과학적 방법론으로 해결</strong>한 조항이다. 가명처리·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화라는 기술적 수단으로 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 유지하면서, 인류 공동의 지식 발전을 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용한다. 정보통신기술사는 빅데이터 연구 프로젝트 설계 시 Article 89 적용 요건과 국가별 구체화 법률을 반드시 검토해야 한다.
 
-**📢 섹션 요약 비유**: Article 89는 **지식을 위한 안전한 다리**다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(강 이편)와 과학 연구 발전(강 저편) 사이에 가명처리라는 견고한 다리를 놓아, 두 가치가 공존할 수 있게 한다.
+**📢 섹션 요약 비유**: Article 89는 <strong>지식을 위한 안전한 다리</strong>다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(강 이편)와 과학 연구 발전(강 저편) 사이에 가명처리라는 견고한 다리를 놓아, 두 가치가 공존할 수 있게 한다.
 
 ---
 
@@ -191,24 +185,25 @@ Article 36: **고위험 처리(High-[Risk](/knowledge-base/studynote/11_design_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[일반 GDPR 규제 — 개인정보 처리 제한, 목적 외 이용 금지]
-    │
-    ▼
-[GDPR Article 89 특례 — 과학적 연구·통계·공익 목적 처리 허용, 안전장치 조건]
-    │
-    ▼
-[가명 처리 (Pseudonymization) — 식별자 분리·암호화로 재식별 위험 최소화]
-    │
-    ▼
-[차분 프라이버시 (Differential Privacy) — 쿼리 결과에 수학적 노이즈 추가, 개인 기여 비식별]
-    │
-    ▼
-[연합 학습 (Federated Learning) — 데이터 이동 없이 모델 파라미터만 공유]
-    │
-    ▼
-[동형 암호 (Homomorphic Encryption) — 암호화 상태 연산, 복호화 없는 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 GDPR 규제 — 개인정보 처리 제한, 목적 외 이용 금지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GDPR Article 89 특례 — 과학적 연구·통계·공익 목적 처리 허용, 안전장치 조건</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가명 처리 (Pseudonymization) — 식별자 분리·암호화로 재식별 위험 최소화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차분 프라이버시 (Differential Privacy) — 쿼리 결과에 수학적 노이즈 추가, 개인 기여 비식별</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 (Federated Learning) — 데이터 이동 없이 모델 파라미터만 공유</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동형 암호 (Homomorphic Encryption) — 암호화 상태 연산, 복호화 없는 분석</div></div>
+</div>
+</div>
+
+
 이 흐름은 엄격한 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규제 속에서 연구·통계 목적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용하는 Article 89 특례를 기반으로, 가명 처리·[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)·[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)로 발전하는 프라이버시 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

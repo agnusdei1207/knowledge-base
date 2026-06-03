@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 시속 100km로 달리는 자율주행차가 있다. 앞차에서 짐이 떨어졌다. 카메라가 영상을 찍어서 서울에 있는 AWS 클라우드로 보낸다. 클라우드가 AI를 돌려 "브레이크 밟아라!"라고 명령을 돌려준다. 아무리 인터넷이 빨라도 이 왕복(Round-trip)에 0.1초가 걸린다. 차는 이미 3미터를 달려가서 앞차와 박고 탑승자는 사망한다. **물리적인 거리의 한계(빛의 속도)를 극복하려면, 자동차 뇌(Edge) 안에서 즉시 판단하고 0.001초 만에 브레이크를 밟아야만 한다.** 클라우드는 너무 멀다.
 
-- **💡 비유**: 본사(클라우드)와 지사(엣지)의 관계와 같습니다. 편의점 아르바이트생이 손님이 1천 원짜리 물건을 환불해 달라고 할 때마다, 서울 본사 사장님에게 이메일을 보내고 허락을 기다린다면([클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)) 손님은 빡쳐서 나갑니다. 그냥 **편의점 알바생이나 점장(엣지)에게 환불 권한과 지침([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)을 내려주어 현장에서 1초 만에 돈을 내주게 만드는 것**이 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 완벽한 효율성입니다.
+- **💡 비유**: 본사(클라우드)와 지사(엣지)의 관계와 같습니다. 편의점 아르바이트생이 손님이 1천 원짜리 물건을 환불해 달라고 할 때마다, 서울 본사 사장님에게 이메일을 보내고 허락을 기다린다면([클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)) 손님은 빡쳐서 나갑니다. 그냥 <strong>편의점 알바생이나 점장(엣지)에게 환불 권한과 지침(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델)을 내려주어 현장에서 1초 만에 돈을 내주게 만드는 것</strong>이 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 완벽한 효율성입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **클라우드의 한계 도달 ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) & [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 모든 기기가 인터넷에 연결되는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 도림하며 1초에 수백 기가의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지자, 이를 모두 클라우드로 보내는 네트워크 비용이 회사 예산을 파탄 냈다.
+  1. <strong>클라우드의 한계 도달 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> &amp; <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 모든 기기가 인터넷에 연결되는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 도림하며 1초에 수백 기가의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지자, 이를 모두 클라우드로 보내는 네트워크 비용이 회사 예산을 파탄 냈다.
   2. **모바일 기기와 반도체의 발전**: 스마트폰과 라즈베리 파이(Raspberry [Pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 처리 장치) 등 손바닥만 한 기기의 연산 능력이 옛날 슈퍼컴퓨터 급으로 발전하여 "굳이 서버로 안 보내고 여기서 연산해도 되겠는데?"라는 기반이 마련되었다.
-  3. **5G와 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (Mobile [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 상용화**: 통신사들이 아예 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 옆에 클라우드 서버 랙([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 설치하여, 스마트폰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유선 인터넷망을 타기 직전에 기지국 단에서 연산을 끝내버리는 극한의 아키텍처를 상용화했다.
+  3. <strong>5G와 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> (Mobile <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>) 상용화</strong>: 통신사들이 아예 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 옆에 클라우드 서버 랙([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 설치하여, 스마트폰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유선 인터넷망을 타기 직전에 기지국 단에서 연산을 끝내버리는 극한의 아키텍처를 상용화했다.
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무조건 시외의 거대한 쓰레기 매립장(클라우드)까지 트럭으로 보내지 않고, 아파트 단지 내 분리수거장(엣지)에서 압축하고 재활용할 건 처리해서 트럭 이동 비용을 90% 이상 팍 줄이는 마법입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) (Edge Computi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  엣지 컴퓨팅 (Edge Computi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 컴퓨팅 (Edge Computi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) (Edge Computi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-엣지 컴퓨팅 (Edge Computing) 분산 아키텍처 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) 분산 아키텍처 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

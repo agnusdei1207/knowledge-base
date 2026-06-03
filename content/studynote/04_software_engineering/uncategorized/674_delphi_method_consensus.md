@@ -19,44 +19,41 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)은 고대 그리스의 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 신탁에서 유래한 명칭으로, 1950년대 미국 랜드 연구소(RAND Corporation)에서 냉전 시대의 군사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 예측을 위해 개발되었다. 이는 다수의 전문가에게 설문조사를 실시하되, **익명성(Anonymity)**, **반복(Iteration)**, **통제된 피드백(Controlled Feedback)**이라는 세 가지 철저한 원칙을 지키며 의견의 편차를 줄이고 최종 합의점에 도달하는 절차적 프레임워크다.
+- **개념**: [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)은 고대 그리스의 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 신탁에서 유래한 명칭으로, 1950년대 미국 랜드 연구소(RAND Corporation)에서 냉전 시대의 군사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 예측을 위해 개발되었다. 이는 다수의 전문가에게 설문조사를 실시하되, **익명성(Anonymity)**, **반복(Iteration)**, <strong>통제된 피드백(Controlled Feedback)</strong>이라는 세 가지 철저한 원칙을 지키며 의견의 편차를 줄이고 최종 합의점에 도달하는 절차적 프레임워크다.
 
 - **필요성**: 소프트웨어 신기술이 등장하거나(예: [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/), 대형 언어 모델 도입 등) 전례 없는 규모의 프로젝트를 시작할 때, [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 공식을 돌릴 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(KLOC)나 벤치마크가 존재하지 않는다. 이때는 해당 도메인을 가장 잘 아는 전문가들의 '직관'이 유일한 근거가 된다. 하지만 전문가들을 한 방에 모아놓고 토론시키면, 직급이 높은 사람이나 언변이 뛰어난 사람의 의견으로 결론이 왜곡되는 치명적 문제가 발생한다. [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)은 이러한 집단 역학의 오류를 제거하고 지성의 교집합만을 추출하기 위해 고안된 사회공학적 장치다.
 
 - **💡 비유**: [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)은 마치 복면가왕 프로그램과 같다. 계급장과 이름(편견)을 모두 떼고, 오직 그 사람이 부르는 노래(제출한 추정치와 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))만으로 여러 번 투표(반복과 피드백)를 거쳐 진정한 실력자를 가려내는 공정한 심사 과정이다.
 
 - **등장 배경 및 집단 의사결정의 한계**:
-  1. **전통적 대면 회의의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**: 대면 회의에서는 상사의 의견에 반대하기 어렵고(권위의 법칙), 다수의 의견을 따라가려는 심리(동조 효과)가 강하게 작용하여 왜곡된 추정치가 만장일치로 통과되는 위험이 컸다.
+  1. <strong>전통적 대면 회의의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: 대면 회의에서는 상사의 의견에 반대하기 어렵고(권위의 법칙), 다수의 의견을 따라가려는 심리(동조 효과)가 강하게 작용하여 왜곡된 추정치가 만장일치로 통과되는 위험이 컸다.
   2. **구조적 차단 장치의 도입**: 이를 해결하기 위해 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))가 중간에 서서 전문가들의 의견을 취합하고, 누구의 의견인지 모르게 가린 채 극단적인 수치를 낸 사람에게만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 묻고 이를 다시 공유하는 방식으로 시스템을 통제하기 시작했다.
 
 전문가 대면 회의의 실패 모드와 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)의 해결 구조를 대조해 보면 이 기법의 본질적 가치가 드러난다.
 
-```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         대면 토론의 왜곡 vs 델파이 기법의 필터링 구조         │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │ 1. 기존 대면 회의 (Face-to-Face Meeting)                │
-  │                                                         │
-  │   [전문가 A (시니어)] ─"이건 10개월 걸려!"─┐                 │
-  │   [전문가 B (주니어)] ─(속마음: 20개월..)─┼▶ "네, 10개월!" │
-  │   [전문가 C (타부서)] ─(분위기상...) ────┘  (왜곡된 합의)  │
-  │    ⚠ 후광 효과, 체면, 침묵의 나선 이론 발동                 │
-  │                                                         │
-  │ 2. 델파이 기법 (Delphi Method)                           │
-  │                                                         │
-  │   [전문가 A] ──(15개월, 비밀)──▶│                     │
-  │   [전문가 B] ──(25개월, 비밀)──▶│ 중재자 (조정역)        │
-  │   [전문가 C] ──(10개월, 비밀)──▶│ 익명 취합 및 피드백    │
-  │                                 │                     │
-  │   ◀── (피드백: 평균은 16개월, 최고 25 최저 10입니다.  ──   │
-  │          왜 25개월이라 생각했는지 논리를 익명 공유합니다)     │
-  │                                                         │
-  │   [전문가 A] ──(18개월) ───▶ │                        │
-  │   [전문가 B] ──(20개월) ───▶ │ 2차 취합 → 의견 수렴    │
-  │   [전문가 C] ──(15개월) ───▶ │ ✅ 편견 없는 객관적 합의 │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대면 토론의 왜곡 vs 델파이 기법의 필터링 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기존 대면 회의 (Face-to-Face Meeting)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 A (시니어)</div><div class="kb-diagram-note">─"이건 10개월 걸려!"─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 B (주니어)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"네, 10개월!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 C (타부서)</div><div class="kb-diagram-note">─(분위기상...) (왜곡된 합의)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 후광 효과, 체면, 침묵의 나선 이론 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 델파이 기법 (Delphi Method)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 A</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">중재자 (조정역)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">익명 취합 및 피드백</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (피드백: 평균은 16개월, 최고 25 최저 10입니다. ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 25개월이라 생각했는지 논리를 익명 공유합니다)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 A</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">2차 취합 → 의견 수렴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">✅ 편견 없는 객관적 합의</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 상단의 대면 회의 모델에서는 권력 구조와 집단 압력이라는 노이즈가 전문가의 순수한 직관을 오염시킨다. 하단의 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)에서는 '[중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))'라는 프록시가 개입하여 이 노이즈를 완벽히 차단한다. 전문가들은 자신의 이름이 노출되지 않으므로 상사의 눈치를 보지 않고 소신껏 추정치를 낸다. 가장 중요한 부분은 피드백 단계인데, 단순히 평균값만 알려주는 것이 아니라 양극단(최고/최저)의 추정치를 낸 전문가의 '기술적 논거'를 익명으로 전체에게 배포한다는 점이다. 이를 통해 다른 전문가들은 자신이 놓쳤던 리스크나 과대평가한 요소를 깨닫고 다음 라운드에서 자발적으로 추정치를 수정하게 되며, 점진적으로 통계적 수렴이 일어난다.
 
@@ -81,7 +78,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ([Delphi Method](/knowledge-base/studynote/12_it_management/05_security_compliance/285_delphi_method/)) 전문가 합의의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ([Delphi Method](/knowledge-base/studynote/12_it_management/05_security_compliance/285_delphi_method/)) 전문가 합의의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/) ([Delphi Method](/knowledge-base/studynote/12_it_management/05_security_compliance/285_delphi_method/)) 전문가 합의의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -157,21 +154,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-델파이 기법 (Delphi Method) 전문가 합의 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">델파이 기법 (Delphi Method) 전문가 합의 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

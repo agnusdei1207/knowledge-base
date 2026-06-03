@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 단일 서버에서는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 Mutex나 Semaphore로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리하지만, 물리적으로 떨어진 수백 대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들이 하나의 자원(예: DB 테이블, 마스터 선출)을 두고 경쟁할 때는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 매니저 ([DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/): Distributed [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Manager)**라는 합의된 제3의 통제소가 필요하다.
-> 2. **메커니즘**: Google의 Chubby나 [Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이터는 **임시 노드(Ephemeral Node)**와 **와치(Watch)** 매커니즘을 사용해 락을 구현한다. 누군가 락을 잡고 죽어버려도([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 끊김) 임시 노드가 자동 삭제되어 데드락을 방지하고, 대기자들에게 즉시 알림을 쏴주어 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 오버헤드를 없앤다.
+> 1. **본질**: 단일 서버에서는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 Mutex나 Semaphore로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리하지만, 물리적으로 떨어진 수백 대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들이 하나의 자원(예: DB 테이블, 마스터 선출)을 두고 경쟁할 때는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 매니저 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/">DLM</a>: Distributed <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Manager)</strong>라는 합의된 제3의 통제소가 필요하다.
+> 2. **메커니즘**: Google의 Chubby나 [Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이터는 <strong>임시 노드(Ephemeral Node)</strong>와 **와치(Watch)** 매커니즘을 사용해 락을 구현한다. 누군가 락을 잡고 죽어버려도([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 끊김) 임시 노드가 자동 삭제되어 데드락을 방지하고, 대기자들에게 즉시 알림을 쏴주어 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 오버헤드를 없앤다.
 > 3. **가치**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 클라우드 아키텍처에서 노드 간의 충돌([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막고, 리더 선출(Leader Election)을 완벽하게 통제하여 '[스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split-brain)' 대참사를 막는 가장 핵심적인 인프라 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구다.
 
 ---
@@ -28,12 +28,12 @@ tags = ["studynote-operating-system"]
   - **해결책**: "살아있는 놈만 락을 가질 수 있고, 죽으면 락이 자동으로 풀리며, 락이 풀리는 순간 다음 대기자에게 즉시 알려주는" 똑똑한 글로벌 중앙 통제소([DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/))가 절실했다.
 
   - **로컬 락**: 한 가족이 화장실 문(공유 자원)을 잠그고 쓰는 것.
-  - **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))**: 전국 각지에 흩어진 100명의 직원이 하나의 금고를 열어야 한다. 직원들은 직접 금고로 가지 않고, 본사의 '열쇠 관리소([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))'에 전화를 건다. 관리소는 "가장 먼저 전화한 사람에게 임시 열쇠(Ephemeral Node)를 주고, 그 사람이 전화를 끊거나 연락이 두절되면(장애) 열쇠를 빼앗아 2번째 대기자에게 즉시 문자를 보내주는(Watch)" 완벽한 번호표 시스템을 운영한다.
+  - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a>)</strong>: 전국 각지에 흩어진 100명의 직원이 하나의 금고를 열어야 한다. 직원들은 직접 금고로 가지 않고, 본사의 '열쇠 관리소([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))'에 전화를 건다. 관리소는 "가장 먼저 전화한 사람에게 임시 열쇠(Ephemeral Node)를 주고, 그 사람이 전화를 끊거나 연락이 두절되면(장애) 열쇠를 빼앗아 2번째 대기자에게 즉시 문자를 보내주는(Watch)" 완벽한 번호표 시스템을 운영한다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/)**: VMS 클러스터, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) RAC 내부의 [DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/). 특정 솔루션에 종속되고 무거움.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/">DLM</a></strong>: VMS 클러스터, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) RAC 내부의 [DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/). 특정 솔루션에 종속되고 무거움.
   2. **Google Chubby (2006)**: Paxos 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템. GFS와 Bigtable의 마스터 선출을 위해 개발.
-  3. **[Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/)**: Chubby의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/). [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 표준 코디네이터로 등극. (현재는 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/), Consul, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Redlock 등 다양화됨)
+  3. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/">Apache ZooKeeper</a></strong>: Chubby의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/). [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 표준 코디네이터로 등극. (현재는 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/), Consul, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Redlock 등 다양화됨)
 
 - **📢 섹션 요약 비유**: 수백 명의 요리사가 하나의 냄비(자원)에 재료를 넣으려 할 때, 주방장([DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/))이 호루라기를 불며 순서를 정해주고, 재료를 넣다 쓰러진 요리사는 즉시 밖으로 끌어내어 요리가 멈추지 않게 하는 식당의 지휘자입니다.
 
@@ -49,36 +49,34 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 2. **Sequence Node (순차 노드)**: 노드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 이름 뒤에 자동으로 1, 2, 3... 번호표를 붙여주는 기능. (순서 보장)
 3. **Watch (감시/알림)**: 특정 노드의 변경([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제)을 기다리고 있다가 이벤트가 발생하면 클라이언트에게 콜백(Callback)을 날려주는 기능. ([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방지)
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 ZooKeeper 분산 락 획득 및 해제 알고리즘 흐름               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 3대의 서버가 동시에 Lock 요청]                                 │
-  │  ZooKeeper 내부에 "/lock_path" 라는 디렉터리가 있음.                      │
-  │                                                                   │
-  │  1. Server A, B, C가 동시에 임시+순차 노드(Ephemeral Sequential) 생성 요청│
-  │     Server A ──▶ 생성 성공: /lock_path/req-0000001 (가장 빠름)        │
-  │     Server B ──▶ 생성 성공: /lock_path/req-0000002                  │
-  │     Server C ──▶ 생성 성공: /lock_path/req-0000003                  │
-  │                                                                   │
-  │  [상황 2: Lock 획득 판단 (자기 순서 확인)]                               │
-  │  2. 서버들은 "/lock_path"의 자식 노드 목록을 조회한다.                    │
-  │     - Server A: "내가 제일 앞번호(001)네? 내가 락을 획득했다!" (작업 시작)   │
-  │     - Server B: "나는 2등이네. 내 앞번호인 001번 노드에 Watch(감시)를 걸자."│
-  │     - Server C: "나는 3등이네. 내 앞번호인 002번 노드에 Watch(감시)를 걸자."│
-  │                                                                   │
-  │  [상황 3: Lock 해제 (장애 또는 정상 종료)]                               │
-  │  3. Server A가 작업을 마치고 연결을 끊거나, 장애로 죽어버림.                │
-  │     ──▶ ZooKeeper는 즉시 임시 노드 "/lock_path/req-0000001" 을 삭제.  │
-  │                                                                   │
-  │  4. 001번 노드가 삭제되었으므로, 거기에 Watch를 걸어둔 Server B에게 즉시 알림!│
-  │     - Server B: "오, 앞사람이 끝났네. 목록 다시 조회!"                    │
-  │     - Server B: "이제 내가 1등(002)이다! Lock 획득!" (작업 시작)         │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 **'Herd Effect(소떼 현상)'를 완벽히 차단**했다는 점이다. 만약 100대의 서버가 모두 1등(001번) 노드만 쳐다보고(Watch) 있었다면, 1번이 끝나는 순간 99대에게 동시에 알림이 날아가 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 서버가 터져버린다. 하지만 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서는 B는 A만 감시하고, C는 B만 감시하고, D는 C만 감시한다. 앞사람이 죽으면 딱 그다음 사람 한 명에게만 알림이 간다. 네트워크 오버헤드가 최소화되고 락이 아주 우아하게 다음 타자에게 넘어간다. 죽은 서버가 영원히 락을 쥐고 있는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 문제도 '임시 노드' 기능 덕분에 완벽히 해결된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 분산 락 획득 및 해제 알고리즘 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 3대의 서버가 동시에 Lock 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 내부에 "/lock_path" 라는 디렉터리가 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Server A, B, C가 동시에 임시+순차 노드(Ephemeral Sequential) 생성 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server A ──▶ 생성 성공: /lock_path/req-0000001 (가장 빠름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server B ──▶ 생성 성공: /lock_path/req-0000002</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server C ──▶ 생성 성공: /lock_path/req-0000003</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: Lock 획득 판단 (자기 순서 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 서버들은 "/lock_path"의 자식 노드 목록을 조회한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Server A: "내가 제일 앞번호(001)네? 내가 락을 획득했다!" (작업 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Server B: "나는 2등이네. 내 앞번호인 001번 노드에 Watch(감시)를 걸자."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Server C: "나는 3등이네. 내 앞번호인 002번 노드에 Watch(감시)를 걸자."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Lock 해제 (장애 또는 정상 종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Server A가 작업을 마치고 연결을 끊거나, 장애로 죽어버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ZooKeeper는 즉시 임시 노드 "/lock_path/req-0000001" 을 삭제.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 001번 노드가 삭제되었으므로, 거기에 Watch를 걸어둔 Server B에게 즉시 알림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Server B: "오, 앞사람이 끝났네. 목록 다시 조회!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Server B: "이제 내가 1등(002)이다! Lock 획득!" (작업 시작)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 <strong>'Herd Effect(소떼 현상)'를 완벽히 차단</strong>했다는 점이다. 만약 100대의 서버가 모두 1등(001번) 노드만 쳐다보고(Watch) 있었다면, 1번이 끝나는 순간 99대에게 동시에 알림이 날아가 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 서버가 터져버린다. 하지만 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서는 B는 A만 감시하고, C는 B만 감시하고, D는 C만 감시한다. 앞사람이 죽으면 딱 그다음 사람 한 명에게만 알림이 간다. 네트워크 오버헤드가 최소화되고 락이 아주 우아하게 다음 타자에게 넘어간다. 죽은 서버가 영원히 락을 쥐고 있는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 문제도 '임시 노드' 기능 덕분에 완벽히 해결된다.
 
 ---
 
@@ -87,7 +85,7 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 무거운 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 대신 가벼운 인메모리 캐시인 Redis를 이용한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락도 매우 널리 쓰인다.
 
 1. **기본 원리 (SETNX)**: Redis의 `SET resource_name my_random_value NX PX 30000` 명령어를 사용한다. (NX: 없으면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해라 = [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 획득 / PX 30000: 30초 뒤 자동 삭제 = [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 데드락 방지)
-2. **Redlock [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: 단일 Redis는 장애 시 락 정보가 날아간다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 창시자 Salvatore Sanfilippo는 N개(보통 5개)의 독립된 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 마스터 노드에 동시에 SETNX를 쏘아, 과반수(Quorum, 3대) 이상에서 락 획득에 성공하면 진짜 락을 얻은 것으로 치는 **Redlock(레드락)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 제안했다.
+2. <strong>Redlock <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 단일 Redis는 장애 시 락 정보가 날아간다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 창시자 Salvatore Sanfilippo는 N개(보통 5개)의 독립된 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 마스터 노드에 동시에 SETNX를 쏘아, 과반수(Quorum, 3대) 이상에서 락 획득에 성공하면 진짜 락을 얻은 것으로 치는 **Redlock(레드락)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 제안했다.
 
 - **📢 섹션 요약 비유**: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 락이 관공서에서 대기표를 뽑고 차례를 기다리는 '줄서기' 방식이라면, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Redlock은 5명의 문지기 중 3명 이상에게 먼저 뇌물(SETNX)을 먹이는 사람이 문을 여는 '다수결 선착순' 방식입니다.
 
@@ -99,16 +97,16 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 | 비교 항목 | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) (ZAB) / [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) ([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)) | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) (Redlock) | RDBMS (MySQL Named [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) |
 |:---|:---|:---|:---|
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** | **Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (매우 높음)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 수학적 취약점 존재 | 높음 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> | <strong>Strong <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a> (매우 높음)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 수학적 취약점 존재 | 높음 |
 | **락 해제/알림 방식** | 임시 노드 + Watch (이벤트 푸시) | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) (만료 시간) + 주기적 [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 종료 / [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (속도)** | 다소 무거움 (디스크 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 동반) | **매우 빠름 (순수 메모리 연산)** | 느림 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (속도)</strong> | 다소 무거움 (디스크 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 동반) | **매우 빠름 (순수 메모리 연산)** | 느림 |
 | **데드락 방지** | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 타임아웃으로 즉각 해제 | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료로 해제 (만료 전 작업 시 위험) | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/커넥션 종료 시 해제 |
 | **주 사용처** | K8s([etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 리더 선출 | 짧고 빠른 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 락 | 기존 RDBMS 인프라 재활용 |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: 로컬 OS의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이 "CPU 코어를 태우며 무한 대기"하는 구조라면, ZooKeeper의 Watch는 OS의 블로킹(Sleep)과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Wake-up) 메커니즘을 네트워크 스케일로 확장한 것과 정확히 일치한다.
-- **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: ZooKeeper나 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 내부에서 락 정보를 여러 노드에 동일하게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))하기 위해 사용하는 **Paxos, ZAB([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast), [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)** [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)은 네트워크 단절(Network [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 상황에서도 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split-brain)을 막아내는 컴퓨터 과학의 정수다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: 로컬 OS의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이 "CPU 코어를 태우며 무한 대기"하는 구조라면, ZooKeeper의 Watch는 OS의 블로킹(Sleep)과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Wake-up) 메커니즘을 네트워크 스케일로 확장한 것과 정확히 일치한다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: ZooKeeper나 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 내부에서 락 정보를 여러 노드에 동일하게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))하기 위해 사용하는 <strong>Paxos, ZAB(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a> Atomic Broadcast), <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a></strong> [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)은 네트워크 단절(Network [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 상황에서도 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split-brain)을 막아내는 컴퓨터 과학의 정수다.
 
 - **📢 섹션 요약 비유**: 빠르고 가벼운 티켓이 필요하면 Redis를 쓰고, 돈이 오가는 절대 틀려선 안 되는 금고 열쇠가 필요하면 조금 무겁지만 절대 안전한 ZooKeeper나 etcd를 쓰는 것이 아키텍처의 정석입니다.
 
@@ -118,44 +116,41 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 ### 실무 시나리오
 
-1. **시나리오 — [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 선착순 쿠폰 발급 시스템**: 1,000장의 쿠폰을 발급하는데, 10대의 Spring Boot 서버([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 10만 명의 트래픽이 쏟아진다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락이 없으면 쿠폰 잔여 수량을 읽고(Read) 빼는(Update) 사이 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 터져 쿠폰이 1,500장 발급될 수 있다.
-   - **아키텍처 적용 ([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Redisson)**: 빠른 응답 속도가 생명이다. ZooKeeper보다 가벼운 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 라이브러리인 자바의 **Redisson**을 사용한다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>) 선착순 쿠폰 발급 시스템</strong>: 1,000장의 쿠폰을 발급하는데, 10대의 Spring Boot 서버([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 10만 명의 트래픽이 쏟아진다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락이 없으면 쿠폰 잔여 수량을 읽고(Read) 빼는(Update) 사이 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 터져 쿠폰이 1,500장 발급될 수 있다.
+   - <strong>아키텍처 적용 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Redisson)</strong>: 빠른 응답 속도가 생명이다. ZooKeeper보다 가벼운 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 라이브러리인 자바의 <strong>Redisson</strong>을 사용한다.
    - 10대의 서버가 쿠폰 발급 로직을 실행하기 전 `RLock lock = redisson.getLock("coupon_1"); lock.tryLock();`을 호출한다. 
    - Redisson 내부는 Pub/Sub 구조로 되어 있어, 락을 못 얻은 서버가 미친 듯이 Redis를 때리는([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)) 현상 없이 얌전히 대기하다가 이벤트 알림을 받고 처리하므로 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 부하 없이 초당 수만 건의 락을 완벽히 소화한다.
 
 2. **시나리오 — 클라우드 스케줄러의 이중 실행 방지 (Leader Election)**: 자정에 100만 건의 배치(Batch) 메일을 발송하는 서버가 있다. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 위해 서버를 2대 띄웠는데, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락이 없으면 두 서버가 동시에 크론([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/))을 돌려 고객에게 메일이 2번씩 발송되는 대참사가 발생한다.
-   - **대응 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Leader Election)**: 2대의 서버가 켜지자마자 ZooKeeper에 `/batch_master`라는 임시 순차 노드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 번호표 1번을 부여받은 서버가 "[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(리더)"가 되어 배치 작업을 수행하고, 2번 서버는 "Standby(대기)" 상태로 돌입한다. 만약 1번 서버가 죽으면 임시 노드가 사라지고, Watch 알림을 받은 2번 서버가 즉시 1등이 되어 배치를 이어받는다. 완벽한 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby 고가용성 클러스터가 구축된다.
+   - <strong>대응 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a> Leader Election)</strong>: 2대의 서버가 켜지자마자 ZooKeeper에 `/batch_master`라는 임시 순차 노드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 번호표 1번을 부여받은 서버가 "[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(리더)"가 되어 배치 작업을 수행하고, 2번 서버는 "Standby(대기)" 상태로 돌입한다. 만약 1번 서버가 죽으면 임시 노드가 사라지고, Watch 알림을 받은 2번 서버가 즉시 1등이 되어 배치를 이어받는다. 완벽한 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby 고가용성 클러스터가 구축된다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 분산 락 (Distributed Lock) 도입 및 솔루션 선정 플로우      │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [분산 서버 간의 자원 동시 접근 및 데이터 정합성 문제 발생]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      요청의 빈도가 초당 수백/수천 건 이상으로 매우 높고 속도가 생명인가?    │
-  │          ├─ 예 (선착순 이벤트 등) ──▶ [Redis 분산 락 (Redisson 등) 도입]│
-  │          │                        (단, Redlock 알고리즘의 한계로 극히   │
-  │          │                         낮은 확률의 락 붕괴는 감수해야 함)   │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      절대로 락이 두 명에게 부여되면 안 되는 절대적 무결성(Master 선출)인가? │
-  │          ├─ 예 (결제 처리, 리더 선출) ──▶ [ZooKeeper / etcd (CP 시스템)] │
-  │          │                            (Raft 합의 알고리즘 기반 강력 보장) │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 기존 DB의 Named Lock이나 JPA 낙관적 락으로 대체  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 락 (Distributed Lock) 도입 및 솔루션 선정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서버 간의 자원 동시 접근 및 데이터 정합성 문제 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청의 빈도가 초당 수백/수천 건 이상으로 매우 높고 속도가 생명인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Redis 분산 락 (Redisson 등) 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, Redlock 알고리즘의 한계로 극히</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 확률의 락 붕괴는 감수해야 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대로 락이 두 명에게 부여되면 안 되는 절대적 무결성(Master 선출)인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZooKeeper / etcd (CP 시스템)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raft 합의 알고리즘 기반 강력 보장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 기존 DB의 Named Lock이나 JPA 낙관적 락으로 대체</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "모든 곳에 ZooKeeper를 쓰면 되지 않나?"는 틀린 접근이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 거는 행위 자체가 네트워크 I/O를 발생시키기 때문에 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 박살낸다. 가장 좋은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 아예 안 쓰는 아키텍처(요청을 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 큐에 줄 세워 단일 컨슈머가 처리하게 함)를 만드는 것이다. 불가피하게 써야 한다면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Zookeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) 사이의 트레이드오프를 철저히 계산해야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **락 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(Time-To-Live) 갱신 (Watchdog)**: 서버 A가 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 락을 10초 잡고 작업을 하는데 풀 풀스캔이 15초 걸렸다. 10초 뒤 락이 풀려버리고 서버 B가 들어와서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬인다. 작업이 길어질 때 백그라운드 스레드가 락의 TTL을 지속적으로 연장해 주는 **Watchdog 메커니즘**이 적용되었는가?
-- **[스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 (Fencing Token)**: [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC Pause)으로 인해 서버 A가 5초간 멈췄다 깨어났다. 그 사이 ZooKeeper는 A가 죽은 줄 알고 B에게 락을 줬다. A가 깨어나 자기가 아직 락을 쥔 줄 알고 DB에 쓴다. 이를 막기 위해 락을 줄 때마다 증가하는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호(Fencing Token)를 DB에 같이 넘겨, 구버전의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 튕겨내는 방어 로직이 있는가? ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락의 핵심 면접 질문)
+- <strong>락 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(Time-To-Live) 갱신 (Watchdog)</strong>: 서버 A가 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 락을 10초 잡고 작업을 하는데 풀 풀스캔이 15초 걸렸다. 10초 뒤 락이 풀려버리고 서버 B가 들어와서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬인다. 작업이 길어질 때 백그라운드 스레드가 락의 TTL을 지속적으로 연장해 주는 <strong>Watchdog 메커니즘</strong>이 적용되었는가?
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a> 방어 (Fencing Token)</strong>: [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC Pause)으로 인해 서버 A가 5초간 멈췄다 깨어났다. 그 사이 ZooKeeper는 A가 죽은 줄 알고 B에게 락을 줬다. A가 깨어나 자기가 아직 락을 쥔 줄 알고 DB에 쓴다. 이를 막기 위해 락을 줄 때마다 증가하는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호(Fencing Token)를 DB에 같이 넘겨, 구버전의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 튕겨내는 방어 로직이 있는가? ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락의 핵심 면접 질문)
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락은 '운전대'입니다. 운전대(락)를 넘겨받은 줄 알고 눈을 감고 달리면 사고(GC Pause 문제)가 납니다. 운전대를 잡았더라도 페달을 밟기 전(DB [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))에 지금 내 운전대가 진짜인지(Fencing Token) 한 번 더 확인하는 이중 안전장치가 필수입니다.
 
@@ -167,13 +162,13 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 | 구분 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 미적용 환경 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)/[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성)**| 동시 접속 시 쿠폰 초과 발급, 계좌 마이너스 | [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 완벽 차단 | 비즈니스 크리티컬 로직의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장 |
-| **정량 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | 배치 서버 1대 죽으면 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(수십 분) | 리더 선출을 통한 즉각 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) (수 초) | 무중단 자동화 클러스터 구축 |
+| <strong>정성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성)</strong>| 동시 접속 시 쿠폰 초과 발급, 계좌 마이너스 | [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 완벽 차단 | 비즈니스 크리티컬 로직의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong> | 배치 서버 1대 죽으면 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(수십 분) | 리더 선출을 통한 즉각 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) (수 초) | 무중단 자동화 클러스터 구축 |
 | **정성 (자원 효율)** | 동시 실행(중복 실행)으로 인한 리소스 낭비 | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 통해 단 1회의 실행 보장 | 데드락 없는 안전한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 |
 
 ### 미래 전망
-- **etcd의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 표준화**: 과거 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 시대의 제왕이었던 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) (Java 기반, 무거움)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 등장과 함께 Go 언어로 작성된 가볍고 빠른 **[etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)**로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이터의 왕좌가 넘어가고 있다. K8s의 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 관리와 락은 etcd의 [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 기반으로 돌아간다.
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자체 내장 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 매니저를 따로 띄우는 관리 오버헤드를 줄이기 위해, CockroachDB나 [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/) 같은 차세대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB들이 아예 내부 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락킹 메커니즘을 내장하여 개발자가 신경 쓸 필요 없는 방향으로 진화 중이다.
+- <strong>etcd의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 표준화</strong>: 과거 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 시대의 제왕이었던 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) (Java 기반, 무거움)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 등장과 함께 Go 언어로 작성된 가볍고 빠른 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/">etcd</a></strong>로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이터의 왕좌가 넘어가고 있다. K8s의 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 관리와 락은 etcd의 [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 기반으로 돌아간다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 자체 내장 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락</strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 매니저를 따로 띄우는 관리 오버헤드를 줄이기 위해, CockroachDB나 [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/) 같은 차세대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB들이 아예 내부 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락킹 메커니즘을 내장하여 개발자가 신경 쓸 필요 없는 방향으로 진화 중이다.
 
 ### 결론
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 매니저([DLM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/))의 구현은 멀티코어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)/뮤텍스 개념을 네트워크 위로 확장한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 공학의 걸작이다. 임시 노드(Ephemeral), 콜백(Watch), [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(Paxos/[Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/))의 우아한 결합은 "서버는 언제든 죽을 수 있고, 네트워크는 언제든 끊길 수 있다"는 최악의 가정을 전제로 설계되었다. 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)를 다루는 엔지니어에게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락의 한계(GC Pause, [Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))를 이해하고 Fencing Token과 같은 방어 수단을 엮어내는 것은 시스템의 대형 사고를 막는 가장 결정적인 역량이다.
@@ -193,15 +188,19 @@ ZooKeeper는 [파일](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
-    │
-    ▼
-[분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]
-    │
-    ├──▶ [마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]
-    └──▶ [커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

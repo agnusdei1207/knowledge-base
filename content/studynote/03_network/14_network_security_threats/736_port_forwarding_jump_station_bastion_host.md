@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 외부 인터넷 망에서, 공유기나 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(네트워크 주소 변환) 장비 내부에 숨어있는 사설 IP 대역의 특정 컴퓨터(서버)로 직접 접속할 수 있도록, **공유기의 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호로 들어오는 패킷을 내부 컴퓨터의 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 '전달(Forwarding)'하도록 길을 뚫어주는 기능**입니다.
+- **개념**: 외부 인터넷 망에서, 공유기나 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(네트워크 주소 변환) 장비 내부에 숨어있는 사설 IP 대역의 특정 컴퓨터(서버)로 직접 접속할 수 있도록, <strong>공유기의 특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호로 들어오는 패킷을 내부 컴퓨터의 특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 '전달(Forwarding)'하도록 길을 뚫어주는 기능</strong>입니다.
 - **예시**: 회사 밖에서 집안의 개인 NAS나 마인크래프트 게임 서버, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 원격 접속을 할 때 가장 필수적으로 공유기에 세팅하는 설정입니다.
 
-```text
-[비인가 AP]
-    │
-    ▼
-[포트 포워딩]
-    │
-    └──▶ [백도어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백도어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 집에서 혼자 놀 때는 유용하지만, 기업망에서 쓰면 회사를 말아먹는 주범이 됩니다.
 
-1. **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 무력화 (Bypass)**: 회사 메인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부 접속을 꽁꽁 막아놓아도, 개발팀 김 대리가 귀찮다고 자기 맘대로 공유기에 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 뚫어놓는 순간, 거대한 성벽의 개구멍이 열립니다. 해커는 이 개구멍(오픈 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝으로 기가 막히게 찾아내어 들어옵니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 무력화 (Bypass)</strong>: 회사 메인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부 접속을 꽁꽁 막아놓아도, 개발팀 김 대리가 귀찮다고 자기 맘대로 공유기에 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 뚫어놓는 순간, 거대한 성벽의 개구멍이 열립니다. 해커는 이 개구멍(오픈 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝으로 기가 막히게 찾아내어 들어옵니다.
 2. **사내망 내부 횡적 이동 (Lateral Movement)**: 해커가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩된 김 대리의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하나만 뚫고 들어가면, 그 PC를 숙주(교두보)로 삼아 밖에서는 접근할 수 없었던 회사의 인사팀 DB 서버, 재무팀 서버 등 사내망 내부를 활개 치고 다니며 모조리 감염시켜 버립니다(역방향 내부망 타격).
 
-```text
-[비인가 AP]
-    │
-    ▼
-[포트 포워딩]
-    │
-    └──▶ [백도어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백도어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,10 +67,10 @@ tags = ["studynote-network"]
 
 그렇다면 밖에서 출장 간 직원이 안전하게 사내 서버를 원격 관리하려면 어떻게 해야 할까요? [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩이라는 야매 샛길 대신, 정문 옆에 깐깐한 초소를 하나 짓습니다.
 
-- **점프 스테이션 (또는 [베스천 호스트](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/), [Bastion Host](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/))**: 외부 인터넷과 내부 사내망 사이에 툭 튀어나온 완충 지대([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/))에 설치된 **'유일한 원격 접속 전용 중계 서버'**입니다.
+- <strong>점프 스테이션 (또는 <a href="/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/">베스천 호스트</a>, <a href="/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/">Bastion Host</a>)</strong>: 외부 인터넷과 내부 사내망 사이에 툭 튀어나온 완충 지대([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/))에 설치된 <strong>'유일한 원격 접속 전용 중계 서버'</strong>입니다.
 - **동작 프로세스 (보안 규정 체계)**:
   1. 외부 출장 간 직원은 절대 사내 DB 서버로 직접 접속([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩)할 수 없습니다.
-  2. 직원은 반드시 1차로 이 **'점프 서버'**에 접속하여 혹독한 신분 검사([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 등)를 거쳐야만 합니다.
+  2. 직원은 반드시 1차로 이 <strong>'점프 서버'</strong>에 접속하여 혹독한 신분 검사([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 등)를 거쳐야만 합니다.
   3. 무사히 점프 서버에 들어온 직원은, 그제야 **점프 서버의 터미널 창을 딛고 다시 한 번(Jump)** 내부망의 진짜 서버들로 원격 접속을 튕겨서 들어갑니다.
 - **장점**: 해커가 아무리 용을 써도 외부에서 보이는 입구는 점프 서버 딱 1개뿐입니다. 관리자는 이 점프 서버 한 대만 미친 듯이 감시([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 녹화, 2FA 적용)하면 되므로, 수백 대의 서버를 열어두는 것보다 압도적으로 안전한 중앙 통제 체계가 완성됩니다. (아마존 AWS나 클라우드 망 설계의 가장 완벽한 기본 아키텍처입니다.)
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비인가 AP]
-    │
-    ▼
-[현재 개념: 포트 포워딩]
-    │
-    ├──▶ [확장 A: 백도어]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비인가 AP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 포트 포워딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백도어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩는 비인가 AP에서 출발해 현재 메커니즘을 정교화하고, 이후 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

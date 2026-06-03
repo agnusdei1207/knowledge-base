@@ -43,25 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 화이트박스가 왜 "장비"보다 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)"으로 이해되어야 하는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Whitebox switch stack: hardware and software are independently replaceable   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Routing / Policy / Telemetry                                                 │
-│                           │                                                  │
-│                           ▼                                                  │
-│ NOS (SONiC, FBOSS, Cumulus ...)                                              │
-│                           │                                                  │
-│                           ▼                                                  │
-│ SAI (Switch Abstraction Interface)                                           │
-│                           │                                                  │
-│                           ▼                                                  │
-│ Vendor Software Kit / Driver                                                 │
-│                           │                                                  │
-│                           ▼                                                  │
-│ Merchant Silicon ASIC -> Parser -> Match/Action -> Queue -> Port             │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Whitebox switch stack: hardware and software are independently replaceable</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Routing / Policy / Telemetry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOS (SONiC, FBOSS, Cumulus ...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAI (Switch Abstraction Interface)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vendor Software Kit / Driver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merchant Silicon ASIC -&gt; Parser -&gt; Match/Action -&gt; Queue -&gt; Port</div></div>
+</div>
+</div>
+
+
 
 여기서 실질적 성능은 대부분 상용 실리콘 ASIC의 패킷 파이프라인이 결정한다. 패킷은 파서(Parser)를 거쳐 테이블 매칭을 수행하고, 삼진 내용 주소 지정 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/), Ternary Content-Addressable Memory)와 버퍼·스케줄러를 통해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나간다. 반면 운영 유연성은 NOS와 SAI가 결정한다. 즉 화이트박스는 성능을 새로 만드는 기술이라기보다, 이미 충분히 빠른 하드웨어를 더 자유롭게 쓰게 만드는 아키텍처다.
 
@@ -132,24 +127,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통 블랙박스 스위치
-    │
-    ▼
-Merchant Silicon 확산
-    │
-    ▼
-ONIE + Open NOS
-    │
-    ▼
-SAI 기반 하드웨어/소프트웨어 분리
-    │
-    ▼
-SONiC · 자동화 패브릭 · SDN 운영
-    │
-    ▼
-P4 · DPU · Intent-Based Fabric
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 블랙박스 스위치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Merchant Silicon 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ONIE + Open NOS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAI 기반 하드웨어/소프트웨어 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SONiC · 자동화 패브릭 · SDN 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">P4 · DPU · Intent-Based Fabric</div>
+</div>
+</div>
+
+
 
 이 흐름은 네트워크의 경쟁력이 장비 브랜드에서 소프트웨어 운영 능력으로 이동하는 과정을 보여준다.
 

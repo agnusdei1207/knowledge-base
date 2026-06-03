@@ -10,8 +10,8 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 **[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))·Traffic(요청량)·Errors(에러율)·Saturation(포화도)**이며, Google SRE가 정의한 **"이 4가지만 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 파악할 수 있다"**는 핵심 지표이다.
-> 2. **가치**: 수백 개 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 진정으로 중요한 것만 추리면 이 4가지이며, 대시보드·알림을 이 4개에 집중하면 **노이즈 없이 장애를 조기 감지**할 수 있다.
+> 1. **본질**: 4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>)·Traffic(요청량)·Errors(에러율)·Saturation(포화도)</strong>이며, Google SRE가 정의한 <strong>"이 4가지만 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링하면 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 상태를 파악할 수 있다"</strong>는 핵심 지표이다.
+> 2. **가치**: 수백 개 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 진정으로 중요한 것만 추리면 이 4가지이며, 대시보드·알림을 이 4개에 집중하면 <strong>노이즈 없이 장애를 조기 감지</strong>할 수 있다.
 > 3. **판단 포인트**: RED(Rate·Errors·Duration)은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)용 변형, USE(Utilization·Saturation·Errors)는 인프라용 변형이다.
 
 ---
@@ -33,7 +33,7 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 
 | 시그널 | 알림 기준 예 |
 |:---|:---|
-| **[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)** | P99 > 500ms |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a></strong> | P99 > 500ms |
 | **Traffic** | RPS < 정상의 50% |
 | **Errors** | 5xx > 1% |
 | **Saturation** | CPU > 80% |
@@ -42,7 +42,7 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 
 ## Ⅲ~Ⅴ. 결론
 
-4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 출발점**이며, 이 4가지에 집중하면 알림 노이즈를 줄이고 장애를 빠르게 감지할 수 있다.
+4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링의 출발점</strong>이며, 이 4가지에 집중하면 알림 노이즈를 줄이고 장애를 빠르게 감지할 수 있다.
 
 ---
 
@@ -50,23 +50,29 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/)** | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 4대 핵심 지표 |
+| <strong>Golden <a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/">Signals</a></strong> | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 4대 핵심 지표 |
 | **RED** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)용 변형 |
 | **USE** | 인프라용 변형 |
-| **[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)** | [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/) 기반 지표 |
-| **[Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)** | 수집 도구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/) 기반 지표 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a></strong> | 수집 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수백 개 메트릭 (2000s)] → [Google SRE 4 Golden Signals (2016)]
-    → [RED 방법론 (2017, Weaveworks)]
-    → [USE 방법론 (Brendan Gregg)]
-    → [현재: AI 이상 탐지 — 골든 시그널 자동 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수백 개 메트릭 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Google SRE 4 Golden Signals (2016)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RED 방법론 (2017, Weaveworks)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">USE 방법론 (Brendan Gregg)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI 이상 탐지 — 골든 시그널 자동 분석</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 자동차의 **속도계·RPM·경고등·연료 게이지**예요.
+1. 4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 자동차의 <strong>속도계·RPM·경고등·연료 게이지</strong>예요.
 2. 이 **4가지만 보면** 차(시스템)가 잘 달리는지 알 수 있어요.
 3. 너무 많은 계기판을 보면 **혼란스러우니까**, 핵심 4개에 집중해요!
 

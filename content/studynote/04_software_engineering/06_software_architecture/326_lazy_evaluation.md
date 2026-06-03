@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 일반적인 프로그래밍 언어는 밥상에 반찬 100개가 차려지면 그걸 일단 전부 먹어 치우고(연산하고) 본다. 이를 조급한 평가(Eager/Strict Evaluation)라고 한다. 반면 **[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))**는 반찬 100개가 깔려도 "누군가 나한테 3번째 반찬을 입에 넣어달라고 요구하기 전까지는 젓가락도 들지 않겠다"며 버티는 궁극의 나태함이자 효율성이다.
+- **개념**: 일반적인 프로그래밍 언어는 밥상에 반찬 100개가 차려지면 그걸 일단 전부 먹어 치우고(연산하고) 본다. 이를 조급한 평가(Eager/Strict Evaluation)라고 한다. 반면 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">지연 평가</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a>)</strong>는 반찬 100개가 깔려도 "누군가 나한테 3번째 반찬을 입에 넣어달라고 요구하기 전까지는 젓가락도 들지 않겠다"며 버티는 궁극의 나태함이자 효율성이다.
 
-- **필요성**: 웹 서버에서 1GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 읽어 들인다고 치자. 조급한 평가(Eager) 방식은 `readFile().filter().map()`을 짤 때, 일단 1GB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 통째로 읽어서 메모리(RAM)에 다 올리고(터짐), 그걸 필터링한 500MB짜리 임시 배열을 또 만들고, 다시 조작해서 500MB 배열을 또 만든다. "어차피 최종적으로 필요한 건 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 첫 번째 줄 1개"인데 말이다. 메모리 낭비와 CPU 폭발을 막기 위해, **결과가 필요할 때 역추적해서 딱 필요한 만큼만 연산하는 스마트한 게으름**이 절실했다.
+- **필요성**: 웹 서버에서 1GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 읽어 들인다고 치자. 조급한 평가(Eager) 방식은 `readFile().filter().map()`을 짤 때, 일단 1GB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 통째로 읽어서 메모리(RAM)에 다 올리고(터짐), 그걸 필터링한 500MB짜리 임시 배열을 또 만들고, 다시 조작해서 500MB 배열을 또 만든다. "어차피 최종적으로 필요한 건 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 첫 번째 줄 1개"인데 말이다. 메모리 낭비와 CPU 폭발을 막기 위해, <strong>결과가 필요할 때 역추적해서 딱 필요한 만큼만 연산하는 스마트한 게으름</strong>이 절실했다.
 
-- **💡 비유**: **조급한 평가(Eager)**는 친구가 "짜장면 하나 시켜줘"라고 할지도 모른다며, 중국집 사장님이 아침부터 짜장면 100그릇을 미리 다 끓여놓고 버리는(낭비) 짓입니다. **[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/))**는 주문 전까지 춘장만 썰어두고 있다가, 배달원이 출발하기 직전 "지금 짜장면 하나 주세요!"라고 '최종 요청(Action)'이 떨어지는 바로 그 순간에 가스불을 켜서 딱 1그릇만 볶아내는 가장 경제적이고 타율 높은 식당 운영입니다.
+- **💡 비유**: <strong>조급한 평가(Eager)</strong>는 친구가 "짜장면 하나 시켜줘"라고 할지도 모른다며, 중국집 사장님이 아침부터 짜장면 100그릇을 미리 다 끓여놓고 버리는(낭비) 짓입니다. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">지연 평가</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>)</strong>는 주문 전까지 춘장만 썰어두고 있다가, 배달원이 출발하기 직전 "지금 짜장면 하나 주세요!"라고 '최종 요청(Action)'이 떨어지는 바로 그 순간에 가스불을 켜서 딱 1그릇만 볶아내는 가장 경제적이고 타율 높은 식당 운영입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Haskell과 학계의 실험**: 극단적인 순수 함수형 언어인 하스켈(Haskell)은 아예 언어의 기본 동작(Default) 자체가 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)로 돌아가게 설계되었다. (모든 변수와 함수가 불리기 전까지 연산 안 함)
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluati의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  지연 평가 (Lazy Evaluati                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 평가 (Lazy Evaluati</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluati가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-지연 평가 (Lazy Evaluation) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지연 평가 (Lazy Evaluation) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -12,7 +12,7 @@ tags = ["studynote-bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 1. 다중 계층 아키텍처는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 **Bronze(원시)·Silver(정제)·Gold(집계)** 3계층으로 나누어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 변환 이력을 단계별로 관리하는 설계 패턴이다.
 2. 각 계층은 소비자가 다르며, Bronze는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어, Silver는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자, Gold는 BI 분석가와 비즈니스 의사결정자를 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공한다.
-3. 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환은 **증분 처리(Incremental Processing)**로 운영되어 전체 재처리 없이 새로운 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 하위 계층에 반영한다.
+3. 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환은 <strong>증분 처리(Incremental Processing)</strong>로 운영되어 전체 재처리 없이 새로운 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 하위 계층에 반영한다.
 
 ---
 
@@ -34,44 +34,36 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────────────────┐
-│             Multi-Tier Data Lake 아키텍처                       │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [소스 시스템]                                                  │
-│  (DB, 이벤트, API, 파일)                                        │
-│          │ 수집 (Kafka / Spark / Airflow)                      │
-│          ▼                                                      │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥉 BRONZE LAYER                                          │  │
-│  │  - 원시 데이터 그대로 저장 (스키마 변경 없음)               │  │
-│  │  - append-only (삭제·수정 없음)                            │  │
-│  │  - 수집 타임스탬프 메타데이터 추가                          │  │
-│  │  예: s3://datalake/bronze/orders/2026/04/21/              │  │
-│  └──────────────────┬───────────────────────────────────────┘  │
-│                     │ 변환 (Spark, dbt)                        │
-│                     ▼                                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥈 SILVER LAYER                                          │  │
-│  │  - 중복 제거, null 처리, 타입 통일                         │  │
-│  │  - 테이블 조인, 비즈니스 키 정의                            │  │
-│  │  - SCD (Slowly Changing Dimension) 적용                   │  │
-│  │  예: Delta Table: sales.silver.orders_cleaned             │  │
-│  └──────────────────┬───────────────────────────────────────┘  │
-│                     │ 집계 (Spark SQL, dbt)                    │
-│                     ▼                                          │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  🥇 GOLD LAYER                                            │  │
-│  │  - 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)       │  │
-│  │  - Star/Snowflake 스키마 최적화                            │  │
-│  │  - BI 도구 직접 연결                                       │  │
-│  │  예: Delta Table: sales.gold.daily_revenue                │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                     │                                          │
-│            [BI / ML / 분석 소비자]                              │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Tier Data Lake 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DB, 이벤트, API, 파일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 (Kafka / Spark / Airflow)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥉 BRONZE LAYER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원시 데이터 그대로 저장 (스키마 변경 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- append-only (삭제·수정 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수집 타임스탬프 메타데이터 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: s3://datalake/bronze/orders/2026/04/21/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환 (Spark, dbt)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥈 SILVER LAYER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중복 제거, null 처리, 타입 통일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테이블 조인, 비즈니스 키 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCD (Slowly Changing Dimension) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Delta Table: sales.silver.orders_cleaned</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 (Spark SQL, dbt)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥇 GOLD LAYER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Star/Snowflake 스키마 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BI 도구 직접 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Delta Table: sales.gold.daily_revenue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BI / ML / 분석 소비자</div></div>
+</div>
+</div>
+
+
 
 **계층별 상세 특성**
 
@@ -100,10 +92,10 @@ tags = ["studynote-bigdata"]
 
 **연관 기술 연결**
 
-- **[Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)**: Databricks에서 Bronze/Silver/Gold를 Delta Lake로 구현한 공식 패턴
-- **dbt ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool)**: Silver→Gold 변환을 SQL로 선언적 구현
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a></strong>: Databricks에서 Bronze/Silver/Gold를 Delta Lake로 구현한 공식 패턴
+- <strong>dbt (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> build tool)</strong>: Silver→Gold 변환을 SQL로 선언적 구현
 - **AutoLoader**: Bronze 계층에 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 적재
-- **[Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) 도구 (Great Expectations, Soda)**: Silver 계층 진입 시 품질 검사
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> 도구 (Great Expectations, Soda)</strong>: Silver 계층 진입 시 품질 검사
 
 > 📢 **섹션 요약 비유**: 3계층 아키텍처는 공항 보안 검색대와 같다. 여권 검사(Bronze), 보안 검색(Silver), 탑승 게이트(Gold) 순으로 단계를 거치면서 문제 승객(불량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 각 단계에서 걸러낸다.
 
@@ -143,7 +135,7 @@ tags = ["studynote-bigdata"]
 | 소비자 경험 향상 | 목적별 최적화된 계층 제공 (BI, ML, 분석 분리) |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 | Bronze 원본 보존으로 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 가능 |
 
-Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)의 핵심 설계 원칙으로, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Medallion Architecture로 표준화되어 있다. 기술사 시험에서는 **각 계층의 역할과 소비자 분리**, **Bronze의 append-only 원칙**, **Silver의 품질 변환([SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/)·중복 제거)**이 핵심 논점이다.
+Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)의 핵심 설계 원칙으로, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Medallion Architecture로 표준화되어 있다. 기술사 시험에서는 **각 계층의 역할과 소비자 분리**, **Bronze의 append-only 원칙**, <strong>Silver의 품질 변환(<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a>·중복 제거)</strong>이 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: 다중 계층은 물 정수 시스템과 같다. 강물(Bronze)→ 1차 여과(Silver)→ 정수 완료(Gold) 단계를 거치면서 각 단계의 물 품질이 명확히 보장되고, 오염 단계를 즉시 특정할 수 있다.
 
@@ -164,21 +156,23 @@ Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 스토리지 한계]
-    │
-    ▼
-[Hot/Warm/Cold 티어 분류]
-    │
-    ▼
-[멀티 티어 아키텍처]
-    │
-    ▼
-[자동 라이프사이클 정책]
-    │
-    ▼
-[비용 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 스토리지 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hot/Warm/Cold 티어 분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 티어 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동 라이프사이클 정책</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비용 최적화</div></div>
+</div>
+</div>
+
+
 
 멀티 티어 아키텍처는 Hot/Warm/Cold 티어와 라이프사이클 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 비용을 최적화한다.
 

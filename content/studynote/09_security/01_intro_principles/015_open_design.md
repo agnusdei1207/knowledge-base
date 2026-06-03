@@ -25,21 +25,24 @@ tags = ["security"]
 
 💡 **비유하자면**, 자물쇠 제조사가 "자물쇠 안의 기어 구조를 아무도 모르니까 안전해!"라고 주장하는 대신, "이 자물쇠의 도면을 전 세계에 공개해도 상관없다. 열쇠 모양([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))을 모르면 절대 열 수 없게 수학적으로 설계했다"라고 증명하는 것과 같습니다.
 
-```text
-[폐쇄형 보안(Obscurity)의 붕괴 구조 vs 공개 설계(Open Design)의 방어 구조]
 
-(A) 은닉을 통한 보안 (Security through Obscurity)
-[비밀 알고리즘] + [입력 데이터] ──> [암호문]
-│ (리버싱/내부자 유출로 알고리즘 노출 시)
-▼
-알고리즘 교체 불가 ──> 전면적인 시스템 폐기 및 재구축 발생 (재앙)
 
-(B) 공개 설계 원칙 (Open Design / Kerckhoffs's Principle)
-[공개된 표준 알고리즘 (AES)] + [비밀 키(Key)] + [입력 데이터] ──> [암호문]
-│ (알고리즘은 원래 공개됨) │ (키 유출 시)
-▼ ▼
-세계적 학자들의 지속적 검증 키(Key)만 폐기하고 새로 발급(Rotation) ──> 시스템 안전 유지
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폐쇄형 보안(Obscurity)의 붕괴 구조 vs 공개 설계(Open Design)의 방어 구조</div></div>
+<div class="kb-diagram-note">(A) 은닉을 통한 보안 (Security through Obscurity)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비밀 알고리즘</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">암호문</div></div>
+<div class="kb-diagram-note">(리버싱/내부자 유출로 알고리즘 노출 시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">알고리즘 교체 불가 ──&gt; 전면적인 시스템 폐기 및 재구축 발생 (재앙)</div>
+<div class="kb-diagram-note">(B) 공개 설계 원칙 (Open Design / Kerckhoffs's Principle)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개된 표준 알고리즘 (AES)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">비밀 키(Key)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">암호문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알고리즘은 원래 공개됨)</div><div class="kb-diagram-cell">(키 유출 시)</div></div>
+<div class="kb-diagram-note">세계적 학자들의 지속적 검증 키(Key)만 폐기하고 새로 발급(Rotation) ──&gt; 시스템 안전 유지</div>
+</div>
+</div>
+
+
 
 이 다이어그램은 설계가 유출되었을 때 시스템이 겪게 되는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용의 차이를 극명하게 보여준다. 폐쇄형 설계는 구조 자체가 비밀이므로 침해 시 시스템 전체를 버려야 하는 반면, 공개 설계는 침해 시 비밀 요소(키, 비밀번호)만 변경하면 즉각적으로 보안 상태를 회복할 수 있기 때문이다. 따라서 실무 시스템의 생명주기와 복원력을 위해 설계 로직과 비밀([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)) 요소를 완벽히 분리하는 것이 핵심이다.
 
@@ -53,31 +56,28 @@ tags = ["security"]
 
 | 구성 요소 | 역할 | 기밀 유지 여부 | 특징 및 내부 동작 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) / Source [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)** | 데이터를 암호화하거나 접근을 제어하는 엔진 로직 | **완전 공개 (Public)** | 소스 코드, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/), 암호화 수학 공식 (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), SHA-256) | 자물쇠의 기계 설계도 |
-| **System [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)** | 서버, 네트워크, DB 간의 통신 흐름과 보안 모델 | **공개 (Public)** | OAuth 2.0 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 과정 | 건물의 청사진 |
-| **Cryptographic [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)** | 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 주입되는 변수값 | **절대 비밀 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))** | 256비트 대칭키, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키 ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 등에 격리 보관) | 유일한 열쇠 조각 |
-| **Credentials (Token, PW)** | 신원을 증명하는 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 파라미터 | **절대 비밀 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))** | [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 사용자 비밀번호 해시값 | 신분증 / 출입증 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a> / Source <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong> | 데이터를 암호화하거나 접근을 제어하는 엔진 로직 | **완전 공개 (Public)** | 소스 코드, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/), 암호화 수학 공식 (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), SHA-256) | 자물쇠의 기계 설계도 |
+| <strong>System <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a></strong> | 서버, 네트워크, DB 간의 통신 흐름과 보안 모델 | **공개 (Public)** | OAuth 2.0 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 과정 | 건물의 청사진 |
+| <strong>Cryptographic <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a></strong> | 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 주입되는 변수값 | <strong>절대 비밀 (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a>)</strong> | 256비트 대칭키, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키 ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 등에 격리 보관) | 유일한 열쇠 조각 |
+| **Credentials (Token, PW)** | 신원을 증명하는 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 파라미터 | <strong>절대 비밀 (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a>)</strong> | [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 사용자 비밀번호 해시값 | 신분증 / 출입증 |
 
-```text
-[공개 설계 기반의 암호화 시스템 프로세스 아키텍처]
 
-[전 세계 누구나 검토 가능한 영역]
-┌───────────────────────────────────────────────┐
-│ Standard Protocol │
-│ ┌──────────────┐ ┌──────────────┐ │
-│ │ 평문 (Plain) │ ──(입력)──> │ 암호화 엔진 │ │
-│ └──────────────┘ │ (AES-256) │ │
-│ └──────┬───────┘ │
-└─────────────────────────────────────│─────────┘
-│ (주입)
-[철저히 격리 통제되는 비밀 영역] │
-┌─────────────────────────────────────│─────────┐
-│ ┌────────────────┐ ┌──────┴───────┐ │
-│ │ KMS / HSM │ ──(발급)─>│ 단기 세션 키 │ │
-│ │ (하드웨어 금고)│ │ (Secret Key) │ │
-│ └────────────────┘ └──────────────┘ │
-└───────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개 설계 기반의 암호화 시스템 프로세스 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전 세계 누구나 검토 가능한 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard Protocol</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평문 (Plain)</div><div class="kb-diagram-cell">──(입력)──&gt;</div><div class="kb-diagram-cell">암호화 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AES-256)</div></div>
+<div class="kb-diagram-note">(주입)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">철저히 격리 통제되는 비밀 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KMS / HSM</div><div class="kb-diagram-cell">──(발급)─&gt;</div><div class="kb-diagram-cell">단기 세션 키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(하드웨어 금고)</div><div class="kb-diagram-cell">(Secret Key)</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 엔진([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))과 연료([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완전히 분리되어 있다는 점이다. 이러한 배치는 시스템 개발자와 운영자가 코드를 다루더라도 실제 데이터의 복호화 키에는 접근할 수 없도록 강제하기 때문이며, 따라서 공격자가 소스 코드가 들어 있는 GitHub 저장소를 통째로 해킹하더라도 키가 들어있는 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 뚫지 못하면 데이터를 열어볼 수 없다. 실무에서는 이러한 분리를 위해 코드 내부에 키를 박아넣는 하드코딩(Hardcoding)을 극도로 경계한다.
 
@@ -98,24 +98,26 @@ tags = ["security"]
 | **실패 시나리오** | 리버싱, 내부자 폭로 시 시스템 전체 붕괴 ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) | 비밀 키 유출 시 해당 키만 순환(Rotation)하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 완료 | 리스크의 집중 vs 리스크의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(키로 국한) |
 | **대표적 사례** | 독자 개발 사내 암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 내부 우회 로직 | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), Linux, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) | 자사 개발 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 절대 사용 금지 |
 
-```text
-[시간 흐름에 따른 보안 취약점 감소 곡선]
 
-취약점 수
-│
-│ * 폐쇄형(Obscurity): 겉보기엔 취약점이 0으로 보이나,
-│ 발견되는 순간(제로데이) 방어력 수직 낙하 및 복구 불가
-│ ─────────────(안전한 척 유지)─────────┐
-│ │ (유출!) -> 0% 보안
-│
-│ * 공개형(Open Design): 초기에 수많은 해커가 취약점을 찾아내어
-│ 지속적으로 패치되며 시간이 지날수록 수학적 완벽에 수렴함.
-│ ＼
-│ ＼ (수많은 패치와 논문 검증)
-│ ───＼─────────────── (견고화) ───────> 99.9% 보안
-│
-└──────────────────────────────────────────────── 시간
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 흐름에 따른 보안 취약점 감소 곡선</div></div>
+<div class="kb-diagram-note">취약점 수</div>
+<div class="kb-diagram-note">* 폐쇄형(Obscurity): 겉보기엔 취약점이 0으로 보이나,</div>
+<div class="kb-diagram-note">발견되는 순간(제로데이) 방어력 수직 낙하 및 복구 불가</div>
+<div class="kb-diagram-note">(안전한 척 유지)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유출!) -&gt; 0% 보안</div></div>
+<div class="kb-diagram-note">* 공개형(Open Design): 초기에 수많은 해커가 취약점을 찾아내어</div>
+<div class="kb-diagram-note">지속적으로 패치되며 시간이 지날수록 수학적 완벽에 수렴함.</div>
+<div class="kb-diagram-note">＼</div>
+<div class="kb-diagram-note">＼ (수많은 패치와 논문 검증)</div>
+<div class="kb-diagram-note">＼ (견고화) &gt; 99.9% 보안</div>
+<div class="kb-diagram-tree-item" style="--depth:0">시간</div>
+</div>
+</div>
+
+
 
 이 그래프는 왜 폐쇄형 보안이 시한폭탄과 같은지를 직관적으로 보여준다. 코드를 숨겨두면 당장 해킹 빈도는 낮아 보일 수 있지만 검증받지 못한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 결함이 곪아가며, 반면 공개 설계는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 오픈 소스 생태계의 집중 포화를 견뎌내면서 예방 접종을 맞은 것처럼 강력해진다. 따라서 시스템의 생애 주기를 고려할 때 장기적인 안정성은 무조건 공개 설계에서 나온다.
 
@@ -128,32 +130,32 @@ tags = ["security"]
 실무에서 공개 설계 원칙을 위배하는 가장 흔한 실수는 개발자의 근거 없는 자신감에서 비롯된 "자체 암호화 솔루션 개발"이다.
 
 #### 1. 실무 시나리오 및 의사결정
-- **암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 선택**: 핀테크 서비스를 개발할 때, 사내 최고 개발자가 "내가 새로운 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만들면 해커들이 레인보우 테이블을 쓸 수 없으니 더 안전할 것"이라고 제안한다. 기술사/CISO는 이를 즉각 기각해야 한다. 아무리 뛰어난 개발자라도 암호학계 전체의 검증을 거치지 않은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 예측 불가능한 수학적 취약점(충돌 등)을 가질 확률이 100%에 가깝다. 반드시 NIST 표준인 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등을 사용하고 키 관리([KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/))에만 집중하도록 의사결정한다.
-- **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계 도입**: [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 애플리케이션 방화벽](/knowledge-base/studynote/15_devops_sre/05_devsecops/274_waf_ingress/)) 룰셋을 도입할 때 소스코드가 막혀있는 블랙박스 솔루션보다, OWASP Core Rule Set([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/))처럼 커뮤니티에 공개되어 수천 명이 우회 패턴을 제보하고 패치하는 개방형 룰셋을 채택한다.
-- **키 로테이션([Key Rotation](/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/)) 아키텍처**: 설계가 공개되어 있다는 것은 언제든 키가 털리면 끝이라는 의미이기도 하다. 따라서 키가 탈취되더라도 과거의 데이터가 풀리지 않도록 [전방 비밀성](/knowledge-base/studynote/09_security/03_network_security/139_pfs_perfect_forward_secrecy/)(PFS, Perfect [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy)을 적용하고 주기적으로 암호키를 자동 교체하는 구조를 필수로 설계해야 한다.
+- <strong>암호 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 선택</strong>: 핀테크 서비스를 개발할 때, 사내 최고 개발자가 "내가 새로운 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만들면 해커들이 레인보우 테이블을 쓸 수 없으니 더 안전할 것"이라고 제안한다. 기술사/CISO는 이를 즉각 기각해야 한다. 아무리 뛰어난 개발자라도 암호학계 전체의 검증을 거치지 않은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 예측 불가능한 수학적 취약점(충돌 등)을 가질 확률이 100%에 가깝다. 반드시 NIST 표준인 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등을 사용하고 키 관리([KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/))에만 집중하도록 의사결정한다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 생태계 도입</strong>: [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 애플리케이션 방화벽](/knowledge-base/studynote/15_devops_sre/05_devsecops/274_waf_ingress/)) 룰셋을 도입할 때 소스코드가 막혀있는 블랙박스 솔루션보다, OWASP Core Rule Set([CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/))처럼 커뮤니티에 공개되어 수천 명이 우회 패턴을 제보하고 패치하는 개방형 룰셋을 채택한다.
+- <strong>키 로테이션(<a href="/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/">Key Rotation</a>) 아키텍처</strong>: 설계가 공개되어 있다는 것은 언제든 키가 털리면 끝이라는 의미이기도 하다. 따라서 키가 탈취되더라도 과거의 데이터가 풀리지 않도록 [전방 비밀성](/knowledge-base/studynote/09_security/03_network_security/139_pfs_perfect_forward_secrecy/)(PFS, Perfect [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy)을 적용하고 주기적으로 암호키를 자동 교체하는 구조를 필수로 설계해야 한다.
 
 #### 2. 도입 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
 - **하드코딩된 비밀 (Hardcoded Secrets)**: 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 AES를 썼으나, 정작 이를 풀쇠인 대칭키를 Java/Python 소스코드 내부나 GitHub 퍼블릭 리포지토리에 평문으로 박아넣는 행위. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공개 원칙을 오해하여 키까지 공개해버린 최악의 사고 사례다.
-- **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하이딩 ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Hiding)**: [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인 22번을 45678번 등으로 변경해두고 "이제 해커가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속을 못할 것"이라 안심하는 행위. 이는 전형적인 Obscurity이며, 해커가 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/)(Nmap)을 돌리면 5분 만에 발각된다. 올바른 방법은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 공개하되 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 공개키 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기반으로 로그인 방식을 바꾸는 것이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 하이딩 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Hiding)</strong>: [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 기본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인 22번을 45678번 등으로 변경해두고 "이제 해커가 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속을 못할 것"이라 안심하는 행위. 이는 전형적인 Obscurity이며, 해커가 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/)(Nmap)을 돌리면 5분 만에 발각된다. 올바른 방법은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 공개하되 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 공개키 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기반으로 로그인 방식을 바꾸는 것이다.
 
-```text
-[오픈소스(공개 설계) 보안 검증 워크플로우]
 
-[오픈소스 암호화 라이브러리 사용 결정]
-│
-▼
-[공개 취약점 데이터베이스 (CVE/NVD) 자동 스캐닝] ──(SCA 도구 연동)
-│
-├─> 취약점 발견 (Ex: Log4Shell) ──> [즉각적인 버전 패치 및 배포]
-│
-└─> 안전함 확인
-│
-▼
-[비밀 변수(Key, Token)의 격리] ──> AWS Secrets Manager / HashiCorp Vault에 저장
-│
-▼
-[CI/CD 파이프라인] ──> 소스코드에 키가 포함되어 있는지(Secret Scanning) 검사 후 빌드
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈소스(공개 설계) 보안 검증 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈소스 암호화 라이브러리 사용 결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개 취약점 데이터베이스 (CVE/NVD) 자동 스캐닝</div><div class="kb-diagram-note">──(SCA 도구 연동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; 취약점 발견 (Ex: Log4Shell) ──&gt;</div><div class="kb-diagram-node">즉각적인 버전 패치 및 배포</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">안전함 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비밀 변수(Key, Token)의 격리</div><div class="kb-diagram-note">──&gt; AWS Secrets Manager / HashiCorp Vault에 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 파이프라인</div><div class="kb-diagram-note">──&gt; 소스코드에 키가 포함되어 있는지(Secret Scanning) 검사 후 빌드</div></div>
+</div>
+</div>
+
+
 
 이 플로우의 핵심은 아키텍처와 코드를 공개/재사용하되, 그로 인해 파생되는 취약점 업데이트와 자격 증명(키) 노출 방지에 모든 역량을 쏟는다는 점이다. 이런 배치는 취약점이 발견되었을 때 커뮤니티의 패치를 즉각 수용할 수 있는 탄력성을 제공하기 때문이며, 따라서 조직은 독자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 유지보수하는 막대한 비용을 절감하고 키 관리라는 본질에만 집중할 수 있다.
 
@@ -171,7 +173,7 @@ tags = ["security"]
 | 독자 개발 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 치명적 결함으로 대규모 해킹 발생 | 전 세계 학자들의 검증을 통과한 수학적 완전성에 기반한 방어 |
 | 특정 벤더(제조사)의 블랙박스 솔루션에 기술 종속([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) | 투명한 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 사용으로 상호 운용성 및 시스템 유연성 확보 |
 
-미래의 정보보안은 양자 컴퓨터의 위협에 맞서는 **[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/), [Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))**의 시대로 넘어가고 있다. NIST가 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준을 선정하는 과정 역시, 전 세계 학자들이 자유롭게 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 제출하고 서로 공격하며 결함을 찾아내는 10년 간의 '초거대 공개 설계 공모전'이었다. 결국 투명한 공개와 검증만이 가장 완벽한 보안을 만들어내는 유일한 길이다.
+미래의 정보보안은 양자 컴퓨터의 위협에 맞서는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">Post-Quantum Cryptography</a>)</strong>의 시대로 넘어가고 있다. NIST가 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준을 선정하는 과정 역시, 전 세계 학자들이 자유롭게 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 제출하고 서로 공격하며 결함을 찾아내는 10년 간의 '초거대 공개 설계 공모전'이었다. 결국 투명한 공개와 검증만이 가장 완벽한 보안을 만들어내는 유일한 길이다.
 
 📢 **섹션 요약 비유**: 어둠 속에 혼자 숨어있는 것(Obscurity)보다, 밝은 광장에서 만인의 감시 아래 철저한 규칙대로 움직이는 것(Open Design)이 결국 가장 안전한 길입니다.
 
@@ -180,29 +182,31 @@ tags = ["security"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 - **Kerckhoffs's Principle (케르크호프스 원리)** | "암호 체계의 안전성은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 비밀성에 의존해서는 안 되며, 오직 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))의 비밀성에만 의존해야 한다"는 암호학의 제1원칙
-- **[Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) through Obscurity (숨김을 통한 보안)** | 시스템의 구조나 내부 동작을 숨겨 보안을 달성하려는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, 발견 시 시스템 붕괴를 초래함
-- **Symmetric/[Asymmetric Encryption](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/) (대칭/비대칭 암호화)** | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등 수학적 설계도는 모두 공개되어 있으나 비밀 키를 통해 강력한 보안을 유지하는 대표 사례
-- **[Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System ([KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/))** | 공개 설계 원칙 하에서 유일하게 감춰야 하는 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'들의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 저장, 로테이션을 전담하는 중앙 관리 시스템
-- **[Bug Bounty](/knowledge-base/studynote/09_security/13_secops_ir_forensics/680_bug_bounty/) ([버그 바운티](/knowledge-base/studynote/09_security/13_secops_ir_forensics/680_bug_bounty/))** | 공개된 시스템에 대해 전 세계 해커들에게 합법적으로 취약점을 찾게 하고 보상하여, 시스템의 결함을 조기에 고치는 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (숨김을 통한 보안)</strong> | 시스템의 구조나 내부 동작을 숨겨 보안을 달성하려는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, 발견 시 시스템 붕괴를 초래함
+- <strong>Symmetric/<a href="/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/">Asymmetric Encryption</a> (대칭/비대칭 암호화)</strong> | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등 수학적 설계도는 모두 공개되어 있으나 비밀 키를 통해 강력한 보안을 유지하는 대표 사례
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> System (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/">KMS</a>)</strong> | 공개 설계 원칙 하에서 유일하게 감춰야 하는 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'들의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 저장, 로테이션을 전담하는 중앙 관리 시스템
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/680_bug_bounty/">Bug Bounty</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/680_bug_bounty/">버그 바운티</a>)</strong> | 공개된 시스템에 대해 전 세계 해커들에게 합법적으로 취약점을 찾게 하고 보상하여, 시스템의 결함을 조기에 고치는 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[보안 원칙 (Security Principles) — 최소 권한·심층 방어·개방적 설계 등 시스템 설계 기초]
-│
-▼
-[공개 설계 원칙 (Open Design) — 보안은 알고리즘 공개, 비밀은 키(Key) 하나로 집중]
-│
-▼
-[케르크호프스 원리 (Kerckhoffs's Principle) — 암호 알고리즘은 공개해도 안전해야 한다]
-│
-▼
-[오픈소스 암호화 (AES, RSA, SHA) — 수학적 설계 완전 공개, 집단 지성으로 취약점 검증]
-│
-▼
-[버그 바운티 + KMS — 공개 환경에서 취약점 조기 발견, 유일한 비밀인 키를 중앙 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 원칙 (Security Principles) — 최소 권한·심층 방어·개방적 설계 등 시스템 설계 기초</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개 설계 원칙 (Open Design) — 보안은 알고리즘 공개, 비밀은 키(Key) 하나로 집중</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">케르크호프스 원리 (Kerckhoffs's Principle) — 암호 알고리즘은 공개해도 안전해야 한다</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈소스 암호화 (AES, RSA, SHA) — 수학적 설계 완전 공개, 집단 지성으로 취약점 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버그 바운티 + KMS — 공개 환경에서 취약점 조기 발견, 유일한 비밀인 키를 중앙 관리</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 보안 시스템의 신뢰를 비밀 유지가 아닌 공개된 수학적 견고성에 두는 공개 설계 원칙이 케르크호프스 원리로 이론화되고, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 [버그 바운티](/knowledge-base/studynote/09_security/13_secops_ir_forensics/680_bug_bounty/) 프로그램으로 실현되며, KMS가 유일한 비밀인 키를 안전하게 관리하는 현대 보안 체계로 완성되는 계보를 보여준다.
 

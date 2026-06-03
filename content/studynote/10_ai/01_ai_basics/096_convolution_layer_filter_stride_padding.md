@@ -29,22 +29,23 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 **필터(Filter 또는 [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))**, **[스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))**, **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))**이라는 세 가지 핵심 요소로 작동한다. 필터가 입력 이미지 위를 슬라이딩하며 원소 간 곱(Element-wise Multiplication)의 합(내적)을 구하여 하나의 스칼라 값을 도출하고, 이 결과들을 모아 새로운 2차원 행렬인 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)을 만든다.
+[합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 <strong>필터(Filter 또는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong>, <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>)</strong>, <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong>이라는 세 가지 핵심 요소로 작동한다. 필터가 입력 이미지 위를 슬라이딩하며 원소 간 곱(Element-wise Multiplication)의 합(내적)을 구하여 하나의 스칼라 값을 도출하고, 이 결과들을 모아 새로운 2차원 행렬인 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)을 만든다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   합성곱 연산과 파라미터의 역할                        │
-├────────────────────────────────────────────────────────────────────────┤
-│  [입력 이미지 (Input)]        [필터 (Filter)]        [특성 맵 (Map)]   │
-│  ┌─┬─┬─┬─┐ (Padding=0)        ┌─┬─┐               ┌─┬─┬─┐              │
-│  │1│0│1│0│                    │1│0│               │2│1│3│              │
-│  ├─┼─┼─┼─┤ (Stride=1)  (내적) ├─┼─┤     ====>     ├─┼─┼─┤              │
-│  │0│1│1│1│ *────────* ──────▶ │0│1│               │1│2│2│              │
-│  ├─┼─┼─┼─┤                    └─┴─┘               ├─┼─┼─┤              │
-│  │1│0│1│0│                                        │1│1│1│              │
-│  └─┴─┴─┴─┘                                        └─┴─┴─┘              │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성곱 연산과 파라미터의 역할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 이미지 (Input)</div><div class="kb-diagram-node">필터 (Filter)</div><div class="kb-diagram-node">특성 맵 (Map)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ (Padding=0) ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ (Stride=1) (내적) ─ ─ ====&gt; ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">* * ▶</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)가 어떻게 돋보기의 보폭을 결정하고, 필터가 어떻게 이미지를 스캔하는지 보여준다. [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)를 키우면 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기가 작아지며 공간 정보가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다. 반대로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)은 원본 이미지 주변에 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-[padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 덧대어, 테두리 부분의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 막고 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 입력과 동일하게 유지하는 역할을 한다.
 
@@ -71,7 +72,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 모델을 설계할 때 가장 빈번한 판단은 **필터의 크기와 개수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**이다. 과거에는 $7 \times 7$이나 $5 \times 5$의 큰 필터를 단일 층으로 사용했으나, 현대에는 작은 $3 \times 3$ 필터를 여러 층으로 깊게 쌓는 방식을 표준으로 채택한다.
+실무에서 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 모델을 설계할 때 가장 빈번한 판단은 <strong>필터의 크기와 개수 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다. 과거에는 $7 \times 7$이나 $5 \times 5$의 큰 필터를 단일 층으로 사용했으나, 현대에는 작은 $3 \times 3$ 필터를 여러 층으로 깊게 쌓는 방식을 표준으로 채택한다.
 
 ### 기술사 판단: 설계 시 고려사항
 1. **필터 분해 (Filter Factorization)**: $5 \times 5$ 필터 1개를 쓰는 것보다 $3 \times 3$ 필터 2개를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 쓰는 것이 수용 영역(Receptive Field)은 같으면서 연산량 파라미터가 적고, 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))를 더 많이 거쳐 모델의 표현력이 증가한다.
@@ -96,28 +97,30 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))** | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층을 수십~수백 층 쌓아 올린 딥러닝 아키텍처 |
-| **[풀링 층](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/) ([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))** | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층 뒤에 붙어 특징 맵을 요약하고 크기를 줄이는 계층 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/">Convolutional Neural Network</a>)</strong> | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층을 수십~수백 층 쌓아 올린 딥러닝 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/">풀링 층</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling Layer</a>)</strong> | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 층 뒤에 붙어 특징 맵을 요약하고 크기를 줄이는 계층 |
 | **수용 영역 (Receptive Field)** | 최종 출력 뉴런 하나가 보고 있는 원본 이미지의 영역 크기 |
 | **이동 불변성 (Translation Invariance)** | 피사체가 왼쪽이나 오른쪽으로 이동해도 동일하게 인식하는 특성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MLP (다층 퍼셉트론) · 공간 정보 손실
-    │
-    ▼
-LeNet-5 (초기 CNN) · 합성곱 층(Conv) 개념 정립
-    │
-    ▼
-VGGNet · 작은 3x3 필터(Filter)의 깊은 누적
-    │
-    ▼
-ResNet · 잔차 연결과 패딩(Padding)을 통한 초심층망
-    │
-    ▼
-Vision Transformer (ViT) · 합성곱 한계 극복을 위한 어텐션 도입
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MLP (다층 퍼셉트론) · 공간 정보 손실</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LeNet-5 (초기 CNN) · 합성곱 층(Conv) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VGGNet · 작은 3x3 필터(Filter)의 깊은 누적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ResNet · 잔차 연결과 패딩(Padding)을 통한 초심층망</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Vision Transformer (ViT) · 합성곱 한계 극복을 위한 어텐션 도입</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

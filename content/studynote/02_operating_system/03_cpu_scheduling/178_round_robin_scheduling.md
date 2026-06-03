@@ -19,25 +19,26 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-라운드 로빈 스케줄링은 **준비된 프로세스를 원형 큐처럼 순서대로 돌리되, 각 프로세스가 CPU를 연속 점유할 수 있는 최대 시간을 제한하는 선점형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다. 프로세스가 할당받은 시간 안에 일을 끝내면 빠져나가고, 끝내지 못하면 큐의 뒤로 돌아가 다음 차례를 기다린다. 핵심은 "누구도 CPU를 오래 독점하지 못하게 한다"는 데 있다.
+라운드 로빈 스케줄링은 <strong>준비된 프로세스를 원형 큐처럼 순서대로 돌리되, 각 프로세스가 CPU를 연속 점유할 수 있는 최대 시간을 제한하는 선점형 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다. 프로세스가 할당받은 시간 안에 일을 끝내면 빠져나가고, 끝내지 못하면 큐의 뒤로 돌아가 다음 차례를 기다린다. 핵심은 "누구도 CPU를 오래 독점하지 못하게 한다"는 데 있다.
 
-이 방식이 필요해진 배경은 일괄 처리 시스템이 아닌 **시분할 (Time-sharing) 환경**이다. 사용자 여러 명이 같은 시스템을 함께 쓰는 상황에서 FCFS는 긴 작업 하나가 앞에 서면 뒤의 짧은 입력 처리까지 모두 멈추게 만든다. 반대로 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))나 [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First)는 짧은 작업에는 유리하지만, 실행 시간을 미리 알아야 하거나 긴 작업 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 유발할 수 있다. RR은 실행 시간을 몰라도 된다는 현실성과, 차례를 강제로 돌린다는 공정성을 결합한 해법이다.
+이 방식이 필요해진 배경은 일괄 처리 시스템이 아닌 <strong>시분할 (Time-sharing) 환경</strong>이다. 사용자 여러 명이 같은 시스템을 함께 쓰는 상황에서 FCFS는 긴 작업 하나가 앞에 서면 뒤의 짧은 입력 처리까지 모두 멈추게 만든다. 반대로 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))나 [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First)는 짧은 작업에는 유리하지만, 실행 시간을 미리 알아야 하거나 긴 작업 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 유발할 수 있다. RR은 실행 시간을 몰라도 된다는 현실성과, 차례를 강제로 돌린다는 공정성을 결합한 해법이다.
 
 아래 그림은 RR이 왜 "시분할의 기본형"으로 불리는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Round Robin as time-sharing                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Ready queue : P2 -> P3 -> P4                                      │
-│                  ▲                                                │
-│                  │ requeue if quantum expires                     │
-│ CPU ---------> [ P1 runs for q ]                                  │
-│                  │                                                │
-│                  ├─ finishes / blocks -> leave the queue          │
-│                  └─ still running -> move to tail                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round Robin as time-sharing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready queue : P2 -&gt; P3 -&gt; P4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requeue if quantum expires</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P1 runs for q</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ finishes / blocks -&gt; leave the queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ still running -&gt; move to tail</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 각 프로세스는 완전히 끝나지 않아도 "잠깐이라도" CPU를 경험한다. 사용자 체감에서는 여러 프로그램이 동시에 반응하는 것처럼 보이며, 운영체제는 이 환상을 타이머와 큐만으로 구현한다.
 
@@ -47,7 +48,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RR의 동작은 단순하지만, 실제로는 **타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·Ready 큐·[디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)·[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)**이 맞물려야 성립한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 프로세스를 실행시킬 때 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) `q`를 함께 설정하고, 타이머가 만료되면 현재 프로세스를 중단시켜 문맥을 저장한 뒤 다음 프로세스로 전환한다. 따라서 RR은 단순한 큐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, 하드웨어 타이머가 보장하는 선점 메커니즘 위에서만 구현된다.
+RR의 동작은 단순하지만, 실제로는 <strong>타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>·Ready 큐·<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">디스패처</a>·<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a></strong>이 맞물려야 성립한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 프로세스를 실행시킬 때 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) `q`를 함께 설정하고, 타이머가 만료되면 현재 프로세스를 중단시켜 문맥을 저장한 뒤 다음 프로세스로 전환한다. 따라서 RR은 단순한 큐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, 하드웨어 타이머가 보장하는 선점 메커니즘 위에서만 구현된다.
 
 | 이벤트 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 동작 | 의미 |
 | :--- | :--- | :--- |
@@ -59,23 +60,23 @@ RR의 동작은 단순하지만, 실제로는 **타이머 [인터럽트](/knowle
 
 다음 예시는 `q = 2 ms`일 때 RR이 어떻게 모든 프로세스의 첫 응답을 빠르게 보장하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example timeline with q = 2 ms                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ jobs : P1(5 ms), P2(3 ms), P3(1 ms) all arrive at t=0             │
-│                                                                    │
-│ time : 0    2    4    5    7    8    9                             │
-│ CPU  : | P1 | P2 | P3 | P1 | P2 | P1 |                             │
-│                                                                    │
-│ first response time                                                │
-│   P1 = 0 ms, P2 = 2 ms, P3 = 4 ms                                 │
-│                                                                    │
-│ rule : unfinished job returns to tail, finished job leaves        │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이때 중요한 성질은 **대기 상한선을 대략 계산할 수 있다**는 점이다. 준비 큐에 `n`개 프로세스가 있고 모두 같은 우선순위라면, 한 프로세스가 선점된 뒤 다시 CPU를 얻기까지 기다리는 시간은 대체로 `(n - 1) × q` 범위 안에서 이해할 수 있다. 즉 RR은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화보다는, "언제쯤 다시 차례가 오는가"를 예측 가능하게 만든다는 장점이 크다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example timeline with q = 2 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">jobs : P1(5 ms), P2(3 ms), P3(1 ms) all arrive at t=0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time : 0 2 4 5 7 8 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU :</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first response time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 = 0 ms, P2 = 2 ms, P3 = 4 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule : unfinished job returns to tail, finished job leaves</div></div>
+</div>
+</div>
+
+
+
+이때 중요한 성질은 <strong>대기 상한선을 대략 계산할 수 있다</strong>는 점이다. 준비 큐에 `n`개 프로세스가 있고 모두 같은 우선순위라면, 한 프로세스가 선점된 뒤 다시 CPU를 얻기까지 기다리는 시간은 대체로 `(n - 1) × q` 범위 안에서 이해할 수 있다. 즉 RR은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화보다는, "언제쯤 다시 차례가 오는가"를 예측 가능하게 만든다는 장점이 크다.
 
 - **📢 섹션 요약 비유**: RR은 회전문을 통과하는 규칙과 같다. 누구도 문을 붙잡고 오래 서 있을 수 없고, 한 바퀴 돌면 다시 차례가 오기 때문에 기다림이 무한정 늘어나지 않는다.
 
@@ -83,7 +84,7 @@ RR의 동작은 단순하지만, 실제로는 **타이머 [인터럽트](/knowle
 
 ## Ⅲ. 비교 및 연결
 
-RR을 다른 스케줄링과 비교하면, 이 알고리즘이 **최적화보다 공정성에 무게를 둔다**는 점이 분명해진다. FCFS는 구조가 단순하지만 긴 작업이 전체를 막아 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 악화되고, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)/SRTF는 평균 대기 시간은 줄이지만 실행 시간 예측과 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 문제가 있다. RR은 이론적 최단 평균 대기 시간을 포기하는 대신, 누구나 빠르게 첫 응답을 받도록 설계된다.
+RR을 다른 스케줄링과 비교하면, 이 알고리즘이 <strong>최적화보다 공정성에 무게를 둔다</strong>는 점이 분명해진다. FCFS는 구조가 단순하지만 긴 작업이 전체를 막아 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 악화되고, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)/SRTF는 평균 대기 시간은 줄이지만 실행 시간 예측과 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 문제가 있다. RR은 이론적 최단 평균 대기 시간을 포기하는 대신, 누구나 빠르게 첫 응답을 받도록 설계된다.
 
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 선점 여부 | 강한 목표 | 장점 | 약점 |
 | :--- | :---: | :--- | :--- | :--- |
@@ -93,7 +94,7 @@ RR을 다른 스케줄링과 비교하면, 이 알고리즘이 **최적화보다
 | [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 예 | 공정한 시간 분할 | 응답성, 기아 방지 | 평균 반환 시간은 비효율 가능 |
 | [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 예 | 응답성과 적응성 동시 확보 | RR보다 현실 친화적 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 튜닝이 복잡 |
 
-RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 내부에서 **각 큐를 돌리는 기본 메커니즘**으로 자주 쓰인다. 즉 "차례대로 짧게 나눠 준다"는 RR의 철학은 유지하되, 우선순위·I/O 성향·최근 CPU 사용량을 함께 고려하는 형태로 발전한 것이다.
+RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 내부에서 <strong>각 큐를 돌리는 기본 메커니즘</strong>으로 자주 쓰인다. 즉 "차례대로 짧게 나눠 준다"는 RR의 철학은 유지하되, 우선순위·I/O 성향·최근 CPU 사용량을 함께 고려하는 형태로 발전한 것이다.
 
 또한 RR은 "작업 길이를 몰라도 되는 공정한 분배"라는 점에서 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, 라운드 로빈 부하분산, 시분할 자원 배분 등 다른 분야로 철학이 확장된다. 다만 운영체제의 RR은 타이머 기반 선점과 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 전제로 하므로, 단순한 순번 배분과는 구별해서 이해해야 한다.
 
@@ -103,32 +104,35 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 RR을 쓸지 판단할 때 가장 먼저 보는 것은 **응답성 목표와 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)의 크기**다. 터미널, GUI (Graphical User Interface), 웹 요청처럼 짧은 상호작용이 많다면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유리하다. 반면 긴 계산 작업만 몰려 있는 배치 환경에서는 지나친 선점이 캐시와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용만 늘릴 수 있어, 더 긴 슬라이스나 다른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 적합하다.
+실무에서 RR을 쓸지 판단할 때 가장 먼저 보는 것은 <strong>응답성 목표와 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/">시간 할당량</a>의 크기</strong>다. 터미널, GUI (Graphical User Interface), 웹 요청처럼 짧은 상호작용이 많다면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유리하다. 반면 긴 계산 작업만 몰려 있는 배치 환경에서는 지나친 선점이 캐시와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용만 늘릴 수 있어, 더 긴 슬라이스나 다른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 적합하다.
 
-[시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)은 RR의 핵심 조절점이다. 너무 크면 사실상 FCFS처럼 동작해 뒤 프로세스의 첫 응답이 늦어진다. 너무 작으면 매 퀀텀마다 문맥 저장·복원, 캐시 웜업, [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 재사용 저하가 반복되어 CPU가 일보다 자리 교체에 바빠진다. 따라서 보통은 **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시간보다 충분히 크고, 짧은 CPU 버스트 다수를 한 번에 처리할 만큼은 짧은 값**을 찾는다.
+[시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)은 RR의 핵심 조절점이다. 너무 크면 사실상 FCFS처럼 동작해 뒤 프로세스의 첫 응답이 늦어진다. 너무 작으면 매 퀀텀마다 문맥 저장·복원, 캐시 웜업, [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 재사용 저하가 반복되어 CPU가 일보다 자리 교체에 바빠진다. 따라서 보통은 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 시간보다 충분히 크고, 짧은 CPU 버스트 다수를 한 번에 처리할 만큼은 짧은 값</strong>을 찾는다.
 
 아래 의사결정 흐름은 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 적용 여부를 빠르게 가르는 기준이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When RR is a good fit                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ need predictable response for many interactive tasks?             │
-│   ├─ yes -> choose RR or RR inside MLFQ                           │
-│   │         ├─ context-switch cost high? -> enlarge quantum       │
-│   │         └─ UI latency too high? -> shrink quantum carefully   │
-│   └─ no                                                           │
-│        ├─ strict deadline required? -> real-time scheduler        │
-│        └─ throughput-only batch? -> longer slice / batch policy   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When RR is a good fit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need predictable response for many interactive tasks?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; choose RR or RR inside MLFQ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ context-switch cost high? -&gt; enlarge quantum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ UI latency too high? -&gt; shrink quantum carefully</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ strict deadline required? -&gt; real-time scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ throughput-only batch? -&gt; longer slice / batch policy</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 중요한가?** 상호작용형 서비스라면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열이 기본 후보가 된다.
-2. **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 감당 가능한가?** 퀀텀이 너무 작으면 처리량이 오히려 감소한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>이 중요한가?</strong> 상호작용형 서비스라면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열이 기본 후보가 된다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 비용이 감당 가능한가?</strong> 퀀텀이 너무 작으면 처리량이 오히려 감소한다.
 3. **긴 작업의 공정성 보장이 필요한가?** RR은 기아를 줄이는 데 강하다.
-4. **하드 실시간 (Hard Real-Time)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?** RR은 [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 보장용 기본 해법이 아니다.
+4. <strong>하드 실시간 (Hard Real-Time)<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>?</strong> RR은 [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 보장용 기본 해법이 아니다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -142,11 +146,11 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 
 ## Ⅴ. 기대효과 및 결론
 
-RR의 가장 큰 효과는 **공정한 응답 기회 보장**이다. 긴 작업이 있더라도 다른 프로세스가 완전히 굶지는 않으며, 사용자는 여러 작업이 동시에 진행되는 듯한 체감을 얻는다. 그래서 RR은 시분할 운영체제의 역사에서 "현실적 선점 스케줄링의 출발점"으로 평가된다.
+RR의 가장 큰 효과는 <strong>공정한 응답 기회 보장</strong>이다. 긴 작업이 있더라도 다른 프로세스가 완전히 굶지는 않으며, 사용자는 여러 작업이 동시에 진행되는 듯한 체감을 얻는다. 그래서 RR은 시분할 운영체제의 역사에서 "현실적 선점 스케줄링의 출발점"으로 평가된다.
 
 하지만 RR은 만능이 아니다. 평균 반환 시간만 놓고 보면 더 나은 알고리즘이 있을 수 있고, [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)이 잘못 잡히면 장점이 단점으로 바뀐다. 또한 우선순위, 멀티코어, 캐시 친화도, 에너지 관리까지 고려하는 현대 운영체제는 RR을 단순 원형 그대로 쓰기보다 더 정교한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 속에 흡수한다.
 
-정리하면 RR은 **CPU 시간을 잘게 나누어 모두에게 돌아가게 만드는 공정성 중심 스케줄링**이다. 기억할 핵심은 분명하다. **작업 길이 예측 없이 응답성을 확보하는 데 강하지만, 품질은 결국 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) 설계에 달려 있다**는 점이다.
+정리하면 RR은 <strong>CPU 시간을 잘게 나누어 모두에게 돌아가게 만드는 공정성 중심 스케줄링</strong>이다. 기억할 핵심은 분명하다. <strong>작업 길이 예측 없이 응답성을 확보하는 데 강하지만, 품질은 결국 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/">시간 할당량</a> 설계에 달려 있다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: RR은 달리기 시합에서 모두에게 일정 거리씩 바통을 건네며 뛰게 하는 계주와 같다. 최고 기록만 노리는 방식은 아닐 수 있지만, 팀원 모두가 경기에 참여하게 만든다.
 
@@ -165,22 +169,24 @@ RR의 가장 큰 효과는 **공정한 응답 기회 보장**이다. 긴 작업�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-batch-oriented scheduling
-        │
-        ▼
-time-sharing requirement
-        │
-        ▼
-timer interrupt + preemption
-        │
-        ▼
-Round Robin scheduling
-        │
-        ├──────────────▶ response-time improvement
-        ├──────────────▶ quantum tuning problem
-        └──────────────▶ MLFQ / modern fair schedulers
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">batch-oriented scheduling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">time-sharing requirement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">timer interrupt + preemption</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Round Robin scheduling</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ response-time improvement</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ quantum tuning problem</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ / modern fair schedulers</div>
+</div>
+</div>
+
+
 
 이 흐름도는 RR이 단순한 고전 알고리즘이 아니라, 시분할 요구에서 출발해 현대 공정성 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 토대가 된 과정을 보여 준다.
 

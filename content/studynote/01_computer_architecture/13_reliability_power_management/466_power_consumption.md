@@ -27,28 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전력 소모가 왜 시스템 전체의 병목이 되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           전력 소모가 시스템 제약으로 번지는 흐름            │
-├──────────────────────────────────────────────────────────────┤
-│  더 많은 연산 요구                                            │
-│        │                                                      │
-│        ▼                                                      │
-│  스위칭 증가 / 전압·주파수 상승                               │
-│        │                                                      │
-│        ▼                                                      │
-│  칩 전력 증가                                                 │
-│        │                                                      │
-│  ┌─────┼───────────────┬───────────────────────────────┐      │
-│  ▼     ▼               ▼                               │      │
-│  발열  배터리 소모     전원부 부담                      │      │
-│  │     │               │                               │      │
-│  ▼     ▼               ▼                               │      │
-│  스로틀링  사용 시간 감소  냉각·패키지 비용 증가         │      │
-│        │               │                               │      │
-│        └─────── 시스템 성능/신뢰성 한계로 수렴 ─────────┘      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 소모가 시스템 제약으로 번지는 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더 많은 연산 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위칭 증가 / 전압·주파수 상승</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칩 전력 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발열 배터리 소모 전원부 부담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스로틀링 사용 시간 감소 냉각·패키지 비용 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 성능/신뢰성 한계로 수렴</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 전력 소모가 단일 숫자가 아니라 연쇄 제약의 출발점이라는 점이다. 전력을 제어하지 못하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높여도 유지되지 않고, 배터리 기반 기기에서는 사용 시간이 급감하며, 서버에서는 랙 밀도와 냉각비가 먼저 한계에 도달한다.
 
@@ -60,8 +53,8 @@ tags = ["studynote-computer-architecture"]
 
 디지털 회로의 총 전력은 보통 다음 두 성분으로 설명한다.
 
-- **[동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))**: 게이트가 0과 1 사이를 바꿀 때 커패시턴스를 충전·방전하며 드는 전력
-- **[정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/) ([Static Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/))**: 트랜지스터가 유휴 상태여도 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) (Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 때문에 계속 드는 전력
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">동적 전력</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/">Dynamic Power</a>)</strong>: 게이트가 0과 1 사이를 바꿀 때 커패시턴스를 충전·방전하며 드는 전력
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/">정적 전력</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/">Static Power</a>)</strong>: 트랜지스터가 유휴 상태여도 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) (Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 때문에 계속 드는 전력
 
 실무적으로는 다음 식이 출발점이 된다.
 
@@ -81,19 +74,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 총 전력이 어떤 경로로 발생하는지 압축해서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                총 전력 = 움직일 때 + 멈춰 있을 때            │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 부하                                                     │
-│   │                                                          │
-│   ├─ 연산 많음 ──▶ 스위칭 증가 ──▶ α·C·V²·f 증가 ──▶ 동적 전력 │
-│   │                                                          │
-│   └─ 대기 상태 ──▶ 누설 전류 지속 ───────────────▶ 정적 전력   │
-│                                                              │
-│ 동적 전력 + 정적 전력 ──▶ 총 전력 ──▶ 열 발생 ──▶ 온도 상승    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 전력 = 움직일 때 + 멈춰 있을 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 부하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 연산 많음 ──▶ 스위칭 증가 ──▶ α·C·V²·f 증가 ──▶ 동적 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대기 상태 ──▶ 누설 전류 지속 ▶ 정적 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 전력 + 정적 전력 ──▶ 총 전력 ──▶ 열 발생 ──▶ 온도 상승</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 특히 기억해야 할 것은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 영향력이다. 주파수는 선형으로, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 제곱으로 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)을 키운다. 그래서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 조금 더 필요하다고 무심코 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 주파수를 함께 올리면 소비 전력과 발열은 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 더 가파르게 증가한다.
 
@@ -128,15 +121,15 @@ tags = ["studynote-computer-architecture"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **부하 프로파일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 최대 부하가 짧게 반복되는가, 장시간 지속되는가?
-2. **지배 전력 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 비중이 큰가, 누설 전력이 큰가?
-3. **온도 연계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 온도 상승이 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 다시 키우는 악순환이 있는가?
-4. **제어 단위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 코어별, 클러스터별, 시스템 전체 중 어디까지 끌 수 있는가?
-5. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실 허용치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 응답시간 지연을 감수할 수 있는가, 즉시 복귀가 필요한가?
+1. <strong>부하 프로파일 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 최대 부하가 짧게 반복되는가, 장시간 지속되는가?
+2. <strong>지배 전력 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 비중이 큰가, 누설 전력이 큰가?
+3. <strong>온도 연계 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 온도 상승이 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 다시 키우는 악순환이 있는가?
+4. <strong>제어 단위 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 코어별, 클러스터별, 시스템 전체 중 어디까지 끌 수 있는가?
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 손실 허용치 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 응답시간 지연을 감수할 수 있는가, 즉시 복귀가 필요한가?
 
 ### 대표 의사결정
 
-- **서버·[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)**: 평균 전력뿐 아니라 랙당 전력 밀도와 전력 사용 효율 ([PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/), [Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))까지 계산해야 한다. 칩 효율이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 좋아지면 냉각 오버헤드도 연쇄적으로 줄어 총비용 효과가 커진다.
+- <strong>서버·<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a></strong>: 평균 전력뿐 아니라 랙당 전력 밀도와 전력 사용 효율 ([PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/), [Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/))까지 계산해야 한다. 칩 효율이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 좋아지면 냉각 오버헤드도 연쇄적으로 줄어 총비용 효과가 커진다.
 - **모바일 기기**: 순간 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 배터리 지속시간과 피부 온도 제한이 우선이다. 그래서 짧은 부스트 후 빠르게 저전력 상태로 내려오는 정책이 유리하다.
 - **임베디드·자동차**: 전력 소모는 발열뿐 아니라 신뢰성과 직결된다. 밀폐 공간에서는 온도 여유가 작아, 평균 전력보다 최악 조건의 열 축적을 보수적으로 봐야 한다.
 
@@ -175,25 +168,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고클럭 중심 설계
-    │
-    ▼
-동적 전력 (Dynamic Power) 중심 분석
-    │
-    ├──▶ DVFS (Dynamic Voltage and Frequency Scaling)
-    │
-    ▼
-정적 전력 (Static Power)·누설 전류 중요성 확대
-    │
-    ├──▶ 파워 게이팅 (Power Gating)
-    │
-    ▼
-전력 벽 (Power Wall)과 멀티코어 전환
-    │
-    ▼
-성능 대 와트 비 중심의 시스템 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고클럭 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 전력 (Dynamic Power) 중심 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ DVFS (Dynamic Voltage and Frequency Scaling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 전력 (Static Power)·누설 전류 중요성 확대</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 파워 게이팅 (Power Gating)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전력 벽 (Power Wall)과 멀티코어 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 대 와트 비 중심의 시스템 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 주파수 경쟁에서 출발해, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어와 유휴 차단을 거쳐, 오늘날의 에너지 효율 중심 컴퓨팅으로 이동한 맥락을 보여준다.
 

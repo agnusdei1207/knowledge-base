@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IETF에서 표준화한 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 초경량 애플리케이션 계층 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 
-- **목적**: CPU 성능과 메모리, 배터리가 극도로 제한된(Constrained) 스마트홈 센서나 소형 노드들이, **기존 인터넷 웹 표준(RESTful, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))의 문법을 거의 그대로 쓰면서도 전력을 아끼며 통신할 수 있도록 HTTP를 극도로 다이어트**시킨 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
+- **목적**: CPU 성능과 메모리, 배터리가 극도로 제한된(Constrained) 스마트홈 센서나 소형 노드들이, <strong>기존 인터넷 웹 표준(RESTful, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>)의 문법을 거의 그대로 쓰면서도 전력을 아끼며 통신할 수 있도록 HTTP를 극도로 다이어트</strong>시킨 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
-```text
-[MQTT]
-    │
-    ▼
-[CoAP]
-    │
-    └──▶ [LwM2M 표준 프로토콜 관리 메커니즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CoAP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,24 +47,28 @@ tags = ["studynote-network"]
 
 ### 2. 텍스트 대신 이진(Binary) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
 - [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더는 사람이 읽을 수 있는 텍스트([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/))라 크기가 큽니다.
-- [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 헤더는 텍스트를 버리고 기계만 아는 **딱 4바이트짜리 이진(Binary) 포맷**으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비를 극단적으로 줄였습니다.
+- [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 헤더는 텍스트를 버리고 기계만 아는 <strong>딱 4바이트짜리 이진(Binary) 포맷</strong>으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비를 극단적으로 줄였습니다.
 
 ### 3. 브로커(중개자) 없는 1:1 통신 구조
 - 어제 배운 MQTT는 무조건 중간에 '우체국(브로커)' 서버가 있어야 했습니다.
-- CoAP는 기존 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))처럼 **클라이언트(센서)와 서버가 브로커 없이 1:1로 직접([Client-Server](/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/)) 붙어서 통신**합니다.
+- CoAP는 기존 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))처럼 <strong>클라이언트(센서)와 서버가 브로커 없이 1:1로 직접(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/">Client-Server</a>) 붙어서 통신</strong>합니다.
 
 다이어트를 했음에도 불구하고 놀랍게도 HTTP의 영혼([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))을 그대로 유지합니다.
 - 스마트폰이 CoAP를 지원하는 전구에게 `GET /light`를 날리면 전구 상태가 오고, `PUT /light (value=on)`을 날리면 전구가 켜집니다. URI 주소를 쓰고 GET, POST, PUT, DELETE 메서드를 100% 동일하게 씁니다. 
 - 덕분에 중간에 간단한 변환기([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)-[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 하나만 두면, 일반 인터넷 웹 브라우저([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))로도 우리 집 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 센서들을 마치 웹페이지 보듯 부드럽게 조회하고 제어할 수 있습니다.
 
-```text
-[MQTT]
-    │
-    ▼
-[CoAP]
-    │
-    └──▶ [LwM2M 표준 프로토콜 관리 메커니즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CoAP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,7 +90,7 @@ CoAP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- HTTP가 암호화를 위해 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(SSL)를 쓰듯, CoAP는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 전용으로 가볍게 만든 **[DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) ([Datagram TLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/))**를 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 암호화합니다.
+- HTTP가 암호화를 위해 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(SSL)를 쓰듯, CoAP는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 전용으로 가볍게 만든 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/">DTLS</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/">Datagram TLS</a>)</strong>를 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 암호화합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,15 +121,19 @@ CoAP는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MQTT]
-    │
-    ▼
-[현재 개념: CoAP]
-    │
-    ├──▶ [확장 A: LwM2M 표준 프로토콜 관리 메커니즘]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MQTT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CoAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 CoAP는 MQTT에서 출발해 현재 메커니즘을 정교화하고, 이후 [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

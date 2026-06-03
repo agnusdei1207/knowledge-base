@@ -31,25 +31,25 @@ tags = ["studynote-it-management"]
 
 [정보 보안 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)의 핵심은 보호해야 할 대상의 본질적 목표인 'CIA 트라이애드([CIA Triad](/knowledge-base/studynote/09_security/01_intro_principles/001_cia_triad/))'를 달성하고, 이를 지키기 위해 3중 통제 장치를 구성하는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           정보 보안 관리 통제 프레임워크 (ISMS)            │
-├──────────────────────────────────────────────────────────────┤
-│                         [목표: CIA]                          │
-│     기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability) │
-│                              ▲                               │
-│ ┌─────────────────────────┼─────────────────────────┐ │
-│ │  기술적 통제 (Technical)│  관리적 통제 (Admin)    │ │
-│ │  - IPS/IDS 방화벽       │  - 보안 지침, 서약서    │ │
-│ │  - 암호화, 접근제어     │  - 직원 교육, 정기 감사 │ │
-│ ├─────────────────────────┴─────────────────────────┤ │
-│ │  물리적 통제 (Physical): 출입 통제, 무정전 전원 장치      │ │
-└──────────────────────────────────────────────────────────────┘
-```
 
-1. **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) (CIA)**: 정보가 인가된 자에게만 노출되며([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), 위변조 없이 정확히 유지되고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 필요할 때 언제든 접근 가능해야([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 한다.
-2. **위험 관리 체계 ([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))**: 조직의 자산을 식별하고, 가치를 산정한 뒤, 취약점(Vulnerability)과 위협(Threat)을 결합하여 위험도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 수치화한다.
-3. **다층적 통제 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))**: 단일 보안망의 붕괴를 막기 위해 IT 시스템에 의한 '기술적 통제', 서버룸 등에 대한 '물리적 통제', [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)과 임직원 교육을 통한 '관리적 통제'를 겹겹이 배치한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 보안 관리 통제 프레임워크 (ISMS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목표: CIA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 통제 (Technical)</div><div class="kb-diagram-cell">관리적 통제 (Admin)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IPS/IDS 방화벽</div><div class="kb-diagram-cell">- 보안 지침, 서약서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 암호화, 접근제어</div><div class="kb-diagram-cell">- 직원 교육, 정기 감사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 통제 (Physical): 출입 통제, 무정전 전원 장치</div></div>
+</div>
+</div>
+
+
+
+1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (CIA)</strong>: 정보가 인가된 자에게만 노출되며([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), 위변조 없이 정확히 유지되고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 필요할 때 언제든 접근 가능해야([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 한다.
+2. <strong>위험 관리 체계 (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong>: 조직의 자산을 식별하고, 가치를 산정한 뒤, 취약점(Vulnerability)과 위협(Threat)을 결합하여 위험도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 수치화한다.
+3. <strong>다층적 통제 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a>)</strong>: 단일 보안망의 붕괴를 막기 위해 IT 시스템에 의한 '기술적 통제', 서버룸 등에 대한 '물리적 통제', [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)과 임직원 교육을 통한 '관리적 통제'를 겹겹이 배치한다.
 
 - **📢 섹션 요약 비유**: 집을 지킬 때 튼튼 금고(기술적 통제)에 돈을 넣고, 대문에 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(물리적 통제)를 달고, 외출 전 창문 단속 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)(관리적 통제)를 가족과 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 3단계 방어선을 구축하는 것과 같다.
 
@@ -62,9 +62,9 @@ tags = ["studynote-it-management"]
 | 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 적용 사례 (실무 판단) |
 | :--- | :--- | :--- |
 | **위험 감소 (Mitigate)** | 위협 발생 가능성이나 영향을 수용 가능한 수준으로 낮춤 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 도입, 암호화 패치 적용 |
-| **[위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/) (Transfer)** | 발생 시 책임을 제3자에게 넘김 | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입, 외부 보안 관제(MSSP) 위탁 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/">위험 전가</a> (Transfer)</strong> | 발생 시 책임을 제3자에게 넘김 | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입, 외부 보안 관제(MSSP) 위탁 |
 | **위험 회피 (Avoid)** | 위험이 존재하는 프로세스나 시스템 자체를 폐기함 | 취약점이 많은 구형 레거시 시스템 조기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 종료 |
-| **[위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) (Accept)** | 대응 비용이 피해액보다 커서, 위험을 인지하고 안고 감 | 손실액이 미미한 저가치 자산의 경미한 취약점 방치 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">위험 수용</a> (Accept)</strong> | 대응 비용이 피해액보다 커서, 위험을 인지하고 안고 감 | 손실액이 미미한 저가치 자산의 경미한 취약점 방치 |
 
 [정보 보안 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)는 이 4가지 카드를 예산과 비즈니스 중요도에 따라 섞어 쓰는 고도의 포트폴리오 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. ITIL의 보안 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) 역시 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 일환으로 IT [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 전반에 녹아들어 있다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-it-management"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **CEO 및 임원진의 스폰서십 확보**: 보안 책임자가 권한 없이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만 내면 아무도 따르지 않는다. 보안 예산 책정과 서약서 징구에는 최고경영자의 의지가 가장 중요하다.
 2. **최약의 고리(사람) 통제 방안 마련**: 시스템 해킹보다 내부 직원의 포스트잇 비밀번호, 악성 이메일 클릭 한 번이 더 치명적이다. 정기적인 모의 훈련과 퇴사자 권한 즉각 회수 프로세스가 제대로 작동하는지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))해야 한다.
-3. **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)의 트레이드오프 조정**: 보안 수준을 높이면(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 등) 사용자의 편의성과 접근성은 떨어지기 마련이므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 본질을 침해하지 않는 선에서 타협점(Trade-off)을 찾는 아키텍처 판단이 필요하다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>과 <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>의 트레이드오프 조정</strong>: 보안 수준을 높이면(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 등) 사용자의 편의성과 접근성은 떨어지기 마련이므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 본질을 침해하지 않는 선에서 타협점(Trade-off)을 찾는 아키텍처 판단이 필요하다.
 
 - **📢 섹션 요약 비유**: 최고의 방패를 만들어도 방패를 든 병사가 적의 뇌물에 넘어가면 끝입니다. 시스템(방패) 구축보다 병사의 정신 교육(관리적 통제)과 행동 수칙 마련에 더 많은 실무 역량을 쏟아야 하는 이유입니다.
 
@@ -99,28 +99,30 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) ([Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)** | 정보 보안을 체계적으로 관리하기 위한 일련의 활동과 프레임워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/">ISMS</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/">Information Security Management</a> System)</strong> | 정보 보안을 체계적으로 관리하기 위한 일련의 활동과 프레임워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
 | **CIA 트라이애드** | 정보 보안의 핵심 3원칙: [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) |
-| **위험 평가 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)** | 자산, 위협, 취약점을 분석하여 조직이 직면한 위험의 크기를 정량/정성적으로 측정 |
-| **[PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) 사이클** | 계획, 실행, 점검, 조치로 이어지는 지속적인 관리 체계 개선 루프 |
+| <strong>위험 평가 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Assessment)</strong> | 자산, 위협, 취약점을 분석하여 조직이 직면한 위험의 크기를 정량/정성적으로 측정 |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/">PDCA</a> 사이클</strong> | 계획, 실행, 점검, 조치로 이어지는 지속적인 관리 체계 개선 루프 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개별적 보안 기술 도입 (방화벽, 백신)
-    │
-    ▼
-정보 자산 식별 및 위험 평가 (Risk Assessment)
-    │
-    ▼
-관리적 / 물리적 / 기술적 다층 통제 구축 (Defense in Depth)
-    │
-    ▼
-ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수
-    │
-    ▼
-지속적 보안 개선 (PDCA) 및 전사적 위험 관리 (ERM) 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별적 보안 기술 도입 (방화벽, 백신)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 자산 식별 및 위험 평가 (Risk Assessment)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관리적 / 물리적 / 기술적 다층 통제 구축 (Defense in Depth)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 보안 개선 (PDCA) 및 전사적 위험 관리 (ERM) 통합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 안티바이러스 기술 도입에서 출발하여, 위험 기반의 조직적 통제로 발전하고, 궁극적으로 기업 전사적 위험 관리 체계로 융합되는 과정을 보여준다.
 

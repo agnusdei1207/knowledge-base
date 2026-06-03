@@ -23,26 +23,27 @@ tags = ["studynote-ict-convergence"]
 
 이 기술이 필요한 가장 큰 이유는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things)의 배터리 문제다. 교량 내부 균열 센서, 농업 토양 센서, 물류 라벨, 의료 패치처럼 수천~수억 개 기기를 설치하는 환경에서는 "한 번 설치한 뒤 수년마다 배터리를 교체한다"는 가정이 운영비와 인건비 측면에서 쉽게 무너진다. 저전력 무선 기술이 발전해도 배터리가 남아 있는 한 유지보수 사슬은 사라지지 않는다.
 
-앰비언트 백스캐터는 이 문제를 정면으로 뒤집는다. **센서가 직접 전파를 만드는 대신, 주변 전파를 에너지와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 운반체로 재활용**하자는 발상이다. 즉 핵심은 더 강한 무선 송신이 아니라, "굳이 새로 만들 필요 없는 전파는 만들지 않는다"는 극한의 절전 철학이다.
+앰비언트 백스캐터는 이 문제를 정면으로 뒤집는다. <strong>센서가 직접 전파를 만드는 대신, 주변 전파를 에너지와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 운반체로 재활용</strong>하자는 발상이다. 즉 핵심은 더 강한 무선 송신이 아니라, "굳이 새로 만들 필요 없는 전파는 만들지 않는다"는 극한의 절전 철학이다.
 
-아래 그림은 능동 무선과 앰비언트 백스캐터의 구조 차이를 한눈에 보여 준다. 배터리와 발진기가 빠지는 순간, 센서 설계의 중심이 송신기에서 **반사 제어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**로 이동한다.
+아래 그림은 능동 무선과 앰비언트 백스캐터의 구조 차이를 한눈에 보여 준다. 배터리와 발진기가 빠지는 순간, 센서 설계의 중심이 송신기에서 <strong>반사 제어 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>로 이동한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Active radio vs ambient backscatter                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Active IoT                                                         │
-│   battery -> oscillator -> own carrier -> receiver                │
-│                                                                    │
-│ Ambient backscatter                                                │
-│   ambient RF -> tiny harvest / switch -> reflected signal         │
-│                                      -> nearby receiver            │
-│                                                                    │
-│ Result: maintenance power drops, but rate and range also shrink   │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 이 기술의 필요성은 "배터리를 더 오래 간다"가 아니라, **배터리 교체가 시스템 경제성을 무너뜨리는 영역에서 아예 다른 통신 방식을 제안한다**는 데 있다. 그래서 앰비언트 백스캐터는 고속 무선의 경쟁자가 아니라, 배터리 없는 초소형 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)를 가능하게 하는 별도 축으로 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active radio vs ambient backscatter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active IoT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">battery -&gt; oscillator -&gt; own carrier -&gt; receiver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambient backscatter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ambient RF -&gt; tiny harvest / switch -&gt; reflected signal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; nearby receiver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: maintenance power drops, but rate and range also shrink</div></div>
+</div>
+</div>
+
+
+
+즉 이 기술의 필요성은 "배터리를 더 오래 간다"가 아니라, <strong>배터리 교체가 시스템 경제성을 무너뜨리는 영역에서 아예 다른 통신 방식을 제안한다</strong>는 데 있다. 그래서 앰비언트 백스캐터는 고속 무선의 경쟁자가 아니라, 배터리 없는 초소형 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)를 가능하게 하는 별도 축으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 손전등을 직접 켜서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내는 대신, 이미 비치고 있는 가로등 빛을 거울로 반사해 메시지를 보내는 방식과 같다. 내 전등은 필요 없지만, 멀리 강하게 보내는 힘도 그만큼 약해진다.
 
@@ -59,29 +60,29 @@ tags = ["studynote-ict-convergence"]
 | [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 반사 특성을 바꿔 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변조 | 스위칭 속도, 부하 선택 | 0/1 구분이 희미해짐 |
 | 수신기 | 강한 직통파 속에서 약한 반사 차이를 검출 | 간섭 제거, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 복조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 반사 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 묻힘 |
 
-핵심 원리는 **[임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 변조 ([Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) Modulation)** 다. 센서가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 부하를 두 가지 상태로 바꾸면, 입사한 전파의 반사 계수도 달라진다. 어떤 상태에서는 더 많이 흡수되고, 다른 상태에서는 더 많이 반사된다. 수신기는 이 미세한 진폭·위상 차이를 읽어 센서의 0과 1을 복원한다. 실제 시스템에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 매핑은 구현마다 다르지만, 본질은 "새 전파 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"이 아니라 "기존 전파의 반사 특성 제어"다.
+핵심 원리는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> 변조 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a> Modulation)</strong> 다. 센서가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 부하를 두 가지 상태로 바꾸면, 입사한 전파의 반사 계수도 달라진다. 어떤 상태에서는 더 많이 흡수되고, 다른 상태에서는 더 많이 반사된다. 수신기는 이 미세한 진폭·위상 차이를 읽어 센서의 0과 1을 복원한다. 실제 시스템에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 매핑은 구현마다 다르지만, 본질은 "새 전파 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"이 아니라 "기존 전파의 반사 특성 제어"다.
 
-아래 구조에서 가장 중요한 지점은 수신기가 **센서에서 온 반사파만 듣는 것이 아니라, 원래 주변 전파의 직통 성분도 함께 받는다**는 사실이다. 그래서 수신기의 난제는 송신보다 복조에 더 가깝다.
+아래 구조에서 가장 중요한 지점은 수신기가 <strong>센서에서 온 반사파만 듣는 것이 아니라, 원래 주변 전파의 직통 성분도 함께 받는다</strong>는 사실이다. 그래서 수신기의 난제는 송신보다 복조에 더 가깝다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ambient backscatter link                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ TV / Wi-Fi AP ---------------- direct ambient wave ------------> RX│
-│          \                                                         │
-│           \-> Tag: rectifier + capacitor + switch                  │
-│                 state A : reflect less / absorb more               │
-│                 state B : reflect more / absorb less               │
-│                               \                                    │
-│                                \-- weak modulated reflection ----> │
-│                                                                    │
-│ RX task: separate tiny reflected delta from strong direct signal   │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-실무적으로는 harvested power가 마이크로와트급인 경우가 많아, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)율도 대개 낮고 동작 거리도 제한된다. 그러나 이 제약이 곧 무의미함을 뜻하지는 않는다. 구조물 균열 경보, 온도·습도 주기 보고, 단순 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처럼 **작은 페이로드를 오래 보내는 업무**에서는 극단적 저전력이 오히려 핵심 가치가 된다.
 
-즉 앰비언트 백스캐터의 핵심 원리는 세 단계로 정리된다. **주변 전파 존재**, **그 전파를 이용한 최소 구동**, **반사 특성 변경으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인코딩**이다. 이 세 축이 맞물릴 때 비로소 "배터리 없는 통신"이 현실이 된다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambient backscatter link</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TV / Wi-Fi AP ---------------- direct ambient wave ------------&gt; RX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\-&gt; Tag: rectifier + capacitor + switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state A : reflect less / absorb more</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state B : reflect more / absorb less</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\-- weak modulated reflection ----&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RX task: separate tiny reflected delta from strong direct signal</div></div>
+</div>
+</div>
+
+
+
+실무적으로는 harvested power가 마이크로와트급인 경우가 많아, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)율도 대개 낮고 동작 거리도 제한된다. 그러나 이 제약이 곧 무의미함을 뜻하지는 않는다. 구조물 균열 경보, 온도·습도 주기 보고, 단순 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처럼 <strong>작은 페이로드를 오래 보내는 업무</strong>에서는 극단적 저전력이 오히려 핵심 가치가 된다.
+
+즉 앰비언트 백스캐터의 핵심 원리는 세 단계로 정리된다. **주변 전파 존재**, **그 전파를 이용한 최소 구동**, <strong>반사 특성 변경으로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 인코딩</strong>이다. 이 세 축이 맞물릴 때 비로소 "배터리 없는 통신"이 현실이 된다.
 
 - **📢 섹션 요약 비유**: 사람이 소리를 크게 내서 말하는 대신, 지나가는 자동차 불빛에 손거울 각도만 바꿔 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주는 방식과 같다. 거울은 힘을 거의 안 쓰지만, 받아 보는 사람은 그 반짝임을 아주 세심하게 읽어야 한다.
 
@@ -99,11 +100,11 @@ tags = ["studynote-ict-convergence"]
 | 장점 | 구조 단순, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)에 강함 | 배터리 없는 센싱 네트워크에 유리 | 범용성, 안정성, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 우수 |
 | 약점 | 리더 의존성이 큼 | 주변 전파와 수신기 검출 성능에 민감 | 유지보수 전력 부담 존재 |
 
-수동형 RFID와의 차이는 특히 중요하다. 둘 다 반사를 활용하지만, RFID는 보통 **전용 리더가 먼저 전파를 쏴 주는 구조**다. 반면 앰비언트 백스캐터는 이미 존재하는 주변 통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 활용하므로, 전용 리더 없이도 특정 환경에서 링크를 만들 수 있다. 이 차이 때문에 적용 시나리오와 인프라 비용 구조가 달라진다.
+수동형 RFID와의 차이는 특히 중요하다. 둘 다 반사를 활용하지만, RFID는 보통 <strong>전용 리더가 먼저 전파를 쏴 주는 구조</strong>다. 반면 앰비언트 백스캐터는 이미 존재하는 주변 통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 활용하므로, 전용 리더 없이도 특정 환경에서 링크를 만들 수 있다. 이 차이 때문에 적용 시나리오와 인프라 비용 구조가 달라진다.
 
-또한 최근 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 논의에서 자주 언급되는 RIS (Reconfigurable Intelligent Surface) 와도 물리 계층 관점에서 통한다. 둘 다 전파의 반사 특성을 제어한다는 점은 같지만, 목적은 다르다. RIS는 주로 채널을 유리하게 바꾸는 인프라이고, 앰비언트 백스캐터는 그 반사 변화에 **센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 실어 보낸다**는 점에서 통신 노드에 더 가깝다.
+또한 최근 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 논의에서 자주 언급되는 RIS (Reconfigurable Intelligent Surface) 와도 물리 계층 관점에서 통한다. 둘 다 전파의 반사 특성을 제어한다는 점은 같지만, 목적은 다르다. RIS는 주로 채널을 유리하게 바꾸는 인프라이고, 앰비언트 백스캐터는 그 반사 변화에 <strong>센서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자체를 실어 보낸다</strong>는 점에서 통신 노드에 더 가깝다.
 
-즉 앰비언트 백스캐터는 "느린 RFID"도 아니고 "배터리 없는 Wi-Fi"도 아니다. 정확한 위치는 **주변 전파 재활용 기반의 초저전력 센서 통신**이다. 이 경계를 잡아야 적절한 요구사항을 붙일 수 있다.
+즉 앰비언트 백스캐터는 "느린 RFID"도 아니고 "배터리 없는 Wi-Fi"도 아니다. 정확한 위치는 <strong>주변 전파 재활용 기반의 초저전력 센서 통신</strong>이다. 이 경계를 잡아야 적절한 요구사항을 붙일 수 있다.
 
 - **📢 섹션 요약 비유**: 전용 무대 조명을 받아 연기하는 배우가 RFID라면, 앰비언트 백스캐터는 길거리 가로등 아래서 거울 각도로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내는 거리 예술가에 가깝다. 둘 다 빛을 쓰지만, 무대와 규칙이 다르다.
 
@@ -113,7 +114,7 @@ tags = ["studynote-ict-convergence"]
 
 실무에서 앰비언트 백스캐터가 설득력을 가지는 대표 장면은 "배터리를 갈기 어려운 곳"이다. 예를 들어 교량 내부 변형 센서, 냉장 유통 스마트 라벨, 피부 부착형 패치, 창고 자산 태그처럼 전송량은 작지만 수명 요구가 긴 경우다. 이때 매일 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수준의 상태 정보만 보내면 되므로, 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)보다 유지보수 제로에 가까운 운영이 더 큰 가치가 된다.
 
-반대로 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 문제에 이 기술을 적용하려 하면 실패한다. 영상 스트리밍, 실시간 로봇 제어, 수십 미터 이상의 안정적 양방향 링크처럼 **고속·장거리·고신뢰성**이 핵심인 업무는 여전히 능동 무선이 맞다. 또한 주변 전파 세기가 시간대나 장소에 따라 크게 흔들리면 링크 품질도 함께 흔들릴 수 있다. 그래서 설계 시에는 "배터리를 없앨 수 있는가"와 함께 "주변 전파를 신뢰할 수 있는가"를 동시에 봐야 한다.
+반대로 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 문제에 이 기술을 적용하려 하면 실패한다. 영상 스트리밍, 실시간 로봇 제어, 수십 미터 이상의 안정적 양방향 링크처럼 <strong>고속·장거리·고신뢰성</strong>이 핵심인 업무는 여전히 능동 무선이 맞다. 또한 주변 전파 세기가 시간대나 장소에 따라 크게 흔들리면 링크 품질도 함께 흔들릴 수 있다. 그래서 설계 시에는 "배터리를 없앨 수 있는가"와 함께 "주변 전파를 신뢰할 수 있는가"를 동시에 봐야 한다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -131,7 +132,7 @@ tags = ["studynote-ict-convergence"]
 - 센서 전력만 보고 수신기 복조 난이도와 게이트웨이 비용을 무시하는 경우
 - 금속 차폐, 인체 흡수, 복잡한 실내 다중경로 환경을 고려하지 않는 경우
 
-기술사 관점에서 이 기술의 포인트는 간단하다. **배터리를 없애는 대신, 링크 예산과 수신 복잡도를 더 엄격하게 관리하는 통신**이라는 점이다. 즉 비용이 사라지는 것이 아니라, 유지보수 비용이 물리 계층 설계 비용으로 옮겨 간다.
+기술사 관점에서 이 기술의 포인트는 간단하다. <strong>배터리를 없애는 대신, 링크 예산과 수신 복잡도를 더 엄격하게 관리하는 통신</strong>이라는 점이다. 즉 비용이 사라지는 것이 아니라, 유지보수 비용이 물리 계층 설계 비용으로 옮겨 간다.
 
 - **📢 섹션 요약 비유**: 양초를 들고 걷는 대신 달빛을 이용해 길을 찾는 셈이다. 양초값은 아끼지만, 구름이 끼는지 주변이 얼마나 밝은지는 훨씬 더 민감하게 따져야 한다.
 
@@ -139,11 +140,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-앰비언트 백스캐터 통신의 가장 큰 효과는 **센서 수명과 유지보수 모델을 근본적으로 바꾼다**는 점이다. 배터리 교체 주기에서 벗어나면 초소형 센서를 더 촘촘하게 배치할 수 있고, 물리적으로 접근하기 어려운 장소에도 장기 모니터링 체계를 만들 수 있다. 이것은 단순한 절전이 아니라 운영 구조 자체의 변화다.
+앰비언트 백스캐터 통신의 가장 큰 효과는 <strong>센서 수명과 유지보수 모델을 근본적으로 바꾼다</strong>는 점이다. 배터리 교체 주기에서 벗어나면 초소형 센서를 더 촘촘하게 배치할 수 있고, 물리적으로 접근하기 어려운 장소에도 장기 모니터링 체계를 만들 수 있다. 이것은 단순한 절전이 아니라 운영 구조 자체의 변화다.
 
-물론 전제조건도 분명하다. 주변 전파가 꾸준히 존재해야 하고, 수신기가 약한 반사 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 분리해 낼 수 있어야 하며, 응용이 저속·소용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 잘 맞아야 한다. 따라서 이 기술은 범용 무선 대체재라기보다, **배터리 없는 초저전력 센싱에 특화된 좁지만 강한 해법**으로 보는 편이 정확하다.
+물론 전제조건도 분명하다. 주변 전파가 꾸준히 존재해야 하고, 수신기가 약한 반사 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 분리해 낼 수 있어야 하며, 응용이 저속·소용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 잘 맞아야 한다. 따라서 이 기술은 범용 무선 대체재라기보다, <strong>배터리 없는 초저전력 센싱에 특화된 좁지만 강한 해법</strong>으로 보는 편이 정확하다.
 
-결론적으로 앰비언트 백스캐터는 "아주 작은 송신기"가 아니라 **주변 전파를 이용해 말하는 영리한 반사면**으로 기억하면 된다. 이 관점이 잡히면 왜 이 기술이 구조물 모니터링, 스마트 태그, 차세대 반사형 무선 인프라와 연결되는지가 선명해진다.
+결론적으로 앰비언트 백스캐터는 "아주 작은 송신기"가 아니라 <strong>주변 전파를 이용해 말하는 영리한 반사면</strong>으로 기억하면 된다. 이 관점이 잡히면 왜 이 기술이 구조물 모니터링, 스마트 태그, 차세대 반사형 무선 인프라와 연결되는지가 선명해진다.
 
 - **📢 섹션 요약 비유**: 직접 목청껏 외치는 사람이 아니라, 이미 울리고 있는 메아리에 자기 뜻을 살짝 섞어 보내는 사람과 같다. 그래서 힘은 적게 들지만, 언제 어디서 메아리가 생기는지 먼저 읽을 줄 알아야 한다.
 
@@ -163,24 +164,25 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-주변 RF 신호 존재
-        │
-        ▼
-미세 에너지 수집
-        │
-        ▼
-임피던스 스위칭으로 반사 변화
-        │
-        ▼
-수신기의 약한 반사파 검출
-        │
-        ▼
-무전원 센서 데이터 전송
-        │
-        ▼
-반사형 IoT / RIS 연계 무선 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주변 RF 신호 존재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">미세 에너지 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임피던스 스위칭으로 반사 변화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수신기의 약한 반사파 검출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무전원 센서 데이터 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반사형 IoT / RIS 연계 무선 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 "주변 전파 활용 → 최소 구동 전력 확보 → 반사 변조 → 복조 → 무전원 센싱 → 반사형 차세대 인프라 확장"으로 이어지는 기술 축을 보여 준다.
 

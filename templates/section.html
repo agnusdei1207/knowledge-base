@@ -3,7 +3,7 @@
 {% block content %}
 {{ section.content | safe }}
 {% if section.pages | length > 0 %}
-<h2 id="pages">문서</h2>
+<h2 id="pages">Pages</h2>
 <ul class="section-list" data-pagefind-ignore>
   {% for item in section.pages %}
   <li><a class="internal" href="{{ item.permalink | safe }}">{{ item.title }}</a></li>

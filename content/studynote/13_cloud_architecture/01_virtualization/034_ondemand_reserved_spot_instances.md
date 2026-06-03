@@ -41,15 +41,20 @@ tags = ["studynote-cloud"]
 
 ### Savings Plans (2019년 이후 표준)
 
-```
-Savings Plans 유형:
-  Compute Savings Plans: EC2·Lambda·Fargate 전체 적용
-  → 서비스·리전·인스턴스 패밀리 상관없이 적용
-  → 가장 유연한 RI 대체제
 
-  EC2 Instance Savings Plans: 특정 인스턴스 패밀리 고정
-  → Standard RI와 유사한 절감율
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Savings Plans 유형:</div>
+<div class="kb-diagram-note">Compute Savings Plans: EC2·Lambda·Fargate 전체 적용</div>
+<div class="kb-diagram-note">→ 서비스·리전·인스턴스 패밀리 상관없이 적용</div>
+<div class="kb-diagram-note">→ 가장 유연한 RI 대체제</div>
+<div class="kb-diagram-note">EC2 Instance Savings Plans: 특정 인스턴스 패밀리 고정</div>
+<div class="kb-diagram-note">→ Standard RI와 유사한 절감율</div>
+</div>
+</div>
+
+
 
 �� **섹션 요약 비유**: Savings Plans는 통합 교통 정기권이다 — 특정 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선(EC2 RI) 대신, 지하철·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)·따릉이(EC2·[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·Fargate) 모두 쓸 수 있는 정기권이다.
 
@@ -59,24 +64,28 @@ Savings Plans 유형:
 
 ### 스팟 인터럽션 처리 패턴
 
-```
-스팟 인터럽션 알림 (2분 전 경고):
-  http://169.254.169.254/latest/meta-data/spot/interruption-action
 
-권장 아키텍처:
-  Auto Scaling Group + Spot Fleet:
-    → 여러 인스턴스 타입·AZ 분산
-    → 인터럽션 시 자동 대체 인스턴스 시작
-    → 최대 1:3 (온디맨드:스팟) 비율 권장
 
-스팟에 적합한 워크로드:
-  ✅ 배치 처리 (Spark, Hadoop)
-  ✅ CI/CD 빌드 서버
-  ✅ 머신러닝 학습 (체크포인트 저장)
-  ✅ 비디오 인코딩
-  ❌ 데이터베이스 (상태 저장)
-  ❌ 실시간 서비스 API (중단 불가)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스팟 인터럽션 알림 (2분 전 경고):</div>
+<div class="kb-diagram-note">http://169.254.169.254/latest/meta-data/spot/interruption-action</div>
+<div class="kb-diagram-note">권장 아키텍처:</div>
+<div class="kb-diagram-note">Auto Scaling Group + Spot Fleet:</div>
+<div class="kb-diagram-note">→ 여러 인스턴스 타입·AZ 분산</div>
+<div class="kb-diagram-note">→ 인터럽션 시 자동 대체 인스턴스 시작</div>
+<div class="kb-diagram-note">→ 최대 1:3 (온디맨드:스팟) 비율 권장</div>
+<div class="kb-diagram-note">스팟에 적합한 워크로드:</div>
+<div class="kb-diagram-note">✅ 배치 처리 (Spark, Hadoop)</div>
+<div class="kb-diagram-note">✅ CI/CD 빌드 서버</div>
+<div class="kb-diagram-note">✅ 머신러닝 학습 (체크포인트 저장)</div>
+<div class="kb-diagram-note">✅ 비디오 인코딩</div>
+<div class="kb-diagram-note">❌ 데이터베이스 (상태 저장)</div>
+<div class="kb-diagram-note">❌ 실시간 서비스 API (중단 불가)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)는 대기 좌석 항공권이다 — 자리 나면 아주 저렴하게 탈 수 있지만, 자리가 없으면 내려야 한다. 중요한 회의(실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에는 쓰면 안 된다.
 
@@ -94,13 +103,19 @@ Savings Plans 유형:
 
 ### AWS Cost Explorer 활용
 
-```
-권장 RI/SP 확인:
-  Cost Explorer → Savings Plans recommendations
-  → 커버리지(Coverage): 현재 온디맨드 중 RI/SP 적용 비율
-  → 활용률(Utilization): 구매한 RI/SP 실제 사용 비율
-  → 미사용 RI: 환불·재판매 (RI Marketplace)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">권장 RI/SP 확인:</div>
+<div class="kb-diagram-note">Cost Explorer → Savings Plans recommendations</div>
+<div class="kb-diagram-note">→ 커버리지(Coverage): 현재 온디맨드 중 RI/SP 적용 비율</div>
+<div class="kb-diagram-note">→ 활용률(Utilization): 구매한 RI/SP 실제 사용 비율</div>
+<div class="kb-diagram-note">→ 미사용 RI: 환불·재판매 (RI Marketplace)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 최적화는 가정 재정 관리다 — 낭비(미사용 리소스) 없애기, 통신비 묶음(Savings Plans), 매달 나가는 구독 최적화(rightsizing)를 단계적으로 한다.
 
@@ -125,46 +140,53 @@ Savings Plans 유형:
 
 ## 📌 관련 개념 맵
 
-```
-EC2 인스턴스 구매 옵션
-├── 온디맨드 (기준 가격, 약정 없음)
-├── 예약 인스턴스
-│   ├── Standard RI (고정, 최대 72%)
-│   ├── Convertible RI (유연, 최대 54%)
-│   └── Savings Plans (서비스 유연, 표준)
-├── 스팟 인스턴스
-│   ├── 최대 90% 할인
-│   ├── 인터럽션 위험 (2분 경고)
-│   └── Spot Fleet + Auto Scaling
-└── FinOps
-    ├── Rightsizing (크기 최적화)
-    ├── Coverage & Utilization 지표
-    └── AWS Cost Explorer
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EC2 인스턴스 구매 옵션</div>
+<div class="kb-diagram-tree-item" style="--depth:0">온디맨드 (기준 가격, 약정 없음)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">예약 인스턴스</div>
+<div class="kb-diagram-note">── Standard RI (고정, 최대 72%)</div>
+<div class="kb-diagram-note">── Convertible RI (유연, 최대 54%)</div>
+<div class="kb-diagram-note">── Savings Plans (서비스 유연, 표준)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">스팟 인스턴스</div>
+<div class="kb-diagram-note">── 최대 90% 할인</div>
+<div class="kb-diagram-note">── 인터럽션 위험 (2분 경고)</div>
+<div class="kb-diagram-note">── Spot Fleet + Auto Scaling</div>
+<div class="kb-diagram-tree-item" style="--depth:0">FinOps</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Rightsizing (크기 최적화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Coverage &amp; Utilization 지표</div>
+<div class="kb-diagram-tree-item" style="--depth:2">AWS Cost Explorer</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              EC2 구매 옵션 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2006년       │ EC2 온디맨드 출시  │ AWS EC2 퍼블릭 베타           │
-│ 2009년       │ Reserved Instances │ 약정 할인 모델 도입           │
-│ 2009년       │ Spot Instances     │ 경매 기반 잉여 용량 제공       │
-│ 2018년       │ Spot 인터럽션 모델 │ 경매→고정가 전환, 예측 가능   │
-│ 2019년       │ Savings Plans      │ RI 대체, 서비스 간 유연성     │
-│ 2020년대     │ FinOps 체계화      │ 클라우드 비용 최적화 전문 분야 │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-온디맨드 → 예약 (약정 할인) → Savings Plans (유연)
-    ↓            ↓                    ↓
-기준 가격     1년 72% 절감       컴퓨팅 범위 자유
-    ↓
-스팟 인스턴스 → 인터럽션 처리 → 내결함성 아키텍처
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EC2 구매 옵션 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2006년</div><div class="kb-diagram-cell">EC2 온디맨드 출시</div><div class="kb-diagram-cell">AWS EC2 퍼블릭 베타</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2009년</div><div class="kb-diagram-cell">Reserved Instances</div><div class="kb-diagram-cell">약정 할인 모델 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2009년</div><div class="kb-diagram-cell">Spot Instances</div><div class="kb-diagram-cell">경매 기반 잉여 용량 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">Spot 인터럽션 모델</div><div class="kb-diagram-cell">경매→고정가 전환, 예측 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019년</div><div class="kb-diagram-cell">Savings Plans</div><div class="kb-diagram-cell">RI 대체, 서비스 간 유연성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">FinOps 체계화</div><div class="kb-diagram-cell">클라우드 비용 최적화 전문 분야</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">온디맨드 → 예약 (약정 할인) → Savings Plans (유연)</div>
+<div class="kb-diagram-note">기준 가격 1년 72% 절감 컴퓨팅 범위 자유</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스팟 인스턴스 → 인터럽션 처리 → 내결함성 아키텍처</div>
+</div>
+</div>
+
+
 
 ---
 

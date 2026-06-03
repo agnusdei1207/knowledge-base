@@ -38,68 +38,67 @@ tags = ["studynote-data-engineering"]
 
 ### 기본 Seq2Seq 아키텍처
 
-```
-입력: "나는 학교에 간다"
-         │
-    ┌────┴─────────────────────────┐
-    │         인코더 (Encoder)      │
-    │                               │
-    │  나 → [LSTM] → [LSTM] → [LSTM]│
-    │  는             학교에    간다  │
-    │                         h_n   │
-    │                   ┌─────┘     │
-    │              컨텍스트 벡터 c  │
-    │              (고정 길이 벡터) │
-    └───────────────────────────────┘
-                    │
-                    ↓
-    ┌───────────────────────────────┐
-    │         디코더 (Decoder)       │
-    │                               │
-    │  <SOS> → [LSTM] → [LSTM] → ...│
-    │             ↓         ↓       │
-    │            "I"      "go"      │
-    │                               │
-    │  컨텍스트 c가 초기 상태로 주입 │
-    └───────────────────────────────┘
-출력: "I go to school"
-```
 
-**핵심 문제: 정보 병목(Information [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**
 
-```
-입력 길이가 길수록:
-"나는 어제 학교 도서관에서 친구와 함께 수학 공부를 열심히 했다"
- ─────────────────────────────────────→  [단 하나의 벡터로 압축!]
- 30 단어                                  c ∈ ℝ^{512}  ← 손실 발생!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력: "나는 학교에 간다"</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더 (Encoder)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">는 학교에 간다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_n</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 벡터 c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고정 길이 벡터)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더 (Decoder)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"I" "go"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 c가 초기 상태로 주입</div></div>
+<div class="kb-diagram-note">출력: "I go to school"</div>
+</div>
+</div>
+
+
+
+<strong>핵심 문제: 정보 병목(Information <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 길이가 길수록:</div>
+<div class="kb-diagram-note">"나는 어제 학교 도서관에서 친구와 함께 수학 공부를 열심히 했다"</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">단 하나의 벡터로 압축!</div></div>
+<div class="kb-diagram-note">30 단어 c ∈ ℝ^{512} ← 손실 발생!</div>
+</div>
+</div>
+
+
 
 ### [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/) ([Attention Mechanism](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/))
 
 Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) to Align and Translate"
 
-```
-어텐션 가중치 계산 과정
-┌─────────────────────────────────────────────┐
-│                                             │
-│  인코더 은닉 상태: h_1, h_2, ..., h_T      │
-│           ↑     ↑              ↑            │
-│    e_{s,t} = score(s_{s-1}, h_t)            │
-│           = 정렬 점수 (Alignment Score)     │
-│                                             │
-│    α_{s,t} = softmax(e_{s,t})               │
-│           = 어텐션 가중치 (합 = 1)          │
-│                                             │
-│    c_s = Σ_t α_{s,t} · h_t                 │
-│       = 동적 컨텍스트 벡터 (매 스텝 갱신)  │
-│                                             │
-└─────────────────────────────────────────────┘
 
-예시: "I go to school" 생성 시
-  "I"   생성 → α 분포: [나:0.9, 는:0.05, 학교:0.02, 간다:0.03]
-  "go"  생성 → α 분포: [나:0.1, 는:0.05, 학교:0.05, 간다:0.8]
-  "to"  생성 → α 분포: [나:0.05, 는:0.1, 학교:0.8, 간다:0.05]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">어텐션 가중치 계산 과정</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더 은닉 상태: h_1, h_2, ..., h_T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">e_{s,t} = score(s_{s-1}, h_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 정렬 점수 (Alignment Score)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α_{s,t} = softmax(e_{s,t})</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 어텐션 가중치 (합 = 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c_s = Σ_t α_{s,t} · h_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 동적 컨텍스트 벡터 (매 스텝 갱신)</div></div>
+<div class="kb-diagram-note">예시: "I go to school" 생성 시</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">나:0.9, 는:0.05, 학교:0.02, 간다:0.03</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">나:0.1, 는:0.05, 학교:0.05, 간다:0.8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">나:0.05, 는:0.1, 학교:0.8, 간다:0.05</div></div>
+</div>
+</div>
+
+
 
 ### Bahdanau vs Luong 어텐션
 
@@ -119,33 +118,43 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [Learning](/know
 
 ### Seq2Seq 아키텍처 진화
 
-```
-2014: Vanilla Seq2Seq
-  단일 컨텍스트 벡터 → 정보 병목
-         ↓
-2015: Seq2Seq + Bahdanau Attention
-  동적 컨텍스트 벡터 → 병목 해결, 정렬 시각화 가능
-         ↓
-2017: Transformer (Attention Is All You Need)
-  셀프 어텐션으로 RNN 완전 대체 → 병렬화, 장거리 의존성 해결
-         ↓
-2018~: BERT, GPT 등 사전 학습 모델
-  대규모 코퍼스 사전 학습 + 다운스트림 파인튜닝
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2014: Vanilla Seq2Seq</div>
+<div class="kb-diagram-note">단일 컨텍스트 벡터 → 정보 병목</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2015: Seq2Seq + Bahdanau Attention</div>
+<div class="kb-diagram-note">동적 컨텍스트 벡터 → 병목 해결, 정렬 시각화 가능</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2017: Transformer (Attention Is All You Need)</div>
+<div class="kb-diagram-note">셀프 어텐션으로 RNN 완전 대체 → 병렬화, 장거리 의존성 해결</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2018~: BERT, GPT 등 사전 학습 모델</div>
+<div class="kb-diagram-note">대규모 코퍼스 사전 학습 + 다운스트림 파인튜닝</div>
+</div>
+</div>
+
+
 
 ### 어텐션 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) — 정렬 행렬(Alignment Matrix)
 
-```
-출력  │ 나 │ 는 │ 학교에│ 간다 │
-──────┼────┼────┼───────┼──────┤
-I     │ ██ │ ▒  │  ▒    │  ▒   │  ← "나"에 집중
-go    │ ▒  │ ▒  │  ▒    │  ██  │  ← "간다"에 집중
-to    │ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
-school│ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
 
-██ = 높은 어텐션 가중치
-→ 번역 시 어느 단어를 참조했는지 해석 가능 (설명 가능 AI)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력</div><div class="kb-diagram-cell">나</div><div class="kb-diagram-cell">는</div><div class="kb-diagram-cell">학교에</div><div class="kb-diagram-cell">간다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I</div><div class="kb-diagram-cell">██</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">← "나"에 집중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">go</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">██</div><div class="kb-diagram-cell">← "간다"에 집중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">to</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">██</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">← "학교에"에 집중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">school</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">██</div><div class="kb-diagram-cell">▒</div><div class="kb-diagram-cell">← "학교에"에 집중</div></div>
+<div class="kb-diagram-note">██ = 높은 어텐션 가중치</div>
+<div class="kb-diagram-note">→ 번역 시 어느 단어를 참조했는지 해석 가능 (설명 가능 AI)</div>
+</div>
+</div>
+
+
 
 | 특성 | Seq2Seq (w/o Attention) | Seq2Seq + Attention |
 |:---|:---|:---|
@@ -162,23 +171,28 @@ school│ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
 
 ### 기계 번역 시스템 구현 예시
 
-```
-훈련 파이프라인
-병렬 코퍼스 수집
-      ↓
-토큰화 + BPE (Byte Pair Encoding) 어휘 구축
-      ↓
-인코더-디코더 LSTM 학습
-      ↓
-Teacher Forcing (훈련) / Beam Search (추론)
-      ↓
-BLEU Score 평가
 
-Beam Search (빔 탐색):
-  - 매 스텝 상위 k개 후보 유지
-  - 탐욕적 디코딩(Greedy) 대비 번역 품질 향상
-  - k=4~10이 일반적
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">훈련 파이프라인</div>
+<div class="kb-diagram-note">병렬 코퍼스 수집</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">토큰화 + BPE (Byte Pair Encoding) 어휘 구축</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">인코더-디코더 LSTM 학습</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Teacher Forcing (훈련) / Beam Search (추론)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BLEU Score 평가</div>
+<div class="kb-diagram-note">Beam Search (빔 탐색):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">매 스텝 상위 k개 후보 유지</div>
+<div class="kb-diagram-tree-item" style="--depth:1">탐욕적 디코딩(Greedy) 대비 번역 품질 향상</div>
+<div class="kb-diagram-tree-item" style="--depth:1">k=4~10이 일반적</div>
+</div>
+</div>
+
+
 
 ### 산업 적용 사례
 
@@ -197,25 +211,28 @@ Beam Search (빔 탐색):
 
 ### Seq2Seq가 열어준 가능성
 
-```
-Seq2Seq 프레임워크의 적용 영역
-┌───────────────────────────────────────────┐
-│  입력 시퀀스        →    출력 시퀀스       │
-│  ─────────────────────────────────────   │
-│  한국어 문장        →    영어 번역         │
-│  긴 문서            →    요약문            │
-│  사용자 질문        →    챗봇 응답         │
-│  음성 파형          →    텍스트            │
-│  소스 코드          →    설명문            │
-│  SQL 자연어         →    쿼리문            │
-│  단백질 서열        →    구조 예측         │
-└───────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Seq2Seq 프레임워크의 적용 영역</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 시퀀스 → 출력 시퀀스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국어 문장 → 영어 번역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">긴 문서 → 요약문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 질문 → 챗봇 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음성 파형 → 텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 코드 → 설명문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 자연어 → 쿼리문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단백질 서열 → 구조 예측</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 시험 핵심 포인트
 
-1. **[컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) 병목**: 고정 길이 벡터의 정보 손실 문제
-2. **어텐션 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 계산**: `α = softmax(score(s, h))` → `c = Σα·h`
+1. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">컨텍스트 벡터</a> 병목</strong>: 고정 길이 벡터의 정보 손실 문제
+2. <strong>어텐션 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 계산</strong>: `α = softmax(score(s, h))` → `c = Σα·h`
 3. **Bahdanau vs Luong**: additive vs multiplicative 비교
 4. **Teacher Forcing**: 훈련 효율화 기법 (정답 토큰 강제 입력)
 5. **Beam Search**: 추론 품질 향상 기법
@@ -241,18 +258,21 @@ Seq2Seq 프레임워크의 적용 영역
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RNN Encoder-Decoder (고정 길이 Context Vector 병목)
-    │
-    ▼
-Attention: 매 출력 단어마다 입력 전체를 참조 (동적 가중치)
-    │
-    ▼
-Self-Attention → Transformer (병렬 처리 가능)
-    │
-    ▼
-BERT · GPT · T5 (Foundation Models)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RNN Encoder-Decoder (고정 길이 Context Vector 병목)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Attention: 매 출력 단어마다 입력 전체를 참조 (동적 가중치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Self-Attention → Transformer (병렬 처리 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BERT · GPT · T5 (Foundation Models)</div>
+</div>
+</div>
+
+
 2. [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) 없는 어텐션은 책을 다 읽고 메모지 하나에만 적어 두는 것, 어텐션이 있으면 번역할 때 원본 책을 다시 펼쳐볼 수 있어.
 3. 어텐션 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 번역가가 "이 영어 단어를 쓸 때 한국어의 어느 부분을 보고 있었는지" 색깔로 보여주는 지도야.
 

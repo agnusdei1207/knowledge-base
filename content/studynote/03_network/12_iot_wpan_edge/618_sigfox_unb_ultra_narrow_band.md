@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-프랑스의 스타트업 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)([Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 주도하여 상용화한 **비면허 대역 기반의 초저전력 장거리([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)) 무선 통신 기술이자 글로벌 독점 서비스망**입니다. [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))의 가장 강력한 라이벌이었습니다.
+프랑스의 스타트업 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)([Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 주도하여 상용화한 <strong>비면허 대역 기반의 초저전력 장거리(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a>) 무선 통신 기술이자 글로벌 독점 서비스망</strong>입니다. [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))의 가장 강력한 라이벌이었습니다.
 
-```text
-[LoRa / LoRaWAN 표준]
-    │
-    ▼
-[Sigfox]
-    │
-    └──▶ [면허 대역 LPWAN 분야]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Sigfox는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)가 전력 소모를 미친 듯이 줄이고 통달 거리를 극대화한 비결은 대역폭을 쥐어짜 낸 데 있습니다.
-- **원리**: Wi-Fi나 LTE가 20,000kHz 단위의 넓은 고속도로 폭을 쓸 때, [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)는 고작 **100Hz (0.1kHz)**라는 바늘구멍처럼 좁디좁은 골목길 차선을 만듭니다. (Ultra Narrow Band)
+- **원리**: Wi-Fi나 LTE가 20,000kHz 단위의 넓은 고속도로 폭을 쓸 때, [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)는 고작 <strong>100Hz (0.1kHz)</strong>라는 바늘구멍처럼 좁디좁은 골목길 차선을 만듭니다. (Ultra Narrow Band)
 - 이 좁은 틈으로 전파 에너지를 고밀도로 집중시켜 발사하므로, 배터리 소모가 거의 없이 엄청나게 맑고 선명한 신호로 수십 km 밖의 기지국까지 전파를 꽂아 넣을 수 있습니다.
-- 대신 한 번에 보낼 수 있는 데이터양은 고작 **하루 최대 140회, 회당 12바이트(글자 몇 개 수준)**로 극도로 제한됩니다. 속도도 **100bps** 수준으로 거북이보다 느립니다. ([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 등 양방향 통신은 사실상 포기한 수준)
+- 대신 한 번에 보낼 수 있는 데이터양은 고작 <strong>하루 최대 140회, 회당 12바이트(글자 몇 개 수준)</strong>로 극도로 제한됩니다. 속도도 **100bps** 수준으로 거북이보다 느립니다. ([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 등 양방향 통신은 사실상 포기한 수준)
 
-```text
-[LoRa / LoRaWAN 표준]
-    │
-    ▼
-[Sigfox]
-    │
-    └──▶ [면허 대역 LPWAN 분야]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Sigfox의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,8 +64,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)(LoRaWAN)**: "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 사다가 네 농장에 니가 직접 알아서 사설망(Private) 구축해!"라는 개방형 생태계입니다.
-- **[시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)([Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/))**: "우리가(프랑스 본사가) SKT처럼 전 세계 주요 국가와 위성에 우리 돈으로 직접 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 기지국 쫙 깔아놓을 테니까, 넌 우리 망에 붙는 센서만 만들고 **우리한테 1년에 통신비 몇 백 원씩 내!**"라는 철저한 '글로벌 단일 퍼블릭(Public) 망' 사업자 모델을 구축했습니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>(LoRaWAN)</strong>: "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 사다가 네 농장에 니가 직접 알아서 사설망(Private) 구축해!"라는 개방형 생태계입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">시그폭스</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">Sigfox</a>)</strong>: "우리가(프랑스 본사가) SKT처럼 전 세계 주요 국가와 위성에 우리 돈으로 직접 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 기지국 쫙 깔아놓을 테니까, 넌 우리 망에 붙는 센서만 만들고 **우리한테 1년에 통신비 몇 백 원씩 내!**"라는 철저한 '글로벌 단일 퍼블릭(Public) 망' 사업자 모델을 구축했습니다.
 - 프랑스 서버를 통해 전 세계 데이터가 모이기 때문에, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 화물에 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 칩을 달아놓으면 유럽에서 출발해 남미, 아시아로 가는 동안 칩을 교체하거나 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 설정할 필요 없이 전 세계 추적이 가능합니다.
 
 Sigfox를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준이 기반 조건을 만든다면, Sigfox는 그 위에서 핵심 메커니즘을 구현하고, 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -75,7 +83,7 @@ Sigfox를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 극강의 저렴한 센서 단가(몇천 원)와 초저전력으로 수도 미터기 등 단순 수집용 시장에서 맹활약했습니다.
-- 하지만 너무 폐쇄적인 독점 구조, 회당 12바이트라는 너무 치명적인 속도 한계, 그리고 무엇보다 거대 통신사들이 주도하는 면허 대역의 **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)**이 무섭게 추격해 오면서, 2022년 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 본사가 파산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 신청을 하는 등 비면허 대역 퍼블릭망의 비즈니스적 한계를 여실히 보여주었습니다.
+- 하지만 너무 폐쇄적인 독점 구조, 회당 12바이트라는 너무 치명적인 속도 한계, 그리고 무엇보다 거대 통신사들이 주도하는 면허 대역의 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>/<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a></strong>이 무섭게 추격해 오면서, 2022년 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 본사가 파산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 신청을 하는 등 비면허 대역 퍼블릭망의 비즈니스적 한계를 여실히 보여주었습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,15 +114,19 @@ Sigfox는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LoRa / LoRaWAN 표준]
-    │
-    ▼
-[현재 개념: Sigfox]
-    │
-    ├──▶ [확장 A: 면허 대역 LPWAN 분야]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Sigfox</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 Sigfox는 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

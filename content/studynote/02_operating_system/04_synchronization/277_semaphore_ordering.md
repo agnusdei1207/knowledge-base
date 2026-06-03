@@ -19,36 +19,33 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-뮤텍스는 "이 구역에 두 명 이상 들어오지 마!"라고 외치는 경비원이다 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)). 반면 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 초기값에 따라 역할을 바꿀 수 있는데, 가장 마법같은 응용이 바로 "A가 끝날 때까지 B 넌 잠깐 자면서 기다려!"라는 **순서 보장(Ordering)**이다.
+뮤텍스는 "이 구역에 두 명 이상 들어오지 마!"라고 외치는 경비원이다 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)). 반면 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 초기값에 따라 역할을 바꿀 수 있는데, 가장 마법같은 응용이 바로 "A가 끝날 때까지 B 넌 잠깐 자면서 기다려!"라는 <strong>순서 보장(Ordering)</strong>이다.
 
 운영체제에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 순서는 실행 완료 순서를 결코 보장하지 못한다. B가 A의 결과를 기반으로 움직여야 한다면, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하며 반복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것은 최악의 코드다. 이 때 초기값 정수 `0` [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 우아하게 해법을 제시한다.
 
 **💡 비유**: 육상 경기 이어달리기에서 배턴 터치(Baton Pass). 2번 주자는 마음만 급해서 먼저 달릴 수 없고, 1번 주자([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A)가 도착하여 배턴([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 건네줄 때까지 지정선(Wait)에서 강제 대기해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│         초기값 0 세마포어를 활용한 A → B 순서 제어             │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  Semaphore sync = 0;  // ★ 핵심: 초기값을 0으로 시작           │
-│                                                                │
-│  [스레드 A (선행 요건)]       [스레드 B (의존 요건)]           │
-│                                                                │
-│                               (먼저 스케줄링 되어 도착 시)     │
-│                               sync.wait();  // -1 감소시도     │
-│                               // 0이므로 Blocked(수면 대기)    │
-│                                                                │
-│  작업_A() 실행;                                                │
-│  (A의 연산 완료)                                               │
-│  sync.signal();  // +1 증가                                    │
-│  // 0 > 1 (잠든 B 깨움!)                                       │
-│                                                                │
-│                               (B는 이제 깨어나 통과)           │
-│                               작업_B() 실행;                   │
-│                                                                │
-│  결과: 스케줄러가 B를 먼저 던져놔도 확실하게 A 먼저 실행됨.    │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기값 0 세마포어를 활용한 A → B 순서 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semaphore sync = 0; // ★ 핵심: 초기값을 0으로 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A (선행 요건)</div><div class="kb-diagram-node">스레드 B (의존 요건)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(먼저 스케줄링 되어 도착 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync.wait(); // -1 감소시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 0이므로 Blocked(수면 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업_A() 실행;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A의 연산 완료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync.signal(); // +1 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 0 &gt; 1 (잠든 B 깨움!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(B는 이제 깨어나 통과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업_B() 실행;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 스케줄러가 B를 먼저 던져놔도 확실하게 A 먼저 실행됨.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 순서 제어 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 영화 세트장의 슬레이트(딱장이) — "액션!"([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 외치기 전까지 배우(후행 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))들은 감정만 잡고 정지(Wait)해 있다가, 신호가 떨어져야만 연기를 시작합니다.
 
@@ -60,24 +57,23 @@ tags = ["studynote-operating-system"]
 
 단방향을 넘어 A와 B가 서로 특정 지점까지 도착했음을 핑퐁처럼 알려야 할 때 2개의 '0' [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 교차로 투입된다. (이 패턴은 현대의 장벽 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Barrier)나 Promise/Future 구조의 원류가 되었다.)
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         A와 B의 교차 랑데부 순서 동기화                      │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Semaphore A_도착 = 0;                                       │
-│  Semaphore B_도착 = 0;                                       │
-│                                                              │
-│  [스레드 A]                   [스레드 B]                     │
-│  PartA_1 실행                 PartB_1 실행                   │
-│                                                              │
-│  A_도착.signal()              B_도착.signal()                │
-│  B_도착.wait()                A_도착.wait()                  │
-│                                                              │
-│  // 서로의 1번 파트가 완료되어야만 아래로 같이 뚫고 내려감   │
-│  PartA_2 실행                 PartB_2 실행                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A와 B의 교차 랑데부 순서 동기화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semaphore A_도착 = 0;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semaphore B_도착 = 0;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PartA_1 실행 PartB_1 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A_도착.signal() B_도착.signal()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B_도착.wait() A_도착.wait()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 서로의 1번 파트가 완료되어야만 아래로 같이 뚫고 내려감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PartA_2 실행 PartB_2 실행</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 랑데부는 군첩 작전 시 양쪽 문 밀고 들어가기 — A가 한쪽 문에 도착해서 "나 왔어([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))", B도 반대쪽 문에서 "나도 왔어([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))" 해야만 서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Wait) 풀고 발로 차고(Part_2) 침투합니다.
 
@@ -87,10 +83,10 @@ tags = ["studynote-operating-system"]
 
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구 | 동작 상태 (초기값) | 주 활용 목적 | 순서 제어 능력 |
 |:---|:---|:---|:---|
-| **뮤텍스 ([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))** | Unlocked (1) 수준 | 탈선 방지 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) | 없음 (먼저 락 잡는 자재 마음) |
+| <strong>뮤텍스 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">Mutex Lock</a>)</strong> | Unlocked (1) 수준 | 탈선 방지 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) | 없음 (먼저 락 잡는 자재 마음) |
 | **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (초기값 N>1)** | N | 카운트 자원 분배 제한 | 제한적 룸 인원 관리 |
-| **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (초기값 0)** | 0 | **이벤트 통지 및 순서강제** | **완벽한 선후행 인과 강제** |
-| **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))** | N/A (상태체크 연계) | 복합적 조건 성립 통지 | 상태 변수를 통한 고차원 통과/대시 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> (초기값 0)</strong> | 0 | **이벤트 통지 및 순서강제** | **완벽한 선후행 인과 강제** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/">CV</a>)</strong> | N/A (상태체크 연계) | 복합적 조건 성립 통지 | 상태 변수를 통한 고차원 통과/대시 |
 
 **📢 섹션 요약 비유**: 뮤텍스는 "한 명씩 들어가!"(화장실 룰), 조건변수는 "비 오면 출발!"(환경 체크), [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(0)는 "형이 열쇠 던져줄 때 들어가!"(순서 배턴).
 
@@ -99,11 +95,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **서버 초기화 로직 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 부팅**: 메인 함수 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 DB 연결 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)), 네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 리스닝 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 비동기로 파생시킨다. 메인은 `db_sem.wait()`, `net_sem.wait()` 한 후 접속 OK 사인이 다 떨어져야 `StartService()` 본질을 선포한다 (초기화 파이프캐스팅).
+1. <strong>서버 초기화 로직 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 부팅</strong>: 메인 함수 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 DB 연결 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)), 네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 리스닝 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 비동기로 파생시킨다. 메인은 `db_sem.wait()`, `net_sem.wait()` 한 후 접속 OK 사인이 다 떨어져야 `StartService()` 본질을 선포한다 (초기화 파이프캐스팅).
 2. **이벤트 리스너 / 콜백 래퍼**: 안드로이드나 레거시 콜백 헬(Callback Hell)을 선형 코드로 바꿀 때, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청 후 `sem.wait()` 걸어 재우고, 콜백 응답 도착 함수 내에서 `sem.signal()`로 깨워 동기식(Sync)처럼 래핑하는 최적화 (Modern async/await의 원시 구조).
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **반대로 꼬인 Wait/[Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 락데드 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 유실)**: 실수로 양방향 랑데뷰에서 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `wait()`부터 하고 나중에 `signal()`을 주는 식으로 코딩 데드락을 짜는 초보적 실수. (A도 자고, B도 자고 영원히 못 깸).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>반대로 꼬인 Wait/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> 락데드 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a> 유실)</strong>: 실수로 양방향 랑데뷰에서 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `wait()`부터 하고 나중에 `signal()`을 주는 식으로 코딩 데드락을 짜는 초보적 실수. (A도 자고, B도 자고 영원히 못 깸).
 
 **📢 섹션 요약 비유**: 콜백을 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 기다리는 건 패스트푸드 진동벨 (순서 보장) — 주문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 콜)하고 자리에 엎드려 자면(Wait), 조리가 다 끝났을 때 알바가 징징 진동벨([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 울려 깨우는 패턴이죠.
 
@@ -117,7 +113,7 @@ tags = ["studynote-operating-system"]
 | 응답 반응 속도| [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 루프 주기 종속 | [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 즉시 OS가 최상위 선점 할당 |
 | 멀티 배리어 | 변수 여러개 while 체크로 코딩 난해 | Count [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)/Barrier 조합 명쾌 |
 
-[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 가용한 자원을 세는 변수가 아니라 **순서를 통제하는 이벤트 신호기(Signaling mechanism)**로 응용한 것은 컴퓨터 과학 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 역사에 위대한 기법 전환이다. 현대에서는 `Promise`, `CountDownLatch`, `Event Object` 등 보다 고차원 객체로 포장되어 개발자에게 제공되지만, OS 계층 밑바닥의 DNA는 초기값 0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)와 본질적으로 동일하다.
+[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 가용한 자원을 세는 변수가 아니라 <strong>순서를 통제하는 이벤트 신호기(Signaling mechanism)</strong>로 응용한 것은 컴퓨터 과학 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 역사에 위대한 기법 전환이다. 현대에서는 `Promise`, `CountDownLatch`, `Event Object` 등 보다 고차원 객체로 포장되어 개발자에게 제공되지만, OS 계층 밑바닥의 DNA는 초기값 0 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)와 본질적으로 동일하다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -134,15 +130,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-    │
-    ▼
-[세마포어를 이용한 순서 제어 (Ordering)]
-    │
-    ├──▶ [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
-    └──▶ [재진입 가능 락 (Reentrant Lock / Recursive Lock)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데드락 회피를 위한 Lock Hierarchy (락 순서화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어를 이용한 순서 제어 (Ordering)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이진 세마포어 vs 뮤텍스 차이 (소유권 유무)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재진입 가능 락 (Reentrant Lock / Recursive Lock)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

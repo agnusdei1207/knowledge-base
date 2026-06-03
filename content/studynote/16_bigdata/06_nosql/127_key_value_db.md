@@ -24,26 +24,28 @@ tags = ["studynote-bigdata"]
 ### 핵심 개념
 [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)([Key-Value Store](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/))는 고유한 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 임의의 값(Value)을 쌍으로 저장한다. 내부 구조는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)(DHT, Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))로, `해시(key) → 노드 위치`를 결정하여 O(1) 접근을 보장한다.
 
-```text
-┌─────────────────────────────────────────────────┐
-│       키-값 데이터베이스 기본 구조                  │
-├────────────────────┬────────────────────────────┤
-│        KEY         │          VALUE             │
-├────────────────────┼────────────────────────────┤
-│ session:user_1234  │ {"name":"홍길동","cart":[]} │
-│ product:SKU-9900   │ {"price":29900,"stock":50} │
-│ rate_limit:ip_x    │ 142                        │
-│ leaderboard:score  │ [sorted member list]       │
-└────────────────────┴────────────────────────────┘
-  핵심: Key = 유일 식별자, Value = 임의 형식(바이너리 가능)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키-값 데이터베이스 기본 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KEY</div><div class="kb-diagram-cell">VALUE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">session:user_1234</div><div class="kb-diagram-cell">{"name":"홍길동","cart":[]}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">product:SKU-9900</div><div class="kb-diagram-cell">{"price":29900,"stock":50}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rate_limit:ip_x</div><div class="kb-diagram-cell">142</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">leaderboard:score</div><div class="kb-diagram-node">sorted member list</div></div>
+<div class="kb-diagram-note">핵심: Key = 유일 식별자, Value = 임의 형식(바이너리 가능)</div>
+</div>
+</div>
+
+
 
 ### 대표 솔루션 비교
 
 | 솔루션 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델 | 특징 |
 |:---:|:---:|:---:|:---|
-| **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)** | 인메모리 + 지속성 | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(단일 노드) | 다양한 자료구조, Pub/Sub, 클러스터 |
-| **[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)** | 완전 관리형 | 조정 가능(Eventual/Strong) | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 무제한 확장, AWS 통합 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a></strong> | 인메모리 + 지속성 | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(단일 노드) | 다양한 자료구조, Pub/Sub, 클러스터 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/">DynamoDB</a></strong> | 완전 관리형 | 조정 가능(Eventual/Strong) | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 무제한 확장, AWS 통합 |
 | **Riak** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) | [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) | CRDT 지원, 고가용성 우선 |
 | **Memcached** | 순수 캐시 | 없음(휘발성) | 단순·고성능 캐시, 멀티스레드 |
 
@@ -56,23 +58,25 @@ tags = ["studynote-bigdata"]
 
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) (DHT, Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))
 
-```text
-┌────────────────────────────────────────────────────┐
-│           일관된 해싱 (Consistent Hashing) 링        │
-│                                                    │
-│              Node A (0°)                           │
-│             ╱                                      │
-│    Node D ──●────────────────●── Node B            │
-│   (270°)    │                │    (90°)            │
-│             │   Hash Ring    │                     │
-│             │   (0~2^32)     │                     │
-│    Node C ──●────────────────                      │
-│   (180°)                                           │
-│                                                    │
-│  Key "user:123" → hash(key) → 위치 → Node B 담당    │
-│  노드 추가/제거 시 일부 키만 재배치 (최소 이동)          │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관된 해싱 (Consistent Hashing) 링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A (0°)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node D ──● ●── Node B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(270°)</div><div class="kb-diagram-cell">(90°)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash Ring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0~2^32)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node C ──●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(180°)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key "user:123" → hash(key) → 위치 → Node B 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 추가/제거 시 일부 키만 재배치 (최소 이동)</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 연산
 
@@ -86,25 +90,23 @@ tags = ["studynote-bigdata"]
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 구조
 
-```text
-┌──────────────────────────────────────────────────────┐
-│              DynamoDB 내부 구조                        │
-│                                                      │
-│  테이블 (Table)                                       │
-│  ┌───────────────────────────────────────────────┐   │
-│  │  PK(파티션 키) + SK(정렬 키, 선택)              │   │
-│  │                                               │   │
-│  │  hash(PK) → Partition 1, 2, 3 ...             │   │
-│  │                                               │   │
-│  │  Partition 1   Partition 2   Partition 3      │   │
-│  │  [item A]      [item D]      [item G]          │   │
-│  │  [item B]      [item E]      [item H]          │   │
-│  │  [item C]      [item F]      [item I]          │   │
-│  └───────────────────────────────────────────────┘   │
-│                                                      │
-│  * 파티션 키 카디널리티(Cardinality)가 낮으면 핫 파티션 위험│
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB 내부 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 (Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PK(파티션 키) + SK(정렬 키, 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash(PK) → Partition 1, 2, 3 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 1 Partition 2 Partition 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">item A</div><div class="kb-diagram-node">item D</div><div class="kb-diagram-node">item G</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">item B</div><div class="kb-diagram-node">item E</div><div class="kb-diagram-node">item H</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">item C</div><div class="kb-diagram-node">item F</div><div class="kb-diagram-node">item I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 파티션 키 카디널리티(Cardinality)가 낮으면 핫 파티션 위험</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > [일관된 해싱](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/283_reference_pattern/) 링은 원형 시계판과 같다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 시침처럼 시계 방향으로 가장 가까운 노드에 저장된다. 노드가 추가되면 그 사이 구간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 이사하면 되어, 전체 재배치라는 대혼란을 피할 수 있다.
@@ -119,7 +121,7 @@ tags = ["studynote-bigdata"]
 |:---:|:---:|:---:|:---:|
 | **조회 방법** | 키만 가능 | 키 + 필드 필터 | 키 + 컬럼 범위 |
 | **값 구조** | 불투명(Opaque) | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 구조화 | 컬럼 그룹 |
-| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 표현력** | 최소 | 중간 | 중간 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 표현력</strong> | 최소 | 중간 | 중간 |
 | **조회 속도** | ★★★★★ | ★★★★ | ★★★★ |
 | **적합 용도** | 캐시·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) | CMS·프로필 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·시계열 |
 
@@ -144,30 +146,31 @@ tags = ["studynote-bigdata"]
 
 | 패턴 | 예시 | 추천 솔루션 |
 |:---:|:---:|:---:|
-| **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 블랙리스트 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 활용) |
-| **[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 레이어** | DB 조회 결과 캐시 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) / Memcached |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 저장</strong> | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 블랙리스트 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 활용) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 레이어</strong> | DB 조회 결과 캐시 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) / Memcached |
 | **실시간 리더보드** | 게임 점수 순위표 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sorted Set |
-| **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)** | 전자상거래 주문 | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) |
-| **[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)** | A/B 테스트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Hash |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/">OLTP</a></strong> | 전자상거래 주문 | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a></strong> | A/B 테스트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Hash |
 
 ### 기술사 시험 핵심 판단 포인트
 
-```text
-Q. 키-값 DB 선택 기준은?
 
-       복잡한 쿼리 필요?
-            │
-      YES ──┼── NO
-      │          │
- Document/   단순 키 조회
- Column DB        │
-            낮은 지연 필요?
-                 │
-           YES ──┼── NO (지속성 중요)
-           │              │
-         Redis         DynamoDB
-     (인메모리)        (영구 저장)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Q. 키-값 DB 선택 기준은?</div>
+<div class="kb-diagram-note">복잡한 쿼리 필요?</div>
+<div class="kb-diagram-note">YES ── ── NO</div>
+<div class="kb-diagram-note">Document/ 단순 키 조회</div>
+<div class="kb-diagram-note">Column DB</div>
+<div class="kb-diagram-note">낮은 지연 필요?</div>
+<div class="kb-diagram-note">YES ── ── NO (지속성 중요)</div>
+<div class="kb-diagram-note">Redis DynamoDB</div>
+<div class="kb-diagram-note">(인메모리) (영구 저장)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > 기술사 판단은 요리사가 식재료를 고르는 것과 같다. 빨리 볶아야 하면 이미 손질된 재료([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를, 천천히 숙성이 필요하면 냉장 보관 가능한 재료([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/))를 고른다. 용도에 맞지 않는 재료를 쓰면 맛있는 요리가 나오지 않는다.
@@ -186,7 +189,7 @@ Q. 키-값 DB 선택 기준은?
 | 비용(대규모) | 높음 | 낮음 | 60~80% 절감 |
 
 ### 결론 및 아키텍처 권고
-키-값 DB는 단독 사용보다 **RDBMS + 키-값 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 레이어**의 조합으로 가장 큰 효과를 발휘한다. [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate) 90% 이상을 목표로 설계하면 DB 부하를 획기적으로 줄일 수 있다. DynamoDB를 중심으로 한 [서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 관리 오버헤드 없이 무제한 확장이 필요한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에 최적이다.
+키-값 DB는 단독 사용보다 <strong>RDBMS + 키-값 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 레이어</strong>의 조합으로 가장 큰 효과를 발휘한다. [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate) 90% 이상을 목표로 설계하면 DB 부하를 획기적으로 줄일 수 있다. DynamoDB를 중심으로 한 [서버리스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/215_serverless_architecture_faas_aws_lambda/)는 관리 오버헤드 없이 무제한 확장이 필요한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에 최적이다.
 
 📢 **섹션 요약 비유**
 > 키-값 DB는 도로 위의 고속도로 휴게소 자판기와 같다. 버튼([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))만 누르면 음료(Value)가 나오는 단순함 덕분에 줄을 서지 않아도 된다. 하지만 "오늘의 특선 메뉴"처럼 복잡한 조합은 제공하지 못한다 — 그 역할은 레스토랑(RDBMS)의 몫이다.
@@ -205,21 +208,23 @@ Q. 키-값 DB 선택 기준은?
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CAP 정리 (CAP Theorem)]
-    │
-    ▼
-[일관된 해싱 (Consistent Hashing)]
-    │
-    ▼
-[TTL (Time To Live)]
-    │
-    ▼
-[CRDT (Conflict-free Replicated Data Type)]
-    │
-    ▼
-[Polyglot Persistence]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAP 정리 (CAP Theorem)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일관된 해싱 (Consistent Hashing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TTL (Time To Live)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRDT (Conflict-free Replicated Data Type)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Polyglot Persistence</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))에서 출발해 Polyglot Persistence까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

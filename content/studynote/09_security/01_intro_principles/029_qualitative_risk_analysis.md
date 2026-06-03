@@ -18,23 +18,23 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              위험 매트릭스 (Risk Matrix)                   │
-├──────────────────────────────────────────────────────────┤
-│  영향도         가능성                                    │
-│          ┌─────┬─────┬─────┐                             │
-│  높음(H) │  M  │  H  │  H  │                             │
-│  중간(M) │  L  │  M  │  H  │                             │
-│  낮음(L) │  L  │  L  │  M  │                             │
-│          └─────┴─────┴─────┘                             │
-│           낮음   중간   높음                               │
-│                                                           │
-│  위험 = 가능성 × 영향도                                   │
-│  H × H = 최고 위험 → 즉시 대응 필요                       │
-│  L × L = 낮음 → 수용 가능                                 │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 매트릭스 (Risk Matrix)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향도 가능성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음(H)</div><div class="kb-diagram-cell">M</div><div class="kb-diagram-cell">H</div><div class="kb-diagram-cell">H</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간(M)</div><div class="kb-diagram-cell">L</div><div class="kb-diagram-cell">M</div><div class="kb-diagram-cell">H</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음(L)</div><div class="kb-diagram-cell">L</div><div class="kb-diagram-cell">L</div><div class="kb-diagram-cell">M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 중간 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 = 가능성 × 영향도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H × H = 최고 위험 → 즉시 대응 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L × L = 낮음 → 수용 가능</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정성적 위험 분석은 날씨 예보 색상 경보다. 태풍(High 가능성+High 영향) = 빨간색 경보, 소나기(Low 영향) = 노란색, 맑음(Low) = 초록색. 정확한 강수량(수치)보다 "오늘 우산 필요한가?"(우선순위 판단)에 초점을 맞춘다.
 
@@ -132,25 +132,27 @@ NIST 800-30:
 | **AAMT** | 위험 처리 4가지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **ISO 27001** | 정성적 위험 분석 표준 |
 | **정량적 분석** | 정성적 분석의 심화 보완 |
-| **[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)** | [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 방법론 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong> | [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 방법론 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[위협 식별 — STRIDE, OWASP, 전문가 인터뷰]
-    │
-    ▼
-[정성적 위험 분석 — 가능성×영향도 매트릭스]
-    │
-    ▼
-[정량적 위험 분석 — ALE = SLE × ARO (화폐 단위)]
-    │
-    ▼
-[위험 처리 — AAMT 전략 수립]
-    │
-    ▼
-[AI 자동화 위험 분석 — 실시간 위협 인텔리전스 기반]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">위협 식별 — STRIDE, OWASP, 전문가 인터뷰</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정성적 위험 분석 — 가능성×영향도 매트릭스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정량적 위험 분석 — ALE = SLE × ARO (화폐 단위)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 처리 — AAMT 전략 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동화 위험 분석 — 실시간 위협 인텔리전스 기반</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

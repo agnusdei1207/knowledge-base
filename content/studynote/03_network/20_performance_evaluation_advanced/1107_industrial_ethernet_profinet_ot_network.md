@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **과거 (필드버스)**: PROFIBUS, Modbus 같은 아날로그 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신선을 썼습니다. 느리고 데이터가 몇 바이트밖에 안 돼서 현대 스마트 팩토리의 수만 개 센서 빅데이터를 뽑아낼 수가 없었습니다.
-- **사무실 랜선([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))의 유혹**: 선도 싸고, 속도도 1Gbps로 빵빵합니다. 하지만 1047번에서 배웠듯 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 교통체증([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 딜레이)이 터지는 **비확정성(Best Effort)** 때문에 목숨과 직결된 로봇 공장에선 절대 쓸 수 없는 금기의 구역이었습니다.
+- <strong>사무실 랜선(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)의 유혹</strong>: 선도 싸고, 속도도 1Gbps로 빵빵합니다. 하지만 1047번에서 배웠듯 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 교통체증([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 딜레이)이 터지는 **비확정성(Best Effort)** 때문에 목숨과 직결된 로봇 공장에선 절대 쓸 수 없는 금기의 구역이었습니다.
 
-```text
-[마이크로그리드 통신 규격]
-    │
-    ▼
-[산업용 이더넷 PROFINET 망]
-    │
-    └──▶ [OT 망 분리 원단 통제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그래서 지멘스(Siemens)가 사무실 랜선을 공장용으로 악랄하게 뜯어고쳐 만든 세계 1위 점유율의 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준이 바로 **[PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Field Net)**입니다.
+그래서 지멘스(Siemens)가 사무실 랜선을 공장용으로 악랄하게 뜯어고쳐 만든 세계 1위 점유율의 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준이 바로 <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/">PROFINET</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Field Net)</strong>입니다.
 
 - 사무실 PC의 이메일 패킷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)과 로봇 팔의 실시간 제어 패킷이 1개의 랜선 안에서 동시에 흐르더라도, 기계가 완벽히 분리 처리하는 짬뽕 융합 기술입니다.
 
-```text
-[마이크로그리드 통신 규격]
-    │
-    ▼
-[산업용 이더넷 PROFINET 망]
-    │
-    └──▶ [OT 망 분리 원단 통제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ### 2. RT (Real-Time) - "귀족: 소프트웨어 직통" 🌟
 - 공장 센서의 온도, 밸브 On/Off 같은 **소프트-리얼타임(Soft Real-time)** 데이터입니다.
-- **마법**: 이 패킷들은 아예 무거운 **L3(IP)와 L4([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 껍데기 자체를 벗어 던져버립니다!** 
+- **마법**: 이 패킷들은 아예 무거운 <strong>L3(IP)와 L4(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>) 껍데기 자체를 벗어 던져버립니다!</strong> 
 - [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(L2 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 껍데기만 딱 쓰고 그 안에 데이터를 넣습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 패킷이 들어오면, 무거운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 검사) 연산을 1도 거치지 않고 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 바닥층에서 그 즉시 팅겨져 나가 목적지 기계로 1~10ms 안에 직통으로 꽂혀버립니다(소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 바이패스).
 
 ### 3. IRT (Isochronous Real-Time) - "왕족: 하드웨어 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 등시성" 🌟 궁극기
@@ -88,8 +96,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) (지멘스 주도)**: 유럽과 한국 공장(제조업)의 영원한 대장.
-- **[EtherNet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)/IP (로크웰 주도)**: 미국 공장의 대장 ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에 늙은 CIP 프로토콜을 얹음).
+- <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/">PROFINET</a> (지멘스 주도)</strong>: 유럽과 한국 공장(제조업)의 영원한 대장.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">EtherNet</a>/IP (로크웰 주도)</strong>: 미국 공장의 대장 ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에 늙은 CIP 프로토콜을 얹음).
 - **EtherCAT (벡호프 주도)**: 데이터가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 안 거치고, 컨베이어 벨트 기계들을 뱀처럼 관통(Processing on the fly)하며 기차처럼 데이터를 싣고 내리는 미친 고속 방식 (로봇 관절 쪽에 초강세).
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -98,7 +106,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 공장은 기계들 전용으로 뚫어놓은 **'느리고 좁은 모노레일(필드버스)'**을 썼습니다. 사무실은 넓고 쾌적한 **'일반 고속도로([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선)'**를 썼지만 차가 막혀서([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) 기계를 얹을 순 없었습니다. **[PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/)(산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**은 사무실 고속도로에 로봇 기계들을 올려놓고, 고속도로 톨게이트를 **'극단적 3계급 차별 톨게이트'**로 마개조한 혁명입니다. 일반 서류 차(NRT)는 돈 다 내고 차 막히며 느긋하게 갑니다. 온도 센서 차(RT)는 번호판(IP/[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 떼버리고 오토바이로 톨게이트 사이를 쓱 빠져나가 1초 만에 달립니다. 가장 중요한 생명줄 로봇 팔 차(IRT)가 출발하면, 톨게이트 직원이 도로 위의 모든 차를 옆 차선으로 강제 정차시킨 뒤, 0.0001초의 칼 같은 타이밍에 전용 차로(하드웨어 시간 예약 칩셋)의 바리케이드를 열어젖혀, 앞차가 1대도 없는 무결점 진공 고속도로를 빛의 속도로 질주하게 보장해 주는 궁극의 공장 통제망입니다.
+- **📢 섹션 요약 비유**: 기존 공장은 기계들 전용으로 뚫어놓은 <strong>'느리고 좁은 모노레일(필드버스)'</strong>을 썼습니다. 사무실은 넓고 쾌적한 <strong>'일반 고속도로(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 랜선)'</strong>를 썼지만 차가 막혀서([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) 기계를 얹을 순 없었습니다. <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/">PROFINET</a>(산업용 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)</strong>은 사무실 고속도로에 로봇 기계들을 올려놓고, 고속도로 톨게이트를 <strong>'극단적 3계급 차별 톨게이트'</strong>로 마개조한 혁명입니다. 일반 서류 차(NRT)는 돈 다 내고 차 막히며 느긋하게 갑니다. 온도 센서 차(RT)는 번호판(IP/[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 떼버리고 오토바이로 톨게이트 사이를 쓱 빠져나가 1초 만에 달립니다. 가장 중요한 생명줄 로봇 팔 차(IRT)가 출발하면, 톨게이트 직원이 도로 위의 모든 차를 옆 차선으로 강제 정차시킨 뒤, 0.0001초의 칼 같은 타이밍에 전용 차로(하드웨어 시간 예약 칩셋)의 바리케이드를 열어젖혀, 앞차가 1대도 없는 무결점 진공 고속도로를 빛의 속도로 질주하게 보장해 주는 궁극의 공장 통제망입니다.
 
 ---
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로그리드 통신 규격]
-    │
-    ▼
-[현재 개념: 산업용 이더넷 PROFINET 망]
-    │
-    ├──▶ [확장 A: OT 망 분리 원단 통제]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로그리드 통신 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 산업용 이더넷 PROFINET 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OT 망 분리 원단 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망는 [마이크로그리드 통신 규격](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1106_microgrid_communication_standards_iec61850/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

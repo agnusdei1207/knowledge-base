@@ -21,25 +21,25 @@ tags = ["studynote-computer-architecture"]
 
 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) ([Hardware-Assisted Virtualization](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/))는 소프트웨어가 힘들게 흉내 내던 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 일부를 CPU와 칩셋이 직접 담당하도록 만든 구조다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 민감 명령이 항상 trap을 일으키지 않았고, 게스트 운영체제는 자신이 진짜 최고 권한이라고 믿고 동작했기 때문에 하이퍼바이저가 Binary Translation이나 [shadow page table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 같은 우회 기법을 써야 했다. 이 과정은 CPU 낭비뿐 아니라 문맥 전환, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 교란, 메모리 관리 복잡도를 함께 키웠다.
 
-문제가 커진 이유는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 테스트 용도를 넘어 데이터센터의 기본 실행 환경이 되었기 때문이다. 서버 한 대에 수십 개 이상의 VM이 올라가면, 하이퍼바이저가 모든 privileged instruction과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경을 소프트웨어로 처리하는 구조는 더 이상 확장되지 않는다. 즉 하드웨어 보조의 필요성은 "조금 더 빠르게"가 아니라, **대규모 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 성립하려면 반드시 줄여야 하는 구조적 오버헤드**에서 나왔다.
+문제가 커진 이유는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 테스트 용도를 넘어 데이터센터의 기본 실행 환경이 되었기 때문이다. 서버 한 대에 수십 개 이상의 VM이 올라가면, 하이퍼바이저가 모든 privileged instruction과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경을 소프트웨어로 처리하는 구조는 더 이상 확장되지 않는다. 즉 하드웨어 보조의 필요성은 "조금 더 빠르게"가 아니라, <strong>대규모 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>가 성립하려면 반드시 줄여야 하는 구조적 오버헤드</strong>에서 나왔다.
 
 이 그림은 하드웨어 지원이 없을 때 어떤 비용이 하이퍼바이저에 몰리는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               소프트웨어 중심 가상화에서 오버헤드가 생기는 위치            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest Operating System (OS, Ring 0라고 믿음)                              │
-│        │                                                                  │
-│        ├─ privileged instruction ─▶ trap / emulate                        │
-│        ├─ page table update     ─▶ shadow page table sync                 │
-│        └─ device I/O            ─▶ hypervisor mediation                   │
-│                                      │                                    │
-│                                      ▼                                    │
-│                             [Hypervisor CPU 소모 증가]                    │
-│                             [TLB flush / context switch]                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 중심 가상화에서 오버헤드가 생기는 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest Operating System (OS, Ring 0라고 믿음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ privileged instruction ─▶ trap / emulate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page table update ─▶ shadow page table sync</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ device I/O ─▶ hypervisor mediation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hypervisor CPU 소모 증가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLB flush / context switch</div></div>
+</div>
+</div>
+
+
 
 결국 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 게스트를 무조건 더 자유롭게 만드는 기술이 아니라, 소프트웨어가 매번 개입하던 경계를 하드웨어 빠른 경로로 옮기는 기술이다. 이 관점을 잡아야 왜 이후에 EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 차례로 등장했는지도 자연스럽게 이어진다.
 
@@ -63,19 +63,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 가상 CPU (virtual CPU, vCPU)가 어떤 경로에서는 바로 실행되고, 어떤 경로에서만 하이퍼바이저로 올라가는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               하드웨어 보조 가상화의 빠른 경로와 느린 경로                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest vCPU in Non-Root                                                    │
-│        │                                                                  │
-│        ├─ 일반 명령 ───────────────────────────────▶ 직접 실행             │
-│        ├─ 메모리 접근 ─▶ GVA → GPA → HPA (EPT / NPT) ─▶ Host Memory       │
-│        └─ 민감 명령 / 예외 ─▶ VM Exit ─▶ Hypervisor ─▶ VM Entry           │
-│                                                                            │
-│ Device DMA ─────────────────────────▶ IOMMU 검증 ───────▶ Host Memory      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 보조 가상화의 빠른 경로와 느린 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest vCPU in Non-Root</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 명령 ▶ 직접 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 접근 ─▶ GVA → GPA → HPA (EPT / NPT) ─▶ Host Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 민감 명령 / 예외 ─▶ VM Exit ─▶ Hypervisor ─▶ VM Entry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device DMA ▶ IOMMU 검증 ▶ Host Memory</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 사실은 하드웨어 보조가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 자체를 없애는 것은 아니라는 점이다. 대신 "대부분의 정상 경로는 건드리지 않고, 정말 필요한 경로만 끊는다"는 쪽에 가깝다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 초점도 지원 유무가 아니라, 어떤 이벤트가 얼마나 자주 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit을 유발하는지에 맞춰져야 한다.
 
@@ -105,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)의 품질은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 얼마나 줄이느냐로 드러난다. 잦은 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 에뮬레이션 장치 접근, 과도한 CPUID 노출, 잘못된 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 선택은 게스트를 자주 하이퍼바이저로 끌어올린다. 따라서 EPT/NPT 활성화, [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 사용, APICv 활용, paravirtual clock과 [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 적용이 기본 튜닝 순서가 된다.
 
-또한 메모리와 I/O의 로컬리티도 중요하다. vCPU가 한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 노드에 있고 메모리는 다른 노드에 있으며, 장치 DMA는 또 다른 소켓으로 향하면 하드웨어 보조가 있어도 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나빠진다. 즉 기술사 답안에서는 "지원한다/안 한다"보다 **Exit 빈도, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 배치, 장치 경로**를 함께 써야 설계 감각이 드러난다.
+또한 메모리와 I/O의 로컬리티도 중요하다. vCPU가 한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 노드에 있고 메모리는 다른 노드에 있으며, 장치 DMA는 또 다른 소켓으로 향하면 하드웨어 보조가 있어도 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나빠진다. 즉 기술사 답안에서는 "지원한다/안 한다"보다 <strong>Exit 빈도, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 배치, 장치 경로</strong>를 함께 써야 설계 감각이 드러난다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -121,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 - Exit-heavy 장치를 그대로 두고 CPU 오버커밋만 늘리는 운영
 - 강한 격리가 필요한데도 side-channel과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) escape 대응을 생략하는 보안 판단
 
-결국 하드웨어 보조는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 0으로 만드는 기능"이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 **소프트웨어의 느린 경로에서 하드웨어의 예측 가능한 경로로 옮기는 기능**이다. 이 점을 기억해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 판단이 동시에 선명해진다.
+결국 하드웨어 보조는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 0으로 만드는 기능"이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 <strong>소프트웨어의 느린 경로에서 하드웨어의 예측 가능한 경로로 옮기는 기능</strong>이다. 이 점을 기억해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 판단이 동시에 선명해진다.
 
 - **📢 섹션 요약 비유**: 같은 건물에 자동문을 달았다고 해서 동선 설계가 저절로 좋아지지는 않는다. 출입문은 빨라졌어도 엘리베이터와 복도가 막혀 있으면 전체 이동 시간은 여전히 느릴 수 있다.
 
@@ -152,24 +153,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 전가상화
-        │
-        ▼
-Binary Translation · shadow page table
-        │
-        ▼
-VT-x / AMD-V 기반 실행 모드 분리
-        │
-        ▼
-EPT / NPT 기반 2단계 주소 변환
-        │
-        ▼
-APICv · IOMMU · 장치 가상화 가속
-        │
-        ▼
-마이크로VM · 기밀 컴퓨팅 · 고도화된 격리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 전가상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Binary Translation · shadow page table</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VT-x / AMD-V 기반 실행 모드 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EPT / NPT 기반 2단계 주소 변환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">APICv · IOMMU · 장치 가상화 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로VM · 기밀 컴퓨팅 · 고도화된 격리</div>
+</div>
+</div>
+
+
 
 이 흐름은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 병목이 CPU 실행에서 메모리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 장치 경로로 차례로 이동했고, 그때마다 하드웨어가 새로운 빠른 경로를 제공해 온 과정을 보여 준다.
 

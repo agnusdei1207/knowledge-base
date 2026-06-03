@@ -33,20 +33,20 @@ SAAM의 핵심 원리는 **'시나리오 (Scenario)'** 기반 평가다. 시스�
 
 평가 과정은 시나리오를 아키텍처 수정 없이 수용 가능한 '직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))' 시나리오와, 수정을 수반해야 하는 '간접([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))' 시나리오로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것부터 시작된다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             SAAM의 시나리오 상호작용 (Interaction) 분석          │
-├─────────────────────────────────────────────────────────────┤
-│   [시나리오 1] "결제 수단 추가" ──────▶  [컴포넌트 A] (수정 1)  │
-│                                            ▲                │
-│   [시나리오 2] "UI 테마 변경" ──(독립)─▶  [컴포넌트 B] (수정 2)  │
-│                                            │                │
-│   [시나리오 3] "보안 암호화 강화" ─────┘ (수정 3)            │
-│                                                             │
-│ * 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨      │
-│ * 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAAM의 시나리오 상호작용 (Interaction) 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴포넌트 A</div><div class="kb-diagram-note">(수정 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴포넌트 B</div><div class="kb-diagram-note">(수정 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 3</div><div class="kb-diagram-note">"보안 암호화 강화" (수정 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)</div></div>
+</div>
+</div>
+
+
 
 가장 중요한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계는 **시나리오 상호작용 (Scenario Interaction)** 분석이다. 만약 기능 추가(시나리오 1)와 보안 패치(시나리오 3)라는 전혀 다른 목적의 변경이 동일한 컴포넌트를 뜯어고치게 만든다면, 그 컴포넌트는 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))을 위배하여 과도하게 얽혀 있는 설계(스파게티 코드)일 확률이 높다. 
 
@@ -61,7 +61,7 @@ SAAM은 아키텍처 평가의 선구자지만, 특정 품질 [속성](/knowledg
 | 구분 | [SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) |
 | :--- | :--- | :--- |
 | **등장 시기** | 1994년 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 평가 모델) | 1998년 (발전/종합 모델) |
-| **주요 목적** | **수정 용이성([Modifiability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/))** 중심의 단일 품질 평가 | 다중 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 **상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Trade-off)** 분석 |
+| **주요 목적** | <strong>수정 용이성(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/">Modifiability</a>)</strong> 중심의 단일 품질 평가 | 다중 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 <strong>상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Trade-off)</strong> 분석 |
 | **핵심 기법** | 시나리오의 직접/간접 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 상호작용 파악 | [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)) 및 [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) 도출 |
 | **적용 범위** | 시스템의 구조적 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 진단 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등 전사적 아키텍처 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
@@ -88,7 +88,7 @@ SAAM이 "이거 고치기 편한가?"만 물었다면, ATAM은 "고치기 편하
 
 SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적 도구로 테스트할 수 있게 만든 최초의 이정표다. 변경의 파급 효과를 미리 계산함으로써 유지보수 비용을 획기적으로 절감하고, 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잠재적 구조 결함을 잡아낼 수 있게 되었다.
 
-비록 오늘날에는 ATAM이나 경제성까지 고려한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)(Cost Benefit Analysis Method) 등 더 복잡한 방법론에 표준의 자리를 넘겨주었지만, **"시나리오를 통해 아키텍처의 약점을 미리 들춰낸다"**는 철학은 모든 현대 소프트웨어 공학의 뿌리로 굳건히 남아있다. 
+비록 오늘날에는 ATAM이나 경제성까지 고려한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)(Cost Benefit Analysis Method) 등 더 복잡한 방법론에 표준의 자리를 넘겨주었지만, <strong>"시나리오를 통해 아키텍처의 약점을 미리 들춰낸다"</strong>는 철학은 모든 현대 소프트웨어 공학의 뿌리로 굳건히 남아있다. 
 
 - **📢 섹션 요약 비유**: SAAM은 인류 최초의 나침반과 같다. 지금은 GPS([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/), [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/))가 그 자리를 대신하지만, 나침반이 세워둔 '방향을 미리 측정한다'는 원리가 없었다면 현대의 정밀한 항법 장치도 존재할 수 없었다.
 
@@ -105,21 +105,24 @@ SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 설계의 주관성 · 평가 기준 부재
-    │
-    ▼
-SAAM (Software Architecture Analysis Method)
-(수정 용이성 중심, 최초의 시나리오 기반 평가)
-    │
-    ▼
-ATAM (Architecture Trade-off Analysis Method)
-(다중 품질 속성 간의 상충 관계 및 민감도 분석)
-    │
-    ▼
-CBAM (Cost Benefit Analysis Method)
-(비즈니스 가치와 경제성 평가 통합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 설계의 주관성 · 평가 기준 부재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAAM (Software Architecture Analysis Method)</div>
+<div class="kb-diagram-note">(수정 용이성 중심, 최초의 시나리오 기반 평가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM (Architecture Trade-off Analysis Method)</div>
+<div class="kb-diagram-note">(다중 품질 속성 간의 상충 관계 및 민감도 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBAM (Cost Benefit Analysis Method)</div>
+<div class="kb-diagram-note">(비즈니스 가치와 경제성 평가 통합)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단일 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 진단에서 출발해, 종합 기술 평가를 거쳐, 경제적 비즈니스 가치 평가로 확장되는 아키텍처 평가 방법론의 진화를 보여준다.
 

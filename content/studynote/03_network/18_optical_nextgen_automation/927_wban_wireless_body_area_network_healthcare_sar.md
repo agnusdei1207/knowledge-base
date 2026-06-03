@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **SAR (전자파 흡수율)의 치명상**: 스마트폰 수준의 강한 전파를 심장 박동기 근처에서 24시간 뿜어대면, 인체 조직이 전파의 에너지를 흡수해 화상이나 질병을 유발합니다(안전성 미달).
 - **배터리 광탈 지옥**: 위장 속에 삼킨 내시경 캡슐 로봇에 블루투스를 달아놓으면, 1시간 만에 배터리가 죽어버려 수술로 다시 꺼내야 합니다.
 
-```text
-[지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
-[무선 인체 통신망]
-    │
-    └──▶ [수중 통신 무선 음파]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 인체 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수중 통신 무선 음파</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무선 인체 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,34 +41,38 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 인체 내부(체내), 인체 표면(피부), 혹은 반경 2~3미터 이내(체외)에 부착된 초소형 스마트 헬스케어 센서 기기들이 서로 통신하거나 중앙 코디네이터(스마트폰)로 생체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아 보내기 위해 설계된 **'극저전력, 초근거리, 고신뢰성 인체 중심 무선 통신 네트워크 표준(IEEE 802.15.6)'**입니다.
+- **개념**: 인체 내부(체내), 인체 표면(피부), 혹은 반경 2~3미터 이내(체외)에 부착된 초소형 스마트 헬스케어 센서 기기들이 서로 통신하거나 중앙 코디네이터(스마트폰)로 생체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아 보내기 위해 설계된 <strong>'극저전력, 초근거리, 고신뢰성 인체 중심 무선 통신 네트워크 표준(IEEE 802.15.6)'</strong>입니다.
 
 - **Tier 1 (인체망 BAN)**: 심장 센서 ➜ 내 주머니 속 스마트폰(코디네이터)으로 심박수 쏨.
 - **Tier 2 (근거리망 PAN)**: 내 폰 ➜ 병원 입구의 게이트웨이(Wi-Fi)로 전송.
 - **Tier 3 (원거리망 WAN)**: 병원 ➜ 통신사 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 타고 중앙 집중형 대학병원 주치의 서버 모니터에 실시간 팝업("심정지 위험!")으로 연동되는 3단 융합 구조.
 
-```text
-[지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
-[무선 인체 통신망]
-    │
-    └──▶ [수중 통신 무선 음파]
-```
 
-- **📢 섹션 요약 비유**: 기존 무선망(Wi-Fi)은 동네방네 울려 퍼지는 '거대한 아파트 마을방송 스피커'입니다. 소리는 잘 들리지만, 내 심장 근처에서 24시간 마을방송이 울리면 고막이 터지고 며칠 만에 스피커 배터리가 박살 납니다. **스마트 헬스케어 WBAN(인체 통신망)**은 내 귓속에 파묻어둔 '나노 귓속말 도청기'입니다. 귓속말 기계는 평소엔 1년 내내 겨울잠을 자며 에너지를 아끼다가, 내 심장이 이상하게 뛸 때만 딱 0.1초 깨어나 모기만 한 목소리로 주머니 속 스마트폰에게 "심장 이상함!" 하고 속삭인 뒤 다시 기절합니다(극저전력). 소리가 너무 작아 내 뼈나 내장을 상하게 할 일도 없고, 해커가 옆에서 엿들으려 해도 내 심장 박동 소리(생체 암호키)를 비밀번호로 대지 못하면 기계를 해킹해 나를 조종할 수 없는 인체 맞춤형 사이보그 통신망입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 인체 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수중 통신 무선 음파</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 기존 무선망(Wi-Fi)은 동네방네 울려 퍼지는 '거대한 아파트 마을방송 스피커'입니다. 소리는 잘 들리지만, 내 심장 근처에서 24시간 마을방송이 울리면 고막이 터지고 며칠 만에 스피커 배터리가 박살 납니다. <strong>스마트 헬스케어 WBAN(인체 통신망)</strong>은 내 귓속에 파묻어둔 '나노 귓속말 도청기'입니다. 귓속말 기계는 평소엔 1년 내내 겨울잠을 자며 에너지를 아끼다가, 내 심장이 이상하게 뛸 때만 딱 0.1초 깨어나 모기만 한 목소리로 주머니 속 스마트폰에게 "심장 이상함!" 하고 속삭인 뒤 다시 기절합니다(극저전력). 소리가 너무 작아 내 뼈나 내장을 상하게 할 일도 없고, 해커가 옆에서 엿들으려 해도 내 심장 박동 소리(생체 암호키)를 비밀번호로 대지 못하면 기계를 해킹해 나를 조종할 수 없는 인체 맞춤형 사이보그 통신망입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 ### 1. 극단적 저전력 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어 (듀티 사이클 최적화)
-- WBAN 센서(체온계 등)는 심장 박동이 불규칙할 때 빼고는 평소에 99%의 시간을 **'완전 수면(Deep Sleep) 상태'**로 기절해 있습니다. 
+- WBAN 센서(체온계 등)는 심장 박동이 불규칙할 때 빼고는 평소에 99%의 시간을 <strong>'완전 수면(Deep Sleep) 상태'</strong>로 기절해 있습니다. 
 - 중앙 코디네이터(스마트폰)가 "야 1초 뒤에 일어날게, 그때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빨리 던져!" 하고 스케줄을 맞춰줍니다. 센서는 딱 0.001초 눈을 뜨고 전파를 쏜 뒤 다시 기절합니다(듀티 사이클 최소화). 동전 건전지 하나로 5~10년을 버티게 하는 마법입니다.
 
 ### 2. 인체 전파 흡수율(SAR) 대응 통제 모델 🌟
 - 일반 무선망은 장애물이 있으면 "전파 세게 쏴버려!" 하고 출력을 높입니다. 
-- WBAN은 출력을 높이면 내 장기가 타버립니다. 센서가 스마트폰으로 쏘는 전파가 뼈나 지방층에 부딪혀 신호가 약해지면(감쇠), 출력을 높이지 않고 **전파가 피부 표면을 타고 흐르는 성질(표면파, Surface [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))**을 이용하거나, 펄스 형태의 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(초광대역) 저출력 파동을 써서 인체 피해를 0%로 통제합니다.
+- WBAN은 출력을 높이면 내 장기가 타버립니다. 센서가 스마트폰으로 쏘는 전파가 뼈나 지방층에 부딪혀 신호가 약해지면(감쇠), 출력을 높이지 않고 <strong>전파가 피부 표면을 타고 흐르는 성질(표면파, Surface <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">Wave</a>)</strong>을 이용하거나, 펄스 형태의 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(초광대역) 저출력 파동을 써서 인체 피해를 0%로 통제합니다.
 
 ### 3. 암살 방어용 체내 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) & [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 🌟
 - **끔찍한 시나리오**: 해커가 내 몸통 1미터 옆에 다가와 해킹 전파를 쏴서 내 몸속 인슐린 펌프 센서를 '치사량 100배 투여'로 원격 조작해 나를 암살합니다.
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    │
-    ▼
-[현재 개념: 무선 인체 통신망]
-    │
-    ├──▶ [확장 A: 수중 통신 무선 음파]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 인체 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 수중 통신 무선 음파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 무선 인체 통신망는 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 노출/은닉 망 탐…에서 출발해 현재 메커니즘을 정교화하고, 이후 [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

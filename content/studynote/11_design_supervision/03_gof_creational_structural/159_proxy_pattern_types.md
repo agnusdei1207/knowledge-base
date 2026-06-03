@@ -31,19 +31,21 @@ tags = ["studynote-design-supervision"]
 
 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 구조는 단순하다. 핵심은 `Client`가 `Subject` 인터페이스만 의존하고, `Proxy`와 `Real Subject`가 같은 계약을 구현한다는 점이다. 덕분에 클라이언트는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 있는지조차 몰라도 되며, 교체 비용이 매우 낮다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               프록시 패턴의 공통 구조와 유형별 개입 지점            │
-├──────────────────────────────────────────────────────────────────────┤
-│  Client ──▶ Subject 인터페이스 ──▶ Proxy ──▶ Real Subject           │
-│                                   │                                  │
-│                                   ├─ 가상 프록시: 필요 시점에 생성   │
-│                                   ├─ 보호 프록시: 권한 통과 후 위임   │
-│                                   └─ 원격 프록시: 직렬화·전송 후 위임 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 중계자가 아니라 **개입 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 실행 지점**이라는 점이다. 같은 인터페이스를 유지하므로 설계는 투명하지만, 내부에서는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점·접근 허용 여부·원격 통신 절차가 달라진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프록시 패턴의 공통 구조와 유형별 개입 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ Subject 인터페이스 ──▶ Proxy ──▶ Real Subject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가상 프록시: 필요 시점에 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 프록시: 권한 통과 후 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원격 프록시: 직렬화·전송 후 위임</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 중계자가 아니라 <strong>개입 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 실행 지점</strong>이라는 점이다. 같은 인터페이스를 유지하므로 설계는 투명하지만, 내부에서는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점·접근 허용 여부·원격 통신 절차가 달라진다.
 
 | 유형 | 해결하려는 문제 | 핵심 동작 | 대표 사례 |
 | :--- | :--- | :--- | :--- |
@@ -59,7 +61,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))나 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))와 외형이 비슷해 자주 혼동된다. 하지만 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 기능 추가보다 **접근 제어**, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 **인터페이스 변환**, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 **책임 확장**이 목적이다. 즉 모두 감싸지만, 왜 감싸는지가 다르다.
+[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))나 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))와 외형이 비슷해 자주 혼동된다. 하지만 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 기능 추가보다 **접근 제어**, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 **인터페이스 변환**, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 <strong>책임 확장</strong>이 목적이다. 즉 모두 감싸지만, 왜 감싸는지가 다르다.
 
 | 비교 항목 | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) |
 | :--- | :--- | :--- | :--- |
@@ -68,7 +70,7 @@ tags = ["studynote-design-supervision"]
 | 클라이언트 기대 | 원본처럼 투명해야 함 | 장식 조합을 인지할 수 있음 | 대상 인터페이스만 알면 됨 |
 | 대표 질문 | "언제/누가 접근 가능한가?" | "무슨 기능을 더 붙일까?" | "어떻게 연결 가능하게 바꿀까?" |
 
-또한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 유형끼리도 경계가 중요하다. 가상 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 보안, 원격 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 추상화가 핵심이다. 따라서 설계 답안에서는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 한 단어로 뭉뚱그리지 말고, **문제 유형에 따라 어떤 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 맞는지** 분리해 써야 한다.
+또한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 유형끼리도 경계가 중요하다. 가상 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 보안, 원격 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 추상화가 핵심이다. 따라서 설계 답안에서는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 한 단어로 뭉뚱그리지 말고, <strong>문제 유형에 따라 어떤 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>가 맞는지</strong> 분리해 써야 한다.
 
 - **📢 섹션 요약 비유**: [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 문지기, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 액세서리, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 변환 젠더다. 겉모습은 비슷해도 맡은 역할이 다르다.
 
@@ -101,7 +103,7 @@ tags = ["studynote-design-supervision"]
 
 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 패턴을 올바르게 적용하면 클라이언트는 단순해지고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 독립적으로 교체 가능해진다. 이는 [개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/) ([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/), [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))과 [의존 역전 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/) ([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))을 실무적으로 구현하는 좋은 방법이기도 하다. 특히 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 관점에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 "동일 인터페이스 유지"와 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 삽입"을 동시에 달성한다.
 
-다만 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 투명성이 장점인 동시에 함정이다. 호출 비용, 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 네트워크 실패가 숨겨져 보이지 않으면 개발자는 실제 시스템 경계를 과소평가하게 된다. 따라서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 "감추는 패턴"이 아니라, **필요한 복잡성을 인터페이스 뒤로 정리하되 운영상 의미는 분명히 드러내는 패턴**으로 기억해야 한다.
+다만 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 투명성이 장점인 동시에 함정이다. 호출 비용, 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 네트워크 실패가 숨겨져 보이지 않으면 개발자는 실제 시스템 경계를 과소평가하게 된다. 따라서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 "감추는 패턴"이 아니라, <strong>필요한 복잡성을 인터페이스 뒤로 정리하되 운영상 의미는 분명히 드러내는 패턴</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 일을 대신 처리해 주는 비서지만, 나쁜 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 어디서 시간이 새고 왜 막혔는지 보이지 않게 만드는 검은 상자가 된다.
 
@@ -120,19 +122,22 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-구조 패턴 (Structural Pattern)
-    │
-    ▼
-프록시 (Proxy) 패턴
-    │
-    ├─▶ 가상 프록시 (지연 로딩)
-    ├─▶ 보호 프록시 (권한 통제)
-    └─▶ 원격 프록시 (분산 호출 캡슐화)
-    │
-    ▼
-AOP 기반 동적 프록시 · ORM 지연 로딩 · RPC 스텁
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">구조 패턴 (Structural Pattern)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프록시 (Proxy) 패턴</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 가상 프록시 (지연 로딩)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호 프록시 (권한 통제)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 원격 프록시 (분산 호출 캡슐화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AOP 기반 동적 프록시 · ORM 지연 로딩 · RPC 스텁</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)의 일반론 → [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 공통 구조 → 목적별 세부 유형 → 현대 프레임워크 적용"으로 이어지는 학습 경로를 보여 준다.
 

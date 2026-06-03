@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 개발자가 서버를 관리하지 않고 함수 단위로 코드를 실행하는 모델이다. AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions, Google Cloud Functions가 대표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다. 요청이 없을 때는 인프라가 완전히 반납되어(Scale-to-Zero) 비용이 0원이 되지만, 이 대신 최초 호출 시 초기화 시간이 발생한다.
 
-**[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 발생 원인**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> 발생 원인</strong>:
 1. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 다운로드
 2. 런타임(JVM, Python 인터프리터 등) 초기화
 3. 의존성 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 로딩
@@ -35,21 +35,25 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) vs 웜 스타트(Warm Start) 흐름**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> vs 웜 스타트(Warm Start) 흐름</strong>:
 
-```
-[콜드 스타트 흐름]
-요청 → 컨테이너 생성 → 런타임 로드 → 의존성 로드 → 핸들러 실행
-       ↑ 수백ms~수 초 소요
 
-[웜 스타트 흐름]
-요청 → (이미 실행 중인 인스턴스) → 핸들러 실행
-       ↑ 수ms 소요
 
-[프로비저닝된 동시성 (Provisioned Concurrency)]
-사전에 지정한 수의 인스턴스를 항상 웜(Warm) 상태로 유지
-→ 콜드 스타트 완전 제거, 비용 증가
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">콜드 스타트 흐름</div></div>
+<div class="kb-diagram-note">요청 → 컨테이너 생성 → 런타임 로드 → 의존성 로드 → 핸들러 실행</div>
+<div class="kb-diagram-note">↑ 수백ms~수 초 소요</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웜 스타트 흐름</div></div>
+<div class="kb-diagram-note">요청 → (이미 실행 중인 인스턴스) → 핸들러 실행</div>
+<div class="kb-diagram-note">↑ 수ms 소요</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로비저닝된 동시성 (Provisioned Concurrency)</div></div>
+<div class="kb-diagram-note">사전에 지정한 수의 인스턴스를 항상 웜(Warm) 상태로 유지</div>
+<div class="kb-diagram-note">→ 콜드 스타트 완전 제거, 비용 증가</div>
+</div>
+</div>
+
+
 
 | 해결책 | 방법 | 효과 | 비용 |
 |:---|:---|:---|:---|
@@ -67,12 +71,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 실행 제약**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> 실행 제약</strong>:
 - 실행 시간 제한: AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 최대 15분, Azure Functions 10분(Consumption Plan)
 - 메모리 제한: 128MB~10GB(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))
 - 로컬 스토리지: `/tmp` 512MB~10GB, 함수 종료 시 삭제
 
-**상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 아키텍처 패턴**:
+<strong>상태 비저장(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 아키텍처 패턴</strong>:
 - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰: [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) — 서버 측 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 없이 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 자체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 - 캐시: ElastiCache([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) — [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 임시 결과 저장
 - 큐: SQS, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) — 이벤트 드리븐 처리, 재시도 보장

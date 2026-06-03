@@ -10,8 +10,8 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 황의 법칙(Hwang's Law)은 전원이 꺼져도 데이터가 보존되는 **NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(NAND [Flash Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/))의 집적도가 1년마다 2배씩 증가**한다는 관찰 모델로, 무어의 법칙(Moore's Law, 2년 주기)보다 두 배 빠른 메모리 스토리지 진화를 예측했다.
-> 2. **가치**: 고용량 낸드 플래시를 경제적으로 공급함으로써 MP3, 디지털카메라, 스마트폰, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 혁명을 촉발한 **모바일·스토리지 경제학의 핵심 성장 공식**이다.
+> 1. **본질**: 황의 법칙(Hwang's Law)은 전원이 꺼져도 데이터가 보존되는 <strong>NAND <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/">플래시 메모리</a>(NAND <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/">Flash Memory</a>)의 집적도가 1년마다 2배씩 증가</strong>한다는 관찰 모델로, 무어의 법칙(Moore's Law, 2년 주기)보다 두 배 빠른 메모리 스토리지 진화를 예측했다.
+> 2. **가치**: 고용량 낸드 플래시를 경제적으로 공급함으로써 MP3, 디지털카메라, 스마트폰, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 혁명을 촉발한 <strong>모바일·스토리지 경제학의 핵심 성장 공식</strong>이다.
 > 3. **판단 포인트**: 평면(2D) 미세 공정이 10nm 이하에서 물리적 한계에 도달하자, 칩을 수직으로 쌓는 **3D V-NAND(Vertical NAND)** 구조로 진화하면서 법칙의 연장선이 형성됐다.
 
 ---
@@ -37,21 +37,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 집적도를 높이는 두 가지 경로, 즉 **공정 미세화**와 **셀 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Multi-Level Cell)** 가 황의 법칙을 구동한 핵심 메커니즘이다.
+메모리 집적도를 높이는 두 가지 경로, 즉 <strong>공정 미세화</strong>와 <strong>셀 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>(Multi-Level Cell)</strong> 가 황의 법칙을 구동한 핵심 메커니즘이다.
 
 ### 1. 셀 레벨 코딩 구조
 
-```text
-전압 레벨 수에 따른 1셀당 비트 수 및 트레이드오프
 
-  SLC (Single Level Cell)   MLC (Multi Level Cell)   TLC/QLC
-  ┌────────────────────┐    ┌──────────────────────┐  ┌────────────────┐
-  │  전압 2단계 → 1bit  │    │  전압 4단계 → 2bit   │  │ 8/16단계 → 3/4bit│
-  │  수명: 100K P/E     │    │  수명:   10K P/E     │  │ 수명: 1K~3K P/E │
-  │  속도: 빠름          │    │  속도:   중간        │  │ 속도: 느림      │
-  │  용량: 적음          │    │  용량:   중간        │  │ 용량: 최대      │
-  └────────────────────┘    └──────────────────────┘  └────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전압 레벨 수에 따른 1셀당 비트 수 및 트레이드오프</div>
+<div class="kb-diagram-note">SLC (Single Level Cell) MLC (Multi Level Cell) TLC/QLC</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 2단계 → 1bit</div><div class="kb-diagram-cell">전압 4단계 → 2bit</div><div class="kb-diagram-cell">8/16단계 → 3/4bit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수명: 100K P/E</div><div class="kb-diagram-cell">수명: 10K P/E</div><div class="kb-diagram-cell">수명: 1K~3K P/E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도: 빠름</div><div class="kb-diagram-cell">속도: 중간</div><div class="kb-diagram-cell">속도: 느림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량: 적음</div><div class="kb-diagram-cell">용량: 중간</div><div class="kb-diagram-cell">용량: 최대</div></div>
+</div>
+</div>
+
+
 
 같은 면적의 칩에 더 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 구겨 넣기 위해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 세분화한다. [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)(Single Level Cell)는 셀당 1비트, MLC(Multi Level Cell)는 2비트, TLC(Triple Level Cell)는 3비트, QLC(Quad Level Cell)는 4비트를 저장한다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 늘수록 용량은 늘지만, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 판별 오류 가능성 증가로 속도·수명이 감소한다.
 
@@ -59,24 +62,28 @@ tags = ["studynote-computer-architecture"]
 
 평면 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 20nm 이하에서 인접 셀 간 전기 누설([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))과 제조 수율 문제로 한계를 맞았다. 해결책은 **수직 적층(3D V-NAND)** 이었다.
 
-```text
-2D NAND (평면)                      3D V-NAND (수직 적층)
-┌──────────────────────┐            ┌────────────────────────┐
-│ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓  │            │ Layer 256              │
-│ (셀이 미세할수록 간섭↑) │            │ Layer 255              │
-│                      │            │ ···                    │
-│  한계: ~20nm 이하 붕괴 │            │ Layer 2                │
-└──────────────────────┘            │ Layer 1 (기판)          │
-                                    └────────────────────────┘
-  동일 면적, 셀 간격 ↓                 수직 구멍(Channel Hole)으로
-  → 크로스톡(Crosstalk) ↑            셀을 관통 연결 → 간섭↓, 수명↑
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2D NAND (평면) 3D V-NAND (수직 적층)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓</div><div class="kb-diagram-cell">Layer 256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셀이 미세할수록 간섭↑)</div><div class="kb-diagram-cell">Layer 255</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">···</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계: ~20nm 이하 붕괴</div><div class="kb-diagram-cell">Layer 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1 (기판)</div></div>
+<div class="kb-diagram-note">동일 면적, 셀 간격 ↓ 수직 구멍(Channel Hole)으로</div>
+<div class="kb-diagram-note">→ 크로스톡(Crosstalk) ↑ 셀을 관통 연결 → 간섭↓, 수명↑</div>
+</div>
+</div>
+
+
 
 삼성전자가 2013년 처음 상용화한 V-NAND는 셀을 24층부터 시작해 현재 200층 이상으로 쌓으며 집적도를 유지하고 있다. 황의 법칙의 수직 연장이다.
 
 ### 3. [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))과 수명 관리
 
-낸드 플래시는 블록 단위 소거 후 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 가능하다. 같은 블록이 반복 소거되면 산화막이 열화되어 수명이 소진된다. 이를 방지하기 위해 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))이 **웨어 레벨링([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))** 과 **[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))** 을 수행한다.
+낸드 플래시는 블록 단위 소거 후 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 가능하다. 같은 블록이 반복 소거되면 산화막이 열화되어 수명이 소진된다. 이를 방지하기 위해 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))이 <strong>웨어 레벨링(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">Wear Leveling</a>)</strong> 과 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">Garbage Collection</a>)</strong> 을 수행한다.
 
 - **📢 섹션 요약 비유**: 2D 낸드는 **'단층 주택가에서 방을 성냥갑만 하게 쪼개는 것'** 입니다. 벽이 얇아져 옆방 소음(전기 간섭)이 심해집니다. 3D V-NAND는 방 크기는 넉넉하게 유지하고, 건물을 200층 마천루로 올려 수용량을 늘린 재건축의 기적입니다.
 
@@ -116,7 +123,7 @@ tags = ["studynote-computer-architecture"]
 
 **QLC SSD를 고쓰기 DB에 무지성 투입**: QLC는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 16단계 판별로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도(레이턴시)가 느리고 P/E 사이클이 1,000~3,000회로 낮다. RDBMS [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 몰리면 수주 내 수명이 소진된다. 반드시 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)/MLC 고내구성 드라이브로 교체하거나, TLC SSD에 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 버퍼를 구성해야 한다.
 
-**TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 비활성화 상태 방치**: SSD는 덮어쓰기가 불가능하므로, 삭제된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 소거(Erase)해 두지 않으면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)이 동시에 발생해 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))이 폭증한다. OS에서 TRIM 활성화 여부를 반드시 확인해야 한다.
+<strong>TRIM <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 비활성화 상태 방치</strong>: SSD는 덮어쓰기가 불가능하므로, 삭제된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 소거(Erase)해 두지 않으면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)이 동시에 발생해 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))이 폭증한다. OS에서 TRIM 활성화 여부를 반드시 확인해야 한다.
 
 - **📢 섹션 요약 비유**: TRIM 비활성화는 **'손님이 나간 뒤 그릇을 치우지 않다가, 새 손님이 와서야 부랴부랴 상을 닦는 식당'** 과 같습니다. 미리미리 치워두면(TRIM) 손님이 바로 앉을 수 있지만, 방치하면 입장 대기가 폭발합니다.
 
@@ -143,32 +150,33 @@ tags = ["studynote-computer-architecture"]
 | **무어의 법칙 (Moore's Law)** | CPU [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 집적도의 2년 2배 예측; 황의 법칙과 대칭적 성장 모델 |
 | **V-NAND (Vertical NAND)** | 2D 미세화 한계 극복을 위한 수직 적층 기술; 황의 법칙의 물리적 연장 |
 | **MLC / TLC / QLC** | 1셀당 저장 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 늘려 집적도를 높이는 다중 레벨 셀 기술 |
-| **[FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))** | 낸드 플래시 수명 관리(웨어 레벨링, [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))를 담당하는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) |
-| **덴나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) ([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/))** | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 축소 시 전력 밀도 일정 → 2004년 붕괴; 황의 법칙과 무어의 법칙 쇠퇴의 공통 원인 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">Flash Translation Layer</a>)</strong> | 낸드 플래시 수명 관리(웨어 레벨링, [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))를 담당하는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) |
+| <strong>덴나드 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/">Dennard Scaling</a>)</strong> | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 축소 시 전력 밀도 일정 → 2004년 붕괴; 황의 법칙과 무어의 법칙 쇠퇴의 공통 원인 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-디지털 멀티미디어 폭발 → 낸드 플래시 수요 급증
-    │
-    ▼
-황의 법칙 (Hwang's Law) — 1년 2배 집적도 성장
-    │
-    ├─► SLC → MLC → TLC → QLC (셀 다중화)
-    │
-    └─► 2D 공정 미세화 → 20nm 물리 한계
-              │
-              ▼
-        3D V-NAND (Vertical NAND) 수직 적층
-              │
-              ▼
-        200층+ 적층 / PLC 연구 / SCM 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">디지털 멀티미디어 폭발 → 낸드 플래시 수요 급증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">황의 법칙 (Hwang's Law) — 1년 2배 집적도 성장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SLC → MLC → TLC → QLC (셀 다중화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">2D 공정 미세화 → 20nm 물리 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3D V-NAND (Vertical NAND) 수직 적층</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">200층+ 적층 / PLC 연구 / SCM 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 황의 법칙은 우리 스마트폰 속 마법 서랍장(NAND 메모리)이 **매년 두 배씩 쑥쑥 커진다는 놀라운 성장 규칙**이에요!
-2. 서랍을 더 잘게 쪼개다 보니 너무 좁아져서 전기가 새는 문제가 생겼어요. 그래서 천재 공학자들이 아예 서랍장을 **아파트처럼 200층으로 높이 쌓는 기술(V-NAND)**을 발명했답니다!
+1. 황의 법칙은 우리 스마트폰 속 마법 서랍장(NAND 메모리)이 <strong>매년 두 배씩 쑥쑥 커진다는 놀라운 성장 규칙</strong>이에요!
+2. 서랍을 더 잘게 쪼개다 보니 너무 좁아져서 전기가 새는 문제가 생겼어요. 그래서 천재 공학자들이 아예 서랍장을 <strong>아파트처럼 200층으로 높이 쌓는 기술(V-NAND)</strong>을 발명했답니다!
 3. 게다가 방 하나에 한 명만 자던 것을 2층·3층 침대로 바꿔 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 구겨 넣는 꼼수(TLC, QLC)도 써서, 요즘 스마트폰 한 대에 영화 수백 편을 담을 수 있게 된 거예요!
 
 ---

@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 내 8비트 크기의 필드 (최댓값 255). 패킷이 네트워크 상에서 살아 숨 쉴 수 있는 최대 허용 라우터 점프 횟수(Hop Count)다.
-- **필요성**: L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에는 TTL이 없어서 루핑이 돌면 브로드캐스트 스톰으로 망이 박살 났다. 인터넷(L3) 라우터들도 가끔 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블이 꼬이면, A 라우터는 B로 던지고 B 라우터는 다시 A로 던지는 무한 루프([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)에 빠질 때가 있다. 전 세계의 고장 난 패킷들이 이렇게 허공을 영원히 맴돌면 글로벌 인터넷 케이블이 꽉 막혀 터져버리므로, **"길을 못 찾고 방황하는 패킷은 자연사(자동 폭파) 시키자"**는 아이디어가 필요했다.
+- **필요성**: L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에는 TTL이 없어서 루핑이 돌면 브로드캐스트 스톰으로 망이 박살 났다. 인터넷(L3) 라우터들도 가끔 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블이 꼬이면, A 라우터는 B로 던지고 B 라우터는 다시 A로 던지는 무한 루프([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)에 빠질 때가 있다. 전 세계의 고장 난 패킷들이 이렇게 허공을 영원히 맴돌면 글로벌 인터넷 케이블이 꽉 막혀 터져버리므로, <strong>"길을 못 찾고 방황하는 패킷은 자연사(자동 폭파) 시키자"</strong>는 아이디어가 필요했다.
 
-- **💡 비유**: TTL은 좀비 영화의 **"시한폭탄 목걸이"**와 같습니다. 패킷이라는 좀비의 목에 카운트다운 타이머(예: 64)를 채워 넣고, 검문소(라우터)를 하나 지날 때마다 숫자가 1씩 줄어듭니다. 목적지에 도착하기 전에 숫자가 0이 되면 펑! 하고 목걸이가 터져 좀비를 완벽히 제거합니다.
+- **💡 비유**: TTL은 좀비 영화의 <strong>"시한폭탄 목걸이"</strong>와 같습니다. 패킷이라는 좀비의 목에 카운트다운 타이머(예: 64)를 채워 넣고, 검문소(라우터)를 하나 지날 때마다 숫자가 1씩 줄어듭니다. 목적지에 도착하기 전에 숫자가 0이 되면 펑! 하고 목걸이가 터져 좀비를 완벽히 제거합니다.
 
-```text
-[PMTU]
-    │
-    ▼
-[TTL]
-    │
-    └──▶ [프로토콜 필드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PMTU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TTL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로토콜 필드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** TTL은 놀이공원 범퍼카의 **"운행 시간 타이머"**입니다. 길을 잃고 출구를 못 찾아 범퍼카장에 평생 갇혀서 맴돌지 않도록, 동전(TTL)이 다 떨어지면 전기가 뚝 끊기며 차를 멈춰 세우는 완벽한 자율 차단 시스템입니다.
 
@@ -41,35 +45,35 @@ tags = ["studynote-network"]
 
 ### 1. 라우터의 처리 과정 (Hop-by-Hop Decrement)
 송신 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(예: 윈도우는 기본 128, 리눅스는 64, 시스코는 255)가 기본 TTL 값을 패킷 헤더에 채워서 쏜다.
-1. 라우터에 패킷 도착. 라우터는 무조건 **TTL 값을 -1 감소**시킨다.
+1. 라우터에 패킷 도착. 라우터는 무조건 <strong>TTL 값을 -1 감소</strong>시킨다.
 2. 감소시킨 값이 0보다 크면(예: 63), 다음 라우터로 무사히 포워딩한다.
 3. 감소시킨 값이 **딱 0이 되었다면**, 라우터는 패킷을 폐기(Drop)하고 송신 PC에게 `ICMP Time Exceeded (수명 만료)` 에러 메시지를 보낸다.
 
 ### 2. TTL과 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 라우터가 패킷의 20바이트 헤더 안에서 TTL 값을 64에서 63으로 단 '1비트'라도 수정했기 때문에, 기존에 계산해 둔 헤더 에러 검사 번호([Header Checksum](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)) 값이 통째로 틀어지게 된다.
-따라서 모든 라우터는 패킷을 통과시킬 때마다 **TTL을 1 깎고, 그에 맞춰 Header Checksum을 매번 다시 계산해서 덮어쓰는(Re-calculate) 연산 오버헤드**를 겪어야 한다. (이 때문에 차세대 IPv6에서는 라우터의 부담을 줄이고자 아예 [Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드 자체를 삭제해버렸다.)
+따라서 모든 라우터는 패킷을 통과시킬 때마다 <strong>TTL을 1 깎고, 그에 맞춰 Header Checksum을 매번 다시 계산해서 덮어쓰는(Re-calculate) 연산 오버헤드</strong>를 겪어야 한다. (이 때문에 차세대 IPv6에서는 라우터의 부담을 줄이고자 아예 [Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드 자체를 삭제해버렸다.)
 
 ### 3. Traceroute (경로 추적) 도구의 원리
 천재적인 해커와 엔지니어들은 TTL이 0이 되면 라우터가 `ICMP 에러`를 뱉으며 자기 IP 주소를 노출한다는 사실을 역이용했다.
 - 내 PC가 네이버 서버로 갈 때 중간에 어떤 라우터들을 거치는지 알고 싶다.
-- **1차 슛**: 내 PC가 **TTL을 딱 1**로 세팅해서 패킷을 쏜다. 첫 번째 라우터를 만나자마자 TTL이 0이 되어 패킷이 죽고, 1번 라우터가 내게 에러 메시지(IP 포함)를 돌려준다. (1번 라우터 신상 파악 완료!)
-- **2차 슛**: 이번엔 **TTL을 2**로 세팅해 쏜다. 1번 라우터 통과 후 2번 라우터에서 0이 되어 죽는다. 2번 라우터가 에러를 쏜다. (2번 라우터 신상 파악 완료!)
+- **1차 슛**: 내 PC가 <strong>TTL을 딱 1</strong>로 세팅해서 패킷을 쏜다. 첫 번째 라우터를 만나자마자 TTL이 0이 되어 패킷이 죽고, 1번 라우터가 내게 에러 메시지(IP 포함)를 돌려준다. (1번 라우터 신상 파악 완료!)
+- **2차 슛**: 이번엔 <strong>TTL을 2</strong>로 세팅해 쏜다. 1번 라우터 통과 후 2번 라우터에서 0이 되어 죽는다. 2번 라우터가 에러를 쏜다. (2번 라우터 신상 파악 완료!)
 - **결과**: TTL을 1씩 늘려가며 계속 쏘면, 목적지에 도달할 때까지 중간에 있는 모든 거점 라우터들의 IP 지도를 완벽하게 털어낼([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)) 수 있다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 Traceroute의 TTL 역이용 꼼수 도식              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC ] ────▶ [ 라우터 A ] ────▶ [ 라우터 B ] ────▶ [ 목적지 ] │
- │                                                             │
- │   1) TTL = 1 로 쏨   ──▶ 앗 죽었다! A가 에러 회신 (A 발각!)           │
- │   2) TTL = 2 로 쏨   ─────────────▶ 앗 죽었다! B가 에러 회신 (B 발각!)│
- │   3) TTL = 3 으로 쏨 ────────────────────────────▶ 앗 목적지 도착!  │
- │                                                             │
- │   ▶ 결과 출력: 1. 라우터A IP / 2. 라우터B IP / 3. 목적지 IP        │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traceroute의 TTL 역이용 꼼수 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목적지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) TTL = 1 로 쏨 ──▶ 앗 죽었다! A가 에러 회신 (A 발각!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) TTL = 2 로 쏨 ▶ 앗 죽었다! B가 에러 회신 (B 발각!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) TTL = 3 으로 쏨 ▶ 앗 목적지 도착!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 출력: 1. 라우터A IP / 2. 라우터B IP / 3. 목적지 IP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 패킷의 수명을 제한하는 TTL은 원래 네트워크를 지키는 백신이었으나, 똑똑한 엔지니어들은 이 약점을 일부러 터뜨려가며 적진(네트워크 경로)의 스나이퍼 위치를 하나씩 색출해 내는 **"지뢰 탐지기(Traceroute)"**로 탈바꿈시켰습니다.
 
@@ -127,15 +131,19 @@ TTL는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PMTU]
-    │
-    ▼
-[현재 개념: TTL]
-    │
-    ├──▶ [확장 A: 프로토콜 필드]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PMTU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TTL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 프로토콜 필드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 TTL는 PMTU에서 출발해 현재 메커니즘을 정교화하고, 이후 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

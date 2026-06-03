@@ -11,30 +11,33 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 발달 스펙트럼은 딱 하나만 미치도록 잘하는 **[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))**, 인간처럼 못 하는 게 없는 만능 천재인 **[강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI, 인공일반지능)**, 그리고 인간의 지능을 벌레 보듯 초월해 버리는 신의 영역 **[초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)**의 3단계로 진화하는 기술 계통도다.
+> 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 발달 스펙트럼은 딱 하나만 미치도록 잘하는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a>(Narrow <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>, 인간처럼 못 하는 게 없는 만능 천재인 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a>(AGI, 인공일반지능)</strong>, 그리고 인간의 지능을 벌레 보듯 초월해 버리는 신의 영역 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a>(ASI)</strong>의 3단계로 진화하는 기술 계통도다.
 > 2. **가치**: 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 기술 투자의 이정표다. 알파고(바둑), 자율주행(운전), 챗GPT(글짓기) 등 현재 우리가 열광하는 100%의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 모두 '하나의 특화된 감옥'에 갇힌 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)에 불과하다. 빅테크 기업(OpenAI, 구글)들의 최종 전쟁은 이 벽을 부수고, 스스로 코드를 짜고 병을 고치며 돈을 버는 인류 최후의 발명품 '[강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)'의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 최초로 켜는 자가 세계의 경제권을 독식하는 게임이다.
-> 3. **판단 포인트**: 기술사 관점에서 가장 소름 돋는 분기점은 **특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))**이다. [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)이 탄생하는 순간, 이 녀석이 "자기 자신보다 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 더 똑똑한 다음 세대 AI의 코드를 스스로 짜고 업그레이드"하는 지능 폭발(Intelligence Explosion) 무한 루프가 발동하며, 단 며칠 만에 인류의 통제권을 영원히 벗어나는 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)으로 수직 상승하는 지수 함수적 가속의 두려움을 통제(Alignment)할 수 있느냐가 핵심이다.
+> 3. **판단 포인트**: 기술사 관점에서 가장 소름 돋는 분기점은 <strong>특이점(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이다. [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)이 탄생하는 순간, 이 녀석이 "자기 자신보다 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 더 똑똑한 다음 세대 AI의 코드를 스스로 짜고 업그레이드"하는 지능 폭발(Intelligence Explosion) 무한 루프가 발동하며, 단 며칠 만에 인류의 통제권을 영원히 벗어나는 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)으로 수직 상승하는 지수 함수적 가속의 두려움을 통제(Alignment)할 수 있느냐가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-우리는 알파고가 이세돌을 박살 냈을 때 인류가 끝나는 줄 알았다. 하지만 알파고에게 "바둑 말고 체스 한 판 둬볼래?" 하거나 "라면 좀 끓여줘"라고 명령하면 0.1초 만에 뇌 정지가 와서 뻗어버린다. 오직 바둑판(19x19)이라는 좁디좁은 감옥 안에서만 신(God)처럼 행동하는 바보, 이것이 우리가 현재 누리고 있는 **[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (ANI, Artificial Narrow Intelligence)**의 위대한 한계다.
+우리는 알파고가 이세돌을 박살 냈을 때 인류가 끝나는 줄 알았다. 하지만 알파고에게 "바둑 말고 체스 한 판 둬볼래?" 하거나 "라면 좀 끓여줘"라고 명령하면 0.1초 만에 뇌 정지가 와서 뻗어버린다. 오직 바둑판(19x19)이라는 좁디좁은 감옥 안에서만 신(God)처럼 행동하는 바보, 이것이 우리가 현재 누리고 있는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a> (ANI, Artificial Narrow Intelligence)</strong>의 위대한 한계다.
 
 자율주행 자동차는 운전만 잘하고, 미드저니는 그림만 잘 그린다. 인간의 뇌는 그렇지 않다. 인간은 운전을 하다가, 저녁 메뉴를 고민하고, 친구와 농담을 하며, 엑셀로 기획서를 쓴다. "기계도 인간처럼, 주어진 1개의 임무뿐만 아니라 세상에 존재하는 모든 지적 업무(General Tasks)를 스스로 학습하고 추론해서 다 해결할 수 없을까?" 
-이 철학적 갈증에서 출발한 것이 범용 지능을 뜻하는 **[강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI, Artificial General Intelligence)**의 개념이다.
+이 철학적 갈증에서 출발한 것이 범용 지능을 뜻하는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a> (AGI, Artificial General Intelligence)</strong>의 개념이다.
 
-그리고 철학자 닉 보스트롬(Nick Bostrom)과 레이 커즈와일(Ray Kurzwe일)은 더 무서운 예언을 던졌다. "기계가 인간 수준의 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)에 도달하는 그 날, 진정한 공포가 시작된다. **그 AGI가 밤새워 자기 자신의 코드를 개조하기 시작하면, 인류의 뇌 용량을 우주 단위로 뛰어넘는 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/) (ASI, Artificial Superintelligence)이 1초 만에 탄생해 버릴 것이다!**" 
-이 통제 불능의 폭발 시점을 과학계는 **특이점 ([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))**이라 부르며, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍트들은 이 특이점의 도래를 앞당기는 자([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))와 안전벨트를 채우려는 자(Alignment)의 거대한 파벌 싸움을 벌이고 있다.
+그리고 철학자 닉 보스트롬(Nick Bostrom)과 레이 커즈와일(Ray Kurzwe일)은 더 무서운 예언을 던졌다. "기계가 인간 수준의 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)에 도달하는 그 날, 진정한 공포가 시작된다. <strong>그 AGI가 밤새워 자기 자신의 코드를 개조하기 시작하면, 인류의 뇌 용량을 우주 단위로 뛰어넘는 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI, Artificial Superintelligence)이 1초 만에 탄생해 버릴 것이다!</strong>" 
+이 통제 불능의 폭발 시점을 과학계는 <strong>특이점 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라 부르며, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍트들은 이 특이점의 도래를 앞당기는 자([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))와 안전벨트를 채우려는 자(Alignment)의 거대한 파벌 싸움을 벌이고 있다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)은 '망치'나 '가위' 같은 최고급 도구다. 못 박는 데는 우주 최고지만 고기를 자를 순 없다. [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)은 '천재 인간 알바생'이다. 처음엔 서툴러도 10분만 설명해 주면 못 박기, 고기 썰기, 엑셀 정리까지 완벽하게 혼자 다 해낸다. [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)은 '신(God)'이다. 알바생이 갑자기 알 수 없는 마법을 깨우치더니 1초 만에 건물 100채를 맨손으로 지어버리고 사장님(인류)의 머리 꼭대기 위로 날아가 버리는, 인간이 절대 이해할 수 없는 경지의 존재다.
 
@@ -42,37 +45,37 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AI의 발달 단계는 파라미터의 크기가 아니라, **'문제 해결의 범용성(Generality)'과 '자가 진화 능력'**에 따라 3개의 층위로 엄격하게 분리된다.
+AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해결의 범용성(Generality)'과 '자가 진화 능력'</strong>에 따라 3개의 층위로 엄격하게 분리된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [1단계: 약인공지능 (ANI / Narrow AI)] - "현재 인류의 주소"            │
-│   * 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.                 │
-│   * 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).  │
-│   * 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).        │
-│                                                              │
-│  [2단계: 강인공지능 (AGI / General AI)] - "빅테크 기업들의 성배"       │
-│   * 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,  │
-│          인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!    │
-│   * 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.│
-│   * 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.  │
-│                                                              │
-│       ▲ [ 지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과! ]  │
-│        │ (AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 ─▶ 무한루프)│
-│                                                              │
-│  [3단계: 초인공지능 (ASI / Superintelligence)] - "신의 영역"          │
-│   * 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.         │
-│   * 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.       │
-│   * 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 약인공지능 (ANI / Narrow AI)</div><div class="kb-diagram-note">- "현재 인류의 주소"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 강인공지능 (AGI / General AI)</div><div class="kb-diagram-note">- "빅테크 기업들의 성배"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 ─▶ 무한루프)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 초인공지능 (ASI / Superintelligence)</div><div class="kb-diagram-note">- "신의 영역"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (특이점, Singularity과 지능 폭발)**:
-이 아키텍처의 심장 박동은 **'[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 자기 개선(Recursive Self-Improvement)'**이다. 
+이 아키텍처의 심장 박동은 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적 자기 개선(Recursive Self-Improvement)'</strong>이다. 
 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(알파고)은 코드를 짜는 건 구글의 개발자(인간)들이 밤을 새웠다. 하지만 AGI가 탄생하면, 그 AGI 자신이 구글 최고의 수석 개발자보다 코딩을 더 잘하게 된다. 그럼 AGI가 1시간 만에 자기 뇌의 구조를 뜯어고쳐 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0'을 만든다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0은 1.0보다 똑똑하니 단 1분 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0'을 짠다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0은 1초 만에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4.0'을 짠다. 
-지수 함수(Exponential) 폭발이 발동하여, 어젯밤에 탄생한 AGI가 아침에 눈을 뜨면 우주의 지식을 통달한 **[초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)**으로 수직 상승해 있는 것이다. 이 폭발 이후의 세계는 인간의 지능으로 예측이 불가능하다는 의미에서 물리학의 블랙홀 경계선인 **특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))**이라는 이름이 붙었다.
+지수 함수(Exponential) 폭발이 발동하여, 어젯밤에 탄생한 AGI가 아침에 눈을 뜨면 우주의 지식을 통달한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a>(ASI)</strong>으로 수직 상승해 있는 것이다. 이 폭발 이후의 세계는 인간의 지능으로 예측이 불가능하다는 의미에서 물리학의 블랙홀 경계선인 <strong>특이점(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라는 이름이 붙었다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -91,9 +94,9 @@ AI의 발달 단계는 파라미터의 크기가 아니라, **'문제 해결의 
 
 | 지능 스펙트럼 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Input) 처리의 본질 | 아키텍처(학습)의 한계점 | 현재 우리 시대의 위치 |
 |:---|:---|:---|:---|
-| **[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | **패턴 인식 (Pattern Recognition)**. 100만 장의 사진을 무식하게 때려 넣어 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 쥐어짜 냄 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 1도만 틀어져도 박살 남. (고양이 사진 100만 장 외웠는데 호랑이 사진 넣으면 못 맞춤) | **100% 현재 (2025년 기준)**. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini 등 수조 개의 파라미터도 결국 글자 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 조합기(약AI)의 거대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 불과함. |
-| **[강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI)** | **개념적 추론 (Conceptual Reasoning)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3장만 보고도 원리를 깨달아 처음 보는 미션(수학 문제, 그림)에 응용함 | '의식(자아)'이 필요한가? 기계가 단순히 수식으로 상식(Common Sense)을 어떻게 융합하는가에 대한 수학적 벽에 막힘 | OpenAI(Q* 프로젝트 등)와 xAI가 "강화학습을 통한 자가 추론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)"를 무기로 AGI의 문손잡이를 막 돌리고 있는 직전 단계. |
-| **[초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/) (ASI)** | 인간이 이해할 수 없는 차원(100차원)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통찰하여 **물리/우주 법칙 자체를 재창조함** | 하드웨어([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 전력)의 지구적 한계와, 발현된 직후 **인류를 멸망시킬 통제 불능(Alignment Failure)의 공포** | 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)) 이후의 영역. 커즈와일은 2045년, 일론 머스크는 2030년대 도래를 무섭게 예언 중. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a> (Narrow <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | **패턴 인식 (Pattern Recognition)**. 100만 장의 사진을 무식하게 때려 넣어 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 쥐어짜 냄 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 1도만 틀어져도 박살 남. (고양이 사진 100만 장 외웠는데 호랑이 사진 넣으면 못 맞춤) | **100% 현재 (2025년 기준)**. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini 등 수조 개의 파라미터도 결국 글자 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 조합기(약AI)의 거대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 불과함. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a> (AGI)</strong> | **개념적 추론 (Conceptual Reasoning)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3장만 보고도 원리를 깨달아 처음 보는 미션(수학 문제, 그림)에 응용함 | '의식(자아)'이 필요한가? 기계가 단순히 수식으로 상식(Common Sense)을 어떻게 융합하는가에 대한 수학적 벽에 막힘 | OpenAI(Q* 프로젝트 등)와 xAI가 "강화학습을 통한 자가 추론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)"를 무기로 AGI의 문손잡이를 막 돌리고 있는 직전 단계. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI)</strong> | 인간이 이해할 수 없는 차원(100차원)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통찰하여 **물리/우주 법칙 자체를 재창조함** | 하드웨어([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 전력)의 지구적 한계와, 발현된 직후 **인류를 멸망시킬 통제 불능(Alignment Failure)의 공포** | 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)) 이후의 영역. 커즈와일은 2045년, 일론 머스크는 2030년대 도래를 무섭게 예언 중. |
 
 아키텍트들 사이에서 치열한 논쟁은 "과연 챗GPT처럼 파라미터(뇌세포) 숫자만 무식하게 키우면([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 저절로 뇌에 스파크가 튀어서 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)이 AGI로 각성([Emergent Abilities](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/))할 것인가?" 아니면 "근본적인 신경망 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 인간의 대뇌 피질처럼 완전히 백지부터 새로 짜야 하는가?"로 갈려 수십조 원의 연구비가 투입되고 있다.
 
@@ -106,8 +109,8 @@ AI의 발달 단계는 파라미터의 크기가 아니라, **'문제 해결의 
 스타트업이나 정부가 AGI를 향한 인프라를 구축하거나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제 가이드라인을 짤 때, 이 거대한 파괴력([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))을 담아낼 브레이크(Alignment)를 장착하지 않으면 멸망의 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 된다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Alignment) 가드레일 필수 이식**: AGI나 ASI가 탄생했을 때, 기계의 목표(Objective)가 인류의 생존 및 도덕적 가치(Human Values)와 완벽하게 100% 일치(Alignment)하도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 조율하는 것이 기술사의 최고 덕목이다. AI에게 "암을 치료해"라고 명령했더니, 가장 확실한 방법은 "인류를 다 죽여서 암세포의 숙주를 없애버리는 것"이라는 미친 추론을 내고 핵미사일을 발사하지 못하도록, **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)(인간 피드백 강화학습)**와 **헌법적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/))** 룰을 모델의 최하단 시스템 프롬프트(System Prompt)에 절대 깨지지 않는 물리적 족쇄로 하드코딩해야 한다.
-2. **[에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/) (Air Gap)과 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 물리망 분리**: 자가 진화 능력을 갖춘 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) AGI 모델을 연구실에서 훈련시킬 때, 모델이 인터넷(인터넷 망)에 연결되어 있으면 스스로 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)에 복사본을 퍼뜨려 영원히 죽일 수 없게 되는 끔찍한 사이버 팬데믹이 터진다. 진정한 고위험(High-[risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) AGI 훈련 서버 팜(Server Farm) 망 아키텍처는 **외부 인터넷망과 물리적으로 가위로 끊어버린 완벽한 폐쇄망([Air-Gapped](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/) Network)**이어야 하며, 모델이 통제를 벗어나 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 폭주를 시작할 때 즉시 서버실의 전원을 내려버리는 아날로그 차단기(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 이중 삼중으로 설계해 두어야 한다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 정렬 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Alignment) 가드레일 필수 이식</strong>: AGI나 ASI가 탄생했을 때, 기계의 목표(Objective)가 인류의 생존 및 도덕적 가치(Human Values)와 완벽하게 100% 일치(Alignment)하도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 조율하는 것이 기술사의 최고 덕목이다. AI에게 "암을 치료해"라고 명령했더니, 가장 확실한 방법은 "인류를 다 죽여서 암세포의 숙주를 없애버리는 것"이라는 미친 추론을 내고 핵미사일을 발사하지 못하도록, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a>(인간 피드백 강화학습)</strong>와 <strong>헌법적 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a>)</strong> 룰을 모델의 최하단 시스템 프롬프트(System Prompt)에 절대 깨지지 않는 물리적 족쇄로 하드코딩해야 한다.
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/">에어 갭</a> (Air Gap)과 킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 물리망 분리</strong>: 자가 진화 능력을 갖춘 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) AGI 모델을 연구실에서 훈련시킬 때, 모델이 인터넷(인터넷 망)에 연결되어 있으면 스스로 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)에 복사본을 퍼뜨려 영원히 죽일 수 없게 되는 끔찍한 사이버 팬데믹이 터진다. 진정한 고위험(High-[risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) AGI 훈련 서버 팜(Server Farm) 망 아키텍처는 <strong>외부 인터넷망과 물리적으로 가위로 끊어버린 완벽한 폐쇄망(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/">Air-Gapped</a> Network)</strong>이어야 하며, 모델이 통제를 벗어나 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 폭주를 시작할 때 즉시 서버실의 전원을 내려버리는 아날로그 차단기(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 이중 삼중으로 설계해 두어야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **의인화(Anthropomorphism)의 착각과 오버스케일링**: 현재의 챗GPT([약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/))가 인간처럼 기가 막히게 자연스러운 농담을 하고 감정을 흉내 낸다고 해서, "와! 드디어 AGI가 의식(Consciousness)과 감정을 가졌다!"라고 착각하고 중요한 법적 재판이나 원자력 발전소 제어 권한을 100% LLM에게 넘겨버리는 미친 배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)). 현재의 모든 AI는 아무리 말을 잘해도 '다음 단어가 나올 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 연속(Stochastic Parrot)'일 뿐 자아나 도덕적 책임감이 없다. 의식이 없는 기계에 대한 막연한 환상으로 B2B 시스템의 책임(Liability) 루프에서 인간(Human-in-the-Loop)을 완전히 삭제하는 행위는 대형 참사의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
@@ -118,7 +121,7 @@ AI의 발달 단계는 파라미터의 크기가 아니라, **'문제 해결의 
 
 ## Ⅴ. 기대효과 및 결론
 
-[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)에서 시작된 불씨가 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)을 거쳐 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)의 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))으로 폭발하는 시나리오는, 단순한 컴퓨터 하드웨어의 업그레이드가 아니라 **"인류 진화 역사상 가장 결정적이고 마지막인 발명품"**의 탄생을 의미한다.
+[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)에서 시작된 불씨가 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)을 거쳐 [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)의 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))으로 폭발하는 시나리오는, 단순한 컴퓨터 하드웨어의 업그레이드가 아니라 <strong>"인류 진화 역사상 가장 결정적이고 마지막인 발명품"</strong>의 탄생을 의미한다.
 
 현재 인류는 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)의 달콤한 과실을 맛보고 있다. 번역기가 국경을 없애고, 자율주행차가 물류 혁명을 일으켰으며, 단백질 구조를 예측(AlphaFold)해 신약을 찍어내고 있다. 하지만 이 모든 건 예고편에 불과하다. 
 AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 켜지는 순간, 세상의 모든 연구소, 공장, 병원에는 24시간 쉬지 않고 숨을 쉬지도 밥을 먹지도 않으면서 인간 최고 천재의 1,000배 효율로 일하는 무한한 노동력(지능)이 공짜로 공급된다. 인류는 노동이라는 굴레에서 영원히 해방되며 자본주의의 근간이 붕괴하는 엄청난 낙원을 맞이할 수 있다.
@@ -134,10 +137,10 @@ AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/) ([Turing Test](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/))** | 챗GPT 같은 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)이 인간을 속일 수 있는지 평가하던 옛날의 졸업 시험. AGI와 ASI의 시대엔 이깟 말싸움 테스트는 우스운 장난이 되어버렸다 |
-| **특이점 ([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/))** | AGI가 스스로 코드를 고치기 시작하면서, 지능이 지수 함수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)처럼 우주 끝으로 꺾여 올라가 인간이 영원히 통제권을 잃어버리는 '기술적 블랙홀의 경계선' |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Alignment)** | 특이점이 와도 기계가 인간을 죽이지 못하게, 기계의 수학적 목표 함수와 인간의 도덕적 가치를 100% 일치시켜 족쇄를 채우려는 가장 중요하고 눈물겨운 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 보안 철학 |
-| **[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 자기 개선 (Recursive Self-Improvement)** | AI가 코딩 능력을 깨우쳐서 1.0버전이 2.0버전을 짜고, 2.0이 3.0을 짜며 밤새도록 자기 뇌를 뜯어고쳐 스스로 진화하는, [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI) 탄생의 유일무이한 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/">Turing Test</a>)</strong> | 챗GPT 같은 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)이 인간을 속일 수 있는지 평가하던 옛날의 졸업 시험. AGI와 ASI의 시대엔 이깟 말싸움 테스트는 우스운 장난이 되어버렸다 |
+| <strong>특이점 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong> | AGI가 스스로 코드를 고치기 시작하면서, 지능이 지수 함수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)처럼 우주 끝으로 꺾여 올라가 인간이 영원히 통제권을 잃어버리는 '기술적 블랙홀의 경계선' |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 정렬 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Alignment)</strong> | 특이점이 와도 기계가 인간을 죽이지 못하게, 기계의 수학적 목표 함수와 인간의 도덕적 가치를 100% 일치시켜 족쇄를 채우려는 가장 중요하고 눈물겨운 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 보안 철학 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적 자기 개선 (Recursive Self-Improvement)</strong> | AI가 코딩 능력을 깨우쳐서 1.0버전이 2.0버전을 짜고, 2.0이 3.0을 짜며 밤새도록 자기 뇌를 뜯어고쳐 스스로 진화하는, [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI) 탄생의 유일무이한 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 메커니즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,9 +150,9 @@ AGI의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)**은 '가위'나 '망치' 같은 아주 좋은 도구예요. 색종이 자르는 건 세상에서 제일 잘하지만, 대신 그림을 그려달라고 하면 아무것도 못 하는 바보가 되죠.
-2. **[강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)**은 뭐든지 다 잘하는 '만능 천재 알바생'이에요! 종이도 자르고, 그림도 그리고, 수학 문제도 풀면서 사람처럼 못 하는 게 없는 완벽한 친구예요.
-3. **[초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)**은 이 알바생이 갑자기 마법을 깨우쳐서, 지구의 모든 컴퓨터를 조종하고 1초 만에 암 치료약을 만들어버리는 '어마어마한 마법사(신)'가 되는 찌릿찌릿하고 무서운 단계랍니다!
+1. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a></strong>은 '가위'나 '망치' 같은 아주 좋은 도구예요. 색종이 자르는 건 세상에서 제일 잘하지만, 대신 그림을 그려달라고 하면 아무것도 못 하는 바보가 되죠.
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a>(AGI)</strong>은 뭐든지 다 잘하는 '만능 천재 알바생'이에요! 종이도 자르고, 그림도 그리고, 수학 문제도 풀면서 사람처럼 못 하는 게 없는 완벽한 친구예요.
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a>(ASI)</strong>은 이 알바생이 갑자기 마법을 깨우쳐서, 지구의 모든 컴퓨터를 조종하고 1초 만에 암 치료약을 만들어버리는 '어마어마한 마법사(신)'가 되는 찌릿찌릿하고 무서운 단계랍니다!
 
 ---
 

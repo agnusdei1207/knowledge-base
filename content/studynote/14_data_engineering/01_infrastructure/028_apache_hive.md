@@ -18,24 +18,22 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                Apache Hive 아키텍처                       │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  분석가  →  HiveQL (SQL)                                 │
-│                 │                                         │
-│          Hive Query Compiler                              │
-│                 │ SQL → MapReduce/Tez/Spark Job 변환      │
-│          Hive Metastore (HMS)                             │
-│          (테이블 스키마·파티션·통계 중앙 저장)            │
-│                 │                                         │
-│          실행 엔진 (MapReduce / Tez / Spark)              │
-│                 │                                         │
-│          HDFS / S3 / ADLS (스토리지)                     │
-│                                                           │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Hive 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석가 → HiveQL (SQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hive Query Compiler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL → MapReduce/Tez/Spark Job 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hive Metastore (HMS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(테이블 스키마·파티션·통계 중앙 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 엔진 (MapReduce / Tez / Spark)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS / S3 / ADLS (스토리지)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Apache Hive는 HDFS용 SQL 번역기다. 분석가가 SQL을 말하면 Hive가 이를 Hadoop이 이해하는 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 언어로 번역해서 실행하고 결과를 가져온다.
 
@@ -48,23 +46,28 @@ tags = ["studynote-data-engineering"]
 | 구성 요소 | 역할 |
 |:---|:---|
 | **HiveQL** | ANSI SQL 호환 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
-| **[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore (HMS)** | 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·통계 중앙 저장소 |
-| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 컴파일러** | SQL → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> Metastore (HMS)</strong> | 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·통계 중앙 저장소 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 컴파일러</strong> | SQL → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 |
 | **실행 엔진** | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Tez / Spark 중 선택 |
 | **SerDe** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화/역직렬화 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC) |
 
 ### [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 파티셔닝과 버킷팅
 
-```text
-파티셔닝 (Partitioning):
-  CREATE TABLE sales (id INT, amount DOUBLE)
-  PARTITIONED BY (year INT, month INT);
-  → 연·월별 디렉토리로 분리 → 쿼리 시 불필요 파티션 스킵
 
-버킷팅 (Bucketing):
-  CLUSTERED BY (customer_id) INTO 32 BUCKETS;
-  → 해시 기반 데이터 분산 → JOIN 최적화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파티셔닝 (Partitioning):</div>
+<div class="kb-diagram-note">CREATE TABLE sales (id INT, amount DOUBLE)</div>
+<div class="kb-diagram-note">PARTITIONED BY (year INT, month INT);</div>
+<div class="kb-diagram-note">→ 연·월별 디렉토리로 분리 → 쿼리 시 불필요 파티션 스킵</div>
+<div class="kb-diagram-note">버킷팅 (Bucketing):</div>
+<div class="kb-diagram-note">CLUSTERED BY (customer_id) INTO 32 BUCKETS;</div>
+<div class="kb-diagram-note">→ 해시 기반 데이터 분산 → JOIN 최적화</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 파티셔닝은 도서관 책 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다. 연도·월별로 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 서가에 정리해서 "2024년 3월" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요할 때 다른 서가는 아예 뒤지지 않는다.
 
@@ -87,17 +90,21 @@ tags = ["studynote-data-engineering"]
 
 ### Lakehouse에서 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore의 역할
 
-```text
-데이터 레이크하우스 메타데이터 허브:
 
-  Spark SQL ─┐
-  Trino      ├─→ Hive Metastore → S3/HDFS 데이터
-  Presto     │   (테이블 스키마·파티션 정보)
-  Flink      ─┘
 
-→ 모든 엔진이 HMS를 통해 동일한 테이블 메타데이터 공유
-→ 현대적 대안: AWS Glue Catalog, Nessie, Unity Catalog
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 레이크하우스 메타데이터 허브:</div>
+<div class="kb-diagram-note">Spark SQL ─</div>
+<div class="kb-diagram-note">Trino ─→ Hive Metastore → S3/HDFS 데이터</div>
+<div class="kb-diagram-note">Presto │ (테이블 스키마·파티션 정보)</div>
+<div class="kb-diagram-note">Flink ─</div>
+<div class="kb-diagram-note">→ 모든 엔진이 HMS를 통해 동일한 테이블 메타데이터 공유</div>
+<div class="kb-diagram-note">→ 현대적 대안: AWS Glue Catalog, Nessie, Unity Catalog</div>
+</div>
+</div>
+
+
 
 ### ORC vs [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식
 
@@ -119,8 +126,8 @@ Parquet:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **SQL [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)** | 비개발자도 페타바이트 분석 |
-| **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준** | HMS가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
+| <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | 비개발자도 페타바이트 분석 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 표준</strong> | HMS가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
 | **비용 효율** | S3 기반 대규모 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
 
 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)·Delta Lake의 등장으로 Hive의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 한계가 보완됐다. 현대 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)에서는 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진보다 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore의 역할이 더 중요하며, AWS Glue [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) 등 관리형 메타스토어로 대체되는 추세다.
@@ -133,29 +140,31 @@ Parquet:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore** | [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> Metastore</strong> | [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) |
 | **HiveQL** | SQL을 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 잡으로 변환 |
-| **ORC/[Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)** | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 최적 컬럼형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 |
+| <strong>ORC/<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a></strong> | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 최적 컬럼형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 |
 | **Presto/Trino** | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 대비 인터랙티브 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 가속 |
-| **[Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/)** | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) ACID 한계 극복 차세대 포맷 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/">Apache Iceberg</a></strong> | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) ACID 한계 극복 차세대 포맷 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[HDFS + MapReduce — 원시 Hadoop 배치 처리]
-    │
-    ▼
-[Apache Hive — SQL 인터페이스, HMS 메타데이터 표준화]
-    │
-    ▼
-[Tez/Spark 엔진 — Hive 쿼리 실행 가속]
-    │
-    ▼
-[Presto/Trino — 인터랙티브 MPP SQL 엔진]
-    │
-    ▼
-[Iceberg/Delta + Unity Catalog — 오픈 테이블 포맷 + 통합 메타스토어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS + MapReduce — 원시 Hadoop 배치 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hive — SQL 인터페이스, HMS 메타데이터 표준화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tez/Spark 엔진 — Hive 쿼리 실행 가속</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Presto/Trino — 인터랙티브 MPP SQL 엔진</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Iceberg/Delta + Unity Catalog — 오픈 테이블 포맷 + 통합 메타스토어</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

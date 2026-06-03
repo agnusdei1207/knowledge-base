@@ -23,14 +23,14 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)나 MC/DC는 모든 조합을 테스트하지 않으므로, 특정 조합에서만 발생하는 결함을 놓칠 수 있다. 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)는 이러한 한계를 극복하여, 예를 들어 "A and B and C"라는 조건에서 A=T, B=T, C=F일 때만 발생하는 결함도 반드시 발견할 수 있다.
 
-- **비유**: 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)는 **'모든 조합의 세탁 프로그램 테스트'**와 같다. 세탁기에 온도(조건1), 시간(조건2),|–rpm(조건3)의 세 가지 옵션이 있을 때, 모든 가능한 조합(고온-장시간-고rpm, 저온-장시간-저rpm 등)을테스트해야 한다. 온도-시간 조합은 테스트했지만 rpm을 바꿀 때만 나타나는 문제는 발견되지 않을 수 있다.
+- **비유**: 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)는 <strong>'모든 조합의 세탁 프로그램 테스트'</strong>와 같다. 세탁기에 온도(조건1), 시간(조건2),|–rpm(조건3)의 세 가지 옵션이 있을 때, 모든 가능한 조합(고온-장시간-고rpm, 저온-장시간-저rpm 등)을테스트해야 한다. 온도-시간 조합은 테스트했지만 rpm을 바꿀 때만 나타나는 문제는 발견되지 않을 수 있다.
 
 - **등장 배경 및 발전 과정**:
 1. **1990년대**: DO-178B에서 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)를 안전 수준 높은 시스템에 적용
 2. **2000년대**: 조합론적 테스트(Combinatorial Testing) 연구에서 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)의기초
 3. **현재**: Safety-critical 시스템 및 복잡한 비즈니스 로직 검증에 활용
 
-- **섹션 요약 비유**: 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)는 **'모든 조합의irthday cake 맛 테스트'**와 같다. 케이크 맛에 달걀(조건1), 설탕(조건2), 밀가루(조건3) 모든 조합을 테스트해야 정확한 맛 프로필을할 수 있다. 일부 조합만 테스트하면"밀가루를많이 넣으면 오히려 답답하다"는의 조합에서만 나타나는 문제를 놓칠 수 있다.
+- **섹션 요약 비유**: 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/)는 <strong>'모든 조합의irthday cake 맛 테스트'</strong>와 같다. 케이크 맛에 달걀(조건1), 설탕(조건2), 밀가루(조건3) 모든 조합을 테스트해야 정확한 맛 프로필을할 수 있다. 일부 조합만 테스트하면"밀가루를많이 넣으면 오히려 답답하다"는의 조합에서만 나타나는 문제를 놓칠 수 있다.
 
 ---
 
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) (Multiple의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 다중 조건 커버리지 (Multiple │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 조건 커버리지 (Multiple</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) (Multiple가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) (Multiple [Condition Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) (Multiple [Condition Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 다중 [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) (Multiple [Condition Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-다중 조건 커버리지 (Multiple Condition Coverage) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 조건 커버리지 (Multiple Condition Coverage) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

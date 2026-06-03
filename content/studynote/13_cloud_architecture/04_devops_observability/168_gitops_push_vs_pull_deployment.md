@@ -18,7 +18,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 빌드 후 `kubectl apply` 명령을 직접 실행하여 클러스터 상태를 변경한다. 이를 **Push(푸시) 배포**라고 부른다. 반면 **Pull(풀) 배포**는 클러스터 내부에 상주하는 에이전트(ArgoCD, Flux)가 주기적으로 Git 저장소를 감시하고, 변경 사항이 감지되면 스스로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
+전통적인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인은 빌드 후 `kubectl apply` 명령을 직접 실행하여 클러스터 상태를 변경한다. 이를 <strong>Push(푸시) 배포</strong>라고 부른다. 반면 <strong>Pull(풀) 배포</strong>는 클러스터 내부에 상주하는 에이전트(ArgoCD, Flux)가 주기적으로 Git 저장소를 감시하고, 변경 사항이 감지되면 스스로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 철학의 핵심은 "Git이 단일 진실 원천(SSOT, Single Source of Truth)"이라는 원칙이다. 이 원칙 아래서 두 방식은 서로 다른 보안·운영 트레이드오프를 가지며, 엔터프라이즈 환경에서 어느 방식을 선택하느냐는 아키텍처 설계의 핵심 결정 사항이다.
 
@@ -32,18 +32,23 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 
 ### Push vs Pull 흐름 비교
 
-```
-[Push 배포 흐름]
-개발자 → Git Push → CI 빌드 → kubectl apply → 쿠버네티스 클러스터
-                              ↑
-                      파이프라인이 kubeconfig 보유 (보안 위험)
 
-[Pull 배포 흐름]
-개발자 → Git Push → CI 빌드 → 이미지 레지스트리 푸시
-                                        ↓
-쿠버네티스 클러스터 ← ArgoCD/Flux 에이전트 감시·동기화 ← Git 저장소
-  (내부 에이전트가 당겨옴, 자격 증명 외부 노출 없음)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Push 배포 흐름</div></div>
+<div class="kb-diagram-note">개발자 → Git Push → CI 빌드 → kubectl apply → 쿠버네티스 클러스터</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">파이프라인이 kubeconfig 보유 (보안 위험)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pull 배포 흐름</div></div>
+<div class="kb-diagram-note">개발자 → Git Push → CI 빌드 → 이미지 레지스트리 푸시</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">쿠버네티스 클러스터 ← ArgoCD/Flux 에이전트 감시·동기화 ← Git 저장소</div>
+<div class="kb-diagram-note">(내부 에이전트가 당겨옴, 자격 증명 외부 노출 없음)</div>
+</div>
+</div>
+
+
 
 | 비교 항목 | Push 배포 | Pull 배포 |
 |:---|:---|:---|
@@ -69,7 +74,7 @@ Pull 방식이 부상한 이유는 [제로 트러스트](/knowledge-base/studyno
 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) | Push | 범용 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), 광범위한 플러그인 | 레거시 파이프라인 |
 | GitHub Actions | Push | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), 빠른 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 소규모 프로젝트 |
 
-**드리프트([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 처리**: Pull 도구는 Git에 정의된 상태와 실제 클러스터 상태를 지속 비교하여 누군가 수동으로 클러스터를 변경하면 자동으로 되돌린다(Self-healing). Push 방식은 이 기능이 없다.
+<strong>드리프트(<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a>) 처리</strong>: Pull 도구는 Git에 정의된 상태와 실제 클러스터 상태를 지속 비교하여 누군가 수동으로 클러스터를 변경하면 자동으로 되돌린다(Self-healing). Push 방식은 이 기능이 없다.
 
 📢 **섹션 요약 비유**: Push 방식은 방 청소를 한 번 하고 끝내는 가사 도우미고, Pull 방식은 더러워질 때마다 자동으로 청소하는 로봇 청소기다.
 
@@ -120,15 +125,19 @@ Pull 기반 GitOps는 클러스터 자격 증명의 외부 노출을 차단하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Push 모델: CI 서버 → 클러스터 직접 배포 (자격증명 외부 노출)
-    │
-    ▼
-Pull 모델: ArgoCD/Flux → Git 감시 → 클러스터 자율 동기화
-    │
-    ▼
-보안 강화: 클러스터 자격증명 외부 비노출
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Push 모델: CI 서버 → 클러스터 직접 배포 (자격증명 외부 노출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pull 모델: ArgoCD/Flux → Git 감시 → 클러스터 자율 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 강화: 클러스터 자격증명 외부 비노출</div>
+</div>
+</div>
+
+
 2. Pull 배포는 아이가 엄마가 적어준 메모(Git)를 보고 스스로 방을 정리하는 방식이에요.
 3. Pull 방식은 엄마가 방 열쇠를 다른 사람에게 맡기지 않아도 돼서 훨씬 안전해요!
 

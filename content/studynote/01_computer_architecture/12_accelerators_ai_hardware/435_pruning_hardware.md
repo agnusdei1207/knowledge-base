@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가지치기 지원 하드웨어의 핵심은 **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장 → 위치 복원 → 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 연산**의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
+가지치기 지원 하드웨어의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장 → 위치 복원 → 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 연산</strong>의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
 
 아래 표는 대표 구성 요소와 역할을 정리한 것이다.
 
@@ -45,29 +45,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 가지치기 지원 하드웨어가 "메모리 절감"과 "연산 스킵"을 동시에 만드는 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            가지치기 지원 하드웨어의 실행 경로: 0을 싣지 않고, 0은 계산하지 않음            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 원본 가중치   [ w0 ][  0 ][ w2 ][  0 ]                                    │
-│                  │                                                         │
-│                  ▼                                                         │
-│ 압축 저장     [ w0 ][ w2 ] + 위치 마스크(예: 1010)                        │
-│                  │                                                         │
-│                  ▼                                                         │
-│ 디코더        유효 위치만 복원 ───────────────┐                             │
-│                  │                            │                             │
-│ 활성값 입력     [ x0 ][ x1 ][ x2 ][ x3 ]      │                             │
-│                  │                            │                             │
-│                  └──── Selector/MUX ────────▶ [ x0 ][ x2 ]                 │
-│                                                   │                        │
-│                                                   ▼                        │
-│ MAC Array                                      2개만 연산                  │
-│                                                   │                        │
-│                                                   ▼                        │
-│ 결과 누산                                      출력 벡터 갱신               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가지치기 지원 하드웨어의 실행 경로: 0을 싣지 않고, 0은 계산하지 않음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">원본 가중치</div><div class="kb-diagram-node">w0</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">w2</div><div class="kb-diagram-node">0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">압축 저장</div><div class="kb-diagram-node">w0</div><div class="kb-diagram-node">w2</div><div class="kb-diagram-note">+ 위치 마스크(예: 1010)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더 유효 위치만 복원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">활성값 입력</div><div class="kb-diagram-node">x0</div><div class="kb-diagram-node">x1</div><div class="kb-diagram-node">x2</div><div class="kb-diagram-node">x3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">x0</div><div class="kb-diagram-node">x2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC Array 2개만 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 누산 출력 벡터 갱신</div></div>
+</div>
+</div>
+
+
 
 문제는 희소성이 높다고 해서 언제나 하드웨어가 행복해지는 것은 아니라는 점이다. 비정형 가지치기 (Unstructured Pruning) 는 정확도 보존에는 유리할 수 있지만, 살아남은 값의 위치가 들쭉날쭉해 주소 계산과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 그래서 실제 상용 가속기는 `2:4`, `4:8`, 블록 스파시티 (Block Sparsity) 같은 구조적 희소성 규칙을 선호한다. 예를 들어 연속된 4개 값 중 정확히 2개만 남기는 `2:4` 규칙은 소프트웨어 입장에서는 제약이지만, 하드웨어 입장에서는 회로를 단순하게 만들어 안정적인 2배 내외 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 노릴 수 있다.
 
@@ -88,7 +81,7 @@ tags = ["studynote-computer-architecture"]
 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 높을 수 있음 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 단순 | 실제 칩 구현은 구조적 방식이 안정적 |
 | 실행 오버헤드 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 비용 큼 | 예측 가능한 선택 가능 | 실효 속도는 구조적 방식이 앞서는 경우가 많음 |
 
-이 개념은 다른 컴퓨터구조 주제와도 강하게 연결된다. 먼저 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) 나 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 는 본래 밀집 행렬 곱에 최적화된 구조인데, 여기에 희소성 해석기를 붙이면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 유지하면서도 불필요한 MAC을 줄일 수 있다. 둘째, [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 관점에서 보면 가지치기 지원 하드웨어의 진짜 이익은 연산 생략보다 **메모리 이동량 감소**에 있다. 셋째, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 와 결합하면 남아 있는 비영 값 자체의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭도 줄어들어, 메모리와 연산 모두에서 이득이 증폭된다.
+이 개념은 다른 컴퓨터구조 주제와도 강하게 연결된다. 먼저 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) 나 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 는 본래 밀집 행렬 곱에 최적화된 구조인데, 여기에 희소성 해석기를 붙이면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 유지하면서도 불필요한 MAC을 줄일 수 있다. 둘째, [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 관점에서 보면 가지치기 지원 하드웨어의 진짜 이익은 연산 생략보다 <strong>메모리 이동량 감소</strong>에 있다. 셋째, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 와 결합하면 남아 있는 비영 값 자체의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭도 줄어들어, 메모리와 연산 모두에서 이득이 증폭된다.
 
 다만 가지치기와 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 서로 다른 문제를 푼다. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 "값의 표현 폭"을 줄이고, 가지치기는 "값의 개수"를 줄인다. 둘을 혼동하면 설계 판단이 흐려진다. 전자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 최적화라면, 후자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 자체를 줄이는 최적화다.
 
@@ -102,36 +95,35 @@ tags = ["studynote-computer-architecture"]
 
 대표적인 판단 기준은 다음과 같다.
 
-1. **하드웨어 지원 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 신경망 처리 장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 디지털 학습 가속기 ([DLA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/), [Deep Learning Accelerator](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/)) 가 구조적 희소성 명령을 실제로 제공하는지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-2. **희소성 형식 일치 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 하드웨어가 `2:4` 를 요구하는데 모델은 임의 희소성으로 가지치기되었다면, 기대한 가속은 나오지 않는다.
+1. <strong>하드웨어 지원 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 신경망 처리 장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 디지털 학습 가속기 ([DLA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/), [Deep Learning Accelerator](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/)) 가 구조적 희소성 명령을 실제로 제공하는지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. <strong>희소성 형식 일치 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 하드웨어가 `2:4` 를 요구하는데 모델은 임의 희소성으로 가지치기되었다면, 기대한 가속은 나오지 않는다.
 3. **정확도 복원 비용 검토**: 가지치기 후 미세조정 ([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 이 필요한데, 그 비용이 운영 이익보다 크면 채택 가치가 낮다.
 4. **메모리 병목 여부 측정**: 이미 연산 병목이 아니라 메모리 병목이라면, 가지치기 지원 하드웨어는 특히 효과가 크다.
 
 아래 판단 트리는 실무 도입 여부를 가르는 핵심 질문을 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 가지치기 지원 하드웨어 도입 판단 트리                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ 모델을 가지치기했다                                                  │
-│   │                                                                  │
-│   ├─ 하드웨어가 희소 연산 명령을 지원하는가?                         │
-│   │      ├─ 아니오 → 모델 크기 축소 효과는 있어도 실행 가속은 제한적 │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   ├─ 희소성 형식이 하드웨어 규격과 일치하는가?                       │
-│   │      ├─ 아니오 → 재학습 또는 재배치 필요                         │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   ├─ 메타데이터/디코딩 오버헤드가 수용 가능한가?                     │
-│   │      ├─ 아니오 → 이득이 상쇄될 가능성 큼                         │
-│   │      └─ 예                                                        │
-│   │            │                                                      │
-│   └─ 정확도 하락을 재학습으로 회복 가능한가?                         │
-│          ├─ 아니오 → 채택 보류                                       │
-│          └─ 예    → 실제 배포 가치 높음                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가지치기 지원 하드웨어 도입 판단 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델을 가지치기했다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 하드웨어가 희소 연산 명령을 지원하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 → 모델 크기 축소 효과는 있어도 실행 가속은 제한적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 희소성 형식이 하드웨어 규격과 일치하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 → 재학습 또는 재배치 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터/디코딩 오버헤드가 수용 가능한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 → 이득이 상쇄될 가능성 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정확도 하락을 재학습으로 회복 가능한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 → 채택 보류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 → 실제 배포 가치 높음</div></div>
+</div>
+</div>
+
+
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -154,7 +146,7 @@ tags = ["studynote-computer-architecture"]
 
 가지치기 지원 하드웨어가 제대로 작동하면 기대효과는 분명하다. 첫째, 불필요한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 줄어 전성비가 좋아진다. 둘째, 비영 값만 이동하므로 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구량이 낮아진다. 셋째, 같은 실리콘 면적에서도 유효 연산 비율이 높아져 추론 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올릴 수 있다.
 
-하지만 이 효과는 항상 "이론치 그대로" 나오지 않는다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 비용, 부하 불균형, 구조적 희소성 강제에 따른 정확도 손실, 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 미지원이 있으면 이득이 빠르게 줄어든다. 즉 가지치기 지원 하드웨어는 만능 가속기가 아니라, **희소성이 충분하고 규칙적이며 메모리 병목이 큰 추론 환경에서 특히 강한 특화 기술**로 이해해야 한다.
+하지만 이 효과는 항상 "이론치 그대로" 나오지 않는다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 비용, 부하 불균형, 구조적 희소성 강제에 따른 정확도 손실, 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 미지원이 있으면 이득이 빠르게 줄어든다. 즉 가지치기 지원 하드웨어는 만능 가속기가 아니라, <strong>희소성이 충분하고 규칙적이며 메모리 병목이 큰 추론 환경에서 특히 강한 특화 기술</strong>로 이해해야 한다.
 
 앞으로는 세 방향이 중요해진다. 하나는 `N:M` 규칙을 더 유연하게 다루는 하드웨어, 하나는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·복원 오버헤드를 줄이는 컴파일러, 마지막 하나는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·오프로딩과 함께 묶는 통합 최적화다. 결국 이 개념을 기억할 때는 "0을 많이 만들었다"가 아니라 **"0을 하드웨어가 부담 없이 무시할 수 있게 설계했다"** 로 정리하는 것이 정확하다.
 
@@ -174,24 +166,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-밀집 행렬 연산
-    │
-    ▼
-모델 가지치기 (Pruning)
-    │
-    ▼
-희소성 (Sparsity) 인식 소프트웨어 포맷
-    │
-    ▼
-구조적 희소성 (Structured Sparsity, N:M)
-    │
-    ▼
-가지치기 지원 하드웨어 · Zero-skipping 실행기
-    │
-    ▼
-양자화 · 메모리 오프로딩과 결합한 통합 추론 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">밀집 행렬 연산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 가지치기 (Pruning)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">희소성 (Sparsity) 인식 소프트웨어 포맷</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 희소성 (Structured Sparsity, N:M)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가지치기 지원 하드웨어 · Zero-skipping 실행기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자화 · 메모리 오프로딩과 결합한 통합 추론 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "모델 경량화 아이디어"가 단순한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 끝나지 않고, 하드웨어 명령과 메모리 시스템까지 포함하는 실행 최적화로 확장되는 과정을 보여준다.
 

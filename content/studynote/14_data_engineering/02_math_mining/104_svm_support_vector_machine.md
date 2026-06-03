@@ -31,23 +31,25 @@ tags = ["studynote-data-engineering"]
 
 SVM은 기하학적인 최적화 문제로 작동하며, 핵심 메커니즘은 초평면 (Hyperplane), 마진 극대화, 그리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SVM의 기하학적 마진 극대화                  │
-├──────────────────────────────────────────────────────────────┤
-│         (Class A)                   (Class B)                │
-│             o                           x                    │
-│      o             o       │       x             x           │
-│           o(SV)  <─┼───────┼───────┼─>  x(SV)                │
-│                    │       │       │                         │
-│       Margin(-1)   │ Hyperplane(0) │   Margin(+1)            │
-│                 최대 거리 (Max Margin)                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM의 기하학적 마진 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Class A) (Class B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o o</div><div class="kb-diagram-cell">x x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o(SV) &lt;─ ─&gt; x(SV)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Margin(-1)</div><div class="kb-diagram-cell">Hyperplane(0)</div><div class="kb-diagram-cell">Margin(+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 거리 (Max Margin)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 결정 초평면(Hyperplane, 중앙선)과 가장 가까운 양쪽의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트인 서포트 벡터([SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/))를 보여준다. 마진은 이 두 서포트 벡터 사이의 폭을 의미하며, SVM은 수식 $\frac{2}{||w||}$ 를 최대화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 $w$를 [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) (Lagrange Multipliers)을 통해 계산해 낸다.
 
-또한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형으로 나뉘지 않을 때 SVM은 **[커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))**을 쓴다. RBF (Radial Basis Function)나 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 사용해, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한 차원의 공간으로 변환하는 계산 비용 없이 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)만으로 고차원 공간에서 평면으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 갈라낸다. 
+또한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형으로 나뉘지 않을 때 SVM은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">커널 트릭</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/">Kernel Trick</a>)</strong>을 쓴다. RBF (Radial Basis Function)나 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) ([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 사용해, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무한 차원의 공간으로 변환하는 계산 비용 없이 내적 ([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)만으로 고차원 공간에서 평면으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 갈라낸다. 
 
 - **📢 섹션 요약 비유**: 평면에 섞여 있는 빨간 구슬과 파란 구슬을 선 하나로 나눌 수 없다면, SVM은 판을 세게 내리쳐 구슬들을 공중으로 띄운 뒤(고차원 매핑), 공중에 뜬 구슬들 사이에 커다란 판자를 끼워 넣어(초평면) 완벽히 분리하는 마술을 부린다.
 
@@ -75,9 +77,9 @@ SVM은 경계선에 위치한 소수의 서포트 벡터로만 결정되므로, 
 실무에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 구축할 때 SVM은 항상 강력한 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 후보로 고려되어야 하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성에 따라 채택 여부가 갈린다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Scaling)**: SVM은 거리 기반 알고리즘이다. 변수들의 단위 차이가 크면 마진 계산이 왜곡되므로 `StandardScaler`나 `MinMaxScaler` 적용이 필수적인가?
-2. **[이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 허용도 (C 하이퍼파라미터)**: 소프트 마진 (Soft Margin) 전략을 사용할 때, 규제 파라미터 `C`를 어떻게 잡을 것인가? (`C`가 크면 하드 마진에 가까워져 과적합 위험, 작으면 언더피팅)
-3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수가 10만 건 이상인가? (그렇다면 RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) SVM은 학습이 너무 느려지므로 선형 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) (LinearSVC)이나 LightGBM으로 우회해야 한다)
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (Scaling)</strong>: SVM은 거리 기반 알고리즘이다. 변수들의 단위 차이가 크면 마진 계산이 왜곡되므로 `StandardScaler`나 `MinMaxScaler` 적용이 필수적인가?
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a> 허용도 (C 하이퍼파라미터)</strong>: 소프트 마진 (Soft Margin) 전략을 사용할 때, 규제 파라미터 `C`를 어떻게 잡을 것인가? (`C`가 크면 하드 마진에 가까워져 과적합 위험, 작으면 언더피팅)
+3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 크기</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수가 10만 건 이상인가? (그렇다면 RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) SVM은 학습이 너무 느려지므로 선형 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) (LinearSVC)이나 LightGBM으로 우회해야 한다)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수백만 건의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 무작정 RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) SVM을 돌려 서버의 메모리와 CPU를 며칠씩 마비시키는 행위.
@@ -108,21 +110,23 @@ SVM을 올바르게 활용하면 [데이터](/knowledge-base/studynote/05_databa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-퍼셉트론 (선형 분류의 기초)
-    │
-    ▼
-하드 마진 SVM (선형 데이터 완벽 분리)
-    │
-    ▼
-소프트 마진 SVM (노이즈 허용 및 일반화 향상)
-    │
-    ▼
-커널 트릭 (Kernel Trick) 도입 (비선형 데이터 해결)
-    │
-    ▼
-SVR (Support Vector Regression, 회귀 문제로의 확장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">퍼셉트론 (선형 분류의 기초)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드 마진 SVM (선형 데이터 완벽 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트 마진 SVM (노이즈 허용 및 일반화 향상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 트릭 (Kernel Trick) 도입 (비선형 데이터 해결)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SVR (Support Vector Regression, 회귀 문제로의 확장)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 선 긋기에서 시작해 오류를 수용하는 소프트 마진을 거쳐, 비선형 차원의 확장을 통해 수학적 완성도를 높여온 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 알고리즘의 발전 과정을 보여준다.
 

@@ -10,8 +10,8 @@ tags = ["studynote-network"]
 > 3. **융합**: 전통적인 하드웨어 라우터/스위치 중심에서 탈피하여 SDN(소프트웨어 정의망), NFV, 그리고 클라우드 네이티브의 서비스 메시(Service Mesh)와 결합된 프로그래머블 네트워크로 완전한 환골탈태.
 
 ### Ⅰ. 개요 (Context & Background)
-**네트워크(Network)**는 고립된 연산 장치들을 하나의 거대한 유기체적 시스템으로 묶어낸 IT 역사의 가장 위대한 인프라스트럭처다. 핵전쟁에도 살아남을 수 있는 분산 통신망을 구축하기 위해 시작된 ARPANET의 철학은, 특정 노드가 파괴되어도 패킷(Packet)이 스스로 우회 경로를 찾아 목적지에 도달하는 강인한 생존력을 부여했다.
-과거 벤더 종속적인(Vendor Lock-in) 통신 규약들은 이기종 간 통신을 가로막는 치명적인 병목이었으나, ISO가 제정한 **OSI 7계층**과 실질적 인터넷 표준인 **TCP/IP 모델**의 등장으로 프로토콜의 대통합이 이루어졌다. 현대 네트워크는 단순한 데이터 파이프를 넘어, 비디오 스트리밍의 초저지연(Latency) 요구사항과 금융 트랜잭션의 무결성(Integrity), 그리고 제로 트러스트(Zero Trust) 보안을 동시에 강제하는 고도의 분산 제어 평면(Control Plane)으로 진화하였다.
+<strong>네트워크(Network)</strong>는 고립된 연산 장치들을 하나의 거대한 유기체적 시스템으로 묶어낸 IT 역사의 가장 위대한 인프라스트럭처다. 핵전쟁에도 살아남을 수 있는 분산 통신망을 구축하기 위해 시작된 ARPANET의 철학은, 특정 노드가 파괴되어도 패킷(Packet)이 스스로 우회 경로를 찾아 목적지에 도달하는 강인한 생존력을 부여했다.
+과거 벤더 종속적인(Vendor Lock-in) 통신 규약들은 이기종 간 통신을 가로막는 치명적인 병목이었으나, ISO가 제정한 <strong>OSI 7계층</strong>과 실질적 인터넷 표준인 <strong>TCP/IP 모델</strong>의 등장으로 프로토콜의 대통합이 이루어졌다. 현대 네트워크는 단순한 데이터 파이프를 넘어, 비디오 스트리밍의 초저지연(Latency) 요구사항과 금융 트랜잭션의 무결성(Integrity), 그리고 제로 트러스트(Zero Trust) 보안을 동시에 강제하는 고도의 분산 제어 평면(Control Plane)으로 진화하였다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
@@ -27,26 +27,29 @@ tags = ["studynote-network"]
 | **Physical** | 물리적 신호 변환 (Bit) | 0과 1의 데이터를 전기적/광학적 아날로그 신호로 변조 | UTP, Fiber, Hub, Repeater | 실제 아스팔트 도로 |
 
 #### 2. 데이터 흐름 및 캡슐화 아키텍처 다이어그램 (ASCII)
-```text
-    [ Network Encapsulation & Routing Flow / 네트워크 캡슐화 및 라우팅 흐름 ]
-    
-    [ Host A (Sender / 송신자) ]                                 [ Host B (Receiver / 수신자) ]
-    +--------------------------------+                           +--------------------------------+
-    | App:   [HTTP Data]             |                           | App:   [HTTP Data]             |
-    | Trans: [TCP][HTTP Data]        |                           | Trans: [TCP][HTTP Data]        |
-    | Net:   [IP][TCP][HTTP Data]    |                           | Net:   [IP][TCP][HTTP Data]    |
-    | Link:  [MAC-A][IP...][FCS]     |                           | Link:  [MAC-B][IP...][FCS]     |
-    +-----------|--------------------+                           +-------------^------------------+
-                | (Bits / 비트 스트림)                                         | (Bits)
-    ============v==============================================================^===========
-             (L2 Switch / 스위치) ----> [ Router (L3) / 라우터 ] ----> (Internet) ----> [ Router (L3) ]
-             (MAC 검사)                 +-------------+                        +-------------+
-                                        | decapsulate |                        | decapsulate |
-                                        | [IP] 검사   |                        | [IP] 검사   |
-                                        | Routing Tbl |                        | Routing Tbl |
-                                        | encapsulate |                        | encapsulate |
-                                        +-------------+                        +-------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Network Encapsulation &amp; Routing Flow / 네트워크 캡슐화 및 라우팅 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host A (Sender / 송신자)</div><div class="kb-diagram-node">Host B (Receiver / 수신자)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">App:</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| App:</div><div class="kb-diagram-node">HTTP Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Trans:</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| Trans:</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Net:</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| Net:</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Link:</div><div class="kb-diagram-node">MAC-A</div><div class="kb-diagram-node">IP...</div><div class="kb-diagram-node">FCS</div><div class="kb-diagram-note">| Link:</div><div class="kb-diagram-node">MAC-B</div><div class="kb-diagram-node">IP...</div><div class="kb-diagram-node">FCS</div></div>
+<div class="kb-diagram-note">+-----------|--------------------+ +-------------^------------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bits / 비트 스트림)</div><div class="kb-diagram-cell">(Bits)</div></div>
+<div class="kb-diagram-note">============v==============================================================^===========</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Router (L3) / 라우터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Router (L3)</div></div>
+<div class="kb-diagram-note">(MAC 검사) +-------------+ +-------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">decapsulate</div><div class="kb-diagram-cell">decapsulate</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP</div><div class="kb-diagram-note">검사 |</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-note">검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Routing Tbl</div><div class="kb-diagram-cell">Routing Tbl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">encapsulate</div><div class="kb-diagram-cell">encapsulate</div></div>
+</div>
+</div>
+
+
 
 #### 3. TCP 혼잡 제어(Congestion Control) 핵심 알고리즘
 TCP는 네트워크의 붕괴(Congestion Collapse)를 막기 위해 송신자의 윈도우 크기(cwnd)를 조절하는 예술적인 피드백 루프를 가진다.
@@ -77,11 +80,11 @@ TCP는 네트워크의 붕괴(Congestion Collapse)를 막기 위해 송신자의
 
 **시나리오 1: 글로벌 OTT 서비스의 초저지연 CDN 아키텍처 설계**
 - **문제 상황**: 아시아 지역 사용자가 미국 본사 서버의 영상을 시청할 때, BGP 라우팅 홉 수 증가와 해저 케이블 물리적 거리로 인한 RTT(Round Trip Time)가 200ms를 초과하여 버퍼링이 발생.
-- **기술사적 결단**: 엔드투엔드 거리를 극복하기 위해 물리적 해결책인 **CDN(Content Delivery Network)**과 **엣지 로케이션(Edge Location)**을 전 세계 ISP 거점에 배치한다. 논리적으로는 헤드 오브 라인 블로킹(HOL Blocking) 문제를 야기하는 TCP 대신, **UDP 기반의 QUIC 프로토콜(HTTP/3)**을 전면 도입하여 핸드쉐이크 0-RTT를 달성하고 스트리밍 체감 품질을 압살한다.
+- **기술사적 결단**: 엔드투엔드 거리를 극복하기 위해 물리적 해결책인 <strong>CDN(Content Delivery Network)</strong>과 <strong>엣지 로케이션(Edge Location)</strong>을 전 세계 ISP 거점에 배치한다. 논리적으로는 헤드 오브 라인 블로킹(HOL Blocking) 문제를 야기하는 TCP 대신, <strong>UDP 기반의 QUIC 프로토콜(HTTP/3)</strong>을 전면 도입하여 핸드쉐이크 0-RTT를 달성하고 스트리밍 체감 품질을 압살한다.
 
 **시나리오 2: 멀티 하이브리드 클라우드 환경의 네트워크 슬라이싱(SDN)**
 - **문제 상황**: 기업의 프라이빗 클라우드와 AWS 간의 트래픽 라우팅을 전통적 L3 라우터 하드웨어로 제어하려다 보니 변경 작업 시마다 수십 대의 장비 CLI를 수동으로 설정해야 하는 운영 파단 발생.
-- **기술사적 결단**: 데이터 평면(Switch)과 제어 평면(Controller)을 완벽히 분리하는 **SDN (Software Defined Networking)** 아키텍처를 도입. OpenFlow 프로토콜을 통해 중앙의 SDN 컨트롤러가 모든 스위치의 플로우 테이블(Flow Table)을 코드로 밀어넣는 **네트워크 자동화(IaC)**를 구현하여 인프라 프로비저닝 시간을 주 단위에서 초 단위로 단축시킨다.
+- **기술사적 결단**: 데이터 평면(Switch)과 제어 평면(Controller)을 완벽히 분리하는 **SDN (Software Defined Networking)** 아키텍처를 도입. OpenFlow 프로토콜을 통해 중앙의 SDN 컨트롤러가 모든 스위치의 플로우 테이블(Flow Table)을 코드로 밀어넣는 <strong>네트워크 자동화(IaC)</strong>를 구현하여 인프라 프로비저닝 시간을 주 단위에서 초 단위로 단축시킨다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
@@ -93,7 +96,7 @@ TCP는 네트워크의 붕괴(Congestion Collapse)를 막기 위해 송신자의
 | **L4/L7 Load Balancing** | 대규모 트래픽 인바운드 | 단일 서버 장애 시(RTO) 다운타임 0초 달성 (Seamless Failover) |
 
 **미래 전망 및 진화 방향**:
-인터넷의 인프라는 더 이상 구리선과 하드웨어의 전유물이 아니다. 5G/6G 기술은 **네트워크 슬라이싱(Network Slicing)**을 통해 물리적 망 하나를 자율주행용, IoT용, 스마트폰용 등 수백 개의 독립된 가상 망으로 분리해낸다. 네트워크는 점차 프로그래밍 가능한 소프트웨어 추상화 계층으로 완전히 편입되며, AI를 통한 지능형 트래픽 예측 및 자가 치유(Self-Healing Network) 시대로 결착될 것이다.
+인터넷의 인프라는 더 이상 구리선과 하드웨어의 전유물이 아니다. 5G/6G 기술은 <strong>네트워크 슬라이싱(Network Slicing)</strong>을 통해 물리적 망 하나를 자율주행용, IoT용, 스마트폰용 등 수백 개의 독립된 가상 망으로 분리해낸다. 네트워크는 점차 프로그래밍 가능한 소프트웨어 추상화 계층으로 완전히 편입되며, AI를 통한 지능형 트래픽 예측 및 자가 치유(Self-Healing Network) 시대로 결착될 것이다.
 
 ### 📌 관련 개념 맵 (Knowledge Graph)
 - `[OSI 7계층 및 TCP/IP]`: 네트워크의 모든 통신 과정을 설명하는 대원칙이자 아키텍처의 뼈대.

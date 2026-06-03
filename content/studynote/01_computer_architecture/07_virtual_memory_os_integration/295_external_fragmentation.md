@@ -19,26 +19,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))는 가변 크기 프로세스나 세그먼트가 **연속 메모리**에 배치되고 제거되는 과정에서, 작은 빈 구역들이 메모리 곳곳에 흩어져 큰 요청을 수용하지 못하는 현상이다. 핵심은 총 여유 공간이 아니라 `가장 큰 연속 빈 블록`의 크기다. 즉 100킬로바이트 (KB)가 비어 있어도 그 공간이 10KB짜리 조각 10개로 흩어져 있으면 40KB 프로세스는 적재할 수 없다.
+[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))는 가변 크기 프로세스나 세그먼트가 <strong>연속 메모리</strong>에 배치되고 제거되는 과정에서, 작은 빈 구역들이 메모리 곳곳에 흩어져 큰 요청을 수용하지 못하는 현상이다. 핵심은 총 여유 공간이 아니라 `가장 큰 연속 빈 블록`의 크기다. 즉 100킬로바이트 (KB)가 비어 있어도 그 공간이 10KB짜리 조각 10개로 흩어져 있으면 40KB 프로세스는 적재할 수 없다.
 
 이 문제가 중요해진 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메모리 관리가 프로그램을 한 덩어리로 연속 배치하는 방식에 의존했기 때문이다. 프로그램이 들어오고 나가는 순서는 제각각이고, 크기도 모두 다르다. 그 결과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 시간이 지날수록 빈 공간을 많이 갖고도 새 작업을 받지 못하는 역설에 빠진다.
 
 아래 그림은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 "메모리 부족"이 아니라 "배치 실패" 문제임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        총 여유 공간은 충분하지만 연속 공간이 부족한 상태     │
-├──────────────────────────────────────────────────────────────┤
-│ 낮은 주소                                                    │
-│ ┌──────┬─────┬──────┬─────┬────────┬─────┬──────────────┐    │
-│ │ OS   │ P1  │ Hole │ P2  │  Hole  │ P3  │    Hole      │    │
-│ └──────┴─────┴──────┴─────┴────────┴─────┴──────────────┘    │
-│          8KB            12KB                    20KB         │
-│                                                              │
-│ 총 여유 공간 = 40KB, 그러나 가장 큰 연속 Hole = 20KB         │
-│ ⇒ 24KB 요청은 실패                                            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 여유 공간은 충분하지만 연속 공간이 부족한 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">Hole</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">Hole</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">Hole</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8KB 12KB 20KB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 여유 공간 = 40KB, 그러나 가장 큰 연속 Hole = 20KB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ 24KB 요청은 실패</div></div>
+</div>
+</div>
+
+
 
 이 현상을 이해해야 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))가 왜 필요한지, 그리고 왜 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 연속 물리 배치보다 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 연속성을 더 중시하는지 자연스럽게 연결된다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 `할당 → 해제 → 재할당`이 반복될수록 심해진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 빈 공간 목록을 관리하면서 요청 크기에 맞는 구역을 찾고, 해제 시 인접 빈 공간을 합치며, 필요하면 전체 메모리를 재배열하려고 시도한다. 즉 문제의 본질은 저장 용량보다 **배치 정책과 재정리 비용**에 있다.
+[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 `할당 → 해제 → 재할당`이 반복될수록 심해진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 빈 공간 목록을 관리하면서 요청 크기에 맞는 구역을 찾고, 해제 시 인접 빈 공간을 합치며, 필요하면 전체 메모리를 재배열하려고 시도한다. 즉 문제의 본질은 저장 용량보다 <strong>배치 정책과 재정리 비용</strong>에 있다.
 
 | 메커니즘 | 동작 방식 | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 미치는 영향 |
 | :--- | :--- | :--- |
@@ -60,30 +60,28 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 누적되는 전형적인 과정을 나타낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              가변 분할 환경의 단편화 누적 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 초기                                                     │
-│    [----------------------------- Free --------------------] │
-│                                                              │
-│ 2) A 20KB, B 10KB, C 15KB 할당                               │
-│    [ AAAAAAAAAAAAAAAAAAAA | BBBBBBBBBB | CCCCCCCCCCCCCCC ]   │
-│                                                              │
-│ 3) B 해제                                                    │
-│    [ AAAAAAAAAAAAAAAAAAAA |    10KB Hole   | CCCCCCCCCCCCCCC ]│
-│                                                              │
-│ 4) D 6KB 할당                                                │
-│    [ AAAAAAAAAAAAAAAAAAAA | DDDDDD | 4KB | CCCCCCCCCCCCCCC ] │
-│                                                              │
-│ 5) A 해제                                                    │
-│    [      20KB Hole      | DDDDDD | 4KB | CCCCCCCCCCCCCCC ]  │
-│                                                              │
-│ 6) E 22KB 요청                                               │
-│    총 여유 공간은 24KB이지만, 연속 구역 최대값은 20KB        │
-│    ⇒ 할당 실패                                               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 분할 환경의 단편화 누적 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 초기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">----------------------------- Free --------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) A 20KB, B 10KB, C 15KB 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AAAAAAAAAAAAAAAAAAAA | BBBBBBBBBB | CCCCCCCCCCCCCCC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) B 해제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AAAAAAAAAAAAAAAAAAAA |    10KB Hole   | CCCCCCCCCCCCCCC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) D 6KB 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AAAAAAAAAAAAAAAAAAAA | DDDDDD | 4KB | CCCCCCCCCCCCCCC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) A 해제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20KB Hole      | DDDDDD | 4KB | CCCCCCCCCCCCCCC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6) E 22KB 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 여유 공간은 24KB이지만, 연속 구역 최대값은 20KB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ 할당 실패</div></div>
+</div>
+</div>
+
+
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 까다로운 지점은 주소 재배치다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 수행하면 프로세스가 참조하던 물리 주소를 모두 옮겨야 하므로, 동적 재배치 하드웨어나 재배치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 없이는 안전한 수행이 어렵다. 그래서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 단순한 메모리 관리자 문제를 넘어 하드웨어 지원과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 함께 얽힌 통합 설계 이슈가 된다.
 
@@ -93,7 +91,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 제대로 이해하려면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)), [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 함께 봐야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 **연속 배치의 실패**, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 **고정 크기 단위 내부의 남는 공간**이다. 전자는 할당 자체를 막을 수 있고, 후자는 공간 효율을 떨어뜨리지만 보통 즉시 치명적이지는 않다.
+[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 제대로 이해하려면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)), [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 함께 봐야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 **연속 배치의 실패**, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 <strong>고정 크기 단위 내부의 남는 공간</strong>이다. 전자는 할당 자체를 막을 수 있고, 후자는 공간 효율을 떨어뜨리지만 보통 즉시 치명적이지는 않다.
 
 | 항목 | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) |
 | :--- | :--- | :--- |
@@ -104,7 +102,7 @@ tags = ["studynote-computer-architecture"]
 
 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 스택처럼 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 살리기 좋지만 각 세그먼트 크기가 달라 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 취약하다. 반대로 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 프로세스를 같은 크기의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 쪼개고, 물리 메모리를 같은 크기의 프레임으로 나눠 어디든 배치할 수 있게 해 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 크게 줄인다. 이때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) 와 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 활용해 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연속성과 물리 비연속성을 연결한다.
 
-다만 현대 시스템에서도 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 완전히 사라진 것은 아니다. 일반 4킬로바이트 (KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 흩어져 있어도 되지만, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)), [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 연속 버퍼, 장치 드라이버용 큰 물리 블록은 여전히 **연속된 물리 메모리**를 요구한다. 그래서 리눅스 (Linux) 같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)과 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기능을 통해 물리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 계속 관리한다.
+다만 현대 시스템에서도 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 완전히 사라진 것은 아니다. 일반 4킬로바이트 (KB) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 흩어져 있어도 되지만, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)), [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 연속 버퍼, 장치 드라이버용 큰 물리 블록은 여전히 <strong>연속된 물리 메모리</strong>를 요구한다. 그래서 리눅스 (Linux) 같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)과 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기능을 통해 물리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 계속 관리한다.
 
 - **📢 섹션 요약 비유**: [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 큰 소파를 거실에 통째로 넣어야 하는 문제이고, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 같은 크기의 수납 상자를 쓰다 보니 상자 안에 조금씩 남는 공간 문제다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 소파를 작은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 가구처럼 나눠 배치하게 해 주지만, 어떤 손님은 여전히 통짜 소파를 원할 수 있다.
 
@@ -112,25 +110,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 "고전 개념"으로만 보면 안 된다. 일반 사용자 프로세스는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 덕분에 영향을 덜 받지만, 장시간 실행되는 서버, 대용량 인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 네트워크 카드 버퍼, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 여전히 연속 물리 메모리 확보 여부에 민감하다. 따라서 설계자는 단순히 메모리 사용률이 아니라 **연속 블록 확보 가능성**을 함께 봐야 한다.
+실무에서는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 "고전 개념"으로만 보면 안 된다. 일반 사용자 프로세스는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 덕분에 영향을 덜 받지만, 장시간 실행되는 서버, 대용량 인메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 네트워크 카드 버퍼, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 여전히 연속 물리 메모리 확보 여부에 민감하다. 따라서 설계자는 단순히 메모리 사용률이 아니라 <strong>연속 블록 확보 가능성</strong>을 함께 봐야 한다.
 
 ### 실무 판단 기준
 
-1. **가변 크기 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)이 핵심인가?**
+1. <strong>가변 크기 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a>이 핵심인가?</strong>
    - 세그먼트 기반, 큰 힙 청크, 연속 버퍼 중심이라면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 위험이 커진다.
 2. **긴 중단 시간을 허용할 수 있는가?**
    - [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 효과적이지만 복사량이 많아 실시간 시스템에는 부담이다.
 3. **큰 연속 물리 메모리가 필요한가?**
    - [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/), 장치 입출력 (Input/Output), 다이렉트 메모리 맵핑은 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)에 취약하다.
-4. **대체 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?**
+4. <strong>대체 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>이 있는가?</strong>
    - [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/), [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당자 ([Slab Allocator](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)), [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)으로 위험을 완화할 수 있다.
 
 ### 대표 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-- **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 우선 채택**: 일반 목적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제거 효과가 가장 크다.
-- **[메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 적용**: 비슷한 크기의 객체를 반복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제하는 서버나 게임 엔진에 적합하다.
-- **[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) 사용**: 2의 거듭제곱 단위로 분할·병합해 연속 블록 관리와 병합 효율을 높인다.
-- **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 제한적 사용**: 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 메모리 압박 상황에서 최후 수단으로 고려한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 우선 채택</strong>: 일반 목적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제거 효과가 가장 크다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/">메모리 풀</a> 적용</strong>: 비슷한 크기의 객체를 반복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제하는 서버나 게임 엔진에 적합하다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a> 사용</strong>: 2의 거듭제곱 단위로 분할·병합해 연속 블록 관리와 병합 효율을 높인다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>은 제한적 사용</strong>: 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 메모리 압박 상황에서 최후 수단으로 고려한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -166,23 +164,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 메모리 할당
-    │
-    ▼
-가변 분할 · 외부 단편화 (External Fragmentation)
-    │
-    ├─▶ 병합 (Coalescing) · 압축 (Compaction)
-    │
-    ▼
-세그멘테이션 (Segmentation)의 한계
-    │
-    ▼
-페이징 (Paging) · 가상 메모리 (Virtual Memory)
-    │
-    ▼
-버디 시스템 (Buddy System) · Huge Page · DMA 연속 버퍼 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 메모리 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가변 분할 · 외부 단편화 (External Fragmentation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 병합 (Coalescing) · 압축 (Compaction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그멘테이션 (Segmentation)의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging) · 가상 메모리 (Virtual Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버디 시스템 (Buddy System) · Huge Page · DMA 연속 버퍼 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 구조적 문제 인식 → 완화 기법 → [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 중심 전환 → 현대 물리 메모리 관리 고도화"로 이어지는 진화를 보여준다.
 

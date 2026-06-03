@@ -10,8 +10,8 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: UAM은 **전기 수직이착륙(eVTOL) 항공기로 도심 내 단거리(30~100km) 항공 이동**을 제공하는 차세대 교통 시스템이며, "하늘을 나는 택시"이다.
-> 2. **가치**: 도심 교통 체증을 **수직(3D) 공간으로 우회**하여, 1시간 지상 이동을 **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15분으로 단축**하며, 전기 동력으로 탄소 배출이 적다.
+> 1. **본질**: UAM은 <strong>전기 수직이착륙(eVTOL) 항공기로 도심 내 단거리(30~100km) 항공 이동</strong>을 제공하는 차세대 교통 시스템이며, "하늘을 나는 택시"이다.
+> 2. **가치**: 도심 교통 체증을 <strong>수직(3D) 공간으로 우회</strong>하여, 1시간 지상 이동을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~15분으로 단축</strong>하며, 전기 동력으로 탄소 배출이 적다.
 > 3. **판단 포인트**: eVTOL 기체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(FAA/EASA)·[UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)(무인 교통 관리)·버티포트(이착륙장)·자율 비행·소음 규제가 핵심 과제이며, 2025~2028년 상용화 목표이다.
 
 ---
@@ -26,13 +26,13 @@ UAM 생태계:
   운항: 초기 유인 → 점진적 자율 비행
 ```
 
-- **📢 섹션 요약 비유**: UAM은 **하늘을 나는 택시**이다. 차가 막히면 하늘로 날아간다.
+- **📢 섹션 요약 비유**: UAM은 <strong>하늘을 나는 택시</strong>이다. 차가 막히면 하늘로 날아간다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-UAM은 **도심 교통의 3D 혁신**이며, eVTOL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 인프라(버티포트)가 상용화의 관건이다.
+UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 인프라(버티포트)가 상용화의 관건이다.
 
 ---
 
@@ -43,21 +43,27 @@ UAM은 **도심 교통의 3D 혁신**이며, eVTOL [인증](/knowledge-base/stud
 | **UAM** | 도심 항공 모빌리티 |
 | **eVTOL** | 전기 수직이착륙 |
 | **버티포트** | 이착륙 인프라 |
-| **[UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)** | 항공 교통 관리 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/">UTM</a></strong> | 항공 교통 관리 |
 | **AAM** | 도심+지역 포함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[헬리콥터 (기존)] → [드론 (2015~)]
-    → [eVTOL 개발 (Joby·Lilium, 2018~)]
-    → [현대 SA-2 (2022)] → [FAA 인증 진행]
-    → [현재: 2025~2028 상용화 목표]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">헬리콥터 (기존)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">드론 (2015~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">eVTOL 개발 (Joby·Lilium, 2018~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현대 SA-2 (2022)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FAA 인증 진행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 2025~2028 상용화 목표</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. UAM은 **하늘을 나는 택시**예요! 차가 막히면 **하늘로** 가요.
-2. 전기로 움직여서 **조용하고 친환경**이에요.
+1. UAM은 <strong>하늘을 나는 택시</strong>예요! 차가 막히면 **하늘로** 가요.
+2. 전기로 움직여서 <strong>조용하고 친환경</strong>이에요.
 3. 빌딩 옥상(버티포트)에서 **타고 내려요**. 공항까지 안 가도 돼요!
 
 ---

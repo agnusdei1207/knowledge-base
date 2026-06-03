@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 모든 현대 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 키, [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 등)의 근간은 '예측 불가능한 무작위 비밀키(난수)'를 얼마나 잘 만들어내느냐에 달려 있습니다.
-- **기존 PRNG (의사 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/), Pseudo-RNG)**: 현재 소프트웨어가 만드는 난수(C언어의 `rand()` 등)는 컴퓨터의 시계(Time)나 마우스 커서의 움직임을 씨앗(Seed) 삼아 복잡한 수학 공식을 돌려 만든 '가짜 난수'입니다. 
+- <strong>기존 PRNG (의사 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>, Pseudo-RNG)</strong>: 현재 소프트웨어가 만드는 난수(C언어의 `rand()` 등)는 컴퓨터의 시계(Time)나 마우스 커서의 움직임을 씨앗(Seed) 삼아 복잡한 수학 공식을 돌려 만든 '가짜 난수'입니다. 
 - **해커의 공격**: 패턴과 씨앗 값을 알아내면 해커의 슈퍼컴퓨터가 "아, 얘가 1분 뒤에 뽑아낼 암호키는 `A7X9`겠네!"라고 100% 예측하여 암호를 무혈입성으로 뚫어버리는 치명적 결함이 있었습니다. (양자 컴퓨터의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위협과 별개의 본질적 위협)
 
-```text
-[웹쉘]
-    │
-    ▼
-[양자 난수 생성기]
-    │
-    └──▶ [다크 데이터 / Data Loss Preve…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,23 +42,27 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 소프트웨어의 수학 공식이 아니라, 자연계 미시 세계의 **'양자 역학적 불확실성(물리학 원리)'을 이용해 그 누구도, 심지어 신조차도 예측할 수 없는 완벽한 순수 난수(True Random Number)를 추출해 내는 하드웨어 칩셋([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 장치)**입니다.
+- **개념**: 소프트웨어의 수학 공식이 아니라, 자연계 미시 세계의 <strong>'양자 역학적 불확실성(물리학 원리)'을 이용해 그 누구도, 심지어 신조차도 예측할 수 없는 완벽한 순수 난수(True Random Number)를 추출해 내는 하드웨어 칩셋(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 장치)</strong>입니다.
 
 ### 어떻게 순수 난수를 뽑아내는가? (광자 기반 동작 원리)
 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 빛과 이미지 센서를 이용한 직관적이고 작은 칩셋(SKT-IDQ의 칩 등)의 원리입니다.
 1. **광원 발사**: 초소형 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 칩에서 무작위로 수많은 빛의 알갱이(광자, Photon)를 허공에 쏩니다.
 2. **양자적 불확실성**: 양자 역학의 절대 법칙에 따라, 이 튀어나간 광자가 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 이미지 센서의 100만 개의 픽셀(칸) 중 정확히 "어느 칸에 부딪힐지"는 우주가 멸망해도 물리적으로 예측할 수 없는 완벽한 우연입니다.
 3. **난수 변환**: 광자가 센서의 수많은 격자 중 왼쪽 칸에 부딪히면 `0`, 오른쪽 칸에 부딪히면 `1`로 기록합니다.
-4. **결과**: 이렇게 수만 개의 광자가 벽에 부딪힌 랜덤한 발자국 자국들을 쫙 모아서 비밀번호로 쓰면, 해커가 아무리 용을 써도 다음 비밀번호를 절대로 예측할 수 없는 **최강의 무결점 암호키(순수 난수)**가 완성됩니다.
+4. **결과**: 이렇게 수만 개의 광자가 벽에 부딪힌 랜덤한 발자국 자국들을 쫙 모아서 비밀번호로 쓰면, 해커가 아무리 용을 써도 다음 비밀번호를 절대로 예측할 수 없는 <strong>최강의 무결점 암호키(순수 난수)</strong>가 완성됩니다.
 
-```text
-[웹쉘]
-    │
-    ▼
-[양자 난수 생성기]
-    │
-    └──▶ [다크 데이터 / Data Loss Preve…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 과거에는 냉장고만 한 거대한 기계였지만, 지금은 가로세로 2.5mm의 초소형 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))으로 다이어트되어 우리의 일상으로 들어왔습니다.
-- **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰 결제 보안**: 삼성 갤럭시 퀀텀([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 시리즈 스마트폰 내부에 이 QRNG 칩이 박혀있어, 은행 송금이나 페이 결제를 할 때 절대 해킹당하지 않는 일회용 난수 비밀번호를 만들어줍니다.
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 스마트폰 결제 보안</strong>: 삼성 갤럭시 퀀텀([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 시리즈 스마트폰 내부에 이 QRNG 칩이 박혀있어, 은행 송금이나 페이 결제를 할 때 절대 해킹당하지 않는 일회용 난수 비밀번호를 만들어줍니다.
 - **국방/금융 서버**: 통신사의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 핵심 인증망(인프라)이나 은행 백본망 서버에 부착되어, 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 암호화 키를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 최상위 보안 방패로 쓰입니다.
 
 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)이 기반 조건을 만든다면, 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 그 위에서 핵심 메커니즘을 구현하고, [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 웹쉘]
-    │
-    ▼
-[현재 개념: 양자 난수 생성기]
-    │
-    ├──▶ [확장 A: 다크 데이터 / Data Loss Preve…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 웹쉘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 난수 생성기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

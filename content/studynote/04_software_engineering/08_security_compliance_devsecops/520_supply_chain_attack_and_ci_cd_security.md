@@ -24,33 +24,32 @@ tags = ["studynote-software-engineering"]
   - 2) [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)가 코드를 `.jar` 로 압축할 때 몰래 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 껴넣기 (Build 서버 털기). 
   - 3) 내가 쓰는 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 공식 업데이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 독을 발라두기 (Dependency 털기).
 
-- **필요성**: 2020년, 미국 국방부, 백악관, 마이크로소프트 등 천상계 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 두른 1만 개의 기관이 동시다발적으로 개털렸다. 원인은 그들이 100% 믿고 쓰는 '솔라윈즈(SolarWinds)'라는 네트워크 감시 소프트웨어의 **"공식 업데이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"** 안에 러시아 해커가 심어둔 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)가 섞여 있었기 때문이다. 해커는 솔라윈즈의 빌드 서버(공장)를 털어서 공식 인감도장을 찍어버렸다. **아무리 내 성벽을 100m로 쌓아도, 매일 성안으로 들어오는 식량 마차(공식 업데이트/[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))에 독이 들었으면 성은 하루 만에 함락된다.** 내가 통제할 수 없는 이 외부의 독을 걸러내기 위해 공급망 방어가 전 세계 1순위 안보 과제로 터져 올랐다.
+- **필요성**: 2020년, 미국 국방부, 백악관, 마이크로소프트 등 천상계 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 두른 1만 개의 기관이 동시다발적으로 개털렸다. 원인은 그들이 100% 믿고 쓰는 '솔라윈즈(SolarWinds)'라는 네트워크 감시 소프트웨어의 <strong>"공식 업데이트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>"</strong> 안에 러시아 해커가 심어둔 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)가 섞여 있었기 때문이다. 해커는 솔라윈즈의 빌드 서버(공장)를 털어서 공식 인감도장을 찍어버렸다. <strong>아무리 내 성벽을 100m로 쌓아도, 매일 성안으로 들어오는 식량 마차(공식 업데이트/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>)에 독이 들었으면 성은 하루 만에 함락된다.</strong> 내가 통제할 수 없는 이 외부의 독을 걸러내기 위해 공급망 방어가 전 세계 1순위 안보 과제로 터져 올랐다.
 
-- **💡 비유**: 공급망 공격은 **'정수기 필터 납품업체 테러 사건'**과 똑같습니다. 아무리 철통 보안을 자랑하는 부자 동네라도 사람들은 정수기 물을 마십니다. 도둑은 부잣집 문을 뚫으려 낑낑대지 않습니다. 정수기 필터를 만드는 시골 공장([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/외부 SW) 하나를 몰래 뚫어서, 모든 필터 안에 '수면제([백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/))'를 1알씩 코팅해 둡니다. 이 필터들은 "식약처 공식 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(합법적 업데이트)" 마크를 달고 부잣집에 예쁘게 배달됩니다. 부자들은 아무 의심 없이 꿀꺽 마시고 잠에 빠지며 저택의 모든 돈이 다 털립니다. 도둑은 부잣집 정문 근처에도 가지 않고 대성공을 거둡니다.
+- **💡 비유**: 공급망 공격은 <strong>'정수기 필터 납품업체 테러 사건'</strong>과 똑같습니다. 아무리 철통 보안을 자랑하는 부자 동네라도 사람들은 정수기 물을 마십니다. 도둑은 부잣집 문을 뚫으려 낑낑대지 않습니다. 정수기 필터를 만드는 시골 공장([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)/외부 SW) 하나를 몰래 뚫어서, 모든 필터 안에 '수면제([백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/))'를 1알씩 코팅해 둡니다. 이 필터들은 "식약처 공식 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(합법적 업데이트)" 마크를 달고 부잣집에 예쁘게 배달됩니다. 부자들은 아무 의심 없이 꿀꺽 마시고 잠에 빠지며 저택의 모든 돈이 다 털립니다. 도둑은 부잣집 정문 근처에도 가지 않고 대성공을 거둡니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 낭만 시대**: 2000년대까진 남이 만든 코드를 묻지도 따지지도 않고 복붙해서 썼다(Frankenstein [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)).
-  2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 타이포스쿼팅 (2010년대)**: 해커가 NPM이나 Maven에 엄청 유명한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`react-dom`)와 헷갈리게 `react-don` 이라는 가짜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 코드를 올렸다. 개발자들이 오타를 쳐서 다운받는 순간 컴퓨터가 좀비가 되었다.
+  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>의 낭만 시대</strong>: 2000년대까진 남이 만든 코드를 묻지도 따지지도 않고 복붙해서 썼다(Frankenstein [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)).
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 타이포스쿼팅 (2010년대)</strong>: 해커가 NPM이나 Maven에 엄청 유명한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`react-dom`)와 헷갈리게 `react-don` 이라는 가짜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 코드를 올렸다. 개발자들이 오타를 쳐서 다운받는 순간 컴퓨터가 좀비가 되었다.
   3. **빌드 서버 장악의 대재앙 (2020~현재)**: 단순히 이름 속이기를 넘어, 아예 기업의 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))나 깃허브 액션(GitHub Actions) 권한을 탈취해, 정상 소스코드의 빌드 결과물([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) 자체를 오염시키는 최악의 국가 스케일 공격(솔라윈즈, Kaseya 사태)으로 격상하며 미국 정부의 행정명령([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 제출 의무화)을 끌어냈다.
 
-- **📢 섹션 요약 비유**: 옛날 해커는 성(회사)을 털기 위해 **'공성전(대포 쏘기)'**을 했습니다(디도스, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). 너무 힘들었습니다. 요즘 해커는 성을 공격하지 않습니다. 성으로 배달 가는 **'야채 트럭([서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 소프트웨어) 짐칸'**에 몰래 타서 성 안으로 편안하게 하이패스로 들어갑니다. 아무리 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 높여도 야채 트럭 검수(공급망 방어)를 안 하면 성은 무조건 무혈입성 당합니다.
+- **📢 섹션 요약 비유**: 옛날 해커는 성(회사)을 털기 위해 <strong>'공성전(대포 쏘기)'</strong>을 했습니다(디도스, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). 너무 힘들었습니다. 요즘 해커는 성을 공격하지 않습니다. 성으로 배달 가는 <strong>'야채 트럭(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 소프트웨어) 짐칸'</strong>에 몰래 타서 성 안으로 편안하게 하이패스로 들어갑니다. 아무리 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 높여도 야채 트럭 검수(공급망 방어)를 안 하면 성은 무조건 무혈입성 당합니다.
 
 ---
 
 다음은 공급망 (Supply Chain) 공의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  공급망 (Supply Chain) 공                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공급망 (Supply Chain) 공</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 공급망 (Supply Chain) 공가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비잔틴 장애 허용 (Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), BFT) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 일부 노드가 거짓말하거나 서로 다른 메시지를 보내더라도, **제안·투표·합의 결과·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)**가 여전히 올바른지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차다.
+> 1. **본질**: 비잔틴 장애 허용 (Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), BFT) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 일부 노드가 거짓말하거나 서로 다른 메시지를 보내더라도, <strong>제안·투표·합의 결과·<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>가 여전히 올바른지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차다.
 > 2. **가치**: 단순 장애 허용보다 한 단계 더 나아가 메시지 위조, 이중 제안, 가짜 커밋을 막아 주므로, 금융 네트워크·컨소시엄 체인·고신뢰 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서비스의 안전한 최종 확정성을 만든다.
-> 3. **판단 포인트**: BFT의 성패는 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도만이 아니라 **정족수 계산, 뷰 변경, 상태 이전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**까지 한 세트로 설계했는지에 달려 있으며, 암호 가속은 보조 수단이지 안전성 자체를 대신하지 않는다.
+> 3. **판단 포인트**: BFT의 성패는 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도만이 아니라 <strong>정족수 계산, 뷰 변경, 상태 이전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>까지 한 세트로 설계했는지에 달려 있으며, 암호 가속은 보조 수단이지 안전성 자체를 대신하지 않는다.
 
 ---
 
@@ -31,21 +31,19 @@ BFT [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/
 
 BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 보통 제안 수신, 메시지 진위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 정족수 증명 조립, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 적용의 순서로 진행된다. 최신 계열의 실용적 BFT (Practical Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) 또는 HotStuff류 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 단계 수와 메시지 패턴은 다르지만, 공통적으로 `이 제안이 올바른 부모를 잇는가`, `충분한 수의 정당한 투표가 붙었는가`, `같은 높이에 이중 커밋이 없는가`를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Generic BFT verification pipeline                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Proposal -> verify sender + parent QC -> replicas vote            │
-│     │                              │                              │
-│     ▼                              ▼                              │
-│ signature check               2f+1 matching votes                 │
-│     │                              │                              │
-│     └──────────────> Quorum Certificate ───────────────> Commit   │
-│                                                            │       │
-│                                                            ▼       │
-│                                                     State apply    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Generic BFT verification pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proposal -&gt; verify sender + parent QC -&gt; replicas vote</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signature check 2f+1 matching votes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; Quorum Certificate &gt; Commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State apply</div></div>
+</div>
+</div>
+
+
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 내용 | 빠지면 생기는 문제 |
 | :--- | :--- | :--- |
@@ -106,7 +104,7 @@ BFT를 이해하려면 크래시 장애 허용 (Crash [Fault Tolerance](/knowled
 
 BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계가 잘 설계되면 악성 노드가 일부 섞여도 잘못된 커밋을 막고, 높은 신뢰도의 최종 확정성을 제공할 수 있다. 금융 거래, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장, 중요한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 서비스에서는 이 특성이 곧 서비스의 신뢰 브랜드가 된다. 또한 정족수 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 가속된 서명 처리 덕분에 예전보다 더 큰 규모의 실용적 BFT 시스템도 가능해지고 있다.
 
-반대로 대가도 분명하다. 메시지 수, 키 관리, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 구현 복잡도가 CFT보다 훨씬 크다. 따라서 이 주제를 기억할 때는 `BFT는 서명 많이 쓰는 합의`가 아니라, **거짓말하는 참여자 속에서도 상태 머신의 단일 진실을 유지하기 위해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙을 촘촘하게 쌓은 체계**라고 이해해야 한다.
+반대로 대가도 분명하다. 메시지 수, 키 관리, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 구현 복잡도가 CFT보다 훨씬 크다. 따라서 이 주제를 기억할 때는 `BFT는 서명 많이 쓰는 합의`가 아니라, <strong>거짓말하는 참여자 속에서도 상태 머신의 단일 진실을 유지하기 위해 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 규칙을 촘촘하게 쌓은 체계</strong>라고 이해해야 한다.
 
 - **📢 섹션 요약 비유**: BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 배를 빠르게 달리게 하는 돛이 아니라, 폭풍 속에서도 배가 같은 방향을 보게 붙잡는 키와 나침반이다. 속도보다 중요한 것은 방향을 잃지 않는 것이다.
 
@@ -124,21 +122,23 @@ BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriente
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Crash fault assumptions
-    │
-    ▼
-PBFT-style authenticated voting
-    │
-    ▼
-Quorum certificates and pipelined commits
-    │
-    ▼
-Aggregated signatures + hardware crypto assist
-    │
-    ▼
-High-throughput permissioned BFT services
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Crash fault assumptions</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PBFT-style authenticated voting</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quorum certificates and pipelined commits</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Aggregated signatures + hardware crypto assist</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">High-throughput permissioned BFT services</div>
+</div>
+</div>
+
+
 
 이 흐름은 `중단만 가정하던 복제`에서 `악성 행위까지 검증하는 고신뢰 합의`로 발전하는 경로를 보여 준다.
 

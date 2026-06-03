@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 기존 디도스는 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1만 대를 감염시켜서 일제히 청와대를 때렸습니다. 
 - 단점: 좀비 1만 대를 감염시키려면 시간이 엄청 오래 걸리고(비용 발생), 백신 회사에 들통나면 좀비들이 치료되어 화력이 떨어집니다. 게다가 공격 패킷을 까보면 좀비 PC의 진짜 IP가 찍혀있어 역추적 당해 경찰에 잡히기 쉽습니다.
 
-```text
-[ARP 스푸핑 중간자 방어]
-    │
-    ▼
-[DDoS 반사 증폭 원조]
-    │
-    └──▶ [클라우스 보안 워크로드 CWPP 통제망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DDoS 반사 증폭 원조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - **Reflection (반사)**: 내 손에 피를 묻히지 않습니다. 출발지 IP를 타겟(청와대) IP로 위장([IP Spoofing](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/))하여 제3자(정상적인 공공 서버)에게 질문을 던지면, 3자는 친절하게 타겟(청와대)을 향해 빗나가게 답장을 반사(Reflect)해 버립니다. 역추적 시 공격자는 정상 서버로 나오므로 해커 본인은 절대 안 잡힙니다.
 - **Amplification (증폭)**: 1을 주면 1이 돌아오는 건 재미가 없습니다. 질문 패킷의 크기는 코딱지만 한데(10바이트), 대답 패킷의 크기가 거대한(1,000바이트) 특정 취약점 프로토콜들을 골라서 때립니다(비대칭성). 내 노트북 1대로도 슈퍼컴퓨터를 침몰시킬 수 있는 핵폭탄(100배 증폭)을 던지는 셈입니다.
 
-```text
-[ARP 스푸핑 중간자 방어]
-    │
-    ▼
-[DDoS 반사 증폭 원조]
-    │
-    └──▶ [클라우스 보안 워크로드 CWPP 통제망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DDoS 반사 증폭 원조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,16 +63,16 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-왜 이 프로토콜들이 타겟이 될까요? 모두 969번 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(비연결형)**를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문입니다. (TCP는 3-way Handshake를 해야 해서 남의 IP로 구라 치면 연결 자체가 안 맺어집니다.)
+왜 이 프로토콜들이 타겟이 될까요? 모두 969번 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(비연결형)</strong>를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문입니다. (TCP는 3-way Handshake를 해야 해서 남의 IP로 구라 치면 연결 자체가 안 맺어집니다.)
 
 ### 1. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭 공격 (증폭률 약 40배~50배)
 - 해커가 오픈 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(구글 8.8.8.8 등)에게 60바이트짜리 질문을 쏩니다. "야! [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) `ANY` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(니가 아는 모든 정보 다 줘봐) 날릴게!"
-- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 친절하게 캐시에 있는 수십 개의 IP 주소와 1062번에서 배운 거대한 암호화 서명([DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) RRSIG 덩어리)까지 꽉꽉 눌러 담아 **3,000바이트짜리(50배 뻥튀기) 거대한 답장 패킷**을 청와대(타겟)로 날려버립니다.
+- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 친절하게 캐시에 있는 수십 개의 IP 주소와 1062번에서 배운 거대한 암호화 서명([DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) RRSIG 덩어리)까지 꽉꽉 눌러 담아 <strong>3,000바이트짜리(50배 뻥튀기) 거대한 답장 패킷</strong>을 청와대(타겟)로 날려버립니다.
 
 ### 2. [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭 공격 (증폭률 약 500배) 🌟 최악의 핵폭탄 🌟
 - 1049번 컴퓨터 시계 맞추는 프로토콜입니다.
 - 구형 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에는 `monlist`라는 관리자 명령어가 열려 있었습니다. 이 명령어를 던지면 서버가 "지금까지 나랑 시계 맞췄던 최근 600명의 접속자 IP 명단"을 몽땅 뱉어냅니다.
-- 해커가 10바이트짜리 `monlist` 질문을 던지면, 서버는 600개의 IP 리스트가 담긴 **5,000바이트(500배 증폭)**짜리 미친 텍스트 덩어리를 청와대로 쏟아붓습니다. 역대급 볼륨 공격의 주범입니다.
+- 해커가 10바이트짜리 `monlist` 질문을 던지면, 서버는 600개의 IP 리스트가 담긴 <strong>5,000바이트(500배 증폭)</strong>짜리 미친 텍스트 덩어리를 청와대로 쏟아붓습니다. 역대급 볼륨 공격의 주범입니다.
 
 ### 3. Memcached / SSDP (증폭률 수만 배)
 - 보안 세팅 안 하고 인터넷에 그대로 노출된 메모리 캐시 서버(Memcached [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 11211)나 UPnP 기기들은 1바이트를 던지면 무려 5만 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(50,000배)를 뱉어내는 버그가 터져 디도스 1Tbps 시대를 열었습니다.
@@ -84,8 +92,8 @@ DDoS 반사 증폭 원조를 볼 때는 앞뒤 개념과의 경계를 함께 봐
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 청와대는 답장을 막을 수 없습니다. 전 세계 길목(통신사 라우터)에서 방어해야 합니다.
-1. **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Filtering (BCP38)**: 통신사 라우터가 패킷이 들어올 때, "어? 우리 동네 가입자 IP 대역이 아닌데 보낸 사람 IP가 우리 동네로 찍혀있네? 이 새끼 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)(구라) 치네!" 하고 입구 컷을 때려버려서 반사 공격의 뿌리를 뽑아야 합니다. (현재 가장 안 지켜지는 글로벌 과제입니다.)
-2. **[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)/[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패치**: 멍청한 서버를 운영하는 자들이 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) `monlist` 기능을 삭제하고 패치를 해야 바보 같은 반사판 역할을 면합니다.
+1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Filtering (BCP38)</strong>: 통신사 라우터가 패킷이 들어올 때, "어? 우리 동네 가입자 IP 대역이 아닌데 보낸 사람 IP가 우리 동네로 찍혀있네? 이 새끼 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)(구라) 치네!" 하고 입구 컷을 때려버려서 반사 공격의 뿌리를 뽑아야 합니다. (현재 가장 안 지켜지는 글로벌 과제입니다.)
+2. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a>/<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 패치</strong>: 멍청한 서버를 운영하는 자들이 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) `monlist` 기능을 삭제하고 패치를 해야 바보 같은 반사판 역할을 면합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ DDoS 반사 증폭 원조를 볼 때는 앞뒤 개념과의 경계를 함께 봐
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 디도스**가 해커가 동네 불량배 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))을 돈 주고 고용해서 한날한시에 타겟(청와대)에게 돌을 던지게 하는 **'인해전술 깡패 짓'**이라면, **DRDoS(반사 증폭 디도스)**는 해커가 직접 나서지 않고 평범한 시민들(정상 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)/[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버)을 교묘하게 속이는 **'역대급 사기 배달극'**입니다. 해커는 짜장면집, 피자집, 치킨집 100군데에 전화를 걸어 "여기 청와대인데, 가게에 있는 모든 음식 메뉴 다 만들어서 1초 만에 배달해 주세요!(증폭)"라고 구라 주문(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 넣습니다. 해커는 주문 전화(수십 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 패킷) 한 번만 돌리고 자빠져 잡니다. 아무것도 모르는 성실한 식당 사장님들은 트럭 수십 대 분량의 엄청난 음식(수천 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 패킷)을 청와대 앞마당으로 일제히 배달해 버립니다(반사). 청와대는 난데없이 날아온 수백 톤의 배달 음식 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(증폭된 디도스 트래픽)에 깔려 숨통이 끊어지고 맙니다. 해커의 위치는 철저히 은폐되고 파괴력은 500배로 뻥튀기되는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 쌩얼 통신의 최악의 취약점입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a> 디도스</strong>가 해커가 동네 불량배 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명(좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))을 돈 주고 고용해서 한날한시에 타겟(청와대)에게 돌을 던지게 하는 <strong>'인해전술 깡패 짓'</strong>이라면, <strong>DRDoS(반사 증폭 디도스)</strong>는 해커가 직접 나서지 않고 평범한 시민들(정상 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)/[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버)을 교묘하게 속이는 <strong>'역대급 사기 배달극'</strong>입니다. 해커는 짜장면집, 피자집, 치킨집 100군데에 전화를 걸어 "여기 청와대인데, 가게에 있는 모든 음식 메뉴 다 만들어서 1초 만에 배달해 주세요!(증폭)"라고 구라 주문(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 넣습니다. 해커는 주문 전화(수십 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 패킷) 한 번만 돌리고 자빠져 잡니다. 아무것도 모르는 성실한 식당 사장님들은 트럭 수십 대 분량의 엄청난 음식(수천 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 패킷)을 청와대 앞마당으로 일제히 배달해 버립니다(반사). 청와대는 난데없이 날아온 수백 톤의 배달 음식 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(증폭된 디도스 트래픽)에 깔려 숨통이 끊어지고 맙니다. 해커의 위치는 철저히 은폐되고 파괴력은 500배로 뻥튀기되는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 쌩얼 통신의 최악의 취약점입니다.
 
 ---
 
@@ -116,15 +124,19 @@ DDoS 반사 증폭 원조는 [성능](/knowledge-base/studynote/04_software_engi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARP 스푸핑 중간자 방어]
-    │
-    ▼
-[현재 개념: DDoS 반사 증폭 원조]
-    │
-    ├──▶ [확장 A: 클라우스 보안 워크로드 CWPP 통제망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DDoS 반사 증폭 원조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우스 보안 워크로드 CWPP 통제망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 DDoS 반사 증폭 원조는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어에서 출발해 현재 메커니즘을 정교화하고, 이후 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

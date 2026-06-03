@@ -23,18 +23,21 @@ tags = ["studynote-design-supervision"]
 
 실무 적용 전 체크: 핸들러 수가 3개 이상인가? 처리자가 동적으로 바뀌는가? 체인 순서가 바뀔 수 있는가? → 하나라도 Yes라면 [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)을 검토하라.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          책임 연쇄 패턴 장단점 정리                           │
-├─────────────────────────────────────────────────────────────┤
-│  장점                         단점                          │
-│  ✅ 발신자-수신자 분리         ⚠ 처리 보장 없음             │
-│  ✅ 핸들러 동적 추가·재배열    ⚠ 긴 체인 → 성능 오버헤드   │
-│  ✅ OCP 달성 (핸들러 독립)     ⚠ 디버깅 어려움             │
-│  ✅ SRP (각 핸들러 단일 책임)  ⚠ 처리자 추적 어려움        │
-│  ✅ 재사용 가능한 핸들러       ⚠ 체인 설정 복잡성          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 연쇄 패턴 장단점 정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점 단점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 발신자-수신자 분리 ⚠ 처리 보장 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 핸들러 동적 추가·재배열 ⚠ 긴 체인 → 성능 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OCP 달성 (핸들러 독립) ⚠ 디버깅 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ SRP (각 핸들러 단일 책임) ⚠ 처리자 추적 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 재사용 가능한 핸들러 ⚠ 체인 설정 복잡성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 공문서 결재 체인은 빠른 처리(장점)를 가능하게 하지만, 어느 부서에서 멈췄는지 추적(단점)이 어려울 수 있다.
 
@@ -51,18 +54,21 @@ AOP의 인터셉터가 [책임 연쇄 패턴](/knowledge-base/studynote/11_desig
 | 메커니즘 | next.handle() | proceed() |
 | 범용성 | 일반 패턴 | 크로스 컷팅 관심사 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링 AOP 인터셉터 체인 (책임 연쇄 확장)              │
-├─────────────────────────────────────────────────────────────┤
-│  메서드 호출                                                 │
-│  → @Transactional 인터셉터                                  │
-│  → @Cacheable 인터셉터                                       │
-│  → @Async 인터셉터                                          │
-│  → 실제 메서드 실행                                          │
-│  ← 결과 역순 반환                                            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링 AOP 인터셉터 체인 (책임 연쇄 확장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메서드 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ @Transactional 인터셉터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ @Cacheable 인터셉터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ @Async 인터셉터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실제 메서드 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 결과 역순 반환</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스프링 AOP 인터셉터는 공문서에 여러 부서([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·캐시·비동기)의 도장을 순서대로 찍고, 결재 후 역순으로 처리 결과를 돌려보내는 것이다.
 

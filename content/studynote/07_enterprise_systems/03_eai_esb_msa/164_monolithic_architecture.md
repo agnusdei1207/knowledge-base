@@ -24,19 +24,19 @@ tags = ["enterprise_systems"]
 
 이 그림은 모놀리스가 여러 기능을 하나의 배포 단위로 묶어 운영하는 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  Single deployable application                  │
-├──────────────────────────────────────────────────────────────────┤
-│ UI / API                                                        │
-│    │                                                            │
-│ Business logic: order | payment | inventory | member            │
-│    │                                                            │
-│ Data access layer                                               │
-│    │                                                            │
-│ Single relational database                                      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single deployable application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI / API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business logic: order</div><div class="kb-diagram-cell">payment</div><div class="kb-diagram-cell">inventory</div><div class="kb-diagram-cell">member</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data access layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single relational database</div></div>
+</div>
+</div>
+
+
 
 따라서 모놀리식은 "구식이라서 나쁜 구조"가 아니라, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 복잡도를 가장 낮게 가져가는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 이해해야 한다. 다만 기능과 팀이 커질수록 이 단순함이 곧 배포 결합과 변경 충돌로 돌아오기 시작한다.
 
@@ -57,25 +57,22 @@ tags = ["enterprise_systems"]
 
 아래 그림은 요청 하나가 한 애플리케이션 내부를 통과하며 처리되는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                    Request flow in monolith                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Client                                                          │
-│   │                                                             │
-│   ▼                                                             │
-│ Controller / UI                                                 │
-│   │                                                             │
-│   ▼                                                             │
-│ Domain services                                                 │
-│   ├─ order                                                      │
-│   ├─ payment                                                    │
-│   └─ inventory                                                  │
-│   │                                                             │
-│   ▼                                                             │
-│ Repository / ORM  ──▶  Shared DB                                │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request flow in monolith</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller / UI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ payment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ inventory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository / ORM ──▶ Shared DB</div></div>
+</div>
+</div>
+
+
 
 이 구조의 장점은 호출 경로가 짧고, 장애 지점이 비교적 명확하다는 것이다. 그러나 기능이 늘수록 같은 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 안에서 서로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 얽히기 쉬워, 하나의 작은 수정이 예상보다 넓은 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)를 요구하게 된다.
 
@@ -153,21 +150,23 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 코드베이스 · 단일 배포
-    │
-    ▼
-모놀리식 아키텍처 (Monolithic Architecture)
-    │
-    ▼
-모듈 경계 강화 · 공용 스키마 관리
-    │
-    ▼
-모듈형 모놀리스 (Modular Monolith)
-    │
-    ▼
-MSA (Microservice Architecture) · 단계적 분리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 코드베이스 · 단일 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모놀리식 아키텍처 (Monolithic Architecture)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈 경계 강화 · 공용 스키마 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈형 모놀리스 (Modular Monolith)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA (Microservice Architecture) · 단계적 분리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 출발"에서 "경계 강화"를 거쳐 "필요한 곳만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"으로 가는 전형적 진화를 보여준다.
 

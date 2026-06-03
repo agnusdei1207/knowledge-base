@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 길의 막힘 정도는 "1시간에 차 100대 통과"로 잰다면, 전화선이나 서버 접속의 혼잡도는 어떻게 잴까요? 
 - 한 명이 전화를 1초만 쓰고 끊는지, 아니면 1시간 내내 잡고 있는지(점유 시간)를 알 길이 없으므로 단순한 '접속 횟수'로는 회선([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 얼마나 필요한지 계산할 수 없습니다.
 
-```text
-[처리량 수식화]
-    │
-    ▼
-[Erlang]
-    │
-    └──▶ [호손율 / 블로킹 확률]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Erlang는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 덴마크의 통신 공학자 A. K. 에를랑이 창안한, **특정 시간(주로 1시간) 동안 통신 회선(채널) 1개가 사용자들에 의해 100% 꽉 차게 계속 사용되었을 때의 트래픽 밀도(부하량)**를 나타내는 무차원(단위 없는) 측정 단위입니다.
-- **절대 기준치 (1 Erlang)**: **"1개의 전화선을 1시간(60분) 동안 1명(혹은 여러 명)이 단 1초도 쉬지 않고 꽉 채워서 통화한 상태"**를 정확히 1 얼랑(Erlang)이라고 부릅니다.
+- **개념**: 덴마크의 통신 공학자 A. K. 에를랑이 창안한, <strong>특정 시간(주로 1시간) 동안 통신 회선(채널) 1개가 사용자들에 의해 100% 꽉 차게 계속 사용되었을 때의 트래픽 밀도(부하량)</strong>를 나타내는 무차원(단위 없는) 측정 단위입니다.
+- **절대 기준치 (1 Erlang)**: <strong>"1개의 전화선을 1시간(60분) 동안 1명(혹은 여러 명)이 단 1초도 쉬지 않고 꽉 채워서 통화한 상태"</strong>를 정확히 1 얼랑(Erlang)이라고 부릅니다.
 
-```text
-[처리량 수식화]
-    │
-    ▼
-[Erlang]
-    │
-    └──▶ [호손율 / 블로킹 확률]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Erlang의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ $$ E = \[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/
 - 우리 회사 직원들이 1시간 동안 총 **30번** 전화를 걸었습니다 ($\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) = 30$).
 - 한 번 걸면 평균 **2분(2/60시간)** 동안 수다를 떨고 끊습니다 ($h = 2/60$).
 - 트래픽 부하($E$) = $30 \times (2/60) = 1$ 얼랑(Erlang)
-- **해석**: 이 회사의 1시간 통화량을 다 뭉쳐보니 "전화선 1개를 1시간 내내 풀가동시킨 빡셈"과 똑같습니다. 따라서 회사에 **최소 전화선 1가닥 이상**을 깔아둬야 "뚜뚜" 소리가 안 납니다. 만약 계산 결과가 3 얼랑이 나왔다면, 회선 3개를 100% 빡세게 돌린 것과 같으니 최소 4~5개의 전화선은 사둬야 안전합니다.
+- **해석**: 이 회사의 1시간 통화량을 다 뭉쳐보니 "전화선 1개를 1시간 내내 풀가동시킨 빡셈"과 똑같습니다. 따라서 회사에 <strong>최소 전화선 1가닥 이상</strong>을 깔아둬야 "뚜뚜" 소리가 안 납니다. 만약 계산 결과가 3 얼랑이 나왔다면, 회선 3개를 100% 빡세게 돌린 것과 같으니 최소 4~5개의 전화선은 사둬야 안전합니다.
 
 Erlang를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화가 기반 조건을 만든다면, Erlang는 그 위에서 핵심 메커니즘을 구현하고, 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -92,7 +100,7 @@ Erlang를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 얼랑(Erlang)은 PC방 사장님이 **'좌석 1개가 1시간 동안 100% 돌아가는 가동률'**을 세는 단위입니다. 손님 60명이 와서 각자 딱 1분씩만 게임하고 바로 나갔다면, 결국 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대를 60분 동안 안 쉬고 돌린 것과 똑같습니다(이것이 딱 1 얼랑입니다). 만약 오늘 점심에 손님들이 몰려와 총 게임 시간이 120분이 찍혔다면, 오늘 점심의 트래픽 밀도는 '2 얼랑'이 됩니다. 사장님은 이 얼랑 계산기를 두드려보고 "아, 2 얼랑이니까 최소한 컴퓨터 2대 이상은 켜둬야 손님들이 서서 기다리는 일(호손율)이 없겠구나!"라고 최적의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대수를 귀신같이 맞춰서 기계값을 아끼는 궁극의 수용량 계산기입니다.
+- **📢 섹션 요약 비유**: 얼랑(Erlang)은 PC방 사장님이 <strong>'좌석 1개가 1시간 동안 100% 돌아가는 가동률'</strong>을 세는 단위입니다. 손님 60명이 와서 각자 딱 1분씩만 게임하고 바로 나갔다면, 결국 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대를 60분 동안 안 쉬고 돌린 것과 똑같습니다(이것이 딱 1 얼랑입니다). 만약 오늘 점심에 손님들이 몰려와 총 게임 시간이 120분이 찍혔다면, 오늘 점심의 트래픽 밀도는 '2 얼랑'이 됩니다. 사장님은 이 얼랑 계산기를 두드려보고 "아, 2 얼랑이니까 최소한 컴퓨터 2대 이상은 켜둬야 손님들이 서서 기다리는 일(호손율)이 없겠구나!"라고 최적의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대수를 귀신같이 맞춰서 기계값을 아끼는 궁극의 수용량 계산기입니다.
 
 ---
 
@@ -115,15 +123,19 @@ Erlang는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 처리량 수식화]
-    │
-    ▼
-[현재 개념: Erlang]
-    │
-    ├──▶ [확장 A: 호손율 / 블로킹 확률]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 처리량 수식화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Erlang</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 Erlang는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화에서 출발해 현재 메커니즘을 정교화하고, 이후 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

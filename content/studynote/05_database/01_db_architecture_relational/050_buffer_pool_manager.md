@@ -21,21 +21,27 @@ tags = ["DBMS", "InnoDB", "LRU", "WAL", "buffer pool", "clock algorithm", "dirty
 
 ### 1.1 메모리-디스크 계층
 
-```
-SQL 쿼리
-   ↓
-버퍼 풀 (Buffer Pool, 메모리)
-   ├── 페이지 테이블 (page table): page_id → frame_id
-   ├── free list: 빈 프레임 목록
-   ├── LRU list: Young(Hot) | Old(Cold) 영역
-   └── flush list: 더티 페이지 목록
-   ↕  (miss 시 디스크 I/O)
-데이터 파일 (.ibd)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SQL 쿼리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">버퍼 풀 (Buffer Pool, 메모리)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">페이지 테이블 (page table): page_id → frame_id</div>
+<div class="kb-diagram-tree-item" style="--depth:1">free list: 빈 프레임 목록</div>
+<div class="kb-diagram-tree-item" style="--depth:1">LRU list: Young(Hot) | Old(Cold) 영역</div>
+<div class="kb-diagram-tree-item" style="--depth:1">flush list: 더티 페이지 목록</div>
+<div class="kb-diagram-note">↕ (miss 시 디스크 I/O)</div>
+<div class="kb-diagram-note">데이터 파일 (.ibd)</div>
+</div>
+</div>
+
+
 
 ### 1.2 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 요청 흐름
 
-1. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 page_id 조회 → **히트([hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))**: 프레임 반환
+1. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 page_id 조회 → <strong>히트(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">hit</a>)</strong>: 프레임 반환
 2. **미스(miss)**: free list에서 프레임 확보 → 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로드 → [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트 삽입
 
 📢 **섹션 요약 비유**: 버퍼 풀은 사서가 자주 빌리는 책을 책상 서랍(메모리)에 모아두는 것 — 서랍에 없으면 서고(디스크)에서 꺼내온다.
@@ -46,14 +52,19 @@ SQL 쿼리
 
 ### 2.1 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))
 
-```
-접근 순서: A B C D → A 참조
 
-LRU 리스트 (왼쪽=MRU, 오른쪽=LRU):
-초기:  [D, C, B, A]
-A 참조: [A, D, C, B]  ← A가 앞으로 이동
-교체 필요 시: B (가장 오른쪽) 교체
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">접근 순서: A B C D → A 참조</div>
+<div class="kb-diagram-note">LRU 리스트 (왼쪽=MRU, 오른쪽=LRU):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기:</div><div class="kb-diagram-node">D, C, B, A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A 참조:</div><div class="kb-diagram-node">A, D, C, B</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">A가 앞으로 이동</div></div>
+<div class="kb-diagram-note">교체 필요 시: B (가장 오른쪽) 교체</div>
+</div>
+</div>
+
+
 
 ### 2.2 InnoDB의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 변형
 
@@ -68,11 +79,17 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 
 ### 2.3 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-프레임을 원형으로 배치, reference bit 사용:
-[A:1] → [B:0] → [C:1] → [D:0] ...
-       ↑ clock hand
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프레임을 원형으로 배치, reference bit 사용:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A:1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B:0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C:1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D:0</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-note">↑ clock hand</div>
+</div>
+</div>
+
+
 
 - [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접근 시 [reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) = 1
 - 교체 시 [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) hand 이동: [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)=1이면 0으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 후 통과, [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)=0이면 교체
@@ -85,14 +102,20 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 
 ### 3.1 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리
 
-```
-페이지 읽기 → 수정 → dirty bit = 1 → flush list 등록
-                               ↓
-                       체크포인트 발생 시
-                       또는 free list 부족 시
-                               ↓
-                       디스크 플러시 (write)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">페이지 읽기 → 수정 → dirty bit = 1 → flush list 등록</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">체크포인트 발생 시</div>
+<div class="kb-diagram-note">또는 free list 부족 시</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">디스크 플러시 (write)</div>
+</div>
+</div>
+
+
 
 ### 3.2 플러시 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
 
@@ -111,22 +134,28 @@ Young 영역 (5/8)    | Old 영역 (3/8)
 
 ### 4.1 [Write-Ahead Logging](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/) 원칙
 
-1. **수정 전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 먼저**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크에 플러시하기 전에 WAL([리두](/knowledge-base/studynote/05_database/07_exam_summary/455_redo_log_archive/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에 먼저 기록.
-2. **STEAL/FORCE [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**:
+1. <strong>수정 전 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 먼저</strong>: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크에 플러시하기 전에 WAL([리두](/knowledge-base/studynote/05_database/07_exam_summary/455_redo_log_archive/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에 먼저 기록.
+2. <strong>STEAL/FORCE <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>:
    - STEAL: 커밋 전 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 플러시 허용 (버퍼 풀 공간 확보)
    - NO-FORCE: 커밋 시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 직접 기록 불필요 ([리두](/knowledge-base/studynote/05_database/07_exam_summary/455_redo_log_archive/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능)
 
 ### 4.2 크래시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름
 
-```
-크래시 발생
-    ↓
-InnoDB 재시작
-    ↓
-리두 로그 분석(Analysis) → 리두(Redo) → 언두(Undo)
-    ↓
-버퍼 풀 정상 복구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">크래시 발생</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">InnoDB 재시작</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">리두 로그 분석(Analysis) → 리두(Redo) → 언두(Undo)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">버퍼 풀 정상 복구</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: WAL은 일기([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))를 먼저 쓰고 행동하는 것 — 사고가 나도 일기를 보면 어디까지 했는지 알 수 있다.
 
@@ -159,42 +188,54 @@ SHOW STATUS LIKE 'Innodb_buffer_pool%';
 
 ## 📌 관련 개념 맵
 
-```
-버퍼 풀 매니저
-├── 페이지 교체 정책
-│   ├── LRU
-│   ├── InnoDB Young/Old LRU
-│   └── Clock 알고리즘
-├── 더티 페이지 관리
-│   ├── 체크포인트
-│   ├── WAL (Write-Ahead Log)
-│   └── 크래시 복구 (Redo/Undo)
-└── 튜닝 포인트
-    ├── 버퍼 풀 크기
-    ├── 인스턴스 수
-    └── 히트율 모니터링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">버퍼 풀 매니저</div>
+<div class="kb-diagram-tree-item" style="--depth:0">페이지 교체 정책</div>
+<div class="kb-diagram-note">── LRU</div>
+<div class="kb-diagram-note">── InnoDB Young/Old LRU</div>
+<div class="kb-diagram-note">── Clock 알고리즘</div>
+<div class="kb-diagram-tree-item" style="--depth:0">더티 페이지 관리</div>
+<div class="kb-diagram-note">── 체크포인트</div>
+<div class="kb-diagram-note">── WAL (Write-Ahead Log)</div>
+<div class="kb-diagram-note">── 크래시 복구 (Redo/Undo)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">튜닝 포인트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버퍼 풀 크기</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인스턴스 수</div>
+<div class="kb-diagram-tree-item" style="--depth:2">히트율 모니터링</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-초기 DBMS: 더블 버퍼링 (1970s)
-     │  LRU 알고리즘 도입
-     ▼
-전통적 버퍼 매니저 (STEAL/NO-FORCE + WAL)
-     │  풀 스캔 오염 문제
-     ▼
-InnoDB Young/Old LRU (MySQL 5.x)
-     │  대용량 메모리 대응
-     ▼
-멀티 인스턴스 버퍼 풀 (MySQL 5.5+)
-     │  NVM/PMEM 등장
-     ▼
-영속 버퍼 풀 (Persistent Buffer Pool, MySQL 5.7+)
-재시작 후 워밍업 없이 히트율 유지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 DBMS: 더블 버퍼링 (1970s)</div>
+<div class="kb-diagram-note">LRU 알고리즘 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전통적 버퍼 매니저 (STEAL/NO-FORCE + WAL)</div>
+<div class="kb-diagram-note">풀 스캔 오염 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">InnoDB Young/Old LRU (MySQL 5.x)</div>
+<div class="kb-diagram-note">대용량 메모리 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 인스턴스 버퍼 풀 (MySQL 5.5+)</div>
+<div class="kb-diagram-note">NVM/PMEM 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">영속 버퍼 풀 (Persistent Buffer Pool, MySQL 5.7+)</div>
+<div class="kb-diagram-note">재시작 후 워밍업 없이 히트율 유지</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), WAL, 체크포인트, STEAL, NO-FORCE, 히트율
 

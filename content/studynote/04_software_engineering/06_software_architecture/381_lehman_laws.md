@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 모든 소프트웨어 엔지니어가 공감하는 경험적로서、"을/를추가하면、은/는있었다도의이/가", "변경 Simples이 예상치 못한 부작용을 일으키는", "시간이 지날수록 변경이 더 어려워진다"이 있다. 메이먼의 법칙은 이러한 현상들의근본)을 설명하고 예측 가능하게 해준다.
 
-- **💡 비유**: 메이먼의 법칙은 **'도시의 교통 혼잡'**과 같다. 도시에 도로를하면（ 추가）, population와 차량이 하여 결국 어떤 도로를하여도은/는지 않다. 소프트웨어도 마찬가지로 기능을추가하면활용이/가, 그에 따른도하여, 결국 어떤 추가든 시스템 전체에 영향을 미치게 되어이 발생하는 것처럼"의이/가 하는 것이다.
+- **💡 비유**: 메이먼의 법칙은 <strong>'도시의 교통 혼잡'</strong>과 같다. 도시에 도로를하면（ 추가）, population와 차량이 하여 결국 어떤 도로를하여도은/는지 않다. 소프트웨어도 마찬가지로 기능을추가하면활용이/가, 그에 따른도하여, 결국 어떤 추가든 시스템 전체에 영향을 미치게 되어이 발생하는 것처럼"의이/가 하는 것이다.
 
 - **등장 배경 및 발전 과정**:
 1. **1974년 Meyer**: 이론 제시
@@ -31,24 +31,23 @@ tags = ["studynote-software-engineering"]
 3. **1991년 Lehman**: 법칙의 정식화 및 추가
 4. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 시대에의와/과
 
-- **📢 섹션 요약 비유**: 메이먼의 법칙은 **'인간의'**과 같다. 인간은.age_zero부터age_one에하다은/는 학습과 성장으로 새로운를 획득하지만, 일정 나이 이후에는 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)로 인해 능력이 감소하고,에의 susceptibility이/가 한다. 소프트웨어도 마찬가지로 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)는 성장기이지만, 시간이 지날수록"[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)"로 인해 변경이 더 어려워지고 버그 발생 가능성이 증가한다.
+- **📢 섹션 요약 비유**: 메이먼의 법칙은 <strong>'인간의'</strong>과 같다. 인간은.age_zero부터age_one에하다은/는 학습과 성장으로 새로운를 획득하지만, 일정 나이 이후에는 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)로 인해 능력이 감소하고,에의 susceptibility이/가 한다. 소프트웨어도 마찬가지로 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)는 성장기이지만, 시간이 지날수록"[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)"로 인해 변경이 더 어려워지고 버그 발생 가능성이 증가한다.
 
 ---
 
 다음은 메이먼의 법칙 (Lehman's La의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 메이먼의 법칙 (Lehman's La │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메이먼의 법칙 (Lehman's La</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 메이먼의 법칙 (Lehman's La가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-메이먼의 법칙 (Lehman's Laws of Software Evolution)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+메이먼의 법칙 (Lehman's Laws of Software Evolution)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 메이먼의 법칙 (Lehman's Laws of Software Evolution)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-메이먼의 법칙 (Lehman's Laws of Software Evolution) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메이먼의 법칙 (Lehman's Laws of Software Evolution) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

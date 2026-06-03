@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU 유휴(Idle) 상태는 실행 가능한 프로세스가 없을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU를 저전력 모드(C-State)로 전환하는 메커니즘으로, 단순한 "쉬는 상태"가 아니라 전력 소비와 응답 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형을 맞추는 **적극적 전력 관리([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** 과정이다.
+> 1. **본질**: CPU 유휴(Idle) 상태는 실행 가능한 프로세스가 없을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU를 저전력 모드(C-State)로 전환하는 메커니즘으로, 단순한 "쉬는 상태"가 아니라 전력 소비와 응답 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 균형을 맞추는 <strong>적극적 전력 관리(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> 과정이다.
 > 2. **가치**: 현대 서버 CPU에서 유휴 전력은 총 전력의 30~60%를 차지하며, C-State(C0~C10) 깊이와 idle governor(menu/teo) 선택에 따라 전력을 50W~200W까지 절감하면서도 웨이크업 레이턴시를 마이크로초 이내로 유지할 수 있다.
 > 3. **융합**: [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling, #651), [틱리스 커널](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)([Tickless Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/)), cpuidle 프레임워크가 결합하여 모바일~[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전 범위의 에너지 효율을 최적화한다.
 
@@ -26,36 +26,35 @@ CPU 유휴(Idle) 최적화는 실행할 태스크가 없을 때 CPU를 가장 �
 CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력을 낭비하면 배터리 수명 단축(모바일), 전기료 증가([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)), 발열·소음 증가 등의 문제가 발생한다.
 
 ### 등장 배경
-1. ** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)**: HLT([Halt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 단순 대기
-2. **[ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) C-State 도입**: C0(활성) ~ C10(심절전) 계층적 저전력 상태
+1. <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a></strong>: HLT([Halt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 단순 대기
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/">ACPI</a> C-State 도입</strong>: C0(활성) ~ C10(심절전) 계층적 저전력 상태
 3. **cpuidle 프레임워크**: Linux 2.6.21+ 에서 idle governor 도입
 
-```text
-┌───────────────── C-State 계층 ─────────────────┐
-│                                                 │
-│  C0  ──── 활성 (실행 중)                        │
-│  │     전력: 최대 ~ 200W (서버 기준)             │
-│  │                                               │
-│  C1  ──── HLT (클럭 정지)                       │
-│  │     웨이크업: ~10ns                           │
-│  │     전력 절감: ~10%                           │
-│  │                                               │
-│  C2  ──── Stop-Clock (전압 유지)                │
-│  │     웨이크업: ~100ns                          │
-│  │     전력 절감: ~40%                           │
-│  │                                               │
-│  C3  ──── Sleep (전압 저하)                     │
-│  │     웨이크업: ~1us                            │
-│  │     전력 절감: ~60%                           │
-│  │                                               │
-│  C6+ ──── Deep Sleep (전원 차단)                │
-│        웨이크업: ~10us ~ 100us                   │
-│        전력 절감: ~90%                           │
-│                                                 │
-│  핵심 트레이드오프:                              │
-│  깊은 C-State = 더 큰 절전 + 더 긴 복귀 지연     │
-└─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">C-State 계층</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C0 활성 (실행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력: 최대 ~ 200W (서버 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 HLT (클럭 정지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨이크업: ~10ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 절감: ~10%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C2 Stop-Clock (전압 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨이크업: ~100ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 절감: ~40%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C3 Sleep (전압 저하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨이크업: ~1us</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 절감: ~60%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C6+ Deep Sleep (전원 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨이크업: ~10us ~ 100us</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 절감: ~90%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 트레이드오프:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깊은 C-State = 더 큰 절전 + 더 긴 복귀 지연</div></div>
+</div>
+</div>
+
+
 
 **[해설]** C-State가 깊어질수록 전력 절감은 커지지만, 웨이크업 레이턴시도 증가한다. 이 트레이드오프를 관리하는 것이 idle governor의 핵심 역할이다.
 
@@ -72,61 +71,53 @@ CPU가 100% 활용되지 않는 시간(대부분의 서버/모바일)에 전력�
 | **cpuidle 프레임워크** | idle 상태 관리 | governor 선택 → C-State 진입 | 자동 휴게 시스템 |
 | **menu governor** | 다음 idle 시간 예측 | 타이머 이벤트 기반 예측 | 휴게 시간 예측기 |
 | **teo governor** | 시간 기반 최적화 | 최근 idle 이력 분석 | 과거 경험 기반 판단 |
-| **[tickless kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/)** | 불필요한 타이머 틱 제거 | NO_HZ_IDLE / NO_HZ_FULL | 불필요한 알람 끄기 |
-| **mwait [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)** | Intel CPU 저전력 대기 | C-State 진입 + [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 주소 | 대기실 문 지키기 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/">tickless kernel</a></strong> | 불필요한 타이머 틱 제거 | NO_HZ_IDLE / NO_HZ_FULL | 불필요한 알람 끄기 |
+| <strong>mwait <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong> | Intel CPU 저전력 대기 | C-State 진입 + [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 주소 | 대기실 문 지키기 |
 
 ### idle 루프 흐름도
 
-```text
-┌───────────────────────────────────────────────┐
-│          CPU Idle 루프 (schedule() → idle)     │
-│                                               │
-│  ┌─────────────┐                              │
-│  │ 실행 큐 비었나?│ ── No → 프로세스 스케줄    │
-│  └──────┬──────┘                              │
-│         │ Yes                                 │
-│         ▼                                     │
-│  ┌──────────────┐                             │
-│  │ idle governor │                             │
-│  │ 다음 wake까지 │                             │
-│  │ 시간 예측     │                             │
-│  └──────┬───────┘                             │
-│         │                                     │
-│         ▼                                     │
-│  ┌──────────────────────────────┐             │
-│  │ 예측 시간에 따라 C-State 선택  │             │
-│  │ < 100us  → C1 (HLT)         │             │
-│  │ < 1ms    → C2               │             │
-│  │ < 10ms   → C3               │             │
-│  │ > 10ms   → C6 (Deep Sleep)  │             │
-│  └──────────┬───────────────────┘             │
-│             │                                 │
-│             ▼                                 │
-│  ┌─────────────────┐                          │
-│  │ mwait /HLT 실행  │ → CPU 저전력 진입        │
-│  └────────┬────────┘                          │
-│           │ 인터럽트/이벤트 도착                │
-│           ▼                                    │
-│  ┌──────────────────┐                         │
-│  │ C0 복귀 → 스케줄  │                         │
-│  └──────────────────┘                         │
-└───────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Idle 루프 (schedule() → idle)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 큐 비었나?</div><div class="kb-diagram-cell">── No → 프로세스 스케줄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">idle governor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 wake까지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 시간에 따라 C-State 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 100us → C1 (HLT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 1ms → C2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 10ms → C3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 10ms → C6 (Deep Sleep)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mwait /HLT 실행</div><div class="kb-diagram-cell">→ CPU 저전력 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트/이벤트 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C0 복귀 → 스케줄</div></div>
+</div>
+</div>
+
+
 
 **[해설]** idle governor가 다음 웨이크업까지의 예상 대기 시간을 기반으로 최적 C-State를 선택한다. 예측이 정확할수록 불필요한 깊은 수면(긴 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 피하면서도 최대 절전을 달성한다.
 
 ### 틱리스([Tickless](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)
 
-```text
-기존 (HZ=1000):
-  ...|tick|tick|tick|idle|tick|tick|...
-     매 1ms마다 깨어남 → C-State 진입 불가
 
-Tickless (NO_HZ_IDLE):
-  ...|tick|tick|idle.............|tick|...
-     idle 중 타이머 틱 중단 → 깊은 C-State 유지
-     다음 실제 이벤트까지만 수면
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 (HZ=1000):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">idle</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-note">매 1ms마다 깨어남 → C-State 진입 불가</div>
+<div class="kb-diagram-note">Tickless (NO_HZ_IDLE):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">idle.............</div><div class="kb-diagram-cell">tick</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-note">idle 중 타이머 틱 중단 → 깊은 C-State 유지</div>
+<div class="kb-diagram-note">다음 실제 이벤트까지만 수면</div>
+</div>
+</div>
+
+
 
 **[해설]** [틱리스 커널](/knowledge-base/studynote/02_operating_system/11_exam_summary/795_tickless_kernel_mobile_battery_preservation/)은 idle 중 불필요한 주기적 타이머 인터럽트를 제거하여 CPU가 더 깊은 C-State에 더 오래 머물 수 있게 한다.
 
@@ -143,7 +134,7 @@ Tickless (NO_HZ_IDLE):
 | **예측 방식** | 타이머 이벤트 + 보너스 | 최근 idle 기간 이력 |
 | **적합 환경** | 데스크톱/서버 | 모바일/저전력 |
 | **예측 정확도** | 중간 | 높음(반복 패턴) |
-| **기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | 대부분의 배포판 | 모바일 Linux |
+| <strong>기본 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong> | 대부분의 배포판 | 모바일 Linux |
 
 ### idle 관련 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터
 
@@ -205,15 +196,19 @@ Tickless (NO_HZ_IDLE):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[리틀의 법칙 (Little's Law)]
-    │
-    ▼
-[CPU 유휴 (Idle) 대기 루프 최적화]
-    │
-    ├──▶ [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    └──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리틀의 법칙 (Little's Law)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 유휴 (Idle) 대기 루프 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

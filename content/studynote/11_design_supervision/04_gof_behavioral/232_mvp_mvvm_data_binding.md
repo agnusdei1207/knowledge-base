@@ -22,10 +22,10 @@ tags = ["studynote-design-supervision"]
 
 두 패턴의 등장 배경:
 
-- **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)**: 서버 사이드 웹 프레임워크(ASP.NET Web Forms, Android [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 에서 View가 인터페이스로만 존재할 때 유용
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong>: 서버 사이드 웹 프레임워크(ASP.NET Web Forms, Android [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 에서 View가 인터페이스로만 존재할 때 유용
 - **MVVM**: WPF (Windows Presentation Foundation), Angular, Vue.js, Jetpack Compose 같은 반응형 UI 프레임워크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩 엔진을 활용
 
-공통 목표는 **UI 로직과 비즈니스 로직의 완전한 분리**이지만, 그 방법이 다르다.
+공통 목표는 <strong>UI 로직과 비즈니스 로직의 완전한 분리</strong>이지만, 그 방법이 다르다.
 
 | 연도 | 패턴 | 맥락 |
 |:---:|:---|:---|
@@ -34,51 +34,57 @@ tags = ["studynote-design-supervision"]
 | 2005 | MVVM | Microsoft WPF 팀 (켄 쿠퍼, 존 고스만) |
 | 2010~ | MVVM 대중화 | AngularJS, Knockout.js, 이후 모든 SPA 프레임워크 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MVC가 "주방장이 요리도 하고 서빙도 하는" 구조라면, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM은 "요리사(Model)와 웨이터([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 완전히 분리하고 중간에 매니저를 둔" 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌─────────────────────────────────────────────────────┐
-│                    MVP 구조                          │
-│                                                     │
-│  ┌──────────┐  interface  ┌──────────────────────┐  │
-│  │   View   │◀────────────│     Presenter        │  │
-│  │(UI 컴포넌트│  직접 참조  │(프레젠테이션 로직 전담)│  │
-│  │ 수동 업데이)│────────────▶│                      │  │
-│  └──────────┘  이벤트 전달 └──────────┬───────────┘  │
-│                                      │ Model 조작   │
-│                              ┌───────▼───────────┐  │
-│                              │      Model        │  │
-│                              │ (데이터 + 비즈니스)  │  │
-│                              └───────────────────┘  │
-└─────────────────────────────────────────────────────┘
-```
 
-**[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 핵심**: Presenter가 IView 인터페이스를 통해 View를 갱신한다. View는 수동적(Passive [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이며 스스로 아무것도 결정하지 않는다.
 
-```
-┌──────────────────────────────────────────────────────┐
-│                   MVVM 구조                           │
-│                                                      │
-│  ┌─────────┐    데이터 바인딩    ┌──────────────────┐ │
-│  │  View   │◀═══════════════════▶│   ViewModel      │ │
-│  │ (UI 템플) │  양방향 자동 동기화 │ (관찰 가능 상태)  │ │
-│  └─────────┘                    └────────┬─────────┘ │
-│  View는 ViewModel을                      │           │
-│  직접 알지 못함                    ┌──────▼─────────┐  │
-│  (바인딩 엔진이 연결)               │    Model       │  │
-│                                   │ (도메인 로직)    │  │
-│                                   └────────────────┘  │
-└──────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVP 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Presenter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI 컴포넌트</div><div class="kb-diagram-cell">직접 참조</div><div class="kb-diagram-cell">(프레젠테이션 로직 전담)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 업데이)</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model 조작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 + 비즈니스)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> 핵심</strong>: Presenter가 IView 인터페이스를 통해 View를 갱신한다. View는 수동적(Passive [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이며 스스로 아무것도 결정하지 않는다.
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVVM 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 바인딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">ViewModel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI 템플)</div><div class="kb-diagram-cell">양방향 자동 동기화</div><div class="kb-diagram-cell">(관찰 가능 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View는 ViewModel을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 알지 못함 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(바인딩 엔진이 연결)</div><div class="kb-diagram-cell">Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도메인 로직)</div></div>
+</div>
+</div>
+
+
 
 **MVVM 핵심**: ViewModel은 Observable (관찰 가능한) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 노출하고, 바인딩 엔진이 View를 자동으로 갱신한다. Presenter처럼 View를 직접 호출하지 않는다.
 
@@ -102,7 +108,7 @@ tags = ["studynote-design-supervision"]
 | 반응형 UI 지원 | 제한적 | 제한적 | 네이티브 지원 |
 | 주요 프레임워크 | Spring MVC, Rails | Android (구버전), WinForms | Angular, Vue, WPF, Compose |
 
-MVVM의 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩은 코드를 줄여주지만 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 추적이 어려워질 수 있다**. 이를 위해 React는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(Flux/Redux)을 강제한다. Angular는 `[(ngModel)]`로 양방향 바인딩을 지원하면서도 `@Input`/`@Output`으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)을 권장한다.
+MVVM의 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩은 코드를 줄여주지만 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 추적이 어려워질 수 있다</strong>. 이를 위해 React는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(Flux/Redux)을 강제한다. Angular는 `[(ngModel)]`로 양방향 바인딩을 지원하면서도 `@Input`/`@Output`으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)을 권장한다.
 
 - **📢 섹션 요약 비유**: 양방향 바인딩은 전화 통화처럼 편리하지만, 누가 먼저 말했는지 헷갈릴 수 있다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)은 라디오처럼 명확하지만 응답하려면 별도 채널이 필요하다.
 
@@ -150,7 +156,7 @@ class LoginViewModel(val model: UserModel) {
 ## Ⅴ. 기대효과 및 결론
 두 패턴 모두 "[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) (뚱뚱한 뷰)" 안티 패턴을 해소한다. 선택 기준을 정리하면:
 
-- **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)** 선택: 바인딩 프레임워크가 없거나, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 교체(웹→앱)가 잦고, 엄격한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 필요한 경우
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> 선택: 바인딩 프레임워크가 없거나, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 교체(웹→앱)가 잦고, 엄격한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 필요한 경우
 - **MVVM** 선택: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반응형 UI, 선언적 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), 실시간 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 필요한 현대 SPA (Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application) / 모바일
 
 기술사 관점에서는 **"왜 View와 비즈니스 로직을 분리하는가"** 라는 근본 질문에 답하는 것이 핵심이다. 분리를 통해 테스트 가능성, 재사용성, 유지보수성이 모두 향상된다.

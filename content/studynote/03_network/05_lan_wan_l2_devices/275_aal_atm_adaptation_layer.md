@@ -23,17 +23,21 @@ tags = ["studynote-network"]
 - **필요성**: 컴퓨터는 1500바이트 덩어리의 IP 패킷을 던진다. 전화기는 1바이트씩 연속해서 음성 파형을 던진다. 하지만 밑바닥의 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 바보 같은 믹서기계는 오로지 "48바이트 고기 덩어리"만 삼킬 수 있다. 누군가는 위에서 던지는 다양한 재료(트래픽)의 성격을 파악해서, 48바이트씩 똑바른 크기로 썰어서 넘겨주는 정육점 사장님(AAL)이 반드시 필요했다.
 
 - **💡 비유**: 
-  - 수박, 파인애플(IP 패킷), 쌀알(음성) 등 온갖 재료를 똑같은 크기의 **"얼음 통(48바이트 큐브)"**에 넣어서 얼려야 합니다.
+  - 수박, 파인애플(IP 패킷), 쌀알(음성) 등 온갖 재료를 똑같은 크기의 <strong>"얼음 통(48바이트 큐브)"</strong>에 넣어서 얼려야 합니다.
   - AAL은 재료를 큐브 크기에 딱 맞게 칼질(분할, [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))해서 얼음 통에 넣고 뚜껑을 닫아주는 자동 포장 기계입니다.
 
-```text
-[VPI / VCI]
-    │
-    ▼
-[AAL]
-    │
-    └──▶ [패킷 교환 vs 회선 교환 vs 메시지 교환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPI / VCI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AAL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AAL은 공항의 **"수하물 재포장 센터"**입니다. 승객들이 들고 온 집채만 한 배낭(IP 패킷)이나 기다란 골프채(영상 스트리밍)를 항공사 규격 박스(53바이트)에 맞게 전부 분해하고 욱여넣어 포장해 주는 완충 지대입니다.
 
@@ -41,10 +45,10 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AAL은 트래픽의 특성을 **1) 타이밍(실시간성) 유지 필요성, 2) 비트레이트(고정/가변), 3) 연결 지향성 여부**라는 세 가지 축을 기준으로 4개의 클래스(Class A~D)로 나누고, 이에 맞는 칼질 방식을 고안했다.
+AAL은 트래픽의 특성을 <strong>1) 타이밍(실시간성) 유지 필요성, 2) 비트레이트(고정/가변), 3) 연결 지향성 여부</strong>라는 세 가지 축을 기준으로 4개의 클래스(Class A~D)로 나누고, 이에 맞는 칼질 방식을 고안했다.
 
 ### 1. AAL 1 (Class A: 실시간 고정 비트레이트 - CBR)
-- **대상 트래픽**: 예전 구리선 전화망(PSTN)처럼, 0.001초의 딜레이도 없이 고정된 속도로 끊임없이 흘러야 하는 순수 **음성(Voice) 트래픽**이나 무압축 화상 회의.
+- **대상 트래픽**: 예전 구리선 전화망(PSTN)처럼, 0.001초의 딜레이도 없이 고정된 속도로 끊임없이 흘러야 하는 순수 <strong>음성(Voice) 트래픽</strong>이나 무압축 화상 회의.
 - **포장 방식**: 48바이트 큐브를 꽉꽉 채워서 기다릴 시간이 없다! 무조건 실시간으로 들어오는 족족 채워서 쏴야 하므로, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 타이밍 1바이트를 추가하여 실제 순수 데이터는 47바이트씩 썰어 넣는다.
 
 ### 2. AAL 2 (Class B: 실시간 가변 비트레이트 - VBR)
@@ -53,31 +57,26 @@ AAL은 트래픽의 특성을 **1) 타이밍(실시간성) 유지 필요성, 2) 
 
 ### 3. AAL 5 (Class C/D: 비실시간 가변 비트레이트) - ★ 현대의 표준
 - 원래 AAL 3/4라는 타입이 있었으나 에러 제어 오버헤드가 너무 무식해서 폐기되었다.
-- **대상 트래픽**: 우리가 흔히 쓰는 **인터넷 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 패킷 (이메일, 웹서핑, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드)**. 타이밍이 생명은 아니지만(조금 늦게 도착해도 됨), 데이터가 절대 깨지면 안 된다.
+- **대상 트래픽**: 우리가 흔히 쓰는 <strong>인터넷 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷 (이메일, 웹서핑, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 다운로드)</strong>. 타이밍이 생명은 아니지만(조금 늦게 도착해도 됨), 데이터가 절대 깨지면 안 된다.
 - **포장 방식 (SEAL - Simple and Efficient AAL)**:
   - 1500바이트 IP 패킷을 48바이트로 무식하게 쑹덩쑹덩 썰기만 한다.
   - 조각조각마다 일일이 에러 검사 코드를 넣지 않고, IP 패킷 맨 마지막 조각에 딱 한 번만 8바이트짜리 꼬리표(Trailer, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)+전체 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))를 붙여서 심플함과 전송 효율을 극대화했다. 
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AAL5의 IP 패킷 분할(Segmentation) 도식          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 원본 IP 패킷 (예: 100 바이트) ]                             │
- │   └───────────────────────────────────────────────────┘       │
- │                                                             │
- │   AAL5가 꼬리에 패딩과 CRC를 붙여 48의 배수로 강제 정렬시킴 (144B)    │
- │   └───────────────────────────────────────────────┴─┴─┴─┘     │
- │                                  (Padding 빈칸) (CRC)         │
- │                                                             │
- │   정확히 48바이트씩 3등분으로 썰어서 ATM 믹서기(셀)로 던져줌!         │
- │   ┌────┐    ┌────┐    ┌────┐                                │
- │   │ 48 │    │ 48 │    │ 48 │                                │
- │   └────┘    └────┘    └────┘                                │
- │     ▼          ▼          ▼                                 │
- │   [ATM셀]    [ATM셀]     [ATM셀] (헤더 5바이트가 씌워져 광랜으로 전송)│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AAL5의 IP 패킷 분할(Segmentation) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 IP 패킷 (예: 100 바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AAL5가 꼬리에 패딩과 CRC를 붙여 48의 배수로 강제 정렬시킴 (144B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Padding 빈칸) (CRC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 48바이트씩 3등분으로 썰어서 ATM 믹서기(셀)로 던져줌!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">48</div><div class="kb-diagram-cell">48</div><div class="kb-diagram-cell">48</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ATM셀</div><div class="kb-diagram-node">ATM셀</div><div class="kb-diagram-node">ATM셀</div><div class="kb-diagram-note">(헤더 5바이트가 씌워져 광랜으로 전송)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AAL 1, 2, 3/4 등 복잡한 맞춤형 칼질 룰이 있었지만, 결국 시장을 제패한 것은 **"그냥 1500바이트 고깃덩어리를 통째로 대충 48그람씩 막 썰어 담고 마지막 그릇에만 유통기한([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 스티커를 딱 하나 붙여버리는 상남자식 포장법(AAL5)"**이었습니다. 이것이 컴퓨터 인터넷 세상에 가장 완벽하게 들어맞았기 때문입니다.
 
@@ -135,15 +134,19 @@ AAL는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VPI / VCI]
-    │
-    ▼
-[현재 개념: AAL]
-    │
-    ├──▶ [확장 A: 패킷 교환 vs 회선 교환 vs 메시지 교환]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VPI / VCI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AAL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 AAL는 VPI / VCI에서 출발해 현재 메커니즘을 정교화하고, 이후 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,19 +23,21 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 중요한 이유는 해저드가 파이프라인의 장점을 직접 깎아 먹기 때문이다. 클럭 주파수가 높아도 해저드가 많으면 유닛이 빈 채로 지나가는 클럭이 늘어나고, 결국 사용자 입장에서는 "빠른 CPU인데 생각보다 안 빠른" 상황이 된다. 따라서 파이프라인 설계의 핵심은 단계를 나누는 것에서 끝나지 않고, 그 단계들이 서로 부딪히지 않게 흐름을 통제하는 데 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        이상적 파이프라인과 실제 파이프라인의 차이: 막힘이 성능을 결정        │
-├──────────────────────────────────────────┬─────────────────────────────────┤
-│ 이상적 흐름                              │ 해저드가 있는 흐름              │
-│ I1  IF→ID→EX→MEM→WB                     │ I1  IF→ID→EX→MEM→WB             │
-│ I2     IF→ID→EX→MEM→WB                  │ I2     IF→ID→Stall→EX→MEM→WB    │
-│ I3        IF→ID→EX→MEM→WB               │ I3        IF→ID→FLUSH           │
-│ I4           IF→ID→EX→MEM→WB            │ I4              IF 재시작       │
-├──────────────────────────────────────────┴─────────────────────────────────┤
-│ 같은 5단 구조라도 해저드가 끼어들면 "매 클럭 1개 완료"라는 약속이 무너진다.  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상적 파이프라인과 실제 파이프라인의 차이: 막힘이 성능을 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상적 흐름</div><div class="kb-diagram-cell">해저드가 있는 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1 IF→ID→EX→MEM→WB</div><div class="kb-diagram-cell">I1 IF→ID→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2 IF→ID→EX→MEM→WB</div><div class="kb-diagram-cell">I2 IF→ID→Stall→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I3 IF→ID→EX→MEM→WB</div><div class="kb-diagram-cell">I3 IF→ID→FLUSH</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I4 IF→ID→EX→MEM→WB</div><div class="kb-diagram-cell">I4 IF 재시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 5단 구조라도 해저드가 끼어들면 "매 클럭 1개 완료"라는 약속이 무너진다.</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은 파이프라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 적이 "단 수 부족"만이 아니라는 점이다. 설계자가 해저드를 제어하지 못하면, 더 깊은 파이프라인은 더 많은 빈칸과 더 큰 재시작 비용만 남길 수 있다.
 
@@ -57,20 +59,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 시공간 도표는 세 해저드가 파이프라인에 어떤 모양의 손실을 남기는지 한눈에 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 해저드 유형별 파이프라인 손실 패턴 요약                    │
-├──────────────┬─────────────────────────────────────────────────────────────┤
-│ 구조적       │ C4에서 I1(MEM)과 I4(IF)가 같은 메모리 포트를 동시에 요구   │
-│ 해저드       │ → I4는 대기 → 앞단 정지                                     │
-├──────────────┼─────────────────────────────────────────────────────────────┤
-│ 데이터       │ I2가 EX에서 R1이 필요하지만 I1의 결과는 아직 WB 전          │
-│ 해저드       │ → I2에 Bubble 1칸 삽입 또는 Forwarding 수행                 │
-├──────────────┼─────────────────────────────────────────────────────────────┤
-│ 제어         │ Branch 결과가 EX에서야 확정되는데 IF는 이미 다음 명령 인출  │
-│ 해저드       │ → 예측 성공 시 계속 진행, 실패 시 잘못 인출한 명령 Flush    │
-└──────────────┴─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해저드 유형별 파이프라인 손실 패턴 요약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조적</div><div class="kb-diagram-cell">C4에서 I1(MEM)과 I4(IF)가 같은 메모리 포트를 동시에 요구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해저드</div><div class="kb-diagram-cell">→ I4는 대기 → 앞단 정지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">I2가 EX에서 R1이 필요하지만 I1의 결과는 아직 WB 전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해저드</div><div class="kb-diagram-cell">→ I2에 Bubble 1칸 삽입 또는 Forwarding 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어</div><div class="kb-diagram-cell">Branch 결과가 EX에서야 확정되는데 IF는 이미 다음 명령 인출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해저드</div><div class="kb-diagram-cell">→ 예측 성공 시 계속 진행, 실패 시 잘못 인출한 명령 Flush</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 해저드가 모두 같은 비용을 내지 않는다는 것이다. 단일 메모리 충돌은 자원 추가로 비교적 직관적으로 줄일 수 있지만, 분기 실패는 깊은 파이프라인일수록 여러 단계가 한꺼번에 무효화되어 손실이 커진다. 따라서 해저드 제어는 단순한 오류 방지가 아니라, [파이프라인 깊이](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/220_pipeline_depth/)·클럭·전력·복잡도의 균형 설계 문제다.
 
@@ -103,8 +106,8 @@ tags = ["studynote-computer-architecture"]
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **자원 병목 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시가 분리되어 있는가, [레지스터 파일 포트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/) 수가 발행 폭을 감당하는가.
-2. **포워딩 한계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 산술 결과는 우회 가능하지만, Load-Use처럼 메모리 응답이 늦는 경우는 몇 클럭 스톨이 남는가.
+1. <strong>자원 병목 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시가 분리되어 있는가, [레지스터 파일 포트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/509_register_file_ports/) 수가 발행 폭을 감당하는가.
+2. <strong>포워딩 한계 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 산술 결과는 우회 가능하지만, Load-Use처럼 메모리 응답이 늦는 경우는 몇 클럭 스톨이 남는가.
 3. **분기 패널티 측정**: [파이프라인 깊이](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/220_pipeline_depth/)와 예측 적중률을 곱해 실제 손실 CPI를 추정했는가.
 4. **컴파일러 협업 여부**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링, [루프 언롤링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/), 분기 패턴 개선으로 하드웨어 부담을 줄일 수 있는가.
 5. **PPA 균형**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 PPA ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area) 전체에서 해저드 완화 비용이 정당한가.
@@ -146,28 +149,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 실행 (Sequential Execution)
-        │
-        ▼
-명령어 파이프라이닝 (Instruction Pipelining)
-        │
-        ▼
-파이프라인 해저드 (Pipeline Hazards)
-        │
-        ├─▶ 구조적 해저드 (Structural Hazard)
-        │      └─▶ 자원 분리 · 포트 확장 · 하버드 구조
-        │
-        ├─▶ 데이터 해저드 (Data Hazard)
-        │      └─▶ 포워딩 · 인터락 · 스케줄링 · 리네이밍
-        │
-        └─▶ 제어 해저드 (Control Hazard)
-               └─▶ 지연 분기 · 분기 예측 · BTB (Branch Target Buffer)
-                   · BHT (Branch History Table)
-                        │
-                        ▼
-슈퍼스칼라 · 비순차 실행 · 현대 마이크로아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 실행 (Sequential Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 해저드 (Pipeline Hazards)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 구조적 해저드 (Structural Hazard)</div>
+<div class="kb-diagram-note">─▶ 자원 분리 · 포트 확장 · 하버드 구조</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 데이터 해저드 (Data Hazard)</div>
+<div class="kb-diagram-note">─▶ 포워딩 · 인터락 · 스케줄링 · 리네이밍</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 제어 해저드 (Control Hazard)</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ 지연 분기 · 분기 예측 · BTB (Branch Target Buffer)</div>
+<div class="kb-diagram-note">· BHT (Branch History Table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈퍼스칼라 · 비순차 실행 · 현대 마이크로아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "겹쳐 실행하기 시작함 → 충돌이 드러남 → 충돌별 전용 기법이 생김 → 더 공격적인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 구조로 확장됨"이라는 발전 축을 보여준다.
 

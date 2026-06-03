@@ -20,13 +20,16 @@ tags = ["design_supervision"]
 
 BPR과 ISP는 모두 기업 변화를 다루지만 역할이 다르다. ISP는 목표 아키텍처와 투자 우선순위를 정하고, BPR은 그 목표에 맞게 핵심 업무를 다시 설계한다.
 두 작업이 분리되면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서는 멋있지만 현업은 그대로인 상태가 되기 쉽다. 그래서 시스템 구축 뒤에는 사후평가로 원래 목표가 실제로 달성됐는지 확인해야 한다.
-```text
-┌──────────────────────────────────────────────┐
-│ 전략 목표 → ISP → BPR → 시스템 구축 → KPI 검증 │
-├──────────────────────────────────────────────┤
-│ AS-IS 업무 ──▶ TO-BE 업무 ──▶ 데이터/화면/권한 정렬 │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략 목표 → ISP → BPR → 시스템 구축 → KPI 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AS-IS 업무 ──▶ TO-BE 업무 ──▶ 데이터/화면/권한 정렬</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 설계 전에 방향을 맞추지 않으면 구축 후에는 원래 문제로 되돌아간다.
 
@@ -103,21 +106,23 @@ ISP는 "어디로 갈 것인가"를, BPR은 "어떻게 일할 것인가"를 정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경영 목표
-  │
-  ▼
-ISP (전략/로드맵)
-  │
-  ▼
-BPR (프로세스 재설계)
-  │
-  ▼
-시스템 구축
-  │
-  ▼
-사후평가 → 개선 과제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경영 목표</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISP (전략/로드맵)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPR (프로세스 재설계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사후평가 → 개선 과제</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

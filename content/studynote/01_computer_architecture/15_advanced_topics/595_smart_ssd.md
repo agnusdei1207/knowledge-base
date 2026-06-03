@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 기존 경로와 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 경로의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Smart SSD reduces movement by processing before the host sees raw bytes   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Traditional path                                                          │
-│ NAND -> SSD Controller -> PCIe -> Host Memory -> CPU/GPU -> Result        │
-│                                                                            │
-│ Smart SSD path                                                            │
-│ NAND -> SSD Controller -> In-drive Accelerator -> Small Result -> Host    │
-│                                                                            │
-│ Best fit: scan/filter workloads where most input bytes are discarded       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 점은 스마트 SSD가 서버 CPU를 대체하는 범용 컴퓨터가 아니라는 사실이다. 호스트는 여전히 작업을 지시하고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 상태를 관리하며, 최종 결과를 통합한다. 스마트 SSD는 그 사이에서 반복적이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성이 강한 전처리 작업을 대신 맡는 **특수 작업장**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart SSD reduces movement by processing before the host sees raw bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traditional path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND -&gt; SSD Controller -&gt; PCIe -&gt; Host Memory -&gt; CPU/GPU -&gt; Result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart SSD path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND -&gt; SSD Controller -&gt; In-drive Accelerator -&gt; Small Result -&gt; Host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best fit: scan/filter workloads where most input bytes are discarded</div></div>
+</div>
+</div>
+
+
+
+중요한 점은 스마트 SSD가 서버 CPU를 대체하는 범용 컴퓨터가 아니라는 사실이다. 호스트는 여전히 작업을 지시하고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 상태를 관리하며, 최종 결과를 통합한다. 스마트 SSD는 그 사이에서 반복적이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성이 강한 전처리 작업을 대신 맡는 <strong>특수 작업장</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: 스마트 SSD는 원재료를 통째로 본사로 보내지 않고, 창고 안 작은 작업대에서 껍질을 벗기고 쓸모 있는 부분만 보내는 시스템과 같다. 창고가 공장을 완전히 대신하진 않지만, 본사가 해야 할 허드렛일은 크게 줄여 준다.
 
@@ -60,19 +61,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 나뉘는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Smart SSD splits control on host and data reduction inside the drive      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Host Job Descriptor --------------------------------------------------┐    │
-│                                                                      ▼    │
-│                         [Control Queue / Scheduler]                        │
-│                                      │                                     │
-│ NAND Pages -> SSD Controller -> Internal DMA -> Accelerator -> Result      │
-│                                      │                        │             │
-│                                      └---- raw bytes stay inside ----------┘
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart SSD splits control on host and data reduction inside the drive</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Job Descriptor --------------------------------------------------</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Control Queue / Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND Pages -&gt; SSD Controller -&gt; Internal DMA -&gt; Accelerator -&gt; Result</div></div>
+<div class="kb-diagram-note">---- raw bytes stay inside ----------</div>
+</div>
+</div>
+
+
 
 이 구조에서 가장 중요한 판단 축은 reduction ratio다. 예를 들어 10테라바이트를 읽어 100메가바이트 결과만 내는 검색 작업은 매우 잘 맞지만, 10테라바이트를 읽어 8테라바이트를 다시 보내야 하는 저선택도(low [selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)) 작업은 이점이 작다. 따라서 스마트 SSD는 “모든 스토리지 연산을 장치 안으로”가 아니라, **많이 버리고 조금만 남기는 작업을 장치 안으로** 옮길 때 가장 빛난다.
 
@@ -82,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-스마트 SSD는 계산형 저장장치 계열 안에서도 비교적 구체적인 장치 형태다. 일반 SSD가 수동적 저장 장치라면, 스마트 SSD는 특정 계산을 넣은 장치이고, 계산형 스토리지 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/))는 이보다 더 넓은 상위 개념이다. 또한 키-밸류 SSD가 저장 인터페이스의 의미를 바꾸는 기술이라면, 스마트 SSD는 인터페이스보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로에 계산을 삽입하는 기술**에 가깝다.
+스마트 SSD는 계산형 저장장치 계열 안에서도 비교적 구체적인 장치 형태다. 일반 SSD가 수동적 저장 장치라면, 스마트 SSD는 특정 계산을 넣은 장치이고, 계산형 스토리지 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/))는 이보다 더 넓은 상위 개념이다. 또한 키-밸류 SSD가 저장 인터페이스의 의미를 바꾸는 기술이라면, 스마트 SSD는 인터페이스보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 경로에 계산을 삽입하는 기술</strong>에 가깝다.
 
 | 구분 | 핵심 변화 | 강점 | 경계 |
 | :--- | :--- | :--- | :--- |
@@ -91,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 | 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 드라이브 내부에 연산기 추가 | 필터·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·검색 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 작업에 강함 | 프로그래밍 모델과 장치 메모리 한계가 크다 |
 | 계산형 스토리지 | drive, processor, array까지 포함하는 상위 아키텍처 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 near-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행을 표준화할 수 있다 | 구현 범위가 넓어 설계 복잡도가 높다 |
 
-이 구분이 중요한 이유는 스마트 SSD를 과대평가하기 쉽기 때문이다. 스마트 SSD는 범용 서버를 드라이브 안에 넣은 것이 아니며, 스마트 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Smart Network Interface Card, SmartNIC)처럼 패킷 경로를 오프로드하는 장치와도 역할이 다르다. SmartNIC가 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동 중 처리한다면, 스마트 SSD는 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 가공한다. 둘 다 [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) movement 문제를 겨냥하지만, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 병목을 만드는 위치**가 서로 다르다.
+이 구분이 중요한 이유는 스마트 SSD를 과대평가하기 쉽기 때문이다. 스마트 SSD는 범용 서버를 드라이브 안에 넣은 것이 아니며, 스마트 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Smart Network Interface Card, SmartNIC)처럼 패킷 경로를 오프로드하는 장치와도 역할이 다르다. SmartNIC가 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동 중 처리한다면, 스마트 SSD는 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 가공한다. 둘 다 [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) movement 문제를 겨냥하지만, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 병목을 만드는 위치</strong>가 서로 다르다.
 
 따라서 스마트 SSD를 이해하는 가장 좋은 관점은 “저장장치가 계산을 조금 하게 된 것”이 아니라, “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 어디에 어떤 계산을 배치해야 가장 싸고 빠른가”라는 시스템 배치 문제의 한 해답으로 보는 것이다.
 
@@ -101,9 +102,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스마트 SSD는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스캔, 정규식 검색, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·해제, 미디어 트랜스코딩 전처리, 암호화·복호화, 벡터 검색 전 후보 필터링처럼 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 읽지만 결과는 상대적으로 작게 남는 작업**에 특히 잘 맞는다. 이런 작업은 드라이브 수가 늘수록 병렬성이 자연스럽게 증가하므로, 서버 CPU를 더 늘리지 않고도 처리량을 키우기 쉽다. 반면 조인, 전역 상태 공유, 복잡한 branch-heavy 비즈니스 로직은 드라이브 안의 제한된 메모리와 실행 환경에 잘 맞지 않는다.
+스마트 SSD는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스캔, 정규식 검색, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·해제, 미디어 트랜스코딩 전처리, 암호화·복호화, 벡터 검색 전 후보 필터링처럼 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 많이 읽지만 결과는 상대적으로 작게 남는 작업</strong>에 특히 잘 맞는다. 이런 작업은 드라이브 수가 늘수록 병렬성이 자연스럽게 증가하므로, 서버 CPU를 더 늘리지 않고도 처리량을 키우기 쉽다. 반면 조인, 전역 상태 공유, 복잡한 branch-heavy 비즈니스 로직은 드라이브 안의 제한된 메모리와 실행 환경에 잘 맞지 않는다.
 
-또한 운영 측면에서는 개발 도구와 디버깅 가능성이 핵심이다. [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 기반 장치는 유연하지만 bitstream과 toolchain이 복잡하고, 임베디드 코어 기반 장치는 프로그래밍은 쉽지만 처리량이 부족할 수 있다. 따라서 기술사 관점에서는 장치 내부 compute capability보다 **어떤 함수를 누구 팀이 어떻게 배포·관찰·rollback할 것인가**를 함께 봐야 한다.
+또한 운영 측면에서는 개발 도구와 디버깅 가능성이 핵심이다. [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 기반 장치는 유연하지만 bitstream과 toolchain이 복잡하고, 임베디드 코어 기반 장치는 프로그래밍은 쉽지만 처리량이 부족할 수 있다. 따라서 기술사 관점에서는 장치 내부 compute capability보다 <strong>어떤 함수를 누구 팀이 어떻게 배포·관찰·rollback할 것인가</strong>를 함께 봐야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -128,9 +129,9 @@ tags = ["studynote-computer-architecture"]
 
 스마트 SSD를 올바르게 적용하면 호스트는 쓸모없는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 운반에서 벗어나 더 중요한 계산에 집중할 수 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량이 줄어드니 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 병목과 서버 전력 소모가 완화되고, 드라이브 수에 비례해 스캔·필터 처리량이 확장되는 장점도 생긴다. 특히 엣지 분석이나 대규모 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리처럼 “모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙으로 모으기 전에 거를 수 있느냐”가 중요한 환경에서 실효성이 크다.
 
-그러나 스마트 SSD는 범용 해법이 아니다. 장치 내부 메모리와 전력, 디버깅 도구, 보안 격리, 벤더 종속성이 모두 제약으로 작동한다. 앞으로는 스마트 SSD가 독립 제품으로만 남기보다, 계산형 스토리지 표준과 결합해 **드라이브 수준의 구체적 구현체**로 자리 잡는 방향이 더 자연스럽다.
+그러나 스마트 SSD는 범용 해법이 아니다. 장치 내부 메모리와 전력, 디버깅 도구, 보안 격리, 벤더 종속성이 모두 제약으로 작동한다. 앞으로는 스마트 SSD가 독립 제품으로만 남기보다, 계산형 스토리지 표준과 결합해 <strong>드라이브 수준의 구체적 구현체</strong>로 자리 잡는 방향이 더 자연스럽다.
 
-결론적으로 스마트 SSD는 “SSD에 CPU를 억지로 넣은 장난감”이 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 너무 비싸진 시대에 저장장치 내부에 작은 작업장을 마련한 실용적 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 장치**로 기억해야 한다. 무엇을 안으로 넣고 무엇을 여전히 호스트에 둘지 구분할 때 비로소 가치가 커진다.
+결론적으로 스마트 SSD는 “SSD에 CPU를 억지로 넣은 장난감”이 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동이 너무 비싸진 시대에 저장장치 내부에 작은 작업장을 마련한 실용적 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> 장치</strong>로 기억해야 한다. 무엇을 안으로 넣고 무엇을 여전히 호스트에 둘지 구분할 때 비로소 가치가 커진다.
 
 - **📢 섹션 요약 비유**: 좋은 공장은 모든 공정을 현장 창고에 넣지 않는다. 다만 껍질 벗기기처럼 반복적이고 무거운 전처리만 창고 옆에서 처리해, 본 공장이 진짜 중요한 조립에 집중하게 만든다. 스마트 SSD가 바로 그런 전처리 작업장이다.
 
@@ -149,21 +150,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동적 SSD 저장
-        │
-        ▼
-고정 기능 오프로딩 (압축 · 암호화)
-        │
-        ▼
-FPGA / Embedded Core 기반 Smart SSD
-        │
-        ▼
-Drive-level data reduction
-        │
-        ▼
-표준화된 Computational Storage 생태계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동적 SSD 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고정 기능 오프로딩 (압축 · 암호화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FPGA / Embedded Core 기반 Smart SSD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Drive-level data reduction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화된 Computational Storage 생태계</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치가 단순 보관소에서 출발해, 이제는 특정 전처리 연산을 현장에서 직접 수행하는 장치로 진화하고 있음을 보여 준다.
 

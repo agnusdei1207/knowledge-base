@@ -23,22 +23,23 @@ tags = ["studynote-design-supervision"]
 
 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴은 이 '서브클래스 폭발' 문제를 해결한다. `new WhipDecorator(new SugarDecorator(new MilkDecorator(new Coffee())))`처럼 런타임에 자유롭게 기능을 조합할 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│            데코레이터 패턴 구조                               │
-├─────────────────────────────────────────────────────────────┤
-│  Component (인터페이스)                                      │
-│  + operation(): void                                        │
-│       ▲                        ▲                            │
-│  ConcreteComponent        Decorator (추상)                  │
-│  (원본 객체)              - component: Component            │
-│  + operation(): void      + operation(): void {             │
-│                               component.operation();       │
-│                           }   // 위임 + 추가 기능           │
-│                                ▲                            │
-│                    ConcreteDecoratorA, ConcreteDecoratorB   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데코레이터 패턴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Component (인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ operation(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteComponent Decorator (추상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원본 객체) - component: Component</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ operation(): void + operation(): void {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">component.operation();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} // 위임 + 추가 기능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteDecoratorA, ConcreteDecoratorB</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 아이스크림(원본 객체)에 토핑([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))을 하나씩 올리는 방식이다. 아이스크림 자체를 바꾸지 않고 런타임에 초콜릿·견과류·크림을 자유롭게 조합한다.
 
@@ -64,17 +65,19 @@ InputStream is = new GZIPInputStream(
 | [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) | 위임 + 기능 추가 | FilterInputStream |
 | ConcreteDecorator | 특정 기능 추가 | BufferedInputStream |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       데코레이터 체이닝 흐름                                 │
-├─────────────────────────────────────────────────────────────┤
-│  GZIPInputStream.read()                                     │
-│       └── BufferedInputStream.read() (버퍼링 처리)          │
-│               └── FileInputStream.read() (실제 파일 읽기)   │
-│                                                             │
-│  각 데코레이터가 책임을 추가하고 원본에 위임                │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데코레이터 체이닝 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GZIPInputStream.read()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── BufferedInputStream.read() (버퍼링 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── FileInputStream.read() (실제 파일 읽기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 데코레이터가 책임을 추가하고 원본에 위임</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 러시아 마트료시카 인형처럼, 바깥 인형([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))이 안쪽 인형(원본)을 감싸며 추가 기능을 더한다. 각 인형은 동일한 '인형 인터페이스'를 갖는다.
 

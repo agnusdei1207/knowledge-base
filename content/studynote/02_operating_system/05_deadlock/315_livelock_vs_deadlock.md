@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))가 서로 멱살을 잡고 아무것도 안 하며 멈춰버린 '얼음(Frozen)' 상태라면, 라이브락(Livelock)은 **서로 양보하겠다고 계속 길을 비켜주느라 스텝이 꼬여서 둘 다 전진하지 못하고 춤만 추는 '헛발질(Active-Wait)'의 병적 상태**다.
-> 2. **가치**: 데드락은 CPU를 갉아먹지 않고 그저 자원만 점유한 채 잠들어 있지만, 라이브락은 서로 양보하겠다는 무한 반복 로직 속에서 **CPU 연산 100%를 불태우며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 혹사시키기 때문에 시스템 과부하 측면에서 훨씬 끔찍한 파괴력**을 지닌다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))가 서로 멱살을 잡고 아무것도 안 하며 멈춰버린 '얼음(Frozen)' 상태라면, 라이브락(Livelock)은 <strong>서로 양보하겠다고 계속 길을 비켜주느라 스텝이 꼬여서 둘 다 전진하지 못하고 춤만 추는 '헛발질(Active-Wait)'의 병적 상태</strong>다.
+> 2. **가치**: 데드락은 CPU를 갉아먹지 않고 그저 자원만 점유한 채 잠들어 있지만, 라이브락은 서로 양보하겠다는 무한 반복 로직 속에서 <strong>CPU 연산 100%를 불태우며 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 혹사시키기 때문에 시스템 과부하 측면에서 훨씬 끔찍한 파괴력</strong>을 지닌다.
 > 3. **융합**: 라이브락은 OS 차원의 고전적 락 체계보단 현대 비동기 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템(네트워크 패킷 충돌, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락 양보)에서 발현되며, 이를 파훼하려면 서로 동일한 타이밍에 양보하는 것을 막기 위해 `랜덤 지연 시간(Randomized Backoff / Jitter)`을 융합해 엇박자를 강제하는 것이 국룰이다.
 
 ---
@@ -25,24 +25,25 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 데드락은 통화 중 대기라 아무 소용 없이 귀만 대고 있는 거고, 라이브락은 서로 자기가 끊겠다고 "제가 끊겠습니다", "아닙니다 제가 끊죠", "그럼 하나 둘 셋 하면 같이 끊죠" 이 대화만 1시간째 하면서 둘 다 전화를 못 끊는 바보 같은 상황이다. 활동은 엄청나게 하는데 결과가 없다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         Deadlock (교착) VS Livelock (라이브락)의 생체 신호      │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ Deadlock: 멈춤의 미학 ]                                      │
-│  P1: "락 A 잡고 락 B 대기 (SLEEP 모드 진입)"                    │
-│  P2: "락 B 잡고 락 A 대기 (SLEEP 모드 진입)"                    │
-│  ▶ OS 센서: CPU 점유율 0%, 애들 다 자고 있음. 완전 조용함.      │
-│                                                                 │
-│  [ Livelock: 발광의 헛발질 ]                                    │
-│  P1: "락 A 잡았다. 어? 락 B 못 잡나? 그럼 락 A 풀고 양보!"      │
-│  P2: "락 B 잡았다. 어? 락 A 못 잡나? 그럼 락 B 풀고 양보!"      │
-│     (... 0.1초 뒤 둘 다 락 잡고 또 동시에 풀고 무한 반복 ...)   │
-│  ▶ OS 센서: CPU 점유율 100%!!! 미친 듯이 연산을 하고 로그를     │
-│              찍는데, 정작 처리된 트랜잭션 건수는 0건!           │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock (교착) VS Livelock (라이브락)의 생체 신호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Deadlock: 멈춤의 미학</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: "락 A 잡고 락 B 대기 (SLEEP 모드 진입)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2: "락 B 잡고 락 A 대기 (SLEEP 모드 진입)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OS 센서: CPU 점유율 0%, 애들 다 자고 있음. 완전 조용함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Livelock: 발광의 헛발질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: "락 A 잡았다. 어? 락 B 못 잡나? 그럼 락 A 풀고 양보!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2: "락 B 잡았다. 어? 락 A 못 잡나? 그럼 락 B 풀고 양보!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(... 0.1초 뒤 둘 다 락 잡고 또 동시에 풀고 무한 반복 ...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OS 센서: CPU 점유율 100%!!! 미친 듯이 연산을 하고 로그를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찍는데, 정작 처리된 트랜잭션 건수는 0건!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 데드락은 컴퓨터가 멈춰서 얼음이 된 거고, 라이브락은 눈코 뜰 새 없이 엄청 바쁘게 움직이는데 정작 쓰레기 하나 제대로 쓰레기통에 못 넣고 계속 허공에 헛스윙만 날리고 있는 코미디(CPU 낭비)입니다.
 
@@ -52,11 +53,11 @@ tags = ["studynote-operating-system"]
 
 ### 발생 원인: "어설픈 데드락 회피 장치"의 부작용
 
-웃기게도 라이브락은 대부분 **"개발자가 데드락을 없애보겠답시고 어설프게 양보 로직([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)/Retry)을 기입했을 때"** 발생한다.
+웃기게도 라이브락은 대부분 <strong>"개발자가 데드락을 없애보겠답시고 어설프게 양보 로직(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>/Retry)을 기입했을 때"</strong> 발생한다.
 
 1. **상호 교인 락 (Politeness Mechanism)**: 
    - 데드락 예방을 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 기다리다 안 되면 `자발적 Un-lock (락 해제)`을 하고 재도전(Retry) 하도록 코드를 짰다. 
-2. **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 뻘짓 (Synchronized Retry)**: 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>된 뻘짓 (Synchronized Retry)</strong>: 
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 둘의 속도와 클럭이 똑같기 때문에, 정확히 동시에 자기 락을 풀고, 정확히 동시에 다시 락을 잡는다.
    - 계속해서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 리듬으로 둘 다 양보하고 둘 다 침투하는 짓을 반복하며, 아무도 두 개의 락을 전부 잡아내는([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 돌파) 데 성공하지 못한다.
 
@@ -80,9 +81,9 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 충돌 회피 (네트워크 융합)**: 라이브락을 설명하는 가장 위대한 실전 사례다. 두 컴퓨터가 네트워크 선에 동시에 데이터를 쏴서 꽝 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 났다. 둘 다 "아쿠 충돌이네, 물러납시다" 하고 양보한다. 근데 둘 다 정확히 1초 뒤에 다시 데이터를 쏜다? 또 충돌(양보)난다. 이 라이브락을 격파하기 위해서 랜카드 설계자들은 **Exponential Backoff (랜덤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 재전송)** 알고리즘을 넣었다. 한 놈은 1.1초 뒤에, 한 놈은 0.3초 뒤에 난수(Random)로 엇박자를 만들어 재전송하게 만듦으로써 라이브락 고리를 영원히 끊어버렸다.
+1. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD 충돌 회피 (네트워크 융합)</strong>: 라이브락을 설명하는 가장 위대한 실전 사례다. 두 컴퓨터가 네트워크 선에 동시에 데이터를 쏴서 꽝 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 났다. 둘 다 "아쿠 충돌이네, 물러납시다" 하고 양보한다. 근데 둘 다 정확히 1초 뒤에 다시 데이터를 쏜다? 또 충돌(양보)난다. 이 라이브락을 격파하기 위해서 랜카드 설계자들은 <strong>Exponential Backoff (랜덤 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 재전송)</strong> 알고리즘을 넣었다. 한 놈은 1.1초 뒤에, 한 놈은 0.3초 뒤에 난수(Random)로 엇박자를 만들어 재전송하게 만듦으로써 라이브락 고리를 영원히 끊어버렸다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **고정 시간(Fixed Time) 재시도 루프**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 구동 환경에서 외부 결제 서버 A, B가 동시에 접근하다 에러가 터졌을 때, 개발자가 `Thread.sleep(100)`을 고정값으로 박아두면? 둘 다 사이좋게 0.1초 쉬었다가 다시 접근해서 꽝 터지고 영원히 라이브락에 빠진다. 고정 Sleep은 라이브락을 유도하는 최악의 독약 트리거다.
 
 **📢 섹션 요약 비유**: 라이브락을 박살 내는 유일한 약은 "랜덤(무작위성)"입니다. 가위바위보로 100번 비겼으면, 그냥 "아무나 타이머 주사위 굴려서 늦게 나온애가 먼저 출발해!" 라며 시계를 고장 내버려야(Jitter) 해결됩니다.
@@ -113,15 +114,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)]
-    │
-    ▼
-[라이브락 (Livelock)과 교착 상태의 차이점]
-    │
-    ├──▶ [동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법]
-    └──▶ [락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라이브락 (Livelock)과 교착 상태의 차이점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

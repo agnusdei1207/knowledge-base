@@ -23,27 +23,25 @@ C/C++ 기반 시스템 소프트웨어, [데이터베이스](/knowledge-base/stu
 
 **💡 비유**: Pthreads는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)라는 '직원'들이 공유 자원을 사용하는 규칙을 정의한 '직원 수칙 매뉴얼' — 모든 유닉스 계열 회사에서 같은 매뉴얼을 쓴다.
 
-```text
-┌───────────────────────────────────────────────────────────┐
-│         Pthreads 동기화 API 전체 맵                       │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  상호 배제     : pthread_mutex_t                          │
-│                  pthread_mutex_lock/unlock/trylock        │
-│                                                           │
-│  조건 동기화   : pthread_cond_t                           │
-│                  pthread_cond_wait/signal/broadcast       │
-│                                                           │
-│  읽기-쓰기 락  : pthread_rwlock_t                         │
-│                  pthread_rwlock_rdlock/wrlock/unlock      │
-│                                                           │
-│  스핀락        : pthread_spinlock_t                       │
-│                  pthread_spin_lock/unlock                 │
-│                                                           │
-│  배리어        : pthread_barrier_t                        │
-│                  pthread_barrier_wait                     │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pthreads 동기화 API 전체 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제 : pthread_mutex_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_lock/unlock/trylock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 동기화 : pthread_cond_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_cond_wait/signal/broadcast</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기-쓰기 락 : pthread_rwlock_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_rwlock_rdlock/wrlock/unlock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스핀락 : pthread_spinlock_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_spin_lock/unlock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배리어 : pthread_barrier_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_barrier_wait</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) API는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 세계의 '교통 법규' — mutex는 신호등, [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)는 대기소, 배리어는 집결지입니다.
 
@@ -92,25 +90,24 @@ void* producer(void* arg) {
 }
 ```
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       pthread_cond_wait 내부 동작                            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  pthread_cond_wait(&cond, &mutex)                            │
-│       ①  mutex를 원자적으로 해제                             │
-│       ②  조건 변수의 대기 큐에 현재 스레드 추가              │
-│       ③  스레드 블록 (스케줄러에 제어권 반환)                │
-│                                                              │
-│  ... 다른 스레드가 pthread_cond_signal() 호출 ...            │
-│                                                              │
-│       ④  대기 큐에서 깨어남                                  │
-│       ⑤  mutex 재획득 (차단 대기 가능)                       │
-│       ⑥  함수 반환 → while 조건 재확인 필수!                 │
-│                                                              │
-│  핵심: ①②③이 원자적으로 수행됨 → 신호 손실 방지              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_cond_wait 내부 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_cond_wait(&amp;cond, &amp;mutex)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① mutex를 원자적으로 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 조건 변수의 대기 큐에 현재 스레드 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 스레드 블록 (스케줄러에 제어권 반환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 다른 스레드가 pthread_cond_signal() 호출 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 대기 큐에서 깨어남</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ mutex 재획득 (차단 대기 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 함수 반환 → while 조건 재확인 필수!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: ①②③이 원자적으로 수행됨 → 신호 손실 방지</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** `pthread_cond_wait`는 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 해제와 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 진입이 원자적으로 이루어지는 것이 핵심이다. 만약 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 해제 후 잠시 틈에 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 signal을 보내면 신호를 놓치게 되는데, 이를 방지하기 위해 원자적 해제-대기가 보장된다. 반환 후에는 허위 기상 (Spurious Wakeup) 가능성 때문에 항상 while 루프로 조건을 재확인해야 한다.
 
@@ -137,24 +134,24 @@ void* worker(void* arg) {
 
 ### Futex (Fast Userspace [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) — 리눅스 내부 구현
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           Futex 동작 원리 (무경쟁 vs 경쟁)               │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [무경쟁 상태 — 커널 개입 없음]                          │
-│  pthread_mutex_lock() → CAS(futex, 0, 1) 성공            │
-│  → 시스템 콜 없이 사용자 공간에서 완료 ✅                │
-│                                                          │
-│  [경쟁 상태 — 커널 개입]                                 │
-│  pthread_mutex_lock() → CAS 실패                         │
-│  → futex(FUTEX_WAIT) 시스템 콜 → 스레드 차단             │
-│  → 다른 스레드 unlock() → futex(FUTEX_WAKE) 시스템 콜    │
-│  → 대기 스레드 깨움                                      │
-│                                                          │
-│  성능: 무경쟁 시 시스템 콜 제로 → 수 나노초 수준 잠금    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Futex 동작 원리 (무경쟁 vs 경쟁)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무경쟁 상태 — 커널 개입 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_lock() → CAS(futex, 0, 1) 성공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시스템 콜 없이 사용자 공간에서 완료 ✅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 상태 — 커널 개입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_lock() → CAS 실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ futex(FUTEX_WAIT) 시스템 콜 → 스레드 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다른 스레드 unlock() → futex(FUTEX_WAKE) 시스템 콜</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 대기 스레드 깨움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능: 무경쟁 시 시스템 콜 제로 → 수 나노초 수준 잠금</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** Futex는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 혁명적 설계다. 무경쟁([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 사용 가능) 상태에서는 사용자 공간의 원자적 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 연산만으로 락을 획득하여 시스템 콜을 완전히 회피한다. 경쟁이 발생할 때만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `futex()` 시스템 콜을 통해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 차단·깨운다. 이로 인해 현대 [Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) mutex는 경쟁 없는 환경에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30ns 수준의 극히 낮은 오버헤드를 달성한다.
 
@@ -165,11 +162,11 @@ void* worker(void* arg) {
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 커넥션 풀**: Pthread [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) + [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 연결 획득/반환을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/). 풀이 비면 `pthread_cond_wait`으로 대기, 반환 시 `pthread_cond_signal`로 깨움.
-2. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 과학 계산**: `pthread_barrier_wait`로 각 계산 단계 완료를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/). 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 현재 단계를 마쳐야 다음 단계로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/).
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 커넥션 풀</strong>: Pthread [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) + [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 연결 획득/반환을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/). 풀이 비면 `pthread_cond_wait`으로 대기, 반환 시 `pthread_cond_signal`로 깨움.
+2. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 과학 계산</strong>: `pthread_barrier_wait`로 각 계산 단계 완료를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/). 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 현재 단계를 마쳐야 다음 단계로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 초기화 누락**: Pthreads는 명시적 초기화가 필요. `PTHREAD_MUTEX_INITIALIZER`나 `pthread_mutex_init()` 빠뜨리면 미정의 동작.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">mutex</a> 초기화 누락</strong>: Pthreads는 명시적 초기화가 필요. `PTHREAD_MUTEX_INITIALIZER`나 `pthread_mutex_init()` 빠뜨리면 미정의 동작.
 - **unlock 누락**: C의 예외 처리가 없으므로 오류 경로에서 unlock을 빠뜨리면 데드락. RAII 패턴(C++) 또는 `goto` 기반 정리 패턴 사용 권장.
 
 **📢 섹션 요약 비유**: Pthreads는 강력하지만 안전 장치가 없는 전동 공구 — 올바르게 쓰면 최고의 효율, 잘못 쓰면 즉각적인 사고(데드락)입니다.
@@ -195,15 +192,19 @@ Pthreads의 올바른 사용은 멀티코어 CPU의 [병렬](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자바 동기화]
-    │
-    ▼
-[Pthreads 동기화 (Pthreads Synchronization)]
-    │
-    ├──▶ [윈도우 동기화]
-    └──▶ [이벤트 객체 (Event Object)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자바 동기화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pthreads 동기화 (Pthreads Synchronization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이벤트 객체 (Event Object)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

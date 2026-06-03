@@ -28,17 +28,22 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-제로 카피 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)은 **[CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))** 메커니즘을 기반으로 동작한다. [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후에는 원본과 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)이 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 공유하며, [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정이 발생할 때만 해당 변경분을 새로운 블록에 기록한다.
+제로 카피 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)은 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">CoW</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>)</strong> 메커니즘을 기반으로 동작한다. [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후에는 원본과 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)이 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 공유하며, [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정이 발생할 때만 해당 변경분을 새로운 블록에 기록한다.
 
-```text
-[초기 상태]
-원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C] ◀─── 클론 DB 메타데이터
 
-[클론 수정 발생 (블록 B를 B-1로 수정)]
-원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C]
-클론 DB 메타데이터 ───▶ [블록 A] ──▶ [블록 B-1] ──▶ [블록 C]
-                                      (수정된 부분만 생성)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 데이터 블록 A, B, C</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">클론 DB 메타데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클론 수정 발생 (블록 B를 B-1로 수정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 데이터 블록 A, B, C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 B-1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 C</div></div>
+<div class="kb-diagram-note">(수정된 부분만 생성)</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 특징 |
 |:---|:---|:---|
@@ -68,7 +73,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**에 이 기능을 통합하여 개발자가 실시간 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 100% 동일한 환경에서 테스트할 수 있도록 지원한다. 또한, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격 등으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오염되었을 때 가장 최근의 정상 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)으로 즉시 전환하는 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 시나리오에서도 핵심적인 역할을 한다.
+실무에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>에 이 기능을 통합하여 개발자가 실시간 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 100% 동일한 환경에서 테스트할 수 있도록 지원한다. 또한, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격 등으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오염되었을 때 가장 최근의 정상 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)으로 즉시 전환하는 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 시나리오에서도 핵심적인 역할을 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 개발/테스트 환경 구축에 걸리는 시간이 병목인가?
@@ -84,7 +89,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-제로 카피 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)은 엔터프라이즈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영의 **민첩성(Agility)**을 극대화한다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 데 드는 비용과 시간"이라는 제약 조건을 제거함으로써, 기업은 더 과감하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실험하고 분석할 수 있게 된다.
+제로 카피 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)은 엔터프라이즈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영의 <strong>민첩성(Agility)</strong>을 극대화한다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 데 드는 비용과 시간"이라는 제약 조건을 제거함으로써, 기업은 더 과감하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실험하고 분석할 수 있게 된다.
 
 결론적으로, 이 기술은 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)와 클라우드 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)의 가치를 완성하는 필수 요소이며, [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)([Data Democratization](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/))를 실현하는 기술적 토대다.
 
@@ -102,21 +107,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-전통 DW 데이터 복사 - 시간·비용 비효율
-    │
-    ▼
-백업/스냅샷 방식 (물리적 복사 오버헤드)
-    │
-    ▼
-Copy-on-Write 메타데이터 포인터 기법 등장
-    │
-    ▼
-Snowflake Zero-Copy Clone - 즉각·비용 제로
-    │
-    ▼
-개발/테스트/프로덕션 격리 환경 즉시 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 DW 데이터 복사 - 시간·비용 비효율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">백업/스냅샷 방식 (물리적 복사 오버헤드)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Copy-on-Write 메타데이터 포인터 기법 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Snowflake Zero-Copy Clone - 즉각·비용 제로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개발/테스트/프로덕션 격리 환경 즉시 생성</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Zero-Copy Cloning](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/265_zero_copy_cloning_database_metadata/), [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Pointer, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), Time Travel
 

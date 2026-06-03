@@ -10,9 +10,9 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 폰 노이만 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))뿐만 아니라 그것을 조작하는 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Program [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))까지 하나의 동일한 메모리(Memory)에 내장(Stored-program)**하여 읽고 실행하는 컴퓨터 설계 철학이다.
+> 1. **본질**: 폰 노이만 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))뿐만 아니라 그것을 조작하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Program <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a>)까지 하나의 동일한 메모리(Memory)에 내장(Stored-program)</strong>하여 읽고 실행하는 컴퓨터 설계 철학이다.
 > 2. **가치**: 프로그램이 바뀔 때마다 하드웨어의 전선을 일일이 다시 꽂아야 했던(Hardwired) 에니악(ENIAC)의 물리적 재조립 방식을, 단순히 메모리에 새 소프트웨어를 복사해 넣는 논리적 재배치 방식으로 혁명시켜 범용 컴퓨터(General Purpose Computer)의 시대를 열었다.
-> 3. **판단 포인트**: 연산 장치(CPU)와 메모리가 물리적으로 분리된 탓에, 아무리 CPU가 빨라도 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 동안 병목에 걸리는 치명적인 약점, 일명 **'폰 노이만 병목([Von Neumann Bottleneck](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/))'**을 낳았으며, 이를 극복하는 것이 현대 아키텍처(캐시, 하버드 구조 융합)의 핵심 과제다.
+> 3. **판단 포인트**: 연산 장치(CPU)와 메모리가 물리적으로 분리된 탓에, 아무리 CPU가 빨라도 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 동안 병목에 걸리는 치명적인 약점, 일명 <strong>'폰 노이만 병목(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/">Von Neumann Bottleneck</a>)'</strong>을 낳았으며, 이를 극복하는 것이 현대 아키텍처(캐시, 하버드 구조 융합)의 핵심 과제다.
 
 ---
 
@@ -20,7 +20,7 @@ tags = ["studynote-computer-architecture"]
 
 1940년대의 에니악(ENIAC)은 "탄도 계산기"로 불렸다. 이 기계로 포탄의 궤적을 계산하다가 날씨를 계산하고 싶으면, [오퍼레이터](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) 수십 명이 며칠 동안 수백 개의 전선 케이블을 통째로 뽑아서 다른 구멍에 다시 꽂아야 했다(하드와이어드 프로그래밍). 기계 자체가 하나의 거대한 함수였기 때문이다.
 
-천재 수학자 존 폰 노이만(John von Neumann)은 기가 막힌 아이디어를 냈다. "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(더하라, 빼라)도 결국 0과 1의 숫자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))일 뿐이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 굳이 구별하지 말고 몽땅 '메모리'라는 커다란 창고에 넣어두자. 그리고 계산기(CPU)가 순서대로 그 창고에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 꺼내 실행하게 만들자." 이 위대한 **[내장형 프로그램](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/)(Stored-program)** 개념의 탄생으로, 인류는 더 이상 쇳덩어리를 개조하지 않고 테이프나 디스크로 소프트웨어만 쏙쏙 갈아 끼우는 진정한 의미의 '컴퓨터'를 갖게 되었다.
+천재 수학자 존 폰 노이만(John von Neumann)은 기가 막힌 아이디어를 냈다. "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(더하라, 빼라)도 결국 0과 1의 숫자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))일 뿐이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 굳이 구별하지 말고 몽땅 '메모리'라는 커다란 창고에 넣어두자. 그리고 계산기(CPU)가 순서대로 그 창고에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 꺼내 실행하게 만들자." 이 위대한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/125_stored_program/">내장형 프로그램</a>(Stored-program)</strong> 개념의 탄생으로, 인류는 더 이상 쇳덩어리를 개조하지 않고 테이프나 디스크로 소프트웨어만 쏙쏙 갈아 끼우는 진정한 의미의 '컴퓨터'를 갖게 되었다.
 
 - **📢 섹션 요약 비유**: 폰 노이만 이전의 컴퓨터는 '오르골'이었다. 다른 노래를 들으려면 쇳덩어리 원통(하드웨어) 전체를 통째로 갈아 끼워야 했다. 폰 노이만 아키텍처는 '카세트 플레이어'다. 기계(CPU)는 그대로 두고, 안에 들어가는 테이프(메모리에 로드되는 프로그램)만 바꿔 끼우면 록 음악도 듣고 클래식도 들을 수 있는 만능 플레이어다.
 
@@ -31,31 +31,25 @@ tags = ["studynote-computer-architecture"]
 ### 4대 구성 요소와 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)
 이 아키텍처는 필연적으로 CPU와 메모리를 분리하고 그 사이를 단일한 공용 도로([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 잇는 구조를 취한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           폰 노이만 아키텍처 (내장형 프로그램 구조)            │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│     [ 중앙 처리 장치 (CPU) ]                             │
-│     ┌──────────────────┬──────────────────┐            │
-│     │   제어 장치 (CU)   │   연산 장치 (ALU)  │            │
-│     │ (명령어 해독/제어) │ (실제 덧셈/논리)   │            │
-│     └──────────────────┴──────────────────┘            │
-│                 ▲              │                       │
-│                 │ (명령어/데이터) │ (결과값)               │
-│                 ▼              ▼                       │
-│ ═════════════════ [ 시스템 버스 ] ═════════════════════│
-│                 ▲              ▲                       │
-│                 │              │                       │
-│                 ▼              ▼                       │
-│        [ 메인 메모리 ]      [ 입출력 장치 (I/O) ]        │
-│    (프로그램 명령어 + 데이터)  (키보드, 마우스, 디스플레이)   │
-│                                                        │
-│ * 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이 │
-│   들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야 │
-│   하므로 극심한 교통 체증(Bottleneck)이 발생한다.          │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 노이만 아키텍처 (내장형 프로그램 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 처리 장치 (CPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 장치 (CU)</div><div class="kb-diagram-cell">연산 장치 (ALU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어 해독/제어)</div><div class="kb-diagram-cell">(실제 덧셈/논리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어/데이터)</div><div class="kb-diagram-cell">(결과값)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 버스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리</div><div class="kb-diagram-node">입출력 장치 (I/O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(프로그램 명령어 + 데이터) (키보드, 마우스, 디스플레이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하므로 극심한 교통 체증(Bottleneck)이 발생한다.</div></div>
+</div>
+</div>
+
+
 
 1. **Fetch (인출)**: CPU가 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(예: `ADD`)를 가져온다.
 2. **Decode (해독)**: 제어 장치가 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 덧셈인지 뺄셈인지 해독한다.
@@ -72,14 +66,14 @@ tags = ["studynote-computer-architecture"]
 
 | 비교 항목 | 폰 노이만 (Von Neumann) | 하버드 구조 (Harvard) |
 |:---|:---|:---|
-| **메모리 물리적 구조**| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 메모리에 혼재** | **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메모리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리가 완벽히 분리됨** |
-| **[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)** | 단일 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (교통 체증 심함) | 분리된 두 개의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (고속 도로 2개) |
-| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 페치**| 순차적으로 번갈아 가져와야 함 (1클럭 1개) | **동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 가져올 수 있음 (1클럭 2개)** |
+| **메모리 물리적 구조**| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 하나의 메모리에 혼재</strong> | <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 메모리와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 메모리가 완벽히 분리됨</strong> |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a></strong> | 단일 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (교통 체증 심함) | 분리된 두 개의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (고속 도로 2개) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>/<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 페치</strong>| 순차적으로 번갈아 가져와야 함 (1클럭 1개) | <strong>동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 가져올 수 있음 (1클럭 2개)</strong> |
 | **장점** | 설계가 극도로 단순, 유연성 뛰어남 | 압도적인 처리 속도, 병목 해결 |
 | **단점** | '폰 노이만 병목'으로 속도 한계 명확 | 설계비용 및 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 면적 증가, 메모리 낭비 |
 | **적용 분야** | 초창기 컴퓨터, 현대 PC의 기본 철학 | DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기), MCU, **현대 CPU의 L1 캐시** |
 
-현대 x86/ARM CPU는 이 둘을 악마적으로 융합했다. 메모리 칩 밖(메인 메모리)은 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타는 '폰 노이만 구조'를 유지하지만, CPU 내부의 L1 캐시는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시(I-Cache)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시(D-Cache)로 물리적으로 쪼개어 '하버드 구조'를 채택했다. 이를 **변형된 [하버드 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/)(Modified [Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/))**라 부른다.
+현대 x86/ARM CPU는 이 둘을 악마적으로 융합했다. 메모리 칩 밖(메인 메모리)은 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타는 '폰 노이만 구조'를 유지하지만, CPU 내부의 L1 캐시는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시(I-Cache)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시(D-Cache)로 물리적으로 쪼개어 '하버드 구조'를 채택했다. 이를 <strong>변형된 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/">하버드 아키텍처</a>(Modified <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/">Harvard Architecture</a>)</strong>라 부른다.
 
 - **📢 섹션 요약 비유**: 폰 노이만은 '왕복 2차선 터널'이다. 한 차선으로 출근([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))과 퇴근([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다 다녀야 해서 꽉 막힌다. 하버드 구조는 '상/하행선이 완전히 분리된 4차선 터널'이다. 뚫을 때 돈(설계 비용)은 많이 들지만, 양방향으로 차들이 논스톱으로 쌩쌩 달릴 수 있다.
 
@@ -88,11 +82,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))의 돌파 한계치 설계**: CPU의 클럭은 지난 수십 년간 매년 50%씩 빨라졌지만, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)(메모리)의 접근 속도는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%씩밖에 개선되지 않았다. 이 '폰 노이만 병목' 때문에 CPU가 놀아버리는 현상([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))을 막기 위해, 현대 아키텍트들은 CPU 다이(Die) 면적의 50% 이상을 오직 '[캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))'로 덮어버리는 미친 짓을 강행했다. 메모리에 가는 횟수를 줄이는 것만이 이 아키텍처에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 유일한 길이기 때문이다.
-2. **자가 변형 코드 (Self-modifying [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 등장과 보안 위협**: "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 똑같이 메모리에 있다"는 폰 노이만의 철학은 치명적인 보안 약점을 낳았다. 해커가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역(버퍼)에 악성 기계어 코드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 밀어 넣고, CPU가 거기로 점프하게 만들면 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 순식간에 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 둔갑하여 시스템을 장악한다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)). 이를 막기 위해 현대 OS와 CPU는 [NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)(No-eXecute)라는 기술로 "이 메모리 구역은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)니까 절대 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 해독(Execute)하지 마!"라고 강제 차단벽을 친다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/">메모리 월</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/">Memory Wall</a>)의 돌파 한계치 설계</strong>: CPU의 클럭은 지난 수십 년간 매년 50%씩 빨라졌지만, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)(메모리)의 접근 속도는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%씩밖에 개선되지 않았다. 이 '폰 노이만 병목' 때문에 CPU가 놀아버리는 현상([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))을 막기 위해, 현대 아키텍트들은 CPU 다이(Die) 면적의 50% 이상을 오직 '[캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))'로 덮어버리는 미친 짓을 강행했다. 메모리에 가는 횟수를 줄이는 것만이 이 아키텍처에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 유일한 길이기 때문이다.
+2. <strong>자가 변형 코드 (Self-modifying <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)의 등장과 보안 위협</strong>: "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 똑같이 메모리에 있다"는 폰 노이만의 철학은 치명적인 보안 약점을 낳았다. 해커가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역(버퍼)에 악성 기계어 코드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 밀어 넣고, CPU가 거기로 점프하게 만들면 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 순식간에 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 둔갑하여 시스템을 장악한다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)). 이를 막기 위해 현대 OS와 CPU는 [NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)(No-eXecute)라는 기술로 "이 메모리 구역은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)니까 절대 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 해독(Execute)하지 마!"라고 강제 차단벽을 친다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **폰 노이만 아키텍처 위에서의 무지성 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))**: 여러 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 코어들이 동일한 메모리 변수를 미친 듯이 갱신할 때 발생하는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 지옥. 아무리 코어를 64개로 늘려도(멀티코어), 결국 얘네들이 바라보는 메인 메모리 길목([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))은 폰 노이만 구조상 하나로 좁혀진다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)이 발생해 64코어가 1코어보다 느려지는 참사가 터지므로, 개발자는 메모리를 공유하지 않는 메시지 패싱([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/))이나 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-local)로 아키텍처의 한계를 소프트웨어적으로 피해야 한다.
+- <strong>폰 노이만 아키텍처 위에서의 무지성 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 프로그래밍 (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">False Sharing</a>)</strong>: 여러 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 코어들이 동일한 메모리 변수를 미친 듯이 갱신할 때 발생하는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 지옥. 아무리 코어를 64개로 늘려도(멀티코어), 결국 얘네들이 바라보는 메인 메모리 길목([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))은 폰 노이만 구조상 하나로 좁혀진다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)이 발생해 64코어가 1코어보다 느려지는 참사가 터지므로, 개발자는 메모리를 공유하지 않는 메시지 패싱([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/))이나 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-local)로 아키텍처의 한계를 소프트웨어적으로 피해야 한다.
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격은 은행 창구(메모리)에서 벌어지는 사기극이다. 창구 직원이 '고객이 준 돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 받아 서랍에 넣어야 하는데, 그 돈다발 표지에 적힌 "내 계좌에 100억을 입금해라"라는 메모를 무심코 '지점장의 명령서([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'로 착각해서 실행해 버리는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 그릇이 똑같아서 생기는 비극이다.
 
@@ -112,27 +106,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[하버드 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/) ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메모리를 물리적으로 찢어버려 폰 노이만의 병목을 해결한 고속 구조. L1 캐시의 핵심 설계 사상 |
-| **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([System Bus](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/))** | CPU와 메모리를 잇는 물리적 전선 다발. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 주소, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 지나다니는 폰 노이만 구조의 유일한 생명선이자 최악의 병목 구간 |
-| **[메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))** | 느려터진 메모리에 접근하는 횟수를 줄이기 위해 CPU와 메모리 사이에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), L1/L2/L3 캐시를 겹겹이 쌓아 올린 땜질 처방 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/">하버드 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/">Harvard Architecture</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메모리를 물리적으로 찢어버려 폰 노이만의 병목을 해결한 고속 구조. L1 캐시의 핵심 설계 사상 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">System Bus</a>)</strong> | CPU와 메모리를 잇는 물리적 전선 다발. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 주소, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 지나다니는 폰 노이만 구조의 유일한 생명선이자 최악의 병목 구간 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/">메모리 계층 구조</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/">Memory Hierarchy</a>)</strong> | 느려터진 메모리에 접근하는 횟수를 줄이기 위해 CPU와 메모리 사이에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), L1/L2/L3 캐시를 겹겹이 쌓아 올린 땜질 처방 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-하드와이어드(Hardwired) 프로그래밍 방식의 물리적 한계 직면
-    │
-    ▼
-내장형 프로그램(Stored-program) 도입 ──▶ 폰 노이만 아키텍처 정립
-    │
-    ▼
-메모리 공유로 인한 순차적 처리 지연 ──▶ 폰 노이만 병목(Bottleneck) 현상 부각
-    │
-    ▼
-데이터와 명령어를 분리하는 하버드 아키텍처 제안
-    │
-    ▼
-현대 CPU의 융합 ──▶ 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하드와이어드(Hardwired) 프로그래밍 방식의 물리적 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내장형 프로그램(Stored-program) 도입 ──▶ 폰 노이만 아키텍처 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 공유로 인한 순차적 처리 지연 ──▶ 폰 노이만 병목(Bottleneck) 현상 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터와 명령어를 분리하는 하버드 아키텍처 제안</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 CPU의 융합 ──▶ 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "범용성 획득 → 구조적 병목에 의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 직면 → 캐시와 하버드 구조 융합을 통한 타협적 진화"로 이어지는 현대 컴퓨팅 하드웨어의 아키텍처 발전사를 보여준다.
 

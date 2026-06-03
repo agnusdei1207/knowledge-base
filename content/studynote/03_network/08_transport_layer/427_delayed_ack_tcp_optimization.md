@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 수신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트를 수신할 때마다 즉시 독립된 ACK 패킷을 생성하지 않고, 일정 시간(보통 200ms~500ms) 대기하여 다수의 ACK를 하나로 병합(Cumulative)하거나 나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 얹어 보내는 트래픽 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 메커니즘 (RFC 1122).
-- **필요성**: 구글에서 1,000개의 패킷이 쏟아져 온다. 내 컴퓨터가 1번 패킷 받고 ACK 1번, 2번 패킷 받고 ACK 2번... 이렇게 1,000번의 영수증을 보내면 태평양 해저 케이블은 내가 쏘는 헤더 40바이트짜리 빈 껍데기 영수증(ACK)으로 꽉 막혀버린다. **"야! 어차피 누적 ACK 쓴다며! 1, 2, 3번 연달아 들어오면 그냥 0.2초 참았다가 '3번까지 다 받았어!(ACK 4)'라고 한 장만 쏘면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 3배 절약되잖아!!"**
+- **필요성**: 구글에서 1,000개의 패킷이 쏟아져 온다. 내 컴퓨터가 1번 패킷 받고 ACK 1번, 2번 패킷 받고 ACK 2번... 이렇게 1,000번의 영수증을 보내면 태평양 해저 케이블은 내가 쏘는 헤더 40바이트짜리 빈 껍데기 영수증(ACK)으로 꽉 막혀버린다. <strong>"야! 어차피 누적 ACK 쓴다며! 1, 2, 3번 연달아 들어오면 그냥 0.2초 참았다가 '3번까지 다 받았어!(ACK 4)'라고 한 장만 쏘면 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 3배 절약되잖아!!"</strong>
 
-- **💡 비유**: Delayed ACK는 백화점 주차장의 **"영수증 도장 모아 찍기"**와 같습니다.
+- **💡 비유**: Delayed ACK는 백화점 주차장의 <strong>"영수증 도장 모아 찍기"</strong>와 같습니다.
   - **즉시 ACK**: 옷가게에서 양말 한 켤레(패킷 1개) 살 때마다 손님이 주차장(서버)으로 뛰어가서 주차 영수증(ACK)을 도장 받아옵니다. (왔다 갔다 하느라 미침).
-  - **Delayed ACK**: 양말, 바지, 코트를 쇼핑할 동안 영수증을 주머니에 **차곡차곡 모아뒀다가([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))**, 쇼핑이 끝나고 집에 갈 때 주차 정산소에 영수증 3장을 한 번에 내밀어 **주차 도장 딱 1개(누적 ACK)로 퉁치고 빠져나가는 극강의 편의성**입니다.
+  - **Delayed ACK**: 양말, 바지, 코트를 쇼핑할 동안 영수증을 주머니에 <strong>차곡차곡 모아뒀다가(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong>, 쇼핑이 끝나고 집에 갈 때 주차 정산소에 영수증 3장을 한 번에 내밀어 <strong>주차 도장 딱 1개(누적 ACK)로 퉁치고 빠져나가는 극강의 편의성</strong>입니다.
 
-```text
-[클라크 해결책]
-    │
-    ▼
-[지연된 ACK]
-    │
-    └──▶ [TCP 혼잡 제어]
-```
 
-- **📢 섹션 요약 비유**: ** Delayed ACK는 택배 기사님에게 건네는 **"음료수 얹어주기([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))"**입니다. 빈 손(빈 패킷)으로 "잘 받았어요(ACK)" 하고 인사만 하러 나가는 게 아까우니, 기왕 나갈 거 5초만 기다렸다가 **집에 있는 박카스(진짜 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하나 들고나가면서 "잘 받았어요"라는 인사까지 1석 2조로 끝내는 센스**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라크 해결책</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지연된 ACK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 혼잡 제어</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** Delayed ACK는 택배 기사님에게 건네는 **"음료수 얹어주기([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))"<strong>입니다. 빈 손(빈 패킷)으로 "잘 받았어요(ACK)" 하고 인사만 하러 나가는 게 아까우니, 기왕 나갈 거 5초만 기다렸다가 </strong>집에 있는 박카스(진짜 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하나 들고나가면서 "잘 받았어요"라는 인사까지 1석 2조로 끝내는 센스**입니다.
 
 ---
 
@@ -43,9 +47,9 @@ tags = ["studynote-network"]
 
 ### 1. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK의 발동 조건 3가지
 수신자 OS는 맘대로 평생 기다리지 않는다. 아래 3가지 중 하나라도 충족되면 즉시 ACK를 발사한다.
-1. **버티기 한계 도달 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) Expiration)**: 패킷을 받고 0.2초(200ms)가 지났는데도 다음 패킷이 안 온다. "아, 더 이상 올 게 없나 보네. 그냥 영수증 쏘자!" ──▶ `빈 ACK 발송`
+1. <strong>버티기 한계 도달 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Expiration)</strong>: 패킷을 받고 0.2초(200ms)가 지났는데도 다음 패킷이 안 온다. "아, 더 이상 올 게 없나 보네. 그냥 영수증 쏘자!" ──▶ `빈 ACK 발송`
 2. **2개 패킷 연속 수신 (2 Packets Rule)**: 기다리는 중에 패킷이 하나 더 들어와서 **보류 중인 영수증이 2개가 쌓였다**. "야 2개 찼으면 많이 참았다. 더 참으면 상대방이 화낸다!" ──▶ `즉시 누적 ACK 발송`
-3. **내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생김 ([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))**: 기다리는 중에 마침 내 앱(크롬)에서 구글로 쏠 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려왔다. "오예! 나가는 택배 박스 겉면에 ACK 도장 슬쩍 찍어(Piggyback)!!" ──▶ `데이터 + ACK 동시 발송`
+3. <strong>내가 보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 생김 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>: 기다리는 중에 마침 내 앱(크롬)에서 구글로 쏠 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내려왔다. "오예! 나가는 택배 박스 겉면에 ACK 도장 슬쩍 찍어(Piggyback)!!" ──▶ `데이터 + ACK 동시 발송`
 
 ### 2. 환장의 콜라보: Nagle vs Delayed ACK의 충돌 (지옥의 200ms)
 이론상 완벽한 이 두 최적화 꼼수가 실전에서 만나면 서로 뒷목을 잡는 대참사가 터진다.
@@ -54,31 +58,30 @@ tags = ["studynote-network"]
 1. 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Nagle 켜짐)가 마우스 첫 클릭(1바이트)을 서버로 쏜다.
 2. 서버(Delayed ACK 켜짐)가 1바이트를 받는다. "오케이, 0.2초 대기 탔다 영수증 줘야지~(Delayed)"
 3. 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Nagle)에서 두 번째 클릭(1바이트)이 생겼다. "야 Nagle 룰 알지? 방금 1번째 쏜 거 영수증(ACK) 올 때까지 2번째 건 쏘지 말고 버퍼에 잡아둬!"
-4. **데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 발생**:
+4. <strong>데드락(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>) 발생</strong>:
    - 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): "서버야 영수증 줘! 그래야 2번째 패킷 쏠 거 아냐!"
    - 서버: "너 패킷 1개밖에 안 줬잖아. 2개 찰 때까지 0.2초 숨 참고 안 줄 건데?"
 5. **결과**: 서버가 0.2초를 꽉 채우고 타이머가 만료되어 마지못해 ACK를 쏴줄 때까지 **내 게임 화면은 0.2초 동안 완벽하게 렉(멈춤)에 걸린다**. 이것이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반 게임이 느려지는 가장 치명적인 이유다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Nagle과 Delayed ACK의 데드락(Deadlock) 핑퐁         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (Nagle ON) ]                       [ 서버 (Delay ON) ]│
- │   1. 1바이트 쏨! ──────────────────────────────▶             │
- │                                             2. "0.2초 숨 참기 시작!"│
- │   3. 또 1바이트 생김.                                           │
- │      "아까 거 ACK 안 왔으니 출발 금지!"                            │
- │                                                             │
- │   ... (서로 멀뚱멀뚱 쳐다보며 0.2초간 통신 완전 정지) ...                │
- │                                                             │
- │                                             4. "어휴 0.2초 지났다." │
- │   6. 두 번째 바이트 출발!! ◀───────── (ACK 도착) ── 5. ACK 발사!    │
- │                                                             │
- │   ▶ "이 0.2초 렉을 혐오하는 게임/금융 개발자들은 양쪽 다 기능을 끄도록 │
- │      소켓 코딩 (TCP_NODELAY, TCP_QUICKACK)을 강제로 박아버린다!"│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nagle과 Delayed ACK의 데드락(Deadlock) 핑퐁</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (Nagle ON)</div><div class="kb-diagram-node">서버 (Delay ON)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 1바이트 쏨! ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "0.2초 숨 참기 시작!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 또 1바이트 생김.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아까 거 ACK 안 왔으니 출발 금지!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (서로 멀뚱멀뚱 쳐다보며 0.2초간 통신 완전 정지) ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. "어휴 0.2초 지났다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 두 번째 바이트 출발!! ◀ (ACK 도착) ── 5. ACK 발사!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 0.2초 렉을 혐오하는 게임/금융 개발자들은 양쪽 다 기능을 끄도록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소켓 코딩 (TCP_NODELAY, TCP_QUICKACK)을 강제로 박아버린다!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** Delayed ACK와 Nagle의 만남은 **"지독한 자존심 싸움"**입니다. 남자가 "네가 카톡 읽음 표시(ACK) 띄울 때까지 나 두 번째 카톡 안 보낼 거야(Nagle)" 하고 버티고, 여자는 "네가 카톡 두 개 연속으로 보내기 전까진 절대 읽음(Delay ACK) 안 띄울 거야" 하고 버티다가, 결국 여자가 2시간 뒤에 마지못해 1 표시를 지울 때까지 완벽하게 소통이 단절되는 환장의 커플입니다.
 
@@ -136,15 +139,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클라크 해결책]
-    │
-    ▼
-[현재 개념: 지연된 ACK]
-    │
-    ├──▶ [확장 A: TCP 혼잡 제어]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라크 해결책</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지연된 ACK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 혼잡 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK는 클라크 해결책에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,21 +21,23 @@ tags = ["studynote-design-supervision"]
 
 웹 시스템이 커질수록 비즈니스 로직보다 더 자주 반복되는 코드가 생긴다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 요청 추적 ID 부여, 공통 예외 포맷, 응답 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 보안 헤더 추가 같은 로직이다. 이런 코드를 각 Controller나 Handler마다 직접 넣기 시작하면 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 흩어지고, 한 군데 누락된 곳이 보안 사고나 운영 장애의 시작점이 된다.
 
-인터셉터와 필터 패턴은 이 문제를 해결하기 위해 등장했다. 핵심 아이디어는 단순하다. **업무 처리 전에 지나가는 공통 통로를 만들고, 그 통로에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 배치한다.** 그러면 프론트 컨트롤러 (Front Controller)가 요청을 한곳으로 모으고, 필터와 인터셉터가 그 주변에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분담하는 구조가 된다.
+인터셉터와 필터 패턴은 이 문제를 해결하기 위해 등장했다. 핵심 아이디어는 단순하다. <strong>업무 처리 전에 지나가는 공통 통로를 만들고, 그 통로에 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 배치한다.</strong> 그러면 프론트 컨트롤러 (Front Controller)가 요청을 한곳으로 모으고, 필터와 인터셉터가 그 주변에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분담하는 구조가 된다.
 
-즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, **횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것**에 있다. 설계감리 관점에서도 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 위치와 순서를 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어 구조 품질을 평가하기 쉽다.
+즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, <strong>횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것</strong>에 있다. 설계감리 관점에서도 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 위치와 순서를 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어 구조 품질을 평가하기 쉽다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Without interception pattern                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Controller A -> auth + log + business                               │
-│ Controller B -> auth + log + business                               │
-│ Controller C -> auth missing + business                             │
-│                                                                      │
-│ result: duplication, drift, missing policy                          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without interception pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller A -&gt; auth + log + business</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller B -&gt; auth + log + business</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller C -&gt; auth missing + business</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result: duplication, drift, missing policy</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 인터셉터와 필터는 교실마다 따로 출석 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 하는 대신, 학교 정문과 복도에 공통 검사 지점을 두어 규칙을 한 번에 지키게 만드는 방식과 같다.
 
@@ -55,36 +57,32 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 요청이 들어와 응답이 나가기까지 이 설계망이 어떻게 작동하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Request / response policy mesh                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │ request                                                          │
-│   ▼                                                                  │
-│ [Filter 1] -> [Filter 2] -> [Filter N]                               │
-│   │ reject? yes -> 4xx/5xx response                                  │
-│   ▼ no                                                               │
-│ Front Controller                                                     │
-│   │                                                                  │
-│   ▼                                                                  │
-│ [Interceptor preHandle]                                              │
-│   │ reject? yes -> 401/403 / redirect                                │
-│   ▼ no                                                               │
-│ Handler / Service                                                    │
-│   │                                                                  │
-│   ▼                                                                  │
-│ [Interceptor postHandle / afterCompletion]                           │
-│   ▼                                                                  │
-│ [Response Filters: header / compression / trace finish]              │
-│   ▼                                                                  │
-│ Client                                                               │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 핵심은 **순서와 중단 가능성**이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
 
-또한 이 패턴은 Decorator처럼 요청과 응답을 감싸기도 한다. 일부 Filter는 Request/Response 객체를 래핑해 본문 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) ([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/)) 방어, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제를 수행한다. 그래서 단순 "전/후 콜백"이 아니라 **제어 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식 모두에 영향을 주는 외곽 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)층**으로 이해해야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request / response policy mesh</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Filter 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject? yes -&gt; 4xx/5xx response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Interceptor preHandle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject? yes -&gt; 401/403 / redirect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handler / Service</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Interceptor postHandle / afterCompletion</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Response Filters: header / compression / trace finish</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 <strong>순서와 중단 가능성</strong>이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
+
+또한 이 패턴은 Decorator처럼 요청과 응답을 감싸기도 한다. 일부 Filter는 Request/Response 객체를 래핑해 본문 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) ([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/)) 방어, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제를 수행한다. 그래서 단순 "전/후 콜백"이 아니라 <strong>제어 흐름과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형식 모두에 영향을 주는 외곽 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>층</strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 필터와 인터셉터는 경기장 입구의 보안 검색대와 경기장 안쪽의 구역별 출입 통제처럼, 같은 사람을 검사하더라도 위치와 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기준이 다른 두 단계의 안전망이다.
 
@@ -102,9 +100,9 @@ tags = ["studynote-design-supervision"]
 | 적용 범위 | 정적 자원 포함 전역 | 프레임워크가 관리하는 요청 | 웹 외 영역까지 포함 |
 | 판단 기준 | 가장 앞단에서 처리해야 하는가 | 어떤 핸들러인지 알아야 하는가 | HTTP와 무관한 비즈니스 경계인가 |
 
-프론트 컨트롤러와의 관계도 중요하다. 프론트 컨트롤러는 요청을 중앙 진입점으로 모아 어떤 핸들러를 호출할지 결정한다. 필터는 그 앞뒤에서 **전역 규칙**을 적용하고, 인터셉터는 프론트 컨트롤러 내부에서 **선택된 핸들러 주변 규칙**을 적용한다. 따라서 이 패턴은 프론트 컨트롤러를 대체하는 것이 아니라, 그 주변에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망을 친 구조다.
+프론트 컨트롤러와의 관계도 중요하다. 프론트 컨트롤러는 요청을 중앙 진입점으로 모아 어떤 핸들러를 호출할지 결정한다. 필터는 그 앞뒤에서 <strong>전역 규칙</strong>을 적용하고, 인터셉터는 프론트 컨트롤러 내부에서 <strong>선택된 핸들러 주변 규칙</strong>을 적용한다. 따라서 이 패턴은 프론트 컨트롤러를 대체하는 것이 아니라, 그 주변에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망을 친 구조다.
 
-현대 프레임워크에서 이름은 달라도 본질은 같다. Java의 Servlet Filter, Spring Interceptor, Node.js의 middleware, ASP.NET Core [pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 모두 "체인으로 요청을 감싸며 조건에 따라 중단·후처리한다"는 공통 철학을 공유한다. 즉 특정 기술 문법보다 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽 체인에 둔다**는 설계 원리를 기억해야 한다.
+현대 프레임워크에서 이름은 달라도 본질은 같다. Java의 Servlet Filter, Spring Interceptor, Node.js의 middleware, ASP.NET Core [pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 모두 "체인으로 요청을 감싸며 조건에 따라 중단·후처리한다"는 공통 철학을 공유한다. 즉 특정 기술 문법보다 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 외곽 체인에 둔다</strong>는 설계 원리를 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러가 중앙 안내 데스크라면, 필터는 건물 정문 경비, 인터셉터는 해당 부서 앞 출입 카드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), AOP는 건물 안 사무실에서 이루어지는 공통 업무 규칙에 가깝다.
 
@@ -137,7 +135,7 @@ tags = ["studynote-design-supervision"]
 - Request Body를 한 번 읽고 소모해 버려 하위 핸들러가 본문을 못 읽는 구현
 - 상태를 멤버 변수에 저장해 동시 요청 간 값이 섞이는 구현
 
-기술사 답안에서는 **"인터셉터 / 필터 패턴은 횡단 관심사를 요청 파이프라인 외곽 체인에 배치해 중앙화하는 구조이며, 적용 위치에 따라 전역 처리와 핸들러 문맥 처리를 구분해야 한다"**라고 정리하면 설계 판단력이 드러난다.
+기술사 답안에서는 <strong>"인터셉터 / 필터 패턴은 횡단 관심사를 요청 파이프라인 외곽 체인에 배치해 중앙화하는 구조이며, 적용 위치에 따라 전역 처리와 핸들러 문맥 처리를 구분해야 한다"</strong>라고 정리하면 설계 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: 좋은 인터셉터와 필터 설계는 회사 규정을 각 팀장 머릿속에 두는 대신, 출입구와 업무 절차에 공식 규칙으로 붙여 두는 것과 같다.
 
@@ -147,7 +145,7 @@ tags = ["studynote-design-supervision"]
 
 인터셉터 / 필터 패턴이 잘 적용되면 시스템은 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 추가하거나 변경할 때 핵심 업무 코드를 덜 건드리게 된다. 그 결과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 누락, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 형식 불일치, 예외 응답 편차, 관측성 부재 같은 문제가 줄고, 운영팀은 요청 흐름의 어느 지점에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 적용되는지 더 쉽게 추적할 수 있다. 설계감리에서도 체인 구조와 순서만 보아도 많은 품질 이슈를 빠르게 발견할 수 있다.
 
-반대로 이 패턴을 과도하게 남용하면 숨겨진 제어 흐름이 늘어나 디버깅이 어려워진다. 그래서 좋은 구조는 **얇고, 순서가 명확하고, 상태를 갖지 않으며, 책임이 분명한 체인**이다. 결국 이 패턴은 "어디든 끼워 넣는 후킹 기술"이 아니라, **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽으로 밀어내어 본업 코드를 깨끗하게 만드는 설계망**으로 기억해야 한다.
+반대로 이 패턴을 과도하게 남용하면 숨겨진 제어 흐름이 늘어나 디버깅이 어려워진다. 그래서 좋은 구조는 <strong>얇고, 순서가 명확하고, 상태를 갖지 않으며, 책임이 분명한 체인</strong>이다. 결국 이 패턴은 "어디든 끼워 넣는 후킹 기술"이 아니라, <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 외곽으로 밀어내어 본업 코드를 깨끗하게 만드는 설계망</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 인터셉터와 필터는 집 안 모든 방마다 소화기를 두는 대신, 복도와 현관에 소방 설비를 체계적으로 배치해 집 전체를 지키는 안전 설계와 같다.
 
@@ -166,21 +164,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개별 Controller마다 공통 코드 중복
-    │
-    ▼
-Front Controller 도입
-    │
-    ▼
-Filter / Middleware 전역 체인
-    │
-    ▼
-Interceptor 기반 핸들러 전후 제어
-    │
-    ▼
-AOP · Security Chain · Observability로 확장된 정책망
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 Controller마다 공통 코드 중복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Front Controller 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Filter / Middleware 전역 체인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Interceptor 기반 핸들러 전후 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AOP · Security Chain · Observability로 확장된 정책망</div>
+</div>
+</div>
+
+
 
 이 흐름은 웹 요청 처리가 단순 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽 체인으로 분리하는 프레임워크 중심 구조로 발전하는 과정을 보여 준다.
 

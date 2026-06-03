@@ -27,22 +27,24 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 기존 하이브리드 아키텍처의 파편화 한계와 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 통합적 구조를 비교하여 왜 이 기술이 필요한지 보여준다.
 
-```text
-┌───────────────── 기존 하이브리드 클라우드의 한계 ────────────────┐
-│ [Public Cloud / 퍼블릭 클라우드]           [On-Premise / Edge]             │
-│ AWS Console      <--?--> VMware / 자체 인프라 관리 도구         │
-│ (관리 주체: CSP)          (관리 주체: 고객사 IT팀)              │
-│  * 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택  │
-├───────────────── 분산 클라우드의 통일된 제어 평면 ───────────────┤
-│                     [CSP Central Control Plane / CSP 중앙 제어 평면]          │
-│                 (예: AWS Outposts, GCP Anthos, Azure Arc)│
-│                              │                           │
-│      +───────────────────────+──────────────────────+    │
-│      ↓                       ↓                      ↓    │
-│ [Public Region / 퍼블릭 리전]     [Local/Edge Zone]       [On-Premise / 온프레미스] │
-│ (동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 하이브리드 클라우드의 한계</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Public Cloud / 퍼블릭 클라우드</div><div class="kb-diagram-node">On-Premise / Edge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Console &lt;--?--&gt; VMware / 자체 인프라 관리 도구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(관리 주체: CSP) (관리 주체: 고객사 IT팀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">분산 클라우드의 통일된 제어 평면</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSP Central Control Plane / CSP 중앙 제어 평면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: AWS Outposts, GCP Anthos, Azure Arc)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Public Region / 퍼블릭 리전</div><div class="kb-diagram-node">Local/Edge Zone</div><div class="kb-diagram-node">On-Premise / 온프레미스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 관리 주체와 제어 인터페이스의 일원화 여부이다. 기존 하이브리드 구조는 두 개의 이질적인 시스템을 네트워크로 이어 붙인 형태라 보안 사각지대가 생겼다. [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 CSP의 제어 평면이 고객사의 물리적 공간까지 거미줄처럼 확장되어 동일한 API와 콘솔로 리소스를 투명하게 관리한다. 실무에서는 이러한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 단일화를 가능하게 하여 소프트웨어 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 극적으로 단축시킨다.
 
@@ -62,30 +64,31 @@ tags = ["cloud_architecture"]
 | **Distributed Substations** | 물리적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 | 현장에서의 컴퓨팅 실행, 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 저장, 실시간 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP | 전방 야전 부대 |
 | **Control Link (Tether)** | 중앙과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드 간 통신 채널 | 텔레메트리, 패치, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 전송 (고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체는 통과 안 함) | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) | 암호화된 핫라인 |
 | **Local Survivability** | 네트워크 단절 시 자율성 보장 | 제어망 단절 시에도 로컬 워크로드 지속 실행 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) | K8s Gossip, [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) | 지휘관 부재 시 자율 교전권 |
-| **Unified [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Layer** | 일관된 개발자 인터페이스 | 인프라 위치에 상관없이 선언형으로 리소스를 배포하는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) | 범용 통역기 |
+| <strong>Unified <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Layer</strong> | 일관된 개발자 인터페이스 | 인프라 위치에 상관없이 선언형으로 리소스를 배포하는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) | 범용 통역기 |
 
 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 내부 동작은 절차적 명령이 아닌, 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 상태 일치(Reconciliation) 루프를 따른다. 중앙에서 원하는 상태를 정의하면 에이전트가 이를 동기화한다.
 
 아래 다이어그램은 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 환경에서 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 실제 트래픽이 어떻게 분리되어 처리되는지 흐름을 보여준다.
 
-```text
-[CSP Central Region (Public Cloud)]
- ┌─────────────────────────────────────────────┐
- │ 1. Policy & Config YAML (GitOps Repo)       │
- │ 2. Global Control Plane & Identity (IAM)    │
- └───────┬──────────────────────────────┬──────┘
-         │ (Tether: mTLS Sync)          │
-         ↓ 제어 신호 (Control Plane)      ↓
-[Customer On-Premise / 온프레미스]            [Telco 5G Edge / 통신사 5G 엣지]
- ┌───────────────┐              ┌───────────────┐
- │ Local Agent   │<--Sync--     │ Local Agent   │
- │ K8s Cluster   │              │ K8s Cluster   │
- │ GPU / Storage │              │ AI Inference  │
- └───────┬───────┘              └───────┬───────┘
-         │ 데이터 흐름 (Data Plane)       │ 초저지연 데이터
-         ▼                              ▼
-   [Factory IoT Data / 공장 IoT 데이터]             [Autonomous Car / 자율주행차]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSP Central Region (Public Cloud)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Policy &amp; Config YAML (GitOps Repo)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Global Control Plane &amp; Identity (IAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tether: mTLS Sync)</div></div>
+<div class="kb-diagram-note">↓ 제어 신호 (Control Plane) ↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Customer On-Premise / 온프레미스</div><div class="kb-diagram-node">Telco 5G Edge / 통신사 5G 엣지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Agent</div><div class="kb-diagram-cell">&lt;--Sync--</div><div class="kb-diagram-cell">Local Agent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s Cluster</div><div class="kb-diagram-cell">K8s Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU / Storage</div><div class="kb-diagram-cell">AI Inference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 흐름 (Data Plane)</div><div class="kb-diagram-cell">초저지연 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Factory IoT Data / 공장 IoT 데이터</div><div class="kb-diagram-node">Autonomous Car / 자율주행차</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Tether)와 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 완벽한 물리적·논리적 분리이다. 중앙 리전은 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 내려보낼 뿐, 공장 로봇이나 자율주행차에서 발생하는 대용량 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 외부 네트워크를 타지 않고 로컬에서 즉시 분석 및 소멸된다. 따라서 해저 케이블 장애로 중앙망과 연결이 끊기더라도 생존성(Local Survivability)을 보장하며, 무엇보다 클라우드로 내보내는 막대한 아웃바운드([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금을 원천 차단한다.
 
@@ -112,8 +115,8 @@ tags = ["cloud_architecture"]
 이 매트릭스에서 판단의 핵심 포인트는 인프라 책임과 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이다. 하이브리드 클라우드는 물리적 자원 통합에는 성공했으나, 패치 관리와 플랫폼 구성의 부담을 오롯이 고객이 짊어져야 했다. 반면 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 물리적 위치만 고객사로 들어왔을 뿐, 하드웨어 랙(Rack) 설치부터 OS 패치, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)까지 모든 라이프사이클을 CSP가 매니지드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태로 대행한다.
 
 **과목 융합 관점**
-1. **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크 ([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 융합)**: 통신사의 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))과 결합 시 폭발적인 시너지를 낸다. 클라우드 인프라가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 옆에 전진 배치됨으로써 단말기와의 논리적 홉(Hop) 거리가 대폭 줄어들어 1ms 수준의 결정론적 초저지연을 달성한다.
-2. **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: 거대한 모놀리식을 쪼개는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 지리적(Geographical)으로 설계할 수 있다. 무거운 딥러닝 훈련 모듈은 퍼블릭 리전에, 빠른 응답이 필요한 추론 및 프론트 모듈은 로컬 엣지 노드에 나누어 배포하는 입체적 토폴로지가 가능해진다.
+1. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 네트워크 (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> 융합)</strong>: 통신사의 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))과 결합 시 폭발적인 시너지를 낸다. 클라우드 인프라가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 바로 옆에 전진 배치됨으로써 단말기와의 논리적 홉(Hop) 거리가 대폭 줄어들어 1ms 수준의 결정론적 초저지연을 달성한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>: 거대한 모놀리식을 쪼개는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 지리적(Geographical)으로 설계할 수 있다. 무거운 딥러닝 훈련 모듈은 퍼블릭 리전에, 빠른 응답이 필요한 추론 및 프론트 모듈은 로컬 엣지 노드에 나누어 배포하는 입체적 토폴로지가 가능해진다.
 
 📢 **섹션 요약 비유**: 하이브리드 클라우드가 한식과 양식을 각기 다른 두 명의 요리사가 각각의 주방에서 만들어 내놓아 맛이 달라지는 뷔페라면, [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 전 세계 어느 지점에서든 중앙의 본사 시스템이 원격 제어하는 자동화 로봇이 완벽히 동일한 레시피로 요리하는 스마트 프랜차이즈입니다.
 
@@ -123,25 +126,28 @@ tags = ["cloud_architecture"]
 
 실무에서 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 도입을 검토할 때는 비용, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 그리고 법적 컴플라이언스의 삼각 구도를 철저히 정량 평가해야 한다.
 
-**실무 의사결정 시나리오 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
-1. **[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 및 규제 대응 ([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))**: 금융/공공 등 특정 국가 밖으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반출이 법적으로 엄격히 금지된 상황. 이때는 AWS Outposts나 GCP Distributed Cloud를 해당 국가 내 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 직접 설치한다. 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬에 남기면서도, 배포 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)은 기존 퍼블릭 망의 프로세스를 그대로 재사용할 수 있어 보안과 개발 생산성을 동시에 충족한다.
-2. **오버엔지니어링 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**: [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 랙 장비는 퍼블릭 리전의 자원 대비 비용(프리미엄)이 훨씬 높다. 트래픽 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감하지 않은 단순 웹서비스나 주간 배치 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 굳이 로컬 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드에 적재하는 것은 전형적인 예산 낭비([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 실패) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+<strong>실무 의사결정 시나리오 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
+1. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a> 및 규제 대응 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/">Data Sovereignty</a>)</strong>: 금융/공공 등 특정 국가 밖으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반출이 법적으로 엄격히 금지된 상황. 이때는 AWS Outposts나 GCP Distributed Cloud를 해당 국가 내 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 직접 설치한다. 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬에 남기면서도, 배포 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)은 기존 퍼블릭 망의 프로세스를 그대로 재사용할 수 있어 보안과 개발 생산성을 동시에 충족한다.
+2. <strong>오버엔지니어링 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-Pattern</a>)</strong>: [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 랙 장비는 퍼블릭 리전의 자원 대비 비용(프리미엄)이 훨씬 높다. 트래픽 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감하지 않은 단순 웹서비스나 주간 배치 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 굳이 로컬 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드에 적재하는 것은 전형적인 예산 낭비([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 실패) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 아래는 신규 워크로드 발생 시 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 배치를 결정하는 판단 트리이다.
 
-```text
-[신규 워크로드 아키텍처 설계 요청]
-         │
-[데이터의 국외 반출 금지 등 강력한 보안 규제가 존재하는가?]
- ├─ (Yes) ──> [On-Premise 전용 분산 노드 (Outposts) 배치 결정]
- │
- └─ (No) ──> [초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)]
-              ├─ (Yes) ──> [5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정]
-              │
-              └─ (No) ──> [대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?]
-                           ├─ (Yes) ──> [Local Zone 수준 분산 노드에 배치]
-                           └─ (No)  ──> [중앙 Public Region 기본 배치 (가장 저렴)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 워크로드 아키텍처 설계 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터의 국외 반출 금지 등 강력한 보안 규제가 존재하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">On-Premise 전용 분산 노드 (Outposts) 배치 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Local Zone 수준 분산 노드에 배치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">중앙 Public Region 기본 배치 (가장 저렴)</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 트리는 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)가 무조건적인 정답이 아니라, 철저하게 규제와 레이턴시의 임계치를 넘어설 때만 사용하는 프리미엄 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)임을 보여준다. 따라서 실무 아키텍트는 엣지와 중앙 중 어디에 애플리케이션을 둘지 결정할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락인 비용을 반드시 정량 계산해야 한다.
 
@@ -155,9 +161,9 @@ tags = ["cloud_architecture"]
 
 | 기대효과 구분 | 정량적 및 정성적 파급 효과 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산지와 처리의 인접 배치로 네트워크 레이턴시 최대 80% 감소 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산지와 처리의 인접 배치로 네트워크 레이턴시 최대 80% 감소 |
 | **운영 효율성 (Operations)** | 이기종 하이브리드 관리 공수 제거로 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 및 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 시간 50% 단축 |
-| **규제 준수 ([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))** | 물리적 격리망을 유지하면서도 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술을 즉각 수용 가능 |
+| <strong>규제 준수 (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong> | 물리적 격리망을 유지하면서도 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술을 즉각 수용 가능 |
 
 **미래 전망**
 가트너(Gartner) 등 주요 기관은 클라우드의 미래가 궁극적으로 완전한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경으로 나아갈 것으로 예측한다. 향후에는 테슬라의 스타링크(Starlink)와 같은 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 통신망과 결합하여 해상, 사막, 우주 공간의 위성 엣지 노드까지 하나의 제어 평면으로 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 '초공간 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)'로 패러다임이 진화할 것이다.
@@ -175,21 +181,23 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[퍼블릭 클라우드 (Public Cloud) — 중앙 집중형 리소스 제공]
-    │
-    ▼
-[하이브리드 클라우드 (Hybrid Cloud) — 온프레미스와 퍼블릭 클라우드 연계]
-    │
-    ▼
-[멀티 클라우드 (Multi-Cloud) — 복수 CSP 동시 사용으로 벤더 종속 탈피]
-    │
-    ▼
-[분산 클라우드 (Distributed Cloud) — 에지 위치까지 클라우드 서비스 분산 배포]
-    │
-    ▼
-[엣지 컴퓨팅 (Edge Computing) — 물리적 근접성으로 지연 최소화·데이터 현지 처리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 클라우드 (Public Cloud) — 중앙 집중형 리소스 제공</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 클라우드 (Hybrid Cloud) — 온프레미스와 퍼블릭 클라우드 연계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 (Multi-Cloud) — 복수 CSP 동시 사용으로 벤더 종속 탈피</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 클라우드 (Distributed Cloud) — 에지 위치까지 클라우드 서비스 분산 배포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 (Edge Computing) — 물리적 근접성으로 지연 최소화·데이터 현지 처리</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 중앙 집중형 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)에서 에지까지 클라우드 인프라가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·확장되는 아키텍처 진화를 나타낸다.
 

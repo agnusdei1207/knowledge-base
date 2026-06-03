@@ -20,15 +20,18 @@ tags = ["studynote-design-supervision"]
 
 [LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 컨설팅과 감리에서 복잡한 문제를 **겹치지 않게 나누고, 빠짐없이 덮고, 시각적으로 설명하는** 대표 조합이다. LISS는 각 요소의 책임이 서로 독립적이면서도 전체 문제 공간을 포괄해야 함을 강조하고, MECE는 분해된 항목이 상호배타적이고 전체포괄적인지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 로직트리는 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 트리 형태로 보여 주는 도구다.
 
-시험에서는 이 셋을 별개 용어로 암기하기보다 "문제 구조화 절차"로 묶어 쓰는 것이 좋다. 즉 문제 정의 → 분해 기준 선택 → 트리 전개 → 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 실행 대안 도출의 흐름으로 정리하면 답안이 자연스럽다. 감리 보고서나 기술사 서술형에서 특히 강한 이유는, 단순 주장보다 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거와 범위 통제**를 함께 보여 줄 수 있기 때문이다.
+시험에서는 이 셋을 별개 용어로 암기하기보다 "문제 구조화 절차"로 묶어 쓰는 것이 좋다. 즉 문제 정의 → 분해 기준 선택 → 트리 전개 → 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 실행 대안 도출의 흐름으로 정리하면 답안이 자연스럽다. 감리 보고서나 기술사 서술형에서 특히 강한 이유는, 단순 주장보다 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 근거와 범위 통제</strong>를 함께 보여 줄 수 있기 때문이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Symptom ──▶ Framing ──▶ Issue Tree ──▶ Hypothesis ──▶ Action │
-├──────────────────────────────────────────────────────────────┤
-│ 현상         질문 정의      구조화 분해      원인 가설      실행안  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Symptom ──▶ Framing ──▶ Issue Tree ──▶ Hypothesis ──▶ Action</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현상 질문 정의 구조화 분해 원인 가설 실행안</div></div>
+</div>
+</div>
+
+
 
 이 그림은 복잡한 현상이 곧바로 대안으로 가는 것이 아니라, 먼저 질문을 정하고 문제 공간을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 자른 뒤에야 실행안이 나와야 함을 보여 준다.
 
@@ -38,7 +41,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 기법의 핵심은 "무엇을 기준으로 자를 것인가"에 있다. 같은 수준의 항목은 같은 질문에 답해야 하고, 각 가지는 다른 가지와 겹치지 않으면서 전체를 덮어야 한다. 기술사 답안에서는 보통 **[LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/) = 구조 품질 원리**, **[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) = [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준**, **[Logic Tree](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/217_logic_tree_framework/) = 표현 도구**로 구분하면 이해가 쉽다.
+이 기법의 핵심은 "무엇을 기준으로 자를 것인가"에 있다. 같은 수준의 항목은 같은 질문에 답해야 하고, 각 가지는 다른 가지와 겹치지 않으면서 전체를 덮어야 한다. 기술사 답안에서는 보통 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/">LISS</a> = 구조 품질 원리</strong>, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/">MECE</a> = <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 기준</strong>, <strong><a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/217_logic_tree_framework/">Logic Tree</a> = 표현 도구</strong>로 구분하면 이해가 쉽다.
 
 | 도구/원리 | 역할 | 답안 포인트 |
 |:---|:---|:---|
@@ -46,19 +49,22 @@ tags = ["studynote-design-supervision"]
 | [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) | 상호배타·전체포괄 여부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 같은 계층의 분해 기준이 일관돼야 한다 |
 | 로직트리 | 문제를 Why/How 축으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 우선순위 연결이 쉬워진다 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Problem: 성능 저하                                             │
-├──────────────────────────────────────────────────────────────┤
-│            ├─ Client 구간                                      │
-│ Root Cause ├─ Network 구간   ← 같은 수준의 분해 기준 유지       │
-│            ├─ Server 구간                                      │
-│            └─ Database 구간                                    │
-│                 └─ 세부 원인 재분해 (병목, 락, I/O, SQL)         │
-└──────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 트리 모양이 아니라 **분해 차원의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**이다. 예를 들어 1차 분해에서 "매출 감소, DB 느림, 경쟁 심화"처럼 서로 다른 차원을 섞으면 트리는 그려져도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 깨진다. 따라서 먼저 차원을 고정하고, 그 다음에 가설과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem: 성능 저하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Client 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Cause ─ Network 구간 ← 같은 수준의 분해 기준 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Server 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Database 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 세부 원인 재분해 (병목, 락, I/O, SQL)</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 트리 모양이 아니라 <strong>분해 차원의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 1차 분해에서 "매출 감소, DB 느림, 경쟁 심화"처럼 서로 다른 차원을 섞으면 트리는 그려져도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 깨진다. 따라서 먼저 차원을 고정하고, 그 다음에 가설과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해야 한다.
 
 - **📢 섹션 요약 비유**: 옷장을 계절별로 나누기로 했으면 끝까지 계절 기준으로 정리해야 찾기 쉽듯, 문제도 한 번 정한 분해 축을 끝까지 지켜야 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 선다.
 
@@ -66,7 +72,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-[LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 마인드맵, 브레인스토밍, 피시본 다이어그램과 함께 쓰이지만 목적이 다르다. 마인드맵이 발산에 강하고 브레인스토밍이 아이디어 양을 늘리는 데 적합하다면, [LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 **감점 없는 구조화**에 더 강하다.
+[LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 마인드맵, 브레인스토밍, 피시본 다이어그램과 함께 쓰이지만 목적이 다르다. 마인드맵이 발산에 강하고 브레인스토밍이 아이디어 양을 늘리는 데 적합하다면, [LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리는 <strong>감점 없는 구조화</strong>에 더 강하다.
 
 | 기법 | 강점 | 한계 | 적합한 상황 |
 |:---|:---|:---|:---|
@@ -83,7 +89,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 구조화 도구를 멋있게 그리는 것보다, **분해 결과가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 조치 계획으로 이어지는가**를 보는 것이 중요하다. 예를 들어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 나눴다면 각 가지마다 측정 지표와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법이 붙어야 하고, 사업 리스크를 나눴다면 각 항목마다 책임자와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 지정돼야 한다.
+실무에서는 구조화 도구를 멋있게 그리는 것보다, <strong>분해 결과가 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집과 조치 계획으로 이어지는가</strong>를 보는 것이 중요하다. 예를 들어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 나눴다면 각 가지마다 측정 지표와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법이 붙어야 하고, 사업 리스크를 나눴다면 각 항목마다 책임자와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 지정돼야 한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,7 +112,7 @@ tags = ["studynote-design-supervision"]
 
 [LISS](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)·[MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)·로직트리 접근을 쓰면 문제 정의의 질이 올라가고, 팀 간 논쟁을 감정이 아니라 구조로 다룰 수 있다. 또한 "왜 이 대안을 선택했는가"를 설명하기 쉬워져 감리 결과, 설계 리뷰, 컨설팅 산출물의 설득력이 커진다.
 
-결론적으로 이 조합은 단순한 발표 기법이 아니라 **복잡성을 다루는 사고 체계**다. 시험에서는 LISS와 MECE를 원리로, 로직트리를 표현 도구로 구분하고, 최종적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정으로 이어진다는 점까지 써 주면 완성도가 높다.
+결론적으로 이 조합은 단순한 발표 기법이 아니라 <strong>복잡성을 다루는 사고 체계</strong>다. 시험에서는 LISS와 MECE를 원리로, 로직트리를 표현 도구로 구분하고, 최종적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정으로 이어진다는 점까지 써 주면 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 퍼즐을 맞출 때 모서리부터 정리하고 색깔별로 나누면 빨라지듯, 복잡한 문제도 먼저 구조를 잡아야 해법이 빨라진다.
 
@@ -124,21 +130,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-복잡한 현상 인식
-    │
-    ▼
-분해 기준 선택
-    │
-    ▼
-LISS · MECE 검증
-    │
-    ▼
-로직트리 전개
-    │
-    ▼
-가설 검증 · 실행 대안 도출
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">복잡한 현상 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분해 기준 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LISS · MECE 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로직트리 전개</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가설 검증 · 실행 대안 도출</div>
+</div>
+</div>
+
+
 
 이 흐름은 "생각의 정리"가 아니라 "실행 가능한 분석"으로 가는 전형적인 문제 해결 순서를 압축한다.
 

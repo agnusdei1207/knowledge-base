@@ -21,15 +21,17 @@ K-[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urb
 
 따라서 K-[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 자율 교통 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 관제를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제가 필요한 이유: 요구사항과 운영 현실의 간극을 줄임                  │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 ─▶ 설계 선택 ─▶ 실행 자원 ─▶ 운영 피드백                  │
-│    │            │            │             │                       │
-│    └──────── 변경 영향과 예외 처리를 구조로 흡수 ─────────────────┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제가 필요한 이유: 요구사항과 운영 현실의 간극을 줄임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 ─▶ 설계 선택 ─▶ 실행 자원 ─▶ 운영 피드백</div></div>
+<div class="kb-diagram-note">변경 영향과 예외 처리를 구조로 흡수</div>
+</div>
+</div>
+
+
 
 이 그림은 K-[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 자율 교통 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 관제가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
 
@@ -46,15 +48,17 @@ K-[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urb
 | 처리 계층 | 핵심 로직과 제어 적용 | scheduler, engine, workflow |
 | 출력 계층 | 사용자 가치와 운영 지표 산출 | response, [metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제 핵심 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백</div></div>
+<div class="kb-diagram-note">병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──</div>
+</div>
+</div>
+
+
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 K-[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 자율 교통 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 관제는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
 

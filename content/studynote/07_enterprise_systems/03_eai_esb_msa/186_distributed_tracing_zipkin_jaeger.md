@@ -23,7 +23,7 @@ tags = ["studynote-enterprise"]
 
 이 문제가 중요한 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전파되기 때문이다. 예를 들어 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 응답이 2초 느릴 때, 진짜 원인이 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체인지 결제 응용 프로그램 프로그래밍 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 호출인지, 그 아래 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)인지 알 수 없다면 팀 간 책임 공방만 길어진다. [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 요청마다 공통 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 부여하고, 각 구간의 시작·종료 시각과 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기록해 이런 병목의 위치와 순서를 시각적으로 드러낸다.
 
-또한 현대 시스템은 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 호출만 있는 것이 아니라 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐와 비동기 작업도 섞여 있다. 이때 Trace ID가 헤더나 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 따라 끊김 없이 전달되지 않으면, 관측성은 한 구간짜리 부분 지도에 그친다. 결국 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)의 본질은 화면이 아니라 **문맥을 전파하는 규율**에 있다.
+또한 현대 시스템은 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 호출만 있는 것이 아니라 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐와 비동기 작업도 섞여 있다. 이때 Trace ID가 헤더나 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 따라 끊김 없이 전달되지 않으면, 관측성은 한 구간짜리 부분 지도에 그친다. 결국 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)의 본질은 화면이 아니라 <strong>문맥을 전파하는 규율</strong>에 있다.
 
 - **📢 섹션 요약 비유**: [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 여러 역을 거치는 택배 상자에 같은 송장 번호를 계속 붙여 두는 것과 같다. 그래야 어느 물류센터에서 시간이 오래 걸렸는지 한눈에 찾을 수 있다.
 
@@ -35,20 +35,21 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 요청 흐름과 추적 수집 흐름을 함께 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Request path and tracing pipeline                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ Client -> Gateway -> Order -> Payment -> DB                        │
-│            │         │          │                                  │
-│            │         │          └─ span-4 : SQL                    │
-│            │         └──────────── span-3 : payment call           │
-│            └────────────────────── span-2 : order handler          │
-│ trace-1 ───────────────────────── span-1 : gateway                 │
-│                                                                    │
-│ Services export spans -> Collector -> Storage -> Zipkin / Jaeger   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request path and tracing pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Gateway -&gt; Order -&gt; Payment -&gt; DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ span-4 : SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">span-3 : payment call</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">span-2 : order handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trace-1 span-1 : gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Services export spans -&gt; Collector -&gt; Storage -&gt; Zipkin / Jaeger</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -84,7 +85,7 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 | Zipkin | 단순한 구조, 가벼운 시작, 빠른 학습 | 소규모~중간 규모, 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 도입 |
 | Jaeger | 풍부한 운영 옵션, 샘플링과 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 강점 | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), 대규모 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
 
-즉 도구 비교보다 먼저 따질 것은 추적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 전파 표준이다. B3 헤더나 W3C (World Wide Web Consortium) Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 같은 전파 규약이 맞지 않으면, Zipkin과 Jaeger 중 무엇을 쓰든 연결성이 약해진다. 관측성 인프라의 본질은 백엔드 제품이 아니라 **끊기지 않는 문맥 체인**이다.
+즉 도구 비교보다 먼저 따질 것은 추적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 전파 표준이다. B3 헤더나 W3C (World Wide Web Consortium) Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 같은 전파 규약이 맞지 않으면, Zipkin과 Jaeger 중 무엇을 쓰든 연결성이 약해진다. 관측성 인프라의 본질은 백엔드 제품이 아니라 <strong>끊기지 않는 문맥 체인</strong>이다.
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 자동차 계기판이고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 정비 기사 메모장이며, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 자동차가 어느 길로 갔는지 그린 내비게이션 기록이다. 세 가지를 합쳐야 사고 원인을 가장 빨리 찾을 수 있다.
 
@@ -111,7 +112,7 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 - Span 이름을 `method1`, `call2`처럼 모호하게 지어 분석 가치가 떨어지는 경우
 - 추적 대시보드만 믿고 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 상관관계를 만들지 않는 경우
 
-결론적으로 기술사 답안에서는 "Zipkin으로 본다"보다, **추적을 위해 문맥을 전파하고 샘플링하며 다른 관측성 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 연결한다**는 설계 관점을 강조해야 한다. 도구는 수단이고, 병목의 인과관계를 복원하는 구조가 목적이다.
+결론적으로 기술사 답안에서는 "Zipkin으로 본다"보다, <strong>추적을 위해 문맥을 전파하고 샘플링하며 다른 관측성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>와 연결한다</strong>는 설계 관점을 강조해야 한다. 도구는 수단이고, 병목의 인과관계를 복원하는 구조가 목적이다.
 
 - **📢 섹션 요약 비유**: 도로마다 CCTV를 달아도 차량 번호가 계속 바뀌면 한 차의 이동 경로를 찾을 수 없다. 같은 번호판이 끝까지 이어져야 어디서 막혔는지 알 수 있는 것처럼 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) 전파가 핵심이다.
 
@@ -123,7 +124,7 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 
 하지만 추적은 공짜가 아니다. 계측 코드, 헤더 전파, 샘플링, 저장 비용, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 대시보드 운영이 함께 필요하다. 특히 비동기 흐름과 배치 작업까지 추적하려면 표준화와 개발 규율이 따라와야 하므로, 도입 범위와 운영 목표를 명확히 잡는 것이 중요하다.
 
-결국 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 "예쁜 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) 도구"가 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 인과관계를 복원하는 운영 인프라**다. Zipkin과 Jaeger는 그 결과를 보여 주는 대표 구현일 뿐이며, 기억해야 할 핵심은 요청 문맥을 끊기지 않게 이어 주는 체계라는 점이다.
+결국 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)은 "예쁜 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) 도구"가 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템의 인과관계를 복원하는 운영 인프라</strong>다. Zipkin과 Jaeger는 그 결과를 보여 주는 대표 구현일 뿐이며, 기억해야 할 핵심은 요청 문맥을 끊기지 않게 이어 주는 체계라는 점이다.
 
 - **📢 섹션 요약 비유**: 거대한 놀이공원에서 아이가 어디서 길을 잃었는지 찾으려면 입장부터 놀이기구 탑승까지 같은 팔찌 번호가 계속 기록되어야 한다. [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)도 요청에 그 팔찌를 채워 주는 일이다.
 
@@ -142,21 +143,23 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식 디버깅 한계 없음
-        │
-        ▼
-MSA 확산과 로그 파편화
-        │
-        ▼
-Trace ID · Span 기반 문맥 전파
-        │
-        ▼
-Zipkin / Jaeger 수집 · 시각화
-        │
-        ▼
-OpenTelemetry 기반 통합 관측성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식 디버깅 한계 없음</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA 확산과 로그 파편화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trace ID · Span 기반 문맥 전파</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zipkin / Jaeger 수집 · 시각화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenTelemetry 기반 통합 관측성</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)에서 시작해, 요청 문맥 복원과 표준화된 관측성 플랫폼으로 성숙해 가는 과정을 보여 준다.
 

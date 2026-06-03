@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 - **성곽형(Perimeter) 보안**: 외부(Untrusted)와 내부(Trusted)를 가르고, 그 경계선에 값비싼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW)과 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 몰아넣어 막는 고전적 방식입니다.
 - **붕괴 원인**: 
-  1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, **신뢰 구역 안쪽에서부터 악성코드([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))가 퍼져** 속수무책으로 털렸습니다. 
+  1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, <strong>신뢰 구역 안쪽에서부터 악성코드(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>)가 퍼져</strong> 속수무책으로 털렸습니다. 
   2. 클라우드(AWS, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))가 도입되고 직원들이 카페나 집(재택근무)에서 일하게 되면서, "어디까지가 내부망이고 어디가 외부망인지" 경계선 자체가 완전히 증발해 버렸습니다.
 
-```text
-[백도어]
-    │
-    ▼
-[제로 트러스트 보안]
-    │
-    └──▶ [마이크로 세그멘테이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,24 +46,28 @@ tags = ["studynote-network"]
 2010년 존 킨더바그(Forrester Research)가 창안하고, 구글이 BeyondCorp 프로젝트로 증명해 낸 현대 보안의 궁극적 철학이자 프레임워크입니다.
 
 ### 원칙 1: 절대 신뢰하지 말고 항상 검증하라 (Never Trust, Always Verify)
-- **핵심**: "이 IP는 사내망 192.168.0.x 대역이니까 안전해!"라는 **네트워크 위치 기반의 맹신(Trust)을 완전히 폐기**합니다. 
+- **핵심**: "이 IP는 사내망 192.168.0.x 대역이니까 안전해!"라는 <strong>네트워크 위치 기반의 맹신(Trust)을 완전히 폐기</strong>합니다. 
 - 직원이 사내 본사 건물 책상에 앉아서 접속하든, 스타벅스에서 접속하든 똑같이 잠재적 해커로 취급합니다. 인사팀 서버에 접속하려면 매번 아이디/비밀번호를 치고, 스마트폰 생체인식([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 다중인증)을 통과하고, 현재 폰이 최신 백신으로 무장된 건강한 상태인지([NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사, 700번) 100% 검증을 마쳐야만 단 한 번의 접속을 허락합니다.
 
 ### 원칙 2: 최소 권한의 원칙 ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) Access)
 - 무사히 신원 검증을 통과했더라도, 사내망 전체를 활보할 수 있는 만능 프리패스를 주지 않습니다.
-- 홍길동 대리가 '마케팅팀' 소속이면, **오직 마케팅팀 폴더에만 딱 접속할 수 있는 암호화된 가상의 비밀 통로([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) 터널 등)를 1:1로 뚫어주고**, 회사의 재무팀이나 개발팀 서버는 홍길동 대리의 눈에 아예 존재하지 않는 투명한 블랙홀처럼 숨겨버립니다. 
+- 홍길동 대리가 '마케팅팀' 소속이면, <strong>오직 마케팅팀 폴더에만 딱 접속할 수 있는 암호화된 가상의 비밀 통로(<a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 터널 등)를 1:1로 뚫어주고</strong>, 회사의 재무팀이나 개발팀 서버는 홍길동 대리의 눈에 아예 존재하지 않는 투명한 블랙홀처럼 숨겨버립니다. 
 
 ### 원칙 3: 지속적인 모니터링과 평가 (Continuous Inspection)
-- 한 번 로그인 통과했다고 끝이 아닙니다. 접속 중에도 직원이 평소와 달리 갑자기 기밀문서 100GB를 압축해서 다운받으려 하거나 새벽 3시에 접속하면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))이 이 '이상 행위([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))'를 포착하고 **즉각 세션을 강제로 끊어버리고 재인증을 요구**합니다.
+- 한 번 로그인 통과했다고 끝이 아닙니다. 접속 중에도 직원이 평소와 달리 갑자기 기밀문서 100GB를 압축해서 다운받으려 하거나 새벽 3시에 접속하면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))이 이 '이상 행위([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))'를 포착하고 <strong>즉각 세션을 강제로 끊어버리고 재인증을 요구</strong>합니다.
 
-```text
-[백도어]
-    │
-    ▼
-[제로 트러스트 보안]
-    │
-    └──▶ [마이크로 세그멘테이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,9 +76,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 이 철학을 실제로 작동하게 만드는 도구들입니다.
-1. **[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) (계정 및 접근 관리)**: 빡센 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/), [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))
-2. **[SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) (소프트웨어 정의 경계)**: 서버를 인터넷에서 안 보이게 숨기고 1:1 터널만 뚫어주는 기술
-3. **[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) ([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))**: 해커가 퍼져나가지 못하게 사내망을 조각조각 잘라버리는 기술 (다음 739번 문서에서 상세히 다룸)
+1. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> (계정 및 접근 관리)</strong>: 빡센 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/), [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))
+2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> (소프트웨어 정의 경계)</strong>: 서버를 인터넷에서 안 보이게 숨기고 1:1 터널만 뚫어주는 기술
+3. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/">Micro-Segmentation</a>)</strong>: 해커가 퍼져나가지 못하게 사내망을 조각조각 잘라버리는 기술 (다음 739번 문서에서 상세히 다룸)
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)가 기반 조건을 만든다면, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안은 그 위에서 핵심 메커니즘을 구현하고, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 백도어]
-    │
-    ▼
-[현재 개념: 제로 트러스트 보안]
-    │
-    ├──▶ [확장 A: 마이크로 세그멘테이션]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 백도어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 제로 트러스트 보안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

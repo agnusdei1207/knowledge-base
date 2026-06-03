@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **과거의 멍청함**: 오리지널 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)은 터널만 뚫었지, 길([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소록)을 찾는 뇌(Control Plane)가 없었습니다.
 - 그래서 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 모르면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)가 브로드캐스트 패킷을 10만 대 서버 전체로 미친 듯이 뿌렸습니다(BUM 트래픽: Broadcast, Unknown-unicast, Multicast). [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 대역폭의 30%가 이 쓰레기 소음(플러딩)으로 날아갔습니다.
 
-```text
-[VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    ▼
-[EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    └──▶ [Spine-Leaf 대용량 클로스 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spine-Leaf 대용량 클로스 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 통신사들이 전 세계 라우터를 엮을 때 쓰는 엄청나게 검증되고 튼튼한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜인 **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))**를 개조(MP-[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))하여, [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 망의 뇌(Control Plane)로 이식한 차세대 네트워크 표준입니다.
+- **개념**: 통신사들이 전 세계 라우터를 엮을 때 쓰는 엄청나게 검증되고 튼튼한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>)</strong>를 개조(MP-[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))하여, [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 망의 뇌(Control Plane)로 이식한 차세대 네트워크 표준입니다.
 - **핵심 목표**: 무식한 브로드캐스트(플러딩)를 완벽하게 근절하고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP 주소를 단톡방으로 조용히 공유하게 만드는 것입니다.
 
-```text
-[VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    ▼
-[EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    └──▶ [Spine-Leaf 대용량 클로스 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spine-Leaf 대용량 클로스 구조</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,12 +67,12 @@ tags = ["studynote-network"]
 이게 EVPN의 심장입니다.
 - 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP) 밑에 새로운 서버 B([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): `BB`)가 찰칵 꽂혀 전원이 켜집니다.
 - 옛날엔 가만히 있다가 누가 부르면 소리치고 답했습니다.
-- **[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 방식**: 꽂히는 순간 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 단톡방(컨트롤 플레인)에 조용히 카톡을 올립니다. **"알림: 방금 부산 쪽 1번 포트에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) `BB`, IP `10.0.0.2` 서버 꽂혔음. 주소록 업데이트해라."**
+- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a> 방식</strong>: 꽂히는 순간 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 단톡방(컨트롤 플레인)에 조용히 카톡을 올립니다. <strong>"알림: 방금 부산 쪽 1번 포트에 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> <code>BB</code>, IP <code>10.0.0.2</code> 서버 꽂혔음. 주소록 업데이트해라."</strong>
 - 서울 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 그 카톡을 읽고 자기 기계 안의 주소록([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Table)에 조용히 적어둡니다. 서울 서버 A가 B랑 통신하고 싶을 때, 서울 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 허공에 소리 지를 필요 없이 그냥 자기 주소록을 보고 곧바로 부산으로 다이렉트(유니캐스트) 터널을 쏴버립니다. 플러딩 완전 종식!
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Suppression ([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 차단기)
 - 서버 A가 "[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.2 누구야!" 하고 무식하게 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 브로드캐스트를 쏩니다.
-- 서울 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)가 패킷을 낚아챕니다. "아휴 이 멍청아, 내가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 단톡방에서 주소록 다 받아놨어! 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 밑에 있어!" [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 서버 대신 **직접 답장([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 응답)**을 해버리고 브로드캐스트 패킷을 그 자리에서 폐기(차단)하여 네트워크를 청정하게 유지합니다.
+- 서울 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)가 패킷을 낚아챕니다. "아휴 이 멍청아, 내가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 단톡방에서 주소록 다 받아놨어! 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 밑에 있어!" [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 서버 대신 <strong>직접 답장(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> 응답)</strong>을 해버리고 브로드캐스트 패킷을 그 자리에서 폐기(차단)하여 네트워크를 청정하게 유지합니다.
 
 ### 3. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 애니캐스트 게이트웨이 (Distributed Anycast Gateway)
 - 옛날엔 서버 A가 다른 네트워크 대역(L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))으로 가려면 멀리 있는 대형 라우터까지 핑퐁 치고 돌아와야 했습니다(헤어핀 병목).
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 1051번의 **순수 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)**은 마을을 연결하는 터널은 뚫었지만, 마을 이장님들이 서로 주소록이 없어서 옆 동네 철수를 찾을 때마다 **"철수 있냐!!!!" 하고 100개 마을 전체에 확성기([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 플러딩)로 소리쳐야 하는 시끄러운 무전기 통신망**이었습니다. **[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)**은 이 마을 이장님들의 스마트폰에 **'[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 카카오톡 단톡방(컨트롤 플레인)'**을 깔아준 기적입니다. 이제 부산 마을에 새 주민(서버)이 전입신고를 하면, 부산 이장님이 조용히 단톡방에 "우리 마을에 IP 10번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 이사 옴"이라고 명부를 올립니다. 서울 이장님은 소리 지르며 찾을 필요 없이, 스마트폰 단톡방 주소록([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 딱 열어보고 철수의 정확한 좌표를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 목적지를 향해 다이렉트로 비밀 편지(유니캐스트)를 꽂아 넣습니다. 지긋지긋한 무전기 소음(BUM 트래픽)을 완벽하게 제거하고 클라우드의 우아한 지능형 길 찾기를 완성한 컨트롤 플레인 혁명입니다.
+- **📢 섹션 요약 비유**: 1051번의 <strong>순수 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a></strong>은 마을을 연결하는 터널은 뚫었지만, 마을 이장님들이 서로 주소록이 없어서 옆 동네 철수를 찾을 때마다 <strong>"철수 있냐!!!!" 하고 100개 마을 전체에 확성기(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 플러딩)로 소리쳐야 하는 시끄러운 무전기 통신망</strong>이었습니다. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a>-<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a></strong>은 이 마을 이장님들의 스마트폰에 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 카카오톡 단톡방(컨트롤 플레인)'</strong>을 깔아준 기적입니다. 이제 부산 마을에 새 주민(서버)이 전입신고를 하면, 부산 이장님이 조용히 단톡방에 "우리 마을에 IP 10번, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 이사 옴"이라고 명부를 올립니다. 서울 이장님은 소리 지르며 찾을 필요 없이, 스마트폰 단톡방 주소록([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 딱 열어보고 철수의 정확한 좌표를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 목적지를 향해 다이렉트로 비밀 편지(유니캐스트)를 꽂아 넣습니다. 지긋지긋한 무전기 소음(BUM 트래픽)을 완벽하게 제거하고 클라우드의 우아한 지능형 길 찾기를 완성한 컨트롤 플레인 혁명입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    ▼
-[현재 개념: EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    │
-    ├──▶ [확장 A: Spine-Leaf 대용량 클로스 구조]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Spine-Leaf 대용량 클로스 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법에서 출발해 현재 메커니즘을 정교화하고, 이후 Spine-Leaf 대용량 클로스 구조와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

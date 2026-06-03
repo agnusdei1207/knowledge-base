@@ -19,26 +19,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-Retpoline은 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) variant 2가 드러난 뒤 등장한 "소프트웨어만으로 가능한 긴급 우회로"였다. 문제의 핵심은 간접 분기가 분기 목표 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))에 의해 잘못 예측될 수 있다는 점인데, 그 당시에는 이미 배포된 수많은 중앙처리장치 (Central Processing Unit, CPU)를 하드웨어적으로 고칠 수 없었다. 그래서 아이디어는 단순했다. **위험한 예측기를 정면으로 믿지 말고, 예측기가 상대적으로 안전하게 다루는 return 경로를 활용해 간접 분기를 우회하자**는 것이다.
+Retpoline은 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) variant 2가 드러난 뒤 등장한 "소프트웨어만으로 가능한 긴급 우회로"였다. 문제의 핵심은 간접 분기가 분기 목표 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))에 의해 잘못 예측될 수 있다는 점인데, 그 당시에는 이미 배포된 수많은 중앙처리장치 (Central Processing Unit, CPU)를 하드웨어적으로 고칠 수 없었다. 그래서 아이디어는 단순했다. <strong>위험한 예측기를 정면으로 믿지 말고, 예측기가 상대적으로 안전하게 다루는 return 경로를 활용해 간접 분기를 우회하자</strong>는 것이다.
 
 Retpoline이라는 이름도 여기서 나온다. return과 trampoline을 합쳐, 원래 가려던 목적지로 바로 점프하지 않고 한 번 안전한 발판을 밟아 튕겨 올라간다는 뜻이다. 이 방식은 정상 실행 경로와 투기 실행 경로를 일부러 분리한다. 아키텍처적으로는 최종 목적지로 가지만, 투기적으로는 의미 없는 루프에 갇히게 만들어 공격자가 원하는 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 쪽으로 달려가지 못하게 한다.
 
 이 그림은 평범한 간접 분기와 Retpoline 경로가 어떻게 다르게 보이는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Ordinary indirect branch vs Retpoline                                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ indirect call / jmp                                                        │
-│   -> BTB predicts target                                                   │
-│   -> poisoned predictor may pick attacker gadget                           │
-│                                                                            │
-│ Retpoline                                                                  │
-│   -> call thunk                                                            │
-│   -> speculative path falls into safe loop                                 │
-│   -> architectural path returns to real target                             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ordinary indirect branch vs Retpoline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect call / jmp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; BTB predicts target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; poisoned predictor may pick attacker gadget</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retpoline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; call thunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; speculative path falls into safe loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; architectural path returns to real target</div></div>
+</div>
+</div>
+
+
 
 Retpoline의 가치는 단순히 "우회한다"는 데 있지 않다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 런타임을 다시 컴파일하는 것만으로도 대규모 배포가 가능했기 때문에, 하드웨어 대응이 준비되기 전 공백을 메워 주는 실전 해법이 되었다. 그래서 이 기술은 소프트웨어가 하드웨어 취약점의 체감 위험을 얼마나 크게 낮출 수 있는지를 보여 준 상징적인 사례다.
 
@@ -62,24 +64,24 @@ Retpoline thunk의 핵심은 `ret`가 투기될 때 [BTB](/knowledge-base/studyn
 
 이 그림은 Retpoline thunk 안에서 두 경로가 어떻게 갈라지는지 구조적으로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Retpoline thunk                                                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ call thunk                                                                  │
-│   │                                                                          │
-│   ├─ pushes trap label to stack / RSB                                        │
-│   └─ enter thunk                                                             │
-│                                                                              │
-│ thunk overwrites top-of-stack with real target                               │
-│                                                                              │
-│ ret                                                                          │
-│   ├─ speculative path -> trap label -> pause loop                            │
-│   └─ architectural path -> real target                                       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-다만 이 방식은 "모든 CPU에서 똑같이 만능"은 아니다. 일부 환경에서는 RSB underflow나 특수한 예외 경로 때문에 보조 대책이 필요할 수 있고, hand-written assembly나 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 thunk 규칙을 따르지 않으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구멍이 남는다. 그래서 Retpoline은 발상은 단순하지만, 실제 효과는 **툴체인과 런타임 전반이 얼마나 일관되게 적용하느냐**에 달려 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retpoline thunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">call thunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pushes trap label to stack / RSB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ enter thunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">thunk overwrites top-of-stack with real target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ speculative path -&gt; trap label -&gt; pause loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ architectural path -&gt; real target</div></div>
+</div>
+</div>
+
+
+
+다만 이 방식은 "모든 CPU에서 똑같이 만능"은 아니다. 일부 환경에서는 RSB underflow나 특수한 예외 경로 때문에 보조 대책이 필요할 수 있고, hand-written assembly나 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 thunk 규칙을 따르지 않으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구멍이 남는다. 그래서 Retpoline은 발상은 단순하지만, 실제 효과는 <strong>툴체인과 런타임 전반이 얼마나 일관되게 적용하느냐</strong>에 달려 있다.
 
 - **📢 섹션 요약 비유**: 이 구조는 건물 안에서 두 개의 동선을 만든 것과 같다. 실제 손님은 직원 안내에 따라 목적지 방으로 가지만, 몰래 따라붙으려는 사람은 계속 비어 있는 대기실만 빙빙 돌게 된다.
 
@@ -97,7 +99,7 @@ Retpoline은 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_har
 
 Retpoline이 577번 [분기 목표 주입](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/577_branch_target_injection/)과 직접 연결되는 이유는, 공격자가 노리는 간접 분기 자체를 더 이상 [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/) 친화적인 형태로 남겨 두지 않기 때문이다. 579번 IBPB가 "문맥이 바뀔 때 흔적을 지우는 기술"이라면, Retpoline은 "애초에 위험한 예측 경로로 안 들어가게 코드를 바꾸는 기술"이다. 이 둘은 함께 쓰일 수도 있지만, 문제를 다루는 층은 분명히 다르다.
 
-또한 최신 하드웨어에서는 Retpoline이 항상 최선은 아닐 수 있다. 강한 eIBRS 지원이 있는 플랫폼에서는 간접 분기 재작성으로 얻는 추가 이득보다 오버헤드가 더 눈에 띌 수 있다. 반대로 오래된 서버나 장기간 유지되는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가지에서는, 여전히 Retpoline이 현실적인 안전장치로 의미가 있다. 따라서 기술사 답안에서는 "무조건 좋다"가 아니라 **어느 하드웨어 세대에서 왜 필요한가**를 구분해 설명하는 편이 좋다.
+또한 최신 하드웨어에서는 Retpoline이 항상 최선은 아닐 수 있다. 강한 eIBRS 지원이 있는 플랫폼에서는 간접 분기 재작성으로 얻는 추가 이득보다 오버헤드가 더 눈에 띌 수 있다. 반대로 오래된 서버나 장기간 유지되는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가지에서는, 여전히 Retpoline이 현실적인 안전장치로 의미가 있다. 따라서 기술사 답안에서는 "무조건 좋다"가 아니라 <strong>어느 하드웨어 세대에서 왜 필요한가</strong>를 구분해 설명하는 편이 좋다.
 
 - **📢 섹션 요약 비유**: Retpoline이 위험한 도로를 폐쇄하고 실내 통로로 우회시키는 방법이라면, IBPB는 사람이 바뀔 때 도로 표지판을 모두 초기화하는 방법이고, eIBRS는 애초에 외부인이 표지판을 함부로 바꾸지 못하게 하는 교통 관제 시스템이다.
 
@@ -107,7 +109,7 @@ Retpoline이 577번 [분기 목표 주입](/knowledge-base/studynote/01_computer
 
 실무에서 Retpoline은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 핵심 런타임처럼 신뢰 경계의 중심에 있는 코드를 다시 빌드할 수 있을 때 특히 유용하다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `CONFIG_RETPOLINE`, 컴파일러의 간접 분기 thunk 옵션, 배포판 수준의 toolchain 정책은 모두 이 계열 대응에 속한다. 하지만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 제대로 되려면 메인 바이너리만이 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 동적 로더, hand-written assembly, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기까지 같은 규칙을 따라야 한다.
 
-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 간접 분기가 많은 코드, 특히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입과 간접 호출이 잦은 서버에서 비용이 더 도드라질 수 있다. 그래서 최신 CPU가 강한 하드웨어 완화를 제공한다면, 일부 환경은 Retpoline 의존도를 낮추고 하드웨어 중심으로 옮겨 간다. 반대로 구형 장비를 오래 써야 하는 환경에서는 Retpoline이 여전히 중요한 보험 역할을 한다. 실무 판단의 핵심은 "Retpoline이 가능한가"보다 **지금 내 하드웨어와 소프트웨어 경로에서 어디까지 덮고 있는가**다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 간접 분기가 많은 코드, 특히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입과 간접 호출이 잦은 서버에서 비용이 더 도드라질 수 있다. 그래서 최신 CPU가 강한 하드웨어 완화를 제공한다면, 일부 환경은 Retpoline 의존도를 낮추고 하드웨어 중심으로 옮겨 간다. 반대로 구형 장비를 오래 써야 하는 환경에서는 Retpoline이 여전히 중요한 보험 역할을 한다. 실무 판단의 핵심은 "Retpoline이 가능한가"보다 <strong>지금 내 하드웨어와 소프트웨어 경로에서 어디까지 덮고 있는가</strong>다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -123,7 +125,7 @@ Retpoline이 577번 [분기 목표 주입](/knowledge-base/studynote/01_computer
 - 최신 하드웨어의 완화 상태를 확인하지 않은 채 관성적으로 모든 환경에 동일한 Retpoline 정책만 적용하는 운영
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 보인다는 이유로 위협 모델 검토 없이 Retpoline을 전면 해제하는 판단
 
-기술사 답안에서는 Retpoline을 단순한 컴파일러 옵션으로 축소하지 않는 것이 중요하다. 본질은 컴파일러가 하드웨어의 speculative path를 설계적으로 바꿔 놓는다는 데 있다. 즉 "무엇을 계산하느냐"가 아니라 **"CPU가 먼저 믿고 달리는 길을 어떻게 안전한 길로 바꿨느냐"**가 설명의 핵심이다.
+기술사 답안에서는 Retpoline을 단순한 컴파일러 옵션으로 축소하지 않는 것이 중요하다. 본질은 컴파일러가 하드웨어의 speculative path를 설계적으로 바꿔 놓는다는 데 있다. 즉 "무엇을 계산하느냐"가 아니라 <strong>"CPU가 먼저 믿고 달리는 길을 어떻게 안전한 길로 바꿨느냐"</strong>가 설명의 핵심이다.
 
 - **📢 섹션 요약 비유**: 실무의 Retpoline 적용은 건물 하나만 비상계단을 쓰게 하는 것이 아니라, 연결된 별관과 지하통로까지 모두 같은 대피 규칙을 맞추는 일과 같다. 한 군데라도 원래 길을 열어 두면 우회 전략이 깨진다.
 
@@ -133,9 +135,9 @@ Retpoline이 577번 [분기 목표 주입](/knowledge-base/studynote/01_computer
 
 Retpoline의 가장 큰 공헌은 하드웨어 문제를 소프트웨어 배포 속도로 완화할 수 있음을 보여 준 데 있다. 대규모 CPU 교체 없이도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 핵심 소프트웨어를 재빌드해 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) variant 2 위험을 실질적으로 낮출 수 있었고, 그 덕분에 전 세계 서버와 클라이언트가 비교적 빠르게 방어 태세를 갖출 수 있었다. 보안 대응의 현실성이라는 관점에서 매우 큰 의미를 가진다.
 
-물론 Retpoline은 영구 해답이라기보다 과도기적이면서도 강력한 해법이었다. 최신 하드웨어는 eIBRS와 더 나은 predictor 격리를 통해 같은 문제를 더 직접적으로 다루려 하고, 일부 워크로드에서는 Retpoline 오버헤드가 부담이 될 수 있다. 또한 [indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) branch가 아닌 다른 speculative attack surface는 별도 완화가 필요하다. 앞으로는 하드웨어 완화, 코어 스케줄링, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 안전화와 결합해 **소프트웨어 thunk와 하드웨어 격리가 역할을 분담하는 구조**가 더 일반적일 가능성이 크다.
+물론 Retpoline은 영구 해답이라기보다 과도기적이면서도 강력한 해법이었다. 최신 하드웨어는 eIBRS와 더 나은 predictor 격리를 통해 같은 문제를 더 직접적으로 다루려 하고, 일부 워크로드에서는 Retpoline 오버헤드가 부담이 될 수 있다. 또한 [indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) branch가 아닌 다른 speculative attack surface는 별도 완화가 필요하다. 앞으로는 하드웨어 완화, 코어 스케줄링, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 안전화와 결합해 <strong>소프트웨어 thunk와 하드웨어 격리가 역할을 분담하는 구조</strong>가 더 일반적일 가능성이 크다.
 
-결론적으로 Retpoline은 "return 경로를 이용해 speculative path를 속이는 소프트웨어 트릭"이면서, 동시에 하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 시대에 컴파일러가 얼마나 중요한 보안 도구가 될 수 있는지를 보여 준 사례다. 이 주제를 기억할 때는 간접 분기를 지운 것이 아니라, **투기 실행이 빠질 길을 안전한 함정으로 바꿨다**는 관점으로 이해하면 된다.
+결론적으로 Retpoline은 "return 경로를 이용해 speculative path를 속이는 소프트웨어 트릭"이면서, 동시에 하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 시대에 컴파일러가 얼마나 중요한 보안 도구가 될 수 있는지를 보여 준 사례다. 이 주제를 기억할 때는 간접 분기를 지운 것이 아니라, <strong>투기 실행이 빠질 길을 안전한 함정으로 바꿨다</strong>는 관점으로 이해하면 된다.
 
 - **📢 섹션 요약 비유**: Retpoline은 위험한 샛길을 막지 못할 때, 샛길 끝을 막다른 연습장으로 바꿔 버리는 아이디어와 같다. 누가 잘못 들어가도 비밀방으로 이어지지 않고 제자리만 맴돌게 만드는 것이다.
 
@@ -155,21 +157,23 @@ Retpoline의 가장 큰 공헌은 하드웨어 문제를 소프트웨어 배포 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-간접 분기 예측 기반 고성능 실행
-                │
-                ▼
-Spectre variant 2 / Branch Target Injection
-                │
-                ▼
-Retpoline compiler thunks
-                │
-                ▼
-IBPB · IBRS · STIBP 조합 완화
-                │
-                ▼
-eIBRS · hardware predictor isolation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">간접 분기 예측 기반 고성능 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spectre variant 2 / Branch Target Injection</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Retpoline compiler thunks</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IBPB · IBRS · STIBP 조합 완화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eIBRS · hardware predictor isolation</div>
+</div>
+</div>
+
+
 
 이 흐름은 "분기 예측을 안전하게 우회하는 소프트웨어 트릭"에서 시작해, 점차 하드웨어 자체가 predictor 오염을 더 강하게 통제하는 방향으로 진화하고 있음을 보여 준다.
 

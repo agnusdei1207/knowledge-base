@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 1033번 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)), 1032번 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)), Wi-Fi, [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) 등 수십 개의 통신 기술이 난립했습니다.
 - 삼성 전구를 사면 애플 시리(Siri)로 불을 끌 수가 없었고, 거실에 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(브릿지)를 제조사별로 주렁주렁 5대씩 꽂아놔야 하는 생태계 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 스마트홈 대중화의 목을 조르고 있었습니다.
 
-```text
-[CoAP 프로토콜 및 REST 인터페이스]
-    │
-    ▼
-[매터와 스레드]
-    │
-    └──▶ [SD-WAN 중앙 정책 관리형 브랜치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매터와 스레드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 애플, 구글, 아마존, 삼성전자(CSA 연합체)가 손잡고 발표한 **스마트홈 기기 간의 궁극적 '상호 운용성([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))'을 보장하는 글로벌 로열티 프리(무료) 통합 통신 표준**입니다.
-- **혁명적 효과**: 이제 전구 껍데기에 **'[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 로고'** 하나만 딱 찍혀 있으면, 이 전구가 샤오미 거든 삼성 거든 아무 상관이 없습니다. 내가 아이폰(애플 홈)을 쓰든 갤럭시에 빅스비(스마트싱스)를 쓰든, 바코드만 찍으면 1초 만에 100% 한 방에 연동되어 통제됩니다.
+- **개념**: 애플, 구글, 아마존, 삼성전자(CSA 연합체)가 손잡고 발표한 <strong>스마트홈 기기 간의 궁극적 '상호 운용성(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/">Interoperability</a>)'을 보장하는 글로벌 로열티 프리(무료) 통합 통신 표준</strong>입니다.
+- **혁명적 효과**: 이제 전구 껍데기에 <strong>'<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> 로고'</strong> 하나만 딱 찍혀 있으면, 이 전구가 샤오미 거든 삼성 거든 아무 상관이 없습니다. 내가 아이폰(애플 홈)을 쓰든 갤럭시에 빅스비(스마트싱스)를 쓰든, 바코드만 찍으면 1초 만에 100% 한 방에 연동되어 통제됩니다.
 
-```text
-[CoAP 프로토콜 및 REST 인터페이스]
-    │
-    ▼
-[매터와 스레드]
-    │
-    └──▶ [SD-WAN 중앙 정책 관리형 브랜치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매터와 스레드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,12 +70,12 @@ tags = ["studynote-network"]
 - TV, 에어컨, 스마트 스피커처럼 덩치가 크고 전기가 빵빵하게 들어오며 동영상이나 고용량 데이터를 쏟아내는 기기들을 하나로 묶는 고속도로 뼈대입니다.
 
 ### 2. [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ([블루투스 저전력](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/114_ble_bluetooth_low_energy_beacon/)) - "[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 세팅 뚜쟁이용"
-- 1032번의 BLE는 통신용으로 쓰지 않습니다. 처음 전구를 사서 콘센트에 꽂았을 때, 내 폰과 전구가 0.1초 만에 인식해서 비밀번호 세팅을 끝내게 해주는 **최초 연동(Commissioning) 과정의 브로커 역할**로만 깔끔하게 쓰고 빠집니다.
+- 1032번의 BLE는 통신용으로 쓰지 않습니다. 처음 전구를 사서 콘센트에 꽂았을 때, 내 폰과 전구가 0.1초 만에 인식해서 비밀번호 세팅을 끝내게 해주는 <strong>최초 연동(Commissioning) 과정의 브로커 역할</strong>로만 깔끔하게 쓰고 빠집니다.
 
 ### 3. [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) - "도어락과 전구의 저전력 메쉬망" 🌟 ([지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)의 무덤) 🌟
 - [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))를 밟아 죽이고 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)의 심장으로 떠오른 표준입니다.
 - [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)처럼 배터리 1개로 1년 버티며 기기들끼리 거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))처럼 연결됩니다.
-- **결정적 차이점 ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원)**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)는 지들만의 독자 언어를 써서, 인터넷(공유기)으로 나가려면 중간에 복잡한 번역기(브릿지)가 필수였습니다. **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 태생부터 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)(인터넷 IP 주소 체계)를 심장으로 품고 태어났습니다.**
+- <strong>결정적 차이점 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 지원)</strong>: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)는 지들만의 독자 언어를 써서, 인터넷(공유기)으로 나가려면 중간에 복잡한 번역기(브릿지)가 필수였습니다. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)는 태생부터 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>(인터넷 IP 주소 체계)를 심장으로 품고 태어났습니다.</strong>
 - 덕분에 전구 하나하나가 번역기 없이 와이파이 공유기 인터넷 망과 1:1로 다이렉트 브리징이 가능해져(IP Convergence), 집구석에 주렁주렁 매달려 있던 각 회사의 징그러운 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(브릿지) 기계들을 싹 다 쓰레기통에 버릴 수 있게 만들었습니다.
 
 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 인터페이스가 기반 조건을 만든다면, [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 그 위에서 핵심 메커니즘을 구현하고, [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 옛날엔 폰으로 "전구 켜!" 누르면 ➜ 미국 구글 클라우드 서버 ➜ 우리 집 전구로 신호가 가느라 반응이 1초씩 늦거나 인터넷 끊기면 불을 못 켰습니다.
-- **Matter의 독립성**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)는 클라우드 서버를 거치지 않고, 우리 집 공유기 아래 묶인 기기들끼리 **완벽한 로컬망(집 안 다이렉트 통신)**으로 직결됩니다. 미국 서버가 폭파돼도 나는 침대에서 폰으로 불을 100% 끄고 켤 수 있는 응답성(저지연)과 철벽 보안을 완성했습니다.
+- **Matter의 독립성**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)는 클라우드 서버를 거치지 않고, 우리 집 공유기 아래 묶인 기기들끼리 <strong>완벽한 로컬망(집 안 다이렉트 통신)</strong>으로 직결됩니다. 미국 서버가 폭파돼도 나는 침대에서 폰으로 불을 100% 끄고 켤 수 있는 응답성(저지연)과 철벽 보안을 완성했습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 스마트홈 시장은 **'언어가 달라서 소통이 불가능한 유엔(UN) 총회장'**이었습니다. 삼성 전구는 한국어(스마트싱스)만 쓰고, 샤오미 체중계는 중국어(미홈), 애플 스피커는 영어(홈킷)만 썼습니다. 서로 불을 꺼달라고 대화를 하려면 제조사별로 비싼 동시통역사(각종 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/브릿지)를 고용해 거실에 모아둬야 하는 미친 짓을 벌여왔습니다. **[매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)([Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/))**는 이 총회장에 전 세계 IT 대장들이 모여 **'만국 공통어(글로벌 IP 표준)'**라는 단 하나의 문법 책을 찍어 강제로 뇌에 박아버린 기적입니다. 이제 어떤 피부색의 사물(기기)이든 '[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)'라는 이름표만 달고 있으면, 동시통역사([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 싹 다 해고하고 통역 없이 자기들끼리(로컬 제어) 완벽하게 대화하며 춤출 수 있게 된, 인류 스마트홈 바벨탑의 최종 붕괴 아키텍처입니다.
+- **📢 섹션 요약 비유**: 스마트홈 시장은 <strong>'언어가 달라서 소통이 불가능한 유엔(UN) 총회장'</strong>이었습니다. 삼성 전구는 한국어(스마트싱스)만 쓰고, 샤오미 체중계는 중국어(미홈), 애플 스피커는 영어(홈킷)만 썼습니다. 서로 불을 꺼달라고 대화를 하려면 제조사별로 비싼 동시통역사(각종 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/브릿지)를 고용해 거실에 모아둬야 하는 미친 짓을 벌여왔습니다. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">매터</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a>)</strong>는 이 총회장에 전 세계 IT 대장들이 모여 <strong>'만국 공통어(글로벌 IP 표준)'</strong>라는 단 하나의 문법 책을 찍어 강제로 뇌에 박아버린 기적입니다. 이제 어떤 피부색의 사물(기기)이든 '[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)'라는 이름표만 달고 있으면, 동시통역사([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 싹 다 해고하고 통역 없이 자기들끼리(로컬 제어) 완벽하게 대화하며 춤출 수 있게 된, 인류 스마트홈 바벨탑의 최종 붕괴 아키텍처입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CoAP 프로토콜 및 REST 인터페이스]
-    │
-    ▼
-[현재 개념: 매터와 스레드]
-    │
-    ├──▶ [확장 A: SD-WAN 중앙 정책 관리형 브랜치]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CoAP 프로토콜 및 REST 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 매터와 스레드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 인터페이스에서 출발해 현재 메커니즘을 정교화하고, 이후 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

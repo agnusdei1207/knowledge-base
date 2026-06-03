@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 방화벽은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 보는 멍청이였고, [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)(침입 탐지)는 해커의 악성 코드를 기가 막히게 찾아냈지만 **경고(Alert)만 울릴 뿐, 악성 패킷이 서버로 쏟아져 들어가는 것을 '물리적'으로 막아내지 못하는 사후 약방문 장비**였습니다.
+- 기존 방화벽은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 보는 멍청이였고, [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)(침입 탐지)는 해커의 악성 코드를 기가 막히게 찾아냈지만 <strong>경고(Alert)만 울릴 뿐, 악성 패킷이 서버로 쏟아져 들어가는 것을 '물리적'으로 막아내지 못하는 사후 약방문 장비</strong>였습니다.
 - "탐지하는 순간, 관리자를 기다릴 필요 없이 기계가 알아서 스스로(능동적으로) 악성 패킷의 숨통을 끊어버리고 연결을 폐기(Drop)해 버릴 수는 없을까?" 이 완벽한 방패의 꿈이 IPS를 탄생시켰습니다.
 
-```text
-[스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
-[IPS 차단 아키텍처]
-    │
-    └──▶ [WAF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,14 +46,18 @@ NIDS가 탐지만 하고 막지 못했던 이유는 네트워크 밖에서 남�
 - **인라인 (In-line) 배치**: 인터넷 선이 들어와서 서버로 가는 **메인 골목 한가운데(In-line)를 싹둑 자르고 IPS 장비를 그 사이에 직렬로 꽂아버립니다.**
 - 즉, 외부에서 들어오는 모든 택배(패킷)는 무조건 IPS 장비의 배때기 속을 관통해서 지나가야만 합니다. IPS가 엑스레이를 찍어보고 악성코드가 있으면 문을 꽝 닫고 패킷을 그 자리에서 쓰레기통에 버려(Drop) 서버로 1바이트도 넘어가지 못하게 원천 차단합니다.
 
-```text
-[스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
-[IPS 차단 아키텍처]
-    │
-    └──▶ [WAF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,13 +68,13 @@ NIDS가 탐지만 하고 막지 못했던 이유는 네트워크 밖에서 남�
 방화벽보다 똑똑하고 NIDS보다 강력한 완전체 같지만, 현실에 적용하면 어마어마한 부작용이 터집니다.
 
 ### 1. [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 병목 현상
-- 모든 트래픽이 IPS 배때기를 통과해야 하므로, 만약 해커가 100기가짜리 디도스(DDoS) 쓰레기 트래픽을 쏟아부어 IPS 장비 CPU가 타버리거나 기계가 고장 나면? 그 즉시 회사 인터넷 전체가 단절되어 서버가 오프라인이 되는 **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure)**의 주인공이 됩니다.
+- 모든 트래픽이 IPS 배때기를 통과해야 하므로, 만약 해커가 100기가짜리 디도스(DDoS) 쓰레기 트래픽을 쏟아부어 IPS 장비 CPU가 타버리거나 기계가 고장 나면? 그 즉시 회사 인터넷 전체가 단절되어 서버가 오프라인이 되는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>(Single Point of Failure)</strong>의 주인공이 됩니다.
 - **해결책**: 장비가 죽더라도 전기 신호는 무조건 바이패스(Bypass)로 통과시켜 서버가 뻗는 것은 막는 'Fail-Open' 설계가 필수입니다.
 
 ### 2. 폴스 포지티브 (False Positive, 오탐)의 대재앙 🌟🌟
 - IPS의 가장 무서운 적입니다. 정상적인 고객의 패킷인데, IPS 엔진이 오해해서 "해킹이다!"라고 차단해 버리는(오탐) 경우입니다.
-- 탐지 장비([NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/))는 오탐이 나도 "삐용삐용" 알람만 울려서 좀 귀찮고 말지만, **차단 장비(IPS)에서 오탐이 나면 수강신청을 하던 정상 학생들의 수만 개 패킷을 모조리 해커로 오인하여 싹 다 차단해 버리는, 자사 서버를 스스로 디도스(DDoS)하는 대참사**가 일어납니다.
-- **해결책**: IPS를 사자마자 차단(Block) 모드로 켜면 절대 안 됩니다. 처음 한두 달은 NIDS처럼 **탐지(Alert) 모드**로만 돌리면서, "아, 우리 회사는 이런 이상한 트래픽도 정상 고객이구나" 하고 예외 규칙(Tuning)을 수만 번 깎아서 오탐률을 0%에 수렴하게 만든 뒤에야 조심스럽게 차단 모드를 켭니다.
+- 탐지 장비([NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/))는 오탐이 나도 "삐용삐용" 알람만 울려서 좀 귀찮고 말지만, <strong>차단 장비(IPS)에서 오탐이 나면 수강신청을 하던 정상 학생들의 수만 개 패킷을 모조리 해커로 오인하여 싹 다 차단해 버리는, 자사 서버를 스스로 디도스(DDoS)하는 대참사</strong>가 일어납니다.
+- **해결책**: IPS를 사자마자 차단(Block) 모드로 켜면 절대 안 됩니다. 처음 한두 달은 NIDS처럼 <strong>탐지(Alert) 모드</strong>로만 돌리면서, "아, 우리 회사는 이런 이상한 트래픽도 정상 고객이구나" 하고 예외 규칙(Tuning)을 수만 번 깎아서 오탐률을 0%에 수렴하게 만든 뒤에야 조심스럽게 차단 모드를 켭니다.
 
 IPS 차단 아키텍처를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…가 기반 조건을 만든다면, IPS 차단 아키텍처는 그 위에서 핵심 메커니즘을 구현하고, WAF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ IPS 차단 아키텍처는 [네트워크 보안](/knowledge-base/studynote/03_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스노트, Suricata 와 오용 탐지 vs…]
-    │
-    ▼
-[현재 개념: IPS 차단 아키텍처]
-    │
-    ├──▶ [확장 A: WAF]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 IPS 차단 아키텍처는 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…에서 출발해 현재 메커니즘을 정교화하고, 이후 WAF와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

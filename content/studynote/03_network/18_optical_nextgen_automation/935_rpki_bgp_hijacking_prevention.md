@@ -19,24 +19,28 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-인터넷은 거대한 국가/기업 단위의 네트워크([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), Autonomous System)들의 뭉치다. 이들은 **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)**라는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 "유튜브 IP(예: 8.8.0.0/16)는 나(구글 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))한테 보내!"라고 온 동네에 소문을 내며 트래픽을 모은다.
+인터넷은 거대한 국가/기업 단위의 네트워크([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), Autonomous System)들의 뭉치다. 이들은 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a></strong>라는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 "유튜브 IP(예: 8.8.0.0/16)는 나(구글 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))한테 보내!"라고 온 동네에 소문을 내며 트래픽을 모은다.
 
-* **BGP의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**: BGP에는 "그 IP가 진짜 네 거 맞아?"라고 신분증을 검사하는 기능이 아예 없다!
-* **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 하이재킹 (대참사)**: 
+* <strong>BGP의 치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: BGP에는 "그 IP가 진짜 네 거 맞아?"라고 신분증을 검사하는 기능이 아예 없다!
+* <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 하이재킹 (대참사)</strong>: 
   - 2008년, 파키스탄 정부가 유튜브를 막으려고 자기네 라우터에 "유튜브 IP는 내 거야!"라고 뻥을 쳤다.
   - 이 거짓말이 실수로 전 세계 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 망으로 퍼져나갔고, 전 세계 통신사 라우터들이 속아 넘어가 유튜브 트래픽을 파키스탄으로 쏟아부었다. 결국 파키스탄 통신망이 터져버리고, 전 세계 유튜브가 몇 시간 동안 마비되었다.
   - 최근에는 해커들이 이 짓을 몰래 해서, 암호화폐 거래소의 트래픽을 가로채 해킹하는 짓을 벌이고 있다.
 
-이런 "거짓말쟁이 라우터"를 막기 위해, 통신 공학자들은 인터넷 주소 체계에 은행용 공인인증서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))의 강력한 암호학을 씌우는 **[RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))**라는 무기를 만들어 냈다.
+이런 "거짓말쟁이 라우터"를 막기 위해, 통신 공학자들은 인터넷 주소 체계에 은행용 공인인증서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/))의 강력한 암호학을 씌우는 <strong><a href="/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/">RPKI</a> (Resource <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)</strong>라는 무기를 만들어 냈다.
 
-```text
-[라우팅 프로토콜 인증 방어망 MD5/SHA…]
-    │
-    ▼
-[RPKI (Resource Public Ke…]
-    │
-    └──▶ [DNS 싱크홀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 프로토콜 인증 방어망 MD5/SHA…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RPKI (Resource Public Ke…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 싱크홀</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 부동산 거래를 할 때, 웬 사기꾼이 "이 63빌딩 내 거니까 계약합시다!"라고 말로만([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 우기면 사기를 당합니다. RPKI는 국가가 발행한 도장이 찍힌 '진짜 등기부등본([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)'을 떼와서 대조해 본 뒤에야 계약을 진행하게 만드는 완벽한 사기 방지 시스템입니다.
 
@@ -49,33 +53,31 @@ RPKI는 두 가지 큰 뼈대([인증](/knowledge-base/studynote/04_software_eng
 #### 1. ROA (Route Origin [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 서명 발급
 - 세계 IP 관리 기구(IANA, 한국의 KISA 등)가 최상위 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관(Trust Anchor)이 된다.
 - 구글 같은 회사는 KISA에 가서 "유튜브 IP 대역(Prefix)은 우리 구글 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호(AS15169)에서만 방송할 수 있다"고 등록한다.
-- KISA는 이 내용에 강력한 암호화 도장을 쾅 찍어서 **ROA(경로 발신지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)**라는 증명서를 발급하여 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 저장소에 올려둔다.
+- KISA는 이 내용에 강력한 암호화 도장을 쾅 찍어서 <strong>ROA(경로 발신지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong>라는 증명서를 발급하여 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 저장소에 올려둔다.
 
 #### 2. 라우터의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 (ROV - Route Origin [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
 - 전 세계 통신사(SKT, KT 등)의 라우터 옆에는 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) 캐시 서버([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기)가 돌아가고 있다. 이 서버는 전 세계의 ROA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 다운받아 둔다.
 - **[정상 상황]** 구글 라우터가 "유튜브 IP(8.8.0.0)는 내(AS15169) 거야!"라고 외치면, 통신사 라우터는 옆의 캐시 서버에 물어본다. "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(ROA) 내용이랑 맞네? 오케이 통과(Valid)!"
 - **[해커 공격]** 해커 라우터가 "유튜브 IP는 내(해커 AS999) 거야!"라고 뻥을 친다. 통신사 라우터가 캐시 서버에 물어본다. "어? [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서엔 AS15169 꺼라고 적혀있는데, 쟤는 왜 999라고 우겨? 짭이다! **폐기(Invalid, Drop)!**"
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           RPKI를 통한 BGP 라우팅 스푸핑 방어 시각화                │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ KISA / IANA 인증서 보관소 ] : 📜 진짜 등기부등본 (ROA) 저장      │
-│   내용: "IP 8.8.8.0/24의 진짜 주인은 구글(AS15169) 임을 보증함"    │
-│                                                                    │
-│            (다운로드 및 동기화)                                    │
-│                   ▼                                                │
-│ 🛡️ [ 통신사 라우터 (RPKI 검증 엔진 탑재) ]                         │
-│                                                                    │
-│   🔊 (구글의 외침): "IP 8.8.8.0은 제껍니다!" (AS15169)             │
-│       ▶ 라우터: "등기부등본이랑 일치하군. 통과! (Valid)" ⭕        │
-│                                                                    │
-│   💣 (해커의 뻥): "IP 8.8.8.0은 내꺼야 당장 줘!" (AS999)           │
-│       ▶ 라우터: "거짓말! 인증서에 적힌 주인이랑 다르잖아! 컷!" ❌  │
-│                 (패킷 전부 폐기, 하이재킹 차단 성공)               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPKI를 통한 BGP 라우팅 스푸핑 방어 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KISA / IANA 인증서 보관소</div><div class="kb-diagram-note">: 📜 진짜 등기부등본 (ROA) 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내용: "IP 8.8.8.0/24의 진짜 주인은 구글(AS15169) 임을 보증함"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다운로드 및 동기화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">통신사 라우터 (RPKI 검증 엔진 탑재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔊 (구글의 외침): "IP 8.8.8.0은 제껍니다!" (AS15169)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 라우터: "등기부등본이랑 일치하군. 통과! (Valid)" ⭕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💣 (해커의 뻥): "IP 8.8.8.0은 내꺼야 당장 줘!" (AS999)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 라우터: "거짓말! 인증서에 적힌 주인이랑 다르잖아! 컷!" ❌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(패킷 전부 폐기, 하이재킹 차단 성공)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -138,15 +140,19 @@ RPKI는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 라우팅 프로토콜 인증 방어망 MD5/SHA…]
-    │
-    ▼
-[현재 개념: RPKI (Resource Public Ke…]
-    │
-    ├──▶ [확장 A: DNS 싱크홀]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 라우팅 프로토콜 인증 방어망 MD5/SHA…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RPKI (Resource Public Ke…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 싱크홀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도 (Degree of [Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/), DOM)는 운영체제가 **"현재 메인 메모리(RAM)에 동시에 적재하여 스케줄링 풀(Pool)로 관리하고 있는 활성 프로세스의 총개수"**를 의미하는 거시적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.
-> 2. **가치**: 이 수치가 1이면 낡은 MS-DOS 시절처럼 한 번에 한 가지 일밖에 못 하는 상태고, 수치가 높아질수록 CPU 유휴 시간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time)을 다른 프로세스가 메꿔주어 **시스템의 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 정비례하여 솟구치는 마법**을 부린다.
-> 3. **융합**: 하지만 이 수치를 물리적 RAM의 한계 이상으로 무리하게 끌어올리면, 프로세스들이 각자의 최소 필요 메모리([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))조차 확보하지 못해 디스크만 긁어대는 **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))** 현상을 유발하므로, [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))의 섬세한 통제가 필수적이다.
+> 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도 (Degree of [Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/), DOM)는 운영체제가 <strong>"현재 메인 메모리(RAM)에 동시에 적재하여 스케줄링 풀(Pool)로 관리하고 있는 활성 프로세스의 총개수"</strong>를 의미하는 거시적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.
+> 2. **가치**: 이 수치가 1이면 낡은 MS-DOS 시절처럼 한 번에 한 가지 일밖에 못 하는 상태고, 수치가 높아질수록 CPU 유휴 시간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time)을 다른 프로세스가 메꿔주어 <strong>시스템의 전체 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)이 정비례하여 솟구치는 마법</strong>을 부린다.
+> 3. **융합**: 하지만 이 수치를 물리적 RAM의 한계 이상으로 무리하게 끌어올리면, 프로세스들이 각자의 최소 필요 메모리([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))조차 확보하지 못해 디스크만 긁어대는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> 현상을 유발하므로, [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))의 섬세한 통제가 필수적이다.
 
 ---
 
@@ -24,18 +24,22 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1960년대 비싼 메인프레임 컴퓨터의 본전을 뽑기 위해 "어떻게 하면 CPU를 놀리지 않을까?"를 연구하던 학자들은, 메모리를 조각내어 여러 프로그램을 동시에 올려두는 방식([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))을 고안했다. 이때 "과연 몇 개를 올리는 것이 최적인가?"를 증명하기 위한 척도로 이 단어가 탄생했다.
 
-```text
-  [다중 프로그래밍 정도(DOM)에 따른 CPU의 시간 활용 변화]
 
-  [ 1. 단일 프로그래밍 (DOM = 1) ]
-  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██] 
-  CPU: 일함       ( 🚨 CPU 놀고 있음 ) 일함      ─▶ CPU 이용률 50%
 
-  [ 2. 다중 프로그래밍 (DOM = 2) ]
-  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██]
-  P2: (대기 중)     [██ 연산 ██] (P1이 쉴 때 P2가 틈새를 치고 들어옴!)
-  CPU: 일함        일함            일함      ─▶ CPU 이용률 100% 🚀
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도(DOM)에 따른 CPU의 시간 활용 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 단일 프로그래밍 (DOM = 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1:</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-node">░░ I/O 대기 ░░</div><div class="kb-diagram-node">██ 연산 ██</div></div>
+<div class="kb-diagram-note">CPU: 일함 ( 🚨 CPU 놀고 있음 ) 일함 ─▶ CPU 이용률 50%</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 다중 프로그래밍 (DOM = 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1:</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-node">░░ I/O 대기 ░░</div><div class="kb-diagram-node">██ 연산 ██</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P2: (대기 중)</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-note">(P1이 쉴 때 P2가 틈새를 치고 들어옴!)</div></div>
+<div class="kb-diagram-note">CPU: 일함 일함 일함 ─▶ CPU 이용률 100% 🚀</div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 운영체제가 존재하는 가장 본질적인 이유다. I/O 대기 시간이라는 어쩔 수 없는 '공백'을, 다른 프로세스를 밀어 넣음으로써([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 메꿔버리는 것이다. DOM이 2가 되는 순간 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 마법처럼 2배로 뛴다.
 
 - **📢 섹션 요약 비유**: 세탁기 1대(CPU)를 쓸 때, 빨랫감이 다 모일 때까지 기다렸다 돌리면 세탁기는 계속 놉니다. 하지만 동네 사람 10명(DOM=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))이 각자 빨랫감을 들고 줄 서 있으면, 앞사람 빨래가 끝나자마자 바로 다음 사람 빨래를 돌릴 수 있어서 세탁기가 24시간 풀가동하며 돈을 쓸어 담게 됩니다.
@@ -62,10 +66,10 @@ CPU 이용률을 예측하는 유명한 [확률](/knowledge-base/studynote/08_al
 
 ### [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 통제권 (Who Controls DOM?)
 
-DOM 수치를 마음대로 늘렸다 줄였다 하는 통제권을 가진 녀석이 바로 **[장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/) ([Long-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/), Job Scheduler)**다.
+DOM 수치를 마음대로 늘렸다 줄였다 하는 통제권을 가진 녀석이 바로 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">장기 스케줄러</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">Long-term Scheduler</a>, Job Scheduler)</strong>다.
 - 새로운 프로그램(Job)을 디스크에서 메모리로 올릴지 말지를 결정한다.
 - [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)가 "통과!"를 많이 외치면 DOM이 상승하고, "잠깐 대기!"를 외치면 DOM이 유지된다.
-- **CPU 바운드 프로세스**만 10개 올리면 1개만 돌고 9개가 줄을 서서 낭비된다. **I/O 바운드 프로세스**만 10개 올리면 10개가 전부 마우스만 기다려서 CPU가 논다. [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)는 이 두 가지 성향의 프로세스 비율을 적절히 섞어서(Mix) DOM을 관리하는 지휘자다.
+- <strong>CPU 바운드 프로세스</strong>만 10개 올리면 1개만 돌고 9개가 줄을 서서 낭비된다. <strong>I/O 바운드 프로세스</strong>만 10개 올리면 10개가 전부 마우스만 기다려서 CPU가 논다. [장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)는 이 두 가지 성향의 프로세스 비율을 적절히 섞어서(Mix) DOM을 관리하는 지휘자다.
 
 - **📢 섹션 요약 비유**: 나이트클럽 매니저([장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/))가 물관리(DOM 조절)를 하는 것과 같습니다. 클럽(메모리) 안에 춤추는 사람(CPU Bound)과 술만 마시는 사람(I/O Bound)의 비율을 절묘하게 섞어서 입장시켜야 클럽 분위기가 가장 핫(이용률 100%)해집니다.
 
@@ -79,15 +83,15 @@ DOM 수치를 마음대로 늘렸다 줄였다 하는 통제권을 가진 녀석
 
 | 용어 | 영문 명칭 | 본질적 철학 및 타깃 | 동작 핵심 |
 |:---|:---|:---|:---|
-| **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)** | **[Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)** | CPU가 **'쉬지 않게'** 만드는 것 (효율성) | A가 I/O로 **스스로 멈출 때만** B로 넘어감 ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)/선점 무관) |
-| **[시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)** | **Time-sharing** | 사람들에게 **'동시에 하는 것처럼 속이는'** 것 (응답성) | A가 일하고 있어도 **시간([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))이 다 되면 강제로 뺏어서** B에게 줌 (선점 필수) |
-| **다중 처리** | **Multiprocessing** | 물리적인 CPU 코어(손)의 **'개수'**를 늘리는 것 | 여러 프로세스가 말 그대로 **물리적으로 동시에(Parallel)** 실행됨 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a></strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a></strong> | CPU가 **'쉬지 않게'** 만드는 것 (효율성) | A가 I/O로 **스스로 멈출 때만** B로 넘어감 ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)/선점 무관) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/">시분할 시스템</a></strong> | **Time-sharing** | 사람들에게 **'동시에 하는 것처럼 속이는'** 것 (응답성) | A가 일하고 있어도 <strong>시간(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a>)이 다 되면 강제로 뺏어서</strong> B에게 줌 (선점 필수) |
+| **다중 처리** | **Multiprocessing** | 물리적인 CPU 코어(손)의 <strong>'개수'</strong>를 늘리는 것 | 여러 프로세스가 말 그대로 **물리적으로 동시에(Parallel)** 실행됨 |
 
-현대의 윈도우/리눅스 PC는 이 3가지가 모두 섞인 혼종이다. "물리적 코어가 8개인 **다중 처리** 환경 위에서, 메모리에 100개의 프로세스를 올려놓는 **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)(DOM=100)**을 달성하고, 각 코어는 이들을 10ms 단위로 썰어 돌리는 **시분할** 시스템"으로 동작한다.
+현대의 윈도우/리눅스 PC는 이 3가지가 모두 섞인 혼종이다. "물리적 코어가 8개인 **다중 처리** 환경 위에서, 메모리에 100개의 프로세스를 올려놓는 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(DOM=100)</strong>을 달성하고, 각 코어는 이들을 10ms 단위로 썰어 돌리는 **시분할** 시스템"으로 동작한다.
 
 ### DOM 상승의 함정: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))
-이론상 DOM을 무한대로 올리면 CPU 이용률이 100%에 수렴해야 한다. 그러나 현실엔 **RAM 크기라는 물리적 한계**가 있다.
-DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조각(Frame)이 너무 작아져서 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄 읽고 디스크 스왑 ─▶ 다음 줄 읽고 또 스왑"을 반복하는 **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))** 현상이 터진다. DOM이 100일 때 최고였던 시스템이, DOM이 101이 되는 순간 CPU 이용률이 0%로 수직 낙하하며 서버가 뻗어버리는 것이다.
+이론상 DOM을 무한대로 올리면 CPU 이용률이 100%에 수렴해야 한다. 그러나 현실엔 <strong>RAM 크기라는 물리적 한계</strong>가 있다.
+DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조각(Frame)이 너무 작아져서 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄 읽고 디스크 스왑 ─▶ 다음 줄 읽고 또 스왑"을 반복하는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> 현상이 터진다. DOM이 100일 때 최고였던 시스템이, DOM이 101이 되는 순간 CPU 이용률이 0%로 수직 낙하하며 서버가 뻗어버리는 것이다.
 
 - **📢 섹션 요약 비유**: 고속도로 통행량(DOM)은 적당히 많을 때 물동량(효율)이 최고를 찍습니다. 하지만 차가 너무 많아져 도로 수용량(RAM)을 초과하는 순간 꽉 막힌 주차장([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 되어 물동량은 0이 됩니다. 경찰(OS)은 통행량을 늘리되 막히기 직전에 톨게이트를 닫아 통행량(DOM)을 강제 제한해야 합니다.
 
@@ -96,37 +100,36 @@ DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)의 죽음과 [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)(Swapper)의 등장**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/">장기 스케줄러</a>의 죽음과 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a>(Swapper)의 등장</strong>:
    현대 데스크톱 OS나 스마트폰(iOS, Android)에는 과거 메인프레임 시절의 깐깐한 "[장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)(입장 거부 관리자)"가 아예 존재하지 않는다. 
    - **사용자의 오만**: 유저가 앱 아이콘을 클릭하면 OS는 묻지도 따지지도 않고 무조건 메모리에 올린다(DOM 무한 상승).
-   - **실무 아키텍처 ([중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)의 투입)**: DOM이 걷잡을 수 없이 높아져 램이 터지기 직전이 되면, **[중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) ([Medium-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/))**가 깨어난다. 이 녀석은 현재 메모리에서 놀고 있는(Sleep) 프로세스들을 골라 통째로 압축해서 디스크(Swap 영역)로 쫓아내 버린다(Swap-out). 이를 통해 강제로 메모리 공간을 확보하여 살아남은 프로세스들의 DOM 한계치를 방어해 낸다.
-2. **웹 서버 (Tomcat, Apache)의 Max Connections 및 [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 튜닝**: 실무 백엔드에서 DOM을 통제하는 것은 OS가 아니라 개발자가 짠 '[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)'이다.
+   - <strong>실무 아키텍처 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a>의 투입)</strong>: DOM이 걷잡을 수 없이 높아져 램이 터지기 직전이 되면, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">Medium-term Scheduler</a>)</strong>가 깨어난다. 이 녀석은 현재 메모리에서 놀고 있는(Sleep) 프로세스들을 골라 통째로 압축해서 디스크(Swap 영역)로 쫓아내 버린다(Swap-out). 이를 통해 강제로 메모리 공간을 확보하여 살아남은 프로세스들의 DOM 한계치를 방어해 낸다.
+2. <strong>웹 서버 (Tomcat, Apache)의 Max Connections 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a> 튜닝</strong>: 실무 백엔드에서 DOM을 통제하는 것은 OS가 아니라 개발자가 짠 '[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)'이다.
    - **서버 폭파 사례**: 트래픽이 몰릴 때마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) per request)하게 짜면 DOM이 수만 개로 치솟아 서버가 OOM으로 죽는다.
-   - **아키텍트 조치**: `application.yml`에서 `server.tomcat.threads.max=200`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 이는 **"내 웹 서버 애플리케이션의 유효 DOM을 절대 200 이상으로 올리지 않겠다"**는 선언이다. 201번째 고객은 OS 큐에서 얌전히 대기하게 하여, 앞선 200명이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 빛의 속도로 응답을 받아 나갈 수 있게 지켜주는 현대판 DOM 컨트롤 아키텍처다.
+   - **아키텍트 조치**: `application.yml`에서 `server.tomcat.threads.max=200`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 이는 <strong>"내 웹 서버 애플리케이션의 유효 DOM을 절대 200 이상으로 올리지 않겠다"</strong>는 선언이다. 201번째 고객은 OS 큐에서 얌전히 대기하게 하여, 앞선 200명이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 빛의 속도로 응답을 받아 나갈 수 있게 지켜주는 현대판 DOM 컨트롤 아키텍처다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리    │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연]  │
-  │                │                                                 │
-  │                ▼ 1. 서버 메모리(RAM) 용량 확인                   │
-  │      [ 메모리가 남아돈다 (가용량 충분) ]                         │
-  │       ├─▶ 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.      │
-  │       └─▶ 액션: `Max Threads` 설정치를 대폭 올려서(DOM 증가)     │
-  │                 메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!│
-  │                                                                  │
-  │      [ 메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다 ]        │
-  │       ├─▶ 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!            │
-  │       │                                                          │
-  │       ▼ 2. 아키텍트의 결단 (Down-sizing)                         │
-  │       ▶ 액션: 역설적이지만 `Max Threads` 수치를 절반으로 낮춤.   │
-  │       ▶ 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.│
-  │               스왑이 멈추고 캐시 히트율이 오르며 서버 부활!      │
-  └──────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** "접속자가 많으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 늘리자"는 하수의 발상이다. 메모리가 부족할 때 DOM을 올리는 것은 불난 집에 기름을 붓는 것이다. 시니어 엔지니어는 램(RAM)의 수용 한계를 정확히 계산하여, 시스템이 감당할 수 있는 **'최적의 DOM 임계점(Sweet Spot)'**을 찾아내고, 그 선을 넘는 트래픽은 가차 없이 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))로 던져버린다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 서버 메모리(RAM) 용량 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리가 남아돈다 (가용량 충분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 액션: <code>Max Threads</code> 설정치를 대폭 올려서(DOM 증가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 아키텍트의 결단 (Down-sizing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 액션: 역설적이지만 <code>Max Threads</code> 수치를 절반으로 낮춤.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑이 멈추고 캐시 히트율이 오르며 서버 부활!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** "접속자가 많으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 늘리자"는 하수의 발상이다. 메모리가 부족할 때 DOM을 올리는 것은 불난 집에 기름을 붓는 것이다. 시니어 엔지니어는 램(RAM)의 수용 한계를 정확히 계산하여, 시스템이 감당할 수 있는 <strong>'최적의 DOM 임계점(Sweet Spot)'</strong>을 찾아내고, 그 선을 넘는 트래픽은 가차 없이 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))로 던져버린다.
 
 - **📢 섹션 요약 비유**: 물이 새는 배에 짐(DOM)을 계속 실으면 가라앉습니다. 이때 승객들이 춥다고 난방을 틀어달라([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 증설)고 해도 선장은 단호히 무거운 짐을 바다로 던져버려야(DOM 감소 튜닝) 배가 목적지에 무사히 도착할 수 있습니다. 살기 위해선 때론 덜어내는 것이 정답입니다.
 
@@ -139,7 +142,7 @@ DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조
 
 ### 결론 및 미래 전망
 DOM이라는 개념은 1960년대 비싼 메인프레임을 놀리지 않기 위해 탄생한 클래식 중의 클래식이다. 시대가 흘러 메모리가 테라바이트(TB) 단위로 커지고 멀티코어가 기본이 되면서, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 이 수치를 깐깐하게 막는([장기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)) 짓은 사라졌다.
-하지만 이 철학은 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))** 환경으로 고스란히 이식되었다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터에서 한 노드에 띄울 수 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 최대 개수(`max-pods`), 혹은 AWS Lambda의 동시 실행([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 제한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 들이 바로 21세기형 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도'의 통제 수단이다. 무한 확장이 가능해 보여도 결국 물리적 자원은 유한하기 때문에, 아키텍트가 적정 DOM을 통제해야만 시스템 붕괴를 막을 수 있다는 진리는 영원히 변하지 않을 것이다.
+하지만 이 철학은 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a>)</strong> 환경으로 고스란히 이식되었다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터에서 한 노드에 띄울 수 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 최대 개수(`max-pods`), 혹은 AWS Lambda의 동시 실행([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 제한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 들이 바로 21세기형 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 정도'의 통제 수단이다. 무한 확장이 가능해 보여도 결국 물리적 자원은 유한하기 때문에, 아키텍트가 적정 DOM을 통제해야만 시스템 붕괴를 막을 수 있다는 진리는 영원히 변하지 않을 것이다.
 
 - **📢 섹션 요약 비유**: 과거에는 동네 목욕탕(OS) 주인이 탕 안의 사람 수를 직접 세며(DOM) 꽉 차면 손님을 안 받았습니다. 지금은 거대한 워터파크(클라우드)가 되어 자동 입장권(K8s)을 팔지만, 결국 락커룸(메모리) 개수라는 물리적 한계가 존재하기 때문에 매표소 컴퓨터가 락커룸 수를 1단위로 깐깐하게 통제하는(현대판 DOM 제어) 원리는 완전히 똑같습니다.
 
@@ -156,15 +159,19 @@ DOM이라는 개념은 1960년대 비싼 메인프레임을 놀리지 않기 위
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[웨이트-프리 (Wait-free) 알고리즘]
-    │
-    ▼
-[다중 프로그래밍 정도 (Degree of Multiprogramming)]
-    │
-    ├──▶ [ABA 문제]
-    └──▶ [ABA 문제 해결책]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웨이트-프리 (Wait-free) 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제 해결책</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

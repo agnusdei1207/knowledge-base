@@ -33,20 +33,19 @@ tags = ["studynote-computer-architecture"]
 
 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 하드웨어의 대표 구조는 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 칩 위를 한 방향으로 흐르고, 각 PE는 자신에게 온 값에 작은 연산만 수행한 뒤 결과와 보조 계수를 이웃 PE로 넘긴다. 핵심은 "중앙 제어기가 모든 값을 다 만지는 구조"가 아니라, "근처 이웃끼리만 전달하는 구조"라는 점이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ A stream -> [PE00] -> [PE01] -> [PE02] -> ...                            │
-│              │         │         │                                         │
-│              ▼         ▼         ▼                                         │
-│            [PE10] -> [PE11] -> [PE12] -> ...                              │
-│              │         │         │                                         │
-│              ▼         ▼         ▼                                         │
-│            [PE20] -> [PE21] -> [PE22] -> ...                              │
-│                                                                            │
-│ diagonal PE: pivot / rotation factor generation                            │
-│ off-diagonal PE: update, eliminate, accumulate                             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE00</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE01</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE02</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PE10</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE11</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE12</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PE20</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE21</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PE22</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">diagonal PE: pivot / rotation factor generation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">off-diagonal PE: update, eliminate, accumulate</div></div>
+</div>
+</div>
+
+
 
 LU 분해에서는 대각선 PE가 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 값과 역수를 만들고, 아래쪽 PE들이 소거 계수를 이용해 하부 행을 갱신한다. QR 분해에서는 기븐스 회전 (Givens Rotation)이나 하우스홀더 변환을 이용해 비대각 성분을 0으로 만든다. 하드웨어에서는 나눗셈과 제곱근이 비싸므로, QR 구현에서 코드릭 (Coordinate Rotation Digital Computer, CORDIC)을 써서 시프트와 덧셈만으로 회전 계수를 만드는 경우가 많다.
 
@@ -112,7 +111,7 @@ GPU와의 관계도 중요하다. 범용 그래픽 처리장치 ([Graphics Proce
 
 한계도 분명하다. 가변 크기 행렬, 드문 실행, 높은 동적 범위 문제에서는 전용 배열의 활용률이 떨어질 수 있다. 또한 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 처리와 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 제어, 버퍼 관리가 미흡하면 산술 유닛을 많이 깔아도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정확도가 동시에 무너질 수 있다.
 
-결론적으로 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 하드웨어는 "행렬곱을 많이 하는 칩"이 아니라, **삼각화와 의존성 있는 선형대수 과정을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 바꿔 버리는 구조적 사고**다. 이 점을 기억하면 LU, QR, 촐레스키와 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/), CORDIC, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 왜 한 문맥에서 함께 논의되는지 자연스럽게 이어진다.
+결론적으로 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 하드웨어는 "행렬곱을 많이 하는 칩"이 아니라, <strong>삼각화와 의존성 있는 선형대수 과정을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름으로 바꿔 버리는 구조적 사고</strong>다. 이 점을 기억하면 LU, QR, 촐레스키와 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/), CORDIC, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 왜 한 문맥에서 함께 논의되는지 자연스럽게 이어진다.
 
 - **📢 섹션 요약 비유**: 좋은 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 엔진은 복잡한 실타래를 그냥 힘으로 당기지 않는다. 어느 실을 먼저 풀고 어디로 넘길지 알고 있는 숙련된 정리 로봇과 같다.
 
@@ -131,24 +130,25 @@ GPU와의 관계도 중요하다. 범용 그래픽 처리장치 ([Graphics Proce
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가우스 소거 기반 선형대수
-        │
-        ▼
-LU / 촐레스키 전용 배열
-        │
-        ▼
-Givens-QR · CORDIC 기반 구조
-        │
-        ▼
-시스톨릭 어레이 · 온칩 버퍼 최적화
-        │
-        ▼
-혼합 정밀도 · 반복 보정
-        │
-        ▼
-MIMO · 레이더 · 로보틱스 실시간 가속기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가우스 소거 기반 선형대수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LU / 촐레스키 전용 배열</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Givens-QR · CORDIC 기반 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스톨릭 어레이 · 온칩 버퍼 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">혼합 정밀도 · 반복 보정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIMO · 레이더 · 로보틱스 실시간 가속기</div>
+</div>
+</div>
+
+
 
 이 흐름은 고전 수치해석 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로 구조로 번역되고, 다시 실시간 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속기로 발전하는 맥락을 보여 준다.
 

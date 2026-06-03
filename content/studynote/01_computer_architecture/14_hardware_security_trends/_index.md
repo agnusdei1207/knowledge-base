@@ -17,29 +17,26 @@ tags = ["computer_architecture"]
 
 ### 소프트웨어 보안의 한계와 하드웨어의 부상
 
-전통적인 보안은 방화벽, 백신 등 소프트웨어 계층에 의존해 왔다. 그러나 운영체제(OS)나 하이퍼바이저 자체가 해킹당하면 상위의 모든 소프트웨어 보안은 무력화된다. 이에 따라 '누구도 믿을 수 없다'는 가정하에, 하드웨어가 직접 보안 경계를 긋는 **하드웨어 기반 보안**이 현대 컴퓨팅의 필수 요소가 되었다.
+전통적인 보안은 방화벽, 백신 등 소프트웨어 계층에 의존해 왔다. 그러나 운영체제(OS)나 하이퍼바이저 자체가 해킹당하면 상위의 모든 소프트웨어 보안은 무력화된다. 이에 따라 '누구도 믿을 수 없다'는 가정하에, 하드웨어가 직접 보안 경계를 긋는 <strong>하드웨어 기반 보안</strong>이 현대 컴퓨팅의 필수 요소가 되었다.
 
-하드웨어 보안이 필요한 이유는 세 가지이다. 첫째, **신뢰의 기점 (Root of Trust)**을 마련하기 위해서이다. 부팅 단계부터 하드웨어가 서명을 확인해야 안전한 실행이 보장된다. 둘째, **물리적 격리 (Isolation)**를 위해서이다. 메모리의 특정 영역을 하드웨어가 직접 잠가버려 다른 프로세스가 절대 엿볼 수 없게 한다. 셋째, **사이드 채널 공격 (Side-channel Attack)**과 같은 마이크로아키텍처 수준의 정교한 공격을 방어하기 위함이다.
+하드웨어 보안이 필요한 이유는 세 가지이다. 첫째, <strong>신뢰의 기점 (Root of Trust)</strong>을 마련하기 위해서이다. 부팅 단계부터 하드웨어가 서명을 확인해야 안전한 실행이 보장된다. 둘째, <strong>물리적 격리 (Isolation)</strong>를 위해서이다. 메모리의 특정 영역을 하드웨어가 직접 잠가버려 다른 프로세스가 절대 엿볼 수 없게 한다. 셋째, <strong>사이드 채널 공격 (Side-channel Attack)</strong>과 같은 마이크로아키텍처 수준의 정교한 공격을 방어하기 위함이다.
 
 이 그림은 하드웨어로부터 시작되는 신뢰의 계층 구조 (Chain of Trust)를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Chain of Trust Hierarchy                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Application Layer ] ◀─────── (Runtime Security)         │
-│          ▲                                                  │
-│   [ Operating System ] ◀──────── (Secure Boot / Kernel)     │
-│          ▲                                                  │
-│   [ Firmware / UEFI ] ◀───────── (Measured Boot)            │
-│          ▲                                                  │
-│   [ Hardware / TPM ] ◀────────── (Root of Trust / RoT)      │
-│                                                             │
-│   * RoT: 변하지 않는 하드웨어(ROM/PUF)에 기반한 보안의 뿌리 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chain of Trust Hierarchy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Application Layer</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Runtime Security)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Secure Boot / Kernel)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Firmware / UEFI</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Measured Boot)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware / TPM</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Root of Trust / RoT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RoT: 변하지 않는 하드웨어(ROM/PUF)에 기반한 보안의 뿌리</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '하위 계층이 상위 계층을 검증'한다는 점이다. 하드웨어가 펌웨어를 믿고, 펌웨어가 OS를 믿는 연쇄적인 인증 과정이 있어야만 전체 시스템이 안전하다고 말할 수 있다. 실무에서는 이러한 신뢰 체계 구축을 위해 **TPM (Trusted Platform Module)** 칩이 널리 활용된다.
 
@@ -63,27 +60,23 @@ tags = ["computer_architecture"]
 - **Normal World (Rich Execution Environment)**: 일반 OS와 어플리케이션이 실행되는 곳.
 - **Secure World (TEE)**: 보안이 중요한 결제 정보, 생체 인증, 암호 키가 처리되는 곳.
 
-이 구조도는 **ARM TrustZone**의 동작 원리를 보여준다.
+이 구조도는 <strong>ARM TrustZone</strong>의 동작 원리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 ARM TrustZone: Dual World Structure         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Normal World ]                [ Secure World ]          │
-│   ┌──────────────┐                ┌──────────────────────┐  │
-│   │ App / Android│                │ Trusted OS / Apps    │  │
-│   └──────┬───────┘                └──────────┬───────────┘  │
-│          │                                   │              │
-│   =======│===================================│============  │
-│          │        [ SMC Instruction ]        │              │
-│          └──────────────▶ [ Monitor ] ◀──────┘              │
-│                                                             │
-│   * Monitor Mode: 두 세계 사이의 전환을 안전하게 관리       │
-│   * 효과: 일반 영역이 해킹당해도 보안 영역의 키는 안전함    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM TrustZone: Dual World Structure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Normal World</div><div class="kb-diagram-node">Secure World</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / Android</div><div class="kb-diagram-cell">Trusted OS / Apps</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMC Instruction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Monitor Mode: 두 세계 사이의 전환을 안전하게 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 일반 영역이 해킹당해도 보안 영역의 키는 안전함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '물리적 자원의 분리'이다. 하드웨어적으로 버스 (Bus)와 메모리 컨트롤러가 현재 어느 World의 요청인지를 구별하여 접근을 차단한다. 실무에서는 스마트폰의 지문 인식 정보가 이 Secure World 내에서만 처리되도록 설계되어 보안성을 극대화한다.
 
@@ -121,26 +114,26 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 보안 아키텍처 및 취약점 대응 전략
 
 **시나리오 1: 기밀성이 생명인 금융권 클라우드 서비스 구축**
-- **판단**: 클라우드 사업자의 관리자조차 데이터를 볼 수 없게 만드는 **기밀 컴퓨팅 (Confidential Computing)** 아키텍처를 도입한다. **Intel SGX**나 **AMD SEV (Secure Encrypted Virtualization)**를 지원하는 인스턴스를 선정하고, 어플리케이션 레벨에서 민감 연산 로직을 인클레이브 내부로 분리하는 리팩토링을 수행한다.
+- **판단**: 클라우드 사업자의 관리자조차 데이터를 볼 수 없게 만드는 **기밀 컴퓨팅 (Confidential Computing)** 아키텍처를 도입한다. <strong>Intel SGX</strong>나 <strong>AMD SEV (Secure Encrypted Virtualization)</strong>를 지원하는 인스턴스를 선정하고, 어플리케이션 레벨에서 민감 연산 로직을 인클레이브 내부로 분리하는 리팩토링을 수행한다.
 
 **시나리오 2: 스펙터 (Spectre)와 같은 마이크로아키텍처 보안 취약점 발견**
 - **판단**: 성능 저하를 감수하더라도 운영체제 레벨의 패치 (**KPTI**: Kernel Page Table Isolation)를 즉시 적용한다. 장기적으로는 투측 실행 (Speculative Execution) 시 사이드 채널을 남기지 않는 새로운 하드웨어 명령어 (예: **IBRS**, **STIBP**)를 지원하는 차세대 CPU로의 교체 로드맵을 수립한다.
 
 이 도식은 기밀 컴퓨팅 (Confidential Computing)의 전체 보호 범위를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Confidential Computing Protection States      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. Data-at-Rest (저장 중) ──▶ [ Storage Encryption ]      │
-│   2. Data-in-Transit (전송 중) ──▶ [ TLS / SSL ]            │
-│   3. Data-in-Use (연산 중) ──▶ [ Hardware Enclaves (TEE) ]  │
-│                                                             │
-│   * 기밀 컴퓨팅의 핵심: 메모리 상에서 연산 중인 데이터 보호 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Confidential Computing Protection States</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Storage Encryption</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS / SSL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hardware Enclaves (TEE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기밀 컴퓨팅의 핵심: 메모리 상에서 연산 중인 데이터 보호</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '방첩 전략'과 같습니다. 적이 성문을 부수고 들어오는 것뿐만 아니라, 벽 너머의 소리를 엿듣거나(사이드 채널) 내부 첩자가 변심하는(OS 오염) 모든 시나리오를 하드웨어라는 단단한 자물쇠로 잠가야 합니다.
 

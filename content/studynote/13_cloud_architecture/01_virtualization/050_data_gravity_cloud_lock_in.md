@@ -21,14 +21,20 @@ tags = ["cloud lock-in", "data gravity", "egress cost", "multi-cloud", "open sou
 
 ### 1.1 정의
 
-```
-데이터 양 증가
-    ↓
-데이터 주변으로 컴퓨팅 자원 집결
-(데이터를 이동시키는 비용 > 컴퓨팅을 이동시키는 비용)
-    ↓
-서비스·애플리케이션이 데이터 있는 클라우드에 묶임
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 양 증가</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 주변으로 컴퓨팅 자원 집결</div>
+<div class="kb-diagram-note">(데이터를 이동시키는 비용 &gt; 컴퓨팅을 이동시키는 비용)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서비스·애플리케이션이 데이터 있는 클라우드에 묶임</div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity) = 물리학의 중력처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클수록 주변 자원을 강하게 끌어당김.
 
@@ -48,16 +54,22 @@ tags = ["cloud lock-in", "data gravity", "egress cost", "multi-cloud", "open sou
 
 ### 2.1 세 가지 [Lock-In](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/) 층위
 
-```
-기술적 Lock-In: 전용 API, 서비스
-  예: AWS Lambda 이벤트 소스, Azure AD 통합
-       ↓
-데이터 Lock-In: 이동 비용, 포맷
-  예: S3 Egress 요금 ($0.09/GB 아웃바운드)
-       ↓
-운영 Lock-In: 기술 스택, 인력 스킬
-  예: AWS-only 인증 엔지니어, 전용 도구 의존
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기술적 Lock-In: 전용 API, 서비스</div>
+<div class="kb-diagram-note">예: AWS Lambda 이벤트 소스, Azure AD 통합</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 Lock-In: 이동 비용, 포맷</div>
+<div class="kb-diagram-note">예: S3 Egress 요금 ($0.09/GB 아웃바운드)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">운영 Lock-In: 기술 스택, 인력 스킬</div>
+<div class="kb-diagram-note">예: AWS-only 인증 엔지니어, 전용 도구 의존</div>
+</div>
+</div>
+
+
 
 ### 2.2 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용 현실
 
@@ -77,13 +89,18 @@ PB 규모에서는 수십억 원 이상의 이전 비용 발생.
 
 ### 3.1 멀티클라우드 ([Multi-Cloud](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))
 
-```
-AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
-       ↓             ↓           ↓
-[추상화 레이어: Kubernetes, Terraform, Crossplane]
-              ↓
-       워크로드 이식성 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AWS (컴퓨팅) Azure (AI) GCP (데이터)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추상화 레이어: Kubernetes, Terraform, Crossplane</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">워크로드 이식성 확보</div>
+</div>
+</div>
+
+
 
 ### 3.2 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준 활용
 
@@ -129,13 +146,19 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ### 5.2 주권 클라우드 (Sovereign Cloud)
 
-```
-글로벌 CSP (AWS, Azure, GCP)
-    ↓ 현지화
-주권 클라우드 (EU Gaia-X, K-Cloud, CNCLOUD)
-    ↓
-데이터 국경 준수 + 글로벌 클라우드 서비스 활용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 CSP (AWS, Azure, GCP)</div>
+<div class="kb-diagram-note">↓ 현지화</div>
+<div class="kb-diagram-note">주권 클라우드 (EU Gaia-X, K-Cloud, CNCLOUD)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 국경 준수 + 글로벌 클라우드 서비스 활용</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 주권 클라우드는 나라마다 다른 운전 규칙 — 글로벌 서비스가 각 나라(규제) 규칙을 지키며 운행해야 한다.
 
@@ -143,43 +166,55 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 
 ## 📌 관련 개념 맵
 
-```
-데이터 중력 & Lock-In
-├── 데이터 중력
-│   ├── Egress 비용
-│   └── PB 규모 종속
-├── Lock-In 유형
-│   ├── 기술적 (전용 API)
-│   ├── 데이터적 (이동 비용)
-│   └── 운영적 (스킬 종속)
-├── 탈출 전략
-│   ├── 멀티클라우드
-│   ├── 오픈소스 표준 (K8s, TF)
-│   └── 데이터 패브릭
-└── 규제
-    ├── GDPR 역외 이전
-    └── 주권 클라우드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 중력 &amp; Lock-In</div>
+<div class="kb-diagram-tree-item" style="--depth:0">데이터 중력</div>
+<div class="kb-diagram-note">── Egress 비용</div>
+<div class="kb-diagram-note">── PB 규모 종속</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Lock-In 유형</div>
+<div class="kb-diagram-note">── 기술적 (전용 API)</div>
+<div class="kb-diagram-note">── 데이터적 (이동 비용)</div>
+<div class="kb-diagram-note">── 운영적 (스킬 종속)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">탈출 전략</div>
+<div class="kb-diagram-note">── 멀티클라우드</div>
+<div class="kb-diagram-note">── 오픈소스 표준 (K8s, TF)</div>
+<div class="kb-diagram-note">── 데이터 패브릭</div>
+<div class="kb-diagram-tree-item" style="--depth:0">규제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GDPR 역외 이전</div>
+<div class="kb-diagram-tree-item" style="--depth:2">주권 클라우드</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-단일 클라우드 이전 (2010s 초반)
-     │  벤더 종속 문제 인식
-     ▼
-멀티클라우드 전략 등장 (2015~)
-     │  데이터 이동 비용이 실질 장벽
-     ▼
-데이터 중력 개념 부상 (Dave McCrory, 2010~)
-     │  컨테이너/K8s로 이식성 확보
-     ▼
-클라우드 네이티브 + 오픈소스 표준 (CNCF, 2015~)
-     │  데이터 주권 규제 강화
-     ▼
-주권 클라우드 / 하이브리드 메시 (현재~)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 클라우드 이전 (2010s 초반)</div>
+<div class="kb-diagram-note">벤더 종속 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티클라우드 전략 등장 (2015~)</div>
+<div class="kb-diagram-note">데이터 이동 비용이 실질 장벽</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 중력 개념 부상 (Dave McCrory, 2010~)</div>
+<div class="kb-diagram-note">컨테이너/K8s로 이식성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 + 오픈소스 표준 (CNCF, 2015~)</div>
+<div class="kb-diagram-note">데이터 주권 규제 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주권 클라우드 / 하이브리드 메시 (현재~)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력, [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용, 멀티클라우드, [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/), 주권 클라우드, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 표준
 

@@ -18,19 +18,22 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-데이터 경제 생태계:
 
-  데이터 생산자      데이터 중개자       데이터 소비자
-  ─────────────     ─────────────────   ──────────────
-  IoT 기기          데이터 거래소        AI/ML 기업
-  SNS 사용자        클라우드 플랫폼      금융기관
-  기업 내부 시스템   데이터 클리닝 서비스  연구기관
-  정부 공공기관      익명화·비식별화      스타트업
 
-  데이터 흐름:
-  생산 → 수집 → 가공 → 판매/제공 → 분석 → 가치 창출
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 경제 생태계:</div>
+<div class="kb-diagram-note">데이터 생산자 데이터 중개자 데이터 소비자</div>
+<div class="kb-diagram-note">IoT 기기 데이터 거래소 AI/ML 기업</div>
+<div class="kb-diagram-note">SNS 사용자 클라우드 플랫폼 금융기관</div>
+<div class="kb-diagram-note">기업 내부 시스템 데이터 클리닝 서비스 연구기관</div>
+<div class="kb-diagram-note">정부 공공기관 익명화·비식별화 스타트업</div>
+<div class="kb-diagram-note">데이터 흐름:</div>
+<div class="kb-diagram-note">생산 → 수집 → 가공 → 판매/제공 → 분석 → 가치 창출</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)는 원유 경제와 비슷하다. 원유를 채굴하고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집), 정제하고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가공), 주유소에서 팔고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소), 자동차를 움직이는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치) 전체 생태계가 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)다.
 
@@ -43,27 +46,30 @@ tags = ["studynote-bigdata"]
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **직접 판매** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 유료 제공 | 신용 정보·날씨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 수익화** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 유료 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 카카오 지도 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 수익화</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 유료 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 카카오 지도 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | **간접 수익** | 무료 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) → 광고·분석 | 구글·페이스북 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)** | 독점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경쟁력 | 넷플릭스 추천 |
-| **[데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)** | 오픈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공공 가치 | 공공데이터포털 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong> | 독점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경쟁력 | 넷플릭스 추천 |
+| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/">데이터 공유</a></strong> | 오픈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공공 가치 | 공공데이터포털 |
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 평가 방법론
 
-```text
-비용 기반: 데이터 수집·저장·처리 비용
-  → 실제 가치 반영 어려움
 
-시장 기반: 유사 데이터 시장 거래 가격 참조
-  → 참조 시장 존재 시 유효
 
-수익 기반: 데이터 활용으로 기대되는 수익
-  → 데이터 기여도 분리 어려움
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비용 기반: 데이터 수집·저장·처리 비용</div>
+<div class="kb-diagram-note">→ 실제 가치 반영 어려움</div>
+<div class="kb-diagram-note">시장 기반: 유사 데이터 시장 거래 가격 참조</div>
+<div class="kb-diagram-note">→ 참조 시장 존재 시 유효</div>
+<div class="kb-diagram-note">수익 기반: 데이터 활용으로 기대되는 수익</div>
+<div class="kb-diagram-note">→ 데이터 기여도 분리 어려움</div>
+<div class="kb-diagram-note">샤플리 값(Shapley Value):</div>
+<div class="kb-diagram-note">→ 게임 이론 기반, 데이터 기여도 공정 분배</div>
+<div class="kb-diagram-note">→ AI 학습에서 각 데이터셋의 기여 정량화</div>
+</div>
+</div>
 
-샤플리 값(Shapley Value):
-  → 게임 이론 기반, 데이터 기여도 공정 분배
-  → AI 학습에서 각 데이터셋의 기여 정량화
-```
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 평가는 무형 자산 감정이다. 부동산처럼 시세가 명확하지 않은 특허·브랜드·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다양한 방법론(비용·시장·수익 기반)으로 가치를 추정한다.
 
@@ -124,7 +130,7 @@ tags = ["studynote-bigdata"]
 | 기대효과 | 내용 |
 |:---|:---|
 | **새 수익원** | 기존 수집 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 추가 수익 창출 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경쟁력** | 독점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차별화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경쟁력</strong> | 독점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차별화 |
 | **생태계 발전** | [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)로 산업 전체 혁신 |
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Space)이 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다. Gaia-X 이니셔티브는 주권 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라를 구축하고, 특정 클라우드 독점 없이 참여자 간 신뢰 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 실현하는 것을 목표로 한다. 이는 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)의 글로벌 표준 인프라로 발전할 가능성이 크다.
@@ -137,29 +143,31 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수익화** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 경제 가치화 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소** | [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 인프라 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수익화</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산의 경제 가치화 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 거래소</strong> | [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 인프라 |
 | **샤플리 값** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기여도 공정 분배 |
 | **Gaia-X** | 유럽 주권 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 |
 | **비경합재** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 경제학적 특성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 자산 인식 — 데이터를 경쟁 자원으로 인식]
-    │
-    ▼
-[데이터 수익화 — 직접 판매·API·간접 수익]
-    │
-    ▼
-[데이터 거래소 — 표준화된 데이터 시장 형성]
-    │
-    ▼
-[데이터 가치 평가 — 샤플리 값·시장 기반 가격 결정]
-    │
-    ▼
-[데이터 공간 — Gaia-X 주권 데이터 인프라]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 자산 인식 — 데이터를 경쟁 자원으로 인식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수익화 — 직접 판매·API·간접 수익</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거래소 — 표준화된 데이터 시장 형성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 가치 평가 — 샤플리 값·시장 기반 가격 결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 공간 — Gaia-X 주권 데이터 인프라</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

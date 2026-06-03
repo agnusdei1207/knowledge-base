@@ -21,34 +21,35 @@ tags = ["studynote-operating-system"]
 
 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이나 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))은 공유 자원의 동시 접근을 막는 강력한 수단이지만, 필연적으로 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구간을 만든다. 이 구간에 머무는 시간이 길수록 다른 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 하염없이 기다려야 한다.
 
-"[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내의 코드는 순차적(Sequential)으로만 실행된다"는 절대 조건을 명심해야 한다. 결국, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 제1법칙은 **[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 길이를 시간적·공간적으로 줄이는 것**이다.
+"[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내의 코드는 순차적(Sequential)으로만 실행된다"는 절대 조건을 명심해야 한다. 결국, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 제1법칙은 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>의 길이를 시간적·공간적으로 줄이는 것</strong>이다.
 
 **💡 비유**: 인기 맛집의 협소한 주문/결제 창구([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)). 손님이 창구 앞에서 메뉴를 한참 고르면 뒷사람은 무한 대기한다. 메뉴판을 밖에서 미리 보고, 창구에서는 결제만 10초 컷으로 끝내는 것이 크기 최소화의 핵심.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         임계 구역 크기화의 변화 비교                         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Anti-Pattern (거대한 임계 구역)]                           │
-│  lock.acquire();                                             │
-│  Data data = DB_Read();      // (❌) I/O 블로킹 발생!        │
-│  data.value += shared_var;   // (⭕) 유일한 공유 상태 변경   │
-│  Save_File(data);            // (❌) 느린 I/O 연산 수행!     │
-│  lock.release();                                             │
-│  → 전체 스레드가 DB와 파일 쓰기를 대기 (성능 붕괴)           │
-│                                                              │
-│  [Best Practice (최소화된 임계 구역)]                        │
-│  Data data = DB_Read();      // 락 외부 사전 준비!           │
-│  int snap_var;                                               │
-│  lock.acquire();             // ─────────────── 시작         │
-│  snap_var = shared_var;      // 공유 변수 스냅샷 복사        │
-│  shared_var++;               // 최소한의 상태 갱신           │
-│  lock.release();             // ─────────────── 끝 (수 ns)   │
-│  data.value += snap_var;     // 락 외부 지역변수 연산        │
-│  Save_File(data);            // 락 외부 사후 처리 저장       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역 크기화의 변화 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Anti-Pattern (거대한 임계 구역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.acquire();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data data = DB_Read(); // (❌) I/O 블로킹 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data.value += shared_var; // (⭕) 유일한 공유 상태 변경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Save_File(data); // (❌) 느린 I/O 연산 수행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.release();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 스레드가 DB와 파일 쓰기를 대기 (성능 붕괴)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Best Practice (최소화된 임계 구역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data data = DB_Read(); // 락 외부 사전 준비!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int snap_var;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.acquire(); // 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">snap_var = shared_var; // 공유 변수 스냅샷 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared_var++; // 최소한의 상태 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.release(); // 끝 (수 ns)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data.value += snap_var; // 락 외부 지역변수 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Save_File(data); // 락 외부 사후 처리 저장</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 최소화는 공중화장실 매너 — 화장실 안([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에서는 딱 볼일만 보고, 손 씻거나 머리 빗는 건 밖으로 나와 세면대에서 해야 많은 사람이 줄 서지 않고 이용할 수 있습니다.
 
@@ -58,13 +59,13 @@ tags = ["studynote-operating-system"]
 
 ### 대표적인 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 4선
 
-1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 초기화 분리 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization Outside [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**:
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 초기화 분리 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Initialization Outside <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>:
    - 복잡하고 무거운 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 밖에서 지역 변수에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서는 포인터만 교체.
 2. **복사 및 교체 (Copy and Swap)**:
    - 공유 자원의 복사본(Copy)을 만들어 락 밖에서 변경(Read/Modify)하고, [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서는 갱신된 복사본으로 레퍼런스를 원자적으로 교체(Swap / [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)).
-3. **락 분할 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Striping / [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))**:
+3. <strong>락 분할 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Striping / <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong>:
    - [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체에 하나의 락을 거는 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간을 n개 파티션으로 나누고 락을 n개 두어 경합을 1/n로 줄힘. 선형적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리.
-4. **결과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영 ([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) Updates)**:
+4. <strong>결과 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 반영 (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a> Updates)</strong>:
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬(Thread-Local) 저장소에 결과를 모았다가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서 한 번에 뭉칫돈(Batch)으로 합병(Merge). 
 
 **📢 섹션 요약 비유**: 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 은행 송금 요령 — 창구 직원 앞에서 송금액 세지 말고, 미리 봉투(지역 변수)에 딱 담아온 다음, 창구에 '이거 입금이요(포인터 교체)'하고 떠나는 거예요!
@@ -87,11 +88,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **로깅 파이프라인 ([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O에 락을 걸고 적으면 서버 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생. 락 안에서는 로그를 Queue에만 추가(수동)하고, 락 밖에서 비동기 I/O [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 Queue를 빼가며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 씀.
-2. **[싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)) 이중 검사 락 ([Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/))**: 최초 락 진입 오버헤드를 줄이기 위해 락 시작 전 한 차례 조건(객체=null)을 검사해 이미 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 경우 락 자체를 우회. (volatile 선언 필수!)
+1. <strong>로깅 파이프라인 (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/">Logging</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a>)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O에 락을 걸고 적으면 서버 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생. 락 안에서는 로그를 Queue에만 추가(수동)하고, 락 밖에서 비동기 I/O [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 Queue를 빼가며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 씀.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>) 이중 검사 락 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/">Double-Checked Locking</a>)</strong>: 최초 락 진입 오버헤드를 줄이기 위해 락 시작 전 한 차례 조건(객체=null)을 검사해 이미 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 경우 락 자체를 우회. (volatile 선언 필수!)
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내부에서의 외부 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))**: 다른 마이크로서비스로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 호출을 락 내부에서 하는 행위. 타 서비스가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(3초 대기)을 유발하면 내 전체 서버의 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 3초간 락을 잡고 All-Stop (동반 장애 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 내부에서의 외부 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">시스템 호출</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>)</strong>: 다른 마이크로서비스로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 호출을 락 내부에서 하는 행위. 타 서비스가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(3초 대기)을 유발하면 내 전체 서버의 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 3초간 락을 잡고 All-Stop (동반 장애 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)).
 
 **📢 섹션 요약 비유**: 락 안에서 인터넷 호출을 하는 건 공중전화 박스에서 전화를 건 채로 배달 주문이 올 때까지 30분씩 버티는 짓 — 뒤에 대기하는 모든 사람([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 굶게 됩니다.
 
@@ -122,15 +123,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    │
-    ▼
-[임계 구역 크기 최소화 기법 (Critical Section Minimization)]
-    │
-    ├──▶ [락 경합 (Lock Contention) 모니터링 도구]
-    └──▶ [데드락 회피를 위한 Lock Hierarchy (락 순서화)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 크기 최소화 기법 (Critical Section Minimization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 경합 (Lock Contention) 모니터링 도구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데드락 회피를 위한 Lock Hierarchy (락 순서화)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -19,18 +19,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-LSTM이 기본 RNN과 결정적으로 다른 점은 "무엇을 기억하고 무엇을 잊을 것인지"를 **학습 가능한 게이트(Gate)**로 제어한다는 것이다. 인간의 뇌도 모든 경험을 평등하게 기억하지 않는다. 중요한 정보는 장기 기억으로 보내고, 불필요한 정보는 잠자고 일어나면 잊어버린다.
+LSTM이 기본 RNN과 결정적으로 다른 점은 "무엇을 기억하고 무엇을 잊을 것인지"를 <strong>학습 가능한 게이트(Gate)</strong>로 제어한다는 것이다. 인간의 뇌도 모든 경험을 평등하게 기억하지 않는다. 중요한 정보는 장기 기억으로 보내고, 불필요한 정보는 잠자고 일어나면 잊어버린다.
 
-LSTM의 3가지 게이트는 이 선택적 기억·망각 메커니즘을 수학적으로 구현한 것이다. 모든 게이트는 **[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), σ) 함수**를 통해 0~1 사이 값을 출력하며, 이 값이 정보를 통과시킬지(1) 막을지(0) 결정하는 밸브 역할을 한다.
+LSTM의 3가지 게이트는 이 선택적 기억·망각 메커니즘을 수학적으로 구현한 것이다. 모든 게이트는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a>, σ) 함수</strong>를 통해 0~1 사이 값을 출력하며, 이 값이 정보를 통과시킬지(1) 막을지(0) 결정하는 밸브 역할을 한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 세 게이트는 수족관 관리 시스템이다. 삭제 게이트는 "오래된 더러운 물 빼기 밸브", 입력 게이트는 "새 깨끗한 물 넣기 밸브", 출력 게이트는 "물고기(결과)를 꺼내 보여주는 창"이다. 세 밸브를 학습이 알아서 최적으로 조절해 수족관(셀 상태) 상태를 최상으로 유지한다.
 
@@ -38,35 +41,33 @@ LSTM의 3가지 게이트는 이 선택적 기억·망각 메커니즘을 수학
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│          LSTM 3가지 게이트 상세 수식 및 정보 흐름도                   │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력: x_t (현재 입력), h_(t-1) (이전 은닉 상태)                    │
-│  연결 벡터: concat([h_(t-1), x_t])                                 │
-│                                                                  │
-│  ① 삭제 게이트 (Forget Gate):                                      │
-│     f_t = σ(W_f · [h_(t-1), x_t] + b_f)   ← 0~1 출력             │
-│     역할: C_(t-1) × f_t → f_t=0이면 과거 셀상태 완전 소거             │
-│           "지난 문장의 주어를 잊어야 새 주어를 받을 수 있다"             │
-│                                                                  │
-│  ② 입력 게이트 (Input Gate):                                       │
-│     i_t = σ(W_i · [h_(t-1), x_t] + b_i)   ← 0~1 출력             │
-│     C̃_t = tanh(W_c · [h_(t-1), x_t] + b_c) ← 후보값 (-1~1)       │
-│     역할: C_(t-1) × f_t + i_t × C̃_t → 새 정보 추가량 결정          │
-│           "이 새 단어가 맥락에서 얼마나 중요한지 판단"                  │
-│                                                                  │
-│  ③ 셀 상태 업데이트:                                                │
-│     C_t = f_t × C_(t-1) + i_t × C̃_t   ← 핵심 덧셈 경로!           │
-│     (이 덧셈이 역전파 시 기울기를 소실 없이 전달하는 고속도로)            │
-│                                                                  │
-│  ④ 출력 게이트 (Output Gate):                                      │
-│     o_t = σ(W_o · [h_(t-1), x_t] + b_o)   ← 0~1 출력             │
-│     h_t = o_t × tanh(C_t)                                       │
-│     역할: 셀 상태 중 얼마를 h_t(단기 출력)로 내보낼지 결정              │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 3가지 게이트 상세 수식 및 정보 흐름도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: x_t (현재 입력), h_(t-1) (이전 은닉 상태)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">연결 벡터: concat(</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 삭제 게이트 (Forget Gate):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">f_t = σ(W_f ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: C_(t-1) × f_t → f_t=0이면 과거 셀상태 완전 소거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지난 문장의 주어를 잊어야 새 주어를 받을 수 있다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 입력 게이트 (Input Gate):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">i_t = σ(W_i ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">C̃_t = tanh(W_c ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">후보값 (-1~1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: C_(t-1) × f_t + i_t × C̃_t → 새 정보 추가량 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 새 단어가 맥락에서 얼마나 중요한지 판단"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 셀 상태 업데이트:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C_t = f_t × C_(t-1) + i_t × C̃_t ← 핵심 덧셈 경로!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 덧셈이 역전파 시 기울기를 소실 없이 전달하는 고속도로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 출력 게이트 (Output Gate):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">o_t = σ(W_o ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = o_t × tanh(C_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: 셀 상태 중 얼마를 h_t(단기 출력)로 내보낼지 결정</div></div>
+</div>
+</div>
+
+
 
 | 게이트 | 수식 | 출력 범위 | 기능 | 예시 |
 |:---|:---|:---|:---|:---|
@@ -98,7 +99,7 @@ LSTM의 3 게이트 vs GRU의 2 게이트:
 
 **실제 학습 시 게이트 분석**: 훈련된 LSTM에서 삭제 게이트의 활성화 패턴을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 문장의 구두점(마침표, 쉼표)에서 f_t가 0에 가까워지는 것을 관찰할 수 있다. 즉 LSTM이 스스로 "새 문장이 시작될 때 이전 문장 맥락을 지우라"는 언어 규칙을 학습한 것이다.
 
-**과적합 방지**: LSTM은 파라미터가 많아([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 대비 4배) 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))에 취약하다. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 게이트 출력에 적용하는 **Recurrent [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** 기법이 표준 처방이다.
+**과적합 방지**: LSTM은 파라미터가 많아([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 대비 4배) 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))에 취약하다. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)), 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 게이트 출력에 적용하는 <strong>Recurrent <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> 기법이 표준 처방이다.
 
 - **📢 섹션 요약 비유**: [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트가 구두점에서 삭제 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내는 것은 마치 책 챕터가 끝날 때 줄 바꿈을 하는 것과 같다. 독자(모델)는 이전 챕터 내용을 잊고(삭제 게이트 작동) 새 챕터에 집중(입력 게이트 활성화)할 수 있다. 학습이 이 구조적 전환을 자동으로 터득한다.
 
@@ -132,9 +133,9 @@ LSTM의 3가지 게이트 메커니즘은 "무엇을 기억하고 무엇을 잊�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **삭제 게이트(Forget Gate)**는 오래되고 더 이상 필요 없는 기억을 "이제 잊어도 돼!"라고 지워주는 **지우개** 역할이에요.
-2. **입력 게이트(Input Gate)**는 새로 배운 내용 중에서 "이건 중요하니까 노트에 적어두자!"라고 **선택해서 기록**하는 역할이에요.
-3. **출력 게이트(Output Gate)**는 노트(셀 상태) 안에서 "지금 선생님한테 대답할 내용만 꺼내자!"라고 **필요한 것만 골라 말하는** 역할이에요!
+1. <strong>삭제 게이트(Forget Gate)</strong>는 오래되고 더 이상 필요 없는 기억을 "이제 잊어도 돼!"라고 지워주는 **지우개** 역할이에요.
+2. <strong>입력 게이트(Input Gate)</strong>는 새로 배운 내용 중에서 "이건 중요하니까 노트에 적어두자!"라고 <strong>선택해서 기록</strong>하는 역할이에요.
+3. <strong>출력 게이트(Output Gate)</strong>는 노트(셀 상태) 안에서 "지금 선생님한테 대답할 내용만 꺼내자!"라고 **필요한 것만 골라 말하는** 역할이에요!
 
 ---
 

@@ -19,21 +19,21 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안은 단순한 웹 취약점 대응이 아니라, **계약 로직·지갑 서명·체인 상태·오프체인 연계**를 하나의 신뢰 체계로 설계하는 문제다. 전통 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중앙 서버가 규칙을 바꾸고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 되돌릴 수 있지만, DApp은 한 번 배포한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 공개 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 합의 환경에서 지속적으로 실행되므로 설계 실수가 곧 금전 손실로 연결된다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안은 단순한 웹 취약점 대응이 아니라, <strong>계약 로직·지갑 서명·체인 상태·오프체인 연계</strong>를 하나의 신뢰 체계로 설계하는 문제다. 전통 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 중앙 서버가 규칙을 바꾸고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 되돌릴 수 있지만, DApp은 한 번 배포한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 공개 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 합의 환경에서 지속적으로 실행되므로 설계 실수가 곧 금전 손실로 연결된다.
 
 특히 토큰, 탈중앙 금융, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)), NFT ([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/)) 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 "코드가 곧 운영 규칙"이 되므로, 보안은 개발 완료 후 점검 항목이 아니라 아키텍처 시작점이어야 한다. 따라서 기술사 답안에서는 왜 온체인으로 올리는지, 무엇을 오프체인에 남기는지, 누가 긴급 정지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 권한을 갖는지를 먼저 정리하는 것이 중요하다.
 
-```text
-┌───────────────┐      ┌──────────────────────┐      ┌──────────────────┐
-│ User Wallet   │ ───▶ │ Smart Contract Core  │ ───▶ │ Blockchain State │
-└───────────────┘      └──────────────────────┘      └──────────────────┘
-        ▲                         ▲
-        │                         │
-┌───────────────┐      ┌──────────────────────┐
-│ Frontend / UI │ ───▶ │ Oracle / Off-chain   │
-└───────────────┘      │ Service / Indexer    │
-                       └──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Wallet</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Smart Contract Core</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Blockchain State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frontend / UI</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Oracle / Off-chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service / Indexer</div></div>
+</div>
+</div>
+
+
 
 이 그림은 DApp이 단일 프로그램이 아니라, 사용자 서명과 체인 로직, 그리고 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계가 동시에 맞물리는 구조임을 보여 준다.
 
@@ -51,24 +51,23 @@ tags = ["studynote-design-supervision"]
 | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 계층 | 토큰, 정산, 권한, 상태 전이를 실행 | 재진입 방지, 접근제어, 정수 오버플로, 긴급 정지 설계 |
 | 오프체인 연계 계층 | 프론트엔드, 오라클, 인덱서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석을 담당 | 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 관리자 권한 남용, 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로 점검 |
 
-```text
-┌───────────────────┐
-│ Business Intent   │
-└───────────────────┘
-          │
-          ▼
-┌───────────────────┐      event / log      ┌───────────────────┐
-│ Contract Logic    │ ────────────────────▶ │ Monitor / Indexer │
-└───────────────────┘                       └───────────────────┘
-          │
-          │ state change
-          ▼
-┌───────────────────┐ ◀──────────────────── ┌───────────────────┐
-│ Chain Ledger      │      oracle input     │ Off-chain Service │
-└───────────────────┘                       └───────────────────┘
-```
 
-따라서 좋은 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안은 "컨트랙트만 안전한가"가 아니라 **서명-실행-모니터링-[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**의 폐루프가 완성되었는가로 판단해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Intent</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">event / log</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Contract Logic</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Monitor / Indexer</div></div>
+<div class="kb-diagram-note">state change</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chain Ledger</div><div class="kb-diagram-cell">oracle input</div><div class="kb-diagram-cell">Off-chain Service</div></div>
+</div>
+</div>
+
+
+
+따라서 좋은 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안은 "컨트랙트만 안전한가"가 아니라 <strong>서명-실행-모니터링-<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>의 폐루프가 완성되었는가로 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 놀이공원은 놀이기구만 튼튼한 것이 아니라 표 끊는 곳, 안전요원, 비상정지 버튼까지 함께 설계되어야 사고를 막는다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-DApp은 전통 웹앱보다 "무조건 우월한 구조"가 아니라, **신뢰 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 필요한 문제에 맞춘 특수 구조**다. 그래서 중앙형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 순수 온체인 구조, 하이브리드 구조를 비교해 쓰면 답안의 설득력이 높아진다.
+DApp은 전통 웹앱보다 "무조건 우월한 구조"가 아니라, <strong>신뢰 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 필요한 문제에 맞춘 특수 구조</strong>다. 그래서 중앙형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 순수 온체인 구조, 하이브리드 구조를 비교해 쓰면 답안의 설득력이 높아진다.
 
 | 비교 축 | 전통 웹앱 | [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)/하이브리드 구조 | 기술사 판단 |
 |:---|:---|:---|:---|
@@ -112,7 +111,7 @@ DApp은 전통 웹앱보다 "무조건 우월한 구조"가 아니라, **신뢰 
 
 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안을 제대로 설계하면 거래 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성, 자동 정산, 중개 비용 절감이라는 장점을 현실 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 연결할 수 있다. 반대로 보안 경계가 모호하면 작은 취약점 하나가 전체 자산 유출로 확대되므로, 설계 단계에서부터 위협 모델링과 운영 통제를 함께 세워야 한다.
 
-결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안의 핵심은 **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 자체가 아니라, 신뢰를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 대신 어떤 통제를 새로 넣을 것인가**에 있다. 시험 답안에서도 온체인·오프체인 분리, 대표 취약점, 운영 거버넌스까지 묶어 쓰는 것이 합격형 서술이다.
+결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 보안의 핵심은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 자체가 아니라, 신뢰를 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>하는 대신 어떤 통제를 새로 넣을 것인가</strong>에 있다. 시험 답안에서도 온체인·오프체인 분리, 대표 취약점, 운영 거버넌스까지 묶어 쓰는 것이 합격형 서술이다.
 
 - **📢 섹션 요약 비유**: 투명한 유리 금고는 안이 잘 보여 믿음은 크지만, 잠금장치를 잘못 만들면 오히려 모두가 보는 앞에서 털릴 수 있다.
 
@@ -130,19 +129,22 @@ DApp은 전통 웹앱보다 "무조건 우월한 구조"가 아니라, **신뢰 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙형 서비스 한계 인식
-    |
-    v
-스마트 컨트랙트 기반 자동 실행
-    |
-    +--> 지갑 / 서명 보안
-    +--> 오라클 / 브리지 보안
-    +--> 정적분석 / 감사 / 모니터링
-    |
-    v
-하이브리드 DApp 운영 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙형 서비스 한계 인식</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">스마트 컨트랙트 기반 자동 실행</div>
+<div class="kb-diagram-note">+--&gt; 지갑 / 서명 보안</div>
+<div class="kb-diagram-note">+--&gt; 오라클 / 브리지 보안</div>
+<div class="kb-diagram-note">+--&gt; 정적분석 / 감사 / 모니터링</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">하이브리드 DApp 운영 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 DApp이 단순 앱이 아니라, 계약 자동화에서 시작해 운영 통제 체계로 확장되는 과정을 보여 준다.
 

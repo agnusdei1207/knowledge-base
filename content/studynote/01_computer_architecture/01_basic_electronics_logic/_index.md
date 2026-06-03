@@ -1,5 +1,5 @@
 +++
-title = "🔌 01. 디지털 논리 회로 및 컴퓨터 기초"
+title = "01. 디지털 논리 회로 및 컴퓨터 기초"
 
 [extra]
 tags = ["computer_architecture"]
@@ -17,29 +17,27 @@ tags = ["computer_architecture"]
 
 ### 전기가 숫자가 되는 마법: 디지털 논리의 역할
 
-컴퓨터의 심장부는 수십억 개의 미세한 스위치로 구성되어 있다. 이 스위치가 바로 **트랜지스터 (Transistor)**이며, 전기가 통하느냐(1) 안 통하느냐(0)의 상태를 조합하여 모든 정보를 처리한다. 디지털 논리 회로는 이러한 물리적인 전기 신호를 수학적인 논리 연산으로 추상화하는 역할을 수행한다.
+컴퓨터의 심장부는 수십억 개의 미세한 스위치로 구성되어 있다. 이 스위치가 바로 <strong>트랜지스터 (Transistor)</strong>이며, 전기가 통하느냐(1) 안 통하느냐(0)의 상태를 조합하여 모든 정보를 처리한다. 디지털 논리 회로는 이러한 물리적인 전기 신호를 수학적인 논리 연산으로 추상화하는 역할을 수행한다.
 
-디지털 기초가 필요한 이유는 명확하다. 첫째, 컴퓨터가 어떻게 0과 1만으로 복잡한 게임이나 AI를 구동하는지 그 **근본 원리**를 이해하기 위해서이며, 둘째, 하드웨어의 한계 (지연 시간, 전력 소모)를 고려한 **최적화된 아키텍처**를 설계하기 위해서이고, 셋째, 논리 게이트의 조합을 통해 CPU의 핵심인 **산술논리연산장치 (ALU)**를 물리적으로 구현하기 위함이다.
+디지털 기초가 필요한 이유는 명확하다. 첫째, 컴퓨터가 어떻게 0과 1만으로 복잡한 게임이나 AI를 구동하는지 그 <strong>근본 원리</strong>를 이해하기 위해서이며, 둘째, 하드웨어의 한계 (지연 시간, 전력 소모)를 고려한 <strong>최적화된 아키텍처</strong>를 설계하기 위해서이고, 셋째, 논리 게이트의 조합을 통해 CPU의 핵심인 <strong>산술논리연산장치 (ALU)</strong>를 물리적으로 구현하기 위함이다.
 
 이 그림은 물리적 소자인 트랜지스터가 어떻게 논리 게이트를 거쳐 상위 시스템으로 추상화되는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Hardware Abstraction Layers (Bottom-up)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Layer 4: Computer Architecture ] (CPU, Registers)       │
-│          ▲                                                  │
-│   [ Layer 3: Logic Modules ] (Adders, Multiplexers)         │
-│          ▲                                                  │
-│   [ Layer 2: Logic Gates ] (AND, OR, NOT, XOR)              │
-│          ▲                                                  │
-│   [ Layer 1: Physical Device ] (Transistors, CMOS)          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '계층적 빌드업'이다. 개별 트랜지스터를 일일이 설계하는 대신, 이를 묶어 게이트를 만들고, 게이트를 묶어 덧셈기를 만드는 식으로 복잡도를 관리한다. 실무에서는 이러한 논리 설계를 위해 **VHDL**이나 **Verilog** 같은 하드웨어 기술 언어 (HDL)를 사용하여 디지털 회로를 코딩하듯 설계한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware Abstraction Layers (Bottom-up)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 4: Computer Architecture</div><div class="kb-diagram-note">(CPU, Registers)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 3: Logic Modules</div><div class="kb-diagram-note">(Adders, Multiplexers)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2: Logic Gates</div><div class="kb-diagram-note">(AND, OR, NOT, XOR)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1: Physical Device</div><div class="kb-diagram-note">(Transistors, CMOS)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '계층적 빌드업'이다. 개별 트랜지스터를 일일이 설계하는 대신, 이를 묶어 게이트를 만들고, 게이트를 묶어 덧셈기를 만드는 식으로 복잡도를 관리한다. 실무에서는 이러한 논리 설계를 위해 <strong>VHDL</strong>이나 **Verilog** 같은 하드웨어 기술 언어 (HDL)를 사용하여 디지털 회로를 코딩하듯 설계한다.
 
 ### 디지털 시스템의 핵심 기초 지식
 
@@ -66,25 +64,23 @@ tags = ["computer_architecture"]
 
 ### 순서 논리 회로 (Sequential Logic)
 
-입력값뿐만 아니라 **현재의 상태 (기억된 데이터)**에 따라 출력값이 결정되는 회로이다. 메모리의 기초가 된다.
+입력값뿐만 아니라 <strong>현재의 상태 (기억된 데이터)</strong>에 따라 출력값이 결정되는 회로이다. 메모리의 기초가 된다.
 
-이 구조도는 순서 논리 회로의 핵심인 **플립플롭 (Flip-Flop)**과 클럭 신호의 관계를 보여준다.
+이 구조도는 순서 논리 회로의 핵심인 <strong>플립플롭 (Flip-Flop)</strong>과 클럭 신호의 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Sequential Logic & Memory Element           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Input ] ──▶ [ Combinational Logic ] ──▶ [ Output ]      │
-│                        ▲        │                           │
-│                        │        ▼                           │
-│                  [ Flip-Flop (State) ] ◀── [ Clock Pulse ]  │
-│                                                             │
-│   * State: 과거의 정보를 저장 (기억 장치)                   │
-│   * Clock: 시스템의 동기화와 속도를 결정                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential Logic &amp; Memory Element</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Combinational Logic</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Output</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flip-Flop (State)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Clock Pulse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* State: 과거의 정보를 저장 (기억 장치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Clock: 시스템의 동기화와 속도를 결정</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '피드백 루프'와 '클럭 (Clock)'이다. 클럭 신호가 들어올 때마다 상태가 갱신되며, 이를 통해 컴퓨터는 '시간의 흐름'에 따라 순차적인 작업을 수행할 수 있다. 실무에서는 이 클럭 속도가 바로 CPU의 GHz 단위를 결정하며, 클럭 사이의 신호 전달 지연 (Propagation Delay)이 성능의 물리적 한계점이 된다.
 
@@ -96,7 +92,7 @@ tags = ["computer_architecture"]
 
 ### 논리 게이트의 범용성: NAND와 NOR
 
-모든 복잡한 논리 회로는 오직 NAND 게이트(또는 NOR 게이트)만으로 구현할 수 있다. 이를 **Universal Gate**라고 부른다.
+모든 복잡한 논리 회로는 오직 NAND 게이트(또는 NOR 게이트)만으로 구현할 수 있다. 이를 <strong>Universal Gate</strong>라고 부른다.
 
 - **이유**: AND, OR, NOT의 모든 기본 연산을 NAND 조합으로 만들 수 있기 때문.
 - **실무적 가치**: 반도체 제조 공정에서 한 종류의 게이트만 사용하면 공정의 단순화와 비용 절감이 가능하여, 실제 메모리 칩 (NAND Flash) 생산의 근간이 됨.
@@ -122,27 +118,24 @@ tags = ["computer_architecture"]
 - **판단**: 가산기 (Adder)의 올림수 전파 지연 (Ripple Carry Delay)을 의심한다. 하위 비트의 결과가 상위로 전달될 때까지 기다리는 시간을 줄이기 위해 **Cary Look-ahead Adder (CLA)** 아키텍처로 변경한다. 이는 추가적인 게이트를 사용하여 올림수를 미리 계산함으로써 지연 시간을 $\mathcal{O}(N)$에서 $\mathcal{O}(\log N)$으로 압살하는 기술적 결단이다.
 
 **시나리오 2: 배터리 수명이 중요한 웨어러블 기기 설계**
-- **판단**: 불필요한 클럭 공급을 차단하는 **Clock Gating** 기술을 적용한다. 연산이 필요 없는 모듈의 클럭을 물리적으로 차단하여 정적/동적 전력 소모를 최소화한다. 또한 논리 회로를 간소화하기 위해 **카르노 맵 (Karnaugh Map)**이나 **Quine-McCluskey** 알고리즘을 사용하여 게이트 수를 줄임으로써 면적과 전력을 동시에 절감한다.
+- **판단**: 불필요한 클럭 공급을 차단하는 **Clock Gating** 기술을 적용한다. 연산이 필요 없는 모듈의 클럭을 물리적으로 차단하여 정적/동적 전력 소모를 최소화한다. 또한 논리 회로를 간소화하기 위해 <strong>카르노 맵 (Karnaugh Map)</strong>이나 **Quine-McCluskey** 알고리즘을 사용하여 게이트 수를 줄임으로써 면적과 전력을 동시에 절감한다.
 
 이 도식은 부울 함수 간소화의 비즈니스적 파급 효과를 보여준다.
 
-```text
 
-┌─────────────────────────────────────────────────────────────┐
-│               Logic Optimization Flow & ROI                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Complex Equation  / 복잡한 방정식] ──▶ [ Karnaugh Map  / 카르노 맵] ──▶ [ Minimized  / 최소화됨]│
-│                                                     │       │
-│   ┌─────────────────────────────────────────────────┘       │
-│   ▼                                                         │
-│   [ Benefits  / 이점]                                              │
-│   1. Fewer Gates -> Lower Chip Area (Cost ↓)                │
-│   2. Shorter Paths -> Higher Speed (Frequency ↑)            │
-│   3. Less Switching -> Lower Power Consumption (Battery ↑)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic Optimization Flow &amp; ROI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Complex Equation  / 복잡한 방정식</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Karnaugh Map  / 카르노 맵</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Minimized  / 최소화됨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Benefits  / 이점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Fewer Gates -&gt; Lower Chip Area (Cost ↓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Shorter Paths -&gt; Higher Speed (Frequency ↑)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Less Switching -&gt; Lower Power Consumption (Battery ↑)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 논리 설계는 '최단 거리 길 찾기'와 같습니다. 복잡하게 꼬인 수식(길)을 가장 단순한 형태(지름길)로 펴주어, 전기 신호가 가장 빠르게 목적지에 도달하게 만드는 지도 제작자의 역할을 수행합니다.
 
@@ -157,7 +150,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 가변형 하드웨어와 양자 논리
 
-앞으로의 디지털 설계는 고정된 칩을 넘어, 현장에서 회로를 다시 구성할 수 있는 **FPGA**와 **eFPGA** 기술이 주류가 될 것이다. 또한 0과 1의 이진 논리를 넘어서는 중첩과 얽힘 기반의 **양자 게이트 (Quantum Gates)** 설계가 차세대 컴퓨팅의 핵심 표준이 될 것이다. 기술사는 고전적인 CMOS 논리를 넘어, 신소재 기반의 저전력 논리 소자와 양자 아키텍처에 대한 기초 체력을 다져야 한다.
+앞으로의 디지털 설계는 고정된 칩을 넘어, 현장에서 회로를 다시 구성할 수 있는 <strong>FPGA</strong>와 **eFPGA** 기술이 주류가 될 것이다. 또한 0과 1의 이진 논리를 넘어서는 중첩과 얽힘 기반의 **양자 게이트 (Quantum Gates)** 설계가 차세대 컴퓨팅의 핵심 표준이 될 것이다. 기술사는 고전적인 CMOS 논리를 넘어, 신소재 기반의 저전력 논리 소자와 양자 아키텍처에 대한 기초 체력을 다져야 한다.
 
 📢 **섹션 요약 비유**: 미래의 디지털 논리는 '레고 블록'에서 '액체 금속'처럼 변할 것입니다. 필요할 때마다 모양을 바꾸어 최적의 연산을 수행하는 똑똑한 하드웨어 세상이 올 것입니다.
 

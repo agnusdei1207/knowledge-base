@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 보안성은 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이라는 3대 보안 원칙([CIA Triad](/knowledge-base/studynote/09_security/01_intro_principles/001_cia_triad/))을 얼마나 잘 유지하는가를 측정하는 품질 속성이다.
 
-- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/)) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 **아키텍처의 철창(Steel Wall)**이 필요했다.
+- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/)) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 <strong>아키텍처의 철창(Steel Wall)</strong>이 필요했다.
 
-- **💡 비유**: 은행 금고와 같습니다. 도둑이 금고에 접근하지 못하도록 **1차로 지문인식 문(방어)**을 설치하고, 만약 문을 부수면 **2차로 사이렌(탐지)**이 울리며, 그래도 돈을 털어갔다면 지폐 다발에서 **3차로 파란색 잉크가 터져 돈을 못 쓰게([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/무효화)** 만드는 3중 보안 시스템이 바로 보안성 설계입니다.
+- **💡 비유**: 은행 금고와 같습니다. 도둑이 금고에 접근하지 못하도록 <strong>1차로 지문인식 문(방어)</strong>을 설치하고, 만약 문을 부수면 <strong>2차로 사이렌(탐지)</strong>이 울리며, 그래도 돈을 털어갔다면 지폐 다발에서 <strong>3차로 파란색 잉크가 터져 돈을 못 쓰게(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>/무효화)</strong> 만드는 3중 보안 시스템이 바로 보안성 설계입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단일 방어 ([Perimeter Security](/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/))**: 인터넷 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 회사 망 입구에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 하나만 세워두면 끝나는 '성벽 모델'이었다. 하지만 내부 직원의 실수나 감염에는 속수무책으로 뚫렸다.
-  2. **심층 방어 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))**: 양파 껍질처럼 네트워크, 서버, 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 모든 계층(Layer)마다 중복해서 보안 전술을 배치하는 다층 방어 체계로 발전했다.
-  3. **[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))**: 클라우드와 원격 근무 시대가 도림함에 따라 "아무도 믿지 마라"는 철학이 대두되었다. 내/외부 망 구분 없이 모든 요청마다 권한을 지속적으로 검증하는 궁극의 보안 아키텍처로 진화했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 단일 방어 (<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/">Perimeter Security</a>)</strong>: 인터넷 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 회사 망 입구에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 하나만 세워두면 끝나는 '성벽 모델'이었다. 하지만 내부 직원의 실수나 감염에는 속수무책으로 뚫렸다.
+  2. <strong>심층 방어 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a>)</strong>: 양파 껍질처럼 네트워크, 서버, 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 모든 계층(Layer)마다 중복해서 보안 전술을 배치하는 다층 방어 체계로 발전했다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)</strong>: 클라우드와 원격 근무 시대가 도림함에 따라 "아무도 믿지 마라"는 철학이 대두되었다. 내/외부 망 구분 없이 모든 요청마다 권한을 지속적으로 검증하는 궁극의 보안 아키텍처로 진화했다.
 
 - **📢 섹션 요약 비유**: 보안성은 성을 지키는 것과 같습니다. 성문만 높이 쌓는 게 아니라(방어), 성벽 위에 보초병을 세우고(탐지), 적이 들어오면 내성으로 후퇴해 문을 잠그는([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 3단계 작전이 모두 준비되어 있어야 진짜 튼튼한 성입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 보안성 (Security)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안성 (Security)                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안성 (Security)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보안성 (Security)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보안성 (Security)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보안성 (Security)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보안성 (Security)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보안성 (Security) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안성 (Security) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

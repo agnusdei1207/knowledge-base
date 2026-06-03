@@ -35,21 +35,22 @@ tags = ["studynote-security"]
 | **1. 회원가입** | 사용자 입력 비밀번호에 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))로 만든 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 결합한 후 해싱 | 비밀번호 해시값 + 사용된 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값 |
 | **2. 로그인** | DB에서 해당 사용자의 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값을 찾아 입력받은 비밀번호와 결합하여 해싱 후 대조 | (없음, 임시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 파기) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           동일 평문 보호: Salt가 레인보우 테이블을 무력화하는 원리        │
-├──────────────────────────────────────────────────────────────┤
-│ [ 유저 A: 비번 "1234" ]                                         │
-│   생성된 솔트: "X9z!" ──▶ "1234X9z!" ──▶ 해싱 ──▶ [ 3B2...9A ] │
-│                                                              │
-│ [ 유저 B: 비번 "1234" ]                                         │
-│   생성된 솔트: "pL4@" ──▶ "1234pL4@" ──▶ 해싱 ──▶ [ 7F1...C2 ] │
-│                                                              │
-│ ★ 방어 메커니즘:                                                 │
-│ DB가 털려도 두 해시값이 다름! 해커는 공통 비번 "1234"를 유추 불가.        │
-│ 해커가 "1234X9z!"의 해시를 깨려면 유저 A만을 위한 전용 테이블이 필요!     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 평문 보호: Salt가 레인보우 테이블을 무력화하는 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 A: 비번 "1234"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3B2...9A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 B: 비번 "1234"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">7F1...C2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 방어 메커니즘:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB가 털려도 두 해시값이 다름! 해커는 공통 비번 "1234"를 유추 불가.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 "1234X9z!"의 해시를 깨려면 유저 A만을 위한 전용 테이블이 필요!</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 비밀을 감추는 것이 목적이 아니라, 해시 테이블의 재사용을 막는 것임을 명확히 보여준다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값 자체가 DB에 평문으로 저장되어 해커에게 노출되더라도, 해커는 그 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 결합된 거대한 매핑 테이블을 1명마다 새로 만들어야 하므로 공격이 사실상 무산된다.
 
@@ -64,8 +65,8 @@ tags = ["studynote-security"]
 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법 | 작동 원리 | 방어 대상 | 치명적 한계 |
 | :--- | :--- | :--- | :--- |
 | **단순 해싱** (SHA-2) | 비밀번호만 해싱 | 평문 노출 | 레인보우 테이블 공격에 즉시 뚫림 |
-| **[Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 추가** | 난수를 붙여 해싱 | 레인보우 테이블 | 무차별 대입([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) 공격에 취약 |
-| **[Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)** | 해시를 수만 번 반복 | 무차별 대입 방어 | CPU 연산 비용이 서버에도 부담됨 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a> 추가</strong> | 난수를 붙여 해싱 | 레인보우 테이블 | 무차별 대입([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) 공격에 취약 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a></strong> | 해시를 수만 번 반복 | 무차별 대입 방어 | CPU 연산 비용이 서버에도 부담됨 |
 
 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)만 적용된 해싱은 여전히 1회의 해시 연산만 수행하므로 매우 빠르다. 현대의 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 1초에 수백억 번의 해시 연산이 가능하므로, 해커가 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값을 안다면 특정 유저 1명에 대해 무차별 대입 공격을 가할 때는 고속으로 비밀번호가 뚫릴 수 있다. 따라서 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 함께 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 의도적으로 느리게 만드는 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)(Bcrypt 등)이 필수적으로 연결되어야 한다.
 
@@ -79,13 +80,13 @@ tags = ["studynote-security"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **사용자별 독립 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) (Per-User [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))**: 전체 시스템에 동일한 하나의 전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)(Global [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 사용하고 있지 않은가? 
-2. **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 길이와 품질**: 최소 16바이트 이상의 길이를 가지며, 시스템 시간 기반 난수가 아닌 암호학적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))를 통해 생성되었는가?
+1. <strong>사용자별 독립 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (Per-User <a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>)</strong>: 전체 시스템에 동일한 하나의 전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)(Global [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 사용하고 있지 않은가? 
+2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> 길이와 품질</strong>: 최소 16바이트 이상의 길이를 가지며, 시스템 시간 기반 난수가 아닌 암호학적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))를 통해 생성되었는가?
 3. **Bcrypt/Argon2 사용**: [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 관리 로직을 직접 구현하지 않고, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 생성과 저장이 내장된 현대 암호화 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Bcrypt, Argon2)를 사용하고 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)(Global [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)/Pepper) 남용**: 귀찮다는 이유로 서버 환경 변수에 고정된 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 문자열(`SALT="MySecret"`)을 두고 모든 유저에게 공통 적용하는 행위. 소스코드가 유출되면 해커는 전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 반영한 레인보우 테이블 딱 1개만 만들어서 모든 유저를 일망타진할 수 있다.
+- <strong>전역 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a>(Global <a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>/Pepper) 남용</strong>: 귀찮다는 이유로 서버 환경 변수에 고정된 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 문자열(`SALT="MySecret"`)을 두고 모든 유저에게 공통 적용하는 행위. 소스코드가 유출되면 해커는 전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 반영한 레인보우 테이블 딱 1개만 만들어서 모든 유저를 일망타진할 수 있다.
 
 - **📢 섹션 요약 비유**: 모든 아파트 문에 똑같은 열쇠 구멍(전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 설치하면, 도둑이 만능키 한 개만 깎아서 전 세대를 털어버린다. 귀찮더라도 반드시 집집마다 구멍 모양을 다르게(사용자별 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 깎아야 한다.
 
@@ -105,28 +106,30 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **레인보우 테이블 ([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))** | 해커가 평문과 해시값을 미리 매핑해둔 거대한 족보로, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 도입하게 만든 주적이다. |
+| <strong>레인보우 테이블 (<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a>)</strong> | 해커가 평문과 해시값을 미리 매핑해둔 거대한 족보로, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 도입하게 만든 주적이다. |
 | **Bcrypt / Argon2** | [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 자동 생성과 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)(의도적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 기능을 하나로 통합한 현대의 비밀번호 해싱 표준이다. |
-| **전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) (Pepper)** | 개별 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 달리 비밀번호를 DB 저장 전 서버에만 보관하는 비밀값으로 한 번 더 암호화할 때 쓰이는 보조 방어 수단이다. |
-| **[CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/)** | 예측 불가능한 암호학적 난수를 생성하여 완벽히 고유한 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 뽑아내는 필수 기반 기술이다. |
+| <strong>전역 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (Pepper)</strong> | 개별 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 달리 비밀번호를 DB 저장 전 서버에만 보관하는 비밀값으로 한 번 더 암호화할 때 쓰이는 보조 방어 수단이다. |
+| <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/">CSPRNG</a></strong> | 예측 불가능한 암호학적 난수를 생성하여 완벽히 고유한 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 뽑아내는 필수 기반 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 해시 함수 (SHA-256 등 평문 1:1 매핑)
-    │
-    ▼
-레인보우 테이블 공격 발생 (해시 결과의 역추적 취약점)
-    │
-    ▼
-솔트 (Salt) 도입 (사용자별 고유 난수 결합으로 사전 공격 방어)
-    │
-    ▼
-GPU 연산력 폭발 (무차별 대입 속도 급증)
-    │
-    ▼
-키 스트레칭 (Key Stretching) + 솔트 융합 (Bcrypt, Argon2 등 현대 방어막)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 해시 함수 (SHA-256 등 평문 1:1 매핑)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레인보우 테이블 공격 발생 (해시 결과의 역추적 취약점)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">솔트 (Salt) 도입 (사용자별 고유 난수 결합으로 사전 공격 방어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU 연산력 폭발 (무차별 대입 속도 급증)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">키 스트레칭 (Key Stretching) + 솔트 융합 (Bcrypt, Argon2 등 현대 방어막)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

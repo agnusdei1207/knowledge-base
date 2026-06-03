@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도 평가([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Maturity Assessment)는 조직이 겉으로만 스탠드업 미팅을 흉내 내는 '무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))'인지, 실제로 비즈니스 가치를 민첩하게 배포하는 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 상태인지 **정량적/정성적으로 진단하는 측정 프레임워크**다.
+> 1. **본질**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도 평가([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Maturity Assessment)는 조직이 겉으로만 스탠드업 미팅을 흉내 내는 '무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))'인지, 실제로 비즈니스 가치를 민첩하게 배포하는 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 상태인지 <strong>정량적/정성적으로 진단하는 측정 프레임워크</strong>다.
 > 2. **가치**: "우리 팀은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 일해"라는 주관적 착각을 박살 내고, 문화(Culture), 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 기술([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 측면에서 현재의 레벨을 진단하여 다음 단계로 도약하기 위한 구체적인 로드맵(투자 계획)을 제시한다.
 > 3. **판단 포인트**: 단일 팀 수준의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 성숙도를 넘어서, 조직 전체(엔터프라이즈)의 예산 편성과 인사 평가까지 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 철학이 뿌리내렸는지를 평가하는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)-Agile이나 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 성숙도 모델로 진화하고 있다.
 
@@ -31,29 +31,28 @@ tags = ["studynote-devops-sre"]
 ### 성숙도 평가의 3대 차원 (Culture, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), Technology)
 진정한 평가는 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드만 보지 않는다. 조직의 밑바닥 하드웨어(기술)부터 사람의 뇌 구조(문화)까지 3차원 축을 입체적으로 뜯어본다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           애자일 성숙도 평가 프레임워크 (Maturity Model Axes)   │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   1. [ 프로세스 (Process) ] : 스프린트, 백로그, 회고의 규격화 │
-│      - 껍데기만 스크럼인가? 가치(Value) 위주의 우선순위인가? │
-│                                                        │
-│   2. [ 기  술 (Technology) ] : CI/CD Pipeline, TDD, 자동화│
-│      - "자동화된 테스트 없이 어떻게 빠르게 배포(Agile) 합니까?" │
-│      - 쇳덩어리(Jenkins, k8s) 인프라의 뒷받침 여부 진단      │
-│                                                        │
-│   3. [ 문  화 (Culture) ] : 심리적 안전감, 자율적 조직(Cross-F)│
-│      - 실패를 처벌하는가? (그렇다면 절대 애자일이 아니다)      │
-│      - 비즈니스 부서와 IT 부서 간의 벽(Silo)이 존재하는가?   │
-│                                                        │
-│ * 핵심 논리: 프로세스만 레벨 5인데, 기술(CI/CD)이 레벨 1이면     │
-│   개발자들이 매일 밤새워 수동 배포를 하다가 번아웃(Burnout)으로  │
-│   조직 전체가 붕괴한다. 세 축의 밸런스(정렬)가 평가의 핵심이다.  │
-└────────────────────────────────────────────────────────┘
-```
 
-- **Level 1 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))**: 팀마다 알아서 주먹구구식으로 함.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애자일 성숙도 평가 프레임워크 (Maturity Model Axes)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">프로세스 (Process)</div><div class="kb-diagram-note">: 스프린트, 백로그, 회고의 규격화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 껍데기만 스크럼인가? 가치(Value) 위주의 우선순위인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">기  술 (Technology)</div><div class="kb-diagram-note">: CI/CD Pipeline, TDD, 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "자동화된 테스트 없이 어떻게 빠르게 배포(Agile) 합니까?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쇳덩어리(Jenkins, k8s) 인프라의 뒷받침 여부 진단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">문  화 (Culture)</div><div class="kb-diagram-note">: 심리적 안전감, 자율적 조직(Cross-F)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실패를 처벌하는가? (그렇다면 절대 애자일이 아니다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 부서와 IT 부서 간의 벽(Silo)이 존재하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 프로세스만 레벨 5인데, 기술(CI/CD)이 레벨 1이면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자들이 매일 밤새워 수동 배포를 하다가 번아웃(Burnout)으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조직 전체가 붕괴한다. 세 축의 밸런스(정렬)가 평가의 핵심이다.</div></div>
+</div>
+</div>
+
+
+
+- <strong>Level 1 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: 팀마다 알아서 주먹구구식으로 함.
 - **Level 3 (정의됨)**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 규칙이 정착되고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 도입됨.
 - **Level 5 (최적화)**: 비즈니스 지표([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/))와 개발이 한 몸이 되어 스스로 개선([Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/))을 무한 루프 돌림.
 
@@ -70,7 +69,7 @@ tags = ["studynote-devops-sre"]
 |:---|:---|:---|
 | **요구사항 변경** | 변경 시 "계약서 다시 쓰자"며 극혐함 | **비즈니스 가치가 크면 언제든 환영(Embrace)** |
 | **배포 주기** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(2주)는 끝나도, 배포는 3달 뒤에 모아서 함 | **매일, 매시간(On-demand) 무중단 자동 배포** |
-| **품질/테스트** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 마지막 날 수동으로 클릭하며 QA 밤샘 | **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 기반, 코드 커밋 즉시 자동화 테스트 실행** |
+| **품질/테스트** | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 마지막 날 수동으로 클릭하며 QA 밤샘 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> 기반, 코드 커밋 즉시 자동화 테스트 실행</strong> |
 | **팀의 권한** | 리더(PM)가 업무([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))를 쪼개서 일일이 하달함 | **팀이 스스로(Self-Organizing) 목표 달성법을 결정** |
 
 무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 조직은 방법론([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))이라는 단어 자체에 집착한다. 하지만 성숙한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 조직은 쇳덩어리 같은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 기술을 무기로 삼아, 고객에게 '작동하는 소프트웨어'를 얼마나 빨리 던져주고 피드백을 받는가(Time-to-Market)라는 결과(Outcome)에 집착한다.
@@ -82,11 +81,11 @@ tags = ["studynote-devops-sre"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) 레벨 진단 및 예산 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)**: 대기업(은행, 통신사)이 전사적으로 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 선언할 때, 10명짜리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀 하나의 성숙도만 재는 것은 무의미하다. 아키텍트는 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 성숙도 평가를 들이밀어 수백 명 단위의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 릴리스 트레인([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))이 제대로 굴러가는지, 예산 편성이 기존의 '1년 단위 프로젝트 예산'에서 '가치 스트림(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 기반의 유연한 예산'으로 바뀌었는지를 평가한다. 이 진단 결과를 통해 임원들은 무의미한 폭포수(Waterfall)식 보고 문화를 철폐하는 거버넌스 혁신을 단행한다.
-2. **도라([DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 기반의 기술적 성숙도 측정**: 평가가 설문지에만 의존하면 사람들이 거짓말(점수 부풀리기)을 한다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어는 배포 빈도([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) 등 시스템에 남은 쇳덩어리 하드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/))를 대시보드에 띄운다. "우리 팀은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 일해요!"라고 주장해도, 시스템상 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 3주로 찍히면 그 팀의 기술 성숙도는 가차 없이 레벨 1로 강등된다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>) 레벨 진단 및 예산 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a></strong>: 대기업(은행, 통신사)이 전사적으로 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 선언할 때, 10명짜리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀 하나의 성숙도만 재는 것은 무의미하다. 아키텍트는 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 성숙도 평가를 들이밀어 수백 명 단위의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 릴리스 트레인([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))이 제대로 굴러가는지, 예산 편성이 기존의 '1년 단위 프로젝트 예산'에서 '가치 스트림(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 기반의 유연한 예산'으로 바뀌었는지를 평가한다. 이 진단 결과를 통해 임원들은 무의미한 폭포수(Waterfall)식 보고 문화를 철폐하는 거버넌스 혁신을 단행한다.
+2. <strong>도라(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a>) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스 기반의 기술적 성숙도 측정</strong>: 평가가 설문지에만 의존하면 사람들이 거짓말(점수 부풀리기)을 한다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어는 배포 빈도([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) 등 시스템에 남은 쇳덩어리 하드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/))를 대시보드에 띄운다. "우리 팀은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 일해요!"라고 주장해도, 시스템상 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 3주로 찍히면 그 팀의 기술 성숙도는 가차 없이 레벨 1로 강등된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **성숙도 점수를 인사 평가([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))에 연동하는 멍청한 리더십**: C-Level이 "올해 연말까지 모든 팀 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도 레벨 4 달성 못하면 보너스 깎음"이라고 선언하는 순간, 조직의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 완전히 박살 난다. 팀장들은 무조건 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)에 '완벽함'으로 허위 보고를 하고, 실패를 감추기 시작하며, 혁신을 위한 도전(실험)은 소멸한다. 성숙도 평가는 팀의 성장을 돕는 '건강 검진'이지, 죄를 묻는 '인사 고과표'가 절대 되어서는 안 된다.
+- <strong>성숙도 점수를 인사 평가(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a>)에 연동하는 멍청한 리더십</strong>: C-Level이 "올해 연말까지 모든 팀 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도 레벨 4 달성 못하면 보너스 깎음"이라고 선언하는 순간, 조직의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 완전히 박살 난다. 팀장들은 무조건 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)에 '완벽함'으로 허위 보고를 하고, 실패를 감추기 시작하며, 혁신을 위한 도전(실험)은 소멸한다. 성숙도 평가는 팀의 성장을 돕는 '건강 검진'이지, 죄를 묻는 '인사 고과표'가 절대 되어서는 안 된다.
 
 - **📢 섹션 요약 비유**: 성숙도 평가를 인사 고과에 반영하는 것은, 병원 건강 검진에서 콜레스테롤 수치가 높게 나온 직원들의 월급을 깎는 짓이다. 직원들은 검사받기 직전에만 굶어서 수치를 조작할 것이고, 회사는 진짜 어디가 병들었는지 영원히 모르게 되어 결국 시스템 전체가 심장마비로 쓰러진다.
 
@@ -106,27 +105,29 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))** | 전통적 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)을 평가하던 성숙도 모델. 현대에는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방식의 성숙도를 포용하도록 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0으로 진화하여 프레임워크의 뼈대를 제공함 |
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment)** | 배포 빈도, 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 등 감(설문)이 아닌 쇳덩어리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 팀의 기술적 민첩성(Agility)을 팩트 폭행하는 측정 표준 |
-| **[지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)** | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도를 레벨 1에서 레벨 4 이상으로 끌어올리기 위한 가장 핵심적인 물리적 관문. 이것이 없으면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 영원히 포스트잇 놀이로 전락함 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">Capability Maturity Model Integration</a>)</strong> | 전통적 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)을 평가하던 성숙도 모델. 현대에는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방식의 성숙도를 포용하도록 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0으로 진화하여 프레임워크의 뼈대를 제공함 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스 (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> Research and Assessment)</strong> | 배포 빈도, 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 등 감(설문)이 아닌 쇳덩어리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 팀의 기술적 민첩성(Agility)을 팩트 폭행하는 측정 표준 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>/배포 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD)</strong> | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도를 레벨 1에서 레벨 4 이상으로 끌어올리기 위한 가장 핵심적인 물리적 관문. 이것이 없으면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 영원히 포스트잇 놀이로 전락함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-애자일 방법론의 무분별한 유행 (포스트잇과 스탠드업 미팅만 흉내 내는 Fake Agile 만연)
-    │
-    ▼
-애자일 도입 실패율 증가 및 정량적/객관적 진단의 필요성 대두
-    │
-    ▼
-성숙도 평가 프레임워크 도입 (Culture, Process, Technology 3축 기반 진단)
-    │
-    ▼
-주관적 설문 진단의 한계 ──▶ DORA 메트릭스 등 데이터 기반 기술 성숙도 자동 측정 결합
-    │
-    ▼
-엔터프라이즈 스케일(SAFe, LeSS) 전사적 민첩성(Business Agility) 거버넌스 모델로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애자일 방법론의 무분별한 유행 (포스트잇과 스탠드업 미팅만 흉내 내는 Fake Agile 만연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 도입 실패율 증가 및 정량적/객관적 진단의 필요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성숙도 평가 프레임워크 도입 (Culture, Process, Technology 3축 기반 진단)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주관적 설문 진단의 한계 ──▶ DORA 메트릭스 등 데이터 기반 기술 성숙도 자동 측정 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엔터프라이즈 스케일(SAFe, LeSS) 전사적 민첩성(Business Agility) 거버넌스 모델로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 부작용 → 체계적 진단 도구의 필요성 → 정성적 설문과 정량적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 결합 → 전사 단위(엔터프라이즈) 거버넌스로의 승격"이라는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 성숙도의 발전사를 보여준다.
 

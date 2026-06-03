@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) ([Local Interpretable Model-agnostic Explanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/))은 거대하고 복잡한 블랙박스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(예: 딥러닝) 전체를 해석하는 것을 포기하고, 오직 **"방금 예측한 딱 1개의 정답 근처(Local)만 살짝 찔러보아 1회용 투명 대리 모델(선형 회귀)을 세우는 꼼수 해석 기법"**이다.
+> 1. **본질**: [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) ([Local Interpretable Model-agnostic Explanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/))은 거대하고 복잡한 블랙박스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(예: 딥러닝) 전체를 해석하는 것을 포기하고, 오직 <strong>"방금 예측한 딱 1개의 정답 근처(Local)만 살짝 찔러보아 1회용 투명 대리 모델(선형 회귀)을 세우는 꼼수 해석 기법"</strong>이다.
 > 2. **가치**: 모델의 뇌(파라미터 수식)를 뜯어볼 필요 없이(Model-agnostic), 텍스트나 이미지 입력값을 포토샵 지우개처럼 살짝 가리고(Perturbation) 넣었을 때 정답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 어떻게 변하는지 외부에서 관찰만 하므로, [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)든 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)든 그 어떤 괴물 모델에도 범용적으로 형광펜 색칠을 덧씌울 수 있는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 끝판왕이다.
 > 3. **판단 포인트**: LIME은 가벼운 국소적(Local) 핑퐁 찌르기이므로 딱 한 명의 김철수 고객이 왜 대출이 거절됐는지를 해명하는 데는 빛의 속도로 훌륭하지만, "우리 회사의 대출 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 전체(Global)가 어떤 룰을 가지고 동작하는가?"라는 큰 그림을 증명하는 데는 쓸 수 없는 아키텍처적 맹점이 명확하다.
 
@@ -23,16 +23,19 @@ tags = ["studynote-ai"]
 
 2016년, 털사(Tulsa) 대학의 연구진은 아주 기가 막힌 꼼수(아이디어)를 제안한다. **"모델 전체가 어떻게 생겼는지 알 필요가 있나? 어차피 김철수 씨 한 명이 대출 거절당한 그 지점(Local)만 돋보기로 확대해 보면, 꼬불꼬불한 비선형 곡선도 결국 아주 짧은 '직선(선형 모델)'으로 대충 퉁칠 수 있지 않을까?"**
 
-이 미분학의 기초 원리(테일러 전개)를 딥러닝 해석에 끌고 온 것이 바로 **[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/)**이다. LIME은 딥러닝 모델의 복잡한 뇌를 건드리지 않는다. 대신 김철수 씨의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(나이 30, 연봉 5천) 근처에 수백 명의 가짜 철수들(나이 31, 연봉 4천 등)을 무작위로 살짝 비틀어 만들어내고(노이즈 주입), 이를 블랙박스 모델에 통과시킨 뒤 나온 점수들을 점 찍어 가장 단순하고 투명한 선형 회귀(Linear Regression) 직선을 하나 대충 그어버린다. 그리고 그 직선의 기울기를 보고 "아, 철수 씨는 연봉 변수가 -30%의 타격을 줘서 대출이 거절됐네요"라고 영수증을 끊어주는 기적의 1회성 마술사다.
+이 미분학의 기초 원리(테일러 전개)를 딥러닝 해석에 끌고 온 것이 바로 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a></strong>이다. LIME은 딥러닝 모델의 복잡한 뇌를 건드리지 않는다. 대신 김철수 씨의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(나이 30, 연봉 5천) 근처에 수백 명의 가짜 철수들(나이 31, 연봉 4천 등)을 무작위로 살짝 비틀어 만들어내고(노이즈 주입), 이를 블랙박스 모델에 통과시킨 뒤 나온 점수들을 점 찍어 가장 단순하고 투명한 선형 회귀(Linear Regression) 직선을 하나 대충 그어버린다. 그리고 그 직선의 기울기를 보고 "아, 철수 씨는 연봉 변수가 -30%의 타격을 줘서 대출이 거절됐네요"라고 영수증을 끊어주는 기적의 1회성 마술사다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 알프스산맥(딥러닝 모델 전체)은 구불구불하고 거대해서 한눈에 지도(해석)를 그릴 수 없다. 하지만 내가 서 있는 딱 1평짜리 땅바닥(Local)만 돋보기로 쳐다보면, 그 땅은 완벽하게 평평한 아스팔트 평면(선형 회귀 모델)처럼 보인다. LIME은 산맥 전체를 그리는 바보짓을 포기하고, 딱 내가 서 있는 그 평평한 1평 바닥에만 기울기 잣대를 대고 "아, 왼쪽으로 갈수록 땅이 꺼지네(연봉 변수 하락 시 대출 거절)"라고 1초 만에 브리핑해 주는 실용주의의 극치다.
 
@@ -42,28 +45,29 @@ tags = ["studynote-ai"]
 
 LIME의 셜록 홈즈식 추리 아키텍처는 블랙박스 내부를 열어보지 않고 외부 자극을 통해 반응을 살피는 '사후 해석(Post-hoc)' 및 '모델 독립적(Model-Agnostic)' [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 교과서다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           LIME의 1회성 꼼수 대리 모델(Surrogate) 추론 파이프라인 도해  │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 딱 하나의 문제 상황 발생 (Local Instance)]                     │
-│   * 입력(X): 고양이 사진 ─▶ 블랙박스 딥러닝 ─▶ "이건 99% 늑대야!" (오답 발생)│
-│   * 목표: "딥러닝아, 도대체 사진 어디를 보고 늑대라고 우기는 거야?"          │
-│                                                              │
-│  [2. 포토샵 지우개로 살짝살짝 가려보기 (Perturbation / Sampling)]    │
-│   * LIME 에이전트가 고양이 사진을 100조각(Super-pixel)으로 토막 냄.        │
-│   * 눈을 지운 사진, 꼬리를 지운 사진, 하얀 뒷배경을 지운 가짜 사진 1,000장을    │
-│     만들어서 블랙박스에 마구 던져넣고 점수 변화를 기록함.                    │
-│                                                              │
-│  [3. 국소적 대리 모델 (Local Surrogate Model) 구축 및 형광펜 칠하기] │
-│   * "어? 하얀 뒷배경(눈 밭) 조각을 지우고 넣으니까 '늑대 확률'이 10%로 떡락하네?"│
-│   * LIME: (투명한 선형 방정식 계산) ─▶ "이 바보 딥러닝은 동물의 얼굴은 안 보고,│
-│            뒷배경 하얀 눈밭 픽셀에만 +80% 가중치 멱살이 잡혀있습니다!"        │
-│   * 결과: 화면에 하얀 눈밭 부분만 시뻘겋게 열화상(Heatmap) 색칠해서 뱉어냄.   │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 근접 샘플링과 선형 대리 모델)**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME의 1회성 꼼수 대리 모델(Surrogate) 추론 파이프라인 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 딱 하나의 문제 상황 발생 (Local Instance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력(X): 고양이 사진 ─▶ 블랙박스 딥러닝 ─▶ "이건 99% 늑대야!" (오답 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: "딥러닝아, 도대체 사진 어디를 보고 늑대라고 우기는 거야?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 포토샵 지우개로 살짝살짝 가려보기 (Perturbation / Sampling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LIME 에이전트가 고양이 사진을 100조각(Super-pixel)으로 토막 냄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 눈을 지운 사진, 꼬리를 지운 사진, 하얀 뒷배경을 지운 가짜 사진 1,000장을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만들어서 블랙박스에 마구 던져넣고 점수 변화를 기록함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 국소적 대리 모델 (Local Surrogate Model) 구축 및 형광펜 칠하기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "어? 하얀 뒷배경(눈 밭) 조각을 지우고 넣으니까 '늑대 확률'이 10%로 떡락하네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LIME: (투명한 선형 방정식 계산) ─▶ "이 바보 딥러닝은 동물의 얼굴은 안 보고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뒷배경 하얀 눈밭 픽셀에만 +80% 가중치 멱살이 잡혀있습니다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 화면에 하얀 눈밭 부분만 시뻘겋게 열화상(Heatmap) 색칠해서 뱉어냄.</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 근접 샘플링과 선형 대리 모델)</strong>:
 LIME의 위대함은 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Perturbation)를 아무렇게나 뿌리는 게 아니라, 원본 김철수 씨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 비슷한 놈들에겐 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(가까운 거리)를 주고, 많이 다르게 찌그러진 놈들에겐 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 줘서 거리를 조율한다는 데 있다. 이 무작위 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1,000개의 점수를 바탕으로 딥러닝 모델의 복잡한 곡선 표면에 딱 달라붙는 '단순한 일차 함수 직선(Ridge Regression 등)'을 하나 세운다. 직선 모델은 계수(Coefficient)만 보면 누가 멱살을 잡았는지 초등학생도 알 수 있는 완벽한 투명 화이트박스이므로, XAI의 목적이 즉각 달성되는 것이다.
 
 | 요소 | 역할 |
@@ -79,16 +83,16 @@ LIME의 위대함은 가짜 [데이터](/knowledge-base/studynote/05_database/01
 
 ## Ⅲ. 비교 및 연결
 
-LIME이 선구자적 위치를 개척했지만, 이후 노벨 경제학상 수학을 들고나온 완벽주의 끝판왕 **[SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)(샵)**이라는 라이벌과 맞닥뜨리게 된다. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어는 둘의 딜레마를 완벽히 꿰뚫어야 한다.
+LIME이 선구자적 위치를 개척했지만, 이후 노벨 경제학상 수학을 들고나온 완벽주의 끝판왕 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a>(샵)</strong>이라는 라이벌과 맞닥뜨리게 된다. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어는 둘의 딜레마를 완벽히 꿰뚫어야 한다.
 
 | 비교 특성 | [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) (Local Interpretable...) | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)) |
 |:---|:---|:---|
 | **해석의 철학** | "1평짜리 바닥만 대충 직선으로 그어서 **빠르고 가볍게** 국소적(Local) 해석만 때우자" | "게임 이론 수학으로 변수 하나하나의 멱살(기여도)을 **우주 끝까지 100% 빈틈없이 찢어서** 전역적(Global)으로 분배하자" |
-| **연산 속도 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**| 매우 빠름. (대충 선 하나만 그으면 됨) | 미친 듯이 느림. (모든 변수의 조합 경우의 수를 다 곱하고 더하는 팩토리얼 연산 압박) |
+| <strong>연산 속도 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>| 매우 빠름. (대충 선 하나만 그으면 됨) | 미친 듯이 느림. (모든 변수의 조합 경우의 수를 다 곱하고 더하는 팩토리얼 연산 압박) |
 | **설명의 완벽성 (일치도)**| **불안정함**. 찌르는 노이즈 룰렛이 랜덤이라, 똑같은 철수 씨 대출 모델을 2번 돌리면 어제는 나이 탓, 오늘은 연봉 탓으로 해설지 결과가 휙휙 뒤바뀌는 버그 발생 (Local Instability). | **완벽함 (수학적 공리 증명)**. 100번 돌려도 기여도의 합이 무조건 원래 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 100%와 딱 맞아떨어지는 절대 진리 보장. |
-| **적용하기 좋은 곳**| 수만 명의 유저가 실시간으로 접속하는 스마트폰 앱에서 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 0.1초 만에 1회성 이유**를 띄워줘야 할 때. | [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 제출용이나, 암 진단 모델처럼 1시간이 걸리더라도 **한 치의 오차와 흔들림 없는 완벽한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리포트**를 뽑아야 할 때. |
+| **적용하기 좋은 곳**| 수만 명의 유저가 실시간으로 접속하는 스마트폰 앱에서 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 0.1초 만에 1회성 이유</strong>를 띄워줘야 할 때. | [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 제출용이나, 암 진단 모델처럼 1시간이 걸리더라도 <strong>한 치의 오차와 흔들림 없는 완벽한 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 리포트</strong>를 뽑아야 할 때. |
 
-현업 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Serving)에서는 실시간 유저(B2C) 앱 단에는 LIME의 빠른 가벼움을 씌워 "사진의 이 부분이 개 같네요"라고 뿌려주고, 서버 뒷단의 주간 운영 대시보드(B2B 관리자용)에는 무거운 SHAP를 밤새 돌려 "이번 달 우리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 전체 트렌드"를 그려주는 **투 트랙(Two-Track) 하이브리드 아키텍처**를 가져가는 것이 국룰이다.
+현업 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Serving)에서는 실시간 유저(B2C) 앱 단에는 LIME의 빠른 가벼움을 씌워 "사진의 이 부분이 개 같네요"라고 뿌려주고, 서버 뒷단의 주간 운영 대시보드(B2B 관리자용)에는 무거운 SHAP를 밤새 돌려 "이번 달 우리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 전체 트렌드"를 그려주는 <strong>투 트랙(Two-Track) 하이브리드 아키텍처</strong>를 가져가는 것이 국룰이다.
 
 - **📢 섹션 요약 비유**: LIME은 길거리 타로카드 점쟁이다. 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1명이 오면 대충 관상(Local)만 살짝 보고 1분 만에 "너 눈꼬리 보니까 내일 바람맞겠다!"라고 쾌속으로 짚어주지만 100% 믿긴 어렵다. SHAP은 대학 병원의 종합 정밀 검사다. 한 명의 상태를 알기 위해 혈액, 심전도, MRI 모든 조합 변수를 100바퀴 돌려 1주일 걸려 검사(Factoial 연산)하지만, 결과지 합계는 단 1%의 오차도 없이 완벽한 절대 진리다.
 
@@ -99,8 +103,8 @@ LIME이 선구자적 위치를 개척했지만, 이후 노벨 경제학상 수�
 LIME을 사내 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 런타임 추론 API에 얹을 때 주니어 엔지니어들이 LIME의 변덕스러움(Instability)을 방치하여 사용자에게 대혼란 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)을 유발하는 경우가 잦다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **랜덤 시드(Seed) 통제 및 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 앵커링**: LIME은 딥러닝 뇌를 찌를 가짜 1,000개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 때 난수 발생(Random)을 쓴다. 고객 센터 직원이 "어, 고객님 아까는 나이 때문에 대출이 안 된다고 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 화면에 떴는데, 제가 새로고침 하니까 갑자기 직업 때문이라고 말이 바뀌네요?"라는 끔찍한 해프닝을 방지해야 한다. 실시간 서빙 단에 LIME을 태울 때는 반드시 유저 ID를 해시(Hash)화하여 랜덤 시드(Seed)로 콱 박아두어, 몇 번을 재요청해도 LIME의 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 곡선이 똑같이 재현되도록 하드코딩 결계를 쳐야 한다.
-2. **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(이미지/텍스트) 세그먼테이션 병목 파괴**: 표(Tabular) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 LIME은 1초면 돌지만, 4K 고화질 이미지나 1만 자의 텍스트에 LIME을 돌리면 픽셀을 껐다 켰다 1,000번 반복 추론(Inference)하느라 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리가 터진다. 이미지에 LIME을 쏠 때는 무지성 픽셀 단위가 아니라 SLIC, QuickShift 같은 '슈퍼 픽셀(Super-pixel, 의미 있는 덩어리 영역)' 분할 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 이미지를 먼저 단 50조각으로 거칠게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤에 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 태워 넘겨야 연산 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 3초 이내로 방어할 수 있다.
+1. <strong>랜덤 시드(Seed) 통제 및 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 앵커링</strong>: LIME은 딥러닝 뇌를 찌를 가짜 1,000개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 때 난수 발생(Random)을 쓴다. 고객 센터 직원이 "어, 고객님 아까는 나이 때문에 대출이 안 된다고 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 화면에 떴는데, 제가 새로고침 하니까 갑자기 직업 때문이라고 말이 바뀌네요?"라는 끔찍한 해프닝을 방지해야 한다. 실시간 서빙 단에 LIME을 태울 때는 반드시 유저 ID를 해시(Hash)화하여 랜덤 시드(Seed)로 콱 박아두어, 몇 번을 재요청해도 LIME의 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 곡선이 똑같이 재현되도록 하드코딩 결계를 쳐야 한다.
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a>(이미지/텍스트) 세그먼테이션 병목 파괴</strong>: 표(Tabular) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 LIME은 1초면 돌지만, 4K 고화질 이미지나 1만 자의 텍스트에 LIME을 돌리면 픽셀을 껐다 켰다 1,000번 반복 추론(Inference)하느라 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리가 터진다. 이미지에 LIME을 쏠 때는 무지성 픽셀 단위가 아니라 SLIC, QuickShift 같은 '슈퍼 픽셀(Super-pixel, 의미 있는 덩어리 영역)' 분할 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 이미지를 먼저 단 50조각으로 거칠게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤에 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 태워 넘겨야 연산 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 3초 이내로 방어할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **전역적(Global) 통찰력을 위한 LIME의 맹신**: 경영진 회의에 들어가서 "사장님, 제가 LIME으로 오늘 대출 거절당한 10명을 돌려보니 전부 연봉 변수가 빨간색이었습니다! 우리 AI는 연봉만 보는 완벽한 모델입니다!"라고 발표하는 멍청한 확증 편향. LIME은 딱 그 10명 근처 1평짜리 평면(Local)에서만 맞는 1회용 거짓 직선이다. 조금만 옆 동네(나이 50대 유저 등)로 가면 그 직선 수식은 완전히 틀려 먹은 쓰레기가 된다. 모델 전체의 철학(Global)을 증명할 때는 절대 LIME을 쓰지 말고, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 임포턴스([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))나 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) Plot을 가져가야 해고당하지 않는다.
@@ -111,7 +115,7 @@ LIME을 사내 [MLOps](/knowledge-base/studynote/12_it_management/05_security_co
 
 ## Ⅴ. 기대효과 및 결론
 
-[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 탄생은 블랙박스 AI가 지배하던 공포의 시대에 인류가 최초로 반격의 실마리를 잡은 역사적 사건이다. 딥러닝 내부의 수조 개 파라미터 미분식을 뜯어보려는 수학적 강박을 쿨하게 버리고, "결과만 찔러보고 유추하면 어때?"라는 철저한 엔지니어링적 꼼수(Model-Agnostic)로 딥러닝, [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), XGboost 등 세상 모든 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 보편적으로 장착할 수 있는 **'만능 투시경'**을 발명해 낸 것이다.
+[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 탄생은 블랙박스 AI가 지배하던 공포의 시대에 인류가 최초로 반격의 실마리를 잡은 역사적 사건이다. 딥러닝 내부의 수조 개 파라미터 미분식을 뜯어보려는 수학적 강박을 쿨하게 버리고, "결과만 찔러보고 유추하면 어때?"라는 철저한 엔지니어링적 꼼수(Model-Agnostic)로 딥러닝, [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), XGboost 등 세상 모든 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 보편적으로 장착할 수 있는 <strong>'만능 투시경'</strong>을 발명해 낸 것이다.
 
 이 가벼운 만능 투시경 덕분에, 의사들은 AI가 엑스레이에서 폐암이라고 찍어준 부위(Super-pixel)가 진짜 종양인지 아니면 단순한 뼈의 그림자인지 1초 만에 더블 체크할 수 있게 되었고, 텍스트 분석가들은 스팸 메일 AI가 "광고"라는 단어 대신 쓸데없는 "안녕하세요"라는 단어에 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))되어 오작동하던 숨은 버그를 형광펜 색칠 하나로 잡아내게 되었다.
 
@@ -125,10 +129,10 @@ LIME을 사내 [MLOps](/knowledge-base/studynote/12_it_management/05_security_co
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) (설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | LIME이 태어난 거대한 철학적 우주. 결과만 띡 내놓는 딥러닝 깡패에게 해명과 책임이라는 인류의 족쇄를 채우는 윤리적/공학적 학문 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> (설명 가능한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | LIME이 태어난 거대한 철학적 우주. 결과만 띡 내놓는 딥러닝 깡패에게 해명과 책임이라는 인류의 족쇄를 채우는 윤리적/공학적 학문 |
 | **Model-Agnostic (모델 독립적)** | LIME의 가장 강력한 무기. 안에 든 게 옛날 통계 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이든 최신 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)든 속을 안 까보므로, 어떤 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템에도 플러그인처럼 탁 꽂아 쓸 수 있는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) |
 | **선형 대리 모델 (Surrogate Model)** | 복잡한 딥러닝 곡선을 다 해석 못 하니까, 딱 1명 근처 평평한 곳에만 임시로 대충 세워보는 투명하고 쉬운 1차 방정식(선형 회귀) 1회용 해설지 껍데기 |
-| **[SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) (섀플리 게임 이론)** | LIME의 변덕스러움과 1회용 꼼수에 분노한 수학자들이, 우주의 팩토리얼 연산을 갈아 넣어 모든 변수의 멱살을 0.1%의 오차도 없이 찢어발겨 나누는 절대 진리의 라이벌 지표 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a> (섀플리 게임 이론)</strong> | LIME의 변덕스러움과 1회용 꼼수에 분노한 수학자들이, 우주의 팩토리얼 연산을 갈아 넣어 모든 변수의 멱살을 0.1%의 오차도 없이 찢어발겨 나누는 절대 진리의 라이벌 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ LIME을 사내 [MLOps](/knowledge-base/studynote/12_it_management/05_security_co
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. LIME은 뱃속이 까매서 안 보이는 뚱뚱한 딥러닝 로봇에게 **"너 강아지 사진 어디 보고 맞췄어?!"**라고 따져 묻는 **'탐정 돋보기 마법'**이에요.
+1. LIME은 뱃속이 까매서 안 보이는 뚱뚱한 딥러닝 로봇에게 <strong>"너 강아지 사진 어디 보고 맞췄어?!"</strong>라고 따져 묻는 <strong>'탐정 돋보기 마법'</strong>이에요.
 2. 탐정은 로봇 배를 가르지 않고, 대신 강아지 사진의 꼬리도 가려보고, 눈도 가려보면서 계속 로봇한테 "이래도 강아지 같아?" 하고 살짝살짝 찔러보며(가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 퀴즈를 내요.
 3. 그러다 '강아지 귀'를 가렸을 때 로봇이 갑자기 "앗 강아지 아님!" 하고 틀리는 걸 딱 보고, 탐정은 1초 만에 "범인 잡았다! 이 녀석은 귀 모양만 보고 강아지라고 찍은 거네!"라고 정답 형광펜을 멋지게 칠해준답니다.
 

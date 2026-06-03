@@ -36,27 +36,26 @@ tags = ["studynote-devops-sre"]
 | **Substitution (치환)** | `홍길동` -> `가짜이름사전` -> `김철수` | 완벽히 다른 진짜 같은 가짜 값으로 교체하여 UI 테스트 시 이질감이 없음. |
 | **Deterministic Hashing** | `회원번호: A123` -> `Hash(A123)` -> `X999` | 일관된 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 써서, 회원 테이블의 X999와 주문 테이블의 X999가 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))되도록 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 유지. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Test Data Masking Pipeline 아키텍처 흐름도            │
-├──────────────────────────────────────────────────────────────┤
-│ [ 망분리 내부 (보안 구역) ]            [ 개발/테스트 망 ]            │
-│                                                              │
-│  운영 DB (Prod)                       테스트 DB (Dev/QA)        │
-│  ┌────────────┐     ┌──────────────┐     ┌────────────┐      │
-│  │이름: 홍길동   │     │ 마스킹 파이프라인 │     │이름: 김철수   │      │
-│  │주민: 900101 │ ──▶ │ (Jenkins /   │ ──▶ │주민: 111111 │      │
-│  │카드: 1234...│     │  Delphix 등) │     │카드: 9999...│      │
-│  └────────────┘     └──────┬───────┘     └────────────┘      │
-│                            │                                 │
-│                   [ 마스킹 룰 엔진 (Policy) ]                   │
-│                   - 이름: 난수 사전 치환(Substitution)          │
-│                   - 주민번호: 형태 보존 암호화(FPE) 적용          │
-│                   - 회원번호: 참조 무결성 유지를 위한 일관 해시     │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램에서 가장 중요한 것은 **[마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 시스템의 위치**다. [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 작업 자체는 반드시 안전한 '운영 망 내부'에서 수행되어, 오염이 완료된 찌꺼기(안전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 결과물만 개발 망으로 넘어가는 일방향(One-Way) 아키텍처가 강제되어야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test Data Masking Pipeline 아키텍처 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 내부 (보안 구역)</div><div class="kb-diagram-node">개발/테스트 망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 DB (Prod) 테스트 DB (Dev/QA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이름: 홍길동</div><div class="kb-diagram-cell">마스킹 파이프라인</div><div class="kb-diagram-cell">이름: 김철수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주민: 900101</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">(Jenkins /</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">주민: 111111</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카드: 1234...</div><div class="kb-diagram-cell">Delphix 등)</div><div class="kb-diagram-cell">카드: 9999...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스킹 룰 엔진 (Policy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이름: 난수 사전 치환(Substitution)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주민번호: 형태 보존 암호화(FPE) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회원번호: 참조 무결성 유지를 위한 일관 해시</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램에서 가장 중요한 것은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>킹 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 시스템의 위치</strong>다. [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 작업 자체는 반드시 안전한 '운영 망 내부'에서 수행되어, 오염이 완료된 찌꺼기(안전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 결과물만 개발 망으로 넘어가는 일방향(One-Way) 아키텍처가 강제되어야 한다.
 
 - **📢 섹션 요약 비유**: 과수원(운영 망)에서 딴 사과를 독성이 있는지 모른 채로 아이들(개발자)에게 줄 수 없습니다. 중간에 세척기계([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)를 설치해 독을 싹 씻어내고(민감 정보 제거), 껍질에 가짜 상표를 붙인 뒤에야(치환) 아이들 방(테스트 망)으로 넘겨주는 자동 컨베이어 벨트입니다.
 
@@ -68,14 +67,14 @@ tags = ["studynote-devops-sre"]
 
 | 비교 항목 | Mocking (가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | [Data Masking](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/) (운영 [데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/)) | [Synthetic Data](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) ([합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
 | :--- | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천** | 100% 임의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Faker) | **실제 운영(Prod) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 등)이 학습하여 창조 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 원천</strong> | 100% 임의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Faker) | <strong>실제 운영(Prod) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>본</strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 등)이 학습하여 창조 |
 | **현실성 / 엣지 케이스** | 매우 낮음 (정해진 패턴만 나옴) | **최상 (실제 고객들의 기괴한 패턴 유지)** | 우수 ([차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/) 적용) |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)** | 완벽 (진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 0%) | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 룰 누락 시 유출 위험 존재 | 완벽 (진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 0%) |
-| **적합한 단계** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), UI 개발 | **[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), UAT, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)** | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습, 외부 기관 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 완벽 (진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 0%) | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 룰 누락 시 유출 위험 존재 | 완벽 (진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 0%) |
+| **적합한 단계** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/), UI 개발 | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">통합 테스트</a>, UAT, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a></strong> | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습, 외부 기관 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) |
 
 단순한 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Data로 충분하지만, 수백 개의 테이블이 얽힌 복잡한 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 쏠림 현상을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 DB [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)에서는 오직 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹한 방식만이 유효한 결과를 낸다.
 
-- **📢 섹션 요약 비유**: **Mocking**이 마네킹을 세워두고 옷 사이즈를 재는 것이라면, **[데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/)**은 실제 손님들에게 선글라스와 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크를 씌워 얼굴만 가린 채 매장에 꽉 채워놓고(현실성) 실제 고객의 움직임과 혼잡도([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/))를 체크하는 고급 기술입니다.
+- **📢 섹션 요약 비유**: <strong>Mocking</strong>이 마네킹을 세워두고 옷 사이즈를 재는 것이라면, <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a></strong>은 실제 손님들에게 선글라스와 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크를 씌워 얼굴만 가린 채 매장에 꽉 채워놓고(현실성) 실제 고객의 움직임과 혼잡도([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/))를 체크하는 고급 기술입니다.
 
 ---
 
@@ -85,12 +84,12 @@ tags = ["studynote-devops-sre"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) ([Referential Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)) 보존**: 고객 테이블의 `User_ID`를 'A'로 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹했는데, 주문 테이블의 `User_ID`를 'B'로 다르게 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹하면 두 테이블을 Join하는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0건이 되어버린다. 모든 관련 테이블의 외래키(FK)가 동일한 암호 값으로 변환(Deterministic Hashing)되도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 룰이 엮여 있는가?
+1. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/">참조 무결성</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/">Referential Integrity</a>) 보존</strong>: 고객 테이블의 `User_ID`를 'A'로 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹했는데, 주문 테이블의 `User_ID`를 'B'로 다르게 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹하면 두 테이블을 Join하는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0건이 되어버린다. 모든 관련 테이블의 외래키(FK)가 동일한 암호 값으로 변환(Deterministic Hashing)되도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 룰이 엮여 있는가?
 2. **Subsetting (부분 추출) 최적화**: 수 테라바이트(TB)의 운영 DB 전체를 매번 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹해서 넘기면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 시간이 10시간 넘게 걸린다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 최신 1주일 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 특정 시나리오 샘플 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 똑똑하게 떼어내어(Subset) 5분 만에 넘기도록 경량화했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹(Dynamic Masking)의 오용**: 동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹은 DB에 원본은 그대로 둔 채 사용자 권한에 따라 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 레벨에서만 `*`로 가려주는 기능이다. 개발자에게 동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 권한만 주고 "이걸로 테스트해라"라고 던져주면, 개발자는 `WHERE name = '홍길동'` 같은 조건문 조회를 할 수 없어 테스트를 포기하게 된다. 테스트 환경 구축은 반드시 물리적으로 값이 덮어씌워진 **정적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹(Static Masking)** [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이어야 한다.
+- <strong>동적 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>킹(Dynamic Masking)의 오용</strong>: 동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹은 DB에 원본은 그대로 둔 채 사용자 권한에 따라 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 레벨에서만 `*`로 가려주는 기능이다. 개발자에게 동적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 권한만 주고 "이걸로 테스트해라"라고 던져주면, 개발자는 `WHERE name = '홍길동'` 같은 조건문 조회를 할 수 없어 테스트를 포기하게 된다. 테스트 환경 구축은 반드시 물리적으로 값이 덮어씌워진 <strong>정적 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>킹(Static Masking)</strong> [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이어야 한다.
 
 - **📢 섹션 요약 비유**: 퍼즐 1,000조각의 그림을 숨기기 위해 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 할 때, 퍼즐 조각들의 튀어나온 이음새 모양([참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) 외래키)까지 마음대로 깎아버리면 다시는 퍼즐을 맞출 수 없게 됩니다. 그림([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/))만 덧칠하고, 이음새 모양은 그대로 유지하는 것이 이 기술의 핵심입니다.
 
@@ -110,28 +109,30 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/) ([Format Preserving Encryption](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/))** | `010-1234-5678`을 `010-9876-5432`처럼 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이와 형태(Format)를 그대로 유지한 채 암호화하여 애플리케이션의 유효성 검사 에러를 막는 기술. |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Subsetting** | 거대한 운영 DB 전체가 아닌, [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨지지 않게 관련 테이블들을 묶어서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 떼어내는 추출 기술. |
-| **[Shift-Left Security](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/)** | 보안 점검을 운영 배포 직전(Right)이 아니라, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계인 개발/테스트(Left) 단계로 끌어와서 일찍부터 보안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 개발하는 철학. |
-| **[Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/) ([차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/))** | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 넘어 AI를 이용해 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성은 유지하되 특정 개인을 절대 역추적할 수 없게 노이즈를 섞어 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)를 만드는 미래 기술. |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/">FPE</a> (<a href="/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/">Format Preserving Encryption</a>)</strong> | `010-1234-5678`을 `010-9876-5432`처럼 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이와 형태(Format)를 그대로 유지한 채 암호화하여 애플리케이션의 유효성 검사 에러를 막는 기술. |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Subsetting</strong> | 거대한 운영 DB 전체가 아닌, [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨지지 않게 관련 테이블들을 묶어서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 떼어내는 추출 기술. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/">Shift-Left Security</a></strong> | 보안 점검을 운영 배포 직전(Right)이 아니라, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계인 개발/테스트(Left) 단계로 끌어와서 일찍부터 보안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 개발하는 철학. |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a>)</strong> | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹을 넘어 AI를 이용해 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성은 유지하되 특정 개인을 절대 역추적할 수 없게 노이즈를 섞어 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)를 만드는 미래 기술. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수작업 더미 데이터 생성 (개발자가 엑셀이나 스크립트로 Mock Data 생성)
-    │
-    ▼
-운영 DB 무단 복제 (개발 편의를 위해 운영 DB를 통째로 개발망 덤프 -> 대형 보안 사고 발생)
-    │
-    ▼
-정적/동적 마스킹 솔루션 도입 (DBA가 수동으로 민감 정보 가린 후 넘겨주는 과도기)
-    │
-    ▼
-CI/CD 연동 자동화 마스킹 파이프라인 (DevSecOps. 스냅샷 -> 마스킹 -> 주입의 무인 자동화 달성)
-    │
-    ▼
-AI 기반 합성 데이터(Synthetic Data) 생성 및 차분 프라이버시(통계적 무결성 보장) 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수작업 더미 데이터 생성 (개발자가 엑셀이나 스크립트로 Mock Data 생성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 DB 무단 복제 (개발 편의를 위해 운영 DB를 통째로 개발망 덤프 -&gt; 대형 보안 사고 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적/동적 마스킹 솔루션 도입 (DBA가 수동으로 민감 정보 가린 후 넘겨주는 과도기)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 연동 자동화 마스킹 파이프라인 (DevSecOps. 스냅샷 -&gt; 마스킹 -&gt; 주입의 무인 자동화 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 합성 데이터(Synthetic Data) 생성 및 차분 프라이버시(통계적 무결성 보장) 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

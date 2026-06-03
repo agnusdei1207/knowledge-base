@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 에츠허르 다익스트라가 창안한 '은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'은 이론적으로 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 100% 회피하는 수학적 걸작이었으나, 그 전제 조건 자체가 **'동적이고 예측 불가능한 현대 컴퓨터 생태계'의 물리 법칙과 정면으로 대치되어 현실 사용이 아예 불가능(Impractical)하다는 치명적 모순(한계)**을 내포하고 있다.
+> 1. **본질**: 에츠허르 다익스트라가 창안한 '은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'은 이론적으로 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 100% 회피하는 수학적 걸작이었으나, 그 전제 조건 자체가 <strong>'동적이고 예측 불가능한 현대 컴퓨터 생태계'의 물리 법칙과 정면으로 대치되어 현실 사용이 아예 불가능(Impractical)하다는 치명적 모순(한계)</strong>을 내포하고 있다.
 > 2. **가치**: 왜 유닉스/리눅스가 이 천재적인 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 버리고, 무지성으로 자원을 퍼주다가 가끔 에러 나면 프로그램을 강제 종료(Ostrich 무시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))하는 야만적인(?) 방식을 채택할 수밖에 없었는지 공학적 당위성(오버헤드 딜레마)을 설명하는 역사적 반면교사다.
 > 3. **융합**: '프로세스의 자원 최대 사용량(Max) 선언 의무'와 매 요청 시 발생하는 $O(m \times n^2)$ 수준의 매트릭스 순회 'CPU 연산 폭주(Overhead)'라는 두 가지 대명제적 한계는, 실무에서 "보안/안전 비용이 일상 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 파괴해선 안 된다"는 UX 철학으로 융합 정립되었다.
 
@@ -23,32 +23,31 @@ tags = ["studynote-operating-system"]
 
 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 논리가 딱 이 수준이다. 하지만 현실 컴퓨터는 이렇지 않다. 프로세스는 웹 브라우저에서 유저가 탭을 몇 개나 미친 듯이 생성될지 시작할 땐 자기도 모른다. (Max 선언 불가). 그리고 USB나 디스크는 사용 도중 냅다 뽑혀 날아가 버리기도 한다(총 자원량 불변 불가). 
 
-가장 핵심적인 문제는, 그깟 데드락 한두 개 잡자고 마우스를 클릭할 때마다 은행원의 거대한 엑셀 행렬 시뮬레이션([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 돌리느라 CPU 자율주행률이 절반으로 깎인다는 사실이다. 이론의 완벽함이 실무의 발목을 부러뜨린 **오버엔지니어링(Over-engineering)**의 전형적 한계 사례다.
+가장 핵심적인 문제는, 그깟 데드락 한두 개 잡자고 마우스를 클릭할 때마다 은행원의 거대한 엑셀 행렬 시뮬레이션([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 돌리느라 CPU 자율주행률이 절반으로 깎인다는 사실이다. 이론의 완벽함이 실무의 발목을 부러뜨린 <strong>오버엔지니어링(Over-engineering)</strong>의 전형적 한계 사례다.
 
 **💡 비유**: 데드락(교통사고)을 0%로 줄이겠답시고, 도로 요금소에서 모든 차량 운전자에게 "오늘 하루 동안 방문할 모든 경유지(Max)"를 엑셀표로 제출하라고 강요한 뒤, 인공지능이 30분 동안 "사고 날지 안 날지" 연산하고 나서야 차단기를 열어주는 황당한 교통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/). 사고는 없겠지만 톨게이트에는 50km의 대기열 막힘(오버헤드)이 발생한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         은행원 알고리즘의 4대 붕괴점 (한계적 가정)              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  1. "프로세스는 시작 전 평생 쓸 Max 자원을 안다?" (거짓)        │
-│     → 사용자가 메뉴판을 얼마나 클릭할지 런타임 이전엔 절!대!    │
-│        모른다. (동적 메모리 변수, 힙 확장 등 예측 불가)         │
-│                                                                 │
-│  2. "자원은 영원히 고장 나지 않는다?" (거짓)                    │
-│     → `Available` 자원이 하드 장애로 날아가면, 은행원의         │
-│        장부 밸런스가 박살 나 알고리즘 자체가 패닉에 빠짐.       │
-│                                                                 │
-│  3. "프로세스 수는 고정되어 있다?" (거짓)                       │
-│     → 스레드가 런타임에 죽어나가고 수만 개가 fork 되는데,       │
-│        N×M 행렬의 N(스레드 수)이 실시간 요동치면 연산 불가.     │
-│                                                                 │
-│  4. 매번 $O(m \times n^2)$ 시뮬레이션을 돌려라? (퍼포먼스 자살) │
-│     → 자원 하나 빌릴 때마다 이 루프를 다 돌면, 당신의 스마트    │
-│        폰은 전화 걸 때마다 게임 그래픽이 렉 걸리듯 멈춘다.      │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은행원 알고리즘의 4대 붕괴점 (한계적 가정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "프로세스는 시작 전 평생 쓸 Max 자원을 안다?" (거짓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사용자가 메뉴판을 얼마나 클릭할지 런타임 이전엔 절!대!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모른다. (동적 메모리 변수, 힙 확장 등 예측 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "자원은 영원히 고장 나지 않는다?" (거짓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ <code>Available</code> 자원이 하드 장애로 날아가면, 은행원의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장부 밸런스가 박살 나 알고리즘 자체가 패닉에 빠짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "프로세스 수는 고정되어 있다?" (거짓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 스레드가 런타임에 죽어나가고 수만 개가 fork 되는데,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N×M 행렬의 N(스레드 수)이 실시간 요동치면 연산 불가.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 매번 $O(m \times n^2)$ 시뮬레이션을 돌려라? (퍼포먼스 자살)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자원 하나 빌릴 때마다 이 루프를 다 돌면, 당신의 스마트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰은 전화 걸 때마다 게임 그래픽이 렉 걸리듯 멈춘다.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 결벽증 도서관 사서입니다. "평생 읽을 책 목록을 미리 내라! 책 한 권이라도 분실되면 안 된다! 책 빌릴 때마다 혹시 서로 싸울지 1시간 동안 계산해 본다!" 숨이 막혀 도서관(OS) 이용객이 아예 떠나버립니다.
 
@@ -64,7 +63,7 @@ tags = ["studynote-operating-system"]
 은행원(OS)은 이 허위 서류를 믿고 바보같이 보수적 안전 모드에 빠진다. 
 실제 그 어플리케이션은 1GB만 쓰고 있는데도, "어이쿠, 쟤가 갑자기 100GB를 달라고 돌변하면 우리 시스템 망해(Unsafe)!" 라고 시뮬레이션을 때리며, 뒤에 기다리는 불쌍한 프로세스들에게 단 10MB조차 승인을 거부해 버린다.
 
-시스템 내 자원은 한가득 대풍년인데, 은행원의 겁쟁이 마인드 탓에 모든 프로세스가 굶어 죽는 극강의 **자원 비효율성(Low Utilization)**이 초래된다.
+시스템 내 자원은 한가득 대풍년인데, 은행원의 겁쟁이 마인드 탓에 모든 프로세스가 굶어 죽는 극강의 <strong>자원 비효율성(Low Utilization)</strong>이 초래된다.
 
 **📢 섹션 요약 비유**: 한도 10억짜리 마이너스 통장만 만들어놓고 단돈 1원도 안 쓰는 부자 고객(거짓 Max 선언) 때문에, 통장 잔고가 남는 은행이 "저 사람이 언제 10억 뺄지 모르니까" 쫄아서 진짜 수술비 필요한 서민 찌꺼기 대출 다 반려하는(자원 활용 낭비) 최악의 결과.
 
@@ -88,7 +87,7 @@ tags = ["studynote-operating-system"]
 1. **스펙 제한이 명확한 우주 항공 RTOS (적용 가능성 존재)**: 유일하게 이 낡은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 살아 숨 쉬는 곳은, 어플리케이션 탭이 멋대로 열리지 않고 런타임 변수 개입이 없는 임베디드 코어 제어 장치다. 태양광 패널 제어 프로세스는 "죽을 때까지 최대 스텝 모터 락 2개!" 라고 소스를 하드코딩(Static) 해둘 수 있으므로 Max 선언의 족쇄에서 자유롭고 연산 부하도 예측 가능하다.
 2. **AWS Autoscaling / K8S 쿼터 (현대적 회피 융합)**: 뱅커스를 그대로 쓰진 않지만, 그 사상인 "가진 여유 자원과 네가 최대로 쓸 `Limit`를 보고 파드를 구겨 넣겠다"는 로드 밸런싱의 거대한 밑그림 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 변형되어 사용된다 (단, `O(n^2)` 계산은 빼버리고 무식하게 `Available >= Limit` 단순 매핑으로 튜닝).
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **상용 프레임워크에 선제적 회피 로직 삽입**: 웹 백엔드 개발 시, 자바 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Stream에 데드락을 방지하겠다고 락 승인 전에 자신이 쥐고 있는 쓰레드 풀 미래 사용량을 `Atomic`으로 시뮬레이션 돌려보는 로직. DB 통신 I/O를 앞두고 은행원 흉내를 내면 유저 응답 속도 지연율([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 데드락보다 먼저 서버를 박살 낸다.
 
 **📢 섹션 요약 비유**: 데드락 예방이라는 미명 하에 동네 빵집에서 빵 하나 사는데 40장짜리 자금 출처 미래 계획서(Max)를 작성하라는 요구를 하면 손님이 다 떠납니다. 빵은 그냥 돈 내고 집게 만들고, 뒤에 재고 비면 굽는(보상패턴) 게 맞습니다.
@@ -103,7 +102,7 @@ tags = ["studynote-operating-system"]
 | 다익스트라의 유산 | 이론적 증명의 토대, 연구자들의 존경 | 실리콘밸리 엔지니어들에 의한 역사적 휴지통행 |
 
 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계의 역설은, "완벽을 추구하는 시스템 설계가 자원 예측 불가능성(Unpredictability)이라는 컴퓨팅의 물리적 런타임 본성 앞에 어떻게 무너지는가"를 시사하는 찬란한 실패기다. 
-결국 소프트웨어 엔지니어링은 미래(Max)를 억측하고 수만 번 계산(O(n^2))하며 자원을 아끼는 대신, **미래의 사고를 허용하되 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(탐지 및 복원) 향상에 시스템 인프라를 몰빵**하는 '[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)' 메타로 진화하게 되었다.
+결국 소프트웨어 엔지니어링은 미래(Max)를 억측하고 수만 번 계산(O(n^2))하며 자원을 아끼는 대신, <strong>미래의 사고를 허용하되 사후 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(탐지 및 복원) 향상에 시스템 인프라를 몰빵</strong>하는 '[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)' 메타로 진화하게 되었다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -120,15 +119,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[은행원 알고리즘 자료구조]
-    │
-    ▼
-[은행원 알고리즘 한계 (Bankers Limitations)]
-    │
-    ├──▶ [교착 상태 탐지 (Deadlock Detection)]
-    └──▶ [대기 그래프 (Wait-for Graph)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘 자료구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘 한계 (Bankers Limitations)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 탐지 (Deadlock Detection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대기 그래프 (Wait-for Graph)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

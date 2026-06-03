@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 PPO는 클리핑만으로 비슷한 안정성을 달성한다. 단순하지만 강력한 이 특성으로 OpenAI의 기본 RL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 됐다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PPO는 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 업데이트할 때 한 번에 너무 많이 바꾸지 말라"는 규칙을 단순한 클리핑으로 구현한다. 경사 하강 시 최대 보폭을 정하는 것이다.
 
@@ -63,31 +66,35 @@ L_CLIP = E[min(rₜ(θ)·Âₜ, clip(rₜ(θ), 1-ε, 1+ε)·Âₜ)]
 
 ### 클리핑 동작 분석
 
-```
-Âₜ > 0 (좋은 행동을 더 강화):
-  r < 1-ε: 정상적으로 보상 증가 허용
-  r > 1+ε: 클리핑 → 더 이상 보상 증가 차단 (과도한 업데이트 방지)
 
-Âₜ < 0 (나쁜 행동을 줄임):
-  r > 1+ε: 정상적으로 페널티
-  r < 1-ε: 클리핑 → 더 이상 페널티 차단
-```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  L_CLIP 함수 (Âₜ > 0 경우)                           │
-│                                                      │
-│  L↑                                                  │
-│  |    ________________                               │
-│  |   /                                               │
-│  |  / (클리핑 이전)                                   │
-│  | /                                                 │
-│  |/_________________________ r                       │
-│  1-ε        1         1+ε                            │
-│             ↑                                        │
-│     클리핑: 1+ε 초과 시 기울기 0                      │
-└──────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Âₜ &gt; 0 (좋은 행동을 더 강화):</div>
+<div class="kb-diagram-note">r &lt; 1-ε: 정상적으로 보상 증가 허용</div>
+<div class="kb-diagram-note">r &gt; 1+ε: 클리핑 → 더 이상 보상 증가 차단 (과도한 업데이트 방지)</div>
+<div class="kb-diagram-note">Âₜ &lt; 0 (나쁜 행동을 줄임):</div>
+<div class="kb-diagram-note">r &gt; 1+ε: 정상적으로 페널티</div>
+<div class="kb-diagram-note">r &lt; 1-ε: 클리핑 → 더 이상 페널티 차단</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_CLIP 함수 (Âₜ &gt; 0 경우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (클리핑 이전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/_________________________ r</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1-ε 1 1+ε</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클리핑: 1+ε 초과 시 기울기 0</div></div>
+</div>
+</div>
+
+
 
 ### PPO 전체 목적 함수
 
@@ -112,7 +119,7 @@ c₁, c₂: 가중치 계수
 
 ## Ⅲ. 비교 및 연결
 
-**[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (강화학습 기반 인간 피드백)**에서의 PPO:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (강화학습 기반 인간 피드백)</strong>에서의 PPO:
 1. SFT (Supervised [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습
 2. 보상 모델([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 학습: 사람 선호도 → Bradley-Terry 모델
 3. PPO로 [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 점수를 보상으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화

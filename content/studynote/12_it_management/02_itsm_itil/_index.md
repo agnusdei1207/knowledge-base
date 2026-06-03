@@ -17,34 +17,28 @@ tags = ["it_management"]
 
 ### '기술 공급'에서 '서비스 가치'로의 전환
 
-과거 IT 부서의 역할은 단순히 서버를 돌리고 네트워크를 연결하는 '기술 제공'에 머물렀다. 그러나 현대 기업에게 IT는 비즈니스 가치를 창출하는 핵심 서비스이다. **ITSM**은 IT를 하나의 서비스로 정의하고, 사용자가 불편함 없이 최상의 품질로 그 서비스를 이용할 수 있도록 관리하는 모든 '운영의 미학'을 다룬다.
+과거 IT 부서의 역할은 단순히 서버를 돌리고 네트워크를 연결하는 '기술 제공'에 머물렀다. 그러나 현대 기업에게 IT는 비즈니스 가치를 창출하는 핵심 서비스이다. <strong>ITSM</strong>은 IT를 하나의 서비스로 정의하고, 사용자가 불편함 없이 최상의 품질로 그 서비스를 이용할 수 있도록 관리하는 모든 '운영의 미학'을 다룬다.
 
-ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, **서비스 중단 리스크 최소화**를 위해서이다. 체계적인 장애 관리 없이는 대형 사고를 막을 수 없다. 둘째, **고객 만족도 향상**을 위해서이며 (명확한 SLA 준수), 셋째, **운영 비용의 효율화**를 위해서이다. 중구난방식 처리가 아닌 표준화된 프로세스를 통해 인력과 자원의 낭비를 줄인다.
+ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, <strong>서비스 중단 리스크 최소화</strong>를 위해서이다. 체계적인 장애 관리 없이는 대형 사고를 막을 수 없다. 둘째, <strong>고객 만족도 향상</strong>을 위해서이며 (명확한 SLA 준수), 셋째, <strong>운영 비용의 효율화</strong>를 위해서이다. 중구난방식 처리가 아닌 표준화된 프로세스를 통해 인력과 자원의 낭비를 줄인다.
 
-이 그림은 ITIL v4의 핵심 개념인 **서비스 가치 체계 (SVS)**를 보여준다.
+이 그림은 ITIL v4의 핵심 개념인 <strong>서비스 가치 체계 (SVS)</strong>를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 ITIL v4 Service Value System (SVS)          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Opportunity / Demand ] ──────────▶ [ Value (가치) ]     │
-│                                                              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │              [ Guiding Principles ]                 │   │
-│   │  ┌───────────────────────────────────────────────┐  │   │
-│   │  │          [ Governance / Practices ]           │  │   │
-│   │  │  ┌─────────────────────────────────────────┐  │  │   │
-│   │  │  │      [ Service Value Chain ]            │  │  │   │
-│   │  │  │ Plan -> Engage -> Design -> Build ->    │  │  │   │
-│   │  │  │ Deliver/Support -> Improve              │  │  │   │
-│   │  │  └─────────────────────────────────────────┘  │  │   │
-│   │  └───────────────────────────────────────────────┘  │   │
-│   │            [ Continual Improvement ]                │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ITIL v4 Service Value System (SVS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Opportunity / Demand</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Value (가치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guiding Principles</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Governance / Practices</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │</div><div class="kb-diagram-node">Service Value Chain</div><div class="kb-diagram-note">│ │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan -&gt; Engage -&gt; Design -&gt; Build -&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deliver/Support -&gt; Improve</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Continual Improvement</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '공동 가치 창출 (Co-creation of Value)'이다. 공급자가 일방적으로 주는 것이 아니라, 고객과 함께 가치를 만들어가는 과정이 ITIL v4의 정수이다. 실무에서는 이를 위해 단순히 티켓을 처리하는 것을 넘어, 비즈니스 파트너로서의 IT 역할을 강조한다.
 
@@ -81,25 +75,21 @@ ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, **서비스 중�
 
 이 구조도는 장애 관리와 문제 관리의 상호 작용을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Incident vs Problem Management Flow         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User Issue ] ──▶ [ Incident Management ] ──▶ [ Restore ] │
-│          │               (신속한 우회 조치)         │       │
-│          │                                          │       │
-│          └──────────▶ [ Problem Management ] ◀──────┘       │
-│                          (심층 원인 분석)                   │
-│                                 │                           │
-│                                 ▼                           │
-│   [ KEDB (Known Error) ] ◀── [ Root Cause Found ]          │
-│                                 │                           │
-│                                 ▼                           │
-│   [ Change Request (RFC) ] ──▶ [ Infrastructure Fix ]       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident vs Problem Management Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Issue</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Incident Management</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Restore</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신속한 우회 조치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Problem Management</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(심층 원인 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KEDB (Known Error)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Root Cause Found</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Change Request (RFC)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Infrastructure Fix</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'KEDB (Known Error Database)'의 축적이다. 한 번 겪은 장애를 지식화하여, 나중에 똑같은 일이 터졌을 때 누구나 즉시 해결할 수 있게 만든다. 실무에서는 이 지식 베이스의 품질이 운영팀의 실력을 가르는 척도가 된다.
 
@@ -115,7 +105,7 @@ ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, **서비스 중�
 - **SLO (Objective)**: 가동률 99.9%, 응답 시간 1초 이내 등 정량적 목표.
 - **SLI (Indicator)**: 성능을 측정하는 지표들.
 - **SLA Penalty**: 목표 미달 시 보상 규정.
-- **Synergy**: 최근에는 수치상의 만족을 넘어 실제 사용자 경험을 측정하는 **XLA (Experience Level Agreement)**로 진화하고 있다.
+- **Synergy**: 최근에는 수치상의 만족을 넘어 실제 사용자 경험을 측정하는 <strong>XLA (Experience Level Agreement)</strong>로 진화하고 있다.
 
 ### ITIL v3 vs ITIL v4 비교
 
@@ -135,29 +125,28 @@ ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, **서비스 중�
 ### 기술사적 판단: 서비스 운영 안정화 및 품질 통제 전략
 
 **시나리오 1: 잦은 신규 기능 배포로 인해 매주 월요일 오전마다 서비스 장애 발생**
-- **판단**: 개발의 속도와 운영의 안정성이 충돌하고 있다. **변경 관리 (Change Management)** 프로세스를 강화하되, 수동 승인이 아닌 **데브옵스 파이프라인의 자동화된 테스트 게이트**를 활용한다. 또한 구글의 SRE 철학인 **'에러 버짓 (Error Budget)'** 제도를 도입한다. 장애 허용치를 넘어서면 모든 배포를 중단하고 안정화에만 집중하게 하여, 개발팀 스스로 품질에 책임지게 만든다.
+- **판단**: 개발의 속도와 운영의 안정성이 충돌하고 있다. **변경 관리 (Change Management)** 프로세스를 강화하되, 수동 승인이 아닌 <strong>데브옵스 파이프라인의 자동화된 테스트 게이트</strong>를 활용한다. 또한 구글의 SRE 철학인 **'에러 버짓 (Error Budget)'** 제도를 도입한다. 장애 허용치를 넘어서면 모든 배포를 중단하고 안정화에만 집중하게 하여, 개발팀 스스로 품질에 책임지게 만든다.
 
 **시나리오 2: 서비스 가동률 지표는 100%인데, 현업 부서의 불만은 폭주하는 상황**
-- **판단**: 전형적인 **'수박 SLA (Watermelon SLA)'** 현상이다. 겉은 초록색(지표 정상)이지만 속은 빨간색(사용자 고통)인 상태다. 단순히 서버가 떠 있는지만 보지 말고, 실제 사용자의 비즈니스 거래 완료 성공률 (Success Rate)이나 화면 로딩 지연 시간을 측정하는 **사용자 체감 지표 (XLA)**로 관리 체계를 전면 개편한다.
+- **판단**: 전형적인 **'수박 SLA (Watermelon SLA)'** 현상이다. 겉은 초록색(지표 정상)이지만 속은 빨간색(사용자 고통)인 상태다. 단순히 서버가 떠 있는지만 보지 말고, 실제 사용자의 비즈니스 거래 완료 성공률 (Success Rate)이나 화면 로딩 지연 시간을 측정하는 <strong>사용자 체감 지표 (XLA)</strong>로 관리 체계를 전면 개편한다.
 
 이 도식은 기술사가 설계하는 'ITSM 기반 침해 사고 대응 체계'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Integrated Incident Response Workflow         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Event Detection ] ──▶ [ Logging & Triage ] ──┐          │
-│          ▲                       │ (등급 분류)       │          │
-│          │                       ▼                  │          │
-│   [ Post-Mortem ] ◀── [ Restore / RFC ] ◀── [ Analysis ]    │
-│     (사후 복기)           (복구 및 변경)      (영향도 분석)  │
-│                                                             │
-│   * 실무 가이드: 장애 처리 중에도 변경 승인(Emergency)은    │
-│     반드시 기록되어야 함 (Audit Trail 확보)                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integrated Incident Response Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Event Detection</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Logging &amp; Triage</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(등급 분류)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Post-Mortem</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Restore / RFC</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사후 복기) (복구 및 변경) (영향도 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 장애 처리 중에도 변경 승인(Emergency)은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반드시 기록되어야 함 (Audit Trail 확보)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 운영 판단은 '종합 병원의 응급실 시스템 설계'와 같습니다. 환자(장애)가 들어오면 중증도에 따라 분류(Triage)하고, 응급 처치(우회)를 할지 수술(변경)을 할지 결정하며, 완치 후에는 왜 아팠는지 기록(KEDB)하여 병을 원천 차단하는 지휘자입니다.
 
@@ -172,7 +161,7 @@ ITSM 및 ITIL이 필요한 이유는 세 가지이다. 첫째, **서비스 중�
 
 ### 미래 전망: AIOps와 자율 운영 (Self-Healing)
 
-향후 ITSM은 사람이 로그를 보는 시대를 지나 AI가 주도하는 **AIOps**로 진화할 것이다. AI가 수천 개의 지표를 실시간 분석하여 장애 징후를 미리 예견하고, 장애 발생 시 최적의 복구 스크립트를 자동으로 실행하는 **자율 치유 (Self-Healing) 인프라**가 상용화될 것이다. 기술사는 개별 프로세스의 관리자를 넘어, AI가 운영하는 거대한 가치 사슬을 조율하고 비즈니스 성과를 극대화하는 '서비스 가치 아키텍트'로 거듭나야 한다.
+향후 ITSM은 사람이 로그를 보는 시대를 지나 AI가 주도하는 <strong>AIOps</strong>로 진화할 것이다. AI가 수천 개의 지표를 실시간 분석하여 장애 징후를 미리 예견하고, 장애 발생 시 최적의 복구 스크립트를 자동으로 실행하는 <strong>자율 치유 (Self-Healing) 인프라</strong>가 상용화될 것이다. 기술사는 개별 프로세스의 관리자를 넘어, AI가 운영하는 거대한 가치 사슬을 조율하고 비즈니스 성과를 극대화하는 '서비스 가치 아키텍트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 ITSM은 '우리 몸의 면역 체계'와 같아질 것입니다. 우리가 의식하지 않아도 몸속의 백혈구(AI 운영 도구)들이 바이러스를 잡고 상처를 고치며, 우리가 항상 건강한 상태(비즈니스 지속성)를 유지하도록 지켜줄 것입니다.
 

@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 개발자가 기능을 쌩쌩 잘 돌아가게([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 짜는 것을 넘어, 외부의 악의적인 입력이나 비정상적인 상황에서도 시스템이 스스로 붕괴하거나 정보를 토해내지 않도록 단단하게(Robust) 코드를 짜는 룰(Rule)이다.
 
-- **필요성**: 은행 웹사이트의 로그인 창에 비밀번호 대신 `' OR 1=1 --` 이라는 특이한 문자를 쳤다. 그랬더니 놀랍게도 관리자 계정으로 로그인되어 100억 원을 이체할 수 있었다(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 수억 원짜리를 사놓았지만 소용이 없었다. 왜냐하면 웹사이트 안에서 돌아가는 자바(Java) 소스 코드가 사용자가 입력한 문자를 아무 의심 없이 그대로 DB로 직행시키는 '스파게티 보안 구멍'을 갖고 있었기 때문이다. **코드가 썩어있으면 외부의 철조망([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 아무 의미가 없다.**
+- **필요성**: 은행 웹사이트의 로그인 창에 비밀번호 대신 `' OR 1=1 --` 이라는 특이한 문자를 쳤다. 그랬더니 놀랍게도 관리자 계정으로 로그인되어 100억 원을 이체할 수 있었다(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 수억 원짜리를 사놓았지만 소용이 없었다. 왜냐하면 웹사이트 안에서 돌아가는 자바(Java) 소스 코드가 사용자가 입력한 문자를 아무 의심 없이 그대로 DB로 직행시키는 '스파게티 보안 구멍'을 갖고 있었기 때문이다. <strong>코드가 썩어있으면 외부의 철조망(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)은 아무 의미가 없다.</strong>
 
-- **💡 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 **'튼튼한 성문 만들기'**와 같습니다. 겉에 해자([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 파고 경비병(백신)을 세워놔도, 정작 성문(소스 코드)이 종이로 만들어져서 누군가 발로 차서 뚫을 수 있다면 그 성은 무너집니다. [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 성문을 티타늄으로 만들고, 들어오는 사람의 지문과 홍채(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 하나하나 깐깐하게 검사하는 강력한 출입국 관리소입니다.
+- **💡 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 <strong>'튼튼한 성문 만들기'</strong>와 같습니다. 겉에 해자([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 파고 경비병(백신)을 세워놔도, 정작 성문(소스 코드)이 종이로 만들어져서 누군가 발로 차서 뚫을 수 있다면 그 성은 무너집니다. [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 성문을 티타늄으로 만들고, 들어오는 사람의 지문과 홍채(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 하나하나 깐깐하게 검사하는 강력한 출입국 관리소입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **기능 위주의 낭만 시대**: 과거엔 C언어로 `strcpy()` 같은 메모리 복사 함수를 막 썼다. 해커가 메모리 크기보다 큰 쓰레기값을 밀어 넣어 서버를 장악했다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)).
   2. **CERT / OWASP의 등장**: 2000년대 해킹 피해가 조 단위로 넘어가자, OWASP(국제웹보안표준기구) 같은 단체에서 "웹 취약점 Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)"을 발표하며 전 세계 개발자들에게 제발 이 10가지 코드 좀 이렇게 짜지 말라고 가이드라인을 뿌렸다.
   3. **법적 의무화 (현재)**: 대한민국 행정안전부는 "소프트웨어 개발보안가이드(47개 항목)"를 제정하여, 공공기관 프로젝트는 무조건 이 룰대로 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)을 안 하면 아예 납품 통과(감리) 자체를 불허하는 강력한 규제로 진화했다.
 
-- **📢 섹션 요약 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 비행기 탈 때 거치는 **'공항 검색대'**입니다. 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 아무리 선량해 보여도, 가방 속에 폭탄(악성 스크립트)이나 칼(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))이 숨겨져 있는지 엑스레이(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))로 무조건 의심하고 싹 털어보는 철저한 편집증입니다.
+- **📢 섹션 요약 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)은 비행기 탈 때 거치는 <strong>'공항 검색대'</strong>입니다. 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 아무리 선량해 보여도, 가방 속에 폭탄(악성 스크립트)이나 칼(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))이 숨겨져 있는지 엑스레이(입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))로 무조건 의심하고 싹 털어보는 철저한 편집증입니다.
 
 ---
 
 다음은 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) (Secure Codin의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시큐어 코딩 (Secure Codin                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시큐어 코딩 (Secure Codin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) (Secure Codin가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -59,7 +58,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)에서 반드시 막아내야 할 **3대 치명적 취약점**과 그 방어 코드 원리다.
+[시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)에서 반드시 막아내야 할 <strong>3대 치명적 취약점</strong>과 그 방어 코드 원리다.
 
 - **📢 섹션 요약 비유**: [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) ([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -141,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-시큐어 코딩 (Secure Coding) 원칙 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시큐어 코딩 (Secure Coding) 원칙 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

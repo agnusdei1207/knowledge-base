@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 사용자 단말기(스마트폰, 자율주행차)와 가장 가까운 **네트워크의 끝자락(Edge, 주로 동네 무선 기지국이나 전화국 국사)**에 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전진 배치하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 및 연산을 중앙 코어망(서울 본사)까지 보내지 않고 현장에서 즉시 끝내버리는 컴퓨팅 아키텍처입니다. (627번 문서의 연장선)
-- **목적**: 5G의 핵심 성능인 **[URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연 1ms)** 보장과 중앙 망으로 몰리는 트래픽 붕괴([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 병목) 현상 해소.
+- **개념**: 사용자 단말기(스마트폰, 자율주행차)와 가장 가까운 <strong>네트워크의 끝자락(Edge, 주로 동네 무선 기지국이나 전화국 국사)</strong>에 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전진 배치하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 및 연산을 중앙 코어망(서울 본사)까지 보내지 않고 현장에서 즉시 끝내버리는 컴퓨팅 아키텍처입니다. (627번 문서의 연장선)
+- **목적**: 5G의 핵심 성능인 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>(초저지연 1ms)</strong> 보장과 중앙 망으로 몰리는 트래픽 붕괴([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 병목) 현상 해소.
 
-```text
-[E2E 슬라이싱 보장 모델 관리]
-    │
-    ▼
-[MEC 기반 가속 통신망 라우팅 최적]
-    │
-    └──▶ [Massive MIMO 대거 다중 배열 안테…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,25 +41,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-5GC에서 가장 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 짐꾼, **UPF(User Plane Function, 771번 문서)**가 어떻게 엣지 컴퓨팅을 완성하는지 살펴봅시다.
+5GC에서 가장 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 짐꾼, <strong>UPF(User Plane Function, 771번 문서)</strong>가 어떻게 엣지 컴퓨팅을 완성하는지 살펴봅시다.
 
 ### 1. 기존망의 비효율 ([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 낭비)
 - 자율주행차가 눈앞의 보행자를 보고 "브레이크!" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기지국으로 쏩니다.
-- 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망은 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동네 기지국을 거쳐, 기나긴 땅속 유선망([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))을 타고 **서울 중앙 통신사 코어 서버(P-GW)**까지 찍은 뒤, 다시 그 뇌의 명령을 받아 지방 기지국으로 되돌아왔습니다. 이 왕복 거리에 20~50ms의 시간이 허비되어 차가 이미 충돌하고 맙니다.
+- 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망은 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동네 기지국을 거쳐, 기나긴 땅속 유선망([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))을 타고 <strong>서울 중앙 통신사 코어 서버(P-GW)</strong>까지 찍은 뒤, 다시 그 뇌의 명령을 받아 지방 기지국으로 되돌아왔습니다. 이 왕복 거리에 20~50ms의 시간이 허비되어 차가 이미 충돌하고 맙니다.
 
 ### 2. [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 망의 UPF 전진 배치와 인터셉트 🌟
-- 5G는 100% 클라우드 소프트웨어 구조([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))이므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 톨게이트인 **UPF 장비를 서울 본사에서 빼내어 '동네 기지국 밑의 엣지([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)) 서버' 안으로 복사해서 심어버립니다.**
+- 5G는 100% 클라우드 소프트웨어 구조([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/))이므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 톨게이트인 <strong>UPF 장비를 서울 본사에서 빼내어 '동네 기지국 밑의 엣지(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>) 서버' 안으로 복사해서 심어버립니다.</strong>
 - **동작**: 자율주행차의 "브레이크!" 패킷이 동네 기지국에 들어옵니다. 서울 통제소([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))는 미리 동네 UPF에게 "자율주행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 들어오면 서울로 보내지 말고, 네 옆에 있는 엣지 자율주행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버로 확 꺾어버려!(트래픽 인터셉트)"라고 지시해 두었습니다.
-- 기지국 UPF는 이 트래픽을 가로채어(Local Breakout) 서울로 가지 않고 **바로 옆 1m 거리에 있는 로컬 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버로 던져버립니다.** [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버가 0.001초 만에 "브레이크 밟아!"라고 판단을 내리고 폰으로 쏴주어 사고를 막아냅니다. [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 유선망을 타지 않으니 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 물리적으로 증발합니다.
+- 기지국 UPF는 이 트래픽을 가로채어(Local Breakout) 서울로 가지 않고 <strong>바로 옆 1m 거리에 있는 로컬 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> 서버로 던져버립니다.</strong> [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버가 0.001초 만에 "브레이크 밟아!"라고 판단을 내리고 폰으로 쏴주어 사고를 막아냅니다. [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 유선망을 타지 않으니 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 물리적으로 증발합니다.
 
-```text
-[E2E 슬라이싱 보장 모델 관리]
-    │
-    ▼
-[MEC 기반 가속 통신망 라우팅 최적]
-    │
-    └──▶ [Massive MIMO 대거 다중 배열 안테…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **로컬 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)**: 사람들이 자주 보는 넷플릭스 드라마를 서울 본 서버가 아니라 동네 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버에 미리 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다. 동네 사람들이 유튜브를 틀면 MEC가 바로 쏴주므로, 통신사의 전국 유선망 트래픽 부하가 수십 배 줄어듭니다(비용 절감).
+- <strong>로컬 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a></strong>: 사람들이 자주 보는 넷플릭스 드라마를 서울 본 서버가 아니라 동네 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버에 미리 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다. 동네 사람들이 유튜브를 틀면 MEC가 바로 쏴주므로, 통신사의 전국 유선망 트래픽 부하가 수십 배 줄어듭니다(비용 절감).
 - **무거운 연산 떠넘기기**: 스마트폰에서 복잡한 3D AR(증강현실) 게임을 할 때, 폰의 칩셋 대신 5m 옆의 동네 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지 서버의 거대한 GPU가 3D 화면을 순식간에 다 그려준 뒤 화면만 폰으로 쏴줍니다(Cloud AR). 폰은 배터리를 아끼면서도 발열 없이 고화질 게임을 즐길 수 있습니다.
 
 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리가 기반 조건을 만든다면, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적은 그 위에서 핵심 메커니즘을 구현하고, [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -74,7 +82,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 통신망은 일 처리가 막힌 '거대 본사 결재 시스템'입니다. 부산 지사 직원이 서류 하나를 결재받으려면 무조건 KTX를 타고 서울 본사(코어망) 사장님한테 가서 도장을 받고 다시 부산으로 내려와야 했습니다([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) MEC와 UPF 엣지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 사장님이 아예 **'부산 지사([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))'에 현지 공장장(UPF)을 내려보내어 10억 미만의 급한 서류(초저지연 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 서울 본사에 안 올리고 부산 지사 안에서 도장을 쾅 찍어 즉결 처리(Local Breakout)**하게 만든 혁신입니다. 길거리에서 낭비되는 KTX 왕복 시간이 1ms로 완벽히 소멸합니다.
+- **📢 섹션 요약 비유**: 기존 통신망은 일 처리가 막힌 '거대 본사 결재 시스템'입니다. 부산 지사 직원이 서류 하나를 결재받으려면 무조건 KTX를 타고 서울 본사(코어망) 사장님한테 가서 도장을 받고 다시 부산으로 내려와야 했습니다([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) MEC와 UPF 엣지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 사장님이 아예 <strong>'부산 지사(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>)'에 현지 공장장(UPF)을 내려보내어 10억 미만의 급한 서류(초저지연 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)는 서울 본사에 안 올리고 부산 지사 안에서 도장을 쾅 찍어 즉결 처리(Local Breakout)</strong>하게 만든 혁신입니다. 길거리에서 낭비되는 KTX 왕복 시간이 1ms로 완벽히 소멸합니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: E2E 슬라이싱 보장 모델 관리]
-    │
-    ▼
-[현재 개념: MEC 기반 가속 통신망 라우팅 최적]
-    │
-    ├──▶ [확장 A: Massive MIMO 대거 다중 배열 안테…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: E2E 슬라이싱 보장 모델 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MEC 기반 가속 통신망 라우팅 최적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Massive MIMO 대거 다중 배열 안테…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적는 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리에서 출발해 현재 메커니즘을 정교화하고, 이후 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

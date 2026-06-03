@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) ([아파치 플링크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/))의 아키텍처는 클러스터를 조율하는 JobManager (잡매니저)와 실제 연산을 실행하는 TaskManager ([태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)매니저)의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커 구조로, 사용자 프로그램을 JobGraph (잡 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))로 변환하고 각 연산자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))를 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 분해하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행한다.
 - **가치**: Flink는 진정한 이벤트 단위(Per-Event) 처리와 정밀한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 관리 메커니즘을 제공하여, Spark의 마이크로배치 대비 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 수 배 낮고 이벤트 시간(Event Time) 처리의 정확도가 높다.
-- **판단 포인트**: Flink의 강점은 **[체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) 기반 Exactly-Once** 보장과 **풍부한 상태 백엔드([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend)** 선택지([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), RocksDB)이며, 고처리량(High [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))보다 **저지연(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) + 상태 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**이 요구되는 워크로드에 최적이다.
+- **판단 포인트**: Flink의 강점은 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a> 기반 Exactly-Once</strong> 보장과 <strong>풍부한 상태 백엔드(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Backend)</strong> 선택지([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), RocksDB)이며, 고처리량(High [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))보다 <strong>저지연(Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) + 상태 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이 요구되는 워크로드에 최적이다.
 
 ---
 
@@ -21,7 +21,7 @@ tags = ["studynote-bigdata"]
 
 ### 1. Flink의 탄생 배경
 
-2010년 베를린 공과대학(TU Berlin)의 연구 프로젝트 Stratosphere에서 시작한 Flink는 배치와 스트리밍을 **통합된 연산 모델**로 처리하려는 목표로 설계됐다. 핵심 철학은 "[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)는 유한한 스트림(Bounded [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))이다"라는 관점이다.
+2010년 베를린 공과대학(TU Berlin)의 연구 프로젝트 Stratosphere에서 시작한 Flink는 배치와 스트리밍을 <strong>통합된 연산 모델</strong>로 처리하려는 목표로 설계됐다. 핵심 철학은 "[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)는 유한한 스트림(Bounded [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))이다"라는 관점이다.
 
 ### 2. Flink vs 1세대 스트리밍 엔진
 
@@ -41,37 +41,29 @@ tags = ["studynote-bigdata"]
 
 ### 1. Flink 클러스터 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  클라이언트 (Client)                                             │
-│  · 사용자 코드 컴파일 → JobGraph 생성                            │
-│  · JobGraph를 JobManager에 제출                                  │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ JobGraph 제출
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  JobManager (마스터)                                             │
-│                                                                 │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────┐  │
-│  │ Dispatcher       │  │  JobMaster        │  │ ResourceMgr  │  │
-│  │ (잡 수신·등록)   │  │  (잡 조율·실행)   │  │ (자원 관리)  │  │
-│  └──────────────────┘  └──────────────────┘  └──────────────┘  │
-│                                                                 │
-│  · Checkpoint Coordinator (체크포인트 조율)                      │
-│  · High Availability: ZooKeeper 기반 리더 선출                  │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ Task 배포
-                ┌────────────┼────────────┐
-                ▼            ▼            ▼
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│  TaskManager 1  │ │  TaskManager 2  │ │  TaskManager N  │
-│                 │ │                 │ │                 │
-│  Task Slot: 4   │ │  Task Slot: 4   │ │  Task Slot: 4   │
-│  ┌───┐ ┌───┐   │ │  ┌───┐ ┌───┐   │ │  ...            │
-│  │T1 │ │T2 │   │ │  │T3 │ │T4 │   │ │                 │
-│  └───┘ └───┘   │ │  └───┘ └───┘   │ │                 │
-└─────────────────┘ └─────────────────┘ └─────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 (Client)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 사용자 코드 컴파일 → JobGraph 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· JobGraph를 JobManager에 제출</div></div>
+<div class="kb-diagram-note">JobGraph 제출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JobManager (마스터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatcher</div><div class="kb-diagram-cell">JobMaster</div><div class="kb-diagram-cell">ResourceMgr</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잡 수신·등록)</div><div class="kb-diagram-cell">(잡 조율·실행)</div><div class="kb-diagram-cell">(자원 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Checkpoint Coordinator (체크포인트 조율)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· High Availability: ZooKeeper 기반 리더 선출</div></div>
+<div class="kb-diagram-note">Task 배포</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TaskManager 1</div><div class="kb-diagram-cell">TaskManager 2</div><div class="kb-diagram-cell">TaskManager N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Slot: 4</div><div class="kb-diagram-cell">Task Slot: 4</div><div class="kb-diagram-cell">Task Slot: 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1</div><div class="kb-diagram-cell">T2</div><div class="kb-diagram-cell">T3</div><div class="kb-diagram-cell">T4</div></div>
+</div>
+</div>
+
+
 
 ### 2. 핵심 구성 요소
 
@@ -86,23 +78,27 @@ tags = ["studynote-bigdata"]
 
 ### 3. JobGraph와 ExecutionGraph 변환 과정
 
-```
-사용자 코드 (DataStream/Table API)
-    │
-    ▼
-StreamGraph (논리적 연산자 DAG)
-    │ 연산자 체이닝 (Operator Chaining)
-    ▼
-JobGraph (체이닝 최적화된 DAG, 클라이언트→JobManager 전송)
-    │ 병렬도(Parallelism) 적용
-    ▼
-ExecutionGraph (물리적 실행 계획, 태스크 인스턴스 포함)
-    │
-    ▼
-TaskManager의 Task Slot에 배포·실행
-```
 
-**연산자 체이닝([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))**: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 → [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 코드 (DataStream/Table API)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">StreamGraph (논리적 연산자 DAG)</div>
+<div class="kb-diagram-note">연산자 체이닝 (Operator Chaining)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">JobGraph (체이닝 최적화된 DAG, 클라이언트→JobManager 전송)</div>
+<div class="kb-diagram-note">병렬도(Parallelism) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ExecutionGraph (물리적 실행 계획, 태스크 인스턴스 포함)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TaskManager의 Task Slot에 배포·실행</div>
+</div>
+</div>
+
+
+
+<strong>연산자 체이닝(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>: 네트워크 I/O 없이 연결 가능한 연산자들을 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 실행 → [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화/역직렬화 비용 제거
 
 **📢 섹션 요약 비유**
 > Flink 아키텍처는 "건설 현장 구조"와 같다. JobManager는 현장 소장(전체 조율), ResourceManager는 인력 파견 회사(TaskSlot 관리), TaskManager는 각 시공팀(실제 작업), [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Slot은 팀원 개인(격리된 실행 공간)이다.
@@ -174,7 +170,7 @@ high-availability.zookeeper.path.root: /flink
 
 ### 2. 결론
 
-Flink 아키텍처의 핵심은 **JobManager의 중앙 조율 + TaskManager의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행 + [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) 기반 상태 내구성**이다. 기술사 답안에서는 JobManager/TaskManager/TaskSlot의 역할을 명확히 구분하고, 연산자 체이닝과 JobGraph→ExecutionGraph 변환 과정, 그리고 HA 설계 고려사항을 함께 서술하면 완성도 높은 답안이 된다.
+Flink 아키텍처의 핵심은 <strong>JobManager의 중앙 조율 + TaskManager의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 실행 + <a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a> 기반 상태 내구성</strong>이다. 기술사 답안에서는 JobManager/TaskManager/TaskSlot의 역할을 명확히 구분하고, 연산자 체이닝과 JobGraph→ExecutionGraph 변환 과정, 그리고 HA 설계 고려사항을 함께 서술하면 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
 > Flink 클러스터는 "세계적인 교향악단"과 같다. 지휘자(JobManager)가 악보(JobGraph)를 보며 각 파트(TaskManager)에 지시하고, 각 단원(TaskSlot)이 자기 파트를 정확히 연주한다. 지휘자가 쓰러져도(HA) 부지휘자(Standby JobManager)가 즉시 지휘봉을 잡는다.
@@ -193,18 +189,21 @@ Flink 아키텍처의 핵심은 **JobManager의 중앙 조율 + TaskManager의 [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배치 처리 (Batch Processing)]
-    │
-    ▼
-[스트림 처리 (Stream Processing)]
-    │
-    ▼
-[Apache Flink (Apache Flink)]
-    │
-    ▼
-[이벤트 시간 (Event Time)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리 (Batch Processing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 처리 (Stream Processing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink (Apache Flink)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간 (Event Time)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)와 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)가 Apache Flink와 이벤트 시간 모델로 통합되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

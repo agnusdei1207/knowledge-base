@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가변 분할 방식(Variable [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 메모리를 미리 잘라두지 않고, 프로세스가 실행을 요청하는 바로 그 순간 **프로세스의 덩치(요구 크기)에 딱 맞춰 메모리 공간을 잘라서 할당**하는 유동적인 [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.
-> 2. **가치**: 프로그램 크기만큼만 정확히 할당하므로 [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)의 치명적 결점이었던 **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))를 완벽하게 제거**하여, 메모리 공간 활용률을 극적으로 끌어올렸다.
-> 3. **융합**: 하지만 프로그램들이 들어오고 나가기를 반복함에 따라 메모리 중간중간에 쓸모없는 자투리 공간들이 흩어지는 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))**라는 새로운 재앙을 낳았고, 이를 합치는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구의 도화선이 되었다.
+> 1. **본질**: 가변 분할 방식(Variable [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 메모리를 미리 잘라두지 않고, 프로세스가 실행을 요청하는 바로 그 순간 <strong>프로세스의 덩치(요구 크기)에 딱 맞춰 메모리 공간을 잘라서 할당</strong>하는 유동적인 [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.
+> 2. **가치**: 프로그램 크기만큼만 정확히 할당하므로 [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)의 치명적 결점이었던 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">Internal Fragmentation</a>)를 완벽하게 제거</strong>하여, 메모리 공간 활용률을 극적으로 끌어올렸다.
+> 3. **융합**: 하지만 프로그램들이 들어오고 나가기를 반복함에 따라 메모리 중간중간에 쓸모없는 자투리 공간들이 흩어지는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>라는 새로운 재앙을 낳았고, 이를 합치는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구의 도화선이 되었다.
 
 ---
 
@@ -25,31 +25,25 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 새로운 딜레마**:
   1. **내부 낭비의 해결**: 가변 분할 도입으로 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 0이 되었다. 이제 앱 크기보다 큰 방을 줘서 낭비되는 공간은 존재하지 않게 되었다. [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(수)도 무한대로 늘어났다.
   2. **조각들의 발생**: 프로세스들이 각기 다른 크기로 램을 점유하다가 종료(Exit)되면서 중간중간에 치아 빠지듯 빈 구멍(Hole)들이 생기기 시작했다.
-  3. **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 출현**: 10MB, 20MB, 15MB 등 작은 구멍들이 흩어지게 되었고, 남은 구멍의 총합은 45MB인데 30MB짜리 새 프로그램이 들어갈 '연속된 30MB 구멍'이 없어서 적재를 거부당하는 더 복잡한 사태가 벌어졌다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>) 출현</strong>: 10MB, 20MB, 15MB 등 작은 구멍들이 흩어지게 되었고, 남은 구멍의 총합은 45MB인데 30MB짜리 새 프로그램이 들어갈 '연속된 30MB 구멍'이 없어서 적재를 거부당하는 더 복잡한 사태가 벌어졌다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        가변 분할 방식의 동작 흐름 및 외부 단편화 발생 과정        │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 1. 초기 텅 빈 메모리 ]                                          │
-│ ┌─────┬───────────────────────────────────────┐                   │
-│ │ OS  │ 텅 빈 거대한 공간 (Hole) 100MB                  │         │
-│ └─────┴───────────────────────────────────────┘                   │
-│                                                                   │
-│ [ 2. 프로세스 3개 맞춤형 할당 (낭비 0%) ]                         │
-│ ┌─────┬────────┬──────────┬─────────────┬─────┐                   │
-│ │ OS  │  A(20) │   B(30)  │    C(40)    │ 구멍10│                 │
-│ └─────┴────────┴──────────┴─────────────┴─────┘                   │
-│                                                                   │
-│ [ 3. 프로세스 B가 종료되어 이탈 (외부 단편화 발생) ]              │
-│ ┌─────┬────────┬──────────┬─────────────┬─────┐                   │
-│ │ OS  │  A(20) │ ▒구멍30▒ │    C(40)    │ 구멍10│                 │
-│ └─────┴────────┴──────────┴─────────────┴─────┘                   │
-│  ※ 문제: 새 프로세스 D(35MB)가 들어오려 함.                       │
-│     구멍 총합은 40MB(30+10)지만, 연속된 35MB가 없어서 거절!       │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 분할 방식의 동작 흐름 및 외부 단편화 발생 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 초기 텅 빈 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">텅 빈 거대한 공간 (Hole) 100MB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 프로세스 3개 맞춤형 할당 (낭비 0%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">A(20)</div><div class="kb-diagram-cell">B(30)</div><div class="kb-diagram-cell">C(40)</div><div class="kb-diagram-cell">구멍10</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 프로세스 B가 종료되어 이탈 (외부 단편화 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">A(20)</div><div class="kb-diagram-cell">▒구멍30▒</div><div class="kb-diagram-cell">C(40)</div><div class="kb-diagram-cell">구멍10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 문제: 새 프로세스 D(35MB)가 들어오려 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구멍 총합은 40MB(30+10)지만, 연속된 35MB가 없어서 거절!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 가변 분할은 시작은 아름다우나 끝은 파편화로 멍든다. 프로세스 크기가 제각각이기 때문에, 나간 자리에 다른 놈이 들어오면 반드시 조금씩 공간이 남게 된다. 이 자투리들이 쌓이고 쌓여 메모리 전체가 벌집처럼 구멍이 숭숭 뚫려버린다. 결국 OS는 이 구멍들을 장부(Free List)에 꼼꼼히 기록하고, 새 놈이 오면 어느 구멍에 넣어야 할지 머리를 쥐어뜯는 '동적 메모리 배치 문제'에 직면하게 된다.
 
 - **📢 섹션 요약 비유**: 주차장에 차 선을 그려놓지 않고 차가 오는 크기대로 바짝 붙여서 주차시키면 빈 공간이 남지 않아 좋지만, 큰 차가 나간 자리에 티코가 들어오면 양옆으로 애매한 폭의 빈 공간들이 생겨 결국 트럭을 못 대게 되는 '비정형 주차장의 혼돈'입니다.
@@ -62,9 +56,9 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **가변 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)** | 프로세스 크기에 맞춰 생성된 공간 | 프로세스 적재 시점에 Base/Limit [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 동적 세팅 | 동적 할당 | 맞춤 제작 양복 |
+| <strong>가변 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | 프로세스 크기에 맞춰 생성된 공간 | 프로세스 적재 시점에 Base/Limit [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 동적 세팅 | 동적 할당 | 맞춤 제작 양복 |
 | **자유 공간 리스트 (Free List)** | 남은 빈 구멍들의 주소/크기 장부 | 노드(Node) 형태로 구멍들의 위치와 길이를 연결 리스트로 관리 | [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 빈 주차칸 크기 메모장 |
-| **동적 메모리 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | 어느 구멍에 넣을지 결정하는 로직 | [First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/), [Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/), [Worst-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/) 탐색 수행 | 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 발렛파킹 직원의 두뇌 |
+| <strong>동적 메모리 배치 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | 어느 구멍에 넣을지 결정하는 로직 | [First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/), [Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/), [Worst-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/) 탐색 수행 | 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 발렛파킹 직원의 두뇌 |
 | **병합 (Coalescing)** | 인접한 빈 구멍 통합 | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시, 양옆이 빈 공간이면 하나의 큰 구멍으로 합침 | 메모리 회수 | 옆 칸 비면 선 지워서 합치기 |
 
 ---
@@ -73,29 +67,28 @@ tags = ["studynote-operating-system"]
 
 새로운 프로세스가 들어올 때, Free List에 흩어진 수많은 구멍(Hole) 중 과연 "어느 구멍"에 이 녀석을 집어넣을 것인가? OS는 3가지 뼈대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 결정을 내린다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        동적 메모리 배치: 15MB 프로세스 P를 어디에 넣을까?                │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 현재 메모리 빈 구멍 상태: 순서대로 20MB, 10MB, 16MB, 30MB ]            │
-│                                                                          │
-│ ▶ 1. 최초 적합 (First-Fit)                                               │
-│    처음부터 찾다가 들어갈 수 있는(15MB 이상) 첫 구멍 무조건 선택!        │
-│    결과: 맨 앞의 [ 20MB 구멍 ] 에 쏙! → 남은 5MB 쪼가리 발생             │
-│    장점: 찾는 속도가 우주 최강. (실무 채택률 1위)                        │
-│                                                                          │
-│ ▶ 2. 최적 적합 (Best-Fit)                                                │
-│    모든 구멍을 싹 다 뒤져서, 나랑 크기가 '가장 비슷한' 구멍 선택!        │
-│    결과: 전체 검색 후 [ 16MB 구멍 ] 에 쏙! → 남은 1MB 쪼가리 발생        │
-│    장점: 큰 구멍을 아껴둠. 단점: 찾느라 느리고 너무 작은 조각을 양산함.  │
-│                                                                          │
-│ ▶ 3. 최악 적합 (Worst-Fit)                                               │
-│    모든 구멍을 뒤져서, 무조건 시스템에서 '가장 거대한' 구멍 선택!        │
-│    결과: [ 30MB 구멍 ] 에 쏙! → 남은 15MB 구멍 발생                      │
-│    장점: 남은 구멍이 커서 딴 놈이 또 쓸 확률이 높음. 단점: 최악의 삽질.  │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 메모리 배치: 15MB 프로세스 P를 어디에 넣을까?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 메모리 빈 구멍 상태: 순서대로 20MB, 10MB, 16MB, 30MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 최초 적합 (First-Fit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처음부터 찾다가 들어갈 수 있는(15MB 이상) 첫 구멍 무조건 선택!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과: 맨 앞의</div><div class="kb-diagram-node">20MB 구멍</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">남은 5MB 쪼가리 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 찾는 속도가 우주 최강. (실무 채택률 1위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 최적 적합 (Best-Fit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 구멍을 싹 다 뒤져서, 나랑 크기가 '가장 비슷한' 구멍 선택!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과: 전체 검색 후</div><div class="kb-diagram-node">16MB 구멍</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">남은 1MB 쪼가리 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 큰 구멍을 아껴둠. 단점: 찾느라 느리고 너무 작은 조각을 양산함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 최악 적합 (Worst-Fit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 구멍을 뒤져서, 무조건 시스템에서 '가장 거대한' 구멍 선택!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">30MB 구멍</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">남은 15MB 구멍 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 남은 구멍이 커서 딴 놈이 또 쓸 확률이 높음. 단점: 최악의 삽질.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 3개의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 트레이드오프의 극치를 보여준다. 언뜻 보면 베스트 핏([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))이 가장 좋아 보이지만, 막상 16MB에 15MB를 넣으면 남는 1MB는 그 어떤 프로그램도 쓰지 못하는 완벽한 쓰레기 조각이 되어 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 악화시킨다. 반면 퍼스트 핏([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))은 뇌를 비우고 맨 처음 보이는 곳에 찔러넣기 때문에 OS의 탐색 오버헤드를 극적으로 줄여주어, 시뮬레이션 결과 공간 효율과 속도 면에서 First-fit이 승리자임이 증명되었다.
 
@@ -119,24 +112,27 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 고정 분할 (Fixed) | 가변 분할 (Variable) | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) - 비연속) |
 |:---|:---|:---|:---|
 | **할당의 철학** | 방 크기에 사람을 맞춤 | 사람 덩치에 방을 맞춤 | 사람을 4KB로 찢어서 방에 넣음 |
-| **발생 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)** | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (최악) | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) (극악) | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (매우 미미함) |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 연산** | 장부 기록(단순) | 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) & 병합 연산 | 주소 매핑 테이블 관리 |
+| <strong>발생 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a></strong> | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (최악) | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) (극악) | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) (매우 미미함) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 연산</strong> | 장부 기록(단순) | 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) & 병합 연산 | 주소 매핑 테이블 관리 |
 | **결론적 승자** | 초창기 배치 시스템용 | 1세대 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)용 | **현대 OS의 최종 승리자** |
 
 ### 50퍼센트 규칙 (50-Percent Rule)
 
-- 통계적 시뮬레이션 결과, 가변 분할 방식에서 [First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 메모리를 꽉꽉 채워 돌려도, 전체 메모리의 **3분의 1(약 33%)은 영원히 사용 불가능한 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 조각**으로 남게 된다.
+- 통계적 시뮬레이션 결과, 가변 분할 방식에서 [First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 메모리를 꽉꽉 채워 돌려도, 전체 메모리의 <strong>3분의 1(약 33%)은 영원히 사용 불가능한 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 조각</strong>으로 남게 된다.
 - 이를 '50퍼센트 규칙'이라 부르며 (할당된 메모리 N 블록일 때 빈 공간 0.5N 블록이 발생한다는 의미), 이 수학적 절망은 가변 분할 방식의 한계를 명확히 긋고 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 넘어가게 한 원흉이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 최적화 옵션│ 검색 속도    │ 남는 조각 크기│ 장기적 효율성   │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ First-fit│ 가장 빠름   │ 랜덤 (보통)  │ 가장 우수           │
-│ Best-fit │ 가장 느림   │ 너무 작아 못 씀│ 최악 (쓰레기 양산)│
-│ Worst-fit│ 느림       │ 커서 재활용 됨│ 이론상 나쁘지 않음  │
-└──────────┴────────────┴────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 옵션</div><div class="kb-diagram-cell">검색 속도</div><div class="kb-diagram-cell">남는 조각 크기</div><div class="kb-diagram-cell">장기적 효율성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First-fit</div><div class="kb-diagram-cell">가장 빠름</div><div class="kb-diagram-cell">랜덤 (보통)</div><div class="kb-diagram-cell">가장 우수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best-fit</div><div class="kb-diagram-cell">가장 느림</div><div class="kb-diagram-cell">너무 작아 못 씀</div><div class="kb-diagram-cell">최악 (쓰레기 양산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worst-fit</div><div class="kb-diagram-cell">느림</div><div class="kb-diagram-cell">커서 재활용 됨</div><div class="kb-diagram-cell">이론상 나쁘지 않음</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 인간의 직관([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))이 컴퓨터 시스템([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))에서 항상 승리하는 것은 아님을 보여주는 대표적 사례다. 크기를 딱 맞추려다 보니 남는 짜투리가 너무 작아져서 누구도 못 쓰는 악성 재고가 되는 현상은, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 시 국소 최적화가 전체 최적화를 붕괴시키는 전형적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 가변 분할은 찰흙을 떼어 파는 것과 같아서 낭비가 없어 보이지만, 결국 책상 위에 너무 작아서 쓸 데 없는 먼지 같은 찰흙 가루([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))들만 30% 넘게 쌓이는 지저분한 구조입니다.
@@ -146,10 +142,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 애플리케이션 레벨의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 관리
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 가상 메모리는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 진화했지만, 재미있게도 **프로그램 내부의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 관리(C언어의 malloc, 자바의 GC)**는 여전히 이 '가변 분할 방식'의 철학을 100% 그대로 따르고 있다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 가상 메모리는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 진화했지만, 재미있게도 <strong>프로그램 내부의 힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 메모리 관리(C언어의 malloc, 자바의 GC)</strong>는 여전히 이 '가변 분할 방식'의 철학을 100% 그대로 따르고 있다.
 1. **상황**: C언어에서 `malloc(100)`, `malloc(250)`을 막 호출하다가 중간중간 `free()`를 통해 메모리를 해제한다.
-2. **힙 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))**: 프로그램 내부의 힙 공간은 마치 가변 분할 메모리처럼 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 구멍이 숭숭 뚫린다.
-3. **[가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(Garbage Collector)의 등장**:
+2. <strong>힙 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)</strong>: 프로그램 내부의 힙 공간은 마치 가변 분할 메모리처럼 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 구멍이 숭숭 뚫린다.
+3. <strong><a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>(Garbage Collector)의 등장</strong>:
    - 빈 구멍이 너무 많아져서 큰 객체를 할당할 수 없으면, 자바(Java)의 GC는 가변 분할의 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))' 기법을 힙 메모리에 적용한다.
    - 흩어진 객체들을 한곳으로 쫙 밀어붙이는데, 이때 시스템이 멈추는 **'Stop-the-World (STW)'** 현상이 발생한다. 이것이 바로 백엔드 개발자들을 밤새우게 만드는 튜닝의 원흉이다.
 
@@ -166,7 +162,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 0%** | 프로세스 크기만큼 정확히 잘라 주므로, 할당된 공간 내에서 버려지는 메모리가 원천적으로 존재하지 않음 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> 0%</strong> | 프로세스 크기만큼 정확히 잘라 주므로, 할당된 공간 내에서 버려지는 메모리가 원천적으로 존재하지 않음 |
 | **동시 실행 프로세스 극대화**| 고정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수에 묶이지 않고, 메모리 총량이 허락하는 한 수십 개의 프로세스를 유연하게 적재 가능 |
 | **다양한 프로세스 수용**| 극도로 작은 앱부터 램 용량에 육박하는 거대한 앱까지, 크기에 구애받지 않고 유연한 임대 방식 제공 |
 
@@ -189,15 +185,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[고정 분할 방식 (Fixed Partition)]
-    │
-    ▼
-[가변 분할 방식 (Variable Partition)]
-    │
-    ├──▶ [내부 단편화 (Internal Fragmentation)]
-    └──▶ [외부 단편화 (External Fragmentation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">고정 분할 방식 (Fixed Partition)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가변 분할 방식 (Variable Partition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">내부 단편화 (Internal Fragmentation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 단편화 (External Fragmentation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

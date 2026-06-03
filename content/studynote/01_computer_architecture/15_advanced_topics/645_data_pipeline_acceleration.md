@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 가속은 네트워크·메모리·스토리지 사이를 오가는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 이동과 단순 변환을 **중앙처리장치 (Central Processing Unit, CPU)** 가 직접 만지지 않도록 분리하는 아키텍처다.
 > 2. **가치**: 100기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) (100 [Gigabit Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)) 이상 네트워크와 고속 스토리지 환경에서는 계산보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사, [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 암호화가 먼저 병목이 되므로, 파이프라인 가속은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 안정화한다.
-> 3. **판단 포인트**: 효과는 "가속기 유무"보다 **엔드투엔드 제로 카피 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Copy)** 경로, 비동기 큐, 메모리 지역성까지 함께 설계했는지에 따라 갈리며, 작은 요청이나 분기 많은 로직에는 오히려 손해가 날 수 있다.
+> 3. **판단 포인트**: 효과는 "가속기 유무"보다 <strong>엔드투엔드 제로 카피 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Copy)</strong> 경로, 비동기 큐, 메모리 지역성까지 함께 설계했는지에 따라 갈리며, 작은 요청이나 분기 많은 로직에는 오히려 손해가 날 수 있다.
 
 ---
 
@@ -23,16 +23,18 @@ tags = ["studynote-computer-architecture"]
 
 핵심 문제는 현대 시스템의 병목이 `연산 부족`이 아니라 `이동 비용`으로 이동했다는 점이다. [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 와 비휘발성 메모리 익스프레스 ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 장치가 초당 수십 기가바이트를 밀어 넣어도, 소프트웨어가 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 계층 버퍼로 복사하면 선형적으로 CPU 시간을 태운다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 CPU를 더 빠르게 만드는 것이 아니라, CPU가 굳이 하지 않아도 되는 일을 경로 밖으로 빼내는 데서 시작한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Data pipeline acceleration: separate control from byte movement   │
-├────────────────────────────────────────────────────────────────────┤
-│ Source -> NIC/DMA -> Shared Buffer -> Transform Engine -> Sink    │
-│    ^         ^               ^                 ^                  │
-│    |         |               |                 |                  │
-│    └──────────── CPU submits descriptors and reads completion ────┘
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data pipeline acceleration: separate control from byte movement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source -&gt; NIC/DMA -&gt; Shared Buffer -&gt; Transform Engine -&gt; Sink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ ^ ^ ^</div></div>
+<div class="kb-diagram-note">CPU submits descriptors and reads completion</div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 칸씩 옮기는 주체가 아니라, 작업 기술서만 넘기고 결과를 수거하는 제어자라는 점이다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 단일 칩 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다도 `누가 바이트를 만지는가`를 다시 배치하는 시스템 설계 문제다.
 
@@ -104,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 잘 설계된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 CPU 여유 확보, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 꼬리값 안정화라는 세 가지 효과를 동시에 만든다. 특히 스트리밍 분석과 고속 스토리지 서비스에서는 같은 서버 수로 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하거나, 같은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 더 낮은 전력으로 달성할 수 있다. 이것은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 아니라 인프라 밀도와 운영비에 직접 연결되는 효과다.
 
-물론 한계도 분명하다. 가속기는 규칙적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면에는 강하지만, 제어 흐름이 복잡한 업무 로직을 대신해 주지는 못한다. 또한 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 드라이버, 메모리 배치, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전략까지 같이 성숙해야 효과가 난다. 따라서 이 주제를 기억할 때는 `빠른 장치 하나 추가`가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체를 아키텍처 수준에서 재설계하는 일**로 이해하는 것이 맞다.
+물론 한계도 분명하다. 가속기는 규칙적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면에는 강하지만, 제어 흐름이 복잡한 업무 로직을 대신해 주지는 못한다. 또한 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 드라이버, 메모리 배치, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전략까지 같이 성숙해야 효과가 난다. 따라서 이 주제를 기억할 때는 `빠른 장치 하나 추가`가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 자체를 아키텍처 수준에서 재설계하는 일</strong>로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 수영 선수를 더 강하게 만드는 일이 아니라, 수영장 물의 흐름을 정리해 저항을 줄이는 일과 같다. 물길이 좋아지면 같은 선수도 훨씬 멀리, 훨씬 안정적으로 나아간다.
 
@@ -122,21 +124,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Programmed I/O and memcpy
-    │
-    ▼
-DMA engines and scatter-gather
-    │
-    ▼
-Zero Copy + asynchronous descriptor queues
-    │
-    ▼
-DSA / SmartNIC / inline compression-crypto
-    │
-    ▼
-RDMA + SPDK + CXL-aware data pipelines
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Programmed I/O and memcpy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA engines and scatter-gather</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Copy + asynchronous descriptor queues</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DSA / SmartNIC / inline compression-crypto</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDMA + SPDK + CXL-aware data pipelines</div>
+</div>
+</div>
+
+
 
 이 흐름은 `CPU가 직접 옮기던 시대`에서 `이동 전용 경로를 설계하는 시대`로 관점이 확장되는 과정을 보여 준다.
 

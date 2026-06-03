@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 컴포지트 (Composite)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컴포지트 (Composite)                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴포지트 (Composite)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 컴포지트 (Composite)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Composite (합성물, 혼합물)**
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 객체들을 나무뿌리처럼 뻗어 나가는 **트리(Tree) 구조**로 구성하여 '부분-전체' 계층을 표현하는 패턴입니다. **핵심은 사용자가 '단일 객체(Leaf 잎사귀)'와 이들을 모아둔 '복합 객체(Composite 나뭇가지)'를 구별하지 않고 완벽하게 동일한 껍데기(인터페이스)로 취급할 수 있게 해주는 마법**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 객체들을 나무뿌리처럼 뻗어 나가는 <strong>트리(Tree) 구조</strong>로 구성하여 '부분-전체' 계층을 표현하는 패턴입니다. <strong>핵심은 사용자가 '단일 객체(Leaf 잎사귀)'와 이들을 모아둔 '복합 객체(Composite 나뭇가지)'를 구별하지 않고 완벽하게 동일한 껍데기(인터페이스)로 취급할 수 있게 해주는 마법</strong>입니다.
 
 - **📢 섹션 요약 비유**: 컴포지트 (Composite)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -69,14 +68,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-1. **[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) (추상적인 공통 껍데기)**: 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (추상적인 공통 껍데기)</strong>: 
    - 윈도우 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기의 `[아이콘]` 또는 `[Node]`라는 추상 클래스입니다. 
    - 이 안에는 `용량계산하기()` 같은 공통 함수 구멍이 파져 있습니다.
 2. **Leaf (잎사귀 / 단일 객체)**: 
    - 자식이 없는 맨 밑바닥 부품입니다. (예: `[텍스트파일.txt]`)
    - `용량계산하기()`를 부르면 쿨하게 "난 10MB야!"라고 자기 용량만 반환합니다.
 3. **Composite (복합 객체 / 폴더)** 🌟 (이게 핵심) 🌟: 
-   - 1번 컴포넌트를 상속받은 놈이자, 자기 뱃속에 자식([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))들을 List 배열로 무한정 품을 수 있는 **'폴더' 객체**입니다.
+   - 1번 컴포넌트를 상속받은 놈이자, 자기 뱃속에 자식([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))들을 List 배열로 무한정 품을 수 있는 <strong>'폴더' 객체</strong>입니다.
    - 밖에서 폴더한테 `용량계산하기()`를 부르면? 자기가 직접 계산하지 않고, 자기 뱃속에 들어있는 모든 자식([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 폴더든 상관없음)들에게 "야! 너네 용량 다 내놔!"라고 **재귀적(Recursive)으로 함수를 넘겨버리고(위임)** 그 합을 뭉쳐서 반환합니다.
 
 - **📢 섹션 요약 비유**: 컴포지트 (Composite)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -93,7 +92,7 @@ tags = ["studynote-software-engineering"]
   - "내가 찌른 놈이 가장 끄트머리 `[텍스트 파일]`인지, 아니면 수천 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 든 거대한 `[C드라이브 폴더]`인지 **나는 1%도 알 필요가 없다!!** 어차피 똑같은 `Component` 껍데기를 쓰고 있으니까 난 그냥 `용량계산하기()` 버튼만 한 번 누르면 끝난다!!"
   - 사용자는 1만 줄짜리 복잡한 트리 구조를, 단일 객체 다루듯 편안하게 조작할 수 있게 됩니다 (단순함의 극치).
 
-> 📢 **섹션 요약 비유**: **컴포지트(Composite) 패턴**은 거대한 **'러시아 마트료시카 인형'** 세트와 같습니다. 제일 큰 인형(폴더, 복합 객체)의 배를 가르면 중간 인형이 나오고, 중간 인형을 까면 작은 인형(폴더)이 또 나옵니다. 마지막으로 제일 작은 인형을 깠더니 인형이 아니라 '초콜릿 1개([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 단일 객체 Leaf)'가 나옵니다. 바보 같은 개발자(컴포지트 안 쓴 놈)는 인형과 초콜릿을 구별해서 따로따로 포장하는 뻘짓을 합니다. 하지만 컴포지트 패턴은 **"야! 인형이든 초콜릿이든 어차피 내 배 속에 들어가는 '물건([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))'이라는 본질은 똑같잖아!"** 라며 둘을 완벽하게 동일한 껍데기 취급을 해버립니다. 이렇게 해두면 내가 "야 배 속에 있는 거 몸무게 다 합쳐봐!"라고 명령했을 때, 제일 큰 인형은 자기가 직접 무게를 재지 않고 자기 배 속의 중간 인형에게 똑같은 명령을 내리고, 중간 인형은 작은 인형에게 명령을 내리고, 마지막 초콜릿이 자기 무게를 뱉으면 그게 위로 스르륵 더해져서 한 방에 튀어나옵니다(재귀적 연산). 내가 쥐고 있는 게 초콜릿 1개인지, 초콜릿 1만 개가 든 거대 인형인지 전혀 알 필요 없이 똑같은 명령 한 번으로 거대한 트리 전체를 조종하게 해주는 가장 아름다운 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)입니다.
+> 📢 **섹션 요약 비유**: <strong>컴포지트(Composite) 패턴</strong>은 거대한 **'러시아 마트료시카 인형'** 세트와 같습니다. 제일 큰 인형(폴더, 복합 객체)의 배를 가르면 중간 인형이 나오고, 중간 인형을 까면 작은 인형(폴더)이 또 나옵니다. 마지막으로 제일 작은 인형을 깠더니 인형이 아니라 '초콜릿 1개([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 단일 객체 Leaf)'가 나옵니다. 바보 같은 개발자(컴포지트 안 쓴 놈)는 인형과 초콜릿을 구별해서 따로따로 포장하는 뻘짓을 합니다. 하지만 컴포지트 패턴은 <strong>"야! 인형이든 초콜릿이든 어차피 내 배 속에 들어가는 '물건(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)'이라는 본질은 똑같잖아!"</strong> 라며 둘을 완벽하게 동일한 껍데기 취급을 해버립니다. 이렇게 해두면 내가 "야 배 속에 있는 거 몸무게 다 합쳐봐!"라고 명령했을 때, 제일 큰 인형은 자기가 직접 무게를 재지 않고 자기 배 속의 중간 인형에게 똑같은 명령을 내리고, 중간 인형은 작은 인형에게 명령을 내리고, 마지막 초콜릿이 자기 무게를 뱉으면 그게 위로 스르륵 더해져서 한 방에 튀어나옵니다(재귀적 연산). 내가 쥐고 있는 게 초콜릿 1개인지, 초콜릿 1만 개가 든 거대 인형인지 전혀 알 필요 없이 똑같은 명령 한 번으로 거대한 트리 전체를 조종하게 해주는 가장 아름다운 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)입니다.
 
 - **📢 섹션 요약 비유**: 컴포지트 (Composite)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -138,21 +137,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컴포지트 (Composite) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포지트 (Composite) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

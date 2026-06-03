@@ -19,37 +19,33 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-중앙 집중식 중재(Centralized Arbitration)는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 누가 먼저 전송할지를 **한 개의 중재기**가 결정하는 방식이다. CPU (Central Processing Unit), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 컨트롤러, 입출력 제어기처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 스스로 점유할 수 있는 마스터가 동시에 요청하면, 중재기는 요청을 모아 한 장치에만 승인 신호를 내린다. 핵심은 "모두가 말하고 싶을 때, 한 명에게만 마이크를 주는 규칙"을 하드웨어로 만든 것에 있다.
+중앙 집중식 중재(Centralized Arbitration)는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 누가 먼저 전송할지를 <strong>한 개의 중재기</strong>가 결정하는 방식이다. CPU (Central Processing Unit), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 컨트롤러, 입출력 제어기처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 스스로 점유할 수 있는 마스터가 동시에 요청하면, 중재기는 요청을 모아 한 장치에만 승인 신호를 내린다. 핵심은 "모두가 말하고 싶을 때, 한 명에게만 마이크를 주는 규칙"을 하드웨어로 만든 것에 있다.
 
-이 구조가 필요했던 이유는 전통적인 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)가 본질적으로 **공유 자원**이기 때문이다. 주소선, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)선, 제어선을 여러 장치가 함께 쓰는 환경에서는 두 마스터가 동시에 구동하면 전기적 충돌, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡, 응답 순서 혼란이 발생한다. 특히 메모리 접근을 자주 일으키는 CPU와 DMA가 경쟁하면, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하뿐 아니라 시스템 전체 타이밍 예측 가능성도 무너진다.
+이 구조가 필요했던 이유는 전통적인 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)가 본질적으로 <strong>공유 자원</strong>이기 때문이다. 주소선, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)선, 제어선을 여러 장치가 함께 쓰는 환경에서는 두 마스터가 동시에 구동하면 전기적 충돌, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡, 응답 순서 혼란이 발생한다. 특히 메모리 접근을 자주 일으키는 CPU와 DMA가 경쟁하면, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하뿐 아니라 시스템 전체 타이밍 예측 가능성도 무너진다.
 
 중앙 집중식이 널리 쓰인 이유는 설계 책임을 중앙에 몰아 장치를 단순하게 만들 수 있기 때문이다. 각 장치가 서로의 상태를 비교하며 합의하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)식보다 배선과 검증이 쉽고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경도 중재기 내부 로직만 바꾸면 된다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/)) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 칩셋 기반 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/), 임베디드 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 표준적인 선택이 되었다.
 
 아래 그림은 중앙 집중식 구조가 왜 "모든 요청은 중앙으로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로" 흘러가는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           중앙 집중식 중재의 기본 구조: 요청은 중앙, 전송은 공용 버스      │
-├──────────────────────────────────────────────────────────────────────┤
-│  Master A        Req/Grant        ┌───────────────┐                 │
-│ [CPU] ───────────────────────────▶│   Arbiter     │                 │
-│ [DMA] ───────────────────────────▶│ (중앙 중재기) │                 │
-│ [I/O] ───────────────────────────▶│               │                 │
-│          ◀────────────────────────│   우선순위     │                 │
-│                                   └──────┬────────┘                 │
-│                                          │                          │
-│                                          ▼                          │
-│                         ┌────────────────────────────────────┐       │
-│                         │ Shared System Bus                  │       │
-│                         │ Address │ Data │ Control           │       │
-│                         └────────────────────────────────────┘       │
-│                                          │                          │
-│                                          ▼                          │
-│                                   [Memory / Target]                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 **중재와 전송이 분리**된다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통해 흐르지만, 누가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓸지는 중앙 중재기가 먼저 결정한다. 따라서 중앙 집중식 중재는 단순한 신호선 배치가 아니라, 시스템 전체의 질서를 먼저 만드는 제어 계층이라고 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 집중식 중재의 기본 구조: 요청은 중앙, 전송은 공용 버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master A Req/Grant</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Arbiter │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(중앙 중재기) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">우선순위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared System Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Control</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory / Target</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 <strong>중재와 전송이 분리</strong>된다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통해 흐르지만, 누가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓸지는 중앙 중재기가 먼저 결정한다. 따라서 중앙 집중식 중재는 단순한 신호선 배치가 아니라, 시스템 전체의 질서를 먼저 만드는 제어 계층이라고 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 중앙 집중식 중재는 하나의 마이크를 여러 발표자가 돌려 쓰는 회의와 같다. 발표자끼리 서로 눈치게임을 하는 대신, 진행자가 손든 사람을 보고 한 명씩 발언권을 준다.
 
@@ -59,7 +55,7 @@ tags = ["studynote-computer-architecture"]
 
 중앙 집중식 중재의 동작은 보통 **요청(Request) → 판정(Arbitration) → 승인(Grant) → 점유(Busy) → 해제(Release)** 순서로 진행된다. 마스터가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 요청선을 올리면 중재기는 현재 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 상태, 고정 우선순위 또는 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 제한을 고려해 승자를 고른다. 승인을 받은 마스터만 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 구동하며, 전송이 끝나면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용권을 반납한다.
 
-이 과정에서 중요한 설계 포인트는 단순히 "누가 이기느냐"가 아니다. 더 중요한 것은 **얼마나 빨리 결정하는가**, **얼마나 공정한가**, **긴급한 장치를 얼마나 빨리 통과시키는가**다. 그래서 중앙 중재기는 실무에서 우선순위 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(priority [encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)), 마스크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 로직을 함께 가진 경우가 많다.
+이 과정에서 중요한 설계 포인트는 단순히 "누가 이기느냐"가 아니다. 더 중요한 것은 **얼마나 빨리 결정하는가**, **얼마나 공정한가**, <strong>긴급한 장치를 얼마나 빨리 통과시키는가</strong>다. 그래서 중앙 중재기는 실무에서 우선순위 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)(priority [encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)), 마스크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 로직을 함께 가진 경우가 많다.
 
 ### 대표 구현 방식
 
@@ -69,25 +65,25 @@ tags = ["studynote-computer-architecture"]
 | [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)([Daisy Chain](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)) | 승인 신호를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 전달 | 배선이 매우 단순함 | 고정 우선순위, 기아 가능성 |
 | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) | 중재기가 순서대로 질의 | 구현 이해가 쉬움 | 중재 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 큼 |
 
-중앙 집중식이라는 큰 틀은 같아도, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 위 세부 구조에 따라 달라진다. 예를 들어 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서는 독립 요청이 주로 쓰이고, 저속·저비용 시스템에서는 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)이나 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 여전히 의미를 가진다. 즉 "중앙 집중식"은 하나의 방식이 아니라, **권한 결정 주체가 중앙에 있는 방식들의 계열**이다.
+중앙 집중식이라는 큰 틀은 같아도, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 위 세부 구조에 따라 달라진다. 예를 들어 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서는 독립 요청이 주로 쓰이고, 저속·저비용 시스템에서는 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)이나 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 여전히 의미를 가진다. 즉 "중앙 집중식"은 하나의 방식이 아니라, <strong>권한 결정 주체가 중앙에 있는 방식들의 계열</strong>이다.
 
 아래 그림은 중앙 중재기의 내부 판단 흐름을 단순화한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               중앙 중재기의 의사결정 흐름: 빠름과 공정성의 균형           │
-├──────────────────────────────────────────────────────────────────────┤
-│  요청 수집        우선순위 판정         승인 발행          버스 해제 확인   │
-│ [BR0 BR1 BR2] ─▶ [priority / RR] ─▶ [BGn asserted] ─▶ [BB deasserted] │
-│       │                │                    │                    │      │
-│       │                │                    ▼                    │      │
-│       │                └────────────▶ 선택된 Master만 전송 ───────┘      │
-│       │                                                             │
-│       └──── 신규 요청 발생 시 다음 중재 사이클에서 다시 평가             │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 흐름이 중요한 이유는 중앙 집중식이 단순히 선을 연결하는 문제가 아니라, **매 사이클마다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 실행하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**이기 때문이다. 고정 우선순위는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상한을 계산하기 쉽지만 낮은 우선순위 장치가 굶을 수 있고, [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 공정하지만 긴급 DMA가 즉시 통과하지 못할 수 있다. 따라서 중앙 중재기 설계는 회로 설계와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계가 만나는 지점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 중재기의 의사결정 흐름: 빠름과 공정성의 균형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 수집 우선순위 판정 승인 발행 버스 해제 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BR0 BR1 BR2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">priority / RR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGn asserted</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BB deasserted</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 선택된 Master만 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 요청 발생 시 다음 중재 사이클에서 다시 평가</div></div>
+</div>
+</div>
+
+
+
+이 흐름이 중요한 이유는 중앙 집중식이 단순히 선을 연결하는 문제가 아니라, <strong>매 사이클마다 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 실행하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>이기 때문이다. 고정 우선순위는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상한을 계산하기 쉽지만 낮은 우선순위 장치가 굶을 수 있고, [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 공정하지만 긴급 DMA가 즉시 통과하지 못할 수 있다. 따라서 중앙 중재기 설계는 회로 설계와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계가 만나는 지점이다.
 
 - **📢 섹션 요약 비유**: 중앙 중재기는 식당의 호출 시스템과 같다. 손님이 벨을 누르면 서버가 순서를 정해 한 테이블씩 응대하는데, VIP를 먼저 받을지 오래 기다린 손님을 먼저 받을지가 식당 운영 철학을 결정한다.
 
@@ -115,15 +111,15 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중앙 집중식 중재를 채택할 때 가장 먼저 봐야 할 것은 **경쟁하는 마스터 수와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구사항**이다. 마스터 수가 많지 않고, 전송 경로가 명확하며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에서 통제해야 한다면 중앙 집중식이 가장 경제적이다. 반대로 장치 수가 급격히 늘고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 높아지면 중재기 자체가 병목이 되므로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구조나 다중 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조가 더 적합하다.
+실무에서 중앙 집중식 중재를 채택할 때 가장 먼저 봐야 할 것은 <strong>경쟁하는 마스터 수와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구사항</strong>이다. 마스터 수가 많지 않고, 전송 경로가 명확하며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에서 통제해야 한다면 중앙 집중식이 가장 경제적이다. 반대로 장치 수가 급격히 늘고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 높아지면 중재기 자체가 병목이 되므로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구조나 다중 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조가 더 적합하다.
 
 예를 들어 CPU, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 고속 네트워크 인터페이스가 하나의 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 공유하는 임베디드 시스템을 생각해 보자. 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상한이 중요하므로 고정 우선순위로 DMA를 높게 두는 편이 안전하다. 하지만 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 그대로 오래 유지하면 저우선순위 CPU 백그라운드 작업이 계속 밀릴 수 있으므로, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 제한과 최대 대기 시간 보장을 같이 넣어야 한다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **최대 대기 시간**이 계산 가능한가?
-2. 낮은 우선순위 마스터의 **기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))** 방지 장치가 있는가?
-3. 중재기 고장 시 시스템이 어떻게 실패하는지, 즉 **[Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)** 전략이 정의되어 있는가?
+1. <strong>최대 대기 시간</strong>이 계산 가능한가?
+2. 낮은 우선순위 마스터의 <strong>기아(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong> 방지 장치가 있는가?
+3. 중재기 고장 시 시스템이 어떻게 실패하는지, 즉 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a></strong> 전략이 정의되어 있는가?
 4. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송 길이와 실시간 요청의 선점 가능성이 균형을 이루는가?
 5. 향후 마스터 추가 시 핀 수·배선 수·타이밍 여유가 감당 가능한가?
 
@@ -133,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 - 긴 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트를 무제한 허용해 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답성을 망가뜨리는 설계
 - 중앙 중재기를 두고도 장애 대책 없이 시스템 전체를 한 점에 의존하는 설계
 
-기술사 관점에서는 "중앙 집중식은 단순하다"에서 멈추면 부족하다. **언제는 고정 우선순위가 맞고, 언제는 공정성 보강이 필요한지**, 그리고 **중앙 병목을 어느 시점에서 아키텍처 전환으로 풀어야 하는지**까지 말해야 완성도 있는 답안이 된다.
+기술사 관점에서는 "중앙 집중식은 단순하다"에서 멈추면 부족하다. **언제는 고정 우선순위가 맞고, 언제는 공정성 보강이 필요한지**, 그리고 <strong>중앙 병목을 어느 시점에서 아키텍처 전환으로 풀어야 하는지</strong>까지 말해야 완성도 있는 답안이 된다.
 
 - **📢 섹션 요약 비유**: 중앙 집중식 중재 설계는 응급실 접수창구 운영과 같다. 위급 환자를 먼저 들여보내야 하지만, 감기 환자를 하루 종일 방치하면 또 다른 문제가 생기므로 우선순위와 대기 관리 규칙을 함께 세워야 한다.
 
@@ -141,11 +137,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-중앙 집중식 중재의 가장 큰 효과는 **제어의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**이다. 누가 먼저 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰는지에 대한 기준이 한곳에 모이므로, 검증이 쉽고 디버깅이 단순하며 시스템 행태를 설명하기도 쉽다. 장치별로 복잡한 협상 로직을 넣지 않아도 되어 하드웨어 면적, 설계 기간, 비용을 줄이는 장점도 크다.
+중앙 집중식 중재의 가장 큰 효과는 <strong>제어의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 누가 먼저 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰는지에 대한 기준이 한곳에 모이므로, 검증이 쉽고 디버깅이 단순하며 시스템 행태를 설명하기도 쉽다. 장치별로 복잡한 협상 로직을 넣지 않아도 되어 하드웨어 면적, 설계 기간, 비용을 줄이는 장점도 크다.
 
 하지만 이 구조는 언제나 대가를 동반한다. 중재기가 많아지는 요청을 모두 받아내지 못하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 되고, 중재기 자체가 멈추면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 질서가 무너진다. 그래서 현대 고성능 시스템은 중앙 집중식의 장점을 부분적으로 유지하되, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 공유 자체를 줄이고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 매트릭스·[NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) ([Network on Chip](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))로 확장성을 보완하는 방향으로 발전해 왔다.
 
-결국 중앙 집중식 중재는 "낡은 방식"이 아니라, **공유 자원을 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 관리하는 가장 기본적인 사고 틀**이다. 시험에서는 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)의 대표 구조로, 실무에서는 작은 공유 인터커넥트의 현실적 해법으로 기억하면 된다. 그리고 시스템 규모가 커질수록 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 남기되, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적인 구조로 옮겨 간다고 이해하는 것이 정확하다.
+결국 중앙 집중식 중재는 "낡은 방식"이 아니라, <strong>공유 자원을 중앙 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>으로 관리하는 가장 기본적인 사고 틀</strong>이다. 시험에서는 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)의 대표 구조로, 실무에서는 작은 공유 인터커넥트의 현실적 해법으로 기억하면 된다. 그리고 시스템 규모가 커질수록 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 남기되, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적인 구조로 옮겨 간다고 이해하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 중앙 집중식 중재는 반 전체를 한 명의 담임교사가 통솔하는 방식과 같다. 학생 수가 적을 때는 가장 효율적이지만, 학교 규모가 커지면 학년부장·교감·행정실처럼 역할을 나눠야 같은 질서를 유지할 수 있다.
 
@@ -163,24 +159,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 시스템 버스
-    │
-    ▼
-버스 중재 (Bus Arbitration)
-    │
-    ├──▶ 중앙 집중식 중재 (Centralized Arbitration)
-    │         │
-    │         ├──▶ 독립 요청 · 데이지 체인 · 폴링
-    │         │
-    │         └──▶ 고정 우선순위 · 라운드 로빈 · QoS
-    │
-    ▼
-버스 매트릭스 · 스위치 기반 인터커넥트
-    │
-    ▼
-PCIe (PCI Express) · NoC (Network on Chip)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 시스템 버스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버스 중재 (Bus Arbitration)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 중앙 집중식 중재 (Centralized Arbitration)</div>
+<div class="kb-diagram-note">──▶ 독립 요청 · 데이지 체인 · 폴링</div>
+<div class="kb-diagram-note">──▶ 고정 우선순위 · 라운드 로빈 · QoS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버스 매트릭스 · 스위치 기반 인터커넥트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCIe (PCI Express) · NoC (Network on Chip)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공유 선로 하나를 누가 쓸지 정하던 단계"에서 출발해, "여러 경로와 여러 큐를 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 관리하는 단계"로 진화하는 과정을 보여준다. 즉 형태는 바뀌어도 경쟁 자원을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 조정하는 핵심 사고는 계속 이어진다.
 

@@ -25,18 +25,20 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 왜 리플레이 자체가 별도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대상인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         이벤트 소싱 복구에서 관찰해야 하는 대상             │
-├──────────────────────────────────────────────────────────────┤
-│ Event Log ──▶ Replay Worker ──▶ Projection DB               │
-│                                                              │
-│ 질문 1: 몇 % 진행됐는가?                                      │
-│ 질문 2: 초당 몇 건 처리 중인가?                               │
-│ 질문 3: 누락·중복·버전 오류는 없는가?                         │
-│ 질문 4: 언제 읽기 서비스를 다시 열 수 있는가?                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소싱 복구에서 관찰해야 하는 대상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Log ──▶ Replay Worker ──▶ Projection DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문 1: 몇 % 진행됐는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문 2: 초당 몇 건 처리 중인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문 3: 누락·중복·버전 오류는 없는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문 4: 언제 읽기 서비스를 다시 열 수 있는가?</div></div>
+</div>
+</div>
+
+
 
 결국 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 "다시 읽어 보면 되지" 수준의 단순 작업이 아니다. 대규모 시스템에서는 리플레이가 하나의 장기 배치 작업이 되므로, 일반 배치 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 함께 갖춘 운영 체계가 필요하다.
 
@@ -50,27 +52,24 @@ tags = ["studynote-devops-sre"]
 
 특히 리플레이 작업은 "얼마나 빨리"와 "얼마나 정확히"라는 두 축을 동시에 관리해야 한다. 속도만 빠르고 순서 보장이 깨지면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 의미가 없고, 정확도만 강조하다 처리 속도가 너무 느리면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표를 초과한다. 그래서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률, ETA (Estimated Time of Arrival), 이벤트 갭, 중복 적용, 핸들러 실패 수를 함께 봐야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                리플레이 모니터링 아키텍처                    │
-├──────────────────────────────────────────────────────────────┤
-│ Event Store                                                  │
-│    │                                                         │
-│    ▼                                                         │
-│ Snapshot Loader ──▶ Replay Worker ──▶ Projection DB          │
-│                         │                 │                   │
-│                         │                 └─ 정합성 체크      │
-│                         │                                     │
-│                         ├─ progress_total                     │
-│                         ├─ replay_rate_per_sec                │
-│                         ├─ replay_errors_total                │
-│                         ├─ sequence_gap_total                 │
-│                         └─ eta_seconds                        │
-│                                      │                        │
-│                                      ▼                        │
-│                              Dashboard / Alerting             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리플레이 모니터링 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snapshot Loader ──▶ Replay Worker ──▶ Projection DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정합성 체크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ progress_total</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ replay_rate_per_sec</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ replay_errors_total</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sequence_gap_total</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ eta_seconds</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dashboard / Alerting</div></div>
+</div>
+</div>
+
+
 
 | 핵심 지표 | 의미 | 운영 판단 예시 |
 | :--- | :--- | :--- |
@@ -137,7 +136,7 @@ tags = ["studynote-devops-sre"]
 
 한계도 있다. 이벤트량이 매우 크면 리플레이 자체가 비용 집약적이며, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 주기나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 잘못 잡으면 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 좋아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 길 수 있다. 따라서 장기적으로는 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 프로젝션별 체크포인트, 자동 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한 체계로 발전해야 한다.
 
-결론적으로 이 주제는 "이벤트를 다시 읽는 작업을 눈에 보이게 만드는 기술"이 아니다. 더 정확히 말하면, **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 속도와 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 동시에 운영 가능한 상태로 만드는 기술**이다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 채택한 조직이라면 리플레이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 선택이 아니라 필수 운영 역량에 가깝다.
+결론적으로 이 주제는 "이벤트를 다시 읽는 작업을 눈에 보이게 만드는 기술"이 아니다. 더 정확히 말하면, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>의 속도와 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>을 동시에 운영 가능한 상태로 만드는 기술</strong>이다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 채택한 조직이라면 리플레이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 선택이 아니라 필수 운영 역량에 가깝다.
 
 - **📢 섹션 요약 비유**: 긴 퍼즐을 다시 맞출 때 현재 몇 조각을 맞췄는지, 빠진 조각은 없는지, 언제 완성될지 보드에 표시해 두면 모두가 안심할 수 있다. 리플레이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 그 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)판 역할을 한다.
 
@@ -155,24 +154,25 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Event Store 축적
-    │
-    ▼
-Projection 재구성 필요
-    │
-    ▼
-Replay Worker · Snapshot 기반 복구
-    │
-    ▼
-Progress · ETA · Error · Gap 모니터링
-    │
-    ▼
-정합성 검증 · Blue/Green 전환
-    │
-    ▼
-병렬 리플레이 · 자동 복구 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Event Store 축적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Projection 재구성 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Replay Worker · Snapshot 기반 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Progress · ETA · Error · Gap 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정합성 검증 · Blue/Green 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">병렬 리플레이 · 자동 복구 운영</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 시스템이 단순 저장을 넘어, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성과 운영 관측성까지 함께 설계되어야 함을 보여준다.
 

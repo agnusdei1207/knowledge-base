@@ -94,15 +94,21 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-```text
-표준 방법론
-   ↓
-프로젝트 특성 분석
-   ↓
-절차 / 산출물 / 승인 조정
-   ↓
-테일러링 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">표준 방법론</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프로젝트 특성 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">절차 / 산출물 / 승인 조정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">테일러링 적용</div>
+</div>
+</div>
+
+
 
 ---
 

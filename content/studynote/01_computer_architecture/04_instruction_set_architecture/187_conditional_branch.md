@@ -25,23 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 순차 실행과 조건부 분기의 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          순차 실행과 조건부 분기의 실행 경로 차이           │
-├──────────────────────────────────────────────────────────────┤
-│ 순차 실행                                                    │
-│   100 ──▶ 101 ──▶ 102 ──▶ 103                                │
-│                                                               │
-│ 조건부 분기                                                   │
-│   100 ──▶ 101 ──▶ [BRANCH if Zero = 1] ──┬─▶ 220             │
-│                                          │                    │
-│                                          └─▶ 102              │
-│                                                               │
-│ 핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다 │
-└──────────────────────────────────────────────────────────────┘
-```
 
-즉 조건부 분기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 바꾸는 명령이라기보다, **다음에 읽을 명령의 위치를 선택하는 명령**이다. 컴퓨터 구조 관점에서 보면 계산의 지능은 산술 명령에서만 생기는 것이 아니라, 이런 경로 선택 명령에서 본격적으로 완성된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행과 조건부 분기의 실행 경로 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100 ──▶ 101 ──▶ 102 ──▶ 103</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 분기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BRANCH if Zero = 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">220</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 102</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다</div></div>
+</div>
+</div>
+
+
+
+즉 조건부 분기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 바꾸는 명령이라기보다, <strong>다음에 읽을 명령의 위치를 선택하는 명령</strong>이다. 컴퓨터 구조 관점에서 보면 계산의 지능은 산술 명령에서만 생기는 것이 아니라, 이런 경로 선택 명령에서 본격적으로 완성된다.
 
 - **📢 섹션 요약 비유**: 조건부 분기는 지하철 환승 게이트와 같다. 표가 맞으면 다른 노선으로 들어가고, 조건이 맞지 않으면 원래 통로로 그대로 지나간다.
 
@@ -49,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-조건부 분기는 보통 **비교 → 상태 기록 → 분기 판단 → [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신**의 순서로 동작한다. 먼저 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 두 값을 비교하거나 뺄셈을 수행하고, 그 결과에 따라 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/) ([Zero Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)), 부호 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Sign [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)), [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)) 같은 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 갱신한다. 이어서 분기 명령은 이 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 목표 주소로 이동할지, 다음 순차 주소로 갈지를 결정한다.
+조건부 분기는 보통 <strong>비교 → 상태 기록 → 분기 판단 → <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 갱신</strong>의 순서로 동작한다. 먼저 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 두 값을 비교하거나 뺄셈을 수행하고, 그 결과에 따라 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/) ([Zero Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)), 부호 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Sign [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)), [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)) 같은 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 갱신한다. 이어서 분기 명령은 이 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 목표 주소로 이동할지, 다음 순차 주소로 갈지를 결정한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -60,29 +60,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 조건부 분기의 내부 결정을 한 번에 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           조건부 분기의 내부 결정 흐름                       │
-├──────────────────────────────────────────────────────────────┤
-│ 1) CMP R1, R2                                                │
-│      │                                                        │
-│      ▼                                                        │
-│ 2) ALU 계산: R1 - R2                                          │
-│      │                                                        │
-│      ▼                                                        │
-│ 3) 상태 레지스터 갱신                                         │
-│    ├─ Zero = 1  → 두 값이 같음                               │
-│    ├─ Sign = 1  → 결과가 음수                                 │
-│    └─ Carry = 1 → 자리올림/borrow 조건 발생                  │
-│      │                                                        │
-│      ▼                                                        │
-│ 4) BRANCH if condition true                                   │
-│    ├─ 참  → PC = target address                               │
-│    └─ 거짓 → PC = next sequential address                     │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 핵심은 조건부 분기 명령이 스스로 비교를 끝내는 경우보다, **직전 명령이 남긴 상태를 해석하는 경우가 많다**는 점이다. 그래서 많은 명령 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 `CMP` 다음에 `BEQ`, `BNE`, `BLT` 같은 분기 명령이 자연스럽게 붙는다. 반면 일부 ISA는 비교와 분기를 한 명령으로 묶어 디코드 수를 줄이기도 하는데, 결국 본질은 "조건 판정 결과에 따라 PC를 선택한다"로 동일하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 분기의 내부 결정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CMP R1, R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) ALU 계산: R1 - R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 상태 레지스터 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Zero = 1 → 두 값이 같음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sign = 1 → 결과가 음수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Carry = 1 → 자리올림/borrow 조건 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) BRANCH if condition true</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 참 → PC = target address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 거짓 → PC = next sequential address</div></div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 조건부 분기 명령이 스스로 비교를 끝내는 경우보다, <strong>직전 명령이 남긴 상태를 해석하는 경우가 많다</strong>는 점이다. 그래서 많은 명령 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 `CMP` 다음에 `BEQ`, `BNE`, `BLT` 같은 분기 명령이 자연스럽게 붙는다. 반면 일부 ISA는 비교와 분기를 한 명령으로 묶어 디코드 수를 줄이기도 하는데, 결국 본질은 "조건 판정 결과에 따라 PC를 선택한다"로 동일하다.
 
 문제는 분기 결과가 곧바로 확정되지 않는다는 데 있다. 파이프라인 CPU에서는 분기 명령을 읽은 순간에도 아직 비교 결과가 실행 단계에 있을 수 있으므로, 뒤에 따라오는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 어느 경로에서 가져와야 할지 애매해진다. 이 불확실성이 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)의 출발점이다.
 
@@ -111,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 조건부 분기의 핵심 판단은 "분기가 있는가"보다 **그 분기가 얼마나 예측 가능하고 얼마나 자주 실행되는가**다. 예를 들어 루프 안에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 거의 항상 같은 방향으로 흐르면 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기가 빠르게 학습해 큰 비용이 들지 않는다. 반면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 암호화, 무작위 필터링처럼 참/거짓 패턴이 들쭉날쭉하면 예측 실패와 파이프라인 플러시가 누적되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어질 수 있다.
+실무에서 조건부 분기의 핵심 판단은 "분기가 있는가"보다 <strong>그 분기가 얼마나 예측 가능하고 얼마나 자주 실행되는가</strong>다. 예를 들어 루프 안에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 거의 항상 같은 방향으로 흐르면 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기가 빠르게 학습해 큰 비용이 들지 않는다. 반면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 암호화, 무작위 필터링처럼 참/거짓 패턴이 들쭉날쭉하면 예측 실패와 파이프라인 플러시가 누적되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어질 수 있다.
 
 보안에서도 조건부 분기 판단은 중요하다. 비밀번호 비교처럼 민감한 코드에서 문자 하나가 다를 때 바로 분기해 반환하면 입력값에 따라 실행 시간이 달라질 수 있다. 이런 경우는 상수 시간 (Constant-Time) 구현처럼 분기 수를 줄이거나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존적 조기 종료를 피하는 방식이 더 안전하다.
 
@@ -128,7 +125,7 @@ tags = ["studynote-computer-architecture"]
 - 사람이 직감으로 `likely/unlikely` 힌트를 남발해 실제 패턴과 어긋나는 설계
 - 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 코드에서 조기 탈출 분기로 타이밍 차이를 노출하는 설계
 
-결국 기술사 관점에서는 조건부 분기를 "필수 제어 수단"으로 보되, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 요구가 높은 구간에서는 대체 수단까지 함께 검토해야 한다. 좋은 설계는 분기를 없애는 것이 아니라, **분기를 써야 할 곳과 피해야 할 곳을 구분하는 설계**다.
+결국 기술사 관점에서는 조건부 분기를 "필수 제어 수단"으로 보되, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 요구가 높은 구간에서는 대체 수단까지 함께 검토해야 한다. 좋은 설계는 분기를 없애는 것이 아니라, <strong>분기를 써야 할 곳과 피해야 할 곳을 구분하는 설계</strong>다.
 
 - **📢 섹션 요약 비유**: 조건부 분기 튜닝은 교차로 운영과 같다. 차가 거의 한 방향으로만 오면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 단순해도 되지만, 사방에서 무작위로 몰리면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어를 더 정교하게 바꿔야 한다.
 
@@ -140,7 +137,7 @@ tags = ["studynote-computer-architecture"]
 
 동시에 한계도 분명하다. 분기 자체는 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)일 수 있지만, 잘못 예측된 분기는 깊은 파이프라인 전체를 되돌리게 만들어 실제 비용이 매우 커질 수 있다. 그래서 현대 프로세서는 더 정교한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 투기 실행, 분기 없는 선택 기법을 발전시켜 왔다.
 
-정리하면 조건부 분기는 단순한 점프 명령이 아니라, **프로그램의 표현력과 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 복잡도를 동시에 키운 명령**으로 기억하는 것이 맞다. 소프트웨어 관점에서는 `if`의 시작점이고, 하드웨어 관점에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심 병목이다.
+정리하면 조건부 분기는 단순한 점프 명령이 아니라, <strong>프로그램의 표현력과 <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/">마이크로아키텍처</a> 복잡도를 동시에 키운 명령</strong>으로 기억하는 것이 맞다. 소프트웨어 관점에서는 `if`의 시작점이고, 하드웨어 관점에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심 병목이다.
 
 - **📢 섹션 요약 비유**: 조건부 분기는 길을 고를 수 있게 해 주는 지도 앱이지만, 갈림길 예측이 틀리면 모두가 한 번 잘못 들어갔다가 돌아나와야 하는 내비게이션이기도 하다.
 
@@ -158,21 +155,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 실행
-    │
-    ▼
-비교 명령 (`CMP`) · 상태 레지스터 (Status Register)
-    │
-    ▼
-조건부 분기 (Conditional Branch)
-    │
-    ▼
-제어 해저드 (Control Hazard) · 분기 예측 (Branch Prediction)
-    │
-    ▼
-분기 없는 선택 기법 (CMOV, Predication)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비교 명령 (<code>CMP</code>) · 상태 레지스터 (Status Register)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건부 분기 (Conditional Branch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 해저드 (Control Hazard) · 분기 예측 (Branch Prediction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 없는 선택 기법 (CMOV, Predication)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "비교 결과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"에서 출발해 "경로 선택", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제", "우회 최적화"로 개념이 확장되는 과정을 보여 준다.
 

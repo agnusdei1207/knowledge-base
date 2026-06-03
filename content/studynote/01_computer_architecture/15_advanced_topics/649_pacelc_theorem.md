@@ -33,23 +33,23 @@ PACELC의 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_in
 
 아래 그림은 PACELC가 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로를 어떻게 갈라놓는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              PACELC decision path in a replicated storage system          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client Write                                                              │
-│      │                                                                    │
-│      ▼                                                                    │
-│ Partition detected?                                                       │
-│      ├── Yes ──▶ choose A or C                                            │
-│      │            ├─ A: accept local write, sync later                    │
-│      │            └─ C: reject or block until agreement                   │
-│      │                                                                    │
-│      └── No  ──▶ choose L or C                                            │
-│                   ├─ L: local ack first, async replication                │
-│                   └─ C: quorum or leader commit before ack                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PACELC decision path in a replicated storage system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition detected?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Yes ──▶ choose A or C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A: accept local write, sync later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ C: reject or block until agreement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── No ──▶ choose L or C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L: local ack first, async replication</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ C: quorum or leader commit before ack</div></div>
+</div>
+</div>
+
+
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 분단 시 선택 | 정상 시 선택 | 동작 특성 | 대표적 활용 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ PACELC의 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_in
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 비용이 드러나지 않음 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용과 응답시간을 명시적으로 노출 |
 | 실무 연결 | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)/[AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 대분류 | 정족수, 글로벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 읽기 정책까지 세분화 |
 
-이 개념은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)), 정족수 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Quorum [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 리더리스 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Leaderless [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)), 글로벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Geo-[replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 같은 주제와 직접 연결된다. 예를 들어 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 지역 간 RTT가 커질수록 EC 선택의 비용이 커지고, 사용자 가까운 곳에서 읽기를 우선하면 EL 성향이 강해진다. 결국 PACELC는 **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 토폴로지와 네트워크 물리 조건을 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델과 묶어서 해석하는 언어**다.
+이 개념은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)), 정족수 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Quorum [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 리더리스 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Leaderless [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)), 글로벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Geo-[replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 같은 주제와 직접 연결된다. 예를 들어 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 지역 간 RTT가 커질수록 EC 선택의 비용이 커지고, 사용자 가까운 곳에서 읽기를 우선하면 EL 성향이 강해진다. 결국 PACELC는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 토폴로지와 네트워크 물리 조건을 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 모델과 묶어서 해석하는 언어</strong>다.
 
 - **📢 섹션 요약 비유**: CAP이 비상구 위치만 표시한 건물 안내도라면, PACELC는 평소 사람 흐름이 어디서 막히는지까지 보여 주는 동선 설계도와 같다.
 
@@ -98,7 +98,7 @@ PACELC의 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_in
 - 금전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 PA/EL을 적용해 "나중에 맞추면 된다"고 보는 태도
 - [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 합의 비용을 측정하지 않고 EC를 선언하는 문서 중심 설계
 
-PACELC는 설계자에게 "무엇을 포기할지"만 묻지 않는다. **무엇을 언제까지 기다릴지**도 묻는다. 따라서 기술사 답안에서는 장애 상황과 정상 상황의 선택을 분리해서 써야 설계 의도가 선명해진다.
+PACELC는 설계자에게 "무엇을 포기할지"만 묻지 않는다. <strong>무엇을 언제까지 기다릴지</strong>도 묻는다. 따라서 기술사 답안에서는 장애 상황과 정상 상황의 선택을 분리해서 써야 설계 의도가 선명해진다.
 
 - **📢 섹션 요약 비유**: [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 판단은 병원 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)처럼 응급실과 외래를 나누는 일과 같다. 모두를 같은 속도와 같은 엄격함으로 처리하면 오히려 전체 시스템이 막힌다.
 
@@ -108,7 +108,7 @@ PACELC는 설계자에게 "무엇을 포기할지"만 묻지 않는다. **무엇
 
 PACELC를 적용하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소를 "무조건 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)"이나 "무조건 빠른 시스템" 같은 감성 언어 대신, 장애 시 선택과 평상시 선택으로 분해해 설명할 수 있다. 이 덕분에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산을 같은 표에서 비교할 수 있고, 결과적으로 아키텍처 설명과 의사결정이 훨씬 명확해진다.
 
-다만 PACELC는 만능 공식이 아니다. 실제 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종류별로 서로 다른 정책을 섞고, 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 캐시 계층까지 함께 고려해야 한다. 따라서 이 정리는 "정답을 주는 공식"이 아니라 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소의 숨은 비용을 드러내는 해석 프레임**으로 기억하는 것이 가장 정확하다.
+다만 PACELC는 만능 공식이 아니다. 실제 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종류별로 서로 다른 정책을 섞고, 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 캐시 계층까지 함께 고려해야 한다. 따라서 이 정리는 "정답을 주는 공식"이 아니라 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장소의 숨은 비용을 드러내는 해석 프레임</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: PACELC는 옷장 정리표와 같다. 자주 입는 옷과 중요한 옷을 같은 기준으로 다루지 않게 해 주기 때문에, 필요한 순간에 가장 맞는 선택을 빠르게 꺼낼 수 있다.
 
@@ -126,20 +126,22 @@ PACELC를 적용하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CAP 정리 (Consistency / Availability / Partition tolerance)
-    │
-    ▼
-PACELC 정리
-: Partition 시 A/C, Else 시 L/C를 함께 고려
-    │
-    ├──▶ 결과적 일관성 (Eventual Consistency) · 비동기 복제
-    │
-    ├──▶ 정족수 (Quorum) · 리더 기반 합의
-    │
-    ▼
-지리 분산 데이터베이스 · 저지연 네트워크 · 시간 동기화 기반 일관성 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CAP 정리 (Consistency / Availability / Partition tolerance)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PACELC 정리</div>
+<div class="kb-diagram-note">: Partition 시 A/C, Else 시 L/C를 함께 고려</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 결과적 일관성 (Eventual Consistency) · 비동기 복제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 정족수 (Quorum) · 리더 기반 합의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지리 분산 데이터베이스 · 저지연 네트워크 · 시간 동기화 기반 일관성 최적화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

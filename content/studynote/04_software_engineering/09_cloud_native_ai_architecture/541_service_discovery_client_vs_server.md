@@ -20,38 +20,37 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: `주문 서버`가 `결제 서버`의 API를 부르고 싶다. 결제 서버는 오토스케일링으로 IP가 매일 바뀐다(540장 연계). 
-  - **[Client-Side Discovery](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/)**: 주문 서버의 뱃속에 로직이 들어있다. 주문 서버가 직접 Eureka(전화번호부)에 "결제 서버 IP들 다 내놔!" 해서 리스트를 받는다. 그리고 자기 코드(자바스크립트 등)로 "음, 오늘은 3번 결제 서버로 쏴야지!" 결정하고 직접 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷을 날린다.
+  - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/">Client-Side Discovery</a></strong>: 주문 서버의 뱃속에 로직이 들어있다. 주문 서버가 직접 Eureka(전화번호부)에 "결제 서버 IP들 다 내놔!" 해서 리스트를 받는다. 그리고 자기 코드(자바스크립트 등)로 "음, 오늘은 3번 결제 서버로 쏴야지!" 결정하고 직접 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷을 날린다.
   - **Server-Side Discovery**: 주문 서버는 멍청해진다. 그냥 `http://payment-service` 라는 고정된 문자로 패킷을 던진다. 그 앞을 지키고 있는 인프라 장비(AWS ELB, K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 패킷을 낚아챈 뒤, 자기가 전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 등)를 확인해서 실제 살아있는 결제 서버 IP로 몰래 길을 틀어준다.
 
-- **필요성**: MSA로 서버를 50개 찢었다. 50개 서버마다 언어가 다르다(Java, Node.js, Python). Client-Side를 쓰려면 3개 언어마다 "전화번호부 뒤지고 분배하는 로직([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))"을 각자 100줄씩 일일이 짜야 했다(언어 종속성의 지옥). **"개발자는 제발 남의 서버 IP 찾고 분배하는 인프라 짓거리 좀 코드에 치지 마! 그냥 비즈니스 핵심 로직만 짜! 길 찾는 건 밖에서 인프라 기계가 다 해줄게!"**라는 철학적 몸부림이 두 아키텍처의 처절한 대결을 불러왔다.
+- **필요성**: MSA로 서버를 50개 찢었다. 50개 서버마다 언어가 다르다(Java, Node.js, Python). Client-Side를 쓰려면 3개 언어마다 "전화번호부 뒤지고 분배하는 로직([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))"을 각자 100줄씩 일일이 짜야 했다(언어 종속성의 지옥). <strong>"개발자는 제발 남의 서버 IP 찾고 분배하는 인프라 짓거리 좀 코드에 치지 마! 그냥 비즈니스 핵심 로직만 짜! 길 찾는 건 밖에서 인프라 기계가 다 해줄게!"</strong>라는 철학적 몸부림이 두 아키텍처의 처절한 대결을 불러왔다.
 
 - **💡 비유**: 
-  - **[Client-Side Discovery](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/)**는 **'내가 직접 운전하는 렌터카 여행'**입니다. 내가 내 스마트폰(로컬 코드)으로 직접 구글 맵(디스커버리 서버)을 켜서 맛집 주소를 찾고, 직접 핸들을 돌려 제일 안 막히는 길(로드밸런싱)을 골라 운전해서 찾아갑니다. 내 맘대로 할 수 있어 빠르지만 운전하느라 피곤합니다.
-  - **Server-Side Discovery**는 **'콜택시([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 뒷좌석 탑승'**입니다. 나는 "명동 맛집 가주세요!" 딱 한마디만 하고 잡니다. 택시 기사(로드밸런서)가 알아서 자기 폰으로 길을 찾고 가장 쾌적한 곳으로 데려다줍니다. 너무 편하지만, 목적지까지 택시 기사를 한 번 거쳐야 하므로 비용(Network Hop 1번 추가)이 살짝 듭니다.
+  - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/">Client-Side Discovery</a></strong>는 <strong>'내가 직접 운전하는 렌터카 여행'</strong>입니다. 내가 내 스마트폰(로컬 코드)으로 직접 구글 맵(디스커버리 서버)을 켜서 맛집 주소를 찾고, 직접 핸들을 돌려 제일 안 막히는 길(로드밸런싱)을 골라 운전해서 찾아갑니다. 내 맘대로 할 수 있어 빠르지만 운전하느라 피곤합니다.
+  - <strong>Server-Side Discovery</strong>는 <strong>'콜택시(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>) 뒷좌석 탑승'</strong>입니다. 나는 "명동 맛집 가주세요!" 딱 한마디만 하고 잡니다. 택시 기사(로드밸런서)가 알아서 자기 폰으로 길을 찾고 가장 쾌적한 곳으로 데려다줍니다. 너무 편하지만, 목적지까지 택시 기사를 한 번 거쳐야 하므로 비용(Network Hop 1번 추가)이 살짝 듭니다.
 
 - **등장 배경 및 발전 과정**:
   1. **넷플릭스 OSS의 황금기 (2010s 초반)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 없던 시절, AWS EC2 쌩서버 위에 MSA를 구축해야 했던 넷플릭스는 빡쳐서 직접 코드로 길을 찾는 자바(Java) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 세트(`Eureka, Ribbon, Hystrix`)를 만들어 세상을 구원했다 (Client-Side).
   2. **다국어(Multi-language)의 반란**: 넷플릭스 툴은 자바(Java) 개발자한테만 천국이었다. Node.js 팀은 "우린 저 툴 못 쓰는데 어떻게 IP 찾아?"라며 폭동을 일으켰다.
-  3. **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시의 대학살 (현재)**: 인프라가 진화했다. K8s가 나오면서 `Service`와 `Kube-Proxy`라는 놈이 등장해 모든 언어의 로드밸런싱을 인프라 레벨에서 통일해 버렸다. Client-Side는 역사 속으로 쓸쓸히 퇴장 중이다 (Server-Side 천하).
+  3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(K8s)와 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 메시의 대학살 (현재)</strong>: 인프라가 진화했다. K8s가 나오면서 `Service`와 `Kube-Proxy`라는 놈이 등장해 모든 언어의 로드밸런싱을 인프라 레벨에서 통일해 버렸다. Client-Side는 역사 속으로 쓸쓸히 퇴장 중이다 (Server-Side 천하).
 
-- **📢 섹션 요약 비유**: Client-Side는 **'내가 내 주머니에서 수첩을 꺼내 남의 집 주소를 찾아가는 독립 투사'**라면, Server-Side는 **'우체국 직원에게 편지를 몽땅 맡기고, 주소 찾는 건 우체국이 다 알아서 해주는 편안한 귀족'**입니다. 현대 클라우드는 개발자를 무조건 편안한 귀족으로 만드는 방향으로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: Client-Side는 <strong>'내가 내 주머니에서 수첩을 꺼내 남의 집 주소를 찾아가는 독립 투사'</strong>라면, Server-Side는 <strong>'우체국 직원에게 편지를 몽땅 맡기고, 주소 찾는 건 우체국이 다 알아서 해주는 편안한 귀족'</strong>입니다. 현대 클라우드는 개발자를 무조건 편안한 귀족으로 만드는 방향으로 진화하고 있습니다.
 
 ---
 
 다음은 [클라이언트 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라이언트 사이드 디스커버리 vs 서                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 사이드 디스커버리 vs 서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [클라이언트 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[클라이언트 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서버 사이드 디스커버리의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[클라이언트 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서버 사이드 디스커버리의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [클라이언트 사이드 디스커버리](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/169_client_side_vs_server_side_discovery/) vs 서버 사이드 디스커버리의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라이언트 사이드 디스커버리 vs 서버 사이드 디스커버리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라이언트 사이드 디스커버리 vs 서버 사이드 디스커버리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

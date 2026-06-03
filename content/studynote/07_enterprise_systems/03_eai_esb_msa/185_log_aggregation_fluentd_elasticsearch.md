@@ -21,20 +21,22 @@ tags = ["studynote-enterprise"]
 
 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 여러 애플리케이션 인스턴스가 남기는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한곳으로 모으고, 동일한 형식으로 정리한 뒤, 검색과 분석이 가능한 저장소에 적재하는 아키텍처다. 단일 서버 시대에는 운영자가 원격 접속으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해도 버틸 수 있었지만, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 오토스케일링이 일반화된 지금은 인스턴스 수가 계속 바뀌므로 이 방식이 금방 한계에 부딪힌다. 특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 같은 환경에서는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 사라지는 순간 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 함께 사라질 수 있어, 중앙 수집 없이는 장애 증거를 놓치기 쉽다.
 
-이 구조가 필요한 또 다른 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 많아질수록 문제 원인이 한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 머무르지 않기 때문이다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 실패가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 오류, 외부 결제 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 얽혀 있을 때, 각 서버에 따로 있는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 사람이 손으로 이어 붙여 분석하는 것은 비효율적이다. 따라서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위치가 아니라 **문제 해결과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 이루어지는 위치**로 모여야 한다.
+이 구조가 필요한 또 다른 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 많아질수록 문제 원인이 한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 머무르지 않기 때문이다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 실패가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 오류, 외부 결제 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 얽혀 있을 때, 각 서버에 따로 있는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 사람이 손으로 이어 붙여 분석하는 것은 비효율적이다. 따라서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 위치가 아니라 <strong>문제 해결과 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>가 이루어지는 위치</strong>로 모여야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why aggregation is required                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ svc-a pod-1 -> local log file                                     │
-│ svc-a pod-2 -> local log file                                     │
-│ svc-b pod-7 -> local log file    => too many places, easy to lose │
-│                                                                   │
-│ Aggregated path                                                   │
-│ [applications] -> [collector] -> [central search store]           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why aggregation is required</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">svc-a pod-1 -&gt; local log file</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">svc-a pod-2 -&gt; local log file</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">svc-b pod-7 -&gt; local log file =&gt; too many places, easy to lose</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggregated path</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">applications</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">collector</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">central search store</div></div>
+</div>
+</div>
+
+
 
 핵심은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 단순 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 것이 아니라, 운영자가 "언제, 어느 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서, 어떤 상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Correlation ID)로, 무슨 오류가 났는가"를 즉시 찾을 수 있는 형태로 바꾸는 데 있다. 그래서 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 저장 기술이면서 동시에 장애 대응 체계다.
 
@@ -46,24 +48,23 @@ tags = ["studynote-enterprise"]
 
 대표적인 구조는 Fluentd를 수집기, Elasticsearch를 중앙 검색 저장소로 두고, 필요하면 Kibana를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구로 붙이는 흐름이다. 흔히 EFK ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), Fluentd, [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/)) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이라고 부르며, 수집-정제-저장-검색의 역할이 분리되어 있다는 점이 핵심이다. 여기서 Fluentd는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽고 태그를 붙이며, Elasticsearch는 [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) 구조로 검색을 빠르게 만들고, Kibana는 사람이 볼 수 있는 질의 화면과 대시보드를 제공한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Typical Fluentd -> Elasticsearch pipeline                         │
-├────────────────────────────────────────────────────────────────────┤
-│ App stdout / file                                                 │
-│        │                                                          │
-│        ▼                                                          │
-│ Fluentd collector                                                 │
-│   ├─ tail / parse / enrich                                        │
-│   ├─ buffer / retry                                               │
-│   └─ route by tag                                                 │
-│        │                                                          │
-│        ├─ direct path -> Elasticsearch                            │
-│        └─ burst path  -> queue -> Elasticsearch                   │
-│        ▼                                                          │
-│ Elasticsearch index -> search / dashboard / alert                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical Fluentd -&gt; Elasticsearch pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App stdout / file</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fluentd collector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ tail / parse / enrich</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ buffer / retry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ route by tag</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ direct path -&gt; Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ burst path -&gt; queue -&gt; Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch index -&gt; search / dashboard / alert</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -75,7 +76,7 @@ tags = ["studynote-enterprise"]
 
 좋은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 단순 수집보다 "표준화"에서 더 큰 차이를 만든다. 예를 들어 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 `timestamp`, `service`, `level`, `trace_id`, `message` 같은 공통 필드를 유지하면 검색과 대시보드가 급격히 쉬워진다. 반대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다른 형식의 자유문 텍스트를 남기면 수집은 되어도 분석 비용이 계속 커진다.
 
-또한 Elasticsearch는 빠른 검색에 강하지만 무한 저장소는 아니다. 따라서 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 핫 스토리지에 두고, 오래된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 더 저렴한 저장소로 내리는 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 설계되어야 한다. 즉 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 본질은 "모으기"가 아니라 **검색 가능한 기간과 비용을 통제하는 것**이다.
+또한 Elasticsearch는 빠른 검색에 강하지만 무한 저장소는 아니다. 따라서 운영 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 핫 스토리지에 두고, 오래된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 더 저렴한 저장소로 내리는 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 설계되어야 한다. 즉 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 본질은 "모으기"가 아니라 <strong>검색 가능한 기간과 비용을 통제하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 우체국에서 편지를 모을 때 주소, 우편번호, 발송 시간을 규격에 맞춰 적어야 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 빨라지는 것과 같다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 규격화된 표지가 있어야 중앙 창고에서 바로 찾을 수 있다.
 
@@ -91,7 +92,7 @@ tags = ["studynote-enterprise"]
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 얼마나 느려졌고 얼마나 많이 실패하는가 | 알림과 추세 파악에 강함 | 개별 요청 문맥은 약함 |
 | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) | 어느 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커졌는가 | 호출 경로와 병목 파악에 강함 | 샘플링과 도입 복잡도가 있음 |
 
-도구 조합 관점에서도 구분이 필요하다. 트래픽이 크지 않고 검색 요구가 단순하면 Fluentd에서 Elasticsearch로 직접 보내는 경로가 충분할 수 있다. 그러나 대규모 행사, 배치 폭주, 장애 폭발처럼 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 순간적으로 급증하는 환경이라면 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐를 중간에 두어 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)하는 편이 안전하다. 즉 EFK냐 ELK냐보다 더 중요한 질문은 **직접 적재로 버틸 수 있는가, 아니면 완충층이 필요한가**다.
+도구 조합 관점에서도 구분이 필요하다. 트래픽이 크지 않고 검색 요구가 단순하면 Fluentd에서 Elasticsearch로 직접 보내는 경로가 충분할 수 있다. 그러나 대규모 행사, 배치 폭주, 장애 폭발처럼 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 순간적으로 급증하는 환경이라면 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐를 중간에 두어 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)하는 편이 안전하다. 즉 EFK냐 ELK냐보다 더 중요한 질문은 <strong>직접 적재로 버틸 수 있는가, 아니면 완충층이 필요한가</strong>다.
 
 또한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)과 연결될 때 가치가 더 커진다. 모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 같은 `trace_id`를 남기면 운영자는 추적 도구에서 병목 구간을 찾고, 같은 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 Elasticsearch에서 상세 오류 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 다시 조회할 수 있다. 이 연결 고리가 있어야 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 통합이 단순 저장소가 아니라 관측성 플랫폼 일부가 된다.
 
@@ -103,20 +104,21 @@ tags = ["studynote-enterprise"]
 
 실무에서는 수집 경로보다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 품질과 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 큰 차이를 만든다. 예를 들어 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 200개가 돌아가더라도, 모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 구조화되고 공통 필드를 갖고 있으며 Fluentd가 재시도와 버퍼를 적절히 사용한다면 운영 난이도는 크게 낮아진다. 반대로 도구만 최신으로 깔아 놓고 애플리케이션이 제각각 자유문 텍스트를 쏟아내면 검색은 가능해도 분석과 경보 설계가 계속 흔들린다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Pipeline depth decision                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Low volume and short burst ?                                      │
-│        ├─ Yes -> Fluentd -> Elasticsearch                         │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Need loss protection during spikes or ES outage ?                 │
-│        ├─ Yes -> Fluentd -> queue -> Elasticsearch                │
-│        └─ No  -> direct path may be enough                        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pipeline depth decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low volume and short burst ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; Fluentd -&gt; Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need loss protection during spikes or ES outage ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; Fluentd -&gt; queue -&gt; Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; direct path may be enough</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -134,7 +136,7 @@ tags = ["studynote-enterprise"]
 - 비밀번호, 토큰, 주민등록번호 같은 민감 정보를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 그대로 남기는 경우
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 통합만 구축하고 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·추적 연동 없이 모든 문제를 텍스트 검색으로 해결하려는 경우
 
-기술사 답안에서는 "Fluentd와 Elasticsearch를 쓴다"는 도구 나열보다, 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 보안 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 연계까지 써 주는 편이 훨씬 설계적이다. 즉 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 검색 인프라가 아니라 **장애 대응과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 위한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)**으로 설명해야 한다.
+기술사 답안에서는 "Fluentd와 Elasticsearch를 쓴다"는 도구 나열보다, 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 보안 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 연계까지 써 주는 편이 훨씬 설계적이다. 즉 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 검색 인프라가 아니라 <strong>장애 대응과 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>를 위한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a></strong>으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 택배가 평소엔 바로 물류센터로 가도 되지만, 명절 폭주 때는 중간 집하장이 있어야 상자가 사라지지 않는다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 마찬가지로 평소와 폭주 상황을 나눠 설계해야 안전하다.
 
@@ -146,7 +148,7 @@ tags = ["studynote-enterprise"]
 
 반대로 이 체계는 비용과 규율을 요구한다. 검색 가능한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 오래 보관할수록 스토리지 비용이 커지고, 필드가 무분별하게 늘어나면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 흔들린다. 또한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 상세 정보를 담기 쉬운 만큼 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 비밀값 유출 위험도 크므로, 수집 자체보다 필터링과 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹이 더 중요해질 수 있다.
 
-앞으로는 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 기반 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·추적의 통합 상관분석, 콜드 스토리지 자동 아카이브가 더 일반화될 가능성이 크다. 그래도 변하지 않는 본질은 분명하다. 좋은 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 "모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 저장하는 것"이 아니라, **필요한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 잃지 않고, 빠르게 찾고, 안전하게 보관하는 것**이다.
+앞으로는 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 기반 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·추적의 통합 상관분석, 콜드 스토리지 자동 아카이브가 더 일반화될 가능성이 크다. 그래도 변하지 않는 본질은 분명하다. 좋은 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 통합은 "모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 저장하는 것"이 아니라, <strong>필요한 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 잃지 않고, 빠르게 찾고, 안전하게 보관하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 학교의 모든 메모를 한 상자에 쌓아 두는 것이 중요한 게 아니라, 필요할 때 바로 찾을 수 있게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 오래된 것은 창고로 옮기는 것이 중요하다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 통합도 똑같이 정리 방식이 핵심이다.
 
@@ -165,25 +167,26 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분산 서비스 증가
-    │
-    ▼
-로그 흩어짐과 휘발성 문제
-    │
-    ▼
-구조화 로그 표준화
-    │
-    ▼
-Fluentd 기반 수집
-    │
-    ▼
-Elasticsearch 중앙 검색
-    │
-    ├──────────────► Kibana 시각화
-    ├──────────────► 큐 기반 버퍼링
-    └──────────────► 분산 추적 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분산 서비스 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로그 흩어짐과 휘발성 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조화 로그 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fluentd 기반 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Elasticsearch 중앙 검색</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Kibana 시각화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">큐 기반 버퍼링</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분산 추적 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 수집에서 시작해 검색, 완충, 관측성 통합으로 성숙해 가는 과정을 보여 준다.
 

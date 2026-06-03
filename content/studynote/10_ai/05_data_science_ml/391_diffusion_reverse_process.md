@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 2020년 DDPM (Ho et al.)이 이미지 품질에서 GAN을 처음 넘어섰고, DALL-E 2, Stable Diffusion, Imagen의 핵심 기술이 됐다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 "눈보라에 맞아 지워진 그림을 원래대로 복원하는" 과정을 학습한다. 눈을 어떻게 뿌렸는지 알면 반대로 지울 수 있다.
 
@@ -64,15 +67,17 @@ DDPM 핵심 통찰: μθ 예측 대신 노이즈 ε 예측:
 L_simple = E_{t,x₀,ε}[||ε - εθ(√ᾱₜ·x₀ + √(1-ᾱₜ)·ε, t)||²]
 ```
 
-```
-┌────────────────────────────────────────────────────────┐
-│  순방향: x₀ →[+ε₁]→ x₁ →[+ε₂]→ x₂ → ... → xₜ≈N(0,I)│
-│                                                        │
-│  역방향: xₜ →[εθ예측]→ xₜ₋₁ → ... → x₀ (복원)         │
-│          ↑                                             │
-│     t, xₜ 입력 → UNet → 예측 노이즈 εθ(xₜ,t)          │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">+ε₁</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">+ε₂</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">x₂ → ... → xₜ≈N(0,I)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">εθ예측</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">xₜ₋₁ → ... → x₀ (복원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t, xₜ 입력 → UNet → 예측 노이즈 εθ(xₜ,t)</div></div>
+</div>
+</div>
+
+
 
 | 구성요소 | 역할 | 설계 선택 |
 |:---|:---|:---|
@@ -109,7 +114,7 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **Stable Diffusion**: [Latent Diffusion Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) - 픽셀 공간 대신 잠재 공간에서 디퓨전 → 4~8배 효율 향상
-**조건부 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: CFG (Classifier-Free Guidance) - 텍스트 조건 없는/있는 예측의 선형 결합
+<strong>조건부 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: CFG (Classifier-Free Guidance) - 텍스트 조건 없는/있는 예측의 선형 결합
 **아키텍처**: U-Net에 크로스 어텐션(텍스트 조건), 타임 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 추가
 
 기술사 포인트: 순방향/역방향 수식, DDPM 간소화 목표 함수, DDIM 가속 원리를 연결해서 설명.

@@ -22,18 +22,19 @@ tags = ["studynote-devops-sre"]
 
 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) (PersistentVolumeClaim)는 사용자가 필요한 용량·접근 모드를 선언하는 요청 오브젝트다.
 
-```
-┌──────────────────────────────────────────────────────┐
-│                  스토리지 바인딩 흐름                │
-│                                                      │
-│  개발자                관리자                        │
-│  PVC 생성  ──Binding──▶  PV 매칭                    │
-│  (10Gi 요청)             (10Gi NFS)                  │
-│      │                                              │
-│      ▼                                              │
-│   파드에서 volumeMounts로 사용                       │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 바인딩 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 관리자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PVC 생성 ──Binding──▶ PV 매칭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10Gi 요청) (10Gi NFS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파드에서 volumeMounts로 사용</div></div>
+</div>
+</div>
+
+
 
 접근 모드:
 
@@ -101,13 +102,18 @@ volumeClaimTemplates:
 
 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) ([Container Storage Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 외부 스토리지 드라이버를 표준 인터페이스로 연결하는 플러그인 체계다.
 
-```
-파드
- │
- ▼
-kubelet ──▶ CSI Driver ──▶ 스토리지 백엔드
-             (AWS EBS, GCP PD, Ceph 등)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kubelet ──▶ CSI Driver ──▶ 스토리지 백엔드</div>
+<div class="kb-diagram-note">(AWS EBS, GCP PD, Ceph 등)</div>
+</div>
+</div>
+
+
 
 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 이전에는 in-tree 플러그인으로 코어 코드에 직접 통합됐으나, CSI로 분리돼 벤더가 독립적으로 드라이버를 배포할 수 있다.
 
@@ -132,13 +138,19 @@ kubelet ──▶ CSI Driver ──▶ 스토리지 백엔드
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Persistent Storage
-    ├── PV + PVC → 정적 프로비저닝
-    ├── StorageClass → 동적 프로비저닝
-    ├── CSI Driver → 외부 스토리지 연동
-    └── StatefulSet volumeClaimTemplates → 파드별 독립 볼륨
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Persistent Storage</div>
+<div class="kb-diagram-tree-item" style="--depth:2">PV + PVC → 정적 프로비저닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">StorageClass → 동적 프로비저닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CSI Driver → 외부 스토리지 연동</div>
+<div class="kb-diagram-tree-item" style="--depth:2">StatefulSet volumeClaimTemplates → 파드별 독립 볼륨</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > PV는 학교 사물함, PVC는 "사물함 하나 주세요" 신청서예요. StorageClass는 작은 사물함이냐 큰 사물함이냐를 결정하는 규칙이에요.

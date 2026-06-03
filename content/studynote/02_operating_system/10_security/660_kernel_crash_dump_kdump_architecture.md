@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Kdump는 리눅스 시스템이 치명적인 오류([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/), [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))로 뻗어버렸을 때, 당시 램(RAM)에 떠 있던 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 상태를 고스란히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`vmcore`)로 추출하여 사후 원인 분석(Post-mortem Analysis)을 가능하게 해주는 장애 조사 메커니즘이다.
-> 2. **메커니즘 (Kexec)**: 시스템이 패닉에 빠지면, 정상적인 디스크 I/O 드라이버조차 신뢰할 수 없게 된다. 따라서 Kdump는 하드웨어 리셋(재부팅) 없이 메모리에 미리 숨겨둔 **'두 번째 비상용 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))'로 CPU 제어권을 즉시 넘기는 `kexec` 시스템 콜**을 사용하여 안전하게 덤프를 수행한다.
+> 2. **메커니즘 (Kexec)**: 시스템이 패닉에 빠지면, 정상적인 디스크 I/O 드라이버조차 신뢰할 수 없게 된다. 따라서 Kdump는 하드웨어 리셋(재부팅) 없이 메모리에 미리 숨겨둔 <strong>'두 번째 비상용 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Capture <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)'로 CPU 제어권을 즉시 넘기는 <code>kexec</code> 시스템 콜</strong>을 사용하여 안전하게 덤프를 수행한다.
 > 3. **가치**: 엔터프라이즈 환경에서 "서버가 왜 죽었는가?"라는 미스터리를 푸는 유일하고도 결정적인 블랙박스 역할을 하며, 하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)인지 소프트웨어 버그인지 명확히 판별하여 재발 방지 대책을 수립하는 근거가 된다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) ([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 치명적 내부 오류(예: 널 포인터 역참조, 하드웨어 예외)를 만났을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염을 막기 위해 시스템을 강제로 정지시키는 현상.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 없는 치명적 내부 오류(예: 널 포인터 역참조, 하드웨어 예외)를 만났을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염을 막기 위해 시스템을 강제로 정지시키는 현상.
   - **Kdump**: 패닉이 발생한 순간의 전체 물리 메모리 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 변수, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 목록 등)을 캡처(Dump)하는 리눅스의 공식 크래시 덤프 매커니즘.
 
 - **필요성 (죽어가는 자의 유언을 듣기 위한 사투)**: 
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
   - **Kdump 방식**: 비행기 뒷좌석에 훈련된 부조종사(Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 항상 대기하고 있다. 기장이 쓰러지는 순간(Panic), 기장은 마이크에 대고 "나 죽는다!" 소리치며 조종간을 부조종사에게 넘긴다(`kexec`). 부조종사는 기장의 상태(혈압, 심박수 = 덤프)를 블랙박스에 재빨리 기록한 뒤, 비행기를 안전하게 비상 착륙(재부팅)시킨다.
 
 - **발전 과정**:
-  1. **LKCD (Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Crash Dump)**: 과거 방식. 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 덤프를 쓰려고 시도. 패닉 난 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크를 건드려 2차 사고 다발.
+  1. <strong>LKCD (Linux <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Crash Dump)</strong>: 과거 방식. 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 덤프를 쓰려고 시도. 패닉 난 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크를 건드려 2차 사고 다발.
   2. **Kexec + Kdump (현재 표준)**: 2.6.13 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)부터 도입. 하드웨어 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))를 거치지 않고 RAM에서 바로 다른 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 핫 스왑(Hot-swap) 부팅을 하는 `kexec` 기술을 활용하여 100% 안전한 덤프 확보.
 
 - **📢 섹션 요약 비유**: 죽어가는 환자(패닉 난 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 스스로 유언장을 쓰게 하는 것은 위험합니다. 환자 옆에 항상 대기하던 건강한 의사(캡처 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 의식을 넘겨, 의사가 환자의 상태를 차트(vmcore)에 객관적으로 기록하게 만드는 시스템입니다.
@@ -48,8 +48,8 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 명칭 | 역할 및 특징 | 할당 메모리 |
 |:---|:---|:---|
-| **Production [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | 시스템의 메인 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/). 패닉이 발생하는 주체. | 시스템 전체 메모리 (수십 ~ 수백 GB) |
-| **Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽었을 때 깨어나는 비상용 미니 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/). 오직 덤프 추출만을 위해 존재함. | 부팅 시 미리 떼어놓은 격리된 소량의 메모리 (예: 128MB ~ 256MB) |
+| <strong>Production <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> (1번 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong> | 시스템의 메인 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/). 패닉이 발생하는 주체. | 시스템 전체 메모리 (수십 ~ 수백 GB) |
+| <strong>Capture <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> (2번 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong> | 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽었을 때 깨어나는 비상용 미니 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/). 오직 덤프 추출만을 위해 존재함. | 부팅 시 미리 떼어놓은 격리된 소량의 메모리 (예: 128MB ~ 256MB) |
 
 ---
 
@@ -57,33 +57,32 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 
 패닉 발생부터 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`vmcore`)이 저장되기까지의 시간적 흐름이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Kdump 메커니즘 (Panic -> Dump -> Reboot)           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 정상 부팅 시 (Preparation)]                                  │
-  │   1. GRUB 파라미터 `crashkernel=256M`을 통해 물리 램의 일부 공간을 예약함.   │
-  │   2. Production Kernel 부팅 완료 후, `kexec` 도구가 Capture Kernel과     │
-  │      그것의 initramfs를 아까 예약해 둔 256MB 공간에 몰래 로드해 둠.           │
-  │                                                                   │
-  │  [상황 2: 치명적 장애 발생 (Kernel Panic!)]                             │
-  │   3. 널 포인터 역참조 등 버그 발생 -> 커널이 `panic()` 함수 호출.          │
-  │   4. `panic()` 함수 내부에 있는 `machine_kexec()`가 즉시 트리거됨.       │
-  │                                                                   │
-  │  [상황 3: 커널 교대 (Kexec Hot-Boot)]                                  │
-  │   5. CPU는 BIOS/UEFI를 거치지 않고, 레지스터의 Program Counter(PC)를     │
-  │      미리 로드된 Capture Kernel의 시작 주소로 강제 변경함 (순간 이동!).      │
-  │   6. 이제 Capture Kernel이 시스템의 통제권을 쥠. (Production Kernel은 정지)│
-  │                                                                   │
-  │  [상황 4: 덤프 추출 및 재부팅 (Dumping & Reboot)]                       │
-  │   7. Capture Kernel은 `/proc/vmcore`라는 가상 파일을 생성함.             │
-  │      (이 파일은 아까 죽은 Production Kernel이 쓰던 메모리 전체를 가리킴)      │
-  │   8. `makedumpfile` 명령어가 이 /proc/vmcore를 읽어, 디스크의            │
-  │      /var/crash/ 디렉터리에 압축하여 저장함.                             │
-  │   9. 덤프 저장이 끝나면 Capture Kernel이 시스템을 완전히 하드웨어 재부팅함.     │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kdump 메커니즘 (Panic -&gt; Dump -&gt; Reboot)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 정상 부팅 시 (Preparation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. GRUB 파라미터 <code>crashkernel=256M</code>을 통해 물리 램의 일부 공간을 예약함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Production Kernel 부팅 완료 후, <code>kexec</code> 도구가 Capture Kernel과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그것의 initramfs를 아까 예약해 둔 256MB 공간에 몰래 로드해 둠.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 치명적 장애 발생 (Kernel Panic!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 널 포인터 역참조 등 버그 발생 -&gt; 커널이 <code>panic()</code> 함수 호출.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. <code>panic()</code> 함수 내부에 있는 <code>machine_kexec()</code>가 즉시 트리거됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 커널 교대 (Kexec Hot-Boot)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. CPU는 BIOS/UEFI를 거치지 않고, 레지스터의 Program Counter(PC)를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미리 로드된 Capture Kernel의 시작 주소로 강제 변경함 (순간 이동!).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 이제 Capture Kernel이 시스템의 통제권을 쥠. (Production Kernel은 정지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: 덤프 추출 및 재부팅 (Dumping &amp; Reboot)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Capture Kernel은 <code>/proc/vmcore</code>라는 가상 파일을 생성함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 파일은 아까 죽은 Production Kernel이 쓰던 메모리 전체를 가리킴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. <code>makedumpfile</code> 명령어가 이 /proc/vmcore를 읽어, 디스크의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/crash/ 디렉터리에 압축하여 저장함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. 덤프 저장이 끝나면 Capture Kernel이 시스템을 완전히 하드웨어 재부팅함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** `kexec`의 위대함은 하드웨어 리셋(POST 과정, 장치 초기화 등)을 생략한다는 것이다. 서버가 하드웨어부터 다시 부팅하면 램(RAM)의 내용이 날아가거나(Clear) 덮어써질 수 있다. `kexec`은 하드웨어 전원을 그대로 둔 채, CPU의 머릿속만 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 쏙 바꿔치기한다. 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 깨어나서 주위를 둘러보면, 메모리 전체에 아까 죽은 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시체(변수, 상태)가 고스란히 얼어붙어 있다. 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 시체를 차분하게 분석해서 디스크나 원격 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버로 복사(`vmcore`)한 뒤, 임무를 마치고 스스로 재부팅 버튼을 누른다.
 
@@ -105,15 +104,15 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 
 | 기법 | 분석 시점 | 대상 영역 | 특징 및 도구 |
 |:---|:---|:---|:---|
-| **[Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/)** | 런타임 (프로세스 죽을 때) | 유저 스페이스 (App) | 앱의 널 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 시 GDB 분석용 (가벼움) |
-| **Kdump (vmcore)**| **[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 시 (시스템 죽을 때)**| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 전체** | 하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버그 추적용 (Crash 툴 사용) |
-| **SysRq (Magic [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))**| 런타임 (시스템이 Hang 걸릴 때)| 시스템 상태 | 키보드 입력으로 강제 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)/테스크 덤프를 콘솔에 출력 |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) / Ftrace** | 런타임 (살아있을 때) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 트레이싱 | 장애가 나기 전에 평소의 병목과 이상 징후를 감시 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/">Core Dump</a></strong> | 런타임 (프로세스 죽을 때) | 유저 스페이스 (App) | 앱의 널 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 시 GDB 분석용 (가벼움) |
+| **Kdump (vmcore)**| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> 시 (시스템 죽을 때)</strong>| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 스페이스 전체</strong> | 하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버그 추적용 (Crash 툴 사용) |
+| <strong>SysRq (Magic <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>| 런타임 (시스템이 Hang 걸릴 때)| 시스템 상태 | 키보드 입력으로 강제 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)/테스크 덤프를 콘솔에 출력 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> / Ftrace</strong> | 런타임 (살아있을 때) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 트레이싱 | 장애가 나기 전에 평소의 병목과 이상 징후를 감시 |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: Kdump는 리눅스의 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))**와 **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))** 구조에 대한 깊은 이해를 요구한다. 덤프된 `vmcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 단순한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 더미가 아니라 ELF 포맷이다. 이 안의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가상 주소를 물리 주소로 역산하여 변수의 값을 찾아내는 것이 사후 분석의 핵심이다.
-- **[클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) (Cloud)**: 클라우드 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))가 뻗어버리는 PSOD(Purple Screen of Death) 현상 역시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 레벨의 Kdump 메커니즘을 통해 코어 덤프를 생성한다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 게스트 OS의 패닉이 호스트로 전이되지 않도록 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 I/O를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버로 안전하게 빼내는 설계가 중요하다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: Kdump는 리눅스의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a>)</strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>)</strong> 구조에 대한 깊은 이해를 요구한다. 덤프된 `vmcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 단순한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 더미가 아니라 ELF 포맷이다. 이 안의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 가상 주소를 물리 주소로 역산하여 변수의 값을 찾아내는 것이 사후 분석의 핵심이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: 클라우드 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))가 뻗어버리는 PSOD(Purple Screen of Death) 현상 역시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 레벨의 Kdump 메커니즘을 통해 코어 덤프를 생성한다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 게스트 OS의 패닉이 호스트로 전이되지 않도록 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 I/O를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버로 안전하게 빼내는 설계가 중요하다.
 
 - **📢 섹션 요약 비유**: Core Dump가 승객 1명(앱)의 개인 블랙박스라면, Kdump는 비행기 전체([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 고도, 엔진 온도, 조종석 대화 기록을 모두 담은 메인 블랙박스입니다.
 
@@ -128,42 +127,39 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
    - 관리자는 `crash /usr/lib/debug/lib/modules/.../vmlinux /var/crash/vmcore` 명령어로 디버거를 켰다.
    - `bt (Backtrace)` 명령어를 쳐보니, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 죽기 직전 실행 중이던 함수가 3rd-party 보안 솔루션의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부의 `spin_lock` 대기 구간임이 밝혀졌다. 즉, 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 데드락 버그가 원인임을 100% 확증하고 벤더에 패치를 요구할 수 있었다.
 
-2. **시나리오 — 대용량 인메모리 DB 노드의 Kdump 실패 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))**: 512GB 램을 가진 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 노드에 `crashkernel=128M`를 할당했다. 서버 패닉 시 Kdump가 발동했는데, 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 쓰기도 전에 Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 부족)으로 죽어버려 덤프 생성이 실패했다.
+2. <strong>시나리오 — 대용량 인메모리 DB 노드의 Kdump 실패 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>)</strong>: 512GB 램을 가진 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 노드에 `crashkernel=128M`를 할당했다. 서버 패닉 시 Kdump가 발동했는데, 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 쓰기도 전에 Capture [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 부족)으로 죽어버려 덤프 생성이 실패했다.
    - **원인 분석**: 1번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 램이 512GB나 되면, 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 스캔하고 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 매핑하기 위해 내부적으로 쓰는 구조체 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 용량만 해도 128MB를 훌쩍 넘긴다. 즉, 구급 대원(2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 짊어져야 할 짐이 너무 무거워 구급 대원이 압사한 것이다.
    - **기술사적 가이드**: 램이 256GB 이상인 대형 서버는 `crashkernel` 예약 용량을 기본값(128M/256M)이 아니라 `512M` 이상으로 넉넉하게 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))해야 한다. 또한 디스크의 `/var/crash` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 여유 공간이 시스템 전체 RAM 용량과 덤프 압축률을 커버할 수 있는지 미리 용량 산정을 해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엔터프라이즈 서버 Kdump 도입 의사결정 플로우               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [Mission Critical 운영 서버의 가용성 및 장애 분석 체계 설계]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      해당 시스템이 1회성 컨테이너/서버리스인가, 영구적인 인프라 노드인가?       │
-  │          ├─ 1회성 (K8s Pod 등) ──▶ [Kdump 불필요]                     │
-  │          │                        (노드가 죽으면 버리고 새로 띄움. 클라우드 │
-  │          │                         공급자가 하이퍼바이저 덤프를 가져감)     │
-  │          └─ 영구 인프라 (DB, 하이퍼바이저 호스트)                       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      메모리 자원이 극도로 쪼들리는 엣지(Edge) 디바이스인가?                 │
-  │          ├─ 예 ─────▶ [Kdump 신중 도입 (crashkernel 예약분 낭비 발생)] │
-  │          │            (평소에 128MB~256MB의 램을 아예 못 쓰게 예약하므로  │
-  │          │             저사양 기기에서는 치명적일 수 있음)               │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Kdump 필수 활성화 (Default Enable)]         │
-  │                         - NFS 등 원격 스토리지 덤프 백업 설정 병행 고려    │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 서버 Kdump 도입 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mission Critical 운영 서버의 가용성 및 장애 분석 체계 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 시스템이 1회성 컨테이너/서버리스인가, 영구적인 인프라 노드인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kdump 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드가 죽으면 버리고 새로 띄움. 클라우드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공급자가 하이퍼바이저 덤프를 가져감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 영구 인프라 (DB, 하이퍼바이저 호스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 자원이 극도로 쪼들리는 엣지(Edge) 디바이스인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kdump 신중 도입 (crashkernel 예약분 낭비 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(평소에 128MB~256MB의 램을 아예 못 쓰게 예약하므로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저사양 기기에서는 치명적일 수 있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kdump 필수 활성화 (Default Enable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NFS 등 원격 스토리지 덤프 백업 설정 병행 고려</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 "[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 레벨"에서 Kdump를 켜는 것은 종종 낭비로 여겨진다. 클라우드는 장애가 나면 원인을 찾기보다 빨리 새 인스턴스로 교체하는 것(Pet vs Cattle)이 미덕이기 때문이다. 하지만, 그 클라우드를 지탱하는 "[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 호스트(Bare-metal)" 자체나, 거대한 Stateful [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서는 Kdump가 꺼져있으면 10억짜리 장애의 원인 규명을 영원히 미궁에 빠뜨리는 직무 유기가 된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **원격 덤프 (Remote Dump) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 패닉이 하드 디스크 드라이버(SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 버그 때문에 발생했다면, 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 덤프를 로컬 디스크에 쓰려다 또 죽을 수 있다. 이를 방지하기 위해 덤프를 로컬 디스크가 아닌 네트워크 너머의 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)([scp](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/))나 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버로 직접 쏘도록(Network Dump) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
-- **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 패닉 강제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 리눅스는 앱이 메모리를 다 먹으면([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 앱만 죽이고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 살아남는다. 하지만 거대 DB 환경에서는 앱이 죽으면 어차피 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비되므로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `vm.panic_on_oom=1`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 즉시 시스템을 패닉으로 밀어 넣어 정확한 당시 메모리 상황(누가 메모리를 다 먹었나)을 Kdump로 박제시키는 고급 튜닝이 권장된다.
+- <strong>원격 덤프 (Remote Dump) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 패닉이 하드 디스크 드라이버(SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 버그 때문에 발생했다면, 2번 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 덤프를 로컬 디스크에 쓰려다 또 죽을 수 있다. 이를 방지하기 위해 덤프를 로컬 디스크가 아닌 네트워크 너머의 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)([scp](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/))나 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) 서버로 직접 쏘도록(Network Dump) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 패닉 강제 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 리눅스는 앱이 메모리를 다 먹으면([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 앱만 죽이고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 살아남는다. 하지만 거대 DB 환경에서는 앱이 죽으면 어차피 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비되므로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `vm.panic_on_oom=1`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 즉시 시스템을 패닉으로 밀어 넣어 정확한 당시 메모리 상황(누가 메모리를 다 먹었나)을 Kdump로 박제시키는 고급 튜닝이 권장된다.
 
 - **📢 섹션 요약 비유**: Kdump는 서버가 가입하는 생명 보험입니다. 평소에는 메모리 256MB라는 보험료를 매달 내야 해서 아깝게 느껴지지만, 한 번의 치명적 사고(패닉)가 났을 때 그 보험(vmcore)이 없으면 왜 죽었는지 증명할 방법이 없어 천문학적인 피해를 보게 됩니다.
 
@@ -176,12 +172,12 @@ Kdump가 동작하려면 하나의 물리 서버 안에 두 개의 리눅스 [�
 | 구분 | Kdump 미적용 (일반 재부팅) | Kdump 아키텍처 적용 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정성 (원인 분석)** | 현상 파악 불가 (재발 대기) | `crash` 디버거로 [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 완벽 복원 | 미해결 장애(Unresolved Outage) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
-| **정량 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)** | 장애 징후 파악에 수 일 소요 | 덤프 즉시 분석 툴 연동 | 장애 근본 원인(RCA) 파악 시간 **90% 이상 단축** |
+| <strong>정량 (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간)</strong> | 장애 징후 파악에 수 일 소요 | 덤프 즉시 분석 툴 연동 | 장애 근본 원인(RCA) 파악 시간 **90% 이상 단축** |
 | **정성 (책임 소재)** | H/W 벤더와 S/W 벤더의 책임 공방 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 덤프라는 빼도 박도 못하는 증거 확보 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보상 및 벤더 패치 요구의 강력한 법적/기술적 증거 |
 
 ### 미래 전망
-- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 경량 덤프 대체**: Kdump는 시스템 전체를 얼려버리고 재부팅을 동반하므로 1~2분의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운타임이 강제된다. 최근에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 죽기 전, 이상 징후나 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 eBPF가 실시간으로 감지하여 시스템을 죽이지 않고도 필요한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 정보만 즉시 덤프 떠서 유저 스페이스로 던져주는 실시간(Live) 트레이싱이 사후 덤프를 보완하고 있다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 덤프 자동 분석**: `vmcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 수십 GB에 달하며 이를 분석하려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드에 통달한 시니어 엔지니어가 며칠을 파고들어야 한다. 최근에는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)이 Crash 툴의 출력을 먹어 치우고, 수만 개의 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 취약점 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 대조하여 "이 패닉은 3달 전 발표된 ext4 버그 때문입니다. 패치 링크는 여기입니다"라고 즉각 리포팅을 해주는 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 솔루션이 도입되고 있다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 경량 덤프 대체</strong>: Kdump는 시스템 전체를 얼려버리고 재부팅을 동반하므로 1~2분의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 다운타임이 강제된다. 최근에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 죽기 전, 이상 징후나 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 eBPF가 실시간으로 감지하여 시스템을 죽이지 않고도 필요한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 정보만 즉시 덤프 떠서 유저 스페이스로 던져주는 실시간(Live) 트레이싱이 사후 덤프를 보완하고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 덤프 자동 분석</strong>: `vmcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 수십 GB에 달하며 이를 분석하려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드에 통달한 시니어 엔지니어가 며칠을 파고들어야 한다. 최근에는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)이 Crash 툴의 출력을 먹어 치우고, 수만 개의 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 취약점 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 대조하여 "이 패닉은 3달 전 발표된 ext4 버그 때문입니다. 패치 링크는 여기입니다"라고 즉각 리포팅을 해주는 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 솔루션이 도입되고 있다.
 
 ### 결론
 Kdump와 Kexec 메커니즘은 소프트웨어의 완벽성이란 존재하지 않음을 겸허히 인정하고, "죽음(Crash)을 피할 수 없다면 그 죽음으로부터 가장 큰 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)(Dump)을 얻어내자"는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진영의 회복탄력성(Resilience) 철학이 담긴 아키텍처다. 찰나의 순간에 하드웨어 리셋 없이 다른 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 빙의하는 이 기상천외한 발상은 현대 IT 인프라가 원인 불명의 미스터리에 빠지지 않고 지속적으로 버그를 퇴치하며 성장할 수 있게 만든 가장 든든한 디버깅의 최전선이다.
@@ -201,15 +197,19 @@ Kdump와 Kexec 메커니즘은 소프트웨어의 완벽성이란 존재하지 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
-    │
-    ▼
-[커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
-    │
-    ├──▶ [eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
-    └──▶ [안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

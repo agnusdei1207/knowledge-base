@@ -20,51 +20,59 @@ NoSQL은 관계형 데이터 모델을 벗어나 고정된 스키마 없이 분�
 ### 2. CAP 정리 시각화
 분산 시스템에서 세 가지 속성을 동시에 모두 만족시키는 것은 불가능하며, 상황에 따라 트레이드오프가 발생한다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│ CAP 정리 (CAP Theorem) │
-├──────────────────┬───────────────────┬───────────────────┤
-│ 일관성 (C) │ 가용성 (A) │ 분산 허용 (P) │
-│ (Consistency) │ (Availability) │ (Partition Tol.) │
-├──────────────────┴───────────────────┴───────────────────┤
-│ [두 가지 속성 선택에 따른 분류] │
-│ - CP: 정합성 중시 (예: HBase, MongoDB) │
-│ - AP: 응답성 중시 (예: Cassandra, DynamoDB) │
-│ - CA: 분산 환경 부적합 (전통적 RDB) │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAP 정리 (CAP Theorem)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 (C)</div><div class="kb-diagram-cell">가용성 (A)</div><div class="kb-diagram-cell">분산 허용 (P)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Consistency)</div><div class="kb-diagram-cell">(Availability)</div><div class="kb-diagram-cell">(Partition Tol.)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">두 가지 속성 선택에 따른 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CP: 정합성 중시 (예: HBase, MongoDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AP: 응답성 중시 (예: Cassandra, DynamoDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CA: 분산 환경 부적합 (전통적 RDB)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** CAP 정리에 따르면 분산 환경에서는 일관성(Consistency), 가용성(Availability), 분산 허용(Partition Tolerance) 중 항상 두 가지만 선택 가능하다. CP 시스템은 네트워크 분할 시 일관성을 유지하지만 응답을 거부할 수 있고, AP 시스템은 항상 응답하지만 최신 데이터가 아닐 수 있다. 실무에서는 네트워크 분할은 피할 수 없으므로 결국 C 또는 A 중 하나를 선택하는 것이 현실이다.
 
 ### 3. 수직적 확장 vs 수평적 확장
 데이터 증가 시 처리 능력을 확보하는 방식의 근본적인 차이를 나타낸다.
 
-```text
-[Scale-up (RDB)] [Scale-out (NoSQL)]
-┌──────────────┐ ┌──────┐ ┌──────┐
-│ │ │ 서버 │ │ 서버 │
-│ 고성능 │ ──▶ └──────┘ └──────┘
-│ 단일 서버 │ ┌──────┐ ┌──────┐
-│ │ │ 서버 │ │ 서버 │
-└──────────────┘ └──────┘ └──────┘
-(비용 기하급수적 상승) (저사양 서버 다수 연결)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-up (RDB)</div><div class="kb-diagram-node">Scale-out (NoSQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버</div><div class="kb-diagram-cell">서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능</div><div class="kb-diagram-cell">──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버</div><div class="kb-diagram-cell">서버</div></div>
+<div class="kb-diagram-note">(비용 기하급수적 상승) (저사양 서버 다수 연결)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 수직적 확장은 고성능 하드웨어에 투자를 늘리지만 비용이 기하급수적으로 상승하고 단일 장애점(Single Point of Failure) 문제가 있다. 반면 수평적 확장은 일반적인 저사양 서버를 추가하여 처리 능력을 높이며, 특정 서버 장애 시 다른 서버가 워크로드를하여 장애 격리에도 유리하다. NoSQL의 핵심 가치는 바로 이 수평적 확장 능력에 있다.
 
 ### 4. 데이터 증가와 NoSQL 필요성
 전통적인 저장 방식으로는 감당하기 힘든 웹 스케일 데이터의 흐름을 보여준다.
 
-```text
-데이터량 │ / [NoSQL 영역: 비정형]
-│ /
-│ /
-│ [RDB 영역] /
-│ ┌───────────────┘
-│ __/
-└────────────────────────────────────────── 시간
-(Web 1.0) (Web 2.0 / Big Data)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">데이터량 │ /</div><div class="kb-diagram-node">NoSQL 영역: 비정형</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDB 영역</div><div class="kb-diagram-note">/</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">시간</div>
+<div class="kb-diagram-note">(Web 1.0) (Web 2.0 / Big Data)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 웹 2.0 환경에서 SNS, IoT 센서, 로그 데이터 등 비정형 데이터가 폭발적으로 증가함에 따라 전통적인 RDB의 정형 스키마 중심 저장 방식으로는 확장성 한계에 직면했다. NoSQL은 이러한 비정형 데이터를 유연하게 저장하고 수평적으로 확장할 수 있는 대안으로 부상했다.
 
@@ -77,47 +85,58 @@ NoSQL은 관계형 데이터 모델을 벗어나 고정된 스키마 없이 분�
 ### 1. 주요 데이터 모델별 구조적 특징
 NoSQL은 저장 목적에 따라 네 가지 주요 모델로 분류된다.
 
-```text
-┌──────────────┬───────────────────┬────────────────────────┐
-│ 유형 (Type) │ 핵심 구조 (Structure)│ 주요 용도 (Usage) │
-├──────────────┼───────────────────┼────────────────────────┤
-│ Key-Value │ [Key] -> [Value] │ 세션 관리, 캐싱 │
-│ Document │ [ID] -> [JSON/XML]│ 콘텐츠 관리, 이커머스 │
-│ Column-Family│ [Row] -> [Column] │ 대규모 분석, 시계열 │
-│ Graph │ [Node]-[Edge] │ 소셜 네트워크, 추천 │
-└──────────────┴───────────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형 (Type)</div><div class="kb-diagram-cell">핵심 구조 (Structure)</div><div class="kb-diagram-cell">주요 용도 (Usage)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Key-Value</div><div class="kb-diagram-node">Key</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Value</div><div class="kb-diagram-note">세션 관리, 캐싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Document</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">JSON/XML</div><div class="kb-diagram-note">콘텐츠 관리, 이커머스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Column-Family</div><div class="kb-diagram-node">Row</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Column</div><div class="kb-diagram-note">대규모 분석, 시계열</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Graph</div><div class="kb-diagram-node">Node</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">Edge</div><div class="kb-diagram-note">소셜 네트워크, 추천</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** Key-Value 모델은 가장 단순한 구조로 키 하나에 값 하나를 매핑하며 Redis, Memcached가 대표적이다. Document 모델은 JSON이나 XML 같은 문서 형식을 저장하며 MongoDB가 잘 알려져 있다. Column-Family 모델은 행별로 다른 컬럼을 가질 수 있어 분석 쿼리에 효율적이며 Cassandra, HBase가 대표적이다. Graph 모델은 노드와 엣지로 관계를 표현하며 소셜 네트워크나 추천 시스템에 최적화되어 있다.
 
 ### 2. LSM Tree 기반 저장 메커니즘
 많은 NoSQL이 쓰기 성능 극대화를 위해 사용하는 LSM(Log-Structured Merge) Tree의 원리를 보여준다.
 
-```text
-[쓰기 요청] ──▶ [MemTable (메모리)] ──▶ [수정/추가 기록]
-│
-▼ (임계치 도달 시 Flush)
-[SSTable Level 0 (디스크)] ◀──┐
-│ │ (Compaction: 병합 및 삭제)
-[SSTable Level 1 (디스크)] ◀──┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MemTable (메모리)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수정/추가 기록</div></div>
+<div class="kb-diagram-note">▼ (임계치 도달 시 Flush)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSTable Level 0 (디스크)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Compaction: 병합 및 삭제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSTable Level 1 (디스크)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** LSM Tree는 쓰기 요청을 먼저 메모리 내 MemTable에 기록한다. 메모리 내 쓰기는 디스크 쓰기보다 수십 배 빠르므로 쓰기 성능이 극대화된다. MemTable이 임계치에 도달하면 SSTable(Sorted String Table) 형태로 디스크에 Flush된다. 이후에서 Compaction 작업이 여러 Level의 SSTable을 병합하여 최신 데이터만 유지한다. RocksDB, Cassandra, HBase 등이 이 메커니즘을 사용하며, 읽기 시에는 최신 데이터를 메모리에서 먼저 찾아 없으면 디스크의 SSTable을 역순으로 탐색한다.
 
 ### 3. 일관된 해싱 기반 데이터 분산
 데이터를 여러 노드에 고르게 분산시키고 노드 추가/삭제 시 이동을 최소화하는 기법이다.
 
-```text
-[Hash Ring]
-┌────── Node A ──────┐
-│ │
-Data 3 Data 1
-│ │
-Node C ────── Node B ──┘
-│ ▲
-└─ Data 2 ──┘
-(데이터는 시계 방향으로 가장 가까운 노드에 저장됨)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hash Ring</div></div>
+<div class="kb-diagram-note">Node A</div>
+<div class="kb-diagram-note">Data 3 Data 1</div>
+<div class="kb-diagram-note">Node C Node B ──</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Data 2 ──</div>
+<div class="kb-diagram-note">(데이터는 시계 방향으로 가장 가까운 노드에 저장됨)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 일관된 해싱(Consistent Hashing)에서 각 노드와 데이터 키는 해시 링(Hash Ring) 위에 배치된다. 데이터는 시계 방향으로 이동하며 처음 만나는 노드에 저장된다. 노드 추가 시 영향을 받는 데이터는 새 노드와 그 다음 노드 사이의 데이터뿐이므로 재분배 비용이 최소화된다. 이는 카산드라(Cassandra)와 같은 분산 NoSQL에서 데이터 균등 분산과 확장성을 보장하는 핵심 기법이다.
 
@@ -129,50 +148,58 @@ Node C ────── Node B ──┘
 
 ### 1. RDB와 NoSQL의 상세 비교
 
-```text
-┌──────────────────┬───────────────────────┬──────────────────────┐
-│ 비교 항목 │ RDB (Relational) │ NoSQL (Non-Relational)│
-├──────────────────┼───────────────────────┼──────────────────────┤
-│ 스키마 (Schema) │ 고정 (Fixed, Strict) │ 유연 (Dynamic, Schemaless)│
-│ 무결성 (Integrity)│ ACID 준수 (강한 정합성)│ BASE (최종 정합성) │
-│ 확장성 (Scaling) │ 수직 (Scale-up) │ 수평 (Scale-out) │
-│ 쿼리 (Query) │ 표준 SQL │ API, CQL, 각 사 고유문법 │
-└──────────────────┴───────────────────────┴──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">RDB (Relational)</div><div class="kb-diagram-cell">NoSQL (Non-Relational)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 (Schema)</div><div class="kb-diagram-cell">고정 (Fixed, Strict)</div><div class="kb-diagram-cell">유연 (Dynamic, Schemaless)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무결성 (Integrity)</div><div class="kb-diagram-cell">ACID 준수 (강한 정합성)</div><div class="kb-diagram-cell">BASE (최종 정합성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성 (Scaling)</div><div class="kb-diagram-cell">수직 (Scale-up)</div><div class="kb-diagram-cell">수평 (Scale-out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 (Query)</div><div class="kb-diagram-cell">표준 SQL</div><div class="kb-diagram-cell">API, CQL, 각 사 고유문법</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** RDB는 강한 일관성을 보장하는 ACID 트랜잭션을 지원하지만, 고정된 스키마로 유연성이 제한되고 수직적 확장만 가능하다. NoSQL은 스키마 유연성과 수평적 확장을 제공하지만, 최종 일관성(Eventual Consistency)을하고 ACID 트랜잭션을 보장하지 않는 경우가 많다.——시스템은 RDB를, 로그 분석이나 SNS 같은 대량 데이터 처리는 NoSQL을 선택하는 것이 일반적이다.
 
 ### 2. 대표 NoSQL 솔루션 간 비교
 
-```text
-[성능/속도]
-▲
-│ [Redis] (In-Memory)
-│
-│ [Cassandra] (High Write)
-│
-│ [MongoDB] (General Purpose)
-│
-└──────────────────────────────────▶ [기능/복잡도]
-[Neo4j] (Relational Depth)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">성능/속도</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redis</div><div class="kb-diagram-note">(In-Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cassandra</div><div class="kb-diagram-note">(High Write)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MongoDB</div><div class="kb-diagram-note">(General Purpose)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기능/복잡도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Neo4j</div><div class="kb-diagram-note">(Relational Depth)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** Redis는 메모리 내 저장소로 읽기/쓰기 지연이 마이크로초 단위이며 세션 관리나 캐시에 최적화되어 있다. Cassandra는 쓰기 처리량이 매우 높아 로그 수집이나 시계열 데이터 저장에 적합하다. MongoDB는 문서 모델로 유연한 스키마가 필요하고 개발 편의성이 중요한 경우에 선택한다. Neo4j는 그래프 순회 성능이 뛰어나 소셜 네트워크 분석이나 추천 엔진에 사용된다. 각 솔루션은 고유한 강점이 있으므로 용도에 맞는 선택이 필수적이다.
 
 ### 3. 정합성 수준과 지연 시간의 트레이드오프
 
-```text
-[High Consistency]
-▲
-│ \ (Latency 상승)
-│ \
-│ \
-│ \ [Trade-off Line]
-│ \
-│ \
-└───────┴─────────────────▶ [Low Latency]
-(Strong) (Eventual)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">High Consistency</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">\ (Latency 상승)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">\</div><div class="kb-diagram-node">Trade-off Line</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Low Latency</div></div>
+<div class="kb-diagram-note">(Strong) (Eventual)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** PACELC 정리에 따르면, 일관성 수준을 높일수록 분산 노드 간 동기화 오버헤드가 증가하여 응답 지연이 상승한다. 역으로 지연 시간을 최소화하려면 최종 일관성을해야 한다.cassandra는 쓰기 복제_factor와 read_repair를 통해 지연과 일관성의 균형을 조정할 수 있다.Real-time 분석에서 응답 속도가 중요한 경우 일합성가 유리하며, 금융 거래처럼 단일 진실이 중요한 경우 강한 일관성이 필요하다.
 
@@ -185,41 +212,51 @@ Node C ────── Node B ──┘
 ### 1. NoSQL 선택을 위한 의사결정 프로세스
 비즈니스 요구사항에 따라 어떤 데이터베이스를 선택할지 결정하는 흐름이다.
 
-```text
-[시작] ──▶ (데이터가 정형인가?) ── No ──▶ (초당 요청량이 많은가?)
-│ │
-Yes Yes ──▶ [NoSQL 고려]
-│ │
-[RDB 고려] ◀── No ── (트랜잭션이 필수인가?) ◀──┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(데이터가 정형인가?) ── No ──▶ (초당 요청량이 많은가?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NoSQL 고려</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDB 고려</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── No ── (트랜잭션이 필수인가?) ◀──</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 트리의 핵심은 데이터의 와 일관성 요구 수준이다. 정형 데이터이고 ACID 트랜잭션이 필수적인 결제 시스템은 RDB가 적합하다. 반면 비정형 데이터이고 초당 수만 건 이상의 요청을 처리해야 하는 웹 서비스 로그나 세션 데이터는 NoSQL이 적합하다. 트랜잭션이 필요한 경우에도sharding을 고려한 설계로 NewSQL(CockroachDB, TiDB)이라는길도 있다.
 
 ### 2. 폴리글랏 퍼시스턴스 아키텍처
 하나의 서비스 내에서 용도에 맞게 여러 DB를 혼용하는 현대적인 방식이다.
 
-```text
-[User Request]
-│
-┌──────┴──────┐
-▼ ▼
-[Redis] [MongoDB] [RDB]
-(세션/캐시) (상품정보) (결제/정산)
-(Fast Read) (Flexible) (Acid/Strict)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Request</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redis</div><div class="kb-diagram-node">MongoDB</div><div class="kb-diagram-node">RDB</div></div>
+<div class="kb-diagram-note">(세션/캐시) (상품정보) (결제/정산)</div>
+<div class="kb-diagram-note">(Fast Read) (Flexible) (Acid/Strict)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 폴리글랏 퍼시스턴스(Polyglot Persistence)에서는 각 데이터 특성마다 최적의 데이터베이스를 선택한다. Redis는 마이크로초 latency가 필요한 세션 데이터나 핫 데이터 캐시에 적합하고, MongoDB는 상품 정보처럼 스키마가 자주 변하는 도큐먼트 저장에 유리하며, RDB는 금융 거래처럼 ACID가 필수적인 결제 처리에 사용된다. Microservice 아키텍처에서 각 서비스가 독립적인 데이터 저장소를 가지는 것이 이 패턴과 자연스럽게한다.
 
 ### 3. NoSQL 도입 시 안티패턴 주의사항
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│ [도입 시 피해야 할 함정] │
-├──────────────────┬───────────────────┬───────────────────┤
-│ 과도한 조인(Join) │ 스키마 강제화 시도 │ 샤드 키 미설계 │
-│ (성능 저하의 주범) │ (유연성 상실) │ (특정 노드 부하집중)│
-└──────────────────┴───────────────────┴───────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도입 시 피해야 할 함정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과도한 조인(Join)</div><div class="kb-diagram-cell">스키마 강제화 시도</div><div class="kb-diagram-cell">샤드 키 미설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성능 저하의 주범)</div><div class="kb-diagram-cell">(유연성 상실)</div><div class="kb-diagram-cell">(특정 노드 부하집중)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** NoSQL에서 조인은 설계상 지원하지 않거나 성능 문제가 경우가 많다. Application 레벨에서 여러 키를 조회하여 조립하는 Denormalization이 필수적이다. 또한 RDB로 스키마를 강제하면 NoSQL의 유연성 장점을 잃는다. 샤드 키(Shard Key) 설계가 잘못되면 특정 노드에 데이터가 쏠리는 핫스팟이 발생하여 수평적 확장의 효과가 반감된다. 설계 단계에서 데이터 접근 패턴을 분석하고 샤드 키를 신중하게 선택해야 한다.
 
@@ -239,11 +276,17 @@ Yes Yes ──▶ [NoSQL 고려]
 
 ### 2. NoSQL 기술의 진화 방향
 
-```text
-[RDB] ──────────▶ [NoSQL] ──────────▶ [NewSQL]
-(정합성) (확장성) (확장성 + 정합성)
-(ACID) (BASE) (Distributed ACID)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NoSQL</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NewSQL</div></div>
+<div class="kb-diagram-note">(정합성) (확장성) (확장성 + 정합성)</div>
+<div class="kb-diagram-note">(ACID) (BASE) (Distributed ACID)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** NoSQL의 등장으로 확장과 유연성을 얻었지만, ACID 트랜잭션을로 했다. NewSQL은 분산 환경에서도 ACID 트랜잭션을 보장하면서 수평적 확장이 가능한 차세대 데이터베이스다. CockroachDB, TiDB, YugabyteDB 등이 대표적이며, 기존 RDB와 호환되는 SQL 인터페이스를 제공하면서 분산의 이점을 취한다. 그러나 성능에서는 NoSQL보다는 여전히 overhead가 있어에는이나지 않다도。
 
@@ -275,27 +318,30 @@ Yes Yes ──▶ [NoSQL 고려]
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
-1. **RDB**는 칸막이가 딱딱 나눠진 **서랍장** 같아서 물건을 찾기는 좋지만, 큰 물건을 넣거나 서랍을 늘리기는 힘들어요.
-2. **NoSQL**은 커다란 **바구니** 같아서 어떤 장난감이든 쑥쑥 넣을 수 있고, 바구니가 꽉 차면 옆에 새 바구니를 계속 놓을 수 있어요.
-3. 그래서 데이터가 엄청나게 많아지는 현대 인터넷 세상에서는 이 **NoSQL 바구니**가 꼭 필요하답니다!
+1. <strong>RDB</strong>는 칸막이가 딱딱 나눠진 **서랍장** 같아서 물건을 찾기는 좋지만, 큰 물건을 넣거나 서랍을 늘리기는 힘들어요.
+2. <strong>NoSQL</strong>은 커다란 **바구니** 같아서 어떤 장난감이든 쑥쑥 넣을 수 있고, 바구니가 꽉 차면 옆에 새 바구니를 계속 놓을 수 있어요.
+3. 그래서 데이터가 엄청나게 많아지는 현대 인터넷 세상에서는 이 <strong>NoSQL 바구니</strong>가 꼭 필요하답니다!
 [extra]
 categories = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RDBMS 확장 한계 (수평 확장 불가)
-│
-▼
-NoSQL 4가지 유형
-├─► Key-Value: Redis, DynamoDB
-├─► Document: MongoDB, CouchDB
-├─► Column-Family: Cassandra, HBase
-└─► Graph: Neo4j, Amazon Neptune
-│
-▼
-CAP 정리 — 일관성·가용성·파티션 내성 트레이드오프
-│
-▼
-NewSQL (TiDB, CockroachDB) — 수평 확장 + ACID
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDBMS 확장 한계 (수평 확장 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NoSQL 4가지 유형</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Key-Value: Redis, DynamoDB</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Document: MongoDB, CouchDB</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Column-Family: Cassandra, HBase</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Graph: Neo4j, Amazon Neptune</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAP 정리 — 일관성·가용성·파티션 내성 트레이드오프</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NewSQL (TiDB, CockroachDB) — 수평 확장 + ACID</div>
+</div>
+</div>
+
+

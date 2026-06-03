@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 과거의 모빌리티(이동 수단) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 지하철, 택시, 공유 자전거(따릉이), 전동 킥보드 회사들이 각자 자기 회사 서버([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가두고 자기 앱으로만 결제를 받았습니다.
 - **소비자의 분노**: 최적의 길을 찾기 위해 이 앱 저 앱을 왔다 갔다 해야 했고, 기차표 환승 시간을 못 맞춰 길거리에 버려지는 시간 낭비가 끔찍했습니다.
 
-```text
-[메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
-[오픈API와 MaaS]
-    │
-    └──▶ [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈API와 MaaS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오픈API와 MaaS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 모빌리티. 자가용을 제외한 세상의 모든 교통수단(기차, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 택시, 공유 모빌리티, 항공)의 **실시간 위치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 티켓팅/결제 시스템을 단일 클라우드 플랫폼(하나의 앱)으로 완벽하게 통합(Integration)하여, 사용자에게 출발지부터 목적지까지의 '끊김 없는(Seamless) 최적 경로 및 통합 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'를 구독형으로 제공하는 차세대 교통 인프라 통신 아키텍처**입니다.
+- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 모빌리티. 자가용을 제외한 세상의 모든 교통수단(기차, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 택시, 공유 모빌리티, 항공)의 <strong>실시간 위치 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 티켓팅/결제 시스템을 단일 클라우드 플랫폼(하나의 앱)으로 완벽하게 통합(Integration)하여, 사용자에게 출발지부터 목적지까지의 '끊김 없는(Seamless) 최적 경로 및 통합 결제 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>'를 구독형으로 제공하는 차세대 교통 인프라 통신 아키텍처</strong>입니다.
 
-```text
-[메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
-[오픈API와 MaaS]
-    │
-    └──▶ [지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈API와 MaaS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오픈API와 MaaS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,16 +64,16 @@ tags = ["studynote-network"]
 
 ### 1. 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/)) 클라우드 연동망의 기적 🌟
 MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정보와 킥보드 위치가 하나의 클라우드로 모일까요?
-- **공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 사기업 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 개방**: 
+- <strong>공공 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 및 사기업 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 개방</strong>: 
   - 코레일은 "우리 기차 잔여 좌석 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)(877번) 주소로 열어둘게!" 하고 개방합니다.
   - 카카오T도 "우리 택시 실시간 위치 GPS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Open API로 뿌릴게!" 하고 구멍을 엽니다.
-- **클라우드 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 연계**: 티머니(Tmoney)나 카카오모빌리티 같은 MaaS 중앙 클라우드 서버가, 이 수십 개의 뚫려있는 구멍([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/))으로 빨대를 꽂아 1초 단위로 모든 탈것의 빅데이터를 쫙쫙 빨아들여 거대한 하나의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 융합(Mashup)합니다.
+- <strong>클라우드 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> 연계</strong>: 티머니(Tmoney)나 카카오모빌리티 같은 MaaS 중앙 클라우드 서버가, 이 수십 개의 뚫려있는 구멍([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/))으로 빨대를 꽂아 1초 단위로 모든 탈것의 빅데이터를 쫙쫙 빨아들여 거대한 하나의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 융합(Mashup)합니다.
 
 ### 2. 객체 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 연계 최적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연동)
 이제 빨아들인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 AI가 내비게이션 길([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 뚫어줍니다.
 - 사용자가 "집 ➜ 해운대 숙소"를 찍습니다.
 - 중앙 AI는 통신망에 떠다니는 실시간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 객체들(택시 위치, 남은 킥보드 배터리)의 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 봅니다.
-- "지금 비가 와서 킥보드 타면 위험하니까, 집에서 역까지는 카카오택시, 서울-부산은 KTX, 부산역에서 호텔까지는 쏘카를 타라!"며 **단일 앱 화면에 3개 교통수단을 이어붙인 완벽한 여정(Journey) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 결과를 1초 만에 뽑아내고 1번의 핀테크 결제로 묶어버립니다.**
+- "지금 비가 와서 킥보드 타면 위험하니까, 집에서 역까지는 카카오택시, 서울-부산은 KTX, 부산역에서 호텔까지는 쏘카를 타라!"며 <strong>단일 앱 화면에 3개 교통수단을 이어붙인 완벽한 여정(Journey) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 결과를 1초 만에 뽑아내고 1번의 핀테크 결제로 묶어버립니다.</strong>
 
 오픈API와 MaaS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 대역/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 렌더링 오프로…가 기반 조건을 만든다면, 오픈API와 MaaS는 그 위에서 핵심 메커니즘을 구현하고, 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 노출/은닉 망 탐…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 핀란드 헬싱키의 'Whim'이라는 MaaS 앱이 대표적입니다.
-- 넷플릭스 한 달 구독권처럼, MaaS 앱에 '월 30만 원' 무제한 구독 요금을 내면 한 달 내내 택시, 기차, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 킥보드를 폰 하나만 찍고 무제한으로 타는 **교통수단의 [구독 경제](/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/)(XaaS) 시대**가 최종 목표입니다.
+- 넷플릭스 한 달 구독권처럼, MaaS 앱에 '월 30만 원' 무제한 구독 요금을 내면 한 달 내내 택시, 기차, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 킥보드를 폰 하나만 찍고 무제한으로 타는 <strong>교통수단의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/057_subscription_economy_xaas/">구독 경제</a>(XaaS) 시대</strong>가 최종 목표입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거의 교통수단은 '길거리의 각각 다른 노점상'들이었습니다. 떡볶이(택시)를 먹으려면 1번 포장마차 가서 돈 내고, 튀김(기차) 먹으려면 2번 수레 가서 따로 계산하고, 순대(자전거) 먹으려면 3번 트럭을 찾아 헤매야 하는 극한의 파편화 지옥이었습니다. **MaaS(통합 모빌리티)와 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동**은 이 모든 노점상 주방의 레시피와 재료 장부([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))를 억지로 하나로 이어붙여 만든 초대형 **'종합 푸드코트 배달의 민족 앱'**입니다. 각 노점상들은 굳게 닫혀있던 주방 창문([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/))을 활짝 열어젖힙니다. 중앙 시스템(MaaS 클라우드 앱)이 그 창문을 통해 남은 재료([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 잔여석, 킥보드 위치)를 실시간으로 파악합니다. 손님은 앱에서 '떡튀순 정식 세트(택시+기차+킥보드 통합 경로)' 버튼 딱 하나만 누르면, 결제 한 번으로 집 문 앞부터 목적지까지 모든 탈것이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 완벽한 타이밍에 입에 떠먹여 지는 마법의 통합 교통 인프라 혁명입니다.
+- **📢 섹션 요약 비유**: 과거의 교통수단은 '길거리의 각각 다른 노점상'들이었습니다. 떡볶이(택시)를 먹으려면 1번 포장마차 가서 돈 내고, 튀김(기차) 먹으려면 2번 수레 가서 따로 계산하고, 순대(자전거) 먹으려면 3번 트럭을 찾아 헤매야 하는 극한의 파편화 지옥이었습니다. <strong>MaaS(통합 모빌리티)와 오픈 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 연동</strong>은 이 모든 노점상 주방의 레시피와 재료 장부([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))를 억지로 하나로 이어붙여 만든 초대형 <strong>'종합 푸드코트 배달의 민족 앱'</strong>입니다. 각 노점상들은 굳게 닫혀있던 주방 창문([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/))을 활짝 열어젖힙니다. 중앙 시스템(MaaS 클라우드 앱)이 그 창문을 통해 남은 재료([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 잔여석, 킥보드 위치)를 실시간으로 파악합니다. 손님은 앱에서 '떡튀순 정식 세트(택시+기차+킥보드 통합 경로)' 버튼 딱 하나만 누르면, 결제 한 번으로 집 문 앞부터 목적지까지 모든 탈것이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 완벽한 타이밍에 입에 떠먹여 지는 마법의 통합 교통 인프라 혁명입니다.
 
 ---
 
@@ -113,15 +121,19 @@ MaaS는 거대한 통신 파이프라인의 예술입니다. 어떻게 [버스](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 메타버스 네트워크 대역/QoS 렌더링 오프로…]
-    │
-    ▼
-[현재 개념: 오픈API와 MaaS]
-    │
-    ├──▶ [확장 A: 지향성 안테나 MAC 계층 노출/은닉 망 탐…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오픈API와 MaaS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지향성 안테나 MAC 계층 노출/은닉 망 탐…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 오픈API와 MaaS는 [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 대역/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 렌더링 오프로…에서 출발해 현재 메커니즘을 정교화하고, 이후 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 노출/은닉 망 탐…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,28 +19,25 @@ tags = ["algorithm_stats"]
 
 컴퓨터 공학에서 가장 많이 수행되는 작업 중 하나가 정렬이다. 정렬되지 않은 데이터는 무의미한 덩어리에 불과하지만, 정렬된 데이터는 강력한 정보가 된다. 정렬이 되어 있어야만 중복 데이터를 쉽게 제거할 수 있고, 이진 탐색을 통해 데이터를 순식간에 찾아낼 수 있으며, 최댓값이나 최솟값을 $O(1)$에 확보할 수 있다.
 
-정렬 알고리즘이 중요한 이유는 세 가지이다. 첫째, **연산 효율성**을 위해서이다. 잘못된 정렬 방식은 데이터가 조금만 늘어나도 서버를 멈추게 한다. 둘째, **안정성 (Stability)**을 확보하기 위해서이며 (동일 값의 상대적 순서 유지), 셋째, **자원 제약 (In-place)** 환경에서도 추가 메모리 없이 정렬을 수행하기 위함이다.
+정렬 알고리즘이 중요한 이유는 세 가지이다. 첫째, <strong>연산 효율성</strong>을 위해서이다. 잘못된 정렬 방식은 데이터가 조금만 늘어나도 서버를 멈추게 한다. 둘째, <strong>안정성 (Stability)</strong>을 확보하기 위해서이며 (동일 값의 상대적 순서 유지), 셋째, **자원 제약 (In-place)** 환경에서도 추가 메모리 없이 정렬을 수행하기 위함이다.
 
 이 그림은 정렬 알고리즘의 성능 차이가 데이터 규모에 따라 얼마나 극명하게 벌어지는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Sorting Complexity Performance              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Time ▲                                                    │
-│        │                                / [ O(N^2) ]        │
-│        │                               /  (Bubble, Selection)│
-│        │                              /                     │
-│        │                             /                      │
-│        │              / [ O(N log N) ]                      │
-│        │             /  (Quick, Merge, Heap)                │
-│        │            /                                       │
-│        └──────────────────────────────────────────────▶     │
-│                          Number of Items (N)                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sorting Complexity Performance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">O(N^2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Bubble, Selection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">O(N log N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Quick, Merge, Heap)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Number of Items (N)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '$O(N \log N)$의 장벽'이다. 비교 기반 정렬의 이론적 하한선은 $O(N \log N)$이며, 실무에서는 이 장벽을 넘기 위해 기수 정렬 (Radix Sort)과 같은 특수 기법을 쓰거나, 퀵 정렬의 최악의 경우를 방어하는 하이브리드 기법을 사용한다.
 
@@ -58,37 +55,34 @@ tags = ["algorithm_stats"]
 
 ### 퀵 정렬 (Quick Sort)의 원리와 성능
 
-가장 널리 쓰이는 정렬 방식이다. **피벗 (Pivot)**을 선정하고 이를 기준으로 작은 값과 큰 값을 나누는 분할 정복을 수행한다.
+가장 널리 쓰이는 정렬 방식이다. <strong>피벗 (Pivot)</strong>을 선정하고 이를 기준으로 작은 값과 큰 값을 나누는 분할 정복을 수행한다.
 - **특징**: 평균적으로 매우 빠르지만, 피벗이 최솟값이나 최댓값으로 계속 잡히는 최악의 경우 $O(N^2)$으로 느려진다.
 - **해결**: 피벗을 랜덤하게 고르거나 세 값의 중앙값 (Median of Three)을 선택하여 최악의 경우를 방어한다.
 
 ### 병합 정렬 (Merge Sort)의 안정성
 
 데이터를 최소 단위까지 쪼갠 뒤, 다시 합치면서 정렬하는 방식이다.
-- **특징**: 데이터의 초기 상태와 상관없이 항상 $O(N \log N)$을 보장하며, 동일한 값의 순서가 바뀌지 않는 **안정 정렬 (Stable Sort)**이다.
+- **특징**: 데이터의 초기 상태와 상관없이 항상 $O(N \log N)$을 보장하며, 동일한 값의 순서가 바뀌지 않는 <strong>안정 정렬 (Stable Sort)</strong>이다.
 - **단점**: 합치는 과정에서 추가적인 메모리 공간 (Extra Space)이 필요하다.
 
 이 구조도는 병합 정렬의 분할과 병합 과정을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Merge Sort: Divide and Conquer              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 38, 27, 43, 3, 9, 82, 10 ] (Original)                   │
-│          │                                                  │
-│   [ 38, 27, 43 ] [ 3, 9, 82, 10 ] (Divide)                  │
-│          │               │                                  │
-│   [ 27, 38, 43 ] [ 3, 9, 10, 82 ] (Sort & Merge)            │
-│          │               │                                  │
-│   [ 3, 9, 10, 27, 38, 43, 82 ] (Final Merge)                │
-│                                                             │
-│   * 핵심: 쪼개는 것은 쉽지만, 합칠 때 정렬하는 것이 기술    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '병합 시점의 비교 연산'이다. 두 개의 정렬된 배열을 하나로 합치는 것은 $O(N)$에 가능하므로, 전체 깊이 $\log N$과 곱해져 $N \log N$의 속도가 나온다. 실무에서는 대량의 데이터를 외부 저장소 (Disk)에서 정렬해야 하는 **외부 정렬 (External Sort)**의 기본 알고리즘으로 쓰인다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge Sort: Divide and Conquer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3, 9, 82, 10</div><div class="kb-diagram-note">(Original)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43</div><div class="kb-diagram-node">3, 9, 82, 10</div><div class="kb-diagram-note">(Divide)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">27, 38, 43</div><div class="kb-diagram-node">3, 9, 10, 82</div><div class="kb-diagram-note">(Sort &amp; Merge)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 9, 10, 27, 38, 43, 82</div><div class="kb-diagram-note">(Final Merge)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 쪼개는 것은 쉽지만, 합칠 때 정렬하는 것이 기술</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '병합 시점의 비교 연산'이다. 두 개의 정렬된 배열을 하나로 합치는 것은 $O(N)$에 가능하므로, 전체 깊이 $\log N$과 곱해져 $N \log N$의 속도가 나온다. 실무에서는 대량의 데이터를 외부 저장소 (Disk)에서 정렬해야 하는 <strong>외부 정렬 (External Sort)</strong>의 기본 알고리즘으로 쓰인다.
 
 📢 **섹션 요약 비유**: 퀵 정렬이 '팀장 한 명을 뽑아 좌우로 갈라지게 하는 것'이라면, 병합 정렬은 '모두를 1인 팀으로 쪼갠 뒤 두 팀씩 승자를 가리며 합치는 토너먼트'와 같습니다.
 
@@ -120,30 +114,28 @@ tags = ["algorithm_stats"]
 ### 기술사적 판단: 데이터 성격에 따른 정렬 엔진 설계
 
 **시나리오 1: 실시간으로 데이터가 한 건씩 추가되는 스트리밍 랭킹 시스템**
-- **판단**: 매번 전체 정렬을 하는 것은 비효율적이다. 새로운 데이터가 들어올 때마다 $O(\log N)$에 자리를 찾아가는 **우선순위 큐 (Priority Queue / Heap)**를 사용한다. 최상위 랭킹만 뽑아낼 때는 $O(1)$에 가능하므로 실시간 대시보드 구현에 최적이다.
+- **판단**: 매번 전체 정렬을 하는 것은 비효율적이다. 새로운 데이터가 들어올 때마다 $O(\log N)$에 자리를 찾아가는 <strong>우선순위 큐 (Priority Queue / Heap)</strong>를 사용한다. 최상위 랭킹만 뽑아낼 때는 $O(1)$에 가능하므로 실시간 대시보드 구현에 최적이다.
 
 **시나리오 2: 임베디드 기기의 극도로 제한된 메모리 환경에서의 정렬**
-- **판단**: 추가 메모리 할당이 불가능하므로 병합 정렬은 배제한다. $O(N \log N)$을 보장하면서도 제자리 정렬 (In-place)이 가능한 **힙 정렬 (Heap Sort)**을 선택한다. 만약 데이터 개수가 매우 적다면 오버헤드가 적은 **삽입 정렬**로 테일러링 (Tailoring)하여 실행 속도를 높인다.
+- **판단**: 추가 메모리 할당이 불가능하므로 병합 정렬은 배제한다. $O(N \log N)$을 보장하면서도 제자리 정렬 (In-place)이 가능한 <strong>힙 정렬 (Heap Sort)</strong>을 선택한다. 만약 데이터 개수가 매우 적다면 오버헤드가 적은 <strong>삽입 정렬</strong>로 테일러링 (Tailoring)하여 실행 속도를 높인다.
 
 이 도식은 데이터 크기에 따라 정렬 알고리즘을 혼합하여 사용하는 **Timsort** (Java/Python 표준)의 논리 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Hybrid Sorting Strategy (Timsort)             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Input Data ] ──▶ [ Size Check ]                         │
-│          │                                                  │
-│   ┌──────┴──────┬──────────────────────────────────┐        │
-│   ▼ (Small)     ▼ (Large)                          │        │
-│ [ Insertion ] [ Partition into Runs ]              │        │
-│   Sort        [ Sort Runs with Insertion Sort ]    │        │
-│               [ Merge Runs with Merge Sort ] ◀─────┘        │
-│                                                             │
-│   * 철학: 작은 구간은 삽입 정렬이, 전체는 병합 정렬이 빠르다 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid Sorting Strategy (Timsort)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Size Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Small) ▼ (Large)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Insertion</div><div class="kb-diagram-node">Partition into Runs</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Sort</div><div class="kb-diagram-node">Sort Runs with Insertion Sort</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Merge Runs with Merge Sort</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: 작은 구간은 삽입 정렬이, 전체는 병합 정렬이 빠르다</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 정렬 판단은 '이삿짐 분류'와 같습니다. 짐이 적을 땐 그냥 눈으로 보고 옮기고(삽입), 짐이 많을 땐 큰 상자별로 나누어 체계적으로 옮기는(퀵/병합) 상황별 맞춤 전략이 필요합니다.
 
@@ -158,7 +150,7 @@ tags = ["algorithm_stats"]
 
 ### 미래 전망: 병렬 정렬과 하드웨어 가속
 
-향후 정렬 기술은 멀티코어와 GPU를 활용하는 **병렬 정렬 (Parallel Sort)**로 진화할 것이다. 또한 CPU를 거치지 않고 네트워크 카드나 스토리지 내부에서 직접 정렬을 수행하는 **In-storage Sorting** 기술이 표준이 될 것이다. 기술사는 알고리즘의 논리적 절차를 넘어, 현대 하드웨어의 SIMD 명령어와 메모리 대역폭을 고려하여 실제 전송 속도를 극대화하는 '시스템 지향적 알고리즘 전문가'로 거듭나야 한다.
+향후 정렬 기술은 멀티코어와 GPU를 활용하는 <strong>병렬 정렬 (Parallel Sort)</strong>로 진화할 것이다. 또한 CPU를 거치지 않고 네트워크 카드나 스토리지 내부에서 직접 정렬을 수행하는 **In-storage Sorting** 기술이 표준이 될 것이다. 기술사는 알고리즘의 논리적 절차를 넘어, 현대 하드웨어의 SIMD 명령어와 메모리 대역폭을 고려하여 실제 전송 속도를 극대화하는 '시스템 지향적 알고리즘 전문가'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 정렬은 '초능력을 가진 사서'와 같아질 것입니다. 수조 권의 책이 쏟아져도 수만 개의 손(멀티코어)이 동시에 움직여 찰나의 순간에 모든 책을 제자리에 꽂아두는 경지에 이르게 될 것입니다.
 
@@ -179,18 +171,21 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비교 정렬 하한: Ω(n log n)
-    │
-    ├─► 최적 비교 정렬: 합병·힙·퀵(평균)
-    │
-    ▼
-외부 정렬 (External Sort) — 메모리 초과 시
-    ├─► 다방향 합병 정렬
-    └─► 교체 선택 (Replacement Selection)
-    │
-    ▼
-병렬 정렬 (Parallel Sort) — 멀티코어·분산 환경
-    ├─► 비트닉 정렬 (Bitonic Sort)
-    └─► 샘플 정렬 (Sample Sort) — MPI 환경
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비교 정렬 하한: Ω(n log n)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">최적 비교 정렬: 합병·힙·퀵(평균)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부 정렬 (External Sort) — 메모리 초과 시</div>
+<div class="kb-diagram-tree-item" style="--depth:2">다방향 합병 정렬</div>
+<div class="kb-diagram-tree-item" style="--depth:2">교체 선택 (Replacement Selection)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">병렬 정렬 (Parallel Sort) — 멀티코어·분산 환경</div>
+<div class="kb-diagram-tree-item" style="--depth:2">비트닉 정렬 (Bitonic Sort)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">샘플 정렬 (Sample Sort) — MPI 환경</div>
+</div>
+</div>
+
+

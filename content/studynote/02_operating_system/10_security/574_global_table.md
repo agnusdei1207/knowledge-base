@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 전역 테이블(Global Table)은 [접근 제어 행렬](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)에서 **권한이 존재하는 칸만**을 `<도메인, 객체, 권한>` 3단 튜플로 저장하는 자료구조이다. 빈 칸(Null)을 저장하지 않아 **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)를 $O(실제 권한 수)$로 절감**한다.
-> 2. **가치**: 이 **희소성 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Sparse [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))** 덕분에, 수천만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는 시스템에서도 실제 권한 설정만 메모리에 저장하여 RAM을 절약할 수 있다.
-> 3. **한계**: 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 순차 탐색해야 하므로 **$O(N)$ [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)**가 발생하고, 중앙 테이블에 동시 접근 시 **[락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))** 문제가 발생한다.
+> 1. **본질**: 전역 테이블(Global Table)은 [접근 제어 행렬](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)에서 <strong>권한이 존재하는 칸만</strong>을 `<도메인, 객체, 권한>` 3단 튜플로 저장하는 자료구조이다. 빈 칸(Null)을 저장하지 않아 **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)를 $O(실제 권한 수)$로 절감**한다.
+> 2. **가치**: 이 <strong>희소성 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(Sparse <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong> 덕분에, 수천만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는 시스템에서도 실제 권한 설정만 메모리에 저장하여 RAM을 절약할 수 있다.
+> 3. **한계**: 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 순차 탐색해야 하므로 **$O(N)$ [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)**가 발생하고, 중앙 테이블에 동시 접근 시 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock Contention</a>)</strong> 문제가 발생한다.
 
 ---
 
@@ -31,19 +31,24 @@ tags = ["studynote-operating-system"]
 
 **"권한이 있는 경우만 저장한다"**
 
-```text
-[ 기존 2차원 행렬 ]
-파일1 파일2 파일3
-도메인A Read Null Null
-도메인B Null Read Null
-도메인C Null Read Write
 
-[ 전역 테이블 (Linked List) ]
-Head -> < 도메인A, 파일1, {Read} >
--> < 도메인B, 파일2, {Read} >
--> < 도메인C, 파일2, {Read} >
--> < 도메인C, 파일3, {Write} >
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 2차원 행렬</div></div>
+<div class="kb-diagram-note">파일1 파일2 파일3</div>
+<div class="kb-diagram-note">도메인A Read Null Null</div>
+<div class="kb-diagram-note">도메인B Null Read Null</div>
+<div class="kb-diagram-note">도메인C Null Read Write</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Linked List)</div></div>
+<div class="kb-diagram-note">Head -&gt; &lt; 도메인A, 파일1, {Read} &gt;</div>
+<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인B, 파일2, {Read} &gt;</div>
+<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인C, 파일2, {Read} &gt;</div>
+<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인C, 파일3, {Write} &gt;</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -55,15 +60,15 @@ Head -> < 도메인A, 파일1, {Read} >
 
 | 구분 | 2차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 전역 테이블 |
 |:---|:---|:---|
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)** | $O(|D| \times |O|)$ | $O(실제 권한 수)$ |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(1)$ (인덱싱) | $O(N)$ ([선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a></strong> | $O(|D| \times |O|)$ | $O(실제 권한 수)$ |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(1)$ (인덱싱) | $O(N)$ ([선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)) |
 | **적용** | 메모리 풍부한 환경 | 메모리 제약 환경 |
 
 ### 2.2 동시 접근 문제
 
 여러 프로세스가 동시에 전역 테이블에 접근하면:
-1. 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌 방지을 위해 **뮤텍스 잠금([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))** 필요
-2. 잠금 대기 시간이 증가하면 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하** 발생
+1. 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌 방지을 위해 <strong>뮤텍스 잠금(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">Mutex Lock</a>)</strong> 필요
+2. 잠금 대기 시간이 증가하면 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하</strong> 발생
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -82,12 +87,12 @@ Rule 2: ACCEPT TCP 80
 Rule 3: DROP ALL
 ```
 
-패킷이 들어올 때마다 위에서 아래로 **순차적으로 규칙을 매칭**한다. 규칙이 10만 개인 경우, 마지막 규칙까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하므로 **$O(N)$ 시간**이 소요된다.
+패킷이 들어올 때마다 위에서 아래로 <strong>순차적으로 규칙을 매칭</strong>한다. 규칙이 10만 개인 경우, 마지막 규칙까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하므로 **$O(N)$ 시간**이 소요된다.
 
 ### 3.2 eBPF와 해시 기반 최적화
 
-최신 리눅스에서는 **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))**를 활용하여:
-- 규칙을 **[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)**에 저장
+최신 리눅스에서는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong>를 활용하여:
+- 규칙을 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a></strong>에 저장
 - 평균 **$O(1)$ 시간**에 규칙 매칭
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -123,25 +128,29 @@ Rule 3: DROP ALL
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[접근 제어 행렬 (Access Matrix)]
-│
-▼
-[전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
-│
-├──▶ [접근 제어 목록 (ACL, Access Control List)]
-└──▶ [자격 증명 리스트 (Capability List / Ticket)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 행렬 (Access Matrix)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **전역 테이블**은 학교의 **"출입 가능 명단"**과 같다. 모든 학생과 모든 교실의 관계를 적는 게 아니라, **"출입 가능한 조합"만**을 적어둔다.
+1. <strong>전역 테이블</strong>은 학교의 <strong>"출입 가능 명단"</strong>과 같다. 모든 학생과 모든 교실의 관계를 적는 게 아니라, <strong>"출입 가능한 조합"만</strong>을 적어둔다.
 
-2. **공간 절약**은(명부)에서 빈 칸을 지우고 **(허용)된 경우만** 적는 것과 같다. 공간은 절약되지만, 모든 학생의 출입 가능 교실을 알려면를 모두 읽어야 한다.
+2. <strong>공간 절약</strong>은(명부)에서 빈 칸을 지우고 **(허용)된 경우만** 적는 것과 같다. 공간은 절약되지만, 모든 학생의 출입 가능 교실을 알려면를 모두 읽어야 한다.
 
-3. **[락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)**은 여러 (명부) 관리자가 동시에를 수정하려고 할 때, **한 명씩만 수정**해야 해서 대기 시간이 발생하는 것과 같다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>은 여러 (명부) 관리자가 동시에를 수정하려고 할 때, <strong>한 명씩만 수정</strong>해야 해서 대기 시간이 발생하는 것과 같다.
 
 ---
 

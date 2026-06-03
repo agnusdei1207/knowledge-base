@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 멀티코어 서버 환경에서 운영체제가 프로세스에게 물리 메모리(RAM)를 나누어 줄 때, **무조건 내 CPU와 가장 가까운 램 한곳에 몰빵하는 '로컬 노드 할당(Local Node Allocation)'**과 **여러 노드의 램에 카드를 섞듯 번갈아 가며 뿌려주는 '인터리브 할당(Interleaved Allocation)'**의 두 가지 상반된 철학적 선택지다.
-> 2. **가치**: 로컬 할당은 혼자서 빠르게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 '단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 최상 속도(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'에 극대화되어 있는 반면, 인터리브 할당은 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 긁어 갈 때 한 노드로 쏠리는 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 찢어 발겨 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(High [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**시키는 데 특화되어 있다.
+> 1. **본질**: [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 멀티코어 서버 환경에서 운영체제가 프로세스에게 물리 메모리(RAM)를 나누어 줄 때, <strong>무조건 내 CPU와 가장 가까운 램 한곳에 몰빵하는 '로컬 노드 할당(Local Node Allocation)'</strong>과 <strong>여러 노드의 램에 카드를 섞듯 번갈아 가며 뿌려주는 '인터리브 할당(Interleaved Allocation)'</strong>의 두 가지 상반된 철학적 선택지다.
+> 2. **가치**: 로컬 할당은 혼자서 빠르게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 '단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 최상 속도(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'에 극대화되어 있는 반면, 인터리브 할당은 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 긁어 갈 때 한 노드로 쏠리는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목을 찢어 발겨 트래픽을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(High <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>시키는 데 특화되어 있다.
 > 3. **융합**: 실무에서는 이 두 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 트레이드오프를 이해하고, 애플리케이션의 성격(CPU 바운드냐 메모리 바운드냐, 독립 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)냐 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)냐)에 따라 `numactl` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해 수동으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 스위칭(Tuning)하여 극한의 서버 성능을 뽑아내는 아키텍처적 융합이 필수적이다.
 
 ---
@@ -25,33 +25,33 @@ tags = ["studynote-operating-system"]
 - **필요성**: 만약 로컬 할당(First-touch)만 무지성으로 쓰면 어떻게 될까? 대형 해시맵 100GB를 맨 처음 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `Node 0`에 있었다는 이유만으로 100GB가 전부 `Node 0 램`에만 몰빵된다. 나중에 64개의 코어(Node 0~3)가 동시에 이 해시맵을 뒤지려 달려들면, `Node 0`의 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터져나가고 서버 전체가 마비된다. 따라서 "가까운 게 최고!"라는 로컬의 오만함을 부수고, "모두의 램을 공평하게 나눠 쓰자!"는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(인터리브)이라는 두 번째 무기가 절대적으로 필요해졌다.
 
 - **등장 배경 및 병목의 진화**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 맹신**: "어차피 로컬이 리모트보다 빠르니까 무조건 로컬 몰빵(First-touch)이 진리지!"
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 맹신</strong>: "어차피 로컬이 리모트보다 빠르니까 무조건 로컬 몰빵(First-touch)이 진리지!"
   2. **빅데이터의 역습**: 거대한 인메모리 DB의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Query)는 수십 개의 코어가 한 덩어리의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시다발적으로 찢어 읽는다([스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 공유). 로컬 몰빵된 Node 0 메모리 컨트롤러에서 과부하(QPI [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 고갈)가 발생.
   3. **Interleave의 대안적 부상**: "로컬의 60ns 빠른 응답성([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 버리더라도, 리모트를 섞어 써서 트래픽 4차선을 뚫어버리는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 거대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업엔 이득이다"라는 결론 도출.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        로컬 할당(Local) vs 인터리브 할당(Interleave) 매핑 구조         │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: 16KB(4개 페이지 조각) 데이터를 램에 매핑할 때 ]                │
-│                                                                        │
-│ ▶ 1. 로컬 노드 할당 (Local / First-Touch)                              │
-│    "스레드가 Node 0에서 돌고 있네? 몽땅 0번에 박아!"                   │
-│    Node 0 RAM: [ Pg 1 ] [ Pg 2 ] [ Pg 3 ] [ Pg 4 ]                     │
-│    Node 1 RAM: [ 텅 빔 ]                                               │
-│    ✅ 장점: Node 0 코어가 혼자 읽을 땐 QPI 다리를 안 건너 초고속.      │
-│    ⚠ 단점: Node 1 코어들이 이거 읽으려면 병목 터짐 (대역폭 독점).      │
-│                                                                        │
-│ ▶ 2. 인터리브 할당 (Interleaved)                                       │
-│    "노드 0, 1을 번갈아가며(Round-Robin) 공평하게 흩뿌려라!"            │
-│    Node 0 RAM: [ Pg 1 ]          [ Pg 3 ]                              │
-│    Node 1 RAM:          [ Pg 2 ]          [ Pg 4 ]                     │
-│    ⚠ 단점: 누군가는 절반 확률로 무조건 Remote 지연(느림)을 맞아야 함.  │
-│    ✅ 장점: 0번과 1번 코어가 동시에 읽을 때 메모리 버스 2개를 다 써서  │
-│            다운로드 속도가 2배로 넓어짐 (대역폭 병렬화).               │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 할당(Local) vs 인터리브 할당(Interleave) 매핑 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 16KB(4개 페이지 조각) 데이터를 램에 매핑할 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 로컬 노드 할당 (Local / First-Touch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"스레드가 Node 0에서 돌고 있네? 몽땅 0번에 박아!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 0 RAM:</div><div class="kb-diagram-node">Pg 1</div><div class="kb-diagram-node">Pg 2</div><div class="kb-diagram-node">Pg 3</div><div class="kb-diagram-node">Pg 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 1 RAM:</div><div class="kb-diagram-node">텅 빔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: Node 0 코어가 혼자 읽을 땐 QPI 다리를 안 건너 초고속.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 단점: Node 1 코어들이 이거 읽으려면 병목 터짐 (대역폭 독점).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 인터리브 할당 (Interleaved)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"노드 0, 1을 번갈아가며(Round-Robin) 공평하게 흩뿌려라!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 0 RAM:</div><div class="kb-diagram-node">Pg 1</div><div class="kb-diagram-node">Pg 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 1 RAM:</div><div class="kb-diagram-node">Pg 2</div><div class="kb-diagram-node">Pg 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 단점: 누군가는 절반 확률로 무조건 Remote 지연(느림)을 맞아야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: 0번과 1번 코어가 동시에 읽을 때 메모리 버스 2개를 다 써서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다운로드 속도가 2배로 넓어짐 (대역폭 병렬화).</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 로컬 할당은 "[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 최소화"에 미쳐 있는 구조이고, 인터리브 할당은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 폭([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 극대화"에 미쳐 있는 구조다. 고속도로로 치면, 로컬 할당은 1차선 직통 고속도로고, 인터리브는 신호등이 조금 섞여 있어도 4차선으로 뚫어버린 국도다. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 10대면 로컬이 무조건 빠르지만, 차가 10만 대 몰려오면 인터리브 4차선이 훨씬 빨리 차를 빼낸다.
 
 - **📢 섹션 요약 비유**: 로컬 할당이 '집 앞 구멍가게 1곳에서 라면 100봉지를 전부 사서 혼자 들고 오는 빠름'이라면, 인터리브 할당은 '동네 마트 4곳에 25봉지씩 발주를 넣어놓고 친구 4명을 시켜 동시에 수령해 오는 팀플레이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'입니다.
@@ -62,26 +62,27 @@ tags = ["studynote-operating-system"]
 
 ### 리눅스 디폴트 룰의 배신 (First-Touch의 함정)
 
-리눅스의 기본(Default) 메모리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 **"Local Allocation (First-touch)"**다. 이 철학은 일반적인 데스크톱이나 소규모 웹 서버에서는 아주 훌륭하게 작동하지만, 대형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 환경에서는 치명적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))으로 돌변한다.
+리눅스의 기본(Default) 메모리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>"Local Allocation (First-touch)"</strong>다. 이 철학은 일반적인 데스크톱이나 소규모 웹 서버에서는 아주 훌륭하게 작동하지만, 대형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 환경에서는 치명적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))으로 돌변한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              First-Touch 정책이 낳는 거대 DB 서버의 붕괴                │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ 1. [ 부팅 시점 ] 데이터베이스(DB) 엔진이 켜지며 100GB 메모리 할당 요청. │
-│ 2. [ 초기화 스레드 ] DB 엔진의 '1번 스레드(Main)'가 루프를 돌며         │
-│    100GB 공간 전체에 0으로 초기화(Zeroing) 쓰기 작업을 수행함.          │
-│ 3. [ 🔴 OS의 맹신 ] OS는 "아! 이 100GB는 Main 스레드가 도는             │
-│    Node 0번 코어 전용 데이터구나!" 착각하고 Node 0 램에 100GB 몰빵!     │
-│                                                                         │
-│ 4. [ 런타임 참사 터짐 ]                                                 │
-│    - 수만 명의 유저가 접속해 64개의 코어(Node 0~3)가 동시에 쿼리 연산.  │
-│    - Node 1, 2, 3 코어들이 쿼리를 위해 데이터를 가져가려고 전부         │
-│      Node 0 램으로 연결된 가느다란 QPI 링크 다리로 수만 대 몰려듦.      │
-│    💥 결과: Node 0 램 컨트롤러 병목 폭발 -> 서버 전체 렉 유발 (Stall)   │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First-Touch 정책이 낳는 거대 DB 서버의 붕괴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">부팅 시점</div><div class="kb-diagram-note">데이터베이스(DB) 엔진이 켜지며 100GB 메모리 할당 요청.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">초기화 스레드</div><div class="kb-diagram-note">DB 엔진의 '1번 스레드(Main)'가 루프를 돌며</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100GB 공간 전체에 0으로 초기화(Zeroing) 쓰기 작업을 수행함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">🔴 OS의 맹신</div><div class="kb-diagram-note">OS는 "아! 이 100GB는 Main 스레드가 도는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0번 코어 전용 데이터구나!" 착각하고 Node 0 램에 100GB 몰빵!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">런타임 참사 터짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수만 명의 유저가 접속해 64개의 코어(Node 0~3)가 동시에 쿼리 연산.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Node 1, 2, 3 코어들이 쿼리를 위해 데이터를 가져가려고 전부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0 램으로 연결된 가느다란 QPI 링크 다리로 수만 대 몰려듦.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: Node 0 램 컨트롤러 병목 폭발 -&gt; 서버 전체 렉 유발 (Stall)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "메모리를 최초로 건드린 놈에게 땅을 준다"는 OS의 휴리스틱이 빅데이터 서버 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 패턴 앞에서는 완전히 헛발질한 꼴이 되었다. 이 하나의 쓰레드([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 낳은 참극 때문에 1억 원짜리 서버가 1천만 원짜리 구형 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 속도로 기어 다니게 된다. 이를 해결하는 튜닝이 바로 "인터리브(Interleave) 강제 세팅"이다.
 
@@ -105,21 +106,24 @@ tags = ["studynote-operating-system"]
 
 | 워크로드 특성 | 추천 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 이유 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Justification) |
 |:---|:---|:---|
-| **독립 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 위주** (Nginx, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 개별 앱) | **Local (First-Touch)** | 각 앱이 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유할 일이 없으므로, 철저히 자기 램 안에서 가장 빠른 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 누리는 게 이득 |
+| <strong>독립 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 위주</strong> (Nginx, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 개별 앱) | **Local (First-Touch)** | 각 앱이 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유할 일이 없으므로, 철저히 자기 램 안에서 가장 빠른 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 누리는 게 이득 |
 | **빅데이터 풀 스캔** ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | **Interleave** | 수백 GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 코어가 찢어서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 읽을 때, 한 노드로 쏠리는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Choke)를 막음 |
-| **Java JVM ([가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/))** | **Interleave 권장** | 평소엔 로컬이 좋지만, 주기적으로 도는 거대 빗자루인 GC([가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))가 힙 전체를 훑을 때 노드 쏠림으로 STW [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 심해지는 걸 방어함 |
+| <strong>Java JVM (<a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>)</strong> | **Interleave 권장** | 평소엔 로컬이 좋지만, 주기적으로 도는 거대 빗자루인 GC([가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/))가 힙 전체를 훑을 때 노드 쏠림으로 STW [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 심해지는 걸 방어함 |
 
 ### CPU 핀(Pinning) 튜닝과의 영혼의 콤비
-- **Local Policy의 필수 짝꿍**: 무지성으로 로컬 할당만 켜두면, 스케줄러가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 다른 노드로 이사(Migration)시킬 때 100% 리모트 페널티를 맞는다. 따라서 로컬 할당의 진수를 뽑아내려면 무조건 **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 코어에 밧줄로 묶어두는 "CPU Pinning ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))"** 튜닝을 동반해야만 논리적 완결성이 보장된다.
+- **Local Policy의 필수 짝꿍**: 무지성으로 로컬 할당만 켜두면, 스케줄러가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 다른 노드로 이사(Migration)시킬 때 100% 리모트 페널티를 맞는다. 따라서 로컬 할당의 진수를 뽑아내려면 무조건 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 코어에 밧줄로 묶어두는 "CPU Pinning (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)"</strong> 튜닝을 동반해야만 논리적 완결성이 보장된다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 튜닝 전략  │ 지연(Latency)│ 대역폭(BW)  │ 셋업 난이도         │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ Local + 묶음│ ⭐ 최상 (빠름)│ 나쁨 (쏠림)  │ ☠️ 지옥 수준     │
-│ Interleave │ 보통 (리모트 섞임)│ ⭐ 최상 (분산)│ 🟢 매우 쉬움 │
-└──────────┴────────────┴────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜닝 전략</div><div class="kb-diagram-cell">지연(Latency)</div><div class="kb-diagram-cell">대역폭(BW)</div><div class="kb-diagram-cell">셋업 난이도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local + 묶음</div><div class="kb-diagram-cell">⭐ 최상 (빠름)</div><div class="kb-diagram-cell">나쁨 (쏠림)</div><div class="kb-diagram-cell">☠️ 지옥 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interleave</div><div class="kb-diagram-cell">보통 (리모트 섞임)</div><div class="kb-diagram-cell">⭐ 최상 (분산)</div><div class="kb-diagram-cell">🟢 매우 쉬움</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 로컬 메모리를 100% 활용하기 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 핀(Pinning)으로 묶는 작업(Taskset)은, 개발자가 서버의 하드웨어 코어 지도와 L3 캐시 공유 구조를 완벽히 꿰고 코드를 분리해 내야 하는 미친 난이도의 수작업이다. 반면 `Interleave`는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나 치고 "어차피 램을 골고루 찢어놨으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어딜 가든 평균 속도는 나오겠지!"라고 타협하는 가장 가성비 좋은 실무형 대안이다.
 
 - **📢 섹션 요약 비유**: '로컬+묶음'이 카레이서가 핸들, 기어, 타이어 공기압까지 극한으로 수동(매뉴얼) 조작하여 최고랩을 찍는 튜닝이라면, '인터리브'는 오토(자동) 기어에 서스펜션을 무르게 풀어놓고 대충 밟아도 알아서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방어해 주는 편안한 세단 주행 세팅입니다.
@@ -130,11 +134,11 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: numactl을 통한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처 생폐 판정
 1. **상황**: 사내 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 클러스터가 256GB 램을 물고 있는데, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 벤치마크가 반토막이 났다.
-2. **원인 분석 (`numastat`)**:
+2. <strong>원인 분석 (<code>numastat</code>)</strong>:
    - 쉘에서 `numastat` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 노드별 메모리 사용량을 찍어본다.
    - `Node 0: 120GB 사용 / Node 1: 5GB 사용` 
-   - 전형적인 First-touch 몰빵에 의한 **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 불균형(Imbalance)** 병목 현상이다. 0번 램 컨트롤러만 코피를 쏟고 있다.
-3. **신의 한 수 튜닝 (`numactl --interleave`)**:
+   - 전형적인 First-touch 몰빵에 의한 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 불균형(Imbalance)</strong> 병목 현상이다. 0번 램 컨트롤러만 코피를 쏟고 있다.
+3. <strong>신의 한 수 튜닝 (<code>numactl --interleave</code>)</strong>:
    - [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재시작 스크립트를 열고 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 실행 줄 앞에 딱 1단어를 붙여준다.
    - `numactl --interleave=all mongod ...`
    - 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나로 OS의 First-touch 고집을 꺾고, "이 프로세스가 요구하는 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 0번, 1번 노드 램에 교대로 50:50으로 골고루 뿌려라!"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 강제 명령을 내린다.
@@ -154,8 +158,8 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화 방지**| 인터리브 설정을 통해 다수 코어의 메모리 접근 트래픽을 N개의 노드에 1/N로 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 병목 파괴 |
-| **QPI/UPI 링크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평탄화** | 25% 로컬([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) + 75% 리모트([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 섞어, 최악의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 쏠림 없이 항상 예측 가능한 일관된 평균 속도 제공 |
+| <strong>메모리 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 포화 방지</strong>| 인터리브 설정을 통해 다수 코어의 메모리 접근 트래픽을 N개의 노드에 1/N로 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 병목 파괴 |
+| <strong>QPI/UPI 링크 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 평탄화</strong> | 25% 로컬([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) + 75% 리모트([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 섞어, 최악의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 쏠림 없이 항상 예측 가능한 일관된 평균 속도 제공 |
 | **초대형 인메모리(In-Memory) 생태계 완성**| 로컬 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만으로는 감당할 수 없는 SAP HANA, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 테라바이트 급 풀스캔 DB 엔진에 숨통을 터주는 핵심 튜닝 |
 
 ### 결론 및 미래 전망
@@ -177,15 +181,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
-    │
-    ▼
-[로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)]
-    │
-    ├──▶ [캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
-    └──▶ [가비지 컬렉션 (Garbage Collection) 기초]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring) / 페이지 컬러링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection) 기초</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: `주문 서버`가 `결제 서버`의 API를 호출한다. 결제 서버가 과부하로 뻗어서 아무 응답을 안 준다. 주문 서버의 1만 개 스레드가 "결제 응답을 5초 동안 기다려야지" 하고 멈춰 섰다(Blocked). 5초 뒤, 주문 서버도 사용할 스레드가 바닥나서 뻗어버린다. 연이어 주문 서버를 부르던 `장바구니 서버`도 뻗는다. 단 1대의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 결함이 전사 시스템의 대재앙으로 퍼진다. 죽은 애한테는 그만 물어보고, 우리라도 살아야 한다는 매정하지만 생존을 위한 논리가 필요했다.
 
-- **💡 비유**: 집에서 전기를 너무 많이 써서 합선(에러)이 났을 때, 전봇대부터 발전소까지 온 동네 전선이 다 타버리지 않도록, 집 앞의 **'두꺼비집(서킷 브레이커)'**이 팍! 하고 내려가 전기를 끊어버리는 원리와 100% 동일합니다.
+- **💡 비유**: 집에서 전기를 너무 많이 써서 합선(에러)이 났을 때, 전봇대부터 발전소까지 온 동네 전선이 다 타버리지 않도록, 집 앞의 <strong>'두꺼비집(서킷 브레이커)'</strong>이 팍! 하고 내려가 전기를 끊어버리는 원리와 100% 동일합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 딜레마**: 서버가 1대일 때는 함수 호출이 실패하면 바로 알 수 있었지만, 네트워크를 타는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)(원격 프로시저 호출)는 1초가 걸릴지 10초가 걸릴지 모르는 블랙홀이었다.
+  1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템의 딜레마</strong>: 서버가 1대일 때는 함수 호출이 실패하면 바로 알 수 있었지만, 네트워크를 타는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)(원격 프로시저 호출)는 1초가 걸릴지 10초가 걸릴지 모르는 블랙홀이었다.
   2. **마이클 나이가드의 Release It! (2007)**: 이 책에서 처음으로 전기 회로 차단기의 은유를 도입하여 소프트웨어의 연쇄 장애를 막는 서킷 브레이커 패턴이 대중에게 소개되었다.
   3. **넷플릭스 Hystrix의 폭발적 보급**: MSA를 이끌던 넷플릭스가 이 패턴을 `Hystrix` 라이브러리로 오픈소스화하며 전 세계 자바/클라우드 개발자의 절대적인 표준 무기로 자리 잡았다. (현재는 `Resilience4j`로 대체됨)
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 서킷 브레이커 (Circuit Bre의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서킷 브레이커 (Circuit Bre                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서킷 브레이커 (Circuit Bre</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 서킷 브레이커 (Circuit Bre가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-서킷 브레이커 ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+서킷 브레이커 ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 서킷 브레이커 ([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서킷 브레이커 (Circuit Breaker) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서킷 브레이커 (Circuit Breaker) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

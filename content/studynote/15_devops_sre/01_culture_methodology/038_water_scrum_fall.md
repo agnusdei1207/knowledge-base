@@ -18,32 +18,33 @@ tags = ["studynote-devops-sre"]
 
 ## I. 워터스크럼폴 구조
 
-```
-워터스크럼폴 패턴:
 
-[기획/요구사항 수집] (Waterfall Phase 1)
-6개월 PRD(Product Requirements Doc) 작성
-요구사항 고정, 변경 어려움
-|
-v
-[스프린트 개발] (Scrum Phase)
-2주 스프린트 반복
-요구사항이 이미 고정되어 있어
-"스프린트 계획 미팅"은 형식적
-|
-v
-[통합 테스트/스테이징] (Waterfall Phase 2)
-수 개월간 QA, UAT
-대규모 통합 -> 결함 폭발
-|
-v
-[분기별 배포] (Waterfall Phase 3)
-분기 1회 프로덕션 릴리즈
--> 피드백 주기: 6개월 이상
 
-진짜 애자일:
-2주마다 프로덕션 배포 + 고객 피드백
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">워터스크럼폴 패턴:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기획/요구사항 수집</div><div class="kb-diagram-note">(Waterfall Phase 1)</div></div>
+<div class="kb-diagram-note">6개월 PRD(Product Requirements Doc) 작성</div>
+<div class="kb-diagram-note">요구사항 고정, 변경 어려움</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스프린트 개발</div><div class="kb-diagram-note">(Scrum Phase)</div></div>
+<div class="kb-diagram-note">2주 스프린트 반복</div>
+<div class="kb-diagram-note">요구사항이 이미 고정되어 있어</div>
+<div class="kb-diagram-note">"스프린트 계획 미팅"은 형식적</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통합 테스트/스테이징</div><div class="kb-diagram-note">(Waterfall Phase 2)</div></div>
+<div class="kb-diagram-note">수 개월간 QA, UAT</div>
+<div class="kb-diagram-note">대규모 통합 -&gt; 결함 폭발</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분기별 배포</div><div class="kb-diagram-note">(Waterfall Phase 3)</div></div>
+<div class="kb-diagram-note">분기 1회 프로덕션 릴리즈</div>
+<div class="kb-diagram-tree-item" style="--depth:0">피드백 주기: 6개월 이상</div>
+<div class="kb-diagram-note">진짜 애자일:</div>
+<div class="kb-diagram-note">2주마다 프로덕션 배포 + 고객 피드백</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 마라톤 코치가 경기 3개월 전에 훈련 계획을 완전히 고정한 뒤, 매일 "[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)"라고 부르는 것 — 이름만 빠를 뿐 실제론 같은 속도.
 
@@ -84,31 +85,33 @@ v
 
 ## III. 조직 장벽
 
-```
-워터스크럼폴을 만드는 조직 구조:
 
-사일로 구조:
-기획팀 -> 개발팀 -> QA팀 -> 운영팀
-팀 간 핸드오프(Handoff) 발생
-각 팀 KPI가 다름:
-기획: PRD 완성도
-개발: 스프린트 벨로시티
-QA: 버그 발견율
-운영: SLA 준수율
--> 팀 간 최적화 (전체 최적화 실패)
 
-계약 관계:
-SI 프로젝트: 요구사항이 계약서에 명시
-변경은 추가 비용 -> 변경 저항
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">워터스크럼폴을 만드는 조직 구조:</div>
+<div class="kb-diagram-note">사일로 구조:</div>
+<div class="kb-diagram-note">기획팀 -&gt; 개발팀 -&gt; QA팀 -&gt; 운영팀</div>
+<div class="kb-diagram-note">팀 간 핸드오프(Handoff) 발생</div>
+<div class="kb-diagram-note">각 팀 KPI가 다름:</div>
+<div class="kb-diagram-note">기획: PRD 완성도</div>
+<div class="kb-diagram-note">개발: 스프린트 벨로시티</div>
+<div class="kb-diagram-note">QA: 버그 발견율</div>
+<div class="kb-diagram-note">운영: SLA 준수율</div>
+<div class="kb-diagram-tree-item" style="--depth:0">팀 간 최적화 (전체 최적화 실패)</div>
+<div class="kb-diagram-note">계약 관계:</div>
+<div class="kb-diagram-note">SI 프로젝트: 요구사항이 계약서에 명시</div>
+<div class="kb-diagram-note">변경은 추가 비용 -&gt; 변경 저항</div>
+<div class="kb-diagram-note">보안/컴플라이언스 병목:</div>
+<div class="kb-diagram-note">모든 변경을 6개월마다 일괄 보안 검토</div>
+<div class="kb-diagram-tree-item" style="--depth:0">지속적 배포 불가</div>
+<div class="kb-diagram-note">해결: 진정한 교차 기능팀(Cross-Functional Team)</div>
+<div class="kb-diagram-note">한 팀 안에: 기획 + 개발 + QA + 운영</div>
+<div class="kb-diagram-note">팀 KPI: 비즈니스 결과 (고객 전환율 등)</div>
+</div>
+</div>
 
-보안/컴플라이언스 병목:
-모든 변경을 6개월마다 일괄 보안 검토
--> 지속적 배포 불가
 
-해결: 진정한 교차 기능팀(Cross-Functional Team)
-한 팀 안에: 기획 + 개발 + QA + 운영
-팀 KPI: 비즈니스 결과 (고객 전환율 등)
-```
 
 > 📢 **섹션 요약 비유**: 릴레이 경주([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 팀 구기 종목(교차 기능팀)으로 바꾸기 — 공 하나를 여러 포지션이 협력해서 같이 골 넣기.
 
@@ -116,32 +119,34 @@ SI 프로젝트: 요구사항이 계약서에 명시
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 요건
 
-```
-기술적 요건:
-CI/CD 파이프라인:
-코드 커밋 -> 자동 빌드/테스트 -> 배포
-배포 주기: 일 단위 또는 즉시
 
-Feature Flag (피처 플래그):
-기능을 배포하지만 특정 사용자에게만 활성화
-점진적 롤아웃 가능
 
-자동화 테스트:
-Unit 80%+ 커버리지
-통합 테스트, E2E 자동화
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기술적 요건:</div>
+<div class="kb-diagram-note">CI/CD 파이프라인:</div>
+<div class="kb-diagram-note">코드 커밋 -&gt; 자동 빌드/테스트 -&gt; 배포</div>
+<div class="kb-diagram-note">배포 주기: 일 단위 또는 즉시</div>
+<div class="kb-diagram-note">Feature Flag (피처 플래그):</div>
+<div class="kb-diagram-note">기능을 배포하지만 특정 사용자에게만 활성화</div>
+<div class="kb-diagram-note">점진적 롤아웃 가능</div>
+<div class="kb-diagram-note">자동화 테스트:</div>
+<div class="kb-diagram-note">Unit 80%+ 커버리지</div>
+<div class="kb-diagram-note">통합 테스트, E2E 자동화</div>
+<div class="kb-diagram-note">조직적 요건:</div>
+<div class="kb-diagram-note">팀 자율성: 팀이 배포 결정 가능</div>
+<div class="kb-diagram-note">심리적 안전: 실험/실패 허용</div>
+<div class="kb-diagram-note">DevOps 문화: 개발자가 운영 책임</div>
+<div class="kb-diagram-note">측정:</div>
+<div class="kb-diagram-note">DORA 4 Key Metrics:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Deployment Frequency (배포 빈도)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Lead Time for Changes</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Change Failure Rate</div>
+<div class="kb-diagram-tree-item" style="--depth:0">MTTR (Mean Time to Recovery)</div>
+</div>
+</div>
 
-조직적 요건:
-팀 자율성: 팀이 배포 결정 가능
-심리적 안전: 실험/실패 허용
-DevOps 문화: 개발자가 운영 책임
 
-측정:
-DORA 4 Key Metrics:
-- Deployment Frequency (배포 빈도)
-- Lead Time for Changes
-- Change Failure Rate
-- MTTR (Mean Time to Recovery)
-```
 
 > 📢 **섹션 요약 비유**: 진짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 세리머니가 아니라 "고객에게 가치를 얼마나 빠르게 전달하는가"를 측정할 수 있어야 함.
 
@@ -149,34 +154,35 @@ DORA 4 Key Metrics:
 
 ## V. 실무 시나리오 — 전환 진단과 처방
 
-```
-증상 진단:
-- 스프린트를 하고 있지만 분기별 1회 배포
-- 일일 스탠드업은 있지만 목표 달성률 불투명
-- "기획 변경은 다음 분기에"라는 말이 자주 나옴
--> 워터스크럼폴 진단
 
-처방 단계:
 
-단계 1: CI/CD 구축 (1~2개월)
-GitHub Actions로 자동 배포 파이프라인
-Staging 환경 자동 배포 먼저
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">증상 진단:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">스프린트를 하고 있지만 분기별 1회 배포</div>
+<div class="kb-diagram-tree-item" style="--depth:0">일일 스탠드업은 있지만 목표 달성률 불투명</div>
+<div class="kb-diagram-tree-item" style="--depth:0">"기획 변경은 다음 분기에"라는 말이 자주 나옴</div>
+<div class="kb-diagram-tree-item" style="--depth:0">워터스크럼폴 진단</div>
+<div class="kb-diagram-note">처방 단계:</div>
+<div class="kb-diagram-note">단계 1: CI/CD 구축 (1~2개월)</div>
+<div class="kb-diagram-note">GitHub Actions로 자동 배포 파이프라인</div>
+<div class="kb-diagram-note">Staging 환경 자동 배포 먼저</div>
+<div class="kb-diagram-note">단계 2: 배포 주기 단축 (3~6개월)</div>
+<div class="kb-diagram-note">분기 -&gt; 월 -&gt; 격주 -&gt; 주간</div>
+<div class="kb-diagram-note">Feature Flag 도입</div>
+<div class="kb-diagram-note">단계 3: 팀 구조 변경 (6~12개월)</div>
+<div class="kb-diagram-note">QA 팀원을 개발 팀에 임베딩</div>
+<div class="kb-diagram-note">운영자를 개발 팀에 SRE로</div>
+<div class="kb-diagram-note">기획자를 팀 내 Product Owner로</div>
+<div class="kb-diagram-note">6개월 후 DORA 지표:</div>
+<div class="kb-diagram-note">배포 빈도: 분기 1회 -&gt; 주 3회</div>
+<div class="kb-diagram-note">변경 리드타임: 3개월 -&gt; 2주</div>
+<div class="kb-diagram-note">변경 실패율: 15% -&gt; 5%</div>
+<div class="kb-diagram-note">MTTR: 4시간 -&gt; 30분</div>
+</div>
+</div>
 
-단계 2: 배포 주기 단축 (3~6개월)
-분기 -> 월 -> 격주 -> 주간
-Feature Flag 도입
 
-단계 3: 팀 구조 변경 (6~12개월)
-QA 팀원을 개발 팀에 임베딩
-운영자를 개발 팀에 SRE로
-기획자를 팀 내 Product Owner로
-
-6개월 후 DORA 지표:
-배포 빈도: 분기 1회 -> 주 3회
-변경 리드타임: 3개월 -> 2주
-변경 실패율: 15% -> 5%
-MTTR: 4시간 -> 30분
-```
 
 > 📢 **섹션 요약 비유**: 워터스크럼폴 탈출은 운동 시작하기처럼 작은 것부터 — 스탠드업 다음은 자동 배포, 그 다음은 팀 구조 재편.
 

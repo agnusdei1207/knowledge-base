@@ -25,19 +25,21 @@ tags = ["studynote-cloud-architecture"]
 
 다음 그림은 시간이 지날수록 가변 인프라가 왜 예측하기 어려워지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        같은 서비스라도 변경 방식에 따라 상태 이력이 달라진다 │
-├───────────────────────────┬──────────────────────────────────┤
-│ 가변 인프라               │ 불변 인프라                      │
-├───────────────────────────┼──────────────────────────────────┤
-│ v1 서버                    │ image:v1                         │
-│   └─ SSH hotfix A          │   └─ 인스턴스 A/B 기동          │
-│       └─ 수동 설정 변경 B  │ image:v2 빌드                    │
-│           └─ 임시 패치 C   │   └─ 인스턴스 C/D 기동          │
-│               = 서버마다 다름│       └─ 트래픽 전환 후 v1 폐기 │
-└───────────────────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 서비스라도 변경 방식에 따라 상태 이력이 달라진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 인프라</div><div class="kb-diagram-cell">불변 인프라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1 서버</div><div class="kb-diagram-cell">image:v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SSH hotfix A</div><div class="kb-diagram-cell">─ 인스턴스 A/B 기동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 수동 설정 변경 B</div><div class="kb-diagram-cell">image:v2 빌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임시 패치 C</div><div class="kb-diagram-cell">─ 인스턴스 C/D 기동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 서버마다 다름</div><div class="kb-diagram-cell">─ 트래픽 전환 후 v1 폐기</div></div>
+</div>
+</div>
+
+
 
 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)가 필요한 이유는 단순히 "새것이 좋아서"가 아니다. 운영의 핵심 질문을 "누가 이 서버를 어떻게 고쳤는가"에서 "어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 이미지가 언제 배포되었는가"로 바꾸기 위해서다. 질문이 바뀌면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 보안 패치, 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)도 훨씬 단순해진다.
 
@@ -47,32 +49,29 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)의 핵심 원리는 **Build Once, Deploy Many**다. 한 번 검증한 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 여러 환경에 반복 배포해야 하며, 배포 시점에 서버 내부에서 패키지 설치나 임시 수정이 일어나면 안 된다. 그래서 불변 배포는 보통 이미지 빌드, 취약점 검사, 서명, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 저장, 새 인스턴스 기동, 헬스체크, 트래픽 전환, 구버전 폐기 순서로 진행된다.
+[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)의 핵심 원리는 <strong>Build Once, Deploy Many</strong>다. 한 번 검증한 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 여러 환경에 반복 배포해야 하며, 배포 시점에 서버 내부에서 패키지 설치나 임시 수정이 일어나면 안 된다. 그래서 불변 배포는 보통 이미지 빌드, 취약점 검사, 서명, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 저장, 새 인스턴스 기동, 헬스체크, 트래픽 전환, 구버전 폐기 순서로 진행된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           Immutable Delivery Pipeline: 수정 대신 교체              │
-├────────────────────────────────────────────────────────────────────┤
-│ Source / Dockerfile / Packer / IaC                                │
-│                 │                                                  │
-│                 ▼                                                  │
-│      CI/CD (Continuous Integration / Continuous Delivery)          │
-│   ├─ 테스트                                                       │
-│   ├─ 이미지 빌드                                                  │
-│   ├─ 취약점 스캔·서명                                             │
-│   └─ image:v2 생성                                                │
-│                 │                                                  │
-│                 ▼                                                  │
-│      Registry / AMI (Amazon Machine Image) Catalog                │
-│                 │                                                  │
-│                 ▼                                                  │
-│ Deployment Controller / Orchestrator                              │
-│   ├─ 새 Pod·VM (Virtual Machine) 기동                             │
-│   ├─ Readiness Check 통과                                         │
-│   ├─ Canary / Blue-Green으로 트래픽 전환                          │
-│   └─ 이전 버전 종료                                               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immutable Delivery Pipeline: 수정 대신 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source / Dockerfile / Packer / IaC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD (Continuous Integration / Continuous Delivery)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이미지 빌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 취약점 스캔·서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ image:v2 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Registry / AMI (Amazon Machine Image) Catalog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deployment Controller / Orchestrator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 새 Pod·VM (Virtual Machine) 기동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Readiness Check 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Canary / Blue-Green으로 트래픽 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이전 버전 종료</div></div>
+</div>
+</div>
+
+
 
 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)가 성립하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 실행 환경을 분리해야 한다. 애플리케이션 바이너리, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 패키지, 에이전트는 이미지 안에 굳히고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 업로드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 외부 볼륨으로 분리한다. 그래야 인스턴스를 언제든 버려도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 잃지 않는다.
 
@@ -84,7 +83,7 @@ tags = ["studynote-cloud-architecture"]
 | 오케스트레이터 | 새 인스턴스 기동과 트래픽 제어 | Readiness / [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 자동화 |
 | 외부 상태 저장소 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 유지 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부 로컬 디스크 의존 금지 |
 
-여기서 자주 생기는 오해가 "불변이면 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 바꿀 수 없다"는 생각이다. 실제로는 실행 이미지는 불변이지만, [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/), 비밀 값 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 플래그는 외부에서 주입된다. 즉, **코드와 런타임 환경의 경계를 엄격히 관리하는 것**이지, 모든 값을 하드코딩하는 것이 아니다.
+여기서 자주 생기는 오해가 "불변이면 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 바꿀 수 없다"는 생각이다. 실제로는 실행 이미지는 불변이지만, [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/), 비밀 값 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 플래그는 외부에서 주입된다. 즉, <strong>코드와 런타임 환경의 경계를 엄격히 관리하는 것</strong>이지, 모든 값을 하드코딩하는 것이 아니다.
 
 - **📢 섹션 요약 비유**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 매장에서 요리하지 않고 중앙 공장에서 같은 도시락을 만들어 보내는 체계라서, 어느 지점에서 먹어도 품질이 크게 흔들리지 않는다.
 
@@ -105,7 +104,7 @@ tags = ["studynote-cloud-architecture"]
 
 [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)), [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) ([Blue-Green Deployment](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/)), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)), GitOps와 자연스럽게 연결된다. IaC는 "기반 인프라를 코드로 만드는 기술"이고, [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 "그 위에 올라가는 실행 단위를 교체하는 기술"이다. 다시 말해 IaC가 땅과 도로를 정리한다면, [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 같은 규격의 건물을 찍어내는 공장에 가깝다.
 
-반면 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구인 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef, Puppet은 역사적으로 가변 인프라와 친했다. 다만 오늘날에는 이 도구들도 부팅 직후 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구성이나 이미지 빌드 단계에서 사용되며, 운영 중 반복 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 패치보다 "이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 자동화" 쪽으로 역할이 이동하고 있다. 즉, 도구의 문제가 아니라 **언제 변경을 적용하느냐**가 본질이다.
+반면 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구인 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef, Puppet은 역사적으로 가변 인프라와 친했다. 다만 오늘날에는 이 도구들도 부팅 직후 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구성이나 이미지 빌드 단계에서 사용되며, 운영 중 반복 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 패치보다 "이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 자동화" 쪽으로 역할이 이동하고 있다. 즉, 도구의 문제가 아니라 <strong>언제 변경을 적용하느냐</strong>가 본질이다.
 
 - **📢 섹션 요약 비유**: 가변 인프라가 현장에서 목수가 집을 계속 손보는 방식이라면, [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 공장에서 규격화된 모듈을 만들어 현장에서 교체하는 방식이다.
 
@@ -142,7 +141,7 @@ tags = ["studynote-cloud-architecture"]
 | 관측성 | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 없는 운영의 전제 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·트레이스 선행 구축 |
 | 긴급 조치 프로세스 | 현실적 예외 처리 | 핫픽스 후 이미지 재생성 의무화 |
 
-안티패턴도 분명하다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 쓰면서 배포 스크립트 안에서 운영 서버에 접속해 패키지를 설치하는 것은 불변 철학을 무너뜨린다. 또한 불변을 말하면서 업로드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 로컬 디스크에 두면 인스턴스 교체 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 위험이 생긴다. [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 도구 이름이 아니라 **운영 계약**이라는 점을 놓치면 안 된다.
+안티패턴도 분명하다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 쓰면서 배포 스크립트 안에서 운영 서버에 접속해 패키지를 설치하는 것은 불변 철학을 무너뜨린다. 또한 불변을 말하면서 업로드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 로컬 디스크에 두면 인스턴스 교체 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 위험이 생긴다. [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 도구 이름이 아니라 <strong>운영 계약</strong>이라는 점을 놓치면 안 된다.
 
 - **📢 섹션 요약 비유**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) 운영은 공연 중 악기를 즉석 수리하는 대신, 미리 튜닝된 예비 악기를 바로 교체해 연주를 이어 가는 방식과 같다.
 
@@ -154,7 +153,7 @@ tags = ["studynote-cloud-architecture"]
 
 물론 전제조건도 있다. 이미지 빌드 시간이 너무 길면 배포 민첩성이 떨어지고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 체계가 부족하면 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 없는 운영이 오히려 불편할 수 있다. 또한 상태 저장 워크로드는 별도의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이는 단순한 교체 모델로 해결되지 않는다.
 
-결국 기억해야 할 문장은 간단하다. **[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 서버를 완벽하게 만들겠다는 발상이 아니라, 서버를 쉽게 버릴 수 있게 만들어 운영을 단순화하겠다는 발상**이다. 현대 DevOps와 플랫폼 엔지니어링에서 중요한 것은 잘 고치는 능력보다, 안전하게 다시 만들어 교체하는 능력이다.
+결국 기억해야 할 문장은 간단하다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a>는 서버를 완벽하게 만들겠다는 발상이 아니라, 서버를 쉽게 버릴 수 있게 만들어 운영을 단순화하겠다는 발상</strong>이다. 현대 DevOps와 플랫폼 엔지니어링에서 중요한 것은 잘 고치는 능력보다, 안전하게 다시 만들어 교체하는 능력이다.
 
 - **📢 섹션 요약 비유**: [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)는 낡은 전구를 현장에서 뜯어 수리하는 것이 아니라, 규격화된 새 전구로 바로 갈아 끼우는 유지보수 방식이다.
 
@@ -173,22 +172,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 서버 관리
-    │
-    ▼
-가변 인프라 + SSH 운영
-    │
-    ├─ 문제: 구성 편류 · 눈송이 서버 · 느린 롤백
-    ▼
-이미지 빌드 자동화 (Packer · Dockerfile)
-    │
-    ▼
-불변 인프라 + Blue-Green / Canary
-    │
-    ▼
-IaC + GitOps + 오토스케일링 기반 플랫폼 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 서버 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가변 인프라 + SSH 운영</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문제: 구성 편류 · 눈송이 서버 · 느린 롤백</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이미지 빌드 자동화 (Packer · Dockerfile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">불변 인프라 + Blue-Green / Canary</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IaC + GitOps + 오토스케일링 기반 플랫폼 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 "서버 개체를 보수하는 운영"에서 "[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 대량 교체하는 운영"으로 무게중심이 이동하는 과정을 보여준다.
 

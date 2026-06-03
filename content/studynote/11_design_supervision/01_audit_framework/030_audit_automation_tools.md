@@ -18,22 +18,23 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-감리 자동화 영역:
 
-  ┌────────────────────────────────────────┐
-  │  코드 품질        │  보안 취약점        │
-  │  SonarQube        │  SAST (Checkmarx)   │
-  │  PMD, Checkstyle  │  DAST (OWASP ZAP)   │
-  ├────────────────────────────────────────┤
-  │  의존성 관리       │  아키텍처 준수      │
-  │  OWASP Dependency  │  ArchUnit, jQAssist │
-  │  Snyk, Dependabot  │  ADR 검증           │
-  ├────────────────────────────────────────┤
-  │  성능·부하 테스트  │  문서 완성도        │
-  │  JMeter, k6        │  AI 문서 분석       │
-  └────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">감리 자동화 영역:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 품질</div><div class="kb-diagram-cell">보안 취약점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SonarQube</div><div class="kb-diagram-cell">SAST (Checkmarx)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMD, Checkstyle</div><div class="kb-diagram-cell">DAST (OWASP ZAP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 관리</div><div class="kb-diagram-cell">아키텍처 준수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OWASP Dependency</div><div class="kb-diagram-cell">ArchUnit, jQAssist</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snyk, Dependabot</div><div class="kb-diagram-cell">ADR 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능·부하 테스트</div><div class="kb-diagram-cell">문서 완성도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JMeter, k6</div><div class="kb-diagram-cell">AI 문서 분석</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 감리 자동화 도구는 공장 품질 검사 로봇이다. 인간 검사원(감리사)이 모든 제품을 일일이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 대신, 로봇(자동화 도구)이 1차 품질 검사를 수행하고, 복잡한 판단은 전문가에게 넘긴다.
 
@@ -47,28 +48,32 @@ tags = ["studynote-design-supervision"]
 |:---|:---|
 | **버그** | 런타임 오류 가능 코드 패턴 |
 | **취약점** | 보안 문제 코드 |
-| **[코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)** | 유지보수 어려운 코드 패턴 |
-| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)** | 수정에 필요한 예상 시간 |
-| **[코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)** | 테스트 커버된 코드 비율 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/">코드 스멜</a></strong> | 유지보수 어려운 코드 패턴 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a></strong> | 수정에 필요한 예상 시간 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">코드 커버리지</a></strong> | 테스트 커버된 코드 비율 |
 | **중복 코드** | 복사된 코드 블록 비율 |
 
 ### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 자동화 감리 흐름
 
-```text
-개발자 커밋
-    │
-    ▼
-CI 파이프라인:
-  1. 빌드 (컴파일 오류)
-  2. 단위 테스트 (기능 검증)
-  3. SonarQube (코드 품질 게이트)
-  4. Snyk (의존성 취약점)
-  5. SAST (정적 보안 분석)
-    │
-    ▼
-Quality Gate 통과 → 배포 승인
-Quality Gate 실패 → 자동 차단 + 감리 보고서
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발자 커밋</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI 파이프라인:</div>
+<div class="kb-diagram-note">1. 빌드 (컴파일 오류)</div>
+<div class="kb-diagram-note">2. 단위 테스트 (기능 검증)</div>
+<div class="kb-diagram-note">3. SonarQube (코드 품질 게이트)</div>
+<div class="kb-diagram-note">4. Snyk (의존성 취약점)</div>
+<div class="kb-diagram-note">5. SAST (정적 보안 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quality Gate 통과 → 배포 승인</div>
+<div class="kb-diagram-note">Quality Gate 실패 → 자동 차단 + 감리 보고서</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동 감리는 자동화 공항 보안 검색대다. 모든 수하물(커밋)이 X선(자동화 도구)을 통과하고, 이상 징후는 보안 요원(감리사)에게 자동 전달된다.
 
@@ -90,22 +95,26 @@ Quality Gate 실패 → 자동 차단 + 감리 보고서
 
 ### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 감리 차세대 도구
 
-```text
-GitHub Copilot for Security:
-  - PR 코드 리뷰 자동화
-  - 보안 취약점 자동 제안
-  - 자연어로 코드 설명 요청
 
-AI 아키텍처 감리:
-  - 아키텍처 다이어그램 → 코드 일치 검증
-  - 요구사항 → 구현 추적성 자동 분석
-  - 기술 부채 예측 및 리팩토링 우선순위
 
-공공 정보화 감리 자동화:
-  - 산출물 완성도 자동 체크
-  - PMO 보고 자동화
-  - 일정·예산 편차 실시간 모니터링
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GitHub Copilot for Security:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">PR 코드 리뷰 자동화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">보안 취약점 자동 제안</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자연어로 코드 설명 요청</div>
+<div class="kb-diagram-note">AI 아키텍처 감리:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">아키텍처 다이어그램 → 코드 일치 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:1">요구사항 → 구현 추적성 자동 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:1">기술 부채 예측 및 리팩토링 우선순위</div>
+<div class="kb-diagram-note">공공 정보화 감리 자동화:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">산출물 완성도 자동 체크</div>
+<div class="kb-diagram-tree-item" style="--depth:1">PMO 보고 자동화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">일정·예산 편차 실시간 모니터링</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편집장이다. 기자(개발자)가 쓴 기사(코드)를 AI가 문법·사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·독자 반응을 자동 분석하고, 최종 게재 결정은 편집장(감리사)이 내린다.
 
@@ -116,7 +125,7 @@ AI 아키텍처 감리:
 | 기대효과 | 내용 |
 |:---|:---|
 | **속도** | 대규모 코드 즉시 분석 |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 주관적 판단 제거 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 주관적 판단 제거 |
 | **조기 발견** | 배포 전 문제 차단 |
 
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 코드 감리가 새로운 지평을 열고 있다. GPT-4·Claude를 활용한 코드 설명·버그 예측·아키텍처 리뷰 자동화가 실용화 단계에 진입했다. 2025년 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트 통합 감리 플랫폼이 전통 감리 방법론을 보완하는 표준으로 자리 잡을 전망이다.
@@ -129,29 +138,31 @@ AI 아키텍처 감리:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)** | 코드 품질·[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 측정 |
-| **[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)** | 정적/동적 보안 분석 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a></strong> | 코드 품질·[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 측정 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a>/<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a></strong> | 정적/동적 보안 분석 |
 | **Quality Gate** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동 품질 차단 |
-| **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)** | 보안 자동화를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합 |
-| **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 감리** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 차세대 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a></strong> | 보안 자동화를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 통합 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 감리</strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 차세대 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수작업 감리 — 문서·코드 수동 검토]
-    │
-    ▼
-[정적 분석 도구 — PMD, Checkstyle, SonarQube]
-    │
-    ▼
-[CI/CD 통합 Quality Gate — 자동 차단 + 보고]
-    │
-    ▼
-[SAST/DAST/IAST — 보안 자동화 (DevSecOps)]
-    │
-    ▼
-[AI/LLM 감리 — 맥락 이해 기반 지능형 코드 리뷰]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수작업 감리 — 문서·코드 수동 검토</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 분석 도구 — PMD, Checkstyle, SonarQube</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 통합 Quality Gate — 자동 차단 + 보고</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SAST/DAST/IAST — 보안 자동화 (DevSecOps)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI/LLM 감리 — 맥락 이해 기반 지능형 코드 리뷰</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

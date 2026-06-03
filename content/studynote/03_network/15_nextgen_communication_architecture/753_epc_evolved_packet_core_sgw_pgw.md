@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 3GPP에서 정의한 **4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 이동통신 시스템의 핵심 코어 네트워크(Core Network)** 아키텍처입니다.
-- **특징**: 기존 3G의 복잡한 음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 구조를 버리고, 오직 **패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(IP)**만을 전송하기 위해 극도로 단순하고 평평하게(Flat) 진화(Evolved)한 IP 백본망입니다.
+- **개념**: 3GPP에서 정의한 <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 이동통신 시스템의 핵심 코어 네트워크(Core Network)</strong> 아키텍처입니다.
+- **특징**: 기존 3G의 복잡한 음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 구조를 버리고, 오직 <strong>패킷 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(IP)</strong>만을 전송하기 위해 극도로 단순하고 평평하게(Flat) 진화(Evolved)한 IP 백본망입니다.
 
-```text
-[LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
-[EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    └──▶ [MME]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MME</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,7 +44,7 @@ tags = ["studynote-network"]
 EPC는 거대한 통신사 전산실에 있는 라우터와 서버들의 집합체입니다. 각 장비의 역할을 철저히 분업화했습니다.
 
 ### 1. [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) ([Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) Entity) - "머리 (제어의 두뇌)"
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카톡, 유튜브)는 1바이트도 통과하지 않는 오직 **명령/통제(Control Plane) 전용 중앙 두뇌 서버**입니다.
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카톡, 유튜브)는 1바이트도 통과하지 않는 오직 <strong>명령/통제(Control Plane) 전용 중앙 두뇌 서버</strong>입니다.
 - 사용자의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/), 기지국 간 이동([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 통제를 도맡습니다. (상세 내용은 다음 754번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 2. S-GW (Serving Gateway) - "동네 택배 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)"
@@ -48,23 +52,27 @@ EPC는 거대한 통신사 전산실에 있는 라우터와 서버들의 집합�
 - **이동성 앵커**: 사용자가 차를 타고 A 기지국에서 B 기지국으로 이동([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))할 때, 카톡 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊기지 않도록 S-GW가 길목(Anchor)을 꽉 잡고 경로를 B 기지국으로 즉시 돌려주는 역할을 합니다.
 
 ### 3. P-GW (PDN Gateway) - "국경 톨게이트 (인터넷 게이트웨이)" 🌟
-- **역할**: 통신사 망(EPC)과 진짜 바깥세상(PDN: 외부 인터넷, 구글, 네이버)을 연결해 주는 **최종 출입구이자 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 라우터**입니다.
+- **역할**: 통신사 망(EPC)과 진짜 바깥세상(PDN: 외부 인터넷, 구글, 네이버)을 연결해 주는 <strong>최종 출입구이자 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 라우터</strong>입니다.
 - **주요 임무**:
   1. **IP 주소 할당**: 내 폰이 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 켜면 P-GW가 내 폰에 진짜 IP 주소를 부여해 줍니다.
   2. **과금 (Billing)**: 내가 유튜브를 보며 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))을 정확히 세어 한 달 요금을 청구하는 계량기 역할을 합니다.
-  3. **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질) 제어**: 유튜브 트래픽보다 음성 통화([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)) 트래픽이 먼저 통과할 수 있도록 길을 뚫어주는 경찰관 역할을 합니다.
+  3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질) 제어</strong>: 유튜브 트래픽보다 음성 통화([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)) 트래픽이 먼저 통과할 수 있도록 길을 뚫어주는 경찰관 역할을 합니다.
 
 ### 4. [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) (Home Subscriber Server) - "중앙 주민등록부"
 - 전 국민의 전화번호, 요금제 가입 정보, 현재 위치 정보, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호 키를 몽땅 담고 있는 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스입니다. (상세 내용은 755번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-```text
-[LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
-[EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    └──▶ [MME]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MME</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +81,7 @@ EPC는 거대한 통신사 전산실에 있는 라우터와 서버들의 집합�
 ## Ⅲ. 비교 및 연결
 
 - 3G 시절엔 하나의 장비가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 나르고 제어 명령도 내리느라 과부하에 걸렸습니다.
-- **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) EPC의 철학**: "명령만 내리는 사령탑([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), Control Plane)"과 "짐만 나르는 짐꾼(S-GW, P-GW, User Plane)"을 아예 별도의 물리적 장비로 찢어버렸습니다. 덕분에 사용자가 늘어나면 짐꾼(S-GW) 장비만 더 사서 꽂으면 되는 완벽한 무한 확장성을 얻게 되었습니다. (이 철학은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망인 SBA로 완벽하게 계승됩니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> EPC의 철학</strong>: "명령만 내리는 사령탑([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), Control Plane)"과 "짐만 나르는 짐꾼(S-GW, P-GW, User Plane)"을 아예 별도의 물리적 장비로 찢어버렸습니다. 덕분에 사용자가 늘어나면 짐꾼(S-GW) 장비만 더 사서 꽂으면 되는 완벽한 무한 확장성을 얻게 되었습니다. (이 철학은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망인 SBA로 완벽하게 계승됩니다.)
 
 EPC S-GW, P-GW 제어 망 트래픽…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…가 기반 조건을 만든다면, EPC S-GW, P-GW 제어 망 트래픽…는 그 위에서 핵심 메커니즘을 구현하고, MME는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +91,7 @@ EPC S-GW, P-GW 제어 망 트래픽…를 볼 때는 앞뒤 개념과의 경계�
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 통신사의 심장부 EPC는 거대한 '국제 택배 물류 센터'입니다. **[HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/)**는 모든 고객의 주소와 VIP 등급이 적힌 거대한 명부 책입니다. **[MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)(두뇌)**는 이 명부를 보고 "저 트럭은 서울로 보내고, 저 트럭은 부산으로 보내라!"라고 무전기(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))로 지시만 내리는 관제탑 소장입니다. **S-GW**는 관제탑의 지시를 받아 국내 기지국 지점들을 부지런히 돌아다니며 택배를 실어나르는 배달 트럭([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셔틀)입니다. 마지막으로 **P-GW**는 국내를 벗어나 해외 인터넷망으로 나가는 공항 출입국 심사대(게이트웨이)로, 나가는 택배의 무게를 달아 요금을 매기고(과금) 불량품을 막아냅니다.
+- **📢 섹션 요약 비유**: 통신사의 심장부 EPC는 거대한 '국제 택배 물류 센터'입니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/">HSS</a></strong>는 모든 고객의 주소와 VIP 등급이 적힌 거대한 명부 책입니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>(두뇌)</strong>는 이 명부를 보고 "저 트럭은 서울로 보내고, 저 트럭은 부산으로 보내라!"라고 무전기(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))로 지시만 내리는 관제탑 소장입니다. <strong>S-GW</strong>는 관제탑의 지시를 받아 국내 기지국 지점들을 부지런히 돌아다니며 택배를 실어나르는 배달 트럭([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셔틀)입니다. 마지막으로 <strong>P-GW</strong>는 국내를 벗어나 해외 인터넷망으로 나가는 공항 출입국 심사대(게이트웨이)로, 나가는 택배의 무게를 달아 요금을 매기고(과금) 불량품을 막아냅니다.
 
 ---
 
@@ -125,15 +133,19 @@ EPC S-GW, P-GW 제어 망 트래픽…는 차세대 통신 아키텍처를 이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LTE All-IP 패킷 교환 완전 전환,…]
-    │
-    ▼
-[현재 개념: EPC S-GW, P-GW 제어 망 트래픽…]
-    │
-    ├──▶ [확장 A: MME]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LTE All-IP 패킷 교환 완전 전환,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EPC S-GW, P-GW 제어 망 트래픽…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MME</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 EPC S-GW, P-GW 제어 망 트래픽…는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…에서 출발해 현재 메커니즘을 정교화하고, 이후 MME와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

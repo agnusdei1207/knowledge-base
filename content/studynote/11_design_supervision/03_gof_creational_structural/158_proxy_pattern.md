@@ -35,26 +35,23 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 전달자가 아니라 "접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모이는 제어 지점"임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              프록시 패턴의 호출 흐름과 제어 지점                 │
-├──────────────────────────────────────────────────────────────────┤
-│ Client                                                           │
-│   │                                                              │
-│   ▼                                                              │
-│ Subject Interface                                                │
-│   │                                                              │
-│   ▼                                                              │
-│ Proxy ---------------------------------------------------------┐ │
-│   │ 1) 권한 확인                                              │ │
-│   │ 2) 캐시/로그 확인                                         │ │
-│   │ 3) 필요 시 Real Subject 생성                              │ │
-│   ▼                                                            │ │
-│ Real Subject                                                   │ │
-│   │                                                            │ │
-│   └────────────── 실제 업무 처리 결과 반환 ─────────────────────┘ │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프록시 패턴의 호출 흐름과 제어 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject Interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proxy ---------------------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 권한 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 캐시/로그 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 필요 시 Real Subject 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Real Subject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 업무 처리 결과 반환</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 설계 포인트는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 실제 객체를 "대체"하는 것이 아니라 "대표"한다는 점이다. 즉 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 책임은 본업을 새로 만드는 것이 아니라, 접근 조건을 조율하고 실제 객체 호출을 관리하는 데 있다.
 
@@ -96,10 +93,10 @@ tags = ["studynote-design-supervision"]
 
 ### 실무 적용 포인트
 
-1. **[지연 로딩](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)**: ORM 연관 객체를 처음부터 전부 읽지 않고, 실제 접근 시점에만 조회한다.
+1. <strong><a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">지연 로딩</a></strong>: ORM 연관 객체를 처음부터 전부 읽지 않고, 실제 접근 시점에만 조회한다.
 2. **보안 제어**: 관리자 화면, 결재 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 전 권한을 중앙에서 검사한다.
 3. **원격 호출 캡슐화**: 네트워크 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 로깅을 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 계층에 모아 클라이언트를 단순화한다.
-4. **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적**: 누가 언제 어떤 자원에 접근했는지 일관된 로깅 포인트를 만든다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 추적</strong>: 누가 언제 어떤 자원에 접근했는지 일관된 로깅 포인트를 만든다.
 
 ### 설계 감리 관점의 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,7 +107,7 @@ tags = ["studynote-design-supervision"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **만능 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)화**: 로깅, 보안, 캐시, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 업무 규칙을 한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에 몰아넣는 경우
+- <strong>만능 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>화</strong>: 로깅, 보안, 캐시, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 업무 규칙을 한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에 몰아넣는 경우
 - **원격 호출 은폐**: 로컬 메서드처럼 보이게 만들어 네트워크 비용과 실패 가능성을 잊게 하는 경우
 - **불필요한 래핑**: 직접 호출해도 충분한 단순 객체에 억지로 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 두는 경우
 
@@ -146,22 +143,24 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 접근의 한계
-    │
-    ▼
-추상 인터페이스 분리
-    │
-    ▼
-프록시 (Proxy) 패턴
-    │
-    ├─▶ 가상 프록시 (Virtual Proxy)
-    ├─▶ 보호 프록시 (Protection Proxy)
-    ├─▶ 원격 프록시 (Remote Proxy)
-    │
-    ▼
-AOP · ORM 지연 로딩 · 리버스 프록시 · 서비스 메시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 접근의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상 인터페이스 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프록시 (Proxy) 패턴</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 가상 프록시 (Virtual Proxy)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호 프록시 (Protection Proxy)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 원격 프록시 (Remote Proxy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AOP · ORM 지연 로딩 · 리버스 프록시 · 서비스 메시</div>
+</div>
+</div>
+
+
 
 이 흐름은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 객체 패턴에서 출발해, 애플리케이션 프레임워크와 인프라 제어 계층으로 확장되는 과정을 보여준다.
 

@@ -27,14 +27,17 @@ tags = ["design_supervision"]
 
 이 도식은 감리 수명주기에서 착수 회의가 가지는 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 역할을 보여줍니다. 사전 계획이 실제 실행으로 넘어가는 관문입니다.
 
-```text
-┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-│  감리 계획 수립 │ ----> │   착수 회의     │ ----> │   실지 감리     │
-│ (Planning)      │       │ (Kick-off)      │       │ (Execution)     │
-└────────┬────────┘       └────────┬────────┘       └────────┬────────┘
-         │                         │                         │
-  [문서 검토/분석]          [이해관계자 합의]          [증거 수집/인터뷰]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 계획 수립</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">착수 회의</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">실지 감리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Planning)</div><div class="kb-diagram-cell">(Kick-off)</div><div class="kb-diagram-cell">(Execution)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">문서 검토/분석</div><div class="kb-diagram-node">이해관계자 합의</div><div class="kb-diagram-node">증거 수집/인터뷰</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 착수 회의가 계획과 실행을 연결하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지점이라는 점입니다. 따라서 이 단계에서 명확한 합의가 이루어지지 않으면, 실지 감리 단계에서 피감리인의 비협조나 범위 논란으로 인해 감리 품질이 급격히 저하될 수 있습니다.
 
@@ -48,7 +51,7 @@ tags = ["design_supervision"]
 
 | 구성 요소 | 역할 | 내부 동작/내용 | 산출물/비유 |
 |:---|:---|:---|:---|
-| **발주자 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))** | 감리 주관 및 목표 제시 | 프로젝트 현황 설명, 감리 중점 요구사항 전달 | 스폰서 / 나침반 |
+| <strong>발주자 (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)</strong> | 감리 주관 및 목표 제시 | 프로젝트 현황 설명, 감리 중점 요구사항 전달 | 스폰서 / 나침반 |
 | **피감리인 (Auditee)** | 수검 준비 및 협조 | 개발 진척도 보고, 감리 지원 인력 및 환경 제공 | 수검자 / 조타수 |
 | **감리인 (Auditor)** | 감리 계획 발표 | 감리 범위, 일정, 관점, 협조 요청 사항 브리핑 | 진단자 / 등대 |
 | **감리 계획서** | 공식적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 제공 | 예비조사 기반 감리 주안점, 일정표, 인터뷰 계획 | 룰북(Rulebook) |
@@ -56,16 +59,19 @@ tags = ["design_supervision"]
 
 이 다이어그램은 착수 회의에서 3자 간 정보 흐름과 상호작용의 역학 관계를 나타냅니다. 감리인이 일방적으로 지시하는 것이 아니라 상호 피드백이 오가는 구조를 이해해야 합니다.
 
-```text
-                         [ 발주자 ]
-                        /          \
-  (요구사항/중점사항 제시) /            \ (프로젝트 현황/이슈 보고)
-                      /              \
-                     ▼                ▼
-            [ 감리 법인 ] <======> [ 피감리인 (사업자) ]
-                     (감리 계획, 일정, 협조사항 브리핑)
-                     (수검 환경, 인터뷰 일정 조율 피드백)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">발주자</div></div>
+<div class="kb-diagram-note">(요구사항/중점사항 제시) / \ (프로젝트 현황/이슈 보고)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 법인</div><div class="kb-diagram-connector">======&gt;</div><div class="kb-diagram-node">피감리인 (사업자)</div></div>
+<div class="kb-diagram-note">(감리 계획, 일정, 협조사항 브리핑)</div>
+<div class="kb-diagram-note">(수검 환경, 인터뷰 일정 조율 피드백)</div>
+</div>
+</div>
+
+
 
 이 도식에서 핵심은 감리법인과 피감리인 간의 수평적 상호작용(`<======>`)입니다. 이런 배치는 감리가 일방적인 사찰이 아니라 상호 합의된 품질 보증 활동임을 보장하기 때문입니다. 따라서 착수 회의에서 피감리인의 의견(일정 제약, 시스템 환경 등)이 반영되지 않으면, 실지 감리 시 [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/) 수집에 심각한 병목을 초래하게 됩니다. 
 
@@ -113,21 +119,25 @@ tags = ["design_supervision"]
 
 이 의사결정 트리는 착수 회의 중 돌발 이슈 발생 시 감리인의 대처 프로세스를 보여줍니다.
 
-```text
-[착수 회의 중 이슈 발생]
-         │
-         ▼
-[이슈가 감리 계획서(범위) 내에 있는가?]
-   ├─ (Yes) ──> [관련 증빙(RFP, 제안서) 기반 즉각 기준 제시] ──> [합의 및 회의록 기록]
-   │
-   └─ (No)  ──> [일정/비용에 영향을 미치는가?]
-                   ├─ (Yes) ──> [발주자-사업자 간 별도 협의기구 이관, 감리 범위 제외]
-                   └─ (No)  ──> [참고사항/권고사항으로 감리 관점에 유연하게 편입]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">착수 회의 중 이슈 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이슈가 감리 계획서(범위) 내에 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">관련 증빙(RFP, 제안서) 기반 즉각 기준 제시</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">합의 및 회의록 기록</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">일정/비용에 영향을 미치는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">발주자-사업자 간 별도 협의기구 이관, 감리 범위 제외</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">참고사항/권고사항으로 감리 관점에 유연하게 편입</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 감리인이 모든 문제를 현장에서 해결하려 들지 않고, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 중심으로 판단을 분리한다는 점입니다. 따라서 무리한 감리 범위 확장을 막고 정해진 일정 내에 고품질의 감리를 수행하는 안정성을 확보할 수 있습니다.
 
-**[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] 착수 회의 전 모든 참석자에게 감리 계획서가 사전 배포되었는가?
 - [ ] 보안 통제(개발 서버 접속, 망연계 솔루션 이용) 절차가 실무 수준에서 합의되었는가?
 - [ ] 감리 기간 중 사업자의 핵심 인력 부재(휴가 등) 일정이 파악되었는가?
@@ -144,9 +154,9 @@ tags = ["design_supervision"]
 |:---|:---|:---|
 | **정량적 효과** | 수검 자료 대기 시간 단축, 인터뷰 스케줄링 딜레이 감소 | 감리인 유휴 시간 최소화 (시간) |
 | **정성적 효과** | 상호 신뢰 구축, 감리 결과에 대한 피감리인 수용성 증대 | [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/) 시 이견/이의 제기 건수 감소 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리** | 프로젝트 내재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조기 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 감리 포커싱 조정 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고위험 이슈 조기 조치율 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong> | 프로젝트 내재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 조기 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 감리 포커싱 조정 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고위험 이슈 조기 조치율 |
 
-미래의 감리 착수 회의는 대면 보고 위주에서 벗어나, 아키텍처 정보 포털([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))이나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 대시보드를 띄워놓고 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 논의하는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 지능형 착수 회의**로 진화할 것입니다. 이를 통해 산출물 준비라는 피감리인의 행정적 부담은 줄어들고, 실질적인 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 논의가 시작점부터 가능해질 것입니다.
+미래의 감리 착수 회의는 대면 보고 위주에서 벗어나, 아키텍처 정보 포털([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))이나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 대시보드를 띄워놓고 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 논의하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 지능형 착수 회의</strong>로 진화할 것입니다. 이를 통해 산출물 준비라는 피감리인의 행정적 부담은 줄어들고, 실질적인 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 논의가 시작점부터 가능해질 것입니다.
 
 > 📢 **섹션 요약 비유**: 잘 꿰어진 첫 단추(착수 회의)는 옷(전체 감리 프로세스)이 맵시 있게 완성되도록 보장하며, 향후 발생할 구김(이견 분쟁)을 최소화하는 가장 비용 효율적인 다림질입니다.
 
@@ -161,21 +171,23 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[예비 조사 (Preliminary Survey) — 사전 산출물 검토, 감리 주안점 도출]
-    │
-    ▼
-[착수 회의 (Kick-off Meeting) — 이해관계자 역할·범위·일정 공식 합의]
-    │
-    ▼
-[현장 감리 (On-site Audit) — 소스코드·아키텍처·보안 집중 점검]
-    │
-    ▼
-[중간 보고 (Interim Report) — 주요 결함 조기 통보, 개선 방향 협의]
-    │
-    ▼
-[종료 회의 (Exit Meeting) — 착수 합의 사항과 결과 대조, 최종 감리 확정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">예비 조사 (Preliminary Survey) — 사전 산출물 검토, 감리 주안점 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">착수 회의 (Kick-off Meeting) — 이해관계자 역할·범위·일정 공식 합의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현장 감리 (On-site Audit) — 소스코드·아키텍처·보안 집중 점검</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간 보고 (Interim Report) — 주요 결함 조기 통보, 개선 방향 협의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 회의 (Exit Meeting) — 착수 합의 사항과 결과 대조, 최종 감리 확정</div></div>
+</div>
+</div>
+
+
 이 흐름은 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)의 전체 수명 주기에서 착수 회의가 [예비 조사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/)를 집약하여 이후 모든 활동의 기준점을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 핵심 역할을 하며, 이를 중심으로 감리 전 과정이 유기적으로 연결되는 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

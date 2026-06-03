@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 포그가 세 계층 구조에서 맡는 역할을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Three-tier flow with fog                                                 │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Edge devices (1~10 ms) ──fan-in──▶ Fog node / micro DC (10~50 ms)       │
-│                                     │                                    │
-│                                     ├─ local filtering / inference       │
-│                                     ├─ local coordination / cache        │
-│                                     └─ uplink outage fallback            │
-│                                     │                                    │
-│                                     └────────▶ Cloud region (50 ms+)     │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 포그가 단순 중계 장치가 아니라는 점이다. 포그는 **[팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/)([Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/))된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 의미 있는 정보로 줄이고**, 여러 엣지 장치를 함께 조율하며, 클라우드와의 연결이 흔들려도 현장을 계속 운영하게 만드는 완충지대다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Three-tier flow with fog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge devices (1~10 ms) ──fan-in──▶ Fog node / micro DC (10~50 ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ local filtering / inference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ local coordination / cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ uplink outage fallback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Cloud region (50 ms+)</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 포그가 단순 중계 장치가 아니라는 점이다. 포그는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">팬인</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a>)된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 의미 있는 정보로 줄이고</strong>, 여러 엣지 장치를 함께 조율하며, 클라우드와의 연결이 흔들려도 현장을 계속 운영하게 만드는 완충지대다.
 
 - **📢 섹션 요약 비유**: 포그 하드웨어는 동네 여러 가게의 주문을 한 번에 받는 지역 물류센터와 같다. 가게마다 본사에 직접 전화를 거는 대신, 지역 센터가 먼저 모아서 정리해 보내니 훨씬 빠르고 덜 복잡하다.
 
@@ -47,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-포그 노드는 보통 산업용 서버, 러기드 박스 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 통신사 현장 서버처럼 구성되며, 엣지보다 강하고 클라우드보다 현장 친화적인 특성을 가진다. 남쪽 방향으로는 센서, 카메라, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)), 필드버스, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi 같은 다양한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 받아야 하고, 북쪽 방향으로는 클라우드 응용 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 저장소에 연결되어야 한다. 따라서 포그 하드웨어의 본질은 중앙처리장치 (CPU, Central Processing Unit) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하나가 아니라 **이질적 입출력과 로컬 처리, 저장, 보안을 한 박스에서 균형 있게 묶는 것**이다.
+포그 노드는 보통 산업용 서버, 러기드 박스 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 통신사 현장 서버처럼 구성되며, 엣지보다 강하고 클라우드보다 현장 친화적인 특성을 가진다. 남쪽 방향으로는 센서, 카메라, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)), 필드버스, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi 같은 다양한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 받아야 하고, 북쪽 방향으로는 클라우드 응용 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 저장소에 연결되어야 한다. 따라서 포그 하드웨어의 본질은 중앙처리장치 (CPU, Central Processing Unit) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하나가 아니라 <strong>이질적 입출력과 로컬 처리, 저장, 보안을 한 박스에서 균형 있게 묶는 것</strong>이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -60,24 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 포그 노드 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 흐름으로 처리되는지 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Fog node hardware stack                                                  │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Southbound ports : PLC / sensor / camera / 5G / fieldbus                │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Protocol adapters + message bus                                           │
-│        │                                                                  │
-│        ├─ CPU cluster : rules, containers, orchestration                  │
-│        ├─ GPU / NPU   : video analytics, local inference                  │
-│        ├─ NVMe cache  : buffering, local history                          │
-│        └─ Secure boot + TPM                                               │
-│        │                                                                  │
-│        ▼                                                                  │
-│ Northbound uplink : WAN / cloud API / object storage                      │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fog node hardware stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Southbound ports : PLC / sensor / camera / 5G / fieldbus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol adapters + message bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CPU cluster : rules, containers, orchestration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GPU / NPU : video analytics, local inference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NVMe cache : buffering, local history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Secure boot + TPM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Northbound uplink : WAN / cloud API / object storage</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 포그가 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "모아두는" 장소가 아니라, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 적응과 로컬 분석, 캐시, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포를 한 번에 수행한다는 사실이다. 그래서 포그 설계에서는 CPU 코어 수만 볼 것이 아니라, 남향 장치 수, 로컬 저장 지속 시간, 광역 네트워크 (WAN, Wide Area Network) 장애 시 자율 운전 시간을 함께 계산해야 한다.
 
@@ -87,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-포그는 엣지와 클라우드의 중간이라고만 외우면 경계가 흐려진다. 엣지는 개별 장치 수준의 즉시 제어, 포그는 현장 단위 통합 조정, 클라우드는 전사·전역 단위 분석에 더 적합하다. 즉 포그는 "조금 느린 엣지"가 아니라 **여러 엣지를 묶는 운영 단위**라는 점이 중요하다.
+포그는 엣지와 클라우드의 중간이라고만 외우면 경계가 흐려진다. 엣지는 개별 장치 수준의 즉시 제어, 포그는 현장 단위 통합 조정, 클라우드는 전사·전역 단위 분석에 더 적합하다. 즉 포그는 "조금 느린 엣지"가 아니라 <strong>여러 엣지를 묶는 운영 단위</strong>라는 점이 중요하다.
 
 | 구분 | 엣지 | 포그 | 클라우드 |
 | :-- | :-- | :-- | :-- |
@@ -108,11 +107,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 규모 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 몇 대의 엣지 장치와 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도를 수용해야 하는가?
-2. **오프라인 지속성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: WAN 단절 시 몇 시간 또는 며칠 동안 로컬 운영이 유지되어야 하는가?
-3. **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 다양성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 산업 장비, 카메라, 무선망, 보안 장비를 한 노드가 모두 수용할 수 있는가?
-4. **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 전원, 네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 저장소, 노드 장애 시 단일 장애점이 생기지 않는가?
-5. **보안 구역 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 구간과 IT 구간 사이에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계가 있는가?
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">팬인</a> 규모 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 몇 대의 엣지 장치와 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도를 수용해야 하는가?
+2. <strong>오프라인 지속성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: WAN 단절 시 몇 시간 또는 며칠 동안 로컬 운영이 유지되어야 하는가?
+3. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 다양성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 산업 장비, 카메라, 무선망, 보안 장비를 한 노드가 모두 수용할 수 있는가?
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 전원, 네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 저장소, 노드 장애 시 단일 장애점이 생기지 않는가?
+5. <strong>보안 구역 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 구간과 IT 구간 사이에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계가 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -120,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 - 현장 전체를 한 대의 포그 박스에만 의존해 단일 장애점을 만드는 구성
 - 원격 패치·[로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 없이 "현장 서버"만 배치해 두고 운영 자동화를 생략하는 방식
 
-기술사 답안에서는 포그를 "중간 서버"라고만 적으면 부족하다. **왜 현장에서 모아야 하는지**, **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)하고 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 상위로 올리는지**, **WAN 장애 시 무엇을 계속 돌릴지**를 함께 제시해야 한다. 여기에 보안 분리와 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)까지 적어 주면 실무 감각이 살아난다.
+기술사 답안에서는 포그를 "중간 서버"라고만 적으면 부족하다. **왜 현장에서 모아야 하는지**, <strong>어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>하고 어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 상위로 올리는지</strong>, <strong>WAN 장애 시 무엇을 계속 돌릴지</strong>를 함께 제시해야 한다. 여기에 보안 분리와 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)까지 적어 주면 실무 감각이 살아난다.
 
 - **📢 섹션 요약 비유**: 포그 설계는 큰 공사 현장에 임시 본부를 세우는 일과 같다. 무전기, 전기, 도면 보관, 비상 대응 체계가 다 있어야 현장이 멈추지 않는다.
 
@@ -128,9 +127,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-포그 하드웨어를 잘 배치하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용이 줄고, 지역 단위 응답 속도가 빨라지며, 중앙 회선 장애에도 현장 서비스가 유지된다. 또한 엣지에서 생성된 거대한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 장거리 전송하지 않아도 되므로, 비용과 보안 노출 면에서도 유리하다. 즉 포그는 클라우드 부담을 덜어 주는 캐시가 아니라, **현장 자율 운영과 중앙 통제를 이어 주는 중간 신경절**이다.
+포그 하드웨어를 잘 배치하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용이 줄고, 지역 단위 응답 속도가 빨라지며, 중앙 회선 장애에도 현장 서비스가 유지된다. 또한 엣지에서 생성된 거대한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 장거리 전송하지 않아도 되므로, 비용과 보안 노출 면에서도 유리하다. 즉 포그는 클라우드 부담을 덜어 주는 캐시가 아니라, <strong>현장 자율 운영과 중앙 통제를 이어 주는 중간 신경절</strong>이다.
 
-물론 계층이 하나 더 생기는 만큼 운영 복잡도도 늘어난다. 원격 배포, 관측성, 현장 하드웨어 교체, 보안 패치 체계가 약하면 포그는 금방 관리 부채로 바뀐다. 앞으로는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 통합, 경량 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 기밀 포그 노드, 현장 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 결합이 확산될 가능성이 높다. 따라서 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) 하드웨어는 "조금 작은 클라우드"가 아니라, **현장 전체를 지휘하는 지역형 계산 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)**로 기억하는 것이 맞다.
+물론 계층이 하나 더 생기는 만큼 운영 복잡도도 늘어난다. 원격 배포, 관측성, 현장 하드웨어 교체, 보안 패치 체계가 약하면 포그는 금방 관리 부채로 바뀐다. 앞으로는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 통합, 경량 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 기밀 포그 노드, 현장 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 결합이 확산될 가능성이 높다. 따라서 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) 하드웨어는 "조금 작은 클라우드"가 아니라, <strong>현장 전체를 지휘하는 지역형 계산 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 포그 하드웨어는 지역 변전소와 같다. 중앙 발전소 전력을 그대로 전달만 하는 것이 아니라, 지역 상황에 맞게 분배하고 이상이 생기면 먼저 막아 준다.
 
@@ -149,21 +148,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-엣지 센서 · PLC
-        │
-        ▼
-프로토콜 게이트웨이
-        │
-        ▼
-포그 노드 / 마이크로 데이터센터
-        │
-        ▼
-MEC · 현장 오케스트레이션
-        │
-        ▼
-클라우드 분석 · 중앙 제어 평면
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">엣지 센서 · PLC</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로토콜 게이트웨이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포그 노드 / 마이크로 데이터센터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MEC · 현장 오케스트레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 분석 · 중앙 제어 평면</div>
+</div>
+</div>
+
+
 
 이 흐름은 "연결만 하던 게이트웨이"가 "현장 계산과 조정을 맡는 지역 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)"로 커지는 진화를 보여 준다.
 

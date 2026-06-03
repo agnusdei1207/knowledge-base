@@ -20,56 +20,63 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 GoF는 다음 조건에서 [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴을 권장한다:
 
-1. 해석할 언어의 **문법이 단순**하고 규칙의 수가 적다
-2. 동일한 문장을 **반복적으로 해석**해야 한다
-3. 효율보다 **이해·확장 용이성**이 중요한 경우
+1. 해석할 언어의 <strong>문법이 단순</strong>하고 규칙의 수가 적다
+2. 동일한 문장을 <strong>반복적으로 해석</strong>해야 한다
+3. 효율보다 <strong>이해·확장 용이성</strong>이 중요한 경우
 
 BNF (Backus-Naur Form, 배커스-나우르 표기법)는 문법을 정의하는 형식 언어다. [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴은 BNF의 각 규칙을 클래스로 구현한다:
 
-```
-BNF 문법 예시 (산술 표현식):
-  expression ::= number | expression '+' expression | expression '*' expression
-  number     ::= [0-9]+
 
-  ↓ 각 규칙이 클래스가 됨
 
-  AbstractExpression    → expression 인터페이스
-  NumberExpression      → TerminalExpression (더 이상 분해 안 됨)
-  AddExpression         → NonTerminalExpression (2개의 expression 포함)
-  MultiplyExpression    → NonTerminalExpression
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BNF 문법 예시 (산술 표현식):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expression ::= number</div><div class="kb-diagram-cell">expression '+' expression</div><div class="kb-diagram-cell">expression '*' expression</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">number ::=</div><div class="kb-diagram-node">0-9</div><div class="kb-diagram-note">+</div></div>
+<div class="kb-diagram-note">↓ 각 규칙이 클래스가 됨</div>
+<div class="kb-diagram-note">AbstractExpression → expression 인터페이스</div>
+<div class="kb-diagram-note">NumberExpression → TerminalExpression (더 이상 분해 안 됨)</div>
+<div class="kb-diagram-note">AddExpression → NonTerminalExpression (2개의 expression 포함)</div>
+<div class="kb-diagram-note">MultiplyExpression → NonTerminalExpression</div>
+</div>
+</div>
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 영어 문법책의 "주어 + 동사 + 목적어" 규칙 하나하나를 클래스로 만들고, 그 규칙 클래스들로 문장을 파싱하고 이해하는 것이 [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  ┌──────────────────────────────────────────────────┐
-  │  Context                                         │
-  │  (전역 해석 상태: 변수 바인딩, 환경 정보 등)      │
-  └──────────────────────────────────────────────────┘
-          │
-          │ interpret(context)
-          ▼
-  «interface» AbstractExpression
-  ──────────────────────────────
-  + interpret(Context): Object
-          ▲
-          │
-  ┌───────┴──────────┐
-  ▼                  ▼
-TerminalExpression  NonTerminalExpression
-(리프 노드)          (내부 노드 - 하위 Expression 포함)
-  예: NumberExpr     예: AddExpr(left, right)
-      VariableExpr        left.interpret() + right.interpret()
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전역 해석 상태: 변수 바인딩, 환경 정보 등)</div></div>
+<div class="kb-diagram-note">interpret(context)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">«interface» AbstractExpression</div>
+<div class="kb-diagram-note">+ interpret(Context): Object</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">TerminalExpression NonTerminalExpression</div>
+<div class="kb-diagram-note">(리프 노드) (내부 노드 - 하위 Expression 포함)</div>
+<div class="kb-diagram-note">예: NumberExpr 예: AddExpr(left, right)</div>
+<div class="kb-diagram-note">VariableExpr left.interpret() + right.interpret()</div>
+</div>
+</div>
+
+
 
 ```
   파싱 결과 AST:
@@ -181,7 +188,7 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 ```
 
 - BNF (Backus-Naur Form)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): 각 BNF 규칙 = 하나의 클래스
-- AST (Abstract Syntax Tree) 구조가 **[Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴**임을 명시
+- AST (Abstract Syntax Tree) 구조가 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> 패턴</strong>임을 명시
 - **복잡한 문법에는 부적합** → ANTLR, JavaCC 같은 파서 생성기 권장
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -203,10 +210,10 @@ Spring의 SpEL (Spring Expression Language)은 [Interpreter](/knowledge-base/stu
 | 비즈니스 로직 외재화 | 규칙을 코드가 아닌 DSL로 관리 가능 |
 
 - **복잡한 문법**: 규칙 수가 많아지면 클래스 폭발 (Class Explosion)
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: 재귀적 AST 평가 오버헤드 → [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 보완
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 재귀적 AST 평가 오버헤드 → [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 보완
 - **유지보수**: 문법 변경 시 여러 클래스 수정 필요
 
-[Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) ([해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/)) 패턴은 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 언어로 표현**해야 하는 상황에서 빛을 발한다. [정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/), SQL, SpEL 등 현실 세계의 많은 인터프리터가 이 패턴을 기반으로 한다. 단순한 문법에는 강력하지만, 복잡한 문법은 전문 파서 도구로 처리하는 것이 현명하다.
+[Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) ([해석자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/)) 패턴은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙을 언어로 표현</strong>해야 하는 상황에서 빛을 발한다. [정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/), SQL, SpEL 등 현실 세계의 많은 인터프리터가 이 패턴을 기반으로 한다. 단순한 문법에는 강력하지만, 복잡한 문법은 전문 파서 도구로 처리하는 것이 현명하다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

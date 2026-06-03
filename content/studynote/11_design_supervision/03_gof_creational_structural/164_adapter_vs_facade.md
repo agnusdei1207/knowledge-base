@@ -35,21 +35,23 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 두 패턴의 구조 차이를 한눈에 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                Adapter vs Facade 구조 비교                  │
-├──────────────────────────────────────────────────────────────┤
-│ [Adapter]                                                   │
-│ Client ─▶ Target Interface ─▶ Adapter ─▶ Adaptee            │
-│          (기대 규격)         (변환)      (기존 규격)        │
-│                                                              │
-│ [Facade]                                                    │
-│ Client ─▶ Facade ─┬─▶ Subsystem A                           │
-│                   ├─▶ Subsystem B                           │
-│                   └─▶ Subsystem C                           │
-│          (단순 창구)   (복잡한 내부 협력은 내부에 숨김)      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adapter vs Facade 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Adapter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ Target Interface ─▶ Adapter ─▶ Adaptee</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기대 규격) (변환) (기존 규격)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Facade</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ Facade ─ ─▶ Subsystem A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Subsystem B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Subsystem C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단순 창구) (복잡한 내부 협력은 내부에 숨김)</div></div>
+</div>
+</div>
+
+
 
 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Object [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))와 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Class [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))로 나눌 수 있다. 실무에서는 상속보다 조합이 유연하므로 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 더 많이 쓰인다. 예를 들어 `LegacySmsSender.sendLegacy()`를 `NotificationPort.send()` 형태로 감싸면, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 구체 구현을 모르고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 사용하면 된다. 이는 [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) ([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/))나 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)-[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 구조와도 자연스럽게 연결된다.
 
@@ -96,8 +98,8 @@ tags = ["studynote-design-supervision"]
 
 1. **문제의 원인이 인터페이스 차이인가**: 그렇다면 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 1순위다.
 2. **클라이언트가 호출 절차를 너무 많이 알아야 하는가**: 그렇다면 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)가 적합하다.
-3. **[퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙까지 과도하게 흡수하는가**: 그 경우 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리와 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 재검토가 필요하다.
-4. **[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 변환 이상 책임을 갖는가**: 비즈니스 로직이 들어가면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 경계가 흐려진다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">퍼사드</a>가 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙까지 과도하게 흡수하는가</strong>: 그 경우 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리와 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 재검토가 필요하다.
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>가 변환 이상 책임을 갖는가</strong>: 비즈니스 로직이 들어가면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 경계가 흐려진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -136,23 +138,24 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-레거시 통합 · 외부 API 연동
-    │
-    ▼
-어댑터 (Adapter)
-    │
-    ├─▶ 포트-어댑터 아키텍처
-    │
-    ▼
-서브시스템 증가 · 호출 절차 복잡화
-    │
-    ▼
-퍼사드 (Facade)
-    │
-    ▼
-서비스 레이어 · API 게이트웨이 · 유스케이스 경계 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 통합 · 외부 API 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">어댑터 (Adapter)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 포트-어댑터 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서브시스템 증가 · 호출 절차 복잡화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">퍼사드 (Facade)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 레이어 · API 게이트웨이 · 유스케이스 경계 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 해결"에서 시작해 "복잡도 은닉과 계층 경계 설계"로 확장되는 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)의 활용 방향을 보여준다.
 

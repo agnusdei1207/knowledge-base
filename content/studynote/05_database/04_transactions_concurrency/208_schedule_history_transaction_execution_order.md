@@ -21,13 +21,16 @@ tags = ["studynote-database"]
 
 스케줄 (Schedule / History)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 연산의 실행 순서에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Request -> Tx boundary -> Current concept -> Commit/RB       │
-├──────────────────────────────────────────────────────────────┤
-│ Work unit -> control point -> consistency                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Tx boundary -&gt; Current concept -&gt; Commit/RB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Work unit -&gt; control point -&gt; consistency</div></div>
+</div>
+</div>
+
+
 
 이 그림은 스케줄을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -46,13 +49,16 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 스케줄은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `유령 읽기`·`직렬 스케줄`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Begin -> current concept -> Commit / Rollback                │
-├──────────────────────────────────────────────────────────────┤
-│ State change -> control command -> durable result            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Begin -&gt; current concept -&gt; Commit / Rollback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State change -&gt; control command -&gt; durable result</div></div>
+</div>
+</div>
+
+
 
 핵심은 스케줄을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -113,15 +119,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[유령 읽기]
-    │
-    ▼
-[스케줄]
-    │
-    ├──▶ [직렬 스케줄]
-    └──▶ [비직렬 스케줄]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">유령 읽기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직렬 스케줄</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비직렬 스케줄</div></div>
+</div>
+</div>
+
+
 
 [유령 읽기](/knowledge-base/studynote/05_database/04_transactions_concurrency/207_phantom_read_insert_range_query/)에서 출발한 논점이 스케줄에서 핵심 판단으로 모이고, 이후 [직렬 스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/209_serial_schedule_sequential_execution/)·[비직렬 스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/210_non_serial_schedule_interleaved_execution/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

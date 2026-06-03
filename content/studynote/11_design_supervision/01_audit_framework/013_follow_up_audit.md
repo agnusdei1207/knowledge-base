@@ -10,7 +10,7 @@ tags = ["studynote-design-supervision"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리(Follow-up [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 본 감리(수석 감리원이 문제점을 지적한 단계)가 끝난 후, 발주처와 수행사가 감리 결과 조치 내역을 **실제로 제대로 고쳤는지(시정 조치) 물리적으로 재검증하는 최종 확정 단계**다.
+> 1. **본질**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리(Follow-up [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 본 감리(수석 감리원이 문제점을 지적한 단계)가 끝난 후, 발주처와 수행사가 감리 결과 조치 내역을 <strong>실제로 제대로 고쳤는지(시정 조치) 물리적으로 재검증하는 최종 확정 단계</strong>다.
 > 2. **가치**: 감리원이 지적만 하고 끝난다면 수행사는 눈가림식 보고서만 제출하고 시스템을 방치할 것이다. [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리는 지적 사항에 대한 강제력 있는 클로징(Closing)을 부여하여 감리의 실효성을 완성하는 거버넌스의 종착역이다.
 > 3. **판단 포인트**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리에서 '미조치'로 판정되면 발주처는 수행사에게 프로젝트 잔금을 지급하지 않거나(인수 거부), 지체상금을 물리는 등 법적/재무적 페널티의 직접적인 증빙 자료가 되므로 수행사는 목숨을 걸고 방어해야 한다.
 
@@ -31,27 +31,26 @@ tags = ["studynote-design-supervision"]
 ### 감리 조치 사이클 ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Follow-up Lifecycle)
 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리는 핑퐁(Ping-pong)이 아니라 단판 승부다. 감리원이 지적한 항목(A)에 대해 수행사가 조치(B)를 하면, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리원(C)이 최종 판정(D)을 내린다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           확인 감리 (Follow-up Audit) 검증 프로세스 아키텍처   │
-├────────────────────────────────────────────────────────┤
-│   [ 단계 감리 (설계/종료) ]                               │
-│     ├──▶ 감리 보고서 발행 ("비밀번호 암호화 누락됨. 고치시오")  │
-│     │                                                  │
-│     ▼                                                  │
-│   [ 수행사 (개발 업체) ]                                  │
-│     ├──▶ 조치 수행 (SHA-256 적용) 및 '조치 결과서' 작성 제출  │
-│     │                                                  │
-│     ▼                                                  │
-│   [ 확인 감리 (Follow-up) ] ◀── (감리원이 쇳덩어리 실사 수행)│
-│     │   - 코드 리뷰, DB 덤프 확인, 시연(Demonstration)     │
-│     ├──▶ 1. 조치 완료 (Accept) ──▶ 클로징               │
-│     ├──▶ 2. 미조치 (Reject) ──▶ 발주처 통보 ──▶ 지체상금 발생│
-│     └──▶ 3. 해당 없음 (N/A, 업무 변경으로 취소된 경우)      │
-└────────────────────────────────────────────────────────┘
-```
 
-[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리의 가장 무서운 점은 **새로운 것을 지적하지 않는다**는 것이다. 오직 과거에 지적했던 리스트([Checklist](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))와 현재의 조치 결과만을 1:1로 매핑하여 참/거짓만 판별한다. 여기서 거짓(미조치)이 나오면, 수행사는 발주처의 잔혹한 징계(대금 지불 보류)를 맞게 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확인 감리 (Follow-up Audit) 검증 프로세스 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계 감리 (설계/종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 감리 보고서 발행 ("비밀번호 암호화 누락됨. 고치시오")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수행사 (개발 업체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 조치 수행 (SHA-256 적용) 및 '조치 결과서' 작성 제출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확인 감리 (Follow-up)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (감리원이 쇳덩어리 실사 수행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 리뷰, DB 덤프 확인, 시연(Demonstration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 1. 조치 완료 (Accept) ──▶ 클로징</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 2. 미조치 (Reject) ──▶ 발주처 통보 ──▶ 지체상금 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 3. 해당 없음 (N/A, 업무 변경으로 취소된 경우)</div></div>
+</div>
+</div>
+
+
+
+[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리의 가장 무서운 점은 <strong>새로운 것을 지적하지 않는다</strong>는 것이다. 오직 과거에 지적했던 리스트([Checklist](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))와 현재의 조치 결과만을 1:1로 매핑하여 참/거짓만 판별한다. 여기서 거짓(미조치)이 나오면, 수행사는 발주처의 잔혹한 징계(대금 지불 보류)를 맞게 된다.
 
 - **📢 섹션 요약 비유**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리는 '재수강 학점 인정'이다. 교수님(감리원)이 지난 학기에 F를 준 과제(본 감리 지적)를 다시 제출했을 때, 이번에는 제대로 풀어왔는지 채점하는 것이다. 여기서 또 틀리면(미조치) 가차 없이 졸업(프로젝트 종료)이 막힌다.
 
@@ -64,9 +63,9 @@ tags = ["studynote-design-supervision"]
 
 | 구분 | 정기/단계 감리 (설계, 종료 감리) | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리 (Follow-up [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) |
 |:---|:---|:---|
-| **핵심 목적** | 시스템의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 **새로 찾아냄** | 지적된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 **진짜 고쳐졌는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 함** |
+| **핵심 목적** | 시스템의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 **새로 찾아냄** | 지적된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 <strong>진짜 고쳐졌는지 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>만 함</strong> |
 | **수행 주체** | 수석 감리원 등 대규모 인력 투입 | 보통 해당 분야의 감리원 1~2인이 핀셋 투입 |
-| **결과 산출물** | [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 보고서 (수십~수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) | **감리 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) O/X 위주)** |
+| **결과 산출물** | [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 보고서 (수십~수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) | <strong>감리 조치 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 보고서 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> O/X 위주)</strong> |
 | **비즈니스 임팩트**| 수행사에게 숙제(Workload)를 던짐 | **수행사의 목줄(프로젝트 잔금 지급 여부)을 끊음** |
 
 정기 감리에서 감리원이 "이거 보안 취약합니다"라고 지적하는 것은 수행사에게 귀찮은 일이지만 프로젝트를 멈추지는 않는다. 그러나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리에서 "미조치" 도장이 찍히는 순간, 발주처(공공기관 등)의 검수 담당자는 법적인 책임 회피를 위해 절대 준공(프로젝트 완료) 사인에 도장을 찍어주지 않는다.
@@ -79,7 +78,7 @@ tags = ["studynote-design-supervision"]
 
 ### 실무 시나리오
 1. **대체 조치 (Alternative Action)에 대한 기술적 타당성 평가**: 수행사가 "감리원님이 지적하신 솔루션 도입은 예산이 없어서 못 했지만, 대신 오픈소스를 써서 스크립트로 동일한 보안 효과를 냈습니다"라고 보고할 때. [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리원은 이 대체 조치가 원래 요구했던 보안 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 100% 충족하는지 아키텍처 관점에서 재평가(Re-evaluation)해야 한다. 여기서 감리원의 내공이 부족하여 어설픈 꼼수를 '조치 완료'로 통과시키면, 나중에 해킹이 터졌을 때 감리 법인도 연대 책임을 지고 소송에 휘말린다.
-2. **미조치 시 지체상금([Liquidated Damages](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/)) 분쟁의 증거 자료화**: 프로젝트 기한이 끝났는데 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리 결과 '핵심 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 미조치'가 떴다. 발주처는 지체된 일수만큼 하루에 계약금의 1.5/1000을 깎는 지체상금 청구서를 날린다. 수행사가 억울하다고 소송을 걸 때, 법정에서 가장 완벽한 물리적 증거(Evidence)로 채택되는 쇳덩어리 문서가 바로 제3자(감리 법인)가 직인 찍어 제출한 '[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리 결과 보고서'다.
+2. <strong>미조치 시 지체상금(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/">Liquidated Damages</a>) 분쟁의 증거 자료화</strong>: 프로젝트 기한이 끝났는데 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리 결과 '핵심 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 미조치'가 떴다. 발주처는 지체된 일수만큼 하루에 계약금의 1.5/1000을 깎는 지체상금 청구서를 날린다. 수행사가 억울하다고 소송을 걸 때, 법정에서 가장 완벽한 물리적 증거(Evidence)로 채택되는 쇳덩어리 문서가 바로 제3자(감리 법인)가 직인 찍어 제출한 '[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리 결과 보고서'다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **문서(Paper) 기반의 맹목적 탁상 감리**: [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리원이 시스템에 접속해서 실제 패스워드가 암호화되어 DB에 들어가는지 눈으로 보지 않고, 수행사가 제출한 "암호화 적용 화면 캡처본([워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 문서)"만 보고 '조치 완료' 도장을 찍어주는 만행. 수행사가 다른 프로젝트의 캡처본을 조작해서 낸 것을 모르고 넘어가면, 이 탁상 감리는 프로젝트 전체의 거버넌스를 파괴하는 범죄 행위가 된다. [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리의 생명은 무조건 '실사(Physical [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))'다.
@@ -102,27 +101,29 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **종료 감리 (Final [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))** | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리가 발생하기 직전 단계. 시스템 오픈 전에 마지막으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 싹싹 긁어모아 수행사에게 엄청난 조치 리스트를 던져주는 메인 이벤트 |
+| <strong>종료 감리 (Final <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>)</strong> | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리가 발생하기 직전 단계. 시스템 오픈 전에 마지막으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 싹싹 긁어모아 수행사에게 엄청난 조치 리스트를 던져주는 메인 이벤트 |
 | **감리 조치 결과서** | 수행사가 지적받은 숙제를 어떻게 풀었는지 캡처와 설명으로 증명하는 방어 문서. [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리원이 공격할 과녁판이 된다. |
-| **지체상금 (LD, [Liquidated Damages](/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/))** | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리에서 '미조치'를 받아 프로젝트 완료 승인이 늦어질 때, 지연된 하루마다 수행사의 피(돈)를 말려버리는 법적/재무적 채찍 |
+| <strong>지체상금 (LD, <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/059_liquidated_damages_progress_verification/">Liquidated Damages</a>)</strong> | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리에서 '미조치'를 받아 프로젝트 완료 승인이 늦어질 때, 지연된 하루마다 수행사의 피(돈)를 말려버리는 법적/재무적 채찍 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IT 프로젝트의 부실화 및 지적 사항 방치 (감리의 실효성 논란)
-    │
-    ▼
-강제성 부여를 위한 정보시스템 감리 기준 법제화
-    │
-    ▼
-단계 감리(요구사항, 설계, 종료) 체계 확립 및 시정 요구서 발행
-    │
-    ▼
-조치 여부의 객관적 검증을 위한 '확인 감리(Follow-up Audit)' 의무화
-    │
-    ▼
-미조치 시 대금 지급 보류 및 지체상금 부과라는 법적 거버넌스의 종착역으로 완성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 프로젝트의 부실화 및 지적 사항 방치 (감리의 실효성 논란)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">강제성 부여를 위한 정보시스템 감리 기준 법제화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단계 감리(요구사항, 설계, 종료) 체계 확립 및 시정 요구서 발행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조치 여부의 객관적 검증을 위한 '확인 감리(Follow-up Audit)' 의무화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">미조치 시 대금 지급 보류 및 지체상금 부과라는 법적 거버넌스의 종착역으로 완성</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "단순 지적의 한계 → 강제성 부여 → 사후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 감리)의 신설 → 법적/재무적 통제권과 결합"으로 이어지는 감리 거버넌스의 진화 궤적을 보여준다.
 

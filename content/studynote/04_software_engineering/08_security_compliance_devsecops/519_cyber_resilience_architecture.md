@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Resilience(레질리언스)는 고무줄이 늘어났다가 원래 모양으로 튕겨 돌아오는 '[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)'을 뜻한다. 사이버 레질리언스는 해커의 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)나 디도스(DDoS) 폭격으로 시스템이 짓눌렸을 때, 유리가 깨지듯 쩍 갈라지며 파멸(Brittle)하는 것이 아니라, 고무줄처럼 충격을 웅~ 흡수하고 1분 만에 원래 상태로 복원되는 능력이다.
 
-- **필요성**: 100억을 들여 철통같은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 시큐어 코딩을 발랐다. 그런데 회사 신입사원이 이메일로 온 악성 코드를 클릭했다. 내부자 계정이 털렸으니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물이다. 해커가 사내 서버 데이터를 다 암호화([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))했다. 서버를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하려는데 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 파일까지 다 감염되어 버렸다. 회사는 파산했다. **"방패(보안)는 언젠가 뚫린다"는 뼈저린 현실 앞에서, 뚫린 이후의 골든타임([사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/), 격리, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 설계하지 않으면 회사가 멸망한다는 공포**가 사이버 레질리언스를 현대 기업 생존의 1순위로 끌어올렸다.
+- **필요성**: 100억을 들여 철통같은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 시큐어 코딩을 발랐다. 그런데 회사 신입사원이 이메일로 온 악성 코드를 클릭했다. 내부자 계정이 털렸으니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물이다. 해커가 사내 서버 데이터를 다 암호화([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))했다. 서버를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하려는데 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 파일까지 다 감염되어 버렸다. 회사는 파산했다. <strong>"방패(보안)는 언젠가 뚫린다"는 뼈저린 현실 앞에서, 뚫린 이후의 골든타임(<a href="/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/">사고 대응</a>, 격리, <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)을 설계하지 않으면 회사가 멸망한다는 공포</strong>가 사이버 레질리언스를 현대 기업 생존의 1순위로 끌어올렸다.
 
-- **💡 비유**: 사이버 레질리언스는 전투함의 **'침수 대비 격벽 시스템'**과 똑같습니다. 전통적 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 배의 외벽(철갑)을 두껍게 만들어서 어뢰를 튕겨내는 데만 돈을 씁니다. 하지만 어뢰를 맞아 구멍이 뚫리면 외벽은 끝입니다. 배 전체에 물이 차서 가라앉죠. 사이버 레질리언스 아키텍트는 "어뢰는 맞게 되어있다"고 가정합니다. 그래서 배의 밑바닥을 50개의 독립된 방(격벽)으로 쪼개 놓습니다. 1번 방이 어뢰에 뚫려 물(해커)이 꽉 차도, 그 즉시 티타늄 문을 닫아버려 2번 방으로 물이 못 넘어가게 막습니다. 배는 1번 방 하나만 잃었을 뿐, 엔진은 멀쩡히 돌아가며 항구까지 유유히 생환합니다.
+- **💡 비유**: 사이버 레질리언스는 전투함의 <strong>'침수 대비 격벽 시스템'</strong>과 똑같습니다. 전통적 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 배의 외벽(철갑)을 두껍게 만들어서 어뢰를 튕겨내는 데만 돈을 씁니다. 하지만 어뢰를 맞아 구멍이 뚫리면 외벽은 끝입니다. 배 전체에 물이 차서 가라앉죠. 사이버 레질리언스 아키텍트는 "어뢰는 맞게 되어있다"고 가정합니다. 그래서 배의 밑바닥을 50개의 독립된 방(격벽)으로 쪼개 놓습니다. 1번 방이 어뢰에 뚫려 물(해커)이 꽉 차도, 그 즉시 티타늄 문을 닫아버려 2번 방으로 물이 못 넘어가게 막습니다. 배는 1번 방 하나만 잃었을 뿐, 엔진은 멀쩡히 돌아가며 항구까지 유유히 생환합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **방어 성곽의 시대 (Prevention-only)**: 2000년대엔 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))만 높이 쌓으면 끝인 줄 알았다.
-  2. **탐지 및 대응의 시대 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & Response)**: 2010년대 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 해킹이 판치면서 100% 방어가 불가능해지자, "빨리 찾아내서 고치자"는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)/[SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 같은 모니터링 체제로 진화했다.
-  3. **레질리언스와 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 시대 (현재)**: 빨리 고치는 걸 넘어, "해킹 당하는 그 와중에도 장사(비즈니스)는 해야 한다!"라는 극강의 생존 철학이 등장했다. 클라우드 자동화(오토스케일링)와 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 이 불사조 같은 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력을 기술적으로 가능하게 만들며 레질리언스라는 거대한 헌법이 완성되었다.
+  2. <strong>탐지 및 대응의 시대 (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> &amp; Response)</strong>: 2010년대 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 해킹이 판치면서 100% 방어가 불가능해지자, "빨리 찾아내서 고치자"는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)/[SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 같은 모니터링 체제로 진화했다.
+  3. <strong>레질리언스와 <a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> 시대 (현재)</strong>: 빨리 고치는 걸 넘어, "해킹 당하는 그 와중에도 장사(비즈니스)는 해야 한다!"라는 극강의 생존 철학이 등장했다. 클라우드 자동화(오토스케일링)와 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 이 불사조 같은 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력을 기술적으로 가능하게 만들며 레질리언스라는 거대한 헌법이 완성되었다.
 
-- **📢 섹션 요약 비유**: **보안(Cyber [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**은 권투 선수가 가드를 바짝 올리고 주먹을 안 맞으려 피하는 훈련입니다. **레질리언스(Cyber Resilience)**는 그 선수가 턱을 정통으로 맞고 다운되었을 때, 10초 카운트다운이 끝나기 전에 비틀거리면서도 다시 일어나 기어코 경기를 끝마치는 **'좀비 같은 맷집과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력'**입니다. 주먹을 한 번도 안 맞는 선수는 없습니다. 진짜 챔피언은 맞고 일어나는 선수입니다.
+- **📢 섹션 요약 비유**: <strong>보안(Cyber <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>은 권투 선수가 가드를 바짝 올리고 주먹을 안 맞으려 피하는 훈련입니다. <strong>레질리언스(Cyber Resilience)</strong>는 그 선수가 턱을 정통으로 맞고 다운되었을 때, 10초 카운트다운이 끝나기 전에 비틀거리면서도 다시 일어나 기어코 경기를 끝마치는 <strong>'좀비 같은 맷집과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>력'</strong>입니다. 주먹을 한 번도 안 맞는 선수는 없습니다. 진짜 챔피언은 맞고 일어나는 선수입니다.
 
 ---
 
 다음은 사이버 레질리언스 (Cyber Res의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사이버 레질리언스 (Cyber Res                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이버 레질리언스 (Cyber Res</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 사이버 레질리언스 (Cyber Res가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-사이버 레질리언스 (Cyber Resilience) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+사이버 레질리언스 (Cyber Resilience) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 사이버 레질리언스 (Cyber Resilience) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사이버 레질리언스 (Cyber Resilience) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이버 레질리언스 (Cyber Resilience) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

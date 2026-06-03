@@ -24,7 +24,7 @@ tags = ["studynote-bigdata"]
 [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Association) DMBOK ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge v2)는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 다음과 같이 정의한다:
 > "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 관리에 관한 의사결정권과 책임 행사를 위한 권한, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 프로세스, 표준, 역할, 지표의 집합"
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·수집·저장·가공·공유·폐기의 전 생애주기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lifecycle)에 걸쳐 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 신뢰·활용·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 방식을 결정하는 **경영·관리 체계**다.
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·수집·저장·가공·공유·폐기의 전 생애주기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lifecycle)에 걸쳐 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 신뢰·활용·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 방식을 결정하는 <strong>경영·관리 체계</strong>다.
 
 ### 1.2 필요성
 
@@ -38,22 +38,20 @@ tags = ["studynote-bigdata"]
 
 ### 1.3 거버넌스 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│             데이터 거버넌스 (What & Why)                  │
-│  ┌──────────────┐  ┌─────────────┐  ┌────────────────┐  │
-│  │  정책 · 표준  │  │  역할 · 책임 │  │  원칙 · 목표   │  │
-│  └──────────────┘  └─────────────┘  └────────────────┘  │
-│                         │                                │
-│                         ▼                                │
-│             데이터 관리 (How)                             │
-│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌─────────────┐  │
-│  │ 품질관리 │ │ 메타데이터│ │ 보안관리 │ │ 아키텍처관리 │  │
-│  └─────────┘ └──────────┘ └─────────┘ └─────────────┘  │
-└─────────────────────────────────────────────────────────┘
-```
 
-**📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 국가의 **헌법**이다. 헌법이 "무엇을 허용하고 무엇을 금지하는지" 원칙을 정하면, 각 부처([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리)가 그 원칙을 실제 법령과 행정으로 구현한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 (What &amp; Why)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 · 표준</div><div class="kb-diagram-cell">역할 · 책임</div><div class="kb-diagram-cell">원칙 · 목표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 관리 (How)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질관리</div><div class="kb-diagram-cell">메타데이터</div><div class="kb-diagram-cell">보안관리</div><div class="kb-diagram-cell">아키텍처관리</div></div>
+</div>
+</div>
+
+
+
+**📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 국가의 <strong>헌법</strong>이다. 헌법이 "무엇을 허용하고 무엇을 금지하는지" 원칙을 정하면, 각 부처([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리)가 그 원칙을 실제 법령과 행정으로 구현한다.
 
 ---
 
@@ -61,30 +59,25 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 거버넌스 프레임워크 구조
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 거버넌스 프레임워크                    │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────┐    │
-│  │         거버넌스 위원회 (Governance Council)           │    │
-│  │   CDO (Chief Data Officer) + 부문별 Data Owner        │    │
-│  └─────────────────────────┬────────────────────────────┘    │
-│                            │ 정책 수립 · 의사결정              │
-│  ┌────────────┬────────────▼────────┬───────────────────┐    │
-│  │  정책·표준  │   역할·책임 (RACI)  │     프로세스       │    │
-│  │            │                     │                   │    │
-│  │ · 접근정책  │ · Data Owner        │ · 이슈 해결        │    │
-│  │ · 보유정책  │ · Data Steward      │ · 변경 관리        │    │
-│  │ · 품질표준  │ · Data Custodian    │ · 인증 절차        │    │
-│  │ · 명명규칙  │ · Data Consumer     │ · 감사            │    │
-│  └────────────┴─────────────────────┴───────────────────┘    │
-│                            │                                 │
-│  ┌─────────────────────────▼──────────────────────────────┐  │
-│  │                  거버넌스 도구 (Tooling)                 │  │
-│  │  데이터 카탈로그 │ 품질 도구 │ 리니지 │ MDM │ 감사로그  │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 위원회 (Governance Council)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDO (Chief Data Officer) + 부문별 Data Owner</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 수립 · 의사결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준</div><div class="kb-diagram-cell">역할·책임 (RACI)</div><div class="kb-diagram-cell">프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 접근정책</div><div class="kb-diagram-cell">· Data Owner</div><div class="kb-diagram-cell">· 이슈 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 보유정책</div><div class="kb-diagram-cell">· Data Steward</div><div class="kb-diagram-cell">· 변경 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 품질표준</div><div class="kb-diagram-cell">· Data Custodian</div><div class="kb-diagram-cell">· 인증 절차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 명명규칙</div><div class="kb-diagram-cell">· Data Consumer</div><div class="kb-diagram-cell">· 감사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 도구 (Tooling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그</div><div class="kb-diagram-cell">품질 도구</div><div class="kb-diagram-cell">리니지</div><div class="kb-diagram-cell">MDM</div><div class="kb-diagram-cell">감사로그</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 표준 및 성숙도 모델
 
@@ -102,7 +95,7 @@ tags = ["studynote-bigdata"]
 | 4 | Measured (측정) | 품질 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 측정·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
 | 5 | Optimizing (최적화) | 지속적 개선, 자동화 |
 
-**📢 섹션 요약 비유**: 거버넌스 프레임워크는 **기업 내부 규정집**이다. 규정이 없으면 직원마다 제멋대로 행동하고, 규정이 있어야 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))가 가능하다.
+**📢 섹션 요약 비유**: 거버넌스 프레임워크는 <strong>기업 내부 규정집</strong>이다. 규정이 없으면 직원마다 제멋대로 행동하고, 규정이 있어야 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))가 가능하다.
 
 ---
 
@@ -126,7 +119,7 @@ tags = ["studynote-bigdata"]
 | SOX (미국) | 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 변경 이력 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 증거 |
 | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) (미국) | 의료 정보 접근 제어, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 암호화 |
 
-**📢 섹션 요약 비유**: 거버넌스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 **운전 면허증 발급 기준**과 같다. 규제(교통법)가 정한 기준에 맞게 누가 어떤 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 운전(사용)할 수 있는지 조직이 자체적으로 정의한다.
+**📢 섹션 요약 비유**: 거버넌스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong>운전 면허증 발급 기준</strong>과 같다. 규제(교통법)가 정한 기준에 맞게 누가 어떤 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 운전(사용)할 수 있는지 조직이 자체적으로 정의한다.
 
 ---
 
@@ -142,22 +135,28 @@ tags = ["studynote-bigdata"]
 
 ### 4.2 도구 선택 기준
 
-```
-규모·예산이 크고 엔터프라이즈 요구 → Collibra, Informatica AXON
-오픈소스 선호, Hadoop 생태계 → Apache Atlas
-클라우드 네이티브(AWS) → AWS Glue Data Catalog + Lake Formation
-클라우드 네이티브(GCP) → Dataplex + Data Catalog
-클라우드 네이티브(Azure) → Microsoft Purview
-확장성 높은 오픈소스 → DataHub (LinkedIn), OpenMetadata
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">규모·예산이 크고 엔터프라이즈 요구 → Collibra, Informatica AXON</div>
+<div class="kb-diagram-note">오픈소스 선호, Hadoop 생태계 → Apache Atlas</div>
+<div class="kb-diagram-note">클라우드 네이티브(AWS) → AWS Glue Data Catalog + Lake Formation</div>
+<div class="kb-diagram-note">클라우드 네이티브(GCP) → Dataplex + Data Catalog</div>
+<div class="kb-diagram-note">클라우드 네이티브(Azure) → Microsoft Purview</div>
+<div class="kb-diagram-note">확장성 높은 오픈소스 → DataHub (LinkedIn), OpenMetadata</div>
+</div>
+</div>
+
+
 
 ### 4.3 기술사 답안 포인트
 
-- 거버넌스 도입 시 **비즈니스 가치([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** 측면: IBM 연구에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제가 미국 기업에 연간 3.1조 달러 손실 유발
-- **[Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/)** 아키텍처와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 연방형 거버넌스를 전제 조건으로 함
-- **[CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/)(최고데이터책임자) 역할**: 거버넌스 오너십의 조직 내 위치가 성공의 핵심
+- 거버넌스 도입 시 <strong>비즈니스 가치(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> 측면: IBM 연구에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제가 미국 기업에 연간 3.1조 달러 손실 유발
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a></strong> 아키텍처와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 연방형 거버넌스를 전제 조건으로 함
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/">CDO</a>(최고데이터책임자) 역할</strong>: 거버넌스 오너십의 조직 내 위치가 성공의 핵심
 
-**📢 섹션 요약 비유**: 거버넌스 도입은 **교통 인프라 정비**와 같다. 도로([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 아무리 많아도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·번호판([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))·면허증(접근권)이 없으면 교통 대란이 난다.
+**📢 섹션 요약 비유**: 거버넌스 도입은 <strong>교통 인프라 정비</strong>와 같다. 도로([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 아무리 많아도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·번호판([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))·면허증(접근권)이 없으면 교통 대란이 난다.
 
 ---
 
@@ -177,7 +176,7 @@ tags = ["studynote-bigdata"]
 
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산처럼 다루는 조직"이 되기 위한 필수 인프라다. ISO 8000, [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) DMBOK, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등 국제 표준과 규제가 거버넌스를 요구하는 시대에, 기술사는 거버넌스 프레임워크 설계 역량(역할 정의, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립, 도구 선택)을 갖춰야 한다. 특히 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리, 클라우드 멀티 환경에서 연방형 거버넌스 모델이 부상하고 있다.
 
-**📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 **도시 건축 조례**다. 조례 없이 건물을 지으면 나중에 철거 비용이 더 든다. 처음부터 원칙을 세워야 도시([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계)가 지속 가능하다.
+**📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 <strong>도시 건축 조례</strong>다. 조례 없이 건물을 지으면 나중에 철거 비용이 더 든다. 처음부터 원칙을 세워야 도시([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계)가 지속 가능하다.
 
 ---
 
@@ -196,21 +195,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 관리]
-    │
-    ▼
-[데이터 품질]
-    │
-    ▼
-[데이터 거버넌스]
-    │
-    ▼
-[데이터 카탈로그]
-    │
-    ▼
-[데이터 메시 거버넌스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 거버넌스</div></div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 기초가 품질 관리로 구체화되고, 거버넌스와 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 거쳐 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 시대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스로 발전하는 흐름이다.
 

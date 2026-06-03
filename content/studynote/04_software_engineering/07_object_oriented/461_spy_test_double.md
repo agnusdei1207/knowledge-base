@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Spy(스파이)는 현실 세계의 간첩과 똑같다. 평소에는 일반 시민(진짜 객체)처럼 굴거나 주어진 대답([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 충실히 한다. 하지만 속으로는 자기를 부른 놈을 감시한다. `orderService.order()`를 실행했을 때, 테스트 코드는 결과가 없다(void). 그래서 Spy로 심어둔 `EmailSender`에게 조용히 묻는다. "야 스파이, 너 아까 불렸어? 파라미터로 'kim@mail.com' 들고 온 거 맞지?" 스파이는 수첩을 까서 증거를 제출한다.
 
-- **필요성**: 함수를 짰다. `public int add(1, 2)`는 `3`이 리턴되니까, 테스트 코드에서 `assertEquals(3, result)`로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하면 끝이다. 그런데 **리턴값이 없는 허공의 메아리(void) 함수**는 어떻게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가? 예를 들어 `pushNotification()` (푸시 알람 쏘기) 함수가 있다. 로직을 탔는데 화면엔 아무 변화가 없다. 진짜 알람이 나갔는지 테스트 코드 입장에서는 장님이다. 이때 푸시 알람 객체 자리에 '스파이(Spy)'를 꽂아두면, "네! 저 방금 1번 호출됐습니다!"라고 자백을 받아냄으로써 로직이 빵꾸 나지 않고 정상적으로 흘렀음을 완벽하게 증명해 낼 수 있다.
+- **필요성**: 함수를 짰다. `public int add(1, 2)`는 `3`이 리턴되니까, 테스트 코드에서 `assertEquals(3, result)`로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하면 끝이다. 그런데 <strong>리턴값이 없는 허공의 메아리(void) 함수</strong>는 어떻게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가? 예를 들어 `pushNotification()` (푸시 알람 쏘기) 함수가 있다. 로직을 탔는데 화면엔 아무 변화가 없다. 진짜 알람이 나갔는지 테스트 코드 입장에서는 장님이다. 이때 푸시 알람 객체 자리에 '스파이(Spy)'를 꽂아두면, "네! 저 방금 1번 호출됐습니다!"라고 자백을 받아냄으로써 로직이 빵꾸 나지 않고 정상적으로 흘렀음을 완벽하게 증명해 낼 수 있다.
 
-- **💡 비유**: Spy는 레스토랑의 **'비밀 미스터리 쇼퍼(손님 위장 알바)'**와 같습니다. 매니저(테스트)가 주방장(로직)을 칭찬해야 할지 혼내야 할지 알고 싶습니다. 그래서 비밀 알바생(스파이)을 손님으로 투입시킵니다. 주방장은 알바생을 진짜 손님인 줄 알고 요리([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 내어줍니다. 알바생은 요리를 먹으면서([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 역할) 몰래 수첩에 "주방장이 소금을 2스푼 넣음, 요리 나오는 데 10분 걸림"을 싹 다 기록해서 나중에 매니저에게 넘깁니다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 주방장은 자기가 감시당한 줄도 모릅니다.
+- **💡 비유**: Spy는 레스토랑의 <strong>'비밀 미스터리 쇼퍼(손님 위장 알바)'</strong>와 같습니다. 매니저(테스트)가 주방장(로직)을 칭찬해야 할지 혼내야 할지 알고 싶습니다. 그래서 비밀 알바생(스파이)을 손님으로 투입시킵니다. 주방장은 알바생을 진짜 손님인 줄 알고 요리([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 내어줍니다. 알바생은 요리를 먹으면서([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) 역할) 몰래 수첩에 "주방장이 소금을 2스푼 넣음, 요리 나오는 데 10분 걸림"을 싹 다 기록해서 나중에 매니저에게 넘깁니다(행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 주방장은 자기가 감시당한 줄도 모릅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Void 함수의 저주**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 시절, 리턴값이 있는 함수는 테스트하기 쉬웠지만, DB 저장(`save`), 메일 발송(`send`) 같은 Void 함수는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 길이 없어 눈으로 콘솔 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Print)를 찍어보며 노가다를 했다.
-  2. **수작업 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수 주입**: 화가 난 개발자들이 가짜 클래스를 만들고 내부에 `int callCount = 0;` 이라는 변수를 둬서, 함수가 불릴 때마다 `callCount++`를 시키는 수동 스파이 코드를 짜기 시작했다.
+  2. <strong>수작업 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 변수 주입</strong>: 화가 난 개발자들이 가짜 클래스를 만들고 내부에 `int callCount = 0;` 이라는 변수를 둬서, 함수가 불릴 때마다 `callCount++`를 시키는 수동 스파이 코드를 짜기 시작했다.
   3. **Mockito @Spy 어노테이션 대통일 (현재)**: 이런 뻔한 첩보 활동을 손으로 짜지 마라. `Mockito`의 `@Spy` 하나만 딱지 붙여 놓으면, 진짜 객체의 능력을 100% 보존하면서 프레임워크가 뒤에서 몰래 통화 기록([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) History)을 빼돌려주는 최첨단 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치가 완성되었다.
 
-- **📢 섹션 요약 비유**: 스파이는 전투기 파일럿 연습 조종석의 **'기록용 블랙박스'**입니다. 파일럿(로직)이 연습을 끝냈을 때 비행기가 터졌냐 안 터졌냐(결괏값)도 중요하지만, "위험한 순간에 회피 버튼을 몇 번 눌렀고, 조종간을 몇 도 꺾었는가?"라는 보이지 않는 행위(Behavior)의 흔적을 싹 다 메모리 카드(스파이)에 저장해 두어야만 나중에 교관(Assert)이 완벽하게 채점할 수 있습니다.
+- **📢 섹션 요약 비유**: 스파이는 전투기 파일럿 연습 조종석의 <strong>'기록용 블랙박스'</strong>입니다. 파일럿(로직)이 연습을 끝냈을 때 비행기가 터졌냐 안 터졌냐(결괏값)도 중요하지만, "위험한 순간에 회피 버튼을 몇 번 눌렀고, 조종간을 몇 도 꺾었는가?"라는 보이지 않는 행위(Behavior)의 흔적을 싹 다 메모리 카드(스파이)에 저장해 두어야만 나중에 교관(Assert)이 완벽하게 채점할 수 있습니다.
 
 ---
 
 다음은 Spy (스파이)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Spy (스파이)                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spy (스파이)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Spy (스파이)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ Spy (스파이) - [스텁](/knowledge-base/studynote/04_software_engineering/11_
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Spy (스파이)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Spy (스파이)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Spy (스파이)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ Spy (스파이)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Spy (스파이) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spy (스파이) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

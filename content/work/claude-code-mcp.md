@@ -28,7 +28,7 @@ tags = ["work"]
 - AI 작업 런타임: Claude Code 같은 코딩 에이전트
 - AI 연결 계층: MCP
 
-여기서 중요한 건 **AI가 Quartz를 읽는 게 아니라, Quartz 뒤에 있는 Markdown 원본과 MCP 툴을 읽는다**는 점입니다.
+여기서 중요한 건 <strong>AI가 Quartz를 읽는 게 아니라, Quartz 뒤에 있는 Markdown 원본과 MCP 툴을 읽는다</strong>는 점입니다.
 
 ---
 
@@ -55,7 +55,7 @@ tags = ["work"]
 
 ## 3. 20명 규모에서 충돌을 줄이는 원칙
 
-여기서 가장 중요한 건 **읽기 경로와 쓰기 경로를 분리**하는 것입니다.
+여기서 가장 중요한 건 <strong>읽기 경로와 쓰기 경로를 분리</strong>하는 것입니다.
 
 ### 읽기 경로
 
@@ -194,7 +194,7 @@ GitHub backend를 실제로 쓰려면 인증 서버가 추가로 필요합니다
 
 ## 9. 최종 판단
 
-20명 규모에서는 **공용 읽기 MCP 서버 + 개인 또는 승인 기반 쓰기 흐름**이 핵심입니다.
+20명 규모에서는 <strong>공용 읽기 MCP 서버 + 개인 또는 승인 기반 쓰기 흐름</strong>이 핵심입니다.
 
 이 원칙만 지키면:
 
@@ -203,4 +203,4 @@ GitHub backend를 실제로 쓰려면 인증 서버가 추가로 필요합니다
 - 웹 편집과 자동화가 공존한다
 - 원본 Markdown 자산이 망가지지 않는다
 
-추가로, 직원이 전부 Codex를 쓰는 환경이라면 내부 자동화 백엔드는 **[codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)**처럼 Python Codex SDK로 분리하는 편이 더 낫습니다.
+추가로, 직원이 전부 Codex를 쓰는 환경이라면 내부 자동화 백엔드는 <strong><a href="/knowledge-base/work/codex-sdk-operations/">codex-sdk-operations</a></strong>처럼 Python Codex SDK로 분리하는 편이 더 낫습니다.

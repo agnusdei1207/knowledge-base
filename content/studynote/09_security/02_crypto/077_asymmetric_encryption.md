@@ -36,13 +36,17 @@ tags = ["studynote-software-engineering"]
 | 배포 | 널리 공개 | 엄격히 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | 역할 | 신뢰의 출발점 | 비밀의 근원 |
 
-```text
-송신자 ── 공개키로 암호화 ──▶ 수신자
-   │                           │
-   └── 개인키는 숨김           └── 개인키로 복호화
 
-서명: 개인키로 생성 ──▶ 공개키로 검증
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">송신자 ── 공개키로 암호화 ──▶ 수신자</div>
+<div class="kb-diagram-tree-item" style="--depth:1">개인키는 숨김 ── 개인키로 복호화</div>
+<div class="kb-diagram-note">서명: 개인키로 생성 ──▶ 공개키로 검증</div>
+</div>
+</div>
+
+
 
 실제 시스템에서는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 공개키의 진짜 주인을 증명한다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)) 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 서로 다른 수학적 기반을 쓰지만, 키 쌍 구조라는 큰 원리는 같다.
 
@@ -99,21 +103,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-키 배포 문제
-    │
-    ▼
-비대칭키 암호(PKC)
-    │
-    ▼
-PKI (Public Key Infrastructure) / 인증서
-    │
-    ▼
-하이브리드 암호(TLS)
-    │
-    ▼
-안전한 통신과 전자서명
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">키 배포 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비대칭키 암호(PKC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKI (Public Key Infrastructure) / 인증서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 암호(TLS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안전한 통신과 전자서명</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

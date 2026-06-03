@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 기술은 원래 무결손(Lossless)을 완벽 보장하는 **[인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)) 전용 네트워크 환경에서만 동작**하도록 설계되었습니다.
+- [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 기술은 원래 무결손(Lossless)을 완벽 보장하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">인피니밴드</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">InfiniBand</a>) 전용 네트워크 환경에서만 동작</strong>하도록 설계되었습니다.
 - 하지만 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 비싸고, 기존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들과 호환이 안 되며, 특정 벤더(엔비디아/멜라녹스) 종속성이 너무 강했습니다.
-- 이에 벤더 연합체(IBTA)는 **전 세계 어디에나 깔려있는 가장 흔한 표준 네트워크 망인 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))' 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위에서도 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 통신([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회, 제로 카피)을 그대로 구현할 수 있는 규격, [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) ([RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) over Converged [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**를 만들어 냈습니다.
+- 이에 벤더 연합체(IBTA)는 <strong>전 세계 어디에나 깔려있는 가장 흔한 표준 네트워크 망인 '<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)' 케이블과 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 위에서도 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 통신(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회, 제로 카피)을 그대로 구현할 수 있는 규격, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> over Converged <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>를 만들어 냈습니다.
 
-```text
-[RDMA]
-    │
-    ▼
-[RoCE]
-    │
-    └──▶ [iWARP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iWARP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RoCE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,21 +44,25 @@ tags = ["studynote-network"]
 
 ### 1. [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v1 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1) - L2 계층의 족쇄
 - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1세대는 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패킷을 그대로 가져와서 껍데기만 딱 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임(L2, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)으로 덮어씌웠습니다.
-- **한계점**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(L2) 껍데기밖에 없으므로 IP 주소가 없습니다. 따라서 라우터를 타고 다른 네트워크(다른 서브넷이나 해외망)로 나갈 수가 없고, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂힌 **사내 전산실 동네에서만 쓸 수 있는 반쪽짜리 기술**이었습니다.
+- **한계점**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(L2) 껍데기밖에 없으므로 IP 주소가 없습니다. 따라서 라우터를 타고 다른 네트워크(다른 서브넷이나 해외망)로 나갈 수가 없고, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂힌 <strong>사내 전산실 동네에서만 쓸 수 있는 반쪽짜리 기술</strong>이었습니다.
 
 ### 2. [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2) - L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 자유 🌟
 - 이 한계를 깨부순 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 찐 주력 표준입니다.
-- [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 패킷을 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임(L2) + IP 헤더(L3) + [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 헤더(L4, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 4791)**까지 완전히 완벽하게 캡슐화(포장)하여 씌웠습니다.
+- [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 패킷을 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 프레임(L2) + IP 헤더(L3) + <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 헤더(L4, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 4791)</strong>까지 완전히 완벽하게 캡슐화(포장)하여 씌웠습니다.
 - **효과**: 이제 이 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 패킷은 IP 주소를 가졌기 때문에, 일반 라우터를 쌩쌩 타고 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 밖을 벗어나 전 세계 인터넷망 어디로든(L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 가능) 자유롭게 날아다니며 원격 메모리에 광속으로 꽂힐 수 있게 되었습니다.
 
-```text
-[RDMA]
-    │
-    ▼
-[RoCE]
-    │
-    └──▶ [iWARP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iWARP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RoCE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)망을 타지만, 본질적으로 RDMA는 패킷이 하나라도 바닥에 떨어지면 에러가 나며 뻗어버리는 예민한 귀족입니다.
 - **문제점**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 원래 차가 막히면 패킷을 쿨하게 버리는(Drop) 놈입니다.
-- **해결책**: RoCE를 완벽히 돌리려면 싸구려 3만 원짜리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로는 안 됩니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망의 트래픽이 폭주할 때 패킷을 바닥에 버리지 않고 "잠깐 스톱! 뒤에 애들 보내지 마!"라고 통제할 수 있는 **PFC(Priority [Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) 등의 특수 고급 기능(DCB 규격)이 탑재된 비싼 무결손(Lossless) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**를 반드시 사용해야만 합니다. (앞서 배운 [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/)(809번)와 완벽히 같은 요구 조건입니다.)
+- **해결책**: RoCE를 완벽히 돌리려면 싸구려 3만 원짜리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로는 안 됩니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망의 트래픽이 폭주할 때 패킷을 바닥에 버리지 않고 "잠깐 스톱! 뒤에 애들 보내지 마!"라고 통제할 수 있는 <strong>PFC(Priority <a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>) 등의 특수 고급 기능(DCB 규격)이 탑재된 비싼 무결손(Lossless) <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 반드시 사용해야만 합니다. (앞서 배운 [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/)(809번)와 완벽히 같은 요구 조건입니다.)
 
 RoCE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. RDMA가 기반 조건을 만든다면, RoCE는 그 위에서 핵심 메커니즘을 구현하고, iWARP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -89,7 +97,7 @@ RoCE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)([인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))가 오직 KTX 철도(전용망) 위에서만 달릴 수 있는 '시속 300km짜리 특수 열차'라면, **[RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/)**는 이 특수 열차의 바퀴를 고무 타이어로 개조하여 전 세계 어디에나 깔려있는 흔한 '일반 아스팔트 고속도로([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)망)' 위를 달리게 만든 획기적인 '수륙양용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)'입니다. 값비싼 철길을 새로 깔 필요 없이 기존 고속도로를 그대로 타면서도 300km의 속도를 낼 수 있습니다. 단, 이 특수 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 멈추지 않고 달리려면 고속도로 톨게이트 전광판에 "특수 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 오면 다른 차들 전부 정지!(PFC 무결손 제어)"라는 철저한 프리패스 신호등 시스템이 반드시 고속도로에 깔려 있어야만 합니다.
+- **📢 섹션 요약 비유**: [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)([인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))가 오직 KTX 철도(전용망) 위에서만 달릴 수 있는 '시속 300km짜리 특수 열차'라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a></strong>는 이 특수 열차의 바퀴를 고무 타이어로 개조하여 전 세계 어디에나 깔려있는 흔한 '일반 아스팔트 고속도로([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)망)' 위를 달리게 만든 획기적인 '수륙양용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)'입니다. 값비싼 철길을 새로 깔 필요 없이 기존 고속도로를 그대로 타면서도 300km의 속도를 낼 수 있습니다. 단, 이 특수 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 멈추지 않고 달리려면 고속도로 톨게이트 전광판에 "특수 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 오면 다른 차들 전부 정지!(PFC 무결손 제어)"라는 철저한 프리패스 신호등 시스템이 반드시 고속도로에 깔려 있어야만 합니다.
 
 ---
 
@@ -112,15 +120,19 @@ RoCE는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RDMA]
-    │
-    ▼
-[현재 개념: RoCE]
-    │
-    ├──▶ [확장 A: iWARP]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RDMA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RoCE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: iWARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 RoCE는 RDMA에서 출발해 현재 메커니즘을 정교화하고, 이후 iWARP와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

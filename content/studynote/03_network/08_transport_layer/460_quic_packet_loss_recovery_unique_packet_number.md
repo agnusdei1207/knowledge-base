@@ -22,20 +22,24 @@ tags = ["studynote-network"]
 - **개념**: [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 프로토콜에서 TCP의 시퀀스 넘버 체계가 가진 재전송 모호성(Retransmission Ambiguity)을 해결하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오프셋 번호([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset)와 전송되는 껍데기 번호(Packet Number)를 완전히 분리하여 단조 증가(Monotonically Increasing)하도록 재설계한 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처.
 - **필요성**: TCP를 만든 옛날 사람들은 "택배 1번이 사라지면, 다시 1번이라고 써서 보내면 되지"라고 생각했다. 이게 칸(Karn) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 비극을 낳았다. 재전송 영수증인지 늦은 영수증인지 헷갈려서 핑 타임 계산([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 오염되었다. 구글 천재들은 분노했다. **"야! 박스 겉면의 배송 번호표랑, 박스 안에 든 편지지의 내용물 번호표를 완전히 분리해!! 배송 번호표는 한 번 썼으면 영원히 버리고 무조건 새 번호표 뽑아서 딱지 붙여!!"** 이 철학의 분리가 혼잡 제어의 정밀도를 100배 끌어올렸다.
 
-- **💡 비유**: 고유 패킷 번호(Packet Number) 제도는 식당의 **"재주문 진동벨 시스템"**과 같습니다.
-  - **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) (구형)**: 손님이 '15번 진동벨'을 받고 기다리다 제육볶음이 안 나와서 항의했습니다. 주방은 제육볶음을 다시 만들면서 또 '15번 진동벨'을 울립니다. 15번이 울렸을 때, 손님은 이게 첫 번째 시킨 게 나온 건지, 두 번째 시킨 게 나온 건지 헷갈립니다.
-  - **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) (신형)**: 손님이 제육볶음이 안 나와서 항의했습니다. 직원은 기존 15번 진동벨을 폐기하고, 아예 완전히 새로운 **'88번 진동벨(새 Packet Number)'**을 줍니다. "고객님, 88번 울리면 받으러 오세요. (안의 내용물은 똑같은 제육볶음입니다)." 88번이 울리면 헷갈릴 일이 절대 없습니다!
+- **💡 비유**: 고유 패킷 번호(Packet Number) 제도는 식당의 <strong>"재주문 진동벨 시스템"</strong>과 같습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> (구형)</strong>: 손님이 '15번 진동벨'을 받고 기다리다 제육볶음이 안 나와서 항의했습니다. 주방은 제육볶음을 다시 만들면서 또 '15번 진동벨'을 울립니다. 15번이 울렸을 때, 손님은 이게 첫 번째 시킨 게 나온 건지, 두 번째 시킨 게 나온 건지 헷갈립니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (신형)</strong>: 손님이 제육볶음이 안 나와서 항의했습니다. 직원은 기존 15번 진동벨을 폐기하고, 아예 완전히 새로운 <strong>'88번 진동벨(새 Packet Number)'</strong>을 줍니다. "고객님, 88번 울리면 받으러 오세요. (안의 내용물은 똑같은 제육볶음입니다)." 88번이 울리면 헷갈릴 일이 절대 없습니다!
 
-```text
-[FEC 기능 선택적 포함]
-    │
-    ▼
-[패킷 손실 복구 메커니즘 개선]
-    │
-    └──▶ [HTTP 상태 비저장, 연결형/비연결형 특징]
-```
 
-- **📢 섹션 요약 비유**: ** 패킷 번호와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 번호의 분리는 우편의 **"운송장 번호"와 "편지 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호"의 분리**입니다. 편지 제1장([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset)이 유실되어 다시 보낼 때, 굳이 옛날 운송장 번호를 고집할 필요 없이 무조건 새로운 오늘 자 우체국 운송장 번호(Packet Number)를 발급받아 겉에 붙여 보내면 꼬일 일이 0%입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 기능 선택적 포함</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 손실 복구 메커니즘 개선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 패킷 번호와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 번호의 분리는 우편의 </strong>"운송장 번호"와 "편지 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호"의 분리**입니다. 편지 제1장([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset)이 유실되어 다시 보낼 때, 굳이 옛날 운송장 번호를 고집할 필요 없이 무조건 새로운 오늘 자 우체국 운송장 번호(Packet Number)를 발급받아 겉에 붙여 보내면 꼬일 일이 0%입니다.
 
 ---
 
@@ -53,29 +57,28 @@ tags = ["studynote-network"]
 
 ### 2. 알맹이의 번호: [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조립용)
 겉면 껍데기가 11번으로 바뀌어 도착하면 수신자 앱은 조립을 어떻게 할까? 걱정할 필요 없다.
-- 11번 껍데기 박스를 까보면, 그 안에 **`Stream Offset = 500`** 이라고 알맹이의 원래 고유 위치(TCP의 시퀀스 넘버 역할)가 얌전하게 적혀 있다.
+- 11번 껍데기 박스를 까보면, 그 안에 <strong><code>Stream Offset = 500</code></strong> 이라고 알맹이의 원래 고유 위치(TCP의 시퀀스 넘버 역할)가 얌전하게 적혀 있다.
 - 브라우저의 뇌구조: "아~ 박스는 11번으로 왔는데, 뜯어보니 아까 못 받았던 500번째 위치에 들어갈 사진 조각이구나! 쏙 끼워 넣자!" 
-- 즉, **배송 시스템(Packet Number)과 조립 시스템([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Offset)의 역할을 100% 디커플링(분리)** 시킨 위대한 설계다.
+- 즉, <strong>배송 시스템(Packet Number)과 조립 시스템(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> Offset)의 역할을 100% 디커플링(분리)</strong> 시킨 위대한 설계다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 재전송과 QUIC 재전송의 멘붕 차이 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP의 눈물겨운 재전송 (모호성 폭발) ]                      │
- │   보냄: (Seq=10) ───(지연)──────────────────────▶ 늦게 도착  │
- │   보냄: (Seq=10) ───(재전송함!)────────▶ 일찍 도착            │
- │                                                             │
- │   수신자: "10번 잘 받았어! (ACK 10)" ──▶ 송신자: "? 둘 중 누구 영수증임?"│
- │                                                             │
- │   [ 최첨단 QUIC의 우아한 재전송 (완벽 해소) ]                      │
- │   보냄: (PN=10, 알맹이=10) ───(지연)────────────▶ 늦게 도착  │
- │   보냄: (PN=11, 알맹이=10) ───(재전송함!)──▶ 일찍 도착          │
- │                                                             │
- │   수신자: "11번 박스 잘 받았어! (ACK 11)" ──▶ 송신자: "오! 11번 영수증이네!│
- │           아까 지연된 건 아직 안 왔고, 방금 재전송한 게 먼저 꽂혔구나!!"   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 재전송과 QUIC 재전송의 멘붕 차이 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구형 TCP의 눈물겨운 재전송 (모호성 폭발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보냄: (Seq=10) (지연) ▶ 늦게 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보냄: (Seq=10) (재전송함!) ▶ 일찍 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신자: "10번 잘 받았어! (ACK 10)" ──▶ 송신자: "? 둘 중 누구 영수증임?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최첨단 QUIC의 우아한 재전송 (완벽 해소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보냄: (PN=10, 알맹이=10) (지연) ▶ 늦게 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보냄: (PN=11, 알맹이=10) (재전송함!)──▶ 일찍 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신자: "11번 박스 잘 받았어! (ACK 11)" ──▶ 송신자: "오! 11번 영수증이네!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아까 지연된 건 아직 안 왔고, 방금 재전송한 게 먼저 꽂혔구나!!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. 미친 용량의 넉넉한 ACK 블록 (ACK Frame)
 TCP의 옵션 칸은 고작 40바이트 제한이라, 이빨 빠진 패킷을 알려주는 SACK 블록을 최대 3개(3 덩어리)밖에 못 적어 보냈다. 10개가 듬성듬성 빠지면 다 말해주지도 못했다.
@@ -138,15 +141,19 @@ TCP의 옵션 칸은 고작 40바이트 제한이라, 이빨 빠진 패킷을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FEC 기능 선택적 포함]
-    │
-    ▼
-[현재 개념: 패킷 손실 복구 메커니즘 개선]
-    │
-    ├──▶ [확장 A: HTTP 상태 비저장, 연결형/비연결형 특징]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FEC 기능 선택적 포함</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 손실 복구 메커니즘 개선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선는 FEC 기능 선택적 포함에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

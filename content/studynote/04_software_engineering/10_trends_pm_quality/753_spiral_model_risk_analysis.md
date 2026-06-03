@@ -20,10 +20,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 소프트웨어 개발은 항상 실패의 공포와 싸우는 과정이다. 
-1970년대에 유행한 **[폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)**은 요구사항을 100% 완벽하게 적어놓고 1년 동안 코딩만 했다. 막상 오픈해 보니 고객이 "이거 안 쓸래"라고 하면 수백억 원이 날아갔다 (비즈니스 위험).
-이를 막기 위해 **프로토타이핑 모델**이 나왔다. 대충 화면만 만들어서 보여주니 고객은 좋아했지만, 뼈대 없이 계속 기능만 갖다 붙이다 보니 시스템이 무거워져서 폭발했다 (기술적 위험).
+1970년대에 유행한 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/">폭포수 모델</a></strong>은 요구사항을 100% 완벽하게 적어놓고 1년 동안 코딩만 했다. 막상 오픈해 보니 고객이 "이거 안 쓸래"라고 하면 수백억 원이 날아갔다 (비즈니스 위험).
+이를 막기 위해 <strong>프로토타이핑 모델</strong>이 나왔다. 대충 화면만 만들어서 보여주니 고객은 좋아했지만, 뼈대 없이 계속 기능만 갖다 붙이다 보니 시스템이 무거워져서 폭발했다 (기술적 위험).
 
-1988년, 배리 봄(Barry Boehm)은 이 두 가지 위험을 모두 통제할 수 있는 궁극의 모델을 고안해 냈다. **"소프트웨어를 작게 한 바퀴 돌면서 위험을 분석해 보고, 괜찮으면 덩치를 조금 더 키워서 한 바퀴 또 돌자."** 마치 모기향처럼 빙글빙글 돌면서 시스템의 완성도를 키워나가는 **나선형(Spiral) 모델**의 탄생이다.
+1988년, 배리 봄(Barry Boehm)은 이 두 가지 위험을 모두 통제할 수 있는 궁극의 모델을 고안해 냈다. **"소프트웨어를 작게 한 바퀴 돌면서 위험을 분석해 보고, 괜찮으면 덩치를 조금 더 키워서 한 바퀴 또 돌자."** 마치 모기향처럼 빙글빙글 돌면서 시스템의 완성도를 키워나가는 <strong>나선형(Spiral) 모델</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: 낯선 숲(프로젝트)을 탐험할 때, [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)은 지도만 믿고 끝까지 눈 감고 달리는 것이고, 프로토타이핑은 지도 없이 막 뛰어가는 것이다. 나선형 모델은 10m를 걸어간 뒤 멈춰서 "앞에 낭떠러지(위험)가 있나?" 살펴보고, 안전하면 다시 10m를 가는 가장 신중한 탐험법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 나선형 위험 분석 4단계 루프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  나선형 위험 분석 4단계 루프                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나선형 위험 분석 4단계 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 나선형 위험 분석 4단계 루프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 폭포수 (Waterfall) | 나선형 (Spiral) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) |
 |:---|:---|:---|:---|
-| **[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방식** | 선형적 (직진) | 반복적 (원형) | 반복적 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 방식</strong> | 선형적 (직진) | 반복적 (원형) | 반복적 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) |
 | **위험 관리** | 거의 없음 (마지막에 터짐) | **가장 강력함 (수학적/통계적 분석)**| 유연한 대처 (위험 관리가 명시적이지 않음) |
 | **비용 및 시간** | 고정됨 | **가장 비싸고 오래 걸림** | 빠르고 저렴함 |
 | **적용 프로젝트**| 변화가 없는 공공기관 인프라 | **원자력, 우주선 등 초거대/초고위험** | 일반적인 웹/앱 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
-나선형 모델은 **"[폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) + 프로토타이핑 모델 + 위험 분석"**을 합친 궁극의 방법론이다. 하지만 너무 무겁고 '위험 분석 전문가'가 필요하기 때문에, 현대의 가벼운 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 나선형 모델의 '반복(Iteration)' 개념만 쏙 빼와서 가볍게 만든 **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))**로 갈아탔다.
+나선형 모델은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/">폭포수 모델</a> + 프로토타이핑 모델 + 위험 분석"</strong>을 합친 궁극의 방법론이다. 하지만 너무 무겁고 '위험 분석 전문가'가 필요하기 때문에, 현대의 가벼운 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 나선형 모델의 '반복(Iteration)' 개념만 쏙 빼와서 가볍게 만든 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong>로 갈아탔다.
 
 - **📢 섹션 요약 비유**: 폭포수가 무식한 돌격대장이고 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 날렵한 닌자라면, 나선형 모델은 발걸음을 옮길 때마다 지뢰탐지기를 돌리는 완전 무장한 폭발물 처리반이다. 속도는 느리지만 절대 죽지 않는다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 나선형 모델을 차용하여 아키텍처를 전개하면, 프로젝트 막판에 아키텍처가 통째로 무너지거나 비즈니스 요건이 안 맞아 수백억 원의 소송에 휘말리는 '빅뱅(Big-Bang) 실패'를 완벽하게 차단할 수 있다.
 
-결론적으로 나선형 모델은 속도를 버리고 '안전'에 올인한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 클래식이다. 오늘날 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 대세가 되었지만, [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 돌릴 때마다 "이번 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)의 가장 큰 리스크는 무엇이고, 어떻게 제거할 것인가?"를 묻지 않는다면 그것은 맹목적인 코딩 공장에 불과하다. 기술사는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 속도 속에 나선형 모델의 **'치열한 위험 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 철학'**을 반드시 숨겨두어야 한다.
+결론적으로 나선형 모델은 속도를 버리고 '안전'에 올인한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 클래식이다. 오늘날 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이 대세가 되었지만, [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 돌릴 때마다 "이번 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)의 가장 큰 리스크는 무엇이고, 어떻게 제거할 것인가?"를 묻지 않는다면 그것은 맹목적인 코딩 공장에 불과하다. 기술사는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 속도 속에 나선형 모델의 <strong>'치열한 위험 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 철학'</strong>을 반드시 숨겨두어야 한다.
 
 - **📢 섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 작은 눈덩이를 빠르게 굴려서 거대한 눈사람을 만드는 기술이라면, 나선형 모델은 눈덩이를 굴리기 전에 "이 눈에 돌멩이가 섞여 있지 않은지, 언덕이 가파르지 않은지" 매번 돋보기로 확인하며 굴리는 것이다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-나선형 위험 분석 4단계 루프 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">나선형 위험 분석 4단계 루프 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

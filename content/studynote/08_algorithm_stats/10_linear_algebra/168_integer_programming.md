@@ -87,17 +87,19 @@ IP 문제: min cᵀx, x ∈ ℤⁿ
 
 고모리 절삭 (Gomory Cuts): LP 완화 해에서 정수해만 남기는 추가 제약 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
-```
-LP 완화 가능 영역     절삭면 추가 후
-   ────────────────   ────────────────
-  /                \ /  (잘린 모서리)  \
- /    LP 최적●      |    LP 최적●      |
-|     (비정수)      |    (정수에 근접)  |
- \                 / \                /
-  \               /   \             /
 
-절삭면 = 정수 가능 영역만 남기는 선형 부등식
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LP 완화 가능 영역 절삭면 추가 후</div>
+<div class="kb-diagram-note">/ \ / (잘린 모서리) \</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ LP 최적●</div><div class="kb-diagram-cell">LP 최적●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비정수)</div><div class="kb-diagram-cell">(정수에 근접)</div></div>
+<div class="kb-diagram-note">절삭면 = 정수 가능 영역만 남기는 선형 부등식</div>
+</div>
+</div>
+
+
 
 현대 솔버: **Branch and Cut** = [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + 절삭면 결합.
 
@@ -175,7 +177,7 @@ IP 방법: 분기 한정, 절삭면
 ### 기술사 판단 포인트
 
 1. **"LP와 IP 복잡도 차이는?"** → LP: [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) (내점법), IP: 일반 [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
-2. **"[분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법의 핵심 두 가지는?"** → LP 완화 (하한) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
+2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>법의 핵심 두 가지는?"</strong> → LP 완화 (하한) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
 3. **"TSP가 IP로 표현 가능한가?"** → ✅ 가능, Miller-Tucker-Zemlin 제약으로 부분 순환 제거
 
 📢 **섹션 요약 비유**: 배낭 문제의 LP 완화는 "물건을 잘게 자를 수 있다"고 가정하는 것이다 — 잘라도 된다면 쉽지만, 0 또는 1만 허용되면(정수 제약) 훨씬 어려워진다.
@@ -184,7 +186,7 @@ IP 방법: 분기 한정, 절삭면
 
 ## Ⅴ. 기대효과 및 결론
 
-IP/MILP는 **현실 세계 이산 결정 문제의 수학적 언어**다. 아무리 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 물류 경로도 IP 모델로 표현하면 전역 최적을 추구할 수 있다.
+IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</strong>다. 아무리 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 물류 경로도 IP 모델로 표현하면 전역 최적을 추구할 수 있다.
 
 현대 MIP 솔버의 발전:
 - 1990년대 대비 솔버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 10억배 이상 향상
@@ -209,28 +211,30 @@ IP/MILP는 **현실 세계 이산 결정 문제의 수학적 언어**다. 아무
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선형 계획법(LP)]
-    │
-    ▼
-[정수 계획법(IP) 문제 정의]
-    │
-    ▼
-[분기 한정법(Branch & Bound)]
-    │
-    ▼
-[절단 평면법(Cutting Plane)]
-    │
-    ▼
-[산업 최적화 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 계획법(LP)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정수 계획법(IP) 문제 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분기 한정법(Branch &amp; Bound)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">절단 평면법(Cutting Plane)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업 최적화 응용</div></div>
+</div>
+</div>
+
+
 
 정수 계획법은 선형 계획법을 정수 제약으로 확장하고 Branch & Bound와 Cutting Plane으로 푼다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **IP는 "반만 살 수 없는 쇼핑"**: 물건은 1개씩만 살 수 있고, 0.5개나 1.7개는 불가능하다.
-2. **[분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)은 "나무 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 게임"**: 모든 경우를 탐색하되, 이미 더 좋은 답이 있으면 그 가지는 더 볼 필요 없이 잘라버린다.
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>은 "나무 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> 게임"</strong>: 모든 경우를 탐색하되, 이미 더 좋은 답이 있으면 그 가지는 더 볼 필요 없이 잘라버린다.
 3. **LP 완화는 "일단 분수 허용"**: 어려운 정수 문제를 쉬운 연속 문제로 먼저 풀어 "이 이하는 불가능"한 기준점을 얻는다.
 
 ---

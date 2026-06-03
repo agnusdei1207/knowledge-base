@@ -35,30 +35,24 @@ SBA의 핵심 구성요소는 처리 유닛, [가상화](/knowledge-base/studyno
 
 아래 그림은 SBA의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 압축한다. 사용자의 요청은 먼저 처리 유닛에 도달하고, 처리 유닛은 메모리 공간을 우선 조회한다. 영속 저장소는 즉시 동기식으로 두드리는 대상이 아니라, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적을 위한 후행 저장소로 밀려난다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 스페이스 기반 아키텍처의 요청 처리 흐름                    │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Client Request                                                             │
-│      │                                                                     │
-│      ▼                                                                     │
-│ [Virtualized Middleware]                                                   │
-│      │           라우팅/파티션/장애조치                                    │
-│      ├──────────────────┬──────────────────┬──────────────────┐            │
-│      ▼                  ▼                  ▼                  ▼            │
-│ [PU-A]              [PU-B]              [PU-C]          ... [PU-N]         │
-│  │                  │                  │                                   │
-│  ├─ Web/API         ├─ Web/API         ├─ Web/API                          │
-│  ├─ Business Logic  ├─ Business Logic  ├─ Business Logic                   │
-│  └─ Local Cache     └─ Local Cache     └─ Local Cache                      │
-│      │                  │                  │                                 │
-│      └──────────────┬───┴──────────────┬───┘                                 │
-│                     ▼                  ▼                                     │
-│              [Tuple Space / IMDG Partitioned Grid]                          │
-│                     │                  │                                     │
-│                     └─────── Async Write-Behind ───────▶ [Database]         │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스페이스 기반 아키텍처의 요청 처리 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Request</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Virtualized Middleware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅/파티션/장애조치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PU-A</div><div class="kb-diagram-node">PU-B</div><div class="kb-diagram-node">PU-C</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">PU-N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Web/API ─ Web/API ─ Web/API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Business Logic ─ Business Logic ─ Business Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Local Cache ─ Local Cache ─ Local Cache</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tuple Space / IMDG Partitioned Grid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Database</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -68,7 +62,7 @@ SBA의 핵심 구성요소는 처리 유닛, [가상화](/knowledge-base/studyno
 | 비동기 영속화 | Write-Behind, [Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/), Event Log | 유실 허용 범위와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식 정의 |
 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 엔진 | 처리 유닛 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간의 균형 |
 
-SBA가 빠른 이유는 단순히 메모리가 디스크보다 빨라서만이 아니다. **확장 단위가 “웹 서버 따로, 앱 서버 따로, DB 따로”가 아니라 “처리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 묶인 유닛 전체”**이기 때문이다. 따라서 노드를 추가할수록 계산 능력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 능력이 함께 늘어난다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 재시작 시 warm-up, 메모리 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 훨씬 더 신중하게 설계해야 한다.
+SBA가 빠른 이유는 단순히 메모리가 디스크보다 빨라서만이 아니다. <strong>확장 단위가 “웹 서버 따로, 앱 서버 따로, DB 따로”가 아니라 “처리와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 묶인 유닛 전체”</strong>이기 때문이다. 따라서 노드를 추가할수록 계산 능력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 능력이 함께 늘어난다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 재시작 시 warm-up, 메모리 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 훨씬 더 신중하게 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 각 점포가 계산대, 재고, 간단한 창고를 한몸처럼 들고 있는 프랜차이즈 매장이라고 생각하면 쉽다. 점포 수를 늘리면 판매대와 재고처리 능력이 동시에 늘어나지만, 재고 복사와 마감 정산 체계가 허술하면 전체 체인이 흔들린다.
 
@@ -86,7 +80,7 @@ SBA를 이해하려면 전통 3계층 구조, 단순 캐시 확장, 이벤트 �
 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 | DB I/O 의존 | 읽기만 빠른 경우 많음 | 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 모두 메모리 우선 처리 |
 | 적합 업무 | 일반 업무 시스템 | 읽기 편중 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 실시간 고동시성 시스템 |
 
-SBA는 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)), LMAX Disruptor와도 연결된다. 이들은 모두 “중앙 동기식 병목을 줄이고 메모리·이벤트 중심으로 처리한다”는 방향성을 공유한다. 다만 SBA는 시스템의 **배치 단위 자체를 바꾸는 아키텍처 패턴**이고, 다른 개념들은 저장/명령/[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 처리의 세부 기법이라는 점에서 범위가 다르다.
+SBA는 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)), LMAX Disruptor와도 연결된다. 이들은 모두 “중앙 동기식 병목을 줄이고 메모리·이벤트 중심으로 처리한다”는 방향성을 공유한다. 다만 SBA는 시스템의 <strong>배치 단위 자체를 바꾸는 아키텍처 패턴</strong>이고, 다른 개념들은 저장/명령/[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 처리의 세부 기법이라는 점에서 범위가 다르다.
 
 - **📢 섹션 요약 비유**: 3계층 구조가 중앙 창고형 백화점이라면, 캐시 보강 구조는 빠른 임시 창고를 붙인 형태다. SBA는 아예 작은 매장을 여러 개 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 손님을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 동네형 네트워크에 가깝다.
 
@@ -110,7 +104,7 @@ SBA는 순간 트래픽 스파이크가 크고, [데이터](/knowledge-base/stud
 - [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 잘못돼 일부 노드만 과부하되는 Hot Spot 구조
 - 비동기 영속화 실패를 가볍게 보고 재처리·재동기화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 준비하지 않는 경우
 
-기술사 답안에서는 “DB 병목 제거”만 강조하면 절반짜리다. 반드시 **[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 정합성 수준**을 함께 적어야 SBA를 입체적으로 설명한 답안이 된다. 고성능은 장점이지만, 그 장점을 유지하는 운영 체계까지 포함해야 패턴의 완성도가 나온다.
+기술사 답안에서는 “DB 병목 제거”만 강조하면 절반짜리다. 반드시 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a>, <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>, 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>, 정합성 수준</strong>을 함께 적어야 SBA를 입체적으로 설명한 답안이 된다. 고성능은 장점이지만, 그 장점을 유지하는 운영 체계까지 포함해야 패턴의 완성도가 나온다.
 
 - **📢 섹션 요약 비유**: SBA는 손님이 몰리는 놀이공원에 입구를 많이 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같다. 입장은 빨라지지만, 분실물 보관과 마감 정산까지 같이 설계하지 않으면 운영이 더 혼란스러워질 수 있다.
 
@@ -120,7 +114,7 @@ SBA는 순간 트래픽 스파이크가 크고, [데이터](/knowledge-base/stud
 
 SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 응답, 선형에 가까운 수평 확장, 그리고 DB 의존도 감소다. 특히 피크 트래픽이 매우 불규칙한 환경에서 큰 효과를 낸다. 처리 유닛을 늘리면 웹 계층만이 아니라 실질 처리 용량도 함께 늘어나므로, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측과 확장 계획이 단순해진다.
 
-그러나 이 효과는 메모리 공간을 잘게 나누고 안전하게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할 수 있을 때만 유지된다. 메모리 기반 구조는 매우 빠르지만, 장애와 정합성 문제에 더 민감하다. 따라서 SBA는 “DB를 없애는 패턴”이 아니라, **DB를 실시간 경로에서 뒤로 물리고 메모리-[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)-영속화 설계를 전면에 세우는 패턴**으로 기억하는 것이 정확하다.
+그러나 이 효과는 메모리 공간을 잘게 나누고 안전하게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할 수 있을 때만 유지된다. 메모리 기반 구조는 매우 빠르지만, 장애와 정합성 문제에 더 민감하다. 따라서 SBA는 “DB를 없애는 패턴”이 아니라, <strong>DB를 실시간 경로에서 뒤로 물리고 메모리-<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>-영속화 설계를 전면에 세우는 패턴</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: SBA는 고속도로 차선을 늘리는 공사와 비슷하다. 잘 설계하면 정체가 크게 줄지만, 합류 구간과 사고 처리 체계까지 준비해야 진짜로 빨라진다.
 
@@ -140,22 +134,23 @@ SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-3계층 구조의 DB 병목
-    │
-    ▼
-분산 캐시 · IMDG
-    │
-    ▼
-스페이스 기반 아키텍처
-    │
-    ├──────────────▶ Tuple Space 파티셔닝 · 복제
-    │
-    └──────────────▶ Eventual Consistency · Write-Behind
-                           │
-                           ▼
-                 초저지연 이벤트 처리 · 실시간 확장 패턴
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">3계층 구조의 DB 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 캐시 · IMDG</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스페이스 기반 아키텍처</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Tuple Space 파티셔닝 · 복제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Eventual Consistency · Write-Behind</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초저지연 이벤트 처리 · 실시간 확장 패턴</div>
+</div>
+</div>
+
+
 
 이 흐름은 “DB 최적화 → 메모리 전진 배치 → 아키텍처 수준의 재구성”으로 진화하는 방향을 보여준다.
 

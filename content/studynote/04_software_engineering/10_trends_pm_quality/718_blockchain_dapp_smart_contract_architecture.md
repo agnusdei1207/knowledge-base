@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 이 권력을 전 세계 수만 대의 컴퓨터(노드)로 분산시켰다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비트코인이 "돈(잔고)만 저장할 수 있는 계산기"였다면, 이더리움(Ethereum)은 "어떤 소프트웨어 코드(if-else)든 올려서 실행할 수 있는 전 세계 공용 컴퓨터"를 표방했다.
 
-이 이더리움 컴퓨터 위에 올라가는 백엔드 코드가 **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))**이고, 그 코드와 통신하는 프론트엔드 화면을 합친 전체 시스템이 바로 **[DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 앱)**이다.
+이 이더리움 컴퓨터 위에 올라가는 백엔드 코드가 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a>)</strong>이고, 그 코드와 통신하는 프론트엔드 화면을 합친 전체 시스템이 바로 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/">DApp</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 앱)</strong>이다.
 
 - **📢 섹션 요약 비유**: 일반 앱이 식당 주인(중앙 서버)이 계산하고 돈을 거슬러 주는 방식이라면, DApp은 동네 한가운데 놓인 절대 고장 나지 않는 자동판매기([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))다. 주인이 없어도 자판기 설계도(코드)에 따라 1,000원을 넣으면 콜라가 무조건 나온다는 것을 동네 사람 모두가 믿고 쓴다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 구의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  블록체인 DApp 스마트 컨트랙트 구                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 DApp 스마트 컨트랙트 구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 구가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,13 +75,13 @@ DApp의 아키텍처는 전통적인 웹(Web 2.0) 아키텍처와 비슷하면�
 
 | 비교 항목 | 전통적 RDBMS (MySQL) | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) |
 |:---|:---|:---|
-| **관리 주체** | 중앙 관리자 ([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) | **없음 ([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 네트워크)** |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경** | CRUD 모두 가능 | **Update/Delete 불가 (Append-only)** |
+| **관리 주체** | 중앙 관리자 ([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)) | <strong>없음 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 네트워크)</strong> |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 변경</strong> | CRUD 모두 가능 | **Update/Delete 불가 (Append-only)** |
 | **코드 수정** | 언제든 배포(패치) 가능 | **배포 후 수정 절대 불가 (불변성)** |
 | **투명성** | 관리자만 볼 수 있음 (내부망) | 전 세계 누구나 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 수 있음 |
-| **초당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)**| 수만 ~ 수십만 건 | **수십 건 (엄청나게 느림)** |
+| <strong>초당 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(TPS)</strong>| 수만 ~ 수십만 건 | **수십 건 (엄청나게 느림)** |
 
-이러한 극악의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용(단점)을 감수하고서라도 **"그 누구도 이 시스템을 조작할 수 없다는 완벽한 신뢰"**가 필요할 때 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 쓴다. (예: 암호화폐 거래소, 투표 시스템, NFT)
+이러한 극악의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용(단점)을 감수하고서라도 <strong>"그 누구도 이 시스템을 조작할 수 없다는 완벽한 신뢰"</strong>가 필요할 때 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 쓴다. (예: 암호화폐 거래소, 투표 시스템, NFT)
 
 - **📢 섹션 요약 비유**: RDBMS는 언제든 지우고 다시 쓸 수 있는 '화이트보드'고, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 한 번 조각하면 절대 지울 수 없고 세상 사람 모두가 구경할 수 있는 '광장의 돌덩이'다. 돌에 글씨를 새기는 건(가스비) 비싸고 힘들지만 1,000년이 가도 조작되지 않는다.
 
@@ -133,21 +132,23 @@ DApp과 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-블록체인 DApp 스마트 컨트랙트 구조 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록체인 DApp 스마트 컨트랙트 구조 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

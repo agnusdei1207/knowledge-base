@@ -24,14 +24,14 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 1. [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 8비트)
 - **"여기서부터 프레임 시작이다!" / "여기서 프레임 끝이다!"**
-- 양 끝에 무조건 **`01111110` (1이 6개)**이라는 특수한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴이 박힙니다. 앞서 배운 [비트 스터핑]을 통해 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 완벽히 구별됩니다.
+- 양 끝에 무조건 <strong><code>01111110</code> (1이 6개)</strong>이라는 특수한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴이 박힙니다. 앞서 배운 [비트 스터핑]을 통해 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 완벽히 구별됩니다.
 
 ### 2. 주소부 (Address Field, 8비트 이상)
 - **"누구한테 가는 택배인가?"**
 - 목적지 컴퓨터(또는 터미널)의 주소를 적습니다. `11111111`을 적으면 전체 방송(Broadcast) 모드가 됩니다. 확장하면 여러 바이트를 쓸 수도 있습니다.
 
 ### 3. 제어부 (Control Field, 8비트 또는 16비트) ★가장 복잡함
-- **"이 박스의 정체가 무엇인가? 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가, 아니면 에러 났다고 징징대는 ACK/[NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 신호인가?"**
+- <strong>"이 박스의 정체가 무엇인가? 단순 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>인가, 아니면 에러 났다고 징징대는 ACK/<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a> 신호인가?"</strong>
 - HDLC의 뇌(Brain) 역할을 합니다. 슬라이딩 윈도우의 순서 번호(Sequence Number) 0~7번이 여기 적히고, [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)(업어 타기)하는 ACK 번호도 여기 욱여넣습니다. (이 제어부의 생김새에 따라 다음 장에서 배울 I, S, U 프레임으로 성격이 갈립니다).
 
 ### 4. 정보부 (Information Field, 가변 길이)
@@ -40,16 +40,20 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 5. FCS (Frame Check Sequence, 16비트 또는 32비트)
 - **"오는 길에 파손되지 않았는가?"**
-- 앞의 주소, 제어, 정보 칸의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 몽땅 모아서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식으로 나눈 **나머지([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 값)**를 여기 적어 넣습니다. 수신기는 이 꼬리표를 보고 1비트라도 깨졌으면 박스 전체를 소각장에 던져버립니다.
+- 앞의 주소, 제어, 정보 칸의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 몽땅 모아서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식으로 나눈 <strong>나머지(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> 값)</strong>를 여기 적어 넣습니다. 수신기는 이 꼬리표를 보고 1비트라도 깨졌으면 박스 전체를 소각장에 던져버립니다.
 
-```text
-[HDLC]
-    │
-    ▼
-[HDLC 프레임 구조]
-    │
-    └──▶ [HDLC 국 종류]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 국 종류</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,19 +62,23 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 이 구조의 위대한 점은 '투명성(Transparency)'입니다.
-정보부(알맹이)에 MP3 파일을 넣든, 리눅스 실행 파일을 넣든, 심지어 몽골어나 외계어를 0과 1로 바꿔서 넣든 **[HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 기계는 내용물에 1도 관심이 없습니다.**
+정보부(알맹이)에 MP3 파일을 넣든, 리눅스 실행 파일을 넣든, 심지어 몽골어나 외계어를 0과 1로 바꿔서 넣든 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/">HDLC</a> 기계는 내용물에 1도 관심이 없습니다.</strong>
 그저 양 끝의 [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`01111110`)만 보고 기계적으로 자르고, FCS([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))로 기계적으로 검사해서 위층(3계층)으로 토스할 뿐입니다. 이 투명성 덕분에 인터넷은 어떤 파일이든 가리지 않고 다 전송할 수 있게 되었습니다.
 
-```text
-[HDLC]
-    │
-    ▼
-[HDLC 프레임 구조]
-    │
-    └──▶ [HDLC 국 종류]
-```
 
-- **📢 섹션 요약 비유**: ** [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임은 완벽하게 규격화된 **'우체국 택배 박스'**입니다. 박스 앞뒷면에는 테이프(`Flag`)를 발라 봉인하고, 겉면에 송장 주소(`Address`)와 취급 주의/착불 여부 스티커(`Control`)를 붙입니다. 상자 안에는 고객의 소중한 물건(`Information`)이 담겨있고, 마지막으로 상자 모서리에 뜯김 방지 보안 씰(`FCS`)을 붙여 배송 중 누가 열어봤는지(에러) 완벽히 추적하는 택배 포장의 정석입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 국 종류</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/">HDLC</a> 프레임은 완벽하게 규격화된 </strong>'우체국 택배 박스'**입니다. 박스 앞뒷면에는 테이프(`Flag`)를 발라 봉인하고, 겉면에 송장 주소(`Address`)와 취급 주의/착불 여부 스티커(`Control`)를 붙입니다. 상자 안에는 고객의 소중한 물건(`Information`)이 담겨있고, 마지막으로 상자 모서리에 뜯김 방지 보안 씰(`FCS`)을 붙여 배송 중 누가 열어봤는지(에러) 완벽히 추적하는 택배 포장의 정석입니다.
 
 ---
 
@@ -126,15 +134,19 @@ HDLC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HDLC]
-    │
-    ▼
-[현재 개념: HDLC 프레임 구조]
-    │
-    ├──▶ [확장 A: HDLC 국 종류]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HDLC 프레임 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC 국 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조는 HDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

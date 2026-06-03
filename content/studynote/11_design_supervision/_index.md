@@ -20,8 +20,8 @@ tags = ["studynote-design-supervision"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-**IT 디자인**은 코딩 이전의 예술이자 과학이다. 과거 절차적 프로그래밍 시대에는 코드의 흐름(Flow)이 곧 설계였으나, 시스템이 수백만 줄로 거대해짐에 따라 작은 변경이 전체 시스템의 붕괴를 초래하는 스파게티 코드(Spaghetti Code)의 재앙을 겪었다. 이를 극복하기 위해 객체지향 패러다임(OOP)과 아키텍처 패턴(MVC, 클린 아키텍처)이 정립되어 '응집도는 높이고 결합도는 낮추는' 설계 철학이 완성되었다.
-**IT 감리**는 이 설계와 구현 과정이 올바른 궤도를 달리고 있는지 감시하는 국가/기업 차원의 품질 보증(QA) 행위다. 납기 지연과 예산 초과가 빈번했던 공공 정보화 사업의 흑역사를 끊어내기 위해 도입된 정보시스템 감리 의무화 제도는, 이제 사업관리(PM), 아키텍처, 데이터베이스, 보안 영역을 총망라하여 프로젝트의 '결착'을 보장하는 최고 수준의 컨설팅으로 격상되었다.
+<strong>IT 디자인</strong>은 코딩 이전의 예술이자 과학이다. 과거 절차적 프로그래밍 시대에는 코드의 흐름(Flow)이 곧 설계였으나, 시스템이 수백만 줄로 거대해짐에 따라 작은 변경이 전체 시스템의 붕괴를 초래하는 스파게티 코드(Spaghetti Code)의 재앙을 겪었다. 이를 극복하기 위해 객체지향 패러다임(OOP)과 아키텍처 패턴(MVC, 클린 아키텍처)이 정립되어 '응집도는 높이고 결합도는 낮추는' 설계 철학이 완성되었다.
+<strong>IT 감리</strong>는 이 설계와 구현 과정이 올바른 궤도를 달리고 있는지 감시하는 국가/기업 차원의 품질 보증(QA) 행위다. 납기 지연과 예산 초과가 빈번했던 공공 정보화 사업의 흑역사를 끊어내기 위해 도입된 정보시스템 감리 의무화 제도는, 이제 사업관리(PM), 아키텍처, 데이터베이스, 보안 영역을 총망라하여 프로젝트의 '결착'을 보장하는 최고 수준의 컨설팅으로 격상되었다.
 
 ---
 
@@ -39,24 +39,25 @@ tags = ["studynote-design-supervision"]
 | **UI/UX 디자인** | 사용자 경험 설계 및 최적화 | 페르소나, 프로토타이핑, 사용성 테스트 | 디자인 씽킹, 와이어프레임 | 인테리어 및 동선 설계 |
 
 #### 2. 정보시스템 3단계 감리 프레임워크 및 산출물 흐름 (ASCII)
-```text
-    [ 정보시스템 감리 및 품질 보증 프레임워크 / Information System Audit & Quality Assurance Framework ]
-    
-    (사업 주체)          [ 발주 기관 ] <======(감리 보고서)======> [ 감리 법인 ]
-                             |                                           ^
-                          (계약/검수)                                    | (독립적 점검)
-                             v                                           v
-    (사업 수행)          [ 수행 사업자 (SI) ] --------------------------------+
-    
-    (Phase 1: 요구정의 감리)   ->   (Phase 2: 설계 감리)   ->   (Phase 3: 종료 감리)
-    +--------------------+       +--------------------+       +--------------------+
-    | 요구사항 추적표    |       | 아키텍처 명세서    |       | 통합 테스트 결과서 |
-    | WBS / 사업수행계획 | ----> | DB 논리/물리 설계  | ----> | 보안 취약점 조치   |
-    | 과업 범위 명확화   |       | 화면/인터페이스 설계|       | 사용자 매뉴얼/인수 |
-    +--------------------+       +--------------------+       +--------------------+
-             |                            |                            |
-      (과업 대비 100% 반영?)      (보안/확장성/결합도 검증)     (실제 가동 및 성능 벤치마크)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보시스템 감리 및 품질 보증 프레임워크 / Information System Audit &amp; Quality Assurance Framework</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(사업 주체)</div><div class="kb-diagram-node">발주 기관</div><div class="kb-diagram-connector">======&gt;</div><div class="kb-diagram-node">감리 법인</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">(계약/검수) | (독립적 점검)</div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(사업 수행)</div><div class="kb-diagram-node">수행 사업자 (SI)</div><div class="kb-diagram-note">--------------------------------+</div></div>
+<div class="kb-diagram-note">(Phase 1: 요구정의 감리) -&gt; (Phase 2: 설계 감리) -&gt; (Phase 3: 종료 감리)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 추적표</div><div class="kb-diagram-cell">아키텍처 명세서</div><div class="kb-diagram-cell">통합 테스트 결과서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WBS / 사업수행계획</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">DB 논리/물리 설계</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">보안 취약점 조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과업 범위 명확화</div><div class="kb-diagram-cell">화면/인터페이스 설계</div><div class="kb-diagram-cell">사용자 매뉴얼/인수</div></div>
+<div class="kb-diagram-note">(과업 대비 100% 반영?) (보안/확장성/결합도 검증) (실제 가동 및 성능 벤치마크)</div>
+</div>
+</div>
+
+
 
 #### 3. 객체지향 원칙 및 GoF 패턴 핵심 로직 (코드 예시)
 - **개방-폐쇄 원칙 (OCP)과 전략 패턴 (Strategy Pattern)**: 새로운 알고리즘이 추가되어도 기존 코드를 수정하지 않고 확장하는 핵심 메커니즘.
@@ -102,11 +103,11 @@ public class Checkout {
 
 **시나리오 1: 대규모 공공 SI 사업의 '과업 범위 크립(Scope Creep)' 방어**
 - **문제 상황**: 공공 발주처가 요구사항 명세서(SRS)에 없는 추가 기능을 구두로 지속 요구하여, 사업자의 원가가 30% 이상 폭증하고 아키텍처가 누더기가 됨.
-- **기술사적 결단**: 1단계 요구정의 감리에서 **요구사항 추적 매트릭스(RTM)**를 베이스라인으로 확정 짓는다. 이후 발생하는 모든 요구사항은 형상 관리 위원회(CCB)를 통해 공식적인 과업 변경 지시서로 승인받도록 감리인으로서 강력히 통제하여 프로젝트 파단을 막는다.
+- **기술사적 결단**: 1단계 요구정의 감리에서 <strong>요구사항 추적 매트릭스(RTM)</strong>를 베이스라인으로 확정 짓는다. 이후 발생하는 모든 요구사항은 형상 관리 위원회(CCB)를 통해 공식적인 과업 변경 지시서로 승인받도록 감리인으로서 강력히 통제하여 프로젝트 파단을 막는다.
 
 **시나리오 2: 거대 모놀리식 시스템의 결합도 폭발(Spaghetti Architecture)**
 - **문제 상황**: A 모듈의 로직 수정이 B, C 모듈의 치명적 버그를 유발하는 Ripple Effect 발생.
-- **기술사적 결단**: 설계 단계에서 **의존성 역전 원칙(DIP)**과 **파사드(Facade) 패턴**을 강제한다. 하위 모듈이 상위 모듈에 직접 의존하지 않고 인터페이스(Interface)를 통해서만 통신하도록 아키텍처를 재설계하며, SonarQube를 통한 순환 참조(Circular Dependency) 정적 분석율 0%를 배포 조건으로 결착한다.
+- **기술사적 결단**: 설계 단계에서 <strong>의존성 역전 원칙(DIP)</strong>과 <strong>파사드(Facade) 패턴</strong>을 강제한다. 하위 모듈이 상위 모듈에 직접 의존하지 않고 인터페이스(Interface)를 통해서만 통신하도록 아키텍처를 재설계하며, SonarQube를 통한 순환 참조(Circular Dependency) 정적 분석율 0%를 배포 조건으로 결착한다.
 
 **도입 시 고려사항 (안티패턴)**
 - **God Object (전지전능한 객체) 안티패턴**: 하나의 클래스에 수천 줄의 코드와 모든 책임(비즈니스 로직, DB 접근, 뷰 렌더링)을 때려 넣는 행위. 기술사는 SRP(단일 책임 원칙) 위배를 지적하고 MVC 또는 클린 아키텍처 기반으로 뷰와 비즈니스, 데이터 계층을 완벽히 찢어내야 연쇄 붕괴를 막을 수 있다.

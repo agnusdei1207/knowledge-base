@@ -23,17 +23,21 @@ tags = ["studynote-network"]
 앞서 배운 리드-솔로몬(RS) 코드도 사실 이 거대한 BCH 코드 수학 가문에서 파생된 특수 형태(비-이진 BCH) 중 하나입니다.
 
 - **원리**: 갈루아 유한체(GF)라는 수학적 공간에서 순환 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산을 사용하여, 내가 원하는 개수(t개)만큼의 에러를 무조건 고칠 수 있도록 잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 체계적으로 설계하는 기법입니다.
-- **특징**: "나는 이번 통신에서 무조건 3개의 에러까지는 스스로 고치게 만들겠어!"라고 목표를 정하면, 그에 맞춰 **유연하게 블록의 길이와 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(패리티)의 개수를 맘대로 조절할 수 있는 엄청난 범용성**을 자랑합니다.
+- **특징**: "나는 이번 통신에서 무조건 3개의 에러까지는 스스로 고치게 만들겠어!"라고 목표를 정하면, 그에 맞춰 <strong>유연하게 블록의 길이와 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>(패리티)의 개수를 맘대로 조절할 수 있는 엄청난 범용성</strong>을 자랑합니다.
 - **용도**: 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 산발적으로 깨지는 랜덤 에러가 잦은 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/), 무선 페이저(삐삐), 그리고 NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 컨트롤러의 하드웨어 수명 연장을 위한 에러 정정 칩셋에 널리 쓰였습니다.
 
-```text
-[리드-솔로몬 코드]
-    │
-    ▼
-[BCH 코드 / 골레이 코드]
-    │
-    └──▶ [길쌈 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">길쌈 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BCH 코드 / 골레이 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,21 +45,25 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스위스의 수학자 마르셀 골레이(Marcel Golay)가 1949년에 발표한 이 코드는, 정보 이론([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)) 역사상 **수학적으로 낭비가 단 1도 없는 '완벽한 코드(Perfect [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'**라는 찬사를 받는 전설적인 알고리즘입니다.
+스위스의 수학자 마르셀 골레이(Marcel Golay)가 1949년에 발표한 이 코드는, 정보 이론([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/)) 역사상 <strong>수학적으로 낭비가 단 1도 없는 '완벽한 코드(Perfect <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong>라는 찬사를 받는 전설적인 알고리즘입니다.
 
 ### 골레이(23, 12) 코드의 마법
-- **구조**: 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 12비트에 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)) 11비트를 붙여서 총 **23비트의 덩어리**를 만들어 쏩니다.
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: 이 23비트짜리 패킷이 날아가다가, 재수 없게 아무 자리에서나 **최대 3비트가 동시에 에러로 뒤집혀도(0➔1), 수신기가 이 3개의 위치를 완벽하게 찾아내어 100% 원본으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**해 냅니다.
-- **심우주의 영웅**: 이 압도적인 효율성과 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력 덕분에, 1979년 목성과 토성의 초고화질 사진을 찍어 지구로 보낸 **보이저 1호(Voyager 1)와 2호의 무선 통신 핵심 에러 제어 코드로 채택**되어 인류의 우주 탐사에 지대한 공헌을 했습니다. (NASA의 최애 코드였습니다.)
+- **구조**: 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 12비트에 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)) 11비트를 붙여서 총 <strong>23비트의 덩어리</strong>를 만들어 쏩니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 이 23비트짜리 패킷이 날아가다가, 재수 없게 아무 자리에서나 <strong>최대 3비트가 동시에 에러로 뒤집혀도(0➔1), 수신기가 이 3개의 위치를 완벽하게 찾아내어 100% 원본으로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>해 냅니다.
+- **심우주의 영웅**: 이 압도적인 효율성과 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력 덕분에, 1979년 목성과 토성의 초고화질 사진을 찍어 지구로 보낸 <strong>보이저 1호(Voyager 1)와 2호의 무선 통신 핵심 에러 제어 코드로 채택</strong>되어 인류의 우주 탐사에 지대한 공헌을 했습니다. (NASA의 최애 코드였습니다.)
 
-```text
-[리드-솔로몬 코드]
-    │
-    ▼
-[BCH 코드 / 골레이 코드]
-    │
-    └──▶ [길쌈 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">길쌈 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BCH 코드 / 골레이 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,9 +71,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-BCH와 골레이 코드는 20세기 우주 통신과 하드웨어를 지배한 위대한 수학이었지만, 치명적인 단점이 있었습니다. **수학 계산(디코딩)이 너무 복잡해서 컴퓨터 CPU 칩셋이 해석하는 데 시간과 에너지가 너무 많이 든다**는 점입니다.
+BCH와 골레이 코드는 20세기 우주 통신과 하드웨어를 지배한 위대한 수학이었지만, 치명적인 단점이 있었습니다. <strong>수학 계산(디코딩)이 너무 복잡해서 컴퓨터 CPU 칩셋이 해석하는 데 시간과 에너지가 너무 많이 든다</strong>는 점입니다.
 
-현재 4G LTE나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신 시대에는 이들 대신 컴퓨터가 빛의 속도로 확률을 계산해 내는 **'[터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)([Turbo Code](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/))'**나 **'[LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/)'**라는 차세대 흑마법 알고리즘들로 세대교체가 완전히 이루어졌습니다.
+현재 4G LTE나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신 시대에는 이들 대신 컴퓨터가 빛의 속도로 확률을 계산해 내는 <strong>'<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">터보 코드</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">Turbo Code</a>)'</strong>나 <strong>'<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/">LDPC</a>'</strong>라는 차세대 흑마법 알고리즘들로 세대교체가 완전히 이루어졌습니다.
 
 BCH 코드 / 골레이 코드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)가 기반 조건을 만든다면, BCH 코드 / 골레이 코드는 그 위에서 핵심 메커니즘을 구현하고, [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -75,7 +83,7 @@ BCH 코드 / 골레이 코드를 볼 때는 앞뒤 개념과의 경계를 함께
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 해밍 코드가 1개의 오타만 찾아 고쳐주는 **'초보 교정자'**라면, BCH 코드는 돈([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))을 주는 만큼 3개든 5개든 오타를 찾아내 주는 **'맞춤형 전문 교정 회사'**입니다. 그리고 골레이 코드는 23글자 중 3글자가 잉크에 번져 아예 안 보여도, 문맥을 완벽히 유추해 내어 **단 한 치의 잉여(낭비)도 없이 원문을 100% 복원해 내는 천재적인 '우주파견 통역사'**입니다.
+- **📢 섹션 요약 비유**: ** 해밍 코드가 1개의 오타만 찾아 고쳐주는 **'초보 교정자'<strong>라면, BCH 코드는 돈(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/">패리티 비트</a>)을 주는 만큼 3개든 5개든 오타를 찾아내 주는 </strong>'맞춤형 전문 교정 회사'<strong>입니다. 그리고 골레이 코드는 23글자 중 3글자가 잉크에 번져 아예 안 보여도, 문맥을 완벽히 유추해 내어 </strong>단 한 치의 잉여(낭비)도 없이 원문을 100% 복원해 내는 천재적인 '우주파견 통역사'**입니다.
 
 ---
 
@@ -117,15 +125,19 @@ BCH 코드 / 골레이 코드는 [데이터](/knowledge-base/studynote/05_databa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 리드-솔로몬 코드]
-    │
-    ▼
-[현재 개념: BCH 코드 / 골레이 코드]
-    │
-    ├──▶ [확장 A: 길쌈 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 리드-솔로몬 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 길쌈 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 BCH 코드 / 골레이 코드는 [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

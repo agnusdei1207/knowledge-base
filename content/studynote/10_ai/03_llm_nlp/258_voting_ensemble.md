@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-보팅(Voting)은 **여러 이종 모델([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Models)**의 예측 결과를 합쳐 최종 결정을 내리는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다. Bagging이나 Boosting과 달리, 보팅은 **같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습된 서로 다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**들을 결합한다.
+보팅(Voting)은 <strong>여러 이종 모델(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> Models)</strong>의 예측 결과를 합쳐 최종 결정을 내리는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다. Bagging이나 Boosting과 달리, 보팅은 <strong>같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 학습된 서로 다른 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>들을 결합한다.
 
 **보팅이 필요한 이유**:
 - SVM은 경계면 근처 샘플에 강함
@@ -34,14 +34,17 @@ tags = ["studynote-ai"]
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 낮음 | 높음 |
 | 사용 조건 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 불가 모델 포함 시 | 모든 모델이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 가능 시 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 보팅은 배심원 재판과 같다. 12명의 배심원이 각자 다른 직업과 관점을 가지고 유/무죄를 결정하는 것처럼, 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "각자의 관점"으로 클래스를 판정한다.
 
@@ -51,28 +54,25 @@ tags = ["studynote-ai"]
 
 ### 하드 보팅 vs 소프트 보팅 구조
 
-```
-  입력 데이터 X
-       │
-  ┌────┴──────────────────────────────────┐
-  │         이종 모델 학습 (병렬)          │
-  ├──────────┬──────────┬─────────────────┤
-  │  SVM     │    RF    │  Logistic Reg.  │
-  │ Class: A │ Class: B │    Class: A     │
-  │  ─────   │  ─────   │   ─────────     │
-  │ Pr(A)=.9 │ Pr(A)=.3 │  Pr(A)=0.7     │
-  └─────┬────┴─────┬────┴────────┬────────┘
-        │          │             │
-  ┌─────▼──────────▼─────────────▼────────┐
-  │           집계 방법                    │
-  ├────────────────┬──────────────────────┤
-  │  Hard Voting   │    Soft Voting       │
-  │  A:2, B:1      │  Pr(A)=(0.9+0.3+0.7)│
-  │  → 다수결: A   │       /3 = 0.633     │
-  │                │  → argmax: A         │
-  └────────────────┴──────────────────────┘
-             최종 예측: Class A
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 데이터 X</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이종 모델 학습 (병렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM</div><div class="kb-diagram-cell">RF</div><div class="kb-diagram-cell">Logistic Reg.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class: A</div><div class="kb-diagram-cell">Class: B</div><div class="kb-diagram-cell">Class: A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pr(A)=.9</div><div class="kb-diagram-cell">Pr(A)=.3</div><div class="kb-diagram-cell">Pr(A)=0.7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hard Voting</div><div class="kb-diagram-cell">Soft Voting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A:2, B:1</div><div class="kb-diagram-cell">Pr(A)=(0.9+0.3+0.7)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다수결: A</div><div class="kb-diagram-cell">/3 = 0.633</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ argmax: A</div></div>
+<div class="kb-diagram-note">최종 예측: Class A</div>
+</div>
+</div>
+
+
 
 ### 소프트 보팅의 수식
 
@@ -136,16 +136,19 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 비례하여 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하면 단순 보팅보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상된다.
 
-```
-  모델별 가중치 결정:
-  ┌────────────────┬────────────┬──────────────┐
-  │ 모델           │ 검증 정확도 │ 소프트 보팅 가중치│
-  ├────────────────┼────────────┼──────────────┤
-  │ SVM            │ 0.88       │ 0.35         │
-  │ Random Forest  │ 0.85       │ 0.34         │
-  │ Logistic Reg.  │ 0.77       │ 0.31         │
-  └────────────────┴────────────┴──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모델별 가중치 결정:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">검증 정확도</div><div class="kb-diagram-cell">소프트 보팅 가중치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM</div><div class="kb-diagram-cell">0.88</div><div class="kb-diagram-cell">0.35</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Random Forest</div><div class="kb-diagram-cell">0.85</div><div class="kb-diagram-cell">0.34</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logistic Reg.</div><div class="kb-diagram-cell">0.77</div><div class="kb-diagram-cell">0.31</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 답안 포인트
 
@@ -161,12 +164,12 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 보팅 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)을 적용하면:
 
-1. **빠른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선**: 기존 훈련된 모델을 재사용하여 추가 학습 없이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+1. <strong>빠른 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 개선</strong>: 기존 훈련된 모델을 재사용하여 추가 학습 없이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 2. **모델 다양성 활용**: 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 강점을 상호 보완
 3. **안정성 증대**: 특정 모델의 실패가 전체 예측에 미치는 영향 감소
 4. **구현 단순성**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)/Boosting보다 이해하기 쉽고 구현이 간단
 
-보팅은 **이미 잘 훈련된 여러 모델이 있고, 빠르게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올려야 할 때** 최적의 선택이다.
+보팅은 <strong>이미 잘 훈련된 여러 모델이 있고, 빠르게 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 끌어올려야 할 때</strong> 최적의 선택이다.
 
 - **📢 섹션 요약 비유**: 보팅은 "이미 실력 있는 전문가들을 한 방에 모아 의견을 듣는 것"이다. 새로운 전문가를 키우는(재학습) 시간 없이 현재 가진 자원으로 최선의 결정을 내리는 실용적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 

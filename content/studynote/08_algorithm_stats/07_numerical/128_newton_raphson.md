@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-**뉴턴-랩슨 방법**은 f(x) = 0의 근을 반복법으로 구한다:
+<strong>뉴턴-랩슨 방법</strong>은 f(x) = 0의 근을 반복법으로 구한다:
 
 > x_{n+1} = x_n - f(x_n) / f'(x_n)
 
@@ -37,36 +37,45 @@ tags = ["studynote-algorithm"]
 
 ### 뉴턴-랩슨 반복 수렴 과정
 
-```
-         f(x)
-          │
-          │   ╲
-          │    ╲
-   f(x₀) ─┤     ╲
-          │      ╲
-          │       ╲  접선
-          │        ╲
-──────────┼─────────╲──────── x
-          x₀        x₁ x₂ x*
 
-x*: 실제 근 (f(x*)=0)
-x₀→x₁→x₂→... 순서로 빠르게 x*에 수렴
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">f(x)</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">f(x₀) ─ ╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲ 접선</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-tree-item" style="--depth:0">╲ x</div>
+<div class="kb-diagram-note">x₀ x₁ x₂ x*</div>
+<div class="kb-diagram-note">x*: 실제 근 (f(x*)=0)</div>
+<div class="kb-diagram-note">x₀→x₁→x₂→... 순서로 빠르게 x*에 수렴</div>
+</div>
+</div>
+
+
 
 ### 제곱근 계산 (√S)
 
 f(x) = x² - S → f'(x) = 2x
 
-```
-x_{n+1} = x_n - (x_n² - S) / (2x_n)
-         = (x_n + S/x_n) / 2   ← 바빌로니아 방법과 동일
 
-예: √2 계산 (x₀ = 1)
-  x₁ = (1 + 2/1)/2 = 1.5
-  x₂ = (1.5 + 2/1.5)/2 = 1.4167
-  x₃ = (1.4167 + 2/1.4167)/2 = 1.41422
-  x₄ = 1.4142135623...  ← 이미 8자리 정확도!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">x_{n+1} = x_n - (x_n² - S) / (2x_n)</div>
+<div class="kb-diagram-note">= (x_n + S/x_n) / 2 ← 바빌로니아 방법과 동일</div>
+<div class="kb-diagram-note">예: √2 계산 (x₀ = 1)</div>
+<div class="kb-diagram-note">x₁ = (1 + 2/1)/2 = 1.5</div>
+<div class="kb-diagram-note">x₂ = (1.5 + 2/1.5)/2 = 1.4167</div>
+<div class="kb-diagram-note">x₃ = (1.4167 + 2/1.4167)/2 = 1.41422</div>
+<div class="kb-diagram-note">x₄ = 1.4142135623... ← 이미 8자리 정확도!</div>
+</div>
+</div>
+
+
 
 ### 역수 계산 (1/a, 나눗셈 없이)
 
@@ -160,21 +169,23 @@ L-BFGS(Limited-memory BFGS)는 최근 m개 기울기 정보만 저장 → 수백
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[방정식 수치해법 필요성]
-    │
-    ▼
-[이분법(Bisection)]
-    │
-    ▼
-[뉴턴-랩슨(Newton-Raphson) 접선 근사]
-    │
-    ▼
-[수렴 조건 분석]
-    │
-    ▼
-[최적화/ML 경사하강 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">방정식 수치해법 필요성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이분법(Bisection)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뉴턴-랩슨(Newton-Raphson) 접선 근사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수렴 조건 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최적화/ML 경사하강 응용</div></div>
+</div>
+</div>
+
+
 
 뉴턴-랩슨은 이분법보다 빠른 접선 근사 수치해법으로 수렴 조건과 최적화에 쓰인다.
 

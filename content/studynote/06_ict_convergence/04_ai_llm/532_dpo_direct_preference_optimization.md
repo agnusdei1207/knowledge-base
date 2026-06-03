@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-ChatGPT·Claude·Gemini 등 인간 친화적 LLM은 단순 언어 모델링 훈련만으로는 유해·거짓·부적절한 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 방지하기 위해 **인간 선호에 정렬(Alignment)**하는 훈련이 필요하다.
+ChatGPT·Claude·Gemini 등 인간 친화적 LLM은 단순 언어 모델링 훈련만으로는 유해·거짓·부적절한 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 방지하기 위해 <strong>인간 선호에 정렬(Alignment)</strong>하는 훈련이 필요하다.
 
 **RLHF의 복잡성 문제**
 
@@ -38,28 +38,25 @@ RLHF 3단계:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ RLHF vs DPO 비교 │
-│ │
-│ RLHF DPO │
-│ ┌─────────┐ ┌─────────────────────┐ │
-│ │선호 데이터│ │선호 데이터 │ │
-│ └────┬────┘ │(chosen, rejected) │ │
-│ │ └──────────┬──────────┘ │
-│ ┌────▼────┐ │ │
-│ │보상 모델 │ ┌──────────▼──────────┐ │
-│ │(별도훈련)│ │DPO 손실 함수 │ │
-│ └────┬────┘ │(Bradley-Terry 내재화)│ │
-│ │ └──────────┬──────────┘ │
-│ ┌────▼────┐ │ │
-│ │PPO 강화 │ ┌──────────▼──────────┐ │
-│ │학습 │ │LLM 직접 업데이트 │ │
-│ └─────────┘ └─────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-```
 
-**[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 핵심 수식**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF vs DPO 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF DPO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선호 데이터</div><div class="kb-diagram-cell">선호 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(chosen, rejected)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 모델</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(별도훈련)</div><div class="kb-diagram-cell">DPO 손실 함수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bradley-Terry 내재화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPO 강화</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">LLM 직접 업데이트</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> 핵심 수식</strong>
 
 [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 손실함수는 Bradley-Terry 보상 모델을 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 표현:
 
@@ -115,11 +112,11 @@ $$\mathcal{L}_{[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_
 - **Mistral Instruct**: SimPO 변형으로 효율적 정렬
 - **Zephyr-7B**: ULTRA Feedback [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 + [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) → 소형 모델 정렬 성공 사례
 
-**학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확보 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
 1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 )
-2. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 피드백([RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/))**: GPT-4로 선호 레이블 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)
-3. **Reject [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 자동 선별
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 피드백(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a>)</strong>: GPT-4로 선호 레이블 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)
+3. <strong>Reject <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 자동 선별
 
 **기술사 판단 포인트**
 

@@ -19,12 +19,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-단일 결정 트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 **고분산(High [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))** 모델이다. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라져도 완전히 다른 트리가 만들어질 수 있다. 이 불안정성을 극복하기 위해 [Leo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) Breiman([1996](/knowledge-base/studynote/09_security/02_crypto/098_md5/))이 배깅을 제안했다.
+단일 결정 트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 <strong>고분산(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 모델이다. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라져도 완전히 다른 트리가 만들어질 수 있다. 이 불안정성을 극복하기 위해 [Leo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) Breiman([1996](/knowledge-base/studynote/09_security/02_crypto/098_md5/))이 배깅을 제안했다.
 
 **배깅의 핵심 아이디어**:
 > "같은 모집단에서 독립 표본을 N개 뽑아 평균을 내면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/N로 감소한다"
 
-- 현실에서는 모집단이 하나뿐이므로, **복원 추출(Bootstrap)**로 N개의 가상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 만든다.
+- 현실에서는 모집단이 하나뿐이므로, <strong>복원 추출(Bootstrap)</strong>로 N개의 가상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 만든다.
 - 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 독립적으로 모델을 훈련 → 결과를 평균/다수결로 집계
 
 | 특성 | 단일 결정 트리 | 배깅 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
@@ -35,14 +35,17 @@ tags = ["studynote-ai"]
 | 계산 비용 | 낮음 | 높음 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능) |
 | 과적합 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 낮음 | 높음 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 배깅은 "여론조사를 여러 번 해서 평균을 내는 것"이다. 한 번의 조사(단일 트리)는 오차가 크지만, 수백 번의 독립 조사(배깅)를 평균 내면 훨씬 안정적인 결과가 나온다.
 
@@ -52,51 +55,51 @@ tags = ["studynote-ai"]
 
 ### 배깅 전체 흐름
 
-```
-  원본 훈련 데이터 (n개 샘플)
-         │
-         │  복원 추출 (Bootstrap Sampling)
-  ┌──────┼──────────────────────────────┐
-  │      │    각 부트스트랩 샘플: n개   │
-  │      │    (약 63.2% 고유 샘플 포함) │
-  │  ┌───▼───┐ ┌───────┐ ┌───────┐     │
-  │  │ D_1   │ │  D_2  │ │  D_B  │ ··· │
-  │  └───┬───┘ └───┬───┘ └───┬───┘     │
-  │      │         │         │         │
-  │  ┌───▼───┐ ┌───▼───┐ ┌───▼───┐     │
-  │  │ h_1   │ │  h_2  │ │  h_B  │ ··· │
-  │  │ (Tree)│ │ (Tree)│ │ (Tree)│     │
-  │  └───┬───┘ └───┬───┘ └───┬───┘     │
-  │      └─────────┴─────────┘         │
-  │               집계                  │
-  │   분류: 다수결 / 회귀: 평균         │
-  └─────────────────────────────────────┘
-              최종 예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 훈련 데이터 (n개 샘플)</div>
+<div class="kb-diagram-note">복원 추출 (Bootstrap Sampling)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 부트스트랩 샘플: n개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(약 63.2% 고유 샘플 포함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_1</div><div class="kb-diagram-cell">D_2</div><div class="kb-diagram-cell">D_B</div><div class="kb-diagram-cell">···</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1</div><div class="kb-diagram-cell">h_2</div><div class="kb-diagram-cell">h_B</div><div class="kb-diagram-cell">···</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tree)</div><div class="kb-diagram-cell">(Tree)</div><div class="kb-diagram-cell">(Tree)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: 다수결 / 회귀: 평균</div></div>
+<div class="kb-diagram-note">최종 예측</div>
+</div>
+</div>
+
+
 
 ### 부트스트랩 샘플링의 특성
 
 n개 샘플에서 복원 추출로 n개를 뽑으면:
 - 특정 샘플이 선택될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 1 - (1-1/n)^n → n→∞ 시 **1 - 1/e ≈ 63.2%**
-- 나머지 **36.8%는 OOB(Out-Of-Bag) 샘플**로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용 가능
+- 나머지 <strong>36.8%는 OOB(Out-Of-Bag) 샘플</strong>로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용 가능
 
 ### [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))
 
-[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 배깅에 **특성 무작위 선택(Random Feature Subspace)**을 추가한다.
+[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 배깅에 <strong>특성 무작위 선택(Random Feature Subspace)</strong>을 추가한다.
 
-```
-  각 트리의 노드 분할 시:
-  ┌────────────────────────────────────────┐
-  │ 전체 특성 수: p개                      │
-  │ 무작위 선택 특성 수:                   │
-  │   분류: √p  (예: 100개 중 10개)        │
-  │   회귀: p/3 (예: 100개 중 33개)        │
-  │                                        │
-  │ → 트리 간 상관관계 ↓                   │
-  │ → 다양성 ↑                             │
-  │ → 앙상블 효과 극대화                   │
-  └────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">각 트리의 노드 분할 시:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 특성 수: p개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위 선택 특성 수:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: √p (예: 100개 중 10개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀: p/3 (예: 100개 중 33개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 트리 간 상관관계 ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다양성 ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 앙상블 효과 극대화</div></div>
+</div>
+</div>
+
+
 
 | 하이퍼파라미터 | 설명 | 기본값 |
 |:---|:---|:---|
@@ -108,7 +111,7 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 
 ### OOB 오차 추정
 
-각 샘플은 전체 B개 트리 중 약 36.8%(1/e)의 트리에서 OOB 샘플로 남는다. 이 트리들의 예측을 집계하여 **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 없이 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추정**할 수 있다.
+각 샘플은 전체 B개 트리 중 약 36.8%(1/e)의 트리에서 OOB 샘플로 남는다. 이 트리들의 예측을 집계하여 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> 없이 일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 추정</strong>할 수 있다.
 
 - **📢 섹션 요약 비유**: [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 특성 무작위 선택은 "각 직원이 회사 전체 정보가 아닌 자기 분야 정보만 보고 판단"하는 것이다. 덕분에 모든 직원이 같은 결론을 내리는(과적합) 것을 방지한다.
 
@@ -129,16 +132,20 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 
 Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 감소에 기여한 평균 양을 특성 중요도로 제공한다. 이는 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용된다.
 
-```
-  특성 중요도 예시 (신용 평가):
-  ┌──────────────────────────┐
-  │ 월 소득     ████████ 0.32│
-  │ 신용 기간   ██████   0.24│
-  │ 부채 비율   █████    0.20│
-  │ 직업 유형   ████     0.16│
-  │ 나이        ██       0.08│
-  └──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">특성 중요도 예시 (신용 평가):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">월 소득 ████████ 0.32</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신용 기간 ██████ 0.24</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부채 비율 █████ 0.20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직업 유형 ████ 0.16</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이 ██ 0.08</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Bagging은 "같은 교과서로 공부했지만 서로 다른 부분을 집중한 학생들"이고, Random Forest는 거기에 "각 학생이 랜덤으로 고른 과목만 시험 보는" 규칙을 추가한 것이다.
 
@@ -159,10 +166,10 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 ### 기술사 답안 포인트
 
-- **"배깅이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 이유"**: 독립 예측기들의 평균 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
+- <strong>"배깅이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 줄이는 이유"</strong>: 독립 예측기들의 평균 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
 - **"OOB 오차의 활용"**: 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 불필요 → 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리
-- **"[Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) vs 단일 결정 트리"**: 비선형성·상호작용 포착은 유사하나 RF가 훨씬 안정적
-- **"[Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 한계"**: 해석 불가, 메모리 과다, 연속적 외삽(Extrapolation) 불가
+- <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> vs 단일 결정 트리"</strong>: 비선형성·상호작용 포착은 유사하나 RF가 훨씬 안정적
+- <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> 한계"</strong>: 해석 불가, 메모리 과다, 연속적 외삽(Extrapolation) 불가
 
 - **📢 섹션 요약 비유**: Random Forest는 "각자 다른 문제지를 받아서 시험 본 학생들의 평균 점수"다. 모두 같은 시험지를 받으면(단순 배깅) 서로 비슷한 실수를 하지만, 다른 문제지(랜덤 특성)는 각자 독립적인 오류를 범해 평균이 더 정확해진다.
 
@@ -174,7 +181,7 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 1. **안정성**: 단일 결정 트리 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대폭 감소 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 강건
 2. **특성 중요도**: 모델 해석 및 특성 선택에 활용 가능한 정보 제공
-3. **OOB [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대비 적은 계산 비용으로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정
+3. <strong>OOB <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대비 적은 계산 비용으로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정
 4. **결측값 처리**: 일부 구현체에서 결측값을 직접 처리 가능
 
 Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며, 과적합에 강한** 특성 덕분에 실무에서 첫 번째로 시도하는 기준 모델([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))로 자주 선택된다.

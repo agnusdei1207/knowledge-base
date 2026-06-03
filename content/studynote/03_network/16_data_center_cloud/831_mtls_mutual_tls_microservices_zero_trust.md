@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))**: 인터넷의 절대 표준입니다. 클라이언트(내 폰)가 서버(네이버)에 접속할 때, 서버가 나에게 전송한 **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내 폰이 검사([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))**하여 가짜 사이트인지 판별합니다.
-- **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경의 문제점**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 안에서 [결제 컨테이너]가 [DB 컨테이너]에 접속할 때 일반 TLS를 쓰면, DB는 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 보낸 비밀번호만 믿지 그 놈이 진짜 사내 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지, 아니면 외부에서 몰래 잠입한 해커 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 방법이 없습니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)</strong>: 인터넷의 절대 표준입니다. 클라이언트(내 폰)가 서버(네이버)에 접속할 때, 서버가 나에게 전송한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 내 폰이 검사(<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하여 가짜 사이트인지 판별합니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경의 문제점</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 안에서 [결제 컨테이너]가 [DB 컨테이너]에 접속할 때 일반 TLS를 쓰면, DB는 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 보낸 비밀번호만 믿지 그 놈이 진짜 사내 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지, 아니면 외부에서 몰래 잠입한 해커 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 방법이 없습니다.
 
-```text
-[사이드카 아키텍처]
-    │
-    ▼
-[mTLS]
-    │
-    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mTLS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,20 +41,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 클라이언트와 서버가 연결을 맺을 때, 서버만 신분증을 보여주는 것이 아니라 **클라이언트와 서버 양쪽(Mutual)이 서로에게 자신의 X.509 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 제시하고, 상대방이 진짜 우리 회사 내부 시스템이 맞는지 양방향으로 깐깐하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤에야 암호화 통신 터널을 뚫어주는 통신 구조**입니다.
+- **개념**: 클라이언트와 서버가 연결을 맺을 때, 서버만 신분증을 보여주는 것이 아니라 <strong>클라이언트와 서버 양쪽(Mutual)이 서로에게 자신의 X.509 디지털 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 제시하고, 상대방이 진짜 우리 회사 내부 시스템이 맞는지 양방향으로 깐깐하게 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>한 뒤에야 암호화 통신 터널을 뚫어주는 통신 구조</strong>입니다.
 
 ### 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 실현
 - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드 10대가 하나의 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))으로 묶여있다고 안심하지 않습니다(네트워크 경계 무시).
 - IP 주소를 조작([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))한 해커가 통신을 찔러도, 해커는 우리 회사 중앙 보안실([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))에서 발급받은 '합법적 클라이언트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'가 없기 때문에 첫 악수(Handshake) 단계에서 즉각 연결이 끊기고 쫓겨납니다.
 
-```text
-[사이드카 아키텍처]
-    │
-    ▼
-[mTLS]
-    │
-    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mTLS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,8 +70,8 @@ mTLS가 완벽하긴 한데, 개발자들이 100개의 앱(결제, 로그인 등
 - **Istio의 구원 (829번 문서)**:
   - 829번에서 배운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시의 **Citadel (보안관 컨트롤러)** 모듈이 이 지옥을 완벽히 해결합니다.
   - 관리자가 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 `mTLS: STRICT (강제 적용)` 옵션을 켜면 마법이 일어납니다.
-  - 앱 코드는 평문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))으로 대화합니다. 그런데 밖으로 나가려는 찰나, 옆방의 **Envoy [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**가 그 평문을 낚아챕니다.
-  - Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 Citadel이 매일 아침 몰래 발급해 준 **초단기(예: 1시간짜리) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서**를 꺼내 들어, 상대방 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 0.1초 만에 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(mTLS)을 끝내고 암호화 터널로 데이터를 쏴줍니다. 
+  - 앱 코드는 평문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))으로 대화합니다. 그런데 밖으로 나가려는 찰나, 옆방의 <strong>Envoy <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>가 그 평문을 낚아챕니다.
+  - Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 Citadel이 매일 아침 몰래 발급해 준 <strong>초단기(예: 1시간짜리) <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서</strong>를 꺼내 들어, 상대방 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 0.1초 만에 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(mTLS)을 끝내고 암호화 터널로 데이터를 쏴줍니다. 
   - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 만료되면 갱신(Rotation)하는 것도 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 요원들이 알아서 다 합니다. 개발자는 코드 한 줄 안 짜고 망 전체가 군사급 암호망으로 둔갑합니다.
 
 mTLS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처가 기반 조건을 만든다면, mTLS는 그 위에서 핵심 메커니즘을 구현하고, [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ mTLS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **핸드셰이크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 검사에 비해 양쪽이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 주고받고 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하느라 첫 통신 연결 시간이 더 오래 걸립니다. (CPU 암호화 연산 부하 상승)
+- <strong>핸드셰이크 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 검사에 비해 양쪽이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 주고받고 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하느라 첫 통신 연결 시간이 더 오래 걸립니다. (CPU 암호화 연산 부하 상승)
 - **디버깅 지옥**: 평문이 아니라 군사급 암호화가 되어 날아다니기 때문에, 통신이 꼬였을 때 관리자가 덤프(Wireshark)를 떠서 원인을 분석하기가 미친 듯이 어려워집니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -89,7 +97,7 @@ mTLS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 일반 TLS는 '신분증 검사받는 나이트클럽'입니다. 손님(클라이언트)은 나이트클럽(서버) 간판을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 안심해서 들어가고, 클럽 기도는 손님 신분증을 봅니다([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)). 하지만 한 번 들어가서 안에서 노는 손님들끼리 누구인지 검사하진 않습니다. **mTLS**는 국방부 1급 비밀 벙커의 '쌍방향 검열소'입니다. 벙커 안의 직원([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))들끼리 서류를 주고받을 때조차, 복도에서 서로를 만나면 A가 B의 군번줄을 스캔하고, 동시에 B도 A의 군번줄을 스캔해서 양쪽이 완벽하게 승인된 내부자임을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야 금고에서 서류를 꺼내 건네줍니다(상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)). 이 철통 방어 덕분에 설령 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(해커)가 벽을 뚫고 벙커 안에 잠입했다 하더라도 군번줄([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이 없어 아무 서류도 빼낼 수 없습니다.
+- **📢 섹션 요약 비유**: 일반 TLS는 '신분증 검사받는 나이트클럽'입니다. 손님(클라이언트)은 나이트클럽(서버) 간판을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 안심해서 들어가고, 클럽 기도는 손님 신분증을 봅니다([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)). 하지만 한 번 들어가서 안에서 노는 손님들끼리 누구인지 검사하진 않습니다. <strong>mTLS</strong>는 국방부 1급 비밀 벙커의 '쌍방향 검열소'입니다. 벙커 안의 직원([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))들끼리 서류를 주고받을 때조차, 복도에서 서로를 만나면 A가 B의 군번줄을 스캔하고, 동시에 B도 A의 군번줄을 스캔해서 양쪽이 완벽하게 승인된 내부자임을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야 금고에서 서류를 꺼내 건네줍니다(상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)). 이 철통 방어 덕분에 설령 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(해커)가 벽을 뚫고 벙커 안에 잠입했다 하더라도 군번줄([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이 없어 아무 서류도 빼낼 수 없습니다.
 
 ---
 
@@ -112,15 +120,19 @@ mTLS는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 사이드카 아키텍처]
-    │
-    ▼
-[현재 개념: mTLS]
-    │
-    ├──▶ [확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사이드카 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mTLS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 mTLS는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

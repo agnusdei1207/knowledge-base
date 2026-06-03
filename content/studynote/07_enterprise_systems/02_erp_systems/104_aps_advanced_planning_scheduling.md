@@ -21,7 +21,7 @@ tags = ["enterprise_systems"]
 
 MRP는 1만 개의 제품 주문이 들어오면 단순히 수식에 맞춰 납기일을 계산할 뿐, 어제 고장 난 설비나 오늘 결근한 인부 등 현실의 제약(Constraints)은 전혀 반영하지 못했다. 이로 인해 서류상의 계획과 현장의 실제 생산 속도가 어긋나면서 막대한 위약금과 재고 비용이 발생했다. 이러한 문제를 해결하기 위해, 현실의 모든 유한한 제약 조건을 변수로 넣고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) RAM에서 실시간으로 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 짜주는 진정한 두뇌, APS (Advanced Planning and Scheduling)가 등장하게 되었다.
 
-- **📢 섹션 요약 비유**: 구형 MRP가 네비게이션에 목적지만 찍으면 **차량 정체 상황을 무시하고 "직선거리 10km니까 무조건 10분이면 도착합니다"라고 알려주는 멍청한 종이 지도**라면, APS는 실시간 교통 체증, 도로 공사, 남은 기름의 양(제약 조건)까지 전부 시뮬레이션하여 가장 빠르고 안전한 우회로를 찾아주는 **'최첨단 3D [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 네비게이션'**이다.
+- **📢 섹션 요약 비유**: 구형 MRP가 네비게이션에 목적지만 찍으면 <strong>차량 정체 상황을 무시하고 "직선거리 10km니까 무조건 10분이면 도착합니다"라고 알려주는 멍청한 종이 지도</strong>라면, APS는 실시간 교통 체증, 도로 공사, 남은 기름의 양(제약 조건)까지 전부 시뮬레이션하여 가장 빠르고 안전한 우회로를 찾아주는 <strong>'최첨단 3D <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 네비게이션'</strong>이다.
 
 ---
 
@@ -35,27 +35,25 @@ APS는 크게 모델링(제약 조건 정의), 최적화 엔진(선형 계획법
 | **인메모리 고속 처리 (Memory-Resident)** | 디스크 I/O를 배제하고 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RAM에 올려 수학적 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산 | 실시간 의사결정 속도 확보 |
 | **What-If 시뮬레이션** | '긴급 주문이 삽입되었을 때' 등 가상의 상황을 시뮬레이션하여 마진 및 납기 변화 예측 | 영업-생산 부서 간 객관적 타협안 도출 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  APS의 What-If 최적화 알고리즘 흐름 시각화                │
-├──────────────────────────────────────────────────────────────┤
-│ [ 입력 데이터: 현실 제약 ]                                        │
-│  BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조       │
-│             │                                                │
-│             ▼                                                │
-│ ┌───── 인메모리 시뮬레이션 엔진 (APS Core) ─────────────────────┐ │
-│ │  1. 제약 조건 모델링 (Constraints Modeling)                │ │
-│ │  2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)         │ │
-│ │  3. 가상 시나리오(What-If) 반복 연산                       │ │
-│ └───────────┬────────────────────────────────────────────────┘ │
-│             │                                                │
-│             ▼                                                │
-│ [ 출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart) ]                 │
-│  - 납기일 준수도 최대화                                          │
-│  - 기계 셋업(교체) 비용 최소화                                     │
-│  - 수익 극대화 의사결정안 도출                                     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APS의 What-If 최적화 알고리즘 흐름 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터: 현실 제약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인메모리 시뮬레이션 엔진 (APS Core)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 제약 조건 모델링 (Constraints Modeling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가상 시나리오(What-If) 반복 연산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 납기일 준수도 최대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기계 셋업(교체) 비용 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수익 극대화 의사결정안 도출</div></div>
+</div>
+</div>
+
+
 이 흐름도는 APS가 복잡한 제조 환경의 제약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 메모리 연산으로 처리하여, 수익성이 가장 높은 최적의 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 표)를 동적으로 그려내는 메커니즘을 나타낸다.
 
 - **📢 섹션 요약 비유**: APS의 엔진은 체스 세계 챔피언을 꺾은 슈퍼컴퓨터와 같다. 상대(주문)의 움직임 한 번에 앞으로 일어날 수 있는 수만 가지의 경우의 수(What-If)를 빛의 속도로 머릿속(메모리)에서 돌려보고, 가장 이득이 큰 한 수를 두는 체스 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이다.
@@ -84,7 +82,7 @@ APS는 생산 관리 시스템([MES](/knowledge-base/studynote/07_enterprise_sys
 
 ### 도입 시 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **제약 조건의 변동성**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 팹(Fab)처럼 공정이 복잡(Re-entrant)하고 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 수시로 바뀌는 산업인가? (단순 조립 공정은 도입 실익이 낮음)
-2. **기준 정보(Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 품질**: 기계 셋업 시간, 공정 이동 시간 등이 초 단위로 정확하게 시스템에 입력되어 있는가? (Garbage In, Garbage Out의 위험)
+2. <strong>기준 정보(Master <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 품질</strong>: 기계 셋업 시간, 공정 이동 시간 등이 초 단위로 정확하게 시스템에 입력되어 있는가? (Garbage In, Garbage Out의 위험)
 3. **사용자 수용성**: 영업팀과 생산팀이 [S&OP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/)(판매운영계획) 회의 시 APS의 What-if 결과를 신뢰하고 의사결정의 기준으로 삼을 수 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -107,28 +105,30 @@ APS는 생산 관리 시스템([MES](/knowledge-base/studynote/07_enterprise_sys
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) ([Material Requirements Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))** | APS 이전의 구형 자재 계획 시스템으로, 무한 능력을 가정한계 |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | APS가 속해 있는 상위 개념으로, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 효율화 추구 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/">MRP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/">Material Requirements Planning</a>)</strong> | APS 이전의 구형 자재 계획 시스템으로, 무한 능력을 가정한계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | APS가 속해 있는 상위 개념으로, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 효율화 추구 |
 | **What-If 분석** | 가상의 상황을 시스템에 주입하여 결과를 미리 예측하는 APS의 핵심 기능 |
-| **[S&OP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/) ([Sales and Operations Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/))** | 수요와 공급을 맞추는 임원 회의로, APS의 시뮬레이션 결과가 결정적 자료로 쓰임 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/">S&OP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/">Sales and Operations Planning</a>)</strong> | 수요와 공급을 맞추는 임원 회의로, APS의 시뮬레이션 결과가 결정적 자료로 쓰임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MRP (Material Requirements Planning) · 무한 능력 가정
-    │
-    ▼
-MRP II (Manufacturing Resource Planning) · 생산 자원까지 확장 고려
-    │
-    ▼
-ERP (Enterprise Resource Planning) · 전사적 자원 통합 (여전히 무한 능력 기반)
-    │
-    ▼ (본 문서)
-APS (Advanced Planning and Scheduling) · 유한 능력 기반(Constraints) 실시간 최적화
-    │
-    ▼
-AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MRP (Material Requirements Planning) · 무한 능력 가정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MRP II (Manufacturing Resource Planning) · 생산 자원까지 확장 고려</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ERP (Enterprise Resource Planning) · 전사적 자원 통합 (여전히 무한 능력 기반)</div>
+<div class="kb-diagram-note">▼ (본 문서)</div>
+<div class="kb-diagram-note">APS (Advanced Planning and Scheduling) · 유한 능력 기반(Constraints) 실시간 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자동화</div>
+</div>
+</div>
+
+
 이 흐름도는 제조업의 계획 시스템이 단순한 수량 계산([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))에서 제약 조건을 포함한 인메모리 수학적 최적화(APS)를 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반으로 지능화되는 진화의 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

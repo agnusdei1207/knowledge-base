@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **기존 ARQ의 문제**: 수신기가 100바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았는데 딱 1바이트가 깨졌습니다. 기존 ARQ는 "에이 더러워! 버려!" 하고 **방금 받은 100바이트를 메모리에서 싹 지워버린 뒤(삭제)**, 송신기에 NAK를 보내 처음부터 다시 100바이트를 받습니다.
 - **하이브리드(HARQ)의 발상**: "야, 1바이트 깨졌다고 99바이트 멀쩡한 정보까지 다 지우는 건 너무 아깝지 않냐? **버리지 말고 메모리에 일단 살려둬 봐(소프트 콤바인).** 그리고 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)만 살짝 더 보내달라고 하자!"
 
-```text
-[폴라 코드]
-    │
-    ▼
-[HARQ]
-    │
-    └──▶ [Chase Combining / IR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Chase Combining / IR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: HARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,20 +44,24 @@ tags = ["studynote-network"]
 HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 기본적으로 FEC([터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/), [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 등)용 수학적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 섞어서 보냅니다.
 
 1. **1차 전송 및 FEC 실패**: 송신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 보냅니다. 수신기가 받았는데 노이즈가 너무 심해 FEC(자체 수리)로도 에러가 다 안 고쳐집니다. 
-2. **저장과 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 요청 (Hybrid)**: 수신기는 고장 난 프레임을 휴지통에 버리지 않고 **자신의 버퍼(메모리)에 고이 모셔둡니다.** 그리고 송신기에게 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(다시 줘!)를 날립니다.
+2. <strong>저장과 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> 요청 (Hybrid)</strong>: 수신기는 고장 난 프레임을 휴지통에 버리지 않고 **자신의 버퍼(메모리)에 고이 모셔둡니다.** 그리고 송신기에게 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(다시 줘!)를 날립니다.
 3. **재전송과 융합 결합 (Soft Combining) ★마법의 순간**: 
    - 송신기가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(혹은 추가 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 다시 쏴줍니다. 
-   - 수신기는 두 번째로 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 푸는 게 아니라, **아까 버퍼에 짱박아둔 1차 실패 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 방금 날아온 2차 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼즐 맞추듯 수학적으로 융합(Combining)**해 버립니다.
+   - 수신기는 두 번째로 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 푸는 게 아니라, <strong>아까 버퍼에 짱박아둔 1차 실패 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 방금 날아온 2차 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼즐 맞추듯 수학적으로 융합(Combining)</strong>해 버립니다.
    - 이렇게 확률값을 덧셈하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))가 2배로 폭증하면서, 에러가 마법처럼 씻은 듯이 고쳐집니다.
 
-```text
-[폴라 코드]
-    │
-    ▼
-[HARQ]
-    │
-    └──▶ [Chase Combining / IR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Chase Combining / IR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: HARQ의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 2. 점진적 잉여비트 ([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), [Incremental Redundancy](/knowledge-base/studynote/03_network/04_data_link_layer_error/206_chase_combining_vs_incremental_redundancy/)) ★최신 트렌드
 - **방식**: 송신기가 2차 재전송을 할 때, 똑같은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무식하게 또 보내지 않습니다. 수신기가 풀다 만 퍼즐의 조각(새로운 FEC 패리티 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))만 쏙쏙 골라서 보내줍니다.
-- **결합**: 수신기는 1차 실패 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리 뒤에, 방금 날아온 **새로운 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 조각들을 계속 이어 붙이면서(Incremental) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)의 양을 늘려갑니다.** [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 많아지니 당연히 에러가 고쳐집니다. 매번 보낼 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생김새가 다르며, LTE와 5G에서 효율을 극대화하기 위해 이 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 방식을 사용합니다.
+- **결합**: 수신기는 1차 실패 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리 뒤에, 방금 날아온 <strong>새로운 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a> 조각들을 계속 이어 붙이면서(Incremental) <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>의 양을 늘려갑니다.</strong> [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 많아지니 당연히 에러가 고쳐집니다. 매번 보낼 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생김새가 다르며, LTE와 5G에서 효율을 극대화하기 위해 이 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 방식을 사용합니다.
 
 HARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)가 기반 조건을 만든다면, HARQ는 그 위에서 핵심 메커니즘을 구현하고, Chase Combining / IR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,7 +87,7 @@ HARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 기존 ARQ는 찢어진 10만 원짜리 지폐를 받았을 때 **쓰레기통에 버리고 새 지폐로 다시 보내달라**고 하는 낭비입니다. HARQ는 그 찢어진 지폐를 **버리지 않고 스카치테이프 위에 잘 올려둔 뒤(버퍼 저장)**, 은행(송신자)에 "찢겨 나간 귀퉁이 쪼가리([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))만 다시 보내줘!"라고 한 뒤, 날아온 귀퉁이를 본드로 붙여서(소프트 콤바인) 완벽한 10만 원짜리로 되살려내는 지독한 알뜰살뜰 통신법입니다.
+- **📢 섹션 요약 비유**: <strong> 기존 ARQ는 찢어진 10만 원짜리 지폐를 받았을 때 </strong>쓰레기통에 버리고 새 지폐로 다시 보내달라<strong>고 하는 낭비입니다. HARQ는 그 찢어진 지폐를 </strong>버리지 않고 스카치테이프 위에 잘 올려둔 뒤(버퍼 저장)**, 은행(송신자)에 "찢겨 나간 귀퉁이 쪼가리([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))만 다시 보내줘!"라고 한 뒤, 날아온 귀퉁이를 본드로 붙여서(소프트 콤바인) 완벽한 10만 원짜리로 되살려내는 지독한 알뜰살뜰 통신법입니다.
 
 ---
 
@@ -121,15 +129,19 @@ HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 폴라 코드]
-    │
-    ▼
-[현재 개념: HARQ]
-    │
-    ├──▶ [확장 A: Chase Combining / IR]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 폴라 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Chase Combining / IR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 HARQ는 [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Chase Combining / IR와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

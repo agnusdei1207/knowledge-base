@@ -101,21 +101,23 @@ JaCoCo (Java [Code](/knowledge-base/studynote/02_operating_system/02_process_thr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-테스트 작성
-  │
-  ▼
-계측 빌드 실행
-  │
-  ▼
-커버리지 수집
-  │
-  ▼
-보고서 확인
-  │
-  ▼
-품질 게이트 통과
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">테스트 작성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계측 빌드 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커버리지 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보고서 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">품질 게이트 통과</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

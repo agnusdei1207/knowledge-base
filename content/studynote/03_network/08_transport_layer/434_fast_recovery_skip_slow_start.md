@@ -24,18 +24,22 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 
   - **구형 (Tahoe)**: 고속도로 1차선을 시속 100km로 달리다가, 1차선에 작은 싱크홀(패킷 1개 유실)이 생겨 차가 덜컹했습니다. 운전자는 멘붕에 빠져 차를 **아예 갓길에 세운 뒤 시속 1km(CWND=1)부터 다시 액셀을 천천히 밟습니다**.
-  - **빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) (Reno)**: 똑같이 덜컹했습니다. 하지만 옆에 2, 3, 4차선으로 차들이 쌩쌩 달리는 걸 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(3 Dup-ACK)했습니다. 운전자는 멈추지 않고 **브레이크만 살짝 밟아 시속 50km(절반)로 속도만 줄인 뒤, 멈춤 없이 계속 주행을 이어갑니다**.
+  - <strong>빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> (Reno)</strong>: 똑같이 덜컹했습니다. 하지만 옆에 2, 3, 4차선으로 차들이 쌩쌩 달리는 걸 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(3 Dup-ACK)했습니다. 운전자는 멈추지 않고 **브레이크만 살짝 밟아 시속 50km(절반)로 속도만 줄인 뒤, 멈춤 없이 계속 주행을 이어갑니다**.
 
-```text
-[빠른 재전송]
-    │
-    ▼
-[빠른 회복]
-    │
-    └──▶ [TCP Tahoe 모델]
-```
 
-- **📢 섹션 요약 비유**: ** 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)(Fast [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 육상 경기에서 넘어졌을 때 대처법입니다. 넘어졌다고 **"출발선([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))으로 다시 돌아가서 뛰는 멍청한 짓"**을 하지 않고, **"넘어진 그 자리에서 툭툭 털고 일어나 속도만 조금 줄인 채 레이스를 이어가는 불굴의 생존 본능"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">빠른 재전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빠른 회복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP Tahoe 모델</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>(Fast <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)은 육상 경기에서 넘어졌을 때 대처법입니다. 넘어졌다고 </strong>"출발선([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))으로 다시 돌아가서 뛰는 멍청한 짓"**을 하지 않고, **"넘어진 그 자리에서 툭툭 털고 일어나 속도만 조금 줄인 채 레이스를 이어가는 불굴의 생존 본능"**입니다.
 
 ---
 
@@ -43,42 +47,42 @@ tags = ["studynote-network"]
 
 ### 1. 상태 전이의 기적 (Tahoe vs Reno)
 - **상황**: `CWND = 32` 로 달리는 중에 `3 Dup-ACK` (가벼운 유실) 발생.
-- **[TCP Tahoe](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) (옛날 방식)**:
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/">TCP Tahoe</a> (옛날 방식)</strong>:
   - `ssthresh` = 16 (현재의 절반) 으로 저장.
-  - **`CWND = 1`** 로 곤두박질! 
+  - <strong><code>CWND = 1</code></strong> 로 곤두박질! 
   - `1 -> 2 -> 4 -> 8 -> 16` (Slow Start의 지루한 워밍업 다시 반복).
-- **[TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) (빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 탑재) ★현대 표준**:
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/">TCP Reno</a> (빠른 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 탑재) ★현대 표준</strong>:
   - `ssthresh` = 16 으로 저장.
-  - **`CWND = 16`** 으로 절반만 깎고 방어 완료!
+  - <strong><code>CWND = 16</code></strong> 으로 절반만 깎고 방어 완료!
   - `17 -> 18 -> 19` ([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) 아예 건너뛰고 곧바로 선형 증가 모드 돌입).
 
 ### 2. 인플레이션(Inflation) 꼼수 (수학의 마술)
 사실 `CWND=16`으로 세팅하는 것과 동시에, 이면에서는 기가 막힌 꼼수가 하나 더 돌아간다. 
 내가 3 Dup-ACK를 받았다는 건, 수신자가 3개의 패킷을 받았다는 뜻이다.
 1. "어? 수신자가 3개를 받았으니까 인터넷 길거리에 3개의 빈 공간이 났겠네?"
-2. 내 컴퓨터는 억지로 **`CWND = ssthresh(16) + 3(중복 횟수) = 19`** 로 창문을 3개 더 뻥튀기(Inflate) 시킨다.
+2. 내 컴퓨터는 억지로 <strong><code>CWND = ssthresh(16) + 3(중복 횟수) = 19</code></strong> 로 창문을 3개 더 뻥튀기(Inflate) 시킨다.
 3. 그리고 만약 수신자가 계속 징징대며 4번째 중복 ACK, 5번째 중복 ACK를 계속 쏘면? **"오! 4개, 5개 무사히 도착했단 뜻이네!"** 라며 중복 ACK가 올 때마다 `CWND`를 20, 21로 계속 임시로 늘려주면서, 그 빈 공간으로 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷을 계속 쑤셔 넣는다.
 4. 마침내 "어, 잃어버렸던 거 다 잘 받았어!(정상 ACK)"가 도착하면, 뻥튀기했던 창문을 다시 원래 `ssthresh(16)` 값으로 팍 쪼그라뜨린(Deflate) 뒤 깔끔하게 정속 주행을 시작한다. (이것이 멈춤 없는 스피드의 진짜 비밀이다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Reno (Fast Recovery)의 그래프 모양            │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND 크기                                                     │
- │ 32 |         /(3 Dup-ACK 발생!)                             │
- │    |       /  |                                             │
- │ 16 |     /    |                 * ─ * ─ * ◀ 절반만 깎이고 즉시 회복! │
- │    |   /      |               /                             │
- │  8 | /        |             /                               │
- │  4 |/         |           /                                 │
- │  2 |          |         /                                   │
- │  1 |          |       /   ◀ (1로 떨어지지 않는다!!)               │
- │    |____________________________________ 시간(RTT)            │
- │                                                             │
- │   ▶ "1로 떨어지는 푹 파인 골짜기(Slow Start)가 사라지고, 상어 이빨     │
- │      모양의 톱니바퀴(Sawtooth) 그래프가 아름답게 완성된다."           │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP Reno (Fast Recovery)의 그래프 모양</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND 크기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32</div><div class="kb-diagram-cell">/(3 Dup-ACK 발생!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">* ─ * ─ * ◀ 절반만 깎이고 즉시 회복!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">/ ◀ (1로 떨어지지 않는다!!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "1로 떨어지는 푹 파인 골짜기(Slow Start)가 사라지고, 상어 이빨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모양의 톱니바퀴(Sawtooth) 그래프가 아름답게 완성된다."</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -101,7 +105,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)은 어디까지나 "3 Dup-ACK"라는 가벼운 찰과상일 때만 발동한다.
-만약 해저 케이블이 완전히 끊어져서 영수증이 아예 단 1장도 오지 않는 **'[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))'**이 터진다면? 아무리 똑똑한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno라도 자비 없이 `CWND=1`로 곤두박질치고 슬로우 스타트를 다시 밟아야 한다. (이건 진리다).
+만약 해저 케이블이 완전히 끊어져서 영수증이 아예 단 1장도 오지 않는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)'</strong>이 터진다면? 아무리 똑똑한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno라도 자비 없이 `CWND=1`로 곤두박질치고 슬로우 스타트를 다시 밟아야 한다. (이건 진리다).
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -132,15 +136,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 빠른 재전송]
-    │
-    ▼
-[현재 개념: 빠른 회복]
-    │
-    ├──▶ [확장 A: TCP Tahoe 모델]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 빠른 재전송</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 빠른 회복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP Tahoe 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 빠른 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)는 [빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP Tahoe](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

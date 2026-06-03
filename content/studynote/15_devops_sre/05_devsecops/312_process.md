@@ -43,19 +43,19 @@ tolerations:
 | PreferNoSchedule | 가급적 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 안 함(소프트)              |
 | NoExecute        | 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 축출(Evict)                  |
 
-```
-┌─────────────────────────────────────────────────┐
-│              Kubernetes Scheduler               │
-│                                                 │
-│  Node-A  [Taint: gpu=true:NoSchedule]          │
-│  ┌──────────────────────────────────────────┐  │
-│  │  Pod-X (Toleration: gpu=true:NoSchedule) │──▶│ ✅ 배치 허용 │
-│  └──────────────────────────────────────────┘  │
-│                                                 │
-│  Pod-Y (Toleration 없음)                        │
-│  ──────────────────────────────────────────▶ ❌ 스케줄 거부 │
-└─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Scheduler</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node-A</div><div class="kb-diagram-node">Taint: gpu=true:NoSchedule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod-X (Toleration: gpu=true:NoSchedule)</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">✅ 배치 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod-Y (Toleration 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ❌ 스케줄 거부</div></div>
+</div>
+</div>
+
+
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > Taint는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)자 외 출입금지" 푯말, Toleration은 "출입증"이다.
@@ -77,7 +77,7 @@ tolerations:
 
 ## Ⅲ. 실무 시나리오
 
-**[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드 격리**
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 노드 격리</strong>
 
 ```bash
 # 노드에 Taint 설정
@@ -87,7 +87,7 @@ kubectl taint nodes gpu-node-1 gpu=true:NoSchedule
 kubectl taint nodes gpu-node-1 gpu=true:NoSchedule-
 ```
 
-**시스템 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 전용 노드**: control-plane 노드는 기본 `node-role.kubernetes.io/control-plane:NoSchedule` Taint를 가져 워크로드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 침범하지 않는다.
+<strong>시스템 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 전용 노드</strong>: control-plane 노드는 기본 `node-role.kubernetes.io/control-plane:NoSchedule` Taint를 가져 워크로드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 침범하지 않는다.
 
 **NoExecute 활용**: 장애 노드에 `node.kubernetes.io/not-ready:NoExecute`가 자동으로 추가돼 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 재스케줄된다.
 
@@ -133,13 +133,19 @@ Kubernetes가 기본 자동 추가하는 Toleration:
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Taint/Toleration
-    ├── NoSchedule → 신규 파드 배치 제어
-    ├── NoExecute  → 기존 파드 축출 + tolerationSeconds
-    ├── Node Affinity (보완: 파드 주도 선택)
-    └── Pod Disruption Budget (PDB) → 축출 안전 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Taint/Toleration</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NoSchedule → 신규 파드 배치 제어</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NoExecute → 기존 파드 축출 + tolerationSeconds</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Node Affinity (보완: 파드 주도 선택)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Pod Disruption Budget (PDB) → 축출 안전 제어</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > 노드는 놀이터, Taint는 "이 미끄럼틀은 헬멧 착용자만!"이라는 안내판이고, Toleration은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 들고 있는 헬멧이에요.

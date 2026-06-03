@@ -35,20 +35,20 @@ tags = ["studynote-algorithm"]
 
 **p-값과 기각 영역**:
 
-```
-     H₀ 하의 분포
- 확률
- 밀도 ▲
-      │         ___
-      │       /     \
-      │      /       \
-      │     /         \
-      │────/─────────┬─\────────
-      │  α/2 기각영역│  α/2 기각영역
-      │             ↑
-      └────────────────────────▶  검정 통계량
-                              임계값(Critical Value)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">H₀ 하의 분포</div>
+<div class="kb-diagram-note">확률</div>
+<div class="kb-diagram-note">밀도 ▲</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α/2 기각영역</div><div class="kb-diagram-cell">α/2 기각영역</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 검정 통계량</div>
+<div class="kb-diagram-note">임계값(Critical Value)</div>
+</div>
+</div>
+
+
 
 **단측 vs 양측 검정**:
 - **단측 (One-Tailed)**: α가 한쪽에만 (H₁: μ > μ₀ 또는 μ < μ₀)
@@ -63,11 +63,11 @@ tags = ["studynote-algorithm"]
 | | H₀ 실제로 참 | H₀ 실제로 거짓 |
 |:---|:---:|:---:|
 | **H₀ 채택** | ✅ 올바른 결정 | ❌ **2종 오류 β** (False Negative) |
-| **H₀ 기각** | ❌ **1종 오류 α** (False Positive) | ✅ **검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1-β)** |
+| **H₀ 기각** | ❌ **1종 오류 α** (False Positive) | ✅ <strong>검정력 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> = 1-β)</strong> |
 
 - **1종 오류 (Type I Error, α)**: 실제로 차이 없는데 있다고 판정 (가짜 양성)
 - **2종 오류 (Type II Error, β)**: 실제로 차이 있는데 없다고 판정 (가짜 음성)
-- **검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))** = 1 - β: 실제 효과가 있을 때 올바르게 탐지하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+- <strong>검정력 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong> = 1 - β: 실제 효과가 있을 때 올바르게 탐지하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 
 **검정력에 영향을 주는 요인**:
 - 표본 크기 n ↑ → 검정력 ↑
@@ -87,13 +87,13 @@ tags = ["studynote-algorithm"]
 z = (x̄ - μ₀) / (σ/√n)   ~  N(0,1)
 ```
 
-**[t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) ([t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**: 모표준편차 σ를 모르는 경우, 표본 표준편차 s로 대체
+<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>: 모표준편차 σ를 모르는 경우, 표본 표준편차 s로 대체
 
 ```
 t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 ```
 
-**[카이제곱 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) ([Chi-Square Test](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/), χ²)**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">카이제곱 검정</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/">Chi-Square Test</a>, χ²)</strong>:
 - 적합도: 관측 빈도가 기대 분포에 맞는지
 - 독립성: 두 범주형 변수의 독립성
 
@@ -119,7 +119,7 @@ t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 
 **다중 검정 문제**: 100개 독립 검정을 α=0.05로 실시하면, 평균 5개는 우연히 유의하게 나온다.
 
-**1종 오류 누적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: P(최소 1개 우연 유의) = 1 - (1-α)^m → 1에 가까워짐
+<strong>1종 오류 누적 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: P(최소 1개 우연 유의) = 1 - (1-α)^m → 1에 가까워짐
 
 **본페로니 보정 (Bonferroni Correction)**:
 - 보정된 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/): α_보정 = α/m (m = 검정 수)
@@ -148,11 +148,11 @@ BH 절차:
 - ❌ "효과 크기가 크다는 의미" (작은 효과도 n이 크면 p < 0.05)
 - ❌ "연구 결과가 재현된다는 의미"
 
-**재현성 위기 ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) Crisis)**: 심리학, 의학, 경제학 분야에서 발표된 연구의 상당수가 재현 불가능함이 드러남.
+<strong>재현성 위기 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a> Crisis)</strong>: 심리학, 의학, 경제학 분야에서 발표된 연구의 상당수가 재현 불가능함이 드러남.
 
 주요 원인:
 - **p-해킹 (p-Hacking)**: p < 0.05가 될 때까지 분석 조정
-- **출판 편향 (Publication [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 유의한 결과만 출판
+- <strong>출판 편향 (Publication <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 유의한 결과만 출판
 - **표본 크기 부족**: 낮은 검정력으로 불안정한 추정
 
 **대안 제안**: 효과 크기(Cohen's d) 보고, [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) 제시, 사전 등록(Pre-Registration), 베이즈 인자(Bayes Factor) 사용.
@@ -177,21 +177,23 @@ BH 절차:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기술통계 (Descriptive Statistics) — 데이터 요약, 평균·분산·분포 파악]
-    │
-    ▼
-[추론통계 (Inferential Statistics) — 표본으로 모집단 추정, 오차 포함]
-    │
-    ▼
-[가설 검정 (Hypothesis Testing) — H₀ 기각 여부 판단, p-값·유의수준 α]
-    │
-    ▼
-[효과 크기 + 신뢰구간 — 통계적 유의성과 실용적 중요성 구분]
-    │
-    ▼
-[베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기술통계 (Descriptive Statistics) — 데이터 요약, 평균·분산·분포 파악</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추론통계 (Inferential Statistics) — 표본으로 모집단 추정, 오차 포함</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가설 검정 (Hypothesis Testing) — H₀ 기각 여부 판단, p-값·유의수준 α</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">효과 크기 + 신뢰구간 — 통계적 유의성과 실용적 중요성 구분</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복</div></div>
+</div>
+</div>
+
+
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요약하는 기술통계에서 모집단을 추론하는 통계적 가설 검정으로 발전한 후, p-값 남용 문제를 인식하고 효과 크기와 베이즈 관점으로 보완하는 통계적 추론 방법론의 성숙 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

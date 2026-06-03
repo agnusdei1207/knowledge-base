@@ -29,26 +29,25 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 전자정부법 제57조가 공공 정보화 사업의 어느 단계에 개입하여 어떤리스크를관리하는지 보여주는 법률 흐름 도식이다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [전자정부법 제57조 적용 정보화 사업 Lifecycle] │
-│ │
-│ [사업기획]──>[사업RQ진행]──>[사업시행]──>[사업완료] │
-│ │ │ │ │ │
-│ ▼ ▼ ▼ ▼ │
-│ ○ 사업 ghosts │ │ │ │
-│ 선정 여부 │ │ │ │
-│ 확인 │ │ │ │
-│ │ ▼ ▼ ▼ │
-│ └─► [예비조사]──>[실시감리]──>[시정조치]──>[최종확인]
-│ │ │ │
-│ └───► 제57조 의무감리 ◄─┘ │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전자정부법 제57조 적용 정보화 사업 Lifecycle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업기획</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">사업RQ진행</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">사업시행</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">사업완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ 사업 ghosts</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선정 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">예비조사</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">실시감리</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">시정조치</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">최종확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► 제57조 의무감리 ◄─</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 제57조에 따른 감리가 사업의(기획), (시행), (완료) 전 단계에 개입하여 관리한다는 점이다.에 감리해서 결과를 받는 것만으로는 부족하며,에 감리 대상 사업인지 판단하고,에도 중간 감리를 수행하여 문제을초기에 해결하는ughtfordiscount approach가 요구된다.
 
-📢 **섹션 요약 비유**: 전자정부법 제57조는화 사업에 대해서는 **'반드시 해야 하는Mandatory 품질 검사관'**과 같습니다. 식품을 만드는 공장이 없이 음식을 팔 수 없듯이, 도 법률에 따른 감리 없이는완료되고제공될 수 없습니다.
+📢 **섹션 요약 비유**: 전자정부법 제57조는화 사업에 대해서는 <strong>'반드시 해야 하는Mandatory 품질 검사관'</strong>과 같습니다. 식품을 만드는 공장이 없이 음식을 팔 수 없듯이, 도 법률에 따른 감리 없이는완료되고제공될 수 없습니다.
 
 ---
 
@@ -68,22 +67,24 @@ tags = ["design_supervision"]
 
 감리 의무 사업으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는지 판단하는 의사결정 트리를 살펴보면 다음과 같다.
 
-```text
-[정보화 사업 시작]
-│
-├── 총사업비 50억 원 이상? (IT alone 30억 원 이상)
-│ ├── YES ──> [제57조 의무감리 대상] ──> 3단계 감리 실시
-│ │
-│ └── NO ──> [자율감리 / PMO 대행 검토]
-│ │
-│ ├── 사업도 High? ──> [감리 권고]
-│ │
-│ └── 사업도 Low ──> [사후]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 사업 시작</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">총사업비 50억 원 이상? (IT alone 30억 원 이상)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── YES ──&gt;</div><div class="kb-diagram-node">제57조 의무감리 대상</div><div class="kb-diagram-note">──&gt; 3단계 감리 실시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── NO ──&gt;</div><div class="kb-diagram-node">자율감리 / PMO 대행 검토</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── 사업도 High? ──&gt;</div><div class="kb-diagram-node">감리 권고</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── 사업도 Low ──&gt;</div><div class="kb-diagram-node">사후</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 트리의 핵심은 단순히 예산 규모만으로 판단하는 것이 아니라, 사업의도([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Complexity)와 전략적 중요도(Strategic Importance)를 함께 고려해야 한다는 점이다. 총사업비가 기준에 못 미치더라도 보안적으로 민감하거나 대규모 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를하는 사업이라면, 발주기관은적으로 감리를 시행할 필요가 있다.
 
-📢 **섹션 요약 비유**: 전자정부법 제57조의 적용 판단은 **'소득세 신고 의무 판단'**과 같습니다. 소득이 기준금액을 넘기면 반드시 신고해야 하는 것처럼, 정보화 사업도 일정 규모 이상이면 반드시 감리를 받아야 하며, 이를violate하면 قانون적 불이익을 받게 됩니다.
+📢 **섹션 요약 비유**: 전자정부법 제57조의 적용 판단은 <strong>'소득세 신고 의무 판단'</strong>과 같습니다. 소득이 기준금액을 넘기면 반드시 신고해야 하는 것처럼, 정보화 사업도 일정 규모 이상이면 반드시 감리를 받아야 하며, 이를violate하면 قانون적 불이익을 받게 됩니다.
 
 ---
 
@@ -97,40 +98,33 @@ tags = ["design_supervision"]
 |:---|:---|:---|:---|
 | **전자정부법** | 제57조~제60조 | 정보화 사업 감리의무, 대상, 시기, 절차 | ** 법령** |
 | **법** | 제5조 (적정낙찰제) | 사업자의 적정성 심사, 계약의 투명성 | 감리에서 적발된문제가 반영 |
-| **[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)** | 제29조 ([개인정보 영향평가](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)) | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 시스템의 안전성 확보 | 감리 시 보호조치 평가 항목 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/">개인정보보호법</a></strong> | 제29조 ([개인정보 영향평가](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)) | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리 시스템의 안전성 확보 | 감리 시 보호조치 평가 항목 |
 | **정보보호 및 네트워크보안 관련법률** | 제31조 (안전조치 의무) | 정보통신망 침해사고 예방 및 대응 | 보안 감리의 추가적 법적 근거 |
 | **지방재정법** | 제39조 (정보화사업 예산편성) | 지방의 정보화 사업 예산 관리 |단체 대상 감리 적용 |
 | **행정기관등정보화사업관리규정** | 제10조~제15조 | 감리 세부 절차 및 방법 | 제57조의 하위 시행 규칙 |
 
 이러한 법령들 간의을/를하면, 전자정부법 제57조는 공공 정보화 감리의 중심축이 되고, 나머지 법령들은 각 분야(, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 보안 등)에서의 보충적 근거로하는 구조다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│ [ 정보화 감리 관련 령 ] │
-│ │
-│ ┌──────────────────┐ │
-│ │ 전자정부법 제57조 │ │
-│ │ (주축 법령) │ │
-│ └────────┬─────────┘ │
-│ │ │
-│ ┌─────────────────┼─────────────────┐ │
-│ ▼ ▼ ▼ │
-│ [개인정보보호법] [] [정보보호법] │
-│ - 영향평가 - 적정낙찰 - 안전조치 │
-│ - 처리절차 - 계약투명 - 침해방지 │
-│ │ │ │ │
-│ └─────────────────┼─────────────────┘ │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ 감리 점검 항목 │ │
-│ │ (통합 평가) │ │
-│ └──────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 감리 관련 령</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자정부법 제57조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주축 법령)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보보호법</div><div class="kb-diagram-note">[]</div><div class="kb-diagram-node">정보보호법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 영향평가 - 적정낙찰 - 안전조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리절차 - 계약투명 - 침해방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 점검 항목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합 평가)</div></div>
+</div>
+</div>
+
+
 
 이 피라미드 구조의 핵심은 전자정부법 제57조가 가장 상위의 평가 기준이 되고, [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/),, 정보보호 등이 각 의한 점검 항목으로 기능한다는 점이다. 감리법인은 이 법령들을 개별적으로따지는 것이 아니라, 통합적 관점에서 적으로해야 한다.
 
-📢 **섹션 요약 비유**: 공공 감리 관련 법령 체계는 **'의료 보험제도 체계'**와 같습니다. 건강보험법(전자정부법 제57조)이 기본 체계를 규정하고, 흡연자 특약([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)), 실손보험() 등이 세부 보충 규정을하면,에서는 이 모든 규정을 적으로하여 진료비를 심의합니다.
+📢 **섹션 요약 비유**: 공공 감리 관련 법령 체계는 <strong>'의료 보험제도 체계'</strong>와 같습니다. 건강보험법(전자정부법 제57조)이 기본 체계를 규정하고, 흡연자 특약([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)), 실손보험() 등이 세부 보충 규정을하면,에서는 이 모든 규정을 적으로하여 진료비를 심의합니다.
 
 ---
 
@@ -150,26 +144,28 @@ tags = ["design_supervision"]
 * **상황**: 총사업비 20억 원(감리 의무 규모 미만)이나, 국가 중요 인프라(, 등)와 연계된 Critical 시스템 구축 사업이다.
 * **기술사적 판단**: 이 경우 전자정부법 제57조상 의무 감리는 아니나, 실질적 리스크를 고려하여 발주기관이 자원하여 감리를 시행하는 것이 바람직하다. 중요한 것은 법률의(Letter)보다 법률의 쓈(Spirit)을 파악하는 것이다. 감리법인은 이러한 사업을하여 발주기관에 자발적 감리를 권고해야 한다.
 
-```text
-[전자정부법 제57조 적용 판단 플로우]
-1. 총사업비 확인 (실질적 금액 기준)
-│
-2. IT alone 30억 / 전체 50억 원 기준 대비
-│
-3. 기준 초과 ──> [의무감리 (3단계 감리)]
-│
-4. 기준 이하 ──> ① 사업도 High? (보안/국보인프라 연계)
-│ ├── YES ──> [권고감리 실시]
-│ └── NO
-│
-└── ② 사업적 중요도 High? (불특정 다수 민생 관련)
-├── YES ──> [권고감리 실시]
-└── NO ──> [사후 평가 / 자율감리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전자정부법 제57조 적용 판단 플로우</div></div>
+<div class="kb-diagram-note">1. 총사업비 확인 (실질적 금액 기준)</div>
+<div class="kb-diagram-note">2. IT alone 30억 / 전체 50억 원 기준 대비</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 기준 초과 ──&gt;</div><div class="kb-diagram-node">의무감리 (3단계 감리)</div></div>
+<div class="kb-diagram-note">4. 기준 이하 ──&gt; ① 사업도 High? (보안/국보인프라 연계)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── YES ──&gt;</div><div class="kb-diagram-node">권고감리 실시</div></div>
+<div class="kb-diagram-note">── NO</div>
+<div class="kb-diagram-tree-item" style="--depth:0">② 사업적 중요도 High? (불특정 다수 민생 관련)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── YES ──&gt;</div><div class="kb-diagram-node">권고감리 실시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── NO ──&gt;</div><div class="kb-diagram-node">사후 평가 / 자율감리</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 플로우의 핵심은 단순히수(Amount)만 기준으로 삼지 말고, 사업의적 중요도와리스크를 적으로 판단해야 한다는 점이다. 훌륭한 감리 전문가가 되기 위해서는법률에 얽매이지 않고,를 자신의적 판단에 녹여내는 Ability가 요구된다.
 
-📢 **섹션 요약 비유**: 제57조 적용 판단은 **'영화 등급 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)'**와 같습니다. 단순히시간이 긴(long) 짧다고(사업 규모) 연령 등급이 되는 것이 아니라, 폭력/선정 내용(사업 내용),(보안 중요도) 등을 적으로 고려하여 등급이 정해집니다.
+📢 **섹션 요약 비유**: 제57조 적용 판단은 <strong>'영화 등급 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>'</strong>와 같습니다. 단순히시간이 긴(long) 짧다고(사업 규모) 연령 등급이 되는 것이 아니라, 폭력/선정 내용(사업 내용),(보안 중요도) 등을 적으로 고려하여 등급이 정해집니다.
 
 ---
 
@@ -187,7 +183,7 @@ tags = ["design_supervision"]
 **미래 전망:**
 전자정부법 제57조의 범위는 더욱 확대될 전망이다. 클라우드 전환, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도입, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 구축 등 정보화 사업 유형이 증가하면서, 기존 감리 기준만으로는 리스크를 다잡기 어렵게 때문이다. 따라서 정부에서는 현재의프레임워크를 개정하여 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프로젝트 감리 가이드, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 특화 감리 항목, 그리고 클라우드 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 감리 기준 등을하는 방향으로 법령을 발전시키고 있다.
 
-📢 **섹션 요약 비유**: 전자정부법 제57조의 미래적용 확대는 **'자동차 안전 기준의 발전'**과 같습니다.은/는 차체 강도 فقط 있었지만, 이제는 에어백, 알콜 잠금장치, 블랙박스, 자동 브레이크 등afety 장치가 추가되듯이, 정보화 사업 감리에도 위험에 대응하는 항목이 계속추가될 것입니다.
+📢 **섹션 요약 비유**: 전자정부법 제57조의 미래적용 확대는 <strong>'자동차 안전 기준의 발전'</strong>과 같습니다.은/는 차체 강도 فقط 있었지만, 이제는 에어백, 알콜 잠금장치, 블랙박스, 자동 브레이크 등afety 장치가 추가되듯이, 정보화 사업 감리에도 위험에 대응하는 항목이 계속추가될 것입니다.
 
 ---
 
@@ -200,21 +196,23 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[의무감리 (Mandatory Audit)]
-│
-▼
-[자율감리 (Voluntary Audit)]
-│
-▼
-[실질적 사업 금액 (Substantial Project Amount)]
-│
-▼
-[행정기관등정보화사업관리규정]
-│
-▼
-[감리시기 (Audit Timing)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">의무감리 (Mandatory Audit)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율감리 (Voluntary Audit)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실질적 사업 금액 (Substantial Project Amount)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행정기관등정보화사업관리규정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리시기 (Audit Timing)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 의무감리 (Mandatory [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))에서 출발해 감리시기 ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Timing)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

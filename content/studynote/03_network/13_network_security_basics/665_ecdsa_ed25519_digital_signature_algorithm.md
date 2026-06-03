@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-앞선 663번 문서에서 배운 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(DSA)과 664번의 타원 곡선([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 기술을 퓨전하여 탄생한 **현대 모바일 시대의 메인 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다.
+앞선 663번 문서에서 배운 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(DSA)과 664번의 타원 곡선([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 기술을 퓨전하여 탄생한 <strong>현대 모바일 시대의 메인 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
 - **원리**: 내가 쓴 글([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 해시 함수로 뭉갠 뒤, 나의 '타원 곡선 개인키'로 서명 연산을 수행합니다.
-- **특징 및 위상**: RSA로 서명을 하면 서명 결과물(도장 자국) 자체가 수백 바이트로 길고 뚱뚱해서 모바일 환경에 부담이 됩니다. **ECDSA는 짧은 키(예: 256비트)를 사용하므로 도장의 크기도 매우 작아 폰과 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에 최적화**되어 있습니다. 비트코인과 이더리움이 지갑(계좌) 증명용으로 채택하며 글로벌 스탠다드가 되었습니다.
+- **특징 및 위상**: RSA로 서명을 하면 서명 결과물(도장 자국) 자체가 수백 바이트로 길고 뚱뚱해서 모바일 환경에 부담이 됩니다. <strong>ECDSA는 짧은 키(예: 256비트)를 사용하므로 도장의 크기도 매우 작아 폰과 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기에 최적화</strong>되어 있습니다. 비트코인과 이더리움이 지갑(계좌) 증명용으로 채택하며 글로벌 스탠다드가 되었습니다.
 
-```text
-[ECC]
-    │
-    ▼
-[ECDSA, Ed25519]
-    │
-    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,14 +46,18 @@ tags = ["studynote-network"]
 ECDSA는 서명을 찍을 때마다 매번 내부적으로 무작위 숫자(난수 $k$)를 생성해서 공식에 넣어야 합니다.
 - **문제점**: 만약 스마트폰의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 버그나 난수 생성기의 결함으로 인해, 해커가 난수 $k$를 예측하거나 두 번 서명할 때 **우연히 똑같은 $k$가 재사용되는 순간, 간단한 수학 계산만으로 주인의 유일한 전재산인 '개인키' 전체가 홀라당 노출**되어버리는 최악의 참사가 벌어집니다. (실제로 과거 소니 플레이스테이션3 해킹 사건이 이 취약점 때문에 터졌습니다.)
 
-```text
-[ECC]
-    │
-    ▼
-[ECDSA, Ed25519]
-    │
-    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,10 +71,10 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 - 서명을 할 때 위험한 시스템 난수 발생기(RNG)를 아예 쓰지 않습니다. 대신 메시지 내용 자체를 해싱한 값을 씨앗으로 삼아 섞어버리므로, 난수가 재사용되어 **내 개인키가 털리는 끔찍한 해킹 위협을 구조적으로 완전히 박살 내버렸습니다.**
 
 ### 2. 압도적인 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도
-- 트위스티드 에드워즈 곡선(Twisted Edwards curve)이라는 특수한 수학 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 공식을 사용하여, 기존 ECDSA나 RSA보다 **소프트웨어 환경에서 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 속도가 미친 듯이(몇 배) 빠릅니다.** 초당 수만 건의 접속([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 핸드셰이크)을 처리해야 하는 구글이나 아마존 서버에 극도로 유리합니다.
+- 트위스티드 에드워즈 곡선(Twisted Edwards curve)이라는 특수한 수학 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 공식을 사용하여, 기존 ECDSA나 RSA보다 <strong>소프트웨어 환경에서 서명을 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하는 속도가 미친 듯이(몇 배) 빠릅니다.</strong> 초당 수만 건의 접속([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 핸드셰이크)을 처리해야 하는 구글이나 아마존 서버에 극도로 유리합니다.
 
 ### 3. [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)(Side-channel) 완벽 방어
-- 스마트폰 CPU가 서명 암호를 계산할 때 전력 소모량이나 연산 시간이 들쭉날쭉하면, 해커가 그걸 밖에서 측정해 키를 유추합니다. Ed25519는 어떤 데이터를 서명하든 **연산 시간이 무조건 100% 동일(Constant-time)**하게 소요되도록 설계되어 물리적 꼼수 해킹마저 완벽히 막아냅니다.
+- 스마트폰 CPU가 서명 암호를 계산할 때 전력 소모량이나 연산 시간이 들쭉날쭉하면, 해커가 그걸 밖에서 측정해 키를 유추합니다. Ed25519는 어떤 데이터를 서명하든 <strong>연산 시간이 무조건 100% 동일(Constant-time)</strong>하게 소요되도록 설계되어 물리적 꼼수 해킹마저 완벽히 막아냅니다.
 
 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. ECC가 기반 조건을 만든다면, [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 그 위에서 핵심 메커니즘을 구현하고, 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 현재 인터넷 통신의 최신 보안 표준([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3)이나 최신 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(솔라나 등), 암호화 메신저 앱([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))은 취약한 ECDSA를 버리고 무조건 더 빠르고 안전한 **Ed25519**를 채택하는 추세로 완전히 넘어가고 있습니다.
+- 현재 인터넷 통신의 최신 보안 표준([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3)이나 최신 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(솔라나 등), 암호화 메신저 앱([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))은 취약한 ECDSA를 버리고 무조건 더 빠르고 안전한 <strong>Ed25519</strong>를 채택하는 추세로 완전히 넘어가고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,15 +121,19 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ECC]
-    │
-    ▼
-[현재 개념: ECDSA, Ed25519]
-    │
-    ├──▶ [확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ECDSA, Ed25519</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 ECC에서 출발해 현재 메커니즘을 정교화하고, 이후 디피-헬만 상호 키 교환 원리 및 스니핑 취…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

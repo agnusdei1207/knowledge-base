@@ -30,25 +30,21 @@ tags = ["software_engineering"]
 
 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 심장부는 만들기 (Build) ➔ 측정 (Measure) ➔ 학습 (Learn)으로 이어지는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           린 스타트업의 핵심 엔진: BML 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"]            │
-│                           │                                  │
-│       ┌───────────────────┴───────────────────┐              │
-│       │                                       │              │
-│  1. 만들기 (Build)                       3. 학습 (Learn)      │
-│  최소 기능만 있는 MVP 개발          데이터 기반 가설 기각 및 깨달음  │
-│       │                                       ▲              │
-│       ▼                                       │              │
-│       └──────────▶ 2. 측정 (Measure) ─────────┘              │
-│                 고객 반응과 전환율 정량 지표 수집               │
-│                           │                                  │
-│             [결정: 비즈니스 모델 방향을 꺾는 Pivot 실행]         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린 스타트업의 핵심 엔진: BML 피드백 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 만들기 (Build) 3. 학습 (Learn)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 기능만 있는 MVP 개발 데이터 기반 가설 기각 및 깨달음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 측정 (Measure)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 반응과 전환율 정량 지표 수집</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정: 비즈니스 모델 방향을 꺾는 Pivot 실행</div></div>
+</div>
+</div>
+
+
 
 1. **가설과 만들기 (Build)**: 완벽한 디자인은 사치다. 핵심 가설만을 검증할 수 있는 최소 기능 제품([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))을 한 달 만에 조잡하더라도 뚝딱 만들어낸다.
 2. **측정 (Measure)**: MVP를 소수의 고객에게 던지고, 그들이 어떤 버튼을 누르고 어디서 이탈하는지 정량적 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 측정한다.
@@ -66,7 +62,7 @@ tags = ["software_engineering"]
 | :--- | :--- | :--- | :--- |
 | **제품 출시 목표** | 완벽한 풀 스펙 기능 완성 | 가설 검증을 위한 최소 기능 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) | 시간 및 자원 낭비 최소화 |
 | **실패에 대한 태도** | 자본 고갈 및 사업 종료의 치명상 | 학습을 위한 자연스러운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 획득 | [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 확보 |
-| **고객 반응 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | 제품 런칭 후 사후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (수동적) | 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 지표 지속 측정 (능동적) | PMF (Product-Market Fit) 도달율 |
+| <strong>고객 반응 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | 제품 런칭 후 사후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (수동적) | 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 지표 지속 측정 (능동적) | PMF (Product-Market Fit) 도달율 |
 
 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)에서 말하는 '군살([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))'의 의미는 직원을 쥐어짜는 것이 아니라, "고객이 원하지도 않는 코드를 개발하는 데 드는 헛된 시간과 자원의 낭비를 완벽히 덜어내는 것"이다. 실패는 피해야 할 악이 아니라, 방향을 올바르게 수정해 주는 나침반의 역할을 한다.
 
@@ -79,8 +75,8 @@ tags = ["software_engineering"]
 스타트업과 신사업 TF([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force) 리더는 고객 지표의 함정에 빠지지 않고 객관적인 의사결정을 내려야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
-1. **허영 지표(Vanity [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) 배제**: 앱 다운로드 수나 회원가입 수처럼 겉보기에만 좋고 실제 매출이나 활성 사용을 증명하지 못하는 지표에 속고 있지 않은가? 고객이 실제로 돈을 지불하고 핵심 기능을 매일 사용하는 재방문율([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) 같은 행동 지표 (Actionable [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 쫓아야만 올바른 학습이 가능하다.
-2. **적시의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 타이밍**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가설 기각을 명확히 가리킬 때, 그동안 투자한 매몰 비용에 대한 미련 때문에 결정을 미루고 있지는 않은가? 과감하게 대상 고객을 바꾸거나, 핵심 기능을 엔진 자체로 전환하는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 회사를 살리는 유일한 길이다.
+1. <strong>허영 지표(Vanity <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>) 배제</strong>: 앱 다운로드 수나 회원가입 수처럼 겉보기에만 좋고 실제 매출이나 활성 사용을 증명하지 못하는 지표에 속고 있지 않은가? 고객이 실제로 돈을 지불하고 핵심 기능을 매일 사용하는 재방문율([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) 같은 행동 지표 (Actionable [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 쫓아야만 올바른 학습이 가능하다.
+2. <strong>적시의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>) 타이밍</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가설 기각을 명확히 가리킬 때, 그동안 투자한 매몰 비용에 대한 미련 때문에 결정을 미루고 있지는 않은가? 과감하게 대상 고객을 바꾸거나, 핵심 기능을 엔진 자체로 전환하는 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 회사를 살리는 유일한 길이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 고객 피드백을 수집한다는 명목하에 "어떤 기능을 만들어 드릴까요?"라고 직접 묻기만 하는 것. 헨리 포드의 말처럼 고객은 자신들이 무엇을 원하는지 잘 모른다. MVP를 던져주고 그들의 실제 '행동 지표'를 관찰해야지, 입으로 말하는 '설문조사'에만 의존하면 엉뚱한 제품이 나온다.
@@ -103,27 +99,29 @@ tags = ["software_engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))** | 린 루프를 돌리기 위해 고객 가설을 검증할 수 있는 핵심 기능만 최소한으로 구현한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제품 |
-| **[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))** | 학습 단계에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 가설이 틀렸음을 인정하고 비전은 유지한 채 사업의 핵심 전략을 180도 꺾는 행위 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">Minimum Viable Product</a>)</strong> | 린 루프를 돌리기 위해 고객 가설을 검증할 수 있는 핵심 기능만 최소한으로 구현한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제품 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | 학습 단계에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 가설이 틀렸음을 인정하고 비전은 유지한 채 사업의 핵심 전략을 180도 꺾는 행위 |
 | **PMF (Product-Market Fit)** | 제품이 강한 시장 수요를 완벽히 충족시켜 폭발적으로 성장하기 시작하는 꿈의 교차점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 폭포수 모델의 높은 실패율
-    │
-    ▼
-애자일 (Agile) 개발 및 린 (Lean) 제조 철학의 융합
-    │
-    ▼
-MVP (최소 기능 제품) 구축 및 시장 출시 (Build)
-    │
-    ▼
-허영 지표 배제 및 정량적 행동 지표 측정 (Measure)
-    │
-    ▼
-가설 검증 실패 인정 및 피벗 (Pivot)을 통한 방향 전환 (Learn)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 폭포수 모델의 높은 실패율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 (Agile) 개발 및 린 (Lean) 제조 철학의 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP (최소 기능 제품) 구축 및 시장 출시 (Build)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">허영 지표 배제 및 정량적 행동 지표 측정 (Measure)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가설 검증 실패 인정 및 피벗 (Pivot)을 통한 방향 전환 (Learn)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 무거운 기획 위주의 창업에서 벗어나, 시장 피드백을 통해 제품을 고치고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)에 도달하는 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 진화 과정을 보여준다.
 

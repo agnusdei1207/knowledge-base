@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 배리 보임(Barry Boehm)의 유명한 정의에 따르면, Verification은 **"Are we building the product right?" (우리가 제품을 올바르게 만들고 있는가?)** 라는 질문에 답하는 것이다. (반대말인 Validation은 "올바른 제품을 만들었는가? Are we building the right product?"다). 즉, "내 눈앞의 코드가 1단계 전의 설계도와 똑같이 생겼는가?"라는 선형적이고 논리적인 정합성을 따진다.
 - **필요성**: 만약 자동차를 만드는데 설계도에 "바퀴 4개, 16인치 알로이 휠, [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 5개로 결합"이라고 적혀 있다고 하자. 공장 작업자가 이 도면을 보고 그대로 나사 5개를 정확한 토크(Torque) 값으로 조이는지 관리자가 뒤에서 지켜보며 체크리스트에 체크를 해야 한다. 이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정(Verification)이 생략되면, 나중에 자동차를 완성해서 트랙에 나갔을 때([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 바퀴가 빠져서 사람이 죽는 대형 참사가 터진다. 뼈대(설계)를 고기로 빚어내는 과정(구현) 자체의 오류를 차단하기 위해 절실히 필요하다.
-- **💡 비유**: 검증(Verification)은 피아니스트가 무대에 오르기 전 **악보(Sheet Music)를 보며 치는 기계적인 리허설**과 같다. 악보에 '도레미파솔'이라고 적혀 있으니 내 손가락이 정확히 '도레미파솔'을 누르는지, 박자가 120BPM에 맞는지 메트로놈을 켜놓고 깐깐하게 스스로 점검([Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))하는 행위다. (이 곡이 관객에게 감동을 줄지 안 줄지는 모른다. 일단 악보대로 쳤다는 사실 자체가 중요하다.)
+- **💡 비유**: 검증(Verification)은 피아니스트가 무대에 오르기 전 <strong>악보(Sheet Music)를 보며 치는 기계적인 리허설</strong>과 같다. 악보에 '도레미파솔'이라고 적혀 있으니 내 손가락이 정확히 '도레미파솔'을 누르는지, 박자가 120BPM에 맞는지 메트로놈을 켜놓고 깐깐하게 스스로 점검([Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))하는 행위다. (이 곡이 관객에게 감동을 줄지 안 줄지는 모른다. 일단 악보대로 쳤다는 사실 자체가 중요하다.)
 
 - **📢 섹션 요약 비유**: 검증은 수학 시험의 '검산'과 똑같습니다. 공식에 숫자를 대입해서 계산 과정에 + - 오타가 없었는지를 스스로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거죠. 이 공식이 애초에 시험 문제에서 요구한 공식인지 아닌지([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))는 일단 나중 문제고, 적어도 내가 쓴 식 안에서는 논리적 모순이 단 1개도 없어야 한다는 차가운 자기 반성입니다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 검증 (Verification)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  검증 (Verification)                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 (Verification)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 검증 (Verification)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -61,7 +60,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-검증 (Verification)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+검증 (Verification)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 검증 (Verification)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -137,21 +136,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-검증 (Verification) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증 (Verification) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

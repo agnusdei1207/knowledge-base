@@ -18,18 +18,21 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)([Conceptual Integrity](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/))은 프레드 브룩스가 강조한 대표적 아키텍처 원칙으로, 시스템을 이루는 기능·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·인터페이스·운영 규칙이 하나의 설계 철학 아래 정렬된 상태를 말한다. 시험에서는 단순 정의보다 **왜 필요한가**를 먼저 써야 한다. 즉 대규모 개발에서는 팀이 늘수록 각자 최적화한 좋은 아이디어가 충돌하고, 그 결과 사용자는 비슷한 기능을 서로 다른 방식으로 경험하며, 운영자는 같은 장애를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다른 규칙으로 처리하게 된다.
+[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)([Conceptual Integrity](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/))은 프레드 브룩스가 강조한 대표적 아키텍처 원칙으로, 시스템을 이루는 기능·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·인터페이스·운영 규칙이 하나의 설계 철학 아래 정렬된 상태를 말한다. 시험에서는 단순 정의보다 <strong>왜 필요한가</strong>를 먼저 써야 한다. 즉 대규모 개발에서는 팀이 늘수록 각자 최적화한 좋은 아이디어가 충돌하고, 그 결과 사용자는 비슷한 기능을 서로 다른 방식으로 경험하며, 운영자는 같은 장애를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다른 규칙으로 처리하게 된다.
 
 감리·설계 관점에서 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 미학이 아니라 통제 장치다. 책임 경계, 명명 규칙, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약, 예외 처리, 배포 원칙이 일관되어야 설계 검토와 품질 판정 기준도 흔들리지 않는다. 결국 이 개념은 "기능이 많으냐"보다 "같은 설계 언어를 쓰느냐"를 묻는 기준이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Requirement ──▶ Principle ──▶ Structure ──▶ Code/Operation   │
-├──────────────────────────────────────────────────────────────┤
-│ 기능 요구      설계 원칙        책임/경계        구현·배포 규칙   │
-│        └────────────── 일관성 붕괴 시 유지보수 비용 급증 ───────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement ──▶ Principle ──▶ Structure ──▶ Code/Operation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 요구 설계 원칙 책임/경계 구현·배포 규칙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 붕괴 시 유지보수 비용 급증</div></div>
+</div>
+</div>
+
+
 
 이 그림은 요구사항이 직접 코드로 가는 것이 아니라, 중간의 설계 원칙과 구조 결정을 거쳐야만 일관된 결과가 나온다는 점을 보여 준다.
 
@@ -39,7 +42,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 "규칙을 많이 만드는 것"이 아니라 **핵심 규칙을 적게, 그러나 끝까지 일관되게 적용하는 것**이다. 시험 답안에서는 보통 ① 공통 설계 원칙, ② 책임 경계의 통일, ③ 설계 결정의 기록과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이라는 세 축으로 정리하면 구조가 안정적이다.
+[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 "규칙을 많이 만드는 것"이 아니라 <strong>핵심 규칙을 적게, 그러나 끝까지 일관되게 적용하는 것</strong>이다. 시험 답안에서는 보통 ① 공통 설계 원칙, ② 책임 경계의 통일, ③ 설계 결정의 기록과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이라는 세 축으로 정리하면 구조가 안정적이다.
 
 | 구성 축 | 역할 | 시험 포인트 |
 |:---|:---|:---|
@@ -47,17 +50,19 @@ tags = ["studynote-design-supervision"]
 | 책임 경계 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 소유권을 명확히 분리 | 같은 규칙이 두 곳에 중복되면 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨진다 |
 | [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)·리뷰 | 설계 결정 배경과 예외를 기록하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 문서와 코드가 같은 원칙을 따르는지 확인해야 한다 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Chief Architect / Architecture Board                         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. Principle 정의 ─▶ 2. ADR 기록 ─▶ 3. Design Review         │
-│        │                    │                    │            │
-│        └──────────▶ 팀별 구현/테스트/배포 규칙 통일 ◀─────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
 
-핵심은 개별 팀의 창의성을 막는 것이 아니라, **변하지 않아야 할 축과 바꿔도 되는 축을 분리**하는 데 있다. 예를 들어 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규약은 통일하되 내부 구현 기술은 팀별 선택을 허용할 수 있다. 이처럼 통일의 범위를 잘 정해야 과도한 중앙집권도, 무분별한 파편화도 피할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chief Architect / Architecture Board</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Principle 정의 ─▶ 2. ADR 기록 ─▶ 3. Design Review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 팀별 구현/테스트/배포 규칙 통일 ◀</div></div>
+</div>
+</div>
+
+
+
+핵심은 개별 팀의 창의성을 막는 것이 아니라, <strong>변하지 않아야 할 축과 바꿔도 되는 축을 분리</strong>하는 데 있다. 예를 들어 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규약은 통일하되 내부 구현 기술은 팀별 선택을 허용할 수 있다. 이처럼 통일의 범위를 잘 정해야 과도한 중앙집권도, 무분별한 파편화도 피할 수 있다.
 
 - **📢 섹션 요약 비유**: 오케스트라에서 악기 종류는 달라도 조성과 박자는 같아야 하나의 곡이 되듯, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 달라도 설계의 기본 문법은 같아야 시스템이 하나로 들린다.
 
@@ -65,7 +70,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 단순 표준화나 코드 통일과 비슷해 보이지만 범위와 깊이가 다르다. 표준화가 문서 형식이나 규칙 목록에 가까우면, [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 **설계 의도와 구조적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**까지 포함한다.
+[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 단순 표준화나 코드 통일과 비슷해 보이지만 범위와 깊이가 다르다. 표준화가 문서 형식이나 규칙 목록에 가까우면, [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 <strong>설계 의도와 구조적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>까지 포함한다.
 
 | 비교 축 | [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/) | 단순 표준화 | 실무 판단 |
 |:---|:---|:---|:---|
@@ -82,7 +87,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)을 "수석 아키텍트의 감각"으로만 두면 오래 유지되지 않는다. 반드시 아키텍처 원칙 문서, [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)), 설계 리뷰, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 규칙, 배포 파이프라인의 품질 게이트까지 연결해야 한다. 기술사 답안에서는 **원칙 → 구조 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수단** 순으로 쓰면 채점 포인트가 명확하다.
+실무에서는 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)을 "수석 아키텍트의 감각"으로만 두면 오래 유지되지 않는다. 반드시 아키텍처 원칙 문서, [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)), 설계 리뷰, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 규칙, 배포 파이프라인의 품질 게이트까지 연결해야 한다. 기술사 답안에서는 <strong>원칙 → 구조 → <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 수단</strong> 순으로 쓰면 채점 포인트가 명확하다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -105,7 +110,7 @@ tags = ["studynote-design-supervision"]
 
 [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)이 확보되면 시스템은 처음 보는 사람에게도 설명 가능해지고, 작은 변경이 어디에 영향을 줄지 예측하기 쉬워진다. 이는 개발 생산성뿐 아니라 장애 대응 속도, 온보딩 시간, 테스트 범위 추정 정확도까지 함께 개선한다.
 
-반대로 이 원칙은 절대주의로 운영하면 안 된다. 모든 것을 중앙 통제하려 들면 팀 자율성이 무너지고 변화 대응이 느려진다. 따라서 결론은 분명하다. **[개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)은 획일화가 아니라, 핵심 경계와 공통 문법을 지켜 구조적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 확보하는 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+반대로 이 원칙은 절대주의로 운영하면 안 된다. 모든 것을 중앙 통제하려 들면 팀 자율성이 무너지고 변화 대응이 느려진다. 따라서 결론은 분명하다. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/">개념적 무결성</a>은 획일화가 아니라, 핵심 경계와 공통 문법을 지켜 구조적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 확보하는 설계 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 잘 설계된 지하철 노선도는 처음 보는 승객도 길을 찾게 하듯, [개념적 무결성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/288_conceptual_integrity/)이 있는 시스템은 처음 온 개발자도 구조를 읽을 수 있게 만든다.
 
@@ -123,21 +128,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 복잡화
-    │
-    ▼
-설계 원칙 정의
-    │
-    ▼
-개념적 무결성 확보
-    │
-    ├──▶ ADR / Review / Standards
-    └──▶ 일관된 코드 · 테스트 · 운영
-              │
-              ▼
-장기 유지보수성 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 복잡화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설계 원칙 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개념적 무결성 확보</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ ADR / Review / Standards</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 일관된 코드 · 테스트 · 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장기 유지보수성 향상</div>
+</div>
+</div>
+
+
 
 이 흐름은 좋은 구조가 우연히 생기는 것이 아니라, 원칙과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 장치가 반복적으로 작동할 때 유지된다는 점을 보여 준다.
 

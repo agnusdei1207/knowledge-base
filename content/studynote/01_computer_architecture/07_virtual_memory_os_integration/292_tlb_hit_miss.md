@@ -19,29 +19,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트와 미스는 가상 주소를 물리 주소로 바꾸는 과정이 빠르게 끝났는지, 아니면 추가 탐색이 필요해졌는지를 나타내는 상태다. 현대 프로세서는 거의 모든 명령 실행에서 메모리 주소 변환을 동반하므로, 이 과정이 느리면 CPU (Central Processing Unit)가 계산보다 주소 찾기에 더 많은 시간을 쓰게 된다. 즉, TLB는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 이전에 **주소 변환 자체를 캐시하는 장치**다.
+[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트와 미스는 가상 주소를 물리 주소로 바꾸는 과정이 빠르게 끝났는지, 아니면 추가 탐색이 필요해졌는지를 나타내는 상태다. 현대 프로세서는 거의 모든 명령 실행에서 메모리 주소 변환을 동반하므로, 이 과정이 느리면 CPU (Central Processing Unit)가 계산보다 주소 찾기에 더 많은 시간을 쓰게 된다. 즉, TLB는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 이전에 <strong>주소 변환 자체를 캐시하는 장치</strong>다.
 
 가상 메모리의 장점은 크고 유연한 주소 공간을 제공한다는 데 있지만, 대가로 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 계속 참조해야 한다. 만약 매 접근마다 메모리에서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry)를 읽어야 한다면, 캐시 히트가 나더라도 번역 단계에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적된다. TLB는 이 구조적 약점을 상쇄해 가상 메모리의 편의성과 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 성립시키는 장치다.
 
 아래 그림은 주소 변환이 빠르게 끝나는 경우와 길어지는 경우가 어디서 갈리는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            가상 주소 접근 시 TLB Hit / Miss 분기 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 가상 주소 생성                                                 │
-│        │                                                             │
-│        ▼                                                             │
-│ MMU가 TLB 조회                                                       │
-│   ├─ Hit  ───────────────▶ 물리 주소 즉시 획득 ─▶ 캐시/메모리 접근   │
-│   │                                                                  │
-│   └─ Miss ─▶ 페이지 테이블 워크 (Page Table Walk)                    │
-│                │                                                     │
-│                ├─ 유효한 매핑 발견 ─▶ TLB 채움 ─▶ 재시도             │
-│                │                                                     │
-│                └─ 매핑 무효 / 부재 ─▶ 페이지 폴트 ─▶ 운영체제 개입   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 접근 시 TLB Hit / Miss 분기 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 가상 주소 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 TLB 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hit ▶ 물리 주소 즉시 획득 ─▶ 캐시/메모리 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Miss ─▶ 페이지 테이블 워크 (Page Table Walk)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 유효한 매핑 발견 ─▶ TLB 채움 ─▶ 재시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 매핑 무효 / 부재 ─▶ 페이지 폴트 ─▶ 운영체제 개입</div></div>
+</div>
+</div>
+
+
 
 핵심은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 곧장 디스크 접근을 뜻하지 않는다는 점이다. 대부분의 미스는 메모리 안의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 추가로 읽는 선에서 끝나지만, 매핑 자체가 없거나 현재 메모리에 올라오지 않은 경우에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입하는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)로 확대된다. 그래서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경고", [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 "실행 경로 변경"에 가깝다.
 
@@ -60,28 +58,27 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 | 유효 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | present, read/write, execute, user/[kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 미스와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 예외를 구분 |
 | [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) (Address Space [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) 또는 PCID (Process-Context [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) | 프로세스별 주소 공간 태깅 | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) flush 감소 |
 
-현대 시스템의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 4단계 이상인 경우가 많다. 따라서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 단순히 "한 번 더 읽는다"가 아니라 여러 단계의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 따라가며 상위 디렉터리부터 최종 엔트리까지 확인해야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스와 달리, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 **주소를 얻기 위해 또 다른 메모리 참조들이 연쇄적으로 발생하는 구조**라는 점이 부담이다.
+현대 시스템의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 4단계 이상인 경우가 많다. 따라서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 단순히 "한 번 더 읽는다"가 아니라 여러 단계의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 따라가며 상위 디렉터리부터 최종 엔트리까지 확인해야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스와 달리, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 <strong>주소를 얻기 위해 또 다른 메모리 참조들이 연쇄적으로 발생하는 구조</strong>라는 점이 부담이다.
 
 아래 그림은 같은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스라도 결과가 어떻게 갈리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                TLB Miss 이후의 두 갈래 처리                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ TLB Miss                                                             │
-│   │                                                                  │
-│   ▼                                                                  │
-│ 페이지 테이블 워크                                                   │
-│   │                                                                  │
-│   ├─ PTE가 유효함 (Present=1)                                        │
-│   │      └─ Soft Miss: TLB만 비어 있었음                             │
-│   │         └─ TLB 갱신 후 명령 재실행                               │
-│   │                                                                  │
-│   └─ PTE가 무효 / 부재 (Present=0 등)                                │
-│          └─ Hard Miss 성격의 페이지 폴트                             │
-│             └─ 운영체제가 페이지 적재 또는 예외 처리                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB Miss 이후의 두 갈래 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블 워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PTE가 유효함 (Present=1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Soft Miss: TLB만 비어 있었음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TLB 갱신 후 명령 재실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PTE가 무효 / 부재 (Present=0 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hard Miss 성격의 페이지 폴트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 운영체제가 페이지 적재 또는 예외 처리</div></div>
+</div>
+</div>
+
+
 
 즉, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트는 번역 정보가 이미 전면에 배치된 상태이고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 그 정보를 재구성해야 하는 상태다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 히트율에 좌우되지만, 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 미스의 종류에 더 크게 좌우된다. 메모리 안에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾는 미스와 저장장치에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 불러와야 하는 폴트는 비용 차이가 몇 자릿수 이상 벌어진다.
 
@@ -91,7 +88,7 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 
 ## Ⅲ. 비교 및 연결
 
-[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트/미스를 제대로 이해하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/), 그리고 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 함께 비교해야 한다. 겉으로는 모두 "메모리 접근이 느려진다"로 보이지만, 실제 병목 위치와 해결책은 서로 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치**가 먼 문제이고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 **주소 번역 정보**가 먼 문제다.
+[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트/미스를 제대로 이해하려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/), 그리고 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 함께 비교해야 한다. 겉으로는 모두 "메모리 접근이 느려진다"로 보이지만, 실제 병목 위치와 해결책은 서로 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 미스는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치</strong>가 먼 문제이고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스는 <strong>주소 번역 정보</strong>가 먼 문제다.
 
 | 구분 | 무엇이 부족한가 | 주된 비용 | 주 대응책 |
 | :-- | :-- | :-- | :-- |
@@ -116,11 +113,11 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 
 1. **대용량 연속 메모리 워크로드**: [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/), JVM (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 대형 힙, 분석 엔진처럼 넓은 주소 공간을 순차적으로 훑는 경우에는 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 적용을 우선 검토한다.
 2. **무작위 포인터 추적 워크로드**: 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 중심 구조는 캐시 미스와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 동시에 유발하므로, 구조 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·배열화·메모리 풀링이 더 효과적일 수 있다.
-3. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경**: 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하이퍼바이저의 이중 번역이 겹치므로, EPT ([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/))나 NPT ([Nested Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/)) 지원과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 관련 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 기능을 확인해야 한다.
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경</strong>: 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하이퍼바이저의 이중 번역이 겹치므로, EPT ([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/))나 NPT ([Nested Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/)) 지원과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 관련 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 기능을 확인해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 히트율이 낮은 원인이 **작은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 용량**인지, **불규칙한 접근 패턴**인지 구분했는가?
+- 히트율이 낮은 원인이 <strong>작은 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 용량</strong>인지, <strong>불규칙한 접근 패턴</strong>인지 구분했는가?
 - [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 증가가 동반되는가, 아니면 메모리 내 재탐색 수준에서 끝나는가?
 - Huge Page가 오히려 내부 단편화나 메모리 회수 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키우지 않는가?
 - [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 잦다면 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/)/PCID 활용 여부와 flush 비용을 확인했는가?
@@ -131,7 +128,7 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 - 거대한 힙을 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로만 운용하면서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 압박을 관찰하지 않는 운영
 - [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스와 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 같은 현상으로 뭉뚱그려 잘못 대응하는 분석
 
-결국 기술사 관점의 답안은 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 감소"라는 구호보다 **워크로드 특성에 따라 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 자료구조, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 설정을 함께 조정한다**는 판단으로 마무리되어야 설득력이 있다.
+결국 기술사 관점의 답안은 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 감소"라는 구호보다 <strong>워크로드 특성에 따라 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a>, 자료구조, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a>) 설정을 함께 조정한다</strong>는 판단으로 마무리되어야 설득력이 있다.
 
 - **📢 섹션 요약 비유**: 손님이 많은 식당에서 주문이 늦는 이유는 메뉴판이 멀어서일 수도 있고, 재료가 창고에 없어서일 수도 있다. 문제 원인을 구분해야 메뉴판을 가까이 둘지, 재고를 더 채울지 올바르게 결정할 수 있다.
 
@@ -141,7 +138,7 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 
 높은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 히트율은 가상 메모리의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 사용자에게 거의 공짜처럼 보이게 만든다. 프로그램은 거대한 가상 주소 공간을 쓰면서도, 실제 실행에서는 번역 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 대부분 숨겨진다. 특히 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 안정적으로 동작하면 파이프라인 중단과 메모리 대기가 함께 줄어든다.
 
-다만 TLB만으로 모든 메모리 병목이 해결되지는 않는다. 워크로드가 지나치게 산개되어 있거나, 메모리 압박으로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 잦거나, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)로 번역 계층이 늘어나면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 최적화만으로는 한계가 있다. 따라서 이 개념은 "작은 캐시 하나"로 기억하기보다, **가상 메모리와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 협업의 첫 번째 가속장치**로 기억하는 것이 정확하다.
+다만 TLB만으로 모든 메모리 병목이 해결되지는 않는다. 워크로드가 지나치게 산개되어 있거나, 메모리 압박으로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 잦거나, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)로 번역 계층이 늘어나면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 최적화만으로는 한계가 있다. 따라서 이 개념은 "작은 캐시 하나"로 기억하기보다, <strong>가상 메모리와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 협업의 첫 번째 가속장치</strong>로 기억하는 것이 정확하다.
 
 앞으로도 서버·클라우드 환경에서는 더 큰 메모리 공간, 더 많은 주소 공간 분리, 더 복잡한 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층이 등장한다. 그럴수록 TLB는 단순한 히트율 수치를 넘어, 메모리 계층 전체의 효율을 가르는 핵심 제어점으로 중요성이 커진다.
 
@@ -162,25 +159,25 @@ TLB는 보통 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_mana
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가상 메모리 (Virtual Memory)
-    │
-    ▼
-페이지 테이블 (Page Table)
-    │
-    ▼
-TLB (Translation Lookaside Buffer)
-    │
-    ├─▶ TLB Hit: 주소 변환 지연 은닉
-    │
-    └─▶ TLB Miss
-            │
-            ├─▶ Page Table Walk
-            │       └─▶ ASID / PCID · Huge Page 최적화
-            │
-            └─▶ Page Fault
-                    └─▶ 운영체제 스와핑 · 가상화 이중 번역 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가상 메모리 (Virtual Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 테이블 (Page Table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB (Translation Lookaside Buffer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ TLB Hit: 주소 변환 지연 은닉</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ TLB Miss</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ Page Table Walk</div>
+<div class="kb-diagram-note">─▶ ASID / PCID · Huge Page 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ Page Fault</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ 운영체제 스와핑 · 가상화 이중 번역 대응</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 도입 → 번역 비용 발생 → TLB로 가속 → 미스 원인별 최적화"라는 연결 구조를 보여준다.
 

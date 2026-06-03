@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도입 이후 조직들은 "모두가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어"라는 이상을 추구했다. 하지만 현실에서 개발자들은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 준수, 인프라 비용 추적 등 핵심 비즈니스 로직과 무관한 작업에 상당한 시간을 소모하게 됐다. 이것이 **[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))**다.
+[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도입 이후 조직들은 "모두가 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어"라는 이상을 추구했다. 하지만 현실에서 개발자들은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) YAML 작성, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 준수, 인프라 비용 추적 등 핵심 비즈니스 로직과 무관한 작업에 상당한 시간을 소모하게 됐다. 이것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>)</strong>다.
 
-[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 이 문제의 해결책으로 등장했다. 전담 플랫폼 팀(Platform Team)이 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·관찰성 도구를 표준화하고, 개발자가 셀프서비스로 사용할 수 있는 **[IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/)/Portal)**를 구축하는 조직 패턴이다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 이 문제의 해결책으로 등장했다. 전담 플랫폼 팀(Platform Team)이 인프라·보안·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·관찰성 도구를 표준화하고, 개발자가 셀프서비스로 사용할 수 있는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/">Internal Developer Platform</a>/Portal)</strong>를 구축하는 조직 패턴이다.
 
 Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)을 "Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Strategic Technology Trends"에 선정했으며, [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 설문에서 응답자의 68%가 플랫폼 팀을 운영 중이거나 계획 중이라고 답했다. Spotify의 Backstage, HashiCorp의 Waypoint, CNCF의 Crossplane이 대표적인 도구 생태계를 형성하고 있다.
 
@@ -33,27 +33,25 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 
 ### [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 조직 구조
 
-```
-  ┌───────────────────────────────────────────────────────┐
-  │               Product Teams (개발자)                    │
-  │   팀 A: 검색서비스    팀 B: 결제서비스    팀 C: 추천    │
-  │      ↓                    ↓                  ↓         │
-  │   "새 서비스 배포해줘"  "DB 필요해"    "모니터링 켜줘" │
-  └───────────────────┬───────────────────────────────────┘
-                      │  IDP (Internal Developer Platform)
-                      ▼
-  ┌───────────────────────────────────────────────────────┐
-  │              Platform Team (플랫폼 팀)                  │
-  │                                                        │
-  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
-  │  │ 셀프서비스    │ │  골든 패스   │ │  템플릿      │  │
-  │  │ 인프라 프로비 │ │  CI/CD 파이프│ │  보안 기본값 │  │
-  │  │ DB, 캐시 생성 │ │  라인 자동화 │ │  (Security   │  │
-  │  └──────────────┘ └──────────────┘ │  by Default) │  │
-  │                                    └──────────────┘  │
-  │  기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger│
-  └───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Teams (개발자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 A: 검색서비스 팀 B: 결제서비스 팀 C: 추천</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"새 서비스 배포해줘" "DB 필요해" "모니터링 켜줘"</div></div>
+<div class="kb-diagram-note">IDP (Internal Developer Platform)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform Team (플랫폼 팀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프서비스</div><div class="kb-diagram-cell">골든 패스</div><div class="kb-diagram-cell">템플릿</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 프로비</div><div class="kb-diagram-cell">CI/CD 파이프</div><div class="kb-diagram-cell">보안 기본값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB, 캐시 생성</div><div class="kb-diagram-cell">라인 자동화</div><div class="kb-diagram-cell">(Security</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">by Default)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger</div></div>
+</div>
+</div>
+
+
 
 ### 골든 패스 (Golden Path) 개념
 
@@ -99,18 +97,24 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 - **Platform Team**: 셀프서비스 내부 플랫폼을 제공하는 전담 팀
 - **Stream-aligned Team**: 비즈니스 기능을 개발하는 팀 (플랫폼 소비자)
 - **Enabling Team**: 새 기술을 플랫폼 팀에 전파하는 팀
-- 핵심 원칙: 플랫폼 팀은 개발자의 **[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)를 능동적으로 줄여야** 한다
+- 핵심 원칙: 플랫폼 팀은 개발자의 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>를 능동적으로 줄여야</strong> 한다
 
 **성숙도 단계**:
-```
-Level 1: 스크립트 모음 (ad-hoc)
-    ↓
-Level 2: CI/CD 파이프라인 표준화
-    ↓
-Level 3: IDP 셀프서비스 포털 (티켓 없이 직접 사용)
-    ↓
-Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Level 1: 스크립트 모음 (ad-hoc)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Level 2: CI/CD 파이프라인 표준화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Level 3: IDP 셀프서비스 포털 (티켓 없이 직접 사용)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정</div>
+</div>
+</div>
+
+
 
 **기술사 판단 포인트**:
 - 플랫폼 팀의 KPI는 "플랫폼 채택률(Adoption Rate)", "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 소요 시간", "개발자 만족도(NPS)"다.
@@ -153,17 +157,21 @@ Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-각 팀이 개별 인프라 구축 (중복 · 비효율)
-    │
-    ▼
-Platform Engineering: 내부 개발자 플랫폼(IDP) 구축
-    ├─► Golden Path: 표준화된 워크플로
-    └─► Self-Service: 개발자 자율 프로비저닝
-    │
-    ▼
-Backstage · Port · Humanitec → IDP 도구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">각 팀이 개별 인프라 구축 (중복 · 비효율)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Platform Engineering: 내부 개발자 플랫폼(IDP) 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Golden Path: 표준화된 워크플로</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Self-Service: 개발자 자율 프로비저닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Backstage · Port · Humanitec → IDP 도구</div>
+</div>
+</div>
+
+
 2. 학생(개발자)은 공부(비즈니스 로직 개발)에만 집중하고, 조리사(플랫폼 팀)가 밥(인프라)을 책임져.
 3. 만약 특별한 음식이 먹고 싶다면(커스텀 인프라) 직접 만들 수 있지만, 대부분은 급식만으로 충분해.
 

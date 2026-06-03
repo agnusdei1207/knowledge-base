@@ -34,22 +34,22 @@ StatefulSet은 고정된 [식별자](/knowledge-base/studynote/03_network/06_net
 | 구성 요소 | 핵심 역할 | 동작 원리 및 효과 |
 | :--- | :--- | :--- |
 | **Ordinal Identity** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 순차적 명명 | `mysql-0`, `mysql-1`처럼 인덱스가 부여되며, 재기동 시에도 동일 이름 유지 |
-| **[Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | 고유한 네트워크 신원 제공 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 개별 `DNS (Domain Name System)` 레코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 지원 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | 고유한 네트워크 신원 제공 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 개별 `DNS (Domain Name System)` 레코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 지원 |
 | **VolumeClaimTemplates** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별 영구 볼륨 할당 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 각각 독립적인 `PVC (PersistentVolumeClaim)`를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           StatefulSet의 정체성 및 볼륨 바인딩 구조           │
-├──────────────────────────────────────────────────────────────┤
-│  [StatefulSet Controller]                                    │
-│       │                                                      │
-│       ├─▶ Pod: web-0 ──DNS: web-0.svc──▶ PVC: data-web-0     │
-│       │                                                      │
-│       ├─▶ Pod: web-1 ──DNS: web-1.svc──▶ PVC: data-web-1     │
-│       │                                                      │
-│       └─▶ Pod: web-2 ──DNS: web-2.svc──▶ PVC: data-web-2     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StatefulSet의 정체성 및 볼륨 바인딩 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">StatefulSet Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-0 ──DNS: web-0.svc──▶ PVC: data-web-0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-1 ──DNS: web-1.svc──▶ PVC: data-web-1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-2 ──DNS: web-2.svc──▶ PVC: data-web-2</div></div>
+</div>
+</div>
+
+
 
 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 확장은 인덱스가 0인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)부터 순차적으로 이루어지며(0 → 1 → 2), 이전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 완전히 `Running` 및 `Ready` 상태가 되어야 다음 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 시작한다. 축소 및 삭제는 반대 순서(2 → 1 → 0)로 진행되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화의 충돌을 방지한다.
 
@@ -63,8 +63,8 @@ StatefulSet을 정확히 이해하려면 무상태 워크로드를 관리하는 
 
 | 비교 축 | [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | StatefulSet |
 | :--- | :--- | :--- |
-| **[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 명명 규칙** | 무작위 해시 (예: `web-7abc-x2`) | 고정된 순차 번호 (예: `web-0`, `web-1`) |
-| **볼륨 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)** | 모든 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 동일 볼륨 공유 가능 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 1:1 고유 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) 할당 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 명명 규칙</strong> | 무작위 해시 (예: `web-7abc-x2`) | 고정된 순차 번호 (예: `web-0`, `web-1`) |
+| <strong>볼륨 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a></strong> | 모든 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 동일 볼륨 공유 가능 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 1:1 고유 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) 할당 |
 | **시작 및 종료 순서** | 동시다발적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | 엄격한 순차적 처리 |
 | **적합한 워크로드** | 웹 서버, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | DB 클러스터, `Kafka`, `ZooKeeper` |
 
@@ -80,8 +80,8 @@ StatefulSet을 정확히 이해하려면 무상태 워크로드를 관리하는 
 
 ### 💡 기술사 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. **워크로드 특성 검토**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 이름이나 IP가 변경되었을 때, 클러스터 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(예: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/), Paxos)이 깨지는가?
-2. **볼륨 생명주기 분리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: StatefulSet을 삭제해도 PVC는 기본적으로 보존된다. 삭제 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 지울 것인지에 대한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 정리 정책이 수립되었는가?
-3. **[Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 매핑**: 로드밸런싱이 목적이 아니라 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 다이렉트 통신이 목적이므로, `clusterIP: None` 설정이 누락되지 않았는가?
+2. <strong>볼륨 생명주기 분리 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: StatefulSet을 삭제해도 PVC는 기본적으로 보존된다. 삭제 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 지울 것인지에 대한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 정리 정책이 수립되었는가?
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 매핑</strong>: 로드밸런싱이 목적이 아니라 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 다이렉트 통신이 목적이므로, `clusterIP: None` 설정이 누락되지 않았는가?
 
 ### 🚫 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **임시 볼륨 사용**: 볼륨 템플릿에 `emptyDir`을 사용하여, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가게 구성하는 설계.
@@ -105,33 +105,35 @@ StatefulSet을 적절히 활용하면, 재난 [복구](/knowledge-base/studynote
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | `clusterIP: None`으로 설정되어, 로드밸런싱 없이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 개별의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드를 직접 반환 |
-| **[PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) (PersistentVolumeClaim)** | StatefulSet의 `VolumeClaimTemplates`에 의해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별로 동적 프로비저닝되는 [영구 스토리지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/) |
-| **[Operator Pattern](/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/)** | StatefulSet만으로 부족한 DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 등 복잡한 상태 관리를 자동화하는 패턴 |
-| **[DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/)** | 상태와 무관하게 모든 노드에 1개씩 떠야 하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/모니터링 에이전트 워크로드 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | `clusterIP: None`으로 설정되어, 로드밸런싱 없이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 개별의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드를 직접 반환 |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/">PVC</a> (PersistentVolumeClaim)</strong> | StatefulSet의 `VolumeClaimTemplates`에 의해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별로 동적 프로비저닝되는 [영구 스토리지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/565_operator_pattern/">Operator Pattern</a></strong> | StatefulSet만으로 부족한 DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 등 복잡한 상태 관리를 자동화하는 패턴 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/">DaemonSet</a></strong> | 상태와 무관하게 모든 노드에 1개씩 떠야 하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/모니터링 에이전트 워크로드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[무상태 워크로드 관리]
-Deployment / ReplicaSet (일회성 파드)
-        │
-        ▼
-[상태 의존성 문제 발생]
-네트워크 신원 변경 및 볼륨 공유 충돌
-        │
-        ▼
-[상태 저장 제어기 도입]
-StatefulSet (고정 Ordinal Index)
-        │
-        ▼
-[정체성 및 데이터 영속성 결합]
-Headless Service (고정 DNS) + VolumeClaimTemplates (고유 PVC)
-        │
-        ▼
-[고도화된 상태 관리]
-Kubernetes Operator (DB 특화 자동화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무상태 워크로드 관리</div></div>
+<div class="kb-diagram-note">Deployment / ReplicaSet (일회성 파드)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 의존성 문제 발생</div></div>
+<div class="kb-diagram-note">네트워크 신원 변경 및 볼륨 공유 충돌</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 저장 제어기 도입</div></div>
+<div class="kb-diagram-note">StatefulSet (고정 Ordinal Index)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정체성 및 데이터 영속성 결합</div></div>
+<div class="kb-diagram-note">Headless Service (고정 DNS) + VolumeClaimTemplates (고유 PVC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고도화된 상태 관리</div></div>
+<div class="kb-diagram-note">Kubernetes Operator (DB 특화 자동화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

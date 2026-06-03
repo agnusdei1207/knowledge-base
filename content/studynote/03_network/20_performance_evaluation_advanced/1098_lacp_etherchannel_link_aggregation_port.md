@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **트래픽 폭주**: 1Gbps 선 1개로 감당이 안 될 때, 10Gbps 장비로 통째로 갈아치우는 건 수천만 원이 깨집니다.
-- **물리적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 꽂기의 실패**: 1Gbps 4개를 그냥 꽂으면, 1097번 **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) (Spanning Tree [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**가 "어? 동그랗게 선이 빙빙 도는 루핑이네?" 하고 3가닥을 싹둑 잘라버려서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장이 100% 무력화됩니다.
+- <strong>물리적 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 꽂기의 실패</strong>: 1Gbps 4개를 그냥 꽂으면, 1097번 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> (Spanning Tree <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>가 "어? 동그랗게 선이 빙빙 도는 루핑이네?" 하고 3가닥을 싹둑 잘라버려서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장이 100% 무력화됩니다.
 
-```text
-[브로드캐스트 스톰]
-    │
-    ▼
-[LACP 이더채널 포트 논리 그룹화]
-    │
-    └──▶ [VLAN 간 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 간 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념 ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 트렁킹/본딩)**: 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이에 연결된 **여러 개의 얇은 물리적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(랜선 2~8가닥)들을 소프트웨어 설정으로 꽁꽁 묶어서, 마치 '거대하고 두꺼운 1개의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 인터페이스([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))'처럼 행동하게 만드는 마법**입니다.
-- **LACP (Link Aggregation Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), IEEE 802.3ad) 🌟**: 
+- <strong>개념 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 트렁킹/본딩)</strong>: 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이에 연결된 <strong>여러 개의 얇은 물리적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(랜선 2~8가닥)들을 소프트웨어 설정으로 꽁꽁 묶어서, 마치 '거대하고 두꺼운 1개의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 인터페이스(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)'처럼 행동하게 만드는 마법</strong>입니다.
+- <strong>LACP (Link Aggregation Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>, IEEE 802.3ad) 🌟</strong>: 
   - [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)을 묶을 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 서로 "야, 우리 4가닥 선 묶을까?" 하고 동적으로 협상(Handshake)하는 전 세계 공통 국제 표준 프로토콜입니다. (시스코 전용인 PAgP도 있지만 LACP가 천하 통일함)
 
-```text
-[브로드캐스트 스톰]
-    │
-    ▼
-[LACP 이더채널 포트 논리 그룹화]
-    │
-    └──▶ [VLAN 간 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 간 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,11 +65,11 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 뻥튀기 ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Aggregation)
-- 1Gbps 랜선 8가닥을 LACP로 묶으면? **순식간에 8Gbps짜리 거대한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 1개의 백본망**이 뚝딱 완성됩니다.
-- **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 바보 만들기**: STP의 뇌(로직)가 보기엔, 8가닥의 선이 아니라 **'[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)-channel 1번이라는 단 1개의 거대한 다리'**로 보입니다. 그래서 STP가 다리를 끊지(Block) 않고 무사통과시켜 주어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 800% 온전히 빨아먹을 수 있습니다.
+- 1Gbps 랜선 8가닥을 LACP로 묶으면? <strong>순식간에 8Gbps짜리 거대한 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 1개의 백본망</strong>이 뚝딱 완성됩니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 바보 만들기</strong>: STP의 뇌(로직)가 보기엔, 8가닥의 선이 아니라 <strong>'<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>-channel 1번이라는 단 1개의 거대한 다리'</strong>로 보입니다. 그래서 STP가 다리를 끊지(Block) 않고 무사통과시켜 주어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 800% 온전히 빨아먹을 수 있습니다.
 
 ### 2. 1도 안 끊기는 로드밸런싱 ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 🌟
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 통째로 쪼개서 분산시키는 게 아니라, **'출발지와 목적지(IP, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 수학적 해시(Hash) 연산 결과'**에 따라 트래픽을 8가닥의 도로에 골고루 찢어서 분배합니다.
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개를 통째로 쪼개서 분산시키는 게 아니라, <strong>'출발지와 목적지(IP, <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)의 수학적 해시(Hash) 연산 결과'</strong>에 따라 트래픽을 8가닥의 도로에 골고루 찢어서 분배합니다.
 - A 직원의 넷플릭스는 1번 선으로 타고, B 직원의 카톡은 3번 선을 타면서 8가닥 도로가 꽉꽉 차게 완벽히 하중 분산을 때려냅니다.
 
 ### 3. 무중단 절대 방어막 (Redundancy / [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))
@@ -93,7 +101,7 @@ LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 잇는 랜선은 **'왕복 1차선 비포장도로'**입니다. 차가 막힌다고 도로 4개를 옆에 대충 나란히 뚫어버리면, 교통경찰([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 출동해 "도로가 겹쳐서 길 잃고 뺑뺑 돈다(루핑)!"며 3개의 도로에 시멘트 장벽을 치고 막아버립니다. **LACP([이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/))**는 이 교통경찰을 속이는 **'대형 텐트 꼼수'**입니다. 4개의 1차선 도로 위를 덮는 거대하고 까만 대형 텐트([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/))를 씌워버립니다. 교통경찰이 보기엔 안에 길이 몇 갠지 모르고 그냥 **'아, 존나게 넓은 4차선 톨게이트([이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) 1번) 하나네!'**라고 착각하여 도로 차단을 면제해 줍니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 4배 확장). 이 텐트 속 4개의 도로 위에서, 톨게이트 직원은 들어오는 차의 번호판(해시 연산)을 보고 "넌 1번 도로 타! 넌 3번 타!" 하며 골고루 분산시킵니다(로드밸런싱). 만약 공사로 2번 도로가 구멍이 나도, 텐트는 무너지지 않고 직원들이 1, 3, 4번 도로로 차들을 눈썹 휘날리게 스무스하게 빼주어(무중단 1초 우회), 고객은 자기가 달리던 도로 하나가 폭파된 지도 모른 채 광속으로 달리게 되는 궁극의 케이블 묶음 마법입니다.
+- **📢 섹션 요약 비유**: 기존에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 잇는 랜선은 <strong>'왕복 1차선 비포장도로'</strong>입니다. 차가 막힌다고 도로 4개를 옆에 대충 나란히 뚫어버리면, 교통경찰([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 출동해 "도로가 겹쳐서 길 잃고 뺑뺑 돈다(루핑)!"며 3개의 도로에 시멘트 장벽을 치고 막아버립니다. <strong>LACP(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/">이더채널</a>)</strong>는 이 교통경찰을 속이는 <strong>'대형 텐트 꼼수'</strong>입니다. 4개의 1차선 도로 위를 덮는 거대하고 까만 대형 텐트([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/))를 씌워버립니다. 교통경찰이 보기엔 안에 길이 몇 갠지 모르고 그냥 <strong>'아, 존나게 넓은 4차선 톨게이트(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/">이더채널</a> 1번) 하나네!'</strong>라고 착각하여 도로 차단을 면제해 줍니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 4배 확장). 이 텐트 속 4개의 도로 위에서, 톨게이트 직원은 들어오는 차의 번호판(해시 연산)을 보고 "넌 1번 도로 타! 넌 3번 타!" 하며 골고루 분산시킵니다(로드밸런싱). 만약 공사로 2번 도로가 구멍이 나도, 텐트는 무너지지 않고 직원들이 1, 3, 4번 도로로 차들을 눈썹 휘날리게 스무스하게 빼주어(무중단 1초 우회), 고객은 자기가 달리던 도로 하나가 폭파된 지도 모른 채 광속으로 달리게 되는 궁극의 케이블 묶음 마법입니다.
 
 ---
 
@@ -116,15 +124,19 @@ LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 브로드캐스트 스톰]
-    │
-    ▼
-[현재 개념: LACP 이더채널 포트 논리 그룹화]
-    │
-    ├──▶ [확장 A: VLAN 간 라우팅]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브로드캐스트 스톰</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LACP 이더채널 포트 논리 그룹화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VLAN 간 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)는 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

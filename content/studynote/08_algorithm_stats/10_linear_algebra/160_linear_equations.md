@@ -52,29 +52,40 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 
 확대 행렬 [A|b]에 행 연산을 적용해 행 계단형 (Row Echelon Form) 으로 변환:
 
-```
-초기 [A|b]:                 행 계단형:
-┌ 2  1  -1 │  8 ┐         ┌ 2  1  -1 │  8  ┐
-│ -3 -1   2 │ -11│  ─────► │ 0  0.5 0.5│ 1   │
-└ -2  1   2 │ -3 ┘         └ 0  0   1  │ -1  ┘
 
-후방 대입 (Back Substitution):
-  x₃ = -1
-  x₂ = (1 - 0.5·(-1))/0.5 = 3
-  x₁ = (8 - 1·3 - (-1)·(-1))/2 = 2
-```
 
-**[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)**: O(n³) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기</div><div class="kb-diagram-node">A|b</div><div class="kb-diagram-note">: 행 계단형:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 1 -1</div><div class="kb-diagram-cell">8 2 1 -1</div><div class="kb-diagram-cell">8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-3 -1 2</div><div class="kb-diagram-cell">-11</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">0 0.5 0.5</div><div class="kb-diagram-cell">1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-2 1 2</div><div class="kb-diagram-cell">-3 0 0 1</div><div class="kb-diagram-cell">-1</div></div>
+<div class="kb-diagram-note">후방 대입 (Back Substitution):</div>
+<div class="kb-diagram-note">x₃ = -1</div>
+<div class="kb-diagram-note">x₂ = (1 - 0.5·(-1))/0.5 = 3</div>
+<div class="kb-diagram-note">x₁ = (8 - 1·3 - (-1)·(-1))/2 = 2</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong>: O(n³) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산
 
 ### LU 분해 (LU Decomposition)
 
 A = LU (하삼각 × 상삼각)
 
-```
-┌ a b c ┐   ┌ l₁₁  0   0  ┐   ┌ u₁₁ u₁₂ u₁₃ ┐
-│ d e f │ = │ l₂₁ l₂₂  0  │ × │  0  u₂₂ u₂₃ │
-└ g h i ┘   └ l₃₁ l₃₂ l₃₃ ┘   └  0   0  u₃₃ ┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">a b c l₁₁ 0 0 u₁₁ u₁₂ u₁₃</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d e f</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">l₂₁ l₂₂ 0</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">0 u₂₂ u₂₃</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">g h i l₃₁ l₃₂ l₃₃ 0 0 u₃₃</div>
+</div>
+</div>
+
+
 
 LU 분해 후 Ax = b 풀기:
 1. Ly = b → y 구하기 (전방 대입, O(n²))
@@ -86,14 +97,20 @@ LU 분해 후 Ax = b 풀기:
 
 가우스 소거에서 대각 원소 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 가 0이거나 매우 작으면 수치 오류 급증.
 
-**부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 (Partial Pivoting)**: 각 단계에서 절댓값 최대 행을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 행으로 교환.
+<strong>부분 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a>팅 (Partial Pivoting)</strong>: 각 단계에서 절댓값 최대 행을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 행으로 교환.
 
-```
-소거 전:                    피벗팅 후:
-┌ 0.001  1 │ 1 ┐           ┌ 1   2 │ 3 ┐
-└ 1      2 │ 3 ┘    ──►    └ 0.001 1 │ 1 ┘
-← 피벗=0.001 → 오류 증폭!      ← 피벗=1 → 안정!
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소거 전: 피벗팅 후:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.001 1</div><div class="kb-diagram-cell">1 1 2</div><div class="kb-diagram-cell">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2</div><div class="kb-diagram-cell">3 ──► 0.001 1</div><div class="kb-diagram-cell">1</div></div>
+<div class="kb-diagram-note">← 피벗=0.001 → 오류 증폭! ← 피벗=1 → 안정!</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: LU 분해는 "공식 한 번 외워두고 값만 바꿔 계산하기"다 — 매번 처음부터 계산하는 대신, A를 분해해두면 b가 바뀔 때마다 빠르게 해를 구한다.
 
@@ -103,12 +120,17 @@ LU 분해 후 Ax = b 풀기:
 
 ### 조건수 (Condition Number)
 
-```
-κ(A) = ‖A‖ · ‖A⁻¹‖
 
-κ(A) ≈ 1: 잘 조건화 (Well-conditioned) → 수치 안정
-κ(A) >> 1: 나쁘게 조건화 (Ill-conditioned) → 작은 b 변화 → 큰 x 변화
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">κ(A) = ‖A‖ · ‖A⁻¹‖</div>
+<div class="kb-diagram-note">κ(A) ≈ 1: 잘 조건화 (Well-conditioned) → 수치 안정</div>
+<div class="kb-diagram-note">κ(A) &gt;&gt; 1: 나쁘게 조건화 (Ill-conditioned) → 작은 b 변화 → 큰 x 변화</div>
+</div>
+</div>
+
+
 
 상대 오류 증폭:
 
@@ -136,27 +158,37 @@ LU 분해 후 Ax = b 풀기:
 
 ### 회로 분석 — 키르히호프 법칙
 
-```
-노드 1: 2I₁ - I₂ = 5
-노드 2: -I₁ + 3I₂ = 2
 
-행렬형: ┌ 2 -1 ┐ ┌ I₁ ┐   ┌ 5 ┐
-        └-1  3 ┘ └ I₂ ┘ = └ 2 ┘
 
-det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">노드 1: 2I₁ - I₂ = 5</div>
+<div class="kb-diagram-note">노드 2: -I₁ + 3I₂ = 2</div>
+<div class="kb-diagram-note">행렬형: 2 -1 I₁ 5</div>
+<div class="kb-diagram-tree-item" style="--depth:4">1 3 I₂ = 2</div>
+<div class="kb-diagram-note">det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재</div>
+</div>
+</div>
+
+
 
 ### 컴퓨터 그래픽스 — 좌표 변환
 
 3D 변환은 4×4 동차 좌표계 (Homogeneous Coordinates) 행렬:
 
-```
-┌ sx  0  0  tx ┐   ┌ x ┐   ┌ sx·x + tx ┐
-│  0 sy  0  ty │ × │ y │ = │ sy·y + ty │
-│  0  0 sz  tz │   │ z │   │ sz·z + tz │
-└  0  0  0   1 ┘   └ 1 ┘   └     1     ┘
-스케일 + 이동 변환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">sx 0 0 tx x sx·x + tx</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 sy 0 ty</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">y</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">sy·y + ty</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 sz tz</div><div class="kb-diagram-cell">z</div><div class="kb-diagram-cell">sz·z + tz</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">0 0 0 1 1 1</div>
+<div class="kb-diagram-note">스케일 + 이동 변환</div>
+</div>
+</div>
+
+
 
 여러 변환을 미리 행렬 곱으로 합성 → 정점마다 O(4×4) 한 번만 적용.
 
@@ -172,7 +204,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 ## Ⅴ. 기대효과 및 결론
 
-선형 연립방정식은 **공학·물리·데이터과학의 공통 언어**다. 회로 분석, 구조 역학, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 최적화, 컴퓨터 그래픽스 모두 Ax = b 형태로 환원된다.
+선형 연립방정식은 <strong>공학·물리·데이터과학의 공통 언어</strong>다. 회로 분석, 구조 역학, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 최적화, 컴퓨터 그래픽스 모두 Ax = b 형태로 환원된다.
 
 현대 수치 선형대수 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (LAPACK, NumPy, PyTorch) 는:
 1. LU/QR/[SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해를 BLAS (Basic Linear Algebra Subprograms) 기반 최적화로 구현
@@ -197,25 +229,28 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Ax = b]
-    │
-    ▼
-[가우스 소거]
-    │
-    ▼
-[LU 분해]
-    │
-    ▼
-[조건수 κ(A)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ax = b</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가우스 소거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LU 분해</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건수 κ(A)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **Ax=b는 "수수께끼 방정식 묶음"**: 여러 개의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(방정식)를 동시에 풀어 숨겨진 값(x)을 찾는다.
-2. **가우스 소거는 "아래서부터 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 하나씩 없애기"**: 복잡한 묶음을 단순하게 줄여가며 차례로 풀어낸다.
+2. <strong>가우스 소거는 "아래서부터 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a> 하나씩 없애기"</strong>: 복잡한 묶음을 단순하게 줄여가며 차례로 풀어낸다.
 3. **조건수가 크면 "아슬아슬한 퍼즐"**: 퍼즐 조각 하나를 조금만 비틀어도 전체가 무너지는 불안정한 상태.
 
 ---

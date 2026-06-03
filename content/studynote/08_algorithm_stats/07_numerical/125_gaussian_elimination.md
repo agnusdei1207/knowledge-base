@@ -18,49 +18,47 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 가우스 소거법 기본
 
-```
-선형 연립 방정식:
-  2x + y - z = 8
-  -3x - y + 2z = -11
-  -2x + y + 2z = -3
 
-행렬 표현:
-  [ 2   1  -1 |  8 ]   ← 확대 행렬 [A|b]
-  [-3  -1   2 | -11]
-  [-2   1   2 |  -3]
 
-전방 소거 (Forward Elimination):
-  목표: 상삼각 행렬로 변환
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">선형 연립 방정식:</div>
+<div class="kb-diagram-note">2x + y - z = 8</div>
+<div class="kb-diagram-tree-item" style="--depth:1">3x - y + 2z = -11</div>
+<div class="kb-diagram-tree-item" style="--depth:1">2x + y + 2z = -3</div>
+<div class="kb-diagram-note">행렬 표현:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1  -1 |  8</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">A|b</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-3  -1   2 | -11</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-2   1   2 |  -3</div></div>
+<div class="kb-diagram-note">전방 소거 (Forward Elimination):</div>
+<div class="kb-diagram-note">목표: 상삼각 행렬로 변환</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Step 1: pivot = A</div><div class="kb-diagram-node">0,0</div><div class="kb-diagram-note">= 2</div></div>
+<div class="kb-diagram-note">R2 = R2 - (-3/2)×R1 → R2 = R2 + 1.5×R1</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1   -1  |  8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   0.5  0.5 |  1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-2   1    2  | -3</div></div>
+<div class="kb-diagram-note">R3 = R3 - (-2/2)×R1 → R3 = R3 + 1×R1</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1   -1 |  8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   0.5  0.5 | 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   2    1 |  5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Step 2: pivot = A</div><div class="kb-diagram-node">1,1</div><div class="kb-diagram-note">= 0.5</div></div>
+<div class="kb-diagram-note">R3 = R3 - (2/0.5)×R2 → R3 = R3 - 4×R2</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1   -1 |  8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   0.5  0.5 | 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   0   -1 |  1</div></div>
+<div class="kb-diagram-note">후방 대입 (Back Substitution):</div>
+<div class="kb-diagram-note">R3: -z = 1 → z = -1</div>
+<div class="kb-diagram-note">R2: 0.5y + 0.5(-1) = 1 → y = 3</div>
+<div class="kb-diagram-note">R1: 2x + 3 - (-1) = 8 → x = 2</div>
+<div class="kb-diagram-note">해: x = 2, y = 3, z = -1</div>
+<div class="kb-diagram-note">복잡도:</div>
+<div class="kb-diagram-note">전방 소거: O(n³/3)</div>
+<div class="kb-diagram-note">후방 대입: O(n²/2)</div>
+<div class="kb-diagram-note">전체: O(n³)</div>
+</div>
+</div>
 
-Step 1: pivot = A[0,0] = 2
-  R2 = R2 - (-3/2)×R1 → R2 = R2 + 1.5×R1
-  [ 2   1   -1  |  8  ]
-  [ 0   0.5  0.5 |  1  ]
-  [-2   1    2  | -3  ]
-  
-  R3 = R3 - (-2/2)×R1 → R3 = R3 + 1×R1
-  [ 2   1   -1 |  8 ]
-  [ 0   0.5  0.5 | 1 ]
-  [ 0   2    1 |  5 ]
 
-Step 2: pivot = A[1,1] = 0.5
-  R3 = R3 - (2/0.5)×R2 → R3 = R3 - 4×R2
-  [ 2   1   -1 |  8 ]
-  [ 0   0.5  0.5 | 1 ]
-  [ 0   0   -1 |  1 ]
-
-후방 대입 (Back Substitution):
-  R3: -z = 1 → z = -1
-  R2: 0.5y + 0.5(-1) = 1 → y = 3
-  R1: 2x + 3 - (-1) = 8 → x = 2
-  
-  해: x = 2, y = 3, z = -1
-
-복잡도:
-  전방 소거: O(n³/3)
-  후방 대입: O(n²/2)
-  전체: O(n³)
-```
 
 > 📢 **섹션 요약 비유**: 가우스 소거법 = 계단식 단서 제거 — 3개 방정식(단서)에서 변수 1개씩 제거. 위→아래로 소거해 삼각 형태. 아래→위로 답 역추적. 방정식 퍼즐 해결!
 
@@ -68,67 +66,60 @@ Step 2: pivot = A[1,1] = 0.5
 
 ## Ⅱ. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅
 
-```
-피벗 (Pivot):
-  소거에 사용되는 기준 원소
 
-문제 1 - 피벗이 0:
-  [0   2   1 | 5]
-  [1   3   2 | 8]
-  
-  0으로 나누기 → 오류!
 
-문제 2 - 피벗이 0에 가까운 작은 수:
-  [0.0001  2   1 | 5]
-  [1       3   2 | 8]
-  
-  배율 계수 = 1 / 0.0001 = 10000
-  부동소수점 연산 → 정밀도 손실 급증
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">피벗 (Pivot):</div>
+<div class="kb-diagram-note">소거에 사용되는 기준 원소</div>
+<div class="kb-diagram-note">문제 1 - 피벗이 0:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0   2   1 | 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1   3   2 | 8</div></div>
+<div class="kb-diagram-note">0으로 나누기 → 오류!</div>
+<div class="kb-diagram-note">문제 2 - 피벗이 0에 가까운 작은 수:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0.0001  2   1 | 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1       3   2 | 8</div></div>
+<div class="kb-diagram-note">배율 계수 = 1 / 0.0001 = 10000</div>
+<div class="kb-diagram-note">부동소수점 연산 → 정밀도 손실 급증</div>
+<div class="kb-diagram-note">부분 피벗팅 (Partial Pivoting):</div>
+<div class="kb-diagram-note">각 단계에서 현재 열에서 절댓값 가장 큰 원소를 피벗으로 선택</div>
+<div class="kb-diagram-note">→ 행 교환 (Pivoting)</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">Step 1 (1열 피벗 선택):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1  -1 |  8</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">2| = 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-3  -1   2 | -11</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-3| = 3 ← 가장 큰 절댓값</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-2   1   2 | -3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-2| = 2</div></div>
+<div class="kb-diagram-note">R1 ↔ R2:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-3  -1   2 | -11</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2   1  -1 |  8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-2   1   2 | -3</div></div>
+<div class="kb-diagram-note">완전 피벗팅 (Complete Pivoting):</div>
+<div class="kb-diagram-note">전체 부분행렬에서 가장 큰 원소 선택</div>
+<div class="kb-diagram-note">행+열 교환 모두 수행</div>
+<div class="kb-diagram-note">더 안정적이지만 O(n³) 추가 탐색 비용</div>
+<div class="kb-diagram-note">→ 실용적으로 부분 피벗팅이 표준</div>
+<div class="kb-diagram-note">Python 구현:</div>
+<div class="kb-diagram-note">import numpy as np</div>
+<div class="kb-diagram-note">def gauss_partial_pivot(A, b):</div>
+<div class="kb-diagram-note">n = len(A)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Ab = np.column_stack(</div><div class="kb-diagram-node">A.astype(float), b.astype(float)</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-note">for col in range(n):</div>
+<div class="kb-diagram-note"># 부분 피벗팅</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">max_row = col + np.argmax(np.abs(Ab</div><div class="kb-diagram-node">col:, col</div><div class="kb-diagram-note">))</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Ab[</div><div class="kb-diagram-node">col, max_row</div><div class="kb-diagram-note">] = Ab[</div><div class="kb-diagram-node">max_row, col</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-note"># 소거</div>
+<div class="kb-diagram-note">for row in range(col+1, n):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">factor = Ab</div><div class="kb-diagram-node">row, col</div><div class="kb-diagram-note">/ Ab</div><div class="kb-diagram-node">col, col</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Ab</div><div class="kb-diagram-node">row, col:</div><div class="kb-diagram-note">-= factor * Ab</div><div class="kb-diagram-node">col, col:</div></div>
+<div class="kb-diagram-note"># 후방 대입</div>
+<div class="kb-diagram-note">x = np.zeros(n)</div>
+<div class="kb-diagram-note">for i in range(n-1, -1, -1):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= (Ab</div><div class="kb-diagram-node">i, n</div><div class="kb-diagram-note">- Ab</div><div class="kb-diagram-node">i, i+1:n</div><div class="kb-diagram-note">@ x</div><div class="kb-diagram-node">i+1:</div><div class="kb-diagram-note">) / Ab</div><div class="kb-diagram-node">i, i</div></div>
+<div class="kb-diagram-note">return x</div>
+</div>
+</div>
 
-부분 피벗팅 (Partial Pivoting):
-  각 단계에서 현재 열에서 절댓값 가장 큰 원소를 피벗으로 선택
-  → 행 교환 (Pivoting)
 
-예:
-  Step 1 (1열 피벗 선택):
-  [ 2   1  -1 |  8 ]  ← |2| = 2
-  [-3  -1   2 | -11]  ← |-3| = 3  ← 가장 큰 절댓값
-  [-2   1   2 | -3 ]  ← |-2| = 2
-  
-  R1 ↔ R2:
-  [-3  -1   2 | -11]
-  [ 2   1  -1 |  8 ]
-  [-2   1   2 | -3 ]
-
-완전 피벗팅 (Complete Pivoting):
-  전체 부분행렬에서 가장 큰 원소 선택
-  행+열 교환 모두 수행
-  더 안정적이지만 O(n³) 추가 탐색 비용
-  → 실용적으로 부분 피벗팅이 표준
-
-Python 구현:
-  import numpy as np
-  
-  def gauss_partial_pivot(A, b):
-      n = len(A)
-      Ab = np.column_stack([A.astype(float), b.astype(float)])
-      
-      for col in range(n):
-          # 부분 피벗팅
-          max_row = col + np.argmax(np.abs(Ab[col:, col]))
-          Ab[[col, max_row]] = Ab[[max_row, col]]
-          
-          # 소거
-          for row in range(col+1, n):
-              factor = Ab[row, col] / Ab[col, col]
-              Ab[row, col:] -= factor * Ab[col, col:]
-      
-      # 후방 대입
-      x = np.zeros(n)
-      for i in range(n-1, -1, -1):
-          x[i] = (Ab[i, n] - Ab[i, i+1:n] @ x[i+1:]) / Ab[i, i]
-      return x
-```
 
 > 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 = 기준점 교체 — 약한 기준점(0에 가까운 숫자)으로 소거하면 오차 폭발. 가장 강한 기준점(절댓값 최대)으로 교체 후 소거. 안정적인 계산의 핵심!
 
@@ -136,48 +127,43 @@ Python 구현:
 
 ## Ⅲ. LU 분해
 
-```
-LU 분해 (LU Decomposition):
-  A = L × U
-  L: 하삼각 행렬 (대각: 1)
-  U: 상삼각 행렬
 
-연결:
-  가우스 소거법 = LU 분해 과정
-  소거 계수 → L 행렬
-  최종 상삼각 → U 행렬
 
-예:
-  A = [2   1  -1]
-      [-3  -1   2]
-      [-2   1   2]
-  
-  L = [1      0    0  ]    U = [ 2    1   -1 ]
-      [-1.5   1    0  ]        [ 0   0.5  0.5]
-      [-1    -6    1  ]        [ 0    0   -1 ]
-  
-  L × U = A (검증)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LU 분해 (LU Decomposition):</div>
+<div class="kb-diagram-note">A = L × U</div>
+<div class="kb-diagram-note">L: 하삼각 행렬 (대각: 1)</div>
+<div class="kb-diagram-note">U: 상삼각 행렬</div>
+<div class="kb-diagram-note">연결:</div>
+<div class="kb-diagram-note">가우스 소거법 = LU 분해 과정</div>
+<div class="kb-diagram-note">소거 계수 → L 행렬</div>
+<div class="kb-diagram-note">최종 상삼각 → U 행렬</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A =</div><div class="kb-diagram-node">2   1  -1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-3  -1   2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-2   1   2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">L =</div><div class="kb-diagram-node">1      0    0</div><div class="kb-diagram-note">U =</div><div class="kb-diagram-node">2    1   -1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-1.5   1    0</div><div class="kb-diagram-node">0   0.5  0.5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">-1    -6    1</div><div class="kb-diagram-node">0    0   -1</div></div>
+<div class="kb-diagram-note">L × U = A (검증)</div>
+<div class="kb-diagram-note">LU 분해의 장점:</div>
+<div class="kb-diagram-note">같은 A로 여러 b 풀기:</div>
+<div class="kb-diagram-note">Ax = b → LUx = b</div>
+<div class="kb-diagram-note">1. Ly = b: 전방 대입 O(n²)</div>
+<div class="kb-diagram-note">2. Ux = y: 후방 대입 O(n²)</div>
+<div class="kb-diagram-note">n개의 다른 b에 대해:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">직접 소거: O(n³) × n번 = O(n⁴)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">LU 분해 1번 + n번 대입: O(n³) + n × O(n²) = O(n³)</div>
+<div class="kb-diagram-note">→ 행렬 역행렬 계산 실제 구현</div>
+<div class="kb-diagram-note">scipy.linalg 사용:</div>
+<div class="kb-diagram-note">from scipy.linalg import lu, solve</div>
+<div class="kb-diagram-note">P, L, U = lu(A) # PA = LU (피벗팅 포함)</div>
+<div class="kb-diagram-note">x = solve(A, b) # LU 분해 내부 사용</div>
+</div>
+</div>
 
-LU 분해의 장점:
-  같은 A로 여러 b 풀기:
-  
-  Ax = b → LUx = b
-  
-  1. Ly = b: 전방 대입 O(n²)
-  2. Ux = y: 후방 대입 O(n²)
-  
-  n개의 다른 b에 대해:
-  - 직접 소거: O(n³) × n번 = O(n⁴)
-  - LU 분해 1번 + n번 대입: O(n³) + n × O(n²) = O(n³)
-  
-  → 행렬 역행렬 계산 실제 구현
 
-scipy.linalg 사용:
-  from scipy.linalg import lu, solve
-  
-  P, L, U = lu(A)   # PA = LU (피벗팅 포함)
-  x = solve(A, b)   # LU 분해 내부 사용
-```
 
 > 📢 **섹션 요약 비유**: LU 분해 = 재사용 가능한 정리 노트 — 방정식 좌변(A)이 같고 우변(b)만 다르면, 한 번 LU로 분해해 두면 다른 b마다 빠르게 해결. 한 번 준비 → 무한 재사용!
 
@@ -185,44 +171,41 @@ scipy.linalg 사용:
 
 ## Ⅳ. 행렬식과 역행렬
 
-```
-가우스 소거법 → 행렬식 계산:
-  U의 대각 원소 곱 = 행렬식 (피벗 교환 부호 고려)
-  
-  det(A) = (-1)^s × U[0,0] × U[1,1] × ... × U[n-1,n-1]
-  (s: 행 교환 횟수)
 
-역행렬 계산:
-  A × A^(-1) = I
-  
-  방법:
-  [A|I] → 가우스-조던 소거 → [I|A^(-1)]
-  
-  가우스-조던 소거:
-  상삼각뿐 아니라 완전한 단위 행렬로 변환
-  (상방 소거도 수행)
 
-행렬 랭크 (Rank):
-  가우스 소거 후 비영 행 수 = 랭크
-  
-  의미:
-  rank(A) = n: 유일 해 존재
-  rank(A) < n: 해 없음 또는 무한 해
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가우스 소거법 → 행렬식 계산:</div>
+<div class="kb-diagram-note">U의 대각 원소 곱 = 행렬식 (피벗 교환 부호 고려)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">det(A) = (-1)^s × U</div><div class="kb-diagram-node">0,0</div><div class="kb-diagram-note">× U</div><div class="kb-diagram-node">1,1</div><div class="kb-diagram-note">× ... × U</div><div class="kb-diagram-node">n-1,n-1</div></div>
+<div class="kb-diagram-note">(s: 행 교환 횟수)</div>
+<div class="kb-diagram-note">역행렬 계산:</div>
+<div class="kb-diagram-note">A × A^(-1) = I</div>
+<div class="kb-diagram-note">방법:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A|I</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">I|A^(-1)</div></div>
+<div class="kb-diagram-note">가우스-조던 소거:</div>
+<div class="kb-diagram-note">상삼각뿐 아니라 완전한 단위 행렬로 변환</div>
+<div class="kb-diagram-note">(상방 소거도 수행)</div>
+<div class="kb-diagram-note">행렬 랭크 (Rank):</div>
+<div class="kb-diagram-note">가우스 소거 후 비영 행 수 = 랭크</div>
+<div class="kb-diagram-note">의미:</div>
+<div class="kb-diagram-note">rank(A) = n: 유일 해 존재</div>
+<div class="kb-diagram-note">rank(A) &lt; n: 해 없음 또는 무한 해</div>
+<div class="kb-diagram-note">수치 선형대수 패키지:</div>
+<div class="kb-diagram-note">numpy.linalg.solve(A, b): LU 분해 기반</div>
+<div class="kb-diagram-note">numpy.linalg.inv(A): 역행렬 (가우스-조던)</div>
+<div class="kb-diagram-note">numpy.linalg.det(A): 행렬식</div>
+<div class="kb-diagram-note">numpy.linalg.matrix_rank(A): 랭크</div>
+<div class="kb-diagram-note">scipy.linalg.lu(A): LU 분해 (P, L, U 반환)</div>
+<div class="kb-diagram-note">scipy.sparse.linalg: 희소 행렬 최적화</div>
+<div class="kb-diagram-note">주의:</div>
+<div class="kb-diagram-note">역행렬 직접 계산은 피할 것!</div>
+<div class="kb-diagram-note">A^(-1) × b보다 solve(A, b)가 더 정확·빠름</div>
+<div class="kb-diagram-note">역행렬은 수치 불안정, 비효율적</div>
+</div>
+</div>
 
-수치 선형대수 패키지:
-  numpy.linalg.solve(A, b): LU 분해 기반
-  numpy.linalg.inv(A): 역행렬 (가우스-조던)
-  numpy.linalg.det(A): 행렬식
-  numpy.linalg.matrix_rank(A): 랭크
-  
-  scipy.linalg.lu(A): LU 분해 (P, L, U 반환)
-  scipy.sparse.linalg: 희소 행렬 최적화
 
-주의:
-  역행렬 직접 계산은 피할 것!
-  A^(-1) × b보다 solve(A, b)가 더 정확·빠름
-  역행렬은 수치 불안정, 비효율적
-```
 
 > 📢 **섹션 요약 비유**: 역행렬 = 퍼즐의 반대 풀기 — A(뒤섞기)의 역은 A^(-1)(되돌리기). 직접 계산 대신 LU+대입이 더 안정적. 역행렬은 "비효율적 역계산" 경고 대상!
 
@@ -230,55 +213,49 @@ scipy.linalg 사용:
 
 ## Ⅴ. 실무 시나리오 — 그래픽스 변환 행렬
 
-```
-3D 그래픽스에서 가우스 소거법 활용:
 
-역변환 행렬 계산:
 
-배경:
-  3D 게임: 화면 좌표 → 월드 좌표 역변환
-  카메라 행렬 M (4×4)이 주어질 때
-  M^(-1) 계산 필요
-  
-  방법: 가우스-조던 소거 (4×4 소규모)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">3D 그래픽스에서 가우스 소거법 활용:</div>
+<div class="kb-diagram-note">역변환 행렬 계산:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">3D 게임: 화면 좌표 → 월드 좌표 역변환</div>
+<div class="kb-diagram-note">카메라 행렬 M (4×4)이 주어질 때</div>
+<div class="kb-diagram-note">M^(-1) 계산 필요</div>
+<div class="kb-diagram-note">방법: 가우스-조던 소거 (4×4 소규모)</div>
+<div class="kb-diagram-note">카메라 행렬 예 (4×4):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1  0  0  -3</div><div class="kb-diagram-note">(x 이동 -3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  1  0  -4</div><div class="kb-diagram-note">(y 이동 -4)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  0  1  -2</div><div class="kb-diagram-note">(z 이동 -2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  0  0   1</div></div>
+<div class="kb-diagram-note">역행렬 계산 (가우스-조던):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A|I</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">I|A^(-1)</div></div>
+<div class="kb-diagram-note">역행렬:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1  0  0   3</div><div class="kb-diagram-note">(역이동: +3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  1  0   4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  0  1   2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0  0  0   1</div></div>
+<div class="kb-diagram-note">OpenGL/DirectX:</div>
+<div class="kb-diagram-note">glm::mat4 view = camera.GetViewMatrix();</div>
+<div class="kb-diagram-note">glm::mat4 invView = glm::inverse(view);</div>
+<div class="kb-diagram-note">// 내부: LU 분해 또는 가우스-조던</div>
+<div class="kb-diagram-note">// 4×4 행렬: 극히 빠름 (고정 크기 최적화)</div>
+<div class="kb-diagram-note">최적화:</div>
+<div class="kb-diagram-note">4×4 변환 행렬: 수학적 특수 구조</div>
+<div class="kb-diagram-note">→ 해석적 역행렬 공식 사용 (더 빠름)</div>
+<div class="kb-diagram-note">→ SIMD 명령으로 병렬 계산</div>
+<div class="kb-diagram-note">대규모 연립 방정식:</div>
+<div class="kb-diagram-note">물리 시뮬레이션: 수천~수만 연립 방정식</div>
+<div class="kb-diagram-note">직접법: 가우스 소거 O(n³) → n=10,000: 10^12 연산</div>
+<div class="kb-diagram-note">반복법: 켤레 기울기법 O(n√κ) → 희소 행렬에 효율적</div>
+<div class="kb-diagram-note">선택 기준:</div>
+<div class="kb-diagram-note">n &lt; 1,000: 가우스 소거 충분</div>
+<div class="kb-diagram-note">n &gt; 1,000, 희소 행렬: 반복법</div>
+</div>
+</div>
 
-카메라 행렬 예 (4×4):
-  [1  0  0  -3]   (x 이동 -3)
-  [0  1  0  -4]   (y 이동 -4)
-  [0  0  1  -2]   (z 이동 -2)
-  [0  0  0   1]
 
-역행렬 계산 (가우스-조던):
-  [A|I] → 소거 → [I|A^(-1)]
-  
-  역행렬:
-  [1  0  0   3]   (역이동: +3)
-  [0  1  0   4]
-  [0  0  1   2]
-  [0  0  0   1]
-
-OpenGL/DirectX:
-  glm::mat4 view = camera.GetViewMatrix();
-  glm::mat4 invView = glm::inverse(view);
-  
-  // 내부: LU 분해 또는 가우스-조던
-  // 4×4 행렬: 극히 빠름 (고정 크기 최적화)
-
-최적화:
-  4×4 변환 행렬: 수학적 특수 구조
-  → 해석적 역행렬 공식 사용 (더 빠름)
-  → SIMD 명령으로 병렬 계산
-
-대규모 연립 방정식:
-  물리 시뮬레이션: 수천~수만 연립 방정식
-  
-  직접법: 가우스 소거 O(n³) → n=10,000: 10^12 연산
-  반복법: 켤레 기울기법 O(n√κ) → 희소 행렬에 효율적
-  
-  선택 기준:
-  n < 1,000: 가우스 소거 충분
-  n > 1,000, 희소 행렬: 반복법
-```
 
 > 📢 **섹션 요약 비유**: 3D 역변환 = 카메라 이동 되돌리기 — 카메라가 오른쪽 3, 위 4, 앞 2 이동한 행렬의 역행렬 = 왼쪽 3, 아래 4, 뒤 2. 가우스-조던으로 계산. 4×4는 즉시 해결!
 

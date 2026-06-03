@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 왜 본질적으로 빠른지, [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 경로 자체가 짧다는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why register addressing is fast                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction bits : opcode | rs1 | rs2 | rd                        │
-│                               │     │                              │
-│                               ▼     ▼                              │
-│                         Register File read                         │
-│                               │                                    │
-│                               ▼                                    │
-│                           ALU execute                              │
-│                                                                    │
-│ skipped path : EA generation -> cache lookup -> memory return      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why register addressing is fast</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction bits : opcode</div><div class="kb-diagram-cell">rs1</div><div class="kb-diagram-cell">rs2</div><div class="kb-diagram-cell">rd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register File read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU execute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">skipped path : EA generation -&gt; cache lookup -&gt; memory return</div></div>
+</div>
+</div>
+
+
 
 핵심은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 "저장 위치 탐색"보다 "이미 준비된 값 선택"에 가깝다는 점이다. 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 안에서도 메모리 전체 주소를 담는 것보다 수십 개 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중 하나를 고르는 편이 훨씬 짧은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로 가능하므로, 속도와 코드 밀도를 동시에 챙길 수 있다.
 
@@ -63,19 +61,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 ISA의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호가 실제 실행 경로로 어떻게 흘러가는지를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ ISA operand path for register addressing                           │
-├────────────────────────────────────────────────────────────────────┤
-│ ADD rd, rs1, rs2                                                   │
-│      │    │    │                                                   │
-│      │    │    └─ src B index -> read port B ------------------┐   │
-│      │    └────── src A index -> read port A ---------------┐  │   │
-│      └──────────── dst index  -> write-back tag             │  │   │
-│                                                             ▼  ▼   │
-│                        Register File / rename map -> ALU -> wb     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA operand path for register addressing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD rd, rs1, rs2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ src B index -&gt; read port B ------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">src A index -&gt; read port A ---------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dst index -&gt; write-back tag</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register File / rename map -&gt; ALU -&gt; wb</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 있다"가 곧 "언제나 싸다"는 뜻은 아니라는 점이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 많이 제공할수록 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 배선, 소비전력, [context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 함께 늘어난다. 따라서 설계자는 무조건 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)보다, 충분히 빠르면서도 관리 가능한 개수를 찾는 쪽에 집중한다.
 
@@ -108,25 +107,28 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 값 하나를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 붙잡아 둘지 말지를 결정할 때 보는 핵심 질문을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Keep value in register?                                            │
-├────────────────────────────────────────────────────────────────────┤
-│ reused in a hot path soon?                                         │
-│   ├─ yes -> keep in register                                       │
-│   └─ no                                                            │
-│        ├─ large live set? -> spill / recompute trade-off           │
-│        └─ memory object?  -> keep load/store boundary explicit     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Keep value in register?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reused in a hot path soon?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; keep in register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ large live set? -&gt; spill / recompute trade-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ memory object? -&gt; keep load/store boundary explicit</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **재사용 빈도**: 가까운 시점에 여러 번 읽는 값일수록 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 둘 가치가 크다.
 2. **live range 길이**: 오래 살아 있는 값은 다른 값의 자리를 빼앗아 register pressure를 높일 수 있다.
-3. **[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 경계**: calling convention에 따라 caller-saved, callee-saved [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 저장·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 달라진다.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/">함수 호출</a> 경계</strong>: calling convention에 따라 caller-saved, callee-saved [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 저장·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 달라진다.
 4. **문맥 전환 비용**: architectural register 수가 많을수록 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 저장·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해야 할 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 늘어난다.
-5. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 요구**: vector 연산이나 [superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 코어는 더 많은 소스/목적 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 필요로 한다.
+5. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 요구</strong>: vector 연산이나 [superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 코어는 더 많은 소스/목적 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 필요로 한다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -146,7 +148,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 희소 자원이다. 수가 제한되어 있고, 많이 둘수록 하드웨어 면적과 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 비용이 커지며, spill이 늘면 오히려 메모리 접근이 폭증한다. 즉 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정의 핵심은 "모든 것을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 넣는 것"이 아니라, 가장 자주 쓰는 값을 가장 짧은 길로 보내는 선택에 있다.
 
-정리하면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정은 CPU가 빠른 이유를 설명하는 가장 직접적인 주소 지정 모드다. 기억할 핵심은 분명하다. **연산기는 메모리보다 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 사랑하고, 좋은 아키텍처와 좋은 컴파일러는 그 사랑이 깨지지 않게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 배치한다.**
+정리하면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정은 CPU가 빠른 이유를 설명하는 가장 직접적인 주소 지정 모드다. 기억할 핵심은 분명하다. <strong>연산기는 메모리보다 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>를 사랑하고, 좋은 아키텍처와 좋은 컴파일러는 그 사랑이 깨지지 않게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 배치한다.</strong>
 
 - **📢 섹션 요약 비유**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정은 요리 전체를 주방 선반에 올려두는 일이 아니라, 지금 썰어야 할 재료만 도마 옆에 두어 손의 리듬을 지키는 방식이다.
 
@@ -165,24 +167,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-memory wall
-    │
-    ▼
-General-Purpose Register
-    │
-    ▼
-Register File + multi-port read/write
-    │
-    ▼
-load/store ISA
-    │
-    ├──────────────▶ compiler register allocation
-    │
-    ├──────────────▶ forwarding / pipelining
-    │
-    └──────────────▶ spill and context-switch cost
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">memory wall</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">General-Purpose Register</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Register File + multi-port read/write</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">load/store ISA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ compiler register allocation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ forwarding / pipelining</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ spill and context-switch cost</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주소 지정이 단순한 문법이 아니라, 메모리 병목을 줄이기 위해 등장해 컴파일러·파이프라인·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 비용까지 이어지는 구조적 축임을 보여 준다.
 

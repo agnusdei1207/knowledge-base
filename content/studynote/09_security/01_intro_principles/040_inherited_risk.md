@@ -18,31 +18,31 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 위험 계층 구조
 
-```
-위험 계층 (Risk Hierarchy):
 
-고유 위험 (Inherent Risk):
-통제 없이 원천적으로 존재하는 위험 수준
-"아무것도 안 했을 때의 위험"
 
-상속된 위험 (Inherited Risk):
-외부 주체(공급사, 파트너, 오픈소스)에서
-우리 조직으로 이전되어 온 위험
-"남이 만든 위험이 우리 것이 됨"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 계층 (Risk Hierarchy):</div>
+<div class="kb-diagram-note">고유 위험 (Inherent Risk):</div>
+<div class="kb-diagram-note">통제 없이 원천적으로 존재하는 위험 수준</div>
+<div class="kb-diagram-note">"아무것도 안 했을 때의 위험"</div>
+<div class="kb-diagram-note">상속된 위험 (Inherited Risk):</div>
+<div class="kb-diagram-note">외부 주체(공급사, 파트너, 오픈소스)에서</div>
+<div class="kb-diagram-note">우리 조직으로 이전되어 온 위험</div>
+<div class="kb-diagram-note">"남이 만든 위험이 우리 것이 됨"</div>
+<div class="kb-diagram-note">잔존 위험 (Residual Risk):</div>
+<div class="kb-diagram-note">통제 적용 후 남은 위험</div>
+<div class="kb-diagram-note">허용 가능 위험 수준(Risk Appetite) 이하여야 함</div>
+<div class="kb-diagram-note">위험 이전 (Risk Transfer):</div>
+<div class="kb-diagram-note">보험, 계약 조항으로 위험 재이전</div>
+<div class="kb-diagram-note">관계:</div>
+<div class="kb-diagram-note">상속된 위험 -&gt; 통제 적용 -&gt; 잔존 위험</div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">공급망 / 클라우드 / 오픈소스</div>
+</div>
+</div>
 
-잔존 위험 (Residual Risk):
-통제 적용 후 남은 위험
-허용 가능 위험 수준(Risk Appetite) 이하여야 함
 
-위험 이전 (Risk Transfer):
-보험, 계약 조항으로 위험 재이전
-
-관계:
-상속된 위험 -> 통제 적용 -> 잔존 위험
-^
-|
-공급망 / 클라우드 / 오픈소스
-```
 
 > 📢 **섹션 요약 비유**: 상속된 위험은 중고차 구입 — 이전 주인의 사고 이력이 고스란히 딸려오는 것처럼, 공급사의 보안 문제가 우리 위험이 된다.
 
@@ -50,29 +50,31 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 상속된 위험 유형
 
-```
-유형별 사례:
 
-1. 공급망 위험 (Supply Chain Risk):
-SolarWinds 해킹 (2020):
-- IT 모니터링 소프트웨어 업데이트 패키지에 악성코드 삽입
-- 18,000개 기관 감염 (미 정부, Fortune 500)
-- 공급사 -> 고객 모두가 피해자
 
-2. 오픈소스 의존성 위험:
-Log4Shell (CVE-2021-44228):
-- Apache Log4j 라이브러리 RCE 취약점
-- 전 세계 수백만 Java 애플리케이션 영향
-- 직접 코드 없어도 의존성으로 위험 상속
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">유형별 사례:</div>
+<div class="kb-diagram-note">1. 공급망 위험 (Supply Chain Risk):</div>
+<div class="kb-diagram-note">SolarWinds 해킹 (2020):</div>
+<div class="kb-diagram-tree-item" style="--depth:0">IT 모니터링 소프트웨어 업데이트 패키지에 악성코드 삽입</div>
+<div class="kb-diagram-tree-item" style="--depth:0">18,000개 기관 감염 (미 정부, Fortune 500)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">공급사 -&gt; 고객 모두가 피해자</div>
+<div class="kb-diagram-note">2. 오픈소스 의존성 위험:</div>
+<div class="kb-diagram-note">Log4Shell (CVE-2021-44228):</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Apache Log4j 라이브러리 RCE 취약점</div>
+<div class="kb-diagram-tree-item" style="--depth:0">전 세계 수백만 Java 애플리케이션 영향</div>
+<div class="kb-diagram-tree-item" style="--depth:0">직접 코드 없어도 의존성으로 위험 상속</div>
+<div class="kb-diagram-note">3. 클라우드 서비스 위험:</div>
+<div class="kb-diagram-note">AWS/Azure/GCP 장애 -&gt; 서비스 중단</div>
+<div class="kb-diagram-note">멀티 클라우드로 위험 분산 필요</div>
+<div class="kb-diagram-note">4. M&amp;A (인수합병) 위험:</div>
+<div class="kb-diagram-note">인수한 기업의 레거시 취약점 상속</div>
+<div class="kb-diagram-note">통합 전 보안 실사(Due Diligence) 필수</div>
+</div>
+</div>
 
-3. 클라우드 서비스 위험:
-AWS/Azure/GCP 장애 -> 서비스 중단
-멀티 클라우드로 위험 분산 필요
 
-4. M&A (인수합병) 위험:
-인수한 기업의 레거시 취약점 상속
-통합 전 보안 실사(Due Diligence) 필수
-```
 
 > 📢 **섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
 
@@ -184,23 +186,29 @@ EU CRA (Cyber Resilience Act): 2024년 통과
 
 ## 📌 관련 개념 맵
 
-```
-상속된 위험 (Inherited Risk)
-+-- 위험 계층
-| +-- 고유 위험 -> 상속 위험 -> 잔존 위험
-+-- 유형
-| +-- 공급망 (SolarWinds)
-| +-- 오픈소스 (Log4Shell)
-| +-- 클라우드 서비스
-| +-- M&A
-+-- 관리 방법
-| +-- TPRM (제3자 위험 관리)
-| +-- SBOM (소프트웨어 자재 명세서)
-+-- 법규/표준
-+-- 미국 EO 14028
-+-- EU CRA
-+-- ISO 27001 A.15
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상속된 위험 (Inherited Risk)</div>
+<div class="kb-diagram-note">+-- 위험 계층</div>
+<div class="kb-diagram-note">+-- 고유 위험 -&gt; 상속 위험 -&gt; 잔존 위험</div>
+<div class="kb-diagram-note">+-- 유형</div>
+<div class="kb-diagram-note">+-- 공급망 (SolarWinds)</div>
+<div class="kb-diagram-note">+-- 오픈소스 (Log4Shell)</div>
+<div class="kb-diagram-note">+-- 클라우드 서비스</div>
+<div class="kb-diagram-note">+-- M&amp;A</div>
+<div class="kb-diagram-note">+-- 관리 방법</div>
+<div class="kb-diagram-note">+-- TPRM (제3자 위험 관리)</div>
+<div class="kb-diagram-note">+-- SBOM (소프트웨어 자재 명세서)</div>
+<div class="kb-diagram-note">+-- 법규/표준</div>
+<div class="kb-diagram-note">+-- 미국 EO 14028</div>
+<div class="kb-diagram-note">+-- EU CRA</div>
+<div class="kb-diagram-note">+-- ISO 27001 A.15</div>
+</div>
+</div>
+
+
 
 ---
 

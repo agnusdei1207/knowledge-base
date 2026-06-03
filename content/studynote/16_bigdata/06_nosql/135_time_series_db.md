@@ -20,23 +20,23 @@ tags = ["studynote-bigdata"]
 
 ### 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              시계열 데이터의 4가지 특성                     │
-│                                                          │
-│  1. 시간 순서 (Time-Ordered)                              │
-│     타임스탬프가 기본 식별자이자 정렬 기준                    │
-│                                                          │
-│  2. 추가 전용 (Append-Only)                               │
-│     과거 데이터 수정 거의 없음 → 쓰기 최적화                 │
-│                                                          │
-│  3. 고빈도 쓰기 (High Write Throughput)                   │
-│     초당 수천~수백만 개의 센서 포인트 동시 유입               │
-│                                                          │
-│  4. 시간 기반 쿼리 (Time-Range Query)                     │
-│     "지난 1시간 평균 CPU", "어제 최대 온도" 등              │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 데이터의 4가지 특성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 시간 순서 (Time-Ordered)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프가 기본 식별자이자 정렬 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 추가 전용 (Append-Only)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 데이터 수정 거의 없음 → 쓰기 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 고빈도 쓰기 (High Write Throughput)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 수천~수백만 개의 센서 포인트 동시 유입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 시간 기반 쿼리 (Time-Range Query)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지난 1시간 평균 CPU", "어제 최대 온도" 등</div></div>
+</div>
+</div>
+
+
 
 ### 범용 DB vs 시계열 DB 비교
 
@@ -58,82 +58,87 @@ tags = ["studynote-bigdata"]
 
 ### [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 핵심 개념 구조
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│                  InfluxDB 데이터 모델                        │
-│                                                            │
-│  Measurement (≈ 테이블):  "cpu_usage"                       │
-│  ┌──────────────┬───────────────────┬────────────────────┐ │
-│  │  Timestamp   │     Tags (인덱스)  │  Fields (값)       │ │
-│  │  (ns 정밀도) │  host | region    │  usage_user|idle   │ │
-│  ├──────────────┼──────┬────────────┼────────────────────┤ │
-│  │ 1714550400ns │ web1 │ ap-korea   │   45.2  |  54.8   │ │
-│  │ 1714550460ns │ web1 │ ap-korea   │   47.1  |  52.9   │ │
-│  │ 1714550400ns │ db1  │ ap-korea   │   12.3  |  87.7   │ │
-│  └──────────────┴──────┴────────────┴────────────────────┘ │
-│                                                            │
-│  Tags: 인덱싱, 그룹핑 기준 (low cardinality 권장)            │
-│  Fields: 실제 측정값, 집계 대상 (숫자/문자열/불리언)            │
-│  Series: Measurement + Tags의 고유 조합                      │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfluxDB 데이터 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Measurement (≈ 테이블): "cpu_usage"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timestamp</div><div class="kb-diagram-cell">Tags (인덱스)</div><div class="kb-diagram-cell">Fields (값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ns 정밀도)</div><div class="kb-diagram-cell">host</div><div class="kb-diagram-cell">region</div><div class="kb-diagram-cell">usage_user</div><div class="kb-diagram-cell">idle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1714550400ns</div><div class="kb-diagram-cell">web1</div><div class="kb-diagram-cell">ap-korea</div><div class="kb-diagram-cell">45.2</div><div class="kb-diagram-cell">54.8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1714550460ns</div><div class="kb-diagram-cell">web1</div><div class="kb-diagram-cell">ap-korea</div><div class="kb-diagram-cell">47.1</div><div class="kb-diagram-cell">52.9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1714550400ns</div><div class="kb-diagram-cell">db1</div><div class="kb-diagram-cell">ap-korea</div><div class="kb-diagram-cell">12.3</div><div class="kb-diagram-cell">87.7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tags: 인덱싱, 그룹핑 기준 (low cardinality 권장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fields: 실제 측정값, 집계 대상 (숫자/문자열/불리언)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Series: Measurement + Tags의 고유 조합</div></div>
+</div>
+</div>
+
+
 
 ### [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과 다운샘플링
 
-```text
-원시 데이터 (1초 간격, 30일 보관)
-       │
-       ↓ Continuous Query / Task
-1분 집계 (avg, min, max) → 1년 보관
-       │
-       ↓
-1시간 집계            → 5년 보관
-       │
-       ↓
-1일 집계              → 영구 보관
 
-결과: 스토리지 99% 절약 (1초 × 365일 → 1일 × 365일)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원시 데이터 (1초 간격, 30일 보관)</div>
+<div class="kb-diagram-note">↓ Continuous Query / Task</div>
+<div class="kb-diagram-note">1분 집계 (avg, min, max) → 1년 보관</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1시간 집계 → 5년 보관</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">1일 집계 → 영구 보관</div>
+<div class="kb-diagram-note">결과: 스토리지 99% 절약 (1초 × 365일 → 1일 × 365일)</div>
+</div>
+</div>
+
+
 
 ### TimescaleDB 구조 (PostgreSQL 확장)
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                 TimescaleDB 아키텍처                       │
-│                                                          │
-│  Hypertable (논리적 단일 테이블)                           │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  CREATE TABLE metrics (                          │   │
-│  │    time  TIMESTAMPTZ NOT NULL,                   │   │
-│  │    host  TEXT,                                   │   │
-│  │    cpu   DOUBLE PRECISION                        │   │
-│  │  );                                              │   │
-│  │  SELECT create_hypertable('metrics', 'time');    │   │
-│  └──────────────────────────────────────────────────┘   │
-│                        ↓                                 │
-│  Chunks (시간 기반 자동 파티션):                           │
-│  chunk_2026_04_01  |  chunk_2026_04_02  |  ...           │
-│                                                          │
-│  * 오래된 Chunk → 저비용 스토리지로 자동 이동(티어링)         │
-│  * 풀 SQL 지원: JOIN, Window Function, CTE 모두 가능       │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TimescaleDB 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypertable (논리적 단일 테이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE TABLE metrics (</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time TIMESTAMPTZ NOT NULL,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">host TEXT,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cpu DOUBLE PRECISION</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT create_hypertable('metrics', 'time');</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chunks (시간 기반 자동 파티션):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">chunk_2026_04_01</div><div class="kb-diagram-cell">chunk_2026_04_02</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 오래된 Chunk → 저비용 스토리지로 자동 이동(티어링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 풀 SQL 지원: JOIN, Window Function, CTE 모두 가능</div></div>
+</div>
+</div>
+
+
 
 ### QuestDB 고성능 인제스션 구조
 
-```text
-QuestDB 성능 비결:
-  1. 열 기반 (Columnar) 저장 → 특정 필드 집계 시 I/O 최소화
-  2. 메모리 매핑 파일 (Memory-Mapped Files) → 커널 I/O 우회
-  3. SIMD (Single Instruction, Multiple Data) 활용
-  4. 파티션 병렬 처리
 
-성능: 단일 서버 기준 수백만 rows/sec 삽입
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">QuestDB 성능 비결:</div>
+<div class="kb-diagram-note">1. 열 기반 (Columnar) 저장 → 특정 필드 집계 시 I/O 최소화</div>
+<div class="kb-diagram-note">2. 메모리 매핑 파일 (Memory-Mapped Files) → 커널 I/O 우회</div>
+<div class="kb-diagram-note">3. SIMD (Single Instruction, Multiple Data) 활용</div>
+<div class="kb-diagram-note">4. 파티션 병렬 처리</div>
+<div class="kb-diagram-note">성능: 단일 서버 기준 수백만 rows/sec 삽입</div>
+</div>
+</div>
+
+
 
 | DB | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | 특징 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
 |:---:|:---:|:---|:---:|
-| **[InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/)** | Flux / InfluxQL | 네이티브 TSDB, 클라우드 관리형 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 200K pts/sec |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/">InfluxDB</a></strong> | Flux / InfluxQL | 네이티브 TSDB, 클라우드 관리형 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 200K pts/sec |
 | **TimescaleDB** | SQL (PostgreSQL) | SQL 호환, Hypertable | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 100K rows/sec |
 | **QuestDB** | SQL (방언) | 열 기반, [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 4M rows/sec |
 | **VictoriaMetrics** | MetricsQL | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 호환, 초경량 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수십만 pts/sec |
@@ -179,24 +184,27 @@ QuestDB 성능 비결:
 
 ### [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 플랫폼 아키텍처 설계
 
-```text
-센서 디바이스
-     │ MQTT/HTTP
-     ↓
-IoT 브로커(Mosquitto/AWS IoT)
-     │ 스트림 처리
-     ↓
-Kafka (버퍼 + 내결함성)
-     │
-     ↓
-시계열 DB (InfluxDB/TimescaleDB)
-     │
-     ↓
-Grafana (시각화 대시보드)
-     │
-     ↓
-이상 감지 (ML 모델 → 알람)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">센서 디바이스</div>
+<div class="kb-diagram-note">MQTT/HTTP</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">IoT 브로커(Mosquitto/AWS IoT)</div>
+<div class="kb-diagram-note">스트림 처리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Kafka (버퍼 + 내결함성)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">시계열 DB (InfluxDB/TimescaleDB)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Grafana (시각화 대시보드)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">이상 감지 (ML 모델 → 알람)</div>
+</div>
+</div>
+
+
 
 ### 기술사 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -225,7 +233,7 @@ Grafana (시각화 대시보드)
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 티어링 | 수동 | 자동 | — |
 
 ### 결론
-시계열 DB는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·금융 틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 타임스탬프가 핵심이고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 압도적으로 많은 워크로드의 표준 인프라로 자리잡았다. 기술사 시험에서는 **TSDB의 4가지 특성**, **보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)+다운샘플링 설계**, **[InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(Tags/Fields/Measurement)**, **Gorilla [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리**가 핵심 논점이다.
+시계열 DB는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·금융 틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 타임스탬프가 핵심이고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 압도적으로 많은 워크로드의 표준 인프라로 자리잡았다. 기술사 시험에서는 **TSDB의 4가지 특성**, <strong>보존 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>+다운샘플링 설계</strong>, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/">InfluxDB</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>(Tags/Fields/Measurement)</strong>, <strong>Gorilla <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 원리</strong>가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > 시계열 DB 도입은 기상청이 기온 기록을 위한 전용 시스템을 도입하는 것과 같다. 일반 스프레드시트(RDBMS)에도 기록할 수 있지만, 매분 전국 수천 곳의 기온을 기록하고 "지난 10년 8월 평균"을 즉시 뽑으려면 기상 전용 시스템이 필요하다.
@@ -244,21 +252,23 @@ Grafana (시각화 대시보드)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[관계형 DB (RDBMS) — 시계열 저장 시 인덱스 팽창·쓰기 병목 발생]
-    │
-    ▼
-[시계열 DB (TSDB) — 시간 스탬프 기반 압축·집계 최적화 전문 스토리지]
-    │
-    ▼
-[InfluxDB / TimescaleDB — 대표 TSDB, 라인 프로토콜·SQL 인터페이스 제공]
-    │
-    ▼
-[다운샘플링·보존 정책 (Downsampling & Retention) — 오래된 데이터 자동 집계·삭제]
-    │
-    ▼
-[스트리밍 연계 (Kafka → TSDB) — 실시간 지표 수집·저장·알림 파이프라인]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB (RDBMS) — 시계열 저장 시 인덱스 팽창·쓰기 병목 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 DB (TSDB) — 시간 스탬프 기반 압축·집계 최적화 전문 스토리지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">InfluxDB / TimescaleDB — 대표 TSDB, 라인 프로토콜·SQL 인터페이스 제공</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다운샘플링·보존 정책 (Downsampling &amp; Retention) — 오래된 데이터 자동 집계·삭제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 연계 (Kafka → TSDB) — 실시간 지표 수집·저장·알림 파이프라인</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 RDBMS의 시계열 저장 한계를 전문 TSDB가 극복하고, 다운샘플링으로 장기 보관을 최적화하며, 실시간 스트리밍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 통합되는 과정을 보여준다.
 

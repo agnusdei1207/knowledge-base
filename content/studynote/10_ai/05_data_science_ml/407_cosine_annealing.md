@@ -26,14 +26,17 @@ tags = ["studynote-ai"]
 - **지역 최적해 탈출**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 다시 높이는 'Restart' 과정을 통해 좁고 깊은 골짜기(Sharp Minima)에서 벗어나 더 넓고 평탄한 골짜기(Flat Minima)를 찾음
 - **하이퍼파라미터 민감도 완화**: 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 설계 없이도 비교적 우수한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 코사인 어닐링은 산을 내려갈 때 처음에는 성큼성큼 뛰어가다가(높은 LR), 바닥에 가까워질수록 보폭을 줄여 조심스럽게 걷는(낮은 LR) 것과 같다. 때로는 담을 넘기 위해 다시 점프(Restart)를 하기도 한다.
 
@@ -50,24 +53,28 @@ tags = ["studynote-ai"]
 | **T_cur** | 현재 에폭 또는 스텝 | [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상태 추적 |
 | **T_max** | 한 주기(Cycle)의 최대 에폭 | 주기성 조절 |
 
-```text
-[ 코사인 어닐링 학습률 변화 곡선 ]
 
-  Learning Rate
-      ▲
-  max █  * *
-      █ *     *
-      █*       *        * *
-      █         *      *   *
-      █          *    *     *
-  min █───────────*──*───────*──▶ Epoch
-      └─────────────────────────┘
-         Cycle 1      Cycle 2
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코사인 어닐링 학습률 변화 곡선</div></div>
+<div class="kb-diagram-note">Learning Rate</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">max █ * *</div>
+<div class="kb-diagram-note">█ * *</div>
+<div class="kb-diagram-note">█* * * *</div>
+<div class="kb-diagram-note">█ * * *</div>
+<div class="kb-diagram-note">█ * * *</div>
+<div class="kb-diagram-note">min █ *──* *──▶ Epoch</div>
+<div class="kb-diagram-note">Cycle 1 Cycle 2</div>
+</div>
+</div>
+
+
 
 **수학적 메커니즘**:
 - [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η_t는 `η_min + 0.5 * (η_max - η_min) * (1 + cos(π * T_cur / T_max))` 공식에 의해 결정된다.
-- **SGDR ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/) with Warm Restarts)**: 코사인 어닐링의 대표적인 응용 사례로, 주기가 끝날 때마다 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 최대치로 급격히 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하여 새로운 영역을 탐색한다.
+- <strong>SGDR (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/">Stochastic Gradient Descent</a> with Warm Restarts)</strong>: 코사인 어닐링의 대표적인 응용 사례로, 주기가 끝날 때마다 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 최대치로 급격히 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하여 새로운 영역을 탐색한다.
 
 - **📢 섹션 요약 비유**: 롤러코스터가 높은 곳에서 빠르게 내려오다가 바닥에서 천천히 움직이는 것과 같다. 주기가 반복되는 것은 다시 높은 곳으로 올라가 새로운 스릴(최적해)을 찾는 과정이다.
 
@@ -81,7 +88,7 @@ tags = ["studynote-ai"]
 | 구현 난이도 | 하락 시점 지정 필요 (어려움) | 쉬움 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파라미터 적음 (쉬움) |
 | 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 보통 | 보통 | 우수 (SOTA 모델 다수 채택) |
 
-코사인 어닐링은 380번의 **[가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)(Kaiming Init)** 및 395번의 **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 결합되어 최상의 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어낸다.
+코사인 어닐링은 380번의 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a>(Kaiming Init)</strong> 및 395번의 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a></strong> [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 결합되어 최상의 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어낸다.
 
 - **📢 섹션 요약 비유**: 계단식 감소가 뚝뚝 떨어지는 폭포라면, 코사인 어닐링은 부드럽게 흐르는 강물과 같다. 강물이 바다에 도달하듯 자연스럽게 최적점에 도달한다.
 
@@ -90,12 +97,12 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 고려 사항
-1. **T_max [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 모델이 충분히 학습될 시간을 주기 위해 전체 에폭 수에 맞춰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하거나, 주기를 점진적으로 늘려가는 방식(T_mult)을 사용한다.
+1. <strong>T_max <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 모델이 충분히 학습될 시간을 주기 위해 전체 에폭 수에 맞춰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하거나, 주기를 점진적으로 늘려가는 방식(T_mult)을 사용한다.
 2. **Warm-up 병행**: 학습 극초기에 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 0에서 최대치까지 급격히 올리는 Warm-up 단계를 추가하면 모델 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불안정성을 크게 줄일 수 있다.
 3. **학습 종료 시점**: 대개 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 최저점(min)에 도달했을 때 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 좋으므로, 주기가 끝나는 지점에서 학습을 종료하는 것이 유리하다.
 
 ### 기술사 판단 포인트
-- 단순히 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 낮추는 것보다 **'주기적인 자극(Restart)'**이 모델의 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 기여함을 강조해야 한다. 이는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 평탄한 지점(Flat Minima)을 찾게 하여, 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 약간 다른 평가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 모델이 잘 작동하게 만든다.
+- 단순히 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 낮추는 것보다 <strong>'주기적인 자극(Restart)'</strong>이 모델의 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 기여함을 강조해야 한다. 이는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 평탄한 지점(Flat Minima)을 찾게 하여, 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 약간 다른 평가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 모델이 잘 작동하게 만든다.
 
 - **📢 섹션 요약 비유**: 잠이 올 때쯤 세수를 한 번씩 해주는 것(Restart)이 밤샘 공부(학습)의 효율을 높이는 것과 같다. 너무 깊이 잠들면(지역 최적해) 깨우기 힘들다.
 

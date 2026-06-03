@@ -11,9 +11,9 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) (IT [Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/))는 사용자가 요청할 수 있는 **현재 제공 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만** 비즈니스 언어로 정리한 공식 메뉴판이다.
+> 1. **본질**: IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) (IT [Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/))는 사용자가 요청할 수 있는 <strong>현재 제공 가능한 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>만</strong> 비즈니스 언어로 정리한 공식 메뉴판이다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청, 승인, 제공 시간을 표준화하여 IT 문의를 줄이고, 셀프서비스와 자동 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)의 출발점을 만든다.
-> 3. **판단 포인트**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 성공 여부는 목록의 양이 아니라 **비즈니스 뷰와 기술 뷰를 정확히 매핑하고, 실제 이행 프로세스까지 연결했는가**에 달려 있다.
+> 3. **판단 포인트**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 성공 여부는 목록의 양이 아니라 <strong>비즈니스 뷰와 기술 뷰를 정확히 매핑하고, 실제 이행 프로세스까지 연결했는가</strong>에 달려 있다.
 
 ---
 
@@ -31,7 +31,7 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-잘 설계된 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 보통 **비즈니스 뷰**, **기술 뷰**, **요청/승인 워크플로**, **이행 자동화**로 구성된다. 사용자는 비즈니스 언어로 요청하지만, 내부에서는 그 요청이 구성 항목 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)), 스크립트, 승인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 번역되어야 한다.
+잘 설계된 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)는 보통 **비즈니스 뷰**, **기술 뷰**, **요청/승인 워크플로**, <strong>이행 자동화</strong>로 구성된다. 사용자는 비즈니스 언어로 요청하지만, 내부에서는 그 요청이 구성 항목 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)), 스크립트, 승인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 번역되어야 한다.
 
 | 구성 층 | 역할 | 사용자에게 보이는 내용 | 내부 설계 포인트 |
 | :-- | :-- | :-- | :-- |
@@ -43,29 +43,28 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 아래 그림은 사용자의 클릭이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공으로 이어지는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Service catalog fulfillment flow                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ User portal                                                          │
-│   -> choose service item                                             │
-│   -> submit request form                                             │
-│                                                                      │
-│ Workflow engine                                                      │
-│   -> manager / budget / security approval                            │
-│                                                                      │
-│ Technical mapping                                                    │
-│   -> VM template / account role / network policy                     │
-│                                                                      │
-│ Automation                                                           │
-│   -> IaC run / account creation / CMDB update                        │
-│                                                                      │
-│ Output                                                               │
-│   -> notify user / start SLA tracking / chargeback                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 "정적 설명서"가 아니라 **요청 이행의 시작점**이라는 사실이다. 비즈니스 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 기술 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 간의 매핑이 없다면 포털은 예쁜 접수 화면에 그친다. 반대로 이 매핑이 잘 되어 있으면 "신입사원 온보딩" 같은 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 항목이 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 권한 매핑, 장비 지급이라는 여러 기술 작업으로 자동 분해된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service catalog fulfillment flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User portal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; choose service item</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; submit request form</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workflow engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; manager / budget / security approval</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Technical mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; VM template / account role / network policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; IaC run / account creation / CMDB update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; notify user / start SLA tracking / chargeback</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 "정적 설명서"가 아니라 <strong>요청 이행의 시작점</strong>이라는 사실이다. 비즈니스 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 기술 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 간의 매핑이 없다면 포털은 예쁜 접수 화면에 그친다. 반대로 이 매핑이 잘 되어 있으면 "신입사원 온보딩" 같은 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 항목이 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 권한 매핑, 장비 지급이라는 여러 기술 작업으로 자동 분해된다.
 
 여기서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))과 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/), [Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/))가 함께 연결되어야 운영 품질이 유지된다. SLA는 약속 시간을, CMDB는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 인프라의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잡아 주는 뼈대다.
 
@@ -94,7 +93,7 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 강력한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 패턴은 **번들 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**다. 예를 들어 "신입사원 온보딩 패키지" 하나를 클릭하면 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 권한 부여, 노트북 지급, 협업툴 초대가 동시에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되도록 설계할 수 있다. 이렇게 해야 사용자는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 결과물로 인식하고, IT는 반복 업무를 표준화할 수 있다.
+실무에서 가장 강력한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 패턴은 <strong>번들 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>다. 예를 들어 "신입사원 온보딩 패키지" 하나를 클릭하면 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 권한 부여, 노트북 지급, 협업툴 초대가 동시에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되도록 설계할 수 있다. 이렇게 해야 사용자는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비즈니스 결과물로 인식하고, IT는 반복 업무를 표준화할 수 있다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,7 +110,7 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 - [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이미 폐기되었는데 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)만 남아 신뢰를 무너뜨리는 경우
 - 승인 단계가 과도하게 많아 포털을 만들고도 리드타임이 줄지 않는 경우
 
-기술사 답안에서는 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)를 단순 목록이 아니라 **표준화, 셀프서비스, 거버넌스, 자동화의 교차점**으로 설명하면 좋다. 특히 섀도우 IT를 줄이는 수단이라는 점을 함께 언급하면 현업 관점이 살아난다.
+기술사 답안에서는 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)를 단순 목록이 아니라 <strong>표준화, 셀프서비스, 거버넌스, 자동화의 교차점</strong>으로 설명하면 좋다. 특히 섀도우 IT를 줄이는 수단이라는 점을 함께 언급하면 현업 관점이 살아난다.
 
 - **📢 섹션 요약 비유**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 설계는 손님에게 레시피 재료명을 나열하는 일이 아니라, "아이스 아메리카노" 한 번 주문하면 뒤에서 얼음·원두·컵·결제가 한꺼번에 맞물리게 만드는 일과 같다.
 
@@ -123,7 +122,7 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 다만 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 한 번 만들고 끝나는 문서가 아니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 바뀌면 항목도 바뀌어야 하며, 현업 언어와 내부 기술 구조 사이의 매핑도 계속 유지되어야 한다. 업데이트가 멈춘 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 오히려 신뢰를 해치는 오래된 메뉴판이 된다.
 
-앞으로는 대화형 인터페이스와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 탐색 방식을 바꿀 가능성이 크다. 그러나 형태가 바뀌어도 본질은 같다. **현재 제공 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 명확히 정의하고, 요청에서 제공까지의 흐름을 표준화한다**는 점이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 핵심이다.
+앞으로는 대화형 인터페이스와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 탐색 방식을 바꿀 가능성이 크다. 그러나 형태가 바뀌어도 본질은 같다. <strong>현재 제공 가능한 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 명확히 정의하고, 요청에서 제공까지의 흐름을 표준화한다</strong>는 점이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 핵심이다.
 
 - **📢 섹션 요약 비유**: 좋은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 보기만 좋은 안내 책자가 아니라, 손님이 주문하는 순간 주방과 계산대와 배달 시스템이 동시에 움직이게 만드는 진짜 영업 시스템과 같다.
 
@@ -142,21 +141,23 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Help desk request by email
-        │
-        ▼
-Static service list
-        │
-        ▼
-Portal-based request standardization
-        │
-        ▼
-Approval workflow + CMDB mapping
-        │
-        ▼
-Self-service and zero-touch fulfillment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Help desk request by email</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Static service list</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Portal-based request standardization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Approval workflow + CMDB mapping</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Self-service and zero-touch fulfillment</div>
+</div>
+</div>
+
+
 
 이 흐름은 사람 의존형 요청 처리에서, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심·자동화 중심 운영으로 발전하는 단계를 요약한다.
 

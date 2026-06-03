@@ -19,21 +19,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-STP와 MTP는 같은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라는 단어 안에 들어 있지만, 실제로는 서로 다른 목표를 본다. STP는 브라우저의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 게임의 렌더 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 실시간 제어 루프처럼 **하나의 임계 경로를 얼마나 빨리 끝낼 수 있는가**를 묻는다. 반면 MTP는 웹 서버, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트, 대규모 빌드, 렌더링처럼 **여러 일을 동시에 얼마나 많이 밀어낼 수 있는가**를 묻는다.
+STP와 MTP는 같은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라는 단어 안에 들어 있지만, 실제로는 서로 다른 목표를 본다. STP는 브라우저의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 게임의 렌더 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 실시간 제어 루프처럼 <strong>하나의 임계 경로를 얼마나 빨리 끝낼 수 있는가</strong>를 묻는다. 반면 MTP는 웹 서버, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트, 대규모 빌드, 렌더링처럼 <strong>여러 일을 동시에 얼마나 많이 밀어낼 수 있는가</strong>를 묻는다.
 
-과거에는 주파수를 올리면서 둘을 어느 정도 함께 개선할 수 있었지만, 전력 밀도와 발열 한계가 커지면서 이제는 고정된 전력·면적 예산 안에서 선택해야 한다. 큰 코어 몇 개에 자원을 몰아주면 STP는 좋아지지만 코어 수가 줄고, 작은 코어를 많이 넣으면 MTP는 늘지만 단일 작업의 체감 속도는 둔해질 수 있다. 그래서 현대 프로세서 설계는 "더 빠른 중앙처리장치 (Central Processing Unit, CPU)"보다 **어떤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 비싸게 사는가**의 문제에 가깝다.
+과거에는 주파수를 올리면서 둘을 어느 정도 함께 개선할 수 있었지만, 전력 밀도와 발열 한계가 커지면서 이제는 고정된 전력·면적 예산 안에서 선택해야 한다. 큰 코어 몇 개에 자원을 몰아주면 STP는 좋아지지만 코어 수가 줄고, 작은 코어를 많이 넣으면 MTP는 늘지만 단일 작업의 체감 속도는 둔해질 수 있다. 그래서 현대 프로세서 설계는 "더 빠른 중앙처리장치 (Central Processing Unit, CPU)"보다 <strong>어떤 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 더 비싸게 사는가</strong>의 문제에 가깝다.
 
 이 그림은 같은 예산에서도 목표가 달라지면 칩 구성이 달라짐을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ STP Focus -> Big Core Few -> Fast Response / Low Thread Count             │
-│ MTP Focus -> Small Core Many -> High Throughput / Lower Per-Thread Speed  │
-│ Serial Section Exists -> 결국 일부 구간은 STP가 전체 체감을 결정           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP Focus -&gt; Big Core Few -&gt; Fast Response / Low Thread Count</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTP Focus -&gt; Small Core Many -&gt; High Throughput / Lower Per-Thread Speed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serial Section Exists -&gt; 결국 일부 구간은 STP가 전체 체감을 결정</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: STP는 서류 한 장을 가장 빨리 배달하는 오토바이 한 대이고, MTP는 상자를 한꺼번에 실어 나르는 트럭 여러 대다. 무엇을 옮기느냐에 따라 더 좋은 탈것이 달라진다.
 
@@ -43,7 +46,7 @@ STP와 MTP는 같은 "[성능](/knowledge-base/studynote/04_software_engineering
 
 STP를 끌어올리려면 보통 더 넓은 [superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) front-end, 큰 분기 예측기, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order, OoO), 큰 private cache가 필요하다. 이들은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (Instruction-Level Parallelism, ILP)을 끌어내어 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 빨리 처리한다. 반대로 MTP는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-Level Parallelism, [TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/))을 활용하므로, 같은 예산이라면 더 많은 코어 수, 더 많은 hardware [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 더 높은 메모리 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 중요해진다.
 
-이를 간단히 표현하면 STP는 대략 **한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)) × 주파수**, MTP는 **활성 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 × 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 진행률 - 공유 자원 충돌 비용**으로 볼 수 있다. 여기서 공유 자원 충돌 비용이 핵심이다. 코어 수만 늘려도 마지막 단계에서는 마지막 수준 캐시 (Last-Level Cache, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)), 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), coherence traffic 때문에 MTP가 선형으로 늘지 않는다. 폴락의 법칙 (Pollack's Rule)도 큰 코어의 복잡도를 늘릴수록 STP 향상이 면적 대비 둔화된다고 경고한다.
+이를 간단히 표현하면 STP는 대략 <strong>한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/">Instructions Per Cycle</a>) × 주파수</strong>, MTP는 <strong>활성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 수 × 각 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>의 진행률 - 공유 자원 충돌 비용</strong>으로 볼 수 있다. 여기서 공유 자원 충돌 비용이 핵심이다. 코어 수만 늘려도 마지막 단계에서는 마지막 수준 캐시 (Last-Level Cache, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)), 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), coherence traffic 때문에 MTP가 선형으로 늘지 않는다. 폴락의 법칙 (Pollack's Rule)도 큰 코어의 복잡도를 늘릴수록 STP 향상이 면적 대비 둔화된다고 경고한다.
 
 | 구분 | STP 우선 설계 | MTP 우선 설계 |
 | :--- | :--- | :--- |
@@ -55,15 +58,18 @@ STP를 끌어올리려면 보통 더 넓은 [superscalar](/knowledge-base/studyn
 
 이 그림은 STP와 MTP가 서로 다른 곳에 실리콘 예산을 쓰는 방식을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│     Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Big Core]   -> Wide Decode -> Large OoO -> Large Cache -> High STP       │
-│ [Many Cores] -> Core x N   -> Shared LLC -> High Thread Count -> High MTP │
-│                         but Memory / Coherence limits stop linear scaling  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Big Core</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Wide Decode -&gt; Large OoO -&gt; Large Cache -&gt; High STP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Many Cores</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Core x N -&gt; Shared LLC -&gt; High Thread Count -&gt; High MTP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">but Memory / Coherence limits stop linear scaling</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: STP 중심 코어는 한 명의 숙련 장인에게 최고 장비를 몰아주는 방식이고, MTP 중심 코어는 적당한 장비를 여러 사람에게 나눠주는 방식이다. 같은 예산이라도 "깊이"와 "수"의 배분이 다르다.
 
@@ -91,7 +97,7 @@ STP와 MTP의 차이는 결국 latency와 throughput의 차이다. 화면을 한
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 것은 벤치마크 숫자를 많이 외우는 일이 아니라, **내 워크로드의 병목이 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)인지 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)인지 먼저 가르는 것**이다. 사용자 입력이 끊기면 안 되는 클라이언트, 짧은 거래를 빠르게 끝내야 하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 실시간 제어는 STP를 우선해야 한다. 반대로 독립 작업이 많은 서버, 렌더링 팜, 빌드 팜, 대규모 추론은 일정 수준의 STP만 확보되면 그다음부터는 MTP가 더 큰 가치를 낸다.
+실무에서 중요한 것은 벤치마크 숫자를 많이 외우는 일이 아니라, <strong>내 워크로드의 병목이 한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>인지 여러 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>인지 먼저 가르는 것</strong>이다. 사용자 입력이 끊기면 안 되는 클라이언트, 짧은 거래를 빠르게 끝내야 하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 실시간 제어는 STP를 우선해야 한다. 반대로 독립 작업이 많은 서버, 렌더링 팜, 빌드 팜, 대규모 추론은 일정 수준의 STP만 확보되면 그다음부터는 MTP가 더 큰 가치를 낸다.
 
 현대 플랫폼에서는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)도 이 구분을 적극적으로 활용한다. 전력 여유가 있을 때는 터보 부스트로 STP를 순간 강화하고, 백그라운드 작업은 고효율 코어나 낮은 우선순위 큐로 보내 총 처리량과 전성비를 맞춘다. 이 과정에서 비균일 메모리 접근 ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치까지 어긋나면 MTP 이점이 쉽게 줄어든다. 따라서 기술사 답안에서는 코어 구조만이 아니라 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 메모리 계층, 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 언급해야 완성도가 높다.
 
@@ -116,11 +122,11 @@ STP와 MTP의 차이는 결국 latency와 throughput의 차이다. 화면을 한
 
 ## Ⅴ. 기대효과 및 결론
 
-STP와 MTP를 올바르게 구분하면 시스템은 더 높은 점수보다 **더 맞는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 낼 수 있다. 사용자는 앱이 즉시 반응한다고 느끼고, 운영자는 같은 전력과 장비 수로 더 많은 요청을 처리할 수 있다. 또한 코어 배치, 캐시 크기, 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 전력 제어를 목적에 맞게 조정할 수 있어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 방향이 선명해진다.
+STP와 MTP를 올바르게 구분하면 시스템은 더 높은 점수보다 <strong>더 맞는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 낼 수 있다. 사용자는 앱이 즉시 반응한다고 느끼고, 운영자는 같은 전력과 장비 수로 더 많은 요청을 처리할 수 있다. 또한 코어 배치, 캐시 크기, 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 전력 제어를 목적에 맞게 조정할 수 있어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 방향이 선명해진다.
 
-한계도 있다. STP를 끝없이 올리려 하면 코어 복잡도와 전력이 급증하고, MTP를 무작정 키우면 메모리·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·운영 복잡도가 발목을 잡는다. 앞으로는 하이브리드 코어, domain-specific accelerator, 품질 보장 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))을 고려한 scheduler처럼 **STP와 MTP를 하나의 칩 안에서 계층적으로 분담하는 구조**가 더 중요해질 가능성이 크다.
+한계도 있다. STP를 끝없이 올리려 하면 코어 복잡도와 전력이 급증하고, MTP를 무작정 키우면 메모리·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·운영 복잡도가 발목을 잡는다. 앞으로는 하이브리드 코어, domain-specific accelerator, 품질 보장 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))을 고려한 scheduler처럼 <strong>STP와 MTP를 하나의 칩 안에서 계층적으로 분담하는 구조</strong>가 더 중요해질 가능성이 크다.
 
-결론적으로 STP와 MTP는 우열 경쟁이 아니라 **고정된 자원 아래에서 latency와 [throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중 무엇을 우선 최적화할 것인가를 가르는 판단 축**으로 기억해야 한다.
+결론적으로 STP와 MTP는 우열 경쟁이 아니라 <strong>고정된 자원 아래에서 latency와 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">throughput</a> 중 무엇을 우선 최적화할 것인가를 가르는 판단 축</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 감독은 단거리 선수와 릴레이 팀을 같은 기준으로 평가하지 않는다. 한 사람의 기록과 팀 전체 기록은 다른 훈련법이 필요하다.
 
@@ -139,24 +145,25 @@ STP와 MTP를 올바르게 구분하면 시스템은 더 높은 점수보다 **�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-주파수 상승 중심 성능 향상
-        │
-        ▼
-큰 OoO 코어로 STP 확대
-        │
-        ▼
-멀티코어 확산으로 MTP 본격화
-        │
-        ▼
-SMT · Shared LLC · NUMA 최적화
-        │
-        ▼
-Hybrid Core · QoS-Aware Scheduling
-        │
-        ▼
-Domain-Specific Accelerator와 역할 분담
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주파수 상승 중심 성능 향상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">큰 OoO 코어로 STP 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 확산으로 MTP 본격화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SMT · Shared LLC · NUMA 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid Core · QoS-Aware Scheduling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Domain-Specific Accelerator와 역할 분담</div>
+</div>
+</div>
+
+
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 기준이 "한 코어를 더 빠르게"에서 "여러 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 한 칩 안에서 분담"하는 방향으로 이동했음을 보여 준다.
 

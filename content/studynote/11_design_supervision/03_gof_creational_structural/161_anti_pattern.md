@@ -31,26 +31,24 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-안티 패턴은 보통 한 번에 완성되지 않는다. 작은 편의가 반복되고, 그 편의가 복잡도와 의존성을 키우면서 점차 구조적 문제로 굳어진다. 즉 안티 패턴의 핵심은 특정 문법이 아니라 **잘못된 구조가 습관으로 누적되는 과정**에 있다.
+안티 패턴은 보통 한 번에 완성되지 않는다. 작은 편의가 반복되고, 그 편의가 복잡도와 의존성을 키우면서 점차 구조적 문제로 굳어진다. 즉 안티 패턴의 핵심은 특정 문법이 아니라 <strong>잘못된 구조가 습관으로 누적되는 과정</strong>에 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               안티 패턴이 굳어지는 전형적 누적 사이클               │
-├──────────────────────────────────────────────────────────────────────┤
-│  일정 압박                                                            │
-│      │ "일단 여기 붙이자"                                            │
-│      ▼                                                                │
-│  임시 해결책 추가                                                     │
-│      │ 책임 분리 없이 기존 코드에 덧붙임                              │
-│      ▼                                                                │
-│  결합도 증가 · 중복 증가 · 예외 처리 난립                             │
-│      │                                                                │
-│      ▼                                                                │
-│  수정이 무서운 코드로 고착                                            │
-│      │                                                                │
-│      └──── 기능 추가 때 다시 같은 방식이 반복됨                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안티 패턴이 굳어지는 전형적 누적 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정 압박</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"일단 여기 붙이자"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임시 해결책 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 분리 없이 기존 코드에 덧붙임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합도 증가 · 중복 증가 · 예외 처리 난립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수정이 무서운 코드로 고착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 추가 때 다시 같은 방식이 반복됨</div></div>
+</div>
+</div>
+
+
 
 대표적인 안티 패턴은 다음과 같다.
 
@@ -70,7 +68,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-안티 패턴은 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) (Design Pattern)이나 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))과 자주 함께 언급되지만 의미는 다르다. [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 재사용 가능한 좋은 해결책이고, [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 구조적 문제가 있을 가능성을 알리는 경고 신호다. 안티 패턴은 그보다 한 단계 더 나아가, 반복적으로 실패를 만드는 **잘못된 해결 방식 자체**를 가리킨다.
+안티 패턴은 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) (Design Pattern)이나 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))과 자주 함께 언급되지만 의미는 다르다. [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 재사용 가능한 좋은 해결책이고, [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)은 구조적 문제가 있을 가능성을 알리는 경고 신호다. 안티 패턴은 그보다 한 단계 더 나아가, 반복적으로 실패를 만드는 <strong>잘못된 해결 방식 자체</strong>를 가리킨다.
 
 | 구분 | [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) | [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) | 안티 패턴 |
 | :--- | :--- | :--- | :--- |
@@ -79,7 +77,7 @@ tags = ["studynote-design-supervision"]
 | 대응 | 적절히 적용 | 원인 분석 필요 | 확산 차단과 구조 개선 필요 |
 | 예시 | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | 긴 메서드, 중복 코드 | 갓 클래스, 황금 망치 |
 
-이 주제는 뒤이어 나오는 갓 클래스, [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴의 단점, [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 비교와도 연결된다. 예를 들어 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)) 자체는 패턴이지만, 전역 상태 남용과 테스트 어려움이 커지면 안티 패턴처럼 작동할 수 있다. 즉 패턴과 안티 패턴의 경계는 이름이 아니라 **적용 맥락**이 결정한다.
+이 주제는 뒤이어 나오는 갓 클래스, [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 패턴의 단점, [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 비교와도 연결된다. 예를 들어 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)) 자체는 패턴이지만, 전역 상태 남용과 테스트 어려움이 커지면 안티 패턴처럼 작동할 수 있다. 즉 패턴과 안티 패턴의 경계는 이름이 아니라 <strong>적용 맥락</strong>이 결정한다.
 
 또한 안티 패턴은 설계 원칙의 반대편에서 이해하면 더 분명해진다. [개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/) ([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/), [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))을 무시하면 변경 때마다 기존 코드를 크게 흔들게 되고, [의존 역전 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/) ([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), [Dependency Inversion Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))을 무시하면 구현체에 강하게 묶인다. 결국 안티 패턴은 원칙 붕괴가 장기간 누적된 결과라고 볼 수 있다.
 
@@ -91,7 +89,7 @@ tags = ["studynote-design-supervision"]
 
 실무에서 중요한 것은 안티 패턴을 "발견"하는 것과 "방치하지 않는 것"이다. 발견 단계에서는 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/), [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 변경 이력, 장애 빈도를 함께 본다. 순환 복잡도 (Cyclomatic Complexity), 중복률, 객체 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), 테스트 작성 난이도, 특정 파일에만 수정이 몰리는 현상은 모두 신호가 된다.
 
-개선 단계에서는 무조건 대수술부터 하면 실패하기 쉽다. 먼저 변경이 잦고 장애 영향이 큰 구간을 우선순위로 잡고, 그다음 테스트를 보강한 뒤 작은 단위로 분리해야 한다. 특히 안티 패턴 제거는 코드 정리 작업이 아니라 **변경 비용을 낮추는 투자**라는 관점이 중요하다.
+개선 단계에서는 무조건 대수술부터 하면 실패하기 쉽다. 먼저 변경이 잦고 장애 영향이 큰 구간을 우선순위로 잡고, 그다음 테스트를 보강한 뒤 작은 단위로 분리해야 한다. 특히 안티 패턴 제거는 코드 정리 작업이 아니라 <strong>변경 비용을 낮추는 투자</strong>라는 관점이 중요하다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,21 +134,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-디자인 패턴 활용 원칙
-    │
-    ▼
-안티 패턴 (Anti-Pattern)
-    │
-    ▼
-갓 클래스 (God Class) · 싱글톤 단점
-    │
-    ▼
-어댑터 vs 퍼사드 · 브리지 vs 전략 비교
-    │
-    ▼
-패턴 오남용 방지 · 정적 팩토리/조합 설계 재검토
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">디자인 패턴 활용 원칙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안티 패턴 (Anti-Pattern)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">갓 클래스 (God Class) · 싱글톤 단점</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">어댑터 vs 퍼사드 · 브리지 vs 전략 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패턴 오남용 방지 · 정적 팩토리/조합 설계 재검토</div>
+</div>
+</div>
+
+
 
 이 흐름은 좋은 패턴 이해에서 시작해, 잘못된 적용을 경계하고, 구체적 안티 패턴과 패턴 간 비교로 설계 판단력을 넓혀 가는 순서를 보여 준다.
 

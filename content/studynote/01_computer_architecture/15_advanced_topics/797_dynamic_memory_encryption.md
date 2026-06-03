@@ -21,14 +21,17 @@ tags = ["studynote-computer-architecture"]
 
 정적 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 단순하고 예측 가능하지만, 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 같은 수준으로 다루기 때문에 비효율이 생길 수 있다. 반대로 실제 시스템은 접근 빈도가 매우 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 오래 머무는 비밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 거의 읽기만 하는 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 섞여 있다. 동적 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 이런 차이를 이용해 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 계층화하려는 아이디어다. 즉 "같은 자물쇠를 전부 달지 말고, 방의 성격에 맞게 다른 잠금을 쓰자"는 접근이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Static versus adaptive memory policy           │
-├──────────────────────────────────────────────────────────────┤
-│ Static : one policy for all pages                            │
-│ Dynamic: page class / hotness / threat -> different policy   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static versus adaptive memory policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static : one policy for all pages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic: page class / hotness / threat -&gt; different policy</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 집 안의 모든 방에 똑같은 철문을 다는 것보다, 금고방과 거실과 창고를 다르게 잠그는 편이 현실적이라는 생각과 같다.
 
@@ -45,15 +48,17 @@ tags = ["studynote-computer-architecture"]
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Manager | 다중 키·교체 주기 관리 | [TRNG](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) 연계와 안전한 폐기 |
 | Re-[key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 무중단 재암호화 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 과점유 방지 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Adaptive page policy and re-key loop            │
-├──────────────────────────────────────────────────────────────┤
-│ Tag page -> choose policy -> encrypt -> monitor age         │
-│                                          │                   │
-│                                          └─ trigger re-key    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adaptive page policy and re-key loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag page -&gt; choose policy -&gt; encrypt -&gt; monitor age</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ trigger re-key</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도서관 책에 일반 스티커, 대출금지 스티커, 귀중본 스티커를 붙여 관리하고 일정 시간이 지나면 보관함 위치까지 다시 바꾸는 운영과 비슷하다.
 
@@ -100,18 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Page Classification]
-    │
-    ▼
-[Adaptive Encryption Policy]
-    │
-    ▼
-[Runtime Monitoring]
-    │
-    ├──▶ [Background Re-keying]
-    └──▶ [Policy Adjustment]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page Classification</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Adaptive Encryption Policy</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Runtime Monitoring</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Background Re-keying</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Adjustment</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 뒤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하고, 실행 중 모니터링 결과에 따라 재키잉과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정으로 이어지는 구조를 보여준다. 즉 동적 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)는 정적 설정이 아니라 폐쇄 루프 제어다.
 

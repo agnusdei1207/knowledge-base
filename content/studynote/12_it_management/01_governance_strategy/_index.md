@@ -17,34 +17,30 @@ tags = ["it_management"]
 
 ### 기술이 아닌 경영의 문제: IT 거버넌스의 부상
 
-과거에 IT는 단순한 지원 부서에 불과했다. 하지만 이제 IT는 비즈니스 그 자체이며, IT의 실패는 곧 기업의 파산을 의미한다. **IT 거버넌스**는 IT를 단순히 '관리 (Management)'하는 것을 넘어, 기업의 운명을 결정하는 핵심 자산으로서 '통제 (Control)'하고 '방향을 제시 (Direct)'하는 이사회의 최고 의사결정 활동이다.
+과거에 IT는 단순한 지원 부서에 불과했다. 하지만 이제 IT는 비즈니스 그 자체이며, IT의 실패는 곧 기업의 파산을 의미한다. <strong>IT 거버넌스</strong>는 IT를 단순히 '관리 (Management)'하는 것을 넘어, 기업의 운명을 결정하는 핵심 자산으로서 '통제 (Control)'하고 '방향을 제시 (Direct)'하는 이사회의 최고 의사결정 활동이다.
 
-IT 거버넌스가 필요한 이유는 세 가지이다. 첫째, **전략적 정렬**을 위해서이다. IT 부서가 엉뚱한 기술에 돈을 쓰지 않고 회사의 돈을 버는 데 집중하게 해야 한다. 둘째, **위험 관리**를 위해서이며 (보안 사고, 투자 실패 방지), 셋째, **컴플라이언스 준수**와 투명한 성과 측정을 통해 이해관계자의 신뢰를 얻기 위함이다.
+IT 거버넌스가 필요한 이유는 세 가지이다. 첫째, <strong>전략적 정렬</strong>을 위해서이다. IT 부서가 엉뚱한 기술에 돈을 쓰지 않고 회사의 돈을 버는 데 집중하게 해야 한다. 둘째, <strong>위험 관리</strong>를 위해서이며 (보안 사고, 투자 실패 방지), 셋째, <strong>컴플라이언스 준수</strong>와 투명한 성과 측정을 통해 이해관계자의 신뢰를 얻기 위함이다.
 
 이 그림은 IT 거버넌스의 5대 핵심 영역과 그 유기적 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 IT Governance 5 Focus Areas (ITGI)          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│             [ 1. Strategic Alignment ]                      │
-│                 (비즈니스와 IT의 일치)                      │
-│                 /        \                                  │
-│                /          \                                 │
-│   [ 2. Value Delivery ] --- [ 3. Risk Management ]          │
-│      (가치 실현)               (리스크 통제)                │
-│                \          /                                 │
-│                 \        /                                  │
-│             [ 4. Resource Management ]                      │
-│                 (자원 최적화 및 인프라 관리)                │
-│                                                             │
-│   * 중심 축: [ 5. Performance Measurement ] (성과 측정)     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '성과 측정 (Performance Measurement)'이다. 목표를 세우고(전략), 돈을 쓰고(자원), 일을 해도(가치), 측정되지 않으면 관리될 수 없다. 실무에서는 **IT BSC (Balanced Scorecard)**를 통해 재무, 고객, 프로세스, 학습 관점에서 IT의 기여도를 정량적으로 평가한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT Governance 5 Focus Areas (ITGI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Strategic Alignment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스와 IT의 일치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Value Delivery</div><div class="kb-diagram-note">---</div><div class="kb-diagram-node">3. Risk Management</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가치 실현) (리스크 통제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. Resource Management</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자원 최적화 및 인프라 관리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 중심 축:</div><div class="kb-diagram-node">5. Performance Measurement</div><div class="kb-diagram-note">(성과 측정)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '성과 측정 (Performance Measurement)'이다. 목표를 세우고(전략), 돈을 쓰고(자원), 일을 해도(가치), 측정되지 않으면 관리될 수 없다. 실무에서는 <strong>IT BSC (Balanced Scorecard)</strong>를 통해 재무, 고객, 프로세스, 학습 관점에서 IT의 기여도를 정량적으로 평가한다.
 
 ### IT 거버넌스의 3대 메커니즘 (ISO 38500)
 
@@ -74,28 +70,22 @@ IT 전략과 비즈니스 전략이 어떻게 맞물려야 하는지 보여주�
 | **서비스 수준** | IT 인프라가 비즈니스 효율을 극대화 | 빠른 전산망 덕분에 영업이 잘됨 |
 | **기술 잠재력** | IT의 혁신이 새로운 비즈니스 기회 창출 | AI 기술 덕분에 없던 사업 아이템이 생김 |
 
-이 구조도는 **COBIT 2019**의 전사적 목표와 IT 목표 간의 폭포수 (Cascading) 흐름을 보여준다.
+이 구조도는 <strong>COBIT 2019</strong>의 전사적 목표와 IT 목표 간의 폭포수 (Cascading) 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 COBIT 2019 Goals Cascade                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Stakeholder Drivers ] ──▶ (Needs 분석)                  │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Enterprise Goals ] ──▶ (전사적 목표 수립)               │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Alignment Goals ] ──▶ (IT와 비즈니스의 정렬)            │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Governance & Management Objectives ] ──▶ (실행 및 통제) │
-│                                                             │
-│   * 핵심: 이해관계자의 요구가 실제 기술 통제 항목까지 연결  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COBIT 2019 Goals Cascade</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stakeholder Drivers</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Needs 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Enterprise Goals</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(전사적 목표 수립)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Alignment Goals</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(IT와 비즈니스의 정렬)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Governance &amp; Management Objectives</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(실행 및 통제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 이해관계자의 요구가 실제 기술 통제 항목까지 연결</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '연결성 (Traceability)'이다. 서버 한 대를 사는 행위가 궁극적으로 이해관계자의 어떤 가치와 연결되는지 설명할 수 있어야 한다. 실무에서는 이 로직을 통해 IT 예산의 정당성을 확보하고 낭비 요소를 제거한다.
 
@@ -133,29 +123,29 @@ IT 전략과 비즈니스 전략이 어떻게 맞물려야 하는지 보여주�
 ### 기술사적 판단: 디지털 전략 수립 및 리스크 통제 시나리오
 
 **시나리오 1: 신규 AI 서비스 도입을 두고 경영진과 IT 부서의 갈등 발생**
-- **판단**: 기술의 화려함보다는 **'전략적 정렬'** 관점에서 중재한다. AI 도입이 기업의 올해 핵심 목표인 "고객 경험 혁신"이나 "운영 비용 절감"에 어떻게 기여하는지 **가치 케이스 (Business Case)**를 작성하게 한다. 단순히 서버를 사는 것이 아니라, 이 투자가 가져올 **NPV (순현재가치)**와 리스크를 COBIT의 거버넌스 프레임워크로 정량화하여 이사회의 최종 승인을 이끌어낸다.
+- **판단**: 기술의 화려함보다는 **'전략적 정렬'** 관점에서 중재한다. AI 도입이 기업의 올해 핵심 목표인 "고객 경험 혁신"이나 "운영 비용 절감"에 어떻게 기여하는지 <strong>가치 케이스 (Business Case)</strong>를 작성하게 한다. 단순히 서버를 사는 것이 아니라, 이 투자가 가져올 <strong>NPV (순현재가치)</strong>와 리스크를 COBIT의 거버넌스 프레임워크로 정량화하여 이사회의 최종 승인을 이끌어낸다.
 
 **시나리오 2: 대규모 보안 사고 발생 후 거버넌스 체계 재구축**
-- **판단**: 특정 솔루션 도입에 앞서 **'위험 관리 (Risk Management)'** 체계를 전면 개편한다. 사고의 원인이 관리의 부재 (Lack of Control)에 있음을 명시하고, **ISO 27001**과 **ISO 31000**을 융합한 전사 리스크 거버넌스를 수립한다. 보안 사고 발생 시 경영진이 즉시 보고받고 판단을 내릴 수 있는 '에스컬레이션 경로'를 확립하고, 보안 투자를 '비용'이 아닌 '자산 보호'로 인식하게 하는 인식 전환 교육을 병행한다.
+- **판단**: 특정 솔루션 도입에 앞서 **'위험 관리 (Risk Management)'** 체계를 전면 개편한다. 사고의 원인이 관리의 부재 (Lack of Control)에 있음을 명시하고, <strong>ISO 27001</strong>과 <strong>ISO 31000</strong>을 융합한 전사 리스크 거버넌스를 수립한다. 보안 사고 발생 시 경영진이 즉시 보고받고 판단을 내릴 수 있는 '에스컬레이션 경로'를 확립하고, 보안 투자를 '비용'이 아닌 '자산 보호'로 인식하게 하는 인식 전환 교육을 병행한다.
 
 이 도식은 IT 거버넌스 성숙도 평가 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               IT Governance Maturity Assessment             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Level 0: Non-existent ] - 관리 체계 전무                │
-│   [ Level 1: Initial ]      - 임기응변식 처리               │
-│   [ Level 2: Repeatable ]   - 유사 패턴 반복                │
-│   [ Level 3: Defined ]      - 표준화된 프로세스 존재        │
-│   [ Level 4: Managed ]      - 정량적 측정 및 통제           │
-│   [ Level 5: Optimized ]    - 지속적인 자동화 및 혁신       │
-│                                                             │
-│   * 기술사 역할: 현재 수준을 진단하고 Target을 제시함       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT Governance Maturity Assessment</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 0: Non-existent</div><div class="kb-diagram-note">- 관리 체계 전무</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Initial</div><div class="kb-diagram-note">- 임기응변식 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Repeatable</div><div class="kb-diagram-note">- 유사 패턴 반복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: Defined</div><div class="kb-diagram-note">- 표준화된 프로세스 존재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: Managed</div><div class="kb-diagram-note">- 정량적 측정 및 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 5: Optimized</div><div class="kb-diagram-note">- 지속적인 자동화 및 혁신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 역할: 현재 수준을 진단하고 Target을 제시함</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 전략 판단은 '항해사의 해도 읽기'와 같습니다. 폭풍우(리스크)가 오고 있는지, 연료(자원)는 충분한지, 그리고 우리가 보물섬(비즈니스 가치)을 향해 똑바로 가고 있는지 끊임없이 확인하고 조타 키를 조절하는 전문가입니다.
 
@@ -170,7 +160,7 @@ IT 전략과 비즈니스 전략이 어떻게 맞물려야 하는지 보여주�
 
 ### 미래 전망: 플랫폼 거버넌스와 ESG IT
 
-향후 거버넌스는 수동적인 통제를 넘어 데이터가 스스로 흐르는 **플랫폼 거버넌스**로 진화할 것이다. 또한 기후 위기에 대응하여 탄소 배출량을 IT 자산 단위로 관리하는 **Green IT 거버넌스**와 기업의 사회적 책임을 강조하는 **ESG IT**가 핵심 표준이 될 것이다. 기술사는 기술의 깊이를 넘어, 기술이 사회와 인류에 미치는 영향을 거시적으로 설계하고 통제하는 '디지털 윤리 설계자'로서의 사명감을 가져야 한다.
+향후 거버넌스는 수동적인 통제를 넘어 데이터가 스스로 흐르는 <strong>플랫폼 거버넌스</strong>로 진화할 것이다. 또한 기후 위기에 대응하여 탄소 배출량을 IT 자산 단위로 관리하는 <strong>Green IT 거버넌스</strong>와 기업의 사회적 책임을 강조하는 <strong>ESG IT</strong>가 핵심 표준이 될 것이다. 기술사는 기술의 깊이를 넘어, 기술이 사회와 인류에 미치는 영향을 거시적으로 설계하고 통제하는 '디지털 윤리 설계자'로서의 사명감을 가져야 한다.
 
 📢 **섹션 요약 비유**: 미래의 IT 거버넌스는 '지구의 대기 순환'과 같아질 것입니다. 우리가 의식하지 않아도 에너지가 가장 필요한 곳으로 흐르고, 오염물질(리스크)은 스스로 정화하며, 생태계 전체가 조화롭게 번영하는 완벽한 질서가 완성될 것입니다.
 

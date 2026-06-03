@@ -18,7 +18,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. ALE의 정의와 계산식
 
-ALE(Annual Loss Expectancy, 연간 예상 손실)는 **[정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)([Quantitative Risk Analysis](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/))의 핵심 지표**다.
+ALE(Annual Loss Expectancy, 연간 예상 손실)는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/">정량적 위험 분석</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/">Quantitative Risk Analysis</a>)의 핵심 지표</strong>다.
 
 ### 계산 공식
 
@@ -50,7 +50,7 @@ ARO (Annual Rate of Occurrence, 연간 발생률)
 
 ### SLE (Single Loss Expectancy, 단일 예상 손실)
 
-SLE는 **위협 1회 발생 시 자산에 예상되는 손실 금액**이다.
+SLE는 <strong>위협 1회 발생 시 자산에 예상되는 손실 금액</strong>이다.
 
 | EF 범위   | 의미                        | 예시 시나리오           |
 |----------|----------------------------|------------------------|
@@ -82,7 +82,7 @@ SLE는 **위협 1회 발생 시 자산에 예상되는 손실 금액**이다.
 
 ### ARO 산정 방법
 
-1. **역사적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: 과거 사고 이력 분석
+1. <strong>역사적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 과거 사고 이력 분석
 2. **업계 통계**: CERT·NIST 보안 통계 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)
 3. **전문가 판단**: [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 전문가 [델파이 기법](/knowledge-base/studynote/04_software_engineering/01_overview_principles/051_delphi_method/)
 4. **위협 인텔리전스**: 산업별 침해 동향 보고서
@@ -142,44 +142,52 @@ ALE의 한계를 보완한 현대적 정량 위험 분석 프레임워크:
 
 ## 📌 관련 개념 맵
 
-```
-ALE (Annual Loss Expectancy)
-├── 구성 요소
-│   ├── SLE (Single Loss Expectancy, 단일 예상 손실)
-│   │   ├── AV (Asset Value, 자산 가치)
-│   │   └── EF (Exposure Factor, 노출 계수)
-│   └── ARO (Annual Rate of Occurrence, 연간 발생률)
-├── 활용
-│   ├── 보안 투자 우선순위 결정
-│   ├── 사이버 보험 프리미엄 산정
-│   └── CISO 예산 정당화
-└── 보완 방법론
-    ├── 정성적 위험 분석 (Risk Matrix)
-    ├── FAIR 모델 (Factor Analysis of Information Risk)
-    └── CVSSv3 (취약점 심각도 점수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ALE (Annual Loss Expectancy)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구성 요소</div>
+<div class="kb-diagram-note">── SLE (Single Loss Expectancy, 단일 예상 손실)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AV (Asset Value, 자산 가치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── EF (Exposure Factor, 노출 계수)</div></div>
+<div class="kb-diagram-note">── ARO (Annual Rate of Occurrence, 연간 발생률)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용</div>
+<div class="kb-diagram-note">── 보안 투자 우선순위 결정</div>
+<div class="kb-diagram-note">── 사이버 보험 프리미엄 산정</div>
+<div class="kb-diagram-note">── CISO 예산 정당화</div>
+<div class="kb-diagram-tree-item" style="--depth:0">보완 방법론</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정성적 위험 분석 (Risk Matrix)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FAIR 모델 (Factor Analysis of Information Risk)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CVSSv3 (취약점 심각도 점수)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## �� 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              ALE 기반 위험 분석 발전 흐름                        │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1970년대     │ 보험 수리학 도입   │ 기대 손실 계산 기법 차용     │
-│ 1990년대     │ NIST SP 800-30     │ 정보보안 정량 위험 분석 표준 │
-│ 2000년대     │ FAIR 모델 등장     │ ALE 고도화, 계층적 분해      │
-│ 2010년대     │ CVSSv3·위협 인텔  │ 실시간 ARO 업데이트          │
-│ 2020년대     │ 사이버 보험 급성장 │ ALE → 보험 언더라이팅 연계   │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-위험 = 자산가치 × 위협 × 취약성
-AV × EF = SLE
-SLE × ARO = ALE
-ALE → 보안 대책 비용 비교 → ROI 결정
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALE 기반 위험 분석 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">보험 수리학 도입</div><div class="kb-diagram-cell">기대 손실 계산 기법 차용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">NIST SP 800-30</div><div class="kb-diagram-cell">정보보안 정량 위험 분석 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">FAIR 모델 등장</div><div class="kb-diagram-cell">ALE 고도화, 계층적 분해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">CVSSv3·위협 인텔</div><div class="kb-diagram-cell">실시간 ARO 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">사이버 보험 급성장</div><div class="kb-diagram-cell">ALE → 보험 언더라이팅 연계</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">위험 = 자산가치 × 위협 × 취약성</div>
+<div class="kb-diagram-note">AV × EF = SLE</div>
+<div class="kb-diagram-note">SLE × ARO = ALE</div>
+<div class="kb-diagram-note">ALE → 보안 대책 비용 비교 → ROI 결정</div>
+</div>
+</div>
+
+
 
 ---
 

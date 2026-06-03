@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 이동통신 표준화 기구인 3GPP에서 제정한 면허 대역 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 표준 기술([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) Cat-M1 등)입니다. (eMTC: enhanced Machine Type Communication)
-- **목적**: 100kbps 남짓한 초저속 NB-IoT와 수십 Mbps에 달하는 스마트폰 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 사이의 간극을 메우기 위해 탄생했습니다. 최대 **1Mbps**의 준수한 속도를 지원하는 **중급형(Mid-tier) [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통신망**입니다.
+- **목적**: 100kbps 남짓한 초저속 NB-IoT와 수십 Mbps에 달하는 스마트폰 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 사이의 간극을 메우기 위해 탄생했습니다. 최대 <strong>1Mbps</strong>의 준수한 속도를 지원하는 <strong>중급형(Mid-tier) <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a> 통신망</strong>입니다.
 
-```text
-[NB-IoT]
-    │
-    ▼
-[LTE-M]
-    │
-    └──▶ [MQTT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-M</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MQTT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,7 +43,7 @@ tags = ["studynote-network"]
 
 ### 1. 완벽한 이동성 (Mobility) 지원
 - NB-IoT는 셀 기지국을 넘어갈 때 통신을 부드럽게 이어주는 '[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))' 기능이 없어서 고정된 센서에만 쓸 수 있습니다.
-- **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M은 100% [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 지원**합니다. 시속 수십 km로 달리는 자동차나 물류 트럭에 부착해도 통신이 끊기지 않아 '차량 관제 시스템(Fleet [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이나 어린이/반려견 안심 트래커에 완벽하게 부합합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-M은 100% <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>를 지원</strong>합니다. 시속 수십 km로 달리는 자동차나 물류 트럭에 부착해도 통신이 끊기지 않아 '차량 관제 시스템(Fleet [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이나 어린이/반려견 안심 트래커에 완벽하게 부합합니다.
 
 ### 2. 음성 통화 ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)) 지원
 - 1Mbps의 속도를 낼 수 있으므로 데이터를 넘어 사람의 목소리까지 깨끗하게 전송할 수 있습니다. 
@@ -48,14 +52,18 @@ tags = ["studynote-network"]
 ### 3. FOTA ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Over The Air) 무선 업데이트
 - NB-IoT는 속도가 너무 느려 수 MB짜리 기기 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 무선으로 밀어넣기 불가능에 가깝습니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M은 1Mbps의 속도로 원격에서 센서 소프트웨어 버그를 고치거나 업데이트하는 FOTA를 원활하게 수행할 수 있습니다.
 
-```text
-[NB-IoT]
-    │
-    ▼
-[LTE-M]
-    │
-    └──▶ [MQTT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-M</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MQTT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **전력 소모와 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 가격**: 1.4MHz의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(NB-IoT는 200kHz)을 사용하므로, NB-IoT나 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))에 비해 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(칩셋) 가격이 비싸고 배터리를 더 많이 소모합니다.
+- <strong>전력 소모와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 가격</strong>: 1.4MHz의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(NB-IoT는 200kHz)을 사용하므로, NB-IoT나 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))에 비해 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(칩셋) 가격이 비싸고 배터리를 더 많이 소모합니다.
 
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NB-IoT가 기반 조건을 만든다면, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M는 그 위에서 핵심 메커니즘을 구현하고, MQTT는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,8 +87,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) / [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)**: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 미터기, 토양 수분 센서처럼 **"가만히 한 자리에 고정"**되어 있고 하루에 **"몇 바이트의 숫자만"** 찔끔찔끔 보내며 배터리가 10년 가야 하는 기기.
-- **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M**: 킥보드, 공유 자전거, 화물 트럭처럼 **"이동하면서"**, 주기적으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트가 필요하거나 **"비상 음성 통화"**가 필요한 고급 웨어러블 기기.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a> / <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a></strong>: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 미터기, 토양 수분 센서처럼 <strong>"가만히 한 자리에 고정"</strong>되어 있고 하루에 **"몇 바이트의 숫자만"** 찔끔찔끔 보내며 배터리가 10년 가야 하는 기기.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-M</strong>: 킥보드, 공유 자전거, 화물 트럭처럼 **"이동하면서"**, 주기적으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트가 필요하거나 <strong>"비상 음성 통화"</strong>가 필요한 고급 웨어러블 기기.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NB-IoT]
-    │
-    ▼
-[현재 개념: LTE-M]
-    │
-    ├──▶ [확장 A: MQTT]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NB-IoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LTE-M</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MQTT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M는 NB-IoT에서 출발해 현재 메커니즘을 정교화하고, 이후 MQTT와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

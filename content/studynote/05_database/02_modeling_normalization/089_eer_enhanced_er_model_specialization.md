@@ -38,23 +38,22 @@ EER의 핵심 원리는 공통점과 차이점을 위아래로 재배치하는 �
 
 서브클래스를 나눌 때는 두 가지 중요한 제약조건(규칙)이 작동한다. 첫째, 중복(Disjointness) 제약조건은 자식들끼리 겹칠 수 없는 배타적 분리(Disjoint, d)인지, 교집합이 가능한 중복 허용(Overlap, o)인지 결정한다. 둘째, 참여(Completeness) 제약조건은 부모가 반드시 자식 중 하나에 속해야 하는 전체 참여(Total, ===)인지, 어디에도 안 속하는 예외 부모가 존재하는 부분 참여(Partial, ─)인지를 규정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           EER 상속 계층과 제약조건 (직원 모델링 예시)             │
-├──────────────────────────────────────────────────────────────┤
-│                     [ 직 원 (슈퍼클래스) ]                       │
-│                     (사번, 이름, 입사일)                       │
-│                              │                               │
-│                              d (Disjoint: 배타적 분리)         │
-│             ┌────────────────┴────────────────┐              │
-│             ▼                                ▼              │
-│    [ 정규직 (서브클래스) ]              [ 계약직 (서브클래스) ]    │
-│        (연봉, 보너스)                      (시급, 계약기간)      │
-│                                                              │
-│ * 특징: 직원은 정규직이면서 계약직일 수 없음 (d).                  │
-│        정규직은 부모의 '사번, 이름'을 그대로 물려받아 사용함.           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EER 상속 계층과 제약조건 (직원 모델링 예시)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직 원 (슈퍼클래스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사번, 이름, 입사일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d (Disjoint: 배타적 분리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규직 (서브클래스)</div><div class="kb-diagram-node">계약직 (서브클래스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(연봉, 보너스) (시급, 계약기간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 직원은 정규직이면서 계약직일 수 없음 (d).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규직은 부모의 '사번, 이름'을 그대로 물려받아 사용함.</div></div>
+</div>
+</div>
+
+
 이 다이어그램은 특수화의 과정을 보여준다. 하나의 직원이 두 서브클래스에 속할 수 없음을 명확히 하여, 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 유지하게 만든다.
 
 - **📢 섹션 요약 비유**: 부모의 붕어빵 틀(슈퍼클래스)을 그대로 복사해서, 하나는 슈크림(정규직 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))을 넣고 다른 하나는 팥(계약직 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))을 넣어 서로 다른 두 개의 붕어빵을 구워내는 과정이다.
@@ -68,7 +67,7 @@ EER을 명확히 이해하려면 전통적 ER 모델 및 [객체지향 프로그
 | 항목 | 전통적 ER 모델 | 확장 ER 모델 (EER) |
 | :--- | :--- | :--- |
 | **표현 한계** | 단일 개체에 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집중 (NULL 발생) | 슈퍼/서브클래스 계층으로 분리 (NULL 제거) |
-| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)성** | 단순 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (1:N, M:N) | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (IS-A) 추가 지원 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>성</strong> | 단순 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (1:N, M:N) | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (IS-A) 추가 지원 |
 | **다형성 지원** | 불가능 | 카테고리(Category) 개념을 통한 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 지원 |
 
 EER은 단순히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계의 영역을 넘어 소프트웨어 공학의 [객체지향 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/)/설계(OOAD)와 강하게 연결된다. EER의 슈퍼클래스/서브클래스는 자바(Java)의 부모 클래스와 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(`extends`) 개념과 1:1로 매칭되며, 이는 결국 ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 기술이 테이블과 객체를 부드럽게 이어주는 논리적 근거가 된다.
@@ -81,11 +80,11 @@ EER은 단순히 [데이터베이스](/knowledge-base/studynote/05_database/01_d
 
 실무 프로젝트에서 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)러는 무조건 EER을 남발해서는 안 되며, 다음과 같은 판단 기준을 통해 EER 계층 분리의 득실을 계산해야 한다.
 
-1. **테이블 변환 시의 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 비용 계산**: EER로 그린 모델을 실제 RDBMS 테이블로 바꿀 때는 부모 테이블과 자식 테이블로 쪼개진다. 자식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조회할 때마다 부모 테이블을 매번 조인해야 하므로, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 빈도가 엄청나게 높은 시스템에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 유발할 수 있다.
-2. **서브클래스의 고유성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 서브클래스가 자신만의 고유한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나, 다른 개체와의 고유한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가지지 않는다면 분리할 필요가 없다. 이 경우 차라리 부모 개체에 '구분자(Type)' 칼럼 하나를 추가하는 것이 낫다.
+1. <strong>테이블 변환 시의 조인(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>) 비용 계산</strong>: EER로 그린 모델을 실제 RDBMS 테이블로 바꿀 때는 부모 테이블과 자식 테이블로 쪼개진다. 자식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조회할 때마다 부모 테이블을 매번 조인해야 하므로, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 빈도가 엄청나게 높은 시스템에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 유발할 수 있다.
+2. <strong>서브클래스의 고유성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 서브클래스가 자신만의 고유한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나, 다른 개체와의 고유한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 가지지 않는다면 분리할 필요가 없다. 이 경우 차라리 부모 개체에 '구분자(Type)' 칼럼 하나를 추가하는 것이 낫다.
 3. **유연성 vs 복잡성**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 요건이 자주 바뀌어 새로운 타입의 서브클래스가 계속 추가될 예정이라면 EER 기반의 설계가 확장성 측면에서 유리하다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 단 한 개뿐인 서브클래스를 10개 이상 만들어버려, 전체 ERD가 알아볼 수 없을 만큼 복잡한 거미줄이 되는 설계.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 단 한 개뿐인 서브클래스를 10개 이상 만들어버려, 전체 ERD가 알아볼 수 없을 만큼 복잡한 거미줄이 되는 설계.
 
 - **📢 섹션 요약 비유**: 서재를 정리할 때, 책이 수백 권이면 소설, 과학, 역사로 서랍을 나누는 게 맞지만, 책이 3권밖에 없는데 서랍장을 3개 사는 것은 낭비다. EER 분리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 볼륨과 고유성을 보고 결정해야 한다.
 
@@ -106,28 +105,30 @@ EER을 도입하면 [데이터](/knowledge-base/studynote/05_database/01_db_arch
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[객체지향 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/) ([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))** | EER의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 개념이 코드로 그대로 구현되는 프로그래밍 패러다임 |
-| **ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))** | 객체의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층과 RDBMS의 테이블 구조 간 불일치를 해결하는 미들웨어 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제거하는 또 다른 관점. EER은 구조적으로 1차 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 돕는다. |
-| **슈퍼타입/서브타입 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)** | EER을 실제 물리적 RDBMS 테이블로 구현하기 위한 물리 설계 기법 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/">객체지향 프로그래밍</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/">OOP</a>)</strong> | EER의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 개념이 코드로 그대로 구현되는 프로그래밍 패러다임 |
+| <strong>ORM (Object-Relational <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong> | 객체의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층과 RDBMS의 테이블 구조 간 불일치를 해결하는 미들웨어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제거하는 또 다른 관점. EER은 구조적으로 1차 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 돕는다. |
+| <strong>슈퍼타입/서브타입 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a></strong> | EER을 실제 물리적 RDBMS 테이블로 구현하기 위한 물리 설계 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 ER 모델 (Entity-Relationship)
-    │
-    ▼
-객체지향 설계 사상 등장 (OOP)
-    │
-    ▼
-확장 ER 모델 (EER) · 일반화(Generalization) 및 특수화(Specialization)
-    │
-    ▼
-상속 제약조건 (Disjoint, Overlap, Total, Partial)
-    │
-    ▼
-ORM 연계 및 물리적 슈퍼타입/서브타입 테이블 변환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 ER 모델 (Entity-Relationship)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 설계 사상 등장 (OOP)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확장 ER 모델 (EER) · 일반화(Generalization) 및 특수화(Specialization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상속 제약조건 (Disjoint, Overlap, Total, Partial)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ORM 연계 및 물리적 슈퍼타입/서브타입 테이블 변환</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 개체 분리에서 출발하여, 객체지향의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 모델링에 들어오고, 결국 물리적 테이블 설계로 이어지는 과정을 보여준다.
 

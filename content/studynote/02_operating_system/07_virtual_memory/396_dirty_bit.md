@@ -11,43 +11,43 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 변경 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Modify [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), 일명 Dirty [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 존재하는 1비트짜리 상태 플래그로, 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크에서 램(RAM)으로 올라온 이후 **CPU에 의해 값이 한 번이라도 수정(Write)되었는지를 추적하여 하드웨어가 1(Dirty)로 자동 마킹해 주는 장치**다.
-> 2. **가치**: 램이 꽉 차서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 희생양으로 쫓아낼 때, 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0(Clean)이면 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략하고 그냥 삭제해 버림으로써 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 가장 치명적인 병목인 '디스크 I/O 오버헤드'를 절반(50%) 이하로 극적으로 감축**시킨다.
-> 3. **융합**: [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)에서 단순히 "오래된 놈"을 고르는 것을 넘어, **"오래되었으면서 동시에 Clean 한 놈"을 0순위 타겟으로 선정하게 만드는 소프트웨어 스케줄링과 하드웨어 추적의 가장 위대한 융합점**이다.
+> 1. **본질**: 변경 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Modify [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), 일명 Dirty [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 존재하는 1비트짜리 상태 플래그로, 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크에서 램(RAM)으로 올라온 이후 <strong>CPU에 의해 값이 한 번이라도 수정(Write)되었는지를 추적하여 하드웨어가 1(Dirty)로 자동 마킹해 주는 장치</strong>다.
+> 2. **가치**: 램이 꽉 차서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 희생양으로 쫓아낼 때, 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0(Clean)이면 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략하고 그냥 삭제해 버림으로써 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 시스템의 가장 치명적인 병목인 '디스크 I/O 오버헤드'를 절반(50%) 이하로 극적으로 감축</strong>시킨다.
+> 3. **융합**: [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)에서 단순히 "오래된 놈"을 고르는 것을 넘어, <strong>"오래되었으면서 동시에 Clean 한 놈"을 0순위 타겟으로 선정하게 만드는 소프트웨어 스케줄링과 하드웨어 추적의 가장 위대한 융합점</strong>이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에는 프레임 번호 말고도 여러 권한/상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 있다. 그중 **M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Modify)**, 속칭 **[더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/)(Dirty [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**는 이름 그대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램에 올라와서 '오염(변경)'되었는지를 기록하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 처음에 디스크에서 램으로 퍼 왔을 땐 `0(Clean)`으로 시작했다가, 프로그램이 변수에 값을 쓰면(Write) [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어가 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 몰래 `1(Dirty)`로 바꿔놓는다.
+- **개념**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에는 프레임 번호 말고도 여러 권한/상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 있다. 그중 <strong>M <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(Modify)</strong>, 속칭 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/">더티 비트</a>(Dirty <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>는 이름 그대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램에 올라와서 '오염(변경)'되었는지를 기록하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 처음에 디스크에서 램으로 퍼 왔을 땐 `0(Clean)`으로 시작했다가, 프로그램이 변수에 값을 쓰면(Write) [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어가 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 몰래 `1(Dirty)`로 바꿔놓는다.
 - **필요성**: 램이 꽉 차서 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내고 남의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 가져와야(Swap-in) 한다고 치자. 만약 쫓겨나는 애가 실행 코드(Read-Only)라서 값이 하나도 안 바뀌었다면? 어차피 하드디스크에 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 완벽히 똑같은 상태로 있으니, 그냥 램에서 쓰레기통에 찢어 버려도(Drop) 1밀리초도 안 걸린다. 하지만 변수 값을 바꾼 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면? 이걸 그냥 지우면 바뀐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 영원히 증발하므로 반드시 하드디스크에 덮어써야([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) 한다 (무려 8ms 소요). "어떤 놈은 그냥 버려도 되고, 어떤 놈은 디스크에 힘들게 적고 버려야 하는데 이걸 어떻게 구분하지?"라는 절실한 물음에 하드웨어가 내놓은 명쾌한 해답이 바로 Dirty Bit다.
 
 - **등장 배경 및 I/O 반토막의 기적**:
-  1. **[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)의 태생적 한계**: 남의 방을 뺏으려면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 무조건 저장(Save)하고 남의 걸 가져오는 2번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Double Penalty)이 발생했다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>의 태생적 한계</strong>: 남의 방을 뺏으려면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 무조건 저장(Save)하고 남의 걸 가져오는 2번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Double Penalty)이 발생했다.
   2. **하드웨어의 지원**: MMU가 메모리에 Write가 일어날 때마다 해당 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 켜주는 하드웨어 로직을 추가했다.
   3. **OS의 영리한 취사선택**: OS가 쫓아낼 놈을 고를 때 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어보고, 0이면 1번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(읽기만)으로 끝내버리는 필터링 로직이 추가되어 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 체감 속도가 두 배 이상 빨라졌다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이    │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함 ]      │
-│                                                                   │
-│ ▶ 1. 희생양이 Clean (Dirty Bit == 0) 인 경우                      │
-│   - OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."            │
-│   - 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)                 │
-│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
-│   🚀 총 소요 시간: 약 8 ms (쾌적함)                               │
-│                                                                   │
-│ ▶ 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우                      │
-│   - OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."      │
-│   - 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)      │
-│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
-│   ☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)                 │
-└───────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 이 단순한 표가 왜 OS가 그렇게나 `Dirty Bit`에 집착하는지를 보여준다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 자체도 느려 터졌는데, 하필 내가 고른 희생양이 Dirty라면 시간이 2배로 길어지는 벌칙을 받는다. 따라서 OS는 **"무조건 깨끗한(Clean) 놈부터 먼저 쫓아낸다"**는 편애 로직을 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) 깊숙이 박아 넣을 수밖에 없다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 희생양이 Clean (Dirty Bit == 0) 인 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 총 소요 시간: 약 8 ms (쾌적함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 이 단순한 표가 왜 OS가 그렇게나 `Dirty Bit`에 집착하는지를 보여준다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 자체도 느려 터졌는데, 하필 내가 고른 희생양이 Dirty라면 시간이 2배로 길어지는 벌칙을 받는다. 따라서 OS는 <strong>"무조건 깨끗한(Clean) 놈부터 먼저 쫓아낸다"</strong>는 편애 로직을 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) 깊숙이 박아 넣을 수밖에 없다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 뺄 때 포장도 안 뜯은 새 박스(Clean)는 그냥 들고 나가면 되지만, 뜯어서 이것저것 섞어놓은 박스(Dirty)는 다시 테이프로 밀봉해서 주소까지 새로 적어놔야(디스크 I/O) 들고 나갈 수 있는 귀찮음의 차이입니다.
 
@@ -59,8 +59,8 @@ tags = ["studynote-operating-system"]
 
 Dirty Bit는 소프트웨어가 설정하는 게 아니라, 100% 하드웨어의 자동 반사(Auto-trigger)로 동작한다.
 1. **Clear (초기화)**: OS가 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 처음 램으로 올려주고 테이블을 세팅할 때, 초기값으로 `M 비트 = 0`을 준다.
-2. **Set (오염)**: 프로세스가 돌다가 C언어에서 `arr[10] = 5;` 처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 명령어를 램에 내린다. MMU가 주소를 번역하다가 "어, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)네?" 하고 해당 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 **M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 레벨에서 몰래 `1`로 바꿔버린다.**
-3. **Read ([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**: 램이 모자라서 OS가 빗자루(kswapd 데몬)를 들고 출동한다. OS는 이 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 쭉 스캔하며 누구를 쫓아낼지 살생부를 작성한다.
+2. **Set (오염)**: 프로세스가 돌다가 C언어에서 `arr[10] = 5;` 처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 명령어를 램에 내린다. MMU가 주소를 번역하다가 "어, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)네?" 하고 해당 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 <strong>M <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/">트랜지스터</a> 레벨에서 몰래 <code>1</code>로 바꿔버린다.</strong>
+3. <strong>Read (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>)</strong>: 램이 모자라서 OS가 빗자루(kswapd 데몬)를 들고 출동한다. OS는 이 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 쭉 스캔하며 누구를 쫓아낼지 살생부를 작성한다.
 
 ---
 
@@ -69,7 +69,7 @@ Dirty Bit는 소프트웨어가 설정하는 게 아니라, 100% 하드웨어의
 리눅스에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽고 쓸 때([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)도 이 Dirty Bit가 절대적인 역할을 한다.
 - [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.docx)에 글을 타이핑하면, 디스크에 바로 써지는 게 아니다. 램에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 `1`로 바뀌고 끝난다([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)). 
 - 이 상태로 전기가 나가면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 날아간다.
-- 그래서 리눅스 백그라운드에는 **`pdflush` (또는 `flusher` [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** 라는 청소부 데몬이 5초마다 깨어나 램을 스캔한다.
+- 그래서 리눅스 백그라운드에는 <strong><code>pdflush</code> (또는 <code>flusher</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">thread</a>)</strong> 라는 청소부 데몬이 5초마다 깨어나 램을 스캔한다.
 - M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 '더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'들만 쏙쏙 골라내어 디스크로 쭉 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Flush)시켜준 뒤, 비로소 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0(Clean)으로 씻어준다. 우리가 `Ctrl+S`를 누르지 않아도 알아서 저장되는 임시 저장 마법의 실체다.
 
 - **📢 섹션 요약 비유**: 은행원이 손님 통장(램)에 연필로 입금 내역(Dirty)을 쓱 적어두면, 퇴근 전에 지점장(pdflush 데몬)이 돌아다니면서 연필로 적힌 통장들만 모아서 본사 중앙 컴퓨터(디스크)에 확정 입력하고 연필 자국을 지우개로 지워버리는(Clean 상태로 복귀) 정산 시스템입니다.
@@ -84,8 +84,8 @@ Dirty Bit는 소프트웨어가 설정하는 게 아니라, 100% 하드웨어의
 
 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 역할 | 의미 | OS가 죽일 때의 마음가짐 |
 |:---|:---|:---|:---|
-| **[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))**| 읽거나 쓸 때 모두 1이 됨 | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 '최근에 쳐다본 적'이 있는가? | `R=0`인 놈을 무조건 먼저 죽이자! (최근에 안 썼으니까) |
-| **변경 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))**| 오직 쓸 때(Write)만 1이 됨 | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 '내용이 바뀌었는가?' | `R`이 같다면 기왕이면 `M=0(Clean)`인 놈을 죽이자! (디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 8ms 아끼려고) |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (R <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong>| 읽거나 쓸 때 모두 1이 됨 | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 '최근에 쳐다본 적'이 있는가? | `R=0`인 놈을 무조건 먼저 죽이자! (최근에 안 썼으니까) |
+| <strong>변경 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (M <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong>| 오직 쓸 때(Write)만 1이 됨 | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 '내용이 바뀌었는가?' | `R`이 같다면 기왕이면 `M=0(Clean)`인 놈을 죽이자! (디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 8ms 아끼려고) |
 
 ### [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Operating System의 4단계 살생부 매트릭스 (NRU [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반)
 
@@ -96,16 +96,19 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 3. **클래스 2 (R=1, M=0)**: 방금 읽었지만, 값은 안 바뀜 (Clean). -> **[3순위 희생양]** 자주 쓰이는 놈이라 살려두고 싶음.
 4. **클래스 3 (R=1, M=1)**: 방금 막 값을 미친 듯이 썼음 (Dirty). -> **[절대 죽이면 안 됨]** 지금 가장 뜨거운(Hot) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 살생부 순위│ R (참조됨)   │ M (변경됨/Dirty)│ 생존율       │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ 1순위 타겟 │ 0          │ 0          │ ☠️ 가장 먼저 죽음   │
-│ 2순위 타겟 │ 0          │ 1          │ 🔴 위험함           │
-│ 3순위 타겟 │ 1          │ 0          │ 🟡 웬만하면 생존    │
-│ 마지막 보루│ 1          │ 1          │ 🟢 완벽한 생존      │
-└──────────┴────────────┴────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살생부 순위</div><div class="kb-diagram-cell">R (참조됨)</div><div class="kb-diagram-cell">M (변경됨/Dirty)</div><div class="kb-diagram-cell">생존율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1순위 타겟</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">☠️ 가장 먼저 죽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2순위 타겟</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">🔴 위험함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3순위 타겟</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">🟡 웬만하면 생존</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마지막 보루</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">🟢 완벽한 생존</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 흥미로운 점은 `R=0, M=1`인 클래스 1이다. "방금 안 썼는데 어떻게 값이 바뀌어 있지?"라는 모순이 생길 수 있지만, 하드웨어는 주기적으로 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내리므로 과거에 수정(Dirty)된 채로 버려진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 이 클래스에 속하게 된다. OS는 이 계급표를 바탕으로 가장 빠르고 부작용 없이 메모리를 뜯어낸다.
 
 - **📢 섹션 요약 비유**: 냉장고 청소를 할 때, '유통기한 지난 안 뜯은 우유(R=0, M=0)'를 제일 먼저 통째로 버립니다. 그다음은 '유통기한 지난 먹다 남은 우유(R=0, M=1)'를 싱크대에 비우고 통을 버리는 수고를 감수하죠. '방금 사 온 먹다 남은 우유(R=1, M=1)'는 절대 버리면 안 됩니다.
@@ -119,8 +122,8 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 2. **사고 발생**: 1초 뒤 서버에 정전이 나서 컴퓨터가 팍 꺼졌다. 램은 휘발성이므로 Dirty Page들이 디스크에 영원히 적히지 못하고 허공으로 날아가 버렸다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss).
 3. **엔지니어의 생존법**:
    - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 개발자는 OS의 "나중에 쓸게~"라는 게으른 약속을 절대 믿지 않는다.
-   - `write()`를 치자마자 무조건 **`fsync(fd)`**라는 시스템 콜을 강제로 호출한다.
-   - 이 명령어는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 **"지금 당장! 내 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 모든 Dirty Page들을 디스크로 물리적으로 써버리고, M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깨끗하게 씻어놔라!"**라고 채찍질을 가하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync) 명령이다.
+   - `write()`를 치자마자 무조건 <strong><code>fsync(fd)</code></strong>라는 시스템 콜을 강제로 호출한다.
+   - 이 명령어는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 <strong>"지금 당장! 내 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 모든 Dirty Page들을 디스크로 물리적으로 써버리고, M <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 0으로 깨끗하게 씻어놔라!"</strong>라고 채찍질을 가하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync) 명령이다.
    - 결제 서버나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB(MySQL의 [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) Log)에서는 속도가 수백 배 느려지더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 막기 위해 이 `fsync`를 목숨처럼 쥐고 흔든다.
 
 ### 읽기 전용(Read-Only)의 위대함 
@@ -136,9 +139,9 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 
 | 구분 | 내용 |
 |:---|:---|
-| **[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 오버헤드 50% 절감**| 희생양 선택 시 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 우선 정책을 통해 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) 트래픽을 완벽하게 절반 이하로 증발시킴 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 구현** | 매번 디스크를 긁지 않고 램에 모아뒀다가(Dirty) 일괄 처리(Batch)하는 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 아키텍처의 근본 하드웨어 토대 |
-| **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(EAT) 사수** | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 발생 시 필연적으로 동반되는 16ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(더블 페널티) 지뢰밭을 피해 가는 유일한 항해 지도 제공 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a> 오버헤드 50% 절감</strong>| 희생양 선택 시 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 우선 정책을 통해 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) 트래픽을 완벽하게 절반 이하로 증발시킴 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 구현</strong> | 매번 디스크를 긁지 않고 램에 모아뒀다가(Dirty) 일괄 처리(Batch)하는 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 아키텍처의 근본 하드웨어 토대 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(EAT) 사수</strong> | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 발생 시 필연적으로 동반되는 16ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(더블 페널티) 지뢰밭을 피해 가는 유일한 항해 지도 제공 |
 
 ### 결론 및 미래 전망
 
@@ -159,15 +162,19 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[페이지 교체 (Page Replacement)의 필요성]
-    │
-    ▼
-[변경 비트 (Modify Bit / Dirty Bit)]
-    │
-    ├──▶ [프레임 할당 (Frame Allocation) 알고리즘]
-    └──▶ [균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 (Page Replacement)의 필요성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변경 비트 (Modify Bit / Dirty Bit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

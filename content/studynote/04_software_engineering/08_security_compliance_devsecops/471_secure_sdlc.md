@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)(Software Development Life Cycle)는 집을 짓는 순서(기획 -> 설계 -> 공사 -> 검수)다. 여기에 Secure(안전한)가 붙으면, 단순히 예쁜 집을 짓는 게 아니라 처음부터 도둑이 못 들어오는 구조를 그리는 것이다. 기획 단계부터 비밀번호 암호화 요구사항을 명시하고, 설계 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 경로를 예측하며, 코딩할 때는 보안 린터(Linter)를 켜놓고 치는 일련의 보안 내재화 프로세스다.
 
-- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, **"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"**라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
+- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, <strong>"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"</strong>라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
 
-- **💡 비유**: Secure SDLC는 **'면역력을 키우는 식단과 운동(예방)'**과 같습니다. 옛날에는 아무거나 막 먹고(더러운 코딩), 병(해킹)에 걸리면 독한 약(사후 패치)을 먹어 치료했습니다. 몸(시스템)은 이미 망가졌고 약값도 비쌉니다. Secure SDLC는 어릴 때부터 밥 먹기 전에 손을 씻고, 몸에 좋은 밥을 짓는 법(설계/기획)부터 철저히 지켜서 아예 바이러스가 침투해도 스스로 이겨내는 강철 면역 체계(Built-in [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 만드는 평생 건강 관리법입니다.
+- **💡 비유**: Secure SDLC는 <strong>'면역력을 키우는 식단과 운동(예방)'</strong>과 같습니다. 옛날에는 아무거나 막 먹고(더러운 코딩), 병(해킹)에 걸리면 독한 약(사후 패치)을 먹어 치료했습니다. 몸(시스템)은 이미 망가졌고 약값도 비쌉니다. Secure SDLC는 어릴 때부터 밥 먹기 전에 손을 씻고, 몸에 좋은 밥을 짓는 법(설계/기획)부터 철저히 지켜서 아예 바이러스가 침투해도 스스로 이겨내는 강철 면역 체계(Built-in [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 만드는 평생 건강 관리법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **사후 약방문(Patching) 시대**: 해커가 뚫으면, 부랴부랴 패치(Patch) 코드를 만들어 배포하는 두더지 잡기 식 방어였다.
   2. **마이크로소프트의 대각성 (2004)**: 빌 게이츠가 "보안 버그 때문에 윈도우 못 쓰겠다!"는 원성에 충격을 받고, MS-SDL을 전사적으로 강제 선포하며 "보안 룰을 안 지키면 코드 배포 금지!"라는 최초의 Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 제국을 열었다. (473번 연계)
-  3. **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) (현재)**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 파이프라인에 통째로 욱여넣은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 보안 시대가 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> (현재)</strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 파이프라인에 통째로 욱여넣은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 보안 시대가 완성되었다.
 
-- **📢 섹션 요약 비유**: Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 없이 코딩하는 것은, **'창문과 자물쇠 없이 금고를 만들고, 다 지은 다음 그물망을 덮어놓는 멍청한 짓'**입니다. Secure SDLC는 설계도를 그릴 때부터 "여기엔 지문 인식기를 달고, 창문은 아예 만들지 마!"라고 못을 박고 시작하는 가장 완벽한 성벽 축조술입니다.
+- **📢 섹션 요약 비유**: Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 없이 코딩하는 것은, <strong>'창문과 자물쇠 없이 금고를 만들고, 다 지은 다음 그물망을 덮어놓는 멍청한 짓'</strong>입니다. Secure SDLC는 설계도를 그릴 때부터 "여기엔 지문 인식기를 달고, 창문은 아예 만들지 마!"라고 못을 박고 시작하는 가장 완벽한 성벽 축조술입니다.
 
 ---
 
 다음은 소프트웨어 개발 보안 (Secure 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 개발 보안 (Secure                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 개발 보안 (Secure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 개발 보안 (Secure 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 개발 보안 (Secure SDLC) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 개발 보안 (Secure SDLC) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

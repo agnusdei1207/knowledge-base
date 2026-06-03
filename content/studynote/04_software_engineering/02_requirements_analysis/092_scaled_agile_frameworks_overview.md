@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 
 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))은 "9명 이하의 소규모 교차기능 팀(Cross-functional Team)"이라는 조건 아래에서 기적적인 속도와 품질을 만들어냈다. 그러나 대형 은행의 차세대 뱅킹 시스템이나 전투기 소프트웨어처럼 1,000명의 개발자가 투입되는 초대형 프로젝트에서는 이 마법이 통하지 않았다.
 
-100개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 각자 '로그인', '장바구니', '결제'를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 개발한 뒤 최종 배포 날 코드를 합치려 하자, 서로의 아키텍처가 충돌하고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성이 꼬여 시스템 전체가 터져버린 것이다. 단일 팀 내부의 소통은 완벽했지만, **팀과 팀 사이를 조율하는 거대한 거버넌스(Governance)**가 부재했기 때문이다. 이 거대한 충돌과 의존성 한계를 통제하고, 조직 전체의 비전(Portfolio)과 일선 개발자의 백로그를 한 줄로 관통시키기 위해 등장한 방법론이 바로 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Scaled [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프레임워크다.
+100개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 각자 '로그인', '장바구니', '결제'를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 개발한 뒤 최종 배포 날 코드를 합치려 하자, 서로의 아키텍처가 충돌하고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성이 꼬여 시스템 전체가 터져버린 것이다. 단일 팀 내부의 소통은 완벽했지만, <strong>팀과 팀 사이를 조율하는 거대한 거버넌스(Governance)</strong>가 부재했기 때문이다. 이 거대한 충돌과 의존성 한계를 통제하고, 조직 전체의 비전(Portfolio)과 일선 개발자의 백로그를 한 줄로 관통시키기 위해 등장한 방법론이 바로 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Scaled [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프레임워크다.
 
 - **📢 섹션 요약 비유**: 단일 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 5인조 길거리 농구팀의 완벽한 '눈빛 패스'라면, 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크는 1,000명이 동원되는 올림픽 개막식 매스게임이다. 단 한 명도 스텝이 꼬이지 않도록 초 단위로 동선을 통제하는 '거대한 안무 지휘 매뉴얼'이 필요해진 것이다.
 
@@ -28,36 +28,31 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모든 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크가 공통적으로 해결하려는 핵심 원리는 **'정렬(Alignment)'**과 **'[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))'**라는 두 개의 축으로 이루어져 있다.
+모든 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크가 공통적으로 해결하려는 핵심 원리는 <strong>'정렬(Alignment)'</strong>과 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)'</strong>라는 두 개의 축으로 이루어져 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 전사 비전 정렬 (Alignment) ]                                 │
-│  최고 경영진 (Portfolio Vision) ──▶ 비즈니스 에픽 (Epic) 할당     │
-│                                                              │
-│ [ 박동 동기화 (Synchronization) ]                               │
-│  모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측 │
-│                                                              │
-│      (PI Planning: 합동 의존성 계획 회의)                        │
-│      ┌─────────┐   ┌─────────┐   ┌─────────┐                 │
-│      │ 스프린트 1│   │ 스프린트 2│   │ 스프린트 3│                 │
-│ Team A ├─────────┤   ├─────────┤   ├─────────┤                 │
-│        │ API 개발│─┐ │         │   │         │                 │
-│        └─────────┘ │ └─────────┘   └─────────┘                 │
-│                    │   의존성 연결 (Wait!)                       │
-│        ┌─────────┐ │ ┌─────────┐   ┌─────────┐                 │
-│ Team B │대기/다른일│ └▶│결제 연동│   │         │                 │
-│        └─────────┘   └─────────┘   └─────────┘                 │
-│                                                              │
-│ 핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전사 비전 정렬 (Alignment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최고 경영진 (Portfolio Vision) ──▶ 비즈니스 에픽 (Epic) 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">박동 동기화 (Synchronization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PI Planning: 합동 의존성 계획 회의)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프린트 1</div><div class="kb-diagram-cell">스프린트 2</div><div class="kb-diagram-cell">스프린트 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 개발</div><div class="kb-diagram-cell">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 연결 (Wait!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team B</div><div class="kb-diagram-cell">대기/다른일</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">결제 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄</div></div>
+</div>
+</div>
+
+
 
 1. **정렬 (Alignment)**: 100개의 보트([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀)가 각자 노를 젓는 것이 아니라, 전사적 포트폴리오 백로그를 최상위에 두고 이를 잘게 쪼개 각 팀에 하향식으로 뿌려준다. 모든 팀은 지금 자신이 짜는 코드 한 줄이 회사의 어떤 전략적 목표에 기여하는지 완벽하게 인지한다.
-2. **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**: 100개 팀의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기(Cadence)를 2주면 2주, 동일하게 맞춘다(심장 박동 일치). 이를 통해 팀 간의 결과물(Increment)이 쏟아져 나오는 타이밍을 통합하고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작 전 수백 명이 모이는 합동 회의(예: [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) Planning)를 열어 "우리 API가 나와야 너희가 결제를 붙일 수 있다"는 의존성 릴레이를 거시적으로 설계한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>: 100개 팀의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기(Cadence)를 2주면 2주, 동일하게 맞춘다(심장 박동 일치). 이를 통해 팀 간의 결과물(Increment)이 쏟아져 나오는 타이밍을 통합하고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작 전 수백 명이 모이는 합동 회의(예: [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) Planning)를 열어 "우리 API가 나와야 너희가 결제를 붙일 수 있다"는 의존성 릴레이를 거시적으로 설계한다.
 
 - **📢 섹션 요약 비유**: 각자 악기를 튜닝하고 마음대로 연주하던 100명의 연주자들을 한자리에 모아놓고, 맨 앞의 마에스트로 지휘봉(정렬)과 똑같이 맞춘 메트로놈 박자([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))에 맞춰 교향곡을 완성해 내는 구조적 오케스트라다.
 
@@ -69,8 +64,8 @@ tags = ["studynote-software-engineering"]
 
 | 프레임워크 | 철학 및 특징 | 통제 수준 | 최적 적용 환경 | 아키텍처 판단 포인트 |
 |:---|:---|:---|:---|:---|
-| **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))** | 거대한 관료제적 통제. Portfolio-Program-Team 구조. [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Release Train) 은유 사용 | 가장 강함 (무거움) | 수백~수천 명의 보수적 글로벌 엔터프라이즈 | C레벨부터 하향식 정렬이 완벽하게 필요할 때 |
-| **[LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) ([Large-Scale Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/))** | "규칙을 더하지 마라." 단일 PO가 여러 팀을 동시 관리하며 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 본질 유지 | 가벼움 (미니멀) | 최대 50여 명 수준의 중간 규모 조직 | 복잡한 층계 없이 수평적 제품 개발에 집중할 때 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>)</strong> | 거대한 관료제적 통제. Portfolio-Program-Team 구조. [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Release Train) 은유 사용 | 가장 강함 (무거움) | 수백~수천 명의 보수적 글로벌 엔터프라이즈 | C레벨부터 하향식 정렬이 완벽하게 필요할 때 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/">LeSS</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/">Large-Scale Scrum</a>)</strong> | "규칙을 더하지 마라." 단일 PO가 여러 팀을 동시 관리하며 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 본질 유지 | 가벼움 (미니멀) | 최대 50여 명 수준의 중간 규모 조직 | 복잡한 층계 없이 수평적 제품 개발에 집중할 때 |
 | **Nexus (넥서스)** | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 창시자가 고안. '넥서스 통합팀(NIT)'이라는 충돌 해결 전담 부대 배치 | 중간 (방어적) | 통합(Integration) 병목이 가장 큰 위험일 때 | 코드가 합쳐질 때마다 발생하는 지옥을 막아야 할 때 |
 
 SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과 같다면, LeSS는 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)을 고무풍선처럼 그대로 부풀린 미니멀리즘이다. Nexus는 코드 충돌이라는 실질적 소프트웨어 통합 문제를 해결하는 방어 부대(NIT) 신설에 집중한다. Spotify 모델 (Tribes, Squads, Guilds) 또한 널리 쓰이나 이는 공식 프레임워크라기보다는 영감을 주는 레퍼런스로 활용된다.
@@ -84,9 +79,9 @@ SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과
 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 도입은 단순히 도구를 까는 것이 아니라, 기업의 일하는 방식을 뿌리째 뜯어고치는 위험한 수술이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 도입 시 의사결정
-1. **[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) Planning 수행 역량**: SAFe의 꽃인 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝은 수백 명의 이해관계자가 이틀 동안 한 공간에 모여 붉은 실(의존성 선)을 연결하며 로드맵을 짜는 행사다. 경영진이 이 회의에 불참하거나 실무진에게 권한 위임을 하지 않는다면 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 단순한 '보고 문서 작성 공장'으로 전락한다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> Planning 수행 역량</strong>: SAFe의 꽃인 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 플래닝은 수백 명의 이해관계자가 이틀 동안 한 공간에 모여 붉은 실(의존성 선)을 연결하며 로드맵을 짜는 행사다. 경영진이 이 회의에 불참하거나 실무진에게 권한 위임을 하지 않는다면 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 단순한 '보고 문서 작성 공장'으로 전락한다.
 2. **릴리스 트레인 엔지니어 (RTE) 확보**: 여러 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀의 [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)들을 지휘하는 슈퍼 [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/), 즉 RTE가 팀 간의 갈등과 병목을 조율할 수 있는 정치적 리더십과 기술적 안목을 갖췄는가?
-3. **[지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 인프라 부재 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: 수백 명의 코드가 하루에도 수십 번씩 합쳐지는데, 자동화된 테스트(Test Automation) 파이프라인이나 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경 없이 수동으로 코드를 합치려 한다면, 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 시작하자마자 코드 통합 지옥(Integration Hell)에 빠져 파멸한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>) 인프라 부재 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 수백 명의 코드가 하루에도 수십 번씩 합쳐지는데, 자동화된 테스트(Test Automation) 파이프라인이나 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경 없이 수동으로 코드를 합치려 한다면, 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 시작하자마자 코드 통합 지옥(Integration Hell)에 빠져 파멸한다.
 
 - **📢 섹션 요약 비유**: 1,000명의 요리사가 거대한 코스 요리를 만들 때, 서로의 레시피 꼬임을 정리해 주는 총괄 셰프(RTE)와 1초 만에 식기를 세척해 주는 자동화된 주방 기계([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)가 없다면, 그 주방은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 아니라 불타오르는 재앙의 현장일 뿐이다.
 
@@ -106,36 +101,37 @@ SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 오브 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) of Scrums)** | 여러 팀의 [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)들이 모여 의존성과 장애물을 해결하는 상위 레벨의 일일 회의로, 확장의 가장 기초적인 도구. |
-| **[에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/) ([Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))과 포트폴리오 (Portfolio)** | [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))를 품는 상위 개념. 경영진의 거대한 투자 비전이 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)으로 쪼개져 열차([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))에 탑승한다. |
-| **[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 및 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD** | 대규모 코드가 엉키지 않고 지속적으로 배포되기 위해 프레임워크 하단에서 든든히 버텨야 하는 필수 기술 인프라. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> 오브 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a> of Scrums)</strong> | 여러 팀의 [스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)들이 모여 의존성과 장애물을 해결하는 상위 레벨의 일일 회의로, 확장의 가장 기초적인 도구. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/">에픽</a> (<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>)과 포트폴리오 (Portfolio)</strong> | [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))를 품는 상위 개념. 경영진의 거대한 투자 비전이 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)으로 쪼개져 열차([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))에 탑승한다. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a>) 및 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | 대규모 코드가 엉키지 않고 지속적으로 배포되기 위해 프레임워크 하단에서 든든히 버텨야 하는 필수 기술 인프라. |
 | **스포티파이 모델 (Spotify Model)** | 스쿼드, 트라이브, 길드 등 자율적인 매트릭스 조직을 통해 문서화된 규칙 없이 문화를 통해 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 확장한 대표적 롤모델. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소규모 애자일 한계 봉착 (단일 팀 스크럼)
-    │
-    ▼
-팀 간 의존성 충돌 및 전사 비전 불일치 발생
-    │
-    ▼
-기본 확장 체계 도입 (Scrum of Scrums 회의체 적용)
-    │
-    ▼
-대규모 프레임워크 공식화 (SAFe, LeSS, Nexus 등)
-    │
-    ▼
-거시적 비전 정렬 (PI Planning) 및 통합 파이프라인 (ART) 구동
-    │
-    ▼
-마이크로서비스(MSA)와 융합된 자율적 애자일 조직(Spotify Model)으로 발전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소규모 애자일 한계 봉착 (단일 팀 스크럼)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팀 간 의존성 충돌 및 전사 비전 불일치 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기본 확장 체계 도입 (Scrum of Scrums 회의체 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 프레임워크 공식화 (SAFe, LeSS, Nexus 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">거시적 비전 정렬 (PI Planning) 및 통합 파이프라인 (ART) 구동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스(MSA)와 융합된 자율적 애자일 조직(Spotify Model)으로 발전</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)**은 5명이 하던 조별 과제를 전교생 1,000명이 다 같이 참여하는 초대형 축제로 만드는 작전이에요.
-2. 1,000명이 마음대로 뛰놀면 다치니까, 똑같은 날에 모여서 **"누가 어떤 일을 먼저 할지" 큰 달력([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) Planning)에 미리 다 적어놓고** 일을 시작하죠.
+1. <strong>대규모 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a></strong>은 5명이 하던 조별 과제를 전교생 1,000명이 다 같이 참여하는 초대형 축제로 만드는 작전이에요.
+2. 1,000명이 마음대로 뛰놀면 다치니까, 똑같은 날에 모여서 <strong>"누가 어떤 일을 먼저 할지" 큰 달력(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> Planning)에 미리 다 적어놓고</strong> 일을 시작하죠.
 3. 이렇게 하면 수백 개의 톱니바퀴가 엉키지 않고 딱딱 맞물려 돌아가서, 엄청나게 큰 로봇을 아주 빠르고 튼튼하게 조립해 낼 수 있답니다!
 
 ---

@@ -20,63 +20,65 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 한 번 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 정보를 무한정 보관하지 않고 타이머를 돌려 스스로 지우는 기능.
-  - **[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에서 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(또는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))를 오가는 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 지정된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 거울처럼 그대로 복사해 주는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 관리 기능(Cisco에서는 SPAN이라고 부름).
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a></strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 한 번 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 정보를 무한정 보관하지 않고 타이머를 돌려 스스로 지우는 기능.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Mirroring</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에서 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(또는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))를 오가는 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 지정된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 거울처럼 그대로 복사해 주는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 관리 기능(Cisco에서는 SPAN이라고 부름).
 - **필요성**: 
   - 만약 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이 없다면, 직원이 노트북을 1층([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1)에서 빼서 2층([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2)에 꽂았을 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 여전히 1층으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내 통신이 단절될 것이다.
   - 만약 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 없다면, 네트워크에 이상 트래픽(해킹, 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 돌 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당사자에게만 은밀하게 꽂아주기 때문에, 관리자가 패킷 분석기(와이어샤크)를 달아도 범인을 잡을 수가 없다.
 
 - **💡 비유**: 
-  - **[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)**: 호텔 로비 직원이 투숙객 명단을 관리할 때, "이 손님이 일주일 동안 로비에 안 나타나면 **체크아웃한 것으로 간주하고 수첩에서 지우는([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**" 규칙입니다.
-  - **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)**: 경찰이 용의자(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 전화를 도청하기 위해, 전화국([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 협조를 구해 용의자의 통화 내용을 **경찰서(3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 똑같이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Mirroring)해서 듣는 것**입니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a></strong>: 호텔 로비 직원이 투숙객 명단을 관리할 때, "이 손님이 일주일 동안 로비에 안 나타나면 <strong>체크아웃한 것으로 간주하고 수첩에서 지우는(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>" 규칙입니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a></strong>: 경찰이 용의자(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 전화를 도청하기 위해, 전화국([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 협조를 구해 용의자의 통화 내용을 <strong>경찰서(3번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)로 똑같이 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(Mirroring)해서 듣는 것</strong>입니다.
 
-```text
-[수신/학습 / 전달 / 플러딩]
-    │
-    ▼
-[에이징 / 포트 미러링]
-    │
-    └──▶ [스위칭 방식]
-```
 
-- **📢 섹션 요약 비유**: ** [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 한정된 뇌 용량(메모리)을 지키기 위한 **"망각의 기술"**이고, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 닫힌 상자 속을 들여다보기 위한 **"[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 설치"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신/학습 / 전달 / 플러딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에이징 / 포트 미러링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스위칭 방식</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 한정된 뇌 용량(메모리)을 지키기 위한 </strong>"망각의 기술"<strong>이고, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>라는 닫힌 상자 속을 들여다보기 위한 </strong>"[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 설치"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 타이머의 동작
-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 학습할 때마다 해당 엔트리에 대해 **타이머(기본값 300초)**가 돌기 시작한다.
+[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 학습할 때마다 해당 엔트리에 대해 <strong>타이머(기본값 300초)</strong>가 돌기 시작한다.
 - **타이머 초기화 (Refresh)**: 300초가 지나기 전에 해당 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로부터 또다시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면, 타이머는 다시 300초로 초기화된다.
-- **[Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Out**: 300초 내내 단 한 번의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 보내지 않으면 타이머가 0이 되고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 지체 없이 해당 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 테이블에서 삭제한다. 이후 해당 MAC으로 향하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 목적지를 모르므로 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 플러딩(Flooding)하게 된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a> Out</strong>: 300초 내내 단 한 번의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 보내지 않으면 타이머가 0이 되고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 지체 없이 해당 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 테이블에서 삭제한다. 이후 해당 MAC으로 향하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 목적지를 모르므로 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 플러딩(Flooding)하게 된다.
 
 ### 2. [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring의 구조와 활용 (SPAN)
 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 시절에는 그냥 PC에 와이어샤크를 켜놓기만 해도 동네방네 퍼지는 남의 패킷을 다 주워 담을 수 있었다(Promiscuous Mode). 그러나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서는 유니캐스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 오지 않기 때문에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 설정에 들어가 강제로 복사 명령을 내려야 한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 포트 미러링(Port Mirroring) 구조                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A (서버) ] ────▶ (Port 1: Source Port)                │
- │                           │ 스위치 내부에서                   │
- │                           │ 데이터 복사 발생!                  │
- │                           ├─────────────┐                   │
- │                           ▼             ▼ (복사본)           │
- │   [ PC B (클라) ] ◀──── (Port 2)       (Port 3: Dest Port)  │
- │                                         │                   │
- │                                         ▼                   │
- │                                    [ 패킷 분석기 (IDS/IPS) ]   │
- │                                     (Wireshark 모니터링)      │
- │                                                             │
- │ * 관리자 설정: "Port 1로 들어오고 나가는 트래픽을 Port 3으로 복사하라!"│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **Source [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (소스 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 감시의 대상이 되는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). (주로 라우터와 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)나 중요 서버가 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
-- **Destination [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 복사본을 받을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). 이곳에는 네트워크 관리자의 노트북이나 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))가 연결된다. 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 오직 모니터링 수신 전용으로만 쓰이며, 일반적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신은 차단된다.
 
-- **📢 섹션 요약 비유**: ** [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이 **"쓸모없는 주소록을 파쇄기에 넣는 주기적인 대청소"**라면, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 범죄 수사를 위해 우체국에서 편지를 배달하기 직전 **"편지 내용을 똑같이 복사기(복사본)로 떠서 수사관에게 넘겨주는 극비 작전"**입니다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 미러링(Port Mirroring) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC A (서버)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Port 1: Source Port)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 내부에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 복사 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ (복사본)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC B (클라)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Port 2) (Port 3: Dest Port)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 분석기 (IDS/IPS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wireshark 모니터링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 관리자 설정: "Port 1로 들어오고 나가는 트래픽을 Port 3으로 복사하라!"</div></div>
+</div>
+</div>
+
+
+
+- <strong>Source <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (소스 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 감시의 대상이 되는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). (주로 라우터와 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)나 중요 서버가 연결된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
+- <strong>Destination <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 복사본을 받을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/). 이곳에는 네트워크 관리자의 노트북이나 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))가 연결된다. 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 오직 모니터링 수신 전용으로만 쓰이며, 일반적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신은 차단된다.
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>이 </strong>"쓸모없는 주소록을 파쇄기에 넣는 주기적인 대청소"<strong>라면, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>은 범죄 수사를 위해 우체국에서 편지를 배달하기 직전 </strong>"편지 내용을 똑같이 복사기(복사본)로 떠서 수사관에게 넘겨주는 극비 작전"**입니다.
 
 ---
 
@@ -132,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 수신/학습 / 전달 / 플러딩]
-    │
-    ▼
-[현재 개념: 에이징 / 포트 미러링]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 수신/학습 / 전달 / 플러딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 에이징 / 포트 미러링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)는 수신/학습 / 전달 / 플러딩에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

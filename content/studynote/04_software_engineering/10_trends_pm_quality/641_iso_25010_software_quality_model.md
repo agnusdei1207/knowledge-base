@@ -21,19 +21,19 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 품질(Quality)이란 '명시적이고 암묵적인 사용자의 요구(Needs)를 만족시키는 능력'이다. ISO 25010은 자동차의 스펙표(연비, 마력, 승차감, 충돌 안전성)처럼 소프트웨어의 스펙을 8대 주특성(Characteristics)과 31개의 하위 특성(Sub-characteristics)으로 아주 잘게 쪼개놓은 채점표다.
 
-- **필요성**: 은행에서 100억을 들여 차세대 뱅킹 앱을 만들었다. 감리단(QA)이 와서 검사를 해야 하는데, 개발팀은 "송금 기능(기능성) 완벽히 돌아가니 100점 줍시다"라고 우긴다. 하지만 보안팀은 "해커가 찌르면 비밀번호가 털린다([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))", 운영팀은 "나중에 소스 코드 고치려면 스파게티라 3달이 걸린다([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))"며 0점을 준다. "좋은 소프트웨어란 무엇인가?"를 두고 각자의 입장에 따라 피 터지게 싸우는 혼돈을 종식시키기 위해, **전 세계 누구도 반박할 수 없는 '공통의 평가 기준표(Standard)'**가 절대적으로 필요했다.
+- **필요성**: 은행에서 100억을 들여 차세대 뱅킹 앱을 만들었다. 감리단(QA)이 와서 검사를 해야 하는데, 개발팀은 "송금 기능(기능성) 완벽히 돌아가니 100점 줍시다"라고 우긴다. 하지만 보안팀은 "해커가 찌르면 비밀번호가 털린다([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))", 운영팀은 "나중에 소스 코드 고치려면 스파게티라 3달이 걸린다([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))"며 0점을 준다. "좋은 소프트웨어란 무엇인가?"를 두고 각자의 입장에 따라 피 터지게 싸우는 혼돈을 종식시키기 위해, <strong>전 세계 누구도 반박할 수 없는 '공통의 평가 기준표(Standard)'</strong>가 절대적으로 필요했다.
 
 - **💡 비유**: 우리가 '좋은 집(아파트)'을 평가하는 기준을 상상해 봅시다.
   - **기능성**: 보일러 켜면 따뜻하고, 수도꼭지 틀면 물이 잘 나오나요? (기본기)
-  - **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**: 갑자기 지진이 났을 때 집이 무너지지 않고 버티나요? (장애 허용)
-  - **[사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)**: 방 구조나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위치가 처음 온 사람도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편하게 설계되었나요? (UX)
-  - **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)**: 나중에 배관이 터졌을 때 벽을 다 부수지 않고도 쉽게 파이프를 교체할 수 있나요? (모듈화)
-  - ISO 25010은 집을 보러 갈 때 들고 가는 8개 항목의 **가장 완벽한 공인중개사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**입니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>: 갑자기 지진이 났을 때 집이 무너지지 않고 버티나요? (장애 허용)
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/">사용성</a></strong>: 방 구조나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위치가 처음 온 사람도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편하게 설계되었나요? (UX)
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong>: 나중에 배관이 터졌을 때 벽을 다 부수지 않고도 쉽게 파이프를 교체할 수 있나요? (모듈화)
+  - ISO 25010은 집을 보러 갈 때 들고 가는 8개 항목의 <strong>가장 완벽한 공인중개사 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **McCall의 품질 모델 (1977)**: 초창기 미 공군을 위해 개발된 품질 모델. 개발자, 테스터, 유지보수자의 3가지 관점으로 품질을 나눔.
   2. **ISO/IEC 9126 제정 (1991)**: 전 세계를 통일한 6대 품질 특성 모델. 20년간 S/W 테스팅의 성경(Bible)으로 군림함.
-  3. **ISO/IEC 25010 ([SQuaRE](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)) 진화 (2011~)**: 시대가 바뀌면서 9126을 폐기하고 업데이트됨. 클라우드와 스마트폰 시대를 반영하여 '[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)'과 다른 기기와의 '[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)'을 독립적인 1급 특성으로 승격시킨 현대 품질 모델의 완성.
+  3. <strong>ISO/IEC 25010 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/">SQuaRE</a>) 진화 (2011~)</strong>: 시대가 바뀌면서 9126을 폐기하고 업데이트됨. 클라우드와 스마트폰 시대를 반영하여 '[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)'과 다른 기기와의 '[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)'을 독립적인 1급 특성으로 승격시킨 현대 품질 모델의 완성.
 
 - **📢 섹션 요약 비유**: 요리 대회 심사위원이 "이 볶음밥 맛있다!"라고 대충 점수를 주는 게 아니라, [짠맛 10점, 식감 10점, 담음새 10점, 건강(영양) 10점] 처럼 8개의 엄청나게 깐깐한 항목으로 세분화해서 채점하는 미슐랭 가이드의 절대적 평가 기준표입니다.
 
@@ -41,18 +41,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 모의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ISO 25010 소프트웨어 품질 모                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO 25010 소프트웨어 품질 모</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 모가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -73,7 +72,7 @@ ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_enginee
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 모델의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -149,21 +148,23 @@ ISO 25010 [소프트웨어 품질](/knowledge-base/studynote/04_software_enginee
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ISO 25010 소프트웨어 품질 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISO 25010 소프트웨어 품질 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -33,23 +33,23 @@ Level 0은 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge
 
 Level 0의 구조는 단순하다. 하나의 URI가 모든 요청의 진입점이 되고, 대부분 `POST`만 사용한다. 요청의 의미는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드나 URI가 아니라 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정한다. 서버는 본문 안의 작업 이름을 해석해 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드로 분기한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Level 0 request pattern                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Client                                                            │
-│   POST /api                                                       │
-│   { action: cancel, id: 123 }                                     │
-│        │                                                           │
-│        ▼                                                           │
-│ Server router                                                     │
-│   if action == "cancelOrder" -> service.cancel()                 │
-│   if action == "createOrder" -> service.create()                 │
-│   if action == "getOrder"    -> service.find()                   │
-│                                                                    │
-│ URI and HTTP method do not reveal resource semantics              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 request pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ action: cancel, id: 123 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server router</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "cancelOrder" -&gt; service.cancel()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "createOrder" -&gt; service.create()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "getOrder" -&gt; service.find()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI and HTTP method do not reveal resource semantics</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미가 외부 표준이 아니라 내부 분기 규칙에 숨어 있다는 점이다. 클라이언트와 서버는 문서나 사전 합의 없이는 서로의 요청 의미를 알기 어렵고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)·캐시·관측 도구도 요청 의도를 해석하기 힘들다. 즉 HTTP는 운반 수단일 뿐, 아키텍처적 의미는 거의 쓰지 않는다.
 
@@ -60,7 +60,7 @@ Level 0의 구조는 단순하다. 하나의 URI가 모든 요청의 진입점�
 | 상태 코드 | 종종 200 중심 사용 | 오류 유형을 표준적으로 전달하기 어려움 |
 | 요청 본문 | 액션과 파라미터를 모두 포함 | 문서 의존성과 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 증가 |
 
-이 구조가 항상 틀린 것은 아니다. 하지만 중요한 점은 이것이 REST라기보다 **HTTP를 전송 채널로 쓴 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 스타일**이라는 사실이다. 설계 성격을 정확히 이해해야 다음 단계로의 개선도 가능하다.
+이 구조가 항상 틀린 것은 아니다. 하지만 중요한 점은 이것이 REST라기보다 <strong>HTTP를 전송 채널로 쓴 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a> 스타일</strong>이라는 사실이다. 설계 성격을 정확히 이해해야 다음 단계로의 개선도 가능하다.
 
 - **📢 섹션 요약 비유**: Level 0은 건물 내부 안내판 없이, 접수 직원이 종이 내용만 읽고 어느 부서로 보낼지 수동으로 판단하는 방식과 같다. 돌아는 가지만 체계적이지 않다.
 
@@ -114,7 +114,7 @@ Level 0의 장점은 단순성이다. 빠르게 만들 수 있고, 기존 [RPC](
 
 따라서 Level 0은 REST의 시작점이라기보다, "아직 HTTP를 웹 아키텍처로 쓰지 못한 상태"로 보는 것이 정확하다. 내부 시스템의 명령 채널로 한정하면 실용적일 수 있지만, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계의 종착점으로 삼기에는 한계가 명확하다.
 
-결론적으로 Level 0은 나쁜 기술이라기보다 **정체를 정확히 불러야 하는 설계**다. 이것을 REST라고 부르는 순간 문제 진단이 흐려지고, RPC라고 인정하는 순간 개선 방향이 선명해진다.
+결론적으로 Level 0은 나쁜 기술이라기보다 <strong>정체를 정확히 불러야 하는 설계</strong>다. 이것을 REST라고 부르는 순간 문제 진단이 흐려지고, RPC라고 인정하는 순간 개선 방향이 선명해진다.
 
 - **📢 섹션 요약 비유**: Level 0은 임시 행사장에서 쓰는 종합 안내 데스크와 같다. 하루 운영에는 편할 수 있지만, 상설 시청 민원 시스템으로는 창구 체계를 다시 갖춰야 한다.
 
@@ -132,21 +132,24 @@ Level 0의 장점은 단순성이다. 빠르게 만들 수 있고, 기존 [RPC](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SOAP / XML-RPC style
-    │
-    ▼
-Level 0
-  (single URI + POST + action in body)
-    │
-    ▼
-Level 1
-  (resource-specific URI)
-    │
-    ▼
-Level 2
-  (HTTP verbs + status codes)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SOAP / XML-RPC style</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 0</div>
+<div class="kb-diagram-note">(single URI + POST + action in body)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 1</div>
+<div class="kb-diagram-note">(resource-specific URI)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 2</div>
+<div class="kb-diagram-note">(HTTP verbs + status codes)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 성숙도 상승이 단순 미관 개선이 아니라, 요청 의미를 점점 더 웹 표준 바깥에서 안쪽으로 끌어오는 과정임을 보여준다.
 

@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 고급 상업용/군사용 무인기(UAV, 드론)는 통신의 목적에 따라 2개의 완전히 다른 주파수 전파([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 나누어서 사용합니다.
 
 1. **페이로드 링크 (Payload Link)**: 
-   - 드론에 달린 카메라로 찍은 **고화질 4K 영상이나 열화상 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지상으로 쏴 내려주는(Downlink) 넓은 고속도로**입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리가 매우 커 넓은 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(예: Wi-Fi, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역)이 필요하며, 영상이 1~2초쯤 늦게 화면에 뜨거나 화질이 깨져도 드론이 추락하진 않습니다.
-2. **[C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크 ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) & Control Link, 지휘 통제 링크) 🌟**:
-   - 지상 조종사나 자율비행 서버가 드론에게 **"왼쪽으로 꺾어! 고도 높여!"라는 비행 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))을 쏘고, 드론은 자신의 현재 배터리, GPS 좌표, 고도 상태(Telemetry)를 1초마다 보고하는 '생명줄'**입니다. 
+   - 드론에 달린 카메라로 찍은 <strong>고화질 4K 영상이나 열화상 센서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 지상으로 쏴 내려주는(Downlink) 넓은 고속도로</strong>입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리가 매우 커 넓은 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(예: Wi-Fi, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역)이 필요하며, 영상이 1~2초쯤 늦게 화면에 뜨거나 화질이 깨져도 드론이 추락하진 않습니다.
+2. <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/">C2</a> 링크 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> &amp; Control Link, 지휘 통제 링크) 🌟</strong>:
+   - 지상 조종사나 자율비행 서버가 드론에게 <strong>"왼쪽으로 꺾어! 고도 높여!"라는 비행 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)을 쏘고, 드론은 자신의 현재 배터리, GPS 좌표, 고도 상태(Telemetry)를 1초마다 보고하는 '생명줄'</strong>입니다. 
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 안 되지만, 이 전파가 0.5초라도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))되거나 외부 해커에게 끊기면 드론이 빌딩에 박아버리는 대참사가 일어납니다.
 
-```text
-[스마트 시티 센싱 시스템]
-    │
-    ▼
-[드론 통신 지연시간 관리 및 보안 C2 링크]
-    │
-    └──▶ [AIoT 모델 및 클라우드 AI 연결 지연…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,24 +47,28 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 극한의 초저지연 (Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 보장
-- 조종사의 조이스틱 조작 신호가 찰나의 시간 안에 전달되어야 합니다. 최근에는 전용 무선 주파수(RF)를 넘어, 기지국과 연계되는 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초고신뢰 초저지연 통신)**망을 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크로 활용하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 10ms 이하로 낮추는 기술이 대세가 되고 있습니다.
+- 조종사의 조이스틱 조작 신호가 찰나의 시간 안에 전달되어야 합니다. 최근에는 전용 무선 주파수(RF)를 넘어, 기지국과 연계되는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>(초고신뢰 초저지연 통신)</strong>망을 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크로 활용하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 10ms 이하로 낮추는 기술이 대세가 되고 있습니다.
 
 ### 2. 가시권 밖(BVLOS) 비행을 위한 위성/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 연계
 - 산 너머나 수십 km 밖으로 드론을 날리면 조종기의 전파(LOS, 직진파)가 산에 막혀버립니다.
-- 이를 해결하기 위해 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크를 드론에 달린 **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)**이나 **저궤도 위성통신(스타링크)**에 얹어서 전 세계 어디서든 조종 가능하게 뻗어나가는 BVLOS(Beyond Visual Line of Sight) 제어 기술이 핵심입니다.
+- 이를 해결하기 위해 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크를 드론에 달린 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 통신 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>이나 <strong>저궤도 위성통신(스타링크)</strong>에 얹어서 전 세계 어디서든 조종 가능하게 뻗어나가는 BVLOS(Beyond Visual Line of Sight) 제어 기술이 핵심입니다.
 
 ### 3. 강력한 안티 재밍 및 보안 (Anti-Jamming)
 - 가장 치명적인 위협은 해커가 가짜 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 명령 전파를 쏴서 드론을 훔쳐 가거나([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)), 아주 강한 방해 전파를 쏴서 조종 연결을 끊어버리는(재밍) 공격입니다.
-- **대응책**: 군용 무전기처럼 1초에 수천 번씩 주파수 차로를 마구 갈아타는 **[FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/)([주파수 도약](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/))** 기술과 AES-256 수준의 군용 암호화를 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크에 100% 의무 탑재해야 합니다. (연결이 끊기면 스스로 이륙 지점으로 되돌아오는 RTH 기능 기본 내장)
+- **대응책**: 군용 무전기처럼 1초에 수천 번씩 주파수 차로를 마구 갈아타는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">주파수 도약</a>)</strong> 기술과 AES-256 수준의 군용 암호화를 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크에 100% 의무 탑재해야 합니다. (연결이 끊기면 스스로 이륙 지점으로 되돌아오는 RTH 기능 기본 내장)
 
-```text
-[스마트 시티 센싱 시스템]
-    │
-    ▼
-[드론 통신 지연시간 관리 및 보안 C2 링크]
-    │
-    └──▶ [AIoT 모델 및 클라우드 AI 연결 지연…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 하늘에 수만 대의 택배 드론이 날아다니면 공중 충돌이 발생합니다.
-- 비행기 관제탑처럼, 드론들이 자기 위치([C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 원격 측정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 중앙의 **[UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/) (Unmanned aircraft system Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 서버**로 실시간으로 쏘고, 서버가 고도 10m 단위로 드론들의 3차원 공중 차선을 통제하는 국가 단위의 통신 인프라가 구축되고 있습니다. (한국의 [K-UAM](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/368_k_uam/) 시스템)
+- 비행기 관제탑처럼, 드론들이 자기 위치([C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 원격 측정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 중앙의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/">UTM</a> (Unmanned aircraft system Traffic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>) 서버</strong>로 실시간으로 쏘고, 서버가 고도 10m 단위로 드론들의 3차원 공중 차선을 통제하는 국가 단위의 통신 인프라가 구축되고 있습니다. (한국의 [K-UAM](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/368_k_uam/) 시스템)
 
 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템이 기반 조건을 만든다면, 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 그 위에서 핵심 메커니즘을 구현하고, [AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/) 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스마트 시티 센싱 시스템]
-    │
-    ▼
-[현재 개념: 드론 통신 지연시간 관리 및 보안 C2 링크]
-    │
-    ├──▶ [확장 A: AIoT 모델 및 클라우드 AI 연결 지연…]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 시티 센싱 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/) 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

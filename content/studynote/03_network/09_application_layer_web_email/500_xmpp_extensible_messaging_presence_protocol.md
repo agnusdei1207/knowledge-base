@@ -23,43 +23,38 @@ tags = ["studynote-network"]
 
 - **필요성**: 2000년대 초반, AOL, 야후(Yahoo), MSN 메신저가 세상을 지배했다. 친구가 MSN을 쓰면 나도 울며 겨자 먹기로 MSN을 깔아야만 했다([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 갇힘). 해커와 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영은 분노했다. "왜 구글 메일(`gmail.com`)에서 네이버 메일(`naver.com`)로 편지를 쏠 수 있는 완벽한 개방형 이메일 생태계([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))가 있는데, 실시간 채팅은 회사마다 성벽(Walled Garden)을 치고 지들끼리만 놀게 놔두는가? **메신저도 이메일처럼 전 세계 서버가 뚫려서, 내가 구글 토크에서 MSN 친구한테 다이렉트 톡을 쏘게 만들자!**" 이 위대한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))의 낭만이 XMPP를 창조했다.
 
-- **💡 비유**: **MSN/카카오톡**은 특정 회사가 세운 **'프라이빗 클럽'**입니다. 이 클럽 안에서 놀려면 무조건 이 회사가 만든 출입증(회원가입)을 목에 걸어야 하죠. **XMPP**는 전 세계를 하나로 연결하는 **'우체국 택배 시스템'**입니다. 내가 미국에 있는 우체국(구글 서버)에서 택배를 보내면, 그게 한국의 우체국(내 개인 서버)으로 넘어와서 최종적으로 한국 친구의 집(클라이언트)으로 배달됩니다. 우체국이 달라도 전 세계 어디든 물건이 오가는 완벽한 공용 도로망입니다.
+- **💡 비유**: <strong>MSN/카카오톡</strong>은 특정 회사가 세운 <strong>'프라이빗 클럽'</strong>입니다. 이 클럽 안에서 놀려면 무조건 이 회사가 만든 출입증(회원가입)을 목에 걸어야 하죠. <strong>XMPP</strong>는 전 세계를 하나로 연결하는 <strong>'우체국 택배 시스템'</strong>입니다. 내가 미국에 있는 우체국(구글 서버)에서 택배를 보내면, 그게 한국의 우체국(내 개인 서버)으로 넘어와서 최종적으로 한국 친구의 집(클라이언트)으로 배달됩니다. 우체국이 달라도 전 세계 어디든 물건이 오가는 완벽한 공용 도로망입니다.
 
 - **등장 배경**:
-  1. **개방형 메신저 연동([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))의 수요 폭발**: 실리콘밸리 기업들이 폐쇄적인 자체 메신저 망을 허물고, 이메일 같은 범용적인 채팅 척추(Backbone)를 원했다(구글, 페이스북, 왓츠앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 버전의 채택).
+  1. <strong>개방형 메신저 연동(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a>)의 수요 폭발</strong>: 실리콘밸리 기업들이 폐쇄적인 자체 메신저 망을 허물고, 이메일 같은 범용적인 채팅 척추(Backbone)를 원했다(구글, 페이스북, 왓츠앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 버전의 채택).
   2. **XML의 전성시대**: 2000년대 IT 인프라는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 대신 XML이 짱을 먹던 시절이었다. [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/) 통신 등 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '사람이 눈으로 읽을 수 있는 마크업(XML)'으로 덮어씌워야 안전하고 확장성이 좋다는 철학이 만연했다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          XMPP의 분산형 서버 핑퐁(Federation) 아키텍처 생태계        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👨‍💻 [ 철수 (alice@gmail.com) ]                               │
-│  - 구글 토크 앱을 켬. ➔ "안녕 밥! 나 접속했어!" (XML 덩어리 전송)      │
-│          │                                                  │
-│          ▼ (TCP 5222 소켓)                                  │
-│                                                             │
-│ 🏢 [ 구글 XMPP 서버 (gmail.com) ]                            │
-│  - 파싱: "수신자가 밥(bob@facebook.com)이네? 내 서버 유저 아니잖아?"│
-│  - DNS 조회: "페이스북 XMPP 서버 IP 내놔!"                     │
-│          │                                                  │
-│          ▼ (서버 간 S2S 연결: TCP 5269 소켓)                   │
-│                                                             │
-│ 🏢 [ 페이스북 XMPP 서버 (facebook.com) ]                       │
-│  - 구글에서 톡 받음: "오, 철수가 밥한테 인사했네. 밥한테 푸시해 주자!"  │
-│          │                                                  │
-│          ▼ (TCP 5222 소켓)                                  │
-│                                                             │
-│ 👱‍♂️ [ 밥 (bob@facebook.com) ]                                │
-│  - 페이스북 메신저 앱 화면에 철수의 톡이 팝업! "안녕 철수!"             │
-│                                                             │
-│ 🌟 아키텍트의 시선: 이것이 진정한 탈중앙화(Decentralization)다! 카카오톡│
-│ 처럼 중앙 서버 1개가 다 해 먹는 게 아니라, 내가 내 집에 내 전용 XMPP 서버를│
-│ 깔아도 전 세계 구글/페이스북 유저와 합법적으로 톡을 핑퐁 칠 수 있었다!     │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** XMPP를 정보처리기사나 면접에서 대답할 때 가장 중요한 개념은 **'연합([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))'** 구조다. 클라이언트가 클라이언트를 직접 찌르지 않는다([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 아님). 반드시 이메일 주소 형식(`JID: 유저명@도메인/기기`)을 사용하여, 내 홈 서버가 상대방의 홈 서버를 찾아가서([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) SRV 레코드 조회) 편지를 툭 던져넣고 오는 메일 릴레이(Relay) 아키텍처를 100% 차용했다. 이 구조 덕분에 초창기 페이스북과 구글, 애플(iChat)은 서로의 플랫폼을 넘나들며 채팅을 쏠 수 있는 아름다운 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 유토피아를 맛보았다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XMPP의 분산형 서버 핑퐁(Federation) 아키텍처 생태계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">철수 (alice@gmail.com)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구글 토크 앱을 켬. ➔ "안녕 밥! 나 접속했어!" (XML 덩어리 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (TCP 5222 소켓)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">구글 XMPP 서버 (gmail.com)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파싱: "수신자가 밥(bob@facebook.com)이네? 내 서버 유저 아니잖아?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DNS 조회: "페이스북 XMPP 서버 IP 내놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (서버 간 S2S 연결: TCP 5269 소켓)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">페이스북 XMPP 서버 (facebook.com)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구글에서 톡 받음: "오, 철수가 밥한테 인사했네. 밥한테 푸시해 주자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (TCP 5222 소켓)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">👱‍♂️</div><div class="kb-diagram-node">밥 (bob@facebook.com)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 페이스북 메신저 앱 화면에 철수의 톡이 팝업! "안녕 철수!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 시선: 이것이 진정한 탈중앙화(Decentralization)다! 카카오톡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처럼 중앙 서버 1개가 다 해 먹는 게 아니라, 내가 내 집에 내 전용 XMPP 서버를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깔아도 전 세계 구글/페이스북 유저와 합법적으로 톡을 핑퐁 칠 수 있었다!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** XMPP를 정보처리기사나 면접에서 대답할 때 가장 중요한 개념은 <strong>'연합(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a>)'</strong> 구조다. 클라이언트가 클라이언트를 직접 찌르지 않는다([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 아님). 반드시 이메일 주소 형식(`JID: 유저명@도메인/기기`)을 사용하여, 내 홈 서버가 상대방의 홈 서버를 찾아가서([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) SRV 레코드 조회) 편지를 툭 던져넣고 오는 메일 릴레이(Relay) 아키텍처를 100% 차용했다. 이 구조 덕분에 초창기 페이스북과 구글, 애플(iChat)은 서로의 플랫폼을 넘나들며 채팅을 쏠 수 있는 아름다운 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)의 유토피아를 맛보았다.
 
 - **📢 섹션 요약 비유**: 카카오톡은 '국내 전용 이동통신사'입니다. 카카오톡 유저끼리만 통화가 되죠. XMPP는 국제 '[로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)([Roaming](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/))' 통신망입니다. 내가 한국(A 서버)에서 전화를 걸어도, 전파가 미국 기지국(B 서버)으로 넘어가 미국 친구 폰으로 연결됩니다. 전 세계 1만 개의 다른 회사 서버들이 서로 "너네 집 애한테 편지 왔다!"며 국경 없이 편지를 릴레이 해주는 환상적인 공용 배달망입니다.
 
@@ -83,16 +78,20 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 - 서버에 던져만 놓으면, XMPP 서버가 내 로스터(Roster, 친구 목록 DB)를 까본 뒤, **서버가 내 친구 100명에게 "야, 철수 방금 접속했다! 초록불 켜라!"라고 100갈래로 패킷을 복사해서 미친 듯이 뿌려준다(Pub/Sub Broadcast).** 
 - 이 Publish/Subscribe(구독/발행) 모델 덕분에 스마트폰의 배터리 하나로 1,000명의 친구 상태를 실시간으로 받아볼 수 있었다.
 
-```text
-[BOSH]
-    │
-    ▼
-[XMPP]
-    │
-    └──▶ [SIP]
-```
 
-- **📢 섹션 요약 비유**: XML 스트림은 뷔페의 **'무한 리필 접시'**입니다. 처음 식당에 들어갈 때 빈 접시(오픈 태그)를 딱 1개 받고 밥을 다 먹고 나갈 때까지 반납하지 않습니다. 그 접시 위에 햄버거(메시지), 피자(상태 정보)를 계속 던져 넣고 덜어내며 밤새도록 노는 겁니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BOSH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XMPP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: XML 스트림은 뷔페의 <strong>'무한 리필 접시'</strong>입니다. 처음 식당에 들어갈 때 빈 접시(오픈 태그)를 딱 1개 받고 밥을 다 먹고 나갈 때까지 반납하지 않습니다. 그 접시 위에 햄버거(메시지), 피자(상태 정보)를 계속 던져 넣고 덜어내며 밤새도록 노는 겁니다.
 
 ---
 
@@ -104,15 +103,15 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 
 | 딜레마 / 한계 | 아름다운 XMPP의 이상 | 모바일 현실의 비참한 붕괴 (배터리 사망) | 아키텍트의 학살(Binary 전환) |
 |:---|:---|:---|:---|
-| **XML의 무거움 (Overhead)** | "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 기계와 인간이 투명하게 읽을 수 있는 XML로 규격화한다!" | "안녕" 2글자 보내는데, `<message from='a@a.com' to='b@b.com' type='chat'><body>안녕</body></message>` **수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 쓰레기 텍스트 폭탄 💥** | 카카오톡: "미쳤냐? 3G [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아까운데! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 싹 다 1과 0의 가벼운 **'바이너리(Binary) 커스텀 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'**로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해! (속도 10배 상승)" |
+| **XML의 무거움 (Overhead)** | "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 기계와 인간이 투명하게 읽을 수 있는 XML로 규격화한다!" | "안녕" 2글자 보내는데, `<message from='a@a.com' to='b@b.com' type='chat'><body>안녕</body></message>` <strong>수백 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 쓰레기 텍스트 폭탄 💥</strong> | 카카오톡: "미쳤냐? 3G [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아까운데! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 싹 다 1과 0의 가벼운 <strong>'바이너리(Binary) 커스텀 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>'</strong>로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해! (속도 10배 상승)" |
 | **Keep-Alive (연결 유지)** | 연결 안 끊어지게 계속 심장 박동(Ping/Pong) 빈 패킷을 던지며 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 유지. | PC에선 문제없음. 근데 스마트폰은 Ping 하나 쏠 때마다 통신 칩이 잠에서 깨어나며(Wake-up) **배터리를 광속으로 녹여버림 💥** | 아이폰(APNs) & 구글(FCM): "앱마다 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 물고 있지 마! OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 1개의 중앙 Push [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)만 열고 폰 깨워줄게!" (푸시 알람의 등장) |
 
 ### 과목 융합 관점
 
-- **보안 ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 및 SASL 융합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))**: XMPP 초창기엔 아이디 비번이 평문으로 날아다녔다. 누군가 중간에 와이어샤크(Wireshark)로 패킷을 까면 채팅 내용이 소설책처럼 다 읽혔다. XMPP 표준 위원회는 부랴부랴 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 연결 직후 강제로 **STARTTLS(전송 계층 암호화)**로 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 업그레이드 치도록 규정을 바꿨고, 로그인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 무조건 **SASL(Simple [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) and [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Layer)** 기반의 해시 도우미를 태우게 융합했다. 메신저 생태계에서 '엔드 투 엔드 암호화' 이전에 네트워크 구간 암호화를 강제한 최초의 시도다.
-- **[웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) ([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)) 및 [BOSH](/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/) (롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 우회)**: 스마트폰 앱(`exe`, `apk`)에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 맘대로 쏠 수 있지만, 사내 PC의 '웹 브라우저 화면' 안에서는 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 방화벽에 막혀 쏠 수가 없었다. 그래서 등장한 것이 **[BOSH](/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/)(XEP-0124)**라는 변태적 롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(Long [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 꼼수였다. 무거운 XML을 또 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 포장지에 억지로 구겨 넣고 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏜 뒤, 서버 앞단 프록시가 이걸 까서 XMPP 서버로 밀어 넣어주는 눈물겨운 우회 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인. 이후 이 짓거리는 HTML5의 **[WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)**이 나오면서 단 1줄의 우아한 쌍방향 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 통신으로 깔끔하게 대체되었다.
+- <strong>보안 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 및 SASL 융합 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>: XMPP 초창기엔 아이디 비번이 평문으로 날아다녔다. 누군가 중간에 와이어샤크(Wireshark)로 패킷을 까면 채팅 내용이 소설책처럼 다 읽혔다. XMPP 표준 위원회는 부랴부랴 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 연결 직후 강제로 <strong>STARTTLS(전송 계층 암호화)</strong>로 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 업그레이드 치도록 규정을 바꿨고, 로그인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 무조건 <strong>SASL(Simple <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> and <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Layer)</strong> 기반의 해시 도우미를 태우게 융합했다. 메신저 생태계에서 '엔드 투 엔드 암호화' 이전에 네트워크 구간 암호화를 강제한 최초의 시도다.
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/">웹소켓</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">WebSocket</a>) 및 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/">BOSH</a> (롱 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 우회)</strong>: 스마트폰 앱(`exe`, `apk`)에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 맘대로 쏠 수 있지만, 사내 PC의 '웹 브라우저 화면' 안에서는 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 방화벽에 막혀 쏠 수가 없었다. 그래서 등장한 것이 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/499_bosh_bidirectional_streams_over_synchronous_http/">BOSH</a>(XEP-0124)</strong>라는 변태적 롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(Long [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 꼼수였다. 무거운 XML을 또 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 포장지에 억지로 구겨 넣고 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 쏜 뒤, 서버 앞단 프록시가 이걸 까서 XMPP 서버로 밀어 넣어주는 눈물겨운 우회 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인. 이후 이 짓거리는 HTML5의 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">WebSocket</a></strong>이 나오면서 단 1줄의 우아한 쌍방향 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 통신으로 깔끔하게 대체되었다.
 
-- **📢 섹션 요약 비유**: XMPP는 **'과대 포장된 화려한 한과 세트'**입니다. 과자 한 개 먹으려고 두꺼운 종이상자 열고, 비단 보자기를 풀고, 플라스틱 덮개를 까야 하죠(XML 텍스트 파싱 부하). [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(전원 꽂힌 데스크탑)에선 힘이 남아서 포장을 까는 데 문제가 없었습니다. 그런데 스마트폰(배터리 굶주린 폰)한테 이걸 까라고 시키니까, 포장지 찢다가 배터리가 다 닳아서 죽어버리는 겁니다. 카카오톡은 포장지 다 버리고 그냥 과자 알맹이(바이너리)만 입에 직통으로 던져 넣어 스마트폰 세상을 정복했습니다.
+- **📢 섹션 요약 비유**: XMPP는 <strong>'과대 포장된 화려한 한과 세트'</strong>입니다. 과자 한 개 먹으려고 두꺼운 종이상자 열고, 비단 보자기를 풀고, 플라스틱 덮개를 까야 하죠(XML 텍스트 파싱 부하). [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(전원 꽂힌 데스크탑)에선 힘이 남아서 포장을 까는 데 문제가 없었습니다. 그런데 스마트폰(배터리 굶주린 폰)한테 이걸 까라고 시키니까, 포장지 찢다가 배터리가 다 닳아서 죽어버리는 겁니다. 카카오톡은 포장지 다 버리고 그냥 과자 알맹이(바이너리)만 입에 직통으로 던져 넣어 스마트폰 세상을 정복했습니다.
 
 ---
 
@@ -121,42 +120,42 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 1. **시나리오 — 구글 토크(Google Talk)와 페이스북의 배신 (오픈 생태계의 멸망)**: 2010년, 구글 토크와 페이스북은 XMPP로 채팅망을 열어두었다. 내 구글 아이디로 페이스북 친구한테 톡을 보낼 수 있었다. 그런데 스마트폰 모바일 시대가 터졌다. 페이스북이 갑자기 XMPP [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동을 닫아버렸다(Walled Garden 락온). 구글도 구글 행아웃(Hangout)으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코어를 갈아엎으면서 타사 서버 연동([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) S2S) 지원을 파기해 버렸다.
    - **판단**: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기술의 낭만이 철저한 자본주의 독점욕(Monopoly)에 찢겨 죽은 가장 유명한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 사례다. 플랫폼 기업들은 "내 앱에서 다른 회사 앱으로 채팅이 넘어가면, 내 광고를 못 보잖아? 우리 회사의 소중한 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터)가 외부 서버로 새어나가는 걸 구경할 수 없다"며 빗장을 걸어 잠갔다. 기술적 핑계로는 "XMPP가 너무 무거워서 모바일 배터리를 잡아먹는다"고 했지만, 본질은 생태계 가두리 양식([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))을 위한 글로벌 빅테크의 합의된 배신이었다.
 
-2. **시나리오 — [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 제어 플랫폼으로의 생존 우회술 (XMPP ➔ [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))**: XMPP 서버 벤더들(Openfire, Ejabberd 등)이 메신저 시장에서 카카오톡/라인에 학살당하고 회사가 망할 위기에 처했다. 그때 아키텍트들이 눈을 돌렸다. "잠깐, XMPP가 사람끼리 카톡 하는 덴 무겁지만, 집에 있는 1만 개의 전구와 스마트 플러그([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서)가 내 서버로 핑을 쏘며 '나 지금 켜져 있어(Presence)'라고 상태를 브로드캐스팅하는 **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 중앙 통제망**으로는 딱이잖아!"
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기 제어 플랫폼으로의 생존 우회술 (XMPP ➔ <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>)</strong>: XMPP 서버 벤더들(Openfire, Ejabberd 등)이 메신저 시장에서 카카오톡/라인에 학살당하고 회사가 망할 위기에 처했다. 그때 아키텍트들이 눈을 돌렸다. "잠깐, XMPP가 사람끼리 카톡 하는 덴 무겁지만, 집에 있는 1만 개의 전구와 스마트 플러그([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서)가 내 서버로 핑을 쏘며 '나 지금 켜져 있어(Presence)'라고 상태를 브로드캐스팅하는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 중앙 통제망</strong>으로는 딱이잖아!"
    - **판단**: 레거시 통신망의 훌륭한 [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(사업 전환) 융합이다. 사람의 대화는 끊기면 짜증 나지만, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 100만 개가 서버에 `<presence>` XML 태그를 날리며 "내 배터리 30% 남았어, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜졌어"를 쏘는 스마트홈(Smart Home) 인프라로 XMPP 서버를 마개조했다. 실제로 애플 푸시 알림 서버(APNs)의 태동기 심장이나 삼성전자 가전의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 핑퐁 서버가 전부 이 구닥다리 XMPP [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 튜닝해서 탄생한 것이다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 왜 카카오톡은 XMPP를 버리고 독자 소켓을 팠을까?     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ 🦖 [ 구시대 XMPP (오픈소스 튜닝의 한계) ]                        │
-  │   - 메시지 전송 시:                                           │
-  │     <message to='tom@a.com' from='bob@b.com' id='1234'>       │
-  │       <body>밥 먹었어?</body>                                  │
-  │     </message>                                              │
-  │   - 💥 팩트: '밥 먹었어?' 15 Byte 보내려고 헤더 100 Byte 더 붙임.   │
-  │   - DB 저장: 이거 텍스트 파싱(Parsing)해서 RDBMS에 넣느라 CPU 찢어짐.│
-  │                                                             │
-  │        ======= [ 아키텍트의 파괴적 튜닝 (Binary Custom Socket) ] ========│
-  │                                                             │
-  │ 🚀 [ 모던 메신저 (카카오톡, 왓츠앱 커스텀 프로토콜) ]             │
-  │   - 메시지 전송 시: (0과 1의 바이너리 비트맵 조립)                  │
-  │     [1 Byte: 메시지 타입][4 Byte: 수신자 ID][15 Byte: 밥 먹었어?]  │
-  │   - 🌟 팩트: 총 20 Byte 로 전송 끝! (데이터 사용량 1/5 삭감!)      │
-  │   - 파싱 속도 1,000배 빠름 ➔ 서버 1대가 동시 접속자 100만 명을 소화!   │
-  │   - XMPP의 무거운 XML 파서를 다 부숴버리고, C/C++(또는 Erlang)로    │
-  │     TCP 소켓 바이트(Byte) 단위로 씹어먹는 괴물 커널을 깎아 올림!       │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 단순히 텍스트를 보내는 게 메신저 서버의 실력이 아니다. 카카오톡이 성공한 건 UX 때문만이 아니다. 통신망이 열악하던 3G 시절, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금에 벌벌 떨던 유저들에게 **'가장 빠르고 배터리를 안 먹으며 메시지 유실이 없는' 백엔드 아키텍처**를 독자적으로 깎아냈기 때문이다. XMPP는 그 거대한 `<body>`, `<message>` 텍스트 태그 문자열을 서버가 읽고 파싱(스트링 자르기) 하느라 CPU 오버헤드가 극심했다. 이를 16진수 바이너리 조각으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 서버가 묻지도 따지지도 않고 목적지로 패킷을 스위칭(Bypass)하게 만든 극한의 튜닝([Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어 등의 도입)이 모바일 메신저 천하를 가른 0순위 기술 분기점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 왜 카카오톡은 XMPP를 버리고 독자 소켓을 팠을까?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🦖</div><div class="kb-diagram-node">구시대 XMPP (오픈소스 튜닝의 한계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메시지 전송 시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;message to='tom@a.com' from='bob@b.com' id='1234'&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;body&gt;밥 먹었어?&lt;/body&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/message&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 팩트: '밥 먹었어?' 15 Byte 보내려고 헤더 100 Byte 더 붙임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB 저장: 이거 텍스트 파싱(Parsing)해서 RDBMS에 넣느라 CPU 찢어짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">아키텍트의 파괴적 튜닝 (Binary Custom Socket)</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">모던 메신저 (카카오톡, 왓츠앱 커스텀 프로토콜)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메시지 전송 시: (0과 1의 바이너리 비트맵 조립)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 Byte: 메시지 타입</div><div class="kb-diagram-node">4 Byte: 수신자 ID</div><div class="kb-diagram-node">15 Byte: 밥 먹었어?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 팩트: 총 20 Byte 로 전송 끝! (데이터 사용량 1/5 삭감!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파싱 속도 1,000배 빠름 ➔ 서버 1대가 동시 접속자 100만 명을 소화!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- XMPP의 무거운 XML 파서를 다 부숴버리고, C/C++(또는 Erlang)로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 소켓 바이트(Byte) 단위로 씹어먹는 괴물 커널을 깎아 올림!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 단순히 텍스트를 보내는 게 메신저 서버의 실력이 아니다. 카카오톡이 성공한 건 UX 때문만이 아니다. 통신망이 열악하던 3G 시절, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금에 벌벌 떨던 유저들에게 <strong>'가장 빠르고 배터리를 안 먹으며 메시지 유실이 없는' 백엔드 아키텍처</strong>를 독자적으로 깎아냈기 때문이다. XMPP는 그 거대한 `<body>`, `<message>` 텍스트 태그 문자열을 서버가 읽고 파싱(스트링 자르기) 하느라 CPU 오버헤드가 극심했다. 이를 16진수 바이너리 조각으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 서버가 묻지도 따지지도 않고 목적지로 패킷을 스위칭(Bypass)하게 만든 극한의 튜닝([Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어 등의 도입)이 모바일 메신저 천하를 가른 0순위 기술 분기점이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: 사내 전용 인트라넷 보안 메신저를 1달 안에 뚝딱 만들어야 한다고, 구글 검색해서 나오는 `Openfire`나 `Ejabberd` 같은 XMPP [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 서버를 다운받아 대충 `next, next` 눌러 설치하고 있지 않은가? 접속자가 1,000명을 넘어가고 회사 단톡방에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(사진)을 마구 던지기 시작하면, XML 파싱 병목으로 서버 램(RAM)이 10기가씩 튀고 쓰레드 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸린다. XMPP 서버를 쓸 거면 무조건 **HA(고가용성) 클러스터링과 Connection Manager를 엣지단에 찢어 분리(Decoupling)**해 두어야 터지지 않는다.
+- **기술적**: 사내 전용 인트라넷 보안 메신저를 1달 안에 뚝딱 만들어야 한다고, 구글 검색해서 나오는 `Openfire`나 `Ejabberd` 같은 XMPP [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 서버를 다운받아 대충 `next, next` 눌러 설치하고 있지 않은가? 접속자가 1,000명을 넘어가고 회사 단톡방에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(사진)을 마구 던지기 시작하면, XML 파싱 병목으로 서버 램(RAM)이 10기가씩 튀고 쓰레드 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸린다. XMPP 서버를 쓸 거면 무조건 <strong>HA(고가용성) 클러스터링과 Connection Manager를 엣지단에 찢어 분리(Decoupling)</strong>해 두어야 터지지 않는다.
 - **운영·보안적**: XMPP 서버 앞단 방화벽에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어줄 때 5222 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(클라이언트-서버)만 열어두고, 실수로 5269 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(서버-서버 간 [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))까지 사설망 밖에 퍼블릭으로 뻥 뚫어두지 않았는가? 이렇게 놔두면 전 세계의 러시아 해커들이 돌리는 봇(Bot) XMPP 서버들이 우리 사내망 서버로 무한 스팸 핑(Ping)을 쏘며 서버 릴레이 자원을 디도스(DDoS) 급으로 말라 죽인다. 기업 폐쇄망 메신저는 무조건 5269 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)) 기능을 소스코드 단에서 차단(Disable)해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **XMPP로 무거운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 (In-Band [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Streams의 지옥)**: 직원이 메신저로 100MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 동영상을 보낸다. 멍청한 개발자가 이걸 XMPP 채팅 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(In-Band) 안에 억지로 태워 보냈다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체가 아주 비효율적인 Base64 텍스트로 인코딩되어 용량이 130MB로 뻥튀기된다. 게다가 그 거대한 텍스트 덤프가 메신저 채팅 XML 껍데기 안에 껴서 XMPP 메인 서버 스레드를 다 찢어버리며 통과한다(서버 즉사). 모던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 아키텍처는 텍스트 채팅만 XMPP로 가볍게 쏘고, 무거운 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 AWS S3나 별도의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지 서버에 던진 뒤(Out-of-Band), XMPP 쪽으로는 **"이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운받으려면 이 URL 링크(`http://s3.aws...`) 클릭해"라는 10바이트짜리 문자열 텍스트만** 살포시 얹어서 우회(Off-loading) 통신해야만 서버가 산다.
+- <strong>XMPP로 무거운 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 전송 (In-Band <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Streams의 지옥)</strong>: 직원이 메신저로 100MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 동영상을 보낸다. 멍청한 개발자가 이걸 XMPP 채팅 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(In-Band) 안에 억지로 태워 보냈다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체가 아주 비효율적인 Base64 텍스트로 인코딩되어 용량이 130MB로 뻥튀기된다. 게다가 그 거대한 텍스트 덤프가 메신저 채팅 XML 껍데기 안에 껴서 XMPP 메인 서버 스레드를 다 찢어버리며 통과한다(서버 즉사). 모던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 아키텍처는 텍스트 채팅만 XMPP로 가볍게 쏘고, 무거운 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 AWS S3나 별도의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지 서버에 던진 뒤(Out-of-Band), XMPP 쪽으로는 <strong>"이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 다운받으려면 이 URL 링크(<code>http://s3.aws...</code>) 클릭해"라는 10바이트짜리 문자열 텍스트만</strong> 살포시 얹어서 우회(Off-loading) 통신해야만 서버가 산다.
 
 - **📢 섹션 요약 비유**: 전화기(XMPP)로 친구한테 수박(100MB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 배달하려는 짓입니다. 수박을 가루로 빻아서(Base64 인코딩) 수화기 구멍 안으로 우겨 넣고 친구가 반대편 수화기에서 가루를 받아 다시 수박으로 조립하는 미친 짓을 하죠(서버 폭발). 천재 아키텍트는 수화기(XMPP)로는 "야 밖에 택배 기사(S3 스토리지)가 수박 문 앞에 뒀대(URL 링크)" 라고 말만 딱 해주고 끊는 겁니다. 진짜 무거운 짐은 전용 화물 트럭(별도 스토리지 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 우회해서 넘기는 게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계의 진리입니다.
 
@@ -167,12 +166,12 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 | 구분 | 낡은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 메신저 (새로고침) | XMPP 기반 스트림 지속 연결 (Presence) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량** | 초당 수십 번의 빈 껍데기 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 재확인 트래픽 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 열어두고([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 이벤트 발생 시에만 푸시 | 무의미한 네트워크 패킷 재요청(Overhead) **90% 이상 붕괴** |
-| **정량** | 카카오톡 등장 이전의 폐쇄적 벤더 메신저 | [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 개방형 표준에 의한 타사 서버(S2S) 무료 릴레이 | B2B 사내 메신저 **구축 비용 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 삭감 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) Ejabberd 활용)** |
+| **정량** | 카카오톡 등장 이전의 폐쇄적 벤더 메신저 | [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 개방형 표준에 의한 타사 서버(S2S) 무료 릴레이 | B2B 사내 메신저 <strong>구축 비용 1/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 삭감 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> Ejabberd 활용)</strong> |
 | **정성** | "상대방 접속했나?" 메시지 보내고 막연한 대기 | `Presence(온라인 초록불)` 상태 변화의 실시간 렌더링 | 사용자 간의 상호작용 속도 극대화 및 **원격 현존감(Presence) 확립** |
 
 ### 미래 전망
-- **메신저 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 완전한 파편화와 MQTT의 승리**: XMPP는 사람 간의 채팅(C2C) 시장에서는 카카오톡 같은 가벼운 바이너리 독자 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 목이 따였고, 사물 인터넷 기계([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서) 간의 핑퐁 통신([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)) 시장에서는 이보다 100배 더 가벼운 깃털 같은 **[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/)(Message Queuing Telemetry Transport)** [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에게 완전히 심장을 뺏겼다. XML 껍데기라는 시대착오적인 족쇄를 끝내 벗어던지지 못한 XMPP는 결국 과거 유산으로 전락하며 멸종의 수순을 밟고 있다.
-- **[매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)([Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/))와 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 기반 화상/음성 통신으로의 세대교체**: 더 이상 텍스트 채팅만으로 먹고사는 시대가 아니다. 카카오톡 보이스톡(음성)과 페이스타임(화상)이 5G의 대동맥이다. 이는 XMPP 같은 텍스트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로는 수학적으로 감당할 수 없는 영역이다. 결국 인터넷 실시간 통신망의 권력은 종단간([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 직통 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 뚫어 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 미디어 패킷을 광속으로 흩뿌리는 **[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/)([Web Real-Time Communication](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/))** 진영으로 완벽하게 권력이 이양(Shift)되며 차세대 통신 아키텍처의 패권을 장악했다.
+- <strong>메신저 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 완전한 파편화와 MQTT의 승리</strong>: XMPP는 사람 간의 채팅(C2C) 시장에서는 카카오톡 같은 가벼운 바이너리 독자 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 목이 따였고, 사물 인터넷 기계([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서) 간의 핑퐁 통신([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)) 시장에서는 이보다 100배 더 가벼운 깃털 같은 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/">MQTT</a>(Message Queuing Telemetry Transport)</strong> [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에게 완전히 심장을 뺏겼다. XML 껍데기라는 시대착오적인 족쇄를 끝내 벗어던지지 못한 XMPP는 결국 과거 유산으로 전락하며 멸종의 수순을 밟고 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">매터</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a>)와 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a> 기반 화상/음성 통신으로의 세대교체</strong>: 더 이상 텍스트 채팅만으로 먹고사는 시대가 아니다. 카카오톡 보이스톡(음성)과 페이스타임(화상)이 5G의 대동맥이다. 이는 XMPP 같은 텍스트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로는 수학적으로 감당할 수 없는 영역이다. 결국 인터넷 실시간 통신망의 권력은 종단간([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 직통 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 뚫어 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 미디어 패킷을 광속으로 흩뿌리는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">Web Real-Time Communication</a>)</strong> 진영으로 완벽하게 권력이 이양(Shift)되며 차세대 통신 아키텍처의 패권을 장악했다.
 
 ### 참고 표준
 - **RFC 6120 (XMPP Core)**: "XML 스트림을 열고 닫는 방법, 3대 스탠자(Message, Presence, IQ) 패킷을 어떻게 쏴야 서버가 안 튕겨내는지"를 징그럽게 규정한 IETF의 실시간 메시징 헌법 1장.
@@ -180,7 +179,7 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 
 "가장 위대한 뼈대는 스스로를 지워내어 후세의 반면교사가 되는 것이다." XMPP(Extensible Messaging and Presence [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 2000년대 닫힌 성벽([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 안에서 서로를 물어뜯던 AOL, MSN, 야후 메신저의 폐쇄성을 향해 던진 가장 로맨틱하고 파괴적인 돌멩이([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))였다. 비록 그들의 무기였던 XML 텍스트 태그는 모바일 3G 네트워크라는 빙하기를 맞아 그 무거운 덩치를 이기지 못하고 멸종한 공룡이 되었지만, XMPP가 인류에게 남긴 '친구의 온라인 상태(Presence)를 뿌려주는 구독 생태계'와 '서버 간의 자유로운 국경 파괴([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))' 철학은 현대 카카오톡과 슬랙(Slack), 디스코드(Discord)의 척추에 영원한 DNA로 새겨져 있다. 스마트폰 배터리를 갉아먹는다는 혐오 어린 시선 속에서도 묵묵히 5222번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 지켜내던 이 투박한 서버 코어가 없었다면, 오늘날 우리 주머니 속 0.1초의 실시간(Real-time) 알림이라는 경이로운 마법은 아마 10년은 늦게 우리를 찾아왔을 것이다.
 
-- **📢 섹션 요약 비유**: XMPP는 **'거대한 여객선(크루즈)'**입니다. 사람(메시지)을 실어 나르는데 시설도 크고 방(XML 태그)도 튼튼해서 엄청 낭만적이지만, 기름(배터리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 너무 많이 처먹고 속도가 무지하게 느립니다. 모바일 메신저(카카오톡)는 사람의 껍데기를 다 벗기고 수영복만 입혀서 1인용 **'고속 제트스키(바이너리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))'**에 태워 빛의 속도로 쏘아버린 겁니다. 크루즈 선은 결국 속도와 돈 싸움에 밀려 역사의 박물관으로 사라진 슬픈 여객선입니다.
+- **📢 섹션 요약 비유**: XMPP는 <strong>'거대한 여객선(크루즈)'</strong>입니다. 사람(메시지)을 실어 나르는데 시설도 크고 방(XML 태그)도 튼튼해서 엄청 낭만적이지만, 기름(배터리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 너무 많이 처먹고 속도가 무지하게 느립니다. 모바일 메신저(카카오톡)는 사람의 껍데기를 다 벗기고 수영복만 입혀서 1인용 <strong>'고속 제트스키(바이너리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)'</strong>에 태워 빛의 속도로 쏘아버린 겁니다. 크루즈 선은 결국 속도와 돈 싸움에 밀려 역사의 박물관으로 사라진 슬픈 여객선입니다.
 
 ---
 
@@ -195,22 +194,26 @@ XMPP 통신의 가장 기괴하고도 천재적인 설계다. 일반 API는 통�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BOSH]
-    │
-    ▼
-[현재 개념: XMPP]
-    │
-    ├──▶ [확장 A: SIP]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BOSH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XMPP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SIP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 XMPP는 BOSH에서 출발해 현재 메커니즘을 정교화하고, 이후 SIP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 카카오톡이 없던 아주아주 옛날에는, 내가 쓰는 A 메신저랑 내 친구가 쓰는 B 메신저가 서로 이름이 다르면 대화를 할 수가 없었어요.
-2. **XMPP**는 마치 **'전 세계 공용 번역기'** 같은 엄청난 발명품이었어요. "우와! 내가 A 어플로 글을 써도 미국에 있는 B 어플 친구한테 쪽지가 슝 날아가네?!" 하는 기적을 열어주었죠.
+2. <strong>XMPP</strong>는 마치 **'전 세계 공용 번역기'** 같은 엄청난 발명품이었어요. "우와! 내가 A 어플로 글을 써도 미국에 있는 B 어플 친구한테 쪽지가 슝 날아가네?!" 하는 기적을 열어주었죠.
 3. 하지만 글씨 한 줄을 보낼 때마다 무거운 상자와 자물쇠(XML)를 칭칭 감아서 택배를 보내야 해서 스마트폰 배터리가 너무 빨리 닳아버리는 치명적 단점 때문에 지금은 박물관으로 사라졌답니다!
 
 ---

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고정 분할 방식(Fixed [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 운영체제가 부팅될 때 물리 메모리를 **사전에 정해진 크기의 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(방)으로 영구적으로 쪼개어 놓고**, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 하나의 프로세스만 들어가도록 하는 가장 원시적인 [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.
+> 1. **본질**: 고정 분할 방식(Fixed [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 운영체제가 부팅될 때 물리 메모리를 <strong>사전에 정해진 크기의 여러 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(방)으로 영구적으로 쪼개어 놓고</strong>, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 하나의 프로세스만 들어가도록 하는 가장 원시적인 [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 기법이다.
 > 2. **가치**: 메모리 관리가 극도로 단순하다. 빈 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 있으면 넣고, 없으면 대기시키면 끝이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 오버헤드가 사실상 제로에 가깝다.
-> 3. **융합**: 하지만 방 크기보다 작은 프로그램이 들어가면 남는 공간이 통째로 버려지는 치명적인 **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))**를 유발하며, 이는 이후 프로그램 크기에 맞춰 방을 쪼개는 [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/))으로 진화하는 원인이 되었다.
+> 3. **융합**: 하지만 방 크기보다 작은 프로그램이 들어가면 남는 공간이 통째로 버려지는 치명적인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">Internal Fragmentation</a>)</strong>를 유발하며, 이는 이후 프로그램 크기에 맞춰 방을 쪼개는 [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/))으로 진화하는 원인이 되었다.
 
 ---
 
@@ -23,29 +23,27 @@ tags = ["studynote-operating-system"]
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 시대(IBM OS/360 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등)에 한 번에 여러 프로그램을 띄우는 '[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))'을 구현해야 했다. 하지만 당시 하드웨어와 OS는 복잡한 메모리 계산을 감당할 성능이 없었다. 가장 쉽고 빠르게 시스템을 다중 사용자 환경으로 바꾸는 방법은 아예 램을 물리적인 바둑판처럼 미리 선을 그어놓고 배정하는 것이었다.
 
 - **등장 배경 및 발생 문제**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 도입**: CPU 유휴 시간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) time)을 줄이기 위해 메모리에 무조건 여러 프로그램을 구겨 넣어야 했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 도입</strong>: CPU 유휴 시간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) time)을 줄이기 위해 메모리에 무조건 여러 프로그램을 구겨 넣어야 했다.
   2. **관리의 극단적 단순화 추구**: 100MB 램을 20MB 방 5개로 쪼개 놓으면, OS는 방 5개의 비었는지 찼는지(0과 1)만 관리하면 된다.
-  3. **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)의 비극**: 20MB 방에 5MB짜리 작은 앱이 들어가면 나머지 15MB는 아무도 쓰지 못하고 썩어버린다([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)). 방이 다 차면 전체 램 용량이 남아돌아도 새 앱을 켤 수 없었다. [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수로 엄격히 제한되었다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>의 비극</strong>: 20MB 방에 5MB짜리 작은 앱이 들어가면 나머지 15MB는 아무도 쓰지 못하고 썩어버린다([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)). 방이 다 차면 전체 램 용량이 남아돌아도 새 앱을 켤 수 없었다. [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수로 엄격히 제한되었다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        고정 분할 방식의 메모리 맵과 내부 단편화 발생 구조         │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 균등 고정 분할 (모든 방 20MB) ]                                 │
-│ ┌────────────────┐                                                │
-│ │ OS 영역 (10MB) │                                                │
-│ ├────────────────┤                                                │
-│ │ 파티션 1 (20M)  │ ◀ 프로세스 A (18MB) 할당 → [ 2MB 낭비 ]       │
-│ ├────────────────┤                                                │
-│ │ 파티션 2 (20M)  │ ◀ 프로세스 B ( 5MB) 할당 → [15MB 낭비 ]       │
-│ ├────────────────┤   (※ 이 버려진 공간을 '내부 단편화'라 함)      │
-│ │ 파티션 3 (20M)  │ ◀ 텅 빈 방                                    │
-│ ├────────────────┤                                                │
-│ │ 파티션 4 (20M)  │ ◀ 프로세스 C (25MB) 요청 → [적재 거부!]       │
-│ └────────────────┘   (방보다 커서 영원히 실행 불가)               │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 분할 방식의 메모리 맵과 내부 단편화 발생 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">균등 고정 분할 (모든 방 20MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 영역 (10MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">2MB 낭비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">15MB 낭비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 이 버려진 공간을 '내부 단편화'라 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 3 (20M)</div><div class="kb-diagram-cell">◀ 텅 빈 방</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">적재 거부!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방보다 커서 영원히 실행 불가)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 고정 분할 방식의 아킬레스건을 보여준다. 프로세스 B는 단 5MB만 필요하지만 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체(20MB)를 독점해버려 15MB가 증발한다. 더 심각한 것은 프로세스 C다. 25MB짜리 프로그램은 시스템 전체에 남은 메모리가 50MB가 넘음에도 불구하고, 어떤 단일 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기(20MB)보다 크기 때문에 이 시스템에서는 아예 실행조차 되지 못한다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기를 넘는 대형 프로그램은 오버레이(Overlay) 기법을 써서 개발자가 수동으로 코드를 잘라 올려야 했다.
 
 - **📢 섹션 요약 비유**: 신발 가게에서 260mm 사이즈 상자 100개만 만들어놓고, 240mm 발을 가진 사람은 헐렁하게(낭비) 신게 하고, 270mm 발을 가진 사람은 아예 쫓아내 버리는 경직된 판매 전략입니다.
@@ -58,10 +56,10 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))** | 프로그램이 적재되는 고정된 공간 | 부팅 시 분할되어 고정된 시작/끝 물리 주소를 가짐 | Memory Block | 기숙사의 고정된 1인실 방 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong> | 프로그램이 적재되는 고정된 공간 | 부팅 시 분할되어 고정된 시작/끝 물리 주소를 가짐 | Memory Block | 기숙사의 고정된 1인실 방 |
 | **할당 상태 테이블** | 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 사용 여부 기록 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 1: 사용(1), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 2: 빈방(0) 등 단순 비트맵 | 비트맵(Bitmap) | 기숙사 경비실의 빈방 불빛 |
-| **작업 큐 (Job [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))** | 디스크에서 대기 중인 프로그램 줄 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)마다 개별 큐를 두거나, 하나의 통합 큐를 운영 | Scheduling [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 방 배정을 기다리는 대기 줄 |
-| **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 방어선** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 밖 메모리 침범 방지 | 베이스와 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)가 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됨 | [Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 방을 못 벗어나게 하는 자물쇠 |
+| <strong>작업 큐 (Job <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong> | 디스크에서 대기 중인 프로그램 줄 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)마다 개별 큐를 두거나, 하나의 통합 큐를 운영 | Scheduling [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 방 배정을 기다리는 대기 줄 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> 방어선</strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 밖 메모리 침범 방지 | 베이스와 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)가 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됨 | [Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 방을 못 벗어나게 하는 자물쇠 |
 
 ---
 
@@ -69,25 +67,26 @@ tags = ["studynote-operating-system"]
 
 고정 분할 방식에서 비균등 분할(크기가 다른 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 혼재)을 사용할 경우, 대기 중인 프로세스들을 어떻게 방에 배정할 것인지 큐 운영 아키텍처가 두 가지로 나뉜다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│              비균등 고정 분할의 작업 큐 운영 방식 2가지                │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ 1. 파티션별 다중 큐 (Multiple Queues)                                  │
-│ [10M 대기줄] → [ P A ] ───▶ [ 파티션 1 (10MB) ]                        │
-│ [20M 대기줄] → [ P B, C] ──▶ [ 파티션 2 (20MB) ]                       │
-│ [30M 대기줄] → (텅 빔)   ───▶ [ 파티션 3 (30MB) ] 놀고 있음!           │
-│ 장점: 내 몸에 맞는 방을 바로 감. 단점: 빈방이 있어도 줄을 못 서면 놀림.│
-│                                                                        │
-│ 2. 단일 통합 큐 (Single Queue)                                         │
-│                                ┌─▶ [ 파티션 1 (10MB) ]                 │
-│ [모든 프로세스 통합 대기줄] ──────┼─▶ [ 파티션 2 (20MB) ]              │
-│ [ P A, P B, P C, P D ... ]   └─▶ [ 파티션 3 (30MB) ]                   │
-│ 장점: 빈 파티션이 생기면 줄 맨 앞의 애가 바로 들어감 (공간 활용 높음)  │
-│ 단점: 10M짜리가 30M 방에 들어가면 내부 단편화(20M 낭비) 극심해짐.      │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비균등 고정 분할의 작업 큐 운영 방식 2가지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 파티션별 다중 큐 (Multiple Queues)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10M 대기줄</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 1 (10MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20M 대기줄</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P B, C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 2 (20MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">30M 대기줄</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">파티션 3 (30MB)</div><div class="kb-diagram-note">놀고 있음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 내 몸에 맞는 방을 바로 감. 단점: 빈방이 있어도 줄을 못 서면 놀림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 단일 통합 큐 (Single Queue)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 1 (10MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모든 프로세스 통합 대기줄</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 2 (20MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P A, P B, P C, P D ...</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 3 (30MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 빈 파티션이 생기면 줄 맨 앞의 애가 바로 들어감 (공간 활용 높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 10M짜리가 30M 방에 들어가면 내부 단편화(20M 낭비) 극심해짐.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 1번 방식(크기별 큐)을 썼다. 하지만 30MB짜리 큰 프로그램이 별로 없어서 가장 큰 방은 항상 비어있고, 작은 방 큐는 터져나가는 스케줄링 불균형이 발생했다. 이를 해결하기 위해 2번 단일 큐로 바꾸었더니, 방이 비기 무섭게 작은 프로그램들이 큰 방을 차지해버려 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)'가 극단적으로 심해지는 진퇴양난의 트레이드오프에 빠졌다.
 
@@ -95,7 +94,7 @@ tags = ["studynote-operating-system"]
 
 ### [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))의 본질
 
-- **정의**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(할당된 공간)의 크기보다 그 안에 적재된 프로세스의 크기가 작아서, **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내부에 남아도는 아무도 못 쓰는 잉여 공간**.
+- **정의**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(할당된 공간)의 크기보다 그 안에 적재된 프로세스의 크기가 작아서, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 내부에 남아도는 아무도 못 쓰는 잉여 공간</strong>.
 - [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(External)가 밖(시스템 전체)에 흩어진 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 바깥의 빈 공간이라면, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) '내부'의 닫힌 공간에서 발생하는 낭비다.
 - 이 공간은 OS 입장에서는 "이미 그 프로세스에게 줬다"고 장부에 적혀있으므로, 다른 프로세스가 절대 가져다 쓸 수 없다.
 
@@ -109,9 +108,9 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 고정 분할 (Fixed [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) | 가변 분할 ([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)) |
 |:---|:---|:---|
-| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기** | 부팅 시 고정됨 (불변) | 프로세스 크기에 맞춰 런타임에 동적으로 잘라줌 |
-| **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 종류** | **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 발생** (방이 남음) | **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생** (자투리 공간이 쪼개짐) |
-| **[다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)**| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수(N)로 **고정 제한**됨 | 메모리가 꽉 찰 때까지 **무한정 유동적**임 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 크기</strong> | 부팅 시 고정됨 (불변) | 프로세스 크기에 맞춰 런타임에 동적으로 잘라줌 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 종류</strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a> 발생</strong> (방이 남음) | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 발생</strong> (자투리 공간이 쪼개짐) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/">다중 프로그래밍 정도</a></strong>| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수(N)로 <strong>고정 제한</strong>됨 | 메모리가 꽉 찰 때까지 <strong>무한정 유동적</strong>임 |
 | **OS 관리 오버헤드** | 거의 제로 (가장 단순함) | 빈 공간을 찾고 합치느라 연산 리소스 소모 |
 | **프로세스 크기 한계** | 가장 큰 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)보다 큰 앱은 절대 실행 불가 | 남은 전체 빈 공간 안에서는 어떻게든 실행 가능 |
 
@@ -121,14 +120,17 @@ tags = ["studynote-operating-system"]
 - [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법 역시 물리 메모리를 4KB 크기의 똑같은 방(Frame)으로 **'고정 분할'** 해놓은 것이다.
 - 단지 옛날 고정 분할은 방이 수십 MB로 거대해서 낭비([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))가 심했을 뿐, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 방 크기를 4KB로 아주 잘게 쪼개어 마지막 1개 프레임에서 발생하는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)의 피해를 평균 2KB로 최소화시켰다는 차이만 있을 뿐이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────┐
-│ 기법       │ 분할 크기   │ 내부 단편화  │ 프로세스 배치 │
-├──────────┼────────────┼────────────┼────────────────────┤
-│ 고정 분할  │ 10MB ~     │ 매우 큼    │ 통째로 1방에     │
-│ 페이징     │ 4KB 고정    │ 평균 2KB   │ 수천 방에 찢어  │
-└──────────┴────────────┴────────────┴────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기법</div><div class="kb-diagram-cell">분할 크기</div><div class="kb-diagram-cell">내부 단편화</div><div class="kb-diagram-cell">프로세스 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 분할</div><div class="kb-diagram-cell">10MB ~</div><div class="kb-diagram-cell">매우 큼</div><div class="kb-diagram-cell">통째로 1방에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">4KB 고정</div><div class="kb-diagram-cell">평균 2KB</div><div class="kb-diagram-cell">수천 방에 찢어</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터 공학은 돌고 돈다. 관리하기 귀찮아서 고정 크기로 잘랐던 투박한 과거의 방식이, 시간이 흘러 하드웨어가 발전하자 방 크기를 현미경 단위(4KB)로 썰어버리면서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 완벽히 잡아내는 궁극의 기술([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 재탄생한 것이다. 
 
 - **📢 섹션 요약 비유**: 옛날엔 수박을 반 갈라 파는 고정 분할이라 다 못 먹고 버리는 내부 낭비가 컸다면, 지금은 깍둑썰기로 4KB씩 잘게 파는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 진화하여 낭비 없이 먹을 수 있게 된 것입니다.
@@ -144,7 +146,7 @@ tags = ["studynote-operating-system"]
    - 은행 관리자는 매일 아침 "1번 방은 50MB 컴파일러용, 2번 방은 30MB 급여 정산용" 식으로 펀치 카드를 뚫어 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 하드코딩으로 세팅했다.
    - 이토록 원시적이었지만, OS가 메모리 관리 연산을 하느라 버벅대는 낭비가 '0'에 가까웠으므로, 주어진 배치 작업을 밀어내는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 면에서는 당대 최강의 효율을 자랑했다.
 
-2. **현대적 잔재: 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 제한**
+2. <strong>현대적 잔재: 가상 머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) 및 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 제한</strong>
    - 오늘날의 클라우드 환경에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware 등)가 게스트 OS에 메모리를 할당할 때 "RAM 4GB 고정 할당"을 거는 행위는, 논리적으로는 이 거대한 고정 분할 방식의 오마주라 볼 수 있다.
    - 즉, 게스트 OS가 1GB만 써도 나머지 3GB는 호스트가 가져가지 않고 버려두는([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) 대신, 격리와 할당의 관리 오버헤드를 제로로 만드는 강력한 보안/관리 정책이다.
 
@@ -159,7 +161,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **OS 오버헤드 최소화** | 복잡한 런타임 빈 공간 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 쓰레기 수집 연산이 필요 없어 속도 저하 제로 |
-| **결정론적 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)**| 실행 중인 프로세스의 최대 개수가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수로 엄격히 통제되어 시스템 과부하([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 원천 차단 |
+| <strong>결정론적 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a></strong>| 실행 중인 프로세스의 최대 개수가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수로 엄격히 통제되어 시스템 과부하([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 원천 차단 |
 | **보안 및 격리 용이성** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 경계선이 고정되어 있어 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) 설정이 영구적이고 실수가 없음 |
 
 ### 결론 및 미래 전망
@@ -181,15 +183,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[연속 메모리 할당 (Contiguous Memory Allocation)]
-    │
-    ▼
-[고정 분할 방식 (Fixed Partition)]
-    │
-    ├──▶ [가변 분할 방식 (Variable Partition)]
-    └──▶ [내부 단편화 (Internal Fragmentation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연속 메모리 할당 (Contiguous Memory Allocation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고정 분할 방식 (Fixed Partition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가변 분할 방식 (Variable Partition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">내부 단편화 (Internal Fragmentation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

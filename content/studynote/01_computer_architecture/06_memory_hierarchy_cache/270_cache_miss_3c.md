@@ -41,32 +41,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 같은 메모리 접근이라도 왜 원인이 다르게 갈리는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 3C가 발생하는 위치와 이유                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  메모리 접근 흐름                                                   │
-│  CPU (Central Processing Unit)                                      │
-│    │                                                                │
-│    ├─▶ [처음 보는 블록] ───────────────▶ Compulsory Miss            │
-│    │        │                                                       │
-│    │        └─ 아직 캐시에 흔적이 없음                              │
-│    │                                                                │
-│    ├─▶ [워킹 셋 > 캐시 크기] ────────▶ Capacity Miss                │
-│    │        │                                                       │
-│    │        └─ 필요한 블록이 용량 한계로 이미 축출됨                │
-│    │                                                                │
-│    └─▶ [같은 인덱스에 주소 집중] ────▶ Conflict Miss                │
-│             │                                                       │
-│             └─ 다른 세트는 비어도 특정 세트 안에서만 계속 교체      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-**Compulsory Miss**는 처음 읽는 순간에는 피할 수 없는 미스다. 프로그램 시작 직후, 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음 순회할 때, 혹은 함수가 처음 호출되어 관련 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음 캐시에 올라올 때 나타난다. 이 경우 핵심은 "처음 읽는 비용을 어떻게 숨길 것인가"이며, 하드웨어 프리페처나 소프트웨어 프리페치가 주된 대응책이다.
 
-**Capacity Miss**는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 있어도 캐시가 그 지역성을 끝까지 유지할 만큼 크지 못할 때 생긴다. 예를 들어 32킬로바이트(KB) L1 (Level 1) 캐시에 128KB짜리 반복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 들어오면, 조금 전까지 쓰던 블록도 다시 필요해지기 전에 쫓겨난다. 이때는 캐시 용량을 키우거나, [루프 타일링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) ([Loop Tiling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/))처럼 처리 범위를 잘게 쪼개 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 캐시 안으로 집어넣는 방식이 맞다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3C가 발생하는 위치와 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 접근 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU (Central Processing Unit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">처음 보는 블록</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Compulsory Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아직 캐시에 흔적이 없음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">워킹 셋 &gt; 캐시 크기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Capacity Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 필요한 블록이 용량 한계로 이미 축출됨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">같은 인덱스에 주소 집중</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Conflict Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 다른 세트는 비어도 특정 세트 안에서만 계속 교체</div></div>
+</div>
+</div>
 
-**Conflict Miss**는 총 용량만 보면 충분해 보여도 주소 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/) 때문에 특정 세트에 요청이 몰릴 때 발생한다. [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) ([Direct Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/))이나 낮은 연관도 캐시에서 특히 두드러지며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 두 개가 우연히 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 비트를 공유하면 다른 세트가 놀고 있어도 서로를 반복적으로 밀어낸다. 그래서 충돌 미스는 "용량 부족"이 아니라 "배치 규칙의 비효율"이라는 점이 중요하다.
+
+
+<strong>Compulsory Miss</strong>는 처음 읽는 순간에는 피할 수 없는 미스다. 프로그램 시작 직후, 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음 순회할 때, 혹은 함수가 처음 호출되어 관련 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음 캐시에 올라올 때 나타난다. 이 경우 핵심은 "처음 읽는 비용을 어떻게 숨길 것인가"이며, 하드웨어 프리페처나 소프트웨어 프리페치가 주된 대응책이다.
+
+<strong>Capacity Miss</strong>는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 있어도 캐시가 그 지역성을 끝까지 유지할 만큼 크지 못할 때 생긴다. 예를 들어 32킬로바이트(KB) L1 (Level 1) 캐시에 128KB짜리 반복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 들어오면, 조금 전까지 쓰던 블록도 다시 필요해지기 전에 쫓겨난다. 이때는 캐시 용량을 키우거나, [루프 타일링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) ([Loop Tiling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/))처럼 처리 범위를 잘게 쪼개 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 캐시 안으로 집어넣는 방식이 맞다.
+
+<strong>Conflict Miss</strong>는 총 용량만 보면 충분해 보여도 주소 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/) 때문에 특정 세트에 요청이 몰릴 때 발생한다. [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) ([Direct Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/))이나 낮은 연관도 캐시에서 특히 두드러지며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 두 개가 우연히 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 비트를 공유하면 다른 세트가 놀고 있어도 서로를 반복적으로 밀어낸다. 그래서 충돌 미스는 "용량 부족"이 아니라 "배치 규칙의 비효율"이라는 점이 중요하다.
 
 - **📢 섹션 요약 비유**: 처음 오는 손님은 안내가 필요하고, 창고가 작으면 물건을 못 쌓고, 진열대 번호가 나쁘면 한 칸 앞에서만 서로 부딪히는 것처럼 3C는 모두 다른 병목이다.
 
@@ -99,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 
 1. **첫 순회 이후에도 미스가 계속 높은가?** 그렇다면 Compulsory보다 Capacity 또는 Conflict 비중이 크다.
 2. **캐시를 키웠을 때 미스가 유의미하게 줄어드는가?** 줄어든다면 Capacity 가능성이 높다.
-3. **연관도 증가나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 변경에 민감한가?** 그렇다면 Conflict 가능성이 높다.
+3. <strong>연관도 증가나 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정렬 변경에 민감한가?</strong> 그렇다면 Conflict 가능성이 높다.
 4. **프리페치가 효과가 있는가?** 순차 접근 기반 Compulsory 완화에는 유효하지만, 충돌 구조 자체는 잘 못 고친다.
 
 ### 대표 시나리오
@@ -144,25 +141,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-지역성 (Locality) 이해
-    │
-    ▼
-캐시 히트/미스 (Cache Hit/Miss)
-    │
-    ▼
-3C (Compulsory, Capacity, Conflict)
-    │
-    ├─▶ 프리페치 (Prefetch)          ─▶ Compulsory Miss 완화
-    ├─▶ 캐시 용량·타일링             ─▶ Capacity Miss 완화
-    └─▶ 세트 연관·데이터 재배치      ─▶ Conflict Miss 완화
-    │
-    ▼
-AMAT (Average Memory Access Time) 최적화
-    │
-    ▼
-멀티코어 확장: 4C · Coherence Miss
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지역성 (Locality) 이해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 히트/미스 (Cache Hit/Miss)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3C (Compulsory, Capacity, Conflict)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 프리페치 (Prefetch) ─▶ Compulsory Miss 완화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 용량·타일링 ─▶ Capacity Miss 완화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 세트 연관·데이터 재배치 ─▶ Conflict Miss 완화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AMAT (Average Memory Access Time) 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 확장: 4C · Coherence Miss</div>
+</div>
+</div>
+
+
 
 이 흐름은 "지역성 이해 → 원인 분해 → 원인별 대응 → 시스템 전체 최적화"로 이어지는 학습 경로를 보여준다.
 

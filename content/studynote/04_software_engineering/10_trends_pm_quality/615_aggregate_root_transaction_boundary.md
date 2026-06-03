@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) (응집 덩어리)**: 서로 강하게 묶여서 같이 놀고 같이 죽어야 하는 객체들의 그룹. (`주문` 본체 + `주문 항목들` + `배송 주소`).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">Aggregate</a> (응집 덩어리)</strong>: 서로 강하게 묶여서 같이 놀고 같이 죽어야 하는 객체들의 그룹. (`주문` 본체 + `주문 항목들` + `배송 주소`).
   - **Root (루트/대빵)**: 그 덩어리 그룹을 대표하는 딱 1개의 대문 객체. 밖에서는 무조건 이 놈하고만 대화가 가능하다.
-  - **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계 ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Boundary)**: 이 덩어리를 DB에 쑤셔 넣거나 수정할 때, 중간에 뻑나면 덩어리 10개 부품이 동시에 다 같이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))되어 증발해야 하는 한 운명 공동체 묶음망.
+  - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a> Boundary)</strong>: 이 덩어리를 DB에 쑤셔 넣거나 수정할 때, 중간에 뻑나면 덩어리 10개 부품이 동시에 다 같이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))되어 증발해야 하는 한 운명 공동체 묶음망.
 
-- **필요성 (양방향 얽힘과 스파게티 락킹([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))의 파국)**: 옛날 JPA나 Hibernate(ORM) 처음 쓸 때 주니어들이 치던 대형 똥볼. `회원(User)` 객체랑 `주문(Order)` 객체 사이에 양방향 매핑 밧줄(`@OneToMany, @ManyToOne`)을 무지성으로 다 이어놨다. 유저 1만 명이 접속해서 장바구니에 아이템을 1개 담았는데, JPA 엔진이 "오! 아이템 1개가 추가됐네? ➡ 어라? 이 아이템은 이 주문에 속해있네? ➡ 어라? 이 주문은 저 회원한테 속해있네?!" 하면서 **나비효과가 터져 DB에 있는 `회원`, `주문`, `결제` 테이블 10개에 연쇄적으로 미친 듯이 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)(자물쇠)을 걸어버리고 서버 램(RAM)을 터뜨려 1초 만에 DB를 하얗게 셧다운 시켜버렸다!! (거대 객체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연쇄 락 다운 지옥).** **"아 씨발! 다 묶어놓으니까 한 놈 수정할 때 전 우주가 다 같이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 걸리잖아!! 제발 딱 같이 움직일 5개 객체만 '비닐봉지'에 넣어서 꽉 묶어! 그리고 딴 봉지에 있는 놈 찌를 땐 절대 객체 주소([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 찌르지 말고 ID(숫자)로만 얄팍하게 찔러!!"** 이 피 터지는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 경합(Contention)을 박살 내기 위해 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 절단술이 발명되었다.
+- <strong>필요성 (양방향 얽힘과 스파게티 락킹(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/">Locking</a>)의 파국)</strong>: 옛날 JPA나 Hibernate(ORM) 처음 쓸 때 주니어들이 치던 대형 똥볼. `회원(User)` 객체랑 `주문(Order)` 객체 사이에 양방향 매핑 밧줄(`@OneToMany, @ManyToOne`)을 무지성으로 다 이어놨다. 유저 1만 명이 접속해서 장바구니에 아이템을 1개 담았는데, JPA 엔진이 "오! 아이템 1개가 추가됐네? ➡ 어라? 이 아이템은 이 주문에 속해있네? ➡ 어라? 이 주문은 저 회원한테 속해있네?!" 하면서 <strong>나비효과가 터져 DB에 있는 <code>회원</code>, <code>주문</code>, <code>결제</code> 테이블 10개에 연쇄적으로 미친 듯이 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>(자물쇠)을 걸어버리고 서버 램(RAM)을 터뜨려 1초 만에 DB를 하얗게 셧다운 시켜버렸다!! (거대 객체 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>의 연쇄 락 다운 지옥).</strong> <strong>"아 씨발! 다 묶어놓으니까 한 놈 수정할 때 전 우주가 다 같이 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)에 걸리잖아!! 제발 딱 같이 움직일 5개 객체만 '비닐봉지'에 넣어서 꽉 묶어! 그리고 딴 봉지에 있는 놈 찌를 땐 절대 객체 주소(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a>)로 찌르지 말고 ID(숫자)로만 얄팍하게 찔러!!"</strong> 이 피 터지는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 경합(Contention)을 박살 내기 위해 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 절단술이 발명되었다.
 
-- **💡 비유**: 무지성 매핑(강결합)은 **'1,000명의 사람이 서로서로 100가닥의 털실로 꽁꽁 묶인 채로 춤을 추는 짓'**입니다. 1명이 넘어지면 실에 묶인 999명이 다 같이 자빠져 뇌진탕으로 죽습니다(DB [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 연쇄 폭발). [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)) 루트는 **'사람들을 5명씩 딱딱 끊어서 튼튼한 투명 텐트(비닐봉지) 200개 안에 가둬버린 것'**입니다. 텐트 안의 5명은 서로 꼭 끌어안고 춤춥니다. 하지만 1번 텐트가 자빠져 굴러도, 2번 텐트는 실이 끊겨(ID [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 있으니 1도 타격 안 받고 우아하게 자기들만의 춤을 계속 추는 완벽한 꼬리 자르기 생존 쾌감입니다.
+- **💡 비유**: 무지성 매핑(강결합)은 <strong>'1,000명의 사람이 서로서로 100가닥의 털실로 꽁꽁 묶인 채로 춤을 추는 짓'</strong>입니다. 1명이 넘어지면 실에 묶인 999명이 다 같이 자빠져 뇌진탕으로 죽습니다(DB [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 연쇄 폭발). [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)) 루트는 <strong>'사람들을 5명씩 딱딱 끊어서 튼튼한 투명 텐트(비닐봉지) 200개 안에 가둬버린 것'</strong>입니다. 텐트 안의 5명은 서로 꼭 끌어안고 춤춥니다. 하지만 1번 텐트가 자빠져 굴러도, 2번 텐트는 실이 끊겨(ID [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 있으니 1도 타격 안 받고 우아하게 자기들만의 춤을 계속 추는 완벽한 꼬리 자르기 생존 쾌감입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **RDBMS 통짜 조인 시대 (과거)**: 오라클 통짜 DB 1개. 외래키(FK) 100개 걸어서 `SELECT JOIN` 10단 콤보 치던 시절. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락킹 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 당연한 줄 알았음.
-  2. **JPA 객체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색의 역풍 (과도기)**: `user.getOrders().get(0).getItems()...` 꼬리물기(점 찌르기) 코딩 꿀 빠려다가, N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 지옥과 메모리 OOM으로 서버 다 터짐. "객체를 다 이으면 뒈지는구나" 깨달음.
-  3. **[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) Aggregate의 지배 (현재)**: 에릭 에반스의 명언 강림. "야! 다른 비닐봉지([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))는 절대 쳐다보지 마! 무조건 자바 객체 주소가 아니라 `Long userId` 껍데기 숫자 아이디로만 들고 있어!!" 객체지향의 끈을 물리적으로 싹둑 끊어버리는 이단적 쾌감이 MSA의 절대 설계 뼈대로 등극함.
+  2. <strong>JPA 객체 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 탐색의 역풍 (과도기)</strong>: `user.getOrders().get(0).getItems()...` 꼬리물기(점 찌르기) 코딩 꿀 빠려다가, N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 지옥과 메모리 OOM으로 서버 다 터짐. "객체를 다 이으면 뒈지는구나" 깨달음.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> Aggregate의 지배 (현재)</strong>: 에릭 에반스의 명언 강림. "야! 다른 비닐봉지([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))는 절대 쳐다보지 마! 무조건 자바 객체 주소가 아니라 `Long userId` 껍데기 숫자 아이디로만 들고 있어!!" 객체지향의 끈을 물리적으로 싹둑 끊어버리는 이단적 쾌감이 MSA의 절대 설계 뼈대로 등극함.
 
-- **📢 섹션 요약 비유**: 이 룰은 **'자동차 공장의 부품 통제'**와 완벽히 똑같습니다. 타이어를 샀는데 바퀴 휠과 고무 타이어, 나사 5개가 덜렁덜렁 따로 굴러다니면 조립하다 나사 1개 잃어버려서 차가 뒤집힙니다. 그래서 아키텍트는 휠, 타이어, 나사를 1개의 강력한 비닐 포장지([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 밀봉해 버립니다. 그리고 그 겉면에 **'완제품 타이어 1세트(Root)'** 바코드를 딱 붙입니다. 밖의 조립 로봇(Controller)은 비닐봉지를 뜯고 안에 나사를 만질 권한이 0%입니다. 그냥 대빵 바코드(Root)만 턱 집어서 차에 끼우면 오차 0%로 완벽하게 굴러가는 절대 부품 밀봉술입니다.
+- **📢 섹션 요약 비유**: 이 룰은 <strong>'자동차 공장의 부품 통제'</strong>와 완벽히 똑같습니다. 타이어를 샀는데 바퀴 휠과 고무 타이어, 나사 5개가 덜렁덜렁 따로 굴러다니면 조립하다 나사 1개 잃어버려서 차가 뒤집힙니다. 그래서 아키텍트는 휠, 타이어, 나사를 1개의 강력한 비닐 포장지([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 밀봉해 버립니다. 그리고 그 겉면에 **'완제품 타이어 1세트(Root)'** 바코드를 딱 붙입니다. 밖의 조립 로봇(Controller)은 비닐봉지를 뜯고 안에 나사를 만질 권한이 0%입니다. 그냥 대빵 바코드(Root)만 턱 집어서 차에 끼우면 오차 0%로 완벽하게 굴러가는 절대 부품 밀봉술입니다.
 
 ---
 
 다음은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  애그리게이트 루트 트랜잭션 경계                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애그리게이트 루트 트랜잭션 경계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-애그리게이트 루트 트랜잭션 경계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애그리게이트 루트 트랜잭션 경계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

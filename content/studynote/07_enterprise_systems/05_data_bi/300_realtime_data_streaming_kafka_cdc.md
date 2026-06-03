@@ -20,7 +20,7 @@ tags = ["studynote-enterprise"]
 
 전통적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합은 주로 야간 배치(Batch)를 통해 이루어졌다. 하지만 비즈니스 환경이 실시간 대응 중심으로 변하면서, "어제 팔린 물건의 통계"가 아니라 "지금 장바구니에 담은 고객에게 쿠폰을 보내는 것"이 중요해졌다.
 
-이를 위해 운영 DB에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 방식 대신, DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 직접 읽어 변경분만 추출하는 **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))** 기술과, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수천 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 안정적으로 퍼뜨리는 **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))**의 결합이 실시간 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 표준이 되었다.
+이를 위해 운영 DB에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 방식 대신, DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 직접 읽어 변경분만 추출하는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">Change Data Capture</a>)</strong> 기술과, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수천 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 안정적으로 퍼뜨리는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)</strong>의 결합이 실시간 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 표준이 되었다.
 
 - **📢 섹션 요약 비유**: 신문이 나올 때까지 기다리는(Batch) 대신, 뉴스 속보가 발생할 때마다 스마트폰 알림(Streaming)으로 즉시 받아보는 것과 같다.
 
@@ -30,11 +30,16 @@ tags = ["studynote-enterprise"]
 
 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 원천 DB -> [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터 -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> 타겟 시스템([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), App) 순으로 흐른다.
 
-```text
-[운영 DB (MySQL/Oracle)] ──▶ [CDC Engine (Debezium)] ──▶ [Kafka Topic] ──▶ [분석계/Application]
-          │                          │                      │                     │
-   (로그 기록: Binlog)          (변경 이벤트 추출)       (고속 분산 저장)        (실시간 활용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영 DB (MySQL/Oracle)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CDC Engine (Debezium)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kafka Topic</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분석계/Application</div></div>
+<div class="kb-diagram-note">(로그 기록: Binlog) (변경 이벤트 추출) (고속 분산 저장) (실시간 활용)</div>
+</div>
+</div>
+
+
 
 | 주요 구성 요소 | 역할 | 핵심 특징 |
 |:---|:---|:---|
@@ -66,7 +71,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 **순서 보장([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))**과 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 방지(At-least-once)**가 가장 중요하다. 특히 금융권이나 주문 시스템에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 바뀌는 순서가 어긋나면 치명적인 오류가 발생할 수 있다.
+실무에서는 <strong>순서 보장(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)</strong>과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실 방지(At-least-once)</strong>가 가장 중요하다. 특히 금융권이나 주문 시스템에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 바뀌는 순서가 어긋나면 치명적인 오류가 발생할 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 원천 DB의 부하 때문에 주간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 불가능한 상황인가?
@@ -82,7 +87,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-실시간 스트리밍 아키텍처는 기업을 **'살아 움직이는 유기체'**로 만든다. 현장에서 발생하는 모든 사건이 즉시 뇌(분석 시스템)로 전달되어 대응할 수 있기 때문이다. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)와 CDC의 결합은 단순한 기술 도입이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애 비즈니스 기회 손실을 막는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택이다.
+실시간 스트리밍 아키텍처는 기업을 <strong>'살아 움직이는 유기체'</strong>로 만든다. 현장에서 발생하는 모든 사건이 즉시 뇌(분석 시스템)로 전달되어 대응할 수 있기 때문이다. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)와 CDC의 결합은 단순한 기술 도입이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애 비즈니스 기회 손실을 막는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택이다.
 
 결론적으로, 이 기술은 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)과 실시간 엔터프라이즈(RTE)를 실현하는 혈관이며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 즉각적으로 반응하게 만드는 핵심 동력이다.
 
@@ -100,21 +105,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-배치 ETL - 야간 처리, T+1 데이터 지연
-    │
-    ▼
-메시지 큐 (RabbitMQ) - 실시간 이벤트 전달
-    │
-    ▼
-Apache Kafka - 분산 로그 스트리밍 플랫폼
-    │
-    ▼
-CDC (Change Data Capture) - DB 변경 이벤트 캡처
-    │
-    ▼
-Kafka + Debezium + Flink 실시간 스트리밍 파이프라인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 ETL - 야간 처리, T+1 데이터 지연</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메시지 큐 (RabbitMQ) - 실시간 이벤트 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Apache Kafka - 분산 로그 스트리밍 플랫폼</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDC (Change Data Capture) - DB 변경 이벤트 캡처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kafka + Debezium + Flink 실시간 스트리밍 파이프라인</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), Debezium, [Stream Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/), Real-Time [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/), Flink
 

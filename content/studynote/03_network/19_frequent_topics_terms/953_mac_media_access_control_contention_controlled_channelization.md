@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **OSI 7계층의 위치**: L2 계층인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)은 두 개의 하위 층으로 쪼개집니다. 
-  - 위쪽의 **[LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 링크 제어)**: 에러 검출, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 담당.
-  - 아래쪽의 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/))**: 1차선 도로(랜선, Wi-Fi 전파)에 누가 먼저 차를 올릴지 순서를 정하는 실질적인 교통경찰.
-- **공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)(Shared [Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))**의 숙명: [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 꽂힌 유선 랜선이나, 허공에 흩뿌리는 무선 와이파이는 근본적으로 "누가 쏘면 남들도 다 들리는" 구조라 충돌 제어가 무조건 필요합니다.
+  - 위쪽의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/">LLC</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 링크 제어)</strong>: 에러 검출, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 담당.
+  - 아래쪽의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/">매체 접근 제어</a>)</strong>: 1차선 도로(랜선, Wi-Fi 전파)에 누가 먼저 차를 올릴지 순서를 정하는 실질적인 교통경찰.
+- <strong>공유 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>(Shared <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">Media</a>)</strong>의 숙명: [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 꽂힌 유선 랜선이나, 허공에 흩뿌리는 무선 와이파이는 근본적으로 "누가 쏘면 남들도 다 들리는" 구조라 충돌 제어가 무조건 필요합니다.
 
-```text
-[은닉 단말 문제]
-    │
-    ▼
-[매체 접근 제어]
-    │
-    └──▶ [확산 스펙트럼]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확산 스펙트럼</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,29 +49,33 @@ tags = ["studynote-network"]
 가장 자유롭지만 피 터지는 눈치 게임 방식입니다.
 - **원리**: 중앙 통제탑 없이, 각 단말기가 지 알아서 선이 비어있는지 눈치를 보다가 막 들이밀어 쏘는 방식입니다. 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 필연적으로 발생하므로 뼈아픈 수습 과정이 필요합니다.
 - **종류**: 
-  - 951번의 **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD** (유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 부딪히면 멈추고 랜덤으로 쉬기)
-  - 952번의 **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)** (무선 와이파이, 쏘기 전에 RTS/CTS 예약증 던지고 눈치 보기)
+  - 951번의 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD</strong> (유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 부딪히면 멈추고 랜덤으로 쉬기)
+  - 952번의 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong> (무선 와이파이, 쏘기 전에 RTS/CTS 예약증 던지고 눈치 보기)
 
 ### 2. 예약/스케줄링 방식 (Controlled Access)
 중앙 선생님이 순서표를 정해주는 평화로운 공산주의 방식입니다.
 - **원리**: 단말기들이 쏘기 전에 중앙 제어기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에게 "저 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있어요!" 하고 예약을 겁니다. 중앙 제어기가 "1번 쏴, 2번 쏴" 하고 차례차례 기회를 줍니다. 
 - **종류**:
-  - **[토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ([Token Passing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/))**: 빙글빙글 도는 링(Ring) 모양 랜선에서 '토큰(마패)'이라는 바통을 쥐고 있는 딱 1명만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 수 있는 기술 (IBM 토큰링, [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)). 절대 충돌이 안 납니다.
-  - **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))**: 중앙 대장이 학생 100명에게 "1번 쏠 거 있어? 2번 쏠 거 있어?" 일일이 물어보고 허락해 주는 방식. 
+  - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/">토큰 패싱</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/">Token Passing</a>)</strong>: 빙글빙글 도는 링(Ring) 모양 랜선에서 '토큰(마패)'이라는 바통을 쥐고 있는 딱 1명만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 수 있는 기술 (IBM 토큰링, [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/)). 절대 충돌이 안 납니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>: 중앙 대장이 학생 100명에게 "1번 쏠 거 있어? 2번 쏠 거 있어?" 일일이 물어보고 허락해 주는 방식. 
 
 ### 3. 채널 분할 방식 (Channelization)
 도로 자체를 물리적/수학적으로 확 쪼개서 각자 개인 차선을 줘버리는 돈지랄 방식입니다.
 - **종류**: 
-  - 944번, 945번 문서에서 배운 **FDM(주파수 쪼개기), TDM(시간 쪼개기), [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)(코드/암호 쪼개기)**가 여기에 해당합니다. 아예 길이 달라서 충돌 자체가 안 납니다. (주로 4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 통신사 셀룰러 무선망에서 씁니다.)
+  - 944번, 945번 문서에서 배운 <strong>FDM(주파수 쪼개기), TDM(시간 쪼개기), <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(코드/암호 쪼개기)</strong>가 여기에 해당합니다. 아예 길이 달라서 충돌 자체가 안 납니다. (주로 4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 통신사 셀룰러 무선망에서 씁니다.)
 
-```text
-[은닉 단말 문제]
-    │
-    ▼
-[매체 접근 제어]
-    │
-    └──▶ [확산 스펙트럼]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확산 스펙트럼</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -76,7 +84,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 이 교통경찰이 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 단속하려면 번호판이 필요합니다. 
-- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 공장에서 칩셋을 구울 때 영구적으로 각인시키는 **48비트짜리 하드웨어 고유 번호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))**입니다. (예: `00:1A:2B:3C:4D:5E`)
+- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 공장에서 칩셋을 구울 때 영구적으로 각인시키는 <strong>48비트짜리 하드웨어 고유 번호(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>)</strong>입니다. (예: `00:1A:2B:3C:4D:5E`)
 - 앞 24비트는 제조사(삼성, 인텔) 고유 번호(OUI), 뒤 24비트는 공장 시리얼 번호입니다. L2 스위치는 IP를 보지 않고 오직 이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 번호판만 보고 0.001초 만에 길을 찾아 던져줍니다.
 
 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제가 기반 조건을 만든다면, [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 그 위에서 핵심 메커니즘을 구현하고, [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 인터넷 통신망은 1개의 거대한 마이크를 100명이 돌려 써야 하는 '동네 노래자랑 무대(공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))'입니다. 마이크에 2명이 동시에 소리를 지르면 스피커가 찢어집니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌). **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/))**는 이 무대를 조율하는 3가지 방식의 '사회자 규칙'입니다. 1. **경쟁([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/))**은 사회자 없이 마이크 비었을 때 눈치껏 먼저 뛰어나가 잡는 방식(유/무선 랜). 2. **제어(토큰링)**는 사회자가 '마패(토큰)'를 건네준 사람 딱 한 명만 1분씩 부르고 옆 사람에게 넘겨주는 절대 평화 방식. 3. **채널 분할([FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)/[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))**은 아예 100명에게 칸막이 노래방 100개를 지어줘서 혼자 부르게 해 버리는(통신사 망) 방식입니다. 100명이 멱살 잡고 싸우지 않고 평화롭게 마이크를 쓸 수 있게 하는 랜선의 절대 평화 규약입니다.
+- **📢 섹션 요약 비유**: 인터넷 통신망은 1개의 거대한 마이크를 100명이 돌려 써야 하는 '동네 노래자랑 무대(공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))'입니다. 마이크에 2명이 동시에 소리를 지르면 스피커가 찢어집니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌). <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/">매체 접근 제어</a>)</strong>는 이 무대를 조율하는 3가지 방식의 '사회자 규칙'입니다. 1. <strong>경쟁(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>)</strong>은 사회자 없이 마이크 비었을 때 눈치껏 먼저 뛰어나가 잡는 방식(유/무선 랜). 2. <strong>제어(토큰링)</strong>는 사회자가 '마패(토큰)'를 건네준 사람 딱 한 명만 1분씩 부르고 옆 사람에게 넘겨주는 절대 평화 방식. 3. <strong>채널 분할(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a>/<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>)</strong>은 아예 100명에게 칸막이 노래방 100개를 지어줘서 혼자 부르게 해 버리는(통신사 망) 방식입니다. 100명이 멱살 잡고 싸우지 않고 평화롭게 마이크를 쓸 수 있게 하는 랜선의 절대 평화 규약입니다.
 
 ---
 
@@ -129,15 +137,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 은닉 단말 문제]
-    │
-    ▼
-[현재 개념: 매체 접근 제어]
-    │
-    ├──▶ [확장 A: 확산 스펙트럼]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 은닉 단말 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 매체 접근 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 확산 스펙트럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제에서 출발해 현재 메커니즘을 정교화하고, 이후 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

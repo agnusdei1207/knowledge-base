@@ -19,22 +19,24 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 메인 애플리케이션 프로세스가 처리하던 공통 기능을 별도 프로세스 또는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 분리해, 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 함께 배치하는 구조다. 핵심은 기능을 없애는 것이 아니라 **기능의 위치를 옮기는 것**이다. 비즈니스 로직은 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 남기고, 네트워크 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 같은 운영 기능을 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 뺀다.
+[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 메인 애플리케이션 프로세스가 처리하던 공통 기능을 별도 프로세스 또는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 분리해, 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆에 함께 배치하는 구조다. 핵심은 기능을 없애는 것이 아니라 <strong>기능의 위치를 옮기는 것</strong>이다. 비즈니스 로직은 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 남기고, 네트워크 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 같은 운영 기능을 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 뺀다.
 
 이 패턴이 필요한 이유는 공통 기능을 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안에 심으면 언어별 구현 중복과 배포 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 급격히 커지기 때문이다. 자바 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 파이썬 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 모두 재시도, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 추적 기능을 제각각 구현하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지고, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 패치 하나에도 수십 개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다시 빌드해야 한다. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 이 문제를 "코드 안이 아니라 배치 위치에서 분리하자"는 방식으로 푼다.
 
 아래 그림은 횡단 관심사가 애플리케이션 내부에 섞여 있는 구조와 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)로 분리된 구조를 비교한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Before sidecar vs with sidecar                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ before : app A [retry][auth][log] -> app B [trace][tls][policy]   │
-│ after  : app A -> sidecar A == shared policy ==> sidecar B -> app B│
-│                                                                    │
-│ result : cross-cutting concerns leave the business container       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before sidecar vs with sidecar</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">before : app A</div><div class="kb-diagram-node">retry</div><div class="kb-diagram-node">auth</div><div class="kb-diagram-node">log</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">trace</div><div class="kb-diagram-node">tls</div><div class="kb-diagram-node">policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after : app A -&gt; sidecar A == shared policy ==&gt; sidecar B -&gt; app B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : cross-cutting concerns leave the business container</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 비즈니스 기능을 대신하지 않는다는 것이다. 주문 계산, 회원 규칙, 정산 로직은 여전히 메인 애플리케이션 책임이고, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 그 주변의 통신·운영·관측 보조 역할을 담당한다.
 
@@ -46,20 +48,21 @@ tags = ["studynote-enterprise"]
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 환경에서 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 보통 하나의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에 메인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 함께 배치된다. 둘은 같은 네트워크 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 볼륨을 공유할 수 있으므로, 메인 애플리케이션은 `localhost`로 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 호출하고 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 간다. 이 근접성 덕분에 외부 홉을 추가하지 않고도 공통 기능을 분리할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One Pod with app + sidecar                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ [App Container]      127.0.0.1:8080                                │
-│        │                                                           │
-│        │ shared localhost / volume / lifecycle                     │
-│        ▼                                                           │
-│ [Sidecar Proxy]      127.0.0.1:15001                               │
-│        ├─ outbound : retry / routing / mTLS                        │
-│        ├─ inbound  : auth / rate limit / policy                    │
-│        └─ log file : ship shared data to observability stack       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One Pod with app + sidecar</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App Container</div><div class="kb-diagram-note">127.0.0.1:8080</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared localhost / volume / lifecycle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sidecar Proxy</div><div class="kb-diagram-note">127.0.0.1:15001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ outbound : retry / routing / mTLS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ inbound : auth / rate limit / policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ log file : ship shared data to observability stack</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -88,7 +91,7 @@ tags = ["studynote-enterprise"]
 | [DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/) / 노드 에이전트 | 노드 단위 | 공통 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 보안 에이전트 배포 효율 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 세밀한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어 어려움 |
 | Init [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) | 시작 전 1회 실행 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입, 마이그레이션 | 지속적인 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)·관측 기능 수행 불가 |
 
-이 비교가 중요한 이유는 모든 공통 기능에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 붙일 필요는 없기 때문이다. 예를 들어 노드 전체 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 모으는 일은 노드 에이전트가 더 효율적일 수 있고, 단순한 헬스체크나 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)만으로 충분할 수 있다. 반면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행처럼 **각 워크로드 옆에서 항상 살아 있어야 하는 기능**은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 잘 맞는다.
+이 비교가 중요한 이유는 모든 공통 기능에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 붙일 필요는 없기 때문이다. 예를 들어 노드 전체 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 모으는 일은 노드 에이전트가 더 효율적일 수 있고, 단순한 헬스체크나 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)만으로 충분할 수 있다. 반면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행처럼 <strong>각 워크로드 옆에서 항상 살아 있어야 하는 기능</strong>은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 잘 맞는다.
 
 또한 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 자주 묻는 포인트다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 다수의 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 제어하는 상위 운영 체계이고, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 그 체계를 구성하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 배치 패턴이다. 따라서 "[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)를 쓴다"는 말은 보통 많은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 함께 운영한다는 뜻이지만, 단일 애플리케이션에 로깅 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나를 붙였다고 해서 자동으로 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 되는 것은 아니다.
 
@@ -102,16 +105,19 @@ tags = ["studynote-enterprise"]
 
 반대로 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 단순한 내부 배치 작업이고, 초고밀도 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이나 극저지연 통신이 핵심이면 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 오버헤드가 부담이 될 수 있다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스마다 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 하나씩 늘어나기 때문에 CPU, 메모리, 디버깅 경로가 모두 증가하기 때문이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When sidecar is a good fit                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Need per-service policy near the app?        -> Sidecar            │
-│ Need node-wide shared collection only?       -> DaemonSet          │
-│ Need one-time startup preparation only?      -> Init Container     │
-│ Need ultra-light in-process helper only?     -> Library            │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When sidecar is a good fit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need per-service policy near the app? -&gt; Sidecar</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need node-wide shared collection only? -&gt; DaemonSet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need one-time startup preparation only? -&gt; Init Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need ultra-light in-process helper only? -&gt; Library</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -128,7 +134,7 @@ tags = ["studynote-enterprise"]
 - [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)에 자원 제한을 걸지 않아 보조 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 전체를 불안정하게 만드는 경우
 - [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 운영 보조가 아니라 상태 저장형 비즈니스 로직 실행 위치로 오용하는 경우
 
-기술사 답안에서는 "옆에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 붙인다"는 묘사만으로는 부족하다. **왜 같은 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 옆에 있어야 하는지, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)·DaemonSet과 어떻게 다른지, 오버헤드와 표준화 이익을 어떻게 저울질할지**까지 설명해야 설계 판단이 된다.
+기술사 답안에서는 "옆에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 붙인다"는 묘사만으로는 부족하다. <strong>왜 같은 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> 옆에 있어야 하는지, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>·DaemonSet과 어떻게 다른지, 오버헤드와 표준화 이익을 어떻게 저울질할지</strong>까지 설명해야 설계 판단이 된다.
 
 - **📢 섹션 요약 비유**: 중요한 선수마다 전담 코치를 붙이면 경기력 관리는 세밀해지지만, 선수 수가 많아질수록 코치 인건비와 지휘 복잡성도 함께 커진다. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)도 정확히 그런 운영형 선택이다.
 
@@ -136,11 +142,11 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴이 잘 맞으면 공통 기능을 애플리케이션 코드에서 떼어내도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 오히려 더 일관되게 유지된다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 갱신을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 외부에서 표준화할 수 있어 다언어 환경과 대규모 조직에서 큰 힘을 발휘한다. 결국 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 "기능 추가"보다 **책임 분리와 운영 표준화**의 가치가 더 큰 패턴이다.
+[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴이 잘 맞으면 공통 기능을 애플리케이션 코드에서 떼어내도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 오히려 더 일관되게 유지된다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 갱신을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 외부에서 표준화할 수 있어 다언어 환경과 대규모 조직에서 큰 힘을 발휘한다. 결국 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 "기능 추가"보다 <strong>책임 분리와 운영 표준화</strong>의 가치가 더 큰 패턴이다.
 
 하지만 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 공짜가 아니다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수 증가, 자원 사용 증가, 네트워크 홉 추가, 디버깅 경로 복잡화가 뒤따른다. 그래서 최근에는 Ambient Mesh나 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) ([extended Berkeley Packet Filter](/knowledge-base/studynote/15_devops_sre/03_sre_observability/147_ebpf_kernel_observability_cilium/)) 기반 네트워크 처리처럼, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 수를 줄이거나 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 바깥으로 옮기려는 시도도 등장하고 있다.
 
-그럼에도 기억해야 할 본질은 변하지 않는다. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 메인 애플리케이션을 더 똑똑하게 만드는 패턴이 아니라, **메인 애플리케이션 옆에 운영 전문 파트너를 붙여 시스템 전체를 더 다루기 쉽게 만드는 패턴**이다. 근접성의 이점이 오버헤드보다 클 때 가장 빛난다.
+그럼에도 기억해야 할 본질은 변하지 않는다. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 메인 애플리케이션을 더 똑똑하게 만드는 패턴이 아니라, <strong>메인 애플리케이션 옆에 운영 전문 파트너를 붙여 시스템 전체를 더 다루기 쉽게 만드는 패턴</strong>이다. 근접성의 이점이 오버헤드보다 클 때 가장 빛난다.
 
 - **📢 섹션 요약 비유**: 무대 뒤에서 조명 기사와 음향 기사가 배우 바로 옆에서 호흡을 맞추면 공연 품질은 좋아진다. 다만 작은 동네 공연까지 대형 스태프를 전부 붙이면 공연보다 운영진이 더 무거워질 수 있다.
 
@@ -161,17 +167,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-라이브러리 내부에 공통 기능 내장
-        │
-        ▼
-사이드카 패턴 (Sidecar Pattern)
-        │
-        ├──────────────► 프록시 · 로깅 · 설정 동기화 분리
-        ├──────────────► 서비스 메시 (Service Mesh) 확장
-        ├──────────────► mTLS · 관측성 표준화
-        └──────────────► Ambient Mesh / eBPF 방향으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">라이브러리 내부에 공통 기능 내장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이드카 패턴 (Sidecar Pattern)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">프록시 · 로깅 · 설정 동기화 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">서비스 메시 (Service Mesh) 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:4">mTLS · 관측성 표준화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Ambient Mesh / eBPF 방향으로 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

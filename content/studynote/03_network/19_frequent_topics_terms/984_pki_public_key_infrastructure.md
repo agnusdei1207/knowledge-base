@@ -27,32 +27,30 @@ tags = ["studynote-network"]
 
 - **등장 배경 및 발전 과정**:
   1. **비대칭키의 신뢰 문제**: 1970년대 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등의 [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)가 등장하면서 키 분배 문제는 획기적으로 해결되었으나, 전달받은 공개키의 진위 여부를 증명할 수 없다는 새로운 취약점이 대두되었다.
-  2. **신뢰의 중앙 집중화 ([TTP](/knowledge-base/studynote/09_security/04_endpoint_security/329_ttp/) 도입)**: 모두가 인정할 수 있는 중앙의 신뢰할 수 있는 기관 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))을 도입하고, CA가 공개키에 서명하는 방식(X.509 표준안 등)이 고안되면서 PKI의 뼈대가 형성되었다.
+  2. <strong>신뢰의 중앙 집중화 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/329_ttp/">TTP</a> 도입)</strong>: 모두가 인정할 수 있는 중앙의 신뢰할 수 있는 기관 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))을 도입하고, CA가 공개키에 서명하는 방식(X.509 표준안 등)이 고안되면서 PKI의 뼈대가 형성되었다.
 
   [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 없는 순수 비대칭키 환경에서 발생하는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) (MITM)의 구조적 한계를 진단하면 다음과 같다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │       인증서(PKI) 부재 시 중간자 공격 (MITM) 취약성 구조       │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │    [Alice]               [해커 (Mallory)]               [Bob]  │
-  │  (송신하고자 함)          (중간에서 패킷 가로채기)           (수신자) │
-  │                                                             │
-  │  1. "내 공개키(K_Bob)야" ──────────────────────────▶(가로챔) │
-  │                       ◀─── "내 공개키(K_Mal)야" ──── (위조)   │
-  │                                                             │
-  │  2. Alice는 K_Mal이 Bob의 것인 줄 알고 데이터를 암호화함.           │
-  │     [ Data를 K_Mal로 암호화 ] ───▶                            │
-  │                                                             │
-  │  3. 해커는 자신의 개인키로 복호화하여 내용 탈취 후,                  │
-  │     다시 Bob의 공개키로 암호화하여 전달.                            │
-  │                       (복호화 후 탈취)                       │
-  │                       [ Data를 K_Bob으로 재암호화 ] ───▶      │
-  │                                                             │
-  │  결과: Alice와 Bob은 정상 통신 중이라고 착각하지만 데이터는 탈취됨. │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증서(PKI) 부재 시 중간자 공격 (MITM) 취약성 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Alice</div><div class="kb-diagram-node">해커 (Mallory)</div><div class="kb-diagram-node">Bob</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(송신하고자 함) (중간에서 패킷 가로채기) (수신자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "내 공개키(K_Bob)야" ▶(가로챔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ "내 공개키(K_Mal)야" (위조)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Alice는 K_Mal이 Bob의 것인 줄 알고 데이터를 암호화함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data를 K_Mal로 암호화</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 해커는 자신의 개인키로 복호화하여 내용 탈취 후,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 Bob의 공개키로 암호화하여 전달.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복호화 후 탈취)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data를 K_Bob으로 재암호화</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: Alice와 Bob은 정상 통신 중이라고 착각하지만 데이터는 탈취됨.</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 흐름도는 PKI가 없는 환경에서 공개키 교환이 얼마나 취약한지를 명확히 보여준다. Bob이 자신의 공개키 `K_Bob`을 보낼 때, 중간자 Mallory가 이를 가로채고 자신의 공개키 `K_Mal`을 Alice에게 보낸다. Alice는 받은 키가 Bob의 것이라 믿고 암호화하지만, 실제로는 Mallory만이 복호화할 수 있다. 이는 공개키 자체에는 "소유자의 신원 정보"가 논리적으로 결합되어 있지 않기 때문이다. PKI는 이 취약점을 해결하기 위해 공개키에 CA의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 덧붙인 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 도입함으로써, 중간자가 임의의 공개키로 위조하는 것을 원천적으로 차단한다.
 
@@ -66,54 +64,42 @@ tags = ["studynote-network"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 및 폐지 관리의 주체 | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 자신의 개인키로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 서명 | Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) | 여권 발급처 (구청/외교부) |
-| **[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) ([Registration Authority](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))** | 사용자의 신원을 대면/비대면으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | CA의 업무를 위임받아 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수행 | KYC (Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 동주민센터 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 창구 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (Certificate Authority)</strong> | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 및 폐지 관리의 주체 | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 자신의 개인키로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 서명 | Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) | 여권 발급처 (구청/외교부) |
+| <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a> (<a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">Registration Authority</a>)</strong> | 사용자의 신원을 대면/비대면으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | CA의 업무를 위임받아 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수행 | KYC (Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 동주민센터 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 창구 |
 | **Repository (저장소)** | 발급된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 폐지 목록([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))을 저장 및 배포 | [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) 기반 디렉토리나 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 서버를 통해 퍼블릭 접근 허용 | [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | 신용불량자/여권무효화 명단 |
-| **VA ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) Authority)** | 실시간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 제공 | 사용자를 대신해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 유효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | 실시간 신분증 진위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단말기 |
+| <strong>VA (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a> Authority)</strong> | 실시간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 제공 | 사용자를 대신해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 유효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | 실시간 신분증 진위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단말기 |
 | **Subscriber / Relying Party** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 소유자(가입자) 및 신뢰자 | 개인키/공개키 쌍 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 | 웹 브라우저, 웹 서버 | 신분증 소지자 및 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)자 |
 
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 시스템의 핵심은 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급받는 과정과, 다른 사용자가 그 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 과정이 논리적으로 완벽하게 분리되면서도 암호학적으로 결합된다는 점이다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │               PKI 전체 동작 아키텍처 (발급 및 검증)                  │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │     [1. 발급 파이프라인 (Issuance)]                                 │
-  │                                                                  │
-  │  Subscriber                    RA                   CA         │
-  │  (가입자)                    (등록기관)            (인증기관)        │
-  │   │                             │                    │         │
-  │   ├── 1. 신원 정보 + 공개키 제출──▶│                    │         │
-  │   │                             ├── 2. 신원 검증 ───▶│         │
-  │   │                             │                    │         │
-  │   │                             │   ┌────────────────────────┐ │
-  │   │                             │   │ 3. 인증서 생성 및 CA서명  │ │
-  │   │                             │   │ Hash(Info+PubKey)      │ │
-  │   │                             │   │ CA_PrivateKey로 암호화   │ │
-  │   │                             │   └────────────────────────┘ │
-  │   │                             │                    │         │
-  │   │◀────────── 4. 인증서(Certificate) 발급 ───────────────┤         │
-  │                                                                  │
-  │──────────────────────────────────────────────────────────────────│
-  │                                                                  │
-  │     [2. 검증 파이프라인 (Verification)]                             │
-  │                                                                  │
-  │  Subscriber (서버)                               Relying Party  │
-  │   │                                                (클라이언트)  │
-  │   ├── 1. "내 인증서를 확인해라" ──────────────────────▶│         │
-  │   │                                                  │         │
-  │   │                        ┌─────────────────────────────────┐ │
-  │   │                        │ 2. 인증서 유효성 검증               │ │
-  │   │                        │ - 만료일 확인                    │ │
-  │   │                        │ - CA의 공개키로 서명 복호화(검증)   │ │
-  │   │                        │ - 해시값 일치 확인                │ │
-  │   │                        │ - CRL/OCSP 상태 조회 (폐기 여부)   │ │
-  │   │                        └─────────────────────────────────┘ │
-  │   │                                                  │         │
-  │   │◀─────── 3. 검증 성공 시 Session Key 교환 진행 ───────┤         │
-  └──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI 전체 동작 아키텍처 (발급 및 검증)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 발급 파이프라인 (Issuance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subscriber RA CA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가입자) (등록기관) (인증기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. 신원 정보 + 공개키 제출──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 2. 신원 검증 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 인증서 생성 및 CA서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash(Info+PubKey)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA_PrivateKey로 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 4. 인증서(Certificate) 발급</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 검증 파이프라인 (Verification)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subscriber (서버) Relying Party</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클라이언트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. "내 인증서를 확인해라" ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인증서 유효성 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 만료일 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CA의 공개키로 서명 복호화(검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해시값 일치 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CRL/OCSP 상태 조회 (폐기 여부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 3. 검증 성공 시 Session Key 교환 진행</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위 다이어그램은 PKI의 양대 축인 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여준다. 발급 과정에서 가입자는 자신의 공개키를 신원 정보와 함께 RA에 제출하고, CA는 이 정보의 해시값을 자신의 '개인키'로 암호화하여 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)한다. 이 서명된 결과물이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정에서 클라이언트(브라우저)는 미리 내장된(Trusted) CA의 공개키를 사용하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 서명을 복호화하고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 여기서 병목 지점은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 폐지되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 단계([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/))이며, 이 조회 과정에서의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 통신 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 큰 영향을 미친다. 실무에서는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이기 위해 [OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/) 등의 최적화 기법을 도입한다.
 
@@ -121,32 +107,28 @@ tags = ["studynote-network"]
 
 실제 인터넷 환경에서는 Root CA가 모든 최종 사용자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 직접 발급하지 않는다. 보안상 Root CA는 오프라인에 보관하고, Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)를 통해 계층적으로 위임하는 신뢰 체인(Chain of Trust)을 형성한다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │              인증서 체인 (Chain of Trust) 계층 구조               │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [ Root CA ] (최상위 인증기관)                                    │
-  │    - 자체 서명 (Self-Signed) 인증서                              │
-  │    - 브라우저/OS에 기본적으로 탑재됨 (Trust Store)                  │
-  │    - 자신의 개인키로 Intermediate CA 1의 인증서에 서명               │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ Intermediate CA 1 ] (중간 인증기관)                          │
-  │    - Root CA의 서명이 포함됨                                     │
-  │    - 자신의 개인키로 Intermediate CA 2의 인증서에 서명               │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ Intermediate CA 2 ] (중간 인증기관)                          │
-  │    - Intermediate CA 1의 서명이 포함됨                           │
-  │    - 자신의 개인키로 End-Entity의 인증서에 서명                     │
-  │         │                                                      │
-  │         ▼                                                      │
-  │  [ End-Entity / Leaf Certificate ] (최종 사용자 인증서)         │
-  │    - ex) www.example.com 의 웹 서버 인증서                       │
-  │    - 가장 하위 레벨이며, 다른 인증서에 서명할 권한 없음                │
-  └────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증서 체인 (Chain of Trust) 계층 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Root CA</div><div class="kb-diagram-note">(최상위 인증기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자체 서명 (Self-Signed) 인증서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 브라우저/OS에 기본적으로 탑재됨 (Trust Store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자신의 개인키로 Intermediate CA 1의 인증서에 서명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Intermediate CA 1</div><div class="kb-diagram-note">(중간 인증기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Root CA의 서명이 포함됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자신의 개인키로 Intermediate CA 2의 인증서에 서명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Intermediate CA 2</div><div class="kb-diagram-note">(중간 인증기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Intermediate CA 1의 서명이 포함됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자신의 개인키로 End-Entity의 인증서에 서명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">End-Entity / Leaf Certificate</div><div class="kb-diagram-note">(최종 사용자 인증서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ex) www.example.com 의 웹 서버 인증서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가장 하위 레벨이며, 다른 인증서에 서명할 권한 없음</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 계층 구조도의 핵심은 서명의 화살표 방향이다. 상위 CA의 개인키로 하위 CA의 공개키를 서명해 내려가는 구조를 띠며, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는 반대로 하위부터 상위로 올라가며 서명을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 최종적으로 클라이언트가 이미 신뢰하고 있는 운영체제나 브라우저 내부의 'Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'에 도달하면 신뢰 체인이 완성된다. 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 구조를 채택하는 이유는 Root CA의 개인키 유출 시 전 세계 인터넷 신뢰 인프라가 붕괴되는 것을 막기 위함이다. 만약 중간 CA가 털리더라도, Root CA는 해당 중간 CA의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 폐지(Revoke)하면 되기 때문에 피해를 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))할 수 있다.
 
@@ -161,17 +143,17 @@ tags = ["studynote-network"]
 | 비교 항목 | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)) | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | [OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/) ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 확장) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
 | **동작 방식** | 블랙리스트(폐지 목록 전체) 주기적 다운로드 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 서버(VA)에 특정 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 상태만 실시간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 서버가 자신의 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답을 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 클라이언트에게 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 시 함께 제공 | **네트워크 오버헤드 주체** |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 목록 다운로드 완료까지 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 매번 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/VA 서버와 통신해야 하므로 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가 | **추가 통신 불필요, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화** | **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 속도 향상** |
-| **프라이버시** | 클라이언트의 방문 사이트 내역 노출 안 됨 | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하므로 CA가 클라이언트 브라우징 추적 가능 | CA로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 보내지 않으므로 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)됨 | **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 침해 우려** |
-| **장애 격리** | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 서버 다운 시 캐시된 목록 사용 가능 | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 서버([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시 접속 실패/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Soft-fail 이슈) | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 영향을 클라이언트가 직접 받지 않음 | **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 완화** |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 목록 다운로드 완료까지 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 매번 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/VA 서버와 통신해야 하므로 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가 | <strong>추가 통신 불필요, <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 최소화</strong> | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 접속 속도 향상</strong> |
+| **프라이버시** | 클라이언트의 방문 사이트 내역 노출 안 됨 | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하므로 CA가 클라이언트 브라우징 추적 가능 | CA로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 보내지 않으므로 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)됨 | <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 침해 우려</strong> |
+| **장애 격리** | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 서버 다운 시 캐시된 목록 사용 가능 | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 서버([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시 접속 실패/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Soft-fail 이슈) | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 영향을 클라이언트가 직접 받지 않음 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>) 완화</strong> |
 
 이 표의 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 주체가 누구인가에 따른 성능과 프라이버시의 트레이드오프다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 방식은 수 MB에 달하는 리스트를 다운로드해야 하므로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 심했다. OCSP는 이를 개선하여 가볍지만 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버에 병목을 유발하고 프라이버시 침해 논란이 있다. 실무에서는 서버 측에서 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답을 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해 클라이언트에게 전달하는 [OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/) 방식을 최적의 성능과 보안 타협점으로 간주하여 Nginx/Apache 설정에서 필수로 활성화한다.
 
 ### 과목 융합 관점
 
-- **[네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) (Network [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 4-Way 핸드셰이크 과정 중 서버가 클라이언트에게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 전달할 때 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 인프라가 작동한다. PKI가 없으면 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신 자체가 성립 불가능하다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 (Distributed Systems)**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐지 상태를 글로벌하게 전파하기 위해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처 ([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 높은 상태 관리 시스템 (VA 팜) 구축이 요구된다.
-- **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))**: 중앙 집중화된 PKI의 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 권한 남용 가능성 ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 및 해킹 타겟)을 극복하기 위해, 탈중앙화된 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized Identity) 기술이 PKI의 대안 또는 보완재로 연구되고 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a> (Network <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 4-Way 핸드셰이크 과정 중 서버가 클라이언트에게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 전달할 때 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 인프라가 작동한다. PKI가 없으면 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신 자체가 성립 불가능하다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 (Distributed Systems)</strong>: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐지 상태를 글로벌하게 전파하기 위해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처 ([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 높은 상태 관리 시스템 (VA 팜) 구축이 요구된다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong>: 중앙 집중화된 PKI의 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 권한 남용 가능성 ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 및 해킹 타겟)을 극복하기 위해, 탈중앙화된 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized Identity) 기술이 PKI의 대안 또는 보완재로 연구되고 있다.
 
 - **📢 섹션 요약 비유**: 수표를 받을 때마다 은행에 전화해서 부도난 수표인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 시간([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/))을 아끼기 위해, 수표 발행자가 미리 은행의 '정상 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장'을 찍어와서([OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/)) 즉시 거래를 마칠 수 있도록 절차를 고도화한 것과 같습니다.
 
@@ -179,38 +161,31 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 사내 프라이빗망용 시스템 구축 시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 경고 발생**: 개발 및 사내망 전용으로 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 웹 시스템을 오픈했으나, 브라우저 접속 시 "신뢰할 수 없는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서" 경고가 발생한다. 이는 사설로 구축한 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Private [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 Root [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 직원들의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 브라우저 트러스트 스토어에 등록되지 않았기 때문이다. 아키텍트는 AD ([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/))의 GPO (Group [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Object)를 활용하여 사내 Private Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 전체 단말에 일괄 배포하는 자동화 구성을 선택해야 한다.
+1. <strong>시나리오 — 사내 프라이빗망용 시스템 구축 시 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 경고 발생</strong>: 개발 및 사내망 전용으로 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 웹 시스템을 오픈했으나, 브라우저 접속 시 "신뢰할 수 없는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서" 경고가 발생한다. 이는 사설로 구축한 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Private [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 Root [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 직원들의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 브라우저 트러스트 스토어에 등록되지 않았기 때문이다. 아키텍트는 AD ([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/))의 GPO (Group [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Object)를 활용하여 사내 Private Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 전체 단말에 일괄 배포하는 자동화 구성을 선택해야 한다.
 
-2. **시나리오 — 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 만료 장애**: 대규모 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 수백 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신을 수동으로 관리하다가, 만료일을 놓쳐 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 전면 중단되는 장애가 발생한다. 이를 방지하기 위해 ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 지원하는 Let's Encrypt와 Cert-Manager ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경)를 도입하여, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급-갱신-배포 파이프라인을 완전 자동화해야 한다.
+2. <strong>시나리오 — 무중단 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에서의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 갱신 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 및 만료 장애</strong>: 대규모 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서 수백 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신을 수동으로 관리하다가, 만료일을 놓쳐 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 전면 중단되는 장애가 발생한다. 이를 방지하기 위해 ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 지원하는 Let's Encrypt와 Cert-Manager ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경)를 도입하여, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급-갱신-배포 파이프라인을 완전 자동화해야 한다.
 
 의사결정 플로우를 시각화하면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출 범위에 따라 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 종류와 관리 방식을 어떻게 선택해야 하는지 직관적으로 정리된다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │              서비스 목적에 따른 PKI 및 인증서 도입 의사결정               │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [신규 서비스의 인증서 발급 필요 식별]                                  │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      서비스가 외부(대국민/고객)로 노출되는가?                              │
-  │          ├─ 예 ─────▶ [Public CA(DigiCert, GlobalSign 등) 사용]    │
-  │          │                     │                                   │
-  │          │                     └─▶ [도메인 소유권 검증 (DV/OV/EV) 선택]│
-  │          │                                                         │
-  │          └─ 아니오 (사내 전용, B2B 폐쇄망)                           │
-  │                  │                                                 │
-  │                  ▼                                                 │
-  │      클라이언트 단말 통제가 가능한가? (사내 PC 등)                        │
-  │          ├─ 예 ─────▶ [사내 Private CA 구축 및 Root 인증서 배포]      │
-  │          │                     │                                   │
-  │          │                     └─▶ [AD/MDM을 통한 일괄 신뢰 구성]      │
-  │          │                                                         │
-  │          └─ 아니오 ──▶ [비용이 들더라도 Public CA 인증서 사용]           │
-  │                                                                    │
-  │   최종 판단: 클라이언트 환경 통제력에 따라 비용과 관리 오버헤드를 타협          │
-  └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 목적에 따른 PKI 및 인증서 도입 의사결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 서비스의 인증서 발급 필요 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스가 외부(대국민/고객)로 노출되는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Public CA(DigiCert, GlobalSign 등) 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도메인 소유권 검증 (DV/OV/EV) 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (사내 전용, B2B 폐쇄망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 단말 통제가 가능한가? (사내 PC 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사내 Private CA 구축 및 Root 인증서 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AD/MDM을 통한 일괄 신뢰 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비용이 들더라도 Public CA 인증서 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 판단: 클라이언트 환경 통제력에 따라 비용과 관리 오버헤드를 타협</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 "누가 이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가"에 대한 클라이언트 통제력이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 퍼블릭 인터넷에 노출된다면 무조건 비용을 지불하고 Public CA의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받아야 한다. 반면 사내 시스템의 경우 매번 Public [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 구매하는 것은 낭비이므로 Private CA를 구축한다. 단, Private CA의 서명은 브라우저가 기본적으로 불신하므로, 회사 관리자가 AD([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/)) 정책을 통해 모든 임직원 PC에 사내 Root CA를 강제 심어야 한다. 클라이언트 제어권이 없다면 사내망이라 할지라도 Public CA를 선택하는 것이 장애와 문의(CS)를 줄이는 실무적 판단이다.
 
@@ -220,7 +195,7 @@ tags = ["studynote-network"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **개인키의 코드 리포지토리 하드코딩 (Git Push)**: 편의를 위해 `.key` 파일이나 `.pem` 파일을 GitHub 등에 올리는 행위. 유출 즉시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 신뢰성이 완전히 파괴되며 폐지 절차를 밟아야 한다.
-- **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료일 수동 모니터링**: 엑셀로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료일을 관리하는 관행. 담당자 변경 시 100% 장애로 이어지므로 모니터링 시스템([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) Blackbox Exporter 등) 연동이 필수다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 만료일 수동 모니터링</strong>: 엑셀로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료일을 관리하는 관행. 담당자 변경 시 100% 장애로 이어지므로 모니터링 시스템([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) Blackbox Exporter 등) 연동이 필수다.
 
 - **📢 섹션 요약 비유**: 아무리 튼튼한 금고([비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/))를 샀어도, 열쇠(개인키)를 현관 매트 아래(깃허브)에 숨겨두거나 건전지 교체 시기(만료일)를 까먹으면 아무 소용이 없는 것과 같습니다. 철저한 자동화와 키 관리가 생명입니다.
 
@@ -230,12 +205,12 @@ tags = ["studynote-network"]
 
 | 구분 | 도입 전 ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 부재 / [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) | 도입 후 ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 적용 / [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)/위조 성공률 높음 | 스니핑/위조 원천 차단 | **침해 사고 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)** 달성 |
-| **정성** | 사용자가 사이트 진위를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 방법 없음 | 브라우저 자물쇠 아이콘, [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 신뢰 제공 | 브랜드 가치 상승, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로부터의 **사용자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화** |
+| **정량** | [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/)/위조 성공률 높음 | 스니핑/위조 원천 차단 | <strong>침해 사고 및 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a></strong> 달성 |
+| **정성** | 사용자가 사이트 진위를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 방법 없음 | 브라우저 자물쇠 아이콘, [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 신뢰 제공 | 브랜드 가치 상승, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로부터의 <strong>사용자 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 강화</strong> |
 | **운영** | 개별 키 교환 방식의 확장성 한계 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 통한 확장성 있는 신뢰 위임 체계 | 수백만 사용자가 동시에 안전하게 접속 가능한 **통합 인프라 확보** |
 
 ### 미래 전망
-- **[양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)) 전환**: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))에 의해 기존 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반 PKI가 붕괴될 위험이 현실화되고 있다. NIST 표준 기반의 격자 기반(Lattice-based) 암호 등 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)를 지원하는 차세대 하이브리드 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 인프라로의 마이그레이션이 향후 10년 내 최대 화두가 될 것이다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a>) 전환</strong>: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))에 의해 기존 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반 PKI가 붕괴될 위험이 현실화되고 있다. NIST 표준 기반의 격자 기반(Lattice-based) 암호 등 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)를 지원하는 차세대 하이브리드 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 인프라로의 마이그레이션이 향후 10년 내 최대 화두가 될 것이다.
 - **기간 단축 및 자동화**: 구글 등 주요 브라우저 벤더 주도로 퍼블릭 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 최대 유효기간이 점진적으로 축소(1년 → 90일)되고 있다. 이에 따라 수동 관리는 불가능해지며, ACME [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기반의 100% 자동화 갱신 파이프라인이 산업 표준으로 강제될 것이다.
 
 ### 참고 표준
@@ -245,21 +220,21 @@ tags = ["studynote-network"]
 
 PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에서 '서로 얼굴을 보지 않고도 거래할 수 있게 만드는' 사회적 신뢰의 디지털 구현체이다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대로 진입하며 기반 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 교체되겠지만, 중앙화된 신뢰 기관을 통해 신원을 보증하고 위임하는 PKI의 근본적인 아키텍처는 향후에도 정보보안의 가장 중요한 척추로 남을 것이다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │             PKI 아키텍처의 패러다임 진화 (2010 ~ 2030+)              │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [과거: 수동/장기]        [현재: 자동화/단기]         [미래: 양자 내성]    │
-  │                                                                │
-  │  인증서 유효기간 3~5년  → 유효기간 1년 (점차 90일) → 수 초~분 단위 단기 인증 │
-  │  수동 발급/설치        → ACME (Cert-Manager)   → Zero-Touch Provision│
-  │  RSA-2048 중심       → ECC(타원곡선) 보편화     → PQC (양자 내성 암호)  │
-  │  단일 Root CA 맹신    → Certificate Transparency→ DID / 분산 신뢰 혼합 │
-  │                                                                │
-  │  핵심 동인: "관리 편의성"에서 "손상 시 피해 최소화(Agility)"로 진화 중     │
-  └────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI 아키텍처의 패러다임 진화 (2010 ~ 2030+)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 수동/장기</div><div class="kb-diagram-node">현재: 자동화/단기</div><div class="kb-diagram-node">미래: 양자 내성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증서 유효기간 3~5년 → 유효기간 1년 (점차 90일) → 수 초~분 단위 단기 인증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 발급/설치 → ACME (Cert-Manager) → Zero-Touch Provision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA-2048 중심 → ECC(타원곡선) 보편화 → PQC (양자 내성 암호)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 Root CA 맹신 → Certificate Transparency→ DID / 분산 신뢰 혼합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 동인: "관리 편의성"에서 "손상 시 피해 최소화(Agility)"로 진화 중</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 체계의 진화 로드맵은 보안 관점에서의 민첩성([Crypto Agility](/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/)) 확보를 향하고 있다. 과거에는 3년짜리 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급받아 한 번 세팅하고 잊어버리는 방식이었으나, 현재는 키 유출 시 피해 기간을 줄이기 위해 유효기간이 극단적으로 짧아지는 추세다. 수명이 짧아지면 수동 관리가 불가능하므로 ACME 같은 자동화가 필수적으로 동반된다. 더 나아가 미래에는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 위협에 대비해 알고 지름 자체가 교체되는 거대한 전환기를 맞이하고 있으며, 브라우저가 CA의 발급 내역을 투명하게 감시하는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기술이 결합되어 중앙 권력의 오남용을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 견제하는 방향으로 진화 중이다.
 
@@ -278,21 +253,25 @@ PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VPN]
-    │
-    ▼
-[현재 개념: PKI 공개키 인프라]
-    │
-    ├──▶ [확장 A: X.509 인증서]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PKI 공개키 인프라</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: X.509 인증서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 공개키 인프라는 VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 인터넷 세상에서 상대방이 진짜 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려면 **'디지털 신분증'**이 필요한데, 이 신분증을 만들어주고 관리하는 전체 시스템을 PKI라고 불러요.
+1. 인터넷 세상에서 상대방이 진짜 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려면 <strong>'디지털 신분증'</strong>이 필요한데, 이 신분증을 만들어주고 관리하는 전체 시스템을 PKI라고 불러요.
 2. 우리가 동사무소에 가서 신분증을 만들듯, 인터넷에서는 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))'이라는 믿을 수 있는 곳이 우리 정보에 '비밀 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))'을 쾅 찍어서 증명서를 발급해준답니다.
 3. 덕분에 해커가 가짜 사이트를 만들어 속이려 해도, 이 디지털 신분증에 찍힌 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관의 진짜 도장이 없으면 브라우저가 "이 사이트는 위험해요!"라고 바로 알려줄 수 있는 거예요.
 

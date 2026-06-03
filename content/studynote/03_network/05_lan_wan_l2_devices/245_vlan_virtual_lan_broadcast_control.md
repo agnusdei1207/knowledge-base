@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) (Virtual Local Area Network)은 하나의 물리적 근거리 통신망(LAN)을 여러 개의 논리적 네트워크 그룹으로 가상화하여 분할하는 기술이다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 VLAN이 가장 흔하게 사용된다.
 - **필요성**: 만약 회사에 영업부, 인사부, 개발부가 있다고 치자. 보안상 부서끼리 통신을 막아야 하고 각 부서의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 브로드캐스트가 서로 간섭하지 않게 하려면, 부서마다 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비를 따로따로 사서 케이블을 쳐야 한다(장비 비용 폭발). 게다가 직원이 인사부에서 영업부로 자리를 옮기면 랜선을 뽑아서 저 멀리 있는 영업부 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 끌고 가야 한다. 이 돈과 노가다(공사)를 없애기 위해 탄생한 소프트웨어적 마법이 VLAN이다.
 
-- **💡 비유**: 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 커다란 **"하나의 통짜 사무실"**이라면, VLAN은 사무실 안에 **"가벽([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))"**을 세우는 것과 같습니다. 가벽을 세워 영업부 방, 인사부 방을 만들면(논리적 분할), 영업부 사람이 소리를 질러도(브로드캐스트) 인사부 방에는 들리지 않습니다. 나중에 방 크기를 바꿀 때도 벽돌을 깰 필요 없이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 밀면 끝납니다.
+- **💡 비유**: 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 커다란 <strong>"하나의 통짜 사무실"</strong>이라면, VLAN은 사무실 안에 <strong>"가벽(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>)"</strong>을 세우는 것과 같습니다. 가벽을 세워 영업부 방, 인사부 방을 만들면(논리적 분할), 영업부 사람이 소리를 질러도(브로드캐스트) 인사부 방에는 들리지 않습니다. 나중에 방 크기를 바꿀 때도 벽돌을 깰 필요 없이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 밀면 끝납니다.
 
-```text
-[스위칭 방식]
-    │
-    ▼
-[가상 랜]
-    │
-    └──▶ [IEEE 802.1Q]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 랜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEEE 802.1Q</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** VLAN은 하드 디스크 하나를 사서 **"C드라이브와 D드라이브로 쪼개 쓰는 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 기술"**의 네트워크 버전입니다. 물리적인 기계는 하나지만 윈도우([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 완벽히 두 개인 것처럼 인식합니다.
 
@@ -47,36 +51,34 @@ tags = ["studynote-network"]
 ### 2. 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Trunk [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 IEEE 802.1Q (태깅)
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 여러 대일 때 VLAN을 어떻게 연결할까? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10을 연결하려면 랜선을 각각 꽂아야 할까? (VLAN이 100개면 선이 100가닥 필요하다!)
 - 이를 해결하기 위해 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 연결하는 단 하나의 선로를 **트렁크(Trunk)** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 묶는다.
-- 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 지나는 데이터는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 헤더에 **"이 데이터는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10번 거다!"라는 꼬리표([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) Tag, 4바이트 802.1Q 헤더)**를 달아 보낸다. 수신 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 태그를 떼어보고 정확히 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로만 뿌려준다. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))의 완벽한 예시다.
+- 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 지나는 데이터는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 헤더에 <strong>"이 데이터는 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 10번 거다!"라는 꼬리표(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> Tag, 4바이트 802.1Q 헤더)</strong>를 달아 보낸다. 수신 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 태그를 떼어보고 정확히 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로만 뿌려준다. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))의 완벽한 예시다.
 
 ### 3. [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 통신은 어떻게 하나요? (Inter-[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 가벽([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))을 철저히 세워 놨기 때문에, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(영업부) PC가 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20(인사부) PC에게 직접 데이터를 보낼 방법은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에선 절대 없다. ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블도 VLAN별로 따로 관리된다)
-- 따라서 **반드시 3계층 장비인 라우터(Router)나 L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 필요**하다.
+- 따라서 <strong>반드시 3계층 장비인 라우터(Router)나 L3 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 필요</strong>하다.
 - 데이터를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 밖의 라우터로 올려보내면, 라우터가 IP 주소를 보고 경로를 판단해 다시 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 다른 VLAN으로 데이터를 내려꽂아 준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                      VLAN의 분리 및 라우팅 구조               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 라우터 ] ◀── "VLAN 10에서 VLAN 20으로 가려면 나를 거쳐야 함!"   │
- │       │                                                     │
- │   (Trunk Port)  ◀── VLAN 10과 20 데이터가 섞여서 올라감         │
- │       │                                                     │
- │ ┌──[ L2 스위치 ]──────────────────────────────────┐         │
- │ │                 [ 논리적 가벽 (단절) ]              │         │
- │ │      VLAN 10                 │        VLAN 20     │         │
- │ │ (Port 1)  (Port 2)           │  (Port 11) (Port 12) │         │
- │ └────│─────────│───────────────┴──────│─────────│───┘         │
- │    PC A      PC B                   PC C      PC D          │
- │   (영업부)    (영업부)                 (인사부)   (인사부)         │
- │                                                             │
- │ * PC A와 PC B: 스위치 내부에서 L2 통신 가능.                    │
- │ * PC A와 PC C: 스위치 단절! 라우터까지 올라갔다 내려와야 통신 가능.  │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 설정은 마치 한 건물([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 안에 있는 병원과 은행이 서로 내부 문을 벽돌로 틀어막은 것과 같습니다. 서로 물리적으로 한 건물에 있지만 왕래하려면 반드시 **건물 밖으로 나가 1층 로비(라우터)**를 거쳐 다른 출입문으로 들어가야만 합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN의 분리 및 라우팅 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "VLAN 10에서 VLAN 20으로 가려면 나를 거쳐야 함!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trunk Port) ◀── VLAN 10과 20 데이터가 섞여서 올라감</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">L2 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 가벽 (단절)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN 10</div><div class="kb-diagram-cell">VLAN 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Port 1) (Port 2)</div><div class="kb-diagram-cell">(Port 11) (Port 12)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC A PC B PC C PC D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(영업부) (영업부) (인사부) (인사부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC A와 PC B: 스위치 내부에서 L2 통신 가능.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC A와 PC C: 스위치 단절! 라우터까지 올라갔다 내려와야 통신 가능.</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 설정은 마치 한 건물(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>) 안에 있는 병원과 은행이 서로 내부 문을 벽돌로 틀어막은 것과 같습니다. 서로 물리적으로 한 건물에 있지만 왕래하려면 반드시 </strong>건물 밖으로 나가 1층 로비(라우터)**를 거쳐 다른 출입문으로 들어가야만 합니다.
 
 ---
 
@@ -132,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스위칭 방식]
-    │
-    ▼
-[현재 개념: 가상 랜]
-    │
-    ├──▶ [확장 A: IEEE 802.1Q]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 가상 랜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IEEE 802.1Q</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 가상 랜는 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IEEE 802.1Q와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

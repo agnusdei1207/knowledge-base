@@ -13,13 +13,13 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA ([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 하드웨어 지원은 원격으로 새 이미지를 내려받는 기능이 아니라, 전원 차단·부분 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·변조 이미지 상황에서도 **부팅 가능 상태를 유지한 채** [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 교체하게 만드는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)형 하드웨어 설계다.
 > 2. **가치**: 듀얼 슬롯 플래시, 불변 부트 경로, 암호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기, 헬스 체크 기반 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 회로가 있으면 현장 방문 없이도 수천 대 장비를 안전하게 패치할 수 있고, 취약점 대응 속도와 제품 수명도 함께 늘어난다.
-> 3. **판단 포인트**: 좋은 OTA 설계는 다운로드 속도보다 **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)), 진위성 ([Authenticity](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/)), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)성 (Recoverability)** 을 먼저 보며, 첫 부팅 실패까지 고려한 A/B 전환과 다운그레이드 방지가 핵심이다.
+> 3. **판단 포인트**: 좋은 OTA 설계는 다운로드 속도보다 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">Atomicity</a>), 진위성 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/">Authenticity</a>), <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>성 (Recoverability)</strong> 을 먼저 보며, 첫 부팅 실패까지 고려한 A/B 전환과 다운그레이드 방지가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA 하드웨어 지원은 네트워크를 통해 새 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 배포할 때, 장치가 스스로 이미지를 저장·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·전환·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있도록 만드는 하드웨어 기반 안전장치 묶음이다. 여기서 중요한 것은 "무선으로 받는다"보다 "받는 동안에도 기존 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 살아 있고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나기 전까지는 실행 경로가 바뀌지 않는다"는 점이다. 즉 OTA는 통신 기능이 아니라 **부팅 경로 보존 기술**로 봐야 한다.
+[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA 하드웨어 지원은 네트워크를 통해 새 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 배포할 때, 장치가 스스로 이미지를 저장·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·전환·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있도록 만드는 하드웨어 기반 안전장치 묶음이다. 여기서 중요한 것은 "무선으로 받는다"보다 "받는 동안에도 기존 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 살아 있고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나기 전까지는 실행 경로가 바뀌지 않는다"는 점이다. 즉 OTA는 통신 기능이 아니라 <strong>부팅 경로 보존 기술</strong>로 봐야 한다.
 
 이 기술이 필요한 이유는 현장 장치가 점점 멀리 있고 많아졌기 때문이다. 차량 전자제어장치, 산업 게이트웨이, 스마트미터, 원격 센서는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 오류가 나도 케이블을 꽂아 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 어렵다. 만약 실행 중인 이미지를 그대로 덮어쓰다 전원이 끊기면, 장치는 네트워크 접속은커녕 부팅 자체가 안 되는 브릭 상태가 된다.
 
@@ -43,23 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 OTA에서 "다운로드"와 "부팅 승인"이 왜 분리되어야 하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Active Slot A ── 현재 정상 실행                                             │
-│                                                                              │
-│ Network Rx ─▶ Staging Slot B ─▶ Hash / Signature Verify ─▶ Boot Metadata     │
-│                                │                                │            │
-│                                ├─ fail ────────────────────────▶ keep A      │
-│                                └─ pass ─▶ boot_pending ────────▶ reboot      │
-│                                                                  │            │
-│                                           first boot health check │            │
-│                                                                  ▼            │
-│                                            success ───────────▶ confirm B     │
-│                                            failure/timeout ────▶ rollback A   │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Slot A ── 현재 정상 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Rx ─▶ Staging Slot B ─▶ Hash / Signature Verify ─▶ Boot Metadata</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail ▶ keep A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pass ─▶ boot_pending ▶ reboot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first boot health check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">success ▶ confirm B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure/timeout ▶ rollback A</div></div>
+</div>
+</div>
+
+
 
 핵심은 "새 이미지를 썼다"와 "새 이미지가 장치를 안전하게 살렸다"를 다른 상태로 취급하는 것이다. 특히 플래시 지우기 단위가 4KB, 64KB처럼 거칠면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 한 비트만 잘못 써도 부팅 선택이 꼬일 수 있으므로, 상태 플래그는 별도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역에 두고 업데이트 순서를 엄격히 정해야 한다. 또한 단조 증가 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 카운터를 두지 않으면 서명된 구버전 이미지를 다시 올리는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 공격을 막기 어렵다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 방식은 크게 실행 이미지를 직접 덮어쓰는 방식과, 새 이미지를 별도 공간에 올린 뒤 전환하는 방식으로 나뉜다. 하드웨어 지원의 차이는 바로 이 "전환 이전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한가, 실패 시 되돌아갈 경로가 남아 있는가"에서 드러난다. 따라서 OTA를 비교할 때는 저장공간 효율보다 **실패 모델**을 먼저 봐야 한다.
+[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 방식은 크게 실행 이미지를 직접 덮어쓰는 방식과, 새 이미지를 별도 공간에 올린 뒤 전환하는 방식으로 나뉜다. 하드웨어 지원의 차이는 바로 이 "전환 이전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한가, 실패 시 되돌아갈 경로가 남아 있는가"에서 드러난다. 따라서 OTA를 비교할 때는 저장공간 효율보다 <strong>실패 모델</strong>을 먼저 봐야 한다.
 
 | 방식 | 저장공간 요구 | 전원 차단 내성 | 첫 부팅 실패 대응 | 적합한 환경 |
 | :-- | :-- | :-- | :-- | :-- |
@@ -107,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 - 부트 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 한 개 플래그에만 의존해 전원 장애 시 상태를 해석할 수 없는 설계
 - [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 자체까지 OTA로 직접 덮어써 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 같이 없애는 설계
 
-기술사 답안에서는 "A/B 업데이트"만 쓰고 끝내면 부족하다. 반드시 **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 방지, 첫 부팅 헬스 체크**를 한 체계로 설명해야 하며, 저장공간과 복잡도 비용도 함께 적어야 설계 판단이 살아난다.
+기술사 답안에서는 "A/B 업데이트"만 쓰고 끝내면 부족하다. 반드시 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>, 서명 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 방지, 첫 부팅 헬스 체크</strong>를 한 체계로 설명해야 하며, 저장공간과 복잡도 비용도 함께 적어야 설계 판단이 살아난다.
 
 - **📢 섹션 요약 비유**: 실무 OTA 설계는 비행기 이륙 전 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 같다. 연료만 채웠다고 출발하는 것이 아니라, 엔진·계기·통신까지 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 진짜 이륙 허가가 나온다.
 
@@ -119,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 대가도 있다. 듀얼 슬롯은 저장공간을 거의 두 배 요구하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·복사·헬스 체크 때문에 업데이트 시간이 길어진다. 또 잦은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 플래시 마모를 가속하므로, 차분 업데이트와 마모 평준화가 함께 설계되지 않으면 장기적으로 비용이 커질 수 있다.
 
-앞으로는 전체 이미지를 통째로 바꾸는 방식보다, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·스트리밍 설치·원격 증명 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포가 중요해질 가능성이 크다. 그럼에도 기억해야 할 본질은 변하지 않는다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA 하드웨어 지원은 "새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리는 기술"이 아니라, **실패해도 살아남는 업그레이드 기술**이다.
+앞으로는 전체 이미지를 통째로 바꾸는 방식보다, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·스트리밍 설치·원격 증명 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포가 중요해질 가능성이 크다. 그럼에도 기억해야 할 본질은 변하지 않는다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) OTA 하드웨어 지원은 "새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리는 기술"이 아니라, <strong>실패해도 살아남는 업그레이드 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 높은 사다리를 오를 때 몸에 거는 안전벨트와 같다. 더 높이 올라가게 해 주는 것도 중요하지만, 미끄러졌을 때 바닥까지 떨어지지 않게 해 주는 것이 진짜 가치다.
 
@@ -138,24 +137,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공장 수동 플래싱
-        │
-        ▼
-단일 슬롯 부트로더 업데이트
-        │
-        ▼
-네트워크 OTA 다운로드
-        │
-        ▼
-Secure Boot + A/B 슬롯 + Rollback Protection
-        │
-        ▼
-Delta / Streaming OTA + Health Check Commit
-        │
-        ▼
-원격 증명 기반 Fleet 정책 업데이트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공장 수동 플래싱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 슬롯 부트로더 업데이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네트워크 OTA 다운로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Boot + A/B 슬롯 + Rollback Protection</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Delta / Streaming OTA + Health Check Commit</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원격 증명 기반 Fleet 정책 업데이트</div>
+</div>
+</div>
+
+
 
 이 흐름은 "현장 교체" 중심이던 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 관리가, 점차 "원격 배포"를 넘어 "원격에서도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 신뢰된 배포"로 진화하는 과정을 보여 준다.
 

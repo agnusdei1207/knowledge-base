@@ -23,24 +23,24 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 두 자료구조의 차이를 이해하지 못하면, 정렬이 필요한 작업에 HashMap을 쓰다가 O(n log n) 정렬을 매번 수행하거나, 단순 조회에 TreeMap을 써서 불필요하게 O(log n) 비용을 지불하게 된다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│          HashMap vs TreeMap 내부 구조 대비                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [HashMap]                [TreeMap]                      │
-│  Key → hash(Key) → 배열 인덱스    Key → 레드-블랙 트리 삽입  │
-│                                                          │
-│  배열: [null][K2:V2][K1:V1]...    트리:      K3           │
-│         해시 충돌 체인 가능                         ╱    ╲   │
-│                                                K1      K5  │
-│  장점: 단건 O(1)                              ╱  ╲         │
-│  단점: 순서 없음                             K0   K2        │
-│                                                          │
-│                           장점: 정렬 유지, 범위 조회 O(log n)│
-│                           단점: 단건 O(log n)             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashMap vs TreeMap 내부 구조 대비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HashMap</div><div class="kb-diagram-node">TreeMap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key → hash(Key) → 배열 인덱스 Key → 레드-블랙 트리 삽입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">null</div><div class="kb-diagram-node">K2:V2</div><div class="kb-diagram-node">K1:V1</div><div class="kb-diagram-note">... 트리: K3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 충돌 체인 가능 ╱ ╲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K1 K5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 단건 O(1) ╱ ╲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 순서 없음 K0 K2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 정렬 유지, 범위 조회 O(log n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 단건 O(log n)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: HashMap은 물건을 라벨(해시)로 창고 선반에 바로 꽂는 방식이라 찾기 빠르지만 선반이 뒤죽박죽이다. TreeMap은 물건을 크기 순서로 정렬해서 꽂아두는 방식이라 찾는 데 한 단계 더 걸리지만, "이 크기보다 큰 물건 전부 가져와"가 즉시 가능하다.
 
@@ -52,30 +52,31 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 | 구성 요소 | 역할 | 상세 |
 |:---|:---|:---|
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)** | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 변환 | hashCode() % [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)크기 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a></strong> | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 변환 | hashCode() % [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)크기 |
 | **로드 팩터 (Load Factor)** | 리해싱 임계값 | 기본 0.75 (75% 찰 때 크기 2배 확장) |
 | **충돌 해결** | 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 키 처리 | 체이닝(LinkedList) 또는 오픈 어드레싱 |
 | **Java 8+ 최적화** | 긴 체인 트리 변환 | 8개 초과 시 TreeMap으로 변환 (O(n)→O(log n)) |
 
 ### TreeMap 핵심 메커니즘 ([레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/))
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│         레드-블랙 트리 속성 (Self-Balancing BST)           │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  1. 모든 노드는 빨간색(R) 또는 검은색(B)                   │
-│  2. 루트 노드는 항상 검은색                                 │
-│  3. 빨간 노드의 자식은 항상 검은색                          │
-│  4. 모든 리프까지의 검은색 노드 수 동일                      │
-│                                                          │
-│        [B:50]                                            │
-│       ╱      ╲                                           │
-│   [R:30]     [R:70]     ← 삽입/삭제 후 회전으로 균형 유지    │
-│   ╱    ╲                                                 │
-│ [B:20] [B:40]                                            │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레드-블랙 트리 속성 (Self-Balancing BST)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 모든 노드는 빨간색(R) 또는 검은색(B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 루트 노드는 항상 검은색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 빨간 노드의 자식은 항상 검은색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 모든 리프까지의 검은색 노드 수 동일</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B:50</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">R:30</div><div class="kb-diagram-node">R:70</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">삽입/삭제 후 회전으로 균형 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B:20</div><div class="kb-diagram-node">B:40</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 도서관 사서가 매번 책을 꽂은 뒤 왼쪽-오른쪽 균형을 맞추는 것과 같다. 불균형해질 때마다 빨간-검정 색 규칙으로 즉시 재배치하여 항상 O(log n)을 보장한다.
 
@@ -120,7 +121,7 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 | 기대효과 | HashMap | TreeMap |
 |:---|:---|:---|
-| **조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 평균 O(1), 최악 O(n) | 보장 O(log n) |
+| <strong>조회 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 평균 O(1), 최악 O(n) | 보장 O(log n) |
 | **적합 사례** | 캐시, 집계, 카운팅 | 범위 조회, 정렬 순회 |
 | **확장성** | 리해싱으로 O(n) 일시 발생 | 균형 보장으로 안정적 |
 
@@ -134,29 +135,31 @@ TreeMap은 동일한 키-값 쌍을 [이진 탐색 트리](/knowledge-base/study
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))** | HashMap의 O(1) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 근거; 키를 균등하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)** | TreeMap의 내부 자료구조; 항상 O(log n) 보장 |
-| **[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) (Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 요인; 체이닝 또는 오픈 어드레싱으로 해결 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong> | HashMap의 O(1) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 근거; 키를 균등하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a></strong> | TreeMap의 내부 자료구조; 항상 O(log n) 보장 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">해시 충돌</a> (Hash <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>)</strong> | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 요인; 체이닝 또는 오픈 어드레싱으로 해결 |
 | **ConcurrentHashMap** | HashMap의 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/); 세그먼트 락 방식 |
-| **[Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/)** | TreeMap의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 대안; ConcurrentSkipListMap의 기반 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/">Skip List</a></strong> | TreeMap의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 대안; ConcurrentSkipListMap의 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배열 — O(1) 인덱스 접근, 키 제약]
-    │
-    ▼
-[해시 테이블 (HashMap) — O(1) 키-값 접근]
-    │
-    ▼
-[균형 이진 탐색 트리 (TreeMap) — O(log n) 정렬 유지]
-    │
-    ▼
-[Java 8 LinkedHashMap + 복합 활용 — 삽입 순서 + O(1)]
-    │
-    ▼
-[ConcurrentHashMap / Skip List — 분산/병렬 환경 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열 — O(1) 인덱스 접근, 키 제약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 테이블 (HashMap) — O(1) 키-값 접근</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">균형 이진 탐색 트리 (TreeMap) — O(log n) 정렬 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Java 8 LinkedHashMap + 복합 활용 — 삽입 순서 + O(1)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ConcurrentHashMap / Skip List — 분산/병렬 환경 확장</div></div>
+</div>
+</div>
+
+
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(1) 접근에서 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), 균형 트리로 진화하며, 멀티스레드와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 ConcurrentHashMap/SkipList로 확장된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

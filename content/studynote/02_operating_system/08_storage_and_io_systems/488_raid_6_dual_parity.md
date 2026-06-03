@@ -11,43 +11,41 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/)(Distributed Parity) 시스템 아키텍처를 기반으로 확장하되, 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유추하는 패리티 방정식(수식값)을 P [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단일 구조가 아닌, **P와 Q 두 가지 종류의 독립된 완전히 다른 수학적 이중 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 계산해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하는 Dual-Parity 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 결합 체계다.**
-> 2. **가치**: 가장 무서운 우연, 즉 무려 2개의 디스크가 동시에 부서지거나, 1개를 힘들게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(리빌딩)하는 그 위태로운 시간 속에 남은 디스크 1개가 스트레스로 추가 폭파 사망(URE 파생) 하더라도 서버가 무너짐 없이 **디스크 2개 분량의 극단적 물리 파손 데미지(2-Drive [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/) 완전 허용) 생존력을 부여하는 궁극의 최후 방어** 맷집이다.
+> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/)(Distributed Parity) 시스템 아키텍처를 기반으로 확장하되, 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유추하는 패리티 방정식(수식값)을 P [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단일 구조가 아닌, <strong>P와 Q 두 가지 종류의 독립된 완전히 다른 수학적 이중 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 계산해 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장하는 Dual-Parity 스토리지 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 결합 체계다.</strong>
+> 2. **가치**: 가장 무서운 우연, 즉 무려 2개의 디스크가 동시에 부서지거나, 1개를 힘들게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(리빌딩)하는 그 위태로운 시간 속에 남은 디스크 1개가 스트레스로 추가 폭파 사망(URE 파생) 하더라도 서버가 무너짐 없이 <strong>디스크 2개 분량의 극단적 물리 파손 데미지(2-Drive <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a> 완전 허용) 생존력을 부여하는 궁극의 최후 방어</strong> 맷집이다.
 > 3. **한계**: 두 배비용의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 숨겨야 하므로 전체 디스크 용량 중 무려 '2개' 분량을 항상 손해/버려야 하고, 파일을 쓸 때마다 수식을 두 번 돌려야 하는 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패널티(Double Write Penalty/갈루아 필드 수학 부하 CPU 혹사) 병목 스피드 체증의 피눈물을 안고 가는 현대 고용량 스토리지 전용 대피소 구축 전략이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 진화적 산물이다. [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 짐 보따리마다 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(P)를 한 개씩 매달았다면, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 만약을 위해 복잡도가 훨씬 높은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(Q, 갈루아 필드 등 고등 수학식 방정식 사용)를 하나 더 매달아서 무려 **디스크의 공간 2개 분량을 보안 금고용 스페어 블록으로 태워 먹어 징수**하는 방식이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 구성하기 위해선 반드시 최소 4개 이상의 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 물리 인프라가 필수 요구된다.
+- **개념**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 진화적 산물이다. [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 짐 보따리마다 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(P)를 한 개씩 매달았다면, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 만약을 위해 복잡도가 훨씬 높은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(Q, 갈루아 필드 등 고등 수학식 방정식 사용)를 하나 더 매달아서 무려 <strong>디스크의 공간 2개 분량을 보안 금고용 스페어 블록으로 태워 먹어 징수</strong>하는 방식이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 구성하기 위해선 반드시 최소 4개 이상의 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 물리 인프라가 필수 요구된다.
 - **필요성**: 2010년대 이후로 단일 하드디스크가 16TB, 20TB 단위를 뚫고 올라가는 디스크 초비만(초 고용량화) 시대가 터졌다. 앞 단원에서 설명한 것처럼 20TB 드라이브 하나가 고장나면, 시스템이 남은 디스크를 살살 긁어 계산으로 파손 조각을 빈 깡통 디스크에 채워 살려내는 시간(Rebuilding 타임)이 고작해야 서너 시간이 아니라 무려 1~3일까지 치솟아 버린다! 남은 애들도 20테라라는 용량에 압사 될 지경으로 CPU 긁기 부하를 받으니 그 긴 3일 공백 동안 옆자리 드라이브의 바늘이 튕겨 **'2차 디스크 연속 불상사 붕괴 사망 (URE, Unrecoverable Read Error 발현)'** [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 무시무시하게 치솟아 기존 만능 교과서였던 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 아키텍처 신화가 처참하게 박살 붕괴했다. 기업들은 느려도 좋으니 차라리 "2개가 부서져도 끄떡없는" 이단 초강력 겹겹이 이중 철갑옷인 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨 코어 생태계를 강제 세대 마이그레이션 할 수밖에 없게 된 것이다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6의 이중 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패리티 (P + Q) 아키텍처 모델 맵핑**: 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 6의 이중 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 패리티 (P + Q) 아키텍처 모델 맵핑</strong>: 
 두 개의 빗장 방정식이 어떤 식으로 서로 엇갈려서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편에 자리 잡는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 테이블 다이어그램으로 체계화 시각 묘사하면 아래와 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 6 듀얼-패리티 (P & Q) 엇갈림 교차 스트라이프 분산 매핑        │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │   최소 디스크 4개 조건 (아래는 5개 샷시 구성 디스크 어레이의 예)                   │
-  │                                                                                    │
-  │         [ 디스크 1 ]   [ 디스크 2 ]   [ 디스크 3 ]   [ 디스크 4 ]   [ 디스크 5 ]   │
-  │        ────────────────────────────────────────────────────────                    │
-  │   1열:   Data A     Data B     Data C     [ P 1 ]    [ Q 1 ]                       │
-  │   2열:   Data D     Data E     [ P 2 ]    [ Q 2 ]    Data F                        │
-  │   3열:   Data G     [ P 3 ]    [ Q 3 ]    Data H     Data I                        │
-  │   4열:   [ P 4 ]    [ Q 4 ]    Data J     Data K     Data L                        │
-  │   5열:   [ Q 5 ]    Data M     Data N     Data O     [ P 5 ]                       │
-  │                                                                                    │
-  │   (※ P 번호 = 기존 XOR 합계 값 / Q 번호 = 복잡한 갈루아 필드(Galois) 곱셈 승수 값) │
-  │                                                                                    │
-  │   [ 💥 대재앙 시나리오: 디스크 2, 4 두 개가 무려 동시 박살 사망 발화! 극악! ]      │
-  │     - 1열 복구: [P1]과 [Q1]이 무사하므로 연산 수식 대입 ──▶ 분실 Data B 살림!      │
-  │     - 3열 복구: [P3] 장부가 찢어발겨 타버렸지만 [Q3]이 생존! ──▶ 역산수식 타파!    │
-  │     - 시스템 가동 상태: 두 개가 구멍 났으나 사용자(DB)는 다운 체감 멈춤 없음! 무적.│
-  └────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 6 듀얼-패리티 (P &amp; Q) 엇갈림 교차 스트라이프 분산 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 디스크 4개 조건 (아래는 5개 샷시 구성 디스크 어레이의 예)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 3</div><div class="kb-diagram-node">디스크 4</div><div class="kb-diagram-node">디스크 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1열: Data A Data B Data C</div><div class="kb-diagram-node">P 1</div><div class="kb-diagram-node">Q 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2열: Data D Data E</div><div class="kb-diagram-node">P 2</div><div class="kb-diagram-node">Q 2</div><div class="kb-diagram-note">Data F</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3열: Data G</div><div class="kb-diagram-node">P 3</div><div class="kb-diagram-node">Q 3</div><div class="kb-diagram-note">Data H Data I</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4열:</div><div class="kb-diagram-node">P 4</div><div class="kb-diagram-node">Q 4</div><div class="kb-diagram-note">Data J Data K Data L</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5열:</div><div class="kb-diagram-node">Q 5</div><div class="kb-diagram-note">Data M Data N Data O</div><div class="kb-diagram-node">P 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ P 번호 = 기존 XOR 합계 값 / Q 번호 = 복잡한 갈루아 필드(Galois) 곱셈 승수 값)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 대재앙 시나리오: 디스크 2, 4 두 개가 무려 동시 박살 사망 발화! 극악!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 1열 복구:</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-note">과</div><div class="kb-diagram-node">Q1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분실 Data B 살림!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 3열 복구:</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-note">장부가 찢어발겨 타버렸지만</div><div class="kb-diagram-node">Q3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">역산수식 타파!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 가동 상태: 두 개가 구멍 났으나 사용자(DB)는 다운 체감 멈춤 없음! 무적.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 다이어그램을 분석하면 단순한 한 줄기 XOR 합계(P) 엑셀뿐만 아니라, 전혀 다른 논리의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 수식 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 방정식 인크립트값(Q)이 또 다른 한 칸을 장악하고 디스크 열(Row)을 따라 비틀거리며 같이 순환(Rotate) 배분됨을 볼 수 있다. 디스크 어떤 자리의 2개 기계가 무작위로 작살이 나 불타 없어지더라도, 가로로 늘어진 수식 퍼즐에서 P와 Q 둘 중 하나는 무조건 살아서 역산 공식($P= A \oplus B... / Q= A \times B...$)에 대입할 단서를 제공하기 때문에 연립 방정식을 풀어 두 개의 망가진 미지수($x, y$ 구멍값)를 도출해 내듯, 기계적인 2차 붕괴 연달아 발생 사고를 퍼펙트하게 실드 막아내는 구국의 요새 블록 디자인 구조체다. 당연히 쓸 공간의 $2/N$ 칸이나 희생 당하므로 공간 로스 낭비가 뼈를 깎는 수치 단점이다.
 
@@ -62,13 +60,13 @@ P 값 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql
 
 | 연산 방정식 타겟 | 백엔드 수식 수학적 로직 형태 | CPU/HBA 스트레스 평가 오버로드 징수율 |
 |:---|:---|:---|
-| **P 패리티 (1차 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))** | 단순 평면 이진 배타적 논리합 (A $\oplus$ B $\oplus$ C...) | 컴퓨터칩이 눈 감고도 0.0001초만에 뽑아대는 초저사양 연산 꿀 |
-| **Q 패리티 (2차 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))** | $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) \cdot D_0 \oplus \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)^2 \cdot D_1 \oplus \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)^3 \cdot D_2...$ 형태로 갈루아 필드(Galois Field $2^8$) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 승수 행렬 리드-솔로몬 기반 변환 등 복잡다단 수식 | 일반 OS S/W 리눅스 CPU 로 생 짜게 파서 연산 돌리려면 끔찍하게 부하 터지고 스파크 버든이 폭풍 작렬 치솟아 병목 끔찍 락 |
+| <strong>P 패리티 (1차 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>)</strong> | 단순 평면 이진 배타적 논리합 (A $\oplus$ B $\oplus$ C...) | 컴퓨터칩이 눈 감고도 0.0001초만에 뽑아대는 초저사양 연산 꿀 |
+| <strong>Q 패리티 (2차 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>)</strong> | $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) \cdot D_0 \oplus \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)^2 \cdot D_1 \oplus \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)^3 \cdot D_2...$ 형태로 갈루아 필드(Galois Field $2^8$) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 승수 행렬 리드-솔로몬 기반 변환 등 복잡다단 수식 | 일반 OS S/W 리눅스 CPU 로 생 짜게 파서 연산 돌리려면 끔찍하게 부하 터지고 스파크 버든이 폭풍 작렬 치솟아 병목 끔찍 락 |
 
 이 미친수학(Q 연산) 때문에 고전적인 과거 시절에는 깡 S/W [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)(mdadm)로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6를 돌리는 것을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락의 자살 행위로 보고 꺼렸으며 무자비하고 거대한 물리적 내장 하드웨어 전용 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 보스 카드 칩셋들의 파워 전담을 끼울 때나 가능했던 하이엔드 전유물이었다. (물론 최신 x86 AVX 멀티 32/64 코어명령 칩셋 파워 시대인 지금은 S/W OS로 밀어버려도 충분히 스토리지 레이드 연산을 처바름)
 
 ### 2. 가혹한 더블 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패널티 (The Brutal Write Penalty 6x) 의 스로틀 체증 압박
-[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찌끔 고칠 때 $4\times I/O$ 라는 형벌 패널티(Read-Modify-Write)를 받았다고 앞장에서 경고했다. 이 이중 밧줄 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 그것마저 초라하게 만들 정도로 최악이고 더럽고 쓰레기 같은 I/O 병목 가중 록([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 유발해낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 시 무려 **6배의 폭주 IOPS 페널티 통제**가 뒤따른다.
+[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찌끔 고칠 때 $4\times I/O$ 라는 형벌 패널티(Read-Modify-Write)를 받았다고 앞장에서 경고했다. 이 이중 밧줄 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 그것마저 초라하게 만들 정도로 최악이고 더럽고 쓰레기 같은 I/O 병목 가중 록([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 유발해낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 시 무려 <strong>6배의 폭주 IOPS 페널티 통제</strong>가 뒤따른다.
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1블럭을 1KB 부분 수정하란 명령이 떨어지면, 백단의 스토리지 컨트롤 펌웨어는:
 1. 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 (1)
@@ -86,17 +84,17 @@ P 값 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql
 
 ### 초대용량 아카이브 시스템 (Cold/Warm [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Archive Storage Big [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))의 신성
 비극적인 속도 한계 제약성 단점만 열거했지만, R6은 그걸 견디고서라도 이 행성 모든 스토리지 박스의 정가운데 센터룸을 2020년대부터 완벽하게 찬탈 장악했다. 
-18TB, 20TB, 24TB 짜리 거대 하드디스크 라인업으로 `영상 원본 관제`, `기업 다량 백업 보관 NAS`, `비디오 렌더 오브젝트 통`, `로컬 보조 스냅샷 (Snapshot)` 공간 등을 12 Bay (합계 용량 약 250TB 급 어마무시한 거대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 군락지) 샷시 장비에 결합 장착할 때. 속도는 RMW로 느려터지면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/NVRAM 어마어마한 앞단 캐시(L2ARC, ZIL [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 계층)로 찍어눌러 방어해서 막으면(WAFL 식 흡수 등) 밖에서 보이는 속도를 사기 칠 수 있다 치더라도, **"20 테라 하드 한 개 고장 나서 1주일 쌩으로 고생하며 징징대고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 리빌딩 돌릴 때, 백프로 옆에 노화된 하드 1개가 추가 사망 (URE의 공포) 해도 내 모가지가 안전하게 날아가지 않는가?"** 의 절대 생존 명제 앞에서는 그 누구도 P [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 하나짜리 가벼운 구세대 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5라는 방안을 채택해 결재 문서 도장을 보일 용기가 사라졌기 때문이다. 
+18TB, 20TB, 24TB 짜리 거대 하드디스크 라인업으로 `영상 원본 관제`, `기업 다량 백업 보관 NAS`, `비디오 렌더 오브젝트 통`, `로컬 보조 스냅샷 (Snapshot)` 공간 등을 12 Bay (합계 용량 약 250TB 급 어마무시한 거대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 군락지) 샷시 장비에 결합 장착할 때. 속도는 RMW로 느려터지면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/NVRAM 어마어마한 앞단 캐시(L2ARC, ZIL [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 계층)로 찍어눌러 방어해서 막으면(WAFL 식 흡수 등) 밖에서 보이는 속도를 사기 칠 수 있다 치더라도, <strong>"20 테라 하드 한 개 고장 나서 1주일 쌩으로 고생하며 징징대고 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 리빌딩 돌릴 때, 백프로 옆에 노화된 하드 1개가 추가 사망 (URE의 공포) 해도 내 모가지가 안전하게 날아가지 않는가?"</strong> 의 절대 생존 명제 앞에서는 그 누구도 P [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 하나짜리 가벼운 구세대 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5라는 방안을 채택해 결재 문서 도장을 보일 용기가 사라졌기 때문이다. 
 디스크가 뚱뚱해질수록 (고용량화 트랜드), 하드웨어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타임라인 곡선에서 생존 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 지수 하락은 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로는 방어가 뚫린 불치의 물리 임계 영역이라, 이제 최소 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 필드에서는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6가 아니면 어레이로 인정조차 금지하는 스탠더드 베이스 체인지로 마이그레이션이 끝난 상태다. 
 
 | 용량/구조 구성 상황 비교 팁 | 권장 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 구조 | 설계 튜닝 마인드 철학 지점 |
 |:---|:---|:---|
-| **소규모 영세 서버 (용량 2~4TB 하드 3개 꼽음)** | **[RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) (1패리티)** | 용량이 작아서 핫스왑 복원하면 몇 시간 내에 빨리 끝나므로 옆 디스크 연쇄 동사 1차 타격 스로틀 압박이 적다. 싸고 좋음 |
-| **거대 스케일업 장비 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) (16TB [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 8개 장착 대형기)** | **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6 (2패리티)** | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에만 4일 5일이 걸릴 미친 거구라 그 사이 옆 디스크가 운명 사망 돌연사(URE 2중 폭발) 무조건 튀어나옴. 대비책 강제 적용 필! |
+| **소규모 영세 서버 (용량 2~4TB 하드 3개 꼽음)** | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/">RAID 5</a> (1패리티)</strong> | 용량이 작아서 핫스왑 복원하면 몇 시간 내에 빨리 끝나므로 옆 디스크 연쇄 동사 1차 타격 스로틀 압박이 적다. 싸고 좋음 |
+| <strong>거대 스케일업 장비 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a> (16TB <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a> 8개 장착 대형기)</strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 6 (2패리티)</strong> | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에만 4일 5일이 걸릴 미친 거구라 그 사이 옆 디스크가 운명 사망 돌연사(URE 2중 폭발) 무조건 튀어나옴. 대비책 강제 적용 필! |
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (설계자의 오해 치유와 함정 방패)
 - **속도 튜닝 (Write Hole)**: 전원이 불시 정전다운 파괴로 나가면 H/W 캐시에 담겼던 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 조각들이 R6 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수식 계산 중에 끊어져 무덤이 되어 디스크가 걸림 구멍 타락 붕괴([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) Write Hole)가 엄청나게 취약하게 잘 터진다. (이를 해결하기 위해 반드시 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 내장 전지 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 컨트롤러 장착 필요 또는 ZFS [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 차용 채택)
-- **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 예산 로스 (디스크 2개 강제 압수 처형)**: R6 이 만능이라고 디스크 4개 꽂는 미니 나루 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 장비 사놓고 R6으로 세팅한다면? 4개 샀는데 2개(용량 50% 반토막 타락)가 보험료 Q, P로 뜯겨 증발하게 되므로 바보 같은 아키텍처 예산 낭비 산술이 된다. R6는 적어도 6개~8개 이상 다발 장착 베이부터 비로소 효율의 진가를 얻어낸다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a> 예산 로스 (디스크 2개 강제 압수 처형)</strong>: R6 이 만능이라고 디스크 4개 꽂는 미니 나루 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 장비 사놓고 R6으로 세팅한다면? 4개 샀는데 2개(용량 50% 반토막 타락)가 보험료 Q, P로 뜯겨 증발하게 되므로 바보 같은 아키텍처 예산 낭비 산술이 된다. R6는 적어도 6개~8개 이상 다발 장착 베이부터 비로소 효율의 진가를 얻어낸다.
 
 - **📢 섹션 요약 비유**: 이 레이드([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6) 아키텍처는 마치 한 번 항해하면 두 달씩 묵직하게 바다에 대양 떠 있어야 하는 초거대 유조선(대용량 환경) 시나리오 체제입니다. 구명보트 한 대(레벨 5)만 믿고 나갔다가 항해 내내 그 1 보트가 터졌는데 수리할 길이 없는 파도 지옥 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 리스크를 아예 통으로 즈려 밟기 위해서, 적재 짐칸의 이득(돈)을 좀 포기하더라도 구명정 2대(P, Q 듀얼 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 좌우 양쪽 갑판에 달아 두는 엄청난 방어벽 심리 보장 보험료 타결책입니다.
 
@@ -139,7 +137,7 @@ P 값 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql
 | **정성 (야간 운영)** | 주말에 디스크 한 개 터졌다는 알림오면 부장님 모시고 긴급출근 | 두 개 죽을 일은 벼락 맞지 않은 이상 사실상 없으므로 알람 울려도 "월요일 출근해서 천천히 교체해라" 여유 배짱 지시 하달 가능 | 인프라 운영진 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 스트레스 심리적 워라밸 및 탈모 방지 초 보호막 |
 
 ### 미래 전망 통찰
-- 이 물리 HBA 카드 의존형 블록 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6 방정식은, 현재 거대한 클라우드 시대에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 **'소프트웨어 파일시스템 결합 ZFS [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-Z2/Z3)'이나 'Btrfs' 등**으로 무섭게 통합 흡수 돌파 당장 진화되는 세대교체 물결 폭풍에 직면해 있다.
+- 이 물리 HBA 카드 의존형 블록 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6 방정식은, 현재 거대한 클라우드 시대에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 <strong>'소프트웨어 파일시스템 결합 ZFS <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a>-Z2/Z3)'이나 'Btrfs' 등</strong>으로 무섭게 통합 흡수 돌파 당장 진화되는 세대교체 물결 폭풍에 직면해 있다.
 - 더 대단한 것은 구글 인프라, [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)(Ceph) 등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터 네트워크를 관통하며, 더 이상 박스 안에서 P, Q를 맞추는 찌질한 로드 블록 개념이 아니라 거대 네트워크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 노드 N개를 아예 이레이저 코딩 ([Erasure Coding](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/)) 암호화 행렬로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 갈루아 필드 타파 코딩을 뿌려 대형 IDC를 한 채 통째로 렉 째 작살이 나 불에 타더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생존 치유되는 초 거대 통신 클러스터 레이드 진보 개념 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 그 뿌리 철학과 유전자를 이어나가 확장하고 있다. 
 
 결론적으로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 "더 거대해지면 더 무너지기 쉽다"는 하드웨어 물리학적 용량 비대(집적도) 약점을, 순수 고도의 소프트웨어 대수학(갈루아 듀얼 패리티 승수 연립방정식) 아이디어의 승리 하나만으로 무식하게 틀어막아 기업 시스템 붕괴를 버텨 구해낸 21세기 아카이빙 스토리지 시스템의 영원한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 교과서 방어기제다. 돈(용량)과 속도(패널티)를 버리고, 오직 죽지 않는 불사의 맷집 요새 생명력을 손에 넣은 전사.
@@ -159,15 +157,19 @@ P 값 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
-    │
-    ▼
-[RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)]
-    │
-    ├──▶ [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
-    └──▶ [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 5 (블록 단위 스트라이핑 + 분산 패리티)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

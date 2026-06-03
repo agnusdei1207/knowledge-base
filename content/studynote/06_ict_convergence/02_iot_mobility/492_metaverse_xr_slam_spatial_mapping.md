@@ -26,7 +26,7 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 - **VR(Virtual Reality)**: 완전 가상 환경에 몰입. HMD로 현실 차단. Meta Quest, PlayStation VR.
 - **AR(Augmented Reality)**: 현실 위에 디지털 객체 오버레이. 스마트폰 카메라·AR 글래스. Pokemon Go.
 - **MR(Mixed Reality)**: AR보다 강한 현실-디지털 융합. 디지털 객체가 현실 물체와 상호작용. Microsoft HoloLens.
-- **[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([Spatial Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/))**: Apple의 용어. XR을 공간 전체를 컴퓨터 인터페이스로 쓰는 개념으로 확장. Apple Vision Pro.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">공간 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">Spatial Computing</a>)</strong>: Apple의 용어. XR을 공간 전체를 컴퓨터 인터페이스로 쓰는 개념으로 확장. Apple Vision Pro.
 
 - **📢 섹션 요약 비유**: VR은 잠수함 (현실을 완전히 차단), AR은 투명 안경 (현실 위에 정보 추가), MR은 홀로그램 스타워즈 (가상 캐릭터가 책상 위에 서 있음), [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 온 세상이 스크린이 되는 것.
 
@@ -34,25 +34,24 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│               SLAM 기반 공간 인식 처리 흐름               │
-├──────────────────────────────────────────────────────────┤
-│  [입력]  카메라(RGB-D) / IMU(관성) / LiDAR 센서            │
-│     │                                                    │
-│     ▼  특징 추출(Feature Extraction)                      │
-│  [Front-End]  시각적 오도메트리(Visual Odometry)           │
-│     │  현재 위치 추정 (로컬 최적화)                          │
-│     ▼                                                    │
-│  [Back-End]   루프 클로저(Loop Closure) 검출               │
-│     │  누적 오차 보정 (글로벌 최적화, Bundle Adjustment)     │
-│     ▼                                                    │
-│  [출력]  3D 점군 지도 + 자기 위치(6DoF Pose)               │
-│     │                                                    │
-│     ▼  AR/MR 엔진                                         │
-│  디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLAM 기반 공간 인식 처리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">카메라(RGB-D) / IMU(관성) / LiDAR 센서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 특징 추출(Feature Extraction)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Front-End</div><div class="kb-diagram-note">시각적 오도메트리(Visual Odometry)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 위치 추정 (로컬 최적화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Back-End</div><div class="kb-diagram-note">루프 클로저(Loop Closure) 검출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누적 오차 보정 (글로벌 최적화, Bundle Adjustment)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력</div><div class="kb-diagram-note">3D 점군 지도 + 자기 위치(6DoF Pose)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ AR/MR 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)</div></div>
+</div>
+</div>
+
+
 
 ### XR 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 비교
 
@@ -71,16 +70,16 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 
 ## Ⅲ. 비교 및 연결
 
-**[메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 경제 기술 기반**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/">메타버스</a> 경제 기술 기반</strong>
 
 - **아바타 경제**: 디지털 정체성(아바타) + 가상 패션(NFT 아이템) + 소셜 인터랙션.
 - **가상 부동산**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 소유권 증명. Decentraland, The Sandbox. 공간의 희소성 인위적 창출.
-- **[메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 플랫폼**: Roblox(게임 중심), Meta Horizon(소셜 중심), NVIDIA Omniverse(산업 중심).
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/">메타버스</a> 플랫폼</strong>: Roblox(게임 중심), Meta Horizon(소셜 중심), NVIDIA Omniverse(산업 중심).
 
-**[V-SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/) vs [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/">V-SLAM</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a></strong>
 
-- **[V-SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)([Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/))**: RGB-D 카메라만으로 동작. 저비용, 빛에 의존. ARKit·ARCore.
-- **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)**: 레이저 점군 기반. 고정밀·야외·저조도. 자율주행·로봇 주로 사용.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/">V-SLAM</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/">Visual SLAM</a>)</strong>: RGB-D 카메라만으로 동작. 저비용, 빛에 의존. ARKit·ARCore.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a></strong>: 레이저 점군 기반. 고정밀·야외·저조도. 자율주행·로봇 주로 사용.
 
 - **📢 섹션 요약 비유**: V-SLAM은 눈으로 보며 지도 그리기고, [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM은 초음파로 벽을 탐지하는 박쥐다. 박쥐([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))는 어두워도 정확하지만 비싸고, 눈([V-SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/))은 저렴하지만 어두우면 헤맨다.
 
@@ -88,7 +87,7 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**산업별 XR/[SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) 적용**
+<strong>산업별 XR/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a> 적용</strong>
 
 | 산업 | 기술 | 핵심 효과 |
 |:---|:---:|:---|

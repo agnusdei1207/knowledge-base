@@ -31,19 +31,20 @@ tags = ["studynote-operating-system"]
 
 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임에는 보통 복귀 주소, 이전 프레임 포인터, 지역 변수, 임시 값, 인자가 들어간다. [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer)는 현재 꼭대기를 가리키고, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (Frame Pointer)는 현재 프레임의 기준점을 잡아 디버깅과 접근을 쉽게 만든다. 많은 시스템에서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 높은 주소에서 낮은 주소 방향으로 자란다.
 
-```text
-높은 주소
-┌──────────────────┐
-│ 이전 프레임      │
-├──────────────────┤
-│ 복귀 주소        │
-├──────────────────┤
-│ 지역 변수 / 임시값│
-├──────────────────┤
-│ 현재 SP          │
-└──────────────────┘
-낮은 주소
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">높은 주소</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 프레임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복귀 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 / 임시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 SP</div></div>
+<div class="kb-diagram-note">낮은 주소</div>
+</div>
+</div>
+
+
 
 | 항목 | 역할 |
 | --- | --- |
@@ -113,17 +114,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-함수 호출
-   ↓
-새 스택 프레임 생성
-   ↓
-지역 변수 / 복귀 주소 저장
-   ↓
-함수 종료
-   ↓
-프레임 제거
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">함수 호출</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">새 스택 프레임 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지역 변수 / 복귀 주소 저장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">함수 종료</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프레임 제거</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

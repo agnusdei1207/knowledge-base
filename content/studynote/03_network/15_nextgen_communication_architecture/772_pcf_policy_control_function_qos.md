@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 아키텍처([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/)) 내에서, **모든 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름)과 가입자별로 어떤 수준의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))과 과금(Charging) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용할지 결정하고, 그 룰을 다른 네트워크 장비들에게 하달하는 통합 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어 두뇌 서버**입니다.
-- **역사적 매칭**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)) 시절에 존재했던 **PCRF ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) and Charging Rules Function)** 장비가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드 소프트웨어 형태로 진화한 것입니다.
+- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 아키텍처([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/)) 내에서, <strong>모든 통신 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름)과 가입자별로 어떤 수준의 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)과 과금(Charging) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 적용할지 결정하고, 그 룰을 다른 네트워크 장비들에게 하달하는 통합 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 제어 두뇌 서버</strong>입니다.
+- **역사적 매칭**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)) 시절에 존재했던 <strong>PCRF (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> and Charging Rules Function)</strong> 장비가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드 소프트웨어 형태로 진화한 것입니다.
 
-```text
-[SMF]
-    │
-    ▼
-[PCF]
-    │
-    └──▶ [네트워크 슬라이싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PCF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - PCF는 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)(이동성/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)), UDM(가입자 DB) 등 사내 단톡방([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))에 모인 모든 [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 모듈들에게 RESTful API로 법령집을 뿌립니다.
 - "나 PCF인데, 어제 국회(통신사 본사)에서 통과된 새로운 요금제 차단 룰북 새로 업데이트해서 올렸으니까, 다들 다운받아서 당장 현장에 적용해!"
 
-```text
-[SMF]
-    │
-    ▼
-[PCF]
-    │
-    └──▶ [네트워크 슬라이싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SMF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PCF는 놀이공원의 '매직패스(VIP) 운영 위원회'입니다. 놀이공원 입구(기지국)나 롤러코스터 줄 서는 곳(UPF 톨게이트)의 말단 직원들은 승객의 등급을 모릅니다. 이때 펜트하우스에 있는 운영 위원회(PCF)가 컴퓨터로 전체 직원들에게 규정집을 하달합니다. "검은색 매직패스 팔찌 찬 사람(VIP 요금제) 오면 일반 줄 세우지 말고 무조건 하이패스로 통과시키고, 빨간색 팔찌 찬 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소진자)은 대기 시간 30분 늘려라!" 5G의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도 조절과 우선순위 차별은 이 PCF의 도장 하나로 시작되고 끝납니다.
 
@@ -74,7 +82,7 @@ PCF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - SMF는 이 법(Rule)을 받아다가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 톨게이트인 UPF에게 세팅합니다. 홍길동의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도는 즉각 400kbps로 고정됩니다.
 
 ### 2. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 (앱별) 트래픽 우선순위 통제 (망 중립성 예외)
-- 사람이 쓰는 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다, 생명이 달린 **[VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)(음성통화)** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 **자율주행 브레이크 패킷([uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))**이 훨씬 중요합니다.
+- 사람이 쓰는 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다, 생명이 달린 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/">VoLTE</a>(음성통화)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 <strong>자율주행 브레이크 패킷(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a>)</strong>이 훨씬 중요합니다.
 - PCF는 네트워크 전체에 법을 선포합니다. "만약 UPF(톨게이트)에 자율주행 패킷이 들어오면, 다른 놈들 다 멈춰 세우고 얘부터 1순위 하이패스로 통과시켜라!" 이 QCI/5QI 등급표를 관리하고 뿌리는 곳이 PCF입니다.
 
 ### 3. [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어
@@ -110,15 +118,19 @@ PCF는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SMF]
-    │
-    ▼
-[현재 개념: PCF]
-    │
-    ├──▶ [확장 A: 네트워크 슬라이싱]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SMF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PCF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 슬라이싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 PCF는 SMF에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

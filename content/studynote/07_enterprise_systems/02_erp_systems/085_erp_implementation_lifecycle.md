@@ -104,21 +104,27 @@ ERP는 재무, 구매, 생산, 인사 같은 핵심 업무를 하나의 흐름�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-준비 / 범위 합의
-   ↓
-Fit-Gap 분석
-   ↓
-설계·커스터마이징
-   ↓
-마스터 데이터 정제 / 이관
-   ↓
-UAT 및 전환 리허설
-   ↓
-Cutover
-   ↓
-Hypercare / 안정화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">준비 / 범위 합의</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Fit-Gap 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">설계·커스터마이징</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">마스터 데이터 정제 / 이관</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">UAT 및 전환 리허설</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cutover</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hypercare / 안정화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

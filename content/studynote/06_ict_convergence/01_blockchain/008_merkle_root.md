@@ -45,57 +45,49 @@ tags = ["ict_convergence"]
 
 ### 머클 루트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 상세
 
-```
-[거래 목록]
-│
-▼
-┌──────────────────────────────────────────────────────────────────┐
-│ 1단계: 각 거래의 해시값 계산 (SHA-256) │
-│ TX1 ──► H1 = SHA256(TX1) │
-│ TX2 ──► H2 = SHA256(TX2) │
-│ TX3 ──► H3 = SHA256(TX3) │
-│ TX4 ──► H4 = SHA256(TX4) │
-└──────────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────────────────────────────────────────┐
-│ 2단계: 해시값 결합 후 해시 (Level 1) │
-│ H1 + H2 ──► H12 = SHA256(H1 ∥ H2) │
-│ H3 + H4 ──► H34 = SHA256(H3 ∥ H4) │
-└──────────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────────────────────────────────────────┐
-│ 3단계:상위 레벨 결합 후 해시 (Level 2) │
-│ H12 + H34 ──► H1234 = SHA256(H12 ∥ H34) │
-│ │ │
-│ ▼ │
-│ [머클 루트 = H1234] (항상 32바이트) │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">거래 목록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 각 거래의 해시값 계산 (SHA-256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX1 ──► H1 = SHA256(TX1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX2 ──► H2 = SHA256(TX2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX3 ──► H3 = SHA256(TX3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX4 ──► H4 = SHA256(TX4)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 해시값 결합 후 해시 (Level 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H1 + H2 ──► H12 = SHA256(H1 ∥ H2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H3 + H4 ──► H34 = SHA256(H3 ∥ H4)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계:상위 레벨 결합 후 해시 (Level 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H12 + H34 ──► H1234 = SHA256(H12 ∥ H34)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 루트 = H1234</div><div class="kb-diagram-note">(항상 32바이트)</div></div>
+</div>
+</div>
+
+
 
 머클 루트의 핵심 특성은결정론적(Deterministic)이라는 점이다. 동일한 거래 목록으로부터 항상동일한 머클 루트가 생성된다. 이것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 환경에서 모든 노드가 독립적으로 동일한 머클 루트를 컴퓨팅하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있음을 의미한다.
 
 ### 머클 루트와 블록 헤더
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ 블록 헤더 (80바이트) │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ 버전 (4B) │ 이전 블록 해시 (32B) │ 머클 루트 (32B) │
-│ ───────── ────────────────── ───────────── │
-│ 타임스탬프 (4B) │ 난이도 목표 (4B) │ 논스 (4B) │
-│ │
-└──────────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────┐
-│ 블록 헤더의 Double SHA-256 │
-│ = 블록 자체의 고유 해시값 │
-│ (블록을하게 식별) │
-└──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더 (80바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전 (4B)</div><div class="kb-diagram-cell">이전 블록 해시 (32B)</div><div class="kb-diagram-cell">머클 루트 (32B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프 (4B)</div><div class="kb-diagram-cell">난이도 목표 (4B)</div><div class="kb-diagram-cell">논스 (4B)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더의 Double SHA-256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 블록 자체의 고유 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블록을하게 식별)</div></div>
+</div>
+</div>
+
+
 
 머클 루트는 블록 헤더의 3번째 필드에 위치하며, 다른 필드([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 이전 블록 해시, 타임스탬프, 난이도, 논스)와 함께 블록 헤더 전체의 해시값(블록 해시)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는inputs 중 하나이다. 따라서 거래 내용(TX)이 바뀌면 머클 루트가 바뀌고, 이것은 블록 헤더의 해시값도 바꿔버린다. 이것이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의변조 방지의핵심 메커니즘이다.
 
@@ -167,79 +159,72 @@ SPV 클라이언트(예: 모바일지갑)는 전체 블록을 다운로드하지
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```
-+------------------------------------------------------------------+
-| 머클 루트 생성 및 검증 원리 |
-+------------------------------------------------------------------+
-| │
-│ [거래 목록] │
-│ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8 │
-│ │ │
-│ ▼ │
-│ [머클 트리 ] │
-│ │
-│ Level 0 (Leaf): H1 H2 H3 H4 H5 H6 H7 H8 │
-│ │ │
-│ Level 1: H12 H34 H56 H78 │
-│ │ │
-│ Level 2: H1234 H5678 │
-│ │ │
-│ Level 3: 머클 루트 │
-│ (H12345678) │
-│ = 항상 32B │
-│ │
-+------------------------------------------------------------------+
-| 검증 과정: |
-│ │
-│ [증명 대상 거래: TX5] │
-│ TX5의형제: H6 ──► H56 │
-│ H56의형제: H78 ──► H5678 │
-│ H5678의형제: H1234 ──► 머클 루트 │
-│ │
-│ ✅ 증명된 머클 루트 == 실제 블록의 머클 루트 → 거래 유효 │
-│ ❌ 증명된 머클 루트 != 실제 블록의 머클 루트 → 거래 위조/누락 │
-+------------------------------------------------------------------+
-| 핵심 특성: |
-| - 단일 해시값으로 N개 거래 무결성 대표 |
-| - 거래 1개라도 변경 → 머클 루트대폭 변경 │
-| - SPV클라이언트는 전체 블록 없이 거래 검증 가능 │
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트 생성 및 검증 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거래 목록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 (Leaf): H1 H2 H3 H4 H5 H6 H7 H8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: H12 H34 H56 H78</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: H1234 H5678</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: 머클 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H12345678)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 항상 32B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 과정:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">증명 대상 거래: TX5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX5의형제: H6 ──► H56</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H56의형제: H78 ──► H5678</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H5678의형제: H1234 ──► 머클 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 증명된 머클 루트 == 실제 블록의 머클 루트 → 거래 유효</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 증명된 머클 루트 != 실제 블록의 머클 루트 → 거래 위조/누락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단일 해시값으로 N개 거래 무결성 대표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 거래 1개라도 변경 → 머클 루트대폭 변경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SPV클라이언트는 전체 블록 없이 거래 검증 가능</div></div>
+</div>
+</div>
+
+
 
 
 ### 📌 관련 개념 맵
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))** | SHA-256 기반으로 각 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 고정 길이 32바이트 지문으로 변환하는 핵심 연산 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong> | SHA-256 기반으로 각 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 고정 길이 32바이트 지문으로 변환하는 핵심 연산 |
 | **이진 해시 트리 (Binary Hash Tree)** | 거래 해시를 쌍으로 합쳐 단계적으로 올라가는 트리 구조로, 루트 한 개가 전체를 대표 |
-| **SPV (Simple Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 머클 증명 경로만으로 전체 블록 없이 특정 거래의 포함 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 경량 클라이언트 기술 |
+| <strong>SPV (Simple Payment <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 머클 증명 경로만으로 전체 블록 없이 특정 거래의 포함 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 경량 클라이언트 기술 |
 | **블록 헤더 (Block Header)** | 머클 루트를 포함한 80바이트 메타데이터로, [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW)의 해싱 대상이 되는 핵심 구조 |
 | **Verkle 트리 (Verkle Tree)** | 이더리움 2.0에서 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)를 대체하여 증명 크기를 수십 배 줄이는 차세대 암호화 트리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개별 트랜잭션 해시 (TX Hash)]
-│
-▼
-[머클 트리 (Merkle Tree) — 쌍 결합 해싱]
-│
-▼
-[머클 루트 (Merkle Root) — 단일 32바이트 지문]
-│
-▼
-[블록 헤더 (Block Header) — 머클 루트 삽입]
-│
-▼
-[SPV 경량 검증 (Simple Payment Verification)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개별 트랜잭션 해시 (TX Hash)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리 (Merkle Tree) — 쌍 결합 해싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 루트 (Merkle Root) — 단일 32바이트 지문</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 헤더 (Block Header) — 머클 루트 삽입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPV 경량 검증 (Simple Payment Verification)</div></div>
+</div>
+</div>
+
+
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 수천 개의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 단일 해시 값으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 경량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 가능하게 하는 머클 루트 기술 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 머클 루트는 수천 장의 영수증을 **딱 한 줄의 암호**로 요약한 마법 도장이에요.
+1. 머클 루트는 수천 장의 영수증을 <strong>딱 한 줄의 암호</strong>로 요약한 마법 도장이에요.
 2. 누군가 영수증 한 장을 몰래 바꾸면 암호가 완전히 달라져서 바로 들키게 돼요.
 3. 이 마법 도장 덕분에 가벼운 스마트폰도 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전체를 내려받지 않고 내 거래가 진짜인지 확인할 수 있어요!
 

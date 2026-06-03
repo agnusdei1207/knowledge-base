@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 해킹 사고의 70% 이상은 단 하나의 원인에서 출발한다. 바로 **[메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)([Memory Safety](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)) 취약점**이다. 
+소프트웨어 해킹 사고의 70% 이상은 단 하나의 원인에서 출발한다. 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">메모리 안전성</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/">Memory Safety</a>) 취약점</strong>이다. 
 
 C와 C++는 개발자에게 메모리를 마음대로 다룰 자유(포인터, `malloc/free`)를 주었다. 개발자가 실수로 이미 해제한 메모리를 또 해제하려 하거나([Double Free](/knowledge-base/studynote/09_security/04_endpoint_security/352_double_free/)), 허용된 메모리 크기보다 더 큰 값을 밀어 넣으면([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 해커는 그 틈을 타서 악성코드를 실행했다.
 
-이 문제를 막기 위해 Java, Python, Go 같은 언어들은 **[가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)**라는 청소부를 런타임에 띄워서 안 쓰는 메모리를 대신 치워주었다. 안전해졌지만, 청소부가 돌 때마다 시스템이 순간적으로 멈추는(Stop-the-world) 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 발생했다.
+이 문제를 막기 위해 Java, Python, Go 같은 언어들은 <strong><a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>(GC)</strong>라는 청소부를 런타임에 띄워서 안 쓰는 메모리를 대신 치워주었다. 안전해졌지만, 청소부가 돌 때마다 시스템이 순간적으로 멈추는(Stop-the-world) 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 발생했다.
 
-결국 마이크로소프트, 리눅스 재단 등은 선언했다. **"C++의 미친 속도와 Java의 안전성을 동시에 가질 수는 없을까?"** 이 불가능해 보이던 딜레마를 해결하며 구세주처럼 등장한 언어가 바로 **Rust(러스트)**다.
+결국 마이크로소프트, 리눅스 재단 등은 선언했다. **"C++의 미친 속도와 Java의 안전성을 동시에 가질 수는 없을까?"** 이 불가능해 보이던 딜레마를 해결하며 구세주처럼 등장한 언어가 바로 <strong>Rust(러스트)</strong>다.
 
 - **📢 섹션 요약 비유**: C++는 날카로운 식칼이다. 고기를 빨리 썰 수 있지만, 요리사가 방심하면 손가락(보안)이 잘린다. Java는 칼날에 두꺼운 플라스틱 보호대(GC)를 씌웠다. 손은 안 다치지만 고기가 잘 안 썰린다(느리다). Rust는 칼 자체에 센서(컴파일러)를 달아서, 요리사가 손을 벨 각도로 칼을 휘두르면 아예 칼이 멈춰버리는 마법의 식칼이다.
 
@@ -33,18 +33,17 @@ C와 C++는 개발자에게 메모리를 마음대로 다룰 자유(포인터, `
 
 다음은 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) 언어 (Rust) 컴파의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메모리 안전성 언어 (Rust) 컴파                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 안전성 언어 (Rust) 컴파</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) 언어 (Rust) 컴파가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -79,7 +78,7 @@ Rust 컴파일러가 마법을 부리는 핵심 무기는 세 가지다: **소�
 | 비교 항목 | C / C++ | Java / Go / C# | Rust |
 |:---|:---|:---|:---|
 | **메모리 관리 주체**| 개발자 수동 관리 (`malloc`, `free`) | [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/) (런타임 로봇) | **컴파일러 (빌드 시 자동 주입)** |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Speed)** | **매우 빠름** (오버헤드 0) | 약간 느림 (GC 정지 현상) | **매우 빠름** (C++ 급) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Speed)</strong> | **매우 빠름** (오버헤드 0) | 약간 느림 (GC 정지 현상) | **매우 빠름** (C++ 급) |
 | **안전성 (Safety)**| 매우 취약 ([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 등) | 높음 (메모리 에러 방어) | **완벽함** (컴파일이 곧 안전 증명) |
 | **개발/학습 난이도**| 높음 | 쉬움 | **극악 (컴파일러와 매일 싸워야 함)** |
 
@@ -134,21 +133,23 @@ Rust를 사내 모든 시스템에 도입하는 것은 미친 짓이다. Rust의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-메모리 안전성 언어 (Rust) 컴파일러 검증 차용 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 안전성 언어 (Rust) 컴파일러 검증 차용 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

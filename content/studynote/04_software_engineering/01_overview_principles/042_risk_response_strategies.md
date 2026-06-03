@@ -18,37 +18,39 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/) 4유형
 
-```
-위험 대응 전략 (PMBOK, ISO 31000):
 
-1. 회피 (Avoid):
-   위험 원인/활동 자체를 제거
-   예: 미검증 기술 스택 → 검증된 기술로 교체
-       불확실 요구사항 작업 → 착수 연기
-   장점: 위험 근본 제거
-   단점: 기회도 포기 (범위/일정 변경)
 
-2. 전가 (Transfer):
-   위험의 재무적 결과를 제3자에게 이전
-   예: 외주 계약 (성과 책임 전가)
-       사이버 보험 (데이터 유출 피해 전가)
-       SLA 패널티 조항 (공급업체 위험 전가)
-   장점: 재무 리스크 이전
-   단점: 비용 발생, 위험 자체는 존재
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 대응 전략 (PMBOK, ISO 31000):</div>
+<div class="kb-diagram-note">1. 회피 (Avoid):</div>
+<div class="kb-diagram-note">위험 원인/활동 자체를 제거</div>
+<div class="kb-diagram-note">예: 미검증 기술 스택 → 검증된 기술로 교체</div>
+<div class="kb-diagram-note">불확실 요구사항 작업 → 착수 연기</div>
+<div class="kb-diagram-note">장점: 위험 근본 제거</div>
+<div class="kb-diagram-note">단점: 기회도 포기 (범위/일정 변경)</div>
+<div class="kb-diagram-note">2. 전가 (Transfer):</div>
+<div class="kb-diagram-note">위험의 재무적 결과를 제3자에게 이전</div>
+<div class="kb-diagram-note">예: 외주 계약 (성과 책임 전가)</div>
+<div class="kb-diagram-note">사이버 보험 (데이터 유출 피해 전가)</div>
+<div class="kb-diagram-note">SLA 패널티 조항 (공급업체 위험 전가)</div>
+<div class="kb-diagram-note">장점: 재무 리스크 이전</div>
+<div class="kb-diagram-note">단점: 비용 발생, 위험 자체는 존재</div>
+<div class="kb-diagram-note">3. 완화 (Mitigate):</div>
+<div class="kb-diagram-note">위험 발생 확률 또는 영향도 감소</div>
+<div class="kb-diagram-note">예: 코드 리뷰 강화 (버그 확률 감소)</div>
+<div class="kb-diagram-note">테스트 자동화 (영향 감소)</div>
+<div class="kb-diagram-note">이중화 구성 (장애 영향 최소화)</div>
+<div class="kb-diagram-note">가장 많이 사용되는 전략</div>
+<div class="kb-diagram-note">4. 수용 (Accept):</div>
+<div class="kb-diagram-note">위험을 인지하고 그대로 받아들임</div>
+<div class="kb-diagram-note">능동적: 비상 계획/예비비 수립</div>
+<div class="kb-diagram-note">수동적: 위험 발생 시 대응 (사전 계획 없음)</div>
+<div class="kb-diagram-note">적용: 낮은 위험, 대응 비용 &gt; 위험 비용</div>
+</div>
+</div>
 
-3. 완화 (Mitigate):
-   위험 발생 확률 또는 영향도 감소
-   예: 코드 리뷰 강화 (버그 확률 감소)
-       테스트 자동화 (영향 감소)
-       이중화 구성 (장애 영향 최소화)
-   가장 많이 사용되는 전략
 
-4. 수용 (Accept):
-   위험을 인지하고 그대로 받아들임
-   능동적: 비상 계획/예비비 수립
-   수동적: 위험 발생 시 대응 (사전 계획 없음)
-   적용: 낮은 위험, 대응 비용 > 위험 비용
-```
 
 > 📢 **섹션 요약 비유**: 4가지 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 폭풍 대비법 — 회피(여행 취소), 전가(여행 보험), 완화(튼튼한 우산), 수용(비 맞기 각오).
 
@@ -56,33 +58,33 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 위험 매트릭스와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택
 
-```
-위험 매트릭스 (Risk Matrix):
 
-         낮은 확률    높은 확률
-높은 영향  |  완화/전가  |  회피/전가  |
-낮은 영향  |  수용       |  완화/수용  |
 
-위험 점수 = 확률(1~5) × 영향(1~5)
-  1~4:  낮음 (수용 가능)
-  5~9:  중간 (완화/모니터링)
-  10~14: 높음 (완화/전가)
-  15~25: 심각 (회피/전가)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 매트릭스 (Risk Matrix):</div>
+<div class="kb-diagram-note">낮은 확률 높은 확률</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 영향</div><div class="kb-diagram-cell">완화/전가</div><div class="kb-diagram-cell">회피/전가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 영향</div><div class="kb-diagram-cell">수용</div><div class="kb-diagram-cell">완화/수용</div></div>
+<div class="kb-diagram-note">위험 점수 = 확률(1~5) × 영향(1~5)</div>
+<div class="kb-diagram-note">1~4: 낮음 (수용 가능)</div>
+<div class="kb-diagram-note">5~9: 중간 (완화/모니터링)</div>
+<div class="kb-diagram-note">10~14: 높음 (완화/전가)</div>
+<div class="kb-diagram-note">15~25: 심각 (회피/전가)</div>
+<div class="kb-diagram-note">예시 위험 선택:</div>
+<div class="kb-diagram-note">새 프레임워크 도입 (확률2, 영향4, 점수8):</div>
+<div class="kb-diagram-note">→ 완화: PoC(기술 검증) 후 진행</div>
+<div class="kb-diagram-note">핵심 개발자 이탈 (확률3, 영향5, 점수15):</div>
+<div class="kb-diagram-note">→ 전가/완화: 지식 이전 문서화</div>
+<div class="kb-diagram-note">복수 담당자 지정</div>
+<div class="kb-diagram-note">데이터 유출 (확률1, 영향5, 점수5):</div>
+<div class="kb-diagram-note">→ 전가: 사이버 보험 + 완화: 암호화</div>
+<div class="kb-diagram-note">사소한 UI 버그 (확률4, 영향1, 점수4):</div>
+<div class="kb-diagram-note">→ 수용: 이슈 트래커 등록, 다음 릴리즈 대응</div>
+</div>
+</div>
 
-예시 위험 선택:
-  새 프레임워크 도입 (확률2, 영향4, 점수8):
-  → 완화: PoC(기술 검증) 후 진행
 
-  핵심 개발자 이탈 (확률3, 영향5, 점수15):
-  → 전가/완화: 지식 이전 문서화
-              복수 담당자 지정
-
-  데이터 유출 (확률1, 영향5, 점수5):
-  → 전가: 사이버 보험 + 완화: 암호화
-
-  사소한 UI 버그 (확률4, 영향1, 점수4):
-  → 수용: 이슈 트래커 등록, 다음 릴리즈 대응
-```
 
 > 📢 **섹션 요약 비유**: 위험 매트릭스는 의사 결정 지도 — 심각도×발생 가능성으로 좌표를 찍고 "회피/완화/전가/수용" 구역 중 어디에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
@@ -90,35 +92,35 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 잔류 위험과 보조 위험
 
-```
-잔류 위험 (Residual Risk):
-  대응 전략 적용 후에도 남아있는 위험
-  
-  완화 후 잔류 위험:
-    완화 전: 확률3, 영향4, 점수12 (높음)
-    완화 후: 확률2, 영향3, 점수6  (중간)
-    → 잔류 위험 6점에 대한 수용 결정 필요
 
-보조 위험 (Secondary Risk):
-  위험 대응 전략 실행으로 발생하는 새로운 위험
-  
-  예: 외주 전가(Transfer) → 외주사 부도 위험 (보조)
-  테스트 자동화(Mitigate) → 자동화 유지보수 위험 (보조)
-  
-위험 유발 원인(Trigger):
-  위험 발생 징후 (Early Warning Signal)
-  비상 계획 실행 기준점
 
-비상 계획 (Contingency Plan):
-  위험 발생 시 사전 정의된 대응 절차
-  비상 예비비 (Contingency Reserve): 예산의 5~15%
-  관리 예비비 (Management Reserve): 미지 위험 대비
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">잔류 위험 (Residual Risk):</div>
+<div class="kb-diagram-note">대응 전략 적용 후에도 남아있는 위험</div>
+<div class="kb-diagram-note">완화 후 잔류 위험:</div>
+<div class="kb-diagram-note">완화 전: 확률3, 영향4, 점수12 (높음)</div>
+<div class="kb-diagram-note">완화 후: 확률2, 영향3, 점수6 (중간)</div>
+<div class="kb-diagram-note">→ 잔류 위험 6점에 대한 수용 결정 필요</div>
+<div class="kb-diagram-note">보조 위험 (Secondary Risk):</div>
+<div class="kb-diagram-note">위험 대응 전략 실행으로 발생하는 새로운 위험</div>
+<div class="kb-diagram-note">예: 외주 전가(Transfer) → 외주사 부도 위험 (보조)</div>
+<div class="kb-diagram-note">테스트 자동화(Mitigate) → 자동화 유지보수 위험 (보조)</div>
+<div class="kb-diagram-note">위험 유발 원인(Trigger):</div>
+<div class="kb-diagram-note">위험 발생 징후 (Early Warning Signal)</div>
+<div class="kb-diagram-note">비상 계획 실행 기준점</div>
+<div class="kb-diagram-note">비상 계획 (Contingency Plan):</div>
+<div class="kb-diagram-note">위험 발생 시 사전 정의된 대응 절차</div>
+<div class="kb-diagram-note">비상 예비비 (Contingency Reserve): 예산의 5~15%</div>
+<div class="kb-diagram-note">관리 예비비 (Management Reserve): 미지 위험 대비</div>
+<div class="kb-diagram-note">위험 노출도 (Risk Exposure):</div>
+<div class="kb-diagram-note">RE = 확률(P) × 영향(I)</div>
+<div class="kb-diagram-note">예: P=0.3, I=100만원 → RE=30만원</div>
+<div class="kb-diagram-note">→ 30만원 이하 완화 비용이면 완화 가치 있음</div>
+</div>
+</div>
 
-위험 노출도 (Risk Exposure):
-  RE = 확률(P) × 영향(I)
-  예: P=0.3, I=100만원 → RE=30만원
-  → 30만원 이하 완화 비용이면 완화 가치 있음
-```
+
 
 > 📢 **섹션 요약 비유**: 잔류 위험은 우산 후 남은 빗물 — 완벽한 우산도 발은 젖는다. 이 남은 위험을 받아들일지, 장화도 신을지 결정.
 

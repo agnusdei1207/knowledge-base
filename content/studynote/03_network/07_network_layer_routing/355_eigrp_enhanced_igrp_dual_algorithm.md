@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IGRP의 단점(클래스풀)을 완벽히 해결하고 수렴(Convergence) 속도를 극대화한 시스코의 하이브리드 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 88번, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.10` 사용).
-- **필요성**: OSPF는 전 세계 표준이고 완벽에 가까웠다. 하지만 결정적인 단점이 있었다. 선이 하나 끊어지면 동네방네 엽서를 다 뿌린(Flooding) 다음, 라우터 CPU가 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 수학 공식을 다시 처음부터 끝까지 팽팽 돌려야만 우회로가 뚫렸다. "CPU 부하도 심하고, 계산하는 데 2~3초 걸리잖아? **우린 공식 안 돌리고 끊어지자마자 0초 만에 바로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(수렴)되는 미친 속도의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(DUAL)을 만들 거야!**" 시스코 엔지니어들의 집념이 만들어 낸 괴물이다.
+- **필요성**: OSPF는 전 세계 표준이고 완벽에 가까웠다. 하지만 결정적인 단점이 있었다. 선이 하나 끊어지면 동네방네 엽서를 다 뿌린(Flooding) 다음, 라우터 CPU가 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 수학 공식을 다시 처음부터 끝까지 팽팽 돌려야만 우회로가 뚫렸다. "CPU 부하도 심하고, 계산하는 데 2~3초 걸리잖아? <strong>우린 공식 안 돌리고 끊어지자마자 0초 만에 바로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(수렴)되는 미친 속도의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(DUAL)을 만들 거야!</strong>" 시스코 엔지니어들의 집념이 만들어 낸 괴물이다.
 
 - **💡 비유**: 
-  - **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)**: 회사 출근길 1번 다리가 무너졌습니다. 나는 즉시 헬기를 띄워 도시 전체 지도를 다시 그리고([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 연산), 2번 다리로 돌아가는 길을 찾아냅니다. 정확하지만 지도 그리는 데 3분이 걸립니다.
-  - **EIGRP (DUAL)**: 평소 출근할 때 이미 **"1번 다리가 무너지면 2번 다리로 간다"는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 플랜(Feasible Successor)을 수첩에 미리 적어 놨습니다**. 1번 다리가 무너지는 걸 본 순간, 뇌(CPU)를 거치지 않고 몸이 반사적으로 2번 다리 쪽으로 핸들을 확 꺾어버립니다 (0초 수렴).
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 회사 출근길 1번 다리가 무너졌습니다. 나는 즉시 헬기를 띄워 도시 전체 지도를 다시 그리고([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 연산), 2번 다리로 돌아가는 길을 찾아냅니다. 정확하지만 지도 그리는 데 3분이 걸립니다.
+  - **EIGRP (DUAL)**: 평소 출근할 때 이미 <strong>"1번 다리가 무너지면 2번 다리로 간다"는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 플랜(Feasible Successor)을 수첩에 미리 적어 놨습니다</strong>. 1번 다리가 무너지는 걸 본 순간, 뇌(CPU)를 거치지 않고 몸이 반사적으로 2번 다리 쪽으로 핸들을 확 꺾어버립니다 (0초 수렴).
 
-```text
-[IGRP]
-    │
-    ▼
-[EIGRP]
-    │
-    └──▶ [EIGRP 특징: 부분/바운디드 업데이트,…]
-```
 
-- **📢 섹션 요약 비유**: ** EIGRP는 전교 1등([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))의 꼼꼼한 노트 필기법([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 교환)과 전교 꼴찌([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))의 단순한 뇌 구조(남의 말 믿기)를 융합하여, **가장 빠르고 가벼우면서도 틀리지 않는 시험 정답([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 뽑아내는 하이브리드 잡종 천재**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IGRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> EIGRP는 전교 1등(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)의 꼼꼼한 노트 필기법(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 교환)과 전교 꼴찌(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>)의 단순한 뇌 구조(남의 말 믿기)를 융합하여, </strong>가장 빠르고 가벼우면서도 틀리지 않는 시험 정답([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 뽑아내는 하이브리드 잡종 천재**입니다.
 
 ---
 
@@ -44,46 +48,45 @@ tags = ["studynote-network"]
 ### 1. EIGRP를 지탱하는 3개의 수첩 (테이블)
 EIGRP 라우터는 머릿속에 정확히 3개의 장부를 들고 다닌다.
 1. **Neighbor Table (이웃 장부)**: 나랑 연결된 EIGRP 라우터 친구들의 연락처 명부. `Hello` 패킷을 주고받으며 5초에 한 번씩 생사를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-2. **Topology Table (토폴로지 장부)**: 이웃들이 나한테 "여기로 가면 10점이야, 저기로 가면 20점이야"라고 던져준 **모든 소문(경로)들의 총합본**이다. OSPF처럼 실제 지형도를 그리는 게 아니라 그냥 남들이 던져준 숫자([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) 목록표다.
-3. **[Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 장부, RIB)**: 토폴로지 장부에 적힌 길들 중에 가장 점수([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 싼 **진짜 1등 길만 쏙 뽑아서 올리는 VVIP 장부**. 실제 패킷은 이 장부를 보고 포워딩된다.
+2. **Topology Table (토폴로지 장부)**: 이웃들이 나한테 "여기로 가면 10점이야, 저기로 가면 20점이야"라고 던져준 <strong>모든 소문(경로)들의 총합본</strong>이다. OSPF처럼 실제 지형도를 그리는 게 아니라 그냥 남들이 던져준 숫자([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) 목록표다.
+3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Table (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 장부, RIB)</strong>: 토폴로지 장부에 적힌 길들 중에 가장 점수([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 싼 **진짜 1등 길만 쏙 뽑아서 올리는 VVIP 장부**. 실제 패킷은 이 장부를 보고 포워딩된다.
 
 ### 2. DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 1등과 2등 뽑기
 EIGRP의 심장인 DUAL의 용어는 시험에 100% 단골 출제된다.
 - **FD (Feasible Distance)**: 내 라우터에서 목적지까지 가는 총점수 (총 코스트).
 - **AD (Advertised Distance)**: 내 옆집 라우터부터 목적지까지 가는 점수.
 - **Successor (석세서, 1등 경로)**: FD가 가장 낮아서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올라간 메인 도로.
-- **Feasible Successor (피저블 석세서, 2등 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 경로) ★핵심**: 
+- <strong>Feasible Successor (피저블 석세서, 2등 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 경로) ★핵심</strong>: 
   - 조건: `2등 길의 AD < 1등 길의 FD`
-  - 이 이상한 공식을 통과한 2등 길만 토폴로지 장부에 **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)용으로 합격 마크를 찍어둔다**. (루프를 방지하기 위한 절대 수학 공식이다).
+  - 이 이상한 공식을 통과한 2등 길만 토폴로지 장부에 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>용으로 합격 마크를 찍어둔다</strong>. (루프를 방지하기 위한 절대 수학 공식이다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DUAL 알고리즘의 무중단 수렴(Convergence) 도식     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   목적지로 가는 두 갈래 길:                                       │
- │   [ 1번 윗길 ] 나 ─(5)─ A ─(5)─ 목적지  (총 10점, 내 친구 A는 5점) │
- │   [ 2번 아랫길 ] 나 ─(10)─ B ─(5)─ 목적지  (총 15점, 내 친구 B는 5점) │
- │                                                             │
- │   1. 1등 뽑기 (Successor):                                    │
- │      총점이 10점으로 더 싼 [1번 윗길] 당첨! (라우팅 테이블 등재)        │
- │                                                             │
- │   2. 2등 백업 자격 심사 (Feasible Successor 조건):               │
- │      B가 부르는 점수(AD=5) < 1등 총점(FD=10)                      │
- │      ▶ 5 < 10 이니까 합격! [2번 아랫길]은 훌륭한 백업이다!            │
- │                                                             │
- │   3. 기적의 수렴 (1번 선로 포크레인 컷!!):                           │
- │      1번 윗길 폭파됨 ──▶ 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"    │
- │      ──▶ **연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!**       │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DUAL 알고리즘의 무중단 수렴(Convergence) 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지로 가는 두 갈래 길:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1번 윗길</div><div class="kb-diagram-note">나 ─(5)─ A ─(5)─ 목적지 (총 10점, 내 친구 A는 5점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2번 아랫길</div><div class="kb-diagram-note">나 ─(10)─ B ─(5)─ 목적지 (총 15점, 내 친구 B는 5점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 1등 뽑기 (Successor):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">총점이 10점으로 더 싼</div><div class="kb-diagram-node">1번 윗길</div><div class="kb-diagram-note">당첨! (라우팅 테이블 등재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 2등 백업 자격 심사 (Feasible Successor 조건):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B가 부르는 점수(AD=5) &lt; 1등 총점(FD=10)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2번 아랫길</div><div class="kb-diagram-note">은 훌륭한 백업이다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 기적의 수렴 (1번 선로 포크레인 컷!!):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 윗길 폭파됨 ──▶ 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!</div></div>
+</div>
+</div>
+
+
 
 ### 3. [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) (Reliable Transport [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)
-- RIP나 OSPF가 그냥 브로드캐스트/[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 엽서를 툭 던지고 마는 반면, EIGRP는 지도를 보낼 때 **RTP라는 깐깐한 배달 증명서 시스템**을 쓴다.
+- RIP나 OSPF가 그냥 브로드캐스트/[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 엽서를 툭 던지고 마는 반면, EIGRP는 지도를 보낼 때 <strong>RTP라는 깐깐한 배달 증명서 시스템</strong>을 쓴다.
 - 내가 이웃한테 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(`224.0.0.10`)로 지도를 쏘면, 이웃은 반드시 나한테 유니캐스트로 "나 지도 잘 받았어(ACK)!"라고 서명해서 돌려줘야 한다. 
 - 답장이 안 오면 그놈한테만 다시 1:1로 16번이나 재전송하며 끝까지 챙기는 끈질긴 책임감을 보여준다.
 
-- **📢 섹션 요약 비유**: ** EIGRP의 DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 타이어가 터졌을 때 즉석에서 고무를 녹여 타이어를 다시 만드는 것([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))이 아니라, 평소에 트렁크에 공기가 꽉 찬 **"완벽한 스페어타이어(Feasible Successor)"**를 싣고 다니다가 펑크가 나자마자 1분 만에 갈아 끼우고 쾌속 질주하는 F1 피트스톱의 정수입니다.
+- **📢 섹션 요약 비유**: <strong> EIGRP의 DUAL <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 타이어가 터졌을 때 즉석에서 고무를 녹여 타이어를 다시 만드는 것(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)이 아니라, 평소에 트렁크에 공기가 꽉 찬 </strong>"완벽한 스페어타이어(Feasible Successor)"**를 싣고 다니다가 펑크가 나자마자 1분 만에 갈아 끼우고 쾌속 질주하는 F1 피트스톱의 정수입니다.
 
 ---
 
@@ -139,15 +142,19 @@ EIGRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IGRP]
-    │
-    ▼
-[현재 개념: EIGRP]
-    │
-    ├──▶ [확장 A: EIGRP 특징: 부분/바운디드 업데이트,…]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IGRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EIGRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 EIGRP는 IGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 EIGRP 특징: 부분/바운디드 업데이트,…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

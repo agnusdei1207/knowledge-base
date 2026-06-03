@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 트래픽의 폭발적 증가와 서버의 고성능화로 인해, 1Gbps를 넘어 10Gbps의 속도를 제공하는 **IEEE 802.3ae (광 기반)** 및 **IEEE 802.3an (구리선 기반)** 표준이 등장했습니다. 10GbE는 기존 이더넷과 프레임 구조([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)는 동일하게 유지하면서, 물리 계층만 업그레이드하여 완벽한 하위 호환성을 제공합니다.
 
-특징적인 변화는 10GbE부터는 충돌 기반의 반이중(Half-Duplex)과 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 방식이 표준에서 **완전히 폐기**되고, **오직 전이중(Full-Duplex) 모드만 지원**한다는 점입니다.
+특징적인 변화는 10GbE부터는 충돌 기반의 반이중(Half-Duplex)과 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 방식이 표준에서 <strong>완전히 폐기</strong>되고, <strong>오직 전이중(Full-Duplex) 모드만 지원</strong>한다는 점입니다.
 
-```text
-[1000BASE-T]
-    │
-    ▼
-[10GBASE-T / 10GBASE-SR /…]
-    │
-    └──▶ [40GbE / 100GbE / 400GbE…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,24 +45,28 @@ tags = ["studynote-network"]
 기존 RJ-45 커넥터와 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 구조를 유지하면서 10Gbps를 구현한 표준입니다.
 
 ### 1. 기술적 도약과 PAM-16
-[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(1Gbps)가 4쌍의 선을 쓰고 PAM-5 (5단계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 썼다면, 10GBASE-T는 동일한 4쌍의 선에 **PAM-16 (16단계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))**이라는 극도로 세밀한 변조 방식을 사용합니다. 
+[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(1Gbps)가 4쌍의 선을 쓰고 PAM-5 (5단계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))를 썼다면, 10GBASE-T는 동일한 4쌍의 선에 <strong>PAM-16 (16단계 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>)</strong>이라는 극도로 세밀한 변조 방식을 사용합니다. 
 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 16단계나 쪼개서 인식해야 하므로, 아주 미세한 노이즈에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨질 수 있습니다.
 
 ### 2. 에일리언 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) (Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), AXT)
-10GBASE-T의 가장 큰 적은 케이블 내부 선들끼리의 간섭이 아니라, **바로 옆에 다발로 묶여 있는 "다른 랜선"에서 뿜어져 나오는 전자기 간섭(Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))**입니다. 
+10GBASE-T의 가장 큰 적은 케이블 내부 선들끼리의 간섭이 아니라, <strong>바로 옆에 다발로 묶여 있는 "다른 랜선"에서 뿜어져 나오는 전자기 간섭(Alien <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>입니다. 
 서버실 등에서 랜선을 다발로 타이로 묶어놓으면 옆 케이블의 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 내 케이블을 침범합니다. 이를 막기 위해 차폐가 강화된 **Cat 6a (Augmented Category 6)** 이상의 케이블 사용이 필수적이 되었습니다. (Cat 6로도 10Gbps가 가능하나, 거리가 55m 이내로 극히 제한됩니다.)
 
 ### 3. 높은 전력 소모와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
 엄청난 노이즈를 걸러내고 상쇄하기 위해 랜카드(PHY 칩) 내부에 고도의 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 회로가 쉴 새 없이 연산해야 합니다. 이로 인해 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 10GBASE-T 장비는 전력 소모가 컸고 열이 많이 발생했으며, 광통신에 비해 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 약간 발생한다는 단점이 있었습니다.
 
-```text
-[1000BASE-T]
-    │
-    ▼
-[10GBASE-T / 10GBASE-SR /…]
-    │
-    └──▶ [40GbE / 100GbE / 400GbE…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,12 +79,12 @@ tags = ["studynote-network"]
 | 표준 | S/L/E 의미 | 광원 및 파장 | 케이블 종류 | 최대 전송 거리 | 용도 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **10GBASE-SR** | **S**hort Reach | 850nm (단파장 레이저) | **다중모드 광섬유(MMF)** | 약 300m (OM3/OM4 기준) | 서버랙 내부, 건물 내 층간 연결 |
-| **10GBASE-LR** | **L**ong Reach | 1310nm (장파장 레이저) | **[단일모드 광섬유](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/)([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))** | **10km** | 캠퍼스 간 백본, MAN 연결 |
-| **10GBASE-ER** | **E**xtended Reach | 1550nm (초장파장) | **[단일모드 광섬유](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/)([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))** | **40km** | 통신사 망, 도시 간 (WAN) 연결 |
+| **10GBASE-LR** | **L**ong Reach | 1310nm (장파장 레이저) | <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/">단일모드 광섬유</a>(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/">SMF</a>)</strong> | **10km** | 캠퍼스 간 백본, MAN 연결 |
+| **10GBASE-ER** | **E**xtended Reach | 1550nm (초장파장) | <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/">단일모드 광섬유</a>(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/">SMF</a>)</strong> | **40km** | 통신사 망, 도시 간 (WAN) 연결 |
 
 - 광 통신 모듈은 주로 메인보드 일체형이 아니라, 교체가 가능한 **SFP+ (Small Form-factor Pluggable Plus)** 형태의 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 모듈을 꽂아서 사용합니다. 장비 교체 없이 SR 모듈을 빼고 LR 모듈을 꽂아 장거리망으로 바로 변경할 수 있습니다.
 
-- **📢 섹션 요약 비유**: ** 10GBASE-T는 낡은 흙길(구리선)에 어떻게든 초고속열차를 띄우기 위해 **노면의 미세한 흔들림까지 계산하는 초정밀 서스펜션(DSP/PAM-16)을 단 것**이고, 10GBASE-SR/LR은 아예 마찰이 없는 **완벽한 자기부상 진공 터널(광케이블)을 새로 건설하여 빛을 쏘는 것**입니다.
+- **📢 섹션 요약 비유**: <strong> 10GBASE-T는 낡은 흙길(구리선)에 어떻게든 초고속열차를 띄우기 위해 </strong>노면의 미세한 흔들림까지 계산하는 초정밀 서스펜션(DSP/PAM-16)을 단 것<strong>이고, 10GBASE-SR/LR은 아예 마찰이 없는 </strong>완벽한 자기부상 진공 터널(광케이블)을 새로 건설하여 빛을 쏘는 것**입니다.
 
 ---
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 1000BASE-T]
-    │
-    ▼
-[현재 개념: 10GBASE-T / 10GBASE-SR /…]
-    │
-    ├──▶ [확장 A: 40GbE / 100GbE / 400GbE…]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 1000BASE-T</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 40GbE / 100GbE / 400GbE…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 10GBASE-T / 10GBASE-SR /…는 1000BASE-T에서 출발해 현재 메커니즘을 정교화하고, 이후 40GbE / 100GbE / 400GbE…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,19 +21,21 @@ tags = ["studynote-design-supervision"]
 
 LMAX Exchange는 금융 거래처럼 마이크로초 단위 응답이 필요한 환경에서 전통적 큐의 병목을 극복하려고 Disruptor를 고안했다. 기존 `BlockingQueue`는 멀티스레드 안전성을 얻는 대신 락, [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/), 캐시 무효화 비용을 자주 치른다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                전통적 BlockingQueue의 성능 병목                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer ──▶ [ Lock ] ──▶ Queue ──▶ [ Lock ] ──▶ Consumer            │
-│              │                        │                               │
-│              ├── 대기                 ├── 대기                        │
-│              ├── 컨텍스트 스위칭      ├── 캐시 미스                   │
-│              └── 처리량 저하          └── 지연시간 증가                │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-특히 초당 수백만 이벤트를 처리해야 하는 환경에서는 정확하게 동작한다만으로는 부족하고, CPU 캐시 구조와 메모리 배치까지 고려한 설계가 필요하다. Disruptor는 이 문제를 **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 링버퍼 + [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) + 시퀀스 추적**으로 푼다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 BlockingQueue의 성능 병목</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 대기 ── 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 컨텍스트 스위칭 ── 캐시 미스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 처리량 저하 ── 지연시간 증가</div></div>
+</div>
+</div>
+
+
+
+특히 초당 수백만 이벤트를 처리해야 하는 환경에서는 정확하게 동작한다만으로는 부족하고, CPU 캐시 구조와 메모리 배치까지 고려한 설계가 필요하다. Disruptor는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 기반 링버퍼 + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/">Compare-And-Swap</a>) + 시퀀스 추적</strong>으로 푼다.
 
 - **📢 섹션 요약 비유**: 모두가 문 손잡이를 잡고 차례를 기다리는 복도 대신, 번호표가 붙은 회전 레일 위에서 순서대로 물건을 올리고 내리는 방식이 디스럽터다.
 
@@ -41,22 +43,22 @@ LMAX Exchange는 금융 거래처럼 마이크로초 단위 응답이 필요한 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Disruptor의 핵심은 큐 그 자체보다 **시퀀스 기반 협력 모델**이다. Producer는 다음 시퀀스를 예약하고 이벤트를 채운 뒤 publish하며, Consumer는 자신의 시퀀스를 따라 읽는다. 이때 링버퍼는 고정 크기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이므로 메모리 지역성이 좋고, 이벤트 객체를 재사용해 GC 부담도 낮춘다.
+Disruptor의 핵심은 큐 그 자체보다 <strong>시퀀스 기반 협력 모델</strong>이다. Producer는 다음 시퀀스를 예약하고 이벤트를 채운 뒤 publish하며, Consumer는 자신의 시퀀스를 따라 읽는다. 이때 링버퍼는 고정 크기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이므로 메모리 지역성이 좋고, 이벤트 객체를 재사용해 GC 부담도 낮춘다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Disruptor의 시퀀스 기반 처리 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer ──CAS──▶ [Sequencer] ──reserve n──▶ [Ring Buffer Slot n]    │
-│                                        │                              │
-│                                        └──publish(n)──▶ Consumers     │
-│                                                                  │    │
-│ Consumer A ◀──── sequence A ─────────────────────────────────────┘    │
-│ Consumer B ◀──── sequence B ──────────────────────────────────────────│
-│                                                                      │
-│ Gating Sequence: 가장 느린 Consumer 위치를 기준으로 overwrite 방지    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disruptor의 시퀀스 기반 처리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sequencer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ring Buffer Slot n</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──publish(n)──▶ Consumers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer A ◀ sequence A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer B ◀ sequence B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gating Sequence: 가장 느린 Consumer 위치를 기준으로 overwrite 방지</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의미 |
 |:---|:---|:---|
@@ -74,7 +76,7 @@ Disruptor의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 
 ## Ⅲ. 비교 및 연결
 
-Disruptor는 메시지 브로커의 대체재가 아니다. 네트워크를 건너는 Kafka나 RabbitMQ와 달리, Disruptor는 **프로세스 내부 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이벤트 전달**에 초점이 있다. 따라서 비교 기준도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시징보다 동일 JVM 내부 큐에 두는 것이 맞다.
+Disruptor는 메시지 브로커의 대체재가 아니다. 네트워크를 건너는 Kafka나 RabbitMQ와 달리, Disruptor는 <strong>프로세스 내부 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 이벤트 전달</strong>에 초점이 있다. 따라서 비교 기준도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시징보다 동일 JVM 내부 큐에 두는 것이 맞다.
 
 | 비교 항목 | Disruptor | BlockingQueue |
 |:---|:---|:---|
@@ -118,7 +120,7 @@ Disruptor는 메시지 브로커의 대체재가 아니다. 네트워크를 건�
 
 Disruptor를 적절한 곳에 쓰면 초저지연, 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 낮은 GC 압력이라는 명확한 효과를 얻는다. 특히 CPU 캐시 친화성과 시퀀스 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 덕분에 극한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요한 시스템에서 강력하다.
 
-그러나 이 패턴의 본질은 빠른 큐가 아니라 **하드웨어 친화적 이벤트 협력 모델**이다. 따라서 결론은 단순하다. 병목이 분명하고 동일 프로세스 내부 고성능 처리가 핵심일 때만 선택해야 한다.
+그러나 이 패턴의 본질은 빠른 큐가 아니라 <strong>하드웨어 친화적 이벤트 협력 모델</strong>이다. 따라서 결론은 단순하다. 병목이 분명하고 동일 프로세스 내부 고성능 처리가 핵심일 때만 선택해야 한다.
 
 | 기대효과 | 구체적 내용 |
 |:---|:---|
@@ -143,23 +145,25 @@ Disruptor를 적절한 곳에 쓰면 초저지연, 높은 [처리량](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-락 기반 큐 병목
-    │
-    ▼
-시퀀스 기반 제어 필요
-    │
-    ▼
-LMAX Disruptor
-    │
-    ├──▶ Ring Buffer
-    ├──▶ CAS / Sequence
-    ├──▶ Wait Strategy
-    └──▶ False Sharing 회피
-            │
-            ▼
-초저지연 이벤트 처리 · 고처리량 · 낮은 GC 압력
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">락 기반 큐 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시퀀스 기반 제어 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LMAX Disruptor</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Ring Buffer</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CAS / Sequence</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Wait Strategy</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ False Sharing 회피</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초저지연 이벤트 처리 · 고처리량 · 낮은 GC 압력</div>
+</div>
+</div>
+
+
 
 이 흐름은 Disruptor가 단순 구현 기교가 아니라 메모리 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 바꾼 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계임을 보여 준다.
 

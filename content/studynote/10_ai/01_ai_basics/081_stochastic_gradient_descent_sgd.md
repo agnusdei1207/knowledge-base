@@ -21,20 +21,23 @@ tags = ["studynote-ai"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수백만 개로 늘어나자 기존의 완벽한 훈련법은 더 이상 쓸 수 없게 되었다.
 
-1. **배치 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) (Batch [Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/), BGD)**:
+1. <strong>배치 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a> (Batch <a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>, BGD)</strong>:
    - [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 단 한 번 업데이트하기 위해 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 개의 오차를 모두 더하고 평균을 내는 '완벽주의자'다.
    - 100만 번의 연산이 끝나야 비로소 $W$가 아주 살짝 1스텝 움직인다. 한 걸음 내디딜 때마다 지구 전체 인구를 투표시켜야 하니 속도가 절망적으로 느리고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 100만 개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 들어가지도 않아 에러([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))가 터진다.
 2. **속도의 필요성**:
    - 딥러닝은 보통 수십만 번(Epoch)의 스텝을 밟아야 바닥(정답)에 도달한다. 완벽한 방향으로 1번 걷는 것보다, 조금 삐뚤빼뚤하더라도 1,000번 빠르게 걷는 것이 목적지에는 훨씬 빨리 도착한다는 사실을 깨달았다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전국 맛집 지도를 완성하기 위해, 한 걸음 내디딜 때마다 전 국민 5천만 명에게 설문조사를 돌리고 그 평균값으로 다음 식당을 고르는 짓(BGD)을 하니 10년이 걸렸습니다. 그래서 이 바보 같은 짓을 멈추고 거리에 보이는 무작위 사람 1명에게만 물어보고 번개처럼 튀어가는 기법이 등장한 것입니다.
 
@@ -44,12 +47,12 @@ tags = ["studynote-ai"]
 
 1개만 뽑으면 너무 비틀거리고, 다 뽑으면 너무 느리다. 황금비율을 찾아야 한다.
 
-1. **순수 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) (Pure SGD)**:
+1. <strong>순수 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a> (Pure SGD)</strong>:
    - 이름 그대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **딱 1개만** 랜덤하게 쑥 뽑아서 그 오차만 보고 걷는다.
    - 속도는 총알 같지만 1개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하필 '[이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 노이즈)'라면 산 밑이 아니라 산꼭대기로 거꾸로 뛰어 올라가는 등 발걸음이 만취한 사람처럼 널을 뛴다.
-2. **타협의 미학: 미니배치 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) (Mini-Batch SGD)**:
+2. <strong>타협의 미학: 미니배치 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a> (Mini-Batch SGD)</strong>:
    - 오늘날 우리가 흔히 'SGD'라고 부르는 것은 사실 이 미니배치 방식을 말한다.
-   - 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100만 개라면, 무작위로 **32개, 64개, 256개([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))** 씩 한 움큼만 바구니에 퍼 담아 이들의 평균 오차를 구하고 한 발짝 걷는다.
+   - 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100만 개라면, 무작위로 <strong>32개, 64개, 256개(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">Batch Size</a>)</strong> 씩 한 움큼만 바구니에 퍼 담아 이들의 평균 오차를 구하고 한 발짝 걷는다.
    - 이 적당한 바구니 크기(2의 거수제곱)는 엔비디아(NVIDIA) [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 한 번에 꽉 차게 쏙 들어가서 칩의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 코어([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/))를 100% 효율로 갈구며 엄청난 가속을 끌어낸다.
 
 | 요소 | 역할 |
@@ -59,13 +62,16 @@ tags = ["studynote-ai"]
 | 일반화 | 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 품질을 판단하게 만든다. |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Input → Transform → Score → Apply            │
-├──────────────────────────────────────────────┤
-│ state → update    → monitor → feedback       │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input → Transform → Score → Apply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state → update → monitor → feedback</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전 국민에게 다 물어보기(BGD)는 너무 느리고, 지나가는 아무나 1명에게 물어보기(순수 SGD)는 사기꾼을 만나면 길을 완전히 잃습니다. 그래서 길거리에 모여있는 64명의 군중(Mini-Batch)에게 다수결을 물어보고 빠르게 걷는 타협안이, GPU라는 64인승 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 완벽하게 규격이 맞아떨어져 대박을 친 것입니다.
 

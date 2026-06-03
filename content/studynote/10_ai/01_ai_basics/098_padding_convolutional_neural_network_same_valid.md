@@ -36,22 +36,24 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 
 이때 $O = I$를 만족하게 하려면 $P = \frac{K - 1}{2}$로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              제로 패딩을 적용한 3x3 커널 합성곱 연산            │
-├─────────────────────────────────────────────────────────────┤
-│   [Padding=1 적용된 6x6 입력]       [출력 Feature Map]      │
-│   0  0  0  0  0  0                                          │
-│   0 ┌──────────┐ 0             3x3 Kernel                   │
-│   0 │ 1  2  3  │ 0               (가운데)                   │
-│   0 │ 4  5  6  │ 0   ──────▶   [ 연산 결과 ]                │
-│   0 │ 7  8  9  │ 0                                          │
-│   0 └──────────┘ 0                                          │
-│   0  0  0  0  0  0                                          │
-│                                                             │
-│   * 모서리(1,3,7,9) 픽셀도 중앙 쪽으로 들어와 여러 번 연산됨   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제로 패딩을 적용한 3x3 커널 합성곱 연산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Padding=1 적용된 6x6 입력</div><div class="kb-diagram-node">출력 Feature Map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 0 0 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 3x3 Kernel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1 2 3</div><div class="kb-diagram-cell">0 (가운데)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연산 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">7 8 9</div><div class="kb-diagram-cell">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 0 0 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 모서리(1,3,7,9) 픽셀도 중앙 쪽으로 들어와 여러 번 연산됨</div></div>
+</div>
+</div>
+
+
 
 패딩을 추가하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이미지의 가장자리에서도 중앙과 동일하게 연산될 수 있다. 위 그림처럼 원본 주위를 0으로 감싸면 모서리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 안전하게 살아남아 다음 층으로 전달된다.
 
@@ -110,21 +112,23 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-합성곱 연산의 차원 축소 한계 인식
-    │
-    ▼
-Valid Padding · 가장자리 정보 유실 방치 (초기 모델)
-    │
-    ▼
-제로 패딩 (Zero Padding) · Same Padding 도입
-    │
-    ▼
-심층 신경망 (VGGNet, ResNet 등) 구조적 안정성 확보
-    │
-    ▼
-리플렉트 패딩 (Reflect Padding) 등 특수 패딩 기법 분화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">합성곱 연산의 차원 축소 한계 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Valid Padding · 가장자리 정보 유실 방치 (초기 모델)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제로 패딩 (Zero Padding) · Same Padding 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">심층 신경망 (VGGNet, ResNet 등) 구조적 안정성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리플렉트 패딩 (Reflect Padding) 등 특수 패딩 기법 분화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실을 감수하던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에서 벗어나, 해상도 보존을 통해 초거대 딥러닝 네트워크로 발전해 나가는 과정을 보여준다.
 

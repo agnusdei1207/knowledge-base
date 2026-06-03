@@ -21,30 +21,29 @@ tags = ["enterprise_systems"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-**[식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) ([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))** 는 기업의 모든 프로세스에서 불량이나 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 유발하는 변동성(Variation)을 제거하여 완벽에 가까운 품질 수준을 달성하려는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이자 통계적 방법론이다. '시그마($\sigma$)'는 통계학에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 평균으로부터 얼마나 흩어져 있는지를 나타내는 표준편차를 의미한다. 중심(평균)으로부터 ±6$\sigma$ 범위 내에 규격 한계([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) Limit)를 두면, 통계적으로 99.99966%의 양품률을 달성하게 되며, 이는 100만 번의 작업 중 단 3.4번의 실수만 허용한다는 뜻이다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">식스 시그마</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">Six Sigma</a>)</strong> 는 기업의 모든 프로세스에서 불량이나 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 유발하는 변동성(Variation)을 제거하여 완벽에 가까운 품질 수준을 달성하려는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이자 통계적 방법론이다. '시그마($\sigma$)'는 통계학에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 평균으로부터 얼마나 흩어져 있는지를 나타내는 표준편차를 의미한다. 중심(평균)으로부터 ±6$\sigma$ 범위 내에 규격 한계([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) Limit)를 두면, 통계적으로 99.99966%의 양품률을 달성하게 되며, 이는 100만 번의 작업 중 단 3.4번의 실수만 허용한다는 뜻이다.
 
 이 기법이 왜 필요한가? 전통적으로 99%의 양품률(약 3.8 시그마)은 훌륭한 수준으로 여겨졌다. 그러나 항공기 운항, 의료 수술, 혹은 수천만 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하는 IT 시스템에서 1%의 에러는 하루 수십 건의 추락 사고나 수만 건의 결제 사고를 의미하는 치명적인 재앙이다. 기업의 규모와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기하급수적으로 커지는 현대 환경에서는, 99%를 넘어 '제로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)'에 도전하는 엄격한 통계적 통제 수단이 필수 불가결해졌다.
 
 아래 도식은 왜 중심 이동뿐 아니라 산포([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 퍼짐)를 줄이는 것이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 핵심인지 보여주는 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 개념도이다.
 
-```text
-[ 식스 시그마 통계적 개념 (정규 분포 곡선) ]
 
-     (나쁜 품질: 산포가 넓어 규격을 벗어나는 불량 발생)
-              규격 하한(LSL)         규격 상한(USL)
-                  │ ╭───────────┴───────────╮ │
-                  │/          평균           \│  <-- 꼬리 부분이 규격 밖(불량)
-                  /            │              \
-                ─/─────────────┼───────────────\─ 
 
-     (식스 시그마 품질: 산포가 극도로 좁아 규격 내에 완벽히 들어옴)
-              규격 하한(LSL)         규격 상한(USL)
-                  │            │            │
-                  │         ╭──┴──╮         │  <-- ±6σ 범위가 규격 한계 내에 존재
-                  │        /   │   \        │      (불량률 3.4 PPM)
-                ──┼───────/────┼────\───────┼──
-                    -6σ       0       +6σ
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">식스 시그마 통계적 개념 (정규 분포 곡선)</div></div>
+<div class="kb-diagram-note">(나쁜 품질: 산포가 넓어 규격을 벗어나는 불량 발생)</div>
+<div class="kb-diagram-note">규격 하한(LSL) 규격 상한(USL)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 평균 \</div><div class="kb-diagram-cell">&lt;-- 꼬리 부분이 규격 밖(불량)</div></div>
+<div class="kb-diagram-note">(식스 시그마 품질: 산포가 극도로 좁아 규격 내에 완벽히 들어옴)</div>
+<div class="kb-diagram-note">규격 하한(LSL) 규격 상한(USL)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div><div class="kb-diagram-cell">&lt;-- ±6σ 범위가 규격 한계 내에 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">(불량률 3.4 PPM)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">6σ 0 +6σ</div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 과녁의 정중앙(평균)을 맞추는 것도 중요하지만, 화살들이 얼마나 중앙에 조밀하게 모여 있는가(산포, 변동성)를 통제하는 것이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 본질이라는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시간, 제품의 크기 등 모든 비즈니스 활동에는 필연적으로 변동성이 존재한다. [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 이 변동폭을 극한으로 좁혀서 어떤 상황에서도 결과물이 규격 한계(USL/LSL)를 벗어나지 않도록 통제하는 과학적 접근이다.
 
@@ -70,24 +69,29 @@ tags = ["enterprise_systems"]
 
 아래의 흐름도는 DMAIC의 정보 처리 및 함수적($Y = f(X)$) 사고 흐름을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
-```text
-[ DMAIC의 함수적 문제 해결 흐름도: Y = f(X) ]
 
-[ Define ]    고객이 원하는 결과물 'Y' (CTQ)를 정의한다. (예: 배송 시간)
-    ↓
-[ Measure ]   현재의 Y가 얼마나 나쁜지 통계 수치로 측정한다.
-    ↓
-[ Analyze ]   Y를 변하게 만드는 수많은 원인 변수(X1, X2... Xn) 중 
-              결정적 영향을 미치는 '핵심 X (Vital Few X's)'를 찾아낸다.
-    ↓
-[ Improve ]   핵심 X의 값을 어떻게 세팅해야 Y가 최적의 값을 갖는지 공식을 찾고 고친다.
-    ↓
-[ Control ]   X가 정해진 범위를 벗어나지 않도록 대시보드와 규정으로 통제한다.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMAIC의 함수적 문제 해결 흐름도: Y = f(X)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Define</div><div class="kb-diagram-note">고객이 원하는 결과물 'Y' (CTQ)를 정의한다. (예: 배송 시간)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Measure</div><div class="kb-diagram-note">현재의 Y가 얼마나 나쁜지 통계 수치로 측정한다.</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Analyze</div><div class="kb-diagram-note">Y를 변하게 만드는 수많은 원인 변수(X1, X2... Xn) 중</div></div>
+<div class="kb-diagram-note">결정적 영향을 미치는 '핵심 X (Vital Few X's)'를 찾아낸다.</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Improve</div><div class="kb-diagram-note">핵심 X의 값을 어떻게 세팅해야 Y가 최적의 값을 갖는지 공식을 찾고 고친다.</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Control</div><div class="kb-diagram-note">X가 정해진 범위를 벗어나지 않도록 대시보드와 규정으로 통제한다.</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘의 핵심은 문제를 감정에 의존해 해결하지 않고 수학 함수 **$Y = f(x)$** 로 환원한다는 점이다. 결과($Y$)에 문제가 생겼을 때 결과를 직접 뜯어고치려 하는 것은 사후약방문이다. [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 결과를 만들어내는 원인 변수($X$)들을 계량화하고, 가장 영향력이 큰 핵심 인자(Vital Few X)를 찾아내어 원천적으로 제어(Control)함으로써, 결과($Y$)가 무조건 정상이 나오도록 보장하는 선제적 품질 관리 체계다.
 
-또한, 완전히 새로운 제품이나 프로세스를 처음부터 설계할 때는 DMAIC가 아니라 **DFSS (Design For [Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))**, 주로 **DMADV (Define, Measure, Analyze, Design, Verify)** 방법론을 사용하여 설계 단계부터 불량 요인을 원천 차단한다.
+또한, 완전히 새로운 제품이나 프로세스를 처음부터 설계할 때는 DMAIC가 아니라 <strong>DFSS (Design For <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">Six Sigma</a>)</strong>, 주로 **DMADV (Define, Measure, Analyze, Design, Verify)** 방법론을 사용하여 설계 단계부터 불량 요인을 원천 차단한다.
 
 📢 **섹션 요약 비유**: 요리(Y)의 맛이 매번 달라지는 문제(산포)가 있을 때, 냄비에 소금을 감으로 더 넣는 것이 아닙니다. 불의 온도(X1), 재료의 양(X2), 조리 시간(X3)을 정확히 계량하고 통제(DMAIC)하여 항상 미슐랭 3스타급 맛을 일정하게 보장하는 레시피를 만드는 것입니다.
 
@@ -97,7 +101,7 @@ tags = ["enterprise_systems"]
 
 경영 혁신과 품질 관리 영역에서 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 TQM([Total Quality Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/))의 진화형으로 여겨지며, 종종 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 생산 방식과 결합되어 사용된다.
 
-**[식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) vs 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 비교 매트릭스**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">식스 시그마</a> vs 린(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a>) 비교 매트릭스</strong>
 
 | 항목 | [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) ([Six Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)) | 린 생산 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Production) | 융합: 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) (LSS) |
 |:---|:---|:---|:---|
@@ -108,24 +112,27 @@ tags = ["enterprise_systems"]
 
 아래의 비교도는 전통적 품질 관리(TQM)와 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 구조적 차이를 보여준다.
 
-```text
-[ 전통적 TQM vs 식스 시그마 운영 체계 비교 ]
 
-[ TQM: 분산/자율형 ]                    [ Six Sigma: 전문가 주도/계층형 ]
-                                           
-                                           (스폰서) 챔피언 (Champion)
-      품질관리부서 중심의 캠페인                  │
- ┌────────┴────────┐                              ▼ 전담/지원
- │                 │                       마스터 블랙벨트 (MBB)
-현업부서        현업부서                           │
-(품질은 부수적) (품질은 부수적)                    ▼ 프로젝트 리더 (풀타임)
-                                           블랙벨트 (Black Belt)
-                                                  │
-                                                  ▼ 현업 전문가 (파트타임)
-                                           그린벨트 (Green Belt)
-```
 
-이 비교도의 핵심은 조직 운영 방식의 차이다. 과거의 품질 관리(TQM)가 직원들의 자발적인 참여나 캠페인성 표어에 의존했다면, [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 통계 분석 전문가로 육성된 **'벨트(Belt) 체계'**를 갖춘 엘리트 중심의 하향식([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 실행 조직을 운영한다. 블랙벨트(Black Belt)는 기존 업무를 놓고 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) 프로젝트만 전담하며 성과에 대한 확실한 인사 평가와 금전적 보상을 받는다. 이처럼 철저한 조직화와 재무적 성과 연계 시스템이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 강력하게 만든 근본 원동력이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 TQM vs 식스 시그마 운영 체계 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TQM: 분산/자율형</div><div class="kb-diagram-node">Six Sigma: 전문가 주도/계층형</div></div>
+<div class="kb-diagram-note">(스폰서) 챔피언 (Champion)</div>
+<div class="kb-diagram-note">품질관리부서 중심의 캠페인</div>
+<div class="kb-diagram-note">▼ 전담/지원</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스터 블랙벨트 (MBB)</div></div>
+<div class="kb-diagram-note">현업부서 현업부서</div>
+<div class="kb-diagram-note">(품질은 부수적) (품질은 부수적) ▼ 프로젝트 리더 (풀타임)</div>
+<div class="kb-diagram-note">블랙벨트 (Black Belt)</div>
+<div class="kb-diagram-note">▼ 현업 전문가 (파트타임)</div>
+<div class="kb-diagram-note">그린벨트 (Green Belt)</div>
+</div>
+</div>
+
+
+
+이 비교도의 핵심은 조직 운영 방식의 차이다. 과거의 품질 관리(TQM)가 직원들의 자발적인 참여나 캠페인성 표어에 의존했다면, [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 통계 분석 전문가로 육성된 <strong>'벨트(Belt) 체계'</strong>를 갖춘 엘리트 중심의 하향식([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 실행 조직을 운영한다. 블랙벨트(Black Belt)는 기존 업무를 놓고 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) 프로젝트만 전담하며 성과에 대한 확실한 인사 평가와 금전적 보상을 받는다. 이처럼 철저한 조직화와 재무적 성과 연계 시스템이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 강력하게 만든 근본 원동력이다.
 
 📢 **섹션 요약 비유**: 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 방식이 달리기 선수의 몸에서 불필요한 군살(낭비)을 빼내어 가볍게 뛰도록 만드는 것이라면, [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 그 선수의 보폭과 심박수의 미세한 흔들림(산포)까지 통계적으로 교정하여 마라톤 완주 내내 완벽한 페이스를 유지하게 만드는 것입니다.
 
@@ -135,7 +142,7 @@ tags = ["enterprise_systems"]
 
 제조업에서 출발한 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 현재 금융, IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 등 모든 비즈니스 영역에 적용되고 있다. 그러나 무분별한 도입은 거대한 오버헤드를 낳는다.
 
-**실무 시나리오: IT 인프라 장애 감소를 위한 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) 적용**
+<strong>실무 시나리오: IT 인프라 장애 감소를 위한 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">식스 시그마</a> 적용</strong>
 
 - **상황**: 대형 이커머스 기업에서 특정 이벤트 기간마다 서버 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 결제 실패율이 간헐적으로 치솟는 문제가 발생함. 엔지니어들은 감으로 서버를 재부팅하거나 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만지며 땜질식 처방만 반복 중.
 - **적용 (DMAIC 플로우)**:
@@ -145,7 +152,7 @@ tags = ["enterprise_systems"]
   - **Improve**: 커넥션 풀 사이즈 최적화 및 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 도입 적용.
   - **Control**: 2초를 넘기려는 징후(예: 큐 적재량 증가)가 보이면 즉시 경고를 발생시키는 대시보드 구축.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 조건 (기술사적 판단)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 조건 (기술사적 판단)</strong>
 1. **과도한 통계 지상주의**: 직관적으로 뻔히 보이는 간단한 문제조차 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 복잡한 통계 툴(Minitab)을 돌리느라 시간을 낭비하는 현상. 이럴 때는 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 기법이나 5-Why 기법으로 즉시 고쳐야 한다.
 2. **재무 성과와의 단절**: 불량률은 줄었는데 실제 기업의 이익이나 고객 만족도에는 아무 영향이 없는 경우. 이는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Define 단계에서 고객의 관점이 아닌 관리자 편의 위주로 CTQ를 잘못 잡았기 때문이다.
 
@@ -164,33 +171,36 @@ tags = ["enterprise_systems"]
 | **인재 양성** | 현업 업무만 수행 | 업무 지식 + 통계 분석 능력을 갖춘 복합 인재(MBB) | [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)([Data Literacy](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/))를 갖춘 차세대 리더 풀 형성 |
 
 **미래 전망**: 
-과거에는 현장 작업자가 엑셀에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수기 입력하여 통계 분석을 했다면, 4차 산업혁명 시대의 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서와 빅데이터를 만나 **'디지털 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)'**로 진화했다. 공장 설비나 서버에서 발생하는 실시간 텔레메트리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 분석하여 자동으로 DMAIC 사이클을 돌리고, 사람이 개입하기 전에 불량 징후를 예측해 파라미터를 자율 조정하는 지능형 품질 제어(Smart Quality Control)로 나아가고 있다.
+과거에는 현장 작업자가 엑셀에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수기 입력하여 통계 분석을 했다면, 4차 산업혁명 시대의 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서와 빅데이터를 만나 <strong>'디지털 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">식스 시그마</a>'</strong>로 진화했다. 공장 설비나 서버에서 발생하는 실시간 텔레메트리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 분석하여 자동으로 DMAIC 사이클을 돌리고, 사람이 개입하기 전에 불량 징후를 예측해 파라미터를 자율 조정하는 지능형 품질 제어(Smart Quality Control)로 나아가고 있다.
 
 📢 **섹션 요약 비유**: [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 단순히 불량품을 골라내는 똑똑한 검사관을 고용하는 것이 아니라, 공장 전체의 기계가 아예 불량품을 찍어낼 수 없도록 기어와 톱니바퀴의 공차를 완벽하게 영점 조절해 놓는 궁극의 장인 정신입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **[품질 비용](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/) (COPQ, Cost of Poor Quality)** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인해 발생하는 폐기, 재작업, 보상 등 눈에 보이는 비용뿐 아니라 기회 상실 같은 숨겨진 비용의 총합
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/">품질 비용</a> (COPQ, Cost of Poor Quality)</strong> | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인해 발생하는 폐기, 재작업, 보상 등 눈에 보이는 비용뿐 아니라 기회 상실 같은 숨겨진 비용의 총합
 * **DMAIC / DMADV** | 기존 프로세스 개선(DMAIC)과 신규 제품 설계(DMADV, DFSS)를 위한 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 양대 방법론 
-* **린 생산 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Production)** | 낭비 제거에 초점을 맞춘 도요타 생산 방식(TPS)으로, 품질 중심의 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)와 융합하여 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)(LSS)로 활용됨
-* **[데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) ([Data Literacy](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/))** | [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 수행하기 위해 조직원들이 필수적으로 갖춰야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 해석하는 능력
-* **[통계적 공정 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/) ([SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/), Statistical [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control)** | 공정이 안정적인 상태에 있는지를 파악하기 위해 관리도(Control Chart) 등 통계적 기법을 사용하는 통제 수단
+* <strong>린 생산 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> Production)</strong> | 낭비 제거에 초점을 맞춘 도요타 생산 방식(TPS)으로, 품질 중심의 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)와 융합하여 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)(LSS)로 활용됨
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/">데이터 리터러시</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/">Data Literacy</a>)</strong> | [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 수행하기 위해 조직원들이 필수적으로 갖춰야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 해석하는 능력
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/">통계적 공정 관리</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/">SPC</a>, Statistical <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control)</strong> | 공정이 안정적인 상태에 있는지를 파악하기 위해 관리도(Control Chart) 등 통계적 기법을 사용하는 통제 수단
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[품질 비용 (COPQ) 문제 인식 — 결함으로 인한 손실 정량화]
-    │
-    ▼
-[식스 시그마 (Six Sigma) DMAIC — 정의·측정·분석·개선·통제]
-    │
-    ▼
-[린 식스 시그마 (Lean Six Sigma) — 낭비 제거 + 변동 축소 융합]
-    │
-    ▼
-[디지털 식스 시그마 — AI·RPA 활용 프로세스 자동화·최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">품질 비용 (COPQ) 문제 인식 — 결함으로 인한 손실 정량화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">식스 시그마 (Six Sigma) DMAIC — 정의·측정·분석·개선·통제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">린 식스 시그마 (Lean Six Sigma) — 낭비 제거 + 변동 축소 융합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 식스 시그마 — AI·RPA 활용 프로세스 자동화·최적화</div></div>
+</div>
+</div>
+
+
 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 DMAIC 방법론으로 프로세스 변동을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 줄이며, 린과 결합한 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)로 발전해 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)까지 이어진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

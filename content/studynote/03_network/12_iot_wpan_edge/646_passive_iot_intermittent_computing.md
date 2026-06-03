@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 자체적인 내장 배터리 없이, 외부에서 수집한(Harvesting) 미세한 환경 에너지(태양광, 주변 전파, 진동 등)나 리더기가 쏴주는 강력한 전파 에너지에만 전적으로 의존하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하고 통신하는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 기술입니다.
 - **특징**: 수명은 사실상 무한대(영구적)지만, 에너지가 충전될 때만 잠깐 깨어날 수 있으므로 **'간헐적이고 불안정한(Intermittent)'** 통신 환경을 갖는 것이 숙명입니다.
 
-```text
-[소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    ▼
-[무전원 통신 환경 적응]
-    │
-    └──▶ [CPS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무전원 통신 환경 적응은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1. **에너지 고갈로 인한 잦은 리부팅 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Failure)**
+1. <strong>에너지 고갈로 인한 잦은 리부팅 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Failure)</strong>
    - 센서가 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 측정하고 클라우드로 전송(통신)하려는 찰나, 모아둔 에너지가 바닥나 툭 꺼져버립니다(정전). 
    - 10분 뒤 구름이 걷혀 에너지가 다시 모이면 기기가 처음부터 재부팅(Reboot)되어 아까 재어둔 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 통신 기록이 모두 메모리에서 싹 다 날아가 버리는(초기화) 문제가 발생합니다.
 
@@ -47,14 +51,18 @@ tags = ["studynote-network"]
 3. **송신 전력의 한계 (짧은 도달 거리)**
    - 에너지가 너무 빈약해 허공으로 쏘아 올리는 전파의 힘이 극도로 약합니다. 거리가 10m만 멀어져도 수신기가 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어내지 못합니다.
 
-```text
-[소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    ▼
-[무전원 통신 환경 적응]
-    │
-    └──▶ [CPS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무전원 통신 환경 적응의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 소형 안테나 시스템/초소형 센서 백스캐터 통…]
-    │
-    ▼
-[현재 개념: 무전원 통신 환경 적응]
-    │
-    ├──▶ [확장 A: CPS]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 무전원 통신 환경 적응는 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…에서 출발해 현재 메커니즘을 정교화하고, 이후 CPS와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,34 +22,33 @@ tags = ["studynote-software-engineering"]
 - **개념**: 
   - `Single(단 하나) + ton(덩어리)`. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Constructor)를 `private`으로 꽁꽁 숨겨서 밖에서 절대로 `new` 키워드를 못 치게 막아버리고, 오직 클래스 자기가 스스로 만든 자기 자신의 객체 딱 1개만 `public static getInstance()` 대문으로 나눠주는 독재적 객체 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/).
 
-- **필요성 (메모리 폭파와 공유 자원의 딜레마)**: 게시판을 만들었다. 유저 1만 명이 접속할 때마다 "DB랑 연결하는 객체(`DbConnection`)"를 1만 번 `new` 해서 만들었다. 객체 1개당 10MB인데 1만 개면 100GB다. 1초 만에 서버 램(RAM)이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 토하며 폭파됐다. **"아 ㅆㅂ!! DB 연결 객체는 안에 들어있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))도 없는데 왜 유저 올 때마다 계속 새로 찍어내?! 걍 서버 켜질 때 딱 1개만 만들어두고 1만 명이 그 1개를 돌려 쓰게(공유) 만들면 램 10MB로 평생 서버 안 죽잖아!!"** 이 자본주의적 가성비와 자원 최적화의 열망이 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)을 세상에 낳았다.
+- **필요성 (메모리 폭파와 공유 자원의 딜레마)**: 게시판을 만들었다. 유저 1만 명이 접속할 때마다 "DB랑 연결하는 객체(`DbConnection`)"를 1만 번 `new` 해서 만들었다. 객체 1개당 10MB인데 1만 개면 100GB다. 1초 만에 서버 램(RAM)이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 토하며 폭파됐다. <strong>"아 ㅆㅂ!! DB 연결 객체는 안에 들어있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)도 없는데 왜 유저 올 때마다 계속 새로 찍어내?! 걍 서버 켜질 때 딱 1개만 만들어두고 1만 명이 그 1개를 돌려 쓰게(공유) 만들면 램 10MB로 평생 서버 안 죽잖아!!"</strong> 이 자본주의적 가성비와 자원 최적화의 열망이 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)을 세상에 낳았다.
 
-- **💡 비유**: 일반 `new` 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 **'손님이 올 때마다 1인 1 화장실을 아예 새로 지어주는 짓'**입니다. 손님 1만 명 오면 화장실 1만 개 지어야 하니 땅(메모리)이 부족해서 파산합니다. [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)은 **'광장 한가운데 짱 크고 튼튼한 공중화장실 딱 1개를 짓고([싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 1개), 1만 명의 손님([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 그 1개의 화장실을 번갈아 가며 같이 돌려쓰게 만드는 짓'**입니다. 땅값(RAM)은 화장실 1개 치만 나가니 평생 공짜로 꿀을 빱니다.
+- **💡 비유**: 일반 `new` 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 <strong>'손님이 올 때마다 1인 1 화장실을 아예 새로 지어주는 짓'</strong>입니다. 손님 1만 명 오면 화장실 1만 개 지어야 하니 땅(메모리)이 부족해서 파산합니다. [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)은 <strong>'광장 한가운데 짱 크고 튼튼한 공중화장실 딱 1개를 짓고(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a> 1개), 1만 명의 손님(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>)이 그 1개의 화장실을 번갈아 가며 같이 돌려쓰게 만드는 짓'</strong>입니다. 땅값(RAM)은 화장실 1개 치만 나가니 평생 공짜로 꿀을 빱니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **무지성 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Init (원시 시대)**: 처음에 `if (instance == null) new();` 짰더니, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2개가 동시에 if문 뚫고 들어와서 객체가 2개 3개 생겨버림 ([싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 박살).
+  1. <strong>무지성 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Init (원시 시대)</strong>: 처음에 `if (instance == null) new();` 짰더니, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2개가 동시에 if문 뚫고 들어와서 객체가 2개 3개 생겨버림 ([싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 박살).
   2. **무식한 Synchronized 떡칠 (중세)**: 에라 모르겠다 `synchronized getInstance()` 락을 확 걸어버림. 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 한 번 막겠다고 1만 명의 유저가 1줄로 서서 1명씩 입장하는 대기 줄 병목([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Hell)이 터짐.
-  3. **Double-Checked / [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Holder (고인물 시대)**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 0으로 깎으면서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 막는 극악의 메모리 가시성(volatile) 흑마법이 연구됨.
+  3. <strong>Double-Checked / <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Holder (고인물 시대)</strong>: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 0으로 깎으면서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 막는 극악의 메모리 가시성(volatile) 흑마법이 연구됨.
   4. **Spring Framework의 천하 통일 (현재)**: "야 니들 그딴 거 짜지 마 ㅋ 걍 `@Component` 딱지 붙이면 스프링 부트(Tomcat)가 켜질 때 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개만 도니까 그때 무지성으로 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 100% 보장해서 찍어줌 ㅋ" 스프링의 은총으로 생코딩 멸망.
 
-- **📢 섹션 요약 비유**: 이 발전 과정은 **'은행 금고 지키기'**와 같습니다. 초창기엔 경비원 1명(Synchronized)이 문앞에 서서 손님 1만 명을 일일이 검문하느라 은행 마비가 왔습니다. 고수들은 지문 인식+홍채 인식 2중 잠금장치(Double-Checked)로 속도와 보안을 맞췄죠. 지금은 아예 **'스위스 연방 은행 지하 최첨단 자동화 벙커(Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))'**에 돈을 맡겨버려서 도둑([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그)이 들어올 물리적 구멍 자체를 0으로 삭제해버린 시대입니다.
+- **📢 섹션 요약 비유**: 이 발전 과정은 <strong>'은행 금고 지키기'</strong>와 같습니다. 초창기엔 경비원 1명(Synchronized)이 문앞에 서서 손님 1만 명을 일일이 검문하느라 은행 마비가 왔습니다. 고수들은 지문 인식+홍채 인식 2중 잠금장치(Double-Checked)로 속도와 보안을 맞췄죠. 지금은 아예 <strong>'스위스 연방 은행 지하 최첨단 자동화 벙커(Spring IoC <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>)'</strong>에 돈을 맡겨버려서 도둑([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그)이 들어올 물리적 구멍 자체를 0으로 삭제해버린 시대입니다.
 
 ---
 
 다음은 [싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 메모리/쓰레드 세이프 설의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  싱글톤 패턴 메모리/쓰레드 세이프 설                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글톤 패턴 메모리/쓰레드 세이프 설</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 메모리/쓰레드 세이프 설가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 메모리/쓰레드 세이프 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 메모리/쓰레드 세이프 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/) 메모리/쓰레드 세이프 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-싱글톤 패턴 메모리/쓰레드 세이프 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">싱글톤 패턴 메모리/쓰레드 세이프 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

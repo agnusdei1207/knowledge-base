@@ -32,25 +32,27 @@ DRY는 단순히 복사하여 붙여넣기를 하지 말라는 구문(Syntax) �
 
 1. **SSOT (Single Source of Truth)**: 
    시스템 내의 모든 상태나 로직은 오직 하나의 진실의 원천에서 파생되어야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 정규화도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복을 막는 DRY의 일환이다.
-2. **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화**: 
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>화</strong>: 
    중복된 코드는 함수, 클래스, 또는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 구조의 마이크로서비스로 추출(Extract)하여 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화한다. 이를 통해 클라이언트는 로직의 내부 구현을 몰라도 단순히 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))만 하면 된다.
 3. **코드 생성기와 매크로**: 
    [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의서나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서에서 반복적인 보일러플레이트 코드를 자동 생성하는 것도 지식의 원천을 문서 하나로 모으는 DRY의 훌륭한 적용 사례다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 [ DRY Principle의 적용 구조 ]               │
-├─────────────────────────────────────────────────────────────┤
-│ [위반 상태 (WET)]                                           │
-│  Module A ──▶ (로직 X 복사본) ◀─ 변경 발생 시 둘 다 수정해야 함│
-│  Module B ──▶ (로직 X 복사본)                               │
-│                                                             │
-│ [DRY 적용 후]                                               │
-│  Module A ──▶ ┌────────────────┐                            │
-│               │ 공통 서비스 (X)│ ◀─ 변경 시 여기 1곳만 수정  │
-│  Module B ──▶ └────────────────┘                            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DRY Principle의 적용 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위반 상태 (WET)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A ──▶ (로직 X 복사본) ◀─ 변경 발생 시 둘 다 수정해야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module B ──▶ (로직 X 복사본)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DRY 적용 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 서비스 (X)</div><div class="kb-diagram-cell">◀─ 변경 시 여기 1곳만 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module B ──▶</div></div>
+</div>
+</div>
+
+
 
 DRY 원칙이 제대로 적용된 시스템은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))가 높고 중복이 없기 때문에, 요구사항 변경에 따른 파급 효과가 한곳으로 제한된다.
 
@@ -81,9 +83,9 @@ DRY 원칙을 맹신할 때 발생하는 부작용을 경계하기 위해, 상�
 
 1. **Rule of Three (3의 법칙) 적용**: 
    중복 코드를 처음 발견했을 때는 그냥 둔다. 두 번 발견되었을 때도 참는다. 하지만 세 번째로 동일한 로직을 작성해야 할 때 비로소 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하여 공통화(DRY)한다. 이는 미래를 너무 앞서서 설계하는 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 위반과 성급한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 막기 위한 실무적 가이드라인이다.
-2. **[매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)) 제거 판단**: 
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">매직 넘버</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a>) 제거 판단</strong>: 
    코드 내에 하드코딩된 숫자나 문자열이 여러 번 등장하는 것은 명백한 DRY 위반이다. 이를 전역 상수나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일로 추출하여 중앙에서 통제하도록 아키텍처 지침을 내려야 강제할 수 있다.
-3. **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서의 DRY 타협**: 
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경에서의 DRY 타협</strong>: 
    MSA에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간의 완벽한 독립성을 위해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체나 유틸리티 코드의 복사를 일부 허용한다. [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추는 것이 무조건적인 중복 제거보다 더 큰 가치를 지닐 때가 있기 때문이다.
 
 - **📢 섹션 요약 비유**: 실무에서 DRY의 적용은 "공용 공구함"을 만드는 것과 같다. 망치가 한 번 필요하다고 무작정 공용으로 만들면 관리만 힘들다. 망치를 세 명 이상이 매일 빌리러 올 때 비로소 번듯한 공용 도구함(공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 짜는 것이 현명한 판단이다.
@@ -105,27 +107,29 @@ DRY 원칙을 적절하게 준수하면 개발 생산성이 비약적으로 상�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **SSOT (Single Source of Truth)** | 시스템 내에서 단 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천만 신뢰한다는 정보 관리 철학 |
-| **[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))** | 중복 코드를 함수나 객체로 추출(Extract)하여 DRY 상태를 만드는 활동 |
-| **[YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It)** | 미리 필요할 것 같아서 성급하게 공통화([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))하는 것을 막는 방어 원칙 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/">Refactoring</a>)</strong> | 중복 코드를 함수나 객체로 추출(Extract)하여 DRY 상태를 만드는 활동 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a> (You Aren't Gonna Need It)</strong> | 미리 필요할 것 같아서 성급하게 공통화([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))하는 것을 막는 방어 원칙 |
 | **Rule of Three (3의 법칙)** | 세 번째로 중복 코드가 나타날 때 비로소 DRY를 적용하라는 실무 지침 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 설계 원칙의 진화
-    │
-    ▼
-Spaghetti Code (무분별한 복사-붙여넣기, WET 상태 방치)
-    │
-    ▼
-DRY (Don't Repeat Yourself, 중복 제거와 SSOT 확보)
-    │
-    ▼
-Rule of Three & YAGNI (성급한 추상화 경계, 실용적 적용)
-    │
-    ▼
-MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허용)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 설계 원칙의 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spaghetti Code (무분별한 복사-붙여넣기, WET 상태 방치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DRY (Don't Repeat Yourself, 중복 제거와 SSOT 확보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rule of Three &amp; YAGNI (성급한 추상화 경계, 실용적 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허용)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

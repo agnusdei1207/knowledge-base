@@ -23,21 +23,24 @@ tags = ["studynote-cloud-architecture"]
 
 Docker라는 이름이 널리 쓰이지만, 실제 현장에서는 containerd와 runc의 역할 분리가 더 중요하다. 이미지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수명 관리가 한 덩어리로 섞이면 디버깅이 어려워지기 때문이다.
 
-```text
-Pod spec
-  │
-  ▼
-kubelet
-  │  CRI
-  ▼
-containerd ── 이미지 / 스냅샷 관리
-  │
-  ▼
-runc ── OCI bundle ──> namespaces / cgroups
-  │
-  ▼
-Linux kernel start process
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pod spec</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kubelet</div>
+<div class="kb-diagram-note">CRI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">containerd ── 이미지 / 스냅샷 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">runc ── OCI bundle ──&gt; namespaces / cgroups</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Linux kernel start process</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 학교에서 담임은 출석과 자리 배치를 관리하고, 실제 의자는 행정실이 준비하며, 학생을 앉히는 손은 반장처럼 따로 있다.
 
@@ -129,21 +132,24 @@ containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Pod manifest
-  │
-  ▼
-kubelet
-  │  CRI
-  ▼
-containerd
-  │
-  ▼
-runc
-  │
-  ▼
-Linux kernel / container process
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pod manifest</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kubelet</div>
+<div class="kb-diagram-note">CRI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">containerd</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">runc</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Linux kernel / container process</div>
+</div>
+</div>
+
+
 
 흐름을 끊지 않고 계층별로 보면 배포 문제와 실행 문제를 분리할 수 있다.
 

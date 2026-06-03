@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 구형 게시판이나 쇼핑몰은 **UPDATE**라는 쿼리를 씁니다.
+- 구형 게시판이나 쇼핑몰은 <strong>UPDATE</strong>라는 쿼리를 씁니다.
 - 홍길동의 주소가 '서울'이었는데 '부산'으로 엑셀을 `UPDATE` 덮어써버렸습니다.
 - **재앙**: 해커가 내일 당장 "너 원래 주소 어딨어 증명해 봐!"라고 하면 증명할 방법이 없습니다. 덮어써버려서 '서울'이라는 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크에서 아예 갈려버렸기 때문입니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 역사(History)가 소멸하는 치명적 구조입니다.
 
@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) (Event Sourci의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 소싱 (Event Sourci                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소싱 (Event Sourci</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) (Event Sourci가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **최종 결과값([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 자체를 DB에 저장하는 것을 포기하고, 대신 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 가해진 모든 '상태 변경 행위(Event, 예: 5만 원 입금됨, 3만 원 출금됨)'의 내역들을 절대 지워지지 않는(Append-only) 영수증 다발의 스트림([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 형태로 차곡차곡 저장하는 아키텍처 패턴**입니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>최종 결과값(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a>) 자체를 DB에 저장하는 것을 포기하고, 대신 그 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 가해진 모든 '상태 변경 행위(Event, 예: 5만 원 입금됨, 3만 원 출금됨)'의 내역들을 절대 지워지지 않는(Append-only) 영수증 다발의 스트림(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>) 형태로 차곡차곡 저장하는 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-software-engineering"]
 
 - 금융권(은행 원장), 회계 장부, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 간의 완벽한 비동기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 파이프라인에서 무조건 1순위로 채택되는 고급 기술입니다. 반면 단순한 쇼핑몰 공지사항 게시판에 쓰면 배보다 배꼽이 큰 미친 짓(오버 엔지니어링)이 됩니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **상태 기반 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(CRUD)**는 선생님이 칠판에 적힌 숫자를 지우개로 빡빡 지우고 **'새로운 답([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))만 계속 덮어쓰는 짓'**입니다. 칠판에 '[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)'이 적혀있는데, 학생이 "선생님, 아까 3시간 전에는 저 숫자가 뭐였어요?"라고 물으면 선생님은 멘붕에 빠집니다(과거가 삭제됨). 이를 뒤집어엎은 **[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))**은 칠판을 버리고 **'무한히 긴 영수증 두루마리(이벤트 스트림)'**를 꺼내 든 것입니다. 선생님은 숫자를 지우지 않습니다. 오직 두루마리 끝에 "+5", "-2", "+7" 이라는 행위(이벤트)만 줄줄이 볼펜으로 영원히 추가(Append-only)해 나갈 뿐입니다. 학생이 "현재 답이 뭐예요?"라고 물으면, 선생님은 두루마리 맨 위부터 끝까지 촤라락 빛의 속도로 덧셈 뺄셈을 다시 재생(Replay)해서 "답은 10이다!"라고 말해줍니다. 지우개가 없으므로 누군가 조작할 수도 없고(절대 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 3시간 전으로 돌아가고 싶으면 두루마리를 3시간 전까지만 잘라서 덧셈하면 끝나는, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모든 파괴 행위를 금지하고 역사 그 자체를 시스템의 뼈대로 만들어버린 궁극의 진실 추적 아키텍처입니다.
+> 📢 **섹션 요약 비유**: 기존의 <strong>상태 기반 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(CRUD)</strong>는 선생님이 칠판에 적힌 숫자를 지우개로 빡빡 지우고 <strong>'새로운 답(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a>)만 계속 덮어쓰는 짓'</strong>입니다. 칠판에 '[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)'이 적혀있는데, 학생이 "선생님, 아까 3시간 전에는 저 숫자가 뭐였어요?"라고 물으면 선생님은 멘붕에 빠집니다(과거가 삭제됨). 이를 뒤집어엎은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a>)</strong>은 칠판을 버리고 <strong>'무한히 긴 영수증 두루마리(이벤트 스트림)'</strong>를 꺼내 든 것입니다. 선생님은 숫자를 지우지 않습니다. 오직 두루마리 끝에 "+5", "-2", "+7" 이라는 행위(이벤트)만 줄줄이 볼펜으로 영원히 추가(Append-only)해 나갈 뿐입니다. 학생이 "현재 답이 뭐예요?"라고 물으면, 선생님은 두루마리 맨 위부터 끝까지 촤라락 빛의 속도로 덧셈 뺄셈을 다시 재생(Replay)해서 "답은 10이다!"라고 말해줍니다. 지우개가 없으므로 누군가 조작할 수도 없고(절대 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 3시간 전으로 돌아가고 싶으면 두루마리를 3시간 전까지만 잘라서 덧셈하면 끝나는, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모든 파괴 행위를 금지하고 역사 그 자체를 시스템의 뼈대로 만들어버린 궁극의 진실 추적 아키텍처입니다.
 
 - **📢 섹션 요약 비유**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -136,21 +135,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 소싱 (Event Sourcing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 소싱 (Event Sourcing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

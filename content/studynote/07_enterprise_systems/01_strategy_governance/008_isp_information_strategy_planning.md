@@ -25,26 +25,25 @@ tags = ["enterprise_systems"]
 
 과거의 IT 환경에서는 현업 부서의 개별적인 요구사항이 발생할 때마다 땜질식(Patchwork)으로 시스템을 구축했다. 이로 인해 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연동되지 않는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 극심해졌고, 유지보수 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))은 기하급수적으로 증가했다. 기업들은 "우리가 왜 이 IT 시스템에 수십억을 투자해야 하는가?"라는 본질적인 질문에 대답하지 못했다. ISP는 바로 이 지점에서 필요해졌다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Business [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))과 정보 기술(IT [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 간의 간극(Gap)을 메우고 완벽하게 정렬(Alignment)시킴으로써, 모든 IT 프로젝트가 회사의 매출 증대나 비용 절감이라는 명확한 명분 하에 우선순위가 매겨지도록 중앙 통제력을 제공하는 핵심 도구가 된 것이다.
 
-```text
-이 도식은 기업의 경영 전략이 어떻게 ISP를 거쳐 실제 정보 기술(IT) 인프라로 하향 전개(Top-Down)되는지를 보여주는 계층적 연계 구조도이다.
 
-[경영 환경 변화] (경쟁사 위협, 신기술 등장, 규제 강화)
-        │
-        ▼ (영향)
-┌───────────────────────────────────────────────┐
-│              경영 비전 및 비즈니스 전략       │ ──> "해외 시장 진출, 원가 30% 절감"
-└──────────────────────┬────────────────────────┘
-                       │ (정렬 / Alignment)
-┌──────────────────────▼────────────────────────┐ [ISP 영역]
-│           정보화 전략 계획 (ISP)              │ ──> "글로벌 통합 ERP 구축, SCM 최적화"
-│  (환경 분석 -> AS-IS 분석 -> TO-BE 로드맵)    │
-└──────────────────────┬────────────────────────┘
-                       │ (실행 계획 전개)
-┌────────────┬─────────┴───────┬────────────┐
-▼            ▼                 ▼            ▼
-[BPR/PI]  [전사 아키텍처(EA)]  [데이터 거버넌스] [단위 프로젝트(ISMP)]
-(업무 혁신)  (IT 아키텍처 통제)  (마스터 데이터)   (실제 시스템 구축)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 기업의 경영 전략이 어떻게 ISP를 거쳐 실제 정보 기술(IT) 인프라로 하향 전개(Top-Down)되는지를 보여주는 계층적 연계 구조도이다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경영 환경 변화</div><div class="kb-diagram-note">(경쟁사 위협, 신기술 등장, 규제 강화)</div></div>
+<div class="kb-diagram-note">▼ (영향)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영 비전 및 비즈니스 전략</div><div class="kb-diagram-cell">──&gt; "해외 시장 진출, 원가 30% 절감"</div></div>
+<div class="kb-diagram-note">(정렬 / Alignment)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">ISP 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보화 전략 계획 (ISP)</div><div class="kb-diagram-cell">──&gt; "글로벌 통합 ERP 구축, SCM 최적화"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(환경 분석 -&gt; AS-IS 분석 -&gt; TO-BE 로드맵)</div></div>
+<div class="kb-diagram-note">(실행 계획 전개)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BPR/PI</div><div class="kb-diagram-node">전사 아키텍처(EA)</div><div class="kb-diagram-node">데이터 거버넌스</div><div class="kb-diagram-node">단위 프로젝트(ISMP)</div></div>
+<div class="kb-diagram-note">(업무 혁신) (IT 아키텍처 통제) (마스터 데이터) (실제 시스템 구축)</div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 ISP가 단순한 IT 부서의 기술 계획서가 아니라, 비즈니스 목표를 IT 언어로 번역하는 '통역기'이자 최고 의사결정 기구라는 점이다. 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 없는 ISP는 맹목적인 신기술 찬양에 불과하며, ISP가 없는 단위 프로젝트는 중복 투자와 아키텍처 붕괴를 초래한다. 따라서 실무에서 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 컨설팅 프로젝트를 수행할 때는 기술 아키텍트뿐만 아니라 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가(SME)와 최고경영진(C-Level)의 적극적인 참여(Sponsorship)가 성공을 판가름하는 가장 중요한 조건이 된다.
 
@@ -61,31 +60,30 @@ tags = ["enterprise_systems"]
 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립 단계 | 핵심 활동 (Activity) | 주요 적용 기법 / 프레임워크 | 산출물 (Deliverables) |
 |:---|:---|:---|:---|
 | **1. 환경/경영 분석** | 대내외 비즈니스 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/), 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 리뷰, IT 트렌드 조사 | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/), 3C 분석, 5-Forces, SWOT, 핵심성공요인([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)) 도출 | [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 보고서, 경영-IT 연계 목표 |
-| **2. [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석** | 현행 비즈니스 프로세스(업무) 및 IT 시스템/인프라 한계점 파악 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석, 아키텍처 리뷰, 인터뷰/설문 | 현행 아키텍처 명세, 문제점/개선과제 풀(Pool) |
+| <strong>2. <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> 분석</strong> | 현행 비즈니스 프로세스(업무) 및 IT 시스템/인프라 한계점 파악 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) 분석, 아키텍처 리뷰, 인터뷰/설문 | 현행 아키텍처 명세, 문제점/개선과제 풀(Pool) |
 | **3. TO-BE 모델링** | 목표 아키텍처 설계, 개선된 미래 프로세스([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 수준) 정의 | [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/), [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크, 갭(Gap) 분석 | TO-BE 아키텍처 청사진, 정보화 요건 정의서 |
-| **4. [이행 계획 수립](/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/)** | 구현 과제 도출, 우선순위 평가, 소요 예산 산정, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 매트릭스, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 산정, 위험 관리 계획 | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 로드맵, 연도별 투자 계획서, 조직 변화 관리안 |
+| <strong>4. <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/">이행 계획 수립</a></strong> | 구현 과제 도출, 우선순위 평가, 소요 예산 산정, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 분석 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 매트릭스, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 산정, 위험 관리 계획 | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 로드맵, 연도별 투자 계획서, 조직 변화 관리안 |
 
-```text
-이 순차 흐름도는 AS-IS 현황과 TO-BE 목표 사이의 차이(Gap)를 분석하여 구체적인 정보화 과제를 도출하는 ISP의 핵심 엔지니어링 과정을 보여준다.
 
-[AS-IS 현행 아키텍처] ──────────(Gap 분석)──────────> [TO-BE 목표 아키텍처]
-  - 파편화된 구형 시스템                                   - 통합된 클라우드 플랫폼
-  - 수작업 중심의 결재 (리드타임 3일)                      - RPA/AI 기반 자동화 (리드타임 1시간)
-  - 불일치하는 고객 데이터                                 - MDM 기반 마스터 데이터 싱글소스
-          │                                                       ▲
-          │                                                       │
-          └───────────> [도출된 정보화 후보 과제 풀(Pool)] ───────┘
-                                   │
-                                   ▼ [우선순위 평가 매트릭스 적용]
-                         ┌──────────────────────┐
-                         │ 1. 비즈니스 기여도   │ => (가중치 평가) => [최종 과제 선정 및 예산 할당]
-                         │ 2. 기술적 실현 가능성│
-                         │ 3. 투자 대비 효과(ROI)│
-                         └──────────────────────┘
-                                   │
-                                   ▼
-          [연도별 실행 로드맵 (Year 1: 인프라 통합 -> Year 2: 코어 시스템 개편 -> Year 3: AI 분석)]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 순차 흐름도는 AS-IS 현황과 TO-BE 목표 사이의 차이(Gap)를 분석하여 구체적인 정보화 과제를 도출하는 ISP의 핵심 엔지니어링 과정을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AS-IS 현행 아키텍처</div><div class="kb-diagram-note">(Gap 분석) &gt;</div><div class="kb-diagram-node">TO-BE 목표 아키텍처</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">파편화된 구형 시스템 - 통합된 클라우드 플랫폼</div>
+<div class="kb-diagram-tree-item" style="--depth:1">수작업 중심의 결재 (리드타임 3일) - RPA/AI 기반 자동화 (리드타임 1시간)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">불일치하는 고객 데이터 - MDM 기반 마스터 데이터 싱글소스</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">도출된 정보화 후보 과제 풀(Pool)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">우선순위 평가 매트릭스 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 비즈니스 기여도 │ =&gt; (가중치 평가) =&gt;</div><div class="kb-diagram-node">최종 과제 선정 및 예산 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 기술적 실현 가능성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 투자 대비 효과(ROI)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연도별 실행 로드맵 (Year 1: 인프라 통합 -&gt; Year 2: 코어 시스템 개편 -&gt; Year 3: AI 분석)</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 막연한 이상향(TO-BE)을 그리는 것이 아니라, 철저하게 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS의 뼈아픈 한계점에서 출발하여 도달해야 할 구체적인 목표 사이의 'Gap'을 수치화하고 과제화한다는 점이다. 도출된 수많은 과제는 한 번에 실행할 수 없으므로, 비즈니스 기여도와 시급성(Urgency)을 축으로 하는 2x2 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 매트릭스(Matrix)에 배치하여 1단계(Quick Win), 2단계(Core 전환), 3단계(고도화)로 실행 순서를 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링해야 한다. 실무에서는 이 우선순위 평가 과정에서 현업 부서장들 간의 정치적 예산 쟁탈전이 발생하므로, C-Level 중심의 조율 위원회가 필수적이다.
 
@@ -102,20 +100,22 @@ ISP는 조직의 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot
 | **핵심 목적** | 비즈니스 프로세스의 근본적이고 급진적인 재설계 (원가/속도 혁신) | 전사 비즈니스 목표 달성을 위한 **전체 IT 청사진 및 로드맵** 수립 | 도출된 특정 단일 정보화 사업의 **구체적 구축 계획 및 제안요청서(RFP)** 작성 |
 | **관점 및 범위** | 현업 업무 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중심 (IT는 도구) | 전사 (Enterprise) 단위 포괄적 접근 | 특정 시스템/프로젝트 단위 상세 접근 |
 | **산출물 성격** | 신규 업무 프로세스 맵 (To-Be [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 중장기 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜, 우선순위, 아키텍처 방향 | 사업 예산, [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 상세 요구사항, RFP |
-| **선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | 보통 ISP와 동시 수행되거나 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 선행 역할 | 가장 포괄적인 상위 단계 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 완료 후, 개별 사업 실행 직전에 수행 |
+| <strong>선후 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 보통 ISP와 동시 수행되거나 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 선행 역할 | 가장 포괄적인 상위 단계 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 완료 후, 개별 사업 실행 직전에 수행 |
 
-```text
-이 매트릭스는 전통적 모놀리식 환경의 고전적 ISP와 디지털 트랜스포메이션(DT/DX) 시대의 애자일 ISP의 접근 방식 차이를 비교한다.
 
-┌────────────┬─────────────────────────────┬──────────────────────────────┬───────────────────────┐
-│ 비교 항목  │ 고전적 ISP (Waterfall형)    │ 디지털/애자일 ISP (현대형)   │ 아키텍처 판단 포인트  │
-├────────────┼─────────────────────────────┼──────────────────────────────┼───────────────────────┤
-│ 계획 주기  │ 3~5년 중장기 고정 로드맵    │ 1년 단위 (Rolling Plan 갱신) │ 비즈니스 환경 변화속도│
-│ 수행 기간  │ 4~6개월의 장기 컨설팅       │ 4~8주의 단기 전략 스프린트   │ 기회 비용 및 투입 공수│
-│ 기술 초점  │ 인프라, ERP 중심 내부 통제  │ 클라우드, AI, 데이터, MSA    │ 신기술 수용 유연성    │
-│ 결과물     │ 수백 페이지의 두꺼운 문서   │ MVP 모델, 실행 가능한 백로그 │ 실행력(Execution) 보장│
-└────────────┴─────────────────────────────┴──────────────────────────────┴───────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 매트릭스는 전통적 모놀리식 환경의 고전적 ISP와 디지털 트랜스포메이션(DT/DX) 시대의 애자일 ISP의 접근 방식 차이를 비교한다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">고전적 ISP (Waterfall형)</div><div class="kb-diagram-cell">디지털/애자일 ISP (현대형)</div><div class="kb-diagram-cell">아키텍처 판단 포인트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획 주기</div><div class="kb-diagram-cell">3~5년 중장기 고정 로드맵</div><div class="kb-diagram-cell">1년 단위 (Rolling Plan 갱신)</div><div class="kb-diagram-cell">비즈니스 환경 변화속도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행 기간</div><div class="kb-diagram-cell">4~6개월의 장기 컨설팅</div><div class="kb-diagram-cell">4~8주의 단기 전략 스프린트</div><div class="kb-diagram-cell">기회 비용 및 투입 공수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 초점</div><div class="kb-diagram-cell">인프라, ERP 중심 내부 통제</div><div class="kb-diagram-cell">클라우드, AI, 데이터, MSA</div><div class="kb-diagram-cell">신기술 수용 유연성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과물</div><div class="kb-diagram-cell">수백 페이지의 두꺼운 문서</div><div class="kb-diagram-cell">MVP 모델, 실행 가능한 백로그</div><div class="kb-diagram-cell">실행력(Execution) 보장</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 디지털 시대에 비즈니스 환경이 극도로 불확실해지면서, 5년 뒤의 완벽한 IT 청사진을 6개월 동안 그리는 행위 자체가 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 되었다는 점이다. 따라서 전통적인 장기 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 체계는 뼈대(플랫폼, 거버넌스)만 강력하게 유지하고, 상단부의 비즈니스 애플리케이션 과제는 시장 상황에 따라 언제든 폐기하거나 추가할 수 있는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 방식으로 진화하고 있다. 실무적으로 아키텍트는 굵직한 인프라 통합(클라우드 이전)은 고전적 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 방식으로, 대고객 채널(모바일 앱 개편)은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 방식으로 이원화([Bimodal IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/))하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립해야 한다.
 
@@ -127,32 +127,33 @@ ISP는 조직의 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 실무에서 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 프로젝트의 가장 흔하고 치명적인 실패 원인은 '실행력 부재(Execution Failure)'이다. 수억 원의 컨설팅 비용을 들여 화려한 TO-BE 모델과 100건의 과제를 도출했지만, 실제 경영진의 예산 미승인이나 현업의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)으로 인해 보고서가 서랍 속에 방치(Paper Work)되는 경우가 비일비재하다. 
 
-**실무 시나리오 및 성공 요인 ([Checklist](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))**
+<strong>실무 시나리오 및 성공 요인 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">Checklist</a>)</strong>
 1. **경영진의 확고한 스폰서십 (Sponsorship)**: ISP는 IT 부서만의 프로젝트가 아니다. 반드시 CEO나 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 총괄(CSO)이 프로젝트의 오너(Owner)가 되어 부서 간의 이기주의와 예산 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 하향식([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))으로 돌파해야 한다.
 2. **실행 가능한 예산 확보**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 결과 보고 시 단순히 필요한 시스템 리스트만 나열해서는 안 된다. [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 기반의 연도별 투자 예산안과 클라우드 전환에 따른 재무적 이익([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))이 숫자로 제시되어야 이사회 승인을 받을 수 있다.
 3. **거버넌스 조직 신설**: 로드맵이 승인되면, 이를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 추진할 전담 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)) 조직이나 '정보화 추진 위원회'를 신설하여 통제력을 유지해야 한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 사례)**
-- **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)적 솔루션 끼워팔기**: 외부 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업(SI)에 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 컨설팅을 맡길 경우, TO-BE 아키텍처가 철저한 분석 결과가 아니라 자사가 보유한 특정 솔루션(예: 자사 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/))을 팔기 위한 정당화 도구로 전락하는 '답정너(결론 도출형) [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)'가 되는 경우가 많다. 이를 방지하기 위해 벤더 중립적인 구조 설계 감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 절차가 필요하다.
-- **[AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석에 과도한 매몰**: 컨설턴트가 기업 현황을 파악한답시고 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 문서화에만 3개월을 소모하여, 정작 중요한 TO-BE 혁신 설계와 로드맵 작성은 부실해지는 '분석 마비(Analysis Paralysis)' 현상을 철저히 경계해야 한다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>적 솔루션 끼워팔기</strong>: 외부 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업(SI)에 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 컨설팅을 맡길 경우, TO-BE 아키텍처가 철저한 분석 결과가 아니라 자사가 보유한 특정 솔루션(예: 자사 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/))을 팔기 위한 정당화 도구로 전락하는 '답정너(결론 도출형) [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)'가 되는 경우가 많다. 이를 방지하기 위해 벤더 중립적인 구조 설계 감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 절차가 필요하다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> 분석에 과도한 매몰</strong>: 컨설턴트가 기업 현황을 파악한답시고 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 문서화에만 3개월을 소모하여, 정작 중요한 TO-BE 혁신 설계와 로드맵 작성은 부실해지는 '분석 마비(Analysis Paralysis)' 현상을 철저히 경계해야 한다.
 
-```text
-이 도식은 도출된 ISP 과제가 서랍 속에 방치되는 안티패턴을 막기 위한 '거버넌스 연계 실행 보장 플로우'를 보여준다.
 
-[ISP 과제 도출 완료] ──(위험 지점: 예산 부족/관심 저하로 인한 중단)
-        │
-        ▼ 극복 전략
-[IT 투자 포트폴리오(PPM) 등록] ──> 우선순위에 따른 연간 예산(CAPEX/OPEX) 강제 할당
-        │
-        ▼
-[PMO (프로젝트 관리 조직) 가동] ──> 개별 과제 ISMP 수립 지시 및 벤더 선정 (RFP 발송)
-        │
-        ▼
-[EA (전사 아키텍처) 통제] ──> 개발되는 시스템이 ISP의 TO-BE 청사진을 위배하지 않는지 검증 (Compliance)
-        │
-        ▼
-[시스템 오픈 및 가치 평가] ──> 사전 정의된 KPI 달성 여부 측정 및 다음 롤링 플랜 반영
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 도출된 ISP 과제가 서랍 속에 방치되는 안티패턴을 막기 위한 '거버넌스 연계 실행 보장 플로우'를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 과제 도출 완료</div><div class="kb-diagram-note">──(위험 지점: 예산 부족/관심 저하로 인한 중단)</div></div>
+<div class="kb-diagram-note">▼ 극복 전략</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 투자 포트폴리오(PPM) 등록</div><div class="kb-diagram-note">──&gt; 우선순위에 따른 연간 예산(CAPEX/OPEX) 강제 할당</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PMO (프로젝트 관리 조직) 가동</div><div class="kb-diagram-note">──&gt; 개별 과제 ISMP 수립 지시 및 벤더 선정 (RFP 발송)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EA (전사 아키텍처) 통제</div><div class="kb-diagram-note">──&gt; 개발되는 시스템이 ISP의 TO-BE 청사진을 위배하지 않는지 검증 (Compliance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 오픈 및 가치 평가</div><div class="kb-diagram-note">──&gt; 사전 정의된 KPI 달성 여부 측정 및 다음 롤링 플랜 반영</div></div>
+</div>
+</div>
+
+
 
 이 운영 플로우의 핵심은 ISP가 일회성 이벤트(Event)로 끝나지 않고, 회사의 예산 편성-실행-아키텍처 통제-가치 측정이라는 '순환적 거버넌스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인'에 물리적으로 연동되어야 한다는 점이다. 아무리 훌륭한 ISP도 단위 시스템 구축 시 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 아키텍트의 통제가 없으면 다시 스파게티 구조로 회귀한다. 실무 의사결정자는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 종료 시점에 반드시 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 프로세스를 제도화해야 한다.
 
@@ -176,29 +177,31 @@ ISP를 성공적으로 내재화한 조직은 IT를 '비용을 소모하는 지�
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **[BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))** : 시스템 도입 전 업무 프로세스 자체를 근본적으로 혁신하여 ISP의 TO-BE 모델과 강력한 시너지를 내는 기법.
-* **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))** : ISP를 통해 도출된 미래 청사진을 지속적으로 관리하고 기술적 표준을 강제하는 전사적 아키텍처 통제 틀.
-* **[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) ([Information System Master Plan](/knowledge-base/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))** : 전사적인 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 범위 중 특정 우선순위 사업의 실제 구축을 위해 예산과 과업 범위를 구체화하는 하위 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜.
-* **IT 거버넌스 ([IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))** : ISP가 일회성 문서로 끝나지 않고 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 등의 프레임워크를 통해 이사회 차원에서 통제되도록 하는 거시적 관리 체계.
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/">BPR</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/">Business Process Reengineering</a>)</strong> : 시스템 도입 전 업무 프로세스 자체를 근본적으로 혁신하여 ISP의 TO-BE 모델과 강력한 시너지를 내는 기법.
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/">Enterprise Architecture</a>)</strong> : ISP를 통해 도출된 미래 청사진을 지속적으로 관리하고 기술적 표준을 강제하는 전사적 아키텍처 통제 틀.
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/">Information System Master Plan</a>)</strong> : 전사적인 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 범위 중 특정 우선순위 사업의 실제 구축을 위해 예산과 과업 범위를 구체화하는 하위 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜.
+* <strong>IT 거버넌스 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/">IT Governance</a>)</strong> : ISP가 일회성 문서로 끝나지 않고 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 등의 프레임워크를 통해 이사회 차원에서 통제되도록 하는 거시적 관리 체계.
 * **SWOT / 5-Forces 분석** : ISP의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계인 기업 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)에서 비즈니스 위협과 기회를 구조화하기 위해 사용되는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도구.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비즈니스 전략 (Business Strategy) — 경영 목표 설정]
-    │
-    ▼
-[정보화 전략 계획 (ISP, Information Strategy Planning)]
-    │
-    ▼
-[전사 아키텍처 (EA, Enterprise Architecture) — TOGAF]
-    │
-    ▼
-[정보화 사업 마스터플랜 (ISMP)]
-    │
-    ▼
-[IT 거버넌스 (IT Governance) — COBIT, GEA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 (Business Strategy) — 경영 목표 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 전략 계획 (ISP, Information Strategy Planning)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전사 아키텍처 (EA, Enterprise Architecture) — TOGAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 사업 마스터플랜 (ISMP)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 (IT Governance) — COBIT, GEA</div></div>
+</div>
+</div>
+
+
 
 기업의 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 단순 시스템 구축에서 [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/) 설계와 거버넌스 체계로 발전한 흐름이다.
 

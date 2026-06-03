@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 464번 인터넷(IP)의 기본 철학은 평등주의입니다. VIP든 흙수저든 무조건 먼저 도착한 놈 먼저 처리합니다([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/): First In First Out).
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))**: 음성(VoIP)이나 화상회의, 심장 박동기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0.1초만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)돼도 다 깨집니다. 이 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 안 되는 놈"들을 특별 대우해주기 위해 태어난 것이 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 기술입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 음성(VoIP)이나 화상회의, 심장 박동기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0.1초만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)돼도 다 깨집니다. 이 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 안 되는 놈"들을 특별 대우해주기 위해 태어난 것이 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 기술입니다.
 
-```text
-[ECN 징후 큐 통지]
-    │
-    ▼
-[DiffServ DSCP 분류 PHB]
-    │
-    └──▶ [RSVP 자원 예약 플로우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 과거에는 1090번의 RSVP([IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/))라는 예약을 썼으나 망해서 이걸 씁니다.
-- **개념**: 네트워크 망으로 패킷이 들어올 때, 입구 라우터가 트래픽의 종류(음성, 비디오, 이메일)를 까보고, 패킷 **IP 헤더에 6비트짜리 계급장(DSCP) 도장을 찍어줍니다.** 그러면 망 내부의 모든 라우터들이 그 도장을 보고 각자의 큐(대기열)에서 철저하게 차별 대우(PHB)를 하여 우선순위대로 패킷을 처리하는 **확장성 최고의 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 표준 아키텍처**입니다.
+- **개념**: 네트워크 망으로 패킷이 들어올 때, 입구 라우터가 트래픽의 종류(음성, 비디오, 이메일)를 까보고, 패킷 **IP 헤더에 6비트짜리 계급장(DSCP) 도장을 찍어줍니다.** 그러면 망 내부의 모든 라우터들이 그 도장을 보고 각자의 큐(대기열)에서 철저하게 차별 대우(PHB)를 하여 우선순위대로 패킷을 처리하는 <strong>확장성 최고의 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 표준 아키텍처</strong>입니다.
 
-```text
-[ECN 징후 큐 통지]
-    │
-    ▼
-[DiffServ DSCP 분류 PHB]
-    │
-    └──▶ [RSVP 자원 예약 플로우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 마킹 (DSCP, [Differentiated Services](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point) 🌟
-- **IP 헤더의 ToS(Type of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 필드 8비트 중 앞 6비트**를 DSCP라고 부릅니다. 이 6비트로 무려 64가지의 신분(계급장)을 패킷 이마에 도장 찍을 수 있습니다.
+- <strong>IP 헤더의 ToS(Type of <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>) 필드 8비트 중 앞 6비트</strong>를 DSCP라고 부릅니다. 이 6비트로 무려 64가지의 신분(계급장)을 패킷 이마에 도장 찍을 수 있습니다.
 - **주요 계급장 예시**:
   - `EF (Expedited Forwarding)`: **최고 존엄 1등급 VIP (황금 도장)**. 딜레이 0.001초도 못 참는 음성 통화(VoIP) 패킷 이마에 찍습니다. 대기열을 다 무시하고 무조건 0순위 통과.
   - `AF (Assured Forwarding)`: **2등급 비즈니스석 (은 도장)**. 1등급보단 낮지만 일반인보단 낫습니다. 중요 사내 시스템 트래픽. (AF11, AF21 등 디테일하게 나뉨)
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ### 2. PHB (Per-Hop Behavior) - "스위치들의 깍듯한 대우"
 - 도장(DSCP)은 찍었는데, 중간에 거쳐 가는 스위치들이 도장을 무시하면 꽝입니다.
-- **PHB (홉 단위 행동)**: 패킷이 징검다리(Hop, 라우터)를 건너갈 때마다, 각 라우터가 DSCP 도장을 보고 **자기 기계 안의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 대기열)를 어떻게 조작해서 먼저 빼줄지(스케줄링, 폐기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 정해놓은 기계적인 차별 행동 규칙**입니다. 라우터들은 VIP 도장(EF)을 본 순간, 흙수저(BE) 큐의 문을 닫아버리고 VIP 큐의 출구부터 뻥 뚫어줍니다.
+- **PHB (홉 단위 행동)**: 패킷이 징검다리(Hop, 라우터)를 건너갈 때마다, 각 라우터가 DSCP 도장을 보고 <strong>자기 기계 안의 큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> 대기열)를 어떻게 조작해서 먼저 빼줄지(스케줄링, 폐기 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>) 정해놓은 기계적인 차별 행동 규칙</strong>입니다. 라우터들은 VIP 도장(EF)을 본 순간, 흙수저(BE) 큐의 문을 닫아버리고 VIP 큐의 출구부터 뻥 뚫어줍니다.
 
 ### 3. 트래픽 폴리싱(Policing)과 셰이핑(Shaping)
 입구에서 VIP라고 막 들여보내면 망이 터집니다.
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- DiffServ는 중간 라우터들이 복잡한 상태 장부를 기억하지 않습니다. 그냥 **패킷 이마에 찍힌 도장만 보고 기계적으로 차별(PHB)**만 하므로, 초당 수억 개의 패킷이 쏟아지는 글로벌 통신사 백본망(Core)에서 완벽하게 버티며 전 세계 QoS의 절대 표준이 되었습니다.
+- DiffServ는 중간 라우터들이 복잡한 상태 장부를 기억하지 않습니다. 그냥 <strong>패킷 이마에 찍힌 도장만 보고 기계적으로 차별(PHB)</strong>만 하므로, 초당 수억 개의 패킷이 쏟아지는 글로벌 통신사 백본망(Core)에서 완벽하게 버티며 전 세계 QoS의 절대 표준이 되었습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인터넷망은 원래 **'선착순으로 들어가는 놀이공원 입구(Best Effort)'**입니다. 심장마비 환자(음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 와도 앞에 건강한 초딩(이메일) 100명이 줄 서 있으면 무조건 1시간을 기다려야 합니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). **[DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)(차등 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**는 놀이공원 입구에서 요금 정산소 직원이 손님들의 이마에 **'계급장 도장(DSCP)'**을 쾅쾅 찍어주는 완벽한 차별 사회입니다. 심장마비 환자 이마엔 '황금 VIP 도장(EF)'을, 초딩에겐 '무도장(BE)'을 찍어 들여보냅니다. 놀이공원 안의 롤러코스터, 바이킹 등 모든 기구 진행요원(중간 라우터)들은 손님 이마의 도장만 철저하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다(PHB 원칙). VIP 도장이 오면 즉시 초딩 줄의 차단바를 확 내려버리고, VIP 전용 게이트를 열어 하이패스로 통과시켜 버립니다. 진행요원이 이 환자가 어디서 와서 어딜 가는지 복잡한 장부를 기록할 필요 없이, 오직 이마의 계급장 도장 하나만 보고 0.1초 만에 철저한 차별 대우([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 집행하는 극강의 대용량 통신망 트래픽 신분제 시스템입니다.
+- **📢 섹션 요약 비유**: 인터넷망은 원래 <strong>'선착순으로 들어가는 놀이공원 입구(Best Effort)'</strong>입니다. 심장마비 환자(음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 와도 앞에 건강한 초딩(이메일) 100명이 줄 서 있으면 무조건 1시간을 기다려야 합니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/">DiffServ</a>(차등 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>는 놀이공원 입구에서 요금 정산소 직원이 손님들의 이마에 <strong>'계급장 도장(DSCP)'</strong>을 쾅쾅 찍어주는 완벽한 차별 사회입니다. 심장마비 환자 이마엔 '황금 VIP 도장(EF)'을, 초딩에겐 '무도장(BE)'을 찍어 들여보냅니다. 놀이공원 안의 롤러코스터, 바이킹 등 모든 기구 진행요원(중간 라우터)들은 손님 이마의 도장만 철저하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다(PHB 원칙). VIP 도장이 오면 즉시 초딩 줄의 차단바를 확 내려버리고, VIP 전용 게이트를 열어 하이패스로 통과시켜 버립니다. 진행요원이 이 환자가 어디서 와서 어딜 가는지 복잡한 장부를 기록할 필요 없이, 오직 이마의 계급장 도장 하나만 보고 0.1초 만에 철저한 차별 대우([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 집행하는 극강의 대용량 통신망 트래픽 신분제 시스템입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ECN 징후 큐 통지]
-    │
-    ▼
-[현재 개념: DiffServ DSCP 분류 PHB]
-    │
-    ├──▶ [확장 A: RSVP 자원 예약 플로우]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECN 징후 큐 통지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DiffServ DSCP 분류 PHB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RSVP 자원 예약 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 ECN 징후 큐 통지에서 출발해 현재 메커니즘을 정교화하고, 이후 RSVP 자원 예약 플로우와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

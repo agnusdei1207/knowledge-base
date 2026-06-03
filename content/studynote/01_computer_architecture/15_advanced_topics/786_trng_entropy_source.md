@@ -21,16 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터는 결정론적 기계라서 스스로 진짜 무작위를 만들기 어렵다. 그래서 보안 시스템은 수학적 PRNG (Pseudo Random Number Generator) 앞단에, 외부에서 예측할 수 없는 물리 노이즈를 공급하는 TRNG를 둔다. 여기서 말하는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스는 단순 잡음이 아니라, 공격자가 모델링하거나 재현하기 어려운 자연 현상이다. 결국 TRNG의 가치는 "수학적으로 복잡한 뒤처리"보다 "처음 들어오는 무질서가 진짜인가"에 달려 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Why entropy source matters for security          │
-├──────────────────────────────────────────────────────────────┤
-│ Weak seed  -> predictable DRBG -> predictable keys          │
-│ Strong noise -> conditioned bits -> secure seed             │
-│                                                              │
-│ Random system quality starts before software uses it        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why entropy source matters for security</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weak seed -&gt; predictable DRBG -&gt; predictable keys</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strong noise -&gt; conditioned bits -&gt; secure seed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Random system quality starts before software uses it</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 맛있는 빵도 반죽 재료가 나쁘면 한계가 있듯, 난수도 첫 재료인 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 약하면 뒤에서 아무리 섞어도 근본이 좋아지지 않는다.
 
@@ -47,17 +49,18 @@ TRNG는 보통 노이즈 소스, 샘플러, 조건화기(Conditioner), 헬스 �
 | RO Jitter | 디지털 공정과 궁합이 좋음 | 주파수 고정 공격 대비 필요 |
 | [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) Startup | 추가 회로 부담이 적음 | 재부팅 의존·재현성 관리 필요 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Generic TRNG pipeline and trust points           │
-├──────────────────────────────────────────────────────────────┤
-│ Noise source -> Amplify -> Sample -> Condition -> DRBG      │
-│      │                               │                       │
-│      └─ entropy quality measured     └─ health tests watch   │
-│                                                              │
-│ Bad source cannot be fixed only by pretty post-processing   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Generic TRNG pipeline and trust points</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Noise source -&gt; Amplify -&gt; Sample -&gt; Condition -&gt; DRBG</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ entropy quality measured ─ health tests watch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bad source cannot be fixed only by pretty post-processing</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 빗물을 모으는 깔때기, 정수 필터, 수질 검사기가 순서대로 있어야 마실 수 있는 물이 된다. 비가 오지 않는데 필터만 좋아서는 해결되지 않는다.
 
@@ -105,18 +108,21 @@ TRNG는 PRNG나 DRBG (Deterministic Random [Bit](/knowledge-base/studynote/08_al
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Physical Noise]
-    │
-    ▼
-[Raw Bit Sampling]
-    │
-    ▼
-[Conditioning / Extraction]
-    │
-    ├──▶ [Health Tests]
-    └──▶ [DRBG Seed / Key Material]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Noise</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Bit Sampling</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Conditioning / Extraction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Health Tests</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DRBG Seed / Key Material</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 물리적 무질서가 원시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 되고, 다시 조건화와 검사를 거쳐 암호 시스템의 시드로 연결되는 구조를 보여준다. 즉 TRNG는 단품 회로가 아니라 파이프라인으로 봐야 한다.
 

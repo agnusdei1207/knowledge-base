@@ -24,14 +24,18 @@ tags = ["studynote-network"]
 
 이런 물리적인 에러를 2계층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크)이나 4계층(전송)에서 어떻게든 발견하고 수습하는 것이 오류 제어입니다.
 
-```text
-[비트 스터핑]
-    │
-    ▼
-[오류 제어 개요]
-    │
-    └──▶ [비트 에러율]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 제어 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트 에러율</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오류 제어 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,19 +43,23 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-오류 제어의 가장 근본적인 철학은 **"원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 덜렁 보내지 말고, 원본을 수학적으로 계산한 '[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))'를 뒤에 달아서 같이 보내자"**입니다.
+오류 제어의 가장 근본적인 철학은 <strong>"원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 덜렁 보내지 말고, 원본을 수학적으로 계산한 '<a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>(잉여 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)'를 뒤에 달아서 같이 보내자"</strong>입니다.
 
 - 송신 측: "내 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1의 개수를 다 세어보니 짝수 개야!"라는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))를 꼬리에 달아 보냅니다.
-- 수신 측: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받고 나서 자신도 1의 개수를 세어봅니다. "어? 난 홀수 개가 나오는데? 아까 꼬리에 달린 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 짝수라고 했으니 오는 길에 누군가 깨졌구나!"라고 **오류 발생 사실을 즉시 깨닫게(검출, [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))** 됩니다.
+- 수신 측: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받고 나서 자신도 1의 개수를 세어봅니다. "어? 난 홀수 개가 나오는데? 아까 꼬리에 달린 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 짝수라고 했으니 오는 길에 누군가 깨졌구나!"라고 <strong>오류 발생 사실을 즉시 깨닫게(검출, <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> 됩니다.
 
-```text
-[비트 스터핑]
-    │
-    ▼
-[오류 제어 개요]
-    │
-    └──▶ [비트 에러율]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 제어 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트 에러율</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오류 제어 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,18 +71,18 @@ tags = ["studynote-network"]
 
 ### 1. 전진 오류 수정 (FEC, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction) - 스스로 고친다
 - 꼬리에 다는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 엄청나게 길고 복잡한 수학 공식([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) 등)으로 달아 보냅니다.
-- 수신기는 에러를 발견하면 송신기에 "다시 보내"라고 말하지 않습니다. [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 수학적으로 역산하여 **어디가 어떻게 깨졌는지 스스로 알아내고 그 자리에서 깨진 0을 1로 셀프 수리(Correction)**해 버립니다.
+- 수신기는 에러를 발견하면 송신기에 "다시 보내"라고 말하지 않습니다. [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 수학적으로 역산하여 <strong>어디가 어떻게 깨졌는지 스스로 알아내고 그 자리에서 깨진 0을 1로 셀프 수리(Correction)</strong>해 버립니다.
 - **장점**: 송신기와 다시 연락할 필요가 없어 재전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없습니다. 우주 탐사선 통신이나 실시간 화상회의에 씁니다.
 - **단점**: [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 극심합니다.
 
 ### 2. 후진 오류 수정 ([BEC](/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/) / [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) - 쿨하게 버리고 재요청한다
 - 꼬리에 아주 짧은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 등)만 달아 보냅니다.
-- 수신기는 에러를 발견하면 어디가 깨졌는지 추리하지 않습니다. 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 취급해 **가차 없이 버려버리고, 송신 측에게 삐삐를 쳐서 "에러 났으니까 원본 다시 쏴줘([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))!"라고 요청**합니다.
+- 수신기는 에러를 발견하면 어디가 깨졌는지 추리하지 않습니다. 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 취급해 <strong>가차 없이 버려버리고, 송신 측에게 삐삐를 쳐서 "에러 났으니까 원본 다시 쏴줘(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)!"라고 요청</strong>합니다.
 - **장점**: 평소에 보내는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 작아 인터넷이 엄청 빠릅니다. 인터넷 다운로드나 일반적인 통신 환경([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 99%가 이 방식을 씁니다.
 - **단점**: 핑퐁(재요청-재전송)을 해야 하므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생합니다.
 
-> FEC(스스로 수정)는 택배 안에 강력 접착제와 설계도를 같이 넣어 보내서, 도착한 물건이 부서져 있으면 손님이 **직접 본드로 붙여서(수리) 쓰는 방식**입니다(오래 걸리고 택배가 무거움). 
-> [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(재요청)는 택배를 뜯어보고 부서졌으면 쿨하게 쓰레기통에 던진 뒤, **쇼핑몰에 전화해서 "새 물건으로 다시 보내!"라고 진상(?)을 부리는 가장 흔하고 효율적인 환불/교환 방식**입니다.
+> FEC(스스로 수정)는 택배 안에 강력 접착제와 설계도를 같이 넣어 보내서, 도착한 물건이 부서져 있으면 손님이 <strong>직접 본드로 붙여서(수리) 쓰는 방식</strong>입니다(오래 걸리고 택배가 무거움). 
+> [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(재요청)는 택배를 뜯어보고 부서졌으면 쿨하게 쓰레기통에 던진 뒤, <strong>쇼핑몰에 전화해서 "새 물건으로 다시 보내!"라고 진상(?)을 부리는 가장 흔하고 효율적인 환불/교환 방식</strong>입니다.
 
 오류 제어 개요를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)이 기반 조건을 만든다면, 오류 제어 개요는 그 위에서 핵심 메커니즘을 구현하고, [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 오류 제어는 **택배 파손 처리법**입니다.
+- **📢 섹션 요약 비유**: <strong> 오류 제어는 </strong>택배 파손 처리법**입니다.
 
 ---
 
@@ -126,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비트 스터핑]
-    │
-    ▼
-[현재 개념: 오류 제어 개요]
-    │
-    ├──▶ [확장 A: 비트 에러율]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오류 제어 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비트 에러율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 오류 제어 개요는 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

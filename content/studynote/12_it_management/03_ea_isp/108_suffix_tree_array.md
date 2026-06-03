@@ -34,36 +34,36 @@ tags = ["studynote-algorithm"]
 | 자료구조 | 구조적 특징 | 검색 원리 및 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) |
 | :--- | :--- | :--- |
 | **서픽스 트리 (Suffix Tree)** | 모든 접미사를 트리의 간선(Edge)으로 쪼개어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 놓은 구조 | 트리의 루트부터 글자를 하나씩 따라 내려감. **O(M)** (M은 패턴 길이) |
-| **서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Suffix [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))** | 접미사들을 사전순(A~Z)으로 정렬한 뒤, 시작 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호만 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 저장한 구조 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 오름차순 정렬되어 있으므로 '[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))' 사용. **O(M log N)** |
-| **[LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 인접한 두 문자열이 '앞에서부터 몇 글자나 똑같은지'를 저장한 보조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 시 불필요한 중복 비교를 건너뛰게 해줌. **O(M + log N)** |
+| <strong>서픽스 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> (Suffix <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong> | 접미사들을 사전순(A~Z)으로 정렬한 뒤, 시작 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호만 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 저장한 구조 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 오름차순 정렬되어 있으므로 '[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))' 사용. **O(M log N)** |
+| <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 인접한 두 문자열이 '앞에서부터 몇 글자나 똑같은지'를 저장한 보조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 시 불필요한 중복 비교를 건너뛰게 해줌. **O(M + log N)** |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           문자열 "banana$"의 서픽스 트리와 서픽스 배열 구조          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [접미사 생성 및 사전순 정렬]                                  │
-│   0: banana$                                                 │
-│   1: anana$     => [정렬] =>  1. a$       (인덱스 5)            │
-│   2: nana$                   2. ana$     (인덱스 3)            │
-│   3: ana$                    3. anana$   (인덱스 1)            │
-│   4: na$                     4. banana$  (인덱스 0)            │
-│   5: a$                      5. na$      (인덱스 4)            │
-│                              6. nana$    (인덱스 2)            │
-│                                                              │
-│ 2. [서픽스 배열(Suffix Array)] => [5, 3, 1, 0, 4, 2]         │
-│    -> 만약 "ana"를 검색하고 싶다면?                              │
-│    -> 배열이 정렬되어 있으므로 '이진 탐색'으로 "ana"로 시작하는 곳을 1초 만에 찾음.│
-│                                                              │
-│ 3. [서픽스 트리(Suffix Tree)]                                  │
-│          (루트)                                               │
-│         /   |   \                                            │
-│        a    b    n   <-- 첫 글자만 보고 길을 찾음                  │
-│      /  \   ...  ...                                         │
-│     $   na$                                                  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램은 두 자료구조가 형태만 다를 뿐, 근본적으로 **'정렬된 접미사'**라는 동일한 재료를 사용함을 시사한다. 서픽스 트리가 가지를 따라 직관적으로 뻗어 나간다면, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리를 아끼기 위해 숫자([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))만 일렬로 세워둔 형태다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자열 "banana$"의 서픽스 트리와 서픽스 배열 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">접미사 생성 및 사전순 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0: banana$</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1: anana$ =&gt;</div><div class="kb-diagram-node">정렬</div><div class="kb-diagram-note">=&gt; 1. a$ (인덱스 5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: nana$ 2. ana$ (인덱스 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: ana$ 3. anana$ (인덱스 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: na$ 4. banana$ (인덱스 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: a$ 5. na$ (인덱스 4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. nana$ (인덱스 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">서픽스 배열(Suffix Array)</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">5, 3, 1, 0, 4, 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 만약 "ana"를 검색하고 싶다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 배열이 정렬되어 있으므로 '이진 탐색'으로 "ana"로 시작하는 곳을 1초 만에 찾음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">서픽스 트리(Suffix Tree)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(루트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a b n &lt;-- 첫 글자만 보고 길을 찾음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ ... ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ na$</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램은 두 자료구조가 형태만 다를 뿐, 근본적으로 <strong>'정렬된 접미사'</strong>라는 동일한 재료를 사용함을 시사한다. 서픽스 트리가 가지를 따라 직관적으로 뻗어 나간다면, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리를 아끼기 위해 숫자([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))만 일렬로 세워둔 형태다.
 
 - **📢 섹션 요약 비유**: 서픽스 트리가 도서관의 층별 안내도(1층 인문학 -> 2번 통로 -> 한국사)를 따라가는 '지도'라면, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 책의 제목을 가나다순으로 엑셀에 쭉 적어놓고 Ctrl+F로 찾는 '목록표'입니다.
 
@@ -75,12 +75,12 @@ tags = ["studynote-algorithm"]
 
 | 비교 항목 | 서픽스 트리 (Suffix Tree) | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Suffix [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) |
 | :--- | :--- | :--- |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) (검색)** | **O(M)** (궁극의 속도) | **O(M log N)** (조금 느림) |
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) (메모리)** | **O(N)** (단, 포인터 객체 남발로 실제 메모리를 수십 배 더 먹음) | **O(N)** (정수형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 1개만 있으면 되므로 메모리 초경량) |
-| **구축 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 난이도** | 우코넨(Ukkonen) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). (인간이 외워서 구현하기 불가능에 가까움) | Sais [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등. (상대적으로 쉬우며, 일반적인 정렬(Sort)로도 짤 수 있음) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a> (검색)</strong> | **O(M)** (궁극의 속도) | **O(M log N)** (조금 느림) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a> (메모리)</strong> | **O(N)** (단, 포인터 객체 남발로 실제 메모리를 수십 배 더 먹음) | **O(N)** (정수형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 1개만 있으면 되므로 메모리 초경량) |
+| <strong>구축 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 난이도</strong> | 우코넨(Ukkonen) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). (인간이 외워서 구현하기 불가능에 가까움) | Sais [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등. (상대적으로 쉬우며, 일반적인 정렬(Sort)로도 짤 수 있음) |
 | **실무 적용도** | 학술적 목적, 논문에서 주로 등장 | [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)(BWT), 검색 엔진, 실제 실무 시스템의 99% |
 
-서픽스 트리는 이론적으로 문자열 검색에서 완벽한 O(M)을 보장하지만, 각 노드마다 메모리 포인터를 할당해야 해서 "메모리 먹는 하마"라는 치명적 단점이 있다. 30억 자의 DNA를 트리로 띄우면 램(RAM)이 수십 GB가 필요해 터져버린다. 따라서 실무에서는 속도를 눈곱만큼 희생하더라도 메모리를 극단적으로 덜 먹는 **서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**에 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 덧대어 속도를 보완하는 방식이 표준 아키텍처로 굳어졌다.
+서픽스 트리는 이론적으로 문자열 검색에서 완벽한 O(M)을 보장하지만, 각 노드마다 메모리 포인터를 할당해야 해서 "메모리 먹는 하마"라는 치명적 단점이 있다. 30억 자의 DNA를 트리로 띄우면 램(RAM)이 수십 GB가 필요해 터져버린다. 따라서 실무에서는 속도를 눈곱만큼 희생하더라도 메모리를 극단적으로 덜 먹는 <strong>서픽스 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>에 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 덧대어 속도를 보완하는 방식이 표준 아키텍처로 굳어졌다.
 
 - **📢 섹션 요약 비유**: 서픽스 트리는 최첨단 3D 입체 홀로그램 지도입니다. 빠르긴 한데 비싸고 무거워서 들고 다니기 힘듭니다. 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 얇은 종이로 된 도로교통 안내 책자입니다. 홀로그램보단 아주 조금 느리지만, 주머니에 쏙 들어가서 누구나 실전에서 즐겨 씁니다.
 
@@ -92,12 +92,12 @@ tags = ["studynote-algorithm"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/) (Longest Common Substring) 탐색 최적화**: 표절 검사기(Plagiarism Checker)를 만들 때 두 문서의 공통 문장을 어떻게 찾을 것인가? 두 문서를 합친 뒤(A + '$' + B + '#') 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들고, [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 값이 가장 높은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 찾으면 O(N log N) 만에 표절 문단을 귀신같이 잡아낼 수 있다.
-2. **[데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)(BWT) 연계**: bzip2 같은 고효율 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 버로우스-휠러 변환(Burrows-Wheeler Transform)이 있다. 이 BWT 행렬을 정렬하는 과정이 사실상 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만드는 과정과 100% 동일하므로, Suffix [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최적화가 곧 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)기의 성능을 좌우한다.
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a> (Longest Common Substring) 탐색 최적화</strong>: 표절 검사기(Plagiarism Checker)를 만들 때 두 문서의 공통 문장을 어떻게 찾을 것인가? 두 문서를 합친 뒤(A + '$' + B + '#') 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들고, [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 값이 가장 높은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 찾으면 O(N log N) 만에 표절 문단을 귀신같이 잡아낼 수 있다.
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">데이터 압축</a>(BWT) 연계</strong>: bzip2 같은 고효율 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 버로우스-휠러 변환(Burrows-Wheeler Transform)이 있다. 이 BWT 행렬을 정렬하는 과정이 사실상 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만드는 과정과 100% 동일하므로, Suffix [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최적화가 곧 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)기의 성능을 좌우한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **단순 텍스트 검색에 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 남용**: 사용자가 검색을 요청할 때마다 실시간으로 변하는 게시판 글에서 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 매번 새로 구축하는 짓. 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 구축하는 데 O(N log N)이 걸리므로, 검색 빈도보다 '텍스트가 자주 바뀌는(Write-Heavy)' 환경에서는 배보다 배꼽이 커진다. 변동이 심한 문자열 탐색은 KMP나 [보이어-무어](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)([Boyer-Moore](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/))를 쓰는 것이 맞고, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 위키백과처럼 변하지 않는 '거대한 읽기 전용(Read-Heavy) 문서'에 적합하다.
+- <strong>단순 텍스트 검색에 서픽스 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 남용</strong>: 사용자가 검색을 요청할 때마다 실시간으로 변하는 게시판 글에서 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 매번 새로 구축하는 짓. 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 구축하는 데 O(N log N)이 걸리므로, 검색 빈도보다 '텍스트가 자주 바뀌는(Write-Heavy)' 환경에서는 배보다 배꼽이 커진다. 변동이 심한 문자열 탐색은 KMP나 [보이어-무어](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/)([Boyer-Moore](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/))를 쓰는 것이 맞고, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 위키백과처럼 변하지 않는 '거대한 읽기 전용(Read-Heavy) 문서'에 적합하다.
 
 - **📢 섹션 요약 비유**: 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 한 번 만들어두면 평생 편하게 쓰는 '백과사전 색인표'입니다. 하지만 매일 내용이 바뀌는 '오늘의 일기장'에다 매번 색인표를 새로 만들고 있으면 일기 쓰는 시간보다 색인표 만드는 시간이 더 걸리는 바보짓이 됩니다.
 
@@ -117,34 +117,36 @@ tags = ["studynote-algorithm"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[KMP](/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) / [보이어-무어](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/) ([Boyer-Moore](/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/))** | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 거대한 텍스트의 정적 인덱싱에 유리하다면, KMP는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 패턴 자체의 특성을 분석하여 검색하는 동적 탐색의 라이벌 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). |
-| **[LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Longest Common Prefix)** | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)만으로는 중복 비교가 발생하여 느려지는 문제를, "앞에 정렬된 놈이랑 몇 글자 똑같다"라는 정보(캐시)를 주어 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)을 가속화하는 단짝 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/). |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/">KMP</a> / <a href="/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/">보이어-무어</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/095_boyer_moore_algorithm/">Boyer-Moore</a>)</strong> | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 거대한 텍스트의 정적 인덱싱에 유리하다면, KMP는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 패턴 자체의 특성을 분석하여 검색하는 동적 탐색의 라이벌 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). |
+| <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a> (Longest Common Prefix)</strong> | 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)만으로는 중복 비교가 발생하여 느려지는 문제를, "앞에 정렬된 놈이랑 몇 글자 똑같다"라는 정보(캐시)를 주어 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)을 가속화하는 단짝 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/). |
 | **BWT (Burrows-Wheeler Transform)** | 문자열을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하기 좋게 뭉쳐놓는 변환 기법. 문자열을 회전시켜 사전순으로 정렬하는 과정이 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축 원리와 완벽히 일치함. |
-| **[LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/) (Longest Common Substring)** | 여러 문자열 간의 가장 긴 공통 문자열(표절 구간, 유전자 일치 구간)을 찾는 문제로, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 조합이 제공하는 최고의 킬러 애플리케이션. |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a> (Longest Common Substring)</strong> | 여러 문자열 간의 가장 긴 공통 문자열(표절 구간, 유전자 일치 구간)을 찾는 문제로, 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 조합이 제공하는 최고의 킬러 애플리케이션. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 문자열 비교 (Brute Force - O(N*M)의 끔찍한 시간 소요)
-    │
-    ▼
-단일 패턴 매칭 알고리즘 (KMP, Boyer-Moore - 텍스트는 그대로 두고 패턴을 똑똑하게 건너뜀)
-    │
-    ▼
-다중 패턴 및 대용량 검색 요구 폭발 (DNA 분석, 검색 엔진 - 매번 텍스트를 훑는 것 자체가 불가능해짐)
-    │
-    ▼
-서픽스 트리 (Suffix Tree) 발명 (모든 접미사를 트리로 압축하여 O(M) 달성, 그러나 메모리 낭비 극심)
-    │
-    ▼
-서픽스 배열 (Suffix Array) 및 LCP 도입 (메모리 문제를 해결한 궁극의 실무형 문자열 인덱싱 표준 완성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 문자열 비교 (Brute Force - O(N*M)의 끔찍한 시간 소요)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 패턴 매칭 알고리즘 (KMP, Boyer-Moore - 텍스트는 그대로 두고 패턴을 똑똑하게 건너뜀)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 패턴 및 대용량 검색 요구 폭발 (DNA 분석, 검색 엔진 - 매번 텍스트를 훑는 것 자체가 불가능해짐)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서픽스 트리 (Suffix Tree) 발명 (모든 접미사를 트리로 압축하여 O(M) 달성, 그러나 메모리 낭비 극심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서픽스 배열 (Suffix Array) 및 LCP 도입 (메모리 문제를 해결한 궁극의 실무형 문자열 인덱싱 표준 완성)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 1,000페이지짜리 두꺼운 동화책에서 '호랑이'라는 단어를 찾으려고 첫 장부터 다 읽으면 너무 힘들겠죠?
 2. 그래서 똑똑한 사람은 맨 뒷장에 "가나다라..." 순서대로 단어와 페이지를 쫙 정리한 '색인표'를 미리 만들어 두었어요.
-3. **서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**은 바로 컴퓨터가 엄청나게 긴 글 속에서 원하는 단어를 1초 만에 찾기 위해 미리 만들어두는 완벽한 '마법의 색인표'랍니다!
+3. <strong>서픽스 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>은 바로 컴퓨터가 엄청나게 긴 글 속에서 원하는 단어를 1초 만에 찾기 위해 미리 만들어두는 완벽한 '마법의 색인표'랍니다!
 
 ---
 

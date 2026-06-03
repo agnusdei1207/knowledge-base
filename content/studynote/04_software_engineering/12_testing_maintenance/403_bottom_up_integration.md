@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 
 자동차를 조립할 때, 화려한 껍데기(메인 UI)는 나중에 씌우고 가장 핵심인 타이어, 엔진, 변속기(밑바닥 부품)부터 먼저 나사로 꽉꽉 조여서 굴러가는지 확인하는 사람들이 있다.
 
-소프트웨어에서 **상향식 통합(Bottom-up)**이 바로 이런 방식이다. 
+소프트웨어에서 <strong>상향식 통합(Bottom-up)</strong>이 바로 이런 방식이다. 
 가장 밑바닥에 있는 `데이터베이스_저장()`, `네트워크_통신()`, `암호화()` 함수부터 먼저 만든다. 그리고 이 부품들을 묶어서(클러스터/빌드) 제대로 돌아가는지 1순위로 조립한다.
 이 방식은 하드웨어나 DB와 직접 맞닿는 가장 까다로운 부분(I/O)의 버그를 프로젝트 극초반에 다 잡아낼 수 있다는 엄청난 장점이 있다.
 
 하지만 치명적인 문제가 있다. `암호화()` 함수는 완벽하게 조립했는데, 정작 이 함수를 호출해 줄 `로그인_화면(상위 모듈)` 코드를 아직 안 만들었다. 스스로 실행될 수 없는 밑바닥 함수들을 어떻게 테스트할까?
-이때 부품에 전기를 꽂아 강제로 돌려주는 껍데기 조종사인 **가짜 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Driver)**을 끼워 넣고 통합을 진행한다.
+이때 부품에 전기를 꽂아 강제로 돌려주는 껍데기 조종사인 <strong>가짜 상위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(Driver)</strong>을 끼워 넣고 통합을 진행한다.
 
 > 📢 **섹션 요약 비유**: 건물을 지을 때 지하 주차장과 1층 기둥(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))부터 튼튼하게 시멘트를 부어 만들며 위로 올라가는 정통파 공사 방식입니다. 아직 옥상(메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에 감독관이 없어서 기둥들이 일을 못 하고 있을 때, "가짜 감독관(드라이버/Driver)"을 보내서 기둥들에게 "너희들 잘 버티는지 힘 줘봐!"라고 명령을 내리며 검사하는 방식입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 상향식 통합 (Bottom-up)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  상향식 통합 (Bottom-up)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상향식 통합 (Bottom-up)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 상향식 통합 (Bottom-up)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -59,10 +58,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-상향식 통합 시험을 할 때 **드라이버(Driver)**는 필수불가결한 도구이자, 하향식의 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))과 항상 비교되는 단골 출제 대상이다.
+상향식 통합 시험을 할 때 <strong>드라이버(Driver)</strong>는 필수불가결한 도구이자, 하향식의 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))과 항상 비교되는 단골 출제 대상이다.
 
 * **드라이버(Driver)란?**
-  - "내가 짠 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 실행시키고 명령을 내려줄, **아직 안 만들어진 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 역할을 흉내 내는 가짜 제어 프로그램(가짜 조종사)**"
+  - "내가 짠 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 실행시키고 명령을 내려줄, <strong>아직 안 만들어진 상위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 역할을 흉내 내는 가짜 제어 프로그램(가짜 조종사)</strong>"
 * **드라이버의 역할**
   - `데이터_저장()`이라는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 3개를 묶어놓았다(Cluster). 드라이버(가짜 메인 함수)는 단순히 테스트할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져주며 `데이터_저장("테스트")`을 호출하고, 그 결과를 화면에 출력해 주는 단순한 역할만 수행한다.
   - 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 완성되어 진짜 조종석이 생기면, 가짜 조종사인 드라이버는 버려진다.
@@ -84,7 +83,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 **[ 장점 (견고한 인프라) ]**
-1. **[스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))이 필요 없다**: 맨 밑바닥부터 올라가므로 "내 밑에 누군가를 호출할 일"이 없다. 멍청한 대답을 하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 짤 필요 없이 진짜 부품들만 뭉쳐서 완벽하게 테스트할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)이 필요 없다</strong>: 맨 밑바닥부터 올라가므로 "내 밑에 누군가를 호출할 일"이 없다. 멍청한 대답을 하는 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)을 짤 필요 없이 진짜 부품들만 뭉쳐서 완벽하게 테스트할 수 있다.
 2. **핵심 병목 조기 해결**: 하드웨어 제어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 등 시스템에서 가장 까다로운 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 에러를 프로젝트 극초반에 모두 고치고 안전하게 위로 올라갈 수 있다.
 
 **[ 단점 (고객의 답답함) ]**
@@ -151,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-상향식 통합 (Bottom-up) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상향식 통합 (Bottom-up) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-enterprise"]
 
 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처는 여러 고객사가 같은 애플리케이션과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼을 공유하면서도, 서로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 최소화하도록 설계하는 방식이다. 이 구조가 필요한 이유는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 사업이 성장할수록 고객마다 서버와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 따로 두는 싱글 테넌트 방식이 비용과 운영 측면에서 급격히 비효율적이기 때문이다. 고객이 수백, 수천 개가 되면 패치, 보안 점검, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경을 고객 수만큼 반복해야 하고, 유휴 자원이 지나치게 많아진다.
 
-반면 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)는 공통 플랫폼을 기반으로 표준화된 운영을 가능하게 한다. 제품 팀은 한 번의 릴리스로 전체 고객에게 기능을 배포할 수 있고, 운영 팀은 인프라를 통합적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 있다. 다만 공유가 늘수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누출과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간섭의 위험도 함께 커지므로, [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)는 단순 절감 기법이 아니라 **격리 수준을 설계하는 문제**로 접근해야 한다.
+반면 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)는 공통 플랫폼을 기반으로 표준화된 운영을 가능하게 한다. 제품 팀은 한 번의 릴리스로 전체 고객에게 기능을 배포할 수 있고, 운영 팀은 인프라를 통합적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 있다. 다만 공유가 늘수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누출과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간섭의 위험도 함께 커지므로, [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)는 단순 절감 기법이 아니라 <strong>격리 수준을 설계하는 문제</strong>로 접근해야 한다.
 
 - **📢 섹션 요약 비유**: 각각의 집을 따로 관리하는 대신, 큰 아파트를 지어 함께 살게 하되 각 세대의 문, 전기, 수도를 분명히 나누는 방식과 같다.
 
@@ -33,18 +33,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 일반적인 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Tenant resolution path                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Request -> Auth / token -> Tenant Resolver -> Isolation Layer       │
-│                                              ├─ DB per tenant       │
-│                                              ├─ Schema per tenant   │
-│                                              └─ Shared tables + RLS │
-│                                                            │         │
-│                                              Backup / quota / audit  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tenant resolution path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Auth / token -&gt; Tenant Resolver -&gt; Isolation Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DB per tenant</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Schema per tenant</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shared tables + RLS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backup / quota / audit</div></div>
+</div>
+</div>
+
+
 
 | 패턴 | 격리 수준 | 운영 효율 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 편의성 | 적합한 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -52,7 +54,7 @@ tags = ["studynote-enterprise"]
 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 분리 ([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) per Tenant) | 중간 이상 | 중간 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 단위 작업 가능 | 보안과 운영 효율의 균형이 필요한 경우 |
 | 공유 테이블 (Shared [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)) | 가장 낮음 | 가장 높음 | 고객별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가장 어려움 | 대규모 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 표준화된 제품, 높은 자동화 수준 |
 
-공유 수준이 높아질수록 애플리케이션 규율은 더 엄격해져야 한다. 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 `tenant_id`가 반영되어야 하고, 캐시 키와 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 키도 테넌트별로 분리되어야 하며, 운영자 조회 화면도 교차 테넌트 노출을 막아야 한다. 결국 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)의 핵심은 "DB를 같이 쓴다"가 아니라, **모든 계층이 같은 테넌트 문맥을 끝까지 지킨다**는 점에 있다.
+공유 수준이 높아질수록 애플리케이션 규율은 더 엄격해져야 한다. 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 `tenant_id`가 반영되어야 하고, 캐시 키와 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 키도 테넌트별로 분리되어야 하며, 운영자 조회 화면도 교차 테넌트 노출을 막아야 한다. 결국 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)의 핵심은 "DB를 같이 쓴다"가 아니라, <strong>모든 계층이 같은 테넌트 문맥을 끝까지 지킨다</strong>는 점에 있다.
 
 - **📢 섹션 요약 비유**: 같은 건물에 많은 세대가 살아도 우편함, 현관 비밀번호, 관리비 고지서가 세대별로 정확히 나뉘어야 질서가 유지되는 것과 같다.
 
@@ -106,7 +108,7 @@ tags = ["studynote-enterprise"]
 
 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처의 장점은 높은 자원 효율, 빠른 릴리스, 중앙 통제다. 제품 팀은 기능 배포 속도를 높일 수 있고, 운영 팀은 표준화된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)을 넓은 고객군에 일관되게 적용할 수 있다. 이는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 비즈니스에서 마진 구조와 운영 민첩성을 동시에 끌어올리는 중요한 기반이 된다.
 
-그러나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 위험, 고객별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 어려움, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간섭, 맞춤화 제한은 항상 따라온다. 결국 좋은 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 설계는 "최대한 많이 공유"가 아니라, **공유의 경제성과 격리의 책임을 균형 있게 맞추는 것**이다. 그래서 이 주제는 DB 패턴이 아니라 플랫폼 거버넌스 문제로 기억하는 편이 정확하다.
+그러나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 위험, 고객별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 어려움, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 간섭, 맞춤화 제한은 항상 따라온다. 결국 좋은 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 설계는 "최대한 많이 공유"가 아니라, <strong>공유의 경제성과 격리의 책임을 균형 있게 맞추는 것</strong>이다. 그래서 이 주제는 DB 패턴이 아니라 플랫폼 거버넌스 문제로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 큰 창고를 함께 쓰더라도 물건별 칸막이, 라벨, 출입 기록이 정확해야 분실과 혼선을 막을 수 있는 것과 같다.
 
@@ -125,21 +127,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고객별 독립 인프라 운영
-        │
-        ▼
-공통 애플리케이션 + 테넌트 식별
-        │
-        ▼
-DB 분리 / 스키마 분리 / 공유 테이블 선택
-        │
-        ▼
-RLS · 쿼터 · 감사 로그로 격리 강화
-        │
-        ▼
-하이브리드 티어링과 고객별 승급 전략
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객별 독립 인프라 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공통 애플리케이션 + 테넌트 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DB 분리 / 스키마 분리 / 공유 테이블 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RLS · 쿼터 · 감사 로그로 격리 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 티어링과 고객별 승급 전략</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 인프라 공유에서 출발해, 점차 보안·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·수익성을 함께 고려하는 플랫폼 설계로 발전하는 과정을 보여 준다.
 

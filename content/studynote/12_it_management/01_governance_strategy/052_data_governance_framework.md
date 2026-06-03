@@ -31,16 +31,17 @@ tags = ["studynote-it-management"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거버넌스는 조직, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 프로세스, 시스템의 네 축으로 돌아간다. 누가 책임지는지, 어떤 표준을 따를지, 문제가 나면 어떻게 고칠지, 어디서 상태를 볼지를 함께 정해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Data Governance Framework                    │
-├──────────────────────────────────────────────────────────────┤
-│ Strategy → Organization → Policy → Process → System          │
-│                        │                                     │
-│                        ▼                                     │
-│               Data Quality / Metadata / Catalog              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Governance Framework</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy → Organization → Policy → Process → System</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Quality / Metadata / Catalog</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 예시 |
 | :--- | :--- | :--- |
@@ -117,21 +118,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 표준
-    │
-    ▼
-Data Owner / Steward
-    │
-    ▼
-품질 관리 (DQ)
-    │
-    ▼
-메타데이터 / 카탈로그 / 라인리지
-    │
-    ▼
-연합형 거버넌스 / 데이터 메시
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 표준</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Owner / Steward</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">품질 관리 (DQ)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메타데이터 / 카탈로그 / 라인리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연합형 거버넌스 / 데이터 메시</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 규칙에서 운영 체계로, 다시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스로 확장되는 과정을 보여준다.
 

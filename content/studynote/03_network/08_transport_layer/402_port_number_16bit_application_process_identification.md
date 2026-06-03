@@ -22,21 +22,25 @@ tags = ["studynote-network"]
 - **개념**: 전송 계층(Transport Layer) 헤더에 포함되어, 호스트 내부에서 실행 중인 특정 애플리케이션 프로세스나 네트워크 서비스를 식별하는 16비트(2 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 논리적 할당자. (표현 범위: 0 ~ 65535).
 - **필요성**: 카카오톡으로 사진을 받으면서 동시에 유튜브로 영상을 보고 있다. 구글 서버도 내 IP(`211.x.x.x`)로 패킷을 쏘고, 카카오 서버도 내 IP(`211.x.x.x`)로 패킷을 쏜다. 랜선을 타고 내 컴퓨터로 두 패킷이 동시에 쏟아져 들어왔다. 만약 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 없다면? 내 윈도우 OS는 "이게 카톡에 뿌려줄 사진인지, 크롬에 뿌려줄 영상인지" 구별하지 못해 카톡 채팅창에 깨진 영상 코드를 텍스트로 뱉어내는 끔찍한 오작동을 일으킬 것이다. **"같은 IP로 들어오더라도 도착해야 할 프로그램 목적지를 확실히 갈라줄 세부 이정표가 절실하다!"**
 
-- **💡 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 대형 병원의 **"진료과 번호"**와 같습니다.
+- **💡 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 대형 병원의 <strong>"진료과 번호"</strong>와 같습니다.
   - **IP 주소**: "서울대학교 병원"이라는 건물 자체의 주소입니다.
-  - **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호**: 병원 1층 로비에 들어섰을 때, 내과(80번), 외과(443번), 치과(21번) 중 어디로 가야 할지 알려주는 문에 붙은 **진료실 호수**입니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호</strong>: 병원 1층 로비에 들어섰을 때, 내과(80번), 외과(443번), 치과(21번) 중 어디로 가야 할지 알려주는 문에 붙은 <strong>진료실 호수</strong>입니다.
   - 구급차(패킷)가 병원(IP)에 무사히 도착했더라도, 환자를 내과(올바른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 보내지 않고 치과(틀린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 밀어 넣으면 환자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 치료를 받지 못하고 버려집니다.
 
-```text
-[전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ▼
-[포트 번호]
-    │
-    └──▶ [Well-Known 포트, Registere…]
-```
 
-- **📢 섹션 요약 비유**: ** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 하나의 라디오 기기(IP) 안에서 방송국을 구별하는 **"FM 주파수 채널"**입니다. 내 컴퓨터는 80번 주파수로는 웹서버 방송을 내보내고, 21번 주파수로는 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방송을 내보내어, 시청자(클라이언트)가 다이얼만 돌리면 원하는 서비스를 골라 들을 수 있게 해줍니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Well-Known 포트, Registere…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호는 하나의 라디오 기기(IP) 안에서 방송국을 구별하는 </strong>"FM 주파수 채널"**입니다. 내 컴퓨터는 80번 주파수로는 웹서버 방송을 내보내고, 21번 주파수로는 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방송을 내보내어, 시청자(클라이언트)가 다이얼만 돌리면 원하는 서비스를 골라 들을 수 있게 해줍니다.
 
 ---
 
@@ -44,44 +48,44 @@ tags = ["studynote-network"]
 
 ### 1. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호의 탄생과 16비트의 한계
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 TCP와 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더의 맨 앞에 `출발지 포트(16비트)`와 `목적지 포트(16비트)`로 각각 박혀 있다.
-- 16비트이므로 $2^{16} = 65536$개. 즉, **0번부터 65535번**까지만 존재할 수 있다.
+- 16비트이므로 $2^{16} = 65536$개. 즉, <strong>0번부터 65535번</strong>까지만 존재할 수 있다.
 - 내 컴퓨터 하나가 인터넷 창, 카톡, 엑셀 등을 미친 듯이 띄워서 외부와 통신 세션을 무한히 맺고 싶어도, 이론상 동시에 뚫을 수 있는 최대 터널의 개수는 65,535개([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수)로 제한된다는 물리적 한계를 내포한다.
 
 ### 2. 출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Source [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Destination [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
 패킷이 날아갈 때 반드시 이 두 개의 번호가 짝을 지어 움직인다.
 - 내가 네이버에 접속할 때:
-  - **목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: `80` (네이버 웹서버가 80번 간판을 달고 기다리니까).
-  - **출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: `54321` (내 윈도우 OS가 지금 놀고 있는 5만 번대 번호를 쓱 뽑아서 크롬 브라우저 탭에 임시로 붙여준 번호표).
+  - <strong>목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `80` (네이버 웹서버가 80번 간판을 달고 기다리니까).
+  - <strong>출발지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: `54321` (내 윈도우 OS가 지금 놀고 있는 5만 번대 번호를 쓱 뽑아서 크롬 브라우저 탭에 임시로 붙여준 번호표).
 - 네이버가 나에게 웹페이지 사진을 돌려줄 때:
   - 목적지와 출발지가 서로 뒤집힌다(Swap). 
   - 출발지는 `80`, 목적지는 내 PC의 `54321`이 되어 패킷이 날아오고, 내 윈도우는 "아! 54321번? 이거 아까 크롬 첫 번째 탭이 요청한 거네!"라며 정확히 그 탭에 사진을 띄워준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                명령 프롬프트(CMD) `netstat`을 통한 포트 확인      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\> netstat -ano                                         │
- │                                                             │
- │   프로토콜  로컬 주소(나)           외부 주소(서버)         상태       │
- │   TCP    192.168.0.5:51234   223.130.200.10:443   ESTABLISHED │
- │   TCP    192.168.0.5:51235   142.250.190.14:80    ESTABLISHED │
- │   TCP    0.0.0.0:3389        0.0.0.0:*            LISTENING   │
- │                                                             │
- │   * 51234, 51235: 내 크롬이 임시로 발급받은 출발지 포트 번호들.     │
- │   * 443(HTTPS), 80(HTTP): 내가 접속한 네이버, 구글의 목적지 포트.   │
- │   * LISTENING: 내 PC가 3389번(원격 데스크톱) 포트 문을 열어놓고     │
- │               누군가 밖에서 접속해 오기를 귀를 열고 기다리는 상태! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 프롬프트(CMD) <code>netstat</code>을 통한 포트 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C:\&gt; netstat -ano</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 로컬 주소(나) 외부 주소(서버) 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 192.168.0.5:51234 223.130.200.10:443 ESTABLISHED</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 192.168.0.5:51235 142.250.190.14:80 ESTABLISHED</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 0.0.0.0:3389 0.0.0.0:* LISTENING</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 51234, 51235: 내 크롬이 임시로 발급받은 출발지 포트 번호들.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 443(HTTPS), 80(HTTP): 내가 접속한 네이버, 구글의 목적지 포트.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LISTENING: 내 PC가 3389번(원격 데스크톱) 포트 문을 열어놓고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누군가 밖에서 접속해 오기를 귀를 열고 기다리는 상태!</div></div>
+</div>
+</div>
+
+
 
 ### 3. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))의 알파와 오메가
 회사 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 담당자가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 짤 때 가장 많이 다루는 것이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호다.
 - 해커는 내 컴퓨터의 열려 있는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(리스닝 중인 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 귀신같이 스캔해서 그 구멍으로 파고든다.
-- [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰: "외부에서 우리 회사 웹서버 IP로 들어올 때, 목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 **80번(웹)이거나 443번(보안웹)인 패킷만 통과**시키고, 나머지 21번([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))이나 3389번(원격 접속) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 까고 들어오는 놈들은 묻지도 따지지도 말고 전부 차단(Drop)해라!"
-- 즉, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 **네트워크 출입 통제소의 가장 기본적이고 치명적인 1차 검문 기준**이다.
+- [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰: "외부에서 우리 회사 웹서버 IP로 들어올 때, 목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 <strong>80번(웹)이거나 443번(보안웹)인 패킷만 통과</strong>시키고, 나머지 21번([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))이나 3389번(원격 접속) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 까고 들어오는 놈들은 묻지도 따지지도 말고 전부 차단(Drop)해라!"
+- 즉, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 <strong>네트워크 출입 통제소의 가장 기본적이고 치명적인 1차 검문 기준</strong>이다.
 
-- **📢 섹션 요약 비유**: ** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 아파트의 **"각 세대 도어락(현관문)"**입니다. 아파트 입구(IP 주소)를 통과한 택배 기사는 엘리베이터를 타고 올라와서 정확히 80호, 443호 문 앞에 짐을 놔둬야 합니다. 만약 주인이 집을 비우고 문을 꽉 잠가놓았는데([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 닫힘), 강제로 문고리를 흔들면 경비원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 출동합니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호는 아파트의 </strong>"각 세대 도어락(현관문)"**입니다. 아파트 입구(IP 주소)를 통과한 택배 기사는 엘리베이터를 타고 올라와서 정확히 80호, 443호 문 앞에 짐을 놔둬야 합니다. 만약 주인이 집을 비우고 문을 꽉 잠가놓았는데([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 닫힘), 강제로 문고리를 흔들면 경비원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 출동합니다.
 
 ---
 
@@ -137,15 +141,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ▼
-[현재 개념: 포트 번호]
-    │
-    ├──▶ [확장 A: Well-Known 포트, Registere…]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 포트 번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Well-Known 포트, Registere…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…에서 출발해 현재 메커니즘을 정교화하고, 이후 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

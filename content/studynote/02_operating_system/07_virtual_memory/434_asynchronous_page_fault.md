@@ -11,47 +11,47 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 기존의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지면 해당 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼올 때까지(8ms) 꼼짝없이 얼어붙는(Blocked) 동기적 파멸을 극복하기 위해, **OS가 폴트 처리를 백그라운드 워커에게 던져두고 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 유용한 연산을 계속 이어가게끔 강제하는 초고도화된 비동기(Asynchronous) 튜닝 기법**이다.
-> 2. **가치**: 특히 Node.js, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Nginx처럼 **단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Single-thread)**로 수만 개의 요청을 처리하는 이벤트 기반(Event-driven) 서버 아키텍처에서, 단 한 번의 메이저 폴트(Major Fault)로 인해 서버 전체의 응답성이 정지해 버리는 **'꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes)' 참사를 원천 차단**한다.
-> 3. **융합**: 운영체제의 최하단 메모리 관리자([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Handler)와 최상단의 비동기 I/O [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`io_uring`, `userfaultfd`)가 완벽하게 **융합(Bypass & Notify)**되어, 메모리 예외 상황조차 하나의 논블로킹 이벤트로 취급하는 현대 클라우드 인프라의 극한 최적화를 완성했다.
+> 1. **본질**: 기존의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지면 해당 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼올 때까지(8ms) 꼼짝없이 얼어붙는(Blocked) 동기적 파멸을 극복하기 위해, <strong>OS가 폴트 처리를 백그라운드 워커에게 던져두고 해당 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 다른 유용한 연산을 계속 이어가게끔 강제하는 초고도화된 비동기(Asynchronous) 튜닝 기법</strong>이다.
+> 2. **가치**: 특히 Node.js, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Nginx처럼 <strong>단일 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(Single-thread)</strong>로 수만 개의 요청을 처리하는 이벤트 기반(Event-driven) 서버 아키텍처에서, 단 한 번의 메이저 폴트(Major Fault)로 인해 서버 전체의 응답성이 정지해 버리는 <strong>'꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Tail <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> Spikes)' 참사를 원천 차단</strong>한다.
+> 3. **융합**: 운영체제의 최하단 메모리 관리자([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Handler)와 최상단의 비동기 I/O [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`io_uring`, `userfaultfd`)가 완벽하게 <strong>융합(Bypass & Notify)</strong>되어, 메모리 예외 상황조차 하나의 논블로킹 이벤트로 취급하는 현대 클라우드 인프라의 극한 최적화를 완성했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 전통적인 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에서 CPU가 램에 없는 주소를 찌르면 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))이 터지고, OS는 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 강제로 기절(Sleep/Blocked) 시킨 뒤 디스크를 읽어온다([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)). '비동기식 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들링'은 이 상식을 깨고, 폴트가 터졌을 때 OS가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 기절시키지 않고 "어, 디스크 읽어올 테니까 넌 멈춰있지 말고 일단 다른 일([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 처리) 먼저 하고 있어! 다 읽으면 내가 톡([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 보내줄게!"라고 뒤로 미루는(Deferred) 비동기 처리 철학이다.
-- **필요성**: 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 초당 10만 건을 처리하는 Nginx 웹 서버가 있다고 치자. 유저 A의 요청을 처리하다가 우연히 스왑에 쫓겨났던 변수를 건드려 메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터졌다. OS는 즉각 Nginx의 유일한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 기절시킨다(8 밀리초 소요). 이 8 밀리초 동안 대기 중이던 유저 B, C, D 등 수만 명의 요청은 Nginx [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 뻗어버려서 아예 응답을 받지 못하고 타임아웃이 터져버린다. **단 1명의 폴트 렉 때문에 수만 명의 정상적인 서비스가 올스톱되는 '단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 병목의 저주'**를 막기 위해, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 하드웨어 재앙을 소프트웨어 비동기 이벤트로 승화시키는 탈출구가 절실했다.
+- **필요성**: 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 초당 10만 건을 처리하는 Nginx 웹 서버가 있다고 치자. 유저 A의 요청을 처리하다가 우연히 스왑에 쫓겨났던 변수를 건드려 메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터졌다. OS는 즉각 Nginx의 유일한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 기절시킨다(8 밀리초 소요). 이 8 밀리초 동안 대기 중이던 유저 B, C, D 등 수만 명의 요청은 Nginx [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 뻗어버려서 아예 응답을 받지 못하고 타임아웃이 터져버린다. <strong>단 1명의 폴트 렉 때문에 수만 명의 정상적인 서비스가 올스톱되는 '단일 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 병목의 저주'</strong>를 막기 위해, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 하드웨어 재앙을 소프트웨어 비동기 이벤트로 승화시키는 탈출구가 절실했다.
 
-- **등장 배경 및 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))의 오열**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 배신**: 비동기 I/O(`epoll`, `kqueue`)를 써서 네트워크 렉을 다 잡았는데, OS가 치는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 함정은 막을 길이 없어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 랜덤하게 멈칫댐.
-  2. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)) 환경의 이중 렉**: 클라우드 가상 머신(게스트)이 폴트를 냈을 때, 호스트 서버가 디스크를 읽는 동안 게스트 전체 VCPU가 프리즈(Freeze)되는 참사 발생.
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">Event Loop</a>)의 오열</strong>:
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 배신</strong>: 비동기 I/O(`epoll`, `kqueue`)를 써서 네트워크 렉을 다 잡았는데, OS가 치는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 함정은 막을 길이 없어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 랜덤하게 멈칫댐.
+  2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>) 환경의 이중 렉</strong>: 클라우드 가상 머신(게스트)이 폴트를 냈을 때, 호스트 서버가 디스크를 읽는 동안 게스트 전체 VCPU가 프리즈(Freeze)되는 참사 발생.
   3. **userfaultfd / Async PF 도입**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 멱살을 잡힌 유저 앱을 구원하기 위해, 폴트 처리를 유저 스페이스 이벤트로 넘겨주는 혁명적 API들이 등판함.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        동기식(Sync) 폴트 vs 비동기식(Async) 폴트의 블로킹 시각화          │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 상황: 싱글 스레드 앱이 Task A(폴트남)와 Task B(정상)를 처리함 ]         │
-│                                                                           │
-│ ▶ 1. 고전적 동기식 페이지 폴트 (최악의 병목)                              │
-│   앱: "Task A 처리 시작! 변수 x 내놔!"                                    │
-│   MMU ──💥 Page Fault 발생 ──▶ OS: "너 기절해!" (Thread Sleep)            │
-│   ( --- 8ms 동안 멈춤. 아무것도 못 함. Task B는 영문도 모른 채 대기 --- ) │
-│   OS: "디스크에서 가져왔어. 깨어나라!"                                    │
-│   앱: "휴... 이제 Task A 마저 끝내고, 그다음 Task B 할게."                │
-│   ☠️ 결과: Task B는 죄도 없는데 Task A의 폴트 때문에 8ms 지각함.          │
-│                                                                           │
-│ ▶ 2. 비동기식 페이지 폴트 (Asynchronous PF)                               │
-│   앱: "Task A 시작! 변수 x 내놔!"                                         │
-│   MMU ──💥 Page Fault 발생 ──▶ OS: "너 디스크 갈 거니까 일단 넘겨!"       │
-│   앱: "오키, Task A는 잠깐 큐에 미뤄두고, Task B부터 바로 실행할게!"      │
-│   ( --- 0ms 딜레이로 Task B 초고속 처리 완료! --- )                       │
-│   OS: "야! 아까 Task A 데이터 디스크에서 다 퍼왔어!" (Signal)             │
-│   앱: "나이스! 이제 Task A 마저 처리할게."                                │
-│   ✅ 결과: 스레드가 0.1초도 놀지 않고 100% 풀가동. 렉 완전 소거!          │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기식(Sync) 폴트 vs 비동기식(Async) 폴트의 블로킹 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 싱글 스레드 앱이 Task A(폴트남)와 Task B(정상)를 처리함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 고전적 동기식 페이지 폴트 (최악의 병목)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "Task A 처리 시작! 변수 x 내놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU ──💥 Page Fault 발생 ──▶ OS: "너 기절해!" (Thread Sleep)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( --- 8ms 동안 멈춤. 아무것도 못 함. Task B는 영문도 모른 채 대기 --- )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "디스크에서 가져왔어. 깨어나라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "휴... 이제 Task A 마저 끝내고, 그다음 Task B 할게."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 결과: Task B는 죄도 없는데 Task A의 폴트 때문에 8ms 지각함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 비동기식 페이지 폴트 (Asynchronous PF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "Task A 시작! 변수 x 내놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU ──💥 Page Fault 발생 ──▶ OS: "너 디스크 갈 거니까 일단 넘겨!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "오키, Task A는 잠깐 큐에 미뤄두고, Task B부터 바로 실행할게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( --- 0ms 딜레이로 Task B 초고속 처리 완료! --- )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야! 아까 Task A 데이터 디스크에서 다 퍼왔어!" (Signal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "나이스! 이제 Task A 마저 처리할게."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 스레드가 0.1초도 놀지 않고 100% 풀가동. 렉 완전 소거!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 가장 큰 거짓말은 "모든 메모리가 램에 있는 척"하는 것이다. C언어나 자바 개발자는 `a = b + c;` 라는 코드가 8밀리초 동안 멈출 수 있다고 상상조차 못 하고 코드를 짠다. 비동기 폴트 처리는 이 투명한 거짓말(블로킹)을 과감히 까발리고, "지금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없으니까 딴 거 해!"라고 앱에게 투명하게 알려주어(Event Notification) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 질식사를 막아내는 고난도 아키텍처다.
 
 - **📢 섹션 요약 비유**: 게임에서 캐릭터가 포션(메모리)을 먹을 때 모션 딜레이(폴트 8ms) 때문에 그 자리에 멈춰 서서 적한테 맞아 죽는 게 동기식(Sync)입니다. 비동기식(Async)은 포션을 먹는 딜레이 중에도 무빙이나 다른 스킬([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) B)을 난사할 수 있게 해주는 사기적인 '모션 캔슬(비동기화)' 기술로 생존력을 극대화하는 컨트롤입니다.
@@ -66,16 +66,16 @@ tags = ["studynote-operating-system"]
 - 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 안의 우분투(Guest)가 폴트를 냈다.
 - 우분투는 자기가 쓸 램이 호스트(Host)의 스왑 디스크에 쫓겨난 줄 모른다.
 - 호스트 OS가 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에서 퍼오는 10ms 동안, 게스트 VM의 가상 CPU(vCPU) 자체가 하드웨어적으로 멈춰버린다(Stall). [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 웹서버 전체가 기절한다.
-- **Async PF (비동기 폴트) 빔!**: 호스트 OS는 디스크를 긁으러 가면서, VM에게 "야, 너 1번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없어서 내가 디스크 가거든? 너 CPU 멈추지 말고 그동안 2번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 코드 돌리고 있어!"라고 **특별한 비동기 폴트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Async PF Event)**를 쏴준다.
+- **Async PF (비동기 폴트) 빔!**: 호스트 OS는 디스크를 긁으러 가면서, VM에게 "야, 너 1번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없어서 내가 디스크 가거든? 너 CPU 멈추지 말고 그동안 2번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 코드 돌리고 있어!"라고 <strong>특별한 비동기 폴트 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(Async PF Event)</strong>를 쏴준다.
 - VM의 스케줄러는 이 알림을 듣고 1번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 즉각 Suspend 시킨 뒤, 2번 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 하여 vCPU가 1초도 쉬지 않게 하드캐리한다. 클라우드 성능을 베어메탈 수준으로 끌어올린 위대한 튜닝이다.
 
 ---
 
 ### userfaultfd (리눅스의 궁극적 비동기 흑마술)
 
-리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 아예 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 다루는 권한을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 일반 유저 앱으로 넘겨버리는 충격적인 시스템 콜인 **`userfaultfd`**를 발명했다.
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 아예 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 다루는 권한을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 일반 유저 앱으로 넘겨버리는 충격적인 시스템 콜인 <strong><code>userfaultfd</code></strong>를 발명했다.
 1. 개발자가 자기 메모리 영역 10GB에 `userfaultfd` 모니터링을 건다.
-2. 누군가 이 10GB 안의 빈 공간을 찌르면, MMU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 가던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 방향을 꺾어 **유저 앱의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd)로 이벤트(메시지)를 뿅 쏴준다!**
+2. 누군가 이 10GB 안의 빈 공간을 찌르면, MMU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 가던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 방향을 꺾어 <strong>유저 앱의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터(fd)로 이벤트(메시지)를 뿅 쏴준다!</strong>
 3. 앱(예: Redis나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션 툴)은 폴트 렉에 기절하지 않고, "어? 누가 500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찾네?" 하고 이벤트를 낚아챈다.
 4. 앱은 비동기적으로 네트워크를 통해 다른 서버에서 500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓱 가져와 램에 채워 넣고 실행을 재개한다.
 5. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 하던 디스크 I/O 셔틀 짓을, 유저 애플리케이션이 스스로 네트워크 통신으로 해결해 버리는 'User-space [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)'의 신기원을 열어젖힌 괴물 같은 API다.
@@ -92,23 +92,26 @@ tags = ["studynote-operating-system"]
 
 | 비교 대상 | 비동기 네트워크/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O (`epoll`, `io_uring`) | 비동기 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) (`Async PF`) |
 |:---|:---|:---|
-| **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 시점** | 개발자가 명시적으로 `read() / write()` 함수를 칠 때 | 개발자가 그냥 변수 `a = b;` 를 치는 찰나에 터짐 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 시점</strong> | 개발자가 명시적으로 `read() / write()` 함수를 칠 때 | 개발자가 그냥 변수 `a = b;` 를 치는 찰나에 터짐 |
 | **방어 대상** | 네트워크 패킷 대기나 명시적 디스크 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | OS가 몰래 쳐놓은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑의 지뢰(Swap/[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) |
 | **개발자 제어력** | 코드 로직으로 100% 예측하고 짤 수 있음 | 코드로 예측 불가. OS나 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 층의 패치 필요 |
-| **영향도 (Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))**| 네트워크 하나 끊기고 맘 | 이거 안 막아두면 노드제이에스(Node.js) 같은 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 서버가 그냥 얼어 죽음 |
+| <strong>영향도 (Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>)</strong>| 네트워크 하나 끊기고 맘 | 이거 안 막아두면 노드제이에스(Node.js) 같은 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 서버가 그냥 얼어 죽음 |
 
 ### O_DIRECT와 비동기 콤보의 한계
 DB 엔지니어들이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 렉을 없애기 위해 `AIO (Async I/O)` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 쓰더라도, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 OS의 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)를 타게 설정되어 있다면 백그라운드에서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지며 결국 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 막혀버린다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 진짜 완벽한 100% 넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 서버를 만들려면 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 꼼수 자체를 우회하는 `O_DIRECT (다이렉트 I/O)` 옵션을 켜서 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)를 끄고, 개발자가 손수 메모리와 디스크 핀(Pinning)을 맞추는 피나는 생고생을 해야 한다. ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 안락함을 스스로 포기하는 대가).
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────────────┐
-│ 스레드 모델 │ 메모리 구조   │ 폴트 발생 시 결과│ 해결책 (Tuning)       │
-├──────────┼────────────┼────────────┼───────────────────────────────────┤
-│ 100개 Multi│ 스왑 켜짐    │ 1개 스레드만 렉 │ 나머지 99개가 버팀 (무난)│
-│ Single (JS)│ 스왑 켜짐    │ 서버 100% 마비 │ ☠️ 재앙. 무조건 스왑 끔   │
-│ KVM Cloud  │ EPT 이중 매핑│ vCPU 전체 멈춤 │ 🟢 Async PF 패치 필수     │
-└──────────┴────────────┴────────────┴───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 모델</div><div class="kb-diagram-cell">메모리 구조</div><div class="kb-diagram-cell">폴트 발생 시 결과</div><div class="kb-diagram-cell">해결책 (Tuning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100개 Multi</div><div class="kb-diagram-cell">스왑 켜짐</div><div class="kb-diagram-cell">1개 스레드만 렉</div><div class="kb-diagram-cell">나머지 99개가 버팀 (무난)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single (JS)</div><div class="kb-diagram-cell">스왑 켜짐</div><div class="kb-diagram-cell">서버 100% 마비</div><div class="kb-diagram-cell">☠️ 재앙. 무조건 스왑 끔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KVM Cloud</div><div class="kb-diagram-cell">EPT 이중 매핑</div><div class="kb-diagram-cell">vCPU 전체 멈춤</div><div class="kb-diagram-cell">🟢 Async PF 패치 필수</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)(Tomcat, Apache)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나가 메이저 폴트(디스크 긁기 8ms) 맞고 뻗어도 다른 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 일하면 되니까 티가 덜 난다. 하지만 Nginx나 Node.js처럼 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)로 초당 수만 건을 처리하는 괴물들은, 그 단 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 밟고 8ms 동안 멈추면 뒤에 줄 선 수천 개의 접속이 타임아웃으로 박살 나는 대형 사고가 터진다. 이들에게 비동기 폴트 처리는 선택이 아닌 목숨줄이다.
 
 - **📢 섹션 요약 비유**: 100차선 고속도로(멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))에서는 차 1대가 퍼져서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 서 있어도 나머지 99차선으로 차들이 씽씽 달립니다. 하지만 1차선 직통 고속도로(싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Node.js)에서 맨 앞 차가 멈춰버리면 뒤에 수만 대의 차가 클랙슨을 울리며 완전히 마비됩니다. 1차선 도로일수록 고장 난 차를 갓길로 번개처럼 빼내는 비동기 견인차(Async PF)가 절대적으로 필요합니다.
@@ -119,14 +122,14 @@ DB 엔지니어들이 [파일](/knowledge-base/studynote/02_operating_system/09_
 
 ### 실무 시나리오: Redis의 `fork()` BGSAVE와 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 잡기
 1. **문제의 발단**: Redis는 완벽한 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 인메모리 DB다. 새벽에 디스크로 백업하려고 `fork()`를 쳐서 자식을 낳았다. ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 발동).
-2. **[COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 폴트의 기습**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> 폴트의 기습</strong>:
    - 부모 Redis가 초당 10만 번씩 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신(Write)한다. 
    - Write 할 때마다 OS는 부모를 찰나의 순간([마이너 페이지 폴트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/)) 멈추고 4KB 프레임을 찢어서 복사(Memcpy)해 준다.
    - 복사하는 0.01ms 동안 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 얼어붙는다(Blocked).
-   - 이 미세한 멈춤이 수만 번 누적되자, 0.1ms면 응답해야 할 Redis가 갑자기 50ms, 100ms 씩 렉을 먹는 **'꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))'** 현상을 뿜어낸다. 
-3. **실무적 타협점 ([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 끄기)**:
+   - 이 미세한 멈춤이 수만 번 누적되자, 0.1ms면 응답해야 할 Redis가 갑자기 50ms, 100ms 씩 렉을 먹는 <strong>'꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Tail <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>)'</strong> 현상을 뿜어낸다. 
+3. <strong>실무적 타협점 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 끄기)</strong>:
    - 여기서 만약 리눅스에 THP(2MB [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))가 켜져 있으면, [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 한 번 터질 때마다 4KB가 아니라 2MB를 복사하느라 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 500배 더 오래 뻗어있게 된다. Redis가 사실상 기절한다.
-   - 백엔드 엔지니어들은 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 하드웨어적으로 비동기화할 방법이 없으므로, **"복사하는 양([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))이라도 최소한의 4KB로 줄여서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추는 시간을 나노초 단위로 억제하자"**며 THP를 악착같이 끄는 것이다.
+   - 백엔드 엔지니어들은 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 하드웨어적으로 비동기화할 방법이 없으므로, <strong>"복사하는 양(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a>)이라도 최소한의 4KB로 줄여서 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 멈추는 시간을 나노초 단위로 억제하자"</strong>며 THP를 악착같이 끄는 것이다.
    - [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)의 블로킹 성질을 피할 수 없다면, 페널티(Penalty)의 크기 자체를 다이어트시키는 눈물겨운 실무 우회술이다.
 
 ### [Live Migration](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/))의 기적
@@ -143,9 +146,9 @@ VM을 이사 시킨 뒤 일단 껍데기만 새 서버에 띄운다. 유저가 �
 
 | 구분 | 내용 |
 |:---|:---|
-| **꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 99% 박멸** | 클라우드 환경에서 1만 번 중 1번 터지는 재수 없는 메이저 폴트 렉([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))을 비동기로 넘겨, P99 응답 시간을 기계적으로 일정하게 방어 |
-| **[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 생존 보장**| Node.js나 Nginx 같은 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 아키텍처가 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 속임수([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))에 당해 뻗어버리는 근본적 아킬레스건을 제거 |
-| **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 이식성 극대화** | `userfaultfd`를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 고유 권한이던 메모리 할당/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직을 유저 스페이스 앱이 가로채어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 및 고속 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복원 앱 개발 가능 |
+| <strong>꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Tail <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 99% 박멸</strong> | 클라우드 환경에서 1만 번 중 1번 터지는 재수 없는 메이저 폴트 렉([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))을 비동기로 넘겨, P99 응답 시간을 기계적으로 일정하게 방어 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">Event Loop</a>) 생존 보장</strong>| Node.js나 Nginx 같은 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 아키텍처가 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 속임수([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))에 당해 뻗어버리는 근본적 아킬레스건을 제거 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 이식성 극대화</strong> | `userfaultfd`를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 고유 권한이던 메모리 할당/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직을 유저 스페이스 앱이 가로채어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 및 고속 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복원 앱 개발 가능 |
 
 ### 결론 및 미래 전망
 
@@ -166,15 +169,19 @@ VM을 이사 시킨 뒤 일단 껍데기만 새 서버에 띄운다. 유저가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[역 페이지 테이블 탐색 최적화 해시 함수]
-    │
-    ▼
-[비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
-    │
-    ├──▶ [TLB 슛다운 (TLB Shootdown)]
-    └──▶ [커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

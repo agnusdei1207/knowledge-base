@@ -18,23 +18,29 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 단순히 복잡도 표를 외우는 것이 아니라, **실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 시스템 제약을 고려한 종합 판단**이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)마다 장단점이 있으며, 같은 O(n log n) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 캐시 효율, 안정성, 메모리 사용량에서 크게 다르다.
+정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 단순히 복잡도 표를 외우는 것이 아니라, <strong>실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 시스템 제약을 고려한 종합 판단</strong>이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)마다 장단점이 있으며, 같은 O(n log n) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 캐시 효율, 안정성, 메모리 사용량에서 크게 다르다.
 
 ### 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
-```
-정렬 알고리즘
-├── 비교 기반 (Comparison-Based)
-│   ├── 교환형: 버블, 퀵
-│   ├── 선택형: 선택, 힙
-│   ├── 삽입형: 삽입, 셸
-│   ├── 분할정복: 병합, 퀵
-│   └── 하이브리드: Timsort, Introsort
-└── 비비교 기반 (Non-Comparison)
-    ├── 계수 정렬 (Counting Sort)
-    ├── 기수 정렬 (Radix Sort)
-    └── 버킷 정렬 (Bucket Sort)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정렬 알고리즘</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비교 기반 (Comparison-Based)</div>
+<div class="kb-diagram-note">── 교환형: 버블, 퀵</div>
+<div class="kb-diagram-note">── 선택형: 선택, 힙</div>
+<div class="kb-diagram-note">── 삽입형: 삽입, 셸</div>
+<div class="kb-diagram-note">── 분할정복: 병합, 퀵</div>
+<div class="kb-diagram-note">── 하이브리드: Timsort, Introsort</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비비교 기반 (Non-Comparison)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">계수 정렬 (Counting Sort)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">기수 정렬 (Radix Sort)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버킷 정렬 (Bucket Sort)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 여행 수단 선택과 같다. 짧은 거리는 자전거([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)), 보통 거리는 자동차(퀵/병합), 정해진 노선은 기차([기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)), 느린 교통 상황에는 오토바이([Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/))가 최적이다.
 
@@ -61,22 +67,26 @@ tags = ["studynote-algorithm"]
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 의사결정 다이어그램
 
-```
-┌───────────────────────────────────────────────────────┐
-│  n이 매우 작다 (n ≤ 16)?                              │
-│    Yes → 삽입 정렬 (오버헤드 최소)                    │
-│    No  ↓                                              │
-│  데이터가 정수이고 범위 k = O(n)?                     │
-│    Yes → 계수/기수/버킷 정렬 (O(n) 가능)             │
-│    No  ↓                                              │
-│  안정 정렬이 필요한가?                                │
-│    Yes → 병합 정렬 or Timsort                         │
-│    No  ↓                                              │
-│  최악 O(n log n) 보장이 필요한가?                     │
-│    Yes → 힙 정렬 or Introsort                         │
-│    No  → 퀵 정렬 (평균 최고 성능)                    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n이 매우 작다 (n ≤ 16)?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 삽입 정렬 (오버헤드 최소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 정수이고 범위 k = O(n)?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 계수/기수/버킷 정렬 (O(n) 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정 정렬이 필요한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 병합 정렬 or Timsort</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최악 O(n log n) 보장이 필요한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 힙 정렬 or Introsort</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No → 퀵 정렬 (평균 최고 성능)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 정렬 선택 트리는 의사의 진단 차트와 같다. 증상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성)에 따라 처방([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 달라지며, 만병통치약(모든 상황 최고 정렬)은 없다.
 
@@ -86,7 +96,7 @@ tags = ["studynote-algorithm"]
 
 ### 캐시 효율 및 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
 
-이론적 복잡도가 같아도 **캐시 지역성(Cache Locality)**에 따라 실제 속도가 크게 다르다.
+이론적 복잡도가 같아도 <strong>캐시 지역성(Cache Locality)</strong>에 따라 실제 속도가 크게 다르다.
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 캐시 효율 | 이유 |
 |:---|:---:|:---|
@@ -129,24 +139,25 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 답안 작성 프레임
 
-```
-┌──────────────────────────────────────────────────────┐
-│  정렬 알고리즘 선택 답안 구조                         │
-│                                                      │
-│  1. 요구사항 분석                                    │
-│     - 데이터 규모: n = ?                             │
-│     - 데이터 유형: 정수/실수/문자열                   │
-│     - 안정성 요구: 다중 키 정렬 여부                 │
-│     - 공간 제약: 제자리 정렬 필요 여부               │
-│                                                      │
-│  2. 알고리즘 선택 근거                               │
-│     - 복잡도: 최선/평균/최악 명시                    │
-│     - 특성: 안정성, 캐시 효율, 제자리 여부           │
-│                                                      │
-│  3. 트레이드오프 명시                                │
-│     - "A vs B: A는 공간 O(n) 추가 비용으로 안정성 획득│
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 알고리즘 선택 답안 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 요구사항 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 규모: n = ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 유형: 정수/실수/문자열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 안정성 요구: 다중 키 정렬 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공간 제약: 제자리 정렬 필요 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 알고리즘 선택 근거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복잡도: 최선/평균/최악 명시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 특성: 안정성, 캐시 효율, 제자리 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 트레이드오프 명시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "A vs B: A는 공간 O(n) 추가 비용으로 안정성 획득</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택은 건축 자재 선택과 같다. 단열재(안정성), 내진 등급(최악 보장), 시공 비용(공간), 공사 기간(시간)을 모두 고려해야 최적의 설계가 나온다.
 
@@ -154,7 +165,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅴ. 기대효과 및 결론
 
-정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 이해는 **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 사고력의 기초**다. 단순 암기가 아닌, 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 철학(교환/선택/분할정복/비비교)을 이해하면 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 논리적으로 분석할 수 있다.
+정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 종합 이해는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 사고력의 기초</strong>다. 단순 암기가 아닌, 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 철학(교환/선택/분할정복/비비교)을 이해하면 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 논리적으로 분석할 수 있다.
 
 ### 효과 정리
 
@@ -180,21 +191,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[O(N²) 단순 비교 정렬 — 버블/선택/삽입, 소규모 또는 거의 정렬된 데이터]
-    │
-    ▼
-[O(N log N) 분할 정복 — 합병 정렬(안정)/퀵 정렬(평균 최고)/힙 정렬(최악 보장)]
-    │
-    ▼
-[비비교 선형 정렬 — 계수 정렬/기수 정렬/버킷 정렬, 정수·제한 범위 특화]
-    │
-    ▼
-[하이브리드 정렬 (Timsort / Introsort) — 실제 데이터 패턴 감지 후 알고리즘 혼합]
-    │
-    ▼
-[분산 정렬 (Distributed Sort) — MapReduce/Spark 기반 대규모 외부 정렬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">O(N²) 단순 비교 정렬 — 버블/선택/삽입, 소규모 또는 거의 정렬된 데이터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O(N log N) 분할 정복 — 합병 정렬(안정)/퀵 정렬(평균 최고)/힙 정렬(최악 보장)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비비교 선형 정렬 — 계수 정렬/기수 정렬/버킷 정렬, 정수·제한 범위 특화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 정렬 (Timsort / Introsort) — 실제 데이터 패턴 감지 후 알고리즘 혼합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 정렬 (Distributed Sort) — MapReduce/Spark 기반 대규모 외부 정렬</div></div>
+</div>
+</div>
+
+
 이 흐름은 단순 구조의 O(N²) 정렬이 이론적 한계를 드러낸 뒤 O(N log N) 분할정복으로 발전하고, 선형 정렬과의 하이브리드 실용화를 거쳐 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 대규모 정렬로 확장되는 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

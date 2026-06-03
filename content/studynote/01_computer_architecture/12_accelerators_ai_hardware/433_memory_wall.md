@@ -27,22 +27,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 연산기가 놀게 되는지를 시간축으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    메모리 월의 핵심: 계산보다 공급이 늦다                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 시간축                                                                     │
-│                                                                            │
-│ Tensor Core 연산  ── 2ns ──┐                                                │
-│                            └─ 완료                                          │
-│ DRAM 접근      ─────────────────────────────── 80~120ns ──────────────────┐ │
-│                                                                          └─ 도착 │
-│                                                                            │
-│ 결과: 연산기는 짧게 일하고, 대부분의 시간은 데이터 대기(Stall)에 소비됨     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 메모리 월이 메모리가 "느리다"는 단순 불평이 아니라, **연산기와 메모리의 발전 속도 차이가 시스템 설계 전체를 바꾸게 만든 현상**이라는 점이다. 이 병목을 무시하면 코어를 늘릴수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 둔화되고, 전력과 비용만 빠르게 증가한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 월의 핵심: 계산보다 공급이 늦다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core 연산 ── 2ns ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM 접근 80~120ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 연산기는 짧게 일하고, 대부분의 시간은 데이터 대기(Stall)에 소비됨</div></div>
+</div>
+</div>
+
+
+
+핵심은 메모리 월이 메모리가 "느리다"는 단순 불평이 아니라, <strong>연산기와 메모리의 발전 속도 차이가 시스템 설계 전체를 바꾸게 만든 현상</strong>이라는 점이다. 이 병목을 무시하면 코어를 늘릴수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 둔화되고, 전력과 비용만 빠르게 증가한다.
 
 - **📢 섹션 요약 비유**: 메모리 월은 100명이 동시에 요리할 수 있는 대형 주방인데, 식재료가 들어오는 문이 한 개뿐인 상황과 같다. 요리사 수를 더 늘려도 출입문이 그대로면 주방은 더 붐비기만 한다.
 
@@ -64,24 +65,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 병목되는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 AI 가속기의 데이터 이동 경로와 병목 위치                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ DRAM/HBM ──▶ L2/Shared Buffer ──▶ Register File ──▶ Tensor Core          │
-│    │               │                     │                  │              │
-│    │               │                     │                  └─ 연산 수행   │
-│    │               │                     └─ 짧은 지연, 높은 재사용         │
-│    │               └─ 타일 적재·재배치                                 │
-│    └─ 가장 큰 지연·전력 소모 지점                                        │
-│                                                                            │
-│ 병목 패턴: 재사용 실패 → HBM 재접근 증가 → 대역폭 포화 → 코어 유휴 증가    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 가속기의 데이터 이동 경로와 병목 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM/HBM ──▶ L2/Shared Buffer ──▶ Register File ──▶ Tensor Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 연산 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 짧은 지연, 높은 재사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타일 적재·재배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가장 큰 지연·전력 소모 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 패턴: 재사용 실패 → HBM 재접근 증가 → 대역폭 포화 → 코어 유휴 증가</div></div>
+</div>
+</div>
+
+
 
 이를 정량적으로 보는 대표 개념이 산술 집약도 (Arithmetic Intensity)다. 이는 읽고 쓴 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 대비 얼마나 많은 연산을 수행했는지를 뜻하며, 값이 낮을수록 메모리 바운드, 높을수록 계산 바운드에 가깝다. 같은 100 TFLOPS급 가속기라도 산술 집약도가 낮은 워크로드는 이론 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 일부만 쓰고, 집약도가 높은 행렬 연산은 연산기를 더 잘 채운다.
 
-따라서 메모리 월 대응의 핵심 원리는 네 가지로 요약된다. 첫째, **가까이 두기**(온칩 버퍼 확대), 둘째, **여러 번 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)**(재사용 증대), 셋째, **미리 가져오기**(프리페치), 넷째, **덜 옮기기**([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·연산 융합)다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어의 발전은 결국 이 네 가지를 얼마나 하드웨어와 컴파일러가 함께 실현하느냐의 경쟁이라고 볼 수 있다.
+따라서 메모리 월 대응의 핵심 원리는 네 가지로 요약된다. 첫째, **가까이 두기**(온칩 버퍼 확대), 둘째, <strong>여러 번 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>(재사용 증대), 셋째, **미리 가져오기**(프리페치), 넷째, **덜 옮기기**([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·연산 융합)다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어의 발전은 결국 이 네 가지를 얼마나 하드웨어와 컴파일러가 함께 실현하느냐의 경쟁이라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 공장 안의 부품 창고 구조와 같다. 작업대 위 상자에 부품이 있으면 바로 조립하지만, 공장 밖 대형 창고까지 매번 뛰어가야 하면 숙련공도 속도를 못 낸다.
 
@@ -112,11 +114,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **산술 집약도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 연산량 대비 메모리 이동량이 큰가?
-2. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 이미 상한에 가까운가?
-3. **온칩 재사용 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 타일링, [shared memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) blocking이 충분한가?
-4. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식 점검**: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 16비트 (FP16, 16-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 대신 정수 8비트 (INT8, 8-bit Integer)나 저정밀 포맷으로 줄일 수 있는가?
-5. **연산 융합 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 연산자 fusion으로 중간 텐서의 메모리 왕복을 줄일 수 있는가?
+1. <strong>산술 집약도 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 연산량 대비 메모리 이동량이 큰가?
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 포화 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 이미 상한에 가까운가?
+3. <strong>온칩 재사용 구조 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 타일링, [shared memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) blocking이 충분한가?
+4. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형식 점검</strong>: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 16비트 (FP16, 16-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 대신 정수 8비트 (INT8, 8-bit Integer)나 저정밀 포맷으로 줄일 수 있는가?
+5. <strong>연산 융합 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 연산자 fusion으로 중간 텐서의 메모리 왕복을 줄일 수 있는가?
 
 예를 들어 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 추론에서 첫 토큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용률이 낮다면, 모델 자체가 느린 것이 아니라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 KV 캐시를 반복적으로 이동시키느라 병목이 발생했을 가능성이 크다. 이때는 코어 수가 더 많은 GPU로 바꾸기보다, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 연속 배치 (Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)), PagedAttention, 프리필과 디코드 분리 같은 메모리 중심 최적화가 더 큰 효과를 낸다.
 
@@ -157,21 +159,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폰 노이만 구조의 데이터 이동 병목
-        │
-        ▼
-캐시 메모리 · 데이터 지역성 · 프리페치
-        │
-        ▼
-GPU/NPU 온칩 버퍼 · 타일링 · 커널 융합
-        │
-        ▼
-HBM · 2.5D/3D 패키징 · 대역폭 확장
-        │
-        ▼
-PIM · CIM · Near-Memory Computing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폰 노이만 구조의 데이터 이동 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 메모리 · 데이터 지역성 · 프리페치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU/NPU 온칩 버퍼 · 타일링 · 커널 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HBM · 2.5D/3D 패키징 · 대역폭 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PIM · CIM · Near-Memory Computing</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨기기 → 재사용 확대 → 공급 통로 확장 → 이동 자체 축소"로 메모리 월 대응 철학이 깊어지는 과정을 보여준다.
 

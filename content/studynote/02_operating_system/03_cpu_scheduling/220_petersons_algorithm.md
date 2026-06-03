@@ -24,24 +24,27 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1965년 데이크스트라의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 해결책은 수학적이나 복잡했다. 피터슨은 "기권(yield)이라는 한 줄의 코드"로 이를 압축하여, 1981년 ACM Transactions에서 정식 발표한 뒤로 전 세계OS 학부 수업의 바이블이 되었다.
 
-```text
-[피터슨 알고리즘의 "(turn)" 양보 메커니즘]
 
-[ P0 (운전자 A) ] [ P1 (운전자 B) ]
-1. "내가 먼저!" (flag[0] = true)
-2. "!" (turn = 1) 1. "내가 먼저!" (flag[1] = true)
-2. "!" (turn = 0)
 
-[ 핵심 3단계:while 문 검증 (Critical 검문소) ]
-P0의 내면: "P1이 깃발을 들었나(flag[1]==T), turn이 1(P1)이니?
-→ 그럼 내가 양보. P1이 먼저 건너갈 때까지 대기."
-P1의 내면: "P0이 깃발을 들었나(flag[0]==T), turn이 0(P0)이니?
-→ 그럼 내가 양보. P0이 먼저 건너갈 때까지 대기."
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피터슨 알고리즘의 "(turn)" 양보 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P0 (운전자 A)</div><div class="kb-diagram-node">P1 (운전자 B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. "내가 먼저!" (flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= true)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. "!" (turn = 1) 1. "내가 먼저!" (flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= true)</div></div>
+<div class="kb-diagram-note">2. "!" (turn = 0)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 3단계:while 문 검증 (Critical 검문소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P0의 내면: "P1이 깃발을 들었나(flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">==T), turn이 1(P1)이니?</div></div>
+<div class="kb-diagram-note">→ 그럼 내가 양보. P1이 먼저 건너갈 때까지 대기."</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1의 내면: "P0이 깃발을 들었나(flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">==T), turn이 0(P0)이니?</div></div>
+<div class="kb-diagram-note">→ 그럼 내가 양보. P0이 먼저 건너갈 때까지 대기."</div>
+<div class="kb-diagram-note">결론: turn 변수가 마지막에 덮어쓴 쪽이</div>
+<div class="kb-diagram-note">항상 상대방을 통과시키는 양보자(turn==자신)가 되어</div>
+<div class="kb-diagram-note">둘 다 동시에 진입하는 것을 구조적으로 원천 차단!</div>
+</div>
+</div>
 
-결론: turn 변수가 마지막에 덮어쓴 쪽이
-항상 상대방을 통과시키는 양보자(turn==자신)가 되어
-둘 다 동시에 진입하는 것을 구조적으로 원천 차단!
-```
+
 
 **[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 `turn`이라는 양보 변수에 있다. 둘 다 먼저겠다면서 깃발을 세울 때, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 항상 양보자가 된다. 둘 다 동시에 `turn`을 덮어쓸 때, 마지막 쓰기가 이기는 것이 아니라 turn의 최종값이 "누가 양보했는지"를 결정하는 핵심 비트다. 이 두 단계의 협상과정이야말로 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 없이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 통과하는 SOFTWAREONLY의 최종 해법이다.
 
@@ -82,7 +85,7 @@ flag[i] = false; // 4. 임계 구역 완료. 깃발을 내린다 (퇴장)
 ```
 
 #### [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 100% 증명 (Proof of [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
-1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태**: 두 프로세스가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 동시에 진입하려면, `while` 루프를 동시에 빠져나와야 한다.
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 두 프로세스가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 동시에 진입하려면, `while` 루프를 동시에 빠져나와야 한다.
 2. `while` 루프를 빠져나오려면 `flag[j] == false` (상대가 나갔음) 또는 `turn != j` (양보자가 내가 아니게 됨)이어야 한다.
 3. `flag[0]`과 `flag[1]`이 동시에 `true`일 때, `turn`의 값은 마지막으로 덮어쓴 프로세스만 결정한다.
 4. 따라서 두 프로세스가 동시에 `while`을 빠져나올 수 없으며, 오직 하나만 진입한다. ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 만족)
@@ -97,20 +100,21 @@ flag[i] = false; // 4. 임계 구역 완료. 깃발을 내린다 (퇴장)
 2. P0가 퇴장하며 `flag[0] = false`를 실행하면, P1은 대기 중이던 `while`을 빠져나와 진입한다.
 3. P1 진입 후 P0가 다시 시도하면, P1의 `flag[1] = true` 때문에 P0은 대기해야 한다. 이는 P0의 대기 횟수가 1회로 제한됨을 의미한다. ([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 만족)
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ 피터슨 알고리즘의 타임라인 동작 시각화 │
-├─────────────────────────────────────────────────────────────────────┤
-│ │
-│ P0: ──flag[0]=T──turn=1──[while: F&&T=F]──[CRITICAL]──flag[0]=F─│
-│ P1: ──────────────────────flag[1]=T──turn=0──[while: T&&T=T]──│
-│ 대기 │
-│ 시간 ───────────────────────────────────────────────────────────▶ │
-│ │
-│ P0의 enter: flag[0]=T, turn=1 → while(T && T) = T → 대기! │
-│ P0의 leave: flag[0]=F → P1의 while(T && T) = F → P1 진입! │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피터슨 알고리즘의 타임라인 동작 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P0: ──flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=T──turn=1──</div><div class="kb-diagram-node">while: F&amp;&amp;T=F</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">CRITICAL</div><div class="kb-diagram-note">──flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=F─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1: flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">=T──turn=0──</div><div class="kb-diagram-node">while: T&amp;&amp;T=T</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 ▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P0의 enter: flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">while(T &amp;&amp; T) = T → 대기!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P0의 leave: flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P1의 while(T &amp;&amp; T) = F → P1 진입!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** P0이 먼저 깃발을 세우고 turn=1로 양보하면, P1이 뒤에 와서 turn=0으로 덮어쓴다. 이때 P1의 while 조건은 `flag[0]=T && turn=0`이 되어 `T`가 되어 P1이 대기하고, P0이 먼저 진입한다. P0이 퇴장하면 P1이 진입하는 완벽한 교대 시퀀스가 형성된다. 이 교대(Alternation)가 바로 [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)의 핵심 증거다.
 
@@ -142,23 +146,24 @@ flag[i] = false; // 4. 임계 구역 완료. 깃발을 내린다 (퇴장)
 - P1은 `flag[0]=false`를 보게 되어 while을 빠져나와 진입한다.
 - P0도 곧 `flag[0]=true`를 세우고 진입한다. **동시 진입 인정!**
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ Out-of-Order 실행에 의한 피터슨 알고리즘 붕괴 시나리오 │
-├─────────────────────────────────────────────────────────────────────┤
-│ │
-│ 정상 순서 (피터슨의 가정): │
-│ P0: flag[0]=T → turn=1 → while() 대기 │
-│ P1: flag[1]=T → turn=0 → while() 대기 (P0 진입) │
-│ │
-│ CPU가 순서를 뒤집은 경우 (Out-of-Order): │
-│ P0: turn=1 ──▶ flag[0]=T (순서 뒤집힘!) │
-│ ────────────────────────▶ P1이 flag[0]=F를 보고 진입! │
-│ P1: flag[1]=T → turn=0 → while(T && F=F) → 진입 성공! │
-│ ────────────────────────▶ P0도 곧 flag[0]=T 후 진입! │
-│ 🚨 두 프로세스가 동시에 임계 구역 진입! 붕괴! │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Out-of-Order 실행에 의한 피터슨 알고리즘 붕괴 시나리오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 순서 (피터슨의 가정):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P0: flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">turn=1 → while() 대기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1: flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">turn=0 → while() 대기 (P0 진입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 순서를 뒤집은 경우 (Out-of-Order):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=T (순서 뒤집힘!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=F를 보고 진입!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P1: flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">turn=0 → while(T &amp;&amp; F=F) → 진입 성공!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=T 후 진입!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 두 프로세스가 동시에 임계 구역 진입! 붕괴!</div></div>
+</div>
+</div>
+
+
 
 ### [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 의한 구원
 
@@ -185,29 +190,26 @@ while (flag[j] && turn == j) { /* do nothing */ }
 1. **임베디드/RTOS 환경에서의 활용**: 하드웨어 TAS 명령이 없거나 비싸게 매기는 소형 임베디드 시스템에서는, [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)를 추가한 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 여전히 유효하다. 특히 단일 코어에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 활용된다.
 2. **교육적 가치**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제의 세 가지 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))을 어떻게 하면 최소화한 변수로 충족할 수 있는지를 보여주는 가장한 교과서 예제다. 실무에서 직접 쓰는 것은 드물지만, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어의 기본기로서 필수다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ 동시성 제어 알고리즘 선정 아키텍처 결정 트리 │
-├─────────────────────────────────────────────────────────────────────┤
-│ │
-│ [요구사항: 2개 스레드의 임계 구역 동기화] │
-│ │ │
-│ ▼ │
-│ [ 하드웨어 원자 명령(TAS/CAS)이 있는가? ] │
-│ ├─ 예 ──▶ [ ✅ 하드웨어 락 사용 (현대적 정답) ] │
-│ │ - std::mutex, std::atomic 등 │
-│ │ - Out-of-Order 안전, 성능 우수 │
-│ │ │
-│ └─ 아니오 (순수 소프트웨어만 가능) │
-│ │ │
-│ ▼ │
-│ [ 2개 프로세스인가? ] │
-│ ├─ 예 ──▶ [ ✅ 피터슨 + 메모리 배리어 ] │
-│ │ - 임베디드, 단일 코어 환경 │
-│ └─ 아니오 ──▶ [ ⚠️ 데커/표시 알고리즘 ] │
-│ - N 확장 시 복잡도 폭발 주의 │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 제어 알고리즘 선정 아키텍처 결정 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 2개 스레드의 임계 구역 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 원자 명령(TAS/CAS)이 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">✅ 하드웨어 락 사용 (현대적 정답)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- std::mutex, std::atomic 등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Out-of-Order 안전, 성능 우수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 소프트웨어만 가능)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2개 프로세스인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">✅ 피터슨 + 메모리 배리어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임베디드, 단일 코어 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">⚠️ 데커/표시 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- N 확장 시 복잡도 폭발 주의</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어가 약하거나 특수한 환경(교육, 임베디드, 단일 코어)에서만 빛을 발한다. 최신 멀티코어 서버 환경에서는 std::mutex나 std::atomic이 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 안전하고성능이다. 실무 엔지니어는 "언제 하드웨어 도움 없이 소프트웨어만으로동기를 해야 하는가?"를 구분할 줄 알아야 한다.
 
@@ -238,15 +240,19 @@ while (flag[j] && turn == j) { /* do nothing */ }
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[실시간 리눅스 (PREEMPT_RT 패치)]
-│
-▼
-[피터슨 알고리즘 (Peterson's Algorithm)]
-│
-├──▶ [경쟁 조건 (Race Condition)]
-└──▶ [임계 구역 (Critical Section)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 리눅스 (PREEMPT_RT 패치)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피터슨 알고리즘 (Peterson's Algorithm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 (Critical Section)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -36,20 +36,22 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 아래 그림은 CF가 실제로 무엇을 세는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│     CF counts table-block changes while scanning index leaf order    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Index leaf order : K101 ─ K102 ─ K103 ─ K104 ─ K105                 │
-│ Table block map  : B07  ─ B07  ─ B08  ─ B08  ─ B21                  │
-│ CF counter       :  1       1       2       2       3               │
-│                                                                      │
-│ Few block changes  => rows are physically aligned                    │
-│ Many block changes => random table access increases                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 CF가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 높이나 키 분포를 세는 값이 아니라, **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 연결하는 테이블 블록의 이동 횟수**를 세는 값이라는 점이다. 따라서 CF는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이 아니라 물리 접근 비용과 직접 연결된다. 같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000건 범위 조회라도 CF가 좋으면 200개 블록만 읽고 끝날 수 있지만, 나쁘면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개 블록을 각각 건드릴 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF counts table-block changes while scanning index leaf order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index leaf order : K101 ─ K102 ─ K103 ─ K104 ─ K105</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table block map : B07 ─ B07 ─ B08 ─ B08 ─ B21</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF counter : 1 1 2 2 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Few block changes =&gt; rows are physically aligned</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Many block changes =&gt; random table access increases</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 CF가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 높이나 키 분포를 세는 값이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>가 연결하는 테이블 블록의 이동 횟수</strong>를 세는 값이라는 점이다. 따라서 CF는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이 아니라 물리 접근 비용과 직접 연결된다. 같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000건 범위 조회라도 CF가 좋으면 200개 블록만 읽고 끝날 수 있지만, 나쁘면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개 블록을 각각 건드릴 수 있다.
 
 | 항목 | CF가 좋은 경우 | CF가 나쁜 경우 |
 | :--- | :--- | :--- |
@@ -77,7 +79,7 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 또한 CF는 클러스터형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Clustered Index](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/))나 [IOT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)-Organized Table)와도 연결된다. 일반 보조 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 순서와 실제 행 저장이 분리되어 있어 CF가 나빠질 수 있지만, 클러스터형 구조는 테이블 자체를 키 순서로 유지해 이 문제를 구조적으로 줄인다. 반대로 갱신이 잦은 업무에서 무리하게 물리 정렬을 유지하면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 분할과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 늘 수 있으므로 읽기 패턴과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴을 함께 봐야 한다.
 
-즉, CF는 단순한 통계 값이 아니라 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계·적재 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·물리 모델링을 이어 주는 연결 고리**다. 구조화 질의 언어 (SQL, Structured Query Language) 튜닝에서 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)만 보는 접근이 한계에 부딪히는 이유도, 결국 이 물리 정렬 문제를 건드리지 못하기 때문이다.
+즉, CF는 단순한 통계 값이 아니라 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 설계·적재 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>·물리 모델링을 이어 주는 연결 고리</strong>다. 구조화 질의 언어 (SQL, Structured Query Language) 튜닝에서 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)만 보는 접근이 한계에 부딪히는 이유도, 결국 이 물리 정렬 문제를 건드리지 못하기 때문이다.
 
 - **📢 섹션 요약 비유**: [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)는 손님 수를 세는 일이고, CF는 그 손님들이 한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 타 있는지 각자 다른 택시에 흩어져 있는지를 보는 일과 같다.
 
@@ -116,7 +118,7 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 물론 한계도 있다. [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 환경에서는 랜덤 접근 페널티가 [하드 디스크 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), Hard Disk Drive)보다 줄어들지만, [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)·읽기 증폭·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 지역성 측면에서 물리 군집의 가치는 여전히 남아 있다. 또한 지나친 물리 정렬 추구는 삽입 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 복잡도를 높일 수 있으므로, 모든 테이블을 클러스터형으로 만들면 답이라는 뜻은 아니다.
 
-결국 CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조로만 보지 말고, 실제 저장 블록과 함께 보라는 경고장이다. 좋은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계는 키를 잘 고르는 데서 끝나지 않고, **그 키 순서가 실제로도 비용을 줄이게 만들 수 있는가**까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 완성된다.
+결국 CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조로만 보지 말고, 실제 저장 블록과 함께 보라는 경고장이다. 좋은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계는 키를 잘 고르는 데서 끝나지 않고, <strong>그 키 순서가 실제로도 비용을 줄이게 만들 수 있는가</strong>까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 완성된다.
 
 - **📢 섹션 요약 비유**: 좋은 CF는 빠른 엘리베이터를 가진 건물에 손님 방도 층별로 잘 배치된 상태이고, 나쁜 CF는 엘리베이터는 빨라도 손님이 건물 전체에 흩어진 상태와 같다.
 
@@ -135,21 +137,23 @@ CF는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 인덱스 탐색
-    │
-    ▼
-선택도 (Selectivity) 판단
-    │
-    ▼
-클러스터링 팩터 (CF)로 물리 정렬 평가
-    │
-    ├─ 좋음  → 인덱스 범위 스캔 강화
-    └─ 나쁨  → 풀 스캔 · 재구성 · 파티셔닝 검토
-    │
-    ▼
-물리 모델링 최적화 (Clustered Storage / IOT / Covering Index)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 인덱스 탐색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선택도 (Selectivity) 판단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클러스터링 팩터 (CF)로 물리 정렬 평가</div>
+<div class="kb-diagram-tree-item" style="--depth:2">좋음 → 인덱스 범위 스캔 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">나쁨 → 풀 스캔 · 재구성 · 파티셔닝 검토</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리 모델링 최적화 (Clustered Storage / IOT / Covering Index)</div>
+</div>
+</div>
+
+
 
 이 흐름은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 튜닝이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조건 최적화에서 출발해, 결국 물리 저장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 확장되는 과정을 보여 준다.
 

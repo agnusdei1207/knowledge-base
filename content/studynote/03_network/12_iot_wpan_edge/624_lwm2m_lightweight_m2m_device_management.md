@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: OMA(Open Mobile Alliance)에서 제정한 **[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 기기를 위한 '원격 장치 관리(Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))' 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
-- **필요성**: MQTT나 CoAP가 기기들 간에 "온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 주고받는 대화(메시징)에 치중했다면, LwM2M은 기기 자체의 **"배터리가 얼마나 남았는지, 오류는 없는지, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 버전은 몇인지"** 기기의 '건강 상태와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)'을 중앙에서 관리하기 위해 만들어졌습니다.
+- **개념**: OMA(Open Mobile Alliance)에서 제정한 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 기기를 위한 '원격 장치 관리(Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)' 표준 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
+- **필요성**: MQTT나 CoAP가 기기들 간에 "온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 주고받는 대화(메시징)에 치중했다면, LwM2M은 기기 자체의 <strong>"배터리가 얼마나 남았는지, 오류는 없는지, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 버전은 몇인지"</strong> 기기의 '건강 상태와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)'을 중앙에서 관리하기 위해 만들어졌습니다.
 
-```text
-[CoAP]
-    │
-    ▼
-[LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    └──▶ [oneM2M 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - LwM2M은 완전히 밑바닥부터 새로 만든 것이 아닙니다. 
-- 바로 전 문서(623번)에서 배운 **가장 빠르고 가벼운 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)([Constrained Application Protocol](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))의 통신망(RESTful 구조)을 그대로 뼈대로 가져와서, 그 위에 '기기 관리용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)' 규격을 얹은 것**입니다.
+- 바로 전 문서(623번)에서 배운 <strong>가장 빠르고 가벼운 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>인 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">Constrained Application Protocol</a>)의 통신망(RESTful 구조)을 그대로 뼈대로 가져와서, 그 위에 '기기 관리용 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>' 규격을 얹은 것</strong>입니다.
 - 즉, CoAP의 가벼움(초저전력, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 헤더)을 그대로 누리면서 효율적으로 기기를 통제합니다.
 
-```text
-[CoAP]
-    │
-    ▼
-[LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    └──▶ [oneM2M 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,7 +66,7 @@ tags = ["studynote-network"]
 
 LwM2M은 전 세계 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 상태를 숫자표(오브젝트 모델)로 완벽히 통일시켰습니다.
 - **Object ID 3번 (Device)**: 기기의 하드웨어 정보 (제조사, 모델명, 시리얼번호 등)
-- **Object ID 4번 ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Update)**: [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 수행하기 위한 기능
+- <strong>Object ID 4번 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">Firmware</a> Update)</strong>: [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 수행하기 위한 기능
 - **Object ID 5번 (Error)**: 장치의 에러 상태
 - **효과**: 삼성이 만든 전구든, LG가 만든 세탁기든, 중앙 관리 서버가 `GET /3/0/0` (디바이스 객체의 제조사 정보)이라는 동일한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 날리면, 똑같이 제조사 이름이 응답으로 튀어나옵니다. 기기 관리가 극도로 편해집니다.
 
@@ -76,10 +84,10 @@ LwM2M은 전 세계 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **[Bootstrapping](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))**: 기기 박스를 뜯어 전원을 처음 켰을 때, 중앙 서버 주소와 보안 키를 자동으로 내려받아 즉시 세팅합니다.
-2. **Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) (제어)**: 기기 재부팅, 공장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Bootstrapping</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)</strong>: 기기 박스를 뜯어 전원을 처음 켰을 때, 중앙 서버 주소와 보안 키를 자동으로 내려받아 즉시 세팅합니다.
+2. <strong>Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> (제어)</strong>: 기기 재부팅, 공장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
 3. **Information Reporting (관찰 보고)**: 센서가 자고 있다가 "배터리가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이하로 떨어졌을 때만 서버로 보고하라"는 식의 이벤트 기반 관찰(Observe) 기능.
-4. **FOTA ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Over The Air)**: 버그가 생겼을 때 무선으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 파일을 밀어 넣어 업데이트하는 핵심 기능.
+4. <strong>FOTA (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">Firmware</a> Over The Air)</strong>: 버그가 생겼을 때 무선으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 파일을 밀어 넣어 업데이트하는 핵심 기능.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,15 +118,19 @@ LwM2M은 전 세계 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CoAP]
-    │
-    ▼
-[현재 개념: LwM2M 표준 프로토콜 관리 메커니즘]
-    │
-    ├──▶ [확장 A: oneM2M 아키텍처]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CoAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LwM2M 표준 프로토콜 관리 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: oneM2M 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘는 CoAP에서 출발해 현재 메커니즘을 정교화하고, 이후 oneM2M 아키텍처와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

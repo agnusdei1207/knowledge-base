@@ -27,22 +27,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 직접 사상이 왜 빠른지, 그리고 왜 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)끼리 충돌하는지를 한 번에 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Direct Mapping: address decides one and only one cache line         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 32-bit address = [ Tag 17b ][ Index 9b ][ Offset 6b ]               │
-│                               │            │                         │
-│                               │            └─ byte in 64B line       │
-│                               └────────────── line 0..511            │
-│                                                                      │
-│ block 13    ─┐                                                       │
-│ block 525   ─┼─ mod 512 = 13 ─────────────▶ cache line 13            │
-│ block 1037  ─┘                                                       │
-│                                                                      │
-│ lookup flow: read line 13 ─▶ compare stored tag ─▶ hit or miss       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct Mapping: address decides one and only one cache line</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">32-bit address =</div><div class="kb-diagram-node">Tag 17b</div><div class="kb-diagram-node">Index 9b</div><div class="kb-diagram-node">Offset 6b</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ byte in 64B line</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">line 0..511</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 13 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 525 ─ ─ mod 512 = 13 ▶ cache line 13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 1037 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lookup flow: read line 13 ─▶ compare stored tag ─▶ hit or miss</div></div>
+</div>
+</div>
+
+
 
 핵심은 주소가 저장 위치를 먼저 결정하고, 태그 (Tag)는 그 위치의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정말 원하는 블록인지 나중에 확인한다는 점이다. 그래서 직접 사상은 "찾는 비용"은 매우 낮지만, "같은 자리를 두고 경쟁하는 비용"은 높다.
 
@@ -52,7 +52,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-직접 사상의 주소 해석은 보통 **태그 + [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) + 블록 오프셋**으로 설명한다. 블록 오프셋은 캐시 라인 내부에서 몇 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 읽을지 결정하고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 어느 캐시 라인을 열지 결정하며, 태그는 그 라인에 들어 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원하는 메모리 블록인지 확인한다. 이 분해 덕분에 캐시 하드웨어는 복잡한 탐색 없이도 즉시 후보 위치를 좁힐 수 있다.
+직접 사상의 주소 해석은 보통 <strong>태그 + <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> + 블록 오프셋</strong>으로 설명한다. 블록 오프셋은 캐시 라인 내부에서 몇 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 읽을지 결정하고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 어느 캐시 라인을 열지 결정하며, 태그는 그 라인에 들어 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원하는 메모리 블록인지 확인한다. 이 분해 덕분에 캐시 하드웨어는 복잡한 탐색 없이도 즉시 후보 위치를 좁힐 수 있다.
 
 예를 들어 32킬로바이트 캐시, 64바이트 라인이라면 캐시 라인 수는 512개다. 이때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 9비트, 오프셋은 6비트가 필요하고, 나머지 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 태그가 된다. 메모리 블록 번호를 캐시 라인 수로 나눈 나머지가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 되므로, 같은 나머지를 갖는 블록들은 반드시 같은 라인 하나를 공유해야 한다.
 
@@ -122,7 +122,7 @@ B0 reaccess: miss, line 13 <= B0   (A0 evicted)
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 "용량 부족"으로만 단정하고 conflict miss를 측정하지 않는 분석
 - 저가 임베디드 코어의 직접 사상 캐시에 서버급 랜덤 접근 workload를 그대로 올리는 배치
 
-기술사 답안 관점에서는 "직접 사상 = 무조건 구식"이라고 쓰면 부족하다. 핵심은 **조회 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화와 충돌 증가 사이의 교환관계**를 설명하고, 어떤 환경에서는 여전히 합리적 선택임을 보여주는 것이다. 즉, 직접 사상은 시대에 뒤처진 구조가 아니라 비용 제약이 강한 곳에서 여전히 유효한 극단값이다.
+기술사 답안 관점에서는 "직접 사상 = 무조건 구식"이라고 쓰면 부족하다. 핵심은 <strong>조회 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 최소화와 충돌 증가 사이의 교환관계</strong>를 설명하고, 어떤 환경에서는 여전히 합리적 선택임을 보여주는 것이다. 즉, 직접 사상은 시대에 뒤처진 구조가 아니라 비용 제약이 강한 곳에서 여전히 유효한 극단값이다.
 
 - **📢 섹션 요약 비유**: 직접 사상은 작은 편의점 계산대 하나를 아주 빠르게 돌리는 방식과 같다. 손님 흐름이 단순하면 최고로 효율적이지만, 비슷한 시간에 같은 상품만 몰리면 계산대 앞이 금방 막혀 버린다.
 
@@ -153,26 +153,26 @@ B0 reaccess: miss, line 13 <= B0   (A0 evicted)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 계층 (Memory Hierarchy)
-        │
-        ▼
-캐시 메모리 (Cache Memory)
-        │
-        ▼
-캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        ├─ 장점: 짧은 hit time · 낮은 회로 복잡도
-        │        └─ 한계: 충돌 미스 · 스래싱
-        │
-        ▼
-집합 연관 사상 (Set Associative Mapping)
-        │
-        ▼
-희생자 캐시 (Victim Cache) · 페이지 컬러링 · 주소 해싱
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 계층 (Memory Hierarchy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 메모리 (Cache Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
+<div class="kb-diagram-note">─ 장점: 짧은 hit time · 낮은 회로 복잡도</div>
+<div class="kb-diagram-note">─ 한계: 충돌 미스 · 스래싱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">희생자 캐시 (Victim Cache) · 페이지 컬러링 · 주소 해싱</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 배정 → 충돌 노출 → 절충 구조 → 보완 기법"으로 발전한 캐시 설계의 사고 과정을 보여준다.
 

@@ -18,27 +18,30 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. Rehost 개념 및 6R 위치
 
-```
-클라우드 6R 전략 (AWS 기준):
 
-Retire: 사용 안 하는 시스템 폐기
-Retain: 현재는 이전 안 함 (온프레미스 유지)
-Rehost: 코드 변경 없이 클라우드 VM으로 이전 ← 오늘 주제
-Replatform: 최소한의 최적화 (OS 업그레이드, 관리형 DB)
-Repurchase: SaaS 전환 (On-prem CRM → Salesforce)
-Refactor/Re-architect: 마이크로서비스, 서버리스 전면 재설계
 
-Rehost 적합 시나리오:
-  데이터센터 계약 만료 임박
-  규제 준수 목적 (클라우드 전환 의무)
-  빠른 이전 필요 (legacy 기술 부채 해소 전)
-  개발팀 역량이 현재 클라우드 네이티브 미달
-  
-Rehost = Lift & Shift:
-  Lift: 온프레미스에서 워크로드 들어올리기
-  Shift: 클라우드 환경으로 옮기기
-  코드 변경 없음 (OS, 미들웨어, 앱 동일)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라우드 6R 전략 (AWS 기준):</div>
+<div class="kb-diagram-note">Retire: 사용 안 하는 시스템 폐기</div>
+<div class="kb-diagram-note">Retain: 현재는 이전 안 함 (온프레미스 유지)</div>
+<div class="kb-diagram-note">Rehost: 코드 변경 없이 클라우드 VM으로 이전 ← 오늘 주제</div>
+<div class="kb-diagram-note">Replatform: 최소한의 최적화 (OS 업그레이드, 관리형 DB)</div>
+<div class="kb-diagram-note">Repurchase: SaaS 전환 (On-prem CRM → Salesforce)</div>
+<div class="kb-diagram-note">Refactor/Re-architect: 마이크로서비스, 서버리스 전면 재설계</div>
+<div class="kb-diagram-note">Rehost 적합 시나리오:</div>
+<div class="kb-diagram-note">데이터센터 계약 만료 임박</div>
+<div class="kb-diagram-note">규제 준수 목적 (클라우드 전환 의무)</div>
+<div class="kb-diagram-note">빠른 이전 필요 (legacy 기술 부채 해소 전)</div>
+<div class="kb-diagram-note">개발팀 역량이 현재 클라우드 네이티브 미달</div>
+<div class="kb-diagram-note">Rehost = Lift &amp; Shift:</div>
+<div class="kb-diagram-note">Lift: 온프레미스에서 워크로드 들어올리기</div>
+<div class="kb-diagram-note">Shift: 클라우드 환경으로 옮기기</div>
+<div class="kb-diagram-note">코드 변경 없음 (OS, 미들웨어, 앱 동일)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: Rehost는 이사할 때 가구를 그대로 옮기는 것 — 가구 배치 최적화(Re-architect)는 나중에, 일단 이사부터!
 
@@ -46,39 +49,38 @@ Rehost = Lift & Shift:
 
 ## Ⅱ. Rehost 도구 및 기술
 
-```
-주요 Rehost 자동화 도구:
 
-AWS Application Migration Service (MGN):
-  에이전트 설치 → 지속 복제 → 최종 컷오버
-  소요 시간: 복제 완료 후 수분 내 컷오버
-  지원: 물리 서버, VMware, 기타 클라우드
 
-Azure Migrate:
-  VMware/Hyper-V VM 발견 → 의존성 분석 → 이전
-  Azure Site Recovery 기반 복제
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주요 Rehost 자동화 도구:</div>
+<div class="kb-diagram-note">AWS Application Migration Service (MGN):</div>
+<div class="kb-diagram-note">에이전트 설치 → 지속 복제 → 최종 컷오버</div>
+<div class="kb-diagram-note">소요 시간: 복제 완료 후 수분 내 컷오버</div>
+<div class="kb-diagram-note">지원: 물리 서버, VMware, 기타 클라우드</div>
+<div class="kb-diagram-note">Azure Migrate:</div>
+<div class="kb-diagram-note">VMware/Hyper-V VM 발견 → 의존성 분석 → 이전</div>
+<div class="kb-diagram-note">Azure Site Recovery 기반 복제</div>
+<div class="kb-diagram-note">Google Migrate for Compute Engine:</div>
+<div class="kb-diagram-note">VMware 워크로드 → Google Compute Engine</div>
+<div class="kb-diagram-note">스트리밍 방식 (전체 복제 없이 부팅 가능)</div>
+<div class="kb-diagram-note">이전 방식별 비교:</div>
+<div class="kb-diagram-note">에이전트 기반:</div>
+<div class="kb-diagram-note">장점: 물리 서버 포함, 세밀한 제어</div>
+<div class="kb-diagram-note">단점: 에이전트 설치 권한 필요</div>
+<div class="kb-diagram-note">에이전트리스:</div>
+<div class="kb-diagram-note">장점: VM에 에이전트 설치 불필요</div>
+<div class="kb-diagram-note">단점: 하이퍼바이저 접근 권한 필요</div>
+<div class="kb-diagram-note">콜드 마이그레이션:</div>
+<div class="kb-diagram-note">장점: 간단</div>
+<div class="kb-diagram-note">단점: 다운타임 발생</div>
+<div class="kb-diagram-note">핫 마이그레이션 (라이브 복제):</div>
+<div class="kb-diagram-note">장점: 다운타임 최소화</div>
+<div class="kb-diagram-note">단점: 복잡성, 비용</div>
+</div>
+</div>
 
-Google Migrate for Compute Engine:
-  VMware 워크로드 → Google Compute Engine
-  스트리밍 방식 (전체 복제 없이 부팅 가능)
 
-이전 방식별 비교:
-  에이전트 기반:
-    장점: 물리 서버 포함, 세밀한 제어
-    단점: 에이전트 설치 권한 필요
-    
-  에이전트리스:
-    장점: VM에 에이전트 설치 불필요
-    단점: 하이퍼바이저 접근 권한 필요
-    
-  콜드 마이그레이션:
-    장점: 간단
-    단점: 다운타임 발생
-    
-  핫 마이그레이션 (라이브 복제):
-    장점: 다운타임 최소화
-    단점: 복잡성, 비용
-```
 
 > 📢 **섹션 요약 비유**: Rehost 도구는 이사 회사 — 가구(워크로드)를 카탈로그로 정리하고, 트럭(에이전트)으로 옮기고, 새 집(클라우드)에 배치.
 
@@ -216,46 +218,54 @@ TCO 개선 시점:
 
 ## 📌 관련 개념 맵
 
-```
-Rehost (Lift & Shift)
-+-- 6R 전략 위치
-|   +-- Retire/Retain/Rehost/Replatform/Repurchase/Refactor
-+-- 도구
-|   +-- AWS MGN, Azure Migrate, Google Migrate
-+-- 설계
-|   +-- VPC, 보안 그룹, IAM, 스토리지
-+-- 절차
-|   +-- 발견 → 파일럿 → 웨이브 → 복제 → 컷오버 → 안정화
-+-- 이후 여정
-|   +-- Re-platform → Re-architect
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Rehost (Lift &amp; Shift)</div>
+<div class="kb-diagram-note">+-- 6R 전략 위치</div>
+<div class="kb-diagram-note">+-- Retire/Retain/Rehost/Replatform/Repurchase/Refactor</div>
+<div class="kb-diagram-note">+-- 도구</div>
+<div class="kb-diagram-note">+-- AWS MGN, Azure Migrate, Google Migrate</div>
+<div class="kb-diagram-note">+-- 설계</div>
+<div class="kb-diagram-note">+-- VPC, 보안 그룹, IAM, 스토리지</div>
+<div class="kb-diagram-note">+-- 절차</div>
+<div class="kb-diagram-note">+-- 발견 → 파일럿 → 웨이브 → 복제 → 컷오버 → 안정화</div>
+<div class="kb-diagram-note">+-- 이후 여정</div>
+<div class="kb-diagram-note">+-- Re-platform → Re-architect</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-[가상화 시대 (2000s)]
-VMware 가상 머신, V2V/P2V 이전
-      |
-      v
-[퍼블릭 클라우드 초기 (2008~)]
-AWS EC2 등장, 수동 이전 방식
-      |
-      v
-[Lift & Shift 용어 정립 (2013~)]
-Gartner 5R → AWS 6R 프레임워크
-      |
-      v
-[자동화 마이그레이션 도구 (2016~)]
-AWS SMS → MGN, Azure Migrate 출시
-복제 기반 자동화 이전
-      |
-      v
-[현재: 하이브리드 마이그레이션]
-Rehost + Re-platform 동시 진행
-CloudOps 자동화 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 시대 (2000s)</div></div>
+<div class="kb-diagram-note">VMware 가상 머신, V2V/P2V 이전</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 클라우드 초기 (2008~)</div></div>
+<div class="kb-diagram-note">AWS EC2 등장, 수동 이전 방식</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lift &amp; Shift 용어 정립 (2013~)</div></div>
+<div class="kb-diagram-note">Gartner 5R → AWS 6R 프레임워크</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 마이그레이션 도구 (2016~)</div></div>
+<div class="kb-diagram-note">AWS SMS → MGN, Azure Migrate 출시</div>
+<div class="kb-diagram-note">복제 기반 자동화 이전</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 하이브리드 마이그레이션</div></div>
+<div class="kb-diagram-note">Rehost + Re-platform 동시 진행</div>
+<div class="kb-diagram-note">CloudOps 자동화 통합</div>
+</div>
+</div>
+
+
 
 ---
 

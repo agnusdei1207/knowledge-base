@@ -18,25 +18,23 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│           데이터 분석 4단계 성숙도                            │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 기술 분석  (Descriptive)  : 무슨 일이 일어났나?          │
-│     → 과거 매출 리포트, 대시보드                              │
-│                                                            │
-│  2. 진단 분석  (Diagnostic)   : 왜 일어났나?                 │
-│     → 원인 분석, 이상 탐지                                   │
-│                                                            │
-│  3. 예측 분석  (Predictive)   : 무슨 일이 일어날 것인가?      │
-│     → ML 모델, 수요 예측                                     │
-│                                                            │
-│  4. 처방 분석  (Prescriptive) : 무엇을 해야 하는가?      ★   │
-│     → 최적화, 시뮬레이션, 강화학습                            │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 분석 4단계 성숙도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기술 분석 (Descriptive) : 무슨 일이 일어났나?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과거 매출 리포트, 대시보드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 진단 분석 (Diagnostic) : 왜 일어났나?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원인 분석, 이상 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 예측 분석 (Predictive) : 무슨 일이 일어날 것인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ML 모델, 수요 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 처방 분석 (Prescriptive) : 무엇을 해야 하는가? ★</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최적화, 시뮬레이션, 강화학습</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 처방 분석은 의사의 역할이다. 환자 검사 결과(기술 분석) → 증상 원인 파악(진단 분석) → 병의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 예측([예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)) → 최적 치료법 처방(처방 분석). 처방 분석만이 "이 약을 이 용량으로 복용하세요"라는 구체적 행동 지침을 준다.
 
@@ -46,17 +44,20 @@ tags = ["studynote-bigdata"]
 
 ### 처방 분석 핵심 기술
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│             처방 분석 방법론                                  │
-├──────────────────────────────────────────────────────────┤
-│  선형 최적화 (LP):    목적 함수 최대화/최소화 (제약 조건 하)  │
-│  정수 최적화 (ILP):   이산 결정 변수 (배차, 스케줄링)         │
-│  시뮬레이션:          몬테카를로, 이산 이벤트 시뮬레이션       │
-│  강화학습 (RL):       순차적 의사결정 최적화 (알파고, 로봇)    │
-│  의사결정 트리:       규칙 기반 처방 (의료 프로토콜)           │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처방 분석 방법론</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선형 최적화 (LP): 목적 함수 최대화/최소화 (제약 조건 하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정수 최적화 (ILP): 이산 결정 변수 (배차, 스케줄링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이션: 몬테카를로, 이산 이벤트 시뮬레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화학습 (RL): 순차적 의사결정 최적화 (알파고, 로봇)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정 트리: 규칙 기반 처방 (의료 프로토콜)</div></div>
+</div>
+</div>
+
+
 
 ### [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) ORION: 처방 분석 실제 사례
 
@@ -83,7 +84,7 @@ tags = ["studynote-bigdata"]
 
 | 분석 유형 | 질문 | 기술 | 자동화 수준 |
 |:---|:---|:---|:---|
-| **[예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)** | 무슨 일이? | ML, 통계 모델 | 낮음 (사람이 판단) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/">예측 분석</a></strong> | 무슨 일이? | ML, 통계 모델 | 낮음 (사람이 판단) |
 | **처방 분석** | 어떻게 해야? | OR, RL, 시뮬레이션 | 높음 (자동 실행 가능) |
 
 처방 분석은 MLOps와 결합하여 "예측 → 처방 → 자동 실행"의 완전 자동화 의사결정 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구성한다:
@@ -142,29 +143,31 @@ scale_deployment("my-service", optimal_pods)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)** | 처방 분석의 입력값 (미래 상태 예측) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/">예측 분석</a></strong> | 처방 분석의 입력값 (미래 상태 예측) |
 | **강화학습 (RL)** | 순차적 처방의 핵심 ML [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **OR 최적화** | 선형/정수 최적화로 최적 처방 계산 |
-| **[Agentic AI](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/587_agentic_ai_autonomous_tools/)** | 처방 분석의 자율 실행 확장 |
-| **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공정성** | 처방의 편향 방지 필수 요건 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/587_agentic_ai_autonomous_tools/">Agentic AI</a></strong> | 처방 분석의 자율 실행 확장 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 공정성</strong> | 처방의 편향 방지 필수 요건 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기술 분석 (Descriptive) — 과거 설명]
-    │
-    ▼
-[진단 분석 (Diagnostic) — 원인 탐지]
-    │
-    ▼
-[예측 분석 (Predictive) — 미래 예측]
-    │
-    ▼
-[처방 분석 (Prescriptive) — 최적 행동 처방]
-    │
-    ▼
-[Agentic AI — 처방+실행 완전 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기술 분석 (Descriptive) — 과거 설명</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">진단 분석 (Diagnostic) — 원인 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예측 분석 (Predictive) — 미래 예측</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처방 분석 (Prescriptive) — 최적 행동 처방</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agentic AI — 처방+실행 완전 자동화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

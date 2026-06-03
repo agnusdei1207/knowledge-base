@@ -21,38 +21,37 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Memory Safety (메모리 안전성)**: "니가 쓰겠다고 신청한 메모리 박스 크기(10칸)를 넘어서 11번째 칸에 억지로 데이터를 쑤셔 넣지 마라([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방어)!", "이미 다 쓰고 반납한 메모리(휴지통)를 다시 열어서 쓰지 마라([Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/) 방어)!" 
-  - 이 두 가지를 인간(C/C++ 개발자)이 일일이 신경 쓰지 않아도, **언어(Language) 엔진 자체가 100% 깐깐하게 막아줘서 해커가 메모리를 조작할 틈을 0.001mm도 안 주는 성질**이다.
+  - 이 두 가지를 인간(C/C++ 개발자)이 일일이 신경 쓰지 않아도, <strong>언어(Language) 엔진 자체가 100% 깐깐하게 막아줘서 해커가 메모리를 조작할 틈을 0.001mm도 안 주는 성질</strong>이다.
 
-- **필요성**: 50년 동안 천재 해커들은 C와 C++로 짜인 리눅스(OS)와 아파치(웹 서버)를 터는 데 혈안이 되어 있었다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 백날 쳐봤자 소용없다. 해커가 입력창에 엄청나게 긴 10만 글자 쓰레기 문자열 폭탄(Payload)을 날리면, C언어는 멍청하게 그 10만 글자를 10칸짜리 램(RAM) 공간에 억지로 우겨 넣는다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), CWE-119). 넘친 글자들은 옆방에 있던 '관리자 권한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(EIP)' 메모리를 덮어써서 1초 만에 서버 통제권(RCE)을 해커에게 바쳤다. **"개발자한테 메모리 관리(포인터, malloc/free)를 직접 하라고 냅두니까 인간은 무조건 실수하고, 거기로 회사가 통째로 날아간다. 아예 언어 차원에서 이 짓거리를 금지시켜 버리자!"**라는 피눈물 나는 반성이 Rust와 Go의 세계 제패를 불러왔다.
+- **필요성**: 50년 동안 천재 해커들은 C와 C++로 짜인 리눅스(OS)와 아파치(웹 서버)를 터는 데 혈안이 되어 있었다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 백날 쳐봤자 소용없다. 해커가 입력창에 엄청나게 긴 10만 글자 쓰레기 문자열 폭탄(Payload)을 날리면, C언어는 멍청하게 그 10만 글자를 10칸짜리 램(RAM) 공간에 억지로 우겨 넣는다([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), CWE-119). 넘친 글자들은 옆방에 있던 '관리자 권한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(EIP)' 메모리를 덮어써서 1초 만에 서버 통제권(RCE)을 해커에게 바쳤다. <strong>"개발자한테 메모리 관리(포인터, malloc/free)를 직접 하라고 냅두니까 인간은 무조건 실수하고, 거기로 회사가 통째로 날아간다. 아예 언어 차원에서 이 짓거리를 금지시켜 버리자!"</strong>라는 피눈물 나는 반성이 Rust와 Go의 세계 제패를 불러왔다.
 
-- **💡 비유**: 메모리 안전성은 **'위험한 화학 공장 폭발(해킹) 방지 시스템'**과 똑같습니다. 
+- **💡 비유**: 메모리 안전성은 <strong>'위험한 화학 공장 폭발(해킹) 방지 시스템'</strong>과 똑같습니다. 
   - **C/C++ (과거)**: 공장 직원(개발자)이 자기 손으로 위험한 폭발물(메모리) 용량을 눈대중으로 재서 붓고, 다 쓰면 자기 손으로 밸브를 잠가야(free) 합니다. 까먹으면 폭발(해킹)합니다. 직원의 꼼꼼함([시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))에 목숨을 겁니다.
-  - **Go 언어 ([가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/))**: 로봇 청소기(GC)가 공장을 돌아다니면서 직원이 다 쓰고 버린 쓰레기(메모리)를 알아서 다 치워줍니다. 편하고 안전하지만, 로봇이 돌아갈 때 공장이 살짝 느려집니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하).
-  - **[Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어 (끝판왕)**: 공장 직원이 폭발물을 만질 때, 아예 '초정밀 센서가 달린 강철 로봇팔(소유권 규칙)'을 통해서만 만질 수 있게 물리적으로 강제합니다. 직원이 조금이라도 위험하게 부으려 하면, 로봇팔이 윙! 하고 멈추고 뺨을 때리며 절대 안 움직입니다(컴파일 에러). 100% 폭발하지도 않고, 청소 로봇도 필요 없어 미친 듯이 빠릅니다.
+  - <strong>Go 언어 (<a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>)</strong>: 로봇 청소기(GC)가 공장을 돌아다니면서 직원이 다 쓰고 버린 쓰레기(메모리)를 알아서 다 치워줍니다. 편하고 안전하지만, 로봇이 돌아갈 때 공장이 살짝 느려집니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/">Rust</a> 언어 (끝판왕)</strong>: 공장 직원이 폭발물을 만질 때, 아예 '초정밀 센서가 달린 강철 로봇팔(소유권 규칙)'을 통해서만 만질 수 있게 물리적으로 강제합니다. 직원이 조금이라도 위험하게 부으려 하면, 로봇팔이 윙! 하고 멈추고 뺨을 때리며 절대 안 움직입니다(컴파일 에러). 100% 폭발하지도 않고, 청소 로봇도 필요 없어 미친 듯이 빠릅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **수작업 노가다의 한계 (C/C++의 독재)**: 무조건 빠르다는 이유 하나로 C/C++가 OS와 브라우저를 지배했다. 대신 매년 터지는 수만 개의 취약점 패치에 천문학적 돈을 썼다.
   2. **Go 언어의 클라우드 정복 (2010년대)**: 구글이 "C++ 짱나서 못 쓰겠어!"라며 Go(고)를 만들었다. 포인터 연산을 막고 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)를 달아 메모리 해킹을 물리쳤다. 엄청난 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리([고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 뼈대 언어가 되며 인프라를 천하통일했다.
   3. **Rust의 미친 수학적 증명 (현재)**: OS 커널이나 브라우저 코어는 1ms의 딜레이(GC)도 용납 못 한다. 모질라(Mozilla)에서 만든 Rust가 나타났다. GC 없이 메모리 누수를 100% 막아내는 '소유권(Ownership)' 흑마법을 탑재하여, 미친 속도와 완벽한 방어력을 동시에 쟁취했다. 리눅스(Linux) 토발즈 할아버지마저 30년 만에 "리눅스 커널에 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 합류를 허락한다"라고 백기 투항한 전설적 시대가 열렸다.
 
-- **📢 섹션 요약 비유**: 과거 C/C++ 시대는 **'안전벨트 없는 포뮬러 원(F1) 레이싱카'**였습니다. 엄청나게 빠르지만 운전자가 실수하면 죽습니다. Java/C#은 **'안전벨트와 에어백이 터지지만 속도가 좀 둔한 세단'**입니다. Rust와 Go는 인류가 찾아낸 최고의 마법, **'안전벨트가 5겹으로 묶여있는데도 F1 레이싱카보다 더 빠르고 가볍게 달리는 미친 우주선'**의 등장입니다.
+- **📢 섹션 요약 비유**: 과거 C/C++ 시대는 <strong>'안전벨트 없는 포뮬러 원(F1) 레이싱카'</strong>였습니다. 엄청나게 빠르지만 운전자가 실수하면 죽습니다. Java/C#은 <strong>'안전벨트와 에어백이 터지지만 속도가 좀 둔한 세단'</strong>입니다. Rust와 Go는 인류가 찾아낸 최고의 마법, <strong>'안전벨트가 5겹으로 묶여있는데도 F1 레이싱카보다 더 빠르고 가볍게 달리는 미친 우주선'</strong>의 등장입니다.
 
 ---
 
 다음은 메모리 안전성(Memory Safet의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메모리 안전성(Memory Safet                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 안전성(Memory Safet</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 메모리 안전성(Memory Safet가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -73,7 +72,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-메모리 안전성(Memory Safety) 보장을 위한 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 언어 도입 동향의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+메모리 안전성(Memory Safety) 보장을 위한 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 언어 도입 동향의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 메모리 안전성(Memory Safety) 보장을 위한 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Go 언어 도입 동향의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -149,21 +148,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

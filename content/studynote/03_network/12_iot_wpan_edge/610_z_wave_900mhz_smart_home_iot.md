@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-초저전력 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 네트워크를 통해 집안의 조명, 온도조절기, 스마트 도어락 등을 제어한다는 목적은 앞서 배운 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))와 100% 똑같습니다. 덴마크의 젠시스(ZenSys)라는 한 민간 회사가 독자 개발한 칩셋을 기반으로 하는 **스마트홈 전용 무선 통신 규격**입니다.
+초저전력 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 네트워크를 통해 집안의 조명, 온도조절기, 스마트 도어락 등을 제어한다는 목적은 앞서 배운 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))와 100% 똑같습니다. 덴마크의 젠시스(ZenSys)라는 한 민간 회사가 독자 개발한 칩셋을 기반으로 하는 <strong>스마트홈 전용 무선 통신 규격</strong>입니다.
 
-```text
-[ZigBee]
-    │
-    ▼
-[Z-Wave]
-    │
-    └──▶ [Thread 프로토콜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZigBee</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread 프로토콜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Z-Wave는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,22 +43,26 @@ tags = ["studynote-network"]
 스마트홈 시스템을 짤 때 개발자들을 가장 고민하게 만드는 양대 산맥입니다.
 
 ### 1. 전파 간섭의 해방 (900MHz 대역 사용)
-- **[지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)(2.4GHz)**: 전 세계 공용 무료 대역이라 누구나 쓸 수 있지만, 아파트 위아래 층에서 쏘는 수십 대의 와이파이 공유기, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 이어폰들과 주파수 차로가 똑같아서 잦은 끊김과 전파 혼선이 발생합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">지그비</a>(2.4GHz)</strong>: 전 세계 공용 무료 대역이라 누구나 쓸 수 있지만, 아파트 위아래 층에서 쏘는 수십 대의 와이파이 공유기, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 이어폰들과 주파수 차로가 똑같아서 잦은 끊김과 전파 혼선이 발생합니다.
 - **Z-Wave (900MHz 대역)**: 아무도 쓰지 않는 쾌적한 900MHz(한국 기준 920MHz) 대역을 씁니다. 방해꾼이 없으니 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)("문 열어!")가 한 번도 안 씹히고 원샷원킬로 100% 도착합니다.
 - **투과력 (장애물 돌파)**: 주파수 숫자가 낮을수록 회절성(벽을 타고 넘어가는 성질)이 강합니다. [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)(2.4G)는 거실의 콘크리트 벽을 통과하면 신호가 반토막 나지만, Z-Wave(900M)는 묵직하게 벽을 쉽게 뚫고 안방 화장실까지 전파가 쭉쭉 뻗어나갑니다. (전파 도달 거리: Z-Wave 30m > [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 10m)
 
 ### 2. 폐쇄적 생태계와 완벽한 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
-- **[지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)(오픈 표준)**: 누구나 소스 코드를 가져다 마음대로 기기를 만들 수 있습니다. 그래서 필립스(전구)가 만든 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 기기와 샤오미(플러그)가 만든 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 기기가 규격 파편화 탓에 서로 연결이 안 되는 경우가 허다합니다.
-- **Z-Wave(독점 표준)**: 실리콘랩스(Silicon Labs)라는 회사가 통신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋을 전 세계에 **독점 공급**합니다. 회사의 강력한 통제([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 센터)를 거쳐야만 Z-Wave 로고를 달 수 있기 때문에, 제조사가 달라도 기기들끼리 100% 완벽하게 호환되어 연결([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))됩니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">지그비</a>(오픈 표준)</strong>: 누구나 소스 코드를 가져다 마음대로 기기를 만들 수 있습니다. 그래서 필립스(전구)가 만든 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 기기와 샤오미(플러그)가 만든 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 기기가 규격 파편화 탓에 서로 연결이 안 되는 경우가 허다합니다.
+- **Z-Wave(독점 표준)**: 실리콘랩스(Silicon Labs)라는 회사가 통신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋을 전 세계에 <strong>독점 공급</strong>합니다. 회사의 강력한 통제([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 센터)를 거쳐야만 Z-Wave 로고를 달 수 있기 때문에, 제조사가 달라도 기기들끼리 100% 완벽하게 호환되어 연결([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))됩니다.
 
-```text
-[ZigBee]
-    │
-    ▼
-[Z-Wave]
-    │
-    └──▶ [Thread 프로토콜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZigBee</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread 프로토콜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Z-Wave의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -115,15 +123,19 @@ Z-Wave는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ZigBee]
-    │
-    ▼
-[현재 개념: Z-Wave]
-    │
-    ├──▶ [확장 A: Thread 프로토콜]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ZigBee</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Z-Wave</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Thread 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 Z-Wave는 ZigBee에서 출발해 현재 메커니즘을 정교화하고, 이후 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

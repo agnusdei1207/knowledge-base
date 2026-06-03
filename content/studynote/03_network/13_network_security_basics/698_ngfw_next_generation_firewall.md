@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 한계**: 구형 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80, 443)만 보고 제어했습니다. 하지만 요즘 인터넷은 유튜브, 넷플릭스, 사내망, 카카오톡 등 모든 애플리케이션이 똑같은 80번, 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 씁니다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단 방식은 의미가 없어졌습니다.
-- **개념**: [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에 얽매이지 않고, **응용 계층(Layer 7) 패킷을 깊숙이 파싱(Deep Packet Inspection, DPI)하여 이 패킷이 실제로 어떤 앱(Skype, Facebook, [BitTorrent](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 등)을 구동하고 있는지 정확한 신원(App-ID)을 파악하고, 그에 맞춰 정밀하게 통제하는 가장 똑똑한 고성능 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)**입니다. (Palo Alto Networks가 최초로 정의하며 시장을 휩쓸었습니다.)
+- <strong>기존 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>의 한계</strong>: 구형 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80, 443)만 보고 제어했습니다. 하지만 요즘 인터넷은 유튜브, 넷플릭스, 사내망, 카카오톡 등 모든 애플리케이션이 똑같은 80번, 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 씁니다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단 방식은 의미가 없어졌습니다.
+- **개념**: [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에 얽매이지 않고, <strong>응용 계층(Layer 7) 패킷을 깊숙이 파싱(Deep Packet Inspection, DPI)하여 이 패킷이 실제로 어떤 앱(Skype, Facebook, <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/">BitTorrent</a> 등)을 구동하고 있는지 정확한 신원(App-ID)을 파악하고, 그에 맞춰 정밀하게 통제하는 가장 똑똑한 고성능 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a></strong>입니다. (Palo Alto Networks가 최초로 정의하며 시장을 휩쓸었습니다.)
 
-```text
-[UTM]
-    │
-    ▼
-[NGFW]
-    │
-    └──▶ [샌드박스 망분석 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NGFW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NGFW는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,23 +42,27 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 애플리케이션 인지 및 제어 (App-ID)
-- NGFW의 핵심 무기입니다. 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어와도, 패킷의 패턴을 까보고 "이건 네이버 접속이군 허용!", "이건 사내 기밀을 구글 드라이브로 올리는 패킷이군 차단!", "이건 페이스북 접속은 허용하되, 페이스북 안에 있는 플래시 게임 기능만 핀셋으로 차단!" 등 **어플리케이션과 세부 기능 단위로 미친듯한 마이크로 통제**가 가능합니다.
+- NGFW의 핵심 무기입니다. 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어와도, 패킷의 패턴을 까보고 "이건 네이버 접속이군 허용!", "이건 사내 기밀을 구글 드라이브로 올리는 패킷이군 차단!", "이건 페이스북 접속은 허용하되, 페이스북 안에 있는 플래시 게임 기능만 핀셋으로 차단!" 등 <strong>어플리케이션과 세부 기능 단위로 미친듯한 마이크로 통제</strong>가 가능합니다.
 
 ### 2. 사용자 인지 (User-ID)
 - 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "192.168.0.5 IP 차단" 식으로 IP 기반 제어를 했습니다. IP가 바뀌면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 무용지물이 됩니다.
-- NGFW는 회사의 인사팀 DB([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/) 등)와 연동하여, **"영업부 김 대리(User)는 사내 게시판 접속 불가", "마케팅팀 직원들 전체는 유튜브 허용" 등 사람(계정)을 중심으로 한 우아한 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)(Role-Based Access)**을 펼칩니다. 김 대리가 카페에서 폰으로 접속하든 집에서 노트북으로 접속하든 IP에 상관없이 동일한 보안 통제를 받습니다.
+- NGFW는 회사의 인사팀 DB([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/) 등)와 연동하여, <strong>"영업부 김 대리(User)는 사내 게시판 접속 불가", "마케팅팀 직원들 전체는 유튜브 허용" 등 사람(계정)을 중심으로 한 우아한 <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a>(Role-Based Access)</strong>을 펼칩니다. 김 대리가 카페에서 폰으로 접속하든 집에서 노트북으로 접속하든 IP에 상관없이 동일한 보안 통제를 받습니다.
 
 - 앞서 배운 [UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/) 장비는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 거치고, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 거치고, 백신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 거치느라 검사 시간이 3배로 늘어 속도가 뻗었습니다.
-- NGFW는 흩어진 시그니처 엔진들을 하나로 융합한 **'싱글 패스 아키텍처(Single-Pass [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))'**를 발명했습니다. 패킷이 장비에 들어오면 단 한 번의 스캔([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)만으로 앱 종류 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 악성코드 검사, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 체크를 0.001초 만에 동시에 끝내버립니다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 기가급 속도를 완벽히 방어합니다.
+- NGFW는 흩어진 시그니처 엔진들을 하나로 융합한 <strong>'싱글 패스 아키텍처(Single-Pass <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)'</strong>를 발명했습니다. 패킷이 장비에 들어오면 단 한 번의 스캔([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)만으로 앱 종류 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 악성코드 검사, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 체크를 0.001초 만에 동시에 끝내버립니다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 기가급 속도를 완벽히 방어합니다.
 
-```text
-[UTM]
-    │
-    ▼
-[NGFW]
-    │
-    └──▶ [샌드박스 망분석 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NGFW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NGFW의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -114,15 +122,19 @@ NGFW는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: UTM]
-    │
-    ▼
-[현재 개념: NGFW]
-    │
-    ├──▶ [확장 A: 샌드박스 망분석 시스템]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NGFW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 샌드박스 망분석 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 NGFW는 UTM에서 출발해 현재 메커니즘을 정교화하고, 이후 [샌드박스 망분석 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

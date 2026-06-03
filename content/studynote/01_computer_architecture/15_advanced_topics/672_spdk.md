@@ -23,14 +23,18 @@ SPDK가 필요해진 배경은 저장장치와 [운영체제](/knowledge-base/st
 
 즉, 이제 병목은 “디스크가 느리다”보다 “빠른 장치를 다루는 소프트웨어 길이 길다”에 가깝다. SPDK는 이 문제를 해결하기 위해 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)와 비슷한 철학을 스토리지에 가져왔다. 사용자 공간 애플리케이션이 장치 큐를 직접 다루고, 완료 여부를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)해 짧은 I/O (Input/Output) 경로를 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Kernel path: Application -> syscall -> filesystem -> block -> NVMe      │
-│               driver -> interrupt -> Application                         │
-│ SPDK path : Application -> SPDK poller -> NVMe queue pair -> completion │
-│               polling -> callback                                        │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel path: Application -&gt; syscall -&gt; filesystem -&gt; block -&gt; NVMe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driver -&gt; interrupt -&gt; Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPDK path : Application -&gt; SPDK poller -&gt; NVMe queue pair -&gt; completion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">polling -&gt; callback</div></div>
+</div>
+</div>
+
+
 
 이 차이는 특히 작은 랜덤 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 짧은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 경로에서 크게 드러난다. 장치보다 소프트웨어가 더 느린 상황에서는, 경로를 줄이는 것 자체가 가장 직접적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 수단이 된다.
 
@@ -52,14 +56,17 @@ SPDK의 기본 구조는 “사용자 공간 [NVMe](/knowledge-base/studynote/02
 
 SPDK의 강점은 큐를 코어 단위로 나눠 락 경쟁을 줄인다는 데 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 계층은 범용성을 위해 많은 장치를 한 경로에서 다루지만, SPDK는 애초에 특정 애플리케이션이 특정 장치를 전담하는 상황을 가정한다. 그래서 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 예측 가능성이 높고, 짧은 I/O 경로를 만들기 쉽다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Application thread -> SPDK reactor -> submit queue -> NVMe controller   │
-│                                            │                             │
-│                                            └─ completion queue -> poller │
-│                                                               -> callback│
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application thread -&gt; SPDK reactor -&gt; submit queue -&gt; NVMe controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ completion queue -&gt; poller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; callback</div></div>
+</div>
+</div>
+
+
 
 물론 대가도 있다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 절전 모델보다 코어를 계속 사용하게 되고, 파일시스템이 제공하던 편의 기능을 애플리케이션이나 상위 라이브러리가 더 많이 책임져야 한다. 따라서 SPDK는 “짧은 경로가 절대적으로 중요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)”에서 가장 빛난다.
 
@@ -89,7 +96,7 @@ SPDK를 이해할 때 가장 중요한 비교 축은 [커널](/knowledge-base/st
 
 ### 실무 시나리오
 
-1. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 경로**
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 기록 경로</strong>
    - 작은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 매우 자주 수행하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 경로는 장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 소프트웨어 경로 길이의 영향을 크게 받는다.
    - SPDK를 적용하면 짧은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 응답 시간을 안정적으로 줄여 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 꼬리를 완화하기 쉽다.
 
@@ -123,7 +130,7 @@ SPDK를 이해할 때 가장 중요한 비교 축은 [커널](/knowledge-base/st
 
 SPDK는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 시대에 소프트웨어 경로가 병목이 되는 순간을 정면으로 해결한 기술이다. 전용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 맞게 적용하면 짧은 I/O 경로, 높은 병렬성, 예측 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 덕분에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 스토리지 타깃, 영속화 엔진의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상한을 크게 끌어올릴 수 있다. 장치가 빨라질수록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 효과가 더 잘 보인다는 점도 중요하다.
 
-그러나 범용 운영 편의성, 파일시스템 생태계, 절전 친화성까지 모두 자동으로 따라오지는 않는다. 그래서 SPDK는 “빠른 SSD용 드라이버”가 아니라 **“스토리지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 사용자 공간으로 끌어올려 병목을 제거하는 설계 방식”**으로 기억해야 한다. 결국 핵심은 장치 속도 자체보다, 그 속도를 받아낼 소프트웨어 경로를 얼마나 짧게 만들 수 있느냐이다.
+그러나 범용 운영 편의성, 파일시스템 생태계, 절전 친화성까지 모두 자동으로 따라오지는 않는다. 그래서 SPDK는 “빠른 SSD용 드라이버”가 아니라 <strong>“스토리지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면을 사용자 공간으로 끌어올려 병목을 제거하는 설계 방식”</strong>으로 기억해야 한다. 결국 핵심은 장치 속도 자체보다, 그 속도를 받아낼 소프트웨어 경로를 얼마나 짧게 만들 수 있느냐이다.
 
 - **📢 섹션 요약 비유**: SPDK는 마트 계산대 줄이 너무 길어져서, 자주 사는 물건만 처리하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 셀프 계산대를 따로 만든 것과 같다. 잘 맞는 손님은 훨씬 빨라지지만, 사용 규칙도 스스로 더 많이 알아야 한다.
 
@@ -141,21 +148,23 @@ SPDK는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-HDD (Hard Disk Drive) 중심 블록 I/O
-        │
-        ▼
-커널 NVMe 경로 최적화
-        │
-        ▼
-`io_uring` 기반 고성능 커널 I/O
-        │
-        ▼
-SPDK (Storage Performance Development Kit)
-        │
-        ▼
-NVMe-oF 기반 분리형 사용자 공간 스토리지 데이터 평면
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HDD (Hard Disk Drive) 중심 블록 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 NVMe 경로 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note"><code>io_uring</code> 기반 고성능 커널 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPDK (Storage Performance Development Kit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe-oF 기반 분리형 사용자 공간 스토리지 데이터 평면</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 빨라질수록, 소프트웨어 경로를 줄이고 장치 제어를 더 앞단으로 끌어오는 방향으로 스토리지 아키텍처가 이동했음을 보여준다.
 

@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 웹사이트에는 검색창, 로그인 창, 댓글 창 등 사용자가 키보드로 값을 칠 수 있는 구멍(Input)이 수백 개 뚫려 있다. 이 구멍으로 날아오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 오염되어 있다고 의심([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))해야 한다. 하지만 귀찮은 개발자들은 사용자 입력을 마치 안전한 상수(Constant)인 양 문자열 결합(`+`) 연산자로 백엔드 쿼리에 무지성으로 갖다 붙였다. **이 단순하고 사소한 코딩 습관 1줄 때문에 수조 원짜리 은행 시스템의 금고 문이 활짝 열렸고, 이 어이없는 참사를 프레임워크 레벨에서 멱살 잡고 강제 통제하기 위해** 인젝션 방어 아키텍처가 발전했다.
 
-- **💡 비유**: 인젝션은 **'택배 기사로 위장한 폭탄 테러'**와 같습니다. 회사 경비원(웹 서버)은 택배 상자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 오면 내용물(Text)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 사무실(DB)로 전달해야 합니다. 그런데 택배 상자 겉면에 해커가 빨간 글씨로 **"경비원아, 이 상자 말고 내 주머니에 있는 폭탄 스위치를 당장 눌러라!"**라고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 적어놨습니다. 멍청한 경비원은 택배를 배달하는 대신, 그 글씨([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 읽고 시키는 대로 스위치를 눌러버려 회사를 폭파해 버립니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(상자)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(행위)를 구분하지 못하는 지능의 실패가 바로 인젝션입니다.
+- **💡 비유**: 인젝션은 <strong>'택배 기사로 위장한 폭탄 테러'</strong>와 같습니다. 회사 경비원(웹 서버)은 택배 상자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 오면 내용물(Text)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 사무실(DB)로 전달해야 합니다. 그런데 택배 상자 겉면에 해커가 빨간 글씨로 <strong>"경비원아, 이 상자 말고 내 주머니에 있는 폭탄 스위치를 당장 눌러라!"</strong>라고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 적어놨습니다. 멍청한 경비원은 택배를 배달하는 대신, 그 글씨([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 읽고 시키는 대로 스위치를 눌러버려 회사를 폭파해 버립니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(상자)와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(행위)를 구분하지 못하는 지능의 실패가 바로 인젝션입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **SQLi의 대유행 (90~00년대)**: PHP, JSP 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹 언어들이 문자열 더하기(`+`, `.`)로 SQL을 마구 찍어내던 낭만의 시대. 해커들이 따옴표(`'`) 하나만 쳐도 DB가 와르르 무너지는 해킹의 르네상스였다.
   2. **바인딩(Binding)과 ORM의 구원 (10년대)**: 개발자 교육으로 해결이 안 되자, 자바의 `PreparedStatement`와 `Hibernate(JPA)` 같은 프레임워크가 등장했다. "문자열 결합 금지! 파라미터로 무조건 우회(Bind)시켜!"라는 아키텍처 강제가 SQL 인젝션을 멸종 위기로 몰아넣었다.
-  3. **변종 인젝션의 폭발 (현재)**: SQL이 막히자 해커들은 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 인젝션), OS [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 인젝션, 그리고 최근 **챗GPT에게 "네 룰을 잊고 내 명령을 실행해!([Prompt Injection](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/))"**라고 속이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인젝션으로 숙주를 바꿔가며 끝없이 진화 중이다.
+  3. **변종 인젝션의 폭발 (현재)**: SQL이 막히자 해커들은 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 인젝션), OS [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 인젝션, 그리고 최근 <strong>챗GPT에게 "네 룰을 잊고 내 명령을 실행해!(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/">Prompt Injection</a>)"</strong>라고 속이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인젝션으로 숙주를 바꿔가며 끝없이 진화 중이다.
 
-- **📢 섹션 요약 비유**: 인젝션은 아이에게 **"심부름으로 우유를 사 와"**라고 시켰는데, 도둑이 아이에게 다가가 **"우유 사지 말고, 너희 집 문이나 열어!"**라고 속삭이는 것입니다. 똑똑한 아이(방어된 서버)는 "이건 엄마가 시킨 심부름(명령)이 아니라 이상한 사람의 헛소리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))야!"라고 무시하지만, 바보 같은 아이(취약한 서버)는 도둑의 말을 새로운 명령으로 알아듣고 집 문을 활짝 열어버립니다.
+- **📢 섹션 요약 비유**: 인젝션은 아이에게 <strong>"심부름으로 우유를 사 와"</strong>라고 시켰는데, 도둑이 아이에게 다가가 <strong>"우유 사지 말고, 너희 집 문이나 열어!"</strong>라고 속삭이는 것입니다. 똑똑한 아이(방어된 서버)는 "이건 엄마가 시킨 심부름(명령)이 아니라 이상한 사람의 헛소리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))야!"라고 무시하지만, 바보 같은 아이(취약한 서버)는 도둑의 말을 새로운 명령으로 알아듣고 집 문을 활짝 열어버립니다.
 
 ---
 
 다음은 Injection (인젝션 / SQL의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Injection (인젝션 / SQL                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Injection (인젝션 / SQL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Injection (인젝션 / SQL가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ Injection (인젝션 / SQLi, OS [Command](/knowledge-base/studynote/04_software_
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Injection (인젝션 / SQLi, OS [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Injection (인젝션 / SQLi, OS [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Injection (인젝션 / SQLi, OS [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ Injection (인젝션 / SQLi, OS [Command](/knowledge-base/studynote/04_software_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Injection (인젝션 / SQLi, OS Command, NoSQL 등) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Injection (인젝션 / SQLi, OS Command, NoSQL 등) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

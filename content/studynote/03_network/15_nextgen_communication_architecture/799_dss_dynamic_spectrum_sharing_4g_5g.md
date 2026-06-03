@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 별도의 주파수 대역을 쪼개어 할당하지 않고, **기존에 사용 중이던 1개의 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 위에서, 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 새로운 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 시간적/공간적으로 섞어서 동시에(혼용) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)할 수 있도록 자원을 유동적으로 배분하는 최첨단 무선 스펙트럼 공유 기술**입니다.
+- **개념**: 별도의 주파수 대역을 쪼개어 할당하지 않고, <strong>기존에 사용 중이던 1개의 4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 주파수 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 위에서, 4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>와 새로운 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/">5G NR</a>(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/">New Radio</a>) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 시간적/공간적으로 섞어서 동시에(혼용) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>할 수 있도록 자원을 유동적으로 배분하는 최첨단 무선 스펙트럼 공유 기술</strong>입니다.
 - 전 세계 통신사(버라이즌 등)가 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전국망을 이용해 돈 한 푼 안 들이고 하루아침에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 커버리지를 극적으로 넓혀버린 최고의 가성비 기술(소프트웨어 업데이트만으로 구현)입니다.
 
-```text
-[메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
-[동적 스펙트럼 공유 기술]
-    │
-    └──▶ [주파수 집성 기술 고급 모델 연대 전방위 고…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 동적 스펙트럼 공유 기술은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,16 +50,20 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 - DSS는 차선을 그리지 않습니다. 20MHz 전체 도로를 하나로 통으로 엽니다.
 - 기지국 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 1밀리초(ms, TTI 단위) 단위로 톨게이트를 조작합니다. 
 - **동작**: "0.001초는 4G 트럭 100대 통과시켜! (찰칵) 다음 0.001초는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 트럭 5대 왔네? [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모드로 길 뚫어! (찰칵) 다시 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 고객 쏟아진다, 20MHz 전부 LTE로 싹 열어!"
-- 기지국이 접속한 사용자 비율을 실시간으로 계산해, **초 단위로 4G와 5G에게 길을 찰칵찰칵 열어주고 닫으며 동적으로(Dynamic) 주파수를 배급**합니다.
+- 기지국이 접속한 사용자 비율을 실시간으로 계산해, <strong>초 단위로 4G와 5G에게 길을 찰칵찰칵 열어주고 닫으며 동적으로(Dynamic) 주파수를 배급</strong>합니다.
 
-```text
-[메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
-[동적 스펙트럼 공유 기술]
-    │
-    └──▶ [주파수 집성 기술 고급 모델 연대 전방위 고…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 동적 스펙트럼 공유 기술의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 - **압도적 장점 (커버리지 뻥튀기)**: 통신사는 새로운 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(쇳덩어리)를 안 달고도, 기존에 깔아둔 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국 소프트웨어만 업데이트 버튼 딱 한 번 누르면, 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전국망이 하루아침에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)+[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 공용망으로 변신합니다. 미국 전역 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 구축이 이 꼼수로 단숨에 이뤄졌습니다.
 - **치명적 단점 (오버헤드 패널티 🌟)**:
   - 빛의 속도로 4G와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모드를 스위칭 전환하려다 보니, 기지국이 눈치 보는 시간(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 오버헤드)이 엄청나게 낭비됩니다.
-  - 결국 순수하게 100% [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전용으로 쓸 때보다, 혹은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용으로 쓸 때보다 **전체적인 속도와 처리 효율이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 정도 깎여버리는 치명적인 '기능망 부하 패널티'**를 맞게 됩니다. 한국 통신사들은 이 속도 저하를 견딜 수 없어 초기에 도입을 포기했을 정도입니다.
+  - 결국 순수하게 100% [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전용으로 쓸 때보다, 혹은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용으로 쓸 때보다 <strong>전체적인 속도와 처리 효율이 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~20% 정도 깎여버리는 치명적인 '기능망 부하 패널티'</strong>를 맞게 됩니다. 한국 통신사들은 이 속도 저하를 견딜 수 없어 초기에 도입을 포기했을 정도입니다.
 
 동적 스펙트럼 공유 기술을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…가 기반 조건을 만든다면, 동적 스펙트럼 공유 기술은 그 위에서 핵심 메커니즘을 구현하고, 주파수 집성 기술 고급 모델 연대 전방위 고…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ LTE와 5G는 서로 언어(파형 규격)가 달라서 한 도로를 쓰면 정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ▼
-[현재 개념: 동적 스펙트럼 공유 기술]
-    │
-    ├──▶ [확장 A: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 동적 스펙트럼 공유 기술는 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…에서 출발해 현재 메커니즘을 정교화하고, 이후 주파수 집성 기술 고급 모델 연대 전방위 고…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

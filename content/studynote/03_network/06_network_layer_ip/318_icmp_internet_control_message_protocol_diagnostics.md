@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IP 데이터그램의 처리 과정에서 발생하는 문제들을 송신지 라우터나 호스트에게 알려주기 위한 3계층 에러 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 792). ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 1번).
-- **필요성**: IPv4는 설계 철학 자체가 'Best-Effort(최선만 다할 뿐, 실패는 책임 안 짐)'다. 내 컴퓨터가 부산으로 짐을 던졌는데 중간 대전 라우터에서 선로가 끊겨서 패킷이 쓰레기통에 처박혔다. IP는 그냥 침묵한다. 내 컴퓨터는 패킷이 가다 죽었는지 잘 갔는지 알 길이 없어 마냥 기다리다 숨넘어간다. **"데이터를 못 전했으면 적어도 중간에 어느 놈이 왜 버렸는지는 알려줘야 내가 조치를 취할 거 아니야!"**라는 강력한 요구에 의해 IP의 비서 격으로 탄생했다.
+- **필요성**: IPv4는 설계 철학 자체가 'Best-Effort(최선만 다할 뿐, 실패는 책임 안 짐)'다. 내 컴퓨터가 부산으로 짐을 던졌는데 중간 대전 라우터에서 선로가 끊겨서 패킷이 쓰레기통에 처박혔다. IP는 그냥 침묵한다. 내 컴퓨터는 패킷이 가다 죽었는지 잘 갔는지 알 길이 없어 마냥 기다리다 숨넘어간다. <strong>"데이터를 못 전했으면 적어도 중간에 어느 놈이 왜 버렸는지는 알려줘야 내가 조치를 취할 거 아니야!"</strong>라는 강력한 요구에 의해 IP의 비서 격으로 탄생했다.
 
-- **💡 비유**: 일반 택배 기사(IP)는 문 앞에 물건을 툭 던져두고 가거나, 배달을 가다가 오토바이가 고장 나도 고객에게 전화를 주지 않습니다. **ICMP**는 배달 기사 오토바이에 같이 타고 있는 **"고객 센터 직원"**입니다. 배달이 실패하는 순간, 직원(ICMP)이 즉각 본사(송신자)에 전화를 걸어 "주소가 틀려서(Destination Unreachable) 반송 처리했습니다!"라고 정확한 사고 사유를 리포팅해 줍니다.
+- **💡 비유**: 일반 택배 기사(IP)는 문 앞에 물건을 툭 던져두고 가거나, 배달을 가다가 오토바이가 고장 나도 고객에게 전화를 주지 않습니다. <strong>ICMP</strong>는 배달 기사 오토바이에 같이 타고 있는 <strong>"고객 센터 직원"</strong>입니다. 배달이 실패하는 순간, 직원(ICMP)이 즉각 본사(송신자)에 전화를 걸어 "주소가 틀려서(Destination Unreachable) 반송 처리했습니다!"라고 정확한 사고 사유를 리포팅해 줍니다.
 
-```text
-[ARP 캐시 오염]
-    │
-    ▼
-[ICMP 진단/오류 알림]
-    │
-    └──▶ [ICMP 메시지 종류]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 캐시 오염</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 진단/오류 알림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ICMP 메시지 종류</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ICMP는 말 못 하는 벙어리인 IP 패킷에게 **"비상 연락용 입(Mouth)"**을 달아준 것입니다. 덕분에 패킷이 절벽에서 떨어져 죽을 때 윽! 하고 단말마(에러 메시지)를 지르며 자기가 죽은 이유를 남길 수 있게 되었습니다.
 
@@ -41,36 +45,37 @@ tags = ["studynote-network"]
 
 ### 1. 3계층 내부의 동반자 (Encapsulation)
 ICMP는 독자적인 택배 상자를 쓰지 않는다. ICMP 메시지는 만들어지면 일반 IP 패킷의 '알맹이(Payload)' 구역에 쏙 들어가서 캡슐화된다.
-- [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 -> IP 헤더([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호=1)가 있고 -> 그 뒤에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 대신 **ICMP 메시지 블록**이 위치한다.
+- [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 -> IP 헤더([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호=1)가 있고 -> 그 뒤에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 대신 <strong>ICMP 메시지 블록</strong>이 위치한다.
 - 즉, 3계층(IP)을 돕기 위한 녀석이지만 구조적으로는 3.5계층처럼 IP 패킷의 등창에 업혀서 날아가는 묘한 형태다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ICMP 패킷의 캡슐화 구조                          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 2계층 이더넷 헤더 ]                                        │
- │   [ 3계층 IP 헤더 (Protocol = 1) ]                            │
- │   [ ICMP 헤더 (Type, Code, Checksum 등) ]                     │
- │   [ ICMP 데이터 (에러가 난 원본 패킷의 머리 부분 일부) ]            │
- │                                                             │
- │   * 에러 보고 시, 송신자가 "어떤 패킷이 죽었는지" 알아볼 수 있도록      │
- │     죽어버린 원본 IP 패킷의 헤더 20바이트를 ICMP 뱃속에 같이 담아서    │
- │     돌려보내 주는(증거물 첨부) 친절함이 있다.                      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICMP 패킷의 캡슐화 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2계층 이더넷 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3계층 IP 헤더 (Protocol = 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 헤더 (Type, Code, Checksum 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 데이터 (에러가 난 원본 패킷의 머리 부분 일부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 에러 보고 시, 송신자가 "어떤 패킷이 죽었는지" 알아볼 수 있도록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽어버린 원본 IP 패킷의 헤더 20바이트를 ICMP 뱃속에 같이 담아서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌려보내 주는(증거물 첨부) 친절함이 있다.</div></div>
+</div>
+</div>
+
+
 
 ### 2. 무한 에러의 방지 (ICMP의 침묵 규칙)
 ICMP 메시지를 보내다가 그 ICMP 메시지 자체가 또 배달 사고로 죽어버리면 어떻게 될까?
 "ICMP가 죽었네? 에러 났으니 또 ICMP 에러 보내!" -> "그 에러가 또 죽었네? 또 보내!" 
 이러면 인터넷은 무한 에러 루프 폭풍에 빠져 멸망한다.
-- **절대 규칙**: 라우터는 **"ICMP 에러 메시지가 가다가 깨진 경우에는, 절대로 그에 대한 또 다른 ICMP 에러 메시지를 생성하지 않는다"**는 룰을 가지고 있어 무한 증폭을 원천 차단한다.
+- **절대 규칙**: 라우터는 <strong>"ICMP 에러 메시지가 가다가 깨진 경우에는, 절대로 그에 대한 또 다른 ICMP 에러 메시지를 생성하지 않는다"</strong>는 룰을 가지고 있어 무한 증폭을 원천 차단한다.
 
 ### 3. 방화벽의 단골 타겟
 ICMP는 유용하지만 해커들이 "상대방 서버가 살아있는지(Ping 핑)" 정찰하거나 무한 핑 폭격(Ping of Death)으로 서버를 다운시킬 때 1순위로 악용한다.
-따라서 현대의 기업 방화벽이나 윈도우 기본 방화벽은, 밖에서 안으로 뚫고 들어오는 **모든 ICMP(특히 Echo Request)를 암묵적으로 버려버리도록(Drop) 기본 세팅**되어 있다. (우리가 어떤 사이트에 핑을 때렸을 때 `Request timed out (요청 시간 초과)`이 뜨는 이유는 보통 서버가 죽은 게 아니라 방화벽이 ICMP를 차단했기 때문이다.)
+따라서 현대의 기업 방화벽이나 윈도우 기본 방화벽은, 밖에서 안으로 뚫고 들어오는 <strong>모든 ICMP(특히 Echo Request)를 암묵적으로 버려버리도록(Drop) 기본 세팅</strong>되어 있다. (우리가 어떤 사이트에 핑을 때렸을 때 `Request timed out (요청 시간 초과)`이 뜨는 이유는 보통 서버가 죽은 게 아니라 방화벽이 ICMP를 차단했기 때문이다.)
 
-- **📢 섹션 요약 비유**: ** ICMP는 경찰의 112 긴급 전화와 같습니다. 평소 인터넷이 잘 될 땐 한 번도 쓰지 않다가, **사고(에러)가 터졌을 때만 사이렌을 울리며 날아가는 응급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 및 원인 분석의 핵심 통신망**입니다.
+- **📢 섹션 요약 비유**: <strong> ICMP는 경찰의 112 긴급 전화와 같습니다. 평소 인터넷이 잘 될 땐 한 번도 쓰지 않다가, </strong>사고(에러)가 터졌을 때만 사이렌을 울리며 날아가는 응급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 및 원인 분석의 핵심 통신망**입니다.
 
 ---
 
@@ -126,15 +131,19 @@ ICMP 진단/오류 알림은 네트워크 계층과 IP를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARP 캐시 오염]
-    │
-    ▼
-[현재 개념: ICMP 진단/오류 알림]
-    │
-    ├──▶ [확장 A: ICMP 메시지 종류]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 캐시 오염</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ICMP 진단/오류 알림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ICMP 메시지 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 ICMP 진단/오류 알림는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염에서 출발해 현재 메커니즘을 정교화하고, 이후 ICMP 메시지 종류와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

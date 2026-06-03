@@ -35,15 +35,18 @@ HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 �
 
 아래 그림은 HASS가 위치해야 할 영역을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   HASS profile inside safe margin                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Field spec ───────┬──────── HASS zone ────────┬── Destruct limit    │
-│ normal use        │ catches weak assemblies   │ never cross         │
-│                   │ proof of screen required  │                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HASS profile inside safe margin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Field spec HASS zone ── Destruct limit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">normal use</div><div class="kb-diagram-cell">catches weak assemblies</div><div class="kb-diagram-cell">never cross</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proof of screen required</div></div>
+</div>
+</div>
+
+
 
 실제 HASS 프로파일은 보통 다음 요소를 조합한다.
 
@@ -94,11 +97,11 @@ HASS는 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 없이 HASS부터 적용**: 안전 마진이 없어 정상품 손상과 과소 screening 위험이 동시에 커진다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/">HALT</a> 없이 HASS부터 적용</strong>: 안전 마진이 없어 정상품 손상과 과소 screening 위험이 동시에 커진다.
 - **다른 제품의 프로파일 복붙**: 폼팩터, 기구 구조, 열 경로가 다르면 적정 프로파일도 다르다.
 - **낙오율만 관리**: 낙오 원인을 생산 공정 개선으로 연결하지 않으면 장기 품질 향상이 없다.
 
-기술사 답안에서는 HASS를 강한 출하 검사라고만 쓰기보다, [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 기반 마진 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 생산 스크리닝의 연결 구조까지 제시하는 것이 중요하다. 핵심은 세게 흔든다가 아니라, **세게 흔들어도 좋은 제품은 남고 나쁜 제품만 떨어지게 만드는 프로파일 설계**에 있다.
+기술사 답안에서는 HASS를 강한 출하 검사라고만 쓰기보다, [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 기반 마진 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 생산 스크리닝의 연결 구조까지 제시하는 것이 중요하다. 핵심은 세게 흔든다가 아니라, <strong>세게 흔들어도 좋은 제품은 남고 나쁜 제품만 떨어지게 만드는 프로파일 설계</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 반 아이들 달리기 시험을 할 때 건강한 아이는 무사히 완주하고, 몸 상태가 안 좋은 아이만 먼저 드러나게 하려면 코스가 너무 쉽지도 너무 무섭지도 않아야 한다. HASS도 그 균형을 잡는 시험이다.
 
@@ -110,7 +113,7 @@ HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [초기
 
 그러나 HASS는 강력한 만큼 관리가 필요하다. 프로파일이 과하면 정상품 수명을 깎고, 약하면 screening 효과가 떨어진다. 장비 교정, 챔버 유지보수, 프로파일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 불합격품 분석이 함께 돌아가야 진짜 품질 향상으로 이어진다.
 
-앞으로는 생산 이력, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 현장 반품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합해 제품별로 더 정밀한 HASS 프로파일을 만드는 방향으로 발전할 것이다. 그래도 결론은 명확하다. HASS는 설계가 아니라 생산 편차를 겨냥하는, **[HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 이후 양산 단계의 고속 품질 문지기**다.
+앞으로는 생산 이력, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 현장 반품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합해 제품별로 더 정밀한 HASS 프로파일을 만드는 방향으로 발전할 것이다. 그래도 결론은 명확하다. HASS는 설계가 아니라 생산 편차를 겨냥하는, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/">HALT</a> 이후 양산 단계의 고속 품질 문지기</strong>다.
 
 - **📢 섹션 요약 비유**: 빵집에서 갓 나온 빵을 살짝 눌러 보며 속이 비었는지 확인하는 것과 같다. 좋은 빵은 멀쩡하고, 속이 약한 빵만 먼저 티가 난다.
 
@@ -129,25 +132,26 @@ HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [초기
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-설계 안정화
-    │
-    ▼
-HALT limits identified
-    │
-    ▼
-Proof of Screen
-    │
-    ▼
-HASS (Highly Accelerated Stress Screen)
-    : short-duration high-stress production screen
-    │
-    ├──▶ fallout analysis
-    │     : solder · connector · assembly variation
-    │
-    └──▶ outgoing quality improvement
-          : fewer infant failures in the field
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">설계 안정화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HALT limits identified</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Proof of Screen</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HASS (Highly Accelerated Stress Screen)</div>
+<div class="kb-diagram-note">: short-duration high-stress production screen</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ fallout analysis</div>
+<div class="kb-diagram-note">: solder · connector · assembly variation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ outgoing quality improvement</div>
+<div class="kb-diagram-note">: fewer infant failures in the field</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

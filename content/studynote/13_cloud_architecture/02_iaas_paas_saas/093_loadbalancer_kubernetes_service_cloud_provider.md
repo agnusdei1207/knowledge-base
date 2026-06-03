@@ -33,24 +33,24 @@ LoadBalancer [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas
 
 | 구성 요소 | 역할 및 동작 방식 |
 | :--- | :--- |
-| **Cloud [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)** | CCM이 클라우드 벤더의 API를 호출하여 L4 로드밸런서 인스턴스(예: AWS NLB)를 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
+| <strong>Cloud <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | CCM이 클라우드 벤더의 API를 호출하여 L4 로드밸런서 인스턴스(예: AWS NLB)를 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
 | **NodePort** | 클라우드 로드밸런서가 트래픽을 꽂아 넣을 수 있도록 클러스터의 모든 워커 노드에 동일한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개방 |
 | **kube-proxy** | 노드에 도달한 트래픽을 목적지 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 포워딩하는 iptables/IPVS 룰 적용 |
-| **External Traffic [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** | `Local` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 없는 노드를 거치지 않고 직접 목적지 노드로 트래픽을 보내 SNAT 핑퐁 최소화 |
+| <strong>External Traffic <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | `Local` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 없는 노드를 거치지 않고 직접 목적지 노드로 트래픽을 보내 SNAT 핑퐁 최소화 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름        │
-├──────────────────────────────────────────────────────────────┤
-│ [클라이언트] ──▶ (포트 80/443, 공인 IP)                      │
-│                                                              │
-│       ▼ AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)      │
-│                                                              │
-│       ├──▶ [노드 A] (포트 31000) ──▶ 파드 없음 (핑퐁 발생)   │
-│       │                                                      │
-│       └──▶ [노드 B] (포트 31000) ──▶ (kube-proxy) ──▶ [파드] │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(포트 80/443, 공인 IP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노드 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">파드 없음 (핑퐁 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노드 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파드</div></div>
+</div>
+</div>
+
+
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 K8s는 내부적으로 NodePort와 ClusterIP를 함께 할당한다. 이후 클라우드 LB는 노드의 IP와 해당 NodePort를 백엔드 타겟 그룹으로 묶어, 외부 트래픽을 클러스터 내부로 밀어 넣는다.
 
@@ -64,9 +64,9 @@ LoadBalancer [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas
 
 | 항목 | NodePort | LoadBalancer | [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) |
 | :--- | :--- | :--- | :--- |
-| **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 계층** | L4 (IP, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | L4 (IP, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | L7 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), URL 패스) |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong> | L4 (IP, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | L4 (IP, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | L7 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), URL 패스) |
 | **외부 진입점** | 각 노드의 공인 IP + 비표준 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 클라우드 LB의 단일 공인 IP + 표준 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 클라우드 LB (1개) + [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller |
-| **비용 구조** | 클라우드 LB 비용 없음 | **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 1개당 LB 1대 비용 발생** | 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 1대의 LB 공유 (비용 절감) |
+| **비용 구조** | 클라우드 LB 비용 없음 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 1개당 LB 1대 비용 발생</strong> | 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 1대의 LB 공유 (비용 절감) |
 | **주요 한계** | 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)용으로 부적합 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개수 비례 인프라 비용 폭증 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡, 컨트롤러 추가 필요 |
 
 LoadBalancer는 외부 L4 장비와의 단순 연결을 담당하지만, URL 패스 기반의 스마트한 트래픽 분배를 원한다면 이 LoadBalancer 뒤에 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller를 배치하는 아키텍처로 진화하게 된다.
@@ -82,7 +82,7 @@ LoadBalancer는 외부 L4 장비와의 단순 연결을 담당하지만, URL 패
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **SNAT 및 레이턴시 문제**: `externalTrafficPolicy: Cluster` (기본값)는 트래픽이 무작위 노드로 가면서 홉 (Hop)이 추가된다. 클라이언트의 원본 IP를 보존하고 네트워크 지연을 줄이려면 `Local`로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다. 단, 이 경우 트래픽 불균형이 발생할 수 있어 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 (Anti-Affinity) 설계가 수반되어야 한다.
 2. **비용 폭탄 (Cost Explosion)**: [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 50개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 모두 LoadBalancer로 열면 50대의 클라우드 LB가 과금된다.
-3. **[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) ([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 한계**: 베어메탈 (Bare Metal) 환경에서는 AWS/GCP의 API가 없으므로 `type: LoadBalancer`가 동작하지 않는다. 이 경우 MetalLB 같은 소프트웨어 기반 L2/[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 솔루션을 별도로 구축해야 한다.
+3. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">On-Premise</a>) 한계</strong>: 베어메탈 (Bare Metal) 환경에서는 AWS/GCP의 API가 없으므로 `type: LoadBalancer`가 동작하지 않는다. 이 경우 MetalLB 같은 소프트웨어 기반 L2/[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 솔루션을 별도로 구축해야 한다.
 
 ### 기술사적 의사결정
 - **채택**: 트래픽 분리 격리가 엄격히 필요한 소수의 핵심 진입점 API나, L4 수준의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 스트리밍 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 적용한다.
@@ -108,26 +108,28 @@ LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operat
 | :--- | :--- |
 | **CCM (Cloud Controller Manager)** | K8s와 클라우드 벤더(AWS, GCP 등) API를 연결하는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
 | **NodePort (노드포트)** | LoadBalancer가 외부 트래픽을 노드 내부로 밀어 넣기 위해 의존하는 하위 기술 |
-| **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))** | LoadBalancer의 1:1 비용 문제를 해결하는 L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 호스트 기반 트래픽 제어기 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a>)</strong> | LoadBalancer의 1:1 비용 문제를 해결하는 L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 호스트 기반 트래픽 제어기 |
 | **MetalLB** | 클라우드 벤더가 없는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 환경에서 LoadBalancer 기능을 구현하는 솔루션 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서비스 노출의 기초 
-    │
-    ▼
-NodePort (노드포트) · 단일 노드 IP 의존
-    │
-    ▼
-LoadBalancer (로드밸런서) · 외부 L4 장비 연동 및 공인 IP 자동화
-    │
-    ▼
-externalTrafficPolicy: Local · SNAT 방지 및 최적화
-    │
-    ▼
-Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 노출의 기초</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NodePort (노드포트) · 단일 노드 IP 의존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LoadBalancer (로드밸런서) · 외부 L4 장비 연동 및 공인 IP 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">externalTrafficPolicy: Local · SNAT 방지 및 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

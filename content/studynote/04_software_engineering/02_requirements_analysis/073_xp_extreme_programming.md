@@ -28,13 +28,19 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Values
-  ↓
-Practices
-  ↓
-High-quality Code
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Values</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Practices</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">High-quality Code</div>
+</div>
+</div>
+
+
 
 | 가치 | 의미 |
 | :-- | :-- |
@@ -104,25 +110,37 @@ XP는 품질과 피드백 속도를 높인다.
 
 ## 관련 개념 맵
 
-```text
-Values
-  ↓
-XP Practices
-  ↓
-TDD / Pair Programming / CI
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Values</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">XP Practices</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">TDD / Pair Programming / CI</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Agile
-  ↓
-XP
-  ↓
-TDD / CI / Pair Programming
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Agile</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">XP</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">TDD / CI / Pair Programming</div>
+</div>
+</div>
+
+
 
 ---
 

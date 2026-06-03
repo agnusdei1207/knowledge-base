@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **토폴로지(Topology)**: 노드(컴퓨터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))와 링크(랜선)가 어떻게 얽혀있는지 그린 네트워크 지도입니다.
 - **동적 프로비저닝의 저주**: 클라우드([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 환경에서는 트래픽이 몰리면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 가상머신([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)) 100개가 순식간에 생겨나고, IP가 난수처럼 쏟아지며, 허공에 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널 수백 개가 뚫립니다. 관리자가 네트워크 지도를 펼쳐보면 이미 옛날 버전이라, 에러가 터졌을 때 트래픽이 어디로 가다가 막혔는지 죽어도 찾을 수 없습니다(가시성 완전 상실).
 
-```text
-[디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
-[퍼시스턴트 토폴로지]
-    │
-    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 퍼시스턴트 토폴로지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,11 +41,11 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 이처럼 초 단위로 미친 듯이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸하는 가상 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)), 오버레이 터널, 물리적 언더레이 장비 간의 **순간적인 '연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(매핑)' 상태를 절대 놓치지 않고 실시간으로 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))을 떠서, 영구적인(Persistent) 저장소(주로 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)에 시계열로 꽉꽉 기록해 두는 첨단 자산 가시성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 확보 기술**입니다.
+- **개념**: 이처럼 초 단위로 미친 듯이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸하는 가상 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)), 오버레이 터널, 물리적 언더레이 장비 간의 <strong>순간적인 '연결 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(매핑)' 상태를 절대 놓치지 않고 실시간으로 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a>)을 떠서, 영구적인(Persistent) 저장소(주로 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> DB)에 시계열로 꽉꽉 기록해 두는 첨단 자산 가시성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>) 확보 기술</strong>입니다.
 
 ### 1. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB ([Graph Database](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/))의 도입 🌟 핵심 🌟
 - 오라클(RDBMS) 같은 표(Table) 형식의 DB로는 "A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 B 라우터를 거쳐 C [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 간다"는 복잡한 그물망 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 담아낼 수 없습니다.
-- 그래서 **Neo4j** 같은 **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB([Graph DB](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/))**를 도입합니다. 장비는 동그란 '점(Node)'으로, 랜선이나 터널은 점을 잇는 '선(Edge)'으로 저장합니다. 선에는 "10Gbps, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1ms, [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 100번" 같은 꼬리표([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 주렁주렁 매달아 저장합니다.
+- 그래서 **Neo4j** 같은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> DB(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/">Graph DB</a>)</strong>를 도입합니다. 장비는 동그란 '점(Node)'으로, 랜선이나 터널은 점을 잇는 '선(Edge)'으로 저장합니다. 선에는 "10Gbps, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1ms, [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 100번" 같은 꼬리표([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 주렁주렁 매달아 저장합니다.
 
 ### 2. 실시간 동적 추적 및 자산 매핑 (Telemetry 융합)
 - 쿠버네티스가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 1개 띄우는 순간, [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인([Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) 등)이 이벤트(Log)를 발생시킵니다. "방금 [컨테이너 X] ➜ [가상 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) Y] 연결선 하나 뚫렸음!"
@@ -49,20 +53,24 @@ tags = ["studynote-network"]
 - 물리 장비(언더레이)에서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 선이 끊기면, 그 이벤트도 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB에 즉각 반영되어 선이 빨갛게 끊어진 것으로 박제됩니다.
 
 ### 3. 시계열(Time-Series) 복기 마법 (과거 여행)
-- **퍼시스턴트(Persistent, 영구 저장)**의 진짜 힘입니다. 지도를 실시간으로만 보여주는 게 아니라, 과거의 모습을 저장해 둡니다.
+- <strong>퍼시스턴트(Persistent, 영구 저장)</strong>의 진짜 힘입니다. 지도를 실시간으로만 보여주는 게 아니라, 과거의 모습을 저장해 둡니다.
 - 관리자가 "어제 새벽 2시에 왜 결제 서버가 뻗었지?" 하고 타임머신 다이얼을 어제 새벽 2시로 쫙 돌립니다.
-- 모니터에 **"어제 새벽 2시 정각에 정확히 형성되어 있던 가상 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1만 개의 연결 거미줄(토폴로지) 형상"이 눈앞에 완벽히 복원**되어 나타납니다. 뻗기 직전의 연결 상태를 추적해 범인을 단숨에 색출해 냅니다.
+- 모니터에 <strong>"어제 새벽 2시 정각에 정확히 형성되어 있던 가상 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 1만 개의 연결 거미줄(토폴로지) 형상"이 눈앞에 완벽히 복원</strong>되어 나타납니다. 뻗기 직전의 연결 상태를 추적해 범인을 단숨에 색출해 냅니다.
 
-```text
-[디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
-[퍼시스턴트 토폴로지]
-    │
-    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-```
 
-- **📢 섹션 요약 비유**: 기존 정적 토폴로지 지도(엑셀)는 벽에 붙여놓은 '종이 세계지도'입니다. 국가의 국경선이 100년 동안 안 바뀔 때는 쓸만하지만, 매일 밤 국경이 수천 번씩 바뀌는 춘추전국시대(클라우드)에는 종이 지도를 보며 길을 찾는 건 자살 행위입니다. **퍼시스턴트 토폴로지 관리**는 하늘에 떠 있는 전능한 '타임머신 위성 레이더망([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)'입니다. 적군([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 텐트를 100개 치고 길(가상 랜선)을 낼 때마다, 레이더가 0.1초 만에 사진을 찍어 완벽한 3D 입체 그물망 지도로 만들어 영구히 하드디스크에 저장합니다. 관리자는 언제든 다이얼을 돌려 "어제 3시에 얘네들 텐트 어떻게 쳐놨었지?" 라며 1초의 오차도 없이 과거의 복잡한 그물망 진형을 100% 되살려내 분석(가시성 확보)할 수 있는 궁극의 작전 통제 지도입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 기존 정적 토폴로지 지도(엑셀)는 벽에 붙여놓은 '종이 세계지도'입니다. 국가의 국경선이 100년 동안 안 바뀔 때는 쓸만하지만, 매일 밤 국경이 수천 번씩 바뀌는 춘추전국시대(클라우드)에는 종이 지도를 보며 길을 찾는 건 자살 행위입니다. <strong>퍼시스턴트 토폴로지 관리</strong>는 하늘에 떠 있는 전능한 '타임머신 위성 레이더망([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)'입니다. 적군([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 텐트를 100개 치고 길(가상 랜선)을 낼 때마다, 레이더가 0.1초 만에 사진을 찍어 완벽한 3D 입체 그물망 지도로 만들어 영구히 하드디스크에 저장합니다. 관리자는 언제든 다이얼을 돌려 "어제 3시에 얘네들 텐트 어떻게 쳐놨었지?" 라며 1초의 오차도 없이 과거의 복잡한 그물망 진형을 100% 되살려내 분석(가시성 확보)할 수 있는 궁극의 작전 통제 지도입니다.
 
 ---
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    │
-    ▼
-[현재 개념: 퍼시스턴트 토폴로지]
-    │
-    ├──▶ [확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 퍼시스턴트 토폴로지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 퍼시스턴트 토폴로지는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기…에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

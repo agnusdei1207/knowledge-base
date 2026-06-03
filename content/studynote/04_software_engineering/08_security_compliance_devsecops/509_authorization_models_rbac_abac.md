@@ -19,39 +19,38 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(AuthN)**이 "너 신분증 내놔(누구야?)"라면, **인가(AuthZ)**는 "네 신분증이 대리(Role)네? 그럼 이 VVIP 폴더는 못 읽어. 꺼져!" 라고 권한을 제어하는 행위다. 
-  - **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) (Role-Based)**: 부장, 대리, 사원이라는 '명찰(역할)' 딱지를 기준으로 폴더 출입문을 막는다.
-  - **[ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) ([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)-Based)**: 명찰뿐만 아니라, "퇴근 시간 후(시간 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 폰으로 접속(기기 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))"하면 부장이라도 폴더를 못 열게 하는 미친 듯이 깐깐한 동적 규칙이다.
+- **개념**: <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(AuthN)</strong>이 "너 신분증 내놔(누구야?)"라면, <strong>인가(AuthZ)</strong>는 "네 신분증이 대리(Role)네? 그럼 이 VVIP 폴더는 못 읽어. 꺼져!" 라고 권한을 제어하는 행위다. 
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a> (Role-Based)</strong>: 부장, 대리, 사원이라는 '명찰(역할)' 딱지를 기준으로 폴더 출입문을 막는다.
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>-Based)</strong>: 명찰뿐만 아니라, "퇴근 시간 후(시간 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 폰으로 접속(기기 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))"하면 부장이라도 폴더를 못 열게 하는 미친 듯이 깐깐한 동적 규칙이다.
 
-- **필요성**: 병원 시스템을 만들었다. 의사(Role)는 환자의 차트를 볼 수 있어야 한다. 그래서 코드를 `if (role == '의사') return 환자정보;` 라고 RBAC로 대충 짰다. 그랬더니 서울 병원에 있는 A의사가, 부산 병원에 있는 B의사 환자의 차트까지 모조리 다 볼 수 있는 끔찍한 대참사([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/) 해킹)가 터졌다. **단순한 '역할(Role)' 1차원 통제로는 "나와 관련된 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ownership)만 볼 수 있는가?"라는 복잡다단한 현대 비즈니스의 경계를 절대 지켜낼 수 없기 때문에, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))까지 쥐어짜 내 검사하는 고도의 인가 아키텍처가 필수적으로 진화했다.**
+- **필요성**: 병원 시스템을 만들었다. 의사(Role)는 환자의 차트를 볼 수 있어야 한다. 그래서 코드를 `if (role == '의사') return 환자정보;` 라고 RBAC로 대충 짰다. 그랬더니 서울 병원에 있는 A의사가, 부산 병원에 있는 B의사 환자의 차트까지 모조리 다 볼 수 있는 끔찍한 대참사([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/) 해킹)가 터졌다. <strong>단순한 '역할(Role)' 1차원 통제로는 "나와 관련된 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Ownership)만 볼 수 있는가?"라는 복잡다단한 현대 비즈니스의 경계를 절대 지켜낼 수 없기 때문에, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)까지 쥐어짜 내 검사하는 고도의 인가 아키텍처가 필수적으로 진화했다.</strong>
 
-- **💡 비유**: 인가 모델은 **'군부대 출입 통제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'**와 똑같습니다. 위병소에서 민증 검사([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 하고 들어왔다 칩시다. 
-  - **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)**: 병사가 가슴에 **'대위'**라는 계급장(Role)을 달고 있으니까 식당과 연병장(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 다 패스시키고, 장군 화장실(관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 막는 단순 무식한 룰입니다.
-  - **[ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)**: 계급이 '대위'라도, **지금 시간이 밤 12시(시간 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**이고, **대위가 만취 상태(상태 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**라면, 식당(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 출입조차 기계가 즉각 거부해 버리는 훨씬 정밀하고 융통성 있는 스마트 도어록입니다.
+- **💡 비유**: 인가 모델은 <strong>'군부대 출입 통제 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>'</strong>와 똑같습니다. 위병소에서 민증 검사([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 하고 들어왔다 칩시다. 
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong>: 병사가 가슴에 <strong>'대위'</strong>라는 계급장(Role)을 달고 있으니까 식당과 연병장(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 다 패스시키고, 장군 화장실(관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 막는 단순 무식한 룰입니다.
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a></strong>: 계급이 '대위'라도, <strong>지금 시간이 밤 12시(시간 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)</strong>이고, <strong>대위가 만취 상태(상태 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>)</strong>라면, 식당(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 출입조차 기계가 즉각 거부해 버리는 훨씬 정밀하고 융통성 있는 스마트 도어록입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/DAC의 낭만 (과거)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스 폴더 권한 777) 시절 쓰던 군대식 보안. 사용자가 직접 자기 폴더 권한을 남에게 주거나(DAC), 국가가 1급/2급 기밀 딱지를 붙여 통제([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))했다. 웹 환경에 맞지 않아 버려졌다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>/DAC의 낭만 (과거)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스 폴더 권한 777) 시절 쓰던 군대식 보안. 사용자가 직접 자기 폴더 권한을 남에게 주거나(DAC), 국가가 1급/2급 기밀 딱지를 붙여 통제([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))했다. 웹 환경에 맞지 않아 버려졌다.
   2. **RBAC의 대통일 (2000년대)**: 엔터프라이즈(B2B) 기업 환경이 웹에 올라타며, 사원/대리/부장 이라는 '직급 그룹(Role)'에 권한 100개를 묶어서 던져주는 방식이 천하를 통일했다. (관리가 짱 편함)
   3. **ABAC와 제로 트러스트의 강림 (현재)**: MSA와 클라우드가 열리며 유저가 집(재택), 카페, 모바일 어디서 접속할지 모르는 시대가 왔다. Role만 믿다간 다 털린다! "접속 환경, 시간, 위치, 자원 주인(Owner)"의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변수들을 런타임에 1초 단위로 씹어먹으며 허락해 주는 [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) 시대가 인프라를 장악 중이다.
 
-- **📢 섹션 요약 비유**: 이 과정은 **'놀이공원 놀이기구 탑승 룰'**과 같습니다. 옛날([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))엔 **"어른(Role)은 청룡열차 탈 수 있음, 애들은 회전목마만"** 이 끝이었습니다. 하지만 사고가 났죠. 지금([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))은 **"어른이라도 심장병이 있고([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)), 비가 오는 날(환경)에는 청룡열차 탑승 불가!"**라는 복잡한 변수를 조합해 생명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 더욱 완벽하게 지켜내는 맞춤형 통제로 진화한 것입니다.
+- **📢 섹션 요약 비유**: 이 과정은 <strong>'놀이공원 놀이기구 탑승 룰'</strong>과 같습니다. 옛날([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))엔 **"어른(Role)은 청룡열차 탈 수 있음, 애들은 회전목마만"** 이 끝이었습니다. 하지만 사고가 났죠. 지금([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))은 <strong>"어른이라도 심장병이 있고(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>), 비가 오는 날(환경)에는 청룡열차 탑승 불가!"</strong>라는 복잡한 변수를 조합해 생명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 더욱 완벽하게 지켜내는 맞춤형 통제로 진화한 것입니다.
 
 ---
 
 다음은 인가 (Authorization) 모의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인가 (Authorization) 모                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인가 (Authorization) 모</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 인가 (Authorization) 모가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-인가 (Authorization) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+인가 (Authorization) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 인가 (Authorization) 모델의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인가 (Authorization) 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인가 (Authorization) 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

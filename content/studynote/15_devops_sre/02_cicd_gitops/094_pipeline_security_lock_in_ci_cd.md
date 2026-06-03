@@ -38,26 +38,24 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 | 3. 내재화된 스캔 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 자동 검사 및 Hard Gate 적용 | 취약점 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 즉각 중단(Break) |
 | 4. 이미지 서명 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | Cosign 등으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지에 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 서명 추가 | 변조된 이미지가 운영 환경(K8s)에 배포되는 것 차단 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Secure CI/CD Pipeline Lock-in Flow             │
-├──────────────────────────────────────────────────────────────┤
-│ [개발자] ─▶ (Git Commit) ─▶ [ 저장소 (Branch Protection) ] │
-│                                          │                   │
-│ ┌────────────────────────────────────────▼─────────────────┐ │
-│ │                  CI Build Pipeline                       │ │
-│ │  (1) 일회성 노드 (Ephemeral Node) 할당                   │ │
-│ │  (2) 코드 취약점 자동 검사 (SAST/SCA Scan)               │ │
-│ │  (3) 이미지 빌드 및 서명 생성 (Image Signing)            │ │
-│ └────────────────────────────────────────┬─────────────────┘ │
-│                                          │ 락인 통과 및 서명 │
-│ ┌────────────────────────────────────────▼─────────────────┐ │
-│ │               CD Deployment & Runtime                    │ │
-│ │  [ Artifact Registry ] ──▶ [ K8s Admission Controller ]  │ │
-│ │                               (서명 검증 후 배포 허가)   │ │
-│ └──────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure CI/CD Pipeline Lock-in Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저장소 (Branch Protection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Build Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 일회성 노드 (Ephemeral Node) 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) 코드 취약점 자동 검사 (SAST/SCA Scan)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 이미지 빌드 및 서명 생성 (Image Signing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락인 통과 및 서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD Deployment &amp; Runtime</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Artifact Registry</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Admission Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서명 검증 후 배포 허가)</div></div>
+</div>
+</div>
+
+
 
 가장 핵심적인 원리는 한 번 빌드된 이미지는 변경할 수 없다는 '불변성(Immutability)'과, 암호화 키를 통한 '증명(Attestation)'이다. K8s 클러스터 앞단에 있는 Admission Controller는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 정상적으로 찍어준 '서명 도장'이 없는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실행을 가차 없이 거부한다.
 
@@ -88,7 +86,7 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 실무에서 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 보안을 구축하려면 툴(Tool) 도입을 넘어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))의 강제성이 수반되어야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/) ([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내에서 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 의존성 목록을 SBOM으로 추출하여 추적 가능한 가시성을 확보했는가?
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/">소프트웨어 자재 명세서</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a>)</strong>: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 내에서 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 의존성 목록을 SBOM으로 추출하여 추적 가능한 가시성을 확보했는가?
 2. **최소 권한의 원칙 (PoLP)**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/)([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role)에 'AdministratorAccess' 같은 과도한 권한이 부여되지 않고, 딱 필요한 배포 권한만 부여되도록 격리했는가?
 3. **Hard Gate 적용**: 보안 스캐너가 Critical 등급의 취약점을 발견했을 때 경고(Warn)에서 그치지 않고, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 즉시 중단(Break)시켜 프로덕션 배포를 원천 차단하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 
@@ -121,21 +119,23 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 런타임 보안 방어 (WAF, IDS)
-    │
-    ▼
-Shift-Left 사상 · DevSecOps 태동
-    │
-    ▼
-SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용
-    │
-    ▼
-일회성 러너 (Ephemeral Node) · SBOM 의무화
-    │
-    ▼
-아티팩트 서명 (Image Signing) · SLSA 레벨 보증 체계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 런타임 보안 방어 (WAF, IDS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shift-Left 사상 · DevSecOps 태동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일회성 러너 (Ephemeral Node) · SBOM 의무화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아티팩트 서명 (Image Signing) · SLSA 레벨 보증 체계</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "사후 탐지 → 사전 예방 → 스캔 자동화 → 환경 격리 → [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명"으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 방어 체계가 진화하는 과정을 보여준다.
 

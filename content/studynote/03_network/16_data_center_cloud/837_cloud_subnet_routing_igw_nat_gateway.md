@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)([가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)) 안에 여러 개의 서브넷(방)을 만들면, 각 방마다 '[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(이정표)'을 하나씩 배정해 줍니다.
-- 이 이정표에 **"외부 인터넷(0.0.0.0/0)으로 가려면 어느 문을 통과해야 하는가?"**를 어떻게 적어놓느냐에 따라 Public 서브넷과 Private 서브넷의 운명이 완벽하게 갈립니다.
+- 이 이정표에 <strong>"외부 인터넷(0.0.0.0/0)으로 가려면 어느 문을 통과해야 하는가?"</strong>를 어떻게 적어놓느냐에 따라 Public 서브넷과 Private 서브넷의 운명이 완벽하게 갈립니다.
 
-```text
-[VPC]
-    │
-    ▼
-[클라우드 서브넷 및 게이트웨이]
-    │
-    └──▶ [Direct Connect / Express…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 및 게이트웨이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Direct Connect / Express…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 클라우드 서브넷 및 게이트웨이는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 - **개념**: VPC와 외부 인터넷을 물리적으로 연결해 주는 크고 튼튼한 양방향 대문 장비입니다. 
 - **Public Subnet의 탄생 조건**: 
-  - 서브넷 A의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 `목적지: 0.0.0.0/0 ➜ 타겟: IGW`라고 적어주면, 그 방은 그 즉시 **Public Subnet(공개 방)**으로 변신합니다.
+  - 서브넷 A의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 `목적지: 0.0.0.0/0 ➜ 타겟: IGW`라고 적어주면, 그 방은 그 즉시 <strong>Public Subnet(공개 방)</strong>으로 변신합니다.
   - 여기에 있는 웹서버(EC2)는 공인 IP(Public IP)를 부여받아, 손님(인터넷 사용자)이 밖에서 내 서버로 직접 치고 들어올 수 있습니다. (웹서버, 로드밸런서 배치 구역)
 
-```text
-[VPC]
-    │
-    ▼
-[클라우드 서브넷 및 게이트웨이]
-    │
-    └──▶ [Direct Connect / Express…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 및 게이트웨이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Direct Connect / Express…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 클라우드 서브넷 및 게이트웨이의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 - **문제점**: Private Subnet(안방)에 숨겨둔 DB 서버는 보안을 위해 IGW 정문 길을 끊어두었습니다. 그런데 DB 서버도 리눅스 보안 패치 다운로드나 외부 결제망 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신을 위해 잠깐씩 인터넷으로 '나가야 할' 때가 있습니다. 어떻게 해야 할까요?
 - **해결책 (NAT의 원리)**:
-  - 관리자는 Public Subnet(거실)에 **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이**라는 특수 장비를 하나 띄워둡니다.
+  - 관리자는 Public Subnet(거실)에 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 게이트웨이</strong>라는 특수 장비를 하나 띄워둡니다.
   - Private Subnet의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 `목적지: 0.0.0.0/0 ➜ 타겟: NAT 게이트웨이`라고 적어줍니다.
   - **동작**: DB 서버가 인터넷으로 패킷을 쏘면, 이 패킷은 거실에 있는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이로 갑니다. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이는 패킷의 출발지 주소(안방 사설 IP)를 자기 자신의 공인 IP로 몰래 바꿔치기(Source [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))해서 정문(IGW) 밖으로 던져줍니다.
 - **최고의 장점 (보안 보장)**: 밖에서 보면 패킷이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이(거실)에서 온 것처럼 보일 뿐, 안방 DB 서버의 진짜 IP는 영원히 감춰집니다. 밖에서 해커가 안방으로 직접 접속을 시도해도 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이가 100% 튕겨내 버리는 완벽한 일방통행 보안망이 완성됩니다.
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 클라우드 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 망 설계는 '철통 보안 저택'을 짓는 것입니다. **IGW(인터넷 게이트웨이)**는 밖에서 누구나 초인종을 누르고 들어올 수 있는 '저택의 대문'입니다. 대문과 바로 연결된 응접실(Public Subnet)에는 손님을 맞이하는 하인(웹서버)이 있습니다. 반면 금고가 있는 안방(Private Subnet)은 문이 잠긴 밀실입니다. 그런데 안방에 있는 주인마님(DB 서버)이 홈쇼핑으로 물건을 주문(인터넷 통신)하고 싶어 합니다. 밖으로 직접 나가면 강도(해커)를 만날 수 있습니다. 그래서 안방에서 응접실 쪽에 **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 게이트웨이**라는 '특수 심부름꾼'을 세워둡니다. 주인마님이 심부름꾼에게 주문서를 주면, 심부름꾼이 자기 이름(공인 IP)으로 대문 밖으로 나가 대신 물건을 사서 안방으로 가져다줍니다. 밖의 강도는 마님이 안방에 숨어있다는 사실조차 영원히 모릅니다.
+- **📢 섹션 요약 비유**: 클라우드 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 망 설계는 '철통 보안 저택'을 짓는 것입니다. <strong>IGW(인터넷 게이트웨이)</strong>는 밖에서 누구나 초인종을 누르고 들어올 수 있는 '저택의 대문'입니다. 대문과 바로 연결된 응접실(Public Subnet)에는 손님을 맞이하는 하인(웹서버)이 있습니다. 반면 금고가 있는 안방(Private Subnet)은 문이 잠긴 밀실입니다. 그런데 안방에 있는 주인마님(DB 서버)이 홈쇼핑으로 물건을 주문(인터넷 통신)하고 싶어 합니다. 밖으로 직접 나가면 강도(해커)를 만날 수 있습니다. 그래서 안방에서 응접실 쪽에 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 게이트웨이</strong>라는 '특수 심부름꾼'을 세워둡니다. 주인마님이 심부름꾼에게 주문서를 주면, 심부름꾼이 자기 이름(공인 IP)으로 대문 밖으로 나가 대신 물건을 사서 안방으로 가져다줍니다. 밖의 강도는 마님이 안방에 숨어있다는 사실조차 영원히 모릅니다.
 
 ---
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VPC]
-    │
-    ▼
-[현재 개념: 클라우드 서브넷 및 게이트웨이]
-    │
-    ├──▶ [확장 A: Direct Connect / Express…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VPC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우드 서브넷 및 게이트웨이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Direct Connect / Express…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 클라우드 서브넷 및 게이트웨이는 VPC에서 출발해 현재 메커니즘을 정교화하고, 이후 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

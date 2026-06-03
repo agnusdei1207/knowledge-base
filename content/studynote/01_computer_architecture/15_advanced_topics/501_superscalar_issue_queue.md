@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 코어의 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ([Register Renaming](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/))을 마친 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 잠시 붙잡아 두고, 피연산자가 준비된 것만 골라 실행 유닛으로 내보내는 **동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**다.
+> 1. **본질**: [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 코어의 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ([Register Renaming](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/))을 마친 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 잠시 붙잡아 두고, 피연산자가 준비된 것만 골라 실행 유닛으로 내보내는 <strong>동적 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>다.
 > 2. **가치**: 앞선 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성에 막혀도 뒤쪽의 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행하게 해, 넓은 발급 폭과 다수의 연산 유닛을 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꿔 준다.
 > 3. **판단 포인트**: 큐를 키우면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 (Instruction-Level Parallelism, ILP)은 늘지만, 깨우기-선택 (Wakeup-[Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 회로의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·전력·배선 부담이 급격히 커지므로 무조건 대형화하는 것이 정답은 아니다.
 
@@ -21,26 +21,28 @@ tags = ["studynote-computer-architecture"]
 
 [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) CPU (Central Processing Unit)의 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 디코드와 리네이밍을 마친 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행 직전 대기하는 하드웨어 스케줄링 공간이다. 인오더 (In-Order) 파이프라인에서는 앞선 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 메모리에서 값을 기다리는 동안 뒤의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)도 함께 멈춘다. 하지만 현대 코어는 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 유닛 ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit, FPU), 주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 장치 (Address Generation Unit, AGU)를 여러 개 갖고 있으므로, 준비된 명령까지 같이 멈추면 폭 넓은 하드웨어가 그대로 놀게 된다.
 
-발급 큐가 필요한 이유는 순서 자체가 아니라 **준비 상태**가 실행 가능성을 결정하기 때문이다. 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) 의존성이나 캐시 미스가 발생해도, 그와 무관한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 뒤에 숨어 있으면 먼저 보내는 편이 훨씬 낫다. 즉 발급 큐는 "프로그램 순서"를 완전히 버리는 구조가 아니라, **완료 순서는 유지하되 실행 시작 순서만 유연하게 바꾸는 구조**라고 이해해야 한다.
+발급 큐가 필요한 이유는 순서 자체가 아니라 <strong>준비 상태</strong>가 실행 가능성을 결정하기 때문이다. 읽기 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) 의존성이나 캐시 미스가 발생해도, 그와 무관한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 뒤에 숨어 있으면 먼저 보내는 편이 훨씬 낫다. 즉 발급 큐는 "프로그램 순서"를 완전히 버리는 구조가 아니라, <strong>완료 순서는 유지하되 실행 시작 순서만 유연하게 바꾸는 구조</strong>라고 이해해야 한다.
 
 아래 그림은 발급 큐가 왜 필요한지, 그리고 어떤 정체를 풀어 주는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Why Issue Queue? older stall should not freeze all            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ In-order issue                                                             │
-│   LD miss(wait) ───────────────────────────────┐                           │
-│   ADD ready        blocked behind older op     ├─▶ execution stalls        │
-│   MUL ready        blocked behind older op     ┘                           │
-│                                                                            │
-│ With issue queue                                                           │
-│   Entry0 : LD   ready = no                                                 │
-│   Entry1 : ADD  ready = yes  ───────────────────────────────▶ ALU issue    │
-│   Entry2 : MUL  ready = yes  ───────────────────────────────▶ MUL issue    │
-│   Entry3 : BR   ready = yes  ───────────────────────────────▶ BR issue     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Issue Queue? older stall should not freeze all</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In-order issue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LD miss(wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD ready blocked behind older op ─▶ execution stalls</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MUL ready blocked behind older op</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With issue queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry0 : LD ready = no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry1 : ADD ready = yes ▶ ALU issue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry2 : MUL ready = yes ▶ MUL issue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry3 : BR ready = yes ▶ BR issue</div></div>
+</div>
+</div>
+
+
 
 핵심은 발급 큐가 "막힌 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 기다리는 곳"이 아니라 "막히지 않은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 찾아내는 곳"이라는 점이다. [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 폭이 4라고 해서 매 사이클 4개가 자동으로 실행되는 것이 아니며, 발급 큐가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 충분히 공급할 때만 그 폭이 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀐다.
 
@@ -54,22 +56,23 @@ tags = ["studynote-computer-architecture"]
 
 그다음 선택 ([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 단계에서는 준비된 엔트리 중 실제 발급 폭만큼을 골라 실행 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 보낸다. 이때 보통 가장 오래 기다린 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 우선하는 오래된 순 우선 (Oldest-First) 정책을 쓰지만, 기능 유닛별 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 제약과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 차이 때문에 단순 선착순만으로는 최적이 아니다. 예를 들어 정수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 남아도 곱셈기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 꽉 차 있으면, 큐는 "준비됨"과 "배치 가능함"을 함께 판단해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Wakeup + Select inside a modern issue queue                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ result tag broadcast ───────────────────────▶ compare with src tags        │
-│                                                                            │
-│ Entry0 : srcA? wait  srcB? ready  age=12  class=ALU                        │
-│ Entry1 : srcA? ready srcB? ready  age=15  class=ALU ──┐                    │
-│ Entry2 : srcA? ready srcB? ready  age= 9  class=FPU ──┼─▶ select arbiters  │
-│ Entry3 : srcA? ready srcB? wait   age=14  class=AGU ──┘                    │
-│                                                                            │
-│ select result : oldest ready ALU → ALU port                               │
-│                 oldest ready FPU → FPU port                               │
-│                 ready AGU only if load/store port available                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wakeup + Select inside a modern issue queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result tag broadcast ▶ compare with src tags</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry0 : srcA? wait srcB? ready age=12 class=ALU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry1 : srcA? ready srcB? ready age=15 class=ALU ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry2 : srcA? ready srcB? ready age= 9 class=FPU ── ─▶ select arbiters</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry3 : srcA? ready srcB? wait age=14 class=AGU ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">select result : oldest ready ALU → ALU port</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">oldest ready FPU → FPU port</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready AGU only if load/store port available</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 시 병목 |
 | :-- | :-- | :-- |
@@ -95,7 +98,7 @@ tags = ["studynote-computer-architecture"]
 | 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 준비된 명령 동적 선별 | 넓은 ILP 추출 | 깨우기·선택 복잡도 큼 |
 | 리오더 버퍼 (ROB) | 원래 순서대로 완료·예외 보장 | 정밀 예외와 순서 보존 | 실행 가능성 자체는 판단하지 않음 |
 
-또한 발급 큐는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우의 일부이지 전부가 아니다. 발급 큐가 "지금 실행할 명령"을 고른다면, 리오더 버퍼는 "아직 시스템 밖으로 내보내면 안 되는 결과"를 붙잡고 있고, [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 메모리 순서 제약을 관리한다. 즉 발급 큐는 **실행 스케줄링의 중심**이지만, 올바른 실행을 완성하려면 리네이밍·ROB·LSQ와 함께 작동해야 한다.
+또한 발급 큐는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우의 일부이지 전부가 아니다. 발급 큐가 "지금 실행할 명령"을 고른다면, 리오더 버퍼는 "아직 시스템 밖으로 내보내면 안 되는 결과"를 붙잡고 있고, [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 메모리 순서 제약을 관리한다. 즉 발급 큐는 <strong>실행 스케줄링의 중심</strong>이지만, 올바른 실행을 완성하려면 리네이밍·ROB·LSQ와 함께 작동해야 한다.
 
 - **📢 섹션 요약 비유**: 발급 큐는 주방 조리 순서를 정하는 실장이고, 예약 스테이션은 각 조리대 앞 준비대이며, 리오더 버퍼는 주문표를 원래 순서대로 정리하는 계산대다.
 
@@ -128,7 +131,7 @@ tags = ["studynote-computer-architecture"]
 
 잘 설계된 발급 큐는 [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 폭을 실제 처리량으로 바꾸는 핵심 장치다. 준비된 명령을 매 사이클 안정적으로 공급하면 클럭당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))가 올라가고, 긴 메모리 대기 동안에도 실행 유닛 활용률을 유지할 수 있다. 특히 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 기능 유닛 비대칭이 섞인 현대 워크로드에서는 발급 큐 품질이 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 연결된다.
 
-하지만 한계도 분명하다. 큐가 커질수록 비교 회로와 결과 방송망이 커지고, 이는 발열·면적·주파수 저하로 돌아온다. 결국 발급 큐는 "무한히 넓은 대기실"이 아니라, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득과 회로 비용이 균형을 이루는 범위 안에서 가장 영리하게 선택해야 하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**로 기억하는 것이 맞다.
+하지만 한계도 분명하다. 큐가 커질수록 비교 회로와 결과 방송망이 커지고, 이는 발열·면적·주파수 저하로 돌아온다. 결국 발급 큐는 "무한히 넓은 대기실"이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 이득과 회로 비용이 균형을 이루는 범위 안에서 가장 영리하게 선택해야 하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 발급 큐는 고속도로의 램프 미터링 시스템과 같다. 차를 무조건 많이 들이는 것이 아니라, 지금 가장 빨리 흐를 차선을 골라 보내야 전체 속도가 가장 잘 나온다.
 
@@ -146,24 +149,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-In-order pipeline
-      │
-      ▼
-Scoreboard hazard tracking
-      │
-      ▼
-Tomasulo reservation stations
-      │
-      ▼
-Superscalar issue queue + register renaming
-      │
-      ▼
-Unified / clustered schedulers
-      │
-      ▼
-Energy-aware wakeup-select optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">In-order pipeline</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scoreboard hazard tracking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tomasulo reservation stations</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Superscalar issue queue + register renaming</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unified / clustered schedulers</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Energy-aware wakeup-select optimization</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순한 위험 감시 → 동적 예약 → 넓은 발급 → 전력까지 고려한 스케줄링"으로 발급 구조가 진화해 온 과정을 보여 준다.
 

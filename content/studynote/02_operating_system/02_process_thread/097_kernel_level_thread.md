@@ -32,32 +32,31 @@ tags = ["studynote-operating-system"]
 
 | 구성 요소 | 역할 | 실무 메커니즘 |
 | :--- | :--- | :--- |
-| **TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)** | 상태 저장 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 안에 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 정보 보관 (메모리 소모) |
-| **[System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)** | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 통제 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리를 위해 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입 (Overhead) |
-| **OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | CPU 자원 분배 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 큐를 검사하여 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 물리적 코어 독립 할당 |
+| <strong>TCB (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Control Block)</strong> | 상태 저장 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 안에 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 정보 보관 (메모리 소모) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 통제 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리를 위해 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입 (Overhead) |
+| <strong>OS <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | CPU 자원 분배 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 큐를 검사하여 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 물리적 코어 독립 할당 |
 
 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 1:1 매핑 구조와 블로킹 격리 원리를 시각화한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           커널 수준 스레드 (KLT) 1:1 매핑 모델 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│  [ 사용자 영역 (User Space) ]                                │
-│  ┌──────────────────────────────────────────────────┐        │
-│  │ 프로세스                                          │        │
-│  │  [ ULT 1 ]          [ ULT 2 ]          [ ULT 3 ] │        │
-│  └───│──────────────────│──────────────────│────────┘        │
-│ ─────┼──────────────────┼──────────────────┼─ Mode Boundary ─│
-│      ▼ 1:1              ▼ 1:1              ▼ 1:1           │
-│  [ 커널 영역 (Kernel Space) ]                                │
-│     [ KLT 1 ]          [ KLT 2 ]          [ KLT 3 ]          │
-│       │ 블로킹 발생!        │                  │               │
-│       ▼                   ▼                  ▼               │
-│     (Wait 큐 이동)     [ 코어 1 할당 ]    [ 코어 2 할당 ]         │
-│                                                              │
-│ * 핵심: KLT 1이 멈춰도 커널 스케줄러가 KLT 2, 3을 타 코어에서 실행시킴 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 수준 스레드 (KLT) 1:1 매핑 모델 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 영역 (User Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ULT 1</div><div class="kb-diagram-node">ULT 2</div><div class="kb-diagram-node">ULT 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Mode Boundary ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1:1 ▼ 1:1 ▼ 1:1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 영역 (Kernel Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KLT 1</div><div class="kb-diagram-node">KLT 2</div><div class="kb-diagram-node">KLT 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로킹 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(Wait 큐 이동)</div><div class="kb-diagram-node">코어 1 할당</div><div class="kb-diagram-node">코어 2 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: KLT 1이 멈춰도 커널 스케줄러가 KLT 2, 3을 타 코어에서 실행시킴</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 KLT 모델에서 블로킹 장애가 어떻게 격리되는지를 보여준다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 시스템 콜을 호출하여 대기 상태에 빠지면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 KLT의 상태만 'Wait'로 변경하고 동일 프로세스에 속한 다른 KLT들은 다른 물리 코어에서 작업을 멈추지 않고 지속하게 만든다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-operating-system"]
 | 비교 축 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (KLT) | [사용자 수준 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT) | 설계적 차이점 |
 | :--- | :--- | :--- | :--- |
 | **관리 주체** | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 유저 레벨 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 인지 유무 |
-| **[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 방어** | 하나의 [스레드 블록](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/) 시 타 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 정상 실행 | 블록 시 **프로세스 전체 마비** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 보장의 핵심 기준 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 방어</strong> | 하나의 [스레드 블록](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/) 시 타 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 정상 실행 | 블록 시 **프로세스 전체 마비** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 보장의 핵심 기준 |
 | **모드 전환** | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 유저 ↔ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 횡단 (느림) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입 없음 (매우 빠름) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 지점의 차이 |
 | **멀티코어 활용** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 각 코어에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능 ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) | 단일 코어에서만 시분할 | 하드웨어 자원 활용 능력 |
 
@@ -87,8 +86,8 @@ KLT [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_schedul
 대부분의 현대 언어(Java Native [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 등)와 OS는 KLT를 기본으로 사용한다. 실무 엔지니어는 KLT의 '무거움'을 통제하는 아키텍처적 결정을 내려야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 튜닝**: 서버에 들어오는 요청 1개당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`new Thread()`)를 무한정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는가? KLT는 하나 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) TCB와 수 MB의 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리를 점유한다. 트래픽 폭증 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 발생하므로 반드시 하드웨어 코어 수의 N배 수준으로 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기를 고정해야 한다.
-2. **비동기 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 전환**: 클라이언트 1만 명이 접속하는 C10K 환경에서는 KLT 1만 개를 유지할 수 없다. 커넥션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무작정 늘리는 대신 Netty나 NGINX 같은 비동기 I/O([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 멀티플렉싱 아키텍처로 넘어가 KLT 개입을 최소화했는가?
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>) 튜닝</strong>: 서버에 들어오는 요청 1개당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`new Thread()`)를 무한정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는가? KLT는 하나 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) TCB와 수 MB의 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리를 점유한다. 트래픽 폭증 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 발생하므로 반드시 하드웨어 코어 수의 N배 수준으로 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기를 고정해야 한다.
+2. <strong>비동기 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a> 전환</strong>: 클라이언트 1만 명이 접속하는 C10K 환경에서는 KLT 1만 개를 유지할 수 없다. 커넥션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무작정 늘리는 대신 Netty나 NGINX 같은 비동기 I/O([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 멀티플렉싱 아키텍처로 넘어가 KLT 개입을 최소화했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 단일 프로세스 내에서 KLT를 물리 코어 개수보다 수천 배 더 많이 띄우는 행위. 실제 연산 처리 시간보다 KLT 간 교대([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))를 위한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄링 시간이 더 길어져 시스템 전체 TPS가 바닥으로 곤두박질친다.
@@ -111,28 +110,30 @@ KLT [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_schedul
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[사용자 수준 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT)** | KLT의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 비용을 없앤 극단적 가벼움의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 하지만 차단(Block)에 취약함 |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | KLT가 CPU 제어권을 바꿀 때 특권 계층을 오가며 발생하는 주요 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인 |
-| **[SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) ([대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/))** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 여러 코어를 인지하고 KLT를 동등하게 흩뿌려주는 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조 |
-| **가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | KLT의 무거움을 극복하기 위해 KLT 위에서 여러 개의 흐름을 쪼개 쓰는 최신 런타임 기술 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/">사용자 수준 스레드</a> (ULT)</strong> | KLT의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 비용을 없앤 극단적 가벼움의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 하지만 차단(Block)에 취약함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | KLT가 CPU 제어권을 바꿀 때 특권 계층을 오가며 발생하는 주요 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> (<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/">대칭형 다중 처리</a>)</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 여러 코어를 인지하고 KLT를 동등하게 흩뿌려주는 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조 |
+| <strong>가상 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (Virtual <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | KLT의 무거움을 극복하기 위해 KLT 위에서 여러 개의 흐름을 쪼개 쓰는 최신 런타임 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 시분할 (단일 실행 흐름)
-    │
-    ▼
-사용자 수준 스레드 (가벼움, 블로킹 취약)
-    │
-    ▼
-커널 수준 스레드 (1:1 매핑, 블로킹 면역, 무거움)
-    │
-    ▼
-다대다 (M:N) 매핑 / 하이브리드 모델
-    │
-    ▼
-코루틴 및 가상 스레드 (Virtual Thread) 런타임 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 시분할 (단일 실행 흐름)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사용자 수준 스레드 (가벼움, 블로킹 취약)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 수준 스레드 (1:1 매핑, 블로킹 면역, 무거움)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다대다 (M:N) 매핑 / 하이브리드 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코루틴 및 가상 스레드 (Virtual Thread) 런타임 결합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

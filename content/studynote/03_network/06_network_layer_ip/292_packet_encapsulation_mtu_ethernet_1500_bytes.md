@@ -25,19 +25,23 @@ tags = ["studynote-network"]
 - **필요성**: 우체국에서 편지를 보낼 때 편지 내용물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 덜렁 주면 배달을 못 한다. 편지봉투([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더)에 넣고, 그걸 다시 택배 상자(IP 헤더)에 넣고, 마지막으로 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임)에 실어야 배달 체계가 돌아간다. 이때, 마지막 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 실을 수 있는 최대 무게 제한(MTU)이 없으면, 너무 큰 짐 하나 때문에 컨베이어 벨트가 고장 나거나 다른 짐들이 배송 지연을 겪으므로 반드시 크기 제한을 두어야 한다.
 
 - **💡 비유**: 
-  - **캡슐화**: 러시아 전통 인형 **'마트료시카'**입니다. 가장 작은 인형([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 중간 인형([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 넣고, 그걸 다시 큰 인형(IP)에 넣는 식입니다.
-  - **MTU**: 마트료시카를 담아 나르는 **'택배 박스의 규격 제한(1500g)'**입니다. 마트료시카 전체 무게가 1500g을 넘어가면 택배 회사에서 접수를 거부합니다.
+  - **캡슐화**: 러시아 전통 인형 <strong>'마트료시카'</strong>입니다. 가장 작은 인형([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 중간 인형([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 넣고, 그걸 다시 큰 인형(IP)에 넣는 식입니다.
+  - **MTU**: 마트료시카를 담아 나르는 <strong>'택배 박스의 규격 제한(1500g)'</strong>입니다. 마트료시카 전체 무게가 1500g을 넘어가면 택배 회사에서 접수를 거부합니다.
 
-```text
-[단편화 및 재조립]
-    │
-    ▼
-[패킷 캡슐화, MTU]
-    │
-    └──▶ [PMTU]
-```
 
-- **📢 섹션 요약 비유**: ** 네트워크 캡슐화는 회장님(응용 계층)의 편지를 비서([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))가 서류 봉투에 넣고, 우체국(IP)이 택배 상자에 포장한 뒤, 화물차([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에 싣는 과정입니다. 이때 화물차가 실을 수 있는 **"최대 상자 크기(MTU)"가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 화물차의 경우 1500 사이즈로 법제화**되어 있습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단편화 및 재조립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 캡슐화, MTU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PMTU</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 네트워크 캡슐화는 회장님(응용 계층)의 편지를 비서(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)가 서류 봉투에 넣고, 우체국(IP)이 택배 상자에 포장한 뒤, 화물차(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)에 싣는 과정입니다. 이때 화물차가 실을 수 있는 </strong>"최대 상자 크기(MTU)"가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 화물차의 경우 1500 사이즈로 법제화**되어 있습니다.
 
 ---
 
@@ -45,40 +49,37 @@ tags = ["studynote-network"]
 
 ### 1. 계층별 캡슐화와 오버헤드(Overhead)의 누적
 사용자가 1460바이트짜리 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보낸다고 가정하자.
-1. **4계층 (Transport)**: TCP가 전송 속도와 순서를 적은 **20바이트 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더**를 붙인다. (총 1480바이트가 됨. 이를 세그먼트라 부름).
-2. **3계층 (Network)**: IP가 목적지 컴퓨터 주소를 적은 **20바이트 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더**를 붙인다. (총 1500바이트가 됨. 이를 패킷이라 부름).
-3. **2계층 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link)**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 적은 **14바이트 헤더**와 **4바이트 FCS(꼬리표)**를 앞뒤로 붙인다. (최종 1518바이트짜리 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임이 완성되어 랜선을 타고 전송됨).
+1. **4계층 (Transport)**: TCP가 전송 속도와 순서를 적은 <strong>20바이트 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더</strong>를 붙인다. (총 1480바이트가 됨. 이를 세그먼트라 부름).
+2. **3계층 (Network)**: IP가 목적지 컴퓨터 주소를 적은 <strong>20바이트 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더</strong>를 붙인다. (총 1500바이트가 됨. 이를 패킷이라 부름).
+3. <strong>2계층 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Link)</strong>: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 적은 <strong>14바이트 헤더</strong>와 <strong>4바이트 FCS(꼬리표)</strong>를 앞뒤로 붙인다. (최종 1518바이트짜리 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임이 완성되어 랜선을 타고 전송됨).
 
 ### 2. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) MTU 1500바이트의 의미
-위 과정에서 2계층인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 입장에서 볼 때, 14바이트 헤더와 4바이트 FCS 사이에 끼워 넣는 **알맹이(IP 패킷 전체)**의 크기가 바로 MTU다. 
+위 과정에서 2계층인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 입장에서 볼 때, 14바이트 헤더와 4바이트 FCS 사이에 끼워 넣는 <strong>알맹이(IP 패킷 전체)</strong>의 크기가 바로 MTU다. 
 - 1980년대 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준을 만들 때, "프레임이 너무 크면 한 놈이 회선을 독점해서 남들이 통신을 못 하니까, 알맹이(MTU) 크기를 1500바이트로 엄격히 제한하자"라고 약속했다.
 - 만약 3계층에서 2000바이트짜리 IP 패킷이 내려오면, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드는 "내 뱃속(MTU 1500)에 안 들어가! 도로 가져가!"라며 뱉어낸다. 결국 IP 계층이 자기가 만든 패킷을 1500 크기에 맞게 여러 개로 칼질([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))해야만 한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                캡슐화와 MTU (Maximum Transmission Unit)        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ App (L7) ]                   [ Data (1460 Bytes) ]      │
- │                                            │                │
- │   [ TCP (L4) ]           [ TCP 헤더(20) ][ Data (1460) ]      │
- │                                            │                │
- │                 ┌───────────────── 알맹이 (MTU 1500 제한) ─────┐│
- │   [ IP (L3) ]   │ [ IP 헤더(20) ][ TCP 헤더(20) ][ Data ]   ││
- │                 └───────────────────────────────────────────┘│
- │                                            │                │
- │   [ MAC (L2) ]  [ MAC 헤더(14) ][ 1500 Bytes 알맹이 ][ FCS(4) ] │
- │                                                             │
- │   * 전체 이더넷 프레임 크기: 1518 Bytes                            │
- │   * L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캡슐화와 MTU (Maximum Transmission Unit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App (L7)</div><div class="kb-diagram-node">Data (1460 Bytes)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP (L4)</div><div class="kb-diagram-node">TCP 헤더(20)</div><div class="kb-diagram-node">Data (1460)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알맹이 (MTU 1500 제한)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP (L3)</div><div class="kb-diagram-node">IP 헤더(20)</div><div class="kb-diagram-node">TCP 헤더(20)</div><div class="kb-diagram-node">Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC (L2)</div><div class="kb-diagram-node">MAC 헤더(14)</div><div class="kb-diagram-node">1500 Bytes 알맹이</div><div class="kb-diagram-node">FCS(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 전체 이더넷 프레임 크기: 1518 Bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes</div></div>
+</div>
+</div>
+
+
 
 ### 3. MSS (Maximum [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Size)
-개발자들은 네트워크를 튜닝할 때 MTU보다 **MSS**라는 단어를 더 자주 쓴다.
-MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더(20)를 빼면 1460바이트가 남는다. 이것이 **순수한 내 프로그램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 없이 한 번에 전송될 수 있는 최대 크기**이며, 이를 **MSS(1460)**라고 부른다.
+개발자들은 네트워크를 튜닝할 때 MTU보다 <strong>MSS</strong>라는 단어를 더 자주 쓴다.
+MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더(20)를 빼면 1460바이트가 남는다. 이것이 <strong>순수한 내 프로그램 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)가 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 없이 한 번에 전송될 수 있는 최대 크기</strong>이며, 이를 <strong>MSS(1460)</strong>라고 부른다.
 
-- **📢 섹션 요약 비유**: ** 내 몸집(순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 1460g일 때, 겨울옷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 20g)과 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(IP 헤더 20g)을 껴입어 총 1500g이 되면, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이라는 **"무게 제한 1500g짜리 소형 엘리베이터(MTU)"**에 딱 맞춰 탈 수 있습니다. 만약 밥을 더 먹어 1501g이 되면 얄짤없이 짐을 찢어서 두 번에 나눠 타야 합니다.
+- **📢 섹션 요약 비유**: <strong> 내 몸집(순수 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)이 1460g일 때, 겨울옷(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더 20g)과 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(IP 헤더 20g)을 껴입어 총 1500g이 되면, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>이라는 </strong>"무게 제한 1500g짜리 소형 엘리베이터(MTU)"**에 딱 맞춰 탈 수 있습니다. 만약 밥을 더 먹어 1501g이 되면 얄짤없이 짐을 찢어서 두 번에 나눠 타야 합니다.
 
 ---
 
@@ -134,15 +135,19 @@ MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_tr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 단편화 및 재조립]
-    │
-    ▼
-[현재 개념: 패킷 캡슐화, MTU]
-    │
-    ├──▶ [확장 A: PMTU]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 단편화 및 재조립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 캡슐화, MTU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PMTU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 패킷 캡슐화, MTU는 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 및 재조립에서 출발해 현재 메커니즘을 정교화하고, 이후 PMTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 스트레스(Stress)는 비정상적인 압박을 뜻한다. 예상된 최대 사용자 수가 1만 명인 서버에 5만 명, 10만 명의 트래픽을 때려 박는다. CPU 100%, 메모리 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)), 네트워크 타임아웃이 터지는 아비규환 속에서 시스템의 에러 처리 로직과 방어선([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))이 제대로 작동하는지 엑스레이를 찍는 것이다.
 
-- **필요성**: 수강신청 첫날 오전 9시, 백신 예약 첫날, BTS 콘서트 티켓팅 등 시스템은 1년에 단 하루, 단 1분 동안 설계치를 100배 초과하는 극한의 압박을 받는다. 이때 아무런 스트레스 테스트 없이 오픈했다면, 서버는 멈추고 결제 중이던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하며 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려 영원히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않는 재앙이 터진다. 기술사는 "서버가 안 죽게 만들어라"라고 지시하는 것이 아니라, **"서버가 죽더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 안전하게 뻗고, 트래픽이 빠지면 스스로 부활하게 만들어라"**를 스트레스 테스트로 증명해야 한다.
+- **필요성**: 수강신청 첫날 오전 9시, 백신 예약 첫날, BTS 콘서트 티켓팅 등 시스템은 1년에 단 하루, 단 1분 동안 설계치를 100배 초과하는 극한의 압박을 받는다. 이때 아무런 스트레스 테스트 없이 오픈했다면, 서버는 멈추고 결제 중이던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하며 DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려 영원히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않는 재앙이 터진다. 기술사는 "서버가 안 죽게 만들어라"라고 지시하는 것이 아니라, <strong>"서버가 죽더라도 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 손실 없이 안전하게 뻗고, 트래픽이 빠지면 스스로 부활하게 만들어라"</strong>를 스트레스 테스트로 증명해야 한다.
 
-- **💡 비유**: 스트레스 테스트는 **'잠수함 압력 테스트(Crash Test)'**와 같습니다. 평소에 다니는 수심 100m([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))가 아니라, 잠수함을 수심 1,000m의 심해로 억지로 끌고 들어갑니다. 잠수함이 찌그러지며 박살 날 때(시스템 다운), 물이 엔진실로 새어 들어가지 않도록 비상 격벽이 제대로 닫히는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 선원들은 대피할 수 있는지(우아한 실패)를 보는 잔혹하지만 가장 확실한 극한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)입니다.
+- **💡 비유**: 스트레스 테스트는 <strong>'잠수함 압력 테스트(Crash Test)'</strong>와 같습니다. 평소에 다니는 수심 100m([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))가 아니라, 잠수함을 수심 1,000m의 심해로 억지로 끌고 들어갑니다. 잠수함이 찌그러지며 박살 날 때(시스템 다운), 물이 엔진실로 새어 들어가지 않도록 비상 격벽이 제대로 닫히는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 선원들은 대피할 수 있는지(우아한 실패)를 보는 잔혹하지만 가장 확실한 극한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 과거엔 '평상시'에 서버가 잘 도는지([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))에 집중했다. 서버가 죽으면 그냥 재부팅했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 과거엔 '평상시'에 서버가 잘 도는지([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))에 집중했다. 서버가 죽으면 그냥 재부팅했다.
   2. **대규모 장애의 시대**: 2000년대 전자상거래 폭발로 디도스(DDoS)급의 정상 트래픽 폭주가 일상화되며 시스템 붕괴가 기업의 파산으로 이어졌다. "어떻게 죽는지 확인하자"는 사상이 대두되었다.
   3. **카오스 엔진 (현재)**: 넷플릭스의 [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))처럼, 라이브 운영 환경에서도 의도적으로 스트레스를 주어(예: 서버 랜선 뽑기, CPU 100% 만들기) 클라우드의 자가 치유력을 상시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 아키텍처로 진화했다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 스트레스 테스트 (Stress Tes의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  스트레스 테스트 (Stress Tes                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트레스 테스트 (Stress Tes</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 스트레스 테스트 (Stress Tes가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-스트레스 테스트 (Stress Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+스트레스 테스트 (Stress Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 스트레스 테스트 (Stress Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스트레스 테스트 (Stress Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트레스 테스트 (Stress Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

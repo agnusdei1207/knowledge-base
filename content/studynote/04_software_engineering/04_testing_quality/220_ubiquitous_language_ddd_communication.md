@@ -20,7 +20,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 프로젝트 실패의 90%는 소통 부재에서 터집니다.
-- **현업([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가)**: "이번 쇼핑몰 이벤트에서 VIP 회원에게 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 할인을 **'적용'**해 주세요."
+- <strong>현업(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가)</strong>: "이번 쇼핑몰 이벤트에서 VIP 회원에게 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 할인을 <strong>'적용'</strong>해 주세요."
 - **개발자**: "아~ DB의 User 테이블에서 Rank가 1인 레코드의 Coupon 칼럼을 **'업데이트(Update)'** 하라는 뜻이구나!"
 - 현업과 개발자의 머릿속에 있는 단어가 다르면, 1달 뒤 시스템이 완성됐을 때 요구사항이 미묘하게 비틀려(버그) 회사가 망합니다. 개발자가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 이해하지 못한 탓입니다.
 
@@ -28,18 +28,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 유비쿼터스 언어 (Ubiquitous의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  유비쿼터스 언어 (Ubiquitous                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유비쿼터스 언어 (Ubiquitous</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 유비쿼터스 언어 (Ubiquitous가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Ubiquitous (어디에나 존재하는)**: 라틴어로 '어디에나 있는'이라는 뜻입니다.
-- **개념**: 프로젝트에 참여하는 모든 사람([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가, 기획자, 디자이너, 백엔드 개발자)이 회의실 칠판에서부터 엑셀 설계 문서, **그리고 가장 깊숙한 소스 코드(클래스/메서드 명)와 DB 테이블 이름에 이르기까지, 단 하나의 예외도 없이 100% 완벽하게 똑같이 사용하는 '절대적인 공통 비즈니스 언어(사전)'를 정의하고 사용하는 원칙**입니다.
+- **개념**: 프로젝트에 참여하는 모든 사람([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가, 기획자, 디자이너, 백엔드 개발자)이 회의실 칠판에서부터 엑셀 설계 문서, <strong>그리고 가장 깊숙한 소스 코드(클래스/메서드 명)와 DB 테이블 이름에 이르기까지, 단 하나의 예외도 없이 100% 완벽하게 똑같이 사용하는 '절대적인 공통 비즈니스 언어(사전)'를 정의하고 사용하는 원칙</strong>입니다.
 
 - **📢 섹션 요약 비유**: 유비쿼터스 언어 (Ubiquitous Language)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -94,7 +93,7 @@ tags = ["studynote-software-engineering"]
 - **코드 = 살아있는 기획서**: 자바나 파이썬 코드를 한글로 소리 내어 읽으면, 그 자체로 현업의 완벽한 비즈니스 기획서가 됩니다. 
 - 새로운 신입 개발자가 들어와서 코드만 읽어도 이 회사의 은행 업무 프로세스([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))를 완벽하게 파악할 수 있는 기적이 일어납니다.
 
-> 📢 **섹션 요약 비유**: 기존의 소프트웨어 개발은 **'스페인 요리사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가)'가 요리법을 설명하면 '한국인 번역가(개발자)'가 그걸 자기 맘대로 대충 한국식 된장찌개 레시피로 번역해서 노트(코드)에 적어놓는 끔찍한 오역의 과정**이었습니다. 나중에 스페인 요리사가 노트를 보고 자기가 말한 파에야가 된장찌개로 변한 걸 보고 피를 토합니다. **유비쿼터스 언어(Ubiquitous Language)**는 번역가를 없애고, 요리사와 개발자가 무조건 **'스페인어(비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어)' 단 하나로만 대화하기로 합의한 절대 규칙**입니다. 요리사가 "빠에야(Paella) 팬에 쌀을 아소프리토(Sofrito) 하라"고 말하면, 개발자도 자신의 비밀 레시피 노트(소스 코드)에 무조건 함수 이름을 `doSofritoInPaellaPan()` 이라고 똑같이 스페인어로 적어 넣습니다. 이렇게 100% 단어를 일치시키면, 나중에 요리사가 개발자의 암호 같은 레시피 노트를 쓱 보더라도 "오, 여기서 아소프리토를 제대로 하고 있군!" 하고 직관적으로 오류를 잡아낼 수 있는, 소통의 장벽을 부숴버린 마법의 공용어 사전입니다.
+> 📢 **섹션 요약 비유**: 기존의 소프트웨어 개발은 <strong>'스페인 요리사(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가)'가 요리법을 설명하면 '한국인 번역가(개발자)'가 그걸 자기 맘대로 대충 한국식 된장찌개 레시피로 번역해서 노트(코드)에 적어놓는 끔찍한 오역의 과정</strong>이었습니다. 나중에 스페인 요리사가 노트를 보고 자기가 말한 파에야가 된장찌개로 변한 걸 보고 피를 토합니다. <strong>유비쿼터스 언어(Ubiquitous Language)</strong>는 번역가를 없애고, 요리사와 개발자가 무조건 <strong>'스페인어(비즈니스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 언어)' 단 하나로만 대화하기로 합의한 절대 규칙</strong>입니다. 요리사가 "빠에야(Paella) 팬에 쌀을 아소프리토(Sofrito) 하라"고 말하면, 개발자도 자신의 비밀 레시피 노트(소스 코드)에 무조건 함수 이름을 `doSofritoInPaellaPan()` 이라고 똑같이 스페인어로 적어 넣습니다. 이렇게 100% 단어를 일치시키면, 나중에 요리사가 개발자의 암호 같은 레시피 노트를 쓱 보더라도 "오, 여기서 아소프리토를 제대로 하고 있군!" 하고 직관적으로 오류를 잡아낼 수 있는, 소통의 장벽을 부숴버린 마법의 공용어 사전입니다.
 
 - **📢 섹션 요약 비유**: 유비쿼터스 언어 (Ubiquitous Language)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -139,21 +138,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-유비쿼터스 언어 (Ubiquitous Language) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유비쿼터스 언어 (Ubiquitous Language) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

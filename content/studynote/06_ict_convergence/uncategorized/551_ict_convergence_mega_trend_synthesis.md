@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/), [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))이 1.0 단계(온라인화)를 지나 **2.0 단계(지능화·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화·공간화)**로 진입하면서, 단일 기술이 아닌 메가트렌드 축의 교차가 산업 패러다임을 재편하고 있다. 각 축을 이해하고 교차 관계를 예측하는 능력이 기술사 수준의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 ICT 사고다.
+[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/), [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))이 1.0 단계(온라인화)를 지나 <strong>2.0 단계(지능화·<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>화·공간화)</strong>로 진입하면서, 단일 기술이 아닌 메가트렌드 축의 교차가 산업 패러다임을 재편하고 있다. 각 축을 이해하고 교차 관계를 예측하는 능력이 기술사 수준의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 ICT 사고다.
 
 - **📢 섹션 요약 비유**: 메가트렌드 4대 축은 나침반의 4방향—어느 방향으로 가는지 알아야 하지만, 두 방향이 겹치는 대각선 방향이 실제로 가장 빠른 길일 수 있다.
 
@@ -29,22 +29,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 메가트렌드 4대 축 교차 맵
 
-```
-                   AI 네이티브
-                       │
-          ┌────────────┼────────────┐
-          │            │            │
-    AI×블록체인   AI×양자     AI×공간
-    (거버넌스)  (양자 ML)   (공간 AI)
-          │            │            │
- 탈중앙화(Web3)──────────────── 공간화(Spatial)
-          │            │
-    블록체인×양자   공간×탈중앙
-    (양자 내성    (분산 공간
-     블록체인)     메타버스)
-          │
-       양자(Quantum)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AI 네이티브</div>
+<div class="kb-diagram-note">AI×블록체인 AI×양자 AI×공간</div>
+<div class="kb-diagram-note">(거버넌스) (양자 ML) (공간 AI)</div>
+<div class="kb-diagram-note">탈중앙화(Web3) 공간화(Spatial)</div>
+<div class="kb-diagram-note">블록체인×양자 공간×탈중앙</div>
+<div class="kb-diagram-note">(양자 내성 (분산 공간</div>
+<div class="kb-diagram-note">블록체인) 메타버스)</div>
+<div class="kb-diagram-note">양자(Quantum)</div>
+</div>
+</div>
+
+
 
 | 메가트렌드 축 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) | 5년 후 전망 | 핵심 기술 |
 |:---|:---|:---|:---|
@@ -68,7 +68,7 @@ tags = ["studynote-ict-convergence"]
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) × 공간 | 공간 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/): [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) 포인트 클라우드 실시간 분석, 공간 인식 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(Spatial [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) | 엣지 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 프라이버시(항시 촬영) |
 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) × 양자 | 양자 내성 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 서명으로 마이그레이션), [QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/)([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution)로 노드 간 통신 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 기존 체인 포크 없이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 어려움 |
 
-플랫폼 경제(Platform Economy)에서 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 경제([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Economy)**로의 전환이 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 축의 핵심이다. 플랫폼은 중앙이 규칙을 정하지만, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 코드([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 규칙을 자동 집행한다.
+플랫폼 경제(Platform Economy)에서 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 경제(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Economy)</strong>로의 전환이 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 축의 핵심이다. 플랫폼은 중앙이 규칙을 정하지만, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 코드([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 규칙을 자동 집행한다.
 
 - **📢 섹션 요약 비유**: 플랫폼 경제는 쇼핑몰 관리자가 규칙을 정하는 것, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 경제는 규칙이 자동판매기처럼 코드에 새겨져 관리자 없이 돌아가는 것이다.
 
@@ -79,10 +79,10 @@ tags = ["studynote-ict-convergence"]
 **기술사 논술 메가트렌드 적용 프레임**:
 1. **현황**: "현재 OO 축은 어느 성숙도 단계인가?" (Gartner Hype Cycle [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 2. **교차**: "OO 축과 XX 축의 교차점에서 어떤 신규 가치가 창출되는가?"
-3. **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: "교차 시 발생하는 기술적·제도적 과제는 무엇인가?"
+3. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: "교차 시 발생하는 기술적·제도적 과제는 무엇인가?"
 4. **전망**: "5년 후 어떤 축이 주도권을 갖고, 어떤 교차가 산업 재편을 이끄는가?"
 
-**국내 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 연계**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 국산화([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브), 디지털 자산 제도화([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)), 양자 기술 R&D 투자(양자), [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)·XR 산업 육성(공간화)—4대 축 모두 국가 ICT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 직결.
+<strong>국내 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 연계</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 국산화([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브), 디지털 자산 제도화([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)), 양자 기술 R&D 투자(양자), [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)·XR 산업 육성(공간화)—4대 축 모두 국가 ICT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 직결.
 
 - **📢 섹션 요약 비유**: 기술사는 개별 기술의 전문가이기도 하지만, 기술들이 어떻게 사회와 산업을 바꾸는지 예측하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)가여야 한다.
 
@@ -90,7 +90,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-4대 메가트렌드의 융합은 AI가 자율적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스를 관리하고, 양자 컴퓨팅이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련을 가속하며, 공간 인터페이스가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트의 물리적 행동 반경을 현실 세계로 확장하는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브 탈중앙 공간 양자 사회**라는 장기 비전으로 수렴한다.
+4대 메가트렌드의 융합은 AI가 자율적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스를 관리하고, 양자 컴퓨팅이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련을 가속하며, 공간 인터페이스가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트의 물리적 행동 반경을 현실 세계로 확장하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 네이티브 탈중앙 공간 양자 사회</strong>라는 장기 비전으로 수렴한다.
 
 기술사는 이 각 축의 현재 위치와 교차 가능성을 정확히 판단하여, 조직·산업·국가 수준의 ICT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립에 기여하는 역할을 담당한다.
 

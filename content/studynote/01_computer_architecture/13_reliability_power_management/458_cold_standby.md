@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-콜드 스탠바이 (Cold Standby)는 주 시스템이 동작하는 동안 예비 시스템을 꺼 두거나 최소한의 보관 상태로 유지하다가, 주 시스템 장애 시 그제야 예비 장비를 가동해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 방식이다. 본질은 고가용성 (HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 그 자체보다 **비용 대비 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 확보**에 있다. 즉, 항상 살아 있는 예비 장비를 두는 것이 아니라, “장애가 나면 시간이 걸리더라도 다시 일으킬 수 있는 준비”를 해 두는 전략이다.
+콜드 스탠바이 (Cold Standby)는 주 시스템이 동작하는 동안 예비 시스템을 꺼 두거나 최소한의 보관 상태로 유지하다가, 주 시스템 장애 시 그제야 예비 장비를 가동해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 방식이다. 본질은 고가용성 (HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 그 자체보다 <strong>비용 대비 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능성 확보</strong>에 있다. 즉, 항상 살아 있는 예비 장비를 두는 것이 아니라, “장애가 나면 시간이 걸리더라도 다시 일으킬 수 있는 준비”를 해 두는 전략이다.
 
 이 방식이 필요한 이유는 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/) ([Hot Standby](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)) 수준의 무중단을 요구하지 않기 때문이다. 사내 행정 시스템, 주간 통계 서버, 장기 보관형 분석 환경처럼 몇 시간의 중단은 허용되지만 상시 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 비용은 과한 시스템이 분명히 존재한다. 이런 곳에 동일 사양 장비를 24시간 켜 두면 전력, 라이선스, 유지보수 비용이 업무 가치보다 더 커질 수 있다.
 
@@ -35,23 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 콜드 스탠바이의 정상 시점과 장애 시점이 어떻게 다른지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                콜드 스탠바이의 평시/장애시 동작 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 평상시                                                               │
-│ [Active 시스템] ── 서비스 제공 ──▶ 사용자                            │
-│        │                                                             │
-│        └── 백업/스냅샷 ──▶ [백업 저장소]                              │
-│                                   │                                  │
-│ [Standby 시스템] = 전원 OFF 또는 미기동 상태                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 장애 발생 후                                                          │
-│ [Active 장애]                                                         │
-│      ▼                                                                │
-│ [Standby 전원 ON] ─▶ OS/애플리케이션 기동 ─▶ 백업 복원 ─▶ 서비스 절체 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드 스탠바이의 평시/장애시 동작 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평상시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active 시스템</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사용자</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백업 저장소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Standby 시스템</div><div class="kb-diagram-note">= 전원 OFF 또는 미기동 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 후</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active 장애</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Standby 전원 ON</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">OS/애플리케이션 기동 ─▶ 백업 복원 ─▶ 서비스 절체</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 가장 중요한 두 지표는 RTO와 RPO다. RTO는 장애 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다시 열기까지 허용되는 최대 시간이고, RPO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 기준으로 잃어도 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위다. 콜드 스탠바이는 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 하지 않는 경우가 많기 때문에 RTO는 길어지고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기가 길수록 RPO도 커진다.
 
@@ -80,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기만큼 손실 가능 | 소량 손실 가능 | 매우 작음 또는 0에 근접 |
 | 비용 | 가장 낮음 | 중간 | 가장 높음 |
 
-이 차이는 단순한 속도 경쟁이 아니다. 콜드 스탠바이는 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력 확보**를 목표로 하고, [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)는 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성 유지**를 목표로 한다. 따라서 동일한 “예비 시스템”이라는 표현을 쓰더라도 설계 철학이 다르다. 콜드 스탠바이에 맞는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)를 강요하면 비용 과잉이 되고, 반대로 실시간 금융 거래에 콜드 스탠바이를 적용하면 장애가 곧 비즈니스 사고가 된다.
+이 차이는 단순한 속도 경쟁이 아니다. 콜드 스탠바이는 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 능력 확보</strong>를 목표로 하고, [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 연속성 유지</strong>를 목표로 한다. 따라서 동일한 “예비 시스템”이라는 표현을 쓰더라도 설계 철학이 다르다. 콜드 스탠바이에 맞는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)를 강요하면 비용 과잉이 되고, 반대로 실시간 금융 거래에 콜드 스탠바이를 적용하면 장애가 곧 비즈니스 사고가 된다.
 
 다른 과목과의 연결도 분명하다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 부팅 시간과 스토리지 복원 속도가 RTO를 결정하고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 일관성과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 재적용 범위가 RPO를 결정한다. 클라우드 관점에서는 파일럿 라이트 (Pilot Light)나 스케일 투 제로 (Scale to [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))가 콜드 스탠바이의 현대적 변형으로 볼 수 있다. 즉 콜드 스탠바이는 낡은 방식이 아니라, 비용과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 균형을 다루는 기본 사고방식이다.
 
@@ -96,25 +95,28 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 설계 단계에서 자주 쓰이는 질문 순서를 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 콜드 스탠바이 채택 판단 흐름                      │
-├────────────────────────────────────────────────────────────────────┤
-│ 1) 수시간 장애 허용 가능한가?                                     │
-│    ├─ 아니오 ─▶ Warm/Hot 검토                                     │
-│    └─ 예                                                           │
-│ 2) 최근 데이터 손실 허용 가능한가?                                │
-│    ├─ 아니오 ─▶ 실시간 복제 보강 또는 Warm 검토                   │
-│    └─ 예                                                           │
-│ 3) 복구 자동화/IaC/복원 훈련이 준비됐는가?                        │
-│    ├─ 아니오 ─▶ 실제 장애 시 복구 실패 위험 큼                    │
-│    └─ 예 ─▶ Cold Standby 채택 가능                                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드 스탠바이 채택 판단 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 수시간 장애 허용 가능한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ Warm/Hot 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 최근 데이터 손실 허용 가능한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 실시간 복제 보강 또는 Warm 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 복구 자동화/IaC/복원 훈련이 준비됐는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 실제 장애 시 복구 실패 위험 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ Cold Standby 채택 가능</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본이 존재하는가보다 **복원 성공을 정기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가**를 먼저 확인한다.
+1. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본이 존재하는가보다 <strong>복원 성공을 정기 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>했는가</strong>를 먼저 확인한다.
 2. 예비 장비가 오래 방치돼 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 본 시스템과 어긋나지 않았는지 점검한다.
 3. 장애 시 수동 작업이 많다면 작업 시간을 줄이기 위해 이미지화, 스크립트화, IaC를 도입한다.
 4. 경영진에게 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)·[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 수치를 수치로 명시해 합의받아야 한다.
@@ -135,7 +137,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 이 효과는 몇 가지 전제가 충족될 때만 성립한다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 자동화, 정기 복원 훈련, 책임자 지정이 없다면 콜드 스탠바이는 비용 절감이 아니라 장애 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 장치가 된다. 특히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 조직이 받아들일 수 있어야 하며, 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일부 손실 가능성도 계약·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 차원에서 승인돼야 한다.
 
-앞으로의 확장 방향은 세 가지로 요약된다. 첫째, 가상머신 이미지·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 부팅 시간을 줄이는 방향이다. 둘째, IaC와 자동화 런북으로 사람 의존도를 줄이는 방향이다. 셋째, 파일럿 라이트처럼 일부 핵심 상태만 따뜻하게 유지해 콜드와 웜의 중간 지점을 설계하는 방향이다. 결국 콜드 스탠바이는 “가장 느린 대기 방식”이 아니라, **허용 가능한 느림을 비용 절감으로 교환하는 설계 언어**로 기억하는 것이 맞다.
+앞으로의 확장 방향은 세 가지로 요약된다. 첫째, 가상머신 이미지·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 부팅 시간을 줄이는 방향이다. 둘째, IaC와 자동화 런북으로 사람 의존도를 줄이는 방향이다. 셋째, 파일럿 라이트처럼 일부 핵심 상태만 따뜻하게 유지해 콜드와 웜의 중간 지점을 설계하는 방향이다. 결국 콜드 스탠바이는 “가장 느린 대기 방식”이 아니라, <strong>허용 가능한 느림을 비용 절감으로 교환하는 설계 언어</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 콜드 스탠바이는 모든 방에 난방을 틀어 두는 대신, 사람이 잘 안 쓰는 방은 평소 꺼 두었다가 필요할 때만 데우는 집안 운영 방식과 같다. 불편은 조금 생기지만 전체 에너지 비용은 크게 줄어든다.
 
@@ -153,23 +155,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정기 백업 중심 복구
-    │
-    ▼
-콜드 스탠바이 (Cold Standby)
-    │
-    ├─ 자동 설치/이미지 복구 ─▶ IaC 기반 콜드 복구 고도화
-    │
-    ▼
-웜 스탠바이 (Warm Standby)
-    │
-    ▼
-파일럿 라이트 (Pilot Light)
-    │
-    ▼
-핫 스탠바이 (Hot Standby) · 실시간 고가용성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정기 백업 중심 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">콜드 스탠바이 (Cold Standby)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동 설치/이미지 복구 ─▶ IaC 기반 콜드 복구 고도화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">웜 스탠바이 (Warm Standby)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파일럿 라이트 (Pilot Light)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">핫 스탠바이 (Hot Standby) · 실시간 고가용성</div>
+</div>
+</div>
+
+
 
 이 흐름은 “완전 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 자동화된 저비용 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 부분 상시 기동 → 즉시 절체”로 준비 수준이 진화하는 과정을 보여준다.
 

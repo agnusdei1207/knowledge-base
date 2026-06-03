@@ -25,11 +25,11 @@ tags = ["studynote-algorithm"]
 T = (x̄ - μ) / (s/√n) ~ t(n-1)
 ```
 
-**단일 표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) (One-Sample [t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**:
+<strong>단일 표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (One-Sample <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - H₀: μ = μ₀
 - T = (x̄ - μ₀) / (s/√n), df = n-1
 
-**독립 이표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) (Independent Two-Sample [t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**:
+<strong>독립 이표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Independent Two-Sample <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - H₀: μ₁ = μ₂ (두 독립 집단의 평균이 같다)
 - T = (x̄₁ - x̄₂) / SE_pooled
 
@@ -42,7 +42,7 @@ df = n₁ + n₂ - 2
 df ≈ (s₁²/n₁ + s₂²/n₂)² / [...] (Welch-Satterthwaite)
 ```
 
-**대응 표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) (Paired [t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**:
+<strong>대응 표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Paired <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - 동일 대상을 두 번 측정 (사전-사후, 왼쪽-오른쪽)
 - d_i = x_{i,before} - x_{i,after}로 변환 후 단일 표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
 - T = d̄ / (s_d/√n), df = n-1
@@ -83,22 +83,27 @@ H₀: σ₁² = σ₂² (두 집단의 모분산이 같다)
 
 ## Ⅲ. 일원 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (One-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
 
-**일원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(One-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/), Analysis of [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**: k개 집단(k ≥ 3)의 평균이 같은지 검정
+<strong>일원 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(One-Way <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>, Analysis of <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: k개 집단(k ≥ 3)의 평균이 같은지 검정
 
 **H₀**: μ₁ = μ₂ = ... = μ_k (모든 집단 평균이 같다)
 **H₁**: 적어도 하나의 평균이 다르다
 
-**[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분해 ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Decomposition)**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> Decomposition)</strong>:
 
-```
-SS_Total = SS_Between + SS_Within
-↑총 변동 ↑집단 간 ↑집단 내(오차)
 
-SS_Between = Σ_k n_k (x̄_k - x̄)² (집단 간 제곱합)
-SS_Within = Σ_k Σᵢ (x_ki - x̄_k)² (집단 내 제곱합)
-```
 
-**F-통계량 ([ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))**:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SS_Total = SS_Between + SS_Within</div>
+<div class="kb-diagram-note">↑총 변동 ↑집단 간 ↑집단 내(오차)</div>
+<div class="kb-diagram-note">SS_Between = Σ_k n_k (x̄_k - x̄)² (집단 간 제곱합)</div>
+<div class="kb-diagram-note">SS_Within = Σ_k Σᵢ (x_ki - x̄_k)² (집단 내 제곱합)</div>
+</div>
+</div>
+
+
+
+<strong>F-통계량 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
 
 ```
 F = MS_Between / MS_Within
@@ -106,7 +111,7 @@ F = MS_Between / MS_Within
 = 집단 간 평균 제곱 / 집단 내 평균 제곱
 ```
 
-**[ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) 표 ([ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) Table)**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> 표 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> Table)</strong>:
 
 | 변동 원인 | SS | df | MS | F |
 |:---:|:---:|:---:|:---:|:---:|
@@ -114,22 +119,27 @@ F = MS_Between / MS_Within
 | 집단 내 (Within) | SS_W | N-k | MS_W = SS_W/(N-k) | — |
 | 전체 (Total) | SS_T | N-1 | — | — |
 
-**박스 플롯으로 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**:
+<strong>박스 플롯으로 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-```
-성적
-▲
-100│ ┌──────┐
-90│ │ B │ ┌──────┐
-80│ ┌───┤ ├──┤ C │
-70│ │ A │ │ │ │
-60│ └───┘ └──┘ └
-└────────────────────────▶ 그룹
-A B C
 
-F = 집단 간 차이 / 집단 내 흩어짐
-크면 → H₀ 기각 (집단 평균 다름)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성적</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">100│</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">90</div><div class="kb-diagram-cell">B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">80</div><div class="kb-diagram-cell">── C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">70</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-note">60│ ──</div>
+<div class="kb-diagram-tree-item" style="--depth:0">▶ 그룹</div>
+<div class="kb-diagram-note">A B C</div>
+<div class="kb-diagram-note">F = 집단 간 차이 / 집단 내 흩어짐</div>
+<div class="kb-diagram-note">크면 → H₀ 기각 (집단 평균 다름)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: ANOVA의 F-통계량은 "방송 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))"와 같다. 집단 간 차이([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 집단 내 변동(잡음)보다 충분히 크면, "이 차이는 의미 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다"라고 결론 내린다.
 
@@ -158,13 +168,13 @@ ANOVA에서 H₀ 기각 → "어느 집단 간에 차이가 있는가?" → 사�
 
 ## Ⅴ. 이원 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (Two-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
 
-**이원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Two-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))**: 두 요인(Factor)의 효과 동시 분석
+<strong>이원 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(Two-Way <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>: 두 요인(Factor)의 효과 동시 분석
 
 ```
 반응변수 = 요인 A 주효과 + 요인 B 주효과 + 교호작용 (A×B) + 오차
 ```
 
-**[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분해**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해</strong>:
 
 ```
 SS_Total = SS_A + SS_B + SS_A×B + SS_Error
@@ -204,21 +214,23 @@ SS_Total = SS_A + SS_B + SS_A×B + SS_Error
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[z-검정 (Z-Test) — 모분산 알고 있을 때 평균 비교]
-│
-▼
-[t-검정 (t-Test) — 모분산 미지, 1·2 표본 평균 비교]
-│
-▼
-[F-검정 (F-Test) — 두 집단 분산 비교, ANOVA의 기반]
-│
-▼
-[ANOVA (분산 분석) — 3개 이상 집단 평균 동시 비교]
-│
-▼
-[사후 검정 (Post-hoc) — 어느 집단 쌍이 다른지 Tukey·Scheffe로 판별]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">z-검정 (Z-Test) — 모분산 알고 있을 때 평균 비교</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">t-검정 (t-Test) — 모분산 미지, 1·2 표본 평균 비교</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">F-검정 (F-Test) — 두 집단 분산 비교, ANOVA의 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ANOVA (분산 분석) — 3개 이상 집단 평균 동시 비교</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사후 검정 (Post-hoc) — 어느 집단 쌍이 다른지 Tukey·Scheffe로 판별</div></div>
+</div>
+</div>
+
+
 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 출발한 [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 체계는 F-검정과 ANOVA로 다집단 비교로 확장되고, 사후 검정으로 구체적 차이를 밝혀낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

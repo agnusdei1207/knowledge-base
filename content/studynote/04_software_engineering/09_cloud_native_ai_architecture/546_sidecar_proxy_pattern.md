@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 오토바이 옆에 사람 1명이 더 탈 수 있게 조그맣게 달아놓은 보조석을 '[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)'라고 부른다. 쿠버네티스의 방([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 안에는 원래 내 앱(Tomcat 등) 1개만 띄우는 게 국룰이다. 하지만 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 이 방 안에 `Envoy`나 `Linkerd-proxy` 같은 초소형 C++ [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 깡통을 1개 더 몰래 끼워 넣는다(Sidecar [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)). 앱이 밖으로 통신을 쏘려고 하면, 이 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 옆에서 잽싸게 낚아채서 암호화([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))를 씌우고 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 대신해 준다.
 
-- **필요성**: MSA로 서버를 50개 찢었다. 보안팀에서 "모든 서버끼리 통신할 때 인증서 달고 암호화([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))해라!" 지시가 떨어졌다. 자바팀은 스프링 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 추가해서 3일 만에 짰다. Node.js 팀은 인증서 파싱 버그가 터져서 2주일 내내 야근했다. C++ 팀은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 없어서 개발을 포기했다. **"통신이나 보안 같은 공통 기능(Cross-Cutting)을 각자 언어(App)의 뱃속에 로직으로 짜게 냅두면 언어 파편화 지옥에 빠져 죽는다. 앱 밖으로 끄집어내서 언어 상관없이 똑같이 적용되는 투명한 조끼([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))를 입혀버리자!"**라는 생존의 딜레마가 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 발명하게 했다.
+- **필요성**: MSA로 서버를 50개 찢었다. 보안팀에서 "모든 서버끼리 통신할 때 인증서 달고 암호화([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))해라!" 지시가 떨어졌다. 자바팀은 스프링 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 추가해서 3일 만에 짰다. Node.js 팀은 인증서 파싱 버그가 터져서 2주일 내내 야근했다. C++ 팀은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 없어서 개발을 포기했다. <strong>"통신이나 보안 같은 공통 기능(Cross-Cutting)을 각자 언어(App)의 뱃속에 로직으로 짜게 냅두면 언어 파편화 지옥에 빠져 죽는다. 앱 밖으로 끄집어내서 언어 상관없이 똑같이 적용되는 투명한 조끼(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)를 입혀버리자!"</strong>라는 생존의 딜레마가 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 발명하게 했다.
 
-- **💡 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 대통령(앱)을 모시는 **'수석 비서관 겸 경호원'**과 똑같습니다. 대통령은 오직 국정(비즈니스 로직)만 고민하면 됩니다. 대통령이 "저기 국방부 장관한테 이 서류 좀 줘!"라고 허공에 말하면, 항상 옆에 붙어있는 수석 비서관([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))이 그걸 낚아채서, 특급 기밀 암호([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))로 포장하고 방탄조끼를 입은 뒤 오토바이를 타고 가장 안 막히는 길([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))로 달려가 상대방 비서관에게 전달합니다. 대통령은 비서관이 오토바이를 타는지 헬기를 타는지 알 필요도 없이 완벽하게 국정에만 100% 에너지를 쏟을 수 있습니다.
+- **💡 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 대통령(앱)을 모시는 <strong>'수석 비서관 겸 경호원'</strong>과 똑같습니다. 대통령은 오직 국정(비즈니스 로직)만 고민하면 됩니다. 대통령이 "저기 국방부 장관한테 이 서류 좀 줘!"라고 허공에 말하면, 항상 옆에 붙어있는 수석 비서관([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))이 그걸 낚아채서, 특급 기밀 암호([mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/))로 포장하고 방탄조끼를 입은 뒤 오토바이를 타고 가장 안 막히는 길([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))로 달려가 상대방 비서관에게 전달합니다. 대통령은 비서관이 오토바이를 타는지 헬기를 타는지 알 필요도 없이 완벽하게 국정에만 100% 에너지를 쏟을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **팻 클라이언트([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))의 비극**: 2010년 초반 넷플릭스는 통신 툴(`Eureka, Hystrix`)을 자바 앱 소스 안에 다 때려 박았다. 자바 앱은 비대해졌고, 다른 언어 개발자들은 이 훌륭한 툴을 구경만 해야 했다.
-  2. **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 구조의 재발견 (2015)**: K8s가 "우리는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개가 기본 단위가 아니라, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 여러 개를 묶을 수 있는 `Pod`라는 방(Room)이 기본 단위야!"라고 선포했다. 천재들이 무릎을 쳤다. "아, 저 방 안에 꼬붕 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나 더 넣어서 통신 짬처리시키면 대박이겠네!"
+  1. <strong>팻 클라이언트(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)의 비극</strong>: 2010년 초반 넷플릭스는 통신 툴(`Eureka, Hystrix`)을 자바 앱 소스 안에 다 때려 박았다. 자바 앱은 비대해졌고, 다른 언어 개발자들은 이 훌륭한 툴을 구경만 해야 했다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> 구조의 재발견 (2015)</strong>: K8s가 "우리는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개가 기본 단위가 아니라, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 여러 개를 묶을 수 있는 `Pod`라는 방(Room)이 기본 단위야!"라고 선포했다. 천재들이 무릎을 쳤다. "아, 저 방 안에 꼬붕 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나 더 넣어서 통신 짬처리시키면 대박이겠네!"
   3. **Envoy와 Istio의 천하통일 (현재)**: 2016년 차량 공유 기업 Lyft가 초광속 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) `Envoy`를 오픈소스로 풀었다. 이를 구글이 주워다가 `Istio` [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시의 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)로 박아버리면서 클라우드 통신망의 절대 표준 패턴으로 폭발했다.
 
-- **📢 섹션 요약 비유**: 옛날 개발은 정수기 물을 마시기 위해 **'내 뱃속(위장)에 더러운 물을 걸러내는 필터를 수술해서 박아넣는 짓([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))'**이었습니다. 소화 불량([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)이 오죠. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 내 뱃속을 건드리지 않고, 그냥 내가 차고 다니는 수통 주둥이에 **'뗐다 붙였다 할 수 있는 10원짜리 휴대용 필터([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))'**를 꽉 끼우는 겁니다. 내 몸(코드)은 100% 순결하게 남겨둔 채 물만 완벽하게 정수해 먹는 천재적인 외과 수술 면제술입니다.
+- **📢 섹션 요약 비유**: 옛날 개발은 정수기 물을 마시기 위해 <strong>'내 뱃속(위장)에 더러운 물을 걸러내는 필터를 수술해서 박아넣는 짓(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)'</strong>이었습니다. 소화 불량([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)이 오죠. [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 패턴은 내 뱃속을 건드리지 않고, 그냥 내가 차고 다니는 수통 주둥이에 <strong>'뗐다 붙였다 할 수 있는 10원짜리 휴대용 필터(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>)'</strong>를 꽉 끼우는 겁니다. 내 몸(코드)은 100% 순결하게 남겨둔 채 물만 완벽하게 정수해 먹는 천재적인 외과 수술 면제술입니다.
 
 ---
 
 다음은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) (Sidecar) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 패의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사이드카 (Sidecar) 프록시 패                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이드카 (Sidecar) 프록시 패</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) (Sidecar) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 패가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) (Sidecar) [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) (Sidecar) [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) (Sidecar) [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사이드카 (Sidecar) 프록시 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이드카 (Sidecar) 프록시 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

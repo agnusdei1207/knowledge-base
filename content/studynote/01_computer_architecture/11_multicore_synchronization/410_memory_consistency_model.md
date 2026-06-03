@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델은 여러 코어가 공유 메모리를 읽고 쓸 때, 각 코어의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기가 **다른 코어에게 어떤 순서로 관측될 수 있는지**를 정의하는 전역 규칙이다.
+> 1. **본질**: 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델은 여러 코어가 공유 메모리를 읽고 쓸 때, 각 코어의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기가 <strong>다른 코어에게 어떤 순서로 관측될 수 있는지</strong>를 정의하는 전역 규칙이다.
 > 2. **가치**: [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))이 "한 주소의 값이 서로 다르게 보이지 않게" 막는다면, 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "여러 주소 사이의 선후관계가 유지되는가"를 정해 멀티코어 프로그램의 인과관계를 지킨다.
 > 3. **판단 포인트**: 강한 모델은 프로그래밍을 쉽게 하지만 하드웨어 최적화를 제한하고, 약한 모델은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 키우는 대신 원자 연산 (Atomic [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))과 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))를 정확히 써야만 안전하다.
 
@@ -27,20 +27,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프로그램 순서와 관측 순서가 왜 달라질 수 있는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Program Order와 Observed Order가 달라지는 기본 구조          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core 0 program order : [Store data] ─────────────▶ [Store ready]    │
-│                                │                     │               │
-│                                │ store buffer        │ fast commit   │
-│                                ▼                     ▼               │
-│ Global visibility    : [data not visible yet]   [ready visible]     │
-│                                                          │           │
-│                                                          ▼           │
-│ Core 1 observes      : ready == true, but data == old value          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program Order와 Observed Order가 달라지는 기본 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 0 program order :</div><div class="kb-diagram-node">Store data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Store ready</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store buffer</div><div class="kb-diagram-cell">fast commit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Global visibility :</div><div class="kb-diagram-node">data not visible yet</div><div class="kb-diagram-node">ready visible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 observes : ready == true, but data == old value</div></div>
+</div>
+</div>
+
+
 
 이 현상은 버그처럼 보이지만, 실제로는 하드웨어가 허용된 규칙 안에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 수행한 결과다. 그래서 멀티코어 프로그래밍은 "CPU가 재배치해도 무너지지 않는 코드"를 작성하거나, 필요 지점에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약을 명시적으로 추가하는 설계가 필수다.
 
@@ -63,20 +62,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 게시-구독(publish-subscribe) 패턴에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약이 들어가는 위치를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Publish-Subscribe에서 필요한 ordering boundary            │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Producer Core                 │ Consumer Core                        │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 1) payload = 42               │ 1) while (flag == 0) wait           │
-│ 2) release barrier            │ 2) acquire barrier                  │
-│ 3) flag = 1                   │ 3) read payload                     │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 의미: payload write가         │ 의미: flag를 본 이후의 read가       │
-│ flag write 뒤로 밀리지 않음   │ flag 확인 앞으로 당겨지지 않음      │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Publish-Subscribe에서 필요한 ordering boundary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Core</div><div class="kb-diagram-cell">Consumer Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) payload = 42</div><div class="kb-diagram-cell">1) while (flag == 0) wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) release barrier</div><div class="kb-diagram-cell">2) acquire barrier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) flag = 1</div><div class="kb-diagram-cell">3) read payload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미: payload write가</div><div class="kb-diagram-cell">의미: flag를 본 이후의 read가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flag write 뒤로 밀리지 않음</div><div class="kb-diagram-cell">flag 확인 앞으로 당겨지지 않음</div></div>
+</div>
+</div>
+
+
 
 즉, 생산자 측의 Release와 소비자 측의 Acquire는 서로 맞물려 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 → 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측"의 인과 사슬을 만든다. 이 사슬이 없으면 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 살아 있어도, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 깨진다. 그래서 메모리 모델은 캐시 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령 사이를 이어 주는 중간 법칙으로 봐야 한다.
 
@@ -104,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 직접 언급하지 않아도, 락프리 큐, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 이중 검사 잠금 ([Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)), 드라이버, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에서 늘 맞닥뜨린다. 판단 기준은 단순하다. **공유 상태의 선후관계가 중요하면 최소한의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 반드시 넣고, 단순 통계처럼 순서가 중요하지 않으면 가장 약한 모델을 선택한다.**
+실무에서는 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 직접 언급하지 않아도, 락프리 큐, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 이중 검사 잠금 ([Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)), 드라이버, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에서 늘 맞닥뜨린다. 판단 기준은 단순하다. <strong>공유 상태의 선후관계가 중요하면 최소한의 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>는 반드시 넣고, 단순 통계처럼 순서가 중요하지 않으면 가장 약한 모델을 선택한다.</strong>
 
 ### 실무 판단 표
 
@@ -136,7 +136,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 무료가 아니다. 순서를 강하게 고정할수록 파이프라인 정지, 버퍼 플러시, 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 커지고 확장성이 떨어질 수 있다. 그래서 현대 시스템은 "기본은 완화, 필요한 곳만 명시적 보강"이라는 방향으로 발전해 왔다.
 
-앞으로는 언어 차원의 안전한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구, 하드웨어-컴파일러 협조 최적화가 더 중요해질 가능성이 크다. 그래도 기억할 핵심은 변하지 않는다. **메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델은 메모리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기법이 아니라, 멀티코어 세계에서 인과관계를 지키기 위한 최소한의 법률 체계**다.
+앞으로는 언어 차원의 안전한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구, 하드웨어-컴파일러 협조 최적화가 더 중요해질 가능성이 크다. 그래도 기억할 핵심은 변하지 않는다. <strong>메모리 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 모델은 메모리 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 기법이 아니라, 멀티코어 세계에서 인과관계를 지키기 위한 최소한의 법률 체계</strong>다.
 
 - **📢 섹션 요약 비유**: 오케스트라가 자유롭게 연주해도 되는 구간과 지휘자를 반드시 봐야 하는 구간이 나뉘어 있어야 합주가 성립한다. 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델은 그 경계를 정하는 악보다.
 
@@ -154,24 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비순차 실행 (Out-of-Order Execution)
-        │
-        ▼
-캐시 일관성 (Cache Coherence)
-        │
-        ▼
-메모리 일관성 모델 (Memory Consistency Model)
-        │
-        ├──────────────▶ 순차적 일관성 (Sequential Consistency)
-        │
-        ├──────────────▶ TSO (Total Store Order)
-        │
-        └──────────────▶ 완화된 일관성 (Relaxed Consistency)
-                                  │
-                                  ▼
-메모리 배리어 · 원자 연산 · 락프리 자료구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 일관성 모델 (Memory Consistency Model)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 순차적 일관성 (Sequential Consistency)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ TSO (Total Store Order)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 완화된 일관성 (Relaxed Consistency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 배리어 · 원자 연산 · 락프리 자료구조</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

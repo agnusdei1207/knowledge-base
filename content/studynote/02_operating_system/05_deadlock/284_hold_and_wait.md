@@ -21,32 +21,31 @@ tags = ["studynote-operating-system"]
 
 한 사람이 양손에 망치와 못을 동시에 들어야만 액자를 걸 수 있다고 가정하자. A 스레드가 망치(점유)를 들고 못을 기다리고, B 스레드가 못(점유)을 들고 망치를 기다린다면 영원히 액자를 걸 수 없다.
 
-A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 B가 액자를 마저 걸 텐데, 아무도 자기 손의 자원을 포기하지 않으면서 남의 자원을 더 달라고 요구할 때 발생하는 것이 **[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)(Hold-and-Wait)** 현상이다.
+A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 B가 액자를 마저 걸 텐데, 아무도 자기 손의 자원을 포기하지 않으면서 남의 자원을 더 달라고 요구할 때 발생하는 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/">점유 대기</a>(Hold-and-Wait)</strong> 현상이다.
 
 **💡 비유**: 양손 가득 짐을 든 채로, 다른 사람이 보관함 키를 주길 기다리며 입구를 가로막는 상황 — 조금이라도 짐을 내려놓고 비켜주면 상대가 키를 챙겨 나올 텐데, 절대 놓지 않고 뭉개는 이기적 대기.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         점유 대기 (Hold-and-Wait) 역학 비교                   │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [일반적 실행 흐름 (No Hold-and-Wait)]                        │
-│  프로세스 P1:                                                 │
-│  R1 요청 → R1 사용 → R1 반납.                                 │
-│  R2 요청 → R2 사용 → R2 반납.                                 │
-│  → 독립적인 자원 요청으로 교착 위험도 제로.                   │
-│                                                               │
-│  [교착의 불씨 (Hold-and-Wait 발생)]                           │
-│  프로세스 P1:                                                 │
-│  R1 요청 → (R1 점유 완료!) → R2 요청(대기...)                 │
-│                                                               │
-│  프로세스 P2:                                                 │
-│  R2 요청 → (R2 점유 완료!) → R1 요청(대기...)                 │
-│                                                               │
-│  결과: P1은 R1을 안 놓은 채 R2 기다림,                        │
-│        P2는 R2를 안 놓은 채 R1을 기다림 → 영구 교착(Deadlock) │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유 대기 (Hold-and-Wait) 역학 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반적 실행 흐름 (No Hold-and-Wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 요청 → R1 사용 → R1 반납.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 요청 → R2 사용 → R2 반납.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 독립적인 자원 요청으로 교착 위험도 제로.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착의 불씨 (Hold-and-Wait 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 요청 → (R1 점유 완료!) → R2 요청(대기...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P2:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 요청 → (R2 점유 완료!) → R1 요청(대기...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: P1은 R1을 안 놓은 채 R2 기다림,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2는 R2를 안 놓은 채 R1을 기다림 → 영구 교착(Deadlock)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)는 뷔페에서 포크만 잔뜩 모아둔 채, 수프가 나오기 전까진 포크를 아무에게도 안 내어주는 얌체 행동 — 포크가 없어 수프 요리사조차 시식을 못해 주방이 스톱됩니다.
 
@@ -56,7 +55,7 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 
 ### [점유 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) (Prevention) 기법 2가지
 
-이론적으로 이 조건을 예방하려면, **"기다리게 될 거면 애초에 점유하지 마라"**를 코드로 강제하면 된다.
+이론적으로 이 조건을 예방하려면, <strong>"기다리게 될 거면 애초에 점유하지 마라"</strong>를 코드로 강제하면 된다.
 
 1. **일괄 할당 (All-or-Nothing)**:
    - 프로세스가 시작될 때, 자기가 실행 마칠 때짜지의 모든 자원(DB 연결, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O, 프린터 등)을 한 번에 모조리 요청.
@@ -86,11 +85,11 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **DB [Two-Phase Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/) ([2PL](/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/))**: RDBMS 에선 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중 Lock을 해제하지 않고 계속 쥐어가며([Growing Phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/)) [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 강력히 허용한다([격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 보장 위해). 대신, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 백그라운드 스레드가 탐지하여 데드락이 터지면 그중 Victim을 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 에러로 찍어 눌러 강제 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킨다.
+1. <strong>DB <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/511_two_phase_locking/">Two-Phase Locking</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/">2PL</a>)</strong>: RDBMS 에선 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중 Lock을 해제하지 않고 계속 쥐어가며([Growing Phase](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/)) [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 강력히 허용한다([격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 보장 위해). 대신, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 백그라운드 스레드가 탐지하여 데드락이 터지면 그중 Victim을 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 에러로 찍어 눌러 강제 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킨다.
 2. **동적 자원 요청 최적화 앱**: 필요 자원을 락 객체 배열로 묶어서 `tryLock(timeout)` 패턴 적용. 3초간 기다려봐서 안 되면 내 락을 다 풀고(재시도) 나갔다 돌아오는 소프트웨어 백오프(Backoff)가 가장 보편적인 타협안이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **블로킹 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) I/O를 물고 있는 락**: `synchronized (this)` 구간 안에서 네트워크 I/O(남의 응답)를 점유하며 대기. 다른 스레드들의 서버 접근마저 끊겨버려 대형 장애 유발. 외부 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 락 범위와 격리 설계 필요.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>블로킹 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> I/O를 물고 있는 락</strong>: `synchronized (this)` 구간 안에서 네트워크 I/O(남의 응답)를 점유하며 대기. 다른 스레드들의 서버 접근마저 끊겨버려 대형 장애 유발. 외부 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 락 범위와 격리 설계 필요.
 
 **📢 섹션 요약 비유**: 쥐고 기다리는 동안 잠들면 끝장 — "아무리 쥐고 있어봐야 내가 쥔 건 장난감, 외부 연락처 끊기면 고립무원"이라는 사실을 잊고 블로킹 락 안에 긴급 전화망까지 넣어 잠그는 꼴입니다.
 
@@ -104,7 +103,7 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 매우 우수 (정합성 보장) | 매우 떨어짐 |
 | 데드락 대책 방안 | [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/Victim 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요 | 데드락 자체는 원천 0% 방어 |
 
-운영체제와 프레임워크는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 조건 중 **1번 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)**와 **2번 점유하며 대기**를 고차원적으로 부정하길 포기하고, 대신 자연스럽게 허용한다. 대신 3번 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하거나, 4번 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(오름차순 락킹 디자인 권고)를 깨트려 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어 낸다. 실무에서도 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 조건부 허용하되 `tryLock()` 백오프 로직을 쓰는 게 국룰이다.
+운영체제와 프레임워크는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 조건 중 <strong>1번 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a></strong>와 <strong>2번 점유하며 대기</strong>를 고차원적으로 부정하길 포기하고, 대신 자연스럽게 허용한다. 대신 3번 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 파괴하거나, 4번 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(오름차순 락킹 디자인 권고)를 깨트려 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어 낸다. 실무에서도 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 조건부 허용하되 `tryLock()` 백오프 로직을 쓰는 게 국룰이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -121,15 +120,19 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상호 배제 (Mutual Exclusion)]
-    │
-    ▼
-[점유하며 대기 (Hold-and-Wait)]
-    │
-    ├──▶ [비선점 (No Preemption)]
-    └──▶ [순환 대기 (Circular Wait)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -21,26 +21,28 @@ tags = ["studynote-ict-convergence"]
 
 HMD는 눈앞 가까이에 소형 디스플레이를 두고 렌즈를 통해 가상 장면을 보여 주는 폼팩터다. 문제는 화면을 "보여 주는 것"보다 "불편하지 않게 보여 주는 것"이 훨씬 어렵다는 점이다. XR 기기는 양안에 고해상도 영상을 90~120Hz 수준으로 안정적으로 공급해야 하고, 머리 움직임부터 빛이 눈에 도달하기까지의 MTP (Motion-to-Photon) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간도 대체로 20ms 안쪽으로 관리해야 멀미와 어지러움을 줄일 수 있다.
 
-하지만 사람의 망막은 화면 전체를 같은 정밀도로 보지 않는다. 중심와 (Fovea) 근처의 몇 도 범위는 높은 공간 해상도를 가지지만, 주변 시야는 움직임과 큰 형태 감지에는 강해도 세부 문자를 같은 수준으로 읽지 못한다. 포비티드 렌더링은 바로 이 생물학적 특성을 이용한다. **눈이 실제로 보는 곳에만 계산 자원을 몰아주고, 나머지는 덜 그려도 체감 품질을 크게 해치지 않는다**는 발상이다.
+하지만 사람의 망막은 화면 전체를 같은 정밀도로 보지 않는다. 중심와 (Fovea) 근처의 몇 도 범위는 높은 공간 해상도를 가지지만, 주변 시야는 움직임과 큰 형태 감지에는 강해도 세부 문자를 같은 수준으로 읽지 못한다. 포비티드 렌더링은 바로 이 생물학적 특성을 이용한다. <strong>눈이 실제로 보는 곳에만 계산 자원을 몰아주고, 나머지는 덜 그려도 체감 품질을 크게 해치지 않는다</strong>는 발상이다.
 
-독립형 HMD에서 이 기술이 특히 중요한 이유는 전력과 발열 때문이다. 모바일 칩셋으로 양안 고해상도 장면을 매 프레임 동일 품질로 렌더링하면 배터리 소모와 열 발생이 빠르게 커지고, 이는 곧 착용 무게, 냉각 구조, 사용 시간 한계로 이어진다. 결국 HMD 시선 추적과 포비티드 렌더링은 "좋아 보이는 옵션"이 아니라 **몰입감과 배터리 지속시간을 동시에 지키기 위한 구조적 대응책**이다.
+독립형 HMD에서 이 기술이 특히 중요한 이유는 전력과 발열 때문이다. 모바일 칩셋으로 양안 고해상도 장면을 매 프레임 동일 품질로 렌더링하면 배터리 소모와 열 발생이 빠르게 커지고, 이는 곧 착용 무게, 냉각 구조, 사용 시간 한계로 이어진다. 결국 HMD 시선 추적과 포비티드 렌더링은 "좋아 보이는 옵션"이 아니라 <strong>몰입감과 배터리 지속시간을 동시에 지키기 위한 구조적 대응책</strong>이다.
 
 아래 그림은 인간 시각 특성과 렌더링 자원 배분이 어떻게 연결되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Perception-aware rendering zones                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Center 2~5°      : highest acuity  -> full resolution / dense shade│
-│ Mid zone 10~20°  : medium detail   -> reduced shading             │
-│ Outer periphery  : motion priority -> coarse shading              │
-│                                                                    │
-│ Render all zones equally  -> GPU load↑ heat↑ battery↓ latency↑    │
-│ Render by gaze importance -> quality kept where the eye inspects   │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 이 기술의 출발점은 "화질을 속이자"가 아니라, **인간의 지각 구조에 맞춰 계산 우선순위를 다시 짜자**는 데 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Perception-aware rendering zones</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Center 2~5° : highest acuity -&gt; full resolution / dense shade</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mid zone 10~20° : medium detail -&gt; reduced shading</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer periphery : motion priority -&gt; coarse shading</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Render all zones equally -&gt; GPU load↑ heat↑ battery↓ latency↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Render by gaze importance -&gt; quality kept where the eye inspects</div></div>
+</div>
+</div>
+
+
+
+즉 이 기술의 출발점은 "화질을 속이자"가 아니라, <strong>인간의 지각 구조에 맞춰 계산 우선순위를 다시 짜자</strong>는 데 있다.
 
 - **📢 섹션 요약 비유**: 연극 무대 전체를 같은 밝기로 비추는 대신, 관객이 보는 주연에게만 스포트라이트를 강하게 주는 것과 같다. 어두운 뒤편까지 같은 조명을 쏘면 전기만 더 많이 든다.
 
@@ -58,24 +60,25 @@ HMD는 눈앞 가까이에 소형 디스플레이를 두고 렌즈를 통해 가
 | 셰이딩 맵 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | VRS (Variable Rate Shading) 또는 다중 해상도 영역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 경계 링(ring) [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 완화 |
 | 최종 출력 | 렌즈 왜곡 보정, 리프로젝션, 패널 표시 | 전체 MTP 예산 안에 수렴 |
 
-핵심은 단순한 렌더링 해상도 변경이 아니라, **셰이더 호출 밀도를 영역별로 다르게 배분하는 것**이다. 중심 영역은 1x1 수준으로 촘촘하게 계산하고, 주변부는 2x2, 4x4처럼 더 거친 비율로 묶어 계산한다. 이렇게 하면 패널 픽셀 수는 그대로여도 실제 셰이딩 비용은 크게 줄어든다. 장면 종류와 구현 방식에 따라 차이는 있지만, 셰이딩 비용을 수십 퍼센트 이상 낮추는 사례가 흔하다.
+핵심은 단순한 렌더링 해상도 변경이 아니라, <strong>셰이더 호출 밀도를 영역별로 다르게 배분하는 것</strong>이다. 중심 영역은 1x1 수준으로 촘촘하게 계산하고, 주변부는 2x2, 4x4처럼 더 거친 비율로 묶어 계산한다. 이렇게 하면 패널 픽셀 수는 그대로여도 실제 셰이딩 비용은 크게 줄어든다. 장면 종류와 구현 방식에 따라 차이는 있지만, 셰이딩 비용을 수십 퍼센트 이상 낮추는 사례가 흔하다.
 
 아래 그림은 시선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제 렌더링 제어 신호로 바뀌는 파이프라인을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Eye tracking to display pipeline                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Eye image capture  ->  Gaze estimation  ->  Prediction/filter      │
-│   2~4 ms               1~2 ms               <1 ms                  │
-│                                                                    │
-│                 ->  Shading-rate map  ->  Render/composite         │
-│                         1 ms               5~8 ms                  │
-│                                                                    │
-│                 ->  Lens warp / timewarp  ->  Panel output         │
-│                         1~2 ms                total budget guarded  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eye tracking to display pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eye image capture -&gt; Gaze estimation -&gt; Prediction/filter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2~4 ms 1~2 ms &lt;1 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Shading-rate map -&gt; Render/composite</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 ms 5~8 ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Lens warp / timewarp -&gt; Panel output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1~2 ms total budget guarded</div></div>
+</div>
+</div>
+
+
 
 이때 가장 어려운 구간은 사카드처럼 시선이 빠르게 이동하는 순간이다. 눈이 먼저 움직였는데 선명 영역이 뒤늦게 따라오면, 사용자는 주변부 저해상도 영역을 순간적으로 보게 된다. 그래서 최신 구현은 단순 현재 좌표만 쓰지 않고, 예측 필터와 재투영을 함께 써서 **"눈이 도착할 곳"에 선명 영역이 맞춰지도록** 조정한다.
 
@@ -96,11 +99,11 @@ HMD 렌더링 최적화는 보통 전체 고정 품질, 고정 포비티드 렌�
 | 동적 포비티드 렌더링 | Eye Tracking 필요 | 체감 품질과 효율의 균형이 좋음 | 센서 비용, 보정·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 | 고급 독립형 HMD, XR 생산성 기기 |
 | 시선 기반 클라우드 XR | Eye Tracking + 저지연 네트워크 | 단말 연산 부담 감소, 경량화 가능 | 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 인코딩 품질 의존 | [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (Multi-access [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 환경 |
 
-동적 포비티드 렌더링의 차별점은 **중심 고화질 영역이 사용자의 눈을 따라 움직인다**는 점이다. 그래서 텍스트 읽기, 3D 오브젝트 검사, 공간 UI 조작처럼 응시 위치가 자주 바뀌는 생산성 시나리오에서 효과가 크다. 반면 눈 추적이 없는 고정 포비티드 렌더링은 중앙만 선명하므로, 시선만 옆으로 움직이는 순간 품질 저하가 드러나기 쉽다.
+동적 포비티드 렌더링의 차별점은 <strong>중심 고화질 영역이 사용자의 눈을 따라 움직인다</strong>는 점이다. 그래서 텍스트 읽기, 3D 오브젝트 검사, 공간 UI 조작처럼 응시 위치가 자주 바뀌는 생산성 시나리오에서 효과가 크다. 반면 눈 추적이 없는 고정 포비티드 렌더링은 중앙만 선명하므로, 시선만 옆으로 움직이는 순간 품질 저하가 드러나기 쉽다.
 
 또 하나 중요한 연결은 UI (User Interface)다. 시선 좌표가 안정적으로 나오면 HMD는 단순히 "어디를 선명하게 그릴지"뿐 아니라 "사용자가 무엇을 선택하려 하는지"도 추정할 수 있다. 그래서 최근 XR 운영체제는 응시로 포커스를 맞추고, 핀치나 컨트롤러 입력으로 확정하는 방식의 인터랙션을 채택한다. 즉 시선 추적은 렌더링 엔진과 입력 체계를 동시에 바꾸는 기반 기술이다.
 
-마지막으로 프라이버시 측면도 크다. 시선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순 커서 위치보다 민감하다. 사용자가 무엇을 오래 보는지, 어떤 자극에 반응하는지, 피로도나 인지 상태까지 유추될 수 있기 때문이다. 따라서 이 기술은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 함께 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소 수집, 온디바이스 처리, 명시적 동의**를 같이 설계해야 한다.
+마지막으로 프라이버시 측면도 크다. 시선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 단순 커서 위치보다 민감하다. 사용자가 무엇을 오래 보는지, 어떤 자극에 반응하는지, 피로도나 인지 상태까지 유추될 수 있기 때문이다. 따라서 이 기술은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 함께 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소 수집, 온디바이스 처리, 명시적 동의</strong>를 같이 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 고정 포비티드 렌더링은 무대 중앙만 밝힌 조명이고, 동적 포비티드 렌더링은 배우를 따라 움직이는 스포트라이트다. 스포트라이트가 잘 따라오면 훨씬 자연스럽지만, 조명 기사가 서툴면 오히려 더 티가 난다.
 
@@ -108,7 +111,7 @@ HMD 렌더링 최적화는 보통 전체 고정 품질, 고정 포비티드 렌�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 이 기술은 주로 세 가지 목표로 채택된다. 첫째, 독립형 HMD의 배터리와 발열을 줄여 사용 시간을 늘리는 것. 둘째, 같은 하드웨어에서 더 높은 체감 해상도와 프레임률을 확보하는 것. 셋째, 응시 기반 선택 인터페이스를 구현하는 것이다. 따라서 채택 판단은 단순히 "GPU가 버거우니 켜자"가 아니라, **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간·시선 안정성·콘텐츠 특성·프라이버시 요구**를 함께 따져야 한다.
+실무에서 이 기술은 주로 세 가지 목표로 채택된다. 첫째, 독립형 HMD의 배터리와 발열을 줄여 사용 시간을 늘리는 것. 둘째, 같은 하드웨어에서 더 높은 체감 해상도와 프레임률을 확보하는 것. 셋째, 응시 기반 선택 인터페이스를 구현하는 것이다. 따라서 채택 판단은 단순히 "GPU가 버거우니 켜자"가 아니라, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간·시선 안정성·콘텐츠 특성·프라이버시 요구</strong>를 함께 따져야 한다.
 
 예를 들어 텍스트가 많은 생산성 XR, CAD 검토, 원격 협업 도구는 응시 위치에서 높은 선명도가 매우 중요하므로 동적 포비티드 렌더링 효과가 크다. 반면 주변부까지 세밀한 단서가 필요한 특수 시뮬레이션이나, 눈 추적 품질이 사용자 집단별로 크게 흔들리는 환경에서는 과한 품질 차등이 오히려 부작용이 될 수 있다. 또한 무선 클라우드 렌더링까지 얹는다면 로컬 센서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 네트워크 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 더해지므로, 렌더링 효율보다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산이 먼저 검토돼야 한다.
 
@@ -128,7 +131,7 @@ HMD 렌더링 최적화는 보통 전체 고정 품질, 고정 포비티드 렌�
 - 추적 실패·눈 감김·센서 가림 상황에 대한 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 없이 배포하는 경우
 - 응시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마케팅 분석에 무분별하게 사용해 신뢰를 잃는 경우
 
-실무 의사결정에서는 "무조건 최고 화질"보다 "편안함을 유지하는 최소 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 안정성"이 먼저다. 결국 HMD는 벤치마크 점수보다 **사용자가 30분 이상 불편 없이 착용할 수 있는가**가 더 중요한 제품이기 때문이다.
+실무 의사결정에서는 "무조건 최고 화질"보다 "편안함을 유지하는 최소 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 안정성"이 먼저다. 결국 HMD는 벤치마크 점수보다 <strong>사용자가 30분 이상 불편 없이 착용할 수 있는가</strong>가 더 중요한 제품이기 때문이다.
 
 - **📢 섹션 요약 비유**: 스포츠카 엔진만 키운다고 좋은 차가 되는 것이 아니라, 핸들링과 브레이크가 같이 맞아야 안전하게 빠르다. 포비티드 렌더링도 화질만이 아니라 추적 정확도와 사용자 신뢰가 함께 맞아야 완성된다.
 
@@ -140,7 +143,7 @@ HMD 시선 추적과 포비티드 렌더링이 잘 구현되면 얻는 효과는
 
 반면 전제조건도 분명하다. 센서 품질이 낮거나 사용자 보정이 불안정하면 품질 이득이 오히려 불편함으로 바뀐다. 또한 시선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 민감 정보이므로, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화용 수집과 행동 분석용 수집을 명확히 분리해야 한다. 즉 이 기술의 성공은 그래픽 엔진만이 아니라, 센서·보정·보안·사용자 경험까지 함께 다룰 때 가능하다.
 
-앞으로는 포비티드 비디오 코덱, 뉴럴 렌더링, 온디바이스 시선 예측, 엣지 클라우드 XR과의 결합이 더 중요해질 가능성이 크다. 결론적으로 이 주제는 "화질을 줄이는 꼼수"가 아니라, **인간이 실제로 보는 방식에 맞춰 연산을 재배치하는 지각 중심 컴퓨팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 정확하다.
+앞으로는 포비티드 비디오 코덱, 뉴럴 렌더링, 온디바이스 시선 예측, 엣지 클라우드 XR과의 결합이 더 중요해질 가능성이 크다. 결론적으로 이 주제는 "화질을 줄이는 꼼수"가 아니라, <strong>인간이 실제로 보는 방식에 맞춰 연산을 재배치하는 지각 중심 컴퓨팅 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 똑같은 예산으로 도시 전체를 환하게 밝히기 어렵다면, 사람들이 실제로 걷는 길을 먼저 밝히는 것이 현명하다. 포비티드 렌더링은 컴퓨터 그래픽의 전기를 가장 필요한 곳에 쓰는 방식이다.
 
@@ -161,24 +164,25 @@ HMD 시선 추적과 포비티드 렌더링이 잘 구현되면 얻는 효과는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IR eye image capture
-        │
-        ▼
-Gaze vector estimation
-        │
-        ▼
-Prediction / calibration correction
-        │
-        ▼
-Shading-rate map generation
-        │
-        ▼
-High-res center + low-res periphery rendering
-        │
-        ▼
-Display output + gaze-based interaction
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IR eye image capture</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Gaze vector estimation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Prediction / calibration correction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shading-rate map generation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">High-res center + low-res periphery rendering</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Display output + gaze-based interaction</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "눈을 읽기 → 시선을 예측하기 → 셰이딩 자원을 배분하기 → 화면과 입력에 반영하기"로 이어지는 HMD 포비티드 렌더링의 핵심 경로를 압축한다.
 

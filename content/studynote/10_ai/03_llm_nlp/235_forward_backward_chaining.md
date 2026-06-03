@@ -11,30 +11,33 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))이 지식 창고에서 정답을 찾아가는 탐색 뇌파는 두 가지 방향뿐이다. **전향 추론([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/))**은 내가 가진 '단서([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'들을 먼저 쥐고 시작해 이리저리 엮어서 "아하! 이 결론이네!"라고 나아가는 방식이고, **[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/))**은 "이놈이 범인일 거야!"라고 '목표(가설)'를 먼저 찍어둔 뒤, "범인이 맞다면 이 증거가 있어야 하는데?"라며 거꾸로 거슬러 내려가며 단서를 캐묻는 방식이다.
+> 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))이 지식 창고에서 정답을 찾아가는 탐색 뇌파는 두 가지 방향뿐이다. <strong>전향 추론(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/">Forward Chaining</a>)</strong>은 내가 가진 '단서([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'들을 먼저 쥐고 시작해 이리저리 엮어서 "아하! 이 결론이네!"라고 나아가는 방식이고, <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a>)</strong>은 "이놈이 범인일 거야!"라고 '목표(가설)'를 먼저 찍어둔 뒤, "범인이 맞다면 이 증거가 있어야 하는데?"라며 거꾸로 거슬러 내려가며 단서를 캐묻는 방식이다.
 > 2. **가치**: 증거는 몇 개 없는데 도달할 수 있는 결론이 수만 개로 뻗어나가는 '의료 진단(증상은 열 1개, 의심 질병은 100개)' 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는, 증거부터 밀고 나가면 연산 폭발로 서버가 죽는다. 이때 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(가설 먼저 세우기)을 쓰면 연산량을 1/100로 박살 내어 시스템을 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 만든다. 반대로 단서는 엄청 많은데 결론이 몇 개 없는 상황(공장 알람 분석)에선 전향 추론이 압도적으로 유리하다.
-> 3. **판단 포인트**: 규칙 기반(Rule-based) 아키텍처를 설계할 때, IF-THEN 룰의 매칭 엔진 방향을 결정하는 핵심 잣대는 **"[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Fact)의 양이 많은가, 아니면 증명해야 할 목표(Goal)의 수가 많은가?"**라는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 형태([Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) vs Fan-out 구조)에 달려있다.
+> 3. **판단 포인트**: 규칙 기반(Rule-based) 아키텍처를 설계할 때, IF-THEN 룰의 매칭 엔진 방향을 결정하는 핵심 잣대는 <strong>"<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Fact)의 양이 많은가, 아니면 증명해야 할 목표(Goal)의 수가 많은가?"</strong>라는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 형태([Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) vs Fan-out 구조)에 달려있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1970~80년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 황금기를 이끈 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'의 심장은 **추론 엔진(Inference Engine)**이었다. 
+1970~80년대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 황금기를 이끈 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'의 심장은 <strong>추론 엔진(Inference Engine)</strong>이었다. 
 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(DB) 안에는 의사들이 짜놓은 `IF (열) AND (기침) THEN (감기)` 같은 규칙(Rule)들이 1만 개나 쌓여 있었다. 문제는 "이 1만 개의 규칙을 도대체 어떤 순서로 뒤져야 가장 빨리 정답에 도달할까?"였다.
 
-처음엔 무식하게 밀고 나갔다. 환자가 "저 열이 나요"라고 팩트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 던져주면, 엔진은 1만 개의 규칙 중에서 `IF (열)`로 시작하는 규칙 1,000개를 다 깨운다. 그리고 그 1,000개에서 또 파생되는 다음 규칙들을 미친 듯이 활성화하며 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 결론을 향해 전진하는 전향 추론 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/))**을 썼다. 그런데 결론이 수만 개로 갈라지며 메모리가 펑펑 터져나갔다.
+처음엔 무식하게 밀고 나갔다. 환자가 "저 열이 나요"라고 팩트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 던져주면, 엔진은 1만 개의 규칙 중에서 `IF (열)`로 시작하는 규칙 1,000개를 다 깨운다. 그리고 그 1,000개에서 또 파생되는 다음 규칙들을 미친 듯이 활성화하며 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에서 결론을 향해 전진하는 전향 추론 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/">Forward Chaining</a>)</strong>을 썼다. 그런데 결론이 수만 개로 갈라지며 메모리가 펑펑 터져나갔다.
 
 그래서 천재적인 꼼수가 등장했다. "야! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 출발하니까 너무 많이 퍼져나가잖아. 아예 처음부터 **'얘는 감기일 것이다'라고 최종 목표(결론)를 딱 찍어놔! 그리고 규칙을 거꾸로 뒤집어서 '감기(Then)이려면 열(If)이 있어야 하는데, 환자야 너 열나냐?'라고 역으로 캐묻자!**" 
-이것이 불필요한 규칙 탐색을 완전히 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해 버리는 위대한 **[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/))**의 탄생이다.
+이것이 불필요한 규칙 탐색을 완전히 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해 버리는 위대한 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">Backward Chaining</a>)</strong>의 탄생이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전향 추론([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $\rightarrow$ 목표)은 '냉장고 파먹기'다. 냉장고 문을 열어보니 계란, 치즈, 양파([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 있다. "이 재료를 섞어서 무슨 요리(결론)를 만들지?" 하고 레시피북을 처음부터 끝까지 다 뒤지며 상상하는 거다(경우의 수가 너무 많아 머리 아픔). [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(목표 $\rightarrow$ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 '먹고 싶은 메뉴 정하기'다. "난 오늘 치즈계란말이(목표) 먹을 거야! 이거 만들려면 계란이랑 치즈가 필요한데, 냉장고에 있나?" 하고 거꾸로 팩트만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거다. 쓸데없는 고기 요리 레시피는 아예 쳐다보지도 않으니 훨씬 빠르다.
 
@@ -44,31 +47,32 @@ tags = ["studynote-ai"]
 
 추론 엔진이 트리(Tree) 구조의 룰(Rule) 네트워크를 타고 내려가는 방향성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Fact) 주도인가, 목표(Goal) 주도인가에 따라 엔진의 로직이 정반대로 돈다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           전향 추론 (Forward) vs 후향 추론 (Backward) 작동 아키텍처 도해  │
-├──────────────────────────────────────────────────────────────┤
-│  [공통 지식 베이스 (Rule Base)]                                   │
-│   * Rule 1: IF (A) AND (B) THEN (X)                          │
-│   * Rule 2: IF (X) AND (C) THEN (Z)                          │
-│                                                              │
-│  [1. 전향 추론 (Forward Chaining) - 데이터가 이끄는 폭도들]            │
-│   * 시작 팩트(Fact): 사용자 입력 "A, B, C가 참(True)이다!"           │
-│   * 스텝 1: 팩트 A, B가 있으니 Rule 1 발동 ─▶ 새로운 팩트 X 생성!        │
-│   * 스텝 2: 새 팩트 X와 기존 팩트 C가 있으니 Rule 2 발동 ─▶ 최종 결론 Z 도달!│
-│   ─▶ 끝을 모르는 폭주 기관차처럼 조건이 맞으면 결론을 향해 무조건 직진함.   │
-│                                                              │
-│  [2. 후향 추론 (Backward Chaining) - 가설을 증명하는 형사]             │
-│   * 시작 목표(Goal): "결론 Z가 진짜인지 증명해 봐!"                    │
-│   * 스텝 1: Z가 참이려면 Rule 2에 의해 X와 C가 참이어야 하네? (새 목표 X, C)│
-│   * 스텝 2: X가 참이려면 Rule 1에 의해 A와 B가 참이어야 하네? (새 목표 A, B)│
-│   * 스텝 3: DB나 사용자에게 "야, 너 A, B, C 참(True) 맞냐?" 물어봄.    │
-│   * 사용자가 "ㅇㅇ 맞음" 하면 ─▶ "그럼 내 가설 Z는 정답이다!" 증명 완료.  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 (탐색 트리의 부채꼴 방향, [Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) vs Fan-out)**:
-전향 추론은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 팩트가 적은 반면 도달할 수 있는 결론이 수만 개일 때(트리가 부채꼴로 쫙 퍼짐, Fan-out), 모든 룰을 건드리며 시스템을 마비시킨다. 반대로 목표(결론)를 찍고 시작하는 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)은, 내가 찍은 결론 Z에 연결된 룰 딱 2개만 쳐다보고 나머지 9,998개의 룰은 아예 뇌에서 꺼버린다([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)). 이 미친듯한 효율성 덕분에 **의료 진단(MYCIN)이나 시스템 고장 디버깅(가설 증명)**에는 100% [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 아키텍처가 채택되었다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전향 추론 (Forward) vs 후향 추론 (Backward) 작동 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공통 지식 베이스 (Rule Base)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Rule 1: IF (A) AND (B) THEN (X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Rule 2: IF (X) AND (C) THEN (Z)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전향 추론 (Forward Chaining) - 데이터가 이끄는 폭도들</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시작 팩트(Fact): 사용자 입력 "A, B, C가 참(True)이다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스텝 1: 팩트 A, B가 있으니 Rule 1 발동 ─▶ 새로운 팩트 X 생성!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스텝 2: 새 팩트 X와 기존 팩트 C가 있으니 Rule 2 발동 ─▶ 최종 결론 Z 도달!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 끝을 모르는 폭주 기관차처럼 조건이 맞으면 결론을 향해 무조건 직진함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 후향 추론 (Backward Chaining) - 가설을 증명하는 형사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시작 목표(Goal): "결론 Z가 진짜인지 증명해 봐!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스텝 1: Z가 참이려면 Rule 2에 의해 X와 C가 참이어야 하네? (새 목표 X, C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스텝 2: X가 참이려면 Rule 1에 의해 A와 B가 참이어야 하네? (새 목표 A, B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스텝 3: DB나 사용자에게 "야, 너 A, B, C 참(True) 맞냐?" 물어봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자가 "ㅇㅇ 맞음" 하면 ─▶ "그럼 내 가설 Z는 정답이다!" 증명 완료.</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (탐색 트리의 부채꼴 방향, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a> vs Fan-out)</strong>:
+전향 추론은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 팩트가 적은 반면 도달할 수 있는 결론이 수만 개일 때(트리가 부채꼴로 쫙 퍼짐, Fan-out), 모든 룰을 건드리며 시스템을 마비시킨다. 반대로 목표(결론)를 찍고 시작하는 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)은, 내가 찍은 결론 Z에 연결된 룰 딱 2개만 쳐다보고 나머지 9,998개의 룰은 아예 뇌에서 꺼버린다([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)). 이 미친듯한 효율성 덕분에 <strong>의료 진단(MYCIN)이나 시스템 고장 디버깅(가설 증명)</strong>에는 100% [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 아키텍처가 채택되었다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -87,11 +91,11 @@ tags = ["studynote-ai"]
 
 | 비교 척도 | 전향 추론 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) |
 |:---|:---|:---|
-| **작동 철학** | **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-driven ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도)**. 팩트에서 출발. | **Goal-driven (목표 주도)**. 가설에서 출발. |
-| **작동 환경 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 엄청나게 많고(수만 개 센서), **결론은 "정상 / 폭발 경고" 2개뿐일 때.** | 결론(병명)은 수만 개인데, **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(환자의 증상)는 달랑 2개밖에 없을 때.** |
+| **작동 철학** | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>-driven (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주도)</strong>. 팩트에서 출발. | **Goal-driven (목표 주도)**. 가설에서 출발. |
+| <strong>작동 환경 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 엄청나게 많고(수만 개 센서), **결론은 "정상 / 폭발 경고" 2개뿐일 때.** | 결론(병명)은 수만 개인데, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(환자의 증상)는 달랑 2개밖에 없을 때.</strong> |
 | **질문 빈도 (User Interaction)** | 사용자가 처음에 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10만 개 몽땅 다 집어넣고 엔진을 돌리면 됨. (컴퓨터 지들끼리 돎) | 기계가 가설을 증명하다가 막히면 사용자에게 "혹시 머리도 아파요?"라고 **계속 질문을 던지며 귀찮게 함.** |
 | **대표적인 사례** | 공장 알람 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템, 자율주행 상황 판단 제어 | 의학 진단 시스템 (MYCIN), 법률 판례 시스템, 디버깅 툴 |
-| **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현체** | Rete [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (룰 매칭 최적화의 끝판왕) | Prolog ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 프로그래밍 언어의 기본 내장 엔진) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 구현체</strong> | Rete [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (룰 매칭 최적화의 끝판왕) | Prolog ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 프로그래밍 언어의 기본 내장 엔진) |
 
 최근의 엔터프라이즈 BRMS (Business Rule [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [비즈니스 룰 엔진](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/)) 솔루션인 Drools 같은 것들은 이 두 가지를 섞어 쓴다. 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭우처럼 쏟아질 때는 전향 추론으로 빠르게 "위험!" 알람 팩트를 띄우고, "왜 위험한데?"라는 세부 원인을 찾을 때는 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)으로 전환하여 디버깅하는 양방향 하이브리드 추론이 대세다.
 
@@ -104,8 +108,8 @@ tags = ["studynote-ai"]
 의료 진단이나 시스템 장애 추적(Root Cause Analysis) [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)을 구축할 때, 엔진의 방향을 잘못 설계하면 사용자는 기계의 질문 공격에 질려서 앱을 지워버린다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **[Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) vs Fan-out 구조의 절대 판별 (Rule Topology 분석)**: 시스템을 짜기 전 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(Rule)의 네트워크 지도를 쫙 펴보라. 만약 조건부(If)가 깔때기처럼 모여들어 결론(Then)이 몇 개 안 나오는 **[Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 구조(많은 원인 $\rightarrow$ 적은 결과)라면 무조건 전향 추론(Forward)**을 써야 한다. 반대로 조건부는 적은데 결론이 나뭇가지처럼 수만 개로 뻗어나가는 **Fan-out 구조(적은 원인 $\rightarrow$ 많은 결과)라면 무조건 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(Backward)**을 박아넣어 폭주하는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))를 강제해야 서버의 램(RAM)이 터지지 않는다.
-2. **[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 시 사용자 피로도 (Question Fatigue) 통제**: [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)의 가장 치명적인 단점은, 기계가 가설을 증명하려고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부족할 때마다 사용자에게 팝업창을 띄워 "이거 참이에요 거짓이에요?"라고 끝없이 캐묻는다는 것이다. 가설이 틀릴 때마다 100번씩 질문을 던지면 사용자는 폰을 집어 던진다. 아키텍트는 가설의 탐색 순서를 정할 때, 가장 그럴싸한 가설(Prior Probability가 높은 것)부터 먼저 찔러보도록 **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)**를 룰 엔진에 주입하여, 사용자에 대한 질문(Interaction) 횟수를 5회 이내로 잘라내는 UX 방어막을 쳐야 한다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a> vs Fan-out 구조의 절대 판별 (Rule Topology 분석)</strong>: 시스템을 짜기 전 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(Rule)의 네트워크 지도를 쫙 펴보라. 만약 조건부(If)가 깔때기처럼 모여들어 결론(Then)이 몇 개 안 나오는 **[Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 구조(많은 원인 $\rightarrow$ 적은 결과)라면 무조건 전향 추론(Forward)**을 써야 한다. 반대로 조건부는 적은데 결론이 나뭇가지처럼 수만 개로 뻗어나가는 **Fan-out 구조(적은 원인 $\rightarrow$ 많은 결과)라면 무조건 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(Backward)**을 박아넣어 폭주하는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))를 강제해야 서버의 램(RAM)이 터지지 않는다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a> 시 사용자 피로도 (Question Fatigue) 통제</strong>: [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)의 가장 치명적인 단점은, 기계가 가설을 증명하려고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부족할 때마다 사용자에게 팝업창을 띄워 "이거 참이에요 거짓이에요?"라고 끝없이 캐묻는다는 것이다. 가설이 틀릴 때마다 100번씩 질문을 던지면 사용자는 폰을 집어 던진다. 아키텍트는 가설의 탐색 순서를 정할 때, 가장 그럴싸한 가설(Prior Probability가 높은 것)부터 먼저 찔러보도록 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong>를 룰 엔진에 주입하여, 사용자에 대한 질문(Interaction) 횟수를 5회 이내로 잘라내는 UX 방어막을 쳐야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **의료/법률 진단에 무지성 전향 추론(Forward) 도입 버그**: 병원 키오스크 진단기를 만드는데 개발자가 전향 추론 엔진을 덜컥 달아버린 끔찍한 사태. 환자가 "머리가 아프다"고 버튼 하나([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 팩트)를 누른다. 전향 추론 엔진은 '머리가 아픔'과 연결된 감기, 뇌종양, 스트레스, 식중독 등 500개의 결론 트리(Fan-out)를 향해 미친 듯이 연산을 뻗어 나간다. 그리고 환자에게 "당신은 감기이거나, 뇌종양이거나, 식중독일 수 있습니다"라는 500개의 아무 짝에도 쓸모없는 정답 리스트를 화면에 뿜어낸다. 진단과 디버깅(원인 추적) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 묻지도 따지지도 말고 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)으로 가설을 쳐내가야(Elimination) 핀포인트 정답이 나온다.
@@ -130,10 +134,10 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))** | 전향 추론과 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 엔진을 뱃속에 품고 1980년대 기업의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 뇌 역할을 수행했던, [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)와 룰(Rule) 기반 AI의 영원한 황제 모델 |
-| **Rete [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (레테 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 전향 추론(Forward)을 할 때 수만 개의 규칙을 다 뒤지면 너무 느리니까, 미리 조건들을 트리(Tree) 모양의 그물망으로 엮어놔서 매칭 속도를 광속으로 끌어올린 불멸의 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/">전문가 시스템</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/">Expert System</a>)</strong> | 전향 추론과 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 엔진을 뱃속에 품고 1980년대 기업의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 뇌 역할을 수행했던, [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)와 룰(Rule) 기반 AI의 영원한 황제 모델 |
+| <strong>Rete <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (레테 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong> | 전향 추론(Forward)을 할 때 수만 개의 규칙을 다 뒤지면 너무 느리니까, 미리 조건들을 트리(Tree) 모양의 그물망으로 엮어놔서 매칭 속도를 광속으로 끌어올린 불멸의 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **추론 엔진 (Inference Engine)** | AI의 두뇌. 지식(Rule) 도서관에서 규칙을 빼 와서 전향(앞으로)으로 돌릴지, 후향(뒤로)으로 돌릴지 조타수를 잡고 결론을 뽑아내는 컴퓨터 프로그램의 심장 |
-| **[Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) ([의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))** | 전향/[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 룰의 흐름을 사람들이 눈으로 보기 쉽게 분기점 그림(스무고개)으로 그려놓은 모델. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시대에도 가장 많이 쓰이는 화이트박스(White-box) AI의 대표 주자 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">Decision Tree</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a>)</strong> | 전향/[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/) 룰의 흐름을 사람들이 눈으로 보기 쉽게 분기점 그림(스무고개)으로 그려놓은 모델. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시대에도 가장 많이 쓰이는 화이트박스(White-box) AI의 대표 주자 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,8 +147,8 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **전향 추론(앞으로 가기)**은 '냉장고 파먹기'예요! 냉장고를 열어서 계란과 파(단서)를 본 다음, "이걸 합치면 무슨 요리(결론)를 만들 수 있지?" 하고 앞으로 나아가는 생각법이에요.
-2. **[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(뒤로 가기)**은 '먹고 싶은 메뉴 정하기'예요! "난 오늘 계란말이(결론)를 먹을 테야! 그럼 계란이랑 파가 냉장고에 있나?" 하고 거꾸로 단서를 찾아 나서는 수사관 같은 생각법이죠.
+1. <strong>전향 추론(앞으로 가기)</strong>은 '냉장고 파먹기'예요! 냉장고를 열어서 계란과 파(단서)를 본 다음, "이걸 합치면 무슨 요리(결론)를 만들 수 있지?" 하고 앞으로 나아가는 생각법이에요.
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/">후향 추론</a>(뒤로 가기)</strong>은 '먹고 싶은 메뉴 정하기'예요! "난 오늘 계란말이(결론)를 먹을 테야! 그럼 계란이랑 파가 냉장고에 있나?" 하고 거꾸로 단서를 찾아 나서는 수사관 같은 생각법이죠.
 3. 단서가 많을 땐 앞(전향)으로 밀고 나가는 게 빠르고, 의사의 진찰처럼 단서가 없을 땐 "너 감기 아냐?" 하고 목표(후향)부터 찍고 거꾸로 캐묻는 게 컴퓨터가 정답을 찾는 데 훨씬 빠르답니다!
 
 ---

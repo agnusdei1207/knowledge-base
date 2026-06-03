@@ -22,20 +22,24 @@ tags = ["studynote-network"]
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno의 선형적(Linear) 윈도우 증가 방식이 고대역폭-장지연 네트워크(LFN)에서 대역폭을 낭비하는 문제를 해결하기 위해, [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 크기를 3차 함수(Cubic function) 기반으로 계산하여 팽창시키는 현대 OS의 기본 혼잡 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 - **필요성**: 2000년대 중반, 기가비트(1Gbps) 인터넷이 보급되었다. 한국에서 미국으로 10GB짜리 롤(LOL) 클라이언트를 다운받는다. 가다가 패킷 1개가 튀어서 속도(CWND)가 반 토막 났다. 기존 레노(Reno) 공식에 따르면, 이 반 토막 난 속도를 다시 1Gbps까지 +1씩 끌어올리려면 무려 '몇 시간' 동안 영수증을 주고받아야 한다는 계산이 나왔다! **"야!! 요즘 선로가 얼마나 빵빵한데 언제 +1씩 찔끔찔끔 올리고 자빠졌어! 사고 나기 직전의 아까 그 속도가 어차피 이 선로의 한계점이니까, 아까 그 속도까지는 묻고 더블로 확 올려버리고 한계점 근처에서만 조심하게 만들자!!"**
 
-- **💡 비유**: CUBIC은 **"기억상실증에 안 걸린 롤러코스터"**와 같습니다.
+- **💡 비유**: CUBIC은 <strong>"기억상실증에 안 걸린 롤러코스터"</strong>와 같습니다.
   - **Reno (바보)**: 꼭대기(100km/h)에서 떨어져 속도가 반 토막(50km/h) 나면, 무조건 시속 1km씩 천천히 가속합니다. 다시 100km/h로 올라가는 데 한 세월이 걸립니다.
   - **CUBIC (천재)**: 100km/h에서 터진 걸 머릿속에 기억(`W_max`)해 둡니다. 절반(50km/h)으로 떨어지자마자 엑셀을 풀로 밟아 **1초 만에 90km/h까지 단숨에 확 튀어 오르고**, 90부터 100 사이에서만 브레이크를 살살 밟으며 눈치를 봅니다.
 
-```text
-[TCP NewReno / SACK]
-    │
-    ▼
-[TCP BIC / CUBIC]
-    │
-    └──▶ [BBR]
-```
 
-- **📢 섹션 요약 비유**: ** CUBIC은 다이어트 요요 현상의 **"체중 복귀 속도"**입니다. 레노가 1년 동안 힘겹게 밥을 줄여 살을 뺐는데 치팅데이 한 번(Drop)에 요요가 와서 다시 살 빼는 데 1년이 걸린다면, CUBIC은 살이 찌자마자 극단적 단식을 통해 원래 체중(`W_max`) 근처로 **단 며칠 만에 수직 하강하여 원래의 몸매(최대 속도)를 즉각 되찾는 압도적인 회복력**을 보여줍니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP NewReno / SACK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP BIC / CUBIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BBR</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** CUBIC은 다이어트 요요 현상의 **"체중 복귀 속도"<strong>입니다. 레노가 1년 동안 힘겹게 밥을 줄여 살을 뺐는데 치팅데이 한 번(Drop)에 요요가 와서 다시 살 빼는 데 1년이 걸린다면, CUBIC은 살이 찌자마자 극단적 단식을 통해 원래 체중(<code>W_max</code>) 근처로 </strong>단 며칠 만에 수직 하강하여 원래의 몸매(최대 속도)를 즉각 되찾는 압도적인 회복력**을 보여줍니다.
 
 ---
 
@@ -48,29 +52,31 @@ CUBIC은 이름 그대로 3차 함수 곡선 $y = x^3$ 의 S자 모양(정확히
 2. **평탄한 눈치 보기 (Plateau region)**: 속도가 $W_{max}$ 근처에 다다랐다. "오, 여기서 아까 사고 났었지? 조심해!" 이때 곡선이 평평해지며 아주 조심조심 속도를 늘린다. (안정성 확보).
 3. **볼록한 한계 돌파 (Convex region)**: 평평하게 가는데도 안 막히고 영수증(ACK)이 잘 온다? "헐? 통신사가 공사해서 길 더 넓혔나 보네? 그럼 나 한계 돌파한다!!" $W_{max}$를 뚫고 다시 3차 함수 곡선으로 미친 듯이 하늘을 향해 가속한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP Reno vs CUBIC의 속도 복구 그래프 차이          │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND 크기                                                     │
- │ W_max |       /| (사고)         (Cubic 곡선)       /|         │
- │       |     /  |                   ___.....---* |         │
- │       |   /    |            ..---*              |         │
- │       | /      |        _.-*                    |         │
- │ 1/2   |/       └─ * ─ * ─ (Reno: 개답답한 +1)        |         │
- │       |____________________________________ 시간(RTT)        │
- │                                                             │
- │   ▶ Reno: 사고 난 뒤 1/2 지점에서 +1씩 오르다 보니 1시간 걸림.         │
- │   ▶ CUBIC: 사고 나자마자 W_max 근처로 확 치솟고(Concave), 거기서    │
- │            눈치 살짝 보다가 다시 미친듯이 돌파함(Convex).             │
- │   ▶ 결과: 우리가 쓰는 1Gbps 랜선 대역폭의 100%를 꽉 채워 쓸 수 있다!   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP Reno vs CUBIC의 속도 복구 그래프 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND 크기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_max</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">(사고) (Cubic 곡선) /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">___.....---*</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">..---*</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">_.-*</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1/2</div><div class="kb-diagram-cell">/ ─ * ─ * ─ (Reno: 개답답한 +1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Reno: 사고 난 뒤 1/2 지점에서 +1씩 오르다 보니 1시간 걸림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ CUBIC: 사고 나자마자 W_max 근처로 확 치솟고(Concave), 거기서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">눈치 살짝 보다가 다시 미친듯이 돌파함(Convex).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 우리가 쓰는 1Gbps 랜선 대역폭의 100%를 꽉 채워 쓸 수 있다!</div></div>
+</div>
+</div>
+
+
 
 ### 2. [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 공평성의 파괴 (이기적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 CUBIC은 기존의 룰을 파괴했다. 
 - 기존 Reno는 영수증(ACK)이 1개 와야 속도를 1 올렸다. 그래서 핑([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 10ms로 짧은 한국 사람은 핑이 200ms인 미국 사람보다 ACK를 더 자주 받아 속도를 혼자 다 빨아먹었다([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) Fairness 문제).
-- **CUBIC의 쿨함**: CUBIC의 3차 함수 공식은 ACK 개수 따위 신경 안 쓴다. 오직 **"마지막으로 사고(Drop)가 터진 후 흐른 '절대 시간(Time)'"**만을 변수로 쓴다. 즉, 한국 사람이든 미국 사람이든 시간이 흐르면 3차 함수 곡선을 타고 다 같이 공평하게 속도가 확확 오르므로, 장거리 통신망(LFN)의 속도 저하 문제를 완벽히 해결했다.
+- **CUBIC의 쿨함**: CUBIC의 3차 함수 공식은 ACK 개수 따위 신경 안 쓴다. 오직 <strong>"마지막으로 사고(Drop)가 터진 후 흐른 '절대 시간(Time)'"</strong>만을 변수로 쓴다. 즉, 한국 사람이든 미국 사람이든 시간이 흐르면 3차 함수 곡선을 타고 다 같이 공평하게 속도가 확확 오르므로, 장거리 통신망(LFN)의 속도 저하 문제를 완벽히 해결했다.
 
 ### 3. 현대 통신의 지배자
 오늘날 안드로이드 스마트폰, 리눅스 서버, 윈도우(업데이트 이후) 등 우리가 쓰는 99%의 기계는 내부 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 세팅에 `tcp_congestion_control = cubic` 으로 박혀 있다. 즉, 우리가 구글 드라이브나 넷플릭스를 쾌적하게 쓰는 것은 모두 이 CUBIC 덕분이다.
@@ -131,15 +137,19 @@ CUBIC은 기존의 룰을 파괴했다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TCP NewReno / SACK]
-    │
-    ▼
-[현재 개념: TCP BIC / CUBIC]
-    │
-    ├──▶ [확장 A: BBR]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP NewReno / SACK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP BIC / CUBIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BBR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) NewReno / SACK에서 출발해 현재 메커니즘을 정교화하고, 이후 BBR와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

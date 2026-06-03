@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 수천 줄의 코드로 은행 프로그램을 짰다(절차적 지향). 고객의 잔고(`balance`) 변수를 아무 함수나 마구잡이로 가져다 더하고 뺐다. 어느 날 잔고가 마이너스 통장이 되는 버그가 터졌는데, 도대체 수천 개의 함수 중 누가 이 변수를 건드렸는지 범인을 찾을 수가 없다(스파게티 코드). 그래서 변수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 그 변수를 만지는 함수를 단단한 캡슐 하나에 묶어서 남들이 함부로 만지지 못하게 잠가버릴 절대적인 필요성(캡슐화)이 대두되었다.
 
-- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(**캡슐화와 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**). 구형 바퀴를 떼어내고 규격만 맞으면 신형 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(**[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)**).
+- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(<strong>캡슐화와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>). 구형 바퀴를 떼어내고 규격만 맞으면 신형 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong>).
 
 - **등장 배경 및 발전 과정**:
   1. **절차적 한계와 Simula/Smalltalk (1960s)**: 시뮬레이션 프로그램을 돌리기 위해, 현실의 배나 사람을 코드로 모델링하는 `Class`와 `Object`의 개념이 최초로 제안되었다.
   2. **C++의 등장 (1980s)**: 기존 시스템 프로그래밍의 왕인 C언어에 '객체'라는 개념을 덧붙여(C with Classes), 성능과 객체지향이라는 두 마리 토끼를 잡으며 전 세계를 장악했다.
-  3. **Java와 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)의 완성 (1990s~)**: C++의 복잡성(다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 포인터)을 쳐내고 순수한 4대 특징에 집중한 Java가 탄생했으며, 이 4대 특징을 극한으로 응용한 구조적 해법들이 모여 'GoF [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)'이라는 절대 법전으로 집대성되었다.
+  3. <strong>Java와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>의 완성 (1990s~)</strong>: C++의 복잡성(다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 포인터)을 쳐내고 순수한 4대 특징에 집중한 Java가 탄생했으며, 이 4대 특징을 극한으로 응용한 구조적 해법들이 모여 'GoF [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)'이라는 절대 법전으로 집대성되었다.
 
 - **📢 섹션 요약 비유**: OOP 4대 특징은 복잡한 레고 블록 놀이를 하기 위한 절대 규칙 4가지입니다. 남의 블록 속을 파헤치지 마라(캡슐화), 불필요한 장식은 빼고 뼈대만 봐라([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)), 아빠 블록의 능력을 물려받아라([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)), 상황에 따라 다른 무기로 변신해라(다형성)입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 객체지향 프로그래밍 (OOP)의 4대의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 프로그래밍 (OOP)의 4대                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 프로그래밍 (OOP)의 4대</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 프로그래밍 (OOP)의 4대가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-객체지향 프로그래밍 (OOP)의 4대 특징의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+객체지향 프로그래밍 (OOP)의 4대 특징의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 객체지향 프로그래밍 (OOP)의 4대 특징의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 프로그래밍 (OOP)의 4대 특징 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 프로그래밍 (OOP)의 4대 특징 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

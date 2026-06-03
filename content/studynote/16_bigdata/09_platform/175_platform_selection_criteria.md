@@ -25,13 +25,16 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 플랫폼 선택을 흔드는 핵심 축을 정리한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   Five forces in platform selection                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ data volume │ latency │ concurrency │ governance │ team operations  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Five forces in platform selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data volume</div><div class="kb-diagram-cell">latency</div><div class="kb-diagram-cell">concurrency</div><div class="kb-diagram-cell">governance</div><div class="kb-diagram-cell">team operations</div></div>
+</div>
+</div>
+
+
 
 즉 플랫폼 선택은 기술 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교표 한 장으로 끝나지 않는다. 비즈니스 속도, 규제 강도, 조직 역량, 비용 방식이 동시에 교차하는 의사결정이다.
 
@@ -41,30 +44,27 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 플랫폼 선택 프레임워크는 보통 두 단계로 간다. 먼저 **필수 조건**을 통과시킨다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 국가 안에 있어야 하는지, [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 몇 초로 요구하는지, 24x7 운영팀이 있는지 같은 조건은 탈락 기준이다. 그다음 후보 플랫폼 패밀리를 좁힌 뒤, 비용·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영 난이도·이식성 같은 비교 항목을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 평가한다.
+좋은 플랫폼 선택 프레임워크는 보통 두 단계로 간다. 먼저 <strong>필수 조건</strong>을 통과시킨다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 국가 안에 있어야 하는지, [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 몇 초로 요구하는지, 24x7 운영팀이 있는지 같은 조건은 탈락 기준이다. 그다음 후보 플랫폼 패밀리를 좁힌 뒤, 비용·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영 난이도·이식성 같은 비교 항목을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 평가한다.
 
 아래 그림은 실무적으로 많이 쓰는 선택 흐름이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   Platform selection funnel                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) hard constraints: residency / security / SLA                     │
-│              │                                                       │
-│              ▼                                                       │
-│ 2) workload shape: batch / BI / streaming / ML                      │
-│              │                                                       │
-│              ▼                                                       │
-│ 3) shortlist platform family                                         │
-│    - self-managed cluster                                            │
-│    - managed cluster                                                 │
-│    - serverless warehouse                                            │
-│    - lakehouse platform                                              │
-│              │                                                       │
-│              ▼                                                       │
-│ 4) weighted score: cost + ops + fit + portability + performance     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform selection funnel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) hard constraints: residency / security / SLA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) workload shape: batch / BI / streaming / ML</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) shortlist platform family</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- self-managed cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- managed cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- serverless warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- lakehouse platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) weighted score: cost + ops + fit + portability + performance</div></div>
+</div>
+</div>
+
+
 
 | 플랫폼 패밀리 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
@@ -106,7 +106,7 @@ tags = ["studynote-bigdata"]
 
 또 하나 중요한 연결은 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)과 개방 포맷의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 플랫폼을 바꾸기 어려운 이유는 계산 엔진보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 형식과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 묶이기 때문이다. 그래서 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Amazon EMR (Elastic [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 같은 구체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명을 비교하더라도, 결국 질문은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 포맷으로 남길 것인가", "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 권한을 얼마나 분리 가능한가"로 귀결된다.
 
-이 비교는 [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/), Federated Query와도 이어진다. 플랫폼 하나가 모든 문제를 해결하는 시대라기보다, 저장 계층은 통합하고 계산 계층은 여러 엔진이 공유하는 방향으로 진화하고 있기 때문이다. 따라서 플랫폼 선택 보고서에는 현재 요구뿐 아니라 **향후 엔진 다변화 가능성**도 포함되어야 한다.
+이 비교는 [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/), Federated Query와도 이어진다. 플랫폼 하나가 모든 문제를 해결하는 시대라기보다, 저장 계층은 통합하고 계산 계층은 여러 엔진이 공유하는 방향으로 진화하고 있기 때문이다. 따라서 플랫폼 선택 보고서에는 현재 요구뿐 아니라 <strong>향후 엔진 다변화 가능성</strong>도 포함되어야 한다.
 
 - **📢 섹션 요약 비유**: 운동팀에서 공격수, 수비수, 골키퍼 중 누가 최고인지 따지는 것은 의미가 없다. 팀에 지금 무엇이 부족한지에 따라 우선 영입 대상이 달라지듯이, 플랫폼도 부족한 능력에 맞춰 골라야 한다.
 
@@ -118,21 +118,24 @@ tags = ["studynote-bigdata"]
 
 아래 흐름은 현장에서 자주 쓰는 판단 순서다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Practical selection decision flow                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ strong regulation or residency lock?                                 │
-│   ├─ yes -> self-managed or hybrid first                             │
-│   └─ no                                                              │
-│        real-time under seconds?                                      │
-│        ├─ yes -> streaming-first + lakehouse consideration           │
-│        └─ no                                                         │
-│             SQL-heavy and small ops team?                            │
-│             ├─ yes -> serverless warehouse                           │
-│             └─ custom engines / heavy ML -> managed cluster/lakehouse│
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical selection decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">strong regulation or residency lock?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; self-managed or hybrid first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">real-time under seconds?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; streaming-first + lakehouse consideration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL-heavy and small ops team?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; serverless warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ custom engines / heavy ML -&gt; managed cluster/lakehouse</div></div>
+</div>
+</div>
+
+
 
 | 판단 항목 | 채택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 회피 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 | :--- | :--- | :--- |
@@ -143,7 +146,7 @@ tags = ["studynote-bigdata"]
 
 또한 3~5년 TCO는 반드시 항목별로 쪼개서 계산해야 한다. Compute 비용, Storage 비용, [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용, 라이선스, 운영 인력, 교육 비용, 마이그레이션 비용, 유휴 자원 비용을 따로 봐야 한다. 처음에는 싸 보이는 종량제도 장시간 고정 워크로드에서는 비싸질 수 있고, 반대로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)의 낮은 단가도 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자와 운영 인력까지 합치면 불리해질 수 있다.
 
-기술사 답안에서는 다음 세 가지가 중요하다. 첫째, **CapEx (Capital Expenditure) vs OpEx (Operational Expenditure)** 차이를 기술·재무 관점에서 설명할 것. 둘째, **[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)**을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 상위 제약으로 볼 것. 셋째, **출구 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**을 명시할 것. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), Trino 같은 개방형 기술을 일부라도 남겨 두면 나중에 재배치 비용을 줄일 수 있다.
+기술사 답안에서는 다음 세 가지가 중요하다. 첫째, **CapEx (Capital Expenditure) vs OpEx (Operational Expenditure)** 차이를 기술·재무 관점에서 설명할 것. 둘째, <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a>과 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a></strong>을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 상위 제약으로 볼 것. 셋째, <strong>출구 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>을 명시할 것. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), Trino 같은 개방형 기술을 일부라도 남겨 두면 나중에 재배치 비용을 줄일 수 있다.
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 아직 500GB 수준인데 PB급 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 플랫폼을 먼저 들이는 것, 반대로 실시간 이벤트 처리가 핵심인데 단순 배치 웨어하우스만 보는 것, 개념 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Proof of [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/), POC)에서 한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)만 빠른 제품을 전체 표준으로 정하는 것, [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용과 인력 비용을 무시하는 것이 대표적이다.
 
@@ -155,7 +158,7 @@ tags = ["studynote-bigdata"]
 
 올바른 플랫폼을 선택하면 단순히 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 빨라지는 것을 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재부터 분석, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), 거버넌스까지 전체 리드타임이 줄어든다. 운영팀은 자신이 감당할 수 있는 복잡도 안에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 유지하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀은 도구 대신 문제 해결에 시간을 더 쓸 수 있다. 또한 개방 포맷과 출구 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 설계하면 향후 기술 변화에도 훨씬 유연하게 대응할 수 있다.
 
-물론 완벽한 플랫폼은 없다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 편하지만 제어력이 낮고, Self-managed는 강력하지만 운영비가 크며, Lakehouse는 유연하지만 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 설계 부담이 있다. 따라서 선택의 목표는 "최강 플랫폼"이 아니라, **현재 요구를 충족하면서 미래 선택지를 과하게 닫지 않는 플랫폼**이어야 한다.
+물론 완벽한 플랫폼은 없다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 편하지만 제어력이 낮고, Self-managed는 강력하지만 운영비가 크며, Lakehouse는 유연하지만 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 설계 부담이 있다. 따라서 선택의 목표는 "최강 플랫폼"이 아니라, <strong>현재 요구를 충족하면서 미래 선택지를 과하게 닫지 않는 플랫폼</strong>이어야 한다.
 
 결국 빅데이터 플랫폼 선택은 기술 구매가 아니라 운영 모델 설계다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기, 속도, 규제, 팀 역량, 경제성을 한 장의 의사결정표로 정리해 보는 순간, 어떤 플랫폼이 우리 조직에 맞는지가 훨씬 선명해진다.
 
@@ -177,21 +180,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Hard constraints: regulation and SLA
-    │
-    ▼
-Workload classification: batch / BI / streaming / ML
-    │
-    ▼
-Platform-family comparison
-    │
-    ▼
-TCO + team-fit + portability evaluation
-    │
-    ▼
-Phased adoption with exit strategy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hard constraints: regulation and SLA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Workload classification: batch / BI / streaming / ML</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Platform-family comparison</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TCO + team-fit + portability evaluation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Phased adoption with exit strategy</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -10,27 +10,28 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블루/그린 배포는 현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 **동시에 운영**하고, 로드밸런서/라우터의 트래픽을 **한 번에 Blue→Green으로 전환**하여 무중단 배포를 실현하는 전략이다.
-> 2. **가치**: 문제 발생 시 트래픽을 **Green→Blue로 즉시 되돌려** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 **완전한 프로덕션급 테스트**를 수행할 수 있다.
-> 3. **판단 포인트**: 인프라 비용이 **2배(Blue+Green 동시 운영)** 필요하며, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 있을 때 **양쪽 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Expand and Contract)**을 보장해야 한다.
+> 1. **본질**: 블루/그린 배포는 현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue→Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
+> 2. **가치**: 문제 발생 시 트래픽을 **Green→Blue로 즉시 되돌려** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.
+> 3. **판단 포인트**: 인프라 비용이 **2배(Blue+Green 동시 운영)** 필요하며, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 있을 때 <strong>양쪽 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>(Expand and Contract)</strong>을 보장해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    블루/그린 배포 전환 흐름                             │
-├───────────────────────────────────────────────────────┤
-│  [Before] LB ──▶ Blue (v1) ← 100% 트래픽            │
-│                  Green (v2) ← 0% (대기, 테스트 중)    │
-│                                                       │
-│  [Switch] LB ──▶ Green (v2) ← 100% 트래픽 ✅         │
-│                  Blue (v1) ← 0% (대기, 롤백 대비)     │
-│                                                       │
-│  [Rollback] LB ──▶ Blue (v1) ← 100% (즉시 복원)     │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블루/그린 배포 전환 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Blue (v1) ← 100% 트래픽</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Green (v2) ← 0% (대기, 테스트 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Switch</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Green (v2) ← 100% 트래픽 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blue (v1) ← 0% (대기, 롤백 대비)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rollback</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Blue (v1) ← 100% (즉시 복원)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 블루/그린은 무대 2개가 있는 극장이다. 관객은 항상 1개 무대만 보고, 다른 무대에서 세트(신버전)를 준비한 후 조명을 순간 전환한다.
 
@@ -42,9 +43,9 @@ tags = ["studynote-software-engineering"]
 
 | 방식 | 도구 | 특징 |
 |:---|:---|:---|
-| **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 전환** | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 주의, [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 전환</strong> | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 주의, [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) |
 | **LB 전환** | ALB/NLB Target Group | 즉시 전환, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 고려 |
-| **K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Selector 변경 | 라벨 기반 즉시 전환 |
+| <strong>K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Selector 변경 | 라벨 기반 즉시 전환 |
 
 ### 블루/그린 vs [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)
 
@@ -52,8 +53,8 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **전환** | 100% 한 번에 | 1%→100% 점진 |
 | **비용** | 2배 인프라 | +α만 |
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 전환 전 테스트 | 실 트래픽 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)** | 즉시 (LB 전환) | 즉시 (비율 0%) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 전환 전 테스트 | 실 트래픽 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 즉시 (LB 전환) | 즉시 (비율 0%) |
 
 - **📢 섹션 요약 비유**: 블루/그린은 ON/OFF [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(전체 전환)이고, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 디머(밝기 조절)이다.
 
@@ -72,7 +73,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
-블루/그린 전환 시 DB는 하나이므로, 신버전이 구 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 깨면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 구버전이 동작하지 않는다. **Expand and Contract 패턴**으로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 보장해야 한다.
+블루/그린 전환 시 DB는 하나이므로, 신버전이 구 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 깨면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 구버전이 동작하지 않는다. <strong>Expand and Contract 패턴</strong>으로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 보장해야 한다.
 
 ---
 
@@ -92,34 +93,36 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)** | 점진적 전환 (블루/그린의 대안) |
-| **[롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/)** | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 순차 교체 (K8s 기본) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong> | 점진적 전환 (블루/그린의 대안) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a></strong> | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 순차 교체 (K8s 기본) |
 | **Expand and Contract** | DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 보장 패턴 |
 | **로드밸런서** | 트래픽 전환의 핵심 인프라 |
 | **Progressive Delivery** | 블루/그린+[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)+[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)플래그 통합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 배포 (다운타임 발생, 2000s)]
-    │
-    ▼
-[블루/그린 배포 (2010s) — 무중단, 즉시 롤백]
-    │
-    ▼
-[카나리 배포 (2015~) — 점진적 트래픽 확대]
-    │
-    ▼
-[Progressive Delivery (2020~) — 카나리+피처플래그+ACA]
-    │
-    ▼
-[현재: AI 기반 자율 배포 — 메트릭 분석 자동 전환/롤백]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포 (다운타임 발생, 2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루/그린 배포 (2010s) — 무중단, 즉시 롤백</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 배포 (2015~) — 점진적 트래픽 확대</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Progressive Delivery (2020~) — 카나리+피처플래그+ACA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 자율 배포 — 메트릭 분석 자동 전환/롤백</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 블루/그린은 **무대 2개**가 있는 극장이에요. 하나는 공연 중이고, 다른 하나에서 새 공연을 준비해요.
-2. 준비가 끝나면 **조명을 순간 전환**해서 관객이 끊김 없이 새 공연을 봐요.
-3. 새 공연이 이상하면 **조명만 다시 바꾸면([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))** 원래 공연으로 돌아갈 수 있답니다!
+1. 블루/그린은 <strong>무대 2개</strong>가 있는 극장이에요. 하나는 공연 중이고, 다른 하나에서 새 공연을 준비해요.
+2. 준비가 끝나면 <strong>조명을 순간 전환</strong>해서 관객이 끊김 없이 새 공연을 봐요.
+3. 새 공연이 이상하면 <strong>조명만 다시 바꾸면(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong> 원래 공연으로 돌아갈 수 있답니다!
 
 ---
 

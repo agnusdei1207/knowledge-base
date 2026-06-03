@@ -47,67 +47,44 @@ Docker 이미지의 핵심 혁신은 "레이어드 아키텍처(Layered Architec
 
 다음 그림은 전통적인 VM 환경, 단일 Docker 호스트 환경, 그리고 Kubernetes 클러스터 환경의 차이를에 보여준다.관리 수준과화 단위가 어떻게 변화하는지 주목할 부분이다.
 
-```
-[ 환경별 아키텍처 진화 비교 ]
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│ ① 전통적인 VM 환경 (1 App per VM) │
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │ VM #1 │ │ VM #2 │ │ VM #3 │ │ VM #4 │ │
-│ │ Web App │ │ DB │ │ API │ │ Batch │ │
-│ │ + OS │ │ + OS │ │ + OS │ │ + OS │ │
-│ │ (무겁다) │ │ (무겁다) │ │ (무겁다) │ │ (무겁다) │ │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
-│ 📊 자원 오버헤드: 각 VM 마다 전체 OS → 5~15% 낭비 │
-└─────────────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│ ② Docker 단일 호스트 환경 (Multiple Containers per Host) │
-│ ┌────────────────────────────────────────────────────────────────────┐ │
-│ │ Docker Host (Linux) │ │
-│ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ │
-│ │ │ Container│ │ Container│ │ Container│ │ Container│ │ │
-│ │ │ Web App │ │ DB │ │ API │ │ Batch │ │ │
-│ │ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │ │
-│ │ ================================================================== │ │
-│ │ Container Runtime (containerd / Docker Engine) │ │
-│ └────────────────────────────────────────────────────────────────────┘ │
-│ 📊 자원 오버헤드: OS 공유 → 1~3%만 낭비. 그러나 확장성 없음 │
-└─────────────────────────────────────────────────────────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">환경별 아키텍처 진화 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 전통적인 VM 환경 (1 App per VM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM #1</div><div class="kb-diagram-cell">VM #2</div><div class="kb-diagram-cell">VM #3</div><div class="kb-diagram-cell">VM #4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web App</div><div class="kb-diagram-cell">DB</div><div class="kb-diagram-cell">API</div><div class="kb-diagram-cell">Batch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ OS</div><div class="kb-diagram-cell">+ OS</div><div class="kb-diagram-cell">+ OS</div><div class="kb-diagram-cell">+ OS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무겁다)</div><div class="kb-diagram-cell">(무겁다)</div><div class="kb-diagram-cell">(무겁다)</div><div class="kb-diagram-cell">(무겁다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 자원 오버헤드: 각 VM 마다 전체 OS → 5~15% 낭비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Docker 단일 호스트 환경 (Multiple Containers per Host)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Host (Linux)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web App</div><div class="kb-diagram-cell">DB</div><div class="kb-diagram-cell">API</div><div class="kb-diagram-cell">Batch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container Runtime (containerd / Docker Engine)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 자원 오버헤드: OS 공유 → 1~3%만 낭비. 그러나 확장성 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Kubernetes 클러스터 환경 (Container Orchestration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane (마스터 노드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Controller Manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 제어)</div><div class="kb-diagram-cell">(파드 배치)</div><div class="kb-diagram-cell">(상태 조정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ etcd (클러스터 상태 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(gRPC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╧ ╧ ╧</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Node</div><div class="kb-diagram-cell">Worker Node</div><div class="kb-diagram-cell">Worker Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">#3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A</div><div class="kb-diagram-cell">Pod C</div><div class="kb-diagram-cell">Pod E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Web App)</div><div class="kb-diagram-cell">(DB)</div><div class="kb-diagram-cell">(API Svc)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod B</div><div class="kb-diagram-cell">Pod D</div><div class="kb-diagram-cell">Pod F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cache)</div><div class="kb-diagram-cell">(Worker)</div><div class="kb-diagram-cell">(Ingress)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Kubelet</div><div class="kb-diagram-cell">+ Kubelet</div><div class="kb-diagram-cell">+ Kubelet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Kube-proxy</div><div class="kb-diagram-cell">+ Kube-proxy</div><div class="kb-diagram-cell">+ Kube-proxy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 Kubernetes의 가치: 수천 개 Pod를 단일 논리 시스템으로 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 자동 복구, 스케일링, 롤링 업데이트, 서비스 디스커버리 제공</div></div>
+</div>
+</div>
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│ ③ Kubernetes 클러스터 환경 (Container Orchestration) │
-│ │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ Control Plane (마스터 노드) │ │
-│ │ ┌──────────────┐ ┌──────────────┐ ┌───────────────────────┐ │ │
-│ │ │ API Server │ │ Scheduler │ │ Controller Manager │ │ │
-│ │ │ (모든 제어) │ │ (파드 배치) │ │ (상태 조정) │ │ │
-│ │ └──────────────┘ └──────────────┘ └───────────────────────┘ │ │
-│ │ + etcd (클러스터 상태 저장) │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-│ │ (gRPC) │ │ │
-│ ═══════════╧═══════════════════╧════════════════════╧═══════════════ │
-│ │ │ │ │
-│ ┌──────────▼──┐ ┌──────▼──────┐ ┌──────▼──────┐ │
-│ │ Worker Node │ │ Worker Node │ │ Worker Node │ │
-│ │ #1 │ │ #2 │ │ #3 │ │
-│ │ ┌─────────┐ │ │ ┌─────────┐ │ │ ┌─────────┐ │ │
-│ │ │ Pod A │ │ │ │ Pod C │ │ │ │ Pod E │ │ │
-│ │ │(Web App)│ │ │ │ (DB) │ │ │ │(API Svc)│ │ │
-│ │ └─────────┘ │ │ └─────────┘ │ │ └─────────┘ │ │
-│ │ ┌─────────┐ │ │ ┌─────────┐ │ │ ┌─────────┐ │ │
-│ │ │ Pod B │ │ │ │ Pod D │ │ │ │ Pod F │ │ │
-│ │ │(Cache) │ │ │ │(Worker) │ │ │ │(Ingress)│ │ │
-│ │ └─────────┘ │ │ └─────────┘ │ │ └─────────┘ │ │
-│ │ + Kubelet │ │ + Kubelet │ │ + Kubelet │ │
-│ │ + Kube-proxy│ │ + Kube-proxy │ │ + Kube-proxy│ │
-│ └─────────────┘ └──────────────┘ └─────────────┘ │
-│ │
-│ 📊 Kubernetes의 가치: 수천 개 Pod를 단일 논리 시스템으로 관리 │
-│ 📊 자동 복구, 스케일링, 롤링 업데이트, 서비스 디스커버리 제공 │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
 
 **다이어그램 해설 (300자+)**:
 이 세 가지 환경의을 이해하면, 왜 Kubernetes가 필요한지 명확해진다. ① VM 환경에서는 각 애플리케이션이 완전한 OS를하여 launch되어 자원 낭비가 심하고, 프로비저닝에 수분~수이 소요된다. ② Docker 호스트 환경에서는 여러 컨테이너가 Host OS를 공유하여이지만, 단일 호스트 내에서만 작동하여 다른 호스트로 확장하거나, 호스트 장애 시 대응이 어렵다.
@@ -136,60 +113,45 @@ Docker 이미지의 핵심 혁신은 "레이어드 아키텍처(Layered Architec
 
 다음 그림은 Control Plane의 내부 구성과 etcd, API Server, Scheduler, Controller Manager가 어떻게하여 클러스터 상태를관리하는지 보여준다.
 
-```
-[ Kubernetes Control Plane 상세 아키텍처 ]
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Control Plane (마스터 노드) │
-│ │
-│ ┌───────────────────────────────────────────────────────────────────┐ │
-│ │ kube-apiserver │ │
-│ │ ┌─────────────────────────────────────────────────────────────┐ │ │
-│ │ │ REST API Endpoints: │ │ │
-│ │ │ POST /api/v1/namespaces/{ns}/pods │ │ │
-│ │ │ GET /api/v1/namespaces/{ns}/services │ │ │
-│ │ │ PUT /apis/apps/v1/deployments/{name} │ │ │
-│ │ │ WATCH /api/v1/pods?watch=true │ │ │
-│ │ └─────────────────────────────────────────────────────────────┘ │ │
-│ │ │ │ │
-│ │ │ 모든 읽기/쓰기는 API Server을 통해서만 │ │
-│ │ │ etcd와 직접 통신하는 것은 API Server 뿐 │ │
-│ └───────────│───────────────────────────────────────────────────────┘ │
-│ │ │
-│ ┌───────────▼───────────────────────────────────────────────────────┐ │
-│ │ etcd Cluster │ │
-│ │ ┌────────────┐ ┌────────────┐ ┌────────────┐ │ │
-│ │ │ etcd-1 │ ←──→ │ etcd-2 │ ←──→ │ etcd-3 │ │ │
-│ │ │ (Leader) │ │ (Follower) │ │ (Follower) │ │ │
-│ │ └────────────┘ └────────────┘ └────────────┘ │ │
-│ │ │ │
-│ │ 📌 저장 내용: │ │
-│ │ - Pod, Service, Deployment, StatefulSet의 메타데이터 │ │
-│ │ - ConfigMap, Secret의 설정값 │ │
-│ │ - Node의 상태 및 스케줄링 정보 │ │
-│ │ - RBAC 정책, admission webhook 설정 │ │
-│ │ │ │
-│ │ 📌 Consensus: Raft 알고리즘 (다중 노드 일관성 보장) │ │
-│ └───────────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ┌───────────▼──────────────────┐ ┌──────────────────────────────────▼──┐ │
-│ │ kube-scheduler │ │ kube-controller-manager │ │
-│ │ │ │ │ │
-│ │ Pod 배치 결정: │ │ ┌────────────┐ ┌────────────────┐ │ │
-│ │ 1. 필터링 (Node별 자원 확인) │ │ │ Node │ │ Deployment │ │ │
-│ │ 2. 우선순위 매기기 │ │ │ Controller │ │ Controller │ │ │
-│ │ 3. 최적 노드 선택 │ │ └────────────┘ └────────────────┘ │ │
-│ │ │ │ ┌────────────┐ ┌────────────────┐ │ │
-│ │ 📌 스케줄링 정책: │ │ │ Replication│ │ Endpoint │ │ │
-│ │ - LeastRequestedPriority │ │ │ Controller │ │ Controller │ │ │
-│ │ - MostRequestedPriority │ │ └────────────┘ └────────────────┘ │ │
-│ │ - ImageLocalityPriority │ │ │ │
-│ │ - Taint/Toleration │ │ 📌 각 Controller는 감시하는 │ │
-│ │ - Node Affinity │ │ 리소스 변경을 API Server에 감시하고 │ │
-│ └───────────────────────────────┘ │ desired state을 유지하도록 조치 │ │
-│ └──────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes Control Plane 상세 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane (마스터 노드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kube-apiserver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST API Endpoints:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api/v1/namespaces/{ns}/pods</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /api/v1/namespaces/{ns}/services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUT /apis/apps/v1/deployments/{name}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WATCH /api/v1/pods?watch=true</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 읽기/쓰기는 API Server을 통해서만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd와 직접 통신하는 것은 API Server 뿐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd-1</div><div class="kb-diagram-cell">←──→</div><div class="kb-diagram-cell">etcd-2</div><div class="kb-diagram-cell">←──→</div><div class="kb-diagram-cell">etcd-3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Leader)</div><div class="kb-diagram-cell">(Follower)</div><div class="kb-diagram-cell">(Follower)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📌 저장 내용:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Pod, Service, Deployment, StatefulSet의 메타데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ConfigMap, Secret의 설정값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Node의 상태 및 스케줄링 정보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RBAC 정책, admission webhook 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📌 Consensus: Raft 알고리즘 (다중 노드 일관성 보장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kube-scheduler</div><div class="kb-diagram-cell">kube-controller-manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod 배치 결정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 필터링 (Node별 자원 확인)</div><div class="kb-diagram-cell">Node</div><div class="kb-diagram-cell">Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 우선순위 매기기</div><div class="kb-diagram-cell">Controller</div><div class="kb-diagram-cell">Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 최적 노드 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📌 스케줄링 정책:</div><div class="kb-diagram-cell">Replication</div><div class="kb-diagram-cell">Endpoint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LeastRequestedPriority</div><div class="kb-diagram-cell">Controller</div><div class="kb-diagram-cell">Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MostRequestedPriority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ImageLocalityPriority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Taint/Toleration</div><div class="kb-diagram-cell">📌 각 Controller는 감시하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Node Affinity</div><div class="kb-diagram-cell">리소스 변경을 API Server에 감시하고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">desired state을 유지하도록 조치</div></div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 Kubernetes Control Plane의 핵심은 "중앙화된 상태 관리"이다. etcd는 Raft consensus 알고리즘을 통해 여러 노드 간에 클러스터 상태를 일관되게 저장하는 분산 키-값 저장소이다. etcd-1이 Leader로 선출되면, 모든 쓰기 작업은 Majority (수)의 노드에Replication되어야 완료된 것으로 간주된다. 이는 3노드 etcd 클러스터에서、1노드 장애까지는Availability이/가유지、2노드 장애이면Read도 불가능해진다.
@@ -200,95 +162,53 @@ API Server는 etcd와의으로서、모두의평면컴포넌트은/는API Server
 
 다음 그림은 Pod가 생성되어 스케줄되고, 실행되며, 종료되기까지의 전체 생명주기를 보여준다. 특히 Kubelet, Container Runtime, 그리고 Probe 메커니즘이 어떻게 협력하는지 주목할 부분이다.
 
-```
-[ Pod 생명주기 (Pod Lifecycle) ]
 
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Phase 1: Pending (생성 및 스케줄 대기) │
-│ │
-│ [kubectl apply -f pod.yaml] │
-│ │ │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ API Server │ ←── 새 Pod 리소스 생성 요청 수락 │
-│ │ (검증 + 저장) │ │
-│ └────────┬─────────┘ │
-│ │ etcd에 "pending" 상태로 저장 │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ Scheduler 감시 │ ←── Pod 발견 │
-│ │ () │ │
-│ └────────┬─────────┘ │
-│ │ 적합한 Node 선택 (필터링 → 우선순위) │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ Node #2에 바인딩 │ ←── NodeName 설정 │
-│ └──────────────────┘ │
-└──────────────────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Phase 2: Running (컨테이너 실행 중) │
-│ │
-│ Node #2의 Kubelet │
-│ │ │
-│ ├──→ Container Runtime (containerd) │
-│ │ │ │
-│ │ ▼ │
-│ │ [ 컨테이너 다운로드 (Image Pull) ] │
-│ │ │ │
-│ │ ▼ │
-│ │ [ 컨테이너 시작 (Create + Start) ] │
-│ │ │ │
-│ │ ▼ │
-│ │ [ 초기화 컨테이너 (Init Container) 실행 ] │
-│ │ │ │
-│ │ ▼ │
-│ │ [ 메인 컨테이너 실행 시작 ] │
-│ │ │ │
-│ │ ▼ │
-│ │ [ 포트 충돌검사, 리소스 할당, Volume 마운트 ] │
-│ │ │
-│ ├──→ Probe 실행 (건강 상태검사) │
-│ │ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
-│ │ │ Startup Probe │ │ Liveness │ │ Readiness │ │
-│ │ │ (시작 시 1회) │ │ Probe │ │ Probe │ │
-│ │ │ │ │ (주기적) │ │ (주기적) │ │
-│ │ └──────────────┘ └──────────────┘ └──────────────┘ │
-│ │ │ │ │ │
-│ │ ▼ ▼ ▼ │
-│ │ Container 시작 Container 재시작 Service에 등록 │
-│ │ 완료 판단 (RestartPolicy) (Endpoints 갱신) │
-│ │ │
-│ └──→ Kube-proxy (네트워킹) │
-│ │ │
-│ ▼ │
-│ [ Service Endpoints 갱신 ] │
-│ [ iptables 규칙 업데이트 ] │
-└──────────────────────────────────────────────────────────────────────────┘
-│
-▼
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Phase 3: Succeeded / Failed (종료) │
-│ │
-│ 메인 컨테이너 작업 완료 ───→ Succeeded (정상 종료) │
-│ │ │
-│ 로 실패 ───→ Failed () │
-│ │ │
-│ ┌──────────────┐ │
-│ │ RestartPolicy │ ←── Always / OnFailure / Never │
-│ │ 에 따른 조치 │ │
-│ └──────────────┘ │
-│ │ │
-│ ├──→ Always: 즉시 재시작 │
-│ ├──→ OnFailure: 실패 시 재시작 │
-│ └──→ Never: 재시작 안 함 │
-│ │
-│ Terminating 상태에서 graceful shutdown 대기 (기본 30초) │
-│ │ │
-│ └──→ SIGTERM → 애플리케이션 정상 종료 수락 → SIGKILL (강제) │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pod 생명주기 (Pod Lifecycle)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: Pending (생성 및 스케줄 대기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">kubectl apply -f pod.yaml</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">←── 새 Pod 리소스 생성 요청 수락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(검증 + 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd에 "pending" 상태로 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler 감시</div><div class="kb-diagram-cell">←── Pod 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합한 Node 선택 (필터링 → 우선순위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node #2에 바인딩</div><div class="kb-diagram-cell">←── NodeName 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: Running (컨테이너 실행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node #2의 Kubelet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Container Runtime (containerd)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 다운로드 (Image Pull)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 시작 (Create + Start)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">초기화 컨테이너 (Init Container) 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 컨테이너 실행 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 충돌검사, 리소스 할당, Volume 마운트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Probe 실행 (건강 상태검사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Startup Probe</div><div class="kb-diagram-cell">Liveness</div><div class="kb-diagram-cell">Readiness</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시작 시 1회)</div><div class="kb-diagram-cell">Probe</div><div class="kb-diagram-cell">Probe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주기적)</div><div class="kb-diagram-cell">(주기적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container 시작 Container 재시작 Service에 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 판단 (RestartPolicy) (Endpoints 갱신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Kube-proxy (네트워킹)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service Endpoints 갱신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iptables 규칙 업데이트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 3: Succeeded / Failed (종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 컨테이너 작업 완료 → Succeeded (정상 종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로 실패 → Failed ()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RestartPolicy</div><div class="kb-diagram-cell">←── Always / OnFailure / Never</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에 따른 조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Always: 즉시 재시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ OnFailure: 실패 시 재시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Never: 재시작 안 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terminating 상태에서 graceful shutdown 대기 (기본 30초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ SIGTERM → 애플리케이션 정상 종료 수락 → SIGKILL (강제)</div></div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 Pod 생명주기의 핵심은 "선언적 상태 관리"와 "자동 복구" 메커니즘이다. 사용자가 "3개의 Nginx Pod가 항상 실행되어야 한다"고 선언하면, Kubernetes는 이를 "desired state (바람직한 상태)"로 저장한다. 그 후 Scheduler가 적절한 Node에 배치하고, Kubelet이 Container Runtime을 통해 실제 컨테이너를 launch한다.
@@ -301,69 +221,48 @@ Probe 메커니즘은 Pod의 안정성을보장하는 핵심요소이다. Startu
 
 다음 그림은 Kubernetes의 네트워킹 모델과 Pod 간 통신, 그리고 Service를 통한이 어떻게 이루어지는지 보여준다. 특히 CoreDNS, Kube-proxy, 그리고 iptables/IPVS의 역할을 주목할 부분이다.
 
-```
-[ Kubernetes 네트워킹 모델 ]
 
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Cluster 내부 IP 할당 구조 │
-│ │
-│ Pod A (10.244.1.10) Pod C (10.244.2.15) │
-│ ┌────────────────┐ ┌────────────────┐ │
-│ │ Container │ │ Container │ │
-│ │ (nginx:80) │ │ (db:5432) │ │
-│ └───────┬────────┘ └───────┬────────┘ │
-│ │ │ │
-│ │ ←── 각 Pod는 고유 IP 보유 (물리 네트워크에 직접 연결) │
-│ │ │
-│ ═════════╧══════════════════════════╧═══════════════════════════════ │
-│ Node #1 (eth0) │
-│ ┌───────────────────────────────────────────────────────────────────┐ │
-│ │ [Kube-proxy] │ │
-│ │ ┌─────────────────────────────────────────────────────────────┐ │ │
-│ │ │ iptables rules: │ │ │
-│ │ │ -A KUBE-SERVICES -d 10.244.1.10/32 -p tcp --dport 80 │ │ │
-│ │ │ -j KUBE-SVC-NWYPT2KHVULLN5JS │ │ │
-│ │ │ (Service ClusterIP → Endpoints) │ │ │
-│ │ └─────────────────────────────────────────────────────────────┘ │ │
-│ │ │ │
-│ │ [CoreDNS] │ │
-│ │ ┌─────────────────────────────────────────────────────────────┐ │ │
-│ │ │ kubernetes cluster.local SRV www.example.com │ │ │
-│ │ │ → ClusterIP: 10.244.1.100 │ │ │
-│ │ └─────────────────────────────────────────────────────────────┘ │ │
-│ └───────────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
 
-[ Service를 통한 통신 흐름 ]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 네트워킹 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster 내부 IP 할당 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A (10.244.1.10) Pod C (10.244.2.15)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(nginx:80)</div><div class="kb-diagram-cell">(db:5432)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">←── 각 Pod는 고유 IP 보유 (물리 네트워크에 직접 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╧ ╧</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node #1 (eth0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-proxy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iptables rules:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-A KUBE-SERVICES -d 10.244.1.10/32 -p tcp --dport 80</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-j KUBE-SVC-NWYPT2KHVULLN5JS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Service ClusterIP → Endpoints)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoreDNS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubernetes cluster.local SRV www.example.com</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ClusterIP: 10.244.1.100</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service를 통한 통신 흐름</div></div>
+<div class="kb-diagram-note">Client Pod ──→ Service (my-app) ──→ Endpoints (Pod A, Pod B, Pod C)</div>
+<div class="kb-diagram-note">──→ Pod A (10.244.1.10:80)</div>
+<div class="kb-diagram-note">──→ Pod B (10.244.1.11:80)</div>
+<div class="kb-diagram-note">──→ Pod C (10.244.2.15:80)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClusterIP</div><div class="kb-diagram-cell">← Cluster 내부에서만 접근 가능한 가상 IP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10.244.1.100)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ Kube-proxy가 iptables/IPVS 규칙으로 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ Session Affinity: client -&gt; same Pod 고정 (가능)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 기반 Service Discovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">my-app.default.svc.cluster.local</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ cluster.local (클러스터 도메인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ default (네임스페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ my-app (Service 이름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ svc (Service 리소스임을 표시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod에서 www.example.com 접속 시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod의 /etc/resolv.conf → CoreDNS (10.244.0.10) → ClusterIP 응답</div></div>
+</div>
+</div>
 
-Client Pod ──→ Service (my-app) ──→ Endpoints (Pod A, Pod B, Pod C)
-│ │
-│ ├──→ Pod A (10.244.1.10:80)
-│ ├──→ Pod B (10.244.1.11:80)
-│ └──→ Pod C (10.244.2.15:80)
-│
-▼
-┌──────────────┐
-│ ClusterIP │ ← Cluster 내부에서만 접근 가능한 가상 IP
-│ (10.244.1.100)│
-└──────┬───────┘
-│
-├──→ Kube-proxy가 iptables/IPVS 규칙으로 분산
-└──→ Session Affinity: client -> same Pod 고정 (가능)
 
-[ DNS 기반 Service Discovery ]
-┌─────────────────────────────────────────────────────────────────────────┐
-│ my-app.default.svc.cluster.local │
-│ │ │ │ │ │
-│ │ │ │ └──→ cluster.local (클러스터 도메인) │
-│ │ │ └──→ default (네임스페이스) │
-│ │ └──→ my-app (Service 이름) │
-│ └──→ svc (Service 리소스임을 표시) │
-│ │
-│ Pod에서 www.example.com 접속 시: │
-│ Pod의 /etc/resolv.conf → CoreDNS (10.244.0.10) → ClusterIP 응답 │
-└─────────────────────────────────────────────────────────────────────────┘
-```
 
 **다이어그램 해설 (300자+)**:
 Kubernetes 네트워킹의 핵심 원리는 "모든 Pod는 NAT 없이 다른 Pod와직접 통신 가능"이라는 것이다. 전통적인 VM 환경에서는 VM이 각자의 IP를보유하지만,은/는NAT를 경유해야 했다. 그러나 Kubernetes에서는 각 Pod에Cluster 내부에서 고유 IP가 할당되고, CNI (Container Network Interface) 플러그인 (Flannel, Calico, Cilium 등)에 의해 이 IP가 실제 물리 네트워크에된다.
@@ -412,44 +311,32 @@ CoreDNS는 Service Discovery의이다. Pod의/etc/resolv.conf에는 Nameserver�
 
 다음 그림은 Docker Swarm과 Kubernetes의 차이를 보여준다. Kubernetes가"생태계의 표준"이 되었는지 이해할 수 있다.
 
-```
-[ Docker Swarm 생태계 ] [ Kubernetes 생태계 ]
 
-┌──────────────────────────────┐ ┌────────────────────────────────────────┐
-│ Docker Engine │ │ Kubernetes (K8s) Core │
-│ ┌────────────────────────┐ │ │ ┌──────┐ ┌────────┐ ┌───────────────┐ │
-│ │ Docker Swarm (오케스트)│ │ │ │API │ │Sched- │ │Controller │ │
-│ │ (내장) │ │ │ │Server│ │uler │ │Manager │ │
-│ └────────────────────────┘ │ │ └──────┘ └────────┘ └───────────────┘ │
-│ │ └────────────────────────────────────────┘
-│ + Docker Compose (단일 호스트)│ │
-└──────────────────────────────┘ │
-▼
-┌────────────────────────────────────────┐
-│ CNCF Landscape (250+ 프로젝트) │
-│ │
-│ 📊 모니터링/로깅 📊 네트워킹/서비스 │
-│ ┌─────────┐ ┌───────┐ ┌─────────────┐ │
-│ │Prometheus│ │Istio │ │Linkerd │ │
-│ │Grafana │ │Envoy │ │Cilium │ │
-│ └─────────┘ └───────┘ └─────────────┘ │
-│ │
-│ 📊 CI/CD 📊 스토리지 │
-│ ┌─────────┐ ┌───────┐ ┌─────────────┐ │
-│ │ArgoCD │ │ Rook │ │ Longhorn │ │
-│ │Tekton │ │Ceph │ │OpenEBS │ │
-│ └─────────┘ └───────┘ └─────────────┘ │
-│ │
-│ 📊 보안 📊 서비스메쉬 │
-│ ┌─────────┐ ┌───────┐ ┌─────────────┐ │
-│ │OPA │ │Kuma │ │CoreDNS │ │
-│ │Falco │ │NGINX │ │Contour │ │
-│ └─────────┘ └───────┘ └─────────────┘ │
-└────────────────────────────────────────┘
 
-★ Kubernetes의 강점: 풍부한 생태계 + 벤더 중립성 + 클라우드 제공자 지원
-★ Docker Swarm의 강점: 단순성 + Docker 개발자에게 익숙
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Swarm 생태계</div><div class="kb-diagram-node">Kubernetes 생태계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Engine</div><div class="kb-diagram-cell">Kubernetes (K8s) Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Swarm (오케스트)</div><div class="kb-diagram-cell">API</div><div class="kb-diagram-cell">Sched-</div><div class="kb-diagram-cell">Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내장)</div><div class="kb-diagram-cell">Server</div><div class="kb-diagram-cell">uler</div><div class="kb-diagram-cell">Manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Docker Compose (단일 호스트)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNCF Landscape (250+ 프로젝트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 모니터링/로깅 📊 네트워킹/서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus</div><div class="kb-diagram-cell">Istio</div><div class="kb-diagram-cell">Linkerd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana</div><div class="kb-diagram-cell">Envoy</div><div class="kb-diagram-cell">Cilium</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 CI/CD 📊 스토리지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ArgoCD</div><div class="kb-diagram-cell">Rook</div><div class="kb-diagram-cell">Longhorn</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tekton</div><div class="kb-diagram-cell">Ceph</div><div class="kb-diagram-cell">OpenEBS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 보안 📊 서비스메쉬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA</div><div class="kb-diagram-cell">Kuma</div><div class="kb-diagram-cell">CoreDNS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Falco</div><div class="kb-diagram-cell">NGINX</div><div class="kb-diagram-cell">Contour</div></div>
+<div class="kb-diagram-note">★ Kubernetes의 강점: 풍부한 생태계 + 벤더 중립성 + 클라우드 제공자 지원</div>
+<div class="kb-diagram-note">★ Docker Swarm의 강점: 단순성 + Docker 개발자에게 익숙</div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 Docker Swarm의 simplicity는 attractiveness하지만, 대규모 프로덕션 환경에서는 한계에 부딪힌다. Swarm은 Docker Engine에 내장되어 있어 설정이하지만, 모니터링, 로깅, 시크릿 관리, 서비스 메시(Service Mesh) 등을로통합해야 한다. 반면 Kubernetes는 모든 주요 클라우드 제공자 (AWS, GCP, Azure)가 자체 관리형 K8s 서비스 (EKS, GKE, AKS)를 제공하여,에서도 kubeadm, kops, kubespray 등으로 배포 가능하고,가 CNCF에서 표준화되어 있다.
@@ -511,66 +398,41 @@ Kubernetes는 기술이 아니라, IT 인프라의의과하고 있다. 첫째, "
 
 다음 그림은 Kubernetes 환경에서 장애 발생 시의 판단 흐름을 보여준다. 어디서 문제가 발생했는지 파악하고 적절한 대응 조치를 취하는 과정을하여있다.
 
-```
-[ Kubernetes 장애 대응 플로우 ]
 
-┌──────────────────────────────────────────────────────────────────────────┐
-│ 1. 증상 관찰 │
-│ │
-│ [증상] Pod CrashLoopBackOff ──→ Service 응답 없음 ──→ 클라이언트 timeout │
-│ │ │
-│ ▼ │
-│ ┌────────────────────────────────────────────────────────────────────────┐ │
-│ │ kubectl get pods # 파드 상태 확인 │ │
-│ │ kubectl describe pod <pod-name> # 상세 이벤트 확인 │ │
-│ │ kubectl logs <pod-name> # 로그 분석 │ │
-│ │ kubectl top pod <pod-name> # 자원 사용량 확인 │ │
-│ └────────────────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ 2. 원인 진단 │
-│ │
-│ ┌────────────────────────────────────────────────────────────────────────┐ │
-│ │ │ │
-│ │ 원인이 무엇인가? │ │
-│ │ │ │ │
-│ │ ┌────┴────┐ │ │
-│ │ │ │ │ │
-│ │ ▼ ▼ │ │
-│ │ CrashLoop OOMKilled 이미지 Pull실패 네트워크 문제 애플리케이션 Bug │ │
-│ │ BackOff (Evicted) │ │
-│ │ │ │ │
-│ │ ▼ │ │
-│ │ └─→ RestartPolicy 확인 ──→ Liveness Probe 실패 ──→ 애플리케이션 응답 없음 │ │
-│ │ │ │
-│ └────────────────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ 3. 대응 조치 │
-│ │
-│ ┌────────────────────────────────────────────────────────────────────────┐ │
-│ │ │ │
-│ │ CrashLoopBackOff: │ │
-│ │ → kubectl edit pod <pod-name> (임시 수정) │ │
-│ │ → Deployment 수정 후 kubectl apply │ │
-│ │ → kubectl rollout undo deployment/<name> (이전 버전으로 롤백) │ │
-│ │ │ │
-│ │ OOMKilled (자원 부족): │ │
-│ │ → kubectl edit deployment <name> --limits=memory=512Mi 추가 │ │
-│ │ → kubectl scale deployment <name> --replicas=2 (파드 수 증가) │ │
-│ │ │ │
-│ │ 이미지 Pull 실패: │ │
-│ │ → 이미지 태그 확인 (latest vs конкре적 태그) │ │
-│ │ → ImagePullSecrets 확인 (프라이빗 레지스트리) │ │
-│ │ →kubectl set image deployment/<name> <container>=<new-image> │ │
-│ │ │ │
-│ │ 애플리케이션 Bug: │ │
-│ │ → kubectl rollout undo deployment/<name> (이전 버전으로 즉시 롤백) │ │
-│ │ → 버그 수정 후 새 이미지 빌드 + 배포 │ │
-│ │ │ │
-│ └────────────────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 장애 대응 플로우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 증상 관찰</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">증상</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Service 응답 없음 ──→ 클라이언트 timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl get pods # 파드 상태 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl describe pod &lt;pod-name&gt; # 상세 이벤트 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl logs &lt;pod-name&gt; # 로그 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl top pod &lt;pod-name&gt; # 자원 사용량 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 원인 진단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인이 무엇인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CrashLoop OOMKilled 이미지 Pull실패 네트워크 문제 애플리케이션 Bug</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BackOff (Evicted)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─→ RestartPolicy 확인 ──→ Liveness Probe 실패 ──→ 애플리케이션 응답 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 대응 조치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CrashLoopBackOff:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ kubectl edit pod &lt;pod-name&gt; (임시 수정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Deployment 수정 후 kubectl apply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ kubectl rollout undo deployment/&lt;name&gt; (이전 버전으로 롤백)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOMKilled (자원 부족):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ kubectl edit deployment &lt;name&gt; --limits=memory=512Mi 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ kubectl scale deployment &lt;name&gt; --replicas=2 (파드 수 증가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 Pull 실패:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이미지 태그 확인 (latest vs конкре적 태그)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ImagePullSecrets 확인 (프라이빗 레지스트리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→kubectl set image deployment/&lt;name&gt; &lt;container&gt;=&lt;new-image&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 Bug:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ kubectl rollout undo deployment/&lt;name&gt; (이전 버전으로 즉시 롤백)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 버그 수정 후 새 이미지 빌드 + 배포</div></div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 Kubernetes 운영에서 핵심은"문제를 격리하고 체계적으로 대응하는 것"이다. CrashLoopBackOff는 컨테이너가 시작되었다가 비정상적으로 종료되어 재시작하는 상태로, logs와 describe의 출력을 비교하여원인을 파악해야 한다. OOMKilled는메모리 limit를초과하여 pod가 종료된 것으로, requests/limits 값을 increase하거나, 파드 수를 scale out하여를해야 한다.
@@ -613,29 +475,29 @@ Kubernetes는 세 가지 방향으로 진화하고 있다. 첫째, "포터블 �
 
 ### ASCII 다이어그램: Kubernetes 진화 로드맵
 
-```
-[ Kubernetes 생태계 진화 로드맵 ]
 
-2015년 (초기) 2018년 (성숙기) 2022년 (확장기) 2026년 (예측)
-│ │ │ │
-▼ ▼ ▼ ▼
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────────┐
-│ Kubernetes │ │ Kubernetes │ │ GitOps + │ │WASM + Serverless│
-│ 1.0 등장 │ → │ 1.0 → 1.20 │ → │ Service Mesh│ → │ + AI/ML 통합 │
-│ (단순 배포) │ │ (Pod, Svc, │ │ (Istio, │ │ (경량 런타임, │
-│ │ │ Deploy) │ │ ArgoCD) │ │ 자동 최적화) │
-└─────────────┘ └─────────────┘ └─────────────┘ └─────────────────┘
 
-핵심 변화:
-2015: "Container 실행 환경" 제공
-↓
-2018: "복잡한 MSA 관리" 가능
-↓
-2022: "선언적 운영 + 보안" 강화 (GitOps, Zero Trust)
-↓
-2026+: "적응형 시스템" - 워크로드 특성, 자원 가격, 에너지 소비를
-자동으로 최적화하는 지능형 Kubernetes
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 생태계 진화 로드맵</div></div>
+<div class="kb-diagram-note">2015년 (초기) 2018년 (성숙기) 2022년 (확장기) 2026년 (예측)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes</div><div class="kb-diagram-cell">Kubernetes</div><div class="kb-diagram-cell">GitOps +</div><div class="kb-diagram-cell">WASM + Serverless</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0 등장</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">1.0 → 1.20</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Service Mesh</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">+ AI/ML 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단순 배포)</div><div class="kb-diagram-cell">(Pod, Svc,</div><div class="kb-diagram-cell">(Istio,</div><div class="kb-diagram-cell">(경량 런타임,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deploy)</div><div class="kb-diagram-cell">ArgoCD)</div><div class="kb-diagram-cell">자동 최적화)</div></div>
+<div class="kb-diagram-note">핵심 변화:</div>
+<div class="kb-diagram-note">2015: "Container 실행 환경" 제공</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2018: "복잡한 MSA 관리" 가능</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2022: "선언적 운영 + 보안" 강화 (GitOps, Zero Trust)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">2026+: "적응형 시스템" - 워크로드 특성, 자원 가격, 에너지 소비를</div>
+<div class="kb-diagram-note">자동으로 최적화하는 지능형 Kubernetes</div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 Kubernetes의evolution은 "추상화의 연속적"으로 요약할 수 있다. 2015년에는 단순히 "도커 컨테이너를 여러 노드에서 실행하는 도구"에 불과했다. 그러나 2018년이 되면 Deployment, StatefulSet, DaemonSet 등 다양한 워크로드 유형이추가되고, Horizontal Pod Autoscaler (HPA), Vertical Pod Autoscaler (VPA) 등 스케일링 메커니즘이 도입되어, MSA 환경의 복잡한 관리요구에 대응 가능해졌다.

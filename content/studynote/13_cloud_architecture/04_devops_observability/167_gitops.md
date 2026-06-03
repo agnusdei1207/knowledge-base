@@ -11,7 +11,7 @@ tags = ["cloud_architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 - **Git이 단일 진실 공급원(SSOT):** 인프라와 애플리케이션의 원하는 상태([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))를 Git에 선언적으로 정의하고, 모든 변경은 Git을 통해서만 수행한다.
-- **자동화된 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Reconciliation):** 클러스터 내부의 에이전트가 Git의 상태와 실제 운영 환경의 상태를 지속적으로 비교하여 차이가 발생하면 자동으로 일치시킨다.
+- <strong>자동화된 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Reconciliation):</strong> 클러스터 내부의 에이전트가 Git의 상태와 실제 운영 환경의 상태를 지속적으로 비교하여 차이가 발생하면 자동으로 일치시킨다.
 - **운영 안정성 및 보안 강화:** 모든 변경 이력이 Git [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남으므로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 즉각적이며, 사용자가 직접 인프라에 접속할 필요가 없어 보안 사고 리스크가 줄어든다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
@@ -20,29 +20,29 @@ tags = ["cloud_architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 달리 풀(Pull) 기반의 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 지향한다.
 
-```text
-[ Architecture of GitOps Pipeline ]
 
-    (Developer)         (Git Repository)           (GitOps Agent)
-      +-----+             +-------------+          +--------------+
-      | Code|--- Push --->| Manifests   |<-- Poll--| ArgoCD / Flux|
-      +-----+             | (YAML, Helm)|          +--------------+
-                                |                         |
-                                |                         v
-                                |                 +---------------+
-                                +--- Reconcile -->| Kubernetes    |
-                                                  | Cluster       |
-                                                  +---------------+
-                                                  (Actual State)
 
-1. Git Manifests: 쿠버네티스 객체 선언문 (Desired State)
-2. Poll & Diff: Git의 최신 커밋과 클러스터 실시간 상태 비교
-3. Sync & Deploy: 차이점 발견 시 클러스터에 배포/수정 적용
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Architecture of GitOps Pipeline</div></div>
+<div class="kb-diagram-note">(Developer) (Git Repository) (GitOps Agent)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">--- Push ---&gt;</div><div class="kb-diagram-cell">Manifests</div><div class="kb-diagram-cell">&lt;-- Poll--</div><div class="kb-diagram-cell">ArgoCD / Flux</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-----+</div><div class="kb-diagram-cell">(YAML, Helm)</div><div class="kb-diagram-cell">+--------------+</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--- Reconcile --&gt;</div><div class="kb-diagram-cell">Kubernetes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster</div></div>
+<div class="kb-diagram-note">(Actual State)</div>
+<div class="kb-diagram-note">1. Git Manifests: 쿠버네티스 객체 선언문 (Desired State)</div>
+<div class="kb-diagram-note">2. Poll &amp; Diff: Git의 최신 커밋과 클러스터 실시간 상태 비교</div>
+<div class="kb-diagram-note">3. Sync &amp; Deploy: 차이점 발견 시 클러스터에 배포/수정 적용</div>
+</div>
+</div>
+
+
 
 **핵심 메커니즘:**
 1. **선언적 정의:** 시스템의 전체 상태를 선언적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(YAML, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등)로 기술한다.
-2. **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리:** 모든 선언문은 Git에서 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리되며 Immutable한 기록으로 남는다.
+2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리:</strong> 모든 선언문은 Git에서 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리되며 Immutable한 기록으로 남는다.
 3. **지속적 감시:** 에이전트(ArgoCD 등)가 Git과 클러스터 사이의 차이(Drift)를 감시한다.
 4. **셀프 힐링:** 누군가 수동으로 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 변경하면 에이전트가 이를 감지하고 Git의 상태로 강제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
 
@@ -52,7 +52,7 @@ GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_man
 | :--- | :--- | :--- |
 | **작동 원리** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 툴에서 클러스터로 직접 명령 실행 | 클러스터 내 에이전트가 Git을 감시하여 가져옴 |
 | **보안** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 툴에 클러스터 접근 권한(Kubeconfig) 필요 | 클러스터 밖으로 권한을 노출하지 않음 |
-| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 수동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 또는 재실행 필요 | Git 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 Revert 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 수동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 또는 재실행 필요 | Git 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 Revert 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | **가시성** | 배포 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중심 | 현재 운영 상태(Sync status) 중심 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
@@ -61,32 +61,36 @@ GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_man
 - **다중 클러스터 관리:** 동일한 Git Manifest를 여러 클러스터에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 환경 일치성을 보장한다.
 
 **기술사적 판단:**
-"GitOps는 단순히 도구의 문제가 아니라 **운영 철학의 전환**이다. '구성은 코드로, 운영은 Git으로'라는 사상을 통해 [구성 편류](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 문제를 원천 차단하며, 대규모 클라우드 환경에서 규정 준수([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 증명하는 강력한 수단이 된다."
+"GitOps는 단순히 도구의 문제가 아니라 <strong>운영 철학의 전환</strong>이다. '구성은 코드로, 운영은 Git으로'라는 사상을 통해 [구성 편류](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)) 문제를 원천 차단하며, 대규모 클라우드 환경에서 규정 준수([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 증명하는 강력한 수단이 된다."
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 GitOps는 개발자의 운영 개입을 최소화하고 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))의 보안을 강화한다. 최근에는 인프라를 넘어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 등 시스템 전 영역으로 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 사상이 확장되고 있다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)):** [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [앤서블](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) (GitOps의 기반)
-- **[Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/):** [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) (수정 대신 교체)
-- **Drift [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/):** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 이탈 감지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>):</strong> [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [앤서블](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) (GitOps의 기반)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a>:</strong> [불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) (수정 대신 교체)
+- <strong>Drift <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>:</strong> [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 이탈 감지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 깃옵스는 요리책(Git)에 '피자 1판 만들기'라고 써두면, 로봇 요리사(에이전트)가 그걸 보고 똑같이 만드는 거예요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 kubectl apply (명령형 배포)
-    │
-    ▼
-GitOps: Git = Single Source of Truth
-    ├─► Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)
-    └─► Push 방식: Jenkins (CI가 클러스터에 배포)
-    │
-    ▼
-Progressive Delivery: Argo Rollouts · Flagger
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 kubectl apply (명령형 배포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps: Git = Single Source of Truth</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Push 방식: Jenkins (CI가 클러스터에 배포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Progressive Delivery: Argo Rollouts · Flagger</div>
+</div>
+</div>
+
+
 2. 만약 누군가 몰래 피자 조각을 훔쳐 가면, 로봇이 요리책과 다르다는 걸 알고 다시 피자를 채워 넣는답니다.
 3. 요리책 내용만 잘 적어두면 언제든 똑같은 피자를 맛볼 수 있어요!
 

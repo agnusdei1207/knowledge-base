@@ -31,17 +31,17 @@ tags = ["studynote-security"]
 
 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제는 보이는 정도가 중요하다. 위협 행위자가 "들키기 쉽다"고 느낄수록 효과가 커진다.
 
-- **물리적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**
+- <strong>물리적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>
   - 경고 표지판: "출입 금지", "[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) (Closed-Circuit Television) 녹화 중"
   - 눈에 띄는 경비 인력과 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 배지
   - 가짜 카메라처럼 존재감이 큰 표시물
 
-- **관리적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**
+- <strong>관리적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>
   - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 배너: 시스템 사용 조건과 처벌 고지
   - 보안 교육과 징계 규정 공지
   - NDA (Non-Disclosure Agreement, 비밀유지계약) 서명
 
-- **기술적 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**
+- <strong>기술적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>
   - [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남긴다는 경고
   - 관리자 작업 시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 팝업
   - 보안 이벤트가 즉시 알림되는 화면
@@ -54,13 +54,19 @@ tags = ["studynote-security"]
 
 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제는 세 단계를 거친다.
 
-```text
-보이는 경고
-    ↓
-행동의 위험 인식
-    ↓
-시도 포기 또는 지연
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보이는 경고</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">행동의 위험 인식</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">시도 포기 또는 지연</div>
+</div>
+</div>
+
+
 
 핵심은 가시성(Visibility)과 책임성(Accountability)이다. 공격자가 "이 행동이 나중에 특정될 수 있다"고 생각하면, 단순한 충동이나 실험성 위반은 줄어든다.
 
@@ -97,15 +103,21 @@ tags = ["studynote-security"]
 
 ## 관련 개념 맵
 
-```text
-보이는 경고
-   ↓
-심리적 부담
-   ↓
-행동 포기
-   ↓
-예방 / 탐지 / 보완 통제와 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보이는 경고</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">심리적 부담</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">행동 포기</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">예방 / 탐지 / 보완 통제와 결합</div>
+</div>
+</div>
+
+
 
 ---
 

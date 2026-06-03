@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: `Lang(Language)` 언어 모델을 `Chain(사슬)` 엮어치기 한다는 뜻이다. 
-  - **[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) (부품)**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), Claude), 프롬프트 템플릿, Output Parser([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환기) 같은 독립된 부품들.
-  - **Chain (조립/[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)**: 이 부품들을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`|`) 기호로 연결해 "프롬프트 ➡ [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ➡ [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환"으로 데이터가 물 흐르듯 슉슉 넘어가게 엮어둔 1개의 완성된 로직 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 덩어리(LCEL 문법).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> (부품)</strong>: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), Claude), 프롬프트 템플릿, Output Parser([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환기) 같은 독립된 부품들.
+  - <strong>Chain (조립/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인)</strong>: 이 부품들을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`|`) 기호로 연결해 "프롬프트 ➡ [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ➡ [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 변환"으로 데이터가 물 흐르듯 슉슉 넘어가게 엮어둔 1개의 완성된 로직 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 덩어리(LCEL 문법).
 
-- **필요성 (스파게티 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드의 지옥 탈출)**: 챗GPT [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 처음 해보면 쉽다. 근데 회사가 요구사항을 올린다. "야, 유저가 질문하면 일단 구글 검색 한 번 치고, 그 결과를 영어로 번역한 다음에, 그걸 사내 DB랑 비교해서 최종 답변을 JSON으로 뽑아내 봐." 개발자가 쌩 코딩으로 짜려면 `fetch` 날리고, `if`문 도배하고, 문자열 파싱 정규식 짜느라 코드가 1,000줄짜리 지옥의 스파게티가 된다. 게다가 내일 사장님이 "[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 비싸니까 싼 Claude 3로 모델 갈아끼워!" 하면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격이 다 달라서 1,000줄을 처음부터 싹 다 다시 짜야 한다([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)). **"아 ㅆㅂ! 어떤 LLM을 쓰든, 어떤 툴을 쓰든, 중간 부품만 레고 블록처럼 톡톡 갈아 끼울 수 있는 완벽히 추상화된 프레임워크 뼈대 없어?!"** 이 폭발 직전의 스트레스가 LangChain을 전 세계 1티어로 띄워 올렸다.
+- <strong>필요성 (스파게티 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 코드의 지옥 탈출)</strong>: 챗GPT [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 처음 해보면 쉽다. 근데 회사가 요구사항을 올린다. "야, 유저가 질문하면 일단 구글 검색 한 번 치고, 그 결과를 영어로 번역한 다음에, 그걸 사내 DB랑 비교해서 최종 답변을 JSON으로 뽑아내 봐." 개발자가 쌩 코딩으로 짜려면 `fetch` 날리고, `if`문 도배하고, 문자열 파싱 정규식 짜느라 코드가 1,000줄짜리 지옥의 스파게티가 된다. 게다가 내일 사장님이 "[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 비싸니까 싼 Claude 3로 모델 갈아끼워!" 하면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 규격이 다 달라서 1,000줄을 처음부터 싹 다 다시 짜야 한다([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)). **"아 ㅆㅂ! 어떤 LLM을 쓰든, 어떤 툴을 쓰든, 중간 부품만 레고 블록처럼 톡톡 갈아 끼울 수 있는 완벽히 추상화된 프레임워크 뼈대 없어?!"** 이 폭발 직전의 스트레스가 LangChain을 전 세계 1티어로 띄워 올렸다.
 
-- **💡 비유**: 쌩 코딩으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 짜는 건 **'수제 햄버거집에서 밀을 재배해 빵을 굽고, 소를 키워 고기를 다져서 햄버거를 만드는 노가다'**입니다. 빵 레시피([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 모델)가 바뀌면 주방 전체가 뒤집어집니다. 랭체인(LangChain)은 **'써브웨이(Subway) 샌드위치 조립 라인'**입니다. [빵 선택(프롬프트) ➡ 고기 선택([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) ➡ 소스 선택(Parser)] 이 3개의 블록(Chain) 라인만 딱 깔아두면 끝입니다. 고기를 소고기([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))에서 칠면조(Claude)로 갈아 끼워도, 컨베이어 벨트([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인) 자체는 1mm도 수정할 필요 없이 똑같이 완벽한 샌드위치(결과물)가 0.1초 만에 튀어나오는 압도적 규격화(Standardization) 마술입니다.
+- **💡 비유**: 쌩 코딩으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 짜는 건 <strong>'수제 햄버거집에서 밀을 재배해 빵을 굽고, 소를 키워 고기를 다져서 햄버거를 만드는 노가다'</strong>입니다. 빵 레시피([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 모델)가 바뀌면 주방 전체가 뒤집어집니다. 랭체인(LangChain)은 <strong>'써브웨이(Subway) 샌드위치 조립 라인'</strong>입니다. [빵 선택(프롬프트) ➡ 고기 선택([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) ➡ 소스 선택(Parser)] 이 3개의 블록(Chain) 라인만 딱 깔아두면 끝입니다. 고기를 소고기([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))에서 칠면조(Claude)로 갈아 끼워도, 컨베이어 벨트([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인) 자체는 1mm도 수정할 필요 없이 똑같이 완벽한 샌드위치(결과물)가 0.1초 만에 튀어나오는 압도적 규격화(Standardization) 마술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **OpenAI [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 쌩 호출 시대 (원시)**: Python `requests`로 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 바디 만들어서 날리던 시절. 프롬프트 관리가 안 돼서 텍스트 떡칠.
+  1. <strong>OpenAI <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 쌩 호출 시대 (원시)</strong>: Python `requests`로 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 바디 만들어서 날리던 시절. 프롬프트 관리가 안 돼서 텍스트 떡칠.
   2. **LangChain 의 탄생 (2022 말)**: Harrison Chase가 "[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 앱 짤 때 겹치는 패턴이 너무 많네. 클래스로 다 추상화시켜서 오픈소스로 풀자 ㅋ" 런칭 1달 만에 깃헙 별(Star) 수만 개를 찍으며 우주 대폭발.
   3. **LCEL (LangChain Expression Language) 통일 (현재)**: 체인(Chain) 엮는 코드가 파이썬 함수 떡칠로 더러워지자, 아예 `prompt | llm | parser` 라는 리눅스 쉘 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`|`) 같은 궁극의 직관적 선언형 문법(LCEL)을 발명하며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프레임워크의 절대 헌법으로 군림함.
 
-- **📢 섹션 요약 비유**: 이 혁명은 자바 진영의 **'JSP(스파게티)에서 Spring(스프링) 프레임워크로의 진화'**와 똑같습니다. HTML과 로직이 엉켜 똥 냄새나던 JSP 쌩코딩을 버리고, MVC 패턴으로 뼈대(Interface)를 완벽히 쪼개버린 스프링 덕분에 우리가 DB를 오라클에서 MySQL로 1초 만에 갈아 끼웠듯, 랭체인은 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 앱 개발판의 스프링 프레임워크'로서 모든 거대 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))과 DB 부품들을 내 입맛대로 갈아 끼우게 해주는 구원자입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 자바 진영의 <strong>'JSP(스파게티)에서 Spring(스프링) 프레임워크로의 진화'</strong>와 똑같습니다. HTML과 로직이 엉켜 똥 냄새나던 JSP 쌩코딩을 버리고, MVC 패턴으로 뼈대(Interface)를 완벽히 쪼개버린 스프링 덕분에 우리가 DB를 오라클에서 MySQL로 1초 만에 갈아 끼웠듯, 랭체인은 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 앱 개발판의 스프링 프레임워크'로서 모든 거대 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))과 DB 부품들을 내 입맛대로 갈아 끼우게 해주는 구원자입니다.
 
 ---
 
 다음은 랭체인 (LangChain) 프레임워의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  랭체인 (LangChain) 프레임워                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랭체인 (LangChain) 프레임워</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 랭체인 (LangChain) 프레임워가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-랭체인 (LangChain) 프레임워크 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+랭체인 (LangChain) 프레임워크 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 랭체인 (LangChain) 프레임워크 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-랭체인 (LangChain) 프레임워크 기반 AI 파이프라인 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랭체인 (LangChain) 프레임워크 기반 AI 파이프라인 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

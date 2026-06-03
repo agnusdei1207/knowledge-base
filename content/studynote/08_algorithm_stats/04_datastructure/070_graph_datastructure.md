@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-트리는 계층적 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 표현하지만, 현실의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 훨씬 복잡하다. 친구는 서로 친구일 수 있고(무방향), 도로는 일방통행일 수 있다(방향). 그래프는 이런 **임의의 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 표현하는 가장 범용적인 자료구조다.
+트리는 계층적 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 표현하지만, 현실의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 훨씬 복잡하다. 친구는 서로 친구일 수 있고(무방향), 도로는 일방통행일 수 있다(방향). 그래프는 이런 <strong>임의의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/">다대다</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 표현하는 가장 범용적인 자료구조다.
 
 ### 그래프 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
@@ -44,22 +44,24 @@ tags = ["studynote-algorithm"]
 
 #### 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)
 
-```
-정점: {0, 1, 2, 3}
-간선: 0→1, 0→2, 1→3, 2→3
 
-     0  1  2  3
-  ┌──────────────┐
-0 │  0  1  1  0  │
-1 │  0  0  0  1  │
-2 │  0  0  0  1  │
-3 │  0  0  0  0  │
-  └──────────────┘
 
-공간: O(V²)
-간선 존재 여부: O(1)
-인접 정점 나열: O(V)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정점: {0, 1, 2, 3}</div>
+<div class="kb-diagram-note">간선: 0→1, 0→2, 1→3, 2→3</div>
+<div class="kb-diagram-note">0 1 2 3</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0 1 1 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0 0 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">0 0 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">0 0 0 0</div></div>
+<div class="kb-diagram-note">공간: O(V²)</div>
+<div class="kb-diagram-note">간선 존재 여부: O(1)</div>
+<div class="kb-diagram-note">인접 정점 나열: O(V)</div>
+</div>
+</div>
+
+
 
 #### 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List)
 
@@ -88,9 +90,9 @@ tags = ["studynote-algorithm"]
 
 - **차수 (Degree)**: 정점에 연결된 간선 수 (방향 그래프: 진입차수 in-degree, 진출차수 out-degree)
 - **핸드셰이킹 보조정리 (Handshaking Lemma)**: 무방향 그래프에서 모든 정점 차수의 합 = 2|E|
-- **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))**: 방향 그래프 + 사이클 없음 → [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)([Topological Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)) 가능
-- **이분 그래프 (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))**: 정점을 두 집합으로 나눠 모든 간선이 집합 간에만 존재 → 2-채색 가능
-- **연결 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) (Connected [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))**: 서로 도달 가능한 정점들의 최대 부분 그래프
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>)</strong>: 방향 그래프 + 사이클 없음 → [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)([Topological Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)) 가능
+- <strong>이분 그래프 (Bipartite <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong>: 정점을 두 집합으로 나눠 모든 간선이 집합 간에만 존재 → 2-채색 가능
+- <strong>연결 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> (Connected <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)</strong>: 서로 도달 가능한 정점들의 최대 부분 그래프
 
 📢 **섹션 요약 비유**: 핸드셰이킹 보조정리는 파티에서 모든 악수 횟수를 세는 원리—각 사람이 한 악수 수를 합하면 실제 악수 횟수의 두 배가 된다.
 
@@ -109,20 +111,26 @@ tags = ["studynote-algorithm"]
 
 ### 주요 그래프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 지도
 
-```
-그래프
-├── 탐색
-│   ├── BFS (Breadth-First Search)  → 최단 경로(비가중)
-│   └── DFS (Depth-First Search)    → 사이클 감지, 위상 정렬
-├── 최단 경로
-│   ├── Dijkstra            → 단일 출발, 비음수 가중치
-│   ├── Bellman-Ford        → 단일 출발, 음수 가중치 허용
-│   └── Floyd-Warshall      → 전체 쌍 최단 경로
-├── MST (최소 신장 트리)
-│   ├── Kruskal             → 간선 정렬 + 유니온-파인드
-│   └── Prim                → 정점 기반 탐욕
-└── 위상 정렬 (DAG)         → 의존성 처리, 빌드 시스템
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래프</div>
+<div class="kb-diagram-tree-item" style="--depth:0">탐색</div>
+<div class="kb-diagram-note">── BFS (Breadth-First Search) → 최단 경로(비가중)</div>
+<div class="kb-diagram-note">── DFS (Depth-First Search) → 사이클 감지, 위상 정렬</div>
+<div class="kb-diagram-tree-item" style="--depth:0">최단 경로</div>
+<div class="kb-diagram-note">── Dijkstra → 단일 출발, 비음수 가중치</div>
+<div class="kb-diagram-note">── Bellman-Ford → 단일 출발, 음수 가중치 허용</div>
+<div class="kb-diagram-note">── Floyd-Warshall → 전체 쌍 최단 경로</div>
+<div class="kb-diagram-tree-item" style="--depth:0">MST (최소 신장 트리)</div>
+<div class="kb-diagram-note">── Kruskal → 간선 정렬 + 유니온-파인드</div>
+<div class="kb-diagram-note">── Prim → 정점 기반 탐욕</div>
+<div class="kb-diagram-tree-item" style="--depth:0">위상 정렬 (DAG) → 의존성 처리, 빌드 시스템</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 그래프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 지도 앱의 기능 목록이다—최단 거리 안내([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)), 전체 도로 연결([MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)), 공사 구간 우회(음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)/[Bellman-Ford](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)).
 
@@ -134,19 +142,25 @@ tags = ["studynote-algorithm"]
 
 - **소셜 네트워크**: 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(무방향), 팔로우(방향), 최단 인맥 경로([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))
 - **지도/내비게이션**: 도로 그래프, 가중 최단 경로([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)/A*)
-- **의존성 그래프 ([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))**: Maven/npm 빌드, Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 오브젝트 의존성
+- <strong>의존성 그래프 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a>)</strong>: Maven/npm 빌드, Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 오브젝트 의존성
 - **웹 크롤러**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(정점) + 하이퍼링크(방향 간선), [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 탐색
 - **네트워크 플로우**: [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)([Max Flow](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)), Ford-Fulkerson [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ### 기술사 판단 기준
 
-```
-간선 확인이 빈번 + 작은 밀집 그래프   →  인접 행렬
-대규모 희소 그래프 (소셜/웹)           →  인접 리스트
-최단 경로 (비음수)                     →  Dijkstra O((V+E)logV)
-사이클 없음 + 순서 처리                →  위상 정렬 (DAG)
-무방향 연결 요소 파악                  →  유니온-파인드 O(α)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">간선 확인이 빈번 + 작은 밀집 그래프 → 인접 행렬</div>
+<div class="kb-diagram-note">대규모 희소 그래프 (소셜/웹) → 인접 리스트</div>
+<div class="kb-diagram-note">최단 경로 (비음수) → Dijkstra O((V+E)logV)</div>
+<div class="kb-diagram-note">사이클 없음 + 순서 처리 → 위상 정렬 (DAG)</div>
+<div class="kb-diagram-note">무방향 연결 요소 파악 → 유니온-파인드 O(α)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [그래프 표현](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/033_graph_representation/) 선택은 도시 지도 종류 선택이다—격자 도시(밀집)면 2차원 지도(행렬), 듬성듬성 도로(희소)면 도로 목록(리스트)이 효율적이다.
 
@@ -176,21 +190,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선형 자료구조 (Array / Linked List) — 1차원 순서 관계]
-    │
-    ▼
-[트리 (Tree) — 계층 관계, 사이클 없는 연결 그래프]
-    │
-    ▼
-[그래프 (Graph) — 정점(V) + 간선(E), 방향/무방향·가중/비가중]
-    │
-    ▼
-[BFS (Breadth-First Search) / DFS (Depth-First Search) — 그래프 탐색]
-    │
-    ▼
-[최단 경로 (Dijkstra·Bellman-Ford·Floyd-Warshall) → 네트워크 플로우]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 자료구조 (Array / Linked List) — 1차원 순서 관계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리 (Tree) — 계층 관계, 사이클 없는 연결 그래프</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 (Graph) — 정점(V) + 간선(E), 방향/무방향·가중/비가중</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (Breadth-First Search) / DFS (Depth-First Search) — 그래프 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최단 경로 (Dijkstra·Bellman-Ford·Floyd-Warshall) → 네트워크 플로우</div></div>
+</div>
+</div>
+
+
 그래프는 트리보다 일반적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하며, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색을 기반으로 최단 경로·[위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)·네트워크 플로우 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 확장된다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

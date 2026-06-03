@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 네트워크에서 암호화([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), 안 보이게 숨기기)만으로는 막을 수 없는 두 가지 치명적인 공격이 있습니다.
 1. **변조 (Tampering)**: 중간자(MitM)가 암호화된 패킷 덩어리의 순서를 바꾸거나 특정 비트를 뒤집어, 결과적으로 복호화했을 때 내용이 달라지게 만드는 행위. ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손)
-2. **위장 ([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))**: 해커가 내 노트북의 IP나 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 훔친 뒤, 마치 자기가 나인 척(출처 위장) 은행 서버에 가짜 송금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 행위. (출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패)
+2. <strong>위장 (<a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">Spoofing</a>)</strong>: 해커가 내 노트북의 IP나 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 훔친 뒤, 마치 자기가 나인 척(출처 위장) 은행 서버에 가짜 송금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 행위. (출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패)
 
-```text
-[솔트 첨가 패스워드 해시 체계]
-    │
-    ▼
-[무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    └──▶ [MAC 변수 및 기능]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,19 +42,23 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 두 가지 공격을 막기 위해, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Payload) 끝에 **추가적인 보안 꼬리표(서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드)**를 달아 전송하는 제어 기술을 통칭합니다.
+이 두 가지 공격을 막기 위해, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리(Payload) 끝에 <strong>추가적인 보안 꼬리표(서명 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 코드)</strong>를 달아 전송하는 제어 기술을 통칭합니다.
 - 수신자(은행)는 이 꼬리표를 계산해서, 두 가지를 100% 확신하게 됩니다.
-  1. **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: "네트워크를 날아오는 동안 단 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 변경되지 않았다!"
-  2. **출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Origin [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**: "이 패킷은 해커가 쏜 게 아니라, 진짜로 홍길동의 컴퓨터에서 출발한 게 맞다!"
+  1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: "네트워크를 날아오는 동안 단 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 변경되지 않았다!"
+  2. <strong>출처 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Origin <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>: "이 패킷은 해커가 쏜 게 아니라, 진짜로 홍길동의 컴퓨터에서 출발한 게 맞다!"
 
-```text
-[솔트 첨가 패스워드 해시 체계]
-    │
-    ▼
-[무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    └──▶ [MAC 변수 및 기능]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,11 +69,11 @@ tags = ["studynote-network"]
 이 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리표를 어떤 열쇠로 만드느냐에 따라 크게 두 가지로 나뉩니다.
 
 ### 1. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) - 대칭키 기반
-- 송신자와 수신자가 **'미리 공유한 똑같은 비밀키(대칭키)'**를 사용하여 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함께 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 믹서기에 돌려 꼬리표([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 만듭니다.
+- 송신자와 수신자가 <strong>'미리 공유한 똑같은 비밀키(대칭키)'</strong>를 사용하여 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함께 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 믹서기에 돌려 꼬리표([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 만듭니다.
 - **특징**: 계산 속도가 미친 듯이 빠릅니다. 하지만 둘만 아는 비밀키를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 송신자가 "나 그런 거 보낸 적 없는데?"라고 거짓말을 하면 발뺌(부인)을 막을 수 없습니다. (상세 내용은 673번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 2. 디지털 서명 ([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)) - 비대칭키(공개키) 기반
-- 송신자가 **'자신만이 가진 유일한 개인키'**를 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 서명(암호화)을 한 뒤 꼬리표를 만듭니다. 수신자는 송신자의 '공개키'로 이 꼬리표를 열어봅니다.
+- 송신자가 <strong>'자신만이 가진 유일한 개인키'</strong>를 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 서명(암호화)을 한 뒤 꼬리표를 만듭니다. 수신자는 송신자의 '공개키'로 이 꼬리표를 열어봅니다.
 - **특징**: 속도는 느리지만, 전 세계에서 오직 송신자만 만들 수 있는 꼬리표이므로, 나중에 법원에 가서도 "이건 100% 네가 보낸 거잖아!"라며 발뺌을 완벽히 차단(부인 방지)할 수 있습니다. (상세 내용은 675번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 첨가 패스워드 해시 체계가 기반 조건을 만든다면, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…는 그 위에서 핵심 메커니즘을 구현하고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 변수 및 기능은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 오늘날 안전한 인터넷을 구성하는 모든 방패 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때 단순히 암호화만 하지 않습니다.
-- 패킷 뒤에 반드시 이 **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 코드(주로 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 또는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))**를 함께 덧붙여서([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 또는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 등), 해커의 털끝만 한 변조 시도조차 즉시 감지하고 해당 패킷을 가차 없이 폐기(Drop)해버리는 철저한 방역망을 가동합니다.
+- 패킷 뒤에 반드시 이 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>/출처 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>용 서명 코드(주로 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a> 또는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a>)</strong>를 함께 덧붙여서([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 또는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 등), 해커의 털끝만 한 변조 시도조차 즉시 감지하고 해당 패킷을 가차 없이 폐기(Drop)해버리는 철저한 방역망을 가동합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 솔트 첨가 패스워드 해시 체계]
-    │
-    ▼
-[현재 개념: 무결성 및 출처 인증용 서명 데이터 코드 제…]
-    │
-    ├──▶ [확장 A: MAC 변수 및 기능]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC 변수 및 기능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…는 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 첨가 패스워드 해시 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 변수 및 기능와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,22 +22,26 @@ tags = ["studynote-network"]
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40바이트 고정 헤더 내에 위치한 8비트짜리 필드 두 개. 
   - `Next Header`: 내 뒤에 따라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 종류([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 혹은 확장 헤더)를 지시.
   - `Hop Limit`: 패킷이 거칠 수 있는 최대 라우터 개수.
-- **필요성**: IPv4는 헤더 안에 옵션(Options)을 마구 집어넣을 수 있어서 헤더 길이가 20바이트에서 60바이트까지 들쭉날쭉 변했다. 이러면 라우터가 "어디까지가 헤더야?" 하고 계산하느라 뻗어버린다. IPv6는 **"무조건 메인 헤더는 40바이트로 픽스! 만약 추가 옵션이 필요하면 메인 헤더 뒤에 별도의 '확장 헤더' 블록을 꼬리물기 하듯 붙여라!"**라는 천재적인 모듈화 설계를 도입했다. 이 꼬리물기를 엮어주는 고리가 Next Header다.
+- **필요성**: IPv4는 헤더 안에 옵션(Options)을 마구 집어넣을 수 있어서 헤더 길이가 20바이트에서 60바이트까지 들쭉날쭉 변했다. 이러면 라우터가 "어디까지가 헤더야?" 하고 계산하느라 뻗어버린다. IPv6는 <strong>"무조건 메인 헤더는 40바이트로 픽스! 만약 추가 옵션이 필요하면 메인 헤더 뒤에 별도의 '확장 헤더' 블록을 꼬리물기 하듯 붙여라!"</strong>라는 천재적인 모듈화 설계를 도입했다. 이 꼬리물기를 엮어주는 고리가 Next Header다.
 
 - **💡 비유**: 
-  - **Next Header**: 블록 장난감 기차의 **"자석 연결 고리"**입니다. 맨 앞 기관차(기본 헤더)의 고리에 화물칸(확장 헤더)을 붙이고, 화물칸의 고리에 또 여객칸([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 무한히 이어 붙일 수 있게 해줍니다.
-  - **Hop Limit**: 좀비 목에 걸어둔 **"폭탄 타이머"**입니다. 방(라우터)을 하나 통과할 때마다 숫자가 1씩 깎이고, 0이 되면 펑! 터져서 방황하는 좀비를 제거합니다.
+  - **Next Header**: 블록 장난감 기차의 <strong>"자석 연결 고리"</strong>입니다. 맨 앞 기관차(기본 헤더)의 고리에 화물칸(확장 헤더)을 붙이고, 화물칸의 고리에 또 여객칸([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 무한히 이어 붙일 수 있게 해줍니다.
+  - **Hop Limit**: 좀비 목에 걸어둔 <strong>"폭탄 타이머"</strong>입니다. 방(라우터)을 하나 통과할 때마다 숫자가 1씩 깎이고, 0이 되면 펑! 터져서 방황하는 좀비를 제거합니다.
 
-```text
-[트래픽 클래스 / 플로우 레이블]
-    │
-    ▼
-[Next Header, 홉 제한]
-    │
-    └──▶ [유니캐스트, 멀티캐스트, 애니캐스트]
-```
 
-- **📢 섹션 요약 비유**: ** IPv6는 덕지덕지 붙어있던 무거운 배낭([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 옵션)을 쿨하게 버리고, **"기본 가방(40바이트) 하나만 달랑 멘 다음, 필요한 아이템이 생길 때마다 줄(Next Header)을 엮어 뒤에 매달고 질주하는 초경량 스프린터"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 클래스 / 플로우 레이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Next Header, 홉 제한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> IPv6는 덕지덕지 붙어있던 무거운 배낭(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더 옵션)을 쿨하게 버리고, </strong>"기본 가방(40바이트) 하나만 달랑 멘 다음, 필요한 아이템이 생길 때마다 줄(Next Header)을 엮어 뒤에 매달고 질주하는 초경량 스프린터"**입니다.
 
 ---
 
@@ -50,34 +54,34 @@ Next Header 필드 안에는 숫자가 들어간다. 이 숫자는 IANA가 정�
 - **확장 헤더 번호들**: `0` (Hop-by-Hop 옵션), `43` ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 옵션), `50` ([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화) 등.
 
 송신자가 보안이 필요해서 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 암호화 확장 헤더를 붙였다면 패킷 구조는 이렇게 된다.
-1. **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기본 헤더** (Next Header = `50` 적힘)
-2. **[ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더** (Next Header = `6` 적힘)
-3. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 및 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**
+1. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 기본 헤더</strong> (Next Header = `50` 적힘)
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 확장 헤더</strong> (Next Header = `6` 적힘)
+3. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더 및 실제 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>
 ▶ 라우터는 1번 기본 헤더의 `50`을 보고 "아, 뒤에 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더가 오네?" 하고 넘어가고, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더는 `6`을 보고 "내 뒤에는 진짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는군!" 하고 연결(체인)을 완성한다.
 이 방식 덕분에, 중간 라우터는 자기가 굳이 안 까봐도 되는 확장 헤더는 무시하고 빠르게 넘겨버릴 수 있어 스위칭 스피드가 극대화된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 Next Header에 의한 확장 꼬리물기            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 패킷 ]                                               │
- │   [ 기본 헤더 (Next: TCP) ] ──▶ [ TCP 헤더 및 Data ]            │
- │                                                             │
- │   [ 암호화 + 단편화 옵션이 추가된 특수 패킷 ]                       │
- │   [ 기본 헤더 (Next: 단편화) ]                                 │
- │           └──▶ [ 단편화 확장 헤더 (Next: ESP) ]                 │
- │                           └──▶ [ ESP 확장 헤더 (Next: TCP) ]  │
- │                                           └──▶ [ TCP 데이터 ] │
- │                                                             │
- │   * 핵심: 아무리 확장 헤더가 많이 붙어도 맨 앞의 기본 헤더는          │
- │          언제나 "40바이트 뚱뚱하지 않은 상태"를 완벽히 유지한다!      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6 Next Header에 의한 확장 꼬리물기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 헤더 (Next: TCP)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 헤더 및 Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화 + 단편화 옵션이 추가된 특수 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 헤더 (Next: 단편화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단편화 확장 헤더 (Next: ESP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP 확장 헤더 (Next: TCP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 아무리 확장 헤더가 많이 붙어도 맨 앞의 기본 헤더는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제나 "40바이트 뚱뚱하지 않은 상태"를 완벽히 유지한다!</div></div>
+</div>
+</div>
+
+
 
 ### 2. Hop Limit (홉 제한)의 정직한 개명
 IPv4의 `TTL(Time To Live)`은 단위가 '초(Second)'였다. 설계자들은 패킷이 네트워크에 1초 머물 때마다 1씩 깎일 거라고 상상했다. 하지만 현실의 라우터는 0.001초 만에 패킷을 처리해 버렸고, 초 단위로 깎는 건 불가능해서 그냥 라우터 한 대 지날 때마다 1씩 깎는 꼼수로 변질되었다.
-IPv6는 이 이름의 모순을 바로잡아, 직관적이고 솔직하게 **"거쳐 가는 라우터의 개수(Hop Limit)"**로 이름을 바꾸었다. 기능은 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) TTL과 100% 완벽히 동일하다. 0이 되면 터지고 ICMPv6 에러([Time Exceeded](/knowledge-base/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/))를 뱉어낸다.
+IPv6는 이 이름의 모순을 바로잡아, 직관적이고 솔직하게 <strong>"거쳐 가는 라우터의 개수(Hop Limit)"</strong>로 이름을 바꾸었다. 기능은 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) TTL과 100% 완벽히 동일하다. 0이 되면 터지고 ICMPv6 에러([Time Exceeded](/knowledge-base/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/))를 뱉어낸다.
 
 - **📢 섹션 요약 비유**: ** Next Header 확장은 햄버거집의 **"추가 토핑 주문서"**입니다. 기본 빵(40바이트 헤더)은 절대 모양을 바꾸지 않고, 주문서에 적힌 화살표(Next Header)를 따라 치즈 패티, 베이컨 패티(확장 헤더)를 차곡차곡 쌓아 올려 거대한 햄버거를 완성하는 모듈식 건축술입니다.
 
@@ -135,15 +139,19 @@ Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 트래픽 클래스 / 플로우 레이블]
-    │
-    ▼
-[현재 개념: Next Header, 홉 제한]
-    │
-    ├──▶ [확장 A: 유니캐스트, 멀티캐스트, 애니캐스트]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 클래스 / 플로우 레이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Next Header, 홉 제한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Next Header, 홉 제한는 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블에서 출발해 현재 메커니즘을 정교화하고, 이후 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

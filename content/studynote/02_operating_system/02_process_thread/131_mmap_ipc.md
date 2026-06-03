@@ -24,24 +24,23 @@ tags = ["studynote-operating-system"]
 
 운영체제의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 어떻게 여러 프로세스를 동일한 물리 프레임으로 연결하는지 아키텍처 다이어그램으로 확인할 수 있다.
 
-```text
-┌─ 프로세스 A 가상 주소 공간 ─┐  ┌─ 프로세스 B 가상 주소 공간 ─┐
-│ 0x7F0000_0000 (매핑 주소)    │  │ 0x7F0000_0000 (매핑 주소)    │
-│        │                     │  │        │                     │
-├────────┼─────────────────────┤  ├────────┼─────────────────────┤
-│ Page Table                  │  │ Page Table                    │
-│  VA ──────▶ PTE ──────┐     │  │  VA ──────▶ PTE ──────┐       │
-│  0x7F000               │     │  │  0x7F000               │     │
-└────────────────────────┼─────┘  └────────────────────────┼─────┘
-                         │                                       │
-                         └──────────┬────────────────────────────┘
-                                    ▼
-                        ┌────────────────────────────────────────┐
-                        │   물리 메모리                          │
-                        │  Page Frame #2048   │  ◀── MAP_SHARED 매핑
-                        │  [ 공유 데이터 영역 ] │      (커널이 동일 프레임 연결)
-                        └────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">─ 프로세스 A 가상 주소 공간 ─ ─ 프로세스 B 가상 주소 공간 ─</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x7F0000_0000 (매핑 주소)</div><div class="kb-diagram-cell">0x7F0000_0000 (매핑 주소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table</div><div class="kb-diagram-cell">Page Table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VA ▶ PTE</div><div class="kb-diagram-cell">VA ▶ PTE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x7F000</div><div class="kb-diagram-cell">0x7F000</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Frame #2048</div><div class="kb-diagram-cell">◀── MAP_SHARED 매핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 데이터 영역</div><div class="kb-diagram-note">(커널이 동일 프레임 연결)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 도식의 핵심은 두 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 서로 다른 가상 주소(VA, Virtual Address)를 동일한 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임([Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) #2048으로 변환한다는 점이다. `MAP_SHARED` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 사용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 매핑 시점에 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 적용하지 않고, 모든 매핑을 동일한 물리 프레임에 직결한다. 따라서 프로세스 A가 해당 주소에 값을 쓰면 물리 프레임의 내용이 즉시 갱신되며, 프로세스 B가 동일 주소를 읽을 때 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 없이 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(MESI 등)을 통해 최신 값을 관찰하게 된다.
 
@@ -55,33 +54,35 @@ tags = ["studynote-operating-system"]
 
 | 구성 요소 | 역할 | 내부 동작 | 관련 개념 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() 시스템 콜** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 매핑 | [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 항목 초기화 | MAP_SHARED, MAP_PRIVATE | 도면을 책상 위에 펼치기 |
-| **[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러** | 실제 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 | 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽어 물리 프레임에 적재 | [Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) | 처음 펼칠 때만 도면을 꺼내오기 |
-| **MAP_SHARED [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)** | 변경 사항을 모든 매핑에 반영 | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 비활성화, 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모드 | [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/), [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) | 모두가 동시에 보는 화이트보드 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>() 시스템 콜</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 매핑 | [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 항목 초기화 | MAP_SHARED, MAP_PRIVATE | 도면을 책상 위에 펼치기 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 핸들러</strong> | 실제 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 | 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽어 물리 프레임에 적재 | [Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) | 처음 펼칠 때만 도면을 꺼내오기 |
+| <strong>MAP_SHARED <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a></strong> | 변경 사항을 모든 매핑에 반영 | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 비활성화, 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모드 | [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/), [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) | 모두가 동시에 보는 화이트보드 |
 | **msync() 시스템 콜** | 변경된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크에 반영 | dirty [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 플러시 | fsync(), flush | 화이트보드 내용을 원본에 저장 |
 
 `mmap()`을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유가 실제로 어떤 시점에 물리 메모리를 소비하는지 타이밍 다이어그램으로 시각화할 수 있다.
 
-```text
-  프로세스 A                      커널                      프로세스 B
-     │                            │                             │
-     ├── mmap(fd, MAP_SHARED) ──▶│                              │
-     │   [VMA만 생성, 물리 할당 X] │                            │
-     │◀── 매핑된 주소 반환 ───────┤                             │
-     │                            │                             │
-     ├── *addr = 42 (쓰기 시도) ─▶│                             │
-     │   [Page Fault 발생!]       │                             │
-     │   [디스크→물리 프레임 적재] │                            │
-     │◀── 제어권 반환 ────────────┤                             │
-     │                            │                             │
-     │                            │◀── mmap(fd, MAP_SHARED) ──┤
-     │                            │   [동일 물리 프레임 매핑]   │
-     │                            ├── 동일 주소 반환 ────────▶  │
-     │                            │                             │
-     │                            │◀── val = *addr (읽기) ────┤
-     │                            │   [Page Hit! 값 42 관찰]    │
-     │                            ├── 42 반환 ───────────────▶  │
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 A 커널 프로세스 B</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── mmap(fd, MAP_SHARED) ──▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VMA만 생성, 물리 할당 X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 매핑된 주소 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── *addr = 42 (쓰기 시도) ─▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page Fault 발생!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크→물리 프레임 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 제어권 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── mmap(fd, MAP_SHARED) ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동일 물리 프레임 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 동일 주소 반환 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── val = *addr (읽기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page Hit! 값 42 관찰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 42 반환 ▶</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 순차 흐름도는 `mmap()` 기반 IPC의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation) 특성을 명확히 보여준다. `mmap()` 호출 시점에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 단지 [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 뿐 실제 물리 메모리를 할당하지 않는다. 프로세스 A가 처음으로 해당 영역에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 시도하면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생하고, 그 시점에서야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 물리 프레임에 적재한다. 프로세스 B가 이후 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap()`으로 매핑하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이미 적재된 물리 프레임을 B의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 추가로 연결하므로 추가적인 디스크 I/O 없이 즉시 A의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 결과(값 42)를 읽을 수 있다. 이것이 `mmap()` IPC가 복사 오버헤드 없이 동작하는 핵심 원리다.
 
@@ -96,42 +97,36 @@ tags = ["studynote-operating-system"]
 | 항목 | [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑 | POSIX shm_open + [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) | System V shmget + shmat |
 |:---|:---|:---|:---|
 | **백엔드 저장소** | 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | tmpfs (/dev/shm 내) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 메모리 |
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 종료 후 지속성** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 기록되면 영속 | tmpfs이므로 휘발성 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터로 제어 |
-| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요 여부** | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 종료 후 지속성</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 기록되면 영속 | tmpfs이므로 휘발성 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터로 제어 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 필요 여부</strong> | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 |
 | **이식성 (Portability)** | POSIX 표준, 범용 | POSIX 표준, 비교적 최신 | System V 계열 한정 |
 | **복사 횟수 (Copy Count)** | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) |
 
 세 가지 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 기법의 물리 메모리 연결 방식을 구조적으로 비교할 수 있다.
 
-```text
-[1] mmap() 파일 매핑                [2] POSIX shm + mmap
-┌─────────┐    ┌───────────┐          ┌─────────┐    ┌────────────┐
-│  Proc A │    │  디스크    │          │  Proc A │    │   tmpfs   │
-│  VMA ───┼──▶ │  파일     │◀─────────┤  VMA ───┼──▶ │ /dev/shm   │
-│         │    │  (백엔드) │          │         │    │ (백엔드)   │
-└────┬────┘    └───────────┘          └────┬────┘    └────────────┘
-     │                                                            │
-     ▼                                      ▼
-┌─────────────────┐                 ┌─────────────────────────────┐
-│  물리 프레임     │                 │  물리 프레임               │
-└─────────────────┘                 └─────────────────────────────┘
 
-[3] System V shmget + shmat
-┌─────────┐    ┌──────────────────────────────────────────────────┐
-│  Proc A │    │  커널 내부 메모리                                │
-│  VMA ───┼──▶ │  shm seg (백엔드)                                │
-│         │    │  (파일 시스템 없음)                              │
-└────┬────┘    └──────────────────────────────────────────────────┘
-                                                                  │
-     ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  물리 프레임                                                    │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">mmap() 파일 매핑</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">POSIX shm + mmap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proc A</div><div class="kb-diagram-cell">디스크</div><div class="kb-diagram-cell">Proc A</div><div class="kb-diagram-cell">tmpfs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMA ──▶</div><div class="kb-diagram-cell">파일</div><div class="kb-diagram-cell">◀ VMA ──▶</div><div class="kb-diagram-cell">/dev/shm</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(백엔드)</div><div class="kb-diagram-cell">(백엔드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 프레임</div><div class="kb-diagram-cell">물리 프레임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">System V shmget + shmat</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proc A</div><div class="kb-diagram-cell">커널 내부 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMA ──▶</div><div class="kb-diagram-cell">shm seg (백엔드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파일 시스템 없음)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 프레임</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 세 가지 구조의 결정적 차이는 '백엔드 저장소(Backend Store)'의 존재 여부와 위치에 있다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑은 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 백엔드로 삼아, 물리 메모리가 부족할 때 디스크로 스왑아웃(Swap-out)이 가능하다. 반면 System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 무관하게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에만 존재하며, POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 `tmpfs`라는 메모리 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 백엔드로 사용한다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑의 고유한 장점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 반영되므로, 프로세스 재시작 후에도 이전 상태를 복원할 수 있는 지속성(Persistence)을 제공한다는 점이다.
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Computer [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 관점**: `mmap()`은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))를 최대한 활용하는 설계다. 한 번 매핑된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 대해 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면, 이후의 접근은 하드웨어 수준에서 주소 변환이 완료되므로 소프트웨어 개입 없이 나노초 단위의 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓸 수 있다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>, Computer <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>) 관점</strong>: `mmap()`은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))를 최대한 활용하는 설계다. 한 번 매핑된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 대해 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면, 이후의 접근은 하드웨어 수준에서 주소 변환이 완료되므로 소프트웨어 개입 없이 나노초 단위의 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓸 수 있다.
 
 - **📢 섹션 요약 비유**: 세 가지 방식은 모두 같은 '공용 게시판(물리 프레임)'을 사용하지만, 게시판이 밖에 있는지([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 사내 라커에 있는지(POSIX shm), 아니면 사장님 서랍에만 있는지(System V shm)가 다른 셈입니다.
 
@@ -141,33 +136,37 @@ tags = ["studynote-operating-system"]
 
 `mmap()` 기반 IPC는 고성능 애플리케이션에서 널리 사용되지만, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 파괴되는 치명적 리스크가 존재한다.
 
-**실무 시나리오 1. 영상 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 프레임 버퍼 공유**:
+<strong>실무 시나리오 1. 영상 처리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인에서의 프레임 버퍼 공유</strong>:
 4K 해상도(3840x2160)의 미처리 영상 프레임 한 장은 약 33MB(RGB 3바이트/픽셀)이다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 매 초 60프레임을 전송하면 초당 약 2GB의 버퍼 복사가 발생한다. `mmap()` 기반 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 버퍼를 사용하면, 프로듀서(카메라 캡처 프로세스)가 프레임을 버퍼에 기록하고 소비자(인코딩 프로세스)가 즉시 동일 주소를 읽으므로 복사가 전혀 발생하지 않는다.
 
-**실무 시나리오 2. [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락으로 인한 레이스 컨디션 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))**:
+<strong>실무 시나리오 2. <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 누락으로 인한 레이스 컨디션 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a>)</strong>:
 두 프로세스가 `mmap()`으로 공유한 카운터를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 증가시키면, 읽기-수정-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 연산이 원자적(Atomic)이지 않아 값이 소실된다. 반드시 `futex` 기반의 POSIX [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 또는 `pthread_mutex`를 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 내에 배치하여 보호해야 한다.
 
 아키텍트는 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘 선택을 위한 의사결정 기준을 수립해야 한다.
 
-```text
-   [ IPC 메커니즘 선택 트리 ]
-                │
-                ▼
-     교환할 데이터 크기가 1MB 이상인가?
-        ├── 예 ──▶ 실시간성이 필수적인가?
-        │              ├── 예 ──▶ mmap() MAP_SHARED (zero-copy)
-        │              │          + POSIX semaphore 동기화
-        │              └── 아니오 ──▶ 공유 메모리 + msync() 주기적 플러시
-                │
-        └── 아니오 ──▶ 단방향 스트림인가 양방향인가?
-                       ├── 단방향 ──▶ 파이프 (Pipe) 또는 FIFO
-                       └── 양방향 ──▶ Unix Domain Socket
-                          (작은 메시지에 최적화, 커널 버퍼 관리 자동)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPC 메커니즘 선택 트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">교환할 데이터 크기가 1MB 이상인가?</div>
+<div class="kb-diagram-tree-item" style="--depth:4">예 ──▶ 실시간성이 필수적인가?</div>
+<div class="kb-diagram-note">── 예 ──▶ mmap() MAP_SHARED (zero-copy)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ POSIX semaphore 동기화</div></div>
+<div class="kb-diagram-note">── 아니오 ──▶ 공유 메모리 + msync() 주기적 플러시</div>
+<div class="kb-diagram-tree-item" style="--depth:4">아니오 ──▶ 단방향 스트림인가 양방향인가?</div>
+<div class="kb-diagram-tree-item" style="--depth:8">단방향 ──▶ 파이프 (Pipe) 또는 FIFO</div>
+<div class="kb-diagram-tree-item" style="--depth:8">양방향 ──▶ Unix Domain Socket</div>
+<div class="kb-diagram-note">(작은 메시지에 최적화, 커널 버퍼 관리 자동)</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기와 실시간성 요구를 기준으로 최적의 IPC를 선택하는 기준을 제공한다. `mmap()` IPC는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 전달에 압도적 우위를 가지지만, 작은 제어 메시지(수바이트~수킬로바이트)에는 오히려 [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 오버헤드가 더 크다. 따라서 명령어나 상태 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 같은 소규모 메시지에는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 더 효율적이다. 또한 `mmap()`은 반드시 외부 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수단을 병행해야 하므로, 개발 복잡도도 함께 평가해야 한다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 - [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 영역에 대한 접근이 반드시 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 또는 뮤텍스로 보호되고 있는가?
 - 매핑 크기가 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 일반적으로 4KB)의 배수로 정렬되어 있는가?
 - [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 `munmap()`을 호출하여 VMA를 해제하고 있는가?
@@ -182,8 +181,8 @@ tags = ["studynote-operating-system"]
 
 | 구분 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() 기반 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | 비즈니스 파급 효과 |
 |:---|:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 횟수** | 2회 (User-[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-User) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 대용량 처리 시 CPU 활용률 극대화 |
-| **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 마이크로초~밀리초 | 나노초([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) 시) | 실시간 영상/금융 시스템에서 결정적 응답 보장 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복사 횟수</strong> | 2회 (User-[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-User) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 대용량 처리 시 CPU 활용률 극대화 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 마이크로초~밀리초 | 나노초([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) 시) | 실시간 영상/금융 시스템에서 결정적 응답 보장 |
 | **구현 복잡도** | 낮음 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리) | 높음 ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 직접 구현) | 개발 및 테스트 비용 증가, 디버깅 난이도 상승 |
 
 **미래 전망**:
@@ -211,15 +210,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[신호 (Signal)]
-    │
-    ▼
-[메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
-    │
-    ├──▶ [시스템 V IPC]
-    └──▶ [POSIX IPC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신호 (Signal)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 V IPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POSIX IPC</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

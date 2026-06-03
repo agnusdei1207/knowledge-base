@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 방식이 등장한 이유는 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)과 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 서로 다른 약점을 가졌기 때문이다. 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 공유 설명이 직관적이지만 세그먼트 길이가 가변적이라 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 누적된다. 반대로 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 없애지만, 프로그램 의미와 무관한 고정 크기 분할이라 "어떤 코드와 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경계에 속하는가"를 직접 드러내지 못한다.
 
-혼용 방식은 이 둘의 질문을 분리해서 해결한다. "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 공유할 것인가"는 세그먼트가 맡고, "어디에 어떻게 담을 것인가"는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 맡는다. 그래서 이 구조를 이해할 때는 단순히 두 기법을 섞은 것이 아니라, **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경계와 물리 배치 책임을 분업한 구조**로 보는 것이 더 정확하다.
+혼용 방식은 이 둘의 질문을 분리해서 해결한다. "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 공유할 것인가"는 세그먼트가 맡고, "어디에 어떻게 담을 것인가"는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 맡는다. 그래서 이 구조를 이해할 때는 단순히 두 기법을 섞은 것이 아니라, <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 경계와 물리 배치 책임을 분업한 구조</strong>로 보는 것이 더 정확하다.
 
 - **📢 섹션 요약 비유**: 이 방식은 회사 서류를 부서별 캐비닛으로 나누어 보관하되, 실제 창고 적재는 규격 박스 단위로 하는 것과 같다. 사람은 부서 기준으로 찾고, 창고는 상자 기준으로 빈틈없이 채운다.
 
@@ -35,29 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 혼용 구조가 왜 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 세그먼트에서, 배치는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서"라고 불리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 혼용 주소 변환: 논리 구획과 물리 배치를 분리                 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = [ Segment s | Page p | Offset d ]                               │
-│        │                                                                     │
-│        ▼                                                                     │
-│   Segment Table[s]                                                           │
-│   ┌──────────────────────────────────────────────┐                            │
-│   │ Limit / Permission / Page Table Base         │                            │
-│   └──────────────────────────────────────────────┘                            │
-│        │                                                                     │
-│        ├─ s 또는 d가 범위·권한 위반 ───────────────▶ Fault                    │
-│        ▼                                                                     │
-│   Page Table[p]                                                              │
-│   ┌──────────────────────────────────────────────┐                            │
-│   │ Frame Number / Present / Dirty / Accessed    │                            │
-│   └──────────────────────────────────────────────┘                            │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 물리 주소 = [ Frame Number | Offset d ]                                      │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼용 주소 변환: 논리 구획과 물리 배치를 분리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">논리 주소 =</div><div class="kb-diagram-node">Segment s | Page p | Offset d</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Segment Table</div><div class="kb-diagram-node">s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Limit / Permission / Page Table Base</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ s 또는 d가 범위·권한 위반 ▶ Fault</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Page Table</div><div class="kb-diagram-node">p</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame Number / Present / Dirty / Accessed</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 주소 =</div><div class="kb-diagram-node">Frame Number | Offset d</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 "이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역이 존재하는가, 접근 권한이 맞는가"를 확인하는 앞단 관문이고, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 지금 어떤 프레임에 올라와 있는가"를 찾는 뒷단 매핑표다. 따라서 세그먼트는 의미와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 단위이고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 배치와 교체의 단위다. 이 역할 분리가 혼용 구조의 핵심이다.
 
@@ -76,7 +69,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-혼용 구조를 이해하려면 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)과 각각 무엇을 주고받는지 봐야 한다. 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 메모리 활용 효율이 뛰어나지만 프로그램 구조와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 설명할 때 다소 기계적이다. 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 잘 드러내지만 연속 공간을 요구해 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)와 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용이 커진다. 혼용 구조는 이 둘 사이에서 **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델은 세그먼트식, 물리 배치는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)식**이라는 절충을 선택한다.
+혼용 구조를 이해하려면 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)과 각각 무엇을 주고받는지 봐야 한다. 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 메모리 활용 효율이 뛰어나지만 프로그램 구조와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 설명할 때 다소 기계적이다. 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 잘 드러내지만 연속 공간을 요구해 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)와 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용이 커진다. 혼용 구조는 이 둘 사이에서 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 모델은 세그먼트식, 물리 배치는 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>식</strong>이라는 절충을 선택한다.
 
 | 비교 항목 | 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) | 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) | 혼용 구조 |
 | :-- | :-- | :-- | :-- |
@@ -88,7 +81,7 @@ tags = ["studynote-computer-architecture"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)인 OS ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 관점에서는 이 구조가 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)와 자원 활용을 동시에 설명하는 데 유용하다. 예를 들어 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)는 "공유 가능한 코드 세그먼트"라는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 이해하고, 실제 적재는 여러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임에 나누어 배치할 수 있다. 반대로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 하나의 성장 영역이지만, 실제 물리 메모리에서는 필요할 때마다 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 추가 확보된다.
 
-현대 x86-64 환경은 흥미로운 예외도 보여 준다. 역사적으로 x86은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 적극 활용했지만, 64비트 장기 모드에서는 대부분의 세그먼트 베이스를 평면 주소 공간처럼 단순화하고 실제 주소 공간 관리는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)에 더 크게 의존한다. 즉 혼용 구조는 오늘날 모든 시스템의 기본 구현이라기보다, **왜 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 배치가 분리되었는지 설명하는 중간 진화 단계이자 사고 틀**로 보는 편이 더 적절하다.
+현대 x86-64 환경은 흥미로운 예외도 보여 준다. 역사적으로 x86은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 적극 활용했지만, 64비트 장기 모드에서는 대부분의 세그먼트 베이스를 평면 주소 공간처럼 단순화하고 실제 주소 공간 관리는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)에 더 크게 의존한다. 즉 혼용 구조는 오늘날 모든 시스템의 기본 구현이라기보다, <strong>왜 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>와 배치가 분리되었는지 설명하는 중간 진화 단계이자 사고 틀</strong>로 보는 편이 더 적절하다.
 
 - **📢 섹션 요약 비유**: 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이 용도별 맞춤 서랍장이라면, 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 같은 크기 수납 박스 창고다. 혼용 구조는 서랍 이름표는 유지하되, 실제 안쪽 수납은 규격 박스로 통일한 방식이다.
 
@@ -113,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 - 혼용 구조를 채택했으면서도 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), 캐시, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 전혀 고려하지 않는 설계
 - 현대 64비트 환경에서도 고전적 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)이 그대로 주력이라고 단정하는 설명
 
-기술사 관점에서는 결론을 이렇게 잡는 편이 좋다. **혼용 구조는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 의미 단위와 할당의 물리 단위를 분리한 우아한 절충안이지만, 현대 범용 시스템에서는 그 철학만 남고 구현 중심은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 이동했다.** 이 문장을 말할 수 있으면 암기 수준을 넘어 구조적 이해에 도달한 것이다.
+기술사 관점에서는 결론을 이렇게 잡는 편이 좋다. <strong>혼용 구조는 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>의 의미 단위와 할당의 물리 단위를 분리한 우아한 절충안이지만, 현대 범용 시스템에서는 그 철학만 남고 구현 중심은 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>으로 이동했다.</strong> 이 문장을 말할 수 있으면 암기 수준을 넘어 구조적 이해에 도달한 것이다.
 
 - **📢 섹션 요약 비유**: 혼용 구조는 매장 진열은 브랜드별로 하고, 창고 적재는 박스 규격별로 하는 유통 시스템과 같다. 고객 경험은 좋아지지만, 관리 장부가 한 권 더 필요해 운영이 복잡해진다.
 
@@ -144,29 +137,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 메모리 할당
-    │
-    ▼
-세그멘테이션 (Segmentation)
-    │
-    ├──▶ 보호·공유의 직관성 확보
-    │
-    └──▶ 외부 단편화 증가
-              │
-              ▼
-페이징 (Paging)
-    │
-    ▼
-페이징과 세그멘테이션 혼용
-    │
-    ├──▶ 논리 구역 보호 + 페이지 기반 배치
-    │
-    └──▶ 주소 변환 복잡도 증가
-              │
-              ▼
-현대 다단계 페이징 중심 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 메모리 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호·공유의 직관성 확보</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 외부 단편화 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징과 세그멘테이션 혼용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 논리 구역 보호 + 페이지 기반 배치</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 주소 변환 복잡도 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 다단계 페이징 중심 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 메모리 관리가 "사람이 이해하기 쉬운 구조"와 "기계가 관리하기 쉬운 구조" 사이에서 어떻게 절충해 왔는지를 보여 준다.
 

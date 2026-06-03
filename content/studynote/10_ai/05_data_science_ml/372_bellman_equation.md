@@ -21,20 +21,23 @@ tags = ["studynote-ai"]
 
 강화학습(RL, [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 목표는 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며 누적 보상(Cumulative Reward)을 최대화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) π를 학습하는 것이다.
 
-핵심 문제는 **신용 할당(Credit Assignment Problem)**이다. 체스 게임에서 최종 승리(보상 +1)가 어떤 수(행동)의 기여인지 알 수 없다. 게임이 끝날 때까지 수백 수를 두고 나서야 보상이 주어지기 때문이다.
+핵심 문제는 <strong>신용 할당(Credit Assignment Problem)</strong>이다. 체스 게임에서 최종 승리(보상 +1)가 어떤 수(행동)의 기여인지 알 수 없다. 게임이 끝날 때까지 수백 수를 두고 나서야 보상이 주어지기 때문이다.
 
-벨만(Bellman, 1957)은 이 문제를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 최적성 원칙(Principle of Optimality)으로 해결했다. **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 최적 가치는 즉각 보상과 다음 상태의 최적 가치의 합**이라는 단순한 원리로 복잡한 순차적 결정 문제를 분해한다.
+벨만(Bellman, 1957)은 이 문제를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 최적성 원칙(Principle of Optimality)으로 해결했다. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a>의 최적 가치는 즉각 보상과 다음 상태의 최적 가치의 합</strong>이라는 단순한 원리로 복잡한 순차적 결정 문제를 분해한다.
 
 이 원리를 기반으로 Q-러닝([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))은 모델-프리(Model-free) 방식으로 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습할 수 있다. 환경의 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P(s'|s,a)를 알지 못해도 경험(Experience)으로부터 학습이 가능하다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 벨만 방정식은 "지금 이 방에 있는 것의 가치 = 여기서 얻는 보물 + 다음 방 중 가장 좋은 방의 가치 × 할인율"이라는 보물 찾기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 한 번에 모든 경로를 분석하지 않고, 한 칸씩 최적을 계산하면 된다.
 
@@ -67,28 +70,35 @@ Q*(s,a) = R(s,a) + γ · Σ_{s'} P(s'|s,a) · max_{a'} Q*(s',a')
 
 모델-프리 방식으로 Q* 근사:
 
-```
-Q(s,a) ← Q(s,a) + α · [R + γ · max_{a'} Q(s', a') - Q(s,a)]
-                        └──────── TD 오류 (TD Error) ─────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">R + γ · max_{a'} Q(s', a') - Q(s,a)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">TD 오류 (TD Error)</div>
+</div>
+</div>
+
+
 
 - α: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)
 - γ: 할인 인수(Discount Factor)
 - TD 오류: 현재 예측값과 목표값(벨만 타겟)의 차이
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  에이전트-환경 상호작용 루프                                   │
-│                                                            │
-│  s_t ──→ 행동 선택 a_t ──→ 환경 실행                         │
-│   │        (ε-탐욕 정책)         │                          │
-│   │                             ▼                          │
-│   │                   보상 R_t, 다음 상태 s_{t+1}            │
-│   │                             │                          │
-│   └─────────────── Q(s,a) 업데이트 ◄──────────────────────┘ │
-│         α[R + γ·max Q(s',a') - Q(s,a)]                    │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트-환경 상호작용 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s_t ──→ 행동 선택 a_t ──→ 환경 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ε-탐욕 정책)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 R_t, 다음 상태 s_{t+1}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a) 업데이트 ◄</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">α</div><div class="kb-diagram-node">R + γ·max Q(s',a') - Q(s,a)</div></div>
+</div>
+</div>
+
+
 
 ### γ (Discount Factor) 영향
 
@@ -112,7 +122,7 @@ Q(s,a) ← Q(s,a) + α · [R + γ · max_{a'} Q(s', a') - Q(s,a)]
 | Q-러닝 (TD) | 불필요 | 매 단계 온라인 | 저분산, [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) |
 | SARSA | 불필요 | On-[policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) TD | 안전한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습 |
 
-**[탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-착취 균형([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-Exploitation Tradeoff)**:
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>-착취 균형(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">Exploration</a>-Exploitation Tradeoff)</strong>:
 - ε-탐욕(ε-Greedy) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/): ε [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 랜덤 행동([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)), 1-ε [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 최적 행동(착취)
 - 어닐링(Annealing): [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 높은 ε에서 시작해 점차 감소 (ε 1.0 → 0.01)
 - UCB (Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound): 불확실한 행동을 체계적으로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)
@@ -123,11 +133,11 @@ Q(s,a) ← Q(s,a) + α · [R + γ · max_{a'} Q(s', a') - Q(s,a)]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) 확장**: Q-테이블(Q-Table) 대신 신경망으로 Q(s,a;θ) 근사. DeepMind의 Atari 게임 학습에 적용하여 인간 수준 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">Deep Q-Network</a>) 확장</strong>: Q-테이블(Q-Table) 대신 신경망으로 Q(s,a;θ) 근사. DeepMind의 Atari 게임 학습에 적용하여 인간 수준 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성.
 
 DQN의 핵심 기법:
-1. **경험 재현([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/))**: 과거 경험 (s,a,R,s')을 버퍼에 저장 후 랜덤 샘플링 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상관성(Correlation) 제거
-2. **[타겟 네트워크](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/)([Target Network](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/))**: Q-업데이트 타겟 계산에 별도 네트워크 사용 → 학습 안정성 향상
+1. <strong>경험 재현(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/">Experience Replay</a>)</strong>: 과거 경험 (s,a,R,s')을 버퍼에 저장 후 랜덤 샘플링 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상관성(Correlation) 제거
+2. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/">타겟 네트워크</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/">Target Network</a>)</strong>: Q-업데이트 타겟 계산에 별도 네트워크 사용 → 학습 안정성 향상
 
 **기술사 답안 포인트**:
 1. 벨만 최적 방정식 V*(s) = max_a[R + γ·ΣP·V*(s')]의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적 의미를 설명한다.

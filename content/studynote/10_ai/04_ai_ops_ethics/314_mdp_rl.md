@@ -11,31 +11,34 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) (Markov Decision [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 수학적 기반으로, 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하는 문제를 **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))·행동(Action)·보상(Reward)·전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Transition [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**의 4요소로 정형화하는 프레임워크다.
-> 2. **가치**: "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만 알면 미래 결정에 충분하다"는 **[마르코프 성질](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/)([Markov Property](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/))**이 복잡한 시퀀스 의사결정 문제를 계산 가능한 최적화 문제로 변환하여, 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·로봇 제어·자율주행·자원 관리 등 광범위한 최적 제어 문제를 해결한다.
+> 1. **본질**: [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) (Markov Decision [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 수학적 기반으로, 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하는 문제를 <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)·행동(Action)·보상(Reward)·전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>(Transition <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>의 4요소로 정형화하는 프레임워크다.
+> 2. **가치**: "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만 알면 미래 결정에 충분하다"는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">마르코프 성질</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>이 복잡한 시퀀스 의사결정 문제를 계산 가능한 최적화 문제로 변환하여, 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·로봇 제어·자율주행·자원 관리 등 광범위한 최적 제어 문제를 해결한다.
 > 3. **판단 포인트**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 목표는 누적 할인 보상(Discounted Cumulative Reward) Σ γ^t·R_t를 최대화하는 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Optimal [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) π*를 찾는 것이며, 할인 계수 γ(0~1)가 클수록 먼 미래 보상까지 고려한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-로봇이 미로를 탈출하는 법을 배운다고 가정하자. 모든 좌회전·우회전 경우의 수를 미리 프로그래밍하는 것은 불가능하다. 대신 로봇이 스스로 시행착오를 통해 "이 방향으로 가면 막히고, 저 방향은 출구가 나온다"를 학습하게 하면 어떨까? 이것이 **[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))**이다.
+로봇이 미로를 탈출하는 법을 배운다고 가정하자. 모든 좌회전·우회전 경우의 수를 미리 프로그래밍하는 것은 불가능하다. 대신 로봇이 스스로 시행착오를 통해 "이 방향으로 가면 막히고, 저 방향은 출구가 나온다"를 학습하게 하면 어떨까? 이것이 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a>)</strong>이다.
 
 MDP는 이 과정을 수학적으로 표현한다:
-- **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), S)**: 환경의 현재 상황 (로봇 위치)
+- <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, S)</strong>: 환경의 현재 상황 (로봇 위치)
 - **행동(Action, A)**: 에이전트가 취할 수 있는 행동 (상·하·좌·우)
 - **보상(Reward, R)**: 행동 후 받는 즉각 피드백 (+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/): 출구, -1: 매 걸음)
-- **전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(P)**: 상태 s에서 행동 a 후 상태 s'로 전이될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+- <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>(P)</strong>: 상태 s에서 행동 a 후 상태 s'로 전이될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 - **할인 계수(Discount Factor, γ)**: 미래 보상의 현재 가치 (0~1)
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MDP는 보드게임 설계도다. 게임판(환경), 말의 위치(상태), 주사위 굴리기(행동), 카드 뽑기 보너스(보상), 주사위 눈에 따른 이동 규칙(전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 모두 정의하면 "최선의 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))"을 수학적으로 계산할 수 있게 된다.
 
@@ -43,32 +46,27 @@ MDP는 이 과정을 수학적으로 표현한다:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         MDP (Markov Decision Process) 상호작용 루프                 │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│       ┌──────────────────────────────────────────┐              │
-│       │               환경 (Environment)           │              │
-│       │  - 현재 상태 s_t 제공                       │              │
-│       │  - 행동 a_t 수행 후 보상 r_t, 다음 상태 s_{t+1}│              │
-│       └──────┬──────────────────────┬────────────┘              │
-│              │ 상태(s_t), 보상(r_t)  │ 행동(a_t)                  │
-│              ▼                      ▲                            │
-│       ┌──────────────────────────────────────────┐              │
-│       │          에이전트 (Agent)                  │              │
-│       │  정책: π(a|s) = P(A=a | S=s)             │              │
-│       │  "상태 s에서 행동 a를 선택할 확률"          │              │
-│       │                                           │              │
-│       │  목표: 누적 할인 보상 최대화                │              │
-│       │  G_t = R_{t+1} + γR_{t+2} + γ²R_{t+3}... │              │
-│       │      = Σ_{k=0}^∞ γ^k · R_{t+k+1}         │              │
-│       └──────────────────────────────────────────┘              │
-│                                                                  │
-│  마르코프 성질: P(s_{t+1} | s_t, a_t, s_{t-1}, ...) = P(s_{t+1} | s_t, a_t)│
-│  "과거 모든 이력 없이, 현재 상태만으로 미래가 결정된다"                │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDP (Markov Decision Process) 상호작용 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 (Environment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 상태 s_t 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 행동 a_t 수행 후 보상 r_t, 다음 상태 s_{t+1}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태(s_t), 보상(r_t)</div><div class="kb-diagram-cell">행동(a_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트 (Agent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책: π(a</div><div class="kb-diagram-cell">s) = P(A=a</div><div class="kb-diagram-cell">S=s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"상태 s에서 행동 a를 선택할 확률"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 누적 할인 보상 최대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G_t = R_{t+1} + γR_{t+2} + γ²R_{t+3}...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Σ_{k=0}^∞ γ^k · R_{t+k+1}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 성질: P(s_{t+1}</div><div class="kb-diagram-cell">s_t, a_t, s_{t-1}, ...) = P(s_{t+1}</div><div class="kb-diagram-cell">s_t, a_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"과거 모든 이력 없이, 현재 상태만으로 미래가 결정된다"</div></div>
+</div>
+</div>
+
+
 
 | [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 요소 | 수식/표기 | 의미 | 체스 예시 |
 |:---|:---|:---|:---|
@@ -85,7 +83,7 @@ MDP는 이 과정을 수학적으로 표현한다:
 
 ## Ⅲ. 비교 및 연결
 
-**[벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))**: [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 표현하는 핵심 방정식
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/">벨만 방정식</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/">Bellman Equation</a>)</strong>: [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 표현하는 핵심 방정식
 - V*(s) = max_a [R(s,a) + γ Σ P(s'|s,a) V*(s')]
 - "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 최적 가치 = 즉각 보상 + 다음 상태의 할인된 최적 가치"
 - Q-러닝, [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 등 모든 값 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 이론적 기반
@@ -101,7 +99,7 @@ MDP는 이 과정을 수학적으로 표현한다:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 적용 요건 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> 적용 요건 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 1. 명확한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 정의 가능한가?
 2. 행동 공간(Action Space)이 이산적 또는 연속적인가?
 3. 환경이 시뮬레이션 가능한가? (실세계 비용·위험 없이 충분한 에피소드 학습)
@@ -140,9 +138,9 @@ MDP는 이 과정을 수학적으로 표현한다:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 설계도)**는 로봇이 미로 탈출하는 법을 배울 때, **"어떤 상황(상태), 어떤 행동, 얼마나 좋은지(보상)"를 수학으로 정의**한 것이에요!
-2. 로봇은 직접 이리저리 움직여보며 **보상이 많은 길을 기억**하고, 나중에 막힘 없이 탈출하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 찾아요.
-3. 체스(알파고), 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 자율주행, **ChatGPT의 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)**까지 모두 이 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 방식으로 학습해요!
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a>의 설계도)</strong>는 로봇이 미로 탈출하는 법을 배울 때, <strong>"어떤 상황(상태), 어떤 행동, 얼마나 좋은지(보상)"를 수학으로 정의</strong>한 것이에요!
+2. 로봇은 직접 이리저리 움직여보며 <strong>보상이 많은 길을 기억</strong>하고, 나중에 막힘 없이 탈출하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 찾아요.
+3. 체스(알파고), 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 자율주행, <strong>ChatGPT의 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a></strong>까지 모두 이 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 방식으로 학습해요!
 
 ---
 

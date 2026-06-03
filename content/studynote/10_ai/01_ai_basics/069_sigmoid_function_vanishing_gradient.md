@@ -100,29 +100,41 @@ Input
 
 ## 관련 개념 맵
 
-```text
-Input
-  ↓
-Sigmoid
-  ↓
-Probability-like Output
-  ↓
-Binary Classification
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Input</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sigmoid</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Probability-like Output</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Binary Classification</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Step Function
-  ↓
-Sigmoid
-  ↓
-Vanishing Gradient
-  ↓
-ReLU
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Step Function</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sigmoid</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Vanishing Gradient</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ReLU</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -17,33 +17,27 @@ tags = ["design_supervision"]
 
 ### 보이지 않는 기초: 아키텍처의 결정적 역할
 
-소프트웨어 개발에서 '기능'은 빙산의 일각에 불과하다. 수면 아래에는 성능, 보안, 확장성이라는 거대한 **품질 속성**들이 시스템을 지탱하고 있다. 아키텍처 설계는 이러한 품질 속성들을 어떻게 조화시킬 것인가에 대한 전략적 선택이다. 아키텍처가 부재한 시스템은 초기에는 빠르게 개발될 수 있으나, 규모가 커질수록 유지보수 비용이 기하급수적으로 늘어나는 '빅볼 오브 머드 (Big Ball of Mud)'가 된다.
+소프트웨어 개발에서 '기능'은 빙산의 일각에 불과하다. 수면 아래에는 성능, 보안, 확장성이라는 거대한 <strong>품질 속성</strong>들이 시스템을 지탱하고 있다. 아키텍처 설계는 이러한 품질 속성들을 어떻게 조화시킬 것인가에 대한 전략적 선택이다. 아키텍처가 부재한 시스템은 초기에는 빠르게 개발될 수 있으나, 규모가 커질수록 유지보수 비용이 기하급수적으로 늘어나는 '빅볼 오브 머드 (Big Ball of Mud)'가 된다.
 
-아키텍처 원칙이 필요한 이유는 세 가지이다. 첫째, **복잡성 제어**를 위해서이다. 시스템을 의미 있는 단위로 나누어 사람의 인지적 한계를 극복한다. 둘째, **품질 속성 보장**을 위해서이며, 셋째, 개발 팀원 간의 **원활한 소통과 기술적 합의**를 위한 표준 지도를 제공하기 위함이다.
+아키텍처 원칙이 필요한 이유는 세 가지이다. 첫째, <strong>복잡성 제어</strong>를 위해서이다. 시스템을 의미 있는 단위로 나누어 사람의 인지적 한계를 극복한다. 둘째, <strong>품질 속성 보장</strong>을 위해서이며, 셋째, 개발 팀원 간의 <strong>원활한 소통과 기술적 합의</strong>를 위한 표준 지도를 제공하기 위함이다.
 
 이 그림은 아키텍처가 해결해야 할 품질 속성들 간의 상호 제약 관계 (Trade-off)를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Architecture Quality Attributes Balance     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│             Performance (성능)                              │
-│                 /        \                                  │
-│                /          \                                 │
-│               /            \                                │
-│   Availability (가용성) --- Maintainability (유지보수성)     │
-│               \            /                                │
-│                \          /                                 │
-│                 \________/                                  │
-│                                                             │
-│   * Trade-off: 성능을 높이려 계층을 줄이면 유지보수성 하락  │
-│   * 핵심: 비즈니스 목적에 맞는 최적의 균형점 찾기          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '균형 (Balance)'이다. 모든 품질을 100% 만족하는 아키텍처는 존재하지 않는다. 실무에서는 비즈니스의 우선순위에 따라 가용성을 위해 성능을 일부 희생하거나, 보안을 위해 사용성을 양보하는 등의 **의사결정 프로세스 (ATAM 등)**가 아키텍트의 가장 큰 업무다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Architecture Quality Attributes Balance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Performance (성능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availability (가용성) --- Maintainability (유지보수성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Trade-off: 성능을 높이려 계층을 줄이면 유지보수성 하락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 비즈니스 목적에 맞는 최적의 균형점 찾기</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '균형 (Balance)'이다. 모든 품질을 100% 만족하는 아키텍처는 존재하지 않는다. 실무에서는 비즈니스의 우선순위에 따라 가용성을 위해 성능을 일부 희생하거나, 보안을 위해 사용성을 양보하는 등의 <strong>의사결정 프로세스 (ATAM 등)</strong>가 아키텍트의 가장 큰 업무다.
 
 ### 아키텍처의 4+1 뷰 (View) 모델
 
@@ -77,27 +71,24 @@ tags = ["design_supervision"]
 - **핵심**: 데이터베이스나 프레임워크는 외부 세부 사항일 뿐이며, 비즈니스 엔티티는 이들에 오염되지 않아야 한다.
 - **효과**: 인프라가 바뀌어도 핵심 로직은 수정 없이 그대로 유지되는 '극강의 테스트 용이성' 확보.
 
-이 구조도는 현대적 아키텍처의 정점인 **MSA (Microservices Architecture)**의 구성을 보여준다.
+이 구조도는 현대적 아키텍처의 정점인 <strong>MSA (Microservices Architecture)</strong>의 구성을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Microservices Architecture (MSA)            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Client ] ──▶ [ API Gateway ] ──▶ [ Service Discovery ]  │
-│                          │                                  │
-│          ┌───────────────┼───────────────┐                  │
-│          ▼               ▼               ▼                  │
-│   [ Order Svc ]   [ User Svc ]    [ Stock Svc ]             │
-│   (DB Order)      (DB User)       (DB Stock)                │
-│                                                             │
-│   * 특징: 서비스별 독립적인 DB와 배포 주기 (Decoupling)     │
-│   * 핵심: 네트워크를 통한 통신 오버헤드 관리가 필수         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '결합도의 파괴'이다. 서비스들이 서로의 내부 구현을 모른 채 API로만 대화하므로, 하나가 고장 나도 다른 서비스는 버틸 수 있는 **장애 격리 (Fault Isolation)**가 가능해진다. 실무에서는 이러한 분산 구조로 인해 발생하는 데이터 일관성 문제를 해결하기 위해 **Saga 패턴** 등이 활용된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microservices Architecture (MSA)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service Discovery</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Order Svc</div><div class="kb-diagram-node">User Svc</div><div class="kb-diagram-node">Stock Svc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DB Order) (DB User) (DB Stock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 서비스별 독립적인 DB와 배포 주기 (Decoupling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 네트워크를 통한 통신 오버헤드 관리가 필수</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '결합도의 파괴'이다. 서비스들이 서로의 내부 구현을 모른 채 API로만 대화하므로, 하나가 고장 나도 다른 서비스는 버틸 수 있는 <strong>장애 격리 (Fault Isolation)</strong>가 가능해진다. 실무에서는 이러한 분산 구조로 인해 발생하는 데이터 일관성 문제를 해결하기 위해 **Saga 패턴** 등이 활용된다.
 
 📢 **섹션 요약 비유**: 계층형 아키텍처가 '전문 분야별로 나뉜 회사 부서'라면, MSA는 '각자 독립해서 협력하는 작은 회사들의 연합체'와 같습니다.
 
@@ -130,30 +121,27 @@ tags = ["design_supervision"]
 ### 기술사적 판단: 시스템 현대화 및 아키텍처 선정 전략
 
 **시나리오 1: 빠른 출시가 생명인 스타트업의 초기 아키텍처**
-- **판단**: 처음부터 MSA를 도입하는 것은 오버엔지니어링이다. **Modular Monolith** 구조로 시작하여 서비스 간의 논리적 경계 (Bounded Context)를 명확히 하되, 물리적으로는 하나의 DB와 서버를 써서 개발 속도를 극대화한다. 트래픽이 임계치를 넘는 시점에 가장 부하가 큰 모듈부터 **Strangler Fig 패턴**을 적용하여 단계적으로 MSA로 전환하는 점진적 전략을 제안한다.
+- **판단**: 처음부터 MSA를 도입하는 것은 오버엔지니어링이다. **Modular Monolith** 구조로 시작하여 서비스 간의 논리적 경계 (Bounded Context)를 명확히 하되, 물리적으로는 하나의 DB와 서버를 써서 개발 속도를 극대화한다. 트래픽이 임계치를 넘는 시점에 가장 부하가 큰 모듈부터 <strong>Strangler Fig 패턴</strong>을 적용하여 단계적으로 MSA로 전환하는 점진적 전략을 제안한다.
 
 **시나리오 2: 금융 차세대 시스템의 고가용성 아키텍처 설계**
-- **판단**: 단일 장애점 (SPOF) 제거가 최우선이다. **Active-Active** 멀티 리전 배치를 기본으로 하고, 지역 간 데이터 동기화 지연을 고려하여 **Eventual Consistency** 모델을 수용한 부분과 **2PC**를 통한 강한 정합성 모델을 엄격히 구분한다. 장애 발생 시 자동으로 트래픽을 우회시키는 **Circuit Breaker**와 **Service Mesh** 도입을 통해 시스템의 '회복 탄력성'을 하드웨어 수준까지 강제한다.
+- **판단**: 단일 장애점 (SPOF) 제거가 최우선이다. **Active-Active** 멀티 리전 배치를 기본으로 하고, 지역 간 데이터 동기화 지연을 고려하여 **Eventual Consistency** 모델을 수용한 부분과 <strong>2PC</strong>를 통한 강한 정합성 모델을 엄격히 구분한다. 장애 발생 시 자동으로 트래픽을 우회시키는 <strong>Circuit Breaker</strong>와 **Service Mesh** 도입을 통해 시스템의 '회복 탄력성'을 하드웨어 수준까지 강제한다.
 
-이 도식은 아키텍처 품질 평가 기법인 **ATAM**의 진행 흐름을 보여준다.
+이 도식은 아키텍처 품질 평가 기법인 <strong>ATAM</strong>의 진행 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               ATAM (Arch. Trade-off Analysis Method)        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 1. Utility Tree ] : 품질 속성 시나리오 도출             │
-│          │                                                  │
-│   [ 2. Sensitivity Point ] : 특정 결정에 민감한 속성 식별   │
-│          │                                                  │
-│   [ 3. Trade-off Point ] : 속성 간 충돌 지점 분석           │
-│          │                                                  │
-│   [ 4. Risk / Non-Risk ] : 결정에 따른 위험 요소 판단       │
-│                                                             │
-│   * 기술사 역할: "이 아키텍처가 왜 최선인가?"를 데이터로 증명│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM (Arch. Trade-off Analysis Method)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Utility Tree</div><div class="kb-diagram-note">: 품질 속성 시나리오 도출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Sensitivity Point</div><div class="kb-diagram-note">: 특정 결정에 민감한 속성 식별</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Trade-off Point</div><div class="kb-diagram-note">: 속성 간 충돌 지점 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. Risk / Non-Risk</div><div class="kb-diagram-note">: 결정에 따른 위험 요소 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 역할: "이 아키텍처가 왜 최선인가?"를 데이터로 증명</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 아키텍처 판단은 '명의의 진단'과 같습니다. 환자의 현재 체력(팀 역량)과 병의 깊이(비즈니스 복잡도)를 보고, 수술(MSA)을 할지 약물 치료(모놀리스 개선)를 할지 결정하여 생존율(성공 확률)을 높이는 과정입니다.
 
@@ -168,7 +156,7 @@ tags = ["design_supervision"]
 
 ### 미래 전망: 플랫폼 엔지니어링과 AI 자율 아키텍처
 
-향후 아키텍처는 개발자가 인프라를 몰라도 설계 원칙이 자동으로 적용되는 **플랫폼 엔지니어링** 시대로 진화할 것이다. 또한 AI가 실시간 트래픽을 분석하여 아키텍처 토폴로지를 스스로 변경하는 **'Self-Adaptive Architecture'**가 표준이 될 것이다. 기술사는 개별 패턴의 암기를 넘어, 비즈니스의 복잡성을 추상화하고 기계와 인간이 협업하는 지능형 인프라의 '철학적 기획자'가 되어야 한다.
+향후 아키텍처는 개발자가 인프라를 몰라도 설계 원칙이 자동으로 적용되는 **플랫폼 엔지니어링** 시대로 진화할 것이다. 또한 AI가 실시간 트래픽을 분석하여 아키텍처 토폴로지를 스스로 변경하는 <strong>'Self-Adaptive Architecture'</strong>가 표준이 될 것이다. 기술사는 개별 패턴의 암기를 넘어, 비즈니스의 복잡성을 추상화하고 기계와 인간이 협업하는 지능형 인프라의 '철학적 기획자'가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 아키텍처는 '살아있는 생명체의 진화'와 같아질 것입니다. 주변 환경(시장 상황)에 맞춰 스스로 몸 구조를 바꾸고 강해지며, 인류의 디지털 문명을 가장 안전하고 빠르게 지탱하는 지능형 신경망이 완성될 것입니다.
 

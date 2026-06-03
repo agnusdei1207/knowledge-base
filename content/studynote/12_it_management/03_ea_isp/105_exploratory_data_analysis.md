@@ -37,22 +37,19 @@ EDA의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 | **이변량 분석 (Bivariate)** | 두 변수 간의 상호작용, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 뚜렷한 차이 탐색 | 산점도 (선형/비선형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)), 박스플롯 (그룹 간 수치 차이) | A가 증가할 때 B도 증가하는지, 집단별 차이 여부 |
 | **다변량 분석 (Multivariate)** | 세 개 이상의 변수 간 복합적/동시다발적 상호작용 | 상관행렬 히트맵 (Correlation Heatmap), 평행 좌표 플롯 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 간 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) 위험, 숨겨진 3차원 패턴 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             성공적인 탐색적 데이터 분석(EDA) 워크플로             │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 구조 파악: 행(Row)과 열(Column) 개수, 각 피처의 데이터 타입 점검  │
-│       │                                                      │
-│       ▼                                                      │
-│ 2. 품질 진단: 결측치(NaN), 중복 레코드, 이상치 여부를 Boxplot으로 시각화│
-│       │                                                      │
-│       ▼                                                      │
-│ 3. 단변량 탐색: 변수별 히스토그램을 그려 왜도(비대칭성) 및 정규성 관찰  │
-│       │                                                      │
-│       ▼                                                      │
-│ 4. 다변량 융합: 산점도와 상관행렬(Heatmap)을 통해 피처 간 독립성 도출 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공적인 탐색적 데이터 분석(EDA) 워크플로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 구조 파악: 행(Row)과 열(Column) 개수, 각 피처의 데이터 타입 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 품질 진단: 결측치(NaN), 중복 레코드, 이상치 여부를 Boxplot으로 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 단변량 탐색: 변수별 히스토그램을 그려 왜도(비대칭성) 및 정규성 관찰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 다변량 융합: 산점도와 상관행렬(Heatmap)을 통해 피처 간 독립성 도출</div></div>
+</div>
+</div>
+
+
 
 특히 히스토그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리가 긴 형태인지 종 모양인지를 단 1초 만에 직관적으로 보여주며, 상관행렬은 피어슨 상관계수를 통해 수십 개의 변수들이 서로를 얼마나 끈끈하게 끌어당기는지 수치( -1 ~ +1 )로 차갑게 입증해 내는 강력한 도구다.
 
@@ -82,8 +79,8 @@ EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_
 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인이나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트를 리딩할 때, EDA는 막연하게 예쁜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 코딩 작업이 아니라 리스크를 회피하는 중대한 의사결정의 연속이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **과잉 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) (Overplotting) 방지**: 산점도에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점이 수십만 개 겹쳐서 그냥 까만 덩어리로 보여 인사이트를 잃지 않았는가? (이 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 샘플링이나 헥스빈(Hexbin) 밀도 플롯, 투명도 조절로 회피해야 한다)
-2. **[다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 경고**: 타겟(정답) 변수가 아닌 독립 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들끼리 너무 강력한 상관관계(상관계수 0.9 이상)를 띄어 다중 회귀 모델의 회귀계수를 붕괴시킬 위험은 없는가?
+1. <strong>과잉 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Overplotting) 방지</strong>: 산점도에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점이 수십만 개 겹쳐서 그냥 까만 덩어리로 보여 인사이트를 잃지 않았는가? (이 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 샘플링이나 헥스빈(Hexbin) 밀도 플롯, 투명도 조절로 회피해야 한다)
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">다중 공선성</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>) 경고</strong>: 타겟(정답) 변수가 아닌 독립 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들끼리 너무 강력한 상관관계(상관계수 0.9 이상)를 띄어 다중 회귀 모델의 회귀계수를 붕괴시킬 위험은 없는가?
 3. **결측치 발생 기전의 비즈니스적 해석**: 비어있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))가 센서 고장 등으로 무작위(MCAR)로 발생했는지, 아니면 특정 비즈니스 상황(예: 신용불량자의 소득 미기재)에 의해 의도적으로 편향되게 빠졌는지 점검했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -107,28 +104,30 @@ EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **CDA (확인적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)** | EDA로 세운 가설과 직관이 통계적으로 유의미한지 최종적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 등)하는 후속 단계 |
-| **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))** | EDA에서 발견된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비선형성이나 극단적 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)를 교정하여, 모델이 학습하기 좋은 파생 변수를 창조하는 기술 |
+| <strong>CDA (확인적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석)</strong> | EDA로 세운 가설과 직관이 통계적으로 유의미한지 최종적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 등)하는 후속 단계 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature Engineering</a>)</strong> | EDA에서 발견된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비선형성이나 극단적 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)를 교정하여, 모델이 학습하기 좋은 파생 변수를 창조하는 기술 |
 | **상관행렬 (Correlation Matrix)** | 다변량 분석에서 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들 간 선형 관계의 강도를 한눈에 파악할 수 있도록 히트맵 색상과 수치로 보여주는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
-| **[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))** | Boxplot(IQR 기반) 등을 통해 EDA에서 목격된 비정상적인 튀는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적으로 분리하고 격리하는 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a> (<a href="/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>)</strong> | Boxplot(IQR 기반) 등을 통해 EDA에서 목격된 비정상적인 튀는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적으로 분리하고 격리하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 기술 통계 요약 (평균, 분산 중심의 숫자 요약, 앤스콤의 콰르텟 한계 노출)
-    │
-    ▼
-Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공식적 데이터 탐색 도입)
-    │
-    ▼
-대화형/동적 시각화 도구의 비약적 발전 (Tableau, Seaborn, Plotly를 통한 직관적 탐색)
-    │
-    ▼
-자동화 EDA 생태계의 대중화 (Pandas Profiling, Sweetviz 등 템플릿 기반 리포팅 자동화)
-    │
-    ▼
-분산/AI 결합형 차세대 EDA (Spark 분산 환경의 대용량 처리 및 LLM 결합형 지능적 데이터 해석)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 기술 통계 요약 (평균, 분산 중심의 숫자 요약, 앤스콤의 콰르텟 한계 노출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공식적 데이터 탐색 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대화형/동적 시각화 도구의 비약적 발전 (Tableau, Seaborn, Plotly를 통한 직관적 탐색)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동화 EDA 생태계의 대중화 (Pandas Profiling, Sweetviz 등 템플릿 기반 리포팅 자동화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산/AI 결합형 차세대 EDA (Spark 분산 환경의 대용량 처리 및 LLM 결합형 지능적 데이터 해석)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

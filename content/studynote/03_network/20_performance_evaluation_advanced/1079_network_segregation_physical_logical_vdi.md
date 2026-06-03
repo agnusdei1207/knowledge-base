@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 외부 해커의 침입과 내부 정보(고객 정보)의 유출을 원천 차단하기 위해, 직원이 바깥세상 유튜브나 웹서핑을 하는 **'인터넷망'**과, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 **'업무망(내부망)'**을 아예 두 세계로 갈라놓아 네트워크 통신이 서로 넘어가지 못하게 막는 극강의 에어갭(Air-Gap) 보안 아키텍처입니다.
+- **개념**: 외부 해커의 침입과 내부 정보(고객 정보)의 유출을 원천 차단하기 위해, 직원이 바깥세상 유튜브나 웹서핑을 하는 <strong>'인터넷망'</strong>과, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 <strong>'업무망(내부망)'</strong>을 아예 두 세계로 갈라놓아 네트워크 통신이 서로 넘어가지 못하게 막는 극강의 에어갭(Air-Gap) 보안 아키텍처입니다.
 - **배경**: 해커는 악성 메일(인터넷)로 직원의 PC를 감염시키고, 그 PC를 숙주 삼아 연결된 DB 서버(업무망)를 다 털어갑니다. 이걸 막으려면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 자체를 2개로 쪼개야 했습니다. 한국 공공기관, 금융, 방위산업체의 필수 법적 의무 사항입니다.
 
-```text
-[클라우스 보안 워크로드 CWPP 통제망]
-    │
-    ▼
-[망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    └──▶ [네트워크 포렌식 패킷 덤프 파싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,7 +44,7 @@ tags = ["studynote-network"]
 책상에 컴퓨터를 몇 대 둘 것인가의 싸움입니다.
 
 ### 1. 물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) (Physical Segregation) - "가장 무식하고 완벽한 철벽"
-- **개념**: 직원 1명의 책상 위에 **진짜 컴퓨터 본체([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 2대 놔둡니다.**
+- **개념**: 직원 1명의 책상 위에 <strong>진짜 컴퓨터 본체(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)를 2대 놔둡니다.</strong>
   - 1번 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): 랜선이 KT 인터넷망에 연결됨 (유튜브, 카톡, 구글 검색 전용)
   - 2번 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/): 랜선이 회사 지하 서버실 전용 스위치에만 꽂힘 (결재, 고객 정보 엑셀 전용)
 - **장점**: 1번 PC가 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에 감염돼서 불타버려도, 2번 PC와는 랜선 구리선 자체가 아예 물리적으로 끊어져 있으니 해커가 절대 넘어올 수 없습니다([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 우주 최강).
@@ -49,22 +53,26 @@ tags = ["studynote-network"]
 ### 2. 논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) (Logical Segregation) - "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) VDI의 마법" 🌟
 하드웨어 비용에 빡친 기업들이 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(OS) 기술로 꼼수를 씁니다. 책상엔 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대만 둡니다.
 
-- **서버 기반 논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) (SBC, [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 방식)** 🌟 대세 🌟
+- <strong>서버 기반 논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (SBC, <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 방식)</strong> 🌟 대세 🌟
   - 책상 위 PC는 '업무망(기밀)' 전용으로 씁니다.
-  - 직원이 유튜브나 웹서핑을 하고 싶으면? 책상 PC에 깔린 **[VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 클라이언트 프로그램**을 더블 클릭합니다.
-  - 그러면 회사 지하 전산실에 있는 엄청나게 비싸고 거대한 **서버(인터넷이 연결된 가상 머신)의 윈도우 바탕화면이 내 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 '동영상 스트리밍'처럼 뜹니다.** 
+  - 직원이 유튜브나 웹서핑을 하고 싶으면? 책상 PC에 깔린 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 클라이언트 프로그램</strong>을 더블 클릭합니다.
+  - 그러면 회사 지하 전산실에 있는 엄청나게 비싸고 거대한 <strong>서버(인터넷이 연결된 가상 머신)의 윈도우 바탕화면이 내 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>에 '동영상 스트리밍'처럼 뜹니다.</strong> 
   - 내가 구글에서 파일을 다운받으면, 내 책상 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하드디스크에 깔리는 게 아니라 전산실 서버 컴퓨터 하드에 깔립니다. 내 책상 PC에는 오직 '[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 픽셀 화면(영상)'만 날아옵니다. 해커의 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 아무리 날뛰어도 전산실 가상 머신 안에서만 놀다 죽고, 내 책상 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(업무망)로는 화면 픽셀만 넘어올 뿐 코드가 넘어올 수 없어 완벽하게 논리적으로 격리됩니다. (비용은 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 라이선스 땜에 여전히 비쌈)
-- **[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기반 논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) ([CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 방식)**
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 기반 논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a> 방식)</strong>
   - 서버를 안 사고, 책상 위 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대에 'VMware'를 깔아 윈도우 안에 윈도우(가상 머신)를 띄웁니다. 하나는 업무, 하나는 인터넷. (보안이 물렁해서 잘 안 씁니다.)
 
-```text
-[클라우스 보안 워크로드 CWPP 통제망]
-    │
-    ▼
-[망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    └──▶ [네트워크 포렌식 패킷 덤프 파싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +81,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 망을 완벽히 잘라놨더니 업무가 아예 마비됐습니다. 거래처에서 외부 인터넷(메일)으로 HWP 제안서를 보냈는데, 내 책상 위 업무망 PC로 파일을 옮길 방법([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 금지)이 없습니다.
-- **해결책**: 두 단절된 망 사이에 **'망연계 스토리지(공유 폴더 서버)'**를 딱 1개 뚫어줍니다. 
+- **해결책**: 두 단절된 망 사이에 <strong>'망연계 스토리지(공유 폴더 서버)'</strong>를 딱 1개 뚫어줍니다. 
 - 직원이 인터넷망에서 파일을 망연계 서버에 올리면, 망연계 솔루션이 그 파일을 10분 동안 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 샌드박스)로 미친 듯이 까보고 소독한 뒤, 100% 안전하면 업무망 폴더로 톡 떨어뜨려 줍니다.
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망이 기반 조건을 만든다면, [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델은 그 위에서 핵심 메커니즘을 구현하고, [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **문제**: 무식하게 잘라놓은 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 때문에, 공무원들은 집에 가서 줌(Zoom) 회의를 하거나, 챗GPT([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)) API를 회사 서버에 연동해 쓸 수가 없어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술 갈라파고스 섬에 갇혀버렸습니다.
-- **진화**: 최근 정부는 획일적인 물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)를 버리고, 클라우드를 품기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1043번 **[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/))와 다층적 등급제([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도별 쪼개기)** 모델로 통제하는 '논리적 클라우드 보안망'으로 대전환(규제 혁신)을 시도하고 있습니다.
+- **진화**: 최근 정부는 획일적인 물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)를 버리고, 클라우드를 품기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1043번 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a>)와 다층적 등급제(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민감도별 쪼개기)</strong> 모델로 통제하는 '논리적 클라우드 보안망'으로 대전환(규제 혁신)을 시도하고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -99,7 +107,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 네트워크망은 집(회사망)과 바깥 거리(인터넷)가 **'창문이 활짝 열려있는 환기 잘 되는 아파트'**였습니다. 바깥 공기(유익한 정보)도 잘 들어오지만, 지나가던 도둑(해커)이나 독가스([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))도 쑥쑥 다 들어왔습니다. **물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)**는 정부가 빡쳐서 **'아파트 창문과 현관문을 통벽돌로 100% 발라버려 봉쇄한 무식한 짓'**입니다. 도둑은 절대 못 들어오지만(보안 100%), 안에 있는 사람은 바깥 날씨도 못 보고 숨이 막혀 죽어갑니다(업무 비효율 폭발). 그래서 나온 타협안이 **논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/))**입니다. 통벽돌은 그대로 둔 채, 방 한가운데에 **'밖의 거리를 실시간으로 비춰주는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 화면([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 픽셀 스트리밍)'**을 달아준 것입니다. 안에 있는 직원은 화면을 통해 바깥세상 유튜브도 보고 구글 검색(인터넷)도 마음껏 할 수 있습니다. 밖에서 독가스 폭탄이 터져도 방 안으로는 오직 화면 불빛 픽셀(영상)만 들어올 뿐 공기([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 코드)가 넘어올 구멍이 원천 차단되어 있으므로, 털끝 하나 다치지 않고 내부 기밀을 지켜내는 소프트웨어 에어갭(격리) 마법입니다.
+- **📢 섹션 요약 비유**: 기존 네트워크망은 집(회사망)과 바깥 거리(인터넷)가 <strong>'창문이 활짝 열려있는 환기 잘 되는 아파트'</strong>였습니다. 바깥 공기(유익한 정보)도 잘 들어오지만, 지나가던 도둑(해커)이나 독가스([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))도 쑥쑥 다 들어왔습니다. <strong>물리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a></strong>는 정부가 빡쳐서 <strong>'아파트 창문과 현관문을 통벽돌로 100% 발라버려 봉쇄한 무식한 짓'</strong>입니다. 도둑은 절대 못 들어오지만(보안 100%), 안에 있는 사람은 바깥 날씨도 못 보고 숨이 막혀 죽어갑니다(업무 비효율 폭발). 그래서 나온 타협안이 <strong>논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a>(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a>)</strong>입니다. 통벽돌은 그대로 둔 채, 방 한가운데에 <strong>'밖의 거리를 실시간으로 비춰주는 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 화면(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 픽셀 스트리밍)'</strong>을 달아준 것입니다. 안에 있는 직원은 화면을 통해 바깥세상 유튜브도 보고 구글 검색(인터넷)도 마음껏 할 수 있습니다. 밖에서 독가스 폭탄이 터져도 방 안으로는 오직 화면 불빛 픽셀(영상)만 들어올 뿐 공기([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 코드)가 넘어올 구멍이 원천 차단되어 있으므로, 털끝 하나 다치지 않고 내부 기밀을 지켜내는 소프트웨어 에어갭(격리) 마법입니다.
 
 ---
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클라우스 보안 워크로드 CWPP 통제망]
-    │
-    ▼
-[현재 개념: 망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    ├──▶ [확장 A: 네트워크 포렌식 패킷 덤프 파싱]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우스 보안 워크로드 CWPP 통제망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델는 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

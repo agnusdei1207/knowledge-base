@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 아마존의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 채용 시스템이 여성 지원자를 차별했다(2018년 폐기). 얼굴 인식 AI가 특정 인종의 얼굴에서 오류율이 높다. 신용 평가 AI가 흑인 대출 신청자를 백인보다 높은 금리로 평가한다. 의료 진단 AI가 여성 심장병을 남성보다 낮게 진단한다.
 
-이 모든 사례의 공통점은 **AI가 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 내재된 사회적 편향을 흡수하거나 증폭시킨다**는 것이다. AI가 단순 도구가 아닌 의사결정 주체로 부상하는 시대에, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리는 사회 정의의 문제가 됐다.
+이 모든 사례의 공통점은 <strong>AI가 학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 내재된 사회적 편향을 흡수하거나 증폭시킨다</strong>는 것이다. AI가 단순 도구가 아닌 의사결정 주체로 부상하는 시대에, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리는 사회 정의의 문제가 됐다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향은 AI가 사회의 거울이 되는 문제다. 왜곡된 거울(편향된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 현실을 왜곡해서 보여준다. 그러나 거울과 달리 AI는 수백만 명의 의사결정에 영향을 미치므로, 거울 왜곡이 사회적 불평등을 구조화하고 증폭시키는 결과를 낳는다.
 
@@ -38,35 +41,32 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         AI 윤리 핵심 원칙 및 실천 체계                               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  1. 공정성 (Fairness):                                            │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ 인구통계학적 동등 (Demographic Parity): 그룹 간 합격률 동등  │    │
-│  │ 기회 균등 (Equal Opportunity): 그룹 간 True Positive율 동등 │    │
-│  │ 보정 (Calibration): 예측 확률이 실제 결과와 일치            │    │
-│  │ ※ 세 가지 공정성을 동시에 만족하는 것은 수학적으로 불가능!    │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  2. 투명성 (Transparency):                                        │
-│  - XAI(LIME, SHAP)로 설명 제공                                   │
-│  - 알고리즘 감사(Algorithm Audit) 의무화                           │
-│  - 데이터 출처·훈련 방법 공개 (모델 카드, 데이터시트)               │
-│                                                                  │
-│  3. 책임성 (Accountability):                                      │
-│  - AI 결정에 의한 피해 구제 메커니즘                               │
-│  - Human-in-the-Loop 의무화 (고위험 AI)                          │
-│  - 알고리즘 영향 평가(AIA, Algorithmic Impact Assessment)         │
-│                                                                  │
-│  4. 프라이버시 (Privacy):                                          │
-│  - GDPR/PIPA 준수 (학습 데이터 동의·목적 제한)                    │
-│  - 연합 학습·차등 프라이버시로 프라이버시 보존 학습                 │
-│  - 잊혀질 권리(Right to Erasure): 학습 데이터 삭제 요청 대응       │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 윤리 핵심 원칙 및 실천 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 공정성 (Fairness):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인구통계학적 동등 (Demographic Parity): 그룹 간 합격률 동등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기회 균등 (Equal Opportunity): 그룹 간 True Positive율 동등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보정 (Calibration): 예측 확률이 실제 결과와 일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 세 가지 공정성을 동시에 만족하는 것은 수학적으로 불가능!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 투명성 (Transparency):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- XAI(LIME, SHAP)로 설명 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 알고리즘 감사(Algorithm Audit) 의무화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 출처·훈련 방법 공개 (모델 카드, 데이터시트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 책임성 (Accountability):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AI 결정에 의한 피해 구제 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Human-in-the-Loop 의무화 (고위험 AI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 알고리즘 영향 평가(AIA, Algorithmic Impact Assessment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 프라이버시 (Privacy):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GDPR/PIPA 준수 (학습 데이터 동의·목적 제한)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 연합 학습·차등 프라이버시로 프라이버시 보존 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잊혀질 권리(Right to Erasure): 학습 데이터 삭제 요청 대응</div></div>
+</div>
+</div>
+
+
 
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리 원칙 | 기술적 구현 | 조직적 구현 |
 |:---|:---|:---|
@@ -82,9 +82,9 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 위험 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계**:
-- **금지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**: 사회 신용 시스템, 서브리미널 조작, 취약 계층 착취 → 전면 금지
-- **고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**: 의료, 채용, 신용평가, 사법, 국경 통제 → 엄격한 투명성·감독 요구
+<strong>EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act 위험 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계</strong>:
+- <strong>금지 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 사회 신용 시스템, 서브리미널 조작, 취약 계층 착취 → 전면 금지
+- <strong>고위험 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>: 의료, 채용, 신용평가, 사법, 국경 통제 → 엄격한 투명성·감독 요구
 - **제한 위험**: 챗봇, [딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/) → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 콘텐츠 표시 의무
 - **최소 위험**: 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 스팸 필터 → 자율 규제
 
@@ -100,13 +100,13 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향 제거 실무 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 편향 제거 실무 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>:
 1. **사전 처리(Pre-processing)**: 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 인구통계학적 균형 확보, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징 관련 편향 탐지
 2. **학습 중(In-processing)**: 공정성 제약을 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 추가, 재가중치(Re-weighting)
 3. **사후 처리(Post-processing)**: 예측 임계값을 그룹별로 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 보정([Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/))
-4. **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링(Ongoing)**: 프로덕션에서 그룹별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지속 추적
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링(Ongoing)</strong>: 프로덕션에서 그룹별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지속 추적
 
-**모델 카드 ([Model Card](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/))**: Google이 제안한 표준 모델 문서화 형식. 모델의 목적, 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 결과, 의도된 사용/비사용 사례, 편향성 평가, 윤리적 고려사항 등을 투명하게 공개. HuggingFace에서 모든 모델에 [Model Card](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/) 작성을 권장한다.
+<strong>모델 카드 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/">Model Card</a>)</strong>: Google이 제안한 표준 모델 문서화 형식. 모델의 목적, 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 결과, 의도된 사용/비사용 사례, 편향성 평가, 윤리적 고려사항 등을 투명하게 공개. HuggingFace에서 모든 모델에 [Model Card](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/) 작성을 권장한다.
 
 - **📢 섹션 요약 비유**: 모델 카드는 식품 영양성분표다. "이 라면에는 나트륨 800mg이 들어있습니다"처럼, 모델 카드는 "이 채용 AI는 여성 지원자에 대한 [편향 지수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)가 0.12입니다"라고 공개한다. 소비자([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도입 기업)가 편향 수준을 알고 구매 결정을 내릴 수 있게 된다.
 
@@ -138,9 +138,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리**는 AI가 **공정하고, 설명 가능하고, 안전하게** 작동하도록 만드는 원칙이에요 — AI가 특정 성별·인종을 차별하면 안 된다는 것도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리예요!
-2. **편향 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 배운 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**는 편향된 판단을 내려서, 여성 이력서를 남성보다 낮게 평가하거나 특정 인종 얼굴을 잘 못 인식하는 문제가 생겨요.
-3. EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 같은 법이 생겨서 **의료·채용·금융 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**는 반드시 공정성과 설명 가능성을 갖춰야 법적으로 허가를 받을 수 있어요!
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 윤리</strong>는 AI가 **공정하고, 설명 가능하고, 안전하게** 작동하도록 만드는 원칙이에요 — AI가 특정 성별·인종을 차별하면 안 된다는 것도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리예요!
+2. <strong>편향 있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 배운 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>는 편향된 판단을 내려서, 여성 이력서를 남성보다 낮게 평가하거나 특정 인종 얼굴을 잘 못 인식하는 문제가 생겨요.
+3. EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 같은 법이 생겨서 <strong>의료·채용·금융 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>는 반드시 공정성과 설명 가능성을 갖춰야 법적으로 허가를 받을 수 있어요!
 
 ---
 

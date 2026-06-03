@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SRS(Software Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))는 요구공학 프로세스의 최종 산출물로, 시스템이 '무엇(What)'을 해야 하는지를 기능적/비기능적 요구사항, 다이어그램, 제약 조건으로 꼼꼼히 박제해 둔 소프트웨어 개발의 헌법이자 기준 도면이다.
 > 2. **가치**: 고객에게는 "내가 원하는 시스템이 맞다"는 승인(Sign-off)을 받는 계약서 역할을 하며, 개발자에게는 코딩의 명세서로, 테스터(QA)에게는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Bug) 여부를 판단하는 채점 기준으로 작용하여 프로젝트의 파국을 막아낸다.
-> 3. **판단 포인트**: 작성 시 IEEE 830 글로벌 표준 목차를 따르되, 자연어의 모호함을 통제하기 위해 UML이나 의사결정표 같은 반정형 명세 기법과 **[요구사항 추적성 매트릭스](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))**를 융합하여 변경 관리에 완벽히 대비하는 것이 핵심 아키텍처 역량이다.
+> 3. **판단 포인트**: 작성 시 IEEE 830 글로벌 표준 목차를 따르되, 자연어의 모호함을 통제하기 위해 UML이나 의사결정표 같은 반정형 명세 기법과 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/">요구사항 추적성 매트릭스</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>)</strong>를 융합하여 변경 관리에 완벽히 대비하는 것이 핵심 아키텍처 역량이다.
 
 ---
 
@@ -30,27 +30,24 @@ tags = ["studynote-software-engineering"]
 
 SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고객(비즈니스), 개발자(구현), 테스터(품질)라는 서로 다른 직군이 유일하게 해석을 일치시켜야 하는 '단일 진실의 원천(SSOT)'이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          SRS가 프로젝트 전 생명주기(SDLC)에 미치는 파급력              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│                 [ 📜 소프트웨어 요구사항 명세서 (SRS) ]              │
-│                         │                                   │
-│    ┌────────────────────┼────────────────────┐              │
-│    ▼                    ▼                    ▼              │
-│ [ 고객 / 현업 ]       [ 설계자 / 개발자 ]        [ QA 테스터 ]     │
-│                                                             │
-│ "이 문서대로 만들어       "이 문서의 명세대로       "이 문서에 적힌 대로  │
-│  주시면 돈 드릴게요."     DB 스키마를 짜고         작동 안 하면 전부 다  │
-│ (계약 및 인수 기준)       코딩(구현)하겠습니다."     버그(Defect)입니다."│
-│                                                             │
-│ 💥 만약 SRS가 엉터리라면?                                        │
-│ ➔ 고객은 "내가 원한 게 아냐!" 라며 시스템 인수를 거부함.                 │
-│ ➔ 개발자는 상상력을 동원해 엉뚱한 코드를 짬. (Rework 지옥 발생)          │
-│ ➔ 테스터는 이게 버그인지 원래 그런 기능인지 채점할 기준이 없어 싸움만 남.    │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRS가 프로젝트 전 생명주기(SDLC)에 미치는 파급력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">📜 소프트웨어 요구사항 명세서 (SRS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객 / 현업</div><div class="kb-diagram-node">설계자 / 개발자</div><div class="kb-diagram-node">QA 테스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 문서대로 만들어 "이 문서의 명세대로 "이 문서에 적힌 대로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주시면 돈 드릴게요." DB 스키마를 짜고 작동 안 하면 전부 다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계약 및 인수 기준) 코딩(구현)하겠습니다." 버그(Defect)입니다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 만약 SRS가 엉터리라면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 고객은 "내가 원한 게 아냐!" 라며 시스템 인수를 거부함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 개발자는 상상력을 동원해 엉뚱한 코드를 짬. (Rework 지옥 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 테스터는 이게 버그인지 원래 그런 기능인지 채점할 기준이 없어 싸움만 남.</div></div>
+</div>
+</div>
+
+
 
 잘 쓰인 SRS는 IEEE 830 표준의 6대 품질 조건([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), 명확성, 완전성, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 추적 가능성)을 100% 충족해야 한다. 특히 1개의 문장은 무조건 1가지 뜻으로만 해석되는 '명확성(Unambiguous)'과, 테스터가 O/X로 채점할 수 있는 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성(Verifiable)' 수치화가 가장 중요한 뼈대다.
 
@@ -64,7 +61,7 @@ SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고�
 
 | 비교 항목 | 기능적 요구사항 (Functional Req.) | 비기능적 요구사항 (Non-Functional Req.) |
 | :--- | :--- | :--- |
-| **정의** | 시스템이 **무엇(What)**을 하는가? | 시스템이 그 기능을 **어떻게(How well)** 수행하는가? |
+| **정의** | 시스템이 <strong>무엇(What)</strong>을 하는가? | 시스템이 그 기능을 **어떻게(How well)** 수행하는가? |
 | **도출 주체** | 현업 부서, 비즈니스 기획자 | **시스템 아키텍트**, 보안팀, 인프라팀 |
 | **주요 예시** | 장바구니 담기, 이메일 발송, 결제 취소 기능 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(응답 1초), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(99.9%), 보안(암호화), [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) |
 | **명세 실패 시**| 고객이 "이 기능 없네?" 하고 바로 알아채고 항의 | 블랙프라이데이 피크 타임 때 서버가 뻗어버리고 뉴스에 나옴 |
@@ -80,10 +77,10 @@ SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고�
 요구사항 명세서의 완성은 '문서를 썼다'로 끝나지 않고, 그 텍스트가 프로젝트 전체의 추적망([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))으로 살아 숨 쉬어야 한다.
 
 ### 실무 판단 시나리오
-1. **모호성(Ambiguity)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 불가 텍스트의 척살**: 기획자가 `REQ-005: 검색 결과는 사용자가 기다리지 않도록 신속하게 표출되어야 한다`라고 적어왔다. 
+1. <strong>모호성(Ambiguity)과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 불가 텍스트의 척살</strong>: 기획자가 `REQ-005: 검색 결과는 사용자가 기다리지 않도록 신속하게 표출되어야 한다`라고 적어왔다. 
    - **판단**: 전형적인 IEEE 830 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성' 위배다. 형용사나 부사('신속하게', '친화적으로')는 명세서의 암 덩어리다. 아키텍트는 이를 `REQ-005: 10만 건 데이터 검색 시, 95%의 요청에 대해 2.0초 이내에 응답해야 한다`라는 계량화되고 QA 툴(JMeter)로 증명할 수 있는 차가운 수치 문장으로 도려내 고쳐야 한다.
-2. **[요구사항 추적성 매트릭스](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)) 융합 방어막**: 시스템 오픈 한 달 전, 고객이 "법이 바뀌어 결제 로직을 다 바꿔달라"고 변심(Change Request)을 날렸다.
-   - **판단**: SRS가 단순히 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 파일로 흩날리고 있다면 개발팀은 코드를 뒤지다 멘붕에 빠진다. 훌륭한 아키텍트는 요구사항마다 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(`REQ-01`)를 달고, 이것이 엑셀이나 Jira를 통해 `Payment.java(소스코드)`, `TB_PAY(DB)`, `TC-101(테스트케이스)`로 1:1 매핑된 **요구사항 추적표([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))**를 쥐고 있다. RTM을 돌려 파급 효과(Ripple Effect)를 1초 만에 뽑아내고 "이거 고치면 일정 한 달 밀린다"고 방어하는 것이 진정한 통제다.
+2. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/">요구사항 추적성 매트릭스</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>) 융합 방어막</strong>: 시스템 오픈 한 달 전, 고객이 "법이 바뀌어 결제 로직을 다 바꿔달라"고 변심(Change Request)을 날렸다.
+   - **판단**: SRS가 단순히 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 파일로 흩날리고 있다면 개발팀은 코드를 뒤지다 멘붕에 빠진다. 훌륭한 아키텍트는 요구사항마다 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(`REQ-01`)를 달고, 이것이 엑셀이나 Jira를 통해 `Payment.java(소스코드)`, `TB_PAY(DB)`, `TC-101(테스트케이스)`로 1:1 매핑된 <strong>요구사항 추적표(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>)</strong>를 쥐고 있다. RTM을 돌려 파급 효과(Ripple Effect)를 1초 만에 뽑아내고 "이거 고치면 일정 한 달 밀린다"고 방어하는 것이 진정한 통제다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **구현 방식(How)의 하드코딩 침범 오지랖**: 기획자가 SRS에 "메인 화면은 가로 스와이프가 되는 캐러셀 위젯을 쓰고, 백엔드는 Spring Boot와 Redis를 써라"라고 기술 스택을 박아버리는 짓. SRS는 "고객 맞춤형 상품 5개를 1초 이내에 추천한다(What)"까지만 적어야 한다. 기술과 구조는 아키텍트와 디자이너가 결정할 몫(How)이다. 요구사항 단계에서 억지로 기술을 제약하면 더 좋은 아키텍처 도입 기회를 파괴하게 된다.
@@ -107,32 +104,34 @@ SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **IEEE 830 표준** | 전 세계가 합의한 "요구사항 명세서 목차는 이렇게 잡고, 6가지 품질 기준을 지켜서 써라"라는 공인 프레임워크 헌법. |
-| **[요구사항 추적성 매트릭스](/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/) ([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))** | 명세서 1번 줄이 설계 도면, 소스 코드, 테스트 케이스의 어느 줄로 번역되어 들어갔는지 거미줄처럼 엮어놓은 역추적/파급효과 분석의 꽃. |
-| **기능 vs [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)** | SRS의 2대 축. 비즈니스 로직(기능)과 그 로직이 돌아가는 속도, 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 제약(비기능) 간의 예산 트레이드오프 합의점. |
-| **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** | 고객이 SRS 문서를 읽어보고 "이대로 만들면 인수해 줄게"라고 서명(Sign-off)하여 꽝 도장이 찍히는 순간. 이다음부터 요구사항을 바꾸려면 정식 결재 통제를 거쳐야 함. |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/043_requirements_traceability_matrix/">요구사항 추적성 매트릭스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>)</strong> | 명세서 1번 줄이 설계 도면, 소스 코드, 테스트 케이스의 어느 줄로 번역되어 들어갔는지 거미줄처럼 엮어놓은 역추적/파급효과 분석의 꽃. |
+| <strong>기능 vs <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">비기능 요구사항</a></strong> | SRS의 2대 축. 비즈니스 로직(기능)과 그 로직이 돌아가는 속도, 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 제약(비기능) 간의 예산 트레이드오프 합의점. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a>)</strong> | 고객이 SRS 문서를 읽어보고 "이대로 만들면 인수해 줄게"라고 서명(Sign-off)하여 꽝 도장이 찍히는 순간. 이다음부터 요구사항을 바꾸려면 정식 결재 통제를 거쳐야 함. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정형 명세 (자연어 산문) / 고객과 대화로만 요구사항 전달 ➔ 모호성 랙 발생 및 개발자 오해 폭발 💥
-    │
-    ▼
-IEEE 830 기반의 엄격한 SRS 문서 정립 / 폭포수 모델의 대관식, 정확한 목차와 검증 가능한 6대 원칙 강제 적용
-    │
-    ▼
-반정형 명세 융합 (UML, Use Case) / 텍스트의 한계를 그림과 다이어그램으로 보완하여 명확성 극대화
-    │
-    ▼
-요구사항 추적성 매트릭스 (RTM) / 잦은 변경 요구에 맞서 시스템 파급 효과를 1초 만에 추적하는 방어막 구축
-    │
-    ▼
-애자일(Agile) 시대 도래 및 실행 가능한 명세 (BDD) / 무거운 책자 대신 User Story로 쪼개고, 명세서 텍스트가 곧바로 자동화 테스트 코드로 실행되는 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정형 명세 (자연어 산문) / 고객과 대화로만 요구사항 전달 ➔ 모호성 랙 발생 및 개발자 오해 폭발 💥</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IEEE 830 기반의 엄격한 SRS 문서 정립 / 폭포수 모델의 대관식, 정확한 목차와 검증 가능한 6대 원칙 강제 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반정형 명세 융합 (UML, Use Case) / 텍스트의 한계를 그림과 다이어그램으로 보완하여 명확성 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항 추적성 매트릭스 (RTM) / 잦은 변경 요구에 맞서 시스템 파급 효과를 1초 만에 추적하는 방어막 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일(Agile) 시대 도래 및 실행 가능한 명세 (BDD) / 무거운 책자 대신 User Story로 쪼개고, 명세서 텍스트가 곧바로 자동화 테스트 코드로 실행되는 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들과 놀이터 아지트를 만들기로 했는데, 서로 생각하는 모양이 다르면 나중에 큰 싸움이 나겠죠?
-2. **요구사항 명세서(SRS)**는 삽을 들기 전에 다 같이 모여서 "창문은 2개, 지붕은 빨간색, 튼튼해서 비가 새면 안 됨"이라고 꼼꼼하게 적어놓은 **'비밀 아지트 건축 계약서'**예요!
+2. <strong>요구사항 명세서(SRS)</strong>는 삽을 들기 전에 다 같이 모여서 "창문은 2개, 지붕은 빨간색, 튼튼해서 비가 새면 안 됨"이라고 꼼꼼하게 적어놓은 <strong>'비밀 아지트 건축 계약서'</strong>예요!
 3. 이 계약서가 완벽하면 벽돌을 쌓는 사람(개발자)도, 지붕이 잘 덮였나 검사하는 사람(테스터)도 싸우지 않고 똑같은 아지트를 뚝딱 만들어 낼 수 있답니다!
 
 ---

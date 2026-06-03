@@ -27,15 +27,20 @@ tags = ["cloud_architecture"]
 
 다음은 기존의 서버/클라이언트 개발 방식과 BaaS를 도입한 프론트엔드 중심 개발 방식의 효율성 차이를 보여주는 비교도이다.
 
-```text
-[전통적인 서버-클라이언트 개발 병목]
-(프론트) UI/UX 개발 ──(대기)──> (백엔드) API 스펙 정의 → DB 설계 → 인증 로직 구현 → 인프라(VM) 배포
-                          ▲ 양측의 API 연동 및 백엔드 인프라 구축에 전체 개발 시간의 60% 소모
 
-[BaaS 기반의 고속 개발 흐름]
-(프론트/앱 개발자) UI/UX 개발 ──(BaaS SDK 직접 호출)──> [Firebase / Supabase API]
-                          ▲ 백엔드 전담 인력 없이, 클라이언트 코드 내에서 DB 쓰기/인증 100% 처리
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 서버-클라이언트 개발 병목</div></div>
+<div class="kb-diagram-note">(프론트) UI/UX 개발 ──(대기)──&gt; (백엔드) API 스펙 정의 → DB 설계 → 인증 로직 구현 → 인프라(VM) 배포</div>
+<div class="kb-diagram-note">▲ 양측의 API 연동 및 백엔드 인프라 구축에 전체 개발 시간의 60% 소모</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BaaS 기반의 고속 개발 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(프론트/앱 개발자) UI/UX 개발 ──(BaaS SDK 직접 호출)──&gt;</div><div class="kb-diagram-node">Firebase / Supabase API</div></div>
+<div class="kb-diagram-note">▲ 백엔드 전담 인력 없이, 클라이언트 코드 내에서 DB 쓰기/인증 100% 처리</div>
+</div>
+</div>
+
+
 
 이 흐름도의 핵심은 개발 아키텍처의 중심축이 서버에서 클라이언트(브라우저/앱)로 완전히 이동했다는 점이다. 프론트엔드 개발자는 복잡한 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 통하지 않고, BaaS가 제공하는 클라이언트용 SDK를 이용해 직접 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날리고(예: Firestore [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구독), 소셜 로그인 팝업을 즉시 띄울 수 있다. 따라서 서버 개발자와의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 커뮤니케이션 오버헤드가 사라지고, 아이디어를 시장에 내놓는 Time-to-Market 속도가 타의 추종을 불허하게 빨라진다.
 
@@ -47,42 +52,37 @@ tags = ["cloud_architecture"]
 
 | [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 핵심 기능 | 역할 | 내부 동작 방식 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))** | 사용자 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) | OAuth 2.0 (구글/애플 로그인 연동), [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 발급/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 SDK가 대행 | 클럽의 만능 프리패스 입장권 발급기 |
-| **실시간 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (Realtime DB)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 및 클라이언트 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 기반. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)) 통신으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 시 접속된 모든 클라이언트에 즉각 Push | 중앙 방송국과 켜져 있는 모든 라디오 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong> | 사용자 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) | OAuth 2.0 (구글/애플 로그인 연동), [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 발급/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 SDK가 대행 | 클럽의 만능 프리패스 입장권 발급기 |
+| <strong>실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (Realtime DB)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 및 클라이언트 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 기반. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)) 통신으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 시 접속된 모든 클라이언트에 즉각 Push | 중앙 방송국과 켜져 있는 모든 라디오 |
 | **푸시 알림 (Push Notifications)** | 타겟 사용자 메시지 전송 | APNs(iOS), FCM(안드로이드) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 복잡성을 단일 API로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 전 세계 배달망을 가진 우체국 |
-| **클라우드 함수 ([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))** | 커스텀 백엔드 비즈니스 로직 실행 | DB 트리거나 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 시 일시적으로 서버 컨테이너가 떠서 로직(결제 등) 처리 후 소멸 | 필요할 때만 소환되는 마법사 |
+| <strong>클라우드 함수 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a>)</strong> | 커스텀 백엔드 비즈니스 로직 실행 | DB 트리거나 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 시 일시적으로 서버 컨테이너가 떠서 로직(결제 등) 처리 후 소멸 | 필요할 때만 소환되는 마법사 |
 | **클라우드 스토리지 (Storage)** | 이미지, 동영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 | 클라이언트가 S3 등 오브젝트 스토리지로 직접 다이렉트 업로드/다운로드 | 무한대의 대여 금고 |
 
 다음 구조도는 클라이언트(모바일/웹)가 중간의 커스텀 백엔드 서버(WAS) 없이 [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 플랫폼과 직접 통신하는 아키텍처(예: Firebase 아키텍처)를 보여준다.
 
-```text
-이 도식은 BaaS 환경에서 서버(WAS)가 생략되고, 클라이언트가 SDK를 통해 벤더의 관리형 백엔드 서비스들과 다이렉트로 어떻게 상호작용하는지 보여준다.
 
-┌───────────── [ Client Application (iOS/Android/Web) ] ─────────────┐
-│ 1. 사용자가 '구글 로그인' 버튼 클릭                                │
-│ 2. 앱 내 UI 변경 시 Data 쓰기 요청                                 │
-│ 3. 실시간 채팅 수신 대기 (Listener)                                │
-│                                                                    │
-│   [ BaaS Client SDK (Firebase SDK 등) ]                            │
-└────────┬──────────────────────┬────────────────────────┬───────────┘
-         │ (1. OAuth Token)     │ (2. API / HTTPS)       │ (3. WebSocket / 실시간 동기화)
-         ▼                      ▼                        ▼
-┌────────┴──────────────────────┴────────────────────────┴───────────┐
-│                     [BaaS Cloud Platform / BaaS 플랫폼]           │
-│                                                                    │
-│  ┌────────────────┐ ┌────────────────────┐ ┌───────────────────┐ │
-│  │ Authentication │ │ Cloud Functions    │ │ Cloud Storage     │ │
-│  │ (소셜 로그인)  │ │ (결제, 썸네일 생성)│ │ (이미지 다이렉트) │ │
-│  └────────────────┘ └────────┬───────────┘ └───────────────────┘ │
-│                              │(Trigger)                          │
-│  ┌───────────────────────────▼─────────────────────────────────┐ │
-│  │   NoSQL Realtime Database (Firestore / DynamoDB)            │ │
-│  │   - 데이터 변경 시 연결된 모든 클라이언트 SDK에 Push (동기화) │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조도의 핵심이자 BaaS의 가장 혁신적인 동작 원리는 **'클라이언트 다이렉트 접근'**과 **'실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Websocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) 기반 Sub)'**다. 과거에는 앱이 서버에 "새로운 채팅 메시지 있니?"라고 주기적으로 물어보는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식을 썼으나, [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 환경에서는 클라이언트 SDK가 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB의 특정 문서([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 경로를 구독(Subscribe)해 놓기만 하면, 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 즉시 서버가 클라이언트에게 이벤트를 밀어내어 화면을 갱신한다. 또한 이미지 업로드 시에도 백엔드 서버의 트래픽을 잡아먹지 않고, 클라이언트가 클라우드 스토리지(S3 등)로 직접 쏘아 올리는 구조를 취해 병목을 근본적으로 제거한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 BaaS 환경에서 서버(WAS)가 생략되고, 클라이언트가 SDK를 통해 벤더의 관리형 백엔드 서비스들과 다이렉트로 어떻게 상호작용하는지 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client Application (iOS/Android/Web)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사용자가 '구글 로그인' 버튼 클릭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 앱 내 UI 변경 시 Data 쓰기 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실시간 채팅 수신 대기 (Listener)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BaaS Client SDK (Firebase SDK 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1. OAuth Token)</div><div class="kb-diagram-cell">(2. API / HTTPS)</div><div class="kb-diagram-cell">(3. WebSocket / 실시간 동기화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BaaS Cloud Platform / BaaS 플랫폼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Authentication</div><div class="kb-diagram-cell">Cloud Functions</div><div class="kb-diagram-cell">Cloud Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(소셜 로그인)</div><div class="kb-diagram-cell">(결제, 썸네일 생성)</div><div class="kb-diagram-cell">(이미지 다이렉트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trigger)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NoSQL Realtime Database (Firestore / DynamoDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 변경 시 연결된 모든 클라이언트 SDK에 Push (동기화)</div></div>
+</div>
+</div>
+
+
+
+이 구조도의 핵심이자 BaaS의 가장 혁신적인 동작 원리는 <strong>'클라이언트 다이렉트 접근'</strong>과 <strong>'실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">Websocket</a> 기반 Sub)'</strong>다. 과거에는 앱이 서버에 "새로운 채팅 메시지 있니?"라고 주기적으로 물어보는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식을 썼으나, [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 환경에서는 클라이언트 SDK가 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB의 특정 문서([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)) 경로를 구독(Subscribe)해 놓기만 하면, 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 즉시 서버가 클라이언트에게 이벤트를 밀어내어 화면을 갱신한다. 또한 이미지 업로드 시에도 백엔드 서버의 트래픽을 잡아먹지 않고, 클라이언트가 클라우드 스토리지(S3 등)로 직접 쏘아 올리는 구조를 취해 병목을 근본적으로 제거한다.
 
 📢 **섹션 요약 비유**: 과거에는 손님(앱)이 웨이터(백엔드 서버)를 거쳐 주방(DB)에 주문을 넣어야 했다면, [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 식당에서는 손님 테이블에 놓인 터치패드(SDK)로 주문하면 주방과 요리가 실시간으로 연동되어 웨이터 없이 음식이 바로 배달되는 것과 같습니다.
 
@@ -94,26 +94,27 @@ BaaS는 IaaS나 PaaS와 달리, 개발자가 작성하는 '서버 측(Server-sid
 |:---|:---|:---|:---|
 | **핵심 목적** | 내가 짠 '백엔드 서버 코드'를 쉽게 배포/실행 | '백엔드 서버 자체를 안 짜고' 벤더의 API를 활용 | 백엔드 개발 인력 보유 여부 |
 | **코드 위치** | 클라우드 플랫폼 위 (Spring, Node.js 서버) | 사용자 단말기 앱 내부 (Frontend JS, iOS Swift) | 로직의 민감도 (클라이언트 노출 위험) |
-| **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)** | 백엔드 서버(WAS)가 DB 통제 권한 보유 | 프론트 앱이 SDK로 DB 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 보안 룰(Rule) 기반 접근 제어의 중요성 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong> | 백엔드 서버(WAS)가 DB 통제 권한 보유 | 프론트 앱이 SDK로 DB 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 보안 룰(Rule) 기반 접근 제어의 중요성 |
 | **적합한 형태** | 복잡한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직, 대규모 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 모놀리식 | 채팅 앱, 토이 프로젝트, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), 모바일 앱 | 비즈니스 로직의 복잡성과 민첩성 |
 
 다음은 백엔드의 제어권과 개발 생산성 간의 트레이드오프를 보여주는 아키텍처 전환 상태도이다.
 
-```text
-이 도식은 백엔드 구축 방식에 따라 개발팀의 역할 비중이 어떻게 달라지는지를 시각적으로 비교한다.
 
-[ Traditional IaaS/PaaS ]            [ BaaS (Serverless) ]
-┌─────────────────────────┐          ┌─────────────────────────┐
-│     Frontend UI / App   │          │     Frontend UI / App   │ (UI 중심, 
-│    (API 호출, 렌더링)   │          │    (DB 쿼리, 인증 직접) │  비대해진 클라이언트)
-├─────────────────────────┤          ├─────────────────────────┤
-│    Backend App Server   │          │        ( 생  략 )       │
-│  (Auth, API, Validation)│          │                         │
-├─────────────────────────┤          ├─────────────────────────┤
-│    Database / Storage   │          │ BaaS Managed DB / Auth  │ (벤더가 100% 제공,
-│  (Query, Schema Design) │          │(NoSQL, Rules, Functions)│  서버 개발자 불필요)
-└─────────────────────────┘          └─────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 백엔드 구축 방식에 따라 개발팀의 역할 비중이 어떻게 달라지는지를 시각적으로 비교한다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Traditional IaaS/PaaS</div><div class="kb-diagram-node">BaaS (Serverless)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frontend UI / App</div><div class="kb-diagram-cell">Frontend UI / App</div><div class="kb-diagram-cell">(UI 중심,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(API 호출, 렌더링)</div><div class="kb-diagram-cell">(DB 쿼리, 인증 직접)</div><div class="kb-diagram-cell">비대해진 클라이언트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backend App Server</div><div class="kb-diagram-cell">( 생 략 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Auth, API, Validation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database / Storage</div><div class="kb-diagram-cell">BaaS Managed DB / Auth</div><div class="kb-diagram-cell">(벤더가 100% 제공,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Query, Schema Design)</div><div class="kb-diagram-cell">(NoSQL, Rules, Functions)</div><div class="kb-diagram-cell">서버 개발자 불필요)</div></div>
+</div>
+</div>
+
+
 
 이 비교에서 드러나는 BaaS의 가장 큰 단점(트레이드오프)은 복잡한 비즈니스 로직을 처리하기 어렵다는 점이다. 복잡한 다중 테이블 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이나 보안상 클라이언트에 절대 노출되어서는 안 되는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: 결제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 게임 핵 방어 로직)은 프론트엔드 SDK에서 직접 처리할 수 없다. 이를 보완하기 위해 BaaS는 클라우드 함수([FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))를 융합하여, "기본적인 CRUD는 다이렉트 SDK로 하되, 민감하고 무거운 연산은 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 함수 트리거로 던져라"는 하이브리드 전략을 취하고 있다.
 
@@ -123,28 +124,29 @@ BaaS는 IaaS나 PaaS와 달리, 개발자가 작성하는 '서버 측(Server-sid
 
 실무에서 [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 기반으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 아키텍팅할 때는 클라이언트 단의 보안과 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이라는 두 가지 치명적 약점을 반드시 방어해야 한다.
 
-1. **클라이언트 조작 방어 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Rules)**: BaaS의 철학은 '클라이언트가 DB를 직접 읽고 쓴다'는 것이다. 만약 악의적인 해커가 앱을 디컴파일하여 SDK [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키를 탈취하고 스크립트를 짜면, 다른 사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마음대로 지우거나 수정할 수 있다. 따라서 [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 실무에서는 백엔드 서버 로직 대신, 벤더가 제공하는 **'보안 규칙([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Rules)'** 스크립트(예: Firebase [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Rules)를 매우 엄격하게 선언하여 특정 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 소유자만 특정 Document에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 가지도록 철벽을 쳐야 한다.
-2. **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성 ([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 구조 락인)**: Firebase와 같은 BaaS에 고도로 결합된 앱은 추후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 폭발적으로 성장하여 RDBMS 구조나 자체 서버망으로 이전(Migration)하려 할 때 지옥을 경험한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 특정 NoSQL에 최적화되어 프론트엔드 코드 전역에 박혀있기 때문이다. 따라서 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 로직을 캡슐화([Repository Pattern](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/))하여 추후 백엔드를 자체 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버로 교체할 때 프론트엔드 코드 수정 범위를 최소화하는 방어적 설계가 필요하다. (최근에는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BaaS인 Supabase를 통해 PostgreSQL 기반으로 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 낮추는 대안이 인기다.)
+1. <strong>클라이언트 조작 방어 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Rules)</strong>: BaaS의 철학은 '클라이언트가 DB를 직접 읽고 쓴다'는 것이다. 만약 악의적인 해커가 앱을 디컴파일하여 SDK [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키를 탈취하고 스크립트를 짜면, 다른 사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마음대로 지우거나 수정할 수 있다. 따라서 [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 실무에서는 백엔드 서버 로직 대신, 벤더가 제공하는 <strong>'보안 규칙(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Rules)'</strong> 스크립트(예: Firebase [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Rules)를 매우 엄격하게 선언하여 특정 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 소유자만 특정 Document에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 가지도록 철벽을 쳐야 한다.
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>성 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> 구조 락인)</strong>: Firebase와 같은 BaaS에 고도로 결합된 앱은 추후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 폭발적으로 성장하여 RDBMS 구조나 자체 서버망으로 이전(Migration)하려 할 때 지옥을 경험한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 특정 NoSQL에 최적화되어 프론트엔드 코드 전역에 박혀있기 때문이다. 따라서 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 로직을 캡슐화([Repository Pattern](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/))하여 추후 백엔드를 자체 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버로 교체할 때 프론트엔드 코드 수정 범위를 최소화하는 방어적 설계가 필요하다. (최근에는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BaaS인 Supabase를 통해 PostgreSQL 기반으로 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 낮추는 대안이 인기다.)
 3. **과금 폭탄 (Read/Write 과금)**: BaaS의 실시간 DB는 호출 횟수(Read/Write/Delete)와 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 단위로 과금된다. 프론트엔드 개발자가 리액트(React)의 렌더링 무한 루프 버그를 낸 상태로 DB를 계속 읽어들이면 단 하루 만에 수천만 원의 클라우드 비용이 청구될 수 있다. 철저한 상태 관리와 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 그리고 과금 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 알람 설정이 생명이다.
 
-```text
-[실무 BaaS 보안 접근 통제 및 융합 플로우]
-이 흐름도는 클라이언트가 DB에 직접 접근할 때 데이터 오염을 막기 위한 BaaS 자체의 방어 메커니즘을 보여준다.
 
-[ 악의적 User / 해커 스크립트 ]        [ 정상 앱 User ]
-             │                             │ (OAuth Token 포함)
-             ▼                             ▼
-┌────────────────────────────────────────────────────────┐
-│               [BaaS Security Rules Engine / 보안 룰 엔진]           │
-│  - 요청자의 UID 확인 (request.auth.uid)                │
-│  - 데이터 스키마 유효성 및 값 범위 검증                │
-│  ────────────────────────────────────────────────────  │
-│      (조건 불일치)                  (조건 일치)        │
-│    [접근 거부 / Drop]              [DB 쓰기 허용]      │
-└────────────────────────────────────────────────────────┘
-                                           ▼
-                                    [Managed NoSQL DB / 관리형 NoSQL DB]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 BaaS 보안 접근 통제 및 융합 플로우</div></div>
+<div class="kb-diagram-note">이 흐름도는 클라이언트가 DB에 직접 접근할 때 데이터 오염을 막기 위한 BaaS 자체의 방어 메커니즘을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">악의적 User / 해커 스크립트</div><div class="kb-diagram-node">정상 앱 User</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OAuth Token 포함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BaaS Security Rules Engine / 보안 룰 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 요청자의 UID 확인 (request.auth.uid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 스키마 유효성 및 값 범위 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조건 불일치) (조건 일치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 거부 / Drop</div><div class="kb-diagram-node">DB 쓰기 허용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Managed NoSQL DB / 관리형 NoSQL DB</div></div>
+</div>
+</div>
+
+
 
 이 운영 플로우의 핵심은 서버가 없는 환경에서 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 주체가 '서버의 컨트롤러 코드'에서 '[BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) 플랫폼의 룰 엔진'으로 이동했다는 점이다. 실무 아키텍트는 서버 인프라 구축의 고통에서 해방된 대신, 이 룰 엔진을 꼼꼼하게 작성하고 테스트([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))하는 데 시간을 투자해야 한다. 룰이 뚫리면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 신뢰성은 즉시 붕괴된다.
 
@@ -175,21 +177,23 @@ BaaS의 도입은 소프트웨어 스타트업 생태계를 근본적으로 바�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[서버리스 (Serverless / FaaS)]
-    │
-    ▼
-[NoSQL (Document DB)]
-    │
-    ▼
-[OAuth 2.0 / JWT]
-    │
-    ▼
-[API 게이트웨이 (API Gateway)]
-    │
-    ▼
-[오픈소스 BaaS (Supabase, Appwrite)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 (Serverless / FaaS)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL (Document DB)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OAuth 2.0 / JWT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">API 게이트웨이 (API Gateway)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈소스 BaaS (Supabase, Appwrite)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) ([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) / [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/))에서 출발해 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) (Supabase, Appwrite)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

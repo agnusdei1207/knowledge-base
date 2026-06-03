@@ -39,27 +39,25 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 | 적합 DB | RDBMS (MySQL, PostgreSQL) | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) |
 | 적합 사용 사례 | 금융 거래, 재고 감소 | SNS 좋아요, 추천 피드, 장바구니 |
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              결과적 일관성: MSA 이벤트 기반 구현                     │
-│                                                                      │
-│  주문 서비스                이벤트 버스              재고 서비스      │
-│  ┌────────────────┐                               ┌──────────────┐  │
-│  │ 1. 주문 DB     │                               │ 3. 재고 DB   │  │
-│  │    저장        │  2. OrderPlaced  이벤트 발행   │    감소       │  │
-│  │    (커밋)      │──────────────────────────────►│    (비동기)  │  │
-│  └────────────────┘                               └──────────────┘  │
-│                                                                      │
-│  T=0:  주문 DB = "주문완료", 재고 DB = "아직 반영 안됨" [불일치]     │
-│  T=1s: 이벤트 전달 완료 → 재고 DB = "감소" [일치]                  │
-│                                                                      │
-│  SAGA 패턴 보상 트랜잭션:                                            │
-│  재고 부족 시 OrderFailed 이벤트 발행 → 주문 서비스가 주문 취소      │
-│                                                                      │
-│  Outbox 패턴:                                                        │
-│  DB 변경 + 이벤트 발행을 로컬 트랜잭션으로 묶어 이중 커밋 방지       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과적 일관성: MSA 이벤트 기반 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 서비스 이벤트 버스 재고 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 주문 DB</div><div class="kb-diagram-cell">3. 재고 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장</div><div class="kb-diagram-cell">2. OrderPlaced 이벤트 발행</div><div class="kb-diagram-cell">감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커밋)</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">(비동기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">T=0: 주문 DB = "주문완료", 재고 DB = "아직 반영 안됨"</div><div class="kb-diagram-node">불일치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAGA 패턴 보상 트랜잭션:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재고 부족 시 OrderFailed 이벤트 발행 → 주문 서비스가 주문 취소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outbox 패턴:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 변경 + 이벤트 발행을 로컬 트랜잭션으로 묶어 이중 커밋 방지</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Eventual Consistency는 은행 이체 후 잔액 반영 — 이체 직후 ATM과 앱이 잠깐 다른 잔액을 보일 수 있지만, 몇 초 후엔 동기화된다.
 
@@ -77,9 +75,9 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 | 적합 환경 | 단일/소규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 비즈니스 프로세스 | 고가용성 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 
 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 정리:
-- **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 없음 (단일 RDBMS) — ACID 가능
-- **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)**: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 내성 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/), [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)) — [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 우선
-- **[AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 내성 ([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) — [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 없음 (단일 RDBMS) — ACID 가능
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a></strong>: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 내성 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/), [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)) — [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 우선
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a></strong>: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 내성 ([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) — [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
 
 📢 **섹션 요약 비유**: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 선택은 "빠른 배달 vs 정확한 배달" — 두 개를 동시에 완벽하게 할 수는 없어서 하나를 조금 양보해야 한다.
 
@@ -87,7 +85,7 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**도메인별 [일관성 수준 선택](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/)**
+<strong>도메인별 <a href="/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/">일관성 수준 선택</a></strong>
 - 금융 이체·재고 감소 → ACID 또는 [SAGA](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 (보상 필수)
 - 장바구니·좋아요 수 → [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) (잠시 불일치 허용)
 - 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시 → [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 기반 [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)
@@ -126,17 +124,21 @@ BASE (Basically Available, Soft [State](/knowledge-base/studynote/04_software_en
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-강한 일관성 (2PC · Paxos: 높은 지연)
-    │
-    ▼
-Eventual Consistency: 최종적 일관성 보장
-    ├─► SAGA 패턴: 보상 트랜잭션
-    └─► Outbox + CDC: 이벤트 안정 발행
-    │
-    ▼
-Tunable Consistency · CRDTs (충돌 해소 자료구조)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">강한 일관성 (2PC · Paxos: 높은 지연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Eventual Consistency: 최종적 일관성 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SAGA 패턴: 보상 트랜잭션</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Outbox + CDC: 이벤트 안정 발행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tunable Consistency · CRDTs (충돌 해소 자료구조)</div>
+</div>
+</div>
+
+
 2. 지도 회사(클라우드)는 일단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 끊기지 않게 하고, 나중에 업데이트를 맞춰요.
 3. 긴급 상황(금융 거래)은 실시간 반영이 필요하지만, 맛집 후기(SNS 좋아요)는 잠깐 오래된 숫자를 보여줘도 괜찮아요.
 

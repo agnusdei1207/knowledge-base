@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-2008년에 나온 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2는 10년 동안 너무 낡았습니다. 불필요하고 낡은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 덕지덕지 붙어있어 해킹 공격(DOWNGRADE, [POODLE](/knowledge-base/studynote/09_security/03_network_security/294_poodle/) 공격 등)의 타겟이 되었고, 스마트폰 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 맞지 않게 연결 속도([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 너무 느렸습니다. 이에 IETF는 2018년, 뼈대를 완전히 갈아엎은 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 (RFC 8446)**을 발표했습니다.
+2008년에 나온 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2는 10년 동안 너무 낡았습니다. 불필요하고 낡은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 덕지덕지 붙어있어 해킹 공격(DOWNGRADE, [POODLE](/knowledge-base/studynote/09_security/03_network_security/294_poodle/) 공격 등)의 타겟이 되었고, 스마트폰 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 맞지 않게 연결 속도([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 너무 느렸습니다. 이에 IETF는 2018년, 뼈대를 완전히 갈아엎은 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 (RFC 8446)</strong>을 발표했습니다.
 
-```text
-[TLS 전방향 안전성 보장 원리]
-    │
-    ▼
-[TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    └──▶ [MAC-then-Encrypt 패러다임 /…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 해커들이 뚫고 들어올 만한 뒷문(낡은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 자비 없이 모조리 삭제했습니다.
 - **PFS(전방향 안전성) 강제**: 684번 문서에서 배운 대로, 마스터키가 털려도 안전한 임시 키 교환 방식([DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/), [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/))만 남기고, 위험한 고정 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 키 교환 방식은 아예 퇴출했습니다.
-- **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 강제**: [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 해치우는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/), ChaCha20-Poly1305 모드만 남기고, 낡은 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드, [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/), [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 해시 함수는 100% 삭제해 버렸습니다.
+- <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> 강제</strong>: [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 해치우는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/), ChaCha20-Poly1305 모드만 남기고, 낡은 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드, [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/), [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 해시 함수는 100% 삭제해 버렸습니다.
 
-```text
-[TLS 전방향 안전성 보장 원리]
-    │
-    ▼
-[TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    └──▶ [MAC-then-Encrypt 패러다임 /…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,13 +66,13 @@ tags = ["studynote-network"]
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3이 현존 최고의 프로토콜이 된 이유입니다. 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 극단적으로 줄였습니다.
 
 ### 1. 1-RTT (처음 방문하는 사이트 접속 시)
-- **기존 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 (2-RTT)**: 클라이언트가 인사(1번) ➜ 서버가 인사 및 신분증 제시(2번) ➜ 클라이언트가 암호키 전달(3번) ➜ 서버가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(4번). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받기 전까지 무려 2번을 왕복해야 했습니다.
-- **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 (1-RTT)**: **"어차피 요즘 다 [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) 키 교환 쓰는 거 아니까, 첫 인사([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 할 때 암호키 만들 재료도 아예 같이 몽땅 싸서 한 방에 던질게!"**
-- 클라이언트가 첫 패킷에 필요한 걸 다 담아 쏘면, 서버도 즉시 세션키를 뚝딱 만들어서 바로 "오케이, 이제 암호화 통신 시작!" 하며 응답합니다. 딱 **한 번의 왕복(1-RTT)**만으로 0.1초 만에 보안 터널이 뚫립니다.
+- <strong>기존 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.2 (2-RTT)</strong>: 클라이언트가 인사(1번) ➜ 서버가 인사 및 신분증 제시(2번) ➜ 클라이언트가 암호키 전달(3번) ➜ 서버가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(4번). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받기 전까지 무려 2번을 왕복해야 했습니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 (1-RTT)</strong>: <strong>"어차피 요즘 다 <a href="/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/">ECDHE</a> 키 교환 쓰는 거 아니까, 첫 인사(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello) 할 때 암호키 만들 재료도 아예 같이 몽땅 싸서 한 방에 던질게!"</strong>
+- 클라이언트가 첫 패킷에 필요한 걸 다 담아 쏘면, 서버도 즉시 세션키를 뚝딱 만들어서 바로 "오케이, 이제 암호화 통신 시작!" 하며 응답합니다. 딱 <strong>한 번의 왕복(1-RTT)</strong>만으로 0.1초 만에 보안 터널이 뚫립니다.
 
 ### 2. 0-RTT (어제 갔던 사이트에 다시 접속 시) 🌟
 - **개념**: 어제 접속했던 네이버(재방문)에 다시 접속할 때, 브라우저가 어제 발급받아 쟁여둔 '임시 티켓([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))'을 기억해 냅니다.
-- **동작**: "어제 썼던 그 티켓으로 암호화할게!"라며, **아예 인사조차 생략하고 첫 번째 패킷([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello)에다가 바로 네이버 검색어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Payload)를 암호화해서 함께 쑤셔 넣어 쏴버립니다.**
+- **동작**: "어제 썼던 그 티켓으로 암호화할게!"라며, <strong>아예 인사조차 생략하고 첫 번째 패킷(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello)에다가 바로 네이버 검색어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Payload)를 암호화해서 함께 쑤셔 넣어 쏴버립니다.</strong>
 - **효과**: 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 제로(0-RTT). 일반 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 평문 접속과 완전히 똑같은 속도로 미친 듯이 렌더링 화면이 뜹니다.
 - (※ 단, 0-RTT 패킷을 훔친 해커가 다시 쏘는 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))의 위험이 있어, 은행 계좌 이체 등 치명적인 요청에는 쓰지 않고 단순 웹페이지 조회용으로만 허용합니다.)
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TLS 전방향 안전성 보장 원리]
-    │
-    ▼
-[현재 개념: TLS 1.3 업그레이드 변화와 0-RTT/…]
-    │
-    ├──▶ [확장 A: MAC-then-Encrypt 패러다임 /…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC-then-Encrypt 패러다임 /…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 MAC-then-Encrypt 패러다임 /…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

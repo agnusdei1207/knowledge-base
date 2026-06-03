@@ -12,30 +12,33 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 조기 종료(Early Stopping)는 훈련 손실([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Loss)이 계속 감소하더라도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) Loss)이 증가하기 시작하면 학습을 중단하여 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하는 가장 단순하면서도 효과적인 규제 기법이다.
-> 2. **가치**: 별도의 수학적 페널티 없이 **모델 체크포인트(Model Checkpoint)**와 결합해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 최고였던 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 복원함으로써, 추가적인 모델 복잡도 조정 없이 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상시킨다.
+> 2. **가치**: 별도의 수학적 페널티 없이 <strong>모델 체크포인트(Model Checkpoint)</strong>와 결합해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 최고였던 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 복원함으로써, 추가적인 모델 복잡도 조정 없이 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상시킨다.
 > 3. **판단 포인트**: 기술사 시험에서 인내심(Patience) 파라미터의 역할, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 집합([Validation Set](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/)) 분리의 중요성, 조기 종료 시점에서의 최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원 메커니즘을 묻는 문제가 출제된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-신경망을 너무 오래 학습하면 **모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈와 특이점까지 암기**하는 과적합이 발생한다. 반대로 너무 일찍 멈추면 충분히 학습하지 못하는 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))이 된다.
+신경망을 너무 오래 학습하면 <strong>모델이 훈련 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 노이즈와 특이점까지 암기</strong>하는 과적합이 발생한다. 반대로 너무 일찍 멈추면 충분히 학습하지 못하는 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))이 된다.
 
 조기 종료(Early Stopping)는 이 문제를 다음과 같이 해결한다:
 
-1. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **훈련 셋(Train Set)**과 **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 셋([Validation Set](/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/))**으로 분리
+1. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>훈련 셋(Train Set)</strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 셋(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/030_validation_set/">Validation Set</a>)</strong>으로 분리
 2. 매 에포크(Epoch)마다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 3. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실이 **인내심(Patience) 에포크 동안 개선되지 않으면** 학습 중단
-4. **최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 최솟값 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 저장해 복원
+4. <strong>최적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 복원</strong>: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 최솟값 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 저장해 복원
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 조기 종료는 마라톤 선수 코치가 "지금은 꾀병이 아니야, 더 뛰면 부상이다"라고 판단하고 훈련을 멈추는 것과 같다. 훈련 성적(훈련 손실)만 보지 않고, 실전 컨디션([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실)을 기준으로 최적 시점을 잡는다.
 
@@ -45,23 +48,25 @@ tags = ["studynote-ai"]
 
 ### 조기 종료 동작 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-```
-손실(Loss)
-    │
-    │  ─── 훈련 손실 (계속 감소)
-높음│  ─ ─ 검증 손실 (최솟값 후 증가)
-    │
-    │  ────────────────────────────────
-    │     ╲  훈련 손실
-    │      ╲────────────────────────→ 계속 감소
-    │
-    │   ─ ─ ╲ ─ ─ ╲ ─ ─     검증 손실
-    │                 ╲ ─ ─ ╲──→ 증가 시작 (과적합!)
-낮음│              ↑ 최적 가중치 저장
-    │              ↑ Early Stopping 기준점
-    └─────────────────────────────────→ 에포크
-                  ↑ Patience=5 후 중단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">손실(Loss)</div>
+<div class="kb-diagram-note">훈련 손실 (계속 감소)</div>
+<div class="kb-diagram-note">높음│ ─ ─ 검증 손실 (최솟값 후 증가)</div>
+<div class="kb-diagram-note">╲ 훈련 손실</div>
+<div class="kb-diagram-note">╲ → 계속 감소</div>
+<div class="kb-diagram-note">─ ─ ╲ ─ ─ ╲ ─ ─ 검증 손실</div>
+<div class="kb-diagram-note">╲ ─ ─ ╲──→ 증가 시작 (과적합!)</div>
+<div class="kb-diagram-note">낮음│ ↑ 최적 가중치 저장</div>
+<div class="kb-diagram-note">↑ Early Stopping 기준점</div>
+<div class="kb-diagram-tree-item" style="--depth:2">→ 에포크</div>
+<div class="kb-diagram-note">↑ Patience=5 후 중단</div>
+</div>
+</div>
+
+
 
 ### 조기 종료 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -95,19 +100,21 @@ for epoch in range(max_epochs):
 
 ### [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 집합 분리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-┌────────────────────────────────────────────────────────┐
-│          데이터셋 분리 전략                             │
-├───────────────────────┬────────────────────────────────┤
-│  Hold-out Validation  │  훈련:검증:테스트 = 8:1:1      │
-│                       │  단순, 빠름                    │
-│                       │  데이터 적으면 불안정           │
-├───────────────────────┼────────────────────────────────┤
-│  K-Fold CV            │  K번 교차 검증                 │
-│  (Cross-Validation)   │  신뢰도 높음                   │
-│                       │  계산 비용 K배                 │
-└───────────────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터셋 분리 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hold-out Validation</div><div class="kb-diagram-cell">훈련:검증:테스트 = 8:1:1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순, 빠름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 적으면 불안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-Fold CV</div><div class="kb-diagram-cell">K번 교차 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cross-Validation)</div><div class="kb-diagram-cell">신뢰도 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산 비용 K배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Patience는 부모가 아이의 나쁜 행동을 참는 횟수와 같다. 5번(Patience=5) 참았는데 계속 나쁘면([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 개선 없음) 결단을 내리는 것이다. 너무 빨리 포기하면(낮은 Patience) 일시적 나빠짐을 과민반응하고, 너무 참으면 이미 늦게 된다.
 
@@ -133,7 +140,7 @@ for epoch in range(max_epochs):
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와의 연계
 
-조기 종료와 **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 감소(ReduceLROnPlateau)**를 함께 사용하는 패턴:
+조기 종료와 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> 감소(ReduceLROnPlateau)</strong>를 함께 사용하는 패턴:
 1. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실이 개선되지 않으면 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 0.1배 감소
 2. 줄어든 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)로 계속 학습 시도
 3. 최소 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)에 도달하고도 개선 없으면 조기 종료
@@ -146,16 +153,16 @@ for epoch in range(max_epochs):
 
 ### 기술사 시험 판단 포인트
 
-1. **조기 종료 기준**: 훈련 손실이 아닌 **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실** 기준임을 명확히 구분
-2. **최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원**: 학습 종료 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 아닌, **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 최솟값 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)** 복원
+1. **조기 종료 기준**: 훈련 손실이 아닌 <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 손실</strong> 기준임을 명확히 구분
+2. <strong>최적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 복원</strong>: 학습 종료 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 아닌, <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 손실 최솟값 시점의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong> 복원
 3. **Patience 역할**: 너무 낮으면 너무 일찍 중단(과소적합), 너무 높으면 과적합 후 복원 의미 약화
-4. **테스트 셋 오염 방지**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 셋은 조기 종료 결정에 사용되므로, 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 반드시 별도의 **테스트 셋**으로 수행
+4. **테스트 셋 오염 방지**: [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 셋은 조기 종료 결정에 사용되므로, 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 반드시 별도의 <strong>테스트 셋</strong>으로 수행
 
 ### 실무 시나리오
 
-- **딥러닝 기본 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**: 항상 Early Stopping + ModelCheckpoint 조합 사용
-- **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)) [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)**: Patience=3~5로 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (빠른 수렴 특성)
-- **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)**: Patience=2~3, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 개선 없으면 즉시 중단
+- <strong>딥러닝 기본 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>: 항상 Early Stopping + ModelCheckpoint 조합 사용
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>) <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong>: Patience=3~5로 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (빠른 수렴 특성)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/">미세 조정</a></strong>: Patience=2~3, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 손실 개선 없으면 즉시 중단
 
 ### 프레임워크별 구현
 

@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 서버에 100Gbps 트래픽이 쏟아집니다.
-1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 폭탄**: 랜카드가 패킷 1개를 받을 때마다 CPU에 알람을 때립니다. 1초에 수천만 번 알람이 울려 CPU는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 하느라 100% 뻗어버립니다.
-2. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택의 오버헤드**: 패킷이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간(L2~L4 검사)을 힘겹게 통과한 뒤, 사용자 공간(애플리케이션)으로 한 번 더 복사(Copy)되어 올라가는 메모리 낭비가 치명적입니다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>) 폭탄</strong>: 랜카드가 패킷 1개를 받을 때마다 CPU에 알람을 때립니다. 1초에 수천만 번 알람이 울려 CPU는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 하느라 100% 뻗어버립니다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 스택의 오버헤드</strong>: 패킷이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간(L2~L4 검사)을 힘겹게 통과한 뒤, 사용자 공간(애플리케이션)으로 한 번 더 복사(Copy)되어 올라가는 메모리 낭비가 치명적입니다.
 
-```text
-[무손실 이더넷]
-    │
-    ▼
-[DPDK 패킷 바이패스]
-    │
-    └──▶ [스마트NIC 가속 오프로딩 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 인텔(Intel)이 주도하여 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리로, 패킷 처리 프로그램을 짤 때 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 개입을 100% 무시하고([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), 랜카드 하드웨어와 사용자 공간(User Space) 앱이 메모리를 직통으로 뚫어서 데이터를 주고받게 만드는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 패킷 처리 프레임워크**입니다.
+- **개념**: 인텔(Intel)이 주도하여 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리로, 패킷 처리 프로그램을 짤 때 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)의 개입을 100% 무시하고(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass), 랜카드 하드웨어와 사용자 공간(User Space) 앱이 메모리를 직통으로 뚫어서 데이터를 주고받게 만드는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 패킷 처리 프레임워크</strong>입니다.
 
-```text
-[무손실 이더넷]
-    │
-    ▼
-[DPDK 패킷 바이패스]
-    │
-    └──▶ [스마트NIC 가속 오프로딩 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,16 +65,16 @@ tags = ["studynote-network"]
 
 ### 1. UIO (User-space I/O) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스와 제로 카피
 - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 장님으로 만듭니다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안의 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 코드를 싹 덜어내고, 아주 얇은 UIO 껍데기 드라이버만 남깁니다.
-- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 거치지 않고, **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/)) 기술을 써서 바로 사용자 프로그램(앱) 메모리 영역에 다이렉트로 꽂아버립니다([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)).**
+- 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 거치지 않고, <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/">직접 메모리 접근</a>) 기술을 써서 바로 사용자 프로그램(앱) 메모리 영역에 다이렉트로 꽂아버립니다(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>).</strong>
 
 ### 2. PMD ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Mode Driver) - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 멸망 🌟
 가장 위대한 튜닝입니다.
-- **기존 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))**: 편지가 올 때마다 우체부가 벨을 누르면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 나가서 받았습니다. 편지가 1초에 1만 통 오면 벨 소리에 노이로제가 옵니다.
-- **PMD ([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모드)**: 벨을 떼버립니다. 아예 CPU 코어 하나(전용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 이 작업에 영구적으로 할당(Pinning)해서 무한 루프를 돌립니다. **CPU가 1초에 1억 번씩 랜카드 우체통을 열어보고, 편지가 있으면 싹 쓸어오고 없으면 또 열어봅니다([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)).** 대기 시간이 0에 수렴하여 100Gbps 패킷을 씹어 먹습니다.
+- <strong>기존 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)</strong>: 편지가 올 때마다 우체부가 벨을 누르면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 나가서 받았습니다. 편지가 1초에 1만 통 오면 벨 소리에 노이로제가 옵니다.
+- <strong>PMD (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 모드)</strong>: 벨을 떼버립니다. 아예 CPU 코어 하나(전용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 이 작업에 영구적으로 할당(Pinning)해서 무한 루프를 돌립니다. <strong>CPU가 1초에 1억 번씩 랜카드 우체통을 열어보고, 편지가 있으면 싹 쓸어오고 없으면 또 열어봅니다(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>).</strong> 대기 시간이 0에 수렴하여 100Gbps 패킷을 씹어 먹습니다.
 
 ### 3. 거대한 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) (Hugepages)
 - 일반 리눅스는 메모리를 4KB 단위로 쪼개서 씁니다. 패킷 수억 개를 저장하려면 메모리 주소([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))가 수천만 개로 찢어져 CPU 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 터집니다.
-- DPDK는 부팅할 때 메모리를 **2MB 또는 1GB 단위의 거대한 덩어리(Hugepages)**로 뭉탱이로 떼어놓습니다. CPU가 책갈피를 한 번만 뒤져도 거대한 데이터를 한방에 읽어오므로 메모리 병목이 완벽히 사라집니다.
+- DPDK는 부팅할 때 메모리를 <strong>2MB 또는 1GB 단위의 거대한 덩어리(Hugepages)</strong>로 뭉탱이로 떼어놓습니다. CPU가 책갈피를 한 번만 뒤져도 거대한 데이터를 한방에 읽어오므로 메모리 병목이 완벽히 사라집니다.
 
 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)이 기반 조건을 만든다면, [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 그 위에서 핵심 메커니즘을 구현하고, 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,8 +90,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- AWS나 SKT 데이터센터에 가면, 수많은 866번 **[VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 라우터)**들이 소프트웨어로 돌아갑니다.
-- 시스코의 쇳덩어리 전용 기계를 버리고 x86 깡통 서버를 쓸 수 있었던 유일한 이유는, 이 깡통 서버에 **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 흑마법을 끼얹은 오픈 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) (OVS-[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/))**를 깔아 돌리면 수천만 원짜리 전용 하드웨어 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 뺨치는 미친 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 속도가 소프트웨어로도 뽑혀 나오기 때문입니다.
+- AWS나 SKT 데이터센터에 가면, 수많은 866번 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>(가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, 가상 라우터)</strong>들이 소프트웨어로 돌아갑니다.
+- 시스코의 쇳덩어리 전용 기계를 버리고 x86 깡통 서버를 쓸 수 있었던 유일한 이유는, 이 깡통 서버에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> 흑마법을 끼얹은 오픈 <a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a> (OVS-<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a>)</strong>를 깔아 돌리면 수천만 원짜리 전용 하드웨어 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 뺨치는 미친 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 속도가 소프트웨어로도 뽑혀 나오기 때문입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)망은 **'우체국(랜카드)에서 편지가 1장 올 때마다 전화([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 걸어 사장님(CPU)을 귀찮게 하는 비효율적인 사무실'**입니다. 게다가 편지를 비서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 한 번 읽고 다시 사장님 책상으로 옮겨 적는(메모리 복사) 헛짓거리를 했습니다. **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) (패킷 바이패스)**는 비서의 책상을 없애버리고 사장님 책상 한가운데에 **'우체국 직통 텔레포트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass & [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))'**를 뚫어버린 것입니다. 게다가 전화를 다 끊어버리고, 아르바이트생 한 명(PMD 전용 코어)을 고용해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 입구만 하루 종일 쳐다보며 쏟아지는 편지를 1초의 틈도 없이 바구니(Hugepages)에 쓸어 담게 만듭니다([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)). [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라는 비효율적인 중간 관리자([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 100% 해고하고, 하드웨어와 앱을 물리적으로 직결시켜 x86 깡통 서버를 100Gbps 괴물 라우터로 탈바꿈시킨 소프트웨어 네트워킹의 궁극의 마약입니다.
+- **📢 섹션 요약 비유**: 기존 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)망은 <strong>'우체국(랜카드)에서 편지가 1장 올 때마다 전화(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>)를 걸어 사장님(CPU)을 귀찮게 하는 비효율적인 사무실'</strong>입니다. 게다가 편지를 비서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 한 번 읽고 다시 사장님 책상으로 옮겨 적는(메모리 복사) 헛짓거리를 했습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (패킷 바이패스)</strong>는 비서의 책상을 없애버리고 사장님 책상 한가운데에 <strong>'우체국 직통 텔레포트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass &amp; <a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)'</strong>를 뚫어버린 것입니다. 게다가 전화를 다 끊어버리고, 아르바이트생 한 명(PMD 전용 코어)을 고용해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 입구만 하루 종일 쳐다보며 쏟아지는 편지를 1초의 틈도 없이 바구니(Hugepages)에 쓸어 담게 만듭니다([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)). [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라는 비효율적인 중간 관리자([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 100% 해고하고, 하드웨어와 앱을 물리적으로 직결시켜 x86 깡통 서버를 100Gbps 괴물 라우터로 탈바꿈시킨 소프트웨어 네트워킹의 궁극의 마약입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무손실 이더넷]
-    │
-    ▼
-[현재 개념: DPDK 패킷 바이패스]
-    │
-    ├──▶ [확장 A: 스마트NIC 가속 오프로딩 시스템]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무손실 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트NIC 가속 오프로딩 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스는 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

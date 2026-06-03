@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 접근 제어 행렬은 **행(Row)에 주체(프로세스/[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))**을, **열(Column)에 객체([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/프린터)**를 배치하고, 각 교차점에 **권한 집합(읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/실행)**을 표기하여 접근 권한을 수학적으로 표현하는 모델이다.
+> 1. **본질**: 접근 제어 행렬은 <strong>행(Row)에 주체(프로세스/<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>을, <strong>열(Column)에 객체(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>/프린터)</strong>를 배치하고, 각 교차점에 <strong>권한 집합(읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>/실행)</strong>을 표기하여 접근 권한을 수학적으로 표현하는 모델이다.
 > 2. **가치**: 이 **2차원 행렬 구조** 덕분에, OS는 특정 프로세스가 특정 객체에 접근하려 할 때 `(프로세스, 객체)` 좌표만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 되므로 $O(1)$ 시간에 접근 권한을 검증할 수 있다.
-> 3. **한계**: 실제 시스템에서 행렬의 99%이상이 비어있어(희소 행렬), 메모리 낭비가 심하다. 따라서 실제로는 **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(행 기준 분할)** 또는 **Capability(열 기준 분할)**로 구현한다.
+> 3. **한계**: 실제 시스템에서 행렬의 99%이상이 비어있어(희소 행렬), 메모리 낭비가 심하다. 따라서 실제로는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>(행 기준 분할)</strong> 또는 <strong>Capability(열 기준 분할)</strong>로 구현한다.
 
 ---
 
@@ -57,7 +57,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 - 행렬 칸 수: 수조~수천조
 - 실제 권한이 있는 칸: 약 0.01%
 
-따라서 **통짜 행렬을 메모리에 저장하는 것은 비현실적**이다.
+따라서 <strong>통짜 행렬을 메모리에 저장하는 것은 비현실적</strong>이다.
 
 ### 2.2 권한의 전파: Copy와 Owner
 
@@ -72,7 +72,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ### 3.1 Global Table의 개념
 
-희소 행렬 문제를 해결하기 위해, **권한이 존재하는 튜플만**을 저장한다:
+희소 행렬 문제를 해결하기 위해, <strong>권한이 존재하는 튜플만</strong>을 저장한다:
 
 ```text
 <도메인A, 파일1, {Read}>
@@ -82,8 +82,8 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ### 3.2 Global Table의 한계
 
-- **[선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)**: 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 탐색해야 하므로 $O(N)$ 시간
-- **[락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)**: 중앙 테이블에 동시 접근 시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 발생
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/">선형 탐색</a></strong>: 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 탐색해야 하므로 $O(N)$ 시간
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>: 중앙 테이블에 동시 접근 시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 발생
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -105,7 +105,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **이론적 완전성**: 접근 제어 행렬은 보안 정책의 수학적 모델로서 완전한 표현력을 제공한다.
-- **실제 한계**: 희소 행렬 문제로 인해 실제 시스템에서는 **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)** 또는 **Capability** 방식으로 분할 구현된다.
+- **실제 한계**: 희소 행렬 문제로 인해 실제 시스템에서는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> 또는 **Capability** 방식으로 분할 구현된다.
 - **현대적 변형**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인덱싱과 유사하게, 해시 맵 등을 활용하여 탐색 성능을 개선한다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -131,25 +131,29 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[보호 도메인 (Protection Domain)]
-│
-▼
-[접근 제어 행렬 (Access Matrix)]
-│
-├──▶ [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
-└──▶ [접근 제어 목록 (ACL, Access Control List)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보호 도메인 (Protection Domain)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 행렬 (Access Matrix)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **접근 제어 행렬**은 학교의 **"학생-교실-출입 가능 여부"** 표와 같다. 각 학생이 어떤 교실에 출입할 수 있는지 한눈에 볼 수 있다.
+1. <strong>접근 제어 행렬</strong>은 학교의 **"학생-교실-출입 가능 여부"** 표와 같다. 각 학생이 어떤 교실에 출입할 수 있는지 한눈에 볼 수 있다.
 
-2. **희소 행렬 문제**는 100명의 학생과 1000개의 교실이 있으면 표가 10만칸이 되는데, 실제 출입 가능한 칸은 수십 개뿐이라 **칸의 대부분이 비어있어** 공간이 낭비되는 것과 같다.
+2. <strong>희소 행렬 문제</strong>는 100명의 학생과 1000개의 교실이 있으면 표가 10만칸이 되는데, 실제 출입 가능한 칸은 수십 개뿐이라 **칸의 대부분이 비어있어** 공간이 낭비되는 것과 같다.
 
-3. **구현 분할**은 비어있는 칸을 생략하고, **"출입 가능한 경우만"**을(명부)에 적어두는 것과 같다. 이렇게 하면 공간을 절약할 수 있지만, 특정 학생의 출입 가능 교실을 찾으려면를 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하는 문제가 있다.
+3. <strong>구현 분할</strong>은 비어있는 칸을 생략하고, <strong>"출입 가능한 경우만"</strong>을(명부)에 적어두는 것과 같다. 이렇게 하면 공간을 절약할 수 있지만, 특정 학생의 출입 가능 교실을 찾으려면를 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하는 문제가 있다.
 
 ---
 

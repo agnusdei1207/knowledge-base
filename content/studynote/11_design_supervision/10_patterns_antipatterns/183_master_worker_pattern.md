@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 
 마스터-워커 패턴은 "한 개의 큰 일을 여러 손으로 나눠 처리하되, 누가 무엇을 하는지는 한 곳에서 관리하자"는 구조적 해법이다. 대량 이미지 변환, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계, 크롤링, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)처럼 동일하거나 유사한 작업을 반복 실행해야 할 때 특히 유용하다. 단일 프로세스나 단일 서버가 모든 작업을 순서대로 처리하면 시간이 길어지고, 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 제멋대로 작업을 고르면 중복 수행과 누락이 생기기 쉽다.
 
-이 패턴이 필요한 이유는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 어려움이 "동시에 실행한다"보다 "동시에 실행되는 일을 통제한다"에 있기 때문이다. 작업을 어떻게 쪼갤지, 어떤 워커가 놀고 있는지, 실패한 작업을 누가 다시 맡을지, 전체 진척률을 어디서 볼지 같은 문제는 중앙 조정자가 있을 때 훨씬 단순해진다. 즉 마스터-워커는 단순 멀티스레딩이 아니라 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행의 운영 모델**이다.
+이 패턴이 필요한 이유는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 어려움이 "동시에 실행한다"보다 "동시에 실행되는 일을 통제한다"에 있기 때문이다. 작업을 어떻게 쪼갤지, 어떤 워커가 놀고 있는지, 실패한 작업을 누가 다시 맡을지, 전체 진척률을 어디서 볼지 같은 문제는 중앙 조정자가 있을 때 훨씬 단순해진다. 즉 마스터-워커는 단순 멀티스레딩이 아니라 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행의 운영 모델</strong>이다.
 
 또한 이 구조는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템뿐 아니라 단일 서버 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에도 적용된다. 따라서 설계감리 관점에서는 특정 플랫폼 이름보다, 작업 분할 가능성·상태 관리 방식·재시도 책임이 어디에 있는지를 보는 것이 더 중요하다.
 
@@ -43,31 +43,25 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 마스터-워커의 실행 루프를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Master-Worker execution loop                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client submits large job                                            │
-│        │                                                            │
-│        ▼                                                            │
-│ Master                                                              │
-│  - partition job                                                    │
-│  - enqueue tasks                                                    │
-│  - track state / timeout                                            │
-│        │                                                            │
-│        ▼                                                            │
-│     Task Queue                                                      │
-│    ┌───────┬───────┬───────┐                                        │
-│    ▼       ▼       ▼                                               │
-│ Worker A Worker B Worker C                                         │
-│   │       │       │                                                 │
-│   ├─ heartbeat / ack -> Master                                     │
-│   └─ result / failure -> Collector / retry                         │
-│        │                                                            │
-│        ▼                                                            │
-│ Master aggregates and emits final result                            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master-Worker execution loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client submits large job</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- partition job</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- enqueue tasks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- track state / timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker A Worker B Worker C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ heartbeat / ack -&gt; Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ result / failure -&gt; Collector / retry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master aggregates and emits final result</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 세 가지다. 첫째, 작업 단위를 너무 크게 잡으면 특정 워커가 오래 붙잡아 두는 straggler가 생기고, 너무 잘게 쪼개면 스케줄링 오버헤드가 커진다. 둘째, 실패 재할당이 가능하려면 작업이 멱등적(Idempotent)이거나 중복 처리 방지 장치가 있어야 한다. 셋째, 워커를 단순하게 유지할수록 수평 확장과 교체가 쉬워진다.
 
@@ -120,7 +114,7 @@ tags = ["studynote-design-supervision"]
 - 워커들이 동일한 공유 자원을 락으로 심하게 경쟁해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 사라지는 경우
 - 타임아웃과 heartbeat 없이 "언젠가 끝나겠지"라고 기다리는 운영
 
-기술사 답안에서는 **"마스터-워커는 독립 작업을 분할·배분·재시도·집계하는 운영 패턴이며, 성공 조건은 작업 독립성·[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)·마스터 고가용성 확보에 있다"**고 정리하면 좋다.
+기술사 답안에서는 <strong>"마스터-워커는 독립 작업을 분할·배분·재시도·집계하는 운영 패턴이며, 성공 조건은 작업 독립성·<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a>·마스터 고가용성 확보에 있다"</strong>고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 마스터-워커를 잘 쓰는 팀은 공사 감독이 도면과 진척표를 가진 팀이고, 못 쓰는 팀은 인부들이 서로 눈치만 보며 같은 자재를 두 번 옮기는 팀과 같다.
 
@@ -130,7 +124,7 @@ tags = ["studynote-design-supervision"]
 
 마스터-워커 패턴의 가장 큰 효과는 확장성과 운영 가시성을 동시에 얻는다는 점이다. 워커 수를 늘리면 처리량을 높이기 쉽고, 마스터를 통해 전체 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률·실패 위치·재시도 현황을 한눈에 볼 수 있다. 장애가 일부 워커에 국한될 때 전체 작업이 계속 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될 수 있다는 것도 큰 장점이다.
 
-하지만 이 장점은 중앙 조정 비용과 맞바꾼 것이다. 마스터가 병목이 되거나, 워커 간 상호 의존이 커지거나, 결과 집계 비용이 지나치게 크면 구조의 이점이 급격히 줄어든다. 따라서 마스터-워커는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 정답"이 아니라, **독립 작업을 중앙에서 잘 다루기 위한 특화 패턴**으로 기억해야 한다.
+하지만 이 장점은 중앙 조정 비용과 맞바꾼 것이다. 마스터가 병목이 되거나, 워커 간 상호 의존이 커지거나, 결과 집계 비용이 지나치게 크면 구조의 이점이 급격히 줄어든다. 따라서 마스터-워커는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 정답"이 아니라, <strong>독립 작업을 중앙에서 잘 다루기 위한 특화 패턴</strong>으로 기억해야 한다.
 
 결론적으로 이 패턴의 핵심 문장은 단순하다. "한 개의 두뇌가 계획하고, 많은 손이 실행한다." 설계감리에서는 이 두뇌가 과부하되지 않는지, 그리고 많은 손이 서로 발목 잡지 않는지를 함께 확인해야 한다.
 
@@ -151,25 +145,26 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대량 작업 발생
-    │
-    ▼
-Job partitioning
-    │
-    ▼
-Master scheduling + Task Queue
-    │
-    ├─ Worker execution
-    ├─ Heartbeat / timeout detection
-    └─ Retry / reassignment
-    │
-    ▼
-Result aggregation
-    │
-    ▼
-Scale-Out + High Availability master 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대량 작업 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Job partitioning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Master scheduling + Task Queue</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Worker execution</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Heartbeat / timeout detection</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Retry / reassignment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Result aggregation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scale-Out + High Availability master 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 마스터-워커가 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행이 아니라, 분할·배분·감시·재시도를 포함한 운영형 패턴임을 보여 준다.
 

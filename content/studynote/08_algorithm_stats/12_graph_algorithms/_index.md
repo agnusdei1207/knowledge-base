@@ -17,29 +17,27 @@ tags = ["algorithm_stats"]
 
 ### 선과 점으로 표현되는 세상: 그래프의 힘
 
-현대 사회의 거의 모든 문제는 '관계'로 설명된다. 친구 관계, 웹 페이지 간의 링크, 도시를 잇는 도로망, 그리고 마이크로서비스 간의 호출 구조까지 모두 그래프 자료구조로 변환될 수 있다. **그래프 알고리즘**은 이러한 방대한 연결 정보 속에서 보이지 않는 패턴을 찾아내고, 자원 효율을 극대화하는 최적의 해답을 제시한다.
+현대 사회의 거의 모든 문제는 '관계'로 설명된다. 친구 관계, 웹 페이지 간의 링크, 도시를 잇는 도로망, 그리고 마이크로서비스 간의 호출 구조까지 모두 그래프 자료구조로 변환될 수 있다. <strong>그래프 알고리즘</strong>은 이러한 방대한 연결 정보 속에서 보이지 않는 패턴을 찾아내고, 자원 효율을 극대화하는 최적의 해답을 제시한다.
 
-그래프 알고리즘이 필요한 이유는 세 가지이다. 첫째, **물류 및 통신 최적화**를 위해서이다. 가장 적은 비용으로 목적지에 도달하는 경로를 찾아야 한다. 둘째, **복잡한 의존성 관리**를 위해서이며 (컴파일 순서, 작업 스케줄링), 셋째, **데이터 간의 영향력 분석**을 통해 핵심 노드를 식별하기 위함이다 (영향력 있는 인플루언서, 핵심 장애 전파 노드).
+그래프 알고리즘이 필요한 이유는 세 가지이다. 첫째, <strong>물류 및 통신 최적화</strong>를 위해서이다. 가장 적은 비용으로 목적지에 도달하는 경로를 찾아야 한다. 둘째, <strong>복잡한 의존성 관리</strong>를 위해서이며 (컴파일 순서, 작업 스케줄링), 셋째, <strong>데이터 간의 영향력 분석</strong>을 통해 핵심 노드를 식별하기 위함이다 (영향력 있는 인플루언서, 핵심 장애 전파 노드).
 
 이 그림은 그래프를 탐색하는 두 가지 기본 전략인 BFS와 DFS의 차이를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Graph Traversal: BFS vs DFS                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Breadth-First Search (BFS) ]  [ Depth-First Search (DFS) ] │
-│          (1)                              (1)               │
-│        /     \                          /     \             │
-│      (2) --- (3)                      (2)     (5)           │
-│      / \     /                        / \     /             │
-│    (4) (5)-(6)                      (3)-(4) (6)             │
-│                                                             │
-│   * BFS: 가까운 곳부터 (Queue)    * DFS: 한 우물만 (Stack)  │
-│   * 효과: 최단 경로 보장          * 효과: 모든 경로 탐색    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Graph Traversal: BFS vs DFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Breadth-First Search (BFS)</div><div class="kb-diagram-node">Depth-First Search (DFS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) (1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) --- (3) (2) (5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) (5)-(6) (3)-(4) (6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* BFS: 가까운 곳부터 (Queue) * DFS: 한 우물만 (Stack)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 최단 경로 보장 * 효과: 모든 경로 탐색</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '탐색의 깊이와 넓이'이다. BFS는 최단 거리를 찾는 데 유리하고, DFS는 미로 찾기나 그래프의 사이클 존재 여부를 확인하는 데 유리하다. 실무에서는 이 두 탐색 기법이 모든 고수준 그래프 알고리즘의 기초 체력이 된다.
 
@@ -73,26 +71,24 @@ tags = ["algorithm_stats"]
 
 이 구조도는 다익스트라 알고리즘의 우선순위 큐 기반 갱신 과정을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Dijkstra with Priority Queue                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Dist Table ] : {A:0, B:∞, C:∞, D:∞}                     │
-│                                                             │
-│   1. Pop (A, 0) ──▶ Update neighbors:                       │
-│      B = min(∞, 0+2) = 2                                    │
-│      C = min(∞, 0+5) = 5                                    │
-│                                                             │
-│   2. Pop (B, 2) ──▶ Update C from B:                        │
-│      C = min(5, 2+1) = 3 (Short-cut found!)                 │
-│                                                             │
-│   * 핵심: 현재 가장 가까운 노드부터 확정해 나가는 탐욕법    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '완화 (Relaxation)'이다. 더 짧은 지름길을 발견할 때마다 최단 거리 정보를 갱신한다. 실무에서는 이 알고리즘이 인터넷 라우팅 프로토콜인 **OSPF**의 심장이 되어, 전 세계 패킷의 길을 안내한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dijkstra with Priority Queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dist Table</div><div class="kb-diagram-note">: {A:0, B:∞, C:∞, D:∞}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Pop (A, 0) ──▶ Update neighbors:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B = min(∞, 0+2) = 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = min(∞, 0+5) = 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Pop (B, 2) ──▶ Update C from B:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = min(5, 2+1) = 3 (Short-cut found!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 현재 가장 가까운 노드부터 확정해 나가는 탐욕법</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '완화 (Relaxation)'이다. 더 짧은 지름길을 발견할 때마다 최단 거리 정보를 갱신한다. 실무에서는 이 알고리즘이 인터넷 라우팅 프로토콜인 <strong>OSPF</strong>의 심장이 되어, 전 세계 패킷의 길을 안내한다.
 
 📢 **섹션 요약 비유**: MST가 '최소한의 전선으로 모든 집에 전기 공급하기'라면, 최단 경로는 '우리 집에서 회사까지 가장 빨리 출근하기'입니다. 전자는 전체의 효율을, 후자는 개인의 효율을 따지는 차이입니다.
 
@@ -123,29 +119,27 @@ tags = ["algorithm_stats"]
 ### 기술사적 판단: 비즈니스 도메인별 그래프 알고리즘 설계
 
 **시나리오 1: 수백 개의 마이크로서비스 배포 순서 결정**
-- **판단**: 서비스 간의 호출 의사성 (Dependency)을 간선으로 하는 유향 그래프를 구성한다. 사이클이 있는지 DFS로 먼저 확인한 뒤, 사이클이 없다면 **위상 정렬 (Topological Sort)**을 수행한다. 이를 통해 선행 서비스가 반드시 먼저 배포되도록 CI/CD 파이프라인의 실행 순서를 자동화한다.
+- **판단**: 서비스 간의 호출 의사성 (Dependency)을 간선으로 하는 유향 그래프를 구성한다. 사이클이 있는지 DFS로 먼저 확인한 뒤, 사이클이 없다면 <strong>위상 정렬 (Topological Sort)</strong>을 수행한다. 이를 통해 선행 서비스가 반드시 먼저 배포되도록 CI/CD 파이프라인의 실행 순서를 자동화한다.
 
 **시나리오 2: 글로벌 물류망의 실시간 배송 경로 최적화**
-- **판단**: 단순히 거리만 고려하는 다익스트라로는 부족하다. 예상 도착 시간 (ETA)을 휴리스틱 함수로 사용하는 **A\* 알고리즘**을 적용하여 탐색 범위를 목적지 방향으로 좁힌다. 또한 교통 체증이나 날씨 등 가변적인 비용을 실시간 반영하기 위해, 간선의 가중치를 동적으로 업데이트하고 부분적인 **Dynamic Graph** 탐색 기술을 결합한다.
+- **판단**: 단순히 거리만 고려하는 다익스트라로는 부족하다. 예상 도착 시간 (ETA)을 휴리스틱 함수로 사용하는 **A\* 알고리즘<strong>을 적용하여 탐색 범위를 목적지 방향으로 좁힌다. 또한 교통 체증이나 날씨 등 가변적인 비용을 실시간 반영하기 위해, 간선의 가중치를 동적으로 업데이트하고 부분적인 </strong>Dynamic Graph** 탐색 기술을 결합한다.
 
 이 도식은 위상 정렬을 통한 작업 순서 결정 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Topological Sort: Task Scheduling             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Java Install ] ──▶ [ Library Download ] ──┐             │
-│                                               │             │
-│   [ DB Setup ] ───────────────────────────────┼──▶ [ Run ]  │
-│                                               │             │
-│   [ Config Edit ] ────────────────────────────┘             │
-│                                                             │
-│   * 알고리즘: 진입 차수(In-degree)가 0인 것부터 차례로 실행 │
-│   * 판단: 사이클 발생 시 "닭이 먼저냐 알이 먼저냐" 교착 상태│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topological Sort: Task Scheduling</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Java Install</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Library Download</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB Setup</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Run</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Config Edit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 알고리즘: 진입 차수(In-degree)가 0인 것부터 차례로 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 판단: 사이클 발생 시 "닭이 먼저냐 알이 먼저냐" 교착 상태</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 그래프 판단은 '배관 설계'와 같습니다. 물이 어디서 어디로 흐르는지(방향성), 막힌 곳은 없는지(연결성), 그리고 가장 적은 파이프로 모든 방에 물을 댈 방법(MST)을 설계하는 종합 예술입니다.
 
@@ -160,7 +154,7 @@ tags = ["algorithm_stats"]
 
 ### 미래 전망: 그래프 데이터베이스 (GDB)와 지식 그래프
 
-향후 그래프 기술은 알고리즘 수준을 넘어, 데이터를 그래프 구조 그대로 저장하고 조회하는 **그래프 데이터베이스 (Neo4j 등)**로 수렴할 것이다. 또한 기업의 파편화된 정보를 연결하여 거대한 지식 창고를 만드는 **엔터프라이즈 지식 그래프 (Knowledge Graph)**가 생성형 AI의 핵심 지식 기반 (RAG)으로 활약할 것이다. 기술사는 정적인 표 형태의 데이터 사고에서 벗어나, 만물이 연결된 '네트워크형 사고'로 비즈니스 문제를 재정의하는 능력을 갖추어야 한다.
+향후 그래프 기술은 알고리즘 수준을 넘어, 데이터를 그래프 구조 그대로 저장하고 조회하는 <strong>그래프 데이터베이스 (Neo4j 등)</strong>로 수렴할 것이다. 또한 기업의 파편화된 정보를 연결하여 거대한 지식 창고를 만드는 <strong>엔터프라이즈 지식 그래프 (Knowledge Graph)</strong>가 생성형 AI의 핵심 지식 기반 (RAG)으로 활약할 것이다. 기술사는 정적인 표 형태의 데이터 사고에서 벗어나, 만물이 연결된 '네트워크형 사고'로 비즈니스 문제를 재정의하는 능력을 갖추어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 정보는 '거대한 은하계'와 같아질 것입니다. 별(데이터) 하나하나보다 별들 사이의 연결(관계)이 더 큰 빛을 내며, 우리는 그 성좌를 읽어 미래의 길을 찾아내는 우주 항해사가 될 것입니다.
 
@@ -181,15 +175,19 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-그래프 고급 알고리즘
-    ├─► 최대 유량 (Max Flow): Ford-Fulkerson, Dinic
-    ├─► 이분 매칭 (Bipartite Matching)
-    └─► 강연결 요소 (SCC): Tarjan, Kosaraju
-    │
-    ▼
-위상 정렬 (Topological Sort) — DAG 의존성 해결
-    │
-    ▼
-평면 그래프 / 트리 분할 (Heavy-Light Decomposition)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래프 고급 알고리즘</div>
+<div class="kb-diagram-tree-item" style="--depth:2">최대 유량 (Max Flow): Ford-Fulkerson, Dinic</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이분 매칭 (Bipartite Matching)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">강연결 요소 (SCC): Tarjan, Kosaraju</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">위상 정렬 (Topological Sort) — DAG 의존성 해결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">평면 그래프 / 트리 분할 (Heavy-Light Decomposition)</div>
+</div>
+</div>
+
+

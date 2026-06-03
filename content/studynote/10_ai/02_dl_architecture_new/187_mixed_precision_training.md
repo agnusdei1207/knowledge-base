@@ -13,26 +13,29 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련 ([Mixed Precision Training](/knowledge-base/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/))은 딥러닝 훈련 속도를 올리기 위해 메모리를 깎아 먹는 무거운 32비트 소수점(FP32) 대신, 가벼운 16비트 소수점(FP16)을 병행하여 섞어 쓰는(Mixed) 최첨단 딥러닝 메모리 해킹 기법이다.
 > 2. **가치**: 인공신경망의 거대한 행렬 연산은 FP16으로 반 토막 내어 엔비디아의 '[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))' 터보 엔진에 태워 빛의 속도로 계산(속도 3배, 메모리 1/2 절약)하되, 미세하게 틀어지는 오차(Loss)가 증발하지 않도록 핵심 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Master [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 뇌는 튼튼한 FP32 금고에 보관하는 치밀한 기만전술을 편다.
-> 3. **판단 포인트**: FP16으로 훈련하면 미세한 기울기(Gradient) 숫자가 0으로 뭉개져 사라지는 '[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))' 병이 발생하므로, 숫자를 억지로 뻥튀기시켜 안전하게 건져 올리는 **로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Loss Scaling)** 아키텍처 방어벽 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어의 핵심 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수호 기술이다.
+> 3. **판단 포인트**: FP16으로 훈련하면 미세한 기울기(Gradient) 숫자가 0으로 뭉개져 사라지는 '[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))' 병이 발생하므로, 숫자를 억지로 뻥튀기시켜 안전하게 건져 올리는 <strong>로스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Loss Scaling)</strong> 아키텍처 방어벽 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어의 핵심 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수호 기술이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-수천억 개의 파라미터를 가진 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 훈련시킬 때 가장 먼저 터지는 지옥은 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 메모리 부족 현상인 **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))**이다. 
+수천억 개의 파라미터를 가진 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 훈련시킬 때 가장 먼저 터지는 지옥은 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 메모리 부족 현상인 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong>이다. 
 
 컴퓨터 공학의 오랜 전통에 따라, 과거 딥러닝 연구자들은 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자를 완벽하고 정밀하게 담기 위해 32비트 [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)(**FP32**, Float32) 포맷을 썼다. 숫자 하나를 저장하는 데 4바이트의 공간을 잡아먹는 무거운 놈이다. 파라미터가 수십억 개가 넘어가니 이 뚱뚱한 숫자들을 VRAM(그래픽 메모리)에 욱여넣다 서버가 터져버렸다.
 
-그래서 학자들은 "어차피 딥러닝은 엄청난 수의 뉴런이 다수결로 대충 답을 찍어 맞추는 통계 싸움인데, 굳이 소수점 10자리까지 정확하게 잴 필요가 있을까? 소수점 꼬리를 잘라서 가벼운 16비트(**FP16**, [Half Precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/))로 바꿔버리자!"라는 아이디어를 냈다. FP16으로 바꾸면 차지하는 메모리가 정확히 반 토막(1/2) 나고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 통신 속도는 2배로 뛴다. 게다가 엔비디아의 특수 엔진인 '[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))'가 FP16 행렬 덩어리를 받아먹고 1클럭 만에 미친 듯이 씹어 돌린다. 하지만 전부 16비트로만 바꿨더니 훈련 중에 미세한 점수 오차가 '0'으로 인식되어 모델이 바보가 되었다. 이 문제를 완벽히 해결하기 위해 **가벼운 16비트와 무거운 32비트의 역할을 교묘하게 섞어 쓰는(Mixed) 기적의 훈련법**이 탄생한 것이다.
+그래서 학자들은 "어차피 딥러닝은 엄청난 수의 뉴런이 다수결로 대충 답을 찍어 맞추는 통계 싸움인데, 굳이 소수점 10자리까지 정확하게 잴 필요가 있을까? 소수점 꼬리를 잘라서 가벼운 16비트(**FP16**, [Half Precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/))로 바꿔버리자!"라는 아이디어를 냈다. FP16으로 바꾸면 차지하는 메모리가 정확히 반 토막(1/2) 나고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 통신 속도는 2배로 뛴다. 게다가 엔비디아의 특수 엔진인 '[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))'가 FP16 행렬 덩어리를 받아먹고 1클럭 만에 미친 듯이 씹어 돌린다. 하지만 전부 16비트로만 바꿨더니 훈련 중에 미세한 점수 오차가 '0'으로 인식되어 모델이 바보가 되었다. 이 문제를 완벽히 해결하기 위해 <strong>가벼운 16비트와 무거운 32비트의 역할을 교묘하게 섞어 쓰는(Mixed) 기적의 훈련법</strong>이 탄생한 것이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FP32가 소수점 끝자리까지 정확히 재는 '초정밀 금은방 저울'이라면, FP16은 '동네 시장의 뭉툭한 저울'이다. 트럭 1,000대 분량의 밀가루([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 퍼 나를 때 굳이 금은방 저울(FP32)을 쓰면 하루 종일 걸린다. 동네 저울(FP16)로 휙휙 빠르게 밀가루를 재서 요리를 미친 듯이 빨리하고, 딱 한 번 마지막 정산(업데이트)할 때만 금은방 저울(FP32 금고)을 써서 미세한 오차가 안 새어 나가게 막는 환상의 콤비 플레이가 바로 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)다.
 
@@ -42,32 +45,32 @@ tags = ["studynote-ai"]
 
 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련(Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))은 파이토치(PyTorch)나 텐서플로우(TensorFlow) 뒤편에서 3단계의 이중 장부(Dual-bookkeeping) 속임수를 쓴다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           혼합 정밀도 훈련 (Mixed Precision)의 3단계 이중 장부 아키텍처│
-├──────────────────────────────────────────────────────────────┤
-│  [전제]: 안전 금고에는 항상 원본 마스터 가중치(FP32)가 보관되어 있음.    │
-│                                                              │
-│  [1. 빠른 포워드/백워드 연산 (FP16 강제 형변환 Cast)]               │
-│   * 금고에서 FP32 가중치를 꺼내 ─▶ 가벼운 FP16으로 소수점을 잘라 복사함! │
-│   * 엄청나게 빠른 텐서 코어(Tensor Core)가 이 FP16 행렬들을 받아먹고     │
-│     빛의 속도로 (오차/기울기)를 계산해 냄. (속도 3배, 메모리 반 토막 효과) │
-│                                                              │
-│  [2. 로스 스케일링 (Loss Scaling) - 언더플로우 방지!]              │
-│   * 텐서 코어가 계산한 미세한 오차(예: 0.0000001)는 FP16의 한계를 넘어   │
-│     강제로 '0'이 되어 증발해 버림(Underflow 사망).                 │
-│   * 마법 발동: 증발하기 전에 오차 숫자에 곱하기 1,000(Scale-Up)을 해서   │
-│               큰 숫자로 뻥튀기시켜 0이 되는 걸 멱살 잡고 살려냄!         │
-│                                                              │
-│  [3. 튼튼한 마스터 금고 업데이트 (FP32 영구 기록)]                   │
-│   * 방금 살려낸 오차 숫자를 다시 원래대로 1,000으로 나눠서(Scale-Down) 복구.│
-│   * 이 미세한 오차 값(기울기)을 [처음에 보관해 둔 튼튼한 FP32 원본 가중치 금고]에│
-│     더해서 영구 보존(업데이트)함! (정보 유실 0%)                       │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 (FP32 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 Loss Scaling)**:
-만약 모델 파라미터를 통째로 16비트로 강등시켰다면 딥러닝 신경망은 소수점 끝단의 미세한 조정값을 잃어버리고 파탄 났을 것이다. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 위대함은 **'연산은 16비트 복사본으로 미친 듯이 빠르게 뺑뺑이 돌리고, 최종 기억([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Update)을 기록할 때만 소수점 한도 초과가 없는 32비트 원본 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 금고에 정밀하게 적는다'**는 시야의 분리에 있다. 또한 너무 작은 숫자(Gradient)가 16비트 포맷의 한계 탓에 0으로 뭉개지는([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 현상을 막기 위해, 곱하기 상수를 더해 숫자를 위로 띄워 올리는 **로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Loss Scaling)**이라는 생명줄 튜닝이 이 아키텍처의 필수 코어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼합 정밀도 훈련 (Mixed Precision)의 3단계 이중 장부 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제</div><div class="kb-diagram-note">: 안전 금고에는 항상 원본 마스터 가중치(FP32)가 보관되어 있음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 빠른 포워드/백워드 연산 (FP16 강제 형변환 Cast)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 금고에서 FP32 가중치를 꺼내 ─▶ 가벼운 FP16으로 소수점을 잘라 복사함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 엄청나게 빠른 텐서 코어(Tensor Core)가 이 FP16 행렬들을 받아먹고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 속도로 (오차/기울기)를 계산해 냄. (속도 3배, 메모리 반 토막 효과)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 로스 스케일링 (Loss Scaling) - 언더플로우 방지!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 텐서 코어가 계산한 미세한 오차(예: 0.0000001)는 FP16의 한계를 넘어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강제로 '0'이 되어 증발해 버림(Underflow 사망).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법 발동: 증발하기 전에 오차 숫자에 곱하기 1,000(Scale-Up)을 해서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 숫자로 뻥튀기시켜 0이 되는 걸 멱살 잡고 살려냄!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 튼튼한 마스터 금고 업데이트 (FP32 영구 기록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방금 살려낸 오차 숫자를 다시 원래대로 1,000으로 나눠서(Scale-Down) 복구.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 이 미세한 오차 값(기울기)을</div><div class="kb-diagram-node">처음에 보관해 둔 튼튼한 FP32 원본 가중치 금고</div><div class="kb-diagram-note">에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더해서 영구 보존(업데이트)함! (정보 유실 0%)</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (FP32 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>와 Loss Scaling)</strong>:
+만약 모델 파라미터를 통째로 16비트로 강등시켰다면 딥러닝 신경망은 소수점 끝단의 미세한 조정값을 잃어버리고 파탄 났을 것이다. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 위대함은 <strong>'연산은 16비트 복사본으로 미친 듯이 빠르게 뺑뺑이 돌리고, 최종 기억(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Update)을 기록할 때만 소수점 한도 초과가 없는 32비트 원본 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터 금고에 정밀하게 적는다'</strong>는 시야의 분리에 있다. 또한 너무 작은 숫자(Gradient)가 16비트 포맷의 한계 탓에 0으로 뭉개지는([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 현상을 막기 위해, 곱하기 상수를 더해 숫자를 위로 띄워 올리는 <strong>로스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Loss Scaling)</strong>이라는 생명줄 튜닝이 이 아키텍처의 필수 코어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -89,9 +92,9 @@ tags = ["studynote-ai"]
 | **FP32** ([단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/)) | 지수 8비트 + 가수 23비트 (소수점 엄청 길고 정밀함) | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 생명인 우주 항공, 물리 시뮬레이션, 과거 딥러닝 훈련 표준 | 무겁고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) VRAM 메모리를 박살 내어 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 시대엔 쓰이지 않음 |
 | **FP16** ([반정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/)) | 지수 5비트 + 가수 10비트 (소수점 짧음, 숫자가 작음) | [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 태워 훈련 속도를 미친 듯이 올리는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 심장 파트너 | 너무 작은 숫자($2^{-24}$)를 담지 못해 강제로 0으로 만들어버려([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 훈련을 파탄 냄 |
 | **BF16** ([Bfloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) / 구글 발명) | **지수 8비트** + 가수 7비트 (FP32와 표현 '범위'가 아예 똑같음!) | 구글이 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) 만들 때 만든 천재적 규격. 소수점 정확도는 깎아도, 숫자의 크기(범위)는 32비트랑 같아서 Loss Scaling(뻥튀기) 꼼수 없이 무지성 훈련 쌉가능! | 오직 최신 하드웨어(NVIDIA A100/H100, Google [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/))에서만 네이티브 연산 지원 (옛날 그래픽카드에선 작동안 함) |
-| **INT8 / INT4** | 정수형 (소수점 아예 삭제, 8칸짜리 정수 계단) | 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))이 다 끝난 모델을 초경량으로 포장해 스마트폰에 꽂을 때 쓰는 **추론(Inference) 전용 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 규격** | 이걸로 딥러닝 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))을 처음부터 돌리는 건 사실상 거의 불가능(다 뭉개짐) |
+| **INT8 / INT4** | 정수형 (소수점 아예 삭제, 8칸짜리 정수 계단) | 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))이 다 끝난 모델을 초경량으로 포장해 스마트폰에 꽂을 때 쓰는 <strong>추론(Inference) 전용 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>) 규격</strong> | 이걸로 딥러닝 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))을 처음부터 돌리는 건 사실상 거의 불가능(다 뭉개짐) |
 
-현재의 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 트렌드는 골치 아픈 '[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)/로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)' 방어벽을 세워야 하는 **FP16**을 버리고, 구글이 창안한 뇌 빼고 훈련해도 터지지 않는 마법의 **BF16 ([Bfloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/))** 텐서 규격으로 천하 통일되어 넘어가는 추세다.
+현재의 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 트렌드는 골치 아픈 '[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)/로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)' 방어벽을 세워야 하는 <strong>FP16</strong>을 버리고, 구글이 창안한 뇌 빼고 훈련해도 터지지 않는 마법의 <strong>BF16 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/">Bfloat16</a>)</strong> 텐서 규격으로 천하 통일되어 넘어가는 추세다.
 
 - **📢 섹션 요약 비유**: FP16은 소수점 끝자리까지 정확하게 재려다 보니까 큰 숫자나 너무 작은 숫자를 그릇에 담지 못해 터져버리는 깐깐한 그릇이다. 반면 구글이 만든 BF16 그릇은 "어차피 대충 잴 건데, 차라리 그릇의 테두리(지수부 범위)를 엄청나게 넓혀서 우주만 한 숫자부터 먼지만 한 숫자까지 다 주워 담자!"라고 디자인을 갈아엎은 혁명의 그릇이다. 덕분에 로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 같은 귀찮은 뻥튀기 작업 없이도 훈련이 폭풍처럼 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
 
@@ -102,11 +105,11 @@ tags = ["studynote-ai"]
 Pytorch나 TensorFlow 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Trainer) 코드를 짤 때 이 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 한 줄 켜주지 않으면, 옆자리 직원이 1시간에 끝낼 훈련을 내 모델은 3시간 동안 붙잡고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대여료를 탕진하게 된다.
 
 ### 실무 아키텍처 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **PyTorch AMP (Automatic Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) 토글 장착**: 딥러닝 코드 훈련 루프(`for batch in dataloader:`) 안에 `with torch.cuda.amp.autocast():` 라는 1줄짜리 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매니저를 감싸주기만 하면 끝난다. 프레임워크가 알아서 선형 계층(Linear Layer)이나 행렬 곱셈은 FP16으로 깎아서 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)에 때려 박고, [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))나 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)(Batch Norm)처럼 오차가 나면 훈련이 터지는 아주 예민하고 중요한 계산 구역은 똑똑하게 눈치껏 FP32 원본으로 유지해 주는 자동화된 기적이 펼쳐진다.
+1. <strong>PyTorch AMP (Automatic Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>) 토글 장착</strong>: 딥러닝 코드 훈련 루프(`for batch in dataloader:`) 안에 `with torch.cuda.amp.autocast():` 라는 1줄짜리 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매니저를 감싸주기만 하면 끝난다. 프레임워크가 알아서 선형 계층(Linear Layer)이나 행렬 곱셈은 FP16으로 깎아서 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)에 때려 박고, [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))나 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)(Batch Norm)처럼 오차가 나면 훈련이 터지는 아주 예민하고 중요한 계산 구역은 똑똑하게 눈치껏 FP32 원본으로 유지해 주는 자동화된 기적이 펼쳐진다.
 2. **GradScaler(기울기 스케일러) 객체 필수 맵핑**: AMP를 켤 때, 반드시 짝꿍으로 `scaler = torch.cuda.amp.GradScaler()` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 주입해 줘야 한다. 이 스케일러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 백그라운드에서 16비트로 쪼그라든 미세한 오차 숫자(Gradient)를 감시하다가, 숫자가 0으로 증발할 것 같으면 곱하기 상수를 실시간 펌핑(Loss Scaling)해주는 생명 유지 장치 역할을 완벽히 자동 수행한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)) 미확장 낭비**: 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(FP16)를 켰다는 것은 VRAM 메모리의 절반(50%)이 갑자기 비어있는 텅텅 빈 공터로 변신했다는 뜻이다. 그런데 훈련 코드에서 과거 FP32 시절에 쓰던 보수적인 `batch_size = 32` 숫자를 그대로 둔 채 훈련을 돌리는 멍청한 인프라 오버프로비저닝 참사. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 켠 즉시 **[배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)를 2배(64나 128) 이상으로 강제로 쑤셔 올려** 텅 빈 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) VRAM 메모리를 100% 꽉 채워서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭격으로 밀어내야 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)가 쉬지 않고 돌아가며 진정한 광속(3배 스피드업) 훈련 효율을 뽑아낼 수 있다.
+- <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">배치 사이즈</a>(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">Batch Size</a>) 미확장 낭비</strong>: 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(FP16)를 켰다는 것은 VRAM 메모리의 절반(50%)이 갑자기 비어있는 텅텅 빈 공터로 변신했다는 뜻이다. 그런데 훈련 코드에서 과거 FP32 시절에 쓰던 보수적인 `batch_size = 32` 숫자를 그대로 둔 채 훈련을 돌리는 멍청한 인프라 오버프로비저닝 참사. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 켠 즉시 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">배치 사이즈</a>를 2배(64나 128) 이상으로 강제로 쑤셔 올려</strong> 텅 빈 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) VRAM 메모리를 100% 꽉 채워서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭격으로 밀어내야 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)가 쉬지 않고 돌아가며 진정한 광속(3배 스피드업) 훈련 효율을 뽑아낼 수 있다.
 
 - **📢 섹션 요약 비유**: AMP(혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)) 코드를 켜는 건 자동차의 '터보 부스터 엔진' 버튼을 누르는 것이다. 터보 엔진을 켜서 트렁크(VRAM 메모리)가 갑자기 절반으로 가벼워졌는데, 운전자가 짐([배치 사이즈](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))을 더 싣지 않고 그냥 옛날처럼 똑같은 짐만 싣고 달리면 터보 엔진을 켠 의미가 없다. 가벼워진 만큼 짐을 2배 더 우겨넣고 터보를 쏴야 회사 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 렌트비를 아끼는 엘리트 기사다.
 
@@ -126,10 +129,10 @@ Pytorch나 TensorFlow 훈련 [파이프](/knowledge-base/studynote/02_operating_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))** | 이 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련의 16비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 입에 우걱우걱 집어삼켜 1클럭 만에 행렬 융합 연산(FMA)을 때려 부수는 엔비디아의 하드웨어 전용 심장 |
-| **[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))** | FP32를 FP16으로 깎았을 때 발생할 수 있는 훈련 파괴 버그. 너무 미세하게 작은 오차 숫자($0.00000001$)를 FP16 그릇이 못 담고 강제로 '0'으로 지워버리는 죽음의 늪 |
-| **로스 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Loss Scaling)** | [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)를 막기 위해 오차 숫자에 강제로 곱하기 1,000을 때려서([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 큰 숫자로 뻥튀기한 뒤 16비트 그릇에 안전하게 담아 옮기는 기만 구출술 |
-| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** | 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 딥러닝 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 도중에 잠시 깎는 기술이라면, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 훈련이 완전히 끝난 뒤 모델의 뇌를 통째로 정수(INT8)로 영구적으로 찌그러뜨려 스마트폰에 배포하는 추론 전용 타격 기술 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">텐서 코어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a>)</strong> | 이 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련의 16비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 입에 우걱우걱 집어삼켜 1클럭 만에 행렬 융합 연산(FMA)을 때려 부수는 엔비디아의 하드웨어 전용 심장 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">언더플로우</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">Underflow</a>)</strong> | FP32를 FP16으로 깎았을 때 발생할 수 있는 훈련 파괴 버그. 너무 미세하게 작은 오차 숫자($0.00000001$)를 FP16 그릇이 못 담고 강제로 '0'으로 지워버리는 죽음의 늪 |
+| <strong>로스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> (Loss Scaling)</strong> | [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)를 막기 위해 오차 숫자에 강제로 곱하기 1,000을 때려서([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 큰 숫자로 뻥튀기한 뒤 16비트 그릇에 안전하게 담아 옮기는 기만 구출술 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> | 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 딥러닝 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 도중에 잠시 깎는 기술이라면, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 훈련이 완전히 끝난 뒤 모델의 뇌를 통째로 정수(INT8)로 영구적으로 찌그러뜨려 스마트폰에 배포하는 추론 전용 타격 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +142,7 @@ Pytorch나 TensorFlow 훈련 [파이프](/knowledge-base/studynote/02_operating_
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련은 딥러닝 훈련소에서 무거운 덤벨(32비트 숫자) 대신 **절반 무게의 솜사탕 덤벨(16비트 숫자)**을 섞어서 운동하는 똑똑한 요령이에요!
+1. 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 훈련은 딥러닝 훈련소에서 무거운 덤벨(32비트 숫자) 대신 <strong>절반 무게의 솜사탕 덤벨(16비트 숫자)</strong>을 섞어서 운동하는 똑똑한 요령이에요!
 2. 솜사탕 덤벨로 운동하면 속도가 번개처럼 빨라지고 체력(메모리)도 안 닳지만, 너무 가벼우면 근육의 정교한 힘(미세한 오차)을 잃어버릴 위험이 있어요.
 3. 그래서 로봇은 무거운 바벨([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 금고)을 하나 딱 숨겨두고, 솜사탕 덤벨로 미친 듯이 100번 운동한 성과를 무거운 바벨에 한 번에 쾅 기록해 두는 '반반 섞어 찌개' 비법으로 우주 최고의 훈련 효율을 뽑아낸답니다.
 

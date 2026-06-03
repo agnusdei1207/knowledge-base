@@ -48,28 +48,29 @@ tags = ["studynote-computer-architecture"]
 
 ## II. 확장 구조 — Enable과 계층화
 
-```
-Enable 핀 활용:
-  E=0: 모든 출력 0 (비활성)
-  E=1: 정상 동작
-  
-  -> 여러 디코더를 계층화 가능
 
-3-to-8 디코더를 2-to-4 두 개로:
 
-  상위 비트 A2:
-    A2=0 -> 상위 디코더 활성 (Y0~Y3)
-    A2=1 -> 하위 디코더 활성 (Y4~Y7)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Enable 핀 활용:</div>
+<div class="kb-diagram-note">E=0: 모든 출력 0 (비활성)</div>
+<div class="kb-diagram-note">E=1: 정상 동작</div>
+<div class="kb-diagram-tree-item" style="--depth:1">여러 디코더를 계층화 가능</div>
+<div class="kb-diagram-note">3-to-8 디코더를 2-to-4 두 개로:</div>
+<div class="kb-diagram-note">상위 비트 A2:</div>
+<div class="kb-diagram-note">A2=0 -&gt; 상위 디코더 활성 (Y0~Y3)</div>
+<div class="kb-diagram-note">A2=1 -&gt; 하위 디코더 활성 (Y4~Y7)</div>
+<div class="kb-diagram-note">계층화된 메모리 디코딩:</div>
+<div class="kb-diagram-note">24비트 주소 = 12비트(행) + 12비트(열)</div>
+<div class="kb-diagram-note">행 디코더 (12-to-4096) + 열 디코더</div>
+<div class="kb-diagram-tree-item" style="--depth:1">4096 × 4096 = 16M 셀 선택</div>
+<div class="kb-diagram-note">Active-Low 출력:</div>
+<div class="kb-diagram-note">많은 실제 디코더는 Active-Low (선택 시 0)</div>
+<div class="kb-diagram-note">74HC138: 3-to-8, Active-Low 출력</div>
+</div>
+</div>
 
-계층화된 메모리 디코딩:
-  24비트 주소 = 12비트(행) + 12비트(열)
-  행 디코더 (12-to-4096) + 열 디코더
-  -> 4096 × 4096 = 16M 셀 선택
 
-Active-Low 출력:
-  많은 실제 디코더는 Active-Low (선택 시 0)
-  74HC138: 3-to-8, Active-Low 출력
-```
 
 > 📢 **섹션 요약 비유**: 큰 아파트 단지(메모리)에서 동(상위 디코더)-호수(하위 디코더) 두 단계로 정확한 집 찾기 — 계층 구조로 주소 공간 확장.
 
@@ -77,27 +78,29 @@ Active-Low 출력:
 
 ## III. 디코더 응용 — 민터름 생성기
 
-```
-조합 회로 구현:
-  모든 불 함수 = 민터름들의 합(SOP)
-  -> 디코더가 모든 민터름 출력
-  -> 원하는 민터름을 OR 연결 = 어떤 함수든 구현
 
-예: F(A,B,C) = AB + C = m3 + m7 + m1 + m3 + m5 + m7
-  = Σ(1, 3, 5, 7) + (AB)
-  
-  3-to-8 디코더 + OR 게이트:
-    Y1, Y3, Y5, Y7을 OR -> F 출력
-    
-장점:
-  설계 자동화 용이
-  PLD(Programmable Logic Device)의 기반
-  
-디멀티플렉서 (DEMUX):
-  Enable 핀을 데이터 입력으로 사용하면
-  1개 입력 -> 2^n개 출력 중 하나로 전달
-  (디코더와 같은 하드웨어, 다른 용도)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">조합 회로 구현:</div>
+<div class="kb-diagram-note">모든 불 함수 = 민터름들의 합(SOP)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">디코더가 모든 민터름 출력</div>
+<div class="kb-diagram-tree-item" style="--depth:1">원하는 민터름을 OR 연결 = 어떤 함수든 구현</div>
+<div class="kb-diagram-note">예: F(A,B,C) = AB + C = m3 + m7 + m1 + m3 + m5 + m7</div>
+<div class="kb-diagram-note">= Σ(1, 3, 5, 7) + (AB)</div>
+<div class="kb-diagram-note">3-to-8 디코더 + OR 게이트:</div>
+<div class="kb-diagram-note">Y1, Y3, Y5, Y7을 OR -&gt; F 출력</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">설계 자동화 용이</div>
+<div class="kb-diagram-note">PLD(Programmable Logic Device)의 기반</div>
+<div class="kb-diagram-note">디멀티플렉서 (DEMUX):</div>
+<div class="kb-diagram-note">Enable 핀을 데이터 입력으로 사용하면</div>
+<div class="kb-diagram-note">1개 입력 -&gt; 2^n개 출력 중 하나로 전달</div>
+<div class="kb-diagram-note">(디코더와 같은 하드웨어, 다른 용도)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 디코더는 스위치판 같아서, 원하는 민터름 조합에 전선 연결하면 어떤 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수든 구현 가능 — FPGA의 LUT(Look-Up Table) 원리.
 
@@ -105,30 +108,31 @@ Active-Low 출력:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더
 
-```
-CPU 명령어 사이클에서 디코더:
 
-1. Fetch: 메모리에서 명령어 가져옴
-2. Decode: 명령어 디코더가 해석
-   연산코드(Opcode) 비트 -> 제어 신호
-   
-예: ADD 명령어 (opcode = 0001)
-  디코더 출력:
-    ALU_Op[1:0] = 00 (덧셈)
-    RegWrite = 1 (레지스터 쓰기)
-    MemRead = 0
-    MemWrite = 0
-    
-3. Execute: 제어 신호대로 ALU 동작
 
-마이크로코드 디코더:
-  복잡한 CISC 명령어 -> 마이크로연산 시퀀스
-  ROM 기반 (수평형 vs 수직형 마이크로코드)
-  
-RISC vs CISC 디코더:
-  RISC: 고정 길이 명령어 -> 디코더 단순
-  CISC: 가변 길이 명령어 -> 복잡한 디코더
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 명령어 사이클에서 디코더:</div>
+<div class="kb-diagram-note">1. Fetch: 메모리에서 명령어 가져옴</div>
+<div class="kb-diagram-note">2. Decode: 명령어 디코더가 해석</div>
+<div class="kb-diagram-note">연산코드(Opcode) 비트 -&gt; 제어 신호</div>
+<div class="kb-diagram-note">예: ADD 명령어 (opcode = 0001)</div>
+<div class="kb-diagram-note">디코더 출력:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">ALU_Op</div><div class="kb-diagram-node">1:0</div><div class="kb-diagram-note">= 00 (덧셈)</div></div>
+<div class="kb-diagram-note">RegWrite = 1 (레지스터 쓰기)</div>
+<div class="kb-diagram-note">MemRead = 0</div>
+<div class="kb-diagram-note">MemWrite = 0</div>
+<div class="kb-diagram-note">3. Execute: 제어 신호대로 ALU 동작</div>
+<div class="kb-diagram-note">마이크로코드 디코더:</div>
+<div class="kb-diagram-note">복잡한 CISC 명령어 -&gt; 마이크로연산 시퀀스</div>
+<div class="kb-diagram-note">ROM 기반 (수평형 vs 수직형 마이크로코드)</div>
+<div class="kb-diagram-note">RISC vs CISC 디코더:</div>
+<div class="kb-diagram-note">RISC: 고정 길이 명령어 -&gt; 디코더 단순</div>
+<div class="kb-diagram-note">CISC: 가변 길이 명령어 -&gt; 복잡한 디코더</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더는 악보 해독기 — 음표([opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))를 읽어 어떤 악기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))를 어떻게 연주할지(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 결정.
 
@@ -136,33 +140,35 @@ RISC vs CISC 디코더:
 
 ## V. 실무 시나리오 — [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 설계
 
-```
-FPGA에서 디코더 활용:
 
-모듈 선택 디코더:
-  SoC에서 여러 I/O 모듈 (UART, SPI, I2C)
-  주소 버스 상위 4비트로 모듈 선택
-  
-  addr[31:28]:
-    0000 -> UART 선택 (Chip Select)
-    0001 -> SPI 선택
-    0010 -> I2C 선택
-    0011 -> GPIO 선택
 
-Verilog 구현:
-  module decoder_4to16 (
-    input  [3:0] addr,
-    input        enable,
-    output [15:0] cs     // Chip Select (Active-Low)
-  );
-    assign cs = enable ? ~(16'b1 << addr) : 16'hFFFF;
-  endmodule
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FPGA에서 디코더 활용:</div>
+<div class="kb-diagram-note">모듈 선택 디코더:</div>
+<div class="kb-diagram-note">SoC에서 여러 I/O 모듈 (UART, SPI, I2C)</div>
+<div class="kb-diagram-note">주소 버스 상위 4비트로 모듈 선택</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">addr</div><div class="kb-diagram-node">31:28</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-note">0000 -&gt; UART 선택 (Chip Select)</div>
+<div class="kb-diagram-note">0001 -&gt; SPI 선택</div>
+<div class="kb-diagram-note">0010 -&gt; I2C 선택</div>
+<div class="kb-diagram-note">0011 -&gt; GPIO 선택</div>
+<div class="kb-diagram-note">Verilog 구현:</div>
+<div class="kb-diagram-note">module decoder_4to16 (</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">input</div><div class="kb-diagram-node">3:0</div><div class="kb-diagram-note">addr,</div></div>
+<div class="kb-diagram-note">input enable,</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">output</div><div class="kb-diagram-node">15:0</div><div class="kb-diagram-note">cs // Chip Select (Active-Low)</div></div>
+<div class="kb-diagram-note">);</div>
+<div class="kb-diagram-note">assign cs = enable ? ~(16'b1 &lt;&lt; addr) : 16'hFFFF;</div>
+<div class="kb-diagram-note">endmodule</div>
+<div class="kb-diagram-note">합성 결과:</div>
+<div class="kb-diagram-note">4비트 입력 -&gt; LUT 4개 + 플립플롭 없음</div>
+<div class="kb-diagram-note">조합 논리만 사용 (클록 불필요)</div>
+<div class="kb-diagram-note">지연: ~1ns (7nm 공정)</div>
+</div>
+</div>
 
-합성 결과:
-  4비트 입력 -> LUT 4개 + 플립플롭 없음
-  조합 논리만 사용 (클록 불필요)
-  지연: ~1ns (7nm 공정)
-```
+
 
 > 📢 **섹션 요약 비유**: FPGA의 주소 디코더는 사무실 교환기 — 전화번호(주소) 앞자리로 어느 부서([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 연결할지 자동으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/).
 

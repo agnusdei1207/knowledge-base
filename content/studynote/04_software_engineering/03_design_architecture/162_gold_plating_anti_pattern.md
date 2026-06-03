@@ -44,23 +44,23 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 승인 없는 "선의의 추가"가 왜 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로 바뀌는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    how gold plating creates hidden cost                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Approved requirement                                                      │
-│      │                                                                     │
-│      ├─ design / build / test / release                                   │
-│      │                                                                     │
-│      └─ unapproved extra feature                                           │
-│             ├─ extra branches in code                                      │
-│             ├─ extra dependencies                                          │
-│             ├─ extra test cases                                            │
-│             └─ extra operational support                                   │
-│                                ▼                                           │
-│                     delay / defect risk / technical debt                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">how gold plating creates hidden cost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Approved requirement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ design / build / test / release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unapproved extra feature</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extra branches in code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extra dependencies</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extra test cases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extra operational support</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">delay / defect risk / technical debt</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 "기능 하나 더"가 독립적으로 존재하지 않는다는 점이다. 추가 기능이 들어오면 제어 흐름이 늘고, RTM에 없는 코드가 생기며, 테스트와 운영이 모두 그 후행 비용을 떠안게 된다. 그래서 [YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) (You Aren't Gonna Need It) 원칙은 미래를 대비하지 말라는 뜻이 아니라, 승인되지 않은 가정을 현재 시스템에 심지 말라는 뜻으로 읽어야 한다.
 
@@ -99,7 +99,7 @@ tags = ["studynote-software-engineering"]
 
 1. **이 기능이 현재 승인된 요구사항 또는 백로그 우선순위에 포함되는가?**
 2. **추가 기능의 테스트·보안·운영 비용까지 함께 산정했는가?**
-3. **[제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)나 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인을 받았는가?**
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a>나 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> 승인을 받았는가?</strong>
 4. **지금 구현하지 않아도 되는 미래 가정을 코드에 심고 있지 않은가?**
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -133,22 +133,22 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 베이스라인 확정
-        │
-        ├── 변경 요청 + 영향도 분석 + 승인
-        │          │
-        │          ▼
-        │     통제된 기능 확장
-        │
-        └── 내부의 임의 추가 구현
-                   │
-                   ▼
-         골드 플래팅 (Gold Plating)
-                   │
-                   ▼
-         일정 지연 · 기술 부채 · 유지보수 비용 증가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 베이스라인 확정</div>
+<div class="kb-diagram-tree-item" style="--depth:4">변경 요청 + 영향도 분석 + 승인</div>
+<div class="kb-diagram-note">통제된 기능 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:4">내부의 임의 추가 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">골드 플래팅 (Gold Plating)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일정 지연 · 기술 부채 · 유지보수 비용 증가</div>
+</div>
+</div>
+
+
 
 이 흐름은 같은 "기능 추가"라도 승인과 추적성이 있으면 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)가 되고, 없으면 골드 플래팅으로 떨어진다는 점을 보여 준다.
 

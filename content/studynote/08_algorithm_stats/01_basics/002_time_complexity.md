@@ -18,7 +18,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 효율성을 평가할 때 실제 실행 시간(초)을 측정하면 하드웨어, 언어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 등의 환경 변수에 종속된다. **시간 복잡도 (Time Complexity)**는 이 한계를 극복하기 위해 **입력 크기 n의 함수로 연산 횟수를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**하는 방법이다.
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 효율성을 평가할 때 실제 실행 시간(초)을 측정하면 하드웨어, 언어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 등의 환경 변수에 종속된다. <strong>시간 복잡도 (Time Complexity)</strong>는 이 한계를 극복하기 위해 <strong>입력 크기 n의 함수로 연산 횟수를 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>하는 방법이다.
 
 ### 점근적 표기법 (Asymptotic Notation) 세 가지
 
@@ -28,7 +28,7 @@ tags = ["studynote-algorithm"]
 | **Ω(g(n))** | Big-Omega | f(n) ≥ c·g(n), n ≥ n₀ 인 c, n₀ 존재 | **하한(Best Case)** — "이보다 빠르지 않다" |
 | **Θ(g(n))** | Big-Theta | Ω이자 O | **정확한 경계(Average Case)** |
 
-실무에서는 주로 **Big-O**만 논하는데, 시스템이 최악의 경우에도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 보장이 필요하기 때문이다.
+실무에서는 주로 <strong>Big-O</strong>만 논하는데, 시스템이 최악의 경우에도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 보장이 필요하기 때문이다.
 
 ### 분석 방법론
 
@@ -56,19 +56,25 @@ tags = ["studynote-algorithm"]
 
 ### 복잡도 성장 곡선 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
-```
-실행시간
- ^
- |                                          O(n!)
- |                                   O(2^n)
- |                            O(n^2)
- |                    O(n log n)
- |              O(n)
- |        O(log n)
- |  O(1) ─────────────────────────────────────────
- +─────────────────────────────────────────────>  n
-     1   2    4    8   16   32   64  128  256
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실행시간</div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">O(n!)</div>
+<div class="kb-diagram-note">O(2^n)</div>
+<div class="kb-diagram-note">O(n^2)</div>
+<div class="kb-diagram-note">O(n log n)</div>
+<div class="kb-diagram-note">O(n)</div>
+<div class="kb-diagram-note">O(log n)</div>
+<div class="kb-diagram-note">O(1)</div>
+<div class="kb-diagram-note">+ &gt; n</div>
+<div class="kb-diagram-note">1 2 4 8 16 32 64 128 256</div>
+</div>
+</div>
+
+
 
 ### 마스터 정리 (Master Theorem)
 
@@ -87,18 +93,20 @@ tags = ["studynote-algorithm"]
 
 ### 계산 규칙
 
-```
-┌─────────────────────────────────────────────────────┐
-│  f(n) = 5n³ + 3n² + 100n + 42  의 Big-O 유도        │
-│                                                     │
-│  1단계: 최고차항만 남김  → 5n³                         │
-│  2단계: 계수 제거        → n³                         │
-│  3단계: 결론             → O(n³)                     │
-│                                                     │
-│  덧셈: O(f) + O(g) = O(max(f, g))                   │
-│  곱셈: O(f) × O(g) = O(f·g)                         │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(n) = 5n³ + 3n² + 100n + 42 의 Big-O 유도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 최고차항만 남김 → 5n³</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 계수 제거 → n³</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 결론 → O(n³)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덧셈: O(f) + O(g) = O(max(f, g))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">곱셈: O(f) × O(g) = O(f·g)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 복잡도 계산은 청구서 정산 같다. 소액 항목(낮은 차수)은 무시하고, 가장 큰 항목(최고차항)만 보면 총 비용의 규모를 파악할 수 있다.
 
@@ -108,17 +116,19 @@ tags = ["studynote-algorithm"]
 
 ### Big-O vs Ω vs Θ [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-```
-                  f(n)
-                    │
-    상한 c₁·g(n) ───┤─── O(g(n)) 영역
-                    │
-    f(n) ───────────┤  (실제 함수)
-                    │
-    하한 c₂·g(n) ───┤─── Ω(g(n)) 영역
-                    │
-    Θ(g(n)): 상한과 하한 사이에 갇힌 경우
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">f(n)</div>
+<div class="kb-diagram-note">상한 c₁·g(n) O(g(n)) 영역</div>
+<div class="kb-diagram-note">f(n) (실제 함수)</div>
+<div class="kb-diagram-note">하한 c₂·g(n) Ω(g(n)) 영역</div>
+<div class="kb-diagram-note">Θ(g(n)): 상한과 하한 사이에 갇힌 경우</div>
+</div>
+</div>
+
+
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)별 복잡도 비교 (정렬 중심)
 
@@ -140,30 +150,33 @@ tags = ["studynote-algorithm"]
 
 ### 시스템 설계에서 복잡도 선택 기준
 
-**시나리오 1 — 검색 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: n=100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 실시간 조회  
+<strong>시나리오 1 — 검색 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: n=100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 실시간 조회  
 → O(n) [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)은 100만 연산, O(log n) [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)/[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 20연산  
-→ **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(B-트리) 구조로 O(log n) 보장 필수**
+→ <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>(B-트리) 구조로 O(log n) 보장 필수</strong>
 
 **시나리오 2 — 실시간 정렬**: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 랭킹  
 → O(n²) [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 n이 커지면 불가  
-→ **힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬**
+→ <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬</strong>
 
-**시나리오 3 — ML [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 연산**: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)  
+<strong>시나리오 3 — ML <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 연산</strong>: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)  
 → n=1000일 때 10억 vs 5억 연산, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 필수
 
 ### 기술사 답안 핵심 포인트
 
-```
-┌──────────────────────────────────────────────────────┐
-│  면접관 질문: "이 알고리즘의 시간 복잡도는?"           │
-│                                                      │
-│  ✅ 모범 답안 구조:                                   │
-│  1. 최악/평균/최선 케이스 각각 명시                    │
-│  2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)      │
-│  3. 실무 적용 시 문제 크기 n 기준 한계 제시            │
-│  4. 더 나은 대안 알고리즘과 트레이드오프 언급          │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">면접관 질문: "이 알고리즘의 시간 복잡도는?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 모범 답안 구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최악/평균/최선 케이스 각각 명시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실무 적용 시 문제 크기 n 기준 한계 제시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 더 나은 대안 알고리즘과 트레이드오프 언급</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 시간 복잡도를 모르고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택하는 것은 연비를 모르고 차를 사는 것과 같다. 단거리에는 경차(O(1)), 장거리 화물에는 트럭(O(n log n))이 최적이다.
 
@@ -174,22 +187,25 @@ tags = ["studynote-algorithm"]
 ### 복잡도 분석의 가치
 
 1. **설계 단계에서 병목 예측**: 코드를 작성하기 전에 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 확장성을 수학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
-2. **[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기준**: O(n²) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
-3. **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 수치화**: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a> 기준</strong>: O(n²) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
+3. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 수치화</strong>: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
 
 ### 실무 복잡도 한계선
 
-```
-┌──────────────┬───────────┬──────────────────────────┐
-│ 복잡도       │ 안전 n    │ 비고                     │
-├──────────────┼───────────┼──────────────────────────┤
-│ O(1), O(log) │ 무제한    │ 대규모 시스템 핵심 경로  │
-│ O(n)         │ ~10^8     │ 1초 내 처리 가능         │
-│ O(n log n)   │ ~10^7     │ 정렬 허용 범위           │
-│ O(n²)        │ ~10^4     │ 소규모 배치 처리         │
-│ O(2^n)       │ ~25       │ 완전탐색 절대 한계       │
-└──────────────┴───────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도</div><div class="kb-diagram-cell">안전 n</div><div class="kb-diagram-cell">비고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1), O(log)</div><div class="kb-diagram-cell">무제한</div><div class="kb-diagram-cell">대규모 시스템 핵심 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n)</div><div class="kb-diagram-cell">~10^8</div><div class="kb-diagram-cell">1초 내 처리 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n log n)</div><div class="kb-diagram-cell">~10^7</div><div class="kb-diagram-cell">정렬 허용 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n²)</div><div class="kb-diagram-cell">~10^4</div><div class="kb-diagram-cell">소규모 배치 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(2^n)</div><div class="kb-diagram-cell">~25</div><div class="kb-diagram-cell">완전탐색 절대 한계</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도는 건물의 내진설계 등급과 같다. 지진이 오지 않으면(소규모 n) 등급이 낮아도 버티지만, 대지진(대규모 n)에서는 높은 설계 등급(낮은 복잡도)만이 시스템 붕괴를 막는다.
 
@@ -207,21 +223,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[점근적 표기법]
-    │
-    ▼
-[마스터 정리]
-    │
-    ▼
-[공간 복잡도 (Space Complexity)]
-    │
-    ▼
-[알고리즘 설계 패러다임]
-    │
-    ▼
-[NP 완전 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">점근적 표기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 정리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 복잡도 (Space Complexity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 설계 패러다임</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NP 완전 문제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 점근적 표기법에서 출발해 NP 완전 문제까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

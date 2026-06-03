@@ -10,26 +10,28 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))는 **모델의 예측 분포 Q가 실제 분포 P를 얼마나 잘 표현하는지** 측정하는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)이며, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 **사실상 표준 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)**다.
-> 2. **가치**: $H(P, Q) = H(P) + D_{KL}(P \| Q)$이므로, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 최소화하는 것은 **KL 발산(P와 Q 사이의 정보 차이)**을 최소화하는 것과 동치이며, 이것이 "모델이 실제 분포를 학습한다"는 것의 수학적 의미다.
+> 1. **본질**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))는 **모델의 예측 분포 Q가 실제 분포 P를 얼마나 잘 표현하는지** 측정하는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)이며, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 <strong>사실상 표준 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a></strong>다.
+> 2. **가치**: $H(P, Q) = H(P) + D_{KL}(P \| Q)$이므로, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 최소화하는 것은 <strong>KL 발산(P와 Q 사이의 정보 차이)</strong>을 최소화하는 것과 동치이며, 이것이 "모델이 실제 분포를 학습한다"는 것의 수학적 의미다.
 > 3. **판단 포인트**: Binary CE(이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))·Categorical CE(다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))·Focal Loss(클래스 불균형 보정)를 구분하고, Label Smoothing(소프트 라벨)이 과적합을 완화하는 원리를 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    엔트로피 → 교차 엔트로피 → KL 발산 관계           │
-├───────────────────────────────────────────────────────┤
-│  H(P) = 엔트로피 (P의 불확실성, 상수)                │
-│  H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)      │
-│  D_KL(P||Q) = H(P,Q) - H(P)  (P와 Q의 차이)         │
-│                                                       │
-│  H(P)는 고정 → H(P,Q) 최소화 = D_KL 최소화          │
-│  → 모델 Q가 실제 P에 가까워진다!                     │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트로피 → 교차 엔트로피 → KL 발산 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P) = 엔트로피 (P의 불확실성, 상수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_KL(P</div><div class="kb-diagram-cell">Q) = H(P,Q) - H(P) (P와 Q의 차이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P)는 고정 → H(P,Q) 최소화 = D_KL 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델 Q가 실제 P에 가까워진다!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "정답(P) 기준으로 모델(Q)의 답이 얼마나 틀렸는지"를 재는 자이고, KL 발산은 "정답과 모델의 순수한 차이"이다.
 
@@ -54,9 +56,9 @@ tags = ["studynote-dataengineering"]
 
 | 비교 | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) | [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) |
 |:---|:---|:---|
-| **용도** | 회귀 | **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** |
+| **용도** | 회귀 | <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> |
 | **기울기** | 포화 시 작음 | **포화 시에도 큼** |
-| **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석** | 없음 | **MLE와 동치** |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 해석</strong> | 없음 | **MLE와 동치** |
 
 ---
 
@@ -70,7 +72,7 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델 학습의 수학적 토대**이며, KL 발산은 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)·[GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)·Distillation 등 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델과 지식 증류의 핵심 최적화 목표이다.
+교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 모델 학습의 수학적 토대</strong>이며, KL 발산은 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)·[GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)·Distillation 등 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델과 지식 증류의 핵심 최적화 목표이다.
 
 ---
 
@@ -78,33 +80,35 @@ tags = ["studynote-dataengineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)** | 분포의 불확실성 측정 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a></strong> | 분포의 불확실성 측정 |
 | **KL 발산** | 두 분포의 차이 측정 |
-| **교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)** | H(P) + KL(P\|\|Q), [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실 |
+| <strong>교차 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a></strong> | H(P) + KL(P\|\|Q), [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실 |
 | **Focal Loss** | 클래스 불균형 보정 CE 변형 |
 | **Label Smoothing** | 소프트 라벨로 과적합 완화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[엔트로피 (Shannon, 1948) — 정보 이론 기초]
-    │
-    ▼
-[교차 엔트로피 (분류 손실 함수 표준)]
-    │
-    ▼
-[KL 발산 (VAE, 2013~) — 생성 모델 최적화]
-    │
-    ▼
-[Focal Loss (2017, RetinaNet) — 클래스 불균형 해결]
-    │
-    ▼
-[현재: Label Smoothing + Distillation — CE 변형 활용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피 (Shannon, 1948) — 정보 이론 기초</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교차 엔트로피 (분류 손실 함수 표준)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KL 발산 (VAE, 2013~) — 생성 모델 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Focal Loss (2017, RetinaNet) — 클래스 불균형 해결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Label Smoothing + Distillation — CE 변형 활용</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 **시험 채점표**예요. 정답과 내 답이 얼마나 다른지 점수를 매겨요.
-2. KL 발산은 **정답과 내 답의 순수한 차이**예요. 이 차이를 줄이는 게 학습이에요.
+1. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 <strong>시험 채점표</strong>예요. 정답과 내 답이 얼마나 다른지 점수를 매겨요.
+2. KL 발산은 <strong>정답과 내 답의 순수한 차이</strong>예요. 이 차이를 줄이는 게 학습이에요.
 3. AI는 이 점수를 줄이려고 열심히 공부해서 **정답에 점점 가까워진답니다!**
 
 ---

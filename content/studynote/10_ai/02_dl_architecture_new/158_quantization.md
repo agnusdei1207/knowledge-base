@@ -35,25 +35,23 @@ tags = ["studynote-ai"]
 
 아래 그림은 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)가 어디에 개입하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        양자화 추론 파이프라인: 저장 비용과 메모리 이동량을 줄임     │
-├────────────────────────────────────────────────────────────────────┤
-│ FP32 학습 완료 모델                                                │
-│      │                                                             │
-│      ├─▶ 보정(Calibration) 데이터로 값의 범위 측정                 │
-│      │        │                                                    │
-│      │        └─▶ Scale / Zero-point 결정                          │
-│      │                                                             │
-│      └─▶ 가중치·활성화 양자화                                      │
-│                 │                                                   │
-│                 ├─▶ INT8 / INT4 저장                               │
-│                 ├─▶ 정수 커널로 행렬 연산                          │
-│                 └─▶ 필요 시 역양자화(Dequantization) 후 출력        │
-│                                                                    │
-│ 병목 변화: [메모리 읽기] 중심  ─────▶  [저정밀 정수 연산] 중심       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자화 추론 파이프라인: 저장 비용과 메모리 이동량을 줄임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 학습 완료 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 보정(Calibration) 데이터로 값의 범위 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Scale / Zero-point 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 가중치·활성화 양자화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ INT8 / INT4 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 정수 커널로 행렬 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 필요 시 역양자화(Dequantization) 후 출력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">병목 변화:</div><div class="kb-diagram-node">메모리 읽기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저정밀 정수 연산</div><div class="kb-diagram-note">중심</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 가장 흔한 수식은 다음과 같다.
 
@@ -103,16 +101,16 @@ tags = ["studynote-ai"]
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **하드웨어 지원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 중앙 처리 장치(CPU, Central Processing Unit)가 목표 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(INT8, INT4, FP8, 8-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))를 실제 가속하는가?
-2. **보정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보**: 실제 입력 분포를 닮은 [calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가?
+1. <strong>하드웨어 지원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 중앙 처리 장치(CPU, Central Processing Unit)가 목표 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(INT8, INT4, FP8, 8-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))를 실제 가속하는가?
+2. <strong>보정 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확보</strong>: 실제 입력 분포를 닮은 [calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가?
 3. **민감 레이어 분리**: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/), 출력 헤드, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 큰 레이어는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))로 남길 것인가?
 4. **품질 기준 정의**: 정확도, perplexity, [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), [throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중 무엇을 우선할 것인가?
 5. **운영 대상 구분**: 오프라인 배치 추론과 실시간 대화형 추론 중 어느 환경인가?
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **지원하지 않는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 무리하게 채택**: 모델은 INT4인데 실제 런타임은 내부에서 다시 INT8이나 FP16으로 변환해 오히려 느려지는 경우
-- **캘리브레이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부실**: 샘플 분포가 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 달라 운영 환경에서 정확도가 급락하는 경우
+- <strong>지원하지 않는 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 수를 무리하게 채택</strong>: 모델은 INT4인데 실제 런타임은 내부에서 다시 INT8이나 FP16으로 변환해 오히려 느려지는 경우
+- <strong>캘리브레이션 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 부실</strong>: 샘플 분포가 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 달라 운영 환경에서 정확도가 급락하는 경우
 - **전 레이어 동일 처리**: 민감층까지 일괄 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)해 출력 품질이 무너지는 경우
 
 기술사 관점에서는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)를 "모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법"으로만 쓰지 말고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요구사항과 인프라 제약을 맞추는 "배치 의사결정 도구"로 기억하는 것이 좋다. 즉 정확도 0.5% 손실로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 2배를 얻는다면 채택 가치가 높지만, 금융·의료처럼 작은 오류도 치명적이면 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)나 QAT로 방어선을 세워야 한다.
@@ -146,21 +144,23 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대형 모델 확산
-    │
-    ▼
-메모리·대역폭 병목
-    │
-    ├─▶ 지식 증류 (Knowledge Distillation)
-    │
-    └─▶ 양자화 (Quantization)
-            │
-            ├─▶ PTQ (Post-Training Quantization)
-            ├─▶ QAT (Quantization-Aware Training)
-            ├─▶ INT8 / INT4 / FP8 최적화
-            └─▶ KV Cache 양자화 · 온디바이스 LLM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 모델 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리·대역폭 병목</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 지식 증류 (Knowledge Distillation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 양자화 (Quantization)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ PTQ (Post-Training Quantization)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ QAT (Quantization-Aware Training)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ INT8 / INT4 / FP8 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ KV Cache 양자화 · 온디바이스 LLM</div>
+</div>
+</div>
+
+
 
 이 흐름은 "모델 대형화 → 경량화 필요 → 정밀한 저비트 최적화"로 이어지는 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라의 방향을 보여준다.
 

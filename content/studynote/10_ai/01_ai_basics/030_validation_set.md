@@ -18,18 +18,23 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-데이터 세트 분할 (일반적):
-  전체 데이터
-  ├─ 훈련 세트 (60~70%) ← 가중치 학습
-  ├─ 검증 세트 (15~20%) ← 하이퍼파라미터 선택
-  └─ 테스트 세트 (15~20%) ← 최종 성능 평가 (한 번만!)
 
-역할 구분:
-  훈련 세트 → 모델이 공부하는 교과서
-  검증 세트 → 중간고사 (공부 방향 수정)
-  테스트 세트 → 최종 시험 (한 번만, 오염 금지)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 세트 분할 (일반적):</div>
+<div class="kb-diagram-note">전체 데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">훈련 세트 (60~70%) ← 가중치 학습</div>
+<div class="kb-diagram-tree-item" style="--depth:1">검증 세트 (15~20%) ← 하이퍼파라미터 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:1">테스트 세트 (15~20%) ← 최종 성능 평가 (한 번만!)</div>
+<div class="kb-diagram-note">역할 구분:</div>
+<div class="kb-diagram-note">훈련 세트 → 모델이 공부하는 교과서</div>
+<div class="kb-diagram-note">검증 세트 → 중간고사 (공부 방향 수정)</div>
+<div class="kb-diagram-note">테스트 세트 → 최종 시험 (한 번만, 오염 금지)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트는 세 가지 시험 목적이다. 훈련(교과서 공부), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(중간고사 → 공부 방법 수정), 테스트(최종 시험 → 한 번만 보고 실력 평가). 최종 시험을 연습에 쓰면 의미가 없다.
 
@@ -114,7 +119,7 @@ k=5 예시:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 과적합 없는 공정한 모델 평가 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 과적합 없는 공정한 모델 평가 |
 | **하이퍼파라미터** | 체계적인 최적 파라미터 선택 |
 | **일반화** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 잘 작동하는 모델 |
 
@@ -128,29 +133,31 @@ AutoML과 Neural [Architecture](/knowledge-base/studynote/12_it_management/05_se
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **k-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)** | 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 표준 |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 누출 방지 |
+| <strong>k-Fold <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a></strong> | 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 표준 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 누출 방지 |
 | **하이퍼파라미터** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 사용 목적 |
-| **[AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)** | 자동화된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기반 탐색 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a></strong> | 자동화된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기반 탐색 |
 | **TimeSeriesSplit** | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 올바른 분할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Hold-out 검증 — 단순 고정 분할]
-    │
-    ▼
-[k-Fold 교차 검증 — 순환 교체로 분산 감소]
-    │
-    ▼
-[Stratified k-Fold — 클래스 분포 유지 교차 검증]
-    │
-    ▼
-[Nested Cross-Validation — 이중 루프 공정 평가]
-    │
-    ▼
-[AutoML·Hyperband — 검증 세트 자동 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hold-out 검증 — 단순 고정 분할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">k-Fold 교차 검증 — 순환 교체로 분산 감소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stratified k-Fold — 클래스 분포 유지 교차 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Nested Cross-Validation — 이중 루프 공정 평가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AutoML·Hyperband — 검증 세트 자동 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

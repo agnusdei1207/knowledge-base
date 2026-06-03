@@ -24,33 +24,32 @@ tags = ["studynote-software-engineering"]
   - **VO (Value Object, 값 객체)**: ID 따윈 없는 소모품 쓰레기. 만원짜리 지폐 2장이 있을 때, 그 지폐 번호(ID)가 달라도 '1만원'이라는 값(Value)만 같으면 둘은 똑같은 놈으로 취급한다 (동등성 Equality).
   - **Repository (리포지토리)**: 이 생명체(Entity)와 쓰레기(VO)들을 메모리 컬렉션(List/Map)처럼 다루게 해 주며, 뒤에서 몰래 진짜 오라클 DB에 꽂아주는 하청업체 문지기.
 
-- **필요성 (빈혈 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 비극)**: 옛날 주니어 자바 개발자들은 `User` 클래스를 만들고, 그 뱃속에 `private int money;` 딸랑 변수랑 `get/set` 껍데기만 뚫어놨다 (빈혈 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델, Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model). 그리고 돈 빼는 중요한 비즈니스 로직 계산은 엉뚱하게 `UserService` 라는 파일에다가 길게 if문 100줄을 쌩코딩 쳐놨다. 1년 뒤, `AdminService` 라는 파일에서 어떤 미친놈이 `User.setMoney(0)` 이라고 `Setter`를 다이렉트로 호출하며 유저 돈을 허공에 날려버렸다!! **"아 씨발!! 비즈니스 로직(돈 빼기)을 객체 뱃속([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 안 가둬놓고 밖([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에 흩뿌려놓으니까, 개나 소나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 만지다 털리잖아!! 객체지향 뽕 찼다며 왜 C언어 절차지향처럼 똥 짜고 앉았어?! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 로직을 무조건 한 몸(Rich [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))으로 합쳐버려!!"** 이 강박적 캡슐화 헌법이 엔티티와 VO를 낳았다.
+- <strong>필요성 (빈혈 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델의 비극)</strong>: 옛날 주니어 자바 개발자들은 `User` 클래스를 만들고, 그 뱃속에 `private int money;` 딸랑 변수랑 `get/set` 껍데기만 뚫어놨다 (빈혈 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델, Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model). 그리고 돈 빼는 중요한 비즈니스 로직 계산은 엉뚱하게 `UserService` 라는 파일에다가 길게 if문 100줄을 쌩코딩 쳐놨다. 1년 뒤, `AdminService` 라는 파일에서 어떤 미친놈이 `User.setMoney(0)` 이라고 `Setter`를 다이렉트로 호출하며 유저 돈을 허공에 날려버렸다!! <strong>"아 씨발!! 비즈니스 로직(돈 빼기)을 객체 뱃속(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)에 안 가둬놓고 밖(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)에 흩뿌려놓으니까, 개나 소나 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 만지다 털리잖아!! 객체지향 뽕 찼다며 왜 C언어 절차지향처럼 똥 짜고 앉았어?! <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 로직을 무조건 한 몸(Rich <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)으로 합쳐버려!!"</strong> 이 강박적 캡슐화 헌법이 엔티티와 VO를 낳았다.
 
-- **💡 비유**: 빈혈 모델(구식)은 **'머리 텅 빈 지갑([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'과 '계산원([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직)'**입니다. 누구나 지갑을 열어 돈(Getter/Setter)을 쓱 빼갈 수 있어 도둑질에 취약하죠. 풍부한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))은 **'지문 인식 자판기(Entity)'**입니다. 돈통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 자판기 강철 껍데기 속에 꽁꽁 숨겨져 있습니다(`private`). 유일한 대화 수단은 자판기 앞면의 '음료수 뽑기 버튼(`pay()`)'뿐입니다. 돈을 꺼내는 더러운 로직은 자판기 뱃속([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체 내부)에서 100% 알아서 굴러가고, 밖에서는 절대로 자판기 배를 가르지 못하는 궁극의 보안 방어술입니다.
+- **💡 비유**: 빈혈 모델(구식)은 <strong>'머리 텅 빈 지갑(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)'과 '계산원(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 로직)'</strong>입니다. 누구나 지갑을 열어 돈(Getter/Setter)을 쓱 빼갈 수 있어 도둑질에 취약하죠. 풍부한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))은 <strong>'지문 인식 자판기(Entity)'</strong>입니다. 돈통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 자판기 강철 껍데기 속에 꽁꽁 숨겨져 있습니다(`private`). 유일한 대화 수단은 자판기 앞면의 '음료수 뽑기 버튼(`pay()`)'뿐입니다. 돈을 꺼내는 더러운 로직은 자판기 뱃속([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체 내부)에서 100% 알아서 굴러가고, 밖에서는 절대로 자판기 배를 가르지 못하는 궁극의 보안 방어술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Data-Driven (DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 중심 시대)**: SQL이 왕이던 시절. `UPDATE user SET money = money - 1` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한 줄 치는 게 자랑이었다. 자바(Java)는 그냥 DB 껍데기를 웹으로 토스하는 병신 바보 객체(VO/DTO)였다.
-  2. **[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record (과도기)**: "야 자바 객체가 지가 알아서 `save()` 치게 만들자 ㅋ" (Ruby on Rails). 근데 객체 뱃속에 DB 접속 코드가 떡칠되어 테스팅이 안 되고 뻗음.
-  3. **[DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) Tactical Design (현재)**: "객체는 오직 순수한 자바(POJO)로만 숨 쉬어야 해! DB 코드는 1바이트도 묻지 마! 대신 비즈니스 룰은 100% 다 뱃속에 박아 넣어!!" (Rich [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) + Repository 찢기). 현대 Spring Boot + JPA 생태계의 교과서로 우화함.
+  1. <strong>Data-Driven (DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 중심 시대)</strong>: SQL이 왕이던 시절. `UPDATE user SET money = money - 1` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한 줄 치는 게 자랑이었다. 자바(Java)는 그냥 DB 껍데기를 웹으로 토스하는 병신 바보 객체(VO/DTO)였다.
+  2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Record (과도기)</strong>: "야 자바 객체가 지가 알아서 `save()` 치게 만들자 ㅋ" (Ruby on Rails). 근데 객체 뱃속에 DB 접속 코드가 떡칠되어 테스팅이 안 되고 뻗음.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> Tactical Design (현재)</strong>: "객체는 오직 순수한 자바(POJO)로만 숨 쉬어야 해! DB 코드는 1바이트도 묻지 마! 대신 비즈니스 룰은 100% 다 뱃속에 박아 넣어!!" (Rich [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) + Repository 찢기). 현대 Spring Boot + JPA 생태계의 교과서로 우화함.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'꼭두각시 인형'에서 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇'으로의 진화**입니다. 옛날 엔티티(빈혈 모델)는 실에 매달린 인형입니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 클래스가 밖에서 실을 100번 당겨야(Getter/Setter) 겨우 움직이죠. DDD의 엔티티는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇입니다. 뱃속에 스스로 계산하고 판단하는 뇌(비즈니스 로직)가 꽉 차 있습니다. 밖에서는 그저 "청소해!(메서드 호출)" 1마디만 던지면 10초 컷으로 모든 일을 완벽히 오차 없이 지 혼자 끝내버립니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'꼭두각시 인형'에서 '<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 로봇'으로의 진화</strong>입니다. 옛날 엔티티(빈혈 모델)는 실에 매달린 인형입니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 클래스가 밖에서 실을 100번 당겨야(Getter/Setter) 겨우 움직이죠. DDD의 엔티티는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇입니다. 뱃속에 스스로 계산하고 판단하는 뇌(비즈니스 로직)가 꽉 차 있습니다. 밖에서는 그저 "청소해!(메서드 호출)" 1마디만 던지면 10초 컷으로 모든 일을 완벽히 오차 없이 지 혼자 끝내버립니다.
 
 ---
 
 다음은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 기본 구의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  도메인 주도 설계 (DDD) 기본 구                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 주도 설계 (DDD) 기본 구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 기본 구가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 기본 구성 (엔티티, VO, 리포지토리)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 기본 구성 (엔티티, VO, 리포지토리)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 기본 구성 (엔티티, VO, 리포지토리)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-도메인 주도 설계 (DDD) 기본 구성 (엔티티, VO, 리포지토리) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 주도 설계 (DDD) 기본 구성 (엔티티, VO, 리포지토리) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

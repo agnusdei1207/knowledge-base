@@ -37,19 +37,18 @@ tags = ["studynote-design"]
 | 산출물 ([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) | 노드에 배포되어 실행되는 소프트웨어 덩어리 (`.jar`, `.war` 등) | 노드 내부에 포함 관계로 그리며 버전을 명시 |
 | 통신 경로 (Communication Path) | 노드 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환을 위한 네트워크 연결선 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, JDBC 등)과 대역폭을 텍스트로 표기 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  전형적인 3-Tier 배포 다이어그램 구조                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Client Node]          [App Server Node]         [DB Node]  │
-│  ┌───────────┐          ┌───────────────┐      ┌───────────┐ │
-│  │ Web       │--HTTPS-->│ Tomcat Engine │-TCP->│ Oracle DB │ │
-│  │ Browser   │          │ <<artifact>>  │      │ <<Data>>  │ │
-│  └───────────┘          └───────────────┘      └───────────┘ │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전형적인 3-Tier 배포 다이어그램 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client Node</div><div class="kb-diagram-node">App Server Node</div><div class="kb-diagram-node">DB Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web</div><div class="kb-diagram-cell">--HTTPS--&gt;</div><div class="kb-diagram-cell">Tomcat Engine</div><div class="kb-diagram-cell">-TCP-&gt;</div><div class="kb-diagram-cell">Oracle DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser</div><div class="kb-diagram-cell">&lt;&lt;artifact&gt;&gt;</div><div class="kb-diagram-cell">&lt;&lt;Data&gt;&gt;</div></div>
+</div>
+</div>
+
+
 
 이 그림은 사용자의 브라우저에서 출발한 요청이 어떤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 타고 애플리케이션 서버와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장비로 넘어가는지 직관적으로 보여준다. 이를 통해 어느 구간에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 설정해야 하고, 장애 시 어디를 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))해야 하는지 명확한 운영 지침을 얻을 수 있다.
 
@@ -79,7 +78,7 @@ tags = ["studynote-design"]
 
 ### 설계 검토 및 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **가용성과 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)**: 웹/앱 서버 노드가 단일점장애(`SPOF`)로 구성되지는 않았는가? 로드 밸런서(L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 노드 앞에 적절히 배치되었는가?
+1. <strong>가용성과 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a></strong>: 웹/앱 서버 노드가 단일점장애(`SPOF`)로 구성되지는 않았는가? 로드 밸런서(L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 노드 앞에 적절히 배치되었는가?
 2. **보안 구역(Zone) 분리**: 외부 인터넷망([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/)), 내부망, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)망이 명확히 분리되고 통신 경로마다 허용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 정의되어 있는가?
 3. **확장성(Scalability)**: 트래픽 급증 시 동적으로 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))되어야 하는 노드군과 정적으로 유지되는 노드가 시각적으로 구별되어 있는가?
 
@@ -112,21 +111,23 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리 장비 매핑 (베어메탈 중심)
-    │
-    ▼
-가상화 토폴로지 (VM, Hypervisor 기반)
-    │
-    ▼
-클라우드 인프라 뷰 (VPC, Subnet, Security Group)
-    │
-    ▼
-마이크로서비스 배포 뷰 (컨테이너 오케스트레이션 매핑)
-    │
-    ▼
-IaC (Infrastructure as Code) 연동 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 장비 매핑 (베어메탈 중심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화 토폴로지 (VM, Hypervisor 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 인프라 뷰 (VPC, Subnet, Security Group)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 배포 뷰 (컨테이너 오케스트레이션 매핑)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IaC (Infrastructure as Code) 연동 자동화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -31,22 +31,19 @@ tags = ["studynote-operating-system"]
 
 그리드의 핵심은 이기종 자원을 표준 인터페이스로 감싸는 미들웨어 (Middleware)다. 미들웨어가 자원 검색, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 작업 스케줄링, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 중재해 주기 때문에, 사용자 입장에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 자원이 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 보인다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             그리드 컴퓨팅의 자원 연합 구조                   │
-├──────────────────────────────────────────────────────────────┤
-│ [기관 A 클러스터]   [기관 B 스토리지]   [기관 C 서버팜]      │
-│        \                 |                  /                │
-│         \                |                 /                 │
-│          └────────── [그리드 미들웨어] ──────────┘           │
-│                         │                                    │
-│                         ▼                                    │
-│              가상 조직 (VO, Virtual Organization)            │
-│                         │                                    │
-│                         ▼                                    │
-│          작업 브로커 · 스케줄러 · 보안 · 데이터 이동         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그리드 컴퓨팅의 자원 연합 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기관 A 클러스터</div><div class="kb-diagram-node">기관 B 스토리지</div><div class="kb-diagram-node">기관 C 서버팜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그리드 미들웨어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 조직 (VO, Virtual Organization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 브로커 · 스케줄러 · 보안 · 데이터 이동</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 대표 포인트 |
 | :--- | :--- | :--- |
@@ -125,21 +122,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클러스터 컴퓨팅 (Cluster Computing)
-    │
-    ▼
-그리드 컴퓨팅 (Grid Computing)
-    │
-    ▼
-유틸리티 컴퓨팅 (Utility Computing)
-    │
-    ▼
-클라우드 · 연합 클라우드
-    │
-    ▼
-에지 그리드 · 연구 데이터 스페이스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클러스터 컴퓨팅 (Cluster Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그리드 컴퓨팅 (Grid Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유틸리티 컴퓨팅 (Utility Computing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 · 연합 클라우드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">에지 그리드 · 연구 데이터 스페이스</div>
+</div>
+</div>
+
+
 
 이 흐름은 "묶어서 쓴다"는 개념이 로컬 자원에서 전 지구적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델로 확장된 과정을 보여준다.
 

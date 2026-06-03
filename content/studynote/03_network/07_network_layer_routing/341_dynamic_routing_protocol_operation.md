@@ -23,19 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: 전국에 라우터가 100대 있다고 치자. 서울에서 부산 가는 길이 10갈래인데, 중간에 대전 라우터 전원이 퍽 하고 나갔다. [Static Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)) 시절에는 네트워크 관리자가 새벽 2시에 일어나서 대전으로 가는 룰을 싹 다 지우고 대구로 가는 룰을 수동으로 타이핑해야 인터넷이 복구되었다. "이걸 사람이 어떻게 매번 해? 기계들끼리 알아서 길이 막혔는지 뚫렸는지 통신하고, 알아서 우회로로 내비게이션을 다시 찍게 만들자!"라는 절박함에서 동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 탄생했다.
 
 - **💡 비유**: 
-  - **[정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)**: 표지판에 페인트로 **"부산은 무조건 직진"**이라고 칠해놓은 것. 앞 도로가 싱크홀로 무너져도 차들은 직진하다가 다 빠져 죽습니다.
-  - **동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: 스마트폰의 **"T맵이나 카카오내비"**입니다. 앞 도로에 사고가 나면 실시간으로 중앙 서버(라우터 간 통신)와 통신해서 "전방 1km 사고 발생, 2분 빠른 우회 경로로 안내합니다"라며 지도를 즉석에서 다시 그려줍니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/">정적 라우팅</a></strong>: 표지판에 페인트로 <strong>"부산은 무조건 직진"</strong>이라고 칠해놓은 것. 앞 도로가 싱크홀로 무너져도 차들은 직진하다가 다 빠져 죽습니다.
+  - <strong>동적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: 스마트폰의 <strong>"T맵이나 카카오내비"</strong>입니다. 앞 도로에 사고가 나면 실시간으로 중앙 서버(라우터 간 통신)와 통신해서 "전방 1km 사고 발생, 2분 빠른 우회 경로로 안내합니다"라며 지도를 즉석에서 다시 그려줍니다.
 
-```text
-[정적 라우팅]
-    │
-    ▼
-[동적 라우팅]
-    │
-    └──▶ [메트릭]
-```
 
-- **📢 섹션 요약 비유**: ** 동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 인간의 개입 없이, 길목에 선 파수꾼(라우터)들이 서로 봉화와 비둘기(패킷)를 주고받으며 **"동문이 막혔으니 서문으로 돌아가라!"라고 동네방네 소문을 퍼뜨리는 자율적 생존 네트워크**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메트릭</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 동적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>은 인간의 개입 없이, 길목에 선 파수꾼(라우터)들이 서로 봉화와 비둘기(패킷)를 주고받으며 </strong>"동문이 막혔으니 서문으로 돌아가라!"라고 동네방네 소문을 퍼뜨리는 자율적 생존 네트워크**입니다.
 
 ---
 
@@ -49,29 +53,28 @@ tags = ["studynote-network"]
 
 ### 2. 내부냐 외부냐에 따른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) vs [EGP](/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/))
 전 세계 인터넷망을 하나의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 묶는 것은 불가능하다. 그래서 통신망을 회사 단위([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/), 자율 시스템)로 쪼갠 뒤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 나누었다.
-- **[IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) ([Interior Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))**: 하나의 회사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) '내부'에서 지도를 그릴 때 쓴다. (예: KT 내부, 삼성전자 내부). 길을 빠르고 정교하게 찾는 데(속도) 미쳐있는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이다. **([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/))**
-- **[EGP](/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/) ([Exterior Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/))**: 회사와 회사(AS와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) '사이'를 연결할 때 쓴다. (예: KT와 SKT를 연결). 여기선 속도보다 "저 회사로는 우리 비밀 트래픽을 절대 안 보낼 거야" 같은 '정치적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))'이 훨씬 중요하다. **(BGP가 유일무이하다)**
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/">IGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/">Interior Gateway Protocol</a>)</strong>: 하나의 회사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) '내부'에서 지도를 그릴 때 쓴다. (예: KT 내부, 삼성전자 내부). 길을 빠르고 정교하게 찾는 데(속도) 미쳐있는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이다. <strong>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a>)</strong>
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/">EGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/">Exterior Gateway Protocol</a>)</strong>: 회사와 회사(AS와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) '사이'를 연결할 때 쓴다. (예: KT와 SKT를 연결). 여기선 속도보다 "저 회사로는 우리 비밀 트래픽을 절대 안 보낼 거야" 같은 '정치적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))'이 훨씬 중요하다. **(BGP가 유일무이하다)**
 
 ### 3. 길을 찾는 방식에 따른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) vs [Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/))
 이건 [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/)(회사 내부망) 안에서 길을 찾는 두 가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 철학이다.
-- **[거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) ([Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/))**: "옆집 라우터가 여기가 빠르대! 그럼 나도 그런 줄 알아야지!" 하고 남의 말을 무비판적으로 믿고 소문을 퍼뜨리는 방식. (시야가 좁음). **([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/))**
-- **[링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) ([Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/))**: "남의 말 안 믿어! 내가 우리 동네 전체 지도(토폴로지)를 직접 다 그려보고, 내가 직접 수학 공식([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 돌려서 길을 찾을 거야!" 하는 똑똑하지만 계산이 복잡한 방식. **([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/))**
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">거리 벡터</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">Distance Vector</a>)</strong>: "옆집 라우터가 여기가 빠르대! 그럼 나도 그런 줄 알아야지!" 하고 남의 말을 무비판적으로 믿고 소문을 퍼뜨리는 방식. (시야가 좁음). <strong>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a>)</strong>
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a>)</strong>: "남의 말 안 믿어! 내가 우리 동네 전체 지도(토폴로지)를 직접 다 그려보고, 내가 직접 수학 공식([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 돌려서 길을 찾을 거야!" 하는 똑똑하지만 계산이 복잡한 방식. <strong>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a>)</strong>
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                동적 라우팅 프로토콜 계보도 (요약)                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                     [ 동적 라우팅 (Dynamic) ]                   │
- │                          /            \                     │
- │              [ IGP (회사 내부) ]       [ EGP (회사 간 연결) ]    │
- │               /            \                 |              │
- │       [거리 벡터(소문)]   [링크 상태(지도)]       |              │
- │         - RIP           - OSPF         - BGP (인터넷의 끝판왕)│
- │         - EIGRP         - IS-IS                             │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 라우팅 프로토콜 계보도 (요약)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 라우팅 (Dynamic)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IGP (회사 내부)</div><div class="kb-diagram-node">EGP (회사 간 연결)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거리 벡터(소문)</div><div class="kb-diagram-node">링크 상태(지도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RIP - OSPF - BGP (인터넷의 끝판왕)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- EIGRP - IS-IS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 라우터들은 서로 **"우리 동네 뒷산에 지름길 하나 뚫렸대!"**라고 쉴 새 없이 카톡을 주고받으며 수다를 떠는 마을 아주머니들과 같습니다. 이 수다(동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 덕분에 온 동네 배달원들은 길이 막힐 때마다 가장 빠른 우회로를 귀신같이 찾아냅니다.
 
@@ -129,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 정적 라우팅]
-    │
-    ▼
-[현재 개념: 동적 라우팅]
-    │
-    ├──▶ [확장 A: 메트릭]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정적 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 동적 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 메트릭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

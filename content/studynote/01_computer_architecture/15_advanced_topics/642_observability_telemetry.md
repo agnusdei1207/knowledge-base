@@ -13,7 +13,7 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: 옵저버빌리티 (Observability) 하드웨어 텔레메트리는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 저장장치, 네트워크 장비가 내놓는 전력·온도·오류·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 수집해 시스템 내부 상태를 설명 가능하게 만든다.
 > 2. **가치**: 소프트웨어 로그가 증상을 보여준다면 하드웨어 텔레메트리는 원인을 드러내므로, 열 스로틀링, 링크 오류, 정정 가능한 오류 같은 문제를 더 빨리 찾고 더 정확히 예측할 수 있다.
-> 3. **판단 포인트**: 좋은 텔레메트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 상태가 아니라 **오버헤드가 낮고, 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 맞고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표와 연결된 지표만 남아 있는 상태**다.
+> 3. **판단 포인트**: 좋은 텔레메트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 상태가 아니라 <strong>오버헤드가 낮고, 시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>가 맞고, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 목표와 연결된 지표만 남아 있는 상태</strong>다.
 
 ---
 
@@ -42,21 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 증상과 원인을 잇는 텔레메트리 경로를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Hardware telemetry closes the symptom-cause gap             │
-├──────────────────────────────────────────────────────────────┤
-│ PMU  ECC  SMART  PCIe  Fan/Power                            │
-│  │    │     │     │      │                                  │
-│  └────┴─────┴─────┴──────┘                                  │
-│              ▼                                               │
-│   in-band agent + out-of-band BMC collector                  │
-│              ▼                                               │
-│    time-aligned metrics / traces / alerts                    │
-│              ▼                                               │
-│    throttle analysis / fault isolation / prediction          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware telemetry closes the symptom-cause gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMU ECC SMART PCIe Fan/Power</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">in-band agent + out-of-band BMC collector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time-aligned metrics / traces / alerts</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">throttle analysis / fault isolation / prediction</div></div>
+</div>
+</div>
+
+
 
 여기서 가장 자주 놓치는 요소는 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 라벨 설계다. CPU 온도 스파이크와 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 같은 시각에 일어난 사건인지, 아니면 서로 무관한지 판단하려면 장비 간 시계가 맞아야 한다. 또한 랙, 노드, 장치 세대, 작업 종류 같은 문맥 정보가 빠지면 숫자는 많아도 설명력은 급격히 떨어진다.
 
@@ -109,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 하드웨어 텔레메트리가 잘 갖춰지면 장애 원인 규명 시간은 짧아지고, 불필요한 부품 교체와 추측성 튜닝은 줄어든다. 특히 전력 밀도가 높은 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제와 물리 문제를 분리해 보는 것 자체가 불가능해지고 있기 때문에, 텔레메트리는 선택이 아니라 기본 관측 계층이 된다.
 
-다만 텔레메트리는 많이 모은다고 저절로 가치가 생기지 않는다. 낮은 오버헤드, 표준화된 모델, 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 보안이 함께 갖춰져야 진짜 설명력이 생긴다. 그래서 이 개념은 "센서를 다는 기술"이 아니라, **숨겨진 물리 상태를 운영 판단으로 번역하는 기술**로 기억하는 것이 맞다.
+다만 텔레메트리는 많이 모은다고 저절로 가치가 생기지 않는다. 낮은 오버헤드, 표준화된 모델, 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 보안이 함께 갖춰져야 진짜 설명력이 생긴다. 그래서 이 개념은 "센서를 다는 기술"이 아니라, <strong>숨겨진 물리 상태를 운영 판단으로 번역하는 기술</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 하드웨어 텔레메트리는 컴퓨터 몸속에 붙인 청진기와 같다. 소리가 많이 들리는 것이 중요한 게 아니라, 어떤 소리가 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)인지 정확히 알아듣는 것이 중요하다.
 
@@ -127,21 +125,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 생존 감시 · 임계치 알람
-    │
-    ▼
-시스템 메트릭 수집
-    │
-    ▼
-하드웨어 텔레메트리 통합
-    │
-    ▼
-소프트웨어 + 하드웨어 교차 상관 분석
-    │
-    ▼
-예측 운영 · 자율 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 생존 감시 · 임계치 알람</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 메트릭 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 텔레메트리 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 + 하드웨어 교차 상관 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 운영 · 자율 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "살아 있나"를 묻는 단계에서 출발해, "왜 이런 상태인가"를 설명하고 "곧 무슨 일이 날까"까지 예측하는 방향으로 진화했음을 보여준다.
 

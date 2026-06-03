@@ -25,19 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 이머전 쿨링이 "칩용 냉각기"가 아니라 "서버를 둘러싼 환경 재설계"인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Tank becomes the server's surrounding coolant                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Board]   [Board]   [Board]                                               │
-│    │         │         │                                                  │
-│    └------ heat into dielectric fluid ------> heat exchanger / condenser  │
-│                                                                            │
-│ 팬이 만드는 공기 통로 대신, 탱크 속 액체가 기본 냉각 환경이 된다.          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 이머전 쿨링의 핵심은 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니다. 더 본질적인 변화는 **서버가 의존하는 주변 매질을 공기에서 액체로 바꾸어, 열·소음·먼지·공조 구조를 한꺼번에 다시 설계하는 것**에 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tank becomes the server's surrounding coolant</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Board</div><div class="kb-diagram-node">Board</div><div class="kb-diagram-node">Board</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------ heat into dielectric fluid ------&gt; heat exchanger / condenser</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팬이 만드는 공기 통로 대신, 탱크 속 액체가 기본 냉각 환경이 된다.</div></div>
+</div>
+</div>
+
+
+
+따라서 이머전 쿨링의 핵심은 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니다. 더 본질적인 변화는 <strong>서버가 의존하는 주변 매질을 공기에서 액체로 바꾸어, 열·소음·먼지·공조 구조를 한꺼번에 다시 설계하는 것</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 이머전 쿨링은 더 강한 에어컨을 다는 일이 아니라, 더운 운동장을 시원한 수영장으로 바꾸는 것과 같다. 같은 사람이라도 주변 환경이 달라지면 버티는 방식 자체가 달라진다.
 
@@ -55,18 +56,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 단상과 이상의 열 이동 차이를 단순화한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Single-phase vs Two-phase immersion path                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Single-phase : Board -> Fluid warms -> Pump -> Heat Exchanger -> Tank     │
-│ Two-phase    : Board -> Fluid boils -> Vapor -> Condenser -> Tank         │
-│                                                                            │
-│ 차이는 '액체를 돌릴지'와 '끓여서 다시 응축시킬지'에 있다.                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 현실적 포인트는 일반 공랭 서버를 아무 준비 없이 그대로 담글 수 없다는 점이다. 팬은 보통 제거되거나 비활성화되고, 가스켓·케이블 피복·커넥터·윤활 재료처럼 액체와 접촉하는 부품의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 검증해야 한다. 즉 이머전 쿨링은 탱크만 사면 끝나는 설비 기술이 아니라, **서버 하드웨어와 유체 화학이 함께 맞아야 완성되는 공동 설계**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single-phase vs Two-phase immersion path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single-phase : Board -&gt; Fluid warms -&gt; Pump -&gt; Heat Exchanger -&gt; Tank</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-phase : Board -&gt; Fluid boils -&gt; Vapor -&gt; Condenser -&gt; Tank</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차이는 '액체를 돌릴지'와 '끓여서 다시 응축시킬지'에 있다.</div></div>
+</div>
+</div>
+
+
+
+중요한 현실적 포인트는 일반 공랭 서버를 아무 준비 없이 그대로 담글 수 없다는 점이다. 팬은 보통 제거되거나 비활성화되고, 가스켓·케이블 피복·커넥터·윤활 재료처럼 액체와 접촉하는 부품의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 검증해야 한다. 즉 이머전 쿨링은 탱크만 사면 끝나는 설비 기술이 아니라, <strong>서버 하드웨어와 유체 화학이 함께 맞아야 완성되는 공동 설계</strong>다.
 
 - **📢 섹션 요약 비유**: 단상은 시원한 물을 계속 갈아 주는 목욕이고, 이상은 물이 보글보글 끓으며 열을 더 크게 가져가는 찜질탕에 가깝다. 둘 다 몸을 식히지만, 물을 다루는 방식과 준비물이 다르다.
 
@@ -74,7 +77,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-이머전 쿨링은 액체 냉각의 한 종류이지만, 직접 칩 냉각과는 적용 철학이 다르다. 직접 칩 냉각은 가장 뜨거운 부품을 겨냥한 선택적 냉각이고, 이머전 쿨링은 서버 전체를 동일한 냉각 환경으로 넣는 포괄적 냉각이다. 그래서 단순히 "어느 쪽이 더 세게 식히는가"보다 **어느 정도까지 운영 방식을 바꿀 수 있는가**가 비교의 핵심이 된다.
+이머전 쿨링은 액체 냉각의 한 종류이지만, 직접 칩 냉각과는 적용 철학이 다르다. 직접 칩 냉각은 가장 뜨거운 부품을 겨냥한 선택적 냉각이고, 이머전 쿨링은 서버 전체를 동일한 냉각 환경으로 넣는 포괄적 냉각이다. 그래서 단순히 "어느 쪽이 더 세게 식히는가"보다 <strong>어느 정도까지 운영 방식을 바꿀 수 있는가</strong>가 비교의 핵심이 된다.
 
 | 항목 | 직접 칩 냉각 | 단상 이머전 쿨링 | 이상 이머전 쿨링 |
 | :--- | :--- | :--- | :--- |
@@ -111,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 - 탱크 안에서는 조용하다는 이유로 센서와 모니터링을 소홀히 하는 판단
 - 벤더 보증 범위와 부품 교체 절차를 확인하지 않고, 파일럿 없이 대규모 전환하는 계획
 
-기술사 답안에서는 "물속에 담근다"는 표현보다 **절연 액체, 단상/이상 구조, 정비 절차, 재료 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 고밀도 설비 적합성**을 함께 써야 정확하다. 냉각 강도 못지않게 운영 프로세스 변화가 큰 기술이기 때문이다.
+기술사 답안에서는 "물속에 담근다"는 표현보다 <strong>절연 액체, 단상/이상 구조, 정비 절차, 재료 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>, 고밀도 설비 적합성</strong>을 함께 써야 정확하다. 냉각 강도 못지않게 운영 프로세스 변화가 큰 기술이기 때문이다.
 
 - **📢 섹션 요약 비유**: 이머전 쿨링은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 냉장고를 하나 더 사는 일이 아니라 주방 전체를 냉장 창고형으로 바꾸는 일과 같다. 시원함은 압도적이지만, 재료를 넣고 빼는 방식도 함께 바뀌어야 한다.
 
@@ -123,7 +126,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 이 기술은 만능 해결책이 아니다. 절연 액체 비용, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 난이도, 장비 무게, 부품 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 생태계 성숙도는 분명한 제약이다. 앞으로는 immersion-ready 서버, 탱크 표준화, 액체 상태 모니터링, 폐열 재활용 체계가 함께 발전해야 이머전 쿨링이 더 넓게 확산될 수 있다.
 
-결론적으로 이머전 쿨링은 **"공기를 잘 다루는 냉각"이 아니라 "공기를 냉각의 주연 자리에서 내리는 아키텍처"**로 기억하는 것이 맞다. 핵심은 칩 하나를 세게 식히는 것이 아니라, 서버가 존재하는 열 환경 전체를 다시 설계하는 데 있다.
+결론적으로 이머전 쿨링은 <strong>"공기를 잘 다루는 냉각"이 아니라 "공기를 냉각의 주연 자리에서 내리는 아키텍처"</strong>로 기억하는 것이 맞다. 핵심은 칩 하나를 세게 식히는 것이 아니라, 서버가 존재하는 열 환경 전체를 다시 설계하는 데 있다.
 
 - **📢 섹션 요약 비유**: 이머전 쿨링은 더 큰 선풍기를 들여놓는 일이 아니라, 더운 교실을 아예 수영장 수업으로 바꾸는 일이다. 환경이 바뀌면 버티는 방식도, 운영 규칙도 같이 바뀐다.
 
@@ -142,24 +145,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공랭 기반 서버실
-    │
-    ▼
-Liquid Cooling · Direct-to-Chip
-    │
-    ▼
-Single-phase Immersion Tank
-    │
-    ▼
-Two-phase Boiling / Condensation
-    │
-    ▼
-고밀도 AI 랙 · 팬리스 운영
-    │
-    ▼
-폐열 재활용형 액침 데이터센터
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공랭 기반 서버실</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Liquid Cooling · Direct-to-Chip</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Single-phase Immersion Tank</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Two-phase Boiling / Condensation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고밀도 AI 랙 · 팬리스 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폐열 재활용형 액침 데이터센터</div>
+</div>
+</div>
+
+
 
 이 흐름은 냉각 기술이 칩 일부를 식히는 단계에서 출발해, 이제는 서버 전체와 설비 구조까지 액체 중심으로 재편하는 방향으로 진화하고 있음을 보여 준다.
 

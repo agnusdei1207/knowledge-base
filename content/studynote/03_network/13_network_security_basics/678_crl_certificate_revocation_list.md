@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)의 유효 기간(보통 1~2년)이 지나지 않았음에도 불구하고, 개인키가 유출되었거나 직원이 퇴사하는 등 **비정상적인 사유로 인해 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관)가 강제로 취소(폐기)시켜버린 '불량 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서들의 고유 일련번호([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Number) 블랙리스트 명단'**입니다. (X.509 표준 규격)
+- **개념**: 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)의 유효 기간(보통 1~2년)이 지나지 않았음에도 불구하고, 개인키가 유출되었거나 직원이 퇴사하는 등 <strong>비정상적인 사유로 인해 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>기관)가 강제로 취소(폐기)시켜버린 '불량 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서들의 고유 일련번호(<a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a> Number) 블랙리스트 명단'</strong>입니다. (X.509 표준 규격)
 - **동작 방식**: 내 컴퓨터(크롬 브라우저)가 웹사이트에 접속할 때마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받으면, 브라우저 뒤에선 몰래 이 CRL 명단(수배 전단지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 다운받아, 접속한 사이트의 번호가 블랙리스트에 적혀 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(조회)합니다. 있으면 새빨간 경고창을 띄우고 접속을 아예 끊어버립니다.
 
-```text
-[인증국, 등록기관, 저장소 체계]
-    │
-    ▼
-[CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-    │
-    └──▶ [OCSP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCSP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,22 +43,26 @@ tags = ["studynote-network"]
 
 초창기에 만든 이 수배 전단지 방식은 인터넷이 커지면서 끔찍한 비효율을 낳았습니다.
 
-1. **배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Time Delay)의 공포 - "시차 문제"**
-   - CA는 이 CRL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 만들지 않고, 보통 12시간이나 24시간 등 **주기적으로 묶어서 한 번씩(Batch) 발행**합니다.
+1. <strong>배포 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Time Delay)의 공포 - "시차 문제"</strong>
+   - CA는 이 CRL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 만들지 않고, 보통 12시간이나 24시간 등 <strong>주기적으로 묶어서 한 번씩(Batch) 발행</strong>합니다.
    - 만약 낮 12시에 네이버 키가 털려 해커가 사기를 치기 시작해도, 밤 12시에 새 블랙리스트(CRL) 전단지가 내 컴퓨터로 다운로드되기 전까지 무려 12시간 동안 내 컴퓨터는 해커를 정상 사이트로 오해하고 털리게 됩니다. (가장 치명적인 보안 시차)
 
 2. **통신 및 메모리 과부하 (오버헤드)**
-   - 인터넷에 폐기된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 수천만 개로 쌓이면서, **CRL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나의 크기가 수십 메가바이트(MB)로 거대하게 뚱뚱해졌습니다.**
+   - 인터넷에 폐기된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 수천만 개로 쌓이면서, <strong>CRL <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 하나의 크기가 수십 메가바이트(MB)로 거대하게 뚱뚱해졌습니다.</strong>
    - 내가 작은 웹사이트 하나 들어갈 때마다 브라우저가 이 무거운 수십 메가짜리 텍스트 명단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매번 다운받아서 처음부터 끝까지 검색(`Ctrl+F`)해야 하니, 브라우저 속도가 느려지고 스마트폰 데이터가 낭비되는 재앙이 벌어졌습니다.
 
-```text
-[인증국, 등록기관, 저장소 체계]
-    │
-    ▼
-[CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-    │
-    └──▶ [OCSP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCSP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,11 +72,11 @@ tags = ["studynote-network"]
 
 위의 뚱뚱한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제를 덜어내기 위해 여러 꼼수가 등장했습니다.
 
-1. **[Delta CRL](/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/) (델타 CRL)**: 
+1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/">Delta CRL</a> (델타 CRL)</strong>: 
    - 매번 전체 명단(수십 MB)을 다운받지 않습니다.
-   - 어제 전체 명단(Base CRL)을 받았으니, **오늘은 어제 이후로 "새로 추가된 수배자 명단([Delta CRL](/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/), 수십 KB)"만 살짝 다운받아서 기존 명단에 업데이트** 치는 아주 스마트하고 효율적인 차분 다운로드 방식입니다.
+   - 어제 전체 명단(Base CRL)을 받았으니, <strong>오늘은 어제 이후로 "새로 추가된 수배자 명단(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/">Delta CRL</a>, 수십 KB)"만 살짝 다운받아서 기존 명단에 업데이트</strong> 치는 아주 스마트하고 효율적인 차분 다운로드 방식입니다.
 
-2. **DP (Distribution Point, 배포 지점 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**:
+2. <strong>DP (Distribution Point, 배포 지점 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)</strong>:
    - 하나의 거대한 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 모든 걸 적지 않고, 은행권 폐기 명단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 쇼핑몰 폐기 명단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등으로 쪼개서 각기 다른 서버 URL(배포 지점)에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장해 두는 방식입니다. 다운로드 시간을 줄입니다.
 
 CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [인증국](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/), 등록기관, 저장소 체계가 기반 조건을 만든다면, CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…는 그 위에서 핵심 메커니즘을 구현하고, OCSP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -121,15 +129,19 @@ CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 인증국, 등록기관, 저장소 체계]
-    │
-    ▼
-[현재 개념: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-    │
-    ├──▶ [확장 A: OCSP]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OCSP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 CRL 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…는 [인증국](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/), 등록기관, 저장소 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 OCSP와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -29,16 +29,19 @@ tags = ["studynote-ai"]
 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 최적화 | min [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 기대 수익 ≥ r |
 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | max w·Cw | ||w||² = 1 |
 
-단순 편미분으로는 제약을 처리할 수 없어 **[라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)**이 필요하다.
+단순 편미분으로는 제약을 처리할 수 없어 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/">라그랑주 승수법</a></strong>이 필요하다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)은 "울타리 안에서만 산책할 수 있을 때, 울타리 경계를 방정식에 녹여서 자유롭게 최적점을 찾는" 방법이다. 울타리(제약)를 없애는 대신 비용(승수)으로 환산한다.
 
@@ -48,71 +51,84 @@ tags = ["studynote-ai"]
 
 ### 등식 제약의 라그랑지안
 
-```
-  문제:  min f(x)
-         s.t. g(x) = 0
 
-  라그랑지안 (Lagrangian):
-  L(x, λ) = f(x) + λ · g(x)
-  ────────────────────────────────────────────
-  최적 조건: ∇ₓL = 0, ∂L/∂λ = 0
-  → ∇f(x*) = -λ ∇g(x*)  (기울기 평행 조건)
-  → g(x*) = 0            (제약 만족 조건)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제: min f(x)</div>
+<div class="kb-diagram-note">s.t. g(x) = 0</div>
+<div class="kb-diagram-note">라그랑지안 (Lagrangian):</div>
+<div class="kb-diagram-note">L(x, λ) = f(x) + λ · g(x)</div>
+<div class="kb-diagram-note">최적 조건: ∇ₓL = 0, ∂L/∂λ = 0</div>
+<div class="kb-diagram-note">→ ∇f(x*) = -λ ∇g(x*) (기울기 평행 조건)</div>
+<div class="kb-diagram-note">→ g(x*) = 0 (제약 만족 조건)</div>
+</div>
+</div>
+
+
 
 ### KKT (Karush-Kuhn-Tucker) 조건 (부등식 제약)
 
-```
-  문제:  min f(x)
-         s.t. gᵢ(x) ≤ 0  (i = 1, ..., m)
 
-  KKT 조건 (필요충분 조건):
-  ┌──────────────────────────────────────────────────┐
-  │ 1. 정류성: ∇ₓL = ∇f(x*) + Σ μᵢ ∇gᵢ(x*) = 0   │
-  │ 2. 원시 가능성: gᵢ(x*) ≤ 0                     │
-  │ 3. 쌍대 가능성: μᵢ ≥ 0                          │
-  │ 4. 상보적 이완: μᵢ · gᵢ(x*) = 0               │
-  └──────────────────────────────────────────────────┘
-  핵심: 조건 4 → gᵢ = 0 (활성 제약) 이거나 μᵢ = 0
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제: min f(x)</div>
+<div class="kb-diagram-note">s.t. gᵢ(x) ≤ 0 (i = 1, ..., m)</div>
+<div class="kb-diagram-note">KKT 조건 (필요충분 조건):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정류성: ∇ₓL = ∇f(x*) + Σ μᵢ ∇gᵢ(x*) = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 원시 가능성: gᵢ(x*) ≤ 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 쌍대 가능성: μᵢ ≥ 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 상보적 이완: μᵢ · gᵢ(x*) = 0</div></div>
+<div class="kb-diagram-note">핵심: 조건 4 → gᵢ = 0 (활성 제약) 이거나 μᵢ = 0</div>
+</div>
+</div>
+
+
 
 ### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 마진 최대화 유도
 
-```
-  SVM 원시 문제 (Primal Problem):
-  ┌───────────────────────────────────────────┐
-  │  min  (1/2)||w||²                         │
-  │   w,b                                     │
-  │  s.t. yᵢ(w·xᵢ + b) ≥ 1  (i=1,...,n)    │
-  └───────────────────────────────────────────┘
-               ↓ 라그랑지안 구성
-  L(w,b,α) = (1/2)||w||² - Σᵢ αᵢ[yᵢ(w·xᵢ+b)-1]
 
-               ↓ KKT 조건 적용
-  ∂L/∂w = 0 → w = Σᵢ αᵢ yᵢ xᵢ
-  ∂L/∂b = 0 → Σᵢ αᵢ yᵢ = 0
 
-               ↓ 쌍대 문제 (Dual Problem)
-  ┌───────────────────────────────────────────┐
-  │  max  Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼ yᵢyⱼ xᵢ·xⱼ│
-  │   α                                       │
-  │  s.t. αᵢ ≥ 0, Σᵢ αᵢ yᵢ = 0              │
-  └───────────────────────────────────────────┘
-  → αᵢ > 0 인 데이터만 서포트 벡터 (Support Vector)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SVM 원시 문제 (Primal Problem):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min (1/2)</div><div class="kb-diagram-cell">w</div><div class="kb-diagram-cell">²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w,b</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s.t. yᵢ(w·xᵢ + b) ≥ 1 (i=1,...,n)</div></div>
+<div class="kb-diagram-note">↓ 라그랑지안 구성</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">L(w,b,α) = (1/2)||w||² - Σᵢ αᵢ</div><div class="kb-diagram-node">yᵢ(w·xᵢ+b)-1</div></div>
+<div class="kb-diagram-note">↓ KKT 조건 적용</div>
+<div class="kb-diagram-note">∂L/∂w = 0 → w = Σᵢ αᵢ yᵢ xᵢ</div>
+<div class="kb-diagram-note">∂L/∂b = 0 → Σᵢ αᵢ yᵢ = 0</div>
+<div class="kb-diagram-note">↓ 쌍대 문제 (Dual Problem)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">max Σᵢ αᵢ - (1/2) Σᵢ Σⱼ αᵢαⱼ yᵢyⱼ xᵢ·xⱼ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s.t. αᵢ ≥ 0, Σᵢ αᵢ yᵢ = 0</div></div>
+<div class="kb-diagram-note">→ αᵢ &gt; 0 인 데이터만 서포트 벡터 (Support Vector)</div>
+</div>
+</div>
+
+
 
 ### 새들 포인트 (Saddle Point)
 
 라그랑지안의 최적해는 x 에 대해서는 최솟값, λ 에 대해서는 최댓값인 안장점 (Saddle Point) 이다.
 
-```
-  z
-  ↑    마치 말 안장처럼:
-  │     x 방향 → 아래로 볼록 (최소)
-  │     λ 방향 → 위로 볼록 (최대)
-  └──────── λ
-        (Saddle Point: 최소·최대 동시)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">z</div>
+<div class="kb-diagram-note">↑ 마치 말 안장처럼:</div>
+<div class="kb-diagram-note">x 방향 → 아래로 볼록 (최소)</div>
+<div class="kb-diagram-note">λ 방향 → 위로 볼록 (최대)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">λ</div>
+<div class="kb-diagram-note">(Saddle Point: 최소·최대 동시)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 의 라그랑지안 최적화는 "두 반 학생이 가장 넓은 복도(마진)를 사이에 두고 서있도록 경계선을 그리는 것"이다. 경계에 걸친 학생들(서포트 벡터)만이 결정선 위치를 결정한다.
 
@@ -174,7 +190,7 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 ## Ⅴ. 기대효과 및 결론
 
 - **이론적 우아함**: 제약 최적화를 무제약 문제로 우아하게 변환
-- **[SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 최적성**: 글로벌 최솟값 보장 (볼록 최적화)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> 최적성</strong>: 글로벌 최솟값 보장 (볼록 최적화)
 - **범용성**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 외에도 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오, 역학 등 수많은 공학 문제에 적용
 - **한계**: 비볼록 (Non-Convex) 문제에서는 전역 최적 보장 안 됨
 

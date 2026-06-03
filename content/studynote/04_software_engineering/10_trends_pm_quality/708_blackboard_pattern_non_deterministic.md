@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 인간의 지능을 흉내 내는 문제는 이 방식으로 풀 수 없다. 예를 들어, 로봇이 "저기 있는 빨간 사과 좀 집어줘"라는 말을 들었을 때, 음성 인식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 색깔 인식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 거리 측정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 순서로 동작해야 할까? 음성 인식이 완벽하지 않으면 카메라가 과일 바구니를 보고 "아, 사과를 말했구나!"라고 추론해서 빈칸을 메워야 한다.
 
-이렇게 **미리 정해진 실행 순서([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/)) 없이, 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 각자 자기가 아는 정보만 조금씩 보태서 점진적으로 퍼즐을 완성해 나가는 구조**를 만들기 위해 고안된 것이 **[블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/)([Blackboard Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/))**이다.
+이렇게 <strong>미리 정해진 실행 순서(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>) 없이, 여러 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>이 각자 자기가 아는 정보만 조금씩 보태서 점진적으로 퍼즐을 완성해 나가는 구조</strong>를 만들기 위해 고안된 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/">블랙보드 패턴</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/">Blackboard Pattern</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 어려운 수학 문제를 풀 때, 선생님이 칠판(Blackboard)에 문제를 적어두면, 기하학 천재, 대수학 천재, 산수 천재(전문가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들)가 순서에 상관없이 칠판으로 뛰어나와 자기가 아는 공식을 적고 들어가면서 결국 정답을 찾아내는 과정이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/) 비결정적 문제 해결의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  블랙보드 패턴 비결정적 문제 해결                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙보드 패턴 비결정적 문제 해결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/) 비결정적 문제 해결가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,8 +77,8 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | **실행 순서** | A $\rightarrow$ B $\rightarrow$ C (고정됨) | 이벤트 발생 시 즉시 실행 | **순서 없음 (제어자가 결정)** |
 | **결과 예측성** | 100% 결정적 | 이벤트 흐름에 따라 다름 | **비결정적 (가설과 확률로 접근)** |
-| **주요 사용처** | 컴파일러, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 비동기 통신 | **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 로보틱스, 자연어 처리** |
-| **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)**| 중간 | 매우 낮음 | 낮음 (블랙보드에만 의존) |
+| **주요 사용처** | 컴파일러, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 비동기 통신 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>, 로보틱스, 자연어 처리</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong>| 중간 | 매우 낮음 | 낮음 (블랙보드에만 의존) |
 
 - **📢 섹션 요약 비유**: 파이프라인이 컨베이어 벨트에서 '자동차'를 조립하는 정해진 공정이라면, [블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/)은 레고 블록을 바닥에 다 쏟아놓고 친구들이 모여서 '멋진 우주선'을 창의적으로 만들어가는 과정이다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-블랙보드 패턴 비결정적 문제 해결 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블랙보드 패턴 비결정적 문제 해결 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

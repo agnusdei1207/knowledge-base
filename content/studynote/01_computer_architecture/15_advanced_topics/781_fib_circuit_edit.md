@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FIB (Focused Ion Beam) 수정은 패키지를 벗겨 노출한 다이 위에서 이온 빔으로 금속선과 절연막을 국소 가공해, 기존 회로를 끊거나 새로운 우회선을 만드는 침습적 회로 편집이다.
-> 2. **가치**: 단순 관찰이 아니라 보안 센서 무력화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 분기 우회, [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) 상태 수정처럼 칩의 **원래 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 자체**를 바꿀 수 있으므로, 비용이 높아도 하드웨어 신뢰 모델을 근본부터 흔든다.
+> 2. **가치**: 단순 관찰이 아니라 보안 센서 무력화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 분기 우회, [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) 상태 수정처럼 칩의 <strong>원래 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 자체</strong>를 바꿀 수 있으므로, 비용이 높아도 하드웨어 신뢰 모델을 근본부터 흔든다.
 > 3. **판단 포인트**: FIB를 막는 핵심은 완전 차단이 아니라, 상·하면 동시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 동적 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 짧은 수명 키 구조를 통해 "한 지점 수정만으로는 성공할 수 없는 칩"으로 만드는 것이다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 FIB (Focused Ion Beam) 수정은 원래 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 고장 분석과 마스크 수정 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 쓰이던 장비를, 공격자가 보안 칩 편집 도구로 전용하는 기법이다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) ([Decapping](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/))으로 다이를 노출한 뒤 특정 금속 배선이나 절연막을 이온 빔으로 깎아 내고, 필요하면 전도성 물질을 증착해 우회 배선을 만든다. 즉 "칩을 읽는 공격"이 아니라 "칩이 동작하는 방식 자체를 다시 쓰는 공격"이다.
 
-이 개념이 중요한 이유는 많은 보안 설계가 여전히 "제조가 끝난 회로는 바꿀 수 없다"는 가정을 깔고 있기 때문이다. 하지만 스마트카드, 보안 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/), [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)) 같은 고가치 칩에서는, 공격자가 충분한 자금과 장비를 투입하면 특정 센서 선만 끊거나 승인 경로만 우회해 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 로직을 무력화할 수 있다. 따라서 FIB를 이해한다는 것은 단순한 장비 지식을 넘어서, **어떤 보안 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 물리적으로 편집되기 쉬운가**를 판단하는 일과 같다.
+이 개념이 중요한 이유는 많은 보안 설계가 여전히 "제조가 끝난 회로는 바꿀 수 없다"는 가정을 깔고 있기 때문이다. 하지만 스마트카드, 보안 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/), [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/), [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)) 같은 고가치 칩에서는, 공격자가 충분한 자금과 장비를 투입하면 특정 센서 선만 끊거나 승인 경로만 우회해 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 로직을 무력화할 수 있다. 따라서 FIB를 이해한다는 것은 단순한 장비 지식을 넘어서, <strong>어떤 보안 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>가 물리적으로 편집되기 쉬운가</strong>를 판단하는 일과 같다.
 
 또한 FIB는 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)/프로빙, [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/), 배면 분석과 자연스럽게 연결된다. 먼저 내부 구조를 보고, 그다음 취약한 지점을 찾고, 마지막에 회로를 실제로 바꾸는 흐름이 이어지기 때문이다. 그래서 FIB는 침습형 물리 공격의 "종착지"라기보다, 분석과 편집이 결합된 최종 실행 수단으로 보는 편이 정확하다.
 
@@ -31,7 +31,7 @@ FIB (Focused Ion Beam) 수정은 원래 [반도체](/knowledge-base/studynote/01
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FIB 회로 편집은 보통 시료 준비, 표적 정렬, 가공, 증착, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 순서로 진행된다. 최신 장비는 주사전자현미경 (Scanning Electron Microscope, SEM) 관찰 기능과 FIB 가공 기능을 함께 갖춘 경우가 많아, 공격자는 보면서 깎고 깎으면서 다시 정렬할 수 있다. 이때 사용되는 이온 소스는 갈륨 (Gallium, [Ga](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)) 액체 금속 이온 소스나 크세논 (Xenon, Xe) 플라즈마 계열이 대표적이며, 목적은 크게 두 가지다: **끊기**와 **이어 붙이기**다.
+FIB 회로 편집은 보통 시료 준비, 표적 정렬, 가공, 증착, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 순서로 진행된다. 최신 장비는 주사전자현미경 (Scanning Electron Microscope, SEM) 관찰 기능과 FIB 가공 기능을 함께 갖춘 경우가 많아, 공격자는 보면서 깎고 깎으면서 다시 정렬할 수 있다. 이때 사용되는 이온 소스는 갈륨 (Gallium, [Ga](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/)) 액체 금속 이온 소스나 크세논 (Xenon, Xe) 플라즈마 계열이 대표적이며, 목적은 크게 두 가지다: <strong>끊기</strong>와 <strong>이어 붙이기</strong>다.
 
 | 단계 | 공격 동작 | 기술 포인트 |
 | :-- | :-- | :-- |
@@ -43,25 +43,25 @@ FIB 회로 편집은 보통 시료 준비, 표적 정렬, 가공, 증착, [검�
 
 아래 그림은 FIB가 보안 경로를 어떻게 바꾸는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 FIB circuit edit: cut, isolate, then reroute              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Original design                                                           │
-│   Tamper Sensor ───────────────▶ Tamper Controller ─────────▶ Zeroization │
-│                                 │                                          │
-│                                 └──────────────▶ Secure state machine     │
-│                                                                            │
-│ FIB operation                                                             │
-│   1) Milling        : cut sensor net                                      │
-│   2) Insulator fill : isolate opened area                                 │
-│   3) Metal deposit  : add bypass net forcing "sensor_ok"                  │
-│                                                                            │
-│ Edited design                                                             │
-│   Tamper Sensor ──X                                                       │
-│   Forced logic value ───────────────────────────▶ Secure state machine    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIB circuit edit: cut, isolate, then reroute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Original design</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Sensor ▶ Tamper Controller ▶ Zeroization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Secure state machine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIB operation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Milling : cut sensor net</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Insulator fill : isolate opened area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Metal deposit : add bypass net forcing "sensor_ok"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edited design</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Sensor ──X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forced logic value ▶ Secure state machine</div></div>
+</div>
+</div>
+
+
 
 핵심은 FIB가 단순히 표면을 뚫는 장비가 아니라, 배선을 다시 쓰는 장비라는 점이다. 공격자는 센서 출력을 끊고 정적 0/1 값을 주입하거나, 검사용 모드 진입선을 강제로 활성화하거나, [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) 판독 경로를 우회해 칩이 잘못된 상태를 믿게 만들 수 있다. 다만 이런 작업은 매우 느리고 비용이 높으며, 이온 오염·열 영향·정렬 오차 때문에 실패 위험도 크다. 그래서 FIB는 "누구나 하는 공격"은 아니지만, 고가치 비밀을 다루는 칩이라면 반드시 가정해야 하는 위협이다.
 
@@ -103,11 +103,11 @@ FIB 수정은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **단일 tamper 선 의존**: 한 가닥만 끊거나 고정값을 주입하면 방어가 사라진다.
-- **정적 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)만 사용**: 공격자가 continuity를 흉내 내기 쉬워진다.
-- **[제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 회로의 CPU 종속**: 메인 펌웨어를 우회하면 소거도 함께 멈춘다.
-- **전면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)만 강조**: 배면 FIB·배면 프로빙을 고려하지 않으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구멍이 남는다.
+- <strong>정적 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>만 사용</strong>: 공격자가 continuity를 흉내 내기 쉬워진다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a> 회로의 CPU 종속</strong>: 메인 펌웨어를 우회하면 소거도 함께 멈춘다.
+- <strong>전면 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>만 강조</strong>: 배면 FIB·배면 프로빙을 고려하지 않으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구멍이 남는다.
 
-결국 기술사 관점에서 FIB 대응은 "절대 못 뚫게 하겠다"가 아니라, **단일 편집으로는 아무 보안 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 바꾸지 못하게 설계하고, 공격 시간이 길어질수록 탐지와 소거 가능성이 커지게 만드는 것**으로 정리하는 편이 좋다.
+결국 기술사 관점에서 FIB 대응은 "절대 못 뚫게 하겠다"가 아니라, <strong>단일 편집으로는 아무 보안 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/">상태도</a> 바꾸지 못하게 설계하고, 공격 시간이 길어질수록 탐지와 소거 가능성이 커지게 만드는 것</strong>으로 정리하는 편이 좋다.
 
 - **📢 섹션 요약 비유**: 좋은 FIB 대응 설계는 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나를 끊는다고 은행 전체 경비가 멈추지 않게 만드는 건물 배선과 같다. 한 줄을 잘라도 다른 감지기와 예비 회로가 즉시 이상을 알아차려야 한다.
 
@@ -135,24 +135,25 @@ FIB 수정 위협을 반영한 보안 칩 설계는 "하드웨어는 제조 후 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-패키지 제거 · 시료 준비
-        │
-        ▼
-디캡핑 (Decapping) · 표적 노드 식별
-        │
-        ▼
-FIB (Focused Ion Beam) milling
-        │
-        ▼
-회로 절단 · via 개방 · 금속 증착 우회
-        │
-        ▼
-센서 무력화 · fuse 수정 · logic patch
-        │
-        ▼
-동적 메시 · 배면 보호 · 분산 zeroization 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패키지 제거 · 시료 준비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디캡핑 (Decapping) · 표적 노드 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FIB (Focused Ion Beam) milling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회로 절단 · via 개방 · 금속 증착 우회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">센서 무력화 · fuse 수정 · logic patch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 메시 · 배면 보호 · 분산 zeroization 대응</div>
+</div>
+</div>
+
+
 
 이 흐름은 "노출 → [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 편집 → 우회 → 복합 방어"로 이어지는 침습 공격과 대응의 진화를 보여 준다.
 

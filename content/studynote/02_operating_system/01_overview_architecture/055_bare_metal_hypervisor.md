@@ -31,14 +31,19 @@ tags = ["studynote-operating-system"]
 
 Type 1 하이퍼바이저는 하드웨어 바로 위에서 실행되고, VM을 직접 관리한다. CPU, 메모리, I/O를 중재하며 게스트 OS를 분리한다.
 
-```text
-Physical Hardware
-      ▲
-      │
-Bare Metal Hypervisor
-   ├─ VM1 → Guest OS → Apps
-   └─ VM2 → Guest OS → Apps
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Physical Hardware</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">Bare Metal Hypervisor</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VM1 → Guest OS → Apps</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VM2 → Guest OS → Apps</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -114,18 +119,21 @@ Bare Metal Hypervisor
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리 서버
-    │
-    ▼
-Type 1 하이퍼바이저
-    │
-    ▼
-가상 머신
-    │
-    ▼
-데이터센터 / 클라우드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 서버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Type 1 하이퍼바이저</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 머신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터센터 / 클라우드</div>
+</div>
+</div>
+
+
 
 이 흐름은 호스트 OS 없이 직접 자원을 통제하는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 구조를 보여준다.
 

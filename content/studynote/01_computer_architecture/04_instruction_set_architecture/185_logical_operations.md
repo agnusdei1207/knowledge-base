@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Logical [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) Instructions)는 CPU (Central Processing Unit)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숫자의 크기보다 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**로 해석해, 각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 독립적으로 지우고, 세우고, 뒤집고, 검사하게 해 주는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))의 기본 도구다.
+> 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Logical [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) Instructions)는 CPU (Central Processing Unit)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숫자의 크기보다 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>로 해석해, 각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 독립적으로 지우고, 세우고, 뒤집고, 검사하게 해 주는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))의 기본 도구다.
 > 2. **가치**: 산술 연산처럼 carry propagation에 기대지 않으므로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking), [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) 제어, 조건 검사, 필드 추출 같은 작업을 빠르고 예측 가능하게 수행할 수 있다.
 > 3. **판단 포인트**: 어떤 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 clear, set, toggle, test할지에 따라 AND, OR, XOR, NOT, TEST를 구분하고, 시프트 (Shift)와 결합해 써야 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 진짜 실무 가치가 살아난다.
 
@@ -19,27 +19,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 **값의 크기를 계산하기보다 값의 모양을 편집하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**다. 같은 8비트 값이라도 어떤 순간에는 정수 45일 수 있고, 다른 순간에는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 에러 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 섞인 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수 있다. 이때 필요한 것은 `+1` 같은 산술이 아니라, 특정 자리만 0으로 만들거나 1로 세우는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수준의 수술이다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 <strong>값의 크기를 계산하기보다 값의 모양을 편집하는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>다. 같은 8비트 값이라도 어떤 순간에는 정수 45일 수 있고, 다른 순간에는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 에러 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 섞인 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수 있다. 이때 필요한 것은 `+1` 같은 산술이 아니라, 특정 자리만 0으로 만들거나 1로 세우는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수준의 수술이다.
 
 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 필요한 이유는 산술 연산이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간 독립성을 보장하지 않기 때문이다. 예를 들어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 2번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 끄고 싶은데 `SUB 1` 같은 산술을 쓰면 자리내림이 주변 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 건드릴 수 있다. 반면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 마스크를 이용해 "어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 살리고 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무시할지"를 직접 선언하므로, 운영체제와 장치 제어 코드가 하드웨어 상태를 안전하게 다룰 수 있다.
 
-아래 그림은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 숫자일 수도 있고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드일 수도 있음을 보여 준다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 이 두 해석 중 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 해석**을 담당한다.
+아래 그림은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 숫자일 수도 있고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드일 수도 있음을 보여 준다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 이 두 해석 중 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 필드 해석</strong>을 담당한다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ One value, two interpretations                                    │
-├───────────────────────────────────────────────────────────────────┤
-│ Register value : 0010 1101                                        │
-│                                                                   │
-│ As number    : decimal 45                                         │
-│ As bit-field : [IRQ][MODE][CACHE][RW][VALID][E][W][X]             │
-│                                                                   │
-│ Arithmetic   : changes numeric magnitude                          │
-│ Logic op     : edits selected bit positions only                  │
-└───────────────────────────────────────────────────────────────────┘
-```
 
-즉 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 의미를 가질 때 등장하는 **가장 직접적인 제어 수단**이다. 그래서 ISA에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 산술 연산의 보조 기능이 아니라, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 다루는 독립된 핵심 계열로 취급된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One value, two interpretations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register value : 0010 1101</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">As number : decimal 45</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">As bit-field :</div><div class="kb-diagram-node">IRQ</div><div class="kb-diagram-node">MODE</div><div class="kb-diagram-node">CACHE</div><div class="kb-diagram-node">RW</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">E</div><div class="kb-diagram-node">W</div><div class="kb-diagram-node">X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Arithmetic : changes numeric magnitude</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic op : edits selected bit positions only</div></div>
+</div>
+</div>
+
+
+
+즉 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 의미를 가질 때 등장하는 <strong>가장 직접적인 제어 수단</strong>이다. 그래서 ISA에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 산술 연산의 보조 기능이 아니라, 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 다루는 독립된 핵심 계열로 취급된다.
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 전광판 전체 점수를 다시 계산하는 계산기가 아니라, 전구 하나씩 켜고 끄는 조명 콘솔과 같다. 원하는 자리만 만져야 할 때는 계산기보다 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)판이 훨씬 정확하다.
 
@@ -47,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 핵심은 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)별 독립 처리**다. [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 안의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 유닛은 두 입력 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 받아 AND, OR, XOR, NOT 같은 불 대수 ([Boolean Algebra](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)) 규칙을 적용한다. 중요한 점은 한 자리의 결과가 옆 자리로 carry나 borrow를 전파하지 않는다는 것이다. 그래서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 산술 연산보다 구조가 단순하고, 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 가공하는 데 특히 강하다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>별 독립 처리</strong>다. [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 안의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 유닛은 두 입력 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 받아 AND, OR, XOR, NOT 같은 불 대수 ([Boolean Algebra](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/)) 규칙을 적용한다. 중요한 점은 한 자리의 결과가 옆 자리로 carry나 borrow를 전파하지 않는다는 것이다. 그래서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 산술 연산보다 구조가 단순하고, 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 가공하는 데 특히 강하다.
 
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수준 의미 | 대표 목적 | 실무 예 |
 | :--- | :--- | :--- | :--- |
@@ -59,27 +60,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 유닛이 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치끼리만 계산한다는 점을 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Bitwise logical datapath                                          │
-├───────────────────────────────────────────────────────────────────┤
-│ Register A : a7 a6 a5 a4 a3 a2 a1 a0                              │
-│ Register B : b7 b6 b5 b4 b3 b2 b1 b0                              │
-│              │  │  │  │  │  │  │  │                              │
-│              ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼                              │
-│         Logic Unit (AND / OR / XOR / NOT / TEST)                  │
-│              │  │  │  │  │  │  │  │                              │
-│              ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼                              │
-│ Result     : r7 r6 r5 r4 r3 r2 r1 r0                              │
-│ Flags      : Zero Flag, Negative Flag, parity or condition codes  │
-│                                                                   │
-│ No carry chain between r0 -> r1 -> r2 ...                         │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bitwise logical datapath</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register A : a7 a6 a5 a4 a3 a2 a1 a0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register B : b7 b6 b5 b4 b3 b2 b1 b0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic Unit (AND / OR / XOR / NOT / TEST)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : r7 r6 r5 r4 r3 r2 r1 r0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flags : Zero Flag, Negative Flag, parity or condition codes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No carry chain between r0 -&gt; r1 -&gt; r2 ...</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 "값 전체를 새로 계산"하기보다 "패턴을 통과시키거나 막는" 데 유리하다. 예를 들어 `AND 1111 0000`은 하위 4비트를 한 번에 잘라 내고, `OR 0000 0100`은 2번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 강제로 1로 세운다. `TEST`처럼 결과를 저장하지 않고 조건 코드만 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 분기 직전 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 상태를 확인할 때 특히 효율적이다.
 
-또한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 시프트와 자주 결합된다. 필드를 추출할 때는 먼저 오른쪽으로 시프트해 원하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하위 위치로 끌어내리고, 그다음 AND 마스크로 주변 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제거한다. 따라서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 핵심 원리는 단독 명령보다 **마스크 + 시프트 + [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 갱신의 조합**으로 이해하는 편이 정확하다.
+또한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 시프트와 자주 결합된다. 필드를 추출할 때는 먼저 오른쪽으로 시프트해 원하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 하위 위치로 끌어내리고, 그다음 AND 마스크로 주변 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제거한다. 따라서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 핵심 원리는 단독 명령보다 <strong>마스크 + 시프트 + <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 갱신의 조합</strong>으로 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 여러 색 유리를 겹쳐 보는 필터와 같다. 어떤 유리는 특정 색만 통과시키고, 어떤 유리는 꺼진 램프만 켜며, 어떤 유리는 불빛 상태를 뒤집는다.
 
@@ -87,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해하려면 산술 연산, 비교 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 시프트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와의 경계를 같이 봐야 한다. 산술 연산은 값의 크기 변화와 [overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해석이 중요하지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치별 의미 보존**이 핵심이다. 비교 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 두 값의 대소 관계를 묻는다면, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴이 존재하는지를 묻는다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해하려면 산술 연산, 비교 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 시프트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와의 경계를 같이 봐야 한다. 산술 연산은 값의 크기 변화와 [overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해석이 중요하지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 위치별 의미 보존</strong>이 핵심이다. 비교 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 두 값의 대소 관계를 묻는다면, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴이 존재하는지를 묻는다.
 
 | 비교 축 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | [산술 연산 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/184_arithmetic_instructions/) | 시프트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
 | :--- | :--- | :--- | :--- |
@@ -106,28 +105,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쓸 때 가장 중요한 질문은 **"값을 바꾸고 싶은가, 검사만 하고 싶은가, 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 대상으로 하는가"** 다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 끄려면 inverse mask와 AND, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켜려면 OR, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집으려면 XOR, 상태만 보려면 TEST 또는 AND 후 compare가 정석이다. 이 선택을 잘못하면 원하지 않는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 바뀌거나, 산술 부작용 때문에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전체 의미가 손상된다.
+실무에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쓸 때 가장 중요한 질문은 <strong>"값을 바꾸고 싶은가, 검사만 하고 싶은가, 어느 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 대상으로 하는가"</strong> 다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 끄려면 inverse mask와 AND, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켜려면 OR, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집으려면 XOR, 상태만 보려면 TEST 또는 AND 후 compare가 정석이다. 이 선택을 잘못하면 원하지 않는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)까지 바뀌거나, 산술 부작용 때문에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전체 의미가 손상된다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Common bit-manipulation patterns                                  │
-├───────────────────────────────────────────────────────────────────┤
-│ Original : 1011 0110                                              │
-│ Mask     : 0000 0100                                              │
-│                                                                   │
-│ Clear bit   : 1011 0110 AND 1111 1011 = 1011 0010                 │
-│ Set bit     : 1011 0110 OR  0000 0100 = 1011 0110                 │
-│ Toggle bit  : 1011 0110 XOR 0000 0100 = 1011 0010                 │
-│ Test bit    : 1011 0110 AND 0000 0100 -> non-zero, bit is set     │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Common bit-manipulation patterns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Original : 1011 0110</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask : 0000 0100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clear bit : 1011 0110 AND 1111 1011 = 1011 0010</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Set bit : 1011 0110 OR 0000 0100 = 1011 0110</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Toggle bit : 1011 0110 XOR 0000 0100 = 1011 0010</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test bit : 1011 0110 AND 0000 0100 -&gt; non-zero, bit is set</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 수정인가?** 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 권한 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)라면 산술보다 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 안전하다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 필드 수정인가?</strong> 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 권한 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)라면 산술보다 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 안전하다.
 2. **결과값이 필요한가?** 조건만 보고 분기한다면 TEST 계열이나 mask 후 compare가 낫다.
-3. **필드가 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)인가?** 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 아니라면 시프트와 mask를 함께 설계해야 한다.
-4. **ISA별 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 규칙을 아는가?** x86처럼 `XOR reg, reg`가 zeroing idiom으로 널리 쓰이는 구조도 있지만, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 갱신 규칙은 ISA마다 다르므로 일반화하면 안 된다.
+3. <strong>필드가 여러 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>인가?</strong> 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 아니라면 시프트와 mask를 함께 설계해야 한다.
+4. <strong>ISA별 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 규칙을 아는가?</strong> x86처럼 `XOR reg, reg`가 zeroing idiom으로 널리 쓰이는 구조도 있지만, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 갱신 규칙은 ISA마다 다르므로 일반화하면 안 된다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -135,7 +136,7 @@ tags = ["studynote-computer-architecture"]
 - signed 값과 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)-field를 같은 의미로 취급해 상위 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 실수로 깨뜨리는 구현
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 이유로 가독성이 떨어지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 트릭을 남발하는 코드
 
-기술사 답안에서는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산을 "AND, OR, XOR, NOT 나열"에서 멈추면 부족하다. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 검사, 시프트 연계, [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) 제어, 산술과의 경계**까지 설명해야 실제 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 활용 능력이 드러난다.
+기술사 답안에서는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산을 "AND, OR, XOR, NOT 나열"에서 멈추면 부족하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스킹, <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 검사, 시프트 연계, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a> 제어, 산술과의 경계</strong>까지 설명해야 실제 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 활용 능력이 드러난다.
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 선택은 배선함을 다룰 때 어떤 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 올리고 내릴지 고르는 일과 같다. 전선을 통째로 다시 깔기보다, 정확한 차단기만 조작해야 안전하다.
 
@@ -143,11 +144,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 제대로 이해하면 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 숫자 계산 명령 집합이 아니라 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조를 편집하는 언어**로 보게 된다. 그 결과 운영체제의 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 네트워크 주소 마스킹, 암호 알고리즘의 mixing, 그래픽스의 픽셀 채널 처리처럼 겉으로 다른 분야가 모두 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 도구 위에 서 있다는 사실이 보인다. 즉 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 하드웨어 게이트 수준의 원리를 소프트웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 끌어올린 연결 고리다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 제대로 이해하면 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 숫자 계산 명령 집합이 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 구조를 편집하는 언어</strong>로 보게 된다. 그 결과 운영체제의 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 네트워크 주소 마스킹, 암호 알고리즘의 mixing, 그래픽스의 픽셀 채널 처리처럼 겉으로 다른 분야가 모두 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 도구 위에 서 있다는 사실이 보인다. 즉 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산은 하드웨어 게이트 수준의 원리를 소프트웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 끌어올린 연결 고리다.
 
-물론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산만으로 모든 계산을 대체할 수는 없다. 필드 위치를 맞추려면 시프트가 필요하고, 수치 의미를 바꾸려면 산술이 필요하며, 너무 과도한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 트릭은 유지보수를 해친다. 따라서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 강점은 "모든 것을 해결한다"가 아니라, **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 의미가 중요한 구간을 가장 정확하고 값싸게 처리한다**는 데 있다.
+물론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산만으로 모든 계산을 대체할 수는 없다. 필드 위치를 맞추려면 시프트가 필요하고, 수치 의미를 바꾸려면 산술이 필요하며, 너무 과도한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 트릭은 유지보수를 해친다. 따라서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 강점은 "모든 것을 해결한다"가 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 의미가 중요한 구간을 가장 정확하고 값싸게 처리한다</strong>는 데 있다.
 
-정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 **"숫자를 더하는 명령"이 아니라 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조를 설계도대로 깎고 붙이는 명령"** 으로 기억하는 것이 맞다. 시험과 실무 모두에서 이 관점을 잡으면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 역할이 단번에 정리된다.
+정리하면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 <strong>"숫자를 더하는 명령"이 아니라 "<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 구조를 설계도대로 깎고 붙이는 명령"</strong> 으로 기억하는 것이 맞다. 시험과 실무 모두에서 이 관점을 잡으면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산의 역할이 단번에 정리된다.
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 레고 블록을 새로 사 오는 도구가 아니라, 이미 있는 블록에서 원하는 색 조각만 골라 끼우고 빼는 핀셋과 같다.
 
@@ -166,19 +167,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Boolean Algebra
-    │
-    ▼
-AND · OR · XOR · NOT
-    │
-    ▼
-Bit Masking and Flag Control
-    │
-    ├──────────────▶ Shift + field extraction
-    ├──────────────▶ Status / permission register handling
-    └──────────────▶ Networking · cryptography · graphics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Boolean Algebra</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AND · OR · XOR · NOT</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bit Masking and Flag Control</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Shift + field extraction</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Status / permission register handling</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Networking · cryptography · graphics</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 불 대수에서 출발해, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹을 거쳐 시스템 제어와 응용 영역으로 확장되는 과정을 보여 준다.
 

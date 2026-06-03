@@ -17,29 +17,27 @@ tags = ["design_supervision"]
 
 ### IT 프로젝트의 최후 보루: 감리의 역할
 
-수조 원이 투입되는 국가 정보화 사업이나 기업의 차세대 시스템 구축 사업은 수많은 이해관계자와 복잡한 기술이 얽혀 있어 실패할 확률이 매우 높다. **정보시스템 감리**는 이러한 대형 프로젝트가 산으로 가지 않도록, 설계도대로 튼튼하게 지어지고 있는지 (품질), 정해진 예산과 기간 내에 완수될 수 있는지 (사업 관리)를 매의 눈으로 감시하는 'IT 안전 진단관'의 역할을 수행한다.
+수조 원이 투입되는 국가 정보화 사업이나 기업의 차세대 시스템 구축 사업은 수많은 이해관계자와 복잡한 기술이 얽혀 있어 실패할 확률이 매우 높다. <strong>정보시스템 감리</strong>는 이러한 대형 프로젝트가 산으로 가지 않도록, 설계도대로 튼튼하게 지어지고 있는지 (품질), 정해진 예산과 기간 내에 완수될 수 있는지 (사업 관리)를 매의 눈으로 감시하는 'IT 안전 진단관'의 역할을 수행한다.
 
-감리 프레임워크가 필요한 이유는 세 가지이다. 첫째, **객관적인 품질 검증**을 위해서이다. 발주자나 사업자의 주관을 배제하고 표준화된 체크리스트를 통해 시스템의 완성도를 평가한다. 둘째, **법적 의무 준수**를 위해서이며 (전자정부법 제57조), 셋째, 조기 결함 발견을 통해 **사후 수정 비용을 최소화**하기 위함이다.
+감리 프레임워크가 필요한 이유는 세 가지이다. 첫째, <strong>객관적인 품질 검증</strong>을 위해서이다. 발주자나 사업자의 주관을 배제하고 표준화된 체크리스트를 통해 시스템의 완성도를 평가한다. 둘째, <strong>법적 의무 준수</strong>를 위해서이며 (전자정부법 제57조), 셋째, 조기 결함 발견을 통해 <strong>사후 수정 비용을 최소화</strong>하기 위함이다.
 
 이 그림은 감리 주체 간의 독립적인 관계와 신뢰 모델을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Audit Governance Structure                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 발주 기관 ] <========(감리 보고서)========> [ 감리 법인 ]   │
-│   (Owner)                                     (Auditor)     │
-│          │                                           ▲      │
-│          │ (계약 및 검수)                            │      │
-│          ▼                                           │      │
-│   [ 수행 사업자 ] ───────────────────────────────────┘      │
-│   (Vendor / SI)           (독립적 점검 및 시정 권고)        │
-│                                                             │
-│   * 핵심: 감리인은 발주자와 사업자 모두로부터 독립되어야 함 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Governance Structure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발주 기관</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">감리 법인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Owner) (Auditor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계약 및 검수)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수행 사업자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Vendor / SI) (독립적 점검 및 시정 권고)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 감리인은 발주자와 사업자 모두로부터 독립되어야 함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '독립성 (Independence)'이다. 감리 법인이 사업자의 눈치를 보거나 발주자의 입맛에 맞는 결과만 내놓는다면 감리의 존재 이유는 사라진다. 실무에서는 이 독립성을 확보하기 위해 법적 기준에 따른 감리 법인 등록제와 감리원 자격 제도를 엄격히 운영한다.
 
@@ -74,25 +72,21 @@ tags = ["design_supervision"]
 | **2단계** | 설계 완료 후 | 아키텍처/DB 설계서 | **성능/확장성 설계**, 보안 내재화 |
 | **3단계** | 시스템 종료 전 | 통합 테스트 결과서 | **실제 작동 여부**, 보안 취약점 조치 |
 
-이 구조도는 감리 과정에서 발생하는 **'지적 사항'**과 **'시정 조치'**의 피드백 루프를 보여준다.
+이 구조도는 감리 과정에서 발생하는 <strong>'지적 사항'</strong>과 <strong>'시정 조치'</strong>의 피드백 루프를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Audit Feedback & Remediation Flow           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Audit Execution ] ──▶ [ Draft Report ] ──▶ [ Briefing ] │
-│                                                     │       │
-│   ┌─────────────────────────────────────────────────┘       │
-│   ▼                                                         │
-│   [ 지적 사항 (Findings) ] ──▶ [ 시정 조치 (Remediation) ]  │
-│          ▲                                        │         │
-│          └────────── (시정 조치 확인 감리) ◀──────┘         │
-│                                                             │
-│   * 핵심: 지적만 하는 것이 아니라, 해결까지 확인해야 완료   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Feedback &amp; Remediation Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Audit Execution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Draft Report</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Briefing</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지적 사항 (Findings)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시정 조치 (Remediation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시정 조치 확인 감리) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 지적만 하는 것이 아니라, 해결까지 확인해야 완료</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '이행 확인'이다. 종료 감리에서 지적된 사항이 이행되지 않으면 시스템 오픈이 불가능하다. 실무에서는 이 단계에서 사업자와 발주자 간의 가장 치열한 공방이 벌어지며, 기술사는 중립적인 위치에서 기술적 해결 방안을 중재해야 한다.
 
@@ -126,27 +120,27 @@ tags = ["design_supervision"]
 ### 기술사적 판단: 감리 시나리오별 리스크 통제 전략
 
 **시나리오 1: 요구정의 단계에서 과업 범위가 불명확한 채 사업이 진행되는 상황**
-- **판단**: 1단계 감리에서 **요구사항 추적표 (RTM)**의 부실함을 '부적정'으로 판정한다. 발주자에게는 구체적인 SRS (요구사항 명세서) 확정을 권고하고, 사업자에게는 과업 대비 자원 투입의 적정성을 재검토하게 한다. 이를 방치할 경우 '종료 단계의 분쟁'이 예견되므로, 베이스라인 확정 전까지 설계 단계 진입을 유보시키는 결단이 필요하다.
+- **판단**: 1단계 감리에서 <strong>요구사항 추적표 (RTM)</strong>의 부실함을 '부적정'으로 판정한다. 발주자에게는 구체적인 SRS (요구사항 명세서) 확정을 권고하고, 사업자에게는 과업 대비 자원 투입의 적정성을 재검토하게 한다. 이를 방치할 경우 '종료 단계의 분쟁'이 예견되므로, 베이스라인 확정 전까지 설계 단계 진입을 유보시키는 결단이 필요하다.
 
 **시나리오 2: 클라우드 전환 사업 중 보안 아키텍처의 결함 발견**
-- **판단**: 클라우드 공유 책임 모델에 따라 **CSP와 고객의 보안 경계**를 재검토한다. 특히 데이터베이스 암호화와 로그 보관 기간이 규제 (ISMS-P 등)를 만족하는지 확인한다. 만약 결함이 발견된다면, 아키텍처 재설계에 따른 일정 지연 위험보다 '데이터 유출의 법적 리스크'가 훨씬 크므로, 긴급 설계 변경 권고안을 발행하고 차기 감리에서 이행 여부를 최우선 확인한다.
+- **판단**: 클라우드 공유 책임 모델에 따라 <strong>CSP와 고객의 보안 경계</strong>를 재검토한다. 특히 데이터베이스 암호화와 로그 보관 기간이 규제 (ISMS-P 등)를 만족하는지 확인한다. 만약 결함이 발견된다면, 아키텍처 재설계에 따른 일정 지연 위험보다 '데이터 유출의 법적 리스크'가 훨씬 크므로, 긴급 설계 변경 권고안을 발행하고 차기 감리에서 이행 여부를 최우선 확인한다.
 
 이 도식은 감리원이 작성하는 '감리 보고서'의 신뢰도 수준을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Audit Opinion and Report Reliability          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 적정 (Pass) ] : 모든 기준 만족                          │
-│   [ 조건부 적정 ] : 경미한 보완 후 가능                     │
-│   [ 부적정 (Fail) ] : 중대한 결함 존재, 오픈 불가           │
-│                                                             │
-│   * 기술사 판단: 부적정 판정은 사업의 존폐를 결정하므로     │
-│     명확한 공학적 근거와 법적 기준 제시가 필수              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Opinion and Report Reliability</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">적정 (Pass)</div><div class="kb-diagram-note">: 모든 기준 만족</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건부 적정</div><div class="kb-diagram-note">: 경미한 보완 후 가능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부적정 (Fail)</div><div class="kb-diagram-note">: 중대한 결함 존재, 오픈 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 판단: 부적정 판정은 사업의 존폐를 결정하므로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명확한 공학적 근거와 법적 기준 제시가 필수</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 감리 판단은 '심판의 휘슬'과 같습니다. 경기가 과열되어 반칙(품질 저하)이 난무할 때, 정확한 룰(프레임워크)에 따라 경기를 중단시키거나 페널티를 주어 페어플레이(성공적인 프로젝트)를 이끌어내는 힘입니다.
 
@@ -161,7 +155,7 @@ tags = ["design_supervision"]
 
 ### 미래 전망: 지능형 자동화 감리 (Continuous Auditing)
 
-향후 감리는 문서 검토를 넘어 **'코드와 데이터 중심의 실시간 감리'**로 진화할 것이다. AI가 소스 코드를 스캔하여 디자인 패턴 준수 여부를 즉시 판별하고, CI/CD 파이프라인 내에 **자동화된 감리 게이트 (Audit Gate)**가 삽입될 것이다. 또한 메타버스, 자율주행 등 신기술 도메인에 특화된 '기술 감리' 표준이 정립될 것이다. 기술사는 법과 규정의 수호자를 넘어, 최신 기술의 적정성을 공학적으로 판단하는 '하이테크 컨설턴트'로 거듭나야 한다.
+향후 감리는 문서 검토를 넘어 <strong>'코드와 데이터 중심의 실시간 감리'</strong>로 진화할 것이다. AI가 소스 코드를 스캔하여 디자인 패턴 준수 여부를 즉시 판별하고, CI/CD 파이프라인 내에 <strong>자동화된 감리 게이트 (Audit Gate)</strong>가 삽입될 것이다. 또한 메타버스, 자율주행 등 신기술 도메인에 특화된 '기술 감리' 표준이 정립될 것이다. 기술사는 법과 규정의 수호자를 넘어, 최신 기술의 적정성을 공학적으로 판단하는 '하이테크 컨설턴트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 감리는 '자율주행차의 블랙박스'와 같아질 것입니다. 사고가 나고 분석하는 게 아니라, 주행 중인 모든 데이터를 실시간으로 분석하여 위험을 미리 경고하고 사고를 원천 차단하는 지능형 가디언이 될 것입니다.
 
